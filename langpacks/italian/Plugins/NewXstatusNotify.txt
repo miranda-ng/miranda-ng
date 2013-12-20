@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
-;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Avvertimi quando un contatto si mette in uno di questi stati:
 [Online]
@@ -52,6 +51,10 @@ Altro
 Testo
 [Use Windows colors]
 Utilizza colori di Windows
+[Popup text]
+Testo popup
+[Sec]
+sec
 [Reset]
 Reimposta
 [OK]
@@ -60,19 +63,20 @@ OK
 Annulla
 [General]
 Generale
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[All files]
+Tutti i file
 [Status]
 Stato
 [Sound for the status]
 Suono associato allo stato
 [** All contacts **]
 ** Tutti i contatti **
-;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (suono predefinito)
-;file \plugins\NewXstatusNotify\src\main.cpp
 [Contact]
 Contatto
+[connecting]
+In connessione
 [(M) is back online!]
 è tornato online!
 [(F) is back online!]
@@ -147,16 +151,11 @@ Contatto: A pranzo
 è impegnato/a al telefono...
 [User: On The Phone]
 Contatto: Al telefono
-;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Tutti i file
 [Log]
 Registro (Log file)
 [Protocol]
 Protocollo
-;file \plugins\NewXstatusNotify\src\popup.h
-;file \plugins\NewXstatusNotify\src\utils.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [<unknown>]
 <avvistamento sconosciuto>
-;file \plugins\NewXstatusNotify\src\xstatus.h

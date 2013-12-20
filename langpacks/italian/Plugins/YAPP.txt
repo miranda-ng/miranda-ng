@@ -5,16 +5,12 @@
 ;  Version: 0.5.0.11
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\YAPP\res\yapp.rc
 [Close]
 Chiudi
 [Width:]
 Dimen.:
 [Options]
 Opzioni
-;file \plugins\YAPP\src\icons.cpp
-;file \plugins\YAPP\src\notify_imp.cpp
-;file \plugins\YAPP\src\options.cpp
 [Example]
 Esempio
 [Status]
@@ -23,8 +19,5 @@ Stato
 Errore
 [Popups]
 Popup
-;file \plugins\YAPP\src\services.cpp
-;file \plugins\YAPP\src\yapp.cpp
 [Background]
 Altro
-;file \plugins\YAPP\src\yapp_history_dlg.cpp

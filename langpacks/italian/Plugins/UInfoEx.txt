@@ -5,7 +5,6 @@
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-;file \plugins\UserInfoEx\res\resource.rc
 [Updating]
 in aggiornamento
 [OK]
@@ -70,24 +69,24 @@ Icone
 Nessuno
 [Gender:]
 Sesso:
+[Phone]
+TELEFONO
+[E-Mail]
+Email
+[Gender]
+SESSO
 [Age:]
 Età:
-;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
-;file \plugins\UserInfoEx\src\classPsTree.cpp
-;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
-;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[not found]
+non trovato
 [Unspecified]
 Non specificato
-;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit Phone Number]
 Modifica numero di telefono
 [Other]
 Altro
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [Contact]
 Contatto
-;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Yes]
 Sì
 [No]
@@ -96,45 +95,40 @@ No
 Ignora
 [Error]
 Errore
-;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [General]
 Generale
 [Work]
 Lavoro
+[About]
+INFORMAZIONI
 [Profile]
 Profilo
 [Notes]
 Note
 [Owner]
 Proprietario
-;file \plugins\UserInfoEx\src\init.cpp
-;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Default]
 Predefinito
 [Fax]
 Fax
+[e-mail]
+Email
 [Search]
 Ricerca
-;file \plugins\UserInfoEx\src\mir_icolib.h
-;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [User &details]
 &Dettagli utente
 [View/Change My &Details...]
 Visualizza/Modifica i miei &dettagli...
-;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+Note:
 [About:]
 Informazioni su:
-;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-;file \plugins\UserInfoEx\src\psp_contact.cpp
-;file \plugins\UserInfoEx\src\psp_options.cpp
 [Contacts]
 Contatti
 [Advanced]
 Avanzate
 [Popups]
 Popup
-;file \plugins\UserInfoEx\src\psp_profile.cpp
-;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
 Cultura e Letteratura
 [Movies/TV]
@@ -171,27 +165,13 @@ Audio e video
 Sport e atletica
 [Home automation]
 Automazione domestica
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+[jun.]
+Giu.
 ['(Unknown Contact)']
 '(Contatto sconosciuto)'
-;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Invia email
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [Birthday reminder]
 Memo Compleanno
 [Birthday reminder: it's coming]
 Compleanno in arrivo
-;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
-;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

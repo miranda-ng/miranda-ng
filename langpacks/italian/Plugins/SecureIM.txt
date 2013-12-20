@@ -5,7 +5,6 @@
 ;  Version: 1.0.12.4
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
-;file \plugins\SecureIM\res\resource.rc
 [User List]
 Lista utenti
 [Enable Secure Offline messages]
@@ -52,15 +51,12 @@ Cerca sempre di stabilire una connessione protetta
 Attiva SecureIM
 [Secure IM Disabled]
 Disattiva SecureIM
-;file \plugins\SecureIM\src\language.cpp
 [SecureIM established...]
 Canale SecureIM stabilito...
 [Key exchange failed...]
 Scambio chiavi fallito...
 [Key from disabled...]
 Chiave origine disattivata...
-[Sended back message received...]
-Messaggio di ritorno ricevuto...
 [Sending back secure message...]
 Restituzione messaggio protetto...
 [SecureIM disabled...]
@@ -79,20 +75,19 @@ Prova sempre
 Crea connessione SecureIM
 [Disable SecureIM connection]
 Disattiva connessione SecureIM
-;file \plugins\SecureIM\src\loadicons.cpp
 [Contact List]
 Lista dei contatti
 [Popups]
 Popup
-;file \plugins\SecureIM\src\main.cpp
+[Always Try]
+Prova sempre
 [Icons]
 Icone
-;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 File eseguibili
-;file \plugins\SecureIM\src\popupOptions.cpp
+[All files]
+Tutti i file
 [Secure Popup]
 Popup protetto
 [Message Popup]
 Popup messaggio
-;file \plugins\SecureIM\src\svcs_srmm.cpp

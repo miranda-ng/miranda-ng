@@ -5,7 +5,6 @@
 ;  Version: 0.1.21.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
-;file \plugins\LotusNotify\res\LotusNotify.rc
 [Show error messages]
 Mostra messaggi di errore
 [Background]
@@ -16,7 +15,6 @@ Testo
 min.
 [Password:]
 Password:
-;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Status]
 Stato
 [Plugins]

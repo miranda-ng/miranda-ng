@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
-;file \plugins\TipperYM\res\resource.rc
 [Options]
 Opzioni
 [Window]
@@ -20,21 +19,22 @@ Annulla
 Elementi
 [Separator]
 Separatore
+[Advanced options]
+Opzioni avanzate
 [Effects]
 Effetti
-;file \plugins\TipperYM\src\mir_smileys.cpp
-;file \plugins\TipperYM\src\options.cpp
+[Add separator]
+Agg. separatore
 [None]
 Nessuno
 [Content]
 Contenuto
-;file \plugins\TipperYM\src\options.h
 [Status]
 Stato
-;file \plugins\TipperYM\src\popwin.cpp
+[Gender]
+SESSO
 [Other]
 Altro
-;file \plugins\TipperYM\src\preset_items.cpp
 [Gender:]
 Sesso:
 [Homepage:]
@@ -49,15 +49,11 @@ Nome
 Nome:
 [Time:]
 Tempo:
-;file \plugins\TipperYM\src\skin_parser.cpp
-;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Altro
 [Dividers]
 Divisori
-;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Femmina
 [Male]
 Maschio
-;file \plugins\TipperYM\src\translations.h

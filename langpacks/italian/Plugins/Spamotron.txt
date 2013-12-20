@@ -5,15 +5,9 @@
 ;  Version: 0.0.4.6
 ;  Authors: vu1tur
 ;============================================================
-;file \plugins\Spamotron\res\spamotron.rc
 [Outgoing message]
 Messaggio in uscita
 [Background]
 Altro
-;file \plugins\Spamotron\src\bayes.cpp
-;file \plugins\Spamotron\src\common.h
-;file \plugins\Spamotron\src\options.cpp
 [Popups]
 Popups
-;file \plugins\Spamotron\src\spamotron.cpp
-;file \plugins\Spamotron\src\utils.cpp

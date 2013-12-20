@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.1
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
-;file \plugins\NewsAggregator\Res\Resource.rc
 [OK]
 OK
 [Cancel]
@@ -16,12 +15,11 @@ URL
 minuti
 [Reset]
 Reimposta
-;file \plugins\NewsAggregator\Src\Icons.cpp
-;file \plugins\NewsAggregator\Src\Menus.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
+[Username]
+Nome utente
+[&Close]
+&Chiudi
 [Error]
 Errore
 [Network]
 Rete
-;file \plugins\NewsAggregator\Src\Services.cpp
-;file \plugins\NewsAggregator\Src\Utils.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-;file \plugins\Clist_modern\res\resource.rc
 [Show counts of number of contacts in a group]
 Mostra conteggio del numero dei contatti in un gruppo
 [Hide group counts when there are none online]
@@ -38,6 +37,8 @@ Mosaico verticale
 Scorri assieme al testo
 [Stretch proportionally]
 Mantieni le proporzioni
+[Use Windows Colors]
+Utilizza colori di Windows
 [Apply]
 Applica
 [Copy]
@@ -54,6 +55,8 @@ Dimensioni:
 OK
 [Cancel]
 Annulla
+[Clear all]
+Pulisci tutto
 [Protocol]
 Protocollo
 [Status Bar]
@@ -66,6 +69,8 @@ Rendi le sezioni larghe uguali
 Mostra l'icona del protocollo
 [Right click opens status menu]
 Il click destro apre il menu di stato
+[Right click opens Miranda menu]
+Il click destro apre il menu di Miranda
 [Delete Contact]
 Elimina contatto
 [No]
@@ -156,7 +161,7 @@ Cicla le icone ogni
 secondi, quando gli stati sono diversi
 [Show multiple icons]
 Mostra icone multiple
-[Only when statuses differ]
+[only when statuses differ]
 Solo quando gli stati sono diversi
 [System tray icon]
 Icona nella tray di sistema
@@ -180,6 +185,8 @@ Larg. max
 Stato
 [Options]
 Opzioni
+[&Main menu]
+&Menu principale
 [E&xit]
 &Esci
 [&Status]
@@ -224,8 +231,8 @@ Nascondi utenti &offline qui dentro
 &Rinomina gruppo
 [&Delete Group]
 &Elimina gruppo
-;file \plugins\Clist_modern\src\modern_clc.cpp
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[List Background]
+Lista - Sfondo
 [Standard contacts]
 Contatti standard
 [Offline contacts]
@@ -244,8 +251,6 @@ Generale
 Lista
 [Window]
 Finestra
-[List Background]
-Lista - Sfondo
 [Not focused]
 Non in primo piano
 [Offline]
@@ -272,34 +277,23 @@ Al telefono
 Nome
 [Global]
 Globale
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [None]
 Nessuno
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Text]
 Testo
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Contatto sconosciuto)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &Trova/Aggiungi contatti...
-[&Main menu]
-&Menu principale
 [&Options...]
 &Opzioni...
-;file \plugins\Clist_modern\src\modern_clui.cpp
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [Error]
 Errore
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Disable Groups]
+Disattiva gruppi
+[Disable sounds]
+Disattiva suoni
+[Minutes]
+minuti
+[&New SubGroup]
+&Nuovo sottogruppo

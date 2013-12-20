@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
-;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Elimina contatto
 [Are you sure you want to delete %s?]
@@ -138,6 +137,8 @@ Il click destro apre il menu di stato
 Il click destro apre il menu di Miranda
 [Make sections equal width]
 Rendi le sezioni larghe uguali
+[&Main menu]
+&Menu principale
 [E&xit]
 &Esci
 [&Status]
@@ -182,7 +183,6 @@ Nascondi utenti &offline qui dentro
 &Rinomina gruppo
 [&Delete Group]
 &Elimina gruppo
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Non in primo piano
 [Offline]
@@ -207,8 +207,5 @@ Fuori a pranzo
 Al telefono
 [List]
 Lista
-;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 Globale
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp

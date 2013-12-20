@@ -5,7 +5,6 @@
 ;  Version: 1.3.0.10
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
-;file \plugins\MenuItemEx\res\resource.rc
 [&Send]
 &Invia
 [&Cancel]
@@ -14,7 +13,8 @@
 Visibilità
 [Ignore]
 Ignora
-;file \plugins\MenuItemEx\src\main.cpp
+[Request Authorization]
+Richiesta di autorizzazione
 [URL]
 URL
 [Files]
@@ -27,4 +27,3 @@ Sei stato aggiunto
 Notifica digitazione
 [Request authorization]
 Richiesta di autorizzazione
-;file \plugins\MenuItemEx\src\options.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-;file \protocols\Xfire\res\resource.rc
 [Password:]
 Password:
 [Nick:]
@@ -26,8 +25,12 @@ Nome utente:
 Nome:
 [Port:]
 Porta:
+[User details]
+Dettagli utente
 [Copy]
 Copia
+[Enter Password]
+Inserisci la password
 [Join]
 Unione
 [OK]
@@ -36,10 +39,8 @@ OK
 Annulla
 [Search:]
 Cerca:
-;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Tutti i file
-;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 Sì, ci sono.
 [I've been away since %time%.]
@@ -54,22 +55,15 @@ Datemi un po' di pace, per favore!
 Telefono.
 [Mmm... food.]
 Mmm... cibo...
-;file \protocols\Xfire\src\iniupdater.cpp
-;file \protocols\Xfire\src\main.cpp
 [Username]
 Nome utente
 [Confirm Delete]
 Conferma eliminazione
-;file \protocols\Xfire\src\options.cpp
 [General]
 Generale
 [No]
 No
 [Network]
 Rete
-;file \protocols\Xfire\src\searching4games.cpp
-;file \protocols\Xfire\src\userdetails.cpp
 [<not specified>]
 <non specificato>
-;file \protocols\Xfire\src\Xfire_game.cpp
-;file \protocols\Xfire\src\Xfire_gamelist.cpp

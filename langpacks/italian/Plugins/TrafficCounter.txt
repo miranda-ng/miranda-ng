@@ -5,7 +5,6 @@
 ;  Version: 0.1.1.8
 ;  Authors: Ghost, Mironych
 ;============================================================
-;file \plugins\TrafficCounter\res\resource.rc
 [Notify me on every]
 Notificami ogni
 [kilobytes]
@@ -16,11 +15,12 @@ minuti
 Personalizzato
 [Show now]
 Mostra ora
-;file \plugins\TrafficCounter\src\options.cpp
 [General]
 Generale
 [Hide now]
 Nascondi ora
+[Day]
+giorno
 [Month]
 mese
 [Options]
@@ -29,14 +29,16 @@ Opzioni
 Conteggio traffico
 [Popups]
 Popup
-;file \plugins\TrafficCounter\src\statistics.cpp
+[Bytes]
+byte
 [Incoming]
 In entrata
 [Outgoing]
 In uscita
 [Online]
 Online
-;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Traffic Counter]
+Conteggio traffico
 [Font]
 Carattere
 [Hide traffic window]

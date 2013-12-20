@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 Generale
 [Close]
@@ -20,6 +19,8 @@ Messaggio
 Imposta
 [OK]
 OK
+[Command line:]
+Linea di comando:
 [Other]
 Altro
 [Background color]
@@ -40,14 +41,12 @@ Stato
 Elimina
 [seconds]
 secondi
-;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [minutes of %s mode]
 minuti di %s
 [Status messages]
 Messaggi di stato
 [Auto Away]
 Auto 'Altrove'
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Sono via dalle %time%
 [Give it up, I'm not in!]
@@ -68,7 +67,6 @@ Mi sto nascondendo dalla mafia... shhh...
 Telefono.
 [Mmm... food.]
 Mmm... cibo...
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 Protocollo
 [Closing in %d]

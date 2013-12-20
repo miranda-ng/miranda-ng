@@ -5,7 +5,6 @@
 ;  Version: 0.0.1.11
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-;file \plugins\MyDetails\res\resource.rc
 [Nickname:]
 Nick:
 [OK]
@@ -18,13 +17,9 @@ Generale
 pixel
 [seconds]
 secondi
-;file \plugins\MyDetails\src\data.cpp
-;file \plugins\MyDetails\src\frame.cpp
 [Status]
 Stato
 [Background]
 Altro
-;file \plugins\MyDetails\src\mydetails.cpp
 [Contact List]
 Lista dei contatti
-;file \plugins\MyDetails\src\options.cpp

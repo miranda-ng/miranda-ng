@@ -5,19 +5,11 @@
 ;  Version: 0.2.3.17
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
-;file \plugins\SmileyAdd\res\resource.rc
 [Name:]
 Nome:
 [Scale smiley to text height]
 Ridimensiona le faccine
-;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 Mostra finestra selezione faccine
-;file \plugins\SmileyAdd\src\download.cpp
-;file \plugins\SmileyAdd\src\main.cpp
-;file \plugins\SmileyAdd\src\options.cpp
 [All files]
 Tutti i file
-;file \plugins\SmileyAdd\src\services.cpp
-;file \plugins\SmileyAdd\src\smileys.cpp
-;file \plugins\SmileyAdd\src\smltool.cpp

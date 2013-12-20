@@ -5,23 +5,21 @@
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
-;file \protocols\Twitter\res\twitter.rc
 [Username:]
 Nome utente:
 [Cancel]
 Annulla
 [sec]
 sec
+[Use Windows colors]
+Utilizza colori di Windows
 [Text]
 Testo
 [Custom]
 Personalizzato
 [OK]
 OK
-;file \protocols\Twitter\src\connection.cpp
-;file \protocols\Twitter\src\proto.cpp
 [Network]
 Rete
 [Popups]
 Popup
-;file \protocols\Twitter\src\theme.cpp

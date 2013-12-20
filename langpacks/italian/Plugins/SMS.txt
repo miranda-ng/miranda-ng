@@ -5,7 +5,6 @@
 ;  Version: 0.2.5.3
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
-;file \plugins\SMS\res\resource.rc
 [&Reply]
 &Rispondi
 [&Close]
@@ -38,16 +37,13 @@ Alla fine
 Metti la firma:
 [&OK]
 &OK
-;file \plugins\SMS\src\options.cpp
-;file \plugins\SMS\src\receive.cpp
-;file \plugins\SMS\src\recvdlg.cpp
-;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 Visualizza storico utente
 [Invalid Phone Number]
 Numero di telefono non valido
+[Invalid phone number]
+Numero di telefono non valido
 [<< Single]
 << Singolo
-;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Confirmation]
 Conferma SMS in arrivo

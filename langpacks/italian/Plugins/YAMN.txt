@@ -5,27 +5,32 @@
 ;  Version: 0.1.2.6
 ;  Authors: y_b, tweety, majvan
 ;============================================================
-;file \plugins\YAMN\res\YAMN.rc
 [OK]
 OK
 [Description:]
 Descrizione:
 [Copyright:]
 Copyright:
-[Check this account]
-Controlla questo account
-[Check interval [min]:]
-Intervallo controllo [min]:
-[Message]
-Messaggio
-[Password:]
-Password:
+[Name:]
+Nome:
 [Port:]
 Porta:
+[Password:]
+Password:
+[Default]
+Predefinito
+[Options]
+Opzioni
+[Check this account]
+Controlla questo account
 [Startup check]
 Controllo all'avvio
+[Check interval [min]:]
+Intervallo controllo [min]:
 [Check from menu]
 Controlla dal menu
+[Message]
+Messaggio
 [Sound notification if failed]
 Notifica con suono se errore
 [Message notification if failed]
@@ -34,12 +39,6 @@ Notifica con messaggio se errore
 Notifica nell'icona della tray se errore
 [Reset counter]
 Reimposta contatore
-[Default]
-Predefinito
-[Name:]
-Nome:
-[Options]
-Opzioni
 [Cancel]
 Annulla
 [Offline]
@@ -76,17 +75,12 @@ Notifica con popup se errore
 Colore di sfondo
 [Text color]
 Colore del testo
-;file \plugins\YAMN\src\main.cpp
-;file \plugins\YAMN\src\main.h
 [YAMN: connect failed]
 YAMN: connessione fallita
-;file \plugins\YAMN\src\services.cpp
 [Nick]
 Nick
-;file \plugins\YAMN\src\browser\badconnect.cpp
 [ - connection error]
  - errore nella connessione
-;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [Run application]
 Esegui programma
 [Delete selected]
@@ -99,11 +93,8 @@ Dimensioni
 Sei sicuro di voler eliminare %d messaggi selezionati?
 [Delete confirmation]
 Conferma eliminazione
-;file \plugins\YAMN\src\mails\mime.cpp
 [Part]
 Part
-;file \plugins\YAMN\src\proto\netlib.cpp
-;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Disconnesso
 [Found new version of account book, not compatible with this version of YAMN.]
@@ -130,7 +121,6 @@ Eliminazione messaggi richiesti
 Eliminazione spam
 [Server does not support APOP authorization.]
 Il server non supporta l'autorizzazione APOP.
-;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Rete
 [General]

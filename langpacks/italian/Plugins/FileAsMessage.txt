@@ -5,17 +5,13 @@
 ;  Version: 0.0.2.4
 ;  Authors: Denis Stanishevskiy
 ;============================================================
-;file \plugins\FileAsMessage\res\resources.rc
 [Size:]
 Dimensioni:
 [bytes]
 byte
-;file \plugins\FileAsMessage\src\dialog.cpp
 [Sending...]
 Invio...
 [Receiving...]
 Ricezione...
-;file \plugins\FileAsMessage\src\main.cpp
 [Plugins]
 Plugin
-;file \plugins\FileAsMessage\src\main.h

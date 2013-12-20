@@ -1,11 +1,10 @@
 ﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
 ;  File: GG.dll
-;  Plugin: GG
+;  Plugin: Gadu-Gadu Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
-;file \protocols\Gadu-Gadu\res\resource.rc
 [Password:]
 Password:
 [E-mail:]
@@ -36,19 +35,20 @@ Descrizione:
 OK
 [Cancel]
 Annulla
+[New password:]
+Nuova password:
 [&Create]
 &Crea
+[to:]
+A:
 [&Close]
 &Chiudi
 [&Send]
 &Invia
-;file \protocols\Gadu-Gadu\src\avatar.cpp
-;file \protocols\Gadu-Gadu\src\core.cpp
 [Unknown]
 Sconosciuta
 [Age:]
 Età:
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 Maschio
 [Female]
@@ -65,23 +65,15 @@ Avanzate
 Icona nella tray di sistema
 [Ignore]
 Ignora
-;file \protocols\Gadu-Gadu\src\filetransfer.cpp
-;file \protocols\Gadu-Gadu\src\gg.cpp
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
-;file \protocols\Gadu-Gadu\src\icolib.cpp
-;file \protocols\Gadu-Gadu\src\image.cpp
-;file \protocols\Gadu-Gadu\src\import.cpp
+[Contact list]
+Lista dei contatti
+[Text files]
+File di testo
 [All Files]
 Tutti i file
 [contacts]
 contatti
-;file \protocols\Gadu-Gadu\src\links.cpp
-;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
-;file \protocols\Gadu-Gadu\src\popups.cpp
 [Error]
 Errore
-;file \protocols\Gadu-Gadu\src\services.cpp
-;file \protocols\Gadu-Gadu\src\sessions.cpp
-;file \protocols\Gadu-Gadu\src\token.cpp
-;file \protocols\Gadu-Gadu\src\userutils.cpp
+[Whois]
+Chi è?

@@ -5,7 +5,6 @@
 ;  Version: 0.9.9.1
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
-;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 Aggiungi contatto
 [Custom name:]
@@ -24,9 +23,7 @@ Richiesta di autorizzazione
 &Aggiungi
 [&Cancel]
 &Annulla
-;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
 Per favore dammi l'autorizzazione e aggiungimi alla tua lista dei contatti.
 [None]
 Nessuno
-;file \plugins\AddContactPlus\src\main.cpp

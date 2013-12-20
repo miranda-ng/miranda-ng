@@ -5,25 +5,32 @@
 ;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
-;file \plugins\ContactsPlus\res\contacts.rc
+[&Add]
+&Aggiungi
+[User &details]
+&Dettagli utente
 [&Send]
 &Invia
 [Cancel]
 Annulla
-[&Add]
-&Aggiungi
 [Close]
 Chiudi
 [An error has occurred. The protocol reported the following error:]
 C'è stato un errore. Il protocollo ha riferito l'errore seguente:
 [Try again]
 Prova di nuovo
+[Add to List]
+Aggiungi alla lista
 [User details]
 Dettagli utente
-;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]
 Contatti
-;file \plugins\ContactsPlus\src\receive.cpp
+[Nick]
+Nick
+[First Name]
+Nome
+[Last Name]
+Cognome
 [Add Contact Permanently to List]
 Aggiungi contatto definitivamente alla lista
 [View User's Details]
@@ -32,4 +39,3 @@ Visualizza dettagli utente
 Visualizza storico utente
 [User Menu]
 Menu utente
-;file \plugins\ContactsPlus\src\send.cpp

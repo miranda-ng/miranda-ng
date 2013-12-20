@@ -7,7 +7,6 @@
 ;============================================================
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
 Stato all'Avvio, ti permette di definire lo stato che Miranda deve avere all'avvio, configurabile per ogni protocollo.
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 Generale
 [Close]
@@ -22,6 +21,8 @@ Messaggio
 Imposta
 [OK]
 OK
+[Command line:]
+Linea di comando:
 [Other]
 Altro
 [Background color]
@@ -42,18 +43,18 @@ Stato
 Elimina
 [seconds]
 secondi
-;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[<unknown>]
+<avvistamento sconosciuto>
 [None]
 Nessuno
 [default]
 predefinito
+[unknown]
+Sconosciuta
 [At least one profile must exist]
 Almeno un profilo deve esistere
 [StartupStatus]
 Stato all'avvio
-;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
-;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Sono via dalle %time%
 [Give it up, I'm not in!]
@@ -74,7 +75,6 @@ Mi sto nascondendo dalla mafia... shhh...
 Telefono.
 [Mmm... food.]
 Mmm... cibo...
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 Protocollo
 [Closing in %d]

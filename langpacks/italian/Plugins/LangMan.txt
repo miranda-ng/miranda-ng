@@ -5,13 +5,10 @@
 ;  Version: 1.0.2.3
 ;  Authors: H. Herkenrath
 ;============================================================
-;file \plugins\LangMan\res\resource.rc
 [E-mail:]
 Email:
 [Date:]
 Data:
-;file \plugins\LangMan\src\main.cpp
-;file \plugins\LangMan\src\options.cpp
 [Unknown]
 Sconosciuta
 [File]

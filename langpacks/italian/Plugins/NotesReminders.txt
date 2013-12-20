@@ -5,7 +5,6 @@
 ;  Version: 0.0.5.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
-;file \plugins\NotesAndReminders\res\resource.rc
 [Default Note Size]
 Dimensione della Nota
 [Width (Pixels)]
@@ -40,8 +39,12 @@ Nessuno
 Nuovo...
 [&New Note]
 &Nuova Nota
+[Background Color]
+Colore di sfondo
 [Reset]
 Reimposta
+[Text Color]
+Colore del testo
 [Font]
 Carattere
 [Undo]
@@ -56,11 +59,8 @@ T&aglia
 P&ulisci
 [&Show / Hide Notes]
 &Mostra / Nascondi Nota
-;file \plugins\NotesAndReminders\src\globals.h
 [Notes & Reminders]
 Note & Promemoria
-;file \plugins\NotesAndReminders\src\hotkeys.cpp
-;file \plugins\NotesAndReminders\src\main.cpp
 [Delete All Reminders]
 Cancella Tutti i Promemoria
 [Plugins]
@@ -73,11 +73,18 @@ Aggiungi Nuovo Promemoria
 Note && Promemoria
 [&Delete All Notes]
 &Cancella Tutte le Note
-;file \plugins\NotesAndReminders\src\notes.cpp
 [Notes]
 Note
-;file \plugins\NotesAndReminders\src\options.cpp
-;file \plugins\NotesAndReminders\src\reminders.cpp
+[Note text]
+Testo note
+[Minutes]
+minuti
+[Hour]
+ora
+[Day]
+giorno
+[Seconds]
+secondi
 [Default]
 Predefinito
 [Reminder text]

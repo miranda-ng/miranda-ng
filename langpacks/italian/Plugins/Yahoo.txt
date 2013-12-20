@@ -1,11 +1,10 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo
+;  Plugin: Yahoo Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Gennady Feldman
 ;============================================================
-;file \protocols\Yahoo\res\Yahoo.rc
 [Password:]
 Password:
 [Nick:]
@@ -32,32 +31,24 @@ Annulla
 &Nega
 [&Cancel]
 &Annulla
-;file \protocols\Yahoo\src\chat.cpp
-;file \protocols\Yahoo\src\icolib.cpp
+[User &details]
+&Dettagli utente
 [Profile]
 Profilo
-;file \protocols\Yahoo\src\im.cpp
 [The message send timed out.]
 Il tempo per l'invio del messaggio è scaduto.
-;file \protocols\Yahoo\src\links.cpp
-;file \protocols\Yahoo\src\main.cpp
-;file \protocols\Yahoo\src\options.cpp
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 Queste modifiche avranno effetto a partire dalla prossima connessione alla rete di Yahoo.
 [YAHOO Options]
 Impostazioni Yahoo
 [Network]
 Rete
-;file \protocols\Yahoo\src\proto.cpp
 [Yahoo Login Error]
 Yahoo Errore di Connessione
-;file \protocols\Yahoo\src\services.cpp
 [Set &Custom Status]
 Imposta Stati Personalizzati
 [&Yahoo Mail]
 Posta &Yahoo
-;file \protocols\Yahoo\src\webcam.cpp
-;file \protocols\Yahoo\src\yahoo.cpp
 [%s has rejected your request and sent the following message:]
 %s ha respinto la vostra richiesta ed ha inviato il seguente messaggio:
 [You Have %i unread msgs]

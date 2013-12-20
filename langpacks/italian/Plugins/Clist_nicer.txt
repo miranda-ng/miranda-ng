@@ -5,7 +5,6 @@
 ;  Version: 0.9.2.1
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-;file \plugins\Clist_nicer\res\resource.rc
 [OK]
 OK
 [Version]
@@ -164,6 +163,8 @@ Rendi le sezioni larghe uguali
 Annulla
 [Apply]
 Applica
+[Clear all]
+Pulisci tutto
 [Protocol]
 Protocollo
 [Suppress auth requests]
@@ -172,6 +173,8 @@ Ignora richieste autorizzazione
 Visibilità
 [Other]
 Altro
+[&Main menu]
+&Menu principale
 [E&xit]
 &Esci
 [&Status]
@@ -216,12 +219,12 @@ Nascondi utenti &offline qui dentro
 &Rinomina gruppo
 [&Delete Group]
 &Elimina gruppo
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 Generale
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-;file \plugins\Clist_nicer\src\CLCButton.cpp
-;file \plugins\Clist_nicer\src\clcopts.cpp
+[Text color]
+Colore del testo
+[<None>]
+<nessuno>
 [Not focused]
 Non in primo piano
 [Offline]
@@ -254,11 +257,10 @@ Altro
 Contatti
 [Advanced]
 Avanzate
-;file \plugins\Clist_nicer\src\clistmenus.cpp
-;file \plugins\Clist_nicer\src\clistopts.cpp
+[Contact list]
+Lista dei contatti
 [Global]
 Globale
-;file \plugins\Clist_nicer\src\clui.cpp
 [Standard contacts]
 Contatti standard
 [Online contacts to whom you have a different visibility]
@@ -273,18 +275,13 @@ Contatto 'non in lista'
 Conto dei membri di un gruppo
 [Dividers]
 Divisori
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-;file \plugins\Clist_nicer\src\Docking.cpp
-;file \plugins\Clist_nicer\src\extBackg.cpp
-;file \plugins\Clist_nicer\src\init.cpp
-;file \plugins\Clist_nicer\src\viewmodes.cpp
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+[Minutes]
+minuti
 [Frames]
 Frame
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Trova/Aggiungi contatti...
-[&Main menu]
-&Menu principale
 [&Options...]
 &Opzioni...
+[&New SubGroup]
+&Nuovo sottogruppo

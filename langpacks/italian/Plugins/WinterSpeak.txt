@@ -1,0 +1,45 @@
+﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+;============================================================
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
+;  Authors: Ryan Winter, BlubbFish
+;============================================================
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Altrove
+[DND]
+Non disturbare
+[NA]
+Non disponibile
+[Occupied]
+Occupato
+[Free for chat]
+Disponibile per chat
+[Invisible]
+Invisibile
+[Incoming message]
+Messaggio in arrivo
+[Incoming URL]
+URL in entrata
+[Incoming File]
+File in arrivo
+[Authorization request]
+Richiesta di autorizzazione
+[Status messages]
+Messaggi di stato
+[The following events are being ignored:]
+I seguenti eventi sono attualmente ignorati:
+[All Events]
+Tutti gli eventi
+[None]
+Nessuno
+[** All contacts **]
+** Tutti i contatti **
+[** Unknown contacts **]
+** Contatti sconosciuti **
+[Message Session]
+Sessione messaggi

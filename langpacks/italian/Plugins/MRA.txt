@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.6
 ;  Authors: Ivan Rozhuk
 ;============================================================
-;file \protocols\MRA\res\resource.rc
 [E-mail:]
 Email:
 [Password:]
@@ -30,6 +29,10 @@ Cognome:
 Sesso:
 [Age:]
 Età:
+[from:]
+Da:
+[to:]
+A:
 [Location]
 Provenienza
 [Country:]
@@ -40,20 +43,22 @@ Provincia:
 Città:
 [Full e-mail:]
 Email completa:
+[&Use Windows colors]
+&Utilizza i colori di Windows
+[Text Color]
+Colore del testo
 [Closing in %d]
 Chiusura in %d
 [OK]
 OK
 [Cancel]
 Annulla
-;file \protocols\MRA\src\MraAvatars.cpp
-;file \protocols\MRA\src\MraChat.cpp
-;file \protocols\MRA\src\MraConstans.h
+[Male]
+Maschio
+[Female]
+Femmina
 [Request authorization]
 Richiesta di autorizzazione
-;file \protocols\MRA\src\MraFilesQueue.cpp
-;file \protocols\MRA\src\MraIcons.cpp
-;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Nessuno
 [Information]
@@ -62,16 +67,11 @@ Informazione
 Errore
 [Popups]
 Popup
-;file \protocols\MRA\src\MraProto.cpp
 [E-mail address]
 Indirizzo email
-;file \protocols\MRA\src\Mra_functions.cpp
-;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Rete
 [Files]
 File
-;file \protocols\MRA\src\Mra_proto.cpp
-;file \protocols\MRA\src\Mra_svcs.cpp
 [On the phone]
 Al telefono

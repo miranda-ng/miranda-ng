@@ -5,7 +5,6 @@
 ;  Version: 3.1.99.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-;file \plugins\TabSRMM\res\chat.rc
 [OK]
 OK
 [Cancel]
@@ -22,19 +21,30 @@ Lista
 &Messaggio
 [Log]
 Registro (Log file)
+[Co&py all]
+Co&pia tutto
 [Link]
 Collegamento
 [&Copy link]
 &Copia collegamento
 [Message]
 Messaggio
+[Undo]
+Ripristina
 [Copy]
 Copia
 [Select all]
 Seleziona Tutto
 [Clear]
 Terso
-;file \plugins\TabSRMM\res\resource.rc
+[&Cancel]
+&Annulla
+[&Send]
+&Invia
+[&Add]
+&Aggiungi
+[Other options]
+Altre opzioni
 [seconds]
 secondi
 [Text]
@@ -87,6 +97,8 @@ Sì
 No
 [Send message on 'Enter']
 Invia messaggio con Invio
+[Send message on double 'Enter']
+Invia messaggio con un doppio 'Invio'
 [Minimize the message window on send]
 Minimizza la finestra del messaggio all'invio
 [&Copy]
@@ -107,17 +119,18 @@ Globale
 Carattere
 [&File]
 &File
+[Show Menu Bar]
+Mostra barra menu
+[Show Status Bar]
+Mostra barra di stato
 [Help]
 Aiuto
-;file \plugins\TabSRMM\src\buttonsbar.cpp
 [View User's History]
 Visualizza storico utente
-;file \plugins\TabSRMM\src\container.cpp
-;file \plugins\TabSRMM\src\containeroptions.cpp
-;file \plugins\TabSRMM\src\controls.cpp
-;file \plugins\TabSRMM\src\eventpopups.cpp
-;file \plugins\TabSRMM\src\generic_msghandlers.cpp
-;file \plugins\TabSRMM\src\globals.cpp
+[General options]
+Opzioni generali
+[Incoming file]
+File in arrivo
 [Outgoing]
 In uscita
 [Message send error]
@@ -126,18 +139,12 @@ Errore nell'invio del messaggio
 Altro
 [Message from %s]
 Messaggio da %s
-;file \plugins\TabSRMM\src\hotkeyhandler.cpp
-;file \plugins\TabSRMM\src\infopanel.cpp
-;file \plugins\TabSRMM\src\mim.cpp
-;file \plugins\TabSRMM\src\modplus.cpp
-;file \plugins\TabSRMM\src\msgdialog.cpp
+[contact]
+Contatto
 [The message send timed out]
 Tempo massimo di invio messaggio scaduto
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
 ['(Unknown Contact)']
 '(Contatto sconosciuto)'
-;file \plugins\TabSRMM\src\msglog.cpp
-;file \plugins\TabSRMM\src\msgoptions.cpp
 [** New contacts **]
 ** Nuovi contatti **
 [** Unknown contacts **]
@@ -148,47 +155,26 @@ Mostra popup (sistema non supportato)
 Generale
 [Typing Notify]
 Notifica digitazione
-;file \plugins\TabSRMM\src\msgs.cpp
 [Background color]
 Colore di sfondo
 [Incoming message]
 Messaggio in arrivo
 [Outgoing message]
 Messaggio in uscita
-;file \plugins\TabSRMM\src\msgs.h
-;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Error]
 Errore
-;file \plugins\TabSRMM\src\sendlater.cpp
 [Contact]
 Contatto
 [Status]
 Stato
-;file \plugins\TabSRMM\src\sendqueue.cpp
-;file \plugins\TabSRMM\src\sidebar.cpp
-;file \plugins\TabSRMM\src\srmm.cpp
-;file \plugins\TabSRMM\src\taskbar.cpp
-;file \plugins\TabSRMM\src\templates.cpp
-;file \plugins\TabSRMM\src\themeio.cpp
-;file \plugins\TabSRMM\src\themes.cpp
-;file \plugins\TabSRMM\src\translator.cpp
 [System tray icon]
 Icona nella tray di sistema
-[Send message on double 'Enter']
-Invia messaggio con un doppio 'Invio'
 [Close the message window on send]
 Chiudi la finestra del messaggio all'invio
-;file \plugins\TabSRMM\src\trayicon.cpp
-;file \plugins\TabSRMM\src\typingnotify.cpp
-;file \plugins\TabSRMM\src\userprefs.cpp
-;file \plugins\TabSRMM\src\utils.cpp
-;file \plugins\TabSRMM\src\chat\clist.cpp
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-;file \plugins\TabSRMM\src\chat\log.cpp
+[Text color]
+Colore del testo
 [%s is now known as %s]
 %s è ora conosciuto come %s
-;file \plugins\TabSRMM\src\chat\muchighlight.cpp
-;file \plugins\TabSRMM\src\chat\options.cpp
 [Others nicknames]
 Altri nickname
 [Your nickname]
@@ -227,19 +213,16 @@ Aspetto e funzionalità delle finestre chat room
 Tutti i file
 [Select Folder]
 Seleziona cartella
-;file \plugins\TabSRMM\src\chat\services.cpp
 [&Join]
 &Unisciti
 [&Leave]
 &Lascia
-;file \plugins\TabSRMM\src\chat\tools.cpp
 [%s speaks in %s]
 %s discute in %s
 [%s kicked %s from %s]
 %s ha espulso %s da %s
 [Notice from %s]
 Notifica da %s
-;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick]
 Nick
 [hour]

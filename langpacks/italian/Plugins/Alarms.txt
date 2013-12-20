@@ -5,11 +5,12 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\Alarms\res\resource.rc
 [Delete]
 Elimina
 [minutes]
 minuti
+[Row Height:]
+Altezza righe:
 [OK]
 OK
 [Cancel]
@@ -22,18 +23,12 @@ Azioni
 &Elimina
 [&Options...]
 &Opzioni...
-;file \plugins\Alarms\src\alarmlist.cpp
-;file \plugins\Alarms\src\alarms.cpp
-;file \plugins\Alarms\src\alarm_win.cpp
 [Background]
 Altro
 [Window]
 Finestra
-;file \plugins\Alarms\src\frame.cpp
 [Frames]
 Frame
-;file \plugins\Alarms\src\icons.cpp
-;file \plugins\Alarms\src\options.cpp
 [Error]
 Errore
 [Events]

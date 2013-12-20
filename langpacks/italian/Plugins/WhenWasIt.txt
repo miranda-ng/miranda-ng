@@ -5,7 +5,6 @@
 ;  Version: 0.3.3.4
 ;  Authors: Cristian Libotean
 ;============================================================
-;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Popups]
 Popups
 [Sounds]
@@ -24,7 +23,6 @@ Descrizione:
 Data:
 [Delete]
 Elimina
-;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Unknown]
 Sconosciuta
 [Protocol]
@@ -33,14 +31,9 @@ Protocollo
 Contatto
 [Age]
 Età
-;file \plugins\WhenWasIt\src\hooked_events.cpp
 [Contacts]
 Contatti
-;file \plugins\WhenWasIt\src\icons.cpp
-;file \plugins\WhenWasIt\src\notifiers.cpp
-;file \plugins\WhenWasIt\src\services.cpp
 [Error]
 Errore
 [All Files]
 Tutti i file
-;file \plugins\WhenWasIt\src\services.h

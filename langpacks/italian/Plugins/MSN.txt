@@ -1,11 +1,10 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
-;file \protocols\MSN\res\msn.rc
 [Password:]
 Password:
 [Nickname:]
@@ -22,35 +21,29 @@ Altro
 OK
 [Cancel]
 Annulla
+[First Name]
+Nome
+[Last Name]
+Cognome
 [&Cancel]
 &Annulla
-;file \protocols\MSN\src\msn_chat.cpp
-;file \protocols\MSN\src\msn_commands.cpp
+[User &details]
+&Dettagli utente
 [MSN Protocol]
 Protocollo MSN
-;file \protocols\MSN\src\msn_errors.cpp
-;file \protocols\MSN\src\msn_links.cpp
-;file \protocols\MSN\src\msn_lists.cpp
-;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Soggetto: %s
 [Hotmail from %s]
 Hotmail da %s
-;file \protocols\MSN\src\msn_menu.cpp
 [&Start Netmeeting]
 &Avvia NetMeeting
-;file \protocols\MSN\src\msn_misc.cpp
 [Error]
 Errore
-;file \protocols\MSN\src\msn_msgqueue.cpp
-;file \protocols\MSN\src\msn_opts.cpp
 [Profile]
 Profilo
+[Contact list]
+Lista dei contatti
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
 Le modifiche fatte richiedono la riconnessione alla rete MSN per essere attivate
 [Network]
 Rete
-;file \protocols\MSN\src\msn_p2p.cpp
-;file \protocols\MSN\src\msn_proto.cpp
-;file \protocols\MSN\src\msn_svcs.cpp
-;file \protocols\MSN\src\msn_ws.cpp

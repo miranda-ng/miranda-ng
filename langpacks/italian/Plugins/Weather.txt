@@ -5,7 +5,6 @@
 ;  Version: 0.4.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
-;file \plugins\Weather\res\resource.rc
 [Brief Info]
 Info rapide
 [Webpage]
@@ -96,6 +95,8 @@ Testo note
 Testo extra
 [External Log]
 Log esterno
+[Variable List]
+Lista variabili
 [More Variables]
 Variabili aggiuntive
 [Reset]
@@ -128,13 +129,10 @@ Visualizza storico
 Visualizza dettagli utente
 [To default]
 Imp. predefinite
-;file \plugins\Weather\src\weather.cpp
-;file \plugins\Weather\src\weather.h
 [Weather Condition for %n as of %u]
 Condizioni meteo per %n alle %u
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\nOggi:  Massima %h, Minima %l
-;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Condizioni meteo attuali a %s.
 [%s is now the default weather station]
@@ -147,7 +145,6 @@ Riprova dopo che l'aggiornamento del meteo è stato completato.
 <Inserisci qui il nome della stazione>
 [<Enter station ID here>]
 <Inserisci qui l'ID della stazione>
-;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Le condizioni meteorologiche non sono state registrate.
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
@@ -162,21 +159,20 @@ Visualizza pagina web
 File di testo
 [All Files]
 Tutti i file
-;file \plugins\Weather\src\weather_conv.cpp
 [<unknown time>]
 <ora sconosciuta>
 [<Error>]
 <Errore>
-;file \plugins\Weather\src\weather_data.cpp
 [<Enter city name here>]
 <Inserisci qui il nome della città>
 [Error when obtaining data: %s]
 Errore nell'ottenere i dati: %s
-;file \plugins\Weather\src\weather_http.cpp
 [Weather HTTP connections]
 Connessioni HTTP per il meteo
-;file \plugins\Weather\src\weather_icons.cpp
-;file \plugins\Weather\src\weather_info.cpp
+[Name]
+Nome
+[Items]
+Elementi
 [Name:]
 Nome:
 [Internal Name:]
@@ -195,15 +191,12 @@ byte
 Descrizione:
 [Here is a list of custom variables that are currently available]
 Ecco una lista delle variabili personalizzate attualmente disponibili:
-;file \plugins\Weather\src\weather_ini.cpp
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Nessun file di aggiornamento dati trovato. Controlla la cartella Plugins\\Weather.
 [Invalid ini format for: %s]
 Formato ini non valido per: %s
 [All update data has been reloaded.]
 Tutti i file dati aggiornati sono stati ricaricati.
-;file \plugins\Weather\src\weather_mwin.cpp
-;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 Rete
 [General]
@@ -212,12 +205,10 @@ Generale
 Popup
 [Weather Protocol Text Preview]
 Anteprima del testo del protocollo meteo
-;file \plugins\Weather\src\weather_popup.cpp
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tcondizioni attuali\n%d\tdata attuale\n%e\tT. condensazione\n%f\ttemp. percepita\n%h\tmassima odierna\n%i\tdirezione vento\n%l\tminima odierna\n%m\tumidità\n%n\tnome stazione\n%p\tpressione\n%r\talba\n%s\tID stazione\n%t\ttemperatura\n%u\tora aggiornamento\n%v\tvisibilità\n%w\tvelocità vento\n%y\ttramonto
 [%[..]\tcustom variables]
 %[..]\tvariabili personalizzate
-;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 ID stazione
 [Disable &weather notification]
@@ -240,10 +231,8 @@ Aggiorna tutti i rilevamenti
 Rimuovi vecchi dati poi aggiorna tutto
 [Weather Notification]
 Notifica meteo
-;file \plugins\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 Impossibile recuperare informazioni meteo per %s
-;file \plugins\Weather\src\weather_userinfo.cpp
 [Current condition for %n]
 Condizione attuali a %n
 [Information]

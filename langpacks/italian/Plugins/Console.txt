@@ -5,8 +5,6 @@
 ;  Version: 0.0.7.3
 ;  Authors: Bio
 ;============================================================
-;file \plugins\Console\res\resource.rc
-;file \plugins\Console\src\Console.cpp
 [Text]
 Testo
 [&Help]

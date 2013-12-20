@@ -5,7 +5,6 @@
 ;  Version: 0.0.2.0
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
-;file \plugins\Nudge\res\resource.rc
 [Text]
 Testo
 [Offline]
@@ -28,8 +27,5 @@ Invisibile
 Al telefono
 [Out to lunch]
 Fuori a pranzo
-;file \plugins\Nudge\src\main.cpp
-;file \plugins\Nudge\src\nudge.cpp
-;file \plugins\Nudge\src\options.cpp
 [Events]
 Eventi

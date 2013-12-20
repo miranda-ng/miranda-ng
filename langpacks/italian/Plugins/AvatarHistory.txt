@@ -5,7 +5,10 @@
 ;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
-;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[Save As...]
+Salva con nome
+[Open Folder]
+Apri cartella
 [OK]
 OK
 [Background color]
@@ -18,13 +21,7 @@ Utilizza colori di Windows
 Personalizzato
 [Actions]
 Azioni
-;file \plugins\AvatarHistory\src\AvatarDlg.cpp
-;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-;file \plugins\AvatarHistory\src\AvatarHistory.h
-;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 Storico
-;file \plugins\AvatarHistory\src\options.cpp
 [Popups]
 Popups
-;file \plugins\AvatarHistory\src\utils.cpp

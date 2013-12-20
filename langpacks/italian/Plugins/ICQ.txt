@@ -1,11 +1,12 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
-;file \protocols\IcqOscarJ\res\resources.rc
+[ICQ Number:]
+Numero ICQ:
 [Password:]
 Password:
 [&Send]
@@ -88,8 +89,12 @@ Replica solo a richieste sullo stato da parte di utenti sulla mia lista contatti
 Replica solo a richieste sullo stato da parte di contatti visibili
 [Options]
 Opzioni
+[Text Color]
+Colore del testo
 [Error]
 Errore
+[&Use Windows colors]
+&Utilizza i colori di Windows
 [UIN:]
 UIN:
 [External IP:]
@@ -142,7 +147,6 @@ Amministra contatti del server di ICQ
 Seleziona contatti da memorizzare
 [Closing in %d]
 Chiusura in %d
-;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to ICQ communication server]
 Impossibile collegarsi al server di communicazione di ICQ
 [You could not sign on because the server returned invalid data. Try again.]
@@ -161,17 +165,8 @@ Connessione fallita.\nErrore sconosciuto durante la registrazione: 0x%02x
 Sei stato disconnesso dalla rete ICQ perchè ti sei connesso da un'altra postazione con lo stesso numero ICQ.
 [Unknown runtime error: 0x%02x]
 Errore di runtime sconosciuto: 0x%02x
-;file \protocols\IcqOscarJ\src\fam_01service.cpp
-;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
-;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [ICQ Note]
 Nota di ICQ
-;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
-;file \protocols\IcqOscarJ\src\fam_17signon.cpp
-;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-;file \protocols\IcqOscarJ\src\icq_avatar.cpp
-;file \protocols\IcqOscarJ\src\icq_constants.h
-;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Antigua and Barbuda]
 Antigua e Barbuda
 [Ascension Island]
@@ -392,6 +387,24 @@ Isole Vergini (USA)
 Galles
 [Wallis and Futuna]
 Wallis e Futuna
+[Audio and Visual]
+Audio e video
+[Business Services]
+Servizi di affari
+[Finance and Corporate]
+Finanza
+[Health and Beauty]
+Salute e bellezza
+[Home Automation]
+Automazione domestica
+[Household Products]
+Articoli di casalinghi
+[Mail Order Catalog]
+Catalogo ordini via posta
+[Retail Stores]
+Vendita al dettaglio
+[Sporting and Athletic]
+Sport e atletica
 [Past Work Place]
 Precedente occupazione
 [Past Organization]
@@ -402,16 +415,12 @@ Femmina
 Maschio
 [60-above]
 60 e oltre
-;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
-;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Il tuo trasferimento file è stato interrotto perchè uno dei file selezionati per l'invio non è più leggibile dal disco. Potresti averlo cancellato o spostato.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 La ricezione del file è stata annullata perchè Miranda non ha potuto aprire la cartella di destinazione in scrittura. Potresti aver tentato di utilizzare una cartella di sola lettura.
-;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 Richiesta di autorizzazione
-;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Display all problems]
 Mostra tutti i problemi
 [Display problems causing possible loss of data]
@@ -426,19 +435,16 @@ Rete
 Contatti
 [Popups]
 Popup
-;file \protocols\IcqOscarJ\src\icq_popups.cpp
-;file \protocols\IcqOscarJ\src\icq_proto.cpp
 [You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Non hai inserito un numero ICQ.\nConfiguralo in Opzioni->Rete->ICQ e riprova.
-;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server]
 Impossibile collegarsi al server di login di ICQ
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
 Miranda non è riuscito ad allocare una porta per l'ascolto di connessioni dirette peer-to-peer tra client. Potrai utilizzare la maggior parte delle caratteristiche di ICQ senza problemi ma potresti non riuscire a \ninviare o ricevere file. Se hai un firewall questo potrebbe bloccare Miranda, per cui dovresti configurarlo per lasciare aperte alcune porte che specificherai poi in Opzioni->Rete->ICQ.
 [Your connection with the ICQ server was abortively closed]
 La tua connessione al server ICQ è stata improvvisamente chiusa
-;file \protocols\IcqOscarJ\src\icq_servlist.cpp
-;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[NOT FOUND]
+non trovato
 [Uploading %s...]
 Upload %s in corso...
 [Deleting %s...]
@@ -449,14 +455,12 @@ Tutte le operazioni completate
 Chiudi
 [** All contacts **]
 ** Tutti i contatti **
-;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [On the phone]
 Al telefono
+[Free for Chat]
+Disponibile per chat
 [None]
 Nessuno
-;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
-;file \protocols\IcqOscarJ\src\init.cpp
-;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 Avviso di ICQ
 [ICQ Error]
@@ -473,9 +477,8 @@ Il tuo proxy ha rifiutato il nome utente e la password che hai fornito. Controll
 Il server a cui stai tentando di collegarti non esiste. Controlla lo spelling in Opzioni->Rete->ICQ.
 [error]
 errore
-;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
-;file \protocols\IcqOscarJ\src\utilities.cpp
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[%d Files]
+%d file
 [GMT+1:00 Central European Time; West Central Africa; Warsaw]
 GMT+1:00 Ora dell'Europa Centrale; Roma; Africa Centro Occidentale; Varsavia
 [Personal]
@@ -484,12 +487,18 @@ Personale
 Nome
 [Last name]
 Cognome
+[Gender]
+SESSO
+[About]
+INFORMAZIONI
 [Contact]
 Contatto
 [Street]
 Via
 [City]
 Città
+[State]
+REGIONE
 [ZIP/postcode]
 Codice Postale
 [Country]
@@ -536,10 +545,8 @@ Nazione compagnia
 Dipartimento
 [Company position]
 Posizione nella compagnia
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 [Change ICQ Details]
 Modifica Dettagli ICQ
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 [Unknown value]
 Valore sconosciuto
 [Upload in progress...]
@@ -548,13 +555,9 @@ Upload in corso...
 Upload in corso...%d%%
 [Upload complete]
 Upload completato
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Non sei connesso alla rete ICQ. Devi essere in linea per aggiornare i tuoi dati sul server.
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
 Inserisci una password per l'UIN %u:
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [<not specified>]
 <non specificato>

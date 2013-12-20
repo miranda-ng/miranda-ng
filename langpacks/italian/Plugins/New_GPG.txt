@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.11
 ;  Authors: sss
 ;============================================================
-;file \plugins\New_GPG\res\new_gpg.rc
 [OK]
 OK
 [Ignore]
@@ -14,8 +13,6 @@ Ignora
 Annulla
 [Password:]
 Password:
-;file \plugins\New_GPG\src\init.cpp
-;file \plugins\New_GPG\src\main.cpp
 [Name]
 Nome
 [Default]
@@ -24,12 +21,9 @@ Predefinito
 Errore
 [Accept]
 Accetto
-;file \plugins\New_GPG\src\messages.cpp
-;file \plugins\New_GPG\src\options.cpp
 [Advanced]
 Avanzate
 [Contact]
 Contatto
 [Protocol]
 Protocollo
-;file \plugins\New_GPG\src\utilities.cpp

@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
-;file \protocols\Tlen\res\tlen.rc
 [Username:]
 Nome utente:
 [Password:]
@@ -50,32 +49,27 @@ Salva modifiche
 Nick:
 [Age:]
 Età:
+[to]
+A
 [From:]
 Da:
-;file \protocols\Tlen\src\tlen_iqid.cpp
-;file \protocols\Tlen\src\tlen_opt.cpp
+[Request authorization]
+Richiesta di autorizzazione
+[%d Files]
+%d file
 [General]
 Generale
 [Advanced]
 Avanzate
 [Network]
 Rete
-;file \protocols\Tlen\src\tlen_svc.cpp
-;file \protocols\Tlen\src\tlen_thread.cpp
 [Tlen Connection Error]
 Errore di connessione di Tlen
 [Windows]
 Finestre
 [E-mail]
 Email
-;file \protocols\Tlen\src\tlen_ws.cpp
-;file \protocols\Tlen\src\tlen.cpp
-[Request authorization]
-Richiesta di autorizzazione
-;file \protocols\Tlen\src\tlen_file.cpp
-;file \protocols\Tlen\src\tlen_muc.cpp
-;file \protocols\Tlen\src\tlen_picture.cpp
-;file \protocols\Tlen\src\tlen_userinfo.cpp
-;file \protocols\Tlen\src\tlen_voice.cpp
+[none]
+Nessuno
 [Default]
 Predefinito

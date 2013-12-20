@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Ricerca
 [Close]
@@ -14,17 +13,25 @@ Chiudi
 Messaggi in entrata
 [Outgoing messages]
 Messaggi in uscita
+[Background color]
+Colore di sfondo
+[Text color]
+Colore del testo
 [&File]
 &File
 [&Close]
 &Chiudi
 [&Search]
 &Cerca
-;file \plugins\HistoryLinkListPlus\src\language.h
+[link]
+Collegamento
 [Error]
 Errore
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[incoming]
+In entrata
+[outgoing]
+In uscita
 [History]
 Storico
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[All files]
+Tutti i file

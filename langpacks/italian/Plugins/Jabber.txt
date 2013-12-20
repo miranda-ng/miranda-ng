@@ -1,11 +1,10 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-;file \protocols\JabberG\res\jabber.rc
 [OK]
 OK
 [Cancel]
@@ -124,17 +123,8 @@ Modifica messaggio di %s
 Chiusura in %d
 [Authorization request]
 Richiesta di autorizzazione
-;file \protocols\JabberG\src\jabber.cpp
-;file \protocols\JabberG\src\jabber.h
-;file \protocols\JabberG\src\jabber_adhoc.cpp
-;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Nessun messaggio
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
-;file \protocols\JabberG\src\jabber_byte.cpp
-;file \protocols\JabberG\src\jabber_caps.cpp
-;file \protocols\JabberG\src\jabber_captcha.cpp
-;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Nessuno
 [Owner]
@@ -149,32 +139,24 @@ Non disponibile
 Non disturbare
 [Free for chat]
 Disponibile per chat
-;file \protocols\JabberG\src\jabber_console.cpp
-;file \protocols\JabberG\src\jabber_disco.cpp
-;file \protocols\JabberG\src\jabber_disco.h
-;file \protocols\JabberG\src\jabber_form2.cpp
-;file \protocols\JabberG\src\jabber_groupchat.cpp
+[User &details]
+&Dettagli utente
+[First Name]
+Nome
+[Last Name]
+Cognome
 [Loading...]
 Caricamento...
-;file \protocols\JabberG\src\jabber_icolib.cpp
 [Notes]
 Note
 [Personal vCard]
 Biglietto da visita personale di Jabber
-;file \protocols\JabberG\src\jabber_iqid.cpp
 [Registration successful]
 Registrazione effettuata con successo
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
-;file \protocols\JabberG\src\jabber_menu.cpp
 [Request authorization]
 Richiesta di autorizzazione
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
 A
-;file \protocols\JabberG\src\jabber_notes.cpp
-;file \protocols\JabberG\src\jabber_opt.cpp
 [These changes will take effect the next time you connect to the Jabber network.]
 Queste modifiche avranno effetto a partire dalla prossima connessione alla rete di Jabber.
 [Jabber Protocol Option]
@@ -195,21 +177,14 @@ Connessione...
 Rete
 [Advanced]
 Avanzate
-;file \protocols\JabberG\src\jabber_password.cpp
-;file \protocols\JabberG\src\jabber_privacy.cpp
 [<none>]
 <nessuno>
-;file \protocols\JabberG\src\jabber_proto.cpp
-;file \protocols\JabberG\src\jabber_rc.cpp
 [Status]
 Stato
 [Invisible]
 Invisibile
 [Offline]
 Offline
-;file \protocols\JabberG\src\jabber_search.cpp
-;file \protocols\JabberG\src\jabber_svc.cpp
-;file \protocols\JabberG\src\jabber_thread.cpp
 [Error: Not enough memory]
 Errore: memoria non sufficiente
 [Error: Cannot connect to the server]
@@ -220,7 +195,6 @@ Errore: connessione interrotta
 Richiesta istruzioni per la registrazione...
 [Sending registration information...]
 Invio informazioni sulla registrazione...
-;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Message]
 Messaggio
 [<not specified>]
@@ -229,15 +203,16 @@ Messaggio
 Versione
 [System]
 Sistema
-[Yes]
-Sì
-[No]
-No
+[unknown]
+Sconosciuta
+[to]
+A
+[none]
+Nessuno
 [Copy]
 Copia
 [Photo]
 Foto
-;file \protocols\JabberG\src\jabber_util.cpp
 [Redirect]
 Redirezione
 [Bad request]
@@ -272,7 +247,6 @@ Servizio non disponibile
 Nessuna risposta dal server remoto
 [Error]
 Errore
-;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Maschio
 [Female]
@@ -283,8 +257,7 @@ Nur JPG, GIF und BMP-Dateien kleiner 40 KB werden unterstützt.
 vCard di Jabber
 [Contacts]
 Contatti
-;file \protocols\JabberG\src\jabber_ws.cpp
-;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Calm]
 Calmo
-;file \protocols\JabberG\src\ui_utils.cpp
+[on the phone]
+Al telefono

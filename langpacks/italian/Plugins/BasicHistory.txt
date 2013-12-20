@@ -5,7 +5,6 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
 Storico messaggi
 [Show event icons]
@@ -14,11 +13,12 @@ Mostra icone eventi
 Mostra nomi
 [Name]
 Nome
+[Day]
+giorno
 [OK]
 OK
 [Cancel]
 Annulla
-;file \plugins\BasicHistory\src\BasicHistory.cpp
 [View &History]
 &Visualizza storico
 [Incoming message]
@@ -27,15 +27,12 @@ Messaggio in arrivo
 Messaggio in uscita
 [History]
 Storico
-;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 Tutti gli eventi
 [History for %s]
 Storico di %s
 [System]
 Sistema
-;file \plugins\BasicHistory\src\ExportManager.cpp
-;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Open in &new window]
 Apri in una nuova &finestra
 [&Open in existing window]
@@ -54,26 +51,31 @@ Icone
 Scorciatoie
 [Error]
 Errore
-;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Messaggio
 [Link]
 Collegamento
+[Authorization request]
+Richiesta di autorizzazione
+[You were added]
+Sei stato aggiunto
+[SMS message]
+Messaggio SMS
 [Searching]
 Ricerca in corso su
 [Advanced]
 Avanzate
+[Contact list background]
+Sfondo lista contatti
 [Find]
 Trova
-;file \plugins\BasicHistory\src\Options.h
-;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-;file \plugins\BasicHistory\src\Scheduler.cpp
+[Minute]
+minuto
+[Hour]
+ora
 [Contacts]
 Contatti
-;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 %s non trovato
 [Search]
 Ricerca
-;file \plugins\BasicHistory\src\TxtExport.cpp

@@ -7,12 +7,9 @@
 ;============================================================
 [This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
 Questo plugin può pulire lo storico di sistema, lo storico di tutti i contatti o solo di quelli scelti; può pulire anche lo storico più vecchio di una certa data; e può farlo all'avvio/alla chiusura di Miranda NG.
-;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [Sweep history for this contacts:]
 Pulisci lo storico per questi contatti:
 [Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
 Usa la modalità NON SICURA (pulizia più veloce, ma pericolosa per il DB)
-;file \plugins\HistorySweeperLight\src\main.cpp
-;file \plugins\HistorySweeperLight\src\options.cpp
 [History]
 Storico

@@ -2,8 +2,10 @@
 ;============================================================
 ;  File: mRadio.dll
 ;  Module: mRadio
-;  Version: 0.0.2.1
+;  Version: 0.0.2.3
 ;  Authors: Awkward
 ;============================================================
+[connecting]
+In connessione
 [Advanced]
 Avanzate

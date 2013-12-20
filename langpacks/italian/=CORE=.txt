@@ -1,4 +1,4 @@
-﻿;file \src\resource.rc
+﻿
 [OK]
 OK
 [Cancel]
@@ -231,6 +231,8 @@ Copyright:
 Ripristina
 [Reset]
 Reimposta
+[Text color]
+Colore del testo
 [Font]
 Carattere
 [Effects]
@@ -297,7 +299,6 @@ Apri in una nuova &finestra
 &Apri in una finestra esistente
 [&Copy link]
 &Copia collegamento
-;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Autorizza
 [&Deny]
@@ -308,7 +309,6 @@ Motivo:
 Sei stato aggiunto
 [&Close]
 &Chiudi
-;file \src\core\stdaway\resource.rc
 [%s message for %s]
 Messaggio di '%s' per %s
 [Retrieving %s message...]
@@ -329,7 +329,6 @@ Utilizza %time% per l'ora e %date% per la data corrente
 Modifica messaggio di %s
 [Closing in %d]
 Chiusura in %d
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 &Invia
 [Actions]
@@ -356,7 +355,6 @@ Copia
 Seleziona Tutto
 [Clear]
 Terso
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 Nascondi utenti offline
 [Hide empty groups]
@@ -517,6 +515,8 @@ Il click destro apre il menu di stato
 Il click destro apre il menu di Miranda
 [Make sections equal width]
 Rendi le sezioni larghe uguali
+[&Main menu]
+&Menu principale
 [&Status]
 &Stato
 [&Offline\tCtrl+0]
@@ -539,7 +539,6 @@ Disponibile &per chat\tCtrl+6
 Al &telefono\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Fuori a pran&zo\tCtrl+9
-;file \src\core\stdfile\resource.rc
 [Send file(s)]
 Invia file
 [To:]
@@ -564,8 +563,6 @@ Data:
 File
 [Save to:]
 Salva in:
-[Open folder]
-Apri cartella
 [File already exists]
 Il file esiste già
 [Resume]
@@ -592,6 +589,8 @@ Dimensioni:
 Ultima modifica:
 [Open file]
 Apri file
+[Open folder]
+Apri cartella
 [File properties]
 Proprietà
 [File being received]
@@ -634,13 +633,10 @@ Chiedi
 Rinomina (aggiungi " (1)", ecc.)
 [You will always be asked about files from people not on your contact list]
 Ti verrà sempre richiesto cosa fare con file da persone non sulla lista contatti
-;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Questo è Miranda NG
-;file \src\core\stdidle\resource.rc
 [Windows]
 Finestre
-;file \src\core\stdmsg\res\resource.rc
 [Close the message window on send]
 Chiudi la finestra del messaggio all'invio
 [Minimize the message window on send]
@@ -701,7 +697,6 @@ Lampeggia nella tray di sistema e nella lista dei contatti
 Mostra popup
 [Delete]
 Elimina
-;file \src\core\stduihist\resource.rc
 [Find]
 Trova
 [&Find next]
@@ -712,7 +707,6 @@ Trova:
 Storico messaggi
 [&Find...]
 &Trova
-;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 Aggiungi numero di telefono
 [Enter country, area code and phone number:]
@@ -775,18 +769,16 @@ Dipartimento:
 Posizione:
 [Website:]
 Sito Web:
-;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 %s richiede l'autorizzazione
-;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 Visualizza dettagli utente
 [Add contact permanently to list]
 Aggiungi contatto definitivamente alla lista
-;file \src\core\stdaway\awaymsg.cpp
+[<Unknown>]
+<avvistamento sconosciuto>
 [Re&ad %s message]
 Leggi mess&aggio di %s
-;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 Sono via dalle %time%
 [Give it up, I'm not in!]
@@ -809,14 +801,8 @@ Telefono.
 Mmm... cibo...
 [Status]
 Stato
-;file \src\core\stdchat\src\clist.cpp
-;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-Colore del testo
-;file \src\core\stdchat\src\log.cpp
 [%s is now known as %s]
 %s è ora conosciuto come %s
-;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
 Altri nickname
 [Your nickname]
@@ -867,6 +853,8 @@ Anteponi a tutti gli eventi data ed ora
 Anteponi data ed ora solo se queste sono cambiate
 [Indent the second line of a message]
 Indenta la seconda linea di un messaggio
+[User list background]
+Sfondo lista utenti
 [Bold]
 Grassetto
 [Messaging]
@@ -879,18 +867,14 @@ Seleziona cartella
 Generale
 [Popups]
 Popups
-;file \src\core\stdchat\src\services.cpp
 [&Join]
 &Unisciti
-;file \src\core\stdchat\src\tools.cpp
 [%s speaks in %s]
 %s discute in %s
 [%s kicked %s from %s]
 %s ha espulso %s da %s
 [Notice from %s]
 Notifica da %s
-;file \src\core\stdchat\src\window.cpp
-;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Contatti standard
 [Online contacts to whom you have a different visibility]
@@ -905,7 +889,6 @@ Conto dei membri di un gruppo
 Divisori
 [Offline contacts to whom you have a different visibility]
 Contatti offline per cui hai una visibilità differente
-;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 Non in primo piano
 [Offline]
@@ -930,18 +913,14 @@ Fuori a pranzo
 Al telefono
 [List background]
 Lista - Sfondo
-;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Globale
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 L'utente non ha un indirizzo email registrato
 [Send e-mail]
 Invia email
 [&E-mail]
 &Email
-;file \src\core\stdfile\file.cpp
 [File from %s]
 File da %s
 [bytes]
@@ -952,27 +931,22 @@ byte
 In entrata
 [Error]
 Errore
-;file \src\core\stdfile\fileexistsdlg.cpp
 [All files]
 Tutti i file
-;file \src\core\stdfile\fileopts.cpp
-[Executable Files]
+[Executable files]
 File eseguibili
 [Events]
 Eventi
-;file \src\core\stdfile\filerecvdlg.cpp
 [View user's history]
 Visualizza storico utente
 [User menu]
 Menu utente
 [Canceled]
 Cancellato
-;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
 %d file
 [%d directories]
 %d cartelle
-;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Questo file non è stato ancora controllato. Sei sicuro di volerlo aprire?
 [File received]
@@ -1009,29 +983,20 @@ Trasferimento fallito
 Scansione antivirus...
 [Transfer and virus scan complete]
 Trasferimento e scansione antivirus completati
-;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 In uscita
-;file \src\core\stdhelp\about.cpp
-;file \src\core\stdhelp\help.cpp
 [&About...]
 &Informazioni su...
 [&Report bug]
 Segnala un &bug
-;file \src\core\stdidle\idle.cpp
 [Idle]
 Inattivo
-;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Il tempo per l'invio del messaggio è scaduto.
-;file \src\core\stdmsg\src\globals.cpp
-;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Ultimo messaggio ricevuto il %s alle %s.
 [%s is typing a message...]
 %s sta digitando un messaggio...
-;file \src\core\stdmsg\src\msglog.cpp
-;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Messaggi in uscita
 [Incoming messages]
@@ -1058,7 +1023,6 @@ Mostra popup (sistema non supportato)
 Scambio messaggi - Log
 [Typing notify]
 Notifica digitazione
-;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Messaggio da %s
 [%s is typing a message]
@@ -1069,8 +1033,6 @@ Notifica digitazione
 Miranda non è riuscito a caricare il modulo per i messaggi predefinito, il file riched20.dll è mancante. Premi 'Sì' per continuare a caricare Miranda.
 [Message send error]
 Errore nell'invio del messaggio
-;file \src\core\stdmsg\src\msgtimedout.cpp
-;file \src\core\stduihist\history.cpp
 [Outgoing URL]
 URL in uscita
 [Incoming URL]
@@ -1087,15 +1049,12 @@ Sei sicuro di voler eliminare questo elemento dello storico?
 Elimina storico
 [View &history]
 &Visualizza storico
-;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL da %s
 [Web page address (&URL)]
 Indirizzo Pagina Web (&URL)
 [URL]
 URL
-;file \src\core\stdurl\urldialogs.cpp
-;file \src\core\stduserinfo\contactinfo.cpp
 [Edit phone number]
 Modifica numero di telefono
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -1110,7 +1069,6 @@ Personalizzato %d
 Fax
 [Mobile]
 Cellulare
-;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 Maschio
 [Female]
@@ -1127,28 +1085,18 @@ Provenienza
 Lavoro
 [Notes]
 Note
-;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Proprietario
 [View/change my &details...]
 Visualizza/Modifica i miei &dettagli...
-;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s è online
-;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Aggiungi contatto
 [Please authorize my request and add me to your contact list.]
 Per favore dammi l'autorizzazione e aggiungimi alla tua lista dei contatti.
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
-;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Contatto sconosciuto)
-;file \src\modules\clist\clisttray.cpp
-[&Main menu]
-&Menu principale
-;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Questo contatto usa un protocollo che memorizza la lista dei contatti su un server centrale: verrà cancellato sia dal server che dalla tua lista dei contatti quando ti riconnetterai alla sua rete.
 [De&lete]
@@ -1157,7 +1105,6 @@ E&limina
 &Rinomina
 [&Add permanently to list]
 &Aggiungi definitivamente alla lista
-;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 Mio nome personalizzato (non spostabile)
 [Nick]
@@ -1176,9 +1123,6 @@ Nome Cognome
 '(Contatto sconosciuto)' (non spostabile)
 ['(Unknown contact)']
 '(Contatto sconosciuto)'
-;file \src\modules\clist\genmenu.cpp
-;file \src\modules\clist\genmenuopt.cpp
-;file \src\modules\clist\groups.cpp
 [New group]
 Nuovo gruppo
 [You already have a group with that name. Please enter a unique name for the group.]
@@ -1187,10 +1131,6 @@ Hai già un gruppo con questo nome. Inserisci per favore un nome univoco per il 
 Rinomina gruppo
 [This group]
 Questo gruppo
-;file \src\modules\clist\keyboard.cpp
-;file \src\modules\clist\movetogroup.cpp
-;file \src\modules\database\database.cpp
-;file \src\modules\database\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 I sistemi di sicurezza per prevenire modifiche pericolose sono attivi e sarai avvisato prima di ogni cambiamento effettuato.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -1203,7 +1143,6 @@ Questa modifica è riconosciuta come sicura.
 Questa modifica è riconosciuta come potenzialmente rischiosa.
 [This change is not known to be safe.]
 Questa modifica non è riconosciuta come sicura.
-;file \src\modules\database\profilemanager.cpp
 [&Create]
 &Crea
 [Size]
@@ -1212,10 +1151,6 @@ Dimensioni
 I miei profili
 [New profile]
 Nuovo profilo
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
-;file \src\modules\extraicons\extraicons.cpp
-;file \src\modules\extraicons\options_ei.cpp
-;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Non hai inserito nulla nel campo di ricerca. Inserisci un termine e riprova.
 [Search]
@@ -1230,7 +1165,6 @@ Ricerca in corso su
 Tutte le reti
 [&Find/Add contacts...]
 &Trova/Aggiungi contatti...
-;file \src\modules\findadd\searchresults.cpp
 [1 %s user found]
 1 utente %s trovato
 [%d %s users found]
@@ -1239,23 +1173,18 @@ Tutte le reti
 %d utenti trovati (
 [No users found]
 Nessun utente trovato
-;file \src\modules\fonts\FontOptions.cpp
 [<none>]
 <nessuno>
 [Text files]
 File di testo
 [Fonts]
 Caratteri
-;file \src\modules\fonts\FontService.cpp
-;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 Set di icone
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Tutti i contatti **
 [Contacts]
 Contatti
-;file \src\modules\netlib\netliblog.cpp
 [No times]
 Nessun tempo
 [Standard hh:mm:ss times]
@@ -1264,24 +1193,18 @@ Ora standard hh:mm:ss
 Tempo in millisecondi
 [Times in microseconds]
 Tempo in microsecondi
-;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Tutte le connessioni>
 [Network]
 Rete
-;file \src\modules\netlib\netlibssl.cpp
-;file \src\modules\options\options.cpp
 [Miranda NG options]
 Opzioni di Miranda NG
 [&Options...]
 &Opzioni...
-;file \src\modules\plugins\newplugins.cpp
-;file \src\modules\plugins\pluginopts.cpp
 [Version]
 Versione
 [Plugins]
 Plugin
-;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 Crea nuovo account
 [Protocol]
@@ -1290,10 +1213,8 @@ Protocollo
 <avvistamento sconosciuto>
 [Configure]
 Configura
-;file \src\modules\skin\hotkey_opts.cpp
 [System]
 Sistema
-;file \src\modules\skin\skinicons.cpp
 [User online]
 Utente online
 [Group (open)]
@@ -1320,8 +1241,6 @@ Richiesta di autorizzazione
 Icone %s
 [Main icons]
 Icone principali
-;file \src\modules\skin\sounds.cpp
-;file \src\modules\utils\bmpfilter.cpp
 [All bitmaps]
 Tutti i tipi di bitmap
 [Windows bitmaps]
@@ -1330,8 +1249,6 @@ Bitmap di Windows
 Immagini JPEG
 [GIF bitmaps]
 Immagini GIF
-;file \src\modules\utils\timezones.cpp
-;file \src\modules\utils\utils.cpp
 [Unspecified]
 Non specificato
 [Unknown]
@@ -1352,12 +1269,16 @@ Brasile
 Cambogia
 [Cameroon]
 Camerun
+[Cape Verde]
+Capo Verde
 [Cayman Islands]
 Isole Cayman
 [Central African Republic]
 Repubblica Centroafricana
 [Chad]
 Ciad
+[Chile]
+Cile
 [China]
 Cina
 [Christmas Island]
@@ -1366,8 +1287,14 @@ Isole Christmas
 Isole Cocos (Keeling)
 [Comoros]
 Comore
+[Congo, Republic of the]
+Congo, Repubblica del
+[Congo, Democratic Republic of the]
+Congo, Repubblica Democratica del
 [Cook Islands]
 Isole Cook
+[Cote d'Ivoire]
+Costa d'Avorio
 [Croatia]
 Croazia
 [Cyprus]
@@ -1386,6 +1313,8 @@ Egitto
 Guinea Equatoriale
 [Ethiopia]
 Etiopia
+[Faroe Islands]
+Isole Faeroe
 [Fiji]
 Figi
 [Finland]
@@ -1410,6 +1339,8 @@ Guadalupa
 Ungheria
 [Iceland]
 Islanda
+[Iran]
+Iran
 [Ireland]
 Irlanda
 [Israel]
@@ -1426,10 +1357,14 @@ Giordania
 Lettonia
 [Lebanon]
 Libano
+[Libya]
+Libia
 [Lithuania]
 Lituania
 [Luxembourg]
 Lussemburgo
+[Macau]
+Macao
 [Malaysia]
 Malesia
 [Maldives]
@@ -1438,6 +1373,8 @@ Maldive
 Isole Marshall
 [Martinique]
 Martinica
+[Mayotte]
+Mayotte
 [Mexico]
 Messico
 [Micronesia, Federated States of]
@@ -1468,6 +1405,8 @@ Polonia
 Portogallo
 [Puerto Rico]
 Porto Rico
+[Reunion]
+Riunione
 [Rwanda]
 Ruanda
 [Saint Kitts and Nevis]
@@ -1512,4 +1451,7 @@ Ucraina
 Emirati Arabi Uniti
 [United Kingdom]
 Regno Unito
-;file \src\modules\visibility\visibility.cpp
+[Vatican City]
+Città del Vaticano
+[Wallis and Futuna]
+Wallis e Futuna

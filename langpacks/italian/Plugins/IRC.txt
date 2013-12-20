@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
-;file \protocols\IRCG\res\IRC.rc
 [&Add]
 &Aggiungi
 [&Edit]
@@ -104,12 +103,12 @@ Modalità utente
 Modalità canale
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
 Utilizza le opzioni per impostare le modalità per questo canale. Di solito dovrai essere op o superiore per farlo.
+[none]
+Nessuno
 [&Deny]
 &Nega
 [Password:]
 Password:
-;file \protocols\IRCG\src\clist.cpp
-;file \protocols\IRCG\src\commandmonitor.cpp
 [Downloading list (%u%%) - %u channels]
 Scaricamento lista (%u%%) - %u canali
 [Downloading list - %u channels]
@@ -124,7 +123,6 @@ Cambia nick
 Sconosciuta
 [Ignore]
 Ignora
-;file \protocols\IRCG\src\input.cpp
 [The buddy check function is enabled]
 La funzione di controllo automatico dei tuoi amici è ora attivata
 [The buddy check function is disabled]
@@ -147,13 +145,10 @@ Annullato
 Comando di input
 [Please enter the reply]
 Inserisci per favore la risposta
-;file \protocols\IRCG\src\irclib.cpp
-;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 Informazione
 [The protocol is not online]
 Il protocollo non è online
-;file \protocols\IRCG\src\options.cpp
 [Apply]
 Applica
 [Cancel]
@@ -174,12 +169,10 @@ Desideri eliminare\r\n%s
 Elimina server
 [Advanced]
 Avanzate
-;file \protocols\IRCG\src\output.cpp
 [%s invites you to %s]
 %s ti invita a %s
 [%s is away]
 %s è altrove
-;file \protocols\IRCG\src\services.cpp
 [Join channel]
 Unisciti al canale
 [Please enter a channel to join]
@@ -192,11 +185,8 @@ Inserisci per favore un nick unico
 Espulsione
 [&Control]
 &Controllo
-;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Offline
-;file \protocols\IRCG\src\userinfo.cpp
-;file \protocols\IRCG\src\windows.cpp
 [Channel]
 Canale
 [Add ban]

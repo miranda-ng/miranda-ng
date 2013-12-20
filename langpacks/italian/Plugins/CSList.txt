@@ -5,15 +5,12 @@
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
-;file \plugins\CSList\res\cslist.rc
 [Cancel]
 Annulla
-;file \plugins\CSList\src\cslist.cpp
 [Status]
 Stato
 [Message]
 Messaggio
-;file \plugins\CSList\src\cslist.h
 [Clear]
 Terso
 [Set]

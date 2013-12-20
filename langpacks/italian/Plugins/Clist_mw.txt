@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
-;file \plugins\Clist_mw\res\resource.rc
 [Stretch to width]
 Allarga
 [Stretch to height]
@@ -180,10 +179,14 @@ Mostra i nomi dei protocolli
 Mostra il testo con lo stato
 [Right click opens status menu]
 Il click destro apre il menu di stato
+[Right click opens Miranda menu]
+Il click destro apre il menu di Miranda
 [Make sections equal width]
 Rendi le sezioni larghe uguali
 [Show size grip]
 Mostra controllo dimensioni
+[&Main menu]
+&Menu principale
 [E&xit]
 &Esci
 [&Status]
@@ -228,8 +231,6 @@ Nascondi utenti &offline qui dentro
 &Rinomina gruppo
 [&Delete Group]
 &Elimina gruppo
-;file \plugins\Clist_mw\src\BkgrCfg.cpp
-;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Contatti standard
 [Online contacts to whom you have a different visibility]
@@ -244,9 +245,10 @@ Conto dei membri di un gruppo
 Divisori
 [Offline contacts to whom you have a different visibility]
 Contatti offline per cui hai una visibilità differente
+[Status messages]
+Messaggi di stato
 [Background]
 Altro
-;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Lista
 [List Background]
@@ -273,24 +275,15 @@ Invisibile
 Fuori a pranzo
 [On the phone]
 Al telefono
-;file \plugins\Clist_mw\src\clistopts.cpp
 [Global]
 Globale
-;file \plugins\Clist_mw\src\clistsettings.cpp
 [(Unknown Contact)]
 (Contatto sconosciuto)
-;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &Trova/Aggiungi contatti...
-[&Main menu]
-&Menu principale
 [&Options...]
 &Opzioni...
-;file \plugins\Clist_mw\src\clui.cpp
-;file \plugins\Clist_mw\src\cluiopts.cpp
-;file \plugins\Clist_mw\src\groupmenu.cpp
-;file \plugins\Clist_mw\src\keyboard.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&New SubGroup]
+&Nuovo sottogruppo
 [Frames]
 Frame
-;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

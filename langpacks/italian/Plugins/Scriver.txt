@@ -5,7 +5,6 @@
 ;  Version: 2.10.0.2
 ;  Authors: Miranda NG Development Team
 ;============================================================
-;file \plugins\Scriver\res\resource.rc
 [Cascade new windows]
 Nuove finestre a cascata
 [Send message on 'Enter']
@@ -26,6 +25,8 @@ Log degli eventi della finestra messaggi
 Mostra icone
 [Show names]
 Mostra nomi
+[events]
+Eventi
 [minutes]
 minuti
 [Typing Notification Options]
@@ -48,6 +49,12 @@ Prova di nuovo
 Annulla
 [Message Session]
 Sessione messaggi
+[User &details]
+&Dettagli utente
+[&Add]
+&Aggiungi
+[&OK]
+&OK
 [Yes]
 Sì
 [No]
@@ -96,17 +103,18 @@ Terso
 Lista
 [&Message]
 &Messaggio
-;file \plugins\Scriver\src\globals.cpp
+[Co&py all]
+Co&pia tutto
+[Add contact]
+Aggiungi contatto
 [Text color]
 Colore del testo
 [Background color]
 Colore di sfondo
 [Bold]
 Grassetto
-;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Scambio messaggi
-;file \plugins\Scriver\src\msgdialog.cpp
 [Add Contact]
 Aggiungi contatto
 [User Menu]
@@ -125,8 +133,8 @@ Visualizza storico utente
 %s sta digitando un messaggio...
 [Last message received on %s at %s.]
 Ultimo messaggio ricevuto il %s alle %s.
-;file \plugins\Scriver\src\msglog.cpp
-;file \plugins\Scriver\src\msgoptions.cpp
+[File received]
+File ricevuto
 [General]
 Generale
 [Outgoing messages]
@@ -201,7 +209,6 @@ Al telefono
 Mostra popup (sistema non supportato)
 [Typing Notify]
 Notifica digitazione
-;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Messaggio da %s
 [%s is typing a message]
@@ -212,24 +219,18 @@ Notifica digitazione
 Miranda non è riuscito a caricare il modulo per i messaggi predefinito, il file riched20.dll è mancante. Se stai utilizzando Windows 95 o WINE assicurati di averlo installato. Premi 'Sì' per continuare a caricare Miranda.
 [Outgoing]
 In uscita
-;file \plugins\Scriver\src\msgtimedout.cpp
-;file \plugins\Scriver\src\msgwindow.cpp
-;file \plugins\Scriver\src\sendqueue.cpp
+[Always On Top]
+Sempre in primo piano
 [The message send timed out.]
 Il tempo per l'invio del messaggio è scaduto.
-;file \plugins\Scriver\src\chat\clist.cpp
-;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
 [%s is now known as %s]
 %s è ora conosciuto come %s
 [Notice from %s]
 Notifica da %s
-;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 &Unisciti
 [&Leave]
 &Lascia
-;file \plugins\Scriver\src\chat\options.cpp
 [Prefix all events with a timestamp]
 Anteponi a tutti gli eventi data ed ora
 [Only prefix with timestamp if it has changed]
@@ -240,12 +241,9 @@ Indenta la seconda linea di un messaggio
 Seleziona cartella
 [Popups]
 Popup
-;file \plugins\Scriver\src\chat\services.cpp
-;file \plugins\Scriver\src\chat\tools.cpp
 [%s speaks in %s]
 %s discute in %s
 [%s kicked %s from %s]
 %s ha espulso %s da %s
-;file \plugins\Scriver\src\chat\window.cpp
 [Status]
 Stato

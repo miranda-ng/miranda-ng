@@ -5,18 +5,17 @@
 ;  Version: 0.0.1.5
 ;  Authors: Yasnovidyashii
 ;============================================================
-;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Scorciatoie
 [Options]
 Opzioni
 [Default]
 Predefinito
+[Custom colors]
+Colori personalizzati
 [Text]
 Testo
 [Custom]
 Personalizzato
-;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
-;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Popups]
 Popups

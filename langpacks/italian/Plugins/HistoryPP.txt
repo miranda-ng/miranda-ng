@@ -5,6 +5,8 @@
 ;  Version: 1.5.1.5
 ;  Authors: theMIROn
 ;============================================================
+[&Copy Link]
+&Copia collegamento
 [Event Details]
 Dettagli evento
 [Event Info]
@@ -51,6 +53,8 @@ Salvataggio...
 Cancellazione...
 [Do you really want to delete selected items (%.0f)?]
 Vuoi cancellare gli oggetti selezionati (%.0f)?
+[Delete Selected]
+Elimina selezionato
 [History is empty]
 Lo Storico è vuoto
 [No such items]
@@ -79,6 +83,12 @@ File XML (*.xml)|*.xml
 File di testo (*.txt)|*.txt
 [All files (*.*)|*.*]
 Tutti i file (*.*)|*.*
+[Incoming url]
+URL in arrivo
+[Outgoing file]
+File in uscita
+[Outgoing url]
+URL in uscita
 [History++]
 Storico++
 [%.0f items in history]
@@ -177,3 +187,25 @@ Usa le impostazioni predefinite di Miranda
 Sei stato aggiunto da %s (%s%s%d)
 [You Were Added Message Sample]
 Esempio Messaggio 'Sei stato aggiunto'
+[Authorization request]
+Richiesta di autorizzazione
+[&Reset to Default]
+&Ripristina predefiniti
+[System message]
+Messaggio di sistema
+[Open in &new window]
+Apri in una nuova &finestra
+[Select &All]
+Seleziona &tutto
+[Send &Message]
+Invia &messaggio
+[User Details]
+Dettagli utente
+[Show event icons]
+Mostra icone eventi
+[View user's history]
+Visualizza storico utente
+[View User's History]
+Visualizza storico utente
+[View &History]
+&Visualizza storico

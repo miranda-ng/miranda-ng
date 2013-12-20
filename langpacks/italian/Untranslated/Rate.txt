@@ -1,0 +1,5 @@
+﻿[Shows rating of contact in contact list (if presents).]
+[Rate high]
+[Rate medium]
+[Rate low]
+[Contact rate]

@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
-;file \plugins\BASS_interface\res\Bass.rc
 [Offline]
 Offline
 [Online]
@@ -26,7 +25,7 @@ Invisibile
 Al telefono
 [Out to lunch]
 Fuori a pranzo
-;file \plugins\BASS_interface\src\Bass_interface.h
-;file \plugins\BASS_interface\src\Main.cpp
 [Sounds]
 Suoni
+[Disable sounds]
+Disattiva suoni

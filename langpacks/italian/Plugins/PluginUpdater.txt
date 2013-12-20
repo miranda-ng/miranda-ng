@@ -5,21 +5,21 @@
 ;  Version: 0.1.1.6
 ;  Authors: Mataes, George Hazan
 ;============================================================
-;file \plugins\PluginUpdater\res\Resource.rc
 [Cancel]
 Annulla
+[Select &all]
+Seleziona &tutto
 [Text]
 Testo
+[Sec]
+sec
 [Popups]
 Popup
-;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[State]
+REGIONE
 [Plugins]
 Plugin
 [Icons]
 Icone
 [Other]
 Altro
-;file \plugins\PluginUpdater\src\DlgUpdate.cpp
-;file \plugins\PluginUpdater\src\Options.cpp
-;file \plugins\PluginUpdater\src\PluginUpdater.cpp
-;file \plugins\PluginUpdater\src\Utils.cpp

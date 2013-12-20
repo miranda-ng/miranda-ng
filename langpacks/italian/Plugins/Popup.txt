@@ -5,11 +5,12 @@
 ;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
-;file \plugins\Popup\res\resource.rc
 [Effects]
 Effetti
 [History]
 Storico
+[events]
+Eventi
 [pixels]
 pixel
 [Miranda's window]
@@ -20,41 +21,49 @@ la finestra attiva
 Chiudi
 [General]
 Generale
+[General options]
+Opzioni generali
+[Sec]
+sec
 [seconds]
 secondi
 [Position:]
 Posizione:
 [Disable when:]
 Disattiva quando:
-;file \plugins\Popup\src\actions.cpp
 [User details]
 Dettagli utente
-;file \plugins\Popup\src\config.cpp
-;file \plugins\Popup\src\effects.cpp
-;file \plugins\Popup\src\font.cpp
-;file \plugins\Popup\src\history.cpp
-;file \plugins\Popup\src\icons.cpp
 [OK]
 OK
 [Cancel]
 Annulla
-;file \plugins\Popup\src\main.cpp
 [Actions]
 Azioni
 [Contacts]
 Contatti
 [Advanced]
 Avanzate
-;file \plugins\Popup\src\opt_adv.cpp
-;file \plugins\Popup\src\opt_class.cpp
-;file \plugins\Popup\src\opt_gen.cpp
-;file \plugins\Popup\src\opt_skins.cpp
+[Offline]
+Offline
+[Online]
+Online
+[Invisible]
+Invisibile
+[Away]
+Altrove
+[NA]
+Non disponibile
+[Occupied]
+Occupato
+[DND]
+Non disturbare
+[Free for chat]
+Disponibile per chat
+[Out to lunch]
+Fuori a pranzo
+[On the phone]
+Al telefono
 [Use Windows colors]
 Utilizza colori di Windows
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-;file \plugins\Popup\src\services.cpp
 [Error]
 Errore
-;file \plugins\Popup\src\skin.cpp
-;file \plugins\Popup\src\srmm_menu.cpp

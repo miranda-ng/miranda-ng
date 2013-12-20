@@ -5,7 +5,6 @@
 ;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
-;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Opzioni di 'Ultimo Avvistamento'
 [Last seen menuitem]
@@ -56,7 +55,6 @@ OK
 Hai perso i seguenti contatti:
 [Alert when user status changes]
 Allerta quando lo stato dell'utente cambia
-;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 storico ultimo avvistamento
 [View User's Details]
@@ -65,20 +63,16 @@ Visualizza dettagli utente
 Menu utente
 [Send Instant Message]
 Invia messaggio
-;file \plugins\SeenPlugin\src\main.cpp
-[Last seen]
-Ultimo Avvistamento
-;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <avvistamento sconosciuto>
 [<none>]
 <nessuno>
-;file \plugins\SeenPlugin\src\options.cpp
 [Contacts]
 Contatti
+[Last seen]
+Ultimo Avvistamento
 [Popups]
 Popup
-;file \plugins\SeenPlugin\src\seen.h
 [-- Date --]
 -- Data --
 [year (4 digits)]
@@ -111,6 +105,8 @@ secondi
 -- Utente --
 [username]
 nome
+[nick]
+Nick
 [UIN/handle]
 UIN
 [Status]
@@ -127,8 +123,6 @@ Protocollo
 tabulazione
 [line break]
 a capo
-;file \plugins\SeenPlugin\src\userinfo.cpp
-;file \plugins\SeenPlugin\src\utils.cpp
 [Sun.]
 Dom.
 [Mon.]

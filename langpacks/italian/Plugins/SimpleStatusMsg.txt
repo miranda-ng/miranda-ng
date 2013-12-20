@@ -5,7 +5,6 @@
 ;  Version: 1.9.0.4
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
-;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
 Messaggio di '%s' per %s
 [&Cancel]
@@ -26,27 +25,24 @@ Copia
 Elimina
 [Select All]
 Seleziona Tutto
-;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [&Close]
 &Chiudi
 [Re&ad %s Message]
 Leggi mess&aggio di %s
 [Re&ad Away Message]
 Leggi mess&aggio di Altrove
-;file \plugins\SimpleStatusMsg\src\main.cpp
-;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[Delete Selected]
+Elimina selezionato
 [Global]
 Globale
 [Closing in %d]
 Chiusura in %d
-;file \plugins\SimpleStatusMsg\src\options.cpp
 [Status]
 Stato
 [General]
 Generale
 [Advanced]
 Avanzate
-;file \plugins\SimpleStatusMsg\src\utils.cpp
 [I've been away since %time%.]
 Sono via dalle %time%
 [Give it up, I'm not in!]

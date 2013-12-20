@@ -17,10 +17,12 @@ Click sinistro
 Click destro
 [Custom colors]
 Colori personalizzati
+[Kilobytes]
+kilobyte
+[none]
+Nessuno
+[Color]
+Colore
 [Choose font...]
 Scegli carattere...
-;file \plugins\Watrack\myshows\myshows.rc
-;file \plugins\Watrack\lastfm\i_last_api.inc
-;file \plugins\Watrack\lastfm\i_last_dlg.inc
-;file \plugins\Watrack\proto\proto.pas
 ;other strings

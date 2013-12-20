@@ -5,7 +5,6 @@
 ;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
-;file \plugins\FTPFileYM\res\ftpfile.rc
 [URL]
 URL
 [Protocol]
@@ -32,20 +31,17 @@ OK
 Annulla
 [Overwrite]
 Sovrascrivi
-;file \plugins\FTPFileYM\src\dialog.cpp
-;file \plugins\FTPFileYM\src\ftpfile.cpp
 [Resume]
 Riprendi
-;file \plugins\FTPFileYM\src\job_generic.cpp
-;file \plugins\FTPFileYM\src\job_packer.cpp
-;file \plugins\FTPFileYM\src\job_upload.cpp
-;file \plugins\FTPFileYM\src\manager.cpp
+[CANCELED]
+Cancellato
+[CONNECTING...]
+Connessione...
+[UNKNOWN]
+Sconosciuta
 [Clear All]
 Pulisci tutto
-;file \plugins\FTPFileYM\src\options.cpp
 [minutes]
 minuti
 [Advanced]
 Avanzate
-;file \plugins\FTPFileYM\src\serverlist.cpp
-;file \plugins\FTPFileYM\src\utils.cpp
