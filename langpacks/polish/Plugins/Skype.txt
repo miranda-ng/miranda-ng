@@ -367,7 +367,7 @@ Odblokuj tę osobę...
 [Block this person...]
 Zablokuj tę osobę...
 [Skype menu chooser]
-
+Wybór menu Skype
 [Request authorization]
 Poproś o autoryzację
 [Grant authorization]
