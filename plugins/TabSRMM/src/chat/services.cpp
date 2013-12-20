@@ -62,8 +62,6 @@ int Chat_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hLeaveMenuItem = Menu_AddContactMenuItem(&mi);
 
 	CList_SetAllOffline(TRUE, NULL);
-
-	g_Settings.bMathMod = ServiceExists(MATH_RTF_REPLACE_FORMULAE) && M.GetByte("Chat", "MathModSupport", 0);
 	return 0;
 }
 

@@ -86,9 +86,6 @@ void 	TSAPI ClearLog						(TWindowData *dat);
 bool	TSAPI IsAutoSplitEnabled			(const TWindowData *dat);
 LONG	TSAPI GetDefaultMinimumInputHeight	(const TWindowData *dat);
 void	TSAPI DetermineMinHeight			(TWindowData *dat);
-// mathmod
-
-void	TSAPI MTH_updateMathWindow			(const TWindowData *dat);
 
 void	TSAPI CleanTempFiles				();
 void 	TSAPI SendHBitmapAsFile				(const TWindowData *dat, HBITMAP hbmp);

@@ -31,6 +31,8 @@
 
 #define MS_HTTPSERVER_ADDFILENAME "HTTPServer/AddFileName"
 
+bool IsStringValidLink(TCHAR* pszText);
+
 const TCHAR *pszIDCSAVE_close = 0, *pszIDCSAVE_save = 0;
 
 static const UINT sendControls[]   = { IDC_MESSAGE, IDC_LOG };
@@ -67,26 +69,6 @@ static void _clrMsgFilter(LPARAM lParam)
 	m->msg = 0;
 	m->lParam = 0;
 	m->wParam = 0;
-}
-
-static BOOL IsStringValidLinkA(char* pszText)
-{
-	char *p = pszText;
-
-	if (pszText == NULL)
-		return FALSE;
-	if (lstrlenA(pszText) < 5)
-		return FALSE;
-
-	while (*p) {
-		if (*p == '"')
-			return FALSE;
-		p++;
-	}
-	if (tolower(pszText[0]) == 'w' && tolower(pszText[1]) == 'w' && tolower(pszText[2]) == 'w' && pszText[3] == '.' && isalnum(pszText[4]))
-		return TRUE;
-
-	return(strstr(pszText, "://") == NULL ? FALSE : TRUE);
 }
 
 BOOL TSAPI IsUtfSendAvailable(HANDLE hContact)
@@ -384,10 +366,6 @@ static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 		dat->pContainer->MenuBar->configureMenu();
 		UpdateTrayMenuState(dat, FALSE);
 
-		if (PluginConfig.m_MathModAvail) {
-			CallService(MTH_Set_ToolboxEditHwnd, 0, (LPARAM)GetDlgItem(hwndDlg, IDC_MESSAGE));
-			MTH_updateMathWindow(dat);
-		}
 		if (dat->pContainer->hwndActive == hwndDlg)
 			PostMessage(hwndDlg, DM_REMOVEPOPUPS, PU_REMOVE_ON_FOCUS, 0);
 
@@ -631,20 +609,6 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			if (PluginConfig.g_bSoundOnTyping && !isAlt && !isCtrl && !(mwdat->pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_AllowTab))
 				SkinPlaySound("SoundOnTyping");
 			//MAD
-			if (wParam == 0x0d && isCtrl && PluginConfig.m_MathModAvail) {
-				TCHAR toInsert[100];
-				BYTE keyState[256];
-				size_t i;
-				size_t iLen = lstrlen(PluginConfig.m_MathModStartDelimiter);
-				ZeroMemory(keyState, 256);
-				_tcsncpy(toInsert, PluginConfig.m_MathModStartDelimiter, 30);
-				_tcsncat(toInsert, PluginConfig.m_MathModStartDelimiter, 30);
-				SendMessage(hwnd, EM_REPLACESEL, TRUE, (LPARAM)toInsert);
-				SetKeyboardState(keyState);
-				for (i=0; i < iLen; i++)
-					SendMessage(hwnd, WM_KEYDOWN, mwdat->dwFlags & MWF_LOG_RTL ? VK_RIGHT : VK_LEFT, 0);
-				return 0;
-			}
 			if (isCtrl && !isAlt) {
 				switch (wParam) {
 				case 0x02:               // bold
@@ -1543,10 +1507,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendMessage(hwndContainer, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 
 			{
-				WNDCLASSA wndClass;
-
-				ZeroMemory(&wndClass, sizeof(wndClass));
-				GetClassInfoA(g_hInst, "RichEdit20A", &wndClass);
+				WNDCLASS wndClass = { 0 };
+				GetClassInfo(g_hInst, _T("RichEdit20W"), &wndClass);
 				mir_subclassWindowFull( GetDlgItem(hwndDlg, IDC_LOG), MessageLogSubclassProc, wndClass.lpfnWndProc);
 			}
 			SetWindowPos(hwndDlg, 0, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), newData->iActivate ? 0 : SWP_NOZORDER | SWP_NOACTIVATE);
@@ -2240,57 +2202,54 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				case WM_RBUTTONDOWN:
 				case WM_LBUTTONUP:
 					{
-						TEXTRANGEA tr;
 						CHARRANGE sel;
-
 						SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)&sel);
 						if (sel.cpMin != sel.cpMax)
 							break;
-						tr.chrg = ((ENLINK *) lParam)->chrg;
-						tr.lpstrText = (char *)mir_alloc(tr.chrg.cpMax - tr.chrg.cpMin + 8);
-						SendDlgItemMessageA(hwndDlg, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-						if (strchr(tr.lpstrText, '@') != NULL && strchr(tr.lpstrText, ':') == NULL && strchr(tr.lpstrText, '/') == NULL) {
+
+						TEXTRANGEW tr;
+						tr.chrg = ((ENLINK*)lParam)->chrg;
+						tr.lpstrText = (TCHAR*)_alloca(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
+						SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+						if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) {
 							MoveMemory(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
 							CopyMemory(tr.lpstrText, _T("mailto:"), 7);
 						}
-						if (IsStringValidLinkA(tr.lpstrText)) {
-							if (((ENLINK *) lParam)->msg == WM_RBUTTONDOWN) {
+						if (IsStringValidLink(tr.lpstrText)) {
+							if (((ENLINK*) lParam)->msg == WM_RBUTTONDOWN) {
 								HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 								HMENU hSubMenu = GetSubMenu(hMenu, 1);
 								TranslateMenu(hSubMenu);
-								pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
-								pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
-								ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
+								pt.x = (short)LOWORD(((ENLINK*)lParam)->lParam);
+								pt.y = (short)HIWORD(((ENLINK*)lParam)->lParam);
+								ClientToScreen(((NMHDR*) lParam)->hwndFrom, &pt);
 								switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
 								case IDM_OPENNEW:
-									CallService(MS_UTILS_OPENURL, 1, (LPARAM)tr.lpstrText);
+									CallService(MS_UTILS_OPENURL, 1 + OUF_TCHAR, (LPARAM)tr.lpstrText);
 									break;
 								case IDM_OPENEXISTING:
-									CallService(MS_UTILS_OPENURL, 0, (LPARAM)tr.lpstrText);
+									CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)tr.lpstrText);
 									break;
-								case IDM_COPYLINK: {
+								case IDM_COPYLINK:
 									HGLOBAL hData;
 									if (!OpenClipboard(hwndDlg))
 										break;
 									EmptyClipboard();
-									hData = GlobalAlloc(GMEM_MOVEABLE, lstrlenA(tr.lpstrText) + 1);
-									lstrcpyA((char *)GlobalLock(hData), tr.lpstrText);
+									hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(tr.lpstrText)+1));
+									lstrcpy((TCHAR*)GlobalLock(hData), tr.lpstrText);
 									GlobalUnlock(hData);
 									SetClipboardData(CF_TEXT, hData);
 									CloseClipboard();
 									break;
-														 }
 								}
-								mir_free(tr.lpstrText);
 								DestroyMenu(hMenu);
 								SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
 								return TRUE;
-							} else {
-								CallService(MS_UTILS_OPENURL, 1, (LPARAM)tr.lpstrText);
-								SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 							}
+							
+							CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)tr.lpstrText);
+							SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 						}
-						mir_free(tr.lpstrText);
 						break;
 					}
 				}
@@ -3002,12 +2961,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (dat->sendMode & SMODE_CONTAINER && m_pContainer->hwndActive == hwndDlg && GetForegroundWindow() == hwndContainer) {
 					HWND contacthwnd;
-					TCITEM tci;
 					int tabCount = TabCtrl_GetItemCount(hwndTab), i;
 					char *szFromStream = NULL;
 
 					szFromStream = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_MESSAGE), dat, dat->SendFormat ? 0 : (CP_UTF8 << 16) | (SF_TEXT | SF_USECODEPAGE));
-					ZeroMemory((void*)&tci, sizeof(tci));
+
+					TCITEM tci = { 0 };
 					tci.mask = TCIF_PARAM;
 
 					for (i=0; i < tabCount; i++) {
@@ -3166,9 +3125,6 @@ quote_from_last:
 			break;
 
 		case IDC_MESSAGE:
-			if (PluginConfig.m_MathModAvail && HIWORD(wParam) == EN_CHANGE)
-				MTH_updateMathWindow(dat);
-
 			if (HIWORD(wParam) == EN_CHANGE) {
 				if (m_pContainer->hwndActive == hwndDlg)
 					UpdateReadChars(dat);

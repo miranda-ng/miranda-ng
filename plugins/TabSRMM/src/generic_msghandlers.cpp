@@ -135,7 +135,7 @@ void TSAPI DM_InitTip(TWindowData *dat)
 	dat->hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_NOPREFIX | TTS_BALLOON, CW_USEDEFAULT, CW_USEDEFAULT,
 								  CW_USEDEFAULT, CW_USEDEFAULT, dat->hwnd, NULL, g_hInst, (LPVOID) NULL);
 
-	ZeroMemory((void*)&dat->ti, sizeof(dat->ti));
+	ZeroMemory(&dat->ti, sizeof(dat->ti));
 	dat->ti.cbSize = sizeof(dat->ti);
 	dat->ti.lpszText = PluginConfig.m_szNoStatus;
 	dat->ti.hinst = g_hInst;
@@ -1775,7 +1775,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	HWND					hwndContainer = dat->pContainer->hwnd;
 	TContainerData*	m_pContainer = dat->pContainer;
 
-	ZeroMemory((void*)newcontactname,  sizeof(newcontactname));
+	ZeroMemory(newcontactname,  sizeof(newcontactname));
 	dat->szStatus[0] = 0;
 
 	pszNewTitleEnd = _T("Message Session");

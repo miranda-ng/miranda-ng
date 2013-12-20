@@ -213,9 +213,7 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 
 void TSAPI FlashTab(TWindowData *dat, HWND hwndTab, int iTabindex, BOOL *bState, BOOL mode, HICON origImage)
 {
-	TCITEM item;
-
-	ZeroMemory((void*)&item, sizeof(item));
+	TCITEM item = { 0 };
 	item.mask = TCIF_IMAGE;
 
 	if (mode)
@@ -2227,40 +2225,6 @@ HICON TSAPI MY_GetContactIcon(const TWindowData *dat)
 {
 	return(LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()));
 	//return(LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getStatus()));
-}
-
-static void TSAPI MTH_updatePreview(const TWindowData *dat)
-{
-	TMathWindowInfo mathWndInfo;
-	HWND hwndEdit = GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE);
-	int len = GetWindowTextLengthA(hwndEdit);
-	RECT windRect;
-	char * thestr = (char *)mir_alloc(len + 5);
-
-	GetWindowTextA(hwndEdit, thestr, len + 1);
-	GetWindowRect(dat->pContainer->hwnd, &windRect);
-	mathWndInfo.top = windRect.top;
-	mathWndInfo.left = windRect.left;
-	mathWndInfo.right = windRect.right;
-	mathWndInfo.bottom = windRect.bottom;
-
-	CallService(MTH_SETFORMULA, 0, (LPARAM)thestr);
-	CallService(MTH_RESIZE, 0, (LPARAM)&mathWndInfo);
-	mir_free(thestr);
-}
-
-void TSAPI MTH_updateMathWindow(const TWindowData *dat)
-{
-	WINDOWPLACEMENT cWinPlace;
-
-	if (!PluginConfig.m_MathModAvail)
-		return;
-
-	MTH_updatePreview(dat);
-	CallService(MTH_SHOW, 0, 0);
-	cWinPlace.length = sizeof(WINDOWPLACEMENT);
-	GetWindowPlacement(dat->pContainer->hwnd, &cWinPlace);
-	return;
 }
 
 /**

@@ -206,7 +206,7 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT* ptClient, UINT uMsg, WPARAM wPa
 	return bIsCustomLink;
 }
 
-static bool IsStringValidLink(TCHAR* pszText)
+bool IsStringValidLink(TCHAR* pszText)
 {
 	if (pszText == NULL)
 		return false;
@@ -311,11 +311,6 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 		dat->pContainer->MenuBar->configureMenu();
 		UpdateTrayMenuState(dat, FALSE);
 		DM_SetDBButtonStates(hwndDlg, dat);
-
-		if (g_Settings.bMathMod) {
-			CallService(MTH_Set_ToolboxEditHwnd, 0, (LPARAM)GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
-			MTH_updateMathWindow(dat);
-		}
 
 		if (dat->dwFlagsEx & MWF_EX_DELAYEDSPLITTER) {
 			dat->dwFlagsEx &= ~MWF_EX_DELAYEDSPLITTER;
@@ -735,23 +730,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			BOOL isShift, isAlt, isCtrl;
 			KbdState(mwdat, isShift, isCtrl, isAlt);
 
-			if (PluginConfig.g_bSoundOnTyping && !isAlt &&!isCtrl&&!(mwdat->pContainer->dwFlags&CNT_NOSOUND)&&wParam!=VK_ESCAPE&&!(wParam==VK_TAB&&PluginConfig.m_AllowTab))
+			if (PluginConfig.g_bSoundOnTyping && !isAlt &&!isCtrl&&!(mwdat->pContainer->dwFlags&CNT_NOSOUND) && wParam != VK_ESCAPE&&!(wParam == VK_TAB&&PluginConfig.m_AllowTab))
 				SkinPlaySound("SoundOnTyping");
-
-			if (wParam == 0x0d && isCtrl && PluginConfig.m_MathModAvail) {
-				TCHAR toInsert[100];
-				BYTE keyState[256];
-				size_t i;
-				size_t iLen = lstrlen(PluginConfig.m_MathModStartDelimiter);
-				ZeroMemory(keyState, 256);
-				_tcsncpy(toInsert, PluginConfig.m_MathModStartDelimiter, 30);
-				_tcsncat(toInsert, PluginConfig.m_MathModStartDelimiter, 30);
-				SendMessage(hwnd, EM_REPLACESEL, TRUE, (LPARAM)toInsert);
-				SetKeyboardState(keyState);
-				for (i=0; i < iLen; i++)
-					SendMessage(hwnd, WM_KEYDOWN, mwdat->dwFlags & MWF_LOG_RTL ? VK_RIGHT : VK_LEFT, 0);
-				return 0;
-			}
 
 			if (isCtrl && !isAlt && !isShift) {
 				MODULEINFO *mi = MM_FindModule(Parentsi->pszModule);
@@ -2886,7 +2866,7 @@ LABEL_SHOWWINDOW:
 									tr2.chrg.cpMax = chr.cpMax + 1;
 									/* if there is no space after selection,
 									or there is nothing after selection at all... */
-									if (! SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE,	EM_GETTEXTRANGE, 0, (LPARAM)&tr2) || ! _istspace(*tr2.lpstrText)) {
+									if (!SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETTEXTRANGE, 0, (LPARAM)&tr2) || !_istspace(*tr2.lpstrText)) {
 										tszAppeal[st++] = _T(' ');
 										tszAppeal[st++] = _T('\0');
 									}
@@ -3044,9 +3024,6 @@ LABEL_SHOWWINDOW:
 			break;
 
 		case IDC_CHAT_MESSAGE:
-			if (g_Settings.bMathMod)
-				MTH_updateMathWindow(dat);
-
 			if (HIWORD(wParam) == EN_CHANGE) {
 				if (dat->pContainer->hwndActive == hwndDlg)
 					UpdateReadChars(dat);

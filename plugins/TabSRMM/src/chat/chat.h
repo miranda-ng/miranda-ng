@@ -274,7 +274,7 @@ struct TMUCSettings
 
 	bool        bLogClassicIndicators, bAlternativeSorting, bAnnoyingHighlight, bCreateWindowOnHighlight;
 	bool        bLogSymbols, bClassicIndicators, bClickableNicks, bColorizeNicks, bColorizeNicksInLog;
-	bool        bScaleIcons, bUseDividers, bDividersUsePopupConfig, bMathMod;
+	bool        bScaleIcons, bUseDividers, bDividersUsePopupConfig;
 
 	HANDLE      hGroup;
 	CMUCHighlight* Highlight;

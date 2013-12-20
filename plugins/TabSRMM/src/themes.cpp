@@ -706,7 +706,7 @@ void __fastcall CImageItem::Render(const HDC hdc, const RECT *rc, bool fIgnoreGl
 					GdiAlphaBlend(hdc, rc->left, top, width, rc->bottom - top, hdcSrc, srcOrigX, srcOrigY, m_width, rc->bottom - top, m_bf);
 					break;
 				}
-			} while (TRUE);
+			} while (true);
 			break;
 		}
 	case IMAGE_STRETCH_V:
@@ -722,7 +722,7 @@ void __fastcall CImageItem::Render(const HDC hdc, const RECT *rc, bool fIgnoreGl
 					GdiAlphaBlend(hdc, left, rc->top, rc->right - left, height, hdcSrc, srcOrigX, srcOrigY, rc->right - left, m_height, m_bf);
 					break;
 				}
-			} while (TRUE);
+			} while (true);
 			break;
 		}
 	case IMAGE_STRETCH_B:

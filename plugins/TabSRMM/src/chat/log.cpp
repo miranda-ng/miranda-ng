@@ -954,20 +954,16 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 
 void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedraw, bool bPhaseTwo)
 {
-	EDITSTREAM stream;
-	LOGSTREAMDATA streamData;
 	CHARRANGE oldsel, sel, newsel;
 	POINT point = {0};
-	SCROLLINFO scroll;
-	WPARAM wp;
-	HWND hwndRich;
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (hwndDlg == 0 || lin == 0 || si == 0 || dat == 0)
 		return;
 
-	hwndRich = GetDlgItem(hwndDlg, IDC_CHAT_LOG);
-	ZeroMemory(&streamData, sizeof(LOGSTREAMDATA));
+	HWND hwndRich = GetDlgItem(hwndDlg, IDC_CHAT_LOG);
+
+	LOGSTREAMDATA streamData = { 0 };
 	streamData.hwnd = hwndRich;
 	streamData.si = si;
 	streamData.lin = lin;
@@ -979,9 +975,11 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 	if (bRedraw || si->iType != GCW_CHATROOM || !si->bFilterEnabled || (si->iLogFilterFlags&lin->iType) != 0) {
 		bool bFlag = false, fDoReplace;
 
-		ZeroMemory(&stream, sizeof(stream));
+		EDITSTREAM stream = { 0 };
 		stream.pfnCallback = Log_StreamCallback;
 		stream.dwCookie = (DWORD_PTR) & streamData;
+
+		SCROLLINFO scroll = { 0 };
 		scroll.cbSize = sizeof(SCROLLINFO);
 		scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
 		GetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &scroll);
@@ -1001,7 +999,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 			bRedraw = TRUE;
 
 		// should the event(s) be appended to the current log
-		wp = bRedraw ? SF_RTF : SFF_SELECTION | SF_RTF;
+		WPARAM wp = bRedraw ? SF_RTF : SFF_SELECTION | SF_RTF;
 
 		//get the number of pixels per logical inch
 		if (bRedraw) {
@@ -1023,54 +1021,27 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 
 		//SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&newsel);
 		/*
-		* for new added events, only replace in message or action events.
-		* no need to replace smileys or math formulas elsewhere
-		*/
-
+		 * for new added events, only replace in message or action events.
+		 * no need to replace smileys or math formulas elsewhere
+		 */
 		fDoReplace = (bRedraw || (lin->ptszText
 								  && (lin->iType == GC_EVENT_MESSAGE || lin->iType == GC_EVENT_ACTION)));
-
-
-		/*
-		 * use mathmod to replace formulas
-		 */
-		if (g_Settings.bMathMod && fDoReplace) {
-			TMathRicheditInfo mathReplaceInfo;
-			CHARRANGE mathNewSel;
-			mathNewSel.cpMin = sel.cpMin;
-
-			if (mathNewSel.cpMin < 0)
-				mathNewSel.cpMin = 0;
-
-			mathNewSel.cpMax = -1;
-
-			mathReplaceInfo.hwndRichEditControl = hwndRich;
-
-			if (!bRedraw)
-				mathReplaceInfo.sel = &mathNewSel;
-			else
-				mathReplaceInfo.sel = 0;
-
-			mathReplaceInfo.disableredraw = TRUE;
-			CallService(MATH_RTF_REPLACE_FORMULAE, 0, (LPARAM)&mathReplaceInfo);
-			bFlag = TRUE;
-		}
 
 		/*
 		 * replace marked nicknames with hyperlinks to make the nicks
 		 * clickable
 		 */
-
 		if (g_Settings.bClickableNicks) {
-			CHARFORMAT2 cf2;
 			FINDTEXTEX fi, fi2;
 
+			CHARFORMAT2 cf2;
 			ZeroMemory(&cf2, sizeof(CHARFORMAT2));
+			cf2.cbSize = sizeof(cf2);
+
 			fi2.lpstrText = _T("#++~~");
 			fi.chrg.cpMin = bRedraw ? 0 : sel.cpMin;
 			fi.chrg.cpMax = -1;
 			fi.lpstrText = _T("~~++#");
-			cf2.cbSize = sizeof(cf2);
 
 			while (SendMessage(hwndRich, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
 				fi2.chrg.cpMin = fi.chrgText.cpMin;
@@ -1097,10 +1068,9 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 			SendMessage(hwndRich, EM_SETSEL, -1, -1);
 		}
 
-
 		/*
-		* run smileyadd
-		*/
+		 * run smileyadd
+		 */
 		if (PluginConfig.g_SmileyAddAvail && fDoReplace) {
 			newsel.cpMax = -1;
 			newsel.cpMin = sel.cpMin;
@@ -1117,11 +1087,9 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 		}
 
 		/*
-		* trim the message log to the number of most recent events
-		* this uses hidden marks in the rich text to find the events which should be deleted
-		*/
-
-
+		 * trim the message log to the number of most recent events
+		 * this uses hidden marks in the rich text to find the events which should be deleted
+		 */
 		if (si->wasTrimmed) {
 			TCHAR szPattern[50];
 			FINDTEXTEX fi;

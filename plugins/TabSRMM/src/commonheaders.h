@@ -96,7 +96,6 @@
 #include <m_folders.h>
 #include <m_msg_buttonsbar.h>
 #include <m_flash.h>
-#include <m_mathmodule.h>
 #include <m_smileyadd.h>
 
 #define TSAPI __stdcall
@@ -278,7 +277,6 @@ extern INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM w
 extern HIMAGELIST CreateStateImageList();
 extern INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam);
 extern INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam);
-extern void ReleaseRichEditOle(IRichEditOle *ole);
 extern void ImageDataInsertBitmap(IRichEditOle *ole, HBITMAP hBm);
 extern int CacheIconToBMP(TLogIcon *theIcon, HICON hIcon, COLORREF backgroundColor, int sizeX, int sizeY);
 extern void DeleteCachedIcon(TLogIcon *theIcon);

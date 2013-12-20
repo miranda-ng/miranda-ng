@@ -425,7 +425,7 @@ int SplitmsgShutdown(void)
 	DestroyCursor(PluginConfig.hCurSplitNS);
 	DestroyCursor(PluginConfig.hCurHyperlinkHand);
 	DestroyCursor(PluginConfig.hCurSplitWE);
-	FreeLibrary(GetModuleHandleA("riched20"));
+	FreeLibrary(GetModuleHandleA("Msftedit.dll"));
 	if (g_hIconDLL) {
 		FreeLibrary(g_hIconDLL);
 		g_hIconDLL = NULL;
@@ -563,14 +563,14 @@ int LoadSendRecvMessageModule(void)
 	icex.dwICC  = ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_LISTVIEW_CLASSES;
 	InitCommonControlsEx(&icex);
 
-	Utils::loadSystemLibrary(L"\\riched20.dll");
+	Utils::loadSystemLibrary(L"\\Msftedit.dll");
 
 	OleInitialize(NULL);
 	mREOLECallback = new REOLECallback;
 	Win7Taskbar = new CTaskbarInteract;
 	Win7Taskbar->updateMetrics();
 
-	ZeroMemory((void*)&nen_options, sizeof(nen_options));
+	ZeroMemory(&nen_options, sizeof(nen_options));
 	M.m_hMessageWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	PluginConfig.hUserPrefsWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	sendQueue = new SendQueue;
@@ -691,7 +691,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 	newData.szInitialText = pszInitialText;
 	char *szProto = GetContactProto(newData.hContact);
 
-	ZeroMemory((void*)&newData.item, sizeof(newData.item));
+	ZeroMemory(&newData.item, sizeof(newData.item));
 
 	// obtain various status information about the contact
 	TCHAR *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);

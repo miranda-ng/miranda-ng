@@ -114,8 +114,6 @@ void CGlobals::reloadSystemStartup()
  */
 void CGlobals::reloadSystemModulesChanged()
 {
-	m_MathModAvail = ServiceExists(MATH_RTF_REPLACE_FORMULAE);
-
 	/*
 	 * smiley add
 	 */
@@ -127,7 +125,6 @@ void CGlobals::reloadSystemModulesChanged()
 	/*
 	 * Flashavatars
 	 */
-
 	g_FlashAvatarAvail = (ServiceExists(MS_FAVATAR_GETINFO) ? 1 : 0);
 
 	/*
@@ -146,15 +143,6 @@ void CGlobals::reloadSystemModulesChanged()
 
 	g_iButtonsBarGap = M.GetByte("ButtonsBarGap", 1);
 	m_hwndClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
-	m_MathModAvail = (ServiceExists(MATH_RTF_REPLACE_FORMULAE) ? 1 : 0);
-	if (m_MathModAvail) {
-		char *szDelim = (char *)CallService(MATH_GET_STARTDELIMITER, 0, 0);
-		if (szDelim) {
-			MultiByteToWideChar(CP_ACP, 0, szDelim, -1, PluginConfig.m_MathModStartDelimiter, SIZEOF(PluginConfig.m_MathModStartDelimiter));
-			CallService(MTH_FREE_MATH_BUFFER, 0, (LPARAM)szDelim);
-		}
-	}
-	else PluginConfig.m_MathModStartDelimiter[0] = 0;
 
 	g_MetaContactsAvail = (ServiceExists(MS_MC_GETDEFAULTCONTACT) ? 1 : 0);
 

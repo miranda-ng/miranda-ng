@@ -1257,7 +1257,6 @@ void LoadGlobalSettings(void)
 	g_Settings.bScaleIcons = M.GetBool("Chat", "ScaleIcons", true);
 	g_Settings.bUseDividers = M.GetBool("Chat", "UseDividers", true);
 	g_Settings.bDividersUsePopupConfig = M.GetBool("Chat", "DividersUsePopupConfig", true);
-	g_Settings.bMathMod = ServiceExists(MATH_RTF_REPLACE_FORMULAE) && M.GetBool("Chat", "MathModSupport", false);
 
 	g_Settings.bDoubleClick4Privat = M.GetBool("Chat", "DoubleClick4Privat", false);
 	g_Settings.bShowContactStatus = M.GetBool("Chat", "ShowContactStatus", true);

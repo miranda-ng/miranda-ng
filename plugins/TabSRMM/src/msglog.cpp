@@ -134,7 +134,7 @@ void TSAPI CacheLogFonts()
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	ReleaseDC(NULL, hdc);
 
-	ZeroMemory((void*)logfonts, sizeof(LOGFONTA) * MSGDLGFONTCOUNT + 2);
+	ZeroMemory(logfonts, sizeof(LOGFONTA) * MSGDLGFONTCOUNT + 2);
 	for (i=0; i < MSGDLGFONTCOUNT; i++) {
 		LoadLogfont(i, &logfonts[i], &fontcolors[i], FONTMODULE);
 		mir_snprintf(rtfFontsGlobal[i], SIZEOF(rtfFontsGlobal[i]), "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, logfonts[i].lfWeight >= FW_BOLD ? 1 : 0, logfonts[i].lfItalic,logfonts[i].lfUnderline, 2 * abs(logfonts[i].lfHeight) * 74 / logPixelSY);
@@ -1403,40 +1403,40 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 
 static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppend, BOOL isSent)
 {
-	FINDTEXTEXA fi;
-	CHARFORMAT2 cf2;
-	HWND hwndrtf;
-	IRichEditOle *ole;
-	TEXTRANGEA tr;
 	COLORREF crDefault;
 	TLogIcon theIcon;
-	char trbuffer[40];
 	DWORD dwScale = M.GetDword("iconscale", 0);
+
+	TCHAR trbuffer[40];
+	TEXTRANGE tr;
 	tr.lpstrText = trbuffer;
 
-	hwndrtf = GetDlgItem(hwndDlg, IDC_LOG);
+	HWND hwndrtf = GetDlgItem(hwndDlg, IDC_LOG);
+
+	FINDTEXTEX fi;
 	fi.chrg.cpMin = startAt;
 	if (dat->clr_added) {
 		unsigned int length;
 		int index;
 		CHARRANGE cr;
-		fi.lpstrText = "##col##";
+		fi.lpstrText = _T("##col##");
 		fi.chrg.cpMax = -1;
-		ZeroMemory((void*)&cf2, sizeof(cf2));
+		CHARFORMAT2 cf2;
+		ZeroMemory(&cf2, sizeof(cf2));
 		cf2.cbSize = sizeof(cf2);
 		cf2.dwMask = CFM_COLOR;
-		while (SendMessageA(hwndrtf, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
+		while (SendMessage(hwndrtf, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
 			tr.chrg.cpMin = fi.chrgText.cpMin;
 			tr.chrg.cpMax = tr.chrg.cpMin + 18;
 			trbuffer[0] = 0;
-			SendMessageA(hwndrtf, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+			SendMessage(hwndrtf, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 			trbuffer[18] = 0;
 			cr.cpMin = fi.chrgText.cpMin;
 			cr.cpMax = cr.cpMin + 18;
 			SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&cr);
-			SendMessageA(hwndrtf, EM_REPLACESEL, FALSE, (LPARAM)"");
-			length = (unsigned int)atol(&trbuffer[7]);
-			index = atol(&trbuffer[14]);
+			SendMessage(hwndrtf, EM_REPLACESEL, FALSE, (LPARAM)_T(""));
+			length = (unsigned int)_ttol(&trbuffer[7]);
+			index = _ttol(&trbuffer[14]);
 			if (length > 0 && length < 20000 && index >= RTF_CTABLE_DEFSIZE && index < Utils::rtf_ctable_size) {
 				cf2.crTextColor = Utils::rtf_ctable[index].clr;
 				cr.cpMin = fi.chrgText.cpMin;
@@ -1450,22 +1450,25 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 	if (dat->dwFlags & MWF_LOG_SHOWICONS) {
 		BYTE bIconIndex = 0;
 		char bDirection = 0;
-		CHARRANGE cr;
-		fi.lpstrText = "#~#";
+		fi.lpstrText = _T("#~#");
 		fi.chrg.cpMax = -1;
-		ZeroMemory((void*)&cf2, sizeof(cf2));
+
+		CHARFORMAT2 cf2;
+		ZeroMemory(&cf2, sizeof(cf2));
 		cf2.cbSize = sizeof(cf2);
 		cf2.dwMask = CFM_BACKCOLOR;
 
+		IRichEditOle *ole;
 		SendMessage(hwndrtf, EM_GETOLEINTERFACE, 0, (LPARAM)&ole);
 		while (SendMessageA(hwndrtf, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
+			CHARRANGE cr;
 			cr.cpMin = fi.chrgText.cpMin;
 			cr.cpMax = fi.chrgText.cpMax + 2;
 			SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&cr);
 
 			tr.chrg.cpMin = fi.chrgText.cpMin + 3;
 			tr.chrg.cpMax = fi.chrgText.cpMin + 5;
-			SendMessageA(hwndrtf, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+			SendMessage(hwndrtf, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 			bIconIndex = ((BYTE)trbuffer[0] - (BYTE)'0');
 			if (bIconIndex >= NR_LOGICONS) {
 				fi.chrg.cpMin = fi.chrgText.cpMax + 6;
@@ -1480,7 +1483,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 			DeleteCachedIcon(&theIcon);
 			fi.chrg.cpMin = cr.cpMax + 6;
 		}
-		ReleaseRichEditOle(ole);
+		ole->Release();
 	}
 	/*
 	 * do smiley replacing, using the service
@@ -1508,18 +1511,6 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 		smadd.disableRedraw = TRUE;
 		if (dat->doSmileys)
 			CallService(MS_SMILEYADD_REPLACESMILEYS, TABSRMM_SMILEYADD_BKGCOLORMODE, (LPARAM)&smadd);
-	}
-
-	if (PluginConfig.m_MathModAvail) {
-		TMathRicheditInfo mathReplaceInfo;
-		CHARRANGE mathNewSel;
-		mathNewSel.cpMin = startAt;
-		mathNewSel.cpMax = -1;
-		mathReplaceInfo.hwndRichEditControl = GetDlgItem(hwndDlg, IDC_LOG);
-		if (startAt > 0) mathReplaceInfo.sel = & mathNewSel;
-		else mathReplaceInfo.sel = 0;
-		mathReplaceInfo.disableredraw = TRUE;
-		CallService(MATH_RTF_REPLACE_FORMULAE, 0, (LPARAM)&mathReplaceInfo);
 	}
 
 	if (dat->hHistoryEvents && dat->curHistory == dat->maxHistory) {

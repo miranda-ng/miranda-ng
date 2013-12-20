@@ -841,17 +841,6 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (pContainer->hwndStatus)
 				InvalidateRect(pContainer->hwndStatus, NULL, FALSE);
 
-			if (PluginConfig.m_MathModAvail) {
-				TMathWindowInfo mathWndInfo;
-
-				RECT windRect;
-				GetWindowRect(hwndDlg, &windRect);
-				mathWndInfo.top = windRect.top;
-				mathWndInfo.left = windRect.left;
-				mathWndInfo.right = windRect.right;
-				mathWndInfo.bottom = windRect.bottom;
-				CallService(MTH_RESIZE, 0, (LPARAM)&mathWndInfo);
-			}
 			if ((CSkin::m_bClipBorder != 0 || CSkin::m_bRoundedCorner) && CSkin::m_frameSkins) {
 				HRGN rgn;
 				RECT rcWindow;
@@ -931,7 +920,7 @@ panel_found:
 
 		switch (((LPNMHDR)lParam)->code) {
 		case TCN_SELCHANGE:
-			ZeroMemory((void*)&item, sizeof(item));
+			ZeroMemory(&item, sizeof(item));
 			iItem = TabCtrl_GetCurSel(hwndTab);
 			item.mask = TCIF_PARAM;
 			if (TabCtrl_GetItem(hwndTab, iItem, &item)) {
@@ -1028,7 +1017,7 @@ panel_found:
 				case ID_TABMENU_ATTACHTOCONTAINER:
 					if ((iItem = GetTabItemFromMouse(hwndTab, &pt1)) == -1)
 						break;
-					ZeroMemory((void*)&item, sizeof(item));
+					ZeroMemory(&item, sizeof(item));
 					item.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwndTab, iItem, &item);
 					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SELECTCONTAINER), hwndDlg, SelectContainerDlgProc, (LPARAM)item.lParam);
@@ -1209,31 +1198,9 @@ panel_found:
 				*/
 				if (mmi->ptMinTrackSize.y < 50 || mmi->ptMinTrackSize.y > rcDesktop.bottom)
 					mmi->ptMinTrackSize.y = 130;
-
-				if (PluginConfig.m_MathModAvail) {
-					if (CallService(MTH_GET_PREVIEW_SHOWN, 0, 0)) {
-						RECT rc;
-						HWND hwndMath = FindWindowA("TfrmPreview", "Preview");
-						GetWindowRect(hwndMath, &rc);
-						mmi->ptMaxSize.y -= (rc.bottom - rc.top);
-					}
-				}
 			}
 		}
 		return 0;
-
-	case WM_MOVE:
-		if (PluginConfig.m_MathModAvail) {
-			TMathWindowInfo mathWndInfo;
-			RECT windRect;
-			GetWindowRect(hwndDlg, &windRect);
-			mathWndInfo.top = windRect.top;
-			mathWndInfo.left = windRect.left;
-			mathWndInfo.right = windRect.right;
-			mathWndInfo.bottom = windRect.bottom;
-			CallService(MTH_RESIZE, 0, (LPARAM)&mathWndInfo);
-		}
-		break;
 
 	case DM_UPDATETITLE:
 		{
@@ -1374,7 +1341,7 @@ panel_found:
 
 			if (iNewTab != iCurrent) {
 				TabControlData *tabdat = (TabControlData *)GetWindowLongPtr(hwndTab, GWLP_USERDATA);
-				ZeroMemory((void*)&item, sizeof(item));
+				ZeroMemory(&item, sizeof(item));
 				item.mask = TCIF_PARAM;
 				if (TabCtrl_GetItem(hwndTab, iNewTab, &item)) {
 					TabCtrl_SetCurSel(hwndTab, iNewTab);
@@ -1412,11 +1379,8 @@ panel_found:
 		if (pContainer == NULL)
 			break;
 
-		if (LOWORD(wParam == WA_INACTIVE)) {
+		if (LOWORD(wParam == WA_INACTIVE))
 			BroadCastContainer(pContainer, DM_CHECKINFOTIP, wParam, lParam);
-			if (PluginConfig.m_MathModAvail)
-				CallService(MTH_HIDE, 0, 0);
-		}
 
 		if (LOWORD(wParam == WA_INACTIVE) && (HWND)lParam != PluginConfig.g_hwndHotkeyHandler && GetParent((HWND)lParam) != hwndDlg) {
 			BOOL fTransAllowed = !bSkinned || PluginConfig.m_bIsVista;
@@ -1442,14 +1406,10 @@ panel_found:
 			pContainer->dwFlashingStarted = 0;
 			pLastActiveContainer = pContainer;
 			if (pContainer->dwFlags & CNT_DEFERREDTABSELECT) {
-				NMHDR nmhdr;
-
 				pContainer->dwFlags &= ~CNT_DEFERREDTABSELECT;
 				SendMessage(hwndDlg, WM_SYSCOMMAND, SC_RESTORE, 0);
-				ZeroMemory((void*)&nmhdr, sizeof(nmhdr));
-				nmhdr.code = TCN_SELCHANGE;
-				nmhdr.hwndFrom = hwndTab;
-				nmhdr.idFrom = IDC_MSGTABS;
+
+				NMHDR nmhdr = { hwndTab, IDC_MSGTABS, TCN_SELCHANGE };
 				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&nmhdr);     // do it via a WM_NOTIFY / TCN_SELCHANGE to simulate user-activation
 			}
 			if (pContainer->dwFlags & CNT_DEFERREDSIZEREQUEST) {
@@ -1470,7 +1430,7 @@ panel_found:
 						SendMessage(hwndDlg, DM_UPDATETITLE, (WPARAM)hContact, 0);
 				}
 			}
-			ZeroMemory((void*)&item, sizeof(item));
+			ZeroMemory(&item, sizeof(item));
 			item.mask = TCIF_PARAM;
 			if ((curItem = TabCtrl_GetCurSel(hwndTab)) >= 0)
 				TabCtrl_GetItem(hwndTab, curItem, &item);
@@ -1883,7 +1843,7 @@ panel_found:
 			fa.cProto = dat ? dat->szProto : NULL;
 			CallService(MS_FAVATAR_DESTROY, (WPARAM)&fa, 0);
 		}
-		ZeroMemory((void*)&item, sizeof(item));
+		ZeroMemory(&item, sizeof(item));
 		pContainer->hwnd = 0;
 		pContainer->hwndActive = 0;
 		pContainer->hMenuContext = 0;
@@ -1902,8 +1862,6 @@ panel_found:
 		if (pContainer->hwndTip)
 			DestroyWindow(pContainer->hwndTip);
 		RemoveContainerFromList(pContainer);
-		if (PluginConfig.m_MathModAvail)
-			CallService(MTH_HIDE, 0, 0);
 		SM_RemoveContainer(pContainer);
 		if (pContainer->cachedDC) {
 			SelectObject(pContainer->cachedDC, pContainer->oldHBM);
@@ -1934,7 +1892,6 @@ panel_found:
 			pContainer->fHidden = true;
 		}
 		else {
-			WINDOWPLACEMENT wp;
 			char szCName[40];
 			char *szSetting = "CNTW_";
 
@@ -1970,7 +1927,7 @@ panel_found:
 				}
 			}
 
-			ZeroMemory((void*)&wp, sizeof(wp));
+			WINDOWPLACEMENT wp = { 0 };
 			wp.length = sizeof(wp);
 			/*
 			* save geometry information to the database...
@@ -2070,7 +2027,7 @@ int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
 
 	iItems = TabCtrl_GetItemCount(hwndTab);
 
-	ZeroMemory((void*)&item, sizeof(item));
+	ZeroMemory(&item, sizeof(item));
 	item.mask = TCIF_PARAM;
 
 	for (i=0; i < iItems; i++) {
@@ -2104,7 +2061,7 @@ HWND TSAPI GetHWNDFromTabIndex(HWND hwndTab, int idx)
 
 	iItems = TabCtrl_GetItemCount(hwndTab);
 
-	ZeroMemory((void*)&item, sizeof(item));
+	ZeroMemory(&item, sizeof(item));
 	item.mask = TCIF_PARAM;
 
 	for (i=0; i < iItems; i++)
@@ -2465,7 +2422,7 @@ HMENU TSAPI BuildContainerMenu()
 		db_free(&dbv);
 		i++;
 	}
-	while (TRUE);
+	while (true);
 
 	InsertMenu(PluginConfig.g_hMenuContext, ID_TABMENU_ATTACHTOCONTAINER, MF_BYCOMMAND | MF_POPUP, (UINT_PTR) hMenu, TranslateT("Attach to"));
 	PluginConfig.g_hMenuContainer = hMenu;

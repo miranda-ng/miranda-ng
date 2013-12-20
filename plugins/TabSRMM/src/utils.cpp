@@ -107,31 +107,30 @@ TCHAR* Utils::FilterEventMarkers(TCHAR *wszText)
 	tstring text(wszText);
 	INT_PTR beginmark = 0, endmark = 0;
 
-	while (TRUE) {
+	while (true) {
 		if ((beginmark = text.find(_T("~-+"))) != text.npos) {
 			endmark = text.find(_T("+-~"), beginmark);
 			if (endmark != text.npos && (endmark - beginmark) > 5) {
 				text.erase(beginmark, (endmark - beginmark) + 3);
 				continue;
-			} else
-				break;
-		} else
+			}
 			break;
+		}
+		break;
 	}
 	//mad
 
-	while (TRUE) {
+	while (true) {
 		if ((beginmark = text.find( _T("\xAA"))) != text.npos) {
 			endmark = beginmark+2;
 			if (endmark != text.npos && (endmark - beginmark) > 1) {
 				text.erase(beginmark, endmark - beginmark);
 				continue;
-			} else
-				break;
-		} else
+			}
 			break;
+		}
+		break;
 	}
-	//
 
 	lstrcpy(wszText, text.c_str());
 	return wszText;
@@ -151,32 +150,17 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 	TCHAR 	endmarker;
 	DWORD	dwFlags = dat->dwFlags;
 	message.assign(msg);
-	int		haveMathMod = PluginConfig.m_MathModAvail;
-	TCHAR*	mathModDelimiter = PluginConfig.m_MathModStartDelimiter;
-
-
-	if (haveMathMod && mathModDelimiter[0] && message.find(mathModDelimiter) != message.npos)
-		return(message.c_str());
 
 	if (dwFlags & MWF_LOG_BBCODE) {
-		if (haveMathMod && mathModDelimiter[0]) {
-			INT_PTR mark = 0;
-			int      nrDelims = 0;
-			while ((mark = message.find(mathModDelimiter, mark)) != message.npos) {
-				nrDelims++;
-				mark += lstrlen(mathModDelimiter);
-			}
-			if (nrDelims > 0 && (nrDelims % 2) != 0)
-				message.append(mathModDelimiter);
-		}
 		beginmark = 0;
-		while (TRUE) {
+		while (true) {
 			for (i=0; i < NR_CODES; i++) {
 				if ((tempmark = message.find(w_bbcodes_begin[i], 0)) != message.npos)
 					break;
 			}
 			if (i >= NR_CODES)
 				break;
+
 			beginmark = tempmark;
 			endindex = i;
 			endmark = message.find(w_bbcodes_end[i], beginmark);
@@ -187,58 +171,59 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 				if (closing == message.npos) {                      // must be an invalid [color=] tag w/o closing bracket
 					message[beginmark] = ' ';
 					continue;
-				} else {
-					tstring colorname = message.substr(beginmark + 7, 8);
-search_again:
-					bool  clr_found = false;
-					int ii = 0;
-					TCHAR szTemp[5];
-					for (ii = 0; ii < rtf_ctable_size; ii++) {
-						if (!_tcsnicmp((TCHAR*)colorname.c_str(), rtf_ctable[ii].szName, lstrlen(rtf_ctable[ii].szName))) {
-							closing = beginmark + 7 + lstrlen(rtf_ctable[ii].szName);
-							if (endmark != message.npos) {
-								message.erase(endmark, 4);
-								message.replace(endmark, 4, _T("c0 "));
-							}
-							message.erase(beginmark, (closing - beginmark));
-							message.insert(beginmark, _T("cxxx "));
-							mir_sntprintf(szTemp, 4, _T("%02d"), MSGDLGFONTCOUNT + 13 + ii);
-							message[beginmark + 3] = szTemp[0];
-							message[beginmark + 4] = szTemp[1];
-							clr_found = true;
-							if (was_added) {
-								TCHAR wszTemp[100];
-								mir_sntprintf(wszTemp, 100, _T("##col##%06u:%04u"), endmark - closing, ii);
-								wszTemp[99] = 0;
-								message.insert(beginmark, wszTemp);
-							}
-							break;
-						}
-					}
-					if (!clr_found) {
-						size_t  c_closing = colorname.find_first_of(_T("]"), 0);
-						if (c_closing == colorname.npos)
-							c_closing = colorname.length();
-						const TCHAR *wszColname = colorname.c_str();
-						if (endmark != message.npos && c_closing > 2 && c_closing <= 6 && iswalnum(colorname[0]) && iswalnum(colorname[c_closing -1])) {
-							RTF_ColorAdd(wszColname, c_closing);
-							if (!was_added) {
-								clr_was_added = was_added = true;
-								goto search_again;
-							} else
-								goto invalid_code;
-						} else {
-invalid_code:
-							if (endmark != message.npos)
-								message.erase(endmark, 8);
-							if (closing != message.npos && closing < (size_t)endmark)
-								message.erase(beginmark, (closing - beginmark) + 1);
-							else
-								message[beginmark] = ' ';
-						}
-					}
-					continue;
 				}
+				
+				tstring colorname = message.substr(beginmark + 7, 8);
+search_again:
+				bool  clr_found = false;
+				for (int ii = 0; ii < rtf_ctable_size; ii++) {
+					if (!_tcsnicmp((TCHAR*)colorname.c_str(), rtf_ctable[ii].szName, lstrlen(rtf_ctable[ii].szName))) {
+						closing = beginmark + 7 + lstrlen(rtf_ctable[ii].szName);
+						if (endmark != message.npos) {
+							message.erase(endmark, 4);
+							message.replace(endmark, 4, _T("c0 "));
+						}
+						message.erase(beginmark, (closing - beginmark));
+
+						TCHAR szTemp[5];
+						message.insert(beginmark, _T("cxxx "));
+						mir_sntprintf(szTemp, 4, _T("%02d"), MSGDLGFONTCOUNT + 13 + ii);
+						message[beginmark + 3] = szTemp[0];
+						message[beginmark + 4] = szTemp[1];
+						clr_found = true;
+						if (was_added) {
+							TCHAR wszTemp[100];
+							mir_sntprintf(wszTemp, 100, _T("##col##%06u:%04u"), endmark - closing, ii);
+							wszTemp[99] = 0;
+							message.insert(beginmark, wszTemp);
+						}
+						break;
+					}
+				}
+				if (!clr_found) {
+					size_t  c_closing = colorname.find_first_of(_T("]"), 0);
+					if (c_closing == colorname.npos)
+						c_closing = colorname.length();
+					const TCHAR *wszColname = colorname.c_str();
+					if (endmark != message.npos && c_closing > 2 && c_closing <= 6 && iswalnum(colorname[0]) && iswalnum(colorname[c_closing -1])) {
+						RTF_ColorAdd(wszColname, c_closing);
+						if (!was_added) {
+							clr_was_added = was_added = true;
+							goto search_again;
+						}
+						else goto invalid_code;
+					}
+					else {
+invalid_code:
+						if (endmark != message.npos)
+							message.erase(endmark, 8);
+						if (closing != message.npos && closing < (size_t)endmark)
+							message.erase(beginmark, (closing - beginmark) + 1);
+						else
+							message[beginmark] = ' ';
+					}
+				}
+				continue;
 			}
 			if (endmark != message.npos)
 				message.replace(endmark, 4, formatting_strings_end[i]);
@@ -268,7 +253,8 @@ invalid_code:
 				tempmark = endmark + 1;
 			}
 			break;
-		} else {
+		}
+		else {
 			if ((endmark = message.find(endmarker, beginmark + 1)) == message.npos)
 				break;
 		}
@@ -279,15 +265,15 @@ ok:
 		}
 		index = 0;
 		switch (endmarker) {
-			case '*':
-				index = 0;
-				break;
-			case '/':
-				index = 1;
-				break;
-			case '_':
-				index = 2;
-				break;
+		case '*':
+			index = 0;
+			break;
+		case '/':
+			index = 1;
+			break;
+		case '_':
+			index = 2;
+			break;
 		}
 
 		/*
@@ -356,7 +342,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			title.erase(tempmark, 2);
 			curpos = tempmark + lstrlen(tszNick);
 			break;
-					 }
+		}
 		case 'p':
 		case 'a': {
 			const	TCHAR *szAcc = dat->cache->getRealAccount();
@@ -365,14 +351,14 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			title.erase(tempmark, 2);
 			curpos = tempmark + lstrlen(szAcc);
 			break;
-					 }
+		}
 		case 's': {
 			if (dat->szStatus && dat->szStatus[0])
 				title.insert(tempmark + 2, dat->szStatus);
 			title.erase(tempmark, 2);
 			curpos = tempmark + lstrlen(dat->szStatus);
 			break;
-					 }
+		}
 		case 'u': {
 			const TCHAR	*szUIN = dat->cache->getUIN();
 			if (szUIN[0])
@@ -380,14 +366,14 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			title.erase(tempmark, 2);
 			curpos = tempmark + lstrlen(szUIN);
 			break;
-					 }
+		}
 		case 'c': {
 			TCHAR	*c = (!_tcscmp(dat->pContainer->szName, _T("default")) ? TranslateT("Default container") : dat->pContainer->szName);
 			title.insert(tempmark + 2, c);
 			title.erase(tempmark, 2);
 			curpos = tempmark + lstrlen(c);
 			break;
-					 }
+		}
 		case 'o': {
 			const TCHAR* szProto = dat->cache->getActiveProtoT();
 			if (szProto)
@@ -395,7 +381,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			title.erase(tempmark, 2);
 			curpos = tempmark + (szProto ? lstrlen(szProto) : 0);
 			break;
-					 }
+		}
 		case 'x': {
 			TCHAR *szFinalStatus = NULL;
 			BYTE  xStatus = dat->cache->getXStatusId();
@@ -417,7 +403,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			}
 			title.erase(tempmark, 2);
 			break;
-					 }
+		}
 		case 'm': {
 			TCHAR *szFinalStatus = NULL;
 			BYTE  xStatus = dat->cache->getXStatusId();
@@ -430,10 +416,10 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 					szTemp[500] = 0;
 					db_free(&dbv);
 					title.insert(tempmark + 2, szTemp);
-				} else
-					szFinalStatus = xStatusDescr[xStatus - 1];
-			} else
-				szFinalStatus = (TCHAR*)(dat->szStatus && dat->szStatus[0] ? dat->szStatus : _T("(undef)"));
+				}
+				else szFinalStatus = xStatusDescr[xStatus - 1];
+			}
+			else szFinalStatus = (TCHAR*)(dat->szStatus && dat->szStatus[0] ? dat->szStatus : _T("(undef)"));
 
 			if (szFinalStatus) {
 				title.insert(tempmark + 2, szFinalStatus);
@@ -442,15 +428,14 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 
 			title.erase(tempmark, 2);
 			break;
-					 }
-					 /*
-					 * status message (%T will skip the "No status message" for empty
-					 * messages)
-					 */
+		}
+		/*
+		 * status message (%T will skip the "No status message" for empty
+		 * messages)
+		 */
 		case 't':
 		case 'T': {
 			TCHAR	*tszStatusMsg = dat->cache->getNormalizedStatusMsg(dat->cache->getStatusMsg(), true);
-
 			if (tszStatusMsg) {
 				title.insert(tempmark + 2, tszStatusMsg);
 				curpos = tempmark + lstrlen(tszStatusMsg);
@@ -464,7 +449,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			if (tszStatusMsg)
 				mir_free(tszStatusMsg);
 			break;
-					 }
+		}
 		default:
 			title.erase(tempmark, 1);
 			break;
@@ -485,28 +470,28 @@ char* Utils::FilterEventMarkers(char *szText)
 	std::string text(szText);
 	INT_PTR beginmark = 0, endmark = 0;
 
-	while (TRUE) {
+	while (true) {
 		if ((beginmark = text.find("~-+")) != text.npos) {
 			endmark = text.find("+-~", beginmark);
 			if (endmark != text.npos && (endmark - beginmark) > 5) {
 				text.erase(beginmark, (endmark - beginmark) + 3);
 				continue;
-			} else
-				break;
-		} else
+			}
 			break;
+		}
+		break;
 	}
 	//mad
-	while (TRUE) {
+	while (true) {
 		if ((beginmark = text.find( "\xAA")) != text.npos) {
 			endmark = beginmark+2;
 			if (endmark != text.npos && (endmark - beginmark) > 1) {
 				text.erase(beginmark, endmark - beginmark);
 				continue;
-			} else
-				break;
-		} else
+			}
 			break;
+		}
+		break;
 	}
 	//
 	lstrcpyA(szText, text.c_str());
@@ -519,14 +504,14 @@ const TCHAR* Utils::DoubleAmpersands(TCHAR *pszText)
 
 	INT_PTR textPos = 0;
 
-	while (TRUE) {
+	while (true) {
 		if ((textPos = text.find(_T("&"),textPos)) != text.npos) {
 			text.insert(textPos,_T("%"));
 			text.replace(textPos, 2, _T("&&"));
 			textPos+=2;
 			continue;
-		} else
-			break;
+		}
+		break;
 	}
 	_tcscpy(pszText, text.c_str());
 	return pszText;
@@ -566,7 +551,7 @@ TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
 	if (p)
 		*p = cSaved;
 
-	return(szResult);
+	return szResult;
 }
 
 /*
@@ -591,8 +576,8 @@ int Utils::FindRTLLocale(TWindowData *dat)
 				result = 1;
 		}
 		dat->iHaveRTLLang = (result ? 1 : -1);
-	} else
-		result = dat->iHaveRTLLang == 1 ? 1 : 0;
+	}
+	else result = dat->iHaveRTLLang == 1 ? 1 : 0;
 
 	return result;
 }
@@ -618,11 +603,10 @@ void Utils::RTF_CTableInit()
 void Utils::RTF_ColorAdd(const TCHAR *tszColname, size_t length)
 {
 	TCHAR *stopped;
-	COLORREF clr;
 
 	rtf_ctable_size++;
 	rtf_ctable = (TRTFColorTable *)mir_realloc(rtf_ctable, sizeof(TRTFColorTable) * rtf_ctable_size);
-	clr = _tcstol(tszColname, &stopped, 16);
+	COLORREF clr = _tcstol(tszColname, &stopped, 16);
 	mir_sntprintf(rtf_ctable[rtf_ctable_size - 1].szName, length + 1, _T("%06x"), clr);
 	rtf_ctable[rtf_ctable_size - 1].menuid = rtf_ctable[rtf_ctable_size - 1].index = 0;
 
@@ -632,28 +616,24 @@ void Utils::RTF_ColorAdd(const TCHAR *tszColname, size_t length)
 
 void Utils::CreateColorMap(TCHAR *Text)
 {
-	TCHAR * pszText = Text;
-	TCHAR * p1;
-	TCHAR * p2;
-	TCHAR * pEnd;
+	TCHAR *pszText = Text;
 	int iIndex = 1, i = 0;
-	COLORREF default_color;
 
 	static const TCHAR *lpszFmt = _T("\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];");
 	TCHAR szRed[10], szGreen[10], szBlue[10];
 
-	p1 = _tcsstr(pszText, _T("\\colortbl"));
+	TCHAR *p1 = _tcsstr(pszText, _T("\\colortbl"));
 	if (!p1)
 		return;
 
-	pEnd = _tcschr(p1, '}');
+	TCHAR *pEnd = _tcschr(p1, '}');
 
-	p2 = _tcsstr(p1, _T("\\red"));
+	TCHAR *p2 = _tcsstr(p1, _T("\\red"));
 
 	for (i=0; i < RTF_CTABLE_DEFSIZE; i++)
 		rtf_ctable[i].index = 0;
 
-	default_color = (COLORREF)M.GetDword(FONTMODULE, "Font16Col", 0);
+	COLORREF default_color = (COLORREF)M.GetDword(FONTMODULE, "Font16Col", 0);
 
 	while (p2 && p2 < pEnd) {
 		if (_stscanf(p2, lpszFmt, &szRed, &szGreen, &szBlue) > 0) {
@@ -674,11 +654,10 @@ void Utils::CreateColorMap(TCHAR *Text)
 
 int Utils::RTFColorToIndex(int iCol)
 {
-	int i=0;
-	for (i=0; i < RTF_CTABLE_DEFSIZE; i++) {
+	for (int i=0; i < RTF_CTABLE_DEFSIZE; i++)
 		if (rtf_ctable[i].index == iCol)
 			return i + 1;
-	}
+
 	return 0;
 }
 
@@ -714,10 +693,9 @@ INT_PTR CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam
  */
 int Utils::ReadContainerSettingsFromDB(const HANDLE hContact, TContainerSettings *cs, const char *szKey)
 {
-	DBVARIANT 	dbv = {0};
-
 	CopyMemory(cs, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 
+	DBVARIANT dbv = { 0 };
 	if (0 == db_get(hContact, SRMSGMOD_T, szKey ? szKey : CNT_KEYNAME, &dbv)) {
 		if (dbv.type == DBVT_BLOB && dbv.cpbVal > 0 && dbv.cpbVal <= sizeof(TContainerSettings)) {
 			::CopyMemory((void*)cs, (void*)dbv.pbVal, dbv.cpbVal);
@@ -730,10 +708,9 @@ int Utils::ReadContainerSettingsFromDB(const HANDLE hContact, TContainerSettings
 		db_free(&dbv);
 		return 1;
 	}
-	else {
-		cs->fPrivate = false;
-		return 1;
-	}
+
+	cs->fPrivate = false;
+	return 1;
 }
 
 int Utils::WriteContainerSettingsToDB(const HANDLE hContact, TContainerSettings *cs, const char *szKey)
@@ -744,18 +721,18 @@ int Utils::WriteContainerSettingsToDB(const HANDLE hContact, TContainerSettings 
 
 void Utils::SettingsToContainer(TContainerData *pContainer)
 {
-	pContainer->dwFlags 		= pContainer->settings->dwFlags;
-	pContainer->dwFlagsEx 		= pContainer->settings->dwFlagsEx;
-	pContainer->avatarMode 		= pContainer->settings->avatarMode;
-	pContainer->ownAvatarMode 	= pContainer->settings->ownAvatarMode;
+	pContainer->dwFlags = pContainer->settings->dwFlags;
+	pContainer->dwFlagsEx = pContainer->settings->dwFlagsEx;
+	pContainer->avatarMode = pContainer->settings->avatarMode;
+	pContainer->ownAvatarMode = pContainer->settings->ownAvatarMode;
 }
 
 void Utils::ContainerToSettings(TContainerData *pContainer)
 {
-	pContainer->settings->dwFlags			= pContainer->dwFlags;
-	pContainer->settings->dwFlagsEx			= pContainer->dwFlagsEx;
-	pContainer->settings->avatarMode		= pContainer->avatarMode;
-	pContainer->settings->ownAvatarMode		= pContainer->ownAvatarMode;
+	pContainer->settings->dwFlags = pContainer->dwFlags;
+	pContainer->settings->dwFlagsEx = pContainer->dwFlagsEx;
+	pContainer->settings->avatarMode = pContainer->avatarMode;
+	pContainer->settings->ownAvatarMode = pContainer->ownAvatarMode;
 }
 
 /**
@@ -777,8 +754,7 @@ void Utils::ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce
 		CopyMemory((void*)pContainer->settings, (void*)&csTemp, sizeof(TContainerSettings));
 		pContainer->settings->fPrivate = true;
 	}
-	else
-		pContainer->settings = &PluginConfig.globalContainerSettings;
+	else pContainer->settings = &PluginConfig.globalContainerSettings;
 }
 
 void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSetting)
@@ -824,7 +800,8 @@ void Utils::scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, doubl
 			dAspect = 1.0;
 		dNewWidth = (double)bm.bmWidth * dAspect;
 		dNewHeight = (double)maxHeight;
-	} else {
+	}
+	else {
 		if (bm.bmWidth > 0)
 			dAspect = (double)(maxHeight) / (double)bm.bmWidth;
 		else

@@ -103,8 +103,6 @@ public:
    int         m_SendFormat;
    int         m_FormatWholeWordsOnly;
    int         m_RTLDefault;
-   int         m_MathModAvail;
-   TCHAR       m_MathModStartDelimiter[40];
    int         m_UnreadInTray;
    int         m_TrayFlashes;
    int         m_TrayFlashState;
