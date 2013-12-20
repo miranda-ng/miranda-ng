@@ -284,6 +284,10 @@ current contact
 Помощь по сервисам
 [Return]
 Возвращаемое
+[Scheduler]
+Планировщик
+[TopToolbar]
+Панель кнопок
 [Effect]
 Действие
 [Start]
@@ -296,9 +300,5 @@ current contact
 Двойной щелчок по списку контактов
 [New contact added to database]
 В базу добавлен новый контакт
-[Scheduler]
-Планировщик
-[TopToolbar]
-Панель кнопок
 [Contact deleting]
 Удаление контакта

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Contacts.dll
 ;  Plugin: Send/receive contacts
-;  Version: 1.5.2.0
+;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 [Allows you to send and receive contacts.]
@@ -55,6 +55,12 @@
 Входящие контакты
 [Outgoing Contacts]
 Исходящие контакты
+[Nick]
+Ник
+[First Name]
+Имя
+[Last Name]
+Фамилия
 [Add Contact Permanently to List]
 Добавить в список контактов
 [View User's Details]
@@ -63,3 +69,7 @@
 История сообщений
 [User Menu]
 Меню пользователя
+[Contacts from]
+Контакты от
+[Send Contacts to]
+Отправить контакты

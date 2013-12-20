@@ -2201,6 +2201,8 @@ Miranda NG не может открыть этот профиль
 ** Все контакты **
 [Contacts]
 Контакты
+[Contacts: ]
+Контакты:\s
 [No times]
 Без времени
 [Standard hh:mm:ss times]
