@@ -5,14 +5,17 @@
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
-;file \plugins\FavContacts\res\resource.rc
 [Customize]
 Personalizar
 [Show]
 Mostrar
-;file \plugins\FavContacts\src\favlist.h
-;file \plugins\FavContacts\src\main.cpp
+[Favorite Contact]
+Contatos favoritos
+[Second line]
+Segunda Linha
 [Background]
 Fundo
 [Contacts]
 Contatos
+[Favorites]
+Favoritos

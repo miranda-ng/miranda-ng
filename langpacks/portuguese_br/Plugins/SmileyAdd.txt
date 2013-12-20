@@ -5,7 +5,6 @@
 ;  Version: 0.2.3.17
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
-;file \plugins\SmileyAdd\res\resource.rc
 [Smiley categories]
 Categorias de Smiley
 [Specify smiley pack for each category]
@@ -42,20 +41,16 @@ Não substituir pelo cursor
 Suporta Messagem de Diálogo Built-In
 [Smiley button]
 Botão Smiley 
-;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 Mostrar Janela de Seleção de Smiley 
-;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
 SmileyAdd
 [SmileyAdd HTTP connections]
 Conexões HTTP para Adicionar Smiley
-;file \plugins\SmileyAdd\src\main.cpp
 [Assign smiley category]
 Atribuir Categoria de  Smiley
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Apenas uma instância de SmileyAdd poderia ser executado.\nRemove ocorrências duplicadas do diretório 'Plugins'
-;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 Smileys
 [Customize]
@@ -66,12 +61,9 @@ Desligado
 Smiley Packs
 [All files]
 Todos os Arquivos
-;file \plugins\SmileyAdd\src\services.cpp
-;file \plugins\SmileyAdd\src\smileys.cpp
 [Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 Smiley pack %s não encontrado.\nSelecione o  Smiley Pack correto em Miranda Opções| Personalizar | Smileys.
 [Standard]
 Padrão
-;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
 Oh!

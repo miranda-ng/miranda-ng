@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
-;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 Escolha como você gostaria importar:
 [From a Miranda NG database.]
@@ -64,7 +63,6 @@ Mensagens
 Transferência de Arquivos
 [Other]
 Outros
-;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Evento ignorado de/para ele próprio
 [Added contact %u (found in history)]
@@ -103,15 +101,11 @@ Ignorado %d contatos.
 Ignorado %d duplicados e  %d eventos filtrados.
 [Skipped %d duplicates.]
 Ignorado %d duplicados.
-;file \plugins\Import\src\main.cpp
 [&Import...]
 &Importar...
-;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 O arquivo indicado não existe. Verifique se introduziu corretamente o nome.
 [All Files]
 Todos os Arquivos
-;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Saltar grupo duplicado %s.
-;file \plugins\Import\src\wizard.cpp

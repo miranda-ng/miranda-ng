@@ -1,11 +1,10 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo
+;  Plugin: Yahoo Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Gennady Feldman
 ;============================================================
-;file \protocols\Yahoo\res\Yahoo.rc
 [ID:]
 ID:
 [Password:]
@@ -54,8 +53,8 @@ Cancelar
 &Cancelar
 [Add]
 Adicionar
-;file \protocols\Yahoo\src\chat.cpp
-;file \protocols\Yahoo\src\icolib.cpp
+[User &details]
+&Detalhes do usuário
 [Mail]
 E-Mail
 [Profile]
@@ -66,16 +65,12 @@ Endereços
 Configurar Status
 [Calendar]
 Calendário
-;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Erro no Yahoo
 [The message send timed out.]
 Esgotado o tempo para enviar a mensagem.
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Está mensagem é muito longa: O Yahoo está limitado em 800 caracteres UTF8
-;file \protocols\Yahoo\src\links.cpp
-;file \protocols\Yahoo\src\main.cpp
-;file \protocols\Yahoo\src\options.cpp
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 As alterações feitas exigem que você se reconectar à rede Yahoo antes que eles entrem em vigor
 [YAHOO Options]
@@ -96,14 +91,12 @@ Por favor selecione um nome da lista de ignorados para remover
 Rede
 [Ignore List]
 Ignorar lista
-;file \protocols\Yahoo\src\proto.cpp
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Introduza a sua identificação em Opções/Rede/yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
 Introduza a sua senha em Opções/Rede/yahoo
 [Yahoo Login Error]
 Erro no Acesso Yahoo
-;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
 Você precisa estar conectado para definir a mensagem personalizada
 [You need to be connected to refresh your buddy list]
@@ -120,8 +113,6 @@ Definir &Status Padrão
 &Calendário
 [&Show Profile]
 &Mostrar Perfil
-;file \protocols\Yahoo\src\webcam.cpp
-;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Relembrar Calendário
 [%s has rejected your request and sent the following message:]

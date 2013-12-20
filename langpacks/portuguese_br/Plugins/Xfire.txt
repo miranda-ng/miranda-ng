@@ -5,7 +5,6 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-;file \protocols\Xfire\res\resource.rc
 [Password:]
 Senha:
 [Nick:]
@@ -16,16 +15,22 @@ Opções
 Mais opções
 [Files]
 Arquivos
+[Status message:]
+Mensgem de Status
 [Apply]
 Aplicar
 [Remove]
 Remover
+[Edit...]
+Editar...
 [Username:]
 Usuário:
 [Name:]
 Nome:
 [Port:]
 Porta:
+[User details]
+Detalhes do Usuário
 [Copy]
 Copiar
 [OK]
@@ -34,10 +39,8 @@ OK
 Cancelar
 [Search:]
 Pesquisar:
-;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Todos os Arquivos
-;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 Sim, eu estou aqui.
 [I've been away since %time%.]
@@ -52,11 +55,10 @@ Dê ao cara um pouco de paz, certo?
 É...utilize antes o telefone.
 [Mmm... food.]
 Mmm... comida.
-;file \protocols\Xfire\src\iniupdater.cpp
-;file \protocols\Xfire\src\main.cpp
 [Username]
 Usuário
-;file \protocols\Xfire\src\options.cpp
+[Disable avatars]
+Desabilitar Avatares
 [General]
 Geral
 [No]
@@ -65,7 +67,3 @@ Não
 <Grupo Raiz>
 [Network]
 Rede
-;file \protocols\Xfire\src\searching4games.cpp
-;file \protocols\Xfire\src\userdetails.cpp
-;file \protocols\Xfire\src\Xfire_game.cpp
-;file \protocols\Xfire\src\Xfire_gamelist.cpp

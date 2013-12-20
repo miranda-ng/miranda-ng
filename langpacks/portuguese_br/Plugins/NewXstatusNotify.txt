@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
-;file \plugins\NewXstatusNotify\res\resource.rc
 [Online]
 Online
 [Invisible]
@@ -34,6 +33,8 @@ Texto
 Usar cores personalizadas
 [Use Windows colors]
 Usar Janelas coloridas
+[Sec]
+seg
 [Reset]
 Limpar
 [OK]
@@ -44,25 +45,23 @@ Cancelar
 Geral
 [Accounts]
 Contas
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[All files]
+Todos os Arquivos
 [Status]
 Status
 [** All contacts **]
 ** Todos os contatos **
-;file \plugins\NewXstatusNotify\src\indsnd.h
-;file \plugins\NewXstatusNotify\src\main.cpp
 [Contact]
 Contato
-;file \plugins\NewXstatusNotify\src\options.cpp
+[connecting]
+Conectando
 [All Files]
 Todos os Arquivos
 [Log]
 Registro
 [Protocol]
 Protocolo
-;file \plugins\NewXstatusNotify\src\popup.h
-;file \plugins\NewXstatusNotify\src\utils.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Message log]
+Reg. de Mensagem
 [<unknown>]
 <desconhecido>
-;file \plugins\NewXstatusNotify\src\xstatus.h

@@ -1,11 +1,10 @@
 ﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
 ;  File: GG.dll
-;  Plugin: GG
+;  Plugin: Gadu-Gadu Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
-;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 Detalhes do Usuário Gadu-Gadu
 [Gadu-Gadu Number:]
@@ -102,14 +101,14 @@ Alterar senha Gadu-Gadu
 Alterar e-mail Gadu-Gadu
 [Age from:]
 Idade de:
+[to:]
+Para:
 [&Close]
 &Fechar
 [&Send]
 &Enviar
 [Open new conference]
 Abrir nova conferência
-;file \protocols\Gadu-Gadu\src\avatar.cpp
-;file \protocols\Gadu-Gadu\src\core.cpp
 [Unknown]
 Desconhecido
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
@@ -124,7 +123,6 @@ Lista importada com sucesso.
 Remover lista bem sucedido.
 [List export successful.]
 Lista exportada com sucesso.
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 Masculino
 [Female]
@@ -139,12 +137,10 @@ Avançado
 Ícone da barra de tarefas
 [Ignore]
 Ignorar
-;file \protocols\Gadu-Gadu\src\filetransfer.cpp
-;file \protocols\Gadu-Gadu\src\gg.cpp
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Contact list]
+Lista de Contatos
 [Gadu-Gadu Number]
 Número Gadu-Gadu
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Abrir &conferência...
 [&Clear ignored conferences]
@@ -163,7 +159,6 @@ Você tem que estar conectado para abrir nova conferência.
 Todas as conferências ignoradas são agora nãoignoradas e a política conferência irá atuar novamente.
 [There are no ignored conferences.]
 Não há conferências ignoradas.
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Import list from server]
 Importar lista a partir do servidor
 [Import list from text file]
@@ -184,7 +179,6 @@ Próxima imagem
 Salvar imagem
 [Delete image]
 Apagar imagem
-;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 &Imagem
 [Image cannot be written to disk.]
@@ -197,7 +191,6 @@ Imagem para %s
 Selecione uma foto para enviar
 [Image exceeds maximum allowed size of 255 KB.]
 Imagem excede o tamanho máximo permitido de 255 KB.
-;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
 Você tem de estar conectado antes que você possa importar/exportar contatos de/para o servidor.
 [Text files]
@@ -216,21 +209,14 @@ Importar Lista do Arquivo de Rexto...
 Exportar Lista Para &Servidor
 [Export List To &Text File...]
 List & Export To Text File...
-;file \protocols\Gadu-Gadu\src\links.cpp
-;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password was sent to your e-mail.]
 A senha foi enviada para o e-mail.
-;file \protocols\Gadu-Gadu\src\popups.cpp
 [Error]
 Erro
-;file \protocols\Gadu-Gadu\src\services.cpp
-;file \protocols\Gadu-Gadu\src\sessions.cpp
-;file \protocols\Gadu-Gadu\src\token.cpp
 [Token retrieval failed because of error:\n\t%s]
 Símbolo de recuperação falhou por causa de erro:\n\t%s
 [Could not load token image.]
 Não foi possível carregar a imagem.
-;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Não é possível registrar nova conta por causa do erro:\n\t%s
 [Registration rejected]

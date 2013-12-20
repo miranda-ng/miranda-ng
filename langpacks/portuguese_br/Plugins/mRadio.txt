@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: mRadio.dll
 ;  Module: mRadio
-;  Version: 0.0.2.1
+;  Version: 0.0.2.3
 ;  Authors: Awkward
 ;============================================================
 [Cave]
@@ -93,6 +93,8 @@ Pedreira
 Estação
 [Custom INI file]
 Arquivo INI personalizado
+[connecting]
+Conectando
 [Record]
 Gravar
 [Status message template]
@@ -103,6 +105,8 @@ Preparar equalizador
 Exportar Todos
 [Advanced]
 Avançado
+[OFF]
+Desligado
 [Volume]
 Volume
 [Equalizer]

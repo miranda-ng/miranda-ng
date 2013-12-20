@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
-;file \protocols\IRCG\res\IRC.rc
 [&Add]
 &Adicionar
 [&Edit]
@@ -158,6 +157,8 @@ Faixa de cores
 Enviar e-ahead
 [Attempt reverse DCC (good if firewalled)]
 Tentativa de reverter DCC (bom se tiver firewall)
+[none]
+Nenhum
 [everyone on the contact list]
 todos na lista de contatos
 [everyone]
@@ -200,6 +201,8 @@ Ignorar os pedidos de bate-papos DCC de contatos desconhecidos
 Ignorar usuários
 [(*) Queries from users on your contact list are never ignored]
 (*) Consultas de usuários em sua lista de contatos nunca são ignoradas
+[Queries]
+consultas
 [Messages]
 Mensagens
 [Notices]
@@ -220,10 +223,8 @@ Ignorar eventos
 Senha:
 [Alternate nick]
 Apelido suprente
-;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Bate-papo CTCP pedido de %s
-;file \protocols\IRCG\src\commandmonitor.cpp
 [%s sets mode %s]
 %s define modo %s
 [%s sets mode %s%s]
@@ -288,7 +289,6 @@ Imbecíl
 O uso de /AUSÊNCIA de performace do buffer está restringido\n cono o IRC envia seus comandos automaticamente
 [IRC Error]
 Erro IRC
-;file \protocols\IRCG\src\input.cpp
 [The buddy check function is enabled]
 A função de verificação de amigos está habilitado
 [The buddy check function is disabled]
@@ -329,12 +329,12 @@ DCC ERRO: Não é possível vincular porta
 Entrada de comando
 [Please enter the reply]
 Por favor, indique a resposta
-;file \protocols\IRCG\src\irclib.cpp
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 ERRO DCC: Não é possível vincular porta local para transferência de arquivos passiva
-;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 Informação
+[Nickname]
+Apelido
 [DCC ERROR: No valid files specified]
 ERRO DCC: Nenhum arquivo válido especificado
 [DCC reversed file transfer request sent to %s [%s]]
@@ -351,7 +351,6 @@ A conexão DCC bate-papo não está ativa
 Por favor, escolha uma rede de IRC para estar online. Esta rede será a padrão.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 A conexão não pode ser estabelecida! Você não completou todos os campos necessários (Apelido, ID de usuário e m_nome).
-;file \protocols\IRCG\src\options.cpp
 [Add]
 Adicionar
 [Apply]
@@ -414,7 +413,6 @@ Editar ignorar
 DCC no CTCP
 [Advanced]
 Avançado
-;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 WallOps(msg de operadores) de %s:
 [%s invites you to %s]
@@ -429,7 +427,6 @@ CTCP %s resposta enviada para %s
 CTCP %s resposta enviada para %s: %s
 [Notice to %s: ]
 Observe a %s:
-;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 &Ligação rápida
 [&Join channel]
@@ -608,9 +605,6 @@ Adicionar a &lista de ignorados
 &Adicionar Usuário
 [Connecting to]
 Conectando-se a
-;file \protocols\IRCG\src\tools.cpp
-;file \protocols\IRCG\src\userinfo.cpp
-;file \protocols\IRCG\src\windows.cpp
 [Channel]
 Canal
 [---- Not listed server ----]

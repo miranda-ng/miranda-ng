@@ -5,7 +5,6 @@
 ;  Version: 0.0.1.11
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Alterar Meu Apelido
 [Nickname:]
@@ -74,8 +73,8 @@ Configurar Meu Apelido...
 Configurar Minha Mensagem de Status...
 [Enable Listening To]
 Ativar Ouvir para
-;file \plugins\MyDetails\src\data.cpp
-;file \plugins\MyDetails\src\frame.cpp
+[Nickname]
+Apelido
 [Status]
 Status
 [My Details]
@@ -94,7 +93,6 @@ Configurar Meu Apelido para %s...
 Configar Minha Msg de Status para %s...
 [Hide My Details]
 Ocultar Meus Detalhes
-;file \plugins\MyDetails\src\mydetails.cpp
 [Previous protocol]
 Protocolo anterior
 [Next protocol]
@@ -103,8 +101,5 @@ Próximo protocolo
 Configurar Meu Apelido para %s
 [Set My Status Message for %s]
 Você pode configurar imagens para serem usados como avatar padrão para contatos que não tenham os seus. Essas imagens NÃo são seus próprios avatares.
-[Show next account]
-
 [Contact List]
 Lista de Contatos
-;file \plugins\MyDetails\src\options.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.7.0.1
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
-;file \plugins\FloatingContacts\res\fltcnt.rc
 [pixels]
 pixels
 [seconds]
@@ -26,7 +25,8 @@ Título horizontal
 Título vertical
 [Stretch proportionally]
 Esticar proporcionalmente
-;file \plugins\FloatingContacts\src\main.cpp
+[Opacity:]
+Opacidade
 [Standard contacts]
 Contatos padrão
 [Online contacts to whom you have a different visibility]
@@ -39,6 +39,7 @@ Contatos Offline para quem a visibilidade é diferenciada
 Contatos que estão 'sem lista'
 [Floating contacts]
 Flutuação dos contatos
-;file \plugins\FloatingContacts\src\options.cpp
+[Floating Contacts]
+Flutuação dos contatos
 [Contact List]
 Lista de Contatos

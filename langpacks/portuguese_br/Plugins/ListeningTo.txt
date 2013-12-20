@@ -5,16 +5,15 @@
 ;  Version: 0.3.0.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
-;file \plugins\ListeningTo\res\resource.rc
 [Contacts]
 Contatos
 [seconds]
 segundos
-;file \plugins\ListeningTo\src\listeningto.cpp
-;file \plugins\ListeningTo\src\options.cpp
+[<Unknown>]
+<desconhecido>
 [Status]
 Status
 [General]
 Geral
-;file \plugins\ListeningTo\src\players\generic.cpp
-;file \plugins\ListeningTo\src\players\wmp.cpp
+[Format]
+formato

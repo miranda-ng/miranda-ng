@@ -5,7 +5,6 @@
 ;  Version: 3.1.99.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-;file \plugins\TabSRMM\res\chat.rc
 [OK]
 OK
 [Cancel]
@@ -100,6 +99,8 @@ Copiar
 Recortar
 [Paste]
 Colar
+[Select all]
+Selecionar todos
 [Clear]
 Limpar
 [Tabs]
@@ -110,7 +111,12 @@ Abas
 F&echar outras abas
 [&Open at this position]
 &Abrir nesta posição
-;file \plugins\TabSRMM\res\resource.rc
+[&Cancel]
+&Cancelar
+[&Send]
+&Enviar
+[&Add]
+&Adicionar
 [Advanced tweaks]
 Piscar avançado
 [Message send timeout]
@@ -357,6 +363,8 @@ Data e hora
 Segundo Segudos no Fuso Horário
 [Use contacts local time]
 Usar horário dos contatos
+[Format]
+formato
 [Indent message body]
 Recortar o corpo da mensagem
 [Display grid lines]
@@ -437,8 +445,6 @@ Colar texto formatado
 Colar e enviar imediatamente
 [Copy all]
 Copie todos
-[Select all]
-Selecionar todos
 [Show Message Length Indicator]
 Mostrar Indicador de tamanho da mensagem
 [Leave Chat Room]
@@ -449,6 +455,8 @@ Salvar Tab Position
 Limpar Posição da Aba salva
 [Attach to Container...]
 Anexar ao Recipiente...
+[Container options...]
+Opções do Contêiner...
 [Close Container]
 Fechar o contêiner
 [Show Contact Picture]
@@ -533,6 +541,8 @@ No Sessions mensagem aberta
 Adicionar aos Contatos Favoritos
 [Remove Contact from Favorites]
 Remover contato de Favoritos
+[dummy]
+Mudo
 [Set Position for this Session]
 Definir posição para esta sessão
 [Set and Save for all Sessions]
@@ -563,6 +573,8 @@ Exibir Barra de Ferramentas
 Colocar barra de tarefas em baixo
 [Title Bar]
 Barra de título
+[Tabs at the bottom]
+Abas na parte inferior
 [Window Flashing]
 Janela Piscando
 [Use default Value]
@@ -591,7 +603,6 @@ Salvar posição da janela atual como padrão
 Ajuda
 [About TabSRMM...]
 Sobre o TabSRMM...
-;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
 Botão do Protocolo
 [Info button]
@@ -622,11 +633,8 @@ Trocar Lista de nicks
 Filtro de evento - clique direito para instalação, clique esquerdo para ativar/desactivar
 [<Separator>]
 <Separador>
-;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Ocultar barra de título
-[Container options...]
-Opções do Contêiner...
 [Message Session...]
 Mensagem de Sessão...
 [Attach to]
@@ -641,17 +649,18 @@ Autoselecionar
 Usar Protocolo
 [Set Default Protocol]
 Definir protocolo padrão
-;file \plugins\TabSRMM\src\containeroptions.cpp
 [Window layout]
 Layout da janela
+[Title bar]
+Barra de título
 [Window size and theme]
 Janela de tamanho e tema
 [You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
 Você pode selecionar um tema particular (.tabsrmm arquivo) para este contêiner, que irá substituir o tema padrão do registro de mensagem. Você vai ter que fechar e reabrir todas as janelas de mensagem depois de alterar esta opção.
+[Contact avatars]
+Avatares do contato
 [Container options]
 Opções do recipiente
-[Tabs at the bottom]
-Abas na parte inferior
 [Globally on]
 Todos ON
 [On, if present]
@@ -660,25 +669,20 @@ Sim, se presente
 Todos OFF
 [Don't show them]
 Não mostrar
-;file \plugins\TabSRMM\src\controls.cpp
 [&User]
 &Usuário
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
 Os sons são %s. Clique para mudar de status, segure SHIFT e clique para definir para todos os recipientes abertos
-desabilitado
 [Sending typing notifications is %s.]
 Envio de notificações de digitação está %s.
-;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Uma de suas ações popup está definido para descartar EVENTO.\nNote que esta opção pode ter efeitos colaterais indesejados, pois elimina o evento da fila não lidas.\nIsto pode levar a acontecimentos não aparecendo como "novo". Se você não quer esse comportamento, consulte as notificações de eventos na página de configurações.
 [Incoming file]
 Arquivo Chegando
 [New messages: ]
 Novas mensagens:
-;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Last received: %s at %s]
 Recebido: %s at %s
-;file \plugins\TabSRMM\src\globals.cpp
 [Incoming (Focused Window)]
 Recebendo (janela visível)
 [Incoming (Unfocused Window)]
@@ -705,23 +709,26 @@ saiu.
 entrou e agora é %s.
 [changed status from %s to %s.]
 Estado alterado de %s para %s.
-;file \plugins\TabSRMM\src\hotkeyhandler.cpp
-;file \plugins\TabSRMM\src\infopanel.cpp
+[Smiley selector]
+Seletor de Smiley 
 [TabSRMM Information]
 Informação do TabSRMM
+[contact]
+Contato
+[Always off]
+Sempre Off
+[Always on]
+Sempre On
 [Use Global Setting]
 Usar Configuração Global
 [Show always (if present)]
 Mostrar sempre (se houver)
 [Never show it at all]
 Nunca mostre a todos
-;file \plugins\TabSRMM\src\mim.cpp
 [TabSRMM]
 TabSRMM
-;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 Inserir [img] tag / rodear o texto selecionado com o [img] [/img]
-;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 Adicione este contato permanentemente a sua lista de contatos
 [Do not add this contact permanently]
@@ -754,7 +761,6 @@ O protocolo selecionado não pode ser forçado desta vez
 Atenção: você selecionou um subprotocolo para enviar as seguintes mensagens e está atualmente offline
 [Contact is offline and this protocol does not support sending files to offline users.]
 Contato está offline e esse protocolo não suporta o envio de arquivos para usuários offline.
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
 [Error creating destination directory]
 Erro ao criar diretório de destino
 [Save contact picture]
@@ -765,8 +771,6 @@ O arquivo existe. Deseja substituí-lo?
 O recurso 'colar e enviar' está desativado. Você pode habilitá-lo na página 'Opções gerais' na secção 'Envio de Mensagens';
 ['(Unknown Contact)']
 '(Contato Desconhecido)'
-;file \plugins\TabSRMM\src\msglog.cpp
-;file \plugins\TabSRMM\src\msgoptions.cpp
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
 Você quer ler também modelos de mensagens a partir do tema?\nCuidado: Isto substituirá o conjunto de modelos armazenados que podem afetar a aparência da sua janela de mensagem de forma significativa.\nSelecione cancelar para não carregar nada.
 [Load theme]
@@ -791,6 +795,8 @@ Geral
 Guias e layout
 [Containers]
 Containers
+[Message log]
+Reg. de Mensagem
 [Tool bar]
 Barra de ferramentas
 [Typing Notify]
@@ -801,7 +807,6 @@ Formatação de registro
 Destacando
 [Choose status modes]
 Escolher modo de status
-;file \plugins\TabSRMM\src\msgs.cpp
 [Quote text]
 Citar Texto
 [Save and close]
@@ -858,8 +863,6 @@ Quadro 4
 Reg. de Mensagem
 [Animated Tray]
 Animar na Bandeja
-;file \plugins\TabSRMM\src\msgs.h
-;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Selecione o contêiner para %s
 [You cannot delete the default container]
@@ -870,37 +873,30 @@ Erro
 Você não pode renomear o recipiente padrão
 [This name is already in use]
 Este nome já está em uso
-;file \plugins\TabSRMM\src\sendlater.cpp
+[Failed]
+FALHOU
 [Contact]
 Contato
 [Status]
 Status
-;file \plugins\TabSRMM\src\sendqueue.cpp
 [A message delivery has failed.\nClick to open the message window.]
 A entrega da mensagem falhou.\n Clique para abrir a janela de mensagem.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 A entrega da mensagem falhou após os contatos de bate-papo fecharem a janela. Você pode querer reenviar a última mensagem
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Existem mensagens não enviadas à espera de confirmação.\nQuando você fechar a janela agora, Miranda vai tentar enviá-las, mas pode ser incapaz de informar sobre possíveis erros de entrega.\n Você realmente deseja fechar a janela (s)?
-;file \plugins\TabSRMM\src\sidebar.cpp
-;file \plugins\TabSRMM\src\srmm.cpp
 [TabSRMM Message (%s)]
 Mensagem TabSRMM% (s)
-;file \plugins\TabSRMM\src\taskbar.cpp
-;file \plugins\TabSRMM\src\templates.cpp
 [Template Set Editor]
 Template Set Editor
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Esta acção irá repor o modelo definido para o padrão dos modelos. Você tem certeza que quer fazer isso?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Definir modelo foi reiniciada com sucesso, por favor, fechar e reabrir todas as janelas de mensagem. Este modelo janela do editor vai fechar.
-;file \plugins\TabSRMM\src\themeio.cpp
-;file \plugins\TabSRMM\src\themes.cpp
 [All message containers need to close before the skin can be changed\nProceed?]
 Todos os recipientes de mensagem precisa fechar antes da skin poder ser alterada\nProsseguir?
 [Change skin]
 Mudança de skin
-;file \plugins\TabSRMM\src\translator.cpp
 [Close current tab on send]
 Fechar a aba atual ao enviar
 [Disable error popups on sending failures]
@@ -983,8 +979,6 @@ Dicas detalhadas em abas (requer plugin Tipper)
 Lembrar e definir layout de teclado por contato
 [Add offline contacts to multisend list]
 Adicionar contactos offline para lista de multienvio
-;file \plugins\TabSRMM\src\trayicon.cpp
-;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 Desativar a notificação e digitação
 [Enable &typing notification]
@@ -993,7 +987,6 @@ Ativar a notificação e digitação
 ... está escrevendo uma mensagem.
 [...has stopped typing.]
 ...parou de escrever.
-;file \plugins\TabSRMM\src\userprefs.cpp
 [Always On]
 Sempre On
 [Always Off]
@@ -1006,12 +999,10 @@ Forçar Histórico++
 Forçar IEView
 [Set messaging options for %s]
 Defina as opções de mensagens para %s
-;file \plugins\TabSRMM\src\utils.cpp
-;file \plugins\TabSRMM\src\chat\clist.cpp
 [Join chat]
 Entrar no chat
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-;file \plugins\TabSRMM\src\chat\log.cpp
+[Text color]
+Cor do Texto
 [%s has joined]
 %s acabou de entrar
 [You have joined %s]
@@ -1032,8 +1023,6 @@ Notificação de %s:
 (definido por %s sobre %s)
 [ (set by %s)]
 (definido por %s)
-;file \plugins\TabSRMM\src\chat\muchighlight.cpp
-;file \plugins\TabSRMM\src\chat\options.cpp
 [Horizontal Grid Lines]
 Linhas de grelha verticais:
 [Info Panel]
@@ -1106,6 +1095,8 @@ Membros da lista (Desligados)
 * Símbolos (entrada)
 [* Symbols (outgoing)]
 * Símbolos (saída)
+[Nickname]
+Apelido
 [Protocol]
 Protocolo
 [Contacts local time]
@@ -1134,6 +1125,8 @@ Sincronizar divisor de posição com sessões padrão IM
 Uso alternativo método de classificação na lista de membros
 [Prefix all events with a timestamp]
 Usar 'timestamp' antecedendo todos os eventos
+[Timestamp has same color as the event]
+Timestamp tem a mesma cor que o evento
 [Indent the second line of a message]
 Recortar segunda linha de uma mensagem
 [Limit user names in the message log to 20 characters]
@@ -1200,6 +1193,8 @@ Modo Avançado 1
 Modo Avançado 2
 [Selection background]
 Fundo da seleção
+[Selected text]
+Texto Selecionado
 [Incremental search highlight]
 Destacar pesquisa incrementada
 [Userlist background]
@@ -1224,12 +1219,10 @@ O usuário mudou o nome
 Usuário enviou uma notícia
 [The topic has been changed]
 O tópico foi mudado
-;file \plugins\TabSRMM\src\chat\services.cpp
 [&Join]
 &Agrupar
 [&Leave]
 &Deixar
-;file \plugins\TabSRMM\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s pede sua atenção em %s
 [%s speaks in %s]
@@ -1258,13 +1251,12 @@ Informação in %s
 Notificação de %s: %s
 [No word to look up]
 Sem palavras para procurar
-;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
-Apelido
-[Nick]
 Apelido
 [Unique ID]
 ID único
+[Nick]
+Apelido
 [%s: Chat Room (%u user%s)]
 Sala %s: (%u usuários%s)
 [%s: Chat Room (%u users%s)]

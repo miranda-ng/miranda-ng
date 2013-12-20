@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
-;file \plugins\Clist_mw\res\resource.rc
 [Stretch to width]
 Esticar em largura
 [Stretch to height]
@@ -192,6 +191,8 @@ Exibir os nomes de protocolo
 Mostrar status
 [Right click opens status menu]
 Clique com o botão direito abre o menu de status
+[Right click opens Miranda menu]
+Clique com o botão direto abre o menu Miranda BR
 [Make sections equal width]
 Fazer seções de tamanhos iguais
 [Show size grip]
@@ -202,6 +203,8 @@ Mostrar efeito bisel em painéis
 Usar ícone conectando
 [Use New Drawer for StatusBar]
 Use Nova Gaveta para Barra de Status
+[&Main menu]
+&Menu principal
 [E&xit]
 &Sair
 [&Status]
@@ -250,12 +253,10 @@ Grupo
 &Renomer Grupo
 [&Delete Group]
 &Excluir Grupo
-;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 Personalizar
 [Backgrounds]
 Fundos
-;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Contatos padrão
 [Online contacts to whom you have a different visibility]
@@ -284,7 +285,6 @@ Texto Selecionado
 Texto Quente
 [Quicksearch Text]
 Texto de Pesquisa
-;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Lista
 [List Background]
@@ -311,26 +311,17 @@ Invisível
 Saiu para almoço
 [On the phone]
 Ao telefone
-;file \plugins\Clist_mw\src\clistopts.cpp
 [Global]
 Global
-;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]
 _SemProtocolo_
 [(Unknown Contact)]
 (Contato Desconhecido)
-;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &Procurar/Adicionar Contatos...
-[&Main menu]
-&Menu principal
 [&Options...]
 &Opções...
-;file \plugins\Clist_mw\src\clui.cpp
-;file \plugins\Clist_mw\src\cluiopts.cpp
-;file \plugins\Clist_mw\src\groupmenu.cpp
-;file \plugins\Clist_mw\src\keyboard.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&New SubGroup]
+&Novo Subgrupo
 [Frames]
 Janelas
-;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

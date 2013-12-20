@@ -5,7 +5,6 @@
 ;  Version: 0.3.3.4
 ;  Authors: Cristian Libotean
 ;============================================================
-;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Sounds]
 Sons
 [Show]
@@ -22,7 +21,6 @@ Descrição
 Data:
 [Delete]
 Excluir
-;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Unknown]
 Desconhecido
 [Protocol]
@@ -31,14 +29,9 @@ Protocolo
 Contato
 [Age]
 Idade
-;file \plugins\WhenWasIt\src\hooked_events.cpp
 [Contacts]
 Contatos
-;file \plugins\WhenWasIt\src\icons.cpp
-;file \plugins\WhenWasIt\src\notifiers.cpp
-;file \plugins\WhenWasIt\src\services.cpp
 [Error]
 Erro
 [All Files]
 Todos os Arquivos
-;file \plugins\WhenWasIt\src\services.h

@@ -5,7 +5,6 @@
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-;file \plugins\UserInfoEx\res\resource.rc
 [Updating]
 Atualizando
 [OK]
@@ -86,20 +85,16 @@ E-Mail
 Mostrar menu 'Reiniciar'
 [Age:]
 idade:
-;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
-;file \plugins\UserInfoEx\src\classPsTree.cpp
-;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
-;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[not found]
+NÃO ENCONTRADO
+[Contact History]
+Histórico do contato
 [Unspecified]
 Indefinido
-;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Other]
 Outros
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [Contact]
 Contato
-;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Yes]
 Sim
 [No]
@@ -108,7 +103,6 @@ Não
 Ignorar
 [Error]
 Erro
-;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [General]
 Geral
 [Work]
@@ -119,36 +113,36 @@ Perfil
 Notas
 [Owner]
 Proprietário
-;file \plugins\UserInfoEx\src\init.cpp
-;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Upload failed]
+Falha no upload
+[Marital status]
+Estado Civil
 [Default]
 Padrão
 [Fax]
 Fax
+[e-mail]
+E-Mail
+[Down arrow]
+Baixar
 [Add]
 Adicionar
 [Edit]
 Editar
 [Search]
 Pesquisa
-;file \plugins\UserInfoEx\src\mir_icolib.h
-;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [User &details]
 &Detalhes do Usuário
 [View/Change My &Details...]
 Ver/Mudar Meus &Detalhes...
-;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+Minhas notas:
 [About:]
 Sobre:
-;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-;file \plugins\UserInfoEx\src\psp_contact.cpp
-;file \plugins\UserInfoEx\src\psp_options.cpp
 [Contacts]
 Contatos
 [Advanced]
 Avançado
-;file \plugins\UserInfoEx\src\psp_profile.cpp
-;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
 Cultura e Literatura
 [Movies/TV]
@@ -185,27 +179,11 @@ Audio e visual
 Esporte e atletismo
 [Home automation]
 Automação residencial
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(Contato Desconhecido)'
-;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Enviar e-mail
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-;file \plugins\UserInfoEx\src\svc_reminder.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Miranda NG]
 Miranda NG BR
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Complete]
 Completo
-;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

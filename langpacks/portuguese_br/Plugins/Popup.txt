@@ -7,7 +7,6 @@
 ;============================================================
 [Provides popup notification services for different plugins.]
 Provê um serviço notificações popup para diferentes plugins
-;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Conteúdo e Estilo
 [Effects]
@@ -22,6 +21,8 @@ Histórico
 Habilitar histórico de popup
 [Store last]
 Armazenar última
+[events]
+Eventos
 [Use History++ to render log]
 Usar History++ para renderizar o log
 [Draw avatar borders]
@@ -92,6 +93,8 @@ Ação do clique com botão direito
 Desabilitar quando o status global for...
 [Disable when relevant protocol's status is...]
 Desabilitar quando status do protocolo pertinente for...
+[Sec]
+seg
 [Per-contact settings]
 Configurações por contato
 [Show always]
@@ -126,7 +129,6 @@ Reordenar popups
 Desabilitar quando:
 [Always (has priority)]
 Sempre (tem prioridade)
-;file \plugins\Popup\src\actions.cpp
 [Quick reply]
 Resposta rápida
 [User details]
@@ -135,7 +137,6 @@ Detalhes do usuário
 Menu de contato
 [Pin popup]
 Fixar popup
-;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 O Jaguadarte
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
@@ -148,12 +149,8 @@ Esta é uma mensagem de notificação
 Esta é uma mensagem de aviso
 [This is an error message]
 Esta é uma mensagem de erro
-;file \plugins\Popup\src\effects.cpp
-;file \plugins\Popup\src\font.cpp
 [Hovered Action]
 Ação Flutuante
-;file \plugins\Popup\src\history.cpp
-;file \plugins\Popup\src\icons.cpp
 [With "favorite" overlay]
 Com sobreposição de favoritos
 [With "fullscreen" overlay]
@@ -174,22 +171,38 @@ Contatos favoritos
 Mostrar em tela cheia
 [Blocked Contact]
 Contatos bloqueados
+[Quick Reply]
+Resposta rápida
 [Pin Popup]
 Fixar popup
 [Pinned Popup]
 Popup fixo
+[Contact Menu]
+Menu de contato
 [Add Contact Permanently]
 Adicionar contato permanentemente
-;file \plugins\Popup\src\main.cpp
 [Actions]
 Ações
 [Contacts]
 Contatos
 [Advanced]
 Avançado
-;file \plugins\Popup\src\opt_adv.cpp
-;file \plugins\Popup\src\opt_class.cpp
-;file \plugins\Popup\src\opt_gen.cpp
+[Online]
+Online
+[Invisible]
+Invisível
+[Away]
+Ausente
+[Occupied]
+Ocupado
+[DND]
+DND
+[Free for chat]
+Livre para conversar
+[Out to lunch]
+Saiu para almoço
+[On the phone]
+Ao telefone
 [upper left corner]
 Canto superior esquerdo
 [lower left corner]
@@ -202,7 +215,6 @@ Canto superior direito
 Vertical
 [Protocol Status]
 Status do protocolo
-;file \plugins\Popup\src\opt_skins.cpp
 [Skin preview]
 Previsão de capa
 [Just take a look at this skin... ;)]
@@ -217,10 +229,5 @@ Usar Janelas coloridas
 Usar renderizador de texto avançado
 [Refresh List]
 Recarregar lista
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-;file \plugins\Popup\src\services.cpp
 [Error]
 Erro
-;file \plugins\Popup\src\skin.cpp
-;file \plugins\Popup\src\srmm_menu.cpp

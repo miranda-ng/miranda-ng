@@ -5,7 +5,8 @@
 ;  Version: 0.1.0.1
 ;  Authors: Anar Ibragimoff
 ;============================================================
-;file \plugins\YARelay\res\yaRelay.rc
+[Everyone]
+todos
 [Contact]
 Contato
 [Online]
@@ -20,6 +21,5 @@ DND
 Livre para conversar
 [Invisible]
 Invisível
-;file \plugins\YARelay\src\options.cpp
 [Plugins]
 Plugins

@@ -5,7 +5,6 @@
 ;  Version: 2.10.0.2
 ;  Authors: Miranda NG Development Team
 ;============================================================
-;file \plugins\Scriver\res\resource.rc
 [Automatically pop up the window when]
 Automaticamente abrir a janela popup quando
 [and stay minimized]
@@ -48,6 +47,8 @@ Marcar seguimento msgs com hora e data
 Iniciar o texto da mensagem em uma nova linha
 [Indent text]
 Recuo de texto
+[events]
+Eventos
 [Typing Notification Options]
 Escrevendo Opções de Notificação
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -76,6 +77,12 @@ Tentar novamente
 Cancelar
 [Message Session]
 Sessão de Mensagem
+[User &details]
+&Detalhes do usuário
+[&Add]
+&Adicionar
+[&Quote]
+&Citar
 [Send To All Tabs]
 Enviar A Todas as Abas
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -86,6 +93,8 @@ Lembrar minha escolha para o recipiente
 Sim
 [No]
 Não
+[&Underline]
+&Sublinhar
 [Show these events only:]
 Mostrar somente estes eventos:
 [Actions]
@@ -190,7 +199,8 @@ Lista
 Limpar R&egistro
 [Co&py all]
 Co&piar tudo
-;file \plugins\Scriver\src\globals.cpp
+[Add contact]
+Adicionar Contato
 [User's details]
 Detalhes do Usuário
 [User's history]
@@ -269,10 +279,10 @@ Tópico (10X10)
 Destacar (10X10)
 [Information (10x10)]
 informação (10x10)
-;file \plugins\Scriver\src\input.cpp
+[Group chats]
+Grupos de chat
 [Messaging]
 Mensagem
-;file \plugins\Scriver\src\msgdialog.cpp
 [Add Contact]
 Adicionar Contato
 [User Menu]
@@ -305,14 +315,14 @@ Enviando em andamento: a mensagen(s) %d à esquerda...
 %s está escrevendo uma mensagem...
 [Last message received on %s at %s.]
 Última mensagem recebida em %s às %s.
-;file \plugins\Scriver\src\msglog.cpp
 [File sent]
 Arquivo enviado
 [File received]
 Arquivo recebido
-;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Geral
+[Group Chat Log]
+Registro de grupo de bate-papo
 [Outgoing messages]
 Enviando mensagens
 [Incoming messages]
@@ -407,7 +417,6 @@ Mostrar popup (sistema não suportado)
 Sessões de mensagem
 [Typing Notify]
 Escrevendo Notificação
-;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Mensagem de %s
 [%s is typing a message]
@@ -424,20 +433,14 @@ Recebendo (janela não visível)
 Recebendo (Nova Sessão)
 [Outgoing]
 Enviando
-;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Ocorreu um erro desconhecido.
-;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 Sempre No Topo
-;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Esgotado o tempo para enviar a mensagem.
-;file \plugins\Scriver\src\chat\clist.cpp
 [Join chat]
 Entrar no chat
-;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
 [%s has joined]
 %s acabou de entrar
 [You have joined %s]
@@ -458,12 +461,10 @@ Notificação de %s
 (definido por %s sobre %s)
 [ (set by %s)]
 (definido por %s)
-;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 &Agrupar
 [&Leave]
 &Deixar
-;file \plugins\Scriver\src\chat\options.cpp
 [Prefix all events with a timestamp]
 Usar 'timestamp' antecedendo todos os eventos
 [Only prefix with timestamp if it has changed]
@@ -510,7 +511,7 @@ Mostrar ícone na barra de tarefas para palavras destacadas
 Mostrar ícone na barra de tarefas para usuários a sairem
 [Show icon in tray for users kicking other user]
 Mostrar ícone na bandeja para usuários chutando outro usuário
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 Mostrar ícone na barra de tarefas para notificações
 [Show icon in tray for name changes]
 Mostrar ícone na na barra de tarefas para mudanças de nome
@@ -524,8 +525,6 @@ Mostrar ícone na barra de tarefas para mudanças de status
 Eventos padrão para mostrar em novas salas de chat, se o 'filtro de evento' está habilitado
 [Select Folder]
 Selecionar Pasta
-[Group chats]
-Grupos de chat
 [Message is highlighted]
 A mensagem está destacada
 [User has performed an action]
@@ -540,8 +539,6 @@ O usuário mudou o nome
 Usuário enviou uma notícia
 [The topic has been changed]
 O tópico foi mudado
-;file \plugins\Scriver\src\chat\services.cpp
-;file \plugins\Scriver\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s pede sua atenção em %s
 [%s speaks in %s]
@@ -566,7 +563,6 @@ Informação in %s
 %s agora é conhecido como %s (%s)
 [Notice from %s: %s]
 Notificação de %s: %s
-;file \plugins\Scriver\src\chat\window.cpp
 [Insert a smiley]
 Inserir smiley
 [Make the text bold (CTRL+B)]

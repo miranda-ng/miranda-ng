@@ -5,6 +5,10 @@
 ;  Version: 0.2.0.1
 ;  Authors: Awkward
 ;============================================================
+[Apply]
+Aplicar
+[Menu icons]
+Ícones do Menu
 ;other strings
 [Effect]
 Efeito

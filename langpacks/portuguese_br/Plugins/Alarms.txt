@@ -5,11 +5,12 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\Alarms\res\resource.rc
 [Delete]
 Excluir
 [Edit]
 Editar
+[Row Height:]
+Altura da linha:
 [OK]
 OK
 [Cancel]
@@ -18,22 +19,18 @@ Cancelar
 Descrição
 [Actions]
 Ações
+[Date and Time]
+Data e hora
 [&Delete]
 &Excluir
 [&Options...]
 &Opções...
-;file \plugins\Alarms\src\alarmlist.cpp
-;file \plugins\Alarms\src\alarms.cpp
-;file \plugins\Alarms\src\alarm_win.cpp
 [Background]
 Fundo
 [Window]
 Janela
-;file \plugins\Alarms\src\frame.cpp
 [Frames]
 Janelas
-;file \plugins\Alarms\src\icons.cpp
-;file \plugins\Alarms\src\options.cpp
 [Error]
 Erro
 [Events]

@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
-;file \protocols\Skype\res\Resource.rc
 [&Cancel]
 &Cancelar
 [Add]
@@ -36,15 +35,10 @@ País:
 Fuso horário:
 [New password:]
 Nova senha:
-;file \protocols\Skype\src\skype.cpp
-;file \protocols\Skype\src\skype_account.cpp
-;file \protocols\Skype\src\skype_blocked.cpp
 [Name]
 Nome
-;file \protocols\Skype\src\skype_bookmarks.cpp
 [Conferences]
 Conferências
-;file \protocols\Skype\src\skype_chat.cpp
 [&User details]
 &Detalhes de Usuário
 [Set &role]
@@ -53,35 +47,23 @@ configurar &papel
 &Usuário
 [&Add]
 &Adicionar
-;file \protocols\Skype\src\skype_contacts.cpp
-;file \protocols\Skype\src\skype_dialogs.cpp
 [Male]
 Masculino
 [Female]
 Feminino
-;file \protocols\Skype\src\skype_events.cpp
 [Network]
 Rede
 [Contacts]
 Contatos
 [General]
 Geral
-;file \protocols\Skype\src\skype_icons.cpp
 [Contact]
 Contato
 [Delete]
 Excluir
-;file \protocols\Skype\src\skype_ignore_list.cpp
-;file \protocols\Skype\src\skype_instances.cpp
-;file \protocols\Skype\src\skype_menus.cpp
 [Request authorization]
 Pedindo autorização
 [Grant authorization]
 Garantir autorização
 [Revoke authorization]
 Revogar autorização
-;file \protocols\Skype\src\skype_messages.cpp
-;file \protocols\Skype\src\skype_netlib.cpp
-;file \protocols\Skype\src\skype_proto.cpp
-;file \protocols\Skype\src\skype_transfers.cpp
-;file \protocols\Skype\src\skype_utils.cpp

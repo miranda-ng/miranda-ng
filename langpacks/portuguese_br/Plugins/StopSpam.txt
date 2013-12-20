@@ -5,8 +5,8 @@
 ;  Version: 0.0.1.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
-;file \plugins\StopSpamPlus\res\stopspam.rc
-;file \plugins\StopSpamPlus\src\events.cpp
+[Add contact permanently]
+Adicionar contato permanentemente
 [Message Sessions]
 Sessões de mensagem
 [General]
@@ -15,10 +15,5 @@ Geral
 Mensagens
 [Accounts]
 Contas
-;file \plugins\StopSpamPlus\src\headers.h
-;file \plugins\StopSpamPlus\src\options.cpp
-;file \plugins\StopSpamPlus\src\services.cpp
 [Complete]
 Completo
-;file \plugins\StopSpamPlus\src\settings.h
-;file \plugins\StopSpamPlus\src\stopspam.cpp

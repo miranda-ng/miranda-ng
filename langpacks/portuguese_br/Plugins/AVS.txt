@@ -2,10 +2,9 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
-;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 As imagens que estão aqui são usadas como avatar padrão \npara contos que não tenham a sua própria.\nUse os botões para ativar/desativar mostrar avatar para os protocolos.
 [Set default picture]
@@ -70,12 +69,32 @@ Diferença de cor:
 Configurar
 [Use per protocol avatars]
 Usar avatares por protocolo
-;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Protocolos têm avatares diferentes
-;file \plugins\AVS\src\main.cpp
-[Grow avatar to fit max allowed protocol size]
-Redimensionar o avatar para ajustar o tamanho máximo permitido para o protocolo
+[Global avatar]
+Avatar Global
+[My Avatars]
+Meus Avatares
+[My Global Avatar Cache]
+Meu Cache do Avatar Global
+[Set avatar options for %s]
+Configurar opções para %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Excluir imagem do disco? (Necessário reiniciar)
+[Reset contact picture]
+Limpar imagem do contato
+[Contact has no avatar]
+Contato sem avatar
+[Contacts]
+Contatos
+[Contact Avatars]
+Avatares do contato
+[Own Avatars]
+Avatares Próprios
+[Are you sure you want to remove your avatar?]
+Tem certeza que deseja remover o seu avatar?
+[Global Avatar]
+Avatar Global
 [All Files]
 Todos os Arquivos
 [Windows Bitmaps]
@@ -90,30 +109,9 @@ Imagens PNG
 Animações em Flash
 [XML Files]
 Arquivos XML
+[Grow avatar to fit max allowed protocol size]
+Redimensionar o avatar para ajustar o tamanho máximo permitido para o protocolo
 [Set My Avatar]
 Configurar Meu Avatar
 [Set My Avatar for %s]
 Configura Meu Avatar para %s
-[My Avatars]
-Meus Avatares
-[My Global Avatar Cache]
-Meu Cache do Avatar Global
-[Contacts]
-Contatos
-[Contact Avatars]
-Avatares do contato
-[Own Avatars]
-Avatares Próprios
-;file \plugins\AVS\src\options.cpp
-[Set avatar options for %s]
-Configurar opções para %s
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Excluir imagem do disco? (Necessário reiniciar)
-[Reset contact picture]
-Limpar imagem do contato
-[Contact has no avatar]
-Contato sem avatar
-[Are you sure you want to remove your avatar?]
-Tem certeza que deseja remover o seu avatar?
-[Global Avatar]
-Avatar Global

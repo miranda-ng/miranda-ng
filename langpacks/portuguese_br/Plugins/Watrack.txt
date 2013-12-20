@@ -149,6 +149,8 @@ Other thread handle check
 Keep old file
 [No Music]
 Sem Musica
+[No player]
+Sem Player
 [User message]
 User message
 [Channel message]
@@ -179,6 +181,8 @@ Pode não mudar
 All lowercase
 [lowercase %type%]
 lowercase %type%
+[bitrate]
+Bitrate
 [by Count]
 Por conta
 [by Date]
@@ -195,6 +199,10 @@ Sem Player
 Abrir reporte
 [Reverse order]
 Reverse order
+[Independed Xstatus]
+ XStatus Independente
+[second line]
+Segunda Linha
 [Cover filenames]
 Arquivos de capa
 [Music Info]
@@ -207,12 +215,16 @@ Informações da Macro WATrack
 Clique esquerdo
 [Right click]
 Clique direito
+[genre]
+Gênero
 [Kilobytes]
 Kilobytes
 [Megabytes]
 Megabytes
 [Precision]
 Precisão
+[none]
+Nenhum
 [Color]
 Cor
 [Output]
@@ -221,8 +233,4 @@ Saida
 Check
 [Choose font...]
 Escolher fonte...
-;file \plugins\Watrack\myshows\myshows.rc
-;file \plugins\Watrack\lastfm\i_last_api.inc
-;file \plugins\Watrack\lastfm\i_last_dlg.inc
-;file \plugins\Watrack\proto\proto.pas
 ;other strings

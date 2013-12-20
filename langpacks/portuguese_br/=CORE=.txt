@@ -1,5 +1,4 @@
-﻿;file \src\resource.rc
-[Enter account name (for example, My Google)]
+﻿[Enter account name (for example, My Google)]
 Digite o nome da conta (por exemplo, Meu Google)
 [Choose the protocol type]
 Escolha o tipo de protocolo
@@ -281,6 +280,8 @@ Limpar
 Exportar...
 [(Background) Color]
 Cor/Fundo
+[Text effect]
+Efeito de texto
 [Text color]
 Cor do Texto
 [Choose font]
@@ -379,8 +380,6 @@ Notas menores
 Esta fonte é usada para exibir várias notas adicionais.
 [Event icon legend:]
 Legenda de evento de ícone:
-[Choose events you wish to ingonre:]
-Selecione os evento que deseja ignorar:
 [opacity:]
 Opacidade
 [Tray]
@@ -441,7 +440,6 @@ Abrir em &nova janela
 &Copiar link
 [Cancel change]
 Cancelar Alterações
-;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Autorizar
 [&Deny]
@@ -452,7 +450,6 @@ Razão:
 Você foi adicionado
 [&Close]
 &Fechar
-;file \src\core\stdaway\resource.rc
 [%s message for %s]
 Mensagem de %s para %s
 [Retrieving %s message...]
@@ -475,7 +472,6 @@ Mensagem de status:
 Alterar mensagem %s
 [Closing in %d]
 Fechando em %d
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 &Enviar
 [Show these events only:]
@@ -582,7 +578,6 @@ Abas
 F&echar outras abas
 [&Open at this position]
 &Abrir nesta posição
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 Ocultar usuários offline
 [Hide empty groups]
@@ -759,6 +754,8 @@ Mostrar painéis sobressaidos
 Redimensionar
 [Window:]
 Janela:
+[&Main menu]
+&Menu principal
 [&Status]
 &Status
 [&Offline\tCtrl+0]
@@ -777,7 +774,6 @@ Ocu&upado\tCtrl+4
 Ao &Telefone\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Saiu para Almoço\tCtrl+9
-;file \src\core\stdfile\resource.rc
 [Send file(s)]
 Enviar Arquivos(s)
 [To:]
@@ -884,10 +880,8 @@ Pergunte-me
 Renomear
 [You will always be asked about files from people not on your contact list]
 Será sempre questionado sobre arquivos de pessoas que não estão na sua lista
-;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Sobre o Miranda NG BR
-;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Passar a inativo se não se registrar ação nos items seguintes:
 [Windows]
@@ -914,7 +908,6 @@ Opções de Inatividade
 Passar a inativo se o computador não reg. ação em:
 [Idle (auto-away):]
 Indisponível (auto-invisível):
-;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Mostrar popup automaticamente quando:
 [Close the message window on send]
@@ -999,7 +992,6 @@ Salvar a posição da janela para cada contato
 Envio de Mensagem:
 [Delete]
 Excluir
-;file \src\core\stduihist\resource.rc
 [Find]
 Localizar
 [&Find next]
@@ -1010,7 +1002,6 @@ Localizar:
 Histórico de mensagens
 [&Find...]
 &Encontrar...
-;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 Adicionar Telefone
 [Enter country, area code and phone number:]
@@ -1079,7 +1070,6 @@ Departamento:
 Posição:
 [Website:]
 Site:
-;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 %s solicita autorização
 [%u requests authorization]
@@ -1090,17 +1080,16 @@ u% adicionou-lhe a sua lista de contatos
 Alertas
 [Added event]
 Evento adicionado
-;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 Ver detalhes do usuário
 [Add contact permanently to list]
 Adicionar contato permanentemente a Lista
+[<Unknown>]
+<desconhecido>
 [(Unknown)]
 (Desconhecido)
-;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s message]
 Ler %s Messagem(s)
-;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 Eu estou ausente desde %time%.
 [Give it up, I'm not in!]
@@ -1125,11 +1114,8 @@ Mmm... comida.
 Ocupadoooooo
 [Status]
 Status
-;file \src\core\stdchat\src\clist.cpp
 [Join chat]
 Entrar no bate-papo
-;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s acabou de entrar
 [You have joined %s]
@@ -1150,7 +1136,6 @@ Notificação de %s:
 (definido por %s sobre %s)
 [ (set by %s)]
 (definido por %s)
-;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
 Outros apelidos
 [Your nickname]
@@ -1383,6 +1368,8 @@ Destacar (10X10)
 informação (10x10)
 [Messaging]
 Mensagem
+[Group chats]
+Grupos de chat
 [Group chats log]
 Reg. de grupos de chats
 [Options for using a tabbed interface]
@@ -1401,8 +1388,6 @@ Eventos padrão para mostrar em novas salas de chat, se o 'filtro de evento' est
 Selecionar Pasta
 [Message sessions]
 Sessões de mensagem
-[Group chats]
-Grupos de chat
 [General]
 Geral
 [Chat log]
@@ -1423,10 +1408,8 @@ O usuário mudou o nome
 Usuário enviou uma notícia
 [The topic has been changed]
 O tópico foi mudado
-;file \src\core\stdchat\src\services.cpp
 [&Join]
 &Agrupar
-;file \src\core\stdchat\src\tools.cpp
 [%s wants your attention in %s]
 %s pede sua atenção em %s
 [%s speaks in %s]
@@ -1455,7 +1438,6 @@ Informação in %s
 Notificação de %s: %s
 [No word to look up]
 Sem palavras para procurar
-;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Inserir smiley
 [Make the text bold (CTRL+B)]
@@ -1490,7 +1472,6 @@ Fechar aba atual (CTRL+F4)
 Apelido
 [Unique ID]
 ID único
-;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Contatos padrão
 [Online contacts to whom you have a different visibility]
@@ -1511,7 +1492,6 @@ Texto Selecionado
 Marcar texto
 [Quicksearch text]
 Pesquisa rápida do texto
-;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 Não focalizado
 [Online]
@@ -1532,18 +1512,14 @@ Saiu para almoço
 Ao telefone
 [List background]
 Alterar Fundo
-;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Global
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 O usuário não tem registrado um endereço de e-mail
 [Send e-mail]
 Enviar e-mail
 [&E-mail]
 &E-mail
-;file \src\core\stdfile\file.cpp
 [File from %s]
 Arquivo de %s
 [bytes]
@@ -1560,29 +1536,24 @@ Completo
 Erro
 [Denied]
 Recusado
-;file \src\core\stdfile\fileexistsdlg.cpp
 [%s file]
 %s Arquivo
 [All files]
 Todos os Arquivos
-;file \src\core\stdfile\fileopts.cpp
 [Executable files]
 Arquivos executáveis
 [Events]
 Eventos
-;file \src\core\stdfile\filerecvdlg.cpp
 [View user's history]
 Exibir Histórico do Usuário
 [User menu]
 Menu do Usuário
 [Canceled]
 Cancelado
-;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
 %d arquivos
 [%d directories]
 pastas %d
-;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Este arquivo ainda não foi verificado. Tem certeza que deseja abri-lo?
 [File received]
@@ -1597,11 +1568,8 @@ seg
 remanescente
 [Connecting...]
 Conectando...
-;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 Enviando
-;file \src\core\stdhelp\about.cpp
-;file \src\core\stdhelp\help.cpp
 [&About...]
 &Sobre...
 [&Support]
@@ -1610,18 +1578,14 @@ Suporte
 Site do &Miranda NG em Inglês
 [&Report bug]
 &Reportar Bug
-;file \src\core\stdidle\idle.cpp
 [Idle]
 Inativo
-;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Esgotado o tempo para enviar a mensagem.
-;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 Mensagens de entrada (10x10)
 [Outgoing message (10x10)]
 Mensagem de saída (10x10)
-;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Última mensagem recebida em %s às %s.
 [signed off (was %s)]
@@ -1632,10 +1596,8 @@ entrou em (%s)
 Agora é %s (era %s)
 [%s is typing a message...]
 %s está escrevendo uma mensagem...
-;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Arquivo enviado
-;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Enviando mensagens
 [Incoming messages]
@@ -1666,7 +1628,6 @@ Mostrar popup (sistema não suportado)
 Registro de Mensagens
 [Typing notify]
 Escrevendo Notificação
-;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Mensagem de %s
 [%s is typing a message]
@@ -1681,10 +1642,8 @@ Recebendo (janela visível)
 Recebendo (janela não visível)
 [Incoming (new session)]
 Recebendo (Nova Sessão)
-;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Ocorreu um erro desconhecido.
-;file \src\core\stduihist\history.cpp
 [Outgoing URL]
 Enviando URL
 [Incoming URL]
@@ -1701,17 +1660,14 @@ Tem certeza de que deseja excluir este item do histórico?
 Excluir Histórico
 [View &history]
 Ver &Histórico
-;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL de %s
 [Web page address (&URL)]
 Página Web (URL)
-;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Enviar URL para
 [Send timed out]
 Tempo de Envio esgotado
-;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail address]
 Editar E-Mail
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -1730,7 +1686,6 @@ Celular
 Telefone Comercial
 [Work fax]
 Fax Comercial
-;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 Masculino
 [Female]
@@ -1745,34 +1700,26 @@ Localidade
 Trabalho
 [Notes]
 Notas
-;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Proprietário
 [View/change my &details...]
 Ver/Mudar Meus &Detalhes...
-;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s está Online
-;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Adicionar Contato
 [Please authorize my request and add me to your contact list.]
 Por favor, autorizar o meu pedido e me adicionar à sua lista de contatos.
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 Status personalizada
 [%s (locked)]
 %s (travado)
+[Status menu]
+Menu de status
 [Main menu]
 Menu Principal
-;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Contato Desconhecido)
-;file \src\modules\clist\clisttray.cpp
-[&Main menu]
-&Menu principal
-;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Este contato é sobre um sistema de mensagens instantâneas que armazena sua lista de contatos em um servidor central. O contato será removido do servidor e de sua lista de contato quando você conectar-se próxima a essa rede.
 [De&lete]
@@ -1781,7 +1728,6 @@ Este contato é sobre um sistema de mensagens instantâneas que armazena sua lis
 &Renomear
 [&Add permanently to list]
 &Adicionar permanentemente a lista
-;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 Meu nome pessoal (não movível)
 [Nick]
@@ -1802,15 +1748,12 @@ Nome e Sobrenome
 '(Contato Desconhecido)'
 [Contact names]
 Nomes Contato
-;file \src\modules\clist\genmenu.cpp
 [Menu icons]
 Ícones do Menu
-;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Menus
 [Customize]
 Personalizar
-;file \src\modules\clist\groups.cpp
 [New group]
 Novo Grupo
 [Delete group]
@@ -1821,7 +1764,6 @@ Já existe um grupo com esse nome. Por favor insira um nome original para o grup
 Renomear Grupo
 [This group]
 Este grupo
-;file \src\modules\clist\keyboard.cpp
 [Show/Hide contact list]
 Exibir/Ocultar Lista de Contatos
 [Read message]
@@ -1830,20 +1772,16 @@ Ler Mensagem
 Abrir Opções de Página
 [Open 'Find user' dialog]
 Abrir Diálogo Procurar Usuário
-;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 &Mover para o Grupo
 [<Root group>]
 <Grupo Raiz>
-;file \src\modules\database\database.cpp
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
 Miranda não consegue abrir '% s' porque você não tem qualquer perfil de plugins instalados.\n Você precisa instalar dbx_mmap.dll ou equivalente.
 [No profile support installed!]
 Nenhum perfil de apoio instalado!
 [Miranda can't understand that profile]
 Miranda não consegue entender que o perfil
-;file \src\modules\database\dbini.cpp
-;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 O perfil já existe
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
@@ -1858,22 +1796,18 @@ Problema criando perfil
 &Criar
 [Size]
 Tamanho
-[Created]
-Criado
 [Run]
 Ativar
+[Created]
+Criado
 [My profiles]
 Meus Perfis
 [New profile]
 Novo Perfil
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
-;file \src\modules\extraicons\extraicons.cpp
 [Chat activity]
 Atividade de bate-papo
-;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 Ícones extras
-;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Você não preencheu o campo de pesquisa. Digite um termo de pesquisa e tente novamente.
 [Search]
@@ -1890,7 +1824,6 @@ Todas as redes
 Alça
 [&Find/Add contacts...]
 &Procurar/Adicionar Contatos...
-;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Não foi possível iniciar uma pesquisa sobre '%s', que tinha um problema - está %s conectado?
 [Could not search on any of the protocols, are you online?]
@@ -1905,38 +1838,32 @@ Problemas com a pesquisa
 usuários %d encontrado (
 [No users found]
 Nenhum utilizador encontrado
-;file \src\modules\fonts\FontOptions.cpp
+[Text files]
+Arquivos de texto
 [Sample text]
 Exemplo
 [Fonts]
 Fontes
-;file \src\modules\fonts\FontService.cpp
 [Headers]
 Cabeçalhos
 [Generic text]
 Texto genérico
 [Small text]
 Texto pequeno
-;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 Configuar Ícone
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Todos os contatos **
 [Contacts]
 Contatos
-;file \src\modules\netlib\netliblog.cpp
 [Select where log file will be created]
 Selecione onde arquivo de registro será criado
 [Select program to be run]
 Selecione o programa a ser executado
-;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Todas as ligações>
 [Network]
 Rede
-;file \src\modules\netlib\netlibssl.cpp
-;file \src\modules\options\options.cpp
 [<all modules>]
 todos os módulos
 [<core modules>]
@@ -1947,7 +1874,6 @@ módulos core
 Opções do Miranda NG BR
 [&Options...]
 &Opções...
-;file \src\modules\plugins\newplugins.cpp
 ['%s' is disabled, re-enable?]
 '%s'está desativado, reativar?
 [Re-enable Miranda plugin?]
@@ -1956,14 +1882,12 @@ Reativar plugin Miranda?
 Não é possível carregar plugin no Service Mode!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Não é possível iniciar qualquer um dos plugins instalados lista de contato, eu mesmo ignorado suas preferências de lista de contatos que não foi possível carregar qualquer.
-;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Plugin
 [Version]
 Versão
 [Plugins]
 Plugins
-;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 Criar nova conta
 [Editing account]
@@ -1990,7 +1914,6 @@ Renomear
 A Conta %s está sendo apagada
 [&Accounts...]
 &Contas...
-;file \src\modules\skin\hotkey_opts.cpp
 [Remove shortcut]
 Remover atalho
 [Add another shortcut]
@@ -2003,7 +1926,6 @@ Sistema
 Ações
 [Add binding]
 Adicionar
-;file \src\modules\skin\skinicons.cpp
 [User online]
 Usuário Online
 [Group (open)]
@@ -2066,14 +1988,14 @@ Pedindo autorização
 Garantir autorização
 [Revoke authorization]
 Revogar autorização
+[Always visible]
+Sempre Visível
 [Status icons]
 Ícones de Status
 [%s icons]
 %s Ícones
 [Main icons]
 Ícones Principais
-;file \src\modules\skin\sounds.cpp
-;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 É preciso um plugin de serviço de imagem para processar imagens PNG.
 [All bitmaps]
@@ -2086,8 +2008,6 @@ Imagens JPEG
 Imagens GIF
 [PNG bitmaps]
 Imagens PNG
-;file \src\modules\utils\timezones.cpp
-;file \src\modules\utils\utils.cpp
 [Unspecified]
 Indefinido
 [Unknown]
@@ -2140,12 +2060,16 @@ Benin
 Bermudas
 [Bhutan]
 Butão
+[Bolivia]
+Bolívia
 [Bosnia and Herzegovina]
 Bósnia-Herzegovina
 [Botswana]
 Botsuana
 [Brazil]
 Brasil
+[Brunei]
+Brunei
 [Bulgaria]
 Bulgária
 [Burkina Faso]
@@ -2158,12 +2082,16 @@ Camboja
 Camarões
 [Canada]
 Canadá
+[Cape Verde]
+Ilhas de Cabo Verde
 [Cayman Islands]
 Ilhas Caimã
 [Central African Republic]
 República Centro Africana
 [Chad]
 Chade
+[Chile]
+Chile
 [China]
 China
 [Christmas Island]
@@ -2174,10 +2102,16 @@ Ilhas Cocos (Keeling)
 Colômbia
 [Comoros]
 Comores
+[Congo, Republic of the]
+Congo, República do
+[Congo, Democratic Republic of the]
+Congo, República Democrática do
 [Cook Islands]
 Ilhas Cook
 [Costa Rica]
 Costa Rica
+[Cote d'Ivoire]
+Costa do Marfim
 [Croatia]
 Croácia
 [Cuba]
@@ -2208,6 +2142,8 @@ Eritréia
 Estónia
 [Ethiopia]
 Etiópia
+[Faroe Islands]
+Ilhas Faroé
 [Fiji]
 Fiji
 [Finland]
@@ -2260,6 +2196,8 @@ Islândia
 Índia
 [Indonesia]
 Indonésia
+[Iran]
+Irã
 [Iraq]
 Iraque
 [Ireland]
@@ -2284,6 +2222,8 @@ Kiribati
 Kuwait
 [Kyrgyzstan]
 Quirguistão
+[Laos]
+Laos
 [Latvia]
 Letônia
 [Lebanon]
@@ -2292,12 +2232,16 @@ Líbano
 Lesoto
 [Liberia]
 Libéria
+[Libya]
+Líbia
 [Liechtenstein]
 Liechtenstein
 [Lithuania]
 Lituânia
 [Luxembourg]
 Luxemburgo
+[Macau]
+Macau
 [Madagascar]
 Madagascar
 [Malawi]
@@ -2318,6 +2262,8 @@ Martinica
 Mauritânia
 [Mauritius]
 Maurício
+[Mayotte]
+Mayotte
 [Mexico]
 México
 [Micronesia, Federated States of]
@@ -2384,8 +2330,12 @@ Portugal
 Porto Rico
 [Qatar]
 Catar
+[Reunion]
+Reunião
 [Romania]
 Romênia
+[Russia]
+Rússia
 [Rwanda]
 Ruanda
 [Saint Kitts and Nevis]
@@ -2436,8 +2386,12 @@ Suécia
 Suíça
 [Syria]
 República Árabe da Síria
+[Taiwan]
+Taiwan
 [Tajikistan]
 Tadjiquistão
+[Tanzania]
+Tanzânia
 [Thailand]
 Tailândia
 [Togo]
@@ -2472,10 +2426,17 @@ Uruguai
 Uzbequistão
 [Vanuatu]
 Vanuatu
+[Vatican City]
+Cidade do Vaticano
+[Venezuela]
+Venezuela
+[Vietnam]
+Vietnã
+[Wallis and Futuna]
+Wallis e Futuna
 [Yemen]
 Iêmen
 [Zambia]
 Zâmbia
 [Zimbabwe]
 Zimbábue
-;file \src\modules\visibility\visibility.cpp

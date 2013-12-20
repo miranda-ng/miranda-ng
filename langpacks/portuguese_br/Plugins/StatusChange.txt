@@ -5,7 +5,6 @@
 ;  Version: 1.3.0.0
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
-;file \plugins\StatusChange\res\resource.rc
 [Online]
 Online
 [Away]
@@ -24,6 +23,7 @@ Ao telefone
 Saiu para almoço
 [Message]
 Mensagem
-;file \plugins\StatusChange\src\main.cpp
+[Status Change]
+Mundança de Status
 [Status]
 Status

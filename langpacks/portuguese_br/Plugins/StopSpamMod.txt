@@ -5,9 +5,8 @@
 ;  Version: 0.0.2.0
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
-;file \plugins\StopSpamMod\res\stopspam.rc
-;file \plugins\StopSpamMod\src\init.cpp
-;file \plugins\StopSpamMod\src\options.cpp
+[Add contact permanently]
+Adicionar contato permanentemente
 [Message Sessions]
 Sessões de mensagem
 [General]

@@ -5,7 +5,6 @@
 ;  Version: 0.14.0.13
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
-;file \plugins\MetaContacts\res\MetaContacts.rc
 [&Cancel]
 &Cancelar
 [Name:]
@@ -22,8 +21,6 @@ Opções
 Lista de Contatos
 [Default]
 Padrão
-;file \plugins\MetaContacts\src\addto.cpp
-;file \plugins\MetaContacts\src\edit.cpp
 [(Unknown Contact)]
 (Contato Desconhecido)
 [Yes]
@@ -34,22 +31,15 @@ Não
 Contato
 [Protocol]
 Protocolo
-;file \plugins\MetaContacts\src\icons.cpp
 [Edit]
 Editar
 [Remove]
 Remover
-;file \plugins\MetaContacts\src\metacontacts.h
-;file \plugins\MetaContacts\src\meta_main.cpp
-;file \plugins\MetaContacts\src\meta_menu.cpp
 [Error]
 Erro
-;file \plugins\MetaContacts\src\meta_options.cpp
-;file \plugins\MetaContacts\src\meta_services.cpp
 [Message from %s]
 Mensagem de %s
 [General]
 Geral
 [History]
 Histórico
-;file \plugins\MetaContacts\src\meta_utils.cpp

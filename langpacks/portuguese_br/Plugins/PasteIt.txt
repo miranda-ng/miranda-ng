@@ -5,19 +5,15 @@
 ;  Version: 1.0.0.3
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\PasteIt\res\PasteIt.rc
 [OK]
 OK
 [Cancel]
 Cancelar
 [Delete]
 Excluir
-;file \plugins\PasteIt\src\Options.cpp
+[Format]
+formato
 [Web page]
 Página na Web
-;file \plugins\PasteIt\src\PasteIt.cpp
 [Error]
 Erro
-;file \plugins\PasteIt\src\PasteToWeb.cpp
-;file \plugins\PasteIt\src\PasteToWeb1.cpp
-;file \plugins\PasteIt\src\PasteToWeb2.cpp

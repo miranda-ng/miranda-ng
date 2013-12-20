@@ -5,7 +5,6 @@
 ;  Version: 0.2.6.0
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
-;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
 Substituir
 [Enable auto-replacements]
@@ -50,9 +49,6 @@ Usar idioma de entrada para selecionar o dicionário
 Usar dicionários de outros programas
 [Avoid removing underscores (slows down checking of long texts)]
 Evite remover subclassicação (a verificação de textos longos pode ser lenta)
-;file \plugins\SpellChecker\src\ardialog.cpp
-;file \plugins\SpellChecker\src\dictionary.cpp
-;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 Sessões de mensagem
 [Auto-replacements]
@@ -75,14 +71,12 @@ Denso
 Palavra errada
 [Correction]
 Correção
-;file \plugins\SpellChecker\src\spellchecker.cpp
 [Dictionaries]
 Dicionários
 [Custom Dictionaries]
 Dicionários personalizados
 [Enable/disable spell checker]
 Ativar/desativar corretor ortográfico
-;file \plugins\SpellChecker\src\utils.cpp
 [Other...]
 Outro...
 [Always replace with]

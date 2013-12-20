@@ -5,19 +5,17 @@
 ;  Version: 0.1.3.0
 ;  Authors: MaD_CLuSTeR
 ;============================================================
-;file \plugins\Sessions\res\Sessions.rc
 [Edit]
 Editar
 [Delete]
 Excluir
 [&Cancel]
 &Cancelar
+[Save and Close]
+Salvar e fechar
 [OK]
 OK
 [Cancel]
 Cancelar
-;file \plugins\Sessions\Src\Main.cpp
-;file \plugins\Sessions\Src\Options.cpp
 [Message Sessions]
 Sessões de mensagem
-;file \plugins\Sessions\Src\Utils.cpp

@@ -1,11 +1,10 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-;file \protocols\JabberG\res\jabber.rc
 [OK]
 OK
 [Cancel]
@@ -254,6 +253,8 @@ Então:
 seguintes tipos de estrofe:
 [Messages]
 Mensagens
+[Queries]
+consultas
 [Incoming presence]
 Chegando presença
 [Outgoing presence]
@@ -268,6 +269,8 @@ Serviço de Descoberta
 Exibir como árvore
 [View as list]
 Exibir como lista
+[Favorites]
+Favoritos
 [Node:]
 Nó:
 [Change %s Message]
@@ -290,6 +293,8 @@ Definir papel
 Filiação:
 [Set affiliation]
 Configurar afiliação
+[Status message:]
+Mensgem de Status
 [Chat options]
 Opções de Bate-papo
 [Custom messages]
@@ -318,11 +323,10 @@ Negar
 Console XML
 [Reset log]
 Esvaziar registro
-;file \protocols\JabberG\src\jabber.cpp
-;file \protocols\JabberG\src\jabber.h
+[Frame text]
+Frame Texto
 [/me slaps %s around a bit with a large trout]
 /lançar-me %s em torno de um bit com uma truta grande
-;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 Erro %s %s
 [Select Command]
@@ -339,20 +343,16 @@ Lista de comandos requerente. Aguarde...
 Jabber Ad-Hoc comandos at %s
 [Sending Ad-Hoc command to %s]
 Enviando comando Ad-Hoc para %s
-;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Sem mensagem
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [Bookmark Name]
 Nome do indicador
 [Address (JID or URL)]
 Endereço (JID ou URL)
+[Nickname]
+Apelido
 [Conferences]
 Conferências
-;file \protocols\JabberG\src\jabber_byte.cpp
-;file \protocols\JabberG\src\jabber_caps.cpp
-;file \protocols\JabberG\src\jabber_captcha.cpp
-;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Nenhum
 [Member]
@@ -431,6 +431,8 @@ Livre para conversar
 &Detalhes de Usuário
 [Member &info]
 Membro &info
+[User &details]
+&Detalhes do usuário
 [&Add to roster]
 &Adicionar à lista
 [&Copy to clipboard]
@@ -461,26 +463,12 @@ Copiar &apelido
 Copiar JID real
 [Real &JID: %s]
 Real &JID: %s
-[Member Info:]
-Membro Info:
 [Real JID not available]
 Real JID não disponível
-[Reason to kick]
-Motivo para chutar
-[Reason to ban]
-Razão para proibir
-[Set topic for]
-Definir tema para
-[Change nickname in]
-Mudança de apelido
-[Reason to destroy]
-Motivo para destruir
-;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 Não é possível enviar dados enquanto estiver offline.
 [Jabber Error]
 Erro do Jabber
-;file \protocols\JabberG\src\jabber_disco.cpp
 [Node hierarchy]
 Hierarquia
 [Node]
@@ -499,7 +487,6 @@ Navegar por transportes locais
 Navegar por salas de bate-papo
 [Add to roster]
 Adicionar para a lista de contatos
-;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Identidades
 [category]
@@ -512,8 +499,10 @@ Recursos suportados
 Erro no pedido de informação
 [Items request error]
 Erro no pedido de itens
-;file \protocols\JabberG\src\jabber_form2.cpp
-;file \protocols\JabberG\src\jabber_groupchat.cpp
+[First Name]
+Nome
+[Last Name]
+Sobrenome
 [Failed to retrieve room list from server.]
 Falha ao obter lista da sala do servidor.
 [No rooms available on server.]
@@ -528,7 +517,8 @@ Por favor, aguarde lista de salas para download.
 Por favor, especifique diretório do grupo de bate-papo primeiro.
 [Bookmarks...]
 Marcadores...
-;file \protocols\JabberG\src\jabber_icolib.cpp
+[transport]
+Transportes
 [Notes]
 Notas
 [Agents list]
@@ -593,7 +583,6 @@ Negar Presenças (fora)
 Negar Consultas
 [Dialogs]
 Diálogos
-;file \protocols\JabberG\src\jabber_iqid.cpp
 [Jabber Authentication]
 Autenticação do Jabber
 [Registration successful]
@@ -604,7 +593,6 @@ A senha foi alterada com êxito. Não se esqueça de atualizar a sua senha na op
 A senha não pode ser mudada.
 [Jabber Bookmarks Error]
 Marcadores de Erro Jabber
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [Voice List]
 Lista de vozes
 [Member List]
@@ -617,12 +605,10 @@ Lista de Banidos
 Lista de Admin.
 [Owner List]
 Lista de Proprietário
-[Removing]
-Remover
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Reason to ban]
+Razão para proibir
 [Http authentication request received]
 Http recebeu pedido de autenticação
-;file \protocols\JabberG\src\jabber_menu.cpp
 [Request authorization]
 Pedindo autorização
 [Grant authorization]
@@ -657,26 +643,22 @@ Editor de registro
 Resolver prioridade
 [Resource priority [%d]]
 Recurso prioridade [%d]
-[Last active]
-Ativo pela última vez
+[Privacy lists]
+Listas Privadas
+[Service discovery]
+Serviço de Descoberta
 [No activity yet, use server's choice]
 Nenhuma atividade ainda, a escolha o servidor para uso
 [Highest priority (server's choice)]
 Escolha a máxima prioridade do servidor (a)
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
 Para
-;file \protocols\JabberG\src\jabber_notes.cpp
-;file \protocols\JabberG\src\jabber_opt.cpp
 [Nauru]
 Nauru
 [These changes will take effect the next time you connect to the Jabber network.]
 Essas mudanças terão efeito na próxima vez que você se conectar à rede Jabber.
 [Jabber Protocol Option]
 Opção do protocolo Jabber
-[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
-Esta operação irá matar a sua conta, lista e todas as informações armazenadas em outro servidor. Você está pronto para fazer isso?
 [Account removal warning]
 Aviso de remoção de conta
 [Messaging]
@@ -741,6 +723,8 @@ Mudanças de papel
 Alterações de Status
 [JID]
 JID
+[Nick Name]
+Apelido
 [Group]
 Grupo
 [Subscription]
@@ -765,14 +749,10 @@ Google Talk!
 Discussão LiveJournal
 [Some changes will take effect the next time you connect to the Jabber network.]
 Algumas mudanças terão efeito na próxima vez que você se conectar à rede Jabber.
-;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for]
-Definir a nova senha para
 [New password does not match.]
 Nova senha não corresponde.
 [Current password is incorrect.]
 Senha atual está incorreta.
-;file \protocols\JabberG\src\jabber_privacy.cpp
 [Warning: privacy lists were changed on server.]
 Atenção: as listas de privacidade foram alteradas no servidor.
 [Error occurred while applying changes]
@@ -867,13 +847,12 @@ Listas de privacidade não são salvas, descartar todas as alterações e sair?
 Não foi possível salvar a lista porque você está atualmente offline.
 [List Editor...]
 Editor de Lista...
-;file \protocols\JabberG\src\jabber_proto.cpp
-;file \protocols\JabberG\src\jabber_rc.cpp
+[Set status]
+Configurar Status
 [Status]
 Status
 [Invisible]
 Invisível
-;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Erro %s %s\r\nPor favor escolha outro servidor
 [Error: unknown reply received\r\nPlease select other server]
@@ -886,7 +865,6 @@ Pesquisar erro
 Por favor aguarde...\r\nConectando servidor de pesquisa...
 [You have to be connected to server]
 Você tem que estar conectado ao servidor
-;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
 fechou sessão de chat
 [sent subscription request]
@@ -899,7 +877,6 @@ declinou de inscrição
 enviado presença de erro
 [sent unknown presence type]
 enviado presença tipo desconhecido
-;file \protocols\JabberG\src\jabber_thread.cpp
 [Error: Not enough memory]
 Erro: Não existe memória suficiente
 [Error: Cannot connect to the server]
@@ -912,7 +889,6 @@ Solicitando registro de instrução...
 Mensagem redirecionada a partir de: %s\r\n%s
 [Sending registration information...]
 Envio de informações de registro...
-;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Message]
 Mensagem
 [Software]
@@ -921,14 +897,16 @@ Software
 Versão
 [System]
 Sistema
+[unknown]
+Desconhecido
 [Idle since]
 Inativo desde
 [Client capabilities]
 Recursos de cliente
-[Yes]
-Sim
-[No]
-Não
+[to]
+Para
+[none]
+Nenhum
 [Last logoff time]
 Últim hora de saída
 [Uptime]
@@ -949,14 +927,14 @@ formato
 Formato Desconhecido
 [Photo]
 Foto
-;file \protocols\JabberG\src\jabber_util.cpp
+[Not found]
+NÃO ENCONTRADO
 [Error]
 Erro
 [Unknown error message]
 Mensagem de erro desconhecido
 [Advanced Status]
 Status avançado
-;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Masculino
 [Female]
@@ -971,8 +949,6 @@ Jabber vCard: Editar endereço de E-mail
 Jabber vCard: Editar número de telefone
 [Contacts]
 Contatos
-;file \protocols\JabberG\src\jabber_ws.cpp
-;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]
 Com medo
 [Amazed]
@@ -1087,4 +1063,17 @@ Surpreendido
 Sedento
 [Worried]
 Preocupado
-;file \protocols\JabberG\src\ui_utils.cpp
+[taking a bath]
+Tomando um banho
+[thinking]
+Pensando
+[gaming]
+Jogando
+[shopping]
+Shopping
+[watching TV]
+Vendo TV
+[on the phone]
+Ao telefone
+[studying]
+Estudando

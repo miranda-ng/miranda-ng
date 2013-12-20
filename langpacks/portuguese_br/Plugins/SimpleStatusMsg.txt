@@ -5,7 +5,6 @@
 ;  Version: 1.9.0.4
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
-;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
 Mensagem de %s para %s
 [&Cancel]
@@ -30,29 +29,24 @@ Colar
 Excluir
 [Select All]
 Selecionar Tudo
-;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [&Close]
 &Fechar
 [Re&ad %s Message]
 Ler %s Messagem(s)
 [Re&ad Away Message]
 Ler Messagem de Ausente
-;file \plugins\SimpleStatusMsg\src\main.cpp
 [%s (locked)]
 %s (travado)
-;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [Global]
 Global
 [Closing in %d]
 Fechando em %d
-;file \plugins\SimpleStatusMsg\src\options.cpp
 [Status]
 Status
 [General]
 Geral
 [Advanced]
 Avançado
-;file \plugins\SimpleStatusMsg\src\utils.cpp
 [I've been away since %time%.]
 Eu estou ausente desde %time%.
 [Give it up, I'm not in!]

@@ -7,7 +7,6 @@
 ;============================================================
 [Helps you manage Language Packs of different languages.]
 Auxilia-o a gerir pacotes de diferentes idiomas.
-;file \plugins\LangMan\res\resource.rc
 [Author(s):]
 Autor(es):
 [E-mail:]
@@ -22,8 +21,6 @@ Local:
 Baixar mais Pacotes de idioma
 [Please restart Miranda NG for your changes to take effect.]
 Por favor reinicie o Miranda NG BR para que as alterações tenham efeito.
-;file \plugins\LangMan\src\main.cpp
-;file \plugins\LangMan\src\options.cpp
 [All installed plugins are included.]
 Todos os plugins instalados estão incluídos.
 [Unknown]

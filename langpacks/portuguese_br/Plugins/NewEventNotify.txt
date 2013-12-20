@@ -5,7 +5,6 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-;file \plugins\NewEventNotify\res\resource.rc
 [Message]
 Mensagem
 [File]
@@ -14,10 +13,14 @@ Arquivo
 Texto
 [Background]
 Fundo
+[Open Event]
+Evento aberto
+[Dismiss Event]
+Retirar evento
+[Show Headers]
+Mostrar Cabeçalhos
 [Edit]
 Editar
-;file \plugins\NewEventNotify\src\menuitem.cpp
-;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]
 Contatos
 [Requests your authorization]
@@ -26,8 +29,6 @@ Seus pedidos de autorização
 ICQ Web pager
 [ICQ Email express]
 ICQ E-mail Expresso
-;file \plugins\NewEventNotify\src\options.cpp
-;file \plugins\NewEventNotify\src\popup.cpp
 [This is a sample message event :-)]
 Este é um exemplo de mensagens de eventos :-)
 [This is a sample URL event ;-)]

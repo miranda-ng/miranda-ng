@@ -5,8 +5,14 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda-NG project
 ;============================================================
-;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-;file \plugins\Db3x_mmap\src\database.cpp
+[OK]
+OK
+[Cancel]
+Cancelar
+[Remove]
+Remover
+[Standard]
+Padrão
 [Disk is full. Miranda will now shutdown.]
 O disco está cheio. Miranda será encerrado agora.
 [Database failure. Miranda will now shutdown.]
@@ -15,12 +21,3 @@ Falha do banco de dados. Miranda será encerrado agora.
 Erro do banco de dados
 [Database Panic]
 Problema no Banco de Dados
-;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
-;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
-;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
-;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
-;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
-;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
-;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
-;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
-;file \plugins\Db3x_mmap\src\dbtool\user.cpp

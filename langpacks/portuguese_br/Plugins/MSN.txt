@@ -1,11 +1,10 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
-;file \protocols\MSN\res\msn.rc
 [Password:]
 Senha:
 [Nickname:]
@@ -44,14 +43,20 @@ Ativar popup 'Canal direito do contato'
 OK
 [Cancel]
 Cancelar
+[First Name]
+Nome
+[Last Name]
+Sobrenome
+[Nickname]
+Apelido
 [&Cancel]
 &Cancelar
 [Add]
 Adicionar
-;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Conversa #
-;file \protocols\MSN\src\msn_commands.cpp
+[User &details]
+&Detalhes do usuário
 [Contact tried to open an audio conference (currently not supported)]
 Contato tentou abrir uma conferência de áudio (não suportados)
 [MSN Protocol]
@@ -74,30 +79,24 @@ Existe apenas 1 pessoa no bate-papo, quer voltar à janela de mensagem padrão?
 Bate-papo MSN
 [Message delivery failed]
 A entrega da mensagem falhou
-;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Usuário não está online
-;file \protocols\MSN\src\msn_links.cpp
-;file \protocols\MSN\src\msn_lists.cpp
-;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Assunto: %s
 [Hotmail from %s (%S)]
 Hotmail de %s (%S)
 [Hotmail from %s]
 Hotmail de %s
-;file \protocols\MSN\src\msn_menu.cpp
 [You must be talking to start Netmeeting]
 Você deve estar falando para iniciar o NetMeeting
 [&Start Netmeeting]
 &Iniciar Conferência
-;file \protocols\MSN\src\msn_misc.cpp
 [Error]
 Erro
-;file \protocols\MSN\src\msn_msgqueue.cpp
-;file \protocols\MSN\src\msn_opts.cpp
 [Profile]
 Perfil
+[Contact list]
+Lista de Contatos
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Importação grupos do Servidor pode alterar o esquema de lista de contatos após o login. Você deseja enviar o seu grupo para o servidor?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
@@ -116,12 +115,10 @@ O protocolo  MSN exige que o tempo limite de mensagens não deve ser inferior a 
 Rede
 [Server list]
 Lista de servidor
-;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (currently not supported)]
 O Contato tentou enviar seus dados de webcam (atualmente não suportada)
 [Contact tried to view our webcam data (currently not supported)]
 O Contato tentou visualizar os dados da nossa webcam (atualmente não suportado)
-;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Live Mail
 [Live Alert]
@@ -134,7 +131,5 @@ Mensagem é muito longa: Página de SMS limitada a 133 caracteres UTF8
 Mensagem é muito longa: MSN mensagens são limitados por 1202 caracteres UTF8
 [Offline messaging is not allowed for LCS contacts]
 Mensagens off-line não são permitidas pelos contatos LCS
-;file \protocols\MSN\src\msn_svcs.cpp
-;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 Chat sessão caiu devido à inatividade

@@ -41,6 +41,10 @@ Grelha de fundo
 Grelha de mensagens
 [History Actions]
 Histórico de Ações
+[Advanced search options]
+Opções de busca avançadas
+[Limit search range]
+Delimitar Pesquisa
 [Search messages from]
 Pesquisar mensagem em
 [Text Formatting]
@@ -49,6 +53,10 @@ Formatando Texto
 Delimitar Pesquisa
 [&Reply Quoted]
 &Responder citando
+[Copy All]
+Copie todos
+[SMS Message]
+Mensagem SMS 
 [Global History Search]
 Pesquisar Histórico Global
 [Search for]
@@ -117,6 +125,8 @@ O histórico está vazio
 Item ausente
 [Conversations]
 Conversas
+[History Search]
+Procurar no histórico
 [His&tory Search]
 Pes&quisa no Histórico
 [&Open]
@@ -179,6 +189,8 @@ Mensagem de E-mail Expresso
 Eventos recentes no topo
 [Use RTL by default]
 Use RTL como padrão
+[Change Appearance]
+Mudar aparência
 [To change fonts you need to install FontService plugin.]
 Para alterar as fontes precisa de instalar o plugin 'FontService'
 [FontService is installed. Go to Customize -> Fonts to change settings.]
@@ -271,6 +283,8 @@ Arquivo HTML
 Tipo de eventos limitados
 [Search messages matched to]
 Pesquisar mensagens parecidas com
+[Limit Event Types]
+Tipo de eventos limitados
 [&File Actions]
 &Arquivo Ações
 [Unknown codepage %u]
@@ -287,6 +301,14 @@ Você realmente deseja apagar TODOS os itens deste contato?
 Nota: Pode levar vários minutos para históricos grandes
 [Empty history of subcontacts also]
 Excluir também histórico dos subcontatos
+[Incoming Url]
+Url chegando
+[Outgoing Url]
+Url saindo
+[System Message]
+Sistema de mensagem
+[Authorization request]
+Pedido de autorização
 [Show events count in menu]
 Mostrar eventos da conta no menu
 [Group messages]
@@ -299,6 +321,8 @@ Desabilitar barra de rolagem
 Exibir opções do Histórico
 [Visit Wiki page for more options]
 Visitar a página Wiki para mais opções
+[&Reset to Default]
+Restaurar padrão
 [Contact history]
 Histórico do contato
 [Incoming nick]
@@ -313,3 +337,23 @@ Sistema de mensagem
 Hora de chegada
 [Outgoing timestamp]
 Hora de saída
+[Open in &new window]
+Abrir em &nova janela
+[Select &All]
+Selecionar &Tudo
+[Send &Message]
+Enviar &Mensagem
+[User Details]
+Detalhes do Usuário
+[Enable SmileyAdd support]
+Ativar adição de smileys
+[Enable MathModule support]
+Ativar o suporte ao MathModule
+[Show event icons]
+Mostrar eventos de ícones
+[View user's history]
+Exibir Histórico do Usuário
+[View User's History]
+Exibir Histórico do Usuário
+[View &History]
+Ver &Histórico

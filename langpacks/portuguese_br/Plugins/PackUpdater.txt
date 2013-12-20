@@ -5,7 +5,6 @@
 ;  Version: 0.0.1.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
-;file \plugins\PackUpdater\Res\Resource.rc
 [View info]
 Exibir informações
 [Cancel]
@@ -14,21 +13,17 @@ Cancelar
 Opções de atualização
 [Text]
 Texto
-;file \plugins\PackUpdater\Src\Events.cpp
+[Sec]
+seg
 [Check for pack updates]
 Verificar atualizações
 [Pack Updater]
 Atualizador do Miranda BR
-;file \plugins\PackUpdater\Src\Notifications.cpp
 [Current Version]
 Versão atual
 [New Version]
 Nova versão
 [Downloading pack updates...]
 Baixando atualizações...
-;file \plugins\PackUpdater\Src\Notifications.h
-;file \plugins\PackUpdater\Src\Options.cpp
-;file \plugins\PackUpdater\Src\PackUpdater.cpp
-;file \plugins\PackUpdater\Src\Utils.cpp
 [Name of Update's file is not supported.]
 O NOME DO ARQUIVO A SER ATUALIZADO não é suportado.

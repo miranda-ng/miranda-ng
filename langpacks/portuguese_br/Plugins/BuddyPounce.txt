@@ -5,14 +5,12 @@
 ;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
-;file \plugins\BuddyPounce\res\resource.rc
 [Cancel]
 Cancelar
 [OK]
 OK
 [Status]
 Status
-;file \plugins\BuddyPounce\src\dialog.cpp
 [Online]
 Online
 [Away]
@@ -21,8 +19,15 @@ Ausente
 Ocupado
 [DND]
 DND
+[Free For Chat]
+Livre para conversar
 [Invisible]
 Invisível
-;file \plugins\BuddyPounce\src\main.cpp
+[On The Phone]
+Ao telefone
+[Out To Lunch]
+Saiu para almoço
+[Times]
+vezes
 [Message Sessions]
 Sessões de mensagem

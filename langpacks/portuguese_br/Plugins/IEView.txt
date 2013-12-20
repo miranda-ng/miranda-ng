@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.0
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
-;file \plugins\IEView\res\ieview.rc
 [Copy]
 Copiar
 [Select All]
@@ -46,17 +45,14 @@ Mostrar segundos
 Usar formato de data longo
 [Use relative timestamp]
 Usar marca horária relativa
-;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Incoming File Transfer]
 Recebimento de Transfrência de Arquivo
-;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Contato Desconhecido)
-;file \plugins\IEView\src\IEView.cpp
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[ERROR]
+Erro
 [Error]
 Erro
-;file \plugins\IEView\src\Options.cpp
 [General]
 Geral
 [Message Log]
@@ -71,10 +67,7 @@ Padrão
 Sessões de mensagem
 [All Files]
 Todos os Arquivos
-;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [File sent]
 Arquivo enviado
 [File received]
 Arquivo recebido
-;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
-;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

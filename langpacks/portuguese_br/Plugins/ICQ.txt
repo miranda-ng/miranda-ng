@@ -1,11 +1,12 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
-;file \protocols\IcqOscarJ\res\resources.rc
+[ICQ Number:]
+Número ICQ:
 [Password:]
 Senha:
 [&Send]
@@ -136,6 +137,8 @@ Erro
 Fatal
 [Spam detected]
 Spam detectado
+[&Use Windows colors]
+&Usar janelas coloridas
 [Use system &icons]
 Use o sistema e ícones
 [Use default colors]
@@ -210,7 +213,6 @@ Confirme a Mudança de Senha
 Por favor, re-digite sua nova senha:
 [Enter your current password:]
 Digite sua senha atual:
-;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 Não é possível conectar ao servidor comunicação ICQ
 [Unable to connect to ICQ communication server]
@@ -241,17 +243,14 @@ Ligação falhou.\nErro desconhecido durante assinar em: 0x% 02x
 Você foi desconectado da rede ICQ, pois você está conectado em outro local usando o mesmo número de ICQ.
 [Unknown runtime error: 0x%02x]
 Erro desconhecido: 0x% 02x
-;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 A migração de servidor falhou porque o servidor retornou dados inválidos. Você deve reconectar manualmente.
 [Failed to request offline messages. They may be received next time you log in.]
 Falha ao pedido de mensagens offline. Eles podem ser recebidos próxima vez que você logar
-;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
 [Spambot Detected]
 Spambot Detectado
 [Contact deleted & further events blocked.]
 Contatos excluídos & futuros eventos bloqueados.
-;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [Incoming URL:]
 URL de entrada:
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
@@ -274,7 +273,6 @@ O usuário está temporariamente indisponível. Espere um pouco e tente novament
 SNAC (4,1) ENVIARMSG Erro (x% 02x)
 [ICQ Note]
 Nota ICQ
-;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
 [Server contact list is unavailable, Miranda will use local contact list.]
 Lista de contatos do servidor não está disponível, Miranda usará lista de contatos locais.
 [Updating of server contact failed.]
@@ -297,12 +295,10 @@ A remoção do grupo da lista de servidor falhou.
 Mudança de usuário para outro grupo na lista do servidor falhou.
 [Renaming of server group failed.]
 Renomeação do grupo de servidores falhou.
-;file \protocols\IcqOscarJ\src\fam_17signon.cpp
 [Secure login failed.\nInvalid server response.]
 Secure login falhou.\nInvalid resposta do servidor.
 [Secure login failed.\nInvalid key length.]
 Secure login falhou.\nComprimento da chave inválida.
-;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
 [Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
 Tem certeza de que pretende revogar a autorização do usuário?\nIsto irá remover-lo de sua lista de alguns clientes.
 [** This message was blocked by the ICQ server ** The message was invalid.]
@@ -313,13 +309,10 @@ Tem certeza de que pretende revogar a autorização do usuário?\nIsto irá remo
 ** Esta mensagem foi bloqueada pelo servidor de ICQ ** O remetente tem inundado o servidor.
 [** This message was blocked by the ICQ server ** You are too evil.]
 ** Esta mensagem foi bloqueada pelo servidor de ICQ ** Está muito mal.
-;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 [Error uploading avatar to server, server temporarily unavailable.]
 Erro ao realizar upload do avatar para o servidor, o servidor está temporariamente indisponível.
 [Error uploading avatar to server, server refused to accept the image.]
 Erro ao realizar upload do avatar para o servidor, o servidor recusou a aceitar a imagem.
-;file \protocols\IcqOscarJ\src\icq_constants.h
-;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
 Afeganistão
 [Albania]
@@ -770,8 +763,26 @@ Jugoslávia
 Zâmbia
 [Zimbabwe]
 Zimbábue
+[Audio and Visual]
+Audio e visual
 [Business]
 Negócio
+[Business Services]
+Serviços de negócios
+[Finance and Corporate]
+Finanças e Corporações
+[Health and Beauty]
+Saúde e beleza
+[Home Automation]
+Automação residencial
+[Household Products]
+Produtos domésticos
+[Mail Order Catalog]
+Ordem do catálogo de E-mail
+[Retail Stores]
+Lojas de varejo
+[Sporting and Athletic]
+Esporte e atletismo
 [Past Work Place]
 Último Lugar de Trabalho
 [Past Organization]
@@ -782,13 +793,10 @@ Feminino
 Masculino
 [60-above]
 60-acima
-;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
-;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 O envio de arquivos foi abortado porque um dos arquivos selecionados para serem enviados não pode ser lido do disco.Pode ter sido apagado ou movido.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 A recepção do arquivo foi abortada porque o Miranda não conseguiu abrir a pasta de destino. Poderá estar a tentar guarda-lo numa uma pasta protegida contra escrita.
-;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 Pedindo autorização
 [Grant authorization]
@@ -799,7 +807,6 @@ Revogar autorização
 Adicionar a lista servidor
 [Show custom status details]
 Mostrar detalhes do status personalizados
-;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Display all problems]
 Mostrar todos os problemas
 [Display problems causing possible loss of data]
@@ -816,7 +823,6 @@ Sistema codepage padrão
 Rede
 [Contacts]
 Contatos
-;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Sample Note]
 Amostra de Nota
 [Sample Warning]
@@ -827,18 +833,14 @@ Exemplo de erro
 Amostra Fatal
 [Sample Spambot]
 Amostra de Spambot
-;file \protocols\IcqOscarJ\src\icq_proto.cpp
-;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server]
 Impossível ligar ao servidor de login ICQ
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Ligação falhou. \nSeqüência no login falhou por razão desconhecida.\nTente novamente mais tarde.
 [Your connection with the ICQ server was abortively closed]
 Sua conexão com o servidor de ICQ foi fechado abruptamente
-;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 [The contact's information was too big and was truncated.]
 As informações de contato era muito grande e foi truncado.
-;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
 NÃO ENCONTRADO
 [ALREADY EXISTS]
@@ -877,7 +879,6 @@ Fechar
 Você tem que estar online para sincronizar o servidor-lista!
 [** All contacts **]
 ** Todos os contatos **
-;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Taking a bath]
 Tomando um banho
 [Drinking beer]
@@ -912,15 +913,16 @@ Sou alto
 Ser ou não ser
 [Watching pro7 on TV]
 Vendo pro7 na TV
+[Free for Chat]
+Livre para conversar
 [%s Custom Status]
 %s Status Padrão
 [None]
 Nenhum
-;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+[Custom Status]
+Status personalizada
 [Greeting card:]
 Cartão de visita:
-;file \protocols\IcqOscarJ\src\init.cpp
-;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 Aviso ICQ
 [ICQ Error]
@@ -931,7 +933,8 @@ ICQ Fatal
 O servidor não responde à tentativa de conexão dentro de um prazo razoável, poderá ser temporariamente fora do ar. Tente novamente mais tarde.
 [error]
 erro
-;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[%d Files]
+%d arquivos
 [The file transfer was aborted by the other user.]
 A transferência de arquivo foi abortada pelo usuário.
 [The file transfer failed: Proxy error]
@@ -950,8 +953,6 @@ Falha ao inicializar Transferência de Arquivos. Não é possível vincular port
 Conexão perdida durante a transferência de arquivo.
 [File transfer negotiation failed for unknown reason.]
 Arquivo negociação falhada transferência por motivo desconhecido.
-;file \protocols\IcqOscarJ\src\utilities.cpp
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12: 00 Eniwetok; Kwajalein
 [GMT-11:30]
@@ -1052,6 +1053,8 @@ GMT 11:30
 12:00 GMT Auckland, Wellington, Fiji, Kamchatka, Ilhas Marshall.
 [Personal]
 Pessoal
+[Nickname]
+Apelido
 [First name]
 Nome
 [Last name]
@@ -1130,7 +1133,6 @@ Juros categoria 3
 Juros categoria 4
 [Interest areas 4]
 Áreas de interesse 4
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 [The password does not match your current password. Check Caps Lock and try again.]
 A senha não coincide com sua senha atual. Verifique Caps Lock e tente novamente.
 [Change ICQ Details]
@@ -1139,7 +1141,6 @@ Alterar detalhes do ICQ
 A senha não coincide com a senha que você digitou. Verifique Caps Lock e tente novamente.
 [The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
 O servidor ICQ não suporta senhas de mais de 8 caracteres. Por favor, use uma senha mais curta.
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 [Unknown value]
 Valor desconhecido
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
@@ -1152,14 +1153,10 @@ Upload in progresso...%d%%
 Upload complete
 [Upload FAILED]
 Falha no upload
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Você não está conectado à rede ICQ. Você deve estar online, a fim de atualizar as informações sobre o servidor.
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
 Digite uma senha para UIN %u:
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [ (DC Established)]
 (DC Fundação)
 [ScreenName:]

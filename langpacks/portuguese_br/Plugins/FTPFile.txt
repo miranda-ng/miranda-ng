@@ -5,7 +5,8 @@
 ;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
-;file \plugins\FTPFileYM\res\ftpfile.rc
+[Account name]
+Nome da Conta
 [Protocol]
 Protocolo
 [Other]
@@ -20,6 +21,8 @@ Apelido
 Fechar
 [Options]
 Opções
+[UPLOADING...]
+Enviando...
 [Select All]
 Selecionar Tudo
 [OK]
@@ -30,18 +33,17 @@ Cancelar
 Renomear
 [Overwrite]
 Substituir
-;file \plugins\FTPFileYM\src\dialog.cpp
-;file \plugins\FTPFileYM\src\ftpfile.cpp
 [Resume]
 Continuar
-;file \plugins\FTPFileYM\src\job_generic.cpp
-;file \plugins\FTPFileYM\src\job_packer.cpp
-;file \plugins\FTPFileYM\src\job_upload.cpp
-;file \plugins\FTPFileYM\src\manager.cpp
-;file \plugins\FTPFileYM\src\options.cpp
+[CANCELED]
+Cancelado
+[CONNECTING...]
+Conectando...
+[CREATED]
+Criado
+[UNKNOWN]
+Desconhecido
 [Accounts]
 Contas
 [Advanced]
 Avançado
-;file \plugins\FTPFileYM\src\serverlist.cpp
-;file \plugins\FTPFileYM\src\utils.cpp

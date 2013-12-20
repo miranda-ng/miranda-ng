@@ -5,7 +5,6 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-;file \plugins\Msg_Export\res\resource.rc
 [Help]
 Ajuda
 [&Find...]
@@ -16,18 +15,17 @@ Ajuda
 &Detalhes do Usuário
 [Copy]
 Copiar
-;file \plugins\Msg_Export\src\FileViewer.cpp
-;file \plugins\Msg_Export\src\Glob.h
-;file \plugins\Msg_Export\src\main.cpp
-;file \plugins\Msg_Export\src\options.cpp
 [File]
 Arquivo
 [Nick]
 Apelido
+[Executable files]
+Arquivos executáveis
+[All files]
+Todos os Arquivos
 [History]
 Histórico
 [General]
 Geral
-;file \plugins\Msg_Export\src\utils.cpp
 [(Unknown Contact)]
 (Contato Desconhecido)

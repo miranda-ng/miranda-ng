@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
-;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 Detalhes do Usário AIM
 [Password:]
@@ -40,6 +39,8 @@ Perfil de usuário 'Hiptop'
 Porta:
 [Reset]
 Limpar
+[Manage Server Groups]
+Gerir grupos de servidor
 [Save Profile]
 Salvar perfil
 [AIM Instant Idler]
@@ -64,24 +65,22 @@ Inativo
 &Cancelar
 [E-mail]
 E-mail
+[Save Changes]
+Salvar alterações
 [&Deny]
 &Recusar
 [Message]
 Mensagem
 [Room]
 Salão
-;file \protocols\AimOscar\src\chat.cpp
-;file \protocols\AimOscar\src\error.cpp
-;file \protocols\AimOscar\src\file.cpp
-;file \protocols\AimOscar\src\links.cpp
-;file \protocols\AimOscar\src\popup.cpp
-;file \protocols\AimOscar\src\proto.cpp
-;file \protocols\AimOscar\src\server.cpp
+[User &details]
+&Detalhes do usuário
 [No information has been provided by the server.]
 Nenhuma informação foi fornecida pelo servidor.
-;file \protocols\AimOscar\src\theme.cpp
 [Profile]
 Perfil
+[Background Color]
+Cor do fundo
 [Bold]
 Negrito
 [Manage Account]
@@ -94,7 +93,5 @@ Ler &Mensagem HTML Sempre
 Ler Perfil
 [Add To Server List]
 Adicionar à lista de servidores
-;file \protocols\AimOscar\src\ui.cpp
 [Network]
 Rede
-;file \protocols\AimOscar\src\utility.cpp

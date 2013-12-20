@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Pesquisa
 [Close]
@@ -14,6 +13,10 @@ Fechar
 Mensagens recebidas
 [Outgoing messages]
 Enviando mensagens
+[Background color]
+Cor do fundo
+[Text color]
+Cor do Texto
 [Timestamp]
 Número
 [&File]
@@ -24,11 +27,15 @@ Número
 &Opções
 [&Search]
 &Procurar
-;file \plugins\HistoryLinkListPlus\src\language.h
+[link]
+Atalho
 [Error]
 Erro
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[incoming]
+Recebendo
+[outgoing]
+Enviando
 [History]
 Histórico
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[All files]
+Todos os Arquivos

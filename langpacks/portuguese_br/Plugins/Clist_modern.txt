@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Transparência:
 [Window behavior:]
@@ -100,6 +99,8 @@ Fragmento local
 Posição:
 [Size:]
 Tamanho:
+[Height]
+altura
 [W x H: 0 x 0 pixels]
 W x H: 0 x 0 pixels
 [Show contacts in groups]
@@ -112,6 +113,8 @@ Cancelar
 Protocolo
 [Group]
 Grupo
+[Last message]
+Última mensagem
 [Status Bar]
 Barra de Status
 [Show status bar]
@@ -136,6 +139,8 @@ Defina as opções para cada conta
 Ativar configurações de conta personalizado
 [Hide account completely]
 Ocultar conta completamente
+[Use connecting icon]
+Usar ícone conectando
 [Show xStatus icon]
 Mostrar ícone xStatus
 [Show both icons]
@@ -148,6 +153,8 @@ Estado de opacidade de sobreposição é de 75%
 Mostrar e-mails não lidos (se suportado)
 [Right click opens status menu]
 Clique com o botão direito abre o menu de status
+[Right click opens Miranda menu]
+Clique com o botão direto abre o menu Miranda BR
 [Space on Left]
 Espaço a Esquerda
 [Space on right]
@@ -280,14 +287,14 @@ Alternar ícones a cada
 segundos, para diferenciar status
 [Show multiple icons]
 Mostrar múltiplos ícones
+[only when statuses differ]
+somente quando estados diferem
 [System tray icon]
 Ícone da barra de tarefas
 [System tray icon mode]
 Modo ícone na bandeja do sistema
 [Use xStatus icon]
 Use o ícone xStatus
-[only when statuses differ]
-somente quando estados diferem
 [Expand metacontacts]
 Expandir metacontatos
 [MetaContacts stuff]
@@ -404,6 +411,8 @@ Espaço mais populares:
 Mostrar smileys na segunda linha
 [Status]
 Status
+[Nickname]
+Apelido
 [XStatus has priority]
 XStatus tem prioridade
 [Use 'XStatus: XMessage']
@@ -450,6 +459,8 @@ Altura do contêiner:
 Mergulhado
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 OPÇÃO DE PÁGINA ESTÁ EM CONSTRUÇÃO Por favor NÂO informe nada aqui.\n Apenas comentários de alto nível de design são aplicáveis.
+[&Main menu]
+&Menu principal
 [E&xit]
 &Sair
 [&Status]
@@ -498,11 +509,14 @@ Ocultar Miranda
 &Renomer Grupo
 [&Delete Group]
 &Excluir Grupo
-;file \plugins\Clist_modern\src\modern_clc.cpp
 [Status Overlay]
 Status
 [Contact List smileys]
 Smileys dos Contatos
+[List Background]
+Alterar Fundo
+[StatusBar Background]
+Fundo da Barra de Status
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Você quer contato que '%s' seja convertido para MetaContato e '%s' seja adicionado a ele?
 [Converting to MetaContact]
@@ -523,9 +537,12 @@ Conjunto de contato padrão
 Você quer que o contato '%s' seja  removido do MetaContato '%s' e acrescentado a '%s'?
 [Changing MetaContacts (Moving)]
 Alterando Metacontatos (Movendo)
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Do you want contact '%s' to be added to MetaContact '%s'?]
+Deseja que o contato '%s' seja adicionado ao metacontao '%s'?
 [Contact names]
 Nomes Contato
+[Row items]
+Itens da linha
 [Frame texts]
 Janela de textos
 [Special colors]
@@ -566,6 +583,8 @@ Grupos fechados
 Fechar contas de membros do grupo
 [Dividers]
 Divisórias
+[Second line]
+Segunda Linha
 [Third line]
 Terceira linha
 [Status bar text]
@@ -578,6 +597,8 @@ Modo de exibição atual do texto
 Fundo
 [Hot text]
 Texto quente
+[Selected text]
+Texto Selecionado
 [Quick search text]
 Pesquisar rápido o texto
 [Menu text]
@@ -596,8 +617,6 @@ Geral
 Lista
 [Window]
 Janela
-[List Background]
-Alterar Fundo
 [Not focused]
 Não focalizado
 [Online]
@@ -634,10 +653,10 @@ Ocultar na bandeja
 Atrás borda esquerda
 [Behind right edge]
 Atrás borda direita
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area]
+Área de eventos
 [No Events]
 Sem Eventos
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 &Taxa de Contacto
 [None]
@@ -652,7 +671,6 @@ Taxa de contato Média
 Taxa de contato Alta
 [Show even if offline]
 Mostrar mesmo offline
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Text]
 Texto
 [Extra icons]
@@ -673,31 +691,16 @@ Design da linha
 Segunda Linha
 [Third Line]
 Terceira Linha
-[Row items]
-Itens da linha
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Contato Desconhecido)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &Procurar/Adicionar Contatos...
-[&Main menu]
-&Menu principal
 [&Options...]
 &Opções...
-;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Mostrar &Avatar do Contato
 [Hide Contact &Avatar]
 Ocultar &Avatar do Contato
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Show title]
-&Exibir título
-[&Expanded]
-&Expandido
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
 Esvaziar %s células
 [column]
@@ -710,7 +713,6 @@ colunas
 %s, contém %s
 [ layered]
 mergulhado
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [- Empty - (do not draw this object)]
 - Empty - (não desenhar esse objeto)
 [Image (draw image)]
@@ -727,12 +729,10 @@ Alongar Vertical,Estreitar Horizontal
 Alongar Ambos os sentidos
 [Image size is]
 O tamanho da imagem é
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 É preciso um plugin de serviço de imagem para processar imagens PNG.
 [Error]
 Erro
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Rodar/Salvar
 [Object Editor]
@@ -767,9 +767,8 @@ Por favor, selecione a skin para aplicar
 Skin padrão
 [%Default Skin%]
 %% Default Skin
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Center]
+Centro
 [Main menu]
 Menu principal
 [Status menu]
@@ -790,8 +789,15 @@ Usar / desativar grupos
 Desativar Grupos
 [Enable/Disable sounds]
 Ativar / desativar sons
+[Disable sounds]
+Desativar Sons
 [Minimize]
 Minimizar
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Configuring view mode: %s]
 Configurando o modo de exibição: %s
+[&Show title]
+&Exibir título
+[&Expanded]
+&Expandido
+[&New SubGroup]
+&Novo Subgrupo

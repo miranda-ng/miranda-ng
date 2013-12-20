@@ -5,7 +5,6 @@
 ;  Version: 0.0.2.0
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
-;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 Opções de protocolo
 [Specify options for each protocol]
@@ -52,13 +51,10 @@ Número de tremores
 Alcance (tamanho) da tremida
 [Shaking Message Window Options]
 Opções de tremor da Janela de Mensagens
-;file \plugins\Nudge\src\main.cpp
 [Nudge]
 Chamar a Atenção
 [Nudge as Default]
 'Chamar a atenção' como Padrão
-;file \plugins\Nudge\src\nudge.cpp
-;file \plugins\Nudge\src\options.cpp
 [Events]
 Eventos
 [Window Shaking]

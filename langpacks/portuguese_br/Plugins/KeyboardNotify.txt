@@ -5,7 +5,6 @@
 ;  Version: 1.5.7.7
 ;  Authors: TioDuke
 ;============================================================
-;file \plugins\KeyboardNotify\res\resources.rc
 [Incoming messages]
 Mensagens recebidas
 [seconds]
@@ -42,12 +41,10 @@ Cancelar
 Os seguintes eventos estão sendo ignorados:
 [Ignore]
 Ignorar
-;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Todos os contatos **
 [** Unknown contacts **]
 ** Contatos desconhecidos **
-;file \plugins\KeyboardNotify\src\options.cpp
 [Events]
 Eventos
 [Accounts]

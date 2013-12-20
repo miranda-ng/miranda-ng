@@ -5,7 +5,6 @@
 ;  Version: 0.0.4.22
 ;  Authors: borkra
 ;============================================================
-;file \plugins\CrashDumper\res\crshdmp.rc
 [Close]
 Fechar
 [Username]
@@ -18,11 +17,5 @@ Geral
 Co&piar Tudo
 [Select &All]
 Selecionar &Tudo
-;file \plugins\CrashDumper\src\crshdmp.cpp
 [Show]
 Mostrar
-;file \plugins\CrashDumper\src\crshdmp_icons.cpp
-;file \plugins\CrashDumper\src\exhndlr.cpp
-;file \plugins\CrashDumper\src\ui.cpp
-;file \plugins\CrashDumper\src\upload.cpp
-;file \plugins\CrashDumper\src\utils.cpp

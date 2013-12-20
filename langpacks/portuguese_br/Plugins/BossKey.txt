@@ -5,7 +5,6 @@
 ;  Version: 0.5.0.3
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
-;file \plugins\BossKeyPlus\res\BossKey.rc
 [Disable Sounds]
 Desativar Sons
 [Password:]
@@ -14,8 +13,6 @@ Senha:
 OK
 [Cancel]
 Cancelar
-;file \plugins\BossKeyPlus\src\BossKey.cpp
-;file \plugins\BossKeyPlus\src\Options.cpp
 [Events]
 Eventos
 [Advanced]

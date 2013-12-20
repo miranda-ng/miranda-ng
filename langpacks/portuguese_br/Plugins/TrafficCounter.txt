@@ -5,19 +5,22 @@
 ;  Version: 0.1.1.8
 ;  Authors: Ghost, Mironych
 ;============================================================
-;file \plugins\TrafficCounter\res\resource.rc
 [Accounts]
 Contas
+[kilobytes]
+Kilobytes
+[Reset to default]
+Restaurar padrão
 [Custom]
 Padrão
-;file \plugins\TrafficCounter\src\options.cpp
+[Account name]
+Nome da Conta
 [General]
 Geral
 [Options]
 Opções
 [Statistics]
 Statistics
-;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 Bytes
 [Incoming]
@@ -26,6 +29,5 @@ Recebendo
 Enviando
 [Online]
 Online
-;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Fonte

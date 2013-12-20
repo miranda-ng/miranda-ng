@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.45
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 Geral
 [Close]
@@ -20,6 +19,8 @@ Mensagem
 Configurar
 [OK]
 OK
+[Command line:]
+Linha de comando:
 [Other]
 Outros
 [Background color]
@@ -44,14 +45,14 @@ Status
 Excluir
 [seconds]
 segundos
-;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[<unknown>]
+<desconhecido>
 [None]
 Nenhum
 [default]
 padrão
-;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
-;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
-;file \Plugins\StatusPlugins\commonstatus.cpp
+[unknown]
+Desconhecido
 [I've been away since %time%.]
 Eu estou ausente desde %time%.
 [Give it up, I'm not in!]
@@ -74,7 +75,6 @@ Eu estou escondido da máfia.
 Mmm... comida.
 [idleeeeeeee]
 Ocupadoooooo
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 Protocolo
 [Closing in %d]

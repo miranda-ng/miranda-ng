@@ -5,11 +5,12 @@
 ;  Version: 3.2.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
-;file \plugins\DbEditorPP\res\resource.rc
 [&Search]
 &Procurar
 [&Cancel]
 &Cancelar
+[Search For]
+Pesquisar por
 [Background color]
 Cor do fundo
 [OK]
@@ -24,28 +25,17 @@ Cancelar
 &Excluir
 [&Rename]
 &Renomear
-;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
-;file \plugins\DbEditorPP\src\copymodule.cpp
-;file \plugins\DbEditorPP\src\deletemodule.cpp
-;file \plugins\DbEditorPP\src\exportimport.cpp
 [All Files]
 Todos os Arquivos
-;file \plugins\DbEditorPP\src\findwindow.cpp
-;file \plugins\DbEditorPP\src\icons.cpp
-;file \plugins\DbEditorPP\src\main.cpp
-;file \plugins\DbEditorPP\src\main_window.cpp
-;file \plugins\DbEditorPP\src\modules.cpp
-;file \plugins\DbEditorPP\src\moduletree.cpp
 [Contacts]
 Contatos
-;file \plugins\DbEditorPP\src\options.cpp
-;file \plugins\DbEditorPP\src\settinglist.cpp
+[HANDLE]
+Alça
 [Name]
 Nome
 [Size]
 Tamanho
 [<unknown>]
 <desconhecido>
-;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Contact]
 Contato

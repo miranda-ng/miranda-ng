@@ -1,11 +1,10 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: Keep Status
+;  Plugin: Keep status
 ;  Version: 0.9.0.1
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 Geral
 [Close]
@@ -20,6 +19,8 @@ Mensagem
 Configurar
 [OK]
 OK
+[Command line:]
+Linha de comando:
 [Other]
 Outros
 [Background color]
@@ -44,13 +45,10 @@ Status
 Excluir
 [seconds]
 segundos
-;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
-;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]
 Protocolo
 [Advanced]
 Avançado
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Eu estou ausente desde %time%.
 [Give it up, I'm not in!]
@@ -73,6 +71,5 @@ Eu estou escondido da máfia.
 Mmm... comida.
 [idleeeeeeee]
 Ocupadoooooo
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Closing in %d]
 Fechando em %d

@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
-;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Excluir Contato
 [Are you sure you want to delete %s?]
@@ -142,6 +141,8 @@ Fazer seções de tamanhos iguais
 Mostrar painéis sobressaidos
 [Show resize grip indicator]
 Redimensionar
+[&Main menu]
+&Menu principal
 [E&xit]
 &Sair
 [&Status]
@@ -190,7 +191,6 @@ Grupo
 &Renomer Grupo
 [&Delete Group]
 &Excluir Grupo
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Não focalizado
 [Online]
@@ -211,8 +211,5 @@ Saiu para almoço
 Ao telefone
 [List]
 Lista
-;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 Global
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp

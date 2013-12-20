@@ -1,0 +1,23 @@
+﻿#muuid  {e4058506-6494-4d60-9cf4-40bf545f78bd}
+;============================================================
+;  File: QuickSearch.dll
+;  Module: Quick Search
+;  Version: 1.4.0.20
+;  Authors: Awkward
+;============================================================
+[Show Offline contacts]
+Mostrar contatos offline
+[FIRSTNAME]
+Nome
+[LASTNAME]
+Sobrenome
+[CITY]
+Cidade
+[COUNTRY]
+País
+[PHONE]
+Telefone
+[AGE]
+Idade
+[TimeStamp]
+Número

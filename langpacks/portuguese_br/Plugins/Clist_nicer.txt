@@ -5,7 +5,6 @@
 ;  Version: 0.9.2.1
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-;file \plugins\Clist_nicer\res\resource.rc
 [About CList Nicer+]
 Sobre o CList Nicer+
 [OK]
@@ -118,6 +117,8 @@ Faça contatos offline não separado
 Ocultar como offline
 [Right align contacts]
 Alinhar contatos à direita
+[Height]
+altura
 [Draw a border around avatars]
 Desenhar uma borda em torno de avatares
 [Rounded avatars]
@@ -290,6 +291,8 @@ Aplicar
 Protocolo
 [Group]
 Grupo
+[Last message]
+Última mensagem
 [Per contact skins:]
 Por skins dos contatos:
 [Contact list skin]
@@ -358,6 +361,8 @@ Mostrar linha 2:
 Desenhar ícone de sobreposição em avatar
 [Show local time]
 Mostrar a hora local
+[&Main menu]
+&Menu principal
 [E&xit]
 &Sair
 [&Status]
@@ -414,11 +419,10 @@ Mostrar proto Ícones para Metacontato
 Mostrar botões adicionais
 [Draw sunken Frame]
 Desenhar janela afundada
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 Geral
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Text color]
+Cor do Texto
 [Show menu]
 Menu Exibir
 [Show / hide offline contacts]
@@ -435,11 +439,12 @@ Abrir Preferências
 Alternar sons
 [Minimize contact list]
 Minimizar a lista de contatos
+[Status menu]
+Menu de status
 [Select view mode]
 Selecione o modo de exibição
 [Clear view mode]
 Desmarque o Modo de exibição
-;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 Não focalizado
 [Online]
@@ -468,8 +473,6 @@ Automático (RTL)
 Nome
 [Status]
 Status
-[Last message]
-Última mensagem
 [Message frequency]
 Freqüência de mensagem
 [For RTL only]
@@ -498,7 +501,8 @@ Contatos
 Grupos e layout
 [Advanced]
 Avançado
-;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Contact list]
+Lista de Contatos
 [Add permanently]
 Adicionar permanente
 [Revert to default]
@@ -517,10 +521,8 @@ Quando necessário, por mensagem de status
 Exibição de lista de contatos e ignorar as opções para %s
 [&Contact list settings...]
 &Lista de configurações de Contato...
-;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Global
-;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Mostrar alternar online/offline
 [Toggle groups]
@@ -535,6 +537,8 @@ Mostrar menu TabSRMM
 Sons estão desligados
 [Setup accounts]
 Configurar contas
+[Event Area]
+Área de eventos
 [Open main menu]
 Abrir o menu principal
 [Set status modes]
@@ -563,40 +567,35 @@ Texto Selecionado
 Marcar texto
 [Quicksearch Text]
 Pesquisa rápida do texto
-;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+Barra de título
 [Tool Window]
 Janela de Ferramentas
 [Thin border]
 Borda estreita
 [No border]
 Sem borda
-;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 O clist não pode ser encaixado ao usar a barra de título padrão e borda. Use uma ferramenta de janela ou estilo sem fronteiras em vez disso.
 [Clist docking]
 Encaixando lista de contatos
-;file \plugins\Clist_nicer\src\extBackg.cpp
-;file \plugins\Clist_nicer\src\init.cpp
-;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Current view mode: %s]
 Modo de exibição atual: %s
 [No view mode]
 Sem modo de exibição
 [Clear current View Mode]
 Limpar Modo de Exibição Atual
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&Skinned frame]
 &Aparência do quadro
 [Frames]
 Janelas
 [Skinned frame]
 Aparência do quadro
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Procurar/Adicionar Contatos...
-[&Main menu]
-&Menu principal
 [&Options...]
 &Opções...
 [&About the contact list...]
 &Sobre a lista de contato...
+[&New SubGroup]
+&Novo Subgrupo
