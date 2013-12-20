@@ -1,2 +1,3 @@
 ﻿[Authorization request from %s%s: %s]
+[Contacts: ]
 [Status menu]

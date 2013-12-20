@@ -17,3 +17,8 @@
 [Contacts received from]
 [Incoming Contacts]
 [Outgoing Contacts]
+[Nick]
+[First Name]
+[Last Name]
+[Contacts from]
+[Send Contacts to]

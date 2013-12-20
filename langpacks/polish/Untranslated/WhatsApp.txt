@@ -1,3 +1,0 @@
-﻿[Paste password from WART  utility]
-[Use WART utility from Plugins folder for registering your number and generating password]
-[Did not unpack registration utility WART-1.5.4.0.exe.]

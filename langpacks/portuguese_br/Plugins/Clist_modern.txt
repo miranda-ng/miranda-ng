@@ -690,12 +690,12 @@ Itens da linha
 Mostrar &Avatar do Contato
 [Hide Contact &Avatar]
 Ocultar &Avatar do Contato
-;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
 [&Show title]
 &Exibir título
 [&Expanded]
 &Expandido
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]

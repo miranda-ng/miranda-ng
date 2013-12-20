@@ -2091,6 +2091,8 @@ Miranda NG не может открыть этот профиль
 Неверный тип настройки для '%s'. Первая буква любого значения должна быть b, w, d, l, s, e, u, g, h или n.
 [Authorization request from %s%s: %s]
 Запрос авторизации от %s%s: %s
+[Contacts: ]
+Контакты:\s
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профиль '%s" уже существует. Хотите переместить его в корзину?\n\nВНИМАНИЕ: Профиль будет удалён, если корзина отключена\nВНИМАНИЕ: Профиль может содержать конфиденциальную информацию и должен быть правильно удалён.
 [The profile already exists]
@@ -2201,8 +2203,6 @@ Miranda NG не может открыть этот профиль
 ** Все контакты **
 [Contacts]
 Контакты
-[Contacts: ]
-Контакты:\s
 [No times]
 Без времени
 [Standard hh:mm:ss times]

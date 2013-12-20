@@ -1063,7 +1063,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 Скінуць рэжым
 [View Modes]
 Рэжымы выгляду
-;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
 [&Visible]
 &Бачнасць
 [&Show title]
@@ -1100,7 +1100,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 Замацаваць фрэйм
 [Show TitleBar]
 Паказаць загаловак
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [Group menu]
 Меню груп
 [Subgroup menu]

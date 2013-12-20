@@ -38,6 +38,8 @@ Odbieraj nadchodzące obrazki za pomocą metody:
 Pokazuj linki od nieznajomych
 [Enable avatars]
 Włącz obsługę awatarów
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Musisz ponownie się połączyć aby wprowadzone zmiany odniosły efekt.
 [Conference policy]
 Reguły konferencji
 [if total participant count greater than:]

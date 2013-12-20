@@ -1075,7 +1075,7 @@ Kontaktfilter aufheben
 
 [View Modes]
 Kontaktfilter
-;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
 [&Visible]
 Sichtbar
 [&Show title]
@@ -1112,10 +1112,10 @@ Alle Titelleisten verstecken
 Keine Größenänderung
 [Show TitleBar]
 Titelzeile anzeigen
-;file \plugins\Clist_modern\src\modern_framesmenu.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [Group menu]
 Kontaktlistenmenü
 [Subgroup menu]

@@ -450,6 +450,8 @@ Wyjdź
 Rozłączony\tCtrl+0
 [On&line\tCtrl+1]
 Dostępny\tCtrl+1
+[&Away\tCtrl+2]
+Zaraz wracam\tCtrl+2
 [&NA\tCtrl+3]
 Niedostępny
 [Occ&upied\tCtrl+4]
@@ -865,7 +867,7 @@ Skórkowalna ramka
 Pływający
 ;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+Menu ramki
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [Group menu]
 Menu grupy

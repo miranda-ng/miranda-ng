@@ -2177,6 +2177,8 @@ Ungültiger Einstellungs-Typ für '%s'. Das erste Zeichen für jeden String muss
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 
+[Contacts: ]
+
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Das Profil '%s' existiert bereits. Möchten Sie es in den Papierkorb verschieben?\n\nWARNUNG: Das Profil wird gelöscht wenn der Papierkorb deaktiviert ist\nWARNUNG: Ein Profil kann vertrauliche Informationen beinhalten und sollte sicher gelöscht werden.

@@ -2177,6 +2177,8 @@ Tipo de establecimiento no válido para '% s'. El primer carácter de cada valor
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 
+[Contacts: ]
+
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 El perfil '%s' ya existe. ¿Desea mover a la Papelera de reciclaje?\n\nADVERTENCIA: El perfil será borrado si la papelera de reciclaje está desactivada\nDVERTENCIA: Un perfil puede contener información confidencial y debe ser eliminado adecuadamente.

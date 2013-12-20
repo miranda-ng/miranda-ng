@@ -1,2 +1,0 @@
-﻿[Authorization request from %s%s: %s]
-[Status menu]

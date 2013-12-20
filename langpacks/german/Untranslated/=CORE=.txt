@@ -1,3 +1,4 @@
 ﻿[Standard crypto provider]
 [Authorization request from %s%s: %s]
+[Contacts: ]
 [Status menu]

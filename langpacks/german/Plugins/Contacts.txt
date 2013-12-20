@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Contacts.dll
 ;  Plugin: Send/receive contacts
-;  Version: 1.5.2.0
+;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 [Allows you to send and receive contacts.]
@@ -58,6 +58,12 @@ Eingehende Kontakte
 [Outgoing Contacts]
 Ausgehende Kontakte
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Nick]
+
+[First Name]
+
+[Last Name]
+
 [Add Contact Permanently to List]
 Kontakt dauerhaft zur Liste hinzufügen
 [View User's Details]
@@ -66,4 +72,8 @@ Kontaktprofil anzeigen
 Verlauf anzeigen
 [User Menu]
 Kontaktmenü
+[Contacts from]
+
 ;file \plugins\ContactsPlus\src\send.cpp
+[Send Contacts to]
+

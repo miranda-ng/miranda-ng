@@ -678,12 +678,12 @@ Miranda を非表示
 コンタクトアバターを表示 (&A)
 [Hide Contact &Avatar]
 コンタクトアバターを非表示 (&A)
-;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
 [&Show title]
 タイトルを表示 (&S)
 [&Expanded]
 展開済み (&E)
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]

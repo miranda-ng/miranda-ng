@@ -240,8 +240,8 @@ Põhimenüü
 Kuva kontakti &avatar
 [Hide Contact &Avatar]
 Peida kontakti &avatar
-;file \plugins\Clist_modern\src\modern_cluiframes.cpp
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [column]

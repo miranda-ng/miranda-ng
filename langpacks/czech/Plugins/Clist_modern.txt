@@ -890,7 +890,7 @@ Zobrazit a&vatara
 Skrýt a&vatara
 [My Contacts]
 Seznam kontaktů
-;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
 [&Visible]
 &Viditelný
 [&Show title]
@@ -927,10 +927,10 @@ Skrýt záhlaví rámečků
 Zamknout rámeček
 [Show TitleBar]
 Zobrazit záhlaví rámečku
-;file \plugins\Clist_modern\src\modern_framesmenu.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 Nabídka rámečku
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [Group menu]
 Nabídka skupiny
 [Subgroup menu]

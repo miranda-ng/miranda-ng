@@ -1075,7 +1075,7 @@ Reiniciar modo de vista
 
 [View Modes]
 Modos de vista
-;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
 [&Visible]
 
 [&Show title]
@@ -1112,10 +1112,10 @@ Modos de vista
 
 [Show TitleBar]
 
-;file \plugins\Clist_modern\src\modern_framesmenu.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [Group menu]
 
 [Subgroup menu]
