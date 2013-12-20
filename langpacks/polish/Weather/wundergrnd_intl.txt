@@ -317,7 +317,7 @@ Ulewne, przejściowe opady śniegu
 [Light Snow Grains Mist]
 Lekki ziarnisty śnieg, mgła
 [Light Showers Snow Mist]
-Lekkie przejściowe opady sniegu
+Lekkie przejściowe opady śniegu
 [Heavy Showers Snow Heavy Blowing Snow]
 Ciężkie opady śniegu, ciężkie zawieje śnieżne
 [Light Showers Snow Low Drifting Snow]
@@ -381,7 +381,7 @@ Gęsta mgła
 [Rain Mist]
 Mrzawka
 [Light Showers Showers Rain]
-Lekkie opady deczu
+Lekkie opady deszczu
 [Showers Showers Rain]
 Opady deszczu
 [Heavy Thunderstorm Rain]
@@ -399,7 +399,7 @@ Drobna śnieżyca
 [Light Rain Snow Mist]
 Lekki deszcz ze śniegiem
 [Light Showers Snow Rain Mist]
-Lekkie opady deszczu ze sniegiem
+Lekkie opady deszczu ze śniegiem
 [Heavy Blowing Snow]
 Intensywne zawieje śnieżne
 [Snow 50% Chance Of Precipitation]
@@ -417,7 +417,7 @@ Zmiana ciśnienia
 [Heavy Showers Snow Mist]
 Ciężkie opady śniegu
 [Light Freezing Rain Light Showers Snow Mist]
-Zimne opady deszczu,lekka mgła
+Zimne opady deszczu, lekka mgła
 [Light Drizzle Fog]
 Lekka mżawka
 [Snow Rain Mist]
@@ -465,7 +465,7 @@ Burza z piorunami 50%, możliwość opadów
 [Light Showers Rain Snow]
 Delikatne opady deszczu i śniegu
 [Light Showers Rain Snow Mist]
-Delikatne opady deszczu i śniegu mrzawka
+Delikatne opady deszczu i śniegu mżawka
 [Snow Grains]
 Śnieg ziarnisty
 [Heavy Snow Showers]
@@ -531,12 +531,12 @@ Szanse na burze z piorunami 90% szans opadów atmosferycznych
 [Chance Of T-Storms 80% Chance Of Precipitation]
 Szanse na burze z piorunami 80% szans opadów atmosferycznych
 [Snow Showers 70% Chance Of Precipitation]
-Opady śniegu 70% Szans Opadów
+Opady śniegu 70% szans opadów
 [Snow Showers 60% Chance Of Precipitation]
-Opady śniegu 60% Szans Opadów
+Opady śniegu 60% szans opadów
 [Snow Showers 50% Chance Of Precipitation]
-Opady Śniegu 50% Szans Opadów
+Opady Śniegu 50% szans opadów
 [Light Snow 30% Chance Of Precipitation]
-Delikatne opady śniegu 30% Szans Opadów
+Delikatne opady śniegu 30% szans opadów
 [Ice Pellets 70% Chance Of Precipitation]
-Sople lodu 70% Szans Opadów
+Sople lodu 70% szans opadów

@@ -723,3 +723,21 @@ Kopiuj
 Zaznacz wszystko
 [Send &Message]
 Wyślij wiadomość
+[User Details]
+Dane kontaktu
+[Enable SmileyAdd support]
+Włącz wsparcie dla SmileyAdd
+[Always RTL]
+Zawsze RTL
+[Always LTR]
+Zawsze LTR
+[Enable MathModule support]
+Włącz wsparcie dla MathModule
+[Show event icons]
+Pokaż ikony zdarzeń
+[View user's history]
+Zobacz historię użytkownika
+[View User's History]
+Zobacz historię użytkownika
+[View &History]
+Zobacz historię

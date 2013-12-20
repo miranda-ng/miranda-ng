@@ -35,9 +35,9 @@ Tryb szyfrowania bazy
 [Standard]
 Standardowy
 [Total]
-ałkowity
+Całkowity
 [Only critical data are encrypted (passwords, security tokens etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa  itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny, powinien wystarczyćw większości przypadków.
+Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa  itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny sposób. Powinien wystarczyć w większości przypadków.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of loosing everything you've stored in a profile in case of loosing password. Recommended only for paranoidal users]
 Wszystkie wpisy ustawień oraz zdarzenia historii są szyfrowane. Sprawia to, że Miranda działa wolniej oraz stwarza zagrożenie utraty wszystkiego co zapisane jest w profilu w przypadku utraty hasła. Zalecane tylko mającym obsesję na punkcie bezpieczeństwa.
 ;file \plugins\Db3x_mmap\src\database.cpp

@@ -258,7 +258,7 @@ typ
 [length]
 długość
 [data]
-
+dane
 [Structure help]
 
 [Descr]
@@ -289,9 +289,9 @@ Wybierz kontakt
 [Return]
 
 [Scheduler]
-
+Harmonogram
 [TopToolbar]
-
+Pasek narzędzi
 [Effect]
 Efekt
 [Start]

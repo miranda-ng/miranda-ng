@@ -1114,7 +1114,7 @@ Zablokuj ramkę
 Pokaż pasek tytułu
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
-Menu Ramki
+Menu ramki
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [Group menu]
 Menu grupy

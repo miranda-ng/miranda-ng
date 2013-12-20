@@ -50,7 +50,7 @@ Pole wpisywania
 Włącz emotikony
 [Don't replace at cursor]
 Nie zamieniaj przy kursorze
-[Built-in Iessage dialog support]
+[Built-in message dialog support]
 Wbudowane wsparcie dla okna rozmowy
 [Disable]
 Wyłącz
