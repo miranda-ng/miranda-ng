@@ -329,7 +329,7 @@ Zimny deszcz śniegu
 [Showers Snow Rain]
 Opady deszczu ze śniegiem
 [Heavy Snow]
-Cieżkie opady śniegu
+Ciężkie opady śniegu
 [Light Snow Shallow Fog]
 Lekkie opady śniegu, płytka mgła
 [Showers Snow Blowing Snow]
@@ -403,7 +403,7 @@ Lekkie opady deszczu ze sniegiem
 [Heavy Blowing Snow]
 Intensywne zawieje śnieżne
 [Snow 50% Chance Of Precipitation]
-Snieg 50%, możliwość opadów
+Śnieg 50%, możliwość opadów
 [Drizzle Fog]
 Mrzawka mgła
 [Local Time]
@@ -413,9 +413,9 @@ Księżyc - wschód
 [Moonset]
 Księżyc - zachód
 [Pressure Change]
-Zmaiana ciśnienia
+Zmiana ciśnienia
 [Heavy Showers Snow Mist]
-Cięzkie opady śniegu
+Ciężkie opady śniegu
 [Light Freezing Rain Light Showers Snow Mist]
 Zimne opady deszczu,lekka mgła
 [Light Drizzle Fog]
@@ -531,12 +531,12 @@ Szanse na burze z piorunami 90% szans opadów atmosferycznych
 [Chance Of T-Storms 80% Chance Of Precipitation]
 Szanse na burze z piorunami 80% szans opadów atmosferycznych
 [Snow Showers 70% Chance Of Precipitation]
-
+Opady śniegu 70% Szans Opadów
 [Snow Showers 60% Chance Of Precipitation]
-
+Opady śniegu 60% Szans Opadów
 [Snow Showers 50% Chance Of Precipitation]
-
+Opady Śniegu 50% Szans Opadów
 [Light Snow 30% Chance Of Precipitation]
-
+Delikatne opady śniegu 30% Szans Opadów
 [Ice Pellets 70% Chance Of Precipitation]
-
+Sople lodu 70% Szans Opadów

@@ -27,7 +27,7 @@ Anuluj
 [&Select All]
 Wszystkie
 [Received contacts]
-Otrzymany kontakt
+Otrzymany kontaky
 [Add to &group:]
 Dodaj do grupy:
 [&Details]
@@ -59,11 +59,11 @@ Przychodzący kontakt
 Wychodzący kontakt
 ;file \plugins\ContactsPlus\src\receive.cpp
 [Nick]
-
+Nick
 [First Name]
-
+Imię
 [Last Name]
-
+Nazwisko
 [Add Contact Permanently to List]
 Dodaj kontakt na stałe do listy
 [View User's Details]
@@ -73,7 +73,7 @@ Zobacz historię użytkownika
 [User Menu]
 Menu użytkownika
 [Contacts from]
-
+Kontakty od
 ;file \plugins\ContactsPlus\src\send.cpp
 [Send Contacts to]
-
+Wyślij kontakty do
