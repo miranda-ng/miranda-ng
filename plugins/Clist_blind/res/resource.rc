@@ -149,7 +149,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,11,119,292,11
     CONTROL         "Sort groups alphabetically",IDC_SORTGROUPSALPHA,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,11,132,131,11
     CONTROL         "Quicksearch in open groups only",IDC_QUICKSEARCHVISONLY,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,11,145,131,11
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,11,145,275,11
     GROUPBOX        "Templates",IDC_STATIC,2,163,310,77
     LTEXT           "Contact:",IDC_STATIC,11,178,42,10
     EDITTEXT        IDC_T_CONTACT,57,176,246,13,ES_AUTOHSCROLL

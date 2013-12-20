@@ -23,10 +23,18 @@ ID користувача:
 Налаштування
 [Add temporarily]
 Додати тимчасово
+[Send "You were added"]
+Надіслати "Вас додано до списку контактів"
+[Send authorization request]
+Надіслати запит авторизації
+[Authorization request]
+Запит авторизації
 [&Add]
 &Додати
 [&Cancel]
 &Скасувати
+[Please authorize my request and add me to your contact list.]
+Будь ласка, авторизуйте мене і внесіть до свого списку контактів.
 [None]
 Немає
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]

@@ -141,7 +141,7 @@
 [Place a separator in the log after a window lost its foreground status]
 Ставити роздільник в журналі після того, як вікно втрачає фокус
 [Only place a separator when an incoming event is announced with a popup]
-Ставити розділювач тільки при події, супроводжуваній сплив. вікном
+Ставити роздільник тільки при події, супроводжуваній сплив. вікном
 [RTL is default text direction]
 RTL за замовчуванням
 [Use normal templates (uncheck simple to use templates if your template set supports them)]
@@ -238,13 +238,13 @@ RTL шаблони
 [Tool bar]
 Панель кнопок
 [Insert Separator]
-Вставити розділювач
+Вставити роздільник
 [Protocol Button]
 Меню контакту
 [Info button]
 Інформація про контакті
 [<Separator>]
-<Розділювач>
+<Роздільник>
 [Edit user notes]
 Редагувати нотатки про користувача
 [Bold text]

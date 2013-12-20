@@ -30,7 +30,7 @@
 [Warning!\r\nThis MenuObject not support user defined options.]
 Увага!\r\nЦі пункти меню не піддаються налаштуванню.
 [InsertSeparator]
-Розділювач
+Роздільник
 [Service:]
 Служба:
 [Name:]
@@ -290,7 +290,7 @@
 [Group member counts]
 Лічильники груп
 [Dividers]
-Розділювачі
+Роздільники
 [Offline contacts to whom you have a different visibility]
 Контакти із зміненою видимістю (відключені)
 [Status messages]

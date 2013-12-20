@@ -222,7 +222,7 @@
 [Pressed button tooltip]
 Підказка до кнопки в натиснутому положенні
 [Separated]
-Розділювач
+Роздільник
 [Root popup:]
 Корінь підменю:
 [Menu item name:]
@@ -283,6 +283,8 @@
 Допомога по сервісам
 [Return]
 Повернуте
+[Scheduler]
+Планувальник
 [Effect]
 Ефект
 [Start]

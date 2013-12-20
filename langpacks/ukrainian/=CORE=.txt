@@ -20,7 +20,7 @@
 [Send "You were added"]
 Надіслати "Вас додано до списку контактів"
 [Send authorization request]
-Надіслати запит на авторизацію
+Надіслати запит авторизації
 [Open contact's chat window]
 Відкрити вікно повідомлень з контактом
 [Custom name:]
@@ -44,7 +44,7 @@
 [Are you sure you want to delete %s?]
 Справді видалити %s зі списку?
 [This will erase all history and settings for this contact!]
-Ця дія видалить УСЮ історію і налаштування цього контакту!
+Ця дія видалить усю історію і налаштування цього контакту!
 [Contact display options]
 Налаштування показу контактів
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
@@ -358,7 +358,7 @@
 [Warning!\r\nThis menu object not support user defined options.]
 Увага!\r\nНа цей пункт меню налаштування не діють.
 [Insert separator]
-Вставити розділювач
+Вставити роздільник
 [Service:]
 Служба:
 [Default]
@@ -1700,7 +1700,7 @@ Iндекс:
 [Group member counts]
 Лічильники груп
 [Dividers]
-Розділювачі
+Роздільники
 [Offline contacts to whom you have a different visibility]
 Контакти зі зміненою видимістю (від'єднані)
 [Selected text]
@@ -1712,7 +1712,7 @@ Iндекс:
 [Not focused]
 Cписок неактивний
 [Offline]
-Від'єднані
+Від'єднаний
 [Online]
 Онлайн
 [Away]
@@ -1735,6 +1735,8 @@ Cписок неактивний
 Фон списку
 [Global]
 Глобальні
+[Standard crypto provider]
+Стандартний постачальник шифрування
 [User has not registered an e-mail address]
 Користувач не зареєстрував свою адресу E-mail.
 [Send e-mail]
@@ -2089,6 +2091,8 @@ Miranda не може відкрити цей профіль
 Хибний тип налаштувань для '%s'. Першою літерою будь-якого значения має бути b, w, d, l, s, e, u, g, h або n.
 [Authorization request from %s%s: %s]
 Запит авторизації від %s%s: %s
+[Contacts: ]
+Контакти:\s
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профіль "%s" вже існує. Бажаєте перемістити його до смітника?\n\nУВАГА! Якщо смітник (кошик) вимкнено, то профіль буде безповоротно видалено.\nУВАГА! Профіль може містити конфіденційну інформцію і його потрібно видаляти належним чином.
 [The profile already exists]
@@ -2217,6 +2221,8 @@ Miranda не може відкрити цей профіль
 <Усі з'єднання>
 [Network]
 Мережа
+[Host we are connecting to is not the one certificate was issued for]
+Виданий сертифікат не відповідає імені сервера, з яким встановлюється з'єднання
 [<all modules>]
 <усі модулі>
 [<core modules>]
@@ -2328,9 +2334,9 @@ Miranda
 [User online]
 Користувач онлайн
 [Group (open)]
-Група (відкрита)
+Група (розгорнута)
 [Group (closed)]
-Група (закрита)
+Група (згорнута)
 [Connecting]
 З'єднання
 [User details]

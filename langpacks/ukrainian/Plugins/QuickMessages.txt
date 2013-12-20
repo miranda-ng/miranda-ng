@@ -44,7 +44,7 @@
 [Tips:]
 Підказки:
 [*Rename menu item into "---" to insert separator]
-Щоб вставити розділювач, перейменуйте пункт меню у "---"
+Щоб вставити роздільник, перейменуйте пункт меню у "---"
 [*Use drag'n'drop for arranging menu items]
 *Перетягніть мишкою пункти меню для сортування
 [- Contact first name]
