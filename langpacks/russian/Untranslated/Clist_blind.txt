@@ -1,6 +1,1 @@
 ﻿[URL:]
-[Group: %name% %count% [%mode%]]
-[Divider: %s]
-[Info: %s]
-[Expanded]
-[Colapsed]
