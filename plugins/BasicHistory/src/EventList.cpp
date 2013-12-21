@@ -497,86 +497,9 @@ static void GetMessageDescription( DBEVENTINFO *dbei, TCHAR* buf, int cbBuf )
 	mir_free( msg );
 }
 
-static void GetAuthRequestDescription( DBEVENTINFO *dbei, TCHAR* buf, int cbBuf )
-{
-	std::wstring allName;
-	buf[0] = 0;
-	size_t pos = sizeof(DWORD)*2;
-	if (pos >= dbei->cbBlob)
-		return;
-
-	PDWORD evDwords = (PDWORD)dbei->pBlob;
-	DWORD uin = evDwords[0];
-	HANDLE hContact = (HANDLE)evDwords[1];
-	char* nick, *firstName, *lastName, *jid, *reason;
-	nick = (char*)&evDwords[2];
-	pos += strnlen_s(nick, dbei->cbBlob - pos) + 1;
-	if (pos >= dbei->cbBlob)
-		return;
-	firstName = ( char* )dbei->pBlob + pos;
-	pos += strnlen_s(firstName, dbei->cbBlob - pos) + 1;
-	if (pos >= dbei->cbBlob)
-		return;
-	lastName = ( char* )dbei->pBlob + pos;
-	pos += strnlen_s(lastName, dbei->cbBlob - pos) + 1;
-	if (pos >= dbei->cbBlob)
-		return;
-	jid = (char*)dbei->pBlob + pos;
-	pos += strnlen_s(jid, dbei->cbBlob - pos) + 1;
-	if (pos >= dbei->cbBlob)
-		return;
-	reason = (char*)dbei->pBlob + pos;
-	TCHAR *newNick, *newFirstName, *newLastName, *newJid, *newReason;
-	if (dbei->flags & DBEF_UTF) {
-		newNick = mir_utf8decodeT( nick );
-		newFirstName = mir_utf8decodeT( firstName );
-		newLastName = mir_utf8decodeT( lastName );
-		newJid = mir_utf8decodeT( jid );
-		newReason = mir_utf8decodeT( reason );
-	}
-	else {
-		newNick = mir_a2t( nick );
-		newFirstName = mir_a2t( firstName );
-		newLastName = mir_a2t( lastName );
-		newJid = mir_a2t( jid );
-		newReason = mir_a2t( reason );
-	}
-
-	if (newFirstName[0] != 0) {
-		allName += newFirstName;
-		if (newLastName[0] != 0)
-			allName += _T(" ");
-	}
-
-	if (newLastName[0] != 0)
-		allName += newLastName;
-	if (!allName.empty())
-		allName += _T(", ");
-	if (newJid[0] != 0) {
-		allName += newJid;
-		allName += _T(", ");
-	}
-
-	mir_sntprintf(buf, cbBuf, TranslateT("Authorization request by %s (%s%d): %s"),
-		(newNick[0] == 0 ? (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR) : newNick),
-		allName.c_str(), uin, newReason);
-	mir_free( newNick );
-	mir_free( newFirstName );
-	mir_free( newLastName );
-	mir_free( newJid );
-	mir_free( newReason );
-}
-
 void EventList::GetObjectDescription( DBEVENTINFO *dbei, TCHAR* str, int cbStr )
 {
-	switch(dbei->eventType) {
-	case EVENTTYPE_AUTHREQUEST:
-		GetAuthRequestDescription( dbei, str, cbStr );
-		break;
-
-	default:
-		GetMessageDescription( dbei, str, cbStr );
-	}
+	GetMessageDescription( dbei, str, cbStr );
 }
 
 bool EventList::GetEventIcon(bool isMe, int eventType, int &id)
