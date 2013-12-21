@@ -2624,7 +2624,7 @@ LABEL_SHOWWINDOW:
 				}
 
 				if (msg == WM_KEYDOWN && wp == VK_TAB) {
-					if (((NMHDR *)lParam)->idFrom == IDC_CHAT_LOG) {
+					if (((NMHDR*)lParam)->idFrom == IDC_CHAT_LOG) {
 						SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 						return(_dlgReturn(hwndDlg, 1));
 					}
@@ -2775,7 +2775,7 @@ LABEL_SHOWWINDOW:
 								TranslateMenu(hSubMenu);
 								pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
 								pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
-								ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
+								ClientToScreen(((NMHDR*) lParam)->hwndFrom, &pt);
 								switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
 								case ID_NEW:
 									CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM)tr.lpstrText);
@@ -2822,7 +2822,7 @@ LABEL_SHOWWINDOW:
 
 									pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
 									pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
-									ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
+									ClientToScreen(((NMHDR*) lParam)->hwndFrom, &pt);
 									CopyMemory(&uiNew, ui, sizeof(USERINFO));
 									UINT uID = CreateGCMenu(hwndDlg, &hMenu, 0, pt, si, uiNew.pszUID, uiNew.pszNick);
 									switch (uID) {

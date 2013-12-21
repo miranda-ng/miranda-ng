@@ -960,9 +960,9 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 
 	case WM_NOTIFY:
-		switch (((NMHDR *) lParam)->idFrom) {
+		switch (((NMHDR*) lParam)->idFrom) {
 		case IDC_CLIST:
-			switch (((NMHDR *) lParam)->code) {
+			switch (((NMHDR*) lParam)->code) {
 			case CLN_OPTIONSCHANGED:
 				ResetCList(hwndDlg);
 				break;

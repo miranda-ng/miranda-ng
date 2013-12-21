@@ -1635,7 +1635,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 		return 1;
 
 	case WM_NOTIFY:
-		switch (((NMHDR *) lParam)->code) {
+		switch (((NMHDR*) lParam)->code) {
 		case EN_LINK:
 			::SetFocus(m_hRich);
 			switch (((ENLINK *) lParam)->msg) {

@@ -49,7 +49,7 @@ static TCHAR *formatting_strings_end[] = { _T("b0 "), _T("i0 "), _T("u0 "), _
 LRESULT TSAPI _dlgReturn(HWND hWnd, LRESULT result)
 {
 	SetWindowLongPtr(hWnd, DWLP_MSGRESULT, result);
-	return(result);
+	return result;
 }
 
 void* Utils::safeAlloc(const size_t size)
@@ -60,7 +60,8 @@ void* Utils::safeAlloc(const size_t size)
 
 		return(reinterpret_cast<void*>(_p));
 	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MEMORY_ALLOCATION", false)) {
+	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MEMORY_ALLOCATION", false))
+	{
 		return 0;
 	}
 }
@@ -72,7 +73,8 @@ void* Utils::safeCalloc(const size_t size)
 		::ZeroMemory(_p, size);
 		return(_p);
 	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MEMORY_ALLOCATION", false)) {
+	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MEMORY_ALLOCATION", false))
+	{
 		return 0;
 	}
 }
@@ -85,7 +87,8 @@ void* Utils::safeMirAlloc(const size_t size)
 
 		return(reinterpret_cast<void*>(_p));
 	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MIR_MEMORY_ALLOCATION", false)) {
+	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MIR_MEMORY_ALLOCATION", false))
+	{
 		return 0;
 	}
 }
@@ -97,7 +100,8 @@ void* Utils::safeMirCalloc(const size_t size)
 		::ZeroMemory(_p, size);
 		return(_p);
 	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MIR_MEMORY_ALLOCATION", false)) {
+	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MIR_MEMORY_ALLOCATION", false))
+	{
 		return 0;
 	}
 }
@@ -137,10 +141,11 @@ TCHAR* Utils::FilterEventMarkers(TCHAR *wszText)
 }
 
 /**
- * this translates formatting tags into rtf sequences...
- * flags: loword = words only for simple  * /_ formatting
-         *hiword = bbcode support (strip bbcodes if 0)
- */
+* this translates formatting tags into rtf sequences...
+* flags: loword = words only for simple  * /_ formatting
+*        hiword = bbcode support (strip bbcodes if 0)
+*/
+
 const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOOL isSent)
 {
 	bool 	clr_was_added = false, was_added;
@@ -175,7 +180,7 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 				
 				tstring colorname = message.substr(beginmark + 7, 8);
 search_again:
-				bool  clr_found = false;
+				bool clr_found = false;
 				for (int ii = 0; ii < rtf_ctable_size; ii++) {
 					if (!_tcsnicmp((TCHAR*)colorname.c_str(), rtf_ctable[ii].szName, lstrlen(rtf_ctable[ii].szName))) {
 						closing = beginmark + 7 + lstrlen(rtf_ctable[ii].szName);
@@ -236,7 +241,6 @@ invalid_code:
 		dat->clr_added = clr_was_added ? TRUE : FALSE;
 		return(message.c_str());
 	}
-
 
 	while ((beginmark = message.find_first_of(_T("*/_"), beginmark)) != message.npos) {
 		endmarker = message[beginmark];
@@ -309,9 +313,10 @@ ok:
 }
 
 /**
- * format the title bar string for IM chat sessions using placeholders.
- * the caller must mir_free() the returned string
- */
+* format the title bar string for IM chat sessions using placeholders.
+* the caller must mir_free() the returned string
+*/
+
 const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
 {
 	TCHAR *szResult = 0;
@@ -430,9 +435,9 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			break;
 		}
 		/*
-		 * status message (%T will skip the "No status message" for empty
-		 * messages)
-		 */
+		* status message (%T will skip the "No status message" for empty
+		* messages)
+		*/
 		case 't':
 		case 'T': {
 			TCHAR	*tszStatusMsg = dat->cache->getNormalizedStatusMsg(dat->cache->getStatusMsg(), true);
@@ -820,60 +825,55 @@ void Utils::scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, doubl
  */
 HICON Utils::iconFromAvatar(const TWindowData *dat)
 {
-	double		dNewWidth, dNewHeight;
-	bool		fFree = false;
-	HIMAGELIST 	hIml_c = 0;
-	HICON		hIcon = 0;
-
-	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
+	if (!ServiceExists(MS_AV_GETAVATARBITMAP) || dat == NULL)
 		return 0;
 
-	if (dat) {
-		AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)dat->hContact, 0);
-		LONG	lIconSize = Win7Taskbar->getIconSize();
+	AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)dat->hContact, 0);
+	if (ace == NULL || ace->hbmPic == NULL)
+		return NULL;
 
-		if (ace && ace->hbmPic) {
-			scaleAvatarHeightLimited(ace->hbmPic, dNewWidth, dNewHeight, lIconSize);
-			/*
-			 * resize picture to fit it on the task bar, use an image list for converting it to
-			 * 32bpp icon format
-			 * dat->hTaskbarIcon will cache it until avatar is changed
-			 */
-			HBITMAP hbmResized = CSkin::ResizeBitmap(ace->hbmPic, (LONG)dNewWidth, (LONG)dNewHeight, fFree);
-			hIml_c = ::ImageList_Create(lIconSize, lIconSize, ILC_COLOR32 | ILC_MASK, 1, 0);
+	LONG lIconSize = Win7Taskbar->getIconSize();
+	double dNewWidth, dNewHeight;
+	scaleAvatarHeightLimited(ace->hbmPic, dNewWidth, dNewHeight, lIconSize);
+	/*
+	* resize picture to fit it on the task bar, use an image list for converting it to
+	* 32bpp icon format
+	* dat->hTaskbarIcon will cache it until avatar is changed
+	*/
+	bool fFree = false;
+	HBITMAP hbmResized = CSkin::ResizeBitmap(ace->hbmPic, (LONG)dNewWidth, (LONG)dNewHeight, fFree);
+	HIMAGELIST hIml_c = ::ImageList_Create(lIconSize, lIconSize, ILC_COLOR32 | ILC_MASK, 1, 0);
 
-			RECT	rc = {0, 0, lIconSize, lIconSize};
+	RECT rc = {0, 0, lIconSize, lIconSize};
 
-			HDC 	hdc = ::GetDC(dat->pContainer->hwnd);
-			HDC 	dc = ::CreateCompatibleDC(hdc);
-			HDC 	dcResized = ::CreateCompatibleDC(hdc);
+	HDC hdc = ::GetDC(dat->pContainer->hwnd);
+	HDC dc = ::CreateCompatibleDC(hdc);
+	HDC dcResized = ::CreateCompatibleDC(hdc);
 
-			ReleaseDC(dat->pContainer->hwnd, hdc);
+	ReleaseDC(dat->pContainer->hwnd, hdc);
 
-			HBITMAP hbmNew = CSkin::CreateAeroCompatibleBitmap(rc, dc);
-			HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(dc, hbmNew));
-			HBITMAP hbmOldResized = reinterpret_cast<HBITMAP>(::SelectObject(dcResized, hbmResized));
+	HBITMAP hbmNew = CSkin::CreateAeroCompatibleBitmap(rc, dc);
+	HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(dc, hbmNew));
+	HBITMAP hbmOldResized = reinterpret_cast<HBITMAP>(::SelectObject(dcResized, hbmResized));
 
-			LONG	ix = (lIconSize - (LONG)dNewWidth) / 2;
-			LONG	iy = (lIconSize - (LONG)dNewHeight) / 2;
-			CSkin::m_default_bf.SourceConstantAlpha = M.GetByte("taskBarIconAlpha", 255);
-			GdiAlphaBlend(dc, ix, iy, (LONG)dNewWidth, (LONG)dNewHeight, dcResized, 0, 0, (LONG)dNewWidth, (LONG)dNewHeight, CSkin::m_default_bf);
+	LONG ix = (lIconSize - (LONG)dNewWidth) / 2;
+	LONG iy = (lIconSize - (LONG)dNewHeight) / 2;
+	CSkin::m_default_bf.SourceConstantAlpha = M.GetByte("taskBarIconAlpha", 255);
+	GdiAlphaBlend(dc, ix, iy, (LONG)dNewWidth, (LONG)dNewHeight, dcResized, 0, 0, (LONG)dNewWidth, (LONG)dNewHeight, CSkin::m_default_bf);
 
-			CSkin::m_default_bf.SourceConstantAlpha = 255;
-			::SelectObject(dc, hbmOld);
-			::ImageList_Add(hIml_c, hbmNew, 0);
-			::DeleteObject(hbmNew);
-			::DeleteDC(dc);
+	CSkin::m_default_bf.SourceConstantAlpha = 255;
+	::SelectObject(dc, hbmOld);
+	::ImageList_Add(hIml_c, hbmNew, 0);
+	::DeleteObject(hbmNew);
+	::DeleteDC(dc);
 
-			::SelectObject(dcResized, hbmOldResized);
-			if (hbmResized != ace->hbmPic)
-				::DeleteObject(hbmResized);
-			::DeleteDC(dcResized);
-			hIcon = ::ImageList_GetIcon(hIml_c, 0, ILD_NORMAL);
-			::ImageList_RemoveAll(hIml_c);
-			::ImageList_Destroy(hIml_c);
-		}
-	}
+	::SelectObject(dcResized, hbmOldResized);
+	if (hbmResized != ace->hbmPic)
+		::DeleteObject(hbmResized);
+	::DeleteDC(dcResized);
+	HICON hIcon = ::ImageList_GetIcon(hIml_c, 0, ILD_NORMAL);
+	::ImageList_RemoveAll(hIml_c);
+	::ImageList_Destroy(hIml_c);
 	return hIcon;
 }
 
@@ -937,14 +937,14 @@ int	TSAPI Utils::mustPlaySound(const TWindowData *dat)
 	bool fIconic = (::IsIconic(dat->pContainer->hwnd) ? true : false);
 
 	/*
-	 * window minimized, check if sound has to be played
-	 */
+	* window minimized, check if sound has to be played
+	*/
 	if (fIconic)
 		return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_MINIMIZED ? 1 : 0);
 
 	/*
-	 * window in foreground
-	 */
+	* window in foreground
+	*/
 	if (fActiveWindow) {
 		if (fActiveTab)
 			return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_FOCUSED ? 1 : 0);
@@ -1224,9 +1224,9 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 		hWindowList = reinterpret_cast<HANDLE>(::CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0));
 
 	/*
-	 * don't open new warnings when shutdown was initiated (modal ones will otherwise
-	 * block the shutdown)
-	 */
+	* don't open new warnings when shutdown was initiated (modal ones will otherwise
+	* block the shutdown)
+	*/
 	if (CMimAPI::m_shutDown)
 		return -1;
 
@@ -1454,7 +1454,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_NOTIFY:
-		switch (((NMHDR *) lParam)->code) {
+		switch (((NMHDR*) lParam)->code) {
 		case EN_LINK:
 			switch (((ENLINK *) lParam)->msg) {
 			case WM_LBUTTONUP:

@@ -474,7 +474,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	newData.iTabID = newItem;
 	newData.iTabImage = newData.item.iImage;
 	newData.pContainer = pContainer;
-	newData.iActivate = (int) bActivateTab;
+	newData.iActivate = bActivateTab;
 	pContainer->iChilds++;
 	newData.bWantPopup = bWantPopup;
 	newData.hdbEvent = (HANDLE)si;
