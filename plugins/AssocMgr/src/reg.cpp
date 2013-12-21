@@ -546,20 +546,27 @@ void CleanupRegTreeBackupSettings(void)
 		char *pszBuf = strchr(pszClassName,'\\');
 		if (pszBuf != NULL) {
 			*pszBuf = '\0';
-			/* remove others in list with same class name */
-			for(int j=i; j < nSettingsCount; ++j) {
-				pszBuf = strchr(&ppszSettings[j][4],'\\');
-				if (pszBuf != NULL) *pszBuf='\0';
-				if ( lstrcmpA(pszClassName, &ppszSettings[j][4])) continue;
 
-				mir_free(ppszSettings[j]);
-				MoveMemory(&ppszSettings[j],&ppszSettings[j+1],((--nSettingsCount)-j)*sizeof(TCHAR*));
-				--j; /* reiterate current index */
+			/* remove others in list with same class name */
+			if(i < nSettingsCount-1){
+				for(int j=i+1; j < nSettingsCount; ++j) {
+					pszBuf = strchr(&ppszSettings[j][4],'\\');
+					if (pszBuf != NULL) *pszBuf='\0';
+					if (lstrcmpA(pszClassName, &ppszSettings[j][4])){
+						if (pszBuf != NULL) *pszBuf='\\';
+						continue;
+					}
+
+					mir_free(ppszSettings[j]);
+					MoveMemory(&ppszSettings[j], &ppszSettings[j+1], ((--nSettingsCount)-j) * sizeof(char*));
+					--j; /* reiterate current index */
+				}
 			}
+
 			/* no longer registered? */
-			if ( !IsRegisteredAssocItem(pszClassName)) {
+			if (!IsRegisteredAssocItem(pszClassName)) {
 				char *pszFileExt;
-				if ( IsFileClassName(pszClassName, &pszFileExt))
+				if (IsFileClassName(pszClassName, &pszFileExt))
 					RemoveRegFileExt(pszFileExt, pszClassName);
 				else
 					RemoveRegClass(pszClassName);
