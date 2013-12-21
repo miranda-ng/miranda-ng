@@ -5,7 +5,6 @@
 ;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
-;file \plugins\FTPFileYM\res\ftpfile.rc
 [URL]
 קישור
 [Protocol]
@@ -34,26 +33,25 @@
 שנה שם
 [Overwrite]
 מחק
-;file \plugins\FTPFileYM\src\dialog.cpp
+[Disabled]
+בטל
 [%d minutes]
 %d דקות
 [%d hours]
 %d שעות
-;file \plugins\FTPFileYM\src\ftpfile.cpp
 [Resume]
 המשך
-;file \plugins\FTPFileYM\src\job_generic.cpp
-;file \plugins\FTPFileYM\src\job_packer.cpp
-;file \plugins\FTPFileYM\src\job_upload.cpp
-;file \plugins\FTPFileYM\src\manager.cpp
+[CANCELED]
+בוטל
+[CONNECTING...]
+...מתחבר
+[UNKNOWN]
+לא ידוע
 [Clear All]
 נקה הכל
-;file \plugins\FTPFileYM\src\options.cpp
 [minutes]
 דקות
 [Accounts]
 חשבונות
 [Advanced]
 מתקדם
-;file \plugins\FTPFileYM\src\serverlist.cpp
-;file \plugins\FTPFileYM\src\utils.cpp

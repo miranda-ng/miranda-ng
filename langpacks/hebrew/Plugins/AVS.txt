@@ -2,10 +2,9 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
-;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 התמונות שאתה יכול להגדיר כאן ישומשו כאוואטר ברירת מחדל\nבשביל משתמשים שאין להם אוואטר משלהם.\nהשתמש בקופסאות הסימון כדי לאפשר/לבטל הצגת אוואטרים בשביל פרוטוקולים.
 [Delete default picture]
@@ -56,8 +55,8 @@
 רקע
 [Set]
 החל
-;file \plugins\AVS\src\acc.cpp
-;file \plugins\AVS\src\main.cpp
+[Contacts]
+אנשי קשר
 [All Files]
 כל הקבצים
 [Windows Bitmaps]
@@ -66,6 +65,3 @@
 JPEG מפות סיביות של
 [GIF Bitmaps]
 GIF מפות סיביות של
-[Contacts]
-אנשי קשר
-;file \plugins\AVS\src\options.cpp

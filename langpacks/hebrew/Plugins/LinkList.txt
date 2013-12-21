@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 חיפוש
 [Close]
@@ -14,17 +13,25 @@
 הודעות נכנסות
 [Outgoing messages]
 הודעות יוצאות
+[Background color]
+צבע רקע
+[Text color]
+צבע טקסט
 [Timestamp]
 חותמת זמן
 [&File]
 קובץ
 [&Close]
 סגור
-;file \plugins\HistoryLinkListPlus\src\language.h
+[link]
+קישור
 [Error]
 שגיאה
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[incoming]
+נכנס
+[outgoing]
+יוצא
 [History]
 היסטוריה\n
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[All files]
+כל הקבצים

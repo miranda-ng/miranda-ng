@@ -3,17 +3,14 @@
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
 ;  Version: 0.1.21.0
-;  Version: 0.1.21.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
-;file \plugins\LotusNotify\res\LotusNotify.rc
 [Background]
 רקע
 [Text]
 טקסט
 [Password:]
 סיסמא:
-;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Status]
 מצב
 [Plugins]

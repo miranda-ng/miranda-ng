@@ -5,7 +5,8 @@
 ;  Version: 0.1.3.0
 ;  Authors: MaD_CLuSTeR
 ;============================================================
-;file \plugins\Sessions\res\Sessions.rc
+[ms]
+ מילי שניה
 [Edit]
 ערוך
 [Delete]
@@ -18,8 +19,5 @@
 אישור
 [Cancel]
 ביטול
-;file \plugins\Sessions\Src\Main.cpp
-;file \plugins\Sessions\Src\Options.cpp
 [Message Sessions]
 חלון הודעות
-;file \plugins\Sessions\Src\Utils.cpp

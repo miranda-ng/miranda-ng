@@ -5,7 +5,6 @@
 ;  Version: 0.4.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
-;file \plugins\Weather\res\resource.rc
 [Brief Info]
 תקציר מידע
 [Webpage]
@@ -132,6 +131,8 @@ URL עוד מידע
 טקסט נוסף
 [External Log]
 יומן חיצוני
+[Variable List]
+רשימת אפשרויות
 [More Variables]
 עוד משתנים
 [Reset]
@@ -154,30 +155,22 @@ URL עוד מידע
 צפה בהיסטוריה
 [Show user detail]
 הראה פרטי משתמש
-;file \plugins\Weather\src\weather.cpp
 [Weather Condition Changed]
 תנאי מזג אויר השתנו
 [Weather Alert Issued]
 אזהרת מזג אויר הופעלה
-;file \plugins\Weather\src\weather.h
 [Netlib error - check your internet connection (30)]
  שגיאת נטליב -בדוק את חיבור האינטרנט שלך (30)
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\nהיום:  גבוה %h, נמוך %l
-;file \plugins\Weather\src\weather_addstn.cpp
 [Weather Protocol]
 פרוטוקול מזג אוויר
-;file \plugins\Weather\src\weather_contacts.cpp
 [All Files]
 כל הקבצים
-;file \plugins\Weather\src\weather_conv.cpp
 [<Error>]
 <שגיאה>
-;file \plugins\Weather\src\weather_data.cpp
-;file \plugins\Weather\src\weather_http.cpp
 [Weather HTTP connections]
 של מזג אויר HTTP חיבורי
-;file \plugins\Weather\src\weather_icons.cpp
 [Update Disabled]
 בטל עדכונים
 [Update with Clear]
@@ -190,7 +183,10 @@ URL עוד מידע
 עדכון מזג אוויר
 [No Popup]
 ללא פופאפ
-;file \plugins\Weather\src\weather_info.cpp
+[Name]
+שם
+[Items]
+פריטים
 [Name:]
 שם:
 [bytes]
@@ -199,9 +195,6 @@ URL עוד מידע
 תיאור:
 [Here is a list of custom variables that are currently available]
 הנה רשימה של משתנים מותאמים אישית שכרגע זמינים
-;file \plugins\Weather\src\weather_ini.cpp
-;file \plugins\Weather\src\weather_mwin.cpp
-;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 רשת
 [General]
@@ -210,12 +203,10 @@ URL עוד מידע
 פופ אפ
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tמצב נוכחי\n%d\tתאריך נוכחי\n%e\tנקודת טל\n%f\tמרגיש כמו \n%h\tהיום גבוה\n%i\tכיוון רוח\n%l\tהיום נמוך\n%m\tלחות\n%n\tשם תחנה\n%p\tלחץ אטמוספרי\n%r\tזמן זריחה\n%s\tת.ז. תחנה\n%t\tטמפרטורה\n%u\tזמן עדכון\n%v\tראות\n%w\tמהירות רוח\n%y\tשקיעה
-;file \plugins\Weather\src\weather_popup.cpp
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tמצב נוכחי\n%d\tתאריך נוכחי\n%e\tנקודת טל\n%f\tמרגיש-כמו טמפרטורה\n%h\tהיום גבוה\n%i\tכיוון הרוח\n%l\tהיום נמוך\n%m\tלחות\n%n\tשם תחנה\n%p\tלחץ אטמוספרי\n%r\tזמן זריחה\n%s\tת.ז. תחנה\n%t\tטמפרטורה\n%u\tזמן עדכון\n%v\tראות\n%w\tמהירות הרוח\n%y\tזמן שקיעה
 [%[..]\tcustom variables]
 %[..]\tמשתנים מותאמים אישית
-;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 ת.ז. של מיקום\n
 [Disable &weather notification]
@@ -238,10 +229,8 @@ URL עוד מידע
 הסר מידע ישן ואז עדכן הכל
 [Weather Notification]
 הודעות מזג אוויר
-;file \plugins\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 לא מסוגל לקבל מידע מזג אוויר עבור %s
-;file \plugins\Weather\src\weather_userinfo.cpp
 [Variable]
 משתנה
 [Information]

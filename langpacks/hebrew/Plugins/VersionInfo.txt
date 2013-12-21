@@ -5,7 +5,6 @@
 ;  Version: 1.5.0.3
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
-;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 :שמור ל
 [OK]
@@ -52,10 +51,5 @@
 &העתק טקסט
 [&Save to file]
 &שמור לקובץ
-;file \plugins\VersionInfo\src\CVersionInfo.cpp
-;file \plugins\VersionInfo\src\dlgHandlers.cpp
-;file \plugins\VersionInfo\src\hooked_events.cpp
-;file \plugins\VersionInfo\src\main.cpp
-;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
 בסדר, משהו לא בסדר בהגדרת "%s". דווח בחזרה את הערכים הבאים:\nהתקן: &X\nשגיאת קוד: %X\nמספר שורה: %d

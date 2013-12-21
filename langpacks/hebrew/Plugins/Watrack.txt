@@ -65,6 +65,8 @@
 בדוק מידע זמן של קובץ
 [No Music]
 ללא מוזיקה
+[No player]
+אין נגן
 [User message]
 הודעת משתמש
 [Channel message]
@@ -111,6 +113,10 @@ VBR או ריק
 פתח דו"ח
 [Reverse order]
 הפוך סדר
+[Independed Xstatus]
+עצמאי XStatus
+[second line]
+שורה שניה
 [Music Info]
 מידע מוזיקה
 [Disable Plugin]
@@ -129,16 +135,14 @@ VBR או ריק
 מגה בייטס
 [Precision]
 דיוק
+[none]
+ללא
 [Color]
 צבע
 [Output]
 יצוא
 [Choose font...]
 ...בחר גופן
-;file \plugins\Watrack\myshows\myshows.rc
-;file \plugins\Watrack\lastfm\i_last_api.inc
-;file \plugins\Watrack\lastfm\i_last_dlg.inc
-;file \plugins\Watrack\proto\proto.pas
 ;other strings
 [WATrack status]
 WATrack מצב

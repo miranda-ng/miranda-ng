@@ -5,7 +5,6 @@
 ;  Version: 1.0.12.4
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
-;file \plugins\SecureIM\res\resource.rc
 [sec]
 שניות
 [Text]
@@ -22,25 +21,27 @@
 ביטול
 [Status]
 מצב
-;file \plugins\SecureIM\src\language.cpp
 [General]
 כללי
 [Name]
 שם
+[ON]
+פועל
 [Off]
 כבוי
-;file \plugins\SecureIM\src\loadicons.cpp
+[Disabled]
+בטל
 [Contact List]
 רשימת אנשי קשר
+[Contact Menu]
+תפריט משתמש
 [Message Window]
 חלון הודעה
 [Popups]
 פופ אפ
-;file \plugins\SecureIM\src\main.cpp
 [Icons]
 סמלים
-;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 קבצי תוכניות
-;file \plugins\SecureIM\src\popupOptions.cpp
-;file \plugins\SecureIM\src\svcs_srmm.cpp
+[All files]
+כל הקבצים

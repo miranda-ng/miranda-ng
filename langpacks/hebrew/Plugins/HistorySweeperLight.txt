@@ -5,12 +5,9 @@
 ;  Version: 0.0.0.7
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
 ;============================================================
-;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [Sweep history for this contacts:]
 :מחק הסטוריה לאנשי הקשר האלה
 [Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
 השתמש במצב לא בטוח מנקה מהר ככל האפשר אבל מסוכן לבסיס נתונים
-;file \plugins\HistorySweeperLight\src\main.cpp
-;file \plugins\HistorySweeperLight\src\options.cpp
 [History]
 היסטוריה\n

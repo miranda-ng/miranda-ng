@@ -1,11 +1,12 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
-;file \protocols\IcqOscarJ\res\resources.rc
+[ICQ Number:]
+מספר:
 [Password:]
 סיסמא:
 [&Send]
@@ -24,6 +25,8 @@
 השג סיסמא אבודה או מספר איי סי קיו
 [Create a new ICQ account using the ICQ website]
 צור חשבון חדש בעזרת האתר של איי סי קיו
+[Connection settings]
+הגדרות חיבור
 [Port:]
 יציאה:
 [Default]
@@ -134,6 +137,8 @@
 קריטי
 [Spam detected]
 ספאם נתגלה
+[&Use Windows colors]
+&השתמש בצבעי חלונות
 [Use system &icons]
 השתמש ב&אייקוני מערכת
 [Use default colors]
@@ -160,6 +165,8 @@
 מיקום:
 [Location]
 מיקום
+[Homepage]
+דף הבית
 [Other]
 אחר
 [Manage ICQ Server Contacts]
@@ -170,7 +177,6 @@
 סנכרן
 [Closing in %d]
 סוגר תוך %d
-;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to ICQ communication server]
 לא ניתן להתחבר לשרת התקשורת של איי סי קיו
 [You could not sign on because the server returned invalid data. Try again.]
@@ -189,19 +195,28 @@
 נותקת מהרשת מכיוון שמספר זה נמצא בשימוש במקום אחר
 [Unknown runtime error: 0x%02x]
 0x%02x :שגיאת זמן ריצה לא ידועה
-;file \protocols\IcqOscarJ\src\fam_01service.cpp
-;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
-;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [ICQ Note]
 איי סי קיו - הערה
-;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
-;file \protocols\IcqOscarJ\src\fam_17signon.cpp
-;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-;file \protocols\IcqOscarJ\src\icq_avatar.cpp
-;file \protocols\IcqOscarJ\src\icq_constants.h
-;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Audio and Visual]
+קול ותמונה
 [Business]
 עסקים
+[Business Services]
+שירותי עסקים
+[Finance and Corporate]
+פיננסיה ותאגידים
+[Health and Beauty]
+בריאות ויופי
+[Home Automation]
+אוטומציה ביתית
+[Household Products]
+מוצרי תחזוקת הבית
+[Mail Order Catalog]
+קטלוג הזמנה בדואר
+[Retail Stores]
+מכולות
+[Sporting and Athletic]
+ספורט ואתלטיקה
 [Past Work Place]
 מקום עבודה קודם
 [Past Organization]
@@ -212,13 +227,10 @@
 זכר
 [60-above]
 +60
-;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
-;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 .העברת הקובץ בוטלה מכיוון שאחד הקבצים שנבחרו נמחקו או הועברו ממקומם
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 .מירנדה לא מצליחה לשמור את הקובץ אותו אתה מנסה לקבל, ייתכן ומדובר בספריה בעלת הרשאת קריאה בלבד
-;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 בקשת אישור
 [Grant authorization]
@@ -229,7 +241,6 @@
 הוסף לרשימת שרת
 [Show custom status details]
 הצג פרטי מצבי סטאטוס מוכנים מראש
-;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Display all problems]
 הצג את כל הבעיות
 [Display problems causing possible loss of data]
@@ -246,15 +257,10 @@
 אנשי קשר
 [Popups]
 פופ אפ
-;file \protocols\IcqOscarJ\src\icq_popups.cpp
-;file \protocols\IcqOscarJ\src\icq_proto.cpp
-;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server]
 אין אפשרות להתחבר לשרת הכניסה
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
 מירנדה לא מצליחה להתחבר התחברות ישירה (נקודה לנקודה). לא תהיה לך אפשרות להעביר או לקבל קבצים\n\nייתכן וקיר אש חוסם את הגישה, במקרה כזה אנא הגדר מחדש את הגדרות הרשת של מירנדה באמצעות התפריט הראשי
-;file \protocols\IcqOscarJ\src\icq_servlist.cpp
-;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [Select contacts you want to store on server.]
 בחר משתמשים שאתה רוצה לאחסן על השרת.
 [Ready...]
@@ -269,7 +275,6 @@
 סגור
 [** All contacts **]
 ** כל הרשימה **
-;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Taking a bath]
 מתקלח
 [Drinking beer]
@@ -304,13 +309,12 @@
 להיות או לא להיות
 [Watching pro7 on TV]
 צופה פרו7 בטלוויזיה
+[Free for Chat]
+פנוי לשיחה
 [%s Custom Status]
 %s מצבים מוגדרים אישית
 [None]
 ללא
-;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
-;file \protocols\IcqOscarJ\src\init.cpp
-;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 איי סי קיו - אזהרה
 [ICQ Error]
@@ -327,20 +331,23 @@
 .ICQ<-השרת שאליו את מנסה להתחבר לא קיים. בדוק את האיות שלך בתפריט->אפשריות->רשת
 [error]
 שגיאה
-;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
-;file \protocols\IcqOscarJ\src\utilities.cpp
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[%d Files]
+%d קבצים
 [First name]
 שם פרטי
 [Last name]
 שם משפחה
+[Gender]
+מין
+[About]
+ אודות
 [Contact]
 קשר
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[City]
+עיר
+[State]
+ מצב
+[Country]
+מדינה
 [<not specified>]
 <לא מוגדר>

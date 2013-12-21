@@ -1,0 +1,7715 @@
+﻿Miranda Language Pack Version 1
+Language: Slovak (SK)
+Locale: 041b
+Last-Modified-Using: Miranda NG 0.94.4
+Authors: RaRo
+Author-email: raro@raro.sk
+
+
+[OK]
+OK
+[Cancel]
+Storno
+[Authorization request]
+Požiadavka na autorizáciu
+[Delete contact]
+Zmazať kontakt
+[&Yes]
+Áno
+[&No]
+Nie
+[Find/Add contacts]
+Nájsť/Pridať kontakt
+[E-mail address]
+E-mailová adresa
+[Name]
+Meno
+[Nick:]
+Prezívka:
+[First:]
+Meno:
+[Last:]
+Priezvisko:
+[Advanced]
+Podrobne
+[Advanced >>]
+Podrobne >>
+[&Search]
+Hľadať
+[More options]
+Ďalšie nastavenia
+[Add to list]
+Pridať do zoznamu
+[Apply]
+Aplikovať
+[Please select a subentry from the list]
+Prosím vyberte zo zoznamu jednu z podkategórií
+[Install database settings]
+Aplikovať nastavenia databázy
+[Yes]
+Áno
+[No]
+Nie
+[Do you want to import the settings now?]
+Chcete importovať nastavenia?
+[No to all]
+Nie pre všetko
+[&View contents]
+Zobraziť obsah
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Bezpečnostný systém sa zmení, budete varovaný pred nebezpečiami.
+[Database setting change]
+Zmena nastavenia databázy
+[Database settings are being imported from]
+Nastavenie databázy je importované z
+[This file wishes to change the setting]
+Tento súbor zmení nastavenie
+[to the value]
+hodnotu
+[Do you want to allow this change?]
+Prajete si umožniť túto zmenu?
+[&Allow all further changes to this section]
+Umožniť všetky budúce zmeny v tejto sekcii
+[Cancel import]
+Zrušiť importovanie
+[Database import complete]
+Databáza kompletne importovaná
+[The import has completed from]
+Import je kompletný z
+[What do you want to do with the file now?]
+Čo ďalej robiť so súborom?
+[&Recycle]
+Recyklovať
+[&Delete]
+Vymazať
+[&Move/Rename]
+Presunúť/Premenovať
+[&Leave]
+Opustiť
+[Show]
+Zobraziť
+[OutputDebugString()]
+OutputDebugString()
+[File]
+Súbor
+[Sounds]
+Zvuky
+[&Change...]
+Zmeniť...
+[&Preview]
+Prehrať
+[Download more sounds]
+Stiahnuť viac zvukov
+[Icons]
+Ikony
+[Show category:]
+Kategória:
+[&Load icon set...]
+Načítať súbor ikon...
+[&Import icons >>]
+Importovať ikony >>
+[Download more icons]
+Stiahnuť viac ikon
+[The following events are being ignored:]
+Nasledujúce udalosti budú ignorované:
+[None]
+Žiadne
+[Only the ticked contacts will be shown on the main contact list]
+V zozname kontaktov budú iba označené kontakty
+[Ignore]
+Ignorovať
+[Visibility]
+Viditeľnosť
+[You are visible to this person even when in invisible mode]
+Pre túto osobu ste viditelný pokiaľ neprejdete do stavu "Neviditelný"
+[You are never visible to this person]
+Pre túto osobu ste VŽDY neviditelný
+[Icon index]
+Zoznam ikon
+[Icon library:]
+Knižnica ikon:
+[Drag icons to main list to assign them:]
+Pretiahnite ikony do hlavného zoznamu a priraďte ich:
+[Import multiple]
+Importovať viac ikon
+[To main icons]
+Medzi moje ikony
+[To]
+Do
+[<< &Import]
+Importovať
+[Outgoing connections]
+Odchádzajúce pripojenia
+[Use proxy server]
+Použi proxy server
+[Type:]
+Typ:
+[Host:]
+Server:
+[Port:]
+Port:
+[(often %d)]
+(asi %d)
+[Username:]
+Užív. meno:
+[Password:]
+Heslo:
+[Resolve hostnames through proxy]
+Resolvuj mená cez proxy
+[Example: 1050-1070, 2000-2010, 2500]
+Napr: 1050-1070, 2000-2010, 2500
+[Incoming connections]
+Prichádzajúce pripojenia
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Musíte sa odpojiť a pripojiť na aplikovanie týchto zmien.
+[Download more plugins]
+Získať ďalšie plug-iny
+[Description:]
+Popis:
+[E-mail:]
+E-mail:
+[Homepage:]
+WWW:
+[Copyright:]
+Copyright:
+[Undo]
+Späť
+[Reset]
+Reset
+[Text color]
+Fraba textu
+[Effects]
+Efekty
+[Sample]
+Príklad
+[&Help]
+Pomoc
+[Default]
+Prednastavené
+[Hotkeys]
+Klávesové skratky
+[&Hide/Show]
+Skryť/Zobraziť
+[E&xit]
+Koniec
+[&New group]
+Nová skupina
+[&Hide offline users]
+Skryť nepripojených užívatelov
+[Hide &offline users out here]
+Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
+[Hide &empty groups]
+Skryť prázdne skupiny
+[Disable &groups]
+Skryť názvy skupín
+[&New subgroup]
+Nová podskupina
+[&Hide offline users in here]
+Skryť nepripojených užívatelov v tejto skupine
+[&Rename group]
+Premenovať skupinu
+[&Delete group]
+Zmazať skupinu
+[&Reset to default]
+Vrátiť sa k pôvodnemu nastaveniu
+[&Add to list]
+Pridať do zoznamu
+[User &details]
+Informácie o užívatelovi
+[Send &message]
+Odoslať správu
+[Log]
+Log
+[&Copy]
+Kopírovať
+[Co&py all]
+Kopírovať všetko
+[Select &all]
+Vybrať všetko
+[C&lear log]
+Odstrániť záznamy v Logu
+[Open in &new window]
+Otvoriť v novom okne
+[&Open in existing window]
+Otvoriť v tomto okne
+[&Copy link]
+Kopírovať odkaz
+[&Authorize]
+Autorizovať
+[Reason:]
+Dôvod:
+[You were added]
+Boli ste pridaný
+[&Close]
+Zavrieť
+[%s message for %s]
+%s správa pre %s
+[Retrieving %s message...]
+Prijímam %s správu
+[Do not reply to requests for this message]
+Neodpovedať automaticky na túto správu
+[Do not pop up dialog asking for new message]
+Nepožadovať zadanie novej správy
+[By default, use the same message as last time]
+Ako prednastavenú použiť rovnakú správu ako naposledy
+[By default, use this message:]
+Ako prednastavenú použi túto správu:
+[Use %time% for the current time, %date% for the current date]
+Použi %time% pre aktuálny čas, %date% pre aktuálny dátum
+[Change %s message]
+Zmeniť %s správu
+[Closing in %d]
+Zavrieť (za %d s)
+[&Send]
+Odoslať
+[Your name]
+Vaše meno
+[Text]
+Text
+[Background]
+Pozadie
+[List]
+Zoznam
+[&Message]
+&Správa
+[Hide offline users]
+Skryť nepripojených užívateľov
+[Hide empty groups]
+Skryť prázdne skupiny
+[Disable groups]
+Skryť skupiny
+[Sort contacts by name]
+Triediť kontakty podľa mena
+[Sort contacts by status]
+Triediť kontakty podľa stavu
+[Single click interface]
+Nepoužívať dvojklik myšou
+[Cycle icons every]
+Cyklovať každú ikonu
+[seconds, when statuses differ]
+sekund, ked su stavy rozdielne
+[Show multiple icons]
+Zobraziť mnohonásobné ikony
+[Only when statuses differ]
+Iba pri rozdielnych stavoch
+[Contact list]
+Zoznam kontaktov
+[System tray icon]
+Ikona v oznamovacej oblasti
+[System tray icon when using multiple protocols]
+Ikona v oznamovacej oblasti pri použití viacerých protokolov
+[Window]
+Okno
+[Always on top]
+Vždy navrchu
+[Tool style main window]
+Okno v štýle palety nástrojov
+[Minimize to tray]
+Minimalizovať do oznamovacej oblasti
+[Show menu bar]
+Zobraziť menu
+[Easy move]
+Jednoduchý presun
+[Show title bar]
+Zobraziť nadpis
+[Title bar text:]
+Text nadpisu:
+[Hide contact list after it has been idle for]
+Skryť zoznam kontaktov ak nebude používaný po
+[seconds]
+sekúnd
+[Automatically resize window to height of list]
+Prispôsobiť veľkosť okna dlžke zoznamu
+[maximum]
+maximálne
+[% of screen]
+% z obrazovky
+[Size upwards]
+Zväčšovať smerom hore
+[Fade contact list in/out]
+Plynule spriehľadňovať/zobrazovať
+[Transparent contact list]
+Priehľadný zoznam kontaktov
+[Inactive opacity:]
+Priehľadnosť neaktívneho okna:
+[Active opacity:]
+Priehľadnosť aktívneho okna:
+[Items]
+Položky
+[Show divider between online and offline contacts]
+Oddeliť v zozname pripojených a nepripojených užívatelov
+[Hot track items as mouse passes over]
+Zvýrazňovať položky po prejdení myšou
+[Disable drag and drop of items]
+Neumožniť preťahovanie položiek
+[Disable rename of items by clicking twice]
+Nepremenovávať položky pomocou dvoch klikov
+[Show selection even when list is not focused]
+Zvýrazňovať výber i keď je zoznam neaktívny
+[Make selection highlight translucent]
+Použiť priehladné označenie výberu
+['Hide offline' means to hide:]
+'Skryť nepripojených' = skryť týchto:
+[Groups]
+Skupiny
+[Draw a line alongside group names]
+Zvýrazniť názvy skupín oddelovacou čiarou
+[Show counts of number of contacts in a group]
+Zobrazovať počet kontaktov v skupine za názvom skupiny
+[Hide group counts when there are none online]
+Skryť počet kontaktov v skupine ak sú všetci odpojený
+[Sort groups alphabetically]
+Triediť skupiny podľa abecedy
+[Quick search in open groups only]
+Rýchle hľadanie iba v otvorených skupinách
+[Indent groups by:]
+Odsadzovanie skupín:
+[pixels]
+pixelov
+[Visual]
+Vzhľad
+[Scroll list smoothly]
+Plynule posúvať zoznam
+[Time:]
+Čas:
+[milliseconds]
+milisekúnd
+[Left margin:]
+јavý okraj
+[Row height:]
+Výška riadku:
+[Gamma correction]
+Gamma korekcia
+[Gray out entire list when:]
+Potlačiť intenzitu u týchto položiek:
+[Contact list background]
+Pozadie zoznamu kontaktov
+[Background color]
+Farba pozadia
+[Stretch to width]
+Roztiahnúť na šírku
+[Stretch to height]
+Roztiahnúť na výšku
+[Tile horizontally]
+Vedľa seba
+[Tile vertically]
+Nad sebou
+[Scroll with text]
+Posúvať s textom
+[Stretch proportionally]
+Roztiahnúť veľkosť
+[Status bar]
+Stavový riadok
+[Show status bar]
+Zobraziť stavový riadok
+[Show icons]
+Zobraziť ikony
+[Show protocol names]
+Zobraziť meno protokolu
+[Show status text]
+Zobraziť stavový text
+[Right click opens status menu]
+Pravé tlačítko myši otvára stavové menu
+[Make sections equal width]
+Rovnaká šírka oddielov
+[&Status]
+Stav
+[&Offline\tCtrl+0]
+Odpojený\tCtrl+0
+[On&line\tCtrl+1]
+Pripojený
+[&Away\tCtrl+2]
+Preč
+[&NA\tCtrl+3]
+Nedostupný
+[Occ&upied\tCtrl+4]
+Zaneprázdnený
+[&DND\tCtrl+5]
+Nerušiť
+[&Free for chat\tCtrl+6]
+Prístupný k rozhovoru
+[&Invisible\tCtrl+7]
+Neviditelný
+[On the &phone\tCtrl+8]
+Telefonujem
+[Out to &lunch\tCtrl+9]
+Na obede
+[Send file(s)]
+Odoslať súbor(y)
+[To:]
+Pre:
+[File(s):]
+Súbor(y):
+[&Choose again...]
+Znovu vybrať
+[Total size:]
+Celková veľkosť:
+[Incoming file transfer]
+Príchádzajúci súbor
+[A&ccept]
+Prijať
+[&Decline]
+Odmietnúť
+[From:]
+Od:
+[Date:]
+Dátum:
+[Files:]
+Súbory:
+[Save to:]
+Uložiť do:
+[Open &folder]
+Otvoriť zložku
+[File already exists]
+Súbor už existuje
+[Resume]
+Výsledok
+[Resume all]
+Výsledok všetkého
+[Overwrite]
+Prepísať
+[Overwrite all]
+Prepísať všetko
+[Save as...]
+Uložiť ako...
+[Skip]
+Vynechať
+[Cancel transfer]
+Prerušiť prenos
+[You are about to receive the file]
+Prijať súbor
+[Existing file]
+Súbor existuje
+[Size:]
+Veľkosť:
+[Last modified:]
+Posledná modifikácia:
+[Open file]
+Otvoriť súbor
+[Open folder]
+Otvoriť zložku
+[File properties]
+Vlastnosti súboru
+[File being received]
+Súbor na prijatie
+[File transfers]
+Prenos súboru
+[Close]
+Zavrieť
+[Receiving files]
+Prijať súbory
+[Received files folder:]
+Zlozka pre prijaté súbory:
+[Auto-accept incoming files from people on my contact list]
+Automaticky príjmy súbory od ľudí v mojom zozname
+[Minimize the file transfer window]
+Minimalizuj okno prenosu súboru
+[Close window when transfer completes]
+Zatvor okno ked je prenos kompletný
+[Virus scanner]
+Vírusové skenovanie
+[Scan files:]
+Skenovať súbory:
+[Never, do not use virus scanning]
+Nikdy, nepoužívať vírusové skenovanie
+[When all files have been downloaded]
+Až keď sú všetky súbory stiahnuté
+[As each file finishes downloading]
+Po každom stiahnutí súboru
+[Command line:]
+Príkazový riadok:
+[%f will be replaced by the file or folder name to be scanned]
+%f je premiestnený súbor alebo zložka na oskenovanie
+[Warn me before opening a file that has not been scanned]
+varuj pred otvorením ak je súbor neoskenovaný
+[If incoming files already exist]
+Ak prichádzajúci súbor existuje
+[Ask me]
+Opýtaj sa ma
+[Rename (append " (1)", etc.)]
+Premenovať (pripojiť "(1)", a atď)
+[You will always be asked about files from people not on your contact list]
+Odpoveď ľuďom ktorý niesu vo vašom zozname kontaktov
+[Save the window size and location individually for each contact]
+Uložiť pozíciu a veľkosť okna individuálne pre každý kontakt
+[Send message on double 'Enter']
+Odoslať správu po dvojitom stlačení Enter
+[Send message on 'Enter']
+Odoslať správu po stlačení Enter
+[Try again]
+Skús znovu
+[Message session]
+Rozhovor
+[Message window event log]
+Záznam o prijatých/odoslaných dátach
+[Show names]
+Zobraziť mená
+[Show dates]
+Zobraziť dátumy
+[Load unread events only]
+Nahrať doposiaľ neprečítané udalosti
+[Load number of previous events]
+Nahrať počet posledných udalostí
+[Load previous events less than]
+Nahrať iba udalosti, ktoré sú menšie než
+[minutes old]
+minút staré
+[Load history events]
+Nahrať udalosti histórie
+[Find]
+Hľadať
+[&Find next]
+Hľadať ďalšie
+[Find what:]
+Čo hľadať:
+[Message history]
+História správ
+[&Find...]
+Nájsť...
+[Add phone number]
+Pridať telefónne číslo
+[Enter country, area code and phone number:]
+Uveďte krajinu, predvoľbu a telefónne číslo:
+[Or enter a full international number:]
+Alebo uveďte telefónne číslo v medzinárodnom tvare:
+[Phone can receive SMS text messages]
+Na toto číslo môžete posielať SMS správy
+[Add e-mail address]
+Pridať e-mail adresu
+[%s: user details]
+%s: Užívatelove informácie
+[Update now]
+Aktualizovať
+[Updating]
+Aktualizujem
+[Nickname:]
+Prezívka:
+[First name:]
+Meno:
+[Gender:]
+Pohlavie:
+[Last name:]
+Priezvisko:
+[Age:]
+Vek:
+[Date of birth:]
+Dátum narodenia:
+[Phone:]
+Telefón:
+[Web page:]
+Webová stránka:
+[Past background:]
+Okolné pozadia
+[Interests:]
+Záujmy:
+[About:]
+O sebe:
+[My notes:]
+Moje poznámky:
+[Street:]
+Ulica:
+[City:]
+Mesto:
+[State:]
+Štát:
+[Postal code:]
+PSČ/ZIP kód:
+[Country:]
+Krajina:
+[Spoken languages:]
+Jazyky:
+[Timezone:]
+Časové pásmo:
+[Local time:]
+Miestny čas:
+[Company:]
+Firma:
+[Department:]
+Oddelenie:
+[Position:]
+Pozícia:
+[Website:]
+WWW stránky:
+[View user's details]
+Zobraziť informácie o užívatelovi
+[Add contact permanently to list]
+Pridať kontakt do zoznamu
+[Re&ad %s message]
+Čítať %s správu
+[I've been away since %time%.]
+Som preč od %time%.
+[Not right now.]
+Prepáč, teraz nemám čas.
+[Yep, I'm here.]
+Je tu.
+[Nope, not here.]
+Nieje tu.
+[I'm hiding from the mafia.]
+Schováva sa pred mafiou
+[That'll be the phone.]
+Telefonuje
+[Mmm... food.]
+Mmm... obed.
+[Status]
+Stav
+[Incoming message]
+Prichádzajúca správa
+[Bold]
+Tučné
+[Messaging]
+Rozhovor
+[Select folder]
+Vyber zložku
+[Nickname]
+Prezívka
+[Standard contacts]
+Štandardné kontakty
+[Online contacts to whom you have a different visibility]
+Pripojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Offline contacts]
+Odpojený užívatelia
+[Contacts which are 'not on list']
+Užívatelia ktorí niesu v zozname
+[Group member counts]
+Počet členov skupiny
+[Dividers]
+Oddelovače
+[Offline contacts to whom you have a different visibility]
+Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Not focused]
+Neoznačené
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[List background]
+Pozadie zoznamu
+[User has not registered an e-mail address]
+Užívatel nemá zaregistrovnú e-mailovú adresu\nMôžete ju pridať v podrobných informáciách o užívatelovi v záložke "kontakt".
+[Send e-mail]
+Odoslať e-mail
+[&E-mail]
+&e-mail
+[File from %s]
+Súbor od %s
+[bytes]
+bytov
+[&File]
+&Súbor
+[Error]
+Chyba
+[All files]
+Všetky súbory
+[Executable files]
+Spustitelné súbory
+[Events]
+Udalosti
+[View user's history]
+Zobraziť históriu 
+[User menu]
+Menu užívatela
+[%d files]
+%d súbory
+[%d directories]
+%d adresáre
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Tento súbor nebol skenovaný proti vírusom. Chcete ho otvoriť?
+[File received]
+Prijať súbor
+[Request sent, waiting for acceptance...]
+Požiadavka zaslaná, čakajte na akceptáciu...
+[Waiting for connection...]
+Čakajte na pripojenie...
+[sec]
+sek
+[remaining]
+prijímam
+[Decision sent]
+Rozhodnutie odoslané
+[Connecting...]
+Pripájam...
+[Connected]
+Pripojený
+[Initializing...]
+Inicializujem...
+[Moving to next file...]
+presuň do ďalšieho suboru...
+[Sending...]
+Odosielam...
+[Receiving...]
+Prijímam...
+[File transfer failed]
+Chybný prenos súboru
+[Scanning for viruses...]
+Skenovať na vírusy
+[Transfer and virus scan complete]
+Prenos a oskenovanie je kompletné
+[&About...]
+O programe &Miranda...
+[** Unknown contacts **]
+** Neznáme kontakty **
+[Messaging log]
+Záznam rozhovorov
+[Message from %s]
+Správa od %s
+[Incoming URL]
+Prichádzajúca URL
+[Incoming file]
+Prichádzajúci súbor
+[History for %s]
+História pre %s
+[View &history]
+Zobraziť &históriu
+[URL from %s]
+URL od %s
+[Web page address (&URL)]
+Adresa www stránky (&URL)
+[Send timed out]
+Čas k odoslaniu vypršal
+[Edit E-Mail address]
+Zmena e-mail adresy
+[Edit phone number]
+Zmena telefónneho čísla
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Telefónne číslo by malo začínať znakom "+". Nasledujúce znaky môžu byť iba číslice, zátvorky alebo pomlčka.
+[Invalid phone number]
+Neplatné telefónne číslo
+[Primary]
+Primárny
+[Custom %d]
+Nový %d
+[Fax]
+Fax:
+[Mobile]
+Mobil:
+[Male]
+Muž
+[Female]
+Žena
+[<not specified>]
+<nešpecifikované>
+[Summary]
+Obecné
+[Contact]
+Kontakt
+[Location]
+Miesto
+[Work]
+Práca
+[Notes]
+Poznámky
+[View/change my &details...]
+Zobraziť/Zmeniť moje informácie...
+[%s is online]
+%s je pripojený
+[Status menu]
+Menu stavov
+[(Unknown contact)]
+(neznámý kontakt)
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+Tento kontakt patrí do IM systému ktorý ukladá svoje zoznamy kontaktov na centrálny server. Tento kontakt bude odstranený zo servera a z vášho zoznamu kontaktov pri vašom dalšom pripojení do tejto IM siete.
+[De&lete]
+Zmazať
+[&Rename]
+&Premenovať
+[&Add permanently to list]
+Pridať do zoznamu kontaktov
+[My custom name (not movable)]
+Moje vlastné označenie (nepresúvatelné)
+[Nick]
+Prezívka
+[FirstName]
+Meno
+[E-mail]
+e-mail
+[LastName]
+Priezvisko
+[FirstName LastName]
+Meno Priezvisko
+['(Unknown contact)' (not movable)]
+'(neznámý kontakt)' (nepresúvatelné)
+[Contact names]
+Mená kontaktov
+[New group]
+Nová skupina
+[You already have a group with that name. Please enter a unique name for the group.]
+Skupina s týmto menom už existuje. Zadajte prosím nové unikátne meno pre túto skupinu.
+[Rename group]
+Premenovať skupinu
+[This group]
+Táto skupina
+[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+Bezpečnostný systém zmien je zapojený a budete varovaný pred každou zmenou.
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+Bezpečnostný systém zmien je zapojený a budete varovaný pred nebezpečnou zmenou.
+[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+Bezpečnostný systém zmien je odpojený. Nebudete prijímať žiadne varovania.
+[This change is known to be safe.]
+Táto zmena je bezpečná.
+[This change is known to be potentially hazardous.]
+Táto zmena je potencialne nebezpečná.
+[This change is not known to be safe.]
+Táto zmena je nebezpečná.
+[Size]
+Veľkosť
+[You haven't filled in the search field. Please enter a search term and try again.]
+Vyhľadávacie pole nesmie byť prázdne. Prosím zadajte hľadaný výraz a skúste to znovu.
+[Search]
+Hľadať
+[Results]
+Výsledok
+[There are no results to display.]
+Žiadny výsledok na zobrazenie.
+[Searching]
+Vyhľadávam
+[All networks]
+Všetky siete
+[Handle]
+Hlavička
+[&Find/Add contacts...]
+Nájsť/Pridať kontakty...
+[1 %s user found]
+1 %s užívatel nájdený
+[%d %s users found]
+Nájdených %d %s užívatelov.
+[%d users found (]
+Nájdených %d užívatelov
+[No users found]
+Nenájdený užívatelia
+[<none>]
+<nič>
+[Sample text]
+Vzorový text
+[Fonts]
+Písmo
+[Icon sets]
+Súbor ikon
+[** All contacts **]
+** Všetky kontakty **
+[Contacts]
+Kontakty
+[<All connections>]
+Všetky pripojenia
+[Network]
+Sieť
+[&Options...]
+Nastavenia...
+[Configure]
+Konfigurovať
+[User online]
+Pripojený užívatel
+[Group (open)]
+Skupina (otvoriť)
+[Group (closed)]
+Skupina (zavrieť)
+[Connecting]
+Pripájam sa
+[Help]
+Pomoc
+[%s icons]
+%s ikon
+[Main icons]
+Moje ikony
+[All bitmaps]
+Všetky obrázky
+[Windows bitmaps]
+Windows obrázky
+[JPEG bitmaps]
+JPEG obrázky
+[GIF bitmaps]
+GIF obrázky
+[Unknown]
+neznáme
+
+
+#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
+;============================================================
+;  File: actman.dll
+;  Plugin: Action Manager
+;  Version: 0.2.0.1
+;  Authors: Awkward
+;============================================================
+[Apply]
+Aplikovať
+[type]
+typ
+[data]
+Dáta
+;other strings
+
+#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+;============================================================
+;  File: AddContactPlus.dll
+;  Plugin: Add contact+
+;  Version: 0.9.9.1
+;  Authors: Bartosz 'Dezeath' Bialek
+;============================================================
+[Authorization request]
+Požiadavka na autorizáciu
+[None]
+Žiadne
+
+#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
+;============================================================
+;  File: AdvancedAutoAway.dll
+;  Plugin: Advanced Auto Away
+;  Version: 0.8.0.42
+;  Authors: P Boon
+;============================================================
+[Close]
+Zavrieť
+[Cancel]
+Storno
+[minutes of inactivity]
+minutách neaktivity
+[OK]
+OK
+[Command line:]
+Príkazový riadok:
+[Timeout]
+Časový limit
+[Background color]
+Farba pozadia
+[Text color]
+Fraba textu
+[On left click]
+јavým klikom
+[On right click]
+Pravým klikom
+[Colors]
+Farby
+[Events]
+Udalosti
+[Use %time% for the current time, %date% for the current date]
+Použi %time% pre aktuálny čas, %date% pre aktuálny dátum
+[Status]
+Stav
+[seconds]
+sekúnd
+[Auto Away]
+Automaticky 'Preč'
+[I've been away since %time%.]
+Som preč od %time%.
+[Not right now.]
+Prepáč, teraz nemám čas.
+[Yep, I'm here.]
+Je tu.
+[Nope, not here.]
+Nieje tu.
+[I'm hiding from the mafia.]
+Schováva sa pred mafiou
+[That'll be the phone.]
+Telefonuje
+[Mmm... food.]
+Mmm... obed.
+[Closing in %d]
+Zavrieť (za %d s)
+
+#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
+;============================================================
+;  File: AIM.dll
+;  Plugin: AIM protocol
+;  Version: 0.11.0.1
+;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
+;============================================================
+[Password:]
+Heslo:
+[Login Server:]
+Pripájací server:
+[Advanced Options]
+Rozšírené nastavenia
+[Connection]
+pripája
+[Port:]
+Port:
+[Reset]
+Reset
+[E-mail]
+e-mail
+[Save Changes]
+Uložiť zmeny
+[User &details]
+Informácie o užívatelovi
+[Background Color]
+Farba pozadia
+[Bold]
+Tučné
+[Italic]
+Kurzíva
+[Underline]
+Podtrhnuté
+[Network]
+Sieť
+
+#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
+;============================================================
+;  File: Alarms.dll
+;  Plugin: Alarms
+;  Version: 0.4.0.5
+;  Authors: Scott Ellis
+;============================================================
+[Row Height:]
+Výška riadku:
+[OK]
+OK
+[Cancel]
+Storno
+[Title:]
+Názov:
+[Description:]
+Popis:
+[Weekly]
+Týždenne
+[Daily]
+Denne
+[Monthly]
+Mesačne
+[Dismiss]
+Zrušiť
+[&Delete]
+Vymazať
+[&Options...]
+Nastavenia...
+[Background]
+Pozadie
+[Window]
+Okno
+[Error]
+Chyba
+[Events]
+Udalosti
+
+#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
+;============================================================
+;  File: AssocMgr.dll
+;  Plugin: File association manager
+;  Version: 0.1.1.0
+;  Authors: H. Herkenrath
+;============================================================
+[Type]
+typ
+[Description]
+Udalosť
+[Unknown]
+neznáme
+
+#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
+;============================================================
+;  File: AuthState.dll
+;  Plugin: Authorization state
+;  Version: 0.0.2.1
+;  Authors: Thief, idea by snwbrdr
+;============================================================
+[Icons]
+Ikony
+
+#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+;============================================================
+;  File: AutoShutdown.dll
+;  Plugin: Auto shutdown
+;  Version: 1.4.0.2
+;  Authors: H. Herkenrath
+;============================================================
+[seconds]
+sekúnd
+[Configure]
+Konfigurovať
+[OK]
+OK
+[Cancel]
+Storno
+[Background]
+Pozadie
+[Events]
+Udalosti
+[Unknown]
+neznáme
+
+#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
+;============================================================
+;  File: AvatarHistory.dll
+;  Plugin: Avatar history
+;  Version: 0.1.0.1
+;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
+;============================================================
+[Save As...]
+Uložiť ako...
+[Open Folder]
+Otvoriť zložku
+[OK]
+OK
+[Colors]
+Farby
+[Background color]
+Farba pozadia
+[Text color]
+Fraba textu
+
+#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.1.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+[Reset]
+Reset
+[OK]
+OK
+[Cancel]
+Storno
+[Background]
+Pozadie
+[Contacts]
+Kontakty
+[All Files]
+Všetky súbory
+[Windows Bitmaps]
+Windows obrázky
+[JPEG Bitmaps]
+JPEG obrázky
+[GIF Bitmaps]
+GIF obrázky
+
+#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+;============================================================
+;  File: BasicHistory.dll
+;  Plugin: Basic history
+;  Version: 1.0.1.10
+;  Authors: Krzysztof Kral
+;============================================================
+[Message History]
+História správ
+[Show names]
+Zobraziť mená
+[Name]
+Meno
+[Time]
+Čas
+[OK]
+OK
+[Cancel]
+Storno
+[Open History]
+Otvoriť históriu
+[View &History]
+Zobraziť &históriu
+[Incoming message]
+Prichádzajúca správa
+[History for %s]
+História pre %s
+[Open in &new window]
+Otvoriť v novom okne
+[&Open in existing window]
+Otvoriť v tomto okne
+[&Copy link]
+Kopírovať odkaz
+[Send Message]
+Odoslať správu
+[Reply &Quoted]
+Odpovedať s &citáciou
+[Icons]
+Ikony
+[Hotkeys]
+Klávesové skratky
+[Error]
+Chyba
+[Authorization request]
+Požiadavka na autorizáciu
+[You were added]
+Boli ste pridaný
+[Searching]
+Vyhľadávam
+[Advanced]
+Podrobne
+[Contact list background]
+Pozadie zoznamu kontaktov
+[Find]
+Hľadať
+[Daily]
+Denne
+[Weekly]
+Týždenne
+[Monthly]
+Mesačne
+[Contacts]
+Kontakty
+[Unknown error]
+Neznáma chyba
+[Search]
+Hľadať
+
+#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
+;============================================================
+;  File: BASS_interface.dll
+;  Plugin: BASS interface
+;  Version: 0.0.0.14
+;  Authors: tico-tico
+;============================================================
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[On the phone]
+Telefonuje
+[Out to lunch]
+Na obede
+[Sounds]
+Zvuky
+
+#muuid {488c5c84-56da-434f-96f1-b18900def760}
+;============================================================
+;  File: Boltun.dll
+;  Plugin: Boltun
+;  Version: 0.0.3.0
+;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
+;============================================================
+[sec]
+sek
+[All Files]
+Všetky súbory
+
+#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
+;============================================================
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.3
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
+[Password:]
+Heslo:
+[OK]
+OK
+[Cancel]
+Storno
+[Events]
+Udalosti
+[Advanced]
+Podrobne
+
+#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+;============================================================
+;  File: BuddyExpectator.dll
+;  Plugin: Buddy expectator
+;  Version: 0.1.2.3
+;  Authors: Anar Ibragimoff, sje, Thief
+;============================================================
+[Colors]
+Farby
+[Background]
+Pozadie
+[Text]
+Text
+[Default]
+Prednastavené
+[sec]
+sek
+[Contacts]
+Kontakty
+[not found]
+Nenájdený
+
+#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+;============================================================
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.1
+;  Authors: Jonathan Gordon
+;============================================================
+[Cancel]
+Storno
+[OK]
+OK
+[Advanced >>]
+Podrobne >>
+[Status]
+Stav
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free For Chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[On The Phone]
+Telefonuje
+[Out To Lunch]
+Na obede
+
+#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+;============================================================
+;  File: ChangeKeyboardLayout.dll
+;  Plugin: Change keyboard layout
+;  Version: 0.0.1.5
+;  Authors: Yasnovidyashii
+;============================================================
+[Hotkeys]
+Klávesové skratky
+[Default]
+Prednastavené
+[Colors]
+Farby
+[Back]
+Späť
+[Text]
+Text
+[Timeout]
+Časový limit
+[On left click]
+јavým klikom
+[Dismiss]
+Zrušiť
+[On right click]
+Pravým klikom
+
+#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
+;============================================================
+;  File: ClientChangeNotify.dll
+;  Plugin: Client change notify
+;  Version: 0.1.1.3
+;  Authors: Deathdemon
+;============================================================
+[OK]
+OK
+[On left click]
+јavým klikom
+[On right click]
+Pravým klikom
+[Sec]
+sek
+[Colors]
+Farby
+[Background]
+Pozadie
+[Text]
+Text
+
+#muuid {53e095a3-2695-490a-9dad-d20479093831}
+;============================================================
+;  File: Clist_blind.dll
+;  Plugin: BClist
+;  Version: 0.8.0.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
+;============================================================
+[Delete Contact]
+Zmazať kontakt
+[Yes]
+Áno
+[No]
+Nie
+[Hotkeys]
+Klávesové skratky
+[Show/Hide:]
+Zobraziť/Skryť:
+[URL:]
+URL:
+[Open in new browser window]
+Otvoríť v novom prehliadacom okne
+[Hide offline users]
+Skryť nepripojených užívateľov
+[Hide empty groups]
+Skryť prázdne skupiny
+[Disable groups]
+Skryť skupiny
+[Sort contacts by name]
+Triediť kontakty podľa mena
+[Sort contacts by status]
+Triediť kontakty podľa stavu
+[Single click interface]
+Nepoužívať dvojklik myšou
+[Show]
+Zobraziť
+[Cycle icons every]
+Cyklovať každú ikonu
+[seconds, when statuses differ]
+sekund, ked su stavy rozdielne
+[Show multiple icons]
+Zobraziť mnohonásobné ikony
+[Only when statuses differ]
+Iba pri rozdielnych stavoch
+[Contact List]
+Zoznam kontaktov
+[System tray icon]
+Ikona v oznamovacej oblasti
+[System tray icon when using multiple protocols]
+Ikona v oznamovacej oblasti pri použití viacerých protokolov
+[Window]
+Okno
+[Always on top]
+Vždy navrchu
+[Tool style main window]
+Okno v štýle palety nástrojov
+[Minimize to tray]
+Minimalizovať do oznamovacej oblasti
+[Hide contact list after it has been idle for]
+Skryť zoznam kontaktov ak nebude používaný po
+[seconds]
+sekúnd
+[Automatically resize window to height of list]
+Prispôsobiť veľkosť okna dlžke zoznamu
+[maximum]
+maximálne
+[% of screen]
+% z obrazovky
+[Size upwards]
+Zväčšovať smerom hore
+[Title bar text:]
+Text nadpisu:
+[Fade contact list in/out]
+Plynule spriehľadňovať/zobrazovať
+[Transparent contact list]
+Priehľadný zoznam kontaktov
+[Inactive opacity:]
+Priehľadnosť neaktívneho okna:
+[Active opacity:]
+Priehľadnosť aktívneho okna:
+[Show menu bar]
+Zobraziť menu
+[Easy move]
+Jednoduchý presun
+[Show title bar]
+Zobraziť nadpis
+[Items]
+Položky
+['Hide Offline' means to hide:]
+'Skryť nepripojených' = skryť týchto:
+[Groups]
+Skupiny
+[Show counts of number of contacts in a group]
+Zobrazovať počet kontaktov v skupine za názvom skupiny
+[Hide group counts when there are none online]
+Skryť počet kontaktov v skupine ak sú všetci odpojený
+[Sort groups alphabetically]
+Triediť skupiny podľa abecedy
+[Quicksearch in open groups only]
+Rýchle hľadanie iba v otvorených skupinách
+[Status Bar]
+Stavový riadok
+[Show status bar]
+Zobraziť stavový riadok
+[Show icons]
+Zobraziť ikony
+[Show protocol names]
+Zobraziť meno protokolu
+[Show status text]
+Zobraziť stavový text
+[Right click opens status menu]
+Pravé tlačítko myši otvára stavové menu
+[Make sections equal width]
+Rovnaká šírka oddielov
+[E&xit]
+Koniec
+[&Status]
+Stav
+[&Offline\tCtrl+0]
+Odpojený\tCtrl+0
+[On&line\tCtrl+1]
+Pripojený
+[&Away\tCtrl+2]
+Preč
+[&NA\tCtrl+3]
+Nedostupný
+[Occ&upied\tCtrl+4]
+Zaneprázdnený
+[&DND\tCtrl+5]
+Nerušiť
+[&Free for chat\tCtrl+6]
+Prístupný k rozhovoru
+[&Invisible\tCtrl+7]
+Neviditelný
+[On the &Phone\tCtrl+8]
+Telefonujem
+[Out to &Lunch\tCtrl+9]
+Na obede
+[&Hide/Show]
+Skryť/Zobraziť
+[&New Group]
+Nová skupina
+[&Hide Offline Users]
+Skryť nepripojených užívatelov
+[Hide &Offline Users out here]
+Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
+[Hide &Empty Groups]
+Skryť prázdne skupiny
+[Disable &Groups]
+Skryť názvy skupín
+[&New Subgroup]
+Nová podskupina
+[&Hide Offline Users in here]
+Skryť nepripojených užívatelov v tejto skupine
+[&Rename Group]
+Premenovať skupinu
+[&Delete Group]
+Zmazať skupinu
+[Not focused]
+Neoznačené
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[List]
+Zoznam
+
+#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+[Show counts of number of contacts in a group]
+Zobrazovať počet kontaktov v skupine za názvom skupiny
+[Hide group counts when there are none online]
+Skryť počet kontaktov v skupine ak sú všetci odpojený
+[Always on top]
+Vždy navrchu
+[seconds]
+sekúnd
+[Fade contact list in/out]
+Plynule spriehľadňovať/zobrazovať
+[Transparent contact list]
+Priehľadný zoznam kontaktov
+[Inactive opacity:]
+Priehľadnosť neaktívneho okna:
+[Active opacity:]
+Priehľadnosť aktívneho okna:
+[Show protocol names]
+Zobraziť meno protokolu
+[Show status text]
+Zobraziť stavový text
+[Background color:]
+Farba pozadia:
+[Selection color:]
+Vyber farbu:
+[Use background bitmap]
+Použiť obrázok na pozadí
+[Stretch to width]
+Roztiahnúť na šírku
+[Stretch to height]
+Roztiahnúť na výšku
+[Tile horizontally]
+Vedľa seba
+[Tile vertically]
+Nad sebou
+[Scroll with text]
+Posúvať s textom
+[Stretch proportionally]
+Roztiahnúť veľkosť
+[Apply]
+Aplikovať
+[Type]
+typ
+[Color]
+Farba
+[File]
+Súbor
+[Position:]
+Pozícia:
+[Size:]
+Veľkosť:
+[OK]
+OK
+[Cancel]
+Storno
+[Clear all]
+Všetko vyčistiť
+[Status Bar]
+Stavový riadok
+[Show status bar]
+Zobraziť stavový riadok
+[Make sections equal width]
+Rovnaká šírka oddielov
+[Right click opens status menu]
+Pravé tlačítko myši otvára stavové menu
+[Right click opens Miranda menu]
+Pravé tlačítko myši otvára hlavné menu
+[Delete Contact]
+Zmazať kontakt
+[No]
+Nie
+[Yes]
+Áno
+[Hide offline users]
+Skryť nepripojených užívateľov
+[Hide empty groups]
+Skryť prázdne skupiny
+[Disable groups]
+Skryť skupiny
+[Contact List]
+Zoznam kontaktov
+[Gamma correction]
+Gamma korekcia
+[Default]
+Prednastavené
+[Automatically resize window to height of list]
+Prispôsobiť veľkosť okna dlžke zoznamu
+[maximum]
+maximálne
+[% of screen]
+% z obrazovky
+[Size upwards]
+Zväčšovať smerom hore
+[Easy move]
+Jednoduchý presun
+[pixels]
+pixelov
+[Items]
+Položky
+[Show divider between online and offline contacts]
+Oddeliť v zozname pripojených a nepripojených užívatelov
+[Hot track items as mouse passes over]
+Zvýrazňovať položky po prejdení myšou
+[Disable drag and drop of items]
+Neumožniť preťahovanie položiek
+[Disable rename of items by clicking twice]
+Nepremenovávať položky pomocou dvoch klikov
+[Show selection even when list is not focused]
+Zvýrazňovať výber i keď je zoznam neaktívny
+[Make selection highlight translucent]
+Použiť priehladné označenie výberu
+['Hide Offline' means to hide:]
+'Skryť nepripojených' = skryť týchto:
+[Groups]
+Skupiny
+[Draw a line alongside group names]
+Zvýrazniť názvy skupín oddelovacou čiarou
+[Sort groups alphabetically]
+Triediť skupiny podľa abecedy
+[Quicksearch in open groups only]
+Rýchle hľadanie iba v otvorených skupinách
+[Indent groups by:]
+Odsadzovanie skupín:
+[Visual]
+Vzhľad
+[Scroll list smoothly]
+Plynule posúvať zoznam
+[Time:]
+Čas:
+[milliseconds]
+milisekúnd
+[Single click interface]
+Nepoužívať dvojklik myšou
+[Show]
+Zobraziť
+[Cycle icons every]
+Cyklovať každú ikonu
+[seconds, when statuses differ]
+sekund, ked su stavy rozdielne
+[Show multiple icons]
+Zobraziť mnohonásobné ikony
+[only when statuses differ]
+Iba pri rozdielnych stavoch
+[System tray icon]
+Ikona v oznamovacej oblasti
+[Show menu bar]
+Zobraziť menu
+[Show title bar]
+Zobraziť nadpis
+[Title bar text:]
+Text nadpisu:
+[Tool style main window]
+Okno v štýle palety nástrojov
+[Minimize to tray]
+Minimalizovať do oznamovacej oblasti
+[Left margin:]
+јavý okraj
+[Status]
+Stav
+[Nickname]
+Prezívka
+[E&xit]
+Koniec
+[&Status]
+Stav
+[&Offline\tCtrl+0]
+Odpojený\tCtrl+0
+[On&line\tCtrl+1]
+Pripojený
+[&Away\tCtrl+2]
+Preč
+[&NA\tCtrl+3]
+Nedostupný
+[Occ&upied\tCtrl+4]
+Zaneprázdnený
+[&DND\tCtrl+5]
+Nerušiť
+[&Free for chat\tCtrl+6]
+Prístupný k rozhovoru
+[&Invisible\tCtrl+7]
+Neviditelný
+[On the &Phone\tCtrl+8]
+Telefonujem
+[Out to &Lunch\tCtrl+9]
+Na obede
+[&Hide/Show]
+Skryť/Zobraziť
+[&New Group]
+Nová skupina
+[&Hide Offline Users]
+Skryť nepripojených užívatelov
+[Hide &Offline Users out here]
+Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
+[Hide &Empty Groups]
+Skryť prázdne skupiny
+[Disable &Groups]
+Skryť názvy skupín
+[&New Subgroup]
+Nová podskupina
+[&Hide Offline Users in here]
+Skryť nepripojených užívatelov v tejto skupine
+[&Rename Group]
+Premenovať skupinu
+[&Delete Group]
+Zmazať skupinu
+[List Background]
+Pozadie zoznamu
+[Contact names]
+Mená kontaktov
+[Standard contacts]
+Štandardné kontakty
+[Offline contacts]
+Odpojený užívatelia
+[Online contacts to whom you have a different visibility]
+Pripojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Offline contacts to whom you have a different visibility]
+Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Dividers]
+Oddelovače
+[Background]
+Pozadie
+[List]
+Zoznam
+[Window]
+Okno
+[Not focused]
+Neoznačené
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[Name]
+Meno
+[None]
+Žiadne
+[Text]
+Text
+[(Unknown Contact)]
+(neznámý kontakt)
+[&Find/Add Contacts...]
+Nájsť/Pridať kontakty...
+[&Options...]
+Nastavenia...
+[Error]
+Chyba
+[Status menu]
+Menu stavov
+[Disable Groups]
+Skryť skupiny
+[&New SubGroup]
+Nová podskupina
+
+#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+;============================================================
+;  File: Clist_mw.dll
+;  Plugin: MultiWindow contact list
+;  Version: 0.9.0.0
+;  Authors: 
+;============================================================
+[Background color:]
+Farba pozadia:
+[Selection color:]
+Vyber farbu:
+[Use background bitmap]
+Použiť obrázok na pozadí
+[Stretch to width]
+Roztiahnúť na šírku
+[Stretch to height]
+Roztiahnúť na výšku
+[Tile horizontally]
+Vedľa seba
+[Tile vertically]
+Nad sebou
+[Scroll with text]
+Posúvať s textom
+[Stretch proportionally]
+Roztiahnúť veľkosť
+[Default]
+Prednastavené
+[Delete Contact]
+Zmazať kontakt
+[No]
+Nie
+[Yes]
+Áno
+[Hide offline users]
+Skryť nepripojených užívateľov
+[Hide empty groups]
+Skryť prázdne skupiny
+[Disable groups]
+Skryť skupiny
+[Always on top]
+Vždy navrchu
+[Hide contact list after it has been idle for]
+Skryť zoznam kontaktov ak nebude používaný po
+[seconds]
+sekúnd
+[Sort contacts by name]
+Triediť kontakty podľa mena
+[Sort contacts by status]
+Triediť kontakty podľa stavu
+[Single click interface]
+Nepoužívať dvojklik myšou
+[Show]
+Zobraziť
+[Cycle icons every]
+Cyklovať každú ikonu
+[seconds, when statuses differ]
+sekund, ked su stavy rozdielne
+[Show multiple icons]
+Zobraziť mnohonásobné ikony
+[Only when statuses differ]
+Iba pri rozdielnych stavoch
+[Contact List]
+Zoznam kontaktov
+[System tray icon]
+Ikona v oznamovacej oblasti
+[System tray icon when using multiple protocols]
+Ikona v oznamovacej oblasti pri použití viacerých protokolov
+[Rows]
+Riadky
+[Row height:]
+Výška riadku:
+[pixels]
+pixelov
+[Gamma correction]
+Gamma korekcia
+[Window]
+Okno
+[Tool style main window]
+Okno v štýle palety nástrojov
+[Minimize to tray]
+Minimalizovať do oznamovacej oblasti
+[Automatically resize window to height of list]
+Prispôsobiť veľkosť okna dlžke zoznamu
+[maximum]
+maximálne
+[% of screen]
+% z obrazovky
+[Size upwards]
+Zväčšovať smerom hore
+[Title bar text:]
+Text nadpisu:
+[Fade contact list in/out]
+Plynule spriehľadňovať/zobrazovať
+[Transparent contact list]
+Priehľadný zoznam kontaktov
+[Inactive opacity:]
+Priehľadnosť neaktívneho okna:
+[Active opacity:]
+Priehľadnosť aktívneho okna:
+[Show menu bar]
+Zobraziť menu
+[Easy move]
+Jednoduchý presun
+[Show title bar]
+Zobraziť nadpis
+[Items]
+Položky
+[Show divider between online and offline contacts]
+Oddeliť v zozname pripojených a nepripojených užívatelov
+[Hot track items as mouse passes over]
+Zvýrazňovať položky po prejdení myšou
+[Disable drag and drop of items]
+Neumožniť preťahovanie položiek
+[Disable rename of items by clicking twice]
+Nepremenovávať položky pomocou dvoch klikov
+[Show selection even when list is not focused]
+Zvýrazňovať výber i keď je zoznam neaktívny
+[Make selection highlight translucent]
+Použiť priehladné označenie výberu
+['Hide Offline' means to hide:]
+'Skryť nepripojených' = skryť týchto:
+[Groups]
+Skupiny
+[Draw a line alongside group names]
+Zvýrazniť názvy skupín oddelovacou čiarou
+[Show counts of number of contacts in a group]
+Zobrazovať počet kontaktov v skupine za názvom skupiny
+[Hide group counts when there are none online]
+Skryť počet kontaktov v skupine ak sú všetci odpojený
+[Sort groups alphabetically]
+Triediť skupiny podľa abecedy
+[Quicksearch in open groups only]
+Rýchle hľadanie iba v otvorených skupinách
+[Indent groups by:]
+Odsadzovanie skupín:
+[Visual]
+Vzhľad
+[Scroll list smoothly]
+Plynule posúvať zoznam
+[Time:]
+Čas:
+[milliseconds]
+milisekúnd
+[Left margin:]
+јavý okraj
+[Gray out entire list when:]
+Potlačiť intenzitu u týchto položiek:
+[Contact List Background]
+Pozadie zoznamu kontaktov
+[Status Bar]
+Stavový riadok
+[Show status bar]
+Zobraziť stavový riadok
+[Show icons]
+Zobraziť ikony
+[Show protocol names]
+Zobraziť meno protokolu
+[Show status text]
+Zobraziť stavový text
+[Right click opens status menu]
+Pravé tlačítko myši otvára stavové menu
+[Right click opens Miranda menu]
+Pravé tlačítko myši otvára hlavné menu
+[Make sections equal width]
+Rovnaká šírka oddielov
+[E&xit]
+Koniec
+[&Status]
+Stav
+[&Offline\tCtrl+0]
+Odpojený\tCtrl+0
+[On&line\tCtrl+1]
+Pripojený
+[&Away\tCtrl+2]
+Preč
+[&NA\tCtrl+3]
+Nedostupný
+[Occ&upied\tCtrl+4]
+Zaneprázdnený
+[&DND\tCtrl+5]
+Nerušiť
+[&Free for chat\tCtrl+6]
+Prístupný k rozhovoru
+[&Invisible\tCtrl+7]
+Neviditelný
+[On the &Phone\tCtrl+8]
+Telefonujem
+[Out to &Lunch\tCtrl+9]
+Na obede
+[&Hide/Show]
+Skryť/Zobraziť
+[&New Group]
+Nová skupina
+[&Hide Offline Users]
+Skryť nepripojených užívatelov
+[Hide &Offline Users out here]
+Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
+[Hide &Empty Groups]
+Skryť prázdne skupiny
+[Disable &Groups]
+Skryť názvy skupín
+[&New Subgroup]
+Nová podskupina
+[&Hide Offline Users in here]
+Skryť nepripojených užívatelov v tejto skupine
+[&Rename Group]
+Premenovať skupinu
+[&Delete Group]
+Zmazať skupinu
+[Standard contacts]
+Štandardné kontakty
+[Online contacts to whom you have a different visibility]
+Pripojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Offline contacts]
+Odpojený užívatelia
+[Contacts which are 'not on list']
+Užívatelia ktorí niesu v zozname
+[Group member counts]
+Počet členov skupiny
+[Dividers]
+Oddelovače
+[Offline contacts to whom you have a different visibility]
+Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Background]
+Pozadie
+[List]
+Zoznam
+[List Background]
+Pozadie zoznamu
+[Not focused]
+Neoznačené
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[(Unknown Contact)]
+(neznámý kontakt)
+[&Find/Add Contacts...]
+Nájsť/Pridať kontakty...
+[&Options...]
+Nastavenia...
+[&New SubGroup]
+Nová podskupina
+
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.1
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+[OK]
+OK
+[Delete Contact]
+Zmazať kontakt
+[No]
+Nie
+[Yes]
+Áno
+[Contact List]
+Zoznam kontaktov
+[Hide offline users]
+Skryť nepripojených užívateľov
+[Hide empty groups]
+Skryť prázdne skupiny
+[Disable groups]
+Skryť skupiny
+[System tray icon]
+Ikona v oznamovacej oblasti
+[Single click interface]
+Nepoužívať dvojklik myšou
+[System tray icon when using multiple protocols]
+Ikona v oznamovacej oblasti pri použití viacerých protokolov
+[Show]
+Zobraziť
+[Cycle icons every]
+Cyklovať každú ikonu
+[seconds, when statuses differ]
+sekund, ked su stavy rozdielne
+[Show multiple icons]
+Zobraziť mnohonásobné ikony
+[Only when statuses differ]
+Iba pri rozdielnych stavoch
+[Groups]
+Skupiny
+[Draw a line alongside group names]
+Zvýrazniť názvy skupín oddelovacou čiarou
+[Sort groups alphabetically]
+Triediť skupiny podľa abecedy
+[Quicksearch in open groups only]
+Rýchle hľadanie iba v otvorených skupinách
+[Indent groups by:]
+Odsadzovanie skupín:
+[Icons]
+Ikony
+[Window]
+Okno
+[Always on top]
+Vždy navrchu
+[Show menu bar]
+Zobraziť menu
+[Easy move]
+Jednoduchý presun
+[Title bar text:]
+Text nadpisu:
+[Hide contact list after it has been idle for]
+Skryť zoznam kontaktov ak nebude používaný po
+[seconds]
+sekúnd
+[Automatically resize window to height of list]
+Prispôsobiť veľkosť okna dlžke zoznamu
+[maximum]
+maximálne
+[% of screen]
+% z obrazovky
+[Size upwards]
+Zväčšovať smerom hore
+[Transparent contact list]
+Priehľadný zoznam kontaktov
+[Inactive opacity:]
+Priehľadnosť neaktívneho okna:
+[Active opacity:]
+Priehľadnosť aktívneho okna:
+[Fade contact list in/out]
+Plynule spriehľadňovať/zobrazovať
+[Items]
+Položky
+[Show divider between online and offline contacts]
+Oddeliť v zozname pripojených a nepripojených užívatelov
+[Hot track items as mouse passes over]
+Zvýrazňovať položky po prejdení myšou
+[Disable drag and drop of items]
+Neumožniť preťahovanie položiek
+[Disable rename of items by clicking twice]
+Nepremenovávať položky pomocou dvoch klikov
+[Show selection even when list is not focused]
+Zvýrazňovať výber i keď je zoznam neaktívny
+[Make selection highlight translucent]
+Použiť priehladné označenie výberu
+[Visual]
+Vzhľad
+[Scroll list smoothly]
+Plynule posúvať zoznam
+[Time:]
+Čas:
+[milliseconds]
+milisekúnd
+[Gray out entire list when:]
+Potlačiť intenzitu u týchto položiek:
+[Contact List Background]
+Pozadie zoznamu kontaktov
+[Background color]
+Farba pozadia
+[Stretch to width]
+Roztiahnúť na šírku
+[Stretch to height]
+Roztiahnúť na výšku
+[Tile horizontally]
+Vedľa seba
+[Tile vertically]
+Nad sebou
+[Scroll with text]
+Posúvať s textom
+[Stretch proportionally]
+Roztiahnúť veľkosť
+[Status Bar]
+Stavový riadok
+[Show status bar]
+Zobraziť stavový riadok
+[Show icons]
+Zobraziť ikony
+[Show protocol names]
+Zobraziť meno protokolu
+[Show status text]
+Zobraziť stavový text
+[Right click opens status menu]
+Pravé tlačítko myši otvára stavové menu
+[Make sections equal width]
+Rovnaká šírka oddielov
+[Cancel]
+Storno
+[Apply]
+Aplikovať
+[Clear all]
+Všetko vyčistiť
+[Ignore all]
+Všetko ignorovať
+[Ignore none]
+Neignorovať
+[Visibility]
+Viditeľnosť
+[E&xit]
+Koniec
+[&Status]
+Stav
+[&Offline\tCtrl+0]
+Odpojený\tCtrl+0
+[On&line\tCtrl+1]
+Pripojený
+[&Away\tCtrl+2]
+Preč
+[&NA\tCtrl+3]
+Nedostupný
+[Occ&upied\tCtrl+4]
+Zaneprázdnený
+[&DND\tCtrl+5]
+Nerušiť
+[&Free for chat\tCtrl+6]
+Prístupný k rozhovoru
+[&Invisible\tCtrl+7]
+Neviditelný
+[On the &Phone\tCtrl+8]
+Telefonujem
+[Out to &Lunch\tCtrl+9]
+Na obede
+[&Hide/Show]
+Skryť/Zobraziť
+[&New Group]
+Nová skupina
+[&Hide Offline Users]
+Skryť nepripojených užívatelov
+[Hide &Offline Users out here]
+Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
+[Hide &Empty Groups]
+Skryť prázdne skupiny
+[Disable &Groups]
+Skryť názvy skupín
+[&New Subgroup]
+Nová podskupina
+[&Hide Offline Users in here]
+Skryť nepripojených užívatelov v tejto skupine
+[&Rename Group]
+Premenovať skupinu
+[&Delete Group]
+Zmazať skupinu
+[Text color]
+Fraba textu
+[<None>]
+<nič>
+[Status menu]
+Menu stavov
+[Not focused]
+Neoznačené
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[Name]
+Meno
+[Status]
+Stav
+[Never]
+nikdy
+[Background]
+Pozadie
+[Contacts]
+Kontakty
+[Advanced]
+Podrobne
+[Contact list]
+Zoznam kontaktov
+[Warning]
+Varovanie
+[Standard contacts]
+Štandardné kontakty
+[Online contacts to whom you have a different visibility]
+Pripojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Offline contacts]
+Odpojený užívatelia
+[Offline contacts to whom you have a different visibility]
+Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Contacts which are 'not on list']
+Užívatelia ktorí niesu v zozname
+[Group member counts]
+Počet členov skupiny
+[Dividers]
+Oddelovače
+[&Find/Add Contacts...]
+Nájsť/Pridať kontakty...
+[&Options...]
+Nastavenia...
+[&New SubGroup]
+Nová podskupina
+
+#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+;============================================================
+;  File: Cln_skinedit.dll
+;  Plugin: Skin editor for clist nicer
+;  Version: 0.0.0.4
+;  Authors: Nightwish, Pixel
+;============================================================
+[Text color]
+Fraba textu
+[<None>]
+<nič>
+
+#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
+;============================================================
+;  File: CmdLine.dll
+;  Plugin: Command line
+;  Version: 0.0.4.1
+;  Authors: Cristian Libotean
+;============================================================
+[Error]
+Chyba
+[Notify]
+Notifikácia
+[Warning]
+Varovanie
+
+#muuid {4bb5b4aa-c364-4f23-9746-d5b708a286a5}
+;============================================================
+;  File: ConnectionNotify.dll
+;  Plugin: ConnectionNotify
+;  Version: 0.1.0.5
+;  Authors: MaKaR
+;============================================================
+[Popup options]
+Popup nastavenia
+[Background]
+Pozadie
+[Text]
+Text
+[Version:]
+Verzia:
+[OK]
+OK
+[Cancel]
+Storno
+[Show]
+Zobraziť
+[Status]
+Stav
+
+#muuid {23d4f302-d513-45b7-9027-445f29557311}
+;============================================================
+;  File: Console.dll
+;  Plugin: Console
+;  Version: 0.0.7.3
+;  Authors: Bio
+;============================================================
+[Text]
+Text
+[&Help]
+Pomoc
+[All Files]
+Všetky súbory
+
+#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.6.0.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[User &details]
+Informácie o užívatelovi
+[&Send]
+Odoslať
+[Cancel]
+Storno
+[Close]
+Zavrieť
+[Try again]
+Skús znovu
+[Add to List]
+Pridať do zoznamu
+[Send Message]
+Odoslať správu
+[Contacts]
+Kontakty
+[Nick]
+Prezívka
+[First Name]
+Meno
+[Last Name]
+Priezvisko
+[Add Contact Permanently to List]
+Pridať kontakt do zoznamu
+[View User's Details]
+Zobraziť informácie o užívatelovi
+[View User's History]
+Zobraziť históriu 
+[User Menu]
+Menu užívatela
+
+#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
+;============================================================
+;  File: CrashDumper.dll
+;  Plugin: Crash dumper
+;  Version: 0.0.4.22
+;  Authors: borkra
+;============================================================
+[Close]
+Zavrieť
+[&Copy]
+Kopírovať
+[Co&py All]
+Kopírovať všetko
+[Select &All]
+Vybrať všetko
+[Show]
+Zobraziť
+
+#muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
+;============================================================
+;  File: CryptoPP.dll
+;  Plugin: Crypto++
+;  Version: 1.0.4.7
+;  Authors: Baloo
+;============================================================
+[OK]
+OK
+[Cancel]
+Storno
+
+#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
+;============================================================
+;  File: CSList.dll
+;  Plugin: Custom status list
+;  Version: 0.1.1.0
+;  Authors: Mataes, jarvis
+;============================================================
+[Cancel]
+Storno
+[Status]
+Stav
+[Warning]
+Varovanie
+
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.11.0.1
+;  Authors: George Hazan
+;============================================================
+[Cancel]
+Storno
+[Error]
+Chyba
+[All Files]
+Všetky súbory
+
+#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
+;============================================================
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
+;  Version: 3.2.0.0
+;  Authors: Bio, Jonathan Gordon
+;============================================================
+[&Search]
+Hľadať
+[Background color]
+Farba pozadia
+[OK]
+OK
+[Cancel]
+Storno
+[Value Name:]
+Hodnota name:
+[Value Data:]
+Hodnota data:
+[Refresh &Settings]
+Obnoviť nastavenie
+[E&xit]
+Koniec
+[&Delete]
+Vymazať
+[&Rename]
+&Premenovať
+[Export Contacts]
+Export kontaktov
+[Import Contacts]
+Import kontaktov
+[Edit STRING value]
+Editovať STRING hodnotu
+[All Files]
+Všetky súbory
+[Confirm Contact Delete]
+Potvrď vymazanie kontaktu
+[Contacts]
+Kontakty
+[HANDLE]
+Hlavička
+[Name]
+Meno
+[Data]
+Dáta
+[Type]
+typ
+[Size]
+Veľkosť
+[Contact]
+Kontakt
+
+#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
+;============================================================
+;  File: Dbx_mmap.dll
+;  Plugin: Miranda NG mmap database driver
+;  Version: 0.11.0.2
+;  Authors: Miranda-NG project
+;============================================================
+[OK]
+OK
+[Cancel]
+Storno
+
+#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
+;============================================================
+;  File: Dbx_mmap_SA.dll
+;  Plugin: Miranda NG mmap secure database driver
+;  Version: 0.7.5.4
+;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
+;============================================================
+[OK]
+OK
+[Cancel]
+Storno
+[Install Database Settings]
+Aplikovať nastavenia databázy
+[Yes]
+Áno
+[No]
+Nie
+[Do you want to import the settings now?]
+Chcete importovať nastavenia?
+[No to all]
+Nie pre všetko
+[&View contents]
+Zobraziť obsah
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Bezpečnostný systém sa zmení, budete varovaný pred nebezpečiami.
+[Database Setting Change]
+Zmena nastavenia databázy
+[Database settings are being imported from]
+Nastavenie databázy je importované z
+[This file wishes to change the setting]
+Tento súbor zmení nastavenie
+[to the value]
+hodnotu
+[Do you want to allow this change?]
+Prajete si umožniť túto zmenu?
+[&Allow all further changes to this section]
+Umožniť všetky budúce zmeny v tejto sekcii
+[&Yes]
+Áno
+[&No]
+Nie
+[Cancel Import]
+Zrušiť importovanie
+[Database Import Complete]
+Databáza kompletne importovaná
+[The import has completed from]
+Import je kompletný z
+[What do you want to do with the file now?]
+Čo ďalej robiť so súborom?
+[&Recycle]
+Recyklovať
+[&Delete]
+Vymazať
+[&Move/Rename]
+Presunúť/Premenovať
+[&Leave]
+Opustiť
+[Author:]
+Autor:
+[Name]
+Meno
+[Error]
+Chyba
+
+#muuid {28f45248-8c9c-4bee-9307-7bcf3e12bf99}
+;============================================================
+;  File: Dbx_tree.dll
+;  Plugin: Miranda dbx_tree database driver
+;  Version: 0.0.0.18
+;  Authors: Michael 'Protogenes' Kunz
+;============================================================
+[Cancel]
+Storno
+
+#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
+;============================================================
+;  File: Db_autobackups.dll
+;  Plugin: Db autobackuper
+;  Version: 0.0.0.10
+;  Authors: chaos.persei, sje, Kildor, Billy_Bons
+;============================================================
+[Cancel]
+Storno
+[All files]
+Všetky súbory
+
+#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
+;============================================================
+;  File: EmLanProto.dll
+;  Plugin: E-mage LAN protocol
+;  Version: 0.0.1.2
+;  Authors: kva
+;============================================================
+[Your name]
+Vaše meno
+[Network]
+Sieť
+
+#muuid {2fd0df15-7098-41ce-aa92-ff621806e38b}
+;============================================================
+;  File: Exchange.dll
+;  Plugin: Exchange
+;  Version: 0.1.3.4
+;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
+;============================================================
+[Close]
+Zavrieť
+[Connection]
+pripája
+[Username:]
+Užív. meno:
+[Password:]
+Heslo:
+[seconds]
+sekúnd
+
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook RM
+;  Version: 0.2.2.1
+;  Authors: Michal Zelinka, Robert Pösel
+;============================================================
+[E-mail:]
+E-mail:
+[Password:]
+Heslo:
+[URL:]
+URL:
+[Cancel]
+Storno
+[User &details]
+Informácie o užívatelovi
+[Unknown error]
+Neznáma chyba
+[Default]
+Prednastavené
+[Network]
+Sieť
+[Events]
+Udalosti
+[Advanced]
+Podrobne
+
+#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+;============================================================
+;  File: FavContacts.dll
+;  Plugin: Favorite contacts
+;  Version: 0.0.0.6
+;  Authors: Victor Pavlychko
+;============================================================
+[Show]
+Zobraziť
+[Background]
+Pozadie
+[Contacts]
+Kontakty
+
+#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+;============================================================
+;  File: FileAsMessage.dll
+;  Plugin: File as message
+;  Version: 0.0.2.4
+;  Authors: Denis Stanishevskiy
+;============================================================
+[Size:]
+Veľkosť:
+[bytes]
+bytov
+[Sending...]
+Odosielam...
+[Receiving...]
+Prijímam...
+
+#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
+;============================================================
+;  File: Fingerprint.dll
+;  Plugin: Fingerprint NG
+;  Version: 0.1.0.0
+;  Authors: faith_healer, ghazan, mataes
+;============================================================
+[Icons]
+Ikony
+
+#muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
+;============================================================
+;  File: Flags.dll
+;  Plugin: Country flags
+;  Version: 0.1.0.4
+;  Authors: H. Herkenrath
+;============================================================
+[Icons]
+Ikony
+
+#muuid {53c715a8-eb01-4136-a73c-441868610074}
+;============================================================
+;  File: FltContacts.dll
+;  Plugin: Floating contacts
+;  Version: 0.7.0.1
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
+;============================================================
+[pixels]
+pixelov
+[seconds]
+sekúnd
+[Single click interface]
+Nepoužívať dvojklik myšou
+[Background]
+Pozadie
+[Background color:]
+Farba pozadia:
+[Use background bitmap]
+Použiť obrázok na pozadí
+[Stretch to width]
+Roztiahnúť na šírku
+[Stretch to height]
+Roztiahnúť na výšku
+[Tile horizontally]
+Vedľa seba
+[Tile vertically]
+Nad sebou
+[Stretch proportionally]
+Roztiahnúť veľkosť
+[Standard contacts]
+Štandardné kontakty
+[Online contacts to whom you have a different visibility]
+Pripojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Offline contacts]
+Odpojený užívatelia
+[Offline contacts to whom you have a different visibility]
+Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
+[Contacts which are 'not on list']
+Užívatelia ktorí niesu v zozname
+[Contact List]
+Zoznam kontaktov
+
+#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
+;============================================================
+;  File: Folders.dll
+;  Plugin: Custom profile folders
+;  Version: 0.2.0.1
+;  Authors: Cristian Libotean, Miranda NG Team
+;============================================================
+[Close]
+Zavrieť
+
+#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
+;============================================================
+;  File: FTPFile.dll
+;  Plugin: FTP File YM
+;  Version: 0.5.0.0
+;  Authors: yaho
+;============================================================
+[Speed:]
+Rýchlosť
+[Summary]
+Obecné
+[To:]
+Pre:
+[Nick]
+Prezívka
+[Close]
+Zavrieť
+[OK]
+OK
+[Cancel]
+Storno
+[Overwrite]
+Prepísať
+[Resume]
+Výsledok
+[CONNECTING...]
+Pripájam...
+[UNKNOWN]
+neznáme
+[Clear All]
+Všetko vyčistiť
+[Advanced]
+Podrobne
+
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;============================================================
+;  File: GG.dll
+;  Plugin: Gadu-Gadu Protocol
+;  Version: 0.11.0.3
+;  Authors: Bartosz Bialek, Adam Strzelecki
+;============================================================
+[Password:]
+Heslo:
+[E-mail:]
+E-mail:
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Musíte sa odpojiť a pripojiť na aplikovanie týchto zmien.
+[Keep connection alive]
+Navždy zachovať pripojenie
+[Send messages slower, but with full acknowledgement]
+Odoslať správy s overením (pomalšie odoslanie)
+[Port:]
+Port:
+[Host:]
+Server:
+[Internal IP:]
+Interná IP:
+[First name:]
+Meno:
+[Last name:]
+Priezvisko:
+[Nickname:]
+Prezívka:
+[Gender:]
+Pohlavie:
+[City:]
+Mesto:
+[Description:]
+Popis:
+[OK]
+OK
+[Cancel]
+Storno
+[to:]
+Pre:
+[Search online users only]
+Hľadať iba pripojených užívatelov
+[&Close]
+Zavrieť
+[&Send]
+Odoslať
+[Unknown]
+neznáme
+[Age:]
+Vek:
+[Male]
+Muž
+[Female]
+Žena
+[<not specified>]
+<nešpecifikované>
+[Network]
+Sieť
+[Advanced]
+Podrobne
+[System tray icon]
+Ikona v oznamovacej oblasti
+[Ignore]
+Ignorovať
+[Contact list]
+Zoznam kontaktov
+[All Files]
+Všetky súbory
+[contacts]
+Kontakty
+[Notify]
+Notifikácia
+[Error]
+Chyba
+
+#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
+;============================================================
+;  File: GTalkExt.dll
+;  Plugin: GTalk Extension
+;  Version: 0.1.0.2
+;  Authors: bems
+;============================================================
+[Background color]
+Farba pozadia
+[Text color]
+Fraba textu
+[Timeout]
+Časový limit
+[Network]
+Sieť
+
+#muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
+;============================================================
+;  File: HistoryPP.dll
+;  Module: History++
+;  Version: 1.5.1.5
+;  Authors: theMIROn
+;============================================================
+[&Copy Link]
+Kopírovať odkaz
+[&System History]
+História systému
+[Incoming url]
+Prichádzajúca URL
+[Incoming Url]
+Prichádzajúca URL
+[Authorization request]
+Požiadavka na autorizáciu
+[&Reset to Default]
+Vrátiť sa k pôvodnemu nastaveniu
+[Open in &new window]
+Otvoriť v novom okne
+[Select &All]
+Vybrať všetko
+[Send &Message]
+Odoslať správu
+[View user's history]
+Zobraziť históriu 
+[View User's History]
+Zobraziť históriu 
+[View &History]
+Zobraziť &históriu
+
+#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
+;============================================================
+;  File: HistorySweeperLight.dll
+;  Plugin: History sweeper light
+;  Version: 0.0.0.7
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
+;============================================================
+[Sweep history for this contacts:]
+Čistiť históriu týchto kontaktov:
+
+#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+;============================================================
+;  File: HTTPServer.dll
+;  Plugin: HTTPServer
+;  Version: 0.1.2.2
+;  Authors: Kennet Nielsen, modified by Vampik, Houdini
+;============================================================
+[&Copy link]
+Kopírovať odkaz
+[All files]
+Všetky súbory
+[Network]
+Sieť
+
+#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: IcqOscarJ Protocol
+;  Version: 0.11.0.1
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
+;============================================================
+[Password:]
+Heslo:
+[&Send]
+Odoslať
+[OK]
+OK
+[Cancel]
+Storno
+[Create a new ICQ account using the ICQ website]
+Vytvoriť nový ICQ účet pomocou ICQ stránok
+[Login Server:]
+Pripájací server:
+[Port:]
+Port:
+[Default]
+Prednastavené
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+K dokončeniu zmien ktoré ste urobili sa bude treba odpojiť a znovu pripojiť do siete ICQ.
+[Messaging]
+Rozhovor
+[Direct connections]
+Priame pripojenie
+[Text Color]
+Fraba textu
+[Timeout]
+Časový limit
+[Note]
+Poznámka:
+[Warning]
+Varovanie
+[Error]
+Chyba
+[&Use Windows colors]
+Použi farby Windowsu
+[Previe&w]
+Ukázať
+[UIN:]
+UIN:
+[External IP:]
+Externá IP:
+[Internal IP:]
+Interná IP:
+[Status:]
+Stav:
+[Summary]
+Obecné
+[Nickname:]
+Prezívka:
+[First name:]
+Meno:
+[Last name:]
+Priezvisko:
+[E-mail:]
+E-mail:
+[Gender:]
+Pohlavie:
+[Age:]
+Vek:
+[Keywords:]
+Kľúčové slová:
+[Work]
+Práca
+[Company:]
+Firma:
+[Department:]
+Oddelenie:
+[Position:]
+Pozícia:
+[Organization:]
+Organizácia:
+[Location]
+Miesto
+[Language:]
+Jazyk:
+[Country:]
+Krajina:
+[State:]
+Štát:
+[City:]
+Mesto:
+[Interests]
+Záujmy
+[Category:]
+Kategória:
+[Past]
+Okolie
+[Homepage]
+Domovská stránka
+[Search online users only]
+Hľadať iba pripojených užívatelov
+[Closing in %d]
+Zavrieť (za %d s)
+[Title:]
+Názov:
+[Unable to connect to ICQ communication server]
+Nemožno sa pripojiť na ICQ server
+[You could not sign on because the server returned invalid data. Try again.]
+Nepripojený, lebo server vrátil chybné informácie. Skúste ešte raz.
+[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
+Ste odpojený z ICQ siete, lebo vaše ICQ číslo je už prihlásené
+[Unknown runtime error: 0x%02x]
+Neznáma spúšťacia chyba: 0x%02x
+[ICQ Note]
+ICQ poznámka
+[Art]
+Umenie
+[Astronomy]
+Astrológia
+[Cars]
+Autá
+[Celebrity Fans]
+Fanúšik slávnej/slávneho
+[Collections]
+Kolekcie
+[Computers]
+Počítače
+[Finance and Corporate]
+Financie
+[Hobbies]
+Koníčky
+[Games]
+Hry
+[Lifestyle]
+Životný štýl
+[Music]
+Hudba
+[Religion]
+Naboženstvo
+[Skills]
+Zručnosť
+[Sporting and Athletic]
+Šport a atletika
+[Sports]
+Šport
+[Travel]
+Cestovanie
+[Web Design]
+Návrh webov
+[Women]
+Ženy
+[Female]
+Žena
+[Male]
+Muž
+[Home]
+Domov
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Prenos súboru byl zrušený, pretože jeden z vybraných súborov nieje možné uložiť na disk.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Prijatie súboru je zrušené Mirandou, lebo nemožno zapísať súbor do cieľoveho adresára.
+[Display all problems]
+Zobraziť všetky problémy
+[Display problems causing possible loss of data]
+Zobraziť problémy ktoré spôsobili stratu dát
+[Display explanations for disconnection]
+Zobraziť vysvetlenie k nechceným odpojeniam
+[Display problems requiring user intervention]
+Zobraziť problémy vyžadujúce môj zásah
+[Network]
+Sieť
+[Contacts]
+Kontakty
+[Unable to connect to ICQ login server]
+Nemožno sa pripojiť na ICQ server.
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+Miranda nemôže alokovať port pre priame pripojenie s kientmi. Ak to chcete zapnúť, musíte si vypnút voľbu odosielania/prijímania súborov.\n\nAk máte firewall co blokuje mirande porty, povoľte v konfigúrácii firewallu porty, ktore ste si zadali vo Voľby->ICQ->Sieť.
+[Your connection with the ICQ server was abortively closed]
+Vaše pripojenie na ICQ server bolo nečakane ukončené
+[NOT FOUND]
+Nenájdený
+[Close]
+Zavrieť
+[** All contacts **]
+** Všetky kontakty **
+[On the phone]
+Telefonuje
+[Free for Chat]
+Voľný k rozhovoru
+[None]
+Žiadne
+[ICQ Warning]
+ICQ varovanie
+[ICQ Error]
+ICQ chyba
+[ICQ Fatal]
+ICQ "fatalita"
+[error]
+chyba
+[%d Files]
+%d súbory
+[Personal]
+Osoba
+[Nickname]
+Prezívka
+[First name]
+Meno
+[Last name]
+Priezvisko
+[About]
+O
+[Contact]
+Kontakt
+[<not specified>]
+<nešpecifikované>
+
+#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.0
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+[Size:]
+Veľkosť:
+[Scroll with text]
+Posúvať s textom
+[Incoming File Transfer]
+Príchádzajúci súbor
+[(Unknown Contact)]
+(neznámý kontakt)
+[ERROR]
+Chyba
+[Error]
+Chyba
+[Default]
+Prednastavené
+[All Files]
+Všetky súbory
+[File received]
+Prijať súbor
+
+#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
+;============================================================
+;  File: IgnoreState.dll
+;  Plugin: Ignore state
+;  Version: 0.0.3.0
+;  Authors: Kildor
+;============================================================
+[User Online]
+Pripojený užívatel
+[You Were Added]
+Boli ste pridaný
+[Icons]
+Ikony
+
+#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+;============================================================
+;  File: Import.dll
+;  Plugin: Import contacts and messages
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+[Cancel]
+Storno
+[File Transfers]
+Prenos súboru
+[All Files]
+Všetky súbory
+
+#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.2
+;  Authors: Miranda team
+;============================================================
+[Keep connection alive]
+Navždy zachovať pripojenie
+[Nick]
+Prezívka
+[SSL]
+SSL
+[Time]
+Čas
+[&Close]
+Zavrieť
+[Name]
+Meno
+[Network]
+Sieť
+[none]
+žiadne
+[Password:]
+Heslo:
+[Unknown]
+neznáme
+[Ignore]
+Ignorovať
+[Nickname]
+Prezívka
+[Apply]
+Aplikovať
+[Cancel]
+Storno
+[Advanced]
+Podrobne
+[Offline]
+Odpojený
+[Please wait...]
+Prosím čakaj...
+
+#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
+;============================================================
+[OK]
+OK
+[Cancel]
+Storno
+[Type:]
+Typ:
+[Password:]
+Heslo:
+[Save password]
+Uložiť heslo
+[Resource:]
+Zdroj:
+[Register new user]
+Registrovať nového užívateľa
+[Username:]
+Užív. meno:
+[List of public servers]
+Zoznam verejných serverov
+[Port:]
+Port:
+[Unregister]
+Neregistrovaný
+[Expert]
+Expertné nastavenia
+[Manually specify connection host]
+Manuálne nastavenie pripojenia k serveru
+[Host:]
+Server:
+[Keep connection alive]
+Navždy zachovať pripojenie
+[User directory:]
+Adresár užívateľa:
+[Jabber Account Registration]
+Jabber registrácia konta
+[Jabber Agents]
+Jabber agenti
+[Register/Search Jabber Agents]
+Registrácia/Hľadanie jabber agentov
+[Jabber server:]
+Jabber server:
+[Browse]
+Listovať
+[Registered Jabber Transports]
+registrovať jabber transport
+[Log on]
+Prihlásiť
+[Log off]
+Odhlásiť
+[Close]
+Zavrieť
+[Instruction:]
+Inštrukcie:
+[Back]
+Späť
+[Address1:]
+Adresa1:
+[Address2:]
+Adresa2:
+[City:]
+Mesto:
+[State:]
+Štát:
+[ZIP:]
+PSČ:
+[Country:]
+Krajina:
+[Full name:]
+Plné meno:
+[Nick name:]
+Prezívka:
+[First name:]
+Meno:
+[Middle:]
+Stredné
+[Last name:]
+Priezvisko:
+[Date of birth:]
+Dátum narodenia:
+[YYYY-MM-DD]
+RRRR-MM-DD
+[Gender:]
+Pohlavie:
+[Homepage:]
+WWW:
+[Company:]
+Firma:
+[Department:]
+Oddelenie:
+[Title:]
+Názov:
+[E-mail:]
+E-mail:
+[Phone:]
+Telefón:
+[Home]
+Domov
+[Work]
+Práca
+[Fax]
+Fax:
+[Description:]
+Popis:
+[Jabber Agent Registration]
+Registrácia jabber agenta
+[Register]
+Registrovať
+[Nickname:]
+Prezívka:
+[Change %s Message]
+Zmeniť %s správu
+[Closing in %d]
+Zavrieť (za %d s)
+[Login server:]
+Prihlasovací server
+[Authorization request]
+Požiadavka na autorizáciu
+[Done]
+Žiadna
+[No message]
+Žiadna správa
+[Please wait...]
+Prosím čakaj...
+[Nickname]
+Prezívka
+[None]
+Žiadne
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[User &details]
+Informácie o užívatelovi
+[type]
+typ
+[Type]
+typ
+[First Name]
+Meno
+[Last Name]
+Priezvisko
+[Notes]
+Poznámky
+[Personal vCard]
+Osobná karta
+[Registration successful]
+Úspešná registrácia
+[To]
+Do
+[From]
+od
+[These changes will take effect the next time you connect to the Jabber network.]
+Tieto zmeny sa prejavia pri nasledujúcom prihlásení sa do Jabber siete.
+[Jabber Protocol Option]
+Voľby jabber protokolu
+[Messaging]
+Rozhovor
+[Send messages slower, but with full acknowledgement]
+Odoslať správy s overením (pomalšie odoslanie)
+[JID]
+Jabber ID
+[Connecting...]
+Pripájam...
+[Network]
+Sieť
+[Advanced]
+Podrobne
+[<none>]
+<nič>
+[Status]
+Stav
+[Invisible]
+Neviditelný
+[Offline]
+Odpojený
+[Error: Not enough memory]
+Chyba: málo pamäte
+[Error: Cannot connect to the server]
+Chyba: nemožno sa pripojiť k serveru
+[Error: Connection lost]
+Chyba: pripojenie stratené
+[Requesting registration instruction...]
+Prijať registračné informácie
+[Sending registration information...]
+Zaslať registračné informácie
+[<not specified>]
+<nešpecifikované>
+[unknown]
+neznáme
+[to]
+pre
+[from]
+od
+[none]
+žiadne
+[Photo]
+Fotografia
+[Redirect]
+Presmerovanie
+[Bad request]
+Zlý dotaz
+[Unauthorized]
+Neautorizovaný
+[Forbidden]
+Zakázaný
+[Not found]
+Nenájdený
+[Not allowed]
+Nepovolený
+[Not acceptable]
+Neakceptovaný
+[Registration required]
+Potrebná registrácia
+[Request timeout]
+Požiadavka bez odozvy
+[Conflict]
+konflikt
+[Internal server error]
+Interná chyba servera
+[Not implemented]
+Neimplementované
+[Remote server error]
+Chyba vzdialeného servera
+[Service unavailable]
+Nedostupná služba
+[Remote server timeout]
+Vzdialený server bez odozvy
+[Unknown error]
+Neznáma chyba
+[Error]
+Chyba
+[Male]
+Muž
+[Female]
+Žena
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+Podporujú sa iba JPG, GIF a BMP obrázky menšie než 40kB.
+[Jabber vCard]
+Jabber karta
+[Contacts]
+Kontakty
+[Note]
+Poznámka:
+[on the phone]
+Telefonuje
+
+#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
+;============================================================
+;  File: KeepStatus.dll
+;  Plugin: Keep status
+;  Version: 0.9.0.1
+;  Authors: P Boon
+;============================================================
+[Close]
+Zavrieť
+[Cancel]
+Storno
+[minutes of inactivity]
+minutách neaktivity
+[OK]
+OK
+[Command line:]
+Príkazový riadok:
+[Timeout]
+Časový limit
+[Background color]
+Farba pozadia
+[Text color]
+Fraba textu
+[On left click]
+јavým klikom
+[On right click]
+Pravým klikom
+[Colors]
+Farby
+[Events]
+Udalosti
+[Use %time% for the current time, %date% for the current date]
+Použi %time% pre aktuálny čas, %date% pre aktuálny dátum
+[Status]
+Stav
+[seconds]
+sekúnd
+[Advanced]
+Podrobne
+[I've been away since %time%.]
+Som preč od %time%.
+[Not right now.]
+Prepáč, teraz nemám čas.
+[Yep, I'm here.]
+Je tu.
+[Nope, not here.]
+Nieje tu.
+[I'm hiding from the mafia.]
+Schováva sa pred mafiou
+[That'll be the phone.]
+Telefonuje
+[Mmm... food.]
+Mmm... obed.
+[Closing in %d]
+Zavrieť (za %d s)
+
+#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+;============================================================
+;  File: KeyboardNotify.dll
+;  Plugin: Keyboard notify ext.
+;  Version: 1.5.7.7
+;  Authors: TioDuke
+;============================================================
+[seconds]
+sekúnd
+[Online]
+Pripojený
+[Away]
+Preč
+[Occupied]
+Zaneprázdnený
+[NA]
+Nedostupný
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[On the phone]
+Telefonuje
+[Out to lunch]
+Na obede
+[Offline]
+Odpojený
+[&Preview]
+Prehrať
+[OK]
+OK
+[Cancel]
+Storno
+[The following events are being ignored:]
+Nasledujúce udalosti budú ignorované:
+[Ignore messages]
+Ignorovať správy
+[Ignore URLs]
+Ignorovať URL
+[Ignore files]
+Ignorovať súbory
+[Ignore all]
+Všetko ignorovať
+[Ignore none]
+Neignorovať
+[Ignore]
+Ignorovať
+[** All contacts **]
+** Všetky kontakty **
+[** Unknown contacts **]
+** Neznáme kontakty **
+[Events]
+Udalosti
+[All Files]
+Všetky súbory
+[None]
+Žiadne
+
+#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
+;============================================================
+;  File: LangMan.dll
+;  Plugin: Language pack manager
+;  Version: 1.0.2.3
+;  Authors: H. Herkenrath
+;============================================================
+[E-mail:]
+E-mail:
+[Date:]
+Dátum:
+[Version:]
+Verzia:
+[Unknown]
+neznáme
+[File]
+Súbor
+
+#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+;============================================================
+;  File: LinkList.dll
+;  Plugin: History linklist plus
+;  Version: 0.0.0.2
+;  Authors: Thomas Wendel, gureedo
+;============================================================
+[Search]
+Hľadať
+[Close]
+Zavrieť
+[Background color]
+Farba pozadia
+[Text color]
+Fraba textu
+[Date]
+Dátum
+[Type]
+typ
+[&File]
+&Súbor
+[&Close]
+Zavrieť
+[&Search]
+Hľadať
+[Error]
+Chyba
+[All files]
+Všetky súbory
+
+#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+;============================================================
+;  File: ListeningTo.dll
+;  Plugin: ListeningTo
+;  Version: 0.3.0.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Music]
+Hudba
+[Contacts]
+Kontakty
+[seconds]
+sekúnd
+[Title:]
+Názov:
+[Status]
+Stav
+
+#muuid {23eacc0d-bab0-49c0-8f37-5e259ece527f}
+;============================================================
+;  File: LotusNotify.dll
+;  Plugin: LotusNotify
+;  Version: 0.1.21.0
+;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
+;============================================================
+[Popup options]
+Popup nastavenia
+[Background]
+Pozadie
+[Text]
+Text
+[version:]
+Verzia:
+[min.]
+min.
+[Password:]
+Heslo:
+[Status]
+Stav
+
+#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+;============================================================
+;  File: MenuEx.dll
+;  Plugin: Menu item ext
+;  Version: 1.3.0.10
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
+;============================================================
+[&Send]
+Odoslať
+[Visibility]
+Viditeľnosť
+[Ignore]
+Ignorovať
+[User Online]
+Pripojený užívatel
+[You Were Added]
+Boli ste pridaný
+
+#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+;============================================================
+;  File: MetaContacts.dll
+;  Plugin: MetaContacts
+;  Version: 0.14.0.13
+;  Authors: J. Schaal & S. Ellis
+;============================================================
+[Contacts]
+Kontakty
+[Function]
+Funkcia
+[Contact List]
+Zoznam kontaktov
+[Status:]
+Stav:
+[Default]
+Prednastavené
+[(Unknown Contact)]
+(neznámý kontakt)
+[Yes]
+Áno
+[No]
+Nie
+[Contact]
+Kontakt
+[Error]
+Chyba
+[Message from %s]
+Správa od %s
+
+#muuid {798221e1-e47a-4dc8-9077-1e576f9c4307}
+;============================================================
+;  File: MirandaG15.dll
+;  Plugin: MirandaG15
+;  Version: 0.1.2.0
+;  Authors: Martin Kleinhans
+;============================================================
+[Fonts]
+Písmo
+[Sample]
+Príklad
+[About]
+O
+[events]
+Udalosti
+[seconds]
+sekúnd
+[Incoming URL]
+Prichádzajúca URL
+[Contact list]
+Zoznam kontaktov
+[Hide offline users]
+Skryť nepripojených užívateľov
+
+#muuid {e99a09b2-e05b-4633-aa3a-5c83ef1cbab6}
+;============================================================
+;  File: MirFox.dll
+;  Plugin: MirFox
+;  Version: 0.5.0.0
+;  Authors: Szymon Tokarz
+;============================================================
+[** All contacts **]
+** Všetky kontakty **
+[Contacts]
+Kontakty
+
+#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
+;============================================================
+;  File: MirOTR.dll
+;  Plugin: Miranda OTR
+;  Version: 0.11.0.4
+;  Authors: ProgAndy & CHEF-KOCH
+;============================================================
+[Never]
+nikdy
+[&No]
+Nie
+[&Yes]
+Áno
+[Yes]
+Áno
+[No]
+Nie
+[Unknown]
+neznáme
+[Contacts]
+Kontakty
+[Contact]
+Kontakt
+[Default]
+Prednastavené
+
+#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+;============================================================
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
+;============================================================
+[OK]
+OK
+[Cancel]
+Storno
+[Apply]
+Aplikovať
+[Advanced]
+Podrobne
+[Home]
+Domov
+[Style]
+Štýl
+[Contacts]
+Kontakty
+[Ignore]
+Ignorovať
+[Status]
+Stav
+
+#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+;============================================================
+;  File: MRA.dll
+;  Plugin: MRA
+;  Version: 2.1.0.6
+;  Authors: Ivan Rozhuk
+;============================================================
+[E-mail:]
+E-mail:
+[Password:]
+Heslo:
+[Login Server:]
+Pripájací server:
+[Port:]
+Port:
+[Default]
+Prednastavené
+[Background color]
+Farba pozadia
+[Summary]
+Obecné
+[Nickname:]
+Prezívka:
+[First name:]
+Meno:
+[Last name:]
+Priezvisko:
+[Gender:]
+Pohlavie:
+[Age:]
+Vek:
+[from:]
+Od:
+[to:]
+Pre:
+[Location]
+Miesto
+[Country:]
+Krajina:
+[State:]
+Štát:
+[Search online users only]
+Hľadať iba pripojených užívatelov
+[City:]
+Mesto:
+[Your host (or router):]
+Vaše PC (alebo router):
+[Full e-mail:]
+Celý e-mail:
+[&Use Windows colors]
+Použi farby Windowsu
+[Text Color]
+Fraba textu
+[Timeout]
+Časový limit
+[Previe&w]
+Ukázať
+[Closing in %d]
+Zavrieť (za %d s)
+[Title:]
+Názov:
+[OK]
+OK
+[Cancel]
+Storno
+[Notify]
+Notifikácia
+[Male]
+Muž
+[Female]
+Žena
+[None]
+Žiadne
+[Warning]
+Varovanie
+[Error]
+Chyba
+[E-mail address]
+E-mailová adresa
+[Network]
+Sieť
+[Home]
+Domov
+[On the phone]
+Telefonuje
+[Music]
+Hudba
+
+#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
+;============================================================
+;  File: mRadio.dll
+;  Module: mRadio
+;  Version: 0.0.2.3
+;  Authors: Awkward
+;============================================================
+[connecting]
+Pripájam sa
+[Advanced]
+Podrobne
+
+#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
+;============================================================
+;  File: MsgPopup.dll
+;  Plugin: Message popup
+;  Version: 0.1.1.3
+;  Authors: StDenis
+;============================================================
+[Background color]
+Pozadie
+[Text color]
+Fraba textu
+[Timeout]
+Časový limit
+[Error]
+Chyba
+
+#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.0.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+[Browse]
+Listovať
+[Use internal viewer]
+Použiť interný prehliadač
+[Replace miranda history]
+Prepísať históriu mirandy
+[Append extra new line]
+Pridať extra nový riadok
+[Auto filename]
+Automatické meno súboru
+[Clear all]
+Všetko vyčistiť
+[Help]
+Pomoc
+[Export all history]
+Exportovať celú históriu
+[Export directory]
+Adresaár exportu
+[Max column width]
+Dľžka riadku
+[Time format]
+Formát času
+[Export format]
+Formát exportu
+[Default file]
+Prednastavený súbor
+[File viewer]
+Prehliadač súborov
+[Exporting old messages]
+Exportujem staré správy
+[&Find...]
+Nájsť...
+[&Close]
+Zavrieť
+[User &details]
+Informácie o užívatelovi
+[Export selected]
+Výber exportu
+[Set to default filename]
+Prednastaviť meno súboru
+[Search string was not found!]
+Hľadaný reťazec nebol nájdený!
+[Color...]
+Farba...
+[Font...]
+Typ písma...
+[Syntax highlight]
+Zoznam syntax-u
+[Open E&xported History]
+Otvoriť exportovanú históriu
+[No contacts found to export]
+Žiadne kontakty na export.
+[Failed to export at least one contact]
+Chyba pri exporte kontaktu
+[Sorting and writing database information ( Phase 2 of 2 )]
+Triedim a zapisujem databázové informácie (Časť 2 z 2)
+[Max line width must be at least %d]
+Maximálna dľžka riadku musí byť do %d
+[You need to restart miranda to change the history function]
+Musíte reštartovať mirandu pre zmenu funkcií histórie
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+Chyba v ceste ku Msg_Export.dll
+[File]
+Súbor
+[Nick]
+Prezívka
+[You have not applied the changes, do you wish to apply them first?]
+Neaplikované zmeny sa majú aplikovať ako prvé?
+[Executable files]
+Spustitelné súbory
+[All files]
+Všetky súbory
+[Select Destination Directory]
+Vyber cieľový adresár
+[Message export]
+Exportovať správu 
+[(Unknown Contact)]
+(neznámý kontakt)
+[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
+Chyba pri premenovávaní súboru\n\nz:\t%s\nna:\t%s\n\nChyba: %s
+[Failed to open or create file :\n]
+Chyba v otvorení alebo vytvorení súboru :\n
+[Failed to move to the end of the file :\n]
+Chyba v ukončení súboru :\n
+[Failed to write message to the file :\n]
+Chyba pri zápise správy do súboru :\n
+[File: ]
+Súbor:
+[Description: ]
+Popis:
+[Failed to write URL/File to the file :\n]
+Chyba pri zápise URL/Súboru do súboru :\n
+[Nick      :]
+Prezívka   :
+[FirstName :]
+Meno       :
+[LastName  :]
+Priezvisko :
+[e-mail    :]
+E-mail     :
+[Reason    :]
+Dôvod      :
+[The following user made an authorization request:]
+Vybraný užívateľ požaduje autorizáciu:
+[The following user added you to their contact list:]
+Tento užívatel si vás pridal do svojho zoznamu kontaktov:
+[EmailExpress from:]
+EmailExpres od:
+[WebPager from:]
+WebPager od:
+[No from address]
+Bez odosielatela
+[Failed to write EmailExpress to the file :\n]
+Chyba pri zapise EmailExpres do súboru: \n
+[Failed to write SMS to the file :\n]
+Chyba pri zápise SMS do súboru :\n
+[Failed to delete the file]
+Chyba pri mazaní súboru
+
+#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN Protocol
+;  Version: 0.11.0.3
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
+;============================================================
+[MSN]
+MSN
+[Password:]
+Heslo:
+[Nickname:]
+Prezívka:
+[Expert]
+Expertné nastavenia
+[Reset]
+Reset
+[Your host (or router):]
+Vaše PC (alebo router):
+[Hotmail]
+Hotmail
+[Set Nickname]
+Nastav prezívku
+[OK]
+OK
+[Cancel]
+Storno
+[First Name]
+Meno
+[Last Name]
+Priezvisko
+[Nickname]
+Prezívka
+[User &details]
+Informácie o užívatelovi
+[Subject: %s]
+Predmet: %s
+[Hotmail from %s (%S)]
+Hotmail od %s (%s)
+[Hotmail from %s]
+Hotmail od %s
+[Set &Nickname]
+Nastav prezívku 
+[Notify]
+Notifikácia
+[Error]
+Chyba
+[Contact list]
+Zoznam kontaktov
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+Pre uplatnenie zmien sa musite nanovio prihlásiť do siete MSN Messenger.
+[Network]
+Sieť
+[Connection]
+pripája
+
+#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+[Nickname:]
+Prezívka:
+[OK]
+OK
+[Cancel]
+Storno
+[pixels]
+pixelov
+[seconds]
+sekúnd
+[Nickname]
+Prezívka
+[Status]
+Stav
+[Background]
+Pozadie
+[Contact List]
+Zoznam kontaktov
+
+#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;============================================================
+;  File: NewEventNotify.dll
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.3
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
+;============================================================
+[General Options]
+Základné nastavenia
+[Popup Options]
+Popup nastavenia
+[File]
+Súbor
+[Text]
+Text
+[Background]
+Pozadie
+[Contacts]
+Kontakty
+
+#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
+;============================================================
+;  File: NewsAggregator.dll
+;  Plugin: News aggregator
+;  Version: 0.0.0.1
+;  Authors: Mataes, FREAK_THEMIGHTY
+;============================================================
+[OK]
+OK
+[Cancel]
+Storno
+[Reset]
+Reset
+[&Close]
+Zavrieť
+[Error]
+Chyba
+[Network]
+Sieť
+
+#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus notify
+;  Version: 1.4.0.9
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+[Notify when a contact changes to one of these statuses]
+Oznám keď sa kontakt zmení na jeden zo stavov
+[Online]
+Pripojený
+[Offline]
+Odpojený
+[Invisible]
+Neviditelný
+[Free for chat]
+Voľný k rozhovoru
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[Plugin activation]
+Aktivácia pluginu
+[Automatically turn off Popups and Sounds on status change]
+Automaticky vypni oznamy a zvuky pri zmene štatútu
+[Configure]
+Konfigurovať
+[Status Notify]
+Oznámenie stavu
+[Sounds]
+Zvuky
+[Background]
+Pozadie
+[Text]
+Text
+[Colors]
+Farby
+[Timeout]
+Časový limit
+[Sec]
+sek
+[On left click]
+јavým klikom
+[On right click]
+Pravým klikom
+[Reset]
+Reset
+[OK]
+OK
+[Cancel]
+Storno
+[Show Popups when I connect]
+Zobraz oznámenie ak je pripojený
+[All files]
+Všetky súbory
+[Status]
+Stav
+[Sound for the status]
+Zvuk pre stav
+[** All contacts **]
+** Všetky kontakty **
+[(default sound)]
+(prednastavený zvuk)
+[Contact]
+Kontakt
+[connecting]
+Pripájam sa
+[(M) is back online!]
+je opäť pripojený!
+[(F) is back online!]
+je opäť pripojená!
+[(U) is back online!]
+je opäť pripojený!
+[User: Online]
+Užívateľ: pripojený
+[(M) went offline! :(]
+je odpojený! :(
+[(F) went offline! :(]
+je odpojená! :(
+[(U) went offline! :(]
+je odpojený! :(
+[User: Offline]
+Užívateľ: odpojený
+[User: Invisible]
+Užívateľ: neviditeľný
+[(M) feels talkative!]
+je voľný pre rozhovor!
+[(F) feels talkative!]
+je voľná pre rozhovor!
+[(U) feels talkative!]
+je voľný pre rozhovor!
+[User: Free For Chat]
+Užívateľ: voľný na rozhovor
+[(M) went Away]
+je preč
+[(F) went Away]
+je preč
+[(U) went Away]
+je preč
+[User: Away]
+Užívateľ: vonku
+[(M) isn't there anymore!]
+je nedostupný!
+[(F) isn't there anymore!]
+je nedostupná!
+[(U) isn't there anymore!]
+je nedostupný!
+[User: Not Available]
+Užívateľ: nedostupný
+[(M) has something else to do.]
+je zaneprázdnený.
+[(F) has something else to do.]
+je zaneprázdnená.
+[(U) has something else to do.]
+je zaneprázdnený.
+[User: Occupied]
+Užívateľ: zaneprázdnený
+[(M) doesn't want to be disturbed!]
+nemá sa rušiť!
+[(F) doesn't want to be disturbed!]
+nemá sa rušiť!
+[(U) doesn't want to be disturbed!]
+nemá sa rušiť!
+[User: Do Not Disturb]
+Užívateľ: nerušiť
+[(M) is eating something]
+je na obede
+[(F) is eating something]
+je na obede
+[(U) is eating something]
+je na obede
+[User: Out To Lunch]
+Užívateľ: na obede
+[(M) had to answer the phone]
+telefonuje
+[(F) had to answer the phone]
+telefonuje
+[(U) had to answer the phone]
+telefonuje
+[User: On The Phone]
+Užívateľ: telefonuje
+[All Files]
+Všetky súbory
+[Log]
+Log
+[You cannot specify a value lower than %d and higher than %d.]
+Nezadali ste hodnotu menšiu alebo väčšiu ako %d.
+
+#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
+;============================================================
+;  File: New_GPG.dll
+;  Plugin: GPG
+;  Version: 0.0.0.11
+;  Authors: sss
+;============================================================
+[OK]
+OK
+[Browse]
+Listovať
+[Ignore]
+Ignorovať
+[Cancel]
+Storno
+[Password:]
+Heslo:
+[Name]
+Meno
+[Default]
+Prednastavené
+[Error]
+Chyba
+[Warning]
+Varovanie
+[Accept]
+Súhlas
+[Advanced]
+Podrobne
+[Contact]
+Kontakt
+
+#muuid {2e0d2ae3-e123-4607-8539-d4448d675ddb}
+;============================================================
+;  File: NimContact.dll
+;  Plugin: Non-IM Contact
+;  Version: 0.6.0.1
+;  Authors: Jonathan Gordon
+;============================================================
+[Help]
+Pomoc
+[OK]
+OK
+[Select Folder]
+Vyber zložku
+
+#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;============================================================
+;  File: NoHistory.dll
+;  Plugin: NoHistory
+;  Version: 0.2.3.0
+;  Authors: Scott Ellis, NightFox
+;============================================================
+[** All contacts **]
+** Všetky kontakty **
+
+#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
+;============================================================
+;  File: NotesReminders.dll
+;  Plugin: Sticky Notes & Reminders
+;  Version: 0.0.5.1
+;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
+;============================================================
+[Default Note Size]
+Prednastavená veľkosť znaku
+[Width (Pixels)]
+Šírka (pixely)
+[Height (Pixels)]
+Výška (pixely)
+[Startup options]
+Voľby po štarte
+[Add Contact list menu items]
+Pridať kontakt menu
+[Reset to defaults]
+Späť na prednastavené
+[Add Reminder]
+Pridať pripomienku
+[Trigger On Time && Date:]
+Spustiť v čase a dátume:
+[Date]
+Dátum
+[Time]
+Čas
+[Reminder Note:]
+Text pripomienky:
+[None]
+Žiadne
+[Daily]
+Denne
+[Weekly]
+Týždenne
+[Monthly]
+Mesačne
+[&Add Reminder]
+Pridať pripomienku
+[&Close]
+Zavrieť
+[&View Reminders]
+Zobraziť pripomienku
+[Reminder]
+Pripomienka
+[&Dismiss]
+&Zrušiť
+[Add New]
+Pridať novú
+[&New Note]
+Nová poznámka
+[Background Color]
+Farba pozadia
+[Reset]
+Reset
+[Text Color]
+Fraba textu
+[Undo]
+Späť
+[&Copy]
+Kopírovať
+[&Paste]
+Vložiť
+[C&ut]
+V&ybrať
+[C&lear]
+Vyč&istiť
+[&Show / Hide Notes]
+Zobraziť/Skryť poznámky
+[Notes & Reminders]
+Poznámky & Pripomienky
+[Delete All Reminders]
+Vymazať všetky pripomienky
+[Add New Reminder]
+Pridať novú pripomienku
+[Notes && Reminders]
+Poznámky && Pripomienky
+[&Delete All Notes]
+Vymazať všetky poznámky
+[Notes]
+Poznámky
+[Seconds]
+sekúnd
+[Never]
+nikdy
+[Default]
+Prednastavené
+[Reminder text]
+Text pripomienky
+[Date of activation]
+Dátum aktivácie
+
+#muuid {e92874ec-594a-4a2f-bded-c0be8b5a45d1}
+;============================================================
+;  File: NotifyAnything.dll
+;  Plugin: NotifyAnything
+;  Version: 0.0.2.8
+;  Authors: Daniel Wesslen, Korney San
+;============================================================
+[Port:]
+Port:
+[Password:]
+Heslo:
+[Error]
+Chyba
+
+#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.0.2.0
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+[Text]
+Text
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[On the phone]
+Telefonuje
+[Out to lunch]
+Na obede
+[Events]
+Udalosti
+
+#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
+;============================================================
+;  File: Omegle.dll
+;  Plugin: Omegle Protocol
+;  Version: 0.1.2.0
+;  Authors: Robert Pösel
+;============================================================
+[Language:]
+Jazyk:
+[Connecting...]
+Pripájam...
+[Network]
+Sieť
+
+#muuid {10896143-7249-4b36-a408-6501a6b6035a}
+;============================================================
+;  File: OpenFolder.dll
+;  Plugin: Open Miranda folder
+;  Version: 1.1.0.0
+;  Authors: jarvis, Kreisquadratur
+;============================================================
+[Open Folder]
+Otvoriť zložku
+
+#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+;============================================================
+;  File: PackUpdater.dll
+;  Plugin: Pack updater
+;  Version: 0.0.1.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
+[Cancel]
+Storno
+[Description]
+Udalosť
+[Back]
+Späť
+[Text]
+Text
+[Colors]
+Farby
+[On left click]
+јavým klikom
+[On right click]
+Pravým klikom
+[Timeout]
+Časový limit
+[Sec]
+sek
+
+#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
+;============================================================
+;  File: PasteIt.dll
+;  Plugin: Paste it
+;  Version: 1.0.0.3
+;  Authors: Krzysztof Kral
+;============================================================
+[Configure]
+Konfigurovať
+[OK]
+OK
+[Cancel]
+Storno
+[User name]
+užívateľské meno
+[Error]
+Chyba
+[Never]
+nikdy
+
+#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+;============================================================
+;  File: Ping.dll
+;  Plugin: Ping
+;  Version: 0.9.1.1
+;  Authors: Scott Ellis
+;============================================================
+[Timeout]
+Časový limit
+[Network]
+Sieť
+[Row height:]
+Výška riadku:
+[OK]
+OK
+[Cancel]
+Storno
+[Port:]
+Port:
+[Contact]
+Kontakt
+[<none>]
+<nič>
+[Unknown]
+neznáme
+
+#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
+;============================================================
+;  File: PluginUpdater.dll
+;  Plugin: Plugin updater
+;  Version: 0.1.1.6
+;  Authors: Mataes, George Hazan
+;============================================================
+[Cancel]
+Storno
+[Select &all]
+Vybrať všetko
+[Back]
+Späť
+[Text]
+Text
+[Colors]
+Farby
+[On left click]
+јavým klikom
+[On right click]
+Pravým klikom
+[Timeout]
+Časový limit
+[Sec]
+sek
+[Icons]
+Ikony
+
+#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+;============================================================
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.8
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+[Effects]
+Efekty
+[events]
+Udalosti
+[pixels]
+pixelov
+[Miranda's window]
+Okno Mirandy
+[the active window]
+aktívne okno
+[Close]
+Zavrieť
+[General options]
+Základné nastavenia
+[Sec]
+sek
+[seconds]
+sekúnd
+[Position:]
+Pozícia:
+[Reorder Popups]
+Preradiť popups
+[Send message]
+Odoslať správu
+[OK]
+OK
+[Cancel]
+Storno
+[Send Message]
+Odoslať správu
+[Contacts]
+Kontakty
+[Advanced]
+Podrobne
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Invisible]
+Neviditelný
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[You cannot specify a value lower than %d and higher than %d.]
+Nezadali ste hodnotu menšiu alebo väčšiu ako %d.
+[Error]
+Chyba
+[Warning]
+Varovanie
+[Notify]
+Notifikácia
+
+#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
+;============================================================
+;  File: QuickContacts.dll
+;  Plugin: Quick contacts
+;  Version: 1.0.0.0
+;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
+;============================================================
+[Contacts]
+Kontakty
+[Send URL]
+Odoslať URL
+[Open history]
+Otvoriť históriu
+[Send message]
+Odoslať správu
+
+#muuid  {e4058506-6494-4d60-9cf4-40bf545f78bd}
+;============================================================
+;  File: QuickSearch.dll
+;  Module: Quick Search
+;  Version: 1.4.0.20
+;  Authors: Awkward
+;============================================================
+[&New]
+Nový
+[FIRSTNAME]
+Meno
+[LASTNAME]
+Priezvisko
+[HOMEPAGE]
+Domovská stránka
+[ABOUT]
+O
+
+#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: Quotes.dll
+;  Plugin: Quotes
+;  Version: 0.0.24.0
+;  Authors: Dioksin
+;============================================================
+[OK]
+OK
+[Log]
+Log
+[Cancel]
+Storno
+[Close]
+Zavrieť
+[Colors]
+Farby
+[Background color]
+Farba pozadia
+[Text color]
+Fraba textu
+[Seconds]
+sekúnd
+[Network]
+Sieť
+
+#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
+;============================================================
+;  File: RecentContacts.dll
+;  Plugin: Recent contacts
+;  Version: 0.0.2.0
+;  Authors: ValeraVi, Kildor
+;============================================================
+[Contacts]
+Kontakty
+[Contact]
+Kontakt
+
+#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 2.10.0.2
+;  Authors: Miranda NG Development Team
+;============================================================
+[Send message on 'Enter']
+Odoslať správu po stlačení Enter
+[Send message on double 'Enter']
+Odoslať správu po dvojitom stlačení Enter
+[seconds]
+sekúnd
+[Show status bar]
+Zobraziť stavový riadok
+[Message Window Event Log]
+Záznam o prijatých/odoslaných dátach
+[Show icons]
+Zobraziť ikony
+[Show names]
+Zobraziť mená
+[events]
+Udalosti
+[Try again]
+Skús znovu
+[Cancel]
+Storno
+[Message Session]
+Rozhovor
+[User &details]
+Informácie o užívatelovi
+[&Quote]
+Požiadavka
+[Yes]
+Áno
+[No]
+Nie
+[pixels]
+pixelov
+[Your name]
+Vaše meno
+[Location]
+Miesto
+[Text]
+Text
+[Background]
+Pozadie
+[OK]
+OK
+[Log]
+Log
+[&Copy]
+Kopírovať
+[Co&py All]
+Kopírovať všetko
+[Select &All]
+Vybrať všetko
+[Yahoo]
+YAHOO
+[C&lear Log]
+Odstrániť záznamy v Logu
+[&Copy link]
+Kopírovať odkaz
+[Undo]
+Späť
+[List]
+Zoznam
+[&Message]
+&Správa
+[Co&py all]
+Kopírovať všetko
+[Send message]
+Odoslať správu
+[Text color]
+Fraba textu
+[Background color]
+Farba pozadia
+[Bold]
+Tučné
+[Messaging]
+Rozhovor
+[User Menu]
+Menu užívatela
+[Add Contact Permanently to List]
+Pridať kontakt do zoznamu
+[View User's Details]
+Zobraziť informácie o užívatelovi
+[View User's History]
+Zobraziť históriu 
+[Send Message]
+Odoslať správu
+[File received]
+Prijať súbor
+[Event Log]
+Zaznamenať udalosti
+[Incoming URL]
+Prichádzajúca URL
+[Incoming message]
+Prichádzajúca správa
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obede
+[On the phone]
+Telefonuje
+[** Unknown contacts **]
+** Neznáme kontakty **
+[Message from %s]
+Správa od %s
+[Always On Top]
+Vždy navrchu
+[&Leave]
+Opustiť
+[Select Folder]
+Vyber zložku
+[Italic]
+Kurzíva
+[Underline]
+Podtrhnuté
+[Status]
+Stav
+
+#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+;============================================================
+;  File: SecureIM.dll
+;  Plugin: SecureIM
+;  Version: 1.0.12.4
+;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
+;============================================================
+[sec]
+sek
+[Back]
+Späť
+[Text]
+Text
+[Events]
+Udalosti
+[Username:]
+Užív. meno:
+[Password:]
+Heslo:
+[OK]
+OK
+[Cancel]
+Storno
+[Status]
+Stav
+[Nickname]
+Prezívka
+[Name]
+Meno
+[Contact List]
+Zoznam kontaktov
+[Icons]
+Ikony
+[Executable Files]
+Spustitelné súbory
+[All files]
+Všetky súbory
+
+#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.4.8
+;  Authors: Heiko Schillinger, YB
+;============================================================
+[Text]
+Text
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[On the phone]
+Telefonuje
+[Out to lunch]
+Na obede
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Offline]
+Odpojený
+[OK]
+OK
+[View User's Details]
+Zobraziť informácie o užívatelovi
+[User Menu]
+Menu užívatela
+[<none>]
+<nič>
+[Contacts]
+Kontakty
+[seconds]
+sekúnd
+[nick]
+Prezívka
+[Status]
+Stav
+[Note:]
+Poznámka:
+[Unknown]
+neznáme
+
+#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
+;============================================================
+;  File: SendSS.dll
+;  Plugin: Send ScreenShot+
+;  Version: 0.8.3.1
+;  Authors: Merlin
+;============================================================
+[OK]
+OK
+[None]
+Žiadne
+[Cancel]
+Storno
+[About]
+O
+[&Close]
+Zavrieť
+[Error]
+Chyba
+[Unknown Error]
+Neznáma chyba
+[Yes]
+Áno
+[No]
+Nie
+[Ignore]
+Ignorovať
+[Default]
+Prednastavené
+[Help]
+Pomoc
+[Open Folder]
+Otvoriť zložku
+[Apply]
+Aplikovať
+[Window]
+Okno
+[E-mail]
+e-mail
+
+#muuid {60558872-2aab-45aa-888d-097691c9b683}
+;============================================================
+;  File: Sessions.dll
+;  Plugin: Sessions
+;  Version: 0.1.3.0
+;  Authors: MaD_CLuSTeR
+;============================================================
+[OK]
+OK
+[Cancel]
+Storno
+
+#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;============================================================
+;  File: SimpleStatusMsg.dll
+;  Plugin: Simple status message
+;  Version: 1.9.0.4
+;  Authors: Bartosz 'Dezeath' Bialek, Harven
+;============================================================
+[%s Message for %s]
+%s správa pre %s
+[Retrieving %s message...]
+Prijímam %s správu
+[OK]
+OK
+[seconds]
+sekúnd
+[Status:]
+Stav:
+[&Close]
+Zavrieť
+[Re&ad %s Message]
+Čítať %s správu
+[Closing in %d]
+Zavrieť (za %d s)
+[Status]
+Stav
+[Advanced]
+Podrobne
+[I've been away since %time%.]
+Som preč od %time%.
+[Not right now.]
+Prepáč, teraz nemám čas.
+[Yep, I'm here.]
+Je tu.
+[Nope, not here.]
+Nieje tu.
+[I'm hiding from the mafia.]
+Schováva sa pred mafiou
+[That'll be the phone.]
+Telefonuje
+[Mmm... food.]
+Mmm... obed.
+
+#muuid {9c448c61-fc3f-42f9-b9f0-4a30e1cf8671}
+;============================================================
+;  File: Skype.dll
+;  Plugin: Skype Protocol
+;  Version: 0.11.0.2
+;  Authors: unsane, mataes, ghazan
+;============================================================
+[Password:]
+Heslo:
+[OK]
+OK
+[Cancel]
+Storno
+[Full name:]
+Plné meno:
+[Date of birth:]
+Dátum narodenia:
+[Gender:]
+Pohlavie:
+[Homepage:]
+WWW:
+[Language:]
+Jazyk:
+[About:]
+O sebe:
+[City:]
+Mesto:
+[State:]
+Štát:
+[Country:]
+Krajina:
+[Timezone:]
+Časové pásmo:
+[Connection]
+pripája
+[Name]
+Meno
+[<not specified>]
+<nešpecifikované>
+[Male]
+Muž
+[Female]
+Žena
+[Network]
+Sieť
+[Contacts]
+Kontakty
+[Home]
+Domov
+[Contact]
+Kontakt
+
+#muuid {a71f8335-7b87-4432-b8a3-81479431c6f5}
+;============================================================
+;  File: SkypeClassic.dll
+;  Plugin: Skype Protocol (Classic)
+;  Version: 0.0.0.54
+;  Authors: leecher, tweety, jls17
+;============================================================
+[Password:]
+Heslo:
+[Cancel]
+Storno
+[OK]
+OK
+[Host:]
+Server:
+[Port:]
+Port:
+[City:]
+Mesto:
+[Country:]
+Krajina:
+[Homepage:]
+WWW:
+[seconds]
+sekúnd
+[Background]
+Pozadie
+[Text]
+Text
+[&File]
+&Súbor
+[Unknown]
+neznáme
+[User &details]
+Informácie o užívatelovi
+[MALE]
+Muž
+[FEMALE]
+Žena
+
+#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+;============================================================
+;  File: SmileyAdd.dll
+;  Plugin: SmileyAdd
+;  Version: 0.2.3.17
+;  Authors: Peacow, nightwish, bid, borkra
+;============================================================
+[Author:]
+Autor:
+[Version:]
+Verzia:
+[All files]
+Všetky súbory
+
+#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
+;============================================================
+;  File: SMS.dll
+;  Plugin: SMS
+;  Version: 0.2.5.3
+;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
+;============================================================
+[&Reply]
+&Odpovedať
+[&Close]
+Zavrieť
+[From:]
+Od:
+[To:]
+Pre:
+[Enter message:]
+Správa:
+[Chars:]
+Znaky:
+[&Send]
+Odoslať
+[View User's History]
+Zobraziť históriu 
+[Invalid Phone Number]
+Neplatné telefónne číslo
+[Invalid phone number]
+Neplatné telefónne číslo
+
+#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
+;============================================================
+;  File: Spamotron.dll
+;  Plugin: Spam-o-tron
+;  Version: 0.0.4.6
+;  Authors: vu1tur
+;============================================================
+[Reset to defaults]
+Späť na prednastavené
+[Background]
+Pozadie
+[Timeout]
+Časový limit
+
+#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
+;============================================================
+;  File: SpellChecker.dll
+;  Plugin: Spell checker
+;  Version: 0.2.6.0
+;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
+;============================================================
+[Language:]
+Jazyk:
+[OK]
+OK
+[Cancel]
+Storno
+[Advanced]
+Podrobne
+[Ignore all]
+Všetko ignorovať
+
+#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
+;============================================================
+;  File: SplashScreen.dll
+;  Plugin: Splash screen
+;  Version: 0.1.2.3
+;  Authors: nullbie, Thief
+;============================================================
+[Error]
+Chyba
+
+#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
+;============================================================
+;  File: StartPosition.dll
+;  Plugin: Start position
+;  Version: 0.2.0.3
+;  Authors: Felipe Brahm - souFrag
+;============================================================
+[Contact List]
+Zoznam kontaktov
+
+#muuid {7b856b6a-d48f-4f54-b8d6-c8d86d02ffc2}
+;============================================================
+;  File: StartupSilence.dll
+;  Plugin: StartupSilence
+;  Version: 0.2.0.0
+;  Authors: Vladimir Lyubimov
+;============================================================
+[Events]
+Udalosti
+
+#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
+;============================================================
+;  File: StartupStatus.dll
+;  Plugin: StartupStatus
+;  Version: 0.8.0.45
+;  Authors: P Boon
+;============================================================
+[Close]
+Zavrieť
+[Cancel]
+Storno
+[minutes of inactivity]
+minutách neaktivity
+[OK]
+OK
+[Command line:]
+Príkazový riadok:
+[Timeout]
+Časový limit
+[Background color]
+Farba pozadia
+[Text color]
+Fraba textu
+[On left click]
+јavým klikom
+[On right click]
+Pravým klikom
+[Colors]
+Farby
+[Events]
+Udalosti
+[Use %time% for the current time, %date% for the current date]
+Použi %time% pre aktuálny čas, %date% pre aktuálny dátum
+[Status]
+Stav
+[seconds]
+sekúnd
+[None]
+Žiadne
+[default]
+Prednastavené
+[unknown]
+neznáme
+[I've been away since %time%.]
+Som preč od %time%.
+[Not right now.]
+Prepáč, teraz nemám čas.
+[Yep, I'm here.]
+Je tu.
+[Nope, not here.]
+Nieje tu.
+[I'm hiding from the mafia.]
+Schováva sa pred mafiou
+[That'll be the phone.]
+Telefonuje
+[Mmm... food.]
+Mmm... obed.
+[Closing in %d]
+Zavrieť (za %d s)
+
+#muuid {1acb2ed1-c1ed-43ee-89bd-086686f6ebb5}
+;============================================================
+;  File: StatusChange.dll
+;  Plugin: Status change
+;  Version: 1.3.0.0
+;  Authors: Angelo Luiz Tartari
+;============================================================
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[On the phone]
+Telefonuje
+[Out to lunch]
+Na obede
+[Status]
+Stav
+
+#muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
+;============================================================
+;  File: StopSpamMod.dll
+;  Plugin: StopSpam mod
+;  Version: 0.0.2.0
+;  Authors: Roman Miklashevsky, sss, Elzor
+;============================================================
+[Advanced]
+Podrobne
+
+#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+;============================================================
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.2.0.0
+;  Authors: The Miranda developers team and contributors
+;============================================================
+[OK]
+OK
+[Cancel]
+Storno
+[Your name]
+Vaše meno
+[List]
+Zoznam
+[&Message]
+&Správa
+[Log]
+Log
+[Co&py all]
+Kopírovať všetko
+[&Copy link]
+Kopírovať odkaz
+[Undo]
+Späť
+[&Send]
+Odoslať
+[seconds]
+sekúnd
+[Popup Options]
+Popup nastavenia
+[Text]
+Text
+[Background]
+Pozadie
+[Events]
+Udalosti
+[Apply]
+Aplikovať
+[Load History Events]
+Nahrať udalosti histórie
+[Load unread events only]
+Nahrať doposiaľ neprečítané udalosti
+[Load number of previous events]
+Nahrať počet posledných udalostí
+[Load previous events less than]
+Nahrať iba udalosti, ktoré sú menšie než
+[minutes old]
+minút staré
+[Reset]
+Reset
+[milliseconds]
+milisekúnd
+[Back]
+Späť
+[&Use Windows colors]
+Použi farby Windowsu
+[Close]
+Zavrieť
+[Icons]
+Ikony
+[Yes]
+Áno
+[No]
+Nie
+[Send message on 'Enter']
+Odoslať správu po stlačení Enter
+[Send message on double 'Enter']
+Odoslať správu po dvojitom stlačení Enter
+[&Copy]
+Kopírovať
+[&Quote]
+Požiadavka
+[Co&py All]
+Kopírovať všetko
+[Select &All]
+Vybrať všetko
+[Open in &new window]
+Otvoriť v novom okne
+[&Open in existing window]
+Otvoriť v tomto okne
+[Default]
+Prednastavené
+[&File]
+&Súbor
+[Show Menu Bar]
+Zobraziť menu
+[Show Status Bar]
+Zobraziť stavový riadok
+[Help]
+Pomoc
+[View User's History]
+Zobraziť históriu 
+[General options]
+Základné nastavenia
+[Incoming file]
+Prichádzajúci súbor
+[Message from %s]
+Správa od %s
+[Send message]
+Odoslať správu
+[contact]
+Kontakt
+[The message send timed out]
+Čas k odoslaniu správy vypršal
+[** Unknown contacts **]
+** Neznáme kontakty **
+[Background color]
+Farba pozadia
+[Incoming message]
+Prichádzajúca správa
+[Error]
+Chyba
+[Contact]
+Kontakt
+[Status]
+Stav
+[System tray icon]
+Ikona v oznamovacej oblasti
+[Text color]
+Fraba textu
+[Nickname]
+Prezívka
+[All Files]
+Všetky súbory
+[Select Folder]
+Vyber zložku
+[&Leave]
+Opustiť
+[Nick]
+Prezívka
+
+#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: 2.1.0.5
+;  Authors: Scott Ellis, yaho
+;============================================================
+[Window]
+Okno
+[OK]
+OK
+[Cancel]
+Storno
+[Items]
+Položky
+[Advanced options]
+Rozšírené nastavenia
+[Effects]
+Efekty
+[None]
+Žiadne
+[Status]
+Stav
+[Status:]
+Stav:
+[Gender:]
+Pohlavie:
+[Homepage]
+Domovská stránka
+[Homepage:]
+WWW:
+[Name]
+Meno
+[Time:]
+Čas:
+[Background]
+Pozadie
+[Dividers]
+Oddelovače
+[Female]
+Žena
+[Male]
+Muž
+
+#muuid {748f8934-781a-528d-5208-001265404ab3}
+;============================================================
+;  File: Tlen.dll
+;  Plugin: Tlen Protocol
+;  Version: 2.1.0.0
+;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
+;============================================================
+[Username:]
+Užív. meno:
+[Password:]
+Heslo:
+[Save password]
+Uložiť heslo
+[Login server:]
+Prihlasovací server
+[Port:]
+Port:
+[Keep connection alive]
+Navždy zachovať pripojenie
+[Proxy type:]
+Typ proxy:
+[Proxy server:]
+Proxy server:
+[Proxy requires authorization]
+Proxy potrebuje autorizáciu
+[Colors]
+Farby
+[Background]
+Pozadie
+[Text]
+Text
+[&From Popup plugin]
+Z Popup pluginu
+[&Custom]
+Voliteľné
+[P&ermanent]
+Permanentne
+[OK]
+OK
+[Cancel]
+Storno
+[Nick name:]
+Prezívka:
+[First name:]
+Meno:
+[Last name:]
+Priezvisko:
+[E-mail:]
+E-mail:
+[Gender:]
+Pohlavie:
+[City:]
+Mesto:
+[Save changes]
+Uložiť zmeny
+[Version:]
+Verzia:
+[Nickname:]
+Prezívka:
+[Age:]
+Vek:
+[to]
+pre
+[Status:]
+Stav:
+[From:]
+Od:
+[%d Files]
+%d súbory
+[Advanced]
+Podrobne
+[Network]
+Sieť
+[Enter password for]
+Zadať heslo pre
+[Tlen Connection Error]
+Tlen pripájacia chyba
+[From]
+od
+[E-mail]
+e-mail
+[from]
+od
+[none]
+žiadne
+[Default]
+Prednastavené
+
+#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: Tooltip notify
+;  Version: 0.7.0.1
+;  Authors: perf
+;============================================================
+[OK]
+OK
+[Cancel]
+Storno
+[Online]
+Pripojený
+[Offline]
+Odpojený
+[sec]
+sek
+[Contacts]
+Kontakty
+[** Unknown contacts **]
+** Neznáme kontakty **
+[Unknown]
+neznáme
+
+#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+;============================================================
+;  File: TopToolBar.dll
+;  Plugin: TopToolBar
+;  Version: 0.8.0.3
+;  Authors: Bethoven
+;============================================================
+[Default]
+Prednastavené
+[Contact List]
+Zoznam kontaktov
+
+#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+;============================================================
+;  File: TrafficCounter.dll
+;  Plugin: Traffic counter
+;  Version: 0.1.1.8
+;  Authors: Ghost, Mironych
+;============================================================
+[Background color:]
+Farba pozadia:
+[Bytes]
+bytov
+[Daily]
+Denne
+[Weekly]
+Týždenne
+[Monthly]
+Mesačne
+[Online]
+Pripojený
+
+#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter
+;  Version: 1.1.0.1
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+[Username:]
+Užív. meno:
+[Cancel]
+Storno
+[sec]
+sek
+[Colors]
+Farby
+[Back]
+Späť
+[Text]
+Text
+[OK]
+OK
+[Network]
+Sieť
+
+#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: User info ext
+;  Version: 0.8.4.2
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
+[Updating]
+Aktualizujem
+[OK]
+OK
+[Cancel]
+Storno
+[Apply]
+Aplikovať
+[Nick:]
+Prezívka:
+[Title:]
+Názov:
+[First name:]
+Meno:
+[Last name:]
+Priezvisko:
+[Female]
+Žena
+[Male]
+Muž
+[Street:]
+Ulica:
+[Postal code:]
+PSČ/ZIP kód:
+[City:]
+Mesto:
+[Country:]
+Krajina:
+[Timezone:]
+Časové pásmo:
+[Company:]
+Firma:
+[Department:]
+Oddelenie:
+[Position:]
+Pozícia:
+[Add Phone Number]
+Pridať telefónne číslo
+[Enter country, area code and phone number:]
+Uveďte krajinu, predvoľbu a telefónne číslo:
+[Or enter a full international number:]
+Alebo uveďte telefónne číslo v medzinárodnom tvare:
+[Phone can receive SMS text messages]
+Na toto číslo môžete posielať SMS správy
+[Background color]
+Farba pozadia
+[Text color]
+Fraba textu
+[Homepage:]
+WWW:
+[Reminder]
+Pripomienka
+[Icons]
+Ikony
+[Colors]
+Farby
+[None]
+Žiadne
+[Gender:]
+Pohlavie:
+[Homepage]
+Domovská stránka
+[E-Mail]
+e-mail
+[Age:]
+Vek:
+[not found]
+Nenájdený
+[Reset to defaults]
+Späť na prednastavené
+[Edit Phone Number]
+Zmena telefónneho čísla
+[Contact]
+Kontakt
+[Date]
+Dátum
+[Yes]
+Áno
+[No]
+Nie
+[Ignore]
+Ignorovať
+[Error]
+Chyba
+[Work]
+Práca
+[About]
+O
+[Notes]
+Poznámky
+[Default]
+Prednastavené
+[Fax]
+Fax:
+[e-mail]
+e-mail
+[Search]
+Hľadať
+[User &details]
+Informácie o užívatelovi
+[View/Change My &Details...]
+Zobraziť/Zmeniť moje informácie...
+[My Notes:]
+Moje poznámky:
+[About:]
+O sebe:
+[Home]
+Domov
+[Contacts]
+Kontakty
+[Advanced]
+Podrobne
+[Past]
+Okolie
+[Computers]
+Počítače
+[Sports]
+Šport
+[Art]
+Umenie
+[Cars]
+Autá
+[Celebrity Fans]
+Fanúšik slávnej/slávneho
+[Collections]
+Kolekcie
+[Culture & Literature]
+Kultúra a literatúra
+[Games]
+Hry
+[Hobbies]
+Koníčky
+[Lifestyle]
+Životný štýl
+[Movies/TV]
+Filmy/TV
+[Music]
+Hudba
+[Pets/Animals]
+Mazlíčkovia/Zvieratká
+[Religion]
+Naboženstvo
+[Science/Technology]
+Veda/Technológie
+[Skills]
+Zručnosť
+[Web Design]
+Návrh webov
+[Nature and Environment]
+Príroda
+[Travel]
+Cestovanie
+[Astronomy]
+Astrológia
+[Women]
+Ženy
+[Finance and corporate]
+Financie
+[Sporting and athletic]
+Šport a atletika
+[Send e-mail]
+Odoslať e-mail
+
+#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
+;============================================================
+;  File: Variables.dll
+;  Plugin: Variables
+;  Version: 0.2.3.10
+;  Authors: P Boon
+;============================================================
+[Description]
+Udalosť
+[Close]
+Zavrieť
+[OK]
+OK
+[Notes]
+Poznámky
+[Cancel]
+Storno
+[Help]
+Pomoc
+[computer name]
+meno počítača
+[user name]
+užívateľské meno
+
+#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
+;============================================================
+;  File: VersionInfo.dll
+;  Plugin: Version information
+;  Version: 1.5.0.3
+;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
+;============================================================
+[OK]
+OK
+[Cancel]
+Storno
+[Close]
+Zavrieť
+[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+Ok, niečo je zlé v "%s" nastavení. Spätný report má hodnoty:\nFacility: %X\nKód chyby: %X\nČíslo riadku: %d
+
+#muuid {32579908-724b-467f-adad-22b6359a749a}
+;============================================================
+;  File: VKontakte.dll
+;  Plugin: VKontakte protocol
+;  Version: 0.1.0.6
+;  Authors: Miranda NG Team
+;============================================================
+[Password:]
+Heslo:
+[Advanced]
+Podrobne
+[Instruction:]
+Inštrukcie:
+[Cancel]
+Storno
+[Network]
+Sieť
+[Photo]
+Fotografia
+
+#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
+;  File: Watrack.dll
+;  Plugin: Winamp Track
+;  Version: 0.0.6.12
+;  Authors: Awkward
+;============================================================
+[none]
+žiadne
+[Color]
+Farba
+[Choose font...]
+Výber písma...
+;other strings
+
+#muuid {fc718bc7-abc8-43cd-aad9-761614617738}
+;============================================================
+;  File: wbOSD.dll
+;  Plugin: WannaBe OSD
+;  Version: 0.2.1.0
+;  Authors: Andrej Krutak
+;============================================================
+[Background color]
+Farba pozadia
+[Text color]
+Fraba textu
+[Help]
+Pomoc
+
+#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
+;============================================================
+[Close]
+Zavrieť
+[Visibility]
+Viditeľnosť
+[Cancel]
+Storno
+[Popup Options]
+Popup nastavenia
+[Colors]
+Farby
+[Background color]
+Farba pozadia
+[Text color]
+Fraba textu
+[seconds]
+sekúnd
+[Default]
+Prednastavené
+[Contact List]
+Zoznam kontaktov
+[Reset]
+Reset
+[City:]
+Mesto:
+[Browse]
+Listovať
+[All Files]
+Všetky súbory
+[<Error>]
+<chyba>
+[Name]
+Meno
+[Items]
+Položky
+[Author:]
+Autor:
+[Version:]
+Verzia:
+[bytes]
+bytov
+[Description:]
+Popis:
+[Network]
+Sieť
+
+;============================================================
+;  File: Intellicast.ini
+;  Module: weather
+;============================================================
+[Ceiling]
+
+[Mon]
+
+[Tue]
+
+[Wed]
+
+[Thu]
+
+[Fri]
+
+[Sat]
+
+[Sun]
+
+[Full]
+
+[Sunny]
+
+[Waning Crescent]
+
+[Waning Gibbous]
+
+[Waxing Crescent]
+
+[Waxing Gibbous]
+
+[Last Quarter]
+
+[First Quarter]
+
+[Partly Sunny]
+
+[Mostly Sunny]
+
+[Partly Cloudy]
+
+[Mostly Cloudy]
+
+[Mostly Clear]
+
+[Scattered Thunderstorms]
+
+[Feel]
+
+[Forecast Day 1]
+
+[Forecast Day 2]
+
+[Forecast Day 3]
+
+[Forecast Day 4]
+
+[Forecast Day 5]
+
+[Forecast Day 6]
+
+[Forecast Day 7]
+
+[Forecast Day 8]
+
+[Forecast Day 9]
+
+[Forecast Day 10]
+
+[Forecast today]
+
+[Heat Index]
+
+[Moon]
+
+[MoonRise]
+
+[MoonSet]
+
+[Update1]
+
+[Update2]
+
+[Wind Chill]
+
+[Wind Direction]
+
+[Wind Speed]
+
+[N]
+
+[W]
+
+[S]
+
+[E]
+
+[NW]
+
+[NE]
+
+[SW]
+
+[SE]
+
+[NNW]
+
+[NNE]
+
+[SSW]
+
+[SSE]
+
+[ENE]
+
+[WSW]
+
+[WNW]
+
+[ESE]
+
+[WindDir1]
+
+[WindDir2]
+
+[Broken Clouds]
+
+[Scattered Clouds]
+
+[North]
+
+[East]
+
+[South]
+
+[West]
+
+[Northwest]
+
+[Northeast]
+
+[Southwest]
+
+[Southeast]
+
+
+;============================================================
+;  File: weatherxml.ini
+;  Module: weather
+;============================================================
+[Fair]
+
+[Mostly Sunny]
+
+[Light Thunderstorm Rain]
+
+[Thunderstorm Rain]
+
+[N/a]
+
+[Thunderstorm]
+
+[Overcast]
+
+[Fog]
+
+[Mist]
+
+[Light Rain]
+
+[Light Showers Rain]
+
+[Showers Rain]
+
+[Shallow Fog]
+
+[Snow]
+
+[Partly Sunny]
+
+[Partly Cloudy]
+
+[Mostly Cloudy]
+
+[Mostly Clear]
+
+[Showers]
+
+[Sunny]
+
+[Light Rain Shower]
+
+[rising]
+
+[steady]
+
+[falling]
+
+[Moderate]
+
+[N]
+
+[W]
+
+[S]
+
+[E]
+
+[NW]
+
+[NE]
+
+[SW]
+
+[SE]
+
+[NNW]
+
+[NNE]
+
+[SSW]
+
+[SSE]
+
+[ENE]
+
+[WSW]
+
+[WNW]
+
+[ESE]
+
+[New Moon]
+
+[Last Quarter]
+
+[First Quarter]
+
+[Full Moon]
+
+[Waning Crescent]
+
+[Waning Gibbous]
+
+[Waxing Crescent]
+
+[Waxing Gibbous]
+
+[Night]
+
+[Feel]
+
+[Forcast Update]
+
+[Forcast Update VAR]
+
+[Forecast Day 0]
+
+[Forecast Day 1]
+
+[Forecast Day 2]
+
+[Forecast Day 3]
+
+[Forecast Day 4]
+
+[Forecast Day 5]
+
+[Forecast Day 6]
+
+[Forecast Day 7]
+
+[Forecast Day 8]
+
+[Forecast Day 9]
+
+[N/A%]
+
+[Heat Index]
+
+[Latitude]
+
+[Longitude]
+
+[Local Time]
+
+[Moon]
+
+[Observatory]
+
+[Pressure Tendency]
+
+[Update VAR]
+
+[UV]
+
+[UV Index]
+
+[UVI]
+
+[Wind Direction]
+
+[Wind Direction DEG]
+
+[Wind Speed]
+
+[WindDir]
+
+[Cloudy]
+
+[Scattered Snow Showers]
+
+[Few Snow Showers]
+
+[Snow Shower]
+
+[Am Snow Showers]
+
+[Light Snow]
+
+[Drifting Snow]
+
+[Pm Snow Showers]
+
+[Am Clouds / Pm Sun]
+
+[Snow Shower / Wind]
+
+[Cloudy / Wind]
+
+[Heavy Snow And Windy]
+
+[Snow / Wind]
+
+[Snow Showers Early]
+
+[Am Snow Showers / Wind]
+
+[Light Snow And Windy]
+
+[Snow Showers / Wind Early]
+
+[Partly Cloudy And Windy]
+
+[Mostly Cloudy And Windy]
+
+[Rain / Snow / Wind]
+
+[Rain / Snow]
+
+[Clouds Early / Clearing Late]
+
+[Snow Showers Late]
+
+[Rain / Snow Showers]
+
+[Showers Late]
+
+[Scattered Showers]
+
+[Am Showers]
+
+[Am Rain / Snow Showers]
+
+[Few Showers]
+
+[Few Showers / Wind]
+
+[Pm Light Rain]
+
+[Mostly Cloudy / Wind]
+
+[Rain]
+
+[Light Rain Shower And Windy]
+
+[Am Showers / Wind]
+
+[Isolated T-Storms]
+
+[Showers Early]
+
+[T-Storm]
+
+[Rain / Snow Showers Late]
+
+[Pm Showers]
+
+[Snow To Rain]
+
+[Light Snow Shower]
+
+[Fair And Windy]
+
+[Pm T-Storms]
+
+[Scattered T-Storms]
+
+[Light Rain Late]
+
+[Am Light Rain]
+
+[Jun]
+
+[T-Storms]
+
+[Rain / Thunder]
+
+[Thunder In The Vicinity]
+
+[Light Rain With Thunder]
+
+[Light Rain Early]
+
+[Light Rain / Wind]
+
+[Light Drizzle]
+
+[Haze]
+
+[Smoke]
+
+[Rain To Snow]
+
+[Rain And Snow]
+
+[Rain / Snow Showers Early]
+
+[Heavy Snow Shower]
+
+[Showers / Wind]
+
+[Snow Shower And Windy]
+
+[Light Snow Shower And Windy]
+
+[Light Rain And Windy]
+
+[Sleet]
+
+[Sleet And Windy]
+
+[Cloudy And Windy]
+
+[Light Drizzle And Windy]
+
+[Light Drizzle And Fog]
+
+[Fog And Windy]
+
+[Light Snow Early]
+
+[Heavy Snow]
+
+[Snow Early]
+
+[Light Snow Late]
+
+[Snow And Sleet]
+
+
+;============================================================
+;  File: wundergrnd_intl.ini
+;  Module: weather
+;============================================================
+[Light Rain Showers]
+
+[Thunderstorms And Rain]
+
+[Light Thunderstorm]
+
+[Light Drizzle Mist]
+
+[Light Showers Rain Mist]
+
+[Mostly Sunny]
+
+[Light Thunderstorm Rain]
+
+[Thunderstorm Rain]
+
+[N/a]
+
+[Thunderstorm]
+
+[Overcast]
+
+[Fog]
+
+[Patches Fog]
+
+[Mist]
+
+[Light Rain]
+
+[Light Showers Rain]
+
+[Light Showers Snow]
+
+[Showers Rain]
+
+[Shallow Fog]
+
+[Snow]
+
+[Partly Sunny]
+
+[Partly Cloudy]
+
+[Mostly Cloudy]
+
+[Mostly Clear]
+
+[Rising]
+
+[Steady]
+
+[Stable]
+
+[Falling]
+
+[Var]
+
+[N]
+
+[W]
+
+[S]
+
+[E]
+
+[NW]
+
+[NE]
+
+[SW]
+
+[SE]
+
+[NNW]
+
+[NNE]
+
+[SSW]
+
+[SSE]
+
+[ENE]
+
+[WSW]
+
+[WNW]
+
+[ESE]
+
+[New Moon]
+
+[Last Quarter]
+
+[First Quarter]
+
+[Full Moon]
+
+[Waning Crescent]
+
+[Waning Gibbous]
+
+[Waxing Crescent]
+
+[Waxing Gibbous]
+
+[of the Moon is Illuminated]
+
+[Latitude]
+
+[Longitude]
+
+[Day Length]
+
+[Chance Of Rain 20% Chance Of Precipitation]
+
+[Chance Of Rain 30% Chance Of Precipitation]
+
+[Chance Of Rain 40% Chance Of Precipitation]
+
+[Chance Of Rain 50% Chance Of Precipitation]
+
+[Rain 50% Chance Of Precipitation]
+
+[Rain 60% Chance Of Precipitation]
+
+[Rain 70% Chance Of Precipitation]
+
+[Rain 80% Chance Of Precipitation]
+
+[Rain 90% Chance Of Precipitation]
+
+[Rain 100% Chance Of Precipitation]
+
+[T-Storms 100% Chance Of Precipitation]
+
+[T-Storms 90% Chance Of Precipitation]
+
+[T-Storms 80% Chance Of Precipitation]
+
+[T-Storms 70% Chance Of Precipitation]
+
+[T-Storms 60% Chance Of Precipitation]
+
+[T-Storms 40% Chance Of Precipitation]
+
+[Chance Of T-Storms 60% Chance Of Precipitation]
+
+[Chance Of T-Storms 50% Chance Of Precipitation]
+
+[Chance Of T-Storms 40% Chance Of Precipitation]
+
+[Chance Of T-Storms 30% Chance Of Precipitation]
+
+[Chance Of T-Storms 20% Chance Of Precipitation]
+
+[Chance Of Snow 20% Chance Of Precipitation]
+
+[Chance Of Snow 30% Chance Of Precipitation]
+
+[Chance Of Snow 40% Chance Of Precipitation]
+
+[Chance Of Snow 50% Chance Of Precipitation]
+
+[Forecast Day 1 Condition]
+
+[Forecast Day 1 Day]
+
+[Forecast Day 1 High]
+
+[Forecast Day 1 Low]
+
+[Forecast Day 1 Night Text]
+
+[Forecast Day 1 Text]
+
+[Forecast Day 1]
+
+[Forecast Day 2 Condition]
+
+[Forecast Day 2 Day]
+
+[Forecast Day 2 High]
+
+[Forecast Day 2 Low]
+
+[Forecast Day 2 Night Text]
+
+[Forecast Day 2 Text]
+
+[Forecast Day 2]
+
+[Forecast Day 3 Condition]
+
+[Forecast Day 3 Day]
+
+[Forecast Day 3 High]
+
+[Forecast Day 3 Low]
+
+[Forecast Day 3 Night Text]
+
+[Forecast Day 3 Text]
+
+[Forecast Day 3]
+
+[Forecast Day 4 Condition]
+
+[Forecast Day 4 Day]
+
+[Forecast Day 4 High]
+
+[Forecast Day 4 Low]
+
+[Forecast Day 4 Night Text]
+
+[Forecast Day 4 Text]
+
+[Forecast Day 4]
+
+[Forecast Day 5 Condition]
+
+[Forecast Day 5 Day]
+
+[Forecast Day 5 High]
+
+[Forecast Day 5 Low]
+
+[Forecast Day 5 Night Text]
+
+[Forecast Day 5 Text]
+
+[Forecast Day 5]
+
+[Wind Direction]
+
+[Wind Speed]
+
+[Wind Direction DEG]
+
+[Max]
+
+[Min]
+
+[Moon]
+
+[UV Index]
+
+[Scattered Clouds]
+
+[North]
+
+[East]
+
+[South]
+
+[West]
+
+[Northwest]
+
+[Northeast]
+
+[Southwest]
+
+[Southeast]
+
+[Monday]
+
+[Tuesday]
+
+[Wednesday]
+
+[Thursday]
+
+[Friday]
+
+[Saturday]
+
+[Sunday]
+
+[Rain]
+
+[Light Drizzle]
+
+[Light Rain Mist]
+
+[Light Snow]
+
+[Light Showers Snow Rain]
+
+[Light Snow Showers]
+
+[Light Freezing Drizzle Mist]
+
+[Freezing Drizzle]
+
+[Freezing Rain]
+
+[Light Snow Mist]
+
+[Snow Rain]
+
+[Light Ice Pellets]
+
+[Drizzle Mist]
+
+[Light Fog]
+
+[Showers Snow]
+
+[Heavy Showers Snow]
+
+[Light Snow Grains Mist]
+
+[Light Showers Snow Mist]
+
+[Heavy Showers Snow Heavy Blowing Snow]
+
+[Light Showers Snow Low Drifting Snow]
+
+[Snow Blowing Snow]
+
+[Snow Freezing Rain]
+
+[Showers Snow Rain]
+
+[Heavy Snow]
+
+[Light Snow Shallow Fog]
+
+[Showers Snow Blowing Snow]
+
+[Blowing Snow]
+
+[Ice Crystals Mist]
+
+[Light Freezing Drizzle Snow]
+
+[Light Snow Low Drifting Snow]
+
+[Low Drifting Snow]
+
+[Light Freezing Rain Mist]
+
+[Light Freezing Rain]
+
+[Light Showers Snow Light Blowing Snow]
+
+[Showers Snow Heavy Blowing Snow]
+
+[Light Snow Blowing Snow]
+
+[Light Snow Light Blowing Snow]
+
+[Light Snow Low Drifting Snow Mist]
+
+[Freezing Fog]
+
+[Light Showers Snow Blowing Snow]
+
+[Freezing Drizzle Mist]
+
+[Light Freezing Drizzle]
+
+[Freezing Rain Mist]
+
+[Showers Snow Mist]
+
+[Heavy Showers Snow Blowing Snow]
+
+[Light Freezing Rain Light Showers Snow]
+
+[Light Freezing Drizzle Light Snow]
+
+[Heavy Fog]
+
+[Rain Mist]
+
+[Light Showers Showers Rain]
+
+[Showers Showers Rain]
+
+[Heavy Thunderstorm Rain]
+
+[Smoke]
+
+[Haze]
+
+[Light Snow Grains]
+
+[Light Rain Snow]
+
+[Snow Mist]
+
+[Light Rain Snow Mist]
+
+[Light Showers Snow Rain Mist]
+
+[Heavy Blowing Snow]
+
+[Snow 50% Chance Of Precipitation]
+
+[Drizzle Fog]
+
+[Local Time]
+
+[Moonrise]
+
+[Moonset]
+
+[Pressure Change]
+
+[Heavy Showers Snow Mist]
+
+[Light Freezing Rain Light Showers Snow Mist]
+
+[Light Drizzle Fog]
+
+[Snow Rain Mist]
+
+[Snow Heavy Blowing Snow]
+
+[Low Drifting Snow Mist]
+
+[Light Freezing Drizzle Light Snow Grains Mist]
+
+[Light Ice Pellets Mist]
+
+[Ice Pellets]
+
+[Rain Fog]
+
+[Showers Snow Low Drifting Snow]
+
+[Light Freezing Rain Light Snow]
+
+[Day Length Diff]
+
+[Elevation]
+
+[Feel]
+
+[Alert]
+
+[longer]
+
+[Heat Index]
+
+[Visible Light Length]
+
+[Wind Gust]
+
+[Showers Rain Snow]
+
+[Clear]
+
+[shorter]
+
+[T-Storms 50% Chance Of Precipitation]
+
+[Light Showers Rain Snow]
+
+[Light Showers Rain Snow Mist]
+
+[Snow Grains]
+
+[Heavy Snow Showers]
+
+[Chance Of A Thunderstorm 20% Chance Of Precipitation]
+
+[Chance Of Rain 60% Chance Of Precipitation]
+
+[Chance Of Rain 70% Chance Of Precipitation]
+
+[Rain 20% Chance Of Precipitation]
+
+[Chance Of Snow 70% Chance Of Precipitation]
+
+[Chance Of Snow 80% Chance Of Precipitation]
+
+[Light Rain Fog]
+
+[Snow 90% Chance Of Precipitation]
+
+[Snow 20% Chance Of Precipitation]
+
+[Chance Rain 80% Chance Of Precipitation]
+
+[Heavy Rain Showers]
+
+[Rain 40% Chance Of Precipitation]
+
+[Chance Rain 40% Chance Of Precipitation]
+
+[Chance Of Snow 60% Chance Of Precipitation]
+
+[Chance Rain 50% Chance Of Precipitation]
+
+[Snow 40% Chance Of Precipitation]
+
+[Snow 80% Chance Of Precipitation]
+
+[Snow 70% Chance Of Precipitation]
+
+[Light Blowing Snow]
+
+[Snow Freezing Rain Mist]
+
+[Patches Fog Mist]
+
+[Snow 60% Chance Of Precipitation]
+
+[Light Low Drifting Snow]
+
+[Snow 30% Chance Of Precipitation]
+
+[Light Snow Rain]
+
+[Chance Rain 90% Chance Of Precipitation]
+
+[Chance Of T-Storms 70% Chance Of Precipitation]
+
+[T-Storms 30% Chance Of Precipitation]
+
+[Chance Of T-Storms 90% Chance Of Precipitation]
+
+[Chance Of T-Storms 80% Chance Of Precipitation]
+
+[Snow Showers 70% Chance Of Precipitation]
+
+[Snow Showers 60% Chance Of Precipitation]
+
+[Snow Showers 50% Chance Of Precipitation]
+
+[Light Snow 30% Chance Of Precipitation]
+
+[Ice Pellets 70% Chance Of Precipitation]
+
+
+;============================================================
+;  File: yweather.ini
+;  Module: weather
+;============================================================
+[Feel]
+
+[Forecast Day 1]
+
+[Forecast Day 1 Condition]
+
+[Forecast Day 1 Date]
+
+[Forecast Day 1 Day]
+
+[Forecast Day 1 High]
+
+[Forecast Day 1 Low]
+
+[Heat Index]
+
+[Wind Direction]
+
+[Wind Speed]
+
+[Wind Direction Degrees]
+
+[Mon]
+
+[Tue]
+
+[Wed]
+
+[Thu]
+
+[Fri]
+
+[Sat]
+
+[Sun]
+
+[Sunny]
+
+[Partly Sunny]
+
+[Mostly Sunny]
+
+[Partly Cloudy]
+
+[Mostly Cloudy]
+
+[Mostly Clear]
+
+[N]
+
+[W]
+
+[S]
+
+[E]
+
+[NW]
+
+[NE]
+
+[SW]
+
+[SE]
+
+[NNW]
+
+[NNE]
+
+[SSW]
+
+[SSE]
+
+[ENE]
+
+[WSW]
+
+[WNW]
+
+[ESE]
+
+[Scattered Clouds]
+
+[North]
+
+[East]
+
+[South]
+
+[West]
+
+[Northwest]
+
+[Northeast]
+
+[Southwest]
+
+[Southeast]
+
+
+#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.0
+;  Authors: Vincent Joyce
+;============================================================
+[seconds]
+sekúnd
+[Background color:]
+Farba pozadia:
+[Bold]
+Tučné
+[Italic]
+Kurzíva
+[Underline]
+Podtrhnuté
+[URL:]
+URL:
+[OK]
+OK
+[Cancel]
+Storno
+[Apply]
+Aplikovať
+[Find]
+Hľadať
+[&Find next]
+Hľadať ďalšie
+[Find what:]
+Čo hľadať:
+[Colors]
+Farby
+[Background]
+Pozadie
+[Text]
+Text
+[Log]
+Log
+[&Copy]
+Kopírovať
+[C&ut]
+V&ybrať
+[&Delete]
+Vymazať
+[&Paste]
+Vložiť
+[Co&py all]
+Kopírovať všetko
+[Network]
+Sieť
+[Online]
+Pripojený
+
+#muuid {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
+;============================================================
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp protocol
+;  Version: 0.0.2.1
+;  Authors: Uli Hecht
+;============================================================
+[Nickname]
+Prezívka
+[Cancel]
+Storno
+[OK]
+OK
+[Network]
+Sieť
+
+#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+;============================================================
+;  File: WhenWasIt.dll
+;  Plugin: Birthday reminder
+;  Version: 0.3.3.4
+;  Authors: Cristian Libotean
+;============================================================
+[Sounds]
+Zvuky
+[Show]
+Zobraziť
+[seconds]
+sekúnd
+[Close]
+Zavrieť
+[OK]
+OK
+[Title:]
+Názov:
+[Description:]
+Popis:
+[Date:]
+Dátum:
+[Dismiss]
+Zrušiť
+[Unknown]
+neznáme
+[Contact]
+Kontakt
+[Contacts]
+Kontakty
+[Error]
+Chyba
+[All Files]
+Všetky súbory
+[Warning]
+Varovanie
+
+#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+;============================================================
+;  File: WhoUsesMyFiles.dll
+;  Plugin: Who Use My Files
+;  Version: 0.1.0.2
+;  Authors: Nikolay Redko
+;============================================================
+[OK]
+OK
+[Popup Delay (seconds)]
+Popup dlžka (sekundy)
+[Background color]
+Farba pozadia
+[Text color]
+Fraba textu
+[Previe&w]
+Ukázať
+[File]
+Súbor
+[Error]
+Chyba
+
+#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+;============================================================
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
+;  Authors: Ryan Winter, BlubbFish
+;============================================================
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Away]
+Preč
+[DND]
+Nerušiť
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[Incoming message]
+Prichádzajúca správa
+[Incoming URL]
+Prichádzajúca URL
+[Incoming File]
+Prichádzajúci súbor
+[Authorization request]
+Požiadavka na autorizáciu
+[The following events are being ignored:]
+Nasledujúce udalosti budú ignorované:
+[None]
+Žiadne
+[** All contacts **]
+** Všetky kontakty **
+[** Unknown contacts **]
+** Neznáme kontakty **
+[Message Session]
+Rozhovor
+
+#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
+;============================================================
+;  File: Xfire.dll
+;  Plugin: Xfire Protocol
+;  Version: 0.1.9.0
+;  Authors: dufte
+;============================================================
+[Password:]
+Heslo:
+[Nick:]
+Prezívka:
+[More options]
+Ďalšie nastavenia
+[Games]
+Hry
+[Apply]
+Aplikovať
+[Username:]
+Užív. meno:
+[Port:]
+Port:
+[Set Nickname]
+Nastav prezívku
+[OK]
+OK
+[Cancel]
+Storno
+[All Files]
+Všetky súbory
+[Yep, I'm here.]
+Je tu.
+[I've been away since %time%.]
+Som preč od %time%.
+[Not right now.]
+Prepáč, teraz nemám čas.
+[That'll be the phone.]
+Telefonuje
+[Mmm... food.]
+Mmm... obed.
+[Set &Nickname]
+Nastav prezívku 
+[No]
+Nie
+[Daily]
+Denne
+[Network]
+Sieť
+[<not specified>]
+<nešpecifikované>
+[Please wait...]
+Prosím čakaj ...
+
+#muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
+;============================================================
+;  File: XSoundNotify.dll
+;  Plugin: XSoundNotify
+;  Version: 1.0.1.2
+;  Authors: Roman Torsten
+;============================================================
+[Nick:]
+Prezívka:
+[Reset]
+Reset
+[OK]
+OK
+[Cancel]
+Storno
+[Sounds]
+Zvuky
+
+#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo Protocol
+;  Version: 0.11.0.1
+;  Authors: Gennady Feldman
+;============================================================
+[Yahoo]
+YAHOO
+[ID:]
+Id:
+[Password:]
+Heslo:
+[Nick:]
+Prezívka:
+[Expert]
+Expertné nastavenia
+[Login server:]
+Prihlasovací server
+[Port:]
+Port:
+[Reset]
+Reset
+[OK]
+OK
+[Cancel]
+Storno
+[User &details]
+Informácie o užívatelovi
+[Network]
+Sieť
+[Connection]
+pripája
+
+#muuid {2f3fe8b9-7327-4008-a60d-93f0f4f7f0f1}
+;============================================================
+;  File: YahooGroups.dll
+;  Plugin: Yahoo groups
+;  Version: 0.0.1.1
+;  Authors: Cristian Libotean
+;============================================================
+[Notify]
+Notifikácia
+[Warning]
+Varovanie
+
+#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
+;============================================================
+[OK]
+OK
+[Version:]
+Verzia:
+[Description:]
+Popis:
+[Copyright:]
+Copyright:
+[Port:]
+Port:
+[SSL]
+SSL
+[Password:]
+Heslo:
+[Default]
+Prednastavené
+[Status:]
+Stav:
+[Cancel]
+Storno
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Away]
+Preč
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+[On the phone]
+Telefonuje
+[Out to lunch]
+Na obede
+[Background color]
+Farba pozadia
+[Text color]
+Fraba textu
+[Nick]
+Prezívka
+[Unknown error]
+Neznáma chyba
+[From]
+od
+[Size]
+Veľkosť
+[Date]
+Dátum
+[Network]
+Sieť
+[All Files]
+Všetky súbory
+
+#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+;============================================================
+;  File: YAPP.dll
+;  Plugin: YAPP
+;  Version: 0.5.0.11
+;  Authors: Scott Ellis
+;============================================================
+[Close]
+Zavrieť
+[Background color:]
+Farba pozadia:
+[Status]
+Stav
+[Error]
+Chyba
+[Time]
+Čas
+[Background]
+Pozadie
+
+#muuid {01202e6a-c1b3-42e5-838a-3e497b31f38e}
+;============================================================
+;  File: YARelay.dll
+;  Plugin: YARelay
+;  Version: 0.1.0.1
+;  Authors: Anar Ibragimoff
+;============================================================
+[Contact]
+Kontakt
+[Offline]
+Odpojený
+[Online]
+Pripojený
+[Away]
+Preč
+[NA]
+Nedostupný
+[Occupied]
+Zaneprázdnený
+[DND]
+Nerušiť
+[Free for chat]
+Voľný k rozhovoru
+[Invisible]
+Neviditelný
+
+#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
+;============================================================
+;  File: ZeroNotify.dll
+;  Plugin: Zero notifications
+;  Version: 0.0.0.5
+;  Authors: bidyut, Maat
+;============================================================
+[Hide the "toggle sound" menu item (requires restart of Miranda)]
+Skryť položku v systémovom menu (vyžaduje reštart Mirandy)

@@ -5,21 +5,21 @@
 ;  Version: 0.1.1.6
 ;  Authors: Mataes, George Hazan
 ;============================================================
-;file \plugins\PluginUpdater\res\Resource.rc
 [Cancel]
 ביטול
+[Select &all]
+&בחר הכול
 [Text]
 טקסט
+[Sec]
+שניות
 [Popups]
 פופ אפ
-;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[State]
+ מצב
 [Plugins]
 תוספים
 [Icons]
 סמלים
 [Other]
 אחר
-;file \plugins\PluginUpdater\src\DlgUpdate.cpp
-;file \plugins\PluginUpdater\src\Options.cpp
-;file \plugins\PluginUpdater\src\PluginUpdater.cpp
-;file \plugins\PluginUpdater\src\Utils.cpp

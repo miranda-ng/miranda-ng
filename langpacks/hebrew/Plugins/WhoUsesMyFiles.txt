@@ -5,14 +5,17 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
-;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]
 אישור
+[Background color]
+צבע רקע
+[Text color]
+צבע טקסט
 [Use windows colors]
 השתמש בצבעי חלונות
-;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [File]
 קובץ
-;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Error]
+שגיאה
 [Popups]
 פופ אפ

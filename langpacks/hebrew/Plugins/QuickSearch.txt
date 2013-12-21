@@ -2,13 +2,15 @@
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Module: Quick Search
-;  Version: 1.4.0.18
+;  Version: 1.4.0.20
 ;  Authors: Awkward
 ;============================================================
 [QuickSearch]
 חיפוש מהיר
 [Show Offline contacts]
 הראה מנותקים
+[New column]
+טור חדש
 [Set Item]
 הוסף פריט
 [wParam type:]
@@ -24,6 +26,8 @@ lParam סוג:
 [Save Item]
 שמור פריט
 [Quick Search]
+חיפוש מהיר
+[Quick search]
 חיפוש מהיר
 [Setting:]
 קבוצות:

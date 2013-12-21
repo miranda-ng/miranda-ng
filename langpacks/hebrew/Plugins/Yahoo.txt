@@ -1,11 +1,10 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo
+;  Plugin: Yahoo Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Gennady Feldman
 ;============================================================
-;file \protocols\Yahoo\res\Yahoo.rc
 [Password:]
 סיסמא:
 [Nick:]
@@ -46,8 +45,8 @@
 בטל
 [Add]
 הוסף
-;file \protocols\Yahoo\src\chat.cpp
-;file \protocols\Yahoo\src\icolib.cpp
+[User &details]
+פרופיל &משתמש
 [Mail]
 דואר
 [Profile]
@@ -58,18 +57,12 @@
 הגדר מצבים
 [Calendar]
 לוח שנה
-;file \protocols\Yahoo\src\im.cpp
 [The message send timed out.]
 שליחת ההודעה התארכה יותר מהצפוי.
-;file \protocols\Yahoo\src\links.cpp
-;file \protocols\Yahoo\src\main.cpp
-;file \protocols\Yahoo\src\options.cpp
 [Network]
 רשת
-;file \protocols\Yahoo\src\proto.cpp
 [Yahoo Login Error]
 שגיאה בהתחברו ליאהו
-;file \protocols\Yahoo\src\services.cpp
 [&My Profile]
 &הפרופיל שלי
 [&Yahoo Mail]
@@ -80,8 +73,6 @@
 &לוח שנה
 [&Show Profile]
 &הראה פרופיל
-;file \protocols\Yahoo\src\webcam.cpp
-;file \protocols\Yahoo\src\yahoo.cpp
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
  לא יכול להתחבר עם שירות יאהו. בדוק את הגדרות השרת/פורט ופרוקסי שלך.
 [Server Connection Error: %s]

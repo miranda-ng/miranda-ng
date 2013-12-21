@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
-;file \plugins\TipperYM\res\resource.rc
 [Options]
 אפשרוית
 [Window]
@@ -36,23 +35,30 @@
 אפשר תמיכת SmileyAdd
 [Effects]
 אפקטים
-;file \plugins\TipperYM\src\mir_smileys.cpp
-;file \plugins\TipperYM\src\options.cpp
+[ms]
+ מילי שניה
+[Add separator]
+הוסף מפריד
+[Center]
+מרכז
 [None]
 ללא
 [Customize]
 התאמה אישית
 [Content]
 תוכן
-;file \plugins\TipperYM\src\options.h
 [Status]
 מצב
+[Gender]
+מין
 [Client]
 לקוח
-;file \plugins\TipperYM\src\popwin.cpp
 [Other]
 אחר
-;file \plugins\TipperYM\src\preset_items.cpp
+[Email]
+ אימייל
+[Homepage]
+דף הבית
 [Homepage:]
 דף בית:
 [Idle]
@@ -63,17 +69,13 @@
 שם:
 [Time:]
 זמן:
-;file \plugins\TipperYM\src\skin_parser.cpp
-;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 רקע
 [Dividers]
 חוצצים
 [Tipper]
 טיפפר
-;file \plugins\TipperYM\src\translations.cpp
 [Female]
 נקבה
 [Male]
 זכר
-;file \plugins\TipperYM\src\translations.h

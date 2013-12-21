@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 שקיפות:
 [Window behavior:]
@@ -74,10 +73,14 @@
 מיקום:
 [Size:]
 גודל:
+[Height]
+גובה
 [OK]
 אישור
 [Cancel]
 ביטול
+[Clear all]
+נקה הכל
 [Protocol]
 פרוטוקול
 [Status Bar]
@@ -104,6 +107,8 @@
 אפשר הגדרות חשבון מותאמות אישית
 [Hide account completely]
 החבא חשבון לחלוטין
+[Use connecting icon]
+השתמש באייקון התחברות
 [Show xStatus icon]
 הראה xStatus אייקון
 [Show both icons]
@@ -116,6 +121,8 @@
 הראה אימיילים חדשים אם נתמך\n
 [Right click opens status menu]
 לחיצה ימנית פותחת תפריט המצב\n
+[Right click opens Miranda menu]
+לחיצה ימנית פותחת את תפריט מירנדה
 [Space on Left]
 רווח בשמאל
 [Space on right]
@@ -190,6 +197,8 @@ x100 מילי שניות
 הדבק לקצוות
 [Event notify area]
 איזור הודעות אירועים
+[Disabled]
+בטל
 [Show automaticaly]
 הראה אוטומטית
 [Always Visible]
@@ -248,16 +257,14 @@ x100 מילי שניות
 שניות, כשהמצב שונה
 [Show multiple icons]
 הראה מספר סמלים
-[Only when statuses differ]
-רק כשהמצבים שונים
+[only when statuses differ]
+רק כאשר מצבים משתנים
 [System tray icon]
 סמל מגש המערכת
 [System tray icon mode]
 מצב אייקון סרגל מערכת
 [Use xStatus icon]
 השתמש באייקון xStatus
-[only when statuses differ]
-רק כאשר מצבים משתנים
 [Expand metacontacts]
 הרחב תוכן דומה של משתמשים
 [MetaContacts stuff]
@@ -388,6 +395,8 @@ XStatus יש עדיפות
 אפשרוית
 [Locked]
 נעול
+[&Main menu]
+&תפריט ראשי
 [E&xit]
 &יציאה
 [&Status]
@@ -436,10 +445,12 @@ XStatus יש עדיפות
 ש&נה שם קבוצה
 [&Delete Group]
 &מחק קבוצה
-;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 סמיילים של רשימת משתמשים
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[List Background]
+רקע הרשימה
+[StatusBar Background]
+רקע שורת מצב
 [Standard contacts]
 אנשי קשר רגילים
 [Away contacts]
@@ -456,6 +467,10 @@ XStatus יש עדיפות
 פתח קבוצות
 [Dividers]
 חוצצים
+[Second line]
+שורה שניה
+[Third line]
+שורה שלישית
 [Background]
 רקע
 [General]
@@ -464,8 +479,6 @@ XStatus יש עדיפות
 רשימה
 [Window]
 חלון
-[List Background]
-רקע הרשימה
 [Not focused]
 לא נבחר
 [Offline]
@@ -506,10 +519,10 @@ XStatus יש עדיפות
 מאחורי קצה שמאלי
 [Behind right edge]
 מאחורי קצה ימני
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area]
+איזור אירוע
 [No Events]
 ללא אירועים
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [None]
 ללא
 [Low]
@@ -524,7 +537,6 @@ XStatus יש עדיפות
 קצב חיבור בינוני
 [Contact rate High]
 קצב חיבור גבוה
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Text]
 טקסט
 [Extra icons]
@@ -541,33 +553,20 @@ XStatus יש עדיפות
 שורה שניה
 [Third Line]
 שורה שלישית
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (איש קשר לא מוכר)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &מצא/הוסף משתמשים
-[&Main menu]
-&תפריט ראשי
 [&Options...]
 ...אפשרויו&ת
-;file \plugins\Clist_modern\src\modern_clui.cpp
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
+[line]
+שורה
 [Error]
 שגיאה
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<גלובלי>>
 [Center]
 מרכז
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 תפריט ראשי
 [Status menu]
@@ -590,6 +589,13 @@ XStatus יש עדיפות
 בטל קבוצות
 [Enable/Disable sounds]
 אפשר/בטל צלילים
+[Disable sounds]
+בטל צלילים
 [Minimize]
 מזער
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Minutes]
+דקות
+[Show TitleBar]
+הראה סרגל כותרת
+[&New SubGroup]
+&תת קבוצה חדשה

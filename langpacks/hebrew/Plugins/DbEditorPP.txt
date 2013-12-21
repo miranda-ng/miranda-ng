@@ -5,7 +5,6 @@
 ;  Version: 3.2.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
-;file \plugins\DbEditorPP\res\resource.rc
 [&Cancel]
 בטל
 [Restore last opened position]
@@ -30,18 +29,14 @@
 עורך בסיס נתונים
 [E&xit]
 &יציאה
+[&Delete all]
+&מחק הכל
 [&Delete]
 &מחק
 [&Rename]
 שנה ש&ם
-;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
-;file \plugins\DbEditorPP\src\copymodule.cpp
-;file \plugins\DbEditorPP\src\deletemodule.cpp
-;file \plugins\DbEditorPP\src\exportimport.cpp
 [All Files]
 כל הקבצים
-;file \plugins\DbEditorPP\src\findwindow.cpp
-;file \plugins\DbEditorPP\src\icons.cpp
 [Closed Known Module]
 סגור מודול לא ידוע
 [Open Known Module]
@@ -50,20 +45,13 @@
 קבוצת משתמשים
 [Known Contact]
 משתמש ידוע
-;file \plugins\DbEditorPP\src\main.cpp
 [Database Editor++]
 עורך בסיס נתונים++
-;file \plugins\DbEditorPP\src\main_window.cpp
-;file \plugins\DbEditorPP\src\modules.cpp
-;file \plugins\DbEditorPP\src\moduletree.cpp
 [Contacts]
 אנשי קשר
-;file \plugins\DbEditorPP\src\options.cpp
-;file \plugins\DbEditorPP\src\settinglist.cpp
 [Name]
 שם
 [Size]
 גודל
-;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Contact]
 קשר

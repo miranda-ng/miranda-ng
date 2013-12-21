@@ -5,20 +5,15 @@
 ;  Version: 0.0.1.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
-;file \plugins\PackUpdater\Res\Resource.rc
 [Cancel]
 ביטול
 [Text]
 טקסט
+[Sec]
+שניות
 [Popups]
 פופ אפ
-;file \plugins\PackUpdater\Src\Events.cpp
-;file \plugins\PackUpdater\Src\Notifications.cpp
 [Current Version]
 גירסה נוכחית
 [New Version]
 גירסה חדשה
-;file \plugins\PackUpdater\Src\Notifications.h
-;file \plugins\PackUpdater\Src\Options.cpp
-;file \plugins\PackUpdater\Src\PackUpdater.cpp
-;file \plugins\PackUpdater\Src\Utils.cpp

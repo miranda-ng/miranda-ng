@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
-;file \plugins\NewXstatusNotify\res\resource.rc
 [Online]
 מחובר
 [Offline]
@@ -40,6 +39,10 @@
 צבעים מותאמים אישית
 [Use Windows colors]
 השתמש בצבעי חלונות
+[Popup text]
+טקסט פופאפ
+[Sec]
+שניות
 [Reset]
 אפס
 [OK]
@@ -50,23 +53,23 @@
 כללי
 [Accounts]
 חשבונות
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[All files]
+כל הקבצים
 [Status]
 מצב
+[From offline]
+ממצב לא מחובר
 [** All contacts **]
 ** כל הרשימה **
-;file \plugins\NewXstatusNotify\src\indsnd.h
-;file \plugins\NewXstatusNotify\src\main.cpp
 [Contact]
 קשר
-;file \plugins\NewXstatusNotify\src\options.cpp
+[connecting]
+מתחבר
 [All Files]
 כל הקבצים
 [Log]
 יומן
 [Protocol]
 פרוטוקול
-;file \plugins\NewXstatusNotify\src\popup.h
-;file \plugins\NewXstatusNotify\src\utils.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.h
+[Message log]
+יומן הודעה

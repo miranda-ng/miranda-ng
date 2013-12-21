@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.45
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 כללי
 [Close]
@@ -20,8 +19,12 @@
 החל
 [OK]
 אישור
+[Command line:]
+שורת פקודה
 [Other]
 אחר
+[ms]
+ מילי שניה
 [Background color]
 צבע רקע
 [Text color]
@@ -44,7 +47,6 @@
 מחק
 [seconds]
 שניות
-;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [None]
 ללא
 [size: %d x %d]
@@ -55,11 +57,10 @@
 צור פריט בתפריט מצבים
 [default]
 ברירת מחדל
+[unknown]
+לא ידוע
 [StartupStatus]
 מצב התחלתי
-;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
-;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 אני לא נמצא מ-%time%.
 [Give it up, I'm not in!]
@@ -80,7 +81,6 @@
 בטלפון
 [Mmm... food.]
 הממ... אוכל.
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 פרוטוקול
 [Closing in %d]

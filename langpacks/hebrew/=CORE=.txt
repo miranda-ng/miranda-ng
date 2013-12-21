@@ -1,4 +1,4 @@
-﻿;file \src\resource.rc
+﻿
 [OK]
 אישור
 [Cancel]
@@ -219,6 +219,8 @@ OutputDebugString()
 בטל
 [Reset]
 אפס
+[Text effect]
+אפקטי טקסט
 [Text color]
 צבע טקסט
 [Font]
@@ -305,7 +307,6 @@ OutputDebugString()
 פ&תח בחלון קיים
 [&Copy link]
 ה&עתק קישור
-;file \src\core\stdauth\resource.rc
 [&Authorize]
 &אשר
 [&Deny]
@@ -316,7 +317,6 @@ OutputDebugString()
 אתה צורפת
 [&Close]
 סגור
-;file \src\core\stdaway\resource.rc
 [%s message for %s]
 הודעת %s של %s
 [Retrieving %s message...]
@@ -337,7 +337,6 @@ OutputDebugString()
 שנה הודעת %s
 [Closing in %d]
 סוגר תוך %d
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 שלח
 [Actions]
@@ -412,7 +411,6 @@ OutputDebugString()
 בהיר
 [Tabs]
 טאבים
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 הסתר משתמשים לא מחוברים
 [Hide empty groups]
@@ -589,6 +587,8 @@ OutputDebugString()
 הראה שיפועים בפאנלים
 [Show resize grip indicator]
 הראה סמן אחיזת הגדלה
+[&Main menu]
+&תפריט ראשי
 [&Status]
 מצב
 [&Offline\tCtrl+0]
@@ -611,7 +611,6 @@ OutputDebugString()
 &מדבר בטלפון\tCtrl+8
 [Out to &lunch\tCtrl+9]
 או&כל ארוחת צהריים\tCtrl+9
-;file \src\core\stdfile\resource.rc
 [Send file(s)]
 (שלח קובץ(ים
 [To:]
@@ -634,10 +633,6 @@ OutputDebugString()
 קבצים:
 [Save to:]
 שמור אל:
-[Contact menu]
-תפריט משתמש
-[Open folder]
-פתח תיקיה
 [File already exists]
 הקובץ קיים
 [Resume]
@@ -664,6 +659,8 @@ OutputDebugString()
 שונה לאחרונה:
 [Open file]
 פתח קובץ
+[Open folder]
+פתח תיקיה
 [File properties]
 אפשרויות קובץ
 [File being received]
@@ -706,10 +703,8 @@ OutputDebugString()
 שנה שם הוסף "(1)", וכד
 [You will always be asked about files from people not on your contact list]
 אתה תמיד תישאל על קבצים שאנשים שלא נמצאים ברשימה שולחים לך
-;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 אודות מירנדה
-;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 :הפוך ללא נמצא אם הבאים אינם נמצאים בשימוש
 [Windows]
@@ -730,7 +725,6 @@ OutputDebugString()
 אל תחליף את המצב למחובר כשחוזר מלא נמצא אוטומטי
 [Idle options]
 אפשרויות לא נמצא אוטומטי
-;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 הקפץ חלון פופאפ אוטומטית כאשר:
 [Close the message window on send]
@@ -807,7 +801,6 @@ OutputDebugString()
 הדבק && שלח
 [Delete]
 מחק
-;file \src\core\stduihist\resource.rc
 [Find]
 חפש
 [&Find next]
@@ -818,7 +811,6 @@ OutputDebugString()
 היסטורית הודעות
 [&Find...]
 ...&חפש
-;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 הוסף מספר טלפון
 [Enter country, area code and phone number:]
@@ -843,18 +835,14 @@ OutputDebugString()
 :הערות שלי
 [Position:]
 מיקום:
-;file \src\core\stdauth\auth.cpp
 [Alerts]
 אזהרות
-;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 הצג פרופיל משתמש
 [Add contact permanently to list]
 הוסף איש קשר בקביעות לרשימה
-;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s message]
 קר&א הודעת %s
-;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 אני לא נמצא מ-%time%.
 [Give it up, I'm not in!]
@@ -877,12 +865,8 @@ OutputDebugString()
 הממ... אוכל.
 [Status]
 מצב
-;file \src\core\stdchat\src\clist.cpp
-;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
 [%s is now known as %s]
 %s ידוע כ %s
-;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
 כינויים של אחרים
 [Your nickname]
@@ -1139,14 +1123,10 @@ OutputDebugString()
 משתמש שלח הערה
 [The topic has been changed]
 נושא השתנה
-;file \src\core\stdchat\src\services.cpp
 [&Join]
 הצטרף
-;file \src\core\stdchat\src\tools.cpp
 [%s kicked %s from %s]
 %s מ %s נבעט %s
-;file \src\core\stdchat\src\window.cpp
-;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 אנשי קשר רגילים
 [Online contacts to whom you have a different visibility]
@@ -1161,7 +1141,6 @@ OutputDebugString()
 חוצצים
 [Offline contacts to whom you have a different visibility]
 אנשי קשר לא מחוברים שלהם יש לך הגדרות ראות אחרות.
-;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 לא נבחר
 [Offline]
@@ -1186,18 +1165,14 @@ OutputDebugString()
 מדבר בטלפון
 [List background]
 רקע הרשימה
-;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 כולל
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 המשתמש לא הגדיר כתובת אימייל
 [Send e-mail]
 שלח אימייל
 [&E-mail]
 &אימייל
-;file \src\core\stdfile\file.cpp
 [File from %s]
 %s קובץ מ
 [bytes]
@@ -1212,27 +1187,22 @@ OutputDebugString()
 שגיאה
 [Denied]
 נדחה
-;file \src\core\stdfile\fileexistsdlg.cpp
 [All files]
 כל הקבצים
-;file \src\core\stdfile\fileopts.cpp
 [Executable files]
 קבצי תוכניות
 [Events]
 אירועים
-;file \src\core\stdfile\filerecvdlg.cpp
 [View user's history]
 הצג היסטוריה עם משתמש
 [User menu]
 תפריט משתמש
 [Canceled]
 בוטל
-;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
 %d קבצים
 [%d directories]
 %d ספריות
-;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 ?הקובץ לא נסרק לוירוסים. האם אתה בטוח שברצונך לפתוח אותו
 [File received]
@@ -1241,6 +1211,8 @@ OutputDebugString()
 ...הבקשה נשלחה, מחכה לקבלה
 [Waiting for connection...]
 ...מחכה לקשר
+[Contact menu]
+תפריט משתמש
 [sec]
 שניות
 [remaining]
@@ -1265,31 +1237,22 @@ OutputDebugString()
 ...סורק לוירוסים
 [Transfer and virus scan complete]
 ההעברה וסריקה לוירוסים הושלמה
-;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 יוצא
-;file \src\core\stdhelp\about.cpp
-;file \src\core\stdhelp\help.cpp
 [&About...]
 ...או&דות
 [&Report bug]
 דווח ע&ל באג
-;file \src\core\stdidle\idle.cpp
 [Idle]
 לא נמצא אוטומטי
-;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 שליחת ההודעה התארכה יותר מהצפוי.
-;file \src\core\stdmsg\src\globals.cpp
-;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 ההודעה האחרונה התקבלה ב %s בשעה %s.
 [signed off (was %s)]
 התנתק (היה %s)
 [%s is typing a message...]
 %s כותב/ת הודעה...
-;file \src\core\stdmsg\src\msglog.cpp
-;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 הודעות יוצאות
 [Incoming messages]
@@ -1318,7 +1281,6 @@ OutputDebugString()
 יומן הודעות
 [Typing notify]
 התראת כתיבה
-;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 הודעה מ%s
 [%s is typing a message]
@@ -1335,8 +1297,6 @@ OutputDebugString()
 (נכנסות (חלון חדש
 [Message send error]
 שגיאה בשליחת ההודעה
-;file \src\core\stdmsg\src\msgtimedout.cpp
-;file \src\core\stduihist\history.cpp
 [Outgoing URL]
 קישור יוצא
 [Incoming URL]
@@ -1353,17 +1313,14 @@ OutputDebugString()
 מחק היסטוריה
 [View &history]
 הצד היסטוריה
-;file \src\core\stdurl\url.cpp
 [URL from %s]
 %s קישור מ
 [Web page address (&URL)]
 קישור&
 [URL]
 קישור
-;file \src\core\stdurl\urldialogs.cpp
 [Send timed out]
 הזמן הנקבע לשליחת ההודעה עבר
-;file \src\core\stduserinfo\contactinfo.cpp
 [Edit phone number]
 ערוך מספר טלפון
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -1378,7 +1335,6 @@ OutputDebugString()
 פקס
 [Mobile]
 נייד
-;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 זכר
 [Female]
@@ -1395,28 +1351,22 @@ OutputDebugString()
 עבודה
 [Notes]
 הערות
-;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 בעלים
 [View/change my &details...]
 ...הצג/שנה את הפרופיל ש&לי
-;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s מחובר
-;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 הוסף איש קשר
 [Please authorize my request and add me to your contact list.]
 אנא אשר את בקשתי להוסיף אותך לרשימה שלי.
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
-;file \src\modules\clist\clistsettings.cpp
+[Status menu]
+תפריט מצבים
+[Main menu]
+תפריט ראשי
 [(Unknown contact)]
 (איש קשר לא מוכר)
-;file \src\modules\clist\clisttray.cpp
-[&Main menu]
-&תפריט ראשי
-;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 איש הקשר הזה נמצא במערכת מסרים מיידיים שמאחסנת את רשימת אנשי הקשר בשרת מרכזי. איש הקשר יוסר מהשרת ומהרשימה שלך כשתתחבר מחדש לרשת.
 [De&lete]
@@ -1425,13 +1375,16 @@ OutputDebugString()
 שנה ש&ם
 [&Add permanently to list]
 &הוסף בקביעות לרשימה
-;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 (השם שאני הגדרתי (לא ניתן להזזה
 [Nick]
 כינוי
+[FirstName]
+שם פרטי
 [E-mail]
 אימייל
+[LastName]
+שם משפחה
 [Username]
 שם משתמש
 [FirstName LastName]
@@ -1440,11 +1393,8 @@ OutputDebugString()
 (איש קשר לא מוכר)' (לא ניתן להזזה)'
 ['(Unknown contact)']
 '(תוכן לא ידוע)'
-;file \src\modules\clist\genmenu.cpp
-;file \src\modules\clist\genmenuopt.cpp
 [Customize]
 התאמה אישית
-;file \src\modules\clist\groups.cpp
 [New group]
 קבוצה חדשה
 [You already have a group with that name. Please enter a unique name for the group.]
@@ -1453,7 +1403,6 @@ OutputDebugString()
 שנה שם קבוצה
 [This group]
 הקבוצה הזו
-;file \src\modules\clist\keyboard.cpp
 [Show/Hide contact list]
 הראה החבא רשימת תוכן
 [Read message]
@@ -1462,11 +1411,8 @@ OutputDebugString()
 פתח דף אפשרויות
 [Open 'Find user' dialog]
 פתח תיבת חיפוש משתמש
-;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 &העבר לקבוצה
-;file \src\modules\database\database.cpp
-;file \src\modules\database\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 מערכות אבטחה שמזהירות אותך מפני שינויים שיעשו.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -1479,59 +1425,42 @@ OutputDebugString()
 שינוי זה ידוע כמסוכן באופן חלקי.
 [This change is not known to be safe.]
 שינוי זה לא ידוע כבטוח.
-;file \src\modules\database\profilemanager.cpp
 [Size]
 גודל
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
-;file \src\modules\extraicons\extraicons.cpp
 [Chat activity]
 פעילות צ'אט
-;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 אייקונים נוספים
-;file \src\modules\findadd\findadd.cpp
 [Search]
 חיפוש
 [&Find/Add contacts...]
 &מצא/הוסף משתמשים
-;file \src\modules\findadd\searchresults.cpp
 [%d users found (]
 %d משתמשים נמצאו(
-;file \src\modules\fonts\FontOptions.cpp
 [<none>]
 <ללא>
 [Fonts]
 גופנים
-;file \src\modules\fonts\FontService.cpp
-;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 סטי סמלים
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** כל הרשימה **
 [Contacts]
 אנשי קשר
-;file \src\modules\netlib\netliblog.cpp
-;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <כל ההתקשרויות>
 [Network]
 רשת
-;file \src\modules\netlib\netlibssl.cpp
-;file \src\modules\options\options.cpp
 [Miranda NG options]
 אפשרויות מירנדה
 [&Options...]
 ...אפשרויו&ת
-;file \src\modules\plugins\newplugins.cpp
-;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 פלאג
 [Version]
 גרסה
 [Plugins]
 תוספים
-;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 צור חשבון חדש
 [Edit]
@@ -1540,10 +1469,8 @@ OutputDebugString()
 פרוטוקול
 [Rename]
 שנה שם
-;file \src\modules\skin\hotkey_opts.cpp
 [System]
 מערכת
-;file \src\modules\skin\skinicons.cpp
 [User online]
 משתמש מחובר
 [Group (open)]
@@ -1566,8 +1493,6 @@ OutputDebugString()
 הראה החבא
 [Exit]
 יציאה
-[Main menu]
-תפריט ראשי
 [Move to group]
 העבר לקבוצה
 [On]
@@ -1588,8 +1513,6 @@ OutputDebugString()
 סמלים של %s
 [Main icons]
 סמלים ראשיים
-;file \src\modules\skin\sounds.cpp
-;file \src\modules\utils\bmpfilter.cpp
 [All bitmaps]
 כל מפות הסיביות
 [Windows bitmaps]
@@ -1598,8 +1521,5 @@ OutputDebugString()
 JPEG מפות סיביות של
 [GIF bitmaps]
 GIF מפות סיביות של
-;file \src\modules\utils\timezones.cpp
-;file \src\modules\utils\utils.cpp
 [Unknown]
 לא ידוע
-;file \src\modules\visibility\visibility.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.2.5.3
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
-;file \plugins\SMS\res\resource.rc
 [&Reply]
 &הגב
 [&Close]
@@ -32,12 +31,9 @@
 &אישור
 [Source:]
 מקור:
-;file \plugins\SMS\src\options.cpp
-;file \plugins\SMS\src\receive.cpp
-;file \plugins\SMS\src\recvdlg.cpp
-;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 הצג היסטוריה עם משתמש
 [Invalid Phone Number]
 מספר טלפון שגוי
-;file \plugins\SMS\src\SMS_svc.cpp
+[Invalid phone number]
+מספר טלפון שגוי

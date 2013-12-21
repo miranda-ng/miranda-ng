@@ -5,7 +5,6 @@
 ;  Version: 0.9.2.1
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-;file \plugins\Clist_nicer\res\resource.rc
 [OK]
 אישור
 [Version]
@@ -44,6 +43,8 @@
 ממשק לחיצה אחת
 [Always show status in tooltip]
 הראה מצב תמיד בסרגל הכלים
+[ms]
+ מילי שניה
 [Event area]
 איזור אירוע
 [System tray icon when using multiple protocols]
@@ -86,6 +87,8 @@
 סדר רשימה
 [Do not separate offline contacts]
 אל תפריד אנשי קשר לא מחוברים
+[Height]
+גובה
 [Draw a border around avatars]
 שרטט גבול סביב האוואטרים
 [Rounded avatars]
@@ -234,6 +237,8 @@
 ביטול
 [Apply]
 החל
+[Clear all]
+נקה הכל
 [Protocol]
 פרוטוקול
 [Contact list skin]
@@ -258,6 +263,8 @@
 ראות
 [Other]
 אחר
+[&Main menu]
+&תפריט ראשי
 [E&xit]
 &יציאה
 [&Status]
@@ -312,11 +319,12 @@
 הראה כפתורים נוספים
 [Draw sunken Frame]
 שרטט מסגרת שקועה
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 כללי
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Text color]
+צבע טקסט
+[<None>]
+<ללא>
 [Find and add contacts]
 חפש והוסף משתמשים
 [Accounts]
@@ -325,9 +333,10 @@
 פתח אפשרויות
 [Minimize contact list]
 מזער רשימה
+[Status menu]
+תפריט מצבים
 [Clear view mode]
 נקה מצב תצוגה
-;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 לא נבחר
 [Offline]
@@ -372,15 +381,18 @@
 אנשי קשר
 [Advanced]
 מתקדם
-;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Contact list]
+רשימת אנשי קשר
 [Add permanently]
 הוסף לנצח
-;file \plugins\Clist_nicer\src\clistopts.cpp
+[Revert to default]
+החזר לברירת מחדל
 [Global]
 כולל
-;file \plugins\Clist_nicer\src\clui.cpp
 [Find contacts]
  מצא משתמשים
+[Event Area]
+איזור אירוע
 [Open main menu]
 פתח תפריט ראשי
 [Set status modes]
@@ -401,20 +413,19 @@
 חוצצים
 [Frame titles]
 כותרות מסגרת
-;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+שורת כותרת
 [No border]
 ללא גבולות
-;file \plugins\Clist_nicer\src\Docking.cpp
-;file \plugins\Clist_nicer\src\extBackg.cpp
-;file \plugins\Clist_nicer\src\init.cpp
-;file \plugins\Clist_nicer\src\viewmodes.cpp
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+[Minutes]
+דקות
 [Frames]
 מבנה רשימה
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[Show TitleBar]
+הראה סרגל כותרת
 [&Find/Add Contacts...]
 &מצא/הוסף משתמשים
-[&Main menu]
-&תפריט ראשי
 [&Options...]
 ...אפשרויו&ת
+[&New SubGroup]
+&תת קבוצה חדשה

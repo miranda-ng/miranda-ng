@@ -5,7 +5,6 @@
 ;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
-;file \plugins\Popup\res\resource.rc
 [Effects]
 אפקטים
 [Live Preview]
@@ -18,6 +17,8 @@
 אפשר היסטוריית פופאפ
 [Store last]
 אחסן אחרון
+[events]
+אירועים
 [Use History++ to render log]
 השתמש בהיסטוריה ++ בלוג
 [Draw avatar borders]
@@ -38,6 +39,8 @@
 טישטוש
 [Opaque popups under cursor]
 עמעם פופאפ תחת מצביע עכבר
+[ms]
+ מילי שניה
 [Limit window amount to:]
 הגבל כמות חלונות ל:
 [* - built-in skins]
@@ -74,6 +77,8 @@
 אייקונים שמסודרים לימין
 [Show Actions: (requires apply)]
 הראה פעולות: דורש אישור
+[General options]
+אפשרויות כלליות
 [Enable this notification]
 אפשר הודעה זאת
 [Left click action:]
@@ -84,6 +89,8 @@
 בטל כאשר מצב גלובלי הוא...
 [Disable when relevant protocol's status is...]
 בטל כאשר מצב פרוטוקול רלוונטי הוא...
+[Sec]
+שניות
 [Show always]
 הראה תמיד
 [Ignore fullscreen]
@@ -116,18 +123,14 @@
 :בטל כאשר
 [Always (has priority)]
 תמיד-עדיפות גבוה
-;file \plugins\Popup\src\actions.cpp
+[Quick reply]
+תגובה מהירה
 [User details]
 פרטי משתמש
 [Contact menu]
 תפריט משתמש
 [Pin popup]
 נעץ פואפ
-;file \plugins\Popup\src\config.cpp
-;file \plugins\Popup\src\effects.cpp
-;file \plugins\Popup\src\font.cpp
-;file \plugins\Popup\src\history.cpp
-;file \plugins\Popup\src\icons.cpp
 [With "favorite" overlay]
 עם "מועדף" כיסוי
 [With "fullscreen" overlay]
@@ -154,7 +157,8 @@
 נעץ פופאפ
 [Pinned Popup]
 פופאפ מקובע
-;file \plugins\Popup\src\main.cpp
+[Contact Menu]
+תפריט משתמש
 [Actions]
 פעולות
 [Contacts]
@@ -163,9 +167,26 @@
 מתקדם
 [Popup Plus]
 פופאפ פלוס
-;file \plugins\Popup\src\opt_adv.cpp
-;file \plugins\Popup\src\opt_class.cpp
-;file \plugins\Popup\src\opt_gen.cpp
+[Offline]
+לא מחובר
+[Online]
+מחובר
+[Invisible]
+בלתי נראה
+[Away]
+לא נמצא
+[NA]
+לא זמין
+[Occupied]
+עסוק
+[DND]
+לא להפריע
+[Free for chat]
+פנוי לשיחה
+[Out to lunch]
+אוכל ארוחת צהריים
+[On the phone]
+מדבר בטלפון
 [upper left corner]
 פינה שמאלית עליונה
 [lower left corner]
@@ -180,7 +201,6 @@
 מצב גלובלי
 [Protocol Status]
 מצב פרוטוקול
-;file \plugins\Popup\src\opt_skins.cpp
 [Just take a look at this skin... ;)]
 פשוט תעיף מבט בסקין הזה... ;)
 [Enable Aero Glass (Vista+)]
@@ -189,13 +209,8 @@
 השתמש בצבעי חלונות
 [Use advanced text render]
 השתמש ברינדור טקסט מתקדם
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-;file \plugins\Popup\src\services.cpp
 [Error]
 שגיאה
-;file \plugins\Popup\src\skin.cpp
-;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]
  מצב פופאפ: אוטו'
 [Popup Mode: Ignore fullscreen]

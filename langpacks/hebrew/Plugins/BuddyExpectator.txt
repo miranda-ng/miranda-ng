@@ -5,11 +5,12 @@
 ;  Version: 0.1.2.3
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
-;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [Background]
 רקע
 [Text]
 טקסט
+[Use Windows colors]
+השתמש בצבעי חלונות
 [Default]
 ברירת מחדל
 [Custom]
@@ -18,10 +19,10 @@
 שניות
 [Notify always]
 הודע תמיד
-;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
+[Disabled]
+בטל
 [Hide contact]
 הסתר איש קשר
-;file \plugins\BuddyExpectator\src\options.cpp
 [Contacts]
 אנשי קשר
 [Popups]

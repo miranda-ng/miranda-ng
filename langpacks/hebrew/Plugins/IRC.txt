@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
-;file \protocols\IRCG\res\IRC.rc
 [&Add]
 &הוסף
 [&Edit]
@@ -68,28 +67,24 @@
 התחבר
 [Secret]
 חשאי
+[none]
+ללא
 [&Deny]
 &דחה
 [Messages]
 הודעות
 [Password:]
 סיסמא:
-;file \protocols\IRCG\src\clist.cpp
-;file \protocols\IRCG\src\commandmonitor.cpp
 [Change nickname]
 שנה כינוי
 [Unknown]
 לא ידוע
 [Ignore]
 התעלם
-;file \protocols\IRCG\src\input.cpp
 [Input command]
 הכנסת פקודה
-;file \protocols\IRCG\src\irclib.cpp
-;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 מידע
-;file \protocols\IRCG\src\options.cpp
 [Add]
 הוסף
 [Apply]
@@ -106,14 +101,14 @@
 התחברות מהירה
 [Show channel]
 הראה ערוץ
+[WhoIs]
+מי
 [Advanced]
 מתקדם
-;file \protocols\IRCG\src\output.cpp
 [%s invites you to %s]
 %s מזמין אותך ל %s
 [%s is away]
 %s לא נמצא
-;file \protocols\IRCG\src\services.cpp
 [Join channel]
 הצטרף לערוץ
 [Please select IRC network and enter the password if needed]
@@ -122,10 +117,7 @@
 בבקשה הכנס שם משתמש יחודי\t\t 
 [Kick]
 בעט
-;file \protocols\IRCG\src\tools.cpp
 [Offline]
 לא מחובר
-;file \protocols\IRCG\src\userinfo.cpp
-;file \protocols\IRCG\src\windows.cpp
 [Channel]
 ערוץ

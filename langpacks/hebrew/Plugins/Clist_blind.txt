@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
-;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 מחיקת איש קשר
 [Are you sure you want to delete %s?]
@@ -146,6 +145,8 @@
 הראה שיפועים בפאנלים
 [Show resize grip indicator]
 הראה סמן אחיזת הגדלה
+[&Main menu]
+&תפריט ראשי
 [E&xit]
 &יציאה
 [&Status]
@@ -194,7 +195,6 @@
 ש&נה שם קבוצה
 [&Delete Group]
 &מחק קבוצה
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 לא נבחר
 [Offline]
@@ -219,8 +219,5 @@
 מדבר בטלפון
 [List]
 רשימה
-;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 כולל
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp

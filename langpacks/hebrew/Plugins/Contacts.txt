@@ -5,31 +5,38 @@
 ;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
-;file \plugins\ContactsPlus\res\contacts.rc
+[&Add]
+&הוסף
+[User &details]
+פרופיל &משתמש
 [Choose contacts to be send:]
 :בחר אנשי קשר לשלוח
 [&Send]
 שלח
 [Cancel]
 ביטול
-[&Add]
-&הוסף
 [Close]
 סגור
 [An error has occurred. The protocol reported the following error:]
 התרחשה שגיאה. הפרוטוקול דיווח את השגיאה הבאה:
 [Try again]
 נסה שנית
+[Add to List]
+הוסף לרשימה
 [User details]
 פרופיל משתמש
-;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]
 אנשי קשר
 [Incoming Contacts]
 אנשי קשר נכנסים
 [Outgoing Contacts]
 אנשי קשר יוצאים
-;file \plugins\ContactsPlus\src\receive.cpp
+[Nick]
+כינוי
+[First Name]
+שם פרטי
+[Last Name]
+שם משפחה
 [Add Contact Permanently to List]
 הוסף איש קשר בקביעות לרשימה
 [View User's Details]
@@ -38,4 +45,3 @@
 הצג היסטוריה עם משתמש
 [User Menu]
 תפריט משתמש
-;file \plugins\ContactsPlus\src\send.cpp

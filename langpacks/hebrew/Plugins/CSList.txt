@@ -5,17 +5,16 @@
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
-;file \plugins\CSList\res\cslist.rc
 [Cancel]
 ביטול
-;file \plugins\CSList\src\cslist.cpp
 [Status]
 מצב
 [Add]
 הוסף
+[Favorites]
+מועדפים
 [Message]
 הודעה
-;file \plugins\CSList\src\cslist.h
 [Main Menu]
 תפריט ראשי
 [Remove]

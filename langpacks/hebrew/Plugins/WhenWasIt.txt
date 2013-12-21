@@ -5,7 +5,6 @@
 ;  Version: 0.3.3.4
 ;  Authors: Cristian Libotean
 ;============================================================
-;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Popups]
 פופ אפ
 [Sounds]
@@ -24,7 +23,8 @@
 תאריך:
 [Delete]
 מחק
-;file \plugins\WhenWasIt\src\dlg_handlers.cpp
+[Message window]
+חלון הודעה
 [Unknown]
 לא ידוע
 [Protocol]
@@ -33,16 +33,11 @@
 קשר
 [Age]
 גיל
-;file \plugins\WhenWasIt\src\hooked_events.cpp
 [Check for birthdays]
  בדוק ימי הולדת
 [Contacts]
 אנשי קשר
-;file \plugins\WhenWasIt\src\icons.cpp
-;file \plugins\WhenWasIt\src\notifiers.cpp
-;file \plugins\WhenWasIt\src\services.cpp
 [Error]
 שגיאה
 [All Files]
 כל הקבצים
-;file \plugins\WhenWasIt\src\services.h

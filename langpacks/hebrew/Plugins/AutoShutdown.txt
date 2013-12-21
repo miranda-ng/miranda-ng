@@ -5,26 +5,23 @@
 ;  Version: 1.4.0.2
 ;  Authors: H. Herkenrath
 ;============================================================
-;file \plugins\AutoShutdown\res\resource.rc
 [seconds]
 שניות
 [OK]
 אישור
 [Cancel]
 ביטול
-;file \plugins\AutoShutdown\src\frame.cpp
 [AutoShutdown]
 סגור אוטומטית
 [Background]
 רקע
-;file \plugins\AutoShutdown\src\main.cpp
-;file \plugins\AutoShutdown\src\options.cpp
 [Events]
 אירועים
-;file \plugins\AutoShutdown\src\settingsdlg.cpp
-;file \plugins\AutoShutdown\src\shutdownsvc.cpp
+[Minute(s)]
+דקות
+[Day(s)]
+יום(ים)
 [Unknown]
 לא ידוע
 [Alerts]
 אזהרות
-;file \plugins\AutoShutdown\src\utils.cpp

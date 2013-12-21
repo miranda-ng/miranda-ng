@@ -5,7 +5,6 @@
 ;  Version: 0.1.2.6
 ;  Authors: y_b, tweety, majvan
 ;============================================================
-;file \plugins\YAMN\res\YAMN.rc
 [OK]
 אישור
 [Installed plugins]
@@ -14,18 +13,24 @@
 תיאור:
 [Copyright:]
 זכויות:
-[Check this account]
-בדוק חשבון זה
-[Message]
-הודעה
-[Password:]
-סיסמא:
+[Name:]
+שם:
 [Port:]
 יציאה:
+[Password:]
+סיסמא:
+[Default]
+ברירת מחדל
+[Options]
+אפשרוית
+[Check this account]
+בדוק חשבון זה
 [Startup check]
 בדיקה בפתיחה
 [Check from menu]
 בדוק מהתפריט
+[Message]
+הודעה
 [Sound notification if failed]
 התראה בצליל אם נכשל
 [Message notification if failed]
@@ -34,12 +39,6 @@
 התראה בסמל סרגל אם נכשל
 [Reset counter]
 אפס ספירה
-[Default]
-ברירת מחדל
-[Name:]
-שם:
-[Options]
-אפשרוית
 [Cancel]
 ביטול
 [Offline]
@@ -80,25 +79,16 @@
 צבע רקע
 [Text color]
 צבע טקסט
-;file \plugins\YAMN\src\main.cpp
-;file \plugins\YAMN\src\main.h
-;file \plugins\YAMN\src\services.cpp
 [Nick]
 כינוי
-;file \plugins\YAMN\src\browser\badconnect.cpp
-;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [Value]
 ערך
 [Select All]
 בחר הכל
 [Size]
 גודל
-;file \plugins\YAMN\src\mails\mime.cpp
 [Part]
 חלק
-;file \plugins\YAMN\src\proto\netlib.cpp
-;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
-;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 רשת
 [Accounts]

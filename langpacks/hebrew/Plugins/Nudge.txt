@@ -5,7 +5,6 @@
 ;  Version: 0.0.2.0
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
-;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 אפשרויות פרוטוקול
 [Specify options for each protocol]
@@ -58,13 +57,10 @@ Clist אפשרויות הרעדת
 רוחב של תנועה
 [Shaking Message Window Options]
 הרעדת חלון הודעות אפשרויות
-;file \plugins\Nudge\src\main.cpp
 [Nudge]
 נדנוד
 [Nudge as Default]
 נדנד כברירת מחדל
-;file \plugins\Nudge\src\nudge.cpp
-;file \plugins\Nudge\src\options.cpp
 [Events]
 אירועים
 [Window Shaking]

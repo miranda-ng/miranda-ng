@@ -5,7 +5,6 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
 היסטורית הודעות
 [Show event icons]
@@ -18,11 +17,14 @@
 חיצוני CSS קובץ
 [Name]
 שם
+[Day]
+יום
 [OK]
 אישור
 [Cancel]
 ביטול
-;file \plugins\BasicHistory\src\BasicHistory.cpp
+[Open History]
+פותח היסטוריה
 [View &History]
 הצד היסטוריה
 [Incoming message]
@@ -31,15 +33,12 @@
 הודעה יוצאת
 [History]
 היסטוריה\n
-;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 כל האירועים
 [History for %s]
 %s היסטוריה עבור
 [System]
 מערכת
-;file \plugins\BasicHistory\src\ExportManager.cpp
-;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Open in &new window]
 &פתח בחלון חדש
 [&Open in existing window]
@@ -54,17 +53,20 @@
 הגב &ציטוט
 [Options]
 אפשרוית
+[Fonts and colors]
+גופן וצבע
 [Icons]
 סמלים
 [Hotkeys]
 מקשי קיצור
 [Error]
 שגיאה
-;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 הודעה
 [Link]
 קישור
+[Authorization request]
+בקשת אישור
 [You were added]
 הוסיפו אותך לרשימה
 [SMTP Simple Email]
@@ -75,19 +77,15 @@ SMTP אימייל פשוט
 הודעות
 [Advanced]
 מתקדם
+[Contact list background]
+רקע רשימת אנשי קשר
 [Find]
 חפש
 [Incoming events]
 אירועים נכנסים
 [Outgoing events]
 אירועים יוצאים
-;file \plugins\BasicHistory\src\Options.h
-;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-;file \plugins\BasicHistory\src\Scheduler.cpp
 [Contacts]
 אנשי קשר
-;file \plugins\BasicHistory\src\Searcher.cpp
 [Search]
 חיפוש
-;file \plugins\BasicHistory\src\TxtExport.cpp

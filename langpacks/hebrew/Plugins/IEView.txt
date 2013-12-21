@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.0
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
-;file \plugins\IEView\res\ieview.rc
 [Copy]
 העתק
 [Select All]
@@ -50,21 +49,20 @@ BB אפשר תמיכה בקבצי פלאש בסמיילים וקודי
 הראה כינויים
 [Show seconds]
 הראה שניות
+[Show date]
+הראה תאריך
 [Use long date format]
 השתמש בתבנית תאריך ארוכה
 [Use relative timestamp]
 השתמש בחותמת זמן יחסית
-;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Incoming File Transfer]
 העברה קבצים נכנסת
-;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (איש קשר לא מוכר)
-;file \plugins\IEView\src\IEView.cpp
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[ERROR]
+שגיאה
 [Error]
 שגיאה
-;file \plugins\IEView\src\Options.cpp
 [General]
 כללי
 [Message Log]
@@ -81,6 +79,5 @@ BB אפשר תמיכה בקבצי פלאש בסמיילים וקודי
 מראה אקספלורר
 [All Files]
 כל הקבצים
-;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
-;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
-;file \plugins\IEView\src\TemplateHTMLBuilder.cpp
+[File received]
+התקבל קובץ

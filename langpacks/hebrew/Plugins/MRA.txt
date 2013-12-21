@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.6
 ;  Authors: Ivan Rozhuk
 ;============================================================
-;file \protocols\MRA\res\resource.rc
 [Password:]
 סיסמא:
 [Port:]
@@ -20,10 +19,14 @@
 סיכום
 [Nickname:]
 כינוי:
+[to:]
+אל:
 [Location]
 מיקום
 [Full e-mail:]
 כתובת אימייל מלאה:
+[&Use Windows colors]
+&השתמש בצבעי חלונות
 [Text Color]
 צבע טקסט
 [Closing in %d]
@@ -32,18 +35,18 @@
 אישור
 [Cancel]
 ביטול
-;file \protocols\MRA\src\MraAvatars.cpp
-;file \protocols\MRA\src\MraChat.cpp
-;file \protocols\MRA\src\MraConstans.h
+[Male]
+זכר
+[Female]
+נקבה
 [Request authorization]
 בקשת אישור
 [Grant authorization]
 הענק אישור
-;file \protocols\MRA\src\MraFilesQueue.cpp
-;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 תפריט ראשי
-;file \protocols\MRA\src\MraPopUp.cpp
+[Contact Menu]
+תפריט משתמש
 [None]
 ללא
 [Information]
@@ -52,15 +55,10 @@
 שגיאה
 [Popups]
 פופ אפ
-;file \protocols\MRA\src\MraProto.cpp
-;file \protocols\MRA\src\Mra_functions.cpp
-;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 רשת
 [Files]
 קבצים
-;file \protocols\MRA\src\Mra_proto.cpp
-;file \protocols\MRA\src\Mra_svcs.cpp
 [Duck]
 ברווז
 [Beer]

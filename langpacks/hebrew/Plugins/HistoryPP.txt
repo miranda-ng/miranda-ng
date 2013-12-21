@@ -37,6 +37,10 @@ WATrack הודעה
 הודעות רשת
 [History Actions]
 פעולות היסטוריה
+[Advanced search options]
+אפשרויות חיפוש מתקדמות
+[Limit search range]
+הגבל טווח חיפוש
 [Limit Search Range]
 הגבל טווח חיפוש
 [Event Details]
@@ -77,6 +81,8 @@ WATrack הודעה
 אין פריטים כאלה
 [Conversations]
 שיחות
+[History Search]
+חיפוש היסטוריה\n
 [His&tory Search]
 היס&טוריה חיפוש
 [&Open]
@@ -115,6 +121,8 @@ ANSI קידוד
 אירועים אחרונים יהיו ראשונים
 [Use RTL by default]
 השתמש RTL כברירת מחדל
+[Change Appearance]
+שנה מראה
 [To change fonts you need to install FontService plugin.]
 כדי לשנות פונטים אתה צריך להתקין FontService פלאגין.
 [FontService is installed. Go to Customize -> Fonts to change settings.]
@@ -175,6 +183,8 @@ IcoLib מותקן. לך להתאמה אישית -> אייקונים כדי לש�
 חוצץ
 [Incoming url]
 לינק נכנס
+[Outgoing contacts]
+אנשי קשר יוצאים
 [Outgoing file]
 קובץ יוצא
 [Outgoing SMS Message]
@@ -233,6 +243,8 @@ HTML קובץ
 הודעה נכנסת לדוגמא
 [Incoming URL Sample]
 קישור נכנס לדוגמא
+[Incoming Url]
+לינק נכנס
 [Make shure you have CAPS LOCK turned off.]
 כבוי CAPS LOCKודא שכפתור ה
 [Miranda's settings used]
@@ -251,6 +263,8 @@ HTML קובץ
 הודעה יוצאת לדוגמא
 [Outgoing URL Sample]
 קישור יוצא לדוגמא
+[Outgoing Url]
+לינק יוצא
 [Recent at bottom]
 הצג מלמטה
 [Recent on top]
@@ -265,6 +279,8 @@ HTML קובץ
 קצת תוכן
 [System Message Sample]
 הודעת מערכת לדוגמא
+[System Message]
+הודעת מערכת
 [Use Miranda default settings]
 השתמש בהגדרות ברירת מחדל של המירנדה
 [You were added by %s (%s%s%d)]
@@ -287,6 +303,8 @@ HTML קובץ
 בקר בדף ויקי לאפשרויות נוספות
 [History++ (2in1)]
 היסטוריה++ (2in1)
+[&Reset to Default]
+אפס &לברירת מחדל
 [Contact history]
  היסטוריית תוכן
 [Incoming nick]
@@ -301,3 +319,23 @@ HTML קובץ
 חתימת זמן נכנסת
 [Outgoing timestamp]
 חתימת זמן יוצאת
+[Open in &new window]
+&פתח בחלון חדש
+[Select &All]
+&בחר הכול
+[Send &Message]
+שלח &הודעה
+[User Details]
+פרופיל משתמש
+[Enable SmileyAdd support]
+אפשר תמיכת SmileyAdd
+[Enable MathModule support]
+אפשר תמיכה במודול מתמטי
+[Show event icons]
+הראה אייקוני אירועים
+[View user's history]
+הצג היסטוריה עם משתמש
+[View User's History]
+הצג היסטוריה עם משתמש
+[View &History]
+הצד היסטוריה

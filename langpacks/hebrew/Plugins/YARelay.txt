@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.1
 ;  Authors: Anar Ibragimoff
 ;============================================================
-;file \plugins\YARelay\res\yaRelay.rc
 [Contact]
 קשר
 [Offline]
@@ -24,6 +23,5 @@
 פנוי לשיחה
 [Invisible]
 בלתי נראה
-;file \plugins\YARelay\src\options.cpp
 [Plugins]
 תוספים

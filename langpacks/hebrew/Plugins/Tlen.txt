@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
-;file \protocols\Tlen\res\tlen.rc
 [Username:]
 שם משתמש:
 [Password:]
@@ -34,32 +33,29 @@
 אפשרויות תמונה
 [Nickname:]
 כינוי:
+[to]
+עבור
 [Quality]
 איכות
-;file \protocols\Tlen\src\tlen_iqid.cpp
-;file \protocols\Tlen\src\tlen_opt.cpp
+[Group chats]
+צ'אט קבוצתי
+[Request authorization]
+בקשת אישור
+[Grant authorization]
+הענק אישור
+[%d Files]
+%d קבצים
 [General]
 כללי
 [Advanced]
 מתקדם
 [Network]
 רשת
-;file \protocols\Tlen\src\tlen_svc.cpp
-;file \protocols\Tlen\src\tlen_thread.cpp
 [Windows]
 חלונות
 [E-mail]
 אימייל
-;file \protocols\Tlen\src\tlen_ws.cpp
-;file \protocols\Tlen\src\tlen.cpp
-[Request authorization]
-בקשת אישור
-[Grant authorization]
-הענק אישור
-;file \protocols\Tlen\src\tlen_file.cpp
-;file \protocols\Tlen\src\tlen_muc.cpp
-;file \protocols\Tlen\src\tlen_picture.cpp
-;file \protocols\Tlen\src\tlen_userinfo.cpp
-;file \protocols\Tlen\src\tlen_voice.cpp
+[none]
+ללא
 [Default]
 ברירת מחדל

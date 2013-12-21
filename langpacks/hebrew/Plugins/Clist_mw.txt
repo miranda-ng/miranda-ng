@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
-;file \plugins\Clist_mw\res\resource.rc
 [Stretch to width]
 מתח לאורך
 [Stretch to height]
@@ -188,10 +187,14 @@
 הצג מצב
 [Right click opens status menu]
 לחיצה ימנית פותחת תפריט המצב\n
+[Right click opens Miranda menu]
+לחיצה ימנית פותחת את תפריט מירנדה
 [Make sections equal width]
 עשה שהאיזורים יהיו שווים
 [Use connecting Icon]
 השתמש באייקון התחברות
+[&Main menu]
+&תפריט ראשי
 [E&xit]
 &יציאה
 [&Status]
@@ -240,12 +243,10 @@
 ש&נה שם קבוצה
 [&Delete Group]
 &מחק קבוצה
-;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 התאמה אישית
 [Backgrounds]
 רקעים
-;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 אנשי קשר רגילים
 [Online contacts to whom you have a different visibility]
@@ -260,9 +261,10 @@
 חוצצים
 [Offline contacts to whom you have a different visibility]
 אנשי קשר לא מחוברים שלהם יש לך הגדרות ראות אחרות.
+[Status messages]
+הודעות מצב
 [Background]
 רקע
-;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 רשימה
 [List Background]
@@ -291,24 +293,17 @@
 אוכל ארוחת צהריים
 [On the phone]
 מדבר בטלפון
-;file \plugins\Clist_mw\src\clistopts.cpp
 [Global]
 כולל
-;file \plugins\Clist_mw\src\clistsettings.cpp
 [(Unknown Contact)]
 (איש קשר לא מוכר)
-;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &מצא/הוסף משתמשים
-[&Main menu]
-&תפריט ראשי
 [&Options...]
 ...אפשרויו&ת
-;file \plugins\Clist_mw\src\clui.cpp
-;file \plugins\Clist_mw\src\cluiopts.cpp
-;file \plugins\Clist_mw\src\groupmenu.cpp
-;file \plugins\Clist_mw\src\keyboard.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&New SubGroup]
+&תת קבוצה חדשה
 [Frames]
 מבנה רשימה
-;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
+[Show TitleBar]
+הראה סרגל כותרת

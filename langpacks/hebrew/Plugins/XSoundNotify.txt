@@ -5,7 +5,6 @@
 ;  Version: 1.0.1.2
 ;  Authors: Roman Torsten
 ;============================================================
-;file \plugins\XSoundNotify\res\XSoundNotify.rc
 [Nick:]
 :כינוי
 [Choose]
@@ -16,6 +15,5 @@
 אישור
 [Cancel]
 ביטול
-;file \plugins\XSoundNotify\src\xsn_main.cpp
 [Sounds]
 צלילים

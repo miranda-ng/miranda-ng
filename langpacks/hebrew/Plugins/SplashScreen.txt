@@ -5,7 +5,6 @@
 ;  Version: 0.1.2.3
 ;  Authors: nullbie, Thief
 ;============================================================
-;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
 אפשרויות מסך פתיחה
 [Show splash]
@@ -28,10 +27,7 @@
 Advaimg ספריה לא נמצאה. בבקשה השג זאת מ nigtlies בשביל להיות מסוגל להשתמש בתמונות.
 [Preview...]
 הראה לפני...
-;file \plugins\SplashScreen\src\main.cpp
 [Error]
 שגיאה
-;file \plugins\SplashScreen\src\options.cpp
 [Splash Screen]
 מסך פתיחה
-;file \plugins\SplashScreen\src\services.cpp

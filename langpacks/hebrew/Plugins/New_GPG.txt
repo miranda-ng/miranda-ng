@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.11
 ;  Authors: sss
 ;============================================================
-;file \plugins\New_GPG\res\new_gpg.rc
 [OK]
 אישור
 [Ignore]
@@ -14,8 +13,8 @@
 ביטול
 [Password:]
 סיסמא:
-;file \plugins\New_GPG\src\init.cpp
-;file \plugins\New_GPG\src\main.cpp
+[Email]
+ אימייל
 [Name]
 שם
 [Accounts]
@@ -26,8 +25,6 @@
 שגיאה
 [Accept]
 קבל
-;file \plugins\New_GPG\src\messages.cpp
-;file \plugins\New_GPG\src\options.cpp
 [Messages]
 הודעות
 [Advanced]
@@ -36,4 +33,3 @@
 קשר
 [Protocol]
 פרוטוקול
-;file \plugins\New_GPG\src\utilities.cpp

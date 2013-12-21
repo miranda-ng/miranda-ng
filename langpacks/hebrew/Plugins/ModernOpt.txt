@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.0
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
-;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 פתח את האתר הרשמי של מירנדה
 [Miranda NG Options]
@@ -20,7 +19,6 @@
 החלף לממשק אפשרויות קלאסי
 [Advanced]
 מתקדם
-;file \plugins\ModernOpt\src\modernopt.cpp
 [Accounts]
 חשבונות
 [Setup your account information to start messaging.]

@@ -5,7 +5,6 @@
 ;  Version: 0.9.9.1
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
-;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 הוסף איש קשר
 [Custom name:]
@@ -24,9 +23,7 @@
 &הוסף
 [&Cancel]
 בטל
-;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
 אנא אשר את בקשתי להוסיף אותך לרשימה שלי.
 [None]
 ללא
-;file \plugins\AddContactPlus\src\main.cpp

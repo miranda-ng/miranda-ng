@@ -5,14 +5,19 @@
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
-;file \plugins\FavContacts\res\resource.rc
 [Customize]
 התאמה אישית
 [Show]
 הראה
-;file \plugins\FavContacts\src\favlist.h
-;file \plugins\FavContacts\src\main.cpp
+[recent contacts]
+אנשי קשר אחרונים
+[Favorite Contact]
+תוכן מועדף
+[Second line]
+שורה שניה
 [Background]
 רקע
 [Contacts]
 אנשי קשר
+[Favorites]
+מועדפים

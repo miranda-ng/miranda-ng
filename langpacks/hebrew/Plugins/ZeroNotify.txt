@@ -5,9 +5,6 @@
 ;  Version: 0.0.0.5
 ;  Authors: bidyut, Maat
 ;============================================================
-;file \plugins\ZeroNotification\res\ZeroNotify.rc
-;file \plugins\ZeroNotification\src\common.h
-;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 אפס הודעות מצב
 [Plugins]

@@ -5,7 +5,6 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-;file \protocols\Xfire\res\resource.rc
 [Password:]
 סיסמא:
 [Nick:]
@@ -26,18 +25,20 @@
 שם:
 [Port:]
 יציאה:
+[User details]
+פרופיל משתמש
 [Copy]
 העתק
+[Enter Password]
+הכנס סיסמה
 [Join]
 הצטרף
 [OK]
 אישור
 [Cancel]
 ביטול
-;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 כל הקבצים
-;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 כן, אני כאן.
 [I've been away since %time%.]
@@ -52,20 +53,15 @@
 בטלפון
 [Mmm... food.]
 הממ... אוכל.
-;file \protocols\Xfire\src\iniupdater.cpp
-;file \protocols\Xfire\src\main.cpp
 [Username]
 שם משתמש
-;file \protocols\Xfire\src\options.cpp
+[Disable avatars]
+בטל אוואטרים
 [General]
 כללי
 [No]
 לא
 [Network]
 רשת
-;file \protocols\Xfire\src\searching4games.cpp
-;file \protocols\Xfire\src\userdetails.cpp
 [<not specified>]
 <לא מוגדר>
-;file \protocols\Xfire\src\Xfire_game.cpp
-;file \protocols\Xfire\src\Xfire_gamelist.cpp

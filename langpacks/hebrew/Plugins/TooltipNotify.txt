@@ -5,7 +5,6 @@
 ;  Version: 0.7.0.1
 ;  Authors: perf
 ;============================================================
-;file \plugins\TooltipNotify\res\main.rc
 [OK]
 אישור
 [Cancel]
@@ -24,6 +23,8 @@
 משך ראות סרגל
 [Show tooltip for]
 הראה למשך
+[ms]
+ מילי שניה
 [Duration x2 upon online event]
 משך כפול 2 למצב מחובר
 [Double click on tooltip]
@@ -40,7 +41,6 @@
 אנשי קשר
 [Idle]
 לא נמצא אוטומטי
-;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 סרגל התראות
 [Popups]

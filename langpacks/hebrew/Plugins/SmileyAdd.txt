@@ -5,7 +5,6 @@
 ;  Version: 0.2.3.17
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
-;file \plugins\SmileyAdd\res\resource.rc
 [Smiley categories]
 קטגוריות סמיילים
 [Specify smiley pack for each category]
@@ -42,16 +41,12 @@ IEView סגנון חלון
 תמיכת הודעת דו שיח מובנית
 [Smiley button]
 כפתור סמיילי
-;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
 הוסף סמיילי
 [SmileyAdd HTTP connections]
 SmileyAdd HTTP חיבורי
-;file \plugins\SmileyAdd\src\main.cpp
 [Button smiley]
 כפתור סמיילים
-;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 סמיילים
 [Customize]
@@ -60,8 +55,5 @@ SmileyAdd HTTP חיבורי
 כבוי
 [All files]
 כל הקבצים
-;file \plugins\SmileyAdd\src\services.cpp
-;file \plugins\SmileyAdd\src\smileys.cpp
 [Standard]
 סטנדרטי
-;file \plugins\SmileyAdd\src\smltool.cpp

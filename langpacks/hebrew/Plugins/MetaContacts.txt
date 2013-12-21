@@ -5,7 +5,6 @@
 ;  Version: 0.14.0.13
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
-;file \plugins\MetaContacts\res\MetaContacts.rc
 [&OK]
 &אישור
 [&Cancel]
@@ -32,8 +31,6 @@
 ברירת מחדל
 [Number of days to copy (0=all):]
 מספר ימים להעתיק(0=הכול):
-;file \plugins\MetaContacts\src\addto.cpp
-;file \plugins\MetaContacts\src\edit.cpp
 [(Unknown Contact)]
 (איש קשר לא מוכר)
 [Yes]
@@ -44,7 +41,6 @@
 קשר
 [Protocol]
 פרוטוקול
-;file \plugins\MetaContacts\src\icons.cpp
 [Convert to MetaContact]
 המר לתוכן משותף
 [Add to Existing]
@@ -55,13 +51,8 @@
 הגדר כברירת מחדל
 [Remove]
 הסר
-;file \plugins\MetaContacts\src\metacontacts.h
-;file \plugins\MetaContacts\src\meta_main.cpp
-;file \plugins\MetaContacts\src\meta_menu.cpp
 [Error]
 שגיאה
-;file \plugins\MetaContacts\src\meta_options.cpp
-;file \plugins\MetaContacts\src\meta_services.cpp
 [Message from %s]
 הודעה מ%s
 [Add to existing MetaContact...]
@@ -76,4 +67,3 @@
 עדיפויות
 [History]
 היסטוריה\n
-;file \plugins\MetaContacts\src\meta_utils.cpp

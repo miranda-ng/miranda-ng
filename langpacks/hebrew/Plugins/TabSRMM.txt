@@ -5,7 +5,6 @@
 ;  Version: 3.2.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-;file \plugins\TabSRMM\res\chat.rc
 [OK]
 אישור
 [Cancel]
@@ -40,12 +39,16 @@
 הודעה
 [Log]
 יומן
+[Co&py all]
+העת&ק הכול
 [Link]
 קישור
 [&Copy link]
 ה&עתק קישור
 [Message]
 הודעה
+[Undo]
+בטל
 [Redo]
 עשה שוב
 [Copy]
@@ -60,7 +63,14 @@
 בהיר
 [Tabs]
 טאבים
-;file \plugins\TabSRMM\res\resource.rc
+[&Cancel]
+בטל
+[&Send]
+שלח
+[&Add]
+&הוסף
+[Other options]
+אפשרויות נוספות
 [Message send timeout]
 השהיית הודעה שנשלחה
 [seconds]
@@ -77,6 +87,8 @@
 טקסט
 [Background]
 רקע
+[Group chats]
+צ'אט קבוצתי
 [All modes]
 כל המצבים
 [Send text formatting method]
@@ -301,6 +313,8 @@ BB קוד
 הראה סרגל תפריט
 [Show Status Bar]
 הראה שורת מצב
+[Tool Bar]
+סרגל כלים
 [Show Tool Bar]
 הראה סרגל כלים
 [Title Bar]
@@ -329,7 +343,6 @@ BB קוד
 שמור מיקום חלון נוכחי כברירת מחדל
 [Help]
 עזרה
-;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Bold text]
 מודגש
 [Italic text]
@@ -342,7 +355,6 @@ BB קוד
 אפשרויות יומן הודעות
 [View User's History]
 הצג היסטוריה עם משתמש
-;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 הסתר כותרת
 [Attach to]
@@ -353,21 +365,20 @@ BB קוד
 השתמש בפרוטוקול
 [Set Default Protocol]
 בחר פרוטוקול ברירת מחדל
-;file \plugins\TabSRMM\src\containeroptions.cpp
+[General options]
+אפשרויות כלליות
+[Title bar]
+שורת כותרת
 [Globally on]
 אצל כולם
 [On, if present]
 רק אם מוצג
 [Globally OFF]
 אצל אף אחד
-;file \plugins\TabSRMM\src\controls.cpp
 [disabled]
 בטל
-;file \plugins\TabSRMM\src\eventpopups.cpp
 [Incoming file]
 קובץ נכנס
-;file \plugins\TabSRMM\src\generic_msghandlers.cpp
-;file \plugins\TabSRMM\src\globals.cpp
 [Incoming (Focused Window)]
 (נכנסות (חלון ממוקד
 [Incoming (Unfocused Window)]
@@ -380,24 +391,30 @@ BB קוד
 שגיאה בשליחת ההודעה
 [Other]
 אחר
+[TabSRMM session list]
+רשימת חלונות הודעה
+[TabSRMM Menu]
+TabSRMM תפריט
 [Message from %s]
 הודעה מ%s
-;file \plugins\TabSRMM\src\hotkeyhandler.cpp
-;file \plugins\TabSRMM\src\infopanel.cpp
+[Paste and send]
+הדבק && שלח
+[Smiley selector]
+בוחר סמיילים
+[contact]
+קשר
+[Always off]
+תמיד מכובה
+[Always on]
+תמיד מופעל
 [Use Global Setting]
 השתמש בהגדרה גלובלית
-;file \plugins\TabSRMM\src\mim.cpp
-;file \plugins\TabSRMM\src\modplus.cpp
-;file \plugins\TabSRMM\src\msgdialog.cpp
 [Save and close session]
 שלח וסגור חלון
 [The message send timed out]
 שליחת ההודעה נכשלה
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
 ['(Unknown Contact)']
 '(תוכן לא ידוע)'
-;file \plugins\TabSRMM\src\msglog.cpp
-;file \plugins\TabSRMM\src\msgoptions.cpp
 [IEView plugin]
 IEViewפלאג ה
 [** New contacts **]
@@ -414,15 +431,18 @@ IEViewפלאג ה
 טאב ומערך
 [Containers]
 חלונות טאב
+[Message log]
+יומן הודעה
 [Tool bar]
 סרגל כלים
 [Typing Notify]
 התראת כתיבה
-[Group chats]
-צ'אט קבוצתי
+[Message window]
+חלון הודעה
 [Choose status modes]
 בחר מצבי סטטוס
-;file \plugins\TabSRMM\src\msgs.cpp
+[Quote text]
+צטט
 [Smiley button]
 כפתור סמיילים
 [Background color]
@@ -435,8 +455,6 @@ IEViewפלאג ה
 הודעה יוצאת
 [Message Log]
 יומן הודעה
-;file \plugins\TabSRMM\src\msgs.h
-;file \plugins\TabSRMM\src\selectcontainer.cpp
 [You cannot delete the default container]
 אתה לא יכול למחוק את הגדרות חלון השיחה
 [Error]
@@ -445,23 +463,14 @@ IEViewפלאג ה
 אתה לא יכול לשנות את שם חלון השיחה
 [This name is already in use]
 השם נמצא בשימוש
-;file \plugins\TabSRMM\src\sendlater.cpp
 [Contact]
 קשר
 [Status]
 מצב
-;file \plugins\TabSRMM\src\sendqueue.cpp
 [A message delivery has failed.\nClick to open the message window.]
 שליחת ההודעה נכשלה. לחץ לפתחית חלון השיחה
-;file \plugins\TabSRMM\src\sidebar.cpp
-;file \plugins\TabSRMM\src\srmm.cpp
-;file \plugins\TabSRMM\src\taskbar.cpp
-;file \plugins\TabSRMM\src\templates.cpp
 [Template Set Editor]
 עורך סידור תבנית
-;file \plugins\TabSRMM\src\themeio.cpp
-;file \plugins\TabSRMM\src\themes.cpp
-;file \plugins\TabSRMM\src\translator.cpp
 [Show a preview of the event]
 הראה תצוגה מקדימה של האירוע
 [Don't announce event when message dialog is open]
@@ -512,15 +521,12 @@ RSS אל תודיע אל אירועים מפרוטוקולי
 BB תמוך בתבניות קודי
 [Show status text on tabs]
 הראה מצב כתיבה בטאבים
-;file \plugins\TabSRMM\src\trayicon.cpp
-;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 בטל &הודעות הקלדה
 [...is typing a message.]
 ...מקליד הודעה.
 [...has stopped typing.]
 להקליד הפסיק...
-;file \plugins\TabSRMM\src\userprefs.cpp
 [Always On]
 תמיד מופעל
 [Always Off]
@@ -529,14 +535,10 @@ BB תמוך בתבניות קודי
 כפה ברירת מחדל של יומן ההודעה
 [Force IEView]
 IEView כפה
-;file \plugins\TabSRMM\src\utils.cpp
-;file \plugins\TabSRMM\src\chat\clist.cpp
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-;file \plugins\TabSRMM\src\chat\log.cpp
+[Text color]
+צבע טקסט
 [%s is now known as %s]
 %s ידוע כ %s
-;file \plugins\TabSRMM\src\chat\muchighlight.cpp
-;file \plugins\TabSRMM\src\chat\options.cpp
 [Log background]
 רקע יומן
 [Timestamp]
@@ -617,6 +619,8 @@ IEView כפה
 אל תקפיץ את החלון בהצטרפות לחדר צ'אט
 [Prefix all events with a timestamp]
 תקן מראש את כל האירועים עם חותמת זמן
+[Timestamp has same color as the event]
+לחותמת זמן יש אותו צבע כמו לאירוע
 [Indent the second line of a message]
 לחתוך את הקו השני של הודעה
 [Limit user names in the message log to 20 characters]
@@ -639,6 +643,8 @@ IEView כפה
 מצב 5 (10x10)
 [Status 6 (10x10)]
 מצב 6 (10x10)
+[Remove Status (10x10)]
+הסר מצב (10x10)
 [Join (10x10)]
 הצטרף (10x10)
 [Quit (10x10)]
@@ -671,20 +677,13 @@ IEView כפה
 משתמש שלח הערה
 [The topic has been changed]
 נושא השתנה
-;file \plugins\TabSRMM\src\chat\services.cpp
 [&Join]
 הצטרף
 [&Leave]
 &עזוב
-;file \plugins\TabSRMM\src\chat\tools.cpp
 [%s kicked %s from %s]
 %s מ %s נבעט %s
-;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick]
 כינוי
 [minutes]
 דקות
-[TabSRMM session list]
-רשימת חלונות הודעה
-[TabSRMM Menu]
-TabSRMM תפריט

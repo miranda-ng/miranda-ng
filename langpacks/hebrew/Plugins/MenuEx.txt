@@ -5,7 +5,6 @@
 ;  Version: 1.3.0.10
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
-;file \plugins\MenuItemEx\res\resource.rc
 [&Send]
 שלח
 [&Cancel]
@@ -40,7 +39,6 @@
 הוסף שם פרוטוקול
 [* Use Ctrl+click to see popup with the copied text]
 *   השתמש Ctrl+click בשביל לראות פופאפים עם הטקסט המועתק
-;file \plugins\MenuItemEx\src\main.cpp
 [Always visible]
 תמיד נראה
 [Never visible]
@@ -63,6 +61,5 @@
 פריטי תפריט משתמש
 [Request authorization]
 בקשת אישור
-;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 התאמה אישית

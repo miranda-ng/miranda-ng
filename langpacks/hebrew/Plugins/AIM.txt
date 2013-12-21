@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
-;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM פרטי משתמש
 [Screen Name:]
@@ -76,16 +75,10 @@ AIM אפשרויות
 &דחה
 [Message]
 הודעה
-;file \protocols\AimOscar\src\chat.cpp
-;file \protocols\AimOscar\src\error.cpp
-;file \protocols\AimOscar\src\file.cpp
-;file \protocols\AimOscar\src\links.cpp
-;file \protocols\AimOscar\src\popup.cpp
-;file \protocols\AimOscar\src\proto.cpp
+[User &details]
+פרופיל &משתמש
 [%s Client-to-client connection]
 %s חיבור לקוח-ללקוח
-;file \protocols\AimOscar\src\server.cpp
-;file \protocols\AimOscar\src\theme.cpp
 [Profile]
 פרופיל
 [AIM Icon]
@@ -96,6 +89,8 @@ AOL בוט
 אושר
 [Not Confirmed]
 לא אושר
+[Background Color]
+צבע רקע
 [Bold]
 בולט
 [Not Bold]
@@ -106,7 +101,7 @@ AOL בוט
 לא סקריפט נורמלי
 [Read Profile]
 קרא פרופיל
-;file \protocols\AimOscar\src\ui.cpp
+[Add To Server List]
+הוסף לרשימת שרת
 [Network]
 רשת
-;file \protocols\AimOscar\src\utility.cpp

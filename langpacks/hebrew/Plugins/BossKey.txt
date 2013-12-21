@@ -5,7 +5,6 @@
 ;  Version: 0.5.0.3
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
-;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]
 מקש מסתיר
 [Disable Sounds]
@@ -16,8 +15,6 @@
 אישור
 [Cancel]
 ביטול
-;file \plugins\BossKeyPlus\src\BossKey.cpp
-;file \plugins\BossKeyPlus\src\Options.cpp
 [Events]
 אירועים
 [Advanced]

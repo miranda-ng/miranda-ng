@@ -5,7 +5,6 @@
 ;  Version: 1.5.7.7
 ;  Authors: TioDuke
 ;============================================================
-;file \plugins\KeyboardNotify\res\resources.rc
 [Incoming messages]
 הודעות נכנסות
 [Incoming files]
@@ -60,12 +59,10 @@
 התעלם מקבצים
 [Ignore]
 התעלם
-;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** כל הרשימה **
 [** Unknown contacts **]
 **אנשי קשר לא ידועים**
-;file \plugins\KeyboardNotify\src\options.cpp
 [Events]
 אירועים
 [Accounts]

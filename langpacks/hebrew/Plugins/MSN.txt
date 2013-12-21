@@ -1,11 +1,10 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
-;file \protocols\MSN\res\msn.rc
 [MSN]
 מסנג'ר
 [Live ID:]
@@ -26,6 +25,8 @@
 הרץ את התוכנה הבאה כאשר דואר חדש מגיע
 [Allow people on my contact list send messages to mobile device]
 אפשר לאנשים ברשימת המשתמשים שלי לשלוח הודעות למכשיר נייד
+[Connection settings]
+הגדרות חיבור
 [Reset]
 אפס
 [Server List Manager]
@@ -58,41 +59,35 @@
 אישור
 [Cancel]
 ביטול
+[First Name]
+שם פרטי
+[Last Name]
+שם משפחה
 [&Cancel]
 בטל
 [Add]
 הוסף
-;file \protocols\MSN\src\msn_chat.cpp
-;file \protocols\MSN\src\msn_commands.cpp
+[User &details]
+פרופיל &משתמש
 [Chat session established by my request]
 מפגש צ'אט הופעל על פי בקשתי
 [Chat session established by contact request]
 פגישת צ'אט הופעלה על ידי בקשת משתמש
-;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 משתמש לא מחובר
-;file \protocols\MSN\src\msn_links.cpp
-;file \protocols\MSN\src\msn_lists.cpp
-;file \protocols\MSN\src\msn_mail.cpp
 [Unread mail is available: %d in Inbox and %d in other folders.]
 אימייל שלא נקרא זמין: %d בדואר נכנס וב %d תיקיות אחרות.
-;file \protocols\MSN\src\msn_menu.cpp
-;file \protocols\MSN\src\msn_misc.cpp
 [Error]
 שגיאה
-;file \protocols\MSN\src\msn_msgqueue.cpp
-;file \protocols\MSN\src\msn_opts.cpp
 [Profile]
 פרופיל
+[Contact list]
+רשימת אנשי קשר
 [Automatically obtain host/port]
 אוטומטית השג הוסט/פורט
 [Manually specify host/port]
 ציין ידנית הוסט/פורט
 [Network]
 רשת
-;file \protocols\MSN\src\msn_p2p.cpp
-;file \protocols\MSN\src\msn_proto.cpp
 [%s plugin HTTPS connections]
 %s פלאגין HTTPS חיבורים
-;file \protocols\MSN\src\msn_svcs.cpp
-;file \protocols\MSN\src\msn_ws.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
-;file \plugins\BASS_interface\res\Bass.rc
 [Offline]
 לא מחובר
 [Online]
@@ -26,7 +25,7 @@
 מדבר בטלפון
 [Out to lunch]
 אוכל ארוחת צהריים
-;file \plugins\BASS_interface\src\Bass_interface.h
-;file \plugins\BASS_interface\src\Main.cpp
 [Sounds]
 צלילים
+[Disable sounds]
+בטל צלילים

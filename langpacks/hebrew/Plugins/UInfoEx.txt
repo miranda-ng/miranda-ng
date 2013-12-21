@@ -5,7 +5,6 @@
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-;file \plugins\UserInfoEx\res\resource.rc
 [Updating]
 מעדכן
 [OK]
@@ -62,26 +61,24 @@
 תפריט איש קשר
 [Extra Icons]
  אייקונים נוספים
+[Homepage]
+דף הבית
 [Phone]
 טלפון
 [E-Mail]
 אימייל
+[Gender]
+מין
 [Show 'Restart' menu item]
 הראה 'הפעלה מחדש' תפריט פריט
-;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
-;file \plugins\UserInfoEx\src\classPsTree.cpp
-;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
-;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
-;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Contact History]
+ היסטוריית תוכן
 [Edit Phone Number]
 ערוך מספר טלפון
 [Other]
 אחר
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [Contact]
 קשר
-;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Yes]
 כן
 [No]
@@ -90,49 +87,44 @@
 התעלם
 [Error]
 שגיאה
-;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [General]
 כללי
 [Work]
 עבודה
+[About]
+ אודות
 [Profile]
 פרופיל
 [Notes]
 הערות
 [Owner]
 בעלים
-;file \plugins\UserInfoEx\src\init.cpp
-;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Default]
 ברירת מחדל
 [Fax]
 פקס
+[e-mail]
+אימייל
 [Add]
 הוסף
 [Edit]
 ערוך
 [Search]
 חיפוש
-;file \plugins\UserInfoEx\src\mir_icolib.h
-;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [User &details]
 פרופיל &משתמש
 [View/Change My &Details...]
 ...הצג/שנה את הפרופיל ש&לי
-;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+:הערות שלי
 [About:]
 :אודות
-;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-;file \plugins\UserInfoEx\src\psp_contact.cpp
-;file \plugins\UserInfoEx\src\psp_options.cpp
 [Contacts]
 אנשי קשר
 [Advanced]
 מתקדם
 [Popups]
 פופ אפ
-;file \plugins\UserInfoEx\src\psp_profile.cpp
-;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
 תרבות וספרות
 [Movies/TV]
@@ -169,31 +161,15 @@
 ספורט ואתלטיקה
 [Home automation]
 אוטומציה ביתית
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(תוכן לא ידוע)'
-;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 שלח אימייל
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [Birthday reminder]
 איזכור ימי הולדת
 [Birthday reminder: it's coming]
 איזכור ימי הולדת: זה מגיע
-;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Miranda NG]
 מירנדה
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Complete]
 הושלם
-;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

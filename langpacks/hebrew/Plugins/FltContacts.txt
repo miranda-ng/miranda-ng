@@ -5,9 +5,10 @@
 ;  Version: 0.7.0.1
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
-;file \plugins\FloatingContacts\res\fltcnt.rc
 [pixels]
 פיקסלים
+[ms]
+ מילי שניה
 [seconds]
 שניות
 [Single click interface]
@@ -26,7 +27,8 @@
 פרוש לרוחב
 [Stretch proportionally]
 מתח פרופורצית
-;file \plugins\FloatingContacts\src\main.cpp
+[Opacity:]
+טישטוש
 [Standard contacts]
 אנשי קשר רגילים
 [Online contacts to whom you have a different visibility]
@@ -37,6 +39,5 @@
 אנשי קשר לא מחוברים שלהם יש לך הגדרות ראות אחרות.
 [Contacts which are 'not on list']
 אנשי קשר שלא נמצאים ברשימה
-;file \plugins\FloatingContacts\src\options.cpp
 [Contact List]
 רשימת אנשי קשר

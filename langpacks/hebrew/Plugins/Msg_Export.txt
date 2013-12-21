@@ -5,7 +5,6 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-;file \plugins\Msg_Export\res\resource.rc
 [Use internal viewer]
 השתמש בצפייה פנימית
 [Replace miranda history]
@@ -14,6 +13,8 @@
 הוסף קו נוסף חדש
 [Auto filename]
 שם קובץ אוטומטי
+[Clear all]
+נקה הכל
 [Help]
 עזרה
 [Export all history]
@@ -28,18 +29,17 @@
 פרופיל &משתמש
 [Copy]
 העתק
-;file \plugins\Msg_Export\src\FileViewer.cpp
-;file \plugins\Msg_Export\src\Glob.h
-;file \plugins\Msg_Export\src\main.cpp
-;file \plugins\Msg_Export\src\options.cpp
 [File]
 קובץ
 [Nick]
 כינוי
+[Executable files]
+קבצי תוכניות
+[All files]
+כל הקבצים
 [History]
 היסטוריה\n
 [General]
 כללי
-;file \plugins\Msg_Export\src\utils.cpp
 [(Unknown Contact)]
 (איש קשר לא מוכר)

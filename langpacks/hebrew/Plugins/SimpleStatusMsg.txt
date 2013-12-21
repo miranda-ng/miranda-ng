@@ -5,7 +5,6 @@
 ;  Version: 1.9.0.4
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
-;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
 הודעת %s של %s
 [&Cancel]
@@ -32,27 +31,22 @@
 מחק
 [Select All]
 בחר הכל
-;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [&Close]
 סגור
 [Re&ad %s Message]
 קר&א הודעת %s
 [Re&ad Away Message]
 קרא &הודעת לא נמצא
-;file \plugins\SimpleStatusMsg\src\main.cpp
-;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [Global]
 כולל
 [Closing in %d]
 סוגר תוך %d
-;file \plugins\SimpleStatusMsg\src\options.cpp
 [Status]
 מצב
 [General]
 כללי
 [Advanced]
 מתקדם
-;file \plugins\SimpleStatusMsg\src\utils.cpp
 [I've been away since %time%.]
 אני לא נמצא מ-%time%.
 [Give it up, I'm not in!]

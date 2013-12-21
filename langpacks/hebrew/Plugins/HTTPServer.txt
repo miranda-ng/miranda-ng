@@ -5,9 +5,10 @@
 ;  Version: 0.1.2.2
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
-;file \plugins\HTTPServer\res\resource.rc
 [Show HTTP server statistics]
 הצג סטטיסטיקת שיתוף הקבצים
+[Set to default]
+הגדר כברירת מחדל
 [External server name]
 שם שרת חיצוני
 [This is the link pasted to the message window]
@@ -28,14 +29,12 @@
 ללא פיקוח בלא נמצא/זמין
 [&Copy link]
 ה&עתק קישור
-;file \plugins\HTTPServer\src\Glob.h
-;file \plugins\HTTPServer\src\GuiElements.cpp
+[All files]
+כל הקבצים
 [HTTP Server]
 שיתוף קבצים
 [Network]
 רשת
-;file \plugins\HTTPServer\src\HttpUser.cpp
-;file \plugins\HTTPServer\src\main.cpp
 [Disable HTTP server]
 בטל שיתוף קבצים
 [Enable HTTP server]

@@ -1,11 +1,10 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: Keep Status
+;  Plugin: Keep status
 ;  Version: 0.9.0.1
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 כללי
 [Close]
@@ -20,8 +19,12 @@
 החל
 [OK]
 אישור
+[Command line:]
+שורת פקודה
 [Other]
 אחר
+[ms]
+ מילי שניה
 [Background color]
 צבע רקע
 [Text color]
@@ -44,17 +47,14 @@
 מחק
 [seconds]
 שניות
-;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
-[KeepStatus]
-שמירת מצב
-;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]
 פרוטוקול
+[KeepStatus]
+שמירת מצב
 [Advanced]
 מתקדם
 [Popups]
 פופ אפ
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 אני לא נמצא מ-%time%.
 [Give it up, I'm not in!]
@@ -75,6 +75,5 @@
 בטלפון
 [Mmm... food.]
 הממ... אוכל.
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Closing in %d]
 סוגר תוך %d

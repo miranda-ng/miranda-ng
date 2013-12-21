@@ -5,7 +5,6 @@
 ;  Version: 1.0.2.3
 ;  Authors: H. Herkenrath
 ;============================================================
-;file \plugins\LangMan\res\resource.rc
 [Author(s):]
 עורך/ים:
 [Date:]
@@ -14,8 +13,6 @@
 מקומי:
 [Please restart Miranda NG for your changes to take effect.]
 .תצטרך להפעיל מחדש את המירנדה כדי שהשינויים יכנסו לתוקף
-;file \plugins\LangMan\src\main.cpp
-;file \plugins\LangMan\src\options.cpp
 [Unknown]
 לא ידוע
 [File]
