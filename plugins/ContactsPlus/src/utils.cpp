@@ -57,13 +57,12 @@ char* __fastcall null_strdup(const char *string)
 
 TCHAR* GetContactUID(HANDLE hContact)
 {
-	DBVARIANT vrUid;
-
 	char *szProto = GetContactProto(hContact);
-	char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0); // v0.3+ only
-	if (((INT_PTR)uid != CALLSERVICE_NOTFOUND) || uid == 0)
+	char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+	if (INT_PTR(uid) == CALLSERVICE_NOTFOUND || uid == 0)
 		return NULL;
 
+	DBVARIANT vrUid;
 	if (db_get_s(hContact, szProto, uid, &vrUid, 0))
 		return NULL;
 
