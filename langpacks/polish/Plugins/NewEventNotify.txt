@@ -13,9 +13,9 @@ Ogólne
 [Show entry in the Popups menu]
 Pokaż wpis w menu wtyczki Popup
 [Temporarily disable Event Popups]
-Tymczasowo wyłącz Popupy zdarzeń
+Tymczasowo wyłącz popupy zdarzeń
 [Show Preview of Event in Popup]
-Pokaż podgląd zdarzenia w Popupie
+Pokaż podgląd zdarzenia w popupie
 [Popup Options]
 Opcje Popup
 [Message]

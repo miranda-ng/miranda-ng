@@ -125,7 +125,7 @@ PPM
 [Show status description]
 Pokaż opis statusu
 [Ignore empty status and xStatus messages]
-Ignoruj puste opisy stanu oraz XStatus
+Ignoruj puste opisy stanu oraz xStatus
 [Connection timeout]
 Limit czasu połączenia
 [Notification]
@@ -321,7 +321,7 @@ Dziennik
 [This is status message]
 To jest opis statusu
 [Do you want to reset all templates to default?]
-Czy napewno chcesz przywrócić domyślne szablony?
+Czy na pewno chcesz przywrócić domyślne szablony?
 [Reset templates]
 Przywracanie szablonów
 [Show available variables]

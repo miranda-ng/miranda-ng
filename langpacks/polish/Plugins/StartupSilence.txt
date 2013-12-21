@@ -81,4 +81,4 @@ Przełącz ciszę przy starcie
 [You have to install TopToolBar to use this option.]
 Musisz zainstalować TopToolbar, aby używać tej opcji.
 [You have to install "YAPP" or "Popup+" to use this option.]
-Musis zainstalować "YAPP" lub "Popup+", aby użyć tej opcji.
+Musisz zainstalować "YAPP" lub "Popup+", aby użyć tej opcji.

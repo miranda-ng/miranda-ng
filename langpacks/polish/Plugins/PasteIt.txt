@@ -132,7 +132,7 @@ Możesz wkleić tylko 1 plik
 [Cannot get data from clipboard]
 Nie można pobrać danych ze schowka
 [File size is %d KB, do you realy want to paste such a large file?]
-Rozmiar pliku wynosi %d KB, napewno chcesz wkleić tak duży plik?
+Rozmiar pliku wynosi %d KB, na pewno chcesz wkleić tak duży plik?
 [Are You sure?]
 Czy na pewno?
 [Cannot read file '%s']

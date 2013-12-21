@@ -22,10 +22,10 @@ Konwertuj wszystko/zaznaczone
 [Convert Last / Selected]
 Konwertuj ostatnie/zaznaczone
 [Translit All / Selected]
-Dokonaj transliteracji wszystkiego / tylko zaznaczonego
+Dokonaj transliteracji wszystkiego/tylko zaznaczonego
 [Translit Last / Selected]
-Dokonaj transliteracji ostatniego / zaznaczonego
+Dokonaj transliteracji ostatniego/zaznaczonego
 [Invert Case All / Selected]
-Zmień wielkość liter wszystkiego / zaznaczonego
+Zmień wielkość liter wszystkiego/zaznaczonego
 [Invert Case Last / Selected]
-Zmień wielkość liter ostatniego / zaznaczonego
+Zmień wielkość liter ostatniego/zaznaczonego

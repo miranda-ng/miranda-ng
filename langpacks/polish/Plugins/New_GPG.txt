@@ -125,7 +125,7 @@ Zmień hasło klucza prywatnego
 [Current password:]
 Aktualne hasło:
 [New password twice:]
-Nowe hasło dwókrotnie:
+Nowe hasło dwukrotnie:
 [Userlist:]
 Lista użytkowników:
 [Export PubKey]
@@ -155,7 +155,7 @@ Otwórz:
 [Close:]
 Zamknij:
 [Strip all tags in outgoing messages]
-Wytnij wszystkie tagi w wiadomościah wychodzących
+Wytnij wszystkie tagi w wiadomościach wychodzących
 [Turn on presence signing (Jabber) (required by xep 0-27)]
 Włącz podpisywanie obecności (Jabber) (wymagane przez xep 0-27)
 [Export keys]
@@ -247,11 +247,11 @@ Długość klucza musi mieć od 1024 do 4096 bitów
 [Invalid date]
 Niepoprawna data
 [Name must contain at least 5 characters]
-Nazwa musi zawierać conajmniej 5 znaków
+Nazwa musi zawierać co najmniej 5 znaków
 [Name cannot contain '(' or ')']
 Nazwa nie może zawierać "(", ani ")"
 [Invalid Email]
-Niepoprawny adres Email
+Niepoprawny adres e-mail
 [Generating new key, please wait...]
 Generuj nowy klucz, proszę czekać...
 [Failed to export public key.]
@@ -287,7 +287,7 @@ Nie ustawiłeś klucza prywatnego.\nCzy chcesz go teraz ustawić?
 [Own private key warning]
 Ostrzeżenie o własnym kluczu prywatnym
 [Do you want to load key for all subcontacts?]
-Czy chcesz załadować klucz dla wszystkich sybkontaktów?
+Czy chcesz załadować klucz dla wszystkich subkontaktów?
 [Metacontact detected]
 Wykryto metakontakt
 ;file \plugins\New_GPG\src\messages.cpp

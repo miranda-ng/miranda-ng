@@ -11,7 +11,7 @@ Sprawdzanie pisowni w oknie rozmowy. Używa Hunspell'a do sprawdzania.
 [Replacements]
 Zamiennik
 [Enable auto-replacements]
-Włącz automatyczną zamiane
+Włącz automatyczną zamianę
 [Language:]
 Język:
 [Add...]

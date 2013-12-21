@@ -11,7 +11,7 @@ Antyspam dla ICQ w Mirandzie NG, z captcha i filtrowaniem Bayesa.
 [Enabled]
 Włączony
 [Learned ham messages:]
-Wiadomośći przyswojone jako wysyłane przez człowieka:
+Wiadomości przyswojone jako wysyłane przez człowieka:
 [Learned spam messages:]
 Wiadomości przyswojone jako spam:
 [Filtering options]

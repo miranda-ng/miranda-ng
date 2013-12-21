@@ -39,7 +39,7 @@ Co
 [Stable version]
 Wersja stabilna
 [Development version (less stable)]
-Wersja rozwojwoa (mniej stabilna)
+Wersja rozwojowa (mniej stabilna)
 [Development version with debug symbols]
 Wersja rozwojowa z symbolami debugowania
 [Custom version]

@@ -97,7 +97,7 @@ Dodaj numer do listy wielokrotnego wyboru
 [Save Number To The User's Details Phonebook]
 Zapisz numer do książki telefonicznej danych kontaktu
 [Show/Hide Multiple List]
-Pokaż/ukryj listę wielokrotnego wyboru
+Pokaż/Ukryj listę wielokrotnego wyboru
 [Shows How Much Chars You've Typed]
 Pokaż, ile znaków napisałeś
 [The SMS message send to %s timed out.]
@@ -111,7 +111,7 @@ Wiadomość jest zbyt długa. Naciśnij OK, aby kontynuować.
 [Error - Message too long]
 Błąd - wiadomość zbyt długa
 [There must be numbers in the list first.]
-Najpierw na liśćie muszą znajdować się numery.
+Najpierw na liście muszą znajdować się numery.
 [No Numbers]
 Brak numerów
 [Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]

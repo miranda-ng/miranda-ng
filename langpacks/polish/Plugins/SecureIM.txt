@@ -188,7 +188,7 @@ Klucz wyłączony...
 [Sent back message received...]
 Otrzymywanie odesłanej wiadomości...
 [Sending back secure message...]
-Odsyłanie bezpiecznej wiaodmości...
+Odsyłanie bezpiecznej wiadomości...
 [SecureIM disabled...]
 Wyłączono SecureIM...
 [Sending key...]
@@ -306,7 +306,7 @@ Status SecureIM (Włączony)
 [SecureIM status (always try)]
 Status SecureIM (Zawsze próbuj)
 [SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
-SecureIM: Niestety, nie można odszyfrować tej wiadomości ponieważ nie posiadasz zainstalowanefo PGP/GPG. Odwiedź www.pgp.com lub www.gnupg.org po więcej informacji.
+SecureIM: Niestety, nie można odszyfrować tej wiadomości ponieważ nie posiadasz zainstalowanego PGP/GPG. Odwiedź www.pgp.com lub www.gnupg.org po więcej informacji.
 [SecureIM received unencrypted message:\n]
 SecureIM otrzymał niezaszyfrowaną wiadomość:\n
 [SecureIM received encrypted message:\n]

@@ -221,7 +221,7 @@ Kopiuj do schowka
 Akcja
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
-The Jabbervocky
+The Jabberwocky
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
 Internet nadal „nic nie rozumie”,\r\nżadnego odkrycia, choćby od niego zależał los świata,\r\nale nadanego w egzotycznym języku, nie odróżni od nieco mniej ważnej wieści,\r\nże u ciotki w placku z jabłkami zrobił się w piekarniku zakalec.\r\n\t[b][i]Stanisław Lem, 1999[/i][/b]
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
@@ -283,7 +283,7 @@ Wyślij wiadomość
 [Contact Menu]
 Menu kontaktu
 [Add Contact Permanently]
-Dodaj pernamentnie kontakt
+Dodaj kontakt permanentnie
 [Dismiss Popup]
 Odrzuć popup
 ;file \plugins\Popup\src\main.cpp
@@ -296,7 +296,7 @@ Kontakty
 [Advanced]
 Zaawansowane
 [Toggle Popups]
-Włącz/wyłącz popupy
+Włącz/Wyłącz popupy
 [Enable Popups]
 Włącz popupy
 [Disable Popups]
@@ -388,7 +388,7 @@ Odśwież listę
 [Failed to GetClassInfoExW from EDIT class.]
 Błąd tworzenia GetClassInfoExW from EDIT class.
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
-Nie udało się zarejestrować własnej klasy okna polaedycji.\r\n\r\nMIN %hd ms
+Nie udało się zarejestrować własnej klasy okna pola edycji.\r\n\r\nMIN %hd ms
 ;file \plugins\Popup\src\services.cpp
 [Error]
 Błąd

@@ -194,7 +194,7 @@ Czy na pewno chcesz usunąć zaznaczone kontakty?
 [One or more contacts in same Meta already. Try to convert anyway?]
 Jeden lub więcej kontaktów jest już w tym samym metakontakcie. Konwertować mimo to?
 [Metacontact background]
-Tło Metakontaktów
+Tło metakontaktów
 [Metacontact foreground]
 Tło pierwszoplanowe metakontaktów
 [SubMetacontact background]
@@ -206,7 +206,7 @@ znaleziono %u użytkowników (%u) Dostępnych: %u
 [ users found (]
  znalezionych (
 [) Online: ]
-) Dostępnych: 
+) Dostępnych:\s
 [Colorize]
 Koloruj
 [Metacontact]

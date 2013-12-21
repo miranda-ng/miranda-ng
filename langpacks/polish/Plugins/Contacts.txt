@@ -27,7 +27,7 @@ Anuluj
 [&Select All]
 Wszystkie
 [Received contacts]
-Otrzymany kontaky
+Otrzymane kontakty
 [Add to &group:]
 Dodaj do grupy:
 [&Details]

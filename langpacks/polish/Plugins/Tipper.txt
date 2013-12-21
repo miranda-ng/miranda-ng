@@ -127,7 +127,7 @@ Pokaż tooltip gdy zawartość będzie gotowa (awatar i status wiadomości)
 [Status bar and tray tooltip]
 Pasek statusu i podpowiedzi w zasobniku
 [Limit status messages in status bar and tray tooltips to:]
-Limituj opisy w podpowiedzi w zasobniku sytemowym do:
+Limituj opisy w podpowiedzi w zasobniku systemowym do:
 [characters]
 znaków
 [Disable in invisible status]
@@ -161,7 +161,7 @@ Włącz czcionki i kolory
 [Enable skin coloring]
 Włącz kolorowanie skórki
 [Reload skin list]
-Odśwież skórke
+Odśwież skórkę
 [Apply skin]
 Zatwierdź skórkę
 [Load tooltip proportions]

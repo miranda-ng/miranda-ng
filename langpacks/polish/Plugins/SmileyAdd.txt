@@ -39,7 +39,7 @@ Minimalna wysokość emotikon
 [Smiley selector]
 Okno wyboru emotikon
 [Surround inserted smiley with spaces]
-Odzielaj wstawione emotikony spacjami
+Oddzielaj wstawione emotikony spacjami
 [Use first smiley for selection size]
 Pierwsza emotikona określa rozmiar zaznaczenia
 [IEView style window]
@@ -106,4 +106,4 @@ Wyrażenie regularne "%s" w paczce %s może spowodować puste dopasowania.
 Wyrażenie regularne "%s" w paczce %s zniekształcone.
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
-d'oh!
+d'Oh!

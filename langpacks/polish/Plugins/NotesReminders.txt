@@ -67,17 +67,17 @@ Dziennie
 [Weekly]
 Tygodniowo
 [Monthly]
-Miesięczie
+Miesięcznie
 [Repeat Alert Sound]
-Powtarzaj Dźwięk Powiadomienia
+Powtarzaj dźwięk powiadomienia
 [Use Sound]
 Użyj dźwięków
 [&Add Reminder]
-Dodaj Przypomnienie
+Dodaj przypomnienie
 [&Close]
 Zamknij
 [&View Reminders]
-Zobacz Przypomnienia
+Zobacz przypomnienia
 [reftime]
 Czas w sekundach
 [Reminder]
@@ -87,9 +87,9 @@ Po:
 [On Time && Date:]
 O czasie i dacie:
 [&Remind Again]
-Przypomnij Ponownie
+Przypomnij ponownie
 [&Create Note]
-Stwórz Notatkę
+Stwórz notatkę
 [&Dismiss]
 Zwolnij
 [Reminders]
@@ -97,15 +97,15 @@ Przypomnienia
 [Add New]
 Dodaj nowy
 [Edi&t Reminder]
-Edy&tuj Przypomnienie
+Edy&tuj przypomnienie
 [New &Reminder]
 Nowe przypomnienie
 [&Delete Reminder]
 Usuń przypomnienie
 [D&elete All Reminders]
-U&suń Wszystkie Przypomnienia
+U&suń wszystkie przypomnienia
 [Context Menu Note Popup]
-Popup Menu Kontekstowego Notatki
+Popup menu kontekstowego notatki
 [&Hide Note]
 Ukryj notatkę
 [&Always On Top]
@@ -113,7 +113,7 @@ Zawsze na wierzchu
 [&New Note]
 Nowa notatka
 [&Delete Note]
-Usuń notatke
+Usuń notatkę
 [Appearance]
 Personalizacja
 [Background Color]
@@ -127,9 +127,9 @@ Kolor tekstu
 [Font]
 Czcionka
 [Paste Title]
-Wklej Tytuł
+Wklej tytuł
 [Reset Title]
-Resetuj Tytuł
+Resetuj tytuł
 [Undo]
 Przywróć
 [&Copy]
@@ -143,7 +143,7 @@ Wyczyść
 [&View Notes]
 Pokaż notatki
 [&Bring All To Front]
-&Pokaż Wszystkie Na Wierzchu
+&Pokaż wszystkie na wierzchu
 [Edi&t Note]
 Edytuj notatkę
 [&Visible]
@@ -153,17 +153,17 @@ Zawsze na wierzchu
 [Delete &All Notes]
 Usuń wszystkie notatki
 [&Show / Hide Notes]
-Pokaż/ukryj notatkę
+Pokaż/Ukryj notatkę
 ;file \plugins\NotesAndReminders\src\globals.h
 [Notes & Reminders]
-Notatki I Przypomnienia
+Notatki i Przypomnienia
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 Nowa notatka
 [Toggle Notes Visibility]
-Przełącz Widoczność Notatek
+Przełącz widoczność notatek
 [Bring All Notes to Front]
-Pokaż Wszystkie Notatki Na Wierzchu
+Pokaż wszystkie notatki na wierzchu
 [New Reminder]
 Nowe przypomnienie
 ;file \plugins\NotesAndReminders\src\main.cpp
@@ -174,25 +174,25 @@ Czy na pewno chcesz usunąć wszystkie przypomnienia?
 [Delete All Notes]
 Usuń wszystkie notatki
 [Show/Hide Notes]
-Pokaż/ukryj notatki
+Pokaż/Ukryj notatki
 [On Top Caption Icon]
-Ikona nagłówkowa Na Wierzchu
+Ikona nagłówkowa na wierzchu
 [Delete All Reminders]
-Usuń Wszystkie Przypomnienia
+Usuń wszystkie przypomnienia
 [View Reminders]
-Zobacz Przypomnienia
+Zobacz przypomnienia
 [Not on Top Caption Icon]
-Ikona Nagłówkowa Nie Na Wierzchu
+Ikona nagłówkowa nie na wierzchu
 [Hide Note Icon]
 Ukryj ikonę notatki
 [Remove Note Icon]
 Usuń ikonę notatki
 [Reminder Icon]
-Ikona Przypomnienia
+Ikona przypomnienia
 [Bring All to Front]
-Pokaż Wszystkie Na Wierzchu
+Pokaż wszystkie na wierzchu
 [Play Sound Icon]
-Ikona Odtwarzania Dźwięku
+Ikona odtwarzania dźwięku
 [View Notes]
 Pokaż notatki
 [Sticky Notes]
@@ -202,17 +202,17 @@ Wtyczki
 [Add New Note]
 Dodaj nową notatkę
 [Add New Reminder]
-Dodaj Nowe Przypomnienie
+Dodaj nowe przypomnienie
 [Alerts]
 Alarmy
 [Reminder triggered]
-Przypomnienie Uruchomione
+Przypomnienie uruchomione
 [Reminder triggered (Alternative 1)]
-Przypomniennie Uruchomione (Alternatywa 1)
+Przypomnienie uruchomione (Alternatywa 1)
 [Reminder triggered (Alternative 2)]
-Przypomnienie Uruchomione (Alternatywa 2)
+Przypomnienie uruchomione (Alternatywa 2)
 [Notes && Reminders]
-Notatki I Przypomnienia
+Notatki i Przypomnienia
 [New &Note]
 Nowa notatka
 [Vie&w Notes]
@@ -220,7 +220,7 @@ Pokaż notatki
 [&Delete All Notes]
 Usuń wszystkie notatki
 [&Bring All to Front]
-Pokaż Wszystkie Na Wierzchu
+Pokaż wszystkie na wierzchu
 [Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda nie mogła załadować wtyczki Notes & Reminders, brak pliku RICHED20.dll. Jeżeli używasz WINE, upewnij się, że posiadasz zainstalowaną bibliotekę RICHED20.dll. Naciśnij "Tak", aby kontynuować ładowanie Mirandy.
 ;file \plugins\NotesAndReminders\src\notes.cpp
@@ -259,7 +259,7 @@ Aqua
 [White]
 Biały
 [Are you sure you want to delete this note?]
-Czy na pewno chcesz usunąć tą notatkę?
+Czy na pewno chcesz usunąć tę notatkę?
 [Notes]
 Notatki
 [Note text]
@@ -268,13 +268,13 @@ Tekst notatki
 Data/Tytuł
 ;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
-Opis Karteczki
+Opis karteczki
 [Sticky Note Background Color]
-Kolor Tła Karteczki
+Kolor tła karteczki
 [Sticky Note Body]
-Treść Karteczki
+Treść karteczki
 [Executable Files\0*.exe\0All Files\0*.*\0\0]
-Pliki Wykonywalne\0*.exe\0Wszystkie Pliki \0*.*\0\0
+Pliki wykonywalne\0*.exe\0Wszystkie pliki \0*.*\0\0
 [Select Executable]
 Wybierz plik wykonywalny
 ;file \plugins\NotesAndReminders\src\reminders.cpp
@@ -297,7 +297,7 @@ Podany czas jest niepoprawny.
 [The specified time offset is invalid.]
 Podana różnica czasu jest niepoprawna.
 [&Update Reminder]
-Aktualizuj przupomnienia
+Aktualizuj przypomnienia
 [Every]
 Co
 [Seconds]
@@ -311,7 +311,7 @@ Alternatywny 1
 [Alternative 2]
 Alternatywny 2
 [Reminder text]
-Tekst Przypomnienia
+Tekst przypomnienia
 [Date of activation]
 Data aktywacji
 [Are you sure you want to delete this reminder?]

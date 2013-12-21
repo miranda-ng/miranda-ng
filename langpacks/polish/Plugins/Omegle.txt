@@ -17,7 +17,7 @@ Widoczna nazwa:
 [Meet strangers with common interests (separated by commas):]
 Spotykaj obcych o wspólnych zainteresowaniach (oddzielone przecinkami):
 [Automatically send this message to stranger after connection:]
-Automatycznie wysyłaj tą wiadomość obcemu po połączeniu:
+Automatycznie wysyłaj tę wiadomość obcemu po połączeniu:
 [This text will be sent when you use "/asl" message:]
 Ten tekst zostanie wysłany po wpisaniu komendy /asl:
 [Last used question (Question mode):]
@@ -42,11 +42,11 @@ Serwer
 [Last question is empty.]
 Ostatnie pytanie jest puste.
 [Your question is too short.]
-Twoje pytanie jest za któtkie.
+Twoje pytanie jest za krótkie.
 [Your '/asl' setting is empty.]
 Twoje ustawienie "/asl" jest puste.
 [There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
-Istnieją trzy różne tryby czatowania:\n1) Tryb standardowy\t - czatujesz z przypadkową osobą prywatnie\n2) Tryb pytań\t - zadajesz pytanie dwóm przypadkowym osobom, a następnie obserwujesz ich dyskusję nad tym pytaniem (nie możesz przyłączyć się do konwersacji, a jedynie oglądać ją z boku)\n3) Tryb szpiega\t - ty oraz przypadkowa osoba otrzymujecie pytanie od osoby trzeciej (niemoże ona przyłączyć się do rozmowy, jedynie oglądać jej przebieg)\n\nNapisz /commands, by uzyskać listę dostępnych komend.
+Istnieją trzy różne tryby czatowania:\n1) Tryb standardowy\t - czatujesz z przypadkową osobą prywatnie\n2) Tryb pytań\t - zadajesz pytanie dwóm przypadkowym osobom, a następnie obserwujesz ich dyskusję nad tym pytaniem (nie możesz przyłączyć się do konwersacji, a jedynie oglądać ją z boku)\n3) Tryb szpiega\t - ty oraz przypadkowa osoba otrzymujecie pytanie od osoby trzeciej (nie może ona przyłączyć się do rozmowy, jedynie oglądać jej przebieg)\n\nNapisz /commands, by uzyskać listę dostępnych komend.
 [You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
 Możesz używać różnych komend:\n/help\t - pokazuje informacje o trybach czatu\n/new\t- rozpoczyna czat w trybie standardowym\n/ask <pytanie> - rozpoczyna czat w trybie pytań używając podanego przez Ciebie pytania\n/ask\t- rozpoczyna czat w trybie pytań używając ostatnio zadanego przez Ciebie pytania\n/spy\t - rozpoczyna czat w trybie szpiega\n/quit\t - rozłącza się z obcym lub zaprzestaje łączenia\n/asl\t - wysyła zdefiniowaną wiadomość ASL\n\nUwaga: możesz nawiązać połączenie z nową osobą nie rozłączając się uprzednio z tą, z którą rozmawiasz obecnie.
 [Unknown command. Send '/commands' for list.]

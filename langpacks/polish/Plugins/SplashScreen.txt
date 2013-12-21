@@ -29,7 +29,7 @@ Pojawianie się:
 [ms]
 ms
 [Fade in:]
-Przygasanie poczatkowe:
+Przygasanie początkowe:
 [steps]
 krok
 [Fade out:]

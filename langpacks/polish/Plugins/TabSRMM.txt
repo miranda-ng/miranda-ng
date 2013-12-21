@@ -353,7 +353,7 @@ Migaj ikoną na karcie
 [Flash text label on tabs]
 Migaj tekstem na karcie
 [Single row tab control (*)]
-Pojedyńczy wiersz kart (*)
+Pojedynczy wiersz kart (*)
 [Close button on tabs]
 Przycisk zamykania na kartach
 [Use button tabs (*)]
@@ -475,13 +475,13 @@ Aby ustawić opcje kontenera, skorzystaj z jego okna opcji. Dostępne jest przez
 [Tabs should be used in the following way]
 Tryb kontenera
 [Use contact list groups for organizing tabs (one window per group)]
-Użyj nazw grup z listy kontaktow do organizowania kart
+Użyj nazw grup z listy kontaktów do organizowania kart
 [Tabbed interface, limit the maximum number of tabs per window to:]
 Interface kart, maksymalna liczba kart w oknie:
 [No tabs at all, each session has its own top level window]
 Użyj trybu pojedynczego okna (jeden kontener na sesję)
 [Default mode (tabbed interface, manual assignments)]
-Tryb domyślnego (interface kart, ręczne przypisywanie kontaktów)
+Tryb domyślny (interface kart, ręczne przypisywanie kontaktów)
 [Container flashing]
 Miganie kontenera
 [Flash containers]
@@ -665,7 +665,7 @@ Wysyłanie wiadomości:
 [Window:]
 Okno:
 [Esc closes sessions (minimizes window, if disabled)]
-ESC zamyka zesję (minimalizuje okno, jeśli wyłączone)
+ESC zamyka sesję (minimalizuje okno, jeśli wyłączone)
 [Always pop up and activate new windows]
 Zawsze wyskakuj i aktywuj nowe okna
 [Create new windows in minimized state]
@@ -845,9 +845,9 @@ Atrapa
 [No Message Sessions opened]
 Nie ma otwartych rozmów
 [Add Contact to Favorites]
-Dodaj kontakt do Ulubionych
+Dodaj kontakt do ulubionych
 [Remove Contact from Favorites]
-Usuń kontakt z Ulubionych
+Usuń kontakt z ulubionych
 [dummy]
 Sztuczny element
 [Set Position for this Session]
@@ -994,11 +994,11 @@ Układ okna
 [Tabs and switch bar]
 Karty
 [Choose your options for the tabbed user interface. Not all options can be applied to open windows. You may need to close and re-open them.]
-Wybierz opcje dla interfejsu kart. Nie wszystkie opcje zostana zaakceptowane w otwartym oknie. Będziesz musiał ponownie otworzyć okno.
+Wybierz opcje dla interfejsu kart. Nie wszystkie opcje zostaną zaakceptowane w otwartym oknie. Będziesz musiał ponownie otworzyć okno.
 [Notifications]
 Powiadomienia
 [Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window.]
-Zaznacz, kiedy chesz widzieć powiadomienia (popup) dla tego okna. Akceptacja zmian zachowana jest dla wsyzstkich zakładek w tym oknie.
+Zaznacz, kiedy chcesz widzieć powiadomienia (popup) dla tego okna. Akceptacja zmian zachowana jest dla wszystkich zakładek w tym oknie.
 [Flashing]
 Miganie
 [Title bar]
@@ -1010,7 +1010,7 @@ Możesz wybrać prywatny szablon (plik .tabsrmm) dla tego kontenera, który nadp
 [Transparency]
 Przeźroczystość
 [This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
-Ta funkcjonalność wymaga Windowsa 2000 lub poźniejszego i nie jest dostępna, gdy kontener używa skinów.
+Ta funkcjonalność wymaga Windowsa 2000 lub późniejszego i nie jest dostępna, gdy kontener używa skinów.
 [Contact avatars]
 Awatary kontaktu
 [Sound notifications]
@@ -1054,7 +1054,7 @@ Lista sesji.\nLewy klik na liste otwiera sesje.\nPPM otwiera menu Ulubionych i s
 %d, w trakcie wysyłania. Długość wiadomości: %d bajtów, limit długości wiadomości: %d bajtów\n\n%d wiadomości jest w kolejce do wysłania później
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
-Jedna z twoich akcji popupów jest ustawiona na ODRZUĆ ZDARZENIE.\nTa opcja może mieć nieporządane efekty uboczne jak USUWANIE zdarzeń z kolejki nieprzeczytanych.\nMoże to doprowadzić do niepokazywania ich jako "nowych". Jeśli nie chcesz takiego zachowania zmień ustawienia w Powiadomieniach o Zdarzeniach.
+Jedna z twoich akcji popupów jest ustawiona na ODRZUĆ ZDARZENIE.\nTa opcja może mieć niepożądane efekty uboczne jak USUWANIE zdarzeń z kolejki nieprzeczytanych.\nMoże to doprowadzić do niepokazywania ich jako "nowych". Jeśli nie chcesz takiego zachowania zmień ustawienia w Powiadomieniach o Zdarzeniach.
 [Incoming file]
 Przychodzący plik
 [No description given]
@@ -1071,7 +1071,7 @@ Nieznany moduł lub kontakt
 [Rich Edit file]
 Plik pola edycji z formatowaniem
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
-Problem konfiguracji|Funkcja wysyłania wiaodmości nienadzorowanych jest wyłączona. \\b1 Wyślij później\\b0 i \\b1wyślij do wielu\\b0  jest od niej zależna.\n\nMusisz włączyć je w \\b1Opcje -> Okno rozmowy -> Zaawansowane poprawki\\b0. Zmiana tej opcji wymaga ponownego uruchomienia komunikatora.
+Problem konfiguracji|Funkcja wysyłania wiadomości nienadzorowanych jest wyłączona. \\b1 Wyślij później\\b0 i \\b1wyślij do wielu\\b0  jest od niej zależna.\n\nMusisz włączyć je w \\b1Opcje -> Okno rozmowy -> Zaawansowane poprawki\\b0. Zmiana tej opcji wymaga ponownego uruchomienia komunikatora.
 [You cannot edit user notes when there are unsent messages]
 Nie możesz edytować notatek o użytkowniku, podczas gdy istnieją niewysłane wiadomości
 [%s is typing a message.]
@@ -1410,7 +1410,7 @@ Normalnie - zamknij kartę, jeśli nie ma kart zamknij okno
 [Minimize the window to the task bar]
 Zminimalizuj okno do paska
 [Close or hide window, depends on the close button setting above]
-Zamknij lub ukryj okno, zamykanie kart ma pierszeństwo
+Zamknij lub ukryj okno, zamykanie kart ma pierwszeństwo
 [Message Sessions]
 Okno rozmowy
 [General]
@@ -1566,7 +1566,7 @@ Status
 [Last send info]
 Informacje o ostatnio wysłanych
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
-Próbujesz zmienić status jednego lub więcej elementów listy zadań wysyłania\nŻądanie działania zostanie wykonane w następnym przetwarzaniu listy\n\nTo działanie nie może być cofniete.
+Próbujesz zmienić status jednego lub więcej elementów listy zadań wysyłania\nŻądanie działania zostanie wykonane w następnym przetwarzaniu listy\n\nTo działanie nie może być cofnięte.
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 Wiadomość nie może zostać wysłana do jednego lub więcej nadawców lub opóźniona, ponieważ przekracza ona maksymalną długość wiadomości wynoszącą %d bajtów
@@ -1752,11 +1752,11 @@ Wstawiaj separatory w nieaktywnych sesjach
 [Only place a separator when an incoming event is announced with a popup]
 Użyj konfiguracji Popupów dla wstawiania separatorów
 [Show events at the new line (IEView Compatibility Mode)]
-Pokaż zdarzenia w nowej lini (Tryb zgodności z IEView)
+Pokaż zdarzenia w nowej linii (Tryb zgodności z IEView)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
 Podkreśl czas/nick (Tryb zgodności z IEView)
 [Show timestamp after nickname (IEView Compatibility Mode)]
-Pokaż czas po nazwie (Tryb zgodności z IEView)
+Pokaż czas po nazwie (tryb zgodności z IEView)
 [Use normal templates (uncheck to use simple templates if your template set supports them)]
 Użyj normalnych szablonów (odznacz, by użyć prostych szablonów, jeśli twój zbiór szablonów je obsługuje)
 [How to create tabs and windows for incoming messages]
@@ -1828,7 +1828,7 @@ Problem transferu pliku|Wysyłanie obrazka jako pliku nie powiodło się.\n\nMo�
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 Błąd ustawień|Opcja \\b1 Historia -> Imituj API IEView\\b0 i wtyczka History++ jest aktywna. Może to powodować problemy podczas korzystania z wtyczki IEView jako dziennik wiadomości.\n\nNależy skorygować opcje (ponowne uruchomienie jest wymagane)?
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
-Zamykanie okna|Czy napewno chcesz zamknąć okno rozmowy z otwartymi kilkoma kartami.\n\nZatwierdzić?
+Zamykanie okna|Czy na pewno chcesz zamknąć okno rozmowy z otwartymi kilkoma kartami.\n\nZatwierdzić?
 [Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]
 Zamykanie okna opcji|Aby uwzględnić zmiany spowodowane zaimportowaniem skórki w oknie opcji, okno musi zostać zamknięte po załadowaniu skórki, |\\b1 a niezapisane zmiany mogą zostać utracone\\b0 .\n\nCzy chcesz kontynuować?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
@@ -1885,7 +1885,7 @@ Tło obszaru pisania wiadomości
 [Log background]
 Tło dziennika
 [Single Messaging]
-Pojedyńcze rozmowy
+Pojedyncze rozmowy
 [Outgoing background]
 Tło wychodzące
 [Incoming background]
@@ -2069,7 +2069,7 @@ Ogranicz nazwy użytkowników do 20 znaków w dzienniku
 [Add a colon (:) to auto-completed user names]
 Dodaj (:) na końcu automatycznie dopełnianych nicków
 [Start private conversation on doubleclick in nick list (insert nick if unchecked)]
-Rozpocznij prywatną rozmowę po dwukliku na liście nikców (wstaw nick, gdy niezaznaczone)
+Rozpocznij prywatną rozmowę po dwukliku na liście nicków (wstaw nick, gdy niezaznaczone)
 [Strip colors from messages in the log]
 Usuń kolory z wiadomości w dzienniku
 [Enable the 'event filter' for new rooms]

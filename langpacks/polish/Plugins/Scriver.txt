@@ -193,7 +193,7 @@ Filtr
 [&Room Settings]
 Ustawienia pokoju
 [&Show/hide nicklist]
-Pokaż/ukryj listę nicków
+Pokaż/Ukryj listę nicków
 [Show these events only:]
 Pokaż tylko te zdarzenia:
 [Actions]
@@ -428,7 +428,7 @@ Podświetlenie (10x10)
 [Information (10x10)]
 Informacja (10x10)
 [Single Messaging]
-Pojedyńcze rozmowy
+Pojedyncze rozmowy
 [Group chats]
 Rozmowy grupowe
 [Thai]
@@ -687,7 +687,7 @@ Wiadomość od %s
 [Typing Notification]
 Kontakt
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda nie mogła załadować wbudowanego modułu obsługi wiadomości, brakujący plik Riched20.dll. Jeżęli używasz Windows 95 lub WINE, upewnij się, że posiadasz zainstalowany Riched20.dll. Naciśnij "tak", aby kontynuować ładowanie Mirandy.
+Miranda nie mogła załadować wbudowanego modułu obsługi wiadomości, brakujący plik Riched20.dll. Jeżeli używasz Windows 95 lub WINE, upewnij się, że posiadasz zainstalowany Riched20.dll. Naciśnij "tak", aby kontynuować ładowanie Mirandy.
 [Instant messages]
 Wiadomości
 [Incoming (Focused Window)]
@@ -771,7 +771,7 @@ Pokaż/ukryj okno przy podwójnym kliknięciu na liście kontaktów
 [Show contact statuses (if supported)]
 Pokaż statusy kontaktów (jeśli obsługiwane)
 [Display contact status icon before role icon]
-Wyświetle ikonę statusu przed ikoną roli kontaktu
+Wyświetlaj ikonę statusu przed ikoną roli kontaktu
 [Add ':' to auto-completed names]
 Dodawaj ":" do automatycznie uzupełnianych nazw
 [Prefix all events with a timestamp]

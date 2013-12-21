@@ -6,7 +6,7 @@
 ;  Authors: perf
 ;============================================================
 [Shows a small tooltip above system tray area when a contact status is changed.]
-Pokazuje małe podpowiedzi w zasobniku sytemowym o zmianach statusu kontaktów.
+Pokazuje małe podpowiedzi w zasobniku systemowym o zmianach statusu kontaktów.
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 Zaznacz protokoły
@@ -31,7 +31,7 @@ Pisanie
 [Protocols]
 Protokoły
 [Suppress notifications upon connection for]
-Usuń powiadomienia płączeń do
+Usuń powiadomienia połączeń do
 [sec]
 s
 [Prefix protocol name]
@@ -47,7 +47,7 @@ x2 dla dostępnych zdarzeń
 [Double click on tooltip]
 Opcje dwukliku
 [Shows/Hides contact list]
-Pokaż/ukryj listę kontaktów
+Pokaż/Ukryj listę kontaktów
 [Opens message dialog]
 Otwórz okno rozmowy
 [Behavior]

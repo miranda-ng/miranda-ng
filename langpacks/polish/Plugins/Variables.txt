@@ -15,7 +15,7 @@ Automatycznie usuń znaki końca linii
 [Automatically strip white space]
 Automatycznie usuń puste znaki
 [Automatically strip all non-parsing characters]
-Automatycznie usuń wszystkie nieprzetwarzalne znaki
+Automatycznie usuń wszystkie nieprzetwarzane znaki
 [Test area]
 Obszar testowy
 [Click on the help button to get more information]
@@ -39,13 +39,13 @@ Opis
 [Setting]
 Ustawienia
 [The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
-Wyrażenie %extratext% jest tłumaczone na tekst zależny od tego przy jakiej sytuacji jest przetarzane. Użyj tego okienka do symulacji tekstu, do którego tłumaczy %extratext%.
+Wyrażenie %extratext% jest tłumaczone na tekst zależny od tego przy jakiej sytuacji jest przetwarzane. Użyj tego okienka do symulacji tekstu, do którego tłumaczy %extratext%.
 [Close]
 Zamknij
 [OK]
 OK
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
-Wtyczka Variables tłumaczy różne wyrażenia na ustaloną wartość. Na przykład: Używam Mirandy w wersji %mirandaversion%. Fragment %mirandaversion% zostanie przetłumaczony na prawidłowy numer wersji. Ta lista przetstawia wszystkie możliwe wyrażenia.
+Wtyczka Variables tłumaczy różne wyrażenia na ustaloną wartość. Na przykład: Używam Mirandy w wersji %mirandaversion%. Fragment %mirandaversion% zostanie przetłumaczony na prawidłowy numer wersji. Ta lista przedstawia wszystkie możliwe wyrażenia.
 [Notes]
 Notatki
 [Variables...]
@@ -89,7 +89,7 @@ Aplikacje zewnętrzne
 [retrieves song name of the song currently playing in Winamp]
 pobiera nazwę piosenki aktualnie odtwarzanej w Winamp'ie
 [retrieves current Winamp state (Playing/Paused/Stopped)]
-pobiera aktualny status Winamp (Odtwarzanie/Pauza/Zatrzymanie)
+pobiera aktualny status Winampa (Odtwarzanie/Pauza/Zatrzymanie)
 ;file \plugins\Variables\src\parse_inet.cpp
 [Internet Related]
 Spokrewnione z internetem
@@ -154,7 +154,7 @@ konwertuje wartości dziesiętne liczby "x" do wartości hex i długości "y"
 [minimum value of (decimal) arguments]
 minimalna wartość argumentu (po przecinku)
 [maximum value of (decimal) arguments]
-maksymalna wartość agrumentu (po przecinku)
+maksymalna wartość argumentu (po przecinku)
 [pads decimal value x to length y with zeros]
 zmienia wartość dziesiętną "x" do długości "y" z zerami
 [random number]
@@ -218,7 +218,7 @@ pobiera czas w formacie "y" kiedy kontakt "x" był ostatnio połączony ("y" jes
 [get last seen date of contact x in format y (y is optional)]
 pobiera datę w formacie "y" kiedy kontakt "x" był ostatnio połączony ("y" jest opcjonalne) 
 [get last seen status of contact x]
-pobiera ostatnio widziny status kontaktu "x"
+pobiera ostatnio widziany status kontaktu "x"
 [path to the Miranda NG executable]
 folder pliku wykonywalnego Mirandy NG
 [current status description of protocol x (without x, the global status is retrieved)]
@@ -226,7 +226,7 @@ aktualny opis protokołu "x" (bez "x" pobierany jest globalny opis)
 [info property y of protocol ID x]
 zawartość właściwości "y" protokołu o ID "x"
 [retrieves the subject, depending on situation]
-pobiera temat, w zależncości od sytuacji
+pobiera temat, w zależności od sytuacji
 [translates x]
 przekłada "x"
 [get the version of Miranda]
@@ -296,11 +296,11 @@ PRAWDA, jeżeli "x" jest równe "y"
 [TRUE if x equals any of the following arguments]
 PRAWDA, jeżeli "x" jest równe któremuś z następujących argumentów
 [TRUE if the first z characters of x equal y]
-PRAWDA, jeżeli piersze "z" znaków w "x" jest równe "y"
+PRAWDA, jeżeli pierwsze "z" znaków w "x" jest równe "y"
 [TRUE if x equals y, ignoring case]
 PRAWDA, jeżeli "x" jest równe "y", ignorując wielkość liter
 [TRUE if the first z characters of x equal y, ignoring case]
-PRAWDA, jeżeli piersze "z" znaków w "x" jest równe "y", ignorując wielkość liter
+PRAWDA, jeżeli pierwsze "z" znaków w "x" jest równe "y", ignorując wielkość liter
 [the shortest string of the arguments]
 najkrótszy ciąg znaków spośród argumentów
 [location of first occurrence of character y in string x]
@@ -314,7 +314,7 @@ wydziela ciąg znaków z "x", od pozycji "y" do "z"
 [the xth string of the arguments]
 wybiera argument numer "x" z podanych
 [z if y equals x, multiple y and z arguments allowed]
-"z", jeżeli "y" równe "x", dozowlone wielokrotne pary argumentów "y" i "z"
+"z", jeżeli "y" równe "x", dozwolone wielokrotne pary argumentów "y" i "z"
 [removes white spaces in before and after x]
 usuwa białe znaki z początku i końca "x"
 [inserts x tab characters (x is optional)]
@@ -353,9 +353,9 @@ PRAWDA, jeżeli proces "x" jest uruchomiony
 [value y from registry key x (REG_SZ (string) values only)]
 wartość "y" z klucza rejestru "x" (tylko wartości REG_SZ (ciągi))
 [formats timestamp x (seconds since 1/1/1970) in date format y]
-pokazuje datę w foramcie "y" po upływie "x" sekund od 1/1/1970
+pokazuje datę w formacie "y" po upływie "x" sekund od 1/1/1970
 [formats timestamp x (seconds since 1/1/1970) in time format y]
-pokazuje czas w foramcie "y" po upływie "x" sekund od 1/1/1970
+pokazuje czas w formacie "y" po upływie "x" sekund od 1/1/1970
 [y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
 "y" > 0: linia "y" z pliku "x", "y" = 0: całey plik, "y" < 0: linia "y" licząc od końca, "y" = r: losowa linia
 [uptime in seconds]

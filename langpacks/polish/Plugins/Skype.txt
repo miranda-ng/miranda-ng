@@ -217,7 +217,7 @@ Zmienianie hasła
 [Old password was incorrect]
 Stare hasło jest niepoprawne
 [Failed to verify password. No connection to server]
-Niepowodzenie w weryfikacji hasła. Brak połączenai z serwerem
+Niepowodzenie w weryfikacji hasła. Brak połączenia z serwerem
 [Password was set but server didn't like it much]
 Hasło zostało ustawione (sugerowana zmiana)
 [New password was exactly the same as old one]
@@ -230,7 +230,7 @@ Zaloguj się aby zmienić hasło
 Nie podałeś nazwy użytkownika Skype.\nSkonfiguruj ją w Opcje -> Protokoły, i spróbuj jeszcze raz.
 ;file \protocols\Skype\src\skype_blocked.cpp
 [Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
-Czy napewno chcesz zablokować "%s" (%s)? Nie będzie on/ona w stanie zadzwonić do Ciebie, ani pokazywać się na twojej liście kontaktów.
+Czy na pewno chcesz zablokować "%s" (%s)? Nie będzie on/ona w stanie zadzwonić do Ciebie, ani pokazywać się na twojej liście kontaktów.
 [Name]
 Nazwa
 ;file \protocols\Skype\src\skype_bookmarks.cpp

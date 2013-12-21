@@ -6,7 +6,7 @@
 ;  Authors: Kildor, Thief
 ;============================================================
 [Shows rating of contact in contact list (if presents).]
-Pokauje ocenę kontaktu na liście kontaktów.
+Pokazuje ocenę kontaktu na liście kontaktów.
 ;file \plugins\Rate\src\main.cpp
 [Rate high]
 Wysoka ocena

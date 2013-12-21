@@ -111,9 +111,9 @@ Importuj kanały
 [Export Feeds]
 Eksportuj kanały
 [Auto Update Enabled]
-Autoaktualizacja włączona
+Auto-aktualizacja włączona
 [Auto Update Disabled]
-Autoaktualizacja wyłączona
+Auto-aktualizacja wyłączona
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Sprawdź kanał
@@ -139,7 +139,7 @@ Adres e-mail autora.
 [URL of a page for comments relating to the item.]
 Link do komentarzy kanału.
 [A string that uniquely identifies the item.]
-Identyfokator kanału.
+Identyfikator kanału.
 [Specify one or more categories that the item belongs to.]
 Kategoria kanału.
 [Feed Tag Help]
@@ -160,7 +160,7 @@ Protokoły
 [Avatars]
 Awatary
 [Enable/disable auto update]
-Włącz/wyłącz autoaktualizacje
+Włącz/wyłącz auto-aktualizacje
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 Połączenie HTTP NewsAggregator

@@ -79,7 +79,7 @@ Ustaw mój status na:
 [On success, if my status is:]
 W przypadku powodzenia, jeśli mój status to:
 [Execute the following command on double-click:]
-Wykonaj polecenie po podwujnym kliknięciu:
+Wykonaj polecenie po podwójnym kliknięciu:
 [Contact]
 Kontakt
 [Protocols]
@@ -150,7 +150,7 @@ dwuklik
 [Ping]
 Ping
 [Show/Hide &Ping Window]
-Pokaż/ukryj okno Pingu
+Pokaż/Ukryj okno Pingu
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Host %s prosi o zredukowanie produkowanego przez ciebie ruchu.
@@ -162,7 +162,7 @@ Nieznany
 [Responding]
 Odpowiadaj
 [Not Responding]
-Nie Odpowiadaj
+Nie odpowiadaj
 [Testing]
 Testowanie
 [Disabled]

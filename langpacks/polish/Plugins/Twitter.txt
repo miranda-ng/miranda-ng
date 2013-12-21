@@ -97,7 +97,7 @@ Twitter
 [%s avatar connection]
 Połączenie awatarów %s
 [Unable to get avatar Netlib connection for Twitter]
-Nie udało się uzyskać połączenia netlib awatara dla Twittera
+Nie udało się uzyskać połączenia Netlib awatara dla Twittera
 [%s Protocol]
 Protokół %s
 ;file \protocols\Twitter\src\theme.cpp

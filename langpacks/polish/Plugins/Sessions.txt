@@ -35,7 +35,7 @@ Akcja podczas zamykania
 [Ask]
 Pytaj
 [Save Current Session]
-Zapisz aktualnę sesję
+Zapisz aktualną sesję
 [Save only last]
 Zapisz tylko ostatnią
 [Sessions]
@@ -43,7 +43,7 @@ Sesje
 [Misc]
 Inne
 [Exclude hidden contacts from session on exit]
-Wyklucz ukryte kontakty z sesji przy zamykaniu
+Wyklucz z sesji ukryte kontakty, przy zamykaniu
 [Warn, when some of LastSession contacts are hidden]
 Ostrzegaj, gdy niektóre z kontaktów są ukryte
 [Show other warnings ("session already opened" etc.)]
@@ -77,7 +77,7 @@ OK
 [Cancel]
 Anuluj
 [Save your current session?]
-Zapisac obecną sesję?
+Zapisać obecną sesję?
 ;file \plugins\Sessions\Src\Main.cpp
 [Favorite Session]
 Ulubione sesje

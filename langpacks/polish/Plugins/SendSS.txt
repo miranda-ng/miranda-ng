@@ -74,7 +74,7 @@ Błąd MAPI (%i):\n%s.
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 Odbiorca odpowiada więcej niż jednej strukturze opisującej odbiorców, przez co nie ustawiono MAPI_DIALOG
 [The specified attachment was not found]
-Nie znalezniono wskazanego załącznika
+Nie znaleziono wskazanego załącznika
 [The specified attachment could not be opened]
 Nie można otworzyć wskazanego załącznika
 [The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]

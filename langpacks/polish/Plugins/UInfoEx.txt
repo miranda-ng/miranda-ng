@@ -299,9 +299,9 @@ Użyj znak zodiaku jako domyślny awatar
 [Country Flags]
 Flagi krajów
 [Use &unknown flag if country cannot be determined]
-Użyj pustej flagi, jeśli nie może zostać zidentyfokowana
+Użyj pustej flagi, jeśli nie może zostać zidentyfikowana
 [Show country flag as &status icon on message window]
-Pokaż ikone kraju w oknie rozmowy
+Pokaż ikonę kraju w oknie rozmowy
 [Birthday]
 Urodziny
 [Age:]
@@ -611,7 +611,7 @@ Ostrzeżenie: Nie znaleziono paczki ikon w żadnym z folderów: "customize\\icon
 Ogólne
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [UserInfoEx]
-Dane kontkatu
+Dane kontaktu
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Eksport/Import
@@ -624,7 +624,7 @@ Importuj
 [&Import User Details]
 Importuj dane kontaktu
 [View/Change My &Details...]
-Pokaż/zmień moje dane...
+Pokaż/Zmień moje dane...
 [Export all contacts]
 Eksportuj wszystkie kontakty
 [Import all contacts]
@@ -636,7 +636,7 @@ Sprawdź rocznice
 [Extended UserInfo]
 Dane kontaktu
 [Ex-/Import Group]
-Eksport/import grupy
+Eksport/Import grupy
 [&Export Group]
 Eksportuj grupę
 [&Import Group]
@@ -672,7 +672,7 @@ Spółka
 [Question]
 Pytanie
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
-To usunie wszystkie ustawienia jakie zrobiłeś!\nWszystkie ustawienia drzewa, położenie okna oraz wszystkie inne ustawienia!\n\nCzy napewno chcesz kontynuować?
+To usunie wszystkie ustawienia jakie zrobiłeś!\nWszystkie ustawienia drzewa, położenie okna oraz wszystkie inne ustawienia!\n\nCzy na pewno chcesz kontynuować?
 [Ready]
 Gotowy
 [Everything is done!]
@@ -719,7 +719,7 @@ Edytuj wartość
 [Delete an entry]
 Usuń rocznicę
 [Do you really want to delete this entry?]
-Czy napewno chcesz usunąć te dane?
+Czy na pewno chcesz usunąć te dane?
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 Afrykanerski

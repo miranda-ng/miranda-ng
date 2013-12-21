@@ -113,7 +113,7 @@ Dziennie
 [Weekly]
 Tygodniowo
 [Monthly]
-Miesięczie
+Miesięcznie
 [Yearly]
 Rocznie
 [Period]
@@ -136,7 +136,7 @@ Licznik transferu
 [Font]
 Czcionka
 [Show/Hide frame]
-Pokaż/ukryj ramkę
+Pokaż/Ukryj ramkę
 [Hide traffic window]
 Ukryj okno licznika
 [Clear the current (Now:) value]
