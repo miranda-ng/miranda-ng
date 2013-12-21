@@ -138,6 +138,16 @@ static INT_PTR CALLBACK YahooSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPARA
 		// select the first one
 		SendDlgItemMessage(hwndDlg, IDC_SEARCH_PROTOCOL, CB_SETCURSEL, 0, 0);
 		return TRUE;
+	case WM_COMMAND:
+		if(LOWORD(wParam)==IDC_SEARCH_ID && HIWORD(wParam)==EN_CHANGE){
+			PostMessage(GetParent(hwndDlg),WM_COMMAND, MAKEWPARAM(0,EN_SETFOCUS), (LPARAM)hwndDlg);
+			return TRUE;
+		}
+		if(LOWORD(wParam)==IDC_SEARCH_PROTOCOL && HIWORD(wParam)==CBN_SELCHANGE){
+			PostMessage(GetParent(hwndDlg),WM_COMMAND, MAKEWPARAM(0,EN_SETFOCUS), (LPARAM)hwndDlg);
+			return TRUE;
+		}
+		break;
 	}
 	return FALSE;
 }
