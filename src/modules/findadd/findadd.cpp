@@ -192,6 +192,26 @@ static void StopThrobber(HWND hwndDlg, FindAddDlgData *dat)
 	InvalidateRect( GetDlgItem(hwndDlg, IDC_STATUSBAR), NULL, FALSE);
 }
 
+static LRESULT CALLBACK AdvancedSearchDlgSubclassProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_COMMAND) {
+		HWND parentHwnd = GetParent(hwndDlg);
+		switch(LOWORD(wParam)) {
+		case IDOK:
+			SendMessage(parentHwnd, WM_COMMAND, MAKEWPARAM(IDOK, BN_CLICKED), (LPARAM)GetDlgItem(parentHwnd, IDOK));
+			SetFocus(GetDlgItem(parentHwnd, IDC_ADVANCED));
+			break;
+
+		case IDCANCEL:
+			CheckDlgButton(parentHwnd, IDC_ADVANCED, BST_UNCHECKED);
+			SendMessage(parentHwnd, WM_COMMAND, MAKEWPARAM(IDC_ADVANCED, BN_CLICKED), (LPARAM)GetDlgItem(parentHwnd, IDC_ADVANCED));
+			SetFocus(GetDlgItem(parentHwnd, IDC_ADVANCED));
+			break;
+		}
+	}
+	return mir_callNextSubclass(hwndDlg, AdvancedSearchDlgSubclassProc, msg, wParam, lParam);
+}
+
 static void ShowAdvancedSearchDlg(HWND hwndDlg, FindAddDlgData *dat)
 {
 	char *szProto = (char*)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCURSEL, 0, 0), 0);
@@ -201,6 +221,8 @@ static void ShowAdvancedSearchDlg(HWND hwndDlg, FindAddDlgData *dat)
 	if (dat->hwndAdvSearch == NULL) {
 		RECT rc;
 		dat->hwndAdvSearch = (HWND)CallProtoServiceInt(NULL,szProto, PS_CREATEADVSEARCHUI, 0, (LPARAM)hwndDlg);
+		if(dat->hwndAdvSearch != NULL)
+			mir_subclassWindow(dat->hwndAdvSearch, AdvancedSearchDlgSubclassProc);
 		GetWindowRect( GetDlgItem(hwndDlg, IDC_RESULTS), &rc);
 		SetWindowPos(dat->hwndAdvSearch, 0, rc.left, rc.top, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
 	}

@@ -70,28 +70,6 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		InitComboBox(GetDlgItem(hwndDlg, IDC_PASTCAT), pastField);
 
 		return TRUE;
-
-	case WM_COMMAND:
-		{
-			switch(LOWORD(wParam))
-			{
-
-			case IDOK:
-				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKEWPARAM(IDOK, BN_CLICKED), (LPARAM)GetDlgItem(GetParent(hwndDlg), IDOK));
-				break;
-
-			case IDCANCEL:
-				//          CheckDlgButton(GetParent(hwndDlg),IDC_ADVANCED,BST_UNCHECKED);
-				//          SendMessage(GetParent(hwndDlg),WM_COMMAND,MAKEWPARAM(IDC_ADVANCED,BN_CLICKED),(LPARAM)GetDlgItem(GetParent(hwndDlg),IDC_ADVANCED));
-				break;
-
-			default:
-				break;
-
-			}
-			break;
-		}
-
 	default:
 		break;
 	}
