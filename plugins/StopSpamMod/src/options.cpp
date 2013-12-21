@@ -108,7 +108,7 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			case ID_RESTOREDEFAULTS:
 				SetDlgItemText(hwnd, ID_QUESTION, defQuestion);
 				SetDlgItemText(hwnd, ID_ANSWER,  _T("nospam"));
-				SetDlgItemText(hwnd, ID_AUTHREPL, TranslateT("StopSpam: send a message and reply to a anti-spam bot question."));
+				SetDlgItemText(hwnd, ID_AUTHREPL, TranslateT("StopSpam: send a message and reply to an anti-spam bot question."));
 				SetDlgItemText(hwnd, ID_CONGRATULATION, TranslateT("Congratulations! You just passed human/robot test. Now you can write me a message."));
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				return TRUE;
@@ -131,7 +131,7 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					db_set_ws(NULL, pluginName, "answer", GetDlgItemString(hwnd, ID_ANSWER).c_str());
 					gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", _T("nospam"));
 					db_set_ws(NULL, pluginName, "authrepl", GetDlgItemString(hwnd, ID_AUTHREPL).c_str());
-					gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", TranslateT("StopSpam: send a message and reply to a anti-spam bot question."));
+					gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", TranslateT("StopSpam: send a message and reply to an anti-spam bot question."));
 					db_set_ws(NULL, pluginName, "congratulation", GetDlgItemString(hwnd, ID_CONGRATULATION).c_str());
 					gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", TranslateT("Congratulations! You just passed human/robot test. Now you can write me a message."));
 				}

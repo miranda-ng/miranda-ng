@@ -582,7 +582,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 		{
 			if(LOWORD(wParam) == IDC_SENDIDHELP)
 			{
-				MessageBoxA(hwndDlg, Translate("If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked."), Translate("XFire Options"), MB_OK|MB_ICONASTERISK);
+				MessageBoxA(hwndDlg, Translate("If you add a mod of an Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked."), Translate("XFire Options"), MB_OK|MB_ICONASTERISK);
 			}
 			else if(LOWORD(wParam) == IDC_GAMEIDHELP)
 			{

@@ -231,7 +231,7 @@ XFireне падтрымлівае паведамленні адключаным
 Агульнае
 [Automatically reconnect on protocol version changes]
 Аўтаматычна пяры далучацца пры змене версіі пратаколу
-[No Ip/Port in StatusMsg]
+[No IP/Port in StatusMsg]
 Не паказваць Ip/Port у статусных паведамленнях
 [Use Online status for unsupported global statuses]
 Выкарыстоўваць статус "Далучаны" для непадтрымоўваных глабальных статусаў
@@ -247,7 +247,7 @@ XFireне падтрымлівае паведамленні адключаным
 Не паказваць вынікі пошуку гульняў
 [Don't display game search status window]
 Не паказваць акно пры пошуку гульняў
-[Display popup, if someone start a game]
+[Display popup if someone starts a game]
 Усплывальныя вокны, калі хто-небудзь пачынае гульню
 [Enable MBot support]
 Дадаць падтрымку MBot

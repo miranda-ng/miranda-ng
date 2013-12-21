@@ -181,7 +181,7 @@ Bitte warten, game.ini wird derzeit geparst...
 XFire-Optionen
 [Please choose one game in the list!]
 Bitte wählen Sie ein Spiel aus der Liste!
-[If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
+[If you add a mod of an Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
 Um eine Mod eines von XFire unterstützten Spiels hinzuzufügen, kann hier die ID des Spiels angegeben. Wird auf diese Art z.B. eine Half-Life-Mod hinzugefügt, kann hier die ID von Half-Life angegeben werden, wodurch Half-Life als Spiel angezeigt und aufgezeichnet wird.
 [Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game.]
 Jedes Spiel braucht eine eindeutige ID. Um Probleme mit bereits verwendeten IDs zu vermeiden, sollten IDs über 10000 verwendet werden. Diese ID wird nicht zu XFire übertragen.
@@ -341,7 +341,7 @@ Alternative Avatar-Download-Variante verwenden
 Allgemein
 [Automatically reconnect on protocol version changes]
 Automatisch nach Protokoll-Versionsänderungen neu verbinden
-[No Ip/Port in StatusMsg]
+[No IP/Port in StatusMsg]
 Keine IP/Port in Statusnachricht
 [Use Online status for unsupported global statuses]
 Wechsle auf Online statt Abwesend bei nicht unterstütztem Status
@@ -359,7 +359,7 @@ Sich selbst nicht in der Server-Kontaktliste anzeigen
 Ergebnis der Spielesuche nicht anzeigen
 [Don't display game search status window]
 Statusfenster der Spielesuche nicht anzeigen
-[Display popup, if someone start a game]
+[Display popup if someone starts a game]
 Popup anzeigen, wenn jemand ein Spiel startet
 [Don't automatically create clan groups]
 Clangruppen nicht automatisch erstellen

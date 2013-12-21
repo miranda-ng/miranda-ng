@@ -31,7 +31,7 @@ Crea un nuovo account ICQ utilizzando il sito di ICQ
 Porta:
 [Default]
 Predefinito
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 Specificate la porta 0 per connettervi ad una porta casuale. Usate le porte 80 o 443 se avete problemi a connettervi attraverso un proxy server http.
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 Invia 'Keep-alives' (abilita questa opzione se uitilizzate un proxy server e vi ritrovate spesso disconnessi)
@@ -435,7 +435,7 @@ Rete
 Contatti
 [Popups]
 Popup
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Non hai inserito un numero ICQ.\nConfiguralo in Opzioni->Rete->ICQ e riprova.
 [Unable to connect to ICQ login server]
 Impossibile collegarsi al server di login di ICQ

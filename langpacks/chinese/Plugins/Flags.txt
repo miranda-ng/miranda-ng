@@ -5,7 +5,7 @@
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
-[Service offering misc country utilities as flag icons and a IP-to-Country database.]
+[Service offering misc country utilities as flag icons and an IP-to-Country database.]
 服务提供国籍显示为国旗图标功能及一个 IP-to-Country 数据库.
 ;file \plugins\CountryFlags\res\resource.rc
 [Show country flag as &extra image on contact list]

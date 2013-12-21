@@ -32,7 +32,7 @@ ICQ web sitesinden yeni bir ICQ hesabı oluştur
 Port:
 [Default]
 Varsayılan
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 İpucu: Rastgele bir porta bağlanmak için 0 yazın. Http vekil sunucu üzerinden bağlanmakta sorun yaşıyorsanız 80 veya 443 kullanın.
 [Secure (MD5) login]
 Güvenli (MD5) giriş
@@ -832,7 +832,7 @@ Açılır Pencereler
 [Sample Spambot]
 Örnek Spambot
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Bir ICQ numarası yazmadınız.\nBunu Seçenekler->Ağ->ICQ bölümünden yazıp yeniden deneyin.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server]
@@ -958,7 +958,7 @@ Dosya aktarılamadı: Geçersiz istek
 Dosya aktarılamadı: Vekile ulaşılamadı
 [Failed to Initialize File Transfer. No valid files were specified.]
 Dosya aktarımı başlatılamadı. Geçerli bir dosya belirtilmedi.
-[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 Dosyalar bir kerede göndermek için çok büyük. 4GB boyutundan büyük dosyalar ayrı ayrı gönderilebilir.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 Dosya aktarımı başlatılamadı. Yerel porta bağlanılamadı ve dosya vekiline ulaşılamadı.

@@ -121,7 +121,7 @@
 
 [Times]
 
-[Giveup after.. (0 to not giveup)]
+[Give up after... (0 to not give up)]
 
 [Days]
 Дни

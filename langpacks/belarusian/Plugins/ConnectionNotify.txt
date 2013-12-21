@@ -18,7 +18,7 @@
 Тэкст
 [Close after:]
 Зачыніць пасля:
-[sec.(0 default, -1 disabled)]
+[sec (0 default, -1 disabled)]
 сек.(0 змаўчанне, -1 адключана)
 [Settings]
 Налады
@@ -28,7 +28,7 @@
 Версія:
 [Show notification if no filter defined]
 Апавяшчаць, калі ні адзін фільтр не вызначаны
-[Attempt interval (ms.)]
+[Attempt interval (ms)]
 Інтэрвал спроб (ms.)
 [X]
 X

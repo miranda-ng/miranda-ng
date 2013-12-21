@@ -173,7 +173,7 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err
 		if (err != NULL)
 			*err = TranslateT("Path to file");
 		if (errDescr != NULL)
-			*errDescr = TranslateT("FTP path must contains '/' instead '\\' and starts from '/'.");
+			*errDescr = TranslateT("FTP path must contain '/' instead '\\' and start with '/'.");
 		return false;
 	}
 	if (isImportTask && to.filePath.find(_T("<date>")) < to.filePath.length()) {

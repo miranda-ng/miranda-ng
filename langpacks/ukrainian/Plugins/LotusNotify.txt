@@ -21,8 +21,8 @@
 Текст
 [Close after:]
 Закрити після:
-[seс.(0 default,\n -1 disabled)]
-с (0=замовчання,\n -1 вимкнути)
+[sec (0 default,\n -1 disabled)]
+с (0 замовчання,\n -1 вимкнути)
 [...but only if popup not clicked]
 ...але тільки якщо сплив. вікно не натиснуте
 [Left button click cmd:]

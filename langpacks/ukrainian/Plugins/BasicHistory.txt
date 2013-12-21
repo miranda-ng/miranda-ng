@@ -185,7 +185,7 @@
 Імпорт
 [Export]
 Експорт
-[File do not contain selected contact]
+[File does not contain selected contact]
 Файл не містить обраного контакту
 [File is corrupted]
 Файл пошкоджений
@@ -429,7 +429,7 @@ dat (mContacts)
 Щоб створити сесію, відкрийте WinSCP, натисніть "Нова сесія", введіть дату та збережіть під певним ім'ям. Пам'ятайте, якщо FTP-сервер використовує пароль, то ви повинні зберегти його в WinSCP.
 [Path to file]
 Шлях до файлу
-[FTP path must contains '/' instead '\' and starts from '/'.]
+[FTP path must contain '/' instead '\' and start with '/'.]
 FTP-шлях повинен містити '/' замість '\' і починатися з '/'.
 [FTP path cannot contain <date> in import task.]
 FTP-шлях не може містити <date> в задачі імпорту.

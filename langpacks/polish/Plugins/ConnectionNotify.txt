@@ -18,7 +18,7 @@ Tło
 Tekst
 [Close after:]
 Zamknij po:
-[sec.(0 default, -1 disabled)]
+[sec (0 default, -1 disabled)]
 sek.(0 domyślnie, -1 wyłączone)
 [Settings]
 Ustawienia
@@ -28,7 +28,7 @@ Próbuj ustalić adresy
 Wersja:
 [Show notification if no filter defined]
 Wyświetl powiadomienie, jeżeli żaden filtr nie jest zdefiniowany
-[Attempt interval (ms.)]
+[Attempt interval (ms)]
 Interwał próby (ms.)
 [X]
 X

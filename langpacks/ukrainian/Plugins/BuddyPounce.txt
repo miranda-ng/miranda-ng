@@ -117,8 +117,8 @@
 Повторити це повідомлення? (0 використовувати його один раз)
 [Times]
 Разів
-[Giveup after.. (0 to not giveup)]
-Покинути після.. (0 не покидати)
+[Give up after... (0 to not give up)]
+Покинути після... (0 не покидати)
 [Days]
 Днів
 [Show confirmation window? (0 to not Show)]

@@ -30,7 +30,7 @@ FONT 8, "Ms Shell Dlg", 400, 0, 1
     LTEXT           "Text", IDC_STATIC, 94, 187, 41, 8, SS_LEFT
     EDITTEXT        IDC_INTERVAL1, 60, 195, 21, 12, WS_GROUP | ES_AUTOHSCROLL
     RTEXT           "Close after:", IDC_STATIC, 12, 197, 47, 9, SS_RIGHT
-    LTEXT           "sec.(0 default, -1 disabled)", IDC_STATIC, 84, 197, 111, 8, SS_LEFT
+    LTEXT           "sec (0 default, -1 disabled)", IDC_STATIC, 84, 197, 111, 8, SS_LEFT
     CONTROL         "", IDC_LIST_EXCEPTIONS, WC_LISTVIEW, WS_TABSTOP | WS_BORDER | LVS_ALIGNLEFT | LVS_REPORT, 5, 14, 292, 104
     CTEXT           "", IDC_VERSION, 39, 222, 52, 9, SS_CENTER, WS_EX_STATICEDGE
     CONTROL         "", IDC_STATUS, WC_LISTVIEW, WS_TABSTOP | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | LVS_NOLABELWRAP | LVS_NOSORTHEADER | LVS_REPORT, 209, 131, 96, 99, WS_EX_CLIENTEDGE
@@ -39,7 +39,7 @@ FONT 8, "Ms Shell Dlg", 400, 0, 1
     EDITTEXT        IDC_INTERVAL, 10, 154, 21, 12, ES_AUTOHSCROLL
     RTEXT           "Version:", IDC_STATIC, 5, 223, 34, 8, SS_RIGHT
     AUTOCHECKBOX    "Show notification if no filter defined", ID_CHK_DEFAULTACTION, 12, 131, 187, 8
-    LTEXT           "Attempt interval (ms.)", IDC_STATIC, 35, 155, 163, 8, SS_LEFT
+    LTEXT           "Attempt interval (ms)", IDC_STATIC, 35, 155, 163, 8, SS_LEFT
     PUSHBUTTON      "X", ID_DELETE, 297, 68, 16, 16, BS_ICON, WS_EX_CLIENTEDGE
     LTEXT           "Online mean", IDC_STATIC, 211, 122, 92, 8, SS_LEFT
     LTEXT           "Filters", IDC_STATIC, 6, 5, 289, 8, SS_LEFT

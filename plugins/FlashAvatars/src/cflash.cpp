@@ -232,7 +232,7 @@ static void prepareFlash(char* pProto, const TCHAR* pUrl, FLASHAVATAR& fa, IShoc
 
 	if(flash->FlashVersion() == 0x80000) {
 		// Flash Version 8 has a bug which causes random crashes :(
-		ShowBalloon(LPGENT("Bugged Flash detected!"), LPGENT("You have installed Flash 8.\r\nThis version of Flash contains a bug which can causes random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library"),  NIIF_WARNING);
+		ShowBalloon(LPGENT("Bugged Flash detected!"), LPGENT("You have installed Flash 8.\r\nThis version of Flash contains a bug which can cause random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library"),  NIIF_WARNING);
 	}
 
 	// attach flash object to window

@@ -65,7 +65,7 @@ BEGIN
     LTEXT           "Text",IDC_STATIC,91,89,41,8
     EDITTEXT        IDC_INTERVAL1,57,97,21,12,ES_AUTOHSCROLL | WS_GROUP
     RTEXT           "Close after:",IDC_STATIC,9,99,47,9
-    LTEXT           "sec.(0 default,\n -1 disabled)",IDC_STATIC,81,99,89,15
+    LTEXT           "sec (0 default,\n -1 disabled)",IDC_STATIC,81,99,89,15
     CONTROL         "...but only if popup not clicked",IDC_NONCLICKEDONLY,
                     "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_PUSHLIKE | 
                     WS_TABSTOP,177,80,130,10

@@ -191,7 +191,7 @@ Prośba o autoryzację od %s (%s%d): %s
 Importuj
 [Export]
 Eksport
-[File do not contain selected contact]
+[File does not contain selected contact]
 Plik nie zawiera zaznaczonych kontaktów
 [File is corrupted]
 Plik jest nieprawidłowy
@@ -443,7 +443,7 @@ Załaduj na FTP
 Aby utworzyć sesję: otwórz WinSCP, naciśnij Nowa Sesja, wprowadź dane i zapisz z określoną nazwą. Pamiętaj, jeśli serwer FTP używa hasła, powinieneś zapisać go w WinSCP.
 [Path to file]
 Ścieżka do pliku
-[FTP path must contains '/' instead '\' and starts from '/'.]
+[FTP path must contain '/' instead '\' and start with '/'.]
 Ścieżka FTP musi zawierać "/" zamiast "\" i zaczynać się od "/".
 [FTP path cannot contain <date> in import task.]
 Ścieżka FTP nie może zawierać <date> w zadaniu importu.

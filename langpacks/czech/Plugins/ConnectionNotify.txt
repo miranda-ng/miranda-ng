@@ -18,7 +18,7 @@ Pozadí
 Text
 [Close after:]
 Zavřít po:
-[sec.(0 default, -1 disabled)]
+[sec (0 default, -1 disabled)]
 sek. (0 výchozí, -1 vypnuto)
 [Settings]
 Nastavení
@@ -28,7 +28,7 @@ pokusit se přeložit adresy
 Verze:
 [Show notification if no filter defined]
 Zobrazit upozornění pokud není definován žádný filtr
-[Attempt interval (ms.)]
+[Attempt interval (ms)]
 Interval mezi pokusy (ms.)
 [X]
 X

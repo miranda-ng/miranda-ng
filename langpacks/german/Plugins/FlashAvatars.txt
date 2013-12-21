@@ -14,7 +14,7 @@ Adobe Flash ist nicht installiert!
 Sie haben ShockwaveFlash nicht installiert.
 [Bugged Flash detected!]
 Fehlerhaftes Flash entdeckt!
-[You have installed Flash 8.\r\nThis version of Flash contains a bug which can causes random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
+[You have installed Flash 8.\r\nThis version of Flash contains a bug which can cause random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
 Sie haben Flash 8 installiert.\r\nDiese Flash-Version hat einen Bug, der willkürliche Abstürze verursachen kann.\r\nEs ist empfohlen, dass Sie Ihre Flash-Bibliotheken auf- oder abrüsten.
 [Flash avatars]
 Flash-Avatare

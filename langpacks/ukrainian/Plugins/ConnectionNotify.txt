@@ -17,8 +17,8 @@
 Текст
 [Close after:]
 Закрити після:
-[sec.(0 default, -1 disabled)]
-с.(0 замовчання, -1 вимкнути)
+[sec (0 default, -1 disabled)]
+с (0 замовчання, -1 вимкнути)
 [Settings]
 Налаштування
 [try resolve addresses]

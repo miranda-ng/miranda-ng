@@ -48,7 +48,7 @@ ICQ номер:
 Порт:
 [Default]
 Стандарт
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 Съвет: Използвайте порт 0, за да се свържете чрез случаен порт. Пробвайте порт 80 или 443, ако имате проблеми със свърването през http прокси сървър.
 [Secure Connection (SSL)]
 Сигурна (SSL) връзка
@@ -1386,7 +1386,7 @@ Popup заглавие
 %s връзки client-to-client
 [User ID]
 
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Не сте въвели ICQ номер.\nВъведете го в Настройки>Мрежа>ICQ и опитайте отново.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
@@ -1668,7 +1668,7 @@ ICQ грешка
 Прехвърлянето на файла не е успешно: Няма налично прокси
 [Failed to Initialize File Transfer. No valid files were specified.]
 
-[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 Файловете са твърде големи, за да бъдат изпратени на един път. Файлове по-големи от 4ГБ могат да бъдат изпратени поотделно.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 

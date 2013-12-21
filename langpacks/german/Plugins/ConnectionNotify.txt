@@ -18,7 +18,7 @@ Hintergrund
 Text
 [Close after:]
 Schließe nach:
-[sec.(0 default, -1 disabled)]
+[sec (0 default, -1 disabled)]
 Sek. (0 Standard, -1 deaktiviert)
 [Settings]
 Einstellungen
@@ -28,7 +28,7 @@ Versuche Adressen aufzulösen
 Version:
 [Show notification if no filter defined]
 Benachrichtigungen anzeigen falls kein Filter gesetzt wurde
-[Attempt interval (ms.)]
+[Attempt interval (ms)]
 Versuchintervall (ms.)
 [X]
 X

@@ -220,7 +220,7 @@ En el submenú
 Retardo máximo (segundos)
 [Increase delay exponential]
 Aumentar retraso exponencial
-[Cancel all if a account connects from another location]
+[Cancel all if an account connects from another location]
 Cancelar todo si una cuenta se conecta desde otro lugar
 [Reconnect on APM resume]
 Reconectar en resumen APM

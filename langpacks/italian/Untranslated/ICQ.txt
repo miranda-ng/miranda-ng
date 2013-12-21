@@ -580,7 +580,7 @@
 [The file transfer failed: Invalid request]
 [The file transfer failed: Proxy unavailable]
 [Failed to Initialize File Transfer. No valid files were specified.]
-[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 [Connection lost during file transfer.]
 [File transfer negotiation failed for unknown reason.]

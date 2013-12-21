@@ -191,7 +191,7 @@ Soubory %s (*.%s)
 Importovat
 [Export]
 Exportovat
-[File do not contain selected contact]
+[File does not contain selected contact]
 Soubor neobsahuje vybraný kontakt
 [File is corrupted]
 Soubor je poškozen
@@ -443,7 +443,7 @@ Cesta k výstupnímu souboru
 Pro vytvoření relace otevřte WinSCP, klikněte na Nová relace, zadejte data a uložte pod určitým jménem. Pamatujte, pokud FTP server vyžaduje heslo, měli byste ho uložit ve WinSCP.
 [Path to file]
 Cesta k souboru
-[FTP path must contains '/' instead '\' and starts from '/'.]
+[FTP path must contain '/' instead '\' and start with '/'.]
 Cesta na FTP musí obsahovat '/' místo '\' a začínat '/'.
 [FTP path cannot contain <date> in import task.]
 Cesta na FTP nemůže obsahovat <date> v úloze pro importování.

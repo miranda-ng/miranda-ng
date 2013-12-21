@@ -361,7 +361,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					break;
 				case 4: // Give Up delay
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG), SW_SHOW);
-					SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Giveup after.. (0 to not giveup)"));
+					SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Give up after... (0 to not give up)"));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG2), SW_SHOW);
 					SetDlgItemText(hwnd, IDC_SETTINGMSG2, TranslateT("Days"));
 					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itot(db_get_b(wi->hContact, modname, "GiveUpDays", 0), temp, 10));
@@ -482,7 +482,7 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 					break;
 				case 4: // Give Up delay
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG), SW_SHOW);
-					SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Giveup after.. (0 to not giveup)"));
+					SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Give up after... (0 to not give up)"));
 					ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG2), SW_SHOW);
 					SetDlgItemText(hwnd, IDC_SETTINGMSG2, TranslateT("Days"));
 					SetDlgItemText(hwnd, IDC_SETTINGNUMBER, _itot(db_get_b(wi->hContact, modname, "GiveUpDays", 0), temp, 10));

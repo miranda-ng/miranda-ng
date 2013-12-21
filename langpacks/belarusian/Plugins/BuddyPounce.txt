@@ -121,8 +121,8 @@
 Паўтарыць паведамленне? (0, каб выкарыстоўваць адзін раз)
 [Times]
 Час
-[Giveup after.. (0 to not giveup)]
-Здавацца пасля .. (пры 0 не здавацца)
+[Give up after... (0 to not give up)]
+Здавацца пасля... (пры 0 не здавацца)
 [Days]
 Дзён
 [Show confirmation window? (0 to not Show)]

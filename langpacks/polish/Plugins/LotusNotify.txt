@@ -22,7 +22,7 @@ Tło
 Tekst
 [Close after:]
 Zamknij po:
-[sec.(0 default,\n -1 disabled)]
+[sec (0 default,\n -1 disabled)]
 sek.(0 domyślne,\n -1 wyłączone)
 [...but only if popup not clicked]
 ...ale tylko te niekliknięte

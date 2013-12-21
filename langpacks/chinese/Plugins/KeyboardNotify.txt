@@ -94,7 +94,7 @@
 慢速
 [&Preview]
 预览(&P)
-[Emulate keypresses (Use this option if you are using an USB keyboard)]
+[Emulate keypresses (Use this option if you are using a USB keyboard)]
 模拟按键 (如您使用 USB 键盘则使用此选项)
 [Create/Edit Themes]
 创建/编辑 主题

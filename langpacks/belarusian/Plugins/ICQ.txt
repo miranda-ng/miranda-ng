@@ -48,7 +48,7 @@ ICQ
 Порт:
 [Default]
 Змаўчанні
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 Для далучэння да выпадковага порта пакажыце порт 0. Спрабуйце порты 443 ці 80, калі ў вас праблемы з далучэннем праз проксі.
 [Secure Connection (SSL)]
 Бяспечнае злучэнне (SSL)
@@ -1336,7 +1336,7 @@ Web-службы
 Злучэнні паміж кліентамі %s
 [User ID]
 ID карыстача
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Вы не ўвялі нумар ICQ.\nНаладзьце яго ў частцы Налады->Сетка->ICQ і паспрабуйце зноў.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
@@ -1618,7 +1618,7 @@ xСтатус %s
 Перадача файла не атрымалася: Проксі недаступны
 [Failed to Initialize File Transfer. No valid files were specified.]
 Памылка ініцыялізацыі перадачы файлаў. Файл не паказаны.
-[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 Занадта вялікія файлы не могуць быць адпраўлены за раз. Файлы больш 4 Гб могуць быць дасланы толькі асобна.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 Немагчыма пачаць перадачу файла. Немагчыма прызначыць лакальны порт, і файлавы проксі недаступны.

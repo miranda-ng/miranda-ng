@@ -48,7 +48,7 @@ Serwer:
 Port:
 [Default]
 Domyślny
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 Wskazówka: Port 0 służy do połączenia na losowo wybranym porcie. Spróbuj portu 80 lub 443, jeśli występują problemy z połączeniem przez serwer proxy.
 [Secure Connection (SSL)]
 Bezpieczne, szyfrowane połączenie (SSL)
@@ -1386,7 +1386,7 @@ Połączenie %s
 Połączenie Klient-do-Klienta %s
 [User ID]
 ID użytkownika
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Nie możesz wpisać numeru ICQ.\nSkonfiguruj to w Opcje->Sieć->ICQ i spróbuj ponownie.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
@@ -1668,7 +1668,7 @@ Transfer pliku nie powiódł się: nieprawidłowe żądanie
 Transfer pliku nie powiódł się: proxy niedostępne
 [Failed to Initialize File Transfer. No valid files were specified.]
 Nie udało się zainicjować transferu. Nie wybrano żadnych plików.
-[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 Pliki są zbyt duże, by wysłać je naraz. Pliki większe niż 4GB mogą zostać wysłane tylko oddzielnie.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 Nie udało się zainicjować transferu pliku. Nie udało się przypisać portu lokalnego, a proxy plików jest niedostępne.

@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME        "Country flags"
 #define __FILENAME           "Flags.dll"
-#define __DESCRIPTION        "Service offering misc country utilities as flag icons and a IP-to-Country database."
+#define __DESCRIPTION        "Service offering misc country utilities as flag icons and an IP-to-Country database."
 #define __AUTHOR             "H. Herkenrath"
 #define __AUTHOREMAIL        "hrathh@users.sourceforge.net"
 #define __AUTHORWEB          "http://miranda-ng.org/p/Flags/"

@@ -220,7 +220,7 @@ V podmenu
 Max. prodleva (sek.)
 [Increase delay exponential]
 Prodlevu postupně zvyšovat
-[Cancel all if a account connects from another location]
+[Cancel all if an account connects from another location]
 Zrušit vše, když je účet připojen z jiného umístění
 [Reconnect on APM resume]
 Obnovit připojení po návratu z úsporného režimu

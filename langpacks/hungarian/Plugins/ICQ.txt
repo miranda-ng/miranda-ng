@@ -33,7 +33,7 @@ Elveszett jelszó vagy ICQ szám helyreállítása
 Port:
 [Default]
 Alap
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 Tipp: Használd a 0 portot véletlenszerû porthoz történõ csatlakozáshoz. Próbáld a 80 vagy a 443 portot, ha gondod van a http proxy szerverhez történõ csatlakozáskor.
 [Secure (MD5) login]
 Biztonságos (MD5) belépés
@@ -839,7 +839,7 @@ Hiba sablon
 Végzetes sablon
 [Sample Spambot]
 Spambot sablon
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Nem adtál meg ICQ számot.\nÁllítsd be a Beállítások->Hálózat->ICQ menüben és próbáld újra.
 [Unable to connect to ICQ login server]
 ICQ belépési szerverhez csatlakozás sikertelen
@@ -963,7 +963,7 @@ A fájlátvitel sikertelen: Érvénytelen kérelem
 A fájlátvitel sikertelen: Proxy nem elérhetõ
 [Failed to Initialize File Transfer. No valid files were specified.]
 Fájlátvitel indítása sikertelen. Nincs érvényes fájl kiválasztva.
-[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 A fájlok túl nagyok ahhoz, hogy egyszerre küldd õket. A 4GB-nál nagyobb fájlokat csak egyesével lehet elküldeni.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 Fájlátvitel indítása sikertelen. Helyi porthoz kötés sikertelen és a fájlproxy nem elérhetõ.

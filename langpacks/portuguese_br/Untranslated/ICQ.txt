@@ -266,7 +266,7 @@
 [%s server connection]
 [%s client-to-client connections]
 [User ID]
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
 [Failed to create the correct sub-group, the using closest parent group.]

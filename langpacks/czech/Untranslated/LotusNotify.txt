@@ -1,7 +1,7 @@
 ﻿[Notify about new mail in Lotus Database]
 [Show again if still unread]
 [Show error messages]
-[sec.(0 default,\n -1 disabled)]
+[sec (0 default,\n -1 disabled)]
 [...but only if popup not clicked]
 [Left button click cmd:]
 [Command parameters:]

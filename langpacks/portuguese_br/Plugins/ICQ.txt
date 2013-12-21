@@ -33,7 +33,7 @@ Criar uma nova conta ICQ usando o site ICQ
 Porta:
 [Default]
 Padrão
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 Dica: Use porta 0 para conectar em uma porta aleatória. Tente porta 80 ou 443 se você está tendo problemas para se conectar a um servidor proxy HTTP.
 [Secure (MD5) login]
 Login Seguro (MD5)
@@ -945,7 +945,7 @@ A transferência de arquivos falhou: Pedido inválido
 A transferência de arquivos falhou: Proxy indisponível
 [Failed to Initialize File Transfer. No valid files were specified.]
 Falha ao inicializar Transferência de Arquivos. Não há arquivos válidos especificados.
-[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 Os arquivos são grandes demais para ser enviada de uma só vez. Arquivos maiores que 4GB só podem ser enviados separadamente.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 Falha ao inicializar Transferência de Arquivos. Não é possível vincular porta local e proxy Arquivo não disponível.

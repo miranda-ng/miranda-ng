@@ -91,7 +91,7 @@ void InitVars()
 	gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", defQuestion);
 	gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", _T("nospam"));
 	gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", _T("Congratulations! You just passed human/robot test. Now you can write me a message."));
-	gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", _T("StopSpam: send a message and reply to a anti-spam bot question."));
+	gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", _T("StopSpam: send a message and reply to an anti-spam bot question."));
 	gbSpecialGroup = db_get_b(NULL, pluginName, "SpecialGroup", 0);
 	gbHideContacts = db_get_b(NULL, pluginName, "HideContacts", 0);
 	gbIgnoreContacts = db_get_b(NULL, pluginName, "IgnoreContacts", 0);

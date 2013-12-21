@@ -2,7 +2,7 @@
 [Show again if still unread]
 [Set popup colors]
 [Close after:]
-[sec.(0 default,\n -1 disabled)]
+[sec (0 default,\n -1 disabled)]
 [...but only if popup not clicked]
 [Left button click cmd:]
 [Command parameters:]

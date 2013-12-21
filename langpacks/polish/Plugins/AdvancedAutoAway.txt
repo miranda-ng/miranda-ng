@@ -220,7 +220,7 @@ W podmenu
 Opóźnienie (s)
 [Increase delay exponential]
 Zwiększ opóźnienie wyświetlania
-[Cancel all if a account connects from another location]
+[Cancel all if an account connects from another location]
 Anuluj wszystko, jeśli konto łączy się z innej lokalizacji
 [Reconnect on APM resume]
 Połącz po przywróceniu APM

@@ -220,7 +220,7 @@ In Untermenü
 Max. Verzögerung (Sek.)
 [Increase delay exponential]
 Verzögerung exponentiell erhöhen
-[Cancel all if a account connects from another location]
+[Cancel all if an account connects from another location]
 Alles abbrechen, wenn sich ein Konto von einem anderen Ort aus verbindet.
 [Reconnect on APM resume]
 Wiederverbinden nach Energiesparmodus (APM)

@@ -84,7 +84,7 @@ Usuń tymczasowe kontakty
 Nigdy więcej spamu! Roboty się nie przedrą! Tylko ludzie przejdą zabezpieczenie!\r\n\r\nWtyczka działa bardzo prosto:\r\nWiadomości od użytkowników z listy kontaktów zostaną dostarczone, ponieważ nie ma żadnego oprogramowania anty-spamowego, wiadomości od nieznanych użytkowników nie będą dostarczane. Ale też nie są one ignorowane, wtyczka zadaje proste pytanie, a jeśli użytkownik poda poprawną odpowiedź, plugin doda go do twojej listy kontaktów aby mógł się z tobą skontaktować.
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
 Spamerzy sprawili, że musiałem zainstalować drobny system antyspamowy, z którym teraz rozmawiasz.\r\nOdpowiedz wiadomością o treści "niespam" bez cudzysłowia i spacji, jeśli chcesz ze mną porozmawiać.
-[StopSpam: send a message and reply to a anti-spam bot question.]
+[StopSpam: send a message and reply to an anti-spam bot question.]
 StopSpam: wyślij wiadomość i odpowiedz na pytania bota.
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
 Gratulacje! Przeszedłeś test. Teraz możesz napisać do mnie wiadomość.

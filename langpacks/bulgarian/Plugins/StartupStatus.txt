@@ -220,7 +220,7 @@ Dial-up (експериментално)
 Макс. пауза (сек)
 [Increase delay exponential]
 Експоненциално увеличаване на паузата между опитите
-[Cancel all if a account connects from another location]
+[Cancel all if an account connects from another location]
 
 [Reconnect on APM resume]
 

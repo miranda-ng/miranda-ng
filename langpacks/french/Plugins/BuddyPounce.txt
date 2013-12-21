@@ -97,7 +97,7 @@ Message:     (0 caractère)
 Réutiliser ce message ?  (0 = une seule fois)
 [Times]
 Heures
-[Giveup after.. (0 to not giveup)]
+[Give up after... (0 to not give up)]
 Réitérer après (0=désactivé):
 [Show confirmation window? (0 to not Show)]
 Voir la confirmation ? (0 pour ne pas voir)

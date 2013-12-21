@@ -18,7 +18,7 @@ Fondo
 Texto
 [Close after:]
 
-[sec.(0 default, -1 disabled)]
+[sec (0 default, -1 disabled)]
 
 [Settings]
 Ajustes
@@ -28,7 +28,7 @@ Ajustes
 Versión
 [Show notification if no filter defined]
 
-[Attempt interval (ms.)]
+[Attempt interval (ms)]
 
 [X]
 

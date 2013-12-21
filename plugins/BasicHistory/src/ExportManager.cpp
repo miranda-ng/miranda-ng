@@ -265,7 +265,7 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 	if (contInFile == -1) {
 		ret = false;
 		if (err != NULL)
-			*err = TranslateT("File do not contain selected contact");
+			*err = TranslateT("File does not contain selected contact");
 		
 		if (contacts != NULL && differentContact != NULL) {
 			contInFile = imp->IsContactInFile(*contacts);

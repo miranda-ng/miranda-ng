@@ -129,7 +129,7 @@ ID гри:
 Налаштування XFire
 [Please choose one game in the list!]
 Будь ласка, виберіть гру зі списку!
-[If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
+[If you add a mod of an Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
 Якщо ви додаєте мод гри, яка підтримується Xfire, то можна вказати, який ID буде відправлено Xfire. Наприклад, можна вказати ID Half-Life для моду Half-Life, тоді ваші друзі будуть бачити значок Half-Life поряд з вашим іменем, коли гратимете в цей мод.
 [Please enter a game name.]
 Введіть назву гри.
@@ -219,7 +219,7 @@ XFire не підтримує надсилання офлайнових пові
 Використовувати альтернативний шлях скачування аватарів
 [Automatically reconnect on protocol version changes]
 Автоматично перепідключатися при зміні версії протоколу
-[No Ip/Port in StatusMsg]
+[No IP/Port in StatusMsg]
 Не показувати IP/Port в статусних повідомленнях
 [Use Online status for unsupported global statuses]
 Використовувати статус "В мережі" для непідтримуваних глобальних статусів
@@ -237,7 +237,7 @@ XFire не підтримує надсилання офлайнових пові
 Не показувати результати пошуку ігор
 [Don't display game search status window]
 Не показувати статус пошуку ігор
-[Display popup, if someone start a game]
+[Display popup if someone starts a game]
 Спливаючі вікна, якщо хто-небудь починає гру
 [Don't automatically create clan groups]
 Не створювати автоматично групи кланів

@@ -195,7 +195,7 @@ XFire 不支持离线消息!
 常规
 [Automatically reconnect on protocol version changes]
 协议版本改变时自动重连
-[No Ip/Port in StatusMsg]
+[No IP/Port in StatusMsg]
 状态信息中无 IP/端口
 [Use Online status for unsupported global statuses]
 不支持的全局状态默认使用在线状态
@@ -211,7 +211,7 @@ XFire 不支持离线消息!
 不要显示游戏搜索结果
 [Don't display game search status window]
 不要显示游戏搜索状态窗口
-[Display popup, if someone start a game]
+[Display popup if someone starts a game]
 如某人开始游戏, 则显示弹出窗口
 [Gamedetection]
 游戏检测

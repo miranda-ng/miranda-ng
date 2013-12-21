@@ -121,7 +121,7 @@ Die Nachricht   (0 Zeichen)
 Diese Nachricht wiederverwenden? (0 meint nicht wiederverwenden)
 [Times]
 Mal
-[Giveup after.. (0 to not giveup)]
+[Give up after... (0 to not give up)]
 Aufgeben nach.. (0 meint nicht aufgeben)
 [Days]
 Tage

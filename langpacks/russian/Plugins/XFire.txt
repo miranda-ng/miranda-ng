@@ -209,8 +209,8 @@ exe игры:
 Общее
 [Automatically reconnect on protocol version changes]
 Автоматически переподключаться при смене версии протокола
-[No Ip/Port in StatusMsg]
-Не показывать Ip/Port в статусных сообщениях
+[No IP/Port in StatusMsg]
+Не показывать IP/Port в статусных сообщениях
 [Use Online status for unsupported global statuses]
 Использовать статус "В сети" для неподдерживаемых глобальных статусов
 [Don't move friends to clan groups]
@@ -227,7 +227,7 @@ exe игры:
 Не показывать результаты поиска игр
 [Don't display game search status window]
 Не показывать окно при поиске игр
-[Display popup, if someone start a game]
+[Display popup if someone starts a game]
 Всплывающие окна, если кто-нибудь начинает игру
 [Don't automatically create clan groups]
 Не создавать автоматически группы кланов

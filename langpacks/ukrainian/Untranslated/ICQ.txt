@@ -17,7 +17,6 @@
 [Sumo]
 [Depressed]
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
-[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
 [The checksum of file "%s" does not match, the file is probably damaged.]
 [GMT-11:30]
 [GMT-10:30]

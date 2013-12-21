@@ -91,7 +91,7 @@
 [In submenu]
 [Max. delay (secs)]
 [Increase delay exponential]
-[Cancel all if a account connects from another location]
+[Cancel all if an account connects from another location]
 [Reconnect on APM resume]
 [Stop trying to reconnect]
 [Set delay to]

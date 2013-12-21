@@ -1924,7 +1924,7 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 				{
 					SetCurrentStatus(ID_STATUS_OFFLINE);
 					ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
-					icq_LogMessage(LOG_FATAL, LPGEN("You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again."));
+					icq_LogMessage(LOG_FATAL, LPGEN("You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again."));
 					return 0;
 				}
 

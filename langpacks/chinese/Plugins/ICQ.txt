@@ -36,7 +36,7 @@ ICQ 号:
 端口:
 [Default]
 默认
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 提示: 使用端口 0 将连接至随机端口. 如果您的 HTTP 代理服务器连接有问题, 请尝试连接端口 80 或 443. 
 [Secure Connection (SSL)]
 安全连接 (SSL)
@@ -978,7 +978,7 @@ ICQ - 帮助
 [Sample Spambot]
 范例滥发机器
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 您尚未输入 ICQ 号码. \n请在选项->网络->ICQ 中配置并重试. 
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
@@ -1122,7 +1122,7 @@ Miranda 无法解析服务器名为数字地址. 通常可能是由于突然丢�
 文件传输已失败: 代理服务器无法使用
 [Failed to Initialize File Transfer. No valid files were specified.]
 无法初始化文件传输. 尚未指定有效的文件. 
-[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 单次传送文件过大. 大于 4GB 文件必须分别发送. 
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 无法初始化文件传输. 无法对应本地端口且文件代理服务器也无法使用. 

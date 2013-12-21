@@ -43,7 +43,7 @@
 Порт:
 [Default]
 За замовчуванням
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 Для підключення до випадкового порту вкажіть порт 0. Пробуйте порти 443 або 80, якщо у вас проблеми з підключенням через проксі.
 [Secure Connection (SSL)]
 Безпечне з'єднання (SSL)
@@ -1361,7 +1361,7 @@ Web-служби
 Підключення між клієнтами %s
 [User ID]
 ID користувача
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Ви не ввели номер ICQ.\nНастройте у розділі Настройки->Мережа->ICQ і спробуйте знову.
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 Неможливо встановити SSL-з'єднання з сервером ICQ
@@ -1633,7 +1633,7 @@ ID користувача
 Передача файлу не вдалася: Проксі недоступний
 [Failed to Initialize File Transfer. No valid files were specified.]
 Помилка ініціалізації передачі файлів. Файл не вказаний.
-[The files are too big to be sent at once. Files bigger than 4GB can only be sent separately.]
+[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 Занадто великі файли не можуть бути відправлені за раз. Файли більше 4 Гб можуть бути надіслані лише окремо.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 Неможливо розпочати передачу файлу. Неможливо призначити локальний порт, і файловий проксі недоступний.

@@ -14,7 +14,7 @@ Flash.ocx no registrado!
 Usted no tiene instalada la interfaz ShockwaveFlash en su sistema.
 [Bugged Flash detected!]
 ¡Flash problematico detectado!
-[You have installed Flash 8.\r\nThis version of Flash contains a bug which can causes random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
+[You have installed Flash 8.\r\nThis version of Flash contains a bug which can cause random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
 Tiene instalado Flash 8.\r\nEsta versión de flash tiene un fallo que puede provocar cuelgues.\r\nSe recomienda actualizar o degradar su biblioteca de Flash
 [Flash avatars]
 Avatares Flash

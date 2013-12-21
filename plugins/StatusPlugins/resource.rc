@@ -321,7 +321,7 @@ BEGIN
     LTEXT           "Max. delay (secs)",IDC_STATIC,39,35,84,8
     CONTROL         "Increase delay exponential",IDC_INCREASEEXPONENTIAL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,14,263,10
-    CONTROL         "Cancel all if a account connects from another location",IDC_CNCOTHERLOC,
+    CONTROL         "Cancel all if an account connects from another location",IDC_CNCOTHERLOC,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,96,234,10
     CONTROL         "Reconnect on APM resume",IDC_CHECKAPMRESUME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,108,234,10
     CONTROL         "Stop trying to reconnect",IDC_LOGINERR_CANCEL,"Button",BS_AUTORADIOBUTTON,22,132,169,10

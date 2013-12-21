@@ -103,7 +103,7 @@
 重新使用此消息? (0 使用一次)
 [Times]
 时间
-[Giveup after.. (0 to not giveup)]
+[Give up after... (0 to not give up)]
 放弃于... (0 不放弃)
 [Show confirmation window? (0 to not Show)]
 显示确认窗口? (0 不显示)

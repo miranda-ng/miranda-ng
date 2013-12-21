@@ -121,8 +121,8 @@ Wiadomość (0 znaków)
 Użyj wiadomości ponownie (0 = tylko raz)
 [Times]
 razy
-[Giveup after.. (0 to not giveup)]
-Zrezygnuj po.. (0 = nie rezygnuj)
+[Give up after... (0 to not give up)]
+Zrezygnuj po... (0 = nie rezygnuj)
 [Days]
 dniach
 [Show confirmation window? (0 to not Show)]

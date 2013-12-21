@@ -31,7 +31,7 @@
 יציאה:
 [Default]
 ברירת מחדל
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 רמז: השתמש בפורט 0 כדי להתקשר בפורט אקראי. נסה את פורט 80 או .http את פורט 443 אם יש לך בעיות להתקשר דרך שרת פרוקסי
 [Secure (MD5) login]
 מאובטחת (MD5) התחברות

@@ -121,7 +121,7 @@ Zpráva (počet znaků: 0)
 Použít tuto zprávu znovu? (0 pro použití pouze jednou)
 [Times]
 Čas ve světě
-[Giveup after.. (0 to not giveup)]
+[Give up after... (0 to not give up)]
 Vzdát po... (0 pro nevzdávat)
 [Days]
 Dnů

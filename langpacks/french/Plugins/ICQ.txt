@@ -30,7 +30,7 @@ Créer un nouveau compte ICQ sur le site web ICQ
 Port:
 [Default]
 Défaut
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 Note: Saisir 0 pour utiliser un port aléatoire. Mettez 80 ou 433 si vous avez des problèmes pour vous connecter au travers d'un serveur Proxy.
 [Secure (MD5) login]
 Identifiant sécurisé (MD5)
@@ -786,7 +786,7 @@ Exemple d'erreur fatale
 [Sample Spambot]
 Exemple de Spambot
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Vous n'avez pas indiqué votre numéro d'ICQ.\nAllez dans Options->Réseau->ICQ et recommencez.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server]

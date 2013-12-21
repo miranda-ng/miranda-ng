@@ -81,7 +81,7 @@ Automaticky přidat kontakt po správné odpovědi
 
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
 
-[StopSpam: send a message and reply to a anti-spam bot question.]
+[StopSpam: send a message and reply to an anti-spam bot question.]
 
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
 Gratuluji! Právě jste prošli testem člověk/robot. Teď už mi můžete poslat zprávu.

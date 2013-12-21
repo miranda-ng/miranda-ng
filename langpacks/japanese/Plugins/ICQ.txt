@@ -36,7 +36,7 @@ ICQ のウェブサイトを使用して新規 ICQ アカウントを作成
 ポート:
 [Default]
 デフォルト
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 ヒント: ポート 0 を使用するとランダムなポートに接続します。もし http プロキシサーバーを経由して接続する際に問題が生じる場合は , ポート 80 もしくはポート 443 で試してみてください
 [Secure Connection (SSL)]
 セキュア接続 ( SSL )
@@ -976,7 +976,7 @@ ICQ プロファイルを開く
 [Sample Spambot]
 サンプル スパムボット
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 ICQ 番号が入力されていません\nオプション -> ネットワーク -> ICQ で設定してから再試行してください
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
@@ -1204,7 +1204,7 @@ Miranda はサーバー名から IP アドレスへの解決ができません�
 ファイル転送に失敗: プロキシが利用できません
 [Failed to Initialize File Transfer. No valid files were specified.]
 ファイル転送の初期化に失敗しました。有効なファイルが特定されませんでした
-[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 そのファイルは一回に送信するには大きすぎます。4GB を超える大きさのファイルは分割でのみ送信可能です
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 ファイル転送の初期化に失敗しました。ローカルポートと利用できないファイルプロキシはバインドできません

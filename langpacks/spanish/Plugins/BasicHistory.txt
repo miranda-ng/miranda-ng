@@ -191,7 +191,7 @@ Mensaje no válido
 
 [Export]
 
-[File do not contain selected contact]
+[File does not contain selected contact]
 
 [File is corrupted]
 
@@ -443,7 +443,7 @@ Contactos
 
 [Path to file]
 
-[FTP path must contains '/' instead '\' and starts from '/'.]
+[FTP path must contain '/' instead '\' and start with '/'.]
 
 [FTP path cannot contain <date> in import task.]
 

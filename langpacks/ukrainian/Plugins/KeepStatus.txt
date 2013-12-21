@@ -211,7 +211,7 @@ Dial-up (експериментальна)
 Макс. затримка (с)
 [Increase delay exponential]
 Збільшити експоненціально
-[Cancel all if a account connects from another location]
+[Cancel all if an account connects from another location]
 Скасувати, якщо обліковий запис підключений з іншого місця
 [Reconnect on APM resume]
 Перепідключатися після сплячого режиму

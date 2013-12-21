@@ -215,7 +215,7 @@ Cтатус-профиль
 Макс. задержка (сек)
 [Increase delay exponential]
 Увеличить экспоненциально
-[Cancel all if a account connects from another location]
+[Cancel all if an account connects from another location]
 Отменить, если учётная запись подключена из другого места
 [Reconnect on APM resume]
 Переподключаться после спящего режима
