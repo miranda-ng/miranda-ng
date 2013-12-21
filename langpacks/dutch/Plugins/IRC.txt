@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
-;file \protocols\IRCG\res\IRC.rc
 [&Add]
 Toevoegen
 [&Edit]
@@ -162,10 +161,8 @@ Berichten
 Meldingen
 [Password:]
 Wachtwoord:
-;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 CTCP gesprek verzoek van %s
-;file \protocols\IRCG\src\commandmonitor.cpp
 [CTCP FINGER requested by %s]
 CTCP FINGER verzocht door %s
 [CTCP VERSION requested by %s]
@@ -220,7 +217,6 @@ Eikel
 *Verbinding verbroken*
 [IRC Error]
 IRC fout
-;file \protocols\IRCG\src\input.cpp
 [The buddy check function is enabled]
 De vrienden controle functie is ingeschakeld
 [The buddy check function is disabled]
@@ -253,8 +249,6 @@ DCC ERROR: Kan niet aan poort binden
 Opdracht invoeren
 [Please enter the reply]
 Vul aub het antwoord in
-;file \protocols\IRCG\src\irclib.cpp
-;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 Informatie
 [DCC ERROR: No valid files specified]
@@ -271,7 +265,6 @@ Het protocol is niet online
 De dcc gesprek verbinding is niet actief
 [Please choose an IRC-network to go online. This network will be the default.]
 Kies aub een IRC netwerk om mee online te gaan. Dit netwerk zal de standaard worden.
-;file \protocols\IRCG\src\options.cpp
 [Add]
 Toevoegen
 [Apply]
@@ -308,7 +301,6 @@ Klik om opdrachten in te stellen die worden uitgevoerd voor deze gebeurtenis
 Klik om de opdrachten te verwijderen voor deze gebeurtenis
 [Advanced]
 Geavanceerd
-;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 WallOps van %s:
 [%s invites you to %s]
@@ -323,7 +315,6 @@ CTCP %s antwoord verzonden naar %s
 CTCP %s antwoord verzonden naar %s: %s
 [Notice to %s: ]
 Melding naar %s:
-;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 Snel verbinden
 [&Change your nickname]
@@ -374,11 +365,8 @@ Bestand versturen
 Gebruiker toevoegen
 [Connecting to]
 Verbinding maken met
-;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Offline
-;file \protocols\IRCG\src\userinfo.cpp
-;file \protocols\IRCG\src\windows.cpp
 [Channel]
 Kanaal
 [Add ban/invite/exception]

@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
-;file \plugins\BASS_interface\res\Bass.rc
 [Offline]
 Offline
 [Away]
@@ -24,7 +23,5 @@ Onzichtbaar
 Aan de telefoon
 [Out to lunch]
 Aan het lunchen
-;file \plugins\BASS_interface\src\Bass_interface.h
-;file \plugins\BASS_interface\src\Main.cpp
 [Sounds]
 Geluiden

@@ -5,7 +5,6 @@
 ;  Version: 0.9.1.1
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\Ping\res\ping.rc
 [Network]
 Netwerk
 [Popups]
@@ -24,14 +23,7 @@ Annuleren
 Poort:
 [Contact]
 Persoon
-;file \plugins\Ping\src\menu.cpp
-;file \plugins\Ping\src\options.cpp
 [<none>]
 <geen>
-;file \plugins\Ping\src\ping.cpp
-;file \plugins\Ping\src\pinggraph.cpp
-;file \plugins\Ping\src\pingthread.cpp
-;file \plugins\Ping\src\rawping.cpp
-;file \plugins\Ping\src\utils.cpp
 [Unknown]
 Onbekend

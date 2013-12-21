@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 Algemeen
 [Close]
@@ -42,10 +41,8 @@ Status
 Verwijderen
 [seconds]
 seconden
-;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [Status messages]
 Status berichten
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Ik ben weg sinds %time%.
 [Give it up, I'm not in!]
@@ -68,7 +65,6 @@ Dat zal de telefoon zijn.
 Mmm... eten.
 [idleeeeeeee]
 ruuuuustig
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 Protocol
 [Closing in %d]

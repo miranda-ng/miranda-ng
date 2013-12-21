@@ -1,11 +1,10 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
-;file \protocols\IcqOscarJ\res\resources.rc
 [Password:]
 Wachtwoord:
 [&Send]
@@ -24,8 +23,12 @@ Standaard
 Berichtgeving
 [Options]
 Opties
+[Text Color]
+Tekst kleur
 [Error]
 Fout
+[&Use Windows colors]
+Windows kleuren gebr&uik
 [Use default colors]
 Standaard kleuren gebruiken
 [Summary]
@@ -62,24 +65,10 @@ Plaats:
 Ander
 [Closing in %d]
 Sluiten in %d
-;file \protocols\IcqOscarJ\src\chan_04close.cpp
-;file \protocols\IcqOscarJ\src\fam_01service.cpp
-;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
-;file \protocols\IcqOscarJ\src\fam_04message.cpp
-;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
-;file \protocols\IcqOscarJ\src\fam_17signon.cpp
-;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-;file \protocols\IcqOscarJ\src\icq_avatar.cpp
-;file \protocols\IcqOscarJ\src\icq_constants.h
-;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Female]
 Vrouw
 [Male]
 Man
-;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
-;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
-;file \protocols\IcqOscarJ\src\icq_menu.cpp
-;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [System default codepage]
 Standaard systeem codepage
 [Network]
@@ -88,29 +77,17 @@ Netwerk
 Personen
 [Popups]
 Popups
-;file \protocols\IcqOscarJ\src\icq_popups.cpp
-;file \protocols\IcqOscarJ\src\icq_proto.cpp
-;file \protocols\IcqOscarJ\src\icq_server.cpp
-;file \protocols\IcqOscarJ\src\icq_servlist.cpp
-;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [Close]
 Sluit
 [** All contacts **]
 ** Alle personen **
-;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [On the phone]
 Aan de telefoon
-;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
-;file \protocols\IcqOscarJ\src\init.cpp
-;file \protocols\IcqOscarJ\src\log.cpp
-;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
-;file \protocols\IcqOscarJ\src\utilities.cpp
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[Free for Chat]
+Beschikbaar voor gesprek
+[error]
+Fout
 [Contact]
 Persoon
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[Upload FAILED]
+Upload gefaald

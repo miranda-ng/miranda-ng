@@ -1,0 +1,13 @@
+﻿#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
+;============================================================
+;  File: Dbx_mmap.dll
+;  Plugin: Miranda NG mmap database driver
+;  Version: 0.11.0.2
+;  Authors: Miranda-NG project
+;============================================================
+[OK]
+OK
+[Cancel]
+Annuleren
+[Enter password]
+Voer wachtwoord in

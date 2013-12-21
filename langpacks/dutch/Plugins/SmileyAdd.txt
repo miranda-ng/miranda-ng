@@ -5,7 +5,6 @@
 ;  Version: 0.2.3.17
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
-;file \plugins\SmileyAdd\res\resource.rc
 [Smiley categories]
 Smiley categorieën
 [Specify smiley pack for each category]
@@ -26,18 +25,11 @@ Gebruik de eerste smiley voor de grootte van de selectie
 Scherm in IEView-stijl
 [Smiley button]
 Smiley knop
-;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 Smiley selectiescherm tonen
-;file \plugins\SmileyAdd\src\download.cpp
-;file \plugins\SmileyAdd\src\main.cpp
-;file \plugins\SmileyAdd\src\options.cpp
 [Customize]
 Aanpassen
 [Off]
 Uit
 [All files]
 Alle bestanden
-;file \plugins\SmileyAdd\src\services.cpp
-;file \plugins\SmileyAdd\src\smileys.cpp
-;file \plugins\SmileyAdd\src\smltool.cpp

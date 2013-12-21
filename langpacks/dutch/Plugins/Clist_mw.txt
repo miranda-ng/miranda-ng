@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
-;file \plugins\Clist_mw\res\resource.rc
 [Stretch to width]
 Tot breedte uitrekken
 [Stretch to height]
@@ -178,6 +177,8 @@ Protocol namen weergeven
 Status tekst weergeven
 [Right click opens status menu]
 Rechts klikken opent status menu
+[Right click opens Miranda menu]
+Rechts klikken opent Miranda menu
 [Make sections equal width]
 Selecties even groot maken
 [Use connecting Icon]
@@ -224,10 +225,8 @@ Groep
 G&roep hernoemen
 [&Delete Group]
 Groep verwij&deren
-;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 Aanpassen
-;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Standaard personen
 [Online contacts to whom you have a different visibility]
@@ -240,9 +239,10 @@ Personen die 'niet op de lijst' staan
 Verdelers
 [Offline contacts to whom you have a different visibility]
 Offline personen met een andere zichtbaarheid
+[Status messages]
+Status berichten
 [Background]
 Achtergrond
-;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Lijst
 [List Background]
@@ -267,18 +267,11 @@ Onzichtbaar
 Aan het lunchen
 [On the phone]
 Aan de telefoon
-;file \plugins\Clist_mw\src\clistopts.cpp
-;file \plugins\Clist_mw\src\clistsettings.cpp
 [(Unknown Contact)]
 (Onbekend Persoon)
-;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 Personen zoeken/toevoegen...
 [&Options...]
 &Opties...
-;file \plugins\Clist_mw\src\clui.cpp
-;file \plugins\Clist_mw\src\cluiopts.cpp
-;file \plugins\Clist_mw\src\groupmenu.cpp
-;file \plugins\Clist_mw\src\keyboard.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
+[&New SubGroup]
+&Nieuw Subgroep

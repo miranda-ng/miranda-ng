@@ -5,7 +5,6 @@
 ;  Version: 0.9.9.1
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
-;file \plugins\AddContactPlus\res\resource.rc
 [Custom name:]
 Eigen naam:
 [Group:]
@@ -20,5 +19,3 @@ Autorisatie verzoek
 Toevoegen
 [&Cancel]
 Annuleren
-;file \plugins\AddContactPlus\src\addcontact.cpp
-;file \plugins\AddContactPlus\src\main.cpp

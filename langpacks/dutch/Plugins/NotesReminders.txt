@@ -5,26 +5,25 @@
 ;  Version: 0.0.5.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
-;file \plugins\NotesAndReminders\res\resource.rc
 [&Close]
 Sluiten
+[Background Color]
+Achtergrond kleur
 [Reset]
 Terugzetten
+[Text Color]
+Tekst kleur
 [Undo]
 Ongedaan maken
 [&Copy]
 Kopiëren
-;file \plugins\NotesAndReminders\src\globals.h
-;file \plugins\NotesAndReminders\src\hotkeys.cpp
-;file \plugins\NotesAndReminders\src\main.cpp
 [Plugins]
 Plugins
 [Alerts]
 Waarschuwingen
-;file \plugins\NotesAndReminders\src\notes.cpp
 [Notes]
 Notities
-;file \plugins\NotesAndReminders\src\options.cpp
-;file \plugins\NotesAndReminders\src\reminders.cpp
+[Seconds]
+seconden
 [Default]
 Standaard

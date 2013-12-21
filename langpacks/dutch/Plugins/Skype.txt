@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
-;file \protocols\Skype\res\Resource.rc
 [&Cancel]
 Annuleren
 [Add]
@@ -32,40 +31,23 @@ Provincie:
 Land:
 [Timezone:]
 Tijdzone:
-;file \protocols\Skype\src\skype.cpp
-;file \protocols\Skype\src\skype_account.cpp
-;file \protocols\Skype\src\skype_blocked.cpp
 [Name]
 Naam
-;file \protocols\Skype\src\skype_bookmarks.cpp
-;file \protocols\Skype\src\skype_chat.cpp
 [&User details]
 Gebr&uiker details
 [&Add]
 Toevoegen
-;file \protocols\Skype\src\skype_contacts.cpp
-;file \protocols\Skype\src\skype_dialogs.cpp
 [Male]
 Man
 [Female]
 Vrouw
-;file \protocols\Skype\src\skype_events.cpp
 [Network]
 Netwerk
 [Contacts]
 Personen
 [General]
 Algemeen
-;file \protocols\Skype\src\skype_icons.cpp
 [Contact]
 Persoon
 [Delete]
 Verwijderen
-;file \protocols\Skype\src\skype_ignore_list.cpp
-;file \protocols\Skype\src\skype_instances.cpp
-;file \protocols\Skype\src\skype_menus.cpp
-;file \protocols\Skype\src\skype_messages.cpp
-;file \protocols\Skype\src\skype_netlib.cpp
-;file \protocols\Skype\src\skype_proto.cpp
-;file \protocols\Skype\src\skype_transfers.cpp
-;file \protocols\Skype\src\skype_utils.cpp

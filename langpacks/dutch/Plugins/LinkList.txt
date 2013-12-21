@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Zoeken
 [Close]
@@ -14,6 +13,10 @@ Sluit
 Binnenkomende berichten
 [Outgoing messages]
 Uitgaande berichten
+[Background color]
+Achtergrond kleur
+[Text color]
+Tekst kleur
 [Timestamp]
 Tijdstempel
 [&File]
@@ -22,11 +25,13 @@ Bestand
 Sluiten
 [&Search]
 Zoeken
-;file \plugins\HistoryLinkListPlus\src\language.h
 [Error]
 Fout
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[incoming]
+Binnenkomend
+[outgoing]
+Uitgaand
 [History]
 Geschiedenis
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[All files]
+Alle bestanden

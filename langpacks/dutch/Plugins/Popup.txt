@@ -5,11 +5,12 @@
 ;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
-;file \plugins\Popup\res\resource.rc
 [Effects]
 Effecten
 [History]
 Geschiedenis
+[events]
+Gebeurtenissen
 [Draw avatar borders]
 Randen van avatar tekenen
 [Draw borders for semitransparent avatars too]
@@ -34,33 +35,37 @@ Geen popups sluiten waar de muis boven staat
 Positie:
 [Disable when:]
 Uitschakelen wanneer:
-;file \plugins\Popup\src\actions.cpp
-;file \plugins\Popup\src\config.cpp
-;file \plugins\Popup\src\effects.cpp
-;file \plugins\Popup\src\font.cpp
-;file \plugins\Popup\src\history.cpp
-;file \plugins\Popup\src\icons.cpp
+[User details]
+Gebruikersdetails
 [OK]
 OK
 [Cancel]
 Annuleren
-[User details]
-Gebruikersdetails
-;file \plugins\Popup\src\main.cpp
+[Blocked Contact]
+Geblokkeerd persoon
 [Contacts]
 Personen
 [Advanced]
 Geavanceerd
-;file \plugins\Popup\src\opt_adv.cpp
-;file \plugins\Popup\src\opt_class.cpp
-;file \plugins\Popup\src\opt_gen.cpp
-;file \plugins\Popup\src\opt_skins.cpp
+[Offline]
+Offline
+[Invisible]
+Onzichtbaar
+[Away]
+Afwezig
+[NA]
+Niet beschikbaar
+[Occupied]
+Bezet
+[DND]
+Niet storen
+[Free for chat]
+Beschikbaar voor gesprek
+[Out to lunch]
+Aan het lunchen
+[On the phone]
+Aan de telefoon
 [Use Windows colors]
 Windows kleuren gebruiken
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-;file \plugins\Popup\src\services.cpp
 [Error]
 Fout
-;file \plugins\Popup\src\skin.cpp
-;file \plugins\Popup\src\srmm_menu.cpp

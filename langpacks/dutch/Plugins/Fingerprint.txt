@@ -5,12 +5,7 @@
 ;  Version: 0.1.0.0
 ;  Authors: faith_healer, ghazan, mataes
 ;============================================================
-;file \plugins\FingerprintNG\res\resource.rc
-;file \plugins\FingerprintNG\src\fingerprint.cpp
-;file \plugins\FingerprintNG\src\finger_groups.h
 [Protocol]
 Protocol
-;file \plugins\FingerprintNG\src\masks.cpp
-;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 Iconen

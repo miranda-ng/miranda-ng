@@ -5,26 +5,11 @@
 ;  Version: 0.2.3.10
 ;  Authors: P Boon
 ;============================================================
-;file \plugins\Variables\res\Variables.rc
 [Close]
 Sluit
 [OK]
 OK
 [Notes]
 Notities
-;file \plugins\Variables\src\help.cpp
 [Cancel]
 Annuleren
-;file \plugins\Variables\src\options.cpp
-;file \plugins\Variables\src\parse_alias.cpp
-;file \plugins\Variables\src\parse_external.cpp
-;file \plugins\Variables\src\parse_inet.cpp
-;file \plugins\Variables\src\parse_logic.cpp
-;file \plugins\Variables\src\parse_math.cpp
-;file \plugins\Variables\src\parse_metacontacts.cpp
-;file \plugins\Variables\src\parse_miranda.cpp
-;file \plugins\Variables\src\parse_regexp.cpp
-;file \plugins\Variables\src\parse_str.cpp
-;file \plugins\Variables\src\parse_system.cpp
-;file \plugins\Variables\src\parse_variables.cpp
-;file \plugins\Variables\src\variables.cpp

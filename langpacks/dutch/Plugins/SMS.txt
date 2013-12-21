@@ -5,7 +5,6 @@
 ;  Version: 0.2.5.3
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
-;file \plugins\SMS\res\resource.rc
 [&Reply]
 Antwoo&rden
 [&Close]
@@ -18,10 +17,5 @@ Aan:
 Ver&sturen
 [&Cancel]
 Annuleren
-;file \plugins\SMS\src\options.cpp
-;file \plugins\SMS\src\receive.cpp
-;file \plugins\SMS\src\recvdlg.cpp
-;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 Geschiedenis van de gebruiker bekijken
-;file \plugins\SMS\src\SMS_svc.cpp

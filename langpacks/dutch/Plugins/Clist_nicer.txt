@@ -5,7 +5,6 @@
 ;  Version: 0.9.2.1
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-;file \plugins\Clist_nicer\res\resource.rc
 [OK]
 OK
 [Version]
@@ -66,6 +65,8 @@ Snelzoeken alleen in open groepen
 Spring groepen in bij:
 [Contact List Sorting]
 Persoon lijst sortering
+[Height]
+hoogte
 [Icons]
 Iconen
 [Dim idle contacts]
@@ -216,12 +217,12 @@ Miranda verbergen
 G&roep hernoemen
 [&Delete Group]
 Groep verwij&deren
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 Algemeen
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-;file \plugins\Clist_nicer\src\CLCButton.cpp
-;file \plugins\Clist_nicer\src\clcopts.cpp
+[Text color]
+Tekst kleur
+[<None>]
+<geen>
 [Not focused]
 Geen focus
 [Offline]
@@ -252,9 +253,8 @@ Achtergrond
 Personen
 [Advanced]
 Geavanceerd
-;file \plugins\Clist_nicer\src\clistmenus.cpp
-;file \plugins\Clist_nicer\src\clistopts.cpp
-;file \plugins\Clist_nicer\src\clui.cpp
+[Contact list]
+Persoon lijst
 [Standard contacts]
 Standaard personen
 [Online contacts to whom you have a different visibility]
@@ -267,14 +267,9 @@ Offline personen met een andere zichtbaarheid
 Personen die 'niet op de lijst' staan
 [Dividers]
 Verdelers
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-;file \plugins\Clist_nicer\src\Docking.cpp
-;file \plugins\Clist_nicer\src\extBackg.cpp
-;file \plugins\Clist_nicer\src\init.cpp
-;file \plugins\Clist_nicer\src\viewmodes.cpp
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 Personen zoeken/toevoegen...
 [&Options...]
 &Opties...
+[&New SubGroup]
+&Nieuw Subgroep

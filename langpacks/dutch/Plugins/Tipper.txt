@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
-;file \plugins\TipperYM\res\resource.rc
 [Options]
 Opties
 [Window]
@@ -18,6 +17,8 @@ Annuleren
 Toevoegen
 [Edit]
 Bewerken
+[Advanced options]
+Geavanceerde opties
 [Extra icons]
 Extra iconen
 [Enable SmileyAdd support]
@@ -26,17 +27,14 @@ SmileyAdd ondersteuning inschakelen
 Smileys schalen
 [Effects]
 Effecten
-;file \plugins\TipperYM\src\mir_smileys.cpp
-;file \plugins\TipperYM\src\options.cpp
+[Center]
+Midden
 [Customize]
 Aanpassen
-;file \plugins\TipperYM\src\options.h
 [Status]
 Status
-;file \plugins\TipperYM\src\popwin.cpp
 [Other]
 Ander
-;file \plugins\TipperYM\src\preset_items.cpp
 [Gender:]
 Geslacht:
 [Idle]
@@ -47,15 +45,11 @@ Naam
 Naam:
 [Time:]
 Tijd:
-;file \plugins\TipperYM\src\skin_parser.cpp
-;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Achtergrond
 [Dividers]
 Verdelers
-;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Vrouw
 [Male]
 Man
-;file \plugins\TipperYM\src\translations.h

@@ -5,9 +5,10 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
-;file \plugins\Import\res\resource.rc
 [Cancel]
 Annuleren
+[System history]
+Systeemgeschiedenis
 [Incoming]
 Binnenkomend
 [Outgoing]
@@ -18,10 +19,5 @@ Berichten
 Bestandsoverdrachten
 [Other]
 Ander
-;file \plugins\Import\src\import.cpp
-;file \plugins\Import\src\main.cpp
-;file \plugins\Import\src\miranda.cpp
 [All Files]
 Alle bestanden
-;file \plugins\Import\src\utils.cpp
-;file \plugins\Import\src\wizard.cpp

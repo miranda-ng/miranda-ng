@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
-;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Een melding geven wanneer een persoon veranderd naar een van deze statussen
 [Offline]
@@ -60,19 +59,20 @@ OK
 Annuleren
 [General]
 Algemeen
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[All files]
+Alle bestanden
 [Status]
 Status
 [Sound for the status]
 Geluid voor de status
 [** All contacts **]
 ** Alle personen **
-;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (standaard geluid)
-;file \plugins\NewXstatusNotify\src\main.cpp
 [Contact]
 Persoon
+[connecting]
+Verbinden
 [(M) is back online!]
 hij is terug online!
 [(F) is back online!]
@@ -149,14 +149,9 @@ moest de telefoon beantwoorden
 Gebruiker: Aan de telefoon
 [User: from offline (has priority!)]
 Gebruiker: van offline (heeft prioriteit!)
-;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Alle bestanden
 [Log]
 Loggen
 [Protocol]
 Protocol
-;file \plugins\NewXstatusNotify\src\popup.h
-;file \plugins\NewXstatusNotify\src\utils.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.h

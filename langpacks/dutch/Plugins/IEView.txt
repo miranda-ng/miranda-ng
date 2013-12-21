@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.0
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
-;file \plugins\IEView\res\ieview.rc
 [Copy]
 Kopiëren
 [Select All]
@@ -20,17 +19,14 @@ Grootte:
 Met tekst scrollen
 [Show seconds]
 Seconden weergeven
-;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Incoming File Transfer]
 Binnenkomend bestand overdracht
-;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Onbekend Persoon)
-;file \plugins\IEView\src\IEView.cpp
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[ERROR]
+Fout
 [Error]
 Fout
-;file \plugins\IEView\src\Options.cpp
 [General]
 Algemeen
 [History]
@@ -39,6 +35,3 @@ Geschiedenis
 Standaard
 [All Files]
 Alle bestanden
-;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
-;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
-;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

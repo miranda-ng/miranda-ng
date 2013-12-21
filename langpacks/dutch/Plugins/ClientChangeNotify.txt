@@ -5,15 +5,11 @@
 ;  Version: 0.1.1.3
 ;  Authors: Deathdemon
 ;============================================================
-;file \plugins\ClientChangeNotify\res\Resources.rc
 [OK]
 OK
 [Background]
 Achtergrond
 [Text]
 Tekst
-;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [Popups]
 Popups
-;file \plugins\ClientChangeNotify\src\Misc.h
-;file \plugins\ClientChangeNotify\src\OptDlg.cpp

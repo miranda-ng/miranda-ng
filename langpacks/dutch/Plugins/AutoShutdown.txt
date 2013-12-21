@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.2
 ;  Authors: H. Herkenrath
 ;============================================================
-;file \plugins\AutoShutdown\res\resource.rc
 [seconds]
 seconden
 [Configure]
@@ -14,17 +13,13 @@ Instellen
 OK
 [Cancel]
 Annuleren
-;file \plugins\AutoShutdown\src\frame.cpp
 [Background]
 Achtergrond
-;file \plugins\AutoShutdown\src\main.cpp
-;file \plugins\AutoShutdown\src\options.cpp
 [Events]
 Gebeurtenissen
-;file \plugins\AutoShutdown\src\settingsdlg.cpp
-;file \plugins\AutoShutdown\src\shutdownsvc.cpp
+[Minute(s)]
+minu(u)t(en)
 [Unknown]
 Onbekend
 [Alerts]
 Waarschuwingen
-;file \plugins\AutoShutdown\src\utils.cpp

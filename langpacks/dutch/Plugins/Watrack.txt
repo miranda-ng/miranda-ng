@@ -5,10 +5,10 @@
 ;  Version: 0.0.6.12
 ;  Authors: Awkward
 ;============================================================
+[second line]
+Tweede lijn
+[Color]
+Kleur
 [Choose font...]
 Lettertype kiezen...
-;file \plugins\Watrack\myshows\myshows.rc
-;file \plugins\Watrack\lastfm\i_last_api.inc
-;file \plugins\Watrack\lastfm\i_last_dlg.inc
-;file \plugins\Watrack\proto\proto.pas
 ;other strings

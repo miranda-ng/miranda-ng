@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
-;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Contact verwijderen
 [Are you sure you want to delete %s?]
@@ -174,7 +173,6 @@ Groep
 G&roep hernoemen
 [&Delete Group]
 Groep verwij&deren
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Geen focus
 [Offline]
@@ -197,6 +195,3 @@ Aan het lunchen
 Aan de telefoon
 [List]
 Lijst
-;file \plugins\Clist_blind\src\clistopts.cpp
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp

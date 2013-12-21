@@ -2,10 +2,9 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.1.99.8
+;  Version: 3.2.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-;file \plugins\TabSRMM\res\chat.rc
 [OK]
 OK
 [Cancel]
@@ -70,7 +69,12 @@ Tab sluiten
 Andere tabs sluiten
 [&Open at this position]
 &Op deze positie toevoegen
-;file \plugins\TabSRMM\res\resource.rc
+[&Cancel]
+Annuleren
+[&Send]
+Ver&sturen
+[&Add]
+Toevoegen
 [seconds]
 seconden
 [Text]
@@ -115,6 +119,10 @@ Iconen
 Ja
 [No]
 Ne
+[Send message on 'Enter']
+Bericht op 'Enter' versturen
+[Send message on double 'Enter']
+Bericht op dubble 'Enter' versturen
 [Minimize the message window on send]
 Het berichtenscherm bij versturen minimaliseren
 [&Copy]
@@ -133,17 +141,14 @@ Standaard
 Uit
 [&File]
 Bestand
-;file \plugins\TabSRMM\src\buttonsbar.cpp
+[Show Menu Bar]
+Menu balk weergeven
+[Show Status Bar]
+Status balk weergeven
 [View User's History]
 Geschiedenis van de gebruiker bekijken
-;file \plugins\TabSRMM\src\container.cpp
-;file \plugins\TabSRMM\src\containeroptions.cpp
-;file \plugins\TabSRMM\src\controls.cpp
-;file \plugins\TabSRMM\src\eventpopups.cpp
 [Incoming file]
 Binnenkomend bestand
-;file \plugins\TabSRMM\src\generic_msghandlers.cpp
-;file \plugins\TabSRMM\src\globals.cpp
 [Incoming (Focused Window)]
 Binnenkomend (Actief scherm)
 [Incoming (Unfocused Window)]
@@ -154,16 +159,12 @@ Binnenkomend (Nieuwe sessie)
 Uitgaand
 [Other]
 Ander
-;file \plugins\TabSRMM\src\hotkeyhandler.cpp
-;file \plugins\TabSRMM\src\infopanel.cpp
-;file \plugins\TabSRMM\src\mim.cpp
-;file \plugins\TabSRMM\src\modplus.cpp
-;file \plugins\TabSRMM\src\msgdialog.cpp
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
+[Smiley selector]
+Smiley kiezer
+[contact]
+Persoon
 ['(Unknown Contact)']
 '(Onbekend Persoon)'
-;file \plugins\TabSRMM\src\msglog.cpp
-;file \plugins\TabSRMM\src\msgoptions.cpp
 [** New contacts **]
 ** Nieuwe Personen **
 [** Unknown contacts **]
@@ -172,47 +173,28 @@ Ander
 Algemeen
 [Typing Notify]
 Typen meldingen
-;file \plugins\TabSRMM\src\msgs.cpp
+[Smiley button]
+Smiley knop
 [Background color]
 Achtergrond kleur
 [Incoming message]
 Binnenkomend bericht
 [Outgoing message]
 Uitgaand bericht
-;file \plugins\TabSRMM\src\msgs.h
-;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Error]
 Fout
-;file \plugins\TabSRMM\src\sendlater.cpp
 [Contact]
 Persoon
 [Status]
 Status
-;file \plugins\TabSRMM\src\sendqueue.cpp
-;file \plugins\TabSRMM\src\sidebar.cpp
-;file \plugins\TabSRMM\src\srmm.cpp
-;file \plugins\TabSRMM\src\taskbar.cpp
-;file \plugins\TabSRMM\src\templates.cpp
-;file \plugins\TabSRMM\src\themeio.cpp
-;file \plugins\TabSRMM\src\themes.cpp
-;file \plugins\TabSRMM\src\translator.cpp
 [Show headers]
 Koppen weergeven
 [System tray icon]
 Systeemvak icoon
-[Send message on 'Enter']
-Bericht op 'Enter' versturen
-[Send message on double 'Enter']
-Bericht op dubble 'Enter' versturen
 [Close the message window on send]
 Het berichtenscherm bij versturen sluiten
-;file \plugins\TabSRMM\src\trayicon.cpp
-;file \plugins\TabSRMM\src\typingnotify.cpp
-;file \plugins\TabSRMM\src\userprefs.cpp
-;file \plugins\TabSRMM\src\utils.cpp
-;file \plugins\TabSRMM\src\chat\clist.cpp
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-;file \plugins\TabSRMM\src\chat\log.cpp
+[Text color]
+Tekst kleur
 [%s has joined]
 %s komt binnen
 [%s has left]
@@ -225,8 +207,6 @@ Het berichtenscherm bij versturen sluiten
 %s trapt %s weg
 [ (set by %s)]
  (ingesteld door %s)
-;file \plugins\TabSRMM\src\chat\muchighlight.cpp
-;file \plugins\TabSRMM\src\chat\options.cpp
 [Log background]
 Log achtergrond
 [Timestamp]
@@ -277,6 +257,8 @@ Knop menus weergeven bij rechtermuis-klik op de knoppen
 Geen scherm openen bij binnenkomst van een gespreksruimte
 [Prefix all events with a timestamp]
 Voor alle gebeurtenissen een tijdstempel zetten
+[Timestamp has same color as the event]
+Tijdstempel heeft dezelfde kleur als de gebeurtenis
 [Indent the second line of a message]
 De tweede lijn van een bericht inspringen
 [Limit user names in the message log to 20 characters]
@@ -305,12 +287,10 @@ Gebruiker heeft naam gewijzigd
 Gebruiker heeft een melding gestuurd
 [The topic has been changed]
 Het onderwerp is veranderd
-;file \plugins\TabSRMM\src\chat\services.cpp
 [&Join]
 Binnengaan
 [&Leave]
 &Laten staan
-;file \plugins\TabSRMM\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s heeft uw aandacht nodig in %s
 [%s speaks in %s]
@@ -335,7 +315,6 @@ Informatie in %s
 Melding van %s: %s
 [No word to look up]
 Geen woord om op te zoeken
-;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick]
 Bijnaam
 [%s: Message Session]

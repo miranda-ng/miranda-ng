@@ -5,7 +5,6 @@
 ;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
-;file \plugins\SeenPlugin\res\resource.rc
 [Text]
 Tekst
 [Away]
@@ -28,31 +27,30 @@ Onzichtbaar
 Offline
 [OK]
 OK
-;file \plugins\SeenPlugin\src\history.cpp
 [View User's Details]
 Details van de gebruiker bekijken
 [User Menu]
 Gebruikersmenu
-;file \plugins\SeenPlugin\src\main.cpp
-;file \plugins\SeenPlugin\src\menu.cpp
 [<none>]
 <geen>
-;file \plugins\SeenPlugin\src\options.cpp
 [Contacts]
 Personen
 [Popups]
 Popups
-;file \plugins\SeenPlugin\src\seen.h
 [seconds]
 seconden
+[username]
+Gebruikersnaam
+[nick]
+Bijnaam
 [Group]
 Groep
 [Status]
 Status
 [Protocol]
 Protocol
-;file \plugins\SeenPlugin\src\userinfo.cpp
-;file \plugins\SeenPlugin\src\utils.cpp
+[Jun.]
+jun.
 [Idle]
 Rustig
 [Unknown]

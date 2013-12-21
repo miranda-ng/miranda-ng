@@ -5,7 +5,6 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-;file \protocols\Xfire\res\resource.rc
 [Password:]
 Wachtwoord:
 [Nick:]
@@ -24,18 +23,20 @@ Gebruikersnaam:
 Naam:
 [Port:]
 Poort:
+[User details]
+Gebruikersdetails
 [Copy]
 Kopiëren
+[Enter Password]
+Voer wachtwoord in
 [OK]
 OK
 [Cancel]
 Annuleren
 [Search:]
 Zoeken:
-;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Alle bestanden
-;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 Ja, hier ben ik.
 [I've been away since %time%.]
@@ -50,18 +51,11 @@ Gun een man zijn rust, wil je?
 Dat zal de telefoon zijn.
 [Mmm... food.]
 Mmm... eten.
-;file \protocols\Xfire\src\iniupdater.cpp
-;file \protocols\Xfire\src\main.cpp
 [Username]
 Gebruikersnaam
-;file \protocols\Xfire\src\options.cpp
 [General]
 Algemeen
 [No]
 Ne
 [Network]
 Netwerk
-;file \protocols\Xfire\src\searching4games.cpp
-;file \protocols\Xfire\src\userdetails.cpp
-;file \protocols\Xfire\src\Xfire_game.cpp
-;file \protocols\Xfire\src\Xfire_gamelist.cpp

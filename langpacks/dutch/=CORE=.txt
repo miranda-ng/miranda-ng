@@ -1,4 +1,4 @@
-﻿;file \src\resource.rc
+﻿
 [OK]
 OK
 [Cancel]
@@ -227,6 +227,8 @@ Ongedaan maken
 Terugzetten
 [Export...]
 Exporteren...
+[Text color]
+Tekst kleur
 [Effects]
 Effecten
 [Sample]
@@ -293,7 +295,6 @@ In &nieuw scherm openen
 In bestaand scherm &openen
 [&Copy link]
 Link kopiëreren
-;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Autoriserem
 [&Deny]
@@ -304,7 +305,6 @@ Reden:
 U bent toegevoegd
 [&Close]
 Sluiten
-;file \src\core\stdaway\resource.rc
 [%s message for %s]
 %s Bericht voor %s
 [Status messages]
@@ -323,7 +323,6 @@ Gebruik %time% voor de huidige tijd, %date% voor de huidige datum
 %s bericht wijzigen
 [Closing in %d]
 Sluiten in %d
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 Ver&sturen
 [Nick changes]
@@ -406,7 +405,6 @@ Tab sluiten
 Andere tabs sluiten
 [&Open at this position]
 &Op deze positie toevoegen
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 Offline gebruikers verbergen
 [Hide empty groups]
@@ -581,7 +579,6 @@ Onz&ichtbaar\tCtrl+7
 Aan de telefoon\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Aan het lunchen\tCtrl+9
-;file \src\core\stdfile\resource.rc
 [Send file(s)]
 Bestand(en) versturen
 [To:]
@@ -670,10 +667,8 @@ Vraag mij
 Hernoemen (voeg " (1)" toe, etc.)
 [You will always be asked about files from people not on your contact list]
 Bestanden van personen niet op uw lijst zal altijd worden gevraagd
-;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Over Miranda NG
-;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Wordt rustig wanneer het volgende onbeheerd is gelaten:
 [Become idle if the screen saver is active]
@@ -690,7 +685,6 @@ Mijn status mode wijzigen naar:
 Status niet terugzetten naar online bij terugkomst van rustig
 [Idle options]
 Rustig opties
-;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Scherm automatisch laten zien wanneer:
 [Close the message window on send]
@@ -759,7 +753,6 @@ In het systeemvak en in de lijst knipperen
 Baloon popup weergeven
 [Delete]
 Verwijderen
-;file \src\core\stduihist\resource.rc
 [Find]
 Vinden
 [&Find next]
@@ -770,7 +763,6 @@ Zoeken naar:
 Bericht geschiedenis
 [&Find...]
 Zoeken...
-;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 Telefoonnummer toevoegen:
 [Enter country, area code and phone number:]
@@ -835,24 +827,20 @@ Bedrijf:
 Afdeling
 [Position:]
 Positie:
-;file \src\core\stdauth\auth.cpp
 [%u requests authorization]
 %u vraagt toestemming
 [%u added you to their contact list]
 %u heeft u toegevoegd aan zijn/haar lijst
 [Alerts]
 Waarschuwingen
-;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 Details van de gebruiker bekijken
 [Add contact permanently to list]
 Persoon permanent aan lijst toevoegen
 [(Unknown)]
 (Onbekend)
-;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s message]
 %s bericht lezen
-;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 Ik ben weg sinds %time%.
 [Give it up, I'm not in!]
@@ -877,11 +865,6 @@ Mmm...eten.
 ruuuuustig
 [Status]
 Status
-;file \src\core\stdchat\src\clist.cpp
-;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-Tekst kleur
-;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s komt binnen
 [%s has left]
@@ -894,7 +877,6 @@ Tekst kleur
 %s trapt %s weg
 [ (set by %s)]
  (ingesteld door %s)
-;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
 Bijnamen van anderen
 [Your nickname]
@@ -1055,8 +1037,12 @@ Icoon in systeemvak naamwijzigingen weergeven
 Icoon in systeemvak informatie berichten weergeven
 [Show icon in tray for status changes]
 Icoon in systeemvak status wijzigingen weergeven
+[Message background]
+Bericht achtergrond
 [Bold]
 Vet
+[Smiley button]
+Smiley knop
 [Messaging]
 Berichtgeving
 [Options for using a tabbed interface]
@@ -1091,10 +1077,8 @@ Gebruiker heeft naam gewijzigd
 Gebruiker heeft een melding gestuurd
 [The topic has been changed]
 Het onderwerp is veranderd
-;file \src\core\stdchat\src\services.cpp
 [&Join]
 Binnengaan
-;file \src\core\stdchat\src\tools.cpp
 [%s wants your attention in %s]
 %s heeft uw aandacht nodig in %s
 [%s speaks in %s]
@@ -1121,7 +1105,6 @@ Informatie in %s
 Melding van %s: %s
 [No word to look up]
 Geen woord om op te zoeken
-;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Een smiley toevoegen
 [Make the text bold (CTRL+B)]
@@ -1152,7 +1135,6 @@ Huidige tab sluiten (CTRL+F4)
 %s: Bericht sessie
 [%s: message session (%u users)]
 %s: Bericht sessie (%u gebruikers)
-;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Standaard personen
 [Online contacts to whom you have a different visibility]
@@ -1165,7 +1147,6 @@ Personen die 'niet op de lijst' staan
 Verdelers
 [Offline contacts to whom you have a different visibility]
 Offline personen met een andere zichtbaarheid
-;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 Geen focus
 [Offline]
@@ -1188,16 +1169,12 @@ Aan het lunchen
 Aan de telefoon
 [List background]
 Lijst achtergrond
-;file \src\core\stdclist\src\clistopts.cpp
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Gebruiker heeft geen geregistreerd e-mail adres
 [Send e-mail]
 E-mail versturen
 [&E-mail]
 &E-mail
-;file \src\core\stdfile\file.cpp
 [File from %s]
 Bestand van %s
 [&File]
@@ -1210,46 +1187,32 @@ Voltooid
 Fout
 [Denied]
 Geweigerd
-;file \src\core\stdfile\fileexistsdlg.cpp
 [%s file]
 %s Bestand
 [All files]
 Alle bestanden
-;file \src\core\stdfile\fileopts.cpp
 [Executable files]
 Uitvoerbare bestanden
 [Events]
 Gebeurtenissen
-;file \src\core\stdfile\filerecvdlg.cpp
 [View user's history]
 Geschiedenis van de gebruiker bekijken
 [User menu]
 Gebruikersmenu
 [Canceled]
 Geannuleerd
-;file \src\core\stdfile\filesenddlg.cpp
-;file \src\core\stdfile\filexferdlg.cpp
-;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 Uitgaand
-;file \src\core\stdhelp\about.cpp
-;file \src\core\stdhelp\help.cpp
 [&About...]
 Over...
 [&Report bug]
 Fout melden
-;file \src\core\stdidle\idle.cpp
 [Idle]
 Rustig
-;file \src\core\stdmsg\src\cmdlist.cpp
-;file \src\core\stdmsg\src\globals.cpp
-;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Laatste bericht ontvangen op %s om %s.
 [%s is typing a message...]
 %s is een bericht aan het typen...
-;file \src\core\stdmsg\src\msglog.cpp
-;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Uitgaande berichten
 [Incoming messages]
@@ -1276,35 +1239,36 @@ Berichtruimte
 Berichten log
 [Typing notify]
 Typen meldingen
-;file \src\core\stdmsg\src\msgs.cpp
 [Incoming (focused window)]
 Binnenkomend (Actief scherm)
 [Incoming (unfocused window)]
 Binnenkomend (Niet actief scherm)
 [Incoming (new session)]
 Binnenkomend (Nieuwe sessie)
-;file \src\core\stdmsg\src\msgtimedout.cpp
-;file \src\core\stduihist\history.cpp
+[Outgoing URL]
+Uitgaande URL
+[Incoming URL]
+Binnenkomende URL
+[Outgoing file]
+Uitgaand bestand
+[Incoming file]
+Binnenkomend bestand
 [History for %s]
 Geschiedenis voor %s
 [View &history]
 Gesc&hiedenis bekijken
-;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL van %s
 [Web page address (&URL)]
 Webpagina adres (&URL)
-;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Verstuur URL naar
-;file \src\core\stduserinfo\contactinfo.cpp
 [Edit phone number]
 Telefoonnummer bewerken
 [Primary]
 Hoofd
 [Fax]
 Fax
-;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 Man
 [Female]
@@ -1319,33 +1283,26 @@ Locatie
 Werk
 [Notes]
 Notities
-;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Eigenaar
 [View/change my &details...]
 Mijn &details bekijken/wijzigen...
-;file \src\core\stduseronline\useronline.cpp
-;file \src\modules\addcontact\addcontact.cpp
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
-;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Onbekend Persoon)
-;file \src\modules\clist\clisttray.cpp
-;file \src\modules\clist\clui.cpp
 [De&lete]
 Verwijderen
 [&Rename]
 He&rnoemem
 [&Add permanently to list]
 Perm&anent aan lijst toevoegen
-;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 Mijn eigen naam (niet verplaatsbaar)
 [Nick]
 Bijnaam
 [FirstName]
 Voornaam
+[E-mail]
+e-mail
 [LastName]
 Achternaam
 [Username]
@@ -1356,32 +1313,22 @@ Voornaam achternaam
 '(Onbekend Persoon)' (niet verplaatsbaar)
 ['(Unknown contact)']
 '(Onbekend Persoon)'
-;file \src\modules\clist\genmenu.cpp
-;file \src\modules\clist\genmenuopt.cpp
 [Customize]
 Aanpassen
-;file \src\modules\clist\groups.cpp
-;file \src\modules\clist\keyboard.cpp
-[Show Hide Contact List]
-Lijst weergeven verbergen
 [Read message]
 Bericht lezen
 [Open Options page]
 Opties scherm openen
 [Open 'Find user' dialog]
 Zoek gebruiker scherm openen
-;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 Naar groep verplaatsen
-;file \src\modules\database\database.cpp
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
 Miranda kan '%s' niet openen omdat u geen profiel plugins heeft geinstalleerd.\nU moet dbx_mmap.dll of een equivalent installeren.
 [No profile support installed!]
 Geen profiel ondersteuning geinstalleerd!
 [Miranda can't understand that profile]
 Miranda kan dat profiel niet begrijpen
-;file \src\modules\database\dbini.cpp
-;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 Het profiel bestaat al
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
@@ -1398,12 +1345,8 @@ Grootte
 Mijn profielen
 [New profile]
 Nieuw profiel
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
-;file \src\modules\extraicons\extraicons.cpp
-;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 Extra iconen
-;file \src\modules\findadd\findadd.cpp
 [Search]
 Zoeken
 [Results]
@@ -1412,8 +1355,6 @@ Resultaten
 Er zijn geen resultaten om weer te geven.
 [&Find/Add contacts...]
 Personen zoeken/toevoegen...
-;file \src\modules\findadd\searchresults.cpp
-;file \src\modules\fonts\FontOptions.cpp
 [<none>]
 <geen>
 [Shadow at left]
@@ -1424,48 +1365,36 @@ Schaduw rechts
 Outline vloeiend
 [Fonts]
 Lettertypes
-;file \src\modules\fonts\FontService.cpp
-;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 Icoon sets
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Alle personen **
 [Contacts]
 Personen
-;file \src\modules\netlib\netliblog.cpp
-;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Alle verbindingen>
 [Network]
 Netwerk
-;file \src\modules\netlib\netlibssl.cpp
-;file \src\modules\options\options.cpp
 [Miranda NG options]
 Miranda NG opties
 [&Options...]
 &Opties...
-;file \src\modules\plugins\newplugins.cpp
 ['%s' is disabled, re-enable?]
 '%s' is uitgeschakeld, opnieuw inschakelen?
 [Re-enable Miranda plugin?]
 Miranda plugin opnieuw inschakelen?
-;file \src\modules\plugins\pluginopts.cpp
 [Version]
 Versie
 [Plugins]
 Plugins
-;file \src\modules\protocols\protoopts.cpp
 [Edit]
 Bewerken
 [Protocol]
 Protocol
 [Configure]
 Instellen
-;file \src\modules\skin\hotkey_opts.cpp
 [System]
 Systeem
-;file \src\modules\skin\skinicons.cpp
 [User online]
 Gebruiker Online
 [Group (open)]
@@ -1480,16 +1409,13 @@ Geschiedenis
 Aan
 [Off]
 Uit
+[Always visible]
+Altijd zichtbaar
 [Main icons]
 Hoofd iconen
-;file \src\modules\skin\sounds.cpp
-;file \src\modules\utils\bmpfilter.cpp
 [All bitmaps]
 Alle bitmaps
-;file \src\modules\utils\timezones.cpp
-;file \src\modules\utils\utils.cpp
 [Unspecified]
 Niet opgegeven
 [Unknown]
 Onbekend
-;file \src\modules\visibility\visibility.cpp

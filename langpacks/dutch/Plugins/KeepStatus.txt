@@ -1,11 +1,10 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: Keep Status
+;  Plugin: Keep status
 ;  Version: 0.9.0.1
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 Algemeen
 [Close]
@@ -42,15 +41,12 @@ Status
 Verwijderen
 [seconds]
 seconden
-;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
-;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]
 Protocol
 [Advanced]
 Geavanceerd
 [Popups]
 Popups
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Ik ben weg sinds %time%.
 [Give it up, I'm not in!]
@@ -73,6 +69,5 @@ Dat zal de telefoon zijn.
 Mmm... eten.
 [idleeeeeeee]
 ruuuuustig
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Closing in %d]
 Sluiten in %d

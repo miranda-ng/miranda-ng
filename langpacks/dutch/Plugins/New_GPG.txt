@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.11
 ;  Authors: sss
 ;============================================================
-;file \plugins\New_GPG\res\new_gpg.rc
 [OK]
 OK
 [Ignore]
@@ -14,16 +13,12 @@ Negeer
 Annuleren
 [Password:]
 Wachtwoord:
-;file \plugins\New_GPG\src\init.cpp
-;file \plugins\New_GPG\src\main.cpp
 [Name]
 Naam
 [Default]
 Standaard
 [Error]
 Fout
-;file \plugins\New_GPG\src\messages.cpp
-;file \plugins\New_GPG\src\options.cpp
 [Messages]
 Berichten
 [Advanced]
@@ -32,4 +27,3 @@ Geavanceerd
 Persoon
 [Protocol]
 Protocol
-;file \plugins\New_GPG\src\utilities.cpp

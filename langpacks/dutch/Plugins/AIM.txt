@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
-;file \protocols\AimOscar\res\aim.rc
 [Password:]
 Wachtwoord:
 [Advanced Options]
@@ -14,6 +13,8 @@ Geavanceerde opties
 Poort:
 [Reset]
 Terugzetten
+[Manage Server Groups]
+Server groepen beheren
 [Add]
 Toevoegen
 [Idle]
@@ -22,23 +23,19 @@ Rustig
 Binnengaan
 [&Cancel]
 Annuleren
+[E-mail]
+e-mail
 [&Deny]
 Weigeren
 [Message]
 Bericht
-;file \protocols\AimOscar\src\chat.cpp
-;file \protocols\AimOscar\src\error.cpp
-;file \protocols\AimOscar\src\file.cpp
-;file \protocols\AimOscar\src\links.cpp
-;file \protocols\AimOscar\src\popup.cpp
-;file \protocols\AimOscar\src\proto.cpp
-;file \protocols\AimOscar\src\server.cpp
-;file \protocols\AimOscar\src\theme.cpp
+[User &details]
+Gebruikers &details
 [Profile]
 Profiel
+[Background Color]
+Achtergrond kleur
 [Bold]
 Vet
-;file \protocols\AimOscar\src\ui.cpp
 [Network]
 Netwerk
-;file \protocols\AimOscar\src\utility.cpp

@@ -5,13 +5,12 @@
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
-;file \plugins\FavContacts\res\resource.rc
 [Customize]
 Aanpassen
 [Show]
 Weergeven
-;file \plugins\FavContacts\src\favlist.h
-;file \plugins\FavContacts\src\main.cpp
+[Second line]
+Tweede lijn
 [Background]
 Achtergrond
 [Contacts]

@@ -5,7 +5,6 @@
 ;  Version: 1.5.7.7
 ;  Authors: TioDuke
 ;============================================================
-;file \plugins\KeyboardNotify\res\resources.rc
 [Incoming messages]
 Binnenkomende berichten
 [seconds]
@@ -48,12 +47,10 @@ URLs negeren
 Bestanden negeren
 [Ignore]
 Negeer
-;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Alle personen **
 [** Unknown contacts **]
 ** Onbekende personen **
-;file \plugins\KeyboardNotify\src\options.cpp
 [Events]
 Gebeurtenissen
 [Protocol]

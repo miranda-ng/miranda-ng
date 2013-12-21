@@ -5,7 +5,6 @@
 ;  Version: 2.10.0.2
 ;  Authors: Miranda NG Development Team
 ;============================================================
-;file \plugins\Scriver\res\resource.rc
 [Cascade new windows]
 Nieuwe schermen stapelen
 [Send message on 'Enter']
@@ -28,6 +27,8 @@ Iconen weergeven
 Seconden weergeven
 [Show names]
 Namen weergeven
+[events]
+Gebeurtenissen
 [Typing Notification Options]
 Typen meldingen opties
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -42,6 +43,10 @@ In het systeemvak en in de lijst knipperen
 Baloon popup weergeven
 [Cancel]
 Annuleren
+[User &details]
+Gebruikers &details
+[&Add]
+Toevoegen
 [Yes]
 Ja
 [No]
@@ -130,17 +135,16 @@ Bericht
 Lo&g opschonen
 [Co&py all]
 Alles ko&piëren
-;file \plugins\Scriver\src\globals.cpp
+[Smiley button]
+Smiley knop
 [Text color]
 Tekst kleur
 [Background color]
 Achtergrond kleur
 [Bold]
 Vet
-;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Berichtgeving
-;file \plugins\Scriver\src\msgdialog.cpp
 [User Menu]
 Gebruikersmenu
 [User details]
@@ -159,8 +163,6 @@ Geschiedenis van de gebruiker bekijken
 %s is een bericht aan het typen...
 [Last message received on %s at %s.]
 Laatste bericht ontvangen op %s om %s.
-;file \plugins\Scriver\src\msglog.cpp
-;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Algemeen
 [Outgoing messages]
@@ -181,6 +183,10 @@ Binnenkomende tijd
 Binnenkomende colon
 [Message area]
 Berichtruimte
+[Outgoing URL]
+Uitgaande URL
+[Incoming URL]
+Binnenkomende URL
 [Others nicknames]
 Bijnamen van anderen
 [Your nickname]
@@ -217,6 +223,8 @@ Opgelichte berichten
 Bericht typen gebied
 [Message background]
 Bericht achtergrond
+[User list members (online)]
+Gebruikerlijst leden (Online)
 [User list members (away)]
 Gebruikerlijst leden (afwezig)
 [Offline]
@@ -243,7 +251,6 @@ Aan de telefoon
 ** Onbekende personen **
 [Typing Notify]
 Typen meldingen
-;file \plugins\Scriver\src\msgs.cpp
 [Incoming (Focused Window)]
 Binnenkomend (Actief scherm)
 [Incoming (Unfocused Window)]
@@ -252,12 +259,8 @@ Binnenkomend (Niet actief scherm)
 Binnenkomend (Nieuwe sessie)
 [Outgoing]
 Uitgaand
-;file \plugins\Scriver\src\msgtimedout.cpp
-;file \plugins\Scriver\src\msgwindow.cpp
-;file \plugins\Scriver\src\sendqueue.cpp
-;file \plugins\Scriver\src\chat\clist.cpp
-;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
+[Always On Top]
+Altijd bovenop
 [%s has joined]
 %s komt binnen
 [%s has left]
@@ -272,12 +275,10 @@ Uitgaand
 Melding van %s
 [ (set by %s)]
  (ingesteld door %s)
-;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 Binnengaan
 [&Leave]
 &Laten staan
-;file \plugins\Scriver\src\chat\options.cpp
 [Prefix all events with a timestamp]
 Voor alle gebeurtenissen een tijdstempel zetten
 [Only prefix with timestamp if it has changed]
@@ -324,7 +325,7 @@ Icoon in systeemvak voor oplichtingen weergeven
 Icoon in systeemvak voor vertrekkende gebruikers weergeven
 [Show icon in tray for users kicking other user]
 Icoon in systeemvak voor gebruikers die andere gebruikers wegtrappen weergeven
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 Icoon in systeemvak meldingen weergeven
 [Show icon in tray for name changes]
 Icoon in systeemvak naamwijzigingen weergeven
@@ -350,8 +351,6 @@ Gebruiker heeft naam gewijzigd
 Gebruiker heeft een melding gestuurd
 [The topic has been changed]
 Het onderwerp is veranderd
-;file \plugins\Scriver\src\chat\services.cpp
-;file \plugins\Scriver\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s heeft uw aandacht nodig in %s
 [%s speaks in %s]
@@ -374,7 +373,6 @@ Informatie in %s
 %s heeft %s weggetrapt (%s)
 [Notice from %s: %s]
 Melding van %s: %s
-;file \plugins\Scriver\src\chat\window.cpp
 [Insert a smiley]
 Een smiley toevoegen
 [Make the text bold (CTRL+B)]

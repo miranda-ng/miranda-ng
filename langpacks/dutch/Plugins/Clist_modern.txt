@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-;file \plugins\Clist_modern\res\resource.rc
 [Show counts of number of contacts in a group]
 Aantallen van aantal personen in een groep weergeven
 [Hide group counts when there are none online]
@@ -44,6 +43,8 @@ Onder elkaar
 Met tekst scrollen
 [Stretch proportionally]
 Proportioneel uitrekken
+[Use Windows Colors]
+Windows kleuren gebruiken
 [Available skins]
 Beschikbare skins
 [Apply]
@@ -72,6 +73,8 @@ Framgent locatie
 Positie:
 [Size:]
 Grootte:
+[Height]
+hoogte
 [OK]
 OK
 [Cancel]
@@ -86,6 +89,8 @@ Status balk
 Status balk weergeven
 [Make sections equal width]
 Selecties even groot maken
+[Use connecting icon]
+Verbinden icoon gebruiken
 [Show xStatus icon]
 xStatus icoon weergeven
 [Show both icons]
@@ -94,6 +99,8 @@ Beide iconen weergeven
 Normale status als overlay weergeven
 [Right click opens status menu]
 Rechts klikken opent status menu
+[Right click opens Miranda menu]
+Rechts klikken opent Miranda menu
 [Delete Contact]
 Contact verwijderen
 [No]
@@ -214,14 +221,12 @@ Verander iconen iedere
 seconden, wanneer statussen verschillen
 [Show multiple icons]
 Meerdere iconen weergeven
-[Only when statuses differ]
-Alleen wanneer statussen verschillen
+[only when statuses differ]
+bij verschillende statussen
 [System tray icon]
 Systeemvak icoon
 [Use xStatus icon]
 xStatus icoon gebruiken
-[only when statuses differ]
-bij verschillende statussen
 [Additional stuff]
 Aanvullend spul
 [Show time only if it is different from current time]
@@ -350,8 +355,10 @@ Offline gebruiker&s hierbinnen weergeven
 G&roep hernoemen
 [&Delete Group]
 Groep verwij&deren
-;file \plugins\Clist_modern\src\modern_clc.cpp
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[List Background]
+Lijst achtergrond
+[Row items]
+Rij items
 [Standard contacts]
 Standaard personen
 [Away contacts]
@@ -386,6 +393,8 @@ Gesloten groepen
 Gesloten groep lid telling
 [Dividers]
 Verdelers
+[Second line]
+Tweede lijn
 [Third line]
 Derde lijn
 [Status bar text]
@@ -400,8 +409,6 @@ Algemeen
 Lijst
 [Window]
 Scherm
-[List Background]
-Lijst achtergrond
 [Not focused]
 Geen focus
 [Offline]
@@ -434,9 +441,6 @@ Naar systeemvak verbergen
 Achter linker rand
 [Behind right edge]
 Achter rechter rand
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Text]
 Tekst
 [Extra icons]
@@ -453,22 +457,12 @@ Rij
 Tweede lijn
 [Third Line]
 Derde lijn
-[Row items]
-Rij items
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Onbekend Persoon)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 Personen zoeken/toevoegen...
 [&Options...]
 &Opties...
-;file \plugins\Clist_modern\src\modern_clui.cpp
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [- Empty - (do not draw this object)]
 - Leeg - (dit object niet tekenen)
 [Solid fill object]
@@ -485,19 +479,21 @@ Strek vertikaal, stapel horizontaal
 Stapel vertikaal, strek horizontaal
 [Tile Both directions]
 Stapel beide richtingen
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [Error]
 Fout
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Laden/Opslaan
 [Object Editor]
 Object bewerker
 [Default Skin]
 Standaard Skin
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [Center]
 Midden
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Disable Groups]
+Groepen uitschakelen
+[All contacts]
+alle personen
+[All Contacts]
+alle personen
+[&New SubGroup]
+&Nieuw Subgroep

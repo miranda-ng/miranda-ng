@@ -2,10 +2,9 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
-;file \plugins\AVS\res\avs.rc
 [Number of points to define background:]
 Aantal punten voor agk:
 [Color difference allowed:]
@@ -44,13 +43,6 @@ Punten:
 Kleur verschil:
 [Set]
 Instellen
-;file \plugins\AVS\src\acc.cpp
-;file \plugins\AVS\src\main.cpp
-[All Files]
-Alle bestanden
-[Contacts]
-Personen
-;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 Avatar opties voor %s instellen
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
@@ -59,3 +51,7 @@ Afbeeldingbestand van de harde schrijf verwijderen (kan nodig zijn om een herlaa
 Afbeelding persoon terugzetten
 [Contact has no avatar]
 Persoon heeft geen avatar
+[Contacts]
+Personen
+[All Files]
+Alle bestanden

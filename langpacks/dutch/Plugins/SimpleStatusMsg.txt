@@ -5,7 +5,6 @@
 ;  Version: 1.9.0.4
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
-;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
 %s Bericht voor %s
 [&Cancel]
@@ -28,25 +27,20 @@ Plakken
 Verwijderen
 [Select All]
 Alles selecteren
-;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [&Close]
 Sluiten
 [Re&ad %s Message]
 %s bericht lezen
 [Re&ad Away Message]
 &Afwezig bericht lezen
-;file \plugins\SimpleStatusMsg\src\main.cpp
-;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [Closing in %d]
 Sluiten in %d
-;file \plugins\SimpleStatusMsg\src\options.cpp
 [Status]
 Status
 [General]
 Algemeen
 [Advanced]
 Geavanceerd
-;file \plugins\SimpleStatusMsg\src\utils.cpp
 [I've been away since %time%.]
 Ik ben weg sinds %time%.
 [Give it up, I'm not in!]

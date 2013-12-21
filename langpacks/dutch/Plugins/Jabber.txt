@@ -1,11 +1,10 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-;file \protocols\JabberG\res\jabber.rc
 [OK]
 OK
 [Cancel]
@@ -66,15 +65,6 @@ Berichten
 Sluiten in %d
 [Authorization request]
 Autorisatie verzoek
-;file \protocols\JabberG\src\jabber.cpp
-;file \protocols\JabberG\src\jabber.h
-;file \protocols\JabberG\src\jabber_adhoc.cpp
-;file \protocols\JabberG\src\jabber_agent.cpp
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
-;file \protocols\JabberG\src\jabber_byte.cpp
-;file \protocols\JabberG\src\jabber_caps.cpp
-;file \protocols\JabberG\src\jabber_captcha.cpp
-;file \protocols\JabberG\src\jabber_chat.cpp
 [Owner]
 Eigenaar
 [Away]
@@ -87,26 +77,14 @@ Niet storen
 Beschikbaar voor gesprek
 [&User details]
 Gebr&uiker details
-;file \protocols\JabberG\src\jabber_console.cpp
-;file \protocols\JabberG\src\jabber_disco.cpp
-;file \protocols\JabberG\src\jabber_disco.h
-;file \protocols\JabberG\src\jabber_form2.cpp
-;file \protocols\JabberG\src\jabber_groupchat.cpp
+[User &details]
+Gebruikers &details
 [Loading...]
 Bezig met laden...
-;file \protocols\JabberG\src\jabber_icolib.cpp
 [Notes]
 Notities
-;file \protocols\JabberG\src\jabber_iqid.cpp
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
-;file \protocols\JabberG\src\jabber_menu.cpp
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
 Aan
-;file \protocols\JabberG\src\jabber_notes.cpp
-;file \protocols\JabberG\src\jabber_opt.cpp
 [Messaging]
 Berichtgeving
 [Other]
@@ -121,44 +99,35 @@ Groep
 Netwerk
 [Advanced]
 Geavanceerd
-;file \protocols\JabberG\src\jabber_password.cpp
-;file \protocols\JabberG\src\jabber_privacy.cpp
 [<none>]
 <geen>
-;file \protocols\JabberG\src\jabber_proto.cpp
-;file \protocols\JabberG\src\jabber_rc.cpp
+[messages]
+Berichten
 [Status]
 Status
 [Invisible]
 Onzichtbaar
 [Offline]
 Offline
-;file \protocols\JabberG\src\jabber_search.cpp
-;file \protocols\JabberG\src\jabber_svc.cpp
-;file \protocols\JabberG\src\jabber_thread.cpp
-;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Message]
 Bericht
 [Version]
 Versie
 [System]
 Systeem
-[Yes]
-Ja
-[No]
-Ne
+[unknown]
+Onbekend
+[to]
+Aan
 [Copy]
 Kopiëren
-;file \protocols\JabberG\src\jabber_util.cpp
 [Error]
 Fout
-;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Man
 [Female]
 Vrouw
 [Contacts]
 Personen
-;file \protocols\JabberG\src\jabber_ws.cpp
-;file \protocols\JabberG\src\jabber_xstatus.cpp
-;file \protocols\JabberG\src\ui_utils.cpp
+[on the phone]
+Aan de telefoon

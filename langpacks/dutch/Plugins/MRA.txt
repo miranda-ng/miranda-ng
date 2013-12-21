@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.6
 ;  Authors: Ivan Rozhuk
 ;============================================================
-;file \protocols\MRA\res\resource.rc
 [Password:]
 Wachtwoord:
 [Port:]
@@ -26,6 +25,10 @@ Achternaam:
 Geslacht:
 [Age:]
 Leeftijd:
+[from:]
+Van:
+[to:]
+Aan:
 [Location]
 Locatie
 [Country:]
@@ -36,34 +39,55 @@ Provincie:
 Plaats:
 [Full e-mail:]
 Volledige e-mail:
+[&Use Windows colors]
+Windows kleuren gebr&uik
+[Text Color]
+Tekst kleur
 [Closing in %d]
 Sluiten in %d
 [OK]
 OK
 [Cancel]
 Annuleren
-;file \protocols\MRA\src\MraAvatars.cpp
-;file \protocols\MRA\src\MraChat.cpp
-;file \protocols\MRA\src\MraConstans.h
-;file \protocols\MRA\src\MraFilesQueue.cpp
-;file \protocols\MRA\src\MraIcons.cpp
-;file \protocols\MRA\src\MraPopUp.cpp
+[Male]
+Man
+[Female]
+Vrouw
+[Aries]
+Ram
+[Taurus]
+Stier
+[Gemini]
+Tweelingen
+[Cancer]
+Kreeft
+[Leo]
+Leeuw
+[Virgo]
+Maagd
+[Libra]
+Weegschaal
+[Scorpio]
+Schorpioen
+[Sagittarius]
+Boogschutter
+[Capricorn]
+Steenbok
+[Aquarius]
+Waterman
+[Pisces]
+Vissen
 [Information]
 Informatie
 [Error]
 Fout
 [Popups]
 Popups
-;file \protocols\MRA\src\MraProto.cpp
 [E-mail address]
 E-mail adres
-;file \protocols\MRA\src\Mra_functions.cpp
-;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Netwerk
 [Files]
 Bestanden
-;file \protocols\MRA\src\Mra_proto.cpp
-;file \protocols\MRA\src\Mra_svcs.cpp
 [On the phone]
 Aan de telefoon

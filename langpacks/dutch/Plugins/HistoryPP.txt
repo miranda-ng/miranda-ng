@@ -13,6 +13,8 @@ Meer opties nodig?
 Binnenkomende WATtrack melding
 [Outgoing WATrack notify]
 Uitgaande WATtrack melding
+[&Copy Link]
+Link kopiëreren
 [WATrack notify]
 WATrack notificatie
 [Imitate IEView API]
@@ -73,6 +75,8 @@ Antwoo&rd met quote
 Gebeurtenis informatie
 [Date/Time:]
 Datum/Tijd:
+[SMS Message]
+SMS bericht
 [Global History Search]
 Gehele geschiedenis doorzoeken
 [Search for]
@@ -249,6 +253,8 @@ Unicode tekst bestand (*.txt)|*.txt
 Tekst bestand (*.txt)|*.txt
 [All files (*.*)|*.*]
 Alle bestanden (*.*)|*.*
+[Remove bookmark]
+Bladwijzer verwijderen
 [Remove Bookmark]
 Bladwijzer verwijderen
 [Set Bookmark]
@@ -303,6 +309,8 @@ Recente gebeurtenissen boven
 Gebruik standaard RTL
 [Additional processing support]
 Aanvullende ondersteuning voor verwerking
+[Change Appearance]
+Uiterlijk wijzigen
 [To change fonts you need to install FontService plugin.]
 Om lettertypes te wijzigen moet u de FontService plugin installeren.
 [FontService is installed. Go to Customize -> Fonts to change settings.]
@@ -317,6 +325,8 @@ IcoLib plugin downloaden
 Meer informatie over deze plugins
 [Open event details by Enter]
 Gebeurtenisdetails bij Enter openen
+[History search]
+Geschiedenis doorzoeken
 [Conversation header]
 Gespreks header
 [Divider]
@@ -333,6 +343,16 @@ Uitgaande URL
 Informatie van zender tonen
 [Show receiver information]
 Informatie van ontvanger tonen
+[Incoming Url]
+Binnenkomende URL
+[Outgoing Url]
+Uitgaande URL
+[System Message]
+Systeembericht
+[Authorization request]
+Autorisatie verzoek
+[&Reset to Default]
+Naar standaard te&rugzetten
 [Incoming nick]
 Binnenkomende bijnaam
 [Outgoing nick]
@@ -345,3 +365,23 @@ Systeembericht
 Binnenkomende tijdstempel
 [Outgoing timestamp]
 Uitgaande tijdstempel
+[Open in &new window]
+In &nieuw scherm openen
+[Select &All]
+&Alles selecteren
+[Send &Message]
+Bericht versturen
+[User Details]
+Gebruikersdetails
+[Enable SmileyAdd support]
+SmileyAdd ondersteuning inschakelen
+[Enable MathModule support]
+MathModule ondersteuning inschakelen
+[Show event icons]
+Gebeurtenis iconen weergeven
+[View user's history]
+Geschiedenis van de gebruiker bekijken
+[View User's History]
+Geschiedenis van de gebruiker bekijken
+[View &History]
+Gesc&hiedenis bekijken
