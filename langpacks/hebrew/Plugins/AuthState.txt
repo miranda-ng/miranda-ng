@@ -1,0 +1,21 @@
+﻿#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
+;============================================================
+;  File: AuthState.dll
+;  Plugin: Authorization state
+;  Version: 0.0.2.1
+;  Authors: Thief, idea by snwbrdr
+;============================================================
+[Show Auth icon]
+הראה Auth אייקון
+[Show Grant icon]
+הראה אייקון הענקה
+[Enable menu item (*)]
+אפשר פריט בתפריט ראשי (*)
+[Show icons only for recently added contacts]
+הראה אייקונים רק למשתמשים שהוספו רק בזמן האחרון 
+[Grant]
+הענק
+[Auth State]
+Auth מצב
+[Icons]
+סמלים
