@@ -2,7 +2,6 @@
 [Unread emails]
 [Mark as read]
 [Dialog]
-[Connection]
 [Server:]
 [Preferences]
 [Check every]

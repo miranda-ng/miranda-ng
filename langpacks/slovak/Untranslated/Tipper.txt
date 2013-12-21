@@ -43,7 +43,6 @@
 [Down]
 [Edit]
 [Separator]
-[Advanced options]
 [Retrieve XStatus details if auto-retrieve is disabled]
 [Extra icons]
 [Smileys support]

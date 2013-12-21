@@ -326,7 +326,6 @@
 
 [Snow Freezing Rain]
 
-
 [Showers Snow Rain]
 
 [Heavy Snow]

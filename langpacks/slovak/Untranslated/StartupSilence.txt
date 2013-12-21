@@ -18,7 +18,6 @@
 [Enable sounds]
 [Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
 [Allow mRadio or Weather popups, etc.]
-[Events]
 [Silence at startup]
 [Toggle Silence OFF]
 [Toggle Silence ON]

@@ -5,49 +5,15 @@
 ;  Version: 0.1.0.6
 ;  Authors: Miranda NG Team
 ;============================================================
-[VKontakte protocol support for Miranda NG.]
-
-;file \protocols\VKontakte\res\resource.rc
-[E-mail or phone number:]
-
 [Password:]
-
-[Open VKontakte site]
-
-[Login settings]
-
+Heslo:
 [Advanced]
-
-[Server-side delivery confirmation]
-
-[Bots challenge test]
-
+Podrobne
 [Instruction:]
-
-[Submit]
-
+Inštrukcie:
 [Cancel]
-
-;file \protocols\VKontakte\src\misc.cpp
-[Captcha form icon]
-
-[Protocols]
-
-[VKontakte]
-
-;file \protocols\VKontakte\src\vk_captcha.cpp
-[Enter the text you see]
-
-;file \protocols\VKontakte\src\vk_options.cpp
+Storno
 [Network]
-
-[Account]
-
-;file \protocols\VKontakte\src\vk_proto.cpp
-[%s server connection]
-
-;file \protocols\VKontakte\src\vk_thread.cpp
-[Attachments:]
-
+Sieť
 [Photo]
-
+Fotografia

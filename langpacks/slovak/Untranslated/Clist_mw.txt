@@ -58,7 +58,6 @@
 [My Contacts]
 [Group menu]
 [Subgroup menu]
-[&New SubGroup]
 [Close Miranda]
 [Restore last status]
 [&FrameTitle]

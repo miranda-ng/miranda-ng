@@ -82,7 +82,6 @@
 [Run application]
 [Delete selected]
 [Select All]
-[From]
 [Subject]
 [Do you really want to delete %d selected mails?]
 [Delete confirmation]

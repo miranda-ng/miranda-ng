@@ -17,4 +17,4 @@
 [Turn on Autoanswer]
 [Dear %user%, the owner left the following message:]
 [Simple Auto Replier]
-[Plugins]
+[Message Sessions]

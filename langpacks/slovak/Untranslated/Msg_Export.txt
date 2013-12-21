@@ -30,7 +30,6 @@
 [Reading database information (Phase 1 of 2)]
 [Proto]
 [UIN]
-[Executable files]
 [Failed to get the shells allocator!]
 [Failed to Allocate buffer space]
 [Export Protocols]

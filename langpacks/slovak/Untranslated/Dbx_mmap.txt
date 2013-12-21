@@ -1,8 +1,6 @@
 ﻿[Provides Miranda database support: global settings, contacts, history, settings per contact.]
 [Login to Miranda NG]
 [EN]
-[OK]
-[Cancel]
 [New password]
 [Please enter your new password]
 [Enter password]

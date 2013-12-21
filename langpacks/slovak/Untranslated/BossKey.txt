@@ -27,6 +27,5 @@
 [Hide Miranda NG]
 [Hide]
 [Hide/Show Miranda]
-[BossKey\tget the BossKey name]
-[Open String Formatting Help]
+[get the BossKey name]
 [Main]

@@ -7,7 +7,6 @@
 [URL]
 [Files]
 [Authorization]
-[You Were Added]
 [Typing Notify]
 [Full Ignore]
 [Partial Ignore]

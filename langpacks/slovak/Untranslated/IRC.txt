@@ -29,7 +29,6 @@
 [User info - Required]
 [Other]
 [Check every (s):]
-[SSL]
 [Don't check if more than (users):]
 [User information]
 [Ping]

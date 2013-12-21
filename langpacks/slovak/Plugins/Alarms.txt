@@ -5,51 +5,8 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
-[Sets once-off, daily, weekly and weekday alarms.]
-
-;file \plugins\Alarms\res\resource.rc
-[New]
-
-[Delete]
-
-[Edit]
-
-[Alarms]
-
-[Use popup plugin]
-
-[Default snooze:]
-
-[minutes]
-
 [Row Height:]
-
-[Indent:]
-
-[Reminder Frame]
-
-[Auto hide/show]
-
-[Loop sound]
-
-[Period (hours):]
-
-[Hide/show with clist]
-
-[Auto size vertically]
-
-[Transparency (%):]
-
-[Alert Window]
-
-[Round corners]
-
-[Don't steal focus unless idle]
-
-[Preview]
-
-[Alarm]
-
+Výška riadku:
 [OK]
 OK
 [Cancel]
@@ -58,135 +15,23 @@ Storno
 Názov:
 [Description:]
 Popis:
-[Actions]
-
-[Popup window]
-
-[Sound:]
-
-[Run command:]
-
-[Parameters:]
-
-[Alert 1]
-
-[Alert 2]
-
-[Alert 3]
-
-[Speak]
-
-[Occurrence]
-
-[Once]
-
 [Weekly]
 Týždenne
 [Daily]
 Denne
-[Weekdays]
-
 [Monthly]
 Mesačne
-[Yearly]
-
-[i'm hiding]
-
-[Date and Time]
-
-[Disable next occurrence]
-
-[Don't trigger on startup]
-
-[No reminder]
-
 [Dismiss]
 Zrušiť
-[Snooze]
-
-[Static]
-
-[Reminder Frame Context]
-
-[&Suspend]
-
-[&Edit...]
-
 [&Delete]
 Vymazať
 [&Options...]
 Nastavenia...
-[&New Alarm...]
-
-;file \plugins\Alarms\src\alarmlist.cpp
-;file \plugins\Alarms\src\alarms.cpp
-[Unknown command issued: "%s"]
-
-[Set Alarm]
-
-;file \plugins\Alarms\src\alarm_win.cpp
-[Example Alarm]
-
-[Some example text. Example, example, example.]
-
-[5 mins]
-
-[15 mins]
-
-[30 mins]
-
-[1 hour]
-
-[1 day]
-
-[1 week]
-
-[Title]
-
 [Background]
 Pozadie
 [Window]
 Okno
-;file \plugins\Alarms\src\frame.cpp
-[Hide Reminders]
-
-[Show Reminders]
-
-[Frames]
-
-[Alarm Reminders]
-
-;file \plugins\Alarms\src\icons.cpp
-[Menu: Set Alarm]
-
-[Reminder: Soon]
-
-[Reminder: Very Soon]
-
-[Alarm: System Tray]
-
-[Menu: Show/Hide Reminders]
-
-;file \plugins\Alarms\src\options.cpp
-[Sunday]
-
-[Monday]
-
-[Tuesday]
-
-[Wednesday]
-
-[Thursday]
-
-[Friday]
-
-[Saturday]
-
-[Please enter a title for this alarm.]
-
 [Error]
 Chyba
-[The alarm time you have selected is in the past.]
-
 [Events]
 Udalosti

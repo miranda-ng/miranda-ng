@@ -26,7 +26,6 @@
 [when workstation is locked]
 [Command line]
 [Copy to clipboard]
-[Command line:]
 [Create shortcut]
 [Add new profile]
 [Profile name]

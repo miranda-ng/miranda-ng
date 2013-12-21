@@ -42,7 +42,6 @@
 [Traffic counter]
 [Statistics]
 [Popups]
-[Bytes]
 [KB]
 [MB]
 [Adaptive]

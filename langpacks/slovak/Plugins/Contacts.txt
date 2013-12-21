@@ -5,65 +5,28 @@
 ;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
-[Allows you to send and receive contacts.]
-
-;file \plugins\ContactsPlus\res\contacts.rc
-[Send contacts]
-
-[&Add]
-
-[&User menu]
-
 [User &details]
-
-[&History]
-
-[Choose contacts to be send:]
-
+Informácie o užívatelovi
 [&Send]
 Odoslať
 [Cancel]
 Storno
-[&Select All]
-
-[Received contacts]
-
-[Add to &group:]
-
-[&Details]
-
 [Close]
 Zavrieť
-[Contacts send error]
-
-[An error has occurred. The protocol reported the following error:]
-
 [Try again]
 Skús znovu
-[Popup]
-
 [Add to List]
-
-[User details]
-
+Pridať do zoznamu
 [Send Message]
 Odoslať správu
-;file \plugins\ContactsPlus\src\main.cpp
-[Contacts received from]
-
 [Contacts]
 Kontakty
-[Incoming Contacts]
-
-[Outgoing Contacts]
-
-;file \plugins\ContactsPlus\src\receive.cpp
 [Nick]
-
+Prezívka
 [First Name]
-
+Meno
 [Last Name]
-
+Priezvisko
 [Add Contact Permanently to List]
 Pridať kontakt do zoznamu
 [View User's Details]
@@ -72,8 +35,3 @@ Zobraziť informácie o užívatelovi
 Zobraziť históriu 
 [User Menu]
 Menu užívatela
-[Contacts from]
-
-;file \plugins\ContactsPlus\src\send.cpp
-[Send Contacts to]
-

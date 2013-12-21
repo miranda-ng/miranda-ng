@@ -42,7 +42,6 @@
 [There must be numbers in the list first.]
 [No Numbers]
 [Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
-[Invalid phone number]
 [<< Single]
 [Incoming SMS Message]
 [Incoming SMS Confirmation]

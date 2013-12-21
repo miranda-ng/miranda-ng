@@ -189,4 +189,3 @@
 [Write to database...]
 [Games found:%s%s]
 [Start game]
-[Please wait...]

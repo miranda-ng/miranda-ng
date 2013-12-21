@@ -78,7 +78,7 @@
 [SecureIM established...]
 [Key exchange failed...]
 [Key from disabled...]
-[Sended back message received...]
+[Sent back message received...]
 [Sending back secure message...]
 [SecureIM disabled...]
 [Sending key...]

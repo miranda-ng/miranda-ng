@@ -5,158 +5,21 @@
 ;  Version: 0.0.1.11
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-[Shows and allows you to edit your details for all protocols.]
-
-;file \plugins\MyDetails\res\resource.rc
-[Set My Nickname]
-
 [Nickname:]
 Prezívka:
 [OK]
 OK
 [Cancel]
 Storno
-[General]
-
-[...avatar]
-
-[RTL]
-
-[Align text to right]
-
-[...nickname]
-
-[Auto-resize frame]
-
-[Use contact list smileys]
-
-[...status]
-
-[Replace Smileys]
-
-[Resize Smileys]
-
-[...status message]
-
-[Top:]
-
-[Bottom:]
-
-[Left:]
-
-[Right:]
-
-[Avatar]
-
-[Custom size:]
-
 [pixels]
 pixelov
-[Allow it to grow]
-
-[Draw border]
-
-[Round corners]
-
-[Custom corner size:]
-
-[Use free space (under avatar) to other texts]
-
-[Global On...]
-
-[Frame Options]
-
-[Cycle through accounts every:]
-
 [seconds]
 sekúnd
-[Account]
-
-[Show account name]
-
-[Show account cycle button]
-
-[Set My Status Message for All Status]
-
-[Status Message:]
-
-[&Offline]
-
-[On&line]
-
-[&Away]
-
-[&NA]
-
-[Occ&upied]
-
-[&DND]
-
-[&Free for chat]
-
-[&Invisible]
-
-[On the &Phone]
-
-[Out to &Lunch]
-
-[Set My Avatar...]
-
-[Set My Nickname...]
-
-[Set My Status Message...]
-
-[Enable Listening To]
-
-[Show next account]
-
-[Show previous account]
-
-[Cycle through accounts]
-
-[Don't cycle through accounts]
-
-;file \plugins\MyDetails\src\data.cpp
-[<no status name>]
-
-;file \plugins\MyDetails\src\frame.cpp
 [Nickname]
 Prezívka
 [Status]
 Stav
-[Status Message]
-
-[Listening To]
-
-[My Details]
-
 [Background]
 Pozadie
-[Avatar Border]
-
-[Show My Details]
-
-[Enable Listening To for %s]
-
-[Set My Avatar for %s...]
-
-[Set My Nickname for %s...]
-
-[Set My Status Message for %s...]
-
-[Hide My Details]
-
-;file \plugins\MyDetails\src\mydetails.cpp
-[Listening to]
-
-[Previous protocol]
-
-[Next protocol]
-
-[Set My Nickname for %s]
-
-[Set My Status Message for %s]
-
 [Contact List]
 Zoznam kontaktov
-;file \plugins\MyDetails\src\options.cpp

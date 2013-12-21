@@ -10,7 +10,6 @@
 [Don't notify for contacts with disabled status notification]
 [Click action]
 [Delay]
-[Sec]
 [0 = Default]
 [-1 = Infinite]
 [Use default]

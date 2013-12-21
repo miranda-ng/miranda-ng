@@ -11,7 +11,6 @@
 [or comes online for the first time]
 [Enable "Miss you" feature]
 [Hide when no messages for]
-[Colors]
 [Use Popups colors]
 [Use Windows colors]
 [Delay]
@@ -55,5 +54,4 @@
 [has returned after being absent since %d days]
 [Popups]
 [not detected]
-[not found]
 [This contact has been absent for an extended period of time.]

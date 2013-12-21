@@ -5,9 +5,6 @@
 ;  Version: 1.3.0.0
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
-[Change status when you send/receive an event.]
-
-;file \plugins\StatusChange\res\resource.rc
 [Offline]
 Odpojený
 [Online]
@@ -28,24 +25,5 @@ Neviditelný
 Telefonuje
 [Out to lunch]
 Na obede
-[On events...]
-
-[Send]
-
-[Receive]
-
-[Message]
-
-[URL]
-
-[File transfer]
-
-[...change status to...]
-
-[...if status is...]
-
-;file \plugins\StatusChange\src\main.cpp
-[Status Change]
-
 [Status]
 Stav

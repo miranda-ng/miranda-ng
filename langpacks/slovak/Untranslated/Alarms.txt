@@ -6,7 +6,6 @@
 [Use popup plugin]
 [Default snooze:]
 [minutes]
-[Row Height:]
 [Indent:]
 [Reminder Frame]
 [Auto hide/show]

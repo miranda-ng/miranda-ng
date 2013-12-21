@@ -13,7 +13,6 @@
 [Please cycle your connection for these changes to take effect]
 [Treat tweets as messages]
 [Enable popup notifications for Tweets]
-[Colors]
 [Use Windows colors]
 [Use Popup colors]
 [Use custom colors]

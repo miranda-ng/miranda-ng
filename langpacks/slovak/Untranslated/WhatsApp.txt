@@ -21,7 +21,6 @@
 [%s server connection]
 [Unable to get Netlib connection for WhatsApp]
 [Network-connection error.]
-[Network]
 [Account]
 [WhatsApp Icon]
 [Add To Group]
