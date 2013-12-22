@@ -182,8 +182,6 @@ Systém
 Já
 [Invalid Message]
 Neplatná zpráva
-[Authorization request by %s (%s%d): %s]
-Žádost o autorizaci od %s (%s%d): %s
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
 Soubory %s (*.%s)

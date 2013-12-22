@@ -2082,8 +2082,6 @@ Povolit klikatelné uživatelské jména v záznamu komunikace
 Obarvit uživatelské jména v záznamu komunikace
 [Scale down icons to 10x10 pixels in the chat log]
 Změnit velikost ikon na 10x10 pixelů v záznamu chatu
-[Support the math module plugin]
-Zapnout podporu matematických symbolů
 [Window Icon]
 Ikona okna
 [Icon overlay]

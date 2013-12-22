@@ -2177,6 +2177,8 @@ Neplatný typ nastavení pro '%s'. První znak hodnoty musí být b, w, d, l, s,
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 Žádost o autorizaci od %s%s: %s
+[Contacts: ]
+Kontakty:\s
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Profil '%s' již existuje. Přejete si jej přesunout do koše?\n\nVAROVÁNÍ: Pokud je koš vypnut, profil bude rovnou smazán.\nVAROVÁNÍ: Profil může obsahovat důvěrné informace a měl by být řádně smazán.

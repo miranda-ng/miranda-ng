@@ -278,8 +278,6 @@ Nabídka podskupiny
 Nabídka účtu
 [Extra Icons]
 Další ikony
-[Gender:]
-Pohlaví:
 [Replace the following default icons:]
 Nahradit následující výchozí ikony:
 [Homepage]

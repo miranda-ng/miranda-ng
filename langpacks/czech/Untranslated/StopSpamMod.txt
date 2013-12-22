@@ -22,7 +22,7 @@
 [Use regex for answers checking]
 [Log Spammers to system history]
 [Use math expression in question]
-[Details..]
+[Details...]
 [StopSpam]
 [StopSpam Logs]
 [Remove Temporary Contacts]

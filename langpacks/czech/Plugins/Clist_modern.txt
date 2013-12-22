@@ -890,53 +890,6 @@ Zobrazit a&vatara
 Skrýt a&vatara
 [My Contacts]
 Seznam kontaktů
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Visible]
-&Viditelný
-[&Show title]
-&Zobrazit titulek
-[&Locked]
-Zamkn&utý
-[&Expanded]
-&Rozbalený
-[&Floating Mode]
-&Plovoucí
-[&Border]
-O&kraj
-[&Align]
-Z&arovnat
-[&Top]
-Na&hoře
-[&Client]
-&Klient
-[&Bottom]
-Do&le
-[&Position]
-U&místění
-[&Up]
-Nahor&u
-[&Down]
-&Dolů
-[Show All Frames]
-Zobrazit všechny rámečky
-[Show All Titlebars]
-Zobrazit záhlaví rámečků
-[Hide All Titlebars]
-Skrýt záhlaví rámečků
-[Lock Frame]
-Zamknout rámeček
-[Show TitleBar]
-Zobrazit záhlaví rámečku
-;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-Nabídka rámečku
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-[Group menu]
-Nabídka skupiny
-[Subgroup menu]
-Nabídka podskupiny
-[&New SubGroup]
-&Nová podskupina
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Close Miranda]
 Ukončit program Miranda
@@ -1122,3 +1075,50 @@ Výchozí režim zobrazení
 Pozadí režimu zobrazení
 [View Modes]
 Pohledy
+;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
+[&Visible]
+&Viditelný
+[&Show title]
+&Zobrazit titulek
+[&Locked]
+Zamkn&utý
+[&Expanded]
+&Rozbalený
+[&Floating Mode]
+&Plovoucí
+[&Border]
+O&kraj
+[&Align]
+Z&arovnat
+[&Top]
+Na&hoře
+[&Client]
+&Klient
+[&Bottom]
+Do&le
+[&Position]
+U&místění
+[&Up]
+Nahor&u
+[&Down]
+&Dolů
+[Show All Frames]
+Zobrazit všechny rámečky
+[Show All Titlebars]
+Zobrazit záhlaví rámečků
+[Hide All Titlebars]
+Skrýt záhlaví rámečků
+[Lock Frame]
+Zamknout rámeček
+[Show TitleBar]
+Zobrazit záhlaví rámečku
+;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
+Nabídka rámečku
+;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
+[Group menu]
+Nabídka skupiny
+[Subgroup menu]
+Nabídka podskupiny
+[&New SubGroup]
+&Nová podskupina
