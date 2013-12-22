@@ -1303,7 +1303,7 @@ int CLUI_IconsChanged(WPARAM wParam,LPARAM lParam)
 
 	DrawMenuBar(pcli->hwndContactList);
 	pcli->pfnReloadExtraIcons();
-	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree,0);
+	pcli->pfnSetAllExtraIcons(0);
 	// need to update tray cause it use combined icons
 	pcli->pfnTrayIconIconsChanged();  //TODO: remove as soon as core will include icolib
 	ske_RedrawCompleteWindow();

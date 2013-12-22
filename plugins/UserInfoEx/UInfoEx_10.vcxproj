@@ -279,6 +279,7 @@
     <ClInclude Include="src\mir_menuitems.h" />
     <ClInclude Include="src\mir_string.h" />
     <ClInclude Include="src\psp_options.h" />
+    <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\svc_avatar.h" />
     <ClInclude Include="src\svc_constants.h" />
     <ClInclude Include="src\svc_contactinfo.h" />
@@ -319,6 +320,12 @@
   <ItemGroup>
     <ResourceCompile Include="Res\resource.rc" />
     <ResourceCompile Include="Res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\default.ico" />
+    <None Include="Res\dragcopy.cur" />
+    <None Include="Res\flags.png" />
+    <None Include="Res\main.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

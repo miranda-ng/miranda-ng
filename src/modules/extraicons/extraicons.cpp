@@ -320,7 +320,7 @@ void fnReloadExtraIcons()
 	bImageCreated = true;
 }
 
-void fnSetAllExtraIcons(HWND hwndList, HANDLE hContact)
+void fnSetAllExtraIcons(HANDLE hContact)
 {
 	if (cli.hwndContactTree == 0)
 		return;
@@ -347,7 +347,7 @@ void fnSetAllExtraIcons(HWND hwndList, HANDLE hContact)
 	}
 
 	g_mutex_bSetAllExtraIconsCycle = 0;
-	cli.pfnInvalidateRect(hwndList, NULL, FALSE);
+	cli.pfnInvalidateRect(cli.hwndContactTree, NULL, FALSE);
 	Sleep(0);
 }
 

@@ -470,7 +470,7 @@ typedef struct
 	 * version 7 additions (0.11.0.x) - extra images
 	 *************************************************************************************/
 	void   (*pfnReloadExtraIcons)(void);
-	void   (*pfnSetAllExtraIcons)(HWND hwndList,HANDLE hContact);
+	void   (*pfnSetAllExtraIcons)(HANDLE hContact);
 
 	/*************************************************************************************
 	 * Miranda NG additions

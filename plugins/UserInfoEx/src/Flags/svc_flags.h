@@ -72,7 +72,6 @@ struct IconList
 typedef void (CALLBACK *BUFFEREDPROC)(LPARAM lParam);
 void CallFunctionBuffered(BUFFEREDPROC pfnBuffProc, LPARAM lParam, BOOL fAccumulateSameParam, UINT uElapse);
 
-void EnsureExtraImages();
 void SvcFlagsEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB);
 void CALLBACK UpdateStatusIcons(LPARAM lParam);
 

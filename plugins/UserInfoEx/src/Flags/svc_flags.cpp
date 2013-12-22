@@ -33,13 +33,9 @@ int		nCountriesCount;
 struct	CountryListEntry *countries;
 static	HANDLE hExtraIconSvc = INVALID_HANDLE_VALUE;
 /* hook */
-static HANDLE hRebuildIconsHook = NULL;
 static HANDLE hApplyIconHook = NULL;
 static HANDLE hMsgWndEventHook = NULL;
-static HANDLE hIconsChangedHook = NULL;
 static HANDLE hSettingChangedHook = NULL;
-
-static HANDLE hOptInitHook = NULL;
 
 static int OnContactSettingChanged(WPARAM wParam,LPARAM lParam);
 
@@ -151,16 +147,16 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 	char *pszProto = GetContactProto((HANDLE)wParam);
 	/* UserinfoEx */
 	if (countryNumber = db_get_w((HANDLE)wParam, USERINFO, SET_CONTACT_ORIGIN_COUNTRY, 0))
-		return (INT_PTR)countryNumber;
-	else if (countryNumber = db_get_w((HANDLE)wParam, USERINFO, SET_CONTACT_COUNTRY, 0))
-		return (INT_PTR)countryNumber;
-	else if (countryNumber = db_get_w((HANDLE)wParam, USERINFO, SET_CONTACT_COMPANY_COUNTRY, 0))
-		return (INT_PTR)countryNumber;
+		return countryNumber;
+	if (countryNumber = db_get_w((HANDLE)wParam, USERINFO, SET_CONTACT_COUNTRY, 0))
+		return countryNumber;
+	if (countryNumber = db_get_w((HANDLE)wParam, USERINFO, SET_CONTACT_COMPANY_COUNTRY, 0))
+		return countryNumber;
 	/* fallback proto settings */
-	else if (countryNumber = db_get_w((HANDLE)wParam, pszProto, "Country", 0))
-		return (INT_PTR)countryNumber;
-	else if (countryNumber = db_get_w((HANDLE)wParam, pszProto, "CompanyCountry", 0))
-		return (INT_PTR)countryNumber;
+	if (countryNumber = db_get_w((HANDLE)wParam, pszProto, "Country", 0))
+		return countryNumber;
+	if (countryNumber = db_get_w((HANDLE)wParam, pszProto, "CompanyCountry", 0))
+		return countryNumber;
 
 	return (INT_PTR)0xFFFF;
 }
@@ -172,67 +168,13 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 static void CALLBACK SetExtraImage(LPARAM lParam)
 {
 	/* get contact's country */
-	int countryNumber = ServiceDetectContactOriginCountry((WPARAM)lParam,0);
+	int countryNumber = ServiceDetectContactOriginCountry(lParam, 0);
 	ExtraIcon_SetIcon(hExtraIconSvc, (HANDLE)lParam, (countryNumber != 0xFFFF || gFlagsOpts.bUseUnknownFlag) ? LoadFlagHandle(countryNumber) : NULL);
 }
 
-static void CALLBACK RemoveExtraImages(LPARAM lParam)
+static int OnCListApplyIcons(WPARAM wParam, LPARAM)
 {
-	/* enum all contacts */
-	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-		ExtraIcon_Clear(hExtraIconSvc, hContact);
-}
-
-// always call in context of main thread
-void EnsureExtraImages()
-{
-	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-		CallFunctionBuffered(SetExtraImage,(LPARAM)hContact,TRUE,EXTRAIMAGE_REFRESHDELAY);
-}
-
-static void CALLBACK UpdateExtraImages(LPARAM lParam) {
-	if (!lParam)
-		RemoveExtraImages(0);
-	else
-		EnsureExtraImages();
-}
-
-static int OnCListApplyIcons(WPARAM wParam,LPARAM lParam)
-{
-	SetExtraImage((LPARAM)wParam); /* unbuffered */
-	return 0;
-}
-
-//hookProc (ME_DB_CONTACT_SETTINGCHANGED) - workaround for missing event from ExtraIconSvc
-static int OnExtraIconSvcChanged(WPARAM wParam,LPARAM lParam)
-{
-	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
-	if ((HANDLE)wParam != NULL)
-		return 0;
-
-	if (!lstrcmpA(dbcws->szModule, "ExtraIcons") && !lstrcmpA(dbcws->szSetting, "Slot_Flags")) {
-		BOOL bEnable;
-		switch (dbcws->value.type) {
-		case DBVT_BYTE:
-			bEnable = dbcws->value.bVal != (BYTE)-1;
-			break;
-		case DBVT_WORD:
-			bEnable = dbcws->value.wVal != (WORD)-1;
-			break;
-		case DBVT_DWORD:
-			bEnable = dbcws->value.dVal != (DWORD)-1;
-			break;
-		default:
-			return 0;
-		}
-
-		if (bEnable && !hApplyIconHook)
-			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
-		else if (!bEnable && hApplyIconHook)
-			UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
-
-		CallFunctionBuffered(UpdateExtraImages, (LPARAM)bEnable, FALSE, EXTRAIMAGE_REFRESHDELAY);
-	}
+	SetExtraImage(wParam);
 	return 0;
 }
 
@@ -254,8 +196,6 @@ void SvcFlagsEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB)
 			char szId[20];
 			mir_snprintf(szId, SIZEOF(szId), (langid == 0xFFFF) ? "%s_0x%X" : "%s_%i", "flags", langid); /* buffer safe */
 			hExtraIconSvc = ExtraIcon_Register("Flags", LPGEN("Flags (uinfoex)"), szId);
-			if (hExtraIconSvc)
-				HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnExtraIconSvcChanged);
 		}
 
 		// init hooks
@@ -363,7 +303,8 @@ static __inline int MessageAPI_AddIcon(const char* pszName, const char* szModul/
 	return res;
 }
 
-void CALLBACK UpdateStatusIcons(LPARAM lParam) {
+void CALLBACK UpdateStatusIcons(LPARAM lParam)
+{
 	if (!lParam) {
 		/* enum all opened message windows */
 		for (int i = 0; i < gMsgWndList.getCount(); i++)
@@ -414,35 +355,21 @@ static int OnStatusIconsChanged(WPARAM wParam, LPARAM lParam)
 }
 
 /***********************************************************************************************************
- * option page (not used yet)
- ***********************************************************************************************************/
-static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	return FALSE;
-}
-
-//hookProc ME_OPT_INITIALISE
-static int ExtraImgOptInit(WPARAM wParam, LPARAM lParam)
-{
-	return 0;
-}
-
-/***********************************************************************************************************
  * misc functions
  ***********************************************************************************************************/
-//hookProc ME_DB_CONTACT_SETTINGCHANGED
-static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam) {
+
+static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
+{
 	if ((HANDLE)wParam == NULL) return 0;
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 
 	/* user details update */
-	if (/*!lstrcmpA(dbcws->szSetting,"RealIP") || */
-		!lstrcmpA(dbcws->szSetting, SET_CONTACT_COUNTRY) ||
+	if (!lstrcmpA(dbcws->szSetting, SET_CONTACT_COUNTRY) ||
 		!lstrcmpA(dbcws->szSetting, SET_CONTACT_ORIGIN_COUNTRY) ||
 		!lstrcmpA(dbcws->szSetting, SET_CONTACT_COMPANY_COUNTRY))
 	{
 		/* Extra Image */
-		CallFunctionBuffered(SetExtraImage, (LPARAM)wParam, TRUE, EXTRAIMAGE_REFRESHDELAY);
+		CallFunctionBuffered(SetExtraImage, wParam, TRUE, EXTRAIMAGE_REFRESHDELAY);
 		/* Status Icon */
 		if (hMsgWndEventHook) {
 			int i = gMsgWndList.getIndex((MsgWndData*)&wParam);
@@ -454,7 +381,6 @@ static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam) {
 	}
 	return 0;
 }
-
 
 /***********************************************************************************************************
  * module loading & unloading
@@ -473,15 +399,16 @@ void SvcFlagsLoadModule()
 	if (CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&nCountriesCount, (LPARAM)&countries))
 		nCountriesCount = 0;
 	InitIcons();			/* load in iconlib */
+	
 	//InitIpToCountry();	/* not implementet */
 	CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY, ServiceDetectContactOriginCountry);
+	
 	//init settings
-	gFlagsOpts.bShowExtraImgFlag = db_get_b(NULL, MODNAMEFLAGS, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT);
 	gFlagsOpts.bUseUnknownFlag = db_get_b(NULL, MODNAMEFLAGS, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT);
+	gFlagsOpts.bShowExtraImgFlag = db_get_b(NULL, MODNAMEFLAGS, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT);
 	gFlagsOpts.bShowStatusIconFlag = db_get_b(NULL, MODNAMEFLAGS, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT);
 
-	hOptInitHook = HookEvent(ME_OPT_INITIALISE, ExtraImgOptInit);
-	hIconsChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, OnStatusIconsChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnStatusIconsChanged);
 }
 
 /**
@@ -510,9 +437,7 @@ void SvcFlagsUnloadModule()
 {
 	KillBufferedFunctions();
 	//Uninit ExtraImg
-	UnhookEvent(hRebuildIconsHook);
 	UnhookEvent(hApplyIconHook);
-	UnhookEvent(hIconsChangedHook);
 	//Uninit message winsow
 	UnhookEvent(hMsgWndEventHook);
 	for (int i = 0; i < gMsgWndList.getCount(); i++) {
@@ -522,11 +447,8 @@ void SvcFlagsUnloadModule()
 	}
 	gMsgWndList.destroy();
 	gIListMW.destroy();
+
 	//Uninit misc
 	UnhookEvent(hSettingChangedHook);
-	UnhookEvent(hOptInitHook);
 	UninitIcons();
-
-	//UninitIpToCountry();			/* not implementet */
 }
-

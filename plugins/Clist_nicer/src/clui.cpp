@@ -365,7 +365,7 @@ void IcoLibReloadIcons()
 {
 	CacheClientIcons();
 	pcli->pfnReloadExtraIcons();
-	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, 0);
+	pcli->pfnSetAllExtraIcons(NULL);
 
 	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 	SendMessage(g_hwndViewModeFrame, WM_USER + 100, 0, 0);

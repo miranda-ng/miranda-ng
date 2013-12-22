@@ -925,8 +925,7 @@ static void UpdateTimer(BYTE bStartup)
 
 void SvcReminderEnable(BYTE bEnable)
 {
-	if (bEnable)	// Reminder is on
-	{
+	if (bEnable) { // Reminder is on
 		if (ExtraIcon == INVALID_HANDLE_VALUE)
 			ExtraIcon = ExtraIcon_Register("Reminder", LPGEN("Reminder (uinfoex)"), ICO_COMMON_ANNIVERSARY);
 
@@ -948,8 +947,7 @@ void SvcReminderEnable(BYTE bEnable)
 		// init the timer
 		UpdateTimer(TRUE);
 	}
-	else	// Reminder is off
-	{
+	else { // Reminder is off
 		for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			NotifyWithExtraIcon(hContact, CEvent());
 

@@ -571,7 +571,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (oldSlots[((BaseExtraIcon *) extra)->getID() - 1] == extra->getSlot())
 						continue;
 
-				extra->applyIcons();
+				if (extra->isEnabled())
+					extra->applyIcons();
 			}
 
 			delete[] oldSlots;

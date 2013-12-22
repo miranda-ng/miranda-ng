@@ -135,7 +135,7 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 
 		LoadAvatarForContact(p);
 		// notify other plugins to re-supply their extra images (icq for xstatus, mBirthday etc...)
-		pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, hContact);
+		pcli->pfnSetAllExtraIcons(hContact);
 	}
 
 	RTL_DetectAndSet(p, p->hContact);
@@ -220,7 +220,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 	}
 
 	pcli->pfnSortCLC(hwnd, dat, 0);
-	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, 0);
+	pcli->pfnSetAllExtraIcons(NULL);
 }
 
 /*

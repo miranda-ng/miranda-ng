@@ -358,6 +358,7 @@
     <ClInclude Include="src\psp_options.h">
       <Filter>Header Files\Dialogs\Details Pages</Filter>
     </ClInclude>
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Res\resource.rc">
@@ -366,5 +367,19 @@
     <ResourceCompile Include="Res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\main.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Res\default.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Res\dragcopy.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Res\flags.png">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

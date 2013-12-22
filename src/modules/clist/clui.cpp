@@ -814,11 +814,11 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			case CLN_NEWCONTACT:
 				if (nmc != NULL)
-					cli.pfnSetAllExtraIcons(cli.hwndContactTree, nmc->hItem);
+					cli.pfnSetAllExtraIcons(nmc->hItem);
 				return TRUE;
 
 			case CLN_LISTREBUILT:
-				cli.pfnSetAllExtraIcons(cli.hwndContactTree, 0);
+				cli.pfnSetAllExtraIcons(NULL);
 				return(FALSE);
 
 			case NM_KEYDOWN:

@@ -48,7 +48,7 @@ void DefaultExtraIcons_Load();
 HANDLE ExtraIcon_Add(HICON hIcon);
 
 void fnReloadExtraIcons();
-void fnSetAllExtraIcons(HWND hwndList,HANDLE hContact);
+void fnSetAllExtraIcons(HANDLE hContact);
 
 static inline BOOL IsEmpty(const char *str)
 {

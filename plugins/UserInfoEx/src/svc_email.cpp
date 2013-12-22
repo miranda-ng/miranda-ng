@@ -189,15 +189,11 @@ void SvcEMailRebuildMenu()
 {
 	static HANDLE hPrebuildMenuHook = NULL;
 
-	if (db_get_b(NULL, MODNAME, SET_EXTENDED_EMAILSERVICE, TRUE)) 
-	{
+	if (db_get_b(NULL, MODNAME, SET_EXTENDED_EMAILSERVICE, TRUE)) {
 		if (!hPrebuildMenuHook) 
-		{
 			hPrebuildMenuHook = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildMenu);
-		}
 
-		if (!ghMenuItem) 
-		{
+		if (!ghMenuItem) {
 			// insert contact menuitem
 			CLISTMENUITEM mi = { sizeof(mi) };
 			mi.position = -2000010000;
@@ -207,15 +203,11 @@ void SvcEMailRebuildMenu()
 			ghMenuItem = Menu_AddContactMenuItem(&mi);
 		}
 	}
-	else 
-	{
-		if (hPrebuildMenuHook) 
-		{
-			UnhookEvent(ME_CLIST_PREBUILDCONTACTMENU);
-			hPrebuildMenuHook = NULL;
-		}
-		if (ghMenuItem) 
-		{
+	else {
+		if (hPrebuildMenuHook)
+			UnhookEvent(ME_CLIST_PREBUILDCONTACTMENU), hPrebuildMenuHook = NULL;
+
+		if (ghMenuItem) {
 			CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)ghMenuItem, NULL);
 			ghMenuItem = NULL;
 		}
@@ -230,7 +222,7 @@ void SvcEMailRebuildMenu()
  **/
 void SvcEMailApplyCListIcons()
 {
-	//walk through all the contacts stored in the DB
+	// walk through all the contacts stored in the DB
 	for (HANDLE hContact = db_find_first();	hContact != NULL;	hContact = db_find_next(hContact))
 		OnCListApplyIcons((WPARAM)hContact, 0);
 }

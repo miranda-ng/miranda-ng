@@ -199,7 +199,6 @@
 #define CHECK_POPUP                     1572
 #define GROUP_FILTER                    1573
 #define GROUP_REMINDER                  1574
-#define TXT_OPT_GENDER                  1577
 #define GROUP_OPT_EXTRAICONS            1578
 #define TXT_OPT_DEFAULTICONS            1579
 #define TXT_OPT_DEFAULTICONS2           1580

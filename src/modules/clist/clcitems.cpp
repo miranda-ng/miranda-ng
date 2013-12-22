@@ -422,7 +422,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 	}
 
 	cli.pfnSortCLC(hwnd, dat, 0);
-	cli.pfnSetAllExtraIcons(cli.hwndContactTree, 0);
+	cli.pfnSetAllExtraIcons(0);
 }
 
 int fnGetGroupContentsCount(ClcGroup *group, int visibleOnly)
