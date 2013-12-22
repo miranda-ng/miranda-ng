@@ -271,8 +271,6 @@
 Меню уч. записей
 [Extra Icons]
 Экстра значки
-[Gender:]
-Пол:
 [Replace the following default icons:]
 Заменить следующие значки:
 [Homepage]

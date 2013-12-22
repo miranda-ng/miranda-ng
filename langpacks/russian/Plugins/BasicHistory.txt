@@ -175,8 +175,6 @@
 Я
 [Invalid Message]
 Сообщение повреждено
-[Authorization request by %s (%s%d): %s]
-Запрос авторизации от %s (%s%d): %s
 [Import]
 Импорт
 [Export]
