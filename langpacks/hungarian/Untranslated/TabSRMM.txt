@@ -537,7 +537,6 @@
 [Enable the 'event filter' for new rooms]
 [Allow clickable user names in the message log]
 [Colorize user names in message log]
-[Support the math module plugin]
 [Group chat windows]
 [Group chat log]
 [Fields background]

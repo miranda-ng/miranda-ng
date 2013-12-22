@@ -278,8 +278,6 @@ popup за годишнина
 Меню на акаунтите
 [Extra Icons]
 Допълнителни икони
-[Gender:]
-Пол:
 [Replace the following default icons:]
 Замяна на следните стандартни икони:
 [Homepage]

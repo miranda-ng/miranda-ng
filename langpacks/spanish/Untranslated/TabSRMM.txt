@@ -838,7 +838,6 @@
 [Allow clickable user names in the message log]
 [Colorize user names in message log]
 [Scale down icons to 10x10 pixels in the chat log]
-[Support the math module plugin]
 [Remove Status (10x10)]
 [Group chat windows]
 [Group chat log]

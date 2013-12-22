@@ -2084,8 +2084,6 @@ Habilitar el "filtro de eventos" para nuevas salas
 
 [Scale down icons to 10x10 pixels in the chat log]
 
-[Support the math module plugin]
-
 [Window Icon]
 Icono de ventana
 [Icon overlay]

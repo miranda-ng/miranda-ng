@@ -106,7 +106,6 @@
 [GroupMenu]
 [SubGroupMenu]
 [AccountMenu]
-[Gender:]
 [Replace the following default icons:]
 [Misc]
 [Use Zodiac as default avatar]

@@ -68,7 +68,6 @@
 [Default history events]
 [Me]
 [Invalid Message]
-[Authorization request by %s (%s%d): %s]
 [%s Files (*.%s)]
 [Import]
 [Export]

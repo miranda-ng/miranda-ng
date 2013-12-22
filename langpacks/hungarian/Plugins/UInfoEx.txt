@@ -71,8 +71,6 @@ Egyik sem
 Ki
 [Extra Icons]
 Extra ikonok
-[Gender:]
-Nem:
 [Phone]
 Telefon
 [E-Mail]

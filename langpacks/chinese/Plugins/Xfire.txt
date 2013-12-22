@@ -195,7 +195,7 @@ XFire 不支持离线消息!
 常规
 [Automatically reconnect on protocol version changes]
 协议版本改变时自动重连
-[No Ip/Port in StatusMsg]
+[No IP/Port in StatusMsg]
 状态信息中无 IP/端口
 [Use Online status for unsupported global statuses]
 不支持的全局状态默认使用在线状态

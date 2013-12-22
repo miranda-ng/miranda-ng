@@ -1629,8 +1629,6 @@ IRC スタイルのステータス表記をログに使用
 メッセージログのユーザー名をカラー表示
 [Scale down icons to 10x10 pixels in the chat log]
 チャットログにあるアイコンを10x10ピクセルに縮尺する
-[Support the math module plugin]
-数学モジュールプラグインをサポート
 [Window Icon]
 ウィンドウアイコン
 [Icon overlay]

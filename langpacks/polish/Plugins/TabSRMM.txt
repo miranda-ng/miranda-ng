@@ -2082,8 +2082,6 @@ Dwuklik na nick z listy otwiera okno rozmowy
 Koloruj nicki w dzienniku wiadomości
 [Scale down icons to 10x10 pixels in the chat log]
 Skaluj ikony do 10x10 px w dzienniku rozmowy grupowej
-[Support the math module plugin]
-Wsparcie dla wtyczki Math Module
 [Window Icon]
 Ikona okna
 [Icon overlay]

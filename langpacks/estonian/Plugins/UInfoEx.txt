@@ -55,8 +55,6 @@ Ikoonid
 Pole
 [Extra Icons]
 Ekstra ikoonid
-[Gender:]
-Sugu:
 [E-Mail]
 E-mail
 [Age:]

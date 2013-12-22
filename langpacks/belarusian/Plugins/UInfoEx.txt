@@ -266,8 +266,6 @@
 Меню вул. запісаў
 [Extra Icons]
 Экстра значкі
-[Gender:]
-Пол:
 [Replace the following default icons:]
 Замяніць наступныя значкі:
 [Homepage]

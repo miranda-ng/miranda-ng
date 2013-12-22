@@ -278,8 +278,6 @@ Menu podgrupy
 Menu konta
 [Extra Icons]
 Dodatkowe ikony
-[Gender:]
-Płeć:
 [Replace the following default icons:]
 Zamień następujące domyślne ikony:
 [Homepage]

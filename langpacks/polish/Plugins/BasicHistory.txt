@@ -182,8 +182,6 @@ System
 Ja
 [Invalid Message]
 Nieprawidłowa Wiadomość
-[Authorization request by %s (%s%d): %s]
-Prośba o autoryzację od %s (%s%d): %s
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
 %s Pliki (*.%s)

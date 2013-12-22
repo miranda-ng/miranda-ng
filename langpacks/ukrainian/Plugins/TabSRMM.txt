@@ -491,8 +491,6 @@ IRC-стиль(текстовий) індикаторів ролей в журн
 Кольорові ніки в чаті
 [Scale down icons to 10x10 pixels in the chat log]
 Міняти дозвіл значків на 10х10 у вікні чату
-[Support the math module plugin]
-Підтримка математичного плагіна
 ;Формат журналу
 [Log formatting]
 Формат журналу

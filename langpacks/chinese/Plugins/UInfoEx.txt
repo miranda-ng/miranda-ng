@@ -203,8 +203,6 @@
 联系人菜单
 [Extra Icons]
 额外图标
-[Gender:]
-性别: 
 [Replace the following default icons:]
 替换这些默认图标: 
 [Homepage]

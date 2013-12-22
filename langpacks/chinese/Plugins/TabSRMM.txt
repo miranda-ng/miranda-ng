@@ -1719,8 +1719,6 @@ Aero 发光效果
 消息记录中使用彩色用户名
 [Scale down icons to 10x10 pixels in the chat log]
 在聊天记录中将图标缩放为 10x10 像素
-[Support the math module plugin]
-支持公式编辑器插件
 [Window Icon]
 窗口图标
 [Icon overlay]

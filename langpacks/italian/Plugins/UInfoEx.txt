@@ -67,8 +67,6 @@ giorno(i)
 Icone
 [None]
 Nessuno
-[Gender:]
-Sesso:
 [Phone]
 TELEFONO
 [E-Mail]

@@ -2082,8 +2082,6 @@ Nicknamen im Nachrichtenverlauf in anklickbare Hyperlinks umwandeln
 Nutzernamen im Nachrichtenverlauf färben
 [Scale down icons to 10x10 pixels in the chat log]
 Icons auf 10 x 10 Pixel im Verlauf verkleinern
-[Support the math module plugin]
-MathModule-Plugin unterstützen
 [Window Icon]
 Fenstericon
 [Icon overlay]

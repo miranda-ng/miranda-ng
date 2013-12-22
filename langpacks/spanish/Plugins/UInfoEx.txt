@@ -278,8 +278,6 @@ Apagado
 
 [Extra Icons]
 
-[Gender:]
-Género:
 [Replace the following default icons:]
 
 [Homepage]

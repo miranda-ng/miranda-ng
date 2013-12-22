@@ -190,8 +190,6 @@ Menu principal
 Menu du contact
 [Extra Icons]
 Icônes d'accès rapide
-[Gender:]
-Sexe:
 [Replace the following default icons:]
 Remplacer les icônes par défaut suivants:
 [Phone]

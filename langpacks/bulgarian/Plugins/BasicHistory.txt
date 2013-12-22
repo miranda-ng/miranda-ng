@@ -182,8 +182,6 @@
 Аз
 [Invalid Message]
 Невалидно съобщение
-[Authorization request by %s (%s%d): %s]
-Молба за упълномощаване от %s (%s%d): %s
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
 

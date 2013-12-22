@@ -580,7 +580,6 @@
 [Use IRC style status indicators in the log]
 [Allow clickable user names in the message log]
 [Colorize user names in message log]
-[Support the math module plugin]
 [Group chat windows]
 [Group chat log]
 [Incremental search highlight]

@@ -175,8 +175,6 @@ Uit
 Persoonmenu
 [Extra Icons]
 Extra iconen
-[Gender:]
-Geslacht:
 [Phone]
 Telefoon
 [E-Mail]

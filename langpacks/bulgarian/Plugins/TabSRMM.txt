@@ -2071,8 +2071,6 @@ TabSRMM предупреждение
 Оцветяване на прякорите в дневника за съобщения
 [Scale down icons to 10x10 pixels in the chat log]
 Мащабиране на иконите до 10х10 пиксела в чат дневника
-[Support the math module plugin]
-Поддръжка на приставката Math Module
 [Window Icon]
 Икона на прозореца
 [Icon overlay]

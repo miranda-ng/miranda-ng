@@ -449,7 +449,6 @@
 [Add a colon (:) to auto-completed user names]
 [Allow clickable user names in the message log]
 [Colorize user names in message log]
-[Support the math module plugin]
 [Status 1 (10x10)]
 [Status 2 (10x10)]
 [Status 3 (10x10)]

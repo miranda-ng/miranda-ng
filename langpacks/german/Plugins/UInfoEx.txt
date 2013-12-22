@@ -278,8 +278,6 @@ Gruppenkontextmenü
 Kontomenü
 [Extra Icons]
 Extraicons
-[Gender:]
-Geschlecht:
 [Replace the following default icons:]
 Folgende Standard-Icons ersetzen:
 [Homepage]

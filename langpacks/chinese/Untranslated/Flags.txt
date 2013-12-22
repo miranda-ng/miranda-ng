@@ -1,4 +1,4 @@
-﻿[Service offering misc country utilities as flag icons and a IP-to-Country database.]
+﻿[Service offering misc country utilities as flag icons and an IP-to-Country database.]
 [Country Flags]
 [Show country flag as &status icon on message window]
 [Country flag]

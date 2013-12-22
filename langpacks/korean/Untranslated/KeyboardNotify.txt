@@ -39,7 +39,7 @@
 [Flash speed]
 [Fast]
 [Slow]
-[Emulate keypresses (Use this option if you are using an USB keyboard)]
+[Emulate keypresses (Use this option if you are using a USB keyboard)]
 [Create/Edit Themes]
 [Theme]
 [Test]

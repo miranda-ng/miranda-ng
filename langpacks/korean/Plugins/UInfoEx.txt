@@ -55,8 +55,6 @@
 아이콘
 [None]
 없음
-[Gender:]
-성:
 [E-Mail]
 이메일
 [Age:]

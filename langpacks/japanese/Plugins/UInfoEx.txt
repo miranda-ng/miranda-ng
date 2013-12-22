@@ -71,8 +71,6 @@ Homepage:
 オフ
 [Extra Icons]
 その他アイコン
-[Gender:]
-性別:
 [E-Mail]
 電子メール
 [Show 'Restart' menu item]

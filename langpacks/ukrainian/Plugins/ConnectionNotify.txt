@@ -27,7 +27,7 @@
 Версія:
 [Show notification if no filter defined]
 Повідомляти, якщо жоден фільтр не визначений
-[Attempt interval (ms.)]
+[Attempt interval (ms)]
 Інтервал спроб (мс)
 [Filters]
 Фільтри

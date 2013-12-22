@@ -75,8 +75,6 @@ Desligado
 Menu de Contatos
 [Extra Icons]
 Ícones Extras
-[Gender:]
-Sexo:
 [Phone]
 Telefone
 [E-Mail]

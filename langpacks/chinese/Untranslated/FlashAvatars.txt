@@ -2,5 +2,5 @@
 [Flash.ocx not registered!]
 [You don't have installed Shockwave Flash interface in your system.]
 [Bugged Flash detected!]
-[You have installed Flash 8.\r\nThis version of Flash contains a bug which can causes random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
+[You have installed Flash 8.\r\nThis version of Flash contains a bug which can cause random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
 [Avatars]

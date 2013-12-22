@@ -182,8 +182,6 @@ System
 Ich
 [Invalid Message]
 Ungültige Nachricht
-[Authorization request by %s (%s%d): %s]
-Autorisierungsanfrage von %s (%s%d): %s
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
 %s-Dateien (*.%s)

@@ -42,7 +42,7 @@
 [The Message    (0 Characters)]
 [Reuse this message? (0 to use it once)]
 [Times]
-[Giveup after.. (0 to not giveup)]
+[Give up after... (0 to not give up)]
 [Days]
 [Show confirmation window? (0 to not Show)]
 [Seconds to wait before sending]

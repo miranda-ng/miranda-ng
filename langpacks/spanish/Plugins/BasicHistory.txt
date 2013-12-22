@@ -182,8 +182,6 @@ Sistema
 
 [Invalid Message]
 Mensaje no válido
-[Authorization request by %s (%s%d): %s]
-
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
 
