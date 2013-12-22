@@ -31,15 +31,15 @@ FLAGSOPTIONS	gFlagsOpts;
 /* Misc */
 int		nCountriesCount;
 struct	CountryListEntry *countries;
-static	HANDLE hExtraIconSvc		= INVALID_HANDLE_VALUE;
+static	HANDLE hExtraIconSvc = INVALID_HANDLE_VALUE;
 /* hook */
-static HANDLE hRebuildIconsHook		= NULL;
-static HANDLE hApplyIconHook		= NULL;
-static HANDLE hMsgWndEventHook		= NULL;
-static HANDLE hIconsChangedHook		= NULL;
-static HANDLE hSettingChangedHook	= NULL;
+static HANDLE hRebuildIconsHook = NULL;
+static HANDLE hApplyIconHook = NULL;
+static HANDLE hMsgWndEventHook = NULL;
+static HANDLE hIconsChangedHook = NULL;
+static HANDLE hSettingChangedHook = NULL;
 
-static HANDLE hOptInitHook			= NULL;
+static HANDLE hOptInitHook = NULL;
 
 static int OnContactSettingChanged(WPARAM wParam,LPARAM lParam);
 
@@ -47,143 +47,98 @@ static int OnContactSettingChanged(WPARAM wParam,LPARAM lParam);
  * Buffered functions
  ***********************************************************************************************************/
 
-struct BufferedCallData {
+struct BufferedCallData
+{
 	DWORD startTick;
 	UINT uElapse;
 	BUFFEREDPROC pfnBuffProc;
 	LPARAM lParam;
-	#ifdef _DEBUG
-	const char *pszProcName;
-	#endif
 };
 
 static UINT_PTR idBufferedTimer;
-static struct BufferedCallData *callList;
-static int nCallListCount;
+static LIST<BufferedCallData> arCalls(10);
+static CRITICAL_SECTION csCalls;
 
 // always gets called in main message loop
-static void CALLBACK BufferedProcTimer(HWND hwnd, UINT msg, UINT idTimer, DWORD currentTick) {
-	int i;
-	struct BufferedCallData *buf;
-	UINT uElapsed, uElapseNext = USER_TIMER_MAXIMUM;
-	BUFFEREDPROC pfnBuffProc;
-	LPARAM lParam;
-	#ifdef _DEBUG
-	char szDbgLine[256];
-	const char *pszProcName;
-	#endif
-	UNREFERENCED_PARAMETER(msg);
+static void CALLBACK BufferedProcTimer(HWND hwnd, UINT /*msg*/, UINT idTimer, DWORD currentTick)
+{
+	UINT uElapseNext = USER_TIMER_MAXIMUM;
 
-	for(i=0;i<nCallListCount;++i) {
+	for (int i = 0; i < arCalls.getCount(); ++i) {
+		BufferedCallData *p = arCalls[i];
+
 		/* find elapsed procs */
-		uElapsed=currentTick-callList[i].startTick; /* wraparound works */
-		if ((uElapsed+USER_TIMER_MINIMUM)>=callList[i].uElapse) { 
-			/* call elapsed proc */
-			pfnBuffProc=callList[i].pfnBuffProc;
-			lParam=callList[i].lParam;
-			#ifdef _DEBUG
-				pszProcName=callList[i].pszProcName;
-			#endif
-			/* resize storage array */
-			if ((i+1)<nCallListCount)
-				MoveMemory(&callList[i],&callList[i+1],((nCallListCount-i-1)*sizeof(struct BufferedCallData)));
-			--nCallListCount;
-			--i; /* reiterate current */
-			if (nCallListCount) {
-				buf=(struct BufferedCallData*)mir_realloc(callList,nCallListCount*sizeof(struct BufferedCallData));
-				if (buf!=NULL) callList=buf;
-			} else {
-				mir_free(callList);
-				callList=NULL;
-			}
-			#ifdef _DEBUG
-				mir_snprintf(szDbgLine,sizeof(szDbgLine),"buffered call: %s(0x%X)\n",pszProcName,lParam); /* all ascii */
-				OutputDebugStringA(szDbgLine);
-			#endif
-			CallFunctionAsync((void (CALLBACK *)(void*))pfnBuffProc,(void*)lParam); /* compatible */
+		UINT uElapsed = currentTick - p->startTick; /* wraparound works */
+		if ((uElapsed + USER_TIMER_MINIMUM) >= p->uElapse) {
+			CallFunctionAsync((void (CALLBACK *)(void*))p->pfnBuffProc, (void*)p->lParam);
+			
+			mir_cslock lck(csCalls);
+			arCalls.remove(i--);
+			delete p;
 		}
 		/* find next timer delay */
-		else if ((callList[i].uElapse-uElapsed)<uElapseNext)
-			uElapseNext=callList[i].uElapse-uElapsed;
+		else if (p->uElapse - uElapsed < uElapseNext)
+			uElapseNext = p->uElapse - uElapsed;
 	}
 
 	/* set next timer */
-	if (nCallListCount) {
-		#ifdef _DEBUG
-			mir_snprintf(szDbgLine,sizeof(szDbgLine),"next buffered timeout: %ums\n",uElapseNext); /* all ascii */
-			OutputDebugStringA(szDbgLine);
-		#endif
-		idBufferedTimer=SetTimer(hwnd, idBufferedTimer, uElapseNext, (TIMERPROC)BufferedProcTimer); /* will be reset */
-	} else {
-		KillTimer(hwnd,idTimer);
-		idBufferedTimer=0;
-		#ifdef _DEBUG
-			OutputDebugStringA("empty buffered queue\n");
-		#endif
+	if (arCalls.getCount())
+		idBufferedTimer = SetTimer(hwnd, idBufferedTimer, uElapseNext, (TIMERPROC)BufferedProcTimer); /* will be reset */
+	else {
+		KillTimer(hwnd, idTimer);
+		idBufferedTimer = 0;
 	}
 }
 
 // assumes to be called in context of main thread
-#ifdef _DEBUG
-void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc,const char *pszProcName,LPARAM lParam,BOOL fAccumulateSameParam,UINT uElapse)
-#else
-void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc,LPARAM lParam,BOOL fAccumulateSameParam,UINT uElapse)
-#endif
+void CallFunctionBuffered(BUFFEREDPROC pfnBuffProc, LPARAM lParam, BOOL fAccumulateSameParam, UINT uElapse)
 {
-	struct BufferedCallData *data=NULL;
-	int i;
+	struct BufferedCallData *data = NULL;
 
 	/* find existing */
-	for(i=0;i<nCallListCount;++i)
-		if (callList[i].pfnBuffProc==pfnBuffProc)
-			if (!fAccumulateSameParam || callList[i].lParam==lParam) {
-				data=&callList[i];
-				break;
-			}
-	/* append new */
-	if (data==NULL) {
-		/* resize storage array */
-		data=(struct BufferedCallData*)mir_realloc(callList,(nCallListCount+1)*sizeof(struct BufferedCallData));
-		if (data==NULL) return;
-		callList=data;
-		data=&callList[nCallListCount];
-		++nCallListCount;
-	}
-	/* set delay */
-	data->startTick=GetTickCount();
-	data->uElapse=uElapse;
-	data->lParam=lParam;
-	data->pfnBuffProc=pfnBuffProc;
-	#ifdef _DEBUG
-		{	char szDbgLine[256];
-			data->pszProcName=pszProcName;
-			mir_snprintf(szDbgLine,sizeof(szDbgLine),"buffered queue: %s(0x%X)\n",pszProcName,lParam); /* all ascii */
-			OutputDebugStringA(szDbgLine);
-			if (!idBufferedTimer) {
-				mir_snprintf(szDbgLine,sizeof(szDbgLine),"next buffered timeout: %ums\n",uElapse); /* all ascii */
-				OutputDebugStringA(szDbgLine);
-			}
+	for (int i = 0; i < arCalls.getCount(); ++i) {
+		BufferedCallData *p = arCalls[i];
+		if (p->pfnBuffProc == pfnBuffProc && (!fAccumulateSameParam || p->lParam == lParam)) {
+			data = p;
+			break;
 		}
-	#endif
+	}
+
+	/* append new */
+	if (data == NULL) {
+		mir_cslock lck(csCalls);
+		arCalls.insert(data = new BufferedCallData());
+	}
+
+	/* set delay */
+	data->startTick = GetTickCount();
+	data->uElapse = uElapse;
+	data->lParam = lParam;
+	data->pfnBuffProc = pfnBuffProc;
+
 	/* set next timer */
-	if (idBufferedTimer) uElapse=USER_TIMER_MINIMUM; /* will get recalculated */
-	idBufferedTimer=SetTimer(NULL,idBufferedTimer,uElapse,(TIMERPROC)BufferedProcTimer);
+	if (idBufferedTimer)
+		uElapse = USER_TIMER_MINIMUM; /* will get recalculated */
+	idBufferedTimer = SetTimer(NULL, idBufferedTimer, uElapse, (TIMERPROC)BufferedProcTimer);
 }
 
 // assumes to be called in context of main thread
 void PrepareBufferedFunctions()
 {
-	idBufferedTimer=0;
-	nCallListCount=0;
-	callList=NULL;
+	idBufferedTimer = 0;
+	InitializeCriticalSection(&csCalls);
 }
 
 // assumes to be called in context of main thread
 void KillBufferedFunctions()
 {
-	if (idBufferedTimer) KillTimer(NULL,idBufferedTimer);
-	nCallListCount=0;
-	mir_free(callList); /* does NULL check */
+	if (idBufferedTimer)
+		KillTimer(NULL,idBufferedTimer);
+
+	for (int i=0; i < arCalls.getCount(); i++)
+		delete arCalls[i];
+	arCalls.destroy();
+	DeleteCriticalSection(&csCalls);
 }
 
 /***********************************************************************************************************
@@ -206,10 +161,6 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 		return (INT_PTR)countryNumber;
 	else if (countryNumber = db_get_w((HANDLE)wParam, pszProto, "CompanyCountry", 0))
 		return (INT_PTR)countryNumber;
-	/* fallback ip detect
-	else if (countryNumber==0xFFFF && db_get_b(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT)) {
-		countryNumber=ServiceIpToCountry(db_get_dw((HANDLE)wParam,pszProto,"RealIP",0),0);
-	}*/
 
 	return (INT_PTR)0xFFFF;
 }
@@ -255,11 +206,11 @@ static int OnCListApplyIcons(WPARAM wParam,LPARAM lParam)
 //hookProc (ME_DB_CONTACT_SETTINGCHANGED) - workaround for missing event from ExtraIconSvc
 static int OnExtraIconSvcChanged(WPARAM wParam,LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
+	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 	if ((HANDLE)wParam != NULL)
 		return 0;
 
-	if (!lstrcmpA(dbcws->szModule, "ExtraIcons") && !lstrcmpA(dbcws->szSetting,"Slot_Flags")) {
+	if (!lstrcmpA(dbcws->szModule, "ExtraIcons") && !lstrcmpA(dbcws->szSetting, "Slot_Flags")) {
 		BOOL bEnable;
 		switch (dbcws->value.type) {
 		case DBVT_BYTE:
@@ -272,47 +223,42 @@ static int OnExtraIconSvcChanged(WPARAM wParam,LPARAM lParam)
 			bEnable = dbcws->value.dVal != (DWORD)-1;
 			break;
 		default:
-			bEnable = -1;
-			break;
-		}
-		if (bEnable == -1)
 			return 0;
+		}
 
 		if (bEnable && !hApplyIconHook)
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
 		else if (!bEnable && hApplyIconHook)
 			UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
 
-		CallFunctionBuffered(UpdateExtraImages,(LPARAM)bEnable,FALSE,EXTRAIMAGE_REFRESHDELAY);
+		CallFunctionBuffered(UpdateExtraImages, (LPARAM)bEnable, FALSE, EXTRAIMAGE_REFRESHDELAY);
 	}
 	return 0;
 }
 
 void SvcFlagsEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB)
 {
-	gFlagsOpts.bShowExtraImgFlag = (bColumn!=((BYTE)-1));
+	gFlagsOpts.bShowExtraImgFlag = (bColumn != ((BYTE)-1));
 	if (bUpdateDB)
-		db_set_b(NULL, MODNAMEFLAGS, "ShowExtraImgFlag", bColumn!=(BYTE)-1);
+		db_set_b(NULL, MODNAMEFLAGS, "ShowExtraImgFlag", bColumn != (BYTE)-1);
 
 	// Flags is on
 	if (gFlagsOpts.bShowExtraImgFlag) {
 		if (hExtraIconSvc == INVALID_HANDLE_VALUE) {
-			//get local langID for descIcon (try to use user local Flag as icon)
+			// get local langID for descIcon (try to use user local Flag as icon)
 			DWORD langid = 0;
-			int r = GetLocaleInfo(
-				LOCALE_USER_DEFAULT,
-				LOCALE_ICOUNTRY | LOCALE_RETURN_NUMBER ,
-				(LPTSTR)&langid, sizeof(langid)/sizeof(TCHAR));
-			if (!CallService(MS_UTILS_GETCOUNTRYBYNUMBER,langid,0)) langid = 1;
+			int r = GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_ICOUNTRY | LOCALE_RETURN_NUMBER, (LPTSTR)&langid, sizeof(langid)/sizeof(TCHAR));
+			if (!CallService(MS_UTILS_GETCOUNTRYBYNUMBER, langid, 0))
+				langid = 1;
 
 			char szId[20];
-			mir_snprintf(szId, SIZEOF(szId), (langid==0xFFFF)?"%s_0x%X":"%s_%i","flags",langid); /* buffer safe */
+			mir_snprintf(szId, SIZEOF(szId), (langid == 0xFFFF) ? "%s_0x%X" : "%s_%i", "flags", langid); /* buffer safe */
 			hExtraIconSvc = ExtraIcon_Register("Flags", LPGEN("Flags (uinfoex)"), szId);
 			if (hExtraIconSvc)
 				HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnExtraIconSvcChanged);
 		}
 
-		//init hooks
+		// init hooks
 		if (!hApplyIconHook)
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
 
@@ -326,9 +272,9 @@ void SvcFlagsEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB)
  ***********************************************************************************************************/
 
 MsgWndData::MsgWndData(HWND hwnd, HANDLE hContact) {
-	m_hwnd		= hwnd;
-	m_hContact	= hContact;
-	m_countryID	= (int)ServiceDetectContactOriginCountry((WPARAM)m_hContact,0);
+	m_hwnd = hwnd;
+	m_hContact = hContact;
+	m_countryID = (int)ServiceDetectContactOriginCountry((WPARAM)m_hContact, 0);
 
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODNAMEFLAGS;
@@ -348,10 +294,10 @@ void MsgWndData::FlagsIconSet()
 	if (m_countryID != 0xFFFF || gFlagsOpts.bUseUnknownFlag) {
 		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = MODNAMEFLAGS;
-		sid.hIconDisabled	= sid.hIcon = LoadFlagIcon(m_countryID);
-		sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,m_countryID,0));
+		sid.hIconDisabled = sid.hIcon = LoadFlagIcon(m_countryID);
+		sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, m_countryID, 0));
 		Srmm_ModifyIcon(m_hContact, &sid);
-	}	
+	}
 }
 
 void MsgWndData::FlagsIconUnset()
@@ -376,13 +322,13 @@ static OBJLIST<IconList> gIListMW(10, CompareIconListData);
 
 IconList::IconList(StatusIconData *sid)
 {
-	m_StatusIconData.cbSize			= sid->cbSize;
-	m_StatusIconData.szModule		= mir_strdup(sid->szModule);
-	m_StatusIconData.dwId			= sid->dwId;
-	m_StatusIconData.hIcon			= CopyIcon(sid->hIcon);
-	m_StatusIconData.hIconDisabled	= sid->hIconDisabled;
-	m_StatusIconData.flags			= sid->flags;
-	m_StatusIconData.szTooltip		= mir_strdup(sid->szTooltip);
+	m_StatusIconData.cbSize = sid->cbSize;
+	m_StatusIconData.szModule = mir_strdup(sid->szModule);
+	m_StatusIconData.dwId = sid->dwId;
+	m_StatusIconData.hIcon = CopyIcon(sid->hIcon);
+	m_StatusIconData.hIconDisabled = sid->hIconDisabled;
+	m_StatusIconData.flags = sid->flags;
+	m_StatusIconData.szTooltip = mir_strdup(sid->szTooltip);
 
 	m_ID = sid->dwId;
 	Srmm_AddIcon(sid);
@@ -395,22 +341,25 @@ IconList::~IconList()
 }
 
 // const char *pszName;			// [Optional] Name of an icon registered with icolib to be used in GUI.
-static __inline int MessageAPI_AddIcon(const char* pszName, const char* szModul/*StatusIconData *sid*/,int ID, int flags, const char* szTooltip)
+static __inline int MessageAPI_AddIcon(const char* pszName, const char* szModul/*StatusIconData *sid*/, int ID, int flags, const char* szTooltip)
 {
 	HICON hIcon = Skin_GetIcon(pszName);
 
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = (char*)szModul;
 	sid.dwId = (DWORD)ID;
-	sid.hIcon = (hIcon!=NULL)?CopyIcon(hIcon):NULL;
-	sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,ID,0));
+	sid.hIcon = (hIcon != NULL) ? CopyIcon(hIcon) : NULL;
+	sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, ID, 0));
 	Skin_ReleaseIcon(hIcon); /* does NULL check */
 
 	int res = -1;
 	IconList* p = new IconList(&sid);
-	if (!p->m_ID)delete p;
-	else res = gIListMW.insert(p);
-	if (res == -1)delete p;
+	if (!p->m_ID)
+		delete p;
+	else
+		res = gIListMW.insert(p);
+	if (res == -1)
+		delete p;
 	return res;
 }
 
@@ -422,59 +371,58 @@ void CALLBACK UpdateStatusIcons(LPARAM lParam) {
 	}
 	else {
 		int i = gMsgWndList.getIndex((MsgWndData*)&lParam);
-		if (i!= -1) gMsgWndList[i]->FlagsIconUpdate();
+		if (i != -1)
+			gMsgWndList[i]->FlagsIconUpdate();
 	}
 }
 
 //hookProc ME_MSG_WINDOWEVENT
-static int OnMsgWndEvent(WPARAM wParam,LPARAM lParam) {
-	MessageWindowEventData *msgwe=(MessageWindowEventData*)lParam;
+static int OnMsgWndEvent(WPARAM wParam, LPARAM lParam)
+{
+	MsgWndData *msgwnd;
+	MessageWindowEventData *msgwe = (MessageWindowEventData*)lParam;
 	/* sanity check */
-	if (msgwe->hContact==NULL)
+	if (msgwe->hContact == NULL)
 		return 0;
 
-	switch(msgwe->uType) {
-		case MSG_WINDOW_EVT_OPENING:
-			{
-				MsgWndData* msgwnd = gMsgWndList.find((MsgWndData*)&msgwe->hContact);
-				if (msgwnd == NULL) {
-					msgwnd = new MsgWndData(msgwe->hwndWindow, msgwe->hContact);
-					gMsgWndList.insert(msgwnd);
-				}
-			}
-			break;
+	switch (msgwe->uType) {
+	case MSG_WINDOW_EVT_OPENING:
+		msgwnd = gMsgWndList.find((MsgWndData*)&msgwe->hContact);
+		if (msgwnd == NULL) {
+			msgwnd = new MsgWndData(msgwe->hwndWindow, msgwe->hContact);
+			gMsgWndList.insert(msgwnd);
+		}
+		break;
 
-		case MSG_WINDOW_EVT_CLOSE:
-			{
-				int i = gMsgWndList.getIndex((MsgWndData*)&msgwe->hContact);
-				if (i != -1) {
-					delete gMsgWndList[i];
-					gMsgWndList.remove(i);
-				}
-			}
-			break;
+	case MSG_WINDOW_EVT_CLOSE:
+		int i = gMsgWndList.getIndex((MsgWndData*)&msgwe->hContact);
+		if (i != -1) {
+			delete gMsgWndList[i];
+			gMsgWndList.remove(i);
+		}
+		break;
 	}
 	return 0;
 }
 
 //hookProc ME_SKIN2_ICONSCHANGED
-static int OnStatusIconsChanged(WPARAM wParam,LPARAM lParam)
+static int OnStatusIconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (gFlagsOpts.bShowStatusIconFlag)
-		CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);
+		CallFunctionBuffered(UpdateStatusIcons, 0, FALSE, STATUSICON_REFRESHDELAY);
 	return 0;
 }
 
 /***********************************************************************************************************
  * option page (not used yet)
  ***********************************************************************************************************/
-static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	return FALSE;
 }
 
 //hookProc ME_OPT_INITIALISE
-static int ExtraImgOptInit(WPARAM wParam,LPARAM lParam)
+static int ExtraImgOptInit(WPARAM wParam, LPARAM lParam)
 {
 	return 0;
 }
@@ -483,23 +431,23 @@ static int ExtraImgOptInit(WPARAM wParam,LPARAM lParam)
  * misc functions
  ***********************************************************************************************************/
 //hookProc ME_DB_CONTACT_SETTINGCHANGED
-static int OnContactSettingChanged(WPARAM wParam,LPARAM lParam) {
-	if ((HANDLE)wParam==NULL) return 0;
-	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
+static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam) {
+	if ((HANDLE)wParam == NULL) return 0;
+	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 
 	/* user details update */
 	if (/*!lstrcmpA(dbcws->szSetting,"RealIP") || */
-	    !lstrcmpA(dbcws->szSetting,SET_CONTACT_COUNTRY) ||
-	    !lstrcmpA(dbcws->szSetting,SET_CONTACT_ORIGIN_COUNTRY) ||
-	    !lstrcmpA(dbcws->szSetting,SET_CONTACT_COMPANY_COUNTRY))
-		{
+		!lstrcmpA(dbcws->szSetting, SET_CONTACT_COUNTRY) ||
+		!lstrcmpA(dbcws->szSetting, SET_CONTACT_ORIGIN_COUNTRY) ||
+		!lstrcmpA(dbcws->szSetting, SET_CONTACT_COMPANY_COUNTRY))
+	{
 		/* Extra Image */
-		CallFunctionBuffered(SetExtraImage,(LPARAM)wParam,TRUE,EXTRAIMAGE_REFRESHDELAY);
+		CallFunctionBuffered(SetExtraImage, (LPARAM)wParam, TRUE, EXTRAIMAGE_REFRESHDELAY);
 		/* Status Icon */
 		if (hMsgWndEventHook) {
 			int i = gMsgWndList.getIndex((MsgWndData*)&wParam);
 			if (i != -1) {
-				gMsgWndList[i]->ContryIDchange((int)ServiceDetectContactOriginCountry(wParam,0));
+				gMsgWndList[i]->ContryIDchange((int)ServiceDetectContactOriginCountry(wParam, 0));
 				gMsgWndList[i]->FlagsIconUpdate();
 			}
 		}
@@ -522,18 +470,18 @@ static int OnContactSettingChanged(WPARAM wParam,LPARAM lParam) {
 void SvcFlagsLoadModule()
 {
 	PrepareBufferedFunctions();
-	if (CallService(MS_UTILS_GETCOUNTRYLIST,(WPARAM)&nCountriesCount,(LPARAM)&countries))
-		nCountriesCount=0;
+	if (CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&nCountriesCount, (LPARAM)&countries))
+		nCountriesCount = 0;
 	InitIcons();			/* load in iconlib */
 	//InitIpToCountry();	/* not implementet */
-	CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY,ServiceDetectContactOriginCountry);
+	CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY, ServiceDetectContactOriginCountry);
 	//init settings
-	gFlagsOpts.bShowExtraImgFlag   = db_get_b(NULL, MODNAMEFLAGS, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT);
-	gFlagsOpts.bUseUnknownFlag     = db_get_b(NULL, MODNAMEFLAGS, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT);
+	gFlagsOpts.bShowExtraImgFlag = db_get_b(NULL, MODNAMEFLAGS, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT);
+	gFlagsOpts.bUseUnknownFlag = db_get_b(NULL, MODNAMEFLAGS, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT);
 	gFlagsOpts.bShowStatusIconFlag = db_get_b(NULL, MODNAMEFLAGS, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT);
 
-	hOptInitHook		= HookEvent(ME_OPT_INITIALISE,ExtraImgOptInit);
-	hIconsChangedHook	= HookEvent(ME_SKIN2_ICONSCHANGED,OnStatusIconsChanged);
+	hOptInitHook = HookEvent(ME_OPT_INITIALISE, ExtraImgOptInit);
+	hIconsChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, OnStatusIconsChanged);
 }
 
 /**
@@ -543,7 +491,7 @@ void SvcFlagsLoadModule()
  *
  * @return	nothing
  **/
-void SvcFlagsOnModulesLoaded() 
+void SvcFlagsOnModulesLoaded()
 {
 	SvcFlagsEnableExtraIcons(db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_FLAGS2, 0), FALSE);
 
@@ -558,7 +506,8 @@ void SvcFlagsOnModulesLoaded()
  *
  * @return	nothing
  **/
-void SvcFlagsUnloadModule() {
+void SvcFlagsUnloadModule()
+{
 	KillBufferedFunctions();
 	//Uninit ExtraImg
 	UnhookEvent(hRebuildIconsHook);
@@ -566,7 +515,7 @@ void SvcFlagsUnloadModule() {
 	UnhookEvent(hIconsChangedHook);
 	//Uninit message winsow
 	UnhookEvent(hMsgWndEventHook);
-	for(int i = 0; i < gMsgWndList.getCount(); i++) {
+	for (int i = 0; i < gMsgWndList.getCount(); i++) {
 		//this should not happen
 		delete gMsgWndList[i];
 		gMsgWndList.remove(i);

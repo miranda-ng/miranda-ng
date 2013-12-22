@@ -22,61 +22,55 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef  _UINFOEX_FLAGS_H_INCLUDED_
-#define  _UINFOEX_FLAGS_H_INCLUDED_
+#ifndef _UINFOEX_FLAGS_H_INCLUDED_
+#define _UINFOEX_FLAGS_H_INCLUDED_
 
 #define EXTRAIMAGE_REFRESHDELAY		100		/* time for which setting changes are buffered */
 #define STATUSICON_REFRESHDELAY		100		/* time for which setting changes are buffered */
 
-typedef struct _FLAGSOPTIONS 
+struct FLAGSOPTIONS 
 {
 	BYTE	bShowExtraImgFlag;
 	BYTE	bUseUnknownFlag;
 	BYTE	bShowStatusIconFlag;
-} FLAGSOPTIONS, *LPFLAGSOPTIONS;
+};
 
 extern FLAGSOPTIONS	gFlagsOpts;
 
-class MsgWndData {
-	public:
-		HANDLE	m_hContact;
-		HWND	m_hwnd;
-		int		m_countryID;
-		
-		MsgWndData(HWND hwnd, HANDLE hContact);
-		~MsgWndData();
+struct MsgWndData
+{
+	HANDLE m_hContact;
+	HWND   m_hwnd;
+	int    m_countryID;
 
-		void FlagsIconSet();
-		void FlagsIconUnset();
-		void FlagsIconUpdate() {
-			gFlagsOpts.bShowStatusIconFlag ? FlagsIconSet():FlagsIconUnset();
-		};
-		void ContryIDchange(int ID) {
-			m_countryID = ID; FlagsIconUpdate();
-		};
+	MsgWndData(HWND hwnd, HANDLE hContact);
+	~MsgWndData();
+
+	void FlagsIconSet();
+	void FlagsIconUnset();
+	void FlagsIconUpdate()
+	{
+		gFlagsOpts.bShowStatusIconFlag ? FlagsIconSet() : FlagsIconUnset();
+	}
+	void ContryIDchange(int ID)
+	{
+		m_countryID = ID; FlagsIconUpdate();
+	}
 };
 
-class IconList {
-	public:
-		int            m_ID;
-		HANDLE         m_hIcon;		//register
-		BYTE           m_TypeFlag;
-		StatusIconData m_StatusIconData;
+struct IconList
+{
+	int m_ID;
+	BYTE m_TypeFlag;
+	HANDLE m_hIcon;
+	StatusIconData m_StatusIconData;
 
-		IconList(StatusIconData* sid);
-//		IconList(HWND hwnd, HANDLE hContact);
-		~IconList();
-
+	IconList(StatusIconData *sid);
+	~IconList();
 };
 
 typedef void (CALLBACK *BUFFEREDPROC)(LPARAM lParam);
-#ifdef _DEBUG
-	void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc,const char *pszProcName,LPARAM lParam,BOOL fAccumulateSameParam,UINT uElapse);
-	#define CallFunctionBuffered(proc,param,acc,elapse) _CallFunctionBuffered(proc,#proc,param,acc,elapse)
-#else
-	void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc,LPARAM lParam,BOOL fAccumulateSameParam,UINT uElapse);
-	#define CallFunctionBuffered(proc,param,acc,elapse) _CallFunctionBuffered(proc,param,acc,elapse)
-#endif
+void CallFunctionBuffered(BUFFEREDPROC pfnBuffProc, LPARAM lParam, BOOL fAccumulateSameParam, UINT uElapse);
 
 void EnsureExtraImages();
 void SvcFlagsEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB);
