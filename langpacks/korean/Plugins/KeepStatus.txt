@@ -1,17 +1,20 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: Keep Status
+;  Plugin: Keep status
 ;  Version: 0.9.0.1
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [Close]
 닫기
 [Cancel]
 취소
 [OK]
 확인
+[Command line:]
+검사 프로그램:
+[Background color]
+배경
 [Events]
 이벤트
 [Use %time% for the current time, %date% for the current date]
@@ -22,11 +25,8 @@
 삭제
 [seconds]
 초
-;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
-;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Advanced]
 고급
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 저는 %time% 이후부터 없었습니다.
 [Give it up, I'm not in!]
@@ -49,6 +49,5 @@
 냠냠... 식사중이예요.
 [idleeeeeeee]
 무작업 상태
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Closing in %d]
 %d 에서 닫는중

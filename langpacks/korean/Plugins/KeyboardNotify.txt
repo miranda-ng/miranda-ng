@@ -5,7 +5,6 @@
 ;  Version: 1.5.7.7
 ;  Authors: TioDuke
 ;============================================================
-;file \plugins\KeyboardNotify\res\resources.rc
 [seconds]
 초
 [Online]
@@ -46,12 +45,10 @@
 무시한 파일
 [Ignore]
 무시
-;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** 모든 대화 상대 **
 [** Unknown contacts **]
 ** 알 수 없는 대화 상대 **
-;file \plugins\KeyboardNotify\src\options.cpp
 [Events]
 이벤트
 [All Files]

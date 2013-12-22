@@ -5,9 +5,5 @@
 ;  Version: 0.2.3.0
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
-;file \plugins\NoHistory\res\NoHistory.rc
-;file \plugins\NoHistory\src\dllmain.cpp
-;file \plugins\NoHistory\src\icons.cpp
-;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** 모든 대화 상대 **

@@ -5,11 +5,7 @@
 ;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
-;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Cancel]
 취소
-;file \plugins\Db_autobackups\src\backup.cpp
 [All files]
 모든 파일
-;file \plugins\Db_autobackups\src\main.cpp
-;file \plugins\Db_autobackups\src\options.cpp

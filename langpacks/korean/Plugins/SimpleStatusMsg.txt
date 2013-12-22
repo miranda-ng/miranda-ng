@@ -5,7 +5,6 @@
 ;  Version: 1.9.0.4
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
-;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
 %s 를 위한 메세지 %s
 [&Cancel]
@@ -18,25 +17,20 @@
 초
 [Delete]
 삭제
-;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [&Close]
 &C 닫기
 [Re&ad %s Message]
 &a %s 메세지 읽기
 [Re&ad Away Message]
 &a 자리 비움 메세지 읽기
-;file \plugins\SimpleStatusMsg\src\main.cpp
-;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [Global]
 전체
 [Closing in %d]
 %d 에서 닫는중
-;file \plugins\SimpleStatusMsg\src\options.cpp
 [Status]
 상태
 [Advanced]
 고급
-;file \plugins\SimpleStatusMsg\src\utils.cpp
 [I've been away since %time%.]
 저는 %time% 이후부터 없었습니다.
 [Give it up, I'm not in!]

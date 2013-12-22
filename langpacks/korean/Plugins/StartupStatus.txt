@@ -5,13 +5,16 @@
 ;  Version: 0.8.0.45
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [Close]
 닫기
 [Cancel]
 취소
 [OK]
 확인
+[Command line:]
+검사 프로그램:
+[Background color]
+배경
 [Events]
 이벤트
 [Use %time% for the current time, %date% for the current date]
@@ -22,12 +25,10 @@
 삭제
 [seconds]
 초
-;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [None]
 없음
-;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
-;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
-;file \Plugins\StatusPlugins\commonstatus.cpp
+[unknown]
+알 수 없음
 [I've been away since %time%.]
 저는 %time% 이후부터 없었습니다.
 [Give it up, I'm not in!]
@@ -50,6 +51,5 @@
 냠냠... 식사중이예요.
 [idleeeeeeee]
 무작업 상태
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Closing in %d]
 %d 에서 닫는중

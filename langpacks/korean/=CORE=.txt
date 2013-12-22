@@ -1,4 +1,4 @@
-﻿;file \src\resource.rc
+﻿
 [OK]
 확인
 [Cancel]
@@ -255,7 +255,6 @@ OutputDebugString()
 &O 기존 창으로 열기
 [&Copy link]
 &C 링크 복사
-;file \src\core\stdauth\resource.rc
 [&Authorize]
 &A 인증
 [&Deny]
@@ -266,7 +265,6 @@ OutputDebugString()
 당신은 추가되었습니다.
 [&Close]
 &C 닫기
-;file \src\core\stdaway\resource.rc
 [%s message for %s]
 %s 를 위한 메세지 %s
 [Status messages]
@@ -285,7 +283,6 @@ OutputDebugString()
 %s 메세지 변경
 [Closing in %d]
 %d 에서 닫는중
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 &S 보내기
 [Information]
@@ -296,7 +293,6 @@ OutputDebugString()
 목록
 [&Message]
 &M 메세지
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 오프라인 유저 숨기기
 [Hide empty groups]
@@ -425,6 +421,8 @@ OutputDebugString()
 전체 목록이 회색으로 됐을 때:
 [Contact list background]
 대화 상대 목록 배경
+[Background color]
+배경
 [Stretch to width]
 가로로 늘리기
 [Stretch to height]
@@ -453,6 +451,8 @@ OutputDebugString()
 오른쪽 클릭으로 미란다 IM 메뉴 열기
 [Make sections equal width]
 선택물을 같은 넓이로 만들기
+[&Main menu]
+&M 메인 메뉴
 [&Status]
 &S 상태
 [&Offline\tCtrl+0]
@@ -475,7 +475,6 @@ OutputDebugString()
 &P 통화중\tCtrl+8
 [Out to &lunch\tCtrl+9]
 &L 식사중\tCtrl+9
-;file \src\core\stdfile\resource.rc
 [Send file(s)]
 파일 보내기(s)
 [File(s):]
@@ -496,8 +495,6 @@ OutputDebugString()
 파일:
 [Save to:]
 저장
-[Open folder]
-폴더 열기
 [File already exists]
 이미 존재하는 파일
 [Resume]
@@ -524,6 +521,8 @@ OutputDebugString()
 최근 수정:
 [Open file]
 파일 열기
+[Open folder]
+폴더 열기
 [File properties]
 파일 속성
 [File being received]
@@ -564,19 +563,16 @@ OutputDebugString()
 물어보기
 [You will always be asked about files from people not on your contact list]
 대화 상대 목록에 없는 사람으로부터의 파일에 대해 항상 물어보기
-;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 미란다 IM에 대하여
-;file \src\core\stdidle\resource.rc
 [Windows]
 창
 [Miranda]
-미란다
+미란다 IM
 [minute(s)]
 분(s)
 [Change my status mode to:]
 내 상태 변경:
-;file \src\core\stdmsg\res\resource.rc
 [Close the message window on send]
 보낸 후에 메세지 창 닫기
 [Minimize the message window on send]
@@ -629,7 +625,6 @@ OutputDebugString()
 풍선 팝업 보이기
 [Delete]
 삭제
-;file \src\core\stduihist\resource.rc
 [Find]
 찾기
 [&Find next]
@@ -640,7 +635,6 @@ OutputDebugString()
 메세지 히스토리
 [&Find...]
 &F 찾기...
-;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 전화번호 추가
 [Enter country, area code and phone number:]
@@ -703,22 +697,18 @@ OutputDebugString()
 위치:
 [Website:]
 웹사이트:
-;file \src\core\stdauth\auth.cpp
 [%u requests authorization]
 %u의 요청에 권한 부여
 [%u added you to their contact list]
 %u가 당신을 대화 상대 목록에 추가했습니다
-;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 유저 세부사항 보기
 [Add contact permanently to list]
 대화 상대 목록에 추가
 [(Unknown)]
 (알 수 없음)
-;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s message]
 &a %s 메세지 읽기
-;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 저는 %time% 이후부터 없었습니다.
 [Give it up, I'm not in!]
@@ -743,20 +733,16 @@ OutputDebugString()
 무작업 상태
 [Status]
 상태
-;file \src\core\stdchat\src\clist.cpp
-;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
-;file \src\core\stdchat\src\options.cpp
+[Incoming message]
+받은 메세지
+[Outgoing message]
+보낸 메세지
 [Bold]
 굵게
 [Messaging]
 메세징
 [Select folder]
 폴더 지정
-;file \src\core\stdchat\src\services.cpp
-;file \src\core\stdchat\src\tools.cpp
-;file \src\core\stdchat\src\window.cpp
-;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 기본 대화 상대
 [Online contacts to whom you have a different visibility]
@@ -771,7 +757,6 @@ OutputDebugString()
 분리자
 [Offline contacts to whom you have a different visibility]
 다른 가시성을 지니고 있는 오프라인 대화 상대
-;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 포커스 되지 않음
 [Offline]
@@ -796,45 +781,36 @@ OutputDebugString()
 전화중
 [List background]
 목록 배경
-;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 전체
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 유저가 이메일 주소를 등록하지 않았습니다
 [Send e-mail]
 이메일 보내기
 [&E-mail]
 &E 이메일
-;file \src\core\stdfile\file.cpp
 [File from %s]
 %s 로부터 파일
 [&File]
 &F 파일
-;file \src\core\stdfile\fileexistsdlg.cpp
 [%s file]
 %s 파일
 [All files]
 모든 파일
-;file \src\core\stdfile\fileopts.cpp
 [Executable files]
 실행 파일
 [Events]
 이벤트
-;file \src\core\stdfile\filerecvdlg.cpp
 [View user's history]
 유저 히스토리 보기
 [User menu]
 유저 메뉴
 [Canceled]
 취소됨
-;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
 %d 파일
 [%d directories]
 %d 디렉토리
-;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 이 파일은 아직 바이러스 검사가 이루어지지 않았습니다. 그래도 여시겠습니까?
 [File received]
@@ -867,23 +843,14 @@ OutputDebugString()
 바이러스 검사...
 [Transfer and virus scan complete]
 전송 및 바이러스 검사 완료
-;file \src\core\stdfile\ftmanager.cpp
-;file \src\core\stdhelp\about.cpp
-;file \src\core\stdhelp\help.cpp
 [&About...]
 &A 미란다에 메신저 대하여...
 [&Report bug]
 &R 버그 리포트
-;file \src\core\stdidle\idle.cpp
 [Idle]
 무작업 상태
-;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 메세지 시간 초과
-;file \src\core\stdmsg\src\globals.cpp
-;file \src\core\stdmsg\src\msgdialog.cpp
-;file \src\core\stdmsg\src\msglog.cpp
-;file \src\core\stdmsg\src\msgoptions.cpp
 [** New contacts **]
 ** 새 대화 상대 **
 [** Unknown contacts **]
@@ -892,17 +859,10 @@ OutputDebugString()
 메세징 로그
 [Typing notify]
 입력 알림
-;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 %s 로부터 받은 메세지
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어들일 수 없습니다. 미란다를 계속 실행하시려면 '네'를 누르세요.
-;file \src\core\stdmsg\src\msgtimedout.cpp
-;file \src\core\stduihist\history.cpp
-[Outgoing message]
-보낸 메세지
-[Incoming message]
-받은 메세지
 [Outgoing URL]
 보낸 URL
 [Incoming URL]
@@ -919,15 +879,12 @@ riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어
 히스토리 지우기
 [View &history]
 &H 지난 메세지 보기
-;file \src\core\stdurl\url.cpp
 [URL from %s]
 %s 로부터 받은 URL
 [Web page address (&URL)]
 웹 페이지 주소 (&URL)
-;file \src\core\stdurl\urldialogs.cpp
 [Send timed out]
 시간 초과
-;file \src\core\stduserinfo\contactinfo.cpp
 [Edit phone number]
 전화번호 수정
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -942,7 +899,6 @@ riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어
 팩스
 [Mobile]
 휴대폰
-;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 남자
 [Female]
@@ -959,28 +915,18 @@ riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어
 직업
 [Notes]
 메모
-;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 소유자
 [View/change my &details...]
 &D 내 정보 보기/바꾸기
-;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s이(가) 온라인
-;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 대화 상대 추가
 [Please authorize my request and add me to your contact list.]
 내 요청에 권한을 주고 나를 당신의 대화 상대 목록에 추가해 주세요.
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
-;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (알 수 없는 대화 상대)
-;file \src\modules\clist\clisttray.cpp
-[&Main menu]
-&M 메인 메뉴
-;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 이 대화상대는 이 대화 상대 목록이 저장된 중앙 서버의 인스턴트 메세징 시스템에 있습니다.  그리고 다음에 네트워크 접속 시 대화 상대는 당신의 대화 상대 목록에서 삭제됩니다.
 [De&lete]
@@ -989,7 +935,6 @@ riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어
 &R 이름 바꾸기
 [&Add permanently to list]
 &A 목록에 영구히 추가
-;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 내 임의 지정 이름 (이동 불가능)
 [Nick]
@@ -1008,9 +953,6 @@ riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어
 '(알 수 없는 대화 상대)' (이동 불가능)
 ['(Unknown contact)']
 '(알 수 없는 대화 상대)'
-;file \src\modules\clist\genmenu.cpp
-;file \src\modules\clist\genmenuopt.cpp
-;file \src\modules\clist\groups.cpp
 [New group]
 새 그룹
 [You already have a group with that name. Please enter a unique name for the group.]
@@ -1019,17 +961,8 @@ riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어
 그룹명 바꾸기
 [This group]
 현재 그룹
-;file \src\modules\clist\keyboard.cpp
-;file \src\modules\clist\movetogroup.cpp
-;file \src\modules\database\database.cpp
-;file \src\modules\database\dbini.cpp
-;file \src\modules\database\profilemanager.cpp
 [Size]
 크기
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
-;file \src\modules\extraicons\extraicons.cpp
-;file \src\modules\extraicons\options_ei.cpp
-;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 검색 필드가 채워지지 않았습니다. 검색어를 입력하고 다시 시도해 주세요.
 [Search]
@@ -1046,7 +979,6 @@ riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어
 이름
 [&Find/Add contacts...]
 &F 찾기/대화 상대 추가...
-;file \src\modules\findadd\searchresults.cpp
 [1 %s user found]
 1 %s 유저를 찾았습니다
 [%d %s users found]
@@ -1055,43 +987,30 @@ riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어
 %d 유저를 찾았습니다 (
 [No users found]
 유저를 찾지 못했습니다
-;file \src\modules\fonts\FontOptions.cpp
 [<none>]
 <없음>
 [Fonts]
 폰트
-;file \src\modules\fonts\FontService.cpp
-;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 아이콘 셋
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** 모든 대화 상대 **
-;file \src\modules\netlib\netliblog.cpp
 [Select where log file will be created]
 로그 파일이 생성될 위치 지정
 [Select program to be run]
 프로그램이 실행될 위치 지정
-;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <모든 접속>
 [Network]
 네트워크
-;file \src\modules\netlib\netlibssl.cpp
-;file \src\modules\options\options.cpp
 [Miranda NG options]
 미란다 IM 옵션
 [&Options...]
 &O 옵션...
-;file \src\modules\plugins\newplugins.cpp
-;file \src\modules\plugins\pluginopts.cpp
 [Version]
 버전
 [Plugins]
 플러그인
-;file \src\modules\protocols\protoopts.cpp
-;file \src\modules\skin\hotkey_opts.cpp
-;file \src\modules\skin\skinicons.cpp
 [Connecting]
 접속중
 [Exit]
@@ -1100,8 +1019,6 @@ riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어
 %s 아이콘
 [Main icons]
 메인 아이콘
-;file \src\modules\skin\sounds.cpp
-;file \src\modules\utils\bmpfilter.cpp
 [All bitmaps]
 모든 비트맵
 [Windows bitmaps]
@@ -1110,8 +1027,5 @@ riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어
 JPEG 비트맵
 [GIF bitmaps]
 GIF 비트맵
-;file \src\modules\utils\timezones.cpp
-;file \src\modules\utils\utils.cpp
 [Unknown]
 알 수 없음
-;file \src\modules\visibility\visibility.cpp

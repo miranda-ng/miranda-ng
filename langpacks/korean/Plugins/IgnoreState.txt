@@ -5,12 +5,9 @@
 ;  Version: 0.0.3.0
 ;  Authors: Kildor
 ;============================================================
-;file \plugins\IgnoreState\res\ignore.rc
-;file \plugins\IgnoreState\src\main.cpp
 [You Were Added]
 당신은 추가되었습니다.
 [Typing Notify]
 입력 알림
-;file \plugins\IgnoreState\src\options.cpp
 [Icons]
 아이콘

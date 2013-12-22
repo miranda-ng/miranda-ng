@@ -5,7 +5,6 @@
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
-;file \protocols\Twitter\res\twitter.rc
 [Username:]
 유저명:
 [Cancel]
@@ -14,8 +13,5 @@
 초
 [OK]
 확인
-;file \protocols\Twitter\src\connection.cpp
-;file \protocols\Twitter\src\proto.cpp
 [Network]
 네트워크
-;file \protocols\Twitter\src\theme.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.8.3.1
 ;  Authors: Merlin
 ;============================================================
-;file \plugins\SendScreenshotPlus\res\resource.rc
 [OK]
 확인
 [None]
@@ -14,29 +13,18 @@
 취소
 [&Close]
 &C 닫기
-;file \plugins\SendScreenshotPlus\src\CSend.cpp
-;file \plugins\SendScreenshotPlus\src\CSend.h
-;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
-;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
-;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
-;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
-;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Yes]
 네
 [No]
 아니오
 [Ignore]
 무시
-;file \plugins\SendScreenshotPlus\src\global.h
-;file \plugins\SendScreenshotPlus\src\Main.cpp
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Open Folder]
+폴더 열기
 [Apply]
 적용
-;file \plugins\SendScreenshotPlus\src\mir_icolib.h
-;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 크레딧
-;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Window]
 윈도우
 [E-mail]

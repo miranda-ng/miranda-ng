@@ -5,7 +5,6 @@
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-;file \plugins\UserInfoEx\res\resource.rc
 [OK]
 확인
 [Cancel]
@@ -46,6 +45,8 @@
 전체 국가 번호 입력:
 [Phone can receive SMS text messages]
 전화로 SMS 문자 메세지를 받을 수 있음
+[Background color]
+배경
 [Homepage:]
 홈페이지:
 [Delete]
@@ -56,74 +57,45 @@
 없음
 [Gender:]
 성:
+[E-Mail]
+이메일
 [Age:]
 나이:
-;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
-;file \plugins\UserInfoEx\src\classPsTree.cpp
-;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
-;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
-;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit Phone Number]
 전화번호 수정
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [Contact]
 연락처
-;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Yes]
 네
 [No]
 아니오
 [Ignore]
 무시
-;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Work]
 직업
 [Notes]
 메모
 [Owner]
 소유자
-;file \plugins\UserInfoEx\src\init.cpp
-;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Fax]
 팩스
+[e-mail]
+이메일
 [Search]
 찾기
-;file \plugins\UserInfoEx\src\mir_icolib.h
-;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [User &details]
 &D 사용자 정보
 [View/Change My &Details...]
 &D 내 정보 보기/바꾸기
-;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+내 노트:
 [About:]
 정보:
-;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-;file \plugins\UserInfoEx\src\psp_contact.cpp
-;file \plugins\UserInfoEx\src\psp_options.cpp
 [Advanced]
 고급
-;file \plugins\UserInfoEx\src\psp_profile.cpp
-;file \plugins\UserInfoEx\src\svc_constants.cpp
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(알 수 없는 대화 상대)'
-;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 이메일 보내기
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-;file \plugins\UserInfoEx\src\svc_reminder.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Miranda NG]
 미란다 IM
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
-;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

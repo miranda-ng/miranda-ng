@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
-;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 대화 상대 삭제
 [Are you sure you want to delete %s?]
@@ -136,6 +135,8 @@
 오른쪽 클릭으로 미란다 IM 메뉴 열기
 [Make sections equal width]
 선택물을 같은 넓이로 만들기
+[&Main menu]
+&M 메인 메뉴
 [E&xit]
 &x 끝내기
 [&Status]
@@ -182,7 +183,6 @@
 &R 그룹명 바꾸기
 [&Delete Group]
 &D 그룹 삭제
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 포커스 되지 않음
 [Offline]
@@ -207,8 +207,5 @@
 전화중
 [List]
 목록
-;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 전체
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp

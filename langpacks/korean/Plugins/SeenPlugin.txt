@@ -5,7 +5,6 @@
 ;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
-;file \plugins\SeenPlugin\res\resource.rc
 [Online]
 온라인
 [Away]
@@ -28,23 +27,20 @@
 오프라인
 [OK]
 확인
-;file \plugins\SeenPlugin\src\history.cpp
 [View User's Details]
 유저 세부사항 보기
 [User Menu]
 유저 메뉴
-;file \plugins\SeenPlugin\src\main.cpp
-;file \plugins\SeenPlugin\src\menu.cpp
 [<none>]
 <없음>
-;file \plugins\SeenPlugin\src\options.cpp
-;file \plugins\SeenPlugin\src\seen.h
 [seconds]
 초
+[username]
+유저명
+[nick]
+대화명
 [Status]
 상태
-;file \plugins\SeenPlugin\src\userinfo.cpp
-;file \plugins\SeenPlugin\src\utils.cpp
 [Idle]
 무작업 상태
 [Unknown]

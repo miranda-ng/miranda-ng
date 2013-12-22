@@ -5,11 +5,12 @@
 ;  Version: 3.2.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
-;file \plugins\DbEditorPP\res\resource.rc
 [&Search]
 &S 찾기
 [&Cancel]
 &C 취소
+[Background color]
+배경
 [OK]
 확인
 [Cancel]
@@ -20,24 +21,13 @@
 &D 삭제
 [&Rename]
 &R 이름 바꾸기
-;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
-;file \plugins\DbEditorPP\src\copymodule.cpp
-;file \plugins\DbEditorPP\src\deletemodule.cpp
-;file \plugins\DbEditorPP\src\exportimport.cpp
 [All Files]
 모든 파일
-;file \plugins\DbEditorPP\src\findwindow.cpp
-;file \plugins\DbEditorPP\src\icons.cpp
-;file \plugins\DbEditorPP\src\main.cpp
-;file \plugins\DbEditorPP\src\main_window.cpp
-;file \plugins\DbEditorPP\src\modules.cpp
-;file \plugins\DbEditorPP\src\moduletree.cpp
-;file \plugins\DbEditorPP\src\options.cpp
-;file \plugins\DbEditorPP\src\settinglist.cpp
+[HANDLE]
+이름
 [Name]
 이름
 [Size]
 크기
-;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Contact]
 연락처

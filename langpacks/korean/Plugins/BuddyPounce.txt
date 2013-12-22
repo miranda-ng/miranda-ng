@@ -5,7 +5,6 @@
 ;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
-;file \plugins\BuddyPounce\res\resource.rc
 [Cancel]
 취소
 [OK]
@@ -14,7 +13,6 @@
 고급 >>
 [Status]
 상태
-;file \plugins\BuddyPounce\src\dialog.cpp
 [Online]
 온라인
 [Away]
@@ -25,6 +23,11 @@
 다른 용무중
 [DND]
 수신 거부
+[Free For Chat]
+대화 가능
 [Invisible]
 오프라인으로 표시
-;file \plugins\BuddyPounce\src\main.cpp
+[On The Phone]
+전화중
+[Out To Lunch]
+식사중

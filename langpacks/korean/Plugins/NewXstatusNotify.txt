@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
-;file \plugins\NewXstatusNotify\res\resource.rc
 [Online]
 온라인
 [Offline]
@@ -32,23 +31,21 @@
 사운드
 [Background]
 배경
+[Sec]
+초
 [OK]
 확인
 [Cancel]
 취소
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[All files]
+모든 파일
 [Status]
 상태
 [** All contacts **]
 ** 모든 대화 상대 **
-;file \plugins\NewXstatusNotify\src\indsnd.h
-;file \plugins\NewXstatusNotify\src\main.cpp
 [Contact]
 연락처
-;file \plugins\NewXstatusNotify\src\options.cpp
+[connecting]
+접속중
 [All Files]
 모든 파일
-;file \plugins\NewXstatusNotify\src\popup.h
-;file \plugins\NewXstatusNotify\src\utils.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.h

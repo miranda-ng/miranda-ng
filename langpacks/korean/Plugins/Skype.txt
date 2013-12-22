@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
-;file \protocols\Skype\res\Resource.rc
 [&Cancel]
 &C 취소
 [Password:]
@@ -30,36 +29,19 @@
 국가:
 [Timezone:]
 시간대:
-;file \protocols\Skype\src\skype.cpp
-;file \protocols\Skype\src\skype_account.cpp
-;file \protocols\Skype\src\skype_blocked.cpp
 [Name]
 이름
-;file \protocols\Skype\src\skype_bookmarks.cpp
-;file \protocols\Skype\src\skype_chat.cpp
 [&Add]
 &A 추가
-;file \protocols\Skype\src\skype_contacts.cpp
-;file \protocols\Skype\src\skype_dialogs.cpp
 [<not specified>]
 <지정되지 않음>
 [Male]
 남자
 [Female]
 여자
-;file \protocols\Skype\src\skype_events.cpp
 [Network]
 네트워크
-;file \protocols\Skype\src\skype_icons.cpp
 [Contact]
 연락처
 [Delete]
 삭제
-;file \protocols\Skype\src\skype_ignore_list.cpp
-;file \protocols\Skype\src\skype_instances.cpp
-;file \protocols\Skype\src\skype_menus.cpp
-;file \protocols\Skype\src\skype_messages.cpp
-;file \protocols\Skype\src\skype_netlib.cpp
-;file \protocols\Skype\src\skype_proto.cpp
-;file \protocols\Skype\src\skype_transfers.cpp
-;file \protocols\Skype\src\skype_utils.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.0
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
-;file \plugins\ModernOpt\res\resource.rc
 [Miranda NG Options]
 미란다 IM 옵션
 [OK]
@@ -16,7 +15,6 @@
 적용
 [Advanced]
 고급
-;file \plugins\ModernOpt\src\modernopt.cpp
 [Style]
 스타일
 [Ignore]

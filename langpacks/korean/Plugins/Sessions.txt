@@ -5,7 +5,6 @@
 ;  Version: 0.1.3.0
 ;  Authors: MaD_CLuSTeR
 ;============================================================
-;file \plugins\Sessions\res\Sessions.rc
 [Delete]
 삭제
 [&Cancel]
@@ -14,6 +13,3 @@
 확인
 [Cancel]
 취소
-;file \plugins\Sessions\Src\Main.cpp
-;file \plugins\Sessions\Src\Options.cpp
-;file \plugins\Sessions\Src\Utils.cpp

@@ -5,9 +5,10 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\Alarms\res\resource.rc
 [Delete]
 삭제
+[Row Height:]
+행 높이:
 [OK]
 확인
 [Cancel]
@@ -18,15 +19,9 @@
 &D 삭제
 [&Options...]
 &O 옵션...
-;file \plugins\Alarms\src\alarmlist.cpp
-;file \plugins\Alarms\src\alarms.cpp
-;file \plugins\Alarms\src\alarm_win.cpp
 [Background]
 배경
 [Window]
 윈도우
-;file \plugins\Alarms\src\frame.cpp
-;file \plugins\Alarms\src\icons.cpp
-;file \plugins\Alarms\src\options.cpp
 [Events]
 이벤트

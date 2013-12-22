@@ -1,0 +1,35 @@
+﻿#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.0
+;  Authors: Vincent Joyce
+;============================================================
+[seconds]
+초
+[Bold]
+굵게
+[OK]
+확인
+[Cancel]
+취소
+[Apply]
+적용
+[Find]
+찾기
+[&Find next]
+&F 다음 찾기
+[Find what:]
+검색어:
+[Background]
+배경
+[&Copy]
+&C 복사
+[&Delete]
+&D 삭제
+[Co&py all]
+&P 전체 복사
+[Network]
+네트워크
+[Online]
+온라인

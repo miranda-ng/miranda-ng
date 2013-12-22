@@ -1,0 +1,11 @@
+﻿#muuid  {e4058506-6494-4d60-9cf4-40bf545f78bd}
+;============================================================
+;  File: QuickSearch.dll
+;  Module: Quick Search
+;  Version: 1.4.0.20
+;  Authors: Awkward
+;============================================================
+[FIRSTNAME]
+이름
+[LASTNAME]
+성

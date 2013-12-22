@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
-;file \plugins\TipperYM\res\resource.rc
 [Options]
 옵션
 [Window]
@@ -16,15 +15,10 @@
 취소
 [Items]
 아이템
-;file \plugins\TipperYM\src\mir_smileys.cpp
-;file \plugins\TipperYM\src\options.cpp
 [None]
 없음
-;file \plugins\TipperYM\src\options.h
 [Status]
 상태
-;file \plugins\TipperYM\src\popwin.cpp
-;file \plugins\TipperYM\src\preset_items.cpp
 [Gender:]
 성:
 [Homepage:]
@@ -35,15 +29,11 @@
 이름
 [Time:]
 시간:
-;file \plugins\TipperYM\src\skin_parser.cpp
-;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 배경
 [Dividers]
 분리자
-;file \plugins\TipperYM\src\translations.cpp
 [Female]
 여자
 [Male]
 남자
-;file \plugins\TipperYM\src\translations.h

@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.1
 ;  Authors: Anar Ibragimoff
 ;============================================================
-;file \plugins\YARelay\res\yaRelay.rc
 [Contact]
 연락처
 [Offline]
@@ -24,6 +23,5 @@
 대화 가능
 [Invisible]
 오프라인으로 표시
-;file \plugins\YARelay\src\options.cpp
 [Plugins]
 플러그인

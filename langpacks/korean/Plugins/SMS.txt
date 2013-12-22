@@ -5,7 +5,6 @@
 ;  Version: 0.2.5.3
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
-;file \plugins\SMS\res\resource.rc
 [&Reply]
 &R 답장
 [&Close]
@@ -16,12 +15,9 @@
 &S 보내기
 [&Cancel]
 &C 취소
-;file \plugins\SMS\src\options.cpp
-;file \plugins\SMS\src\receive.cpp
-;file \plugins\SMS\src\recvdlg.cpp
-;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 유저 히스토리 보기
 [Invalid Phone Number]
 잘못된 전화번호
-;file \plugins\SMS\src\SMS_svc.cpp
+[Invalid phone number]
+잘못된 전화번호

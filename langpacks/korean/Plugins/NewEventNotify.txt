@@ -5,12 +5,7 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-;file \plugins\NewEventNotify\res\resource.rc
 [File]
 파일
 [Background]
 배경
-;file \plugins\NewEventNotify\src\menuitem.cpp
-;file \plugins\NewEventNotify\src\neweventnotify.h
-;file \plugins\NewEventNotify\src\options.cpp
-;file \plugins\NewEventNotify\src\popup.cpp

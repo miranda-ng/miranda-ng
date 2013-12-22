@@ -5,5 +5,5 @@
 ;  Version: 0.0.0.4
 ;  Authors: Nightwish, Pixel
 ;============================================================
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[<None>]
+<없음>

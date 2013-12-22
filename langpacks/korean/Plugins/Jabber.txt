@@ -1,11 +1,10 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-;file \protocols\JabberG\res\jabber.rc
 [OK]
 확인
 [Cancel]
@@ -60,15 +59,6 @@
 %d 에서 닫는중
 [Authorization request]
 권한 요청
-;file \protocols\JabberG\src\jabber.cpp
-;file \protocols\JabberG\src\jabber.h
-;file \protocols\JabberG\src\jabber_adhoc.cpp
-;file \protocols\JabberG\src\jabber_agent.cpp
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
-;file \protocols\JabberG\src\jabber_byte.cpp
-;file \protocols\JabberG\src\jabber_caps.cpp
-;file \protocols\JabberG\src\jabber_captcha.cpp
-;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 없음
 [Owner]
@@ -83,22 +73,10 @@
 수신 거부
 [Free for chat]
 대화 가능
-;file \protocols\JabberG\src\jabber_console.cpp
-;file \protocols\JabberG\src\jabber_disco.cpp
-;file \protocols\JabberG\src\jabber_disco.h
-;file \protocols\JabberG\src\jabber_form2.cpp
-;file \protocols\JabberG\src\jabber_groupchat.cpp
-;file \protocols\JabberG\src\jabber_icolib.cpp
+[User &details]
+&D 사용자 정보
 [Notes]
 메모
-;file \protocols\JabberG\src\jabber_iqid.cpp
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
-;file \protocols\JabberG\src\jabber_menu.cpp
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
-;file \protocols\JabberG\src\jabber_notes.cpp
-;file \protocols\JabberG\src\jabber_opt.cpp
 [Messaging]
 메세징
 [Connecting...]
@@ -107,36 +85,25 @@
 네트워크
 [Advanced]
 고급
-;file \protocols\JabberG\src\jabber_password.cpp
-;file \protocols\JabberG\src\jabber_privacy.cpp
 [<none>]
 <없음>
-;file \protocols\JabberG\src\jabber_proto.cpp
-;file \protocols\JabberG\src\jabber_rc.cpp
 [Status]
 상태
 [Invisible]
 오프라인으로 표시
 [Offline]
 오프라인
-;file \protocols\JabberG\src\jabber_search.cpp
-;file \protocols\JabberG\src\jabber_svc.cpp
-;file \protocols\JabberG\src\jabber_thread.cpp
-;file \protocols\JabberG\src\jabber_userinfo.cpp
 [<not specified>]
 <지정되지 않음>
 [Version]
 버전
-[Yes]
-네
-[No]
-아니오
-;file \protocols\JabberG\src\jabber_util.cpp
-;file \protocols\JabberG\src\jabber_vcard.cpp
+[unknown]
+알 수 없음
+[none]
+없음
 [Male]
 남자
 [Female]
 여자
-;file \protocols\JabberG\src\jabber_ws.cpp
-;file \protocols\JabberG\src\jabber_xstatus.cpp
-;file \protocols\JabberG\src\ui_utils.cpp
+[on the phone]
+전화중

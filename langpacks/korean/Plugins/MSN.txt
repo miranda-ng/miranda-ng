@@ -1,11 +1,10 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
-;file \protocols\MSN\res\msn.rc
 [Password:]
 비밀번호:
 [Nickname:]
@@ -16,19 +15,9 @@
 취소
 [&Cancel]
 &C 취소
-;file \protocols\MSN\src\msn_chat.cpp
-;file \protocols\MSN\src\msn_commands.cpp
-;file \protocols\MSN\src\msn_errors.cpp
-;file \protocols\MSN\src\msn_links.cpp
-;file \protocols\MSN\src\msn_lists.cpp
-;file \protocols\MSN\src\msn_mail.cpp
-;file \protocols\MSN\src\msn_menu.cpp
-;file \protocols\MSN\src\msn_misc.cpp
-;file \protocols\MSN\src\msn_msgqueue.cpp
-;file \protocols\MSN\src\msn_opts.cpp
+[User &details]
+&D 사용자 정보
+[Contact list]
+대화 상대 목록
 [Network]
 네트워크
-;file \protocols\MSN\src\msn_p2p.cpp
-;file \protocols\MSN\src\msn_proto.cpp
-;file \protocols\MSN\src\msn_svcs.cpp
-;file \protocols\MSN\src\msn_ws.cpp

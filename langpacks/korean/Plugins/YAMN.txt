@@ -5,17 +5,16 @@
 ;  Version: 0.1.2.6
 ;  Authors: y_b, tweety, majvan
 ;============================================================
-;file \plugins\YAMN\res\YAMN.rc
 [OK]
 확인
 [Description:]
 설명:
 [Copyright:]
 저작권:
-[Password:]
-비밀번호:
 [Port:]
 포트:
+[Password:]
+비밀번호:
 [Options]
 옵션
 [Cancel]
@@ -38,19 +37,12 @@
 전화중
 [Out to lunch]
 식사중
-;file \plugins\YAMN\src\main.cpp
-;file \plugins\YAMN\src\main.h
-;file \plugins\YAMN\src\services.cpp
+[Background color]
+배경
 [Nick]
 대화명
-;file \plugins\YAMN\src\browser\badconnect.cpp
-;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [Size]
 크기
-;file \plugins\YAMN\src\mails\mime.cpp
-;file \plugins\YAMN\src\proto\netlib.cpp
-;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
-;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 네트워크
 [Plugins]

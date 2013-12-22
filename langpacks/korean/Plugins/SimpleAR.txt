@@ -5,8 +5,3 @@
 ;  Version: 2.0.2.6
 ;  Authors: Stark Wong, Mataes, Mikel-Ard-Ri
 ;============================================================
-;file \plugins\SimpleAR\res\Resource.rc
-;file \plugins\SimpleAR\src\Main.cpp
-;file \plugins\SimpleAR\src\Options.cpp
-[Plugins]
-플러그인

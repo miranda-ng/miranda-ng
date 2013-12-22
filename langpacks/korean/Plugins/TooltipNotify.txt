@@ -5,7 +5,6 @@
 ;  Version: 0.7.0.1
 ;  Authors: perf
 ;============================================================
-;file \plugins\TooltipNotify\res\main.rc
 [OK]
 확인
 [Cancel]
@@ -18,7 +17,6 @@
 초
 [Idle]
 무작업 상태
-;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [** New contacts **]
 ** 새 대화 상대 **
 [** Unknown contacts **]

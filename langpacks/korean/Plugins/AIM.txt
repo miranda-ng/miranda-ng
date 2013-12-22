@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
-;file \protocols\AimOscar\res\aim.rc
 [Password:]
 비밀번호:
 [Port:]
@@ -18,17 +17,11 @@
 이메일
 [&Deny]
 &D 거부
-;file \protocols\AimOscar\src\chat.cpp
-;file \protocols\AimOscar\src\error.cpp
-;file \protocols\AimOscar\src\file.cpp
-;file \protocols\AimOscar\src\links.cpp
-;file \protocols\AimOscar\src\popup.cpp
-;file \protocols\AimOscar\src\proto.cpp
-;file \protocols\AimOscar\src\server.cpp
-;file \protocols\AimOscar\src\theme.cpp
+[User &details]
+&D 사용자 정보
+[Background Color]
+배경
 [Bold]
 굵게
-;file \protocols\AimOscar\src\ui.cpp
 [Network]
 네트워크
-;file \protocols\AimOscar\src\utility.cpp

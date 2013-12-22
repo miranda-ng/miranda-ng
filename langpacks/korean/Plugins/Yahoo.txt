@@ -1,11 +1,10 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo
+;  Plugin: Yahoo Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Gennady Feldman
 ;============================================================
-;file \protocols\Yahoo\res\Yahoo.rc
 [Password:]
 비밀번호:
 [Nick:]
@@ -22,17 +21,9 @@
 &D 거부
 [&Cancel]
 &C 취소
-;file \protocols\Yahoo\src\chat.cpp
-;file \protocols\Yahoo\src\icolib.cpp
-;file \protocols\Yahoo\src\im.cpp
+[User &details]
+&D 사용자 정보
 [The message send timed out.]
 메세지 시간 초과
-;file \protocols\Yahoo\src\links.cpp
-;file \protocols\Yahoo\src\main.cpp
-;file \protocols\Yahoo\src\options.cpp
 [Network]
 네트워크
-;file \protocols\Yahoo\src\proto.cpp
-;file \protocols\Yahoo\src\services.cpp
-;file \protocols\Yahoo\src\webcam.cpp
-;file \protocols\Yahoo\src\yahoo.cpp

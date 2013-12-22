@@ -2,10 +2,9 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
-;file \plugins\AVS\res\avs.rc
 [Delete]
 삭제
 [OK]
@@ -16,8 +15,6 @@
 옵션
 [Background]
 배경
-;file \plugins\AVS\src\acc.cpp
-;file \plugins\AVS\src\main.cpp
 [All Files]
 모든 파일
 [Windows Bitmaps]
@@ -26,4 +23,3 @@
 JPEG 비트맵
 [GIF Bitmaps]
 GIF 비트맵
-;file \plugins\AVS\src\options.cpp

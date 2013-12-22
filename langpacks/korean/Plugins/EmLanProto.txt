@@ -5,7 +5,5 @@
 ;  Version: 0.0.1.2
 ;  Authors: kva
 ;============================================================
-;file \protocols\EmLanProto\res\amdproto.rc
-;file \protocols\EmLanProto\src\amdproto.cpp
 [Network]
 네트워크

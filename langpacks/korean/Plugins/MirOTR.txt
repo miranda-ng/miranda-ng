@@ -5,14 +5,12 @@
 ;  Version: 0.11.0.4
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
-;file \plugins\MirOTR\MirOTR\res\resource.rc
 [&Cancel]
 &C 취소
 [&No]
 &N 아니오
 [&Yes]
 &Y 네
-;file \plugins\MirOTR\MirOTR\src\language.h
 [Yes]
 네
 [No]
@@ -21,5 +19,3 @@
 알 수 없음
 [Contact]
 연락처
-;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
-;file \plugins\MirOTR\MirOTR\src\options.cpp

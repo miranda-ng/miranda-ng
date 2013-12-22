@@ -5,7 +5,6 @@
 ;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
-;file \plugins\FTPFileYM\res\ftpfile.rc
 [Speed:]
 속도:
 [Summary]
@@ -22,16 +21,13 @@
 취소
 [Overwrite]
 덮어쓰기
-;file \plugins\FTPFileYM\src\dialog.cpp
-;file \plugins\FTPFileYM\src\ftpfile.cpp
 [Resume]
 이어받기
-;file \plugins\FTPFileYM\src\job_generic.cpp
-;file \plugins\FTPFileYM\src\job_packer.cpp
-;file \plugins\FTPFileYM\src\job_upload.cpp
-;file \plugins\FTPFileYM\src\manager.cpp
-;file \plugins\FTPFileYM\src\options.cpp
+[CANCELED]
+취소됨
+[CONNECTING...]
+접속중...
+[UNKNOWN]
+알 수 없음
 [Advanced]
 고급
-;file \plugins\FTPFileYM\src\serverlist.cpp
-;file \plugins\FTPFileYM\src\utils.cpp

@@ -5,15 +5,9 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
-;file \plugins\Import\res\resource.rc
 [Cancel]
 취소
 [File Transfers]
 파일 전송
-;file \plugins\Import\src\import.cpp
-;file \plugins\Import\src\main.cpp
-;file \plugins\Import\src\miranda.cpp
 [All Files]
 모든 파일
-;file \plugins\Import\src\utils.cpp
-;file \plugins\Import\src\wizard.cpp

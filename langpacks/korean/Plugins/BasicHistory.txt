@@ -5,7 +5,6 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
 메세지 히스토리
 [Show names]
@@ -16,14 +15,14 @@
 확인
 [Cancel]
 취소
-;file \plugins\BasicHistory\src\BasicHistory.cpp
 [View &History]
 &H 지난 메세지 보기
-;file \plugins\BasicHistory\src\EventList.cpp
+[Incoming message]
+받은 메세지
+[Outgoing message]
+보낸 메세지
 [History for %s]
 %s 의 지난 메세지
-;file \plugins\BasicHistory\src\ExportManager.cpp
-;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Open in &new window]
 &N 새 창으로 열기
 [&Open in existing window]
@@ -40,18 +39,17 @@
 아이콘
 [Hotkeys]
 단축키
-;file \plugins\BasicHistory\src\Options.cpp
+[Authorization request]
+권한 요청
+[You were added]
+당신은 추가되었습니다.
 [Searching]
 찾는중
 [Advanced]
 고급
+[Contact list background]
+대화 상대 목록 배경
 [Find]
 찾기
-;file \plugins\BasicHistory\src\Options.h
-;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-;file \plugins\BasicHistory\src\Scheduler.cpp
-;file \plugins\BasicHistory\src\Searcher.cpp
 [Search]
 찾기
-;file \plugins\BasicHistory\src\TxtExport.cpp

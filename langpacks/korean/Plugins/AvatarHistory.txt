@@ -5,12 +5,11 @@
 ;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
-;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[Save As...]
+다른 이름으로 저장...
+[Open Folder]
+폴더 열기
 [OK]
 확인
-;file \plugins\AvatarHistory\src\AvatarDlg.cpp
-;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-;file \plugins\AvatarHistory\src\AvatarHistory.h
-;file \plugins\AvatarHistory\src\icolib.cpp
-;file \plugins\AvatarHistory\src\options.cpp
-;file \plugins\AvatarHistory\src\utils.cpp
+[Background color]
+배경

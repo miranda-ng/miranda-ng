@@ -5,18 +5,17 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 찾기
 [Close]
 닫기
+[Background color]
+배경
 [&File]
 &F 파일
 [&Close]
 &C 닫기
 [&Search]
 &S 찾기
-;file \plugins\HistoryLinkListPlus\src\language.h
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[All files]
+모든 파일

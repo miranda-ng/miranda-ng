@@ -5,15 +5,13 @@
 ;  Version: 0.1.1.6
 ;  Authors: Mataes, George Hazan
 ;============================================================
-;file \plugins\PluginUpdater\res\Resource.rc
 [Cancel]
 취소
-;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[Select &all]
+&A 전체 선택
+[Sec]
+초
 [Plugins]
 플러그인
 [Icons]
 아이콘
-;file \plugins\PluginUpdater\src\DlgUpdate.cpp
-;file \plugins\PluginUpdater\src\Options.cpp
-;file \plugins\PluginUpdater\src\PluginUpdater.cpp
-;file \plugins\PluginUpdater\src\Utils.cpp

@@ -5,9 +5,7 @@
 ;  Version: 0.0.3.0
 ;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
-;file \plugins\Boltun\res\Boltun.rc
 [sec]
 초
-;file \plugins\Boltun\src\boltun.h
 [All Files]
 모든 파일

@@ -5,7 +5,6 @@
 ;  Version: 0.9.2.1
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-;file \plugins\Clist_nicer\res\resource.rc
 [OK]
 확인
 [Version]
@@ -128,6 +127,8 @@
 전체 목록이 회색으로 됐을 때:
 [Contact List Background]
 대화 상대 목록 배경
+[Background color]
+배경
 [Stretch to width]
 가로로 늘리기
 [Stretch to height]
@@ -164,6 +165,8 @@
 인증 요청 금지
 [Visibility]
 가시성
+[&Main menu]
+&M 메인 메뉴
 [E&xit]
 &x 끝내기
 [&Status]
@@ -210,10 +213,8 @@
 &R 그룹명 바꾸기
 [&Delete Group]
 &D 그룹 삭제
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-;file \plugins\Clist_nicer\src\CLCButton.cpp
-;file \plugins\Clist_nicer\src\clcopts.cpp
+[<None>]
+<없음>
 [Not focused]
 포커스 되지 않음
 [Offline]
@@ -244,11 +245,10 @@
 배경
 [Advanced]
 고급
-;file \plugins\Clist_nicer\src\clistmenus.cpp
-;file \plugins\Clist_nicer\src\clistopts.cpp
+[Contact list]
+대화 상대 목록
 [Global]
 전체
-;file \plugins\Clist_nicer\src\clui.cpp
 [Standard contacts]
 기본 대화 상대
 [Online contacts to whom you have a different visibility]
@@ -263,16 +263,9 @@
 그룹 멤버 숫자
 [Dividers]
 분리자
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-;file \plugins\Clist_nicer\src\Docking.cpp
-;file \plugins\Clist_nicer\src\extBackg.cpp
-;file \plugins\Clist_nicer\src\init.cpp
-;file \plugins\Clist_nicer\src\viewmodes.cpp
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &F 찾기/대화 상대 추가...
-[&Main menu]
-&M 메인 메뉴
 [&Options...]
 &O 옵션...
+[&New SubGroup]
+&N 새 하위 그룹

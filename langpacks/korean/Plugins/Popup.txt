@@ -5,34 +5,41 @@
 ;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
-;file \plugins\Popup\res\resource.rc
+[events]
+이벤트
 [pixels]
 픽셀
 [Close]
 닫기
+[Sec]
+초
 [seconds]
 초
 [Position:]
 위치:
-;file \plugins\Popup\src\actions.cpp
-;file \plugins\Popup\src\config.cpp
-;file \plugins\Popup\src\effects.cpp
-;file \plugins\Popup\src\font.cpp
-;file \plugins\Popup\src\history.cpp
-;file \plugins\Popup\src\icons.cpp
 [OK]
 확인
 [Cancel]
 취소
-;file \plugins\Popup\src\main.cpp
 [Advanced]
 고급
-;file \plugins\Popup\src\opt_adv.cpp
-;file \plugins\Popup\src\opt_class.cpp
-;file \plugins\Popup\src\opt_gen.cpp
-;file \plugins\Popup\src\opt_skins.cpp
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-;file \plugins\Popup\src\services.cpp
-;file \plugins\Popup\src\skin.cpp
-;file \plugins\Popup\src\srmm_menu.cpp
+[Offline]
+오프라인
+[Online]
+온라인
+[Invisible]
+오프라인으로 표시
+[Away]
+자리 비움
+[NA]
+응답없음
+[Occupied]
+다른 용무중
+[DND]
+수신 거부
+[Free for chat]
+대화 가능
+[Out to lunch]
+식사중
+[On the phone]
+전화중

@@ -5,15 +5,12 @@
 ;  Version: 0.5.0.3
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
-;file \plugins\BossKeyPlus\res\BossKey.rc
 [Password:]
 비밀번호:
 [OK]
 확인
 [Cancel]
 취소
-;file \plugins\BossKeyPlus\src\BossKey.cpp
-;file \plugins\BossKeyPlus\src\Options.cpp
 [Events]
 이벤트
 [Advanced]

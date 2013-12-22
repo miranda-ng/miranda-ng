@@ -9,10 +9,10 @@
 플러그인 사용안함
 [Enable Plugin]
 플러그인 사용
+[none]
+없음
+[Color]
+색깔
 [Choose font...]
 폰트 선택
-;file \plugins\Watrack\myshows\myshows.rc
-;file \plugins\Watrack\lastfm\i_last_api.inc
-;file \plugins\Watrack\lastfm\i_last_dlg.inc
-;file \plugins\Watrack\proto\proto.pas
 ;other strings

@@ -1,0 +1,35 @@
+﻿#muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
+;============================================================
+;  File: HistoryPP.dll
+;  Module: History++
+;  Version: 1.5.1.5
+;  Authors: theMIROn
+;============================================================
+[&Copy Link]
+&C 링크 복사
+[Incoming url]
+받은 URL
+[Outgoing file]
+보낸 파일
+[Outgoing url]
+보낸 URL
+[Incoming Url]
+받은 URL
+[Outgoing Url]
+보낸 URL
+[Authorization request]
+권한 요청
+[&Reset to Default]
+&R 기본으로 재설정
+[Open in &new window]
+&N 새 창으로 열기
+[Select &All]
+&A 전체 선택
+[Send &Message]
+&M 메세지 보내기
+[View user's history]
+유저 히스토리 보기
+[View User's History]
+유저 히스토리 보기
+[View &History]
+&H 지난 메세지 보기

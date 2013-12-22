@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
-;file \protocols\IRCG\res\IRC.rc
 [&Add]
 &A 추가
 [Nick]
@@ -20,32 +19,23 @@
 &C 취소
 [Network]
 네트워크
+[none]
+없음
 [&Deny]
 &D 거부
 [Password:]
 비밀번호:
-;file \protocols\IRCG\src\clist.cpp
-;file \protocols\IRCG\src\commandmonitor.cpp
 [Unknown]
 알 수 없음
 [Ignore]
 무시
-;file \protocols\IRCG\src\input.cpp
-;file \protocols\IRCG\src\irclib.cpp
-;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 정보
-;file \protocols\IRCG\src\options.cpp
 [Apply]
 적용
 [Cancel]
 취소
 [Advanced]
 고급
-;file \protocols\IRCG\src\output.cpp
-;file \protocols\IRCG\src\services.cpp
-;file \protocols\IRCG\src\tools.cpp
 [Offline]
 오프라인
-;file \protocols\IRCG\src\userinfo.cpp
-;file \protocols\IRCG\src\windows.cpp

@@ -5,10 +5,9 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
-;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]
 확인
-;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[Background color]
+배경
 [File]
 파일
-;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp

@@ -5,16 +5,15 @@
 ;  Version: 0.1.0.5
 ;  Authors: MaKaR
 ;============================================================
-;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Background]
 배경
 [OK]
 확인
 [Cancel]
 취소
-;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Show]
+보이기
 [Status]
 상태
 [Plugins]
 플러그인
-;file \plugins\ConnectionNotify\src\filter.cpp

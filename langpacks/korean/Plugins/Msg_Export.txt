@@ -5,21 +5,19 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-;file \plugins\Msg_Export\res\resource.rc
 [&Find...]
 &F 찾기...
 [&Close]
 &C 닫기
 [User &details]
 &D 사용자 정보
-;file \plugins\Msg_Export\src\FileViewer.cpp
-;file \plugins\Msg_Export\src\Glob.h
-;file \plugins\Msg_Export\src\main.cpp
-;file \plugins\Msg_Export\src\options.cpp
 [File]
 파일
 [Nick]
 대화명
-;file \plugins\Msg_Export\src\utils.cpp
+[Executable files]
+실행 파일
+[All files]
+모든 파일
 [(Unknown Contact)]
 (알 수 없는 대화 상대)

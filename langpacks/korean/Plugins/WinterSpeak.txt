@@ -1,0 +1,41 @@
+﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+;============================================================
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
+;  Authors: Ryan Winter, BlubbFish
+;============================================================
+[Offline]
+오프라인
+[Online]
+온라인
+[Away]
+자리 비움
+[DND]
+수신 거부
+[NA]
+응답없음
+[Occupied]
+다른 용무중
+[Free for chat]
+대화 가능
+[Invisible]
+오프라인으로 표시
+[Incoming message]
+받은 메세지
+[Incoming URL]
+받은 URL
+[Incoming File]
+받은 파일
+[Authorization request]
+권한 요청
+[Status messages]
+상태 메세지
+[The following events are being ignored:]
+아래 이벤트들은 무시한 것들입니다:
+[None]
+없음
+[** All contacts **]
+** 모든 대화 상대 **
+[** Unknown contacts **]
+** 알 수 없는 대화 상대 **

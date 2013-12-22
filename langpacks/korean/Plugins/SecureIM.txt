@@ -5,7 +5,6 @@
 ;  Version: 1.0.12.4
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
-;file \plugins\SecureIM\res\resource.rc
 [sec]
 초
 [Events]
@@ -20,17 +19,13 @@
 취소
 [Status]
 상태
-;file \plugins\SecureIM\src\language.cpp
 [Name]
 이름
-;file \plugins\SecureIM\src\loadicons.cpp
 [Contact List]
 대화 상대 목록
-;file \plugins\SecureIM\src\main.cpp
 [Icons]
 아이콘
-;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 실행 파일
-;file \plugins\SecureIM\src\popupOptions.cpp
-;file \plugins\SecureIM\src\svcs_srmm.cpp
+[All files]
+모든 파일
