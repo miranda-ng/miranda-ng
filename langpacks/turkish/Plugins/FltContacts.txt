@@ -5,7 +5,6 @@
 ;  Version: 0.7.0.1
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
-;file \plugins\FloatingContacts\res\fltcnt.rc
 [pixels]
 piksel
 [seconds]
@@ -26,7 +25,6 @@ Yatay döşe
 Dikey döşe
 [Stretch proportionally]
 Oransal Gerdir
-;file \plugins\FloatingContacts\src\main.cpp
 [Standard contacts]
 Standart kişiler
 [Online contacts to whom you have a different visibility]
@@ -39,6 +37,7 @@ Farklı görünürlükte olduğunuz çevrimdışı kişiler
 'listede olmayan' kişiler
 [Floating contacts]
 Yüzen kişiler
-;file \plugins\FloatingContacts\src\options.cpp
+[Floating Contacts]
+Yüzen kişiler
 [Contact List]
 Kişi Listesi

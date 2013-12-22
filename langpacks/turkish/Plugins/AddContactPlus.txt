@@ -5,7 +5,6 @@
 ;  Version: 0.9.9.1
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
-;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 Kişi Ekle
 [Custom name:]
@@ -22,9 +21,7 @@ Yetkilendirme İsteği
 &Ekle
 [&Cancel]
 İ&ptal
-;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
 Lütfen isteğimi yanıtlayıp beni kişi listenize ekleyin.
 [None]
 Yok
-;file \plugins\AddContactPlus\src\main.cpp

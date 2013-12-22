@@ -5,14 +5,12 @@
 ;  Version: 0.11.0.4
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
-;file \plugins\MirOTR\MirOTR\res\resource.rc
 [&Cancel]
 İ&ptal
 [&No]
 &Hayır
 [&Yes]
 &Evet
-;file \plugins\MirOTR\MirOTR\src\language.h
 [Yes]
 Evet
 [No]
@@ -29,5 +27,3 @@ Kişi
 Protokol
 [Default]
 Varsayılan
-;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
-;file \plugins\MirOTR\MirOTR\src\options.cpp

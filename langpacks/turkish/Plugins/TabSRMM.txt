@@ -5,7 +5,6 @@
 ;  Version: 3.2.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-;file \plugins\TabSRMM\res\chat.rc
 [OK]
 Tamam
 [Cancel]
@@ -112,7 +111,14 @@ Sekmeler
 Diğer sekme&leri kapat
 [&Open at this position]
 Bu k&onumda aç
-;file \plugins\TabSRMM\res\resource.rc
+[&Cancel]
+İ&ptal
+[&Send]
+&Gönder
+[&Add]
+&Ekle
+[Other options]
+Diğer Seçenekler
 [Advanced tweaks]
 Gelişmiş Ayarlar
 [Message send timeout]
@@ -355,6 +361,8 @@ Tarih ve saat
 Zaman damgasında saniyeleri göster
 [Use contacts local time]
 Kişilerin yerel saatlerini kullan
+[Format]
+biçim
 [Indent message body]
 İleti gövdesini içeri al
 [Display grid lines]
@@ -377,6 +385,10 @@ Normal kalıpları kullan (basit kalıplar işaretini kaldırın)
 Evet
 [No]
 Hayır
+[Send message on 'Enter']
+İletileri 'Enter' ile gönder
+[Send message on double 'Enter']
+İletileri çift 'Enter' ile gönder 
 [Minimize the message window on send]
 Gönderdikten sonra ileti penceresini küçült
 [&Copy]
@@ -495,6 +507,8 @@ Hiç İleti Oturumu Açık Değil
 Kişiyi Beğendiklerime Ekle
 [Remove Contact from Favorites]
 Kişiyi Beğendiklerimden Çıkar
+[dummy]
+Boş
 [Set Position for this Session]
 Bu oturum için konumu ayarla
 [Set and Save for all Sessions]
@@ -555,12 +569,10 @@ Tüm etkin olmayan oturumlar için açılır pencereleri göster
 Yardım
 [About TabSRMM...]
 TabSRMM Hakkında...
-;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Message Log Options]
 İleti Günlüğü Seçenekleri
 [View User's History]
 Kullanıcı Geçmişini Göster
-;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Başlık çubuğunu gizle
 [Message Session...]
@@ -577,7 +589,10 @@ Kendin seç
 Kullanılacak Protokol
 [Set Default Protocol]
 Varsayılan Protokolü Ayarla
-;file \plugins\TabSRMM\src\containeroptions.cpp
+[Title bar]
+Başlık Çubuğu
+[Contact avatars]
+Kişi Avatarları
 [Container options]
 Kutu seçenekleri
 [Globally on]
@@ -588,20 +603,18 @@ Varsa açık
 Genel kapalı
 [Don't show them]
 Gösterme
-;file \plugins\TabSRMM\src\controls.cpp
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
 Sesler %s. Durumu değiştirmek için tıklayın. Tüm açık kutular için Shift'e basarken tıklayın
 [disabled]
 kapalı
 [Sending typing notifications is %s.]
 %s kişisine yazma uyarıları gönderiliyor.
-;file \plugins\TabSRMM\src\eventpopups.cpp
+[Incoming file]
+Alınan Dosya
 [New messages: ]
 Yeni iletiler
-;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Last received: %s at %s]
 Son alınan: %s %s saatinde
-;file \plugins\TabSRMM\src\globals.cpp
 [Incoming (Focused Window)]
 Alınan (Odaklanmış Pencere)
 [Incoming (Unfocused Window)]
@@ -628,15 +641,16 @@ gitti.
 girdi ve şimdi %s.
 [changed status from %s to %s.]
 %s olan durum %s oldu
-;file \plugins\TabSRMM\src\hotkeyhandler.cpp
-;file \plugins\TabSRMM\src\infopanel.cpp
 [TabSRMM Information]
 TabSRMM Bilgisi
+[contact]
+Kişi
+[Always off]
+Her zaman kapalı
+[Always on]
+Her zaman açık
 [Use Global Setting]
 Genel Ayarları Kullan
-;file \plugins\TabSRMM\src\mim.cpp
-;file \plugins\TabSRMM\src\modplus.cpp
-;file \plugins\TabSRMM\src\msgdialog.cpp
 [Character Encoding]
 Karakter Kodlaması
 [A message failed to send successfully.]
@@ -665,7 +679,6 @@ Seçili protokol şu anda zorlanamaz
 Dikkat: şu çevrimdışı iletileri göndermek için bir alt protokol seçtiniz
 [Contact is offline and this protocol does not support sending files to offline users.]
 Kişi çevrimdışı ve bu protokol çevrimdışı kişilere ileti gönderemiyor.
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
 [Error creating destination directory]
 Hedef klasör oluşturulurken hata oldu
 [Save contact picture]
@@ -676,8 +689,6 @@ Bu dosya var. Üzerine yazmak ister misiniz?
 'yapıştır ve gönder' özelliği devre dışı. 'Genel' seçenekler sayfasında 'İleti Gönderme' bölümünden etkinleştirebilirsiniz
 ['(Unknown Contact)']
 '(Bilinmeyen Kişi)'
-;file \plugins\TabSRMM\src\msglog.cpp
-;file \plugins\TabSRMM\src\msgoptions.cpp
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
 Temadan ileti kalıplarını da almak istiyor musunuz?\nDikkat: Varolan kalıp setinin üzerine yazılacağından ileti pencerelerinizin görünümü önemli ölçüde değişebilir.\nHiç bir şeyi yüklememek için İptal'e tıklayın.
 [Load theme]
@@ -700,6 +711,8 @@ Genel
 Sekme ve Yerleşim
 [Containers]
 Kutular
+[Message log]
+İleti Günlüğü
 [Tool bar]
 Araç Çubuğu
 [Typing Notify]
@@ -710,7 +723,6 @@ Günlük biçimi
 Vurgulama
 [Choose status modes]
 Durum kiplerini seç
-;file \plugins\TabSRMM\src\msgs.cpp
 [Quote text]
 Alıntı yap
 [Save and close]
@@ -763,8 +775,6 @@ Oturum Listesi
 Çerçece 4
 [Message Log]
 İleti Günlüğü
-;file \plugins\TabSRMM\src\msgs.h
-;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 %s için kutu seçin
 [You cannot delete the default container]
@@ -775,47 +785,36 @@ Hata
 Varsayılan kutuyu yeniden adlandıramazsınız
 [This name is already in use]
 Bu ad zaten kullanılıyor
-;file \plugins\TabSRMM\src\sendlater.cpp
+[Failed]
+BAŞARISIZ
 [Contact]
 Kişi
 [Status]
 Durum
-;file \plugins\TabSRMM\src\sendqueue.cpp
 [A message delivery has failed.\nClick to open the message window.]
 Bir ileti gönderilemedi.\nİleti penceresini açmak için tıklayın.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Kişi sohbet penceresi kapandıktan sonra bir ileti gönderilemedi. son iletiyi yeniden göndermek isteyebilirsiniz
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Onay bekleyen gönderilmemiş iletiler var.\nPencereyi şimdi kapatırsanız, Miranda onları göndermeyi deneyecek ancak olabilecek hataları size bildiremeyecek.\nPencereyi kapatmak istiyor musunuz?
-;file \plugins\TabSRMM\src\sidebar.cpp
-;file \plugins\TabSRMM\src\srmm.cpp
 [TabSRMM Message (%s)]
 TabSRMM İletisi (%s)
-;file \plugins\TabSRMM\src\taskbar.cpp
-;file \plugins\TabSRMM\src\templates.cpp
 [Template Set Editor]
 Kalıp Seti Düzenleyici
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Bu kalıp setini varsayılan iç kalıplara sıfırlayacak. Bunu yapmak istediğinizden emin misiniz?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Kalıp seti sıfırlandı, tüm ileti pencerelerini kapatıp yeniden açın. Bu kalıp düzenleyici penceresi şimdi kapanacak.
-;file \plugins\TabSRMM\src\themeio.cpp
-;file \plugins\TabSRMM\src\themes.cpp
 [All message containers need to close before the skin can be changed\nProceed?]
 Tema değiştirilmeden önce tüm ileti kutuları kapatılmalıdır\nKapatılsın mı?
 [Change skin]
 Temayı değiştir
-;file \plugins\TabSRMM\src\translator.cpp
 [System tray icon]
 Sistem tepsisi simgesi
-[Send message on 'Enter']
-İletileri 'Enter' ile gönder
-[Send message on double 'Enter']
-İletileri çift 'Enter' ile gönder 
 [Close the message window on send]
 Gönderdikten sonra ileti penceresini kapat
-;file \plugins\TabSRMM\src\trayicon.cpp
-;file \plugins\TabSRMM\src\typingnotify.cpp
+[Use Message Grouping]
+İletileri grupla
 [Disable &typing notification]
 Yazma &uyarısını kapat
 [Enable &typing notification]
@@ -824,7 +823,6 @@ Yazma &uyarısını aç
 ...ileti yazıyor.
 [...has stopped typing.]
 ...yazmayı bıraktı.
-;file \plugins\TabSRMM\src\userprefs.cpp
 [Always On]
 Her zaman açık
 [Always Off]
@@ -835,12 +833,10 @@ Varsayılan İleti Günlüğünü Dayat
 History++ Dayat
 [Force IEView]
 IEGörünüm Dayat
-;file \plugins\TabSRMM\src\utils.cpp
-;file \plugins\TabSRMM\src\chat\clist.cpp
 [Join chat]
 Sohbete katıl
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-;file \plugins\TabSRMM\src\chat\log.cpp
+[Text color]
+Yazı Rengi
 [%s has joined]
 %s katıldı
 [You have joined %s]
@@ -863,8 +859,6 @@ Artık %s olarak biliniyorsunuz
 %s tarafından ayarlandı
 [<invalid>]
 <geçersiz>
-;file \plugins\TabSRMM\src\chat\muchighlight.cpp
-;file \plugins\TabSRMM\src\chat\options.cpp
 [Timestamp]
 Zaman Damgası
 [Others nicknames]
@@ -929,6 +923,8 @@ Kişi listesi üyeleri (Uzakta)
 * Simgeler (alınan)
 [* Symbols (outgoing)]
 * Simgeler (gönderilen)
+[Nickname]
+Kısa ad
 [Protocol]
 Protokol
 [Contacts local time]
@@ -957,6 +953,8 @@ Standart IM oturumları ile ayıraç konumunu eşleştir
 Kişi listesinde farklı sıralama yöntemi kullan
 [Prefix all events with a timestamp]
 Tüm etkinliklerin önüne zaman damgası ekle
+[Timestamp has same color as the event]
+Zaman damgası etkinlik ile aynı renkte olsun
 [Indent the second line of a message]
 İletinin ikinci satırını içe al
 [Limit user names in the message log to 20 characters]
@@ -1029,6 +1027,8 @@ Genişletilmiş kip 1
 Genişletilmiş kip 2
 [Selection background]
 Art alan seçimi
+[Selected text]
+Seçili yazı
 [Incremental search highlight]
 Artımlı arama vurgusu
 [All Files]
@@ -1049,12 +1049,10 @@ Kişi adını değiştirdi
 Kişi bir uyarı gönderdi
 [The topic has been changed]
 Başlık değiştirildi
-;file \plugins\TabSRMM\src\chat\services.cpp
 [&Join]
 &Katıl
 [&Leave]
 Ayrı&l
-;file \plugins\TabSRMM\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s %s içine dikkatinizi çekiyor
 [%s speaks in %s]
@@ -1081,13 +1079,12 @@ Başlık değişti %s
 %s dikkat çekti: %s
 [No word to look up]
 Aranacak kelime yok
-;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
-Kısa ad
-[Nick]
 Kısa ad
 [Unique ID]
 Tekil kod
+[Nick]
+Kısa ad
 [%s: Chat Room (%u user%s)]
 %s: Sohbet Odası (% kullanıcı%s)
 [%s: Chat Room (%u users%s)]

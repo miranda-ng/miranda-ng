@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
-;file \protocols\IRCG\res\IRC.rc
 [&Add]
 &Ekle
 [&Edit]
@@ -158,6 +157,8 @@ Renkleri ayıkla
 Öne gönder
 [Attempt reverse DCC (good if firewalled)]
 Ters DCC dene (güvenlik duvarı için iyidir)
+[none]
+Yok
 [everyone on the contact list]
 kişi listesindeki herkes
 [everyone]
@@ -200,6 +201,8 @@ Bilinmeyen kişilerden gelen DCC sohbet isteklerini reddet
 Kişileri yoksay
 [(*) Queries from users on your contact list are never ignored]
 (*) Kişi listenizdekilerin sorguları asla yok sayılmayacak
+[Queries]
+sorgular
 [Messages]
 İletiler
 [Notices]
@@ -220,10 +223,8 @@ Etkinlikleri yoksay
 Parola:
 [Alternate nick]
 Kısa adı değiştir
-;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 %s tarafından CTCP sohbet isteği
-;file \protocols\IRCG\src\commandmonitor.cpp
 [%s sets mode %s]
 %s kipi ayarladı %s
 [%s sets mode %s%s]
@@ -288,7 +289,6 @@ Salak
 Başarım arabelleğinizde /AWAY kullanımına IRC bu komutu\n kendiliğinden gönderdiğinden izin verilmiyor. 
 [IRC Error]
 IRC Hatası
-;file \protocols\IRCG\src\input.cpp
 [The buddy check function is enabled]
 Ahbap denetleme işlevi açık
 [The buddy check function is disabled]
@@ -329,12 +329,12 @@ DCC HATASI: Port bağlanamadı
 Giriş komutu
 [Please enter the reply]
 Lütfen yanıtı yazın
-;file \protocols\IRCG\src\irclib.cpp
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 DCC Hatası: Pasif dosya aktarımı için yerl porta bağlanılamadı
-;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 Bilgi
+[Nickname]
+Kısa ad
 [DCC ERROR: No valid files specified]
 DCC HATASI: Geçerli bir dosya belirtilmedi
 [DCC reversed file transfer request sent to %s [%s]]
@@ -351,7 +351,6 @@ DCC sohbet bağlantısı etkin değil
 Çevrim içi olacağınız  bir IRC ağı seçin. Bu ağ varsayılan olacak.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Bağlantı kurulamadı. Tüm gerekli alanları doldurmadınız (Kısa ad, Kullanıcı Kimliği ve m_name).
-;file \protocols\IRCG\src\options.cpp
 [Add]
 Ekle
 [Apply]
@@ -420,7 +419,6 @@ Yoksayı düzenle
 DCC CTCP
 [Advanced]
 Gelişmiş
-;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 %s duvar operatörleri:
 [%s invites you to %s]
@@ -435,7 +433,6 @@ CTCP %s yanıtı %s kişisine gönderildi
 CTCP %s yanıtı %s kişisine gönderildi: %s
 [Notice to %s: ]
 %s kişisine uyarı:
-;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 &Hızlı bağlan
 [&Join channel]
@@ -614,11 +611,8 @@ Yoksay l&istesine ekle
 Kull&anıcı Ekle
 [Connecting to]
 Şuna bağlanıyor
-;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Çevrimdışı
-;file \protocols\IRCG\src\userinfo.cpp
-;file \protocols\IRCG\src\windows.cpp
 [Channel]
 Kanal
 [---- Not listed server ----]

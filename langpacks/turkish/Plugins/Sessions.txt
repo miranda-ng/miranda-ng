@@ -5,19 +5,17 @@
 ;  Version: 0.1.3.0
 ;  Authors: MaD_CLuSTeR
 ;============================================================
-;file \plugins\Sessions\res\Sessions.rc
 [Edit]
 Değiştir
 [Delete]
 Sil
 [&Cancel]
 İ&ptal
+[Save and Close]
+Kaydet ve kapat
 [OK]
 Tamam
 [Cancel]
 İptal
-;file \plugins\Sessions\Src\Main.cpp
-;file \plugins\Sessions\Src\Options.cpp
 [Message Sessions]
 İleti Oturumları
-;file \plugins\Sessions\Src\Utils.cpp

@@ -1,11 +1,10 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo
+;  Plugin: Yahoo Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Gennady Feldman
 ;============================================================
-;file \protocols\Yahoo\res\Yahoo.rc
 [ID:]
 Kimlik:
 [Password:]
@@ -46,8 +45,8 @@ Re&ddet
 İ&ptal
 [Add]
 Ekle
-;file \protocols\Yahoo\src\chat.cpp
-;file \protocols\Yahoo\src\icolib.cpp
+[User &details]
+Kişi &detayları
 [Mail]
 Posta
 [Profile]
@@ -58,16 +57,12 @@ Adres Defteri
 Durumu Seç
 [Calendar]
 Takvim
-;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Yahoo Hatası
 [The message send timed out.]
 İleti zaman aşımına uğradığından gönderilemedi.
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 İleti çok uzun: Yahoo iletileri 800 UTF8 karakteri ile sınırlıdır
-;file \protocols\Yahoo\src\links.cpp
-;file \protocols\Yahoo\src\main.cpp
-;file \protocols\Yahoo\src\options.cpp
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 Yaptığınız değişikliklerin etkin olması için Yahoo ağına yeniden bağlanmalısınız
 [YAHOO Options]
@@ -86,14 +81,12 @@ Yoksay listesinden çıkarabilmek için Yahoo ağına bağlı olmalısınız.
 Lütfen yoksayma listesinden çıkarılacak bir ahbap seçin.
 [Network]
 Ağ
-;file \protocols\Yahoo\src\proto.cpp
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Lütfen Seçenekler/Ağ/Yahoo bölümüne Yahoo kimliğinizi yazın
 [Please enter your yahoo password in Options/Network/Yahoo]
 Lütfen Seçenekler/Ağ/Yahoo bölümüne Yahoo parolanızı yazın
 [Yahoo Login Error]
 Yahoo Giriş Hatası
-;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
 Kişisel ileti ayarlayabilmek için bağlı olmalısınız
 [You need to be connected to refresh your buddy list]
@@ -110,8 +103,6 @@ Kişisel &Durum Ayarla
 &Takvim
 [&Show Profile]
 Profili Gö&ster
-;file \protocols\Yahoo\src\webcam.cpp
-;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Takvim Anımsatıcı
 [%s has rejected your request and sent the following message:]

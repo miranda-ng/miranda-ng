@@ -5,7 +5,6 @@
 ;  Version: 0.9.2.1
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-;file \plugins\Clist_nicer\res\resource.rc
 [About CList Nicer+]
 Clist Nicer+ Hakkında
 [OK]
@@ -118,6 +117,8 @@ En son kişi
 Çevrimdışı gibi gizle
 [Right align contacts]
 Kişileri sağa daya
+[Height]
+yükseklik
 [Draw a border around avatars]
 Avatarlara çerçeve çiz
 [Rounded avatars]
@@ -292,6 +293,8 @@ Uygula
 Protokol
 [Group]
 Grup
+[Last message]
+Son İleti
 [Per contact skins:]
 Her kişinin teması:
 [< Reload]
@@ -364,6 +367,8 @@ Avatarı Göster:
 Avatar üstüne simgeyi koy
 [Show local time]
 Yerel saati göster
+[&Main menu]
+Ana &menü
 [E&xit]
 Çı&kış
 [&Status]
@@ -424,11 +429,12 @@ Metakişi protokol simgelerini göster
 Ek düğmeleri göster
 [Draw sunken Frame]
 Çerçeve çökük olsun
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 Genel
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Text color]
+Yazı Rengi
+[<None>]
+<hiçbiri>
 [Show menu]
 Menüyü göster
 [Show / hide offline contacts]
@@ -449,7 +455,6 @@ Kişi listesini küçült
 Görünüm kipini seç
 [Clear view mode]
 Görünüm kipini temizle
-;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 Odaklanmamış
 [Offline]
@@ -482,8 +487,6 @@ Kendiliğinden (RTL)
 Ad
 [Status]
 Durum
-[Last message]
-Son İleti
 [Message frequency]
 İleti sıklığı
 [For RTL only]
@@ -512,7 +515,8 @@ Kişiler
 Gruplar ve yerleşim
 [Advanced]
 Gelişmiş
-;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Contact list]
+Kişi Listesi
 [Add permanently]
 Kalıcı olarak ekle
 [Revert to default]
@@ -531,10 +535,8 @@ Gerek duyulduğunda durum iletisi ile
 Kişi listesi görünümü ve %s için seçenekleri yoksay
 [&Contact list settings...]
 &Kişi listesi ayarları...
-;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Genel
-;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Çevrimiçi/Çevrimdışı aç/kapa
 [Toggle groups]
@@ -549,6 +551,8 @@ TabsRMM menüsünü göster
 Sesler kapalı
 [Setup accounts]
 Hesapları ayarla
+[Event Area]
+Etkinlik alanı
 [Open main menu]
 Ana menüyü aç
 [Set status modes]
@@ -577,40 +581,35 @@ Seçili yazı
 Sıcak takip yazısı
 [Quicksearch Text]
 Hızlı arama yazısı
-;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+Başlık Çubuğu
 [Tool Window]
 Araç penceresi
 [Thin border]
 İnce sınır
 [No border]
 Sınır yok
-;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Varsayılan başlık çubuğu ve sınırı kullanılırken Clist yerleştirilemez. Araç penceresi veya sınırsız stil kullanın.
 [Clist docking]
 Clist yerleştirme
-;file \plugins\Clist_nicer\src\extBackg.cpp
-;file \plugins\Clist_nicer\src\init.cpp
-;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Current view mode: %s]
 Kullanılan görünüm kipi: %s
 [No view mode]
 Görünüm kipi yok
 [Clear current View Mode]
 Kullanımdaki görünüm kipini temizle
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&Skinned frame]
 &Temalı çerçeve
 [Frames]
 Çerçeveler
 [Skinned frame]
 Temalı çerçeve
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Kişi Ara/Bul...
-[&Main menu]
-Ana &menü
 [&Options...]
 &Seçenekler...
 [&About the contact list...]
 Kişi listesi h&akkında...
+[&New SubGroup]
+Ye&ni Alt Grup

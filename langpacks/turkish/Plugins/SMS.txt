@@ -5,7 +5,6 @@
 ;  Version: 0.2.5.3
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
-;file \plugins\SMS\res\resource.rc
 [&Reply]
 &Yanıtla
 [&Close]
@@ -20,12 +19,9 @@ Kime:
 &Gönder
 [&Cancel]
 İ&ptal
-;file \plugins\SMS\src\options.cpp
-;file \plugins\SMS\src\receive.cpp
-;file \plugins\SMS\src\recvdlg.cpp
-;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 Kullanıcı Geçmişini Göster
 [Invalid Phone Number]
 Geçersiz Telefon Numarası
-;file \plugins\SMS\src\SMS_svc.cpp
+[Invalid phone number]
+Geçersiz Telefon Numarası

@@ -5,7 +5,6 @@
 ;  Version: 0.3.3.4
 ;  Authors: Cristian Libotean
 ;============================================================
-;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Popups]
 Açılır Pencereler
 [Sounds]
@@ -24,7 +23,6 @@ Açıklama:
 Tarih:
 [Delete]
 Sil
-;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Unknown]
 Bilinmeyen
 [Protocol]
@@ -33,14 +31,9 @@ Protokol
 Kişi
 [Age]
 Yaş
-;file \plugins\WhenWasIt\src\hooked_events.cpp
 [Contacts]
 Kişiler
-;file \plugins\WhenWasIt\src\icons.cpp
-;file \plugins\WhenWasIt\src\notifiers.cpp
-;file \plugins\WhenWasIt\src\services.cpp
 [Error]
 Hata
 [All Files]
 Tüm Dosyalar
-;file \plugins\WhenWasIt\src\services.h

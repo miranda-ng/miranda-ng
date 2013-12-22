@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 Genel
 [Close]
@@ -20,6 +19,8 @@ Profile
 Ayarla
 [OK]
 Tamam
+[Command line:]
+Komut satırı:
 [Other]
 Diğer
 [Background color]
@@ -28,6 +29,8 @@ Art alan rengi
 Yazı rengi
 [Use Windows colors]
 Windows renklerini kullan
+[Use default colors]
+Varsayılan renkleri kullan
 [Events]
 Etkinlikler
 [Custom]
@@ -42,10 +45,8 @@ Durum
 Sil
 [seconds]
 saniye
-;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [Status messages]
 Durum İletileri
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Bilgisayar başından kalktım: %time% 
 [Give it up, I'm not in!]
@@ -68,7 +69,6 @@ Telefondayım
 Mmm... yemek.
 [idleeeeeeee]
 Boştayım
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 Protokol
 [Closing in %d]

@@ -5,8 +5,12 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda-NG project
 ;============================================================
-;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-;file \plugins\Db3x_mmap\src\database.cpp
+[OK]
+Tamam
+[Cancel]
+İptal
+[Remove]
+Sil
 [Disk is full. Miranda will now shutdown.]
 Disk tamamen dolu. Miranda kapanacak.
 [Database failure. Miranda will now shutdown.]
@@ -15,12 +19,3 @@ Veritabanı sorunu. Miranda kapanacak.
 Veritabanı Hatası
 [Database Panic]
 Veritabanı Panik
-;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
-;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
-;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
-;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
-;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
-;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
-;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
-;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
-;file \plugins\Db3x_mmap\src\dbtool\user.cpp

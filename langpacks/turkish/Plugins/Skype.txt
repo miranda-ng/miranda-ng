@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
-;file \protocols\Skype\res\Resource.rc
 [&Cancel]
 İ&ptal
 [Add]
@@ -38,52 +37,35 @@ Hakkında:
 Saat Dilimi:
 [New password:]
 Yeni parola:
-;file \protocols\Skype\src\skype.cpp
-;file \protocols\Skype\src\skype_account.cpp
-;file \protocols\Skype\src\skype_blocked.cpp
 [Name]
 Ad
-;file \protocols\Skype\src\skype_bookmarks.cpp
 [Conferences]
 Konferanslar
-;file \protocols\Skype\src\skype_chat.cpp
 [&User details]
 K&llanıcı detayları
 [Set &role]
 &Rolü ayarla
 [&Add]
 &Ekle
-;file \protocols\Skype\src\skype_contacts.cpp
-;file \protocols\Skype\src\skype_dialogs.cpp
 [<not specified>]
 <belirtilmemiş>
 [Male]
 Erkek
 [Female]
 Kadın
-;file \protocols\Skype\src\skype_events.cpp
 [Network]
 Ağ
 [Contacts]
 Kişiler
 [General]
 Genel
-;file \protocols\Skype\src\skype_icons.cpp
 [Contact]
 Kişi
 [Delete]
 Sil
-;file \protocols\Skype\src\skype_ignore_list.cpp
-;file \protocols\Skype\src\skype_instances.cpp
-;file \protocols\Skype\src\skype_menus.cpp
 [Request authorization]
 İzin iste
 [Grant authorization]
 İzin ver
 [Revoke authorization]
 İzni kaldır
-;file \protocols\Skype\src\skype_messages.cpp
-;file \protocols\Skype\src\skype_netlib.cpp
-;file \protocols\Skype\src\skype_proto.cpp
-;file \protocols\Skype\src\skype_transfers.cpp
-;file \protocols\Skype\src\skype_utils.cpp

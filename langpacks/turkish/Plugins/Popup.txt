@@ -5,52 +5,67 @@
 ;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
-;file \plugins\Popup\res\resource.rc
 [Effects]
 Etkiler
 [History]
 Geçmiş
+[events]
+Etkinlikler
 [pixels]
 piksel
 [Close]
 Kapat
 [General]
 Genel
+[Sec]
+sn
 [seconds]
 saniye
 [Position:]
 Konum:
-;file \plugins\Popup\src\actions.cpp
+[User details]
+Kullanıcı detayları
 [Contact menu]
 Kişiler menüsü
-;file \plugins\Popup\src\config.cpp
-;file \plugins\Popup\src\effects.cpp
-;file \plugins\Popup\src\font.cpp
-;file \plugins\Popup\src\history.cpp
-;file \plugins\Popup\src\icons.cpp
 [OK]
 Tamam
 [Cancel]
 İptal
-[User details]
-Kullanıcı detayları
-;file \plugins\Popup\src\main.cpp
+[Blocked Contact]
+Bloklanan kişi
+[Contact Menu]
+Kişiler menüsü
 [Actions]
 Eylemler
 [Contacts]
 Kişiler
 [Advanced]
 Gelişmiş
-;file \plugins\Popup\src\opt_adv.cpp
-;file \plugins\Popup\src\opt_class.cpp
-;file \plugins\Popup\src\opt_gen.cpp
-;file \plugins\Popup\src\opt_skins.cpp
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Invisible]
+Görünmez
+[Away]
+Uzakta
+[NA]
+Bilinmiyor
+[Occupied]
+Meşgul
+[DND]
+Dokunma
+[Free for chat]
+Sohbete uygun
+[Out to lunch]
+Yemekte
+[On the phone]
+Telefonda
+[Skin preview]
+Tema Önizleme
+[Enable Aero Glass (Vista+)]
+Aero Glass etkinleştir (Vista+)
 [Use Windows colors]
 Windows renklerini kullan
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-;file \plugins\Popup\src\services.cpp
 [Error]
 Hata
-;file \plugins\Popup\src\skin.cpp
-;file \plugins\Popup\src\srmm_menu.cpp

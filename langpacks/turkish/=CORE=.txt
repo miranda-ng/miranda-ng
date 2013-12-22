@@ -1,5 +1,4 @@
-﻿;file \src\resource.rc
-[Enter account name (for example, My Google)]
+﻿[Enter account name (for example, My Google)]
 Hesap adını yazın (örneğin google hesabım)
 [Choose the protocol type]
 Protokol tipini seç
@@ -427,7 +426,6 @@ Var&olan pencerede aç
 &Bağlantıyı kopyala
 [Cancel change]
 Değişikliği iptal et
-;file \src\core\stdauth\resource.rc
 [&Authorize]
 İzin &Ver
 [&Deny]
@@ -440,7 +438,6 @@ Gerekçe:
 Eklendiniz
 [&Close]
 &Kapat
-;file \src\core\stdaway\resource.rc
 [%s message for %s]
 %s ileti %s için
 [Retrieving %s message...]
@@ -461,7 +458,6 @@ Varsayılan olarak bu iletiyi kullan:
 %s iletisini değiştir
 [Closing in %d]
 Kapanıyor %d
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 &Gönder
 [Show these events only:]
@@ -568,7 +564,6 @@ Sekmeler
 Diğer sekme&leri kapat
 [&Open at this position]
 Bu k&onumda aç
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 Çevrimdışıları gizle
 [Hide empty groups]
@@ -745,6 +740,8 @@ Bölümler eşit genişlikte olsun
 Panellerde eğim göster
 [Show resize grip indicator]
 Yeniden boyutlandır kavrama simgesini göster
+[&Main menu]
+Ana &menü
 [&Status]
 &Durum
 [&Offline\tCtrl+0]
@@ -767,7 +764,6 @@ Meşg&ul\tCtrl+4
 Tele&fonda\tCtrl+8
 [Out to &lunch\tCtrl+9]
 &Yemekte\tCtrl+9
-;file \src\core\stdfile\resource.rc
 [Send file(s)]
 Dosya Gönder
 [To:]
@@ -870,12 +866,10 @@ Alınan dosya ile aynı adlı dosya varsa
 Bana sor
 [You will always be asked about files from people not on your contact list]
 Kişi listenizde olmayanlardan gelen dosyalar için her zaman onayınız sorulacak
-;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Miranda NG Hakkında
 [Credits >]
 Emekçiler >
-;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Şuna dokunulmadıysa boşta duruma geç:
 [Windows]
@@ -898,7 +892,6 @@ Durumumu şuna değiştir:
 Boştan dönerken durumu Çevrimiçi yapma
 [Idle options]
 Boşta Seçenekleri
-;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Şu olduğunda pencere kendiliğinden açılsın:
 [Close the message window on send]
@@ -979,7 +972,6 @@ Sistem tepsisi ve kişi listesinde yanıp sön
 Balon açılır pencere göster
 [Delete]
 Sil
-;file \src\core\stduihist\resource.rc
 [Find]
 Bul
 [&Find next]
@@ -990,7 +982,6 @@ Bul
 İleti Geçmişi
 [&Find...]
 &Bul...
-;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 Telefon numarası ekle
 [Enter country, area code and phone number:]
@@ -1057,7 +1048,6 @@ Bölüm:
 Konum:
 [Website:]
 Websitesi:
-;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 %s izninizi istiyor
 [%u requests authorization]
@@ -1066,17 +1056,16 @@ Websitesi:
 %u sizi kişi listelerine ekledi
 [Alerts]
 Alarmlar
-;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 Kullanıcı Detaylarını Göster
 [Add contact permanently to list]
 Kişiyi listeye kalıcı olarak ekle
+[<Unknown>]
+<bilinmiyor>
 [(Unknown)]
 (Bilinmiyor)
-;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s message]
 %s iletisini &oku
-;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 Bilgisayar başından kalktım: %time% 
 [Give it up, I'm not in!]
@@ -1101,11 +1090,8 @@ Mmm... yemek.
 Boştayım
 [Status]
 Durum
-;file \src\core\stdchat\src\clist.cpp
 [Join chat]
 Sohbete katıl
-;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s katıldı
 [You have joined %s]
@@ -1128,7 +1114,6 @@ Artık %s olarak biliniyorsunuz
 %s tarafından ayarlandı
 [<invalid>]
 <geçersiz>
-;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
 Diğerlerinin kısa adları
 [Your nickname]
@@ -1407,10 +1392,8 @@ Kişi adını değiştirdi
 Kişi bir uyarı gönderdi
 [The topic has been changed]
 Başlık değiştirildi
-;file \src\core\stdchat\src\services.cpp
 [&Join]
 &Katıl
-;file \src\core\stdchat\src\tools.cpp
 [%s wants your attention in %s]
 %s %s içine dikkatinizi çekiyor
 [%s speaks in %s]
@@ -1439,7 +1422,6 @@ Başlık değişti %s
 %s dikkat çekti: %s
 [No word to look up]
 Aranacak kelime yok
-;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Gülen yüz ekle
 [Make the text bold (CTRL+B)]
@@ -1474,7 +1456,6 @@ Geçerli sekmeyi kapat (CTRL+F4)
 Kısa ad
 [Unique ID]
 Tekil kod
-;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Standart kişiler
 [Online contacts to whom you have a different visibility]
@@ -1495,7 +1476,6 @@ Seçili yazı
 Sıcak takip yazısı
 [Quicksearch text]
 Hızlı arama yazısı
-;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 Odaklanmamış
 [Offline]
@@ -1520,18 +1500,14 @@ Yemekte
 Telefonda
 [List background]
 Liste Art Alanı
-;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Genel
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Kullanıcı bir e-posta adresi kaydetmemiş
 [Send e-mail]
 E-posta gönder
 [&E-mail]
 &E-posta
-;file \src\core\stdfile\file.cpp
 [File from %s]
 %s tarafından gelen dosya
 [bytes]
@@ -1548,29 +1524,24 @@ Tamamlandı
 Hata
 [Denied]
 Red edildi
-;file \src\core\stdfile\fileexistsdlg.cpp
 [%s file]
 %s dosya
 [All files]
 Tüm Dosyalar
-;file \src\core\stdfile\fileopts.cpp
 [Executable files]
 Çalıştırılabilir Dosyalar
 [Events]
 Etkinlikler
-;file \src\core\stdfile\filerecvdlg.cpp
 [View user's history]
 Kullanıcı Geçmişini Göster
 [User menu]
 Kullanıcı Menüsü
 [Canceled]
 İptal Edilen
-;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
 %d dosya
 [%d directories]
 %d klasör
-;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Bu dosya henüz virüslere karşı taranmadı. Açmak istediğinize emin misiniz?
 [File received]
@@ -1585,29 +1556,22 @@ sn
 kalan
 [Connecting...]
 Bağlanıyor...
-;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 Gönderilen
-;file \src\core\stdhelp\about.cpp
-;file \src\core\stdhelp\help.cpp
 [&About...]
 H&akkında
 [&Miranda NG homepage]
 &Miranda NG Web sitesi
 [&Report bug]
 Hata &Raporla
-;file \src\core\stdidle\idle.cpp
 [Idle]
 Boşta
-;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 İleti zaman aşımına uğradığından gönderilemedi.
-;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 Alınan ileti (10x10)
 [Outgoing message (10x10)]
 Gönderilen ileti (10x10)
-;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 %s tarafından son ileti %s saatinde alındı
 [signed off (was %s)]
@@ -1618,10 +1582,8 @@ Gönderilen ileti (10x10)
 şimdi %s (%s idi)
 [%s is typing a message...]
 %s bir ileti yazıyor...
-;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Dosya gönderildi
-;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Gönderilen iletiler
 [Incoming messages]
@@ -1652,7 +1614,6 @@ Balon açılır pencere göster (desteklenmeyen sistem)
 İletişim Günlüğü
 [Typing notify]
 Yazıyor Uyarısı
-;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 %s ileti gönderdi
 [%s is typing a message]
@@ -1667,10 +1628,8 @@ Alınan (Odaklanmış Pencere)
 Alınan (Odaklanmamış Pencere)
 [Incoming (new session)]
 Alınan (Yeni Oturum)
-;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Bilinmeyen bir hata oldu.
-;file \src\core\stduihist\history.cpp
 [Outgoing URL]
 Gönderilen web adresi
 [Incoming URL]
@@ -1687,19 +1646,16 @@ Bu geçmiş ögesini silmek istediğinizden emin misiniz?
 Geçmişi Sil
 [View &history]
 Geçmişi &Göster
-;file \src\core\stdurl\url.cpp
 [URL from %s]
 %s web adresi gönderdi
 [Web page address (&URL)]
 Web Sayfası Adresi (&URL)
 [URL]
 Web adresi
-;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Adresi şuna gönder
 [Send timed out]
 Zamanaşımından gönderilemedi
-;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail address]
 E-posta Adresini Değiştir
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -1718,7 +1674,6 @@ Cep
 İş Telefonu
 [Work fax]
 İş Faksı
-;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 Erkek
 [Female]
@@ -1735,34 +1690,24 @@ Yerleşim
 İş
 [Notes]
 Notlar
-;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Sahibi
 [View/change my &details...]
 Bilgilerimi Göster/&Değiştir...
-;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s Çevrimiçi
-;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Kişi Ekle
 [Please authorize my request and add me to your contact list.]
 Lütfen isteğimi yanıtlayıp beni kişi listenize ekleyin.
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 Kişisel durum
 [%s (locked)]
 %s (kilitli)
 [Main menu]
 Ana Menü
-;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Bilinmmeyen Kişi)
-;file \src\modules\clist\clisttray.cpp
-[&Main menu]
-Ana &menü
-;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Bu kişi, kişi listesini merkez bir sunucu üzerinde tutan bir iletişim sisteminde. Bu kişi ağa yeniden bağlandığınızda sunucudan ve kişi listenizden kaldırılacak. 
 [De&lete]
@@ -1771,20 +1716,16 @@ Si&l
 Yeniden adlandı&r
 [&Add permanently to list]
 Listeye k&alıcı olarak ekle
-;file \src\modules\clist\contacts.cpp
 [Nick]
 Kısa ad
 [E-mail]
 E-posta
 ['(Unknown contact)']
 '(Bilinmeyen Kişi)'
-;file \src\modules\clist\genmenu.cpp
-;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Menüler
 [Customize]
 Kişiselleştir
-;file \src\modules\clist\groups.cpp
 [New group]
 Yeni Grup
 [Delete group]
@@ -1795,21 +1736,16 @@ Bu adla bir grubunuz var. Bu grup için farklı bir ad yazın.
 Grubu Yeniden Adlandır
 [This group]
 Bu grup
-;file \src\modules\clist\keyboard.cpp
-;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 Gruba &Taşı
 [<Root group>]
 <Kök Grup>
-;file \src\modules\database\database.cpp
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
 Miranda hiç bir profil eklentisi kurulmamış olduğundan '%s' ögesini açamadı.\ndbx_mmap.dll veya eşdeğerini kurmalısınız.
 [No profile support installed!]
 Hiç profil desteği kurulmamış!
 [Miranda can't understand that profile]
 Miranda bu profili tanıyamadı
-;file \src\modules\database\dbini.cpp
-;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 Profil zaten var
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
@@ -1832,14 +1768,10 @@ Oluşturuldu
 Profillerim
 [New profile]
 Yeni Profil
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
-;file \src\modules\extraicons\extraicons.cpp
 [Chat activity]
 Sohbet Etkinliği
-;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 Fazladan simgeler
-;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Arama alanını doldurmadınız. Aranacak kelimeleri yazın ve yeniden deneyin.
 [Search]
@@ -1856,7 +1788,6 @@ Tüm Ağlar
 Sap
 [&Find/Add contacts...]
 &Kişi Ara/Bul...
-;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 '%s' üzerinde bir arama başlatılamadı. Bir sorun var - %s bağlı mı?
 [Could not search on any of the protocols, are you online?]
@@ -1871,36 +1802,28 @@ Arama ile ilgili sorun
 %d kullanıcı bulundu
 [No users found]
 Hiç kullanıcı bulunamadı
-;file \src\modules\fonts\FontOptions.cpp
 [<none>]
 <hiçbiri>
 [Text files]
 Yazı Dosyaları
 [Fonts]
 Yazı tipleri
-;file \src\modules\fonts\FontService.cpp
-;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 Simge Setleri
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Tüm kişiler **
 [Contacts]
 Kişiler
-;file \src\modules\netlib\netliblog.cpp
 [(Miranda core logging)]
 Miranda Çekirdeği Günlüğü
 [Select where log file will be created]
 Günlük dosyasının nerede oluşturulacağını seçin
 [Select program to be run]
 Çalıştırılacak programı seçin
-;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Tüm Bağlantılar>
 [Network]
 Ağ
-;file \src\modules\netlib\netlibssl.cpp
-;file \src\modules\options\options.cpp
 [<all modules>]
 <tüm modüller>
 [%s options]
@@ -1909,7 +1832,6 @@ Ağ
 Miranda NG Ayarları
 [&Options...]
 &Seçenekler...
-;file \src\modules\plugins\newplugins.cpp
 ['%s' is disabled, re-enable?]
 '%s' devre dışı, etkinleştirilsin mi?
 [Re-enable Miranda plugin?]
@@ -1918,14 +1840,12 @@ Miranda eklentisi yeniden etkinleştirilsin mi?
 Eklenti Hizmet kipinde yüklenemedi.
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Kurulu kişi listesi eklentilerinden hiçbiri ayarlar gözardı edilmesine rağmen başlatılamadı. 
-;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Eklenti
 [Version]
 Sürüm
 [Plugins]
 Eklentiler
-;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 Yeni hesap oluştur
 [Editing account]
@@ -1950,14 +1870,12 @@ Yeniden Adlandır
 %s hesabı silindi
 [&Accounts...]
 &Hesaplar...
-;file \src\modules\skin\hotkey_opts.cpp
 [Remove shortcut]
 Kısayolu kaldır
 [Add another shortcut]
 Yeni bir kısayol ekle
 [System]
 Sistem
-;file \src\modules\skin\skinicons.cpp
 [User online]
 Kullanıcı Çevrimiçi
 [Group (open)]
@@ -2016,10 +1934,10 @@ Kapalı
 İzin ver
 [Revoke authorization]
 İzni kaldır
+[Always visible]
+Her zaman görünür
 [%s icons]
 %s Simgeler
-;file \src\modules\skin\sounds.cpp
-;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 PNG resimleri işlemek için resim hizmeti eklentisine gerek duyuyorsunuz.
 [All bitmaps]
@@ -2032,8 +1950,6 @@ JPEG bitmap
 GIF Bitmap
 [PNG bitmaps]
 PNG Bitmap
-;file \src\modules\utils\timezones.cpp
-;file \src\modules\utils\utils.cpp
 [Unspecified]
 Belirtilmemiş
 [Unknown]
@@ -2086,12 +2002,16 @@ Benin
 Bermuda
 [Bhutan]
 Butan
+[Bolivia]
+Bolivya
 [Bosnia and Herzegovina]
 Bosna Hersek
 [Botswana]
 Botswana
 [Brazil]
 Brezilya
+[Brunei]
+Brunei
 [Bulgaria]
 Bulgaristan
 [Burkina Faso]
@@ -2104,12 +2024,16 @@ Kamboçya
 Kamerun
 [Canada]
 Kanada
+[Cape Verde]
+Cape Verde Adaları
 [Cayman Islands]
 Kayman Adaları
 [Central African Republic]
 Orta Afrika Cumhuriyeti
 [Chad]
 Çad
+[Chile]
+Şili Cumhuriyeti
 [China]
 Çin
 [Christmas Island]
@@ -2120,10 +2044,16 @@ Kokos (Keeling) Adaları
 Kolombiya
 [Comoros]
 Komor
+[Congo, Republic of the]
+Kongo Cumhuriyeti
+[Congo, Democratic Republic of the]
+Demokratik kongo Cumhuriyeti
 [Cook Islands]
 Kook Adaları
 [Costa Rica]
 Kosta Rika
+[Cote d'Ivoire]
+Cote d'Ivoire
 [Croatia]
 Hırvatistan
 [Cuba]
@@ -2154,6 +2084,8 @@ Eritre
 Estonya
 [Ethiopia]
 Etyopya
+[Faroe Islands]
+Faeroe Adaları
 [Fiji]
 Fiji
 [Finland]
@@ -2206,6 +2138,8 @@ Macaristan
 Hindistan
 [Indonesia]
 Endonezya
+[Iran]
+İran
 [Iraq]
 Irak
 [Ireland]
@@ -2230,6 +2164,8 @@ Kiribati
 Kuveyt
 [Kyrgyzstan]
 Kırgızistan
+[Laos]
+Laos
 [Latvia]
 Latviya
 [Lebanon]
@@ -2238,12 +2174,16 @@ Lübnan
 Lesoto
 [Liberia]
 Liberya
+[Libya]
+Libya
 [Liechtenstein]
 Lihtenştayn
 [Lithuania]
 Litvanya
 [Luxembourg]
 Lüksemburg
+[Macau]
+Makau
 [Madagascar]
 Madagaskar
 [Malawi]
@@ -2264,6 +2204,8 @@ Martinik
 Moritanya
 [Mauritius]
 Mauritius
+[Mayotte]
+Mayot
 [Mexico]
 Meksika
 [Micronesia, Federated States of]
@@ -2330,8 +2272,12 @@ Portekiz
 Puerto Riko
 [Qatar]
 Katar
+[Reunion]
+Reunion
 [Romania]
 Romanya
+[Russia]
+Rusya
 [Rwanda]
 Ruanda
 [Saint Kitts and Nevis]
@@ -2382,8 +2328,12 @@ Swaziland
 İsviçre
 [Syria]
 Sirya
+[Taiwan]
+Tayvan
 [Tajikistan]
 Tacikistan
+[Tanzania]
+Tanzanya
 [Thailand]
 Tayland
 [Togo]
@@ -2418,10 +2368,17 @@ Uruguay
 Özbekistan
 [Vanuatu]
 Vanuatu
+[Vatican City]
+Vatikan
+[Venezuela]
+Venezüela
+[Vietnam]
+Vietnam
+[Wallis and Futuna]
+Wallis ve Futuna
 [Yemen]
 Yemen
 [Zambia]
 Zambia
 [Zimbabwe]
 Zimbabve
-;file \src\modules\visibility\visibility.cpp

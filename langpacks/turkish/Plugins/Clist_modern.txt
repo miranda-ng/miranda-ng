@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-;file \plugins\Clist_modern\res\resource.rc
 [Show counts of number of contacts in a group]
 Gruptaki kişi sayısını göster
 [Hide group counts when there are none online]
@@ -86,6 +85,8 @@ Yerleşimi böl
 Konum:
 [Size:]
 Boyut:
+[Height]
+yükseklik
 [W x H: 0 x 0 pixels]
 G x Y: 0 x piksel
 [Show contacts in groups]
@@ -98,6 +99,8 @@ Tamam
 Protokol
 [Group]
 Grup
+[Last message]
+Son İleti
 [Status Bar]
 Durum Çubuğu
 [Show status bar]
@@ -122,6 +125,8 @@ Her hesap için ayrı ayar yap
 Kişisel hesap ayarlarını etkinleştir
 [Hide account completely]
 Hesabı tamamen gizle
+[Use connecting icon]
+Bağlanıyor simgesini kullan
 [Show xStatus icon]
 xDurum simgesini göster
 [Show both icons]
@@ -134,6 +139,8 @@ Durum katmanı matlığı %75
 Okunmamış e-postaları göster (destekleniyorsa)
 [Right click opens status menu]
 Sağ tık durum menüsünü açsın
+[Right click opens Miranda menu]
+Sağ tık Miranda Menüsünü açsın
 [Space on Left]
 Soldaki boşluk
 [Space on right]
@@ -210,6 +217,8 @@ ekranda tut
 Kenarlara otur
 [Event notify area]
 Etkinlik uyarma alanı
+[Disabled]
+kapalı
 [Show automaticaly]
 Kendiliğinden göster
 [Always Visible]
@@ -268,16 +277,14 @@ Simgeleri şu arayla çevir
 saniye, durumlar farklıyken
 [Show multiple icons]
 Çoklu simgeleri göster
-[Only when statuses differ]
-Sadece durumlar farklı ise
+[only when statuses differ]
+yalnız durumlar farklıyken
 [System tray icon]
 Sistem tepsisi simgesi
 [System tray icon mode]
 Sistem tepsisi simge kipi
 [Use xStatus icon]
 xDurum simgesini kullan
-[only when statuses differ]
-yalnız durumlar farklıyken
 [Expand metacontacts]
 Metakişileri genişlet
 [MetaContacts stuff]
@@ -392,6 +399,8 @@ Uzun yazıları elipsle sınırla
 Gülen yüzleri ikinci satıra yerleştir
 [Status]
 Durum
+[Nickname]
+Kısa ad
 [XStatus has priority]
 xDurum'un önceliği var
 [Use 'XStatus: XMessage']
@@ -438,6 +447,8 @@ Kutu yüksekliği:
 Katmanlı
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 SEÇENEK SAYFASI TASARLANIYOR Lütfen bu bölümle ilgili sorunları göndermeyin.\n Yalnız üst düzey tasarım yorumları kabul edilebilir.
+[&Main menu]
+Ana &menü
 [E&xit]
 Çı&kış
 [&Status]
@@ -490,9 +501,12 @@ Ye&ni Alt Grup
 Grubu Yeniden Adlandı&r
 [&Delete Group]
 &Grubu Sil
-;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 Kişi Listesi gülen yüzler
+[List Background]
+Liste Art Alanı
+[StatusBar Background]
+Durum Çubuğu Art Alanı
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 '%s' kişisinin '%s' Metakişisine dünüştürülmesini ve eklenmesini istiyor musunuz?
 [Converting to MetaContact]
@@ -513,7 +527,10 @@ Varsayılan kişiyi ayarla
 '%s' kişisinin '%s' Metakişisinden silinmesini ve '%s' ögesine eklenmesini istiyor musunuz?
 [Changing MetaContacts (Moving)]
 MetaKişiler değiştiriliyor (taşınıyor)
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Do you want contact '%s' to be added to MetaContact '%s'?]
+'%s' kişisinin '%s' metakişisine eklenmesini istiyor musunuz?
+[Row items]
+Satır Ögeleri
 [Standard contacts]
 Standart kişiler
 [Away contacts]
@@ -560,14 +577,14 @@ Etkinlik alanı yazısı
 Kullanımdaki görünüm kipi yazısı
 [Background]
 Art Alan
+[Selected text]
+Seçili yazı
 [General]
 Genel
 [List]
 Liste
 [Window]
 Pencere
-[List Background]
-Liste Art Alanı
 [Not focused]
 Odaklanmamış
 [Offline]
@@ -600,10 +617,10 @@ Sistem tepsisine gizle
 Sol eşiğin arkasında
 [Behind right edge]
 Sağ eşiğin arkasında
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area]
+Etkinlik alanı
 [No Events]
 Etkinlik Yok
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [None]
 Yok
 [Contact rate None]
@@ -614,34 +631,24 @@ Kişi derecelendirmesi Düşük
 Kişi derecelendirmesi Orta
 [Contact rate High]
 Kişi derecelendirmesi Yüksek
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Text]
 Yazı
 [Extra icons]
 Fazladan simgeler
 [Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
 Avatarları Oynat (GDI+ ve Avatar hizmet modülü (avs.dll) gereklidir)
-[Row items]
-Satır Ögeleri
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+[Third Line]
+Üçüncü satır
 [(Unknown Contact)]
 (Bilinmmeyen Kişi)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &Kişi Ara/Bul...
-[&Main menu]
-Ana &menü
 [&Options...]
 &Seçenekler...
-;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Kişi Resmini &Göster
 [Hide Contact &Avatar]
 Kişi Resmini &Gizle
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
 Boş %s hücre
 [column]
@@ -654,15 +661,12 @@ sütunlar
 %s, %s içeriyor
 [ layered]
  katmanlı
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [Image size is]
 Resim boyutu
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 PNG resimleri işlemek için resim hizmeti eklentisine gerek duyuyorsunuz.
 [Error]
 Hata
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Yükle/Kaydet
 [Object Editor]
@@ -691,11 +695,8 @@ Uygulanacak temayı seçin
 Varsayılan Tema
 [%Default Skin%]
 %Varsayılan Tema%
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Genel>>
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Ana menü
 [Accounts]
@@ -710,6 +711,9 @@ Kullanıcı Bul
 Grupla
 [Disable Groups]
 Grupları Kaldır
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Disable sounds]
+Sesleri Kapat
 [Configuring view mode: %s]
 %s görünüm kipi yapılandırılıyor
+[&New SubGroup]
+Ye&ni Alt Grup

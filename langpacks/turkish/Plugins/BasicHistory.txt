@@ -5,7 +5,6 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
 İleti Geçmişi
 [Show names]
@@ -18,22 +17,22 @@ Ad
 Tamam
 [Cancel]
 İptal
-;file \plugins\BasicHistory\src\BasicHistory.cpp
 [View &History]
 Geçmişi &Göster
 [Incoming message]
 Alınan ileti
 [Outgoing message]
 Gönderilen ileti
+[Status change]
+Durumdeğişikliği
 [History]
 Geçmiş
-;file \plugins\BasicHistory\src\EventList.cpp
+[All events]
+Tüm Etkinlikler
 [History for %s]
 %s geçmişi
 [System]
 Sistem
-;file \plugins\BasicHistory\src\ExportManager.cpp
-;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Open in &new window]
 Ye&ni pencerede aç
 [&Open in existing window]
@@ -48,32 +47,33 @@ Sil
 Grubu sil
 [Options]
 Seçenekler
+[Fonts and colors]
+Yazı Tipi ve Renkler
 [Icons]
 Simgeler
 [Hotkeys]
 Kestirmeler
 [Error]
 Hata
-;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 İleti
 [Link]
 Bağlantı
+[Authorization request]
+Yetkilendirme İsteği
+[You were added]
+Eklendiniz
 [Messages]
 İletiler
 [Searching]
 Aranıyor
 [Advanced]
 Gelişmiş
+[Contact list background]
+Kişi Listesi Art Alanı
 [Find]
 Bul
-;file \plugins\BasicHistory\src\Options.h
-;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-;file \plugins\BasicHistory\src\Scheduler.cpp
 [Contacts]
 Kişiler
-;file \plugins\BasicHistory\src\Searcher.cpp
 [Search]
 Ara
-;file \plugins\BasicHistory\src\TxtExport.cpp

@@ -5,7 +5,6 @@
 ;  Version: 1.9.0.4
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
-;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
 %s ileti %s için
 [&Cancel]
@@ -30,29 +29,26 @@ Yapıştır
 Sil
 [Select All]
 Tümünü Seç
-;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [&Close]
 &Kapat
 [Re&ad %s Message]
 %s iletisini &oku
 [Re&ad Away Message]
 Uzakta iletisini &oku
-;file \plugins\SimpleStatusMsg\src\main.cpp
 [%s (locked)]
 %s (kilitli)
-;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [Global]
 Genel
 [Closing in %d]
 Kapanıyor %d
-;file \plugins\SimpleStatusMsg\src\options.cpp
+[<Last status>]
+<Son Durum>
 [Status]
 Durum
 [General]
 Genel
 [Advanced]
 Gelişmiş
-;file \plugins\SimpleStatusMsg\src\utils.cpp
 [I've been away since %time%.]
 Bilgisayar başından kalktım: %time% 
 [Give it up, I'm not in!]

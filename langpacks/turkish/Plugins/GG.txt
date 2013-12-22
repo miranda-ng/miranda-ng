@@ -1,11 +1,10 @@
 ﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
 ;  File: GG.dll
-;  Plugin: GG
+;  Plugin: Gadu-Gadu Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
-;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 Gadu-Gadu Kullanıcı Detayları
 [Gadu-Gadu Number:]
@@ -104,14 +103,14 @@ Gadu-Gadu parolasını değiştir
 Gadu-Gadu e-postasını değiştir
 [Age from:]
 Şu yaştan
+[to:]
+Kime:
 [&Close]
 &Kapat
 [&Send]
 &Gönder
 [Open new conference]
 Yeni konferans aç
-;file \protocols\Gadu-Gadu\src\avatar.cpp
-;file \protocols\Gadu-Gadu\src\core.cpp
 [Unknown]
 Bilinmeyen
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
@@ -126,7 +125,6 @@ Liste alındı.
 Liste silindi
 [List export successful.]
 Liste verildi.
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 Erkek
 [Female]
@@ -153,8 +151,6 @@ Hesabınızda kalıcı değişiklikler yapmadan önce bağlantınızı kesmelisi
 İzin Ver
 [Ignore]
 Yoksay
-;file \protocols\Gadu-Gadu\src\filetransfer.cpp
-;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed connecting]
 HTTP bağlanamadı
 [HTTP failed resolving]
@@ -165,10 +161,10 @@ HTTP okunamadı
 HTTP yazılamadı
 [Unknown HTTP error]
 Bilinmeyen HTTP hatası
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Contact list]
+Kişi Listesi
 [Gadu-Gadu Number]
 Gadu-Gadu Numarası
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Kon&ferans aç...
 [&Clear ignored conferences]
@@ -187,7 +183,6 @@ Yeni bir konferans açmak için bağlı olmak zorundasınız.
 Tüm yoksayılan konferanslar varsayılacak ve konferans politikası yeniden uygulanacak.
 [There are no ignored conferences.]
 Yoksayılan konferans yok
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Import list from server]
 Listeyi sunucudan al
 [Import list from text file]
@@ -208,7 +203,6 @@ Sonraki resim
 Resmi kaydet
 [Delete image]
 Resmi sil
-;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 Res&im
 [Image cannot be written to disk.]
@@ -221,7 +215,6 @@ Resim diske yazılamadı.
 Gönderilecek resmi seçin
 [Image exceeds maximum allowed size of 255 KB.]
 Resim izin verilen büyüklüğü aşıyor (255 KB).
-;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
 Sunucu listesinde kişileri alıp/vermeden önce bağlanmış olmalısınız.
 [Text files]
@@ -240,21 +233,14 @@ Listeyi Sunucudan Si&l
 Listeyi &Sunucuya Ver
 [Export List To &Text File...]
 Lis&teyi Yazı Dosyasına Ver...
-;file \protocols\Gadu-Gadu\src\links.cpp
-;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password was sent to your e-mail.]
 Parolanız e-postanıza gönderildi.
-;file \protocols\Gadu-Gadu\src\popups.cpp
 [Error]
 Hata
-;file \protocols\Gadu-Gadu\src\services.cpp
-;file \protocols\Gadu-Gadu\src\sessions.cpp
-;file \protocols\Gadu-Gadu\src\token.cpp
 [Token retrieval failed because of error:\n\t%s]
 İşaret şu hata yüzünden alınamadı:\n\t%s
 [Could not load token image.]
 İşaret kalıbı yüklenemedi.
-;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Şu hata yüzünden yeni hesap oluşturulamadı:\n\t%s
 [Registration rejected]

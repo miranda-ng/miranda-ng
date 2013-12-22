@@ -5,7 +5,6 @@
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-;file \plugins\UserInfoEx\res\resource.rc
 [Updating]
 Güncelleniyor
 [OK]
@@ -70,6 +69,8 @@ Simgeler
 Yok
 [Off]
 Kapalı
+[Extra Icons]
+Fazladan simgeler
 [Gender:]
 Cinsiyet:
 [Phone]
@@ -78,20 +79,14 @@ Telefon
 E-posta
 [Age:]
 Yaş:
-;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
-;file \plugins\UserInfoEx\src\classPsTree.cpp
-;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
-;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[not found]
+BULUNAMADI
 [Unspecified]
 Belirtilmemiş
-;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Other]
 Diğer
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [Contact]
 Kişi
-;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Yes]
 Evet
 [No]
@@ -100,7 +95,6 @@ Hayır
 Yoksay
 [Error]
 Hata
-;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [General]
 Genel
 [Work]
@@ -111,38 +105,38 @@ Profile
 Notlar
 [Owner]
 Sahibi
-;file \plugins\UserInfoEx\src\init.cpp
-;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Upload failed]
+YÜKLENEMEDİ
+[Marital status]
+Medeni hali
 [Default]
 Varsayılan
 [Fax]
 Faks
+[e-mail]
+E-posta
+[Down arrow]
+Aşağı Ok
 [Add]
 Ekle
 [Edit]
 Değiştir
 [Search]
 Ara
-;file \plugins\UserInfoEx\src\mir_icolib.h
-;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [User &details]
 Kişi &Detayları
 [View/Change My &Details...]
 Bilgilerimi Göster/&Değiştir...
-;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+Notlarım:
 [About:]
 Hakkında:
-;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-;file \plugins\UserInfoEx\src\psp_contact.cpp
-;file \plugins\UserInfoEx\src\psp_options.cpp
 [Contacts]
 Kişiler
 [Advanced]
 Gelişmiş
 [Popups]
 Açılır Pencereler
-;file \plugins\UserInfoEx\src\psp_profile.cpp
-;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
 Kültür ve Kaynak
 [Movies/TV]
@@ -179,27 +173,11 @@ Ses ve görüntü
 Spor ve atletizm
 [Home automation]
 Ev otomasyonu
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(Bilinmeyen Kişi)'
-;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 E-posta gönder
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-;file \plugins\UserInfoEx\src\svc_reminder.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Miranda NG]
 Miranda NG
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Complete]
 Tamamlandı
-;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

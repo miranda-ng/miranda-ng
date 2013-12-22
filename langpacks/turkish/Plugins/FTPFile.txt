@@ -5,7 +5,6 @@
 ;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
-;file \plugins\FTPFileYM\res\ftpfile.rc
 [URL]
 Web adresi
 [Protocol]
@@ -22,6 +21,8 @@ Kısa ad
 Kapat
 [Options]
 Seçenekler
+[UPLOADING...]
+Yükleniyor...
 [Select All]
 Tümünü Seç
 [OK]
@@ -32,18 +33,19 @@ Tamam
 Yeniden Adlandır
 [Overwrite]
 Üstüne Yaz
-;file \plugins\FTPFileYM\src\dialog.cpp
-;file \plugins\FTPFileYM\src\ftpfile.cpp
+[Disabled]
+kapalı
 [Resume]
 Sürdür
-;file \plugins\FTPFileYM\src\job_generic.cpp
-;file \plugins\FTPFileYM\src\job_packer.cpp
-;file \plugins\FTPFileYM\src\job_upload.cpp
-;file \plugins\FTPFileYM\src\manager.cpp
-;file \plugins\FTPFileYM\src\options.cpp
+[CANCELED]
+İptal Edilen
+[CONNECTING...]
+Bağlanıyor...
+[CREATED]
+Oluşturuldu
+[UNKNOWN]
+Bilinmeyen
 [Accounts]
 Hesaplar
 [Advanced]
 Gelişmiş
-;file \plugins\FTPFileYM\src\serverlist.cpp
-;file \plugins\FTPFileYM\src\utils.cpp

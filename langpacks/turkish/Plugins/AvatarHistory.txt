@@ -5,7 +5,8 @@
 ;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
-;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[Save As...]
+Farklı Kaydet...
 [OK]
 Tamam
 [Background color]
@@ -20,13 +21,7 @@ Varsayılan renkleri kullan
 Kişisel
 [Actions]
 Eylemler
-;file \plugins\AvatarHistory\src\AvatarDlg.cpp
-;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-;file \plugins\AvatarHistory\src\AvatarHistory.h
-;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 Geçmiş
-;file \plugins\AvatarHistory\src\options.cpp
 [Popups]
 Açılır Pencereler
-;file \plugins\AvatarHistory\src\utils.cpp

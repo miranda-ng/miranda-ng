@@ -5,11 +5,12 @@
 ;  Version: 0.1.2.3
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
-;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [Background]
 Art Alan
 [Text]
 Yazı
+[Use Windows colors]
+Windows renklerini kullan
 [Default]
 Varsayılan
 [Custom]
@@ -18,9 +19,11 @@ Kişisel
 sn
 [Notify always]
 Herzaman uyar
-;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
-;file \plugins\BuddyExpectator\src\options.cpp
+[Disabled]
+kapalı
 [Contacts]
 Kişiler
 [Popups]
 Açılır Pencereler
+[not found]
+BULUNAMADI

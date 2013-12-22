@@ -1,11 +1,10 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
-;file \protocols\MSN\res\msn.rc
 [MSN]
 MSN
 [Live ID:]
@@ -58,14 +57,20 @@ Kişi Listesi uyarılarını kapat
 Tamam
 [Cancel]
 İptal
+[First Name]
+Ad
+[Last Name]
+Soyad
+[Nickname]
+Kısa ad
 [&Cancel]
 İ&ptal
 [Add]
 Ekle
-;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Sohbet #
-;file \protocols\MSN\src\msn_commands.cpp
+[User &details]
+Kişi &detayları
 [Contact tried to open an audio conference (currently not supported)]
 Kişi tele konferans açmayı denedi (şu anda desteklenmiyor)
 [MSN Protocol]
@@ -88,30 +93,24 @@ Sohbette yalnız bir kişi kaldı, standart ileti penceresine dönmek ister misi
 MSN Sohbet
 [Message delivery failed]
 İleti gönderilemedi
-;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Kişi çevrim içi değil
-;file \protocols\MSN\src\msn_links.cpp
-;file \protocols\MSN\src\msn_lists.cpp
-;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Konu: %s
 [Hotmail from %s (%S)]
 %s Hotmail (%S)
 [Hotmail from %s]
 %s Hotmail
-;file \protocols\MSN\src\msn_menu.cpp
 [You must be talking to start Netmeeting]
 Netmeeting başlatmak için konuşmalısınız
 [&Start Netmeeting]
 Netmeeting &başlat
-;file \protocols\MSN\src\msn_misc.cpp
 [Error]
 Hata
-;file \protocols\MSN\src\msn_msgqueue.cpp
-;file \protocols\MSN\src\msn_opts.cpp
 [Profile]
 Profile
+[Contact list]
+Kişi Listesi
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Sunucu gruplarını almak yeniden giriş yaptıktan sonra kişi listenizi değiştirebilir. Gruplarınızı sunucuya yüklemek istiyor musunuz?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
@@ -130,12 +129,10 @@ MSN protokolünde ileti zaman aşımı 60 saniyeden küçük olamaz. Zaman aşı
 Ağ
 [Server list]
 Sunucudaki liste
-;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (currently not supported)]
 Kişi webcam görüntüsü yollamaya çalıştı (şu anda desteklenmiyor)
 [Contact tried to view our webcam data (currently not supported)]
 Kişi webcam görüntünüzü almaya çalıştı (şu anda desteklenmiyor)
-;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Live Posta
 [Live Alert]
@@ -148,7 +145,5 @@ Kendi kendinize ileti göndermezsiniz
 İleti çok uzun: MSN iletileri 1202 UTF8 karakteri ile sınırlıdır
 [Offline messaging is not allowed for LCS contacts]
 LCS kişilerine çevrim dışı ileti gönderilemez
-;file \protocols\MSN\src\msn_svcs.cpp
-;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 Sohbet oturumu etkinlik olmadığından kapatıldı

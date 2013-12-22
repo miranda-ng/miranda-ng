@@ -5,7 +5,6 @@
 ;  Version: 0.4.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
-;file \plugins\Weather\res\resource.rc
 [Brief Info]
 Kısa Bilgi
 [Webpage]
@@ -180,12 +179,10 @@ Geçmişi göster
 Kullanıcı detaylarını göster
 [To default]
 Varsayılan ayarlara
-;file \plugins\Weather\src\weather.cpp
 [Weather Condition Changed]
 Hava Durumu Değişti
 [Weather Alert Issued]
 Hava Alarmı Yayınlandı
-;file \plugins\Weather\src\weather.h
 [Invalid service (11)]
 Geçersiz hizmet (11)
 [Invalid station (12)]
@@ -244,7 +241,6 @@ HTTP Hatası: Ağ geçizidi zaman aşımı (504)
 %n at %u:	%c, %t (hissedilen %f)	Rüzgar: %i %w	Nem: %m
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\nBugün:  En Yüksek %h, En Düşük %l
-;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 %s için hava durumu
 [%s is now the default weather station]
@@ -257,7 +253,6 @@ Lütfen hava durumu güncellemesi tamamlandıktan sonra tekrar deneyin.
 <İstasyon adını buraya yazın>
 [<Enter station ID here>]
 <İstasyon kodunu buraya yazın>
-;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Hava durumları günlüklenmiyor.
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
@@ -268,11 +263,12 @@ Koddan şehir adını bul
 Weather INI bilgisi
 [View webpage]
 Web sayfasını göster
+[Reset to default]
+Varsayılana Döndür
 [Text Files]
 Yazı Dosyaları
 [All Files]
 Tüm Dosyalar
-;file \plugins\Weather\src\weather_conv.cpp
 [mb]
 mb
 [in]
@@ -285,16 +281,16 @@ mm
 <Hata>
 [HTTP Error %i]
 HTTP Hatası %i
-;file \plugins\Weather\src\weather_data.cpp
 [<Enter city name here>]
 <Buraya şehir adını yazın>
 [Error when obtaining data: %s]
 Veri alınırken hata oldu: %s
-;file \plugins\Weather\src\weather_http.cpp
 [Weather HTTP connections]
 Hava Durumu HTTP bağlantıları
-;file \plugins\Weather\src\weather_icons.cpp
-;file \plugins\Weather\src\weather_info.cpp
+[Name]
+Ad
+[Items]
+Ögeler
 [Name:]
 Ad:
 [Internal Name:]
@@ -313,15 +309,12 @@ bayt
 Açıklama:
 [Here is a list of custom variables that are currently available]
 Kullanabileceğiniz tüm özel değişkenlerin listesini burada görebilirsiniz
-;file \plugins\Weather\src\weather_ini.cpp
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Güncelleme veri dosyası bulunamadı. Lütfen plugins\\weather klasörünü denetleyin.
 [Invalid ini format for: %s]
 %s için geçersiz ini biçimi
 [All update data has been reloaded.]
 Tüm güncelleme verisi yeniden yüklendi.
-;file \plugins\Weather\src\weather_mwin.cpp
-;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 Ağ
 [General]
@@ -332,10 +325,8 @@ Açılır Pencereler
 %c\tşimdiki durum\n%d\tşimdiki tarih\n%e\tyoğuşma\n%f\thissedilen sıcaklık\n%h\tbugün en yüksek\n%i\trüzgar doğrultusu\n%l\tbugün en düşük\n%m\tnem\n%n\tistasyon adı\n%p\tbasınç\n%r\tgündoğumu\n%s\tistasyon kodu\n%t\tsıcaklık\n%u\tgüncelleme\n%v\tgörüş\n%w\trüzgar hızı\n%y\tgünbatımı
 [Weather Protocol Text Preview]
 Weather Protokol Yazısı Ön İzleme
-;file \plugins\Weather\src\weather_popup.cpp
 [%[..]\tcustom variables]
 %[..]\tkişisel değişkenler
-;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 İstasyon Kodu
 [Disable &weather notification]
@@ -360,10 +351,8 @@ Eski Veriyi Sil ve Tümünü Güncelle
 Hava Durumu Uyarıcı
 [Display in a frame]
 Çerçevede göster
-;file \plugins\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 %s için hava durumu bilgisi alınamadı
-;file \plugins\Weather\src\weather_userinfo.cpp
 [Current condition for %n]
 %n için şimdiki durum
 [Information]

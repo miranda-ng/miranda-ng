@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.6
 ;  Authors: Ivan Rozhuk
 ;============================================================
-;file \protocols\MRA\res\resource.rc
 [E-mail:]
 E-posta:
 [Password:]
@@ -30,6 +29,10 @@ Soyadı:
 Cinsiyet:
 [Age:]
 Yaş:
+[from:]
+Kimden:
+[to:]
+Kime:
 [Location]
 Yerleşim
 [Country:]
@@ -40,6 +43,8 @@ Yerleşim
 Şehir:
 [Full e-mail:]
 Tam e-posta:
+[&Use Windows colors]
+Windows renklerini k&ullan
 [Text Color]
 Yazı Rengi
 [Closing in %d]
@@ -48,18 +53,20 @@ Kapanıyor %d
 Tamam
 [Cancel]
 İptal
-;file \protocols\MRA\src\MraAvatars.cpp
-;file \protocols\MRA\src\MraChat.cpp
-;file \protocols\MRA\src\MraConstans.h
+[Male]
+Erkek
+[Female]
+Kadın
 [Request authorization]
 İzin iste
 [Grant authorization]
 İzin ver
-;file \protocols\MRA\src\MraFilesQueue.cpp
-;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Ana Menü
-;file \protocols\MRA\src\MraPopUp.cpp
+[Contact Menu]
+Kişiler menüsü
+[Custom Status]
+Kişisel durum
 [None]
 Yok
 [Information]
@@ -68,16 +75,11 @@ Bilgi
 Hata
 [Popups]
 Açılır Pencereler
-;file \protocols\MRA\src\MraProto.cpp
 [E-mail address]
 E-posta adresi
-;file \protocols\MRA\src\Mra_functions.cpp
-;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Ağ
 [Files]
 Dosyalar
-;file \protocols\MRA\src\Mra_proto.cpp
-;file \protocols\MRA\src\Mra_svcs.cpp
 [On the phone]
 Telefonda

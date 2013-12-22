@@ -5,25 +5,27 @@
 ;  Version: 0.1.1.8
 ;  Authors: Ghost, Mironych
 ;============================================================
-;file \plugins\TrafficCounter\res\resource.rc
 [Accounts]
 Hesaplar
+[Reset to default]
+Varsayılana Döndür
 [Custom]
 Kişisel
-;file \plugins\TrafficCounter\src\options.cpp
 [General]
 Genel
 [Options]
 Seçenekler
 [Popups]
 Açılır Pencereler
-;file \plugins\TrafficCounter\src\statistics.cpp
+[Bytes]
+bayt
+[MB]
+mb
 [Incoming]
 Alınan
 [Outgoing]
 Gönderilen
 [Online]
 Çevrimiçi
-;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Yazı tipi

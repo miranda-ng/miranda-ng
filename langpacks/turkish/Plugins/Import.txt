@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
-;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 Nasıl almak istediğinizi seçin:
 [From a Miranda NG database.]
@@ -60,7 +59,6 @@ Web adresleri
 Dosya Aktarımları
 [Other]
 Diğer
-;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Kendine/Kendinden etkinlik yoksayıldı
 [Added contact %u (found in history)]
@@ -99,15 +97,11 @@ Al işlemi %d saniyede tamamlandı.
 %d çift ve %d süzülmüş etkinlik atlandı.
 [Skipped %d duplicates.]
 %d çift atlandı.
-;file \plugins\Import\src\main.cpp
 [&Import...]
 &Al...
-;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Belirttiğiniz dosya bulunamadı. Adını doğru yazdığınızdan emin olun.
 [All Files]
 Tüm Dosyalar
-;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Çift grup %s atlandı
-;file \plugins\Import\src\wizard.cpp

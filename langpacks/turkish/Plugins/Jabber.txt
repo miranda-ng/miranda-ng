@@ -1,11 +1,10 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-;file \protocols\JabberG\res\jabber.rc
 [OK]
 Tamam
 [Cancel]
@@ -260,6 +259,8 @@ Sonra:
 izleyen kıta tipleri:
 [Messages]
 İletiler
+[Queries]
+sorgular
 [Incoming presence]
 Gelen varlık
 [Outgoing presence]
@@ -274,6 +275,8 @@ Hizmet Arama
 Ağaç olarak göster
 [View as list]
 Liste olarak göster
+[Favorites]
+Sık Kullanılanlar
 [Node:]
 Düğüm:
 [Change %s Message]
@@ -296,6 +299,8 @@ Rolü ata
 İlgiler:
 [Set affiliation]
 İlgileri ayarla
+[Status message:]
+Durum İletisi:
 [Chat options]
 Sohbet seçenekleri
 [Custom messages]
@@ -324,11 +329,8 @@ Red
 XML Konsolu
 [Reset log]
 Günlüğü sıfırla
-;file \protocols\JabberG\src\jabber.cpp
-;file \protocols\JabberG\src\jabber.h
 [/me slaps %s around a bit with a large trout]
 /me %s büyük bir alabalık ile tokatladı
-;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 Hata %s %s
 [Select Command]
@@ -345,20 +347,16 @@ Komut listesi isteniyor. Lütfen bekleyin...
 Şuradaki Jabber Ad-Hoc komutları
 [Sending Ad-Hoc command to %s]
 Ad-Hoc komutları şuraya gönderiliyor
-;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 İleti yok
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [Bookmark Name]
 Yer İmi Adı
 [Address (JID or URL)]
 Adres (JID veya web adresi)
+[Nickname]
+Kısa ad
 [Conferences]
 Konferanslar
-;file \protocols\JabberG\src\jabber_byte.cpp
-;file \protocols\JabberG\src\jabber_caps.cpp
-;file \protocols\JabberG\src\jabber_captcha.cpp
-;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Yok
 [Member]
@@ -439,6 +437,8 @@ Sohbete uygun
 K&llanıcı detayları
 [Member &info]
 Üye b&ilgisi
+[User &details]
+Kişi &detayları
 [&Add to roster]
 Listeye &ekle
 [&Copy to clipboard]
@@ -469,26 +469,12 @@ Kısa adı &kopyala
 Gerçek &JID kopyala
 [Real &JID: %s]
 Gerçek &JID: %s
-[Member Info:]
-Üye Bilgisi:
 [Real JID not available]
 Gerçek JID yok
-[Reason to kick]
-Tekmeleme nedeni
-[Reason to ban]
-Yasaklama nedeni
-[Set topic for]
-Şunun için başlık
-[Change nickname in]
-Kısa adı değiştir
-[Reason to destroy]
-Yıkma nedeni
-;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 Çevrim dışı iken veri gönderemezsiniz.
 [Jabber Error]
 Jabber Hatası
-;file \protocols\JabberG\src\jabber_disco.cpp
 [Node hierarchy]
 Düğüm hiyerarşisi
 [Node]
@@ -507,7 +493,6 @@ Yerel aktarımlara gözat
 Sohbet odalarına gözat
 [Add to roster]
 İsim listesine ekle
-;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Kimlikler
 [category]
@@ -520,8 +505,10 @@ Desteklenen özellikler
 Bilgi isteiği hatası
 [Items request error]
 Öge isteği hatası
-;file \protocols\JabberG\src\jabber_form2.cpp
-;file \protocols\JabberG\src\jabber_groupchat.cpp
+[First Name]
+Ad
+[Last Name]
+Soyad
 [Failed to retrieve room list from server.]
 Sunucudan oda listesi alınamadı.
 [No rooms available on server.]
@@ -538,7 +525,8 @@ Oda listesi indirilirken bekleyin.
 Önce grup sohbeti klasörünü belirtin.
 [Bookmarks...]
 Yer İmleri...
-;file \protocols\JabberG\src\jabber_icolib.cpp
+[transport]
+Aktarım
 [Notes]
 Notlar
 [Agents list]
@@ -603,7 +591,6 @@ Varlıkları Reddet (giden)
 Sorguları Reddet
 [Dialogs]
 Diyaloglar
-;file \protocols\JabberG\src\jabber_iqid.cpp
 [Jabber Authentication]
 Jabber Yetkilendirme
 [Registration successful]
@@ -614,7 +601,6 @@ Parola değiştirildi. Jabber Protokol seçeneklerinden parolanızı güncelleme
 Parolalar değiştirilemez.
 [Jabber Bookmarks Error]
 Jabber Yer İmleri Hatası
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [Voice List]
 Ses Listesi
 [Member List]
@@ -627,12 +613,10 @@ Yasak Listesi
 Yönetici Listesi
 [Owner List]
 Sahip Listesi
-[Removing]
-Siliniyor
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Reason to ban]
+Yasaklama nedeni
 [Http authentication request received]
 Http yetkilendirme isteği alındı
-;file \protocols\JabberG\src\jabber_menu.cpp
 [Request authorization]
 İzin iste
 [Grant authorization]
@@ -667,26 +651,22 @@ Grup Sohbeti Oluştur/Katıl
 Kaynak önceliği
 [Resource priority [%d]]
 Kaynak önceliği [%d]
-[Last active]
-Son etkin
+[Privacy lists]
+Gizlilik Listeleri
+[Service discovery]
+Hizmet Arama
 [No activity yet, use server's choice]
 Henüz etkinlik yok, sunucunun tercihini kullanın
 [Highest priority (server's choice)]
 En yüksek öncelik (sunucunun tercihi)
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
 Kime
-;file \protocols\JabberG\src\jabber_notes.cpp
-;file \protocols\JabberG\src\jabber_opt.cpp
 [Nauru]
 Nauru
 [These changes will take effect the next time you connect to the Jabber network.]
 Bu değişiklikler Jabber ağına yeniden bağlandığınızda etkin olacak.
 [Jabber Protocol Option]
 Jabbet Protokol Seçeneği
-[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
-Bu işlem hesabınızı kapatacak ve listeniz gibi sunucuda saklanan tüm bilgileri silecek. Bunu yapmaya hazır mısınız?
 [Account removal warning]
 Hesap silme uyarısı
 [Messaging]
@@ -751,6 +731,8 @@ Rol değişiklikleri
 Durum değişikliği
 [JID]
 JID
+[Nick Name]
+Kısa ad
 [Group]
 Grup
 [Subscription]
@@ -775,14 +757,10 @@ Google Talk!
 LiveJournal Görüşmesi
 [Some changes will take effect the next time you connect to the Jabber network.]
 Bazı değişiklikler Jabber ağına yeniden bağlandığınızda etkin olacak.
-;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for]
-Şunun için yeni parola
 [New password does not match.]
 Yeni parolalar aynı değil.
 [Current password is incorrect.]
 Kullanımdaki parola hatalı.
-;file \protocols\JabberG\src\jabber_privacy.cpp
 [Warning: privacy lists were changed on server.]
 Uyarı: sunucudaki kişisel listeler değişti.
 [Error occurred while applying changes]
@@ -879,15 +857,14 @@ Kişisel listeler kayıt edilmedi, değişiklikleri kaydetmeden çıkılsın mı
 Şu anda çevrim dışı olduğunuzdan liste kaydedilemedi.
 [List Editor...]
 Lüste Düzenleyici...
-;file \protocols\JabberG\src\jabber_proto.cpp
-;file \protocols\JabberG\src\jabber_rc.cpp
+[Set status]
+Durumu Seç
 [Status]
 Durum
 [Invisible]
 Görünmez
 [Offline]
 Çevrimdışı
-;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Hata %s %s\r\nBaşka bir sunucu seçin
 [Error: unknown reply received\r\nPlease select other server]
@@ -902,7 +879,6 @@ Yukarıdan arama hizmeti adresini yazın/seçin ve <Git>e tıklayın
 Lütfen bekleyin...\r\nArama sunucusuna bağlanılıyor...
 [You have to be connected to server]
 Sunucuya bağlı olmalısınız
-;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
 kapalı sohbet oturumu
 [sent subscription request]
@@ -915,7 +891,6 @@ red edilen abonelik
 hata varlığı gönderildi
 [sent unknown presence type]
 bilinmeyen varlık tipi
-;file \protocols\JabberG\src\jabber_thread.cpp
 [Error: Not enough memory]
 Hata: Yetersiz bellek
 [Error: Cannot connect to the server]
@@ -928,7 +903,6 @@ Kayıt bilgisi isteniyor...
 Şuradan ileti yeniden yönlendirildi: %s\r\n%s
 [Sending registration information...]
 Kayıt bilgisi gönderiliyor...
-;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Message]
 İleti
 [<not specified>]
@@ -939,14 +913,16 @@ Yazılım
 Sürüm
 [System]
 Sistem
+[unknown]
+Bilinmeyen
 [Idle since]
 Şu kadardır boşta
 [Client capabilities]
 İstemci yetenekleri
-[Yes]
-Evet
-[No]
-Hayır
+[to]
+Kime
+[none]
+Yok
 [Last logoff time]
 Son çıkış zamanı
 [Uptime]
@@ -973,14 +949,14 @@ Bilinmeyen biçim
 <Resim yok>
 [Photo]
 Fotoğraf
-;file \protocols\JabberG\src\jabber_util.cpp
+[Not found]
+BULUNAMADI
 [Error]
 Hata
 [Unknown error message]
 Bilinmeyen hata iletisi
 [Advanced Status]
 Gelişmiş Durum
-;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Erkek
 [Female]
@@ -995,8 +971,6 @@ Jabber sKart: E-posta Adresini Değiştir
 Jabber sKart: Telefon Numarasını Değiştir
 [Contacts]
 Kişiler
-;file \protocols\JabberG\src\jabber_ws.cpp
-;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]
 Korkmuş
 [Amazed]
@@ -1111,4 +1085,17 @@ Stresli
 Susamış
 [Worried]
 Endişeli
-;file \protocols\JabberG\src\ui_utils.cpp
+[taking a bath]
+Duştayım
+[thinking]
+Düşünüyorum
+[gaming]
+Oyundayım
+[shopping]
+Alışveriş
+[watching TV]
+TV seyrediyorum
+[on the phone]
+Telefonda
+[studying]
+Ders Çalışıyorum

@@ -1,11 +1,12 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
-;file \protocols\IcqOscarJ\res\resources.rc
+[ICQ Number:]
+ICQ numarası:
 [Password:]
 Parola:
 [&Send]
@@ -32,8 +33,6 @@ ICQ web sitesinden yeni bir ICQ hesabı oluştur
 Port:
 [Default]
 Varsayılan
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
-İpucu: Rastgele bir porta bağlanmak için 0 yazın. Http vekil sunucu üzerinden bağlanmakta sorun yaşıyorsanız 80 veya 443 kullanın.
 [Secure (MD5) login]
 Güvenli (MD5) giriş
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
@@ -138,6 +137,8 @@ Hata
 Ölümcül
 [Spam detected]
 Spam algılandı
+[&Use Windows colors]
+Windows renklerini k&ullan
 [Use system &icons]
 Sistem s&imgelerini kullan
 [Use default colors]
@@ -212,7 +213,6 @@ Parola Değişimini Onayla
 Yeni parolanızı yeniden yazın:
 [Enter your current password:]
 Şimdiki parolanızı yazın:
-;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 Eklenilen ICQ iletişim sunucusuna bağlanılamadı
 [Unable to connect to ICQ communication server]
@@ -243,17 +243,14 @@ Bağlanılamadı.\ngiriş yapılırken bilinmeyen hata: 0x%02x
 Başka bir yerden aynı ICQ numarası ile giriş yaptığınızdan ICQ ağıyla bağlantınız kesildi.
 [Unknown runtime error: 0x%02x]
 Bilinmeyen çalışma zamanı hatası: 0x%02x
-;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Sunucu geçersiz veri ilettiğinden sunucu eklenemedi. El ile bağlanmalısınız.
 [Failed to request offline messages. They may be received next time you log in.]
 Çevrim dışı iletiler istenemedi. Sonraki girişinizde alınacaklar.
-;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
 [Spambot Detected]
 Spambot Bulundu
 [Contact deleted & further events blocked.]
 Kişi silindi bundan sonra yapacakları engellendi
-;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [Incoming URL:]
 Gelen web adresi:
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
@@ -278,7 +275,6 @@ Kullanıcı geçici olarak yok. Bir süre bekleyip yeniden deneyin.\r\nSNAC(4.1)
 SNAC(4.1) SENDMSG Hatası (x%02x)
 [ICQ Note]
 ICQ Not
-;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
 [Server contact list is unavailable, Miranda will use local contact list.]
 Sunucu kişi listesine ulaşılamadı, Miranda yerel kişi listesini kullanacak.
 [Updating of server contact failed.]
@@ -301,12 +297,10 @@ Grup sunucu listesinden silinemedi.
 Kişi sunucu listesindeki başka bir gruba taşınamadı.
 [Renaming of server group failed.]
 Sunucu grubu yeniden adlandırılamadı.
-;file \protocols\IcqOscarJ\src\fam_17signon.cpp
 [Secure login failed.\nInvalid server response.]
 Güvenli giriş yapılamadı.\nGeçersiz sunucu yanıtı.
 [Secure login failed.\nInvalid key length.]
 Güvenli giriş yapılamadı.\Geçersiz anahtar uzunluğu.
-;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
 [Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
 Kullanıcının izinlerini geri almak istediğinizden emin misiniz?\nBu sizi bazı arkadaşlarınızın istemci listelerinden silecek.
 [** This message was blocked by the ICQ server ** The message was invalid.]
@@ -317,13 +311,10 @@ Kullanıcının izinlerini geri almak istediğinizden emin misiniz?\nBu sizi baz
 ** ICQ sunucusu bu iletiyi engelledi. ** Gönderici sunucuda çok trafik oluşturdu.
 [** This message was blocked by the ICQ server ** You are too evil.]
 ** ICQ sunucusu bu iletiyi engelledi. ** Çok kötüsünüz.
-;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 [Error uploading avatar to server, server temporarily unavailable.]
 Avatar sunucuya yüklenemedi, sunucu geçici olarak devre dışı.
 [Error uploading avatar to server, server refused to accept the image.]
 Avatar sunucuya yüklenemedi, sunucu resmi kabul etmedi.
-;file \protocols\IcqOscarJ\src\icq_constants.h
-;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
 Afganistan
 [Albania]
@@ -710,8 +701,8 @@ Swaziland
 İsveç
 [Switzerland]
 İsviçre
-[Syrian Arab Republic]
-Siryan Arap Cumhuriyeti
+[Syria]
+Sirya
 [Taiwan]
 Tayvan
 [Tajikistan]
@@ -772,8 +763,26 @@ Yugoslavya
 Zambia
 [Zimbabwe]
 Zimbabve
+[Audio and Visual]
+Ses ve görüntü
 [Business]
 İş
+[Business Services]
+İş hizmetleri
+[Finance and Corporate]
+Finans ve kurumsal
+[Health and Beauty]
+Sağlık ve güzellik
+[Home Automation]
+Ev otomasyonu
+[Household Products]
+Ev eşyaları
+[Mail Order Catalog]
+Postayla sipariş penceresi
+[Retail Stores]
+Perakende mağazacılık
+[Sporting and Athletic]
+Spor ve atletizm
 [Past Work Place]
 Eski İşyeri
 [Past Organization]
@@ -784,13 +793,10 @@ Kadın
 Erkek
 [60-above]
 60 üzeri
-;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
-;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Dosya gönderme işleminiz kesildi çünkü seçtiğiniz dosyalar diskten okunamıyor. Dosyaları silmiş veya taşımış olabilirsiniz.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Dosya alma işleminiz kesildi çünkü Miranda hedef dosyayı yazmak için açamadı. Dosyayı salt okunur bir klasöre kaydetmeye çalışıyor olabilirsiniz.
-;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 İzin iste
 [Grant authorization]
@@ -801,7 +807,6 @@ Dosya alma işleminiz kesildi çünkü Miranda hedef dosyayı yazmak için açam
 Sunucu listesine ekle
 [Show custom status details]
 Özel durum detayı göster
-;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Display all problems]
 Tüm sorunları göster
 [Display problems causing possible loss of data]
@@ -820,7 +825,6 @@ Ağ
 Kişiler
 [Popups]
 Açılır Pencereler
-;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Sample Note]
 Örnek Not
 [Sample Warning]
@@ -831,10 +835,6 @@ Açılır Pencereler
 Örnek Ölümcül
 [Sample Spambot]
 Örnek Spambot
-;file \protocols\IcqOscarJ\src\icq_proto.cpp
-[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
-Bir ICQ numarası yazmadınız.\nBunu Seçenekler->Ağ->ICQ bölümünden yazıp yeniden deneyin.
-;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server]
 ICQ giriş sunucusuna bağlanılamadı
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
@@ -843,10 +843,8 @@ Miranda istemciler arasında bağlantı kurmak için dinlenecek bir port ayarlay
 Bağlanılamadı.\nGiriş işlemleri bilinmeyen bir nedenle yapılamadı.\nDaha sonra yeniden deneyin.
 [Your connection with the ICQ server was abortively closed]
 ICQ sunucu ile bağlantınız iptal edilerek kesildi
-;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 [The contact's information was too big and was truncated.]
 Kişi bilgisi çok uzun olduğundan budanacak.
-;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
 BULUNAMADI
 [ALREADY EXISTS]
@@ -887,7 +885,6 @@ Kapat
 Sunucu listesini eşleştirmek için çevrim içi olmalısınız!
 [** All contacts **]
 ** Tüm kişiler **
-;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Taking a bath]
 Duştayım
 [Drinking beer]
@@ -922,15 +919,16 @@ Uçuyorum
 Olmak ya da olmamak
 [Watching pro7 on TV]
 Pro7 seyrediyorum
+[Free for Chat]
+Sohbete uygun
 [%s Custom Status]
 %s Kişisel Durum
 [None]
 Yok
-;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+[Custom Status]
+Kişisel durum
 [Greeting card:]
 Kutlama kartı:
-;file \protocols\IcqOscarJ\src\init.cpp
-;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 ICQ Uyarısı
 [ICQ Error]
@@ -947,7 +945,8 @@ Vekil sunucunuz yazdığınız kullanıcı adı ve parolayı kabul etmedi. Menu-
 Bağlanmaya çalıştığınız sunucu bulunamadı. Doğru yazdığınızdan emin olun Menu->Seçenekler->Ağ->ICQ.
 [error]
 hata
-;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[%d Files]
+%d dosya
 [The file transfer was aborted by the other user.]
 Kullanıcı dosya aktarımını iptal etti.
 [The file transfer failed: Proxy error]
@@ -958,18 +957,14 @@ Dosya aktarılamadı: Geçersiz istek
 Dosya aktarılamadı: Vekile ulaşılamadı
 [Failed to Initialize File Transfer. No valid files were specified.]
 Dosya aktarımı başlatılamadı. Geçerli bir dosya belirtilmedi.
-[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
-Dosyalar bir kerede göndermek için çok büyük. 4GB boyutundan büyük dosyalar ayrı ayrı gönderilebilir.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 Dosya aktarımı başlatılamadı. Yerel porta bağlanılamadı ve dosya vekiline ulaşılamadı.
 [Connection lost during file transfer.]
 Dosya aktarımı sırasında bağlantı kesildi.
 [File transfer negotiation failed for unknown reason.]
 Bilinmeyen bir nedenle dosya aktarımı iletişimi yapılamadı.
-;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <geçersiz>
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 Eniwetok; Kwajalein
 [GMT-11:30]
@@ -1070,6 +1065,8 @@ GMT+11:30
 GMT+12:00 Okland; Wellington; Fiji; Kamçatka; Marşal Ad.
 [Personal]
 Kişisel
+[Nickname]
+Kısa ad
 [First name]
 Ad
 [Last name]
@@ -1148,7 +1145,6 @@ Kişisel İlgi Alanları
 İlgi kategorisi 4
 [Interest areas 4]
 İlgi alanları 4
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 [The password does not match your current password. Check Caps Lock and try again.]
 Yazdığınız parola geçerli parolanız değil. Büyük harf kilidine bakıp tekrar deneyin.
 [Change ICQ Details]
@@ -1157,7 +1153,6 @@ ICQ detaylarını değiştir
 Yazdığınız iki parola aynı değil. Büyük harf kilidine bakıp tekrar deneyin.
 [The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
 ICQ sunucusu 8 karakterden uzun parolaları desteklemez. Lütfen daha kısa bir parola kullanın.
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 [<unremovable once applied>]
 <bir kere uygulandığında kaldırılamaz>
 [Unknown value]
@@ -1172,14 +1167,10 @@ Yükleniyor...%d%%
 Yüklendi
 [Upload FAILED]
 YÜKLENEMEDİ
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Şu anda ICQ ağına bağlı değilsiniz. Sunucudaki bilgilerinizi güncellemek için çevrimiçi olmalısınız.
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
 %u UIN için parolayı yazın:
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [ (DC Established)]
  (DC Kuruldu)
 [ScreenName:]

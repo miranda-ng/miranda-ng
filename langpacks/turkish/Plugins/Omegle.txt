@@ -5,14 +5,7 @@
 ;  Version: 0.1.2.0
 ;  Authors: Robert Pösel
 ;============================================================
-;file \protocols\Omegle\res\omegle.rc
-;file \protocols\Omegle\src\chat.cpp
-;file \protocols\Omegle\src\communication.cpp
-;file \protocols\Omegle\src\connection.cpp
 [Connecting...]
 Bağlanıyor...
-;file \protocols\Omegle\src\constants.h
-;file \protocols\Omegle\src\proto.cpp
 [Network]
 Ağ
-;file \protocols\Omegle\src\theme.cpp

@@ -5,8 +5,5 @@
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
-;file \plugins\CountryFlags\res\resource.rc
-;file \plugins\CountryFlags\src\extraimg.cpp
-;file \plugins\CountryFlags\src\options.cpp
 [Icons]
 Simgeler

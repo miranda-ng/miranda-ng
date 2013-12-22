@@ -5,12 +5,11 @@
 ;  Version: 0.1.0.2
 ;  Authors: bems
 ;============================================================
-;file \protocols\GTalkExt\res\settings.rc
-;file \protocols\GTalkExt\src\menu.cpp
-;file \protocols\GTalkExt\src\options.cpp
+[Background color]
+Art alan rengi
+[Text color]
+Yazı Rengi
 [Popups]
 Açılır Pencereler
 [Network]
 Ağ
-;file \protocols\GTalkExt\src\options.h
-;file \protocols\GTalkExt\src\tipper_items.cpp

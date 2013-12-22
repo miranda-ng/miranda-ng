@@ -5,14 +5,17 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
-;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]
 Tamam
+[Background color]
+Art alan rengi
+[Text color]
+Yazı Rengi
 [Use windows colors]
 Windows renklerini kullan
-;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [File]
 Dosya
-;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Error]
+Hata
 [Popups]
 Açılır Pencereler

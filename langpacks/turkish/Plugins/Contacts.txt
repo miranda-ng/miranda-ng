@@ -5,9 +5,10 @@
 ;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
-;file \plugins\ContactsPlus\res\contacts.rc
 [&Add]
 &Ekle
+[User &details]
+Kişi &detayları
 [&Send]
 &Gönder
 [Cancel]
@@ -18,12 +19,18 @@ Kapat
 Bir hata oldu. Protokol şu hatayı verdi:
 [Try again]
 Yeniden dene
+[Add to List]
+Listeye Ekle
 [User details]
 Kullanıcı Detayları
-;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]
 Kişiler
-;file \plugins\ContactsPlus\src\receive.cpp
+[Nick]
+Kısa ad
+[First Name]
+Ad
+[Last Name]
+Soyad
 [Add Contact Permanently to List]
 Kişiyi listeye kalıcı olarak ekle
 [View User's Details]
@@ -32,4 +39,3 @@ Kullanıcı Detaylarını Göster
 Kullanıcı Geçmişini Göster
 [User Menu]
 Kullanıcı Menüsü
-;file \plugins\ContactsPlus\src\send.cpp

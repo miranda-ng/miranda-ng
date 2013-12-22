@@ -5,7 +5,6 @@
 ;  Version: 1.0.12.4
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
-;file \plugins\SecureIM\res\resource.rc
 [sec]
 sn
 [Text]
@@ -22,23 +21,27 @@ Tamam
 İptal
 [Status]
 Durum
-;file \plugins\SecureIM\src\language.cpp
 [General]
 Genel
+[Nickname]
+Kısa ad
 [Name]
 Ad
+[ON]
+Açık
 [Off]
 Kapalı
-;file \plugins\SecureIM\src\loadicons.cpp
+[Disabled]
+kapalı
 [Contact List]
 Kişi Listesi
+[Contact Menu]
+Kişiler menüsü
 [Popups]
 Açılır Pencereler
-;file \plugins\SecureIM\src\main.cpp
 [Icons]
 Simgeler
-;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 Çalıştırılabilir Dosyalar
-;file \plugins\SecureIM\src\popupOptions.cpp
-;file \plugins\SecureIM\src\svcs_srmm.cpp
+[All files]
+Tüm Dosyalar

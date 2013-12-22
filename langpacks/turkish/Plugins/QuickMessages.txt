@@ -5,9 +5,5 @@
 ;  Version: 0.0.4.2
 ;  Authors: MaD_CLuSTeR
 ;============================================================
-;file \plugins\QuickMessages\res\quickmessages.rc
-;file \plugins\QuickMessages\src\main.cpp
-;file \plugins\QuickMessages\src\options.cpp
 [Message Sessions]
 İleti Oturumları
-;file \plugins\QuickMessages\src\Utils.cpp

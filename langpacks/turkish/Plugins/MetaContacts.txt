@@ -5,7 +5,6 @@
 ;  Version: 0.14.0.13
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
-;file \plugins\MetaContacts\res\MetaContacts.rc
 [&Cancel]
 İ&ptal
 [Name:]
@@ -22,8 +21,6 @@ Seçenekler
 Kişi Listesi
 [Default]
 Varsayılan
-;file \plugins\MetaContacts\src\addto.cpp
-;file \plugins\MetaContacts\src\edit.cpp
 [(Unknown Contact)]
 (Bilinmmeyen Kişi)
 [Yes]
@@ -34,22 +31,15 @@ Hayır
 Kişi
 [Protocol]
 Protokol
-;file \plugins\MetaContacts\src\icons.cpp
 [Edit]
 Değiştir
 [Remove]
 Sil
-;file \plugins\MetaContacts\src\metacontacts.h
-;file \plugins\MetaContacts\src\meta_main.cpp
-;file \plugins\MetaContacts\src\meta_menu.cpp
 [Error]
 Hata
-;file \plugins\MetaContacts\src\meta_options.cpp
-;file \plugins\MetaContacts\src\meta_services.cpp
 [Message from %s]
 %s ileti gönderdi
 [General]
 Genel
 [History]
 Geçmiş
-;file \plugins\MetaContacts\src\meta_utils.cpp

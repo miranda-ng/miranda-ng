@@ -1,11 +1,10 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: Keep Status
+;  Plugin: Keep status
 ;  Version: 0.9.0.1
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 Genel
 [Close]
@@ -20,6 +19,8 @@ Profile
 Ayarla
 [OK]
 Tamam
+[Command line:]
+Komut satırı:
 [Other]
 Diğer
 [Background color]
@@ -44,15 +45,12 @@ Durum
 Sil
 [seconds]
 saniye
-;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
-;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]
 Protokol
 [Advanced]
 Gelişmiş
 [Popups]
 Açılır Pencereler
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Bilgisayar başından kalktım: %time% 
 [Give it up, I'm not in!]
@@ -75,6 +73,5 @@ Telefondayım
 Mmm... yemek.
 [idleeeeeeee]
 Boştayım
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Closing in %d]
 Kapanıyor %d

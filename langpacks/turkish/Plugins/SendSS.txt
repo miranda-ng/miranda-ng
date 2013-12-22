@@ -5,7 +5,6 @@
 ;  Version: 0.8.3.1
 ;  Authors: Merlin
 ;============================================================
-;file \plugins\SendScreenshotPlus\res\resource.rc
 [OK]
 Tamam
 [None]
@@ -18,35 +17,24 @@ Emekçiler >
 &Kapat
 [Edit]
 Değiştir
-;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [An unknown error has occurred.]
 Bilinmeyen bir hata oldu.
 [Error]
 Hata
-;file \plugins\SendScreenshotPlus\src\CSend.h
-;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
-;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
-;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
-;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
-;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Yes]
 Evet
 [No]
 Hayır
 [Ignore]
 Yoksay
-;file \plugins\SendScreenshotPlus\src\global.h
-;file \plugins\SendScreenshotPlus\src\Main.cpp
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
 [Default]
 Varsayılan
 [Help]
 Yardım
 [Apply]
 Uygula
-;file \plugins\SendScreenshotPlus\src\mir_icolib.h
-;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
-;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
+[Down arrow]
+Aşağı Ok
 [Window]
 Pencere
 [E-mail]

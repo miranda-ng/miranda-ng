@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
-;file \protocols\Tlen\res\tlen.rc
 [Username:]
 Kullanıcı Adı:
 [Password:]
@@ -40,18 +39,26 @@ Değişiklikleri kaydet
 Kısa Ad:
 [Age:]
 Yaş:
+[to]
+Kime
+[In]
+in
 [From:]
 Kimden:
-;file \protocols\Tlen\src\tlen_iqid.cpp
-;file \protocols\Tlen\src\tlen_opt.cpp
+[Group chats]
+Grup Sohbetleri
+[Request authorization]
+İzin iste
+[Grant authorization]
+İzin ver
+[%d Files]
+%d dosya
 [General]
 Genel
 [Advanced]
 Gelişmiş
 [Network]
 Ağ
-;file \protocols\Tlen\src\tlen_svc.cpp
-;file \protocols\Tlen\src\tlen_thread.cpp
 [Tlen Connection Error]
 Tlen Bağlantı Hatası
 [Windows Server 2003]
@@ -72,18 +79,7 @@ Windows ME
 Windows
 [E-mail]
 E-posta
-;file \protocols\Tlen\src\tlen_ws.cpp
-;file \protocols\Tlen\src\tlen.cpp
-[Group chats]
-Grup Sohbetleri
-[Request authorization]
-İzin iste
-[Grant authorization]
-İzin ver
-;file \protocols\Tlen\src\tlen_file.cpp
-;file \protocols\Tlen\src\tlen_muc.cpp
-;file \protocols\Tlen\src\tlen_picture.cpp
-;file \protocols\Tlen\src\tlen_userinfo.cpp
-;file \protocols\Tlen\src\tlen_voice.cpp
+[none]
+Yok
 [Default]
 Varsayılan

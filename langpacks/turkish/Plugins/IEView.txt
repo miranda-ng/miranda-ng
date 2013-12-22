@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.0
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
-;file \plugins\IEView\res\ieview.rc
 [Copy]
 Kopyala
 [Select All]
@@ -24,17 +23,14 @@ Saniyeleri göster
 Uzun tarih biçimi kullan
 [Use relative timestamp]
 Bğıl zaman damgası kullan
-;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Incoming File Transfer]
 Size Dosya Gönderildi
-;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Bilinmmeyen Kişi)
-;file \plugins\IEView\src\IEView.cpp
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[ERROR]
+Hata
 [Error]
 Hata
-;file \plugins\IEView\src\Options.cpp
 [General]
 Genel
 [Message Log]
@@ -49,10 +45,7 @@ Varsayılan
 İleti Oturumları
 [All Files]
 Tüm Dosyalar
-;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [File sent]
 Dosya gönderildi
 [File received]
 Dosya alındı
-;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
-;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

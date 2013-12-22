@@ -51,10 +51,8 @@ Sol tık
 Sağ tık
 [Precision]
 Hassasiyet
+[none]
+Yok
 [Color]
 Renk
-;file \plugins\Watrack\myshows\myshows.rc
-;file \plugins\Watrack\lastfm\i_last_api.inc
-;file \plugins\Watrack\lastfm\i_last_dlg.inc
-;file \plugins\Watrack\proto\proto.pas
 ;other strings

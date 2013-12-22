@@ -5,7 +5,6 @@
 ;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
-;file \plugins\SeenPlugin\res\resource.rc
 [Text]
 Yazı
 [Online]
@@ -30,33 +29,28 @@ Görünmez
 Çevrimdışı
 [OK]
 Tamam
-;file \plugins\SeenPlugin\src\history.cpp
 [View User's Details]
 Kullanıcı Detaylarını Göster
 [User Menu]
 Kullanıcı Menüsü
-;file \plugins\SeenPlugin\src\main.cpp
-;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <bilinmiyor>
 [<none>]
 <hiçbiri>
-;file \plugins\SeenPlugin\src\options.cpp
 [Contacts]
 Kişiler
 [Popups]
 Açılır Pencereler
-;file \plugins\SeenPlugin\src\seen.h
 [seconds]
 saniye
+[nick]
+Kısa ad
 [Group]
 Grup
 [Status]
 Durum
 [Protocol]
 Protokol
-;file \plugins\SeenPlugin\src\userinfo.cpp
-;file \plugins\SeenPlugin\src\utils.cpp
 [Idle]
 Boşta
 [Unknown]

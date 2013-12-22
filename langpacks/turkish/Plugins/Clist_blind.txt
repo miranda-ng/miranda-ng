@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
-;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Kişiyi sil
 [Are you sure you want to delete %s?]
@@ -142,6 +141,8 @@ Bölümler eşit genişlikte olsun
 Panellerde eğim göster
 [Show resize grip indicator]
 Yeniden boyutlandır kavrama simgesini göster
+[&Main menu]
+Ana &menü
 [E&xit]
 Çı&kış
 [&Status]
@@ -194,7 +195,6 @@ Ye&ni Alt Grup
 Grubu Yeniden Adlandı&r
 [&Delete Group]
 &Grubu Sil
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Odaklanmamış
 [Offline]
@@ -219,8 +219,5 @@ Yemekte
 Telefonda
 [List]
 Liste
-;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 Genel
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp

@@ -5,16 +5,15 @@
 ;  Version: 0.3.0.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
-;file \plugins\ListeningTo\res\resource.rc
 [Contacts]
 Kişiler
 [seconds]
 saniye
-;file \plugins\ListeningTo\src\listeningto.cpp
-;file \plugins\ListeningTo\src\options.cpp
+[<Unknown>]
+<bilinmiyor>
 [Status]
 Durum
 [General]
 Genel
-;file \plugins\ListeningTo\src\players\generic.cpp
-;file \plugins\ListeningTo\src\players\wmp.cpp
+[Format]
+biçim

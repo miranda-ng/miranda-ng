@@ -5,7 +5,6 @@
 ;  Version: 0.0.1.11
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Kısa Adımı Ayarla
 [Nickname:]
@@ -76,8 +75,8 @@ Avatarımı Ayarla...
 Kısa Adımı Ayarla...
 [Set My Status Message...]
 Durumumu Ayarla...
-;file \plugins\MyDetails\src\data.cpp
-;file \plugins\MyDetails\src\frame.cpp
+[Nickname]
+Kısa ad
 [Status]
 Durum
 [My Details]
@@ -94,13 +93,9 @@ Detaylarımı Göster
 %s için durum iletim...
 [Hide My Details]
 Ddetaylarımı Gizle
-;file \plugins\MyDetails\src\mydetails.cpp
 [Set My Nickname for %s]
 %s için kısa adımı ayarla
 [Set My Status Message for %s]
 %s için durum iletimi ayarla
-[Show next account]
-
 [Contact List]
 Kişi Listesi
-;file \plugins\MyDetails\src\options.cpp

@@ -5,7 +5,6 @@
 ;  Version: 2.10.0.2
 ;  Authors: Miranda NG Development Team
 ;============================================================
-;file \plugins\Scriver\res\resource.rc
 [Automatically pop up the window when]
 Şu olduğunda pencere açılsın
 [and stay minimized]
@@ -48,6 +47,8 @@ Adları göster
 İleti yazısına yeni satırla başla
 [Indent text]
 Yazıyı içe al
+[events]
+Etkinlikler
 [Typing Notification Options]
 Yazıyor Uyarısı Seçenekleri
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -76,6 +77,12 @@ Yeniden dene
 İptal
 [Message Session]
 İleti Oturumu
+[User &details]
+Kişi &detayları
+[&Add]
+&Ekle
+[&Quote]
+A&lıntı
 [Send To All Tabs]
 Tüm Sekmelere Gönder
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -86,6 +93,8 @@ Bu kutu için seçenekleri hatırla
 Evet
 [No]
 Hayır
+[&Underline]
+&Alt çizgi
 [Show these events only:]
 Yalnız şu olayları göster:
 [Actions]
@@ -190,7 +199,8 @@ Liste
 &Günlüğü temizle
 [Co&py all]
 Tümünü ko&pyala
-;file \plugins\Scriver\src\globals.cpp
+[Add contact]
+Kişi Ekle
 [User's details]
 Kullanıcı detayları
 [User's history]
@@ -283,10 +293,8 @@ Vurgula (10x10)
 Bilgi (10x10)
 [Group chats]
 Grup sohbetleri
-;file \plugins\Scriver\src\input.cpp
 [Messaging]
 İletişim
-;file \plugins\Scriver\src\msgdialog.cpp
 [Add Contact]
 Kişi Ekle
 [User Menu]
@@ -319,12 +327,10 @@ Gönderiliyor: %d ileti kaldı...
 %s bir ileti yazıyor...
 [Last message received on %s at %s.]
 %s tarafından son ileti %s saatinde alındı
-;file \plugins\Scriver\src\msglog.cpp
 [File sent]
 Dosya gönderildi
 [File received]
 Dosya alındı
-;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Genel
 [Outgoing messages]
@@ -425,7 +431,6 @@ Balon açılır pencere göster (desteklenmeyen sistem)
 İleti Oturumları
 [Typing Notify]
 Yazıyor Uyarısı
-;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 %s ileti gönderdi
 [%s is typing a message]
@@ -442,20 +447,14 @@ Alınan (Odaklanmamış Pencere)
 Alınan (Yeni Oturum)
 [Outgoing]
 Gönderilen
-;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Bilinmeyen bir hata oldu.
-;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 Her zaman üstte
-;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 İleti zaman aşımına uğradığından gönderilemedi.
-;file \plugins\Scriver\src\chat\clist.cpp
 [Join chat]
 Sohbete katıl
-;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
 [%s has joined]
 %s katıldı
 [You have joined %s]
@@ -478,12 +477,10 @@ Artık %s olarak biliniyorsunuz
 %s tarafından ayarlandı
 [<invalid>]
 <geçersiz>
-;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 &Katıl
 [&Leave]
 Ayrı&l
-;file \plugins\Scriver\src\chat\options.cpp
 [Prefix all events with a timestamp]
 Tüm etkinliklerin önüne zaman damgası ekle
 [Only prefix with timestamp if it has changed]
@@ -530,7 +527,7 @@ Vurgular için sistem tepsisinde simge göster
 Ayrılan kullanıcılar için sistem tepsisinde simge göster
 [Show icon in tray for users kicking other user]
 Başka birini tekmeleyen kişiler için sistem bildirim alanında simge göster
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 Uyarılar için sistem tepsisinde simge göster
 [Show icon in tray for name changes]
 Ad değişiklikleri için sistem tepsisinde simge göster
@@ -558,8 +555,6 @@ Kişi adını değiştirdi
 Kişi bir uyarı gönderdi
 [The topic has been changed]
 Başlık değiştirildi
-;file \plugins\Scriver\src\chat\services.cpp
-;file \plugins\Scriver\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s %s içine dikkatinizi çekiyor
 [%s speaks in %s]
@@ -584,7 +579,6 @@ Başlık değişti %s
 %s tekmelendi %s (%s)
 [Notice from %s: %s]
 %s dikkat çekti: %s
-;file \plugins\Scriver\src\chat\window.cpp
 [Insert a smiley]
 Gülen yüz ekle
 [Make the text bold (CTRL+B)]

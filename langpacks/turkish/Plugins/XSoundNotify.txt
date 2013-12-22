@@ -5,7 +5,6 @@
 ;  Version: 1.0.1.2
 ;  Authors: Roman Torsten
 ;============================================================
-;file \plugins\XSoundNotify\res\XSoundNotify.rc
 [Nick:]
 Kısa Ad:
 [Reset]
@@ -14,6 +13,5 @@ Sıfırla
 Tamam
 [Cancel]
 İptal
-;file \plugins\XSoundNotify\src\xsn_main.cpp
 [Sounds]
 Sesler

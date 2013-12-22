@@ -5,11 +5,12 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\Alarms\res\resource.rc
 [Delete]
 Sil
 [Edit]
 Değiştir
+[Row Height:]
+Satır yüksekliği:
 [OK]
 Tamam
 [Cancel]
@@ -18,22 +19,18 @@ Tamam
 Açıklama:
 [Actions]
 Eylemler
+[Date and Time]
+Tarih ve saat
 [&Delete]
 &Sil
 [&Options...]
 &Seçenekler...
-;file \plugins\Alarms\src\alarmlist.cpp
-;file \plugins\Alarms\src\alarms.cpp
-;file \plugins\Alarms\src\alarm_win.cpp
 [Background]
 Art Alan
 [Window]
 Pencere
-;file \plugins\Alarms\src\frame.cpp
 [Frames]
 Çerçeveler
-;file \plugins\Alarms\src\icons.cpp
-;file \plugins\Alarms\src\options.cpp
 [Error]
 Hata
 [Events]

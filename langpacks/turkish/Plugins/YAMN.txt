@@ -5,25 +5,24 @@
 ;  Version: 0.1.2.6
 ;  Authors: y_b, tweety, majvan
 ;============================================================
-;file \plugins\YAMN\res\YAMN.rc
 [OK]
 Tamam
 [Description:]
 Açıklama:
 [Copyright:]
 Haklar:
-[Message]
-İleti
-[Password:]
-Parola:
-[Port:]
-Port:
-[Default]
-Varsayılan
 [Name:]
 Ad:
+[Port:]
+Port:
+[Password:]
+Parola:
+[Default]
+Varsayılan
 [Options]
 Seçenekler
+[Message]
+İleti
 [Cancel]
 İptal
 [Offline]
@@ -48,21 +47,14 @@ Yemekte
 Art alan rengi
 [Text color]
 Yazı rengi
-;file \plugins\YAMN\src\main.cpp
-;file \plugins\YAMN\src\main.h
-;file \plugins\YAMN\src\services.cpp
 [Nick]
 Kısa ad
-;file \plugins\YAMN\src\browser\badconnect.cpp
-;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[Copy All]
+Tümünü kopyala
 [Select All]
 Tümünü Seç
 [Size]
 Boyut
-;file \plugins\YAMN\src\mails\mime.cpp
-;file \plugins\YAMN\src\proto\netlib.cpp
-;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
-;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Ağ
 [Accounts]
@@ -75,3 +67,5 @@ Eklentiler
 Açılır Pencereler
 [All Files]
 Tüm Dosyalar
+[Failed]
+BAŞARISIZ

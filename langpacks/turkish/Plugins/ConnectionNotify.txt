@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.5
 ;  Authors: MaKaR
 ;============================================================
-;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Background]
 Art Alan
 [Text]
@@ -14,9 +13,9 @@ Yazı
 Tamam
 [Cancel]
 İptal
-;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Show]
+Göster
 [Status]
 Durum
 [Plugins]
 Eklentiler
-;file \plugins\ConnectionNotify\src\filter.cpp

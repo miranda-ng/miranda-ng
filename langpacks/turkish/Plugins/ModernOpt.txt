@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.0
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
-;file \plugins\ModernOpt\res\resource.rc
 [Miranda NG Options]
 Miranda NG Ayarları
 [OK]
@@ -16,7 +15,6 @@ Tamam
 Uygula
 [Advanced]
 Gelişmiş
-;file \plugins\ModernOpt\src\modernopt.cpp
 [Accounts]
 Hesaplar
 [Style]

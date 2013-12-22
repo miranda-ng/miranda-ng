@@ -2,10 +2,9 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
-;file \plugins\AVS\res\avs.rc
 [Set default picture]
 Varsayılan resmi ayarla
 [Delete default picture]
@@ -64,10 +63,32 @@ Renk farkı
 Ayarla
 [Use per protocol avatars]
 Her protokolün kendi avatarını kullan
-;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Protokollerin farklı avatarları var
-;file \plugins\AVS\src\main.cpp
+[Global avatar]
+Genel Avatar
+[My Avatars]
+Avatarlarım
+[My Global Avatar Cache]
+Genel Avatar Ara Belleğim
+[Set avatar options for %s]
+%s için avatar seçeneklerini ayarla
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Resim dosyası diskten silinsin mi (yeniden yüklemek gerekebilir, ancak yerel resimler silinecek)?
+[Reset contact picture]
+Kişi resmini sıfırla
+[Contact has no avatar]
+Kişinin resmi yok
+[Contacts]
+Kişiler
+[Contact Avatars]
+Kişi Avatarları
+[Own Avatars]
+Kendi Avatarlarım
+[Are you sure you want to remove your avatar?]
+Avatarınızı silmek istediğinize emin misiniz?
+[Global Avatar]
+Genel Avatar
 [All Files]
 Tüm Dosyalar
 [Windows Bitmaps]
@@ -86,26 +107,3 @@ XML Dosyaları
 Avatar'ımı Ayarla
 [Set My Avatar for %s]
 %s için Avatar'ımı ayarla
-[My Avatars]
-Avatarlarım
-[My Global Avatar Cache]
-Genel Avatar Ara Belleğim
-[Contacts]
-Kişiler
-[Contact Avatars]
-Kişi Avatarları
-[Own Avatars]
-Kendi Avatarlarım
-;file \plugins\AVS\src\options.cpp
-[Set avatar options for %s]
-%s için avatar seçeneklerini ayarla
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Resim dosyası diskten silinsin mi (yeniden yüklemek gerekebilir, ancak yerel resimler silinecek)?
-[Reset contact picture]
-Kişi resmini sıfırla
-[Contact has no avatar]
-Kişinin resmi yok
-[Are you sure you want to remove your avatar?]
-Avatarınızı silmek istediğinize emin misiniz?
-[Global Avatar]
-Genel Avatar

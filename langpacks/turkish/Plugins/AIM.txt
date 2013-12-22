@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
-;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM Kullanıcı Detayları
 [Password:]
@@ -40,6 +39,8 @@ Yadımcı Kişi Olarak Maskele
 Port:
 [Reset]
 Sıfırla
+[Manage Server Groups]
+Sunucu gruplarını yönet
 [Save Profile]
 Profili Kaydet
 [AIM Instant Idler]
@@ -64,24 +65,22 @@ Boşta
 İ&ptal
 [E-mail]
 E-posta
+[Save Changes]
+Değişiklikleri kaydet
 [&Deny]
 Re&ddet
 [Message]
 İleti
-;file \protocols\AimOscar\src\chat.cpp
-;file \protocols\AimOscar\src\error.cpp
-;file \protocols\AimOscar\src\file.cpp
-;file \protocols\AimOscar\src\links.cpp
-;file \protocols\AimOscar\src\popup.cpp
-;file \protocols\AimOscar\src\proto.cpp
-;file \protocols\AimOscar\src\server.cpp
+[User &details]
+Kişi &detayları
 [[Auto-Response]:]
 Kendiliğinden-Yanıt:
 [No information has been provided by the server.]
 Sunucudan hiç bilgi gelmedi.
-;file \protocols\AimOscar\src\theme.cpp
 [Profile]
 Profile
+[Background Color]
+Art alan rengi
 [Bold]
 Koyu
 [Manage Account]
@@ -94,7 +93,5 @@ Hesabı Yönet
 Profili Oku
 [Add To Server List]
 Sunucudaki Listeye Ekle
-;file \protocols\AimOscar\src\ui.cpp
 [Network]
 Ağ
-;file \protocols\AimOscar\src\utility.cpp
