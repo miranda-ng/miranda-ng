@@ -79,21 +79,18 @@ _ignore(10, (LIST<TCHAR>::FTSortFunc)_tcscmp)
 
 CPsHdr::~CPsHdr() 
 {
-	int i;
-
 	// delete data
-	for (i = 0 ; i < _ignore.getCount(); i++)
-	{
-		if (_ignore[i]) mir_free(_ignore[i]);
-	}
+	for (int i = 0 ; i < _ignore.getCount(); i++)
+		mir_free(_ignore[i]);
+
 	// delete the list
 	_ignore.destroy();
 }
 
 void CPsHdr::Free_pPages() 
 {
-	for ( int i = 0 ; i < _numPages; i++)
-		if (_pPages[i]) delete _pPages[i];
+	for (int i = 0; i < _numPages; i++)
+		delete _pPages[i];
 	_numPages = 0;
 	MIR_FREE(_pPages);
 }
@@ -131,10 +128,9 @@ private:
 
 		// check if icq is online
 		if (!IsProtoOnline((*_pPd)->szModuleName)) {
-			TCHAR		szMsg[MAX_PATH];
-			LPTSTR	ptszProto;
+			LPTSTR ptszProto = mir_a2t((*_pPd)->szModuleName);
 
-			ptszProto = mir_a2t((*_pPd)->szModuleName);
+			TCHAR	szMsg[MAX_PATH];
 			mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("Protocol '%s' is offline"), ptszProto);
 			mir_free(ptszProto);
 
@@ -289,11 +285,10 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 			return 1;
 		}
 
-		hDefIcon = IcoLib_GetIcon(ICO_TREE_DEFAULT);
+		hDefIcon = Skin_GetIcon(ICO_TREE_DEFAULT);
 		if (!hDefIcon)
-		{
 			hDefIcon = (HICON) LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, metrics.x, metrics.y, 0);
-		}
+
 		// add the default icon to imagelist
 		ImageList_AddIcon(psh._hImages, hDefIcon);
 
@@ -576,11 +571,10 @@ void DlgContactInfoInitTreeIcons()
 		metrics.x = GetSystemMetrics(SM_CXSMICON);
 		metrics.y = GetSystemMetrics(SM_CYSMICON);
 		if (psh._hImages = ImageList_Create(metrics.x, metrics.y, ILC_COLOR32 | ILC_MASK, 0, 1)) {
-			HICON hDefIcon = IcoLib_GetIcon(ICO_TREE_DEFAULT);
+			HICON hDefIcon = Skin_GetIcon(ICO_TREE_DEFAULT);
 			if (!hDefIcon)
-			{
 				hDefIcon = (HICON) LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, metrics.x, metrics.y, 0);
-			}
+
 			// add the default icon to imagelist
 			ImageList_AddIcon(psh._hImages, hDefIcon);
 		}
@@ -756,7 +750,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			//
 			// set icons
 			//
-			SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(ICO_COMMON_MAIN));
+			SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_MAIN, TRUE));
 			DlgProc(hDlg, HM_RELOADICONS, NULL, NULL);
 
 			//
@@ -1237,12 +1231,12 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 		
 		if (hCtrl = GetDlgItem(hDlg, BTN_IMPORT)) {
-			hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
+			hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
 			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 			SetWindowText(hCtrl, hIcon ? _T("") : _T("I"));
 		}
 		if (hCtrl = GetDlgItem(hDlg, BTN_EXPORT)) {
-			hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
+			hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
 			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 			SetWindowText(hCtrl, hIcon ? _T("") : _T("E"));
 		}

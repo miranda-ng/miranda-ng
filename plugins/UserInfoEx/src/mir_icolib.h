@@ -130,7 +130,6 @@ void	IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL* pCtrl, BYTE numCtrls);
 
 HANDLE IcoLib_RegisterIconHandle(LPSTR szName, LPSTR szDescription, LPSTR szSection, int idIcon, int Size);
 HICON	IcoLib_RegisterIcon(LPSTR szName, LPSTR szDescription, LPSTR szSection, int idIcon, int Size);
-HICON	IcoLib_GetIcon(LPCSTR pszIcon);
 
 void	IcoLib_LoadModule();
 

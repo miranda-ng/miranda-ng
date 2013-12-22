@@ -332,7 +332,7 @@ class CAnnivList
 				}
 
 				// set icons
-				hIcon = IcoLib_GetIcon(ICO_DLG_ANNIVERSARY);
+				hIcon = Skin_GetIcon(ICO_DLG_ANNIVERSARY);
 				SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)hIcon);
 				SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 

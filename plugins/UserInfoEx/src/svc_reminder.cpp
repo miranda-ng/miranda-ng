@@ -146,19 +146,19 @@ static HICON GetAnnivIcon(const CEvent &evt)
 	switch (evt._eType) {
 	case CEvent::BIRTHDAY:
 		if (evt._wDaysLeft > 9)
-			hIcon = IcoLib_GetIcon(ICO_RMD_DTBX);
+			hIcon = Skin_GetIcon(ICO_RMD_DTBX);
 		else {
 			mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dtb%u", evt._wDaysLeft);
-			hIcon = IcoLib_GetIcon(szIcon);
+			hIcon = Skin_GetIcon(szIcon);
 		}
 		break;
 
 	case CEvent::ANNIVERSARY:
 		if (evt._wDaysLeft > 9)
-			hIcon = IcoLib_GetIcon(ICO_RMD_DTAX);
+			hIcon = Skin_GetIcon(ICO_RMD_DTAX);
 		else {
 			mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dta%u", evt._wDaysLeft);
-			hIcon = IcoLib_GetIcon(szIcon);
+			hIcon = Skin_GetIcon(szIcon);
 		}
 	}
 	return hIcon;
@@ -319,12 +319,12 @@ static void NotifyFlashCListIcon(HANDLE hContact, const CEvent &evt)
 	switch (evt._eType) {
 	case CEvent::BIRTHDAY:
 		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("%s has %s today."), DB::Contact::DisplayName(hContact), TranslateT("Birthday"));
-		cle.hIcon = IcoLib_GetIcon(ICO_COMMON_BIRTHDAY);
+		cle.hIcon = Skin_GetIcon(ICO_COMMON_BIRTHDAY);
 		break;
 
 	case CEvent::ANNIVERSARY:
 		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("%s has %s today."), DB::Contact::DisplayName(hContact), TranslateT("an anniversary"));
-		cle.hIcon = IcoLib_GetIcon(ICO_COMMON_ANNIVERSARY);
+		cle.hIcon = Skin_GetIcon(ICO_COMMON_ANNIVERSARY);
 		break;
 
 	default:
@@ -747,7 +747,7 @@ static INT_PTR BackupBirthdayService(WPARAM wParam, LPARAM lParam)
 		MSGBOX mBox;
 		mBox.cbSize = sizeof(MSGBOX);
 		mBox.hParent = NULL;
-		mBox.hiLogo = IcoLib_GetIcon(ICO_COMMON_BIRTHDAY);
+		mBox.hiLogo = Skin_GetIcon(ICO_COMMON_BIRTHDAY);
 		mBox.uType = MB_ICON_INFO;
 		mBox.ptszTitle = TranslateT("Update custom birthday");
 		mBox.ptszMsg = TranslateT("Backing up and syncing all birthdays complete!");

@@ -177,18 +177,6 @@ static void IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
 }
 
 /**
- * Returns a icon, identified by a name
- *
- * @param	pszIcon	- name of the icon
- *
- * @return:	HICON if the icon is loaded, NULL otherwise
- **/
-HICON IcoLib_GetIcon(LPCSTR pszIcon)
-{
-	return (pszIcon) ? Skin_GetIcon(pszIcon) : NULL;
-}
-
-/**
  * Set the icon of each control in the list
  *
  * @param	hDlg		- handle to the dialog control, that owns the controls
@@ -200,7 +188,7 @@ HICON IcoLib_GetIcon(LPCSTR pszIcon)
 void IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL* pCtrl, BYTE numCtrls)
 {
 	for (int i = 0; i < numCtrls; i++) {
-		HICON	hIcon = IcoLib_GetIcon(pCtrl[i].pszIcon);
+		HICON	hIcon = Skin_GetIcon(pCtrl[i].pszIcon);
 		if (pCtrl[i].idCtrl)	{
 			HWND hCtrl = GetDlgItem(hDlg, pCtrl[i].idCtrl);
 			switch (pCtrl[i].Message) {

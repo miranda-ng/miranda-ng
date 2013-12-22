@@ -53,26 +53,22 @@ static FORCEINLINE void MoveCtrl(HWND hDlg, int idCtrl, int dx, int dy, int dw, 
 }
 
 /**
- * This function loads the icon to display for the current message.
- *
- * @param	pMsgBox		- pointer to a MSGBOX structure, with information about the message to display.
- *
- * @retval	HICON		- The function returns an icon to display with the message.
- * @retval	NULL		- There is no icon for the message.
- **/
+* This function loads the icon to display for the current message.
+*
+* @param	pMsgBox		- pointer to a MSGBOX structure, with information about the message to display.
+*
+* @retval	HICON		- The function returns an icon to display with the message.
+* @retval	NULL		- There is no icon for the message.
+**/
+
 static HICON MsgLoadIcon(LPMSGBOX pMsgBox)
 {
 	HICON hIcon;
 
 	// load the desired status icon
-	switch (pMsgBox->uType & MB_ICONMASK)
-	{
-	
-	// custom icon defined by caller function
-	case MB_ICON_OTHER:
-		{
-			hIcon = pMsgBox->hiMsg;
-		}
+	switch (pMsgBox->uType & MB_ICONMASK) {
+	case MB_ICON_OTHER: // custom icon defined by caller function
+		hIcon = pMsgBox->hiMsg;
 		break;
 	
 	// default windows icons
@@ -88,9 +84,7 @@ static HICON MsgLoadIcon(LPMSGBOX pMsgBox)
 
 	// no icon
 	default:
-		{
-			hIcon = NULL;
-		}
+		hIcon = NULL;
 	}
 	return hIcon;
 }
@@ -113,77 +107,56 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 	pa.wParam = MAKEWORD(id, BN_CLICKED);
 	pa.lParam = 0;
 
-	switch (id)
-	{
+	switch (id) {
 	case IDOK:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Ok");
-		}
+		pa.lchIcon = Skin_GetIcon(ICO_BTN_OK);
+		mir_strcpy(pa.lpzTitle, MODNAME"/Ok");
 		break;
 
 	case IDCLOSE:
 	case IDCANCEL:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Cancel");
-		}
+		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		mir_strcpy(pa.lpzTitle, MODNAME"/Cancel");
 		break;
 
 	case IDABORT:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Abort");
-		}
+		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		mir_strcpy(pa.lpzTitle, MODNAME"/Abort");
 		break;
 
 	case IDRETRY:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Retry");
-		}
+		pa.lchIcon = Skin_GetIcon(ICO_BTN_UPDATE);
+		mir_strcpy(pa.lpzTitle, MODNAME"/Retry");
 		break;
 
 	case IDIGNORE:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Ignore");
-		}
+		pa.lchIcon = Skin_GetIcon(ICO_BTN_OK);
+		mir_strcpy(pa.lpzTitle, MODNAME"/Ignore");
 		break;
 
 	case IDYES:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Yes");
-		}
+		pa.lchIcon = Skin_GetIcon(ICO_BTN_OK);
+		mir_strcpy(pa.lpzTitle, MODNAME"/Yes");
 		break;
 
 	case IDNO:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
-			mir_strcpy(pa.lpzTitle, MODNAME"/No");
-		}
+		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		mir_strcpy(pa.lpzTitle, MODNAME"/No");
 		break;
-	
+
 	case IDHELP:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Help");
-		}
+		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		mir_strcpy(pa.lpzTitle, MODNAME"/Help");
 		break;
 
 	case IDALL:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
-			mir_strcpy(pa.lpzTitle, MODNAME"/All");
-		}
+		pa.lchIcon = Skin_GetIcon(ICO_BTN_OK);
+		mir_strcpy(pa.lpzTitle, MODNAME"/All");
 		break;
 
 	case IDNONE:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
-			mir_strcpy(pa.lpzTitle, MODNAME"/None");
-		}
+		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		mir_strcpy(pa.lpzTitle, MODNAME"/None");
 	}
 }
 
@@ -204,21 +177,17 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 	static int retNon = IDNONE;
 	static int retCancel = IDCANCEL;
 
-	switch (uMsg)
-	{
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
 			LPMSGBOX pMsgBox = (LPMSGBOX)lParam;
-
-			if (PtrIsValid(pMsgBox))
-			{
+			if (PtrIsValid(pMsgBox)) {
 				int icoWidth = 0;
 				int InfoBarHeight = 0;
 				HFONT hNormalFont;
 
 				hNormalFont = (HFONT)SendDlgItemMessage(hDlg, TXT_NAME, WM_GETFONT, 0, 0);
-				if (pMsgBox->uType & MB_INFOBAR)
-				{
+				if (pMsgBox->uType & MB_INFOBAR) {
 					LOGFONT lf;
 
 					// set bold font for name in description area
@@ -231,32 +200,26 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					// set infobar's logo icon
 					SendDlgItemMessage(hDlg, ICO_DLGLOGO, STM_SETIMAGE, IMAGE_ICON, 
-						(LPARAM)((pMsgBox->hiLogo) ? pMsgBox->hiLogo : IcoLib_GetIcon(ICO_DLG_DETAILS)));
+						(LPARAM)((pMsgBox->hiLogo) ? pMsgBox->hiLogo : Skin_GetIcon(ICO_DLG_DETAILS, TRUE)));
 
 					// anable headerbar
 					ShowWindow(GetDlgItem(hDlg, TXT_NAME), SW_SHOW);
 					ShowWindow(GetDlgItem(hDlg, ICO_DLGLOGO), SW_SHOW);
 				}
-				else
-				{
+				else {
 					RECT rc;
 					GetClientRect(GetDlgItem(hDlg, TXT_NAME), &rc);
 					InfoBarHeight = rc.bottom;
 					
 					if (pMsgBox->hiLogo)
-					{
 						SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)pMsgBox->hiLogo);
-					}
 				}
 
 				// draw the desired status icon
 				HICON hIcon = MsgLoadIcon(pMsgBox);
 				if (hIcon)
-				{
 					SendDlgItemMessage(hDlg, ICO_MSGDLG, STM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-				}
-				else
-				{
+				else {
 					RECT ws;
 					GetWindowRect(GetDlgItem(hDlg, ICO_MSGDLG), &ws);
 					icoWidth = ws.right - ws.left;
@@ -264,33 +227,26 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				}
 
 				// resize the messagebox and reorganize the buttons
-				if (HDC hDC = GetDC(hDlg))
-				{
+				if (HDC hDC = GetDC(hDlg)) {
 					POINT mpt = {0,0};
 					RECT	ws = {0,0,0,0};
-					int	 txtWidth,
-								txtHeight,
-								needX, needY;
+					int   txtWidth, txtHeight, needX, needY;
 					RECT	rcDlg;
 					SIZE	ts;
 					LPTSTR h, rs;
 
 					SelectObject(hDC, hNormalFont);
 
-					for (rs = h = pMsgBox->ptszMsg, txtHeight = 0, txtWidth = 0; h; h++) 
-					{
-						if (*h == '\n' || *h == '\0') 
-						{
+					for (rs = h = pMsgBox->ptszMsg, txtHeight = 0, txtWidth = 0; h; h++) {
+						if (*h == '\n' || *h == '\0') {
 							GetTextExtentPoint32(hDC, rs, h - rs, &ts);
 							if (ts.cx > txtWidth)
-							{
 								txtWidth = ts.cx;
-							}
+
 							txtHeight += ts.cy;
 							if (*h == '\0')
-							{
 								break;
-							}
+
 							rs = h + 1;
 						}
 					}
@@ -305,11 +261,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					rcDlg.top -= (needY-InfoBarHeight)/2; rcDlg.bottom += (needY-InfoBarHeight)/2;
 					
 					// resize dialog window
-					MoveWindow(hDlg, 
-								rcDlg.left, rcDlg.top, 
-								rcDlg.right - rcDlg.left, 
-								rcDlg.bottom - rcDlg.top,
-								FALSE);
+					MoveWindow(hDlg, rcDlg.left, rcDlg.top, rcDlg.right - rcDlg.left, rcDlg.bottom - rcDlg.top, FALSE);
 					ClientToScreen(hDlg, &mpt);
 
 					MoveCtrl(hDlg, STATIC_WHITERECT, -mpt.x, -mpt.y, needX, needY - InfoBarHeight); 
@@ -322,180 +274,144 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					//
 					// Do pushbutton positioning
 					//
-					{
-						RECT rcOk, rcAll, rcNone, rcCancel;
-						LONG okWidth, caWidth, allWidth, noneWidth, dlgMid;
+					RECT rcOk, rcAll, rcNone, rcCancel;
 
-						// get button rectangles
-						GetWindowRect(GetDlgItem(hDlg, IDOK), &rcOk);
-						OffsetRect(&rcOk, -mpt.x, -mpt.y + needY - InfoBarHeight);
+					// get button rectangles
+					GetWindowRect(GetDlgItem(hDlg, IDOK), &rcOk);
+					OffsetRect(&rcOk, -mpt.x, -mpt.y + needY - InfoBarHeight);
 
-						GetWindowRect(GetDlgItem(hDlg, IDALL), &rcAll);
-						OffsetRect(&rcAll, -mpt.x, -mpt.y + needY - InfoBarHeight);
+					GetWindowRect(GetDlgItem(hDlg, IDALL), &rcAll);
+					OffsetRect(&rcAll, -mpt.x, -mpt.y + needY - InfoBarHeight);
 
-						GetWindowRect(GetDlgItem(hDlg, IDNONE), &rcNone);
-						OffsetRect(&rcNone, -mpt.x, -mpt.y + needY - InfoBarHeight);
+					GetWindowRect(GetDlgItem(hDlg, IDNONE), &rcNone);
+					OffsetRect(&rcNone, -mpt.x, -mpt.y + needY - InfoBarHeight);
 
-						GetWindowRect(GetDlgItem(hDlg, IDCANCEL), &rcCancel);
-						OffsetRect(&rcCancel, -mpt.x, -mpt.y + needY - InfoBarHeight);
+					GetWindowRect(GetDlgItem(hDlg, IDCANCEL), &rcCancel);
+					OffsetRect(&rcCancel, -mpt.x, -mpt.y + needY - InfoBarHeight);
 						 
-						okWidth = rcOk.right - rcOk.left;
-						allWidth = rcAll.right - rcAll.left;
-						noneWidth = rcNone.right - rcNone.left;
-						caWidth = rcCancel.right - rcCancel.left;
-						dlgMid = (rcDlg.right - rcDlg.left) / 2;
+					LONG okWidth = rcOk.right - rcOk.left;
+					LONG allWidth = rcAll.right - rcAll.left;
+					LONG noneWidth = rcNone.right - rcNone.left;
+					LONG caWidth = rcCancel.right - rcCancel.left;
+					LONG dlgMid = (rcDlg.right - rcDlg.left) / 2;
 
-						// load button configuration
-						switch (MB_TYPE(pMsgBox->uType))
-						{
+					// load button configuration
+					switch (MB_TYPE(pMsgBox->uType)) {
+					case MB_OK:
+						rcOk.left = dlgMid - (okWidth / 2);
+						rcOk.right = rcOk.left + okWidth;
+						ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
+						break;
 
-						case MB_OK:
-							{
-								rcOk.left = dlgMid - (okWidth / 2);
-								rcOk.right = rcOk.left + okWidth;
-								ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
-							}
-							break;
+					case MB_OKCANCEL:
+						retOk = IDRETRY;
+						SetDlgItemText(hDlg, IDOK, LPGENT("OK"));
+						retCancel = IDCANCEL;
+						SetDlgItemText(hDlg, IDCANCEL, LPGENT("Cancel"));
+						rcOk.left = dlgMid - okWidth - 10;
+						rcOk.right = rcOk.left + okWidth;
+						rcCancel.left = dlgMid + 10;
+						rcCancel.right = rcCancel.left + caWidth;
+						ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
+						ShowWindow(GetDlgItem(hDlg, IDCANCEL), SW_SHOW);
+						break;
 
-						case MB_OKCANCEL:
-							{
-								retOk = IDRETRY;
-								SetDlgItemText(hDlg, IDOK, LPGENT("OK"));
-								retCancel = IDCANCEL;
-								SetDlgItemText(hDlg, IDCANCEL, LPGENT("Cancel"));
-								rcOk.left = dlgMid - okWidth - 10;
-								rcOk.right = rcOk.left + okWidth;
-								rcCancel.left = dlgMid + 10;
-								rcCancel.right = rcCancel.left + caWidth;
-								ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
-								ShowWindow(GetDlgItem(hDlg, IDCANCEL), SW_SHOW);
-							}
-							break;
+					case MB_RETRYCANCEL:
+						retOk = IDRETRY;
+						SetDlgItemText(hDlg, IDOK, LPGENT("Retry"));
+						retCancel = IDCANCEL;
+						SetDlgItemText(hDlg, IDCANCEL, LPGENT("Cancel"));
+						rcOk.left = dlgMid - okWidth - 10;
+						rcOk.right = rcOk.left + okWidth;
+						rcCancel.left = dlgMid + 10;
+						rcCancel.right = rcCancel.left + caWidth;
+						ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
+						ShowWindow(GetDlgItem(hDlg, IDCANCEL), SW_SHOW);
+						break;
 
-						case MB_RETRYCANCEL:
-							{
-								retOk = IDRETRY;
-								SetDlgItemText(hDlg, IDOK, LPGENT("Retry"));
-								retCancel = IDCANCEL;
-								SetDlgItemText(hDlg, IDCANCEL, LPGENT("Cancel"));
-								rcOk.left = dlgMid - okWidth - 10;
-								rcOk.right = rcOk.left + okWidth;
-								rcCancel.left = dlgMid + 10;
-								rcCancel.right = rcCancel.left + caWidth;
-								ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
-								ShowWindow(GetDlgItem(hDlg, IDCANCEL), SW_SHOW);
-							}
-							break;
+					case MB_YESNO:
+						retOk = IDYES;
+						SetDlgItemText(hDlg, IDOK, LPGENT("Yes"));
+						retCancel = IDNO;
+						SetDlgItemText(hDlg, IDCANCEL, LPGENT("No"));
+						rcOk.left = dlgMid - okWidth - 10;
+						rcOk.right = rcOk.left + okWidth;
+						rcCancel.left = dlgMid + 10;
+						rcCancel.right = rcCancel.left + caWidth;
+						ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
+						ShowWindow(GetDlgItem(hDlg, IDCANCEL), SW_SHOW);
+						break;
 
-						case MB_YESNO:
-							{
-								retOk = IDYES;
-								SetDlgItemText(hDlg, IDOK, LPGENT("Yes"));
-								retCancel = IDNO;
-								SetDlgItemText(hDlg, IDCANCEL, LPGENT("No"));
-								rcOk.left = dlgMid - okWidth - 10;
-								rcOk.right = rcOk.left + okWidth;
-								rcCancel.left = dlgMid + 10;
-								rcCancel.right = rcCancel.left + caWidth;
-								ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
-								ShowWindow(GetDlgItem(hDlg, IDCANCEL), SW_SHOW);
-							}
-							break;
+					case MB_ABORTRETRYIGNORE:
+						retOk = IDABORT;
+						SetDlgItemText(hDlg, IDOK, LPGENT("Abord"));
+						retAll = IDABORT;
+						SetDlgItemText(hDlg, IDALL, LPGENT("Retry"));
+						retCancel = IDCANCEL;
+						SetDlgItemText(hDlg, IDCANCEL, LPGENT("Ignore"));
+						rcAll.left = dlgMid - (allWidth / 2);
+						rcAll.right = rcAll.left + allWidth;
+						rcOk.left = rcAll.left - okWidth - 5;
+						rcOk.right = rcOk.left + okWidth;
+						rcCancel.left = rcAll.right + 5;
+						rcCancel.right = rcCancel.left + caWidth;
+						ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
+						ShowWindow(GetDlgItem(hDlg, IDALL), SW_SHOW);
+						ShowWindow(GetDlgItem(hDlg, IDCANCEL), SW_SHOW);
+						break;
 
-						case MB_ABORTRETRYIGNORE:
-							{
-								retOk = IDABORT;
-								SetDlgItemText(hDlg, IDOK, LPGENT("Abord"));
-								retAll = IDABORT;
-								SetDlgItemText(hDlg, IDALL, LPGENT("Retry"));
-								retCancel = IDCANCEL;
-								SetDlgItemText(hDlg, IDCANCEL, LPGENT("Ignore"));
-								rcAll.left = dlgMid - (allWidth / 2);
-								rcAll.right = rcAll.left + allWidth;
-								rcOk.left = rcAll.left - okWidth - 5;
-								rcOk.right = rcOk.left + okWidth;
-								rcCancel.left = rcAll.right + 5;
-								rcCancel.right = rcCancel.left + caWidth;
-								ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
-								ShowWindow(GetDlgItem(hDlg, IDALL), SW_SHOW);
-								ShowWindow(GetDlgItem(hDlg, IDCANCEL), SW_SHOW);
-							}
-							break;
+					case MB_YESNOCANCEL:
+						retOk = IDYES;
+						SetDlgItemText(hDlg, IDOK, LPGENT("Yes"));
+						retAll = IDNO;
+						SetDlgItemText(hDlg, IDALL, LPGENT("No"));
+						retCancel = IDCANCEL;
+						SetDlgItemText(hDlg, IDCANCEL, LPGENT("Cancel"));
+						rcAll.left = dlgMid - (allWidth / 2);
+						rcAll.right = rcAll.left + allWidth;
+						rcOk.left = rcAll.left - okWidth - 5;
+						rcOk.right = rcOk.left + okWidth;
+						rcCancel.left = rcAll.right + 5;
+						rcCancel.right = rcCancel.left + caWidth;
+						ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
+						ShowWindow(GetDlgItem(hDlg, IDALL), SW_SHOW);
+						ShowWindow(GetDlgItem(hDlg, IDCANCEL), SW_SHOW);
+						break;
 
-						case MB_YESNOCANCEL:
-							{
-								retOk = IDYES;
-								SetDlgItemText(hDlg, IDOK, LPGENT("Yes"));
-								retAll = IDNO;
-								SetDlgItemText(hDlg, IDALL, LPGENT("No"));
-								retCancel = IDCANCEL;
-								SetDlgItemText(hDlg, IDCANCEL, LPGENT("Cancel"));
-								rcAll.left = dlgMid - (allWidth / 2);
-								rcAll.right = rcAll.left + allWidth;
-								rcOk.left = rcAll.left - okWidth - 5;
-								rcOk.right = rcOk.left + okWidth;
-								rcCancel.left = rcAll.right + 5;
-								rcCancel.right = rcCancel.left + caWidth;
-								ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
-								ShowWindow(GetDlgItem(hDlg, IDALL), SW_SHOW);
-								ShowWindow(GetDlgItem(hDlg, IDCANCEL), SW_SHOW);
-							}
-							break;
+					case MB_YESALLNO:
+						retOk = IDYES;
+						SetDlgItemText(hDlg, IDOK, LPGENT("Yes"));
+						retAll = IDALL;
+						SetDlgItemText(hDlg, IDALL, LPGENT("All"));
+						//retNon = IDNONE;
+						SetDlgItemText(hDlg, IDNONE, LPGENT("None"));
+						retCancel = IDNO;
+						SetDlgItemText(hDlg, IDCANCEL, LPGENT("No"));
+						rcCancel.right = rcDlg.right - rcDlg.left - 10;
+						rcCancel.left = rcCancel.right - caWidth;
+						rcNone.right = rcCancel.left - 5; 
+						rcNone.left = rcNone.right - noneWidth;
+						rcAll.right = rcNone.left - 5;
+						rcAll.left = rcAll.right - allWidth;
+						rcOk.right = rcAll.left - 5;
+						rcOk.left = rcOk.right - okWidth;
+						// show buttons
+						ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
+						ShowWindow(GetDlgItem(hDlg, IDALL), SW_SHOW);
+						ShowWindow(GetDlgItem(hDlg, IDNONE), SW_SHOW);
+						ShowWindow(GetDlgItem(hDlg, IDCANCEL), SW_SHOW);
+						break;
 
-						case MB_YESALLNO:
-							{
-								retOk = IDYES;
-								SetDlgItemText(hDlg, IDOK, LPGENT("Yes"));
-								retAll = IDALL;
-								SetDlgItemText(hDlg, IDALL, LPGENT("All"));
-								//retNon = IDNONE;
-								SetDlgItemText(hDlg, IDNONE, LPGENT("None"));
-								retCancel = IDNO;
-								SetDlgItemText(hDlg, IDCANCEL, LPGENT("No"));
-								rcCancel.right = rcDlg.right - rcDlg.left - 10;
-								rcCancel.left = rcCancel.right - caWidth;
-								rcNone.right = rcCancel.left - 5; 
-								rcNone.left = rcNone.right - noneWidth;
-								rcAll.right = rcNone.left - 5;
-								rcAll.left = rcAll.right - allWidth;
-								rcOk.right = rcAll.left - 5;
-								rcOk.left = rcOk.right - okWidth;
-								// show buttons
-								ShowWindow(GetDlgItem(hDlg, IDOK), SW_SHOW);
-								ShowWindow(GetDlgItem(hDlg, IDALL), SW_SHOW);
-								ShowWindow(GetDlgItem(hDlg, IDNONE), SW_SHOW);
-								ShowWindow(GetDlgItem(hDlg, IDCANCEL), SW_SHOW);
-							}
-							break;
+					default:
+						rcOk.left = dlgMid - (okWidth / 2);
+						rcOk.right = rcOk.left + okWidth;
+					}
 
-						default:
-							{
-								rcOk.left = dlgMid - (okWidth / 2);
-								rcOk.right = rcOk.left + okWidth;
-							}
-						}
-						// move ok button
-						MoveWindow(GetDlgItem(hDlg, IDOK), 
-							rcOk.left, rcOk.top, 
-							rcOk.right - rcOk.left, rcOk.bottom - rcOk.top,
-							FALSE);
-						// move all button
-						MoveWindow(GetDlgItem(hDlg, IDALL), 
-							rcAll.left, rcAll.top, 
-							rcAll.right - rcAll.left, rcAll.bottom - rcAll.top,
-							FALSE);
-						// move none button
-						MoveWindow(GetDlgItem(hDlg, IDNONE), 
-							rcNone.left, rcNone.top, 
-							rcNone.right - rcNone.left, rcNone.bottom - rcNone.top,
-							FALSE);
-						// move cancel button
-						MoveWindow(GetDlgItem(hDlg, IDCANCEL), 
-							rcCancel.left, rcCancel.top, 
-							rcCancel.right - rcCancel.left, rcCancel.bottom - rcCancel.top,
-							FALSE);
-					} // end* Do pushbutton positioning
-				} // end* resize the messagebox and reorganize the buttons
+					MoveWindow(GetDlgItem(hDlg, IDOK), rcOk.left, rcOk.top, rcOk.right - rcOk.left, rcOk.bottom - rcOk.top, FALSE);
+					MoveWindow(GetDlgItem(hDlg, IDALL), rcAll.left, rcAll.top, rcAll.right - rcAll.left, rcAll.bottom - rcAll.top, FALSE);
+					MoveWindow(GetDlgItem(hDlg, IDNONE), rcNone.left, rcNone.top, rcNone.right - rcNone.left, rcNone.bottom - rcNone.top, FALSE);
+					MoveWindow(GetDlgItem(hDlg, IDCANCEL), rcCancel.left, rcCancel.top, rcCancel.right - rcCancel.left, rcCancel.bottom - rcCancel.top, FALSE);
+				}
 
 				// set text's
 				SetWindowText(hDlg, pMsgBox->ptszTitle);
@@ -504,61 +420,51 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				TranslateDialogDefault(hDlg);
 				return TRUE;
-			} // end* PtrIsValid(pMsgBox)
-		} // end* WM_INITDIALOG:
+			}
+		}
 		break;
 
 	case WM_CTLCOLORSTATIC:
-		{
-			switch (GetWindowLongPtr((HWND)lParam, GWLP_ID)) 
-			{
-			case STATIC_WHITERECT:
-			case ICO_DLGLOGO:
-			case ICO_MSGDLG:
-			case TXT_MESSAGE:
-			case TXT_NAME:
-				{
-					SetTextColor((HDC)wParam, GetSysColor(COLOR_WINDOWTEXT));
-					return GetSysColor(COLOR_WINDOW);
-				}
-			}
+		switch (GetWindowLongPtr((HWND)lParam, GWLP_ID)) {
+		case STATIC_WHITERECT:
+		case ICO_DLGLOGO:
+		case ICO_MSGDLG:
+		case TXT_MESSAGE:
+		case TXT_NAME:
+			SetTextColor((HDC)wParam, GetSysColor(COLOR_WINDOWTEXT));
+			return GetSysColor(COLOR_WINDOW);
 		}
 		break;
 
 	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam)) 
-			{
-			case IDOK:
-				EndDialog(hDlg, retOk);
-				break;
-			case IDCANCEL:
-				EndDialog(hDlg, retCancel);
-				break;
-			case IDALL:
-				EndDialog(hDlg, retAll);
-				break;
-			case IDNONE:
-				EndDialog(hDlg, retNon);
-			}
+		switch (LOWORD(wParam)) {
+		case IDOK:
+			EndDialog(hDlg, retOk);
+			break;
+		case IDCANCEL:
+			EndDialog(hDlg, retCancel);
+			break;
+		case IDALL:
+			EndDialog(hDlg, retAll);
+			break;
+		case IDNONE:
+			EndDialog(hDlg, retNon);
 		}
 		break;
 
 	case WM_DESTROY:
-		{
-			DeleteObject((HFONT)SendDlgItemMessage(hDlg, TXT_NAME, WM_GETFONT, 0, 0));
-		}
+		DeleteObject((HFONT)SendDlgItemMessage(hDlg, TXT_NAME, WM_GETFONT, 0, 0));
 		break;
 	}
 	return FALSE;
 }
 
-
 /**
- * Dummi modal MsgBox for popup,
- * this set call function in wait stait and do not freece miranda main thread
- * the window is outside the desktop
- */
+* Dummi modal MsgBox for popup,
+* this set call function in wait stait and do not freece miranda main thread
+* the window is outside the desktop
+*/
+
 static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
@@ -655,15 +561,16 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 }
 
 /**
- * This is the message procedure for popup
- *
- * @param	hDlg		- window handle
- * @param	uMsg		- message to handle
- * @param	wParam		- message specific parameter
- * @param	lParam		- message specific parameter
- *
- * @return	TRUE, FALSE, IDOK, IDYES, IDALL, IDNO or IDCANCEL
- **/
+* This is the message procedure for popup
+*
+* @param	hDlg		- window handle
+* @param	uMsg		- message to handle
+* @param	wParam		- message specific parameter
+* @param	lParam		- message specific parameter
+*
+* @return	TRUE, FALSE, IDOK, IDYES, IDALL, IDNO or IDCANCEL
+**/
+
 static LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
@@ -704,14 +611,15 @@ static LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 }
 
 /**
- * This is the service function for external plugins to use the nice messagebox 
- *
- * @param	wParam		- HANDLE hContact which can display an avatar for popups
- * @param	lParam		- MSGBOX structure holding parameters
- *
- * @return	The function returns the ID of the clicked button (IDOK, IDCANCEL, ...)
- *			or -1 on error.
- **/
+* This is the service function for external plugins to use the nice messagebox 
+*
+* @param	wParam		- HANDLE hContact which can display an avatar for popups
+* @param	lParam		- MSGBOX structure holding parameters
+*
+* @return	The function returns the ID of the clicked button (IDOK, IDCANCEL, ...)
+*			or -1 on error.
+**/
+
 INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
 {
 	LPMSGBOX pMsgBox = (LPMSGBOX)lParam;
@@ -732,10 +640,11 @@ INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
 }
 
 /**
- * name:	MsgBox
- * desc:	calls a messagebox 
- * param:	
- **/
+* name:	MsgBox
+* desc:	calls a messagebox 
+* param:	
+**/
+
 INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInfo, LPTSTR pszFormat, ...)
 {
 	TCHAR tszMsg[MAX_SECONDLINE];
@@ -748,7 +657,7 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInf
 	MSGBOX mb = {0};
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
-	mb.hiLogo = IcoLib_GetIcon(ICO_COMMON_MAIN);
+	mb.hiLogo = Skin_GetIcon(ICO_COMMON_MAIN);
 	mb.hiMsg = NULL;
 	mb.ptszTitle = TranslateTS(pszTitle);
 	mb.ptszInfoText = TranslateTS(pszInfo);
@@ -758,10 +667,11 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInf
 }
 
 /**
- * name:	MsgErr
- * desc:	calls a messagebox 
- * param:	
- **/
+* name:	MsgErr
+* desc:	calls a messagebox 
+* param:	
+**/
+
 INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 {
 	TCHAR	tszTitle[MAX_SECONDLINE], tszMsg[MAX_SECONDLINE];
@@ -775,7 +685,7 @@ INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 	MSGBOX mb = {0};
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
-	mb.hiLogo = IcoLib_GetIcon(ICO_COMMON_MAIN);
+	mb.hiLogo = Skin_GetIcon(ICO_COMMON_MAIN);
 	mb.hiMsg = NULL;
 	mb.ptszTitle = tszTitle;
 	mb.ptszMsg = tszMsg;

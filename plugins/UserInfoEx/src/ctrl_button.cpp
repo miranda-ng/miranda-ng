@@ -358,7 +358,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 	LPBTNCTRL bct = (LPBTNCTRL)GetWindowLongPtr(hwndBtn, 0);
 	
 	switch (uMsg) {
-		case WM_NCCREATE:
+	case WM_NCCREATE:
 		{
 			LPCREATESTRUCT cs = (LPCREATESTRUCT)lParam;
 
@@ -371,77 +371,75 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			bct->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 			bct->dwStyle = cs->style;
 			if (cs->style & MBS_DOWNARROW)
-				bct->arrow = IcoLib_GetIcon(ICO_BTN_DOWNARROW);
+				bct->arrow = Skin_GetIcon(ICO_BTN_DOWNARROW);
 			LoadTheme(bct);
 			SetWindowLongPtr(hwndBtn, 0, (LONG_PTR)bct);
 			if (cs->lpszName) SetWindowText(hwndBtn, cs->lpszName);
 			return TRUE;
 		}
-		case WM_DESTROY:
-			if (bct) {
-				EnterCriticalSection(&csTips);
-				if (hwndToolTips) {
-					TOOLINFO ti;
+	case WM_DESTROY:
+		if (bct) {
+			EnterCriticalSection(&csTips);
+			if (hwndToolTips) {
+				TOOLINFO ti;
 
-					ZeroMemory(&ti, sizeof(ti));
-					ti.cbSize = sizeof(ti);
-					ti.uFlags = TTF_IDISHWND;
-					ti.hwnd = bct->hwnd;
-					ti.uId = (UINT_PTR)bct->hwnd;
-					if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
-						SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
-					}
-					if (SendMessage(hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
-						DestroyWindow(hwndToolTips);
-						hwndToolTips = NULL;
-					}
+				ZeroMemory(&ti, sizeof(ti));
+				ti.cbSize = sizeof(ti);
+				ti.uFlags = TTF_IDISHWND;
+				ti.hwnd = bct->hwnd;
+				ti.uId = (UINT_PTR)bct->hwnd;
+				if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
+					SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
 				}
-				LeaveCriticalSection(&csTips);
-				DestroyTheme(bct);
-				mir_free(bct);
+				if (SendMessage(hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
+					DestroyWindow(hwndToolTips);
+					hwndToolTips = NULL;
+				}
 			}
-			SetWindowLongPtr(hwndBtn, 0, NULL);
-			break;
-		case WM_SETTEXT:
-			bct->cHot = 0;
-			if ((LPTSTR)lParam) {
-				LPTSTR tmp = (LPTSTR)lParam;
-				
-				while (*tmp) {
-					if (*tmp=='&' && *(tmp+1)) {
-						bct->cHot = _totlower(*(tmp+1));
-						break;
-					}
-					tmp++;
+			LeaveCriticalSection(&csTips);
+			DestroyTheme(bct);
+			mir_free(bct);
+		}
+		SetWindowLongPtr(hwndBtn, 0, NULL);
+		break;
+	case WM_SETTEXT:
+		bct->cHot = 0;
+		if ((LPTSTR)lParam) {
+			LPTSTR tmp = (LPTSTR)lParam;
+
+			while (*tmp) {
+				if (*tmp == '&' && *(tmp + 1)) {
+					bct->cHot = _totlower(*(tmp + 1));
+					break;
 				}
+				tmp++;
+			}
+			InvalidateRect(bct->hwnd, NULL, TRUE);
+		}
+		break;
+	case WM_SYSKEYUP:
+		if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == _totlower((TCHAR)wParam)) {
+			if (bct->dwStyle & MBS_PUSHBUTTON) {
+				if (bct->pbState) bct->pbState = 0;
+				else bct->pbState = 1;
 				InvalidateRect(bct->hwnd, NULL, TRUE);
 			}
-			break;
-		case WM_SYSKEYUP:
-			if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == _totlower((TCHAR)wParam)) {
-				if (bct->dwStyle & MBS_PUSHBUTTON) {
-					if (bct->pbState) bct->pbState = 0;
-					else bct->pbState = 1;
-					InvalidateRect(bct->hwnd, NULL, TRUE);
-				}
-				else
-					SetFocus(hwndBtn);
-				SendMessage(GetParent(hwndBtn), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndBtn), BN_CLICKED), (LPARAM)hwndBtn);
-				return 0;
-			}
-			break;
-		case WM_THEMECHANGED: 
-		{
-			// themed changed, reload theme object
-			LoadTheme(bct);
-			InvalidateRect(bct->hwnd, NULL, TRUE); // repaint it
-			break;
+			else
+				SetFocus(hwndBtn);
+			SendMessage(GetParent(hwndBtn), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndBtn), BN_CLICKED), (LPARAM)hwndBtn);
+			return 0;
 		}
-		case WM_SETFONT: // remember the font so we can use it later
-			bct->hFont = (HFONT)wParam; // maybe we should redraw?
-			break;
-		case WM_NCPAINT:
-		case WM_PAINT:
+		break;
+	case WM_THEMECHANGED: 
+		// themed changed, reload theme object
+		LoadTheme(bct);
+		InvalidateRect(bct->hwnd, NULL, TRUE); // repaint it
+		break;
+	case WM_SETFONT: // remember the font so we can use it later
+		bct->hFont = (HFONT)wParam; // maybe we should redraw?
+		break;
+	case WM_NCPAINT:
+	case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
 			HDC hdcPaint;
@@ -470,51 +468,49 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 				DeleteDC(hdcMem);				
 				EndPaint(hwndBtn, &ps);
 			}
-			return 0;
 		}
-		case BM_SETIMAGE:
-			if (wParam == IMAGE_ICON) {
-				bct->hIcon = (HICON)lParam;
-				bct->hBitmap = NULL;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-			else if (wParam == IMAGE_BITMAP) {
-				bct->hIcon = NULL;
-				bct->hBitmap = (HBITMAP)lParam;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-			else if (wParam == NULL && lParam == NULL) {
-				bct->hIcon = NULL;
-				bct->hBitmap = NULL;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-			break;
-		case BM_SETCHECK:
-			if (!(bct->dwStyle & MBS_PUSHBUTTON)) break;
-			if (wParam == BST_CHECKED) {
-				bct->pbState = 1;
-								bct->stateId = PBS_PRESSED;
-			}
-			else if (wParam == BST_UNCHECKED) {
-				bct->pbState = 0;
-								bct->stateId = PBS_NORMAL;
-			}
+		return 0;
+	case BM_SETIMAGE:
+		if (wParam == IMAGE_ICON) {
+			bct->hIcon = (HICON)lParam;
+			bct->hBitmap = NULL;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
-			break;
-		case BM_GETCHECK:
-			if (bct->dwStyle & MBS_PUSHBUTTON) return bct->pbState ? BST_CHECKED : BST_UNCHECKED;
-			return 0;
-		case BUTTONSETDEFAULT:
-			bct->defbutton = (wParam != 0);
+		}
+		else if (wParam == IMAGE_BITMAP) {
+			bct->hIcon = NULL;
+			bct->hBitmap = (HBITMAP)lParam;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
-			break;
-		case BUTTONADDTOOLTIP:
-		{
-			if (!wParam) break;
-						EnterCriticalSection(&csTips);
-			if (!hwndToolTips) {
+		}
+		else if (wParam == NULL && lParam == NULL) {
+			bct->hIcon = NULL;
+			bct->hBitmap = NULL;
+			InvalidateRect(bct->hwnd, NULL, TRUE);
+		}
+		break;
+	case BM_SETCHECK:
+		if (!(bct->dwStyle & MBS_PUSHBUTTON)) break;
+		if (wParam == BST_CHECKED) {
+			bct->pbState = 1;
+			bct->stateId = PBS_PRESSED;
+		}
+		else if (wParam == BST_UNCHECKED) {
+			bct->pbState = 0;
+			bct->stateId = PBS_NORMAL;
+		}
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+	case BM_GETCHECK:
+		if (bct->dwStyle & MBS_PUSHBUTTON) return bct->pbState ? BST_CHECKED : BST_UNCHECKED;
+		return 0;
+	case BUTTONSETDEFAULT:
+		bct->defbutton = (wParam != 0);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+	case BUTTONADDTOOLTIP:
+		if (wParam) {			
+			EnterCriticalSection(&csTips);
+			if (!hwndToolTips)
 				hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
-			}
 
 			if (lParam == MBBF_UNICODE) {
 				TOOLINFOW ti;
@@ -548,82 +544,82 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 				ti.lpszText=(LPSTR)wParam;
 				SendMessage(hwndToolTips, TTM_ADDTOOLA, 0, (LPARAM)&ti);
 			}
-						LeaveCriticalSection(&csTips);
-			break;
+			LeaveCriticalSection(&csTips);
 		}
-		case BUTTONTRANSLATE:
+		break;
+	case BUTTONTRANSLATE:
 		{
 			TCHAR szButton[MAX_PATH];
 			GetWindowText(bct->hwnd, szButton, MAX_PATH);
 			SetWindowText(bct->hwnd, TranslateTS(szButton));
-			break;
 		}
-		case WM_SETFOCUS: // set keybord bFocus and redraw
-			bct->bFocus = 1;
+		break;
+	case WM_SETFOCUS: // set keybord bFocus and redraw
+		bct->bFocus = 1;
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+	case WM_KILLFOCUS: // kill bFocus and redraw
+		bct->bFocus = 0;
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+	case WM_WINDOWPOSCHANGED:
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+	case WM_ENABLE: // windows tells us to enable/disable
+		bct->stateId = wParam ? PBS_NORMAL : PBS_DISABLED;
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+	case WM_MOUSELEAVE: // faked by the WM_TIMER
+		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
+			bct->stateId = PBS_NORMAL;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
-			break;
-		case WM_KILLFOCUS: // kill bFocus and redraw
-			bct->bFocus = 0;
+		}
+		break;
+	case WM_LBUTTONDOWN:
+		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
+			bct->stateId = PBS_PRESSED;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
-			break;
-		case WM_WINDOWPOSCHANGED:
-			InvalidateRect(bct->hwnd, NULL, TRUE);
-			break;
-		case WM_ENABLE: // windows tells us to enable/disable
-			bct->stateId = wParam ? PBS_NORMAL : PBS_DISABLED;
-			InvalidateRect(bct->hwnd, NULL, TRUE);
-			break;
-		case WM_MOUSELEAVE: // faked by the WM_TIMER
-			if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
-				bct->stateId = PBS_NORMAL;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-			break;
-		case WM_LBUTTONDOWN:
-			if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
-				bct->stateId = PBS_PRESSED;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-			break;
-		case WM_LBUTTONUP:
-			if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
-				BYTE bPressed = bct->stateId == PBS_PRESSED;
+		}
+		break;
+	case WM_LBUTTONUP:
+		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
+			BYTE bPressed = bct->stateId == PBS_PRESSED;
 
-				if (bct->dwStyle & MBS_PUSHBUTTON) {
-					if (bct->pbState) bct->pbState = 0;
-					else bct->pbState = 1;
-				}
-				bct->stateId = PBS_HOT;
-
-				// Tell your daddy you got clicked, if mouse is still over the button.
-				if ((bct->dwStyle & MBS_PUSHBUTTON) || bPressed)
-					SendMessage(GetParent(hwndBtn), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndBtn), BN_CLICKED), (LPARAM)hwndBtn);
-				InvalidateRect(bct->hwnd, NULL, TRUE);
+			if (bct->dwStyle & MBS_PUSHBUTTON) {
+				if (bct->pbState) bct->pbState = 0;
+				else bct->pbState = 1;
 			}
-			break;
-		case WM_MOUSEMOVE:
-			if (bct->stateId == PBS_NORMAL) {
-				bct->stateId = PBS_HOT;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-			// Call timer, used to start cheesy TrackMouseEvent faker
-			SetTimer(hwndBtn, BUTTON_POLLID, BUTTON_POLLDELAY, NULL);
-			break;
-		case WM_TIMER: // use a timer to check if they have did a mouseout
-						if (wParam == BUTTON_POLLID) {
-					RECT rc;
-					POINT pt;
+			bct->stateId = PBS_HOT;
 
-					GetWindowRect(hwndBtn, &rc);
-					GetCursorPos(&pt);
-					if (!PtInRect(&rc, pt)) { // mouse must be gone, trigger mouse leave
-						PostMessage(hwndBtn, WM_MOUSELEAVE, 0, 0L);
-						KillTimer(hwndBtn, BUTTON_POLLID);
-					}
-						}
-			break;
-		case WM_ERASEBKGND:
-			return 1;
+			// Tell your daddy you got clicked, if mouse is still over the button.
+			if ((bct->dwStyle & MBS_PUSHBUTTON) || bPressed)
+				SendMessage(GetParent(hwndBtn), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndBtn), BN_CLICKED), (LPARAM)hwndBtn);
+			InvalidateRect(bct->hwnd, NULL, TRUE);
+		}
+		break;
+	case WM_MOUSEMOVE:
+		if (bct->stateId == PBS_NORMAL) {
+			bct->stateId = PBS_HOT;
+			InvalidateRect(bct->hwnd, NULL, TRUE);
+		}
+		// Call timer, used to start cheesy TrackMouseEvent faker
+		SetTimer(hwndBtn, BUTTON_POLLID, BUTTON_POLLDELAY, NULL);
+		break;
+	case WM_TIMER: // use a timer to check if they have did a mouseout
+		if (wParam == BUTTON_POLLID) {
+			RECT rc;
+			POINT pt;
+
+			GetWindowRect(hwndBtn, &rc);
+			GetCursorPos(&pt);
+			if (!PtInRect(&rc, pt)) { // mouse must be gone, trigger mouse leave
+				PostMessage(hwndBtn, WM_MOUSELEAVE, 0, 0L);
+				KillTimer(hwndBtn, BUTTON_POLLID);
+			}
+		}
+		break;
+	case WM_ERASEBKGND:
+		return 1;
 	}
 	return DefWindowProc(hwndBtn, uMsg, wParam, lParam);
 }

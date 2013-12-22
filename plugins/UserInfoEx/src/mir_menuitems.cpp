@@ -100,7 +100,7 @@ void RebuildContact()
 		//cascade all
 		mi.position = 1000050000;
 		mi.popupPosition = 1000050000;
-		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
+		mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
 		mi.pszName = LPGEN(MODULELONGNAME);
 		mhRoot = Menu_AddContactMenuItem(&mi);
 		hMenuItem[item++] = mhRoot;
@@ -110,7 +110,7 @@ void RebuildContact()
 		//cascade Ex/Import
 		mi.position = 1000050100;
 		mi.popupPosition = 1000050100;
-		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
+		mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
 		mi.pszName = LPGEN("Ex-/Import contact");
 		mhExIm = Menu_AddContactMenuItem(&mi);
 		hMenuItem[item++] = mhExIm;
@@ -128,7 +128,7 @@ void RebuildContact()
 		mi.pszService = MS_USERINFO_SHOWDIALOG;
 		mi.pszName = LPGEN("User &details");
 		mi.position = 1000050000;
-		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
+		mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
 		mi.hotKey = MAKELPARAM(VK_F3, MOD_ALT);
 		hMenuItem[item++] = Menu_AddContactMenuItem(&mi);
 		mi.hotKey = NULL;
@@ -142,14 +142,14 @@ void RebuildContact()
 		mi.pszService = MS_USERINFO_VCARD_EXPORT;
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export User Details");
 		mi.position = 1000050200;
-		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
+		mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
 		hMenuItem[item++] = Menu_AddContactMenuItem(&mi);
 
 		// Import
 		mi.pszService = MS_USERINFO_VCARD_IMPORT;
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import User Details");
 		mi.position = 1000050300;
-		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
+		mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
 		hMenuItem[item++] = Menu_AddContactMenuItem(&mi);
 	}
 }
@@ -198,7 +198,7 @@ void RebuildMain()
 			//cascade all
 			mi.position = 500050000;
 			mi.popupPosition = 500050000;
-			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
+			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = LPGEN(MODULELONGNAME);
 			mhRoot = Menu_AddMainMenuItem(&mi);
 			hMenuItem[item++] = mhRoot;
@@ -208,7 +208,7 @@ void RebuildMain()
 			//cascade Ex/Import
 			mi.position = 500050000;
 			mi.popupPosition = 500050000;
-			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
+			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Ex-/Import contact");
 			mhExIm = Menu_AddMainMenuItem(&mi);
 			hMenuItem[item++] = mhExIm;
@@ -226,7 +226,7 @@ void RebuildMain()
 		mi.pszService = MS_USERINFO_SHOWDIALOG;
 		mi.pszName = LPGEN("View/Change My &Details...");
 		mi.position = 500050000;
-		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
+		mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 
@@ -237,14 +237,14 @@ void RebuildMain()
 		mi.pszService = MS_USERINFO_VCARD_EXPORTALL;
 		mi.pszName = LPGEN("Export all contacts");
 		mi.position = 500150000;
-		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
+		mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 
 		// Import
 		mi.pszService = MS_USERINFO_VCARD_IMPORTALL;
 		mi.pszName = LPGEN("Import all contacts");
 		mi.position = 500151000;
-		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
+		mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 
@@ -260,13 +260,13 @@ void RebuildMain()
 			mi.pszService = MS_USERINFO_REMINDER_AGGRASIVEBACKUP;
 			mi.pszName = LPGEN("Backup birthdays");
 			mi.position = 500253000;
-			mi.hIcon = IcoLib_GetIcon(ICO_BTN_BDAY_BACKUP);
+			mi.hIcon = Skin_GetIcon(ICO_BTN_BDAY_BACKUP);
 			hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 			// Check anniversaries
 			mi.pszService = MS_USERINFO_REMINDER_CHECK;
 			mi.pszName = LPGEN("Check anniversaries");
 			mi.position = 500251000;
-			mi.hIcon = IcoLib_GetIcon(ICO_BTN_SEARCH);
+			mi.hIcon = Skin_GetIcon(ICO_BTN_SEARCH);
 			hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 		}
 		else {
@@ -277,7 +277,7 @@ void RebuildMain()
 		mi.pszService = MS_USERINFO_REFRESH;
 		mi.pszName = LPGEN("Refresh Contact Details");
 		mi.position = 500254000;
-		mi.hIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
+		mi.hIcon = Skin_GetIcon(ICO_BTN_UPDATE);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 
@@ -286,7 +286,7 @@ void RebuildMain()
 		mi.pszService = MS_USERINFO_REMINDER_LIST;
 		mi.pszName = LPGEN("Anniversary list");
 		mi.position = 500252000;
-		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_ANNIVERSARY);
+		mi.hIcon = Skin_GetIcon(ICO_COMMON_ANNIVERSARY);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 }
@@ -343,7 +343,7 @@ void RebuildGroup()
 			//cascade all
 			mi.position = 250000;
 			mi.popupPosition = 250000;
-			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
+			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = LPGEN(MODULELONGNAME);
 			mhRoot = Menu_AddGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhRoot;
@@ -353,7 +353,7 @@ void RebuildGroup()
 			//cascade Ex/Import
 			mi.position = 250100;
 			mi.popupPosition = 250100;
-			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
+			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Ex-/Import contact");
 			mhExIm = Menu_AddGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhExIm;
@@ -372,14 +372,14 @@ void RebuildGroup()
 		mi.pszService = MS_USERINFO_VCARD_EXPORTALL;
 		mi.pszName = LPGEN("Export all contacts");
 		mi.position = 250200;
-		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
+		mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
 		hMenuItem[item++] = Menu_AddGroupMenuItem(0, &mi);
 
 		// Import
 		mi.pszService = MS_USERINFO_VCARD_IMPORTALL;
 		mi.pszName = LPGEN("Import all contacts");
 		mi.position = 250300;
-		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
+		mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
 		hMenuItem[item++] = Menu_AddGroupMenuItem(0, &mi);
 	}
 }
@@ -440,7 +440,7 @@ void RebuildSubGroup()
 			//cascade all
 			mi.position = 1050000;
 			mi.popupPosition = 1050000;
-			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
+			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = LPGEN("Extended UserInfo");
 			mhRoot = Menu_AddSubGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhRoot;
@@ -450,7 +450,7 @@ void RebuildSubGroup()
 			//cascade Ex/Import
 			mi.position = 1050100;
 			mi.popupPosition = 1050100;
-			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
+			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Ex-/Import Group");
 			mhExIm = Menu_AddSubGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhExIm;
@@ -470,7 +470,7 @@ void RebuildSubGroup()
 		if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export Group");
 		mi.position = 1050200;
-		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
+		mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
 		gmp.lParam=0;
 		gmp.wParam=TRUE;
 		hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
@@ -480,7 +480,7 @@ void RebuildSubGroup()
 		if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import Group");
 		mi.position = 1050300;
-		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
+		mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
 		gmp.lParam=0;
 		gmp.wParam=FALSE;
 		hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
@@ -560,36 +560,35 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		mi.flags = CMIF_ROOTHANDLE|CMIF_TCHAR|CMIF_KEEPUNTRANSLATED;
 		mi.hParentMenu = mhRoot;
 
-		switch (flag)
-		{
-			case 3:
-				//cascade off
-				mhExIm = mhRoot;
-				// seperator
-				mi.position = 50100;
-				hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
-				break;
-			case 5:
-				//cascade all
-				mi.position = 50100;
-				mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
-				mi.ptszName = TranslateT(MODULELONGNAME);
-				hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
-				mhRoot = hMenuItemAccount[mItems*i + item++];
-				mhExIm = mhRoot;
-				break;
-			case 9:
-				//cascade Ex/Import
-				mi.position = 50100;
-				mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
-				mir_sntprintf(sztName, SIZEOF(sztName),_T("%s %s"), pAccountName->tszAccountName, TranslateT("Ex-/Import"));
-				mi.ptszName = sztName;
-				hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
-				mhExIm = hMenuItemAccount[mItems*i + item++];
-				break;
-			default:
-				//disable Menue
-				return 0;
+		switch (flag) {
+		case 3:
+			//cascade off
+			mhExIm = mhRoot;
+			// seperator
+			mi.position = 50100;
+			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
+			break;
+		case 5:
+			//cascade all
+			mi.position = 50100;
+			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
+			mi.ptszName = TranslateT(MODULELONGNAME);
+			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
+			mhRoot = hMenuItemAccount[mItems*i + item++];
+			mhExIm = mhRoot;
+			break;
+		case 9:
+			//cascade Ex/Import
+			mi.position = 50100;
+			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
+			mir_sntprintf(sztName, SIZEOF(sztName), _T("%s %s"), pAccountName->tszAccountName, TranslateT("Ex-/Import"));
+			mi.ptszName = sztName;
+			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
+			mhExIm = hMenuItemAccount[mItems*i + item++];
+			break;
+		default:
+			//disable Menue
+			return 0;
 		}
 
 		// VCard's Ex/Import menuitems
@@ -602,7 +601,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			mir_sntprintf(sztName, SIZEOF(sztName),_T("%s %s"), pAccountName->tszAccountName, TranslateT("&Export"));
 			mi.ptszName = sztName;
 			mi.position = 50200;
-			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
+			mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
 			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
 
 			// Import
@@ -611,7 +610,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			mir_sntprintf(sztName, SIZEOF(sztName),_T("%s %s"), pAccountName->tszAccountName, TranslateT("&Import"));
 			mi.ptszName = sztName;
 			mi.position = 50300;
-			mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
+			mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
 			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
 		}
 	}

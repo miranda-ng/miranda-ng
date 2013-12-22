@@ -282,7 +282,7 @@ HICON CPsTreeItem::ProtoIcon()
 				if (!mir_tcsnicmp(pa[i]->tszAccountName, _A2T(_pszName), mir_tcslen(pa[i]->tszAccountName))) {
 					CHAR szIconID[MAX_PATH];
 					mir_snprintf(szIconID, SIZEOF(szIconID), "core_status_%s1", pa[i]->szModuleName);
-					HICON hIco = IcoLib_GetIcon(szIconID);
+					HICON hIco = Skin_GetIcon(szIconID);
 					if (!hIco)
 						hIco = (HICON)CallProtoService(pa[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL, NULL);
 
@@ -315,7 +315,7 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 	LPCSTR pszIconName = IconKey();
 
 	// use icolib to handle icons
-	if (!(hIcon = IcoLib_GetIcon(pszIconName))) {
+	if (!(hIcon = Skin_GetIcon(pszIconName))) {
 		bool bNeedFree = false;
 
 		SKINICONDESC sid = { sizeof(sid) };
@@ -364,7 +364,7 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 		Skin_AddIcon(&sid);
 
 		if (!bInitIconsOnly)
-			hIcon = IcoLib_GetIcon(pszIconName);
+			hIcon = Skin_GetIcon(pszIconName);
 		if (bNeedFree)
 			DestroyIcon(sid.hDefaultIcon);
 	}
@@ -601,7 +601,7 @@ void CPsTreeItem::OnIconsChanged(CPsTree *pTree)
 	RECT rc;
 
 	// update tree item icons
-	if (pTree->ImageList() && (hIcon = IcoLib_GetIcon(IconKey())) != NULL) {
+	if (pTree->ImageList() && (hIcon = Skin_GetIcon(IconKey())) != NULL) {
 		_iImage = (_iImage > 0)
 			? ImageList_ReplaceIcon(pTree->ImageList(), _iImage, hIcon)
 			: ImageList_AddIcon(pTree->ImageList(), hIcon);
