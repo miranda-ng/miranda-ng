@@ -1,0 +1,49 @@
+﻿#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.0
+;  Authors: Vincent Joyce
+;============================================================
+[seconds]
+saniye
+[Bold]
+Koyu
+[URL:]
+Web Adresi:
+[OK]
+Tamam
+[Cancel]
+İptal
+[Apply]
+Uygula
+[Find]
+Bul
+[&Find next]
+&Sonrakini Bul
+[Find what:]
+Şunu Bul:
+[Popup delay]
+Açılan Pencere Gecikmesi
+[Use custom colors]
+Kişisel renkleri kullan
+[Background]
+Art Alan
+[Text]
+Yazı
+[Use Windows colors]
+Windows renklerini kullan
+[Log]
+Günlük
+[&Copy]
+&Kopyala
+[&Delete]
+&Sil
+[Co&py all]
+Tümünü Ko&pyala
+[Network]
+Ağ
+[Popups]
+Açılır Pencereler
+[Online]
+Çevrimiçi

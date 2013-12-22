@@ -1,0 +1,47 @@
+﻿#muuid {a71f8335-7b87-4432-b8a3-81479431c6f5}
+;============================================================
+;  File: SkypeClassic.dll
+;  Plugin: Skype Protocol (Classic)
+;  Version: 0.0.0.54
+;  Authors: leecher, tweety, jls17
+;============================================================
+[Set]
+Ayarla
+[Delete]
+Sil
+[Password:]
+Parola:
+[Cancel]
+İptal
+[OK]
+Tamam
+[Host:]
+Sunucu:
+[Port:]
+Port:
+[Name:]
+Ad:
+[City:]
+Şehir:
+[Country:]
+Ülke:
+[Homepage:]
+Ana sayfa:
+[seconds]
+saniye
+[Background]
+Art Alan
+[Use Windows colors]
+Windows renklerini kullan
+[Text]
+Yazı
+[&File]
+&Dosya
+[Unknown]
+Bilinmeyen
+[User &details]
+Kişi &detayları
+[MALE]
+Erkek
+[FEMALE]
+Kadın

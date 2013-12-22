@@ -1,0 +1,43 @@
+﻿#muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
+;============================================================
+;  File: HistoryPP.dll
+;  Module: History++
+;  Version: 1.5.1.5
+;  Authors: theMIROn
+;============================================================
+[&Copy Link]
+&Bağlantıyı kopyala
+[Copy All]
+Tümünü kopyala
+[System History]
+Sistem geçmişi
+[Incoming url]
+Alınan URL
+[Outgoing file]
+Gönderilen Dosya
+[Outgoing url]
+Gönderilen web adresi
+[Message log options]
+İleti Günlüğü Seçenekleri
+[Incoming Url]
+Alınan URL
+[Outgoing Url]
+Gönderilen web adresi
+[Authorization request]
+Yetkilendirme İsteği
+[&Reset to Default]
+Va&rsayılana döndür
+[Open in &new window]
+Ye&ni pencerede aç
+[Select &All]
+&Tümünü Seç
+[Send &Message]
+İleti &Gönder
+[User Details]
+Kullanıcı Detayları
+[View user's history]
+Kullanıcı Geçmişini Göster
+[View User's History]
+Kullanıcı Geçmişini Göster
+[View &History]
+Geçmişi &Göster
