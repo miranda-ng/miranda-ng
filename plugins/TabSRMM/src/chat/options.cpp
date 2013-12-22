@@ -208,8 +208,7 @@ static branch_t branch2[] = {
 	{LPGENT("Colorize user names in message log"), "ColorizeNicksInLog", 0, 1, NULL},
 	{LPGENT("Scale down icons to 10x10 pixels in the chat log"), "ScaleIcons", 0, 1, NULL},
 	{LPGENT("Place a separator in the log after a window lost its foreground status"), "UseDividers", 0, 1, NULL},
-	{LPGENT("Only place a separator when an incoming event is announced with a popup"), "DividersUsePopupConfig", 0, 1, NULL},
-	{LPGENT("Support the math module plugin"), "MathModSupport", 0, 0, NULL}
+	{LPGENT("Only place a separator when an incoming event is announced with a popup"), "DividersUsePopupConfig", 0, 1, NULL}
 };
 
 static HWND hPathTip = 0;
