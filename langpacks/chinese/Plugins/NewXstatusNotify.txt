@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
-;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 当联系人变更为这些状态时通知我
 [Online]
@@ -60,10 +59,14 @@
 使用自定颜色
 [Use Windows colors]
 使用 Windows 颜色
+[Use Popup colors]
+使用弹出窗口插件颜色
 [Popup text]
 弹出文本
 [Read status message]
 阅读状态消息
+[Sec]
+秒
 [Show status description]
 显示状态描述
 [Reset]
@@ -80,21 +83,24 @@
 常规
 [Accounts]
 帐号
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[All files]
+所有文件
 [Status]
 状态
 [Sound for the status]
 状态声音
+[From offline]
+从离线
 [** All contacts **]
 ** 所有联系人 **
-;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (默认声音)
-;file \plugins\NewXstatusNotify\src\main.cpp
 [<no status message>]
 <无状态消息>
 [Contact]
 联络方式
+[connecting]
+连接中
 [playing]
 播放
 [%s is now %s]
@@ -175,7 +181,6 @@
 (U) 要接听电话
 [User: On The Phone]
 用户: 接听电话
-;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 所有文件
 [Log]
@@ -184,13 +189,11 @@
 这是状态消息
 [Protocol]
 协议
-;file \plugins\NewXstatusNotify\src\popup.h
-;file \plugins\NewXstatusNotify\src\utils.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Message log]
+消息记录
 [Xstatus]
 扩展状态
 [<unknown>]
 <未知>
-;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed his/her status message to %n]
 更改他/她的状态信息为 %n

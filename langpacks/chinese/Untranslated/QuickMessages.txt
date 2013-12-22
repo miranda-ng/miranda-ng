@@ -1,0 +1,5 @@
+﻿[Buttons]
+[Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
+[New Button]
+[New Menu Entry]
+[Quick Messages Button %u]

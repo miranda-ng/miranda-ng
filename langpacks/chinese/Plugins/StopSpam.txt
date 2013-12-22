@@ -5,12 +5,14 @@
 ;  Version: 0.0.1.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
-;file \plugins\StopSpamPlus\res\stopspam.rc
 [Answer (Use divider to separate answers):]
 答案 (使用分隔符分隔答案):
+[Vars]
+变量
+[Add contact permanently]
+永久添加联系人
 [Answer is not case sensitive]
 答案不区分大小写
-;file \plugins\StopSpamPlus\src\events.cpp
 [Message Sessions]
 消息会话
 [General]
@@ -19,10 +21,5 @@
 消息
 [Accounts]
 帐号
-;file \plugins\StopSpamPlus\src\headers.h
-;file \plugins\StopSpamPlus\src\options.cpp
-;file \plugins\StopSpamPlus\src\services.cpp
 [Complete]
 完成
-;file \plugins\StopSpamPlus\src\settings.h
-;file \plugins\StopSpamPlus\src\stopspam.cpp

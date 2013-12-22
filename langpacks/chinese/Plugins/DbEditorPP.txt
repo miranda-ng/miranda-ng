@@ -5,7 +5,6 @@
 ;  Version: 3.2.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
-;file \plugins\DbEditorPP\res\resource.rc
 [Database Editor++ Search and Replace]
 数据库编辑器搜索替换
 [Case Sensitive]
@@ -188,7 +187,6 @@
 监视窗口
 [Reload Watch List]
 重新加载监视列表
-;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
 无法转换! 
 [New BYTE value]
@@ -217,8 +215,6 @@
 编辑 BLOB 值
 [Couldn't allocate enough memory!]
 无法分配足够内存! 
-;file \plugins\DbEditorPP\src\copymodule.cpp
-;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 您确定要删除模块 "%s"? 
 [Confirm Module Deletion]
@@ -227,7 +223,6 @@
 从数据库删除模块
 [Delete module from Database... Loading]
 从数据库删除模块... 加载中
-;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI 文件
 [All Files]
@@ -238,7 +233,6 @@ INI 文件
 无法写入打开文件
 [Import from files]
 从文件导入
-;file \plugins\DbEditorPP\src\findwindow.cpp
 [Enter a string to search the DB for]
 请输入要在数据库中搜索的字符串
 [Replaced with]
@@ -263,7 +257,6 @@ INI 文件
 完成. 找到 %d 项, 替换 %d 项.
 [Finished. %d items were found.]
 完成. 找到 %d 项.
-;file \plugins\DbEditorPP\src\icons.cpp
 [Closed Known Module]
 关闭的已知模块
 [Open Known Module]
@@ -272,20 +265,16 @@ INI 文件
 联系人群组
 [Known Contact]
 已知联系人
-;file \plugins\DbEditorPP\src\main.cpp
 [Database Editor++]
 数据库编辑器
 [Open Database Editor]
 打开数据库编辑器
 [Open user tree in DBE++]
 在数据库编辑器中打开用户树
-;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 您确定要删除联系人 "%s"? 
 [Confirm Contact Delete]
 确认删除联系人
-;file \plugins\DbEditorPP\src\modules.cpp
-;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
 加载联系人...
 [Loading modules...]
@@ -298,8 +287,6 @@ INI 文件
 处理
 [Add module to contact "%s"]
 添加模块至联系人 "%s"
-;file \plugins\DbEditorPP\src\options.cpp
-;file \plugins\DbEditorPP\src\settinglist.cpp
 [Name]
 名称
 [Data]
@@ -318,7 +305,6 @@ INI 文件
 <不支持>
 [<unknown>]
 <未知>
-;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Contact]
 联络方式
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]

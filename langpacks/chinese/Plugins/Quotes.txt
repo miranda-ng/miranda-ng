@@ -5,7 +5,8 @@
 ;  Version: 0.0.24.0
 ;  Authors: Dioksin
 ;============================================================
-;file \plugins\Quotes\res\Forex.rc
+[Variable List]
+变量列表
 [OK]
 确定
 [Use contact specific settings]
@@ -56,6 +57,8 @@
 背景颜色
 [Text color]
 文本颜色
+[From Popup plugin]
+从弹出窗口插件
 [Custom]
 自定义
 [&Choose Quotes to watch in contact list:]
@@ -86,12 +89,12 @@
 报价\\汇率信息
 [&Watched Quotes:]
 观看报价(&W):
-;file \plugins\Quotes\src\Chart.h
-;file \plugins\Quotes\src\CommonOptionDlg.cpp
-;file \plugins\Quotes\src\CurrencyConverter.cpp
+[Seconds]
+秒
+[Hours]
+小时
 [Info provided by]
 提供信息
-;file \plugins\Quotes\src\Forex.cpp
 [Quotes]
 报价
 [Refresh All Quotes\\Rates]
@@ -108,10 +111,8 @@
 图表...
 [Network]
 网络
-;file \plugins\Quotes\src\HTTPSession.cpp
 [Quotes HTTP connections]
 报价 HTTP 连接
-;file \plugins\Quotes\src\IconLib.cpp
 [Quote/Rate up]
 报价/汇率上升
 [Quote/Rate down]
@@ -120,16 +121,8 @@
 报价/汇率无变化
 [Quote Section]
 报价区
-;file \plugins\Quotes\src\ImportExport.cpp
-;file \plugins\Quotes\src\ModuleInfo.cpp
-;file \plugins\Quotes\src\QuoteChart.cpp
 [Log File]
 日志文件
-;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
-;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
-;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]
 报价符号
 [Quote Name]
@@ -162,4 +155,3 @@
 表格
 [Left slash (\\)]
 左斜线 (\\)
-;file \plugins\Quotes\src\SettingsDlg.cpp

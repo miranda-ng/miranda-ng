@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
-;file \plugins\TipperYM\res\resource.rc
 [Options]
 选项
 [Window]
@@ -34,6 +33,8 @@
 文本补位: 
 [Keep original avatar size]
 保持原头像大小
+[Avatar border]
+头像边框
 [Substitution]
 替换
 [Contact protocol module]
@@ -68,26 +69,34 @@
 编辑
 [Separator]
 分隔器
+[Advanced options]
+高级选项
 [Extra icons]
 额外图标
 [Enable SmileyAdd support]
 启用 SmileyAdd 支持
+[Resize smileys]
+重置表情大小
 [Status bar and tray tooltip]
 状态栏及托盘提示
 [Limit status messages in status bar and tray tooltips to:]
 限制状态栏状态信息及托盘提示为:
 [Effects]
 效果
+[Favorite contacts]
+我的最爱
+[ms]
+毫秒
 [Hide offline protocols]
 隐藏离线协议
-;file \plugins\TipperYM\src\mir_smileys.cpp
-;file \plugins\TipperYM\src\options.cpp
 [You must enter a label]
 您必须输入标签
 [Invalid Substitution]
 替换无效
 [<No Label>]
 <无标签>
+[Add separator]
+添加分隔器
 [No icon]
 无图标
 [No title]
@@ -102,7 +111,6 @@
 自定义
 [Content]
 内容
-;file \plugins\TipperYM\src\options.h
 [Number of contacts]
 联系人数量
 [Protocol lock status]
@@ -119,20 +127,28 @@
 联系人列表事件
 [Jabber activity]
 Jabber 活动
+[Gender]
+性别
 [Client]
 客户端
-;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (已锁定)
+[Status message:]
+状态消息: 
 [Other]
 其它
-;file \plugins\TipperYM\src\preset_items.cpp
+[Email]
+邮箱
 [Gender:]
 性别: 
+[Homepage]
+主页
 [Homepage:]
 主页: 
 [Idle]
 闲置
+[Last message]
+最后消息
 [Name]
 名称
 [Name:]
@@ -143,8 +159,6 @@ Jabber 活动
 日出: 
 [Sunset:]
 日落: 
-;file \plugins\TipperYM\src\skin_parser.cpp
-;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 背景
 [Dividers]
@@ -153,7 +167,6 @@ Jabber 活动
 标签
 [Values]
 数值
-;file \plugins\TipperYM\src\translations.cpp
 [Female]
 女
 [Male]
@@ -202,4 +215,3 @@ Jabber 活动
 字至月名 (1..12, 1 为一月)
 [BYTE to language (ICQ)]
 字节至语言 (ICQ)
-;file \plugins\TipperYM\src\translations.h

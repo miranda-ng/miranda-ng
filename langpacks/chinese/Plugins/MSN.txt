@@ -1,11 +1,10 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
-;file \protocols\MSN\res\msn.rc
 [Password:]
 密码: 
 [Nickname:]
@@ -22,6 +21,8 @@
 新 Hotmail 到达时运行下列程序
 [Allow people on my contact list send messages to mobile device]
 允许我方联系人列表里中的联系人发送消息到移动设备
+[Connection settings]
+连接设置
 [Direct:]
 直接:
 [Gateway:]
@@ -64,6 +65,12 @@
 配偶/情人
 [Middle Name]
 中间名
+[First Name]
+名字
+[Last Name]
+姓氏
+[Nickname]
+昵称
 [MSN Delete Contact]
 MSN 删除联系人
 [Remove from Hotmail Address book]
@@ -74,10 +81,10 @@ MSN 删除联系人
 取消(&C)
 [Add]
 添加
-;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 聊天 #
-;file \protocols\MSN\src\msn_commands.cpp
+[User &details]
+用户详细资料(&D)
 [Contact tried to open an audio conference (currently not supported)]
 联系人尝试打开音频会议 (暂不支持)
 [%I64u bytes]
@@ -104,16 +111,12 @@ MSN 警告
 MSN 聊天
 [Message delivery failed]
 消息递送失败
-;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 用户没有上线
-;file \protocols\MSN\src\msn_links.cpp
-;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 联系人 %s 已从服务器移除.\n您是否想继续 "仅本地" 保存联系人历史记录?
 [%s protocol]
 %s 协议
-;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 主题: %s
 [Hotmail from %s (%S)]
@@ -122,7 +125,6 @@ MSN 聊天
 %s 的 Hotmail 邮件
 [Unread mail is available: %d in Inbox and %d in other folders.]
 未读邮件: %d 于收信箱 %d 于其它目录.
-;file \protocols\MSN\src\msn_menu.cpp
 [Open &Hotmail Inbox]
 打开 &Hotmail 收信箱
 [Send &Hotmail E-mail]
@@ -135,11 +137,8 @@ MSN 聊天
 设置 Live 通知(&A)
 [&Start Netmeeting]
 启动 Netmeeting(&S)
-;file \protocols\MSN\src\msn_misc.cpp
 [Error]
 错误
-;file \protocols\MSN\src\msn_msgqueue.cpp
-;file \protocols\MSN\src\msn_opts.cpp
 [Hotmail Inbox]
 Hotmail 收信箱
 [Profile]
@@ -150,6 +149,8 @@ MSN 服务器
 邀请聊天
 [Start Netmeeting]
 开始 Netmeeting
+[Contact list]
+联系人列表
 [Allowed list]
 允许列表
 [Relative list]
@@ -174,12 +175,10 @@ MSN 协议要求消息超时不低于 60 秒. 请修正超时值.
 网络
 [Server list]
 服务器列表
-;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (currently not supported)]
 联系人尝试发送视频资料 (暂不支持)
 [Contact tried to view our webcam data (currently not supported)]
 联系人尝试查看我方视频情况 (暂不支持)
-;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Live 邮件
 [Live Alert]
@@ -194,9 +193,7 @@ Live 警告
 消息过长: MSN 消息仅限 1202 个 UTF8 字符
 [Offline messaging is not allowed for LCS contacts]
 不允许向 LCS 联系人发送离线消息
-;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 MSN 要求消息窗口插件发送超时少于 60 秒. 请更正超时值.
-;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 聊天会话因非活动而被丢弃

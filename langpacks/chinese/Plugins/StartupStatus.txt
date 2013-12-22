@@ -7,7 +7,6 @@
 ;============================================================
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
 StartupStatus, 允许您定义 Miranda 启动时应设置状态, 可为每个协议设置. 
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 常规
 [Close]
@@ -22,8 +21,14 @@ StartupStatus, 允许您定义 Miranda 启动时应设置状态, 可为每个协
 设置
 [OK]
 确定
+[Command line:]
+命令行: 
 [Other]
 其它
+[Status on startup]
+启动状态
+[ms]
+毫秒
 [Background color]
 背景颜色
 [Text color]
@@ -34,6 +39,8 @@ StartupStatus, 允许您定义 Miranda 启动时应设置状态, 可为每个协
 使用默认颜色
 [Events]
 事件
+[From Popup plugin]
+从弹出窗口插件
 [Custom]
 自定义
 [Use %time% for the current time, %date% for the current date]
@@ -46,7 +53,8 @@ StartupStatus, 允许您定义 Miranda 启动时应设置状态, 可为每个协
 删除
 [seconds]
 秒
-;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[<unknown>]
+<未知>
 [None]
 无
 [size: %d x %d]
@@ -59,17 +67,16 @@ StartupStatus, 允许您定义 Miranda 启动时应设置状态, 可为每个协
 建立状态菜单项目
 [default]
 默认值
+[unknown]
+未知
 [At least one profile must exist]
 必须存在至少一个配置文件
 [StartupStatus]
 启动状态
 [Your default profile will be changed]
 您的默认配置文件将会改变
-;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 [There is a maximum of 6 menu items]
 限制最多 6 个菜单项目
-;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 我已在 %time% 外出. 
 [Give it up, I'm not in!]
@@ -92,7 +99,6 @@ StartupStatus, 允许您定义 Miranda 启动时应设置状态, 可为每个协
 嗯... 食物. 
 [idleeeeeeee]
 闲置
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 协议
 [Closing in %d]

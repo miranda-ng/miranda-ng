@@ -5,28 +5,32 @@
 ;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
-;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Backup progress]
 进行备份
 [Cancel]
 取消
 [Automatic backups]
 自动备份
-[Number of backups to keep:]
-保留备份数量:
 [Backup NOW]
 现在备份
+[Disabled]
+禁用
 [When Miranda starts]
 当 Miranda 启动
 [When Miranda exits]
 当 Miranda 退出
 [Every:]
 每:
+[Number of backups to keep:]
+保留备份数量:
 [Backup to folder:]
 备份至目录:
+[Browse...]
+浏览...
 [Disable progress bar]
 禁用进度条
-;file \plugins\Db_autobackups\src\backup.cpp
+[Miranda NG database]
+Miranda NG 数据库
 [Miranda NG databases]
 Miranda NG 数据库
 [All files]
@@ -37,14 +41,14 @@ Miranda NG 数据库
 复制数据库文件中...
 [Database backed up]
 数据库已备份
-;file \plugins\Db_autobackups\src\main.cpp
 [Backup profile]
 备份配置文件
 [Save profile as...]
 配置文件另存为...
 [Database backups]
 数据库备份
-;file \plugins\Db_autobackups\src\options.cpp
+[hours]
+小时
 [Select backup folder]
 选定备份目录
 [Error creating backup folder]

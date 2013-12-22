@@ -5,7 +5,6 @@
 ;  Version: 0.2.5.3
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
-;file \plugins\SMS\res\resource.rc
 [Received SMS]
 已传入 SMS
 [&Reply]
@@ -62,18 +61,14 @@ SMS 消息已发出
 来源: 
 [Network:]
 网络: 
-;file \plugins\SMS\src\options.cpp
 [From %s:\r\n\r\n]
 从 %s:\r\n\r\n
-;file \plugins\SMS\src\receive.cpp
 [SMS Message from %s]
 从 %s 发出 SMS 消息
 [SMS Confirmation from %s]
 从 %s 发出 SMS 确认
-;file \plugins\SMS\src\recvdlg.cpp
 [Received SMS Confirmation]
 已传入 SMS 确认
-;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 查看用户历史
 [Add Number To The Multiple List]
@@ -100,6 +95,5 @@ SMS 消息已发出
 无效电话号码
 [<< Single]
 << 单一
-;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Confirmation]
 传入 SMS 确认

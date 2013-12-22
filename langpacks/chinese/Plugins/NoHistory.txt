@@ -5,12 +5,10 @@
 ;  Version: 0.2.3.0
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
-;file \plugins\NoHistory\res\NoHistory.rc
 [Keep history for this contact]
 保留此联系人历史
 [Disable history for this contact]
 禁用此联系人历史
-;file \plugins\NoHistory\src\dllmain.cpp
 [Enable History]
 启用历史
 [Disable History]
@@ -19,10 +17,8 @@
 已启用历史
 [History Disabled]
 禁用历史
-;file \plugins\NoHistory\src\icons.cpp
 [Clear]
 晴
-;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** 所有联系人 **
 [History]

@@ -7,7 +7,6 @@
 ;============================================================
 [Adds the possibility to shutdown the computer when a specified event occurs.]
 指定事件发生时增加关机可能性.
-;file \plugins\AutoShutdown\res\resource.rc
 [Shutdown]
 关机
 [&Show confirmation dialog before shutdown]
@@ -66,11 +65,12 @@
 如果您想中止进程请按 "取消". 
 [&Now!]
 立即(&N)! 
-;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
 关闭于: 
 [Time left:]
 剩余时间: 
+[Paused]
+暂停
 [&Unpause Countdown]
 解除暂停倒计时(&U)
 [&Pause Countdown]
@@ -85,13 +85,8 @@
 背景
 [Progress Bar]
 进度条
-;file \plugins\AutoShutdown\src\main.cpp
-;file \plugins\AutoShutdown\src\options.cpp
 [Events]
 事件
-;file \plugins\AutoShutdown\src\settingsdlg.cpp
-[(current: %u%%)]
-(当前: %u%%)
 [Second(s)]
 秒
 [Minute(s)]
@@ -104,23 +99,18 @@
 星期
 [Month(s)]
 月
+[(current: %u%%)]
+(当前: %u%%)
 [Start/Stop automatic shutdown]
 开始/停止自动关闭
-[Stop automatic shutdown]
-停止自动关闭
 [Start automatic shutdown]
 开始自动关闭
+[Stop automatic shutdown]
+停止自动关闭
 [Stop automatic &shutdown]
 停止自动关闭(&S)
 [Automatic &shutdown...]
 自动关闭(&S)...
-;file \plugins\AutoShutdown\src\shutdownsvc.cpp
-[Automatic Shutdown Error]
-自动关闭错误
-[The shutdown process failed!\nReason: %s]
-关机程序已失败! \n原因: %s
-[Unknown]
-未知
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG 将于 %u 秒自动关闭. 
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
@@ -139,6 +129,12 @@ Miranda NG 将于 %u 秒自动关闭.
 所有拨号连接将于 %u 秒关闭. 
 [The computer will automatically be shut down in %u second(s).]
 此电脑将于 %u 秒自动关机. 
+[Automatic Shutdown Error]
+自动关闭错误
+[The shutdown process failed!\nReason: %s]
+关机程序已失败! \n原因: %s
+[Unknown]
+未知
 [Inititiating the shutdown process failed!\nReason: %s]
 初始化关机程序失败! \n原因: %s
 [Close Miranda NG]
@@ -179,6 +175,5 @@ Miranda NG 将于 %u 秒自动关闭.
 提醒
 [Automatic Shutdown Countdown]
 自动关闭倒计时
-;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle Automatic Shutdown]
 切换自动关闭

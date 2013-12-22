@@ -5,7 +5,6 @@
 ;  Version: 0.0.2.1
 ;  Authors: Kildor, Thief
 ;============================================================
-;file \plugins\Rate\src\main.cpp
 [Rate high]
 高级
 [Rate medium]

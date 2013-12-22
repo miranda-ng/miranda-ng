@@ -5,9 +5,12 @@
 ;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
-;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 发送联系人
+[&Add]
+添加(&A)
+[User &details]
+用户详细资料(&D)
 [Choose contacts to be send:]
 选择要发送的联系人:
 [&Send]
@@ -18,8 +21,6 @@
 接收联系人
 [Add to &group:]
 加至群组(&G):
-[&Add]
-添加(&A)
 [&Details]
 详细资料(&D)
 [Close]
@@ -34,7 +35,6 @@
 加至列表
 [User details]
 用户详细资料
-;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
 联系人接收于
 [Contacts]
@@ -43,7 +43,12 @@
 传入联系人
 [Outgoing Contacts]
 发出联系人
-;file \plugins\ContactsPlus\src\receive.cpp
+[Nick]
+昵称
+[First Name]
+名字
+[Last Name]
+姓氏
 [Add Contact Permanently to List]
 将联系人永久加至列表
 [View User's Details]
@@ -52,4 +57,3 @@
 查看用户历史
 [User Menu]
 用户菜单
-;file \plugins\ContactsPlus\src\send.cpp

@@ -7,7 +7,6 @@
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
 消息窗口拼写检查. 使用 Hunspell 检查.
-;file \plugins\SpellChecker\res\resource.rc
 [Enable auto-replacements]
 启用自动替换
 [Edit...]
@@ -60,7 +59,6 @@
 使用其他程序辞典
 [Avoid removing underscores (slows down checking of long texts)]
 避免移除下划线 (长文本时会减慢检查速度)
-;file \plugins\SpellChecker\src\ardialog.cpp
 [The wrong word can't be empty!]
 错字不能为空!
 [Wrong Correction]
@@ -69,8 +67,6 @@
 校正不能为空!
 [The correction can't be equal to the wrong word!]
 更正不等于错字!
-;file \plugins\SpellChecker\src\dictionary.cpp
-;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 消息会话
 [Auto-replacements]
@@ -93,7 +89,6 @@
 错字
 [Correction]
 校正
-;file \plugins\SpellChecker\src\spellchecker.cpp
 [Dictionaries]
 字典
 [Custom Dictionaries]
@@ -102,7 +97,8 @@
 标记链接库
 [Enable/disable spell checker]
 启用/禁用拼写检查
-;file \plugins\SpellChecker\src\utils.cpp
+[Disabled]
+禁用
 [Other...]
 其它...
 [Always replace with]

@@ -5,6 +5,5 @@
 ;  Version: 0.0.1.14
 ;  Authors: Big Muscle
 ;============================================================
-;file \plugins\FlashAvatars\src\cflash.cpp
-[Flash Avatars]
+[Flash avatars]
 Flash 头像

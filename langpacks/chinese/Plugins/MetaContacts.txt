@@ -5,7 +5,6 @@
 ;  Version: 0.14.0.13
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
-;file \plugins\MetaContacts\res\MetaContacts.rc
 [Add to Existing MetaContact]
 加至已存在中继联系人
 [Please select a MetaContact:]
@@ -100,7 +99,6 @@
 保持子联系人历史与中继联系人同步
 [History (** beware - change at your own risk **)]
 历史 (** 小心 - 变更时需自行承担风险 **)
-;file \plugins\MetaContacts\src\addto.cpp
 [This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
 此联系人为中继联系人. \n\n您无法将中继联系人加至其他中继联系人中. \n\n请选择其他. 
 [MetaContact Conflict]
@@ -123,7 +121,6 @@
 中继联系人关联失败. 
 [Assignment failure]
 关联失败
-;file \plugins\MetaContacts\src\edit.cpp
 [(Unknown Contact)]
 (未知联系人)
 [Yes]
@@ -138,7 +135,6 @@
 离线发送
 [Delete MetaContact?]
 删除中继联系人? 
-;file \plugins\MetaContacts\src\icons.cpp
 [Toggle Off]
 切换关闭
 [Toggle On]
@@ -153,13 +149,10 @@
 设为默认
 [Remove]
 移除
-;file \plugins\MetaContacts\src\metacontacts.h
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 您要移除所有关联至此中继联系人者. \n这样将删除此中继联系人. \n\n仍要继续? 
-;file \plugins\MetaContacts\src\meta_main.cpp
 [Error - Database corruption.\nPlugin disabled.]
 错误 - 数据库已损坏. \n插件禁用. 
-;file \plugins\MetaContacts\src\meta_menu.cpp
 [There was a problem in assigning the contact to the MetaContact]
 指派中继联系人时发生错误
 [Error]
@@ -168,10 +161,8 @@
 此操作将永久移除中继联系人. \n\n仍要继续? 
 [Remove from MetaContact]
 从中继联系人中移除
-;file \plugins\MetaContacts\src\meta_options.cpp
 [<default>]
 <默认>
-;file \plugins\MetaContacts\src\meta_services.cpp
 [Meta ID]
 中继 ID
 [No online contacts found.]
@@ -198,7 +189,6 @@
 优先级
 [History]
 历史
-;file \plugins\MetaContacts\src\meta_utils.cpp
 [Could not get MetaContact ID]
 无法获取中继联系人 ID
 [Assignment error]

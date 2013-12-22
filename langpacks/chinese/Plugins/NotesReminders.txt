@@ -5,7 +5,6 @@
 ;  Version: 0.0.5.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
-;file \plugins\NotesAndReminders\res\resource.rc
 [Sticky Notes Options]
 便签选项
 [Default Note Size]
@@ -44,6 +43,8 @@
 环境菜单笔记弹出窗口
 [&New Note]
 新增笔记(&N)
+[Background Color]
+背景颜色
 [Reset]
 重置
 [Text Color]
@@ -62,11 +63,8 @@
 清除(&L)
 [&Show / Hide Notes]
 显示/隐藏笔记(&S)
-;file \plugins\NotesAndReminders\src\globals.h
 [Notes & Reminders]
 笔记及提醒
-;file \plugins\NotesAndReminders\src\hotkeys.cpp
-;file \plugins\NotesAndReminders\src\main.cpp
 [Delete All Reminders]
 删除所有提醒
 [Sticky Notes]
@@ -83,11 +81,18 @@
 笔记及提醒
 [&Delete All Notes]
 删除所有笔记(&D)
-;file \plugins\NotesAndReminders\src\notes.cpp
 [Notes]
 便笺
-;file \plugins\NotesAndReminders\src\options.cpp
-;file \plugins\NotesAndReminders\src\reminders.cpp
+[Note text]
+便笺文本
+[Hours]
+小时
+[Hour]
+小时
+[Day]
+天
+[Seconds]
+秒
 [Default]
 默认
 [Reminder text]

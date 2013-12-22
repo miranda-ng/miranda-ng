@@ -7,7 +7,6 @@
 ;============================================================
 [Ping labelled IP addresses or domain names.]
 Ping IP 地址或域名.
-;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
 Ping 间延时 (秒):
 [Ping timeout (secs):]
@@ -22,6 +21,8 @@ Ping 超时 (秒):
 回复
 [Block Repetitions]
 块重复
+[Browse...]
+浏览...
 [Interface]
 界面
 [Do not change icon when testing]
@@ -74,22 +75,18 @@ TCP 连接
 启用所有 pings
 [Hosts...]
 主机...
-;file \plugins\Ping\src\menu.cpp
 [Enable All Pings]
 启用所有 Pings
 [Disable All Pings]
 禁用所有 Pings
-;file \plugins\Ping\src\options.cpp
 [<none>]
 <无>
 [<all>]
 <所有>
 [Hosts]
 主机
-;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
 Ping 插件
-;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 显示网格
 [Show stats]
@@ -102,7 +99,6 @@ Ping 插件
 最大 %hd 毫秒
 [MIN %hd ms]
 最小 %hd 毫秒
-;file \plugins\Ping\src\pingthread.cpp
 [%s - setting status of protocol '%s' (%d)]
 %s - 设置协议状态 '%s' (%d)
 [%s - reply, %d]
@@ -113,10 +109,8 @@ Ping 插件
 双击
 [Show/Hide &Ping Window]
 显示/隐藏 &Ping 窗口
-;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 主机 %s 要求您减少发送通信量.
-;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
 未知地址
 [Unknown]
@@ -127,3 +121,5 @@ Ping 插件
 无响应
 [Testing]
 测试
+[Disabled]
+禁用

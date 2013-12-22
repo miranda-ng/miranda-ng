@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 常规
 [Close]
@@ -20,8 +19,14 @@
 设置
 [OK]
 确定
+[Command line:]
+命令行: 
 [Other]
 其它
+[Status on startup]
+启动状态
+[ms]
+毫秒
 [Background color]
 背景颜色
 [Text color]
@@ -32,6 +37,8 @@
 使用默认颜色
 [Events]
 事件
+[From Popup plugin]
+从弹出窗口插件
 [Custom]
 自定义
 [Use %time% for the current time, %date% for the current date]
@@ -44,14 +51,12 @@
 删除
 [seconds]
 秒
-;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [minutes of %s mode]
 分钟于 %s 模式
 [Status messages]
 状态消息
 [Auto Away]
 自动离开
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 我已在 %time% 外出. 
 [Give it up, I'm not in!]
@@ -74,7 +79,6 @@
 嗯... 食物. 
 [idleeeeeeee]
 闲置
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 协议
 [Closing in %d]

@@ -1,0 +1,2 @@
+﻿[Plugin for quick insert (or sending) pre-defined messages in message input area.]
+[Variables]

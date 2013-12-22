@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
-;file \plugins\FavContacts\res\resource.rc
 [Customize]
 自定义
 [Draw avatar border]
@@ -34,12 +33,12 @@
 状态不同时显示
 [recent contacts]
 最近联系人
-;file \plugins\FavContacts\src\favlist.h
-;file \plugins\FavContacts\src\main.cpp
 [Favorite Contact]
 我的最爱
 [Regular Contact]
 常用联系人
+[Second line]
+第二行
 [Selected contact name (color)]
 选定联系人名称 (颜色)
 [Selected second line (color)]
@@ -50,3 +49,5 @@
 显示我的最爱
 [Contacts]
 联系人
+[Favorites]
+我的最爱

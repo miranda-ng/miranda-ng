@@ -5,7 +5,6 @@
 ;  Version: 0.2.3.10
 ;  Authors: P Boon
 ;============================================================
-;file \plugins\Variables\res\Variables.rc
 [Parse options]
 解析选项
 [Automatically strip "end of line" characters]
@@ -42,7 +41,6 @@
 变量插件转化不同标记至某一数值. 一个示例: 我正在运行 Miranda %mirandaversion%. 子串 %mirandaversion% 被转化为正确的版本号. 下方列表显示了所有可用标记.
 [Notes]
 便笺
-;file \plugins\Variables\src\help.cpp
 [Token]
 标记
 [Tokens]
@@ -55,20 +53,18 @@
 说明
 [Variables Help]
 变量帮助
-;file \plugins\Variables\src\options.cpp
-;file \plugins\Variables\src\parse_alias.cpp
 [stores y as alias named x]
 存储 y 别名为 x
-;file \plugins\Variables\src\parse_external.cpp
 [Stopped]
 停止
+[Paused]
+暂停
 [External Applications]
 外部应用
 [retrieves song name of the song currently playing in Winamp]
 获取 Winamp 当前播放曲名
 [retrieves current Winamp state (Playing/Paused/Stopped)]
 获取 Winamp 当前状态 (播放/暂停/停止)
-;file \plugins\Variables\src\parse_inet.cpp
 [Internet Related]
 网络相关
 [converts each non-html character into hex format]
@@ -79,7 +75,6 @@
 转换 32-bit 数字至 IPv4 点分表示法
 [converts a 32-bit number (in host byte order) to IPv4 dotted notation]
 转换 32-bit 数字 (本机字节顺序) 至 IPv4 点分表示法
-;file \plugins\Variables\src\parse_logic.cpp
 [Logical Expressions]
 逻辑表达式
 [performs logical AND (x && y && ...)]
@@ -106,7 +101,6 @@
 执行逻辑 OR (x || y || ...)
 [performs logical XOR (x ^ y)]
 执行逻辑 XOR (x ^ y)
-;file \plugins\Variables\src\parse_math.cpp
 [Mathematical Functions]
 数学函数
 [x divided by y]
@@ -127,8 +121,6 @@ x 乘 y 余 z
 以 0 填充十进制值 x 至长度 y
 [random number]
 随机数
-;file \plugins\Variables\src\parse_metacontacts.cpp
-;file \plugins\Variables\src\parse_miranda.cpp
 [Miranda Related]
 Miranda 相关
 [translates status code x into a status description]
@@ -165,8 +157,6 @@ Miranda 相关
 获得联系人显示名称
 [get the date and time (using Miranda format)]
 获得日期及时间 (使用 Miranda 格式)
-;file \plugins\Variables\src\parse_regexp.cpp
-;file \plugins\Variables\src\parse_str.cpp
 [String Functions]
 字符串函数
 [converts each first letter of a word to uppercase, all others to lowercase]
@@ -243,7 +233,6 @@ y 等于 x 则 z, 允许多个 y 及 z 参数
 转换 x 为大写
 [words (separated by white spaces) number y to z from string x (z is optional)]
 字符串 x 中由 y 至 z 字词 (以空格间隔) 数量 (z 可选)
-;file \plugins\Variables\src\parse_system.cpp
 [System Functions]
 系统函数
 [computer name]
@@ -286,11 +275,9 @@ y > 0: 文件 x 行号 y, y = 0: 整个文件, y < 0: 行号 y 到文件尾, y =
 用户名
 [text from clipboard]
 从剪贴板取得文本
-;file \plugins\Variables\src\parse_variables.cpp
 [variable set by put(s) with name x]
 获取使用 put(s) 设置的变量 x 数值
 [x, and stores y as variable named x]
 x, 存储 y 为变量且命名为 x
 [only stores y as variables x]
 仅存储 y 至变量 x
-;file \plugins\Variables\src\variables.cpp

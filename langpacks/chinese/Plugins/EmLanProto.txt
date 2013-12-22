@@ -5,7 +5,6 @@
 ;  Version: 0.0.1.2
 ;  Authors: kva
 ;============================================================
-;file \protocols\EmLanProto\res\amdproto.rc
 [Select your IP address]
 选择您的 IP 地址
 [LAN Settings]
@@ -16,7 +15,6 @@
 您的名称
 [Select your name]
 选择您的名字
-;file \protocols\EmLanProto\src\amdproto.cpp
 [E-mage LAN protocol]
 E-mage 局域网协议
 [Network]

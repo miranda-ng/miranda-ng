@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
-;file \protocols\IRCG\res\IRC.rc
 [&Add]
 添加(&A)
 [&Edit]
@@ -166,6 +165,8 @@ CTCP 信息
 预先发送
 [Attempt reverse DCC (good if firewalled)]
 尝试反向 DCC (有防火墙时较好)
+[none]
+无
 [everyone on the contact list]
 联系人列表中所有人
 [everyone]
@@ -208,6 +209,8 @@ CTCP 聊天请求
 忽略用户
 [(*) Queries from users on your contact list are never ignored]
 (*) 联系人列表中用户所发查询永不忽略
+[Queries]
+查询
 [Messages]
 消息
 [Notices]
@@ -224,10 +227,8 @@ CTCP 聊天请求
 密码: 
 [Alternate nick]
 互换昵称
-;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 CTCP 聊天请求自 %s
-;file \protocols\IRCG\src\commandmonitor.cpp
 [%s sets mode %s]
 %s 设置模式 %s
 [%s sets mode %s%s]
@@ -292,7 +293,6 @@ IRC 错误
 在执行缓冲区使用 /AWAY 是受限制的, \n因为 IRC 会自动发送此命令. 
 [IRC Error]
 IRC 错误
-;file \protocols\IRCG\src\input.cpp
 [The buddy check function is enabled]
 好友检查功能已启用
 [The buddy check function is disabled]
@@ -335,14 +335,14 @@ DCC 错误: 无法监听端口
 输入命令
 [Please enter the reply]
 请输入回复
-;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
 无法连接到
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 DOC 错误: 无法绑定本地端口进行被动文件传输
-;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 信息
+[Nickname]
+昵称
 [DCC ERROR: No valid files specified]
 DCC 错误: 未指定有效文件
 [DCC reversed file transfer request sent to %s [%s]]
@@ -359,7 +359,6 @@ DCC 聊天连接尚未使用
 请选择要上线的 IRC 网络. 此网络将设为默认值. 
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 无法建立连接! 您尚未完成所有必需项 (昵称, 用户 ID 及 m_name). 
-;file \protocols\IRCG\src\options.cpp
 [Add]
 添加
 [Apply]
@@ -428,7 +427,6 @@ DCC 聊天连接尚未使用
 DCC 及 CTCP
 [Advanced]
 高级
-;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 %s 发出 WallOps: 
 [%s invites you to %s]
@@ -443,7 +441,6 @@ CTCP %s 回复已送达 %s
 CTCP %s 回复已送达 %s: %s
 [Notice to %s: ]
 给 %s 的公告: 
-;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 快速连接(&Q)
 [&Join channel]
@@ -620,11 +617,10 @@ WhoIs 信息(&W)
 添加用户(&A)
 [Connecting to]
 正在连接至
-;file \protocols\IRCG\src\tools.cpp
 [Offline]
 离线
-;file \protocols\IRCG\src\userinfo.cpp
-;file \protocols\IRCG\src\windows.cpp
+[Please wait...]
+请稍等...
 [Channel]
 频道
 [%s - Filtered - %d items]

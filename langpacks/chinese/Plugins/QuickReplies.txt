@@ -5,7 +5,6 @@
 ;  Version: 0.8.1.0
 ;  Authors: Unsane
 ;============================================================
-;file \plugins\QuickReplies\res\resources.rc
 [Quick Replies]
 快速回复
 [Send replies immediately]
@@ -18,11 +17,9 @@
 - 添加 "---" 显示分隔线.
 [- Press [v] button for variable's help.]
 - 按下 [v] 键可显示变量帮助.
-;file \plugins\QuickReplies\src\events.cpp
 [Button]
 按钮
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 快速回复\r\n左键 - 打开菜单\r\n右键 - 选项页
-;file \plugins\QuickReplies\src\options.cpp
 [Message Sessions]
 消息会话

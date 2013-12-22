@@ -5,7 +5,6 @@
 ;  Version: 1.0.12.4
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
-;file \plugins\SecureIM\res\resource.rc
 [User List]
 用户列表
 [Enable Secure Offline messages]
@@ -74,6 +73,8 @@ RSA 密钥
 发送/接收已加密内容颜色
 [Events]
 事件
+[Popup Timeout]
+弹出窗口超时
 [Time in Seconds]
 时间以秒单位
 [Show a popup on established connection]
@@ -128,13 +129,18 @@ Secure IM 已禁用
 导入公匙
 [Delete public key]
 删除公匙
-;file \plugins\SecureIM\src\language.cpp
 [General]
 常规
+[Nickname]
+昵称
 [Name]
 名称
+[ON]
+打开
 [Off]
 关闭
+[Disabled]
+禁用
 [Always try]
 永远尝试
 [Create SecureIM connection]
@@ -145,13 +151,14 @@ Secure IM 已禁用
 SecureIM 模式 (原始)
 [SecureIM status (disabled)]
 SecureIM 状态 (禁用)
-;file \plugins\SecureIM\src\loadicons.cpp
 [Contact List]
 联系人列表
 [Connection Disabled]
 连接禁用
 [Connection Established]
 连接已创建
+[Contact Menu]
+联系人菜单
 [Disable Secure Connection]
 显示安全连接
 [Establish Secure Connection]
@@ -174,6 +181,8 @@ SecureIM 状态 (禁用)
 菜单状态
 [Always Try]
 始终尝试
+[Overlays]
+覆盖
 [Native mode]
 原始模式
 [PGP mode]
@@ -182,7 +191,6 @@ PGP 模式
 GPG 模式
 [RSA/AES mode]
 RSA/AES 模式
-;file \plugins\SecureIM\src\main.cpp
 [Icons]
 图标
 [Incoming Secure Message]
@@ -191,12 +199,11 @@ RSA/AES 模式
 发出安全消息
 [SecureIM status]
 SecureIM 状态
-;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 可执行文件
 [Select GnuPG Executable]
 选择 GnuPG 可执行文件
-;file \plugins\SecureIM\src\popupOptions.cpp
-;file \plugins\SecureIM\src\svcs_srmm.cpp
+[All files]
+所有文件
 [SecureIM [Native]]
 SecureIM [原始]

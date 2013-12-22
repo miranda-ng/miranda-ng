@@ -1,0 +1,2 @@
+﻿[Adds Restart menu item.]
+[Restart]

@@ -2,10 +2,9 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
-;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 您在此设置的图片将做为默认头像\n给无头像联系人.\n使用复选框启用/禁用显示相关协议头像.
 [Set default picture]
@@ -70,12 +69,34 @@
 设置
 [Use per protocol avatars]
 每个协议使用不同头像
-;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 每个协议使用不同头像
-;file \plugins\AVS\src\main.cpp
-[Grow avatar to fit max allowed protocol size]
-扩展头像以适合协议允许最大尺寸
+[Global avatar]
+全局头像
+[My Avatars]
+我的头像
+[Fatal error, image services not found. Avatar services will be disabled.]
+致命错误, 图像服务未找到. 头像服务将被禁用.
+[Avatar Service]
+头像服务
+[Set avatar options for %s]
+设定 %s 的头像选项
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+从磁盘删除图片文件 (可能需要强制重载, 但会删除本地图片)? 
+[Reset contact picture]
+重置联系人图片
+[Contact has no avatar]
+联系人无头像
+[Contacts]
+联系人
+[Contact Avatars]
+联系人头像
+[Own Avatars]
+己方头像
+[Are you sure you want to remove your avatar?]
+确定要移除您的头像吗? 
+[Global Avatar]
+全局头像
 [All Files]
 所有文件
 [Windows Bitmaps]
@@ -90,32 +111,9 @@ PNG 位图
 Flash 动态
 [XML Files]
 XML 文件
+[Grow avatar to fit max allowed protocol size]
+扩展头像以适合协议允许最大尺寸
 [Set My Avatar]
 设置我的头像
 [Set My Avatar for %s]
 为 %s 设定我的头像
-[My Avatars]
-我的头像
-[Contacts]
-联系人
-[Contact Avatars]
-联系人头像
-[Own Avatars]
-己方头像
-[Fatal error, image services not found. Avatar services will be disabled.]
-致命错误, 图像服务未找到. 头像服务将被禁用.
-[Avatar Service]
-头像服务
-;file \plugins\AVS\src\options.cpp
-[Set avatar options for %s]
-设定 %s 的头像选项
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-从磁盘删除图片文件 (可能需要强制重载, 但会删除本地图片)? 
-[Reset contact picture]
-重置联系人图片
-[Contact has no avatar]
-联系人无头像
-[Are you sure you want to remove your avatar?]
-确定要移除您的头像吗? 
-[Global Avatar]
-全局头像

@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.0
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
-;file \plugins\IEView\res\ieview.rc
 [Copy]
 复制
 [Select All]
@@ -48,28 +47,28 @@
 使用消息群组功能
 [Show nicknames]
 显示昵称
+[Show time]
+显示时间
 [Show seconds]
 显示秒数
+[Show date]
+显示日期
 [Use long date format]
 使用长日期格式
 [Use relative timestamp]
 使用相对时间戳
-;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 发送文件传输
 [Incoming File Transfer]
 传入文件传输
-;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (未知联系人)
 [ requested authorization]
  已请求授权
 [ was added.]
  已被添加. 
-;file \plugins\IEView\src\IEView.cpp
 [ERROR]
 错误
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 %s 已加入.
 [%s has left.]
@@ -78,7 +77,6 @@
 主题为 %s.
 [Error]
 错误
-;file \plugins\IEView\src\Options.cpp
 [General]
 常规
 [Message Log]
@@ -93,10 +91,7 @@
 消息会话
 [All Files]
 所有文件
-;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [File sent]
 已发送文件
 [File received]
 已接收文件
-;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
-;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

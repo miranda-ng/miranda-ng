@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.6
 ;  Authors: Ivan Rozhuk
 ;============================================================
-;file \protocols\MRA\res\resource.rc
 [E-mail:]
 邮件: 
 [Password:]
@@ -40,6 +39,8 @@
 年龄: 
 [from:]
 从:
+[to:]
+给: 
 [Location]
 位置
 [Country:]
@@ -88,6 +89,8 @@
 找回丢失的密码
 [Popup settings]
 弹出设置
+[&Use Windows colors]
+使用 Windows 颜色
 [Text Color]
 文本颜色
 [Closing in %d]
@@ -98,18 +101,44 @@
 取消
 [Select e-mail]
 选择邮箱
-;file \protocols\MRA\src\MraAvatars.cpp
-;file \protocols\MRA\src\MraChat.cpp
-;file \protocols\MRA\src\MraConstans.h
+[Male]
+男
+[Female]
+女
+[Aries]
+牡羊座
+[Taurus]
+金牛座
+[Gemini]
+双子座
+[Cancer]
+巨蟹座
+[Leo]
+狮子座
+[Virgo]
+处女座
+[Libra]
+天秤座
+[Scorpio]
+天蝎座
+[Sagittarius]
+射手座
+[Capricorn]
+魔蝎座
+[Aquarius]
+水瓶座
+[Pisces]
+双鱼座
 [Request authorization]
 要求授权
 [Grant authorization]
 准许授权
-;file \protocols\MRA\src\MraFilesQueue.cpp
-;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 主菜单
-;file \protocols\MRA\src\MraPopUp.cpp
+[Contact Menu]
+联系人菜单
+[Custom Status]
+自定义状态
 [None]
 无
 [Information]
@@ -118,19 +147,16 @@
 错误
 [Popups]
 弹出窗口
-;file \protocols\MRA\src\MraProto.cpp
 [E-mail address]
 邮箱地址
-;file \protocols\MRA\src\Mra_functions.cpp
-;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 网络
 [Files]
 文件
-;file \protocols\MRA\src\Mra_proto.cpp
-;file \protocols\MRA\src\Mra_svcs.cpp
 [Duck]
 鸭子
+[Playing]
+播放
 [Office]
 办公室
 [Beer]

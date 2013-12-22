@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
-;file \plugins\BASS_interface\res\Bass.rc
 [un4seen's bass interface]
 un4seen's bass 接口
 [bass.dll loading error]
@@ -42,13 +41,13 @@ bass 内部频道最大数量:
 接听电话
 [Out to lunch]
 外出用餐
-;file \plugins\BASS_interface\src\Bass_interface.h
 [Bass Interface]
 Bass 接口
-;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 un4seen's bass 版本: %d.%d.%d.%d
 [--default device--]
 --默认设备--
 [Sounds]
 声音
+[Disable sounds]
+禁用音效

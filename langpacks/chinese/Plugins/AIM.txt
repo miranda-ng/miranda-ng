@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
-;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM 用户详细资料
 [Screen Name:]
@@ -96,6 +95,8 @@ AIM 立即闲置
 此操作将允许访问用户定义聊天室. 要访问预定义聊天室可使用网络链接
 [Original]
 原件
+[New]
+新增
 [Repeat]
 重复
 [*Passwords don't match.]
@@ -114,8 +115,8 @@ AIM 立即闲置
 消息
 [Room]
 房间
-;file \protocols\AimOscar\src\chat.cpp
-;file \protocols\AimOscar\src\error.cpp
+[User &details]
+用户详细资料(&D)
 [Invalid Screen Name or password.]
 无效的显示名称或密码.
 [Mismatched Screen Name or password.]
@@ -240,17 +241,14 @@ SNAC 格式不正确.
 电邮主机故障.
 [DNS Fail.]
 DNS 故障.
-;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
 无法打开文件: %s : %s
-;file \protocols\AimOscar\src\links.cpp
-;file \protocols\AimOscar\src\popup.cpp
+[%s Protocol]
+%s 协议
 [Open mail account?]
 打开邮件账号?
-;file \protocols\AimOscar\src\proto.cpp
 [%s Client-to-client connection]
 %s C2C 连接
-;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
  [自动响应]: 
 [Contact tried to open an audio/video conference (currently not supported)]
@@ -297,7 +295,6 @@ DNS 故障.
 您的帐户已被确认.
 [Can't start the confirmation procedure.]
 无法启动确认程序.
-;file \protocols\AimOscar\src\theme.cpp
 [Profile]
 配置文件
 [AOL Mail]
@@ -312,6 +309,8 @@ AOL 机器人
 未确认
 [Foreground Color]
 前景颜色
+[Background Color]
+背景颜色
 [Bold]
 粗体
 [Not Bold]
@@ -348,12 +347,10 @@ AIM 扩展状态
 阅读配置文件
 [Add To Server List]
 加至服务器列表
-;file \protocols\AimOscar\src\ui.cpp
 [Network]
 网络
 [Join me in this buddy chat!]
 和我一起私聊!
-;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
 请于选项对话框输入用户名.
 [Please, enter a password in the options dialog.]

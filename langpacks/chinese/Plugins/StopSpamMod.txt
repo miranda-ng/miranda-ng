@@ -5,13 +5,16 @@
 ;  Version: 0.0.2.0
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
-;file \plugins\StopSpamMod\res\stopspam.rc
 [Answer:]
 回答:
+[Vars]
+变量
 [Available accounts:]
 可用账户:
 [Filtered accounts:]
 筛选帐号:
+[Add contact permanently]
+永久添加联系人
 [Hide unanswered contacts and spammers from contact list]
 于联系人列表中隐藏无答复联系人及垃圾发送者
 [Ignore spammers (do not write messages to history)]
@@ -38,8 +41,6 @@
 自动授权
 [Use regex for answers checking]
 使用正则表达式检查答案
-;file \plugins\StopSpamMod\src\init.cpp
-;file \plugins\StopSpamMod\src\options.cpp
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
 恭喜! 您刚通过了 人/机 测试. 现在您可以给我发消息了.
 [Message Sessions]

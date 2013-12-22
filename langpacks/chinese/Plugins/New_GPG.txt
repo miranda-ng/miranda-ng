@@ -5,9 +5,10 @@
 ;  Version: 0.0.0.11
 ;  Authors: sss
 ;============================================================
-;file \plugins\New_GPG\res\new_gpg.rc
 [OK]
 确定
+[Home directory:]
+主目录:
 [Ignore]
 忽略
 [Cancel]
@@ -18,8 +19,10 @@
 注释:
 [Password:]
 密码: 
-;file \plugins\New_GPG\src\init.cpp
-;file \plugins\New_GPG\src\main.cpp
+[Current password:]
+当前密码: 
+[Email]
+邮箱
 [Name]
 名称
 [Accounts]
@@ -32,8 +35,6 @@
 替换
 [Accept]
 接受
-;file \plugins\New_GPG\src\messages.cpp
-;file \plugins\New_GPG\src\options.cpp
 [Messages]
 消息
 [Advanced]
@@ -42,4 +43,5 @@
 联络方式
 [Protocol]
 协议
-;file \plugins\New_GPG\src\utilities.cpp
+[LOG files]
+日志文件

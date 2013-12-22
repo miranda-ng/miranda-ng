@@ -7,7 +7,6 @@
 ;============================================================
 [Collects and prints information related to Miranda, the plugins and the OS.]
 收集并打印 Miranda, 插件及系统相关信息.
-;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 输出至: 
 [OK]
@@ -60,7 +59,6 @@ Miranda 版本消息
 复制文本(&C)
 [&Save to file]
 保存至文件(&S)
-;file \plugins\VersionInfo\src\CVersionInfo.cpp
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
 如果您打算用这份报告来提交缺陷, 请记得检查网站已有议题或开发者需要帮助. \r\n如果您不检查缺陷报告并提供反馈信息, 它将无法修复! 
 [Information successfully written to file: "%s".]
@@ -71,19 +69,15 @@ Miranda 版本消息
 剪贴板无法使用, 请重试. 
 [Information successfully copied into clipboard.]
 信息已成功复制到剪贴板. 
-;file \plugins\VersionInfo\src\dlgHandlers.cpp
 [Customize using folders plugin]
 使用文件夹插件自定义
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 您确定要启用此选项? \n如您知道在做什么, 知道此选项功用或某人让您这样做时, 请启用此项目. 
 [Show plugin UUIDs?]
 显示插件 UUID? 
-;file \plugins\VersionInfo\src\hooked_events.cpp
 [VersionInfo]
 版本信息
 [Output folder]
 输出目录
-;file \plugins\VersionInfo\src\main.cpp
-;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
 Ok, "%s" 设置有点问题. 请回报这些数值: \n设备: %X\n错误代码: %X\n行号: %d

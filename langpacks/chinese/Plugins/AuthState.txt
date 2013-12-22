@@ -5,7 +5,6 @@
 ;  Version: 0.0.2.1
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
-;file \plugins\AuthState\res\authstate.rc
 [Show Auth icon]
 显示认证图标
 [Show Grant icon]
@@ -14,7 +13,6 @@
 启用菜单项 (*)
 [Show icons only for recently added contacts]
 仅最近添加联系人显示图标
-;file \plugins\AuthState\src\main.cpp
 [Disable AuthState icons]
 禁用认证状态图标
 [Enable AuthState icons]
@@ -25,6 +23,5 @@
 认证及授权
 [Auth State]
 认证状态
-;file \plugins\AuthState\src\options.cpp
 [Icons]
 图标

@@ -1,11 +1,10 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
 编辑笔记
 [Tags:]
@@ -270,6 +269,8 @@ Jabber 书签
 以下节类型: 
 [Messages]
 消息
+[Queries]
+查询
 [Incoming presence]
 传入知会
 [Outgoing presence]
@@ -284,6 +285,8 @@ Jabber 书签
 目录树方式查看
 [View as list]
 列表方式查看
+[Favorites]
+我的最爱
 [Node:]
 节点: 
 [Change %s Message]
@@ -308,6 +311,8 @@ Jabber 帐号信息:
 联盟: 
 [Set affiliation]
 设置联盟
+[Status message:]
+状态消息: 
 [Chat options]
 聊天选项
 [Custom messages]
@@ -342,7 +347,6 @@ Jabber 笔记本\n保存笔记至服务器以便随时随地访问.
 XML 控制台
 [Reset log]
 重置记录
-;file \protocols\JabberG\src\jabber.cpp
 [Frame title]
 框架标题
 [Frame text]
@@ -351,10 +355,8 @@ XML 控制台
 Jabber 活动
 [Jabber Mood]
 Jabber 心情
-;file \protocols\JabberG\src\jabber.h
 [/me slaps %s around a bit with a large trout]
 /me 用鳟鱼向 %s 打了一下
-;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 错误 %s %s
 [Select Command]
@@ -371,20 +373,18 @@ Jabber 心情
 Jabber 特别命令于
 [Sending Ad-Hoc command to %s]
 发送特别命令到
-;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 无消息
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
+[Please wait...]
+请稍等...
 [Bookmark Name]
 书签名称
 [Address (JID or URL)]
 地址 (JID 或 URL)
+[Nickname]
+昵称
 [Conferences]
 会议
-;file \protocols\JabberG\src\jabber_byte.cpp
-;file \protocols\JabberG\src\jabber_caps.cpp
-;file \protocols\JabberG\src\jabber_captcha.cpp
-;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 无
 [Member]
@@ -469,6 +469,8 @@ Jabber 特别命令于
 用户详细资料(&U)
 [Member &info]
 会员资料(&I)
+[User &details]
+用户详细资料(&D)
 [&Add to roster]
 添加至名册(&A)
 [&Copy to clipboard]
@@ -505,30 +507,16 @@ Jabber 特别命令于
 真实 JID(&J): %s
 [%s\nSend group chat invitation.]
 %s\n发送群聊邀请.
-[Member Info:]
-会员信息: 
 [Real JID not available]
 真实 JID 无法使用
-[Reason to kick]
-踢走原因
-[Reason to ban]
-封锁原因
 [Invite %s to %s]
 邀请 %s 至 %s
-[Set topic for]
-设置主题为
-[Change nickname in]
-变更昵称在
-[Reason to destroy]
-破坏原因
-;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 当您离线时无法发送资料
 [Jabber Error]
 Jabber 错误
 [Outgoing XML parsing error]
 发送 XML 解析错误
-;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
 请示超时.
 [Node hierarchy]
@@ -553,7 +541,6 @@ Jabber 错误
 登录
 [Logoff]
 注销
-;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 身份
 [category]
@@ -566,8 +553,10 @@ Jabber 错误
 请求信息错误
 [Items request error]
 请求项目错误
-;file \protocols\JabberG\src\jabber_form2.cpp
-;file \protocols\JabberG\src\jabber_groupchat.cpp
+[First Name]
+名字
+[Last Name]
+姓氏
 [Failed to retrieve room list from server.]
 无法从服务器获取房间列表. 
 [No rooms available on server.]
@@ -588,7 +577,6 @@ Jabber 错误
 已设置主题为:
 [%s\nIncoming group chat invitation.]
 %s\n收到群聊邀请.
-;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
 传输
 [Notes]
@@ -659,7 +647,6 @@ RSS 服务
 对话框
 [Discovery]
 探索
-;file \protocols\JabberG\src\jabber_iqid.cpp
 [Jabber Authentication]
 Jabber 认证
 [Registration successful]
@@ -670,7 +657,6 @@ Jabber 认证
 密码无法变更. 
 [Jabber Bookmarks Error]
 Jabber 书签错误
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d 项 (%s)
 [Voice List]
@@ -685,12 +671,10 @@ Jabber 书签错误
 管理员列表
 [Owner List]
 所有者列表
-[Removing]
-正在移除
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Reason to ban]
+封锁原因
 [Http authentication request received]
 已接收 Http 认证请求
-;file \protocols\JabberG\src\jabber_menu.cpp
 [Request authorization]
 要求授权
 [Grant authorization]
@@ -737,19 +721,14 @@ Jabber 资源
 隐私名单
 [Service discovery]
 服务探索
-[Last active]
-最后活动的
 [No activity yet, use server's choice]
 尚无操作, 使用服务器的选择
 [Highest priority (server's choice)]
 最高优先级 (服务器的选择)
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
 至
 [Both]
 两者
-;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 传入笔记从 %s
 [Send note to %s]
@@ -762,7 +741,6 @@ Jabber 资源
 笔记尚未保存, 关闭此窗口将不再上传数据至服务器?
 [Incoming note]
 传入笔记
-;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 阿发尔
 [Abkhazian]
@@ -1017,8 +995,6 @@ Jabber 协议选项
 确认密码
 [Passwords do not match.]
 密码不匹配.
-[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
-此项操作将删除您的帐号, 名册及其它保存于服务器的信息. 您准备好要这样做吗? 
 [Account removal warning]
 帐号移除警告
 [You can change your password only when you are online]
@@ -1121,14 +1097,10 @@ Jabber 协议选项
 Facebook 聊天
 [Some changes will take effect the next time you connect to the Jabber network.]
 某些变更将于您下次连接至 Jabber 网络时生效. 
-;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for]
-设置新密码给
 [New password does not match.]
 新密码不匹配. 
 [Current password is incorrect.]
 当前密码不正确. 
-;file \protocols\JabberG\src\jabber_privacy.cpp
 [Warning: privacy lists were changed on server.]
 警告: 私密列表已在服务器变更. 
 [Error occurred while applying changes]
@@ -1231,8 +1203,6 @@ Facebook 聊天
 因为您现在离线所以无法保存列表. 
 [List Editor...]
 列表编辑器...
-;file \protocols\JabberG\src\jabber_proto.cpp
-;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 命令已成功完成
 [Error occurred during processing command]
@@ -1295,7 +1265,6 @@ Facebook 聊天
 无群聊可退出
 [Choose the group chats you want to leave]
 选择您想离开的群聊
-;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 错误 %s %s\r\n请选择其它服务器
 [Error: unknown reply received\r\nPlease select other server]
@@ -1310,7 +1279,6 @@ Facebook 聊天
 请稍候...\r\n正在连接搜索服务器...
 [You have to be connected to server]
 您需要连接至服务器
-;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
 关闭聊天会话
 [sent subscription request]
@@ -1323,7 +1291,6 @@ Facebook 聊天
 已发送出现错误
 [sent unknown presence type]
 已发送未知出现类型
-;file \protocols\JabberG\src\jabber_thread.cpp
 [Error: Not enough memory]
 错误: 内存不足
 [Error: Cannot connect to the server]
@@ -1336,7 +1303,6 @@ Facebook 聊天
 消息已重定向: %s\r\n%s
 [Sending registration information...]
 正在发送注册信息...
-;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Message]
 消息
 [<not specified>]
@@ -1347,6 +1313,8 @@ Facebook 聊天
 版本
 [System]
 系统
+[unknown]
+未知
 [Idle since]
 闲置于
 [Client capabilities]
@@ -1361,18 +1329,14 @@ Facebook 聊天
 软件版本
 [Miranda core version]
 Miranda 核心版本
-[Unicode build]
-Unicode 版本
-[Yes]
-是
-[No]
-否
-[Alpha build]
-Alpha 版本
-[Debug build]
-Debug 版本
 [Tune]
 曲调
+[both]
+两者
+[to]
+至
+[none]
+无
 [Last logoff time]
 上次注销时间
 [Uptime]
@@ -1399,7 +1363,6 @@ Debug 版本
 <无照片>
 [Photo]
 照片
-;file \protocols\JabberG\src\jabber_util.cpp
 [Redirect]
 重定向
 [Bad request]
@@ -1442,7 +1405,8 @@ Debug 版本
 设置心情...
 [Set activity...]
 设为活动...
-;file \protocols\JabberG\src\jabber_vcard.cpp
+[OK (%d)]
+是 (%d)
 [Male]
 男
 [Female]
@@ -1455,8 +1419,6 @@ Jabber vCard: 编辑邮箱地址
 Jabber vCard: 编辑电话号码
 [Contacts]
 联系人
-;file \protocols\JabberG\src\jabber_ws.cpp
-;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]
 恐惧
 [Amazed]
@@ -1625,14 +1587,28 @@ Jabber vCard: 编辑电话号码
 锻炼
 [Grooming]
 梳洗
+[taking a bath]
+正在洗澡
 [Having appointment]
 有约会
+[thinking]
+思考中
+[gaming]
+正在游乐
+[shopping]
+购物中
+[watching TV]
+正在看电视
 [Talking]
 谈论
 [on the phone]
 接听电话
 [Traveling]
 旅行
+[studying]
+正在学习
+[writing]
+写入
 [Activity: %s]
 活动: %s
 [Set Activity]
@@ -1641,6 +1617,5 @@ Jabber vCard: 编辑电话号码
 心情
 [Activities]
 活动
-;file \protocols\JabberG\src\ui_utils.cpp
 [Set filter...]
 设置过滤器...

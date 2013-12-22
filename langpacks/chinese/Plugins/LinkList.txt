@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 搜索
 [Close]
@@ -88,7 +87,6 @@
 在新窗口中打开
 [Show Message]
 显示消息
-;file \plugins\HistoryLinkListPlus\src\language.h
 [History Linklist]
 历史链接列表
 [History is empty!]
@@ -101,7 +99,6 @@
 传入
 [outgoing]
 发送
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [&Create Linklist]
 创建链接列表(&C)
 [History]
@@ -112,13 +109,13 @@
 无法创建窗口!
 [Could not allocate memory!]
 无法分配内存!
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist Plugin]
 链接列表插件
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
 [Matches for searchtext]
 匹配搜索文本
 [Processing list...]
 处理列表中...
 [No messages found!\nPlease change current filter options.]
 未找到信息!\n请更改当前过滤选项.
+[All files]
+所有文件

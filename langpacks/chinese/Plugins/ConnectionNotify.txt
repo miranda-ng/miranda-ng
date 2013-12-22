@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.5
 ;  Authors: MaKaR
 ;============================================================
-;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colors]
 设置弹出提示颜色
 [Popup options]
@@ -20,9 +19,9 @@
 确定
 [Cancel]
 取消
-;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Show]
+状态不同时显示
 [Status]
 状态
 [Plugins]
 插件
-;file \plugins\ConnectionNotify\src\filter.cpp

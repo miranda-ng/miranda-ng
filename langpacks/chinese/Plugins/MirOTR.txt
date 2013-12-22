@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.4
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
-;file \plugins\MirOTR\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 OTR 正在生成私人密钥
 [Generating new private key - please wait.]
@@ -28,7 +27,6 @@ OTR 正在生成私人密钥
 否(&N)
 [&Yes]
 是(&Y)
-;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
 开始 OTR
 [Stop OTR]
@@ -57,5 +55,3 @@ OTR 信息
 策略
 [Default]
 默认
-;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
-;file \plugins\MirOTR\MirOTR\src\options.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.0.2.0
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
-;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 协议选项
 [Specify options for each protocol]
@@ -60,19 +59,18 @@
 移动宽度
 [Shaking Message Window Options]
 震动消息窗口选项
-;file \plugins\Nudge\src\main.cpp
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
 不允许您发送过多闪屏 (每 %d 秒仅可一个, 尚余 %d 秒)
 [Nudge]
 闪屏
 [Nudge as Default]
 默认闪屏
-;file \plugins\Nudge\src\nudge.cpp
+[Send Nudge]
+发送闪屏
 [You received a nudge]
 您已收到一次闪屏
 [You sent a nudge]
 您已发送一次闪屏
-;file \plugins\Nudge\src\options.cpp
 [Events]
 事件
 [Window Shaking]

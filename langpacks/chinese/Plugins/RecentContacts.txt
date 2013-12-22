@@ -7,17 +7,14 @@
 ;============================================================
 [Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
 添加主菜单项, 显示按联系时间排序的最近联系人列表.
-;file \plugins\RecentContacts\res\resource.rc
 [Recent Contacts]
 最近联系人
 [Number of shown contacts:\n (0 to show all)]
 显示联系人数量:\n (0 显示所有)
 [Format of date and time\n(Look to readme for placeholders help)]
 格式化日期及时间\n(占位符相关请查看帮助)
-;file \plugins\RecentContacts\src\options.cpp
 [Contacts]
 联系人
-;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
 主图标
 [Contact]
@@ -28,4 +25,3 @@
 显示联系人
 [Show Recent Contacts]
 显示最近联系人
-;file \plugins\RecentContacts\src\RecentContacts.h

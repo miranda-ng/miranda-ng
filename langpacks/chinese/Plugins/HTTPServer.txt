@@ -5,7 +5,6 @@
 ;  Version: 0.1.2.2
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
-;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
 IP 地址 1
 [IPAddress2]
@@ -70,10 +69,10 @@ URL 地址
 在浏览器中打开(&O)
 [&Copy link]
 复制链接(&C)
-;file \plugins\HTTPServer\src\Glob.h
-;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 共享当前目录
+[All files]
+所有文件
 [Specify a file to share]
 指定要共享文件
 [Max Downloads]
@@ -108,10 +107,8 @@ HTTP 服务器
 网络
 [HTTP Share new file]
 HTTP 分享新文件
-;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 共享已移除
-;file \plugins\HTTPServer\src\main.cpp
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
 绑定端口失败于 %s\r\n可能因为另一程序或服务正在使用此端口
 [Disable HTTP server]

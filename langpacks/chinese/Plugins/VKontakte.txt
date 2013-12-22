@@ -1,0 +1,21 @@
+﻿#muuid {32579908-724b-467f-adad-22b6359a749a}
+;============================================================
+;  File: VKontakte.dll
+;  Plugin: VKontakte protocol
+;  Version: 0.1.0.6
+;  Authors: Miranda NG Team
+;============================================================
+[Password:]
+密码: 
+[Advanced]
+高级
+[Instruction:]
+操作指南: 
+[Submit]
+提交
+[Cancel]
+取消
+[Network]
+网络
+[Photo]
+照片

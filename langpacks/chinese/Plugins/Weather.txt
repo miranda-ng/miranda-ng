@@ -5,7 +5,6 @@
 ;  Version: 0.4.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
-;file \plugins\Weather\res\resource.rc
 [Brief Info]
 概要信息
 [Webpage]
@@ -104,6 +103,8 @@
 对此站点禁用自动更新
 [Cancel]
 取消
+[Popup Options]
+弹出窗口选项
 [Popup only when condition changes]
 仅状况变更时弹出窗口
 [Background color]
@@ -122,6 +123,8 @@
 弹出窗口延时
 [seconds]
 秒
+[From Popup plugin]
+从弹出窗口插件
 [Popup Text]
 弹出窗口文本
 [Default]
@@ -140,6 +143,8 @@
 额外文本
 [External Log]
 外部记录
+[Variable List]
+变量列表
 [More Variables]
 更多变量
 [Reset]
@@ -192,12 +197,10 @@ INI 文件累计
 为旧设定
 [To default]
 为默认值
-;file \plugins\Weather\src\weather.cpp
 [Weather Condition Changed]
 天气情况已变更
 [Weather Alert Issued]
 已发出天气警告
-;file \plugins\Weather\src\weather.h
 [Invalid ID format, missing "/" (10)]
 无效 ID 格式, 遗漏 "/" (10)
 [Invalid service (11)]
@@ -260,7 +263,6 @@ HTTP 错误: 网关已超时 (504)
 %n 于 %u: 	%c, %t (感觉像 %f)	风力: %i %w	湿度: %m
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\n今天:   最高 %h, 最低 %l
-;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 %s 当前天气信息. 
 [%s is now the default weather station]
@@ -273,7 +275,6 @@ HTTP 错误: 网关已超时 (504)
 <在此输入站点名称>
 [<Enter station ID here>]
 <在此输入站点 ID>
-;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 天气情况尚未记录. 
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
@@ -286,11 +287,12 @@ HTTP 错误: 网关已超时 (504)
 天气 INI 信息
 [View webpage]
 查看网页
+[Reset to default]
+重置为默认值
 [Text Files]
 文本文件
 [All Files]
 所有文件
-;file \plugins\Weather\src\weather_conv.cpp
 [in]
 入
 [<unknown time>]
@@ -299,15 +301,12 @@ HTTP 错误: 网关已超时 (504)
 <错误>
 [HTTP Error %i]
 HTTP 错误 %1
-;file \plugins\Weather\src\weather_data.cpp
 [<Enter city name here>]
 <在此输入城市名称>
 [Error when obtaining data: %s]
 获取信息时发生错误: %s
-;file \plugins\Weather\src\weather_http.cpp
 [Weather HTTP connections]
 天气 HTTP 连接
-;file \plugins\Weather\src\weather_icons.cpp
 [Update Disabled]
 更新已禁用
 [Update with Clear]
@@ -320,7 +319,10 @@ HTTP 错误 %1
 天气更新
 [No Popup]
 无弹出窗口
-;file \plugins\Weather\src\weather_info.cpp
+[Name]
+名称
+[Items]
+项目
 [The corresponding INI file for "%s" is not found.]
 找不到 "%s" 对应 INI 文件. 
 [Weather INI information for "%s":]
@@ -343,19 +345,16 @@ INI 版本:
 描述: 
 [Here is a list of custom variables that are currently available]
 这里是当前可用自定义变量列表
-;file \plugins\Weather\src\weather_ini.cpp
 [No update data file is found. Please check your Plugins\\Weather directory.]
 找不到任何更新资料文件. 请检查您的 Plugins\\Weather 目录. 
 [Invalid ini format for: %s]
 无效 ini 格式: %s
 [All update data has been reloaded.]
 所有更新资料已重新读取. 
-;file \plugins\Weather\src\weather_mwin.cpp
 [Frame Font]
 框架字体
 [Frame Title Font]
 框架标题字体
-;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 网络
 [General]
@@ -366,12 +365,10 @@ INI 版本:
 %c\t当前情况\n%d\t当前日期\n%e\t结露点\n%f\t感觉像气温\n%h\t今天最高\n%i\t风向\n%l\t今天最低\n%m\t湿度\n%n\t站点名称\n%p\t气压\n%r\t日出时间\n%s\t站点 ID\n%t\t气温\n%u\t更新时间\n%v\t能见度\n%w\t风速\n%y\t日落
 [Weather Protocol Text Preview]
 天气协议文本预览
-;file \plugins\Weather\src\weather_popup.cpp
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\t当前天气情况\n%d\t当前时间\n%e\t结露点\n%f\t感觉像气温\n%h\t今天最高\n%i\t风向\n%l\t今天最低\n%m\t湿度\n%n\t站点名称\n%p\t气压\n%r\t日出时间\n%s\t站点 ID\n%t\t气温\n%u\t更新时间\n%v\t能见度\n%w\t风速\n%y\t日落
 [%[..]\tcustom variables]
 %[..]\t自定义变量
-;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 站点 ID
 [Disable &weather notification]
@@ -398,10 +395,8 @@ INI 版本:
 天气通知
 [Display in a frame]
 在框架中显示
-;file \plugins\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 无法为 %s 获取天气信息
-;file \plugins\Weather\src\weather_userinfo.cpp
 [Current condition for %n]
 %s 当前天气情况
 [Last update on:   %u]

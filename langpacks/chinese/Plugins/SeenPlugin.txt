@@ -5,7 +5,6 @@
 ;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
-;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 最后看见选项
 [Last seen menuitem]
@@ -68,7 +67,6 @@
 测试\n测试
 [Alert when user status changes]
 当用户状态变更时发出提醒
-;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 最后看见历史
 [View User's Details]
@@ -77,7 +75,6 @@
 用户菜单
 [Send Instant Message]
 发送立即消息
-;file \plugins\SeenPlugin\src\main.cpp
 [LastSeen]
 最后看见
 [User status change]
@@ -88,19 +85,16 @@
 用户注销
 [User Logged In]
 用户登录
-[Last seen]
-最后看见
-;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <未知>
 [<none>]
 <无>
-;file \plugins\SeenPlugin\src\options.cpp
 [Contacts]
 联系人
+[Last seen]
+最后看见
 [Popups]
 弹出窗口
-;file \plugins\SeenPlugin\src\seen.h
 [-- Date --]
 -- 日期 --
 [year (4 digits)]
@@ -165,8 +159,6 @@ UIN/处理
 为空字符串
 [instead of]
 替换为
-;file \plugins\SeenPlugin\src\userinfo.cpp
-;file \plugins\SeenPlugin\src\utils.cpp
 [<never seen>]
 <从未见过>
 [Idle]

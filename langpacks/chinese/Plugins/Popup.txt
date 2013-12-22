@@ -7,7 +7,6 @@
 ;============================================================
 [Provides popup notification services for different plugins.]
 为各种插件提供弹出窗口通知服务.
-;file \plugins\Popup\res\resource.rc
 [Content && Style]
 内容及样式
 [Go to Customize > Fonts && Colors for fonts and colors options]
@@ -24,6 +23,8 @@
 启用弹出窗口历史
 [Store last]
 保存最后
+[events]
+事件
 [Use History++ to render log]
 使用 History++ 渲染记录
 [Draw avatar borders]
@@ -48,12 +49,16 @@ Miranda 窗口屏幕
 幻灯片式弹出提示
 [Effect:]
 特效:
+[ms]
+毫秒
 [Time (out):]
 时间 (出):
 [Limit window amount to:]
 限制窗口数量为:
 [* - built-in skins]
 * - 内置皮肤
+[Popup History]
+弹出窗口历史
 [Popup Area]
 弹出窗口区域
 [pixel(s)]
@@ -100,6 +105,8 @@ Miranda 窗口屏幕
 中键
 [Right Button]
 右键
+[General options]
+常规选项
 [Enable this notification]
 启用此通知
 [Left click action:]
@@ -114,6 +121,8 @@ Miranda 窗口屏幕
 颜色可配置于\r\n自定义 > 字体及颜色
 [Disable if message window is open]
 如消息窗口已打开则禁用
+[Sec]
+秒
 [Per-contact settings]
 每联系人设置
 [Show always]
@@ -150,7 +159,6 @@ Miranda 窗口屏幕
 永远 (高优先级)
 [Fullscreen mode]
 全屏模式
-;file \plugins\Popup\src\actions.cpp
 [no overwrite]
 不覆盖
 [Quick reply]
@@ -161,7 +169,6 @@ Miranda 窗口屏幕
 联系人菜单
 [Pin popup]
 弹出窗口别针
-;file \plugins\Popup\src\config.cpp
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 测试预览弹出窗口设置. 这应该可容纳于一列的长度...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
@@ -172,18 +179,14 @@ Miranda 窗口屏幕
 这是警告消息
 [This is an error message]
 这是错误消息
-;file \plugins\Popup\src\effects.cpp
-;file \plugins\Popup\src\font.cpp
 [Hovered Action]
 悬停操作
 [Clock]
 时钟
-;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 弹出历史已禁用
 [Popup History message]
 弹出历史信息
-;file \plugins\Popup\src\icons.cpp
 [With "favorite" overlay]
 "我的最爱" 覆盖图标
 [With "fullscreen" overlay]
@@ -210,20 +213,38 @@ Miranda 窗口屏幕
 弹出窗口别针
 [Pinned Popup]
 固定弹出窗口
+[Contact Menu]
+联系人菜单
 [Add Contact Permanently]
 永久添加联系人
-;file \plugins\Popup\src\main.cpp
 [Actions]
 操作
 [Contacts]
 联系人
 [Advanced]
 高级
-;file \plugins\Popup\src\opt_adv.cpp
 [Fade in/out]
 淡入/淡出
-;file \plugins\Popup\src\opt_class.cpp
-;file \plugins\Popup\src\opt_gen.cpp
+[Offline]
+离线
+[Online]
+在线
+[Invisible]
+隐身
+[Away]
+外出
+[NA]
+不适用
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
+[Free for chat]
+有空聊天
+[Out to lunch]
+外出用餐
+[On the phone]
+接听电话
 [upper left corner]
 左上角
 [lower left corner]
@@ -238,7 +259,6 @@ Miranda 窗口屏幕
 公共状态
 [Popup Plus Warning]
 Popup Plus 警告
-;file \plugins\Popup\src\opt_skins.cpp
 [Skin preview]
 预览皮肤
 [Just take a look at this skin... ;)]
@@ -249,19 +269,16 @@ Popup Plus 警告
 下拉阴影效果
 [non rectangular]
 非矩形
+[Enable Aero Glass (Vista+)]
+启用 Aero Glass (Vista+)
 [Use Windows colors]
 使用 Windows 颜色
 [Global settings]
 全局设置
 [Refresh List]
 刷新列表
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-;file \plugins\Popup\src\services.cpp
 [Error]
 错误
-;file \plugins\Popup\src\skin.cpp
-;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]
 弹出模式: 自动
 [Popup Mode: Ignore fullscreen]

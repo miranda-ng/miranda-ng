@@ -1,5 +1,4 @@
-﻿;file \src\resource.rc
-[Enter account name (for example, My Google)]
+﻿[Enter account name (for example, My Google)]
 输入帐号名称 (例如 "我的 Google" )
 [Choose the protocol type]
 选择协议类型
@@ -407,8 +406,6 @@ Miranda NG 正准备重启. \n请稍候...
 欢迎使用 Miranda NG 帐号管理员! \n您可以在此设置您的即时通讯帐号. \n\n请从左方列表选择帐号查看可用选项. 您也可以点击列表下面的 "新增" 按钮设置新的即时通讯帐号. 
 [Event icon legend:]
 事件图标图例:
-[Choose events you wish to ingonre:]
-选择您想忽略的事件:
 [Font effect]
 字体特效
 [Effect:]
@@ -481,7 +478,6 @@ Miranda NG 正准备重启. \n请稍候...
 取消变更
 [Ungroup]
 取消群组
-;file \src\core\stdauth\resource.rc
 [&Authorize]
 授权(&A)
 [&Deny]
@@ -498,7 +494,6 @@ Miranda NG 正准备重启. \n请稍候...
 您已被添加
 [&Close]
 关闭(&C)
-;file \src\core\stdaway\resource.rc
 [%s message for %s]
 %s 消息给 %s
 [Retrieving %s message...]
@@ -519,7 +514,6 @@ Miranda NG 正准备重启. \n请稍候...
 变更 %s 消息
 [Closing in %d]
 %d 秒关闭
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 发送(&S)
 [Show these events only:]
@@ -624,7 +618,6 @@ Miranda NG 正准备重启. \n请稍候...
 关闭其它标签(&L)
 [&Open at this position]
 在当前位置打开(&O)
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 隐藏离线用户
 [Hide empty groups]
@@ -813,6 +806,8 @@ Miranda NG 正准备重启. \n请稍候...
 窗口:
 [Contact list background:]
 联系人列表背景:
+[&Main menu]
+主菜单(&M)
 [&Status]
 状态(&S)
 [&Offline\tCtrl+0]
@@ -835,7 +830,6 @@ Miranda NG 正准备重启. \n请稍候...
 接听电话(&P)\tCtrl+8
 [Out to &lunch\tCtrl+9]
 外出用餐(&L)\tCtrl+9
-;file \src\core\stdfile\resource.rc
 [Send file(s)]
 发送文件
 [To:]
@@ -860,8 +854,6 @@ Miranda NG 正准备重启. \n请稍候...
 文件: 
 [Save to:]
 保存至: 
-[Contact menu]
-联系人菜单
 [&Open...]
 打开...
 [Open &folder]
@@ -946,12 +938,10 @@ Miranda NG 正准备重启. \n请稍候...
 重命名 (附加 " (1)" 等等)
 [You will always be asked about files from people not on your contact list]
 非联系人列表人员发来文件时将永远询问
-;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 关于 Miranda NG
 [Credits >]
 贡献者 >
-;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 下列无故离开情况变为闲置: 
 [Windows]
@@ -978,7 +968,6 @@ Miranda NG 正准备重启. \n请稍候...
 如计算机无人值守则设为闲置:
 [Idle (auto-away):]
 闲置 (自动离开):
-;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 自动弹出窗口当: 
 [In background]
@@ -1027,6 +1016,8 @@ Miranda NG 正准备重启. \n请稍候...
 再试一次
 [Message session]
 消息会话
+[&Details]
+详细资料(&D)
 [Message window event log]
 通信窗口事件记录
 [Show names]
@@ -1075,7 +1066,6 @@ Miranda NG 正准备重启. \n请稍候...
 粘贴 && 发送
 [Delete]
 删除
-;file \src\core\stduihist\resource.rc
 [Find]
 查找
 [&Find next]
@@ -1086,7 +1076,6 @@ Miranda NG 正准备重启. \n请稍候...
 消息历史
 [&Find...]
 查找(&F)...
-;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 添加电话号码
 [Enter country, area code and phone number:]
@@ -1157,7 +1146,6 @@ Miranda NG 正准备重启. \n请稍候...
 职务: 
 [Website:]
 网站: 
-;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 %s 请求授权
 [%u requests authorization]
@@ -1170,7 +1158,6 @@ Miranda NG 正准备重启. \n请稍候...
 提醒
 [Added event]
 添加事件
-;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 查看用户详细资料
 [Add contact permanently to list]
@@ -1193,12 +1180,10 @@ Miranda NG 正准备重启. \n请稍候...
 %s 请示授权\n%s 于 %s
 [Feature is not supported by protocol]
 此功能协议尚不支持
-;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s message]
 阅读 %s 消息(&A)
 [Re&ad status message]
 阅读状态消息(&A)
-;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 我已在 %time% 外出. 
 [Give it up, I'm not in!]
@@ -1223,13 +1208,10 @@ Miranda NG 正准备重启. \n请稍候...
 闲置
 [Status]
 状态
-;file \src\core\stdchat\src\clist.cpp
 [Join chat]
 加入聊天
 [Open chat window]
 打开聊天窗口
-;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s 已加入
 [You have joined %s]
@@ -1258,7 +1240,6 @@ Miranda NG 正准备重启. \n请稍候...
 %s 禁用 '%s' 状态于 %s
 [<invalid>]
 <无效>
-;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
 其它昵称
 [Your nickname]
@@ -1545,10 +1526,8 @@ Miranda NG 正准备重启. \n请稍候...
 用户已发送公告
 [The topic has been changed]
 主题已变更
-;file \src\core\stdchat\src\services.cpp
 [&Join]
 加入(&J)
-;file \src\core\stdchat\src\tools.cpp
 [%s wants your attention in %s]
 %s 需要您注意 %s
 [%s speaks in %s]
@@ -1587,7 +1566,6 @@ Miranda NG 正准备重启. \n请稍候...
 查看 '%s':
 [No word to look up]
 无可查找字词
-;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 插入表情
 [Make the text bold (CTRL+B)]
@@ -1622,7 +1600,6 @@ Miranda NG 正准备重启. \n请稍候...
 昵称
 [Unique ID]
 独有 ID
-;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 标准联系人
 [Online contacts to whom you have a different visibility]
@@ -1643,7 +1620,6 @@ Miranda NG 正准备重启. \n请稍候...
 热跟踪文本
 [Quicksearch text]
 快速搜索文本
-;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 未获取焦点
 [Offline]
@@ -1668,18 +1644,14 @@ Miranda NG 正准备重启. \n请稍候...
 接听电话
 [List background]
 列表背景
-;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 全局
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 用户尚未登记邮箱地址
 [Send e-mail]
 发送邮件
 [&E-mail]
 邮件(&E)
-;file \src\core\stdfile\file.cpp
 [File from %s]
 从 %s 收到的文件
 [bytes]
@@ -1696,17 +1668,14 @@ Miranda NG 正准备重启. \n请稍候...
 错误
 [Denied]
 已拒绝
-;file \src\core\stdfile\fileexistsdlg.cpp
 [%s file]
 %s 文件
 [All files]
 所有文件
-;file \src\core\stdfile\fileopts.cpp
 [Executable files]
 可执行文件
 [Events]
 事件
-;file \src\core\stdfile\filerecvdlg.cpp
 [My received files]
 我收到的文件
 [View user's history]
@@ -1715,12 +1684,10 @@ Miranda NG 正准备重启. \n请稍候...
 用户菜单
 [Canceled]
 已取消
-;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
 %d 个文件
 [%d directories]
 %d 个目录
-;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 此文件尚未扫描病毒. 您确定要打开? 
 [File received]
@@ -1733,6 +1700,8 @@ Miranda NG 正准备重启. \n请稍候...
 正在等待连接...
 [Unable to initiate transfer.]
 无法初始化传输
+[Contact menu]
+联系人菜单
 [sec]
 秒
 [remaining]
@@ -1767,13 +1736,10 @@ Miranda NG 正准备重启. \n请稍候...
 正在扫描病毒...
 [Transfer and virus scan complete]
 传输及病毒扫描完成
-;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 发送
-;file \src\core\stdhelp\about.cpp
 [< Copyright]
 < 版权所有
-;file \src\core\stdhelp\help.cpp
 [&About...]
 关于(&A)...
 [&Support]
@@ -1782,18 +1748,14 @@ Miranda NG 正准备重启. \n请稍候...
 Miranda NG 主页(&M)
 [&Report bug]
 汇报缺陷(&R)
-;file \src\core\stdidle\idle.cpp
 [Idle]
 闲置
-;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 发送消息已超时. 
-;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 传入消息 (10x10)
 [Outgoing message (10x10)]
 发送消息 (10x10)
-;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 最后消息接收于 %s %s. 
 [signed off (was %s)]
@@ -1804,10 +1766,8 @@ Miranda NG 主页(&M)
 现在 %s (之前是 %s)
 [%s is typing a message...]
 %s 正在键入消息...
-;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 已发送文件
-;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 发送的消息
 [Incoming messages]
@@ -1838,7 +1798,6 @@ Miranda NG 主页(&M)
 通信记录
 [Typing notify]
 键入通知
-;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 从 %s 收到的消息
 [%s is typing a message]
@@ -1857,10 +1816,12 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 传入 (新会话)
 [Message send error]
 消息发送错误
-;file \src\core\stdmsg\src\msgtimedout.cpp
+[Contact started typing]
+联系人开始输入
+[Contact stopped typing]
+联系人停止输入
 [An unknown error has occurred.]
 发生未知错误
-;file \src\core\stduihist\history.cpp
 [Invalid message]
 无效消息
 [Outgoing URL]
@@ -1879,17 +1840,14 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 删除历史
 [View &history]
 查看历史(&H)
-;file \src\core\stdurl\url.cpp
 [URL from %s]
 从 %s 收到的网址
 [Web page address (&URL)]
 网页地址 (URL)(&U)
-;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 发送网址给
 [Send timed out]
 发送已超时
-;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail address]
 编辑邮箱地址
 [Edit phone number]
@@ -1910,7 +1868,6 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 工作电话
 [Work fax]
 工作传真
-;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 男
 [Female]
@@ -1929,34 +1886,24 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 背景资料
 [Notes]
 便笺
-;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 所有者
 [View/change my &details...]
 查看/变更我的详细资料(&D)...
-;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s 现在上线
-;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 添加联系人
 [Please authorize my request and add me to your contact list.]
 请授权我的请求, 并将我加至您的联系人列表中. 
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 自定义状态
 [%s (locked)]
 %s (已锁定)
 [Main menu]
 主菜单
-;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (未知联系人)
-;file \src\modules\clist\clisttray.cpp
-[&Main menu]
-主菜单(&M)
-;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 此联系人保存于即时通信系统中央服务器的联系人列表中. 下次登录时将从服务器和您的联系人列表中移除此联系人. 
 [De&lete]
@@ -1965,7 +1912,6 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 重命名(&R)
 [&Add permanently to list]
 永久加至列表(&A)
-;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 我的自定义名称 (不可移动)
 [Nick]
@@ -1984,13 +1930,12 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
  "(未知联系人)"  (不可移动)
 ['(Unknown contact)']
 '(未知联系人)'
-;file \src\modules\clist\genmenu.cpp
-;file \src\modules\clist\genmenuopt.cpp
+[Menu icons]
+菜单图标
 [Menus]
 菜单
 [Customize]
 自定义
-;file \src\modules\clist\groups.cpp
 [New group]
 新增群组
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2003,7 +1948,6 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 重命名群组
 [This group]
 此群组
-;file \src\modules\clist\keyboard.cpp
 [Show/Hide contact list]
 显示/隐藏联系人列表
 [Read message]
@@ -2012,12 +1956,10 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 打开选项页
 [Open 'Find user' dialog]
 打开查找用户对话框
-;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 移至群组
 [<Root group>]
 <根群组>
-;file \src\modules\database\database.cpp
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
 Miranda 无法打开 '%s', 因为您没有安装任何配置文件插件. \n您需要安装 dbx_mmap.dll 或类似插件. 
 [No profile support installed!]
@@ -2028,7 +1970,6 @@ Miranda 无法识别此配置文件
 Miranda 无法打开 '%s'\n可能被其它程序或  Miranda NG 使用中
 [Miranda can't open that profile]
 Miranda 无法打开此配置文件
-;file \src\modules\database\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 防恶意修改安全系统已就位, 所有变更都会警示您.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2041,7 +1982,6 @@ Miranda 无法打开此配置文件
 此变更具有潜在危险.
 [This change is not known to be safe.]
 此变更不知是否安全.
-;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 配置文件已存在
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
@@ -2060,22 +2000,18 @@ Miranda 无法打开此配置文件
 您确定想移除配置文件 "%s"?
 [Size]
 大小
-[Created]
-建立于
 [Run]
 运行
+[Created]
+建立于
 [My profiles]
 我的配置文件
 [New profile]
 新增配置文件
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
 [Chat activity]
 聊天活动
-;file \src\modules\extraicons\extraicons.cpp
-;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 额外图标
-;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 您尚未填写检索字段. 请输入搜索条件重试. 
 [Search]
@@ -2092,7 +2028,6 @@ Miranda 无法打开此配置文件
 处理
 [&Find/Add contacts...]
 查找/添加联系人(&F)...
-;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 无法在 '%s' 启动搜索, 出现问题 - %s 是否已连接? 
 [Could not search on any of the protocols, are you online?]
@@ -2107,7 +2042,6 @@ Miranda 无法打开此配置文件
 找到 %d 个用户 (
 [No users found]
 没有找到用户
-;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
 创建文件失败
 [<none>]
@@ -2134,22 +2068,18 @@ Miranda 无法打开此配置文件
 示例文本
 [Fonts]
 字体
-;file \src\modules\fonts\FontService.cpp
 [Headers]
 标题
 [Generic text]
 普通文本
 [Small text]
 少量文本
-;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 图标集
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** 所有联系人 **
 [Contacts]
 联系人
-;file \src\modules\netlib\netliblog.cpp
 [No times]
 无时间
 [Standard hh:mm:ss times]
@@ -2164,17 +2094,14 @@ Miranda 无法打开此配置文件
 选择日志文件创建位置
 [Select program to be run]
 选择要运行程序
-;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <所有连接>
 [Network]
 网络
-;file \src\modules\netlib\netlibssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 客户端无法解码主机信息. 可能原因: 主机不支持 SSL 或需要不存在的安全包
 [Host we are connecting to is not the one certificate was issued for]
 我们要连接的主机并非只发出了一个证书于
-;file \src\modules\options\options.cpp
 [Loading... %d%%]
 加载... %d%%
 [%s options]
@@ -2183,11 +2110,8 @@ Miranda 无法打开此配置文件
 Miranda NG 选项
 [&Options...]
 选项(&O)...
-;file \src\modules\plugins\newplugins.cpp
 [Fatal error]
 致命错误
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
-无消息插件加载. 请安装/启用一个消息插件, 例如, "srmm.dll"
 ['%s' is disabled, re-enable?]
 '%s' 已禁用, 重新启用? 
 [Re-enable Miranda plugin?]
@@ -2198,14 +2122,12 @@ Miranda NG 选项
 无法启用任何已安装联系人列表插件, 甚至忽略参数选项中选定联系人列表都无法加载. 
 [Can't find a contact list plugin! You need StdClist or any other clist plugin.]
 无法找到联系人列表插件! 您需要 clist_classic 或其它 clist 插件.
-;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 插件
 [Version]
 版本
 [Plugins]
 插件
-;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 建立新帐号
 [Editing account]
@@ -2244,7 +2166,6 @@ Miranda NG 选项
 您需要先禁用插件才能删除此账号
 [&Accounts...]
 帐号(&A)...
-;file \src\modules\skin\hotkey_opts.cpp
 [Remove shortcut]
 移除快速键
 [Add another shortcut]
@@ -2263,7 +2184,6 @@ Miranda NG 选项
 System 范围
 [Miranda scope]
 Miranda 范围
-;file \src\modules\skin\skinicons.cpp
 [User online]
 用户上线
 [Group (open)]
@@ -2334,8 +2254,6 @@ ANSI 插件
 %s 图标
 [Main icons]
 主要图标
-;file \src\modules\skin\sounds.cpp
-;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 您需要图片服务插件处理 PNG 图片. 
 [All bitmaps]
@@ -2348,11 +2266,8 @@ JPEG 位图
 GIF 位图
 [PNG bitmaps]
 PNG 位图
-;file \src\modules\utils\path.cpp
-;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <未指定>
-;file \src\modules\utils\utils.cpp
 [Unspecified]
 未指定
 [Unknown]
@@ -2405,12 +2320,16 @@ PNG 位图
 百慕大群岛
 [Bhutan]
 不丹
+[Bolivia]
+玻利维亚
 [Bosnia and Herzegovina]
 波斯尼亚及黑塞哥维那
 [Botswana]
 博茨瓦纳
 [Brazil]
 巴西
+[Brunei]
+文莱
 [Bulgaria]
 保加利亚
 [Burkina Faso]
@@ -2423,12 +2342,16 @@ PNG 位图
 喀麦隆
 [Canada]
 加拿大
+[Cape Verde]
+佛得角群岛
 [Cayman Islands]
 开曼群岛
 [Central African Republic]
 中非共和国
 [Chad]
 乍得
+[Chile]
+智利共和国
 [China]
 中国
 [Christmas Island]
@@ -2439,10 +2362,16 @@ PNG 位图
 哥伦比亚
 [Comoros]
 科摩罗
+[Congo, Republic of the]
+刚果共和国
+[Congo, Democratic Republic of the]
+刚果民主共和国
 [Cook Islands]
 库克群岛
 [Costa Rica]
 哥斯达黎加
+[Cote d'Ivoire]
+科特迪瓦
 [Croatia]
 克罗地亚
 [Cuba]
@@ -2531,6 +2460,8 @@ PNG 位图
 印度
 [Indonesia]
 印度尼西亚
+[Iran]
+伊朗
 [Iraq]
 伊拉克
 [Ireland]
@@ -2555,6 +2486,8 @@ PNG 位图
 科威特
 [Kyrgyzstan]
 吉尔吉斯斯坦
+[Laos]
+老挝
 [Latvia]
 拉脱维亚
 [Lebanon]
@@ -2563,12 +2496,16 @@ PNG 位图
 莱索托
 [Liberia]
 利比里亚
+[Libya]
+阿拉伯利比亚
 [Liechtenstein]
 列支敦士登
 [Lithuania]
 立陶宛
 [Luxembourg]
 卢森堡
+[Macau]
+澳门
 [Madagascar]
 马达加斯加
 [Malawi]
@@ -2589,6 +2526,8 @@ PNG 位图
 毛里塔尼亚
 [Mauritius]
 毛里求斯
+[Mayotte]
+马约特岛
 [Mexico]
 墨西哥
 [Micronesia, Federated States of]
@@ -2599,6 +2538,8 @@ PNG 位图
 摩纳哥
 [Mongolia]
 蒙古
+[Montenegro]
+黑山共和国
 [Montserrat]
 蒙特塞拉特岛
 [Morocco]
@@ -2655,8 +2596,12 @@ PNG 位图
 波多黎各
 [Qatar]
 卡塔尔
+[Reunion]
+留尼旺岛
 [Romania]
 罗马尼亚
+[Russia]
+俄罗斯
 [Rwanda]
 卢旺达
 [Saint Kitts and Nevis]
@@ -2675,6 +2620,8 @@ PNG 位图
 沙特阿拉伯
 [Senegal]
 塞内加尔
+[Serbia]
+塞尔维亚共和国
 [Seychelles]
 塞舌尔
 [Sierra Leone]
@@ -2707,8 +2654,12 @@ PNG 位图
 瑞士
 [Syria]
 阿拉伯叙利亚共和国
+[Taiwan]
+台湾
 [Tajikistan]
 塔吉克斯坦
+[Tanzania]
+ 坦桑尼亚 
 [Thailand]
 泰国
 [Togo]
@@ -2743,10 +2694,17 @@ PNG 位图
 乌兹别克斯坦
 [Vanuatu]
 瓦努阿图
+[Vatican City]
+梵蒂冈城
+[Venezuela]
+委内瑞拉
+[Vietnam]
+越南
+[Wallis and Futuna]
+瓦利斯群岛和富图纳群岛
 [Yemen]
 也门
 [Zambia]
 赞比亚
 [Zimbabwe]
 津巴布韦
-;file \src\modules\visibility\visibility.cpp

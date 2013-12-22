@@ -1,11 +1,10 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo
+;  Plugin: Yahoo Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Gennady Feldman
 ;============================================================
-;file \protocols\Yahoo\res\Yahoo.rc
 [Password:]
 密码: 
 [Nick:]
@@ -56,10 +55,10 @@ Yahoo 忽略列表
 取消(&C)
 [Add]
 添加
-;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
  [miranda] 已获取房间会议邀请: %s, 消息是: %s
-;file \protocols\Yahoo\src\icolib.cpp
+[User &details]
+用户详细资料(&D)
 [Mail]
 邮箱
 [Profile]
@@ -70,18 +69,16 @@ Yahoo 忽略列表
 设置状态
 [Calendar]
 日历
-;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Yahoo 错误
 [The message send timed out.]
 发送消息已超时. 
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 消息过长: Yahoo 消息仅限 800 个 UTF8 字符
-;file \protocols\Yahoo\src\links.cpp
-;file \protocols\Yahoo\src\main.cpp
+[YAHOO Link Protocol]
+Yahoo 链接协议
 [YAHOO plugin HTTP connections]
 YAHOO 插件 HTTP 连接
-;file \protocols\Yahoo\src\options.cpp
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 您所作出的变更需重连 Yahoo 网络才能生效
 [YAHOO Options]
@@ -102,14 +99,12 @@ Yahoo 忽略
 网络
 [Ignore List]
 忽略列表
-;file \protocols\Yahoo\src\proto.cpp
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 请到 "选项 - 网络 - Yahoo" 输入您的 Yahoo ID
 [Please enter your yahoo password in Options/Network/Yahoo]
 请到 "选项 - 网络 - Yahoo" 输入您的 Yahoo 密码
 [Yahoo Login Error]
 Yahoo 登录错误
-;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
 您需要先连接才能设置自定义消息
 [You need to be connected to refresh your buddy list]
@@ -128,10 +123,8 @@ Yahoo 邮箱(&Y)
 日历(&C)
 [&Show Profile]
 显示配置文件(&S)
-;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
  [miranda] 收到视频邀请. (暂不支持)
-;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 日历提醒
 [%s has rejected your request and sent the following message:]

@@ -7,7 +7,6 @@
 ;============================================================
 [Take a screenshot and send it to a contact.]
 制作屏幕截图并发送至联系人
-;file \plugins\SendScreenshotPlus\res\resource.rc
 [OK]
 确定
 [None]
@@ -34,6 +33,8 @@
 重新打开
 [&Capture]
 捕捉(&C)
+[About]
+关于
 [Credits >]
 贡献者 >
 [&Close]
@@ -46,19 +47,12 @@
 标题: 
 [Size (HxW):]
 大小 (HxW): 
-;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [An unknown error has occurred.]
 发生未知错误
 [Error]
 错误
-;file \plugins\SendScreenshotPlus\src\CSend.h
-;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
-;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
-;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [Could not start the HTTP Server plugin.]
 无法启动 HTTP 服务器插件. 
-;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
-;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Yes]
 是
 [No]
@@ -67,8 +61,6 @@
 放弃
 [Ignore]
 忽略
-;file \plugins\SendScreenshotPlus\src\global.h
-;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Screenshots]
 屏幕截图
 [Could not create main dialog.]
@@ -81,7 +73,6 @@
 进行截图
 [Could not register miranda service.]
 无法注册 Miranda 服务. 
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
 [Default]
 默认
 [Help]
@@ -90,13 +81,12 @@
 上一个
 [Apply]
 应用
-;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Down arrow]
+向下箭头
 [Overlays]
 覆盖
-;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [< Copyright]
 < 版权所有
-;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 请拖放目标至您所期望窗口. 
 [Window]

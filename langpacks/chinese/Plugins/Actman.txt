@@ -7,8 +7,6 @@
 ;============================================================
 [Contact window]
 联系人窗口
-[Text insert]
-文本插入
 [vars]
 变量
 [DWord]
@@ -58,6 +56,8 @@ lParam 类型
 [last result]
 最后结果
 [structure]
+结构
+[Structure]
 结构
 [Link to action]
 链接至操作
@@ -149,8 +149,12 @@ lParam 类型
 仅激活帐号
 [Dropdown list format]
 下拉列表格式
+[Apply]
+应用
 [Apply format]
 套用格式
+[New]
+新增
 [Event]
 事件
 [Core Hotkey]
@@ -161,6 +165,8 @@ lParam 类型
 注册操作
 [Menu icons]
 菜单图标
+[data]
+资料
 ;other strings
 [Open contact window]
 打开联系人窗口

@@ -5,16 +5,13 @@
 ;  Version: 0.1.0.0
 ;  Authors: faith_healer, ghazan, mataes
 ;============================================================
-;file \plugins\FingerprintNG\res\resource.rc
-;file \plugins\FingerprintNG\src\fingerprint.cpp
-;file \plugins\FingerprintNG\src\finger_groups.h
 [Pack overlays]
 包覆盖
+[Overlays]
+覆盖
 [Protocol]
 协议
-;file \plugins\FingerprintNG\src\masks.cpp
 [Undetected client]
 未知客户端
-;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 图标

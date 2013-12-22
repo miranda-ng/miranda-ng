@@ -5,7 +5,6 @@
 ;  Version: 0.0.1.11
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 设置我的昵称
 [Nickname:]
@@ -80,10 +79,10 @@
 设置我的状态消息...
 [Enable Listening To]
 启用正在聆听功能
-;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <无状态名称>
-;file \plugins\MyDetails\src\frame.cpp
+[Nickname]
+昵称
 [Status]
 状态
 [My Details]
@@ -104,7 +103,6 @@
 设置我的 %s 状态消息...
 [Hide My Details]
 隐藏我的详细资料
-;file \plugins\MyDetails\src\mydetails.cpp
 [Previous protocol]
 上一个协议
 [Next protocol]
@@ -113,8 +111,5 @@
 设置我的 %s 昵称
 [Set My Status Message for %s]
 设置我的 %s 状态消息
-[Show next account]
-
 [Contact List]
 联系人列表
-;file \plugins\MyDetails\src\options.cpp

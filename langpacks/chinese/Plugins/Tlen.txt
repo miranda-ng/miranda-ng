@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
-;file \protocols\Tlen\res\tlen.rc
 [Username:]
 用户名: 
 [Password:]
@@ -114,6 +113,8 @@ Tlen 登录:
 昵称: 
 [Age:]
 年龄: 
+[to]
+至
 [Extra Search Criterias]
 附加搜索条件
 [Plan:]
@@ -132,10 +133,62 @@ Tlen 语音聊天聊天邀请
 从: 
 [The following invitation to join a voice chat is received.]
 收到以下邀请, 邀请您加入语音聊天.
-;file \protocols\Tlen\src\tlen_iqid.cpp
+[Group chats]
+群组聊天
+[Tlen chats]
+Tlen 聊天
+[Voice chat]
+语音聊天
+[Microphone]
+麦克风
+[Speaker]
+喇叭
+[Incoming mail]
+传入邮件
+[Alert]
+警报
+[Tlen Chats]
+Tlen 聊天
+[Send picture]
+发送图片
+[Voice Chat]
+语音聊天
+[Request authorization]
+要求授权
+[Grant authorization]
+准许授权
+[1 File]
+1 文件
+[%d Files]
+%d 个文件
 [Tlen Authentication]
 Tlen 验证
-;file \protocols\Tlen\src\tlen_opt.cpp
+[You have been kicked. Reason: %s ]
+您已被踢. 理由: %s 
+[You cannot join this chat room, because you are banned.]
+您已被封锁, 无法加入此聊天室.
+[Chat room not found.]
+聊天室无法找到.
+[This is a private chat room and you are not one of the members.]
+这是一个私人聊天室您非其成员.
+[You cannot send any message unless you join this chat room.]
+除非您加入此聊天室否则不能发送任何信息.
+[Chat room with already created.]
+聊天室已建立.
+[Nickname '%s' is already registered.]
+呢称 '%s' 已被注册.
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+呢称已被使用, 请尝试其它. 提示: '%s' 未使用.
+[You cannot register more than %s nicknames.]
+您无法注册超过 %s 个呢称.
+[You cannot create more than %s chat rooms.]
+您无法创建超过 %s 个聊天室.
+[You cannot join more than %s chat rooms.]
+您无法加入超过 %s 个聊天室.
+[Anonymous nicknames are not allowed in this chat room.]
+聊天室中不允许匿名.
+[Unknown error code: %d]
+未知错误代码: %d
 [General]
 常规
 [Advanced]
@@ -168,10 +221,8 @@ Tlen 协议选项
 转发
 [%s mail]
 %s 邮件
-;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
 Tlen 登录
-;file \protocols\Tlen\src\tlen_thread.cpp
 [Tlen Connection Error]
 Tlen 连接错误
 [Windows]
@@ -186,65 +237,10 @@ Tlen 连接错误
 警报已收到
 [Private conference]
 私人会议
-;file \protocols\Tlen\src\tlen_ws.cpp
-;file \protocols\Tlen\src\tlen.cpp
-[Group chats]
-群组聊天
-[Tlen chats]
-Tlen 聊天
-[Voice chat]
-语音聊天
-[Microphone]
-麦克风
-[Speaker]
-喇叭
-[Incoming mail]
-传入邮件
-[Alert]
-警报
-[Tlen Chats]
-Tlen 聊天
-[Send picture]
-发送图片
-[Voice Chat]
-语音聊天
-[Request authorization]
-要求授权
-[Grant authorization]
-准许授权
-;file \protocols\Tlen\src\tlen_file.cpp
-[1 File]
-1 文件
-;file \protocols\Tlen\src\tlen_muc.cpp
-[You have been kicked. Reason: %s ]
-您已被踢. 理由: %s 
-[You cannot join this chat room, because you are banned.]
-您已被封锁, 无法加入此聊天室.
-[Chat room not found.]
-聊天室无法找到.
-[This is a private chat room and you are not one of the members.]
-这是一个私人聊天室您非其成员.
-[You cannot send any message unless you join this chat room.]
-除非您加入此聊天室否则不能发送任何信息.
-[Chat room with already created.]
-聊天室已建立.
-[Nickname '%s' is already registered.]
-呢称 '%s' 已被注册.
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-呢称已被使用, 请尝试其它. 提示: '%s' 未使用.
-[You cannot register more than %s nicknames.]
-您无法注册超过 %s 个呢称.
-[You cannot create more than %s chat rooms.]
-您无法创建超过 %s 个聊天室.
-[You cannot join more than %s chat rooms.]
-您无法加入超过 %s 个聊天室.
-[Anonymous nicknames are not allowed in this chat room.]
-聊天室中不允许匿名.
-[Unknown error code: %d]
-未知错误代码: %d
-;file \protocols\Tlen\src\tlen_picture.cpp
-;file \protocols\Tlen\src\tlen_userinfo.cpp
-;file \protocols\Tlen\src\tlen_voice.cpp
+[both]
+两者
+[none]
+无
 [...Connecting...]
 ...连接...
 [...Waiting for connection...]

@@ -5,7 +5,6 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-;file \protocols\Xfire\res\resource.rc
 [Password:]
 密码: 
 [Login name:]
@@ -70,6 +69,8 @@
 有了此功能, 如您在游戏中, 下列状态消息将设置于您的其它协议插件. 所以您的好友可以看到您在玩什么. 如启用此选项, 将更改状态为忙碌.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 支持以下变量: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
+[Status message:]
+状态消息: 
 [Change the status to occupied or dnd]
 更改状态为忙碌或请勿打扰
 [The status message and status will be reset, if you close the game.]
@@ -84,6 +85,8 @@
 其它协议不要设置状态信息
 [Remove]
 移除
+[Edit...]
+编辑: 
 [Username:]
 用户名: 
 [Game]
@@ -118,14 +121,12 @@
 添加一个新游戏
 [Searching games...]
 搜索游戏...
-;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 所有文件
 [XFire Options]
 XFire 选项
 [Please choose one game in the list!]
 请于列表选择一个游戏!
-;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 是, 我在这里. 
 [I've been away since %time%.]
@@ -140,8 +141,6 @@ XFire 选项
 电话联系吧. 
 [Mmm... food.]
 嗯... 食物. 
-;file \protocols\Xfire\src\iniupdater.cpp
-;file \protocols\Xfire\src\main.cpp
 [Login failed.]
 登录失败.
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
@@ -182,11 +181,12 @@ XFire 不支持离线消息!
 未设置登录名!
 [No Password is set!]
 未设置密码!
+[Playing]
+播放
 [Do you really want to delete your friend %s?]
 您真的想删除好友 %s?
 [Confirm Delete]
 确认删除
-;file \protocols\Xfire\src\options.cpp
 [Disable avatars]
 禁用头像
 [Use alternate way for Avatar download]
@@ -195,7 +195,7 @@ XFire 不支持离线消息!
 常规
 [Automatically reconnect on protocol version changes]
 协议版本改变时自动重连
-[No IP/Port in StatusMsg]
+[No Ip/Port in StatusMsg]
 状态信息中无 IP/端口
 [Use Online status for unsupported global statuses]
 不支持的全局状态默认使用在线状态
@@ -211,8 +211,6 @@ XFire 不支持离线消息!
 不要显示游戏搜索结果
 [Don't display game search status window]
 不要显示游戏搜索状态窗口
-[Display popup if someone starts a game]
-如某人开始游戏, 则显示弹出窗口
 [Gamedetection]
 游戏检测
 [Disable game detection]
@@ -249,18 +247,11 @@ XFire 不支持离线消息!
 黑名单 / 游戏
 [StatusMsg]
 状态信息
-;file \protocols\Xfire\src\pwd_dlg.cpp
-[Please enter server password...]
-
-;file \protocols\Xfire\src\searching4games.cpp
 [Games found:%s%s]
 游戏已找到:%s%s
-;file \protocols\Xfire\src\userdetails.cpp
 [<not specified>]
 <未指定>
-;file \protocols\Xfire\src\Xfire_game.cpp
 [Start game]
 开始游戏
-;file \protocols\Xfire\src\Xfire_gamelist.cpp
 [Please wait...]
 请稍等...

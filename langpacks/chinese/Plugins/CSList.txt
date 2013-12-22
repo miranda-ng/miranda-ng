@@ -5,7 +5,6 @@
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
-;file \plugins\CSList\res\cslist.rc
 [Custom Status List]
 自定义状态列表
 [No items available in the database.\nClick the Add button to define some.]
@@ -18,7 +17,6 @@
 确认删除项目
 [Remember last window position]
 记住最后窗口位置
-;file \plugins\CSList\src\cslist.cpp
 [Status]
 状态
 [Add new item]
@@ -29,15 +27,18 @@
 修改项目
 [Modify]
 修改
+[Favorites]
+我的最爱
 [Regular statuses]
 常规状态
 [Message]
 消息
 [Do you want old database entries to be deleted after Import?]
 您是否想将旧数据库条目导入后删除?
-;file \plugins\CSList\src\cslist.h
 [Main Menu]
 主菜单
+[Main Icon]
+主图标
 [Modify selected item]
 修改选定项
 [Delete selected item]

@@ -5,7 +5,6 @@
 ;  Version: 0.1.1.3
 ;  Authors: Deathdemon
 ;============================================================
-;file \plugins\ClientChangeNotify\res\Resources.rc
 [ClientChangeNotify error]
 ClientChangeNotify 错误
 [OK]
@@ -26,6 +25,8 @@ ClientChangeNotify 错误
 显示客户端版本
 [Don't notify for contacts with disabled status notification]
 联系人禁用状态通知不要提醒
+[Sec]
+秒
 [Background]
 背景
 [Text]
@@ -34,7 +35,6 @@ ClientChangeNotify 错误
 忽略这些客户端 (以分号分隔):
 [(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
 (您必须安装 pcre.dll 或 pcre3.dll 才能在这里使用正则表达式)
-;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [%s (was %s)]
 %s (是 %s)
 [) changed client to ]
@@ -51,11 +51,9 @@ ClientChangeNotify: 客户端已变更
 客户端变更通知
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
 `[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) 更换客户端为 %extratext%
-;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 错误 #%d
 [Can't open log file ]
 无法打开日志文件 
-;file \plugins\ClientChangeNotify\src\OptDlg.cpp
 [(you can use regular expressions here)]
 (您可在此使用正则表达式)

@@ -7,14 +7,12 @@
 ;============================================================
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
 处理文件类型关联及链接类似 Aim, Ymsgr, Xmpp, Wpmsg, GG, Tlen.
-;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 为 Miranda NG 注册关联:
 [&Start Miranda NG automatically when the computer starts (using current profile)]
 电脑启动时自动启动 Miranda NG(使用当前配置文件&S)
 [Only associate with Miranda NG while it is &running]
 仅在 Miranda NG 运行时关联(&R)
-;file \plugins\AssocMgr\src\assoclist.cpp
 [%hs files]
 %hs 文件
 [URLs on websites]
@@ -35,15 +33,12 @@
 关联
 [Miranda NG database]
 Miranda NG 数据库
-;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
 Miranda NG 不能打开文件
 [Miranda NG could not open URL]
 Miranda NG 不能打开 URL
-;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 访问失败:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
-;file \plugins\AssocMgr\src\test.cpp
 [ICQ Link Shortcut]
 ICQ 链接快捷方式
 [&Add to contact list...]

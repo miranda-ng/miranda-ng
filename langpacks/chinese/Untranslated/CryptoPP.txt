@@ -1,0 +1,3 @@
+﻿[Crypto++ library for SecureIM plugin.]
+[User ID]
+[Refresh]

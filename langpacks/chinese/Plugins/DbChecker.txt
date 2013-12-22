@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: George Hazan
 ;============================================================
-;file \plugins\DbChecker\res\resource.rc
 [Welcome to the Miranda Database Wizard]
 欢迎使用 Miranda 数据库向导
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
@@ -84,17 +83,14 @@ Miranda 数据库工具
 备份: 
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
 数据库处理已完成. 请按 "下一步" 返回向导开始选择其它要检查的数据库, 或按 "完成" 结束向导. 
-;file \plugins\DbChecker\src\finished.cpp
 [&Finish]
 完成(&F)
-;file \plugins\DbChecker\src\progress.cpp
 [Click Next to continue]
 请按 "下一步" 继续
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 处理尚未完成, 如果您现在取消, 已作出变更将被回滚且原始数据库将被还原. 您仍然要取消吗? 
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 处理尚未完成, 如果您现在返回, 已作出变更将被回滚且原始数据库将被还原. 您仍然要返回吗? 
-;file \plugins\DbChecker\src\selectdb.cpp
 [Error]
 错误
 [Total size]
@@ -105,8 +101,6 @@ Miranda 数据库工具
 Miranda 数据库 (*.dat)
 [All Files]
 所有文件
-;file \plugins\DbChecker\src\wizard.cpp
-;file \plugins\DbChecker\src\worker.cpp
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
 发生错误, 但您并未选择备份原数据库. 我们建议您备份以避免有重要资料被遗漏. 您要备份原数据库吗? 
 [%s\\Backup of %s]

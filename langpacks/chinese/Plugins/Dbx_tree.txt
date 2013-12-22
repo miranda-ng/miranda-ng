@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.18
 ;  Authors: Michael 'Protogenes' Kunz
 ;============================================================
-;file \plugins\Dbx_tree\res\dbConfig.rc
 [dbxTree Profile Wizard]
 dbxTree 配置文件向导
 [Cancel]
@@ -14,4 +13,3 @@ dbxTree 配置文件向导
 下一个 >
 [< Prev]
 < 上一个
-;file \plugins\Dbx_tree\src\FileAccess.cpp

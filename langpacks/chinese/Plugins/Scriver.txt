@@ -5,7 +5,8 @@
 ;  Version: 2.10.0.2
 ;  Authors: Miranda NG Development Team
 ;============================================================
-;file \plugins\Scriver\res\resource.rc
+[Behavior]
+行为
 [Automatically pop up the window when]
 自动弹出窗口当
 [and stay minimized]
@@ -68,8 +69,12 @@
 启用 IEView
 [Show icons]
 显示图标
+[Show time]
+显示时间
 [Show seconds]
 显示秒数
+[Show date]
+显示日期
 [Long date format]
 长日期格式
 [Relative date]
@@ -96,6 +101,8 @@
 最后
 [Events in the last]
 最后事件
+[events]
+事件
 [Typing Notification Options]
 键入通知选项
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -124,6 +131,14 @@
 取消
 [Message Session]
 消息会话
+[User &details]
+用户详细资料(&D)
+[&Add]
+添加(&A)
+[&Quote]
+引用(&Q)
+[&OK]
+确定(&O)
 [Send To All Tabs]
 发送到所有标签
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -134,6 +149,8 @@
 是
 [No]
 否
+[&Underline]
+下划线(&U)
 [Show these events only:]
 仅显示下列事件: 
 [Actions]
@@ -252,7 +269,8 @@
 清除记录(&G)
 [Co&py all]
 全部复制(&P)
-;file \plugins\Scriver\src\globals.cpp
+[Add contact]
+添加联系人
 [User's details]
 用户详细资料
 [User's history]
@@ -345,7 +363,6 @@ Unicode 已关闭
 信息 (10x10)
 [Group chats]
 群组聊天
-;file \plugins\Scriver\src\input.cpp
 [Messaging]
 通信
 [Navigate: Previous Tab]
@@ -374,7 +391,6 @@ Unicode 已关闭
 活动: 发送至所有
 [Action: Paste & Send]
 操作: 粘贴并发送
-;file \plugins\Scriver\src\msgdialog.cpp
 [Smiley]
 表情
 [Add Contact]
@@ -411,12 +427,10 @@ Unicode 已关闭
 %s 正在键入消息...
 [Last message received on %s at %s.]
 最后消息接收于 %s %s. 
-;file \plugins\Scriver\src\msglog.cpp
 [File sent]
 已发送文件
 [File received]
 已接收文件
-;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 常规
 [Event Log]
@@ -527,7 +541,6 @@ Unicode 已关闭
 消息会话
 [Typing Notify]
 键入通知
-;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 从 %s 收到的消息
 [%s is typing a message]
@@ -546,22 +559,20 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 传入 (新会话)
 [Outgoing]
 发送
-;file \plugins\Scriver\src\msgtimedout.cpp
+[Contact started typing]
+联系人开始输入
+[Contact stopped typing]
+联系人停止输入
 [An unknown error has occurred.]
 发生未知错误
-;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 永远置顶
-;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 发送消息已超时. 
-;file \plugins\Scriver\src\chat\clist.cpp
 [Join chat]
 加入聊天
 [Open chat window]
 打开聊天窗口
-;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
 [%s has joined]
 %s 已加入
 [You have joined %s]
@@ -590,12 +601,10 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 %s 禁用 '%s' 状态于 %s
 [<invalid>]
 <无效>
-;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 加入(&J)
 [&Leave]
 离开(&L)
-;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 有人发言时闪动
 [Flash when a word is highlighted]
@@ -672,7 +681,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 在系统托盘显示用户离开图标
 [Show icon in tray for users kicking other user]
 在系统托盘显示用户踢走其他用户图标
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 在系统托盘显示公告图标
 [Show icon in tray for name changes]
 在系统托盘显示名称变更图标
@@ -706,10 +715,8 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 用户已发送公告
 [The topic has been changed]
 主题已变更
-;file \plugins\Scriver\src\chat\services.cpp
 [Server: %s]
 服务器: %s
-;file \plugins\Scriver\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s 需要您注意 %s
 [%s speaks in %s]
@@ -742,7 +749,6 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 主题为 '%s'
 [The topic is '%s' (set by %s)]
 主题为 '%s' (%s 设置)
-;file \plugins\Scriver\src\chat\window.cpp
 [Manager]
 经理
 [Insert a smiley]

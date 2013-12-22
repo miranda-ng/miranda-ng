@@ -7,7 +7,6 @@
 ;============================================================
 [Notifies you of upcoming birthdays.]
 通知您即将到来的生日.
-;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Popups]
 弹出窗口
 [Don't show popups for subcontacts]
@@ -66,7 +65,6 @@
 删除
 [Upcoming birthdays]
 即将到来生日
-;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Upcoming age]
 虚岁
 [Current age]
@@ -77,6 +75,10 @@
 协议模块
 [mBirthday module]
 mBirthday 模块
+[Message window]
+消息窗口
+[All contacts]
+所有联系人
 [All contacts except hidden ones]
 除隐藏外所有联系人
 [All contacts except ignored ones]
@@ -105,7 +107,6 @@ mBirthday 模块
 %d 秒关闭
 [Closing in %d second]
 %d 秒关闭
-;file \plugins\WhenWasIt\src\hooked_events.cpp
 [Check for birthdays]
 检查生日
 [Contacts]
@@ -122,7 +123,6 @@ mBirthday 模块
 导出生日
 [Add/change user &birthday]
 添加/更改用户生日(&B)
-;file \plugins\WhenWasIt\src\icons.cpp
 [Check birthdays menu item]
 检查生日菜单项
 [List birthdays menu item]
@@ -137,7 +137,6 @@ mBirthday 模块
 超过 %d 天生日
 [WhenWasIt birthday reminder]
 WhenWasIt 生日提醒
-;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
 无即将到来生日.
 [%s had birthday %d days ago.]
@@ -152,7 +151,6 @@ WhenWasIt 生日提醒
 %s\n%s 将满 %d 岁.
 [%s\n%s just turned %d.]
 %s\n%s 刚满 %d.
-;file \plugins\WhenWasIt\src\services.cpp
 [Starting to refresh user details]
 开始刷新用户详细资料
 [Done refreshing user details]
@@ -173,4 +171,3 @@ WhenWasIt 生日提醒
 导出生日至文件: %s
 [Done exporting birthdays]
 生日导出完成
-;file \plugins\WhenWasIt\src\services.h

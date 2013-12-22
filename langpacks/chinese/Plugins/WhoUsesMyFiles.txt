@@ -5,13 +5,16 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
-;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 WUMF: 当前连接
 [OK]
 确定
 [Popup delay settings]
 弹出窗口超时设定
+[Background color]
+背景颜色
+[Text color]
+文本颜色
 [Show infinitely]
 一直显示
 [Choose delay time]
@@ -42,10 +45,10 @@ WUMF: 当前连接
 禁用选项将会在下个版本中实现
 [Show current connections]
 显示当前连接
-;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [File]
 文件
-;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Error]
+错误
 [Enable WUMF popups]
 启用 WUMF 弹出提示
 [Disable WUMF popups]

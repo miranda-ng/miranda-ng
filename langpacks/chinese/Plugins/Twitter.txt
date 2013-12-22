@@ -5,7 +5,6 @@
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
-;file \protocols\Twitter\res\twitter.rc
 [Create a new Twitter account]
 新建 Twitter 账号
 [Username:]
@@ -30,6 +29,8 @@ Twitter 订阅使用群聊
 请重连以使这些变更生效
 [Enable popup notifications for Tweets]
 启用 Tweets 弹出窗口提示
+[Use Windows colors]
+使用 Windows 颜色
 [Use Popup colors]
 使用弹出窗口插件颜色
 [Use custom colors]
@@ -44,8 +45,6 @@ Twitter 订阅使用群聊
 但不在登录时
 [OK]
 确定
-;file \protocols\Twitter\src\connection.cpp
-;file \protocols\Twitter\src\proto.cpp
 [Send Tweet...]
 发送 Tweet...
 [Network]
@@ -54,7 +53,8 @@ Twitter 订阅使用群聊
 弹出窗口
 [%s avatar connection]
 %s 头像连接
-;file \protocols\Twitter\src\theme.cpp
+[%s Protocol]
+%s 协议
 [Twitter Icon]
 Twitter 图标
 [Reply to Tweet]

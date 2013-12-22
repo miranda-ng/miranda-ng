@@ -5,7 +5,6 @@
 ;  Version: 2.0.2.6
 ;  Authors: Stark Wong, Mataes, Mikel-Ard-Ri
 ;============================================================
-;file \plugins\SimpleAR\res\Resource.rc
 [Enable Auto Replier]
 启用简易自动回复插件
 [Reply Message Heading:]
@@ -18,11 +17,9 @@
 分
 [&Default]
 默认值(&D)
-;file \plugins\SimpleAR\src\Main.cpp
 [Dear %user%, the owner left the following message:]
 亲爱的 %user%, 所有者留下了此消息: 
-;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
 简易自动回复插件
-[Plugins]
-插件
+[Message Sessions]
+消息会话

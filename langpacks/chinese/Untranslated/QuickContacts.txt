@@ -1,0 +1,5 @@
+﻿[Open contact-specific windows by hotkey.]
+[Send file]
+[Open contact menu]
+[Show all contacts]
+[Send message]

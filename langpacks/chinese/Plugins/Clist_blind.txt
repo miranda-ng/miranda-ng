@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
-;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 删除联系人
 [Are you sure you want to delete %s?]
@@ -152,6 +151,8 @@
 显示面板斜角
 [Show resize grip indicator]
 显示调整大小箭头
+[&Main menu]
+主菜单(&M)
 [E&xit]
 退出(&X)
 [&Status]
@@ -202,7 +203,6 @@
 重命名群组(&R)
 [&Delete Group]
 删除群组(&D)
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 未获取焦点
 [Offline]
@@ -233,11 +233,8 @@
 信息: %s
 [List]
 列表
-;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 全局
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp
 [Expanded]
 展开
 [Colapsed]

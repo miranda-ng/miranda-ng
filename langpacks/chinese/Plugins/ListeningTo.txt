@@ -5,7 +5,6 @@
 ;  Version: 0.3.0.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
-;file \plugins\ListeningTo\res\resource.rc
 [Enable sending listening information to contacts:]
 启用发送聆听信息给联系人: 
 [Radio]
@@ -72,7 +71,6 @@ foobar2000 (需要手动安装插件)
 %listening% - 聆听信息 (设置如上)
 [When nothing is playing, replace %listening% with:]
 未播放时, 把 %listening% 替换为: 
-;file \plugins\ListeningTo\src\listeningto.cpp
 [Send to %s]
 发送给 %s
 [ListeningTo]
@@ -107,14 +105,13 @@ foobar2000 (需要手动安装插件)
 切换发送给所有协议
 [Enable/Disable sending Listening To info (to all protocols)]
 启用/禁用发送聆听信息 (到所有协议)
-;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <未知>
 [Status]
 状态
 [General]
 常规
+[Format]
+格式
 [Players]
 播放器
-;file \plugins\ListeningTo\src\players\generic.cpp
-;file \plugins\ListeningTo\src\players\wmp.cpp

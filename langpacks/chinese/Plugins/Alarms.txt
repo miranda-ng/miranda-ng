@@ -5,7 +5,8 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\Alarms\res\resource.rc
+[New]
+新增
 [Delete]
 删除
 [Edit]
@@ -86,11 +87,8 @@
 选项(&O)...
 [&New Alarm...]
 新增闹钟(&N)...
-;file \plugins\Alarms\src\alarmlist.cpp
-;file \plugins\Alarms\src\alarms.cpp
 [Set Alarm]
 设置闹钟
-;file \plugins\Alarms\src\alarm_win.cpp
 [Example Alarm]
 范例闹钟
 [Some example text. Example, example, example.]
@@ -99,7 +97,6 @@
 背景
 [Window]
 窗口
-;file \plugins\Alarms\src\frame.cpp
 [Hide Reminders]
 隐藏提醒项目
 [Show Reminders]
@@ -108,7 +105,6 @@
 框架
 [Alarm Reminders]
 警告提醒
-;file \plugins\Alarms\src\icons.cpp
 [Menu: Set Alarm]
 菜单: 设置闹钟
 [Reminder: Soon]
@@ -119,7 +115,6 @@
 闹钟: 系统托盘
 [Menu: Show/Hide Reminders]
 菜单: 显示/隐藏提醒
-;file \plugins\Alarms\src\options.cpp
 [Please enter a title for this alarm.]
 请输入此警告标题. 
 [Error]

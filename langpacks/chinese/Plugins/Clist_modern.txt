@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 透明:
 [Window behavior:]
@@ -100,18 +99,26 @@
 职务: 
 [Size:]
 大小: 
+[Height]
+高度
 [W x H: 0 x 0 pixels]
 W x H: 0 x 0 像素
+[New]
+新增
 [Show contacts in groups]
 在群组中显示联系人
 [OK]
 确定
 [Cancel]
 取消
+[Clear all]
+全部清除
 [Protocol]
 协议
 [Group]
 群组
+[Last message]
+最后消息
 [Status Bar]
 状态栏
 [Show status bar]
@@ -140,6 +147,8 @@ W x H: 0 x 0 像素
 完全隐藏帐号
 [Show protocol icon]
 显示协议图标
+[Use connecting icon]
+使用连接图标
 [Show xStatus icon]
 显示扩展状态图标
 [Show both icons]
@@ -152,6 +161,8 @@ W x H: 0 x 0 像素
 显示未读邮件 (仅支持时)
 [Right click opens status menu]
 点击右键打开状态菜单
+[Right click opens Miranda menu]
+点击右键打开 Miranda 菜单
 [Space on Left]
 空白在左侧
 [Space on right]
@@ -204,6 +215,8 @@ W x H: 0 x 0 像素
 %
 [Size upwards]
 向上量度大小
+[Behavior]
+行为
 [Lock manual resize]
 锁定手动变更大小
 [Drag to]
@@ -228,6 +241,8 @@ x100 毫秒
 贴近边缘
 [Event notify area]
 事件通知区域
+[Disabled]
+禁用
 [Show automaticaly]
 自动显示
 [Always Visible]
@@ -288,16 +303,14 @@ x100 毫秒
 秒循环图标
 [Show multiple icons]
 显示多个图标
-[Only when statuses differ]
-仅在状态不同时
+[only when statuses differ]
+仅状态不同时
 [System tray icon]
 系统托盘图标
 [System tray icon mode]
 系统托盘图标模式
 [Use xStatus icon]
 使用扩展状态图标
-[only when statuses differ]
-仅状态不同时
 [Expand metacontacts]
 扩展中继联系人
 [MetaContacts stuff]
@@ -414,6 +427,8 @@ x100 毫秒
 在第二行绘制表情
 [Status]
 状态
+[Nickname]
+昵称
 [XStatus has priority]
 扩展状态优先
 [Use 'XStatus: XMessage']
@@ -460,6 +475,8 @@ x100 毫秒
 层叠
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 此选项页尚在开发中, 请忽视此处的任何问题. \n仅适用于高层次设计意见. 
+[&Main menu]
+主菜单(&M)
 [E&xit]
 退出(&X)
 [&Status]
@@ -510,9 +527,12 @@ x100 毫秒
 重命名群组(&R)
 [&Delete Group]
 删除群组(&D)
-;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 联系人列表表情
+[List Background]
+列表背景
+[StatusBar Background]
+状态栏背景
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 您想将联系人 '%s' 转换为中继联系人并将 '%s' 加至该中继联系人? 
 [Converting to MetaContact]
@@ -533,7 +553,10 @@ x100 毫秒
 您想将联系人 '%s' 从中继联系人 '%s' 移除, 并加至 '%s'? 
 [Changing MetaContacts (Moving)]
 变更中继联系人 (正在移动)
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Do you want contact '%s' to be added to MetaContact '%s'?]
+您想将联系人 '%s' 加至中继联系人 '%s'? 
+[Row items]
+行内对象
 [Standard contacts]
 标准联系人
 [Away contacts]
@@ -570,6 +593,8 @@ x100 毫秒
 已关闭群组成员数量
 [Dividers]
 分隔器
+[Second line]
+第二行
 [Third line]
 第三行
 [Status bar text]
@@ -582,6 +607,8 @@ x100 毫秒
 背景
 [Hot text]
 热文
+[Selected text]
+已选择文本
 [Quick search text]
 快速搜索文本
 [Menu text]
@@ -600,8 +627,6 @@ x100 毫秒
 列表
 [Window]
 窗口
-[List Background]
-列表背景
 [Not focused]
 未获取焦点
 [Offline]
@@ -644,10 +669,10 @@ x100 毫秒
 左方边缘后
 [Behind right edge]
 右方边缘后
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area]
+事件区域
 [No Events]
 没有事件
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [None]
 无
 [Low]
@@ -664,7 +689,6 @@ x100 毫秒
 联系人等级 中
 [Contact rate High]
 联系人等级 高
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Text]
 文本
 [Extra icons]
@@ -685,31 +709,18 @@ x100 毫秒
 第二行
 [Third Line]
 第三行
-[Row items]
-行内对象
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (未知联系人)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 查找/添加联系人(&F)...
-[&Main menu]
-主菜单(&M)
 [&Options...]
 选项(&O)...
-;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 显示联系人头像(&A)
 [Hide Contact &Avatar]
 隐藏联系人头像(&A)
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Show title]
-显示标题(&S)
-[&Expanded]
-扩展(&E)
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+[Close Miranda]
+关闭 Miranda
 [Empty %s cell]
 清空 %s 单元
 [column]
@@ -722,15 +733,12 @@ x100 毫秒
 %s, 包含 %s
 [ layered]
 分层的
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [Image size is]
 图片大小为
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 您需要图片服务插件处理 PNG 图片. 
 [Error]
 错误
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 加载/保存
 [Object Editor]
@@ -769,13 +777,10 @@ Angeli-Ka (图形), FYR (模板)
 默认皮肤
 [%Default Skin%]
 %默认皮肤%
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<全局>>
 [Center]
 中间
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 主菜单
 [Accounts]
@@ -786,8 +791,25 @@ Angeli-Ka (图形), FYR (模板)
 查找用户
 [Use groups]
 使用群组
+[Disable Groups]
+禁用群组
+[Disable sounds]
+禁用音效
 [Minimize]
 最小化
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Hours]
+小时
 [Configuring view mode: %s]
 正在设置查看模式: %s
+[All contacts]
+所有联系人
+[All Contacts]
+所有联系人
+[&Show title]
+显示标题(&S)
+[&Expanded]
+扩展(&E)
+[Show TitleBar]
+显示标题栏
+[&New SubGroup]
+新增子群组(&N)

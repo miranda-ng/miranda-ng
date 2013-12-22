@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: mRadio.dll
 ;  Module: mRadio
-;  Version: 0.0.2.1
+;  Version: 0.0.2.3
 ;  Authors: Awkward
 ;============================================================
 [This plugin plays and records Internet radio streams. Also local media files can be played.]
@@ -113,6 +113,8 @@ BASS.DLL 未找到!
 站点/播放列表链接
 [Currently used decoder]
 当前使用解码器
+[connecting]
+连接中
 [Can't initialize device]
 无法初始化设备
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
@@ -159,3 +161,5 @@ mRadio 音量控制
 音量
 [Equalizer]
 均衡器
+[New]
+新增

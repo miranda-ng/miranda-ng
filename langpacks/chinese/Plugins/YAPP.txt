@@ -5,7 +5,6 @@
 ;  Version: 0.5.0.11
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 弹出窗口历史
 [Close]
@@ -34,11 +33,10 @@
 设置超时
 [Timeout value (0 = default):]
 超时值 (0 = 默认值): 
-;file \plugins\YAPP\src\icons.cpp
-;file \plugins\YAPP\src\notify_imp.cpp
+[Popup History]
+弹出窗口历史
 [YAPP Popups]
 YAPP 弹出窗口
-;file \plugins\YAPP\src\options.cpp
 [Example]
 范例
 [Example With a Long Title]
@@ -63,15 +61,14 @@ YAPP 弹出窗口
 错误
 [Popups]
 弹出窗口
-;file \plugins\YAPP\src\services.cpp
-;file \plugins\YAPP\src\yapp.cpp
 [First line]
 第一行
+[Second line]
+第二行
 [Background]
 背景
 [Title underline]
 标题加下划线
-;file \plugins\YAPP\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 复制标题到剪贴板
 [Copy message to clipboard]

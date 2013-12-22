@@ -5,7 +5,6 @@
 ;  Version: 0.9.2.1
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-;file \plugins\Clist_nicer\res\resource.rc
 [About CList Nicer+]
 关于 CList Nicer+
 [OK]
@@ -50,6 +49,8 @@
 通过单击打开项目
 [Always show status in tooltip]
 始终在工具提示中显示状态
+[ms]
+毫秒
 [Event area]
 事件区域
 [Set base visiblity on the frames menu]
@@ -118,6 +119,8 @@
 离线时隐藏
 [Right align contacts]
 向右对齐联系人
+[Height]
+高度
 [Draw a border around avatars]
 为头像绘制边框
 [Rounded avatars]
@@ -286,14 +289,20 @@
 显示 ICQ 扩展状态图标
 [Mark protocols locked from global status changes]
 协议标记锁定为全局状态变更
+[New]
+新增
 [Cancel]
 取消
 [Apply]
 应用
+[Clear all]
+全部清除
 [Protocol]
 协议
 [Group]
 群组
+[Last message]
+最后消息
 [Per contact skins:]
 每位联系人皮肤: 
 [< Reload]
@@ -366,6 +375,8 @@
 在头像上绘制层叠图标
 [Show local time]
 显示本地时间
+[&Main menu]
+主菜单(&M)
 [E&xit]
 退出(&X)
 [&Status]
@@ -424,11 +435,12 @@
 显示附加按钮
 [Draw sunken Frame]
 绘制凹陷框架
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 常规
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Text color]
+文本颜色
+[<None>]
+<无>
 [Show menu]
 显示菜单
 [Show / hide offline contacts]
@@ -449,7 +461,6 @@
 选择查看模式
 [Clear view mode]
 清除查看模式
-;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 未获取焦点
 [Offline]
@@ -482,8 +493,6 @@
 名称
 [Status]
 状态
-[Last message]
-最后消息
 [Message frequency]
 消息频率
 [For RTL only]
@@ -514,7 +523,8 @@
 群组及布局
 [Advanced]
 高级
-;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Contact list]
+联系人列表
 [Add permanently]
 永久添加
 [Revert to default]
@@ -533,10 +543,8 @@
 %s 联系人列表显示及忽略选项
 [&Contact list settings...]
 联系人列表设置...
-;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 全局
-;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 切换显示在线/离线
 [Toggle groups]
@@ -551,6 +559,8 @@
 声音已关闭
 [Setup accounts]
 设置帐号
+[Event Area]
+事件区域
 [%s Connecting]
 %s 连接中
 [Open main menu]
@@ -585,42 +595,41 @@
 热跟踪文本
 [Quicksearch Text]
 快速搜索文本
-;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+标题栏
 [Tool Window]
 工具窗口
 [Thin border]
 细框线
 [No border]
 无框线
-;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 使用默认标题栏及框线时无法停靠联系人列表. 请改用工具窗口或无框线样式. 
 [Clist docking]
 停靠联系人列表
-;file \plugins\Clist_nicer\src\extBackg.cpp
-;file \plugins\Clist_nicer\src\init.cpp
 [No events...]
 无事件...
-;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Hours]
+小时
 [Current view mode: %s]
 当前查看模式: %s
 [No view mode]
 无查看模式
 [Clear current View Mode]
 清除当前查看模式
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&Skinned frame]
 框架使用皮肤(&S)
 [Frames]
 框架
+[Show TitleBar]
+显示标题栏
 [Skinned frame]
 框架使用皮肤
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 查找/添加联系人(&F)...
-[&Main menu]
-主菜单(&M)
 [&Options...]
 选项(&O)...
 [&About the contact list...]
 关于联系人列表(&A)...
+[&New SubGroup]
+新增子群组(&N)

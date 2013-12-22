@@ -5,7 +5,6 @@
 ;  Version: 3.2.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 您可使用用户名或 ID 添加新用户. 允许并推荐使用通配符.
 [OK]
@@ -146,7 +145,12 @@
 关闭其它标签(&L)
 [&Open at this position]
 在当前位置打开(&O)
-;file \plugins\TabSRMM\res\resource.rc
+[&Cancel]
+取消(&C)
+[&Send]
+发送(&S)
+[&Add]
+添加(&A)
 [TabSRMM exception]
 TabSRMM 异常
 [Customize the panel]
@@ -165,6 +169,8 @@ TabSRMM 异常
 大
 [Tip: To use a custom size you can always drag the bottom edge of the panel]
 提示: 拖动面板底部边缘可自定义大小
+[Other options]
+其它选项
 [Note: All settings are applied immediately]
 注意: 所有设置立即生效
 [The container is using private settings. The panel height will not be shared with other containers.]
@@ -193,6 +199,8 @@ TabSRMM 异常
 限制消息预览至
 [Only show event notifications when my status is...]
 显示事件通知仅当状态为...
+[Popup Options]
+弹出窗口选项
 [Text]
 文本
 [Background]
@@ -401,6 +409,8 @@ ESC 键行为
 建立新容器
 [Create new]
 建立新的
+[Reset]
+重置
 [Show in IM chats]
 在聊天对话中显示
 [Show in chat rooms]
@@ -409,8 +419,6 @@ ESC 键行为
 按钮间隔:
 [Hide if there isn't enough space]
 如无足够空间则隐藏
-[Reset]
-重置
 [Insert Separator]
 插件分隔器
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
@@ -451,6 +459,8 @@ ESC 键行为
 每个联系人仅一个弹出窗口(&O)
 [Show &entry in the main menu]
 在主菜单中显示项目(&E)
+[From Popup plugin]
+从弹出窗口插件
 [From protocol]
 从协议获取
 [Custom]
@@ -527,6 +537,8 @@ ESC 键行为
 时间戳显示秒数
 [Use contacts local time]
 使用联系人本地时间
+[Format]
+格式
 [Indent message body]
 缩排消息主体
 [Display grid lines]
@@ -665,6 +677,8 @@ Ctrl+Enter 发送消息 (总是启用)
 强制 ANSI(&A)
 [Send unsafe (ignore Timeouts)]
 非安全发送 (忽略超时)
+[Send Nudge]
+发送闪屏
 [Splitter Position]
 分隔器位置
 [Global]
@@ -715,6 +729,8 @@ Ctrl+Enter 发送消息 (总是启用)
 将联系人加至我的最爱
 [Remove Contact from Favorites]
 将联系人从我的最爱移除
+[dummy]
+笨蛋
 [Set Position for this Session]
 为此会话设置位置
 [Set and Save for all Sessions]
@@ -791,7 +807,6 @@ Ctrl+Enter 发送消息 (总是启用)
 说明
 [About TabSRMM...]
 关于 TabSRMM...
-;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
 协议按钮
 [Info button]
@@ -824,7 +839,6 @@ Ctrl+Enter 发送消息 (总是启用)
 事件过滤器 - 按右键设置, 左键激活/失效
 [<Separator>]
 <分隔线>
-;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 隐藏标题栏
 [Message Session...]
@@ -843,7 +857,8 @@ Ctrl+Enter 发送消息 (总是启用)
 使用协议
 [Set Default Protocol]
 使用默认协议
-;file \plugins\TabSRMM\src\containeroptions.cpp
+[General options]
+常规选项
 [Window layout]
 容器布局
 [Tabs and switch bar]
@@ -852,6 +867,8 @@ Ctrl+Enter 发送消息 (总是启用)
 选择标签式用户界面选项. 并非所有选项都可用于已打开窗口. 您可能需要关闭重开它们.
 [Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window.]
 选择, 当您想看到此窗口的事件通知 (弹出提示). 此设置应用于此窗口中所有标签.
+[Title bar]
+标题栏
 [Window size and theme]
 窗口大小及主题
 [You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
@@ -882,7 +899,6 @@ Ctrl+Enter 发送消息 (总是启用)
 开, 如存在, 则永远显示于底部
 [Don't show them]
 不要显示
-;file \plugins\TabSRMM\src\controls.cpp
 [&User]
 用户(&U)
 [&Room]
@@ -897,7 +913,6 @@ Ctrl+Enter 发送消息 (总是启用)
 会话列表.\n左键点击列表打开会话.\n右键访问我的最爱及快速配置消息窗口行为
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 有 %d 个待发送作业. 消息长度: %d 字节, 消息长度限制: %d 字节\n\n%d 消息已加入稍后发送队列
-;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 您的其中一个弹视窗口操作已设为 "关闭事件". \n注意此选项可能会有副作用, 因为它会从未读事件队列中 "移除" 事件. \n可能会导致事件无法显示为 "新". 如果您不想有类似行为, 请查看事件通知设置页. 
 [Incoming file]
@@ -910,7 +925,6 @@ Ctrl+Enter 发送消息 (总是启用)
 新消息: 
 [Unknown module or contact]
 未知模块或联系人
-;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 配置问题|自动发送功能禁用. \\b1 稍后发送\\b0  和 \\b1 多重发送\\b0  功能信赖于此.\n\n您必须启用其于 \\b1选项->消息会话->高级调整\\b0. 更改选项需重启生效.
 [You cannot edit user notes when there are unsent messages]
@@ -929,7 +943,6 @@ UID: %s (按 SHIFT 点击 -> 复制到剪贴板)\n点击显示用户详细信息
 无 UID
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
 UID: %s (按 SHIFT 点击 -> 复制到剪贴板)\n点击显示用户详细信息\n右击显示中继联系人控制\n点击下拉更改此联系人收藏状态.
-;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 即时消息
 [Incoming (Focused Window)]
@@ -964,7 +977,6 @@ TabSRMM 菜单
 已登录, 当前%s. 
 [changed status from %s to %s.]
 的状态已由 %s 变更为 %s. 
-;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 [Most recent unread session]
 最近未读会话
 [Paste and send]
@@ -1001,7 +1013,6 @@ TabSRMM 菜单
 切换过滤器
 [Show server window]
 显示服务器窗口
-;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 %s    闲置: %dh,%02dm
 [Topic is: %s]
@@ -1052,11 +1063,8 @@ TabSRMM 信息
 永远显示 (如果存在)
 [Never show it at all]
 永不显示
-;file \plugins\TabSRMM\src\mim.cpp
-;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 插入 [img] 标签 / 以 [img][/img] 环绕选定文本
-;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 将此联系人永久加至您的联系人列表
 [Do not add this contact permanently]
@@ -1097,7 +1105,6 @@ TabSRMM 信息
 警告: 您已选择离线时子协议发送以下消息
 [Contact is offline and this protocol does not support sending files to offline users.]
 联系人离线, 协议不支持发送文件给离线用户. 
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
 [Error creating destination directory]
 建立目的目录发生错误
 [Save contact picture]
@@ -1112,8 +1119,6 @@ TabSRMM 信息
 无论闪屏插件未安装或联系人协议不支持发送闪屏事件.
 ['(Unknown Contact)']
 '(未知联系人)'
-;file \plugins\TabSRMM\src\msglog.cpp
-;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
 <无皮肤>
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
@@ -1150,10 +1155,14 @@ History++ 插件
 标签及布局
 [Containers]
 容器
+[Message log]
+消息记录
 [Tool bar]
 工具栏
 [Typing Notify]
 键入通知
+[Message window]
+消息窗口
 [Window layout tweaks]
 窗口布局调整
 [Log formatting]
@@ -1164,7 +1173,6 @@ History++ 插件
 突出显示
 [Choose status modes]
 选择状态模式
-;file \plugins\TabSRMM\src\msgs.cpp
 [Image tag]
 图片标记
 [Quote text]
@@ -1229,8 +1237,6 @@ History++ 插件
 功能禁用 (使用覆盖)
 [Feature enabled (used as overlay)]
 功能启用 (使用覆盖)
-;file \plugins\TabSRMM\src\msgs.h
-;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 选择 %s 容器
 [You cannot delete the default container]
@@ -1241,7 +1247,6 @@ History++ 插件
 您无法重命名默认容器
 [This name is already in use]
 此名称已在使用中
-;file \plugins\TabSRMM\src\sendlater.cpp
 [A send later job completed successfully.\nThe original message: %s]
 一个稍后发送作业成功完成.\n原消息: %s
 [A send later job failed to complete.\nThe original message: %s]
@@ -1250,6 +1255,8 @@ History++ 插件
 <所有联系人>
 [Removed]
 已移除
+[Failed]
+已失败
 [Sent OK]
 发送 OK
 [Deferred]
@@ -1270,7 +1277,6 @@ History++ 插件
 最后发送信息
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
 您将要修改一或多项的状态于\n自动发送队列. 所要求操作将在下次执行计划队列时处理.\n\n此操作无法撤消.
-;file \plugins\TabSRMM\src\sendqueue.cpp
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 此消息无法延迟或多重发送, 因为它超出了允许最大消息长度 %d 字节
 [A message delivery has failed.\nClick to open the message window.]
@@ -1287,7 +1293,6 @@ History++ 插件
 此协议稍后发送功能不可用.
 [\n(Sent delayed. Original timestamp %s)]
 \n(发送延迟. 原时间戳 %s)
-;file \plugins\TabSRMM\src\sidebar.cpp
 [Like tabs, vertical text orientation]
 类标签, 垂直文字方向
 [Compact layout, horizontal buttons]
@@ -1296,10 +1301,8 @@ History++ 插件
 高级头像布局
 [Advanced with avatars, vertical orientation]
 高级头像, 垂直方向
-;file \plugins\TabSRMM\src\srmm.cpp
 [TabSRMM Message (%s)]
 TabSRMM 消息 (%s)
-;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not availble when using History++ plugin for message log display.]
 当消息记录使用 History++ 插件显示时无法预览.
 [%d Unread]
@@ -1308,15 +1311,12 @@ TabSRMM 消息 (%s)
 聊天室 %s
 [%d User(s)]
 %d 用户
-;file \plugins\TabSRMM\src\templates.cpp
 [Template Set Editor]
 模板集编辑器
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 此操作将重置模板集成的默认内置模板. 您确定想这样做? 
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 模板集已被重置完成, 请关闭并重新打开所有消息窗口. 此模板编辑器窗口现在将会关闭. 
-;file \plugins\TabSRMM\src\themeio.cpp
-;file \plugins\TabSRMM\src\themes.cpp
 [Semi transparent, custom colors]
 半透明, 自定义颜色
 [Silver shadow]
@@ -1327,7 +1327,6 @@ TabSRMM 消息 (%s)
 在皮肤变更前需要先关闭所有消息容器\n要进行吗? 
 [Change skin]
 变更皮肤
-;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
 消息窗口调整
 [Error feedback]
@@ -1460,8 +1459,6 @@ TabSRMM 消息 (%s)
 输入区允许 TAB 键 (此操作将禁用 TAB 键焦点切换)
 [Add offline contacts to multisend list]
 将离线联系人加至多重发送列表
-;file \plugins\TabSRMM\src\trayicon.cpp
-;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 禁用键入通知(&T)
 [Enable &typing notification]
@@ -1474,7 +1471,6 @@ TabSRMM 消息 (%s)
 联系人开始输入
 [Contact stopped typing]
 联系人停止输入
-;file \plugins\TabSRMM\src\userprefs.cpp
 [Always On]
 永远打开
 [Always Off]
@@ -1487,7 +1483,6 @@ TabSRMM 消息 (%s)
 强制 IEView
 [Set messaging options for %s]
 设置通讯选项于 %s
-;file \plugins\TabSRMM\src\utils.cpp
 [Important release notes|A test warning message]
 重要发布说明|一个测试警告信息
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
@@ -1504,13 +1499,12 @@ Aero peek 警告|您已启用 Aero Peek 功能并加载了自定义容器窗口�
 加载主题|加载颜色和字体主题会覆盖现有皮肤设定.\n\n您是否想继续?
 [TabSRMM warning message]
 TabSRMM 警告信息
-;file \plugins\TabSRMM\src\chat\clist.cpp
 [Join chat]
 加入聊天
 [Open chat window]
 打开聊天窗口
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-;file \plugins\TabSRMM\src\chat\log.cpp
+[Text color]
+文本颜色
 [%s has joined]
 %s 已加入
 [You have joined %s]
@@ -1539,12 +1533,10 @@ TabSRMM 警告信息
 %s 禁用 '%s' 状态于 %s
 [<invalid>]
 <无效>
-;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 添加用户至突出显示列表
 [Edit user highlight list]
 编辑用户突出显示列表
-;file \plugins\TabSRMM\src\chat\options.cpp
 [Group chat log background]
 群组聊天记录背景
 [Log background]
@@ -1661,6 +1653,8 @@ Aero 发光效果
 * 符号 (传入)
 [* Symbols (outgoing)]
 * 符号 (发送)
+[Nickname]
+昵称
 [Protocol]
 协议
 [Contacts local time]
@@ -1771,6 +1765,8 @@ Aero 发光效果
 突出显示 (10x10)
 [Information (10x10)]
 信息 (10x10)
+[Group chat log]
+群组聊天记录
 [Appearance and functionality of chat room windows]
 聊天室窗口外观及功能
 [Appearance of the message log]
@@ -1787,6 +1783,8 @@ Aero 发光效果
 扩展模式 2
 [Selection background]
 选择范围背景
+[Selected text]
+已选择文本
 [Incremental search highlight]
 增量搜索突出显示
 [Fields background]
@@ -1819,12 +1817,10 @@ Aero 发光效果
 用户已发送公告
 [The topic has been changed]
 主题已变更
-;file \plugins\TabSRMM\src\chat\services.cpp
 [&Join]
 加入(&J)
 [&Leave]
 离开(&L)
-;file \plugins\TabSRMM\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s 需要您注意 %s
 [%s speaks in %s]
@@ -1865,7 +1861,6 @@ Aero 发光效果
 突出显示用户...
 [Edit Highlight List...]
 编辑高亮列表...
-;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
 昵称
 [Unique ID]

@@ -7,7 +7,6 @@
 ;============================================================
 [Support for new options design.]
 新选项界面支持.
-;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 访问 Miranda NG 官方主页
 [Sample page]
@@ -26,7 +25,6 @@ Miranda NG 选项
 切换至经典选项
 [Advanced]
 高级
-;file \plugins\ModernOpt\src\modernopt.cpp
 [Miranda NG configuration center]
 Miranda NG 配置中心
 [Accounts]

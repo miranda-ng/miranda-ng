@@ -5,23 +5,23 @@
 ;  Version: 0.1.1.6
 ;  Authors: Mataes, George Hazan
 ;============================================================
-;file \plugins\PluginUpdater\res\Resource.rc
 [Cancel]
 取消
+[Select &all]
+全选(&C)
 [Text]
 文本
+[Sec]
+秒
 [Popups]
 弹出窗口
-;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[State]
+州
 [Plugins]
 插件
 [Icons]
 图标
 [Other]
 其它
-;file \plugins\PluginUpdater\src\DlgUpdate.cpp
-;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 小时
-;file \plugins\PluginUpdater\src\PluginUpdater.cpp
-;file \plugins\PluginUpdater\src\Utils.cpp

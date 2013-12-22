@@ -5,7 +5,6 @@
 ;  Version: 0.0.4.22
 ;  Authors: borkra
 ;============================================================
-;file \plugins\CrashDumper\res\crshdmp.rc
 [Close]
 关闭
 [To File]
@@ -26,7 +25,6 @@ miranda-vi.org 支持
 全部复制(&C)
 [Select &All]
 全选(&C)
-;file \plugins\CrashDumper\src\crshdmp.cpp
 [VersionInfo stored into file %s]
 版本信息保存至文件 %s
 [VersionInfo file %s is inaccessible]
@@ -55,16 +53,12 @@ miranda-vi.org 支持
 复制版本信息至剪贴板
 [Show Version Info]
 显示版本信息
-;file \plugins\CrashDumper\src\crshdmp_icons.cpp
 [Crash Dumper]
 崩溃转储
-;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 崩溃报告不可能写至本地
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Miranda 崩溃. 崩溃报告保存于文件夹:\n %s\n\n 您是否需要复制到剪贴板?
-;file \plugins\CrashDumper\src\ui.cpp
-;file \plugins\CrashDumper\src\upload.cpp
 [VersionInfo upload successful,\n %d old plugins]
 版本信息上传成功,\n %d 旧插件
 [Cannot upload VersionInfo. Incorrect username or password]
@@ -79,6 +73,5 @@ Miranda 崩溃. 崩溃报告保存于文件夹:\n %s\n\n 您是否需要复制�
 不能上传版本信息. 无法访问主机.
 [Crash Dumper HTTP connections]
 Crash Dumper HTTP 连接
-;file \plugins\CrashDumper\src\utils.cpp
 [More then one crash reporting plugin installed. This will result in inability of creating crash reports]
 安装了多个崩溃报告插件. 这将导致无法创建崩溃报告

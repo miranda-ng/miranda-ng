@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
-;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [Avatar List Popup]
 头像列表弹出窗口
 [Save As...]
@@ -78,7 +77,6 @@
 历史仅保存于磁盘中. 可使用头像历史内置查看器观看. 
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 所有头像保存于 <配置文件>\\Avatars History\\<协议>\\<联系人 ID>\\<时间戳> (相同图片可能保存多次)
-;file \plugins\AvatarHistory\src\AvatarDlg.cpp
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 您确定要删除此历史项目? \n仅历史中的项目被删除, 位图将会保留! 
 [Delete avatar log?]
@@ -93,16 +91,12 @@
 您确定要删除此存档头像? \n此操作将删除快捷方式及位图. \n警告: 这样可能影响历史中多个快捷方式! 
 [View Avatar History]
 查看头像历史
-;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
 移除他/她的头像
 [changed his/her avatar]
 变更他/她的头像
-;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 历史
-;file \plugins\AvatarHistory\src\options.cpp
 [Show avatar history]
 显示头像历史
 [Show contact history]
@@ -115,6 +109,5 @@
 弹出窗口
 [Avatar Change]
 头像变更
-;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 未知 UIN

@@ -1,0 +1,3 @@
+﻿[Imports history saved in TXT files from other clients.]
+[All files (*.*)]
+[Error opening file]

@@ -5,6 +5,5 @@
 ;  Version: 0.0.0.5
 ;  Authors: Roman Gemini
 ;============================================================
-;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [Profile manager]
 配置文件管理器

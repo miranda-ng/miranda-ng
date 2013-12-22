@@ -5,7 +5,6 @@
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information]
 编辑联系人信息
 [Origin]
@@ -112,6 +111,8 @@
 使用 Windows 颜色
 [Use default colors]
 使用默认颜色
+[From Popup plugin]
+从弹出窗口插件
 [Custom]
 自定义
 [Show reminder messages as popups (if reminder is enabled)]
@@ -206,10 +207,14 @@
 性别: 
 [Replace the following default icons:]
 替换这些默认图标: 
+[Homepage]
+主页
 [Phone]
 电话
 [E-Mail]
 邮箱
+[Gender]
+性别
 [Show 'Restart' menu item]
 显示 '重启' 菜单项目
 [Use &unknown flag if country cannot be determined]
@@ -218,6 +223,8 @@
 年龄: 
 [Zodiac:]
 生肖: 
+[not found]
+找不到
 [Refresh Contact Details]
 刷新联系人详细信息
 [Preparing...]
@@ -234,7 +241,6 @@
 全部选定
 [Uncheck all]
 全部不选
-;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 [Aries]
 牡羊座
 [Taurus]
@@ -265,32 +271,26 @@
 更新自定义生日
 [Keeps your custom birthday up to date.]
 保持您的自定义生日最新
-;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 由于参数错误, 其中一个树项目不能添加!
-[An fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
-添加属性表页时发生一个致命的错误!\n对话框创建中止!
 [Rename Item]
 重命名项目
 [Hide Item]
 隐藏项目
 [Show Items:]
 显示项目: 
-;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Creating unique name for a page failed with %d and error code %d]
 创建唯一名称页面失败 %d 错误代码 %d
 [Creating the label for a page failed with %d and error code %d]
 创建标签页失败 %d 错误代码 %d
 [The dialog template type is no longer supported]
 对话框模板类型已不再支持
-;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 添加新周年纪念
 [Delete an existing anniversary]
 删除已存在周年纪念
 [Unspecified]
 未指定
-;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit E-Mail]
 编辑 E-Mail
 [Edit Phone Number]
@@ -311,17 +311,18 @@
 您真的要删除当前所选定项目? \n\t%s\n\t%s
 [Other]
 其它
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[<Unspecified>]
+<未指定>
 [Contact]
 联络方式
+[All contacts]
+所有联系人
 [Birthdays only]
 仅生日
 [Anniversaries only]
 仅周年纪念时
 [Disabled reminder]
 禁用提醒器
-;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Yes]
 是
 [No]
@@ -330,7 +331,6 @@
 忽略
 [Error]
 错误
-;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Upload Details]
 上传详细资料
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
@@ -343,14 +343,16 @@
 周年
 [Work]
 工作
+[About]
+关于
 [Profile]
 配置文件
 [Notes]
 便笺
 [Owner]
 所有者
-;file \plugins\UserInfoEx\src\init.cpp
-;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Upload failed]
+上传失败
 [IM Naming]
 IM 命名
 [Marital status]
@@ -381,6 +383,8 @@ IM 命名
 自定义电话
 [e-mail]
 邮箱
+[Down arrow]
+向下箭头
 [Add]
 添加
 [Edit]
@@ -437,11 +441,8 @@ IM 命名
 警告: 您现在所使用的图标包版本并非为 UserInfoEx 而定制.\n一些图标可能无法正确显示
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 警告: 图标包无法在下列目录中找到: 'customize\\icons', 'icons' or 'plugins'!
-[Main]
-;file \plugins\UserInfoEx\src\mir_icolib.h
 [UserInfoEx]
 用户信息扩展
-;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 导出/入联系人
 [User &details]
@@ -458,24 +459,20 @@ IM 命名
 检查周年纪念
 [Extended UserInfo]
 扩展用户信息
-;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 我的便笺: 
 [About:]
 关于: 
-;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid Description first!]
 请先输入有效描述!
 [No valid date selected for editing!]
 编辑时未选定有效日期
 [Do you really want to delete the %s?]
 您真的要删除 %s? 
-;file \plugins\UserInfoEx\src\psp_contact.cpp
 [Address & Contact]
 地址 & 联系人
 [Company]
 公司
-;file \plugins\UserInfoEx\src\psp_options.cpp
 [Ready]
 就绪
 [Reminder disabled]
@@ -492,7 +489,6 @@ IM 命名
 详细资料对话框
 [Popups]
 弹出窗口
-;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Affiliation]
 联系
 [Interest]
@@ -509,7 +505,6 @@ IM 命名
 删除条目
 [Do you really want to delete this entry?]
 您真的想删除此条目?
-;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
 文化与文学
 [Movies/TV]
@@ -550,18 +545,14 @@ IM 命名
 TmplPast 工作地点
 [TmplPast Organization]
 TmplPast 组织
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(未知联系人)'
-;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 发送邮件
 [Memory allocation error!]
 内存分配错误! 
-;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (uinfoex)]
 性别 (uinfoex)
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 用户无有效主页
 [View Homepage]
@@ -570,8 +561,6 @@ TmplPast 组织
 主页(&H)
 [Homepage (uinfoex)]
 主页 (uinfoex)
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [Abort Refreshing Contact Details]
 中止刷新联系人详细信息
 [Do you want to cancel the current refresh procedure?]
@@ -580,7 +569,6 @@ TmplPast 组织
 Miranda 必须在线才能刷新联系人信息!
 [The function caused an exception!]
 此功能导致一个例外!
-;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [%s has %s today.]
 %s 今天 %s. 
 [an anniversary]
@@ -607,14 +595,12 @@ Miranda 必须在线才能刷新联系人信息!
 生日提醒器: 即将到来
 [Anniversary Reminder]
 周年纪念提醒
-;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
+[All Contacts]
+所有联系人
 [Required modules]
 必需模块
 [Optional modules]
 可选模块
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Shows Miranda's installation directory.]
 显示 Miranda 安装目录. 
 [Shows the directory with all your Miranda's profiles.]
@@ -623,19 +609,16 @@ Miranda 必须在线才能刷新联系人信息!
 打开文件对话框返回错误: %d!
 [The SaveFileDialog returned an error: %d!]
 保存文件对话框返回错误: %d!
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [Import complete]
 导入完成
 [Some basic statistics]
 一些基本统计
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 所有联系人
 [Select a destination file...]
 选择目标文件...
 [Import User Details from VCard]
 从 VCard 导入用户详细资料
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 不能创建 XML 文件!\n%S
 [Export took %f ms]
@@ -666,5 +649,3 @@ UserInfoEx 不支持此版本 XMLCard
 添加联系人: %u / %u\n添加设置: %u / %u\n添加事件 %u / %u\n重复事件: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 重要: 从 xmlCard 导入联系人时抛出一个例外!
-;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

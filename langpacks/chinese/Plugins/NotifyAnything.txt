@@ -7,7 +7,6 @@
 ;============================================================
 [Displays popups for custom events, triggered by UDP packages.]
 自定义事件弹出窗口显示, 由 UDP 封包触发.
-;file \plugins\NotifyAnything\res\NotifyAnything.rc
 [Property Page]
 属性页
 [Only listen to localhost]
@@ -24,13 +23,10 @@
 允许执行程序操作
 [Password:]
 密码: 
-;file \plugins\NotifyAnything\src\common.h
 [NotifyAnything]
 通知所有
-;file \plugins\NotifyAnything\src\main.cpp
 [Error]
 错误
-;file \plugins\NotifyAnything\src\options.cpp
 [LogService]
 日志服务
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]

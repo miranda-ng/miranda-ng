@@ -3,10 +3,8 @@
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
 ;  Version: 0.1.21.0
-;  Version: 0.1.21.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
-;file \plugins\LotusNotify\res\LotusNotify.rc
 [Show error messages]
 显示错误信息
 [Set popup colors]
@@ -17,11 +15,12 @@
 背景
 [Text]
 文本
+[Database:]
+数据库:
 [min.]
 分钟
 [Password:]
 密码: 
-;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Status]
 状态
 [Plugins]

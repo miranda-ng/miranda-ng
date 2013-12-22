@@ -5,7 +5,6 @@
 ;  Version: 1.5.7.7
 ;  Authors: TioDuke
 ;============================================================
-;file \plugins\KeyboardNotify\res\resources.rc
 [Events to react on]
 事件反应
 [Incoming messages]
@@ -94,8 +93,6 @@
 慢速
 [&Preview]
 预览(&P)
-[Emulate keypresses (Use this option if you are using a USB keyboard)]
-模拟按键 (如您使用 USB 键盘则使用此选项)
 [Create/Edit Themes]
 创建/编辑 主题
 [Theme]
@@ -138,12 +135,10 @@
 忽略
 [Set xStatus list]
 设置扩展状态列表
-;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** 所有联系人 **
 [** Unknown contacts **]
 ** 未知联系人 **
-;file \plugins\KeyboardNotify\src\options.cpp
 [left->right]
 左->右
 [right->left]

@@ -5,7 +5,6 @@
 ;  Version: 1.3.0.10
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
-;file \plugins\MenuItemEx\res\resource.rc
 [&Send]
 发送(&S)
 [&Cancel]
@@ -46,7 +45,6 @@
 截短过长 ID
 [* Use Ctrl+click to see popup with the copied text]
 * 使用 Ctrl+点击在弹出窗口提示中复制文本
-;file \plugins\MenuItemEx\src\main.cpp
 [XStatus message]
 扩展状态信息
 [Activity title]
@@ -81,6 +79,5 @@
 打开忽略设置
 [Request authorization]
 要求授权
-;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 自定义

@@ -5,7 +5,6 @@
 ;  Version: 1.0.4.7
 ;  Authors: Baloo
 ;============================================================
-;file \plugins\CryptoPP\src\GPGw\gpg.rc
 [GnuPG Plugin - Passphrase]
 GnuPG 插件 - 口令短语
 [Enter passphrase for the secret key of user:]

@@ -93,8 +93,14 @@ WATrack: 请求被拒绝
 事件信息
 [Date/Time:]
 日期/时间: 
+[Copy All]
+全部复制
+[SMS Message]
+SMS 消息
 [WebPager]
 网上传呼
+[Other event]
+其它事件
 [Global History Search]
 全局历史搜索
 [Search for]
@@ -179,6 +185,8 @@ History++ 搜索
 删除中...
 [Do you really want to delete selected items (%.0f)?]
 您真的要删除选定项目 (%.0f)? 
+[Delete Selected]
+删除已选项目
 [History is empty]
 历史为空
 [No such items]
@@ -235,6 +243,8 @@ ANSI 编码
 向上搜索(Ctrl+Up)
 [Search Down (Ctrl+Down)]
 向下搜索(Ctrl+Down)
+[Remove bookmark]
+移除书签
 [Remove Bookmark]
 移除书签
 [Set Bookmark]
@@ -285,6 +295,8 @@ ANSI 编码
 最近事件放在顶端
 [Use RTL by default]
 默认使用由右向左
+[Change Appearance]
+变更外观
 [To change fonts you need to install FontService plugin.]
 若要变更字体您需要安装 FontService 插件. 
 [FontService is installed. Go to Customize -> Fonts to change settings.]
@@ -345,6 +357,8 @@ IcoLib 已经安装. 请到 "自定义->图标" 变更设置.
 分隔器
 [Incoming url]
 传入网址
+[Outgoing contacts]
+发出联系人
 [Outgoing file]
 发送文件
 [Outgoing SMS Message]
@@ -411,6 +425,16 @@ IcoLib 已经安装. 请到 "自定义->图标" 变更设置.
 运行中 SmileyAdd 版本尚不支持
 [Running version of Emoticons is not supported]
 运行中 Emoticons 版本尚不支持
+[&Delete All]
+全部删除(&D)
+[Incoming Url]
+传入网址
+[Outgoing Url]
+发送网址
+[System Message]
+系统消息
+[Authorization request]
+授权请求
 [Show events count in menu]
 在菜单中显示事件累计
 [Group messages]
@@ -429,6 +453,8 @@ IcoLib 已经安装. 请到 "自定义->图标" 变更设置.
 (未知联系人)'
 [Database:]
 数据库:
+[&Reset to Default]
+重置为默认值
 [Contact history]
 联系人历史
 [Incoming nick]
@@ -443,3 +469,23 @@ IcoLib 已经安装. 请到 "自定义->图标" 变更设置.
 传入时间戳
 [Outgoing timestamp]
 发送时间戳
+[Open in &new window]
+在新窗口中打开(&N)
+[Select &All]
+全选(&C)
+[Send &Message]
+发送消息(&M)
+[User Details]
+用户详细资料
+[Enable SmileyAdd support]
+启用 SmileyAdd 支持
+[Enable MathModule support]
+启用 MathModule 支持
+[Show event icons]
+显示事件图标
+[View user's history]
+查看用户历史
+[View User's History]
+查看用户历史
+[View &History]
+查看历史(&H)

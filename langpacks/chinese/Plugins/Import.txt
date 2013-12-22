@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
-;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 请选择您想如何导入: 
 [From a Miranda NG database.]
@@ -68,7 +67,6 @@ Miranda 已找到下列名称的 Miranda 配置文件. 请选择您想导入的�
 文件传输
 [Other]
 其它
-;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 忽略发/送给自己的事件
 [Added contact %u (found in history)]
@@ -107,17 +105,13 @@ Miranda 已找到下列名称的 Miranda 配置文件. 请选择您想导入的�
 已跳过 %d 个重复及 %d 个已过滤的事件. 
 [Skipped %d duplicates.]
 已跳过 %d 个重复项目. 
-;file \plugins\Import\src\main.cpp
 [&Import...]
 导入(&I)...
-;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 指定文件不存在. 请确定输入名称正确. 
 [Miranda NG database]
 Miranda NG 数据库
 [All Files]
 所有文件
-;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 正在跳过重复群组 %s. 
-;file \plugins\Import\src\wizard.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.1.1.8
 ;  Authors: Ghost, Mironych
 ;============================================================
-;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 选定总数
 [Accounts]
@@ -16,8 +15,12 @@
 通知我每
 [kilobytes]
 KB
+[Reset to default]
+重置为默认值
 [Popup timeout]
 弹出窗口超时
+[From Popup plugin]
+从弹出窗口插件
 [Custom]
 自定义
 [Show now]
@@ -28,7 +31,8 @@ KB
 工具提示格式字符串:
 [Display traffic for current]
 显示当前流量
-;file \plugins\TrafficCounter\src\options.cpp
+[Account name]
+帐号名称
 [Current traffic]
 当前流量
 [Total traffic]
@@ -51,6 +55,8 @@ KB
 总流量
 [Hide now]
 马上隐藏
+[Day]
+天
 [Month]
 月
 [Year]
@@ -63,7 +69,6 @@ KB
 统计
 [Popups]
 弹出窗口
-;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 字节
 [Adaptive]
@@ -86,7 +91,6 @@ KB
 无法读取统计文件
 [Traffic Counter]
 流量统计
-;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 字体
 [Show/Hide frame]

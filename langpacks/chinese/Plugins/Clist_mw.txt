@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
-;file \plugins\Clist_mw\res\resource.rc
 [Stretch to width]
 拉伸至宽度
 [Stretch to height]
@@ -194,6 +193,8 @@
 显示状态文本
 [Right click opens status menu]
 点击右键打开状态菜单
+[Right click opens Miranda menu]
+点击右键打开 Miranda 菜单
 [Make sections equal width]
 将各部分设为相同宽度
 [Show size grip]
@@ -204,6 +205,8 @@
 使用连接图标
 [Use New Drawer for StatusBar]
 状态栏使用新绘制方法
+[&Main menu]
+主菜单(&M)
 [E&xit]
 退出(&X)
 [&Status]
@@ -254,12 +257,10 @@
 重命名群组(&R)
 [&Delete Group]
 删除群组(&D)
-;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 自定义
 [Backgrounds]
 背景
-;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 标准联系人
 [Online contacts to whom you have a different visibility]
@@ -288,7 +289,6 @@
 热跟踪文本
 [Quicksearch Text]
 快速搜索文本
-;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 列表
 [List Background]
@@ -319,24 +319,19 @@
 外出用餐
 [On the phone]
 接听电话
-;file \plugins\Clist_mw\src\clistopts.cpp
 [Global]
 全局
-;file \plugins\Clist_mw\src\clistsettings.cpp
 [(Unknown Contact)]
 (未知联系人)
-;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 查找/添加联系人(&F)...
-[&Main menu]
-主菜单(&M)
 [&Options...]
 选项(&O)...
-;file \plugins\Clist_mw\src\clui.cpp
-;file \plugins\Clist_mw\src\cluiopts.cpp
-;file \plugins\Clist_mw\src\groupmenu.cpp
-;file \plugins\Clist_mw\src\keyboard.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&New SubGroup]
+新增子群组(&N)
+[Close Miranda]
+关闭 Miranda
 [Frames]
 框架
-;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
+[Show TitleBar]
+显示标题栏

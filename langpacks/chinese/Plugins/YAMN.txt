@@ -5,7 +5,6 @@
 ;  Version: 0.1.2.6
 ;  Authors: y_b, tweety, majvan
 ;============================================================
-;file \plugins\YAMN\res\YAMN.rc
 [OK]
 确定
 [Installed plugins]
@@ -14,40 +13,46 @@
 描述: 
 [Copyright:]
 版权: 
-[Check this account]
-检查此帐号
-[Check interval [min]:]
-检查间隔 [分钟]: 
-[Message]
-消息
-[Tray Icon]
-托盘图标
-[Execute Application]
-执行应用程序
-[Use contact notification for this account]
-为此帐号使用联系人通知
-[Replace nick name]
-替换昵称
-[Disable Events]
-禁用事件
+[Name:]
+名称: 
+[Port:]
+端口:
 [User Name:]
 用户名:
 [Password:]
 密码: 
 [Codepage:]
 代码页:
-[Port:]
-端口:
+[Default]
+默认
 [Disable STLS]
 禁用 STLS
+[Options]
+选项
+[Check this account]
+检查此帐号
 [Startup check]
 启动时检查
+[Check interval [min]:]
+检查间隔 [分钟]: 
+[Only check when...]
+仅检查当...
 [Auto retrieve body]
 自动检索正文
 [Check from menu]
 从菜单检查
-[Only check when...]
-仅检查当...
+[Use contact notification for this account]
+为此帐号使用联系人通知
+[Replace nick name]
+替换昵称
+[Disable Events]
+禁用事件
+[Message]
+消息
+[Tray Icon]
+托盘图标
+[Execute Application]
+执行应用程序
 [Sound notification if failed]
 失败时发出声音通知
 [Message notification if failed]
@@ -56,12 +61,6 @@
 失败时发出系统托盘通知
 [Reset counter]
 重置计数器
-[Default]
-默认
-[Name:]
-名称: 
-[Options]
-选项
 [Check while...]
 检查当...
 [Cancel]
@@ -126,7 +125,6 @@ TopToolBar "检查邮件" 按钮
 背景颜色
 [Text color]
 文本颜色
-;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]
 检查邮件(&M 所有帐号)
 [Check &mail (This Account)]
@@ -139,20 +137,16 @@ YAMN 帐号目录
 检查邮件
 [Connect Fail]
 连接失败
-;file \plugins\YAMN\src\main.h
 [YAMN: new mail message]
 YAMN: 新邮件
 [YAMN: connect failed]
 YAMN: 连接已失败
-;file \plugins\YAMN\src\services.cpp
 [Nick]
 昵称
 [No new mail message]
 无新邮件
-;file \plugins\YAMN\src\browser\badconnect.cpp
 [ - connection error]
  - 连接错误
-;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [%s - %d new mail messages, %d total]
 %s - %d 新邮件, %d 总计
 [- new mail message(s)]
@@ -169,6 +163,8 @@ YAMN: 连接已失败
 值
 [Copy Selected]
 复制选定
+[Copy All]
+全部复制
 [Run application]
 运行应用程序
 [Delete selected]
@@ -181,11 +177,8 @@ YAMN: 连接已失败
 您真的想删除 %d 个已选定邮件? 
 [Delete confirmation]
 确认删除
-;file \plugins\YAMN\src\mails\mime.cpp
 [Part]
 端口
-;file \plugins\YAMN\src\proto\netlib.cpp
-;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 断开连接
 [POP3 protocol (internal)]
@@ -262,7 +255,6 @@ DNS 查找出错.
 无法读取 SSL 资料. 
 [Error %d-%d-%d-%d:]
 错误 %d-%d-%d-%d: 
-;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 网络
 [Accounts]
@@ -283,6 +275,8 @@ DNS 查找出错.
 所有文件
 [Select executable used for notification]
 选择通知时使用的可执行文件
+[Failed]
+已失败
 [Do you really want to delete this account?]
 您真的要删除此帐号? 
 [Delete account confirmation]

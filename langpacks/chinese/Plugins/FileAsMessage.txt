@@ -5,13 +5,14 @@
 ;  Version: 0.0.2.4
 ;  Authors: Denis Stanishevskiy
 ;============================================================
-;file \plugins\FileAsMessage\res\resources.rc
 [Filename:]
 文件名称: 
 [Size:]
 大小: 
 [Chunk size]
 块大小
+[ms]
+毫秒
 [Delays between sends]
 发送延迟
 [bytes]
@@ -28,7 +29,6 @@
 已收到
 [Use only alphanumeric encoding on transfer]
 仅使用字母编码传输
-;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
 文件已存在. 覆盖?
 [Couldn't open a file]
@@ -71,9 +71,7 @@
 用户已取消
 [Transfer is in progress. Do you really want to close?]
 正在传输中. 您真想关闭?
-;file \plugins\FileAsMessage\src\main.cpp
 [Revive]
 恢复
 [Plugins]
 插件
-;file \plugins\FileAsMessage\src\main.h

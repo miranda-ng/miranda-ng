@@ -5,7 +5,6 @@
 ;  Version: 0.7.0.1
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
-;file \plugins\FloatingContacts\res\fltcnt.rc
 [Hiding contacts]
 隐藏联系人
 [Stick together]
@@ -18,6 +17,8 @@
 隐藏所有联系人
 [Hide when a fulscreen app is active]
 运行全屏幕应用程序时隐藏
+[ms]
+毫秒
 [Bring to front]
 置前
 [Bring to front every]
@@ -44,7 +45,6 @@
 按比例拉伸
 [Opacity:]
 不透明度: 
-;file \plugins\FloatingContacts\src\main.cpp
 [Standard contacts]
 标准联系人
 [Online contacts to whom you have a different visibility]
@@ -65,7 +65,6 @@
 移除浮动联系人
 [Show/Hide all thumbs]
 显示/隐藏所有图钉
-;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 浮动联系人
 [Contact List]

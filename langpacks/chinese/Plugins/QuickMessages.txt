@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin for quick insert pre-defined messages in message input area.]
 插件可在信息输入区快速插入预定义信息.
-;file \plugins\QuickMessages\res\quickmessages.rc
 [Button Right-Click value]
 右键值
 [Button Left-Click menu]
@@ -50,14 +49,11 @@
 - 联系人名字
 [- Contact last name]
 - 联系人姓氏
-;file \plugins\QuickMessages\src\main.cpp
 [Quick Messages]
 快速消息
-;file \plugins\QuickMessages\src\options.cpp
 [Enter Value]
 输入数值
 [You win!]
 您胜利了! 
 [Message Sessions]
 消息会话
-;file \plugins\QuickMessages\src\Utils.cpp

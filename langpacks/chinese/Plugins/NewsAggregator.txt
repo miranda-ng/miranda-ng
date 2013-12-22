@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.1
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
-;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 添加
 [Remove]
@@ -28,18 +27,17 @@
 所有项目标签都是有效的. 请将他们放于 # 之间. 例如: #<author>#
 [Reset]
 重置
-;file \plugins\NewsAggregator\Src\Icons.cpp
-;file \plugins\NewsAggregator\Src\Menus.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
+[Username]
+用户名
+[&Close]
+关闭(&C)
 [Error]
 错误
+[%s\nis a valid feed's address.]
+%s\n是有效订阅地址. 
 [Wait...]
 稍候...
 [Network]
 网络
-;file \plugins\NewsAggregator\Src\Services.cpp
-;file \plugins\NewsAggregator\Src\Utils.cpp
 [Feed]
 订阅
-[%s\nis a valid feed's address.]
-%s\n是有效订阅地址. 

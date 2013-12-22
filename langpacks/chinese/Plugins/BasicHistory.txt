@@ -5,7 +5,6 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
 消息历史
 [Default Event Filter]
@@ -18,15 +17,18 @@
 显示消息
 [hours]
 小时
+[All Contacts]
+所有联系人
 [External CSS file]
 外部 CSS 文件
 [Name]
 名称
+[Day]
+天
 [OK]
 确定
 [Cancel]
 取消
-;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
 打开历史
 [View &History]
@@ -39,7 +41,6 @@
 状态变更
 [History]
 历史
-;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 所有事件
 [History for %s]
@@ -48,8 +49,6 @@
 系统
 [Invalid Message]
 无效消息
-;file \plugins\BasicHistory\src\ExportManager.cpp
-;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Open in &new window]
 在新窗口中打开(&N)
 [&Open in existing window]
@@ -76,7 +75,6 @@
 热键
 [Error]
 错误
-;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 消息
 [Link]
@@ -95,6 +93,8 @@ SMS 消息
 正在搜索
 [Advanced]
 高级
+[Contact list background]
+联系人列表背景
 [Find]
 查找
 [Incoming events]
@@ -103,15 +103,11 @@ SMS 消息
 发送事件
 [Minute]
 分钟
-;file \plugins\BasicHistory\src\Options.h
-;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-;file \plugins\BasicHistory\src\Scheduler.cpp
+[Hour]
+小时
 [Contacts]
 联系人
-;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 找不到 "%s"
 [Search]
 搜索
-;file \plugins\BasicHistory\src\TxtExport.cpp

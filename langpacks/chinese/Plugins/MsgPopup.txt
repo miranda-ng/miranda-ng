@@ -5,11 +5,12 @@
 ;  Version: 0.1.1.3
 ;  Authors: StDenis
 ;============================================================
-;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
 提示信息样式
 [Background color]
 背景
+[Text color]
+文本颜色
 [ERROR style]
 错误信息样式
 [EXCLAMATION style]
@@ -20,12 +21,12 @@
 "超时" 的特别定义:\n -1 - 永不超时, 0 - 使用默认超时设置
 [Emit a sound]
 声音提示
-;file \plugins\MsgPopup\src\main.cpp
+[Error]
+错误
 [MessagePopup]
 消息弹出提示
 [Popups]
 弹出窗口
-;file \plugins\MsgPopup\src\options.cpp
 [Message with question]
 消息问题
 [Message with exclamation]

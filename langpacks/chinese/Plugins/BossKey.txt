@@ -5,7 +5,6 @@
 ;  Version: 0.5.0.3
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
-;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]
 老板键
 [When I press the hotkey:]
@@ -42,7 +41,6 @@ Miranda 激活
 Miranda 运行中
 [Restore hiding on startup after failure]
 启动失败后还原隐藏
-;file \plugins\BossKeyPlus\src\BossKey.cpp
 [Miranda NG is locked.\nEnter password to unlock it.]
 Miranda NG 已锁定.\n输入密码解锁.
 [Password is not correct!\nPlease, enter correct password.]
@@ -51,9 +49,6 @@ Miranda NG 已锁定.\n输入密码解锁.
 隐藏 Miranda NG
 [Hide/Show Miranda]
 隐藏/显示 Miranda
-[BossKey\tget the BossKey name]
-BossKey\tget 老板键名称
-;file \plugins\BossKeyPlus\src\Options.cpp
 [Events]
 事件
 [Advanced]

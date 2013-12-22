@@ -5,7 +5,6 @@
 ;  Version: 1.9.0.4
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
-;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
 %s 消息给 %s
 [&Cancel]
@@ -104,7 +103,6 @@
 删除
 [Select All]
 全选
-;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 检索 %s 消息失败.
 [&Close]
@@ -117,20 +115,22 @@
 阅读外出消息(&A)
 [Copy Away Message]
 复制离开信息
-;file \plugins\SimpleStatusMsg\src\main.cpp
 [Change Status Message]
 变更状态信息
 [Status Message...]
 状态信息...
 [%s (locked)]
 %s (已锁定)
-[External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
-外部应用程序\t检索当前在 Winamp 中播放的歌曲名称(兼容简单状态消息)
-;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[External Applications]
+外部应用
+[Miranda Related]
+Miranda 相关
 [<startup>]
 <启动>
 [Add to Predefined]
 添加至预定义
+[Delete Selected]
+删除已选项目
 [OK (%d)]
 是 (%d)
 [Global]
@@ -141,7 +141,6 @@
 您确定想清除状态信息历史?
 [Confirm clearing history]
 确认清除历史
-;file \plugins\SimpleStatusMsg\src\options.cpp
 [Show next to cancel button]
 显示于取消按钮旁
 [Flat, next to cancel button]
@@ -160,7 +159,6 @@
 常规
 [Advanced]
 高级
-;file \plugins\SimpleStatusMsg\src\utils.cpp
 [Recent Message]
 最近信息
 [Predefined Message]

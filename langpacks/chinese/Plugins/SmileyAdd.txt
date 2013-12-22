@@ -5,7 +5,6 @@
 ;  Version: 0.2.3.17
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
-;file \plugins\SmileyAdd\res\resource.rc
 [Smiley categories]
 表情分类
 [Specify smiley pack for each category]
@@ -42,22 +41,18 @@ IEView 样式窗口
 内置消息窗口支持
 [Smiley button]
 表情按钮
-;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 显示表情选择窗口
-;file \plugins\SmileyAdd\src\download.cpp
 [Smiley cache]
 表情缓存
 [SmileyAdd HTTP connections]
 SmileyAdd HTTP 连接
-;file \plugins\SmileyAdd\src\main.cpp
 [Button smiley]
 按钮表情
 [Assign smiley category]
 对应表情分类
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 SmileyAdd 不能被重复加载.\n请删除 'Plugins' 目录下的重复文件.
-;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 表情
 [Customize]
@@ -68,10 +63,8 @@ SmileyAdd 不能被重复加载.\n请删除 'Plugins' 目录下的重复文件.
 表情包
 [All files]
 所有文件
-;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 协议特定
-;file \plugins\SmileyAdd\src\smileys.cpp
 [Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 表情包 %s 未找到.\n请于 Miranda 选项中选择正确表情包 | 自定义 | 表情.
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
@@ -84,4 +77,3 @@ SmileyAdd 不能被重复加载.\n请删除 'Plugins' 目录下的重复文件.
 正则表达式 "%s" 于表情包 "%s" 可产生 "空匹配".
 [Regular expression "%s" in smiley pack "%s" malformed.]
 正则表达式 "%s" 于表情包 "%s" 无效.
-;file \plugins\SmileyAdd\src\smltool.cpp

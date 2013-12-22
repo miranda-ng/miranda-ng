@@ -5,7 +5,6 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-;file \plugins\Msg_Export\res\resource.rc
 [Use internal viewer]
 使用内置浏览器
 [Replace miranda history]
@@ -18,6 +17,8 @@
 使用 << 和 >>
 [Auto filename]
 自动文件名
+[Clear all]
+全部清除
 [Help]
 说明
 [Export all history]
@@ -62,7 +63,6 @@
 设置为默认文件名
 [Copy]
 复制
-;file \plugins\Msg_Export\src\FileViewer.cpp
 [Search string was not found!]
 搜索字符串未找到!
 [Color...]
@@ -73,11 +73,8 @@
 语法突出显示
 [Failed to create file]
 创建文件失败
-;file \plugins\Msg_Export\src\Glob.h
-;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 打开导出历史(&X)
-;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
 未找到导出联系人
 [Failed to export at least one contact]
@@ -96,6 +93,10 @@
 昵称
 [You have not applied the changes, do you wish to apply them first?]
 您已取消变更套用, 是否想首先套用这些?
+[Executable files]
+可执行文件
+[All files]
+所有文件
 [Select Destination Directory]
 选择目标目录
 [Export Protocols]
@@ -106,7 +107,6 @@
 历史
 [General]
 常规
-;file \plugins\Msg_Export\src\utils.cpp
 [(Unknown Contact)]
 (未知联系人)
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]

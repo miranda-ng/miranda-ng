@@ -5,7 +5,6 @@
 ;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
-;file \plugins\BuddyPounce\res\resource.rc
 [Confirm Pounce send]
 确认发送突袭
 [Cancel]
@@ -40,7 +39,6 @@
 消息 (字数: )
 [Show Delivery Messages]
 显示递送消息
-;file \plugins\BuddyPounce\src\dialog.cpp
 [Send If My Status Is...]
 发送当我的状态是...
 [Send If They Change Status to...]
@@ -103,8 +101,6 @@
 重新使用此消息? (0 使用一次)
 [Times]
 时间
-[Give up after... (0 to not give up)]
-放弃于... (0 不放弃)
 [Show confirmation window? (0 to not Show)]
 显示确认窗口? (0 不显示)
 [Seconds to wait before sending]
@@ -115,6 +111,5 @@
 消息已成功发送给 %s
 [Message failed to send to %s]
 发送给 %s 消息已失败
-;file \plugins\BuddyPounce\src\main.cpp
 [Message Sessions]
 消息会话

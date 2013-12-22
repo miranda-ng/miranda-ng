@@ -1,0 +1,2 @@
+﻿[E-mage LAN protocol support for Miranda NG.]
+[User name or '*']

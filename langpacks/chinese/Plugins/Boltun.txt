@@ -7,7 +7,6 @@
 ;============================================================
 [Boltun, the chat bot in the russian language.]
 Boltun, 俄语聊天机器人.
-;file \plugins\Boltun\res\Boltun.rc
 [Boltun Autochat everybody]
 Boltun 与所有人自动聊天
 [Boltun Autochat everybody not in contact list]
@@ -42,7 +41,8 @@ Boltun 离开时与所有人自动聊天
 回答以小写字母开头
 [Don't use "I don't understand"-like answers]
 不要使用 "我不清楚"-为答案
-;file \plugins\Boltun\src\boltun.h
+[Message sessions]
+消息会话
 [All Files]
 所有文件
 [Boltun/Auto Chat]

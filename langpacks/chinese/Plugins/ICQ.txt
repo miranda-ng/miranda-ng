@@ -1,11 +1,10 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
-;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 ICQ 号码:
 [Password:]
@@ -32,12 +31,12 @@ ICQ 号:
 取回丢失密码或 ICQ 号
 [Create a new ICQ account using the ICQ website]
 使用 ICQ 网站建立新 ICQ 帐号
+[Connection settings]
+连接设置
 [Port:]
 端口:
 [Default]
 默认
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
-提示: 使用端口 0 将连接至随机端口. 如果您的 HTTP 代理服务器连接有问题, 请尝试连接端口 80 或 443. 
 [Secure Connection (SSL)]
 安全连接 (SSL)
 [Secure (MD5) login]
@@ -150,6 +149,8 @@ P2P 通信
 严重错误
 [Spam detected]
 检测出滥发机器
+[&Use Windows colors]
+使用 Windows 颜色
 [Use system &icons]
 使用系统图标(&I)
 [Use default colors]
@@ -206,6 +207,8 @@ P2P 通信
 兴趣
 [Category:]
 分类: 
+[Homepage]
+主页
 [Other]
 其它
 [Manage ICQ Server Contacts]
@@ -224,7 +227,6 @@ P2P 通信
 请重新输入您的新密码: 
 [Enter your current password:]
 请输入您的当前密码: 
-;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 无法连接至迁移 ICQ 通讯服务器
 [Unable to connect to ICQ communication server]
@@ -255,17 +257,14 @@ P2P 通信
 您已从 ICQ 网络上断开连接, 因为您已从其它位置使用相同 ICQ 号码登录. 
 [Unknown runtime error: 0x%02x]
 未知运行时间错误: 0x%02x
-;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 一项服务器迁移已失败, 因为服务器返回无效. 您必须手动重连. 
 [Failed to request offline messages. They may be received next time you log in.]
 无法请求离线消息. 他们可能在您下次登录时会接收. 
-;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
 [Spambot Detected]
 检测出滥发机器
 [Contact deleted & further events blocked.]
 联系人已被清除, 相关事件封锁. 
-;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [Incoming URL:]
 传入网址: 
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
@@ -292,7 +291,6 @@ SNAC(4.1) SENDMSG 错误 (x%02x)
 联系人 "%s" 已关闭消息窗口. 
 [ICQ Note]
 ICQ 提示
-;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
 [Server contact list is unavailable, Miranda will use local contact list.]
 无法使用服务器联系人列表, Miranda 将使用本地联系人列表. 
 [Updating of server contact failed.]
@@ -321,12 +319,10 @@ ICQ 提示
 联系人 "%s" 已丢失服务器列表授权. 
 [User "%s" was removed from server list.]
 用户 "%s" 已从服务器列表移除
-;file \protocols\IcqOscarJ\src\fam_17signon.cpp
 [Secure login failed.\nInvalid server response.]
 安全登录失败. \n服务器响应无效. 
 [Secure login failed.\nInvalid key length.]
 安全登录失败. \n密钥长度无效. 
-;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
 [Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
 您确定要撤销用户的授权 (某些客户端会将您从他/她的列表中移除)? 
 [** This message was blocked by the ICQ server ** The message was invalid.]
@@ -339,13 +335,10 @@ ICQ 提示
 ** 此消息已被 ICQ 服务器封锁 ** 你也太恶毒了. 
 [** Unknown missed message event.]
 ** 未知失误消息事件.
-;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 [Error uploading avatar to server, server temporarily unavailable.]
 上传头像至服务器发生错误, 服务器暂时无效使用. 
 [Error uploading avatar to server, server refused to accept the image.]
 上传头像至服务器发生错误, 服务器拒绝接受图片. 
-;file \protocols\IcqOscarJ\src\icq_constants.h
-;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
 阿富汗
 [Albania]
@@ -930,13 +923,10 @@ ICQ - 帮助
 60 岁以上
 [Open relationship]
 开放关系
-;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
-;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 您的文件传输被中断, 因为选定文件之一无法从磁盘读取. 可能已被删除或移走. 
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 您的文件接收被中断, 因为 Miranda 无法写入目标文件. 您可能正尝试保存至只读文件夹. 
-;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 要求授权
 [Grant authorization]
@@ -947,7 +937,6 @@ ICQ - 帮助
 加至服务器列表
 [Show custom status details]
 显示自定义状态详细资料
-;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Display all problems]
 显示所有问题
 [Display problems causing possible loss of data]
@@ -966,7 +955,6 @@ ICQ - 帮助
 联系人
 [Popups]
 弹出窗口
-;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Sample Note]
 范例通告
 [Sample Warning]
@@ -977,10 +965,6 @@ ICQ - 帮助
 范例严重错误
 [Sample Spambot]
 范例滥发机器
-;file \protocols\IcqOscarJ\src\icq_proto.cpp
-[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
-您尚未输入 ICQ 号码. \n请在选项->网络->ICQ 中配置并重试. 
-;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 无法连接至 ICQ 登录服务器, SSL 无法通过
 [Unable to connect to ICQ login server]
@@ -991,10 +975,8 @@ Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使�
 连接失败. \n登录顺序未知原因失败. \n请稍后再试. 
 [Your connection with the ICQ server was abortively closed]
 您与 ICQ 服务器连接已被放弃性关闭
-;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 [The contact's information was too big and was truncated.]
 联系人信息过大, 已被截短. 
-;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
 找不到
 [ALREADY EXISTS]
@@ -1043,7 +1025,6 @@ Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使�
 您需要在线才能同步服务器列表! 
 [** All contacts **]
 ** 所有联系人 **
-;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Taking a bath]
 正在洗澡
 [Drinking beer]
@@ -1082,19 +1063,22 @@ Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使�
 猴
 [Dog]
 狗
+[Free for Chat]
+有空聊天
+[Playing]
+播放
 [Writing]
 写入
 [%s Custom Status]
 %s 自定义状态
 [None]
 无
-;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+[Custom Status]
+自定义状态
 [Greeting card:]
 贺年卡: 
-;file \protocols\IcqOscarJ\src\init.cpp
 [ICQ XStatus]
 ICQ 扩展状态
-;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 ICQ 警告
 [ICQ Error]
@@ -1111,7 +1095,8 @@ Miranda 无法解析服务器名为数字地址. 通常可能是由于突然丢�
 您尝试连接的服务器不存在. 请在 "菜单->选项->网络->ICQ" 中检查您的拼写. 
 [error]
 错误
-;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[%d Files]
+%d 个文件
 [The file transfer was aborted by the other user.]
 文件传输已被其他用户取消. 
 [The file transfer failed: Proxy error]
@@ -1122,8 +1107,6 @@ Miranda 无法解析服务器名为数字地址. 通常可能是由于突然丢�
 文件传输已失败: 代理服务器无法使用
 [Failed to Initialize File Transfer. No valid files were specified.]
 无法初始化文件传输. 尚未指定有效的文件. 
-[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
-单次传送文件过大. 大于 4GB 文件必须分别发送. 
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 无法初始化文件传输. 无法对应本地端口且文件代理服务器也无法使用. 
 [Connection lost during file transfer.]
@@ -1132,10 +1115,8 @@ Miranda 无法解析服务器名为数字地址. 通常可能是由于突然丢�
 文件传输交涉失败, 原因未知. 
 [The checksum of file "%s" does not match, the file is probably damaged.]
 文件 "%s" 校验值不符, 文件可能已损坏. 
-;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <无效>
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 埃尼威托克; 夸贾林环礁
 [GMT-11:00 Midway Island; Samoa]
@@ -1198,16 +1179,24 @@ GMT+11:00 马加丹; 所罗门群岛; 新喀里多尼亚
 GMT+12:00 奥克兰; 惠灵顿; 斐济; 堪察加半岛; 马绍尔群岛
 [Personal]
 个人
+[Nickname]
+昵称
 [First name]
 名字
 [Last name]
 姓氏
+[Gender]
+性别
+[About]
+关于
 [Contact]
 联络方式
 [Street]
 街道
 [City]
 城市
+[State]
+州
 [ZIP/postcode]
 ZIP/邮政编码
 [Country]
@@ -1286,7 +1275,6 @@ ZIP/邮政编码
 兴趣种类 4
 [Interest areas 4]
 兴趣领域 4
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 [The password does not match your current password. Check Caps Lock and try again.]
 您所输入的密码与当前密码不符. 请检查 Caps Lock, 再试一次. 
 [Change ICQ Details]
@@ -1295,7 +1283,6 @@ ZIP/邮政编码
 您所输入的密码与原密码不符. 请检查 Caps Lock, 再试一次. 
 [The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
 ICQ 服务器不支持大于 8 个字符密码. 请使用较短的密码. 
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 [<unremovable once applied>]
 <应用后无法移除>
 [Unknown value]
@@ -1310,14 +1297,10 @@ ICQ 服务器不支持大于 8 个字符密码. 请使用较短的密码.
 上传完成
 [Upload FAILED]
 上传失败
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 您尚未连接至 ICQ 网络. 必须上线后才能更新您在服务器上的资料
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
 请输入 UIN %u 密码: 
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [ (DC Established)]
  (已建立 DC)
 [ScreenName:]

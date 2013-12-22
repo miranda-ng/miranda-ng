@@ -5,7 +5,6 @@
 ;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
-;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP accounts]
 FTP 帐户
 [Host name]
@@ -16,6 +15,8 @@ FTP 帐户
 上传后执行命令
 [Use passive mode]
 使用被动模式
+[Account name]
+帐号名称
 [Protocol]
 协议
 [Default FTP server]
@@ -100,9 +101,10 @@ FTP 文件管理
 上传完毕后关闭对话框
 [Automatically delete file after...]
 完成后自动删除文件...
+[Disabled]
+禁用
 [Delete from List]
 从列表删除
-;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
 用户信息
 [Copy Link to Clipboard]
@@ -115,7 +117,6 @@ FTP 文件管理
 %d 天
 [Do you really want to cancel all running jobs?]
 您真的想取消所有正在运行任务?
-;file \plugins\FTPFileYM\src\ftpfile.cpp
 [Resume]
 恢复
 [FTP Server %d]
@@ -142,7 +143,6 @@ FTP 文件管理器
 文件上传完毕
 [Upload canceled]
 上传中止
-;file \plugins\FTPFileYM\src\job_generic.cpp
 [FTP File - Select files]
 FTP 文件 - 选择文件
 [FTP File - Select a folder]
@@ -167,14 +167,12 @@ FTP 文件 - 选择一个目录
 等待中...
 [UNKNOWN]
 未知
-;file \plugins\FTPFileYM\src\job_packer.cpp
 [Error occurred when zipping the file(s).]
 压缩文件时发生错误.
 [Do you really want to cancel this upload?]
 您真的想取消此上传?
 [Status: %s\r\nFile: %s\r\nServer: %s]
 状态: %s\r\n文件: %s\r\n服务器: %s
-;file \plugins\FTPFileYM\src\job_upload.cpp
 [File exists - %s]
 文件已存在 - %s
 [Error occurred when opening local file.\nAborting file upload...]
@@ -189,12 +187,10 @@ FTP 发生错误.\n%s
 您确定要中止上传?
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
 %s\r\n速度: %s\r\n已完成: %s\r\n剩余: %s
-;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
 您必须在设置中至少填写一个可用 FTP 服务器.
 [Clear All]
 全部清除
-;file \plugins\FTPFileYM\src\options.cpp
 [FTP (Standard)]
 FTP (标准)
 [FTP+SSL (Explicit)]
@@ -209,5 +205,3 @@ SFTP (安全 FTP 使用 SSH)
 帐号
 [Advanced]
 高级
-;file \plugins\FTPFileYM\src\serverlist.cpp
-;file \plugins\FTPFileYM\src\utils.cpp

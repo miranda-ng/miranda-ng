@@ -2,10 +2,9 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.1
+;  Version: 0.2.2.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
-;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 邮件: 
 [Password:]
@@ -14,24 +13,18 @@
 新建 Facebook 账号
 [What's on your mind?]
 您的想法?
+[URL:]
+链接:
 [Share]
 分享
 [Cancel]
 取消
 [User details]
 用户详细资料
-[Text]
-文本
-[Default]
-默认
 [News feeds]
 新闻订阅
 [Client notifications]
 客户端通知
-[Timeout (sec.)]
-超时(秒)
-[(0 = default, -1 = infinite)]
-(0 = 默认, -1 = 无限)
 [Use balloon notifications in system tray instead of popups]
 在系统托盘中使用气泡弹出通知
 [Advanced Settings]
@@ -40,19 +33,20 @@
 强制安全 (HTTPS) 连接
 [Post Miranda statuses to Wall]
 发送 Miranda 状态至涂鸦墙
-;file \protocols\FacebookRM\src\communication.cpp
+[User &details]
+用户详细资料(&D)
 [Login error, probably bad login credentials.]
 登录错误, 可能登录凭据有问题.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Facebook 发生一些问题. 可能有一些重大更新, 请等待更新.
-;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 请输入用户名.
 [Please enter a password.]
 请输入密码.
-;file \protocols\FacebookRM\src\constants.h
-;file \protocols\FacebookRM\src\contacts.cpp
-;file \protocols\FacebookRM\src\dialogs.cpp
+[Public]
+公共
+[Default]
+默认
 [Sample event]
 示例事件
 [Sample request]
@@ -61,28 +55,21 @@ Facebook 发生一些问题. 可能有一些重大更新, 请等待更新.
 示例新闻
 [Sample notification]
 示例通知
-;file \protocols\FacebookRM\src\json.cpp
-;file \protocols\FacebookRM\src\messages.cpp
+[files]
+文件
 [You cannot send messages when you are offline.]
 当您离线时无法发送消息.
-;file \protocols\FacebookRM\src\process.cpp
-;file \protocols\FacebookRM\src\proto.cpp
 [Unable to get Netlib connection for Facebook]
 无法获取 Facebook Netlib 连接
+[Network]
+网络
+[Events]
+事件
+[Advanced]
+高级
 [News Feed]
 新闻订阅
 [Other Event]
 其它事件
-[Network]
-网络
-[Advanced]
-高级
-[Popups]
-弹出窗口
-[Events]
-事件
-;file \protocols\FacebookRM\src\theme.cpp
 [Mind]
 想法
-[Mind...]
-想法...

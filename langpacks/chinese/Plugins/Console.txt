@@ -5,7 +5,6 @@
 ;  Version: 0.0.7.3
 ;  Authors: Bio
 ;============================================================
-;file \plugins\Console\res\resource.rc
 [Console]
 控制台
 [Single window mode*]
@@ -24,7 +23,6 @@
 * 需重启
 [Save settings and restart console]
 保存设置并重启控制台
-;file \plugins\Console\src\Console.cpp
 [Show/Hide Console]
 显示/隐藏控制台
 [Hide Console]

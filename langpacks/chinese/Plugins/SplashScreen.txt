@@ -5,7 +5,6 @@
 ;  Version: 0.1.2.3
 ;  Authors: nullbie, Thief
 ;============================================================
-;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
 启动画面选项
 [Show splash]
@@ -28,10 +27,7 @@
 Advaimg 支持库无法找到. 请从 nigtlies 获取以便能使用图像.
 [Preview...]
 预览...
-;file \plugins\SplashScreen\src\main.cpp
 [Error]
 错误
-;file \plugins\SplashScreen\src\options.cpp
 [Splash Screen]
 启动画面
-;file \plugins\SplashScreen\src\services.cpp

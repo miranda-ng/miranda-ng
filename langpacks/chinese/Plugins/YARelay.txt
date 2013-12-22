@@ -5,7 +5,8 @@
 ;  Version: 0.1.0.1
 ;  Authors: Anar Ibragimoff
 ;============================================================
-;file \plugins\YARelay\res\yaRelay.rc
+[Everyone]
+所有人
 [Contact]
 联络方式
 [Offline]
@@ -24,6 +25,5 @@
 有空聊天
 [Invisible]
 隐身
-;file \plugins\YARelay\src\options.cpp
 [Plugins]
 插件

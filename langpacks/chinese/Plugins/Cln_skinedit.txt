@@ -5,7 +5,9 @@
 ;  Version: 0.0.0.4
 ;  Authors: Nightwish, Pixel
 ;============================================================
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 常规
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[Text color]
+文本颜色
+[<None>]
+<无>

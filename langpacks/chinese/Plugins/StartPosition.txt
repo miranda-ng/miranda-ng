@@ -5,7 +5,6 @@
 ;  Version: 0.2.0.3
 ;  Authors: Felipe Brahm - souFrag
 ;============================================================
-;file \plugins\StartPosition\res\resource.rc
 [Contact List Window Start Position]
 联系人列表窗口启动位置
 [Pixels from Top]
@@ -20,6 +19,5 @@
 最小化至系统托盘
 [Opened]
 已打开
-;file \plugins\StartPosition\src\main.cpp
 [Contact List]
 联系人列表

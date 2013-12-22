@@ -5,8 +5,18 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda-NG project
 ;============================================================
-;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-;file \plugins\Db3x_mmap\src\database.cpp
+[Login to Miranda NG]
+登录至 Miranda NG
+[OK]
+确定
+[Cancel]
+取消
+[Enter password]
+输入密码
+[Remove]
+移除
+[Standard]
+标准
 [Disk is full. Miranda will now shutdown.]
 磁盘已满. Miranda 现在将关闭. 
 [Database failure. Miranda will now shutdown.]
@@ -15,21 +25,28 @@
 数据库错误
 [Database Panic]
 数据库损坏
-;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
+[Set password]
+设置密码
+[Too many errors!]
+太多的错误!
+[Password is not correct!]
+密码不正确!
+[Please type in your password]
+请输入您的密码
+[Passwords do not match!]
+密码不匹配!
 [Performing aggressive pass]
 正在进行积极操作
 [Aggressive: random junk at %08X: skipping]
 积极: 在 %08X 有随机垃圾: 正在跳过
 [Aggressive: unlinked data at %08X: can't automatically place]
 积极: 在 %08X 有未链接资料: 无法自动放置
-;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
 [Processing contact chain]
 正在处理联系人链
 [Contact count marked wrongly: correcting]
 标记联系人数量不正确: 正在修正
 [Contact chain corrupted, further entries ignored]
 联系人链已损坏, 后续项目被忽略
-;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
 [Invalid offset found (database truncated?)]
 已找到无效偏移值 (数据库已被截短? )
 [Invalid offset found]
@@ -40,7 +57,6 @@
 无法写入工作中文件, 积极模式当前可能过于积极
 [Can't write to output file - disk full? (%u)]
 无法写入至输出文件 - 磁盘已满? (%u)
-;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
 [Event count marked wrongly: correcting]
 标记事件数量不正确: 正在修正
 [Event chain corrupted, trying to recover...]
@@ -67,10 +83,8 @@
 事件链位置不正确: 修复中
 [Event position in chain is not correct: unable to fix]
 事件链位置不正确: 无法修复
-;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
 [Processing final tasks]
 正在处理最后任务
-;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
 [Database signature is corrupted, automatic repair is impossible]
 数据库签名已损坏, 不能进行自动修理
 [Database is newly created and has no data to process]
@@ -81,23 +95,18 @@
 无法建立文件映射 (%u)
 [Can't create map view of file (%u)]
 无法建立文件映像查看 (%u)
-;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
 [Processing module name chain]
 正在处理模块名称链
 [Module chain corrupted, further entries ignored]
 模块链已损坏, 后续项目被忽略
-[Module name '%s' is not unique: %d duplicates found)]
-模块名称 '%s' 并非独有: 找到 %d 个重复项目
 [Invalid module name offset, skipping data]
 模块名称偏移值无效, 正在跳过资料
-;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
 [Settings chain corrupted, further entries ignored]
 设置链已损坏, 后续项目被忽略
 [Infeasibly large settings blob: skipping]
 大得不合理的设置内容: 正在跳过
 [Empty settings group at %08X: skipping]
 %08X 有空设置组: 正在跳过
-;file \plugins\Db3x_mmap\src\dbtool\user.cpp
 [Processing user data]
 正在处理用户资料
 [User corrupted, this could cause major problems]

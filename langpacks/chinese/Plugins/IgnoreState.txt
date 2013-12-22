@@ -5,12 +5,10 @@
 ;  Version: 0.0.3.0
 ;  Authors: Kildor
 ;============================================================
-;file \plugins\IgnoreState\res\ignore.rc
 [Filtered events:]
 过滤事件:
 [Use Miranda ignore settings for All Contacts]
 所有联系人使用 Miranda 忽略设置
-;file \plugins\IgnoreState\src\main.cpp
 [Messages]
 消息
 [Files]
@@ -27,6 +25,5 @@
 部分忽略
 [Message Ignore]
 忽略消息
-;file \plugins\IgnoreState\src\options.cpp
 [Icons]
 图标

@@ -5,6 +5,5 @@
 ;  Version: 0.0.0.1
 ;  Authors: Yasnovidyashii
 ;============================================================
-;file \plugins\UserGuide\src\main.cpp
 [User Guide]
 用户手册

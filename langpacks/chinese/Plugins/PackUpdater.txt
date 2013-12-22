@@ -5,7 +5,6 @@
 ;  Version: 0.0.1.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
-;file \plugins\PackUpdater\Res\Resource.rc
 [View info]
 查看信息
 [Cancel]
@@ -16,25 +15,21 @@ PackUpdater 检测到以下\nMiranda 插件版本更新:
 包更新选项
 [Text]
 文本
+[Sec]
+秒
 [Popups]
 弹出窗口
-;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
 检查包更新
 [Pack Updater]
 包更新器
-;file \plugins\PackUpdater\Src\Notifications.cpp
 [Current Version]
 当前版本
 [New Version]
 新版本
 [Downloading pack updates...]
 下载包更新...
-;file \plugins\PackUpdater\Src\Notifications.h
-;file \plugins\PackUpdater\Src\Options.cpp
 [hours]
 小时
-;file \plugins\PackUpdater\Src\PackUpdater.cpp
-;file \plugins\PackUpdater\Src\Utils.cpp
 [Name of Update's file is not supported.]
 更新文件名未支持.

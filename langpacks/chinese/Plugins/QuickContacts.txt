@@ -5,7 +5,6 @@
 ;  Version: 1.0.0.0
 ;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
 ;============================================================
-;file \plugins\QuickContacts\res\resource.rc
 [Last Sent]
 最后发送
 [Enable last-sent-to]
@@ -34,10 +33,8 @@
 输入用户名:
 [Show all contacts (Ctrl+A)]
 显示所有联系人 (Ctrl+A)
-;file \plugins\QuickContacts\src\options.cpp
 [Quick Contacts]
 快速联系人
-;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Open dialog]
 打开对话框
 [Make a voice call]
