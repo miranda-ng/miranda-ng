@@ -1,0 +1,104 @@
+﻿#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+;============================================================
+;  File: BuddyExpectator.dll
+;  Plugin: Buddy expectator
+;  Version: 0.1.2.3
+;  Authors: Anar Ibragimoff, sje, Thief
+;============================================================
+;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
+[When a contact returns after]
+当联系人返回于 
+[Show a popup]
+显示弹出提示
+[Add an event (flashing icon) to the contact]
+添加事件 (闪动图标) 至联系人
+[On event action (double click) or popup click:]
+于事件动作 (双击) 或弹出提示点击:
+[Open User Details]
+打开用户详细资料
+[Return notification]
+返回通知
+[When a contact is absent for]
+当联系人消失
+[Long time no see]
+很久没见
+[or comes online for the first time]
+或首次上线
+[Enable "Miss you" feature]
+启用 "想你" 功能
+[Hide when no messages for]
+当无消息时隐藏于
+[Background]
+背景
+[Text]
+文本
+[Use Popups colors]
+使用弹出提示颜色
+[Default]
+默认
+[Custom]
+自定义
+[sec]
+秒
+[Last seen online:]
+最后在线:
+[Last input message:]
+最后输入消息:
+[Custom absence period:]
+自定义消失时间:
+[Never hide this contact]
+从未隐藏此联系人
+[Enable Miss You]
+启用想你功能
+[Notify always]
+永远通知
+;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
+[Tray/popup icon]
+托盘/弹出提示图标
+[Never hide]
+从未隐藏
+[%d days since last message]
+%d 天距最后消息
+[Disable Miss You]
+禁用想你功能
+[You awaited this contact!]
+您期待此联系人已久!
+[has gone online for the first time.]
+首次上线.
+[has returned after a long absence.]
+久别重逢.
+[has returned after being absent since %#x]
+重现自从消失 %#x
+[has not returned after a long absence.]
+久未露面.
+[has not returned after being absent since %#x]
+久未露面自从 %#x
+[Contact returned]
+联系人返回
+[Contact still absent]
+联系人仍未露面
+[Miss you event]
+想你事件
+[Hide contact event]
+隐藏联系人事件
+[Hide contact]
+隐藏联系人
+;file \plugins\BuddyExpectator\src\options.cpp
+[weeks]
+周
+[months]
+月
+[years]
+年
+[Delete the contact]
+删除联系人
+[has returned after being absent since %d days]
+消失 %d 天后重现
+[Contacts]
+联系人
+[Popups]
+弹出窗口
+[not detected]
+未检出
+[This contact has been absent for an extended period of time.]
+此联系人消失了很长时间.
