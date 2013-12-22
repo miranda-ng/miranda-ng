@@ -95,12 +95,11 @@
 [System]
 [Me]
 [Invalid Message]
-[Authorization request by %s (%s%d): %s]
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
 [Import]
 [Export]
-[File do not contain selected contact]
+[File does not contain selected contact]
 [File is corrupted]
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
@@ -229,7 +228,7 @@
 [Path to output file]
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
 [Path to file]
-[FTP path must contains '/' instead '\' and starts from '/'.]
+[FTP path must contain '/' instead '\' and start with '/'.]
 [FTP path cannot contain <date> in import task.]
 [Unknown error]
 [Cannot get FTP file(s).]

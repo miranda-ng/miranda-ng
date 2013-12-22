@@ -142,7 +142,6 @@
 [SubGroupMenu]
 [AccountMenu]
 [Extra Icons]
-[Gender:]
 [Replace the following default icons:]
 [Homepage]
 [Phone]
