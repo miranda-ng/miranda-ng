@@ -407,6 +407,10 @@ HTTP падлучэнне Weather
 [Edit Settings]
 Змяніць налады
 ;file \plugins\Weather\src\weather_info.cpp
+[Name]
+Імя
+[Items]
+Элементы
 [The corresponding INI file for "%s" is not found.]
 Адпаведны INI файл для "%s" не знойдзены.
 [Weather INI information for "%s":]

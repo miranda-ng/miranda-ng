@@ -276,8 +276,6 @@ History++ для гісторыі вокнаў
 Замацаванае
 [Send Message]
 Адправіць
-[User Details]
-Пра карыстача
 [Contact Menu]
 Меню кантакту
 [Add Contact Permanently]
@@ -310,6 +308,26 @@ History++ для гісторыі вокнаў
 [CLASS Plugins]
 Групы модуляў
 ;file \plugins\Popup\src\opt_gen.cpp
+[Offline]
+Адключаны
+[Online]
+Далучаны
+[Invisible]
+Нябачны
+[Away]
+Адсутнічаю
+[NA]
+Недаступны
+[Occupied]
+Заняты
+[DND]
+Не турбаваць
+[Free for chat]
+Вольны
+[Out to lunch]
+Абедаю
+[On the phone]
+На тэлефоне
 [Width]
 Шырыня
 [upper left corner]

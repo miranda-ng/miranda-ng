@@ -92,8 +92,6 @@
 Карыстач Адключаны
 [User Logged In]
 Карыстач Падлучаны
-[Last seen]
-Апошняе з'яўленне
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <невядома>
@@ -104,6 +102,8 @@
 Зменныя
 [Contacts]
 Кантакты
+[Last seen]
+Апошняе з'яўленне
 [Popups]
 Усплывальныя вокны
 ;file \plugins\SeenPlugin\src\seen.h

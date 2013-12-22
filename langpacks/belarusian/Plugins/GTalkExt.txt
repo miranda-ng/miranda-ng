@@ -5,6 +5,8 @@
 ;  Version: 0.1.0.2
 ;  Authors: bems
 ;============================================================
+[GTalk extensions for Jabber protocol]
+Пашырэнне пратакола  Jabber для абвестках аб пошце GTalk.
 ;file \protocols\GTalkExt\res\settings.rc
 [Popup notifications (needs popup plugin)]
 Усплывальныя апавяшчэнні (патрабуецца плагiн ўсплывальных вокнаў)
@@ -12,6 +14,12 @@
 Таксама апавяшчаць і ў поўнаэкранным рэжыме
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 Выкарыстоўвайце гэта калі ваша плагін ўсплывальных вокнаў няслушна вызначае поўнаэкранны рэжым. Яно адбярэ ў вас фокус уводу
+[Notify in contact list]
+Абвесціць у спісе кантактаў
+[Clear pseudocontact history before adding new events]
+Чысціць гісторыю кантакта перад даданнем новых падзей
+[Mark history event read when popup closed]
+Пры закрыцці ўсплывючага вакна пазначаць падзею прачытанай
 [Add message snip to notification]
 Дадаць у апавяшчэнне фрагмент ліста
 [Try to login before open mailbox]

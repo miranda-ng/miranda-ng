@@ -78,6 +78,8 @@
 Прызначэнне ключоў
 [Debug]
 Адладка
+[Log to File]
+Лог файл
 [Save Pass]
 Захаваць
 [Back]
@@ -163,8 +165,6 @@ Secure IM Выключаны
 Абмен ключамі не адбыўся
 [Key from disabled...]
 Ключ быў адпрэчаны
-[Sended back message received...]
-Зваротнае паведамленне адпраўлена...
 [Sending back secure message...]
 Адпраўка зваротнага паведамлення...
 [SecureIM disabled...]

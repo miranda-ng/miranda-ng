@@ -206,20 +206,6 @@ HTTP далучэнне Quotes
 [User-Defined]
 Карыстальніцкі
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Log Files (*.txt,*.log)]
-Лог (*.txt,*.log)
-[Enter integer value]
-Увядзіце цэлае значэнне
-[Enter log file name.]
-Увядзіце назву для лога.
-[Enter log file format.]
-Увядзіце фармат лога.
-[Enter history format.]
-Увязіце фармат гісторыі.
-[Enter popup window format.]
-Увядзіце фармат вакна.
-;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
 Памылка падчас парсінгу HTML.
@@ -273,3 +259,15 @@ HTTP далучэнне Quotes
 [Change]
 Змена
 ;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Лог (*.txt,*.log)
+[Enter integer value]
+Увядзіце цэлае значэнне
+[Enter log file name.]
+Увядзіце назву для лога.
+[Enter log file format.]
+Увядзіце фармат лога.
+[Enter history format.]
+Увязіце фармат гісторыі.
+[Enter popup window format.]
+Увядзіце фармат вакна.

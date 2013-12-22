@@ -7,12 +7,15 @@
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
 Інтэграцыя Miranda NG ў меню правадніка Windows.
+;file \plugins\ShellExt\res\shldlgs.rc
 [Display contacts in their assigned groups (if any)]
 Адлюстроўваць кантакты па групах (калі ёсць)
 [Only if/when the contact list is using them]
 Толькі калі іх выкарыстоўвае спіс кантактаў
 [Display hidden, ignored or temporary contacts]
 Паказваць утоеныя, ігнаруемыя і часавыя кантакты
+[Menus]
+Меню
 [Shell Status]
 Інтэграцыя
 [Shell context menus]
@@ -21,10 +24,13 @@
 Не паказваць у меню назва бягучага профіля
 [Show contacts that you have set privacy rules for]
 Паказваць кантакты, для якіх усталяваны правілы прыватнасці
+[Remove]
+Выдаліць
 [Do not show status icons in menus]
 Не паказваць у меню значкі статусу
 [Do not show contacts that are offline, even if my contact list does]
 Не паказваць адключаныя кантакты
+;file \plugins\ShellExt\src\options.cpp
 [Problem, registration missing/deleted.]
 Праблема! Інтэграцыя ў абалонку адсутнічае!
 [Successfully created shell registration.]
@@ -37,3 +43,6 @@
 Вы ўпэўнены? Гэта выдаліць усе налады дадзенага модуля ў вашай БД і ўсе ключы рэестру, якія адказваюць за яго інтэграцыю ў Explorer.
 [Disable/Remove shlext]
 Адключыць/Выдаліць shlext
+;file \plugins\ShellExt\src\shlcom.cpp
+[Miranda]
+Miranda

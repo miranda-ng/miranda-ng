@@ -348,7 +348,7 @@ Email express ад %s (%s): %s
 [Authorization request denied by %s (%d): %s]
 У аўтарызацыі адмоўлена %s (%d): %s
 [User %s (%d) removed himself from your contact list: %s]
-Карыстач %s (%d) выдаліў(а) сябе з вашага спісу кантактаў: %s
+Карыстач %s (%d) вылаліў(ла) сябе з вашага спісу кантактаў: %s
 [Authorization future request by %s (%d): %s]
 Будучы запыт аўтарызацыі ад %s (%d): %s
 [Broadcast message from %s (%s): %s]
@@ -711,3 +711,33 @@ Wiki-старонка дадатковых параметраў
 Уваходны гадзіна
 [Outgoing timestamp]
 Выходныя час
+[Open in &new window]
+Адчыніць у новым вакне
+[Open in existing &window]
+Адчыніць у існуючым вакне
+[Copy &Link]
+Капіяваць спасылку
+[Co&py]
+Капіяваць
+[Select &All]
+Абраць усё
+[Send &Message]
+Адаслаць паведамленне
+[User Details]
+Пра кантакт...
+[Enable SmileyAdd support]
+Падтрымка смайлаў
+[Always RTL]
+Справа налева
+[Always LTR]
+Злева направа
+[Enable MathModule support]
+Падтрымка мат. модуля
+[Show event icons]
+Абразкі з'яваў
+[View user's history]
+Гісторыя
+[View User's History]
+Гісторыя
+[View &History]
+Гісторыя

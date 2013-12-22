@@ -1,14 +1,39 @@
 ﻿#muuid {e92874ec-594a-4a2f-bded-c0be8b5a45d1}
 ;============================================================
 ;  File: NotifyAnything.dll
-;  Module: NotifyAnything
-;  Versions: 0.0.2.7
+;  Plugin: NotifyAnything
+;  Version: 0.0.2.8
+;  Authors: Daniel Wesslen, Korney San
 ;============================================================
-[Allow actions to execute programs]
-Дазволіць выкананне праграм
-[Message debugging]
-Адладка паведамленняў
+;file \plugins\NotifyAnything\res\NotifyAnything.rc
+[Security]
+Бяспека
 [Only listen to localhost]
 Толькі ад гэтага кампутара
+[Sound]
+Гук
+[Play sounds]
+Прайграваць гукі
 [Use internal speaker]
 Выкарыстоўваць дынамік
+[Debug]
+Адладка
+[Log to file]
+Запіс у файл
+[Message debugging]
+Адладка паведамленняў
+[Port:]
+Порт:
+[Allow actions to execute programs]
+Дазволіць выкананне праграм
+[Password:]
+Пароль:
+;file \plugins\NotifyAnything\src\common.h
+;file \plugins\NotifyAnything\src\main.cpp
+[Error]
+Памылка
+;file \plugins\NotifyAnything\src\options.cpp
+[Services]
+Службы
+[Plugins]
+Плагіны

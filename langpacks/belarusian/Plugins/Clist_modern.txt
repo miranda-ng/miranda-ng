@@ -469,7 +469,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Compact mode\n(Show avatars and additional text on selected contacts only)]
 Кампактны рэжым\n(Аватары і дадатковы тэкст толькі ў абраных кантактаў)
 [Draw border on avatar]
-Рамкі на аватарах
+Рамкі на выявах
 [Draw overlay icons]
 Значкі на аватарах
 [Round corners of avatars]
@@ -600,6 +600,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Вышэй
 [Move down]
 Ніжэй
+[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
+Гэта старонка ў распрацоўцы. 
+[&Main menu]
+Галоўнае меню
 [E&xit]
 Вы&хад
 [&Status]
@@ -663,6 +667,14 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Аверлэй статусу
 [Contact List smileys]
 Смайлы спісу кантактаў
+[List Background]
+Фон спісу
+[Menu Background]
+Фон меню
+[StatusBar Background]
+Фон панэлі статуса
+[Frames TitleBar BackGround]
+Фон загалоўка фрэймаў
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго?
 [Converting to MetaContact]
@@ -677,6 +689,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Даданне да метакантакту
 [Do you want contact '%s' to be default?]
 Жадаеце зрабіць '%s' кантактам па змаўчанні?
+[Set default contact]
+Кантакт па змаўчанні
 [Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 Жадаеце выдаліць '%s' з метакантакту '%s' і дадаць у '%s'?
 [Changing MetaContacts (Moving)]
@@ -762,8 +776,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Спіс
 [Window]
 Акно
-[List Background]
-Фон спісу
 [Not focused]
 Не ў фокусе
 [Offline]
@@ -807,6 +819,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Behind right edge]
 За правы край
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area Background]
+Фон вобласці падзей
 [Event Area]
 Вобласць падзей
 [No Events]
@@ -857,16 +871,14 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Другі радок
 [Third Line]
 Трэці радок
-[Row items]
-Элементы радкоў
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Невядомы кантакт)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[Tray menu]
+Меню ў трэі
 [&Find/Add Contacts...]
 Дадаць &кантакты
-[&Main menu]
-Галоўнае меню
 [&Options...]
 &Налады
 [&About]
@@ -978,10 +990,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Галоўнае меню
-[Main menu]
-Галоўнае меню
-[Status menu]
-Меню статусу
 [Status menu]
 Меню статусаў
 [Accounts]
@@ -1012,6 +1020,8 @@ Angeli-Ka (графіка), FYR (шаблон)
 Згарнуць
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Для панэлі кнопак ў Clist Modern неабходны дадатак TopToolBar. Каб спампаваць яго, нажміце "Да"
+[ToolBar Background]
+Фон панэлі кнопак
 [Toolbar upgrade]
 Аднаўленне тулбара
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
@@ -1061,6 +1071,8 @@ Angeli-Ka (графіка), FYR (шаблон)
 Скінуць рэжым і перайсці ў рэжым па змаўчанні
 [Reset view mode]
 Скінуць рэжым
+[View Mode Background]
+Фон рэжымаў выгляду
 [View Modes]
 Рэжымы выгляду
 ;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
@@ -1100,6 +1112,9 @@ Angeli-Ka (графіка), FYR (шаблон)
 Замацаваць фрэйм
 [Show TitleBar]
 Паказаць загаловак
+;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
+Меню фрэймаў
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [Group menu]
 Меню груп

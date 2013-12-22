@@ -43,6 +43,8 @@
 [Show email notifications using popup module]
 Паказаць апавяшчэнні праз усплывальнае вакно
 ;file \plugins\Exchange\src\dlg_handlers.cpp
+[Entry ID]
+Параметры уваходу
 [Subject]
 Тэма
 [Sender]

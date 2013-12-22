@@ -194,6 +194,8 @@ AIM Усталяваць Instant Idle
 Не знойдзена.
 [List overflow.]
 Спіс перапоўнены.
+[Service temporarily unavailable.]
+Сэрвіс тэтмінова недасяжны
 [Invalid Screen Name.]
 Няслушнае імя.
 [Invalid Password.]

@@ -288,6 +288,10 @@ lParam
 Дапамога па сэрвісам
 [Return]
 Якое вяртаецца
+[Scheduler]
+Планоўшчык
+[TopToolbar]
+Панэль кнопак
 [Effect]
 Эффект
 [Start]

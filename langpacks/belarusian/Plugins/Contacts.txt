@@ -58,6 +58,12 @@
 [Outgoing Contacts]
 Выходныя кантакты
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Nick]
+Мянушка
+[First Name]
+Імя
+[Last Name]
+Фамілія
 [Add Contact Permanently to List]
 Дадаць у спіс
 [View User's Details]
@@ -66,4 +72,8 @@
 Гісторыя паведамленняў
 [User Menu]
 Меню карыстача
+[Contacts from]
+Кантакты ад
 ;file \plugins\ContactsPlus\src\send.cpp
+[Send Contacts to]
+Адаслаць кантаты

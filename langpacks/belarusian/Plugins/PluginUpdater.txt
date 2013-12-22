@@ -128,6 +128,8 @@
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Выдалена!
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
+Абнаўленне скончана. Націсніце "Так" для перазагрузкі праграмы ці "Не", каб зрабіць гэта пазней.
 [<< Details]
 << Дэталі
 [No updates found.]

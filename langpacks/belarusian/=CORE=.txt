@@ -2063,6 +2063,8 @@ URL ад %s
 хстатус
 [%s (locked)]
 %s (заблакаваны)
+[Status menu]
+Меню статусаў
 [Main menu]
 Галоўнае меню
 ;file \src\modules\clist\clistsettings.cpp
@@ -2172,6 +2174,11 @@ Miranda NG не можа адкрыць гэты профіль
 Невядома, ці будзе змена бяспечнай.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Няправільны тып налады для  '%s'. Першы знак любога значэння павінен быць b, w, d, l, s, e, u, g, h цi n.
+;file \src\modules\database\dbutils.cpp
+[Authorization request from %s%s: %s]
+Запыт аўтарызацыі от %s%s: %s
+[Contacts: ]
+Кантакты:\s
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профіль '%s' ўжо існуе. Хочаце перамясціць яго ў Сметніцу?\n\nПАПЯРЭДЖАНЬНЕ: Профіль будзе выдалены, калі яна адключаная.\n\nПАПЯРЭДЖАНЬНЕ: Профіль можа ўтрымліваць канфідэнцыйную інфармацыю і павінен быць правільна выдалены. 

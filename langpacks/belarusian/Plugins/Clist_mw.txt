@@ -240,6 +240,8 @@ Cлужба:
 Значок злучэння
 [Use New Drawer for StatusBar]
 Новы стыль панэлі статусу
+[&Main menu]
+Галоўнае меню
 [E&xit]
 Вы&хад
 [&Status]
@@ -366,10 +368,10 @@ _Безпротокола_
 [(Unknown Contact)]
 (Невядомы кантакт)
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[Tray menu]
+Меню ў трэі
 [&Find/Add Contacts...]
 Дадаць &кантакты
-[&Main menu]
-Галоўнае меню
 [&Options...]
 &Налады
 [&About]
@@ -379,6 +381,10 @@ _Безпротокола_
 Мае кантакты
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
+[Group menu]
+Меню груп
+[Subgroup menu]
+Меню падгруп
 [&New SubGroup]
 Стварыць падгрупу
 ;file \plugins\Clist_mw\src\keyboard.cpp
@@ -431,4 +437,7 @@ _Безпротокола_
 Паказаць загаловак
 [Floating]
 Плывучае
+;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
+Меню фрэймаў
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

@@ -865,12 +865,19 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 Ужываць скін да фрэйма
 [Floating]
 Плывучае
+;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
+Меню фрэймаў
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[Group menu]
+Меню гуртоў
 [&Find/Add Contacts...]
 Дадаць &кантакты
 [&Options...]
 &Налады
 [&About the contact list...]
 Пра спіс кантактаў...
+[Subgroup menu]
+Меню падгуртоў
 [&New SubGroup]
 Стварыць падгрупу

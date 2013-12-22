@@ -103,6 +103,8 @@
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
 [Buttons]
 Кнопкі
+[Overlays]
+Аверлэі
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [< Copyright]
 < Правы

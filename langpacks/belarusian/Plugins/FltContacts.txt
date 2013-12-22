@@ -22,6 +22,8 @@
 Хаваць усе кантакты
 [Hide when a fulscreen app is active]
 Хаваць калі прыкладанне разгорнута
+[Show tooltips*]
+Паказваць падказкі*
 [ms]
 мс
 [Tooltips]
@@ -30,6 +32,8 @@
 Іншае
 [0 = Default]
 0=Змаўчанне
+[*requires Tipper plugin]
+* патрабуе Tipper
 [Bring to front]
 На пярэдні план
 [Bring to front every]
@@ -42,6 +46,8 @@
 Адна пстрычка
 [Dim idle contacts]
 Прыцьміць неактыўных карыстачоў
+[Idle contacts]
+Неактыўныя кантакты
 [Border]
 Рамка
 [Draw border]

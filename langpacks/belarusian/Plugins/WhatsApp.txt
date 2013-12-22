@@ -1,0 +1,29 @@
+﻿#muuid {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
+;============================================================
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp protocol
+;  Version: 0.0.2.1
+;  Authors: Uli Hecht
+;============================================================
+;file \protocols\WhatsApp\res\whatsapp.rc
+[Password]
+Пароль
+[Nickname]
+Мянушка
+[Cancel]
+Скасаваць
+[OK]
+ОК
+;file \protocols\WhatsApp\src\connection.cpp
+[Please enter a password.]
+Калі ласка, увядзіце пароль.
+;file \protocols\WhatsApp\src\dialogs.cpp
+;file \protocols\WhatsApp\src\main.cpp
+;file \protocols\WhatsApp\src\proto.cpp
+[%s server connection]
+Далучэнне да сервера %s
+[Network]
+Сеціва
+[Account]
+Конт
+;file \protocols\WhatsApp\src\theme.cpp

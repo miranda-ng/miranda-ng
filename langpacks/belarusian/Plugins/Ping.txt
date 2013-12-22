@@ -60,6 +60,10 @@
 Уніз
 [Edit Host]
 Кіраваць хост
+[OK]
+ОК
+[Cancel]
+Скасаваць
 [Address:]
 Адрас:
 [Label:]
@@ -115,8 +119,6 @@ TCP злучэнне
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
 Плагін пінг
-[Failed to initialize. Plugin disabled.]
-Памылка ініцыялізацыі. Убудова адключаны.
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 Паказваць лініі

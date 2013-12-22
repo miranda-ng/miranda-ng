@@ -36,6 +36,10 @@ Skype пратакол для Miranda NG.
 Пацверджанне:
 [Password hint:]
 Падказка пароля:
+[&OK]
+&OK
+[Set password]
+Усталяваць пароль
 [Enter password]
 Увядзіце пароль
 [Remember this session password]
@@ -108,6 +112,8 @@ Skype пратакол для Miranda NG.
 Група:
 [Block]
 Заблакаваць
+[Show avatars]
+Аватары
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
 [HTTPS proxy authentication failed]
@@ -163,6 +169,8 @@ Skype пратакол для Miranda NG.
 [Conferences]
 Канферэнцыі
 ;file \protocols\Skype\src\skype_chat.cpp
+[&User details]
+Інфармацыя пра кантакт
 [&Request auth]
 &Запытаць аўтарызацыю
 [Invite to conference]
@@ -187,6 +195,8 @@ Skype пратакол для Miranda NG.
 Капіяваць &Skype ID
 [Copy room &uri]
 Капіяваць URI канферэнцыі
+[User]
+Карыстач
 [The password is incorrect]
 Няслушны пароль
 [Your application to join the conference was denied]
@@ -218,6 +228,8 @@ Skype пратакол для Miranda NG.
 ;file \protocols\Skype\src\skype_events.cpp
 [Network]
 Сеціва
+[Privacy]
+Прыватнасць
 [Contacts]
 Кантакты
 [Home]

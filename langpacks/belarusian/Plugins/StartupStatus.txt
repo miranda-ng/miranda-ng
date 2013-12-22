@@ -190,6 +190,10 @@ Dial-up (эксперыментальна)
 Ігнараваць камбінацыі са згаданымі клавішамі
 [Accounts]
 Конты
+[Enable checking]
+Правяраць
+[Disable checking]
+Не правяраць
 [Set status message]
 Усталяваць статутнае паведамленне
 [Status]
@@ -214,8 +218,6 @@ Dial-up (эксперыментальна)
 Макс. затрымка (сек)
 [Increase delay exponential]
 Павялічыць экспанентна
-[Cancel all if an account connects from another location]
-Адмяніць, калі конт далучаны з другога месца
 [Reconnect on APM resume]
 Перадалучыцца пасля спячага рэжыму
 [Stop trying to reconnect]
@@ -242,11 +244,21 @@ Dial-up (эксперыментальна)
 незад. пінг.
 [Continuously check interval (secs)]
 Інтэрвал праверкі (сек)
+[Becoming active without status change]
+Не змяняць статус пры вяртанні
+[Pre-conditions]
+Перадумовы
+[TriggerData]
+Дадзеныя трыгера
+[Status: The status the account will change to\r\nAccount: The account changing state]
+Статус: Статус конта зменіцца на\r\nКонт: Змяненне стану конта
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [<last>]
 <апошні>
 [<current>]
 <бягучы>
+[<unknown>]
+<невядома>
 [Left]
 Злева
 [Right]

@@ -6,10 +6,82 @@
 ;  Authors: Vincent Joyce
 ;============================================================
 ;file \plugins\WebView\res\webview.rc
+[minutes]
+хвілін(ы)
+[seconds]
+секунд(ы)
+[Background color:]
+Колер фону:
+[Text color:]
+Колер тэксту:
+[Bold]
+Тоўсты
+[Italic]
+Курсіў
+[Underline]
+Падкрэсленне
+[URL:]
+Спасылка:
+[Display]
+Паказваць
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[Apply]
+Ужыць
+[Find]
+Знайсці
+[&Find next]
+&Наступны
+[Find what:]
+Знайсці:
+[Log to file]
+Запіс у файл
+[Append data to file]
+Дадаць змесціва ў файл
+[Delay]
+Затрымка
+[From Popup plugin]
+Па змаўчанні
+[Permanent]
+Увесь час
+[Preview]
+Тэст
+[Colors]
+Колеры
+[Use custom colors]
+Задаць колеры
+[Background]
+Фон
+[Text]
+Тэкст
+[Use Windows colors]
+Колеры Windows
+[Dismiss popup]
+Зачыніць вакно
+[Log]
+Лог
+[&Copy]
+&Капіяваць
+[C&ut]
+Выразаць
+[&Delete]
+&Выдаліць
+[&Paste]
+&Уставіць
+[Co&py all]
+Капіяваць усё
 ;file \plugins\WebView\src\main.cpp
 ;file \plugins\WebView\src\webview.cpp
+[Network]
+Сеціва
+[Popups]
+Усплывальныя вокны
 ;file \plugins\WebView\src\webview_alerts.cpp
 ;file \plugins\WebView\src\webview_datawnd.cpp
 ;file \plugins\WebView\src\webview_getdata.cpp
+[Online]
+Далучаны
 ;file \plugins\WebView\src\webview_opts.cpp
 ;file \plugins\WebView\src\webview_services.cpp

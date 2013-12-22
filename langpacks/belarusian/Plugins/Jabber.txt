@@ -34,6 +34,8 @@
 Налада далучэння (вузел і порт):
 [Use Domain Login]
 Даменны лагін
+[Go]
+>>
 [Search service]
 Служба пошуку
 [Roster Editor]
@@ -98,12 +100,30 @@ TLS
 Адключыце ўсе опцыі, калі ў вас праблемы з адпраўкай файлаў. Могуць з'явіцца праблемы з перадачай вялікіх файлаў.
 [Jabber Account Registration]
 Рэгістрацыя конту Jabber
+[Jabber Agents]
+Агенты Jabber
+[Register/Search Jabber Agents]
+Рэгістрацыя/пошук агентаў Jabber
+[Jabber server:]
+Сервер Jabber:
 [Browse]
 Агляд
+[Register...]
+Рэгістрацыя...
+[Browse/Join chat room...]
+Агляд пакояў...
 [Search...]
 Пошук...
+[Log on]
+Увайсці
+[Log off]
+Выйсці
 [Close]
 Зачыніць
+[Command]
+Каманда
+[Jabber Form]
+Jabber форма
 [Instruction:]
 Інструкцыя:
 [Submit]
@@ -162,6 +182,8 @@ Jabber Пароль
 Пошта:
 [Phone:]
 Тэлефон:
+[Jabber vCard: Add Email Address]
+Jabber vCard: даданне E-mail
 [Email address:]
 Адрас E-mail:
 [Home]
@@ -196,6 +218,8 @@ BBS
 Нумар
 [PCS]
 PCS
+[Load]
+Запампаваць
 [Save]
 Захаваць
 [Delete]
@@ -210,6 +234,8 @@ PCS
 Новы пароль:
 [Confirm New Password:]
 Пацверджанне:
+[Jabber Multi-User Conference]
+Канферэнцыя Jabber
 [Conference server:]
 Сервер:
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
@@ -282,6 +308,8 @@ JID / URL:
 Спісы:
 [Rules:]
 Кіравала:
+[Advanced Mode]
+Пашыраны  рэжым
 [Privacy rule]
 Налады прыватнасці
 [If:]

@@ -154,6 +154,18 @@
 Скасаваць
 [Message Session]
 Гутарка
+[&User menu]
+Меню карыстача
+[User &details]
+&Інфармацыя
+[&Emoticons]
+Эмоцыі
+[&Add]
+&Дадаць
+[&History]
+Гісторыя
+[&OK]
+&OK
 [Send To All Tabs]
 Адправіць усім укладкам
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -164,6 +176,18 @@
 Так
 [No]
 Не
+[&Bold]
+Тлусты
+[&Italic]
+Курсіў
+[&Underline]
+Падкрэсліць
+[&Color]
+Колер
+[&Background color]
+колер фона
+[&Filter]
+фільтр
 [Show these events only:]
 Паказваць толькі:
 [Actions]
@@ -656,6 +680,10 @@ Miranda не змагла загрузіць убудаваную сістэму
 Уваходныя (новыя сеанс)
 [Outgoing]
 Выходныя
+[Contact started typing]
+Кантакт пачаў пісаць
+[Contact stopped typing]
+Кантакт скончыў пісаць
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Невядомая памылка.
@@ -834,8 +862,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 імя бягучага профіля (толькі імя, без пашырэння)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 верне радок выгляду %miranda_profile%\\Profiles\\%miranda_profilename%
-[will return parsed string %miranda_userdata%\\Logs]
-
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 аналог зменнага асяроддзя %APPDATA% для бягучага карыстача сістэмы
 [username for currently logged-on Windows user]
@@ -876,8 +902,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Абраць тэчку
 [Popups]
 Усплывальныя вокны
-[Group chats]
-Чаты
 [Message is highlighted]
 Паведамленне вылучана
 [User has performed an action]
@@ -963,7 +987,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Уключыць/выключыць фільтр падзей (CTRL+F)
 [Nick name]
 Мянушка
-[Unique id]
+[Unique ID]
 Асабісты конт
 [Status]
 Статус
