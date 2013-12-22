@@ -322,8 +322,8 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 			CheckDlgButton(hDlg, CHECK_OPT_EMAILICON, g_eiEmail);
 			CheckDlgButton(hDlg, CHECK_OPT_PHONEICON, g_eiPhone);
 			CheckDlgButton(hDlg, CHECK_OPT_HOMEPAGEICON, g_eiHome);
-			CheckDlgButton(hDlg, CHECK_OPT_FLAGSUNKNOWN, gFlagsOpts.bUseUnknownFlag);
-			CheckDlgButton(hDlg, CHECK_OPT_FLAGSMSGSTATUS, gFlagsOpts.bShowStatusIconFlag);
+			CheckDlgButton(hDlg, CHECK_OPT_FLAGSUNKNOWN, g_bUseUnknownFlag);
+			CheckDlgButton(hDlg, CHECK_OPT_FLAGSMSGSTATUS, g_bShowStatusIconFlag);
 
 			// misc
 			DBGetCheckBtn(hDlg, CHECK_OPT_ZODIACAVATAR, SET_ZODIAC_AVATARS, FALSE);
@@ -344,28 +344,26 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 			RebuildMenu();
 
 			// extra icon settings
-			BOOL FlagsClistChange = 0;
-			BOOL FlagsMsgWndChange = 0;
+			bool FlagsClistChange = false, FlagsMsgWndChange = false;
 
-			BYTE valNew = IsDlgButtonChecked(hDlg, CHECK_OPT_FLAGSUNKNOWN);
-			if (gFlagsOpts.bUseUnknownFlag != valNew) {
-				gFlagsOpts.bUseUnknownFlag = valNew;
+			bool valNew = IsDlgButtonChecked(hDlg, CHECK_OPT_FLAGSUNKNOWN) != 0;
+			if (g_bUseUnknownFlag != valNew) {
+				g_bUseUnknownFlag = valNew;
 				db_set_b(NULL, MODNAMEFLAGS, "UseUnknownFlag", valNew);
-				FlagsClistChange++;
-				FlagsMsgWndChange++;
+				FlagsClistChange = true;
+				FlagsMsgWndChange = true;
 			}
-			valNew = IsDlgButtonChecked(hDlg, CHECK_OPT_FLAGSMSGSTATUS);
-			if (gFlagsOpts.bShowStatusIconFlag != valNew) {
-				gFlagsOpts.bShowStatusIconFlag = valNew;
+			valNew = IsDlgButtonChecked(hDlg, CHECK_OPT_FLAGSMSGSTATUS) != 0;
+			if (g_bShowStatusIconFlag != valNew) {
+				g_bShowStatusIconFlag = valNew;
 				db_set_b(NULL, MODNAMEFLAGS, "ShowStatusIconFlag", valNew);
-				FlagsMsgWndChange++;
+				FlagsMsgWndChange = true;
 			}
 
-			if (SvcHomepageEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_HOMEPAGEICON), true) ||
-				 SvcEMailEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_EMAILICON), true) ||
-				 SvcPhoneEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_PHONEICON), true) ||
-				 SvcGenderEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_GENDER), true))
-				FlagsClistChange = true;
+			FlagsClistChange |= SvcHomepageEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_HOMEPAGEICON), true);
+			FlagsClistChange |= SvcEMailEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_EMAILICON), true);
+			FlagsClistChange |= SvcPhoneEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_PHONEICON), true);
+			FlagsClistChange |= SvcGenderEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_GENDER), true);
 
 			if (FlagsClistChange)  pcli->pfnSetAllExtraIcons(NULL);
 			if (FlagsMsgWndChange) UpdateStatusIcons(NULL);

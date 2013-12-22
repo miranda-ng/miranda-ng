@@ -28,14 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define EXTRAIMAGE_REFRESHDELAY		100		/* time for which setting changes are buffered */
 #define STATUSICON_REFRESHDELAY		100		/* time for which setting changes are buffered */
 
-struct FLAGSOPTIONS 
-{
-	BYTE	bShowExtraImgFlag;
-	BYTE	bUseUnknownFlag;
-	BYTE	bShowStatusIconFlag;
-};
-
-extern FLAGSOPTIONS gFlagsOpts;
+extern bool g_bShowExtraImgFlag, g_bUseUnknownFlag, g_bShowStatusIconFlag;
 extern bool g_eiGender, g_eiHome, g_eiEmail, g_eiPhone;
 
 struct MsgWndData
@@ -51,7 +44,7 @@ struct MsgWndData
 	void FlagsIconUnset();
 	void FlagsIconUpdate()
 	{
-		gFlagsOpts.bShowStatusIconFlag ? FlagsIconSet() : FlagsIconUnset();
+		g_bShowStatusIconFlag ? FlagsIconSet() : FlagsIconUnset();
 	}
 	void ContryIDchange(int ID)
 	{
@@ -73,7 +66,7 @@ struct IconList
 typedef void (CALLBACK *BUFFEREDPROC)(LPARAM lParam);
 void CallFunctionBuffered(BUFFEREDPROC pfnBuffProc, LPARAM lParam, BOOL fAccumulateSameParam, UINT uElapse);
 
-void SvcFlagsEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB);
+void SvcFlagsEnableExtraIcons(bool bEnable, bool bUpdateDB);
 void CALLBACK UpdateStatusIcons(LPARAM lParam);
 
 void SvcFlagsLoadModule();

@@ -85,9 +85,6 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	SvcHomepageLoadModule();
 	SvcFlagsOnModulesLoaded();
 
-	if (SvcEMailEnableExtraIcons() || SvcPhoneEnableExtraIcons() || SvcGenderEnableExtraIcons() || SvcHomepageEnableExtraIcons())
-		pcli->pfnSetAllExtraIcons(0);
-
 	// build contact's menuitems
 	RebuildMenu();
 	HookEvent( ME_CLIST_PREBUILDSTATUSMENU, (MIRANDAHOOK)RebuildAccount);
@@ -203,6 +200,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	SvcContactInfoLoadModule();
 	SvcEMailLoadModule();
 	SvcRefreshContactInfoLoadModule();
+
+	SvcPhoneEnableExtraIcons();
+	SvcGenderEnableExtraIcons();
+	SvcHomepageEnableExtraIcons();
 
 	CtrlContactLoadModule();
 	// load my button class

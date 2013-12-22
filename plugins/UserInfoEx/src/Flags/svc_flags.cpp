@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define M_ENABLE_SUBCTLS			(WM_APP+1)
 
-FLAGSOPTIONS	gFlagsOpts;
+bool g_bShowExtraImgFlag = false, g_bUseUnknownFlag = false, g_bShowStatusIconFlag = false;
 
 /* Misc */
 int		nCountriesCount;
@@ -168,7 +168,7 @@ static void CALLBACK SetExtraImage(LPARAM lParam)
 {
 	/* get contact's country */
 	int countryNumber = ServiceDetectContactOriginCountry(lParam, 0);
-	ExtraIcon_SetIcon(hExtraIconSvc, (HANDLE)lParam, (countryNumber != 0xFFFF || gFlagsOpts.bUseUnknownFlag) ? LoadFlagHandle(countryNumber) : NULL);
+	ExtraIcon_SetIcon(hExtraIconSvc, (HANDLE)lParam, (countryNumber != 0xFFFF || g_bUseUnknownFlag) ? LoadFlagHandle(countryNumber) : NULL);
 }
 
 static int OnCListApplyIcons(WPARAM wParam, LPARAM)
@@ -177,14 +177,15 @@ static int OnCListApplyIcons(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-void SvcFlagsEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB)
+void SvcFlagsEnableExtraIcons(bool bEnable, bool bUpdateDB)
 {
-	gFlagsOpts.bShowExtraImgFlag = (bColumn != ((BYTE)-1));
+	g_bShowExtraImgFlag = bEnable;
+
 	if (bUpdateDB)
-		db_set_b(NULL, MODNAMEFLAGS, "ShowExtraImgFlag", bColumn != (BYTE)-1);
+		db_set_b(NULL, MODNAMEFLAGS, "ShowExtraImgFlag", bEnable);
 
 	// Flags is on
-	if (gFlagsOpts.bShowExtraImgFlag) {
+	if (g_bShowExtraImgFlag) {
 		if (hExtraIconSvc == INVALID_HANDLE_VALUE) {
 			// get local langID for descIcon (try to use user local Flag as icon)
 			DWORD langid = 0;
@@ -232,7 +233,7 @@ MsgWndData::~MsgWndData()
 void MsgWndData::FlagsIconSet()
 {
 	/* ensure status icon is registered */
-	if (m_countryID != 0xFFFF || gFlagsOpts.bUseUnknownFlag) {
+	if (m_countryID != 0xFFFF || g_bUseUnknownFlag) {
 		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = MODNAMEFLAGS;
 		sid.hIconDisabled = sid.hIcon = LoadFlagIcon(m_countryID);
@@ -350,7 +351,7 @@ static int OnMsgWndEvent(WPARAM wParam, LPARAM lParam)
 //hookProc ME_SKIN2_ICONSCHANGED
 static int OnStatusIconsChanged(WPARAM wParam, LPARAM lParam)
 {
-	if (gFlagsOpts.bShowStatusIconFlag)
+	if (g_bShowStatusIconFlag)
 		CallFunctionBuffered(UpdateStatusIcons, 0, FALSE, STATUSICON_REFRESHDELAY);
 	return 0;
 }
@@ -388,12 +389,13 @@ static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
  ***********************************************************************************************************/
 
 /**
- * This function initially loads all required stuff for Flags.
- *
- * @param	none
- *
- * @return	nothing
- **/
+* This function initially loads all required stuff for Flags.
+*
+* @param	none
+*
+* @return	nothing
+**/
+
 void SvcFlagsLoadModule()
 {
 	PrepareBufferedFunctions();
@@ -401,44 +403,44 @@ void SvcFlagsLoadModule()
 		nCountriesCount = 0;
 	InitIcons();			/* load in iconlib */
 	
-	//InitIpToCountry();	/* not implementet */
 	CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY, ServiceDetectContactOriginCountry);
 	
-	//init settings
-	gFlagsOpts.bUseUnknownFlag = db_get_b(NULL, MODNAMEFLAGS, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT);
-	gFlagsOpts.bShowExtraImgFlag = db_get_b(NULL, MODNAMEFLAGS, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT);
-	gFlagsOpts.bShowStatusIconFlag = db_get_b(NULL, MODNAMEFLAGS, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT);
+	// init settings
+	g_bUseUnknownFlag = db_get_b(NULL, MODNAMEFLAGS, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
+	g_bShowExtraImgFlag = db_get_b(NULL, MODNAMEFLAGS, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT) != 0;
+	g_bShowStatusIconFlag = db_get_b(NULL, MODNAMEFLAGS, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnStatusIconsChanged);
 }
 
 /**
- * This function is called by Miranda just after loading all system modules.
- *
- * @param	none
- *
- * @return	nothing
- **/
+* This function is called by Miranda just after loading all system modules.
+*
+* @param	none
+*
+* @return	nothing
+**/
+
 void SvcFlagsOnModulesLoaded()
 {
-	SvcFlagsEnableExtraIcons(1, FALSE);
+	SvcFlagsEnableExtraIcons(true, false);
 
 	/* Status Icon */
 	HookEvent(ME_MSG_WINDOWEVENT, OnMsgWndEvent);
 }
 
 /**
- * This function unloads the module.
- *
- * @param	none
- *
- * @return	nothing
- **/
+* This function unloads the module.
+*
+* @param	none
+*
+* @return	nothing
+**/
+
 void SvcFlagsUnloadModule()
 {
 	KillBufferedFunctions();
-	//Uninit ExtraImg
-	UnhookEvent(hApplyIconHook);
+
 	//Uninit message winsow
 	for (int i = 0; i < gMsgWndList.getCount(); i++) {
 		//this should not happen
@@ -448,7 +450,8 @@ void SvcFlagsUnloadModule()
 	gMsgWndList.destroy();
 	gIListMW.destroy();
 
-	//Uninit misc
+	// Uninit misc
+	UnhookEvent(hApplyIconHook);
 	UnhookEvent(hSettingChangedHook);
 	UninitIcons();
 }

@@ -215,11 +215,11 @@ bool SvcEMailEnableExtraIcons(bool bEnable, bool bUpdateDB)
 
 	if (bUpdateDB) {
 		bChanged = g_eiEmail != bEnable;
-		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_EMAIL, bEnable);
+		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_EMAIL, g_eiEmail = bEnable);
 	}
 	else bChanged = g_eiEmail = db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_EMAIL, DEFVAL_CLIST_EXTRAICON_EMAIL) != 0;
 
-	if (bEnable) { // E-mail checked
+	if (g_eiEmail) { // E-mail checked
 		// hook events
 		if (hChangedHook == NULL) 
 			hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
@@ -250,6 +250,7 @@ bool SvcEMailEnableExtraIcons(bool bEnable, bool bUpdateDB)
 
 void SvcEMailLoadModule()
 {
+	SvcEMailEnableExtraIcons();
 	if (db_get_b(NULL, MODNAME, SET_EXTENDED_EMAILSERVICE, TRUE)) {
 		// create own email send command
 		if (!myDestroyServiceFunction(MS_EMAIL_SENDEMAIL))

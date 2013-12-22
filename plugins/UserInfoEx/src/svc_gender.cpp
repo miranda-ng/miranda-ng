@@ -111,7 +111,7 @@ bool SvcGenderEnableExtraIcons(bool bEnable, bool bUpdateDB)
 
 	if (bUpdateDB) {
 		bChanged = g_eiGender != bEnable;
-		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_GENDER2, bEnable);
+		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_GENDER2, g_eiGender = bEnable);
 	}
 	else bChanged = g_eiGender = db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_GENDER2, 0) != 0;
 
