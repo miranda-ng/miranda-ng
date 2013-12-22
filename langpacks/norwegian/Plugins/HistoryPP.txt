@@ -17,6 +17,8 @@ Trenger du flere valg?
 Innkommende WATrack varsling
 [Outgoing WATrack notify]
 Utgående WATrack varsling
+[&Copy Link]
+&Kopier link
 [Imitate IEView API]
 Etterlign IEView API
 [Enable raw RTF support]
@@ -29,6 +31,8 @@ Endre utseende
 Rutenett bakgrunn
 [Grid messages]
 Rutenett meldinger
+[Copy All]
+Kopier alt
 [&System History]
 &Systemhistorikk
 [Conversations]
@@ -45,6 +49,8 @@ EPost Ekspressmelding
 Nye hendelser øverst
 [Use RTL by default]
 Bruk RTL som standard
+[Change Appearance]
+Endre utseende
 [To change fonts you need to install FontService plugin.]
 For å endre skriften må du installere FontService tillegget.
 [FontService is installed. Go to Customize -> Fonts to change settings.]
@@ -77,6 +83,16 @@ Utseendevalg
 Meldingslogg valg
 [&Empty System History]
 &Tøm Systemhistorikk
+[Incoming Url]
+Innkommende URL
+[Outgoing Url]
+Utgående URL
+[System Message]
+System melding
+[Authorization request]
+Godkjenningsforespørsel
+[&Reset to Default]
+&Tilbakestill til standard
 [Incoming nick]
 Innkommende kallenavn
 [Outgoing nick]
@@ -89,3 +105,23 @@ System melding
 Innkommende tidsstempel
 [Outgoing timestamp]
 Utgående tidsstempel
+[Open in &new window]
+Åpne i &nytt vindu
+[Select &All]
+Velg &Alt
+[Send &Message]
+Send &Melding
+[User Details]
+Brukerdetaljer
+[Enable SmileyAdd support]
+Aktiver SmileyAdd støtte
+[Enable MathModule support]
+Aktiver MathModule støtte
+[Show event icons]
+Vis hendelsesikoner
+[View user's history]
+Se Brukerens Historikk
+[View User's History]
+Se Brukerens Historikk
+[View &History]
+Se &Historikk

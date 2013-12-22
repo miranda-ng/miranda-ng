@@ -5,14 +5,17 @@
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
-;file \plugins\FavContacts\res\resource.rc
 [Customize]
 Tilpass
+[Favorite Contacts]
+Favorittkontakter
 [Show]
 Vis
-;file \plugins\FavContacts\src\favlist.h
-;file \plugins\FavContacts\src\main.cpp
+[Second line]
+Andre Linje
 [Background]
 Bakgrunn
 [Contacts]
 Kontakter
+[Favorites]
+Favoritter

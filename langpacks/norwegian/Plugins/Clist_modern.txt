@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-;file \plugins\Clist_modern\res\resource.rc
 [Show counts of number of contacts in a group]
 Vis antall kontakter i en gruppe
 [Hide group counts when there are none online]
@@ -86,6 +85,8 @@ Fragment lokalisering
 Posisjon:
 [Size:]
 Strl:
+[Height]
+høyde
 [W x H: 0 x 0 pixels]
 B x H: 0 x 0 piksler
 [OK]
@@ -96,6 +97,8 @@ Avbryt
 Protokoll
 [Group]
 Gruppe
+[Last message]
+Siste melding
 [Status Bar]
 Statuslinje
 [Show status bar]
@@ -106,6 +109,8 @@ Samme bredde på seksjoner
 Space mellom
 [Multiline status bar:]
 Flerlinjers statuslinje:
+[Use connecting icon]
+Bruk tilkoblings Ikon
 [Show xStatus icon]
 Vis xStatus ikon
 [Show both icons]
@@ -118,6 +123,8 @@ Status overlappings-uklarhet er 75%
 Vis ulest epost (hvis støttet)
 [Right click opens status menu]
 Høyreklikk åpner statusmeny
+[Right click opens Miranda menu]
+Høyreklikk åpner Miranda meny
 [Delete Contact]
 Slett Kontakt
 [No]
@@ -188,6 +195,8 @@ behold på skjerm
 Snapp til kanter
 [Event notify area]
 Hendelsesvarsel område
+[Disabled]
+deaktivert
 [Show automaticaly]
 Vis automatisk
 [Always Visible]
@@ -244,14 +253,12 @@ Visning av ikoner hvert
 sekund(er), når status er forskj.
 [Show multiple icons]
 Vis mange ikoner
-[Only when statuses differ]
-Bare når statusene er forskjellige
+[only when statuses differ]
+Bare når statuser er forskj.
 [System tray icon]
 Oppgavelinje ikon
 [Use xStatus icon]
 Bruk xStatus ikon
-[only when statuses differ]
-Bare når statuser er forskj.
 [Expand metacontacts]
 Utvid metacontacts
 [MetaContacts stuff]
@@ -362,6 +369,8 @@ Topp space:
 Tegn smileyer på andre linje
 [Status]
 Status
+[Nickname]
+Kallenavn
 [XStatus has priority]
 XStatus har prioritet
 [Use 'XStatus: XMessage']
@@ -408,6 +417,8 @@ Beholderhøyde:
 Lagvis
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 VALG SIDEN ER UNDER KONSTRUKSJON Vennligst IKKE si fra om noen problemer her.\n Bare høy-nivå designkommentarer tas imot.
+[&Main menu]
+&Hovedmeny
 [E&xit]
 A&vslutt
 [&Status]
@@ -458,10 +469,14 @@ Skjul Miranda
 &Gi gruppen nytt navn
 [&Delete Group]
 &Slett Gruppe
-;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 Kontaktliste smileyer
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[List Background]
+Listebakgrunn
+[StatusBar Background]
+Statuslinje Bakgrunn
+[Row items]
+Radelementer
 [Standard contacts]
 Standard kontakter
 [Away contacts]
@@ -498,6 +513,8 @@ Lukkede grupper
 Antall medlemmer i lukkede grupper
 [Dividers]
 Delere
+[Second line]
+Andre Linje
 [Third line]
 Tredje linje
 [Status bar text]
@@ -508,14 +525,14 @@ Filterområde tekst
 Aktiv filter tekst
 [Background]
 Bakgrunn
+[Selected text]
+Valgt Tekst
 [General]
 Generelt
 [List]
 Liste
 [Window]
 Vindu
-[List Background]
-Listebakgrunn
 [Not focused]
 Ikke fokusert
 [Offline]
@@ -548,13 +565,12 @@ Skjul til oppgavelinje
 Bak venstre kant
 [Behind right edge]
 Bak høyre kant
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area]
+Hendelsesområde
 [No Events]
 Ingen Hendelser
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [None]
 Ingen
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Text]
 Tekst
 [Extra icons]
@@ -569,27 +585,16 @@ Høyrejustèr gruppenavn
 Andre Linje
 [Third Line]
 Tredje Linje
-[Row items]
-Radelementer
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Ukjent Kontakt)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &Finn/Legg til Kontakter
-[&Main menu]
-&Hovedmeny
 [&Options...]
 &Valg...
-;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Vis Kontakt &Avatar
 [Hide Contact &Avatar]
 Skjul Kontakt &Avatar
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
 Tøm %s celle
 [column]
@@ -602,15 +607,12 @@ kolonner
 %s, inneholder %s
 [ layered]
  lagvist
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [Image size is]
 Bildestørrelsen er
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 Du trenger en bildetjeneste plugin for å behandle PNG bilder.
 [Error]
 Feil
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Load/Lagre
 [Object Editor]
@@ -641,9 +643,8 @@ Vennligst velg et skin du vil bruke
 Standard Skin
 [%Default Skin%]
 %Standard Skin%
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Center]
+Midten
 [Main menu]
 Hovedmeny
 [Status menu]
@@ -654,10 +655,15 @@ Vis/Skjul frakoblede kontakter
 Finn Bruker
 [Use/Disable groups]
 Bruk/Deaktiver grupper
+[Disable Groups]
+Deaktiver grupper
 [Enable/Disable sounds]
 Aktiver/Deaktiver lyder
+[Disable sounds]
+Deaktiver Lyder
 [Minimize]
 Minimer
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Configuring view mode: %s]
 Konfigurerer filter: %s
+[&New SubGroup]
+&Ny Undergruppe

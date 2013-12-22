@@ -5,7 +5,6 @@
 ;  Version: 3.2.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-;file \plugins\TabSRMM\res\chat.rc
 [OK]
 OK
 [Cancel]
@@ -100,7 +99,12 @@ Faner
 L&ukk andre faner
 [&Open at this position]
 &Åpne ved denne posisjonen
-;file \plugins\TabSRMM\res\resource.rc
+[&Cancel]
+&Avbryt
+[&Send]
+&Send
+[&Add]
+&Legg til
 [Message send timeout]
 Melding sendingsutløp
 [seconds]
@@ -241,6 +245,8 @@ Opprett en ny beholder
 Opprett ny
 [Reset]
 Nullstill
+[Insert Separator]
+Sett inn skille
 [Container flashing]
 Beholderblinking
 [Flash containers]
@@ -305,6 +311,10 @@ Ja
 Nei
 [Create new windows in minimized state]
 Opprett nye vinduer i mimimert tilstand
+[Send message on 'Enter']
+Send melding ved 'Enter'
+[Send message on double 'Enter']
+Send melding ved dobbel 'Enter'
 [Minimize the message window on send]
 Minimer samtalevindu ved sending
 [&Copy]
@@ -415,6 +425,8 @@ Ingen Meldingsøkter åpnet
 Legg Kontakter til Favoritter
 [Remove Contact from Favorites]
 Fjern Kontakt fra Favoritter
+[dummy]
+Falsk
 [Set Position for this Session]
 Sett Posisjon for denne økten
 [Set and Save for all Sessions]
@@ -471,12 +483,10 @@ Lagre nåværende Vindusposisjon som Standard
 Hjelp
 [About TabSRMM...]
 Om TabSRMM...
-;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Message Log Options]
 Meldingslogg Valg
 [View User's History]
 Se Brukerens Historikk
-;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Skjul tittellinje
 [Message Session...]
@@ -493,7 +503,10 @@ Autovelg
 Bruk Protokoll
 [Set Default Protocol]
 Sett Standardprotokoll
-;file \plugins\TabSRMM\src\containeroptions.cpp
+[Title bar]
+Tittellinje
+[Contact avatars]
+Kontakt Avatarer
 [Container options]
 Beholdervalg
 [Globally on]
@@ -504,7 +517,6 @@ På, hvis tilgjengelig
 Globalt AV
 [Don't show them]
 Ikke vis dem
-;file \plugins\TabSRMM\src\controls.cpp
 [&User]
 &Bruker
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
@@ -513,15 +525,12 @@ Lyder er %s. Klikk for å endre status, hold SHIFT og klikk for å sette for all
 deaktivert
 [Sending typing notifications is %s.]
 Skrivevarsling er %s,
-;file \plugins\TabSRMM\src\eventpopups.cpp
 [Incoming file]
 Innkommende fil
 [New messages: ]
 Nye meldinger:
-;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Last received: %s at %s]
 Sist mottatt: %s kl. %s
-;file \plugins\TabSRMM\src\globals.cpp
 [Incoming (Focused Window)]
 Innkommende (Fokusert Vindu)
 [Incoming (Unfocused Window)]
@@ -532,6 +541,10 @@ Innkommende (Ny Samtaleøkt)
 Utgående
 [Other]
 Annet
+[TabSRMM session list]
+TabSRMM øktliste
+[TabSRMM Menu]
+TabSRMM Meny
 [Message from %s]
 Melding fra %s
 [signed off.]
@@ -540,15 +553,18 @@ koblet fra.
 logget på og er nå %s.
 [changed status from %s to %s.]
 Endret status fra %s til %s.
-;file \plugins\TabSRMM\src\hotkeyhandler.cpp
-;file \plugins\TabSRMM\src\infopanel.cpp
+[Smiley selector]
+Smilefjes Velger
 [TabSRMM Information]
 TabSRMM Informasjon
+[contact]
+Kontakt
+[Always off]
+Alltid Av
+[Always on]
+Alltid På
 [Use Global Setting]
 Bruk Global Innstilling
-;file \plugins\TabSRMM\src\mim.cpp
-;file \plugins\TabSRMM\src\modplus.cpp
-;file \plugins\TabSRMM\src\msgdialog.cpp
 [Character Encoding]
 Tegn Koding
 [A message failed to send successfully.]
@@ -575,7 +591,6 @@ Den valgte protokollen kan ikke påtvinges på dette tidspunkt
 Advarsel: du har valgt en underprotokoll for sending av følgende meldinger som for øyeblikket er frakoblet
 [Contact is offline and this protocol does not support sending files to offline users.]
 Kontakten er frakoblet og denne protokollen støtter ikke sending av meldinger til frakoblede brukere.
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
 [Error creating destination directory]
 Feil ved opprettelse av målmappe
 [Save contact picture]
@@ -586,8 +601,6 @@ Filen eksisterer. Ønsker du å overskrive den?
 'Lim og send' er deaktivert. Du kan aktivere dette ved å velge 'Generelt' som ligger i valgene under 'Sende Meldinger'.
 ['(Unknown Contact)']
 '(Ukjent Kontakt)'
-;file \plugins\TabSRMM\src\msglog.cpp
-;file \plugins\TabSRMM\src\msgoptions.cpp
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
 Ønsker du å også lese meldingsmaler fra temaet?\nAdvarsel: Dette vil overskrive den lagrede malen som kan påvirke utseendet til meldingsvinduet ditt.\nVelg avbryt for å ikke laste inn noe i det hele tatt.
 [Load theme]
@@ -606,11 +619,12 @@ Generelt
 Faner og layout
 [Containers]
 Beholdere
+[Message log]
+Meldingslogg
 [Typing Notify]
 Skrivevarsling
 [Choose status modes]
 Velg statusmoduser
-;file \plugins\TabSRMM\src\msgs.cpp
 [Quote text]
 Siter tekst
 [Save and close]
@@ -661,8 +675,6 @@ Ramme 3
 Ramme 4
 [Message Log]
 Meldingslogg
-;file \plugins\TabSRMM\src\msgs.h
-;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Velg beholder for %s
 [You cannot delete the default container]
@@ -673,33 +685,24 @@ Feil
 Du kan ikke endre navnet på standardbeholderen
 [This name is already in use]
 Dette navnet er allerede i bruk
-;file \plugins\TabSRMM\src\sendlater.cpp
 [Contact]
 Kontakt
 [Status]
 Status
-;file \plugins\TabSRMM\src\sendqueue.cpp
 [A message delivery has failed.\nClick to open the message window.]
 En meldingslevering feilet.\nKlikk for å åpne meldingsvinduet.
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Det er usendte meldinger som venter på bekreftelse.\nNår du lukker vinduet, vil Miranda forsøke å sende dem, men kan være ute av stand til å informere deg om mulige leveringsfeil.\nVil du virkelig lukke vinduet(ene)?
-;file \plugins\TabSRMM\src\sidebar.cpp
-;file \plugins\TabSRMM\src\srmm.cpp
 [TabSRMM Message (%s)]
 TabSRMM Melding (%s)
-;file \plugins\TabSRMM\src\taskbar.cpp
-;file \plugins\TabSRMM\src\templates.cpp
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Dette vil tilbakestille malsettet til standardmalene.
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Malsettet ble tilbakestilt, vennligst lukk og åpne alle meldingsvinduer på nytt. Dette maleditor vinduet vil nå lukkes.
-;file \plugins\TabSRMM\src\themeio.cpp
-;file \plugins\TabSRMM\src\themes.cpp
 [All message containers need to close before the skin can be changed\nProceed?]
 Alle meldingsbeholderne må lukkes før skinnet kan endres\nFortsett?
 [Change skin]
 Endre skin
-;file \plugins\TabSRMM\src\translator.cpp
 [Show a preview of the event]
 Forhåndsvisning av hendelsen
 [Don't announce event when message dialog is open]
@@ -728,10 +731,6 @@ Fjern popups under følgende forhold
 Meldingsvindu oppførsel
 [Sending messages]
 Sende meldinger
-[Send message on 'Enter']
-Send melding ved 'Enter'
-[Send message on double 'Enter']
-Send melding ved dobbel 'Enter'
 [Close the message window on send]
 Lukk samtalevinduet ved sending
 [Always flash contact list and tray icon for new messages]
@@ -754,9 +753,6 @@ Detaljert verktøtytips på faner (krever Tipper tillegget)
 Husk, og sett tastaturoppsett pr. kontakt
 [Add offline contacts to multisend list]
 Legg frakoblede kontakter til flersendingsliste
-;file \plugins\TabSRMM\src\trayicon.cpp
-;file \plugins\TabSRMM\src\typingnotify.cpp
-;file \plugins\TabSRMM\src\userprefs.cpp
 [Always On]
 Alltid På
 [Always Off]
@@ -767,10 +763,8 @@ Tving Standard Meldingslogg
 Tving History++
 [Force IEView]
 Tving IEView
-;file \plugins\TabSRMM\src\utils.cpp
-;file \plugins\TabSRMM\src\chat\clist.cpp
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-;file \plugins\TabSRMM\src\chat\log.cpp
+[Text color]
+TekstFarge
 [%s has joined]
 %s har joinet kanalen
 [You have joined %s]
@@ -789,8 +783,6 @@ Du er nå kjent som %s
 Varsel fra %s;
 [ (set by %s)]
  (satt av %s)
-;file \plugins\TabSRMM\src\chat\muchighlight.cpp
-;file \plugins\TabSRMM\src\chat\options.cpp
 [Log background]
 Loggbakgrunn
 [Timestamp]
@@ -857,6 +849,8 @@ Brukerliste medlemmer (borte)
 * Symboler (innkommende)
 [* Symbols (outgoing)]
 * Symboler (utgående)
+[Nickname]
+Kallenavn
 [Protocol]
 Protokoll
 [Open new chat rooms in the default container]
@@ -875,6 +869,8 @@ Ikke sprett opp vinduet ved joining av samtalerom
 Synk delerposisjonen med standard IM økter
 [Prefix all events with a timestamp]
 Vis tidspunkt foran alle hendelser
+[Timestamp has same color as the event]
+Tidsmerknad har samme farge som hendelsen
 [Indent the second line of a message]
 Rykk inn andre linjen av en melding
 [Limit user names in the message log to 20 characters]
@@ -943,6 +939,8 @@ Utvidet modus 1
 Utvidet modus 2
 [Selection background]
 Utvalgsbakgrunn
+[Selected text]
+Valgt Tekst
 [Userlist background]
 Brukerlistebakgrunn
 [All Files]
@@ -963,12 +961,10 @@ Bruker har endret navn
 Bruker har sendt et varsel
 [The topic has been changed]
 Overskriften har blitt forandret
-;file \plugins\TabSRMM\src\chat\services.cpp
 [&Join]
 &Join
 [&Leave]
 &Forlat
-;file \plugins\TabSRMM\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s ønsker din oppmerksomhet i %s
 [%s speaks in %s]
@@ -995,13 +991,12 @@ Informasjon i %s
 Varsel fra %s: %s
 [No word to look up]
 Ingen ord å slå opp
-;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
-Kallenavn
-[Nick]
 Kallenavn
 [Unique ID]
 Unik ID
+[Nick]
+Kallenavn
 [%s: Chat Room (%u user%s)]
 %s: Samtalerom (%u bruker%s
 [%s: Chat Room (%u users%s)]
@@ -1016,7 +1011,3 @@ Unik ID
 Filteret kan ikke aktiveres fordi det ikke er valgt noen hendelsestyper hverken globalt eller for dette samtalerommet.
 [Event filter error]
 Hendelsesfilter feil
-[TabSRMM session list]
-TabSRMM øktliste
-[TabSRMM Menu]
-TabSRMM Meny

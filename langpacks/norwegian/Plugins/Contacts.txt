@@ -5,9 +5,10 @@
 ;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
-;file \plugins\ContactsPlus\res\contacts.rc
 [&Add]
 &Legg til
+[User &details]
+Bruker &Detaljer
 [&Send]
 &Send
 [Cancel]
@@ -18,12 +19,16 @@ Lukk
 En feil har inntruffet. Protokollen rapporterte følgende feil:
 [Try again]
 Forsøk igjen
+[Add to List]
+Legg til i listen
 [User details]
 Brukerdetaljer
-;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]
 Kontakter
-;file \plugins\ContactsPlus\src\receive.cpp
+[Incoming Contacts]
+Innkommende kontakter
+[Nick]
+Kallenavn
 [Add Contact Permanently to List]
 Legg til Kontakt Permanent til Listen
 [View User's Details]
@@ -32,4 +37,3 @@ Se Brukerens Detaljer
 Se Brukerens Historikk
 [User Menu]
 Brukermeny
-;file \plugins\ContactsPlus\src\send.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
-;file \plugins\BASS_interface\res\Bass.rc
 [Offline]
 Frakoblet
 [Online]
@@ -26,7 +25,7 @@ Usynlig
 I Telefonen
 [Out to lunch]
 Ute til lunsj
-;file \plugins\BASS_interface\src\Bass_interface.h
-;file \plugins\BASS_interface\src\Main.cpp
 [Sounds]
 Lyder
+[Disable sounds]
+Deaktiver Lyder

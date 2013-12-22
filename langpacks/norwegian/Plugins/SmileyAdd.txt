@@ -5,7 +5,6 @@
 ;  Version: 0.2.3.17
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
-;file \plugins\SmileyAdd\res\resource.rc
 [Smiley categories]
 Smilefjes kategorier
 [Specify smiley pack for each category]
@@ -30,16 +29,11 @@ IEView stil på vindu
 Ikke erstatt ved pekeren
 [Built-in message dialog support]
 Innebygger Meldingsdialog Støtte
-;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-;file \plugins\SmileyAdd\src\download.cpp
-;file \plugins\SmileyAdd\src\main.cpp
-;file \plugins\SmileyAdd\src\options.cpp
+[Smiley button]
+Smiley knapp
 [Customize]
 Tilpass
 [Off]
 Av
 [All files]
 Alle Filer
-;file \plugins\SmileyAdd\src\services.cpp
-;file \plugins\SmileyAdd\src\smileys.cpp
-;file \plugins\SmileyAdd\src\smltool.cpp

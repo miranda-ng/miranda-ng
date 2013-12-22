@@ -1,0 +1,47 @@
+﻿#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.0
+;  Authors: Vincent Joyce
+;============================================================
+[seconds]
+sekunder
+[Bold]
+Fet
+[URL:]
+URL:
+[OK]
+OK
+[Cancel]
+Avbryt
+[Apply]
+Lagre
+[Find]
+Finn
+[&Find next]
+&Finn Neste
+[Find what:]
+Finn følgende:
+[Use custom colors]
+Bruk selvvalgte farger
+[Background]
+Bakgrunn
+[Text]
+Tekst
+[Use Windows colors]
+Bruk Windowsfarger
+[Log]
+Logg
+[&Copy]
+&Kopier
+[&Delete]
+&Slett
+[Co&py all]
+Ko&pier Alt
+[Network]
+Nettverk
+[Popups]
+Popups
+[Online]
+Pålogget

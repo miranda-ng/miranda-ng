@@ -5,14 +5,12 @@
 ;  Version: 0.11.0.4
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
-;file \plugins\MirOTR\MirOTR\res\resource.rc
 [&Cancel]
 &Avbryt
 [&No]
 &Nei
 [&Yes]
 &Ja
-;file \plugins\MirOTR\MirOTR\src\language.h
 [Yes]
 Ja
 [No]
@@ -29,5 +27,3 @@ Kontakt
 Protokoll
 [Default]
 Standard
-;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
-;file \plugins\MirOTR\MirOTR\src\options.cpp

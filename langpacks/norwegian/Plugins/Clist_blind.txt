@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
-;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Slett Kontakt
 [Are you sure you want to delete %s?]
@@ -150,6 +149,8 @@ Høyreklikk åpner Miranda NG meny
 Samme bredde på seksjoner
 [Show resize grip indicator]
 Vis størrelsesendrings grep indikator
+[&Main menu]
+&Hovedmeny
 [E&xit]
 A&vslutt
 [&Status]
@@ -200,7 +201,6 @@ Gruppe
 &Gi gruppen nytt navn
 [&Delete Group]
 &Slett Gruppe
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Ikke fokusert
 [Offline]
@@ -225,8 +225,5 @@ Ute til lunsj
 I Telefonen
 [List]
 Liste
-;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 Global
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp

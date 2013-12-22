@@ -2,37 +2,28 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.1
+;  Version: 0.2.2.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
-;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 E-post:
 [Password:]
 Passord:
+[URL:]
+URL:
 [Cancel]
 Avbryt
 [User details]
 Brukerdetaljer
-[Text]
-Tekst
+[User &details]
+Bruker &Detaljer
 [Default]
 Standard
-;file \protocols\FacebookRM\src\communication.cpp
-;file \protocols\FacebookRM\src\connection.cpp
-;file \protocols\FacebookRM\src\constants.h
-;file \protocols\FacebookRM\src\contacts.cpp
-;file \protocols\FacebookRM\src\dialogs.cpp
-;file \protocols\FacebookRM\src\json.cpp
-;file \protocols\FacebookRM\src\messages.cpp
-;file \protocols\FacebookRM\src\process.cpp
-;file \protocols\FacebookRM\src\proto.cpp
+[files]
+Filer
 [Network]
 Nettverk
-[Advanced]
-Avansert
-[Popups]
-Popups
 [Events]
 Hendelser
-;file \protocols\FacebookRM\src\theme.cpp
+[Advanced]
+Avansert

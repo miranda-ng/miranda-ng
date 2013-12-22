@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.1
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
-;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 Legg til
 [Remove]
@@ -18,12 +17,11 @@ Avbryt
 URL
 [Reset]
 Nullstill
-;file \plugins\NewsAggregator\Src\Icons.cpp
-;file \plugins\NewsAggregator\Src\Menus.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
+[Username]
+Brukernavn
+[&Close]
+&Lukk
 [Error]
 Feil
 [Network]
 Nettverk
-;file \plugins\NewsAggregator\Src\Services.cpp
-;file \plugins\NewsAggregator\Src\Utils.cpp

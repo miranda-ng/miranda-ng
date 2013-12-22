@@ -5,11 +5,12 @@
 ;  Version: 0.1.2.3
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
-;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [Background]
 Bakgrunn
 [Text]
 Tekst
+[Use Windows colors]
+Bruk Windowsfarger
 [Default]
 Standard
 [Custom]
@@ -18,8 +19,8 @@ Selvvalgt
 sek
 [Notify always]
 Varsle alltid
-;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
-;file \plugins\BuddyExpectator\src\options.cpp
+[Disabled]
+deaktivert
 [Contacts]
 Kontakter
 [Popups]

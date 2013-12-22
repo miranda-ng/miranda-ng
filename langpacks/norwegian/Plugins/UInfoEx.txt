@@ -5,7 +5,6 @@
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-;file \plugins\UserInfoEx\res\resource.rc
 [Updating]
 Oppdaterer
 [OK]
@@ -144,22 +143,14 @@ Telefon
 E-Post
 [Age:]
 Alder:
-;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
-;file \plugins\UserInfoEx\src\classPsTree.cpp
-;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
-;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
-;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Other]
 Annet
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [Contact]
 Kontakt
 [Birthdays only]
 Kun bursdager
 [Anniversaries only]
 Kun årsdager
-;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Yes]
 Ja
 [No]
@@ -168,7 +159,6 @@ Nei
 Ignorer
 [Error]
 Feil
-;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [General]
 Generelt
 [Work]
@@ -179,30 +169,28 @@ Profil
 Notater
 [Owner]
 Eier
-;file \plugins\UserInfoEx\src\init.cpp
-;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Default]
 Standard
 [Fax]
 Faks
+[e-mail]
+E-Post
+[Down arrow]
+Pil Ned
 [Add]
 Legg til
 [Edit]
 Rediger
 [Search]
 Søk
-;file \plugins\UserInfoEx\src\mir_icolib.h
-;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [User &details]
 Bruker &Detaljer
 [View/Change My &Details...]
 Se/Forandre Mine &Detaljer...
-;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+Mine Notater:
 [About:]
 Om:
-;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-;file \plugins\UserInfoEx\src\psp_contact.cpp
-;file \plugins\UserInfoEx\src\psp_options.cpp
 [Reminder disabled]
 Påminnelse deaktivert
 [everything]
@@ -215,8 +203,6 @@ Avansert
 Detaljer Dialog
 [Popups]
 Popups
-;file \plugins\UserInfoEx\src\psp_profile.cpp
-;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
 Kultur & Litteratur
 [Movies/TV]
@@ -253,33 +239,17 @@ Lyd og visuelt
 Sport og atletisk
 [Home automation]
 Hjemme automatisering
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(Ukjent Kontakt)'
-;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Send e-post
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [Birthday reminder]
 Bursdagspåminnelse
 [Birthday reminder: it's coming]
 Bursdagspåminnelse: nært forestående
 [Anniversary Reminder]
 Årsdags Påminnelse
-;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Miranda NG]
 Miranda NG
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Complete]
 Ferdig
-;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

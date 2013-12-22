@@ -1,11 +1,10 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-;file \protocols\JabberG\res\jabber.rc
 [OK]
 OK
 [Cancel]
@@ -78,23 +77,20 @@ Privatlister
 Meldinger
 [Service Discovery]
 Tjeneste Oppdagelse
+[Favorites]
+Favoritter
 [Change %s Message]
 Forandre %s Melding
 [Closing in %d]
 Lukker om %d
+[Status message:]
+Statusmelding:
 [Authorization request]
 Godkjenningsforespørsel
-;file \protocols\JabberG\src\jabber.cpp
-;file \protocols\JabberG\src\jabber.h
-;file \protocols\JabberG\src\jabber_adhoc.cpp
-;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Ingen melding
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
-;file \protocols\JabberG\src\jabber_byte.cpp
-;file \protocols\JabberG\src\jabber_caps.cpp
-;file \protocols\JabberG\src\jabber_captcha.cpp
-;file \protocols\JabberG\src\jabber_chat.cpp
+[Nickname]
+Kallenavn
 [None]
 Ingen
 [Owner]
@@ -111,28 +107,20 @@ Ikke forstyrr
 Tilgjengelig for samtale
 [&User details]
 &Brukerdetaljer
-;file \protocols\JabberG\src\jabber_console.cpp
-;file \protocols\JabberG\src\jabber_disco.cpp
+[User &details]
+Bruker &Detaljer
 [Add to roster]
 Legg til på tavle
-;file \protocols\JabberG\src\jabber_disco.h
-;file \protocols\JabberG\src\jabber_form2.cpp
-;file \protocols\JabberG\src\jabber_groupchat.cpp
-;file \protocols\JabberG\src\jabber_icolib.cpp
 [Notes]
 Notater
 [Personal vCard]
 Personlig vCard
 [Login/logout]
 Logg inn/logg ut
-;file \protocols\JabberG\src\jabber_iqid.cpp
 [Jabber Authentication]
 Jabber Autentisering
 [Registration successful]
 Registrering vellykket
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
-;file \protocols\JabberG\src\jabber_menu.cpp
 [Request authorization]
 Forespør godkjenning
 [Grant authorization]
@@ -141,12 +129,12 @@ Godkjenn autorisasjon
 Tilbakekall godkjenning
 [Add to Bookmarks]
 Legg til Bokmerker
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
+[Privacy lists]
+Privatlister
+[Service discovery]
+Tjeneste Oppdagelse
 [To]
 Til
-;file \protocols\JabberG\src\jabber_notes.cpp
-;file \protocols\JabberG\src\jabber_opt.cpp
 [Messaging]
 Melding
 [Other]
@@ -155,6 +143,8 @@ Annet
 Generelt
 [Status changes]
 Statusendringer
+[Nick Name]
+Kallenavn
 [Group]
 Gruppe
 [Connecting...]
@@ -163,22 +153,16 @@ Kobler til...
 Nettverk
 [Advanced]
 Avansert
-;file \protocols\JabberG\src\jabber_password.cpp
-;file \protocols\JabberG\src\jabber_privacy.cpp
 [<none>]
 <ingen>
-;file \protocols\JabberG\src\jabber_proto.cpp
-;file \protocols\JabberG\src\jabber_rc.cpp
+[messages]
+Meldinger
 [Status]
 Status
 [Invisible]
 Usynlig
 [Offline]
 Frakoblet
-;file \protocols\JabberG\src\jabber_search.cpp
-;file \protocols\JabberG\src\jabber_svc.cpp
-;file \protocols\JabberG\src\jabber_thread.cpp
-;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Message]
 Melding
 [<not specified>]
@@ -187,24 +171,23 @@ Melding
 Versjon
 [System]
 System
-[Yes]
-Ja
-[No]
-Nei
+[unknown]
+Ukjent
+[to]
+Til
+[none]
+Ingen
 [Copy]
 Kopier
 [Photo]
 Foto
-;file \protocols\JabberG\src\jabber_util.cpp
 [Error]
 Feil
-;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Mann
 [Female]
 Kvinne
 [Contacts]
 Kontakter
-;file \protocols\JabberG\src\jabber_ws.cpp
-;file \protocols\JabberG\src\jabber_xstatus.cpp
-;file \protocols\JabberG\src\ui_utils.cpp
+[on the phone]
+I Telefonen

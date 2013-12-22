@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
-;file \plugins\TipperYM\res\resource.rc
 [Options]
 Valg
 [Window]
@@ -72,8 +71,6 @@ Endre smiley strl
 Effekter
 [Favorite contacts]
 Favorittkontakter
-;file \plugins\TipperYM\src\mir_smileys.cpp
-;file \plugins\TipperYM\src\options.cpp
 [No icon]
 Ingen ikon
 [No title]
@@ -94,7 +91,6 @@ Innhold
 Oppgavelinje tooltip
 [Extra]
 Ekstra
-;file \plugins\TipperYM\src\options.h
 [Number of contacts]
 Antall kontakter
 [Logon time]
@@ -107,12 +103,12 @@ Miranda oppetid
 Clist hendelse
 [Client]
 Klient
-;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (låst)
+[Status message:]
+Statusmelding:
 [Other]
 Annet
-;file \plugins\TipperYM\src\preset_items.cpp
 [Gender:]
 Kjønn:
 [Homepage:]
@@ -121,6 +117,8 @@ Webside:
 Inaktivitet
 [Idle:]
 Tomgang:
+[Last message]
+Siste melding
 [Last message: (%sys:last_msg_reltime% ago)]
 Siste melding: (%sys: last_msg_reltime% siden)
 [Name]
@@ -129,8 +127,6 @@ Navn
 Navn:
 [Time:]
 Tid:
-;file \plugins\TipperYM\src\skin_parser.cpp
-;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Bakgrunn
 [Dividers]
@@ -141,9 +137,7 @@ Etiketter
 Verdier
 [Tray title]
 Oppgavelinje tittel
-;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Kvinne
 [Male]
 Mann
-;file \plugins\TipperYM\src\translations.h

@@ -5,7 +5,6 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
 Samtalehistorikk
 [Show event icons]
@@ -20,22 +19,22 @@ Navn
 OK
 [Cancel]
 Avbryt
-;file \plugins\BasicHistory\src\BasicHistory.cpp
 [View &History]
 Se &Historikk
 [Incoming message]
 Innkommende melding
 [Outgoing message]
 Utgående melding
+[Status change]
+Statusendring
 [History]
 Historikk
-;file \plugins\BasicHistory\src\EventList.cpp
+[All events]
+Alle Hendelser
 [History for %s]
 Historikk for %s
 [System]
 System
-;file \plugins\BasicHistory\src\ExportManager.cpp
-;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Open in &new window]
 Åpne i &nytt vindu
 [&Open in existing window]
@@ -50,17 +49,22 @@ Slett
 Slett Gruppe
 [Options]
 Valg
+[Fonts and colors]
+Skrift og Farger
 [Icons]
 Ikoner
 [Hotkeys]
 Snarveier
 [Error]
 Feil
-;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Melding
 [Link]
 Link
+[Authorization request]
+Godkjenningsforespørsel
+[You were added]
+Du Ble Lagt til
 [SMTP Simple Email]
 SMTP Enkel Epost
 [Messages]
@@ -69,15 +73,11 @@ Meldinger
 Søker
 [Advanced]
 Avansert
+[Contact list background]
+Kontaktliste bakgrunn
 [Find]
 Finn
-;file \plugins\BasicHistory\src\Options.h
-;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-;file \plugins\BasicHistory\src\Scheduler.cpp
 [Contacts]
 Kontakter
-;file \plugins\BasicHistory\src\Searcher.cpp
 [Search]
 Søk
-;file \plugins\BasicHistory\src\TxtExport.cpp

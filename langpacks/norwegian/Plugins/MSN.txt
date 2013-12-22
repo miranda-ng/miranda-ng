@@ -1,11 +1,10 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
-;file \protocols\MSN\res\msn.rc
 [MSN]
 MSN
 [Password:]
@@ -46,14 +45,16 @@ Aktiver 'Kontakten forlot kanalen' popup
 OK
 [Cancel]
 Avbryt
+[Nickname]
+Kallenavn
 [&Cancel]
 &Avbryt
 [Add]
 Legg til
-;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Samtale #
-;file \protocols\MSN\src\msn_commands.cpp
+[User &details]
+Bruker &Detaljer
 [Contact tried to open an audio conference (currently not supported)]
 Kontakten forsøkte å åpne en lydkonferanse (ikke støttet for øyeblikket)
 [MSN Protocol]
@@ -76,30 +77,24 @@ Det er kun 1 person igjen i samtalen, ønsker du å bytte tilbake til standard m
 MSN Chat
 [Message delivery failed]
 Meldingslevering mislykket
-;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Bruker er ikke pålogget
-;file \protocols\MSN\src\msn_links.cpp
-;file \protocols\MSN\src\msn_lists.cpp
-;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Emne: %s
 [Hotmail from %s (%S)]
 Hotmail fra %s (%S)
 [Hotmail from %s]
 Hotmail fra %s
-;file \protocols\MSN\src\msn_menu.cpp
 [You must be talking to start Netmeeting]
 Du må snakke for å starte Nettmøte
 [&Start Netmeeting]
 &Start Nettmøte
-;file \protocols\MSN\src\msn_misc.cpp
 [Error]
 Feil
-;file \protocols\MSN\src\msn_msgqueue.cpp
-;file \protocols\MSN\src\msn_opts.cpp
 [Profile]
 Profil
+[Contact list]
+Kontaktliste
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Servergruppeimportering kan forandre kontaktliste layouten din etter din neste pålogging. Ønsker du å laste opp gruppene dine til serveren?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
@@ -116,12 +111,10 @@ IP informasjon bare tilgjengelig etter pålogging
 Nettverk
 [Server list]
 Serverliste
-;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (currently not supported)]
 Kontakten forsøkte å sende webcam data.(ikke støttet for øyeblikket)
 [Contact tried to view our webcam data (currently not supported)]
 Kontakten forsøkte å se din webcam data (ikke støttet for øyeblikket)
-;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Live E-post
 [Live Alert]
@@ -132,7 +125,5 @@ Du kan ikke sende meldinger til deg selv
 Meldingen er for lang: SMS meldinger er begrenset til 133 UTF8 tegn.
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
 Meldingen er for lang: MSN meldinger er begrenset til 1202 UTF8 tegn.
-;file \protocols\MSN\src\msn_svcs.cpp
-;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 Samtaleøkt avsluttet pga inaktivitet

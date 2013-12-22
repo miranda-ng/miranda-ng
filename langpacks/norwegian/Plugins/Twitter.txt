@@ -5,13 +5,16 @@
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
-;file \protocols\Twitter\res\twitter.rc
 [Username:]
 Brukernavn:
 [Cancel]
 Avbryt
 [sec]
 sek
+[Use Windows colors]
+Bruk Windowsfarger
+[Use Popup colors]
+Bruk Popupfarger
 [Use custom colors]
 Bruk egne farger
 [Text]
@@ -20,10 +23,7 @@ Tekst
 Selvvalgt
 [OK]
 OK
-;file \protocols\Twitter\src\connection.cpp
-;file \protocols\Twitter\src\proto.cpp
 [Network]
 Nettverk
 [Popups]
 Popups
-;file \protocols\Twitter\src\theme.cpp

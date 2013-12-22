@@ -5,7 +5,6 @@
 ;  Version: 0.2.6.0
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
-;file \plugins\SpellChecker\res\resource.rc
 [Edit...]
 Rediger...
 [Remove]
@@ -16,10 +15,9 @@ OK
 Avbryt
 [Advanced]
 Avansert
-;file \plugins\SpellChecker\src\ardialog.cpp
-;file \plugins\SpellChecker\src\dictionary.cpp
-;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 Meldingsøkter
-;file \plugins\SpellChecker\src\spellchecker.cpp
-;file \plugins\SpellChecker\src\utils.cpp
+[Line]
+linje
+[Disabled]
+deaktivert

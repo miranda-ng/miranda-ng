@@ -5,15 +5,11 @@
 ;  Version: 0.0.2.8
 ;  Authors: Daniel Wesslen, Korney San
 ;============================================================
-;file \plugins\NotifyAnything\res\NotifyAnything.rc
 [Port:]
 Port:
 [Password:]
 Passord:
-;file \plugins\NotifyAnything\src\common.h
-;file \plugins\NotifyAnything\src\main.cpp
 [Error]
 Feil
-;file \plugins\NotifyAnything\src\options.cpp
 [Plugins]
 Tillegg

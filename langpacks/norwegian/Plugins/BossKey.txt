@@ -5,7 +5,6 @@
 ;  Version: 0.5.0.3
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
-;file \plugins\BossKeyPlus\res\BossKey.rc
 [When I press the hotkey:]
 Når jeg trykker på snarveien:
 [Change status to]
@@ -28,8 +27,6 @@ Passord:
 OK
 [Cancel]
 Avbryt
-;file \plugins\BossKeyPlus\src\BossKey.cpp
-;file \plugins\BossKeyPlus\src\Options.cpp
 [Events]
 Hendelser
 [Advanced]

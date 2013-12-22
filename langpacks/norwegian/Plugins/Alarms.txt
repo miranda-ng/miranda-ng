@@ -5,11 +5,12 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\Alarms\res\resource.rc
 [Delete]
 Slett
 [Edit]
 Rediger
+[Row Height:]
+Radhøyde:
 [OK]
 OK
 [Cancel]
@@ -22,18 +23,12 @@ Handlinger
 &Slett
 [&Options...]
 &Valg...
-;file \plugins\Alarms\src\alarmlist.cpp
-;file \plugins\Alarms\src\alarms.cpp
-;file \plugins\Alarms\src\alarm_win.cpp
 [Background]
 Bakgrunn
 [Window]
 Vindu
-;file \plugins\Alarms\src\frame.cpp
 [Frames]
 Rammer
-;file \plugins\Alarms\src\icons.cpp
-;file \plugins\Alarms\src\options.cpp
 [Error]
 Feil
 [Events]

@@ -1,11 +1,10 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo
+;  Plugin: Yahoo Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Gennady Feldman
 ;============================================================
-;file \protocols\Yahoo\res\Yahoo.rc
 [Password:]
 Passord:
 [Nick:]
@@ -36,23 +35,15 @@ Avbryt
 &Avbryt
 [Add]
 Legg til
-;file \protocols\Yahoo\src\chat.cpp
-;file \protocols\Yahoo\src\icolib.cpp
+[User &details]
+Bruker &Detaljer
 [Profile]
 Profil
-;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Yahoo Error
 [The message send timed out.]
 Meldingssendingen timet ut.
-;file \protocols\Yahoo\src\links.cpp
-;file \protocols\Yahoo\src\main.cpp
-;file \protocols\Yahoo\src\options.cpp
 [Network]
 Nettverk
-;file \protocols\Yahoo\src\proto.cpp
 [Yahoo Login Error]
 Yahoo Påloggingsfeil
-;file \protocols\Yahoo\src\services.cpp
-;file \protocols\Yahoo\src\webcam.cpp
-;file \protocols\Yahoo\src\yahoo.cpp

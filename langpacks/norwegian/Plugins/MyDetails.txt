@@ -5,7 +5,6 @@
 ;  Version: 0.0.1.11
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Sett Mitt Kallenavn
 [Nickname:]
@@ -74,16 +73,18 @@ Sett Min Avatar...
 Sett Mitt Kallenavn...
 [Set My Status Message...]
 Sett Min Statusmelding...
-;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <ingen statusnavn>
-;file \plugins\MyDetails\src\frame.cpp
+[Nickname]
+Kallenavn
 [Status]
 Status
 [My Details]
 Mine Detaljer
 [Background]
 Bakgrunn
+[Avatar Border]
+Avatar ramme
 [Show My Details]
 Vis Mine Detaljer
 [Set My Avatar for %s...]
@@ -94,13 +95,9 @@ Sett Mitt Kallenavn for %s...
 Sett Min Statusmelding for %s...
 [Hide My Details]
 Skjul Mine Detaljer
-;file \plugins\MyDetails\src\mydetails.cpp
 [Set My Nickname for %s]
 Sett Mitt Kallenavn for %s
 [Set My Status Message for %s]
 Sett Min Statusmelding for %s
-[Show next account]
-
 [Contact List]
 Kontaktliste
-;file \plugins\MyDetails\src\options.cpp

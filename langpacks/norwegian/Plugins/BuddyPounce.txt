@@ -5,7 +5,6 @@
 ;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
-;file \plugins\BuddyPounce\res\resource.rc
 [Cancel]
 Avbryt
 [OK]
@@ -14,7 +13,6 @@ OK
 Avansert >>
 [Status]
 Status
-;file \plugins\BuddyPounce\src\dialog.cpp
 [Online]
 Pålogget
 [Away]
@@ -25,8 +23,15 @@ NA
 Opptatt
 [DND]
 Ikke forstyrr
+[Free For Chat]
+Tilgjengelig for samtale
 [Invisible]
 Usynlig
-;file \plugins\BuddyPounce\src\main.cpp
+[On The Phone]
+I Telefonen
+[Out To Lunch]
+Ute til lunsj
+[Times]
+ganger
 [Message Sessions]
 Meldingsøkter

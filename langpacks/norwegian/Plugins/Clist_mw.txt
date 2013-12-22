@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
-;file \plugins\Clist_mw\res\resource.rc
 [Stretch to width]
 Strekk til bredde
 [Stretch to height]
@@ -192,6 +191,8 @@ Vis protokollnavn
 Vis statustekst
 [Right click opens status menu]
 Høyreklikk åpner statusmeny
+[Right click opens Miranda menu]
+Høyreklikk åpner Miranda meny
 [Make sections equal width]
 Samme bredde på seksjoner
 [Show size grip]
@@ -202,6 +203,8 @@ Vis bevel effekt på paneler
 Bruk tilkoblings Ikon
 [Use New Drawer for StatusBar]
 Bruk ny Tegner for Statuslinjen
+[&Main menu]
+&Hovedmeny
 [E&xit]
 A&vslutt
 [&Status]
@@ -252,12 +255,10 @@ Gruppe
 &Gi gruppen nytt navn
 [&Delete Group]
 &Slett Gruppe
-;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 Tilpass
 [Backgrounds]
 Bakgrunner
-;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Standard kontakter
 [Online contacts to whom you have a different visibility]
@@ -284,7 +285,6 @@ Bakgrunn
 Valgt Tekst
 [Quicksearch Text]
 Hurtigsøk Tekst
-;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Liste
 [List Background]
@@ -315,26 +315,17 @@ Usynlig
 Ute til lunsj
 [On the phone]
 I Telefonen
-;file \plugins\Clist_mw\src\clistopts.cpp
 [Global]
 Global
-;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]
 _IngenProtokoll_
 [(Unknown Contact)]
 (Ukjent Kontakt)
-;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &Finn/Legg til Kontakter
-[&Main menu]
-&Hovedmeny
 [&Options...]
 &Valg...
-;file \plugins\Clist_mw\src\clui.cpp
-;file \plugins\Clist_mw\src\cluiopts.cpp
-;file \plugins\Clist_mw\src\groupmenu.cpp
-;file \plugins\Clist_mw\src\keyboard.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&New SubGroup]
+&Ny Undergruppe
 [Frames]
 Rammer
-;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

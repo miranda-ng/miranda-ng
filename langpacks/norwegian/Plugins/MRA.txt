@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.6
 ;  Authors: Ivan Rozhuk
 ;============================================================
-;file \protocols\MRA\res\resource.rc
 [E-mail:]
 E-post:
 [Password:]
@@ -30,6 +29,10 @@ Etternavn:
 Kjønn:
 [Age:]
 Alder:
+[from:]
+Fra:
+[to:]
+Til:
 [Location]
 Plassering
 [Country:]
@@ -40,6 +43,8 @@ Stat:
 By:
 [Full e-mail:]
 E-post konto:
+[&Use Windows colors]
+&Bruk Windowsfarger
 [Text Color]
 TekstFarge
 [Closing in %d]
@@ -48,18 +53,20 @@ Lukker om %d
 OK
 [Cancel]
 Avbryt
-;file \protocols\MRA\src\MraAvatars.cpp
-;file \protocols\MRA\src\MraChat.cpp
-;file \protocols\MRA\src\MraConstans.h
+[Male]
+Mann
+[Female]
+Kvinne
 [Request authorization]
 Forespør godkjenning
 [Grant authorization]
 Godkjenn autorisasjon
-;file \protocols\MRA\src\MraFilesQueue.cpp
-;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Hovedmeny
-;file \protocols\MRA\src\MraPopUp.cpp
+[Contact Menu]
+Kontaktmeny
+[Custom Status]
+Selvvalgt status
 [None]
 Ingen
 [Information]
@@ -68,16 +75,11 @@ Informasjon
 Feil
 [Popups]
 Popups
-;file \protocols\MRA\src\MraProto.cpp
 [E-mail address]
 E-post adresse
-;file \protocols\MRA\src\Mra_functions.cpp
-;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Nettverk
 [Files]
 Filer
-;file \protocols\MRA\src\Mra_proto.cpp
-;file \protocols\MRA\src\Mra_svcs.cpp
 [On the phone]
 I Telefonen

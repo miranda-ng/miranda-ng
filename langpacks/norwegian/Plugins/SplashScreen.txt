@@ -5,11 +5,7 @@
 ;  Version: 0.1.2.3
 ;  Authors: nullbie, Thief
 ;============================================================
-;file \plugins\SplashScreen\res\splash.rc
 [Display time:]
 Visningstid:
-;file \plugins\SplashScreen\src\main.cpp
 [Error]
 Feil
-;file \plugins\SplashScreen\src\options.cpp
-;file \plugins\SplashScreen\src\services.cpp

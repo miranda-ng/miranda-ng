@@ -5,7 +5,6 @@
 ;  Version: 1.3.0.10
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
-;file \plugins\MenuItemEx\res\resource.rc
 [&Send]
 &Send
 [&Cancel]
@@ -14,7 +13,10 @@
 Synlighet
 [Ignore]
 Ignorer
-;file \plugins\MenuItemEx\src\main.cpp
+[Request Authorization]
+Forespør godkjenning
+[Always visible]
+Alltid Synlig
 [Messages]
 Meldinger
 [URL]
@@ -31,6 +33,5 @@ Skrivevarsling
 Miranda NG
 [Request authorization]
 Forespør godkjenning
-;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Tilpass

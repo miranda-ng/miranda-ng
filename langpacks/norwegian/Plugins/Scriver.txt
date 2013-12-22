@@ -5,7 +5,6 @@
 ;  Version: 2.10.0.2
 ;  Authors: Miranda NG Development Team
 ;============================================================
-;file \plugins\Scriver\res\resource.rc
 [Automatically pop up the window when]
 Automatisk sprett opp vinduet når
 [Cascade new windows]
@@ -38,6 +37,8 @@ Aktiver IEView
 Vis ikoner
 [Show seconds]
 Vis sekunder
+[Show date]
+Vis Dato
 [Show names]
 Vis navn
 [Mark follow-up msgs with timestamp]
@@ -46,6 +47,8 @@ Marker følg-opp meldinger med tidspunkt
 Begynn meldingstekst på en ny linje
 [Indent text]
 Rykk inn tekst
+[events]
+Hendelser
 [Typing Notification Options]
 Valg for Skrivevarsling
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -72,6 +75,10 @@ Forsøk igjen
 Avbryt
 [Message Session]
 Meldingsøkt
+[User &details]
+Bruker &Detaljer
+[&Add]
+&Legg til
 [Send To All Tabs]
 Send Til Alle Faner
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -82,6 +89,8 @@ Husk mitt valg for denne beholderen
 Ja
 [No]
 Nei
+[&Underline]
+&Understrek
 [Show these events only:]
 Vis bare følgende hendelser:
 [Actions]
@@ -186,7 +195,8 @@ Liste
 Fjern lo&gg
 [Co&py all]
 Ko&pier alt
-;file \plugins\Scriver\src\globals.cpp
+[Add contact]
+Legg til Kontakt
 [User's details]
 Brukerens detaljer
 [User's history]
@@ -277,10 +287,8 @@ Markering (10x10)
 Informasjon (10x10)
 [Group chats]
 Gruppesamtaler
-;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Melding
-;file \plugins\Scriver\src\msgdialog.cpp
 [Add Contact]
 Legg til Kontakt
 [User Menu]
@@ -313,12 +321,10 @@ Sender: %s melding(er) igjen...
 %s skriver en melding...
 [Last message received on %s at %s.]
 Siste melding mottatt den %s kl. %s.
-;file \plugins\Scriver\src\msglog.cpp
 [File sent]
 Fil sendt
 [File received]
 Fil mottatt
-;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Generelt
 [Outgoing messages]
@@ -379,8 +385,14 @@ Markert melding
 Skriveområde for meldinger
 [Message background]
 Meldingsbakgrunn
+[User list members (online)]
+Brukerliste medlemmer (online)
+[User list background]
+Brukerliste Bakgrunn
 [User list members (away)]
 Brukerliste medlemmer (borte)
+[User list lines]
+Brukerliste Linjer
 [Offline]
 Frakoblet
 [Online]
@@ -411,7 +423,6 @@ Vis ballong popup (ustøttet system)
 Meldingsøkter
 [Typing Notify]
 Skrivevarsling
-;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Melding fra %s
 [%s is typing a message]
@@ -428,18 +439,12 @@ Innkommende (Ufokusert Vindu)
 Innkommende (Ny Samtaleøkt)
 [Outgoing]
 Utgående
-;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 En ukjent feil har inntruffet
-;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 Alltid På Topp
-;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Meldingssendingen timet ut.
-;file \plugins\Scriver\src\chat\clist.cpp
-;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
 [%s has joined]
 %s har joinet kanalen
 [You have joined %s]
@@ -458,12 +463,10 @@ Du er nå kjent som %s
 Varsel fra %s
 [ (set by %s)]
  (satt av %s)
-;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 &Join
 [&Leave]
 &Forlat
-;file \plugins\Scriver\src\chat\options.cpp
 [Prefix all events with a timestamp]
 Vis tidspunkt foran alle hendelser
 [Only prefix with timestamp if it has changed]
@@ -510,7 +513,7 @@ Vis ikon i oppgavelinje for høydepunkter
 Vis ikon i oppgavelinje for brukere som forlater
 [Show icon in tray for users kicking other user]
 Vis ikon i oppgavelinje for brukere som kicker annen bruker
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 Vis ikon i oppgavelinje for varsler
 [Show icon in tray for name changes]
 Vis ikon i oppgavelinje for navneforandringer
@@ -538,8 +541,6 @@ Bruker har endret navn
 Bruker har sendt et varsel
 [The topic has been changed]
 Overskriften har blitt forandret
-;file \plugins\Scriver\src\chat\services.cpp
-;file \plugins\Scriver\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s ønsker din oppmerksomhet i %s
 [%s speaks in %s]
@@ -564,7 +565,6 @@ Informasjon i %s
 %s kicket %s (%s)
 [Notice from %s: %s]
 Varsel fra %s: %s
-;file \plugins\Scriver\src\chat\window.cpp
 [Insert a smiley]
 Sett inn en smiley
 [Make the text bold (CTRL+B)]

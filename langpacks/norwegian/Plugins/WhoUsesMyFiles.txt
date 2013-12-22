@@ -5,14 +5,17 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
-;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]
 OK
+[Background color]
+Bakgrunnsfarge
+[Text color]
+TekstFarge
 [Use windows colors]
 Bruk windowsfarger
-;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [File]
 Fil
-;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Error]
+Feil
 [Popups]
 Popups

@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.0
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
-;file \plugins\IEView\res\ieview.rc
 [Copy]
 Kopier
 [Select All]
@@ -24,21 +23,20 @@ Rull med tekst
 Bruk meldingsgruppering
 [Show seconds]
 Vis sekunder
+[Show date]
+Vis Dato
 [Use long date format]
 Bruk langt datoformat
 [Use relative timestamp]
 Bruk relative tidspunkt
-;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Incoming File Transfer]
 Innkommende Filoverføringer
-;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Ukjent Kontakt)
-;file \plugins\IEView\src\IEView.cpp
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[ERROR]
+Feil
 [Error]
 Feil
-;file \plugins\IEView\src\Options.cpp
 [General]
 Generelt
 [Message Log]
@@ -53,10 +51,7 @@ Standard
 Meldingsøkter
 [All Files]
 Alle Filer
-;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [File sent]
 Fil sendt
 [File received]
 Fil mottatt
-;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
-;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

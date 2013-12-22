@@ -5,7 +5,6 @@
 ;  Version: 0.9.2.1
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-;file \plugins\Clist_nicer\res\resource.rc
 [About CList Nicer+]
 Om CList Nicer+
 [OK]
@@ -118,6 +117,8 @@ Ikke adskill frakoblede kontakter
 Skjul som frakoblet
 [Right align contacts]
 Høyrejuster kontakter
+[Height]
+høyde
 [Draw a border around avatars]
 Tegn en ramme rundt avatarer
 [Rounded avatars]
@@ -290,6 +291,8 @@ Lagre
 Protokoll
 [Group]
 Gruppe
+[Last message]
+Siste melding
 [Per contact skins:]
 Pr. kontakt skins:
 [< Reload]
@@ -360,6 +363,8 @@ Vis 2. linje:
 Tegn overlappingsikon på avatar
 [Show local time]
 Vis lokal tid
+[&Main menu]
+&Hovedmeny
 [E&xit]
 A&vslutt
 [&Status]
@@ -418,11 +423,12 @@ Vis Metakontakt protoikoner
 Vis tilleggsknapper
 [Draw sunken Frame]
 Tegn nedsunket Ramme
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 Generelt
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Text color]
+TekstFarge
+[<None>]
+<ingen>
 [Show menu]
 Vis meny
 [Show / hide offline contacts]
@@ -437,11 +443,12 @@ Finn og legg til kontakter
 Bytter lyder
 [Minimize contact list]
 Minimer kontaktlisten
+[Status menu]
+Statusmeny
 [Select view mode]
 Velg filtermodus
 [Clear view mode]
 Fjern filter
-;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 Ikke fokusert
 [Offline]
@@ -474,8 +481,6 @@ Automatisk (RTL)
 Navn
 [Status]
 Status
-[Last message]
-Siste melding
 [Message frequency]
 Meldingsfrekvens
 [When space allows it]
@@ -500,7 +505,8 @@ Kontakter
 Grupper og layout
 [Advanced]
 Avansert
-;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Contact list]
+Kontaktliste
 [Add permanently]
 Legg til permanent
 [Revert to default]
@@ -519,10 +525,8 @@ Når kreves av statusmelding
 Kontaktlistens visnings og ignoreringsvalg for %s
 [&Contact list settings...]
 &Kontaktliste innstillinger...
-;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Global
-;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Bytter vis påkoblet/frakoblet
 [Toggle groups]
@@ -535,6 +539,8 @@ Vis TabSRMM øktliste
 Vis TabSRMM meny
 [Sounds are off]
 Lyder er av
+[Event Area]
+Hendelsesområde
 [Open main menu]
 Åpne hovedmeny
 [Set status modes]
@@ -561,40 +567,35 @@ Kontaktlistens lokale tid
 Valgt Tekst
 [Quicksearch Text]
 Hurtigsøk Tekst
-;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+Tittellinje
 [Tool Window]
 Verktøyvindu
 [Thin border]
 Tynn grense
 [No border]
 Ingen grense
-;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Clisten kan ikke sammenkobles ved bruk av standard titellinje og grense. Bruk et verktøyvindu eller grensefri stil istedet.
 [Clist docking]
 Clist sammenkobling
-;file \plugins\Clist_nicer\src\extBackg.cpp
-;file \plugins\Clist_nicer\src\init.cpp
-;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Current view mode: %s]
 Aktivt filter: %s
 [No view mode]
 Ingen filtreringsmodus
 [Clear current View Mode]
 Fjern aktivt filter
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&Skinned frame]
 &Skinnet ramme
 [Frames]
 Rammer
 [Skinned frame]
 Skinnet ramme
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Finn/Legg til Kontakter
-[&Main menu]
-&Hovedmeny
 [&Options...]
 &Valg...
 [&About the contact list...]
 &Om kontaktlisten...
+[&New SubGroup]
+&Ny Undergruppe

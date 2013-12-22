@@ -2,10 +2,9 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
-;file \plugins\AVS\res\avs.rc
 [Set default picture]
 Sett standardbilde
 [Delete default picture]
@@ -64,10 +63,32 @@ Farge forskj.:
 Åpne
 [Use per protocol avatars]
 Bruk avatarer for hver protokoll
-;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Protokollene har forskjellige avatarer
-;file \plugins\AVS\src\main.cpp
+[Global avatar]
+Global Avatar
+[My Avatars]
+Mine Avatarer
+[My Global Avatar Cache]
+Min Globale Avatar Cache
+[Set avatar options for %s]
+Sett avatarvalg for %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Slett bildefil fra disken (kan bli nødvendig å laste inn på nytt, men vil slette lokale bilder)?
+[Reset contact picture]
+Tilbakestill kontaktbilde
+[Contact has no avatar]
+Kontakten har ingen avatar
+[Contacts]
+Kontakter
+[Contact Avatars]
+Kontakt Avatarer
+[Own Avatars]
+Egne Avatarer
+[Are you sure you want to remove your avatar?]
+Er du sikker på at du vil fjerne avataren?
+[Global Avatar]
+Global Avatar
 [All Files]
 Alle Filer
 [Windows Bitmaps]
@@ -86,26 +107,3 @@ XML Filer
 Sett Min Avatar
 [Set My Avatar for %s]
 Sett Min Avatar for %s
-[My Avatars]
-Mine Avatarer
-[My Global Avatar Cache]
-Min Globale Avatar Cache
-[Contacts]
-Kontakter
-[Contact Avatars]
-Kontakt Avatarer
-[Own Avatars]
-Egne Avatarer
-;file \plugins\AVS\src\options.cpp
-[Set avatar options for %s]
-Sett avatarvalg for %s
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Slett bildefil fra disken (kan bli nødvendig å laste inn på nytt, men vil slette lokale bilder)?
-[Reset contact picture]
-Tilbakestill kontaktbilde
-[Contact has no avatar]
-Kontakten har ingen avatar
-[Are you sure you want to remove your avatar?]
-Er du sikker på at du vil fjerne avataren?
-[Global Avatar]
-Global Avatar

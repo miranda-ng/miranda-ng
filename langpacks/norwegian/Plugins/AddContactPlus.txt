@@ -5,7 +5,6 @@
 ;  Version: 0.9.9.1
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
-;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 Legg til Kontakt
 [Custom name:]
@@ -22,9 +21,7 @@ Godkjenningsforespørsel
 &Legg til
 [&Cancel]
 &Avbryt
-;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
 Vennligst godta min forespørsel og legg meg til i din kontaktliste.
 [None]
 Ingen
-;file \plugins\AddContactPlus\src\main.cpp

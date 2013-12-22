@@ -5,7 +5,6 @@
 ;  Version: 1.0.2.3
 ;  Authors: H. Herkenrath
 ;============================================================
-;file \plugins\LangMan\res\resource.rc
 [Author(s):]
 Forfatter:
 [E-mail:]
@@ -14,8 +13,6 @@ E-post:
 Dato:
 [Please restart Miranda NG for your changes to take effect.]
 Vennligst start Miranda NG på nytt for at endringene skal tre i kraft
-;file \plugins\LangMan\src\main.cpp
-;file \plugins\LangMan\src\options.cpp
 [Unknown]
 Ukjent
 [File]

@@ -5,6 +5,8 @@
 ;  Version: 0.2.0.1
 ;  Authors: Awkward
 ;============================================================
+[Apply]
+Lagre
 ;other strings
 [Effect]
 Virkning

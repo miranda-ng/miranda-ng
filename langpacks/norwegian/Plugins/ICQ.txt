@@ -1,11 +1,12 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
-;file \protocols\IcqOscarJ\res\resources.rc
+[ICQ Number:]
+ICQ nummer:
 [Password:]
 Passord:
 [&Send]
@@ -30,6 +31,8 @@ Valg
 TekstFarge
 [Error]
 Feil
+[&Use Windows colors]
+&Bruk Windowsfarger
 [Use default colors]
 Bruk standardfarger
 [Idle since:]
@@ -68,16 +71,24 @@ By:
 Annet
 [Closing in %d]
 Lukker om %d
-;file \protocols\IcqOscarJ\src\chan_04close.cpp
-;file \protocols\IcqOscarJ\src\fam_01service.cpp
-;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
-;file \protocols\IcqOscarJ\src\fam_04message.cpp
-;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
-;file \protocols\IcqOscarJ\src\fam_17signon.cpp
-;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-;file \protocols\IcqOscarJ\src\icq_avatar.cpp
-;file \protocols\IcqOscarJ\src\icq_constants.h
-;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Audio and Visual]
+Lyd og visuelt
+[Business Services]
+Forretningstjenester
+[Finance and Corporate]
+Finanser og selskap
+[Health and Beauty]
+Helse og skjønnhet
+[Home Automation]
+Hjemme automatisering
+[Household Products]
+Husholdningsprodukter
+[Mail Order Catalog]
+Postordrekatalog
+[Retail Stores]
+Småhandel
+[Sporting and Athletic]
+Sport og atletisk
 [Past Work Place]
 Tidligere arbeidsplass
 [Past Organization]
@@ -86,57 +97,45 @@ Tidligere organisasjon
 Kvinne
 [Male]
 Mann
-;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
-;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
-;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 Forespør godkjenning
 [Grant authorization]
 Godkjenn autorisasjon
 [Revoke authorization]
 Tilbakekall godkjenning
-;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Network]
 Nettverk
 [Contacts]
 Kontakter
 [Popups]
 Popups
-;file \protocols\IcqOscarJ\src\icq_popups.cpp
-;file \protocols\IcqOscarJ\src\icq_proto.cpp
-;file \protocols\IcqOscarJ\src\icq_server.cpp
-;file \protocols\IcqOscarJ\src\icq_servlist.cpp
-;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [Close]
 Lukk
 [** All contacts **]
 ** Alle kontakter **
-;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [On the phone]
 I Telefonen
 [Typing]
 Skriving
+[Free for Chat]
+Tilgjengelig for samtale
 [%s Custom Status]
 %s Selvvalgt Status
 [None]
 Ingen
-;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
-;file \protocols\IcqOscarJ\src\init.cpp
-;file \protocols\IcqOscarJ\src\log.cpp
-;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
-;file \protocols\IcqOscarJ\src\utilities.cpp
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[Custom Status]
+Selvvalgt status
+[error]
+Feil
+[%d Files]
+%d filer
 [Personal]
 Personlig
+[Nickname]
+Kallenavn
 [Contact]
 Kontakt
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 [Change ICQ Details]
 Forandre ICQ Detaljer
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [<not specified>]
 <ikke spesifisert>

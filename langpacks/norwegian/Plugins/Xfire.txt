@@ -5,7 +5,6 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-;file \protocols\Xfire\res\resource.rc
 [Password:]
 Passord:
 [Nick:]
@@ -16,16 +15,22 @@ Valg
 Flere innstillinger
 [Files]
 Filer
+[Status message:]
+Statusmelding:
 [Apply]
 Lagre
 [Remove]
 Fjern
+[Edit...]
+Rediger...
 [Username:]
 Brukernavn:
 [Name:]
 Navn:
 [Port:]
 Port:
+[User details]
+Brukerdetaljer
 [Copy]
 Kopier
 [OK]
@@ -34,10 +39,8 @@ OK
 Avbryt
 [Search:]
 Søk:
-;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Alle Filer
-;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 Ja, jeg er her.
 [I've been away since %time%.]
@@ -52,11 +55,8 @@ Gi en kar litt fred da, gidder du?
 Det må være telefonen.
 [Mmm... food.]
 Mmm... mat.
-;file \protocols\Xfire\src\iniupdater.cpp
-;file \protocols\Xfire\src\main.cpp
 [Username]
 Brukernavn
-;file \protocols\Xfire\src\options.cpp
 [General]
 Generelt
 [No]
@@ -65,9 +65,5 @@ Nei
 <Root Gruppe>
 [Network]
 Nettverk
-;file \protocols\Xfire\src\searching4games.cpp
-;file \protocols\Xfire\src\userdetails.cpp
 [<not specified>]
 <ikke spesifisert>
-;file \protocols\Xfire\src\Xfire_game.cpp
-;file \protocols\Xfire\src\Xfire_gamelist.cpp

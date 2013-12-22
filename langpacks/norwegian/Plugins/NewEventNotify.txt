@@ -5,7 +5,6 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-;file \plugins\NewEventNotify\res\resource.rc
 [Message]
 Melding
 [URL]
@@ -16,18 +15,20 @@ Fil
 Tekst
 [Background]
 Bakgrunn
+[Open Event]
+Åpne hendelse
+[Dismiss Event]
+Avvis hendelse
 [Show Date]
 Vis Dato
+[Show Headers]
+Vis overskrifter
 [Edit]
 Rediger
-;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Popups
-;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]
 Kontakter
-;file \plugins\NewEventNotify\src\options.cpp
-;file \plugins\NewEventNotify\src\popup.cpp
 [This is a sample message event :-)]
 Dette er prøve på en meldingshendelse :-)
 [This is a sample URL event ;-)]

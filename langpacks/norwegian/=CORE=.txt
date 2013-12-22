@@ -1,4 +1,4 @@
-﻿;file \src\resource.rc
+﻿
 [OK]
 OK
 [Cancel]
@@ -385,7 +385,6 @@ K&larer Logg
 &Kopier link
 [Cancel change]
 Avbryt Endring
-;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Godkjenn
 [&Deny]
@@ -396,7 +395,6 @@ Grunn:
 Du Ble Lagt til
 [&Close]
 &Lukk
-;file \src\core\stdaway\resource.rc
 [%s message for %s]
 %s Melding til %s
 [Retrieving %s message...]
@@ -417,7 +415,6 @@ Bruk %time% for nåværende tid, %date% for nåværende dato
 Forandre %s Melding
 [Closing in %d]
 Lukker om %d
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 &Send
 [Show these events only:]
@@ -524,7 +521,6 @@ Faner
 L&ukk andre faner
 [&Open at this position]
 &Åpne ved denne posisjonen
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 Skjul frakoblede brukere
 [Hide empty groups]
@@ -699,6 +695,8 @@ Høyreklikk åpner Miranda NG meny
 Samme bredde på seksjoner
 [Show resize grip indicator]
 Vis størrelsesendrings grep indikator
+[&Main menu]
+&Hovedmeny
 [&Status]
 &Status
 [&Offline\tCtrl+0]
@@ -721,7 +719,6 @@ Opp&tatt\tCtrl+4
 I &Telefonen\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Ute til &Lunsj\tCtrl+9
-;file \src\core\stdfile\resource.rc
 [Send file(s)]
 Send Fil(er)
 [To:]
@@ -746,8 +743,6 @@ Dato:
 Filer:
 [Save to:]
 Lagre til:
-[&Open folder]
-Åpne mappe
 [File already exists]
 Filen Eksisterer Fra Før
 [Resume]
@@ -814,12 +809,10 @@ Hvis innkommende filer allerede eksisterer
 Spør meg
 [You will always be asked about files from people not on your contact list]
 Du vil alltid bli spurt angående filer fra de som ikke er i kontaktlisten din
-;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Om Miranda NG
 [Credits >]
 Takk >
-;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Bli inaktiv hvis følgende ikke brukes:
 [Windows]
@@ -840,7 +833,6 @@ for
 Forandre min status til:
 [Do not set status back to online when returning from idle]
 Ikke sett status tilbake til pålogget ved retur fra inaktivitet
-;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Automatisk sprett opp vindu når:
 [Close the message window on send]
@@ -921,7 +913,6 @@ Blink i oppgavelinjen og i kontaktlisten
 Vis ballong popup
 [Delete]
 Slett
-;file \src\core\stduihist\resource.rc
 [Find]
 Finn
 [&Find next]
@@ -932,7 +923,6 @@ Finn følgende:
 Samtalehistorikk
 [&Find...]
 &Finn...
-;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 Legg til Telefonnummer
 [Enter country, area code and phone number:]
@@ -997,7 +987,6 @@ Avdeling:
 Posisjon:
 [Website:]
 Nettside:
-;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 %s ber om godkjenning
 [%u requests authorization]
@@ -1006,17 +995,14 @@ Nettside:
 %u la deg til i deres kontaktliste
 [Alerts]
 Varsler
-;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 Se Brukerens Detaljer
 [Add contact permanently to list]
 Legg til Kontakt Permanent til Listen
 [(Unknown)]
 (Ukjent)
-;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s message]
 Le&s %s Melding
-;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 Jeg har vært borte siden %time%
 [Give it up, I'm not in!]
@@ -1041,9 +1027,6 @@ Mmm... mat.
 chiiiiller'n
 [Status]
 Status
-;file \src\core\stdchat\src\clist.cpp
-;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s har joinet kanalen
 [You have joined %s]
@@ -1062,7 +1045,6 @@ Du er nå kjent som %s
 Varsel fra %s;
 [ (set by %s)]
  (satt av %s)
-;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
 Andres kallenavn
 [Your nickname]
@@ -1339,10 +1321,8 @@ Bruker har endret navn
 Bruker har sendt et varsel
 [The topic has been changed]
 Overskriften har blitt forandret
-;file \src\core\stdchat\src\services.cpp
 [&Join]
 &Join
-;file \src\core\stdchat\src\tools.cpp
 [%s wants your attention in %s]
 %s ønsker din oppmerksomhet i %s
 [%s speaks in %s]
@@ -1371,7 +1351,6 @@ Informasjon i %s
 Varsel fra %s: %s
 [No word to look up]
 Ingen ord å slå opp
-;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Sett inn en smiley
 [Make the text bold (CTRL+B)]
@@ -1406,7 +1385,6 @@ Lukk denne fanen (CTRL+F4)
 Kallenavn
 [Unique ID]
 Unik ID
-;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Standard kontakter
 [Online contacts to whom you have a different visibility]
@@ -1425,7 +1403,6 @@ Frakoblede brukere du har annen synlighet ovenfor
 Valgt Tekst
 [Quicksearch text]
 Hurtigsøk Tekst
-;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 Ikke fokusert
 [Offline]
@@ -1450,18 +1427,14 @@ Ute til lunsj
 I Telefonen
 [List background]
 Listebakgrunn
-;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Global
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Bruker har ikke registrert en e-post adresse
 [Send e-mail]
 Send e-post
 [&E-mail]
 &E-post
-;file \src\core\stdfile\file.cpp
 [File from %s]
 Fil fra %s
 [bytes]
@@ -1476,29 +1449,24 @@ Ferdig
 Feil
 [Denied]
 Avslått
-;file \src\core\stdfile\fileexistsdlg.cpp
 [%s file]
 %s Fil
 [All files]
 Alle Filer
-;file \src\core\stdfile\fileopts.cpp
 [Executable files]
 Kjørbare Filer
 [Events]
 Hendelser
-;file \src\core\stdfile\filerecvdlg.cpp
 [View user's history]
 Se Brukerens Historikk
 [User menu]
 Brukermeny
 [Canceled]
 Avbrutt
-;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
 %d filer
 [%d directories]
 %d mapper
-;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Denne filen har ennå ikke blitt skannet for virus. Er du sikker på at du vil åpne den?
 [File received]
@@ -1535,29 +1503,22 @@ Filoverføring feilet
 Skanner etter virus...
 [Transfer and virus scan complete]
 Overføring og virusskann ferdig
-;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 Utgående
-;file \src\core\stdhelp\about.cpp
-;file \src\core\stdhelp\help.cpp
 [&About...]
 &Om...
 [&Miranda NG homepage]
 &Miranda NG Hjemmeside
 [&Report bug]
 &Rapporter Feil
-;file \src\core\stdidle\idle.cpp
 [Idle]
 Inaktivitet
-;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Meldingssendingen timet ut.
-;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 Innkommende melding (10x10)
 [Outgoing message (10x10)]
 Utgående melding (10x10)
-;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Siste melding mottatt den %s kl. %s.
 [signed off (was %s)]
@@ -1568,10 +1529,8 @@ koblet på (%s)
 er nå %s (var %s)
 [%s is typing a message...]
 %s skriver en melding...
-;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Fil sendt
-;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Utgående meldinger
 [Incoming messages]
@@ -1602,7 +1561,6 @@ Vis ballong popup (ustøttet system)
 Meldingslogg
 [Typing notify]
 Skrivevarsling
-;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Melding fra %s
 [%s is typing a message]
@@ -1617,10 +1575,8 @@ Innkommende (Fokusert Vindu)
 Innkommende (Ufokusert Vindu)
 [Incoming (new session)]
 Innkommende (Ny Samtaleøkt)
-;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 En ukjent feil har inntruffet
-;file \src\core\stduihist\history.cpp
 [Outgoing URL]
 Utgående URL
 [Incoming URL]
@@ -1637,19 +1593,16 @@ Er du sikker på at du vil slette denne historikk forekomsten?
 Slett Historikk
 [View &history]
 Se &Historikk
-;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL fra %s
 [Web page address (&URL)]
 Web-adresse (&URL)
 [URL]
 URL
-;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Send URL til
 [Send timed out]
 Sending utløp
-;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail address]
 Rediger E-Post Adresse
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -1668,7 +1621,6 @@ Mobil
 Telefon Arbeid
 [Work fax]
 Fax Jobb
-;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 Mann
 [Female]
@@ -1685,34 +1637,26 @@ Plassering
 Arbeid
 [Notes]
 Notater
-;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Eier
 [View/change my &details...]
 Se/Forandre Mine &Detaljer...
-;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s er Pålogget
-;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Legg til Kontakt
 [Please authorize my request and add me to your contact list.]
 Vennligst godta min forespørsel og legg meg til i din kontaktliste.
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 Selvvalgt status
 [%s (locked)]
 %s (låst)
+[Status menu]
+Statusmeny
 [Main menu]
 Hovedmeny
-;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Ukjent Kontakt)
-;file \src\modules\clist\clisttray.cpp
-[&Main menu]
-&Hovedmeny
-;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Denne kontakten er på et lynmeldingssystem som lagrer kontaktlisten på en sentral server. Kontakten vil bli fjernet fra serveren og fra kontaktlisten din neste gang du kobler til det nettverket.
 [De&lete]
@@ -1721,7 +1665,6 @@ Sl&ett
 &Gi nytt navn
 [&Add permanently to list]
 &Legg til i liste permanent
-;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 Mitt valgte navn (ikke flyttbart)
 [Nick]
@@ -1738,13 +1681,10 @@ Brukernavn
 Fornavn Etternavn
 ['(Unknown contact)']
 '(Ukjent Kontakt)'
-;file \src\modules\clist\genmenu.cpp
-;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Menyer
 [Customize]
 Tilpass
-;file \src\modules\clist\groups.cpp
 [New group]
 Ny Gruppe
 [Delete group]
@@ -1755,19 +1695,14 @@ Du har allerede en gruppe med det navnet. Vennligst skriv inn et unikt navn for 
 Gi nytt navn til Gruppen
 [This group]
 Denne gruppen
-;file \src\modules\clist\keyboard.cpp
-;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 &Flytt til Gruppe
 [<Root group>]
 <Root Gruppe>
-;file \src\modules\database\database.cpp
 [No profile support installed!]
 Ingen profilstøtte er installert!
 [Miranda can't understand that profile]
 Miranda forstår ikke profilen
-;file \src\modules\database\dbini.cpp
-;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 Profilen eksisterer allerede
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
@@ -1790,14 +1725,10 @@ Opprettet
 Mine Profiler
 [New profile]
 Ny Profil
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
-;file \src\modules\extraicons\extraicons.cpp
 [Chat activity]
 Samtaleaktivitet
-;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 Ekstra ikoner
-;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Du har ikke skrevet noe i søkefeltet. Vennligst skriv en søkestreng og prøv på nytt.
 [Search]
@@ -1812,7 +1743,6 @@ Søker
 Alle Nettverk
 [&Find/Add contacts...]
 &Finn/Legg til Kontakter
-;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Kunne ikke starte et søk på '%s', det oppstod et problem - er %s tikoblet?
 [Could not search on any of the protocols, are you online?]
@@ -1827,53 +1757,42 @@ Problem med søk
 %d brukere funnet (
 [No users found]
 Ingen brukere funnet
-;file \src\modules\fonts\FontOptions.cpp
 [<none>]
 <ingen>
 [Fonts]
 Skrifter
-;file \src\modules\fonts\FontService.cpp
-;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 Ikonpakker
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Alle kontakter **
 [Contacts]
 Kontakter
-;file \src\modules\netlib\netliblog.cpp
 [Select where log file will be created]
 Velg hvor loggfilen skal opprettes
 [Select program to be run]
 Velg program som skal kjøres
-;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Alle koblinger>
 [Network]
 Nettverk
-;file \src\modules\netlib\netlibssl.cpp
-;file \src\modules\options\options.cpp
 [<all modules>]
 <Alle moduler>
 [Miranda NG options]
 Miranda NG Innstillinger
 [&Options...]
 &Valg...
-;file \src\modules\plugins\newplugins.cpp
 ['%s' is disabled, re-enable?]
 '%s' er deaktivert, re-aktiver?
 [Re-enable Miranda plugin?]
 Re-aktiver Miranda tillegg?
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Kan ikke starte noen av de installerte kontaktliste tilleggene, Jeg ignorerte også dine valg for kontaktlisten som den ikke klarte å laste inn.
-;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Tillegg
 [Version]
 Versjon
 [Plugins]
 Tillegg
-;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 Lag ny konto
 [Edit]
@@ -1886,10 +1805,8 @@ Gi nytt navn
 Konfigurer
 [&Accounts...]
 &Kontoer...
-;file \src\modules\skin\hotkey_opts.cpp
 [System]
 System
-;file \src\modules\skin\skinicons.cpp
 [User online]
 Bruker Pålogget
 [Group (open)]
@@ -1944,12 +1861,12 @@ Forespør godkjenning
 Godkjenn autorisasjon
 [Revoke authorization]
 Tilbakekall godkjenning
+[Always visible]
+Alltid Synlig
 [%s icons]
 %s Ikoner
 [Main icons]
 Hovedikoner
-;file \src\modules\skin\sounds.cpp
-;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Du trenger en bildetjeneste plugin for å behandle PNG bilder.
 [All bitmaps]
@@ -1962,8 +1879,5 @@ JPEG Bitmaps
 GIF Bitmaps
 [PNG bitmaps]
 PNG Bitmaps
-;file \src\modules\utils\timezones.cpp
-;file \src\modules\utils\utils.cpp
 [Unknown]
 Ukjent
-;file \src\modules\visibility\visibility.cpp

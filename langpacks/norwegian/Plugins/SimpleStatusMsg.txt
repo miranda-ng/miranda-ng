@@ -5,7 +5,6 @@
 ;  Version: 1.9.0.4
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
-;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
 %s Melding til %s
 [&Cancel]
@@ -62,22 +61,18 @@ Lim inn
 Slett
 [Select All]
 Velg Alt
-;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [&Close]
 &Lukk
 [Re&ad %s Message]
 Le&s %s Melding
 [Re&ad Away Message]
 Le&s Bortemelding
-;file \plugins\SimpleStatusMsg\src\main.cpp
 [%s (locked)]
 %s (låst)
-;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [Global]
 Global
 [Closing in %d]
 Lukker om %d
-;file \plugins\SimpleStatusMsg\src\options.cpp
 [Flat, next to cancel button]
 Flat, vedsiden av avbr. knapp
 [Show in message list]
@@ -88,7 +83,6 @@ Status
 Generelt
 [Advanced]
 Avansert
-;file \plugins\SimpleStatusMsg\src\utils.cpp
 [I've been away since %time%.]
 Jeg har vært borte siden %time%
 [Give it up, I'm not in!]

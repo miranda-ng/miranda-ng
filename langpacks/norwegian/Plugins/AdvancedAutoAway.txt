@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 Generelt
 [Close]
@@ -20,6 +19,8 @@ Melding
 Åpne
 [OK]
 OK
+[Command line:]
+Kommandolinje:
 [Other]
 Annet
 [Background color]
@@ -42,10 +43,8 @@ Status
 Slett
 [seconds]
 sekunder
-;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [Status messages]
 Statusmeldinger
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Jeg har vært borte siden %time%
 [Give it up, I'm not in!]
@@ -68,7 +67,6 @@ Det må være telefonen.
 Mmm... mat.
 [idleeeeeeee]
 chiiiiller'n
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 Protokoll
 [Closing in %d]

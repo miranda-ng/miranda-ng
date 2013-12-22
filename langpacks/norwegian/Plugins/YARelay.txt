@@ -5,7 +5,8 @@
 ;  Version: 0.1.0.1
 ;  Authors: Anar Ibragimoff
 ;============================================================
-;file \plugins\YARelay\res\yaRelay.rc
+[Everyone]
+alle
 [Contact]
 Kontakt
 [Offline]
@@ -24,6 +25,5 @@ Ikke forstyrr
 Tilgjengelig for samtale
 [Invisible]
 Usynlig
-;file \plugins\YARelay\src\options.cpp
 [Plugins]
 Tillegg

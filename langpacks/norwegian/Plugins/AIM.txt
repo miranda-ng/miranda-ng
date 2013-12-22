@@ -5,13 +5,16 @@
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
-;file \protocols\AimOscar\res\aim.rc
 [Password:]
 Passord:
+[Advanced Options]
+Avanserte valg
 [Port:]
 Port:
 [Reset]
 Nullstill
+[Manage Server Groups]
+Behandle servergrupper
 [Add]
 Legg til
 [Remove]
@@ -28,19 +31,13 @@ E-post
 &Avslå
 [Message]
 Melding
-;file \protocols\AimOscar\src\chat.cpp
-;file \protocols\AimOscar\src\error.cpp
-;file \protocols\AimOscar\src\file.cpp
-;file \protocols\AimOscar\src\links.cpp
-;file \protocols\AimOscar\src\popup.cpp
-;file \protocols\AimOscar\src\proto.cpp
-;file \protocols\AimOscar\src\server.cpp
-;file \protocols\AimOscar\src\theme.cpp
+[User &details]
+Bruker &Detaljer
 [Profile]
 Profil
+[Background Color]
+Bakgrunnsfarge
 [Bold]
 Fet
-;file \protocols\AimOscar\src\ui.cpp
 [Network]
 Nettverk
-;file \protocols\AimOscar\src\utility.cpp

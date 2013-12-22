@@ -5,25 +5,24 @@
 ;  Version: 0.1.2.6
 ;  Authors: y_b, tweety, majvan
 ;============================================================
-;file \plugins\YAMN\res\YAMN.rc
 [OK]
 OK
 [Description:]
 Beskrivelse:
 [Copyright:]
 Copyright:
-[Message]
-Melding
-[Password:]
-Passord:
-[Port:]
-Port:
-[Default]
-Standard
 [Name:]
 Navn:
+[Port:]
+Port:
+[Password:]
+Passord:
+[Default]
+Standard
 [Options]
 Valg
+[Message]
+Melding
 [Cancel]
 Avbryt
 [Offline]
@@ -48,21 +47,14 @@ Ute til lunsj
 Bakgrunnsfarge
 [Text color]
 Tekstfarge
-;file \plugins\YAMN\src\main.cpp
-;file \plugins\YAMN\src\main.h
-;file \plugins\YAMN\src\services.cpp
 [Nick]
 Kallenavn
-;file \plugins\YAMN\src\browser\badconnect.cpp
-;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[Copy All]
+Kopier alt
 [Select All]
 Velg Alt
 [Size]
 Størrelse
-;file \plugins\YAMN\src\mails\mime.cpp
-;file \plugins\YAMN\src\proto\netlib.cpp
-;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
-;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Nettverk
 [General]

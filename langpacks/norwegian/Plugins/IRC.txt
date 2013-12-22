@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
-;file \protocols\IRCG\res\IRC.rc
 [&Add]
 &Legg til
 [&Edit]
@@ -150,6 +149,8 @@ Bruk valgene for å sette moduser for denne kanalen. Det kreves vanligvis at du 
 Send i forveien
 [Attempt reverse DCC (good if firewalled)]
 Forsøk motsatt DCC (best dersom du har firewall)
+[none]
+Ingen
 [everyone on the contact list]
 alle på kontaktlisten
 [everyone]
@@ -210,10 +211,8 @@ Ignorer hendelser
 (*) tomt for å sette masken for alle nettverk
 [Password:]
 Passord:
-;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 CTCP samtale forespørsel fra %s
-;file \protocols\IRCG\src\commandmonitor.cpp
 [%s sets mode %s]
 %s setter modus %s
 [%s sets mode %s%s]
@@ -276,7 +275,6 @@ Idiot
 Bruken av /AWAY i din utføringsbuffer er begrenset\n siden IRC sender denne kommandoen automatisk.
 [IRC Error]
 IRC Feil
-;file \protocols\IRCG\src\input.cpp
 [The buddy check function is enabled]
 Buddy check funksjonen er aktivert
 [The buddy check function is disabled]
@@ -317,10 +315,10 @@ DCC ERROR: Klarer ikke å binde port
 Input kommando
 [Please enter the reply]
 Vennligst skriv inn svaret
-;file \protocols\IRCG\src\irclib.cpp
-;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 Informasjon
+[Nickname]
+Kallenavn
 [DCC ERROR: No valid files specified]
 DCC ERROR: Ingen gyldige filer spesifisert
 [DCC reversed file transfer request sent to %s [%s]]
@@ -335,7 +333,6 @@ Protkollen er ikke online
 DCC samtaleforbindelsen er ikke aktiv
 [Please choose an IRC-network to go online. This network will be the default.]
 Vennligst velg et IRC-nettverk å koble deg til. Dette nettverket vil bli satt som standard.
-;file \protocols\IRCG\src\options.cpp
 [Add]
 Legg til
 [Apply]
@@ -392,7 +389,6 @@ Ignorer maske
 DCC og CTCP
 [Advanced]
 Avansert
-;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 WallOps fra %s:
 [%s invites you to %s]
@@ -407,7 +403,6 @@ CTCP %s svar sendt til %s
 CTCP %S svar sendt til s: %s
 [Notice to %s: ]
 Varsel til %s:
-;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 &Rask tilkobling
 [&Change your nickname]
@@ -482,11 +477,8 @@ Legg til &ignoreringsliste
 &Legg til Bruker
 [Connecting to]
 Kobler til
-;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Frakoblet
-;file \protocols\IRCG\src\userinfo.cpp
-;file \protocols\IRCG\src\windows.cpp
 [Channel]
 Kanal
 [Add ban/invite/exception]

@@ -1,0 +1,31 @@
+﻿#muuid {798221e1-e47a-4dc8-9077-1e576f9c4307}
+;============================================================
+;  File: MirandaG15.dll
+;  Plugin: MirandaG15
+;  Version: 0.1.2.0
+;  Authors: Martin Kleinhans
+;============================================================
+[Fonts]
+Skrifter
+[Sample]
+Prøve
+[events]
+Hendelser
+[seconds]
+sekunder
+[Incoming messages]
+Innkommende meldinger
+[Incoming URL]
+Innkommende URL
+[Messages]
+Meldinger
+[Status changes]
+Statusendringer
+[Notices]
+Varsler
+[Contact list]
+Kontaktliste
+[Hide offline users]
+Skjul frakoblede brukere
+[Chat]
+Chat

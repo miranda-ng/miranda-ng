@@ -5,8 +5,5 @@
 ;  Version: 0.8.1.0
 ;  Authors: Unsane
 ;============================================================
-;file \plugins\QuickReplies\res\resources.rc
-;file \plugins\QuickReplies\src\events.cpp
-;file \plugins\QuickReplies\src\options.cpp
 [Message Sessions]
 Meldingsøkter

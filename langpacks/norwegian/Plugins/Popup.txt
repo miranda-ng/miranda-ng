@@ -5,7 +5,6 @@
 ;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
-;file \plugins\Popup\res\resource.rc
 [Effects]
 Effekter
 [Live Preview]
@@ -16,6 +15,8 @@ Historikk
 Aktiver popup historikk
 [Store last]
 Lagre siste
+[events]
+Hendelser
 [Use History++ to render log]
 Bruk History++ til loggvisning
 [Draw avatar borders]
@@ -74,6 +75,8 @@ Høyreklikk handling:
 Deaktiver når global status er...
 [Disable when relevant protocol's status is...]
 Deaktiver når relevant protokolls status er...
+[Sec]
+sek
 [Show always]
 Vis alltid
 [Ignore fullscreen]
@@ -102,34 +105,50 @@ Posisjon:
 Deaktiver dersom:
 [Always (has priority)]
 Alltid (har prioritet)
-;file \plugins\Popup\src\actions.cpp
 [User details]
 Brukerdetaljer
 [Contact menu]
 Kontaktmeny
 [Pin popup]
 Fest popup
-;file \plugins\Popup\src\config.cpp
-;file \plugins\Popup\src\effects.cpp
-;file \plugins\Popup\src\font.cpp
 [Hovered Action]
 Svevende Handling
-;file \plugins\Popup\src\history.cpp
-;file \plugins\Popup\src\icons.cpp
 [OK]
 OK
 [Cancel]
 Avbryt
-;file \plugins\Popup\src\main.cpp
+[Blocked Contact]
+Blokkert kontakt
+[Pin Popup]
+Fest popup
+[Contact Menu]
+Kontaktmeny
 [Actions]
 Handlinger
 [Contacts]
 Kontakter
 [Advanced]
 Avansert
-;file \plugins\Popup\src\opt_adv.cpp
-;file \plugins\Popup\src\opt_class.cpp
-;file \plugins\Popup\src\opt_gen.cpp
+[Offline]
+Frakoblet
+[Online]
+Pålogget
+[Invisible]
+Usynlig
+[Away]
+Borte
+[NA]
+NA
+[Occupied]
+Opptatt
+[DND]
+Ikke forstyrr
+[Free for chat]
+Tilgjengelig for samtale
+[Out to lunch]
+Ute til lunsj
+[On the phone]
+I Telefonen
 [upper left corner]
 øvre venstre hjørne
 [lower left corner]
@@ -140,17 +159,13 @@ nedre høyre hjørne
 øvre høyre hjørne
 [vertical]
 vertikal
-;file \plugins\Popup\src\opt_skins.cpp
+[Skin preview]
+Vis Skin
 [Enable Aero Glass (Vista+)]
 Aktiver Aero Glass (Vista+)
 [Use Windows colors]
 Bruk Windowsfarger
 [Use advanced text render]
 Bruk avansert textgjengivelse
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-;file \plugins\Popup\src\services.cpp
 [Error]
 Feil
-;file \plugins\Popup\src\skin.cpp
-;file \plugins\Popup\src\srmm_menu.cpp

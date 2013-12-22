@@ -5,11 +5,7 @@
 ;  Version: 0.0.2.0
 ;  Authors: ValeraVi, Kildor
 ;============================================================
-;file \plugins\RecentContacts\res\resource.rc
-;file \plugins\RecentContacts\src\options.cpp
 [Contacts]
 Kontakter
-;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Contact]
 Kontakt
-;file \plugins\RecentContacts\src\RecentContacts.h

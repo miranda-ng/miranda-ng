@@ -5,7 +5,6 @@
 ;  Version: 1.5.7.7
 ;  Authors: TioDuke
 ;============================================================
-;file \plugins\KeyboardNotify\res\resources.rc
 [Incoming messages]
 Innkommende meldinger
 [seconds]
@@ -46,12 +45,10 @@ Avbryt
 Følgende hendelser blir ignorert:
 [Ignore]
 Ignorer
-;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Alle kontakter **
 [** Unknown contacts **]
 ** Ukjente kontakter **
-;file \plugins\KeyboardNotify\src\options.cpp
 [Events]
 Hendelser
 [Protocol]

@@ -5,23 +5,21 @@
 ;  Version: 0.1.1.8
 ;  Authors: Ghost, Mironych
 ;============================================================
-;file \plugins\TrafficCounter\res\resource.rc
 [Custom]
 Selvvalgt
-;file \plugins\TrafficCounter\src\options.cpp
 [General]
 Generelt
 [Options]
 Valg
 [Popups]
 Popups
-;file \plugins\TrafficCounter\src\statistics.cpp
+[Bytes]
+bytes
 [Incoming]
 Innkommende
 [Outgoing]
 Utgående
 [Online]
 Pålogget
-;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Skrift

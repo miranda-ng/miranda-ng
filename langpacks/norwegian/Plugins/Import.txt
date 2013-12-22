@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
-;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 Velg hvordan du ønsker å importere:
 [From a Miranda NG database.]
@@ -50,14 +49,9 @@ URLer
 Filoverføringer
 [Other]
 Annet
-;file \plugins\Import\src\import.cpp
-;file \plugins\Import\src\main.cpp
 [&Import...]
 &Importer...
-;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Den angitte filen eksisterer ikke. Vennligst kontroller at du har skrevet inn riktig navn.
 [All Files]
 Alle Filer
-;file \plugins\Import\src\utils.cpp
-;file \plugins\Import\src\wizard.cpp

@@ -5,7 +5,6 @@
 ;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
-;file \plugins\SeenPlugin\res\resource.rc
 [Show icon]
 Vis ikon
 [Text]
@@ -32,31 +31,28 @@ Usynlig
 Frakoblet
 [OK]
 OK
-;file \plugins\SeenPlugin\src\history.cpp
 [View User's Details]
 Se Brukerens Detaljer
 [User Menu]
 Brukermeny
-;file \plugins\SeenPlugin\src\main.cpp
-;file \plugins\SeenPlugin\src\menu.cpp
 [<none>]
 <ingen>
-;file \plugins\SeenPlugin\src\options.cpp
 [Contacts]
 Kontakter
 [Popups]
 Popups
-;file \plugins\SeenPlugin\src\seen.h
 [seconds]
 sekunder
+[username]
+Brukernavn
+[nick]
+Kallenavn
 [Group]
 Gruppe
 [Status]
 Status
 [Protocol]
 Protokoll
-;file \plugins\SeenPlugin\src\userinfo.cpp
-;file \plugins\SeenPlugin\src\utils.cpp
 [Idle]
 Inaktivitet
 [Unknown]

@@ -5,7 +5,6 @@
 ;  Version: 0.7.5.4
 ;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
-;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [OK]
 OK
 [Cancel]
@@ -62,12 +61,9 @@ Hva ønsker du å gjøre med filen nå?
 &Forlat
 [Unique ID:]
 Unik ID:
-;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
-;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
 [Name]
 Navn
 [Version]
 Versjon
-;file \plugins\Dbx_mmap_SA\src\security.cpp
 [Error]
 Feil

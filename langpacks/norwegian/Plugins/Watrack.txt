@@ -43,6 +43,8 @@ Statistikk loggfil
 Unicode til Ansi oversettelse kodeside:
 [VBR macro]
 VBR makro
+[second line]
+Andre Linje
 [WATrack Macro Info]
 WATrack Makro Info
 [Left click]
@@ -51,10 +53,8 @@ Venstreklikk
 Høyreklikk
 [Precision]
 Presisjon
+[none]
+Ingen
 [Color]
 Farge
-;file \plugins\Watrack\myshows\myshows.rc
-;file \plugins\Watrack\lastfm\i_last_api.inc
-;file \plugins\Watrack\lastfm\i_last_dlg.inc
-;file \plugins\Watrack\proto\proto.pas
 ;other strings
