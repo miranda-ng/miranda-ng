@@ -82,15 +82,11 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// load module to remind user about birthday and a anniversary
 	SvcReminderOnModulesLoaded();
 	// load extended intagration services
-	SvcEMailOnModulesLoaded();
 	SvcHomepageLoadModule();
-	SvcPhoneLoadModule();
-	SvcGenderLoadModule();
 	SvcFlagsOnModulesLoaded();
 
-#ifdef _DEBUG // new feature, not in release jet
-	NServices::NAvatar::OnModulesLoaded();
-#endif
+	if (SvcEMailEnableExtraIcons() || SvcPhoneEnableExtraIcons() || SvcGenderEnableExtraIcons() || SvcHomepageEnableExtraIcons())
+		pcli->pfnSetAllExtraIcons(0);
 
 	// build contact's menuitems
 	RebuildMenu();

@@ -421,7 +421,7 @@ void SvcFlagsLoadModule()
  **/
 void SvcFlagsOnModulesLoaded()
 {
-	SvcFlagsEnableExtraIcons(db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_FLAGS2, 0), FALSE);
+	SvcFlagsEnableExtraIcons(1, FALSE);
 
 	/* Status Icon */
 	HookEvent(ME_MSG_WINDOWEVENT, OnMsgWndEvent);

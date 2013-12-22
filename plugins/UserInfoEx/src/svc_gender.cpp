@@ -28,6 +28,8 @@ static HANDLE ghExtraIconSvc = INVALID_HANDLE_VALUE;
 static HANDLE hChangedHook = NULL;
 static HANDLE hApplyIconHook = NULL;
 
+bool g_eiGender = false;
+
 BYTE GenderOf(HANDLE hContact, LPCSTR pszProto)
 {
 	DBVARIANT dbv;
@@ -96,24 +98,6 @@ static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
 	return 0;
 }
 
-/***********************************************************************************************************
- * public Module Interface functions
- ***********************************************************************************************************/
-
-/**
- * Force all icons to be reloaded.
- *
- * @param	wParam			- handle to the contact whose extra icon is to apply
- * @param	lParam			- not used
- **/
-
-void SvcGenderApplyCListIcons()
-{
-	//walk through all the contacts stored in the DB
-	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-		OnCListApplyIcons(hContact, 0);
-}
-
 /**
 * Enable or disable the replacement of clist extra icons.
 *
@@ -121,14 +105,17 @@ void SvcGenderApplyCListIcons()
 * @param	bUpdateDB		- if true the database setting is updated, too.
 **/
 
-void SvcGenderEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB) 
+bool SvcGenderEnableExtraIcons(bool bEnable, bool bUpdateDB) 
 {
-	bool bEnable = (bColumn!=((BYTE)-1));
+	bool bChanged;
 
-	if (bUpdateDB)
-		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_GENDER2, bColumn);
+	if (bUpdateDB) {
+		bChanged = g_eiGender != bEnable;
+		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_GENDER2, bEnable);
+	}
+	else bChanged = g_eiGender = db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_GENDER2, 0) != 0;
 
-	if (bEnable) { // Gender checked or dropdown select
+	if (g_eiGender) { // Gender checked or dropdown select
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
 			ghExtraIconSvc = ExtraIcon_Register("gender", LPGEN("Gender (uinfoex)"), ICO_COMMON_MALE);
 
@@ -149,16 +136,7 @@ void SvcGenderEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB)
 			hApplyIconHook = NULL;
 		}
 	}
-	SvcGenderApplyCListIcons();
-}
-
-/**
-* This function initially loads the module upon startup.
-**/
-
-void SvcGenderLoadModule()
-{
-	SvcGenderEnableExtraIcons(db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_GENDER2, 0), FALSE);
+	return bChanged;
 }
 
 /**

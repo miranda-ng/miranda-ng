@@ -318,10 +318,10 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 				}
 			}
 			// extra icon settings
-			DBGetCheckBtn(hDlg, CHECK_OPT_GENDER, SET_CLIST_EXTRAICON_GENDER2, 0);
-			DBGetCheckBtn(hDlg, CHECK_OPT_HOMEPAGEICON, SET_CLIST_EXTRAICON_HOMEPAGE, DEFVAL_CLIST_EXTRAICON_HOMEPAGE);
-			DBGetCheckBtn(hDlg, CHECK_OPT_EMAILICON, SET_CLIST_EXTRAICON_EMAIL, DEFVAL_CLIST_EXTRAICON_EMAIL);
-			DBGetCheckBtn(hDlg, CHECK_OPT_PHONEICON, SET_CLIST_EXTRAICON_PHONE, DEFVAL_CLIST_EXTRAICON_PHONE);
+			CheckDlgButton(hDlg, CHECK_OPT_GENDER, g_eiGender);
+			CheckDlgButton(hDlg, CHECK_OPT_EMAILICON, g_eiEmail);
+			CheckDlgButton(hDlg, CHECK_OPT_PHONEICON, g_eiPhone);
+			CheckDlgButton(hDlg, CHECK_OPT_HOMEPAGEICON, g_eiHome);
 			CheckDlgButton(hDlg, CHECK_OPT_FLAGSUNKNOWN, gFlagsOpts.bUseUnknownFlag);
 			CheckDlgButton(hDlg, CHECK_OPT_FLAGSMSGSTATUS, gFlagsOpts.bShowStatusIconFlag);
 
@@ -361,14 +361,14 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 				FlagsMsgWndChange++;
 			}
 
-			SvcGenderEnableExtraIcons(IsDlgButtonChecked(hDlg, CHECK_OPT_GENDER) ? 1 : -1, TRUE);
+			if (SvcHomepageEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_HOMEPAGEICON), true) ||
+				 SvcEMailEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_EMAILICON), true) ||
+				 SvcPhoneEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_PHONEICON), true) ||
+				 SvcGenderEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_GENDER), true))
+				FlagsClistChange = true;
 
 			if (FlagsClistChange)  pcli->pfnSetAllExtraIcons(NULL);
 			if (FlagsMsgWndChange) UpdateStatusIcons(NULL);
-
-			SvcHomepageEnableExtraIcons(IsDlgButtonChecked(hDlg, CHECK_OPT_HOMEPAGEICON), TRUE);
-			SvcEMailEnableExtraIcons(IsDlgButtonChecked(hDlg, CHECK_OPT_EMAILICON), TRUE);
-			SvcPhoneEnableExtraIcons(IsDlgButtonChecked(hDlg, CHECK_OPT_PHONEICON), TRUE);
 
 			// misc
 			BYTE bEnabled = IsDlgButtonChecked(hDlg, CHECK_OPT_ZODIACAVATAR);

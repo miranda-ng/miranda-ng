@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define _UINFOEX_SVCPHONE_H_INCLUDED_
 
 void SvcPhoneApplyCListIcons();
-void SvcPhoneEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB = FALSE);
+bool SvcPhoneEnableExtraIcons(bool bEnable = false, bool bUpdateDB = false);
 void SvcPhoneLoadModule();
 void SvcPhoneUnloadModule();
 

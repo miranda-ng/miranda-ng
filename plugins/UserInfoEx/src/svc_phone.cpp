@@ -35,6 +35,8 @@ static HANDLE ghExtraIconSvc = INVALID_HANDLE_VALUE;
 static HANDLE hChangedHook = NULL;
 static HANDLE hApplyIconHook = NULL;
 
+bool g_eiPhone = false;
+
 /**
 * This function reads the contact's phone number from database and returns its type.
 *
@@ -117,24 +119,6 @@ static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
 	return 0;
 }
 
-/***********************************************************************************************************
- * public Module Interface functions
- ***********************************************************************************************************/
-
-/**
-* Force all icons to be reloaded.
-*
-* @param	wParam			- handle to the contact whose extra icon is to apply
-* @param	lParam			- not used
-**/
-
-void SvcPhoneApplyCListIcons()
-{
-	//walk through all the contacts stored in the DB
-	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-		OnCListApplyIcons(hContact, 0);
-}
-
 /**
 * Enable or disable the replacement of clist extra icons.
 *
@@ -142,13 +126,18 @@ void SvcPhoneApplyCListIcons()
 * @param	bUpdateDB		- if true the database setting is updated, too.
 **/
 
-void SvcPhoneEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB) 
+bool SvcPhoneEnableExtraIcons(bool bEnable, bool bUpdateDB)
 {
-	if (bUpdateDB)
+	bool bChanged;
+
+	if (bUpdateDB) {
+		bChanged = g_eiPhone != bEnable;
 		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_PHONE, bEnable);
+	}
+	else bChanged = g_eiPhone = db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_PHONE, DEFVAL_CLIST_EXTRAICON_PHONE) != 0;
 
 	// force module enabled, if extraicon plugin was found
-	if (bEnable) {
+	if (g_eiPhone) {
 		// hook events
 		if (hChangedHook == NULL) 
 			hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
@@ -169,16 +158,7 @@ void SvcPhoneEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB)
 			hApplyIconHook = NULL;
 		}			
 	}
-	SvcPhoneApplyCListIcons();
-}
-
-/**
-* This function initially loads the module upon startup.
-**/
-
-void SvcPhoneLoadModule()
-{
-	SvcPhoneEnableExtraIcons(db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_PHONE, DEFVAL_CLIST_EXTRAICON_PHONE), FALSE);
+	return bChanged;
 }
 
 /**

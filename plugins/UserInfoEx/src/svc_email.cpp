@@ -28,6 +28,8 @@ static HANDLE ghExtraIconSvc = INVALID_HANDLE_VALUE;
 static HANDLE hChangedHook = NULL;
 static HANDLE hApplyIconHook = NULL;
 
+bool g_eiEmail = false;
+
 /**
 * This function reads the email address of the contact.
 *
@@ -201,30 +203,21 @@ void SvcEMailRebuildMenu()
 }
 
 /**
-* Force all icons to be reloaded.
-*
-* @param	wParam			- handle to the contact whose extra icon is to apply
-* @param	lParam			- not used
-**/
-
-void SvcEMailApplyCListIcons()
-{
-	// walk through all the contacts stored in the DB
-	for (HANDLE hContact = db_find_first();	hContact != NULL;	hContact = db_find_next(hContact))
-		OnCListApplyIcons((WPARAM)hContact, 0);
-}
-
-/**
 * Enable or disable the replacement of clist extra icons.
 *
 * @param	bEnable			- determines whether icons are enabled or not
 * @param	bUpdateDB		- if true the database setting is updated, too.
 **/
 
-void SvcEMailEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB) 
+bool SvcEMailEnableExtraIcons(bool bEnable, bool bUpdateDB)
 {
-	if (bUpdateDB)
+	bool bChanged;
+
+	if (bUpdateDB) {
+		bChanged = g_eiEmail != bEnable;
 		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_EMAIL, bEnable);
+	}
+	else bChanged = g_eiEmail = db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_EMAIL, DEFVAL_CLIST_EXTRAICON_EMAIL) != 0;
 
 	if (bEnable) { // E-mail checked
 		// hook events
@@ -247,16 +240,8 @@ void SvcEMailEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB)
 			hApplyIconHook = NULL;
 		}			
 	}
-	SvcEMailApplyCListIcons();
-}
 
-/**
-* This function initially loads the module upon startup.
-**/
-
-void SvcEMailOnModulesLoaded()
-{
-	SvcEMailEnableExtraIcons(db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_EMAIL, DEFVAL_CLIST_EXTRAICON_EMAIL), FALSE);
+	return bChanged;
 }
 
 /**
@@ -283,6 +268,6 @@ void SvcEMailLoadModule()
 void SvcEMailUnloadModule()
 {	
 	// unhook event handlers
-	UnhookEvent(hChangedHook);		hChangedHook		= NULL;
-	UnhookEvent(hApplyIconHook);	hApplyIconHook		= NULL;
+	UnhookEvent(hChangedHook); hChangedHook = NULL;
+	UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
 }

@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define _UINFOEX_SvcHomepage_H_INCLUDED_
 
 void SvcHomepageRebuildMenu();
-void SvcHomepageEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB = FALSE);
+bool SvcHomepageEnableExtraIcons(bool bEnable = false, bool bUpdateDB = false);
 void SvcHomepageLoadModule();
 void SvcHomepageUnloadModule();
 

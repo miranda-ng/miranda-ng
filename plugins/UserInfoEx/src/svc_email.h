@@ -23,8 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define _UINFOEX_SVCEMAIL_H_INCLUDED_
 
 void SvcEMailRebuildMenu();
-void SvcEMailEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB = FALSE);
-void SvcEMailOnModulesLoaded();
+bool SvcEMailEnableExtraIcons(bool bEnable = false, bool bUpdateDB = false);
 void SvcEMailLoadModule();
 void SvcEMailUnloadModule();
 

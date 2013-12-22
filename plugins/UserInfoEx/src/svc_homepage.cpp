@@ -21,12 +21,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-static HGENMENU ghMenuItem			= NULL;
-static HANDLE ghExtraIconDef		= INVALID_HANDLE_VALUE;
-static HANDLE ghExtraIconSvc		= INVALID_HANDLE_VALUE;
+static HGENMENU ghMenuItem = NULL;
+static HANDLE ghExtraIconDef = INVALID_HANDLE_VALUE;
+static HANDLE ghExtraIconSvc = INVALID_HANDLE_VALUE;
 
-static HANDLE hChangedHook			= NULL;
-static HANDLE hApplyIconHook		= NULL;
+static HANDLE hChangedHook = NULL;
+static HANDLE hApplyIconHook = NULL;
+
+bool g_eiHome = false;
 
 /**
 * This function reads the homepage address of the contact.
@@ -161,32 +163,23 @@ void SvcHomepageRebuildMenu()
 }
 
 /**
-* Force all icons to be reloaded.
-*
-* @param	wParam		- handle to the contact whose extra icon is to apply
-* @param	lParam		- not used
-**/
-
-void SvcHomepageApplyCListIcons()
-{
-	//walk through all the contacts stored in the DB
-	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-		OnCListApplyIcons(hContact, 0);
-}
-
-/**
 * Enable or disable the replacement of clist extra icons.
 *
 * @param	bEnable		- determines whether icons are enabled or not
 * @param	bUpdateDB	- if true the database setting is updated, too.
 **/
 
-void SvcHomepageEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB) 
+bool SvcHomepageEnableExtraIcons(bool bEnable, bool bUpdateDB)
 {
-	if (bUpdateDB)
-		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_HOMEPAGE, bEnable);
+	bool bChanged;
 
-	if (bEnable) {
+	if (bUpdateDB) {
+		bChanged = g_eiHome != bEnable;
+		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_HOMEPAGE, g_eiHome = bEnable);
+	}
+	else bChanged = g_eiHome = db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_HOMEPAGE, DEFVAL_CLIST_EXTRAICON_HOMEPAGE) != 0;
+
+	if (g_eiHome) {
 		// hook events
 		if (hChangedHook == NULL) 
 			hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
@@ -207,7 +200,7 @@ void SvcHomepageEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB)
 			hApplyIconHook = NULL;
 		}			
 	}
-	SvcHomepageApplyCListIcons();
+	return bChanged;
 }
 
 /**
@@ -220,8 +213,6 @@ void SvcHomepageEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB)
 void SvcHomepageLoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_HOMEPAGE_OPENURL, MenuCommand);
-	SvcHomepageEnableExtraIcons(
-		db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_HOMEPAGE, DEFVAL_CLIST_EXTRAICON_HOMEPAGE), FALSE);
 }
 
 /**

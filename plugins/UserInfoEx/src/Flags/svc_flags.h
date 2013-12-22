@@ -35,7 +35,8 @@ struct FLAGSOPTIONS
 	BYTE	bShowStatusIconFlag;
 };
 
-extern FLAGSOPTIONS	gFlagsOpts;
+extern FLAGSOPTIONS gFlagsOpts;
+extern bool g_eiGender, g_eiHome, g_eiEmail, g_eiPhone;
 
 struct MsgWndData
 {
