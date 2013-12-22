@@ -21,39 +21,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-static HANDLE ghExtraIconF			= INVALID_HANDLE_VALUE;
-static HANDLE ghExtraIconM			= INVALID_HANDLE_VALUE;
-static HANDLE ghExtraIconSvc		= INVALID_HANDLE_VALUE;
+static HANDLE ghExtraIconF = INVALID_HANDLE_VALUE;
+static HANDLE ghExtraIconM = INVALID_HANDLE_VALUE;
+static HANDLE ghExtraIconSvc = INVALID_HANDLE_VALUE;
 
-static HANDLE hChangedHook			= NULL;
-static HANDLE hApplyIconHook		= NULL;
-static HANDLE hRebuildIconsHook		= NULL;
+static HANDLE hChangedHook = NULL;
+static HANDLE hApplyIconHook = NULL;
 
 BYTE GenderOf(HANDLE hContact, LPCSTR pszProto)
 {
 	DBVARIANT dbv;
-
-	if (DB::Setting::GetAsIsEx(hContact, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv) == 0)
-	{
+	if (DB::Setting::GetAsIsEx(hContact, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv) == 0) {
 		// gender must be byte and either M or F
 		if (dbv.type == DBVT_BYTE && (dbv.bVal == 'M' || dbv.bVal == 'F'))
-		{
 			return dbv.bVal;	
-		}
+
 		db_free(&dbv);
 	}
 	return 0;
 }
 
 /**
- * This function gets the gender of the contact from the database.
- *
- * @param	hContact		- handle to contact to read email from
- *
- * @retval	F	- contact is female
- * @retval	M	- contact is male
- * @retval	0	- contact does not provide its gender
- **/
+* This function gets the gender of the contact from the database.
+*
+* @param	hContact		- handle to contact to read email from
+*
+* @retval	F	- contact is female
+* @retval	M	- contact is male
+* @retval	0	- contact does not provide its gender
+**/
+
 BYTE GenderOf(HANDLE hContact)
 {
 	return GenderOf(hContact, DB::Contact::Proto(hContact));
@@ -64,11 +61,11 @@ BYTE GenderOf(HANDLE hContact)
  ***********************************************************************************************************/
 
 /**
- * Notification handler for clist extra icons to be applied for a contact.
- *
- * @param	wParam			- handle to the contact whose extra icon is to apply
- * @param	lParam			- not used
- **/
+* Notification handler for clist extra icons to be applied for a contact.
+*
+* @param	wParam			- handle to the contact whose extra icon is to apply
+* @param	lParam			- not used
+**/
 
 static int OnCListApplyIcons(HANDLE hContact, LPARAM)
 {
@@ -90,6 +87,7 @@ static int OnCListApplyIcons(HANDLE hContact, LPARAM)
  * @param	wParam			- (HANDLE)hContact
  * @param	lParam			- (DBCONTACTWRITESETTING*)pdbcws
  **/
+
 static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact && pdbcws && (pdbcws->value.type <= DBVT_BYTE) && !lstrcmpA(pdbcws->szSetting, SET_CONTACT_GENDER))
@@ -108,6 +106,7 @@ static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
  * @param	wParam			- handle to the contact whose extra icon is to apply
  * @param	lParam			- not used
  **/
+
 void SvcGenderApplyCListIcons()
 {
 	//walk through all the contacts stored in the DB
@@ -116,11 +115,12 @@ void SvcGenderApplyCListIcons()
 }
 
 /**
- * Enable or disable the replacement of clist extra icons.
- *
- * @param	bEnable			- determines whether icons are enabled or not
- * @param	bUpdateDB		- if true the database setting is updated, too.
- **/
+* Enable or disable the replacement of clist extra icons.
+*
+* @param	bEnable			- determines whether icons are enabled or not
+* @param	bUpdateDB		- if true the database setting is updated, too.
+**/
+
 void SvcGenderEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB) 
 {
 	bool bEnable = (bColumn!=((BYTE)-1));
@@ -128,7 +128,7 @@ void SvcGenderEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB)
 	if (bUpdateDB)
 		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_GENDER2, bColumn);
 
-	if (bEnable) { // Gender checkt or dropdown select
+	if (bEnable) { // Gender checked or dropdown select
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
 			ghExtraIconSvc = ExtraIcon_Register("gender", LPGEN("Gender (uinfoex)"), ICO_COMMON_MALE);
 
@@ -148,33 +148,30 @@ void SvcGenderEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB)
 			UnhookEvent(hApplyIconHook); 
 			hApplyIconHook = NULL;
 		}
-		if (hRebuildIconsHook) {
-			UnhookEvent(hRebuildIconsHook); 
-			hRebuildIconsHook = NULL;
-		}
 	}
 	SvcGenderApplyCListIcons();
 }
 
 /**
- * This function initially loads the module uppon startup.
- **/
+* This function initially loads the module upon startup.
+**/
+
 void SvcGenderLoadModule()
 {
 	SvcGenderEnableExtraIcons(db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_GENDER2, 0), FALSE);
 }
 
 /**
- * This function unloads the module.
- *
- * @param	none
- *
- * @return	nothing
- **/
+* This function unloads the module.
+*
+* @param	none
+*
+* @return	nothing
+**/
+
 void SvcGenderUnloadModule()
 {	
 	// unhook event handlers
-	UnhookEvent(hChangedHook);		hChangedHook		= NULL;
-	UnhookEvent(hApplyIconHook);	hApplyIconHook		= NULL;
-	UnhookEvent(hRebuildIconsHook);	hRebuildIconsHook	= NULL;
+	UnhookEvent(hChangedHook);	hChangedHook = NULL;
+	UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
 }

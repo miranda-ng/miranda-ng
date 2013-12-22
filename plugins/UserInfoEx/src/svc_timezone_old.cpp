@@ -29,18 +29,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **************************************************************************************************/
 
 /**
- * This is the default constructure, which resets
- * all attributes to NULL.
- **/
+* This is the default constructure, which resets
+* all attributes to NULL.
+**/
+
 CTimeZone::CTimeZone()
 {
 	ZeroMemory(this, sizeof(*this));
 }
 
 /**
- * The default construcor's task ist to clear out
- * all pieces of the used memory.
- **/
+* The default construcor's task ist to clear out
+* all pieces of the used memory.
+**/
+
 CTimeZone::~CTimeZone()
 {
 	MIR_FREE(ptszName);
@@ -48,27 +50,28 @@ CTimeZone::~CTimeZone()
 }
 
 /**
- * This method can be used to basically convert a Windows
- * timezone to the format, known by miranda.
- *
- * @warning		This operation does not work vice versa in
- *				all cases, as there are sometimes more then
- *				one Windows timezones with the same Bias.
- **/
+* This method can be used to basically convert a Windows
+* timezone to the format, known by miranda.
+*
+* @warning		This operation does not work vice versa in
+*				all cases, as there are sometimes more then
+*				one Windows timezones with the same Bias.
+**/
+
 BYTE CTimeZone::ToMirandaTimezone() const
 {
 	return (BYTE) (Bias / 30);
 }
 
 /**
- * This operator translates the content of this object to
- * a TIME_ZONE_INFORMATION structure as it is required by 
- * several windows functions.
- **/
+* This operator translates the content of this object to
+* a TIME_ZONE_INFORMATION structure as it is required by 
+* several windows functions.
+**/
+
 CTimeZone::operator TIME_ZONE_INFORMATION() const
 {
 	TIME_ZONE_INFORMATION tzi;
-
 	tzi.Bias = Bias;
 	tzi.DaylightBias = DaylightBias;
 	tzi.StandardBias = StandardBias;
@@ -107,12 +110,13 @@ public:
  ***********************************************************************************************************/
 
 /**
- * This class is a deriviant of miranda's SortedList and holds all timezones
- * known by Windows. By default there is no API to list timezones, so we
- * need to get the information directly from the registry. In order to avoid
- * heavy reading operations from registry, this class has the task to cache
- * all required information for much faster access.
- **/
+* This class is a deriviant of miranda's SortedList and holds all timezones
+* known by Windows. By default there is no API to list timezones, so we
+* need to get the information directly from the registry. In order to avoid
+* heavy reading operations from registry, this class has the task to cache
+* all required information for much faster access.
+**/
+
 class CTzMgr : public LIST<CTimeZone>
 {
 	CTzBias _bias;
@@ -128,18 +132,12 @@ class CTzMgr : public LIST<CTimeZone>
 	 **/		
 	void destroy()
 	{
-		int i;
-
 		// delete data
-		for (i = 0 ; i < count; i++)
-		{
+		for (int i = 0 ; i < count; i++)
 			delete (*this)[i];
-		}
+
 		// delete the list
 		LIST<CTimeZone>::destroy();
-		// delete the _bias list   ????
-		//_bias.destroy();
-
 	}
 
 public:
@@ -153,20 +151,22 @@ public:
 	}
 
 	/**
-	 * This is the default destructor of the class.
-	 *
-	 * @param	 none
-	 *
-	 * @return	nothing
-	 **/
+	* This is the default destructor of the class.
+	*
+	* @param	 none
+	*
+	* @return	nothing
+	**/
+
 	~CTzMgr()
 	{
 		destroy();
 	}
 
 	/**
-	 * This method loads all information about timezones from windows' registry.
-	 **/
+	* This method loads all information about timezones from windows' registry.
+	**/
+
 	int Init()
 	{
 		int			result;
@@ -180,21 +180,16 @@ public:
 
 		result = RegOpenKey(HKEY_LOCAL_MACHINE, _T(TZREG), &hKeyRoot);
 		if (result != ERROR_SUCCESS)
-		{
 			result = RegOpenKey(HKEY_LOCAL_MACHINE, _T(TZREG_9X), &hKeyRoot);
-		}
-		if (result == ERROR_SUCCESS)
-		{
+
+		if (result == ERROR_SUCCESS) {
 			// clear out old list
 			this->destroy(); _bias.destroy();
-			for (i = 0; ERROR_SUCCESS == RegEnumKey(hKeyRoot, i, szName, SIZEOF(szName)); i++)
-			{
+			for (i = 0; ERROR_SUCCESS == RegEnumKey(hKeyRoot, i, szName, SIZEOF(szName)); i++) {
 				result = RegOpenKey(hKeyRoot, szName, &hKeyTz);
-				if (result == ERROR_SUCCESS)
-				{
+				if (result == ERROR_SUCCESS) {
 					pTimeZone = new CTimeZone();
-					if (pTimeZone)
-					{
+					if (pTimeZone) {
 						cbData = sizeof(szDisplay);
 						result |= RegQueryValueEx(hKeyTz, _T("Display"), 0, 0, (LPBYTE)szDisplay, &cbData);
 
@@ -203,23 +198,18 @@ public:
 
 						cbData = sizeof(DWORD);
 						if (RegQueryValueEx(hKeyTz, _T("Index"), 0, 0, (LPBYTE)(UINT_PTR)pTimeZone->dwIndex, &cbData) != ERROR_SUCCESS)
-						{
 							pTimeZone->dwIndex = TZINDEX_UNSPECIFIED;
-						}
-						if (result == ERROR_SUCCESS)
-						{
+
+						if (result == ERROR_SUCCESS) {
 							pTimeZone->ptszName = mir_tcsdup(szName);
 							pTimeZone->ptszDisplay = mir_tcsdup(szDisplay);
 							result = (insert(pTimeZone) == ERROR_SUCCESS);
 						}
+
 						if (result != ERROR_SUCCESS)
-						{
 							delete pTimeZone;
-						}
 						else
-						{
 							_bias.insert(pTimeZone);
-						}
 					}
 					RegCloseKey(hKeyTz);
 				}
@@ -230,29 +220,27 @@ public:
 	}
 
 	/**
-	 * This method is used to find a certain list entry according to
-	 * a key, providing information about the entry to look for.
-	 * 
-	 * @param	result		- Pointer to a pointer, retrieving the CTimeZone
-	 *						  object, matching the criteria provided by key
-	 * @param	key			- Pointer to a CTimeZone structure, providing
-	 *						  information about the item to look for.
-	 *						  The Bias member and/or pszDisplay member must
-	 *						  be valid.
-	 * @retval	-1			: item not found
-	 * @retval 0...count	: index of the found item
-	 **/
+	* This method is used to find a certain list entry according to
+	* a key, providing information about the entry to look for.
+	* 
+	* @param	result		- Pointer to a pointer, retrieving the CTimeZone
+	*						  object, matching the criteria provided by key
+	* @param	key			- Pointer to a CTimeZone structure, providing
+	*						  information about the item to look for.
+	*						  The Bias member and/or pszDisplay member must
+	*						  be valid.
+	* @retval	-1			: item not found
+	* @retval 0...count	: index of the found item
+	**/
+
 	int find(CTimeZone** pTimezone, CTimeZone* pKey) const
 	{ 
 		int nItemIndex = -1;
 		
-		if (pKey && pKey->ptszName)
-		{
+		if (pKey && pKey->ptszName) {
 			nItemIndex = getIndex(pKey);
 			if (pTimezone)
-			{
 				*pTimezone = (nItemIndex == -1) ? NULL : items[nItemIndex];
-			}
 		}
 		return nItemIndex;
 	}
@@ -269,37 +257,35 @@ public:
 	}
 
 	/**
-	 * This method is used to find a certain list entry according to
-	 * a given dwTzIndex, providing information about the entry to look for.
-	 * 
-	 * @param	result		- Pointer to a pointer, retrieving the CTimeZone
-	 *						  object, matching the criteria provided by key
-	 * @param	dwTzIndex	- Timezone index as read from Windows Registry
-	 * @retval	-1			: item not found
-	 * @retval	0...count	: index of the found item
-	 **/	 
+	* This method is used to find a certain list entry according to
+	* a given dwTzIndex, providing information about the entry to look for.
+	* 
+	* @param	result		- Pointer to a pointer, retrieving the CTimeZone
+	*						  object, matching the criteria provided by key
+	* @param	dwTzIndex	- Timezone index as read from Windows Registry
+	* @retval	-1			: item not found
+	* @retval	0...count	: index of the found item
+	**/	 
+
 	int find(CTimeZone** result, DWORD dwTzIndex) const
 	{ 
 		int nItemIndex = -1;
 		CTimeZone *ptz = NULL;
 		
-		if (dwTzIndex != TZINDEX_UNSPECIFIED)
-		{
-			for (nItemIndex = 0; nItemIndex < count; nItemIndex++)
-			{
+		if (dwTzIndex != TZINDEX_UNSPECIFIED) {
+			for (nItemIndex = 0; nItemIndex < count; nItemIndex++) {
 				ptz = items[nItemIndex];
 				if (ptz && (ptz->dwIndex == dwTzIndex))
 					break;
 			}
 		}
+
 		if (result)
-		{
 			*result = ptz;
-		}
 		return ((nItemIndex == count) ? -1 : nItemIndex);
 	}
-
 };
+
 // global timezone TzMgr object
 static CTzMgr TzMgr;
 
@@ -308,21 +294,22 @@ static CTzMgr TzMgr;
  ***********************************************************************************************************/
 
 /**
- * This method trys to find some default windows timezone idices for a given
- * miranda timezone.
- *
- * @param	MirTz			- this is a miranda timezone with values between -24 and 24.
- *
- * @return	This method returns a @TZ_MAP struct of a windows timezone, which is maps
- *			the @MirTz value,name or {-1,NULL} if no windows timezone index exists.
- **/
+* This method trys to find some default windows timezone idices for a given
+* miranda timezone.
+*
+* @param	MirTz			- this is a miranda timezone with values between -24 and 24.
+*
+* @return	This method returns a @TZ_MAP struct of a windows timezone, which is maps
+*			the @MirTz value,name or {-1,NULL} if no windows timezone index exists.
+**/
+
 static TZ_MAP MirTZ2WinTZ(const CHAR MirTz)
 {
 	/**
-	 * This is an item of an array of timezones, which are known by both Miranda-IM
-	 * and Windows. It is used to map an ICQ timezone against a Windows timezone
-	 * for retrieving information about daylight saving time and more.
-	 **/
+	* This is an item of an array of timezones, which are known by both Miranda-IM
+	* and Windows. It is used to map an ICQ timezone against a Windows timezone
+	* for retrieving information about daylight saving time and more.
+	**/
 	static const TZ_MAP TzMap[] = {
 		{ 0,	_T("Dateline Standard Time")},			// GMT-12:00 Eniwetok; Kwajalein
 		{-1,	_T("")},								// GMT-11:30
@@ -379,14 +366,15 @@ static TZ_MAP MirTZ2WinTZ(const CHAR MirTz)
 }
 
 /**
- * This function reads out the Timezone, associated with the given contact
- *
- * @param	hContact		- HANDLE of the contact to retrieve the timezone for.
- * @param	pszProto		- contact's protocol 
- *
- * @retval	NULL			- No timezone exists.
- * @retval	CTimeZone*		- Pointer to the timezone.
- **/
+* This function reads out the Timezone, associated with the given contact
+*
+* @param	hContact		- HANDLE of the contact to retrieve the timezone for.
+* @param	pszProto		- contact's protocol 
+*
+* @retval	NULL			- No timezone exists.
+* @retval	CTimeZone*		- Pointer to the timezone.
+**/
+
 CTimeZone* GetContactTimeZone(HANDLE hContact, LPCSTR pszProto)
 {
 	LPTSTR ptszName;
@@ -394,30 +382,22 @@ CTimeZone* GetContactTimeZone(HANDLE hContact, LPCSTR pszProto)
 
 	// read windows timezone from database (include meta subcontacts)
 	ptszName = DB::Setting::GetTStringEx(hContact, USERINFO, pszProto, SET_CONTACT_TIMEZONENAME);
-	if (!ptszName || FAILED(TzMgr.find(&pTimeZone, ptszName)))
-	{
+	if (!ptszName || FAILED(TzMgr.find(&pTimeZone, ptszName))) {
 		DBVARIANT dbv;
 		TZ_MAP MirTZ;
 
 		// try to get miranda's timezone index value
-		if (!myGlobals.TzIndexExist || DB::Setting::GetAsIsEx(hContact, USERINFO, pszProto, SET_CONTACT_TIMEZONEINDEX, &dbv) || FAILED(TzMgr.find(&pTimeZone,dbv.dVal)))
-		{
+		if (!myGlobals.TzIndexExist || DB::Setting::GetAsIsEx(hContact, USERINFO, pszProto, SET_CONTACT_TIMEZONEINDEX, &dbv) || FAILED(TzMgr.find(&pTimeZone,dbv.dVal))) {
 			// maybe a failure lets us read a string, so clear it out
 			db_free(&dbv);
 
 			// try to get miranda's timezone value
 			if (DB::Setting::GetAsIsEx(hContact, USERINFO, pszProto, SET_CONTACT_TIMEZONE, &dbv) || (dbv.type != DBVT_BYTE))
-			{
-				// maybe a failure lets us read a string, so clear it out
-				db_free(&dbv);
-			}
-			else 
-			{
+				db_free(&dbv); // maybe a failure lets us read a string, so clear it out
+			else {
 				MirTZ = MirTZ2WinTZ(dbv.cVal);
 				if (*MirTZ.Name != 0)
-				{
 					TzMgr.find(&pTimeZone, MirTZ.Name);
-				}
 			}
 		}
 	}
@@ -426,29 +406,31 @@ CTimeZone* GetContactTimeZone(HANDLE hContact, LPCSTR pszProto)
 }
 
 /**
- *
- *
- **/
+*
+*
+**/
+
 CTimeZone* GetContactTimeZone(HANDLE hContact)
 {
 	return GetContactTimeZone(hContact, DB::Contact::Proto(hContact));
 }
 
 /**
- * This method trys to find the contact's windows timezone.
- *
- * @warning	Make sure you convert @e dwIndex to CHAR if the function returns 1 in order to get
- *			the correct miranda timezone!
- *
- * @param	hContact		- the HANDLE of the contact to read timezone information for
- * @param	szProto			- contact's protocol
- * @param	pTimeZone		- Pointer to the pointer of a CTimeZone structure, 
- *							  which retrieves information about contact's timezone.
- *
- * @retval	CTRLF_... flag	- The index for a windows timezone was found for the contact.
- * @retval	0				- There is no index, but if the contact's 'timezone' setting is valid,
- *							  @e dwIndex retrieved its value. If not, dwIndex is -100 (unspecified).
- **/
+* This method trys to find the contact's windows timezone.
+*
+* @warning	Make sure you convert @e dwIndex to CHAR if the function returns 1 in order to get
+*			the correct miranda timezone!
+*
+* @param	hContact		- the HANDLE of the contact to read timezone information for
+* @param	szProto			- contact's protocol
+* @param	pTimeZone		- Pointer to the pointer of a CTimeZone structure, 
+*							  which retrieves information about contact's timezone.
+*
+* @retval	CTRLF_... flag	- The index for a windows timezone was found for the contact.
+* @retval	0				- There is no index, but if the contact's 'timezone' setting is valid,
+*							  @e dwIndex retrieved its value. If not, dwIndex is -100 (unspecified).
+**/
+
 WORD GetContactTimeZoneCtrl(HANDLE hContact, LPCSTR pszProto, CTimeZone** pTimeZone)
 {
 	WORD flags;
@@ -457,49 +439,43 @@ WORD GetContactTimeZoneCtrl(HANDLE hContact, LPCSTR pszProto, CTimeZone** pTimeZ
 
 	// try to read windows' timezone name from database
 	flags = DB::Setting::GetCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_TIMEZONENAME, &dbv, DBVT_TCHAR);
-	if (flags == 0 || FAILED(TzMgr.find(&pTz, dbv.ptszVal)))
-	{
+	if (flags == 0 || FAILED(TzMgr.find(&pTz, dbv.ptszVal))) {
 		db_free(&dbv);
 
 		// try to get miranda's timezone index value
-		if (myGlobals.TzIndexExist)
-		{
+		if (myGlobals.TzIndexExist) {
 			flags = DB::Setting::GetAsIsCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_TIMEZONEINDEX, &dbv);
 			if (flags && FAILED(TzMgr.find(&pTz, dbv.dVal)))
-			{
 				flags = 0;
-			}
 		}
-		if (flags == 0)
-		{
+
+		if (flags == 0) {
 			// try to get miranda's timezone value
 			flags = DB::Setting::GetAsIsCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_TIMEZONE, &dbv);
-			if (flags != 0)
-			{
+			if (flags != 0) {
 				TZ_MAP MirTZ;
 				MirTZ = MirTZ2WinTZ(dbv.cVal);
 				if ((*MirTZ.Name == 0) || FAILED(TzMgr.find(&pTz, MirTZ.Name)))
-				{
 					flags = 0;
-				}
 			}
 		}
 	}
+
 	if (pTimeZone && flags != 0)
-	{
 		*pTimeZone = pTz;
-	}
+
 	db_free(&dbv);
 	return flags;
 }
 
 /**
- * This function returns the display name for the contact's timezone
- *
- * @param	hContact		- handle of the contact
- *
- * @return	String containing display name.
- **/
+* This function returns the display name for the contact's timezone
+*
+* @param	hContact		- handle of the contact
+*
+* @return	String containing display name.
+**/
+
 LPCTSTR GetContactTimeZoneDisplayName(HANDLE hContact)
 {
 	CTimeZone *pTimeZone;
@@ -509,19 +485,18 @@ LPCTSTR GetContactTimeZoneDisplayName(HANDLE hContact)
 }
 
 /**
- *
- *
- **/
+*
+*
+**/
+
 INT_PTR EnumTimeZones(PEnumNamesProc enumProc, LPARAM lParam)
 {
 	INT_PTR i, c, r = 0;
 	CTimeZone *pTz;
 
-	for (i = 0, c = TzMgr.Bias.getCount(); i < c; i++)
-	{
+	for (i = 0, c = TzMgr.Bias.getCount(); i < c; i++) {
 		pTz = TzMgr.Bias[i];
-		if (pTz)
-		{
+		if (pTz) {
 			r = enumProc(pTz, i, lParam);
 			if (r) break;
 		}
@@ -530,14 +505,14 @@ INT_PTR EnumTimeZones(PEnumNamesProc enumProc, LPARAM lParam)
 }
 
 /**
- *
- *
- **/
+*
+*
+**/
+
 static BOOL SvcTimezoneSyncWithWindowsProc(LPCSTR pszProto, int bias)
 {
 	int tz = (int) ((CHAR)db_get_b(NULL, pszProto, SET_CONTACT_TIMEZONE, (BYTE)-100));
-	if (tz * 30 != bias)
-	{
+	if (tz * 30 != bias) {
 		db_set_b(NULL, pszProto, SET_CONTACT_TIMEZONE, (BYTE)(bias / 30));
 		return TRUE;
 	}
@@ -545,28 +520,23 @@ static BOOL SvcTimezoneSyncWithWindowsProc(LPCSTR pszProto, int bias)
 }
 
 /**
- *
- *
- **/
+*
+*
+**/
+
 void SvcTimezoneSyncWithWindows()
 {
-	PROTOACCOUNT **pAcc;
-	int i, nAccCount;
-	TIME_ZONE_INFORMATION tzi;
-
-	ZeroMemory(&tzi, sizeof(tzi));
+	TIME_ZONE_INFORMATION tzi = { 0 };
 	GetTimeZoneInformation(&tzi);
 
-	if (MIRSUCCEEDED(ProtoEnumAccounts(&nAccCount, &pAcc)))
-	{
-		for (i = 0; i < nAccCount; i++) 
-		{
+	PROTOACCOUNT **pAcc;
+	int nAccCount;
+	if (MIRSUCCEEDED(ProtoEnumAccounts(&nAccCount, &pAcc))) {
+		for (int i = 0; i < nAccCount; i++) {
 			// update local timezone as database setting
 			if (IsProtoAccountEnabled(pAcc[i]) && SvcTimezoneSyncWithWindowsProc(pAcc[i]->szModuleName, tzi.Bias))
-			{
 				// update my contact information on icq server
 				CallProtoService(pAcc[i]->szModuleName, PS_CHANGEINFOEX, CIXT_LOCATION, NULL);
-			}
 		}
 	}
 }
@@ -576,15 +546,16 @@ void SvcTimezoneSyncWithWindows()
  ***********************************************************************************************************/
 
 /**
- * This service function provides a TIME_ZONE_INFORMATION structure
- * for the desired contact, in case the contact's timezone can be determined.
- * 
- * @param	wParam			- HANDLE of the contact, to retrieve timezone information from.
- * @param	lParam			- pointer to a TIME_ZONE_INFORMATION to fill.
- *
- * @retval	0 - success
- * @retval	1 - failure
- **/
+* This service function provides a TIME_ZONE_INFORMATION structure
+* for the desired contact, in case the contact's timezone can be determined.
+* 
+* @param	wParam			- HANDLE of the contact, to retrieve timezone information from.
+* @param	lParam			- pointer to a TIME_ZONE_INFORMATION to fill.
+*
+* @retval	0 - success
+* @retval	1 - failure
+**/
+
 INT_PTR GetContactTimeZoneInformation_old(WPARAM wParam,LPARAM lParam)
 {
 	CTimeZone *pTimeZone;
@@ -592,26 +563,26 @@ INT_PTR GetContactTimeZoneInformation_old(WPARAM wParam,LPARAM lParam)
 	
 	pTimeZone = GetContactTimeZone((HANDLE)wParam);
 	if (pTimeZone && pTimeZoneInformation)
-	{
 		(*pTimeZoneInformation) = *pTimeZone;
-	}
+
 	return (pTimeZone == NULL) || (pTimeZoneInformation == NULL);
 }
 
 /**
- * This function returns the contact's local time.
- *
- * @param	wParam			- HANDLE of the contact, to retrieve timezone information from.
- * @param	lParam			- pointer to a systemtime structure
- *	
- * @return	TRUE or FALSE
- **/
+* This function returns the contact's local time.
+*
+* @param	wParam			- HANDLE of the contact, to retrieve timezone information from.
+* @param	lParam			- pointer to a systemtime structure
+*	
+* @return	TRUE or FALSE
+**/
+
 INT_PTR GetContactLocalTime_old(WPARAM wParam, LPARAM lParam)
 {
 	MTime	now;
-	LPSYSTEMTIME pSystemTime = (LPSYSTEMTIME)lParam;
-
 	now.GetLocalTime((HANDLE)wParam);
+
+	LPSYSTEMTIME pSystemTime = (LPSYSTEMTIME)lParam;
 	*pSystemTime = now.SystemTime();
 	return 0;
 }
@@ -621,15 +592,14 @@ INT_PTR GetContactLocalTime_old(WPARAM wParam, LPARAM lParam)
  ***********************************************************************************************************/
 
 /**
- * This function initially loads the module uppon startup.
- **/
+* This function initially loads the module upon startup.
+**/
+
 void SvcTimezoneLoadModule_old()
 {
 	TzMgr.Init();
 	CreateServiceFunction(MS_USERINFO_TIMEZONEINFO, GetContactTimeZoneInformation);
 	CreateServiceFunction(MS_USERINFO_LOCALTIME, GetContactLocalTime);
 	if (db_get_b(NULL, MODNAME, SET_OPT_AUTOTIMEZONE, TRUE))
-	{
 		SvcTimezoneSyncWithWindows();
-	}
 }

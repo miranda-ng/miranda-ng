@@ -34,7 +34,6 @@ struct	CountryListEntry *countries;
 static	HANDLE hExtraIconSvc = INVALID_HANDLE_VALUE;
 /* hook */
 static HANDLE hApplyIconHook = NULL;
-static HANDLE hMsgWndEventHook = NULL;
 static HANDLE hSettingChangedHook = NULL;
 
 static int OnContactSettingChanged(WPARAM wParam,LPARAM lParam);
@@ -211,7 +210,8 @@ void SvcFlagsEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB)
  * message winsow status icon functions
  ***********************************************************************************************************/
 
-MsgWndData::MsgWndData(HWND hwnd, HANDLE hContact) {
+MsgWndData::MsgWndData(HWND hwnd, HANDLE hContact)
+{
 	m_hwnd = hwnd;
 	m_hContact = hContact;
 	m_countryID = (int)ServiceDetectContactOriginCountry((WPARAM)m_hContact, 0);
@@ -224,7 +224,8 @@ MsgWndData::MsgWndData(HWND hwnd, HANDLE hContact) {
 	FlagsIconUpdate();
 }
 
-MsgWndData::~MsgWndData() {
+MsgWndData::~MsgWndData()
+{
 	FlagsIconUnset();			//check if realy need
 }
 
@@ -360,23 +361,23 @@ static int OnStatusIconsChanged(WPARAM wParam, LPARAM lParam)
 
 static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	if ((HANDLE)wParam == NULL) return 0;
-	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
+	if ((HANDLE)wParam == NULL)
+		return 0;
 
 	/* user details update */
+	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 	if (!lstrcmpA(dbcws->szSetting, SET_CONTACT_COUNTRY) ||
-		!lstrcmpA(dbcws->szSetting, SET_CONTACT_ORIGIN_COUNTRY) ||
-		!lstrcmpA(dbcws->szSetting, SET_CONTACT_COMPANY_COUNTRY))
+		 !lstrcmpA(dbcws->szSetting, SET_CONTACT_ORIGIN_COUNTRY) ||
+		 !lstrcmpA(dbcws->szSetting, SET_CONTACT_COMPANY_COUNTRY))
 	{
 		/* Extra Image */
-		CallFunctionBuffered(SetExtraImage, wParam, TRUE, EXTRAIMAGE_REFRESHDELAY);
+		SetExtraImage(wParam);
+
 		/* Status Icon */
-		if (hMsgWndEventHook) {
-			int i = gMsgWndList.getIndex((MsgWndData*)&wParam);
-			if (i != -1) {
-				gMsgWndList[i]->ContryIDchange((int)ServiceDetectContactOriginCountry(wParam, 0));
-				gMsgWndList[i]->FlagsIconUpdate();
-			}
+		int i = gMsgWndList.getIndex((MsgWndData*)&wParam);
+		if (i != -1) {
+			gMsgWndList[i]->ContryIDchange((int)ServiceDetectContactOriginCountry(wParam, 0));
+			gMsgWndList[i]->FlagsIconUpdate();
 		}
 	}
 	return 0;
@@ -423,7 +424,7 @@ void SvcFlagsOnModulesLoaded()
 	SvcFlagsEnableExtraIcons(db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_FLAGS2, 0), FALSE);
 
 	/* Status Icon */
-	hMsgWndEventHook = HookEvent(ME_MSG_WINDOWEVENT, OnMsgWndEvent);
+	HookEvent(ME_MSG_WINDOWEVENT, OnMsgWndEvent);
 }
 
 /**
@@ -439,7 +440,6 @@ void SvcFlagsUnloadModule()
 	//Uninit ExtraImg
 	UnhookEvent(hApplyIconHook);
 	//Uninit message winsow
-	UnhookEvent(hMsgWndEventHook);
 	for (int i = 0; i < gMsgWndList.getCount(); i++) {
 		//this should not happen
 		delete gMsgWndList[i];

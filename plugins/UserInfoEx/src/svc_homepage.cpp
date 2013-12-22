@@ -27,32 +27,25 @@ static HANDLE ghExtraIconSvc		= INVALID_HANDLE_VALUE;
 
 static HANDLE hChangedHook			= NULL;
 static HANDLE hApplyIconHook		= NULL;
-static HANDLE hRebuildIconsHook		= NULL;
+
 /**
- * This function reads the homepage address of the contact.
- *
- * @param	hContact	- handle to contact to read email from
- *
- * @retval	URL to contacts homepage
- * @retval	NULL if contact provides no homepage
- **/
+* This function reads the homepage address of the contact.
+*
+* @param	hContact	- handle to contact to read email from
+*
+* @retval	URL to contacts homepage
+* @retval	NULL if contact provides no homepage
+**/
+
 static LPSTR Get(HANDLE hContact)
 {
 	// ignore owner
-	if (hContact != NULL) 
-	{
+	if (hContact != NULL) {
 		LPCSTR pszProto = DB::Contact::Proto(hContact);
-		
-		if (pszProto != NULL) 
-		{
-			LPCSTR	e[2] = { SET_CONTACT_HOMEPAGE, SET_CONTACT_COMPANY_HOMEPAGE };
-			LPSTR pszHomepage;
-
-			int i;
-
-			for (i = 0; i < 2; i++)
-			{
-				pszHomepage = DB::Setting::GetAStringEx(hContact, USERINFO, pszProto, e[i]);
+		if (pszProto != NULL) {
+			LPCSTR e[2] = { SET_CONTACT_HOMEPAGE, SET_CONTACT_COMPANY_HOMEPAGE };
+			for (int i = 0; i < 2; i++) {
+				LPSTR pszHomepage = DB::Setting::GetAStringEx(hContact, USERINFO, pszProto, e[i]);
 				if (pszHomepage)
 					return pszHomepage;
 			}
@@ -62,29 +55,24 @@ static LPSTR Get(HANDLE hContact)
 }
 
 /**
- * Service function that opens the default browser and displays the homepage.
- *
- * @param	wParam		- handle to contact to send an email to
- * @param	lParam		- not used
- *
- * @retval	0 if email was sent
- * @retval	1 if no email can be sent
- **/
+* Service function that opens the default browser and displays the homepage.
+*
+* @param	wParam		- handle to contact to send an email to
+* @param	lParam		- not used
+*
+* @retval	0 if email was sent
+* @retval	1 if no email can be sent
+**/
+
 static INT_PTR MenuCommand(WPARAM wParam, LPARAM lParam)
 {
 	LPSTR szUrl = Get((HANDLE)wParam);
-
-	if (szUrl) 
-	{
+	if (szUrl) {
 		CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
 		mir_free(szUrl);
 	}
-	else
-	{
-		MessageBox((HWND)lParam, 
-			TranslateT("User has no valid homepage"),
-			TranslateT("View Homepage"), MB_OK);
-	}
+	else MessageBox((HWND)lParam, TranslateT("User has no valid homepage"), TranslateT("View Homepage"), MB_OK);
+
 	return 0;
 }
 
@@ -93,11 +81,12 @@ static INT_PTR MenuCommand(WPARAM wParam, LPARAM lParam)
  ***********************************************************************************************************/
 
 /**
- * Notification handler for clist extra icons to be applied for a contact.
- *
- * @param	wParam		- handle to the contact whose extra icon is to apply
- * @param	lParam		- not used
- **/
+* Notification handler for clist extra icons to be applied for a contact.
+*
+* @param	wParam		- handle to the contact whose extra icon is to apply
+* @param	lParam		- not used
+**/
+
 static int OnCListApplyIcons(HANDLE hContact, LPARAM)
 {
 	LPSTR val = Get(hContact);
@@ -108,11 +97,12 @@ static int OnCListApplyIcons(HANDLE hContact, LPARAM)
 }
 
 /**
- * Notification handler for changed contact settings
- *
- * @param	wParam		- (HANDLE)hContact
- * @param	lParam		- (DBCONTACTWRITESETTING*)pdbcws
- **/
+* Notification handler for changed contact settings
+*
+* @param	wParam		- (HANDLE)hContact
+* @param	lParam		- (DBCONTACTWRITESETTING*)pdbcws
+**/
+
 static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact && pdbcws && pdbcws->szSetting && 
@@ -125,13 +115,14 @@ static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
 }
 
 /**
- * This function decides whether to show menuitem for sending emails or not.
- *
- * @param	wParam		- handle to contact to send an email to
- * @param	lParam		- not used
- *
- * @return	always 0
- **/
+* This function decides whether to show menuitem for sending emails or not.
+*
+* @param	wParam		- handle to contact to send an email to
+* @param	lParam		- not used
+*
+* @return	always 0
+**/
+
 static int OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
 	LPSTR val = Get((HANDLE)wParam);
@@ -145,11 +136,12 @@ static int OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
  ***********************************************************************************************************/
 
 /**
- * enable or disable menuitem
- *
- * @param	not used
- * @return	nothing
- **/
+* enable or disable menuitem
+*
+* @param	not used
+* @return	nothing
+**/
+
 void SvcHomepageRebuildMenu()
 {
 	static HANDLE hPrebuildMenuHook = NULL;
@@ -169,11 +161,12 @@ void SvcHomepageRebuildMenu()
 }
 
 /**
- * Force all icons to be reloaded.
- *
- * @param	wParam		- handle to the contact whose extra icon is to apply
- * @param	lParam		- not used
- **/
+* Force all icons to be reloaded.
+*
+* @param	wParam		- handle to the contact whose extra icon is to apply
+* @param	lParam		- not used
+**/
+
 void SvcHomepageApplyCListIcons()
 {
 	//walk through all the contacts stored in the DB
@@ -182,11 +175,12 @@ void SvcHomepageApplyCListIcons()
 }
 
 /**
- * Enable or disable the replacement of clist extra icons.
- *
- * @param	bEnable		- determines whether icons are enabled or not
- * @param	bUpdateDB	- if true the database setting is updated, too.
- **/
+* Enable or disable the replacement of clist extra icons.
+*
+* @param	bEnable		- determines whether icons are enabled or not
+* @param	bUpdateDB	- if true the database setting is updated, too.
+**/
+
 void SvcHomepageEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB) 
 {
 	if (bUpdateDB)
@@ -212,20 +206,17 @@ void SvcHomepageEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB)
 			UnhookEvent(hApplyIconHook); 
 			hApplyIconHook = NULL;
 		}			
-		if (hRebuildIconsHook) {
-			UnhookEvent(hRebuildIconsHook); 
-			hRebuildIconsHook = NULL;
-		}
 	}
 	SvcHomepageApplyCListIcons();
 }
 
 /**
- * This function initially loads the module uppon startup.
- *
- * @param	not used
- * @return	nothing
- **/
+* This function initially loads the module upon startup.
+*
+* @param	not used
+* @return	nothing
+**/
+
 void SvcHomepageLoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_HOMEPAGE_OPENURL, MenuCommand);
@@ -234,16 +225,16 @@ void SvcHomepageLoadModule()
 }
 
 /**
- * This function unloads the Email module.
- *
- * @param	none
- *
- * @return	nothing
- **/
+* This function unloads the Email module.
+*
+* @param	none
+*
+* @return	nothing
+**/
+
 void SvcHomepageUnloadModule()
 {	
 	// unhook event handlers
-	UnhookEvent(hChangedHook);		hChangedHook		= NULL;
-	UnhookEvent(hApplyIconHook);	hApplyIconHook		= NULL;
-	UnhookEvent(hRebuildIconsHook);	hRebuildIconsHook	= NULL;
+	UnhookEvent(hChangedHook); hChangedHook = NULL;
+	UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
 }

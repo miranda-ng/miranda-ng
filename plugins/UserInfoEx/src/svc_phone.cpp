@@ -28,48 +28,40 @@ enum EPhoneType
 	PHONE_SMS
 };
 
-static HANDLE ghMenuItem			= NULL;
-static HANDLE ghExtraIconDef[2]		= { INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE };
-static HANDLE ghExtraIconSvc		= INVALID_HANDLE_VALUE;
+static HANDLE ghMenuItem = NULL;
+static HANDLE ghExtraIconDef[2] = { INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE };
+static HANDLE ghExtraIconSvc = INVALID_HANDLE_VALUE;
 
-static HANDLE hChangedHook			= NULL;
-static HANDLE hApplyIconHook		= NULL;
-static HANDLE hRebuildIconsHook		= NULL;
+static HANDLE hChangedHook = NULL;
+static HANDLE hApplyIconHook = NULL;
 
 /**
- * This function reads the contact's phone number from database and returns its type.
- *
- * @param	 hContact		- handle to contact to read email from
- *
- * @retval	PHONE_SMS:		The phone supports sms, so is a cellular
- * @retval	PHONE_NORMAL:	The phone is a normal phone
- * @retval	PHONE_NONE:		The contact does not provide any phone number
- **/
+* This function reads the contact's phone number from database and returns its type.
+*
+* @param	 hContact		- handle to contact to read email from
+*
+* @retval	PHONE_SMS:		The phone supports sms, so is a cellular
+* @retval	PHONE_NORMAL:	The phone is a normal phone
+* @retval	PHONE_NONE:		The contact does not provide any phone number
+**/
+
 static INT_PTR Get(HANDLE hContact)
 {
 	INT_PTR nType = PHONE_NONE;
 
 	// ignore owner
-	if (hContact != NULL) 
-	{
+	if (hContact != NULL) {
 		LPCSTR pszProto = DB::Contact::Proto(hContact);
-		if (pszProto != NULL) 
-		{
-			LPCSTR	e[2][4] = {
-				{ SET_CONTACT_CELLULAR,			SET_CONTACT_PHONE,			"MyPhone0"			},
-				{ SET_CONTACT_COMPANY_CELLULAR,	SET_CONTACT_COMPANY_PHONE,	"MyCompanyPhone0"	}
+		if (pszProto != NULL) {
+			LPCSTR e[2][4] = {
+				{ SET_CONTACT_CELLULAR,         SET_CONTACT_PHONE,         "MyPhone0"        },
+				{ SET_CONTACT_COMPANY_CELLULAR, SET_CONTACT_COMPANY_PHONE, "MyCompanyPhone0" }
 			};
 
-			int i, j;
-			LPSTR pszPhone;
-
-			for (i = 0; (i < 2) && (nType == PHONE_NONE); i++)
-			{
-				for (j = 0; (j < 3) && (nType == PHONE_NONE); j++)
-				{
-					pszPhone = DB::Setting::GetAStringEx(hContact, USERINFO, pszProto, e[i][j]);
-					if (pszPhone)
-					{
+			for (int i = 0; (i < 2) && (nType == PHONE_NONE); i++) {
+				for (int j = 0; (j < 3) && (nType == PHONE_NONE); j++) {
+					LPSTR pszPhone = DB::Setting::GetAStringEx(hContact, USERINFO, pszProto, e[i][j]);
+					if (pszPhone) {
 						nType = (strstr(pszPhone, " SMS")) ? PHONE_SMS : PHONE_NORMAL;
 						MIR_FREE(pszPhone);
 						break;
@@ -86,11 +78,11 @@ static INT_PTR Get(HANDLE hContact)
  ***********************************************************************************************************/
 
 /**
- * Notification handler for clist extra icons to be applied for a contact.
- *
- * @param	wParam			- handle to the contact whose extra icon is to apply
- * @param	lParam			- not used
- **/
+* Notification handler for clist extra icons to be applied for a contact.
+*
+* @param	wParam			- handle to the contact whose extra icon is to apply
+* @param	lParam			- not used
+**/
 
 static int OnCListApplyIcons(HANDLE hContact, LPARAM)
 {
@@ -105,11 +97,12 @@ static int OnCListApplyIcons(HANDLE hContact, LPARAM)
 }
 
 /**
- * Notification handler for changed contact settings
- *
- * @param	wParam			- (HANDLE)hContact
- * @param	lParam			- (DBCONTACTWRITESETTING*)pdbcws
- **/
+* Notification handler for changed contact settings
+*
+* @param	wParam			- (HANDLE)hContact
+* @param	lParam			- (DBCONTACTWRITESETTING*)pdbcws
+**/
+
 static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact && pdbcws && pdbcws->szSetting && 
@@ -129,11 +122,12 @@ static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
  ***********************************************************************************************************/
 
 /**
- * Force all icons to be reloaded.
- *
- * @param	wParam			- handle to the contact whose extra icon is to apply
- * @param	lParam			- not used
- **/
+* Force all icons to be reloaded.
+*
+* @param	wParam			- handle to the contact whose extra icon is to apply
+* @param	lParam			- not used
+**/
+
 void SvcPhoneApplyCListIcons()
 {
 	//walk through all the contacts stored in the DB
@@ -142,11 +136,12 @@ void SvcPhoneApplyCListIcons()
 }
 
 /**
- * Enable or disable the replacement of clist extra icons.
- *
- * @param	bEnable			- determines whether icons are enabled or not
- * @param	bUpdateDB		- if true the database setting is updated, too.
- **/
+* Enable or disable the replacement of clist extra icons.
+*
+* @param	bEnable			- determines whether icons are enabled or not
+* @param	bUpdateDB		- if true the database setting is updated, too.
+**/
+
 void SvcPhoneEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB) 
 {
 	if (bUpdateDB)
@@ -173,34 +168,30 @@ void SvcPhoneEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB)
 			UnhookEvent(hApplyIconHook); 
 			hApplyIconHook = NULL;
 		}			
-		if (hRebuildIconsHook) {
-			UnhookEvent(hRebuildIconsHook); 
-			hRebuildIconsHook = NULL;
-		}
 	}
 	SvcPhoneApplyCListIcons();
 }
 
 /**
- * This function initially loads the module uppon startup.
- **/
+* This function initially loads the module upon startup.
+**/
+
 void SvcPhoneLoadModule()
 {
-	SvcPhoneEnableExtraIcons(
-		db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_PHONE, DEFVAL_CLIST_EXTRAICON_PHONE), FALSE);
+	SvcPhoneEnableExtraIcons(db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_PHONE, DEFVAL_CLIST_EXTRAICON_PHONE), FALSE);
 }
 
 /**
- * This function unloads the Email module.
- *
- * @param	none
- *
- * @return	nothing
- **/
+* This function unloads the Email module.
+*
+* @param	none
+*
+* @return	nothing
+**/
+
 void SvcPhoneUnloadModule()
 {	
 	// unhook event handlers
-	UnhookEvent(hChangedHook);		hChangedHook		= NULL;
-	UnhookEvent(hApplyIconHook);	hApplyIconHook		= NULL;
-	UnhookEvent(hRebuildIconsHook);	hRebuildIconsHook	= NULL;
+	UnhookEvent(hChangedHook); hChangedHook = NULL;
+	UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
 }

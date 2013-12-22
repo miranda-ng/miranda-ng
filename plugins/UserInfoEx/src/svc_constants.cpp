@@ -241,31 +241,33 @@ static IDSTRLIST *MyCountries = NULL;
 static UINT MyCountriesCount = 0;
 
 /**
- * This is a sort procedure, which compares two items of an IDSTRLIST array.
- * It is used by qsort in SvcConstantsTranslateList and cares about the
- * locale, which was set up in OS. This prevents e.g. Ä,Ö to be put onto 
- * the end of the list., but being sorted to the right position.
- *
- * @param	p1				- (LPIDSTRLIST) first item to compare
- * @param	p2				- (LPIDSTRLIST) second item to compare
- *
- * returns -1, 0, 1			according to the comparison result of _tcscmp.
- **/
+* This is a sort procedure, which compares two items of an IDSTRLIST array.
+* It is used by qsort in SvcConstantsTranslateList and cares about the
+* locale, which was set up in OS. This prevents e.g. Ä,Ö to be put onto 
+* the end of the list., but being sorted to the right position.
+*
+* @param	p1				- (LPIDSTRLIST) first item to compare
+* @param	p2				- (LPIDSTRLIST) second item to compare
+*
+* returns -1, 0, 1			according to the comparison result of _tcscmp.
+**/
+
 static int __cdecl ListSortProc(const LPIDSTRLIST p1, const LPIDSTRLIST p2)
 {
 	return lstrcmpi(p1->ptszTranslated, p2->ptszTranslated);
 }
 
 /**
- * Translates the text of each item of an IDStrinList to users locale
- * language and saves result in szTranslated member for later use and 
- * faster access to translated strings later.
- *
- * @param	pList			- pointer to list to translate
- * @param	nListCount		- number of list items
- *
- * @return	nothing
- **/
+* Translates the text of each item of an IDStrinList to users locale
+* language and saves result in szTranslated member for later use and 
+* faster access to translated strings later.
+*
+* @param	pList			- pointer to list to translate
+* @param	nListCount		- number of list items
+*
+* @return	nothing
+**/
+
 static void SvcConstantsTranslateList(LPIDSTRLIST pList, UINT nListCount/*, SortedList *pSorted*/)
 {
 	if (!pList[0].ptszTranslated)
@@ -284,30 +286,27 @@ static void SvcConstantsTranslateList(LPIDSTRLIST pList, UINT nListCount/*, Sort
 }
 
 /**
- * This function uses the country list provided by the core to create ower own one.
- * The core's list is extended by a translated value. The cached translation is meant
- * to improve speed uppon adding items to a combobox.
- *
- * @param	pList			- LPIDSTRLIST pointer, which retrieves the list pointer.
- * @param	pnListSize		- pointer to an unsigned integer, which retrieves the number of items.
- *
- * @retval	MIR_OK			- indicates success
- * @retval	MIR_FAIL		- indicates error
- **/
+* This function uses the country list provided by the core to create ower own one.
+* The core's list is extended by a translated value. The cached translation is meant
+* to improve speed upon adding items to a combobox.
+*
+* @param	pList			- LPIDSTRLIST pointer, which retrieves the list pointer.
+* @param	pnListSize		- pointer to an unsigned integer, which retrieves the number of items.
+*
+* @retval	MIR_OK			- indicates success
+* @retval	MIR_FAIL		- indicates error
+**/
+
 INT_PTR GetCountryList(LPUINT pnListSize, LPIDSTRLIST *pList)
 {
 	INT_PTR rc = MIR_OK;
-	if (!MyCountries) 
-	{
-		struct CountryListEntry *country;
+	if (!MyCountries) {
 
-		if (!CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&MyCountriesCount, (LPARAM)&country))
-		{
+		CountryListEntry *country;
+		if (!CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&MyCountriesCount, (LPARAM)&country)) {
 			MyCountries = (IDSTRLIST*)mir_alloc(MyCountriesCount * sizeof(IDSTRLIST));
-			if (MyCountries) 
-			{
-				for (UINT i = 0; i < MyCountriesCount; i++) 
-				{
+			if (MyCountries) {
+				for (UINT i = 0; i < MyCountriesCount; i++) {
 					MyCountries[i].nID = country[i].id;
 					MyCountries[i].pszText = country[i].szName;
 					MyCountries[i].ptszTranslated = (LPTSTR)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)country[i].szName);
@@ -316,15 +315,9 @@ INT_PTR GetCountryList(LPUINT pnListSize, LPIDSTRLIST *pList)
 				qsort(MyCountries+1, MyCountriesCount-1, sizeof(MyCountries[0]), 
 					(int (*)(const void*, const void*))ListSortProc);
 			}
-			else
-			{
-				rc = MIR_FAIL;
-			}
+			else rc = MIR_FAIL;
 		}
-		else
-		{
-			rc = MIR_FAIL;
-		}
+		else rc = MIR_FAIL;
 	}
 	*pnListSize = MyCountriesCount;
 	*pList = MyCountries;
@@ -406,12 +399,8 @@ void SvcConstantsLoadModule(void)
 static void FORCEINLINE SvcConstantsClearList(UINT pnListSize, LPIDSTRLIST pList)
 {
 	if (pList) 
-	{
 		for (UINT i = 0; i < pnListSize; i++)
-		{
 			MIR_FREE(pList[i].ptszTranslated);
-		}
-	}
 }
 
 void SvcConstantsUnloadModule(void)

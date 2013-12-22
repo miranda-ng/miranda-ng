@@ -33,7 +33,7 @@ class CUpdProgress
 {
 protected:
 	BYTE			_bBBCode;		// TRUE if text renderer can handle BBCodes
-	BYTE			_bIsCanceled;	// is set to TRUE uppon click on the CANCEL button
+	BYTE			_bIsCanceled;	// is set to TRUE upon click on the CANCEL button
 	PUpdCallback	_pFnCallBack;	// a pointer to a callback function, which can be used 
 									// to catch several messages by the caller.
 	PVOID			_pData;			// application defined data
@@ -893,7 +893,7 @@ static int OnPreShutdown(WPARAM, LPARAM)
  ***********************************************************************************************************/
 
 /**
- * This function initially loads the module uppon startup.
+ * This function initially loads the module upon startup.
  **/
 void SvcRefreshContactInfoLoadModule(void)
 {

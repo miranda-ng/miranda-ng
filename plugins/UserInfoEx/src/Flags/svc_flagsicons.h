@@ -30,7 +30,6 @@ HICON	LoadFlag(int countryNumber);
 HANDLE LoadFlagHandle(int countryNumber);
 
 void InitIcons();
-//void SvcFlagsOnModulesLoaded();
 void UninitIcons();
 
 #endif /* _UINFOEX_FLAGSICONS_H_INCLUDED_ */

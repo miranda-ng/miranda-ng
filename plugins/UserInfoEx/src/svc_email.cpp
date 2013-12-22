@@ -21,50 +21,41 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-static HGENMENU ghMenuItem			= NULL;
-static HANDLE ghExtraIconDef		= INVALID_HANDLE_VALUE;
-static HANDLE ghExtraIconSvc		= INVALID_HANDLE_VALUE;
+static HGENMENU ghMenuItem = NULL;
+static HANDLE ghExtraIconDef = INVALID_HANDLE_VALUE;
+static HANDLE ghExtraIconSvc = INVALID_HANDLE_VALUE;
 
-static HANDLE hChangedHook			= NULL;
-static HANDLE hApplyIconHook		= NULL;
-static HANDLE hRebuildIconsHook		= NULL;
+static HANDLE hChangedHook = NULL;
+static HANDLE hApplyIconHook = NULL;
 
 /**
- * This function reads the email address of the contact.
- *
- * @param	hContact		- handle to contact to read email from
- *
- * @retval	email address
- * @retval	NULL, if contact does not provide any email address
- **/
+* This function reads the email address of the contact.
+*
+* @param	hContact		- handle to contact to read email from
+*
+* @retval	email address
+* @retval	NULL, if contact does not provide any email address
+**/
+
 static LPSTR Get(HANDLE hContact)
 {
 	// ignore owner
-	if (hContact != NULL) 
-	{
+	if (hContact != NULL) {
 		LPCSTR pszProto = DB::Contact::Proto(hContact);
 		
-		if (pszProto != NULL) 
-		{
-			LPCSTR	e[2][4] = {
+		if (pszProto != NULL) {
+			LPCSTR e[2][4] = {
 				{ SET_CONTACT_EMAIL,			SET_CONTACT_EMAIL0,			SET_CONTACT_EMAIL1,			"Mye-mail0"},
 				{ SET_CONTACT_COMPANY_EMAIL,	SET_CONTACT_COMPANY_EMAIL0,	SET_CONTACT_COMPANY_EMAIL1,	"MyCompanye-mail0"}
 			};
 
-			int i, j;
-			LPSTR pszEMail;
-
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					pszEMail = DB::Setting::GetAStringEx(hContact, USERINFO, pszProto, e[i][j]);
-					if (pszEMail)
-					{
+			for (int i = 0; i < 2; i++) {
+				for (int j = 0; j < 4; j++) {
+					LPSTR pszEMail = DB::Setting::GetAStringEx(hContact, USERINFO, pszProto, e[i][j]);
+					if (pszEMail) {
 						if (strchr(pszEMail, '@'))
-						{
 							return pszEMail;
-						}
+
 						mir_free(pszEMail);
 					}
 				}
@@ -75,14 +66,15 @@ static LPSTR Get(HANDLE hContact)
 }
 
 /**
- * Service function that sends emails
- *
- * @param	wParam			- handle to contact to send an email to
- * @param	lParam			- not used
- *
- * @retval	0 if email was sent
- * @retval	1 if no email can be sent
- **/
+* Service function that sends emails
+*
+* @param	wParam			- handle to contact to send an email to
+* @param	lParam			- not used
+*
+* @retval	0 if email was sent
+* @retval	1 if no email can be sent
+**/
+
 static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 {
 	int result;
@@ -91,8 +83,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 	__try 
 	{
 		val = Get((HANDLE) wParam);
-		if (val)
-		{
+		if (val) {
 			LPSTR szUrl;
 			INT_PTR len;
 
@@ -105,8 +96,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 
 			result = CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
 		}
-		else
-		{
+		else {
 			result = 1;
 			MsgBox((HWND)lParam, MB_OK, LPGENT("Send e-mail"), NULL, LPGENT("Memory allocation error!"));
 		}
@@ -114,11 +104,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 	__except(GetExceptionCode()==EXCEPTION_ACCESS_VIOLATION ? 
 		EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH) 
 	{
-		if (val)
-		{
-			mir_free(val);
-		}
-
+		mir_free(val);
 		result = 1;
 		MsgErr((HWND)lParam, LPGENT("Memory allocation error!"));
 	}
@@ -130,11 +116,12 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
  ***********************************************************************************************************/
 
 /**
- * Notification handler for clist extra icons to be applied for a contact.
- *
- * @param	wParam			- handle to the contact whose extra icon is to apply
- * @param	lParam			- not used
- **/
+* Notification handler for clist extra icons to be applied for a contact.
+*
+* @param	wParam			- handle to the contact whose extra icon is to apply
+* @param	lParam			- not used
+**/
+
 static int OnCListApplyIcons(WPARAM wParam, LPARAM lParam)
 {
 	LPSTR val = Get((HANDLE)wParam);
@@ -144,11 +131,12 @@ static int OnCListApplyIcons(WPARAM wParam, LPARAM lParam)
 }
 
 /**
- * Notification handler for changed contact settings
- *
- * @param	wParam			- (HANDLE)hContact
- * @param	lParam			- (DBCONTACTWRITESETTING*)pdbcws
- **/
+* Notification handler for changed contact settings
+*
+* @param	wParam			- (HANDLE)hContact
+* @param	lParam			- (DBCONTACTWRITESETTING*)pdbcws
+**/
+
 static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact && pdbcws && pdbcws->szSetting && 
@@ -163,13 +151,14 @@ static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
 }
 
 /**
- * This function decides whether to show menuitem for sending emails or not.
- *
- * @param	wParam			- handle to contact to send an email to
- * @param	lParam			- not used
- *
- * @return	always 0
- **/
+* This function decides whether to show menuitem for sending emails or not.
+*
+* @param	wParam			- handle to contact to send an email to
+* @param	lParam			- not used
+*
+* @return	always 0
+**/
+
 static int OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
 	LPSTR val = Get((HANDLE)wParam);
@@ -182,9 +171,6 @@ static int OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
  * public Module Interface functions
  ***********************************************************************************************************/
 
-/**
- * This function enables or disables menuitems.
- **/
 void SvcEMailRebuildMenu()
 {
 	static HANDLE hPrebuildMenuHook = NULL;
@@ -215,11 +201,12 @@ void SvcEMailRebuildMenu()
 }
 
 /**
- * Force all icons to be reloaded.
- *
- * @param	wParam			- handle to the contact whose extra icon is to apply
- * @param	lParam			- not used
- **/
+* Force all icons to be reloaded.
+*
+* @param	wParam			- handle to the contact whose extra icon is to apply
+* @param	lParam			- not used
+**/
+
 void SvcEMailApplyCListIcons()
 {
 	// walk through all the contacts stored in the DB
@@ -228,17 +215,18 @@ void SvcEMailApplyCListIcons()
 }
 
 /**
- * Enable or disable the replacement of clist extra icons.
- *
- * @param	bEnable			- determines whether icons are enabled or not
- * @param	bUpdateDB		- if true the database setting is updated, too.
- **/
+* Enable or disable the replacement of clist extra icons.
+*
+* @param	bEnable			- determines whether icons are enabled or not
+* @param	bUpdateDB		- if true the database setting is updated, too.
+**/
+
 void SvcEMailEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB) 
 {
 	if (bUpdateDB)
 		db_set_b(NULL, MODNAME, SET_CLIST_EXTRAICON_EMAIL, bEnable);
 
-	if (bEnable) { // E-mail checkt
+	if (bEnable) { // E-mail checked
 		// hook events
 		if (hChangedHook == NULL) 
 			hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
@@ -258,27 +246,23 @@ void SvcEMailEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB)
 			UnhookEvent(hApplyIconHook); 
 			hApplyIconHook = NULL;
 		}			
-		if (hRebuildIconsHook) {
-			UnhookEvent(hRebuildIconsHook); 
-			hRebuildIconsHook = NULL;
-		}
 	}
 	SvcEMailApplyCListIcons();
 }
 
 /**
- * This function initially loads the module uppon startup.
- **/
+* This function initially loads the module upon startup.
+**/
+
 void SvcEMailOnModulesLoaded()
 {
-	SvcEMailEnableExtraIcons(
-		db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_EMAIL, 
-		DEFVAL_CLIST_EXTRAICON_EMAIL), FALSE);
+	SvcEMailEnableExtraIcons(db_get_b(NULL, MODNAME, SET_CLIST_EXTRAICON_EMAIL, DEFVAL_CLIST_EXTRAICON_EMAIL), FALSE);
 }
 
 /**
- * This function initially loads the module uppon startup.
- **/
+* This function initially loads the module upon startup.
+**/
+
 void SvcEMailLoadModule()
 {
 	if (db_get_b(NULL, MODNAME, SET_EXTENDED_EMAILSERVICE, TRUE)) {
@@ -289,16 +273,16 @@ void SvcEMailLoadModule()
 }
 
 /**
- * This function unloads the Email module.
- *
- * @param	none
- *
- * @return	nothing
- **/
+* This function unloads the Email module.
+*
+* @param	none
+*
+* @return	nothing
+**/
+
 void SvcEMailUnloadModule()
 {	
 	// unhook event handlers
 	UnhookEvent(hChangedHook);		hChangedHook		= NULL;
 	UnhookEvent(hApplyIconHook);	hApplyIconHook		= NULL;
-	UnhookEvent(hRebuildIconsHook);	hRebuildIconsHook	= NULL;
 }

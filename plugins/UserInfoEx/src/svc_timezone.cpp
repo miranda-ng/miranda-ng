@@ -26,16 +26,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  ***********************************************************************************************************/
 
 /**
- * This service function provides a TIME_ZONE_INFORMATION structure
- * for the desired contact, in case the contact's timezone can be determined.
-.* parsed to new core tzi interface if present.
- * 
- * @param	wParam			- HANDLE of the contact, to retrieve timezone information from.
- * @param	lParam			- pointer to a TIME_ZONE_INFORMATION to fill.
- *
- * @retval	0 - success
- * @retval	1 - failure
- **/
+* This service function provides a TIME_ZONE_INFORMATION structure
+* for the desired contact, in case the contact's timezone can be determined.
+* parsed to new core tzi interface if present.
+* 
+* @param	wParam			- HANDLE of the contact, to retrieve timezone information from.
+* @param	lParam			- pointer to a TIME_ZONE_INFORMATION to fill.
+*
+* @retval	0 - success
+* @retval	1 - failure
+**/
+
 INT_PTR GetContactTimeZoneInformation(WPARAM wParam,LPARAM lParam)
 {
 	//use new core tz interface
@@ -45,13 +46,14 @@ INT_PTR GetContactTimeZoneInformation(WPARAM wParam,LPARAM lParam)
 }
 
 /**
- * This function returns the contact's local time.
- *
- * @param	wParam			- HANDLE of the contact, to retrieve timezone information from.
- * @param	lParam			- pointer to a systemtime structure
- *	
- * @return	TRUE or FALSE
- **/
+* This function returns the contact's local time.
+*
+* @param	wParam			- HANDLE of the contact, to retrieve timezone information from.
+* @param	lParam			- pointer to a systemtime structure
+*	
+* @return	TRUE or FALSE
+**/
+
 INT_PTR GetContactLocalTime(WPARAM wParam, LPARAM lParam)
 {
 	//use new core tz interface
@@ -64,8 +66,9 @@ INT_PTR GetContactLocalTime(WPARAM wParam, LPARAM lParam)
  ***********************************************************************************************************/
 
 /**
- * This function initially loads the module uppon startup.
- **/
+* This function initially loads the module upon startup.
+**/
+
 void SvcTimezoneLoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_TIMEZONEINFO, GetContactTimeZoneInformation);
