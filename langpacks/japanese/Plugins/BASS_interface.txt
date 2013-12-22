@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
-;file \plugins\BASS_interface\res\Bass.rc
 [Offline]
 オフライン
 [Online]
@@ -26,7 +25,5 @@
 電話中
 [Out to lunch]
 昼食中
-;file \plugins\BASS_interface\src\Bass_interface.h
-;file \plugins\BASS_interface\src\Main.cpp
 [Sounds]
 音声

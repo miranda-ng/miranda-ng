@@ -5,7 +5,6 @@
 ;  Version: 2.10.0.2
 ;  Authors: Miranda NG Development Team
 ;============================================================
-;file \plugins\Scriver\res\resource.rc
 [Automatically pop up the window when]
 次の場合自動的にウィンドウをポップアップ
 [and stay minimized]
@@ -96,6 +95,8 @@ IEView を有効
 最終
 [Events in the last]
 過去のイベント
+[events]
+イベント
 [Typing Notification Options]
 入力中通知オプション
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -124,6 +125,12 @@ IEView を有効
 Cancel
 [Message Session]
 メッセージセッション
+[User &details]
+ユーザーの詳細情報 (&D)
+[&Add]
+追加 (&A)
+[&Quote]
+引用 (&Q)
 [Send To All Tabs]
 全てのタブに送る
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -134,6 +141,8 @@ Cancel
 はい
 [No]
 いいえ
+[&Underline]
+下線 (&U)
 [Show these events only:]
 以下のイベントのみ表示:
 [Actions]
@@ -264,7 +273,8 @@ Foodnetwork
 ログをクリア (&g)
 [Co&py all]
 全てコピー (&p)
-;file \plugins\Scriver\src\globals.cpp
+[Add contact]
+コンタクトを追加
 [User's details]
 ユーザーの詳細情報
 [User's history]
@@ -357,10 +367,8 @@ Unicode オフ
 情報 (10x10)
 [Group chats]
 グループチャット
-;file \plugins\Scriver\src\input.cpp
 [Messaging]
 メッセージング
-;file \plugins\Scriver\src\msgdialog.cpp
 [Add Contact]
 コンタクトを追加
 [User Menu]
@@ -393,12 +401,10 @@ Unicode オフ
 %s はメッセージを入力中...
 [Last message received on %s at %s.]
 最終メッセージを%s %sに受信
-;file \plugins\Scriver\src\msglog.cpp
 [File sent]
 ファイル送信
 [File received]
 ファイル受信
-;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 全般
 [Event Log]
@@ -509,7 +515,6 @@ Unicode オフ
 メッセージセッション
 [Typing Notify]
 入力中通知
-;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 %s からのメッセージ
 [%s is typing a message]
@@ -528,22 +533,16 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 着信 ( 新規セッション )
 [Outgoing]
 発信
-;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 不明なエラーが発生しました
-;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 常に前面
-;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 メッセージの送信はタイムアウトしました
-;file \plugins\Scriver\src\chat\clist.cpp
 [Join chat]
 チャットに参加
 [Open chat window]
 チャットウィンドウを開く
-;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
 [%s has joined]
 %s は参加しました
 [You have joined %s]
@@ -566,12 +565,10 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 ( %s に設定)
 [<invalid>]
 < 不正 >
-;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 参加する (&J)
 [&Leave]
 終了する (&L)
-;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 誰かが話したらフラッシュ
 [Flash when a word is highlighted]
@@ -644,7 +641,7 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 トレイに離席アイコンを表示
 [Show icon in tray for users kicking other user]
 トレイにユーザー排除アイコンを表示
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 トレイに通知アイコンを表示
 [Show icon in tray for name changes]
 トレイに名前変更アイコンを表示
@@ -676,8 +673,6 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 ユーザーは通知を送信しました
 [The topic has been changed]
 トピックは変更されています
-;file \plugins\Scriver\src\chat\services.cpp
-;file \plugins\Scriver\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s はあなたに %s について注意を求めています
 [%s speaks in %s]
@@ -702,7 +697,6 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 %s は %s を排除しました ( %s )
 [Notice from %s: %s]
 %s からの通知:%s
-;file \plugins\Scriver\src\chat\window.cpp
 [Insert a smiley]
 顔文字を挿入
 [Make the text bold (CTRL+B)]

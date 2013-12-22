@@ -5,7 +5,5 @@
 ;  Version: 0.0.0.18
 ;  Authors: Michael 'Protogenes' Kunz
 ;============================================================
-;file \plugins\Dbx_tree\res\dbConfig.rc
 [Cancel]
 Cancel
-;file \plugins\Dbx_tree\src\FileAccess.cpp

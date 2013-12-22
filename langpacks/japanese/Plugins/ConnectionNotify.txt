@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.5
 ;  Authors: MaKaR
 ;============================================================
-;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Background]
 背景
 [Text]
@@ -16,9 +15,9 @@
 OK
 [Cancel]
 Cancel
-;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Show]
+表示
 [Status]
 ステータス
 [Plugins]
 プラグイン
-;file \plugins\ConnectionNotify\src\filter.cpp

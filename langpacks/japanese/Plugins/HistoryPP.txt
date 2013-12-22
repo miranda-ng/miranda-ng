@@ -81,6 +81,10 @@ WATrack: リクエストは拒否されました
 イベント情報
 [Date/Time:]
 日付 / 時間:
+[Copy All]
+全てコピー
+[SMS Message]
+SMS メッセージ
 [Global History Search]
 グローバル履歴検索
 [Search for]
@@ -219,6 +223,8 @@ ANSI エンコード
 上に検索 (Ctrl+Up)
 [Search Down (Ctrl+Down)]
 下に検索 (Ctrl+Down)
+[Remove bookmark]
+ブックマークを削除
 [Remove Bookmark]
 ブックマークを削除
 [Set Bookmark]
@@ -269,6 +275,8 @@ EMail Express メッセージ
 最近のイベントを一番上
 [Use RTL by default]
 RTL をデフォルトで使用
+[Change Appearance]
+外観を変更
 [To change fonts you need to install FontService plugin.]
 フォントを変更するには FontService プラグインをインストールする必要があります
 [FontService is installed. Go to Customize -> Fonts to change settings.]
@@ -285,6 +293,14 @@ IcoLib プラグインをダウンロード
 これらのプラグインに関する詳細情報
 [Open event details by Enter]
 エンターキーでイベントの詳細情報を開く
+[History search]
+履歴検索
+[Incoming url]
+着信 URL
+[Outgoing file]
+発信ファイル
+[Outgoing url]
+発信 URL
 [Show sender information]
 送信者情報を表示
 [Show receiver information]
@@ -341,6 +357,14 @@ IcoLib プラグインをダウンロード
 実行中の SmileyAdd のバージョンは未サポートです
 [Running version of Emoticons is not supported]
 実行中の Emoticons のバージョンは未サポートです
+[Incoming Url]
+着信 URL
+[Outgoing Url]
+発信 URL
+[System Message]
+システムメッセージ
+[Authorization request]
+認証リクエスト
 [Show events count in menu]
 メニューにイベント数を表示
 [Group messages]
@@ -353,5 +377,27 @@ IcoLib プラグインをダウンロード
 履歴表示オプション
 [Visit Wiki page for more options]
 追加オプションについて Wiki ページにアクセス
+[&Reset to Default]
+デフォルトに戻す (&R)
 [System message]
 システムメッセージ
+[Open in &new window]
+新規ウィンドウで開く
+[Select &All]
+全て選択(&A)
+[Send &Message]
+メッセージを送信 (&M)
+[User Details]
+ユーザーの詳細情報
+[Enable SmileyAdd support]
+SmileyAdd サポートを有効
+[Enable MathModule support]
+MathModule サポートを有効
+[Show event icons]
+イベントアイコンを表示
+[View user's history]
+ユーザーの履歴を表示
+[View User's History]
+ユーザーの履歴を表示
+[View &History]
+履歴の表示 (&H)

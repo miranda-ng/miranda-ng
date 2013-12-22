@@ -5,7 +5,6 @@
 ;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
-;file \plugins\SeenPlugin\res\resource.rc
 [Text]
 テキスト
 [Online]
@@ -30,33 +29,28 @@
 オフライン
 [OK]
 OK
-;file \plugins\SeenPlugin\src\history.cpp
 [View User's Details]
 ユーザーの詳細情報を表示
 [User Menu]
 ユーザーメニュー
-;file \plugins\SeenPlugin\src\main.cpp
-;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 < 不明 >
 [<none>]
 < なし >
-;file \plugins\SeenPlugin\src\options.cpp
 [Contacts]
 コンタクト
 [Popups]
 ポップアップ
-;file \plugins\SeenPlugin\src\seen.h
 [seconds]
 秒
+[nick]
+ニックネーム
 [Group]
 グループ
 [Status]
 ステータス
 [Protocol]
 プロトコル
-;file \plugins\SeenPlugin\src\userinfo.cpp
-;file \plugins\SeenPlugin\src\utils.cpp
 [Idle]
 アイドル
 [Unknown]

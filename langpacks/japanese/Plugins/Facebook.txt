@@ -2,10 +2,9 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.1
+;  Version: 0.2.2.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
-;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 電子メール:
 [Password:]
@@ -14,43 +13,33 @@
 新規 Facebook アカウントを作成
 [What's on your mind?]
 今なにしてる?
+[URL:]
+URL:
 [Share]
 シェア
 [Cancel]
 Cancel
 [User details]
 ユーザーの詳細情報
-[Text]
-テキスト
-[Default]
-デフォルト
 [Advanced Settings]
 詳細設定
-;file \protocols\FacebookRM\src\communication.cpp
-;file \protocols\FacebookRM\src\connection.cpp
+[User &details]
+ユーザーの詳細情報 (&D)
 [Please enter a username.]
 ユーザー名を入力してください
 [Please enter a password.]
 パスワードを入力してください
-;file \protocols\FacebookRM\src\constants.h
-;file \protocols\FacebookRM\src\contacts.cpp
-;file \protocols\FacebookRM\src\dialogs.cpp
-;file \protocols\FacebookRM\src\json.cpp
-;file \protocols\FacebookRM\src\messages.cpp
+[Default]
+デフォルト
+[files]
+ファイル
 [You cannot send messages when you are offline.]
 オフライン時はメッセージを送信できません
-;file \protocols\FacebookRM\src\process.cpp
-;file \protocols\FacebookRM\src\proto.cpp
 [Network]
 ネットワーク
-[Advanced]
-詳細
-[Popups]
-ポップアップ
 [Events]
 イベント
-;file \protocols\FacebookRM\src\theme.cpp
+[Advanced]
+詳細
 [Mind]
 投稿
-[Mind...]
-投稿...

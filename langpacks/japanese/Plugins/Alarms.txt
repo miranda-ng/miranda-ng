@@ -5,11 +5,12 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\Alarms\res\resource.rc
 [Delete]
 削除
 [Edit]
 編集
+[Row Height:]
+行の高さ:
 [OK]
 OK
 [Cancel]
@@ -18,22 +19,18 @@ Cancel
 説明:
 [Actions]
 アクション
+[Date and Time]
+日付と時間
 [&Delete]
 削除 (&D)
 [&Options...]
 オプション (&O)...
-;file \plugins\Alarms\src\alarmlist.cpp
-;file \plugins\Alarms\src\alarms.cpp
-;file \plugins\Alarms\src\alarm_win.cpp
 [Background]
 背景
 [Window]
 ウィンドウ
-;file \plugins\Alarms\src\frame.cpp
 [Frames]
 フレーム
-;file \plugins\Alarms\src\icons.cpp
-;file \plugins\Alarms\src\options.cpp
 [Error]
 エラー
 [Events]

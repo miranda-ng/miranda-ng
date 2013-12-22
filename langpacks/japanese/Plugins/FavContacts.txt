@@ -5,14 +5,15 @@
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
-;file \plugins\FavContacts\res\resource.rc
 [Customize]
 カスタマイズ
 [Show]
 表示
-;file \plugins\FavContacts\src\favlist.h
-;file \plugins\FavContacts\src\main.cpp
+[Second line]
+2 行目
 [Background]
 背景
 [Contacts]
 コンタクト
+[Favorites]
+お気に入り

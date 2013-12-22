@@ -1,11 +1,10 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: Keep Status
+;  Plugin: Keep status
 ;  Version: 0.9.0.1
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 全般
 [Close]
@@ -20,6 +19,8 @@ Cancel
 設定
 [OK]
 OK
+[Command line:]
+コマンドライン:
 [Other]
 その他
 [Background color]
@@ -44,15 +45,12 @@ OK
 削除
 [seconds]
 秒
-;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
-;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]
 プロトコル
 [Advanced]
 詳細
 [Popups]
 ポップアップ
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 %time% から離席中です
 [Give it up, I'm not in!]
@@ -75,6 +73,5 @@ OK
 おいしいね... これ
 [idleeeeeeee]
 暇だよ
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Closing in %d]
 %d 秒後に閉じる

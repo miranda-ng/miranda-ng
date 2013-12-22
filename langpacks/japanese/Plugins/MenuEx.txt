@@ -5,7 +5,6 @@
 ;  Version: 1.3.0.10
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
-;file \plugins\MenuItemEx\res\resource.rc
 [&Send]
 送信 (&S)
 [&Cancel]
@@ -14,7 +13,10 @@ Cancel(&C)
 可視状態
 [Ignore]
 無視
-;file \plugins\MenuItemEx\src\main.cpp
+[Request Authorization]
+認証リクエスト
+[Always visible]
+常に可視
 [Messages]
 メッセージ
 [URL]
@@ -31,6 +33,5 @@ URL
 Miranda NG
 [Request authorization]
 認証リクエスト
-;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 カスタマイズ

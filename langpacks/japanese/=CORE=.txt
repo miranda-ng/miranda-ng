@@ -1,5 +1,4 @@
-﻿;file \src\resource.rc
-[Enter account name (for example, My Google)]
+﻿[Enter account name (for example, My Google)]
 アカウント名を入力 ( 例: My Google )
 [Choose the protocol type]
 プロトコルタイプを選択
@@ -413,10 +412,10 @@ Miranda NG は再起動中です\nお待ちください...
 マイナーメモ:
 [This font is used to display various addtional notes.]
 このフォントは各種の追加メモの表示に使用されています
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Miranda NG のアカウントマネージャーにようこそ !\nここで IM アカウントのセットアップができます\n\n利用可能なオプションを見るには , 左にあるリストの中からアカウントを選択してください。もしくは , リストの下にある + 印をクリックして新規 IM アカウントをセットアップしてください
 [Event icon legend:]
 イベントアイコン凡例:
-[Choose events you wish to ingonre:]
-無視するイベントを選択:
 [Font effect]
 フォント効果
 [Effect:]
@@ -485,7 +484,6 @@ Miranda を非表示
 リンクをコピー (&C)
 [Cancel change]
 変更をキャンセル
-;file \src\core\stdauth\resource.rc
 [&Authorize]
 許可 (&A)
 [&Deny]
@@ -502,7 +500,6 @@ Miranda を非表示
 あなたは追加されました
 [&Close]
 閉じる (&C)
-;file \src\core\stdaway\resource.rc
 [%s message for %s]
 %s メッセージ 宛先 %s
 [Retrieving %s message...]
@@ -525,7 +522,6 @@ Miranda を非表示
 %s メッセージを変更する
 [Closing in %d]
 %d 秒後に閉じる
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 送信 (&S)
 [Show these events only:]
@@ -632,7 +628,6 @@ Wikipedia
 他のタブを閉じる (&l)
 [&Open at this position]
 この位置に開く (&O)
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 オフラインユーザーを非表示
 [Hide empty groups]
@@ -821,6 +816,8 @@ Wikipedia
 ウィンドウ:
 [Contact list background:]
 コンタクトリストの背景:
+[&Main menu]
+メインメニュー (&M)
 [&Status]
 ステータス (&S)
 [&Offline\tCtrl+0]
@@ -843,7 +840,6 @@ Wikipedia
 電話中 (&P)\tCtrl+8
 [Out to &lunch\tCtrl+9]
 昼食中 (&L)\tCtrl+9
-;file \src\core\stdfile\resource.rc
 [Send file(s)]
 送信ファイル
 [To:]
@@ -950,14 +946,12 @@ Wikipedia
 確認する
 [You will always be asked about files from people not on your contact list]
 あなたのコンタクトリストにない人からのファイルは毎回確認
-;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Miranda NG のバージョン情報
 [Miranda NG\n%s]
 Miranda NG\n%s
 [Credits >]
 クレジット >
-;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 以下が無人状態になったらアイドルになる:
 [Windows]
@@ -986,7 +980,6 @@ Miranda
 コンピューターが以下に対して無人状態になったらアイドルになる:
 [Idle (auto-away):]
 アイドル ( 自動離席中 )
-;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 自動的にポップアップウィンドウを開く場合:
 [In background]
@@ -1083,7 +1076,6 @@ Miranda
 ペーストして送信
 [Delete]
 削除
-;file \src\core\stduihist\resource.rc
 [Find]
 検索
 [&Find next]
@@ -1094,7 +1086,6 @@ Miranda
 メッセージ履歴
 [&Find...]
 検索 (&F)...
-;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 電話番号を追加
 [Enter country, area code and phone number:]
@@ -1165,7 +1156,6 @@ SMS テキストメッセージを受信できる電話
 位置:
 [Website:]
 ウェブサイト:
-;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 %s は認証をリクエストしました
 [%u requests authorization]
@@ -1176,7 +1166,6 @@ SMS テキストメッセージを受信できる電話
 %u はあなたをコンタクトリストに追加しました
 [Alerts]
 アラート
-;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 ユーザーの詳細情報を表示
 [Add contact permanently to list]
@@ -1199,12 +1188,10 @@ SMS テキストメッセージを受信できる電話
 %s は認証リクエストしました\n%s: %s
 [Feature is not supported by protocol]
 機能はプロトコルにサポートされていません
-;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s message]
 %s メッセージを読む (&a)
 [Re&ad status message]
 ステータスメッセージを読む (&a)
-;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 %time% から離席中です
 [Give it up, I'm not in!]
@@ -1229,13 +1216,10 @@ SMS テキストメッセージを受信できる電話
 暇だよ
 [Status]
 ステータス
-;file \src\core\stdchat\src\clist.cpp
 [Join chat]
 チャットに参加
 [Open chat window]
 チャットウィンドウを開く
-;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s は参加しました
 [You have joined %s]
@@ -1258,7 +1242,6 @@ SMS テキストメッセージを受信できる電話
 ( %s に設定)
 [<invalid>]
 < 不正 >
-;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
 その他のニックネーム
 [Your nickname]
@@ -1539,10 +1522,8 @@ SMS テキストメッセージを受信できる電話
 ユーザーは通知を送信しました
 [The topic has been changed]
 トピックは変更されています
-;file \src\core\stdchat\src\services.cpp
 [&Join]
 参加する (&J)
-;file \src\core\stdchat\src\tools.cpp
 [%s wants your attention in %s]
 %s はあなたに %s について注意を求めています
 [%s speaks in %s]
@@ -1571,7 +1552,6 @@ SMS テキストメッセージを受信できる電話
 %s からの通知:%s
 [No word to look up]
 検索語なし
-;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 顔文字を挿入
 [Make the text bold (CTRL+B)]
@@ -1606,7 +1586,6 @@ SMS テキストメッセージを受信できる電話
 ニックネーム
 [Unique ID]
 固有 ID
-;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 標準コンタクト
 [Online contacts to whom you have a different visibility]
@@ -1627,7 +1606,6 @@ SMS テキストメッセージを受信できる電話
 ホットトラックテキスト
 [Quicksearch text]
 クイック検索テキスト
-;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 非フォーカス
 [Offline]
@@ -1652,18 +1630,14 @@ SMS テキストメッセージを受信できる電話
 電話中
 [List background]
 リストの背景
-;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 グローバル
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 ユーザーは電子メールアドレスを登録していません
 [Send e-mail]
 電子メールの送信
 [&E-mail]
 電子メール (&E)
-;file \src\core\stdfile\file.cpp
 [File from %s]
 送信者 %s のファイル
 [bytes]
@@ -1678,17 +1652,14 @@ SMS テキストメッセージを受信できる電話
 完了
 [Error]
 エラー
-;file \src\core\stdfile\fileexistsdlg.cpp
 [%s file]
 %s ファイル
 [All files]
 全てのファイル
-;file \src\core\stdfile\fileopts.cpp
 [Executable files]
 実行可能ファイル
 [Events]
 イベント
-;file \src\core\stdfile\filerecvdlg.cpp
 [My received files]
 受信ファイル
 [View user's history]
@@ -1697,12 +1668,10 @@ SMS テキストメッセージを受信できる電話
 ユーザーメニュー
 [Canceled]
 キャンセルしました
-;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
 %d 個のファイル
 [%d directories]
 %d 個のディレクトリ
-;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 このファイルはウイルス検知を未実行です。本当に開きますか?
 [File received]
@@ -1751,13 +1720,10 @@ SMS テキストメッセージを受信できる電話
 ウイルス検知中...
 [Transfer and virus scan complete]
 転送とウイルス検知が完了しました
-;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 発信
-;file \src\core\stdhelp\about.cpp
 [< Copyright]
 < 著作権
-;file \src\core\stdhelp\help.cpp
 [&About...]
 バージョン情報 (&A)...
 [&Support]
@@ -1766,18 +1732,14 @@ SMS テキストメッセージを受信できる電話
 Miranda NG ホームページ
 [&Report bug]
 バグ報告 (&R)
-;file \src\core\stdidle\idle.cpp
 [Idle]
 アイドル
-;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 メッセージの送信はタイムアウトしました
-;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 着信メッセージ (10x10)
 [Outgoing message (10x10)]
 発信メッセージ (10x10)
-;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 最終メッセージを%s %sに受信
 [signed off (was %s)]
@@ -1788,10 +1750,8 @@ Miranda NG ホームページ
 は現在 %s (旧 %s)
 [%s is typing a message...]
 %s はメッセージを入力中...
-;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 ファイル送信
-;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 発信メッセージ
 [Incoming messages]
@@ -1822,7 +1782,6 @@ Miranda NG ホームページ
 メッセージングログ
 [Typing notify]
 入力中通知
-;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 %s からのメッセージ
 [%s is typing a message]
@@ -1841,10 +1800,8 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 着信 ( 新規セッション )
 [Message send error]
 メッセージ送信エラー
-;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 不明なエラーが発生しました
-;file \src\core\stduihist\history.cpp
 [Invalid message]
 不正なメッセージ
 [Outgoing URL]
@@ -1863,19 +1820,16 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 履歴を削除
 [View &history]
 履歴の表示 (&H)
-;file \src\core\stdurl\url.cpp
 [URL from %s]
 %sからの URL
 [Web page address (&URL)]
 ウェブページアドレス (URL)(&U)
 [URL]
 URL
-;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 URL を送信:
 [Send timed out]
 タイムアウトを送信
-;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail address]
 電子メールアドレスを編集
 [Edit phone number]
@@ -1896,7 +1850,6 @@ Fax
 仕事用電話
 [Work fax]
 仕事用ファックス
-;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 男性
 [Female]
@@ -1915,34 +1868,24 @@ Fax
 背景情報
 [Notes]
 メモ
-;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 オーナー
 [View/change my &details...]
 詳細情報の表示 / 変更 (&D)...
-;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s はオンラインです
-;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 コンタクトを追加
 [Please authorize my request and add me to your contact list.]
 リクエストを認証して , 私をあなたのコンタクトリストに追加してください
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 カスタムステータス
 [%s (locked)]
 %s ( ロック中 )
 [Main menu]
 メインメニュー
-;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 ( 不明なコンタクト )
-;file \src\modules\clist\clisttray.cpp
-[&Main menu]
-メインメニュー (&M)
-;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 このコンタクトは , サーバー上のコンタクトリストに保存されているインスタントメッセージシステム上にあります。そのため , あなたが次回該当するネットワークに接続した際に , サーバーとあなたのコンタクトリストから削除されます
 [De&lete]
@@ -1951,20 +1894,16 @@ Fax
 名前変更 (&R)
 [&Add permanently to list]
 完全にリストに追加 (&A)
-;file \src\modules\clist\contacts.cpp
 [Nick]
 ニックネーム
 [E-mail]
 電子メール
 ['(Unknown contact)']
 '( 不明なコンタクト )'
-;file \src\modules\clist\genmenu.cpp
-;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 メニュー
 [Customize]
 カスタマイズ
-;file \src\modules\clist\groups.cpp
 [New group]
 新規グループ
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -1977,13 +1916,10 @@ Fax
 グループ名の変更
 [This group]
 このグループ
-;file \src\modules\clist\keyboard.cpp
-;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 グループに移動 (&M)
 [<Root group>]
 < ルートグループ >
-;file \src\modules\database\database.cpp
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
 Miranda は ' %s ' を開けませんでした。プロファイルプラグインがインストールされていません\ndbx_mmap.dllもしくは , それに相当するものをインストールしてください
 [No profile support installed!]
@@ -1994,7 +1930,6 @@ Miranda はプロファイルを解釈できませんでした
 Mirandaは ' %s ' を開けませんでした\nアクセスができないか , もしくは他のアプリケーションか Miranda インスタンスによって使用中です
 [Miranda can't open that profile]
 Miranda はプロファイルを開けませんでした
-;file \src\modules\database\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 悪意のある変更を防ぐためにセキュリティシステムが内蔵されており , 変更が行なわれる際に毎回警告します
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2007,7 +1942,6 @@ Miranda はプロファイルを開けませんでした
 既知の望ましくない危険のある変更です
 [This change is not known to be safe.]
 既知の安全ではない変更です
-;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 プロファイルは既に存在します
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
@@ -2024,24 +1958,20 @@ Miranda はプロファイルを開けませんでした
 < 使用中 >
 [Size]
 サイズ
+[Run]
+実行
 [Created]
 作成済
 [Modified]
 変更済
-[Run]
-実行
 [My profiles]
 マイプロファイル
 [New profile]
 新規プロファイル
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
-;file \src\modules\extraicons\extraicons.cpp
 [Chat activity]
 チャットのアクティビティ
-;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 追加アイコン
-;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 検索フィールドが未入力です。検索条件を入力して再試行してください
 [Search]
@@ -2058,7 +1988,6 @@ Miranda はプロファイルを開けませんでした
 ハンドル
 [&Find/Add contacts...]
 コンタクトを検索 / 追加 (&F)...
-;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 '%s' について検索開始できません。問題が発生しました - %s は接続していますか ?
 [Could not search on any of the protocols, are you online?]
@@ -2073,7 +2002,6 @@ Miranda はプロファイルを開けませんでした
 %d ユーザーが見つかりました (
 [No users found]
 ユーザーは発見できませんでした
-;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
 ファイルの作成に失敗しました
 [<none>]
@@ -2088,33 +2016,26 @@ Miranda はプロファイルを開けませんでした
 サンプルテキスト
 [Fonts]
 フォント
-;file \src\modules\fonts\FontService.cpp
-;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 アイコン設定
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** 全てのコンタクト **
 [Contacts]
 コンタクト
-;file \src\modules\netlib\netliblog.cpp
 [(Miranda core logging)]
 ( Miranda コアログ )
 [Select where log file will be created]
 ログファイルを作成する場所を選択してください
 [Select program to be run]
 実行するプログラムを選択してください
-;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 < 全ての接続 >
 [Network]
 ネットワーク
-;file \src\modules\netlib\netlibssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 クライアントはホストメッセージをでコードできませんでした。考えられる原因: ホストは SSL をサポートしていない , もしくは存在していないセキュリティパッケージを要求している
 [Host we are connecting to is not the one certificate was issued for]
 接続中のホストには発行済み証明書がありません:
-;file \src\modules\options\options.cpp
 [Loading... %d%%]
 読み込み中... %d%%
 [%s options]
@@ -2123,7 +2044,6 @@ Miranda はプロファイルを開けませんでした
 Miranda NG オプション
 [&Options...]
 オプション (&O)...
-;file \src\modules\plugins\newplugins.cpp
 ['%s' is disabled, re-enable?]
 '%s' は無効です。有効にしますか ?
 [Re-enable Miranda plugin?]
@@ -2132,24 +2052,18 @@ Miranda プラグインを有効にしますか ?
 サービスモードではプラグインの読み込みができません !
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 インストールされているコンタクトリストプラグインがいずれも起動できません。読み込みできないコンタクトリストの選択は無視されます
-[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
-コンタクトリストプラグインが見つかりませんでした ! clist_classic もしくはその他の clist プラグインが必要です
-;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 プラグイン
 [Version]
 バージョン
 [Plugins]
 プラグイン
-;file \src\modules\protocols\protoopts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 警告 ! アカウントは削除されようとしています。全ての設定 , コンタクト , 履歴も削除されます\n\n本当によろしいですか ?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
 あなたのアカウントは正常にアップグレードされました。アクティブ化するには Miranda の再起動が必要です\n\n今すぐ Miranda を再起動するなら「はい」を押してください。他のアカウントもアップグレードしたい場合は「いいえ」を押してください
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 このアカウントはレガシプロトコルプラグインを使用しています。基本設定を変更するには Miranda NG のオプションダイアログを使用して下さい
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Miranda NG のアカウントマネージャーにようこそ !\nここで IM アカウントのセットアップができます\n\n利用可能なオプションを見るには , 左にあるリストの中からアカウントを選択してください。もしくは , リストの下にある + 印をクリックして新規 IM アカウントをセットアップしてください
 [Create new account]
 新規アカウントを作成する
 [Editing account]
@@ -2190,7 +2104,6 @@ Miranda NG のアカウントマネージャーにようこそ !\nここで IM �
 このアカウントを削除するにはプラグインを無効にする必要があります
 [&Accounts...]
 アカウント (&A)...
-;file \src\modules\skin\hotkey_opts.cpp
 [Remove shortcut]
 ショートカットを削除
 [Add another shortcut]
@@ -2209,7 +2122,6 @@ Miranda NG のアカウントマネージャーにようこそ !\nここで IM �
 システムの適用範囲
 [Miranda scope]
 Miranda の適用範囲
-;file \src\modules\skin\skinicons.cpp
 [User online]
 オンラインユーザー
 [Group (open)]
@@ -2272,14 +2184,14 @@ ANSI プラグイン
 権限の承認
 [Revoke authorization]
 認証の取消
+[Always visible]
+常に可視
 [Locked status]
 ロック済ステータス
 [%s icons]
 %s アイコン
-;file \src\modules\skin\sounds.cpp
 [Sound files]
 音声ファイル
-;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 PNG 形式の画像を使用するには画像サービスのプラグインが必要です
 [All bitmaps]
@@ -2292,10 +2204,8 @@ JPEG ビットマップ
 GIF 形式
 [PNG bitmaps]
 PNG 形式
-;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 < 指定なし >
-;file \src\modules\utils\utils.cpp
 [Unspecified]
 未指定
 [Unknown]
@@ -2346,12 +2256,16 @@ PNG 形式
 バミューダ諸島
 [Bhutan]
 ブータン
+[Bolivia]
+ボリビア
 [Bosnia and Herzegovina]
 ボスニア・ヘルツェゴビナ
 [Botswana]
 ボスワナ
 [Brazil]
 ブラジル
+[Brunei]
+ブルネイ
 [Bulgaria]
 ブルガリア
 [Burkina Faso]
@@ -2364,12 +2278,16 @@ PNG 形式
 カメルーン
 [Canada]
 カナダ
+[Cape Verde]
+カーボベルデ諸島
 [Cayman Islands]
 ケイマン諸島
 [Central African Republic]
 中央アフリカ共和国
 [Chad]
 チャド
+[Chile]
+チリ共和国
 [China]
 中国
 [Cocos (Keeling) Islands]
@@ -2378,10 +2296,16 @@ PNG 形式
 コロンビア
 [Comoros]
 コモロ
+[Congo, Republic of the]
+コンゴ共和国
+[Congo, Democratic Republic of the]
+コンゴ民主共和国
 [Cook Islands]
 クック諸島
 [Costa Rica]
 コスタリカ
+[Cote d'Ivoire]
+コートジボワール
 [Croatia]
 クロアチア
 [Cuba]
@@ -2412,6 +2336,8 @@ PNG 形式
 エストニア
 [Ethiopia]
 エチオピア
+[Faroe Islands]
+フェロー諸島
 [Fiji]
 フィジー
 [Finland]
@@ -2488,6 +2414,8 @@ PNG 形式
 クウェート
 [Kyrgyzstan]
 キルギスタン
+[Laos]
+ラオス
 [Latvia]
 ラトビア
 [Lebanon]
@@ -2496,12 +2424,16 @@ PNG 形式
 レソト
 [Liberia]
 リベリア
+[Libya]
+リビア・アラブ国
 [Liechtenstein]
 リヒテンシュタイン
 [Lithuania]
 リトアニア
 [Luxembourg]
 ルクセンブルグ
+[Macau]
+マカオ
 [Madagascar]
 マダガスカル
 [Malawi]
@@ -2522,6 +2454,8 @@ PNG 形式
 モーリタニア
 [Mauritius]
 モーリシャス
+[Mayotte]
+マヨット島
 [Mexico]
 メキシコ
 [Micronesia, Federated States of]
@@ -2532,6 +2466,8 @@ PNG 形式
 モナコ
 [Mongolia]
 モンゴル
+[Montenegro]
+モンテネグロ共和国
 [Montserrat]
 モントセラト
 [Morocco]
@@ -2586,8 +2522,12 @@ PNG 形式
 プエルトリコ
 [Qatar]
 カタール
+[Reunion]
+レユニオン島
 [Romania]
 ルーマニア
+[Russia]
+ロシア
 [Rwanda]
 ルワンダ
 [Saint Kitts and Nevis]
@@ -2606,6 +2546,8 @@ PNG 形式
 サウジアラビア
 [Senegal]
 セネガル
+[Serbia]
+セルビア共和国
 [Seychelles]
 セイシェル
 [Sierra Leone]
@@ -2638,8 +2580,12 @@ PNG 形式
 スイス
 [Syria]
 シリアアラブ共和国
+[Taiwan]
+台湾
 [Tajikistan]
 タジキスタン
+[Tanzania]
+タンザニア
 [Thailand]
 タイ
 [Togo]
@@ -2674,10 +2620,17 @@ PNG 形式
 ウズベキスタン
 [Vanuatu]
 バヌアツ
+[Vatican City]
+バチカン市国
+[Venezuela]
+ベネズエラ
+[Vietnam]
+ベトナム
+[Wallis and Futuna]
+ウォリス・フトゥーナ諸島
 [Yemen]
 イエメン
 [Zambia]
 ザンビア
 [Zimbabwe]
 ジンバブエ
-;file \src\modules\visibility\visibility.cpp

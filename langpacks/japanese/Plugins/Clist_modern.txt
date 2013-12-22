@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 透明度:
 [Window behavior:]
@@ -100,6 +99,8 @@
 位置:
 [Size:]
 サイズ:
+[Height]
+高さ
 [W x H: 0 x 0 pixels]
 幅 × 高さ: 0 x 0 ピクセル
 [Show contacts in groups]
@@ -112,6 +113,8 @@ Cancel
 プロトコル
 [Group]
 グループ
+[Last message]
+最終メッセージ
 [Status Bar]
 ステータスバー
 [Show status bar]
@@ -138,6 +141,8 @@ Cancel
 アカウントを完全に非表示
 [Show protocol icon]
 プロトコルアイコンを表示
+[Use connecting icon]
+接続中アイコンを使用
 [Show xStatus icon]
 xStatus アイコンを表示
 [Show both icons]
@@ -150,6 +155,8 @@ xStatus アイコンを表示
 未読の電子メールを表示 ( サポート時のみ )
 [Right click opens status menu]
 右クリックでステータスメニューを開く
+[Right click opens Miranda menu]
+右クリックで Miranda のメニューを開く
 [Space on Left]
 左側の空間
 [Space on right]
@@ -226,6 +233,8 @@ x100 ミリ秒
 エッジでスナップ
 [Event notify area]
 イベント通知エリア
+[Disabled]
+無効
 [Show automaticaly]
 自動的に表示
 [Always Visible]
@@ -286,16 +295,14 @@ x100 ミリ秒
 秒毎　ステータスが異なる時
 [Show multiple icons]
 複合アイコンを表示
-[Only when statuses differ]
-ステータスが異なる時のみ
+[only when statuses differ]
+ステータスが異なるときのみ
 [System tray icon]
 システムトレイアイコン
 [System tray icon mode]
 システムトレイアイコンモード
 [Use xStatus icon]
 xStatus アイコンを使用
-[only when statuses differ]
-ステータスが異なるときのみ
 [Expand metacontacts]
 メタコンタクトを拡張
 [MetaContacts stuff]
@@ -410,6 +417,8 @@ RTL 読み取りモード ( ミラーテンプレート )
 2 行目に顔文字を描画
 [Status]
 ステータス
+[Nickname]
+ニックネーム
 [XStatus has priority]
 XStatus が優先
 [Use 'XStatus: XMessage']
@@ -456,6 +465,8 @@ XStatus が優先
 レイヤー
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 「オプションページは工事中につき , 告知用には一切使用しないでください」\n高レベルのデザインコメントにのみ適用可能です
+[&Main menu]
+メインメニュー (&M)
 [E&xit]
 終了 (&x)
 [&Status]
@@ -508,9 +519,12 @@ Miranda を非表示
 グループ名を変更 (&R)
 [&Delete Group]
 グループを削除 (&D)
-;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 コンタクトリストの顔文字
+[List Background]
+リストの背景
+[StatusBar Background]
+ステータスバーの背景
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 コンタクト '%s' をメタコンタクトに変換して , '%s' を追加しますか ?
 [Converting to MetaContact]
@@ -531,7 +545,10 @@ Miranda を非表示
 コンタクト '%s' をメタコンタクト '%s' から削除して , '%s' に追加しますか ?
 [Changing MetaContacts (Moving)]
 メタコンタクトを変更 ( 移動 )
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Do you want contact '%s' to be added to MetaContact '%s'?]
+コンタクト '%s' をメタコンタクト '%s' に追加しますか ?
+[Row items]
+行項目
 [Standard contacts]
 標準コンタクト
 [Away contacts]
@@ -568,6 +585,8 @@ Miranda を非表示
 グループメンバーの数を閉じる
 [Dividers]
 境界線
+[Second line]
+2 行目
 [Third line]
 3 行目
 [Status bar text]
@@ -580,6 +599,8 @@ Miranda を非表示
 背景
 [Hot text]
 ホットテキスト
+[Selected text]
+選択されたテキスト
 [Quick search text]
 クイック検索テキスト
 [Menu text]
@@ -598,8 +619,6 @@ Miranda を非表示
 リスト
 [Window]
 ウィンドウ
-[List Background]
-リストの背景
 [Not focused]
 非フォーカス
 [Offline]
@@ -632,10 +651,10 @@ Miranda を非表示
 左端の背後
 [Behind right edge]
 右端の背後
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area]
+イベントエリア
 [No Events]
 イベントなし
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [None]
 なし
 [Low]
@@ -650,7 +669,6 @@ Miranda を非表示
 コンタクト割合 中
 [Contact rate High]
 コンタクト割合 高
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Text]
 テキスト
 [Extra icons]
@@ -661,31 +679,16 @@ Miranda を非表示
 2 行目
 [Third Line]
 3 行目
-[Row items]
-行項目
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 ( 不明なコンタクト )
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 コンタクトを検索 / 追加 (&F)...
-[&Main menu]
-メインメニュー (&M)
 [&Options...]
 オプション (&O)...
-;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 コンタクトアバターを表示 (&A)
 [Hide Contact &Avatar]
 コンタクトアバターを非表示 (&A)
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Show title]
-タイトルを表示 (&S)
-[&Expanded]
-展開済み (&E)
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
 空の %s セル
 [column]
@@ -698,15 +701,12 @@ Miranda を非表示
 %s %s を含む
 [ layered]
 レイヤー
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [Image size is]
 画像のサイズは
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 PNG 形式の画像を使用するには画像サービスのプラグインが必要です
 [Error]
 エラー
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 読込 / 保存
 [Object Editor]
@@ -747,17 +747,23 @@ Angeli-Ka ( グラフィック ), FYR ( テンプレート )
 デフォルトスキン
 [%Default Skin%]
 %Default Skin%
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 << グローバル >>
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 メインメニュー
 [Accounts]
 アカウント
 [Find user]
 ユーザー検索
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Disable Groups]
+グループを無効
 [Configuring view mode: %s]
 表示モードの設定: %s
+[&Show title]
+タイトルを表示 (&S)
+[&Expanded]
+展開済み (&E)
+[Show TitleBar]
+タイトルバーを表示
+[&New SubGroup]
+新規サブグループ (&N)

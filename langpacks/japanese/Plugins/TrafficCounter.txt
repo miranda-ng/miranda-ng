@@ -5,25 +5,29 @@
 ;  Version: 0.1.1.8
 ;  Authors: Ghost, Mironych
 ;============================================================
-;file \plugins\TrafficCounter\res\resource.rc
 [Accounts]
 アカウント
+[Reset to default]
+デフォルトにリセット
 [Custom]
 カスタム
-;file \plugins\TrafficCounter\src\options.cpp
 [General]
 全般
 [Options]
 オプション
 [Popups]
 ポップアップ
-;file \plugins\TrafficCounter\src\statistics.cpp
+[Bytes]
+バイト
+[KB]
+KB
+[MB]
+mb
 [Incoming]
 着信
 [Outgoing]
 発信
 [Online]
 オンライン
-;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 フォント

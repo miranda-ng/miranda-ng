@@ -1,0 +1,25 @@
+﻿#muuid {32579908-724b-467f-adad-22b6359a749a}
+;============================================================
+;  File: VKontakte.dll
+;  Plugin: VKontakte protocol
+;  Version: 0.1.0.6
+;  Authors: Miranda NG Team
+;============================================================
+[Password:]
+パスワード:
+[Advanced]
+詳細
+[Bots challenge test]
+ボットチャレンジテスト
+[Instruction:]
+インストラクション:
+[Submit]
+送信
+[Cancel]
+Cancel
+[Enter the text you see]
+見えるテキストを入力してください
+[Network]
+ネットワーク
+[Photo]
+写真

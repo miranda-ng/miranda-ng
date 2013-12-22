@@ -5,7 +5,6 @@
 ;  Version: 0.8.3.1
 ;  Authors: Merlin
 ;============================================================
-;file \plugins\SendScreenshotPlus\res\resource.rc
 [OK]
 OK
 [None]
@@ -18,26 +17,16 @@ Cancel
 閉じる (&C)
 [Edit]
 編集
-;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [An unknown error has occurred.]
 不明なエラーが発生しました
 [Error]
 エラー
-;file \plugins\SendScreenshotPlus\src\CSend.h
-;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
-;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
-;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
-;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
-;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Yes]
 はい
 [No]
 いいえ
 [Ignore]
 無視
-;file \plugins\SendScreenshotPlus\src\global.h
-;file \plugins\SendScreenshotPlus\src\Main.cpp
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
 [Default]
 デフォルト
 [Help]
@@ -46,11 +35,10 @@ Cancel
 前へ
 [Apply]
 適用
-;file \plugins\SendScreenshotPlus\src\mir_icolib.h
-;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
+[Down arrow]
+下向き矢印
 [< Copyright]
 < 著作権
-;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Window]
 ウィンドウ
 [E-mail]

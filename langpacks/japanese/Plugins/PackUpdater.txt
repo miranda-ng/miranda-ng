@@ -5,20 +5,15 @@
 ;  Version: 0.0.1.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
-;file \plugins\PackUpdater\Res\Resource.rc
 [Cancel]
 Cancel
 [Text]
 テキスト
+[Sec]
+秒
 [Popups]
 ポップアップ
-;file \plugins\PackUpdater\Src\Events.cpp
-;file \plugins\PackUpdater\Src\Notifications.cpp
 [Current Version]
 現在のバージョン
 [New Version]
 新しいバージョン
-;file \plugins\PackUpdater\Src\Notifications.h
-;file \plugins\PackUpdater\Src\Options.cpp
-;file \plugins\PackUpdater\Src\PackUpdater.cpp
-;file \plugins\PackUpdater\Src\Utils.cpp

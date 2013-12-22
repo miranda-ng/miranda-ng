@@ -5,19 +5,17 @@
 ;  Version: 0.1.3.0
 ;  Authors: MaD_CLuSTeR
 ;============================================================
-;file \plugins\Sessions\res\Sessions.rc
 [Edit]
 編集
 [Delete]
 削除
 [&Cancel]
 Cancel(&C)
+[Save and Close]
+保存して閉じる
 [OK]
 OK
 [Cancel]
 Cancel
-;file \plugins\Sessions\Src\Main.cpp
-;file \plugins\Sessions\Src\Options.cpp
 [Message Sessions]
 メッセージセッション
-;file \plugins\Sessions\Src\Utils.cpp

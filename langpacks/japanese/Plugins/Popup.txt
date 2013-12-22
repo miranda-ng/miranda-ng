@@ -5,7 +5,6 @@
 ;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
-;file \plugins\Popup\res\resource.rc
 [Content && Style]
 コンテンツとスタイル
 [Go to Customize > Fonts && Colors for fonts and colors options]
@@ -22,6 +21,8 @@
 ポップアップ履歴を有効
 [Store last]
 保存は最新
+[events]
+イベント
 [Use History++ to render log]
 ログの表示に History++ を使用
 [Draw avatar borders]
@@ -112,6 +113,8 @@ IM コンタクトのみに情報とメニューを追加
 色の設定をするには\r\nカスタマイズ > フォントと色
 [Disable if message window is open]
 メッセージウィンドウが開いているなら無効
+[Sec]
+秒
 [Per-contact settings]
 コンタクト毎の設定
 [Show always]
@@ -148,7 +151,6 @@ IM コンタクトのみに情報とメニューを追加
 常に ( 優先度あり )
 [Fullscreen mode]
 全画面モード
-;file \plugins\Popup\src\actions.cpp
 [no overwrite]
 上書きしない
 [Quick reply]
@@ -159,7 +161,6 @@ IM コンタクトのみに情報とメニューを追加
 コンタクトメニュー
 [Pin popup]
 固定ポップアップ
-;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 ジャバウォックの詩
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
@@ -170,17 +171,20 @@ IM コンタクトのみに情報とメニューを追加
 これは警告メッセージです
 [This is an error message]
 これはエラーメッセージです
-;file \plugins\Popup\src\effects.cpp
-;file \plugins\Popup\src\font.cpp
-;file \plugins\Popup\src\history.cpp
 [Popup History message]
 履歴メッセージをポップアップ
-;file \plugins\Popup\src\icons.cpp
 [OK]
 OK
 [Cancel]
 Cancel
-;file \plugins\Popup\src\main.cpp
+[Blocked Contact]
+ブロックされたコンタクト
+[Quick Reply]
+クイック返信
+[Pin Popup]
+固定ポップアップ
+[Contact Menu]
+コンタクトメニュー
 [Actions]
 アクション
 [Contacts]
@@ -189,13 +193,30 @@ Cancel
 詳細
 [Popup Plus]
 Popup Plus
-;file \plugins\Popup\src\opt_adv.cpp
 [Fade in/out]
 フェードイン / アウト
-;file \plugins\Popup\src\opt_class.cpp
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 ふんぐるい むぐるうなふ くとぅるう るるいえ うがふなぐる ふたぐん !
-;file \plugins\Popup\src\opt_gen.cpp
+[Offline]
+オフライン
+[Online]
+オンライン
+[Invisible]
+不可視
+[Away]
+離席中
+[NA]
+応答不可
+[Occupied]
+取り込み中
+[DND]
+邪魔しないで
+[Free for chat]
+チャット OK!
+[Out to lunch]
+昼食中
+[On the phone]
+電話中
 [upper left corner]
 左上の角
 [lower left corner]
@@ -208,22 +229,18 @@ Popup Plus
 垂直方向
 [Popup Plus Warning]
 Popup Plus 警告
-;file \plugins\Popup\src\opt_skins.cpp
 [Skin preview]
 スキンプレビュー
 [Just take a look at this skin... ;)]
 このスキンで見てみる... ;)
+[Enable Aero Glass (Vista+)]
+Aero Glass (Vista+) を有効
 [Use Windows colors]
 ウィンドウ色を使用
 [Refresh List]
 更新リスト
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-;file \plugins\Popup\src\services.cpp
 [Error]
 エラー
-;file \plugins\Popup\src\skin.cpp
-;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]
 ポップアップモード: 自動
 [Popup Mode: Ignore fullscreen]

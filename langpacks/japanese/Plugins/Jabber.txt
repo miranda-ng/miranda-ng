@@ -1,11 +1,10 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
 メモの編集
 [Tags:]
@@ -290,6 +289,8 @@ URL
 次の区切り型:
 [Messages]
 メッセージ
+[Queries]
+クエリー
 [Incoming presence]
 着信出席通知
 [Outgoing presence]
@@ -304,6 +305,8 @@ URL
 ツリー表示
 [View as list]
 リスト表示
+[Favorites]
+お気に入り
 [Node:]
 ノード:
 [Change %s Message]
@@ -366,11 +369,8 @@ Jabber ノートブック\nサーバー上にノートを保存してどこか�
 XML コンソール
 [Reset log]
 ログをリセット
-;file \protocols\JabberG\src\jabber.cpp
-;file \protocols\JabberG\src\jabber.h
 [/me slaps %s around a bit with a large trout]
 /me は %s を大きな鱒でピシャピシャたたいた
-;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 エラー %s %s
 [Select Command]
@@ -387,24 +387,20 @@ XML コンソール
 Jabber アドホックコマンド:
 [Sending Ad-Hoc command to %s]
 アドホックコマンドを送信:
-;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 メッセージなし
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [Bookmark Name]
 ブックマーク名
 [Address (JID or URL)]
 アドレス ( JID もしくは URL )
+[Nickname]
+ニックネーム
 [Conferences]
 会議
-;file \protocols\JabberG\src\jabber_byte.cpp
 [Bytestream Proxy not available]
 バイトストリームプロキシは利用できません
-;file \protocols\JabberG\src\jabber_caps.cpp
-;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 見えるテキストを入力してください
-;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 なし
 [Member]
@@ -487,6 +483,8 @@ Jabber アドホックコマンド:
 ユーザーの詳細情報 (&U)
 [Member &info]
 メンバー情報 (&i)
+[User &details]
+ユーザーの詳細情報 (&D)
 [&Add to roster]
 リストに追加 (&A)
 [&Copy to clipboard]
@@ -523,30 +521,16 @@ Jabber アドホックコマンド:
 実 JID(&J): %s
 [%s\nSend group chat invitation.]
 %s\nグループチャットの招待を送信
-[Member Info:]
-メンバー情報:
 [Real JID not available]
 実 JID は利用できません
-[Reason to kick]
-排除の理由
-[Reason to ban]
-入室禁止の理由
 [Invite %s to %s]
 %s を %s に招待
-[Set topic for]
-トピックを設定:
-[Change nickname in]
-ニックネームを変更:
-[Reason to destroy]
-破壊の理由
-;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 オフラインの間はデータを送信できません
 [Jabber Error]
 Jabber エラー
 [Outgoing XML parsing error]
 発信 XML 解析エラー 
-;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
 リクエストはタイムアウトしました
 [Node hierarchy]
@@ -567,7 +551,6 @@ Jabber エラー
 チャットルームを参照
 [Add to roster]
 リストに追加
-;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 アイデンティティー
 [category]
@@ -580,8 +563,10 @@ Jabber エラー
 情報リクエストエラー
 [Items request error]
 アイテムリクエストエラー
-;file \protocols\JabberG\src\jabber_form2.cpp
-;file \protocols\JabberG\src\jabber_groupchat.cpp
+[First Name]
+名前
+[Last Name]
+名字
 [Failed to retrieve room list from server.]
 サーバーからルームリストの読み出しに失敗しました
 [No rooms available on server.]
@@ -602,7 +587,8 @@ Jabber エラー
 は目的を以下に設定:
 [%s\nIncoming group chat invitation.]
 %s\nグループチャットの招待を着信しています
-;file \protocols\JabberG\src\jabber_icolib.cpp
+[transport]
+転送
 [Notes]
 メモ
 [Agents list]
@@ -669,7 +655,6 @@ Weather サービス
 クエリーを拒否
 [Dialogs]
 ダイアログ
-;file \protocols\JabberG\src\jabber_iqid.cpp
 [Jabber Authentication]
 Jabber 認証
 [Registration successful]
@@ -680,7 +665,6 @@ Jabber 認証
 パスワードは変更できませんでした
 [Jabber Bookmarks Error]
 Jabber ブックマークエラー
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d 項目 (%s)
 [Voice List]
@@ -695,12 +679,10 @@ Voice リスト
 管理者リスト
 [Owner List]
 所有者リスト
-[Removing]
-削除
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Reason to ban]
+入室禁止の理由
 [Http authentication request received]
 HTTP 認証リクエストを受信しました
-;file \protocols\JabberG\src\jabber_menu.cpp
 [Request authorization]
 認証リクエスト
 [Grant authorization]
@@ -739,19 +721,18 @@ Jabber リソース
 リソースの優先順位
 [Resource priority [%d]]
 リソースの優先度 [%d]
-[Last active]
-最終アクティブ
+[Privacy lists]
+プライバシーリスト
+[Service discovery]
+サービス検出
 [No activity yet, use server's choice]
 まだアクティブではありません。使用するサーバーを選択してください
 [Highest priority (server's choice)]
 高優先度 ( サーバーの選択 )
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
 宛
 [Both]
 両方
-;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 %s からの着信メモ
 [Send note to %s]
@@ -764,7 +745,6 @@ Jabber リソース
 メモは保存されていません。サーバーにデータをアップロードしないでこのウィンドウを閉じますか ?
 [Incoming note]
 着信メモ
-;file \protocols\JabberG\src\jabber_opt.cpp
 [Nauru]
 ナウル
 [These changes will take effect the next time you connect to the Jabber network.]
@@ -775,8 +755,6 @@ Jabber プロトコルオプション
 パスワードを確認
 [Passwords do not match.]
 パスワードが違います
-[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
-この操作はあなたのアカウント , リスト , その他の全てのサーバー上に保存されている情報を削除します。本当に実行しますか?
 [Account removal warning]
 アカウント削除警告
 [You can change your password only when you are online]
@@ -889,14 +867,10 @@ LiveJournal Talk
 Facebook チャット
 [Some changes will take effect the next time you connect to the Jabber network.]
 いくつかの変更は , 次回 Jabber ネットワークに接続した際に適用されます
-;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for]
-新規パスワードの設定:
 [New password does not match.]
 新規パスワードが一致しません
 [Current password is incorrect.]
 現在のパスワードは不正です
-;file \protocols\JabberG\src\jabber_privacy.cpp
 [Warning: privacy lists were changed on server.]
 警告: サーバー上のプライバシーリストは変更されました
 [Error occurred while applying changes]
@@ -999,12 +973,10 @@ Ready.
 現在オフラインのため , リストの保存ができません
 [List Editor...]
 リストエディター...
-;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
 互換性のあるファイル転送メカニズムが存在しません
 [Protocol is offline or no JID]
 プロトコルはオフラインか JID がありません
-;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 コマンドは正常に完了しました
 [Error occurred during processing command]
@@ -1067,7 +1039,6 @@ Miranda NG のシャットダウンを確認してください
 離席するグループチャットはありません
 [Choose the group chats you want to leave]
 離席したいグループチャットを選択
-;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 エラー %s %s\r\n他のサーバーを選択してください
 [Error: unknown reply received\r\nPlease select other server]
@@ -1082,7 +1053,6 @@ Miranda NG のシャットダウンを確認してください
 お待ちください...\r\n検索サーバーに接続中...
 [You have to be connected to server]
 サーバーに接続する必要があります
-;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
 終了したチャットセッション
 [sent subscription request]
@@ -1095,7 +1065,6 @@ Miranda NG のシャットダウンを確認してください
 出席通知の送信エラー
 [sent unknown presence type]
 不明な出席通知形式を送信
-;file \protocols\JabberG\src\jabber_thread.cpp
 [Error: Not enough memory]
 エラー: メモリー不足
 [Error: Cannot connect to the server]
@@ -1108,7 +1077,6 @@ Miranda NG のシャットダウンを確認してください
 メッセージが以下からリダイレクトされました:%s\r\n%s
 [Sending registration information...]
 登録情報を送信...
-;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Message]
 メッセージ
 [<not specified>]
@@ -1119,6 +1087,8 @@ Miranda NG のシャットダウンを確認してください
 バージョン
 [System]
 システム
+[unknown]
+不明
 [Idle since]
 アイドルの時期
 [Client capabilities]
@@ -1133,18 +1103,14 @@ Miranda NG のシャットダウンを確認してください
 ソフトウェアバージョン
 [Miranda core version]
 Miranda コアバージョン
-[Unicode build]
-Unicode ビルド
-[Yes]
-はい
-[No]
-いいえ
-[Alpha build]
-アルファビルド
-[Debug build]
-デバッグビルド
 [Tune]
 手動選局
+[both]
+両方
+[to]
+宛
+[none]
+なし
 [Last logoff time]
 最終ログオフ時間
 [Uptime]
@@ -1171,7 +1137,6 @@ Unicode ビルド
 < 写真なし >
 [Photo]
 写真
-;file \protocols\JabberG\src\jabber_util.cpp
 [Redirect]
 リダイレクト
 [Bad request]
@@ -1214,7 +1179,6 @@ Unicode ビルド
 気分の設定...
 [Set activity...]
 アクティビティの設定...
-;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 男性
 [Female]
@@ -1229,8 +1193,6 @@ Jabber vCard: 電子メールアドレスの編集
 Jabber vCard: 電話番号の編集
 [Contacts]
 コンタクト
-;file \protocols\JabberG\src\jabber_ws.cpp
-;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]
 怖い
 [Amazed]
@@ -1391,10 +1353,25 @@ Jabber vCard: 電話番号の編集
 気分: %s
 [Set Mood]
 気分を設定
+[taking a bath]
+入浴
+[thinking]
+考え中
+[gaming]
+ゲーム
+[shopping]
+お買いもの
+[watching TV]
+テレビみてる
+[on the phone]
+電話中
+[studying]
+勉強
+[writing]
+書いてる
 [Activity: %s]
 アクティビティ: %s
 [Set Activity]
 アクティビティを設定
-;file \protocols\JabberG\src\ui_utils.cpp
 [Set filter...]
 フィルターを設定...

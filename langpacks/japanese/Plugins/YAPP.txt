@@ -5,22 +5,19 @@
 ;  Version: 0.5.0.11
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\YAPP\res\yapp.rc
 [Close]
 閉じる
 [Options]
 オプション
-;file \plugins\YAPP\src\icons.cpp
-;file \plugins\YAPP\src\notify_imp.cpp
-;file \plugins\YAPP\src\options.cpp
 [Status]
 ステータス
 [Error]
 エラー
 [Popups]
 ポップアップ
-;file \plugins\YAPP\src\services.cpp
-;file \plugins\YAPP\src\yapp.cpp
+[Second line]
+2 行目
 [Background]
 背景
-;file \plugins\YAPP\src\yapp_history_dlg.cpp
+[Copy message to clipboard]
+メッセージをクリップボードにコピー

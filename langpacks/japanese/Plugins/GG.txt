@@ -1,11 +1,10 @@
 ﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
 ;  File: GG.dll
-;  Plugin: GG
+;  Plugin: Gadu-Gadu Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
-;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 Gadu-Gadu のユーザー詳細
 [Gadu-Gadu Number:]
@@ -114,6 +113,8 @@ Gadu-Gadu 電子メールを変更
 Gadu-Gadu 電子メールを変更\n現在のGadu-Gadu ユーザーの電子メールを変更します
 [Age from:]
 次の年齢から:
+[to:]
+送信者:
 [&Close]
 閉じる (&C)
 [&Send]
@@ -128,8 +129,6 @@ Gadu-Gadu 電子メールを変更\n現在のGadu-Gadu ユーザーの電子メ�
 同時 %s ログインセッション\nアクティブ同時セッションの情報を表示します
 [Sign out all sessions]
 全てのセッションをサインアウト
-;file \protocols\Gadu-Gadu\src\avatar.cpp
-;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 Miranda は Gadu-Gadu サーバー名を数値アドレスへ解決できませんでした
 [Received invalid server response.]
@@ -166,7 +165,6 @@ Gadu-Gadu サーバーは現在ダウンしています。後ほど再試行し�
 あなたは他の場所でログインしています
 [Incoming image]
 着信画像
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 男性
 [Female]
@@ -197,8 +195,6 @@ Gadu-Gadu サーバーは現在ダウンしています。後ほど再試行し�
 あなたの詳細情報は公共のディレクトリーにアップロードされました
 [You have to be logged in before you can change your details.]
 詳細情報を変更できるようにする前にログインする必要があります
-;file \protocols\Gadu-Gadu\src\filetransfer.cpp
-;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed connecting]
 HTTP 接続に失敗
 [HTTP failed resolving]
@@ -209,10 +205,10 @@ HTTP 読み込みに失敗
 HTTP 書き込みに失敗
 [Unknown HTTP error]
 不明な HTTP エラー
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Contact list]
+コンタクトリスト
 [Gadu-Gadu Number]
 Gadu-Gadu 番号
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 会議を開く (&c)...
 [&Clear ignored conferences]
@@ -231,7 +227,6 @@ Gadu-Gadu 番号
 全ての無視する会議の無視を解除し , 会議のポリシーを再び動作させる
 [There are no ignored conferences.]
 無視する会議はありません
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Import list from server]
 サーバーからリストをインポート
 [Import list from text file]
@@ -256,7 +251,6 @@ Gadu-Gadu 番号
 無視した会議をクリア
 [Concurrent sessions]
 同時セッション
-;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 画像 (&I)
 [Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
@@ -275,7 +269,6 @@ Gadu-Gadu 番号
 送信する画像の選択
 [Image exceeds maximum allowed size of 255 KB.]
 画像は許可される最大サイズの 255KB を超えています
-;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
 サーバーに対してコンタクトをインポート / エクスポートする前に , 接続する必要があります
 [Text files]
@@ -294,15 +287,10 @@ Gadu-Gadu 番号
 サーバーにリストをエクスポート (&S)
 [Export List To &Text File...]
 リストをテキストファイルにエクスポート (&T)...
-;file \protocols\Gadu-Gadu\src\links.cpp
-;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password was sent to your e-mail.]
 パスワードをあなたの電子メールに送信しました
-;file \protocols\Gadu-Gadu\src\popups.cpp
 [Error]
 エラー
-;file \protocols\Gadu-Gadu\src\services.cpp
-;file \protocols\Gadu-Gadu\src\sessions.cpp
 [Client Name]
 クライアント名
 [IP Address]
@@ -321,12 +309,10 @@ IP アドレス
 Whois
 [Concurrent &sessions]
 同時セッション (&s)
-;file \protocols\Gadu-Gadu\src\token.cpp
 [Token retrieval failed because of error:\n\t%s]
 エラーによりトークンの復旧に失敗しました:\n\t%s
 [Could not load token image.]
 トークン画像が読み込みできません
-;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 新規アカウントの登録が次のエラーのためできませんでした:\n\t%s
 [Registration rejected]

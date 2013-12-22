@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.1
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
-;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 追加
 [Remove]
@@ -18,12 +17,9 @@ Cancel
 URL
 [Reset]
 リセット
-;file \plugins\NewsAggregator\Src\Icons.cpp
-;file \plugins\NewsAggregator\Src\Menus.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
+[&Close]
+閉じる (&C)
 [Error]
 エラー
 [Network]
 ネットワーク
-;file \plugins\NewsAggregator\Src\Services.cpp
-;file \plugins\NewsAggregator\Src\Utils.cpp

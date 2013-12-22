@@ -5,10 +5,11 @@
 ;  Version: 0.1.1.3
 ;  Authors: StDenis
 ;============================================================
-;file \plugins\MsgPopup\res\MsgPopup.rc
 [Background color]
 背景
-;file \plugins\MsgPopup\src\main.cpp
+[Text color]
+テキスト色
+[Error]
+エラー
 [Popups]
 ポップアップ
-;file \plugins\MsgPopup\src\options.cpp

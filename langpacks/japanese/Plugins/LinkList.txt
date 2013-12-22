@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 検索
 [Close]
@@ -16,6 +15,10 @@
 着信メッセージ
 [Outgoing messages]
 発信メッセージ
+[Background color]
+背景色
+[Text color]
+テキスト色
 [Timestamp]
 タイムスタンプ
 [&File]
@@ -26,11 +29,15 @@
 オプション (&O)
 [&Search]
 検索 (&S)
-;file \plugins\HistoryLinkListPlus\src\language.h
+[link]
+リンク
 [Error]
 エラー
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[incoming]
+着信
+[outgoing]
+発信
 [History]
 履歴
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[All files]
+全てのファイル

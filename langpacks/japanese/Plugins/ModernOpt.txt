@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.0
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
-;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 Miranda NG 公式ウェブサイトにアクセス
 [Sample page]
@@ -24,7 +23,6 @@ Cancel
 クラシックオプションに切り替え
 [Advanced]
 詳細
-;file \plugins\ModernOpt\src\modernopt.cpp
 [Accounts]
 アカウント
 [Style]

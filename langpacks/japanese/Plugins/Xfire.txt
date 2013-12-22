@@ -5,7 +5,6 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-;file \protocols\Xfire\res\resource.rc
 [Password:]
 パスワード:
 [Nick:]
@@ -26,18 +25,20 @@
 名前:
 [Port:]
 ポート:
+[User details]
+ユーザーの詳細情報
 [Copy]
 コピー
+[Enter Password]
+パスワードを入力してください
 [OK]
 OK
 [Cancel]
 Cancel
 [Search:]
 検索:
-;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 全てのファイル
-;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 %time% から在席中です
 [I've been away since %time%.]
@@ -52,9 +53,8 @@ Cancel
 電話中です
 [Mmm... food.]
 おいしいね... これ
-;file \protocols\Xfire\src\iniupdater.cpp
-;file \protocols\Xfire\src\main.cpp
-;file \protocols\Xfire\src\options.cpp
+[Disable avatars]
+アバターを無効
 [General]
 全般
 [No]
@@ -63,9 +63,5 @@ Cancel
 < ルートグループ >
 [Network]
 ネットワーク
-;file \protocols\Xfire\src\searching4games.cpp
-;file \protocols\Xfire\src\userdetails.cpp
 [<not specified>]
 < 指定なし >
-;file \protocols\Xfire\src\Xfire_game.cpp
-;file \protocols\Xfire\src\Xfire_gamelist.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.14.0.13
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
-;file \plugins\MetaContacts\res\MetaContacts.rc
 [&Cancel]
 Cancel(&C)
 [Name:]
@@ -22,8 +21,6 @@ Cancel(&C)
 コンタクトリスト
 [Default]
 デフォルト
-;file \plugins\MetaContacts\src\addto.cpp
-;file \plugins\MetaContacts\src\edit.cpp
 [(Unknown Contact)]
 ( 不明なコンタクト )
 [Yes]
@@ -34,22 +31,15 @@ Cancel(&C)
 コンタクト
 [Protocol]
 プロトコル
-;file \plugins\MetaContacts\src\icons.cpp
 [Edit]
 編集
 [Remove]
 削除
-;file \plugins\MetaContacts\src\metacontacts.h
-;file \plugins\MetaContacts\src\meta_main.cpp
-;file \plugins\MetaContacts\src\meta_menu.cpp
 [Error]
 エラー
-;file \plugins\MetaContacts\src\meta_options.cpp
-;file \plugins\MetaContacts\src\meta_services.cpp
 [Message from %s]
 %s からのメッセージ
 [General]
 全般
 [History]
 履歴
-;file \plugins\MetaContacts\src\meta_utils.cpp

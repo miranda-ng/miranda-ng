@@ -5,7 +5,6 @@
 ;  Version: 0.4.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
-;file \plugins\Weather\res\resource.rc
 [Brief Info]
 概要情報
 [Webpage]
@@ -194,12 +193,10 @@ INI を再読み込み
 旧設定にする
 [To default]
 デフォルトにする
-;file \plugins\Weather\src\weather.cpp
 [Weather Condition Changed]
 天気が変更されました
 [Weather Alert Issued]
 警報が発令されました
-;file \plugins\Weather\src\weather.h
 [Invalid service (11)]
 不正なサービスです (11)
 [Invalid station (12)]
@@ -260,7 +257,6 @@ HTTPエラー: ゲートウェイはタイムアウトしました (504)
 %n %u:	%c, %t ( 体感気温 %f)	風: %i %w	湿度: %m
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\n今日:  最高 %h, 最低 %l
-;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 %s の現在の天気情報
 [%s is now the default weather station]
@@ -273,7 +269,6 @@ Weather プロトコル
 < ここに気象台名を入力してください >
 [<Enter station ID here>]
 < ここに気象台 ID を入力してください >
-;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 天気は記録されていません
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
@@ -286,11 +281,12 @@ ID から都市名を取得
 Weather INI 情報
 [View webpage]
 ウェブページを表示
+[Reset to default]
+デフォルトにリセット
 [Text Files]
 テキストファイル
 [All Files]
 全てのファイル
-;file \plugins\Weather\src\weather_conv.cpp
 [mb]
 mb
 [in]
@@ -303,15 +299,12 @@ mm
 < エラー >
 [HTTP Error %i]
 HTTP エラー %i
-;file \plugins\Weather\src\weather_data.cpp
 [<Enter city name here>]
 < ここに都市名を入力してください >
 [Error when obtaining data: %s]
 データ取得時のエラー: %s
-;file \plugins\Weather\src\weather_http.cpp
 [Weather HTTP connections]
 Weather HTTP 接続
-;file \plugins\Weather\src\weather_icons.cpp
 [Update with Clear]
 クリアして更新
 [View Brief]
@@ -322,7 +315,10 @@ Weather HTTP 接続
 Weather 更新
 [No Popup]
 ポップアップしない
-;file \plugins\Weather\src\weather_info.cpp
+[Name]
+名前
+[Items]
+アイテム
 [Name:]
 名前:
 [Internal Name:]
@@ -341,15 +337,12 @@ INI バージョン:
 説明:
 [Here is a list of custom variables that are currently available]
 現在利用可能なカスタム変数のリスト
-;file \plugins\Weather\src\weather_ini.cpp
 [No update data file is found. Please check your Plugins\\Weather directory.]
 更新データファイルが見つかりませんでした。Plugins\\Weather フォルダーを確認して下さい
 [Invalid ini format for: %s]
 以下に対する不正な ini 形式です: %s
 [All update data has been reloaded.]
 全ての更新データは再読み込みされました
-;file \plugins\Weather\src\weather_mwin.cpp
-;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 ネットワーク
 [General]
@@ -360,12 +353,10 @@ INI バージョン:
 %c\t現在の状況\n%d\t現在の日付\n%e\t露点\n%f\t体感気温\n%h\t今日の最高気温\n%i\t風向\n%l\t今日の最低気温\n%m\t湿度\n%n\t気象台名\n%p\t気圧\n%r\t日の出時間\n%s\t気象台 ID\n%t\t気温\n%u\t更新時間\n%v\t視界\n%w\t風速\n%y\t日の入り
 [Weather Protocol Text Preview]
 Weather プロトコルテキストプレビュー
-;file \plugins\Weather\src\weather_popup.cpp
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\t現在の天気\n%d\t現在の日付\n%e\t露点\n%f\t体感気温\n%h\t今日の最高気温\n%i\t風向\n%l\t今日の最低気温\n%m\t湿度\n%n\t気象台名\n%p\t気圧\n%r\t日の出時間\n%s\t気象台 ID\n%t\t気温\n%u\t更新時間\n%v\t視界\n%w\t風速\n%y\t日の入り
 [%[..]\tcustom variables]
 %[..]\tカスタム変数
-;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 気象台 ID
 [Disable &weather notification]
@@ -390,10 +381,8 @@ Weather
 Weather 通知
 [Display in a frame]
 フレーム内に表示
-;file \plugins\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 %s に対する天気情報は取得できませんでした
-;file \plugins\Weather\src\weather_userinfo.cpp
 [Current condition for %n]
 %n の現在の天気
 [Last update on:   %u]

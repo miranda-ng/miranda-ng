@@ -1,0 +1,49 @@
+﻿#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.0
+;  Authors: Vincent Joyce
+;============================================================
+[seconds]
+秒
+[Bold]
+太字
+[URL:]
+URL:
+[OK]
+OK
+[Cancel]
+Cancel
+[Apply]
+適用
+[Find]
+検索
+[&Find next]
+次を検索 (&F)
+[Find what:]
+検索項目:
+[Popup delay]
+ポップアップ遅延
+[Use custom colors]
+カスタム色を使用
+[Background]
+背景
+[Text]
+テキスト
+[Use Windows colors]
+ウィンドウ色を使用
+[Log]
+ログ
+[&Copy]
+コピー (&C)
+[&Delete]
+削除 (&D)
+[Co&py all]
+全てコピー (&p)
+[Network]
+ネットワーク
+[Popups]
+ポップアップ
+[Online]
+オンライン

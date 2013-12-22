@@ -5,11 +5,12 @@
 ;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
-;file \plugins\FTPFileYM\res\ftpfile.rc
 [URL]
 URL
 [Protocol]
 プロトコル
+[Menu items]
+メニュー項目
 [Other]
 その他
 [Summary]
@@ -22,6 +23,8 @@ URL
 閉じる
 [Options]
 オプション
+[UPLOADING...]
+アップロード中...
 [Select All]
 全て選択
 [OK]
@@ -32,18 +35,19 @@ Cancel
 名前の変更
 [Overwrite]
 上書き
-;file \plugins\FTPFileYM\src\dialog.cpp
-;file \plugins\FTPFileYM\src\ftpfile.cpp
+[Disabled]
+無効
 [Resume]
 再開
-;file \plugins\FTPFileYM\src\job_generic.cpp
-;file \plugins\FTPFileYM\src\job_packer.cpp
-;file \plugins\FTPFileYM\src\job_upload.cpp
-;file \plugins\FTPFileYM\src\manager.cpp
-;file \plugins\FTPFileYM\src\options.cpp
+[CANCELED]
+キャンセルしました
+[CONNECTING...]
+接続中...
+[CREATED]
+作成済
+[UNKNOWN]
+不明
 [Accounts]
 アカウント
 [Advanced]
 詳細
-;file \plugins\FTPFileYM\src\serverlist.cpp
-;file \plugins\FTPFileYM\src\utils.cpp

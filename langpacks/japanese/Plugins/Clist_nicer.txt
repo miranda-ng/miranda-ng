@@ -5,7 +5,6 @@
 ;  Version: 0.9.2.1
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-;file \plugins\Clist_nicer\res\resource.rc
 [About CList Nicer+]
 CList Nicer+ バージョン情報
 [OK]
@@ -120,6 +119,8 @@ Clist Nicer+
 非表示にするオフライン
 [Right align contacts]
 コンタクトを右揃え
+[Height]
+高さ
 [Draw a border around avatars]
 アバターの周囲に枠線を描画
 [Rounded avatars]
@@ -296,6 +297,8 @@ Cancel
 プロトコル
 [Group]
 グループ
+[Last message]
+最終メッセージ
 [Per contact skins:]
 コンタクト毎のスキン:
 [< Reload]
@@ -368,6 +371,8 @@ Cancel
 アバターにオーバーレイアイコンを描画
 [Show local time]
 現地時間を表示
+[&Main menu]
+メインメニュー (&M)
 [E&xit]
 終了 (&x)
 [&Status]
@@ -428,11 +433,12 @@ Miranda を非表示
 追加ボタンを表示
 [Draw sunken Frame]
 くぼみフレームを描画
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 全般
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Text color]
+テキスト色
+[<None>]
+< なし >
 [Show menu]
 メニューを表示
 [Show / hide offline contacts]
@@ -453,7 +459,6 @@ Miranda を非表示
 表示モードの選択
 [Clear view mode]
 表示モードをクリア
-;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 非フォーカス
 [Offline]
@@ -486,8 +491,6 @@ Miranda を非表示
 名前
 [Status]
 ステータス
-[Last message]
-最終メッセージ
 [Message frequency]
 メッセージの頻度
 [For RTL only]
@@ -518,7 +521,8 @@ RTL テキストのみ
 グループとレイアウト
 [Advanced]
 詳細
-;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Contact list]
+コンタクトリスト
 [Add permanently]
 完全に追加
 [Revert to default]
@@ -537,10 +541,8 @@ RTL テキストのみ
 %s のコンタクトリストの表示と無視オプション
 [&Contact list settings...]
 コンタクトリストの設定...(&C)
-;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 グローバル
-;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 オンライン / オフライン表示の切り替え
 [Toggle groups]
@@ -555,6 +557,8 @@ TabSRMM メニューを表示
 音声オフ
 [Setup accounts]
 アカウントのセットアップ
+[Event Area]
+イベントエリア
 [%s Connecting]
 %s 接続
 [Open main menu]
@@ -585,40 +589,37 @@ TabSRMM メニューを表示
 ホットトラックテキスト
 [Quicksearch Text]
 クイック検索テキスト
-;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+タイトルバー
 [Tool Window]
 ツールウィンドウ
 [Thin border]
 細い枠線
 [No border]
 枠線なし
-;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 clist は デフォルトのタイトルバーと枠線を使用時にはドッキングできません。ツールウィンドウもしくは無枠線スタイルを代わりに使用してください
 [Clist docking]
 Clist ドッキング
-;file \plugins\Clist_nicer\src\extBackg.cpp
-;file \plugins\Clist_nicer\src\init.cpp
-;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Current view mode: %s]
 現在の表示モード: %s
 [No view mode]
 表示モードなし
 [Clear current View Mode]
 現在の表示モードをクリア
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&Skinned frame]
 フレームにスキンを使用 (&S)
 [Frames]
 フレーム
+[Show TitleBar]
+タイトルバーを表示
 [Skinned frame]
 フレームにスキンを使用
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 コンタクトを検索 / 追加 (&F)...
-[&Main menu]
-メインメニュー (&M)
 [&Options...]
 オプション (&O)...
 [&About the contact list...]
 コンタクトリストのバージョン情報 (&A)...
+[&New SubGroup]
+新規サブグループ (&N)

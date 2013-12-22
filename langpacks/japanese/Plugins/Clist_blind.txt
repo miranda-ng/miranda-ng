@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
-;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 コンタクトの削除
 [Are you sure you want to delete %s?]
@@ -148,6 +147,8 @@ URL:
 パネルの面取りを表示
 [Show resize grip indicator]
 サイズ変更グリップインジケータを表示
+[&Main menu]
+メインメニュー (&M)
 [E&xit]
 終了 (&x)
 [&Status]
@@ -200,7 +201,6 @@ Miranda を非表示
 グループ名を変更 (&R)
 [&Delete Group]
 グループを削除 (&D)
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 非フォーカス
 [Offline]
@@ -225,8 +225,5 @@ Miranda を非表示
 電話中
 [List]
 リスト
-;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 グローバル
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp

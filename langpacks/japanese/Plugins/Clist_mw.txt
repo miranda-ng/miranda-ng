@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
-;file \plugins\Clist_mw\res\resource.rc
 [Stretch to width]
 幅を拡大
 [Stretch to height]
@@ -194,6 +193,8 @@
 ステータステキストを表示
 [Right click opens status menu]
 右クリックでステータスメニューを開く
+[Right click opens Miranda menu]
+右クリックで Miranda のメニューを開く
 [Make sections equal width]
 セクションの幅を同じにする
 [Show size grip]
@@ -204,6 +205,8 @@
 接続中アイコンを使用
 [Use New Drawer for StatusBar]
 ステータスバーに新規引出しを使用
+[&Main menu]
+メインメニュー (&M)
 [E&xit]
 終了 (&x)
 [&Status]
@@ -256,12 +259,10 @@ Miranda を非表示
 グループ名を変更 (&R)
 [&Delete Group]
 グループを削除 (&D)
-;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 カスタマイズ
 [Backgrounds]
 背景
-;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 標準コンタクト
 [Online contacts to whom you have a different visibility]
@@ -290,7 +291,6 @@ Miranda を非表示
 ホットトラックテキスト
 [Quicksearch Text]
 クイック検索テキスト
-;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 リスト
 [List Background]
@@ -321,26 +321,19 @@ Miranda を非表示
 昼食中
 [On the phone]
 電話中
-;file \plugins\Clist_mw\src\clistopts.cpp
 [Global]
 グローバル
-;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]
 プロトコルなし
 [(Unknown Contact)]
 ( 不明なコンタクト )
-;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 コンタクトを検索 / 追加 (&F)...
-[&Main menu]
-メインメニュー (&M)
 [&Options...]
 オプション (&O)...
-;file \plugins\Clist_mw\src\clui.cpp
-;file \plugins\Clist_mw\src\cluiopts.cpp
-;file \plugins\Clist_mw\src\groupmenu.cpp
-;file \plugins\Clist_mw\src\keyboard.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&New SubGroup]
+新規サブグループ (&N)
 [Frames]
 フレーム
-;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
+[Show TitleBar]
+タイトルバーを表示

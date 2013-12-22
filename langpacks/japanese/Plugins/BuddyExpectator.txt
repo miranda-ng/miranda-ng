@@ -5,20 +5,23 @@
 ;  Version: 0.1.2.3
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
-;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [Background]
 背景
 [Text]
 テキスト
+[Use Windows colors]
+ウィンドウ色を使用
 [Default]
 デフォルト
 [Custom]
 カスタム
 [sec]
 秒
-;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
-;file \plugins\BuddyExpectator\src\options.cpp
+[Disabled]
+無効
 [Contacts]
 コンタクト
 [Popups]
 ポップアップ
+[not found]
+みつかりません

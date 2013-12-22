@@ -5,15 +5,9 @@
 ;  Version: 0.11.0.1
 ;  Authors: George Hazan
 ;============================================================
-;file \plugins\DbChecker\res\resource.rc
 [Cancel]
 Cancel
-;file \plugins\DbChecker\src\finished.cpp
-;file \plugins\DbChecker\src\progress.cpp
-;file \plugins\DbChecker\src\selectdb.cpp
 [Error]
 エラー
 [All Files]
 全てのファイル
-;file \plugins\DbChecker\src\wizard.cpp
-;file \plugins\DbChecker\src\worker.cpp

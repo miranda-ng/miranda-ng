@@ -5,7 +5,6 @@
 ;  Version: 0.2.3.17
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
-;file \plugins\SmileyAdd\res\resource.rc
 [Smiley categories]
 顔文字カテゴリー
 [Specify smiley pack for each category]
@@ -40,18 +39,14 @@ IEView スタイルウィンドウ
 組み込みメッセージダイアログサポート
 [Smiley button]
 顔文字ボタン
-;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 選択したウィンドウに顔文字を表示
-;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd HTTP connections]
 SmileyAdd HTTP 接続
-;file \plugins\SmileyAdd\src\main.cpp
 [Button smiley]
 顔文字ボタン
 [Assign smiley category]
 顔文字カテゴリーを指定
-;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 顔文字
 [Customize]
@@ -62,12 +57,9 @@ SmileyAdd HTTP 接続
 顔文字パック
 [All files]
 全てのファイル
-;file \plugins\SmileyAdd\src\services.cpp
-;file \plugins\SmileyAdd\src\smileys.cpp
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 顔文字パックの読み込み時に問題が発生しました ( 要修正 )\n詳細はネットワークログを参照してください
 [Standard]
 標準
-;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
 ドォ !

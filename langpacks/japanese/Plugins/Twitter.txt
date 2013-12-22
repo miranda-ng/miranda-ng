@@ -5,7 +5,6 @@
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
-;file \protocols\Twitter\res\twitter.rc
 [Create a new Twitter account]
 新規 Twitter アカウントを作成
 [Username:]
@@ -32,6 +31,8 @@ Twitter フィードにグループチャットを使用
 ツイートをメッセージとして扱う
 [Enable popup notifications for Tweets]
 ツイートのポップアップ通知を有効
+[Use Windows colors]
+ウィンドウ色を使用
 [Use Popup colors]
 ポップアップ色を使用
 [Use custom colors]
@@ -50,14 +51,12 @@ Twitter PIN を入力
 OK
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
 サインインを完了するには Twitter から提供される PINを入力してください。
-;file \protocols\Twitter\src\connection.cpp
 [OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
 OAuth 変数がシーケンス外のため , リセットされました。再接続して Miranda を Twitter.com で再認証してください ( PIN メニューを再実行してください )
 [Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
 Twitter アクセストークンの取得に失敗しました。オフラインになって再試行してください。もしこれが継続して発生するなら , あなたのインターネット接続を確認してください
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your twitter account in the miranda account options]
 データベースのニックキーが見つかりません。それほど大きな問題ではありませんが , 多少の奇妙な動作が発生する可能性があります ( リストに自分自身のコンタクトがある , グループチャットではない発信メッセージが強調表示される , 等 ) 。修正するには手動で追加するか , もしくは Miranda アカウントオプションの Twitter アカウントをリセットしてください
-;file \protocols\Twitter\src\proto.cpp
 [Send Tweet...]
 ツイートする...
 [Network]
@@ -68,7 +67,8 @@ Twitter アクセストークンの取得に失敗しました。オフライン
 Twitter
 [%s avatar connection]
 %s アバター接続
-;file \protocols\Twitter\src\theme.cpp
+[%s Protocol]
+%s プロトコル
 [Visit Homepage]
 ホームページを訪問
 [Reply...]

@@ -5,7 +5,6 @@
 ;  Version: 0.9.9.1
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
-;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 コンタクトを追加
 [Custom name:]
@@ -22,9 +21,7 @@
 追加 (&A)
 [&Cancel]
 Cancel(&C)
-;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
 リクエストを認証して , 私をあなたのコンタクトリストに追加してください
 [None]
 なし
-;file \plugins\AddContactPlus\src\main.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
-;file \protocols\IRCG\res\IRC.rc
 [&Add]
 追加 (&A)
 [&Edit]
@@ -164,6 +163,8 @@ Op のみがトピックを設定
 送信ヘッダー
 [Attempt reverse DCC (good if firewalled)]
 逆向き DCC を試みる ( ファイアウォール使用時に有効 )
+[none]
+なし
 [everyone on the contact list]
 コンタクトリストにある全員
 [everyone]
@@ -206,6 +207,8 @@ DDC チャットリクエストを無視
 ユーザーを無視
 [(*) Queries from users on your contact list are never ignored]
 (*) あなたのコンタクトリストにあるユーザーからのクエリーは決して無視しない
+[Queries]
+クエリー
 [Messages]
 メッセージ
 [Notices]
@@ -226,10 +229,8 @@ DCC
 パスワード:
 [Alternate nick]
 代替ニック
-;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 %s からの CTCP チャットリクエスト
-;file \protocols\IRCG\src\commandmonitor.cpp
 [%s sets mode %s]
 %s は %s モードを設定
 [%s sets mode %s%s]
@@ -294,7 +295,6 @@ IRC エラー
 実行バッファー内での /AWAY の使用は制限されています\n IRC はこのコマンドを自動的に送信します
 [IRC Error]
 IRC エラー
-;file \protocols\IRCG\src\input.cpp
 [The buddy check function is enabled]
 メンバーチェック機能を有効
 [The buddy check function is disabled]
@@ -337,14 +337,14 @@ DCC エラー: ポートをバインドできませんでした
 コマンド入力
 [Please enter the reply]
 返信を入力してください
-;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
 接続に失敗しました:
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 DCC エラー: パッシブモードファイル転送用ローカルポートをバインドできませんでした
-;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 情報
+[Nickname]
+ニックネーム
 [DCC ERROR: No valid files specified]
 DCC エラー: 有効なファイルが指定されていません
 [DCC reversed file transfer request sent to %s [%s]]
@@ -361,7 +361,6 @@ DCC チャット接続はアクティブではありません
 オンラインにする IRC ネットワークを選択してください。このネットワークはデフォルトになります
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 接続を確立できませんでした ! 全ての必要なフィールドが入力完了していません ( ニックネーム , ユーザー ID 及び m_name )
-;file \protocols\IRCG\src\options.cpp
 [Add]
 追加
 [Apply]
@@ -432,7 +431,6 @@ WhoIs
 DCC と CTCP
 [Advanced]
 詳細
-;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 %s からの WallOps:
 [%s invites you to %s]
@@ -447,7 +445,6 @@ CTCP %s は &s に返信を送信
 CTCP %s は &s に返信を送信: %s
 [Notice to %s: ]
 %s に通知:\s
-;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 クイック接続 (&Q)
 [&Join channel]
@@ -626,11 +623,8 @@ Voice を取得 (&o)
 ユーザーを追加 (&A)
 [Connecting to]
 接続中:
-;file \protocols\IRCG\src\tools.cpp
 [Offline]
 オフライン
-;file \protocols\IRCG\src\userinfo.cpp
-;file \protocols\IRCG\src\windows.cpp
 [Channel]
 チャンネル
 [%s - Filtered - %d items]

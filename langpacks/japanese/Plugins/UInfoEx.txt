@@ -5,7 +5,6 @@
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-;file \plugins\UserInfoEx\res\resource.rc
 [Updating]
 更新中
 [OK]
@@ -80,22 +79,18 @@ Homepage:
 メニュー項目に ' 再起動 ' を表示
 [Age:]
 年齢:
-;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
-;file \plugins\UserInfoEx\src\classPsTree.cpp
-;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
-;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[not found]
+みつかりません
 [Unspecified]
 未指定
-;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit Phone Number]
 電話番号を編集
 [Other]
 その他
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[<Unspecified>]
+< 指定なし >
 [Contact]
 コンタクト
-;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Yes]
 はい
 [No]
@@ -104,7 +99,6 @@ Homepage:
 無視
 [Error]
 エラー
-;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [General]
 全般
 [Work]
@@ -115,59 +109,61 @@ Homepage:
 メモ
 [Owner]
 オーナー
-;file \plugins\UserInfoEx\src\init.cpp
-;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Upload failed]
+アップロードに失敗しました
+[Marital status]
+婚姻区分
 [Default]
 デフォルト
 [Fax]
 Fax
+[e-mail]
+電子メール
+[Down arrow]
+下向き矢印
 [Add]
 追加
 [Edit]
 編集
 [Search]
 検索
-;file \plugins\UserInfoEx\src\mir_icolib.h
-;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [User &details]
 ユーザーの詳細情報 (&D)
 [View/Change My &Details...]
 詳細情報の表示 / 変更 (&D)...
-;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+マイメモ:
 [About:]
 バージョン情報:
-;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-;file \plugins\UserInfoEx\src\psp_contact.cpp
-;file \plugins\UserInfoEx\src\psp_options.cpp
 [Contacts]
 コンタクト
 [Advanced]
 詳細
 [Popups]
 ポップアップ
-;file \plugins\UserInfoEx\src\psp_profile.cpp
-;file \plugins\UserInfoEx\src\svc_constants.cpp
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+[Finance and corporate]
+金融と会社
+[Retail stores]
+小売店舗
+[Health and beauty]
+健康と美容
+[Household products]
+家庭用品
+[Mail order catalog]
+通信販売カタログ
+[Business services]
+ビジネスサービス
+[Audio and visual]
+オーディオとビジュアル
+[Sporting and athletic]
+スポーツと運動
+[Home automation]
+ホーム・オートメーション
 ['(Unknown Contact)']
 '( 不明なコンタクト )'
-;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 電子メールの送信
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-;file \plugins\UserInfoEx\src\svc_reminder.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Miranda NG]
 Miranda NG
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Complete]
 完了
-;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

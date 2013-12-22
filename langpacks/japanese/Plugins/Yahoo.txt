@@ -1,11 +1,10 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo
+;  Plugin: Yahoo Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Gennady Feldman
 ;============================================================
-;file \protocols\Yahoo\res\Yahoo.rc
 [ID:]
 ID:
 [Password:]
@@ -62,14 +61,14 @@ Cancel
 Cancel(&C)
 [Add]
 追加
-;file \protocols\Yahoo\src\chat.cpp
 [%s denied invitation with message: %s]
 %s はメッセージによる招待を拒否しました: %s
+[User &details]
+ユーザーの詳細情報 (&D)
 [Join My Conference...]
 自分の会議に参加...
 [No, thank you...]
 いいえ , 結構です...
-;file \protocols\Yahoo\src\icolib.cpp
 [Mail]
 メール
 [Profile]
@@ -80,20 +79,16 @@ Cancel(&C)
 ステータス設定
 [Calendar]
 カレンダー
-;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Yahoo エラー
 [The message send timed out.]
 メッセージの送信はタイムアウトしました
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 メッセージが長すぎます: Yahoo メッセージは UTF8 で 800 文字に制限されています
-;file \protocols\Yahoo\src\links.cpp
 [YAHOO Link Protocol]
 Yahoo リンクプロトコル
-;file \protocols\Yahoo\src\main.cpp
 [YAHOO plugin HTTP connections]
 Yahoo プラグイン HTTP 接続
-;file \protocols\Yahoo\src\options.cpp
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 この変更を有効にするには Yahoo ネットワークに再接続する必要があります
 [YAHOO Options]
@@ -114,14 +109,12 @@ Yahoo 無視
 ネットワーク
 [Ignore List]
 無視リスト
-;file \protocols\Yahoo\src\proto.cpp
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Yahoo IDをオプション / ネットワーク / Yahoo に入力してください
 [Please enter your yahoo password in Options/Network/Yahoo]
 オプション / ネットワーク / Yahoo であなたの Yahoo パスワードを入力して下さい
 [Yahoo Login Error]
 Yahoo ログインエラー
-;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
 カスタムメッセージを設定するには接続済である必要があります
 [You need to be connected to refresh your buddy list]
@@ -142,8 +135,6 @@ Yahoo メール (&Y)
 会議を作成
 [&Show Profile]
 プロファイルを表示 (&S)
-;file \protocols\Yahoo\src\webcam.cpp
-;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 カレンダーリマインダー
 [%s has rejected your request and sent the following message:]

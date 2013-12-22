@@ -5,7 +5,6 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
 メッセージ履歴
 [Show event icons]
@@ -20,24 +19,24 @@
 OK
 [Cancel]
 Cancel
-;file \plugins\BasicHistory\src\BasicHistory.cpp
 [View &History]
 履歴の表示 (&H)
 [Incoming message]
 着信メッセージ
 [Outgoing message]
 発信メッセージ
+[Status change]
+ステータス変更
 [History]
 履歴
-;file \plugins\BasicHistory\src\EventList.cpp
+[All events]
+全てのイベント
 [History for %s]
 %s の履歴
 [System]
 システム
 [Invalid Message]
 不正なメッセージ
-;file \plugins\BasicHistory\src\ExportManager.cpp
-;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Open in &new window]
 新規ウィンドウで開く
 [&Open in existing window]
@@ -64,11 +63,14 @@ Cancel
 ホットキー
 [Error]
 エラー
-;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 メッセージ
 [Link]
 リンク
+[Authorization request]
+認証リクエスト
+[You were added]
+あなたは追加されました
 [SMTP Simple Email]
 SMTP 電子メール
 [SMS message]
@@ -79,21 +81,21 @@ SMS メッセージ
 検索中
 [Advanced]
 詳細
+[Contact list background]
+コンタクトリストの背景
 [Find]
 検索
 [Incoming events]
 着信イベント
 [Outgoing events]
 発信イベント
-;file \plugins\BasicHistory\src\Options.h
-;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-;file \plugins\BasicHistory\src\Scheduler.cpp
+[Minute]
+分
+[Hour]
+時間
 [Contacts]
 コンタクト
-;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" が見つかりません
 [Search]
 検索
-;file \plugins\BasicHistory\src\TxtExport.cpp

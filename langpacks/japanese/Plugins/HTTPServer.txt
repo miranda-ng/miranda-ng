@@ -5,12 +5,9 @@
 ;  Version: 0.1.2.2
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
-;file \plugins\HTTPServer\res\resource.rc
 [&Copy link]
 リンクをコピー (&C)
-;file \plugins\HTTPServer\src\Glob.h
-;file \plugins\HTTPServer\src\GuiElements.cpp
+[All files]
+全てのファイル
 [Network]
 ネットワーク
-;file \plugins\HTTPServer\src\HttpUser.cpp
-;file \plugins\HTTPServer\src\main.cpp

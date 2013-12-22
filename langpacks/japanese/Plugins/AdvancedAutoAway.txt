@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 全般
 [Close]
@@ -20,6 +19,8 @@ Cancel
 設定
 [OK]
 OK
+[Command line:]
+コマンドライン:
 [Other]
 その他
 [Background color]
@@ -44,10 +45,8 @@ OK
 削除
 [seconds]
 秒
-;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [Status messages]
 ステータスメッセージ
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 %time% から離席中です
 [Give it up, I'm not in!]
@@ -70,7 +69,6 @@ OK
 おいしいね... これ
 [idleeeeeeee]
 暇だよ
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 プロトコル
 [Closing in %d]

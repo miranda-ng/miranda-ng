@@ -5,7 +5,6 @@
 ;  Version: 0.0.4.22
 ;  Authors: borkra
 ;============================================================
-;file \plugins\CrashDumper\res\crshdmp.rc
 [Close]
 閉じる
 [General]
@@ -16,11 +15,5 @@
 全てコピー (&p)
 [Select &All]
 全て選択(&A)
-;file \plugins\CrashDumper\src\crshdmp.cpp
 [Show]
 表示
-;file \plugins\CrashDumper\src\crshdmp_icons.cpp
-;file \plugins\CrashDumper\src\exhndlr.cpp
-;file \plugins\CrashDumper\src\ui.cpp
-;file \plugins\CrashDumper\src\upload.cpp
-;file \plugins\CrashDumper\src\utils.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
-;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 インポートするものを選んでください:
 [From a Miranda NG database.]
@@ -60,7 +59,6 @@ URL
 ファイル転送
 [Other]
 その他
-;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 自分から / へのイベントを無視
 [Added contact %u (found in history)]
@@ -99,17 +97,13 @@ URL
 %d 個の重複分と %d 個のフィルター分のイベントをスキップしました
 [Skipped %d duplicates.]
 %d 個の重複をスキップしました
-;file \plugins\Import\src\main.cpp
 [&Import...]
 インポート (&I)...
-;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 与えられたファイル名が存在しません。正しく入力されたか確認してください
 [Miranda NG database]
 Miranda NG データベース
 [All Files]
 全てのファイル
-;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 複製した %s グループをスキップ中
-;file \plugins\Import\src\wizard.cpp

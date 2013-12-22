@@ -5,11 +5,9 @@
 ;  Version: 0.2.0.1
 ;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
-;file \plugins\Folders\res\folders.rc
 [Edit]
 編集
 [Close]
 閉じる
-;file \plugins\Folders\src\dlg_handlers.cpp
 [Customize]
 カスタマイズ

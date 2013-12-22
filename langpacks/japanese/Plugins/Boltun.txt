@@ -5,9 +5,9 @@
 ;  Version: 0.0.3.0
 ;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
-;file \plugins\Boltun\res\Boltun.rc
 [sec]
 秒
-;file \plugins\Boltun\src\boltun.h
+[Message sessions]
+メッセージセッション
 [All Files]
 全てのファイル

@@ -5,7 +5,6 @@
 ;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
-;file \plugins\BuddyPounce\res\resource.rc
 [Cancel]
 Cancel
 [OK]
@@ -14,7 +13,6 @@ OK
 詳細 >>
 [Status]
 ステータス
-;file \plugins\BuddyPounce\src\dialog.cpp
 [Online]
 オンライン
 [Away]
@@ -25,8 +23,15 @@ OK
 取り込み中
 [DND]
 邪魔しないで
+[Free For Chat]
+チャット OK!
 [Invisible]
 不可視
-;file \plugins\BuddyPounce\src\main.cpp
+[On The Phone]
+電話中
+[Out To Lunch]
+昼食中
+[Times]
+回
 [Message Sessions]
 メッセージセッション

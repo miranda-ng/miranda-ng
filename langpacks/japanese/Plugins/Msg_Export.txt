@@ -5,7 +5,6 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-;file \plugins\Msg_Export\res\resource.rc
 [Help]
 ヘルプ
 [&Find...]
@@ -16,20 +15,19 @@
 ユーザーの詳細情報 (&D)
 [Copy]
 コピー
-;file \plugins\Msg_Export\src\FileViewer.cpp
 [Failed to create file]
 ファイルの作成に失敗しました
-;file \plugins\Msg_Export\src\Glob.h
-;file \plugins\Msg_Export\src\main.cpp
-;file \plugins\Msg_Export\src\options.cpp
 [File]
 ファイル
 [Nick]
 ニックネーム
+[Executable files]
+実行可能ファイル
+[All files]
+全てのファイル
 [History]
 履歴
 [General]
 全般
-;file \plugins\Msg_Export\src\utils.cpp
 [(Unknown Contact)]
 ( 不明なコンタクト )

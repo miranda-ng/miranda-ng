@@ -5,7 +5,6 @@
 ;  Version: 1.0.1.2
 ;  Authors: Roman Torsten
 ;============================================================
-;file \plugins\XSoundNotify\res\XSoundNotify.rc
 [Nick:]
 ニック:
 [Reset]
@@ -14,6 +13,7 @@
 OK
 [Cancel]
 Cancel
-;file \plugins\XSoundNotify\src\xsn_main.cpp
+[Sound files]
+音声ファイル
 [Sounds]
 音声

@@ -5,10 +5,24 @@
 ;  Version: 0.0.6.12
 ;  Authors: Awkward
 ;============================================================
+[Text effect]
+テキスト効果
+[second line]
+2 行目
+[Left click]
+左クリック
+[Right click]
+右クリック
+[none]
+なし
+[kb]
+KB
+[Kb]
+KB
+[KB]
+KB
+[Color]
+色
 [Choose font...]
 フォント選択...
-;file \plugins\Watrack\myshows\myshows.rc
-;file \plugins\Watrack\lastfm\i_last_api.inc
-;file \plugins\Watrack\lastfm\i_last_dlg.inc
-;file \plugins\Watrack\proto\proto.pas
 ;other strings

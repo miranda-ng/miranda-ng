@@ -5,9 +5,10 @@
 ;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
-;file \plugins\ContactsPlus\res\contacts.rc
 [&Add]
 追加 (&A)
+[User &details]
+ユーザーの詳細情報 (&D)
 [&Send]
 送信 (&S)
 [Cancel]
@@ -18,12 +19,18 @@ Cancel
 エラーが発生しました。エラー内容:
 [Try again]
 再試行
+[Add to List]
+リストに追加
 [User details]
 ユーザーの詳細情報
-;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]
 コンタクト
-;file \plugins\ContactsPlus\src\receive.cpp
+[Nick]
+ニックネーム
+[First Name]
+名前
+[Last Name]
+名字
 [Add Contact Permanently to List]
 コンタクトを完全にリストに追加
 [View User's Details]
@@ -32,4 +39,3 @@ Cancel
 ユーザーの履歴を表示
 [User Menu]
 ユーザーメニュー
-;file \plugins\ContactsPlus\src\send.cpp

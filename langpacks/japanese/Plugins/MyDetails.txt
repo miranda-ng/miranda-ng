@@ -5,7 +5,6 @@
 ;  Version: 0.0.1.11
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-;file \plugins\MyDetails\res\resource.rc
 [Nickname:]
 ニックネーム:
 [OK]
@@ -18,13 +17,11 @@ Cancel
 ピクセル
 [seconds]
 秒
-;file \plugins\MyDetails\src\data.cpp
-;file \plugins\MyDetails\src\frame.cpp
+[Nickname]
+ニックネーム
 [Status]
 ステータス
 [Background]
 背景
-;file \plugins\MyDetails\src\mydetails.cpp
 [Contact List]
 コンタクトリスト
-;file \plugins\MyDetails\src\options.cpp

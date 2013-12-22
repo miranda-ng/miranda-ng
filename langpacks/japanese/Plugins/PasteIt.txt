@@ -5,7 +5,6 @@
 ;  Version: 1.0.0.3
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\PasteIt\res\PasteIt.rc
 [Configure]
 設定
 [OK]
@@ -14,10 +13,7 @@ OK
 Cancel
 [Delete]
 削除
-;file \plugins\PasteIt\src\Options.cpp
-;file \plugins\PasteIt\src\PasteIt.cpp
+[Format]
+フォーマット
 [Error]
 エラー
-;file \plugins\PasteIt\src\PasteToWeb.cpp
-;file \plugins\PasteIt\src\PasteToWeb1.cpp
-;file \plugins\PasteIt\src\PasteToWeb2.cpp

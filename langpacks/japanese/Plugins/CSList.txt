@@ -5,23 +5,24 @@
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
-;file \plugins\CSList\res\cslist.rc
 [Cancel]
 Cancel
-;file \plugins\CSList\src\cslist.cpp
 [Status]
 ステータス
 [Add]
 追加
 [Modify]
 変更
+[Favorites]
+お気に入り
 [Message]
 メッセージ
-;file \plugins\CSList\src\cslist.h
 [Main Menu]
 メインメニュー
 [Remove]
 削除
+[Undo changes]
+変更を元に戻す
 [Clear]
 クリア
 [Set]

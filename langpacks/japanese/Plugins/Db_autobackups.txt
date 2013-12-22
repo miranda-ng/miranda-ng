@@ -5,11 +5,11 @@
 ;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
-;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Cancel]
 Cancel
-;file \plugins\Db_autobackups\src\backup.cpp
+[Disabled]
+無効
+[Miranda NG database]
+Miranda NG データベース
 [All files]
 全てのファイル
-;file \plugins\Db_autobackups\src\main.cpp
-;file \plugins\Db_autobackups\src\options.cpp

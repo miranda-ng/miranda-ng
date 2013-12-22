@@ -1,11 +1,10 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
-;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 ICQ 番号:
 [Password:]
@@ -32,12 +31,12 @@ ICQ 番号:
 忘れたパスワードもしくは ICQ 番号を回復する
 [Create a new ICQ account using the ICQ website]
 ICQ のウェブサイトを使用して新規 ICQ アカウントを作成
+[Connection settings]
+接続設定
 [Port:]
 ポート:
 [Default]
 デフォルト
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
-ヒント: ポート 0 を使用するとランダムなポートに接続します。もし http プロキシサーバーを経由して接続する際に問題が生じる場合は , ポート 80 もしくはポート 443 で試してみてください
 [Secure Connection (SSL)]
 セキュア接続 ( SSL )
 [Secure (MD5) login]
@@ -152,6 +151,8 @@ AIM コンタクトサポートを有効
 致命的エラー
 [Spam detected]
 スパムを検出
+[&Use Windows colors]
+ウィンドウ色を使用 (&U)
 [Use system &icons]
 システムアイコンを使用 (&i)
 [Use default colors]
@@ -228,7 +229,6 @@ ICQ サーバーのコンタクトを管理
 新規パスワードをもう一度入力してください:
 [Enter your current password:]
 現在のパスワードを入力:
-;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 移行後の ICQ コミュニケーションサーバーに接続できません
 [Unable to connect to ICQ communication server]
@@ -259,17 +259,14 @@ ICQ コミュニケーションサーバーに接続できません
 同じICQ 番号を使用して別の場所からログオンしたため , ICQ ネットワークから切断されました
 [Unknown runtime error: 0x%02x]
 不明なランタイムエラー: 0x%02x
-;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 サーバーが不正なデータを返したため , サーバーの移行に失敗しました。再接続は手動で行って下さい
 [Failed to request offline messages. They may be received next time you log in.]
 オフラインメッセージのリクエストに失敗しました。次回ログイン時に受信されます
-;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
 [Spambot Detected]
 スパムボットが検出されました
 [Contact deleted & further events blocked.]
 コンタクトは削除されその他のイベントはブロックされました
-;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [Incoming URL:]
 着信 URL:
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
@@ -294,7 +291,6 @@ SNAC フォーマットはサーバーに拒否されました\nSNAC(4.1) エラ
 SNAC(4.1) SENDMSG エラー (x%02x)
 [ICQ Note]
 ICQ 注記
-;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
 [Server contact list is unavailable, Miranda will use local contact list.]
 サーバーコンタクトリストは利用できません。Miranda はローカルコンタクトリストを使用します
 [Updating of server contact failed.]
@@ -317,12 +313,10 @@ ICQ 注記
 サーバーリストでユーザーを別のグループに移動することに失敗しました
 [Renaming of server group failed.]
 サーバーグループの名前変更に失敗しました
-;file \protocols\IcqOscarJ\src\fam_17signon.cpp
 [Secure login failed.\nInvalid server response.]
 セキュアログインに失敗しました\nサーバーの応答が不正です
 [Secure login failed.\nInvalid key length.]
 セキュアログインに失敗しました\n鍵の長さが不正です
-;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
 [Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
 ユーザーの認証を本当に取り消しますか ( クライアント上にある彼 / 彼女のリストからあなたが削除されます )?
 [** This message was blocked by the ICQ server ** The message was invalid.]
@@ -335,13 +329,10 @@ ICQ 注記
 ** このメッセージは ICQ サーバーにブロックされました ** あなたは非常に有害です
 [** Unknown missed message event.]
 ** 不明な不在着信メッセージイベントです
-;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 [Error uploading avatar to server, server temporarily unavailable.]
 エラー サーバーにアバターをアップロードしましたが , サーバーは一時的に利用できません
 [Error uploading avatar to server, server refused to accept the image.]
 エラー サーバーにアバターをアップロードしましたが , サーバーは画像の受信を拒否しました
-;file \protocols\IcqOscarJ\src\icq_constants.h
-;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
 アフガニスタン
 [Albania]
@@ -544,8 +535,6 @@ ICQ 注記
 インド
 [Indonesia]
 インドネシア
-[Iran
-イラン
 [Iraq]
 イラク
 [Ireland]
@@ -926,13 +915,10 @@ ICQ - ヘルプ
 60 以上
 [Open relationship]
 オープンな関係
-;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
-;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 送信用として選択されたファイルの一つがディスクから読み取りできなかったため , ファイルに転送失敗しました。削除もしくは移動された可能性があります。
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Miranda が保存ファイルを書込みモードで開くことができなかったため , ファイル受信に失敗しました。読み取り専用フォルダーに保存しようとした可能性があります。
-;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 認証リクエスト
 [Grant authorization]
@@ -945,7 +931,6 @@ Miranda が保存ファイルを書込みモードで開くことができなか
 カスタムステータスの詳細を表示
 [Open ICQ profile]
 ICQ プロファイルを開く
-;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Display all problems]
 全ての問題を表示
 [Display problems causing possible loss of data]
@@ -964,7 +949,6 @@ ICQ プロファイルを開く
 コンタクト
 [Popups]
 ポップアップ
-;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Sample Note]
 サンプル 通知
 [Sample Warning]
@@ -975,10 +959,6 @@ ICQ プロファイルを開く
 サンプル 致命的エラー
 [Sample Spambot]
 サンプル スパムボット
-;file \protocols\IcqOscarJ\src\icq_proto.cpp
-[You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
-ICQ 番号が入力されていません\nオプション -> ネットワーク -> ICQ で設定してから再試行してください
-;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 ICQ ログインサーバーへの接続ができませんでした。SSL はネゴシエートできませんでした
 [Unable to connect to ICQ login server]
@@ -989,12 +969,10 @@ Miranda はクライアント間ダイレクト P2P 接続用リスニングポ�
 接続が失敗しました\nログインシーケンスは不明な理由で失敗しました\n後ほど再試行してください
 [Your connection with the ICQ server was abortively closed]
 ICQ サーバーへの接続が失敗したため終了しました
-;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 [The contact's information was too big and was truncated.]
 コンタクトの情報は大きすぎるため , 切り捨てられました
 [Failed to create the correct sub-group, the using closest parent group.]
 正しいサブグループの作成に失敗しました。直近の親グループを使用します
-;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
 みつかりません
 [ALREADY EXISTS]
@@ -1035,7 +1013,6 @@ ICQ サーバーへの接続が失敗したため終了しました
 サーバーリストを同期するにはオンラインになる必要があります
 [** All contacts **]
 ** 全てのコンタクト **
-;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Taking a bath]
 入浴
 [Drinking beer]
@@ -1172,11 +1149,10 @@ ICQ サーバーへの接続が失敗したため終了しました
 %s カスタムステータス
 [None]
 なし
-;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+[Custom Status]
+カスタムステータス
 [Greeting card:]
 グリーティングカード:
-;file \protocols\IcqOscarJ\src\init.cpp
-;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 ICQ 警告
 [ICQ Error]
@@ -1193,7 +1169,8 @@ Miranda はサーバー名から IP アドレスへの解決ができません�
 あなたが接続しようとしているサーバーは存在しません。メニュー -> オプション -> ネットワーク -> ICQ でつづりを確認してください
 [error]
 エラー
-;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[%d Files]
+%d 個のファイル
 [The file transfer was aborted by the other user.]
 ファイル転送は他のユーザーによって中断されました
 [The file transfer failed: Proxy error]
@@ -1204,18 +1181,14 @@ Miranda はサーバー名から IP アドレスへの解決ができません�
 ファイル転送に失敗: プロキシが利用できません
 [Failed to Initialize File Transfer. No valid files were specified.]
 ファイル転送の初期化に失敗しました。有効なファイルが特定されませんでした
-[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
-そのファイルは一回に送信するには大きすぎます。4GB を超える大きさのファイルは分割でのみ送信可能です
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 ファイル転送の初期化に失敗しました。ローカルポートと利用できないファイルプロキシはバインドできません
 [Connection lost during file transfer.]
 ファイル転送中に接続が切れました
 [File transfer negotiation failed for unknown reason.]
 ファイル転送ネゴシエーションは不明な理由で失敗しました
-;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 < 不正 >
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 エニウェトク ; クワゼリン
 [GMT-11:30]
@@ -1316,6 +1289,8 @@ GMT+11:30
 GMT+12:00 オークランド ; ウェリントン ; フィジー ; カムチャッカ半島 ; マーシャル諸島
 [Personal]
 パーソナル
+[Nickname]
+ニックネーム
 [First name]
 名前
 [Last name]
@@ -1404,7 +1379,6 @@ Fax 番号
 好きなカテゴリー 4
 [Interest areas 4]
 好きな地域 4
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 [The password does not match your current password. Check Caps Lock and try again.]
 現在のパスワードと一致しません。Caps Lock を確認してもう一度入力してください
 [Change ICQ Details]
@@ -1413,7 +1387,6 @@ ICQ の詳細情報を変更する
 あなたがはじめに入力したパスワードと一致しません。Caps Lock を確認してもう一度入力してください
 [The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
 ICQ サーバーは 8 文字以上の長さのパスワードをサポートしていません。もっと短いパスワードを使用してください
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 [<unremovable once applied>]
 < 一度適用すると削除不可 >
 [Unknown value]
@@ -1428,14 +1401,10 @@ ICQ サーバーは 8 文字以上の長さのパスワードをサポートし�
 アップロードが完了しました
 [Upload FAILED]
 アップロードに失敗しました
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 あなたは ICQ ネットワークに現在接続していません。サーバーの情報を更新するにはオンラインになる必要があります
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
 UIN %u のパスワードを入力:
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [ (DC Established)]
 ( DC 接続確立 )
 [ScreenName:]

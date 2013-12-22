@@ -5,7 +5,6 @@
 ;  Version: 3.2.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 ユーザー名もしくはユーザー ID でユーザーの追加が可能です。ワイルドカードは許可及び推奨されています
 [OK]
@@ -148,7 +147,12 @@ Wikipedia
 他のタブを閉じる (&l)
 [&Open at this position]
 この位置に開く (&O)
-;file \plugins\TabSRMM\res\resource.rc
+[&Cancel]
+Cancel(&C)
+[&Send]
+送信 (&S)
+[&Add]
+追加 (&A)
 [TabSRMM exception]
 TabSRMM の例外
 [Customize the panel]
@@ -167,6 +171,8 @@ TabSRMM の例外
 大
 [Tip: To use a custom size you can always drag the bottom edge of the panel]
 ヒント: カスタムサイズを使うと , 常にパネルの一番下の端にドラッグできます
+[Other options]
+その他のオプション
 [Note: All settings are applied immediately]
 注意: 全ての設定はすぐに適用されます
 [The container is using private settings. The panel height will not be shared with other containers.]
@@ -405,6 +411,8 @@ ESC キーの動作
 新規コンテナを作成
 [Create new]
 新規作成
+[Reset]
+リセット
 [Show in IM chats]
 IM チャットに表示
 [Show in chat rooms]
@@ -413,8 +421,6 @@ IM チャットに表示
 ボタン間隔:
 [Hide if there isn't enough space]
 十分な空間がない場合隠す
-[Reset]
-リセット
 [Insert Separator]
 セパレーターを挿入
 [Tabs should be used in the following way]
@@ -533,6 +539,8 @@ TabSRMM バージョン情報
 タイムスタンプに秒を表示
 [Use contacts local time]
 コンタクトの現地時間を使用
+[Format]
+フォーマット
 [Indent message body]
 メッセージ本文をインデント
 [Display grid lines]
@@ -801,14 +809,12 @@ dummy
 ヘルプ
 [About TabSRMM...]
 TabSRMM バージョン情報...
-;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Message Log Options]
 メッセージログオプション
 [View User's History]
 ユーザーの履歴を表示
 [Edit user notes]
 ユーザーメモを編集
-;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 タイトルバーを非表示
 [Message Session...]
@@ -827,7 +833,6 @@ TabSRMM バージョン情報...
 プロトコルを使用
 [Set Default Protocol]
 デフォルトプロトコルの設定
-;file \plugins\TabSRMM\src\containeroptions.cpp
 [Window layout]
 ウィンドウレイアウト
 [Tabs and switch bar]
@@ -836,6 +841,8 @@ TabSRMM バージョン情報...
 タブユーザーインターフェース用のオプションを選んでください。全てのオプションが開いているウィンドウに適用可能とは限りません。閉じてから再度ウィンドウを開く必要があります
 [Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window.]
 このウィンドウに対するイベント通知 ( ポップアップ ) を見たい場合は選択してください。このウィンドウにある全てのタブに対して設定が適用されます
+[Title bar]
+タイトルバー
 [Window size and theme]
 ウインドウサイズとテーマ
 [You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
@@ -866,7 +873,6 @@ TabSRMM バージョン情報...
 常に一番下に表示が存在する場合 , オン
 [Don't show them]
 それらを表示しない
-;file \plugins\TabSRMM\src\controls.cpp
 [&User]
 ユーザー (&U)
 [&Room]
@@ -881,7 +887,6 @@ TabSRMM バージョン情報...
 セッションリスト\nオープンセッションのリストは左クリック\nお気に入りへのアクセスとメッセージウィンドウの動作の簡易設定をするには右クリック
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 保留中の送信ジョブ: %d　個　メッセージ長: %d バイト　メッセージ長制限: %d バイト\n\n後で配信キューにあるメッセージ: %d 個
-;file \plugins\TabSRMM\src\eventpopups.cpp
 [Incoming file]
 着信ファイル
 [Incoming file (invalid format]
@@ -892,7 +897,6 @@ TabSRMM バージョン情報...
 新規メッセージ:\s
 [Unknown module or contact]
 不明なモジュールもしくはコンタクトです
-;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 リッチ編集ファイル
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
@@ -913,7 +917,6 @@ UID: %s ( SHIFT click -> クリップボードにコピー )\nユーザーの詳
 UID なし
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
 UID: %s ( SHIFT click -> クリップボードにコピー )\nユーザーの詳細情報はクリック\nこのコンタクトのお気に入りステータスを変更するにはドロップダウンをクリック
-;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 インスタントメッセージ
 [Incoming (Focused Window)]
@@ -930,6 +933,10 @@ UID: %s ( SHIFT click -> クリップボードにコピー )\nユーザーの詳
 ステータスメッセージなし
 [Other]
 その他
+[TabSRMM session list]
+TabSRMMセッションリスト
+[TabSRMM Menu]
+TabSRMMメニュー
 [&Messaging settings...]
 メッセージングの設定 (&M)...
 [&Send later job list...]
@@ -942,8 +949,10 @@ UID: %s ( SHIFT click -> クリップボードにコピー )\nユーザーの詳
 サインオンしました。現在 %s です
 [changed status from %s to %s.]
 %s から %s にステータスを変更しました
-;file \plugins\TabSRMM\src\hotkeyhandler.cpp
-;file \plugins\TabSRMM\src\infopanel.cpp
+[Paste and send]
+ペーストして送信
+[Smiley selector]
+顔文字セレクター
 [%s    Idle: %dh,%02dm]
 %s    アイドル: %d 時間 ,%02d 分
 [Topic is: %s]
@@ -994,11 +1003,8 @@ IM ウィンドウとパネルの高さを同期しない
 常に表示 ( 存在するなら )
 [Never show it at all]
 二度と表示しない
-;file \plugins\TabSRMM\src\mim.cpp
 [TabSRMM]
 TabSRMM
-;file \plugins\TabSRMM\src\modplus.cpp
-;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 このコンタクトを完全にあなたのコンタクトリストに追加
 [Do not add this contact permanently]
@@ -1039,7 +1045,6 @@ TabSRMM
 警告: あなたはメッセージの送信用に現在オフラインのサブプロトコルを選択しました
 [Contact is offline and this protocol does not support sending files to offline users.]
 コンタクトはオフラインです。このプロトコルはオフラインユーザーへのファイル送信はサポートされていません
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
 [Error creating destination directory]
 宛先ディレクトリの作成エラー
 [Save contact picture]
@@ -1058,8 +1063,6 @@ nudge プラグインがインストールされていないか , もしくは�
 '( 不明なコンタクト )'
 [JPEG-compressed images]
 JPEG 圧縮画像
-;file \plugins\TabSRMM\src\msglog.cpp
-;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
 < スキンなし >
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
@@ -1096,6 +1099,8 @@ History++ プラグイン
 タブとレイアウト
 [Containers]
 コンテナ
+[Message log]
+メッセージログ
 [Tool bar]
 ツールバー
 [Typing Notify]
@@ -1110,7 +1115,6 @@ History++ プラグイン
 強調表示
 [Choose status modes]
 ステータスモードを選択
-;file \plugins\TabSRMM\src\msgs.cpp
 [Image tag]
 イメージタグ
 [Quote text]
@@ -1169,8 +1173,6 @@ History++ プラグイン
 フレーム 4
 [Message Log]
 メッセージログ
-;file \plugins\TabSRMM\src\msgs.h
-;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 %s 用コンテナを選択
 [You cannot delete the default container]
@@ -1181,7 +1183,6 @@ History++ プラグイン
 デフォルトコンテナの名前変更はできません
 [This name is already in use]
 この名前は既に使用中です
-;file \plugins\TabSRMM\src\sendlater.cpp
 [A send later job completed successfully.\nThe original message: %s]
 後で送信ジョブは正常に完了しました\nオリジナルメッセージ: %s
 [A send later job failed to complete.\nThe original message: %s]
@@ -1190,6 +1191,8 @@ History++ プラグイン
 < 全てのコンタクト >
 [Removed]
 削除済
+[Failed]
+失敗しました
 [Sent OK]
 送信 OK
 [Deferred]
@@ -1210,7 +1213,6 @@ History++ プラグイン
 最終送信情報
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
 あなたは無人送信キューにある 1 つもしくは複数項目の状態を変更しようとしています\nリクエストされた操作は次にスケジュールされたキュー処理時に実行されます\n\nこの操作は元に戻せません
-;file \plugins\TabSRMM\src\sendqueue.cpp
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 メッセージが %d バイトの最大許容メッセージ長を超過しているため , 遅延させて , もしくは複数のコンタクトに対して送信できません
 [A message delivery has failed.\nClick to open the message window.]
@@ -1227,11 +1229,8 @@ History++ プラグイン
 後で送信機能はこのプロトコルでは利用できません
 [\n(Sent delayed. Original timestamp %s)]
 \n( 送信遅延 オリジナルタイムスタンプ %s )
-;file \plugins\TabSRMM\src\sidebar.cpp
-;file \plugins\TabSRMM\src\srmm.cpp
 [TabSRMM Message (%s)]
 TabSRMM メッセージ ( %s )
-;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not availble when using History++ plugin for message log display.]
 メッセージログの表示に History++ プラグインを使用している時はプレビューが利用できません
 [%d Unread]
@@ -1242,22 +1241,18 @@ TabSRMM メッセージ ( %s )
 %d ユーザー
 [%s on %s%s]
 %s ( %s%s )
-;file \plugins\TabSRMM\src\templates.cpp
 [Template Set Editor]
 テンプレート設定エディター
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 この操作はテンプレートをデフォルトで内蔵しているテンプレートにリセットします。本当に実行しますか？
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 テンプレート設定はリセットに成功しました。すべてのメッセージウィンドウを閉じて再度開いてください。このテンプレートエディターのウィンドウは一旦閉じます
-;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM themes]
 TabSRMM テーマ
-;file \plugins\TabSRMM\src\themes.cpp
 [All message containers need to close before the skin can be changed\nProceed?]
 スキンを変更可能にする前に , 全てのメッセージコンテナを閉じる必要があります\n続行しますか ?
 [Change skin]
 スキンの変更
-;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
 メッセージウィンドウの調整
 [Error feedback]
@@ -1390,8 +1385,6 @@ BBCode 書式設定をサポート
 入力エリアでタブキーを許可 ( タブキーによるフォーカス選択を無効 )
 [Add offline contacts to multisend list]
 複数送信リストにオフラインコンタクトを追加
-;file \plugins\TabSRMM\src\trayicon.cpp
-;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 入力中通知を無効 (&t)
 [Enable &typing notification]
@@ -1400,7 +1393,6 @@ BBCode 書式設定をサポート
 ...はメッセージを入力中
 [...has stopped typing.]
 ...は入力を中断
-;file \plugins\TabSRMM\src\userprefs.cpp
 [Always On]
 常にオン
 [Always Off]
@@ -1413,7 +1405,6 @@ History++ を強制
 IEView を強制
 [Set messaging options for %s]
 %s 用メッセージオプションを設定
-;file \plugins\TabSRMM\src\utils.cpp
 [Important release notes|A test warning message]
 重要なリリースノート | テスト警告メッセージ
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
@@ -1430,13 +1421,12 @@ Aero プレビュー警告 | あなたは Aero プレビュー機能が有効な
 テーマの読み込み中 | 読み込み中の色とフォントテーマはあなたのスキンで定義されている設定を上書きします\n\n続行しますか ?
 [TabSRMM warning message]
 TabSRMM 警告メッセージ
-;file \plugins\TabSRMM\src\chat\clist.cpp
 [Join chat]
 チャットに参加
 [Open chat window]
 チャットウィンドウを開く
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-;file \plugins\TabSRMM\src\chat\log.cpp
+[Text color]
+テキスト色
 [%s has joined]
 %s は参加しました
 [You have joined %s]
@@ -1459,12 +1449,10 @@ TabSRMM 警告メッセージ
 ( %s に設定)
 [<invalid>]
 < 不正 >
-;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 強調表示リストにユーザーを追加
 [Edit user highlight list]
 ユーザー強調表示リストを編集
-;file \plugins\TabSRMM\src\chat\options.cpp
 [Group chat log background]
 グループチャットログの背景
 [Log background]
@@ -1577,6 +1565,8 @@ Aero 光彩効果
 * 記号 ( 着信 )
 [* Symbols (outgoing)]
 * 記号 ( 発信 )
+[Nickname]
+ニックネーム
 [Protocol]
 プロトコル
 [Contacts local time]
@@ -1685,6 +1675,8 @@ IRC スタイルのステータス表記をログに使用
 強調表示 (10x10)
 [Information (10x10)]
 情報 (10x10)
+[Group chat log]
+グループチャットログ
 [Appearance and functionality of chat room windows]
 チャットルームウィンドウの外観と機能
 [Appearance of the message log]
@@ -1701,6 +1693,8 @@ Voiced
 拡張モード 2
 [Selection background]
 背景の選択
+[Selected text]
+選択されたテキスト
 [Incremental search highlight]
 逐次検索を強調表示
 [Userlist background]
@@ -1731,12 +1725,10 @@ Voiced
 ユーザーは通知を送信しました
 [The topic has been changed]
 トピックは変更されています
-;file \plugins\TabSRMM\src\chat\services.cpp
 [&Join]
 参加する (&J)
 [&Leave]
 終了する (&L)
-;file \plugins\TabSRMM\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s はあなたに %s について注意を求めています
 [%s speaks in %s]
@@ -1769,7 +1761,6 @@ Voiced
 ユーザーを強調表示...
 [Edit Highlight List...]
 強調表示リストを編集...
-;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
 ニックネーム
 [Unique ID]
@@ -1798,7 +1789,3 @@ Voiced
 グローバルもしくはこのチャットルームのいずれにもイベントタイプが選択されていないため , フィルターは有効にできません。
 [Event filter error]
 イベントフィルターエラー
-[TabSRMM session list]
-TabSRMMセッションリスト
-[TabSRMM Menu]
-TabSRMMメニュー

@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
-;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM ユーザー詳細
 [Screen Name:]
@@ -114,8 +113,8 @@ Cancel(&C)
 メッセージ
 [Room]
 ルーム
-;file \protocols\AimOscar\src\chat.cpp
-;file \protocols\AimOscar\src\error.cpp
+[User &details]
+ユーザーの詳細情報 (&D)
 [Invalid Screen Name or password.]
 無効なスクリーン名かパスワードです
 [Mismatched Screen Name or password.]
@@ -240,17 +239,14 @@ DT ステータスではありません
 電子メールホストエラー
 [DNS Fail.]
 DNS エラー
-;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
 ファイルを開けませんでした : %s : %s
-;file \protocols\AimOscar\src\links.cpp
-;file \protocols\AimOscar\src\popup.cpp
+[%s Protocol]
+%s プロトコル
 [Open mail account?]
 メールアカウントを開きますか ?
-;file \protocols\AimOscar\src\proto.cpp
 [%s Client-to-client connection]
 %s クライアント対クライアント接続
-;file \protocols\AimOscar\src\server.cpp
 [Contact tried to open an audio/video conference (currently not supported)]
 コンタクトは オーディオ / ビデオ 会議を開こうとしています ( 現在未サポート )
 [No information has been provided by the server.]
@@ -295,7 +291,6 @@ DNS エラー
 あなたのアカウントは既に確認済です
 [Can't start the confirmation procedure.]
 確認プロシージャを開始できません
-;file \protocols\AimOscar\src\theme.cpp
 [Profile]
 プロファイル
 [AOL Mail]
@@ -314,6 +309,8 @@ AOL ボット
 AOL
 [Foreground Color]
 前景色
+[Background Color]
+背景色
 [Bold]
 太字
 [Not Bold]
@@ -350,12 +347,10 @@ HTML を削除してメッセージを読む (&H)
 プロファイルを読む
 [Add To Server List]
 サーバーリストに追加
-;file \protocols\AimOscar\src\ui.cpp
 [Network]
 ネットワーク
 [Join me in this buddy chat!]
 メンバーチャットに参加させてください !
-;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
 オプションダイアログにユーザー名を入力してください
 [Please, enter a password in the options dialog.]
