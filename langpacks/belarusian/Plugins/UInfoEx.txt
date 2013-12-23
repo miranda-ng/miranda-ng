@@ -263,7 +263,7 @@
 [SubGroupMenu]
 Меню падгруп
 [AccountMenu]
-Меню вул. запісаў
+Меню контаў
 [Extra Icons]
 Экстра значкі
 [Replace the following default icons:]

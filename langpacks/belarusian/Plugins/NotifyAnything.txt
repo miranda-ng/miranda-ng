@@ -5,7 +5,11 @@
 ;  Version: 0.0.2.8
 ;  Authors: Daniel Wesslen, Korney San
 ;============================================================
+[Displays popups for custom events, triggered by UDP packages.]
+Паказвае усплывальныя вокны для карыстацкіх падзей, выкліканых пакетаў UDP.
 ;file \plugins\NotifyAnything\res\NotifyAnything.rc
+[Property Page]
+Старонка уласцівасцяў
 [Security]
 Бяспека
 [Only listen to localhost]

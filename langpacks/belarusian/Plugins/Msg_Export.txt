@@ -5,6 +5,8 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
+[Exports every message, URL or File you receive to a text file.]
+Экспарт паведамленняў, спасылак і прынятых файлаў у тэкставы файл.
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 Агляд
@@ -71,6 +73,8 @@ UTF8 у новых файлах
 [Copy]
 Капіяваць
 ;file \plugins\Msg_Export\src\FileViewer.cpp
+[Failed to write to the RichEdit the buffer was to small.]
+Не атрымалася запісаць у RichEdit.
 [Search string was not found!]
 Радок не знойдзена!
 [Color...]
@@ -167,5 +171,7 @@ WebPager ад:
 Не атрымалася запісаць EmailExpress у файл:\n
 [Failed to write SMS to the file :\n]
 Не атрымалася запісаць SMS у файл:\n
+[User has been deleted. Do you want to delete the file?]
+Кантакт выдалены. Хочаце выдаліць файл?
 [Failed to delete the file]
 Не атрымалася выдаліць файл

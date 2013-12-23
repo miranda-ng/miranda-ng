@@ -114,10 +114,14 @@ TLS
 Агляд пакояў...
 [Search...]
 Пошук...
+[Registered Jabber Transports]
+Зарэгістраваныя Jabber транспарты
 [Log on]
 Увайсці
 [Log off]
 Выйсці
+[Register with a new service...]
+Рэгістрацыя новага сэрвіса...
 [Close]
 Зачыніць
 [Command]
@@ -140,6 +144,8 @@ Jabber Пароль
 Захаваць пароль для гэтай сесіі
 [Save password permanently]
 Захаваць пароль
+[Data form test]
+Кантрольная форма дадзеных
 [Address1:]
 Адрас 1:
 [Address2:]
@@ -238,6 +244,8 @@ PCS
 Канферэнцыя Jabber
 [Conference server:]
 Сервер:
+[Create or Join group chat]
+Стварыць ці далучыцца да чата
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Чат-пакой Jabber\nСтварэнне ці ўваход у чат-пакой.
 [Room:]
@@ -248,6 +256,12 @@ PCS
 Закладкі
 [JID List]
 Спіс JID
+[Apply Filter]
+Ужыць фільтр
+[Reset Filter]
+Скінуць фільтр
+[Jabber Agent Registration]
+Рэгістрацыя агента Jabber
 [JID:]
 JID:
 [Register]
@@ -308,6 +322,8 @@ JID / URL:
 Спісы:
 [Rules:]
 Кіравала:
+[Simple Mode]
+Просты рэжым
 [Advanced Mode]
 Пашыраны  рэжым
 [Privacy rule]
@@ -350,14 +366,22 @@ JID / URL:
 Тып конту:
 [Login server:]
 Сервер:
+[Register account now]
+Зарэгістраваць конт
+[Jabber Account Information:]
+Інфармацыя Jabber конта:
 [Member Information]
 Правы доступу
 [Member Information\n<user ID>]
 Інфармацыя пра карыстача\n<user ID>
 [Role:]
 Роля:
+[Set role]
+Усталяваць ролю
 [Affiliation:]
 Прыналежнасць:
+[Set affiliation]
+Усталяваць прыналежнасць
 [Status message:]
 Статуснае паведамленне:
 [Chat options]
@@ -372,6 +396,8 @@ JID / URL:
 Шлёпнуць:
 [Authorization request]
 Запыт на аўтарызацыю
+[Authorize]
+Аўтарызаваць
 [Deny]
 Забараніць
 [Dialog]
@@ -436,6 +462,8 @@ Jabber Ad-Hoc каманды на %s
 [Links]
 Спасылкі
 ;file \protocols\JabberG\src\jabber_byte.cpp
+[Bytestream Proxy not available]
+Bytestream проксі недасяжны.
 ;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
 Інфармацыя пра службы
@@ -477,6 +505,8 @@ Jabber Ad-Hoc каманды на %s
 Падтрымка vCard
 [Supports iq-based avatars]
 Падтрымка iq-based аватараў
+[Supports XHTML formatting of chat messages]
+xHTML фармат чат-паведамленняў
 [Supports Jabber Browsing]
 Прагляд Jabber
 [Can negotiate options for specific features]
@@ -491,6 +521,10 @@ Jabber Ad-Hoc каманды на %s
 Асноўная функцыянальнасць падпісак
 [Supports SecureIM plugin for Miranda NG]
 Падтрымка плагіна SecureIM Miranda
+[Supports OTR (Off-the-Record Messaging)]
+Падтрымка OTR (Off-the-Record Messaging)
+[Supports New_GPG plugin for Miranda NG]
+Падтрымка New_GPG плагіна
 [Can block communications from particular other users using Privacy lists]
 Блакаванне карыстачоў з выкарыстаннем лістоў прыватнасці
 [Supports Message Receipts]
@@ -529,14 +563,24 @@ Jabber Ad-Hoc каманды на %s
 Удзельнік
 [Moderator]
 Мадэратар
+[Visitors]
+Наведвальнікі
 [Participants]
 Удзельнікі
+[Moderators]
+адэратары
+[Owners]
+Уладальнікі
 [User %s is now banned.]
 Карыстач %s быў забанены.
 [User %s changed status to %s with message: %s]
 %s змяніў статус на %s: %s
 [User %s changed status to %s]
 %s змяніў статус на %s.
+[Room configuration was changed.]
+Налады пакою зменены.
+[Outcast]
+Выгнаныя
 [Affiliation of %s was changed to '%s'.]
 Прыналежнасць %s змянілася на %s.
 [Role of %s was changed to '%s'.]
@@ -675,6 +719,8 @@ Jabber памылка
 Каманды...
 [Logon]
 Увайсці
+[Logoff]
+Выйсці
 [Copy JID]
 Скапіраваць JID
 [Copy node name]
@@ -684,18 +730,26 @@ Jabber памылка
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Ідэнтыфікатары
+[category]
+катэгорыя
 [type]
 тып
+[Category]
+Катэгорыя
 [Type]
 Тып
 [Supported features]
 Падтрымоўваныя магчымасці
+[Info request error]
+Памылка запыту інфармацыі
 ;file \protocols\JabberG\src\jabber_form2.cpp
 [First Name]
 Імя
 [Last Name]
 Прозвішча
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
+[<no nick>]
+<без мянушкі>
 [Loading...]
 Загрузка...
 [Please wait for room list to download.]
@@ -1381,10 +1435,14 @@ XML для MS Excel (кадзіроўка UTF-8)
 Абароненае XMPP
 [Secure XMPP Network (old style)]
 Абароненае XMPP (стары стыль)
+[Google Talk!]
+Google Talk!
 [LiveJournal Talk]
 Чат LiveJournal
 [Facebook Chat]
 Чат Facebook
+[Odnoklassniki]
+Odnoklassniki
 ;file \protocols\JabberG\src\jabber_password.cpp
 [New password does not match.]
 Новыя паролі не супадаюць
@@ -1419,6 +1477,10 @@ XML для MS Excel (кадзіроўка UTF-8)
 Дадаць правіла
 [Delete rule]
 Выдаліць правіла
+[Move rule up]
+Перасунуць уверх
+[Move rule down]
+Перасунуць уніз
 [Add list...]
 Дадаць...
 [Remove list]
@@ -1435,6 +1497,10 @@ XML для MS Excel (кадзіроўка UTF-8)
 ** Падпіска: няма **
 [<none>]
 <няма>
+[allow ]
+дазволіць
+[deny ]
+забараніць
 [all.]
 усё.
 [messages]
@@ -1447,6 +1513,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 выходная прысутнаст
 [queries]
 запыты
+[Else ]
+Інакш
 [If Jabber ID is ']
 Калі JID  '
 [ (nickname: ]
@@ -1455,6 +1523,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 Калі група '
 [If subscription is ']
 Калі падпіска  '
+[then ]
+то
 [ (act., def.)]
 (акціўна, змаўч.)
 [ (active)]
@@ -1497,6 +1567,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 Заблакаваць кампутар
 [Quit Miranda NG]
 Зачыніць Miranda
+[Change Status]
+Змяняць статус
 [Choose the status and status message]
 Усталяваць статус і статуснае паведамленне
 [Status]
@@ -1515,6 +1587,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 Паведамленне статусу
 [Change global status]
 Змяніць глабальны статус
+[Set Options]
+Усталяваць налады
 [Set the desired options]
 Усталюйце жаданыя налады
 [Automatically Accept File Transfers]
@@ -1525,6 +1599,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 Выключыць выдаленае кіраванне (правярайце двойчы, што вы робіце)
 [There is no messages to forward]
 Няма паведамленняў для адпраўкі
+[Forward options]
+Параметры перасылкі
 [Workstation successfully locked]
 Кампутар паспяхова заблакаваны
 [Error %d occurred during workstation lock]
@@ -1617,6 +1693,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 няма
 [Last logoff time]
 Адключаны:
+[Uptime]
+Час працы
 [Logoff message]
 Паведамленне адключэння
 [<no information available>]

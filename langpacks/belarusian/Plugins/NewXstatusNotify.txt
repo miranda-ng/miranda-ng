@@ -50,6 +50,8 @@
 Запіс у файл
 [Enable]
 Уключана
+[Go to Sound to select the sounds]
+Выбар гукаў у раздзеле "Гукі"
 [Extra status]
 Дап. статус
 [Open]
@@ -122,6 +124,8 @@
 Правая пстрычка
 [Show status description]
 Паказваць апісанне статусу
+[Ignore empty status and xStatus messages]
+Ігнараваць пустыя паведамленні
 [Notification]
 Апавяшчэнне
 [Disable for extra status 'Music']
@@ -170,17 +174,15 @@
 Агульнае
 [Show Popups when I connect]
 Вокны пры злучэнні
-[Ignore empty status messages]
-Ігнараваць пустыя паведамленні
-[Protocols]
-Пратаколы
-[Enable/Disable protocols which you don't wish to be notified for:]
-Выключыць/Уключыць апавяшчэнні для пратаколаў:
+[Accounts]
+Конты
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
-[Wave Files]
-Wave файлы
+[Sound files]
+Файлы гукаў
 [All files]
 Усе файлы
+[Wave files]
+Файлы Wave
 [Status]
 Статус
 [Sound for the status]
@@ -295,6 +297,8 @@ Wave файлы
 Апавяшчэнне ўключана
 [Notification disabled]
 Апавяшчэнне выключана
+[New Status Notify]
+Змены статуса
 [User: from offline (has priority!)]
 Карыстач:  далучаецца (мае прыярытэт!)
 [Extra status changed]
@@ -306,6 +310,8 @@ Wave файлы
 [Toggle status notification]
 Укл/Выкл апавяшчэнні пра змену статусу
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Усе 
 [Log]
 Лог
 [This is status message]

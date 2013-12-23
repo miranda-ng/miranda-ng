@@ -54,6 +54,51 @@
 Скід
 [0 - check manually]
 0 - правяраць уручную
+[Feed name]
+Назва ленты
+[This feed seems to need authentication. Please fill username and password fields:]
+Канал патрабуе аўтэнтыфікацыі. Увядзіце імя карыстальніка і пароль:
+[Username]
+Імя
+[Available feeds:]
+Існыя каналы:
+[Feeds to be exported:]
+Каналы для экспарту:
+[&Export]
+Экспарт
+[&Close]
+Зачыніць
+[Import from:]
+Імпарт з:
+[Feeds to be imported:]
+Каналы для імпарту:
+[&Import]
+Імпарт
+;file \plugins\NewsAggregator\Src\Authentication.cpp
+[Enter your username]
+Увядзіце імя карыстальніка
+[Error]
+Памылка
+[Enter your password]
+Увядзіце пароль
+;file \plugins\NewsAggregator\Src\CheckFeed.cpp
+[%s\nis a valid feed's address.]
+%s\n сапраўды існуе.
+[News Aggregator]
+Каналы навін
+[%s\nis not a valid feed's address.]
+%s\nняслушны адрас канала
+[empty]
+пуста
+;file \plugins\NewsAggregator\Src\ExportImport.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+Імпартавана каналаў: %d \r\nПрапушчана дублікатаў: %d
+[Imported %d feed(s).]
+Імпартавана каналаў: %d
+[OPML files]
+Файлы OPML
+[Not valid import file.]
+Наслушны файл імпарта
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Абразок пратаколу
@@ -69,16 +114,20 @@
 Аўтаабнаўленне ўключана
 [Auto Update Disabled]
 Аўтаабнаўленне выключана
-[News Aggregator]
-Каналы навін
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Праверыць канал
 [Change feed]
 Змяніць канал
 ;file \plugins\NewsAggregator\Src\Options.cpp
-[Error]
-Памылка
+[Enter Feed name]
+Увядзіце імя канала
+[Enter Feed URL]
+Увядзіце URL канала
+[Enter checking interval]
+Увядзіце інтэрвал праверкі
+[Enter message format]
+увядзіце фармат паведамлення
 [The title of the item.]
 Загаловак навіны.
 [The item synopsis.]
@@ -97,10 +146,14 @@ ID навіны.
 Дапамога па тэгам
 [Are you sure?]
 Вы ўпэўнены?
+[Tags Mask Reset]
+Скід тэгаў
 [Wait...]
 Чакайце...
 [Change Feed]
 Змяніць канал
+[Contact deleting]
+Выдаленне кантакта
 [Network]
 Сеціва
 ;file \plugins\NewsAggregator\Src\Services.cpp
@@ -109,7 +162,7 @@ ID навіны.
 [Enable/disable auto update]
 Аднаўляць аўтаматычна
 ;file \plugins\NewsAggregator\Src\Utils.cpp
+[NewsAggregator HTTP connection]
+HTTP далучэнне каналаў навін
 [Feed]
 Канал
-[%s\nis a valid feed's address.]
-%s\n сапраўды існуе.

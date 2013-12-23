@@ -46,6 +46,8 @@
 Поўнаэкранны рэжым
 [Screen Saver is running]
 Запушчана застаўка
+[Workstation is Locked]
+Камп'ютар заблакаваны
 [Defined programs are running]
 Запушчана ўказ. праграма
 [All other situations]
@@ -82,6 +84,12 @@
 хстатусы
 [Keys to flash]
 Чым лыпаць
+[Num Lock]
+Num Lock
+[Caps Lock]
+Caps Lock
+[Scroll Lock]
+Scroll Lock
 [Flashing effects]
 Міргаць
 [All at the same time]
@@ -136,6 +144,12 @@
 Скасаваць
 [Set LEDs for events]
 Усталяваць па падзеі
+[Num]
+Num
+[Caps]
+Caps
+[Scroll]
+Scroll
 [Message events]
 Паведамленні
 [File events]
@@ -192,7 +206,13 @@
 Тэмы
 [Protocol]
 Пратакол
+[Keyboard Notify Theme]
+Тэма звесткі
 [All Files]
 Усе файлы
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+\n ; Аўтаматычна згенераваны файл тэмы Keyboard Notify\n\n
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+\n; Канец аўтаматычна згенераванага файла тэмы Keyboard Notify\n\n
 [None]
 Няма

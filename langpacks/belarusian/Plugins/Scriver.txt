@@ -164,6 +164,8 @@
 &Дадаць
 [&History]
 Гісторыя
+[&Quote]
+Цыціраваць
 [&OK]
 &OK
 [Send To All Tabs]
@@ -188,6 +190,10 @@
 колер фона
 [&Filter]
 фільтр
+[&Room Settings]
+Налады
+[&Show/hide nicklist]
+Паказаць/Схаваць спіс мянушак
 [Show these events only:]
 Паказваць толькі:
 [Actions]

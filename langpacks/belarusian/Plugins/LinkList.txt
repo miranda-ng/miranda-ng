@@ -96,6 +96,8 @@
 &Ачысціць вынікі пошуку
 [&Search]
 &Шукаць
+[link]
+спасылка
 [Open]
 Адкрыць
 [Open in new Window]
@@ -119,6 +121,12 @@
 выходныя
 [Filter]
 Фільтр
+[no filter]
+няма фільтра
+[Search Filter]
+Фільтр пошуку
+[no settings]
+без налад
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [&Create Linklist]
 &Стварыць Лінк-ліст
@@ -128,6 +136,8 @@
 Апрацоўка гісторыі...
 [Could not create window!]
 Немагчыма стварыць акно!
+[Could not allocate memory!]
+Немагчыма размеркаваць памяць!
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist Plugin]
 Плагін Linklist
@@ -142,3 +152,5 @@
 RTF файл
 [All files]
 Усе файлы
+[Save RTF File]
+захаваць у RTF

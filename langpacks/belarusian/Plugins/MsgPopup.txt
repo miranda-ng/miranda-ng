@@ -7,6 +7,7 @@
 ;============================================================
 [Plugin replaces message boxes (those having only OK button) with popups.]
 Замяняе дыялогавыя вокны (якія маюць толькі кнопку ОК) на усплывальныя вокны.
+;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
 Зорачка
 [Background color]
@@ -28,6 +29,8 @@
 [Emit a sound]
 Граць гук
 ;file \plugins\MsgPopup\src\main.cpp
+[VirtualProtect failed. Code %d\nTry to call the author]
+Памылка віртуальнай абароны. Код %d\nЗьвяжыцеся з аўтарам
 [Error]
 Памылка
 [MessagePopup]
@@ -35,6 +38,8 @@
 [Popups]
 Усплывальныя вокны
 ;file \plugins\MsgPopup\src\options.cpp
+[Message with question]
+Паведамленне з пытальнікам
 [Message with exclamation]
 Усклік
 [Message with error]

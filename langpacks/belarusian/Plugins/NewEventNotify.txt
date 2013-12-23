@@ -5,6 +5,8 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
+[Notifies you when you receive a message, url, file or any other event by displaying a popup.]
+Паведамляе аб атрыманні паведамлення, URL, файла ці іншай падзеі.
 ;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
 Агульныя параметры
@@ -96,3 +98,21 @@
 [Event Notify]
 Падзеі
 ;file \plugins\NewEventNotify\src\popup.cpp
+[Received %d contacts.]
+Атрымана %d кантактаў.
+[ added you to the contact list]
+ дадаў вас у свой спіс
+[ requested authorization]
+ запытаў(ла) аўтарызацыю
+[This is a sample message event :-)]
+Гэта прыклад паведамлення  :-)\n
+[This is a sample URL event ;-)]
+Гэта прыклад URL ;-)
+[This is a sample file event :-D]
+Прыклад файла :-D
+[This is a sample other event ;-D]
+Прыклад іншых падзей ;-D
+[Plugin Test]
+Тэст плагіна
+[[b]Number of new message(s): %d[/b]\n]
+[b]Колькасць новых паведамленняў: %d[/b]\n

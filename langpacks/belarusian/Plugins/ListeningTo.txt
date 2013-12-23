@@ -137,6 +137,10 @@ mRadio
 Укл./выкл. адпраўку Ўсім пратаколам
 [Enable/Disable sending Listening To info (to all protocols)]
 Укл/Выкл адпраўку інфармацыі пра музыку (усе пратаколы)
+[Disable ListeningTo (to all protocols)]
+Выключыць ListeningTo (для ўсіх пратаколаў)
+[Enable ListeningTo (to all protocols)]
+Уключыць ListeningTo (для ўсіх пратаколаў)
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 Невядома

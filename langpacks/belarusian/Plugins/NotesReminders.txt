@@ -48,6 +48,8 @@
 Скінуць
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
 Дазваляе розным гукам прайгравацца адначасова (магчымыя нежаданыя наступствы, калі ўсталяваны модуль карыстацкіх гукаў)
+[Add Reminder]
+Дадаць напамінак
 [Trigger On Time && Date:]
 Дата &і час запуску:
 [Date]
@@ -84,6 +86,10 @@
 &Нагадаць яшчэ раз
 [&Create Note]
 &Стварыць нататку
+[&Dismiss]
+Прыбраць
+[Reminders]
+Напамінкі
 [Add New]
 Дадаць…
 [Edi&t Reminder]
@@ -183,6 +189,8 @@
 Прайграть гук
 [View Notes]
 Прагледзець нататкі
+[Sticky Notes]
+Нататкі
 [Plugins]
 Плагіны
 [Add New Note]

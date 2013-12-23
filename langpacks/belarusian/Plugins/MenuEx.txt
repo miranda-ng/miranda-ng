@@ -25,7 +25,7 @@
 [Ignore]
 Ігнараваць
 [Copy to Account (Ctrl+click for move to Account)]
-Капіяваць у вул. запіс (Ctrl+клік - перасоўванне)
+Капіяваць у конт (Ctrl+клік - перасоўванне)
 [Send 'You were added']
 Адправіць "Вас дадалі"
 [Request Authorization]
@@ -95,6 +95,8 @@
 Дазволіце, калі ласка, дадаць Вас у спіс.
 [Do you want to send authorization request\nto new contact?]
 Ці жадаеце вы паслаць запыт аўтарызацыі\n новаму кантакту?
+[Miranda NG]
+Miranda NG
 [MenuItemEx]
 Дап. пункты меню
 [Open ignore settings]

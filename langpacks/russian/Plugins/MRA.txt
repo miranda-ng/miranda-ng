@@ -63,6 +63,8 @@ E-mail:
 до:
 [Birthday:]
 День рождения:
+[Zodiak:]
+Зодиак:
 [Location]
 Место
 [Country:]
@@ -73,6 +75,8 @@ E-mail:
 Только подключённых пользователей
 [City:]
 Город:
+[Remember]
+Напоминание
 [Enable avatars support (loading)]
 Включить поддержку образов (загружать)
 [Server:]
@@ -117,6 +121,8 @@ E-mail:
 Зарегистрироваться в Mail.ru
 [Retrieve a lost password]
 Забыли пароль?
+[Leave empty if you don't want to change password]
+Оставьте пустым, если не желаете менять пароль
 [Popup type]
 Тип окна
 [Popup settings]
@@ -145,6 +151,8 @@ xСтатус "%s"
 Отмена
 [Notify]
 Уведомление
+[Written:]
+Написал:
 [Select e-mail]
 Выбор электронной почты
 [Male]
@@ -203,8 +211,16 @@ xСтатус "%s"
 Подключение аватаров
 [Avatars: server return HTTP code: %lu]
 Аватары: сервер вернул HTTP код: %lu
+[Avatars: can't open file %s, error]
+Аватары: невозможно открыть %s, ошибка
+;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 Для конференций требуется модуль Chat или tabSRMM 1.0+.
+[invite sender]
+отправитель приглашения
+[invite new members]
+позвать новых участников
+;file \protocols\MRA\src\MraConstans.h
 [Your contact wakes you]
 Ваш собеседник будит вас
 [Display &Inbox]
@@ -267,6 +283,14 @@ xСтатус "%s"
 Сообщение статуса в блоге
 [New E-mail available in Inbox]
 Новая почта в папке "Входящие"
+[Please authorize me]
+Пожалуйста, авторизуй
+[Receive files: can't allocate disk space for file, size %lu bytes, error]
+Передача файлов: невозможно выделить место на диске  размер %lu байт, ошибка
+[Receive files: can't open file %s, error]
+Передача файлов: невозможно открыть файл %s, ошибка
+[Receive files: request for file %s not sent, error]
+Передача файлов: запрос для файла %s не отправлен, ошибка
 [Send files: can't open file %s, error]
 Отправка файлов: невозможно открыть файл %s, ошибка
 [Send files: requested file: %S - not found in send files list.]
@@ -301,16 +325,27 @@ xСтатус "%s"
 Всплывающие окна
 [%s connection]
 %s подключение 
+[Mail.ru Xstatus]
+Mail.ru Xstatus
+[Mail.ru extra info]
+Mail.ru дополнительно
 [E-mail address]
 Адрес e-mail
+;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 Непрочитанная почта: %lu/%lu сообщений
 [From: %S\r\nSubject: %S\r\n%s]
 От: %S\r\nТема: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
 Непрочитанной почты нет\r\nВсего сообщений: %lu
+[Closing in %ld]
+Закрыто %ld
+[Reply to %s blog status]
+Ответить на статус блога %s
 [Set my blog status]
 Статус моего блога
+[Written]
+Написал
 [Are you sure?]
 Вы уверены?
 [Services...]
@@ -325,6 +360,7 @@ xСтатус "%s"
 Файлы
 [Avatars]
 Аватары
+;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
 Пожалуйста, введите e-mail в настройках
 [Please, setup password in options]
@@ -449,3 +485,5 @@ MRIM_CS_SMS_ACK: не найден в очереди
 Звезда
 [Music]
 Музыка
+[Dating]
+Встреча

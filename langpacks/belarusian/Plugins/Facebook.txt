@@ -37,31 +37,29 @@ URL:
 [User details]
 Пра карыстача
 [Default group:]
-Група:
+Гурт:
 [Automatically set 'Ignore status change' flag]
-Аўтаматычна ўключаць ігнараванне змены статутаў
+Аўтаматычна ўключаць ігнараванне змены статусаў
 [Contacts Settings]
 Налады кантактаў
 [Use bigger avatars]
 Вялікія аватары
-[Load contacts with 'On the Mobile' status]
-Загружаць кантакты "з мабільнага"
 [Event notifications]
-Апавяшчэнні
+Абвесткі
 [Notifications]
-Апавяшчэнні
+Абвесткі
 [News feeds]
 Навіны
 [News Feed types to notify:]
-Апавяшчаць пра тыпы навін:
+Абвяшчаць пра тыпы навін:
 [Other events]
 Іншыя падзеі
 [Client notifications]
-Апавяшчэнні кліента
+Абвесткі кліента
 [Preview]
-Тэст
+Прагляд
 [Use balloon notifications in system tray instead of popups]
-Апавяшчаць падказкай у трэі замест усплывальных вокнаў
+Абвяшчаць падказкай у трэі замест усплывальных вокнаў
 [Advanced Settings]
 Пашыраныя параметры
 [Force secure (HTTPS) connection]
@@ -71,7 +69,7 @@ URL:
 [Use secure connection also for channel requests]
 Бяспечнае злучэнне таксама для запытаў канала
 [Also disconnect chat when going to offline]
-Адключаць чат на сайце пры сыходзе ў афлайн
+Адключаць чат на сайце пры адключэнні
 [Map non-standard statuses to Invisible (instead of Online)]
 Нестандартныя статусы, як Нябачны (замест 'Далучаны')
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
@@ -105,11 +103,11 @@ URL:
 [Login error, probably bad login credentials.]
 Памылка далучэння, верагодна, няслушныя дадзеныя для ўваходу.
 [Your account requires HTTPS connection. Activating.]
-Ваш конт патрабуе HTTPS злучэння. Актывацыя.
+Ваш конт патрабуе HTTPS злучэнне. Актывацыя.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
-Нешта здарылася з Facebook. Можа быць, было сур'ёзнае абнаўленне, таму чакайце абнаўлення плагіна.
+Нешта здарылася з Facebook. Верагодна, было сур'ёзнае абнаўленне, таму чакайце абнаўлення плагіна.
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
-Маюць патрэбу ў пацверджанні для адпраўкі паведамленняў з іншых кліентаў.\n  Адкрыйце сайт facebook і паспрабуйце адправіць паведамленне гэтаму кантакту зноў!
+Маюць патрэбу ў пацверджанні для адпраўкі паведамленняў з іншых кліентаў.\nАдкрыйце сайт facebook і паспрабуйце адправіць паведамленне гэтаму кантакту зноў!
 [Timeout when sending message.]
 Затрымка пры адпраўцы паведамлення.
 [Status update was successful.]
@@ -141,11 +139,11 @@ URL:
 [Public]
 Усім
 [Friends of friends]
-сябрам сяброў
+Сябрам сяброў
 [Friends]
 Сябрам
 [Friends except acquaintances]
-ябрам, акрамя знаёмых
+Сябрам, акр. знаёмых
 [Only me]
 Толькі мне
 ;file \protocols\FacebookRM\src\contacts.cpp
@@ -154,9 +152,9 @@ URL:
 [Error occurred when removing contact from server.]
 Памылка пры выдаленні кантакта з сервера.
 [Request for friendship was sent.]
-Запыт на дружбу адпраўлены.
+Запыт на сяброўства адпраўлены.
 [Error occurred when requesting friendship.]
-Адбылася памылка пры запыце дружбы.
+Адбылася памылка пры запыце сяброўства.
 [Request for friendship was canceled.]
 Запыт на сяброўства быў адменены.
 [Error occurred when canceling friendship request.]
@@ -168,6 +166,8 @@ URL:
 << Кантакты
 [What's on your mind, %s?]
 Што ў цябе ў галаве, %s?
+[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
+Заўвага: Пераканайцеся, што вы адключылі опцыю "Праверыць SSL сертыфікаты" ў функцыі сеціва, каб працаваць належным чынам.
 [Sample event]
 Прыклад падзеі
 [Sample request]
@@ -175,7 +175,7 @@ URL:
 [Sample newsfeed]
 Прыклад навіны
 [Sample notification]
-Прыклад апавяшчэння
+Прыклад абвесткі
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 сцікер
@@ -189,6 +189,14 @@ URL:
 фатаграфію
 [User sent you %s:]
 Кантакт паслаў вам %s:
+[Message read: %s by %s]
+Паведамленне прачытана ў: %s карытальнікам %s
+[Message read: %s]
+Паведамленне прачытана ў: %s
+[This message is no longer available, because it was marked as abusive or spam.]
+Паведамленне недасяжна,таму што было адзначана як спам.
+[%s and more (%d)]
+%s і больш (%d)
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.
@@ -198,6 +206,8 @@ URL:
 Далучэнне да сервера %s
 [Unable to get Netlib connection for Facebook]
 Не атрымалася Netlib злучэнне да Facebook
+[Facebook ID must be numeric value.]
+Facebook ID павінна быць лічбавым значэннем.
 [Network]
 Сеціва
 [Account]
@@ -221,7 +231,7 @@ URL:
 [Show 'Share status' window]
 Паведамленне статуса Facebook 
 [Notification]
-Апавяшчэнне
+Абвестка
 [News Feed]
 Навіны
 [Other Event]
