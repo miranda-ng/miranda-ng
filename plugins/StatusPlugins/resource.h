@@ -150,6 +150,8 @@
 #define IDC_AWAYTIME                    1147
 #define IDC_SETNA                       1148
 #define IDC_NATIME                      1149
+#define IDC_SCREENSAVE2                 1150
+#define IDC_FULLSCREEN                  1150
 #define IDC_RADUSEMIRANDA               1210
 #define IDC_RADUSECUSTOM                1212
 #define IDC_SETNASTR                    1568

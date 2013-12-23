@@ -24,7 +24,6 @@
 #include "advancedautoaway.h"
 #include "../resource.h"
 
-
 HINSTANCE hInst, hCore = NULL;
 CLIST_INTERFACE *pcli;
 
@@ -77,10 +76,8 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_AUTOAW
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	mir_getLP( &pluginInfoEx );
+	mir_getLP(&pluginInfoEx);
 	mir_getCLI();
-
-	autoAwaySettings = new OBJLIST<TAAAProtoSetting>(10, CompareSettings);
 
 	InitCommonStatus();
 	hCSModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, CSModuleLoaded);
@@ -93,7 +90,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	DestroyHookableEvent( hStateChangedEvent );
-	delete autoAwaySettings;
+	DestroyHookableEvent(hStateChangedEvent);
 	return 0;
 }

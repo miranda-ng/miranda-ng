@@ -22,39 +22,40 @@
 #include <m_options.h>
 #include "version.h"
 
-#define SETTING_IGNLOCK					"IgnoreLockKeys"
-#define SETTING_IGNSYSKEYS				"IgnoreSysKeys"
-#define SETTING_IGNALTCOMBO				"IgnoreAltCombo"
-#define SETTING_SAMESETTINGS			"SameAutoAwaySettings"
-#define SETTING_ALL						"ALLPROTOS"
-#define SETTING_MSGCUSTOM				"Custom"
-#define SETTING_STATUSMSG				"Msg"
-#define SETTING_CONFIRMDELAY			"ConfirmTimeout"
-#define MODULENAME						"AdvancedAutoAway"
+#define SETTING_IGNLOCK      "IgnoreLockKeys"
+#define SETTING_IGNSYSKEYS   "IgnoreSysKeys"
+#define SETTING_IGNALTCOMBO  "IgnoreAltCombo"
+#define SETTING_SAMESETTINGS "SameAutoAwaySettings"
+#define SETTING_ALL          "ALLPROTOS"
+#define SETTING_MSGCUSTOM    "Custom"
+#define SETTING_STATUSMSG    "Msg"
+#define SETTING_CONFIRMDELAY "ConfirmTimeout"
+#define MODULENAME           "AdvancedAutoAway"
 
-#define SETTING_AWAYTIME_DEFAULT	5
-#define SETTING_NATIME_DEFAULT		20
-#define SETTING_AWAYCHECKTIMEINSECS		"CheckInterval"
+#define SETTING_AWAYTIME_DEFAULT 5
+#define SETTING_NATIME_DEFAULT  20
+#define SETTING_AWAYCHECKTIMEINSECS "CheckInterval"
 
-#define STATUS_RESET				1
-#define STATUS_AUTOAWAY				2
-#define STATUS_AUTONA				3
+#define STATUS_RESET    1
+#define STATUS_AUTOAWAY 2
+#define STATUS_AUTONA   3
 
-#define SETTING_MONITORMOUSE		"MonitorMouse"
-#define SETTING_MONITORKEYBOARD		"MonitorKeyboard"
+#define SETTING_MONITORMOUSE    "MonitorMouse"
+#define SETTING_MONITORKEYBOARD "MonitorKeyboard"
 
-#define FLAG_ONSAVER				1 // db: set lv1 status on screensaver ?
-#define FLAG_ONMOUSE				2 // db: set after inactivity ?
-#define FLAG_SETNA					4 // db: set NA after xx of away time ?
-#define FLAG_CONFIRM				8 // db: show confirm dialog ?
-#define FLAG_RESET					16 // db: restore status ?
-#define FLAG_LV2ONINACTIVE			32 // db: set lv2 only on inactivity
-#define FLAG_MONITORMIRANDA			64 // db: monitor miranda activity only
-#define FLAG_ONLOCK					128 // db: on work station lock
+#define FLAG_ONSAVER        0x0001 // db: set lv1 status on screensaver ?
+#define FLAG_ONMOUSE        0x0002 // db: set after inactivity ?
+#define FLAG_SETNA          0x0004 // db: set NA after xx of away time ?
+#define FLAG_CONFIRM        0x0008 // db: show confirm dialog ?
+#define FLAG_RESET          0x0010 // db: restore status ?
+#define FLAG_LV2ONINACTIVE  0x0020 // db: set lv2 only on inactivity
+#define FLAG_MONITORMIRANDA 0x0040 // db: monitor miranda activity only
+#define FLAG_ONLOCK         0x0080 // db: on work station lock
+#define FLAG_FULLSCREEN     0x0100 // db: on full screen
 
 struct TAAAProtoSetting : public PROTOCOLSETTINGEX, public MZeroedObject
 {
-	TAAAProtoSetting( PROTOACCOUNT* pa );
+	TAAAProtoSetting(PROTOACCOUNT* pa);
 	~TAAAProtoSetting();
 
 	int originalStatusMode;
@@ -75,17 +76,18 @@ struct TAAAProtoSetting : public PROTOCOLSETTINGEX, public MZeroedObject
 struct AAMSGSETTING
 {
 	short useCustom;
-	int status;
+	int   status;
 	char* msg;
 };
 
 extern HINSTANCE hInst, hCore;
 
-int CompareSettings( const TAAAProtoSetting* p1, const TAAAProtoSetting* p2 );
+int CompareSettings( const TAAAProtoSetting *p1, const TAAAProtoSetting *p2 );
 
-extern OBJLIST<TAAAProtoSetting> *autoAwaySettings;
+typedef OBJLIST<TAAAProtoSetting> TAAAProtoSettingList;
+extern TAAAProtoSettingList autoAwaySettings;
 
-int  LoadAutoAwaySetting(TAAAProtoSetting& autoAwaySetting, char* protoName);
-void LoadOptions(OBJLIST<TAAAProtoSetting>& settings, BOOL override);
+int  LoadAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char *protoName);
+void LoadOptions(TAAAProtoSettingList &settings, BOOL override);
 
 #endif
