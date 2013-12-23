@@ -80,7 +80,7 @@
 [Send Screenshot]
 [Send desktop screenshot]
 [Take a screenshot]
-[Could not register miranda service.]
+[Could not register Miranda service.]
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
 [Screenshot Icon1]

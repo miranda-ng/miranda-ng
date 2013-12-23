@@ -213,14 +213,12 @@ xСтатус "%s"
 Аватары: сервер вернул HTTP код: %lu
 [Avatars: can't open file %s, error]
 Аватары: невозможно открыть %s, ошибка
-;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 Для конференций требуется модуль Chat или tabSRMM 1.0+.
 [invite sender]
 отправитель приглашения
 [invite new members]
 позвать новых участников
-;file \protocols\MRA\src\MraConstans.h
 [Your contact wakes you]
 Ваш собеседник будит вас
 [Display &Inbox]
@@ -331,7 +329,6 @@ Mail.ru Xstatus
 Mail.ru дополнительно
 [E-mail address]
 Адрес e-mail
-;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 Непрочитанная почта: %lu/%lu сообщений
 [From: %S\r\nSubject: %S\r\n%s]
@@ -360,7 +357,6 @@ Mail.ru дополнительно
 Файлы
 [Avatars]
 Аватары
-;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
 Пожалуйста, введите e-mail в настройках
 [Please, setup password in options]
