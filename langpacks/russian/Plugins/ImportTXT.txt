@@ -38,7 +38,7 @@
 [Import not finished. Do you realy want close?]
 Импорт не закончен. Вы действительно хотите закрыть?
 [Error adding message to DB]
-Ошибка добавления сообщения в Базу
+Ошибка добавления сообщения в базу
 [Error opening file]
 Ошибка открытия файла
 [Error mapping file]

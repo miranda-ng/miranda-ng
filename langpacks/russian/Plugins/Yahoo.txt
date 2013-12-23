@@ -149,8 +149,8 @@ Yahoo Игнор
 ID
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Введите ваш Yahoo ID - Настройки/Сеть/Yahoo
-[Please enter your yahoo password in Options/Network/Yahoo]
-Введите ваш yahoo пароль - Настройки/Сеть/Yahoo
+[Please enter your Yahoo password in Options/Network/Yahoo]
+Введите ваш пароль Yahoo в Настройки/Сеть/Yahoo
 [Yahoo Login Error]
 Ошибка подключения Yahoo
 [You need to be connected to set the custom message]
@@ -195,7 +195,7 @@ Yahoo ошибка пинга
 Не могу авторизоваться в Yahoo - пароль неверен. Проверьте ваши имя пользователя и пароль.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Не могу авторизоваться в Yahoo. Ваша учётная запись заблокирована.\nПосетите %s.
-[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+[You have been logged out of the Yahoo service, possibly due to a duplicate login.]
 Вы были отключены от сервиса Yahoo, возможно из-за второго подключения.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Не могу подключится к сервису Yahoo. Проверьте настройки сервера/порт и прокси.
