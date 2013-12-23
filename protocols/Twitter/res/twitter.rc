@@ -62,7 +62,7 @@ BEGIN
     EDITTEXT        IDC_GROUP,54,49,131,12,ES_AUTOHSCROLL
     LTEXT           "Default group:",IDC_STATIC,0,50,54,14
     LTEXT           "Username:",IDC_STATIC,0,9,51,13
-    LTEXT           "[Sign in to link your Twitter account]",IDC_USERNAME,55,9,122,15
+    LTEXT           "<Sign in to link your Twitter account>",IDC_USERNAME,55,9,122,15
 END
 
 IDD_TWEET DIALOGEX 0, 0, 186, 64
@@ -81,7 +81,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Misc. Options",IDC_MISC,17,14,269,82
+    GROUPBOX        "Miscellaneous options",IDC_MISC,17,14,269,82
     CONTROL         "Use group chat for Twitter feed",IDC_CHATFEED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,28,133,10
     LTEXT           "Base URL:",IDC_STATIC,25,43,41,8
     COMBOBOX        IDC_BASEURL,72,41,89,30,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
@@ -98,7 +98,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Enable popup notifications for Tweets",IDC_SHOWPOPUPS,
+    CONTROL         "Enable popup notifications for tweets",IDC_SHOWPOPUPS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,7,137,10
     GROUPBOX        "Colors",IDC_STATIC,6,32,164,59
     CONTROL         "Use Windows colors",IDC_COL_WINDOWS,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,16,46,79,10

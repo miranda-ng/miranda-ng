@@ -1336,12 +1336,12 @@ void CMsnProto::p2p_InitFileTransfer(
 	case MSN_APPID_WEBCAM:
 		if (!_stricmp(szEufGuid, "{4BD96FC0-AB17-4425-A14A-439185962DC8}")) {
 			MSN_ShowPopup(ft->std.hContact,
-				TranslateT("Contact tried to send its webcam data (currently not supported)"),
+				TranslateT("Contact tried to send its webcam data (not currently supported)"),
 				MSN_ALLOW_MSGBOX | MSN_SHOW_ERROR);
 		}
 		if (!_stricmp(szEufGuid, "{1C9AA97E-9C05-4583-A3BD-908A196F1E92}")) {
 			MSN_ShowPopup(ft->std.hContact,
-				TranslateT("Contact tried to view our webcam data (currently not supported)"),
+				TranslateT("Contact tried to view our webcam data (not currently supported)"),
 				MSN_ALLOW_MSGBOX | MSN_SHOW_ERROR);
 		}
 		p2p_sendStatus(ft, 603);
@@ -1350,7 +1350,7 @@ void CMsnProto::p2p_InitFileTransfer(
 
 	case MSN_APPID_MEDIA_SHARING:
 //		MSN_ShowPopup(ft->std.hContact,
-//			TranslateT("Contact tried to share media with us (currently not supported)"),
+//			TranslateT("Contact tried to share media with us (not currently supported)"),
 //			MSN_ALLOW_MSGBOX | MSN_SHOW_ERROR);
 		p2p_sendStatus(ft, 603);
 		p2p_unregisterSession(ft);

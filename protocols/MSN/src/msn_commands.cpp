@@ -123,7 +123,7 @@ void CMsnProto::sttInviteMessage(ThreadData* info, char* msgBody, char* email, c
 		if (!strcmp(AppGUID, "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}"))
 		{
 			MSN_ShowPopup(info->getContactHandle(),
-				TranslateT("Contact tried to open an audio conference (currently not supported)"),
+				TranslateT("Contact tried to open an audio conference (not currently supported)"),
 				MSN_ALLOW_MSGBOX);
 			return;
 		}

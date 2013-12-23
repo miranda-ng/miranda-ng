@@ -1455,7 +1455,7 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 		else if (channel == 6) // Audio/Video call
 		{
 			aim_file_ad(hServerConn, seqno, sn, icbm_cookie, true, 0);
-			ShowPopup(LPGEN("Contact tried to open an audio/video conference (currently not supported)"), ERROR_POPUP);
+			ShowPopup(LPGEN("Contact tried to open an audio/video conference (not currently supported)"), ERROR_POPUP);
 		}
 
 		mir_free(sn);
