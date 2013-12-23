@@ -119,7 +119,7 @@ Hotmail
 &Информация
 [User &history]
 История пользователя
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 Контакт пытался открыть аудиоконференцию (не поддерживается)
 [MSN Protocol]
 Протокол MSN
@@ -233,9 +233,9 @@ MSN Чат
 Список на сервере
 [Notifications]
 Уведомления
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 Контакт пытался отправить данные с веб-камеры (не поддерживается)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 Контакт пытался просмотреть нашу веб-камеру (не поддерживается)
 [Live Mail]
 Live почта

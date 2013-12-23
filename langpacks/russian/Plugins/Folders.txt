@@ -41,8 +41,8 @@
 Возвращает путь к вашему профилю - значение найденное в mirandaboot.ini,
 [Expands to your current profile name without the extenstion.]
 Возвращает имя вашего профиля без расширения.
-[(e.g.default if your your profile is default.dat).]
-(к примеру default, если Ваш профиль default.dat).
+[(e.g. default if your your profile is default.dat).]
+(к примеру, default, если ваш профиль default.dat).
 [Environment variables]
 Переменные окружения
 [The plugin can also expand environment variables; the variables are specified like in any other]

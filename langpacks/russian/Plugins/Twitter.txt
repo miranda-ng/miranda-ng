@@ -15,8 +15,8 @@
 Группа:
 [Username:]
 Пользователь:
-[[Sign in to link your Twitter account]]
-Войдите, чтобы подключить учётную запись Twitter
+[<Sign in to link your Twitter account>]
+<Войдите, чтобы подключить учётную запись Twitter>
 [Send Tweet]
 Послать Tweet
 [Send]
