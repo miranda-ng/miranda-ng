@@ -468,7 +468,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 			}
 
 			if (err)
-				lstrcpynA(errmsg, Translate("Please enter your yahoo password in Options/Network/Yahoo"), 80);
+				lstrcpynA(errmsg, Translate("Please enter your Yahoo password in Options/Network/Yahoo"), 80);
 		}
 
 		if (err != 0) {

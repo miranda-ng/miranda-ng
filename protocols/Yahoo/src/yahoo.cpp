@@ -1132,11 +1132,11 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it."), url);
 	}
 	else if (succ == YAHOO_LOGIN_DUPL) {
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("You have been logged out of the yahoo service, possibly due to a duplicate login."));
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("You have been logged out of the Yahoo service, possibly due to a duplicate login."));
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 	}
 	else if (succ == YAHOO_LOGIN_LOGOFF) {
-		//mir_sntprintf(buff, SIZEOF(buff), TranslateT("You have been logged out of the yahoo service."));
+		//mir_sntprintf(buff, SIZEOF(buff), TranslateT("You have been logged out of the Yahoo service."));
 		//ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 		return; // we logged out.. so just sign-off..
 	}
