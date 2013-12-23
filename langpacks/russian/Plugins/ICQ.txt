@@ -30,7 +30,7 @@
 [ICQ number:]
 Номер ICQ:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
-Подсказка: если Вы не укажете здесь пароль, Miranda NG будет запрашивать его каждый раз при подключении к сети.
+Подсказка: если вы не укажете здесь пароль, Miranda NG будет запрашивать его каждый раз при подключении к сети.
 [Retrieve a lost password or ICQ number]
 Напомнить пароль или номер ICQ
 [Create a new ICQ account using the ICQ website]
@@ -1870,7 +1870,7 @@ GMT+12:00 Камчатка, Фиджи, Маршалловы о-ва, Оклен
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Вы не подключены к сети ICQ. Чтобы обновлять данные, нужно подключиться к сети ICQ.
 [Please authorize me to add you to my contact list.]
-Разрешите, пожалуйста, добавить Вас в список.
+Разрешите, пожалуйста, добавить вас в список.
 [Enter a password for UIN %u:]
 Введите пароль для %u:
 [ (DC Established)]

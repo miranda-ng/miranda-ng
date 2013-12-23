@@ -98,7 +98,7 @@
 [you have been added to %u's contact list]
 Вы добавлены к списку контактов пользователя %u.
 [%u requests your authorization]
-%u запрашивает у Вас авторизацию
+%u запрашивает у вас авторизацию
 [there is an incoming file from %u]
 Есть файл от пользователя %u.
 [%u says]

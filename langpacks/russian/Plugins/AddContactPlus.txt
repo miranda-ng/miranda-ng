@@ -34,7 +34,7 @@ ID контакта:
 [&Cancel]
 &Отмена
 [Please authorize my request and add me to your contact list.]
-Пожалуйста, разрешите добавить Вас в мой список контактов.
+Пожалуйста, разрешите добавить вас в мой список контактов.
 [None]
 Нет
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]

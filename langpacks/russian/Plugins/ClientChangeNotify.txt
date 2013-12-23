@@ -76,7 +76,7 @@
 [Can't open log file ]
 Невозможно открыть файл журнала\s
 [(you can use regular expressions here)]
-(Вы можете использовать здесь регулярные выражения)
+(вы можете использовать здесь регулярные выражения)
 [Open message window]
 Открыть окно беседы
 [Close popup]

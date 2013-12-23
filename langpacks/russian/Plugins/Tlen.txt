@@ -200,13 +200,13 @@ Tlen чаты
 [You have been kicked. Reason: %s ]
 Вас выкинули. Причина: %s\s
 [You cannot join this chat room, because you are banned.]
-Вы не можете войти в комнату, потому что Вы заблокированы.
+Вы не можете войти в комнату, потому что вы заблокированы.
 [Chat room not found.]
 Комната чата не найдена.
 [This is a private chat room and you are not one of the members.]
 Это приватная чат-комната, и вы не её член.
 [You cannot send any message unless you join this chat room.]
-Вы не можете посылать сообщение, пока Вы не вошли в комнату.
+Вы не можете посылать сообщение, пока вы не вошли в комнату.
 [Chat room with already created.]
 Комната уже создана.
 [Nickname '%s' is already registered.]
@@ -232,7 +232,7 @@ Tlen чаты
 [Network]
 Сеть
 [These changes will take effect the next time you connect to the Tlen network.]
-Изменения вступят в силу, после того как Вы переподключитесь к сети Tlen.
+Изменения вступят в силу, после того как вы переподключитесь к сети Tlen.
 [Tlen Protocol Option]
 Настройки протокола Tlen
 [Accept all alerts]

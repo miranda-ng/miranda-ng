@@ -638,7 +638,7 @@ VBR или нет
 [Music Info from ]
 Информация о музыке от\s
 [You Get Error]
-У Вас ошибка
+У вас ошибка
 ;other strings
 [Slider]
 Бегунок	

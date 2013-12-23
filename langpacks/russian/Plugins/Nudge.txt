@@ -46,7 +46,7 @@
 [Text]
 Текст
 [Allow nudges when you're:]
-Разрешать тряску когда Вы:
+Разрешать тряску когда вы:
 [Offline]
 Не в сети
 [Online]

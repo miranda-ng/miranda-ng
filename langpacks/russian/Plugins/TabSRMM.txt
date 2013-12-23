@@ -1368,7 +1368,7 @@ TabSRMM: Набирает
 [History++ plugin]
 Плагин History++
 [You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-Вы выбрали внешний плагин для отображения сообщений в журнале. Большинство настроек на этой странице для журнала по умолчанию и не будут иметь эффекта. Для изменения внешнего вида журнала сообщений Вы должны настроить IEView или History++.
+Вы выбрали внешний плагин для отображения сообщений в журнале. Большинство настроек на этой странице для журнала по умолчанию и не будут иметь эффекта. Для изменения внешнего вида журнала сообщений вы должны настроить IEView или History++.
 [** New contacts **]
 ** Новые контакты **
 [** Unknown contacts **]

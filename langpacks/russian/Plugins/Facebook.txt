@@ -128,7 +128,7 @@ URL:
 [<< Contacts]
 << Контакты
 [What's on your mind, %s?]
-О чём Вы думаете, %s?
+О чём вы думаете, %s?
 [Sample event]
 Пример события
 [Sample request]

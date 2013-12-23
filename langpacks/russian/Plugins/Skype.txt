@@ -244,7 +244,7 @@ SkypeKit.exe не распакован.
 [You did not select any contact]
 Вы не выбрали контакт
 [Hi! I'd like to add you to my contact list]
-Привет! Я хотел бы добавить Вас в свой список контактов
+Привет! Я хотел бы добавить вас в свой список контактов
 [Contact already in your contact list]
 Контакт уже в контакт листе
 [Contacts received]
@@ -262,7 +262,7 @@ SkypeKit.exe не распакован.
 [Female]
 Женский
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
-Вы не подключены в настоящее время. Вы должны быть онлайн, чтобы обновить Вашу информацию на сервере.
+Вы не подключены в настоящее время. Вы должны быть онлайн, чтобы обновить вашу информацию на сервере.
 [Spawn conference]
 Создать конференцию
 [Network]

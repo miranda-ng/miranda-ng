@@ -32,7 +32,7 @@
 [Reset to default\r\n(for this computer)]
 Сбросить настройки\r\n(для этого компьютера)
 [You need to configure it once for each computer, where you run your Miranda NG.]
-Необходимо один раз настраивать для нового компьютера, где Вы запускаете Miranda NG.
+Необходимо один раз настраивать для нового компьютера, где вы запускаете Miranda NG.
 [No Apply button required.]
 Настройки сохраняются автоматически.
 [Enable sounds]

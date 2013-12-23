@@ -134,7 +134,7 @@
 [Show typing notifications when a user is typing a message]
 Показывать уведомления о наборе текста
 [Update message window icons when a user is typing]
-Обновить значок окна при наборе сообщения Вам
+Обновить значок окна при наборе сообщения вам
 [Show typing notification when no message dialog is open]
 Уведомлять о наборе текста, когда окно беседы не открыто
 [Flash in the system tray and in the contact list]

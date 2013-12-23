@@ -40,7 +40,7 @@
 [Turn on Autoanswer]
 Включить автоответ
 [Dear %user%, the owner left the following message:]
-Приветствую %user%, %username% оставил Вам сообщение:
+Приветствую %user%, %username% оставил вам сообщение:
 [Simple Auto Replier]
 Автоответчик
 [Message Sessions]

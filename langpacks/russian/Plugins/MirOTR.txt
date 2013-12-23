@@ -216,9 +216,9 @@ OTR-Идентификация с: %s (%s)
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a known password.]
 Шифрованная сессия с '%s' (проверен).\nПроверьте сессию снова, используя известный пароль.
 [Your contact '%s' wants to verify your identity with a question only you can answer.]
-Контакт '%s' желает проверить идентификацию вопросом на который можете ответить только Вы.
+Контакт '%s' желает проверить идентификацию вопросом на который можете ответить только вы.
 [Your contact '%s' wants to verify your identity with a secret password you should know.]
-Контакт '%s' желает проверить идентификацию паролем, который Вы должны знать.
+Контакт '%s' желает проверить идентификацию паролем, который вы должны знать.
 [Fingerprint '%s' still in use in conversation with '%s' (%s). You cannot delete it!]
 Отпечаток '%s' до сих пор используется в беседе с '%s' (%s). Вы не можете его удалить!
 [Fingerprint '%s' in use in conversation with '%s' (%s). It could not be deleted!]
