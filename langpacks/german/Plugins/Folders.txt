@@ -37,11 +37,11 @@ die Änderungen nicht in der Datenbank gespeichert, sondern nur für diese Sitzu
 Variablen-String
 [What it expands to:]
 Wie es ausgewertet wird:
-[Expands to your miranda path (e.g: c:\\program files\\miranda ng).]
+[Expands to your Miranda path (e.g: c:\\program files\\miranda ng).]
 wird erweitert zu Ihrem Miranda-Pfad (bspw. C:\\Programme\\Miranda NG).
 [Expands to your profile path - the value found in mirandaboot.ini,]
 wird erweitert zu Ihrem Profilpfad - der Wert aus mirandaboot.ini,
-[ProfileDir section (usually inside miranda's folder).]
+[ProfileDir section (usually inside Miranda's folder).]
 Abschnitt ProfileDir (normalerweise im Miranda-Verzeichnis).
 [Expands to your current profile name without the extenstion.]
 wird erweitert zum Namen Ihres aktuellen Profils ohne Dateiendung.
@@ -63,7 +63,7 @@ anstelle des Miranda-Profilverzeichnisses.
 Beispiele:
 [If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
 Wenn der Wert für ProfileDir in mirandaboot.ini ist '.\\Profile', aktuellers
-[profile is 'default.dat' and miranda's path is 'c:\\program files\\miranda ng\' then:]
+[profile is 'default.dat' and Miranda's path is 'c:\\program files\\miranda ng\' then:]
 Profil ist 'default.dat und Miranda-Pfad ist 'C\\Programme\\Miranda NG', dann:
 [will expand to 'c:\\program files\\miranda ng']
 wird ausgewertet zu 'C\\Programme\\Miranda NG'

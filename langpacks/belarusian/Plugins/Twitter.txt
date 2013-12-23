@@ -16,7 +16,7 @@
 Група:
 [Username:]
 Карыстач:
-[[Sign in to link your twitter account]]
+[[Sign in to link your Twitter account]]
 Звязаць свой ​​твітэр
 [Send Tweet]
 Паслаць Tweet

@@ -331,7 +331,7 @@ IcoLib プラグインをダウンロード
 ファイル操作 (&F)
 [Unknown codepage %u]
 不明なコードページ %u
-[User %s (%d) changed icq client: %s]
+[User %s (%d) changed ICQ client: %s]
 ユーザー  %s (%d) は ICQ クライアントを変更しました: %s
 [Status request by %s (%d):%s]
 %s (%d) によるステータスリクエスト: %s

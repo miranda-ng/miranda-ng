@@ -286,7 +286,7 @@ DCC
 %s ставіць рэжым %s
 [%s sets mode %s%s]
 %s усталяваў рэжым %s%s
-[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered]
 ПАМЫЛКА CTCP: Недапушчальная каманда CTCP атрымана ад %s!%s@%s. Магчымая спроба атрымаць кантроль над вашым кліентам IRC.
 [CTCP FINGER requested by %s]
 Запыт CTCP FINGER ад %s

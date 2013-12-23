@@ -132,7 +132,7 @@ Contraseña:
 
 [Turn on debug log]
 
-[Use jabber api on Miranda NG (recomended)]
+[Use Jabber api on Miranda NG (recommended)]
 
 [Default key]
 

@@ -5,7 +5,7 @@
 ;  Version: 0.2.3.0
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
-[Prevent miranda from storing any history.]
+[Prevent Miranda from storing any history.]
 Verhindert, dass Miranda Verlauf speichert.
 ;file \plugins\NoHistory\res\NoHistory.rc
 [Keep history for this contact]

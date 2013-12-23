@@ -9,7 +9,7 @@
 Імпортує та додає групи, визначені у Yahoo! Messenger.
 [Dialog]
 Діалог
-[Move yahoo contacts to groups now]
+[Move Yahoo contacts to groups now]
 Перенести контакти до груп
 [Move Yahoo contacts automatically on startup]
 Перенести контакти Yahoo! автоматично при старті

@@ -68,7 +68,7 @@ Gesperrte Benutzer
 Die Liste enthält all Ihre blockierten XFire-Nutzer. Sie können einen entfernen, wenn Sie ihm erlauben möchten, Ihnen eine Freundeseinladung zu schicken.
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Sie können einen Nutzer zu der Liste hinzufügen, indem Sie in Ihrer Kontaktliste einen Rechtsklick auf ihn machen und "Benutzer ignorieren" auswählen.
-[This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
+[This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Diese Datei ist für die Spielsuche, Spielerkennung und Spiel-ID-Auflösung zuständig. Sie beinhaltet alle Spiele, die von XFire unterstützt werden.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Diese Datei beinhaltet alle Spielicons. Man kann die Einstellung aktivieren, dass die Icons heruntergeladen werden, wenn sie nicht vorhanden sind.
@@ -219,7 +219,7 @@ Hmmh... lecker
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 Die Datei xfire_games.ini wurde aktualisiert.
-[Error during xfire_games Update.]
+[Error during xfire_games.ini update.]
 Fehler während der xfire_games-Aktualisierung.
 [There is a new Icons.dll online, do you want to update now?]
 Es ist eine neue Version der icons.dll verfügbar, möchten Sie jetzt aktualisieren?
@@ -268,7 +268,7 @@ Stimme
 XFire-Link-Protokoll
 [Buddy start a game]
 Ein Freund startet ein Spiel
-[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
+[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer.]
 Es scheint, dass Sie das XFire Plugin zum ersten Mal nutzen. Wollen Sie automatisch due neuste xfire_games.ini herunterladen?\r\nOhne diese ini kann XFire keine Spiele auf Ihrem Computer erkennen.
 [Away from Keyboard]
 Nicht an der Tastatur

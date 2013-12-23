@@ -145,7 +145,7 @@ Wyślij zrzut ekranu
 Wyślij zrzut pulpitu
 [Take a screenshot]
 Zrób zrzut ekranu
-[Could not register miranda service.]
+[Could not register Miranda service.]
 Nie można zarejestrować usługi Mirandy.
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 Nie udało się stworzyć folderu zrzutów ekranu (kod błędu: %d):\n%s\nCzy posiadasz prawa do zapisu?

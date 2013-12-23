@@ -171,7 +171,7 @@ Połączenie %s
 ID
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Podaj swój Yahoo ID w Opcje -> Protokoły -> Yahoo
-[Please enter your yahoo password in Options/Network/Yahoo]
+[Please enter your Yahoo password in Options/Network/Yahoo]
 Podaj swoje hasło Yahoo w Opcje -> Protokoły -> Yahoo
 [Yahoo Login Error]
 Błąd logowania Yahoo
@@ -228,7 +228,7 @@ Nie można się zalogować do usługi Yahoo - nie rozpoznano nazwy użytkownika.
 Nie można się zalogować do usługi Yahoo - niepoprawne hasło. Sprawdź czy poprawnie wpisałeś nazwę użytkownika i hasło.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Nie można zalogować się do usługi Yahoo. Twoje konto zostało zablokowane.\n Odwiedź %s aby je reaktywować.
-[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+[You have been logged out of the Yahoo service, possibly due to a duplicate login.]
 Zostałeś wylogowany z usługi Yahoo, prawdopodobnie z powodu zduplikowanego loginu.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Nie można połączyć się z usługą Yahoo. Sprawdź ustawienia serwera/portu i proxy.

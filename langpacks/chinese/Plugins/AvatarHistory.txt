@@ -55,17 +55,17 @@
 头像历史: 选择如何保存历史头像
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 请选择头像历史应如何保存. 此设置将 "不能" 被变更, 因为它会导致所有旧历史丢失. 
-[Store history in miranda history and all history avatars in same folder]
+[Store history in Miranda history and all history avatars in same folder]
 把历史保存至 Miranda 历史, 而所有历史头像保存至相同文件夹
-[Store history in miranda history and history avatars in per protocol folders]
+[Store history in Miranda history and history avatars in per protocol folders]
 把历史保存至 Miranda 历史, 而所有历史头像保存至每个协议独立文件夹
-[Store history in miranda history and history avatars in per contact folders using shortcuts]
+[Store history in Miranda history and history avatars in per contact folders using shortcuts]
 把历史保存至 Miranda 历史, 而所有历史头像使用快捷方式放在每一位联系人独立文件夹
 [Store history avatars in per contact folders using shortcuts]
 使用快捷方式把历史保存在每位联系人独立文件夹
 [Store history avatars in per contact folders]
 把历史保存在每位联系人独立文件夹
-[History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
+[History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.]
 历史已保存至 Miranda 数据库. 它可使用 History++ 或头像历史内置查看器观看. 
 [All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
 所有头像保存于 <配置文件>\\Avatars History\\<头像散列值>

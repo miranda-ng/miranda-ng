@@ -37,11 +37,11 @@
 Радок зменнай
 [What it expands to:]
 Што верне:
-[Expands to your miranda path (e.g: c:\\program files\\miranda ng).]
+[Expands to your Miranda path (e.g: c:\\program files\\miranda ng).]
 Вяртае шлях да вашай Miranda NG (напрыклад: c:\\program files\\miranda ng).
 [Expands to your profile path - the value found in mirandaboot.ini,]
 Вяртае шлях да вашага профілю - значэнне, знойдзенае ў mirandaboot.ini,
-[ProfileDir section (usually inside miranda's folder).]
+[ProfileDir section (usually inside Miranda's folder).]
 Тэчка профіляў (звычайна ў тэчцы Міранды).
 [Expands to your current profile name without the extenstion.]
 Вяртае імя Вашага профіля без пашырэння.

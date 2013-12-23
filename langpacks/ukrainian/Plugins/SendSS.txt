@@ -129,7 +129,7 @@ HTTP-з'єднання SendSS
 Відправити скріншот екрану
 [Take a screenshot]
 Зробити скріншот
-[Could not register miranda service.]
+[Could not register Miranda service.]
 Неможливо зареєструвати сервіс.
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 Не вдалося створити папку знімків екрану (код помилки: %d:)\n%s\nУ вас є права на запис?

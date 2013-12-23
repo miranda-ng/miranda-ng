@@ -505,7 +505,7 @@ Akcje na plikach
 Nieznane kodowanie %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
 Moduł History++ nie został załadowany, brak pliku riched20.dll. Przyciśnij Taj aby kontynuować uruchamianie Mirandy.
-[User %s (%d) changed icq client: %s]
+[User %s (%d) changed ICQ client: %s]
 Użytkownik %s (%d) zmienił klienta ICQ: %s
 [Status request by %s (%d):%s]
 Prośba o status przez %s (%d):%s

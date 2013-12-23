@@ -12,7 +12,7 @@
 Разглеждане
 [Use internal viewer]
 
-[Replace miranda history]
+[Replace Miranda history]
 
 [Use UTF8 in new files]
 UTF8 за нови файлове
@@ -128,7 +128,7 @@ UTF8 за нови файлове
 
 [Max line width must be at least %d]
 Максималната ширина на ред трябва да е поне %d
-[You need to restart miranda to change the history function]
+[You need to restart Miranda to change the history function]
 
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 

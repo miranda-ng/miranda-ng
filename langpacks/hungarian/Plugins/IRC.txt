@@ -229,7 +229,7 @@ CTCP csevegési felkérés ettõl: %s
 %s %s módot állítja be
 [%s sets mode %s%s]
 %s %s%s módot állítja be
-[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered]
 CTCP hiba: SÉrült CTCP parancs a következõtõl: %s!%s@%s. Lehetséges, hogy az irc kliensed irányításának átvételét kísérelte meg.
 [CTCP FINGER requested by %s]
 CTCP Mutató kérés általa: %s

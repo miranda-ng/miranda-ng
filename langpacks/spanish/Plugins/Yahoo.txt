@@ -171,7 +171,7 @@ Cuenta
 
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 
-[Please enter your yahoo password in Options/Network/Yahoo]
+[Please enter your Yahoo password in Options/Network/Yahoo]
 
 [Yahoo Login Error]
 
@@ -228,7 +228,7 @@ Cuenta
 
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 
-[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+[You have been logged out of the Yahoo service, possibly due to a duplicate login.]
 
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 

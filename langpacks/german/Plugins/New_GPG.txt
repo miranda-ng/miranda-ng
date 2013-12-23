@@ -132,7 +132,7 @@ Benutzerliste:
 Exportiere Schlüssel
 [Turn on debug log]
 Schalte Debug-Log ein
-[Use jabber api on Miranda NG (recomended)]
+[Use Jabber api on Miranda NG (recommended)]
 Jabber-API in Miranda NG verwenden (empfohlen)
 [Default key]
 Standardschlüssel

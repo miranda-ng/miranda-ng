@@ -10,7 +10,7 @@ Dieses Plugin importiert und erstellt die Yahoo-Gruppen aus dem Yahoo-Messenger.
 ;file \plugins\YahooGroups\res\YahooGroups.rc
 [Dialog]
 Dialog
-[Move yahoo contacts to groups now]
+[Move Yahoo contacts to groups now]
 Yahoo-Kontakte nun in Gruppen verschieben
 [Move Yahoo contacts automatically on startup]
 Yahoo Kontakte automatisch beim Start verschieben

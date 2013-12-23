@@ -93,7 +93,7 @@ Rede
 Ignorar lista
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Introduza a sua identificação em Opções/Rede/yahoo
-[Please enter your yahoo password in Options/Network/Yahoo]
+[Please enter your Yahoo password in Options/Network/Yahoo]
 Introduza a sua senha em Opções/Rede/yahoo
 [Yahoo Login Error]
 Erro no Acesso Yahoo
@@ -131,7 +131,7 @@ Não foi possível logar no serviço Yahoo - nome de usuário não reconhecida. 
 Não foi possível logar no serviço Yahoo - senha incorreta. Verifique se o seu nome de usuário e senha estão digitados corretamente.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Não foi possível logar no serviço Yahoo. Sua conta foi bloqueada.\ NVisite %s para reativá-lo.
-[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+[You have been logged out of the Yahoo service, possibly due to a duplicate login.]
 Você foi desconectado do serviço do Yahoo, possivelmente devido a um login duplicado.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Não foi possível conectar ao serviço do Yahoo. Verifique o seu servidor/porta e as configurações de proxy.

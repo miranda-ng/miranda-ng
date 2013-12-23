@@ -505,8 +505,8 @@ HTML файл
 Невядомая кодавая старонка %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
 Немагчыма загрузіць History++, адсутнічае riched20.dll. Націсніце "Ды" для працягу.
-[User %s (%d) changed icq client: %s]
-%s (%d) змяніў icq кліент: %s
+[User %s (%d) changed ICQ client: %s]
+%s (%d) змяніў ICQ кліент: %s
 [Status request by %s (%d):%s]
 Запыт статусу ад %s (%d):%s
 [Ignored status request by %s (%d):%s]

@@ -5,7 +5,7 @@
 ;  Version: 0.2.3.0
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
-[Prevent miranda from storing any history.]
+[Prevent Miranda from storing any history.]
 Упереджує Міранди від зберігання історії.
 [Keep history for this contact]
 Зберігати історію контакту

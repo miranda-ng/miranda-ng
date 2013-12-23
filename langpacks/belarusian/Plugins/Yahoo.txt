@@ -171,8 +171,8 @@ Yahoo Ігнор
 ID
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Увядзіце ваш Yahoo ID - Налады/Сеціва/Yahoo
-[Please enter your yahoo password in Options/Network/Yahoo]
-Увядзіце ваш yahoo пароль - Налады/Сеціва/Yahoo
+[Please enter your Yahoo password in Options/Network/Yahoo]
+Увядзіце ваш Yahoo пароль - Налады/Сеціва/Yahoo
 [Yahoo Login Error]
 Памылка далучэння Yahoo
 ;file \protocols\Yahoo\src\services.cpp
@@ -228,7 +228,7 @@ Yahoo памылка пінгу
 Не магу аўтарызавацца ў Yahoo - пароль няслушны. Праверце вашы імя карыстача і пароль.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Не магу аўтарызавацца ў Yahoo. Ваш конт заблакаваны.\nНаведайце %s.
-[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+[You have been logged out of the Yahoo service, possibly due to a duplicate login.]
 Вы былі адключаны ад сэрвісу Yahoo, магчыма з-за другога далучэння.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Не магу далучыцца да сэрвісу Yahoo. Праверце налады сервера/порт і проксі.

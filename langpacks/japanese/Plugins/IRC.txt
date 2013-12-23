@@ -235,7 +235,7 @@ DCC
 %s は %s モードを設定
 [%s sets mode %s%s]
 %s は %s%s モードを設定
-[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered]
 CTCP エラー: %s!%s@%s から悪意のある CTCP コマンドを受信しました。登録済みの IRC クライアントのコントロールを制御されないよう , 可能な限り注意してください
 [CTCP FINGER requested by %s]
 CTCP FINGER %s のリクエスト

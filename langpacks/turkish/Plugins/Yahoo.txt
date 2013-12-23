@@ -83,7 +83,7 @@ Lütfen yoksayma listesinden çıkarılacak bir ahbap seçin.
 Ağ
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Lütfen Seçenekler/Ağ/Yahoo bölümüne Yahoo kimliğinizi yazın
-[Please enter your yahoo password in Options/Network/Yahoo]
+[Please enter your Yahoo password in Options/Network/Yahoo]
 Lütfen Seçenekler/Ağ/Yahoo bölümüne Yahoo parolanızı yazın
 [Yahoo Login Error]
 Yahoo Giriş Hatası
@@ -121,7 +121,7 @@ Yahoo hizmetine giriş yapılamadı - kullanıcı adı anlaşılamadı. Kullanı
 Yahoo hizmetine giriş yapılamadı - parola yanlış. Kullanıcı adı ve parolanızı doğru yazdığınızdan emin olun.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Yahoo hizmetine giriş yapılamadı. Hesabınız kilitlenmiş.\nyeniden etkinleştirmek için %s adresine gidin.
-[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+[You have been logged out of the Yahoo service, possibly due to a duplicate login.]
 Yahoo hizmetinden çıktınız. Muhtemelen aynı hesaba başka bir giriş yapıldı.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Yahoo hizmetine bağlanılamadı. Sunucu/post ve vekil ayarlarınızı denetleyin.

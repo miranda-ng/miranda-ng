@@ -37,11 +37,11 @@
 
 [What it expands to:]
 
-[Expands to your miranda path (e.g: c:\\program files\\miranda ng).]
+[Expands to your Miranda path (e.g: c:\\program files\\miranda ng).]
 
 [Expands to your profile path - the value found in mirandaboot.ini,]
 
-[ProfileDir section (usually inside miranda's folder).]
+[ProfileDir section (usually inside Miranda's folder).]
 
 [Expands to your current profile name without the extenstion.]
 
@@ -63,7 +63,7 @@
 
 [If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
 
-[profile is 'default.dat' and miranda's path is 'c:\\program files\\miranda ng\' then:]
+[profile is 'default.dat' and Miranda's path is 'c:\\program files\\miranda ng\' then:]
 
 [will expand to 'c:\\program files\\miranda ng']
 

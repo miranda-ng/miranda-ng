@@ -8,7 +8,7 @@
 ;file \plugins\Msg_Export\res\resource.rc
 [Use internal viewer]
 Visionneur interne
-[Replace miranda history]
+[Replace Miranda history]
 Remplace l'historique Miranda
 [Use UTF8 in new files]
 Utiliser l'UTF8
@@ -86,7 +86,7 @@ N'a pas exporté un seul contact
 Sortie et écriture des infos de la basse de données ( étape 2/2 )
 [Max line width must be at least %d]
 La largeur maximum de ligne doit être au moins de %d
-[You need to restart miranda to change the history function]
+[You need to restart Miranda to change the history function]
 Vous devez relancer Miranda pour changer la gestion de l'historique
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 N'a pas trouvé Msg_Export.dll Veuillez localisé Msg_Export.txt manuellement.

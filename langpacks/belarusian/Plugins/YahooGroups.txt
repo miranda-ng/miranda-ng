@@ -10,7 +10,7 @@
 ;file \plugins\YahooGroups\res\YahooGroups.rc
 [Dialog]
 Гутарка
-[Move yahoo contacts to groups now]
+[Move Yahoo contacts to groups now]
 Перамясціць кантакты ў групы
 [Move Yahoo contacts automatically on startup]
 Аўтаматычна перамяшчаць кантакты пры запуску

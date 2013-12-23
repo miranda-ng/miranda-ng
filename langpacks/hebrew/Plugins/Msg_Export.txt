@@ -7,7 +7,7 @@
 ;============================================================
 [Use internal viewer]
 השתמש בצפייה פנימית
-[Replace miranda history]
+[Replace Miranda history]
 השתמש בהיסטוריית מירנדה
 [Append extra new line]
 הוסף קו נוסף חדש

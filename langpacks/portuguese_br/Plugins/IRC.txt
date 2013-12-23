@@ -229,7 +229,7 @@ Bate-papo CTCP pedido de %s
 %s define modo %s
 [%s sets mode %s%s]
 %s define modo %s%s
-[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered]
 ERRO CTCP: Comando CTCP malformado recebido de %s!%s@%s. Possível tentativa de tomar controle de seu cliente de IRC registrado
 [CTCP FINGER requested by %s]
 CTCP FINGER pedido por %s

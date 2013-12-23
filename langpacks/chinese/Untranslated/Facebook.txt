@@ -30,7 +30,7 @@
 [Login error: Some Facebook things are required.]
 [Login error: Captcha code is required. Bad login credentials?]
 [Your account requires HTTPS connection. Activating.]
-[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
+[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 [Timeout when sending message.]
 [Status update was successful.]
 [Most Recent]

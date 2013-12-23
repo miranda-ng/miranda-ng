@@ -71,7 +71,7 @@
 发送桌面截图
 [Take a screenshot]
 进行截图
-[Could not register miranda service.]
+[Could not register Miranda service.]
 无法注册 Miranda 服务. 
 [Default]
 默认

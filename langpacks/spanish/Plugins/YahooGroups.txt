@@ -10,8 +10,8 @@ Este plugin importa y crea los grupos de Yahoo definidos en Yahoo Messenger.
 ;file \plugins\YahooGroups\res\YahooGroups.rc
 [Dialog]
 Diálogo
-[Move yahoo contacts to groups now]
-Mover contactos a los grupos de yahoo ahora
+[Move Yahoo contacts to groups now]
+Mover contactos a los grupos de Yahoo ahora
 [Move Yahoo contacts automatically on startup]
 Mover contactos de Yahoo de forma automática en el arranque
 ;file \plugins\YahooGroups\src\hooked_events.cpp

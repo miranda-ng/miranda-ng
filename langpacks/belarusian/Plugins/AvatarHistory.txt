@@ -72,17 +72,17 @@
 Гісторыя аватараў: абярыце, як захоўваць гісторыю аватараў
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Абярыце, якім чынам захоўваць гісторыю аватараў кантактаў. Гэта наладу НЕЛЬГА будзе змяніць у будучыні, бо ўсе папярэднія падзеі гісторыі будуць страчаны.
-[Store history in miranda history and all history avatars in same folder]
+[Store history in Miranda history and all history avatars in same folder]
 Захоўваць гісторыю ў гісторыі Miranda і ўсе аватары ў адной тэчцы
-[Store history in miranda history and history avatars in per protocol folders]
+[Store history in Miranda history and history avatars in per protocol folders]
 Захоўваць гісторыю ў тэчцы Miranda і гісторыю аватараў у тэчцы пратаколаў
-[Store history in miranda history and history avatars in per contact folders using shortcuts]
+[Store history in Miranda history and history avatars in per contact folders using shortcuts]
 Захоўваць гісторыю ў гісторыі Miranda і гісторыю аватараў у тэчцы кантакту, выкарыстоўваючы цэтлікі
 [Store history avatars in per contact folders using shortcuts]
 Захоўваць гісторыю для кожнага кантакту, выкарыстоўваючы цэтлікі
 [Store history avatars in per contact folders]
 Захоўваць гісторыю ў тэчцы кожнага кантакту
-[History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
+[History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.]
 Гісторыя захоўваецца ў БД Miranda. Яна можа быць адлюстравана ўбудаваным прагляднікам ці плагiн History++ 
 [All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
 Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Хэш Аватара>

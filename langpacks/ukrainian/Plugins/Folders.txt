@@ -31,11 +31,11 @@
 Змінна
 [What it expands to:]
 Що повертає:
-[Expands to your miranda path (e.g: c:\\program files\\miranda ng).]
+[Expands to your Miranda path (e.g: c:\\program files\\miranda ng).]
 Повертає шлях до вашої Miranda NG (наприклад, c:\\program files\\miranda ng).
 [Expands to your profile path - the value found in mirandaboot.ini,]
 Повертає шлях до вашого профілю - значення знайдене в mirandaboot.ini,
-[ProfileDir section (usually inside miranda\'s folder).]
+[ProfileDir section (usually inside Miranda\'s folder).]
 у секції ProfileDir (зазвичай знаходиться в папці Miranda NG).
 [Expands to your current profile name without the extenstion.]
 Повертає ім'я вашого профілю без розширення.
@@ -57,7 +57,7 @@
 Приклади:
 [If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\\', current]
 Якщо значення ProfileDir секції ProfileDir файлу mirandaboot.ini - це '.\\profiles\\', поточний
-[profile is 'default.dat' and miranda's path is 'c:\\program files\\miranda ng\\' then:]
+[profile is 'default.dat' and Miranda's path is 'c:\\program files\\miranda ng\\' then:]
 це профіль 'default.dat' і Miranda NG знаходиться в 'c:\\program files\\miranda ng\\', то:
 [will to expand 'c:\\program files\\miranda ng']
 поверне 'c:\\program files\\miranda ng'

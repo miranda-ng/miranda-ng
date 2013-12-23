@@ -5,8 +5,8 @@
 ;  Version: 0.2.3.0
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
-[Prevent miranda from storing any history.]
-Prevenir miranda de almacenar un historial.
+[Prevent Miranda from storing any history.]
+Prevenir Miranda de almacenar un historial.
 ;file \plugins\NoHistory\res\NoHistory.rc
 [Keep history for this contact]
 Mantener historial de este contacto

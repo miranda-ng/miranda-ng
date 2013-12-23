@@ -106,7 +106,7 @@ Loginfehler, wahrscheinlich falsche Anmeldeinformationen.
 Ihr Account benötigt eine HTTPS-Verbindung. Aktivierung.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Irgendwas geschah mit Facebook. Vielleicht gab es ein großes Update, warten Sie auf ein Plugin-Update.
-[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
+[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Eine Bestätigung zum Nachrichtenversand zu anderen Clients wird benötigt.\nÖffnen Sie die Facebook-Seite und senden Sie dem Kontakt die Nachricht erneut!
 [Timeout when sending message.]
 Zeitüberschreitung beim Senden der Nachricht.

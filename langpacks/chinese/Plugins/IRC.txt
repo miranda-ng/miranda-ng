@@ -233,7 +233,7 @@ CTCP 聊天请求自 %s
 %s 设置模式 %s
 [%s sets mode %s%s]
 %s 设置模式 %s%s
-[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered]
 CTCP 错误: 从 %s!%s@%s 收到错误格式的 CTCP 命令. 可能试图控制您所登记的 IRC 客户端
 [CTCP FINGER requested by %s]
 %s 请求 CTCP FINGER

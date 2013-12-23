@@ -279,7 +279,7 @@ Inclure les évènements personnalisés (0-65535)
 Cacher le menu
 [Unknown codepage %u]
 Codepage inconnu %u
-[User %s (%d) changed icq client: %s]
+[User %s (%d) changed ICQ client: %s]
 %s (%d) a changé de client ICQ: %s
 [Status request by %s (%d):%s]
 Demande d'état par %s (%d): %s

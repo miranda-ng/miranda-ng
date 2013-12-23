@@ -74,17 +74,17 @@ Podgląd
 Historia awataru: Wybierz sposób przechowywania awatarów
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Proszę wybrać sposób przechowywania historii awatarów. Te ustawienia NIE będą mogły być zmienione, ponieważ spowodowałoby to utratę całej poprzedniej historii
-[Store history in miranda history and all history avatars in same folder]
+[Store history in Miranda history and all history avatars in same folder]
 Przechowuj historię w profilu Mirandy, a wszystkie awatary w tym samym folderze
-[Store history in miranda history and history avatars in per protocol folders]
+[Store history in Miranda history and history avatars in per protocol folders]
 Przechowuj historię w profilu Mirandy, a awatary w folderach protokołów
-[Store history in miranda history and history avatars in per contact folders using shortcuts]
+[Store history in Miranda history and history avatars in per contact folders using shortcuts]
 Przechowuj historię w profilu Mirandy, a awatary w folderach kontaktów używając skrótów
 [Store history avatars in per contact folders using shortcuts]
 Przechowuj historię awatarów w folderach kontaktów używając skrótów
 [Store history avatars in per contact folders]
 Przechowuj historię awatarów w folderach kontaktów
-[History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
+[History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.]
 Historia będzie zapisana w bazie Mirandy, aby ją zobaczyć użyj History++ lub wew. przeglądarki.
 [All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
 Awatary są przechowywane w <Profil>\\Avatars History\\<Hash awataru>

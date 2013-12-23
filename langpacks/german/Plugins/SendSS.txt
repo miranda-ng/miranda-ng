@@ -145,7 +145,7 @@ Screenshot senden
 Desktop-Screenshot senden
 [Take a screenshot]
 Screenshot machen
-[Could not register miranda service.]
+[Could not register Miranda service.]
 Konnte Mirandadienst nicht initialisieren.
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 Kann Screenshot-Verzeichnis nicht erstellen (Fehlercode: %d):\n%s\nHaben Sie Schreibberechtigungen?

@@ -99,7 +99,7 @@ IP 地址:
 您正浏览从
 [You external ip was detected as %d.%d.%d.%d\r\nby: %s]
 您的外部 IP 被检测出是 %d.%d.%d.%d\r\n来源: %s
-[You need to restart miranda to change the main menu]
+[You need to restart Miranda to change the main menu]
 您需要重启 Miranda 以改变主菜单
 [HTTP Server]
 HTTP 服务器

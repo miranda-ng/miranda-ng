@@ -9,7 +9,7 @@
 Listovať
 [Use internal viewer]
 Použiť interný prehliadač
-[Replace miranda history]
+[Replace Miranda history]
 Prepísať históriu mirandy
 [Append extra new line]
 Pridať extra nový riadok
@@ -63,8 +63,8 @@ Chyba pri exporte kontaktu
 Triedim a zapisujem databázové informácie (Časť 2 z 2)
 [Max line width must be at least %d]
 Maximálna dľžka riadku musí byť do %d
-[You need to restart miranda to change the history function]
-Musíte reštartovať mirandu pre zmenu funkcií histórie
+[You need to restart Miranda to change the history function]
+Musíte reštartovať Mirandu pre zmenu funkcií histórie
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 Chyba v ceste ku Msg_Export.dll
 [File]

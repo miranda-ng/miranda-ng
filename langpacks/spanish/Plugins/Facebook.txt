@@ -106,8 +106,8 @@ Error de inicio de sesión, las credenciales de inicio de sesión probablemente 
 Su cuenta requiere una conexión HTTPS. Activando.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Algo le pasó a Facebook. Tal vez hubo alguna actualización importante por lo que debe esperar a una actualización.
-[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
-Necesita confirmación para enviar mensajes a otros clientes.\n¡Abrir el sitio web de facebook y tratar de enviar un mensaje a este contacto de nuevo!
+[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
+Necesita confirmación para enviar mensajes a otros clientes.\n¡Abrir el sitio web de Facebook y tratar de enviar un mensaje a este contacto de nuevo!
 [Timeout when sending message.]
 Tiempo de espera al enviar el mensaje
 [Status update was successful.]

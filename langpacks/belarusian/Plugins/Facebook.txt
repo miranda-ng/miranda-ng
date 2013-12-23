@@ -106,8 +106,8 @@ URL:
 Ваш конт патрабуе HTTPS злучэнне. Актывацыя.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Нешта здарылася з Facebook. Верагодна, было сур'ёзнае абнаўленне, таму чакайце абнаўлення плагіна.
-[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
-Маюць патрэбу ў пацверджанні для адпраўкі паведамленняў з іншых кліентаў.\nАдкрыйце сайт facebook і паспрабуйце адправіць паведамленне гэтаму кантакту зноў!
+[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
+Маюць патрэбу ў пацверджанні для адпраўкі паведамленняў з іншых кліентаў.\nАдкрыйце сайт Facebook і паспрабуйце адправіць паведамленне гэтаму кантакту зноў!
 [Timeout when sending message.]
 Затрымка пры адпраўцы паведамлення.
 [Status update was successful.]

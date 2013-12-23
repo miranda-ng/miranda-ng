@@ -85,7 +85,7 @@
 [CTCP chat request from %s]
 [%s sets mode %s]
 [%s sets mode %s%s]
-[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered]
 [CTCP FINGER requested by %s]
 [CTCP VERSION requested by %s]
 [CTCP SOURCE requested by %s]

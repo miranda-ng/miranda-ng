@@ -12,7 +12,7 @@ Eksportuje każdą wiadomość, URL lub plik jaki otrzymasz do pliku tekstowego.
 Przeglądaj
 [Use internal viewer]
 Wewnętrzna przeglądarka
-[Replace miranda history]
+[Replace Miranda history]
 Zastąp domyślną przeglądarkę
 [Use UTF8 in new files]
 UTF8 dla nowych wiadomości
@@ -128,7 +128,7 @@ Nie udało się eksportować co najmniej jednego kontaktu
 Sortowanie i zapisywanie informacji z profilu ( Etap 2 z 2 )
 [Max line width must be at least %d]
 Szerokość linii musi mieć co najmniej %d
-[You need to restart miranda to change the history function]
+[You need to restart Miranda to change the history function]
 Musisz zrestartować Mirandę aby zmienić funkcję historii
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 Nie udało się pobrać ścieżki Msg_Export.dll\nProszę samemu wskazać Msg_Export.txt

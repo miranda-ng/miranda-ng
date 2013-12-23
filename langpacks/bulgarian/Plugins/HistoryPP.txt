@@ -505,7 +505,7 @@ URL връзки
 Неизвестна кодова таблица %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
 
-[User %s (%d) changed icq client: %s]
+[User %s (%d) changed ICQ client: %s]
 Потребителят %s (%d) промени ICQ клиента: %s
 [Status request by %s (%d):%s]
 Заявка за състоянието от %s (%d):%s

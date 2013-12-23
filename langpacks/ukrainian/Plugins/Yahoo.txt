@@ -145,7 +145,7 @@ Yahoo! Ігнор
 %s підключення до сервера
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Введіть ваш Yahoo! ID - Налаштування/Мережа/Yahoo
-[Please enter your yahoo password in Options/Network/Yahoo]
+[Please enter your Yahoo password in Options/Network/Yahoo]
 Введіть ваш Yahoo! пароль - Налаштування/Мережа/Yahoo
 [Yahoo Login Error]
 Помилка підключення Yahoo!
@@ -189,7 +189,7 @@ Yahoo! Ігнор
 Системне повідомлення Yahoo!
 [Yahoo Ping Error]
 Yahoo! помилка пінгу
-[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+[You have been logged out of the Yahoo service, possibly due to a duplicate login.]
 Ви були відключені від сервісу Yahoo!, можливо із-за іншого підключення.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Не можу підключитися до сервісу Yahoo! Перевірте налаштування сервера/порт проксі.

@@ -395,7 +395,7 @@ IcoLib 已经安装. 请到 "自定义->图标" 变更设置.
 文件操作(&F)
 [Unknown codepage %u]
 未知代码页 %u
-[User %s (%d) changed icq client: %s]
+[User %s (%d) changed ICQ client: %s]
 用户 %s (%d) 已变更 ICQ 客户端: %s
 [Status request by %s (%d):%s]
 %s (%d) 请求状态: %s

@@ -286,7 +286,7 @@ Alternatywny nick
 %s ustawił tryb %s
 [%s sets mode %s%s]
 %s ustawił tryb %s%s
-[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered]
 BŁĄD CTCT: Otrzymano niewłaściwie sformowane polecenie CTCP od %s!%s@%s. Zarejestrowano potencjalną próbę przejęcia kontroli nad twoim klientem IRC.
 [CTCP FINGER requested by %s]
 Żądanie CTCP FINGER od %s

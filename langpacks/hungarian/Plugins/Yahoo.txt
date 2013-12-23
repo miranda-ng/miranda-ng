@@ -85,7 +85,7 @@ Válassz egy havert az elvetési listán az eltávolításhoz.
 Hálózat
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Kérlek add meg a Yahoo azonosítód a Beállítások/Hálózat/Yahoo menüben
-[Please enter your yahoo password in Options/Network/Yahoo]
+[Please enter your Yahoo password in Options/Network/Yahoo]
 Kérlek add meg a yahoo jelszavad a Beállítások/Hálózat/Yahoo menüben
 [Yahoo Login Error]
 Yahoo belépési hiba
@@ -125,7 +125,7 @@ Bejelentkezés Yahoo szolgáltatásba sikertelen - ismeretlen felhasználónév.
 Bejelentkezés Yahoo szolgáltatásba sikertelen - helytelen jelszó. Kérlek ellenõrizd, hogy a felhasználóneved és jelszavad helyes-e.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Bejelentkezés Yahoo szolgáltatásba sikertelen. A fiókod lezárva.\nLátogasd meg %s-t újra aktiváláshoz.
-[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+[You have been logged out of the Yahoo service, possibly due to a duplicate login.]
 Ki lettél jelentkeztetve a yahoo szolgáltatásból, valószínüleg dupla belépés miatt.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Csatlakozás Yahoo szerverhez sikertelen. Ellenõrizd a szerver/port és proxybeállításaidat.

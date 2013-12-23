@@ -104,7 +104,7 @@ IP адрас 2
 Тэчка не абрана
 [You external ip was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш вонкавы ip вызначаны як %d.%d.%d.%d\r\nс: %s
-[You need to restart miranda to change the main menu]
+[You need to restart Miranda to change the main menu]
 Змены ў меню набудуць моц пасля перазапуску праграмы.
 [HTTP Server]
 HTTP Сервер

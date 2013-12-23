@@ -171,7 +171,7 @@ Yahoo игнориране
 Идентификатор
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Въведете Yahoo ID в Настройки/Мрежа/Yahoo
-[Please enter your yahoo password in Options/Network/Yahoo]
+[Please enter your Yahoo password in Options/Network/Yahoo]
 Моля, въведете паролата си в Настройки>Мрежа>Yahoo
 [Yahoo Login Error]
 Yahoo грешка при вписването
@@ -228,8 +228,8 @@ Yahoo поща
 Вписването в услугата Yahoo не е възможно - грешна парола. Моля, проверете правилно ли са написани потребителското име и парола.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Вписването в услугата Yahoo не е възможно. Вашият акаунт е заключен.\nПосетете %s, за да бъде активиран.
-[You have been logged out of the yahoo service, possibly due to a duplicate login.]
-Отписан сте от услугите на YAHOO вероятно поради дублиращо се вписване.
+[You have been logged out of the Yahoo service, possibly due to a duplicate login.]
+Отписан сте от услугите на Yahoo вероятно поради дублиращо се вписване.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Свързването към Yahoo сървъра не е възможно. Проверете настройките за сървъра, порта и проксито.
 [Could not log in, unknown reason: %d.]

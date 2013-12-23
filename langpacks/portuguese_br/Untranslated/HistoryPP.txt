@@ -106,7 +106,7 @@
 [Include custom event type (0-65535)]
 [Hide Menu]
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
-[User %s (%d) changed icq client: %s]
+[User %s (%d) changed ICQ client: %s]
 [Status request by %s (%d):%s]
 [Ignored status request by %s (%d):%s]
 [Artist: %s\\r\\nTitle: %s\\r\\nAlbum: %s]

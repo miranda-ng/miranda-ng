@@ -171,7 +171,7 @@ Neue E-Mail im Posteingang
 ID
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Bitte die Yahoo-ID unter 'Einstellungen -> Netzwerk -> Yahoo' eintragen!
-[Please enter your yahoo password in Options/Network/Yahoo]
+[Please enter your Yahoo password in Options/Network/Yahoo]
 Bitte das Yahoo-Passwort unter 'Einstellungen -> Netzwerk -> Yahoo' eintragen!
 [Yahoo Login Error]
 Yahoo-Anmeldefehler
@@ -228,7 +228,7 @@ Verbindungsfehler zum Yahoo-Server - Benutzername unbekannt. Bitte Benutzername 
 Verbindungsfehler zum Yahoo-Server - Falsches Passwort. Bitte Benutzername und Passwort in den Einstellungen überprüfen.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Verbindungsfehler zum Yahoo-Server. Ihr Konto ist gesperrt.\nBitte zum Freischalten auf %s gehen.
-[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+[You have been logged out of the Yahoo service, possibly due to a duplicate login.]
 Sie wurden vermutlich aufgrund eines Mehrfachlogins vom Yahooserver getrennt.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Verbindungsfehler zum Yahoo-Server. Bitte Einstellungen prüfen (Server/Port und Proxy.)

@@ -7,7 +7,7 @@
 ;============================================================
 [Use internal viewer]
 使用内置浏览器
-[Replace miranda history]
+[Replace Miranda history]
 替换 Miranda 历史
 [Use UTF8 in new files]
 新文件中使用 UTF8
@@ -83,7 +83,7 @@
 排序并写入数据库信息 ( 阶段 2 of 2 )
 [Max line width must be at least %d]
 最大行宽必须至少 %d
-[You need to restart miranda to change the history function]
+[You need to restart Miranda to change the history function]
 您需要重启 Miranda 以改变历史功能
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 无法取得 Msg_Export.dll 路径\n请您自行定位 Msg_Export.txt

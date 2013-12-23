@@ -55,7 +55,7 @@ OK
 OAuth 変数がシーケンス外のため , リセットされました。再接続して Miranda を Twitter.com で再認証してください ( PIN メニューを再実行してください )
 [Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
 Twitter アクセストークンの取得に失敗しました。オフラインになって再試行してください。もしこれが継続して発生するなら , あなたのインターネット接続を確認してください
-[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your twitter account in the miranda account options]
+[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your Twitter account in the Miranda account options]
 データベースのニックキーが見つかりません。それほど大きな問題ではありませんが , 多少の奇妙な動作が発生する可能性があります ( リストに自分自身のコンタクトがある , グループチャットではない発信メッセージが強調表示される , 等 ) 。修正するには手動で追加するか , もしくは Miranda アカウントオプションの Twitter アカウントをリセットしてください
 [Send Tweet...]
 ツイートする...

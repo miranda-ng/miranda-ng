@@ -68,7 +68,7 @@ Lista zablokowanych
 Ta lista pokazuje twoich wszystkich zablokowanych użytkowników. Możesz usunąc osobe z listy aby móc z nim porozmawiać.
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Możesz łatwo blokować osoby, kiedy klikniesz PPM na znajomego na liscie i wybierając opcje Zablokuj Kontakt...
-[This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
+[This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Ten plik zostaje użyty do poszukiwania gier. 
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Ten plik posiada wszystkie orginalne ikonki gier. Możesz również aktywować opcje pobierania dodatkowych ikon.
@@ -219,7 +219,7 @@ Mmm... jedzenie.
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 Plik xfire_games.ini został zaktualizowany.
-[Error during xfire_games Update.]
+[Error during xfire_games.ini update.]
 Błąd podczas aktualizacji xfire_games.
 [There is a new Icons.dll online, do you want to update now?]
 Dostępny jest nowy Icons.dll, czy chcesz zaktualizować teraz?
@@ -268,7 +268,7 @@ Moje IP serwera rozmów głosowych
 Powiązanie protokołu xFire
 [Buddy start a game]
 Znajomy zaczą grać
-[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
+[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer.]
 Nastąpiło pierwsze uruchomienie wtyczki. Czy chcesz automatycznie pobrać xfire_games.ini i icons.dll?\r\nBez pliku ini nie można wykryć zainstalowanych na komputerze gier.
 [Away from Keyboard]
 Z dala od klawiatury

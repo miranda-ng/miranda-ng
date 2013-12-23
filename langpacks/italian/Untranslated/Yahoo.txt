@@ -58,7 +58,7 @@
 [%s plugin connections]
 [ID]
 [Please enter your Yahoo ID in Options/Network/Yahoo]
-[Please enter your yahoo password in Options/Network/Yahoo]
+[Please enter your Yahoo password in Options/Network/Yahoo]
 [You need to be connected to set the custom message]
 [You need to be connected to refresh your buddy list]
 [&Edit My Profile]

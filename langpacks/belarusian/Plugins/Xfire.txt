@@ -68,7 +68,7 @@ icons.dll
 Гэты спіс утрымоўвае заблакаваных карыстачоў. Вы можаце выдаліць аднаго, што дазволіць яму пасылаць вам паведамленні.
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Вы можаце проста заблакаваць каго-небудзь, пстрычкай правай кнопкі па карыстачу ў кантакт лісце.
-[This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
+[This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Гэты файл выкарыстоўваецца для пошуку гульняў. Ён змяшчае ўсе падтрымоўваемыя XFire гульні.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Гэты файл утрымоўвае арыгінальныя значкі гульняў. Вы можаце гэтак жа актываваць аўтаматычную загрузку, калі гэтага файла ў вас няма.

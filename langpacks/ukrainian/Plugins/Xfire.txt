@@ -57,7 +57,7 @@
 Цей список містить заблокованих користувачів. Ви можете видалити одного, що дозволить йому посилати вам повідомлення.
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Ви можете заблокувати кого-небудь просто клацнувши правою кнопкою по користувачеві у списку контактів.
-[This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
+[This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Цей файл використовується для пошуку і виявлення ігор. Файл містить підтримувані ігри Xfire.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Цей файл містить оригінальні значки ігор. Ви можете також активувати автоматичне завантаження, якщо цього файлу у вас немає.

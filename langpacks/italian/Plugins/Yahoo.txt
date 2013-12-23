@@ -57,7 +57,7 @@ Ci sono %i msg non letti
 Nuova Posta (%i msg)
 [From: %s\nSubject: %s]
 Da: %s\nOggetto: %s
-[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+[You have been logged out of the Yahoo service, possibly due to a duplicate login.]
 Sei stato disconnesso dal servizio Yahoo, probabilmente per una doppia connessione.
 [Could not log in, unknown reason: %d.]
 Impossibile connettersi, motivo sconosciuto: %d.

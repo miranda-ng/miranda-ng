@@ -98,7 +98,7 @@
 Выбраць свой ключ
 [Turn on debug log]
 Укл. запіс адладкі
-[Use jabber api on Miranda NG (recomended)]
+[Use Jabber api on Miranda NG (recommended)]
 Выкарыстоўваць jabber api Miranda NG (Рэкамендуецца)
 [Encrypt file transfers]
 Шыфраваная перадача файлаў
