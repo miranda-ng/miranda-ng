@@ -109,21 +109,21 @@ CAPTION "Avatar History: Select how to store history avatars"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.",IDC_STATIC,15,7,416,23
-    CONTROL         "Store history in miranda history and all history avatars in same folder",IDC_MIR_SAME,
+    CONTROL         "Store history in Miranda history and all history avatars in same folder",IDC_MIR_SAME,
                     "Button",BS_AUTORADIOBUTTON | WS_GROUP,15,32,416,11
-    CONTROL         "Store history in miranda history and history avatars in per protocol folders",IDC_MIR_PROTO,
+    CONTROL         "Store history in Miranda history and history avatars in per protocol folders",IDC_MIR_PROTO,
                     "Button",BS_AUTORADIOBUTTON,15,66,416,11
-    CONTROL         "Store history in miranda history and history avatars in per contact folders using shortcuts",IDC_MIR_SHORT,
+    CONTROL         "Store history in Miranda history and history avatars in per contact folders using shortcuts",IDC_MIR_SHORT,
                     "Button",BS_AUTORADIOBUTTON,15,99,416,11
     CONTROL         "Store history avatars in per contact folders using shortcuts",IDC_SHORT,
                     "Button",BS_AUTORADIOBUTTON,15,140,416,11
     CONTROL         "Store history avatars in per contact folders",IDC_DUP,
                     "Button",BS_AUTORADIOBUTTON,15,181,416,11
-    LTEXT           "History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.",IDC_STATIC,15,44,416,10
+    LTEXT           "History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.",IDC_STATIC,15,44,416,10
     LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>",IDC_STATIC,15,54,416,10
-    LTEXT           "History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.",IDC_STATIC,15,77,416,10
+    LTEXT           "History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.",IDC_STATIC,15,77,416,10
     LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>",IDC_STATIC,15,87,416,10
-    LTEXT           "History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.",IDC_STATIC,15,110,416,10
+    LTEXT           "History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.",IDC_STATIC,15,110,416,10
     LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>",IDC_STATIC,15,120,416,18
     LTEXT           "History is stored only in disk. It can be seen by Avatar History internal viewer.",IDC_STATIC,15,151,416,10
     LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>",IDC_STATIC,15,161,416,18

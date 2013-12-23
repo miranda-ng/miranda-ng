@@ -1240,14 +1240,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							bool bNew = IsDlgButtonChecked(hwndDlg, IDC_ADD_STATISTICS_MENU_ITEM) == BST_CHECKED;
 							if (b != bNew) {
 								db_set_b(NULL, MODULE, "AddStatisticsMenuItem", bNew);
-								MessageBox(hwndDlg, TranslateT("You need to restart miranda to change the main menu"), MSG_BOX_TITEL, MB_OK);
+								MessageBox(hwndDlg, TranslateT("You need to restart Miranda to change the main menu"), MSG_BOX_TITEL, MB_OK);
 							}
 
 							b = db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1) != 0;
 							bNew = IsDlgButtonChecked(hwndDlg, IDC_ACCEPT_COM_MENU_ITEM) == BST_CHECKED;
 							if (b != bNew) {
 								db_set_b(NULL, MODULE, "AddAcceptConMenuItem", bNew);
-								MessageBox(hwndDlg, TranslateT("You need to restart miranda to change the main menu"), MSG_BOX_TITEL, MB_OK);
+								MessageBox(hwndDlg, TranslateT("You need to restart Miranda to change the main menu"), MSG_BOX_TITEL, MB_OK);
 							}
 
 							bNew = IsDlgButtonChecked(hwndDlg, IDC_WRITE_LOG_FILE) == BST_CHECKED;

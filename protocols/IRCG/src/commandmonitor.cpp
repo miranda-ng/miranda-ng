@@ -756,7 +756,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 	// exploit???
 	if ( mess.Find(1) != -1 || mess.Find( _T("%newl")) != -1 ) {
 		TCHAR temp[4096];
-		mir_sntprintf(temp, SIZEOF(temp), TranslateT( "CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered"), pmsg->prefix.sNick.c_str(), pmsg->prefix.sUser.c_str(), pmsg->prefix.sHost.c_str());
+		mir_sntprintf(temp, SIZEOF(temp), TranslateT( "CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered"), pmsg->prefix.sNick.c_str(), pmsg->prefix.sUser.c_str(), pmsg->prefix.sHost.c_str());
 		DoEvent( GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), temp, NULL, NULL, NULL, true, false); 
 		return true;
 	}

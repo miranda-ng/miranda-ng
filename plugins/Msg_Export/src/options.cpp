@@ -393,7 +393,7 @@ BOOL bApplyChanges( HWND hwndDlg )
 	if (bReplaceHistory != bNewRp )
 	{
 		bReplaceHistory = bNewRp;
-		MessageBox(hwndDlg, TranslateT("You need to restart miranda to change the history function"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(hwndDlg, TranslateT("You need to restart Miranda to change the history function"), MSG_BOX_TITEL, MB_OK);
 	}
 
 	bAppendNewLine = IsDlgButtonChecked(hwndDlg, IDC_APPEND_NEWLINE) == BST_CHECKED;

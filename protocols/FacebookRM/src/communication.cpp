@@ -1260,7 +1260,7 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 
   	case 1356026: // Contact has alternative client
 	{
-		client_notify(TranslateT("Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!"));
+		client_notify(TranslateT("Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!"));
 		return false;
 	} break;
  

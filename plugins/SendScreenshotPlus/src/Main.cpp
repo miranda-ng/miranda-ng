@@ -329,19 +329,19 @@ void AddMenuItems(void)
 int RegisterServices(){
 	hsvc_SendScreenshot = CreateServiceFunction(MS_SENDSS_OPENDIALOG, service_OpenCaptureDialog);
 	if (!hsvc_SendScreenshot)
-		MessageBoxEx(NULL, TranslateT("Could not register miranda service."), _T("MS_SENDSS_OPENDIALOG"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+		MessageBoxEx(NULL, TranslateT("Could not register Miranda service."), _T("MS_SENDSS_OPENDIALOG"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 
 	hsvc_SendDesktop = CreateServiceFunction(MS_SENDSS_SENDDESKTOP, service_CaptureAndSendDesktop);
 	if (!hsvc_SendDesktop)
-		MessageBoxEx(NULL, TranslateT("Could not register miranda service."), _T("MS_SENDSS_SENDDESKTOP"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+		MessageBoxEx(NULL, TranslateT("Could not register Miranda service."), _T("MS_SENDSS_SENDDESKTOP"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 
 	hsvc_EditBitmap = CreateServiceFunction(MS_SENDSS_EDITBITMAP, service_EditBitmap);
 	if (!hsvc_EditBitmap)
-		MessageBoxEx(NULL, TranslateT("Could not register miranda service."), _T("MS_SENDSS_EDITBITMAP"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+		MessageBoxEx(NULL, TranslateT("Could not register Miranda service."), _T("MS_SENDSS_EDITBITMAP"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 
 	hsvc_Send2ImageShack = CreateServiceFunction(MS_SENDSS_SEND2IMAGESHACK, service_Send2ImageShack);
 	if (!hsvc_Send2ImageShack)
-		MessageBoxEx(NULL, TranslateT("Could not register miranda service."), _T("MS_SENDSS_SEND2IMAGESHACK"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+		MessageBoxEx(NULL, TranslateT("Could not register Miranda service."), _T("MS_SENDSS_SEND2IMAGESHACK"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 
 	return 0;
 }

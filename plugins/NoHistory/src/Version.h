@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME				"NoHistory"
 #define __FILENAME					"NoHistory.dll"
-#define __DESCRIPTION 				"Prevent miranda from storing any history."
+#define __DESCRIPTION 				"Prevent Miranda from storing any history."
 #define __AUTHOR					"Scott Ellis, NightFox"
 #define __AUTHOREMAIL				"mail@scottellis.com.au; nightfox@myied.org"
 #define __AUTHORWEB					"http://miranda-ng.org/p/NoHistory/"

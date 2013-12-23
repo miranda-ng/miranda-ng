@@ -57,7 +57,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Dialog"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    PUSHBUTTON      "Move yahoo contacts to groups now",IDC_YAHOOGROUPS,4,5,223,14
+    PUSHBUTTON      "Move Yahoo contacts to groups now",IDC_YAHOOGROUPS,4,5,223,14
     CONTROL         "Move Yahoo contacts automatically on startup",IDC_MOVEAUTOMATICALLY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,25,223,10
 END

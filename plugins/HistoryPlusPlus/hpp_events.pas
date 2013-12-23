@@ -889,7 +889,7 @@ end;
 procedure GetEventTextForICQClientChange(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 begin
   hi.Text := GetEventTextForICQSystem(EventInfo,
-    TranslateW('User %s (%d) changed icq client: %s'));
+    TranslateW('User %s (%d) changed ICQ client: %s'));
 end;
 
 procedure GetEventTextForICQCheckStatus(EventInfo: TDBEventInfo; var Hi: THistoryItem);

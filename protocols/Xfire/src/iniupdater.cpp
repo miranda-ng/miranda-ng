@@ -82,7 +82,7 @@ void UpdateMyXFireIni(LPVOID dummy) {
 				if(db_get_b(NULL,protocolname,"dontaskforupdate",0)==0) MSGBOX(Translate("The xfire_games.ini was updated."));
 			}
 			else
-				MSGBOX(Translate("Error during xfire_games Update."));
+				MSGBOX(Translate("Error during xfire_games.ini update."));
 		}
 	}
 }

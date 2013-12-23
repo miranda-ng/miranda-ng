@@ -62,7 +62,7 @@ BEGIN
     EDITTEXT        IDC_GROUP,54,49,131,12,ES_AUTOHSCROLL
     LTEXT           "Default group:",IDC_STATIC,0,50,54,14
     LTEXT           "Username:",IDC_STATIC,0,9,51,13
-    LTEXT           "[Sign in to link your twitter account]",IDC_USERNAME,55,9,122,15
+    LTEXT           "[Sign in to link your Twitter account]",IDC_USERNAME,55,9,122,15
 END
 
 IDD_TWEET DIALOGEX 0, 0, 186, 64

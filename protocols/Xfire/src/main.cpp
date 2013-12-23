@@ -1050,7 +1050,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 		db_set_b(NULL,protocolname,"xfiresitegameico",1);
 		db_set_b(NULL,protocolname,"recprotoverchg",1);
 
-		if(MessageBoxA(NULL,Translate("It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer."),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
+		if(MessageBoxA(NULL,Translate("It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer."),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
 			db_set_b(NULL,protocolname,"autoiniupdate",1);
 			db_set_b(NULL,protocolname,"autoicodllupdate",1);
