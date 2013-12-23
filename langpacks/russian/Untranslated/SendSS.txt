@@ -24,7 +24,7 @@
 [Upload server did not respond timely.]
 [SendScreenshot - Error]
 [Fatal error, image services not found. Send Screenshot will be disabled.]
-[Could not register miranda service.]
+[Could not register Miranda service.]
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 [Send screenshot to\n]
 [<Entire Desktop>]

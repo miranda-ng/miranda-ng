@@ -5,7 +5,7 @@
 [Login error, probably bad login credentials.]
 [Your account requires HTTPS connection. Activating.]
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
-[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
+[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 [Timeout when sending message.]
 [Contact was removed from your server list.]
 [Error occurred when removing contact from server.]

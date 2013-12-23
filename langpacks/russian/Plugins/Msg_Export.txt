@@ -11,7 +11,7 @@
 Обзор
 [Use internal viewer]
 Внутр. просмотр
-[Replace miranda history]
+[Replace Miranda history]
 Заменить историю
 [Use UTF8 in new files]
 UTF8 в новых файлах
@@ -91,8 +91,8 @@ UTF8 в новых файлах
 Шаг 2: Сортировка и запись информации
 [Max line width must be at least %d]
 Макс ширина строки должна быть не менее %d
-[You need to restart miranda to change the history function]
-Изменения функции истории вступят в силу после перезапуска Miranda
+[You need to restart Miranda to change the history function]
+Изменения функции истории вступят в силу после перезапуска программы
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 Не удалось получить путь к Msg_Export.dll\nПожалуйста найдите Msg_Export.txt самостоятельно
 [File]

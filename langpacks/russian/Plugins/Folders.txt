@@ -35,7 +35,7 @@
 Переменная
 [What it expands to:]
 Что возвращает:
-[Expands to your miranda path (e.g: c:\\program files\\miranda ng).]
+[Expands to your Miranda path (e.g: c:\\program files\\miranda ng).]
 Возвращает путь к вашей Miranda NG (к примеру: c:\\program files\\miranda ng).
 [Expands to your profile path - the value found in mirandaboot.ini,]
 Возвращает путь к вашему профилю - значение найденное в mirandaboot.ini,
@@ -52,7 +52,7 @@
 [Note: Environment variables are expanded before any Miranda variables. So if you have, for]
 Примечание: Переменные окружения обрабатываются перед любыми переменными Miranda NG. Если у вас,
 [example, %profile_path% defined as a system variable then it will be expanded to that value]
-к примеру, %profile_path% определена как системная переменная, тогда будет возвращено значение системной
+к примеру, %profile_path% определена как системная переменная, тогда будет возвращено значение системной переменной
 [Examples:]
 Примеры:
 [will expand to 'c:\\program files\\miranda ng']

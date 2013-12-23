@@ -103,8 +103,8 @@ ID ключа:
 Сохранить ключ
 [Turn on debug log]
 Вкл. запись отладки
-[Use jabber api on Miranda NG (recomended)]
-Использовать jabber api Miranda NG (Рекомендуется)
+[Use Jabber api on Miranda NG (recomended)]
+Использовать Jabber api Miranda NG (рекомендуется)
 [Encrypt file transfers]
 Шифрованная передача файлов
 [Automatic key exchange]

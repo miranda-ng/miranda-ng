@@ -271,8 +271,8 @@ Wildcard поиск по сети
 %s ставит режим %s
 [%s sets mode %s%s]
 %s установил режим %s%s
-[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
-ОШИБКА CTCP: Недопустимая команда CTCP получена от %s!%s@%s. Возможная попытка получить контроль над вашим клиентом IRC.
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered]
+ОШИБКА CTCP: Получена недопустимая команда CTCP от %s!%s@%s. Возможная попытка получения контроля над вашим клиентом IRC.
 [CTCP FINGER requested by %s]
 Запрос CTCP FINGER от %s
 [CTCP VERSION requested by %s]
