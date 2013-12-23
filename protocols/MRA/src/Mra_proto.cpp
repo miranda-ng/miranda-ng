@@ -516,25 +516,10 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 			buf >> szStringW;
 			mraSetStringW(NULL, DBSETTING_BLOGSTATUS, szStringW);
 		}
-		else if (szString == "HAS_MYMAIL") {
-			buf >> szString;
-		}
-		else if (szString == "mrim.status.open_search") {
-			buf >> szString;
-		}
-		else if (szString == "rb.target.cookie") {
-			buf >> szString;
-		}
-		else if (szString == "show_web_history_link") {
-			buf >> szString;
-		}
-		else if (szString == "friends_suggest") {
-			buf >> szString;
-		}
-		else if (szString == "timestamp") {
-			buf >> szString;
-		}
-		else if (szString == "trusted_update") {
+		else if (szString == "HAS_MYMAIL" || szString == "mrim.status.open_search" || szString == "rb.target.cookie" ||
+					szString == "show_web_history_link" || szString == "friends_suggest" || szString == "timestamp" ||
+					szString == "trusted_update" || szString == "mrim.wp.dating")
+		{
 			buf >> szString;
 		}
 		else _CrtDbgBreak();
