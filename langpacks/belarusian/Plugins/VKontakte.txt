@@ -18,6 +18,8 @@
 Налады уваходу
 [Advanced]
 Дадаткова
+[Server-side delivery confirmation]
+Падцверджанне дастаўкі з боку сервера
 [Bots challenge test]
 Абарона ад ботаў
 [Instruction:]

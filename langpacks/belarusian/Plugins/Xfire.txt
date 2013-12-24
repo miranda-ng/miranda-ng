@@ -144,10 +144,14 @@ IP:
 Змяніць…
 [Game name:]
 Назва гульні:
+[Game exe:]
+exe гульні:
 [Browse...]
 Адкрыць...
 [Add a new game]
 Дадаць новую гульню
+[Searching games...]
+Пошук гульнь...
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Усе файлы
@@ -190,8 +194,18 @@ IP:
 Капіяваць адрас і порт сервера
 [Cop&y Voice Server Address and Port]
 Капіяваць адрас і порт сервера зносін
+[Join &Game...]
+Зайсці ў гульню...
+[Play this game...]
+Гуляць у гэтую гульню...
+[Remove F&riend...]
+Выдаліць з сяброў...
+[Block U&ser...]
+Заблакаваць...
 [&My XFire Online Profile]
 Мой профіль XFire
+[&Rescan my games...]
+Перасканіраваць гульні...
 [Set &Nickname]
 Псеўданім...
 [Protocols/XFire]
@@ -235,6 +249,8 @@ XFireне падтрымлівае паведамленні адключаным
 Не паказваць Ip/Port у статусных паведамленнях
 [Use Online status for unsupported global statuses]
 Выкарыстоўваць статус "Далучаны" для непадтрымоўваных глабальных статусаў
+[Don't move friends to clan groups]
+Не перасоўваць сяброў у гурты кланаў
 [GameServerQuery support]
 Падтрымка GameServerQuery
 [No custom away message]
@@ -249,6 +265,8 @@ XFireне падтрымлівае паведамленні адключаным
 Не паказваць акно пры пошуку гульняў
 [Display popup if someone starts a game]
 Усплывальныя вокны, калі хто-небудзь пачынае гульню
+[Don't automatically create clan groups]
+Не ствараць гурты кланаў аўтаматчна
 [Enable MBot support]
 Дадаць падтрымку MBot
 [Gamedetection]
@@ -293,6 +311,8 @@ XFireне падтрымлівае паведамленні адключаным
 Вы ўпэунены, што жадаеце выдаліць гульню?
 [Please select a game.]
 Абярыце гульню.
+[Error: unknown game ID.]
+Памылка: невядомы ID гульні.
 [Not supported]
 Не падтрымліваецца
 [Configuration saved!]
@@ -310,6 +330,8 @@ XFireне падтрымлівае паведамленні адключаным
 [StatusMsg]
 Статусныя паведамленні
 ;file \protocols\Xfire\src\pwd_dlg.cpp
+[Please enter server password...]
+Увядзіце пароль сервера
 ;file \protocols\Xfire\src\searching4games.cpp
 [Games found:%s%s]
 Знойдзены гульні:%s%s

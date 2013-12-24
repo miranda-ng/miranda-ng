@@ -865,8 +865,14 @@ Jabber памылка
 Спіс уладальнікаў
 [Reason to ban]
 Чыннік бана
+[Removing %s?]
+Выдаліць %s?
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Http authentication request received]
+Атрыманы запыт HTTP аўтарызацыі
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Jabber account chooser]
+Выбар конту Jabber
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
@@ -1183,10 +1189,14 @@ Jabber Рэсурс
 Непальскі
 [Norwegian Nynorsk; Nynorsk, Norwegian]
 Нарвежскі
+[Bokmaal, Norwegian; Norwegian Bokmaal]
+Нарвэскі букмал
 [Norwegian]
 Нарвежскі
 [Chichewa; Chewa; Nyanja]
 Ньянджа
+[Occitan (post 1500); Provencal]
+Правансальская
 [Ojibwa]
 Аджыбва
 [Oriya]
@@ -1297,6 +1307,8 @@ Jabber Рэсурс
 Венда
 [Vietnamese]
 В'етнамскі
+[Volapuk]
+Валапюк
 [Welsh]
 Валійскі
 [Walloon]
@@ -1319,6 +1331,10 @@ Jabber Рэсурс
 Налады пратаколу Jabber
 [Confirm password]
 Увядзіце пароль
+[Passwords do not match.]
+Паролі не супадаюць.
+[This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
+Гэта аперацыя выдаліць ваш конт, росцер і усю інфармацыю, што захаваная на серверы. Вы ўпэўнены?
 [Account removal warning]
 Выдаленне конту
 [You can change your password only when you are online]
@@ -1407,6 +1423,8 @@ Jabber Рэсурс
 Змена ролі
 [Status changes]
 Змены статусу
+[Don't notify history messages]
+Не паказваць абвестак з гісторыі
 [JID]
 JID
 [Nick Name]
@@ -1443,7 +1461,11 @@ Google Talk!
 Чат Facebook
 [Odnoklassniki]
 Odnoklassniki
+[Some changes will take effect the next time you connect to the Jabber network.]
+Некаторыя змены ўступяць у сілу пасля наступнага далучэння.
 ;file \protocols\JabberG\src\jabber_password.cpp
+[Set New Password for %s@%S]
+Усталёўка новага пароля для %s@%S
 [New password does not match.]
 Новыя паролі не супадаюць
 [Current password is incorrect.]
@@ -1453,14 +1475,22 @@ Odnoklassniki
 Адпраўка запыту, калі ласка, пачакайце...
 [Warning: privacy lists were changed on server.]
 Увага: спісы прыватнасці захаваны на серверы.
+[Error occurred while applying changes]
+Памылка пры ўжыванні зменаў
+[Privacy lists successfully saved]
+Спсы прыватнасці паспяхова захаваныя
 [Privacy list %s set as active]
 Спіс прыватнасці %s - актыўны
 [Active privacy list successfully declined]
 Актыўны спіс прыватнасці адхілены паспяхова
+[Error occurred while setting active list]
+Памылка пры усталёўцы спісу актыўным
 [Privacy list %s set as default]
 Спіс прыватнасці %s - асноўны
 [Default privacy list successfully declined]
 Стандартны спіс прыватнасці паспяхова адхілены
+[Error occurred while setting default list]
+Памылка пры ўсталёўцы па змаўчанні
 [Simple mode]
 Просты рэжым
 [Advanced mode]
@@ -1601,14 +1631,24 @@ Odnoklassniki
 Няма паведамленняў для адпраўкі
 [Forward options]
 Параметры перасылкі
+[%d message(s) to be forwarded]
+%d паведамленні для адпраўкі
+[Mark messages as read]
+пазначыць павеламленні прачытанымі
+[%d message(s) forwarded]
+паведамленняў адпраўлена: %d
 [Workstation successfully locked]
 Кампутар паспяхова заблакаваны
 [Error %d occurred during workstation lock]
 Памылка %d паўстала падчас працэсу блакавання
+[Confirmation needed]
+Неабходна пацвярджэнне
 [Please confirm Miranda NG shutdown]
 Пацвердзіце выключэнне праграмы
 [There is no group chats to leave]
 Няма чатаў для адключэння
+[Choose the group chats you want to leave]
+Абярыце групавыя чаты, якія вы хочаце пакінуць
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Памылка %s %s\r\n Калі ласка абярыце іншы сервер
@@ -1638,6 +1678,8 @@ Odnoklassniki
 [sent unknown presence type]
 адправіў невядомы тып прысутнасці
 ;file \protocols\JabberG\src\jabber_thread.cpp
+[Enter password for %s]
+увядзіце пароль для %s
 [Error: Not enough memory]
 Памылка: Не хапае памяці
 [Error: Cannot connect to the server]
@@ -1646,6 +1688,10 @@ Odnoklassniki
 Памылка: Злучэнне страчана
 [Requesting registration instruction...]
 Запыт рэгістрацыйнай інструкцыі...
+[Authentication failed for %s@%S.]
+Аутэнтыфікацыя не прайшла для %s@%S.
+[Message redirected from: %s\r\n%s]
+Паведамленне пераслана ад %s\r\n%s
 [Sending registration information...]
 Дасылка рэгістрацыйнай інфармацыі...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
@@ -1701,6 +1747,8 @@ Odnoklassniki
 <няма інфармацыі>
 [Last active resource]
 Апошні актыўны рэсурс
+[Please switch online to see more details.]
+Далучыцеся для дэтальнай інфармацыі.
 [Copy]
 Капіяваць
 [Copy only this value]

@@ -10,6 +10,8 @@
 хвілін(ы)
 [seconds]
 секунд(ы)
+[Disable main menu items]
+Адкл. пункты галоўнага меню
 [Background color:]
 Колер фону:
 [Text color:]
@@ -20,6 +22,10 @@
 Курсіў
 [Underline]
 Падкрэсленне
+[Error messages]
+Памылкі
+[Expert options]
+Дадатковыя налады
 [URL:]
 Спасылка:
 [Display]
@@ -84,4 +90,6 @@
 [Online]
 Далучаны
 ;file \plugins\WebView\src\webview_opts.cpp
+[Popup plugin]
+Успл. вокны
 ;file \plugins\WebView\src\webview_services.cpp

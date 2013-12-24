@@ -189,6 +189,8 @@
 Імпартаваць
 [Export]
 Экспарт
+[File does not contain selected contact]
+Файл не ўтрымлівае абранага кантакту
 [File is corrupted]
 Файл спорчаны
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
@@ -421,14 +423,26 @@ _файлы
 Заліць на FTP
 [Path to output file]
 Шлях да файла
+[To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
+Для стварэння сесіі, адчыніце WinSCP, націсніце "Новая сесія", увядзіце дату і захавайце пад пэўным іменем. Памятайце, калі FTP сервер выкарыстоўвае пароль, то вы павінны захаваць яго ў WinSCP.
 [Path to file]
 Шлях да файла
+[FTP path must contain '/' instead '\' and start with '/'.]
+FTP шлях павінен змяшчаць '/' замест '\', а пачынацца з '/'.
 [Unknown error]
 Невядомая памылка
+[Cannot unzip file(s).]
+Не атрымалася распакаваць файл(ы).
 [Incorrect file format: %s.]
 Няслушны фармат файлу: %s.
 [Unknown contact in file: %s.]
 Невядомы фармат файла: %s.
+[Cannot export history for contact: %s.]
+Не атрымалася экспартаваць гісторыю для кантакту: %s.
+[Cannot compress file(s).]
+Не атрымалася запакаваць файл(ы).
+[Cannot send FTP file(s).]
+Не атрымалася адправіць FTP файл(ы).
 [Task finished]
 Заданне выканана
 [Task '%s' execution failed]

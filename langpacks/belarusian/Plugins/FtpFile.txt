@@ -56,6 +56,8 @@ FTP-конты
 Увядзіце сваё імя архіва
 [Compression level:]
 Узровень сціску:
+[Upload File Manager]
+Мэнэджар запамповак
 [File:]
 Файл:
 [Completed:]
@@ -78,6 +80,8 @@ FTP-конты
 Налады
 [Pause]
 Паўза
+[File Manager]
+Файлавы мэнэджар
 [Server:]
 Сервер:
 [User info]
@@ -86,12 +90,18 @@ FTP-конты
 Запампоўка...
 [Open in Browser]
 Адкрыць у браўзары
+[FTP File Manager]
+FTP файл мэнэджар
 [Select All]
 Вылучыць усё
+[Deselect All]
+Зняць выбар
 [Delete from list]
 Выдаліць са спісу
 [Delete from FTP]
 Выдаліць з FTP
+[Enter file name]
+Увядзіце імя файла
 [OK]
 ОК
 [Cancel]
@@ -102,6 +112,12 @@ FTP-конты
 Пераназваць
 [Overwrite]
 Перазапісаць
+[File with the same name already exists on the server.]
+Файл з такой назвай ужо існуе на сэрвэры.
+[How to proceed?]
+Што рабіць?
+[Copy URL]
+Капіяваць спасылку
 [Close dialog after upload finishes]
 Зачыніць акно пасля канчатка загрузкі
 [Automatically delete file after...]
@@ -115,6 +131,8 @@ FTP-конты
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
 Інфармацыя
+[Copy Link to Clipboard]
+Капіяваць спасылку ў буфер
 [%d minutes]
 %d хвл.
 [%d hours]
@@ -156,6 +174,10 @@ FTP файл мэнэджар
 Адправіць файл
 [Zip and upload file]
 Запакаваць і загрузіць файл
+[You have to fill FTP server setting before upload a file.]
+Вы павінны запоўніць інфармацыю для сервера FTP перад адпраўкай файла.
+[Error has occurred while trying to create a dialog!]
+Адбылася памылка пры стварэнні дыялога!
 [File upload complete]
 Запампоўка файла завершана
 [Upload canceled]
@@ -165,6 +187,12 @@ FTP файл мэнэджар
 Усе файлы (*.*)
 [FTP File - Select files]
 Файл на FTP - Выбар файла
+[FTP File - Select a folder]
+FTP файл - выбар каталога
+[Folder not found!]
+Тэчка не знойдзена!
+[The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
+Тэчка не ўтрымлівае файлаў.\nFTP файл адпраўляе толькі файлы з тэчкі, а не ўкладзеныя тэчкі.
 [CANCELED]
 СКАСАВАННЕ
 [COMPLETED]
@@ -182,6 +210,8 @@ FTP файл мэнэджар
 [UNKNOWN]
 НЕВЯДОМА
 ;file \plugins\FTPFileYM\src\job_packer.cpp
+[Error occurred when zipping the file(s).]
+Адбылася памылка пры ўпакоўцы файлаў.
 [%0.1f kB/s]
 %0.1f kB/s
 [%0.1f%% (%d kB/%d kB)]

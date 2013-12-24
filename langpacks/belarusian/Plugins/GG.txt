@@ -126,8 +126,12 @@
 Выдаліць
 [Change Gadu-Gadu password]
 Змяніць пароль Gadu-Gadu
+[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
+Змена пароля Gadu-Gadu\nВаш цяперашні пароль будзе зменены
 [Change Gadu-Gadu e-mail]
 Змяніць e-mail Gadu-Gadu
+[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
+Змена e-mail Gadu-Gadu\nВаш цяперашні e-mail будзе зменены
 [Age from:]
 Узрост:
 [to:]
@@ -140,6 +144,8 @@
 &Адправіць
 [Open new conference]
 Пачаць канферэнцыю
+[Open new conference\nSelect conference participants]
+Новая канферэнцыя\nАбярыце удзельнікаў канферэнцыі
 [Open]
 Адкрыць
 [Concurrent Sessions]
@@ -316,8 +322,14 @@ HTTP невядомая памылка
 Тэкставы файл
 [All Files]
 Усе файлы
+[List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
+Вы не можаце імпартаваць спіс у файл "%s" з-за памылкі:\n\t%s (Памылка: %d)
 [contacts]
 кантакту(аў)
+[List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
+Вы не можаце экспартаваць спіс у файл "%s" з-за памылкі:\n\t%s (Памылка: %d)
+[List cannot be exported because of error:\n\t%s (Error: %d)]
+Вы не можаце экспартаваць спіс памылак:\n\t%s (Памылка: %d)
 [Import List From &Server]
 Імпарт спісу з &Сервера
 [Import List From &Text File...]
@@ -329,6 +341,8 @@ HTTP невядомая памылка
 [Export List To &Text File...]
 Экспартаваць спіс у &Файл...
 ;file \protocols\Gadu-Gadu\src\links.cpp
+[Gadu-Gadu account chooser]
+Выбар конта Gadu-Gadu
 [Gadu-Gadu Link Protocol]
 Пратакол Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp

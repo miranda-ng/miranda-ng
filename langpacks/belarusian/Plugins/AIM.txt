@@ -10,8 +10,6 @@
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM Дэталі карыстача
-[Screen Name:]
-Імя AIM:
 [Display Name:]
 Паказваць імя:
 [Password:]
@@ -186,6 +184,8 @@ AIM Усталяваць Instant Idle
 Адмовіўся ад кліента.
 [Incorrect SNAC format.]
 Няслушны фармат SNAC.
+[Insufficient rights.]
+Недастаткова правоў.
 [Recipient blocked.]
 Атрымальнік блакаваны.
 [User temporarily unavailable.]
@@ -194,15 +194,39 @@ AIM Усталяваць Instant Idle
 Не знойдзена.
 [List overflow.]
 Спіс перапоўнены.
+[Request ambiguous.]
+Запыт неадназначны.
+[Server queue full.]
+Чарга сервера запоўнена.
+[Not while on AOL.]
+Не ў той час як на AOL.
+[Check your Screen Name.]
+Праверце ваш ідэнтыфікатар.
+[Check your Password.]
+Праверце пароль.
+[Check your Email Address.]
+Праверце ​​адрас электроннай пошты.
 [Service temporarily unavailable.]
 Сэрвіс тэтмінова недасяжны
+[Field change temporarily unavailable.]
+Змена палёў часова недасяжна.
 [Invalid Screen Name.]
 Няслушнае імя.
 [Invalid Password.]
 Няслушны пароль.
 [Invalid Email.]
 Няслушная скрыня.
+[Invalid Registration Preference.]
+Няслушны прыярытэт рэгістрацыі
 [Invalid Old Password.]
+Няслушны стары пароль.
+[Invalid Screen Name Length.]
+Наслушная даўжыня ідэнтыфікатара
+[Invalid Password Length.]
+Наслушная даўжыня паролю.
+[Invalid Email Length.]
+Няслушная даўжыня Email.
+[Invalid Old Password Length.]
 Няслушны стары пароль.
 [Need Old Password.]
 Патрэбны стары пароль.
@@ -212,6 +236,8 @@ AIM Усталяваць Instant Idle
 Поле толькі для запісу.
 [Unsupported Type.]
 Непадтрымваемы тып.
+[An Error has occurred.]
+Адбылася памылка.
 [Invalid Account.]
 Няслушны конт.
 [Delete Account.]
@@ -222,11 +248,27 @@ AIM Усталяваць Instant Idle
 Няма доступу да БД.
 [Invalid Database fields.]
 Няслушны файл ДБ.
+[Bad Database status.]
+Дрэнны статус БД.
+[Migration Cancel.]
+Адмяніць міграцыю.
 [Internal Error.]
 Унутраная памылка.
+[There is already a Pending Request for this Screen Name.]
+Ужо існуе запыт на гэты ідэнтыфікатар.
+[Not DT status.]
+Гэта не статус DT.
+[Outstanding Confirmation.]
+У чаканні падцвярджэння.
 [No Email Address.]
 Няма E-mail адраса.
+[Over Limit.]
+Дасягнуты парог.
+[Email Host Fail.]
+Памылка Email.
 ;file \protocols\AimOscar\src\file.cpp
+[Failed to open file: %s : %s]
+Не атрымалася адкрыць файл: %s : %s
 ;file \protocols\AimOscar\src\links.cpp
 [AIM Link Protocol]
 Пратакол AIM
@@ -247,6 +289,12 @@ AIM Усталяваць Instant Idle
 Кантакт спрабаваў адкрыць аўдыё / відэа канферэнцыі (зараз не падтрымліваецца)
 [No information has been provided by the server.]
 Сервер не падаў ніякай інфармацыі.
+[Item you want to delete not found in list.]
+Запіс, які вы хочаце выдаліць не знойдзены ў спісе.
+[Failed to add buddy to list: Item already exist.]
+Не атрымалася дадаць кантакт ў спіс: Ужо існуе.
+[Error adding buddy (invalid ID or already in list?)]
+Памылка дадання (несапраўдны ID ці ўжо ў спісе?)
 [Cannot add buddy. Limit for this type of item exceeded.]
 Немагчыма дадаць кантакт. У вас ужо максімальна магчымая колькасць.
 [Error? Attempting to add ICQ contact to an AIM list.]
@@ -356,7 +404,7 @@ AOL
 [Network]
 Сеціва
 [Basic]
-Асноўныя
+Галоўнае
 [Privacy]
 Прыватнасць
 [Join me in this buddy chat!]

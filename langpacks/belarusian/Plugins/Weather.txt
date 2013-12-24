@@ -100,6 +100,8 @@
 Прагноз надвор'я
 [City name]
 горад
+[ID]
+ID
 [Log Information]
 Захаванне інфармацыі
 [Use internal history]
@@ -330,6 +332,8 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 %n у %u:	%c, %t (адчуваецца %f)	Вецер: %i %w	Вільготнасць: %m
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\n Сёння:  макс. %h, мін. %l
+[Temperature: %[Temperature]]
+Тэмпература: %[Temperature]
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Бягучая інфармацыя пра надвор'е для %s
@@ -409,8 +413,18 @@ HTTP падлучэнне Weather
 ;file \plugins\Weather\src\weather_info.cpp
 [Name]
 Імя
+[Author]
+Аўтар
+[File Version]
+Версія файла
+[INI Version]
+Версія ini
 [Items]
 Элементы
+[Display Name]
+Імя
+[File Name]
+Імя файла
 [The corresponding INI file for "%s" is not found.]
 Адпаведны INI файл для "%s" не знойдзены.
 [Weather INI information for "%s":]

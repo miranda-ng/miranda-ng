@@ -71,6 +71,8 @@ UUID плагiна
 [&Save to file]
 &У файл
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp
+[If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
+Калі вы збіраецеся выкарыстоўваць гэтую справаздачу для паведамлення пра памылку, не забудзьцеся наведацьтрэкер, каб дапамагчы распрацоўнікам.\r\nКалі вы гэтага не зробіце, памылка не будзе выпраўлена!
 [Information successfully written to file: "%s".]
 Інфармацыя паспяхова запісана ў файл: "%s".
 [Error during the creation of file "%s". Disk may be full or write protected.]

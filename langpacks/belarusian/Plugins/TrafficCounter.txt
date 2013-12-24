@@ -42,6 +42,8 @@
 Паказаць
 [Space between lines:]
 Адлегласць паміж радкамі:
+[Counters format string:]
+Фармат радка лічыльнікаў:
 [Tooltip format string:]
 Фармат падказкі:
 [Display traffic for current]
@@ -53,6 +55,14 @@
 Значок
 [Account name]
 Імя конта
+[Current traffic]
+Цяперашні трафік:
+[Total traffic]
+Агульны трафік:
+[Current online]
+Цяперашняе далучэнне
+[Total online]
+Агульнае далучэнне
 [General]
 Агульнае
 [Draw frame as skin element]
@@ -61,6 +71,8 @@
 Паказваць падказку ў акне трафіку
 ["Toggle traffic counter" in main menu]
 "Перамыкач лічыльніка трафіку" ў галоўным меню
+[Visible accounts]
+Адлюстроўваемыя конты
 [Summary traffic for visible accounts]
 Сумарны трафік для бачных контаў
 [Overall traffic]
@@ -90,6 +102,8 @@
 Байт
 [KB]
 Кб
+[MB]
+МБ
 [Adaptive]
 Плывучы
 [Hourly]
@@ -112,6 +126,10 @@
 Сума
 [Online]
 Далучаны
+[Now traffic statistics for selected accounts will be cleared.\nContinue?]
+Статыстыка абраных контаў будзе знішчана\nПрацягнуць?
+[Couldn't read statistics file]
+Не магу прачытаць файл статыстыкі
 [Traffic Counter]
 Лічыльнік трафіку
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
@@ -123,6 +141,8 @@
 Схаваць акно трафіку
 [Clear the current (Now:) value]
 Скінуць бягучае (Now:) значэнне
+[Toggle traffic counter]
+Пераключыйь лічыльнік трафіка
 [Traffic counter notification]
 Апавяшчэнне лічыльніка трафіку
 [%d kilobytes sent]

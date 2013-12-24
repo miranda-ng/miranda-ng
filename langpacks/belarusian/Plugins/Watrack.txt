@@ -646,5 +646,9 @@ VBR ці няма
 ;other strings
 [Slider]
 Лятунок
+[Slider Hovered]
+Лятунок пад курсорам
+[Slider Pushed]
+Націснуты лятунок
 [WATrack status]
 WATrack статус

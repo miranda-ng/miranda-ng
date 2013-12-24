@@ -258,17 +258,39 @@ Skype пратакол для Miranda NG.
 [SkypeKit did not start.]
 SkypeKit не запусціўся.
 ;file \protocols\Skype\src\skype_menus.cpp
+[Block this person...]
+Блакаваць карыстача
+[Skype menu chooser]
+Выбар конту Skype
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
 [Revoke authorization]
 Адклікаць аўтарызацыю
+[View old messages...]
+Паглядзець гісторыю
+[for last day]
+за апошні дзень
+[for last week]
+за апошні тыздень
+[for last month]
+за апошні месяц
+[for last 3 month]
+за апошнія 3 месяцы
+[for last year]
+за апошні год
+[for all time]
+за ўвесь час
 ;file \protocols\Skype\src\skype_messages.cpp
 [Incoming call started]
 Уваходны званок
 [Incoming call finished]
 Уваходны званок завершаны
+[history synchronization]
+сінхранізацыя гісторыі
+[Done!]
+Выканана!
 ;file \protocols\Skype\src\skype_netlib.cpp
 [%s connection]
 Злучэнне %s

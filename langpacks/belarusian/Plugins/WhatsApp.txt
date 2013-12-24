@@ -5,25 +5,79 @@
 ;  Version: 0.0.2.1
 ;  Authors: Uli Hecht
 ;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Падтрымка пратакола WhatsApp для Miranda NG.
 ;file \protocols\WhatsApp\res\whatsapp.rc
+[Phone-Number]
+Тэлефон
+[Including country code, without '+' or '00']
+Уключаючы код краіны, без '+' ці '00'
 [Password]
 Пароль
 [Nickname]
 Мянушка
+[Request Code]
+Код запыту
+[Register Code]
+Код рэгістраці
+[SMS-Code:]
+Смс-код:
+[Will only be used for registration]
+Патрэбны толькі для рэгістрацыі
+[Use SSL connection (443 port)]
+Далучэнне па SSL (порт 443)
+[Paste password from WART  utility]
+Устаўце пароль з праграмы WART
+[Use WART utility from Plugins folder for registering your number and generating password]
+Для рэгістрацыі нумара і атрымання паролю скарыстайцеся праграмай WART з тэчкі Plugins
 [Cancel]
 Скасаваць
 [OK]
 ОК
 ;file \protocols\WhatsApp\src\connection.cpp
+[Please enter a country-code.]
+Абярыце код краіны
+[Please enter a phone-number without country code.]
+Увядзіце нумар тэлефона без кода краіны
+[Please enter a nickname.]
+Увядзіце мянушку
 [Please enter a password.]
 Калі ласка, увядзіце пароль.
 ;file \protocols\WhatsApp\src\dialogs.cpp
+[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+Код рэгістрацыі прыйдзе на ваш тэлефон СМС-паведамленнем.\nМайце на ўвазе, што адначасовае выкарыстанне гэтага плагіна і сапраўднага WhatsApp немагчыма!\nПрацягнуць?
+[Please correctly specify your registration code received by SMS]
+Калі ласка, дакладна увядзіце свой код рэгістрацыі, атрыманы смс.
+[Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
+Ваш пароль усталяваны аўтаматычна.\nКалі вы зменіце яго ўручную, можаце згубіць яго і прыйдзецца запытаць новы.
 ;file \protocols\WhatsApp\src\main.cpp
+[Did not unpack registration utility WART-1.5.4.0.exe.]
+Не распакавана праграма для рэгістрацыі WART-*.exe.
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
+[Unable to get Netlib connection for WhatsApp]
+Немагчыма стварыць далучэнне Netlib для WhatsApp
+[Network-connection error.]
+Памылка далучэння
 [Network]
 Сеціва
 [Account]
 Конт
 ;file \protocols\WhatsApp\src\theme.cpp
+[WhatsApp Icon]
+Абразок WhatsApp
+[Add To Group]
+Дадаць у гурт
+[Create Chat Group]
+Стварыць чат-гурт
+[Remove From Chat Group]
+Выдаліць з чат-гурта
+[Leave And Delete Group]
+Пакінуць гурт і выдаліць яго
+[Leave Group]
+Пакінуць гурт
+[Change Group Subject]
+Змяніць тэму гурта
+[Create Group]
+Стварыць гурт

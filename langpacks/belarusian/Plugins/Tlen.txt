@@ -60,12 +60,22 @@ Tlen
 Порт:
 [Keep connection alive]
 Падтрымліваць злучэнне
+[Enable encryption]
+Уключыць шыфраванне
 [Enable Always Visible and Never Visible]
 Уключыць Заўсёды бачны і Заўсёды нябачны
 [P2P Connections]
 P2P далучэнні
 [Use proxy for incoming connections]
 Ужыв. проксі для ўваходных далучэнняў
+[Proxy type:]
+Тып проксі:
+[Proxy server:]
+Проксі-сервер:
+[Proxy requires authorization]
+Проксі патрабуе аўтарызацыі
+[Mail Notification]
+Абвестка пра пошту
 [Enable incoming mail notification]
 Укл. апавяшчэнне пра ўваходную пошту
 [Colors]
@@ -112,14 +122,22 @@ Tlen Пароль
 Шукаю:
 [Voice chats]
 Галасавыя чаты
+[Save changes]
+Захаваць змены
 [Avatar]
 Аватар
+[Avatar Options]
+Налады аватара
 [Tlen login:]
 Уваход Tlen:
 [Subscription:]
 Падпіска:
+[Software:]
+Кліент:
 [Version:]
 Версія:
+[System:]
+Сістэма:
 [Personal Information]
 Персанальныя дадзеныя
 [Nickname:]
@@ -134,8 +152,14 @@ Tlen Пароль
 Статус:
 [Plan:]
 План:
+[Tlen Voice Chat]
+Tlen галасавы чат
 [Quality]
 Якасць
+[In]
+Уваходныя
+[Out]
+Зыходныя
 [Finish]
 Завяршыць
 [Tlen Voice Chat Invitation]
@@ -149,18 +173,32 @@ Tlen запрашэнне галасавога чата
 ;file \protocols\Tlen\src\tlen.cpp
 [Protocol icon]
 Абразок пратаколу
+[Tlen inbox]
+Tlen уваходныя
 [Group chats]
 Чаты
+[Tlen chats]
+Tlen чаты
 [Voice chat]
 Галасавы чат
+[Microphone]
+Мікрафон
+[Speaker]
+Дынамік
 [Send image]
 Адправіць
 [Incoming mail]
 Уваходная пошта
 [Alert]
 Папярэджанні
+[Tlen Chats]
+Tlen чаты
 [Multi-User Conference]
 Канферэнцыя
+[Tlen Mail]
+Tlen пошта
+[Send picture]
+Адаслаць выяву
 [Voice Chat]
 Галасавы чат
 [Request authorization]
@@ -168,9 +206,15 @@ Tlen запрашэнне галасавога чата
 [Grant authorization]
 Аўтарызаваць
 ;file \protocols\Tlen\src\tlen_file.cpp
+[1 File]
+1 файл
 [%d Files]
 %d файлаў
 ;file \protocols\Tlen\src\tlen_iqid.cpp
+[Authentication failed for]
+Аутэнтыфікацыя не пройдзена для
+[Tlen Authentication]
+Аўтэнтыфікацыя Tlen
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
 Вас выгналі. Чыннік: %s
@@ -227,15 +271,27 @@ Tlen запрашэнне галасавога чата
 Ігнараваць запрашэнні ад неаўтарызаваных кантактаў
 [Ignore all invitation]
 Ігнараваць усе запрашэнні
+[Accept all images]
+Прымаць усе выявы
+[Ignore images from unauthorized contacts]
+Ігнараваць выявы ад неаўтарызаваных кантактаў
+[Ignore all images]
+Ігнараваць усе выявы
 [<Last message>]
 (Апошняе паведамленне)
 [Forwarding]
 Перанакіраванне
+[%s mail]
+%s пошта
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_svc.cpp
+[Tlen login]
+Tlen уваход
 ;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for]
 Увядзіце пароль для
+[Tlen Connection Error]
+Tlen памылка далучэння
 [Windows Server 2003]
 Windows Server 2003
 [Windows XP]
@@ -254,6 +310,8 @@ Windows ME
 Windows
 [%s Web Messages]
 %s Web паведамленняў
+[Web message]
+Вэб-паведамленне
 [From]
 Ад
 [E-mail]
@@ -273,6 +331,8 @@ Windows
 з
 [none]
 няма
+[not on roster]
+не у росцеры
 ;file \protocols\Tlen\src\tlen_voice.cpp
 [...Connecting...]
 ...далучэнне...

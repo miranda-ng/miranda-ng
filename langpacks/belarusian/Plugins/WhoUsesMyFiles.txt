@@ -72,6 +72,8 @@ ID
 [Error memory allocation]
 Памылка размеркавання памяці
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Error creating menu]
+Памылка стварэння меню
 [Popup plugin not found!]
 Popup плагін не знойдзены!
 [Error]

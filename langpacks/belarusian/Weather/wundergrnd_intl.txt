@@ -498,3 +498,13 @@ T-навальніцы, 30% верагоднасць ападкаў
 Т-навальніцы, 90% верагоднасць ападкаў
 [Chance Of T-Storms 80% Chance Of Precipitation]
 Т-навальніцы, 80% верагоднасць ападкаў
+[Snow Showers 70% Chance Of Precipitation]
+Снег, 70% верагоднасць ападкаў
+[Snow Showers 60% Chance Of Precipitation]
+Снег, 60% верагоднасць ападкаў
+[Snow Showers 50% Chance Of Precipitation]
+Снег, 50% верагоднасць ападкаў
+[Light Snow 30% Chance Of Precipitation]
+Слабы снег, 30% верагоднасць ападкаў
+[Ice Pellets 70% Chance Of Precipitation]
+Лядовыя крупы, 70% верагоднасць ападкаў

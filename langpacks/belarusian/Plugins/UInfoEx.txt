@@ -5,9 +5,13 @@
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
+[Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
+Плагін пашыранай інфармацыі пра карыстача. Дазваляе рэдагаваць усю інфармацыю, абвяшчае пра дні нараджэння і г.д.
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information]
 Рэдагаваць дадзеныя кантакту
+[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
+Рэдагаваць інфармацыю кантакта\nГэты ліст дае вам ўяўленне пра ўсе юбілеі вашых кантактаў.
 [Origin]
 Паходжанне
 [&Update]
@@ -240,6 +244,12 @@
 Адаптоўваць Налады да стылю Aero.
 [Import]
 Імпартаваць
+[Importing...\nPlease wait!]
+Імпартуецца...\nКалі ласка, пачакайце!
+[Setting/Event (20/100)]
+Налада/З'ява (20/100)
+[John Doe (1/10)]
+Вася Пупкін (1/10)
 [Dialog]
 Гутарка
 [All]
@@ -280,6 +290,8 @@ E-Mail
 Іншае
 [Show 'Restart' menu item]
 Пункт меню "Перазапуск"
+[Use Zodiac as default avatar]
+Знак задыяка замет аватара па змаўчанні
 [Country Flags]
 Сцягі краін
 [Use &unknown flag if country cannot be determined]
@@ -300,6 +312,8 @@ E-Mail
 Не нагадваць мне пра гэта свята.
 [Refresh Contact Details]
 Абнавіць дадзеныя кантактаў
+[Preparing...]
+Падрыхтоўка...
 [Hide]
 Схаваць
 [What do you want to export?]

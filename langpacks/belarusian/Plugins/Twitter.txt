@@ -101,6 +101,10 @@ Twitter
 ;file \protocols\Twitter\src\theme.cpp
 [Twitter Icon]
 Абразок Twitter
+[Tweet]
+Твіт
+[Reply to Tweet]
+Адказаць на твіт
 [Visit Homepage]
 Наведаць старонку
 [Reply...]

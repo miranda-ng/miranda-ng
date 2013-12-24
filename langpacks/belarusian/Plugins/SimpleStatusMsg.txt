@@ -133,6 +133,8 @@
 &Зачыніць
 [Re&ad %s Message]
 &Прачытаць паведамленне "%s"
+[Copy %s Message]
+Капіяваць паведамленне %s
 [Re&ad Away Message]
 Пра&чытаць паведамленне "Адсутнічаю"
 [Copy Away Message]
