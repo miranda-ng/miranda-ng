@@ -6,7 +6,7 @@
 ;  Authors: bidyut, Maat
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
-Dodaje opcje automatycznego wyłączania powiadomień gdy protokół ma określony status.
+Dodaje opcje automatycznego wyłączania powiadomień, gdy protokół ma określony status.
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
 Brak dźwięku gdy:

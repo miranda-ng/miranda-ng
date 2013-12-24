@@ -241,9 +241,9 @@ Odrzuć popup
 [Open brief information]
 Otwórz krótkie informacje
 [Open complete forecast]
-Otwórz kompletną prognoze
+Otwórz kompletną prognozę
 [Open weather map]
-Otwórz mape pogodową
+Otwórz mapę pogodową
 [View history]
 Pokaż historię
 [Open log file]
@@ -258,11 +258,11 @@ Do poprzednich ustawień
 Do domyślnych
 ;file \plugins\Weather\src\weather.cpp
 [Enable/disable auto update]
-Włącz/wyłącz autoaktualizacje
+Włącz/wyłącz auto-aktualizacje
 [Auto Update Enabled]
-Autoaktualizacja włączona
+Auto-aktualizacja włączona
 [Auto Update Disabled]
-Autoaktualizacja wyłączona
+Auto-aktualizacja wyłączona
 [Weather Condition Changed]
 Warunki pogodowe uległy zmianie
 [Weather Alert Issued]
@@ -361,7 +361,7 @@ Informacja pogodowa INI
 [Browse]
 Przeglądaj
 [View webpage]
-Pokaż strone internetową
+Pokaż stronę internetową
 [Reset to default]
 Domyślne ustawienia
 [Text Files]
@@ -403,7 +403,7 @@ Pokaż krótko
 [View Complete]
 Pokaż całkowicie
 [Weather Update]
-Aktualizuj pogode
+Aktualizuj pogodę
 [Popup]
 Popup
 [No Popup]
@@ -501,7 +501,7 @@ Pokaż całą prognozę
 [Weather]
 Pogoda
 [Enable/Disable Weather Update]
-Włącz/wyłącz aktualizacje pogodowe
+Włącz/Wyłącz aktualizacje pogodowe
 [Update All Weather]
 Aktualizuj całą pogodę
 [Remove Old Data then Update All]

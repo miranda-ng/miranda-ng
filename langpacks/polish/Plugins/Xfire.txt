@@ -43,7 +43,7 @@ Pokazuj powiadomienie o pisaniu
 [Show nicknames when available]
 Pokazuj nicki jeśli dostępne
 [Show friends of my friends]
-Pokazuj znajmomym moich znajomych
+Pokazuj znajomym moich znajomych
 [Options]
 Opcje
 [More options]
@@ -65,13 +65,13 @@ icons.dll
 [Blocked User List]
 Lista zablokowanych
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
-Ta lista pokazuje twoich wszystkich zablokowanych użytkowników. Możesz usunąc osobe z listy aby móc z nim porozmawiać.
+Ta lista pokazuje twoich wszystkich zablokowanych użytkowników. Możesz usunąć osobę z listy aby móc z nim porozmawiać.
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
-Możesz łatwo blokować osoby, kiedy klikniesz PPM na znajomego na liscie i wybierając opcje Zablokuj Kontakt...
+Możesz łatwo blokować osoby, kiedy klikniesz PPM na znajomego na liście i wybierając opcje Zablokuj kontakt...
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Ten plik zostaje użyty do poszukiwania gier. 
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
-Ten plik posiada wszystkie orginalne ikonki gier. Możesz również aktywować opcje pobierania dodatkowych ikon.
+Ten plik posiada wszystkie oryginalne ikonki gier. Możesz również aktywować opcje pobierania dodatkowych ikon.
 [Be sure you put these files in following folder:]
 Upewnij się że pliki znajdują się w folderze:
 [Status Message]
@@ -141,7 +141,7 @@ Anuluj
 [New xfire_games.ini]
 Nowy xfire_games.ini
 [There is a new XFire gamelist online, do you want to update now?]
-Znaleziono nową liste gier xFire, czy chcesz ją zaktualizować?
+Znaleziono nową listę gier xFire, czy chcesz ją zaktualizować?
 [New supported games:]
 Nowe wsparcie gier:
 [Update]
@@ -226,7 +226,7 @@ Dostępny jest nowy Icons.dll, czy chcesz zaktualizować teraz?
 [The Icons.dll was updated.]
 Icons.dll został zaktualizowany.
 [Error during Icons.dll Update.]
-Błąd podczas aktualizaji Icons.dll.
+Błąd podczas aktualizacji Icons.dll.
 ;file \protocols\Xfire\src\main.cpp
 [Protocol icon]
 Ikona protokołu
@@ -267,7 +267,7 @@ Moje IP serwera rozmów głosowych
 [Xfire Link Protocol]
 Powiązanie protokołu xFire
 [Buddy start a game]
-Znajomy zaczą grać
+Znajomy zaczął grać
 [It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer.]
 Nastąpiło pierwsze uruchomienie wtyczki. Czy chcesz automatycznie pobrać xfire_games.ini i icons.dll?\r\nBez pliku ini nie można wykryć zainstalowanych na komputerze gier.
 [Away from Keyboard]
@@ -281,7 +281,7 @@ Kopiuj Adres/Port Serwera
 [Cop&y Voice Server Address and Port]
 Kopiuj Adres/Port serwera głosowego
 [Join &Game...]
-Dołącz do Gry...
+Dołącz do gry...
 [Play this game...]
 Graj...
 [Remove F&riend...]
@@ -336,7 +336,7 @@ Wyłącz awatary
 [Don't download avatars of clan members]
 Nie pobieraj awatarów od członków klanu
 [Use alternate way for Avatar download]
-Użyj alteranatywnego sposobu pobierania awatarów
+Użyj alternatywnego sposobu pobierania awatarów
 [General]
 Ogólne
 [Automatically reconnect on protocol version changes]

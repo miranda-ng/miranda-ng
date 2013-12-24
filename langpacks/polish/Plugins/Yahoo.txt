@@ -90,7 +90,7 @@ Powód zaproszenia
 Dodaj
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
- [Miranda] Masz zaproszenie do pokoju: %s wiadomością: %s
+[Miranda] Masz zaproszenie do pokoju: %s wiadomością: %s
 [%s denied invitation with message: %s]
 %s odrzucił zaproszenie z wiadomością: %s
 [Me]

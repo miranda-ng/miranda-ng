@@ -16,17 +16,17 @@ Wklej informacje o odtwarzanych multimediach w oknie rozmowy lub statusie
 [Use XStatus]
 Użyj xStatusu
 [If this option is "ON", XStatus doesn't depend on protocol status.]
-Jeśli ta opcja zostanie włączona, xStatus nie bedzie zależny od zmiany statusu protokołu.
+Jeśli ta opcja zostanie włączona, xStatus nie będzie zależny od zmiany statusu protokołu.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 Jeśli użyjesz wtyczki "Variables", możesz zmienić zawartość tekstu o nowe funkcje. Jeśli wtyczka nie zostanie użyta, wtyczka będzie pracowała szybciej.
 [Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
-Zmień "_" w wklejanym tekscie statusu na spacje.
+Zmień "_" w wklejanym tekście statusu na spacje.
 [Check file date and time to tag updates while playing.]
 Sprawdza czas utworu i aktualizuje tagi.
 [Report on some errors.]
 Raporty błędów.
 [Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
-Wyprubój interfejs OLE do osiągania większej liczby informacji. Jeśli ta opcja zostanie wyłączona, wtyczka będzie pracowała szybciej.
+Wypróbuj interfejs OLE do osiągania większej liczby informacji. Jeśli ta opcja zostanie wyłączona, wtyczka będzie pracowała szybciej.
 [Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
 Odświeżaj co jakiś czas (s) informacje o odtwarzanych multimediach. Jeśli zero, odświeżanie będzie wyłączone. Jeśli wartość wyniesie 499, czas będzie znaczony w milisekundach.
 [Text insertion to other Apps]
@@ -290,13 +290,13 @@ małe litery %type%
 [If this option is "ON", you can paste music info to your message window pressing hotkey.]
 Jeśli ta opcja jest włączona, możesz wkleić info utworu w okno rozmowy.
 [If this option is "ON", status text will be replaced by music info.]
-Jeśli ta opcja jest włączona, tekst statusu będzie zastąpiany wg info muzycznych.
+Jeśli ta opcja jest włączona, tekst statusu będzie zastąpiony wg info muzycznych.
 [If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
 Jeśli ta opcja jest włączona, wszystkie ustawienia wtyczki będą zapisywane w ini, a usunięte z profilu Mirandy. Inny plik INI zostanie usunięty.
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
 Jeśli ta opcja jest włączona, wtyczka będzie próbowała pobrać info z odtwarzacza.
 [If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
-Gdy ta opcja jest włączona, XStatus zmieni się tylko wtedy, gdy XStatus z muzyką jest już ustawiony.
+Gdy ta opcja jest włączona, xStatus zmieni się tylko wtedy, gdy xStatus z muzyką jest już ustawiony.
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
 Jeśli ta opcja jest włączona, xStatus nie zależy od statusu ICQ.
 [If this option is "ON", XStatus not changed when player shutdowned.]
@@ -458,7 +458,7 @@ Nazwa xStatus
 [  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
 Czas odświeżania (w sekundach) to czas, co jaki odświeżane są informacje o muzyce oraz opisy. Gdy 0, automatyczne odświeżanie jest wyłączone.\nTylko jeżeli ustawiony status "Muzyka" - zmień status, gdy ustawiony jest już XStatus.\nUtrzymuj XStatus "Muzyka" - jeżeli odtwarzanie zostanie zatrzymane lub odtwarzacz zamknięty, utrzymaj lub nie XStatus "Muzyka" (w przeciwnym razie zmień na pusty).
 ["Variables" module use]
-Użyto modół "Variables"
+Użyto moduł "Variables"
 [Acoustic]
 Akustyka
 [Use ICQ XStatus]
@@ -496,7 +496,7 @@ Włącz opis Tunes
 [Tunes]
 Utwory
 [Check all marked players for active (started and playing) or stop at first founded]
-Sprawdz aktywność wszystkich zaznaczonych odtwarzaczy (rozpoczęcie odtwarzania) lub zatrzymuje na pierzym znalezionym.
+Sprawdź aktywność wszystkich zaznaczonych odtwarzaczy (rozpoczęcie odtwarzania) lub zatrzymuje na pierwszym znalezionym.
 [Check all players]
 Sprawdź wszystkie odtw.
 [Emulate multimedia keys presses to control palyer]
@@ -510,9 +510,9 @@ Wyłącz wtyczkę
 [Enable Plugin]
 Włącz wtyczkę
 [Don't forget to enter Login and Password to use Last.fm service]
-Nie zapomnij wpisać Loginu i Hasła by użyć usługi Last.fm
+Nie zapomnij wpisać loginu i hasła by użyć usługi Last.fm
 [Don't forget to enter Login and Password to use MyShows service]
-Nie zapomnij wpisać Loginu i Hasła by użyć usługi MyShows
+Nie zapomnij wpisać loginu i hasła by użyć usługi MyShows
 [Attempts]
 Ilość prób
 [Disable scrobbling]

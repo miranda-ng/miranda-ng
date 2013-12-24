@@ -6,7 +6,7 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-Powiadomienia o poczcie i przeglądarka dla Mirandy NG. Dołaczona obsługa POP3
+Powiadomienia o poczcie i przeglądarka dla Mirandy NG. Dołączona obsługa POP3
 ;file \plugins\YAMN\res\YAMN.rc
 [OK]
 OK
@@ -123,7 +123,7 @@ Przycisk paska narzędzi "Sprawdź pocztę"
 [Enable YAMN Main Menu]
 Włącz YAMN w menu głównym
 [Show YAMN as a Protocol (Require Restart)]
-Pokaż YAMN jako Protokłół (Wymagany restart)
+Pokaż YAMN jako Protokół (Wymagany restart)
 [MailBrowser Options]
 Opcje przeglądania wiadomości
 [Enable Close on Delete Button]
@@ -277,7 +277,7 @@ Czytanie nowych wiadomości email (wykonano %d%%)
 [Deleting requested mails]
 Usuwanie wybranych wiadomości
 [Deleting spam]
-Usuwawanie spamu
+Usuwanie spamu
 [Memory allocation error.]
 Błąd alokacji pamięci.
 [Account is about to be stopped.]
@@ -295,7 +295,7 @@ Serwer nie wspiera autoryzacji APOP
 [Error while executing POP3 command.]
 Błąd podczas wykonywania polecenia POP3
 [Cannot connect to server with NetLib.]
-Nie można podłączć się do serwera z NetLib.
+Nie można podłączyć się do serwera z NetLib.
 [Cannot send data.]
 Nie można wysłać danych.
 [Cannot receive data.]
@@ -372,4 +372,4 @@ Test konta (nieudany)
 [You have N new mail messages]
 Masz N nowych wiadomości e-mail
 [Connection failed message]
-Wiadomośc o nieudanym połączeniu
+Wiadomość o nieudanym połączeniu

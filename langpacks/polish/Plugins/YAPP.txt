@@ -78,7 +78,7 @@ Szybki, brązowy lis przeskoczył nad leniwym psem.
 [Example With a Long Title]
 Przykład z długim tytułem
 [Thequickbrownfoxjumpedoverthelazydog.]
-Szybki, brązowy lis przeskoczył nad leniwym psem.
+Szybki,_brązowy_lis_przeskoczył_nad_leniwym_psem.
 [An avatar.]
 Na awatarze.
 [Bottom right]
@@ -134,7 +134,7 @@ Wyłącz popupy
 Włącz popupy
 ;file \plugins\YAPP\src\yapp.cpp
 [Toggle Popups]
-Włącz/wyłącz popupy
+Włącz/Wyłącz popupy
 [First line]
 Pierwsza linia
 [Second line]

@@ -13,7 +13,7 @@ Okno
 [Move Yahoo contacts to groups now]
 Przenieś teraz kontakty Yahoo do grup
 [Move Yahoo contacts automatically on startup]
-Przenoś kontakty yahoo automatycznie przy starcie
+Przenoś kontakty Yahoo automatycznie przy starcie
 ;file \plugins\YahooGroups\src\hooked_events.cpp
 [Yahoo Groups]
 Grupy Yahoo

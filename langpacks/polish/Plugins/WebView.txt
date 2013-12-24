@@ -188,9 +188,9 @@ W&yczyść wszystko
 [Alert event]
 Zdarzenie do powiadomienia
 [Auto update disabled]
-Autoaktualizacja wyłączona
+Auto-aktualizacja wyłączona
 [Auto update enabled]
-Autoaktualizacja włączona
+Auto-aktualizacja włączona
 [Update all Webview sites]
 Zaktualizuj wszystkie strony w Webview
 [Mark all Webview sites as read]
