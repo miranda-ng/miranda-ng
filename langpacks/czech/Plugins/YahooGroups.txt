@@ -10,7 +10,7 @@ Tento doplněk načítá a vytváří Yahoo skupiny definované v komunikátoru 
 ;file \plugins\YahooGroups\res\YahooGroups.rc
 [Dialog]
 Dialog
-[Move yahoo contacts to groups now]
+[Move Yahoo contacts to groups now]
 Ihned přesunout Yahoo kontakty do skupin
 [Move Yahoo contacts automatically on startup]
 Přesunout Yahoo kontakty do skupin automaticky při startu

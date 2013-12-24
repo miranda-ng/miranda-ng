@@ -145,7 +145,7 @@ Odeslat obrázek
 
 [Take a screenshot]
 
-[Could not register miranda service.]
+[Could not register Miranda service.]
 
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 

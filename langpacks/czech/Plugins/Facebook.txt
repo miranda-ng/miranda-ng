@@ -106,7 +106,7 @@ Chyba při přihlašování, možná máte špatné přihlašovací údaje.
 Váš účet vyžaduje zabezpečené spojení. Aktivováno.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Chyba při připojování k síti Facebook. Důvodem mohou být větší změny na straně serveru, což vyžaduje zároveň změny na straně Mirandy.
-[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
+[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Vyžadováno potvrzení pro odesílání zpráv jiným klientům.\nOtevřte stránky Facebooku a odešlete znovu zprávu tomuto kontaktu!
 [Timeout when sending message.]
 Vypršel čas na odeslání zprávy.

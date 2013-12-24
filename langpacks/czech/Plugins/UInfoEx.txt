@@ -446,8 +446,8 @@ Znovu
 Ano
 [No]
 Ne
-[Abord]
-
+[Abort]
+Přerušit
 [Ignore]
 Filtrování
 [Error]

@@ -74,17 +74,17 @@ Náhled
 Historie avatarů: Vyberte způsob ukládání historie avatarů
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Prosím vyberte způsob ukládání historie avatarů. Toto nastavení NELZE v budoucnu měnit, protože by to způsobilo ztrátu celé historie avatarů.
-[Store history in miranda history and all history avatars in same folder]
+[Store history in Miranda history and all history avatars in same folder]
 Ukládat záznamy do historie Mirandy a všechny avatary do stejné složky
-[Store history in miranda history and history avatars in per protocol folders]
+[Store history in Miranda history and history avatars in per protocol folders]
 Ukládat záznamy do historie Mirandy a avatary do složek jednotlivých protokolů
-[Store history in miranda history and history avatars in per contact folders using shortcuts]
+[Store history in Miranda history and history avatars in per contact folders using shortcuts]
 Ukládat záznamy do historie Mirandy a avatary do složek jednotlivých kontaktů pomocí zástupců
 [Store history avatars in per contact folders using shortcuts]
 Ukládat avatary do složek jednotlivých kontaktů pomocí zástupců
 [Store history avatars in per contact folders]
 Ukládat avatary do složek jednotlivých kontaktů
-[History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
+[History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.]
 Uloží historii do databáze Mirandy. Zobrazíte ji pomocí History++ nebo interním prohlížečem.
 [All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
 Umístění na disku: <profil>\\Avatars History\\<hash_avataru>

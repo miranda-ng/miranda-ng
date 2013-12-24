@@ -136,6 +136,9 @@ O&dmítnout
 Zpráva
 [Room]
 Místnost
+;file \protocols\AimOscar\proto_aim\src\resource.h
+[ICQ]
+ICQ
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
 Já
@@ -293,7 +296,7 @@ Otevřít poštovní účet?
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
 Autom. odpověď: 
-[Contact tried to open an audio/video conference (currently not supported)]
+[Contact tried to open an audio/video conference (not currently supported)]
 Kontakt se pokusil otevřít audio/video konferenci (aktuálně není podporována)
 [No information has been provided by the server.]
 Server nedodal požadované informace.
@@ -338,8 +341,6 @@ Váš účet je již potvrzen.
 [Can't start the confirmation procedure.]
 Nelze zahájit potvrzovací proceduru.
 ;file \protocols\AimOscar\src\theme.cpp
-[ICQ]
-ICQ
 [Block]
 Blokovat
 [Profile]

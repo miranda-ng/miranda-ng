@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AdvancedAutoAway.dll
 ;  Plugin: Advanced Auto Away
-;  Version: 0.8.0.42
+;  Version: 0.8.1.0
 ;  Authors: P Boon
 ;============================================================
 [An Auto Away module with some more options than the original.]
@@ -40,30 +40,32 @@ Zrušit
 Profil
 [Message]
 Zpráva
+[Account]
+Účet
+[Set]
+Nastavit
+[when full-screen mode is active]
+při celoobrazovkovém režimu
+[when screen saver engages]
+při aktivaci spořiče obrazovky
+[when workstation is locked]
+při zamknutí počítače
 [after]
 po
 [minutes of inactivity]
 min. nečinnosti
 [minutes of level 1 mode]
 min. v módu Level 1
-[Confirm resetting status]
-Potvrdit návrat do původního stavu
-[Account]
-Účet
-[Only set if current status is]
-Nastavit pouze tehdy, je-li stav
+[only set when inactive]
+pouze tehdy, je-li neaktivní
 [Monitor Miranda's activity only]
 Monitorovat pouze program Miranda
 [Reset status on return]
 Po návratu obnovit původní stav
-[when screen saver engages]
-při aktivaci spořiče obrazovky
-[Set]
-Nastavit
-[only set when inactive]
-pouze tehdy, je-li neaktivní
-[when workstation is locked]
-při zamknutí počítače
+[Confirm resetting status]
+Potvrdit návrat do původního stavu
+[Only set if current status is]
+Nastavit pouze tehdy, je-li stav
 [Command line]
 Příkazový řádek
 [OK]

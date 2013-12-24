@@ -132,8 +132,8 @@ Pozvat k d&iskusi...
 [User &history]
 Zobrazit &historii
 ;file \protocols\MSN\src\msn_commands.cpp
-[Contact tried to open an audio conference (currently not supported)]
-MirandaIM zatím nepodporuje hlasovou konferenci v rámci sítě MSN.
+[Contact tried to open an audio conference (not currently supported)]
+Kontakt se pokusil začít hlasovou konferenci (aktuálně není podporováno)
 [%I64u bytes]
 %I64u bajtů
 [Accept NetMeeting request from %s?]
@@ -261,10 +261,10 @@ Seznamy
 [Notifications]
 Upozornění
 ;file \protocols\MSN\src\msn_p2p.cpp
-[Contact tried to send its webcam data (currently not supported)]
-MirandaIM zatím nepodporuje příjem obrázků v webové kamery.
-[Contact tried to view our webcam data (currently not supported)]
-MirandaIM zatím nepodporuje posílání obrázků z webové kamery.
+[Contact tried to send its webcam data (not currently supported)]
+Kontakt se pokusil odeslat data ze své webkamery (aktuálně není podporováno)
+[Contact tried to view our webcam data (not currently supported)]
+Kontakt se pokusil zobrazit data z vaší webkamery (aktuálně není podporováno)
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Nová pošta (Live)

@@ -68,8 +68,8 @@ Seznam blokovaných uživatelů
 Tento seznam obsahuje všechny blokované uživatele Xfire. Chcete jim povolit žádost o autorizaci, odeberte je z tohoto seznamu.
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Kontakty lze jednoduše filtrovat funkcí Blokovat uživatele, kterou naleznete v kontextové nabídce...
-[This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
-Tento soubor je použit pro vyhledávání her, jejich detekování a zjišťování herních id. Obsahuje všechny xfirem podporované hry.
+[This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
+Tento soubor je použit pro vyhledávání her, jejich detekování a zjišťování herních id. Obsahuje všechny Xfirem podporované hry.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Tento soubor obsahuje všechny oficiální ikony her. Lze nastavit i stahování chybějích ikon.
 [Be sure you put these files in following folder:]
@@ -219,7 +219,7 @@ Mňam... jídlo
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 Soubor xfire_games.ini byl aktualizován.
-[Error during xfire_games Update.]
+[Error during xfire_games.ini update.]
 Nastala chyba při aktualizaci definic her.
 [There is a new Icons.dll online, do you want to update now?]
 Byly nalezeny nové ikony her, přejete si je nyní aktualizovat?
@@ -268,7 +268,7 @@ IP mého hlasového serveru
 XFire Link protokol
 [Buddy start a game]
 Přítel spustil hru
-[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
+[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer.]
 Vypadá to, že jste právě nainstalovali tento doplněk. Přejete si automaticky stáhnout poslední dostupné definice her a jejich ikony?\r\nBez toho nebude možné detekovat žádné hry na vašem počítači.
 [Away from Keyboard]
 Pryč od klávesnice

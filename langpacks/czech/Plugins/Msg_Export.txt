@@ -12,7 +12,7 @@
 Procházet
 [Use internal viewer]
 Interní prohlížeč
-[Replace miranda history]
+[Replace Miranda history]
 Nahradit historii Mirandy
 [Use UTF8 in new files]
 
@@ -128,7 +128,7 @@ Chyba při exportu; nenalezeny žádné kontakty.
 Třídění a zápis do databáze (fáze č.2)
 [Max line width must be at least %d]
 Šířka sloupce musí být nejméně %d znaků!
-[You need to restart miranda to change the history function]
+[You need to restart Miranda to change the history function]
 Nahrazení historie vyžaduje restart Mirandy.
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 Neplatná cesta ke knihovně Msg_Export.dll

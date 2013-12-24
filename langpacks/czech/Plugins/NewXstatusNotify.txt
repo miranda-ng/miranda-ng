@@ -335,6 +335,8 @@ Filtrování
 [Message log]
 Záznam komunikace
 ;file \plugins\NewXstatusNotify\src\popup.h
+[(was %s)]
+(předtím %s)
 [Open message window]
 Otevřít komunikační okno
 [Close popup]
