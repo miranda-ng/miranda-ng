@@ -164,7 +164,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPU
 CAPTION "Add E-Mail"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Enter your full e-mail address.\n(e.g.: john.doe@provider.com)",IDC_HEADERBAR,
+    CONTROL         "Enter your full e-mail address.\n(e.g.,: john.doe@provider.com)",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,210,25
     CONTROL         "",IDC_STATIC,"Static",SS_WHITERECT,0,25,209,69
     CONTROL         "Enter a representitive name for the e-mail address here.",IDC_STATIC,
