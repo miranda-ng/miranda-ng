@@ -26,40 +26,43 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  ***********************************************************************************************************/
 
 /**
- * name:	SortProc
- * desc:	used for bsearch in CExImContactXML::IsContactInfo
- * param:	item1	- item to compare
- *			item2	- item to compare
- * return:	the difference
- **/
+* name:	SortProc
+* desc:	used for bsearch in CExImContactXML::IsContactInfo
+* param:	item1	- item to compare
+*			item2	- item to compare
+* return:	the difference
+**/
+
 static int SortProc(const LPDWORD item1, const LPDWORD item2)
 {
 	return *item1 - *item2;
 }
 
 /**
- * name:	CExImContactXML
- * class:	CExImContactXML
- * desc:	the constructor for the contact class
- * param:	pXmlFile	- the owning xml file
- * return:	nothing
- **/
-CExImContactXML::CExImContactXML(CFileXml * pXmlFile)
+* name:	CExImContactXML
+* class:	CExImContactXML
+* desc:	the constructor for the contact class
+* param:	pXmlFile	- the owning xml file
+* return:	nothing
+**/
+
+CExImContactXML::CExImContactXML(CFileXml *pXmlFile)
 	: CExImContactBase()
 {
-	_xmlNode	= NULL;
-	_pXmlFile	= pXmlFile;
-	_hEvent		= NULL;
+	_xmlNode = NULL;
+	_pXmlFile = pXmlFile;
+	_hEvent = NULL;
 }
 
 /**
- * name:	IsContactInfo
- * class:	CExImContactXML
- * desc:	this function compares the given setting key to the list of known contact
- *			information keys
- * param:	pszKey	- the settings key to check
- * return:	TRUE if pszKey is a valid contact information
- **/
+* name:	IsContactInfo
+* class:	CExImContactXML
+* desc:	this function compares the given setting key to the list of known contact
+*			information keys
+* param:	pszKey	- the settings key to check
+* return:	TRUE if pszKey is a valid contact information
+**/
+
 BYTE CExImContactXML::IsContactInfo(LPCSTR pszKey)
 {
 	// This is a sorted list of all hashvalues of the contact information.
@@ -84,48 +87,6 @@ BYTE CExImContactXML::IsContactInfo(LPCSTR pszKey)
 		return bsearch(&dwHash, dwCiHash, SIZEOF(dwCiHash), sizeof(dwCiHash[0]), (int (*)(const void*, const void*))SortProc) != NULL;
 	}
 	return FALSE;
-/*
-	WORD i;
-	const LPCSTR szCiKey[] = {
-		// naming
-		SET_CONTACT_TITLE,SET_CONTACT_FIRSTNAME,SET_CONTACT_SECONDNAME,SET_CONTACT_LASTNAME,SET_CONTACT_PREFIX,
-		// private address
-		SET_CONTACT_STREET,SET_CONTACT_ZIP,SET_CONTACT_CITY,SET_CONTACT_STATE,SET_CONTACT_COUNTRY,
-		SET_CONTACT_PHONE,SET_CONTACT_FAX,SET_CONTACT_CELLULAR,
-		SET_CONTACT_EMAIL,SET_CONTACT_EMAIL0,SET_CONTACT_EMAIL1,SET_CONTACT_HOMEPAGE,
-		// origin
-		SET_CONTACT_ORIGIN_STREET,SET_CONTACT_ORIGIN_ZIP,SET_CONTACT_ORIGIN_CITY,SET_CONTACT_ORIGIN_STATE,SET_CONTACT_ORIGIN_COUNTRY,
-		// company
-		SET_CONTACT_COMPANY_POSITION,SET_CONTACT_COMPANY_OCCUPATION,SET_CONTACT_COMPANY_SUPERIOR,SET_CONTACT_COMPANY_ASSISTENT
-		SET_CONTACT_COMPANY,SET_CONTACT_COMPANY_DEPARTMENT,SET_CONTACT_COMPANY_OFFICE,
-		SET_CONTACT_COMPANY_STREET,SET_CONTACT_COMPANY_ZIP,SET_CONTACT_COMPANY_CITY,SET_CONTACT_COMPANY_STATE,SET_CONTACT_COMPANY_COUNTRY,
-		SET_CONTACT_COMPANY_PHONE,SET_CONTACT_COMPANY_FAX,SET_CONTACT_COMPANY_CELLULAR,
-		SET_CONTACT_COMPANY_EMAIL,SET_CONTACT_COMPANY_EMAIL0,SET_CONTACT_COMPANY_EMAIL1,SET_CONTACT_COMPANY_HOMEPAGE,
-		// personal information
-		SET_CONTACT_ABOUT,SET_CONTACT_MYNOTES,SET_CONTACT_MARITAL,SET_CONTACT_PARTNER,
-		SET_CONTACT_LANG1,SET_CONTACT_LANG2,SET_CONTACT_LANG3,SET_CONTACT_TIMEZONE,SET_CONTACT_TIMEZONENAME,SET_CONTACT_TIMEZONEINDEX,
-		SET_CONTACT_AGE,SET_CONTACT_GENDER,SET_CONTACT_BIRTHDAY,SET_CONTACT_BIRTHMONTH,SET_CONTACT_BIRTHYEAR,
-		"Past0", "Past0Text","Past1", "Past1Text","Past2", "Past2Text",
-		"Affiliation0", "Affiliation0Text","Affiliation1", "Affiliation1Text","Affiliation2", "Affiliation2Text",
-		"Interest0Cat", "Interest0Text","Interest1Cat", "Interest1Text","Interest2Cat", "Interest2Text"
-	};
-	DWORD *hash = new DWORD[SIZEOF(szCiKey)];
-	char buf[MAX_PATH];
-
-	for (i = 0; i < SIZEOF(szCiKey); i++) {
-		strcpy(buf, szCiKey[i]);
-		hash[i] = hashSetting(_strlwr((char*)buf));
-	}
-	qsort(hash, SIZEOF(szCiKey), sizeof(hash[0]), 
-	(int (*)(const void*, const void*))SortProc);
-	
-	FILE* fil = fopen("D:\\temp\\id.txt", "wt");
-	for (i = 0; i < SIZEOF(szCiKey); i++) {
-		fprintf(fil, "0x%08X,", hash[i]);
-	}
-	fclose(fil);
-	return FALSE;
-	*/
 }
 
 /***********************************************************************************************************
@@ -133,19 +94,20 @@ BYTE CExImContactXML::IsContactInfo(LPCSTR pszKey)
  ***********************************************************************************************************/
 
 /**
- * name:	CreateXmlNode
- * class:	CExImContactXML
- * desc:	creates a new TiXmlElement representing the contact
- *			whose information are stored in this class
- * param:	none
- * return:	pointer to the newly created TiXmlElement
- **/
+* name:	CreateXmlNode
+* class:	CExImContactXML
+* desc:	creates a new TiXmlElement representing the contact
+*			whose information are stored in this class
+* param:	none
+* return:	pointer to the newly created TiXmlElement
+**/
+
 TiXmlElement* CExImContactXML::CreateXmlElement()
 {
 	if (_hContact) {
 		if (_pszProto) {
 			_xmlNode = new TiXmlElement(XKEY_CONTACT);
-			
+
 			if (_xmlNode) {
 				LPSTR pszUID = uid2String(TRUE);
 				_xmlNode->SetAttribute("ampro", _pszAMPro);
@@ -153,8 +115,8 @@ TiXmlElement* CExImContactXML::CreateXmlElement()
 
 				if (_pszDisp)  _xmlNode->SetAttribute("disp", _pszDisp);
 				if (_pszNick)  _xmlNode->SetAttribute("nick", _pszNick);
-				if (_pszGroup) _xmlNode->SetAttribute("group",_pszGroup);
-				
+				if (_pszGroup) _xmlNode->SetAttribute("group", _pszGroup);
+
 				if (pszUID) {
 
 					if (_pszUIDKey) {
@@ -169,22 +131,21 @@ TiXmlElement* CExImContactXML::CreateXmlElement()
 				}
 			}
 		}
-		else
-			_xmlNode = NULL;
+		else _xmlNode = NULL;
 	}
-	else {
-		_xmlNode = new TiXmlElement(XKEY_OWNER);
-	}
+	else _xmlNode = new TiXmlElement(XKEY_OWNER);
+
 	return _xmlNode;
 }
 
 /**
- * name:	ExportContact
- * class:	CExImContactXML
- * desc:	exports a contact
- * param:	none
- * return:	ERROR_OK on success or any other on failure
- **/
+* name:	ExportContact
+* class:	CExImContactXML
+* desc:	exports a contact
+* param:	none
+* return:	ERROR_OK on success or any other on failure
+**/
+
 int CExImContactXML::ExportContact(DB::CEnumList* pModules)
 {
 	if (_pXmlFile->_wExport & EXPORT_DATA) {
@@ -202,7 +163,7 @@ int CExImContactXML::ExportContact(DB::CEnumList* pModules)
 			ExportModule(MOD_MBIRTHDAY);
 		}
 	}
-	
+
 	// export contact's events
 	if (_pXmlFile->_wExport & EXPORT_HISTORY)
 		ExportEvents();
@@ -211,88 +172,71 @@ int CExImContactXML::ExportContact(DB::CEnumList* pModules)
 }
 
 /**
- * name:	ExportSubContact
- * class:	CExImContactXML
- * desc:	exports a meta sub contact
- * param:	none
- * return:	ERROR_OK on success or any other on failure
- **/
+* name:	ExportSubContact
+* class:	CExImContactXML
+* desc:	exports a meta sub contact
+* param:	none
+* return:	ERROR_OK on success or any other on failure
+**/
+
 int CExImContactXML::ExportSubContact(CExImContactXML *vMetaContact, DB::CEnumList* pModules)
 {
 	// create xmlNode
 	if (!CreateXmlElement()) 
-	{
 		return ERROR_INVALID_CONTACT;
-	}
+
 	if (ExportContact(pModules) == ERROR_OK) 
-	{
 		if (!_xmlNode->NoChildren() && vMetaContact->_xmlNode->LinkEndChild(_xmlNode)) 
-		{
 			return ERROR_OK;
-		}
-	}
-	if (_xmlNode) delete _xmlNode;
+
+	delete _xmlNode;
 	return ERROR_NOT_ADDED;
 }
 
 /**
- * name:	Export
- * class:	CExImContactXML
- * desc:	exports a contact
- * param:	xmlfile		- handle to the open file to write the contact to
- *			pModules	- list of modules to export for each contact
- * return:	ERROR_OK on success or any other on failure
- **/
+* name:	Export
+* class:	CExImContactXML
+* desc:	exports a contact
+* param:	xmlfile		- handle to the open file to write the contact to
+*			pModules	- list of modules to export for each contact
+* return:	ERROR_OK on success or any other on failure
+**/
+
 int CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
 {
 	if (!xmlfile) 
-	{
 		return ERROR_INVALID_PARAMS;
-	}
 
 	if (_hContact == INVALID_HANDLE_VALUE)
-	{
 		return ERROR_INVALID_CONTACT;
-	}
 
 	if (!CreateXmlElement()) 
-	{
 		return ERROR_INVALID_CONTACT;
-	}
 
 	// export meta
-	if (isMeta())
-	{
+	if (isMeta()) {
 		CExImContactXML vContact(_pXmlFile);
 
 		const int cnt = DB::MetaContact::SubCount(_hContact);
 		const int def = DB::MetaContact::SubDefNum(_hContact);
 		HANDLE hSubContact = DB::MetaContact::Sub(_hContact, def);
-		int i;
 
 		// export default subcontact
 		if (hSubContact && vContact.fromDB(hSubContact))
-		{
 			vContact.ExportSubContact(this, pModules);
-		}
 
-		for (i = 0; i < cnt; i++)
-		{
-			if (i != def)
-			{
+		for (int i = 0; i < cnt; i++) {
+			if (i != def) {
 				hSubContact = DB::MetaContact::Sub(_hContact, i);
 				if (hSubContact && vContact.fromDB(hSubContact))
-				{
 					vContact.ExportSubContact(this, pModules);
-				}
 			}
 		}
 	}
 	ExportContact(pModules);
 
 	// add xContact to document
-	if (_xmlNode->NoChildren())
-	{
+	if (_xmlNode->NoChildren()) {
 		delete _xmlNode;
 		_xmlNode = NULL;
 		return ERROR_NOT_ADDED;
@@ -307,109 +251,104 @@ int CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
 }
 
 /**
- * name:	ExportModule
- * class:	CExImContactXML
- * desc:	enumerates all settings of a database module and adds them to the xml tree
- * params:	pszModule	- the module which is to export
- * return:	ERROR_OK on success or any other on failure
- **/
+* name:	ExportModule
+* class:	CExImContactXML
+* desc:	enumerates all settings of a database module and adds them to the xml tree
+* params:	pszModule	- the module which is to export
+* return:	ERROR_OK on success or any other on failure
+**/
+
 int CExImContactXML::ExportModule(LPCSTR pszModule)
 {
 	DB::CEnumList	Settings;
-	if (!pszModule || !*pszModule) {
+	if (!pszModule || !*pszModule)
 		return ERROR_INVALID_PARAMS;
-	}
-	if (!Settings.EnumSettings(_hContact, pszModule)) {
-		int i;
-		TiXmlElement *xmod;
-		xmod = new TiXmlElement(XKEY_MOD);
-		if (!xmod) {
-			return ERROR_MEMORY_ALLOC;
-		}
-		xmod->SetAttribute("key", pszModule);
-		for (i = 0; i < Settings.getCount(); i++) {
-			ExportSetting(xmod, pszModule, Settings[i]);
-		}
 
-		if (!xmod->NoChildren() && _xmlNode->LinkEndChild(xmod)) {
+	if (!Settings.EnumSettings(_hContact, pszModule)) {
+		TiXmlElement *xmod = new TiXmlElement(XKEY_MOD);
+		if (!xmod)
+			return ERROR_MEMORY_ALLOC;
+
+		xmod->SetAttribute("key", pszModule);
+		for (int i = 0; i < Settings.getCount(); i++)
+			ExportSetting(xmod, pszModule, Settings[i]);
+
+		if (!xmod->NoChildren() && _xmlNode->LinkEndChild(xmod))
 			return ERROR_OK;
-		}
+
 		delete xmod;
 	}
+
 	return ERROR_EMPTY_MODULE;
 }
 
 /**
- * name:	ExportSetting
- * desc:	read a setting from database and add an xmlelement to contact node
- * params:	xmlModule	- xml node to add the setting to
- *			hContact	- handle of the contact whose event chain is to export
- *			pszModule	- the module which is to export
- *			pszSetting	- the setting which is to export
- * return:	pointer to the added element
- **/
+* name:	ExportSetting
+* desc:	read a setting from database and add an xmlelement to contact node
+* params:	xmlModule	- xml node to add the setting to
+*			hContact	- handle of the contact whose event chain is to export
+*			pszModule	- the module which is to export
+*			pszSetting	- the setting which is to export
+* return:	pointer to the added element
+**/
+
 int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LPCSTR pszSetting)
 {
-	DBVARIANT		dbv;
-	TiXmlElement	*xmlEntry	= NULL;
-	TiXmlText		*xmlValue	= NULL;
-	CHAR			buf[32];
-	LPSTR			str			= NULL;
+	TiXmlElement *xmlEntry = NULL;
+	TiXmlText    *xmlValue = NULL;
+	CHAR          buf[32];
+	LPSTR         str = NULL;
 
+	DBVARIANT dbv;
 	if (DB::Setting::GetAsIs(_hContact, pszModule, pszSetting, &dbv))
 		return ERROR_INVALID_VALUE;
+
 	switch (dbv.type) {
-		case DBVT_BYTE:		//'b' bVal and cVal are valid
-			buf[0] = 'b';
-			_ultoa(dbv.bVal, buf + 1, 10);
-			xmlValue = new TiXmlText(buf);
-			break;
-		case DBVT_WORD:		//'w' wVal and sVal are valid
-			buf[0] = 'w';
-			_ultoa(dbv.wVal, buf + 1, 10);
-			xmlValue = new TiXmlText(buf);
-			break;
-		case DBVT_DWORD:	//'d' dVal and lVal are valid
-			buf[0] = 'd';
-			_ultoa(dbv.dVal, buf + 1, 10);
-			xmlValue = new TiXmlText(buf);
-			break;
-		case DBVT_ASCIIZ:	//'s' pszVal is valid
-		{
-			if (mir_IsEmptyA(dbv.pszVal)) break;
-			DB::Variant::ConvertString(&dbv, DBVT_UTF8);
-			if (str = (LPSTR)mir_alloc(mir_strlen(dbv.pszVal) + 2)) {
-				str[0] = 's';
-				mir_strcpy(&str[1], dbv.pszVal);
-				xmlValue = new TiXmlText(str);
-				mir_free(str);
-			}
-			break;
+	case DBVT_BYTE:		//'b' bVal and cVal are valid
+		buf[0] = 'b';
+		_ultoa(dbv.bVal, buf + 1, 10);
+		xmlValue = new TiXmlText(buf);
+		break;
+	case DBVT_WORD:		//'w' wVal and sVal are valid
+		buf[0] = 'w';
+		_ultoa(dbv.wVal, buf + 1, 10);
+		xmlValue = new TiXmlText(buf);
+		break;
+	case DBVT_DWORD:	//'d' dVal and lVal are valid
+		buf[0] = 'd';
+		_ultoa(dbv.dVal, buf + 1, 10);
+		xmlValue = new TiXmlText(buf);
+		break;
+	case DBVT_ASCIIZ:	//'s' pszVal is valid
+		if (mir_IsEmptyA(dbv.pszVal)) break;
+		DB::Variant::ConvertString(&dbv, DBVT_UTF8);
+		if (str = (LPSTR)mir_alloc(mir_strlen(dbv.pszVal) + 2)) {
+			str[0] = 's';
+			mir_strcpy(&str[1], dbv.pszVal);
+			xmlValue = new TiXmlText(str);
+			mir_free(str);
 		}
-		case DBVT_UTF8:		//'u' pszVal is valid
-		{
-			if (mir_IsEmptyA(dbv.pszVal)) break;
-			if (str = (LPSTR)mir_alloc(mir_strlen(dbv.pszVal) + 2)) {
-				str[0] = 'u';
-				mir_strcpy(&str[1], dbv.pszVal);
-				xmlValue = new TiXmlText(str);
-				mir_free(str);
-			}
-			break;
+		break;
+	case DBVT_UTF8:		//'u' pszVal is valid
+		if (mir_IsEmptyA(dbv.pszVal)) break;
+		if (str = (LPSTR)mir_alloc(mir_strlen(dbv.pszVal) + 2)) {
+			str[0] = 'u';
+			mir_strcpy(&str[1], dbv.pszVal);
+			xmlValue = new TiXmlText(str);
+			mir_free(str);
 		}
-		case DBVT_WCHAR:	//'u' pwszVal is valid
-		{
-			if (mir_IsEmptyW(dbv.pwszVal)) break;
-			DB::Variant::ConvertString(&dbv, DBVT_UTF8);
-			if (str = (LPSTR)mir_alloc(mir_strlen(dbv.pszVal) + 2)) {
-				str[0] = 'u';
-				mir_strcpy(&str[1], dbv.pszVal);
-				xmlValue = new TiXmlText(str);
-				mir_free(str);
-			}
-			break;
+		break;
+	case DBVT_WCHAR:	//'u' pwszVal is valid
+		if (mir_IsEmptyW(dbv.pwszVal)) break;
+		DB::Variant::ConvertString(&dbv, DBVT_UTF8);
+		if (str = (LPSTR)mir_alloc(mir_strlen(dbv.pszVal) + 2)) {
+			str[0] = 'u';
+			mir_strcpy(&str[1], dbv.pszVal);
+			xmlValue = new TiXmlText(str);
+			mir_free(str);
 		}
-		case DBVT_BLOB:		//'n' cpbVal and pbVal are valid
+		break;
+	case DBVT_BLOB:		//'n' cpbVal and pbVal are valid
 		{
 			// new buffer for base64 encoded data
 			INT_PTR baselen = mir_base64_encode_bufsize(dbv.cpbVal);
@@ -422,18 +361,14 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 				xmlValue = new TiXmlText(str);
 			}
 			mir_free(str);
-			break;
 		}
-		case DBVT_DELETED:	//this setting just got deleted, no other values are valid
-			#if defined(_DEBUG)
-				OutputDebugStringA("DBVT_DELETED\n");
-			#endif
-			break;
-		default:
-			#if defined(_DEBUG)
-				OutputDebugStringA("DBVT_TYPE unknown\n");
-			#endif
-			; // nothing
+		break;
+
+	case DBVT_DELETED:	//this setting just got deleted, no other values are valid
+		break;
+
+	default:
+		; // nothing
 	}
 	db_free(&dbv);
 	if (xmlValue) {
@@ -450,71 +385,59 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 }
 
 /**
- * name:	ExportEvents
- * desc:	adds the event chain for a given contact to the xml tree
- * params:	xContact	- the xml node to add the events as childs to
- *			hContact	- handle of the contact whose event chain is to export
- * return:	TRUE on success, FALSE otherwise
- **/
+* name:	ExportEvents
+* desc:	adds the event chain for a given contact to the xml tree
+* params:	xContact	- the xml node to add the events as childs to
+*			hContact	- handle of the contact whose event chain is to export
+* return:	TRUE on success, FALSE otherwise
+**/
+
 BYTE CExImContactXML::ExportEvents()
 {
-	PBYTE		pbEventBuf			= NULL;
-	DWORD		cbEventBuf			= 0,
-				dwNumEventsAdded	= 0;
-
 	int dwNumEvents = db_event_count(_hContact);
 	if (dwNumEvents == 0)
 		return FALSE;
 
-	INT_PTR cbBase64Data = 0;
+	DWORD cbEventBuf = 0, dwNumEventsAdded = 0;
 
-	DBEVENTINFO	dbei = { sizeof(DBEVENTINFO) };
+	// read out all events for the current contact
+	for (HANDLE hDbEvent = db_event_first(_hContact); hDbEvent != NULL; hDbEvent = db_event_next(hDbEvent)) {
+		DBEVENTINFO	dbei = { sizeof(DBEVENTINFO) };
+		if (DB::Event::GetInfoWithData(hDbEvent, &dbei))
+			continue;
 
-	try {
-		// read out all events for the current contact
-		for (HANDLE hDbEvent = db_event_first(_hContact); hDbEvent != NULL; hDbEvent = db_event_next(hDbEvent)) {
-			if (!DB::Event::GetInfoWithData(hDbEvent, &dbei)) {
-				// encode data
-				LPSTR pBase64Data = mir_base64_encode(dbei.pBlob, dbei.cbBlob);
-				if (pBase64Data) {
-					TiXmlElement *xmlEvent = new TiXmlElement("evt");
-					if (xmlEvent) {
-						xmlEvent->SetAttribute("type", dbei.eventType);
-						xmlEvent->SetAttribute("time", dbei.timestamp);
-						xmlEvent->SetAttribute("flag", dbei.flags);
+		// encode data
+		LPSTR pBase64Data = mir_base64_encode(dbei.pBlob, dbei.cbBlob);
+		if (pBase64Data) {
+			TiXmlElement *xmlEvent = new TiXmlElement("evt");
+			if (xmlEvent) {
+				xmlEvent->SetAttribute("type", dbei.eventType);
+				xmlEvent->SetAttribute("time", dbei.timestamp);
+				xmlEvent->SetAttribute("flag", dbei.flags);
 
-						TiXmlText *xmlText = new TiXmlText(pBase64Data);
-						xmlEvent->LinkEndChild(xmlText);
+				TiXmlText *xmlText = new TiXmlText(pBase64Data);
+				xmlEvent->LinkEndChild(xmlText);
 
-						// find module
-						TiXmlNode *xmlModule;
-						for (xmlModule = _xmlNode->FirstChild(); xmlModule != NULL; xmlModule = xmlModule->NextSibling())
-							if (!mir_stricmp(((TiXmlElement*)xmlModule)->Attribute("key"), dbei.szModule))
-								break;
+				// find module
+				TiXmlNode *xmlModule;
+				for (xmlModule = _xmlNode->FirstChild(); xmlModule != NULL; xmlModule = xmlModule->NextSibling())
+					if (!mir_stricmp(((TiXmlElement*)xmlModule)->Attribute("key"), dbei.szModule))
+						break;
 
-						// create new module
-						if (!xmlModule) {
-							xmlModule = _xmlNode->InsertEndChild(TiXmlElement(XKEY_MOD));
-							if (!xmlModule)
-								break;
-							((TiXmlElement*)xmlModule)->SetAttribute("key", dbei.szModule);
-						}
-
-						xmlModule->LinkEndChild(xmlEvent);
-						dwNumEventsAdded++;
-					}
+				// create new module
+				if (!xmlModule) {
+					xmlModule = _xmlNode->InsertEndChild(TiXmlElement(XKEY_MOD));
+					if (!xmlModule)
+						break;
+					((TiXmlElement*)xmlModule)->SetAttribute("key", dbei.szModule);
 				}
-				MIR_FREE(dbei.pBlob);
+
+				xmlModule->LinkEndChild(xmlEvent);
+				dwNumEventsAdded++;
 			}
 		}
-	}
-	catch(...) {
-		// fuck, do nothing
 		MIR_FREE(dbei.pBlob);
-		dwNumEventsAdded = 0;
 	}
-
-	mir_free(pbEventBuf);
 
 	return dwNumEventsAdded == dwNumEvents;
 }
@@ -524,20 +447,20 @@ BYTE CExImContactXML::ExportEvents()
  ***********************************************************************************************************/
 
 /**
- * name:	CountKeys
- * desc:	Counts the number of events and settings stored for a contact
- * params:	xmlContact	- the contact, who is the owner of the keys to count
- * return:	nothing
- **/
+* name:	CountKeys
+* desc:	Counts the number of events and settings stored for a contact
+* params:	xmlContact	- the contact, who is the owner of the keys to count
+* return:	nothing
+**/
+
 void CExImContactXML::CountKeys(DWORD &numSettings, DWORD &numEvents)
 {
-	TiXmlNode *xmod, *xkey;
-
 	numSettings = numEvents = 0;
-	for (xmod = _xmlNode->FirstChild(); 
+
+	for (TiXmlNode *xmod = _xmlNode->FirstChild();
 		xmod != NULL; 
 		xmod = xmod->NextSibling(XKEY_MOD)) {
-		for (xkey = xmod->FirstChild();
+		for (TiXmlNode *xkey = xmod->FirstChild();
 			xkey != NULL;
 			xkey = xkey->NextSibling()) {
 			if (!mir_stricmp(xkey->Value(), XKEY_SET))
@@ -549,15 +472,17 @@ void CExImContactXML::CountKeys(DWORD &numSettings, DWORD &numEvents)
 }
 
 /**
- * name:	LoadXmlElemnt
- * class:	CExImContactXML
- * desc:	get contact information from XML-file
- * param:	xContact	- TiXmlElement representing a contact
- * return:	ERROR_OK if successful or any other error number otherwise
- **/
+* name:	LoadXmlElemnt
+* class:	CExImContactXML
+* desc:	get contact information from XML-file
+* param:	xContact	- TiXmlElement representing a contact
+* return:	ERROR_OK if successful or any other error number otherwise
+**/
+
 int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 {
-	if (xContact == NULL) return ERROR_INVALID_PARAMS;
+	if (xContact == NULL)
+		return ERROR_INVALID_PARAMS;
 
 	LPSTR pszMetaProto = myGlobals.szMetaProto ? myGlobals.szMetaProto : "MetaContacts";
 
@@ -566,10 +491,10 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 	_hContact = INVALID_HANDLE_VALUE;
 
 	_xmlNode = xContact;
-	MIR_FREE(_pszAMPro);		ampro(xContact->Attribute("ampro"));
-	MIR_FREE(_pszNick);			nick (xContact->Attribute("nick"));
-	MIR_FREE(_pszDisp);			disp (xContact->Attribute("disp"));
-	MIR_FREE(_pszGroup);		group(xContact->Attribute("group"));
+	MIR_FREE(_pszAMPro); ampro(xContact->Attribute("ampro"));
+	MIR_FREE(_pszNick);  nick (xContact->Attribute("nick"));
+	MIR_FREE(_pszDisp);  disp (xContact->Attribute("disp"));
+	MIR_FREE(_pszGroup); group(xContact->Attribute("group"));
 	MIR_FREE(_pszProto);
 	MIR_FREE(_pszProtoOld);
 	MIR_FREE(_pszUIDKey);
@@ -581,9 +506,7 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 
 		// meta contact must be uniquelly identified by its subcontacts
 		// the metaID may change during an export or import call
-		for(xSub  = xContact->FirstChildElement(XKEY_CONTACT); 
-			xSub != NULL;
-			xSub  = xSub->NextSiblingElement(XKEY_CONTACT)) {
+		for(xSub  = xContact->FirstChildElement(XKEY_CONTACT); xSub != NULL; xSub  = xSub->NextSiblingElement(XKEY_CONTACT)) {
 			CExImContactXML vSub(_pXmlFile);
 			if (vSub = xSub) {
 				// identify metacontact by the first valid subcontact in xmlfile
@@ -612,12 +535,12 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 			return ERROR_OK;
 		}
 
-		if (_pszUIDKey && mir_strcmp("#NV", _pszUIDKey) !=0) {
+		if (_pszUIDKey && mir_strcmp("#NV", _pszUIDKey) != 0) {
 			LPCSTR pUID = xContact->Attribute("uidv");
 
 			if (pUID != NULL) {
 				unsigned valLen;
-				PBYTE	pbVal	= NULL;
+				PBYTE	pbVal = NULL;
 
 				switch (*(pUID++)) {
 				case 'b':
@@ -637,7 +560,7 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 					uidu(pUID);
 					break;
 				case 'n':
-					pbVal	= (PBYTE)mir_base64_decode(pUID, &valLen);
+					pbVal = (PBYTE)mir_base64_decode(pUID, &valLen);
 					if (pbVal != NULL)
 						uidn(pbVal, valLen);
 					break;
@@ -654,34 +577,29 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 }
 
 /**
- * name:	ImportContact
- * class:	CExImContactXML
- * desc:	create the contact if neccessary and copy
- *			all information from the xmlNode to database
- * param:	none
- * return:	ERROR_OK on success or any other error number otherwise
- **/
+* name:	ImportContact
+* class:	CExImContactXML
+* desc:	create the contact if neccessary and copy
+*			all information from the xmlNode to database
+* param:	none
+* return:	ERROR_OK on success or any other error number otherwise
+**/
+
 int CExImContactXML::ImportContact()
 {
-	TiXmlNode *xmod;
-
 	// create the contact if not yet exists
 	if (toDB() != INVALID_HANDLE_VALUE) {
-		DWORD numSettings, numEvents;
-
 		_hEvent = NULL;
 
 		// count settings and events and init progress dialog
+		DWORD numSettings, numEvents;
 		CountKeys(numSettings, numEvents);
 		_pXmlFile->_progress.SetSettingsCount(numSettings + numEvents);
 		_pXmlFile->_numSettingsTodo += numSettings;
 		_pXmlFile->_numEventsTodo += numEvents;
 
 		// import all modules
-		for(xmod  = _xmlNode->FirstChild();
-			xmod != NULL;
-			xmod = xmod->NextSibling(XKEY_MOD)) {
-
+		for (TiXmlNode *xmod = _xmlNode->FirstChild(); xmod != NULL; xmod = xmod->NextSibling(XKEY_MOD)) {
 			// import module
 			if (ImportModule(xmod) == ERROR_ABORTED) {
 				// ask to delete new incomplete contact
@@ -704,57 +622,57 @@ int CExImContactXML::ImportContact()
 }
 
 /**
- * name:	ImportNormalContact
- * class:	CExImContactXML
- * desc:	create the contact if neccessary and copy
- *			all information from the xmlNode to database.
- *			Remove contact from a metacontact if it is a subcontact
- * param:	none
- * return:	ERROR_OK on success or any other error number otherwise
- **/
+* name:	ImportNormalContact
+* class:	CExImContactXML
+* desc:	create the contact if neccessary and copy
+*			all information from the xmlNode to database.
+*			Remove contact from a metacontact if it is a subcontact
+* param:	none
+* return:	ERROR_OK on success or any other error number otherwise
+**/
+
 int CExImContactXML::ImportNormalContact()
 {
 	int err = ImportContact();
 
 	// remove contact from a metacontact
-	if (err == ERROR_OK && CallService(MS_MC_GETMETACONTACT, (WPARAM)_hContact, NULL)) {
+	if (err == ERROR_OK && CallService(MS_MC_GETMETACONTACT, (WPARAM)_hContact, NULL))
 		CallService(MS_MC_REMOVEFROMMETA, NULL, (LPARAM)_hContact);
-	}	
+
 	return err;
 }
 
 /**
- * name:	Import
- * class:	CExImContactXML
- * desc:	create the contact if neccessary and copy
- *			all information from the xmlNode to database.
- *			Remove contact from a metacontact if it is a subcontact
- * param:	TRUE = keepMetaSubContact
- * return:	ERROR_OK on success or any other error number otherwise
- **/
+* name:	Import
+* class:	CExImContactXML
+* desc:	create the contact if neccessary and copy
+*			all information from the xmlNode to database.
+*			Remove contact from a metacontact if it is a subcontact
+* param:	TRUE = keepMetaSubContact
+* return:	ERROR_OK on success or any other error number otherwise
+**/
+
 int CExImContactXML::Import(BYTE keepMetaSubContact)
 {
-	int result;
-	TiXmlElement *xContact = _xmlNode->FirstChildElement("CONTACT");
-
 	// xml contact contains subcontacts?
+	TiXmlElement *xContact = _xmlNode->FirstChildElement("CONTACT");
 	if (xContact) {
-
 		// contact is a metacontact and metacontacts plugin is installed?
 		if (isMeta()) {
 			// create object for first sub contact
-			CExImContactXML	vContact(_pXmlFile);
-			LPTSTR pszNick;
+			CExImContactXML vContact(_pXmlFile);
 
 			// the contact does not yet exist
 			if (_isNewContact) {
 				// import default contact as normal contact and convert to meta contact
-				if (!(vContact = xContact)) {
+				if (!(vContact = xContact))
 					return ERROR_CONVERT_METACONTACT;
-				}
+
 				// import as normal contact
-				result = vContact.ImportContact();
-				if (result != ERROR_OK) return result;
+				int result = vContact.ImportContact();
+				if (result != ERROR_OK)
+					return result;
+
 				// convert default subcontact to metacontact
 				_hContact = (HANDLE)CallService(MS_MC_CONVERTTOMETA, (WPARAM)vContact.handle(), NULL);
 				if (_hContact == NULL) {
@@ -771,9 +689,9 @@ int CExImContactXML::Import(BYTE keepMetaSubContact)
 				// load all subcontacts
 				do {
 					// update progressbar and abort if user clicked cancel
-					pszNick = mir_utf8decodeT(xContact->Attribute("nick"));
-					result = _pXmlFile->_progress.UpdateContact(_T("Sub Contact: %s (%S)"), pszNick, xContact->Attribute("proto"));
-					if (pszNick) mir_free(pszNick);
+					int result = _pXmlFile->_progress.UpdateContact(_T("Sub Contact: %s (%S)"), 
+						ptrT(mir_utf8decodeT(xContact->Attribute("nick"))), xContact->Attribute("proto"));
+					
 					// user clicked abort button
 					if (!result) break;
 					if (vContact = xContact) {
@@ -782,7 +700,7 @@ int CExImContactXML::Import(BYTE keepMetaSubContact)
 						_pXmlFile->_numContactsDone++;
 					}
 				}
-				while (xContact = xContact->NextSiblingElement("CONTACT"));
+					while (xContact = xContact->NextSiblingElement("CONTACT"));
 			}
 			// load metacontact information (after subcontact for faster import)
 			ImportContact();
@@ -793,30 +711,29 @@ int CExImContactXML::Import(BYTE keepMetaSubContact)
 	}
 
 	// load contact information
-	result = ImportContact();
+	int result = ImportContact();
 	if (result == ERROR_OK && !keepMetaSubContact)
-	{
 		CallService(MS_MC_REMOVEFROMMETA, NULL, (LPARAM)_hContact);
-	}
 
 	return result;
 }
 
 /**
- * name:	ImportMetaSubContact
- * class:	CExImContactXML
- * desc:	create the contact if neccessary and copy
- *			all information from the xmlNode to database.
- *			Add this contact to an meta contact
- * param:	pMetaContact	- the meta contact to add this one to
- * return:	
- **/
+* name:	ImportMetaSubContact
+* class:	CExImContactXML
+* desc:	create the contact if neccessary and copy
+*			all information from the xmlNode to database.
+*			Add this contact to an meta contact
+* param:	pMetaContact	- the meta contact to add this one to
+* return:	
+**/
+
 int CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
 {
-	int err = ImportContact();
-
 	// abort here if contact was not imported correctly
-	if (err != ERROR_OK) return err;
+	int err = ImportContact();
+	if (err != ERROR_OK)
+		return err;
 
 	// check if contact is subcontact of the desired meta contact
 	if ((HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)_hContact, NULL) != pMetaContact->handle()) {
@@ -846,68 +763,66 @@ int CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
 }
 
 /**
- * name:	ImportModule
- * class:	CExImContactXML
- * desc:	interprete an xmlnode as module and add the children to database.
- * params:	hContact	- handle to the contact, who is the owner of the setting to import
- *			xmlModule	- xmlnode representing the module
- *			stat		- structure used to collect some statistics
- * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
- **/
+* name:	ImportModule
+* class:	CExImContactXML
+* desc:	interprete an xmlnode as module and add the children to database.
+* params:	hContact	- handle to the contact, who is the owner of the setting to import
+*			xmlModule	- xmlnode representing the module
+*			stat		- structure used to collect some statistics
+* return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
+**/
+
 int CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 {
-	TiXmlElement *xMod;
-	TiXmlElement *xKey;
-	LPCSTR pszModule;
-	BYTE isProtoModule;
-	BYTE isMetaModule;
-	
 	// check if parent is really a module
 	if (!xmlModule || mir_stricmp(xmlModule->Value(), XKEY_MOD))
 		return ERROR_INVALID_SIGNATURE;
+
 	// convert to element
-	if (!(xMod = xmlModule->ToElement()))
+	TiXmlElement *xMod = xmlModule->ToElement();
+	if (!xMod)
 		return ERROR_INVALID_PARAMS;
+
 	// get module name
-	pszModule = xMod->Attribute("key");
+	LPCSTR pszModule = xMod->Attribute("key");
 	if (!pszModule || !*pszModule)
 		return ERROR_INVALID_PARAMS;
+
 	// ignore Modul 'Protocol' as it would cause trouble
 	if (!mir_stricmp(pszModule, "Protocol"))
 		return ERROR_OK;
 	
-	for (xKey = xmlModule->FirstChildElement(); xKey != NULL; xKey = xKey->NextSiblingElement()) {
+	for (TiXmlElement *xKey = xmlModule->FirstChildElement(); xKey != NULL; xKey = xKey->NextSiblingElement()) {
 		// import setting
 		if (!mir_stricmp(xKey->Value(), XKEY_SET)) {
 			// check if the module to import is the contact's protocol module
-			isProtoModule	= !mir_stricmp(pszModule, _pszProto)/* || DB::Module::IsMeta(pszModule)*/;
-			isMetaModule	= DB::Module::IsMeta(pszModule);
+			BYTE isProtoModule = !mir_stricmp(pszModule, _pszProto)/* || DB::Module::IsMeta(pszModule)*/;
+			BYTE isMetaModule = DB::Module::IsMeta(pszModule);
 
 			// just ignore MetaModule on normal contact to avoid errors (only keys)
-			if (!isProtoModule && isMetaModule) {
+			if (!isProtoModule && isMetaModule)
 				continue;
-			}
+
 			// just ignore MetaModule on Meta to avoid errors (only import spetial keys)
-			else if (isProtoModule && isMetaModule) {
+			if (isProtoModule && isMetaModule) {
 				if (!mir_stricmp(xKey->Attribute("key"),"Nick") ||
-					!mir_stricmp(xKey->Attribute("key"),"TzName") ||
-					!mir_stricmp(xKey->Attribute("key"),"Timezone")) {
-					if (ImportSetting(pszModule, xKey->ToElement()) == ERROR_OK) {
+					 !mir_stricmp(xKey->Attribute("key"),"TzName") ||
+					 !mir_stricmp(xKey->Attribute("key"),"Timezone"))
+				{
+					if (ImportSetting(pszModule, xKey->ToElement()) == ERROR_OK)
 						_pXmlFile->_numSettingsDone++;
-					}
 				}
 			}
 			// just ignore some settings of protocol module to avoid errors (only keys)
 			else if (isProtoModule && !isMetaModule) {
 				if (!IsContactInfo(xKey->Attribute("key"))) {
-					if (ImportSetting(pszModule, xKey->ToElement()) == ERROR_OK) {
+					if (ImportSetting(pszModule, xKey->ToElement()) == ERROR_OK)
 						_pXmlFile->_numSettingsDone++;
-					}
 				}
 			}
 			// other module
 			else if (ImportSetting(pszModule, xKey->ToElement()) == ERROR_OK) {
-					_pXmlFile->_numSettingsDone++;
+				_pXmlFile->_numSettingsDone++;
 			}
 			if (!_pXmlFile->_progress.UpdateSetting(LPGENT("Settings: %S"), pszModule))
 				return ERROR_ABORTED;
@@ -916,12 +831,12 @@ int CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 		else if (!mir_stricmp(xKey->Value(), XKEY_EVT)) {
 			int error = ImportEvent(pszModule, xKey->ToElement());
 			switch (error) {
-				case ERROR_OK:
-					_pXmlFile->_numEventsDone++;
-					break;
-				case ERROR_DUPLICATED:
-					_pXmlFile->_numEventsDuplicated++;
-					break;
+			case ERROR_OK:
+				_pXmlFile->_numEventsDone++;
+				break;
+			case ERROR_DUPLICATED:
+				_pXmlFile->_numEventsDuplicated++;
+				break;
 			}
 			if (!_pXmlFile->_progress.UpdateSetting(LPGENT("Events: %S"), pszModule))
 				return ERROR_ABORTED;
@@ -931,13 +846,14 @@ int CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 }
 
 /**
- * name:	ImportSetting
- * class:	CExImContactXML
- * desc:	interprete an setting representing xmlnode and write the corresponding setting to database.
- * params:	xmlModule	- xmlnode representing the module to write the setting to in the database
- *			xmlEntry	- xmlnode representing the setting to import
- * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
- **/
+* name:	ImportSetting
+* class:	CExImContactXML
+* desc:	interprete an setting representing xmlnode and write the corresponding setting to database.
+* params:	xmlModule	- xmlnode representing the module to write the setting to in the database
+*			xmlEntry	- xmlnode representing the setting to import
+* return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
+**/
+
 int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 {
 	// validate parameter
@@ -978,7 +894,7 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 		break;
 	case 'n':
 		dbv.type = DBVT_BLOB;
-		dbv.pbVal = (PBYTE)mir_base64_decode(value+1, &baselen);
+		dbv.pbVal = (PBYTE)mir_base64_decode(value + 1, &baselen);
 		if (dbv.pbVal != NULL)
 			dbv.cpbVal = baselen;
 		else {
@@ -1004,14 +920,15 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 }
 
 /**
- * name:	ImportEvent
- * class:	CExImContactXML
- * desc:	interprete an xmlnode and add the corresponding event to database.
- * params:	hContact	- handle to the contact, who is the owner of the setting to import
- *			xmlModule	- xmlnode representing the module to write the setting to in the database
- *			xmlEvent	- xmlnode representing the event to import
- * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
- **/
+* name:	ImportEvent
+* class:	CExImContactXML
+* desc:	interprete an xmlnode and add the corresponding event to database.
+* params:	hContact	- handle to the contact, who is the owner of the setting to import
+*			xmlModule	- xmlnode representing the module to write the setting to in the database
+*			xmlEvent	- xmlnode representing the event to import
+* return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
+**/
+
 int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 {
 	// dont import events from metacontact
@@ -1043,7 +960,7 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 	if (tmpVal != NULL) {
 		// event owning module
 		dbei.pBlob = tmpVal;
-		dbei.cbBlob	= baselen;
+		dbei.cbBlob = baselen;
 		dbei.szModule = (LPSTR)pszModule;
 
 		xmlEvent->Attribute("type", (LPINT)&dbei.eventType);
@@ -1052,7 +969,7 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 			dbei.flags = DBEF_READ;
 
 		// search in new and existing contact for existing event to avoid duplicates
-		if (/*!_isNewContact && */DB::Event::Exists(_hContact, _hEvent, &dbei))
+		if (DB::Event::Exists(_hContact, _hEvent, &dbei))
 			return ERROR_DUPLICATED;
 
 		if ((_hEvent = db_event_add(_hContact, &dbei)) != 0)
