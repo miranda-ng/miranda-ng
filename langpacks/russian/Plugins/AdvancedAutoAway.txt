@@ -44,7 +44,7 @@
 [Set]
 Выбрать
 [when full-screen mode is active]
-в полноэкранном режиме
+при полноэкранном режиме
 [when screen saver engages]
 при запуске заставки
 [when workstation is locked]
