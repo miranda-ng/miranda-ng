@@ -173,6 +173,7 @@
 [Filtering]
 [Message log]
 ;file \plugins\NewXstatusNotify\src\popup.h
+[(was %s)]
 [Open message window]
 [Close popup]
 [Open contact details window]

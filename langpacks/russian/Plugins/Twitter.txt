@@ -23,8 +23,8 @@
 Отправить
 [Cancel]
 Отмена
-[Misc. Options]
-Доп. настройки
+[Miscellaneous options]
+Другие параметры
 [Use group chat for Twitter feed]
 Чат для отображения сообщений
 [Base URL:]
@@ -39,7 +39,7 @@ URL:
 Пожалуйста, переподключитесь что бы изменения вступили с силу
 [Treat tweets as messages]
 Твиты как сообщения
-[Enable popup notifications for Tweets]
+[Enable popup notifications for tweets]
 Всплывающие окна для Tweets
 [Colors]
 Цвета

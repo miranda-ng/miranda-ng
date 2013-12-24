@@ -3,7 +3,7 @@
 [r]
 [Use Zodiac as default avatar]
 [A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
-[Abord]
+[Abort]
 [The Page to add has invalid size %d bytes!]
 [Fatal error, image services not found. Flags Module will be disabled.]
 [Ex-/Import Group]

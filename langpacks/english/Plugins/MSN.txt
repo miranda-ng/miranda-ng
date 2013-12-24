@@ -70,7 +70,7 @@
 [User &details]
 [User &history]
 ;file \protocols\MSN\src\msn_commands.cpp
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 [%I64u bytes]
 [Accept NetMeeting request from %s?]
 [MSN Protocol]
@@ -139,8 +139,8 @@
 [Server list]
 [Notifications]
 ;file \protocols\MSN\src\msn_p2p.cpp
-[Contact tried to send its webcam data (currently not supported)]
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
+[Contact tried to view our webcam data (not currently supported)]
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 [Live Alert]

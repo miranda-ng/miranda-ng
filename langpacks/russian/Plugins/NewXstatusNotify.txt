@@ -327,6 +327,8 @@ xСтатус удален
 Фильтрация
 [Message log]
 Журнал
+[(was %s)]
+(было %s)
 [Open message window]
 Открыть окно беседы
 [Close popup]

@@ -230,7 +230,7 @@
 [Retry]
 [Yes]
 [No]
-[Abord]
+[Abort]
 [Ignore]
 [Error]
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
