@@ -279,11 +279,11 @@
 Заполните форму для создания профиля пользователя
 [Profile]
 Профиль
-[e.g. Workplace]
+[e.g., Workplace]
 напр. "Рабочий"
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Выбор драйвера базы данных. Если вы не уверены, какой выбрать - используйте драйвер по умолчанию.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 напр. Miranda Database
 [Driver]
 Драйвер
