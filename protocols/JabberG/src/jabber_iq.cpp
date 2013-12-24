@@ -327,8 +327,9 @@ BOOL CJabberIqManager::HandleIqPermanent(HXML pNode)
 			const TCHAR *szXmlns = xmlGetAttrValue(pFirstChild, _T("xmlns"));
 
 			if ((!pInfo->m_szXmlns || (szXmlns && !_tcscmp(pInfo->m_szXmlns, szXmlns))) &&
-			(!pInfo->m_szTag || !_tcscmp(pInfo->m_szTag, szTagName))) {
-			// node suits handler criteria, call the handler
+			    (!pInfo->m_szTag || !_tcscmp(pInfo->m_szTag, szTagName)))
+			{
+				// node suits handler criteria, call the handler
 				iqInfo.m_pChildNode = pFirstChild;
 				iqInfo.m_szChildTagName = (TCHAR*)szTagName;
 				iqInfo.m_szChildTagXmlns = (TCHAR*)szXmlns;

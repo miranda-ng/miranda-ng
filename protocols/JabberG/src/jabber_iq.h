@@ -48,7 +48,7 @@ typedef BOOL (CJabberProto::*JABBER_PERMANENT_IQ_HANDLER)(HXML iqNode, CJabberIq
 
 #define JABBER_IQ_PARSE_DEFAULT (JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_CHILD_TAG_NAME | JABBER_IQ_PARSE_CHILD_TAG_XMLNS)
 
-class CJabberIqInfo : public MZeroedObject
+class CJabberIqInfo
 {
 protected:
 	friend class CJabberIqManager;
@@ -74,6 +74,11 @@ public:
 	TCHAR *m_szId;
 
 public:
+	__forceinline CJabberIqInfo()
+	{
+		memset(this, 0, sizeof(*this));
+	}
+
 	__forceinline void SetReceiver(const TCHAR *szReceiver)
 	{	replaceStrT(m_szReceiver, szReceiver);
 	}
