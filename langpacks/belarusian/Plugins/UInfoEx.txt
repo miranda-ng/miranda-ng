@@ -385,9 +385,13 @@ E-Mail
 Дадаць новы запіс.
 [Delete the selected item.]
 Выдаліць дадзены запіс.
+[CRITICAL: Unable to edit current entry!\nThis should not happen!]
+Фатальна: Немагчыма рэдагаваць гэты запіс!\nГэтага не павінна было адбыцца!
 [Other]
 Іншае
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
+[<Unspecified>]
+<не пазначана>
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 Засталося дзён
@@ -423,6 +427,10 @@ E-Mail
 [Error]
 Памылка
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[Protocol '%s' is offline]
+Пратакол '%s' не далучаны
+[Upload Details]
+Запампаваць дэталі
 [General]
 Агульнае
 [Contact (private)]
@@ -1046,13 +1054,27 @@ Miranda NG
 [Import complete]
 Імпарт завершаны
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
+[all Contacts]
+Усе кантакты
 [Select a destination file...]
 Абярыце імя файла для экспарту
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
+Немагчыма загрузіць XML картку "%s"\nПамылка:%d\nАпісанне:%s
+[The selected file is no valid XMLCard]
+Абраны файл не з'яўляецца XML карткай
 [Complete]
 Гатова
+[Owner contact successfully imported.]
+Інфармацыя Уладальніка паспяхова імпартаваная.
+[Selected XMLCard does not contain an owner contact!]
+Абраная XML картка ня мае інфармацыі пра ўладальніка!
+[Import took %f ms]
+Імпарт заняў %f ms
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 Дададзена кантактаў: %u / %u\nДададзена налад: %u / %u\nДададзена падзей: %u / %u\nДубліруючых падзей: %u
+[FATAL: An exception was thrown while importing contacts from xmlCard!]
+Фатальна: Памылка пры імпартаванні кантактаў з xml карткі!
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 [Flags (uinfoex)]
 Сцягі (uinfoex)

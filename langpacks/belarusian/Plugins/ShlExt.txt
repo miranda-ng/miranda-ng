@@ -46,3 +46,7 @@
 ;file \plugins\ShellExt\src\shlcom.cpp
 [Miranda]
 Miranda
+[Recently]
+Апошнія
+[Clear entries]
+Знішчыць гісторыю

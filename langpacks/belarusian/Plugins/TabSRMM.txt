@@ -1274,6 +1274,8 @@ TabSRMM: Набірае
 час адпраўкі мінула
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Вы рэдагуеце нататкі пра карыстальніка. Націсніце на кнопку яшчэ раз ці скарыстайце гарачыя клавішы (па змаўчанні: Alt-N), каб захаваць нататкі і вярнуцца ў нармальны рэжым паведамленняў
+[Unforce failed]
+Нявымушаная памылка
 [The selected protocol cannot be forced at this time]
 Зараз гэты пратакол не можа быць абраны
 [Warning: you have selected a subprotocol for sending the following messages which is currently offline]
@@ -1379,6 +1381,8 @@ TabSRMM: Набірае
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
 <без скіна>
+[Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
+Загрузіць налады шаблонаў паведамленняў з гэтай тэмы?\nУвага: гэта перазапіша ваш набор шаблонаў, што можа істотна закрануць выгляд вашага акна гутаркі.\nВыберыце Скасаваць, для таго каб не загружаць нічога.
 [Load theme]
 Загрузіць тэму
 [Internal message log]
@@ -1440,6 +1444,8 @@ TabSRMM: Набірае
 [Choose status modes]
 Выбар рэжымаў статусу
 ;file \plugins\TabSRMM\src\msgs.cpp
+[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+Не ўстаноўлены плагін службы малюнкаў (advaimg.dll)\n\nTabSRMM адключаны.
 [TabSRMM fatal error]
 Крытычная памылка TabSRMM
 [Image tag]
@@ -1541,6 +1547,8 @@ TabSRMM: Набірае
 Выдаліць
 [Failed]
 Не атрымалася
+[Deferred]
+Адкладзены
 [Pending]
 У чаканні
 [Contact]
@@ -1556,6 +1564,8 @@ TabSRMM: Набірае
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
 Вы збіраецеся змяніць стан аднаго ці некалькіх элементаў у чэргі адпраўкі. Патрабаванае дзеянне(я) будзе выканана пры наступнай запланаванай апрацоўцы чаргі. Гэта дзеянне не можа быць адменена.
 ;file \plugins\TabSRMM\src\sendqueue.cpp
+[The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
+Паведамленне не можа быць адпраўлена на некалькі атрымальнікаў ці з затрымкай, таму што яно перавышае максімальную даўжыню паведамлення ў %d байтаў.
 [A message delivery has failed.\nClick to open the message window.]
 Дастаўка паведамлення не атрымалася.\nНажміце для адкрыцця акна гутаркі
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
@@ -1799,6 +1809,8 @@ tabSRMM: %s
 [Set messaging options for %s]
 Налады гутарак для %s
 ;file \plugins\TabSRMM\src\utils.cpp
+[Important release notes|A test warning message]
+Важная інфармацыя аб выпуску|Увага тэставае
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
 Праверка версіі набору значкоў|Усталяваны набор значкоў састарэлы і можа быць несумяшчальны з модулем TabSRMM версіі 3.\n\n \\b1 Адсутныя ці недарэчныя значкі могуць выклікаць праблемы з усталяваным наборам.\\b0
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
@@ -1807,6 +1819,8 @@ tabSRMM: %s
 Адсутны кампанент | Набор абразкоў не знойдзены. Калі ласка, усталюйце яго ў дырэкторыю значкоў па змаўчанні.\n\nНа дадзены момант абразкі недасяжныя
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 Папярэджанне Aero peek|Вы ўключылі выкарыстанне асаблівасцяў Aero Peek і выкарыстоўваеце скін вакна гутаркі\n\nГэта можа прывесці да малаважных візуальных скажэнняў у хуткім праглядзе.
+[Filetransfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
+Праблема перадачы файла|Няўдалая перасылка малюнка.\n\nМагчымыя прычыны: перадача файлаў не падтрымліваецца, кантакт не далучаны, вы знаходзіцеся ў стаусе "Нябачны" і кантакт, якому адсылаецца файл не ў спісе бачных.
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 Праблема з наладамі|Опцыя \\b1 Гісторыя->Імітаваць API IEView\\b0  актыўная і плагiн History++ актыўны. Гэта можа выклікаць праблемы, пры выкарыстанні IEView у якасці лога паведамленняў.\n\nТрэба скарэктаваць налады (неабходны перазапуск)?
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
@@ -1855,6 +1869,8 @@ tabSRMM: %s
 [<invalid>]
 <няверна>
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
+[Add user to highlight list]
+Дадаць карыстача ў спіс падсветкі
 ;file \plugins\TabSRMM\src\chat\options.cpp
 [Input area background]
 Фон поля ўводу
@@ -1868,6 +1884,10 @@ tabSRMM: %s
 Уваходны фон
 [Status background]
 Фон статуса
+[Incoming background(old)]
+Фон уваходных (старое)
+[Outgoing background(old)]
+Фон зыходных (старое)
 [Horizontal Grid Lines]
 Гарызантальныя лініі сеткі лога
 [Info Panel]

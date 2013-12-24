@@ -585,6 +585,10 @@ xHTML фармат чат-паведамленняў
 Прыналежнасць %s змянілася на %s.
 [Role of %s was changed to '%s'.]
 Роля %s змянілася на '%s'.
+[because room is now members-only]
+таму што пакой толькі для пастаянных удзельнікаў
+[user banned]
+забанены
 [Change &nickname]
 Змяніць нік
 [&Invite a user]
@@ -681,14 +685,44 @@ xHTML фармат чат-паведамленняў
 Рэальны JID: %s
 [%s\nSend group chat invitation.]
 %s\nЗапрасіць у канферэнцыю.
+[%s (not on roster)]
+%s (не ў росцеры)
+[Member Info: %s]
+Інфо карыстальніка:% s
+[Member Information\n%s from %s]
+Інфармацыя пра карыстальніка\n%s з%s
+[Real JID not available]
+Сапраўдны JID недасяжны
+[Reason to kick %s]
+Чыннік выспятку %s
+[Reason to ban %s]
+Чыннік бана %s
+[Invite %s to %s]
+Запрасіць %s ў %s
+[Set topic for %s]
+Усталяваць тэму для %s
+[Change nickname in %s]
+Змяніць мянушку ў %s
+[Reason to destroy %s]
+Чыннік знішчэння %s
 ;file \protocols\JabberG\src\jabber_console.cpp
+[Can't send data while you are offline.]
+Немагчыма адаслаць - не ў сеціве.
 [Jabber Error]
 Jabber памылка
 ;file \protocols\JabberG\src\jabber_disco.cpp
+[request timeout.]
+таймаўт запыту.
 [Node hierarchy]
 Іерархія вузла
 [Node]
 Вузел
+[Navigate]
+пераход
+[Browse all favorites]
+Агляд абранага
+[Remove all favorites]
+Выдаліць усё абранае
 [Registered transports]
 Транспарты
 [Browse local transports]
@@ -742,12 +776,18 @@ Jabber памылка
 Падтрымоўваныя магчымасці
 [Info request error]
 Памылка запыту інфармацыі
+[Items request error]
+Памылка запыту
 ;file \protocols\JabberG\src\jabber_form2.cpp
 [First Name]
 Імя
 [Last Name]
 Прозвішча
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
+[Failed to retrieve room list from server.]
+Памылка запыту спісу пакояў.
+[No rooms available on server.]
+На серверы няма дасяжных пакояў
 [<no nick>]
 <без мянушкі>
 [Loading...]
@@ -756,6 +796,10 @@ Jabber памылка
 Калі ласка, пачакайце пакуль спіс пакояў загрузіцца.
 [Bookmarks...]
 Закладкі...
+[Change nickname in <%s>]
+Змяніць мянушку ў <%s>
+[has set the subject to:]
+усталяваў(ла) тэму:
 [%s\nIncoming group chat invitation.]
 %s\nЗапрашэнне ў канферэнцыю.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
@@ -842,12 +886,18 @@ Jabber памылка
 [Privacy]
 Прыватнасць
 ;file \protocols\JabberG\src\jabber_iqid.cpp
+[Authentication failed for %s.]
+Аутэнтыфікацыя не прайшла для %s.
+[Jabber Authentication]
+Аутэнтыфікацыя Jabber
 [Registration successful]
 Рэгістрацыя паспяхова пройдзена
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
 Пароль паспяхова зменены. Не забудзьцеся абнавіць Ваш пароль у наладах Конта Jabber.
 [Password cannot be changed.]
 Пароль не можа быць зменены
+[Jabber Bookmarks Error]
+Памылка закладак Jabber
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d пункта(ў) (%s)
@@ -925,6 +975,8 @@ Jabber Рэсурс
 Спісы прыватнасці
 [Service discovery]
 Прагляд службаў
+[Last active (%s)]
+Апошні актыўны (%s)
 [No activity yet, use server's choice]
 Актыўнага няма, выкарыстоўвайце выбар сервера
 [Highest priority (server's choice)]
@@ -939,6 +991,8 @@ Jabber Рэсурс
 У
 [From]
 Ад
+[Both]
+у абодва бакі
 [Errors]
 Памылкі
 ;file \protocols\JabberG\src\jabber_notes.cpp
@@ -946,6 +1000,8 @@ Jabber Рэсурс
 Уваходная нататка ад %s
 [Send note to %s]
 Адправіць нататку %s
+[From: %s]
+Ад: %s
 [All tags]
 Усе тэгі
 [Notes are not saved, close this window without uploading data to server?]

@@ -74,6 +74,8 @@
 Выкананыя:
 [Home Directory:]
 Хатні каталог:
+[Temp Dir:]
+Часовая тэчка:
 [Key Assignment]
 Прызначэнне ключоў
 [Debug]

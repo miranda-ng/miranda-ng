@@ -18,6 +18,8 @@
 Няма
 [Cancel]
 Скасаваць
+[Send screenshot]
+Адаслаць скрыншот
 [Ti&med capture]
 Затрымка захопу
 [Time (secs):]
@@ -57,6 +59,8 @@
 Памылка
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[Unknown Error]
+Невядомая памылка
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [Could not start the HTTP Server plugin.]
@@ -69,12 +73,22 @@
 Так
 [No]
 Не
+[Abort]
+Скасаваць
 [Ignore]
 Ігнараваць
 ;file \plugins\SendScreenshotPlus\src\global.h
+[SendScreenshot - Error]
+SendScreenshot - Памылка
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
+[Open SendSS+]
+Адчыніць SendSS+
 [SendSS]
 Адправіць скрыншот
+[Screenshots]
+Здымкі экрана
+[SendSS HTTP connections]
+HTTP далучэнне SendSS
 [Could not create main dialog.]
 Немагчыма стварыць галоўны дыялог.
 [Send Screenshot]
@@ -84,6 +98,10 @@
 [Take a screenshot]
 Зрабіць скрыншот
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Screenshot Icon1]
+Абразок здымка 1
+[Screenshot Icon2]
+Абразок здымка 2
 [Default]
 Змаўчанні
 [Help]
@@ -108,6 +126,8 @@
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [< Copyright]
 < Правы
+[Copyright]
+Правы
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Перацягнеце прыцэл на патрэбнае акно.
