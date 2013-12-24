@@ -287,11 +287,15 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 
 void ClearNotificationContactHistory(LPCSTR acc)
 {
-	HANDLE hEvent = 0;
 	HANDLE hContact = (HANDLE)db_get_dw(NULL, acc, PSEUDOCONTACT_LINK, 0);
-	if (hContact && db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
-		while ((hEvent = db_event_last(hContact)) && !db_event_delete(hContact, hEvent))
-			;
+	if (!hContact || !db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
+		return;
+
+	for (HANDLE hEvent = db_event_first(hContact); hEvent;) {
+		HANDLE hEvent1 = db_event_next(hEvent);
+		db_event_delete(hContact, hEvent);
+		hEvent = hEvent1;
+	}
 }
 
 DWORD ReadNotificationSettings(LPCSTR acc)
