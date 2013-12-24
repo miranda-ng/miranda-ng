@@ -344,7 +344,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					case MB_ABORTRETRYIGNORE:
 						retOk = IDABORT;
-						SetDlgItemText(hDlg, IDOK, LPGENT("Abord"));
+						SetDlgItemText(hDlg, IDOK, LPGENT("Abort"));
 						retAll = IDABORT;
 						SetDlgItemText(hDlg, IDALL, LPGENT("Retry"));
 						retCancel = IDCANCEL;
