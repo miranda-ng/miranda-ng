@@ -45,7 +45,7 @@
 Тэчка профіляў (звычайна ў тэчцы Міранды).
 [Expands to your current profile name without the extenstion.]
 Вяртае імя Вашага профіля без пашырэння.
-[(e.g.default if your your profile is default.dat).]
+[(e.g. default if your your profile is default.dat).]
 (нпарыклад default, калі Ваш профіль default.dat).
 [Environment variables]
 Зменныя асяроддзя

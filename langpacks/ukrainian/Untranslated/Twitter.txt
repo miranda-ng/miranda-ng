@@ -1,5 +1,5 @@
 ﻿[Default group:]
-[[Sign in to link your Twitter account]]
+[<Sign in to link your Twitter account>]
 [Treat tweets as messages]
 [OK]
 [Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]

@@ -84,6 +84,7 @@
 [Reset all templates to default]
 [Filtering]
 [Message log]
+[(was %s)]
 [Open message window]
 [Close popup]
 [Open contact details window]

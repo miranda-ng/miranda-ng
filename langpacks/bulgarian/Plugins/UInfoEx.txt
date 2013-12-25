@@ -446,7 +446,7 @@ popup за годишнина
 Да
 [No]
 Не
-[Abord]
+[Abort]
 
 [Ignore]
 Игнориране

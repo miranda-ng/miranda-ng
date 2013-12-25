@@ -132,7 +132,7 @@ MSN изтриване на контакт
 [User &history]
 История на потребителя
 ;file \protocols\MSN\src\msn_commands.cpp
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 Контактът опита да стартира гласов разговор (не се поддържа)
 [%I64u bytes]
 
@@ -261,9 +261,9 @@ IP информацията е налична само след вписване
 [Notifications]
 Уведомявания
 ;file \protocols\MSN\src\msn_p2p.cpp
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 Контакт се опита да изпрати данни от web камера (не се поддържа)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 Контакт се опита да види данните от вашата web камера (не се поддържа)
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]

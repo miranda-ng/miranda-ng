@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AdvancedAutoAway.dll
 ;  Plugin: Advanced Auto Away
-;  Version: 0.8.0.42
+;  Version: 0.8.1.0
 ;  Authors: P Boon
 ;============================================================
 [An Auto Away module with some more options than the original.]
@@ -40,30 +40,32 @@ Cancelar
 Perfil
 [Message]
 Mensaje
+[Account]
+Cuenta
+[Set]
+Establecer
+[when full-screen mode is active]
+
+[when screen saver engages]
+Cuando el protector de pantalla cuando se acopla
+[when workstation is locked]
+cuando la estación de trabajo está bloqueada
 [after]
 después
 [minutes of inactivity]
 minutos de inactividad
 [minutes of level 1 mode]
 minutos de modo de nivel 1
-[Confirm resetting status]
-Confirmar el reajuste de estado
-[Account]
-Cuenta
-[Only set if current status is]
-Sólo establecer si el estado actual es
+[only set when inactive]
+Sólo se establece cuando está inactivo
 [Monitor Miranda's activity only]
 Monitorear sólo la actividad de Miranda
 [Reset status on return]
 Restablecer el estado al volver
-[when screen saver engages]
-Cuando el protector de pantalla cuando se acopla
-[Set]
-Establecer
-[only set when inactive]
-Sólo se establece cuando está inactivo
-[when workstation is locked]
-cuando la estación de trabajo está bloqueada
+[Confirm resetting status]
+Confirmar el reajuste de estado
+[Only set if current status is]
+Sólo establecer si el estado actual es
 [Command line]
 Línea de comandos
 [OK]

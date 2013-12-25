@@ -45,7 +45,7 @@ wird erweitert zu Ihrem Profilpfad - der Wert aus mirandaboot.ini,
 Abschnitt ProfileDir (normalerweise im Miranda-Verzeichnis).
 [Expands to your current profile name without the extenstion.]
 wird erweitert zum Namen Ihres aktuellen Profils ohne Dateiendung.
-[(e.g.default if your your profile is default.dat).]
+[(e.g. default if your your profile is default.dat).]
 (z.B. standard, wenn Ihr Profil standard.dat ist).
 [Environment variables]
 Umgebungsvariablen
@@ -63,7 +63,7 @@ anstelle des Miranda-Profilverzeichnisses.
 Beispiele:
 [If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
 Wenn der Wert für ProfileDir in mirandaboot.ini ist '.\\Profile', aktuellers
-[profile is 'default.dat' and Miranda's path is 'c:\\program files\\miranda ng\' then:]
+[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\' then:]
 Profil ist 'default.dat und Miranda-Pfad ist 'C\\Programme\\Miranda NG', dann:
 [will expand to 'c:\\program files\\miranda ng']
 wird ausgewertet zu 'C\\Programme\\Miranda NG'

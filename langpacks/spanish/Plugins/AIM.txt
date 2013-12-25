@@ -293,7 +293,7 @@ Mensaje
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
 
-[Contact tried to open an audio/video conference (currently not supported)]
+[Contact tried to open an audio/video conference (not currently supported)]
 
 [No information has been provided by the server.]
 

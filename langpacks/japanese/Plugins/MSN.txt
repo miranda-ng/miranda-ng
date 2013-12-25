@@ -93,7 +93,7 @@ Cancel(&C)
 チャット #
 [User &details]
 ユーザーの詳細情報 (&D)
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 コンタクトはオーディオ会議を開こうとしています ( 現在未サポート )
 [%I64u bytes]
 %I64u バイト
@@ -185,9 +185,9 @@ MSN プロトコルはメッセージタイムアウトに 60 秒以上を必要
 ネットワーク
 [Server list]
 サーバーリスト
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 コンタクトはウェブカメラのデータを送信しようとしています ( 現在未サポート )
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 コンタクトはウェブカメラのデータを表示しようとしています ( 現在未サポート )
 [Live Mail]
 Live メール

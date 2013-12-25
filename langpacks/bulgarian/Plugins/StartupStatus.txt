@@ -40,30 +40,31 @@
 Профил
 [Message]
 Съобщение
+[Account]
+Акаунт
+[Set]
+Задай
+[when full-screen mode is active]
+
+[when screen saver engages]
+при включване на screen saver
+[when workstation is locked]
+при заключване на работната станция
 [after]
 след
 [minutes of inactivity]
 минути бездействие
 [minutes of level 1 mode]
-
-[Confirm resetting status]
-Изискване на потвърждение за анулирането
-[Account]
-Акаунт
-[Only set if current status is]
-Само при състояние:
+[only set when inactive]
+задаване само при липса на активност
 [Monitor Miranda's activity only]
 Следене само активността на Miranda
 [Reset status on return]
 Анулиране на състоянието при завръщане
-[when screen saver engages]
-при включване на screen saver
-[Set]
-Задай
-[only set when inactive]
-задаване само при липса на активност
-[when workstation is locked]
-при заключване на работната станция
+[Confirm resetting status]
+Изискване на потвърждение за анулирането
+[Only set if current status is]
+Само при състояние:
 [Command line]
 Команден ред
 [OK]

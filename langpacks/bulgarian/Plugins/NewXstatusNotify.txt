@@ -333,6 +333,8 @@ Popups
 [Message log]
 Дневник за съобщения
 ;file \plugins\NewXstatusNotify\src\popup.h
+[(was %s)]
+(беше %s)
 [Open message window]
 
 [Close popup]

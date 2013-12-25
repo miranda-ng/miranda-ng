@@ -285,7 +285,7 @@ AIM Усталяваць Instant Idle
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
 (Аўтаадказ):
-[Contact tried to open an audio/video conference (currently not supported)]
+[Contact tried to open an audio/video conference (not currently supported)]
 Кантакт спрабаваў адкрыць аўдыё / відэа канферэнцыі (зараз не падтрымліваецца)
 [No information has been provided by the server.]
 Сервер не падаў ніякай інфармацыі.

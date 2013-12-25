@@ -41,7 +41,7 @@ Lisa
 Vestlus #
 [User &details]
 Kasutaja detailid
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 Kontakt proovis avada audio-konverentsi (praegu ei toetata)
 [MSN Protocol]
 MSN protokoll
@@ -73,7 +73,7 @@ Määra käsitsi host/port
 Võrgustik
 [Server list]
 Serveri nimekiri
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 Kontakt proovis saata veebikaamera andmeid (ei toetata)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 Kontakt proovis vaadata meie veebikaamera andmeid (ei toetata)

@@ -16,7 +16,7 @@
 Група:
 [Username:]
 Карыстач:
-[[Sign in to link your Twitter account]]
+[<Sign in to link your Twitter account>]
 Звязаць свой ​​твітэр
 [Send Tweet]
 Паслаць Tweet
@@ -24,7 +24,7 @@
 Адправіць
 [Cancel]
 Скасаваць
-[Misc. Options]
+[Miscellaneous options]
 Дап. налады
 [Use group chat for Twitter feed]
 Чат для адлюстравання паведамленняў
@@ -40,8 +40,8 @@ URL:
 Змены ўступяць у сілу пры наступным далучэнні
 [Treat tweets as messages]
 Твіты як паведамленні
-[Enable popup notifications for Tweets]
-Усплывальныя вокны для Tweets
+[Enable popup notifications for tweets]
+Усплывальныя вокны для tweets
 [Colors]
 Колеры
 [Use Windows colors]

@@ -39,30 +39,30 @@
 Профіль
 [Message]
 Повідомлення
+[Account]
+Обліковий запис
+[Set]
+Вибрати
+[when screen saver engages]
+коли працює заставка
+[when workstation is locked]
+коли комп'ютер заблоковано
 [after]
 після
 [minutes of inactivity]
 хвилин неактивності
 [minutes of level 1 mode]
 хвилин рівня у 1 рівні
-[Confirm resetting status]
-Підтвердити відновлення статусу
-[Account]
-Обліковий запис
-[Only set if current status is]
-Тільки якщо встановлено поточний стан
+[only set when inactive]
+тільки тоді, коли неактивні
 [Monitor Miranda's activity only]
 Перевіряти тільки активність Miranda
 [Reset status on return]
 Скинути стан після повернення
-[when screen saver engages]
-коли працює заставка
-[Set]
-Вибрати
-[only set when inactive]
-тільки тоді, коли неактивні
-[when workstation is locked]
-коли комп'ютер заблоковано
+[Confirm resetting status]
+Підтвердити відновлення статусу
+[Only set if current status is]
+Тільки якщо встановлено поточний стан
 [Command line]
 Ком. рядок
 [Copy to clipboard]

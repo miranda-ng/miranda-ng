@@ -39,7 +39,7 @@ Annuleren
 Toevoegen
 [User &details]
 Gebruikers &details
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 Persoon heeft geprobeerd een geluidsconferentie te openen (nog niet ondersteund)
 [Contact left channel]
 Persoon heeft kanaal verlaten
@@ -67,9 +67,9 @@ De wijzigingen die u heeft gemaakt vereisen dat u opnieuw verbinding maakt met h
 Netwerk
 [Server list]
 Server lijst
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 Persoon heeft geprobeerd zijn webcam gegevens te versturen (nog niet ondersteund)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 Persoon heeft geprobeerd onze webcam gegevens te bekijken (nog niet ondersteund)
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
 Bericht is te lang: MSN berichten zijn gelimiteerd tot 1202 UTF8 karakters

@@ -132,7 +132,7 @@ Kontaktprofil
 [User &history]
 Verlauf des Kontakts
 ;file \protocols\MSN\src\msn_commands.cpp
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 Kontakt versucht eine Audiokonferenz zu starten (zzt. nicht unterstützt)
 [%I64u bytes]
 %I64u Bytes
@@ -261,9 +261,9 @@ Serverliste
 [Notifications]
 Benachrichtigung
 ;file \protocols\MSN\src\msn_p2p.cpp
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 Kontakt versucht Informationen über die von ihm verwendete Webcam zu senden (zzt. nicht unterstützt)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 Kontakt versucht Informationen über Ihre verwendete Webcam abzufragen (zzt. nicht unterstützt)
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]

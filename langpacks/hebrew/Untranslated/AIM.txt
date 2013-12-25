@@ -101,7 +101,7 @@
 [Open mail account?]
 [%s server connection]
 [[Auto-Response]:]
-[Contact tried to open an audio/video conference (currently not supported)]
+[Contact tried to open an audio/video conference (not currently supported)]
 [No information has been provided by the server.]
 [Item you want to delete not found in list.]
 [Failed to add buddy to list: Item already exist.]

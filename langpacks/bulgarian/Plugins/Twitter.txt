@@ -16,7 +16,7 @@
 Стандартна група
 [Username:]
 Потребител:
-[[Sign in to link your Twitter account]]
+[<Sign in to link your Twitter account>]
 
 [Send Tweet]
 
@@ -24,7 +24,7 @@
 Изпращане
 [Cancel]
 Отказ
-[Misc. Options]
+[Miscellaneous options]
 
 [Use group chat for Twitter feed]
 
@@ -40,7 +40,7 @@
 
 [Treat tweets as messages]
 
-[Enable popup notifications for Tweets]
+[Enable popup notifications for tweets]
 
 [Colors]
 Цветове

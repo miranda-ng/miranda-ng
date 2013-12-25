@@ -16,7 +16,7 @@ Erstelle ein neues Twitterkonto
 Standardgruppe:
 [Username:]
 Benutzername:
-[[Sign in to link your Twitter account]]
+[<Sign in to link your Twitter account>]
 (Anmelden, um Ihr Twitterkonto zu verbinden)
 [Send Tweet]
 Tweet senden
@@ -24,7 +24,7 @@ Tweet senden
 Senden
 [Cancel]
 Abbrechen
-[Misc. Options]
+[Miscellaneous options]
 Div. Einstellungen
 [Use group chat for Twitter feed]
 Gruppenchat für Twitter-Feed verwenden
@@ -40,7 +40,7 @@ Sek.
 Bitte erneuern Sie Ihre Verbindungen, damit die Einstellungen wirksam werden
 [Treat tweets as messages]
 Tweets als Nachrichten behandeln
-[Enable popup notifications for Tweets]
+[Enable popup notifications for tweets]
 Popupbenachrichtigungen für Tweets aktivieren
 [Colors]
 Farben

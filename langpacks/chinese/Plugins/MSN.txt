@@ -85,7 +85,7 @@ MSN 删除联系人
 聊天 #
 [User &details]
 用户详细资料(&D)
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 联系人尝试打开音频会议 (暂不支持)
 [%I64u bytes]
 %I64u 字节
@@ -175,9 +175,9 @@ MSN 协议要求消息超时不低于 60 秒. 请修正超时值.
 网络
 [Server list]
 服务器列表
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 联系人尝试发送视频资料 (暂不支持)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 联系人尝试查看我方视频情况 (暂不支持)
 [Live Mail]
 Live 邮件

@@ -13,7 +13,7 @@
 发送 Tweet
 [Cancel]
 取消
-[Misc. Options]
+[Miscellaneous options]
 杂项
 [Use group chat for Twitter feed]
 Twitter 订阅使用群聊
@@ -27,8 +27,8 @@ Twitter 订阅使用群聊
 秒
 [Please cycle your connection for these changes to take effect]
 请重连以使这些变更生效
-[Enable popup notifications for Tweets]
-启用 Tweets 弹出窗口提示
+[Enable popup notifications for tweets]
+启用 tweets 弹出窗口提示
 [Use Windows colors]
 使用 Windows 颜色
 [Use Popup colors]

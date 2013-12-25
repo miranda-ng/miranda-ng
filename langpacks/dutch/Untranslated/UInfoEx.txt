@@ -80,7 +80,7 @@
 [Disabled reminder]
 [Popup Anniversary list]
 [Retry]
-[Abord]
+[Abort]
 [Could not find contact's protocol. Maybe it is not active!]
 [The Page to add has invalid size %d bytes!]
 [About]

@@ -1,1 +1,2 @@
-﻿[TriggerData]
+﻿[when full-screen mode is active]
+[TriggerData]

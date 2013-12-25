@@ -48,7 +48,7 @@ Annuler
 Ajouter
 ;file \protocols\MSN\src\msn_chat.cpp
 ;file \protocols\MSN\src\msn_commands.cpp
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 Le contact vous a envoyé une invitation à une conférence audio (actuellement non supportée) 
 [MSN Protocol]
 Protocole MSN
@@ -109,9 +109,9 @@ Réseau
 [Server list]
 Liste côté serveur
 ;file \protocols\MSN\src\msn_p2p.cpp
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 Le contact vous a envoyé un flux webcam (actuellement non supporté)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 Le contact a essayé de connecter à votre webcam (actuellement non supporté) 
 ;file \protocols\MSN\src\msn_proto.cpp
 [You cannot send message to yourself]

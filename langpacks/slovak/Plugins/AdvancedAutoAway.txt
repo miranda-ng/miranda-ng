@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AdvancedAutoAway.dll
 ;  Plugin: Advanced Auto Away
-;  Version: 0.8.0.42
+;  Version: 0.8.1.0
 ;  Authors: P Boon
 ;============================================================
 [Close]

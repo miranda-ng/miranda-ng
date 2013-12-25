@@ -103,7 +103,7 @@
 [Open mail account?]
 [%s server connection]
 [%s Client-to-client connection]
-[Contact tried to open an audio/video conference (currently not supported)]
+[Contact tried to open an audio/video conference (not currently supported)]
 [Item you want to delete not found in list.]
 [Failed to add buddy to list: Item already exist.]
 [Error adding buddy (invalid ID or already in list?)]

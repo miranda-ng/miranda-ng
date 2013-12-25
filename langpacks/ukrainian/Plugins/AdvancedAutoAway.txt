@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AdvancedAutoAway.dll
 ;  Plugin: Advanced Auto Away
-;  Version: 0.8.0.42
+;  Version: 0.8.1.0
 ;  Authors: P Boon
 ;============================================================
 [An Auto Away module with some more options than the original.]
@@ -39,30 +39,30 @@
 Профіль
 [Message]
 Повідомлення
+[Account]
+Обліковий запис
+[Set]
+Вибрати
+[when screen saver engages]
+при запуску заставки
+[when workstation is locked]
+при блокуванні комп'ютера
 [after]
 через
 [minutes of inactivity]
 хвилин неактивності
 [minutes of level 1 mode]
 хвилин режиму 1
-[Confirm resetting status]
-Підтвердити скидання статусу
-[Account]
-Обліковий запис
-[Only set if current status is]
-Тільки якщо статус:
+[only set when inactive]
+тільки при неактивності
 [Monitor Miranda's activity only]
 Стежити тільки за Miranda
 [Reset status on return]
 Відновити статус при поверненні
-[when screen saver engages]
-при запуску заставки
-[Set]
-Вибрати
-[only set when inactive]
-тільки при неактивності
-[when workstation is locked]
-при блокуванні комп'ютера
+[Confirm resetting status]
+Підтвердити скидання статусу
+[Only set if current status is]
+Тільки якщо статус:
 [Command line]
 Ком. рядок
 [Copy to clipboard]

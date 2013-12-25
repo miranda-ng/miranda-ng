@@ -13,7 +13,7 @@
 ツイートする
 [Cancel]
 Cancel
-[Misc. Options]
+[Miscellaneous options]
 その他のオプション
 [Use group chat for Twitter feed]
 Twitter フィードにグループチャットを使用
@@ -29,7 +29,7 @@ Twitter フィードにグループチャットを使用
 これらの変更を反映するには再接続してください
 [Treat tweets as messages]
 ツイートをメッセージとして扱う
-[Enable popup notifications for Tweets]
+[Enable popup notifications for tweets]
 ツイートのポップアップ通知を有効
 [Use Windows colors]
 ウィンドウ色を使用

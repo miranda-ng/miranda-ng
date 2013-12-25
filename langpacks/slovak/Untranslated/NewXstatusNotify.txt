@@ -87,6 +87,7 @@
 [Protocol]
 [Filtering]
 [Message log]
+[(was %s)]
 [Open message window]
 [Close popup]
 [Open contact details window]

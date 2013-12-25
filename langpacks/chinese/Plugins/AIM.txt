@@ -251,7 +251,7 @@ DNS 故障.
 %s C2C 连接
 [[Auto-Response]:]
  [自动响应]: 
-[Contact tried to open an audio/video conference (currently not supported)]
+[Contact tried to open an audio/video conference (not currently supported)]
 联系人试图开启一个音频/视频会议 (尚不支持)
 [No information has been provided by the server.]
 服务器尚未提供任何资料. 

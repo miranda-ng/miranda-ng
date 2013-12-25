@@ -331,6 +331,8 @@
 [Message log]
 Лог
 ;file \plugins\NewXstatusNotify\src\popup.h
+[(was %s)]
+(быў(а) %s)
 [Open message window]
 Адкрыць вакно гутаркі
 [Close popup]

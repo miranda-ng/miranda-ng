@@ -1,7 +1,7 @@
 ﻿[Twitter protocol support for Miranda NG.]
 [Server:]
 [Default group:]
-[[Sign in to link your Twitter account]]
+[<Sign in to link your Twitter account>]
 [Send]
 [Treat tweets as messages]
 [Colors]

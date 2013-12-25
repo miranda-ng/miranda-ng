@@ -1,4 +1,5 @@
 ﻿[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
+[when full-screen mode is active]
 [%s connected from another location]
 [%s login error, cancel reconnecting]
 [%s login error (next retry (%d) in %d s)]

@@ -1,4 +1,5 @@
-﻿[OK]
+﻿[when full-screen mode is active]
+[OK]
 [Set docked]
 [x]
 [Automatically hang up on exit]

@@ -128,6 +128,7 @@
 [Show available variables]
 [Reset all templates to default]
 [Filtering]
+[(was %s)]
 [Open message window]
 [Close popup]
 [Open contact details window]

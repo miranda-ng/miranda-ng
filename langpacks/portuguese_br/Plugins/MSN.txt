@@ -57,7 +57,7 @@ Adicionar
 Conversa #
 [User &details]
 &Detalhes do usuário
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 Contato tentou abrir uma conferência de áudio (não suportados)
 [MSN Protocol]
 Protocolo MSN
@@ -115,9 +115,9 @@ O protocolo  MSN exige que o tempo limite de mensagens não deve ser inferior a 
 Rede
 [Server list]
 Lista de servidor
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 O Contato tentou enviar seus dados de webcam (atualmente não suportada)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 O Contato tentou visualizar os dados da nossa webcam (atualmente não suportado)
 [Live Mail]
 Live Mail

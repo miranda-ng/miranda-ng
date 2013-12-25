@@ -160,7 +160,7 @@
 [Disabled reminder]
 [Popup Anniversary list]
 [Retry]
-[Abord]
+[Abort]
 [Protocol '%s' is offline]
 [Upload Details]
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]

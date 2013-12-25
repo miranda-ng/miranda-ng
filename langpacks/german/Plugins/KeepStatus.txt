@@ -40,30 +40,32 @@ Abbrechen
 Profil
 [Message]
 Nachricht
+[Account]
+Konto
+[Set]
+Setzen
+[when full-screen mode is active]
+
+[when screen saver engages]
+wenn der Bildschirmschoner startet
+[when workstation is locked]
+wenn der Computer gesperrt wird
 [after]
 nach
 [minutes of inactivity]
 Minuten der Inaktivität
 [minutes of level 1 mode]
 Minuten im Level-1-Modus
-[Confirm resetting status]
-Zurücksetzen des Status bestätigen
-[Account]
-Konto
-[Only set if current status is]
-Nur setzen bei akt. Status
+[only set when inactive]
+Nur bei Untätigkeit setzen
 [Monitor Miranda's activity only]
 Nur Mirandas Aktivität überwachen
 [Reset status on return]
 Status nach Rückkehr zurücksetzen
-[when screen saver engages]
-wenn der Bildschirmschoner startet
-[Set]
-Setzen
-[only set when inactive]
-Nur bei Untätigkeit setzen
-[when workstation is locked]
-wenn der Computer gesperrt wird
+[Confirm resetting status]
+Zurücksetzen des Status bestätigen
+[Only set if current status is]
+Nur setzen bei akt. Status
 [Command line]
 Befehlszeile
 [OK]

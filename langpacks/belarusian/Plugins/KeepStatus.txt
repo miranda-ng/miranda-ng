@@ -40,30 +40,30 @@
 Профіль
 [Message]
 Паведамленне
+[Account]
+Конт
+[Set]
+Абраць
+[when screen saver engages]
+пры запуску застаўкі
+[when workstation is locked]
+пры блакаванні кампутара
 [after]
 праз
 [minutes of inactivity]
 хвілін неактыўнасці
 [minutes of level 1 mode]
 хвілін рэжыму 1
-[Confirm resetting status]
-Пацвердзіць скід статуту
-[Account]
-Конт
-[Only set if current status is]
-Толькі калі статут:
+[only set when inactive]
+толькі пры неактыўнасці
 [Monitor Miranda's activity only]
 Сачыць толькі за Miranda
 [Reset status on return]
 Аднавіць статут пры вяртанні
-[when screen saver engages]
-пры запуску застаўкі
-[Set]
-Абраць
-[only set when inactive]
-толькі пры неактыўнасці
-[when workstation is locked]
-пры блакаванні кампутара
+[Confirm resetting status]
+Пацвердзіць скід статуту
+[Only set if current status is]
+Толькі калі статут:
 [Command line]
 Камандны радок
 [OK]

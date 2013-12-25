@@ -247,7 +247,7 @@ DNS エラー
 メールアカウントを開きますか ?
 [%s Client-to-client connection]
 %s クライアント対クライアント接続
-[Contact tried to open an audio/video conference (currently not supported)]
+[Contact tried to open an audio/video conference (not currently supported)]
 コンタクトは オーディオ / ビデオ 会議を開こうとしています ( 現在未サポート )
 [No information has been provided by the server.]
 サーバーから情報が提供されていません

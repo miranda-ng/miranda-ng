@@ -446,7 +446,7 @@ Todos los contactos
 Sí
 [No]
 No
-[Abord]
+[Abort]
 
 [Ignore]
 Ignorar

@@ -11,9 +11,9 @@
 URL:
 [Once every]
 кожні
-[Enable popup notifications for Tweets]
-Спливаючі вікна для Tweets
-[Misc. Options]
+[Enable popup notifications for tweets]
+Спливаючі вікна для tweets
+[Miscellaneous options]
 Дод. налаштування
 [Polling rate:]
 Опитувати

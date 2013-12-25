@@ -59,7 +59,7 @@ Becenév
 Csevegés #
 [User &details]
 Felhasználó &részletek
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 partner megpróbált audiókonferenciát nyitni (jelenleg nem támogatott)
 [MSN Protocol]
 MSN Protokoll
@@ -117,9 +117,9 @@ MSN Protokollnál szükséges, hogy az üzenet idõkeret ne legyen kevesebb, min
 Hálózat
 [Server list]
 Szerver lista
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 Partner megpróbálta elküldeni a webkamerája adatait (jelenleg nem támogatott)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 Partner megpróbálta megtekinteni a webkamerád adatait (jelenleg nem támogatott)
 [Live Mail]
 Live Mail

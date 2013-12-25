@@ -446,7 +446,7 @@ Wiederholen
 Ja
 [No]
 Nein
-[Abord]
+[Abort]
 Abbrechen
 [Ignore]
 Ignorieren

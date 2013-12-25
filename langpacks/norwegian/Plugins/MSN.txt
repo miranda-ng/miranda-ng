@@ -55,7 +55,7 @@ Legg til
 Samtale #
 [User &details]
 Bruker &Detaljer
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 Kontakten forsøkte å åpne en lydkonferanse (ikke støttet for øyeblikket)
 [MSN Protocol]
 MSN Protokoll
@@ -111,9 +111,9 @@ IP informasjon bare tilgjengelig etter pålogging
 Nettverk
 [Server list]
 Serverliste
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 Kontakten forsøkte å sende webcam data.(ikke støttet for øyeblikket)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 Kontakten forsøkte å se din webcam data (ikke støttet for øyeblikket)
 [Live Mail]
 Live E-post

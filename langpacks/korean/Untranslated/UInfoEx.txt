@@ -183,7 +183,7 @@
 [Disabled reminder]
 [Popup Anniversary list]
 [Retry]
-[Abord]
+[Abort]
 [Error]
 [Protocol '%s' is offline]
 [Upload Details]

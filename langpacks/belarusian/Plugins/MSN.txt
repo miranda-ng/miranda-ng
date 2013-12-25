@@ -132,7 +132,7 @@ Live ID
 [User &history]
 Гісторыя карыстача
 ;file \protocols\MSN\src\msn_commands.cpp
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 Кантакт спрабаваў адкрыць аўдыёканферэнцыю (не падтрымліваецца)
 [%I64u bytes]
 %I64u bytes
@@ -261,9 +261,9 @@ MSN Чат
 [Notifications]
 Апавяшчэнні
 ;file \protocols\MSN\src\msn_p2p.cpp
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 Кантакт спрабаваў адправіць дадзеныя з вэб-камеры (не падтрымліваецца)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 Кантакт спрабаваў прагледзець нашу вэб-камеру (не падтрымліваецца)
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]

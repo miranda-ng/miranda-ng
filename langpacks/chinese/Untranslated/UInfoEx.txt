@@ -54,7 +54,7 @@
 [Date]
 [Popup Anniversary list]
 [Retry]
-[Abord]
+[Abort]
 [Protocol '%s' is offline]
 [Creating the imagelist failed!]
 [Could not find contact's protocol. Maybe it is not active!]

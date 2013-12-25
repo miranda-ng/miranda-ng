@@ -121,7 +121,7 @@
 Дані &контакту
 [User &history]
 Історія користувача
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 Контакт намагався відкрити аудіоконференцію (не підтримується)
 [Accept NetMeeting request from %s?]
 Прийнато NetMeeting запит від %s?]
@@ -241,9 +241,9 @@ MSN Чат
 Список на сервері
 [Повідомлення]
 Повідомлення
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 Контакт намагався відправити дані з веб-камери (не підтримується)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 Контакт намагався переглянути нашу веб-камеру (не підтримується)
 [Live Mail]
 Live пошта

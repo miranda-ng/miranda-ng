@@ -71,7 +71,7 @@ Ekle
 Sohbet #
 [User &details]
 Kişi &detayları
-[Contact tried to open an audio conference (currently not supported)]
+[Contact tried to open an audio conference (not currently supported)]
 Kişi tele konferans açmayı denedi (şu anda desteklenmiyor)
 [MSN Protocol]
 MSN Protokolü
@@ -129,9 +129,9 @@ MSN protokolünde ileti zaman aşımı 60 saniyeden küçük olamaz. Zaman aşı
 Ağ
 [Server list]
 Sunucudaki liste
-[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to send its webcam data (not currently supported)]
 Kişi webcam görüntüsü yollamaya çalıştı (şu anda desteklenmiyor)
-[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to view our webcam data (not currently supported)]
 Kişi webcam görüntünüzü almaya çalıştı (şu anda desteklenmiyor)
 [Live Mail]
 Live Posta
