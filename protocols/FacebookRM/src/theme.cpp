@@ -186,13 +186,13 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 
 	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
 	if (hRoot == NULL) {
-		mi.popupPosition = 500085000;
-		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | (this->isOnline() ? 0 : CMIF_GRAYED);
-		mi.icolibItem = GetIconHandle("facebook");
-		mi.ptszName = m_tszUserName;
-		hRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
-		mi.popupPosition = 0;
+		CLISTMENUITEM miRoot = { sizeof(miRoot) };
+		miRoot.popupPosition = 500085000;
+		miRoot.hParentMenu = HGENMENU_ROOT;
+		miRoot.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | (this->isOnline() ? 0 : CMIF_GRAYED);
+		miRoot.icolibItem = GetIconHandle("facebook");
+		miRoot.ptszName = m_tszUserName;
+		hRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&miRoot);
 	}
 	else {
 		if (m_hMenuRoot)
@@ -202,10 +202,10 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 
 	mi.flags = CMIF_CHILDPOPUP | (this->isOnline() ? 0 : CMIF_GRAYED);
 	mi.position = 201001;
+	mi.hParentMenu = hRoot;
 
 	//CreateProtoService(m_szModuleName,"/Mind",&FacebookProto::OnMind,this);
 	strcpy(tDest,"/Mind");
-	mi.hParentMenu = hRoot;
 	mi.pszName = LPGEN("Share status...");
 	mi.icolibItem = GetIconHandle("mind");
 	m_hStatusMind = Menu_AddProtoMenuItem(&mi);
