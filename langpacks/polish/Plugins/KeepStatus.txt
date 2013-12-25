@@ -40,30 +40,32 @@ Anuluj
 Profil
 [Message]
 Wiadomość
+[Account]
+Konto
+[Set]
+Ustaw
+[when full-screen mode is active]
+gdy aktywny tryb pełnoekranowy
+[when screen saver engages]
+gdy włączy się wygaszacz
+[when workstation is locked]
+kiedy komputer jest zablokowany
 [after]
 po
 [minutes of inactivity]
 minutach bezczynności
 [minutes of level 1 mode]
 minutach trybu poziomu 1
-[Confirm resetting status]
-Potwierdź resetowanie statusu
-[Account]
-Konto
-[Only set if current status is]
-Ustaw tylko, gdy obecny status to:
+[only set when inactive]
+ustaw tylko przy bezczynności
 [Monitor Miranda's activity only]
 Monitoruj tylko aktywność Mirandy
 [Reset status on return]
 Przywróć status po powrocie
-[when screen saver engages]
-gdy włączy się wygaszacz
-[Set]
-Ustaw
-[only set when inactive]
-ustaw tylko przy bezczynności
-[when workstation is locked]
-kiedy komputer jest zablokowany
+[Confirm resetting status]
+Potwierdź resetowanie statusu
+[Only set if current status is]
+Ustaw tylko, gdy obecny status to:
 [Command line]
 Linia poleceń
 [OK]

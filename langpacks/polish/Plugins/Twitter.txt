@@ -16,7 +16,7 @@ Utwórz nowe konto Twitter
 Domyślna grupa:
 [Username:]
 Użytkownik:
-[[Sign in to link your Twitter account]]
+[<Sign in to link your Twitter account>]
 <Powiąż swoje konto Twitter>
 [Send Tweet]
 Wyślij Tweet
@@ -24,8 +24,8 @@ Wyślij Tweet
 Wyślij
 [Cancel]
 Anuluj
-[Misc. Options]
-Opcje
+[Miscellaneous options]
+Inne opcje
 [Use group chat for Twitter feed]
 Użyj pokoju czatowego dla osi czasu Twitter
 [Base URL:]
@@ -40,7 +40,7 @@ s
 Proszę ponownie połączyć się aby zmiany przyniosły oczekiwany efekt
 [Treat tweets as messages]
 Traktuj tweety jako wiadomość
-[Enable popup notifications for Tweets]
+[Enable popup notifications for tweets]
 Włącz powiadomienia popup dla Tweetów
 [Colors]
 Kolory

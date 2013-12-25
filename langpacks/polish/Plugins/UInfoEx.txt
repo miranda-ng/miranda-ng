@@ -446,8 +446,8 @@ Gotowy
 Tak
 [No]
 Nie
-[Abord]
-Anuluj
+[Abort]
+Przerwij
 [Ignore]
 Ignorowanie
 [Error]
