@@ -28,7 +28,6 @@
 //
 // -----------------------------------------------------------------------------
 #include "icqoscar.h"
-#include <m_version.h>
 
 extern capstr capXStatus[];
 
@@ -759,7 +758,8 @@ void CIcqProto::setUserInfo()
 	packDWord(&packet, 0x4D697261);   // Miranda Signature
 	packDWord(&packet, 0x6E64614E);
 
-	int v[4] = { MIRANDA_VERSION_FILEVERSION };
+	WORD v[4];
+	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
 	packWord(&packet, v[0]);
 	packWord(&packet, v[1]);
 	packWord(&packet, v[2]);
