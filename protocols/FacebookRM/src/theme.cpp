@@ -192,7 +192,9 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 		mi.icolibItem = GetIconHandle("facebook");
 		mi.ptszName = m_tszUserName;
 		hRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
-	} else {
+		mi.popupPosition = 0;
+	}
+	else {
 		if (m_hMenuRoot)
 			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)m_hMenuRoot, 0);
 		m_hMenuRoot = NULL;
