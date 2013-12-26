@@ -1,6 +1,6 @@
 ﻿;file \src\resource.rc
 [Enter account name (for example, My Google)]
-Увядзіце імя конту (напрыклад, Google)
+Увядзіце імя конту
 [Choose the protocol type]
 Выбар тыпу пратаколу
 [Specify the internal account name (optional)]
@@ -1906,11 +1906,11 @@ Miranda
 [Last message received on %s at %s.]
 Апошняе паведамленне вы атрымалі %s у %s.
 [signed off (was %s)]
-сыходзіць (быў(а) %s)
+сыходзіць (быў(ла) %s)
 [signed on (%s)]
 прыходзіць (%s)
 [is now %s (was %s)]
-зараз %s (быў(а) %s)
+зараз %s (быў(ла) %s)
 [%s is typing a message...]
 %s набірае тэкст...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -1953,9 +1953,9 @@ Miranda
 [%s is typing a message]
 %s набірае тэкст
 [Typing notification]
-Апавяшчэнне пра набор тэксту
+Абвестка пра набор тэксту
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda не здолела загрузіць убудаваную сістэму паведамленняў, так як адсутнічае riched20.dll. націсніце "Да" для працягу загрузкі праграмы.
+Miranda не здолела загрузіць убудаваную сістэму паведамленняў, так як адсутнічае riched20.dll. націсніце "Так" для працягу загрузкі праграмы.
 [Instant messages]
 Паведамленні IM
 [Incoming (focused window)]
@@ -2048,7 +2048,7 @@ URL ад %s
 [Owner]
 Уладальнік
 [View/change my &details...]
-Асабістыя &дадзеныя
+Асабістыя дадзеныя
 ;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s далучаны
@@ -2056,7 +2056,7 @@ URL ад %s
 [Add contact]
 Дадаць кантакт
 [Please authorize my request and add me to your contact list.]
-Калі ласка, дазволіце дадаць Вас у мой спіс кантактаў.
+Калі ласка, дазвольце дадаць Вас у мой спіс кантактаў.
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]
@@ -2073,18 +2073,18 @@ URL ад %s
 ;file \src\modules\clist\clisttray.cpp
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
-Гэты кантакт знаходзіцца ў сістэме абмену імгненнымі паведамленнямі, якаючы захоўвае спісы кантактаў на серверы. Кантакт будзе выдалены з сервера і з лакальнага спісу пры наступным злучэнні.
+Гэты кантакт знаходзіцца ў сістэме абмену імгненнымі паведамленнямі, якая захоўвае спісы кантактаў на серверы. Кантакт будзе выдалены з сервера і з лакальнага спісу пры наступным злучэнні.
 [De&lete]
-&Выдаліць
+Выдаліць
 [&Rename]
-&Пераназваць
+Пераназваць
 [&Add permanently to list]
-&Дадаць у сталы спіс
+Дадаць у сталы спіс
 ;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 Зададзенае імя (заўсёды першае)
 [Nick]
-Нік
+Мянушка
 [FirstName]
 Імя
 [E-mail]
@@ -2115,15 +2115,15 @@ URL ад %s
 [New group]
 Новая група
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Вы ўпэўнены, што жадаеце выдаліць групу "%s"? Аперацыя не можа быць адменена.
+Вы ўпэўнены, што жадаеце выдаліць гурт "%s"? Аперацыя не можа быць адменена.
 [Delete group]
-Выдаленне групы
+Выдаленне гурта
 [You already have a group with that name. Please enter a unique name for the group.]
-Група з такім імем ужо ёсць. Увядзіце ўнікальнае імя для групы.
+Гурт з такім імем ужо ёсць. Увядзіце ўнікальнае імя для гурта.
 [Rename group]
-Пераназваць групу
+Пераназваць гурт
 [This group]
-Гэта група
+Гэты гурт
 ;file \src\modules\clist\keyboard.cpp
 [Show/Hide contact list]
 Паказаць/Схаваць спіс кантактаў
@@ -2137,14 +2137,14 @@ URL ад %s
 Адкрыць дыялог пошуку кантактаў
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
-Група
+Перасунуць у
 [<Root group>]
-<Каранёвая група>
+<Каранёвы гурт>
 ;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
-Міранда спрабуе абнавіць профіль структуры.\nНемагчыма перамясціць профіль %s на новае месца %s,\nбо профіль з такой назвай ужо існуе. Калі ласка, вырашыць праблему ўручную.
+Міранда спрабуе абнавіць профіль структуры.\nНемагчыма перамясціць профіль %s на новае месца %s,\nбо профіль з такой назвай ужо існуе. Калі ласка, вырашыце праблему ўручную.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
-Міранда спрабуе абнавіць профіль структуры.\nНемагчыма перамясціць профіль %s на новае месца %s, хутчэй за ўсё, з-за недахопу правоў доступу. Калі ласка, наладзьце профіль ўручную
+Міранда спрабуе абнавіць профіль структуры.\nНемагчыма перамясціць профіль %s на новае месца %s,\nхутчэй за ўсё, з-за недахопу правоў доступу. Калі ласка, наладзьце профіль уручную
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Профіль не можа быць змешчаны ў каранёвую тэчку Міранды.\nКалі ласка, абярыце профілю іншае месца.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
@@ -2173,7 +2173,7 @@ Miranda NG не можа адкрыць гэты профіль
 [This change is not known to be safe.]
 Невядома, ці будзе змена бяспечнай.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-Няправільны тып налады для  '%s'. Першы знак любога значэння павінен быць b, w, d, l, s, e, u, g, h цi n.
+Наслушны тып налады для  '%s'. Першы знак любога значэння павінен быць b, w, d, l, s, e, u, g, h цi n.
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 Запыт аўтарызацыі от %s%s: %s
@@ -2181,11 +2181,11 @@ Miranda NG не можа адкрыць гэты профіль
 Кантакты:\s
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
-Профіль '%s' ўжо існуе. Хочаце перамясціць яго ў Сметніцу?\n\nПАПЯРЭДЖАНЬНЕ: Профіль будзе выдалены, калі яна адключаная.\n\nПАПЯРЭДЖАНЬНЕ: Профіль можа ўтрымліваць канфідэнцыйную інфармацыю і павінен быць правільна выдалены. 
+Профіль '%s' ўжо існуе. Хочаце перамясціць яго ў Сметніцу?\n\nПАПЯРЭДЖАННЕ: Профіль будзе выдалены, калі ён адключаны.\nПАПЯРЭДЖАННЕ: Профіль можа ўтрымліваць канфідэнцыйную інфармацыю і павінен быць правільна выдалены. 
 [The profile already exists]
 Профіль ужо існуе
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
-Не магу перамясціць '%s' у кошык, абярыце іншае імя для профіля.
+Не магу перамясціць '%s' у Сметницу, абярыце іншае імя для профіля.
 [Problem moving profile]
 Праблема з перасоўваннем профіля
 [Unable to create the profile '%s', the error was %x]
@@ -2237,7 +2237,7 @@ Miranda NG не можа адкрыць гэты профіль
 [Handle]
 Назва
 [&Find/Add contacts...]
-Дадаць &кантакты
+Дадаць кантакты
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не магу запусціць пошук па %s. Калі ласка, праверце далучэнне да пратакола %s.
@@ -2367,29 +2367,29 @@ Miranda NG не можа адкрыць гэты профіль
 Плагіны
 ;file \src\modules\protocols\protoopts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
-УВАГА! Конт будзе выдалены. Гэта азначае, што ўсе налады, кантакты і гісторыя таксама будуць выдаленыя.\n\Вы абсалютна ўпэўненыя?
+УВАГА! Конт будзе выдалены. Гэта азначае, што ўсе налады, кантакты і гісторыя таксама будуць выдаленыя.\n\nВы абсалютна ўпэўненыя?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
-Ваш конт паспяхова адноўлены. Для яго актывацыі неабходна перазапусціць Miranda\n\n\Для перазапуску націсніце "Так", калі жадаеце аднавіць іншы конт, націсніце "Не".
+Ваш конт паспяхова адноўлены. Для яго актывацыі неабходна перазапусціць Miranda\n\nДля перазапуску націсніце "Так", калі жадаеце аднавіць іншы конт, націсніце "Не".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Гэты конт выкарыстоўвае стары пратакол. Змена налад карыстача робіцца праз асноўныя налады.
 [Create new account]
 Новы конт
 [Editing account]
-Змена конту
+Кіраваць конт
 [Upgrading account]
 Аднавіць конт
 [Account name has to be unique. Please enter unique name.]
-Імя конта павінна быць унікальным. Калі ласка, увядзіце унікальнае імя.
+Імя конта павінна быць унікальным. Калі ласка, увядзіце іншае імя.
 [Account error]
 Памылка конта
 [Account is disabled. Please activate it to access options.]
 Конт адключаны. Уключыце для кіравання.
 [New account]
-Новыя конт
+Новы конт
 [Edit]
 Змяніць
 [Remove account]
-Выдаліць
+Выдаліць конт
 [Configure...]
 Налада...
 [Upgrade account]
@@ -2411,22 +2411,14 @@ ID конта
 [Account %s is being disabled]
 Конт %s адключаны
 [Account is online. Disable account?]
-Конт падключаны. Адключыць?
+Конт далучаны. Адключыць?
 [Account %s is being deleted]
 Выдаленне конту %s
 [You need to disable plugin to delete this account]
 Для выдалення конта неабходна яго адключыць
 [&Accounts...]
-&Конты...
+Конты...
 ;file \src\modules\skin\hotkey_opts.cpp
-[Ctrl + ]
-Ctrl + 
-[Alt + ]
-Alt + 
-[Shift + ]
-Shift + 
-[Win + ]
-Win + 
 [Remove shortcut]
 Выдаліць спалучэнне
 [Add another shortcut]
@@ -2449,9 +2441,9 @@ Win +
 [User online]
 Карыстач далучаны
 [Group (open)]
-Група (адкрыта)
+Гурт (адкрыты)
 [Group (closed)]
-Група (зачынена)
+Гурт (зачынены)
 [Connecting]
 Далучэнне
 [User details]
@@ -2467,9 +2459,9 @@ Win +
 [Search all]
 Знайсці ўсіх
 [Tick]
-Адзначана
+Пазначана
 [No tick]
-Не адзначана
+Не пазначана
 [Help]
 Даведка
 [Miranda website]
@@ -2511,7 +2503,7 @@ ANSI плагін
 [Grant authorization]
 Аўтарызаваць
 [Revoke authorization]
-Адклікаць аўтарызацыю
+Адазваць аўтарызацыю
 [Always visible]
 Заўсёды бачны
 [Always invisible]
@@ -2535,11 +2527,11 @@ ANSI плагін
 [All bitmaps]
 Усе выявы
 [Windows bitmaps]
-Малюнкі Windows Bitmap
+Windows Bitmap
 [JPEG bitmaps]
 Выявы JPEG
 [GIF bitmaps]
-Малюнкі GIF
+Выявы GIF
 [PNG bitmaps]
 Выявы PNG
 ;file \src\modules\utils\path.cpp
@@ -2549,10 +2541,10 @@ ANSI плагін
 Каранёвая тэчка аватараў
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
-<не паказана>
+<не пазначана>
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
-Не паказана
+Не пазначана
 [Unknown]
 Невядома
 [Afghanistan]

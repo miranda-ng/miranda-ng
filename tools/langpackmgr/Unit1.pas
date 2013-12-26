@@ -29,6 +29,7 @@ type
     procedure combobox1change(sender: tobject);
     procedure ComboBox2Change(Sender: TObject);
     procedure formcreate(sender: tobject);
+    procedure FormResize(Sender: TObject);
     procedure listbox1click(sender: tobject);
     procedure listbox2click(sender: tobject);
     procedure stringview;
@@ -91,6 +92,25 @@ trline:=TstringList.Create;
          SysUtils.FindClose(sr);
 
     end;
+end;
+
+procedure tform1.FormResize(Sender: TObject);
+begin
+  combobox2.Left:=form1.Width-78;
+  label1.left:=form1.Width-140;
+  button1.Left:=form1.width-48;
+  memo1.Width:=form1.Width-140;
+  memo2.Width:=form1.Width-140;
+
+  button1.top:=form1.Height-25;
+  button2.top:=form1.Height-25;
+  button3.top:=form1.Height-25;
+  button4.top:=form1.Height-25;
+  listbox.height:=form1.Height-42;
+
+  memo1.Height:=Trunc((form1.Height-80)/2);
+  memo2.Height:=Trunc((form1.Height-80)/2);
+  memo2.top:=44+memo1.Height;
 end;
 
 procedure tform1.stringlist;
@@ -284,12 +304,14 @@ procedure tform1.Button4Click(Sender: TObject);
    if  locale='spanish' then str:=str+'es/';
    if  locale='turkish' then str:=str+'tr/';
    if  locale='ukrainian' then str:=str+'uk/';
-   for i:=0 to memo1.Lines.Count-1 do
-      begin
-           str:=str+memo1.Lines[i];
-           if i<memo1.Lines.Count-1 then
-              str:=str+'+%0A+';
-      end;
+   if combobox1.Text<>'english' then str:=str+listbox.items[listbox.itemindex]
+   else     begin
+            for i:=0 to memo1.Lines.Count-1 do
+                begin
+                     str:=str+memo1.Lines[i];
+                     if i<memo1.Lines.Count-1 then str:=str+'+%0A+';
+                end;
+            end;
    ShellExecute(0, 'open',PChar(str), nil, nil, SW_SHOW);
 end;
 

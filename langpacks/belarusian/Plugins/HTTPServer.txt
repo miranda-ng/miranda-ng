@@ -24,6 +24,10 @@ IP адрас 2
 Дазволеныя IP
 [HTTP Server statistics view]
 Статыстыка праглядаў HTTP сервера
+[Display hidden shares]
+Паказаць скрытыя рэсурсы
+[New share]
+Новае заданне
 [Show HTTP server statistics]
 Статыстыка НТТР сервера
 [Set to default]
@@ -81,7 +85,11 @@ IP адрас 2
 [&Copy link]
 &Капіяваць спасылку
 ;file \plugins\HTTPServer\src\Glob.h
+[Miranda NG HTTP-Server]
+Miranda NG HTTP-сервер
 ;file \plugins\HTTPServer\src\GuiElements.cpp
+[Share Current Directory]
+Даць доступ да гэтай тэчкі
 [All files]
 Усе файлы
 [Specify a file to share]
@@ -102,8 +110,14 @@ IP адрас 2
 Хуткасць
 [No share selected]
 Тэчка не абрана
+[Current IP Address: ]
+Цяперашні адрас IP:
+[Current Address: ]
+Цяперашні адрас:
 [IP Adress: ]
 Адрас IP:
+[You are browsing from]
+Вы праглядаеце з
 [You external ip was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш вонкавы ip вызначаны як %d.%d.%d.%d\r\nс: %s
 [You need to restart Miranda to change the main menu]

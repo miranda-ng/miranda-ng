@@ -1,24 +1,25 @@
 object Form1: TForm1
-  Left = 389
-  Height = 338
-  Top = 232
-  Width = 587
+  Left = 291
+  Height = 340
+  Top = 170
+  Width = 505
   HorzScrollBar.Page = 532
   HorzScrollBar.Range = 528
   VertScrollBar.Page = 296
   VertScrollBar.Range = 283
-  BorderStyle = bsDialog
   Caption = 'Miranda NG Langpack Tools: Editor'
-  ClientHeight = 338
-  ClientWidth = 587
-  DragKind = dkDock
+  ClientHeight = 340
+  ClientWidth = 505
+  Constraints.MinHeight = 340
+  Constraints.MinWidth = 450
   OnCreate = FormCreate
+  OnResize = FormResize
   LCLVersion = '1.0.14.0'
   object Memo1: TMemo
     Left = 136
     Height = 128
     Top = 40
-    Width = 448
+    Width = 363
     ScrollBars = ssHorizontal
     TabOrder = 0
     WordWrap = False
@@ -27,7 +28,7 @@ object Form1: TForm1
     Left = 136
     Height = 128
     Top = 176
-    Width = 448
+    Width = 363
     ScrollBars = ssHorizontal
     TabOrder = 1
     WordWrap = False
@@ -53,7 +54,7 @@ object Form1: TForm1
     TabOrder = 3
   end
   object ComboBox2: TComboBox
-    Left = 512
+    Left = 427
     Height = 21
     Top = 8
     Width = 72
@@ -70,7 +71,7 @@ object Form1: TForm1
   object Button3: TButton
     Left = 136
     Height = 21
-    Top = 312
+    Top = 315
     Width = 56
     Caption = 'Copy'
     OnClick = Button3Click
@@ -79,7 +80,7 @@ object Form1: TForm1
   object Button4: TButton
     Left = 200
     Height = 21
-    Top = 312
+    Top = 315
     Width = 56
     Caption = 'Google'
     OnClick = Button4Click
@@ -88,7 +89,7 @@ object Form1: TForm1
   object Button2: TButton
     Left = 264
     Height = 21
-    Top = 312
+    Top = 315
     Width = 56
     Caption = 'Find'
     Enabled = False
@@ -96,9 +97,9 @@ object Form1: TForm1
     TabOrder = 7
   end
   object Button1: TButton
-    Left = 541
+    Left = 456
     Height = 21
-    Top = 312
+    Top = 315
     Width = 43
     Caption = 'Save'
     OnClick = Button1Click
@@ -130,7 +131,7 @@ object Form1: TForm1
     TabOrder = 9
   end
   object Label1: TLabel
-    Left = 424
+    Left = 363
     Height = 14
     Top = 15
     Width = 61

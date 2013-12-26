@@ -170,6 +170,10 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Злучэнне з Gadu-Gadu разарвана.
 [Cannot establish secure connection.]
 Немагчыма ўсталяваць SSL злучэнне.
+[Too many login attempts with invalid password.]
+Занадта шмат спробаў уваходу з няслушным паролем.
+[Gadu-Gadu servers are now down. Try again later.]
+Серверы Gadu-Gadu адключаныя. Паспрабуйце пазней.
 [Unknown]
 Невядома
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
@@ -188,6 +192,8 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Я
 [Unknown client]
 Невядомы кліент
+[Incoming image]
+Уваходнае паведамленне
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 Мужчынскі
@@ -307,6 +313,10 @@ HTTP невядомая памылка
 Выявы (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
 [Image cannot be written to disk.]
 Малюнак не можа быць запісана на дыск.
+[Delete image from the list]
+Выдаліць выяву з спісу
+[Save image to disk]
+Захаваць выяву на дыск
 [Image from %s]
 Малюнак ад %s
 [Image for %s]
@@ -318,6 +328,8 @@ HTTP невядомая памылка
 ;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
 Усталюйце злучэнне перад імпартам/экспартам кантактаў з/на сервер.
+[List cannot be imported because of error:\n\t%s (Error: %d)]
+Спіс не можа быць імпартаваны з-за памылкі:\n\t%s (Памылка: %d)
 [Text files]
 Тэкставы файл
 [All Files]

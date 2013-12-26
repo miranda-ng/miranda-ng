@@ -198,6 +198,8 @@
 Гэта аперацыя цалкам выдаліць гісторыю гэтага кантакту.\nВы ўпэўнены?
 [Are You sure?]
 Вы ўпэўнены?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+Вы хочаце выдаліць усе імпартаваныя паведамленні гэтага кантакту?\nПамятаеце, што наступная запланаваная задача будзе зноў імпартуе гэтыя паведамленні.
 [Open in &new window]
 &Адкрыць у новым акне
 [&Open in existing window]
@@ -238,6 +240,10 @@ Dat (мКантакты)
 Захаваць становішча акна
 [Save window position for all contacts]
 Захаваць становішча акна для ўсіх кантактаў
+[Do you want to save imported messages to local profile?]
+Вы хочаце захаваць імпартаваныя паведамленні ў лакальны профіль?
+[File contains history for different contact. Do you want to change contact and import?]
+У файле утрымліваецца інфармацыя іншага кантакта. Пераназваць кантакт і імпартаваць?
 [Error]
 Памылка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
@@ -285,6 +291,8 @@ Dat (мКантакты)
 Выходнае паведамленне
 [<< Incoming messages]
 Уваходнае паведамленне
+[Group list background]
+Фон спісу гуртоў
 [Find window]
 Вакно пошуку
 [Find window background]
@@ -337,6 +345,10 @@ Dat (мКантакты)
 Назва фільтра існуе
 [Event already exists]
 Падзея ўжо існуе
+[Browse WinSCP file]
+Абярыце файл Win-SCP
+[Save WinSCP log file]
+Захаваць файл гісторыі WinSCP
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
 Вы ўвялі няслушную кодавую старонку. Абярыце кодавую старонку з выпадальнага спісу ці ўвядзіце правільнае імя.
 [Invalid codepage]
@@ -383,6 +395,8 @@ Dat (мКантакты)
 Няслушнае значэнне '%s'.
 [Events older than]
 Падзеі старэй чым
+[Some value is invalid]
+Няслушнае значэнне.
 [Invalid '%s' value.\n%s]
 Няслушнае значэнне '%s'.\n%s
 [** Use <ext> to insert extension, <contact> to insert contact name]
@@ -429,8 +443,12 @@ _файлы
 Шлях да файла
 [FTP path must contain '/' instead '\' and start with '/'.]
 FTP шлях павінен змяшчаць '/' замест '\', а пачынацца з '/'.
+[FTP path cannot contain <date> in import task.]
+Шлах FTP не можа ўтрымліваць <date> для імпарту.
 [Unknown error]
 Невядомая памылка
+[Cannot get FTP file(s).]
+Вы не можаце спампаваць файл (ы) з FTP.
 [Cannot unzip file(s).]
 Не атрымалася распакаваць файл(ы).
 [Incorrect file format: %s.]
