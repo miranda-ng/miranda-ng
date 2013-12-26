@@ -369,7 +369,7 @@ _NoProtocol_
 (Unbekannter Kontakt)
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [Tray menu]
-
+Traymenü
 [&Find/Add Contacts...]
 Kontakte suchen/hinzu&fügen...
 [&Options...]
@@ -382,9 +382,9 @@ Meine Kontakte
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 [Group menu]
-
+Gruppenmenü
 [Subgroup menu]
-
+Untergruppenmenü
 [&New SubGroup]
 &Neue Untergruppe
 ;file \plugins\Clist_mw\src\keyboard.cpp
@@ -439,5 +439,5 @@ Titelzeile anzeigen
 Frei bewegend
 ;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
-
+Framemenü
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

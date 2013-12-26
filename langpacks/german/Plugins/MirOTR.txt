@@ -247,7 +247,7 @@ OTR: SecureIM ist installiert
 Sie benutzen SecureIM. MirOTR funktioniert nur mit deaktiviertem SecureIM.
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 [MirOTR menu]
-
+MirOTR-Menü
 [OTR Status]
 OTR Status
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

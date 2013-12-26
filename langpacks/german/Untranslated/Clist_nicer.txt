@@ -1,3 +1,0 @@
-﻿[Frame menu]
-[Group menu]
-[Subgroup menu]

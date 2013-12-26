@@ -244,7 +244,7 @@ Autorisierung anfragen
 [Invite to conference]
 Zu Konferenz einladen
 [Set &role]
-Setze &Rolle
+&Rolle setzen
 [&Master]
 &Meister
 [&Helper]
@@ -367,7 +367,7 @@ Diese Person nicht mehr blockieren...
 [Block this person...]
 Diese Person blockieren...
 [Skype menu chooser]
-
+Skype-Kontenauswahl
 [Request authorization]
 Autorisierung anfragen
 [Grant authorization]

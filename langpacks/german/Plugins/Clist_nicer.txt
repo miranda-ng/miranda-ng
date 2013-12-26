@@ -867,10 +867,10 @@ Skinnbarer Frame
 Frei bewegend
 ;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
-
+Framemenü
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [Group menu]
-
+Gruppenmenü
 [&Find/Add Contacts...]
 Kontakte suchen/hinzu&fügen...
 [&Options...]
@@ -878,6 +878,6 @@ Einstellungen...
 [&About the contact list...]
 Über die Kont&aktliste...
 [Subgroup menu]
-
+Untergruppenmenü
 [&New SubGroup]
 &Neue Untergruppe

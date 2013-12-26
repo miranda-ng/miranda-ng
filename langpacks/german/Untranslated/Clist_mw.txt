@@ -1,4 +1,0 @@
-﻿[Tray menu]
-[Group menu]
-[Subgroup menu]
-[Frame menu]

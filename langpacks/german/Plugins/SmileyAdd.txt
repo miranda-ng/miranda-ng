@@ -101,9 +101,9 @@ Smiley #%u in Datei %s für Smileypack %s nicht gefunden.
 [Standard]
 Standard
 [Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
-Regulärer Ausdruck "%s" im Smileypack "%s" könnte "leere Treffer" verursachen.
+Regulärer Ausdruck "%s" in Smileypack "%s" könnte "leere Treffer" verursachen.
 [Regular expression "%s" in smiley pack "%s" malformed.]
-Regulärer Ausduck "%s" in Smileypack deformiert.
+Regulärer Ausdruck "%s" in Smileypack "%s" deformiert.
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
 Nein!

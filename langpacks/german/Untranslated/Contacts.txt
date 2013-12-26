@@ -1,5 +1,0 @@
-﻿[Nick]
-[First Name]
-[Last Name]
-[Contacts from]
-[Send Contacts to]

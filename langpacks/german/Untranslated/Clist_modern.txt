@@ -1,8 +1,0 @@
-﻿[Menu Background]
-[StatusBar Background]
-[Frames TitleBar BackGround]
-[Event Area Background]
-[Tray menu]
-[Frame menu]
-[ToolBar Background]
-[View Mode Background]

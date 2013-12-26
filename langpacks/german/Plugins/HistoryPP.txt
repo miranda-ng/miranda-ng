@@ -352,7 +352,7 @@ Benutzer %s (%d) hat sich selbst aus Ihrer Kontaktliste entfernt: %s
 [Authorization future request by %s (%d): %s]
 Zukünftige Autorisierungsanfrage von %s (%d): %s
 [Broadcast message from %s (%s): %s]
-
+Broadcast Nachricht von %s (%s): %s
 [All except status]
 Alle außer Status
 [Show all events]
@@ -566,11 +566,11 @@ Autorisierungsanfrage von %s (%s%s%d): %s
 [Authorization Request Sample]
 Beispiel Autorisierungsanfrage
 [Change nick and date font for %s.]
-
+Nick- und Datumsschrift für %s ändern.
 [Customize %s]
 %s anpassen
 [Customize the look of %s Event. Select it's font, font color and background color.]
-
+Passen Sie das Aussehen von Ereignis %s an. Wählen Sie dessen Schrift, Schriftfarbe und Hintergrundfarbe.
 [Date Font Color]
 Datum-Schriftfarbe
 [Date Font]
@@ -584,9 +584,9 @@ History++-Einstellungen
 [History++ [%s]]
 History++ [%s]
 [HTML file (*.htm)|*.htm;*.html|All files (*.*)|*.*]
-
+HTML-Datei (*.htm)|*.htm;*.html|Alle Dateien (*.*)|*.*
 [HTML file (*.htm; *.html)|*.htm;*.html]
-
+HTML-Datei (*.htm; *.html)|*.htm;*.html
 [Incoming File Transfer Sample]
 Beispiel eingehende Dateiübertragung
 [Incoming File Transfer:]
@@ -602,15 +602,15 @@ Achten Sie darauf, Caps Lock ausgeschaltet zu haben.
 [Make sure you have CAPS LOCK turned off.]
 Achten Sie darauf, Caps Lock ausgeschaltet zu haben.
 [Miranda's settings used]
-
+Miranda-Einstellungen werden verwendet
 [Nick Font Color]
-
+Nick-Schriftfarbe
 [Nick Font]
-
+Nick-Schrift
 [Nothing selected. Select item from the left and change it's properties below.]
-
+Nichts ausgewählt. Wählen Sie links einen Eintrag aus und ändern Sie unten dessen Eigenschaften.
 [Nothing Selected]
-
+Nichts ausgewählt
 [Outgoing File Transfer Sample]
 Beispiel ausgehende Dateiübertragung
 [Outgoing File Transfer:]
@@ -634,7 +634,7 @@ Alles als &XML speichern...
 [Select search mode:]
 Suchmodus auswählen:
 [Selected file and contact file folder not found]
-
+Ausgewählte Datei und Kontaktverzeichnis nicht gefunden
 [SMS Sample]
 SMS-Beispiel
 [Some Contact]
@@ -646,15 +646,15 @@ Systemnachrichtenbeispiel
 [System Message]
 Systemnachricht
 [Use Miranda default settings]
-
+Miranda-Standardeinstellungen verwenden
 [You were added by %s (%s%s%d)]
 Sie wurden von %s (%s%s%d) hinzugefügt.
 [You Were Added Message Sample]
-
+Beispiel "Sie wurden hinzugefügt"-Nachricht
 [Authorization request]
 Eingehende Autorisierungsanfrage
 [Your were added message]
-
+"Sie wurden hinzugefügt"-Nachricht
 [Show events count in menu]
 Zeige Ereignisanzahl im Kontaktmenü
 [Group messages]
@@ -684,7 +684,7 @@ Andere (unbekannt)
 [Database:]
 Datenbank:
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
-
+Schnelles Verlaufsplugin mit Filtermöglichkeiten.\\nBasiert auf verbessertem Code vom History+ Plugin.
 [History++ (2in1)]
 History++ (2 in 1)
 [History++ Error]
@@ -712,32 +712,32 @@ Eingehender Zeitstempel
 [Outgoing timestamp]
 Ausgehender Zeitstempel
 [Open in &new window]
-
+In &neuem Fenster öffnen
 [Open in existing &window]
-
+In &existierendem Fenster öffnen
 [Copy &Link]
-
+&Link kopieren
 [Co&py]
-
+Ko&pieren
 [Select &All]
-
+&Alles auswählen
 [Send &Message]
-
+&Nachricht senden
 [User Details]
-
+Benutzerdetails
 [Enable SmileyAdd support]
-
+SmileyAdd-Unterstützung aktivieren
 [Always RTL]
-
+Immer RTL
 [Always LTR]
-
+Immer LTR
 [Enable MathModule support]
-
+MathModule-Unterstützung aktivieren
 [Show event icons]
-
+Ereignisicons anzeigen
 [View user's history]
-
+Benutzerverlauf anzeigen
 [View User's History]
-
+Benutzerverlauf anzeigen
 [View &History]
-
+&Verlauf anzeigen

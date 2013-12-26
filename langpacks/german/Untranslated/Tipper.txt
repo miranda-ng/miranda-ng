@@ -1,5 +1,0 @@
-﻿[Show for all contact types]
-[Show only for contacts]
-[Show only for chatrooms]
-[Account]
-[Account:]

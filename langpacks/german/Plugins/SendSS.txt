@@ -33,13 +33,13 @@ Senden per:
 [E&xplore]
 Öffnen
 [&Fill description textbox.]
-Beschreibungs Textbox ausfüllen
+Beschreibungs-Textbox aus&füllen
 [Delete &after send]
 N&ach dem Senden löschen
 [Open again]
 Erneut öffnen
 [&Capture]
-Starten
+&Starten
 [About]
 Über
 [%s\nv%s]
@@ -72,7 +72,7 @@ Konnte %s nicht einleiten.
 MAPI-Fehler (%i):\n%s.
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
-
+Ein Empfänger trifft auf mehr als einen der Empfänger in der Beschreibung überein und MAPI_DIALOG wurde nicht gesetzt.
 [The specified attachment was not found]
 Der angegebene Anhang wurde nicht gefunden
 [The specified attachment could not be opened]
@@ -86,7 +86,7 @@ Es gab nicht genug freien Speicher zum Fortfahren
 [One or more recipients were invalid or did not resolve to any address]
 Ein oder mehrere Empfänger waren ungültig und konnten zu keiner Adresse aufgelöst werden.
 [There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
-
+Es gab keine Standard-Anmeldung, und der Nutzer konnte sich nicht anmelden als das Anmeldefenster angezeigt wurde.
 [The text in the message was too large]
 Der Text in der Nachricht war zu lang
 [There were too many file attachments]
@@ -130,7 +130,7 @@ SendScreenshot - Fehler
 [Fatal error, image services not found. Send Screenshot will be disabled.]
 Fataler Fehler, Bilddienste nicht gefunden. Send Screenshot wird deaktiviert.
 [Open SendSS+]
-
+SendSS+ öffnen
 [SendSS]
 SendSS
 [Screenshots]
@@ -202,13 +202,13 @@ Copyright
 [Drag&Drop the target on the desired window.]
 Quellfenster mit Drag&Drop auswählen
 [Send screenshot to\n]
-Sende Screenshot an\n
+Screenshot senden an\n
 [Window]
 Fenster
 [Desktop]
 Desktop
 [<Entire Desktop>]
-Gesamten Desktop
+<Gesamten Desktop>
 [Monitor]
 Monitor
 [ (primary)]

@@ -211,5 +211,11 @@ Chat schließen nach
 [When in background]
 Wenn im Hintergrund
 ;file \plugins\MirandaG15\src\CConfig.cpp
+[MirandaG15]
+MirandaG15
+[Appearance]
+Erscheinungsbild
+[Chat sessions]
+Chatsitzungen
 [No device attached]
 Keinem Gerät zugeordnet

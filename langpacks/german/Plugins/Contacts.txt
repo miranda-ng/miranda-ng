@@ -59,11 +59,11 @@ Eingehende Kontakte
 Ausgehende Kontakte
 ;file \plugins\ContactsPlus\src\receive.cpp
 [Nick]
-
+Nick
 [First Name]
-
+Vorname
 [Last Name]
-
+Nachname
 [Add Contact Permanently to List]
 Kontakt dauerhaft zur Liste hinzufügen
 [View User's Details]
@@ -73,7 +73,7 @@ Verlauf anzeigen
 [User Menu]
 Kontaktmenü
 [Contacts from]
-
+Kontakte von
 ;file \plugins\ContactsPlus\src\send.cpp
 [Send Contacts to]
-
+Sende Kontakte an

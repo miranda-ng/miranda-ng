@@ -336,7 +336,7 @@ Filtern
 Nachrichtenverlauf
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
-
+(war %s)
 [Open message window]
 Nachrichtenfenster öffnen
 [Close popup]

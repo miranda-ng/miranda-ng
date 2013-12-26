@@ -45,7 +45,7 @@ Konto
 [Set]
 Setzen
 [when full-screen mode is active]
-
+wenn Vollbildmodus aktiv ist
 [when screen saver engages]
 wenn der Bildschirmschoner startet
 [when workstation is locked]

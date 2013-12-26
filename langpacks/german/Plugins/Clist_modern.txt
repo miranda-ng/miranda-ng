@@ -631,31 +631,31 @@ Am Telefon\tStrg+8
 [Tray]
 Tray
 [&Hide/Show]
-Zeigen/Ausblenden
+Zeigen/&Ausblenden
 [Nowhere]
 Nirgends
 [&New Group]
 &Neue Gruppe
 [&Hide Offline Users]
-Offline-Kontakte ausblenden
+Offline-Kontakte &ausblenden
 [Hide &Offline Users out here]
 &Offline-Kontakte außerhalb ausblenden
 [Hide &Empty Groups]
 L&eere Gruppen ausblenden
 [Disable &Groups]
-&Gruppenfunktion ausschalten
+&Gruppen deaktivieren
 [Hide Miranda]
-Miranda NG ausblenden
+Miranda ausblenden
 [&New Subgroup]
 &Neue Untergruppe
 [&Hide Offline Users in here]
 Offline-Kontakte &hier ausblenden
 [&Show Offline Users in here]
-Offline-Kontakte hier anzeigen
+Offline-Kontakte hier an&zeigen
 [&Rename Group]
 G&ruppe umbenennen
 [&Delete Group]
-Gruppe löschen
+Gruppe &löschen
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Skins]
 Skins
@@ -668,13 +668,13 @@ Status-Overlay
 [Contact List smileys]
 Smileys in Kontaktliste
 [List Background]
-Hintergrund Liste
+Liste Hintergrund
 [Menu Background]
-
+Menü Hintergrund
 [StatusBar Background]
-
+Statusleiste Hintergrund
 [Frames TitleBar BackGround]
-
+Frame Titelleisten Hintergrund
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Soll Kontakt '%s' in Metakontakt konvertiert und '%s' hinzugefügt werden?
 [Converting to MetaContact]
@@ -820,7 +820,7 @@ Hinter linken Rand
 Hinter rechten Rand
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
 [Event Area Background]
-
+Ereignisbereich Hintergrund
 [Event Area]
 Ereignisbereich
 [No Events]
@@ -876,11 +876,11 @@ Dritte Zeile
 (Unbekannter Kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
-
+Traymenü
 [&Find/Add Contacts...]
 Kontakte suchen/hinzu&fügen...
 [&Options...]
-Einstellungen...
+&Einstellungen...
 [&About]
 &Über
 ;file \plugins\Clist_modern\src\modern_clui.cpp
@@ -898,7 +898,7 @@ Allgemein
 [Restore last status]
 Letzten Status wiederherstellen
 [Show/Hide Offline Users]
-Zeige/Verstecke Offline-Kontakte
+Offline-Kontakte anzeigen/verbergen
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
 Leere %s Zelle
@@ -960,11 +960,11 @@ Intern (in der DLL)
 [Skin Information]
 Skin-Informationen
 [Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Skineditor enthält keine gespeicherten Änderungen.\n\nAlle Änderungen gehen verloren.\n\n Soll der neue Skin geladen werden?
+Skineditor enthält keine gespeicherten Änderungen.\n\nAlle Änderungen gehen verloren.\n\nSoll der neue Skin geladen werden?
 [Warning!]
 Warnung!
 [Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Aktueller Skin wurde nicht als Datei gespeichert.\n\Alle Änderungen gehen verloren.\n\n Soll der neue Skin geladen werden?
+Aktueller Skin wurde nicht als Datei gespeichert.\n\Alle Änderungen gehen verloren.\n\nSoll der neue Skin geladen werden?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Vorschau nicht verfügbar\n\n%s\n----------------------\n\n%s\n\nAUTOR(EN):\n%s\n\nKONTAKT:\n%s\n\nHOMEPAGE:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
@@ -1021,7 +1021,7 @@ Minimieren
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Um eine Toolbar in Clist Modern zu sehen, benötigen Sie das TopToolBar Plugin. Klicken Sie Ja um es zu installieren, oder Abbrechen um fortzusetzen.
 [ToolBar Background]
-
+Toolbar Hintergrund
 [Toolbar upgrade]
 Toolbar aktuallisieren
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
@@ -1072,7 +1072,7 @@ Lösche Ansicht und kehre zu Ausgangsanzeige zurück
 [Reset view mode]
 Kontaktfilter aufheben
 [View Mode Background]
-
+Kontaktfilter Hintergrund
 [View Modes]
 Kontaktfilter
 ;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
@@ -1081,27 +1081,27 @@ Sichtbar
 [&Show title]
 Titel anzeigen
 [&Locked]
-Gesperrt
+&Gesperrt
 [&Expanded]
-Ausgeklappt
+&Ausgeklappt
 [&Floating Mode]
 &Frei beweglicher Modus
 [&Border]
-Rand
+&Rand
 [&Align]
 &Ausrichtung
 [&Top]
-Oben
+&Oben
 [&Client]
-Mitte, Kontakte
+Mitte, &Kontakte
 [&Bottom]
-Unten
+&Unten
 [&Position]
 &Position
 [&Up]
 A&uf
 [&Down]
-Ab
+&Ab
 [Show All Frames]
 Alle Frames anzeigen
 [Show All Titlebars]
@@ -1114,11 +1114,11 @@ Keine Größenänderung
 Titelzeile anzeigen
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
-
+Framemenü
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [Group menu]
-Kontaktlistenmenü
+Gruppenmenü
 [Subgroup menu]
-Gruppenkontextmenü
+Untergruppenmenü
 [&New SubGroup]
 &Neue Untergruppe

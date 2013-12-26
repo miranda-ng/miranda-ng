@@ -103,4 +103,3 @@
 [Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
 [Whether to renegotiate the session]
 [Whether to enable Message Receipts per XEP-0184]
-[Jabber account chooser]

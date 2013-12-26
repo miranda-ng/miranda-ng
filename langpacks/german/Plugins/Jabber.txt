@@ -698,9 +698,9 @@ In Raum einladen
 [Set &role]
 &Rolle setzen
 [&Visitor]
-Besucher
+&Besucher
 [&Participant]
-Teilnehmer
+&Teilnehmer
 [&Moderator]
 &Moderator
 [Set &affiliation]
@@ -712,7 +712,7 @@ Kei&ne
 [&Admin]
 &Administrator
 [&Owner]
-Besitzer
+Bes&itzer
 [Outcast (&ban)]
 Ausgestoßener (&Bann)
 [&Kick]
@@ -1242,7 +1242,7 @@ Begründung für Bann
 HTTP-Authentifizierungsanfrage empfangen
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
-
+Jabber-Kontenauswahl
 [Request authorization]
 Autorisierung anfragen
 [Grant authorization]

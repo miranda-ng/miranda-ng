@@ -12,7 +12,7 @@ Abbrechen
 [Add %s]
 %s hinzufügen
 [&Add]
-Hinzufügen
+&Hinzufügen
 [&Cancel]
 Abbre&chen
 [Send "You were added"]
@@ -32,7 +32,7 @@ Autorisierungsanfrage
 [Delete contact]
 Kontakt löschen
 [&Yes]
-Ja
+&Ja
 [&No]
 &Nein
 [Hide from list only, in order to keep their history and ignore/visibility settings]
@@ -104,7 +104,7 @@ Möchten Sie die Einstellungen jetzt importieren?
 [No to all]
 Nein für alle
 [&View contents]
-Inhalt zeigen
+Inhalt &zeigen
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Sicherheitssystem, um arglistige Änderungen zu erkennen, ist angeschaltet, und Sie werden gewarnt, bevor Änderungen, die nicht als sicher bekannt sind, durchgeführt werden.
 [Database setting change]
@@ -130,7 +130,7 @@ Was wollen Sie mit der Datei jetzt tun?
 [&Recycle]
 Wiede&rherstellen
 [&Delete]
-Löschen
+&Löschen
 [&Move/Rename]
 Verschieben/U&mbenennen
 [&Leave]
@@ -150,7 +150,7 @@ Textausgaben, wo möglich
 [Auto-detect text]
 Text automatisch erkennen
 [Calling modules' names]
-Pluginnamen benutzen
+Pluginnamen verwenden
 [Log to]
 Log nach
 [OutputDebugString()]
@@ -170,9 +170,9 @@ SSL-Verkehr
 [Sounds]
 Klänge
 [&Change...]
-Ändern...
+&Ändern...
 [&Preview]
-Vorschau
+&Vorschau
 [Download more sounds]
 Weitere Klänge herunterladen
 [Sound information]
@@ -244,7 +244,7 @@ Logeinstell.
 [Outgoing connections]
 Ausgehende Verbindungen
 [Use proxy server]
-Proxyserver benutzen
+Proxyserver verwenden
 [Type:]
 Typ:
 [Host:]
@@ -310,9 +310,9 @@ Rückgängig
 [Reset]
 Standard
 [Export...]
-Exportieren
+Exportieren...
 [(Background) Color]
-Farbe/Hintergrund
+(Hintergrund)farbe
 [Text effect]
 Texteffekt
 [Text color]
@@ -324,15 +324,15 @@ Schriftart
 [&Font:]
 Schri&ftart:
 [Font st&yle:]
-Schriftstil:
+Schriftst&il:
 [\nStyles and effects are disabled for this font.]
 \nStile und Effekte sind für diese Schrift deaktiviert.
 [&Size:]
-Größe:
+&Größe:
 [Effects]
 Effekte
 [Stri&keout]
-Durchgestr.
+Durchge&str.
 [&Underline]
 &Unterstr.
 [&Color:]
@@ -402,15 +402,15 @@ Netzwerk einrichten ...
 [Get more protocols...]
 Weitere Protokolle installieren ...
 [&Add...]
-Hinzufügen...
+&Hinzufügen...
 [&Edit]
 B&earbeiten
 [&Options]
-Einstellungen
+&Einstellungen
 [&Upgrade]
 &Upgrade
 [&Remove...]
-&Entfernen...
+Entfe&rnen...
 [Miranda NG]
 Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
@@ -456,7 +456,7 @@ Wählen Sie mehrere Elemente mit gedrückter Umschalt- oder Strg-Taste aus. Drü
 [Tray]
 Tray
 [&Hide/Show]
-Zeigen/Ausblenden
+Zeigen/&Ausblenden
 [E&xit]
 B&eenden
 [Nowhere]
@@ -464,7 +464,7 @@ Nirgends
 [&New group]
 &Neue Gruppe
 [&Hide offline users]
-Offline-Kontakte ausblenden
+Offline-Kontakte &ausblenden
 [Hide &offline users out here]
 &Offline-Kontakte außerhalb ausblenden
 [Hide &empty groups]
@@ -482,21 +482,21 @@ Offline-Kontakte &hier ausblenden
 [&Rename group]
 G&ruppe umbenennen
 [&Delete group]
-Gruppe löschen
+Gruppe &löschen
 [&Reset to default]
-Zu&rücksetzen auf Standard
+Auf Standard zu&rücksetzen
 [find/add]
 suchen/hinzufügen
 [&Add to list]
 Zur Liste hinzufügen
 [User &details]
-Kontaktprofil
+Kontakt&profil
 [Send &message]
-Nachricht senden
+&Nachricht senden
 [Log]
 Verlauf
 [&Copy]
-Kopieren
+&Kopieren
 [Co&py all]
 Alles ko&pieren
 [Select &all]
@@ -506,9 +506,9 @@ Verlauf &leeren
 [Open in &new window]
 In &neuem Fenster öffnen
 [&Open in existing window]
-In bestehendem Fenster öffnen
+In bestehendem Fenster &öffnen
 [&Copy link]
-Link kopieren
+Link &kopieren
 [Cancel change]
 Änderungen abbrechen
 [Ungroup]
@@ -645,7 +645,7 @@ Liste
 [&Message]
 Nachricht
 [Clear lo&g]
-Verlauf löschen
+&Verlauf löschen
 [Word lookup]
 Wort nachschlagen
 [Google]
@@ -679,7 +679,7 @@ Tab s&chließen
 [C&lose other tabs]
 Andere Tabs sch&ließen
 [&Open at this position]
-An dieser Position öffnen
+An dieser Position &öffnen
 ;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 Offline-Kontakte ausblenden
@@ -742,7 +742,7 @@ Schatten werfen (erfordert Neustart)
 [Pin to desktop]
 An den Desktop anheften
 [Hide contact list after it has been idle for]
-Kontaktliste verstecken nach Inaktivität von
+Kontaktliste verstecken nach Untätigkeit von
 [seconds]
 Sekunden
 [Automatically resize window to height of list]
@@ -782,7 +782,7 @@ Markierung immer anzeigen
 [Make selection highlight translucent]
 Transparente Markierung
 [Dim idle contacts]
-Inaktive Kontakte abblenden
+Untätige Kontakte abblenden
 ['Hide offline' means to hide:]
 'Offline-Kontakte verstecken':
 [Groups]
@@ -903,7 +903,7 @@ An:
 [File(s):]
 Datei(en):
 [&Choose again...]
-Erneut auswählen...
+&Erneut auswählen...
 [Total size:]
 Gesamtgröße:
 [&User menu]
@@ -911,9 +911,9 @@ Gesamtgröße:
 [Incoming file transfer]
 Eingehende Dateiübertragung
 [A&ccept]
-Akzeptieren
+Ak&zeptieren
 [&Decline]
-Ablehnen
+A&blehnen
 [From:]
 Von:
 [Date:]
@@ -1037,7 +1037,7 @@ für
 [Change my status mode to:]
 Meinen Status ändern zu:
 [Do not set status back to online when returning from idle]
-Status nicht automatisch zu 'Online' ändern, sobald Inaktivität vorbei
+Status nicht automatisch zu 'Online' ändern, sobald Untätigktät vorbei
 [Idle options]
 Untätigkeits-Einstellungen
 [Become idle if application full screen]
@@ -1047,7 +1047,7 @@ Klänge bei Untätigkeit deaktivieren
 [Become idle if computer is left unattended for:]
 Untätig werden, wenn keine PC-Aktivität innerhalb von:
 [Idle (auto-away):]
-Inaktivität (Automatische Abwesenheit):
+Untätigkeit (Automatische Abwesenheit):
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Fenster automatisch öffnen, wenn:
@@ -1070,15 +1070,15 @@ Kontaktname oben anzeigen
 [Show toolbar buttons on top row]
 Toolbarbuttons oben anzeigen
 [Send message on double 'Enter']
-Doppel-'Enter' sendet Nachricht
+Doppel-'Eingabe' sendet Nachricht
 [Send message on 'Enter']
-'Enter' sendet Nachricht
+'Eingabe' sendet Nachricht
 [Show character count]
 Zeichenzähler anzeigen
 [Show warning when message has not been received after]
 Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
 [Support CTRL+Up/Down in message area to show previously sent messages]
-Zuvor gesendete Nachrichten mit Strg + Auf/Ab erneut abrufen
+Zuvor gesendete Nachrichten mit Strg+Auf/Ab erneut abrufen
 [Delete temporary contacts when closing message window]
 Temporäre Kontakte löschen, wenn Nachrichtenfenster geschlossen wird
 [Enable avatar support in the message window]
@@ -1086,7 +1086,7 @@ Avatar-Unterstützung im Nachrichtenfenster aktivieren
 [Limit avatar height to]
 Avatarhöhe begrenzen auf
 [Maximum number of flashes]
-Max. Anzahl Blinken
+Maximale Anzahl Blinken
 [Send error]
 Fehler beim Senden
 [An error has occurred. The protocol reported the following error:]
@@ -1144,20 +1144,20 @@ Nachrichten:
 [&Open link]
 Link &öffnen
 [Paste and send]
-Einfügen && Senden
+Einfügen und senden
 [Delete]
 Löschen
 ;file \src\core\stduihist\resource.rc
 [Find]
 Suchen
 [&Find next]
-Weitersuchen
+&Weitersuchen
 [Find what:]
 Suchen nach:
 [Message history]
 Nachrichtenverlauf
 [&Find...]
-Suchen
+&Suchen...
 ;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 Telefonnummer hinzufügen
@@ -1216,11 +1216,11 @@ Land:
 [Spoken languages:]
 Sprachen:
 [Timezone:]
-Zeitzone
+Zeitzone:
 [Local time:]
-Ortszeit:
+Lokale Zeit:
 [Set custom time zone]
-Setze Zeitzone für diesen Kontakt
+Eigene Zeitzone für diesen Kontakt setzen
 [Company:]
 Firma:
 [Department:]
@@ -1235,7 +1235,7 @@ Webseite:
 [%u requests authorization]
 %u fragt nach Autorisierung
 [%s added you to their contact list]
-%u fügte Sie zu seiner Kontaktliste hinzu
+%s fügte Sie zu seiner Kontaktliste hinzu
 [%u added you to their contact list]
 %u fügte Sie zu seiner Kontaktliste hinzu
 [Alerts]
@@ -1243,9 +1243,9 @@ Hinweis
 [Added event]
 Sie wurden von jemandem hinzugefügt
 ;file \src\core\stdauth\authdialogs.cpp
-[View User's Details]
+[View user's details]
 Kontaktprofil anzeigen
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Kontakt dauerhaft zur Liste hinzufügen
 [<Unknown>]
 <Unbekannt>
@@ -1378,9 +1378,9 @@ Vorher geöffnete Tabs beim Öffnen des Fensters wiederherstellen
 [Show tabs at the bottom]
 Tabs unten anzeigen
 [Send message by pressing the 'Enter' key]
-Nachricht beim Drücken der Entertaste senden
+Nachricht beim Drücken der Eingabetaste senden
 [Send message by pressing the 'Enter' key twice]
-Nachricht beim doppelten Drücken der Entertaste senden
+Nachricht beim doppelten Drücken der Eingabetaste senden
 [Flash window when someone speaks]
 Fenster blinkt, wenn jemand schreibt
 [Flash window when a word is highlighted]
@@ -1532,9 +1532,9 @@ Nachrichten-Hintergrund
 [User list background]
 Benutzerliste Hintergrund
 [User list lines]
-Linien Kontaktliste
+Benutzerliste Linien
 [User list background (selected)]
-Benutzerliste, ausgewählter Benutzer
+Benutzerliste Hintergrund (ausgewählt)
 [Window icon]
 Fenstericon
 [Bold]
@@ -1776,7 +1776,7 @@ Global
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdcrypt\encrypt.cpp
 [Standard crypto provider]
-
+Standard-Verschlüsselungsanbieter
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Kontakt hat keine E-Mail-Adresse angegeben
@@ -1792,7 +1792,7 @@ Bytes
 [&File]
 Datei
 [File &transfers...]
-Dateiübertragungen...
+Dateiüber&tragungen...
 [Incoming]
 Eingehend
 [Complete]
@@ -1807,7 +1807,7 @@ Verweigert
 [All files]
 Alle Dateien
 ;file \src\core\stdfile\fileopts.cpp
-[Executable Files]
+[Executable files]
 Ausführbare Dateien
 [Events]
 Ereignisse
@@ -1817,7 +1817,7 @@ Meine empfangenen Dateien
 [View user's history]
 Verlauf anzeigen
 [User menu]
-Kontaktmenü
+Benutzermenü
 [Canceled]
 Abgebrochen
 ;file \src\core\stdfile\filesenddlg.cpp
@@ -1884,7 +1884,7 @@ Ausgehend
 < Copyright
 ;file \src\core\stdhelp\help.cpp
 [&About...]
-Über...
+&Über...
 [&Support]
 Hilfe&seite
 [&Miranda NG homepage]
@@ -2008,7 +2008,7 @@ Sende Timeout erreicht
 [Edit E-Mail address]
 E-Mail-Adresse bearbeiten
 [Edit phone number]
-Tel. bearbeiten
+Telefonnummer bearbeiten
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Die Telefonnummer sollte mit + beginnen und darf nur Nummern, Leerzeichen, Klammern und Bindestriche enthalten.
 [Invalid phone number]
@@ -2064,7 +2064,7 @@ Custom Status
 [%s (locked)]
 %s (gesperrt)
 [Status menu]
-
+Statusmenü
 [Main menu]
 Hauptmenü
 ;file \src\modules\clist\clistsettings.cpp
@@ -2130,16 +2130,16 @@ Kontaktliste ein/ausblenden
 [Read message]
 Nachricht lesen
 [Open Options page]
-Einstellungsdialog aufrufen
+Einstellungsdialog öffnen
 [Open logging options]
-Öffne Logeinstellungen
+Logeinstellungen öffnen
 [Open 'Find user' dialog]
-"Kontakt suchen/hinzufügen"-Dialog
+'Kontakte suchen/hinzu&fügen'-Fenster öffnen
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 Verschiebe in Gruppe
 [<Root group>]
-Hauptgruppe
+<Hauptgruppe>
 ;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht an den neuen Ort %s verschieben\nweil ein anderen Profil mit diesem Namen schon existiert. Bitte lösen Sie den Konflikt manuell.
@@ -2176,9 +2176,9 @@ Diese Veränderung ist nicht bekannt dafür, sicher zu sein.
 Ungültiger Einstellungs-Typ für '%s'. Das erste Zeichen für jeden String muss b, w, d, l, s, e, u, g, h oder n sein.
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
-
+Autorisierungsanfrage von %s%s: %s
 [Contacts: ]
-
+Kontakte:\s
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Das Profil '%s' existiert bereits. Möchten Sie es in den Papierkorb verschieben?\n\nWARNUNG: Das Profil wird gelöscht wenn der Papierkorb deaktiviert ist\nWARNUNG: Ein Profil kann vertrauliche Informationen beinhalten und sollte sicher gelöscht werden.
@@ -2473,7 +2473,7 @@ Inaktiv
 [Help]
 Hilfe
 [Miranda website]
-Miranda Webseite
+Miranda-Webseite
 [Small dot]
 Punkt
 [Filled blob]
@@ -2537,7 +2537,7 @@ Alle Bilder
 [Windows bitmaps]
 BMP-Bilder
 [JPEG bitmaps]
-JPEG-/JPG-Bilder
+JPEG-Bilder
 [GIF bitmaps]
 GIF-Bilder
 [PNG bitmaps]
@@ -2558,7 +2558,7 @@ Unbekannt
 [Afghanistan]
 Afghanistan
 [Aland Islands]
-Aland Inseln
+Aland-Inseln
 [Albania]
 Albanien
 [Algeria]
@@ -2608,7 +2608,7 @@ Bermuda
 [Bhutan]
 Bhutan
 [Bolivia]
-Bolivien, pluralistischer Staat
+Bolivien
 [Bonaire, Sint Eustatius and Saba]
 Bonaire, Sint Eustatius und Saba
 [Bosnia and Herzegovina]
@@ -2622,7 +2622,7 @@ Brasilien
 [British Indian Ocean Territory]
 Britisches Territorium Indischer Ozean
 [Brunei]
-Brunei Darussalam
+Brunei
 [Bulgaria]
 Bulgarien
 [Burkina Faso]
@@ -2656,7 +2656,7 @@ Kolumbien
 [Comoros]
 Comoren
 [Congo, Republic of the]
-Kongo
+Kongo, Republik
 [Congo, Democratic Republic of the]
 Kongo, demokratische Republik
 [Cook Islands]
@@ -2684,7 +2684,7 @@ Dominica
 [Dominican Republic]
 Dominikanische Republik
 [East Timor]
-Timor-Leste
+Osttimor
 [Ecuador]
 Ecuador
 [Egypt]
@@ -2700,7 +2700,7 @@ Estland
 [Ethiopia]
 Äthiopien
 [Falkland Islands (Malvinas)]
-Falkland Inseln (Malvinas)
+Falkland-Inseln (Malwinen)
 [Faroe Islands]
 Färöer-Inseln
 [Fiji]
@@ -2714,7 +2714,7 @@ Französisch-Guayana
 [French Polynesia]
 Französisch-Polynesien
 [French Southern and Antarctic Lands]
-Französische Südliche Territorien
+Französisches südliches und arktisches Land
 [Gabon]
 Gabun
 [Gambia]
@@ -2750,7 +2750,7 @@ Guyana
 [Haiti]
 Haiti
 [Heard Island and McDonald Islands]
-Heard Insel und McDonald Inseln
+Heard-Insel und McDonald-Inseln
 [Honduras]
 Honduras
 [Hong Kong]
@@ -2790,15 +2790,15 @@ Kenia
 [Kiribati]
 Kiribati
 [North Korea]
-Korea, Demokratische Volksrepublik
+Nordkorea
 [South Korea]
-Korea, Republik
+Südkorea
 [Kuwait]
 Kuwait
 [Kyrgyzstan]
 Kirgisien
 [Laos]
-Lao, Demokratische Volksrepublik
+Laos
 [Latvia]
 Lettland
 [Lebanon]
@@ -2818,7 +2818,7 @@ Luxemburg
 [Macau]
 Macao
 [Macedonia]
-Mazedonien, ehemalige Jugoslawische Republik
+Mazedonien
 [Madagascar]
 Madagaskar
 [Malawi]
@@ -2844,7 +2844,7 @@ Mayotte
 [Mexico]
 Mexiko
 [Micronesia, Federated States of]
-Föderierte Staaten von Mikronesien
+Mikronesien, Föderierte Staaten
 [Moldova]
 Moldawien
 [Monaco]
@@ -2870,7 +2870,7 @@ Nepal
 [Netherlands]
 Niederlande
 [New Caledonia]
-Neu Kaledonien
+Neukaledonien
 [New Zealand]
 Neuseeland
 [Nicaragua]
@@ -2882,7 +2882,7 @@ Nigeria
 [Niue]
 Niue
 [Norfolk Island]
-Norfolk Inseln
+Norfolk-Inseln
 [Northern Mariana Islands]
 Nördliche Marina-Inseln
 [Norway]
@@ -2894,11 +2894,11 @@ Pakistan
 [Palau]
 Palau
 [Palestinian Territories]
-Palästinensisches Territorium, besetzt
+Palästinensische Territorien
 [Panama]
 Panama
 [Papua New Guinea]
-Papua Neuguinea
+Papua-Neuguinea
 [Paraguay]
 Paraguay
 [Peru]
@@ -2906,7 +2906,7 @@ Peru
 [Philippines]
 Philippinen
 [Pitcairn Islands]
-Pitcairn
+Pitcairn-Inseln
 [Poland]
 Polen
 [Portugal]
@@ -2920,7 +2920,7 @@ Reunion
 [Romania]
 Rumänien
 [Russia]
-Russische Föderation
+Russland
 [Rwanda]
 Ruanda
 [Saint Barthelemy]
@@ -2944,7 +2944,7 @@ San Marino
 [Sao Tome and Principe]
 Sao Tome und Principe
 [Saudi Arabia]
-Saudi Arabien
+Saudi-Arabien
 [Senegal]
 Senegal
 [Serbia]
@@ -2974,7 +2974,7 @@ Südsudan
 [Spain]
 Spanien
 [Sri Lanka]
-Sri lanka
+Sri Lanka
 [Sudan]
 Sudan
 [Suriname]
@@ -2990,11 +2990,11 @@ Schweiz
 [Syria]
 Syrien
 [Taiwan]
-Taiwan, Provinz von China
+Taiwan
 [Tajikistan]
 Tadschikistan
 [Tanzania]
-Tansania, vereinigte Republik
+Tansania
 [Thailand]
 Thailand
 [Togo]
@@ -3034,15 +3034,15 @@ Usbekistan
 [Vanuatu]
 Vanuatu
 [Vatican City]
-Heiliger Stuhl (Vatikanstadt)
+Vatikanstadt
 [Venezuela]
-Venezuela, bolivarische Republik
+Venezuela
 [Vietnam]
 Vietnam
 [Virgin Islands (British)]
-Jungferninseln, Britisch
+Jungferninseln (Britisch)
 [Virgin Islands (United States)]
-Jungferninseln, U.S.
+Jungferninseln (Vereinigte Staaten)
 [Wallis and Futuna]
 Wallis und Futuna
 [Western Sahara]
