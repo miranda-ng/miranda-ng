@@ -455,10 +455,6 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
-	// TODO: why isn't wParam == 0 when is status menu moved to main menu?
-	if (wParam != 0 && !IsMyContact(hContact))
-		return 1;
-
 	wall_data *wall = new wall_data();
 	wall->user_id = ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
 	wall->isPage = false;
@@ -512,10 +508,6 @@ INT_PTR FacebookProto::RefreshBuddyList(WPARAM, LPARAM)
 INT_PTR FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 {
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
-
-	// TODO: why isn't wParam == 0 when is status menu moved to main menu?
-	if (wParam != 0 && !IsMyContact(hContact))
-		return 1;
 
 	std::string url = FACEBOOK_URL_PROFILE;
 
