@@ -72,20 +72,20 @@ flags
 
 typedef struct _MSGBOX 
 {
-	UINT		cbSize;			// size of this structure
-	UINT		uType;			// parameters
-	HICON		hiLogo;			// right upper icon of the info bar
-	HICON		hiMsg;			// icon left next to the message text
-	LPTSTR		ptszTitle;
-	LPTSTR		ptszInfoText;
-	LPTSTR		ptszMsg;
-	HWND		hParent;		// parent window for the messagebox
-	COLORREF	colorBack;		// valid if MB_CUSTOMCOLOR is set 
-	COLORREF	colorText;		// valid if MB_CUSTOMCOLOR is set
+	UINT     cbSize;        // size of this structure
+	UINT     uType;         // parameters
+	HICON    hiLogo;        // right upper icon of the info bar
+	HICON    hiMsg;         // icon left next to the message text
+	LPTSTR   ptszTitle;
+	LPTSTR   ptszInfoText;
+	LPTSTR   ptszMsg;
+	HWND     hParent;	      // parent window for the messagebox
+	COLORREF colorBack;     // valid if MB_CUSTOMCOLOR is set 
+	COLORREF colorText;     // valid if MB_CUSTOMCOLOR is set
 } MSGBOX, *LPMSGBOX;
 
 
-INT_PTR CALLBACK	MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInfo, LPTSTR pszFormat, ...);
+INT_PTR CALLBACK	MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszInfo, LPCTSTR pszFormat, ...);
 INT_PTR CALLBACK	MsgErr(HWND hParent, LPCTSTR pszFormat, ...);
 INT_PTR				MsgBoxService(WPARAM wParam, LPARAM lParam);
 

@@ -24,13 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 namespace DB {
 
 namespace MetaContact{
-	INT_PTR	SubCount      (HANDLE hMetaContact);
-	INT_PTR	SubDefNum     (HANDLE hMetaContact);
-	HANDLE	Sub           (HANDLE hMetaContact, int idx);
+	INT_PTR SubCount(HANDLE hMetaContact);
+	INT_PTR SubDefNum(HANDLE hMetaContact);
+	HANDLE  Sub(HANDLE hMetaContact, int idx);
 
-	BYTE IsSub         (HANDLE hContact);
-	HANDLE	GetMeta       (HANDLE hContact);
-
+	bool    IsSub(HANDLE hContact);
+	HANDLE  GetMeta(HANDLE hContact);
 } /* namespace MetaContact */
 
 /**
@@ -38,23 +37,23 @@ namespace MetaContact{
  * or modify contacts in the database.
  **/
 namespace Contact {
-	LPTSTR	DisplayName   (HANDLE hContact);
-	LPSTR	Proto         (HANDLE hContact);
+	LPTSTR  DisplayName(HANDLE hContact);
+	LPSTR   Proto(HANDLE hContact);
 
-	INT_PTR	GetCount      ();
+	INT_PTR GetCount();
 
-	HANDLE	Add();
-	BYTE	Delete        (HANDLE hContact);
+	HANDLE  Add();
+	BYTE    Delete(HANDLE hContact);
 
-	DWORD	WhenAdded     (DWORD dwUIN, LPCSTR szBaseProto);
+	DWORD   WhenAdded(DWORD dwUIN, LPCSTR szBaseProto);
 
 } /* namespace Contact */
 
 namespace Module {
-	void	Delete        (HANDLE hContact, LPCSTR pszModule);
-	BYTE	IsEmpty       (HANDLE hContact, LPCSTR pszModule);
-	BYTE	IsMeta        (LPCSTR pszModule);
-	BYTE	IsMetaAndScan (LPCSTR pszModule);
+	void	Delete(HANDLE hContact, LPCSTR pszModule);
+	bool  IsEmpty(HANDLE hContact, LPCSTR pszModule);
+	bool  IsMeta(LPCSTR pszModule);
+	bool  IsMetaAndScan(LPCSTR pszModule);
 
 } /* namespace Module */
 
@@ -63,69 +62,72 @@ namespace Module {
  **/
 namespace Setting {
 
-	BYTE	Get           (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE nType);
-	static	FORCEINLINE
-	BYTE	GetAsIs       (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv) {return Get(hContact, pszModule, pszSetting, dbv, 0); }
-	static	FORCEINLINE
-	BYTE	GetAString    (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv) {return Get(hContact, pszModule, pszSetting, dbv, DBVT_ASCIIZ); }
-	LPSTR	GetAString    (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	static	FORCEINLINE
-	BYTE	GetWString    (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv) {return Get(hContact, pszModule, pszSetting, dbv, DBVT_WCHAR); }
-	LPWSTR	GetWString    (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	static	FORCEINLINE
-	BYTE	GetUString    (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv) {return Get(hContact, pszModule, pszSetting, dbv, DBVT_UTF8); }
+	BYTE	Get(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE nType);
+	static FORCEINLINE BYTE GetAsIs(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv)
+	{ return Get(hContact, pszModule, pszSetting, dbv, 0); }
+	static FORCEINLINE BYTE GetAString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv)
+	{ return Get(hContact, pszModule, pszSetting, dbv, DBVT_ASCIIZ); }
 
-	BYTE	GetEx         (HANDLE hContact, LPCSTR pszModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE nType);
-	static	FORCEINLINE
-	BYTE	GetAsIsEx     (HANDLE hContact, LPCSTR pszModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv) { return GetEx(hContact, pszModule, szProto, pszSetting, dbv, 0); }
-	static	FORCEINLINE
-	LPSTR	GetAStringEx  (HANDLE hContact, LPCSTR pszModule, LPCSTR szProto, LPCSTR pszSetting) { DBVARIANT dbv; return (!GetEx(hContact, pszModule, szProto, pszSetting, &dbv, DBVT_ASCIIZ)	&& dbv.type == DBVT_ASCIIZ)	? dbv.pszVal  : NULL; }
-	static	FORCEINLINE
-	LPWSTR	GetWStringEx  (HANDLE hContact, LPCSTR pszModule, LPCSTR szProto, LPCSTR pszSetting) { DBVARIANT dbv; return (!GetEx(hContact, pszModule, szProto, pszSetting, &dbv, DBVT_WCHAR)	&& dbv.type == DBVT_WCHAR)	? dbv.pwszVal : NULL; }
-	static	FORCEINLINE
-	LPSTR	GetUStringEx  (HANDLE hContact, LPCSTR pszModule, LPCSTR szProto, LPCSTR pszSetting) { DBVARIANT dbv; return (!GetEx(hContact, pszModule, szProto, pszSetting, &dbv, DBVT_UTF8)	&& dbv.type == DBVT_UTF8)	? dbv.pszVal  : NULL; }
+	LPSTR	GetAString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
+	static FORCEINLINE BYTE	GetWString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv)
+	{ return Get(hContact, pszModule, pszSetting, dbv, DBVT_WCHAR); }
 
-	WORD	GetCtrl       (HANDLE hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE nType);
-	static	FORCEINLINE
-	WORD	GetAsIsCtrl   (HANDLE hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv) { return GetCtrl(hContact, pszModule, szSubModule, szProto, pszSetting, dbv, 0); }
-	static	FORCEINLINE
-	WORD	GetAStringCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv) { return GetCtrl(hContact, pszModule, szSubModule, szProto, pszSetting, dbv, DBVT_ASCIIZ); }
-	static	FORCEINLINE
-	WORD	GetWStringCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv) { return GetCtrl(hContact, pszModule, szSubModule, szProto, pszSetting, dbv, DBVT_WCHAR); }
-	static	FORCEINLINE
-	WORD	GetUStringCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv) { return GetCtrl(hContact, pszModule, szSubModule, szProto, pszSetting, dbv, DBVT_UTF8); }
+	LPWSTR GetWString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
+	static FORCEINLINE BYTE	GetUString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv)
+	{ return Get(hContact, pszModule, pszSetting, dbv, DBVT_UTF8); }
 
-	BYTE	GetStatic     (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR szValue, int cchValue);
+	BYTE GetEx(HANDLE hContact, LPCSTR pszModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE nType);
+	static FORCEINLINE BYTE GetAsIsEx(HANDLE hContact, LPCSTR pszModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv)
+	{ return GetEx(hContact, pszModule, szProto, pszSetting, dbv, 0); }
+	static FORCEINLINE LPSTR GetAStringEx(HANDLE hContact, LPCSTR pszModule, LPCSTR szProto, LPCSTR pszSetting)
+	{ DBVARIANT dbv; return (!GetEx(hContact, pszModule, szProto, pszSetting, &dbv, DBVT_ASCIIZ) && dbv.type == DBVT_ASCIIZ) ? dbv.pszVal : NULL; }
+	static FORCEINLINE LPWSTR GetWStringEx(HANDLE hContact, LPCSTR pszModule, LPCSTR szProto, LPCSTR pszSetting)
+	{ DBVARIANT dbv; return (!GetEx(hContact, pszModule, szProto, pszSetting, &dbv, DBVT_WCHAR) && dbv.type == DBVT_WCHAR) ? dbv.pwszVal : NULL; }
+	static FORCEINLINE LPSTR GetUStringEx(HANDLE hContact, LPCSTR pszModule, LPCSTR szProto, LPCSTR pszSetting)
+	{ DBVARIANT dbv; return (!GetEx(hContact, pszModule, szProto, pszSetting, &dbv, DBVT_UTF8) && dbv.type == DBVT_UTF8) ? dbv.pszVal : NULL; }
 
-	#define GetTString			GetWString
-	#define GetTStringEx		GetWStringEx
-	#define GetTStringCtrl		GetWStringCtrl
-	#define WriteTString		WriteWString
+	WORD GetCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE nType);
+	static FORCEINLINE WORD	GetAsIsCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv)
+	{ return GetCtrl(hContact, pszModule, szSubModule, szProto, pszSetting, dbv, 0); }
+	static FORCEINLINE WORD	GetAStringCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv)
+	{ return GetCtrl(hContact, pszModule, szSubModule, szProto, pszSetting, dbv, DBVT_ASCIIZ); }
+	static FORCEINLINE WORD	GetWStringCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv)
+	{ return GetCtrl(hContact, pszModule, szSubModule, szProto, pszSetting, dbv, DBVT_WCHAR); }
+	static FORCEINLINE WORD	GetUStringCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv)
+	{ return GetCtrl(hContact, pszModule, szSubModule, szProto, pszSetting, dbv, DBVT_UTF8); }
+
+	BYTE GetStatic(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR szValue, int cchValue);
+
+	#define GetTString     GetWString
+	#define GetTStringEx   GetWStringEx
+	#define GetTStringCtrl GetWStringCtrl
+	#define WriteTString   WriteWString
 
 	/**
 	 * misc operations
 	 **/
-	BYTE	Exists        (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	void	DeleteArray   (HANDLE hContact, LPCSTR pszModule, LPCSTR pszFormat, int iStart);
+	BYTE	Exists(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
+	void	DeleteArray(HANDLE hContact, LPCSTR pszModule, LPCSTR pszFormat, int iStart);
 
 } /* namespace Setting */
 
 namespace Variant {
-	BYTE	ConvertString (DBVARIANT* dbv, const BYTE destType);
-	BYTE	dbv2String    (DBVARIANT* dbv, const BYTE destType);
+	BYTE	ConvertString(DBVARIANT* dbv, const BYTE destType);
+	BYTE	dbv2String(DBVARIANT* dbv, const BYTE destType);
 } /* namespace Variant */
 
 namespace Event   {
-	HANDLE	FindLast       (HANDLE hContact);
-	BYTE	GetInfo        (HANDLE hEvent, DBEVENTINFO *dbei);
-	BYTE	GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei);
-	DWORD	GetTime        (HANDLE hEvent);
-	BYTE	Exists         (HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei);
+	HANDLE FindLast(HANDLE hContact);
+	bool   GetInfo(HANDLE hEvent, DBEVENTINFO *dbei);
+	bool   GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei);
+	DWORD  GetTime(HANDLE hEvent);
+	bool   Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei);
 } /* namespace Events */
 
 /**
  * enumerating
  **/
+
 class CEnumList : public ::LIST<CHAR>
 {
 	static int EnumProc        (LPCSTR pszName, DWORD ofsModuleName, LPARAM lParam);

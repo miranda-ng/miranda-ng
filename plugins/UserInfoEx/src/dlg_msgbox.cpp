@@ -645,7 +645,7 @@ INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
 * param:	
 **/
 
-INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInfo, LPTSTR pszFormat, ...)
+INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszInfo, LPCTSTR pszFormat, ...)
 {
 	TCHAR tszMsg[MAX_SECONDLINE];
 
