@@ -7,4 +7,5 @@
 ;============================================================
 [Start maximized]
 Start maximised
-;other strings
+[Start minimized]
+Start minimised
