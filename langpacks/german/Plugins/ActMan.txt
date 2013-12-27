@@ -209,8 +209,6 @@ Aktionen verwenden
 Aktionsliste
 [Where to use]
 Wo anzuwenden?
-[CList Modern toolbar]
-CList-Modern-Toolbar
 [TabSRMM toolbar]
 TabSRMM-Toolbar
 [Core Hotkey]
@@ -306,3 +304,33 @@ Doppelklick auf die Kontaktliste
 Neuer Kontakt zur Datenbank hinzugefügt
 [Contact deleting]
 Kontakt löschen
+[Parameter]
+
+[Manual]
+
+[Byte]
+
+[Word]
+
+[MessageBox]
+
+[Start minimized]
+
+[Hexadecimal]
+
+[String]
+
+[Program path]
+
+[Program args]
+
+[Clipboard]
+
+[Text to insert]
+
+[Value]
+
+[Save value]
+
+[Unicode]
+

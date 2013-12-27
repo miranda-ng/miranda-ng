@@ -205,8 +205,6 @@
 Список дій
 [Where to use]
 Місце використання
-[CList Modern toolbar]
-Панель кнопок списку контактів Modern
 [TabSRMM toolbar]
 Панель кнопок вікна повідомлень TabSRMM
 [Core Hotkey]

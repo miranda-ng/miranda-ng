@@ -209,8 +209,6 @@ lParam
 Спіс дзеянняў
 [Where to use]
 Месца выкарыстання
-[CList Modern toolbar]
-Панэль кнопак CList Modern
 [TabSRMM toolbar]
 Панэль кнопак TabSRMM
 [Core Hotkey]

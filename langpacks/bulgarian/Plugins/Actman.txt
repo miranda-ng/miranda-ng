@@ -209,8 +209,6 @@
 Списък с действия
 [Where to use]
 Къде да се ползва
-[CList Modern toolbar]
-
 [TabSRMM toolbar]
 
 [Core Hotkey]
@@ -305,4 +303,34 @@ Unicode низ
 [New contact added to database]
 
 [Contact deleting]
+
+[Parameter]
+
+[Manual]
+
+[Byte]
+
+[Word]
+
+[MessageBox]
+
+[Start minimized]
+
+[Hexadecimal]
+
+[String]
+
+[Program path]
+
+[Program args]
+
+[Clipboard]
+
+[Text to insert]
+
+[Value]
+
+[Save value]
+
+[Unicode]
 
