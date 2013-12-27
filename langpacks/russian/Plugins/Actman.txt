@@ -277,7 +277,7 @@
 [Unicode string]
 строка Unicode
 [current contact]
-current contact
+текущий контакт
 [Choose contact]
 Выбрать контакт
 [Miranda service help]
@@ -304,8 +304,6 @@ current contact
 Удаление контакта
 [Parameter]
 Параметр
-[current contact]
-текущий контакт
 [Manual]
 Ручной
 [Byte]
