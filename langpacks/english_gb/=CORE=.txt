@@ -2,6 +2,10 @@
 Send authorisation request
 [Authorization request]
 Authorisation request
+[e.g., Workplace]
+e.g. Workplace
+[e.g., Miranda Database]
+e.g. Miranda Database
 [Fonts and colors]
 Fonts and colours
 [(Background) Color]

@@ -5,5 +5,9 @@
 ;  Version: 0.2.0.1
 ;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
+[Expands to your Miranda path (e.g., c:\\program files\\miranda ng).]
+Expands to your Miranda path (e.g. c:\\program files\\miranda ng).
+[(e.g., default if your your profile is default.dat).]
+(e.g. default if your your profile is default.dat).
 [Customize]
 Customise

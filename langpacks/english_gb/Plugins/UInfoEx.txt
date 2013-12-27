@@ -5,6 +5,8 @@
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
+[Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
+Enter your full e-mail address.\n(e.g. john.doe@provider.com)
 [Birthday popup colors]
 Birthday popup colours
 [Background color]
