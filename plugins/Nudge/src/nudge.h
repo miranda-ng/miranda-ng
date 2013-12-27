@@ -1,6 +1,8 @@
 #ifndef NUDGE_H
 #define NUDGE_H
 
+#define MODULENAME "Nudge"
+
 //	NUDGE account status flags
 #define	NUDGE_ACC_ST0	0x00000001		//Check (countdown) when Offline
 #define	NUDGE_ACC_ST1	0x00000002		//Check (countdown) when Online
@@ -13,7 +15,6 @@
 #define NUDGE_ACC_ST8   0x00000100		//Check (countdown) when On the phone
 #define NUDGE_ACC_ST9   0x00000200		//Check (countdown) when Out to lunch
 
-// For status log
 #define TEXT_LEN 1024
 
 class CNudge
