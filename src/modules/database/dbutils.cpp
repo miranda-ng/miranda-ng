@@ -107,9 +107,9 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 	if (!dbei->pBlob)
 		return 0;
 
-	// no text for this kind of events
-	if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
-		// blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
+	if (dbei->eventType == EVENTTYPE_AUTHREQUEST || dbei->eventType == EVENTTYPE_ADDED) {
+		// EVENTTYPE_AUTHREQUEST: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
+		// EVENTTYPE_ADDED: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 		DWORD  uin = *(DWORD*)dbei->pBlob;
 		HANDLE hContact = (HANDLE)*(DWORD*)(dbei->pBlob + sizeof(DWORD));
 		char  *buf = LPSTR(dbei->pBlob) + sizeof(DWORD)*2;
@@ -117,7 +117,6 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		ptrT tszFirst(getEventString(dbei, buf));
 		ptrT tszLast(getEventString(dbei, buf));
 		ptrT tszEmail(getEventString(dbei, buf));
-		ptrT tszReason(getEventString(dbei, buf));
 		
 		CMString nick, text;
 		if (tszFirst || tszLast) {
@@ -136,9 +135,14 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		}
 		if (!nick.IsEmpty())
 			nick = _T("(") + nick + _T(")");
-			
-		text.Format(TranslateT("Authorization request from %s%s: %s"),
-			(*tszNick == 0) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick, tszReason);
+
+		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
+			ptrT tszReason(getEventString(dbei, buf));
+			text.Format(TranslateT("Authorization request from %s%s: %s"),
+				(*tszNick == 0) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick, tszReason);
+		}
+		else text.Format(TranslateT("You were added by %s%s"),
+			(*tszNick == 0) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick);
 		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_tstrdup(text) : (INT_PTR)mir_t2a(text);
 	}
 
