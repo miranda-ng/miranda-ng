@@ -2185,7 +2185,7 @@ Miranda NG не можа адкрыць гэты профіль
 [The profile already exists]
 Профіль ужо існуе
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
-Не магу перамясціць '%s' у Сметницу, абярыце іншае імя для профіля.
+Не магу перамясціць '%s' у Сметніцу, абярыце іншае імя для профіля.
 [Problem moving profile]
 Праблема з перасоўваннем профіля
 [Unable to create the profile '%s', the error was %x]

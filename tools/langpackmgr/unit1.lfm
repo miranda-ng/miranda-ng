@@ -138,4 +138,50 @@ object Form1: TForm1
     Caption = 'Other langs:'
     ParentColor = False
   end
+  object Edit1: TEdit
+    Left = 8
+    Height = 21
+    Top = 8
+    Width = 400
+    TabOrder = 10
+    Visible = False
+  end
+  object Edit2: TEdit
+    Left = 8
+    Height = 21
+    Top = 36
+    Width = 400
+    TabOrder = 11
+    Visible = False
+  end
+  object Button5: TButton
+    Left = 416
+    Height = 21
+    Top = 8
+    Width = 83
+    Caption = 'Find'
+    OnClick = Button5Click
+    TabOrder = 12
+    Visible = False
+  end
+  object Button6: TButton
+    Left = 416
+    Height = 21
+    Top = 36
+    Width = 83
+    Caption = 'Replace'
+    OnClick = Button6Click
+    TabOrder = 13
+    Visible = False
+  end
+  object CheckListBox1: TCheckListBox
+    Left = 8
+    Height = 272
+    Top = 64
+    Width = 491
+    Columns = 2
+    ItemHeight = 0
+    TabOrder = 14
+    Visible = False
+  end
 end

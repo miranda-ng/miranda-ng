@@ -364,9 +364,23 @@ E-Mail
 [Keeps your custom birthday up to date.]
 Рэзервуе наладжаныя дні нараджэння.
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
+[Due to a parameter error, one of the treeitems can't be added!]
+З-за памылкі ў параметры, адзін з элементаў дрэва не можа быць дададзены!
+[Rename Item]
+Пераназваць
+[Hide Item]
+Схаваць
+[Show Items:]
+Паказаць:
 [Reset to defaults]
 Скінуць
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
+[Creating unique name for a page failed with %d and error code %d]
+Памылка пры стварэнні імя для старонкі з %d, код памылкі %d
+[Creating the label for a page failed with %d and error code %d]
+Памылка пры стварэнні назвы для старонкі з %d, код памылкі %d
+[The dialog template type is no longer supported]
+Шаблон дыялога больш не падтрымліваецца
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Дадаць новае свята
@@ -375,8 +389,12 @@ E-Mail
 [Unspecified]
 Не паказана
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Edit E-Mail]
+Кіраваць E-Mail
 [Edit Phone Number]
 Змяніць тэлефонны нумар
+[The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
+Нумар тэлефона павінны пачынацца з + і утрымоўваць\nлічбы, прабелы, дужкі і працяжнікі.
 [Choose the item to display.]
 Абраць запіс.
 [Edit the currently displayed item.]
@@ -387,6 +405,8 @@ E-Mail
 Выдаліць дадзены запіс.
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 Фатальна: Немагчыма рэдагаваць гэты запіс!\nГэтага не павінна было адбыцца!
+[Do you really want to delete the current selected item?\n\t%s\n\t%s]
+Выдаліць абраны запіс?\n\t%s\n\t%s
 [Other]
 Іншае
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
@@ -422,6 +442,8 @@ E-Mail
 Так
 [No]
 Не
+[Abort]
+Скасаваць
 [Ignore]
 Ігнараваць
 [Error]
@@ -431,6 +453,18 @@ E-Mail
 Пратакол '%s' не далучаны
 [Upload Details]
 Запампаваць дэталі
+[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
+Зараз вы не далучаны да ICQ.\nКаб абнавіць інфармацыю на серверы, вы павінны далучыцца.\n\nЗмяненні захаваюцца толькі лакальна.
+[Uploading]
+Загрузка
+[Creating the imagelist failed!]
+Памылка пры стварэнні imagelist!
+[Could not find contact's protocol. Maybe it is not active!]
+Немагчыма знайсці пратакол кантакта. Магчыма, ен адключаны!
+[No pages have been added. Canceling dialog creation!]
+Старонкі не былі дададзены. Скасаванне стварэння дыялога!
+[Details dialog failed to be created. Returning error is %d.]
+Памылка стварэння дыялога Uinfoex. Памылка %d.
 [General]
 Агульнае
 [Contact (private)]
@@ -453,6 +487,12 @@ E-Mail
 Імпарт з файла
 [Owner]
 Уладальнік
+[Upload ICQ Details]
+Загрузіць дэталі ICQ
+[Upload failed]
+Загрузка не ўдалася
+[Your details were not uploaded successfully.\nThey were written to database only.]
+Вашыя дэталі не загружаныя.\nЯны захаваныя лакальна.
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM Naming]
@@ -495,6 +535,8 @@ E-Mail
 Мабільны
 [Custom Phone]
 Абраны тэлефон
+[e-mail]
+E-Mail
 [Down arrow]
 Стрэлка ўніз
 [Add]
@@ -551,6 +593,8 @@ E-Mail
 Свята праз 9 дзён
 [Anniversary later]
 Свята пазней
+[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
+Увага: Версія Вашага цяперашняга набора абразкоў адрозніваецца ад версіі UserInfoEx.\nНекаторыя абразкі могуць адлюстроўвацца няправільна
 [Main]
 Галоўны
 ;file \plugins\UserInfoEx\src\mir_icolib.h
@@ -598,6 +642,8 @@ E-Mail
 Другасны e-mail
 [Tertiary e-mail]
 Трэці e-mail
+[Company]
+Кампанія
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Пытанне
@@ -613,6 +659,8 @@ E-Mail
 Толькі дні нараджэння
 [everything]
 Усе напамінкі
+[mBirthday]
+Дні нараджэння
 [UserInfo (default)]
 Асабістыя дадзеныя (па змаўчанні)
 [This is the reminder message]
@@ -634,6 +682,14 @@ E-Mail
 Інтарэсы
 [<empty>]
 <не>
+[Add Affliation]
+Дадаць
+[Edit Category]
+Змяніць катэгорыю
+[Edit Value]
+Кіраваць значэнне
+[Delete an entry]
+Выдаліць запіс
 [Do you really want to delete this entry?]
 Вы сапраўды жадаеце выдаліць гэта?
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
@@ -999,10 +1055,14 @@ Web Дызайн
 ;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Адправіць e-mail
+[Memory allocation error!]
+Памылка выдзялення памяці!
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (uinfoex)]
 Пол (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
+[User has no valid homepage]
+У карыстача няма хатняй старонкі
 [View Homepage]
 Сайт
 [&Homepage]
@@ -1012,6 +1072,8 @@ Web Дызайн
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 ;file \plugins\UserInfoEx\src\svc_reminder.cpp
+[an anniversary]
+свята
 [He]
 Яму
 [She]
@@ -1040,6 +1102,10 @@ Web Дызайн
 Напамінак пра свята
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
+[Settings: %S]
+Налады: %S
+[Events: %S]
+Падзеі: %S
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [All Contacts]
 Усе кантакты
@@ -1053,16 +1119,34 @@ Miranda NG
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [Import complete]
 Імпарт завершаны
+[Some basic statistics]
+Статыстыка
+[Added %d of %d contacts stored in the ini-file.]
+Дададзена %d з %d кантактаў з ini-файла.
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+INI файл "%s"\nнельга адчыніць для чытання.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 Усе кантакты
 [Select a destination file...]
 Абярыце імя файла для экспарту
+[Import User Details from VCard]
+Імпарт дэталей карыстальніка з vCard
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Can't create xml file!\n%S]
+Немагчыма стварыць XML файл!\n%S
+[Importing %s caused error %d]
+Імпарт %s вызваў памылку %d
+[Loading contact %s from xml failed with error %d]
+Памылка %d пры загрузцы кантакта %s з xml
+[Importing Owner caused error %d]
+Імпарт уладальніка вызваў памылку %d
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
 Немагчыма загрузіць XML картку "%s"\nПамылка:%d\nАпісанне:%s
 [The selected file is no valid XMLCard]
 Абраны файл не з'яўляецца XML карткай
+[The version of the XMLCard is not supported by UserInfoEx]
+Гэтая версія XML карткіне падтрымліваецца плагінам UserInfoEx
 [Complete]
 Гатова
 [Owner contact successfully imported.]

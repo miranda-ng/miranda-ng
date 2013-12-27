@@ -4,7 +4,7 @@ interface
 
 uses
   classes, sysutils, fileutil, forms, controls, graphics, dialogs, stdctrls,
-  extctrls, Windows;
+  extctrls, CheckLst, Windows;
 
 type
 
@@ -15,6 +15,11 @@ type
     button2: tbutton;
     button3: tbutton;
     button4: tbutton;
+    Button5: TButton;
+    Button6: TButton;
+    CheckListBox1: TCheckListBox;
+    Edit1: TEdit;
+    Edit2: TEdit;
     Label1: TLabel;
     memo1: tmemo;
     memo2: tmemo;
@@ -26,6 +31,8 @@ type
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
     procedure combobox1change(sender: tobject);
     procedure ComboBox2Change(Sender: TObject);
     procedure formcreate(sender: tobject);
@@ -68,29 +75,44 @@ begin
 view:='english';
 trlang:=TstringList.Create;
 trline:=TstringList.Create;
- if (paramstr(1)='-r') then
+begin
+     res:=findfirst(extractfilepath(application.exename)+'*',faanyfile,sr);
+     while res = 0 do
+           begin
+                if ((sr.attr and fadirectory)=fadirectory)
+                and ((sr.name='.')or(sr.name='..')) then
+                    begin res:=findnext(sr); continue; end;
+                if ((sr.attr and fadirectory)=fadirectory)
+                and (fileexists(extractfilepath(application.exename)+
+                '/'+sr.name+'/=head=.txt')) and (sr.name<>'english') then
+                     begin
+                          ListBox.items.add(sr.name);
+                          trlang.add(sr.name);
+                     end;
+                res:=findnext(sr);
+           end;
+     SysUtils.FindClose(sr);
+     end;
+
+     if (paramstr(1)='-r') then
     begin
          form1.caption:='Miranda NG Langpack Tools: Replacer';
-    end
-    else
-    begin
-         res:=findfirst(extractfilepath(application.exename)+'*',faanyfile,sr);
-         while res = 0 do
-               begin
-                    if ((sr.attr and fadirectory)=fadirectory)
-                    and ((sr.name='.')or(sr.name='..')) then
-                    begin res:=findnext(sr); continue; end;
-                    if ((sr.attr and fadirectory)=fadirectory)
-                    and (fileexists(extractfilepath(application.exename)+
-                    '/'+sr.name+'/=head=.txt')) and (sr.name<>'english') then
-                    begin
-                    ListBox.items.add(sr.name);
-                    trlang.add(sr.name);
-                    end;
-                    res:=findnext(sr);
-               end;
-         SysUtils.FindClose(sr);
-
+         listbox.visible:=false;
+         memo1.Visible:=false;
+         memo2.Visible:=false;
+         combobox1.visible:=false;
+         combobox2.visible:=false;
+         button1.visible:=false;
+         button2.visible:=false;
+         button3.visible:=false;
+         button4.visible:=false;
+         label1.visible:=false;
+         radiogroup1.visible:=false;
+         edit1.visible:=true;
+         edit2.visible:=true;
+         button5.visible:=true;
+         button6.visible:=true;
+         checklistbox1.visible:=true;
     end;
 end;
 
@@ -111,6 +133,14 @@ begin
   memo1.Height:=Trunc((form1.Height-80)/2);
   memo2.Height:=Trunc((form1.Height-80)/2);
   memo2.top:=44+memo1.Height;
+
+  edit1.width:=form1.width-105;
+  edit2.width:=form1.width-105;
+  button5.left:=form1.width-88;
+  button6.left:=form1.width-88;
+  checklistbox1.width:=form1.width-12;
+  checklistbox1.height:=form1.height-68;
+
 end;
 
 procedure tform1.stringlist;
@@ -313,6 +343,82 @@ procedure tform1.Button4Click(Sender: TObject);
                 end;
             end;
    ShellExecute(0, 'open',PChar(str), nil, nil, SW_SHOW);
+end;
+
+procedure tform1.Button5Click(Sender: TObject);
+begin
+  CheckListBox1.Items.clear;
+  for i := 0 to trlang.Count-1 do
+begin
+  trline:=TstringList.Create;
+  if fileexists(extractfilepath(application.exename)
+  +trlang[i]+'/'+'=CORE=.txt') then
+    begin
+      trline.LoadFromFile(extractfilepath(application.exename)
+      +trlang[i]+'/'+'=CORE=.txt');
+      for j := 0 to trline.count-1 do
+      if trline[j]=edit1.text then
+        begin
+          CheckListBox1.Items.Add(trlang[i]+'/'+'=CORE=.txt');
+          break;
+        end;
+     end;
+  trline.Free;
+
+ res:=FindFirst(ExtractFilePath(Application.ExeName)+'/'
++trlang[i]+'/plugins/*.txt', faAnyFile, sr);
+ while res = 0 do
+    begin
+      trline:=TstringList.Create;
+      trline.LoadFromFile(extractfilepath(application.exename)
+      +'/'+trlang[i]+'/'+'plugins/'+sr.name);
+      for j := 0 to trline.count-1 do
+        if trline[j]=edit1.text then
+          begin
+            CheckListBox1.Items.Add(trlang[i]+'/'+'plugins/'+sr.name);
+            break;
+          end;
+      trline.free;
+       res:=FindNext(sr);
+    end;
+     FindClose(res);
+
+res:=FindFirst(ExtractFilePath(Application.ExeName)+'/'
++trlang[i]+'/weather/*.txt', faAnyFile, sr);
+ while res = 0 do
+    begin
+      trline:=TstringList.Create;
+      trline.LoadFromFile(extractfilepath(application.exename)
+      +'/'+trlang[i]+'/'+'weather/'+sr.name);
+      for j := 0 to trline.count-1 do
+        if trline[j]=edit1.text then
+          begin
+            CheckListBox1.Items.Add(trlang[i]+'/'+'plugins/'+sr.name);
+            break;
+          end;
+      trline.free;
+       res:=FindNext(sr);
+    end;
+     FindClose(res);
+
+end;
+for i := 0 to CheckListBox1.Count-1 do
+ CheckListBox1.Checked[i]:=true;
+end;
+
+procedure tform1.Button6Click(Sender: TObject);
+begin
+   for i := 0 to CheckListBox1.Count-1 do
+ if CheckListBox1.Checked[i]=true then
+ begin
+    trline:=TstringList.Create;
+    trline.LoadFromFile(extractfilepath(application.exename)
+      +'/'+CheckListBox1.Items[i]);
+    for j := 1 to trline.Count-1 do
+      if trline[j]=edit1.text then  trline[j]:=edit2.text;
+    trline.SaveToFile(extractfilepath(application.exename)
+      +'/'+CheckListBox1.Items[i]);
+ end;
 end;
 
 procedure tform1.ListBox1Click(sender: tobject);
