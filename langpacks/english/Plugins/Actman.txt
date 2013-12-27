@@ -107,7 +107,6 @@
 [Use Actions]
 [Action list]
 [Where to use]
-[CList Modern toolbar]
 [TabSRMM toolbar]
 [Core Hotkey]
 [Tray menu]
