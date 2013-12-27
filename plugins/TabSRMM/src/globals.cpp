@@ -624,55 +624,46 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 
 void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 {
-	if (c == 0)
+	if (c == 0 || !c->isValid())
 		return;
 
-	HANDLE	hContact = c->getContact();
+	HANDLE hContact = c->getContact();
+	if (!PluginConfig.m_LogStatusChanges && !M.GetByte(hContact, "logstatuschanges", 0))
+		return;
 
-	bool	fGlobal = PluginConfig.m_LogStatusChanges ? true : false;
-	DWORD	dwMask = db_get_dw(hContact, SRMSGMOD_T, "mwmask", 0);
-	DWORD	dwFlags = db_get_dw(hContact, SRMSGMOD_T, "mwflags", 0);
+	/*
+	* don't log them if WE are logging off
+	*/
+	if (CallProtoService(c->getProto(), PS_GETSTATUS, 0, 0) == ID_STATUS_OFFLINE)
+		return;
 
-	BYTE	fLocal = M.GetByte(hContact, "logstatuschanges", 0);
+	WORD wStatus = LOWORD(wParam);
+	WORD wOldStatus = HIWORD(wParam);
+	if (wStatus == wOldStatus)
+		return;
 
-	if (fGlobal || fLocal) {
-		/*
-		 * don't log them if WE are logging off
-		 */
-		if (CallProtoService(c->getProto(), PS_GETSTATUS, 0, 0) == ID_STATUS_OFFLINE)
-			return;
+	TCHAR *szOldStatus = pcli->pfnGetStatusModeDescription(wOldStatus, 0);
+	TCHAR *szNewStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
+	if (szOldStatus == 0 || szNewStatus == 0)
+		return;
 
-		WORD wStatus = LOWORD(wParam);
-		WORD wOldStatus = HIWORD(wParam);
-		if (wStatus == wOldStatus)
-			return;
+	CMString text;
+	if (wStatus == ID_STATUS_OFFLINE)
+		text = TranslateT("signed off.");
+	else if (wOldStatus == ID_STATUS_OFFLINE)
+		text.Format(TranslateT("signed on and is now %s."), szNewStatus);
+	else
+		text.Format(TranslateT("changed status from %s to %s."), szOldStatus, szNewStatus);
 
-		TCHAR buffer[450];
-
-		TCHAR *szOldStatus = pcli->pfnGetStatusModeDescription(wOldStatus, 0);
-		TCHAR *szNewStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
-		if (szOldStatus == 0 || szNewStatus == 0)
-			return;
-
-		if (c->isValid()) {
-			if (wStatus == ID_STATUS_OFFLINE)
-				mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("signed off."));
-			else if (wOldStatus == ID_STATUS_OFFLINE)
-				mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("signed on and is now %s."), szNewStatus);
-			else
-				mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("changed status from %s to %s."), szOldStatus, szNewStatus);
-		}
-
-		ptrA szMsg( mir_utf8encodeT(buffer));
-		DBEVENTINFO dbei = { sizeof(dbei) };
-		dbei.pBlob = (PBYTE)(char*)szMsg;
-		dbei.cbBlob = lstrlenA(szMsg) + 1;
-		dbei.flags = DBEF_UTF | DBEF_READ;
-		dbei.eventType = EVENTTYPE_STATUSCHANGE;
-		dbei.timestamp = time(NULL);
-		dbei.szModule = const_cast<char *>(c->getProto());
-		db_event_add(hContact, &dbei);
-	}
+	ptrA szMsg(mir_utf8encodeT(text));
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.pBlob = (PBYTE)(char*)szMsg;
+	dbei.cbBlob = lstrlenA(szMsg) + 1;
+	dbei.flags = DBEF_UTF | DBEF_READ;
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.timestamp = time(NULL);
+	dbei.szModule = const_cast<char *>(c->getProto());
+	StreamInEvents(c->getDat()->hwnd, NULL, 1, 1, &dbei);
 }
 
 /**

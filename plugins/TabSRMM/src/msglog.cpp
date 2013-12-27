@@ -976,11 +976,10 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 					break;
 				case 'M':           // message
 					if (bIsStatusChangeEvent)
-						dbei.eventType = EVENTTYPE_STATUSCHANGE;
+						dbei.eventType = EVENTTYPE_MESSAGE;
 					switch (dbei.eventType) {
 					case EVENTTYPE_MESSAGE:
 					case EVENTTYPE_ERRMSG:
-					case EVENTTYPE_STATUSCHANGE:
 						if (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_ERRMSG) {
 							if (dbei.eventType == EVENTTYPE_ERRMSG && dbei.cbBlob == 0)
 								break;

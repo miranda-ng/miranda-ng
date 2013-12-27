@@ -87,6 +87,7 @@
 #include <m_modernopt.h>
 #include <m_xstatus.h>
 #include <m_toptoolbar.h>
+#include <m_string.h>
 
 #include <m_ieview.h>
 #include <m_popup2.h>
