@@ -297,3 +297,31 @@
 Новий контакт додано до бази
 [Contact deleting]
 Контакт видалено
+[Parameter]
+Параметр
+[Manual]
+Вручну
+[Byte]
+Байт
+[Word]
+Слово
+[MessageBox]
+Вікно сповіщення
+[Start minimized]
+Запуск згорнутим
+[Hexadecimal]
+Шістнадцяткове
+[String]
+Рядок
+[Program path]
+Шлях
+[Program args]
+Аргументи
+[Clipboard]
+Буфер обміну
+[Text to insert]
+Текст для вставки
+[Value]
+Значення
+[Save value]
+Збер. значення

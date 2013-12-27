@@ -1,7 +1,0 @@
-﻿[Plugin updater for Miranda NG.]
-[Files source]
-[Download complete. Do you want to go to plugins option page?]
-[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
-[Check for plugin updates]
-[Plugin Updater HTTP connection]
-[An error occurred while checking new updates.]

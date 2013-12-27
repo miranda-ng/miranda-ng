@@ -258,9 +258,9 @@
 [Second name:]
 По батькові:
 [jun.]
-мл.
+мол.
 [sen.]
-сен.
+ст.
 [Partner:]
 Партнер:
 [Language skills]

@@ -1,75 +1,83 @@
 ﻿#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
 ;============================================================
-;  File: folders.dll
-;  Module: folders
-;  Version: 0.1.5.8
-;  Authors: Cristian Libotean
+;  File: Folders.dll
+;  Plugin: Custom profile folders
+;  Version: 0.2.0.1
+;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
-[Service plugin. Allows plugins to save their data to selected user folders; supports variables.]
-Службовий плагін. Дозволяє іншим плагінів зберігати свої дані в довільних папках. Підтримуються змінні.
-[Allows plugins to save their data to selected user folders; supports variables.]
-Дозволяє іншим плагінів зберігати свої дані в довільних папках. Підтримуються змінні.
+[Allows plugins to save their data to user selected folders; supports variables.]
+Дозволяє іншим плагінам зберігати свої дані в довільних папках. Підтримуються змінні.
+[Dialog]
+Діалог
 [Custom folders]
 Папки
+[Preview]
+Тест
+[Edit]
+Редагувати
 [Refresh preview]
 Оновити
 [Variables help]
 Змінні...
-[Changes not saved]
-Зміни не збережено
-[Some changes weren't saved. Apply the changes now ?]
-Зміни не збережено. Застосувати зміни?
 [Custom folders variables help]
 Допомога по змінним (Папки)
-[Custom profile folders]
-Служба папок
+[Close]
+Закрити
+[Some changes weren't saved. Apply the changes now?]
+Зміни не збережено. Застосувати зміни?
+[Changes not saved]
+Зміни не збережено
 [Don't forget to click on Apply to save the changes. If you don't then the changes won't]
-Не забудьте натиснути Застосувати для збереження змін. Якщо ви забудете це зробити, зміни
+Не забудьте натиснути "Застосувати" для збереження змін. Якщо ви забудете це зробити, зміни
 [be saved to the database, they will only be valid for this session.]
 не збережуться в базі та будуть використані лише для поточної сесії.
 [Variable string]
 Змінна
 [What it expands to:]
 Що повертає:
-[Expands to your Miranda path (e.g: c:\\program files\\miranda ng).]
-Повертає шлях до вашої Miranda NG (наприклад, c:\\program files\\miranda ng).
+[Expands to your Miranda path (e.g., c:\\program files\\miranda ng).]
+Повертає шлях до вашої Miranda NG (наприклад, C:\\Program Files\\Miranda NG).
 [Expands to your profile path - the value found in mirandaboot.ini,]
-Повертає шлях до вашого профілю - значення знайдене в mirandaboot.ini,
-[ProfileDir section (usually inside Miranda\'s folder).]
+Повертає шлях до вашого профілю - значення, знайдене в mirandaboot.ini,
+[ProfileDir section (usually inside Miranda's folder).]
 у секції ProfileDir (зазвичай знаходиться в папці Miranda NG).
 [Expands to your current profile name without the extenstion.]
 Повертає ім'я вашого профілю без розширення.
-[(e.g. default if your your profile is default.dat).]
+[(e.g., default if your your profile is default.dat).]
 (наприклад, default, якщо ваш профіль default.dat).
 [Environment variables]
 Змінні оточення
 [The plugin can also expand environment variables; the variables are specified like in any other]
-Також плагін дозволяє використовувати змінні оточення. Вони задаються також, як в будь-якої
+Також плагін дозволяє використовувати змінні оточення. Вони задаються так само, як і в будь-якій
 [program that can use environment variables, i.e. %<env variable>%.]
-програмою, яка може їх використовувати. Наприклад %<env variable>%.
+програмі, яка може їх використовувати. Наприклад %<env variable>%.
 [Note: Environment variables are expanded before any Miranda variables. So if you have, for]
-Примітка: Змінні оточення обробляються перед будь-якими змінними Miranda NG. Якщо у вас,
+Примітка. Змінні оточення обробляються перед будь-якими змінними Miranda NG. Якщо у вас,
 [example, %profile_path% defined as a system variable then it will be expanded to that value]
-наприклад, %profile_path% визначена як системна змінна, тоді буде повернуто значення системної
-[instead of expanding to Miranda\'s profile path.]
-змінної, а не змінною %profile_path% Miranda NG.
+наприклад, %profile_path% визначена як системна змінна, то буде повернуто значення системної
+[instead of expanding to Miranda's profile path.]
+змінної, а не змінної %profile_path% Miranda NG.
 [Examples:]
 Приклади:
 [If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\\', current]
-Якщо значення ProfileDir секції ProfileDir файлу mirandaboot.ini - це '.\\profiles\\', поточний
-[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\' then:]
-це профіль 'default.dat' і Miranda NG знаходиться в 'c:\\program files\\miranda ng\\', то:
-[will to expand 'c:\\program files\\miranda ng']
-поверне 'c:\\program files\\miranda ng'
-[will to expand 'c:\\program files\\miranda ng\\profiles']
-поверне 'c:\\program files\\miranda ng\\profiles'
-[will to expand 'default']
-поверне 'default'
-[will to expand the temp folder of the current user.]
+Якщо значення ProfileDir у секції ProfileDir файлу mirandaboot.ini - це .\\profiles\\, поточний
+[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\\' then:]
+профіль - default.dat, а Miranda NG знаходиться в C:\\Program Files\\Miranda NG\\, то:
+[will expand to 'c:\\program files\\miranda ng']
+поверне C:\\Program Files\\Miranda NG
+[will expand to 'c:\\program files\\miranda ng\\profiles']
+поверне C:\\Program Files\\Miranda NG\\Profiles
+[will expand to 'default']
+поверне "default"
+[will expand to the temp folder of the current user.]
 поверне тимчасову папку TEMP поточного користувача.
-[will to expand 'c:\\program files\\miranda ng\\profiles\\default']
-поверне 'c:\\program files\\miranda ng\\profiles\\default'
-[will to expand 'c:\\program files\\miranda ng\\plugins\\config']
-поверне 'c:\\program files\\miranda ng\\plugins\\config'
+[will expand to 'c:\\program files\\miranda ng\\profiles\\default']
+поверне С:\\Program Files\\Miranda NG\\Profiles\\default
+[will expand to 'c:\\program files\\miranda ng\\plugins\\config']
+поверне C:\\Program Files\\Miranda NG\\Plugins\\config
 [Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
-Примітка: пробіли на початку і в кінці рядка обрізаються, також як і останні.
+Примітка. Пробіли на початку і в кінці рядка обрізаються, так само як і останні.
+[Folders]
+Папки
+[Customize]
+Тонке налаштування

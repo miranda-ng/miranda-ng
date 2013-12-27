@@ -46,7 +46,7 @@
 [Environment variables]
 Переменные окружения
 [The plugin can also expand environment variables; the variables are specified like in any other]
-Также плагин позволяет использовать переменные окружения. Они задаются также, как в любой
+Также плагин позволяет использовать переменные окружения. Они задаются так же, как в любой
 [program that can use environment variables, i.e. %<env variable>%.]
 программе, которая может их использовать. Например %<env variable>%.
 [Note: Environment variables are expanded before any Miranda variables. So if you have, for]
@@ -55,6 +55,10 @@
 к примеру, %profile_path% определена как системная переменная, тогда будет возвращено значение системной переменной
 [Examples:]
 Примеры:
+[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
+Если значение ProfileDir секции ProfileDir файла mirandaboot.ini - это '.\\profiles\\', текущий
+[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\' then:]
+профиль это 'default.dat' и Miranda NG находится в 'c:\\program files\\miranda ng\\', то:
 [will expand to 'c:\\program files\\miranda ng']
 вернёт 'c:\\program files\\miranda ng'
 [will expand to 'c:\\program files\\miranda ng\\profiles']

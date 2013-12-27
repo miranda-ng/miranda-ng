@@ -1,3 +1,2 @@
-﻿[when full-screen mode is active]
-[OK]
+﻿[OK]
 [x]

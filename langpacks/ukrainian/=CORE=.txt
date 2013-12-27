@@ -277,11 +277,11 @@
 Щоб створити новий профіль, заповніть форму
 [Profile]
 Профіль
-[e.g. Workplace]
+[e.g., Workplace]
 наприклад, "Робочий"
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Виберіть драйвер бази даних. Інший драйвер може мати більше функцій та можливостей. Якщо не впевнені, користуйтеся стандартним драйвером.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 напр., Miranda Database
 [Driver]
 Драйвер
@@ -1186,7 +1186,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [State:]
 Область:
 [Postal code:]
-Iндекс:
+Індекс:
 [Country:]
 Країна:
 [Spoken languages:]

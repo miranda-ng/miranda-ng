@@ -43,6 +43,8 @@
 Обліковий запис
 [Set]
 Вибрати
+[when full-screen mode is active]
+у повноекранному режимі
 [when screen saver engages]
 при запуску заставки
 [when workstation is locked]
