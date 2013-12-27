@@ -5,17 +5,45 @@
 ;  Version: 0.0.0.54
 ;  Authors: leecher, tweety, jls17
 ;============================================================
+[Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
+Падтрымка пратакола Skype для Miranda NG. Класічная рэалізацыя, патрабуе запушчаны кліент Skype.
 ;file \protocols\SkypeClassic\res\Resource.rc
 [Set]
 Абраць
 [Delete]
 Выдаліць
+[Start Skype with Miranda NG if not running using the following command line options:]
+Запускаць Skype разам з Miranda, калі яшчэ не запушчаны, з наступнымі ключамі:
+[/NOSPLASH - Don't show splash screen on startup]
+/NOSPLASH - Непаказваць застаўку пры запуску
+[/MINIMIZED - Start Skype minimized]
+/MINIMIZED - Запусціць Skype згорнутым у трэі
+[/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
+/NOTRAY - Абразок Skype у трэі  - "Нябачны"
+[/REMOVEABLE - For running portable Skype]
+/REMOVEABLE - Для запуска пераноснага Skype
+[/SECONDARY - This is the second instance]
+/SECONDARY - Запуск другой копіі Skype
+[/DATAPATH - Specify Skype data folder*]
+/DATAPATH - Шлях да профіля Skype*
+[Use custom Skype executable*]
+Свой шлях да Skype.exe*
+[* Relative path root is Miranda NG folder]
+* Шлях адносна корня Miranda NG
+[Shutdown Skype when you close Miranda NG]
+Зачыніць Skype при выхадзе з Miranda NG
+[User name:]
+Логін:
 [Password:]
 Пароль:
+[Dial]
+Патэлефанаваць
 [Number:]
 Нумар:
 [Cancel]
 Скасаваць
+[%s is calling]
+%s тэлефануе
 [OK]
 ОК
 [Dialog]
@@ -28,10 +56,14 @@
 Імя:
 [Birthday:]
 Дзень нараджэння:
+[Sex:]
+Пол:
 [City:]
 Горад:
 [Country:]
 Краіна:
+[Province:]
+Правінцыя:
 [Home phone:]
 Хатні тэлефон:
 [Office phone:]
@@ -40,6 +72,10 @@
 Сайт:
 [Save]
 Захаваць
+[Skype Popups]
+Усплывальныя вокны Skype
+[Incoming Calls]
+Уваходныя званкі
 [seconds]
 секунд(ы)
 [Background]
@@ -51,6 +87,8 @@
 [Preview]
 Тэст
 ;file \protocols\SkypeClassic\src\contacts.cpp
+[Call (Skype)]
+Пазваніць па Skype
 [&File]
 &Файл
 ;file \protocols\SkypeClassic\src\gchat.cpp
@@ -62,12 +100,28 @@
 Я
 [&Leave chat session]
 &Пакінуць сеанс
+[Set &Topic...]
+Усталяваць тэму...
 [User &details]
 &Інфармацыя
 [User &history]
 Гісторыя карыстача
 ;file \protocols\SkypeClassic\src\skype.cpp
+[Phone call]
+Званок
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
+[Skype default]
+Змаўчанні Skype
+[Skype advanced]
+Skype дадаткова
+[Skype proxy]
+Skype проксі
 [Avatar]
 Аватар
+[Details]
+Дэталі
+[MALE]
+Мужчына
+[FEMALE]
+Жанчына
 ;file \protocols\SkypeClassic\src\skypesvc.cpp

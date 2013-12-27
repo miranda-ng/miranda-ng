@@ -52,6 +52,10 @@
 Рамка
 [Draw border]
 Паказваць рамку
+[Left-top edge's color:]
+Колер уверсе злева:
+[Right-bottom edge's color:]
+Колер унізе справа:
 [Background]
 Фон
 [Background color:]

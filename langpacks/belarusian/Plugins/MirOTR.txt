@@ -41,7 +41,7 @@ OTR Стварэнне закрытага ключа
 [Show verification dialog when receiving unverified fingerprint]
 Дыялог пацверджання пры атрыманні неправеранага адбітка
 [Set OTR policy per protocol]
-Усталяваць OTR-палітыку па пратаколах
+Усталяваць OTR-палітыку паконтна
 [Current policy:]
 Бягучая палітыка:
 [Generate new private key]
@@ -246,6 +246,8 @@ OTR: усталяваны SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 Вы выкарыстоўваеце SecureIM. MirOTR будзе працаваць толькі з кантактамі з адключаным SecureIM.
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
+[MirOTR menu]
+Меню MirOTR
 [OTR Status]
 OTR Статус
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

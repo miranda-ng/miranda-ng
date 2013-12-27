@@ -62,6 +62,8 @@
 Зменныя:\n  %n : Імя\n  %m : Паведамленне\n  %l : Новы радок
 [Help]
 Дапамога
+[Miranda NG is great and this is a long message.]
+Miranda NG цудоўная, а гэта - прыклад досыць доўгага паведамлення.
 [Plugins]
 Плагіны
 [OSD]

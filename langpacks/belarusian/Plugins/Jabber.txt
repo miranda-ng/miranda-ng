@@ -326,6 +326,24 @@ JID / URL:
 Просты рэжым
 [Advanced Mode]
 Пашыраны  рэжым
+[Add list... (Ins)]
+Дадаць спіс... (Ins)
+[Activate (Space)]
+Катцівіраваць (прабел)
+[Set as default (Ctrl+Space)]
+Змаўчанні (Ctrl+прабел)
+[Remove list (Del)]
+Выдаліць спісак (Del)
+[Add rule (Ins)]
+Дадць правіла (Ins)
+[Edit rule... (F2)]
+Змяніць правіла (F2)
+[Move rule up (Alt+Up)]
+Перасунуць уверх (Alt+уверх)
+[Move rule down (Alt+Down)]
+Перасунуць уніз (Alt+уніз)
+[Remove rule (Del)]
+Выдаліць правіла (Del)
 [Privacy rule]
 Налады прыватнасці
 [If:]
@@ -396,6 +414,18 @@ JID / URL:
 Шлёпнуць:
 [Authorization request]
 Запыт на аўтарызацыю
+[HTTP Authorization\nAccept or reject incoming request]
+HTTP аўтарызацыя\nПрыняць ці адхіліць ўваходны запрос
+[Someone (maybe you) has requested the following file:]
+Нехта (магчыма, вы) запытаў наступны файл:
+[Request was sent from JID:]
+Запыт адпраўлены з JID:
+[The transaction identifier is:]
+Ідэнтыфікатар транзакцыі:
+[Request method is:]
+Метад запроса:
+[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
+Націсніце "аўтарызаваць" каб прыняць запрос або "забараніць" для адхілення.
 [Authorize]
 Аўтарызаваць
 [Deny]
@@ -788,6 +818,8 @@ Jabber памылка
 Памылка запыту спісу пакояў.
 [No rooms available on server.]
 На серверы няма дасяжных пакояў
+[Room list request timed out.]
+Час запроса спісу пакояў
 [<no nick>]
 <без мянушкі>
 [Loading...]

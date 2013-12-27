@@ -126,6 +126,8 @@
 Паказваць апісанне статусу
 [Ignore empty status and xStatus messages]
 Ігнараваць пустыя паведамленні
+[Connection timeout]
+Чаканне пры старце
 [Notification]
 Апавяшчэнне
 [Disable for extra status 'Music']
@@ -176,6 +178,8 @@
 Вокны пры злучэнні
 [Accounts]
 Конты
+[Enable/Disable accounts which you don't wish to be notified for:]
+Уключыць/Выключыць абвесткі для контаў:
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 Файлы гукаў
@@ -361,6 +365,10 @@
 хстатус
 [<unknown>]
 <невядома>
+[%s, %s. %s removed %s.\r\n]
+%s, %s. %s выдаліў %s.\r\n
+[%s, %s. %s changed %s to: %s.\r\n]
+%s, %s. %s змяніў%s на: %s.\r\n
 ;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %N to: %T%D%I]
 змяніў(а) %N на: %T%D%I
@@ -376,3 +384,7 @@
 змяніў(а) паведамленне %N @ %I
 [has %N @ %T%D%I]
 %N @ %T%D%I
+[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
+Даступныя зменныя:\r\n\r\n%N\tназва xСтатуса (хСтатус, Настрой, Занятак)\r\n%Т\tзагаловак xСтатуса\r\n%I\tтэкст xСтатуса\r\n% D\tпадзельнік\r\n% B\tнаступны радок (можна як падзельнік)
+[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+Даступныя зменныя:\r\n\r\n%n\tНовае паведамленне статуса\r\n%o\tСтарое паведамленне статуса\r\n%c\tМянушка\r\n\\n\tНаступны радок\r\n\\t\tТабуляцыя

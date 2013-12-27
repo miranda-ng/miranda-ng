@@ -40,6 +40,8 @@ Skype пратакол для Miranda NG.
 &OK
 [Set password]
 Усталяваць пароль
+[Hint:]
+!!!:
 [Enter password]
 Увядзіце пароль
 [Remember this session password]
@@ -90,6 +92,8 @@ Skype пратакол для Miranda NG.
 Краіна:
 [Timezone:]
 Гадзінны пояс:
+[Skype credit:]
+Баланс Skype:
 [Change password]
 Змяніць пароль
 [Old password:]
@@ -112,6 +116,14 @@ Skype пратакол для Miranda NG.
 Група:
 [Block]
 Заблакаваць
+[Allow IMs from...]
+Дазволіць імгненныя паведамленні ад...
+[Anyone]
+Усіх
+[People in my Contact list only]
+Спісу маіх кантактаў
+[Allow calls from...]
+Дазволіць званкі ад...
 [Show avatars]
 Аватары
 ;file \protocols\Skype\src\skype.cpp
@@ -258,6 +270,8 @@ Skype пратакол для Miranda NG.
 [SkypeKit did not start.]
 SkypeKit не запусціўся.
 ;file \protocols\Skype\src\skype_menus.cpp
+[Unblock this person...]
+Разбракаваць карыстача...
 [Block this person...]
 Блакаваць карыстача
 [Skype menu chooser]

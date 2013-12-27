@@ -58,6 +58,8 @@
 ;file \plugins\QuickMessages\src\options.cpp
 [Enter Value]
 Увядзіце значэнне
+[You win!]
+Вы выйгралі!
 [New Button]
 Новая кнопка
 [New Menu Entry]

@@ -6,11 +6,37 @@
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 ;file \plugins\StartupSilence\res\StartupSilence.rc
+[Settings for the next Computer Name:]
+Налады для компьютара:
 [for]
 на працягу
+[10-300 seconds (Default 20)]
+10-300 секунд (Па змаўчанні 20)
+[Show Popup notification]
+Абвяшчаць ва ўсплывальных вокнах
 [Enable sounds]
 Уключыць гукі
 ;file \plugins\StartupSilence\src\main.cpp
 [Events]
 Падзеі
 ;file \plugins\StartupSilence\src\StartupSilence.h
+[Toggle Silence ON TTB]
+Уключаны ціхі запуск TTB
+[Sounds and popups are enabled]
+Гукі і усплывальныя вокны выключаны
+[Sounds and popups are disabled temporarily]
+Гукі і усплывальныя вокны часова выключаны
+[Silent Startup mode changed to ON]
+Ціхі запуск уключаны
+[Silent Startup mode changed to OFF]
+Ціхі запуск выключаны
+[Silence At Startup is ON]
+Ціхі запуск уключаны
+[Silence At Startup is OFF]
+Ціхі запуск выключаны
+[Toggle Silence At Startup]
+Ціхі запуск Укл/Выкл
+[You have to install TopToolBar to use this option.]
+Для выкарыстання гэтай функцыі неабходны усталяваны TopToolBar плагін.
+[You have to install "YAPP" or "Popup+" to use this option.]
+Для выкарыстання гэтай функцыі неабходны усталяваны \"YAPP\" ці \"Popup+\" плагін усплывальных вокнаў.

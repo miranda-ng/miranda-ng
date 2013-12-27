@@ -595,6 +595,8 @@ E-Mail
 Свята пазней
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 Увага: Версія Вашага цяперашняга набора абразкоў адрозніваецца ад версіі UserInfoEx.\nНекаторыя абразкі могуць адлюстроўвацца няправільна
+[Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
+Увага: Набор абразкоў не знойдзены ў тэчках: 'customize\\icons', 'icons' і 'plugins'!
 [Main]
 Галоўны
 ;file \plugins\UserInfoEx\src\mir_icolib.h
@@ -605,8 +607,12 @@ E-Mail
 Экс-/Імпарт кантакт
 [User &details]
 &Інфармацыя
+[&Export User Details]
+Экспарт дадзеных
 [&Import]
 Імпарт
+[&Import User Details]
+Імпарт дадзеных
 [View/Change My &Details...]
 Асабістыя &дадзеныя
 [Export all contacts]
@@ -629,6 +635,10 @@ E-Mail
 [About:]
 Інфармацыя:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
+[Please enter a valid Description first!]
+Спачатку ўвядзіце правільнае апісанне!
+[No valid date selected for editing!]
+Няма абранай даты для рэдагавання!
 [Do you really want to delete the %s?]
 Вы сапраўды жадаеце выдаліць %s?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
@@ -651,6 +661,8 @@ E-Mail
 Гэта функцыя выдаліць усе налады, якія вы зрабілі \nУсе налады дрэва, пазіцый акна, і інш.!\n\nВы сапраўды жадаеце працягнуць?
 [Ready]
 Гатова
+[Everything is done!]
+Усё выканана!
 [All settings are reset to default values now!]
 Усе ўсталёўкі цяпер будуць скінуты!
 [Reminder disabled]
@@ -680,6 +692,8 @@ E-Mail
 Прыналежнасць
 [Interest]
 Інтарэсы
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Памылка дадання новага элемента з тыпам "%s"
 [<empty>]
 <не>
 [Add Affliation]
@@ -1071,7 +1085,15 @@ Web Дызайн
 Сайт (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+[Abort Refreshing Contact Details]
+Скасаваць абнаўленне дадзеных кантактаў
+[Do you want to cancel the current refresh procedure?]
+Вы сапраўды хочаце скасаваць абнаўленне дадзеных?
+[Miranda must be online for refreshing contact information!]
+Для абнаўлення конты павінны быць далучаныя!
 ;file \plugins\UserInfoEx\src\svc_reminder.cpp
+[%s has %s today.]
+%s святкуе %s сёння.
 [an anniversary]
 свята
 [He]
@@ -1102,6 +1124,14 @@ Web Дызайн
 Напамінак пра свята
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
+[Importing a new contact was aborted!]
+Імпартаванне новага кантакту спынена!
+[You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
+Вы адмянілі імпарт новага кантакту.\nНекаторая інфармацыя можа быць няслушнай для гэтага кантакту.\n\nВы хочаце выдаліць няскончаны кантакт?
+[Importing a new meta subcontact failed!]
+Памылка пры імпартаванні новага субкантакта!
+[The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
+Створаны субкантакт '%s'\nне можа быць дададзены да МетаКонтакту '%s'!\n\nВы хочаце выдаліць гэты кантакт?
 [Settings: %S]
 Налады: %S
 [Events: %S]
@@ -1116,7 +1146,13 @@ Web Дызайн
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Miranda NG]
 Miranda NG
+[Shows Miranda's installation directory.]
+Паказваць тэчку ўсталёўкі Miranda NG.
+[Shows the directory with all your Miranda's profiles.]
+Паказваць тэчку з усімі профілямі Miranda NG.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
+[The ini-file "%s"\nfor saving contact information could not be opened.]
+INI файл "%s"\nдля захавання кантакту не можа быць адкрыты.
 [Import complete]
 Імпарт завершаны
 [Some basic statistics]
@@ -1135,6 +1171,8 @@ INI файл "%s"\nнельга адчыніць для чытання.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 Немагчыма стварыць XML файл!\n%S
+[Contact: %s (%S)]
+Кантакт: %s (%S)
 [Importing %s caused error %d]
 Імпарт %s вызваў памылку %d
 [Loading contact %s from xml failed with error %d]

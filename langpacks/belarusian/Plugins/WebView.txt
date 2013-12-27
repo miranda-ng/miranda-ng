@@ -5,7 +5,11 @@
 ;  Version: 0.1.3.0
 ;  Authors: Vincent Joyce
 ;============================================================
+[Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
+Дадае сайты ў спіс кантактаў і можа адлюстроўваць тэкст ці/або абвяшчае, калі ёсць змены на гэтых старонках.
 ;file \plugins\WebView\res\webview.rc
+[Update data every]
+Абнавіць усе
 [minutes]
 хвілін(ы)
 [seconds]
@@ -30,6 +34,10 @@
 Спасылка:
 [Display]
 Паказваць
+[Start:]
+Пачатак:
+[End:]
+Канец:
 [OK]
 ОК
 [Cancel]
@@ -87,9 +95,13 @@
 ;file \plugins\WebView\src\webview_alerts.cpp
 ;file \plugins\WebView\src\webview_datawnd.cpp
 ;file \plugins\WebView\src\webview_getdata.cpp
+[Alert!]
+Увага!
 [Online]
 Далучаны
 ;file \plugins\WebView\src\webview_opts.cpp
 [Popup plugin]
 Успл. вокны
 ;file \plugins\WebView\src\webview_services.cpp
+[Please select site in Find/Add contacts...]
+Абярыце сайт у Знайсці...

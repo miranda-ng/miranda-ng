@@ -94,6 +94,8 @@ Miranda NG HTTP-сервер
 Усе файлы
 [Specify a file to share]
 Файл для доступу
+[Failed to share new file]
+Не атрымалася падзяліцца новым файлам
 [Max Downloads]
 Макс. запампоўкі
 [Allowed Mask]
@@ -108,6 +110,14 @@ Miranda NG HTTP-сервер
 Завершана
 [Speed]
 Хуткасць
+[Selected link size is 0]
+Памер абранай спасылкі 0
+[Failed to get access to clipboard]
+Немагчыма атрымаць доступ да буфера абмену
+[Failed to get close the clipboard]
+Немагчыма зачыніць буфер абмену
+[Failed to set clipboard data]
+Немагчыма ўсталяваць дадзеныя буфера абмену
 [No share selected]
 Тэчка не абрана
 [Current IP Address: ]
@@ -128,6 +138,8 @@ HTTP Сервер
 Сеціва
 [HTTP Share new file]
 HTTP Новы агульны файл
+[Failed to add contact menu item]
+Немагчыма дадаць элемент у меню кантакта
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 Агульнае выдалена

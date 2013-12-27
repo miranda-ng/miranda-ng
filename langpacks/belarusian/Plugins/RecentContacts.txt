@@ -26,6 +26,8 @@
 Галоўны значок
 [Contact]
 Кантакт
+[Toggle Ignore]
+Пераключыць ігнававанне
 [Ignore Contact]
 Ігнараваць кантакт
 [Show Contact]

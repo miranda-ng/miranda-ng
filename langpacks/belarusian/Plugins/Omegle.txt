@@ -17,7 +17,15 @@
 ;file \protocols\Omegle\src\chat.cpp
 [Server]
 Сервер
+[You]
+Вы
 ;file \protocols\Omegle\src\communication.cpp
+[Connection error.]
+Памылка далучэння
+[Stranger 1]
+Незнаёмы 1
+[Stranger 2]
+Незнаёмы 2
 [Stranger]
 Незнаёмец
 [Stranger is typing.]
@@ -31,6 +39,8 @@
 Разрыў злучэння...
 [Connecting...]
 Далучэнне...
+[Waiting for Stranger...]
+Чаканне незнаёмца
 ;file \protocols\Omegle\src\constants.h
 [Random]
 Выпадкова

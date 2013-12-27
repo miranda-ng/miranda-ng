@@ -736,6 +736,8 @@ Nickserv забіць фантому
 Марудней! Шукае ў сетцы для мянушак адпаведныя падстаноўкі. Маска хаста з'яўляецца абавязковай і не менш за 4 знакаў
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
 Налады не захаваны.\n\n Поле "Псеўданім" павінна ўтрымоўваць прынамсі чатыры знака (уключаючы маскі), і супадаць з псеўданімам па змаўчанні для гэтага кантакту.
+[Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
+Налады не захаваны!\n\nДля гэтага рэжыма павінна быць усталёвана поўная маска хаста.
 ;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
 Пачакайце, калі ласка...

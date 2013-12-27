@@ -82,6 +82,8 @@ Popup плагін не знойдзены!
 Уключыць WUMF вокны
 [Disable WUMF popups]
 Выключыць WUMF вокны
+[Common Dialog Error 0x%lx]
+Памылкаr 0x%lx
 [Not implemented yet...]
 Пакуль не рэалізавана...
 [Show connections list]

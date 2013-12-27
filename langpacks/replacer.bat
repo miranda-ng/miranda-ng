@@ -1,1 +1,1 @@
-langpackmgr -r
+start langpackmgr -r

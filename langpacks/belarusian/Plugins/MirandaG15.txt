@@ -5,45 +5,201 @@
 ;  Version: 0.1.2.0
 ;  Authors: Martin Kleinhans
 ;============================================================
+[Provides an interface to use Miranda from the LCD of various Logitech devices.]
+Плагін дадае магчымасць выкарыстання  Miranda NG на ВК-экране разнастайных прылад Logitech.
 ;file \plugins\MirandaG15\res\MirandaG15.rc
 [Fonts]
 Шрыфты
+[General settings]
+Агульныя налады
+[Show softkey labels]
+Паказваць подпісі кнопак
+[Event log:]
+Лог падзей:
 [Sample]
 Прыклад
+[Message log:]
+Лог гутаркі:
 [Contact list:]
 Спіс кантактаў:
+[Titles:]
+Загалоўкі:
 [Notifications:]
 Апавяшчэнні:
+[Turn off backlights]
+Уключыць падсветку
+[If the applet is active:]
+Калі апплет актыўны:
+[Use the VolumeWheel to scroll up and down (might affect system performance)]
+Карыстацца регулятарам гуку для пракруткі спісаў
 [Show seconds in timestamps]
 Паказваць секунды
+[Use transition effects when changing screens]
+Выкарыстоўваць эфекты пры змене экранаў
 [About]
 Інфармацыя
+[For updates and news check the thread on http://www.g15forums.com]
+Абнаўленні і навіны шукайце на http://www.g15forums.com
+[Or visit http://www.mkleinhans.de]
+Ці наведайце http://www.mkleinhans.de
+[Device:]
+Клавіятура:
+[If the screensaver is active:]
+Калі актыўна застаўка:
+[Lock the screen]
+Заблакаваць экран
 [Notifications]
 Апавяшчэнні
+[Notification screen title]
+Загаловак вакна абвесткі
+[Hide it]
+Без загалоўка
+[Show the plugin name]
+Паказваць імя плагіна
+[Show a short event summary]
+Кароткі змест падзеі
+[Size of the log]
+Памер лога
+[Notification duration]
+Даўжыня абвесткі
 [events]
 падзеі(й)
 [seconds]
 секунд(ы)
+[Notification types]
+Тыпы абвестак
 [Incoming messages]
 Уваходныя паведамленні
+[Contact signs off]
+Кантакт адключаецца
+[Contact changes status]
+Кантакт мяняе статус
 [Incoming URL]
 Уваходны URL
+[Contact list events]
+Падзеі спісу кантактаў
 [Incoming file transfers]
 Прыем файлаў
+[Protocol disconnected]
+Пратакол адключаны
+[Protocol connected]
+Пратакол далучаны
+[Protocol status changes]
+Зменены статус
+[Show only events from the following protocols:]
+Паказваць падзеі толькі для контаў
+[Contact signs on]
+Кантакт далучаецца
+[When a chat session is active, skip the following notifications for that contact:]
+Прапускаць наступныя абвесткі для кантакту, калі актыўна гутарка:
+[Chat session specific]
+Толькі для сесіі
 [Show timestamps]
 Паказваць час
 [Messages]
 Паведамленні
+[User events]
+Падзеі карыстача
+[Emotes]
+Эмоцыі
 [Status changes]
 Змены статусу
+[Special IRC events:]
+Толькі IRC
 [Notices]
 Апавяшчэнні
+[Channel events]
+Падзеі канала
+[Cut off nicknames after]
+Абмежаваць імёны да
+[chars]
+сімвалаў
+[Show protocol labels]
+Паказваць конты
+[Exceptions:]
+Выключэнні
 [Contact list]
 Спіс кантактаў
+[Show the contacts protocols]
+Паказваць пратаколы кантактаў
 [Hide offline users]
 Схаваць адключаных
+[Use ignore settings]
+Улічваць ігнараванне кантактаў
+[Use groups/subgroups]
+Улічваць ігнараванне гуртоў
+[Grouped mode]
+Рэжым гуртоў
+[Draw tree lines]
+Маляваць лініі дрэва
+[Show counters behind group names]
+Паказваць лічыльнікі пасля назваў гуртоў
+[Reset selection]
+Скінуць вылучэнне
+[When opening the contact list screen:]
+Пры адкрыцці спісу кантактаў:
+[Don't change group states]
+Не змяняць станы гуртоў
+[Collapse all groups]
+Згарнуць усе групы
+[Show only contacts from the following protocols:]
+Паказваць толькі кантакты наступных контаў:
+[Protocol filter]
+Фільтр контаў
+[Expand all groups]
+Раскрыць усе гурты
+[Use two columns]
+Вык. два слупкі
+[Fade out selection rectangle]
+Паступова зацямняць вылучэнне
 [Chat]
 Чат
+[Typing notifications]
+Набірае тэкст
+[Show typing notifications]
+Адлюстроўваць
+[Send typing notifications]
+Адпраўляць
+[Maximizing]
+На ўвесь экран
+[When maximized:]
+Максімальны памер:
+[Hide title]
+Хаваць загаловак
+[Hide labels]
+Хаваць меткі
+[Show only new messages]
+Паказваць толькі новыя паведамленні
+[Mark incoming messages as read]
+Пазначаць уваходныя прачытанымі
+[Maximized scrolling]
+Пракрутка ў поўнаэкранным рэжыме
+[Size of the log:]
+Памер журнала:
+[On incoming messages:]
+Пры ўваходных:
 [Do nothing]
 Нічога не рабіць
+[Scroll to the first line]
+Да першага радка
+[Scroll to the last line]
+Да апошняга радка
+[Replying]
+Адказ
+[Show line break indicators]
+Паказаць сімвалы пераноса
+[Send messages with return, insert line breaks with ctrl+return]
+Адпраўка па Enter, CTRL+Enter - перавод радка
+[Maximized replying]
+Адказ ў пўнаэкранным рэжыме
+[Close chat after]
+Зачыняць чап пасля
+[When in background]
+Калі згорнута
 ;file \plugins\MirandaG15\src\CConfig.cpp
+[Appearance]
+Знешні выгляд
+[Chat sessions]
+Гутаркі
+[No device attached]
+Няма прылады

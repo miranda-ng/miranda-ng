@@ -155,6 +155,12 @@
 [Sign out all sessions]
 Выйсці з усіх сесій
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
+Не атрымалася стварыць кэш для аватараў. ПАМЫЛКА: %d: %s\n%s
+[Cannot create avatar file. ERROR: %d: %s\n%s]
+Не атрымалася стварыць файл аватара. ПАМЫЛКА: %d: %s\n%s
+[Cannot open avatar file. ERROR: %d: %s\n%s]
+Не атрымалася адкрыць файл аватара. ПАМЫЛКА: %d: %s\n%s
 ;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 Miranda не можа распазнаць імя сервера Gadu-Gadu па IP-адрасу.
@@ -170,6 +176,8 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Злучэнне з Gadu-Gadu разарвана.
 [Cannot establish secure connection.]
 Немагчыма ўсталяваць SSL злучэнне.
+[Server disconnected asking you for changing your e-mail.]
+Сервер адключае вас з просьбай змяніць свой ​​адрас электроннай пошты.
 [Too many login attempts with invalid password.]
 Занадта шмат спробаў уваходу з няслушным паролем.
 [Gadu-Gadu servers are now down. Try again later.]
@@ -180,6 +188,8 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Вонкавы хост для прамых далучэнняў %s няслушны. Перанакіраванне на вонкавы хост выключана.
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Імя сервера %s няслушна. Выкарыстоўваю імя сервера па змаўчанні.
+[Connection cannot be established. errno=%d: %s]
+Злучэнне не можа быць ўстаноўлена. Памылка %d: %s
 [Age:]
 Узрост:
 [List import successful.]
@@ -192,6 +202,10 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Я
 [Unknown client]
 Невядомы кліент
+[You have logged in at another location]
+Вы ўвайшлі з іншага месца
+[You are logged in at another location]
+Вы ўвайшлі з іншага месца
 [Incoming image]
 Уваходнае паведамленне
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
@@ -229,8 +243,18 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Спытаць
 [Ignore]
 Ігнараваць
+[Your details has been uploaded to the public directory.]
+Ваша інфармацыя была запісаная на агульным каталогу.
+[You have to be logged in before you can change your details.]
+Вы павінны ўвайсці ў сістэму для пераўтварэння дадзеных.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
+[Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
+Немагчыма стварыць файл для перадачы. ПАМЫЛКА: %d: %s (dcc)\n%s
+[Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
+Немагчыма стварыць файл для перадачы. ПАМЫЛКА: %d: %s (dcc7)\n%s
 ;file \protocols\Gadu-Gadu\src\gg.cpp
+[HTTP failed memory]
+HTTP - памылка памяці
 [HTTP failed connecting]
 HTTP памылка далучэння
 [HTTP failed resolving]
@@ -323,6 +347,12 @@ HTTP невядомая памылка
 Малюнак для %s
 [Select picture to send]
 Абярыце малюнак для адпраўкі
+[Cannot create image cache directory. ERROR: %d: %s\n%s]
+Вы не можаце стварыць тэчку для файлаў кэша. ПАМЫЛКА: %d: %s\n%s
+[Cannot save received image to file. ERROR: %d: %s\n%s]
+Немагчыма захаваць атрыманы малюнак у файл. ПАМЫЛКА: %d: %s\n%s
+[Cannot open image file. ERROR: %d: %s\n%s]
+Немагчыма адкрыць файл малюнка. ПАМЫЛКА: %d: %s\n%s
 [Image exceeds maximum allowed size of 255 KB.]
 Дапушчальны памер малюнка да 255 KB
 ;file \protocols\Gadu-Gadu\src\import.cpp
@@ -330,6 +360,8 @@ HTTP невядомая памылка
 Усталюйце злучэнне перад імпартам/экспартам кантактаў з/на сервер.
 [List cannot be imported because of error:\n\t%s (Error: %d)]
 Спіс не можа быць імпартаваны з-за памылкі:\n\t%s (Памылка: %d)
+[List cannot be removed because of error: %s (Error: %d)]
+Спіс не можа быць выдалены з-за памылкі: %s (Памылка: %d)
 [Text files]
 Тэкставы файл
 [All Files]
