@@ -175,11 +175,6 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	// temporary fix for bug with event types conflict between jabber chat states notifications
-	// and srmm's status changes, must be commented out in future releases
-	if (dbei->eventType == 25368 && dbei->cbBlob == 1 && dbei->pBlob[0] == 1)
-		return 0;
-
 	// by default treat an event's blob as a string 
 	if (egt->datatype == DBVT_WCHAR) {
 		char *str = (char*)alloca(dbei->cbBlob + 1);

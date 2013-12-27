@@ -1161,40 +1161,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 					}
 
-					// log
-					if ((dat->wStatus != dat->wOldStatus || lParam != 0) &&
-						db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSTATUSCH, SRMSGDEFSET_SHOWSTATUSCH)) {
-						TCHAR buffer[200];
-						int iLen;
-
-						TCHAR *szOldStatus = pcli->pfnGetStatusModeDescription(dat->wOldStatus, 0);
-						TCHAR *szNewStatus = pcli->pfnGetStatusModeDescription(dat->wStatus, 0);
-
-						if (dat->wStatus == ID_STATUS_OFFLINE) {
-							iLen = mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("signed off (was %s)"), szOldStatus);
-							SendMessage(hwndDlg, DM_TYPING, 0, 0);
-						}
-						else if (dat->wOldStatus == ID_STATUS_OFFLINE)
-							iLen = mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("signed on (%s)"), szNewStatus);
-						else
-							iLen = mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("is now %s (was %s)"), szNewStatus, szOldStatus);
-
-						char* blob = ( char* )alloca(1000);
-						int ansiLen = WideCharToMultiByte(CP_ACP, 0, buffer, -1, blob, 1000, 0, 0);
-						memcpy( blob+ansiLen, buffer, sizeof(TCHAR)*(iLen+1));
-
-						DBEVENTINFO dbei = { sizeof(dbei) };
-						dbei.cbBlob = ansiLen + sizeof(TCHAR)*(iLen+1);
-						dbei.pBlob = (PBYTE) blob;
-						dbei.eventType = EVENTTYPE_STATUSCHANGE;
-						dbei.timestamp = (DWORD)time(NULL);
-						dbei.szModule = dat->szProto;
-						HANDLE hNewEvent = db_event_add(dat->hContact, &dbei);
-						if (dat->hDbEventFirst == NULL) {
-							dat->hDbEventFirst = hNewEvent;
-							SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
-						}
-					}
 					dat->wOldStatus = dat->wStatus;
 				}
 			}
@@ -1386,7 +1352,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				else
 					SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
 
-				if ( !(dbei.flags & DBEF_SENT) && dbei.eventType != EVENTTYPE_STATUSCHANGE) {
+				if ( !(dbei.flags & DBEF_SENT)) {
 					if (GetActiveWindow() == hwndDlg && GetForegroundWindow() == hwndDlg) {
 						HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
 						if (GetWindowLongPtr(hwndLog, GWL_STYLE) & WS_VSCROLL) {

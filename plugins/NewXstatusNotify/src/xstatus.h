@@ -43,7 +43,6 @@
 #define XSTATUS_SOUND_REMOVED		"XStatusRemove"
 
 // tabSRMM stuff (logging to message window)
-#define EVENTTYPE_STATUSCHANGE			25368
 #define MS_MSG_MOD_MESSAGEDIALOGOPENED	"SRMsg_MOD/MessageDialogOpened"
 
 // Default templates

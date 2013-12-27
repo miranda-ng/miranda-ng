@@ -20,8 +20,6 @@
 #ifndef MSG_EXP_UTILS_H
 #define MSG_EXP_UTILS_H
 
-#define EVENTTYPE_STATUSCHANGE 25368
-
 #define tstring wstring
 #define _DBGetString _DBGetStringW
 

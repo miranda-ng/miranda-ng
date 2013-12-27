@@ -342,8 +342,6 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			db_event_markRead(event->hContact, hDbEvent);
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM) event->hContact, (LPARAM) hDbEvent);
 		}
-		else if (dbei.eventType == EVENTTYPE_STATUSCHANGE)
-			db_event_markRead(event->hContact, hDbEvent);
 
 		if (!isDbEventShown(&dbei)) {
 			free(dbei.pBlob);
@@ -369,7 +367,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->pszNickW = getContactName(event->hContact, szProto);
 			eventData->bIsMe = FALSE;
 		}
-		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL || dbei.eventType == EVENTTYPE_STATUSCHANGE || dbei.eventType == EVENTTYPE_JABBER_CHATSTATES) {
+		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL || dbei.eventType == EVENTTYPE_JABBER_CHATSTATES) {
 			DBEVENTGETTEXT temp = { &dbei, DBVT_WCHAR, newEvent.codepage  };
 			WCHAR* pwszEventText = (WCHAR*)CallService(MS_DB_EVENT_GETTEXT,0,(LPARAM)&temp);
 			eventData->pszTextW = mir_tstrdup(pwszEventText);

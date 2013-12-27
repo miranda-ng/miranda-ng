@@ -87,18 +87,14 @@ TabSRMMHTMLBuilder::TabSRMMHTMLBuilder() {
 bool TabSRMMHTMLBuilder::isDbEventShown(DWORD dwFlags, DBEVENTINFO * dbei)
 {
 	switch (dbei->eventType) {
-		case EVENTTYPE_MESSAGE:
-			return 1;
-			break;
-		case EVENTTYPE_STATUSCHANGE:
-			return 1;
-			break;
-		case EVENTTYPE_URL:
-			if(dwFlags & MWF_SHOW_URLEVENTS) return 1;
-			break;
-		case EVENTTYPE_FILE:
-			if(dwFlags & MWF_SHOW_FILEEVENTS) return 1;
-			break;
+	case EVENTTYPE_MESSAGE:
+		return 1;
+	case EVENTTYPE_URL:
+		if(dwFlags & MWF_SHOW_URLEVENTS) return 1;
+		break;
+	case EVENTTYPE_FILE:
+		if(dwFlags & MWF_SHOW_FILEEVENTS) return 1;
+		break;
 	}
 	return 0;
 }

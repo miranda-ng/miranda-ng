@@ -508,9 +508,6 @@ bool EventList::GetEventIcon(bool isMe, int eventType, int &id)
 	case EVENTTYPE_MESSAGE:
 		id = isMe ? 1 : 0;
 		return true;
-	case EVENTTYPE_STATUSCHANGE:
-		id = 2;
-		return true;
 	case EVENTTYPE_FILE:
 		id = iconsNum;
 		return true;

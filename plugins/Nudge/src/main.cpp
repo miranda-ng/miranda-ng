@@ -463,55 +463,10 @@ void Nudge_ShowPopup(CNudgeElement n, HANDLE hContact, TCHAR * Message)
 
 void Nudge_SentStatus(CNudgeElement n, HANDLE hContact)
 {
-	DBEVENTINFO NudgeEvent = { 0 };
-
-	NudgeEvent.cbSize = sizeof(NudgeEvent);
-	NudgeEvent.szModule = GetContactProto(hContact);
-
-	char *buff = mir_utf8encodeT(n.senText);
-	NudgeEvent.flags = DBEF_SENT | DBEF_UTF;
-
-	NudgeEvent.timestamp = ( DWORD )time(NULL);
-	NudgeEvent.eventType = EVENTTYPE_STATUSCHANGE;
-	NudgeEvent.cbBlob = (DWORD)strlen(buff) + 1;
-	NudgeEvent.pBlob = ( PBYTE ) buff;
-
-	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0 ); //try to retrieve the metacontact if some
-	if(res != CALLSERVICE_NOTFOUND) {
-		HANDLE hMetaContact = (HANDLE) res;
-		if(hMetaContact != NULL) //metacontact
-			db_event_add(hMetaContact, &NudgeEvent);
-	}
-
-	db_event_add(hContact, &NudgeEvent);
 }
 
 void Nudge_ShowStatus(CNudgeElement n, HANDLE hContact, DWORD timestamp)
 {
-	DBEVENTINFO NudgeEvent = { 0 };
-
-	NudgeEvent.cbSize = sizeof(NudgeEvent);
-	NudgeEvent.szModule = GetContactProto(hContact);
-
-	char *buff = mir_utf8encodeT(n.recText);
-	NudgeEvent.flags = DBEF_UTF;
-
-	NudgeEvent.timestamp = timestamp;
-	NudgeEvent.eventType = EVENTTYPE_STATUSCHANGE;
-	NudgeEvent.cbBlob = (DWORD)strlen(buff) + 1;
-	NudgeEvent.pBlob = ( PBYTE ) buff;
-
-
-	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0 ); //try to retrieve the metacontact if some
-	if(res != CALLSERVICE_NOTFOUND) {
-		HANDLE hMetaContact = (HANDLE) res;
-		if(hMetaContact != NULL) { //metacontact
-			db_event_add(hMetaContact, &NudgeEvent);
-			NudgeEvent.flags |= DBEF_READ;
-		}
-	}
-
-	db_event_add(hContact, &NudgeEvent);
 }
 
 HANDLE Nudge_GethContact(HANDLE hContact)

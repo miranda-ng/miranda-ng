@@ -24,7 +24,7 @@ extern HINSTANCE hInst;
 extern bool g_SmileyAddAvail;
 extern bool bPopupsEnabled;
 
-#define MODULE				"BasicHistory"
+#define MODULE "BasicHistory"
 
 Options *Options::instance;
 
@@ -38,7 +38,6 @@ EventNames[] =
 	EVENTTYPE_MESSAGE, LPGENT("Message"),
 	EVENTTYPE_FILE, LPGENT("File transfer"),
 	EVENTTYPE_URL, LPGENT("Link"),
-	EVENTTYPE_STATUSCHANGE, LPGENT("Status change"),
 	EVENTTYPE_AUTHREQUEST, LPGENT("Authorization request"),
 	EVENTTYPE_ADDED, LPGENT("You were added"),
 	EVENTTYPE_CONTACTS, LPGENT("Contacts received"),

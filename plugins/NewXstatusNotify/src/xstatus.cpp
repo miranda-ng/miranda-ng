@@ -251,32 +251,8 @@ void LogToMessageWindow(XSTATUSCHANGE *xsc, BOOL opening)
 	ReplaceVars(xsc, Template, templates.LogDelimiter, stzLogText);
 	DBGetStringDefault(xsc->hContact, MODULE, DB_LASTLOG, stzLastLog, SIZEOF(stzLastLog), _T(""));
 
-	if (!opt.KeepInHistory || !(opt.PreventIdentical && _tcscmp(stzLastLog, stzLogText) == 0)) {
+	if (!opt.KeepInHistory || !(opt.PreventIdentical && _tcscmp(stzLastLog, stzLogText) == 0))
 		db_set_ws(xsc->hContact, MODULE, DB_LASTLOG, stzLogText);
-
-		char *blob = mir_utf8encodeT(stzLogText);
-
-		DBEVENTINFO dbei = {0};
-		dbei.cbSize = sizeof(dbei);
-		dbei.cbBlob = (DWORD)strlen(blob) + 1;
-		dbei.pBlob = (PBYTE) blob;
-		dbei.eventType = EVENTTYPE_STATUSCHANGE;
-		dbei.flags = DBEF_READ;
-
-		dbei.flags |= DBEF_UTF;
-
-		dbei.timestamp = (DWORD)time(NULL);
-		dbei.szModule = xsc->szProto;
-		HANDLE hDBEvent = db_event_add(xsc->hContact, &dbei);
-		mir_free(blob);
-
-		if (!opt.KeepInHistory) {
-			DBEVENT *dbevent = (DBEVENT *)mir_alloc(sizeof(DBEVENT));
-			dbevent->hContact = xsc->hContact;
-			dbevent->hDBEvent = hDBEvent;
-			eventList.insert(dbevent);
-		}
-	}
 }
 
 void LogChangeToFile(XSTATUSCHANGE *xsc)

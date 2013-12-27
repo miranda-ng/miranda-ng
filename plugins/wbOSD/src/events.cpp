@@ -141,7 +141,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 	if(db_event_get(hDBEvent,&dbe))
 		return 0;
 
-	if (dbe.flags & DBEF_SENT || dbe.eventType == 25368)
+	if (dbe.flags & DBEF_SENT)
 	    return 0;
 
 	if (db_get_b(NULL,THIS_MODULE, "messages", DEFAULT_ANNOUNCEMESSAGES)==0)

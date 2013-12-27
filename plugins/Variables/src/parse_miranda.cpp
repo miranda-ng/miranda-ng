@@ -489,14 +489,13 @@ static BOOL isValidDbEvent(DBEVENTINFO *dbe, int flags)
 {
 	BOOL bEventType, bEventFlags;
 
-	bEventType = ((dbe->eventType == EVENTTYPE_MESSAGE) && (flags&DBE_MESSAGE)) ||
-			((dbe->eventType == EVENTTYPE_URL) && (flags&DBE_URL)) ||
-			((dbe->eventType == EVENTTYPE_CONTACTS) && (flags&DBE_CONTACTS)) ||
-			((dbe->eventType == EVENTTYPE_ADDED) && (flags&DBE_ADDED)) ||
-			((dbe->eventType == EVENTTYPE_AUTHREQUEST) && (flags&DBE_AUTHREQUEST)) ||
-			((dbe->eventType == EVENTTYPE_FILE) && (flags&DBE_FILE)) ||
-			((dbe->eventType == EVENTTYPE_STATUSCHANGE) && (flags&DBE_STATUSCHANGE)) ||
-			((flags&DBE_OTHER));
+	bEventType = ((dbe->eventType == EVENTTYPE_MESSAGE) && (flags & DBE_MESSAGE)) ||
+			((dbe->eventType == EVENTTYPE_URL) && (flags & DBE_URL)) ||
+			((dbe->eventType == EVENTTYPE_CONTACTS) && (flags & DBE_CONTACTS)) ||
+			((dbe->eventType == EVENTTYPE_ADDED) && (flags & DBE_ADDED)) ||
+			((dbe->eventType == EVENTTYPE_AUTHREQUEST) && (flags & DBE_AUTHREQUEST)) ||
+			((dbe->eventType == EVENTTYPE_FILE) && (flags & DBE_FILE)) ||
+			((flags & DBE_OTHER));
 	bEventFlags = (dbe->flags&DBEF_SENT)?(flags&DBE_SENT):(flags&DBE_RCVD);
 	bEventFlags = (bEventFlags && ((dbe->flags&DBEF_READ)?(flags&DBE_READ):(flags&DBE_UNREAD)));
 

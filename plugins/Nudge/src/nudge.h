@@ -14,8 +14,6 @@
 #define NUDGE_ACC_ST9   0x00000200		//Check (countdown) when Out to lunch
 
 // For status log
-#define EVENTTYPE_STATUSCHANGE	25368
-
 #define TEXT_LEN 1024
 
 class CNudge

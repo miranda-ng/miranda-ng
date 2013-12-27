@@ -1426,12 +1426,10 @@ int nExportEvent(WPARAM wparam,LPARAM lparam)
 	}
 
 	if ( !db_event_get(hDbEvent, &dbei)) {
-		if (dbei.eventType != EVENTTYPE_STATUSCHANGE) {
-			char szTemp[500];
-			mir_snprintf(szTemp, SIZEOF(szTemp), "DisableProt_%s", dbei.szModule);
-			if (db_get_b(NULL,MODULE,szTemp,1))
-				ExportDBEventInfo( hContact, dbei);
-		}
+		char szTemp[500];
+		mir_snprintf(szTemp, SIZEOF(szTemp), "DisableProt_%s", dbei.szModule);
+		if (db_get_b(NULL,MODULE,szTemp,1))
+			ExportDBEventInfo( hContact, dbei);
 	}
 	if (dbei.pBlob )
 		free(dbei.pBlob);

@@ -71,10 +71,8 @@ HistoryHTMLBuilder::HistoryHTMLBuilder() {
 bool HistoryHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
 {
 	switch (dbei->eventType) {
-		case EVENTTYPE_MESSAGE:
-			return 1;
-		case EVENTTYPE_STATUSCHANGE:
-			return 1;
+	case EVENTTYPE_MESSAGE:
+		return 1;
 	}
 	return 1;
 }

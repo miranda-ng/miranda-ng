@@ -77,10 +77,6 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 	if (hContact && ServiceExists(MS_MC_GETMETACONTACT) && CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0))
 		return 0;
 
-	//is it an event info about online/offline status user
-	if (dbe.eventType == 25368)
-		return 0;
-
 	//custom database event types
 	if (ServiceExists(MS_DB_EVENT_GETTYPE)) {
 		DBEVENTTYPEDESCR *pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbe.szModule, (LPARAM)dbe.eventType);
