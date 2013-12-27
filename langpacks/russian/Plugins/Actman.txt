@@ -273,7 +273,7 @@
 [number value]
 число
 [ANSI string]
-ANSI string
+строка ANSI
 [Unicode string]
 строка Unicode
 [current contact]
@@ -302,3 +302,37 @@ current contact
 В базу добавлен новый контакт
 [Contact deleting]
 Удаление контакта
+[Parameter]
+Параметр
+[Manual]
+Ручной
+[Byte]
+Байт
+[Word]
+Слово
+[Read]
+Чтение
+[Write]
+Запись
+[MessageBox]
+Окно уведомления
+[Start minimized]
+Запуск свёрнутым
+[Hexadecimal]
+Шестнадцатеричное
+[String]
+Строка
+[Program path]
+Путь
+[Program args]
+Аргументы
+[Clipboard]
+Буфер обмена
+[Text to insert]
+Текст для вставки
+[Value]
+Значение
+[Save value]
+Сохр. значение
+[Unicode]
+Юникод
