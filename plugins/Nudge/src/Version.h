@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME            "Nudge"
 #define __FILENAME               "Nudge.dll"
-#define __DESCRIPTION            "Plugin to shake the clist and chat window."
+#define __DESCRIPTION            "Plugin to shake the contact list and chat window."
 #define __AUTHOR                 "Tweety/GouZ, FREAK_THEMIGHTY"
 #define __AUTHOREMAIL            "francois.mean@skynet.be, Sylvain.gougouzian@gmail.com, wishmaster51@googlemail.com"
 #define __AUTHORWEB              "http://miranda-ng.org/p/Nudge/"

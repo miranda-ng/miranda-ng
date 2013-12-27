@@ -764,7 +764,7 @@ int LoadNewPluginsModule(void)
 		if (clistPlugins.getCount())
 			MessageBox(NULL, TranslateT("Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any."), _T("Miranda NG"), MB_OK | MB_ICONERROR);
 		else
-			MessageBox(NULL, TranslateT("Can't find a contact list plugin! You need StdClist or any other clist plugin.") , _T("Miranda NG"), MB_OK | MB_ICONERROR);
+			MessageBox(NULL, TranslateT("Can't find a contact list plugin! You need StdClist or any other contact list plugin.") , _T("Miranda NG"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 

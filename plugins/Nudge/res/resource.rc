@@ -102,7 +102,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Shaking Clist Options",IDC_STATIC,7,10,296,77
+    GROUPBOX        "Shaking contact list options",IDC_STATIC,7,10,296,77
     RTEXT           "Number of moves",IDC_STATIC,13,127,70,9
     CONTROL         "Slider1",IDC_SNUMBER_CLIST,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,90,25,179,21
     RTEXT           "Width of move",IDC_STATIC,13,156,70,9

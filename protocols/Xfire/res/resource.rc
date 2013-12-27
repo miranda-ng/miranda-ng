@@ -133,7 +133,7 @@ BEGIN
     LISTBOX         IDC_BLOCKUSER,6,11,128,78,LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | NOT WS_BORDER | WS_TABSTOP,WS_EX_CLIENTEDGE
     PUSHBUTTON      "",IDC_REMUSER,138,42,16,15,BS_ICON
     LTEXT           "This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.",IDC_STC9,160,12,136,74,NOT WS_GROUP
-    LTEXT           "You can simply block someone, if you right click on his friend request in clist and choose Block User...",IDC_STC19,160,48,130,39,NOT WS_GROUP
+    LTEXT           "You can simply block someone, if you right click on his friend request in contact list and choose Block User...",IDC_STC19,160,48,130,39,NOT WS_GROUP
     LTEXT           "This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.",IDC_STC20,92,105,206,28,NOT WS_GROUP
     LTEXT           "This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.",IDC_STC21,92,136,206,30,NOT WS_GROUP
     LTEXT           "Be sure you put these files in following folder:",IDC_STC24,7,171,290,9,NOT WS_GROUP

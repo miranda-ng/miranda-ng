@@ -262,7 +262,7 @@ void DoPropertySheet(HANDLE hContact, HINSTANCE hInst)
 	psp[1].pszTemplate = MAKEINTRESOURCEA(IDD_OTHER_STUFF);
 	psp[1].pszIcon = NULL; 
 	psp[1].pfnDlgProc = DlgProcOtherStuff;
-	psp[1].pszTitle = Translate("Link and CList Settings");
+	psp[1].pszTitle = Translate("Link and Contact list Settings");
 	psp[1].lParam = (LPARAM)hContact;
 	psp[1].pfnCallback = NULL;
 

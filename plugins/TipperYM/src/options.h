@@ -100,7 +100,7 @@ static TCHAR* trayTipItems[TRAYTIP_ITEMS_COUNT] =
 	LPGENT("Listening to"),
 	LPGENT("Favorite contacts"),
 	LPGENT("Miranda uptime"),
-	LPGENT("Clist event")
+	LPGENT("Contact list event")
 };
 
 // extra icons

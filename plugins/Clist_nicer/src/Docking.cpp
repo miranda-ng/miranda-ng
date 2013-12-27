@@ -151,8 +151,8 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
                 if ((ptCursor.x < rcMonitor.left + EDGESENSITIVITY) || (ptCursor.x >= rcMonitor.right - EDGESENSITIVITY)) {
 					if ( !(GetWindowLongPtr(msg->hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)) {
 						SendMessage(msg->hwnd, CLUIINTM_REDRAW, 0, 0);
-						MessageBox(0, TranslateT("The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead."), 
-								   TranslateT("Clist docking"), MB_OK);
+						MessageBox(0, TranslateT("The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead."), 
+								   TranslateT("Contact list docking"), MB_OK);
 						return 0;
 					}
 					ZeroMemory(&abd, sizeof(abd));

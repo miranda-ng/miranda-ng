@@ -693,7 +693,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Right-To-Left reading mode (mirror template)",IDC_RTL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,42,246,8
-    CONTROL         "Replace smileys in clist",IDC_REPLACE_SMILEYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,81,246,8
+    CONTROL         "Replace smileys in contact list",IDC_REPLACE_SMILEYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,81,246,8
     CONTROL         "Use protocol smileys",IDC_USE_PROTOCOL_SMILEYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,94,232,8
     CONTROL         "Draw smileys on first line",IDC_DRAW_SMILEYS_ON_FIRST_LINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,119,246,8
@@ -717,7 +717,7 @@ BEGIN
     LTEXT           "Top space:",IDC_STATIC_TOP,7,37,40,8
     EDITTEXT        IDC_TOP_SPACE,50,35,35,12,ES_NUMBER
     CONTROL         "",IDC_TOP_SPACE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,84,35,11,12
-    LTEXT           "pixels",IDC_STATIC_PIXELS,96,37,18,8
+    LTEXT           "pixels",IDC_STATIC_PIXELS,96,37,30,8
     CONTROL         "Draw smileys on second line",IDC_DRAW_SMILEYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,52,242,8
     LTEXT           "Text:",IDC_STATIC_TEXT,7,67,83,9
     CONTROL         "Status",IDC_STATUS,"Button",BS_AUTORADIOBUTTON,18,79,118,8
@@ -746,7 +746,7 @@ BEGIN
     LTEXT           "Top space:",IDC_STATIC_TOP,7,37,40,8
     EDITTEXT        IDC_TOP_SPACE,50,35,35,12,ES_NUMBER
     CONTROL         "",IDC_TOP_SPACE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,84,35,11,12
-    LTEXT           "pixels",IDC_STATIC_PIXELS,96,37,18,8
+    LTEXT           "pixels",IDC_STATIC_PIXELS,96,37,30,8
     CONTROL         "Draw smileys on third line",IDC_DRAW_SMILEYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,52,242,8
     LTEXT           "Text:",IDC_STATIC_TEXT,7,67,83,9
     CONTROL         "Status",IDC_STATUS,"Button",BS_AUTORADIOBUTTON,18,79,118,8
