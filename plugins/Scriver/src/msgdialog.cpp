@@ -1105,43 +1105,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				mir_snprintf(buf, sizeof(buf), Translate("User Menu - %s"), idbuf);
 				SendMessage(GetDlgItem(hwndDlg, IDC_USERMENU), BUTTONADDTOOLTIP, (WPARAM) buf, 0);
 
-				if (!cws || (!strcmp(cws->szModule, dat->szProto) && !strcmp(cws->szSetting, "Status"))) {
-					DWORD wStatus;
-					wStatus = db_get_w( dat->windowData.hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
-					// log status change - should be moved to a separate place
-					if (dat->wStatus != wStatus && db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSTATUSCH, SRMSGDEFSET_SHOWSTATUSCH)) {
-						ptrT szOldStatus( mir_tstrdup( pcli->pfnGetStatusModeDescription(dat->wStatus, 0)));
-						ptrT szNewStatus( mir_tstrdup( pcli->pfnGetStatusModeDescription(wStatus, 0)));
+				if (!cws || (!strcmp(cws->szModule, dat->szProto) && !strcmp(cws->szSetting, "Status")))
+					dat->wStatus = cws->value.wVal;
 
-						int iLen;
-						TCHAR buffer[512];
-						if (wStatus == ID_STATUS_OFFLINE) {
-							iLen = mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("signed off (was %s)"), szOldStatus);
-							SendMessage(hwndDlg, DM_TYPING, 0, 0);
-						}
-						else if (dat->wStatus == ID_STATUS_OFFLINE)
-							iLen = mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("signed on (%s)"), szNewStatus);
-						else
-							iLen = mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("is now %s (was %s)"), szNewStatus, szOldStatus);
-
-						char blob[2048];
-						int ansiLen = WideCharToMultiByte(CP_ACP, 0, buffer, -1, blob, sizeof(blob), 0, 0);
-						memcpy(blob+ansiLen, buffer, sizeof(TCHAR)*(iLen+1));
-
-						DBEVENTINFO dbei = { sizeof(dbei) };
-						dbei.cbBlob = ansiLen + sizeof(TCHAR)*(iLen+1);
-						dbei.pBlob = (PBYTE)blob;
-						dbei.eventType = EVENTTYPE_STATUSCHANGE;
-						dbei.timestamp = time(NULL);
-						dbei.szModule = dat->szProto;
-						HANDLE hNewEvent = db_event_add(dat->windowData.hContact, &dbei);
-						if (dat->hDbEventFirst == NULL) {
-							dat->hDbEventFirst = hNewEvent;
-							SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
-						}
-					}
-					dat->wStatus = wStatus;
-				}
 				SetStatusIcon(dat);
 				SendMessage(hwndDlg, DM_UPDATEICON, 0, 0);
 				SendMessage(hwndDlg, DM_UPDATETITLEBAR, 0, 0);
@@ -1452,7 +1418,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					SendMessage(hwndDlg, DM_APPENDTOLOG, WPARAM(hDbEvent), 0);
 				else
 					SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
-				if (!(dbei.flags & DBEF_SENT) && dbei.eventType != EVENTTYPE_STATUSCHANGE && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
+				if (!(dbei.flags & DBEF_SENT) && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
 					if (GetActiveWindow() != dat->hwndParent || GetForegroundWindow() != dat->hwndParent || dat->parent->hwndActive != hwndDlg) {
 						dat->showUnread = 1;
 						SendMessage(hwndDlg, DM_UPDATEICON, 0, 0);
@@ -1849,11 +1815,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						break;
 					dbei.pBlob = (PBYTE) mir_alloc(dbei.cbBlob);
 					db_event_get(dat->hDbEventLast, &dbei);
-					if (DbEventIsMessageOrCustom(&dbei) || dbei.eventType == EVENTTYPE_STATUSCHANGE) {
-						TCHAR *buffer = DbGetEventTextT( &dbei, CP_ACP );
-						if (buffer!=NULL) {
+					if (DbEventIsMessageOrCustom(&dbei)) {
+						TCHAR *buffer = DbGetEventTextT(&dbei, CP_ACP);
+						if (buffer != NULL) {
 							TCHAR *quotedBuffer = GetQuotedTextW(buffer);
-							SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETTEXTEX, (WPARAM) &st, (LPARAM)quotedBuffer);
+							SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
 							mir_free(quotedBuffer);
 							mir_free(buffer);
 						}

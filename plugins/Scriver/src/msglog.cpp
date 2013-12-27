@@ -139,12 +139,9 @@ int DbEventIsShown(DBEVENTINFO * dbei, struct SrmmWindowData *dat)
 	case EVENTTYPE_MESSAGE:
 		return 1;
 
-	case EVENTTYPE_STATUSCHANGE:
 	case EVENTTYPE_JABBER_CHATSTATES:
 	case EVENTTYPE_JABBER_PRESENCE:
-		if (!db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSTATUSCH, SRMSGDEFSET_SHOWSTATUSCH))
-			return 0;
-		return 1;
+		return 0;
 
 	case EVENTTYPE_FILE:
 	case EVENTTYPE_URL:
@@ -173,10 +170,9 @@ EventData *getEventFromDB(struct SrmmWindowData *dat, HANDLE hContact, HANDLE hD
 		db_event_markRead(hContact, hDbEvent);
 		CallService(MS_CLIST_REMOVEEVENT, (WPARAM) hContact, (LPARAM)hDbEvent);
 	}
-	else if (dbei.eventType == EVENTTYPE_STATUSCHANGE || dbei.eventType == EVENTTYPE_JABBER_CHATSTATES ||
-		dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
+	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE)
 		db_event_markRead(hContact, hDbEvent);
-	}
+
 	evt->eventType = evt->custom ? EVENTTYPE_MESSAGE : dbei.eventType;
 	evt->dwFlags = (dbei.flags & DBEF_READ ? IEEDF_READ : 0) | (dbei.flags & DBEF_SENT ? IEEDF_SENT : 0) | (dbei.flags & DBEF_RTL ? IEEDF_RTL : 0);
 	evt->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
@@ -649,7 +645,6 @@ static char *CreateRTFFromEvent(struct SrmmWindowData *dat, EventData *evt, stru
 
 		case EVENTTYPE_JABBER_CHATSTATES:
 		case EVENTTYPE_JABBER_PRESENCE:
-		case EVENTTYPE_STATUSCHANGE:
 		case EVENTTYPE_URL:
 		case EVENTTYPE_FILE:
 			i = LOGICON_MSG_NOTICE;
@@ -688,7 +683,7 @@ static char *CreateRTFFromEvent(struct SrmmWindowData *dat, EventData *evt, stru
 			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s: ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
 		showColon = 1;
 	}
-	if ((!(gdat->flags&SMF_HIDENAMES) && evt->eventType == EVENTTYPE_MESSAGE && isGroupBreak) || evt->eventType == EVENTTYPE_STATUSCHANGE || evt->eventType == EVENTTYPE_JABBER_CHATSTATES || evt->eventType == EVENTTYPE_JABBER_PRESENCE) {
+	if ((!(gdat->flags & SMF_HIDENAMES) && evt->eventType == EVENTTYPE_MESSAGE && isGroupBreak) || evt->eventType == EVENTTYPE_JABBER_CHATSTATES || evt->eventType == EVENTTYPE_JABBER_PRESENCE) {
 		if (evt->eventType == EVENTTYPE_MESSAGE) {
 			if (showColon)
 				AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
@@ -734,7 +729,6 @@ static char *CreateRTFFromEvent(struct SrmmWindowData *dat, EventData *evt, stru
 
 	case EVENTTYPE_JABBER_CHATSTATES:
 	case EVENTTYPE_JABBER_PRESENCE:
-	case EVENTTYPE_STATUSCHANGE:
 	case EVENTTYPE_URL:
 	case EVENTTYPE_FILE:
 		style = MSGFONTID_NOTICE;
@@ -755,10 +749,12 @@ static char *CreateRTFFromEvent(struct SrmmWindowData *dat, EventData *evt, stru
 		}
 		AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(" "));
 
-		if (evt->dwFlags & IEEDF_UNICODE_TEXT)
-			AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, evt->pszTextW);
-		else
-			AppendAnsiToBuffer(&buffer, &bufferEnd, &bufferAlloced, evt->pszText);
+		if (evt->pszTextW != NULL) {
+			if (evt->dwFlags & IEEDF_UNICODE_TEXT)
+				AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, evt->pszTextW);
+			else
+				AppendAnsiToBuffer(&buffer, &bufferEnd, &bufferAlloced, evt->pszText);
+		}
 
 		if (evt->pszText2W != NULL) {
 			AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(" ("));
