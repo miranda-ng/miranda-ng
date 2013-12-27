@@ -157,6 +157,7 @@
 [New contact added to database]
 [Contact deleting]
 [Parameter]
+[current contact]
 [Manual]
 [Byte]
 [Word]

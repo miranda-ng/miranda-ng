@@ -304,6 +304,8 @@ current contact
 Удаление контакта
 [Parameter]
 Параметр
+[current contact]
+текущий контакт
 [Manual]
 Ручной
 [Byte]
