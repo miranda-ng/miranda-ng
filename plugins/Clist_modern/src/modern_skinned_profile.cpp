@@ -52,14 +52,14 @@ ValueVariant* CSkinnedProfile::_GetValue( const char * szSection, const char * s
 BYTE CSkinnedProfile::SpiGetSkinByte( HANDLE hContact, const char * szSection, const char * szKey, const BYTE defValue )
 {
 	if ( hContact ) 
-		return ModernGetSettingByte( hContact, szSection, szKey, defValue ); //per-contact settings are not skinnablr at all
+		return db_get_b( hContact, szSection, szKey, defValue ); //per-contact settings are not skinnablr at all
 
 	CAutoCriticalSection Lock( SkinProfile()->_Lock, true );
 
 	ValueVariant* value = SkinProfile()->_GetValue( szSection, szKey );
 
 	if ( value == NULL ) // not skinned => return DB
-		return ModernGetSettingWord( hContact, szSection, szKey, defValue );
+		return db_get_w( hContact, szSection, szKey, defValue );
 
 	else if ( !value->IsEmpty() ) 
 		return value->GetByte();
@@ -70,14 +70,14 @@ BYTE CSkinnedProfile::SpiGetSkinByte( HANDLE hContact, const char * szSection, c
 WORD CSkinnedProfile::SpiGetSkinWord( HANDLE hContact, const char * szSection, const char * szKey, const WORD defValue )
 {
 	if ( hContact ) 
-		return ModernGetSettingWord( hContact, szSection, szKey, defValue ); //per-contact settings are not skinnablr at all
+		return db_get_w( hContact, szSection, szKey, defValue ); //per-contact settings are not skinnablr at all
 
 	CAutoCriticalSection Lock( SkinProfile()->_Lock, true );
 
 	ValueVariant* value = SkinProfile()->_GetValue( szSection, szKey );
 	
 	if ( value == NULL ) // not skinned => return DB
-		return ModernGetSettingWord( hContact, szSection, szKey, defValue );
+		return db_get_w( hContact, szSection, szKey, defValue );
 	
 	else if ( !value->IsEmpty() ) 
 		return value->GetWord();
@@ -88,14 +88,14 @@ WORD CSkinnedProfile::SpiGetSkinWord( HANDLE hContact, const char * szSection, c
 DWORD CSkinnedProfile::SpiGetSkinDword( HANDLE hContact, const char * szSection, const char * szKey, const DWORD defValue )
 {
 	if ( hContact ) 
-		return ModernGetSettingDword( hContact, szSection, szKey, defValue ); //per-contact settings are not skinnablr at all
+		return db_get_dw( hContact, szSection, szKey, defValue ); //per-contact settings are not skinnablr at all
 
 	CAutoCriticalSection Lock( SkinProfile()->_Lock, true );
 
 	ValueVariant* value = SkinProfile()->_GetValue( szSection, szKey );
 
 	if ( value == NULL ) // not skinned => return DB
-		return ModernGetSettingDword( hContact, szSection, szKey, defValue );
+		return db_get_dw( hContact, szSection, szKey, defValue );
 	
 	else if ( !value->IsEmpty() ) 
 		return value->GetDword();	
