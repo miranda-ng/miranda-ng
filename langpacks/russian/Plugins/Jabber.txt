@@ -236,9 +236,9 @@ Jabber vCard: добавление телефона
 [Conference server:]
 Сервер:
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
-Чат-комната Jabber\nСоздание или вход в чат-комнату.
+Комната чата Jabber\nСоздание или вход в комнату чата.
 [Room:]
-Чат-комната:
+Комната чата:
 [Recently visited chatrooms:]
 Последние посещённые чаты:
 [Bookmarks]
@@ -256,7 +256,7 @@ Jabber vCard: добавление телефона
 [Invite Users]
 Приглашение пользователей
 [<room jid>\nSend group chat invitation.]
-<room jid>\nПригласить в чат-комнату.
+<room jid>\nПригласить в комнату чата.
 [Other JID:]
 Другой JID:
 [Add]
@@ -268,7 +268,7 @@ Jabber vCard: добавление телефона
 [Group chat invitation]
 Приглашение в конференцию
 [<room jid>\nIncoming group chat invitation.]
-<room jid>\nПриглашение в чат-комнату.
+<room jid>\nПриглашение в комнату чата.
 [You are invited to conference room by]
 Вас пригласил:
 [with following reason:]
@@ -280,7 +280,7 @@ Jabber vCard: добавление телефона
 [Jabber Bookmarks]
 Закладки
 [Server side bookmarks\nStore conference rooms and web links on server.]
-Закладки на сервере\nХранить чат-комнаты и ссылки на сервере.
+Закладки на сервере\nХранить комнаты чата и ссылки на сервере.
 [Remove]
 Удалить
 [Edit]
@@ -290,7 +290,7 @@ Jabber vCard: добавление телефона
 [Bookmark Type]
 Тип закладки
 [Conference]
-Чат-комната
+Комната чата
 [Transport]
 Транспорт
 [URL]
@@ -474,7 +474,7 @@ Jabber Ad-Hoc команды на %s
 [Nickname]
 Ник
 [Conferences]
-Чат-комнаты
+Комнаты чата
 [Links]
 Ссылки
 [Supports Service Discovery info]
@@ -618,7 +618,7 @@ xHTML формат чат сообщений
 [Outcast list (&ban)]
 Список забаненных
 [&Room options]
-Настройки чат-комнаты
+Настройки комнаты чата
 [View/change &topic]
 Просмотр/смена темы
 [Add to &bookmarks]
@@ -626,11 +626,11 @@ xHTML формат чат сообщений
 [&Configure...]
 &Настроить...
 [&Destroy room]
-Удалить чат-комнату
+Удалить комнату чата
 [Lin&ks]
 Ссылки
 [Copy room &JID]
-Копировать JID чат-комнаты
+Копировать JID комнаты чата
 [Copy room topic]
 Копировать тему
 [&Send presence]
@@ -660,7 +660,7 @@ xHTML формат чат сообщений
 [&Copy to clipboard]
 Скопировать в буфер обмена
 [Invite to room]
-Пригласить в чат-комнату
+Пригласить в комнату чата
 [Set &role]
 Установить роль
 [&Visitor]
@@ -688,7 +688,7 @@ xHTML формат чат сообщений
 [Copy real &JID]
 Копировать JID
 [Copy in-room JID]
-Копировать JID с чат-комнаты
+Копировать JID с комнаты чата
 [Real &JID: %s]
 Реальный JID: %s
 [%s\nSend group chat invitation.]
@@ -734,13 +734,13 @@ Jabber ошибка
 [Browse local transports]
 Обзор локальных транспортов
 [Browse chatrooms]
-Обзор чат-комнат
+Обзор комнат чата
 [Contact Menu...]
 Меню контакта...
 [View vCard]
 Просмотр vCard
 [Join chatroom]
-Войти в чат-комнату
+Войти в комнату чата
 [Refresh Info]
 Обновить инфо
 [Refresh Children]
@@ -812,7 +812,7 @@ Jabber ошибка
 [Notes]
 Заметки
 [Multi-User Conference]
-Чат-комната
+Комната чата
 [Agents list]
 Список агентов
 [Transports]
@@ -820,7 +820,7 @@ Jabber ошибка
 [Personal vCard]
 Личная визитная карточка
 [Convert to room]
-Конв. в чат-комнату
+Конв. в комнату чата
 [Login/logout]
 Войти/Выйти
 [Resolve nicks]
@@ -958,7 +958,7 @@ Jabber ошибка
 [Local Server Transports]
 Транспорты сервера
 [Browse Chatrooms]
-Обзор чат-комнат
+Обзор комнаты чата
 [Create/Join group chat]
 Создать/войти в чат
 [Roster editor]
@@ -1450,13 +1450,13 @@ Jabber ошибка
 [General]
 Общее
 [Autoaccept multiuser chat invitations]
-Автоматически принимать приглашения в чат-комнаты
+Автоматически принимать приглашения в комнаты чата
 [Automatically join bookmarks on login]
 Автоматически заходить в закладки
 [Automatically join conferences on login]
-Автоматически заходить в чат-комнаты при входе
+Автоматически заходить в комнаты чата при входе
 [Hide conference windows at startup]
-Не открывать окна чат-комнат при входе
+Не открывать окна комнат чата при входе
 [Do not show multiuser chat invitations]
 Не показывать приглашения в многопользовательский чат
 [Log events]
@@ -1464,7 +1464,7 @@ Jabber ошибка
 [Ban notifications]
 Уведомления о банах
 [Room configuration changes]
-Смена настроек чат-комнаты
+Смена настроек комнаты чата
 [Affiliation changes]
 Изменение принадлежности
 [Role changes]

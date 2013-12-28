@@ -64,7 +64,7 @@ Yahoo Япония
 [&Deny]
 &Запретить
 [Invite Buddy To Chat Room]
-Приглашение в чат-комнату
+Приглашение в комнату чата
 [Screen Name]
 Ник
 [&Invite]
@@ -90,7 +90,7 @@ Yahoo Япония
 [User &history]
 История пользователя
 [Join My Conference...]
-Заходи в мою чат-комнату...
+Заходи в мою комнату чата...
 [No, thank you...]
 Нет, спасибо...
 [Main]
@@ -170,7 +170,7 @@ ID
 [&Calendar]
 &Календарь
 [Create Conference]
-Создать чат-комнату
+Создать комнату чата
 [&Show Profile]
 Профиль
 [[miranda] Got webcam invite. (not currently supported)]

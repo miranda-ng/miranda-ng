@@ -22,7 +22,7 @@
 [Rejoin channel if kicked]
 Перезайти при переподключении
 [Rejoin channels on reconnect]
-Зайти в чат-комнаты при подключении
+Зайти в комнаты чата при подключении
 [Disable tray balloon on error]
 Отключить сообщения в трее
 [Show addresses]
@@ -40,7 +40,7 @@
 [Update online statuses for users]
 Обновлять статусы для польз.
 [Update statuses in channel nicklist]
-Обнов. статусы в списке чат-комнаты
+Обнов. статусы в списке комнаты чата
 [Internet address]
 Сетевой адрес
 [Port range]
@@ -94,7 +94,7 @@ ID пользователя
 [Address]
 Адрес
 [Channels]
-Чат-комнаты
+Комнаты чата
 [Auth]
 Авторизация
 [Server]
@@ -138,7 +138,7 @@ ID пользователя
 [Network]
 Сеть
 [Channels on server]
-Чат-комнаты сервера
+Комнаты чата сервера
 [&Join]
 Зайти
 [Filter by]
@@ -186,11 +186,11 @@ Wildcard поиск по сети
 [User modes]
 Режимы пользователя
 [Channel modes]
-Режимы чат-комнаты
+Режимы комнаты чата
 [Hidden]
 Скрытый
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
-Опции настройки чат-комнаты. Для настройки чат-комнаты нужны права администратора.
+Опции настройки комнаты чата. Для настройки комнаты чата нужны права администратора.
 [Strip colors]
 Цвета полос
 [Normal]
@@ -234,7 +234,7 @@ Wildcard поиск по сети
 [Enable (*)]
 Активировать (*)
 [Ignore channel messages by default]
-Игнорировать сообщения чат-комнаты по умолчанию
+Игнорировать сообщения комнаты чата по умолчанию
 [Ignore filetransfer requests]
 Игнорировать передачи файлов
 [Ignore DCC Chat requests]
@@ -302,11 +302,11 @@ DCC: Запрос на продолжение закачки файла от %s 
 [CTCP %s reply from %s: %s]
 СТСР %s ответ от %s: %s
 [Downloading list (%u%%) - %u channels]
-Загружается список (%u%%) - %u% чат-комнат
+Загружается список (%u%%) - %u% комнат чата
 [Downloading list - %u channels]
-Загружается список - %u чат-комнат
+Загружается список - %u комнат чата
 [Done: %u channels]
-Готово: %u чат-комнат
+Готово: %u комнат чата
 [(probably truncated by server)]
 (возможно ограничено сервером)
 [Change nickname]
@@ -420,7 +420,7 @@ DCC-запрос на передачу файла послан %s [%s]
 [Server window]
 Окно сервера
 [Show channel]
-Показать чат-комнату
+Показать комнату чата
 [WhoIs]
 Информация
 [Incoming DCC Chat]
@@ -520,15 +520,15 @@ WallOps от %s:\s
 [&Quick connect]
 &Быстрый коннект
 [&Join channel]
-Войти в чат-комнату
+Войти в комнату чата
 [&Change your nickname]
 &Сменить ник
 [Show the &list of available channels]
-&Список чат-комнат
+&Список комнат чата
 [&Show the server window]
 &Окно сервера
 [Channel &settings]
-&Настройки чат-комнаты
+&Настройки комнаты чата
 [&WhoIs info]
 &Информация whois
 [Di&sconnect]
@@ -540,9 +540,9 @@ WallOps от %s:\s
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
 Введите маску (nick!user@host) \nВнимание! Пользователи из списка контакта не будут игнорироваться!
 [Join channel]
-Зайти в чат-комнату
+Зайти в комнату чата
 [Please enter a channel to join]
-Введите название чат-комнаты
+Введите название комнаты чата
 [Please select IRC network and enter the password if needed]
 Выберите IRC сеть и введите пароль, если необходимо
 [Change nick name]
@@ -598,9 +598,9 @@ WallOps от %s:\s
 [Please enter the notice text]
 Пожалуйста введите текст уведомления
 [Please enter the channel name to invite to]
-Введите имя чат-комнаты для приглашения
+Введите имя комнаты чата для приглашения
 [Invite to channel]
-Пригласить в чат-комнату
+Пригласить в комнату чата
 [Register nick]
 Зарегистрировать ник
 [Auth nick]
@@ -630,7 +630,7 @@ WallOps от %s:\s
 [List all your nicks]
 Список ваших ников
 [List your channels]
-Список ваших чат-комнат
+Список ваших комнат чата
 [Kill unauthorized: off]
 Убить запрещённых: выкл
 [Kill unauthorized: on]
@@ -644,7 +644,7 @@ WallOps от %s:\s
 [Show the server &window]
 Показать окно сервера
 [&Leave the channel]
-&Покинуть чат-комнату
+&Покинуть комнату чата
 [&Invite to channel]
 Пригласить
 [Send &notice]
@@ -706,7 +706,7 @@ Nickserv убить фантома
 [Please wait...]
 Подождите, пожалуйста...
 [Channel]
-Чат-комната
+Комната чата
 [Mode]
 Режим
 [---- Not listed server ----]
@@ -720,9 +720,9 @@ Nickserv убить фантома
 [Delete selected ban/invite/exception]
 Удалить выбранный бан/приглашение/исключение
 [Set these modes for the channel]
-Установить режимы для чат-комнаты
+Установить режимы для комнаты чата
 [Set this topic for the channel]
-Установить тему для чат-комнаты
+Установить тему для комнаты чата
 [You have not applied all changes!\n\nApply before exiting?]
 Вы не применили изменения!\n\nПрименить перед выходом?
 [Add ban]

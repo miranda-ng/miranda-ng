@@ -42,7 +42,7 @@
 [Options]
 Настройки
 [Add new rooms to group:]
-Добавлять чат-комнаты в группу:
+Добавлять комнаты чата в группу:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 Интегрированный чат выключен. Вы можете включить его, поставив галочку ниже. Для включения поддержки чата необходим перезапуск Miranda IM.\n\nСтандартный модуль chat должен быть отключён, если вы включаете поддержку групповых чатов здесь. Иначе чаты могут не работать.
 [Log files]
@@ -726,7 +726,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [Close Other Tabs]
 Закрыть все, кроме этой
 [Leave Chat Room]
-Покинуть чат-комнату
+Покинуть комнату чата
 [Save Tab Position]
 Сохранить позицию
 [Clear saved Tab Position]
@@ -1026,7 +1026,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [&User]
 &Пользователь
 [&Room]
-Чат-комната
+&Комната чата
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
 Звук: %s. Клик для переключения статуса, SHIFT+клик для всех открытых контейнеров
 [disabled]
@@ -1560,7 +1560,7 @@ tabSRMM: %s
 [%d Unread]
 %d непрочитано
 [Chat room %s]
-Чат-комната %s
+Комната чата %s
 [%d User(s)]
 %d пользователей
 [Server window]
@@ -1978,7 +1978,7 @@ tabSRMM: %s
 [Show button menus when right clicking the buttons]
 Показывать меню кнопки по правому щелчку
 [Show topic as status message on the contact list]
-Показать тему чат-комнаты в списке контактов как сообщение статуса
+Показать тему комнаты чата в списке контактов как сообщение статуса
 [Do not pop up the window when joining a chat room]
 Не открывать окно чата при входе в комнату чата
 [Hide or show the window by double click in the contact list]
@@ -2216,9 +2216,9 @@ ID текущего контакта (если определен). Наприм
 [Nick]
 Ник
 [%s: Chat Room (%u user%s)]
-%s: Чат-комната (%u пользователей)
+%s: Комната чата (%u пользователей)
 [%s: Chat Room (%u users%s)]
-%s: Чат-комната (%u пользователей%s)
+%s: Комната чата (%u пользователей%s)
 [, event filter active]
 , фильтр событий включён
 [%s: Message Session]

@@ -256,7 +256,7 @@
 [Show for all contact types]
 Показывать для всех типов контактов
 [Show only for chatrooms]
-Показывать только для чат-комнат
+Показывать только для комнат чата
 [Number of contacts]
 Кол-во контактов
 [Protocol lock status]

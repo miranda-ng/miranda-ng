@@ -614,7 +614,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Other]
 Другое
 [Add new rooms to group:]
-Добавлять чат-комнаты в группу:
+Добавлять комнаты чата в группу:
 [Userlist row distance (pixels):]
 Расстояние между строками (пикс.):
 [Use same style as in the message log]
@@ -1406,9 +1406,9 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Show actions]
 Действия
 [Show users leaving]
-Пользователи, покинувшие чат-комнату
+Пользователи, покинувшие комнату чата
 [Show users being kicked]
-Пинки из чат-комнаты
+Пинки из комнаты чата
 [Show notices]
 Уведомления
 [Show users changing name]
@@ -1442,7 +1442,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Show icon for status changes]
 Смены статусов
 [Show icons in tray only when the chat room is not active]
-Показывать значки только когда окно чат-комнаты неактивно
+Показывать значки только когда окно комнаты чата неактивно
 [Show icon in tray for topic changes]
 Смена темы
 [Show icon in tray for users joining]

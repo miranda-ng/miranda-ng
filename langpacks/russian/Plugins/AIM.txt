@@ -120,7 +120,7 @@ E-mail
 [Save Changes]
 Сохранить изменения
 [Invite Buddy To Chat Room]
-Приглашение в чат-комнату
+Приглашение в комнату чата
 [&Invite]
 Пригласить
 [Invitation reason]
@@ -130,7 +130,7 @@ E-mail
 [Message]
 Сообщение
 [Room]
-Чат-комната
+Комната чата
 [Me]
 Я
 [Others]

@@ -220,7 +220,7 @@
 [Other]
 Другое
 [Add new rooms to group:]
-Добавлять чат-комнаты в группу:
+Добавлять комнаты чата в группу:
 [User list row height]
 Высота списка пользователей
 [pixels]
@@ -250,7 +250,7 @@
 [KB]
 КБ
 [Group Chat]
-Чат-комната
+Комната чата
 [Use same style as in the message log]
 Тот же стиль, что и в журнале
 [Use default colors]
@@ -754,9 +754,9 @@ Miranda не смогла загрузить встроенную систему
 [Show actions]
 Действия
 [Show users leaving]
-Пользователи, покинувшие чат-комнату
+Пользователи, покинувшие комнату чата
 [Show users being kicked]
-Пинки из чат-комнаты
+Пинки из комнаты чата
 [Show notices]
 Уведомления
 [Show users changing name]
@@ -766,7 +766,7 @@ Miranda не смогла загрузить встроенную систему
 [Show status changes of users]
 Смена статуса
 [Show icons in tray only when the chat room is not active]
-Показывать значки только когда окно чат-комнаты неактивно
+Показывать значки только когда окно комнаты чата неактивно
 [Show icon in tray for topic changes]
 Смена темы
 [Show icon in tray for users joining]
@@ -960,9 +960,9 @@ ID текущего контакта (если определен). Наприм
 [Status]
 Статус
 [%s: Chat Room (%u user)]
-%s: Чат-комната (%u пользователь)
+%s: Комната чата (%u пользователь)
 [%s: Chat Room (%u users)]
-%s: Чат-комната (%u пользователей)
+%s: Комната чата (%u пользователей)
 [%s: Message Session]
 %s: диалог
 [%s: Message Session (%u users)]
