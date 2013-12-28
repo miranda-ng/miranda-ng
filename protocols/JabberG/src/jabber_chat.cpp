@@ -1201,7 +1201,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 					}
 			}
 
-			if ( !szInviteTo) break;
+			if (!szInviteTo) break;
 
 			mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("Invite %s to %s"), him->m_tszResourceName, szInviteTo);
 			*szBuffer = 0;
@@ -1213,7 +1213,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			XmlNode msg(_T("message"));
 			HXML invite = msg << XATTR(_T("to"), szTitle) << XATTRID(ppro->SerialNext())
 				<< XCHILD(_T("x"), szBuffer)
-					<< XATTR(_T("xmlns"), _T("jabber:x:conference"))
+					<< XATTR(_T("xmlns"), JABBER_FEAT_DIRECT_MUC_INVITE)
 					<< XATTR(_T("jid"), szInviteTo)
 						<< XCHILD(_T("invite")) << XATTR(_T("from"), item->nick);
 			ppro->m_ThreadInfo->send(msg);

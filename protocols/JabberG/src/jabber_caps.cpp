@@ -74,6 +74,7 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 	{	JABBER_FEAT_MIRANDA_NOTES,        JABBER_CAPS_MIRANDA_NOTES,        LPGENT("Supports Miranda NG notes extension") },
 	{	JABBER_FEAT_JINGLE,               JABBER_CAPS_JINGLE,               LPGENT("Supports Jingle") },
 	{	JABBER_FEAT_ROSTER_EXCHANGE,      JABBER_CAPS_ROSTER_EXCHANGE,      LPGENT("Supports Roster Exchange") },
+	{  JABBER_FEAT_DIRECT_MUC_INVITE,    JABBER_CAPS_DIRECT_MUC_INVITE,    LPGENT("Supports direct chat invitations (XEP-0249)") },
 	{	NULL,                             0,                                NULL }
 };
 

@@ -1161,12 +1161,12 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 		item = ListGetItemPtr(LIST_VCARD_TEMP, from);
 
 	time_t msgTime = 0;
-	BOOL  isChatRoomInvitation = FALSE;
+	bool isChatRoomInvitation = false;
 	const TCHAR *inviteRoomJid = NULL;
 	const TCHAR *inviteFromJid = NULL;
 	const TCHAR *inviteReason = NULL;
 	const TCHAR *invitePassword = NULL;
-	BOOL delivered = FALSE;
+	bool isDelivered = false;
 
 	// check chatstates availability
 	if (pFromResource && xmlGetChildByTag(node, "active", "xmlns", JABBER_FEAT_CHATSTATES))
@@ -1286,29 +1286,29 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 //				pFromResource->m_jcbManualDiscoveredCaps |= (JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY);
 
 			if (bodyNode == NULL) {
-				HXML idNode = xmlGetChild(xNode , "id");
-				if (xmlGetChild(xNode , "delivered") != NULL || xmlGetChild(xNode , "offline") != NULL) {
+				HXML idNode = xmlGetChild(xNode, "id");
+				if (xmlGetChild(xNode, "delivered") != NULL || xmlGetChild(xNode, "offline") != NULL) {
 					int id = -1;
 					if (idNode != NULL && xmlGetText(idNode) != NULL)
-						if ( !_tcsncmp(xmlGetText(idNode), _T(JABBER_IQID), strlen(JABBER_IQID)))
-							id = _ttoi((xmlGetText(idNode))+strlen(JABBER_IQID));
+					if (!_tcsncmp(xmlGetText(idNode), _T(JABBER_IQID), strlen(JABBER_IQID)))
+						id = _ttoi((xmlGetText(idNode)) + strlen(JABBER_IQID));
 
 					if (id != -1)
 						ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 				}
 
-				if (hContact && xmlGetChild(xNode , "composing") != NULL)
+				if (hContact && xmlGetChild(xNode, "composing") != NULL)
 					CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, 60);
 
 				// Maybe a cancel to the previous composing
-				HXML child = xmlGetChild(xNode ,0);
+				HXML child = xmlGetChild(xNode, 0);
 				if (hContact && (!child || (child && idNode != NULL)))
 					CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, PROTOTYPE_CONTACTTYPING_OFF);
 			}
 			else {
 				// Check whether any event is requested
-				if ( !delivered && (n = xmlGetChild(xNode , "delivered")) != NULL) {
-					delivered = TRUE;
+				if (!isDelivered && (n = xmlGetChild(xNode, "delivered")) != NULL) {
+					isDelivered = true;
 
 					XmlNode m(_T("message")); m << XATTR(_T("to"), from);
 					HXML x = m << XCHILDNS(_T("x"), JABBER_FEAT_MESSAGE_EVENTS);
@@ -1316,17 +1316,18 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 					x << XCHILD(_T("id"), idStr);
 					info->send(m);
 				}
-				if (item != NULL && xmlGetChild(xNode , "composing") != NULL) {
+				if (item != NULL && xmlGetChild(xNode, "composing") != NULL) {
 					if (item->messageEventIdStr)
 						mir_free(item->messageEventIdStr);
-					item->messageEventIdStr = (idStr == NULL)?NULL:mir_tstrdup(idStr);
-			}	}
+					item->messageEventIdStr = (idStr == NULL) ? NULL : mir_tstrdup(idStr);
+				}
+			}
 		}
-		else if ( !_tcscmp(ptszXmlns, JABBER_FEAT_OOB2)) {
-			LPCTSTR ptszUrl = xmlGetText( xmlGetChild(xNode , "url"));
+		else if (!_tcscmp(ptszXmlns, JABBER_FEAT_OOB2)) {
+			LPCTSTR ptszUrl = xmlGetText(xmlGetChild(xNode, "url"));
 			if (ptszUrl != NULL && *ptszUrl) {
 				size_t cbLen = (szMessage ? _tcslen(szMessage) : 0) + _tcslen(ptszUrl) + 32;
-				TCHAR *szTmp = (TCHAR *)alloca(sizeof(TCHAR) * cbLen);
+				TCHAR *szTmp = (TCHAR *)alloca(sizeof(TCHAR)* cbLen);
 				_tcscpy(szTmp, ptszUrl);
 				if (szMessage) {
 					_tcscat(szTmp, _T("\r\n"));
@@ -1335,36 +1336,36 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 				szMessage = szTmp;
 			}
 		}
-		else if ( !_tcscmp(ptszXmlns, JABBER_FEAT_MUC_USER)) {
-			HXML inviteNode = xmlGetChild(xNode , _T("invite"));
+		else if (!_tcscmp(ptszXmlns, JABBER_FEAT_MUC_USER)) {
+			HXML inviteNode = xmlGetChild(xNode, _T("invite"));
 			if (inviteNode != NULL) {
 				inviteFromJid = xmlGetAttrValue(inviteNode, _T("from"));
-				inviteReason = xmlGetText( xmlGetChild(inviteNode , _T("reason")));
+				inviteReason = xmlGetText(xmlGetChild(inviteNode, _T("reason")));
 			}
 			inviteRoomJid = from;
 			if (inviteReason == NULL)
 				inviteReason = szMessage;
-			isChatRoomInvitation = TRUE;
-			invitePassword = xmlGetText( xmlGetChild(xNode, "password"));
+			isChatRoomInvitation = true;
+			invitePassword = xmlGetText(xmlGetChild(xNode, "password"));
 		}
-		else if ( !_tcscmp(ptszXmlns, JABBER_FEAT_ROSTER_EXCHANGE) &&
+		else if (!_tcscmp(ptszXmlns, JABBER_FEAT_ROSTER_EXCHANGE) &&
 			item != NULL && (item->subscription == SUB_BOTH || item->subscription == SUB_TO)) {
 			TCHAR chkJID[JABBER_MAX_JID_LEN] = _T("@");
 			JabberStripJid(from, chkJID + 1, SIZEOF(chkJID) - 1);
-			for (int i = 1; ; i++) {
-				HXML iNode = xmlGetNthChild(xNode , _T("item"), i);
+			for (int i = 1;; i++) {
+				HXML iNode = xmlGetNthChild(xNode, _T("item"), i);
 				if (iNode == NULL) break;
 				const TCHAR *action = xmlGetAttrValue(iNode, _T("action"));
 				const TCHAR *jid = xmlGetAttrValue(iNode, _T("jid"));
 				const TCHAR *nick = xmlGetAttrValue(iNode, _T("name"));
 				const TCHAR *group = xmlGetText(xmlGetChild(iNode, _T("group")));
 				if (action && jid && _tcsstr(jid, chkJID)) {
-					if ( !_tcscmp(action, _T("add"))) {
+					if (!_tcscmp(action, _T("add"))) {
 						HANDLE hContact = DBCreateContact(jid, nick, FALSE, FALSE);
 						if (group)
 							db_set_ts(hContact, "CList", "Group", group);
 					}
-					else if ( !_tcscmp(action, _T("delete"))) {
+					else if (!_tcscmp(action, _T("delete"))) {
 						HANDLE hContact = HContactFromJID(jid);
 						if (hContact)
 							CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
@@ -1372,14 +1373,14 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 				}
 			}
 		}
-		else if ( !isChatRoomInvitation && !_tcscmp(ptszXmlns, _T("jabber:x:conference"))) {
+		else if (!isChatRoomInvitation && !_tcscmp(ptszXmlns, JABBER_FEAT_DIRECT_MUC_INVITE)) {
 			inviteRoomJid = xmlGetAttrValue(xNode, _T("jid"));
 			inviteFromJid = from;
 			if (inviteReason == NULL)
 				inviteReason = xmlGetText(xNode);
-			if ( !inviteReason)
+			if (!inviteReason)
 				inviteReason = szMessage;
-			isChatRoomInvitation = TRUE;
+			isChatRoomInvitation = true;
 		}
 	}
 
@@ -1397,8 +1398,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 				info->send(m);
 				*/
 			}
-			else
-				GroupchatProcessInvite(inviteRoomJid, inviteFromJid, inviteReason, invitePassword);
+			else GroupchatProcessInvite(inviteRoomJid, inviteFromJid, inviteReason, invitePassword);
 		}
 		return;
 	}
@@ -1410,7 +1410,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 	if ((szMessage = JabberUnixToDosT(szMessage)) == NULL)
 		szMessage = mir_tstrdup(_T(""));
 
-	char* buf = mir_utf8encodeW(szMessage);
+	char *buf = mir_utf8encodeW(szMessage);
 
 	if (item != NULL) {
 		if (pFromResource) {
@@ -1429,7 +1429,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 	CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 	time_t now = time(NULL);
-	if ( !msgTime)
+	if (!msgTime)
 		msgTime = now;
 
 	if (m_options.FixIncorrectTimestamps && (msgTime > now || (msgTime < (time_t)JabberGetLastContactMessageTime(hContact))))
@@ -1449,19 +1449,18 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 // XEP-0115: Entity Capabilities
 void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 {
-	const TCHAR *from;
-	if ((from = xmlGetAttrValue(node, _T("from"))) == NULL)
+	const TCHAR *from = xmlGetAttrValue(node, _T("from"));
+	if (from == NULL)
 		return;
 
 	debugLogA("presence: for jid %S", from);
 
-	pResourceStatus r( ResourceInfoFromJID(from));
+	pResourceStatus r(ResourceInfoFromJID(from));
 	if (r == NULL)
 		return;
 
-	HXML n;
-
 	// check XEP-0115 support, and old style:
+	HXML n;
 	if ((n = xmlGetChildByTag(node, "c", "xmlns", JABBER_FEAT_ENTITY_CAPS)) != NULL ||
 		 (n = xmlGetChild(node, "c")) != NULL) {
 		const TCHAR *szNode = xmlGetAttrValue(n, _T("node"));
