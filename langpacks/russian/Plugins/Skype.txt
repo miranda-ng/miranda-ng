@@ -118,7 +118,7 @@ Skype протокол для Miranda NG.
 [Anyone]
 Всех
 [People in my Contact list only]
-Пользователей из моего контактного листа
+Пользователей из моего списка контактов
 [Allow calls from...]
 Разрешить звонки от...
 [Automatically receive video and share screens with...]
@@ -246,7 +246,7 @@ SkypeKit.exe не распакован.
 [Hi! I'd like to add you to my contact list]
 Привет! Я хотел бы добавить вас в свой список контактов
 [Contact already in your contact list]
-Контакт уже в контакт листе
+Контакт уже в списке контактов
 [Contacts received]
 Входящий групповой звонок
 [Enter a password for %s:]

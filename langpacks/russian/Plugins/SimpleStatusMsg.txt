@@ -70,7 +70,7 @@
 [Show status list]
 Меню списка статусов
 [Show status profiles in status list]
-Показывать профили в статус листе
+Показывать профили в списке статусов
 [Show icons in status list]
 Значки в списке статусов
 [Buttons:]

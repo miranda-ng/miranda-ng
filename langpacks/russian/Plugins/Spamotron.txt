@@ -54,7 +54,7 @@
 [Hide contact until verified]
 Прятать контакт до подтверждения
 [Add permanently to list on verified]
-Добавлять в контакт лист при подтверждении
+Добавлять в список контактов при подтверждении
 [Log actions to system history]
 Вести журнал действий
 [Flood protection]

@@ -536,7 +536,7 @@ xHTML формат чат сообщений
 [Supports OTR (Off-the-Record Messaging)]
 Поддержка OTR (Off-the-Record Messaging)
 [Can block communications from particular other users using Privacy lists]
-Блокировка пользователей с использованием листов приватности
+Блокировка пользователей с использованием списков приватности
 [Supports Message Receipts]
 Прием сообщений
 [Can report information about the music to which a user is listening]

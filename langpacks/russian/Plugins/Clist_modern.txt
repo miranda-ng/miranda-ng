@@ -346,7 +346,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Hide vertical scrollbar]
 Скрыть полосу прокрутки
 [Fade out entire list when:]
-Затемнить весь лист когда:
+Затемнить весь список когда:
 [Single click interface]
 Один щелчок
 [Always show status in tooltip]

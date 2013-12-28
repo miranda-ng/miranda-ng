@@ -98,7 +98,7 @@ ID ключа:
 [Current password:]
 Текущий пароль:
 [Userlist:]
-Лист пользователей:
+Список пользователей:
 [Export PubKey]
 Сохранить ключ
 [Turn on debug log]

@@ -664,7 +664,7 @@
 [Contact list display and ignore options for %s]
 Настройки отображения и игнорирования для %s
 [&Contact list settings...]
-Настройки контакт-листа...
+Настройки списка контактов...
 [Global]
 Глобальные
 [Toggle show online/offline]

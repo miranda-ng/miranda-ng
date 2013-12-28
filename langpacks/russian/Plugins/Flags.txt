@@ -12,7 +12,7 @@
 [Show country flag as &status icon on message window]
 Показывать флаг, как значок статуса в окне беседы
 [Show country flag as &extra image on contact list]
-Показывать флаг, как доп. значок в контакт-листе
+Показывать флаг, как доп. значок в списке контактов
 [Use &IP-to-country database for country detection]
 Использовать базу IP для определения страны
 [Use &unknown flag if the country cannot be determined]
