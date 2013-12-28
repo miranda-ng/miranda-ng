@@ -1180,14 +1180,6 @@ BEGIN
     END
 END
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDB_SORTCOLUP           BITMAP                  "res/arrow_sort_column_up.bmp"
-IDB_SORTCOLDOWN         BITMAP                  "res/arrow_sort_column_down.bmp"
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 

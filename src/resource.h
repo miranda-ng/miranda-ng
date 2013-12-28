@@ -106,8 +106,6 @@
 #define IDD_INSTALLINI                  235
 #define IDD_WARNINICHANGE               236
 #define IDD_INIIMPORTDONE               237
-#define IDB_SORTCOLUP                   239
-#define IDB_SORTCOLDOWN                 240
 #define IDD_OPT_NETLIB                  246
 #define IDD_NETLIBLOGOPTS               247
 #define IDD_FILETRANSFERINFO            249

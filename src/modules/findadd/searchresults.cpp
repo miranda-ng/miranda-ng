@@ -113,9 +113,8 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 	if (dat->iLastColumnSortIndex >= columnCount) dat->iLastColumnSortIndex = COLUMNID_NICK;
 	dat->bSortAscending = db_get_b(NULL, "FindAdd", "SortAscending", TRUE);
 
-	hdi.mask = HDI_BITMAP | HDI_FORMAT;
-	hdi.fmt = HDF_LEFT | HDF_BITMAP | HDF_STRING | HDF_BITMAP_ON_RIGHT;
-	hdi.hbm = dat->bSortAscending ? dat->hBmpSortDown : dat->hBmpSortUp;
+	hdi.mask = HDI_FORMAT;
+	hdi.fmt = HDF_LEFT | HDF_STRING | (dat->bSortAscending ? HDF_SORTDOWN : HDF_SORTUP);
 	Header_SetItem(ListView_GetHeader(hwndResults), dat->iLastColumnSortIndex, &hdi);
 }
 

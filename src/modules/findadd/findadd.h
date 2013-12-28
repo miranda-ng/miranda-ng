@@ -44,7 +44,6 @@ struct FindAddDlgData
 	int notSearchedYet;
 	struct ProtoSearchInfo *search;
 	int searchCount;
-	HBITMAP hBmpSortUp, hBmpSortDown;
 	int throbbing;
 	int pivot;
 	HWND hwndAdvSearch;

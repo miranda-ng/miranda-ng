@@ -317,8 +317,6 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		dat->notSearchedYet = 1;
 		dat->iLastColumnSortIndex = 1;
 		dat->bSortAscending = 1;
-		dat->hBmpSortUp = (HBITMAP)LoadImage(hInst, MAKEINTRESOURCE(IDB_SORTCOLUP), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS);
-		dat->hBmpSortDown = (HBITMAP)LoadImage(hInst, MAKEINTRESOURCE(IDB_SORTCOLDOWN), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTIONS, BUTTONSETARROW, 1, 0);
 
 		ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT | LVS_EX_HEADERDRAGDROP);
@@ -592,27 +590,24 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					EnableResultButtons(hwndDlg, count);
 				}
 				break;
+
 			case LVN_COLUMNCLICK:
-				{
-					HDITEM hdi;
-					hdi.mask = HDI_BITMAP|HDI_FORMAT;
-					hdi.fmt = HDF_LEFT|HDF_STRING;
-					Header_SetItem(ListView_GetHeader(hwndList), dat->iLastColumnSortIndex, &hdi);
+				HDITEM hdi;
+				hdi.mask = HDI_FORMAT;
+				hdi.fmt = HDF_LEFT | HDF_STRING;
+				Header_SetItem(ListView_GetHeader(hwndList), dat->iLastColumnSortIndex, &hdi);
 
-					LPNMLISTVIEW nmlv = (LPNMLISTVIEW)lParam;
-					if (nmlv->iSubItem != dat->iLastColumnSortIndex) {
-						dat->bSortAscending = TRUE;
-						dat->iLastColumnSortIndex = nmlv->iSubItem;
-					}
-					else dat->bSortAscending = !dat->bSortAscending;
-
-					hdi.fmt = HDF_LEFT|HDF_BITMAP|HDF_STRING|HDF_BITMAP_ON_RIGHT;
-					hdi.hbm = dat->bSortAscending?dat->hBmpSortDown:dat->hBmpSortUp;
-					Header_SetItem(ListView_GetHeader(hwndList), dat->iLastColumnSortIndex, &hdi);
-
-					ListView_SortItemsEx(hwndList, SearchResultsCompareFunc, (LPARAM)hwndDlg);
+				LPNMLISTVIEW nmlv = (LPNMLISTVIEW)lParam;
+				if (nmlv->iSubItem != dat->iLastColumnSortIndex) {
+					dat->bSortAscending = TRUE;
+					dat->iLastColumnSortIndex = nmlv->iSubItem;
 				}
-				break;
+				else dat->bSortAscending = !dat->bSortAscending;
+
+				hdi.fmt = HDF_LEFT | HDF_STRING | (dat->bSortAscending ? HDF_SORTDOWN : HDF_SORTUP);
+				Header_SetItem(ListView_GetHeader(hwndList), dat->iLastColumnSortIndex, &hdi);
+
+				ListView_SortItemsEx(hwndList, SearchResultsCompareFunc, (LPARAM)hwndDlg);
 			}
 		}
 		break;
@@ -790,18 +785,17 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_MOREOPTIONS:
-			{
-				RECT rc;
-				GetWindowRect( GetDlgItem(hwndDlg, IDC_MOREOPTIONS), &rc);
-				ShowMoreOptionsMenu(hwndDlg, rc.left, rc.bottom);
-				break;
-			}
+			RECT rc;
+			GetWindowRect( GetDlgItem(hwndDlg, IDC_MOREOPTIONS), &rc);
+			ShowMoreOptionsMenu(hwndDlg, rc.left, rc.bottom);
+			break;
 		}
 
-		if (lParam && dat->hwndTinySearch == (HWND)lParam
-			&& HIWORD(wParam) == EN_SETFOCUS && LOWORD(wParam) == 0
-			&& !IsDlgButtonChecked(hwndDlg, IDC_BYCUSTOM))	{
-				CheckSearchTypeRadioButton(hwndDlg, IDC_BYCUSTOM);
+		if (lParam && dat->hwndTinySearch == (HWND)lParam &&
+			 HIWORD(wParam) == EN_SETFOCUS && LOWORD(wParam) == 0 &&
+			 !IsDlgButtonChecked(hwndDlg, IDC_BYCUSTOM))
+		{
+			CheckSearchTypeRadioButton(hwndDlg, IDC_BYCUSTOM);
 		}
 		break;
 
@@ -822,8 +816,9 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				ShowMoreOptionsMenu(hwndDlg, (short)LOWORD(lParam), (short)HIWORD(lParam));
 				return TRUE;
 			}
-			break;
 		}
+		break;
+
 	case HM_SEARCHACK:
 		{
 			ACKDATA *ack = (ACKDATA*)lParam;
@@ -853,7 +848,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			else if (ack->result == ACKRESULT_SEARCHRESULT && ack->lParam) {
 				CUSTOMSEARCHRESULTS *csr = (CUSTOMSEARCHRESULTS*)ack->lParam;
 				dat->bFlexSearchResult = TRUE;
-				PROTOSEARCHRESULT *psr = &(csr->psr);
+				PROTOSEARCHRESULT *psr = &csr->psr;
 				// check if this is column names data (psr->cbSize == 0)
 				if (psr->cbSize == 0) { // blob contain info about columns
 					//firstly remove all exist items
@@ -898,8 +893,8 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					for (int i = SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCOUNT, 0, 0); i--;)  {
 						char *szComboProto = (char*)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETITEMDATA, i, 0);
 						if (szComboProto == NULL) continue;
-						if ( !lstrcmpA(szComboProto, ack->szModule)) {
-							COMBOBOXEXITEM cbei = {0};
+						if (!lstrcmpA(szComboProto, ack->szModule)) {
+							COMBOBOXEXITEM cbei = { 0 };
 							cbei.mask = CBEIF_IMAGE;
 							cbei.iItem = i;
 							SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CBEM_GETITEM, 0, (LPARAM)&cbei);
@@ -938,8 +933,8 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				for (int i = SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCOUNT, 0, 0); i--;) {
 					char *szComboProto = (char*)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETITEMDATA, i, 0);
 					if (szComboProto == NULL) continue;
-					if ( !lstrcmpA(szComboProto, ack->szModule)) {
-						COMBOBOXEXITEM cbei = {0};
+					if (!lstrcmpA(szComboProto, ack->szModule)) {
+						COMBOBOXEXITEM cbei = { 0 };
 						cbei.mask = CBEIF_IMAGE;
 						cbei.iItem = i;
 						SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CBEM_GETITEM, 0, (LPARAM)&cbei);
@@ -956,8 +951,8 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SetListItemText(hwndList, iItem, col++, lsr->psr.email);
 				SetStatusBarResultInfo(hwndDlg);
 			}
-			break;
 		}
+		break;
 
 	case WM_CLOSE:
 		DestroyWindow(hwndDlg);
@@ -984,8 +979,6 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			DestroyWindow(dat->hwndTinySearch);
 			dat->hwndTinySearch = NULL;
 		}
-		DeleteObject(dat->hBmpSortDown);
-		DeleteObject(dat->hBmpSortUp);
 		mir_free(dat);
 		Window_FreeIcon_IcoLib(hwndDlg);
 		Utils_SaveWindowPosition(hwndDlg, NULL, "FindAdd", "");
