@@ -5,8 +5,8 @@
 ;  Version: 0.0.2.0
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
-[Plugin to shake the clist and chat window.]
-Плагин тряски контакт листа и окна сообщений.
+[Plugin to shake the contact list and chat window.]
+Плагин тряски списка контактов и окна сообщений.
 [Protocol options]
 Настройки протокола
 [Specify options for each protocol]
@@ -67,8 +67,8 @@
 На телефоне
 [Out to lunch]
 Обедаю
-[Shaking Clist Options]
-Тряска списка контактов
+[Shaking contact list options]
+Настройки тряски списка контактов
 [Number of moves]
 Кол-во движений
 [Width of move]

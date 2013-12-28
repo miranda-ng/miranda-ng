@@ -1091,8 +1091,8 @@ Web Дизайн
 Напоминание о празднике
 [contact identificaion]
 идентификация контакта
-[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
-Контакт %s(%s) не имеет уникального номера в vCard,\nно в контакт листе есть контакт с таким же псевдонимом и протоколом.\nВы хотите использовать его номер для этого контакта?
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
+Контакт %s(%s) не имеет уникального номера в vCard,\nно в списке контактов есть контакт с таким же псевдонимом и протоколом.\nВы хотите использовать его номер для этого контакта?
 [Importing a new contact was aborted!]
 Импортирование нового контакта прервано!
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]

@@ -503,7 +503,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Обычный статус оверлеем
 [Right-To-Left reading mode (mirror template)]
 Режим справа налево (зеркальный шаблон)
-[Replace smileys in clist]
+[Replace smileys in contact list]
 Заменять смайлы в списке
 [Use protocol smileys]
 Смайлы протокола
@@ -987,7 +987,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Выключить звуки
 [Minimize]
 Свернуть
-[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Modern contact list you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Для отображения панели кнопок в Clist Modern необходим плагин TopToolBar. Нажмите "Да", чтобы скачать плагин или "Нет", чтобы продолжить не скачивая
 [ToolBar Background]
 Фон панели кнопок

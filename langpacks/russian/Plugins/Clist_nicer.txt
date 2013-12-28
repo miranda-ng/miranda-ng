@@ -733,10 +733,10 @@
 Тонкая рамка
 [No border]
 Без рамки
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Невозможно парковать список контактов при использовании границы и заголовка по умолчанию. Используйте стиль "Без границ" или "Панель"
-[Clist docking]
-Парковка
+[Contact list docking]
+Парковка списка контактов
 [Load and apply]
 Загрузить и применить
 [No events...]

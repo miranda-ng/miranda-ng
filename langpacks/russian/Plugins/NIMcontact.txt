@@ -41,7 +41,7 @@
 Открыть папку
 [Link Settings]
 Настройка ссылок
-[CList Settings]
+[Contact list settings]
 Настройки списка
 [Group:]
 Группа:
@@ -95,8 +95,8 @@
 Выключать протокол по таймеру
 [New Non-IM Contact]
 Новый не-IM контакт
-[Link and CList Settings]
-Ссылки и настройки списка
+[Link and Contact list Settings]
+Ссылки и настройки списка контактов
 [Files]
 Файлы
 [Non-IM Contacts]

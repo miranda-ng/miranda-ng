@@ -275,7 +275,7 @@ xСтатус
 Слушаю
 [Miranda uptime]
 Время работы Miranda NG
-[Clist event]
+[Contact list event]
 Событие списка
 [Jabber activity]
 Занятие Jabber
