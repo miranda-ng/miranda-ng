@@ -354,7 +354,7 @@ int tryOpenDatabase(const TCHAR *tszProfile)
 				db_setCurrent(currDb = pDb);
 				return 0;
 			}
-			return 1;
+			delete pDb;
 		}
 		else {
 			switch (err) {

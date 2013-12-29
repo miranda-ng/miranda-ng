@@ -48,10 +48,21 @@ int CDbxMmapSA::Load(bool bSkipInit)
 		if (!p)
 			return 1;
 
-		if (m_bEncoding && !CheckPassword(LOWORD(m_dbHeader.version), p + 1))
-			return 1;
+		if (m_bEncoding) {
+			if (!CheckPassword(LOWORD(m_dbHeader.version), p + 1))
+				return 1;
 
-		InitDialogs();
+			// password validated ok? decrypt database
+			DecodeAll();
+		}
+
+		// write back mmap's signature not to open this profile again
+		memcpy(&m_dbHeader.signature, &dbSignatureU, sizeof(dbSignatureU));
+		DBWrite(0, &dbSignatureU, sizeof(dbSignatureU));
+		return 1;
+
+		// no need to init that crap again 
+		// InitDialogs();
 	}
 
 	return 0;
@@ -63,13 +74,9 @@ int CDbxMmapSA::CheckDbHeaders()
 		m_bEncoding = true;
 	else if (memcmp(m_dbHeader.signature, &dbSignatureNonSecured, sizeof(m_dbHeader.signature)) == 0)
 		m_bEncoding = false;
-	else {
-		m_bEncoding = false;
-		if (memcmp(m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)))
-			return EGROKPRF_UNKHEADER;
-		if (LOWORD(m_dbHeader.version) != 0x0700)
-			return EGROKPRF_VERNEWER;
-	}
+	else
+		return EGROKPRF_UNKHEADER;
+
 	if (m_dbHeader.ofsUser == 0)
 		return EGROKPRF_DAMAGED;
 	return 0;
