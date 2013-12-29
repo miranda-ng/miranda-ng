@@ -987,8 +987,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Выключить звуки
 [Minimize]
 Свернуть
-[To view a toolbar in Modern contact list you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
-Для отображения панели кнопок в Clist Modern необходим плагин TopToolBar. Нажмите "Да", чтобы скачать плагин или "Нет", чтобы продолжить не скачивая
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+Для отображения панели кнопок в Clist_modern необходим плагин TopToolBar. Нажмите "Да", чтобы скачать плагин или "Нет", чтобы продолжить не скачивая
 [ToolBar Background]
 Фон панели кнопок
 [Toolbar upgrade]
