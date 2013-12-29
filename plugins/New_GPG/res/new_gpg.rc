@@ -224,7 +224,7 @@ BEGIN
     CONTROL         "Turn on debug log",IDC_DEBUG_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,181,159,89,10
     EDITTEXT        IDC_LOG_FILE_EDIT,11,157,98,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Browse",IDC_LOG_FILE_SET,119,156,50,14
-    CONTROL         "Use Jabber api on Miranda NG (recommended)",IDC_JABBER_API,
+    CONTROL         "Use Jabber API on Miranda NG (recommended)",IDC_JABBER_API,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,175,251,10
     LTEXT           "Default key",IDC_CURRENT_KEY,12,196,170,8
     CONTROL         "Encrypt file transfers",IDC_FILE_TRANSFERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,185,137,10
