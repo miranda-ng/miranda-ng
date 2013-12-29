@@ -54,6 +54,8 @@ int CDbxMmapSA::Load(bool bSkipInit)
 
 			// password validated ok? decrypt database
 			DecodeAll();
+			m_bEncoding = false;
+			WritePlainHeader();
 		}
 
 		// write back mmap's signature not to open this profile again
