@@ -27,11 +27,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MoveAlong(n)   {int x=n; pBlob+=(x); ofsBlobPtr+=(x); bytesRemaining-=(x);}
 #define VLT(n) ((n==DBVT_UTF8)?DBVT_ASCIIZ:n)
 
-DBSignature dbSignatureSecured = {"Miranda ICQ SD",0x1A};
-DBSignature dbSignatureNonSecured = {"Miranda ICQ SA",0x1A};
+DBSignature dbSignatureSecured = { "Miranda ICQ SD", 0x1A };
+DBSignature dbSignatureNonSecured = { "Miranda ICQ SA", 0x1A };
 
 CDbxMmapSA::CDbxMmapSA(const TCHAR* tszFileName) :
-	CDb3Mmap(tszFileName)
+	CDb3Base(tszFileName)
 {
 }
 
@@ -40,7 +40,7 @@ int CDbxMmapSA::Load(bool bSkipInit)
 	if (CDb3Base::Load(bSkipInit) != ERROR_SUCCESS)
 		return 1;
 
-	if ( CheckDbHeaders())
+	if (CheckDbHeaders())
 		return 1;
 
 	if (!bSkipInit) {
@@ -48,7 +48,7 @@ int CDbxMmapSA::Load(bool bSkipInit)
 		if (!p)
 			return 1;
 
-		if (m_bEncoding && !CheckPassword( LOWORD(m_dbHeader.version), p+1))
+		if (m_bEncoding && !CheckPassword(LOWORD(m_dbHeader.version), p + 1))
 			return 1;
 
 		InitDialogs();
@@ -59,15 +59,15 @@ int CDbxMmapSA::Load(bool bSkipInit)
 
 int CDbxMmapSA::CheckDbHeaders()
 {
-	if ( memcmp(m_dbHeader.signature, &dbSignatureSecured, sizeof(m_dbHeader.signature)) == 0)
+	if (memcmp(m_dbHeader.signature, &dbSignatureSecured, sizeof(m_dbHeader.signature)) == 0)
 		m_bEncoding = true;
-	else if ( memcmp(m_dbHeader.signature, &dbSignatureNonSecured, sizeof(m_dbHeader.signature)) == 0)
+	else if (memcmp(m_dbHeader.signature, &dbSignatureNonSecured, sizeof(m_dbHeader.signature)) == 0)
 		m_bEncoding = false;
 	else {
 		m_bEncoding = false;
-		if ( memcmp(m_dbHeader.signature,&dbSignature,sizeof(m_dbHeader.signature)))
+		if (memcmp(m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)))
 			return EGROKPRF_UNKHEADER;
-		if ( LOWORD(m_dbHeader.version) != 0x0700)
+		if (LOWORD(m_dbHeader.version) != 0x0700)
 			return EGROKPRF_VERNEWER;
 	}
 	if (m_dbHeader.ofsUser == 0)
@@ -79,7 +79,7 @@ int CDbxMmapSA::CheckDbHeaders()
 
 static DWORD __inline GetSettingValueLength(PBYTE pSetting)
 {
-	if(pSetting[0]&DBVTF_VARIABLELENGTH) return 2+*(PWORD)(pSetting+1);
+	if (pSetting[0] & DBVTF_VARIABLELENGTH) return 2 + *(PWORD)(pSetting + 1);
 	return pSetting[0];
 }
 
@@ -92,43 +92,43 @@ void CDbxMmapSA::EncodeContactSettings(HANDLE hContact)
 	if (contact->ofsFirstSettings) {
 		DBContactSettings *setting = (struct DBContactSettings *)DBRead(contact->ofsFirstSettings, sizeof(struct DBContactSettings), NULL);
 		DWORD offset = contact->ofsFirstSettings;
-		while( true ) {
+		while (true) {
 			DWORD ofsBlobPtr;
 			PBYTE pBlob;
 			int bytesRemaining;
 			DWORD len;
 
-			ofsBlobPtr = offset + offsetof(struct DBContactSettings,blob);
-			pBlob = (PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
-			while(pBlob[0]) {
+			ofsBlobPtr = offset + offsetof(struct DBContactSettings, blob);
+			pBlob = (PBYTE)DBRead(ofsBlobPtr, 1, &bytesRemaining);
+			while (pBlob[0]) {
 				NeedBytes(1);
-				NeedBytes(1+pBlob[0]);
-				MoveAlong(1+pBlob[0]);
+				NeedBytes(1 + pBlob[0]);
+				MoveAlong(1 + pBlob[0]);
 
 				NeedBytes(5);
 
-				switch(pBlob[0]) {
+				switch (pBlob[0]) {
 				case DBVT_DELETED: break;
 				case DBVT_BYTE: break;
 				case DBVT_WORD:
-					CryptoEngine->EncryptMem(pBlob+1, 2, key);
+					CryptoEngine->EncryptMem(pBlob + 1, 2, key);
 					break;
 
 				case DBVT_DWORD:
-					CryptoEngine->EncryptMem(pBlob+1, 4, key);
+					CryptoEngine->EncryptMem(pBlob + 1, 4, key);
 					break;
 
 				case DBVT_UTF8:
 				case DBVT_ASCIIZ:
 				case DBVT_BLOB:
-					NeedBytes(3+*(PWORD)(pBlob+1));
-					len = *(PWORD)(pBlob+1);
+					NeedBytes(3 + *(PWORD)(pBlob + 1));
+					len = *(PWORD)(pBlob + 1);
 
-					CryptoEngine->EncryptMem(pBlob+3, len, key);
+					CryptoEngine->EncryptMem(pBlob + 3, len, key);
 					break;
 				}
 				NeedBytes(3);
-				MoveAlong(1+GetSettingValueLength(pBlob));
+				MoveAlong(1 + GetSettingValueLength(pBlob));
 				NeedBytes(1);
 			}
 
@@ -147,7 +147,7 @@ void CDbxMmapSA::DecodeContactSettings(HANDLE hContact)
 		hContact = (HANDLE)m_dbHeader.ofsUser;
 
 	DBContact *contact = (DBContact *)DBRead((DWORD)hContact, sizeof(DBContact), NULL);
-	if (contact->ofsFirstSettings){
+	if (contact->ofsFirstSettings) {
 		DBContactSettings *setting = (struct DBContactSettings *)DBRead(contact->ofsFirstSettings, sizeof(struct DBContactSettings), NULL);
 		DWORD offset = contact->ofsFirstSettings;
 		while (true) {
@@ -155,44 +155,43 @@ void CDbxMmapSA::DecodeContactSettings(HANDLE hContact)
 			PBYTE pBlob;
 			int bytesRemaining;
 			DWORD len;
-			ofsBlobPtr = offset + offsetof(struct DBContactSettings,blob);
-			pBlob = (PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
-			while(pBlob[0]) {
+			ofsBlobPtr = offset + offsetof(struct DBContactSettings, blob);
+			pBlob = (PBYTE)DBRead(ofsBlobPtr, 1, &bytesRemaining);
+			while (pBlob[0]) {
 				NeedBytes(1);
-				NeedBytes(1+pBlob[0]);
-				//CopyMemory(szSetting,pBlob+1,pBlob[0]); szSetting[pBlob[0]] = 0;
-				MoveAlong(1+pBlob[0]);
+				NeedBytes(1 + pBlob[0]);
+				MoveAlong(1 + pBlob[0]);
 
 				NeedBytes(5);
 
-				switch(pBlob[0]) {
+				switch (pBlob[0]) {
 				case DBVT_DELETED: break;
 				case DBVT_BYTE: break;
 				case DBVT_WORD:
-					CryptoEngine->DecryptMem(pBlob+1, 2, key);
+					CryptoEngine->DecryptMem(pBlob + 1, 2, key);
 					break;
 
 				case DBVT_DWORD:
-					CryptoEngine->DecryptMem(pBlob+1, 4, key);
+					CryptoEngine->DecryptMem(pBlob + 1, 4, key);
 					break;
 
 				case DBVT_UTF8:
 				case DBVT_ASCIIZ:
 				case DBVT_BLOB:
-					NeedBytes(3+*(PWORD)(pBlob+1));
-					len = *(PWORD)(pBlob+1);
+					NeedBytes(3 + *(PWORD)(pBlob + 1));
+					len = *(PWORD)(pBlob + 1);
 
-					CryptoEngine->DecryptMem(pBlob+3, len, key);
+					CryptoEngine->DecryptMem(pBlob + 3, len, key);
 					break;
 				}
 				NeedBytes(3);
-				MoveAlong(1+GetSettingValueLength(pBlob));
+				MoveAlong(1 + GetSettingValueLength(pBlob));
 				NeedBytes(1);
 			}
 
 			if (!setting->ofsNext)
 				break;
-			
+
 			offset = setting->ofsNext;
 			setting = (struct DBContactSettings *)DBRead(setting->ofsNext, sizeof(struct DBContactSettings), NULL);
 		}
@@ -201,16 +200,16 @@ void CDbxMmapSA::DecodeContactSettings(HANDLE hContact)
 
 void CDbxMmapSA::EncodeEvent(HANDLE hEvent)
 {
-	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hEvent,sizeof(DBEvent),NULL);
+	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hEvent, sizeof(DBEvent), NULL);
 	if (dbe->signature = DBEVENT_SIGNATURE)
-		CryptoEngine->EncryptMem(DBRead((DWORD)hEvent + offsetof(DBEvent,blob), dbe->cbBlob, NULL), dbe->cbBlob, key);
+		CryptoEngine->EncryptMem(DBRead((DWORD)hEvent + offsetof(DBEvent, blob), dbe->cbBlob, NULL), dbe->cbBlob, key);
 }
 
 void CDbxMmapSA::DecodeEvent(HANDLE hEvent)
 {
-	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hEvent,sizeof(DBEvent),NULL);
+	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hEvent, sizeof(DBEvent), NULL);
 	if (dbe->signature = DBEVENT_SIGNATURE)
-		CryptoEngine->DecryptMem(DBRead((DWORD)hEvent + offsetof(DBEvent,blob), dbe->cbBlob, NULL), dbe->cbBlob, key);
+		CryptoEngine->DecryptMem(DBRead((DWORD)hEvent + offsetof(DBEvent, blob), dbe->cbBlob, NULL), dbe->cbBlob, key);
 }
 
 void CDbxMmapSA::EncodeContactEvents(HANDLE hContact)
@@ -234,22 +233,22 @@ void CDbxMmapSA::DecodeContactEvents(HANDLE hContact)
 int CDbxMmapSA::WorkInitialCheckHeaders(void)
 {
 	if (m_bEncoding) {
-		cb->pfnAddLogMessage(STATUS_SUCCESS,TranslateT("Database is Secured MMAP database"));
+		cb->pfnAddLogMessage(STATUS_SUCCESS, TranslateT("Database is Secured MMAP database"));
 
 		TCHAR* p = _tcsrchr(m_tszProfileName, '\\');
 		if (!p)
 			return ERROR_BAD_FORMAT;
 
-		if (!CheckPassword( LOWORD(m_dbHeader.version), p+1)) {
-			cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("You are not authorized for access to Database"));
+		if (!CheckPassword(LOWORD(m_dbHeader.version), p + 1)) {
+			cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("You are not authorized for access to Database"));
 			return ERROR_BAD_FORMAT;
 		}
 
-		cb->pfnAddLogMessage(STATUS_SUCCESS,TranslateT("Secured MMAP: authorization successful"));
+		cb->pfnAddLogMessage(STATUS_SUCCESS, TranslateT("Secured MMAP: authorization successful"));
 	}
 
-	if ( LOWORD(m_dbHeader.version) != 0x0700 && !m_bEncoding) {
-		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Database is marked as belonging to an unknown version of Miranda"));
+	if (LOWORD(m_dbHeader.version) != 0x0700 && !m_bEncoding) {
+		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Database is marked as belonging to an unknown version of Miranda"));
 		return ERROR_BAD_FORMAT;
 	}
 

@@ -196,17 +196,27 @@ protected:
 	STDMETHODIMP_(VOID)   Destroy();
 
 protected:
-	virtual	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName) = 0;
-	virtual	void  InvalidateSettingsGroupOfsCacheEntry(DWORD ofsSettingsGroup) {}
-	virtual	int   WorkInitialCheckHeaders(void);
+	virtual	void EncodeCopyMemory(void *dst, void *src, size_t size);
+	virtual	void DecodeCopyMemory(void *dst, void *src, size_t size);
+	virtual	void EncodeDBWrite(DWORD ofs, void *src, int size);
+	virtual	void DecodeDBWrite(DWORD ofs, void *src, int size);
 
-	virtual	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes) = 0;
-	virtual	PBYTE DBRead(DWORD ofs, int bytesRequired, int *bytesAvail) = 0;
-	virtual	void  DBWrite(DWORD ofs, PVOID pData, int bytes) = 0;
-	virtual	void  DBFill(DWORD ofs, int bytes) = 0;
-	virtual	void  DBFlush(int setting) = 0;
-	virtual	int   InitCache(void) = 0;
-	virtual	int	InitCrypt(void) { return 0; }
+protected:
+	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsContact, DWORD ofsModuleName);
+	void  InvalidateSettingsGroupOfsCacheEntry(DWORD ofsSettingsGroup) {}
+	int   WorkInitialCheckHeaders(void);
+
+	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes);
+	PBYTE DBRead(DWORD ofs, int bytesRequired, int *bytesAvail);
+	void  DBWrite(DWORD ofs, PVOID pData, int bytes);
+	void  DBFill(DWORD ofs, int bytes);
+	void  DBFlush(int setting);
+	int   InitCache(void);
+
+	PBYTE m_pNull;
+
+	void  Map();
+	void  ReMap(DWORD needed);
 
 public:  // Check functions
 	int WorkInitialChecks(int);
@@ -299,30 +309,19 @@ struct CDb3Mmap : public CDb3Base
 	CDb3Mmap(const TCHAR* ptszFileName);
 	~CDb3Mmap();
 
-	void     StoreKey(void);
-	void     SetPassword(const TCHAR *ptszPassword);
-	void     UpdateMenuItem(void);
+	int  Load(bool bSkipInit);
+
+	void StoreKey(void);
+	void SetPassword(const TCHAR *ptszPassword);
+	void UpdateMenuItem(void);
 
 	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? LPGEN("Change/remove password") : LPGEN("Set password"); }
 
 protected:
-	virtual	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName);
-	virtual	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes);
-	virtual	PBYTE DBRead(DWORD ofs, int bytesRequired, int *bytesAvail);
-	virtual	void  DBWrite(DWORD ofs, PVOID pData, int bytes);
-	virtual	void  DBFill(DWORD ofs, int bytes);
-	virtual	void  DBFlush(int setting);
-	virtual	int   InitCache(void);
-	virtual	int   InitCrypt(void);
+	int InitCrypt(void);
 
 protected:
-	PBYTE m_pNull;
-
-	void  Map();
-	void  ReMap(DWORD needed);
-
 	void  InitDialogs();
 	bool  EnterPassword(const BYTE *pKey, const size_t keyLen);
 };
 
-typedef int (CDb3Base::*CheckWorker)(int);

@@ -36,16 +36,13 @@ CDb3Mmap::~CDb3Mmap()
 	free(m_pNull);
 }
 
-DWORD CDb3Mmap::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName)
+int CDb3Mmap::Load(bool bSkipInit)
 {
-	DWORD ofsThis = dbc->ofsFirstSettings;
-	while (ofsThis) {
-		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis,sizeof(DBContactSettings),NULL);
-		if (dbcs->signature != DBCONTACTSETTINGS_SIGNATURE) DatabaseCorruption(NULL);
-		if (dbcs->ofsModuleName == ofsModuleName)
-			return ofsThis;
-
-		ofsThis = dbcs->ofsNext;
+	int res = CDb3Base::Load(bSkipInit);
+	if (!res) {
+		if (!bSkipInit)
+			if (InitCrypt()) return 1;
 	}
-	return 0;
+
+	return res;
 }

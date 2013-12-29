@@ -142,9 +142,9 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 					dbcgs->pValue->type = DBVT_DELETED;
 					return 2;
 
-				case DBVT_BYTE: dbcgs->pValue->bVal = pBlob[1]; break;
-				case DBVT_WORD:  MoveMemory(&(dbcgs->pValue->wVal), (PWORD)(pBlob + 1), 2); break;
-				case DBVT_DWORD: MoveMemory(&(dbcgs->pValue->dVal), (PDWORD)(pBlob + 1), 4); break;
+				case DBVT_BYTE:  dbcgs->pValue->bVal = pBlob[1]; break;
+				case DBVT_WORD:  DecodeCopyMemory(&(dbcgs->pValue->wVal), (PWORD)(pBlob + 1), 2); break;
+				case DBVT_DWORD: DecodeCopyMemory(&(dbcgs->pValue->dVal), (PDWORD)(pBlob + 1), 4); break;
 				
 				case DBVT_UTF8:
 				case DBVT_ASCIIZ:
@@ -154,13 +154,13 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 						dbcgs->pValue->cchVal--;
 						if (varLen < dbcgs->pValue->cchVal)
 							dbcgs->pValue->cchVal = varLen;
-						MoveMemory(dbcgs->pValue->pszVal, pBlob + 3, dbcgs->pValue->cchVal); // decode
+						DecodeCopyMemory(dbcgs->pValue->pszVal, pBlob + 3, dbcgs->pValue->cchVal); // decode
 						dbcgs->pValue->pszVal[dbcgs->pValue->cchVal] = 0;
 						dbcgs->pValue->cchVal = varLen;
 					}
 					else {
 						dbcgs->pValue->pszVal = (char*)mir_alloc(1 + varLen);
-						MoveMemory(dbcgs->pValue->pszVal, pBlob + 3, varLen);
+						DecodeCopyMemory(dbcgs->pValue->pszVal, pBlob + 3, varLen);
 						dbcgs->pValue->pszVal[varLen] = 0;
 					}
 					break;
@@ -171,11 +171,11 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 					if (isStatic) {
 						if (varLen < dbcgs->pValue->cpbVal)
 							dbcgs->pValue->cpbVal = varLen;
-						MoveMemory(dbcgs->pValue->pbVal, pBlob + 3, dbcgs->pValue->cpbVal);
+						DecodeCopyMemory(dbcgs->pValue->pbVal, pBlob + 3, dbcgs->pValue->cpbVal);
 					}
 					else {
 						dbcgs->pValue->pbVal = (BYTE *)mir_alloc(varLen);
-						MoveMemory(dbcgs->pValue->pbVal, pBlob + 3, varLen);
+						DecodeCopyMemory(dbcgs->pValue->pbVal, pBlob + 3, varLen);
 					}
 					dbcgs->pValue->cpbVal = varLen;
 					break;
@@ -544,15 +544,17 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 				MoveAlong(1);	//skip data type
 				switch (tmp.value.type) {
 				case DBVT_BYTE:  DBWrite(ofsBlobPtr, &tmp.value.bVal, 1); break;
-				case DBVT_WORD:  DBWrite(ofsBlobPtr, &tmp.value.wVal, 2); break;
-				case DBVT_DWORD: DBWrite(ofsBlobPtr, &tmp.value.dVal, 4); break;
+				case DBVT_WORD:  EncodeDBWrite(ofsBlobPtr, &tmp.value.wVal, 2); break;
+				case DBVT_DWORD: EncodeDBWrite(ofsBlobPtr, &tmp.value.dVal, 4); break;
 				case DBVT_BLOB:
+					EncodeDBWrite(ofsBlobPtr + 2, tmp.value.pbVal, tmp.value.cpbVal);
+					break;
 				case DBVT_ENCRYPTED:
 					DBWrite(ofsBlobPtr + 2, tmp.value.pbVal, tmp.value.cpbVal);
 					break;
 				case DBVT_UTF8:
 				case DBVT_ASCIIZ:
-					DBWrite(ofsBlobPtr + 2, tmp.value.pszVal, tmp.value.cchVal);
+					EncodeDBWrite(ofsBlobPtr + 2, tmp.value.pszVal, tmp.value.cchVal);
 					break;
 				}
 				//quit
@@ -627,18 +629,24 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	MoveAlong(1);
 	switch (tmp.value.type) {
 	case DBVT_BYTE: DBWrite(ofsBlobPtr, &tmp.value.bVal, 1); MoveAlong(1); break;
-	case DBVT_WORD: DBWrite(ofsBlobPtr, &tmp.value.wVal, 2); MoveAlong(2); break;
-	case DBVT_DWORD: DBWrite(ofsBlobPtr, &tmp.value.dVal, 4); MoveAlong(4); break;
+	case DBVT_WORD: EncodeDBWrite(ofsBlobPtr, &tmp.value.wVal, 2); MoveAlong(2); break;
+	case DBVT_DWORD: EncodeDBWrite(ofsBlobPtr, &tmp.value.dVal, 4); MoveAlong(4); break;
 
-	case DBVT_BLOB: case DBVT_ENCRYPTED:
+	case DBVT_BLOB:
+		DBWrite(ofsBlobPtr, &tmp.value.cpbVal, 2);
+		EncodeDBWrite(ofsBlobPtr + 2, tmp.value.pbVal, tmp.value.cpbVal);
+		MoveAlong(2 + tmp.value.cpbVal);
+		break;
+
+	case DBVT_ENCRYPTED:
 		DBWrite(ofsBlobPtr, &tmp.value.cpbVal, 2);
 		DBWrite(ofsBlobPtr + 2, tmp.value.pbVal, tmp.value.cpbVal);
 		MoveAlong(2 + tmp.value.cpbVal);
 		break;
-	
+
 	case DBVT_UTF8: case DBVT_ASCIIZ:
 		DBWrite(ofsBlobPtr, &tmp.value.cchVal, 2);
-		DBWrite(ofsBlobPtr + 2, tmp.value.pszVal, tmp.value.cchVal); 
+		EncodeDBWrite(ofsBlobPtr + 2, tmp.value.pszVal, tmp.value.cchVal);
 		MoveAlong(2 + tmp.value.cchVal);
 		break;
 	}

@@ -232,12 +232,12 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 		DWORD oldSize = dbeNew->cbBlob;
 		BYTE* pOldMemo = (BYTE*)_alloca(dbeNew->cbBlob);
 		memcpy(pOldMemo, dbeNew->blob, dbeNew->cbBlob);
-		CopyMemory(dbeNew->blob, pOldMemo, dbeNew->cbBlob); // decode
+		DecodeCopyMemory(dbeNew->blob, pOldMemo, dbeNew->cbBlob); // decode
 		ConvertOldEvent(dbeNew);
 		if (dbeNew->cbBlob > oldSize)
 			pOldMemo = (BYTE*)_alloca(dbeNew->cbBlob);
 		memcpy(pOldMemo, dbeNew->blob, dbeNew->cbBlob);
-		MoveMemory(dbeNew->blob, pOldMemo, dbeNew->cbBlob);   // encode
+		EncodeCopyMemory(dbeNew->blob, pOldMemo, dbeNew->cbBlob);   // encode
 	}
 
 	if (dbePrev) {

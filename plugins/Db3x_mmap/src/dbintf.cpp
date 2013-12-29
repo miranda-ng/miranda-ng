@@ -128,7 +128,6 @@ int CDb3Base::Load(bool bSkipInit)
 	if (!bSkipInit) {
 		if (InitCache())       return 1;
 		if (InitModuleNames()) return 1;
-		if (InitCrypt())       return 1;
 
 		m_bReadOnly = false;
 
@@ -157,8 +156,30 @@ STDMETHODIMP_(void) CDb3Base::SetCacheSafetyMode(BOOL bIsSet)
 	DBFlush(1);
 }
 
+void CDb3Base::EncodeCopyMemory(void *dst, void *src, size_t size)
+{
+	MoveMemory(dst, src, size);
+}
+
+void CDb3Base::DecodeCopyMemory(void *dst, void *src, size_t size)
+{
+	MoveMemory(dst, src, size);
+}
+
+void CDb3Base::EncodeDBWrite(DWORD ofs, void *src, int size)
+{
+	DBWrite(ofs, src, size);
+}
+
+void CDb3Base::DecodeDBWrite(DWORD ofs, void *src, int size)
+{
+	DBWrite(ofs, src, size);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // MIDatabaseChecker
+
+typedef int (CDb3Base::*CheckWorker)(int);
 
 static CheckWorker Workers[6] = 
 {

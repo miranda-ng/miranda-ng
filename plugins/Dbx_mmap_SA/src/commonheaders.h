@@ -79,7 +79,8 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 void xModifyMenu(HGENMENU hMenu,long flags,const TCHAR* name, HICON hIcon);
 
-extern DBSignature dbSignature, dbSignatureSecured, dbSignatureNonSecured;
+extern DBSignature dbSignatureSecured, dbSignatureNonSecured;
+extern DBSignature dbSignatureU, dbSignatureE, dbSignatureIM, dbSignatureSA;
 
 extern LIST<CDbxMmapSA> g_Dbs;
 

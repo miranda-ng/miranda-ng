@@ -57,9 +57,6 @@
     <ClCompile Include="..\Db3x_mmap\src\dbevents.cpp">
       <Filter>Mmap files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Db3x_mmap\src\dbintfm.cpp">
-      <Filter>Mmap files</Filter>
-    </ClCompile>
     <ClCompile Include="..\db3x_mmap\src\dbtool\aggressive.cpp">
       <Filter>Mmap files\Checker</Filter>
     </ClCompile>
@@ -89,9 +86,6 @@
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Db3x_mmap\src\dbcrypt.cpp">
-      <Filter>Mmap files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

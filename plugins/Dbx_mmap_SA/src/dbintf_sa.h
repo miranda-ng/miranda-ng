@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\Db3x_mmap\src\dbintf.h"
 
-struct CDbxMmapSA : public CDb3Mmap
+struct CDbxMmapSA : public CDb3Base
 {
 	CDbxMmapSA(const TCHAR* tszFileName);
 

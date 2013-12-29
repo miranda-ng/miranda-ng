@@ -29,9 +29,9 @@ void InitSecurity()
 	while (hFile != INVALID_HANDLE_VALUE) {	
 		mir_sntprintf(p, MAX_PATH - (p-tszPath), _T("cryptors\\%s"), fd.cFileName);
 		HMODULE hLib = LoadLibrary(tszPath);
-		if (hLib){
+		if (hLib) {
 			GetCryptor = (Cryptor* (__stdcall *)()) GetProcAddress(hLib, "GetCryptor");
-			if (GetCryptor){
+			if (GetCryptor) {
 				CryptoModule* newItem = (CryptoModule*) malloc(sizeof(CryptoModule));
 				newItem->cryptor = GetCryptor();
 				_tcsncpy(newItem->dllname, fd.cFileName, MAX_PATH);
@@ -65,7 +65,7 @@ void CDbxMmapSA::EncoderInit()
 	key = CryptoEngine->GenerateKey(encryptKey);
 }
 
-void CDbxMmapSA::EncodeCopyMemory(void * dst, void * src, size_t size )
+void CDbxMmapSA::EncodeCopyMemory(void * dst, void * src, size_t size)
 {
 	memcpy(dst, src, size);
 
@@ -73,7 +73,7 @@ void CDbxMmapSA::EncodeCopyMemory(void * dst, void * src, size_t size )
 		CryptoEngine->EncryptMem((BYTE *)dst, (int)size, key);
 }
 
-void CDbxMmapSA::DecodeCopyMemory(void * dst, void * src, size_t size )
+void CDbxMmapSA::DecodeCopyMemory(void * dst, void * src, size_t size)
 {
 	memcpy(dst, src, size);
 
@@ -114,19 +114,19 @@ int CDbxMmapSA::CheckPassword(WORD checkWord, TCHAR *szDBName)
 
 	int Found = 0;
 	for (int i = 0; i < arCryptors.getCount(); i++) {
-		if ( HIWORD(m_dbHeader.version) == arCryptors[i]->cryptor->uid){
+		if (HIWORD(m_dbHeader.version) == arCryptors[i]->cryptor->uid) {
 			CryptoEngine = arCryptors[i]->cryptor;
 			Found = 1;
 			break;
 		}
 	}
-	if (!Found){
+	if (!Found) {
 		MessageBox(0, TranslateT("Sorry, but your database encrypted with unknown module"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		bCheckingPass = 0;
 		return 0;
 	}
 
-	while(1) {
+	while (1) {
 		DlgStdInProcParam param = { this, szDBName };
 		int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), NULL, DlgStdInProc, (LPARAM)&param);
 		if (res == IDCANCEL) {
@@ -154,7 +154,7 @@ int CDbxMmapSA::CheckPassword(WORD checkWord, TCHAR *szDBName)
 
 int SelectEncoder()
 {
-	if (arCryptors.getCount() == 0){
+	if (arCryptors.getCount() == 0) {
 		MessageBox(0, TranslateT("Crypto modules not found"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
@@ -200,11 +200,11 @@ void CDbxMmapSA::WritePlainHeader()
 	DWORD bytesWritten;
 
 	memcpy(m_dbHeader.signature, &dbSignatureNonSecured, sizeof(m_dbHeader.signature));
-	SetFilePointer(m_hDbFile,0,NULL,FILE_BEGIN);
-	WriteFile(m_hDbFile,m_dbHeader.signature,sizeof(m_dbHeader.signature),&bytesWritten,NULL);
+	SetFilePointer(m_hDbFile, 0, NULL, FILE_BEGIN);
+	WriteFile(m_hDbFile, m_dbHeader.signature, sizeof(m_dbHeader.signature), &bytesWritten, NULL);
 
 	m_dbHeader.version = MAKELONG(0x0700, 0x0000); //no encryption
-	WriteFile(m_hDbFile,&m_dbHeader.version, sizeof(m_dbHeader.version),&bytesWritten,NULL);
+	WriteFile(m_hDbFile, &m_dbHeader.version, sizeof(m_dbHeader.version), &bytesWritten, NULL);
 }
 
 void CDbxMmapSA::WriteCryptHeader()
@@ -212,13 +212,13 @@ void CDbxMmapSA::WriteCryptHeader()
 	DWORD bytesWritten;
 
 	memcpy(m_dbHeader.signature, &dbSignatureSecured, sizeof(m_dbHeader.signature));
-	SetFilePointer(m_hDbFile,0,NULL,FILE_BEGIN);
-	WriteFile(m_hDbFile,m_dbHeader.signature,sizeof(m_dbHeader.signature),&bytesWritten,NULL);
+	SetFilePointer(m_hDbFile, 0, NULL, FILE_BEGIN);
+	WriteFile(m_hDbFile, m_dbHeader.signature, sizeof(m_dbHeader.signature), &bytesWritten, NULL);
 
 	WORD checkWord = 0x5195, cryptWord;
 	EncodeCopyMemory(&cryptWord, &checkWord, sizeof(checkWord));
 	m_dbHeader.version = MAKELONG(cryptWord, CryptoEngine->uid);
-	WriteFile(m_hDbFile,&m_dbHeader.version, sizeof(m_dbHeader.version),&bytesWritten,NULL);
+	WriteFile(m_hDbFile, &m_dbHeader.version, sizeof(m_dbHeader.version), &bytesWritten, NULL);
 }
 
 void CDbxMmapSA::EncryptDB()
@@ -227,7 +227,7 @@ void CDbxMmapSA::EncryptDB()
 	if (bEncProcess)
 		return;
 
-	if (memcmp(m_dbHeader.signature, &dbSignatureSecured, sizeof(m_dbHeader.signature)) == 0){
+	if (memcmp(m_dbHeader.signature, &dbSignatureSecured, sizeof(m_dbHeader.signature)) == 0) {
 		MessageBox(0, TranslateT("DB is already secured!"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		return;
 	}
@@ -265,7 +265,7 @@ void CDbxMmapSA::DecryptDB()
 	char oldKey[255];
 	strcpy(oldKey, encryptKey);
 
-	if ( !CheckPassword( LOWORD(m_dbHeader.version), TranslateT("current database"))) {
+	if (!CheckPassword(LOWORD(m_dbHeader.version), TranslateT("current database"))) {
 		strcpy(encryptKey, oldKey);
 		encryptKeyLength = strlen(oldKey);
 		return;
@@ -313,7 +313,7 @@ void CDbxMmapSA::RecryptDB()
 
 void CDbxMmapSA::ChangePwd()
 {
-	char newpass[255] = {0};
+	char newpass[255] = { 0 };
 
 	DlgChangePassParam param = { this, newpass };
 	int action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHANGEPASS), NULL, DlgChangePass, (LPARAM)&param);
@@ -327,7 +327,7 @@ void CDbxMmapSA::ChangePwd()
 
 	CryptoEngine->FreeKey(key);
 
-	if (action == IDREMOVE){
+	if (action == IDREMOVE) {
 		WritePlainHeader();
 
 		m_bEncoding = 0;
@@ -339,7 +339,7 @@ void CDbxMmapSA::ChangePwd()
 		xModifyMenu(hSetPwdMenu, 0, LPGENT("Set Password"), 0);
 	}
 
-	if (action == IDOK){
+	if (action == IDOK) {
 		strcpy(encryptKey, newpass);
 		encryptKeyLength = strlen(newpass);
 
