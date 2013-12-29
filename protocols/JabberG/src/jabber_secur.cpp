@@ -281,18 +281,19 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 
 	e = strchr(in, ','); if (e) *e = 0;
 	int ind = atoi(in + 2);
-	if (e) *e = ',';
+	if (e)
+		*e = ',';
 
-	ptrA passw( mir_utf8encodeT(info->password));
+	ptrA passw(mir_utf8encodeT(info->password));
 	size_t passwLen = strlen(passw);
 
-	BYTE saltedPassw[ MIR_SHA1_HASH_SIZE ];
-	Hi(saltedPassw, passw, passwLen, salt,  saltLen, ind);
+	BYTE saltedPassw[MIR_SHA1_HASH_SIZE];
+	Hi(saltedPassw, passw, passwLen, salt, saltLen, ind);
 
-	BYTE clientKey[ MIR_SHA1_HASH_SIZE ];
+	BYTE clientKey[MIR_SHA1_HASH_SIZE];
 	mir_hmac_sha1(clientKey, saltedPassw, sizeof(saltedPassw), (BYTE*)"Client Key", 10);
 
-	BYTE storedKey[ MIR_SHA1_HASH_SIZE ];
+	BYTE storedKey[MIR_SHA1_HASH_SIZE];
 
 	mir_sha1_ctx ctx;
 	mir_sha1_init(&ctx);

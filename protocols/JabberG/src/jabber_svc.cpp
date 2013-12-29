@@ -288,7 +288,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		mir_sha1_append(&sha1ctx, (BYTE*)pResult, dwPngSize);
 		mir_sha1_finish(&sha1ctx, digest);
 
-		TCHAR tFileName[ MAX_PATH ];
+		TCHAR tFileName[MAX_PATH];
 		GetAvatarFileName(NULL, tFileName, MAX_PATH);
 		DeleteFile(tFileName);
 

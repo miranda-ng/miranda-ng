@@ -562,7 +562,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIqResultMucGetJidList(HXML iqNode, JABBER_MUC_JIDLIST_TYPE listType);
 
 	void   OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo *pInfo);
-	void   OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, HANDLE hContact, BOOL& hasPhoto);
+	void   OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, HANDLE hContact, bool &hasPhoto);
 	void   SetBookmarkRequest (XmlNodeIq& iqId);
 
 	//---- jabber_menu.cpp ---------------------------------------------------------------

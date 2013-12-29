@@ -289,7 +289,7 @@ char* __stdcall JabberSha1(char* str)
 	if (str == NULL)
 		return NULL;
 
-	BYTE digest[20];
+	BYTE digest[MIR_SHA1_HASH_SIZE];
 	mir_sha1_ctx sha;
 	mir_sha1_init(&sha);
 	mir_sha1_append(&sha, (BYTE*)str, (int)strlen(str));
@@ -1314,8 +1314,8 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 
 					setByte(AI.hContact, "AvatarType", pictureType);
 
-					char buffer[ 41 ];
-					BYTE digest[20];
+					char buffer[2*MIR_SHA1_HASH_SIZE+1];
+					BYTE digest[MIR_SHA1_HASH_SIZE];
 					mir_sha1_ctx sha;
 					mir_sha1_init(&sha);
 					mir_sha1_append(&sha, (BYTE*)res->pData, res->dataLength);
