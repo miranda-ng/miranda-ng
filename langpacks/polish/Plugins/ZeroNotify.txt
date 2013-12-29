@@ -10,7 +10,7 @@ Dodaje opcje automatycznego wyłączania powiadomień, gdy protokół ma określ
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
 Brak dźwięku gdy:
-[No CLIST blink when:]
+[No CList blink when:]
 Brak pow. na liście:
 [No SysTray blink when:]
 Brak pow. w zasobniku:

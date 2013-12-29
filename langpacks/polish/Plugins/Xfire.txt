@@ -66,7 +66,7 @@ icons.dll
 Lista zablokowanych
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 Ta lista pokazuje twoich wszystkich zablokowanych użytkowników. Możesz usunąć osobę z listy aby móc z nim porozmawiać.
-[You can simply block someone, if you right click on his friend request in clist and choose Block User...]
+[You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
 Możesz łatwo blokować osoby, kiedy klikniesz PPM na znajomego na liście i wybierając opcje Zablokuj kontakt...
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Ten plik zostaje użyty do poszukiwania gier. 

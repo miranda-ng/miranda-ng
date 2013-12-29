@@ -277,11 +277,11 @@ Musisz ponownie się połączyć aby wprowadzone zmiany odniosły efekt.
 Uzupełnij podane pola by utworzyć nowy profil użytkownika.
 [Profile]
 Profil
-[e.g. Workplace]
+[e.g., Workplace]
 np. Praca
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Możesz użyć innego sterownika profilu, oferującego więcej funkcji lub możliwości. Jeśli nie wiesz co wybrać, użyj domyślnego.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 np. Profil Mirandy
 [Driver]
 Sterownik
@@ -1905,12 +1905,6 @@ Wychodząca wiadomość (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Ostatnia wiadomość %s o %s.
-[signed off (was %s)]
-wylogował się (był %s)
-[signed on (%s)]
-zalogował się (%s)
-[is now %s (was %s)]
-jest teraz %s (był %s)
 [%s is typing a message...]
 %s pisze wiadomość...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -2177,6 +2171,8 @@ Nieprawidłowe ustawienie typu dla '%s'. Pierwszym znakiem każdej wartości mus
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 Prośba o autoryzację od %s%s: %s
+[You were added by %s%s]
+Zostałeś dodany przez %s%s
 [Contacts: ]
 Kontakty:
 ;file \src\modules\database\profilemanager.cpp
@@ -2352,7 +2348,7 @@ Załadować ponownie wtyczkę?
 Nie udało się załadować wtyczki w trybie serwisowym!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Nie można załadować żadnej z zainstalowanych list kontaktów, nawet po zignorowaniu ich ustawień.
-[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Nie udało się znaleźć wtyczki listy kontaktów! Potrzebujesz StdClist lub jakiejkolwiek innej wtyczki listy kontaktów.
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]

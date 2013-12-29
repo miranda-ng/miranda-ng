@@ -506,8 +506,8 @@ Użyj dodatkowej ikony statusu zamiast protokołu
 Rysuj normalny status jako nakładkę
 [Right-To-Left reading mode (mirror template)]
 Czytanie od prawej do lewej (odwróć szablon)
-[Replace smileys in clist]
-Zamień uśmieszki na liście
+[Replace smileys in contact list]
+Zamień uśmieszki na liście kontaktów
 [Use protocol smileys]
 Użyj emotikon protokołu
 [Draw smileys on first line]
@@ -1018,8 +1018,8 @@ Włącz dźwięki
 Wyłącz dźwięki
 [Minimize]
 Minimalizuj
-[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
-Aby wyświetlić pasek narzędzi w Clist Modern wymagana jest wtyczka TopToolBar. Kliknij Tak aby pobrać lub Nie aby kontynuować.
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+Aby wyświetlić pasek narzędzi w Clist_modern wymagana jest wtyczka TopToolBar. Kliknij Tak aby pobrać lub Nie aby kontynuować.
 [ToolBar Background]
 Tło Paska Narzędzi
 [Toolbar upgrade]

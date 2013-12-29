@@ -44,8 +44,8 @@ O&twórz Plik
 O&twórz Folder
 [Link Settings]
 Ustawienia łącza
-[CList Settings]
-Ustawienia Listy Kontaktów
+[Contact list settings]
+Ustawienia Listy kontaktów
 [Group:]
 Grupa:
 [Status Icon]
@@ -126,7 +126,7 @@ Nowy kontakt Non-IM
 Zmienne zastępujące ciąg....\r\nPoniżej znajdują się wszystkie możliwe do użycia zmienne. Skorzystaj z Readme w celu uzyskania dokładnego objaśnienia.\r\n\r\nfile(X)\t\t<- określa plik, z którego nastąpi odczyt. Po nim MUSI nastąpić start(), end() lub wholeline()\r\n\filename(X)\t<- kopiuje nazwę pliku X.\r\nstart(...)\t\t<- określa, z którego miejsca rozpocząć kopiowanie.\r\nend(...)\t\t<- określa, gdzie należy zaprzestać kopiowania.\r\nwholeline(line(...))\t<- określa całą linię do skopiowania.\r\n\r\nObjaśnienie start() i end()\r\n.........................\r\nMUSZĄ zaczynać się od line(), następnie numer lub ciąg w cudzysłowie lub zmienna csv(seperatorX). Numer określa znak, od którego należy zacząć lub na którym zakończyć kopiowanie. Ciąg określa ciąg w linii, od którego należy zacząć lub na którym zakończyć kopiowanie.\r\n\r\nObjaśnienie csv(seperatorX)...\r\nSeparator to tabulacja, spacja lub inny pojedynczy znak. X to x-owy separator, który należy podać przed kopiowaniem (lub, po którym należy je zakończyć)\r\n\r\nNa koniec zmienna line(...) ...\r\nW nawiasach musi znajdować się liczba (określająca numer linii), ciąg w cudzysłowie (by użyta została linia zawierająca ten ciąg) lub lastline(X). X w lastline() to X-owa linia powyżej ostatniej linii, czyli lastline(1) użyje drugiej linii od końca pliku. Jeżeli szukasz linii z "jakimiś wyrazami", możesz umieścić znak "+" lub "-" za zamykającym nawiasem, czyli line("jakieś wyrazy")+3 żeby przejść do 3 linii po tej z "jakimiś wyrazami".\r\n\r\nKilka przykładów...\r\n\filename(0)    <- wyświetli nazwę zerowego pliku\r\nfile(0)wholeline(line(0)))    <- wyświetli całą pierwszą linię zerowego pliku\r\nfile(0)wholeline(line("hello")-1)))    <- wyświetli całą linię powyżej pierwszej linii z wyrazem "hello" w  pliku 0\r\nfile(0)start(line(lastline(1))csv(tab2))end(line(lastline())csv(tab4)))    <- rozpocznie na przedostatniej linii w pliku, od drugiej tabulacji, a skończy na czwartej tabulacji w linii ostatniej (w pliku 0)\r\nfile(0)start(line("hello")+1"zzzz")end(line(6)17))    <- rozpocznie od pierwszego wystąpienia słowa "zzzz" występującego w linii po linii z pierwszym wystąpieniem słowa "hello", kończąc na 17 znaku w 6 linii (licząc od 0) w pliku 0\r\n
 [Contacts Display Info]
 Opcje wyświetlania
-[Link and CList Settings]
+[Link and Contact list Settings]
 Łącze i lista kontaktów
 [Copy Contact]
 Kopiuj kontakt

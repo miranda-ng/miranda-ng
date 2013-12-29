@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber protocol support for Miranda NG.]
@@ -587,6 +587,8 @@ Wsparcie 'notatek' w Mirandzie NG
 Wsparcie dla rozmów audio i wideo (Jingle)
 [Supports Roster Exchange]
 Wsparcie dla zarządzania listą kontaktów (Roster Exchange)
+[Supports direct chat invitations (XEP-0249)]
+Wspiera bezpośrednie zapraszenia do czatu (XEP-0249)
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz

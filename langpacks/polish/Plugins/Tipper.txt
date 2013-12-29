@@ -283,7 +283,7 @@ xStatus
 Teraz odtwarzane
 [Miranda uptime]
 Czas działania
-[Clist event]
+[Contact list event]
 Lista zdarzeń
 [Jabber activity]
 Aktywność Jabber

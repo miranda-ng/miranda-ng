@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -86,8 +86,6 @@ linie
 Dziennik okna rozmowy
 [Enable IEView]
 Włącz IEView
-[Log status changes]
-Pokazuj zmiany statusu
 [Show icons]
 Pokaż ikony
 [Show time]
@@ -523,12 +521,6 @@ Wstaw emotikonę
 Wyślij wiadomość
 [User Menu - %s]
 Menu kontaktu - %s
-[signed off (was %s)]
-wylogował się (był %s)
-[signed on (%s)]
-zalogował się (%s)
-[is now %s (was %s)]
-jest teraz %s (był %s)
 [Sending in progress: %d message(s) left...]
 Wysyłanie w toku: pozostało %d wiadomości
 [%s is typing a message...]

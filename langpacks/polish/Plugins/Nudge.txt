@@ -2,10 +2,10 @@
 ;============================================================
 ;  File: Nudge.dll
 ;  Plugin: Nudge
-;  Version: 0.0.2.0
+;  Version: 0.1.0.0
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
-[Plugin to shake the clist and chat window.]
+[Plugin to shake the contact list and chat window.]
 Potrząsa listą kontaktów oraz oknem rozmowy.
 ;file \plugins\Nudge\res\resource.rc
 [Protocol options]
@@ -68,8 +68,8 @@ Niewidoczny
 Pod telefonem
 [Out to lunch]
 Na obiedzie
-[Shaking Clist Options]
-Opcje potrząsania listą
+[Shaking contact list options]
+Opcje potrząsania listą kontaktów
 [Number of moves]
 Liczba ruchów
 [Width of move]

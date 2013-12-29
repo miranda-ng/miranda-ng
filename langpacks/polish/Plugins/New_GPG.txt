@@ -132,7 +132,7 @@ Lista użytkowników:
 Eksportuj klucz publiczny
 [Turn on debug log]
 Włącz log debugowania
-[Use Jabber api on Miranda NG (recommended)]
+[Use Jabber API on Miranda NG (recommended)]
 Używaj API Jabbera w Mirandzie NG (zalecane)
 [Default key]
 Domyślny klucz
