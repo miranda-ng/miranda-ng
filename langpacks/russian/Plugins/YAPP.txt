@@ -56,9 +56,9 @@
 [Background color:]
 Цвет фона:
 [Set timeout]
-Установить таймаут
+Установить длительность
 [Timeout value (0 = default):]
-Таймаут (0 = по умолчанию):
+Длительность (0 = по умолчанию):
 [Popups are enabled]
 Всплывающие окна включены
 [Popups are disabled]
@@ -114,7 +114,7 @@
 [Vertical animate]
 Вертикальная анимация
 [You cannot set a default timeout of 0.\nValue has been reset.]
-Невозможно установить задержку, равную 0. Значение было сброшено.
+Невозможно установить длительность, равную 0. Значение было сброшено.
 [Error]
 Ошибка
 [Popups]
