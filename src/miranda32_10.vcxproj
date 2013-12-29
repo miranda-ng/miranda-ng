@@ -104,6 +104,9 @@
       <ModuleDefinitionFile>miranda32.def</ModuleDefinitionFile>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>miranda32.exe.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -140,6 +143,9 @@
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
       <BaseAddress>0x400000</BaseAddress>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>miranda32.exe.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -170,6 +176,9 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\bin10\lib</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>miranda32.def</ModuleDefinitionFile>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>miranda32.exe.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -200,6 +209,9 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\bin10\lib</AdditionalLibraryDirectories>
       <BaseAddress>0x400000</BaseAddress>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>miranda32.exe.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\include\m_addcontact.h" />

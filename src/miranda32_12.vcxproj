@@ -73,6 +73,7 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectName)64</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)64</TargetName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>Full</Optimization>
@@ -107,6 +108,9 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\bin12\lib</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>miranda32.def</ModuleDefinitionFile>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>miranda32.exe.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -142,6 +146,9 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\bin12\lib</AdditionalLibraryDirectories>
       <BaseAddress>0x400000</BaseAddress>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>miranda32.exe.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -173,6 +180,9 @@
       <ModuleDefinitionFile>miranda32.def</ModuleDefinitionFile>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>miranda32.exe.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -203,6 +213,9 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\bin12\lib</AdditionalLibraryDirectories>
       <BaseAddress>0x400000</BaseAddress>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>miranda32.exe.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\include\m_addcontact.h" />
