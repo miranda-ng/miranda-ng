@@ -545,7 +545,7 @@ WallOps от %s:\s
 Введите название комнаты чата
 [Please select IRC network and enter the password if needed]
 Выберите IRC сеть и введите пароль, если необходимо
-[Change nick name]
+[Change nickname]
 Изменить ник
 [Please enter a unique nickname]
 Введите уникальный ник

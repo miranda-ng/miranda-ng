@@ -93,7 +93,7 @@ P2P Подключения
 Пароль Tlen
 [Cancel]
 Отмена
-[Nick name:]
+[Nickname:]
 Псевдоним:
 [First name:]
 Имя:

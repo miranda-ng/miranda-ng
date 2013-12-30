@@ -153,7 +153,7 @@ Jabber Пароль
 Страна:
 [Full name:]
 Полное имя:
-[Nick name:]
+[Nickname:]
 Псевдоним:
 [First name:]
 Имя:
@@ -1473,7 +1473,7 @@ Jabber ошибка
 Смены статуса
 [Don't notify history messages]
 Не показывать уведомлений из истории
-[Nick Name]
+[Nickname]
 Ник
 [Group]
 Группа

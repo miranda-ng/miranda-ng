@@ -53,7 +53,7 @@
 Из меню IM
 [Use contact notification for this account]
 Нотификация контактом
-[Replace nick name]
+[Replace nickname]
 Заменить ник
 [Disable Events]
 Выключить события

@@ -99,9 +99,9 @@
 Подсветка текста в сообщении
 [Enable highlighting for message text]
 Включить подсветку текста в сообщении
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
 Слова для подсветки, допускаются маски вида * и ?, несколько слов для подсветки разделяются пробелами. Оставьте пустым, если хотите подсвечивать свой ник.
-[Highlight messages containing my own nick name]
+[Highlight messages containing my own nickname]
 Подсвечивать сообщения, содержащие свой ник
 [List]
 Список
@@ -2209,7 +2209,7 @@ ID текущего контакта (если определен). Наприм
 Подсвечивать пользователей
 [Edit Highlight List...]
 Редактировать список подсветки
-[Nick name]
+[Nickname]
 Ник
 [Unique ID]
 Уник. ID

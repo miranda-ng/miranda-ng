@@ -953,7 +953,7 @@ ID текущего контакта (если определен). Наприм
 Управление комнатой чата (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Включить/выключить фильтр событий (CTRL+F)
-[Nick name]
+[Nickname]
 Ник
 [Unique ID]
 Уник. ID
