@@ -340,35 +340,36 @@ char* makeFileName(const TCHAR* tszOriginalName)
 // enumerate all plugins that had valid DatabasePluginInfo()
 int tryOpenDatabase(const TCHAR *tszProfile)
 {
+	bool bWasOpened = false;
+
 	for (int i=arDbPlugins.getCount()-1; i >= 0; i--) {
 		DATABASELINK *p = arDbPlugins[i];
 
 		// liked the profile?
 		int err = p->grokHeader(tszProfile);
-		if (err == ERROR_SUCCESS) {
-			// added APIs?
-			MIDatabase *pDb = p->Load(tszProfile);
-			if (pDb) {
-				fillProfileName(tszProfile);
-				currDblink = p;
-				db_setCurrent(currDb = pDb);
-				return 0;
-			}
-		}
-		else {
+		if (err != ERROR_SUCCESS) { // smth went wrong
 			switch (err) {
 			case EGROKPRF_CANTREAD:
 			case EGROKPRF_UNKHEADER:
 				// just not supported.
 				continue;
-
-			case EGROKPRF_VERNEWER:
-			case EGROKPRF_DAMAGED:
-				return 1;
 			}
-		} //if
+			return err;
+		}
+
+		bWasOpened = true;
+
+		// try to load database
+		MIDatabase *pDb = p->Load(tszProfile);
+		if (pDb) {
+			fillProfileName(tszProfile);
+			currDblink = p;
+			db_setCurrent(currDb = pDb);
+			return 0;
+		}
 	}
-	return 1;
+	
+	return (bWasOpened) ? -1 : EGROKPRF_CANTREAD;
 }
 
 // enumerate all plugins that had valid DatabasePluginInfo()
@@ -458,7 +459,7 @@ int LoadDatabaseModule(void)
 		else
 			rc = tryOpenDatabase(szProfile);
 
-		if (rc != 0) {
+		if (rc > 0) {
 			// if there were drivers but they all failed cos the file is locked, try and find the miranda which locked it
 			if (fileExist(szProfile)) {
 				// file isn't locked, just no driver could open it.
