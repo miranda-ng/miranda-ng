@@ -30,7 +30,7 @@ struct DlgChangePassParam
 	int wrongPass;
 };
 
-#define MS_DB_CHANGEPASSWORD "DB/ChangePassword"
+#define MS_DB_CHANGEPASSWORD "DB/UI/ChangePassword"
 
 static IconItem iconList[] =
 {
