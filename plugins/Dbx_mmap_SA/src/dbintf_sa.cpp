@@ -23,6 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
+extern "C"
+{
+	MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db);
+};
+
 #define NeedBytes(n)   if(bytesRemaining<(n)) pBlob=(PBYTE)DBRead(ofsBlobPtr,(n),&bytesRemaining)
 #define MoveAlong(n)   {int x=n; pBlob+=(x); ofsBlobPtr+=(x); bytesRemaining-=(x);}
 #define VLT(n) ((n==DBVT_UTF8)?DBVT_ASCIIZ:n)
@@ -53,6 +58,7 @@ int CDbxMmapSA::Load(bool bSkipInit)
 				return 1;
 
 			// password validated ok? decrypt database
+			db_setCurrent(this);
 			DecodeAll();
 			m_bEncoding = false;
 			WritePlainHeader();
