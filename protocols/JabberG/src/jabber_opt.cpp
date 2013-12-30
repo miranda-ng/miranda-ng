@@ -994,7 +994,7 @@ static void _RosterListClear(HWND hwndDlg)
 	column.pszText = TranslateT("JID");
 	ListView_InsertColumn(hList, 1, &column);
 
-	column.pszText = TranslateT("Nick Name");
+	column.pszText = TranslateT("Nickname");
 	ListView_InsertColumn(hList, 2, &column);
 
 	column.pszText = TranslateT("Group");

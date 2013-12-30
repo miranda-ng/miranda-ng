@@ -1409,7 +1409,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 
 		if (tszBuf[0] == 0)
 			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
-				TranslateT("Nick name"), ui1->pszNick,
+				TranslateT("Nickname"), ui1->pszNick,
 				TranslateT("Unique ID"), ui1->pszUID,
 				TranslateT("Status"), TM_WordToString( parentdat->pStatuses, ui1->Status));
 		ti.lpszText = tszBuf;

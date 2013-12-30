@@ -418,7 +418,7 @@ INT_PTR __cdecl CIrcProto::OnChangeNickMenuCommand(WPARAM, LPARAM)
 		m_nickDlg->Show();
 	}
 
-	SetDlgItemText( m_nickDlg->GetHwnd(), IDC_CAPTION, TranslateT("Change nick name"));
+	SetDlgItemText( m_nickDlg->GetHwnd(), IDC_CAPTION, TranslateT("Change nickname"));
 	SetWindowText( GetDlgItem( m_nickDlg->GetHwnd(), IDC_TEXT), TranslateT("Please enter a unique nickname"));
 	m_nickDlg->m_Enick.SetText( m_info.sNick.c_str());
 	m_nickDlg->m_Enick.SendMsg( CB_SETEDITSEL, 0, MAKELPARAM(0,-1));

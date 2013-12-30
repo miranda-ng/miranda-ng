@@ -215,8 +215,8 @@ BEGIN
     CONTROL         "Enable highlighting for message text",IDC_HIGHLIGHTTEXTENABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,125,278,11
     EDITTEXT        IDC_HIGHLIGHTTEXTPATTERN,11,170,283,35,ES_AUTOHSCROLL
-    LTEXT           "Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.",IDC_STATIC,10,141,284,23
-    CONTROL         "Highlight messages containing my own nick name",IDC_HIGHLIGHTME,
+    LTEXT           "Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.",IDC_STATIC,10,141,284,23
+    CONTROL         "Highlight messages containing my own nickname",IDC_HIGHLIGHTME,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,211,278,11
 END
 
