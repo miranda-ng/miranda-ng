@@ -198,7 +198,7 @@ LBL_Error:
 
 static bool UnloadPluginDynamically(PluginListItemData *dat)
 {
-	pluginEntry* p = pluginList.find((pluginEntry*)dat->fileName);
+	pluginEntry *p = pluginList.find((pluginEntry*)dat->fileName);
 	if (p) {
 		if ( !Plugin_UnloadDyn(p))
 			return false;

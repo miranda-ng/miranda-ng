@@ -442,7 +442,7 @@ int LoadDatabaseModule(void)
 
 	EnsureCheckerLoaded(false); // unload dbchecker
 
-	if ( arDbPlugins.getCount() == 0) {
+	if (arDbPlugins.getCount() == 0) {
 		TCHAR buf[256];
 		TCHAR* p = _tcsrchr(szProfile, '\\');
 		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent."), p ? ++p : szProfile);

@@ -66,8 +66,8 @@ int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int ch
 pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path);
 
 bool TryLoadPlugin(pluginEntry *p, bool bDynamic);
-void Plugin_Uninit(pluginEntry* p);
-int  Plugin_UnloadDyn(pluginEntry* p);
+void Plugin_Uninit(pluginEntry *p);
+int  Plugin_UnloadDyn(pluginEntry *p);
 
 typedef BOOL (*SCAN_PLUGINS_CALLBACK) (WIN32_FIND_DATA * fd, TCHAR *path, WPARAM wParam, LPARAM lParam);
 void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam);

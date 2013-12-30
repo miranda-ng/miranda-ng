@@ -33,12 +33,14 @@ void EnsureCheckerLoaded(bool);
 
 typedef BOOL (__cdecl *ENUMPROFILECALLBACK) (TCHAR *fullpath, TCHAR *profile, LPARAM lParam);
 
-struct DetailsPageInit {
+struct DetailsPageInit
+{
 	int pageCount;
 	OPTIONSDIALOGPAGE *odp;
 };
 
-struct DetailsPageData {
+struct DetailsPageData
+{
 	DLGTEMPLATE *pTemplate;
 	HINSTANCE hInst;
 	DLGPROC dlgProc;
@@ -46,31 +48,34 @@ struct DetailsPageData {
 	int changed;
 };
 
-struct DlgProfData {
-	PROPSHEETHEADER * psh;
+struct DlgProfData
+{
+	PROPSHEETHEADER *psh;
 	HWND hwndOK, hwndSM;
-	PROFILEMANAGERDATA * pd;
+	PROFILEMANAGERDATA *pd;
 	HANDLE hFileNotify;
 };
 
-struct DetailsData {
+struct DetailsData
+{
 	HINSTANCE hInstIcmp;
 	HFONT hBoldFont;
 	int pageCount;
 	int currentPage;
-	struct DetailsPageData *opd;
+	DetailsPageData *opd;
 	RECT rcDisplay;
-	struct DlgProfData * prof;
+	struct DlgProfData *prof;
 };
 
-struct ProfileEnumData {
+struct ProfileEnumData
+{
 	HWND hwnd;
 	TCHAR* szProfile;
 };
 
 extern TCHAR mirandabootini[MAX_PATH]; 
 
-void SetServiceModePlugin(pluginEntry* p);
+void SetServiceModePlugin(pluginEntry *p);
 
 static void ThemeDialogBackground(HWND hwnd)
 {
@@ -101,8 +106,8 @@ static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARA
 		}
 	}
 		while (FindNextFile(hFind, &ffd));
-	FindClose(hFind);
 
+	FindClose(hFind);
 	return 1;
 }
 
@@ -176,7 +181,7 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			}
 			else {
 				for (int i = 0; i < arDbPlugins.getCount(); i++) {
-					DATABASELINK* p = arDbPlugins[i];
+					DATABASELINK *p = arDbPlugins[i];
 					LRESULT index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(p->szFullName));
 					SendMessage(hwndCombo, CB_SETITEMDATA, index, (LPARAM)p);
 				}
@@ -191,7 +196,7 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		// decide if there is a default profile name given in the INI and if it should be used
 		if (dat->pd->noProfiles || (shouldAutoCreate(dat->pd->szProfile) && _taccess(dat->pd->szProfile, 0))) {
-			TCHAR* profile = _tcsrchr(dat->pd->szProfile, '\\');
+			TCHAR *profile = _tcsrchr(dat->pd->szProfile, '\\');
 			if (profile) ++profile;
 			else profile = dat->pd->szProfile;
 
@@ -229,7 +234,9 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		if (hdr && hdr->code == PSN_APPLY && dat && IsWindowVisible(hwndDlg)) {
 			TCHAR szName[MAX_PATH];
 			LRESULT curSel = SendDlgItemMessage(hwndDlg, IDC_PROFILEDRIVERS, CB_GETCURSEL, 0, 0);
-			if (curSel == CB_ERR) break; // should never happen
+			if (curSel == CB_ERR)
+				break; // should never happen
+
 			GetDlgItemText(hwndDlg, IDC_PROFILENAME, szName, SIZEOF(szName));
 			if (szName[0] == 0)
 				break;
@@ -254,11 +261,9 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 	HWND hwndList = GetDlgItem(ped->hwnd, IDC_PROFILELIST);
 
 	TCHAR sizeBuf[64];
-	int iItem = 0;
-	struct _stat statbuf;
 	bool bFileExists = false, bFileLocked = true;
 
-	TCHAR* p = _tcsrchr(profile, '.');
+	TCHAR *p = _tcsrchr(profile, '.');
 	_tcscpy(sizeBuf, _T("0 KB"));
 	if (p != NULL) *p = 0;
 
@@ -267,6 +272,7 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 	item.pszText = profile;
 	item.iItem = 0;
 
+	struct _stat statbuf;
 	if (_tstat(fullpath, &statbuf) == 0) {
 		if (statbuf.st_size > 1000000) {
 			mir_sntprintf(sizeBuf, SIZEOF(sizeBuf), _T("%.3lf"), (double)statbuf.st_size / 1048576.0);
@@ -282,7 +288,7 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 
 	item.iImage = bFileLocked;
 
-	iItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
+	int iItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 	if (lstrcmpi(ped->szProfile, fullpath) == 0)
 		ListView_SetItemState(hwndList, iItem, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
 
@@ -540,17 +546,17 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct DetailsData* dat = (struct DetailsData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	DetailsData *dat = (DetailsData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			struct DlgProfData * prof = (struct DlgProfData *)lParam;
+			DlgProfData *prof = (struct DlgProfData*)lParam;
 			PROPSHEETHEADER *psh = prof->psh;
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0));
-			dat = (struct DetailsData*)mir_alloc(sizeof(struct DetailsData));
+			dat = (DetailsData*)mir_alloc(sizeof(DetailsData));
 			dat->prof = prof;
 			prof->hwndOK = GetDlgItem(hwndDlg, IDOK);
 			prof->hwndSM = GetDlgItem(hwndDlg, IDC_SM_COMBO);
@@ -563,7 +569,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			dat->currentPage = 0;
 			dat->pageCount = psh->nPages;
-			dat->opd = (struct DetailsPageData*)mir_calloc(sizeof(struct DetailsPageData)*dat->pageCount);
+			dat->opd = (DetailsPageData*)mir_calloc(sizeof(DetailsPageData)*dat->pageCount);
 			OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)psh->ppsp;
 
 			TCITEM tci;
@@ -610,7 +616,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 				SendMessage(hwndCombo, CB_SETITEMDATA, index, (LPARAM)-1);
 				SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
 				for (int i = 0; i < servicePlugins.getCount(); i++) {
-					pluginEntry* p = servicePlugins[i];
+					pluginEntry *p = servicePlugins[i];
 					index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(p->pluginname));
 					SendMessage(hwndCombo, CB_SETITEMDATA, index, (LPARAM)i);
 				}

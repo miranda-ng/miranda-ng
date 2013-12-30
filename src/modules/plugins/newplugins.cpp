@@ -163,7 +163,7 @@ char* GetPluginNameByInstance(HINSTANCE hInstance)
 		return NULL;
 
 	for (int i=0; i < pluginList.getCount(); i++) {
-		pluginEntry* p = pluginList[i];
+		pluginEntry *p = pluginList[i];
 		if (p->bpi.pluginInfo && p->bpi.hInst == hInstance)
 			return p->bpi.pluginInfo->shortName;
 	}
@@ -176,7 +176,7 @@ int GetPluginLangByInstance(HINSTANCE hInstance)
 		return NULL;
 
 	for (int i=0; i < pluginList.getCount(); i++) {
-		pluginEntry* p = pluginList[i];
+		pluginEntry *p = pluginList[i];
 		if (p->bpi.pluginInfo && p->bpi.hInst == hInstance)
 			return p->hLangpack;
 	}
@@ -186,7 +186,7 @@ int GetPluginLangByInstance(HINSTANCE hInstance)
 int GetPluginFakeId(const MUUID &uuid, int hLangpack)
 {
 	for (int i=0; i < pluginList.getCount(); i++) {
-		pluginEntry* p = pluginList[i];
+		pluginEntry *p = pluginList[i];
 		if ( !p->bpi.hInst)
 			continue;
 
@@ -287,7 +287,7 @@ LBL_Ok:
 }
 
 // perform any API related tasks to freeing
-void Plugin_Uninit(pluginEntry* p)
+void Plugin_Uninit(pluginEntry *p)
 {
 	// if the basic API check had passed, call Unload if Load(void) was ever called
 	if (p->pclass & PCLASS_LOADED) {
@@ -390,7 +390,7 @@ void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
 
 pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 {
-	pluginEntry* p = (pluginEntry*)HeapAlloc(hPluginListHeap, HEAP_NO_SERIALIZE | HEAP_ZERO_MEMORY, sizeof(pluginEntry));
+	pluginEntry *p = (pluginEntry*)HeapAlloc(hPluginListHeap, HEAP_NO_SERIALIZE | HEAP_ZERO_MEMORY, sizeof(pluginEntry));
 	_tcsncpy(p->pluginname, tszFileName, SIZEOF(p->pluginname));
 
 	// add it to the list anyway
@@ -620,7 +620,7 @@ static pluginEntry* getCListModule(TCHAR *exe, TCHAR *slice)
 int UnloadPlugin(TCHAR* buf, int bufLen)
 {
 	for (int i = pluginList.getCount()-1; i >= 0; i--) {
-		pluginEntry* p = pluginList[i];
+		pluginEntry *p = pluginList[i];
 		if ( !_tcsicmp(p->pluginname, buf)) {
 			GetModuleFileName(p->bpi.hInst, buf, bufLen);
 			Plugin_Uninit(p);
@@ -639,7 +639,7 @@ void SetServiceModePlugin(pluginEntry *p)
 	serviceModePlugin = p;
 }
 
-static int LaunchServicePlugin(pluginEntry* p)
+static int LaunchServicePlugin(pluginEntry *p)
 {
 	// plugin load failed - terminating Miranda
 	if ( !( p->pclass & PCLASS_LOADED)) {
@@ -667,7 +667,7 @@ int LoadDefaultServiceModePlugin()
 
 	size_t cbLen = _tcslen(param);
 	for (int i=0; i < servicePlugins.getCount(); i++) {
-		pluginEntry* p = servicePlugins[i];
+		pluginEntry *p = servicePlugins[i];
 		if ( !_tcsnicmp(p->pluginname, param, cbLen)) {
 			int res = LaunchServicePlugin(p);
 			if (res == SERVICE_ONLYDB) // load it later
@@ -687,7 +687,7 @@ int LoadServiceModePlugin()
 void EnsureCheckerLoaded(bool bEnable)
 {
 	for (int i=0; i < pluginList.getCount(); i++) {
-		pluginEntry* p = pluginList[i];
+		pluginEntry *p = pluginList[i];
 		if ( _tcsicmp(p->pluginname, _T("dbchecker.dll")))
 			continue;
 
@@ -714,7 +714,7 @@ void UnloadNewPlugins(void)
 {
 	// unload everything but the special db/clist plugins
 	for (int i = pluginList.getCount()-1; i >= 0; i--) {
-		pluginEntry* p = pluginList[i];
+		pluginEntry *p = pluginList[i];
 		if ( !(p->pclass & PCLASS_LAST) && (p->pclass & PCLASS_OK))
 			Plugin_Uninit(p);
 	}
@@ -791,7 +791,7 @@ int LoadNewPluginsModule(void)
 
 static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM)
 {
-	pluginEntry* p = OpenPlugin(fd->cFileName, _T("Plugins"), path);
+	pluginEntry *p = OpenPlugin(fd->cFileName, _T("Plugins"), path);
 	if ( !(p->pclass & PCLASS_FAILED)) {
 		if (pluginList_freeimg == NULL && lstrcmpi(fd->cFileName, _T("advaimg.dll")) == 0)
 			pluginList_freeimg = p;
@@ -848,7 +848,7 @@ void UnloadNewPluginsModule(void)
 
 	// unload everything but the DB
 	for (int i = pluginList.getCount()-1; i >= 0; i--) {
-		pluginEntry* p = pluginList[i];
+		pluginEntry *p = pluginList[i];
 		if (!(p->pclass & (PCLASS_DB | PCLASS_CRYPT)) && p != pluginList_crshdmp)
 			Plugin_Uninit(p);
 	}
@@ -859,7 +859,7 @@ void UnloadNewPluginsModule(void)
 	UnloadDatabase();
 
 	for (int k = pluginList.getCount()-1; k >= 0; k--) {
-		pluginEntry* p = pluginList[k];
+		pluginEntry *p = pluginList[k];
 		Plugin_Uninit(p);
 	}
 
