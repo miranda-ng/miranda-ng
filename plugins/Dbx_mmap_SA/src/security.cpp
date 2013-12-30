@@ -176,7 +176,7 @@ int SelectEncoder()
 
 void CDbxMmapSA::EncodeAll()
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HANDLE hContact = FindFirstContact(); hContact; hContact = FindNextContact(hContact)) {
 		EncodeContactEvents(hContact);
 		EncodeContactSettings(hContact);
 	}
@@ -187,7 +187,7 @@ void CDbxMmapSA::EncodeAll()
 
 void CDbxMmapSA::DecodeAll()
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HANDLE hContact = FindFirstContact(); hContact; hContact = FindNextContact(hContact)) {
 		DecodeContactEvents(hContact);
 		DecodeContactSettings(hContact);
 	}
