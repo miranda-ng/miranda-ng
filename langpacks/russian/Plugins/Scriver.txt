@@ -766,7 +766,7 @@ Miranda не смогла загрузить встроенную систему
 [Show status changes of users]
 Смена статуса
 [Show icons in tray only when the chat room is not active]
-Показывать значки только когда окно комнаты чата неактивно
+Показывать значки в трее, когда окно чата неактивно
 [Show icon in tray for topic changes]
 Смена темы
 [Show icon in tray for users joining]
