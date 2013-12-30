@@ -26,7 +26,7 @@ int CDb3Base::WorkInitialCheckHeaders()
 		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Database signature is corrupted, automatic repair is impossible"));
 		return ERROR_BAD_FORMAT;
 	}
-	if (m_dbHeader.version != 0x00000700) {
+	if (m_dbHeader.version != DB_OLD_VERSION && m_dbHeader.version != DB_THIS_VERSION) {
 		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Database is marked as belonging to an unknown version of Miranda"));
 		return ERROR_BAD_FORMAT;
 	}
