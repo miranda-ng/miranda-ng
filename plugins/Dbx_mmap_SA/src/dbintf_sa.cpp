@@ -59,8 +59,8 @@ int CDbxMmapSA::Load(bool bSkipInit)
 		}
 
 		// write back mmap's signature not to open this profile again
-		memcpy(&m_dbHeader.signature, &dbSignatureU, sizeof(dbSignatureU));
-		DBWrite(0, &dbSignatureU, sizeof(dbSignatureU));
+		memcpy(&m_dbHeader.signature, &dbSignatureIM, sizeof(dbSignatureIM));
+		DBWrite(0, &dbSignatureIM, sizeof(dbSignatureIM));
 		return 1;
 
 		// no need to init that crap again 
