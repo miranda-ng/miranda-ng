@@ -420,7 +420,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Tool style main window]
 Стиль панели у заголовка
 [Minimize to tray]
-Скрыть в системный лоток
+Сворачивать в трей
 [Translucency options]
 Настройки прозрачности списка контактов
 [Enable drop shadow (restart required)]
@@ -806,7 +806,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Global]
 Глобальные
 [Hide to tray]
-В системный лоток
+В трей
 [Behind left edge]
 За левый край
 [Behind right edge]

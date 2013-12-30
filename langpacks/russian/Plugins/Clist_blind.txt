@@ -82,7 +82,7 @@
 [Tool style main window]
 Стиль панели у заголовка
 [Minimize to tray]
-Скрыть в системный лоток
+Сворачивать в трей
 [Hide contact list after it has been idle for]
 Скрыть список, при неактивности в течение
 [seconds]

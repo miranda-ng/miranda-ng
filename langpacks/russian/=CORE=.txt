@@ -716,7 +716,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Tool style main window]
 Стиль панели у заголовка
 [Minimize to tray]
-Скрыть в системный лоток
+Сворачивать в трей
 [Show menu bar]
 Показывать меню
 [Easy move]
