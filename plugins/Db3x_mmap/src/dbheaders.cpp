@@ -60,7 +60,7 @@ int CDb3Base::CheckDbHeaders()
 		 memcmp(m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)))
 		return EGROKPRF_UNKHEADER;
 
-	if (m_dbHeader.version != DB_THIS_VERSION)
+	if (m_dbHeader.version != DB_THIS_VERSION && m_dbHeader.version != DB_OLD_VERSION)
 		return EGROKPRF_VERNEWER;
 	
 	if (m_dbHeader.ofsUser == 0)

@@ -162,8 +162,14 @@ LBL_SetNewKey:
 			goto LBL_SetNewKey;
 
 		if (!m_crypto->setKey(dbv.pbVal, iKeyLength))
-			if (!EnterPassword(dbv.pbVal, iKeyLength)) // password protected?
+		if (!EnterPassword(dbv.pbVal, iKeyLength)) { // password protected?
+			if (m_dbHeader.version == DB_THIS_VERSION)
 				return 4;
+
+			// one of the early used version of mmap was replaced then by mmap_sa
+			// simply remove old badly generated key
+			goto LBL_SetNewKey;
+		}
 
 		FreeVariant(&dbv);
 	}
@@ -176,6 +182,11 @@ LBL_SetNewKey:
 		// upgrade signature
 		memcpy(&m_dbHeader.signature, &dbSignatureU, sizeof(dbSignatureU));
 		DBWrite(0, &dbSignatureU, sizeof(dbSignatureU));
+	}
+
+	if (m_dbHeader.version == DB_OLD_VERSION) {
+		m_dbHeader.version = DB_THIS_VERSION;
+		DBWrite(sizeof(dbSignatureU), &m_dbHeader.version, sizeof(m_dbHeader.version));
 	}
 
 	InitDialogs();

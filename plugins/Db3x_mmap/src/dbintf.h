@@ -44,7 +44,9 @@ DBHeader
 	     \--> ...
 */
 
-#define DB_THIS_VERSION          0x00000700u
+#define DB_OLD_VERSION   0x00000700u
+#define DB_THIS_VERSION  0x00000701u
+
 #define DB_SETTINGS_RESIZE_GRANULARITY  128
 
 #define WSOFS_END   0xFFFFFFFF
