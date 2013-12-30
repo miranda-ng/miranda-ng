@@ -354,7 +354,6 @@ int tryOpenDatabase(const TCHAR *tszProfile)
 				db_setCurrent(currDb = pDb);
 				return 0;
 			}
-			delete pDb;
 		}
 		else {
 			switch (err) {
@@ -468,7 +467,7 @@ int LoadDatabaseModule(void)
 				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed."), p ? ++p : szProfile);
 				MessageBox(0, buf, TranslateT("Miranda can't understand that profile"), MB_OK | MB_ICONERROR);
 			}
-			else if ( !FindMirandaForProfile(szProfile)) {
+			else if (!FindMirandaForProfile(szProfile)) {
 				TCHAR buf[256];
 				TCHAR* p = _tcsrchr(szProfile, '\\');
 				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance"), p ? ++p : szProfile);
