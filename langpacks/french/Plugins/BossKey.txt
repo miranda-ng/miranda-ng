@@ -66,7 +66,7 @@ Annuler
 [Password is not correct!\nPlease, enter correct password.]
 
 [Hide Miranda NG]
-Cacher Miranda-IM
+Cacher Miranda-NG
 [Hide]
 
 [Hide/Show Miranda]
