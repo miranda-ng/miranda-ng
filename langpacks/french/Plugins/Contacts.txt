@@ -5,21 +5,33 @@
 ;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
+[Allows you to send and receive contacts.]
+
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 Envoi des contacts
+[&Add]
+&Ajouter
+[&User menu]
+
+[User &details]
+&Détails du contact
+[&History]
+
 [Choose contacts to be send:]
 Choisir contacts à envoyer:
 [&Send]
 &Envoyer
 [Cancel]
 Annuler
+[&Select All]
+
 [Received contacts]
 Réception de contacts
 [Add to &group:]
 Ajouter au &groupe:
-[&Add]
-&Ajouter
+[&Details]
+
 [Close]
 Fermer
 [Contacts send error]
@@ -28,16 +40,30 @@ Erreur dans l'envoi de contacts
 Une erreur s'est produite. Le protocole a rapporté l'erreur suivante:
 [Try again]
 Réessayer
+[Popup]
+
 [Add to List]
 Ajouter à ma liste
 [User details]
 Détails du contact
+[Send Message]
+
 ;file \plugins\ContactsPlus\src\main.cpp
+[Contacts received from]
+
+[Contacts]
+Contacts
 [Incoming Contacts]
 Contacts entrants
 [Outgoing Contacts]
 Envoi de contacts
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Nick]
+Pseudo
+[First Name]
+Prénom
+[Last Name]
+Nom
 [Add Contact Permanently to List]
 Ajouter le contact à la liste
 [View User's Details]
@@ -46,4 +72,8 @@ Voir les détails du contact
 Voir l'historique
 [User Menu]
 Menu Contact
+[Contacts from]
+
 ;file \plugins\ContactsPlus\src\send.cpp
+[Send Contacts to]
+

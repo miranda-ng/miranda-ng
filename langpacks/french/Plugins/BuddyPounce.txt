@@ -5,35 +5,55 @@
 ;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
+[Allows you to send a message to contacts if they change status.]
+
 ;file \plugins\BuddyPounce\res\resource.rc
 [Confirm Pounce send]
 Confirmer l'envoi
+[Send]
+
 [Cancel]
 Annuler
 [Pounce being sent to]
 Pounce a envoyé à
+[Buddy Pounce]
+
+[OK]
+OK
 [The Message:]
 Le message:
 [Delete Pounce]
 Effacer Pounce
 [Load default Settings]
 Paramètres par défaut
+[Setting Value]
+
 [Setting text...........]
 Paramétrages du texte.....
+[Settings]
+
 [Contact To Send Pounce To]
 Envoyer Pounce au contact:
+[<< Simple]
+
 [Advanced >>]
 Avancé >>
 [The Message]
 Le Message
+[Dialog]
+
 [Status]
 État
 [Use Advanced Dialog]
 Fonctions avancées
 [The Message (characters: )]
 Message (caractères: )
+[Default Settings]
+
 [Show Delivery Messages]
 Afficher les msg. envoyés
+[These settings are also used when sending a "Simple" pounce]
+
 ;file \plugins\BuddyPounce\src\dialog.cpp
 [Send If My Status Is...]
 Envoi si mon état est...
@@ -91,6 +111,10 @@ Au téléphone
 Parti manger
 [The Message    (%d Characters)]
 Message:     (%d caractères)
+[Couldn't allocate enough memory]
+
+[error......]
+
 [The Message    (0 Characters)]
 Message:     (0 caractère)
 [Reuse this message? (0 to use it once)]
@@ -99,12 +123,16 @@ Réutiliser ce message ?  (0 = une seule fois)
 Heures
 [Give up after... (0 to not give up)]
 Réitérer après (0=désactivé):
+[Days]
+Jours
 [Show confirmation window? (0 to not Show)]
 Voir la confirmation ? (0 pour ne pas voir)
 [Seconds to wait before sending]
 Secondes avant d'envoyer
 [Pounce being sent to %s in %d seconds]
 Message envoyé à %s dans %d secondes
+[Retry]
+
 [Message successfully sent to %s]
 Envoi réussi du message à %s
 [Message failed to send to %s]

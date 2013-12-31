@@ -5,6 +5,8 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
+[A contact list for blind folks.]
+
 ;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Supprimer un contact
@@ -18,6 +20,8 @@ Oui
 Non
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Effacer de la liste mais conserver son historique et ses options.
+[Use Options->Contacts->Ignore to unhide contacts.]
+Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
 [Hotkeys]
 Raccourcis clavier
 [Show/Hide:]
@@ -88,12 +92,16 @@ Cacher la liste de contacts après:
 secondes
 [Automatically resize window to height of list]
 Redimensionnement automatique de la fenêtre
+[maximum]
+maximum
 [% of screen]
 % de l'écran
 [Size upwards]
 Agrandir vers le haut
 [Title bar text:]
 Texte du titre:
+[Translucency options]
+Options de transparence
 [Fade contact list in/out]
 Fondu de la liste de contacts
 [Transparent contact list]
@@ -128,8 +136,16 @@ Cacher le nombre de contacts quand aucun n'est en ligne
 Classer les groupes par ordre alphabétique
 [Quicksearch in open groups only]
 Recherche rapide uniquement sur les groupes ouverts
+[Templates]
+
+[Contact:]
+
 [Group:]
 Groupe:
+[Divider:]
+
+[Info:]
+
 [Status Bar]
 Barre d'état
 [Show status bar]
@@ -150,6 +166,8 @@ Faire des sections de taille égale
 Voir les effets 3D
 [Show resize grip indicator]
 Poignée de redimension
+[&Main menu]
+&Menu principal
 [E&xit]
 &Quitter
 [&Status]
@@ -225,6 +243,12 @@ Invisible
 Parti manger
 [On the phone]
 Au téléphone
+[Group: %name% %count% [%mode%]]
+
+[Divider: %s]
+
+[Info: %s]
+
 [List]
 Liste
 ;file \plugins\Clist_blind\src\clistopts.cpp
@@ -232,3 +256,9 @@ Liste
 Général
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
+[Unknown Protocol]
+
+[Expanded]
+
+[Colapsed]
+

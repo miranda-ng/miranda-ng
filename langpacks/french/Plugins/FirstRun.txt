@@ -1,0 +1,9 @@
+﻿#muuid {49c2cf54-7898-44de-be3a-6d2e4ef90079}
+;============================================================
+;  File: FirstRun.dll
+;  Plugin: First run
+;  Version: 0.0.0.2
+;  Authors: Yasnovidyashii
+;============================================================
+[Displays the Accounts window at the first start.]
+

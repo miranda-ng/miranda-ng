@@ -5,7 +5,13 @@
 ;  Version: 0.7.0.1
 ;  Authors: perf
 ;============================================================
+[Shows a small tooltip above system tray area when a contact status is changed.]
+
 ;file \plugins\TooltipNotify\res\main.rc
+[Select protocols]
+
+[OK]
+OK
 [Choose contacts]
 Choix des contacts
 [Allow tooltip notifications for the following users:]
@@ -22,14 +28,20 @@ Hors ligne
 Les autres
 [Typing]
 Écrit
+[Protocols]
+
 [Suppress notifications upon connection for]
 Ne pas notifier à la connexion pendant:
 [sec]
 secondes
+[Prefix protocol name]
+
 [Duration]
 Durée
 [Show tooltip for]
 Voir la bulle sur
+[ms]
+ms
 [Duration x2 upon online event]
 Doubler la durée de 'En ligne'
 [Double click on tooltip]
@@ -38,21 +50,47 @@ Action du double-clic
 Voir/Cacher la liste de contacts
 [Opens message dialog]
 Afficher le message
+[Behavior]
+
+[Misc]
+
 [Obey 'Suppress online notification' settings]
 Comme pour 'Suppress online notification'
 [Auto positioning]
 Auto-positionnement
 [Transparent input]
 Transparent
+[Preview]
+Aperçu
+[Translucency options]
+Options de transparence
 [Transparent tooltip]
 Bulle transparente
+[Contacts]
+Contacts
 [Idle]
 Inactif
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Tooltip Notify]
+
+[Other status]
+
+[Tooltip Notify: Online]
+
+[Tooltip Notify: Offline]
+
+[Tooltip Notify: Other]
+
+[Tooltip Notify: Typing]
+
+[Popups]
+Popups
 [** New contacts **]
 ** Nouveaux contacts **
 [** Unknown contacts **]
 ** Contacts inconnus **
+[Not Idle]
+
 [Unknown]
 Inconnu
 [is]

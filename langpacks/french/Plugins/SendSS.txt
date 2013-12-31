@@ -5,15 +5,29 @@
 ;  Version: 0.8.3.1
 ;  Authors: Merlin
 ;============================================================
+[Take a screenshot and send it to a contact.]
+
 ;file \plugins\SendScreenshotPlus\res\resource.rc
+[Dialog]
+
+[OK]
+OK
+[All]
+
 [None]
 Aucun
 [Cancel]
 Annuler
+[Send screenshot]
+Envoyer la capture
+[Send screenshot to\n<unknown>]
+
 [Ti&med capture]
 Retardateur
 [Time (secs):]
 Temps (sec):
+[&Format:]
+
 [Send B&y:]
 Envoyer par:
 [E&xplore]
@@ -26,6 +40,10 @@ Supprimer après envoi
 Ré-ouvrir
 [&Capture]
 Capturer
+[About]
+
+[%s\nv%s]
+
 [Credits >]
 Crédits >
 [&Close]
@@ -38,19 +56,65 @@ Zone du client
 Légende:
 [Size (HxW):]
 Taille (HxW):
+[Target Tool]
+
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[GCHAT error]
+
 [An unknown error has occurred.]
 Une erreur inconnue s'est produite.
 [Error]
 Erreur
 ;file \plugins\SendScreenshotPlus\src\CSend.h
+[Unable to initiate %s.]
+
+[MAPI error (%i):\n%s.]
+
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
+
+[The specified attachment was not found]
+
+[The specified attachment could not be opened]
+
+[The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
+
+[One or more unspecified errors occurred]
+
+[There was insufficient memory to proceed]
+
+[One or more recipients were invalid or did not resolve to any address]
+
+[There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
+
+[The text in the message was too large]
+
+[There were too many file attachments]
+
+[There were too many recipients]
+
+[A recipient did not appear in the address list]
+
+[The user canceled one of the dialog boxes]
+
+[Unknown Error]
+
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
+[FTPFile transfer]
+
+[%s (%i):\nCould not add a share to the FTP File plugin.]
+
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [Could not start the HTTP Server plugin.]
 Impossible de lancer le plugin "serveur HTTP".
+[%s (%i):\nCould not add a share to the HTTP Server plugin.]
+
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
+[Upload server did not respond timely.]
+
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+[Retry]
+
 [Yes]
 Oui
 [No]
@@ -60,30 +124,122 @@ Annuler
 [Ignore]
 Ignorer
 ;file \plugins\SendScreenshotPlus\src\global.h
+[SendScreenshot - Error]
+
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
+[Fatal error, image services not found. Send Screenshot will be disabled.]
+
+[Open SendSS+]
+
+[SendSS]
+
+[Screenshots]
+
+[SendSS HTTP connections]
+
+[Could not create main dialog.]
+
 [Send Screenshot]
 Envoyer la capture
 [Send desktop screenshot]
 Envoyer une capture
 [Take a screenshot]
 Prendre un screenshot
+[Could not register Miranda service.]
+
+[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Screenshot Icon1]
+
+[Screenshot Icon2]
+
+[Target Cursor]
+
+[Target Desktop]
+
 [Default]
 Défaut
+[Overlay on]
+
+[Overlay off]
+
 [Help]
 Aide
+[Open Folder]
+
+[Description off]
+
+[Description on]
+
+[Delete off]
+
+[Delete on]
+
 [Prev]
 Préc
+[Next]
+
+[Update]
+Mise à jour
 [Apply]
 Appliquer
+[Down arrow]
+Flèche bas
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Buttons]
+
+[Overlays]
+
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
+[Credits]
+
+[< Copyright]
+
+[Copyright]
+
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Glisser/déposer la cible sur la fenêtre désirée
+[Send screenshot to\n]
+
 [Window]
 Fenêtre
+[Desktop]
+
+[<Entire Desktop>]
+
+[Monitor]
+
+[ (primary)]
+
+[<Only save>]
+
+[File Transfer]
+Transfert de fichiers
+[E-mail]
+e-mail
+[FTP File]
+
+[ImageShack]
+
 [Information]
 Informations
+[Fill description textbox.]
+
+[Delete after send]
+
+[Capture]
+
+[Can't create a Screenshot]
+
 [Select a target window.]
 Sélectionnez une fenêtre comme cible.
+[Screenshot ]
+
+[for Client area ]
+
+[of "]
+
+[" Window]
+

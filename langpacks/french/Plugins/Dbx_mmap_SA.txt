@@ -5,11 +5,27 @@
 ;  Version: 0.7.5.4
 ;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
+
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+[Login to Miranda NG]
+
+[EN]
+
+[OK]
+OK
 [Cancel]
 Annuler
+[New password]
+
+[Change password]
+Changer le mot de passe
+[Change]
+
 [Remove]
 Retirer
+[Old password]
+
 [Install Database Settings]
 Installer les paramètres de la base de données
 [Yes]
@@ -58,20 +74,66 @@ Que voulez-vous désormais faire avec le fichier ?
 &Déplacer/Renommer
 [&Leave]
 &Quitter
+[Database encryption]
+
+[Info:]
+
+[Author:]
+
+[Site:]
+
+[Email:]
+
 [Unique ID:]
 ID unique:
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
+[Database is Secured MMAP database]
+
+[You are not authorized for access to Database]
+
+[Secured MMAP: authorization successful]
+
+[Database is marked as belonging to an unknown version of Miranda]
+
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
+[Database Features]
+
+[Database]
+
+[Change Password]
+Changer le mot de passe
+[Set password]
+Mot de passe du profil
+[Dll]
+
 [Name]
 Nom
+[Version]
+Version
 [Please type in your password for]
 Veuillez taper votre mot de passe pour
+[Too many errors!]
+
 [Password is not correct!]
 Mot de passe incorrect !
+[Please enter your new password]
+Veuillez entrer votre nouveau mot de passe
+[Password is too short!]
+
 [Passwords do not match!]
 Mot de passe incorrect !
+[Wrong password!]
+
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
+[Sorry, but your database encrypted with unknown module]
+
 [Error]
 Erreur
+[Crypto modules not found]
+
+[DB is already secured!]
+
+[current database]
+
 [Set Password]
 Mot de passe du profil

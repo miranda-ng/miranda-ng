@@ -5,17 +5,27 @@
 ;  Version: 1.4.0.0
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
+[IE Based Chat Log.]
+
 ;file \plugins\IEView\res\ieview.rc
 [Copy]
 Copier
+[Copy Link]
+Copier URL
 [Select All]
 Tout sélectionner
 [Save Image As...]
 Sauver l'image sous...
 [Print]
 Imprimer
+[Clear Log]
+
 [Show source]
 Voir les sources
+[Options]
+Paramètres
+[Enable BBCodes]
+
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
 Les BBCodes suivant sont supportés:  [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
@@ -28,8 +38,12 @@ Activer le support de MathModule
 Mettre des smiley dans les pseudos
 [Hide window border]
 Cacher les bordures
+[Embed YouTube videos]
+
 [Size:]
 Taille:
+[Mode]
+
 [Compatibility Mode]
 Mode compatibilité
 [Use External CSS]
@@ -46,8 +60,12 @@ Options des modèles
 Grouper les messages
 [Show nicknames]
 Voir les pseudos
+[Show time]
+Voir l'heure
 [Show seconds]
 Voir les secondes
+[Show date]
+Voir la date
 [Use long date format]
 Utiliser date long format
 [Use relative timestamp]
@@ -57,10 +75,30 @@ Utiliser la date relative
 Transfert de fichiers sortants
 [Incoming File Transfer]
 Transfert de fichier entrant
+[URL sent]
+
+[URL received]
+
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Contact inconnu)
+[ requested authorization]
+ demande une autorisation
+[ was added.]
+
 ;file \plugins\IEView\src\IEView.cpp
+[IID_IOleObject failed.]
+
+[RESULT]
+
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
+[OleInitialize failed.]
+
 [ERROR]
 ERREUR
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
@@ -85,9 +123,23 @@ Historique
 Défaut
 [Message Sessions]
 Sessions de message
+[IEView]
+
+[Skins]
+Skins
+[Template]
+
 [All Files]
 Tous les fichiers
+[All Images]
+
+[Style Sheet]
+
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[Today]
+
+[Yesterday]
+
 [File sent]
 Fichier envoyé
 [File received]

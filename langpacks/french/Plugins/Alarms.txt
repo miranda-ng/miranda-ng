@@ -5,7 +5,11 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
+[Sets once-off, daily, weekly and weekday alarms.]
+
 ;file \plugins\Alarms\res\resource.rc
+[New]
+Nouveau
 [Delete]
 Effacer
 [Edit]
@@ -16,10 +20,18 @@ Alarmes
 Utiliser le plugin Popup
 [Default snooze:]
 Son par défaut:
+[minutes]
+minutes
 [Row Height:]
 Taille des colonnes:
+[Indent:]
+
+[Reminder Frame]
+
 [Auto hide/show]
 Cacher/Montrer automatiquement
+[Loop sound]
+
 [Period (hours):]
 Période (heure):
 [Hide/show with clist]
@@ -30,12 +42,28 @@ Taille verticale auto
 Transparence (%):
 [Alert Window]
 Fenêtre d'alerte
+[Round corners]
+Coins arrondis
+[Don't steal focus unless idle]
+
+[Preview]
+Aperçu
 [Alarm]
 Alarme
+[OK]
+OK
 [Cancel]
 Annuler
+[Title:]
+
 [Description:]
 Description:
+[Actions]
+
+[Popup window]
+
+[Sound:]
+
 [Run command:]
 Lignes de commandes:
 [Parameters:]
@@ -52,8 +80,16 @@ Parle
 Occurrence
 [Once]
 Une fois
+[Weekly]
+
+[Daily]
+
 [Weekdays]
 En semaine
+[Monthly]
+
+[Yearly]
+
 [i'm hiding]
 j'me cache
 [Date and Time]
@@ -64,18 +100,28 @@ Désactiver la prochaine occurrence
 Ne pas activer au démarrage
 [No reminder]
 Ne pas répéter
+[Dismiss]
+
 [Snooze]
 Répéter
+[Static]
+
+[Reminder Frame Context]
+
 [&Suspend]
 &Suspendre
 [&Edit...]
 &Éditer...
 [&Delete]
 &Effacer
+[&Options...]
+&Paramètres...
 [&New Alarm...]
 &Nouvelle Alarme...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
+[Unknown command issued: "%s"]
+
 [Set Alarm]
 Ajouter une alarme
 ;file \plugins\Alarms\src\alarm_win.cpp
@@ -83,6 +129,20 @@ Ajouter une alarme
 Exemple
 [Some example text. Example, example, example.]
 Quelques texte d'exemple. Exemple, exemple, exemple.
+[5 mins]
+
+[15 mins]
+
+[30 mins]
+
+[1 hour]
+
+[1 day]
+
+[1 week]
+
+[Title]
+
 [Background]
 Arrière-plan
 [Window]
@@ -108,6 +168,20 @@ Alarme: Systray
 [Menu: Show/Hide Reminders]
 Menu: Voir/Cacher les Rappels
 ;file \plugins\Alarms\src\options.cpp
+[Sunday]
+
+[Monday]
+
+[Tuesday]
+
+[Wednesday]
+
+[Thursday]
+
+[Friday]
+
+[Saturday]
+
 [Please enter a title for this alarm.]
 Indiquez un nom pour cette alarme.
 [Error]

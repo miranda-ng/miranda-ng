@@ -5,6 +5,14 @@
 ;  Version: 0.0.2.1
 ;  Authors: Kildor, Thief
 ;============================================================
+[Shows rating of contact in contact list (if presents).]
+
 ;file \plugins\Rate\src\main.cpp
+[Rate high]
+
+[Rate medium]
+
+[Rate low]
+
 [Contact rate]
 Note du contact

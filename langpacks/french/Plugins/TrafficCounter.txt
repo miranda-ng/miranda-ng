@@ -5,45 +5,147 @@
 ;  Version: 0.1.1.8
 ;  Authors: Ghost, Mironych
 ;============================================================
+[Adding traffic and time counters.]
+
 ;file \plugins\TrafficCounter\res\resource.rc
+[Selected totals]
+
 [Accounts]
 Comptes
+[Units]
+
+[Clear statistics]
+
+[Notification]
+
 [Notify me on every]
 Me notifier tou(te)s les
 [kilobytes]
 kilo-octets
+[minutes]
+minutes
+[Background color:]
+Couleur d'arrière-plan:
+[Text color:]
+
+[Reset to default]
+Paramètres par défaut
 [Popup timeout]
 Durée du popup
+[From Popup plugin]
+Comme le plugin Popup
 [Custom]
 Défini
+[Test]
+Test
 [Show now]
 Voir maintenant
+[Space between lines:]
+
+[Counters format string:]
+
+[Tooltip format string:]
+
+[Display traffic for current]
+
 ;file \plugins\TrafficCounter\src\options.cpp
+[Display]
+
+[Icon]
+
+[Account name]
+Nom de compte
+[Current traffic]
+
+[Total traffic]
+
+[Current online]
+
+[Total online]
+
 [General]
 Général
+[Draw frame as skin element]
+
 [Show tooltip in traffic window]
 Afficher les outils dans la fenêtre de trafic
+["Toggle traffic counter" in main menu]
+
+[Visible accounts]
+
+[Summary traffic for visible accounts]
+
+[Overall traffic]
+
 [Hide now]
 Cacher maintenant
+[Day]
+jour
+[Week]
+
 [Month]
 Mois
+[Year]
+
+[Services]
+Services
+[Options]
+Paramètres
 [Traffic counter]
 Trafic counter
 [Statistics]
 Statistiques
+[Popups]
+Popups
 ;file \plugins\TrafficCounter\src\statistics.cpp
+[Bytes]
+octets
+[KB]
+
 [MB]
 Mo
+[Adaptive]
+
+[Hourly]
+
+[Daily]
+
+[Weekly]
+
+[Monthly]
+
+[Yearly]
+
+[Period]
+
 [Incoming]
 Entrant
 [Outgoing]
 Sortant
+[Sum]
+
 [Online]
 En ligne
+[Now traffic statistics for selected accounts will be cleared.\nContinue?]
+
+[Couldn't read statistics file]
+
+[Traffic Counter]
+Trafic counter
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Police
+[Show/Hide frame]
+
 [Hide traffic window]
 Cacher la fenêtre du trafic
 [Clear the current (Now:) value]
 Effacer la valeur courante (maintenant)
+[Toggle traffic counter]
+
+[Traffic counter notification]
+
+[%d kilobytes sent]
+
+[%d kilobytes received]
+

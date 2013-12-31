@@ -404,7 +404,7 @@ Le protocole IRC dépends d'un autre plugin appelé 'Chat'\n\nVoulez-vous le té
 [Information]
 Informations
 [Nickname]
-
+Pseudo
 [DCC ERROR: No valid files specified]
 Erreur DCC: Fichiers spécifiés invalide
 [DCC reversed file transfer request sent to %s [%s]]
@@ -419,8 +419,8 @@ Le protocole n'est pas en ligne
 La connexion de chat DCC est inactive
 [Please choose an IRC-network to go online. This network will be the default.]
 Veuillez choisir un réseau IRC pour vous connecter. Il deviendra celui par défaut.
-[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-La connexion n'as pas pu être établie! Vous n'avez pas compléter tous les champs nécessaires (Nickname, Identifiant et m_name).
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+
 ;file \protocols\IRCG\src\options.cpp
 [Main]
 Principales
@@ -521,7 +521,7 @@ Ignorer le masque
 [Edit ignore]
 
 [Account]
-
+Compte
 [DCC'n CTCP]
 
 [Advanced]

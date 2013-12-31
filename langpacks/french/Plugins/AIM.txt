@@ -5,11 +5,21 @@
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
+[AOL Instant Messenger (AIM) protocol support for Miranda NG.]
+
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM
+[Screen Name:]
+
+[Display Name:]
+
 [Password:]
 Passe:
+[Login Server:]
+
+[AIM Options]
+
 [Message Delivery Confirmation]
 Demander un accusé de réception
 [Do Not Autoreply When Away]
@@ -24,20 +34,34 @@ Désactiver les avatars
 Désactiver les icônes de compte
 [Disable Extended Status Icons]
 Désactiver les icônes d'états étendus
+[Notify about new mail]
+
 [Advanced Options]
 Options avancées
 [Instant Idle on Login]
 Être inactif au démarrage
 [Force Proxy File Transfers]
 Transfert de fichier par Proxy
+[Masquerade as a Sidekick/Hiptop User]
+
 [*Aim must be reconnected for some option to take effect]
 *AIM doit être reconnecter pour valider certaines options
+[Connection]
+
 [Port:]
 Port:
 [Reset]
 RAZ
+[Disable SSL]
+
+[Manage Server Groups]
+Gestion des groupes sur le serveur
+[Force Single Client]
+
 [Save Profile]
 Enregistrer
+[Create a new AIM account]
+
 [AIM Instant Idler]
 AIM - configuration de l'inactivité
 [Number of Hours:]
@@ -48,28 +72,98 @@ Nombre de minutes:
 Être inactif
 [Unset Idle]
 Être présent
+[Users who can contact me:]
+
+[Allow all users]
+
+[Allow only users on contact list]
+
+[Allow only users below]
+
+[Block all users]
+
+[Block only users below]
+
 [Add]
 Ajouter
 [Remove]
 Retirer
 [Idle]
 Inactif
+[Allow contacts to be notified of:]
+
+[Join Chat Room]
+
+[Chat Room]
+
 [&Join]
 Re&joindre
 [&Cancel]
 &Annuler
+[This allows access to user defined chat rooms. To access predefined chat rooms use web links]
+
+[Change Password]
+Changer le mot de passe
+[Original]
+
+[New]
+Nouveau
+[Repeat]
+
+[*Passwords don't match.]
+
+[Screen Name]
+
+[E-mail]
+e-mail
+[Confirm Account]
+
+[*Applied upon reconnect]
+
 [Save Changes]
 Appliquer
+[Invite Buddy To Chat Room]
+
+[&Invite]
+&Inviter
+[Invitation reason]
+
+[Chat Room Invitation Request]
+
 [&Deny]
 &Refuser
+[Message]
+Message
+[Room]
+
 ;file \protocols\AimOscar\src\chat.cpp
+[Me]
+
+[Others]
+
+[&Invite user...]
+
+[&Leave chat session]
+
+[User &details]
+&Détails du contact
+[User &history]
+
 ;file \protocols\AimOscar\src\error.cpp
+[Invalid Screen Name or password.]
+
+[Mismatched Screen Name or password.]
+
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 Vous vous êtes trop souvent connecté. Veuillez retenter une connexion dans 10 minutes.
+[Unknown error occurred when attempting to connect.]
+
 [Invalid SNAC header.]
 En-tête SNAC invalide.
 [Server rate limit exceeded.]
 Limite de taux de serveur dépassée.
+[Client rate limit exceeded]
+
 [Recipient is not logged in.]
 Le destinataire n'est pas connecté. 
 [Requested service is unavailable.]
@@ -110,32 +204,202 @@ Liste pleine.
 Demande ambiguë.
 [Server queue full.]
 File du serveur pleine.
+[Not while on AOL.]
+
+[Check your Screen Name.]
+
+[Check your Password.]
+
+[Check your Email Address.]
+
+[Service temporarily unavailable.]
+
+[Field change temporarily unavailable.]
+
+[Invalid Screen Name.]
+
+[Invalid Password.]
+
+[Invalid Email.]
+
+[Invalid Registration Preference.]
+
+[Invalid Old Password.]
+
+[Invalid Screen Name Length.]
+
+[Invalid Password Length.]
+
+[Invalid Email Length.]
+
+[Invalid Old Password Length.]
+
+[Need Old Password.]
+
+[Read Only Field.]
+
+[Write Only Field.]
+
+[Unsupported Type.]
+
+[An Error has occurred.]
+
+[Invalid Account.]
+
+[Delete Account.]
+
+[Expired Account.]
+
+[No Database access.]
+
+[Invalid Database fields.]
+
+[Bad Database status.]
+
+[Migration Cancel.]
+
+[Internal Error.]
+
+[There is already a Pending Request for this Screen Name.]
+
+[Not DT status.]
+
+[Outstanding Confirmation.]
+
+[No Email Address.]
+
+[Over Limit.]
+
+[Email Host Fail.]
+
+[DNS Fail.]
+
 ;file \protocols\AimOscar\src\file.cpp
+[Failed to open file: %s : %s]
+
 ;file \protocols\AimOscar\src\links.cpp
+[AIM Link Protocol]
+
 ;file \protocols\AimOscar\src\popup.cpp
+[%s Protocol]
+%s protocole
+[Open mail account?]
+
 ;file \protocols\AimOscar\src\proto.cpp
+[%s server connection]
+%s serveur connexion
+[%s Client-to-client connection]
+
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
 {Auto-Response}:
+[Contact tried to open an audio/video conference (not currently supported)]
+
 [No information has been provided by the server.]
 Aucune information n'a été fournie par le serveur.
 [Item you want to delete not found in list.]
 Le contact que vous essayez d'effacer n'est pas présent dans votre liste.
 [Failed to add buddy to list: Item already exist.]
 Ce contact n'a pas été ajouté à votre liste, car il est déjà présent dans votre liste.
+[Error adding buddy (invalid ID or already in list?)]
+
 [Cannot add buddy. Limit for this type of item exceeded.]
 Impossible d'ajouter cet élément. Vous avez atteint la limite autorisée.
 [Error? Attempting to add ICQ contact to an AIM list.]
 Erreur ? vous avez tenté d'ajouter un contact ICQ à votre liste AIM.
 [Cannot add this buddy because it requires authorization.]
 Impossible d'ajouter de contact car il nécessite une autorisation.
+[Unknown error when adding buddy to list. Error code %#x]
+
 [Item you want to modify not found in list.]
 Le contact que vous tentez de modifier n'est pas présent dans votre liste.
+[Unknown error when attempting to modify a group. Error code %#x]
+
+[You've got mail! Checked at]
+
+[Error uploading avatar. (Too small)]
+
+[Error uploading avatar. (Too big)]
+
+[Error uploading avatar. (Wrong type)]
+
+[Error uploading avatar. (Is banned)]
+
+[Error uploading avatar. (Unknown error)]
+
+[A confirmation message has been sent to the new email address. Please follow its instructions.]
+
+[A confirmation message has been sent to your email address. Please follow its instructions.]
+
+[Unable to confirm at this time. Please try again later.]
+
+[Your account has already been confirmed.]
+
+[Can't start the confirmation procedure.]
+
 ;file \protocols\AimOscar\src\theme.cpp
+[ICQ]
+
+[Block]
+
 [Profile]
 Profil
+[AOL Mail]
+
+[AIM Icon]
+
+[Hiptop]
+
+[AOL Bot]
+
+[Admin]
+
+[Confirmed]
+
+[Not Confirmed]
+
+[Blocked list]
+
+[AOL]
+
+[Foreground Color]
+
+[Background Color]
+Couleur de fond
 [Bold]
 Gras
+[Not Bold]
+
+[Italic]
+
+[Not Italic]
+
+[Underline]
+
+[Not Underline]
+
+[Subscript]
+
+[Not Subscript]
+
+[Superscript]
+
+[Not Superscript]
+
+[Normal Script]
+
+[Not Normal Script]
+
+[Profile Editor]
+
+[AIM Account Type]
+
+[AIM Extended Status]
+
+[&Block]
+
+[&Unblock]
+
 [Manage Account]
 Configuration du compte
 [Instant Idle]
@@ -149,8 +413,16 @@ Ajouter à la liste du serveur
 ;file \protocols\AimOscar\src\ui.cpp
 [Network]
 Réseau
+[Basic]
+Basique
+[Privacy]
+
+[Join me in this buddy chat!]
+
 ;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
 Veuillez indiquer votre identifiant dans les options.
 [Please, enter a password in the options dialog.]
 Veuillez indiquer un mot de passe dans les options.
+[Failed to open file: %s %s]
+

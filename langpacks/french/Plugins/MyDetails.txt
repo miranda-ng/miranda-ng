@@ -5,27 +5,39 @@
 ;  Version: 0.0.1.11
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
+[Shows and allows you to edit your details for all protocols.]
+
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Changer mon pseudo
 [Nickname:]
 Pseudo:
+[OK]
+OK
 [Cancel]
 Annuler
 [General]
 Général
+[...avatar]
+
 [RTL]
 Lecture inversée
 [Align text to right]
 Aligner à droite
+[...nickname]
+
 [Auto-resize frame]
 Cadre dynamique
 [Use contact list smileys]
 Smileys dans la CList
+[...status]
+
 [Replace Smileys]
 Remplacer les smileys
 [Resize Smileys]
 Retailler les smileys
+[...status message]
+
 [Top:]
 Haut:
 [Bottom:]
@@ -34,14 +46,36 @@ Bas:
 Gauche:
 [Right:]
 Droite:
+[Avatar]
+
 [Custom size:]
 Taille:
+[pixels]
+pixels
 [Allow it to grow]
 Permettre l'agrandissement
+[Draw border]
+Afficher les bordures
+[Round corners]
+Coins arrondis
+[Custom corner size:]
+
 [Use free space (under avatar) to other texts]
 Utiliser l'espace libre sous l'avatar pour d'autres textes
+[Global On...]
+
+[Frame Options]
+
+[Cycle through accounts every:]
+
 [seconds]
 secondes
+[Account]
+Compte
+[Show account name]
+
+[Show account cycle button]
+
 [Set My Status Message for All Status]
 Changer le message pour tous les états
 [Status Message:]
@@ -60,6 +94,8 @@ Message d'état:
 &Ne pas déranger
 [&Free for chat]
 &OK pour un chat
+[&Invisible]
+
 [On the &Phone]
 &Au téléphone
 [Out to &Lunch]
@@ -72,16 +108,32 @@ Changer mon pseudo...
 Changer mon message d'état...
 [Enable Listening To]
 Afficher ce que l'autre écoute
+[Show next account]
+
+[Show previous account]
+
+[Cycle through accounts]
+
+[Don't cycle through accounts]
+
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <aucun état>
 ;file \plugins\MyDetails\src\frame.cpp
+[Nickname]
+Pseudo
 [Status]
 État
+[Status Message]
+
+[Listening To]
+
 [My Details]
 Mes détails
 [Background]
 Arrière-plan
+[Avatar Border]
+
 [Show My Details]
 Afficher mes détails
 [Enable Listening To for %s]
@@ -95,12 +147,16 @@ Changer mon message d'état pour %s...
 [Hide My Details]
 Cacher mes détails
 ;file \plugins\MyDetails\src\mydetails.cpp
+[Listening to]
+
+[Previous protocol]
+
+[Next protocol]
+
 [Set My Nickname for %s]
 Changer mon pseudo pour %s
 [Set My Status Message for %s]
 Changer mon message d'état pour %s
-[Show next account]
-
 [Contact List]
 Liste de contacts
 ;file \plugins\MyDetails\src\options.cpp

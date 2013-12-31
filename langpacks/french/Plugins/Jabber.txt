@@ -1,29 +1,65 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
+[Jabber protocol support for Miranda NG.]
+
 ;file \protocols\JabberG\res\jabber.rc
+[Edit Note]
+
+[Tags:]
+
+[OK]
+OK
 [Cancel]
 Annuler
 [Type:]
 Type:
 [User:]
 Contact:
+[Domain/Server:]
+
 [Password:]
 Passe:
+[Save password]
+
 [Resource:]
 Ressource:
 [Register new user]
 Créer ce compte
+[Use custom connection host and port:]
+
+[Use Domain Login]
+
+[Go]
+
 [Search service]
 Recherche
+[Roster Editor]
+
+[Roster editor\nView and modify your server-side contact list.]
+
+[Download]
+Téléchargement
+[Upload]
+
+[Import from file]
+
+[Export to file]
+
+[Jabber]
+
 [Username:]
 Identifiant:
+[Change password]
+Changer le mot de passe
 [Priority:]
 Priorité:
+[Use hostname as resource]
+
 [List of public servers]
 Liste des serveurs publics
 [Port:]
@@ -34,16 +70,30 @@ Connexion SSL
 Connexion TLS
 [Unregister]
 Désenregistrer
+[Expert]
+
 [Manually specify connection host]
 Indiquer l'hôte manuellement
 [Host:]
 Hôte:
+[Keep connection alive]
+Garder la connection active
+[Automatically delete contacts not in my roster]
+
 [User directory:]
 Adresse utilisateur:
+[Language for human-readable resources:]
+
+[File Transfer]
+Transfert de fichiers
 [Allow file sending through direct peer-to-peer connection]
 Envoi de fichier en connexion directe
 [Specify external address:]
 Définir une adresse externe
+[Allow file sending through bytestream proxy server:]
+
+[Miscellaneous]
+Divers
 [Hint:]
 Info:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
@@ -56,6 +106,8 @@ Services Jabber
 Enregistrer/Rechercher
 [Jabber server:]
 Serveur:
+[Browse]
+
 [Register...]
 Enregistrer...
 [Browse/Join chat room...]
@@ -74,12 +126,26 @@ Enregistrer avec nouv. service
 Fermer
 [Command]
 Commande
+[Jabber Form]
+
 [Instruction:]
 Instruction:
 [Submit]
 Soumettre
+[Next]
+
+[Back]
+Fond
 [Complete]
 Terminé
+[Jabber Password]
+
+[Remember password for this session]
+
+[Save password permanently]
+
+[Data form test]
+
 [Address1:]
 Adresse1:
 [Address2:]
@@ -92,6 +158,10 @@ Ville:
 Code postal:
 [Country:]
 Pays:
+[Full name:]
+
+[Nick name:]
+
 [First name:]
 Prénom:
 [Middle:]
@@ -104,12 +174,16 @@ Anniversaire:
 AAAA-MM-DD
 [Gender:]
 Sexe:
+[Occupation:]
+
 [Homepage:]
 Page web:
 [Company:]
 Entreprise:
 [Department:]
 Département:
+[Title:]
+
 [E-mail:]
 e-mail:
 [Phone:]
@@ -118,18 +192,48 @@ Téléphone:
 Détails Jabber: Ajout d'un e-mail
 [Email address:]
 e-mail:
+[Home]
+
 [Work]
 Travail
+[Internet]
+
+[X400]
+
 [Jabber vCard: Add Phone Number]
 Détails Jabber: Ajout d'un téléphone
 [Phone number:]
 Téléphone:
+[Voice]
+
+[Fax]
+
+[Pager]
+
+[Text/Messaging]
+
+[Cellular]
+
+[Video]
+
+[BBS]
+
+[Modem]
+
+[ISDN]
+
+[PCS]
+
 [Load]
 Charger
+[Save]
+
 [Delete]
 Effacer
 [Description:]
 Description:
+[Change Password]
+Changer le mot de passe
 [Current Password:]
 Passe actuel:
 [New Password:]
@@ -140,26 +244,56 @@ Vérifier le passe:
 Salon de chat
 [Conference server:]
 Serveur du chat:
+[Create or Join group chat]
+
+[Jabber Multi-User Conference\nCreate or join existing conference room.]
+
 [Room:]
 Salon:
+[Recently visited chatrooms:]
+
 [Bookmarks]
 Favoris
 [JID List]
 Liste des JID
+[Apply Filter]
+
+[Reset Filter]
+
 [Jabber Agent Registration]
 Enregistrement des Services Jabber
 [JID:]
 JID:
 [Register]
 Enregistrer
+[Invite Users]
+
+[<room jid>\nSend group chat invitation.]
+
 [Other JID:]
 Autre ID:
 [Add]
 Ajouter
+[Invitation reason:]
+
+[&Invite]
+&Inviter
+[Group chat invitation]
+
+[<room jid>\nIncoming group chat invitation.]
+
+[You are invited to conference room by]
+
+[with following reason:]
+
 [Nickname:]
 Pseudo:
+[&Accept]
+&Accepter
 [Jabber Bookmarks]
 Favoris Jabber
+[Server side bookmarks\nStore conference rooms and web links on server.]
+
 [Remove]
 Retirer
 [Edit]
@@ -168,43 +302,173 @@ Retirer
 Détails du favori
 [Bookmark Type]
 Type du favori
+[Conference]
+Chat
+[Transport]
+
 [URL]
 Lien
+[Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
+
 [Room JID/ URL:]
 Salon/URL:
 [Bookmark Name:]
 Nom du favori:
+[Privacy Lists]
+
+[Privacy Lists\nFlexible way to configure visibility and more.]
+
+[Lists:]
+
+[Rules:]
+
+[Simple Mode]
+
+[Advanced Mode]
+
+[Add list... (Ins)]
+
+[Activate (Space)]
+
+[Set as default (Ctrl+Space)]
+
+[Remove list (Del)]
+
+[Add rule (Ins)]
+
+[Edit rule... (F2)]
+
+[Move rule up (Alt+Up)]
+
+[Move rule down (Alt+Down)]
+
+[Remove rule (Del)]
+
 [Privacy rule]
 Règle
 [If:]
 Si:
 [Then:]
 et:
+[following stanza types:]
+
+[Messages]
+Messages
+[Queries]
+
+[Incoming presence]
+
+[Outgoing presence]
+
 [New privacy list name:]
 Nom de la nouvelle liste:
 [Enter the name of the new list:]
 Nom de la nouvelle liste:
+[Service Discovery]
+
+[View as tree]
+
+[View as list]
+
+[Favorites]
+Favoris
+[Refresh]
+
+[Node:]
+
 [Change %s Message]
 Changer le message de \"%s\"
 [Closing in %d]
 Fermeture dans %d
 [Account type:]
 Type de compte:
+[Login server:]
+
 [Register account now]
 Enregistrer le compte
+[Jabber Account Information:]
+
+[Member Information]
+
+[Member Information\n<user ID>]
+
+[Role:]
+
+[Set role]
+
+[Affiliation:]
+
+[Set affiliation]
+
+[Status message:]
+Message d'état:
+[Chat options]
+
+[Alternate nick:]
+
+[Custom messages]
+
+[Quit:]
+
+[Slap:]
+
 [Authorization request]
 Demande d'autorisation
+[HTTP Authorization\nAccept or reject incoming request]
+
+[Someone (maybe you) has requested the following file:]
+
+[Request was sent from JID:]
+
+[The transaction identifier is:]
+
+[Request method is:]
+
+[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
+
 [Authorize]
 Autoriser
 [Deny]
 Refuser
+[Dialog]
+
+[Jabber Notebook]
+
+[Jabber notebook\nStore notes on server and access them from anywhere.]
+
+[Bots Challenge Test]
+
+[XML Console]
+
+[Reset log]
+
+[Send]
+
 ;file \protocols\JabberG\src\jabber.cpp
+[Jabber Link Protocol]
+
+[Frame title]
+
+[Frame text]
+
+[Jabber Activity]
+
+[Jabber Mood]
+
+[Fatal error, image services not found. Jabber Protocol will be disabled.]
+
 ;file \protocols\JabberG\src\jabber.h
+[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
+
+[/me slaps %s around a bit with a large trout]
+
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 Erreur %s %s
 [Select Command]
 Choississez une commande
+[Not supported]
+
 [Done]
 Terminé
 [In progress. Please Wait...]
@@ -213,34 +477,198 @@ En cours... Veuillez patienter...
 Exécuter
 [Requesting command list. Please wait...]
 Demande de la liste de commande. Veuillez patienter...
+[Jabber Ad-Hoc commands at %s]
+
+[Sending Ad-Hoc command to %s]
+
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Pas de message
+[Please wait...]
+
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [Bookmark Name]
 Nom du favori
 [Address (JID or URL)]
 Adresse (JID ou URL)
+[Nickname]
+Pseudo
 [Conferences]
 Conférences
+[Links]
+
 ;file \protocols\JabberG\src\jabber_byte.cpp
+[Bytestream Proxy not available]
+
 ;file \protocols\JabberG\src\jabber_caps.cpp
+[Supports Service Discovery info]
+
+[Supports Service Discovery items list]
+
+[Can inform about its Jabber capabilities]
+
+[Supports stream initiation (for filetransfers for ex.)]
+
+[Supports stream initiation for file transfers]
+
+[Supports file transfers via SOCKS5 Bytestreams]
+
+[Supports file transfers via In-Band Bytestreams]
+
+[Supports file transfers via Out-of-Band Bytestreams]
+
+[Supports execution of Ad-Hoc commands]
+
+[Supports in-band registration]
+
+[Supports multi-user chat]
+
+[Can report chat state in a chat session]
+
+[Can report information about the last activity of the user]
+
+[Can report own version information]
+
+[Can report local time of the user]
+
+[Can send and receive ping requests]
+
+[Supports data forms]
+
+[Can request and respond to events relating to the delivery, display, and composition of messages]
+
+[Supports vCard]
+
+[Supports iq-based avatars]
+
+[Supports XHTML formatting of chat messages]
+
+[Supports Jabber Browsing]
+
+[Can negotiate options for specific features]
+
+[Can request advanced processing of message stanzas]
+
+[Can report information about user moods]
+
+[Receives information about user moods]
+
+[Supports generic publish-subscribe functionality]
+
+[Supports SecureIM plugin for Miranda NG]
+
+[Supports OTR (Off-the-Record Messaging)]
+
+[Supports New_GPG plugin for Miranda NG]
+
+[Can block communications from particular other users using Privacy lists]
+
+[Supports Message Receipts]
+
+[Can report information about the music to which a user is listening]
+
+[Receives information about the music to which a user is listening]
+
+[Supports private XML Storage (for bookmakrs and other)]
+
+[Supports attention requests ('nudge')]
+
+[Supports chat history retrieving]
+
+[Supports chat history management]
+
+[Can report information about user activity]
+
+[Receives information about user activity]
+
+[Supports Miranda NG notes extension]
+
+[Supports Jingle]
+
+[Supports Roster Exchange]
+
 ;file \protocols\JabberG\src\jabber_captcha.cpp
+[Enter the text you see]
+
 ;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Aucun
 [Member]
 Membre
+[Admin]
+
 [Owner]
 Propriétaire
 [Visitor]
 Visiteur
+[Participant]
+
 [Moderator]
 Modérateur
 [Visitors]
 Visiteurs
+[Participants]
+
 [Moderators]
 Modérateurs
+[Owners]
+
+[User %s is now banned.]
+
+[User %s changed status to %s with message: %s]
+
+[User %s changed status to %s]
+
+[Room configuration was changed.]
+
+[Outcast]
+
+[Affiliation of %s was changed to '%s'.]
+
+[Role of %s was changed to '%s'.]
+
+[because room is now members-only]
+
+[user banned]
+
+[Change &nickname]
+
+[&Invite a user]
+
+[&Roles]
+
+[&Participant list]
+
+[&Moderator list]
+
+[&Affiliations]
+
+[&Member list]
+
+[&Admin list]
+
+[&Owner list]
+
+[Outcast list (&ban)]
+
+[&Room options]
+
+[View/change &topic]
+
+[Add to &bookmarks]
+
+[&Configure...]
+
+[&Destroy room]
+
+[Lin&ks]
+
+[Copy room &JID]
+
+[Copy room topic]
+
+[&Send presence]
+
 [Online]
 En ligne
 [Away]
@@ -251,47 +679,535 @@ Indisponible
 Ne pas déranger
 [Free for chat]
 OK pour un chat
+[&Leave chat session]
+
+[&Slap]
+
 [&User details]
 &Détails contact
+[Member &info]
+
+[User &details]
+&Détails du contact
+[&Add to roster]
+
 [&Copy to clipboard]
 Copier
-[Reason to kick]
-Raison du kick
-[Reason to ban]
-Raison du ban
-[Set topic for]
-Modifier le sujet pour
-[Change nickname in]
-Changer de pseudo pour
-[Reason to destroy]
-Modif de la destruction
+[Invite to room]
+
+[Set &role]
+
+[&Visitor]
+
+[&Participant]
+
+[&Moderator]
+
+[Set &affiliation]
+
+[&None]
+
+[&Member]
+
+[&Admin]
+
+[&Owner]
+
+[Outcast (&ban)]
+
+[&Kick]
+
+[Copy &nickname]
+
+[Copy real &JID]
+
+[Copy in-room JID]
+
+[Real &JID: %s]
+
+[%s\nSend group chat invitation.]
+
+[%s (not on roster)]
+
+[Member Info: %s]
+
+[Member Information\n%s from %s]
+
+[Real JID not available]
+
+[Reason to kick %s]
+
+[Reason to ban %s]
+
+[Invite %s to %s]
+
+[Set topic for %s]
+
+[Change nickname in %s]
+
+[Reason to destroy %s]
+
 ;file \protocols\JabberG\src\jabber_console.cpp
+[Can't send data while you are offline.]
+
 [Jabber Error]
 Erreur Jabber
+[Outgoing XML parsing error]
+
 ;file \protocols\JabberG\src\jabber_disco.cpp
+[request timeout.]
+
+[Node hierarchy]
+
+[Node]
+
+[Navigate]
+
+[Browse all favorites]
+
 [Remove all favorites]
 Effacer tous les favoris
+[Registered transports]
+
+[Browse local transports]
+
+[Browse chatrooms]
+
 [Contact Menu...]
 Menu du contact...
+[View vCard]
+
+[Join chatroom]
+
+[Refresh Info]
+
+[Refresh Children]
+
 [Add to favorites]
 Ajouter aux favoris
 [Add to roster]
 Ajouter
+[Bookmark chatroom]
+
+[Add search directory]
+
+[Use this proxy]
+
 [Commands...]
 Commandes...
+[Logon]
+
+[Logoff]
+
+[Copy JID]
+
+[Copy node name]
+
+[Copy node information]
+
 ;file \protocols\JabberG\src\jabber_disco.h
+[Identities]
+
 [category]
 catégorie
+[type]
+
 [Category]
 Catégorie
+[Type]
+
+[Supported features]
+
+[Info request error]
+
+[Items request error]
+
 ;file \protocols\JabberG\src\jabber_form2.cpp
+[One or more addresses for communication related to abusive traffic]
+
+[One or more addresses for customer feedback]
+
+[One or more addresses for communication related to sales and marketing]
+
+[One or more addresses for communication related to security concerns]
+
+[One or more addresses for customer support]
+
+[The Jabber ID of a single entity to which an operation applies]
+
+[The Jabber ID of one or more entities to which an operation applies]
+
+[The Jabber IDs associated with active sessions]
+
+[The number of online entities that are active]
+
+[A list of entities with administrative privileges]
+
+[The text of an announcement to be sent to active users or all users]
+
+[A list of entities with whom communication is blocked]
+
+[The number of seconds to delay before applying a change]
+
+[The Jabber IDs that have been disabled]
+
+[The number of disabled entities]
+
+[The email address for a user]
+
+[The given (first) name of a user]
+
+[The number of online entities that are idle]
+
+[The IP addresses of an account's online sessions]
+
+[The last login time (per XEP-0082) of a user]
+
+[The number of logins per minute for an account]
+
+[The maximum number of items associated with a search or list]
+
+[The text of a message of the day]
+
+[The names of an account's online sessions]
+
+[The Jabber IDs associated with online users]
+
+[The number of online entities]
+
+[The password for an account]
+
+[Password verification]
+
+[A list of registered entities]
+
+[The number of registered entities]
+
+[Number of roster items for an account]
+
+[The number of stanzas being sent per second by an account]
+
+[The family (last) name of a user]
+
+[The text of a welcome message]
+
+[A list of entities with whom communication is allowed]
+
+[First Name]
+Prénom
+[Last Name]
+Nom
+[Desired Nickname]
+
+[Your URL]
+
+[Email Address]
+
+[FAQ Entry]
+
+[Whether to Allow Occupants to Invite Others]
+
+[Whether to Allow Occupants to Change Subject]
+
+[Whether to Enable Logging of Room Conversations]
+
+[Natural Language for Room Discussions]
+
+[Maximum Number of Room Occupants]
+
+[Whether an Make Room Members-Only]
+
+[Whether to Make Room Moderated]
+
+[Whether a Password is Required to Enter]
+
+[Whether to Make Room Persistent]
+
+[Roles for which Presence is Broadcast]
+
+[Whether to Allow Public Searching for Room]
+
+[Full List of Room Admins]
+
+[Short Description of Room]
+
+[Natural-Language Room Name]
+
+[Full List of Room Owners]
+
+[The Room Password]
+
+[Affiliations that May Discover Real JIDs of Occupants]
+
+[Precondition: node configuration with the specified access model]
+
+[Whether to allow the subscription]
+
+[The SubID of the subscription]
+
+[The NodeID of the relevant node]
+
+[The address (JID) of the subscriber]
+
+[Whether an entity wants to receive or disable notifications]
+
+[Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
+
+[The minimum number of milliseconds between sending any two notification digests]
+
+[The DateTime at which a leased subscription will end or has ended]
+
+[Whether an entity wants to receive an XMPP message body in addition to the payload format]
+
+[The presence states for which an entity wants to receive notifications]
+
+[Who may subscribe and retrieve items]
+
+[The URL of an XSL transformation which can be applied to payloads in order to generate an appropriate message body element.]
+
+[The collection with which a node is affiliated]
+
+[The URL of an XSL transformation which can be applied to the payload format in order to generate a valid Data Forms result that the client could display using a generic Data Forms rendering engine]
+
+[Whether to deliver payloads with event notifications]
+
+[Whether owners or publisher should receive replies to items]
+
+[Who may associate leaf nodes with a collection]
+
+[The list of JIDs that may associated leaf nodes with a collection]
+
+[The child nodes (leaf or collection) associated with a collection]
+
+[The maximum number of child nodes that can be associated with a collection]
+
+[The maximum number of items to persist]
+
+[The maximum payload size in bytes]
+
+[Whether the node is a leaf (default) or a collection]
+
+[Whether to notify subscribers when the node configuration changes]
+
+[Whether to notify subscribers when the node is deleted]
+
+[Whether to notify subscribers when items are removed from the node]
+
+[Whether to persist items to storage]
+
+[Whether to deliver notifications to available users only]
+
+[The publisher model]
+
+[The specific multi-user chat rooms to specify for replyroom]
+
+[The specific JID(s) to specify for replyto]
+
+[The roster group(s) allowed to subscribe and retrieve items]
+
+[Whether to send items to new subscribers]
+
+[Whether to allow subscriptions]
+
+[A friendly name for the node]
+
+[The type of node data, usually specified by the namespace of the payload (if any); MAY be list-single rather than text-single]
+
+[The JIDs of those to contact with questions]
+
+[The datetime when the node was created]
+
+[The JID of the node creator]
+
+[A description of the node]
+
+[The default language of the node]
+
+[The number of subscribers to the node]
+
+[The JIDs of those with an affiliation of owner]
+
+[The JIDs of those with an affiliation of publisher]
+
+[The name of the node]
+
+[Payload type]
+
+[Whether to automatically authorize subscription requests]
+
+[Whether to automatically accept file transfers]
+
+[Whether to automatically open new messages]
+
+[Whether to automatically go offline when idle]
+
+[Whether to play sounds]
+
+[A list of pending file transfers]
+
+[A list of joined group chat rooms]
+
+[A presence or availability status]
+
+[The status message text]
+
+[The new priority for the client]
+
+[Account name associated with the user]
+
+[Familiar name of the user]
+
+[Password or secret for the user]
+
+[Full name of the user]
+
+[First name or given name of the user]
+
+[Last name, surname, or family name of the user]
+
+[Email address of the user]
+
+[Street portion of a physical or mailing address]
+
+[Locality portion of a physical or mailing address]
+
+[Region portion of a physical or mailing address]
+
+[Postal code portion of a physical or mailing address]
+
+[Family Name]
+
+[Whether to accept the invitation]
+
+[Another resource with which to continue the session]
+
+[Disclosure of content, decryption keys or identities]
+
+[Whether may send Chat State Notifications per XEP-0085]
+
+[Whether allowed to use XHTML-IM formatting per XEP-0071]
+
+[Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
+
+[Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
+
+[Whether to renegotiate the session]
+
+[Minimum security level]
+
+[Whether to terminate the session]
+
+[Whether to enable Message Receipts per XEP-0184]
+
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
+[Failed to retrieve room list from server.]
+
+[No rooms available on server.]
+
+[Room list request timed out.]
+
+[<no nick>]
+
 [Loading...]
 Chargement...
+[Please wait for room list to download.]
+
+[Please specify group chat directory first.]
+
+[Bookmarks...]
+
+[Change nickname in <%s>]
+
+[has set the subject to:]
+
+[%s\nIncoming group chat invitation.]
+
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[transport]
+
+[Notes]
+
+[Multi-User Conference]
+
+[Agents list]
+
+[Transports]
+
 [Personal vCard]
 Détails personnels
+[Convert to room]
+
+[Login/logout]
+
+[Resolve nicks]
+
+[Send note]
+
+[AdHoc Command]
+
+[OpenID Request]
+
+[Discovery succeeded]
+
+[Discovery failed]
+
+[Discovery in progress]
+
+[Apply filter]
+
+[Reset filter]
+
+[Navigate home]
+
+[Refresh node]
+
+[Browse node]
+
+[RSS service]
+
+[Server]
+Serveur
+[Storage service]
+
+[Weather service]
+
+[Generic privacy list]
+
+[Active privacy list]
+
+[Default privacy list]
+
+[Move up]
+
+[Move down]
+
+[Allow Messages]
+
+[Allow Presences (in)]
+
+[Allow Presences (out)]
+
+[Allow Queries]
+
+[Deny Messages]
+
+[Deny Presences (in)]
+
+[Deny Presences (out)]
+
+[Deny Queries]
+
+[Protocols]
+
+[Dialogs]
+
+[Discovery]
+
+[Privacy]
+
 ;file \protocols\JabberG\src\jabber_iqid.cpp
+[Authentication failed for %s.]
+
 [Jabber Authentication]
 Authentification Jabber
 [Registration successful]
@@ -305,6 +1221,8 @@ Erreur de favori Jabber
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d éléments (%s)
+[Voice List]
+
 [Member List]
 Liste des membres
 [Moderator List]
@@ -313,54 +1231,164 @@ Liste des Modérateurs
 Liste des Ban
 [Admin List]
 Liste des admins
-[Removing]
-Suppression
+[Owner List]
+
+[Reason to ban]
+Raison du ban
+[Removing %s?]
+
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Http authentication request received]
+
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Jabber account chooser]
+
 [Request authorization]
 Demander l'autorisation
 [Grant authorization]
 Accorder l'autorisation
 [Revoke authorization]
 Enlever l'autorisation
+[Convert]
+
 [Add to Bookmarks]
 Ajouter aux favoris
 [Commands]
 Commandes
+[Send Note]
+
+[Send Presence]
+
+[Jabber Resource]
+
+[Last Active]
+Dernière activité
+[Server's Choice]
+
 [&Convert to Contact]
 &Convertir en contact
 [&Convert to Chat Room]
 &Convertir en salon
-[Last active]
-Dernière activité
+[Options...]
+
+[Services...]
+
+[Registered Transports]
+
+[Local Server Transports]
+
+[Browse Chatrooms]
+
+[Create/Join group chat]
+
+[Roster editor]
+
+[Resource priority]
+
+[Resource priority [%d]]
+
+[Join conference]
+
+[Open bookmarks]
+
+[Privacy lists]
+
+[Service discovery]
+
+[Last active (%s)]
+
+[No activity yet, use server's choice]
+
 [Highest priority (server's choice)]
 Haute priorité (choix du serveur)
+[Status Message]
+
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[CHAT plugin is required for conferences. Install it before chatting]
+
 [To]
 Vers
+[From]
+
 [Both]
 les 2
+[Errors]
+Erreurs
 ;file \protocols\JabberG\src\jabber_notes.cpp
+[Incoming note from %s]
+
+[Send note to %s]
+
+[From: %s]
+
+[All tags]
+
+[Notes are not saved, close this window without uploading data to server?]
+
+[Are you sure?]
+
+[Incoming note]
+
 ;file \protocols\JabberG\src\jabber_opt.cpp
+[Afar]
+
+[Abkhazian]
+
+[Afrikaans]
+
+[Akan]
+
+[Albanian]
+
+[Amharic]
+
+[Arabic]
+Arabe
 [Aragonese]
 Aragonais
+[Armenian]
+
 [Assamese]
 Assamais
 [Avaric]
 Avar
 [Avestan]
 Avestique
+[Aymara]
+
+[Azerbaijani]
+
 [Bashkir]
 Bachkir
+[Bambara]
+
+[Basque]
+
 [Belarusian]
 Biélorusse
+[Bengali]
+
+[Bihari]
+
 [Bislama]
 Bichelamar
+[Bosnian]
+
+[Breton]
+
+[Bulgarian]
+
+[Burmese]
+
 [Catalan; Valencian]
 Catalan; Valence
+[Chamorro]
+
 [Chechen]
 Tchétchène
+[Chinese]
+
 [Church Slavic; Old Slavonic]
 Église slaves; paléoslave
 [Chuvash]
@@ -369,36 +1397,350 @@ Tchouvache
 Cornique
 [Corsican]
 Corse
+[Cree]
+
+[Czech]
+
+[Danish]
+
 [Divehi; Dhivehi; Maldivian]
 Divehi; Divehi, Maldivien
 [Dutch; Flemish]
 Néerlandais; Flamand
 [Dzongkha]
 Boutani
+[English]
+
+[Esperanto]
+
+[Estonian]
+
 [Ewe]
 Éwé
 [Faroese]
 Féroé
 [Fijian]
 Fidjien
+[Finnish]
+
+[French]
+
 [Western Frisian]
 Frison occidental
 [Fulah]
 Peul
 [Georgian]
 Géorgien
+[German]
+
+[Gaelic; Scottish Gaelic]
+
+[Irish]
+
+[Galician]
+
+[Manx]
+
+[Greek, Modern (1453-)]
+
+[Guarani]
+
+[Gujarati]
+
+[Haitian; Haitian Creole]
+
+[Hausa]
+
+[Hebrew]
+Hébreux
+[Herero]
+
+[Hindi]
+
+[Hiri Motu]
+
+[Hungarian]
+
+[Igbo]
+
+[Icelandic]
+
+[Ido]
+
+[Sichuan Yi]
+
+[Inuktitut]
+
+[Interlingue]
+
+[Interlingua (International Auxiliary Language Association)]
+
+[Indonesian]
+
+[Inupiaq]
+
+[Italian]
+
+[Javanese]
+
+[Japanese]
+Japonais
+[Kalaallisut; Greenlandic]
+
+[Kannada]
+
+[Kashmiri]
+
+[Kanuri]
+
+[Kazakh]
+
+[Central Khmer]
+
+[Kikuyu; Gikuyu]
+
+[Kinyarwanda]
+
+[Kirghiz; Kyrgyz]
+
+[Komi]
+
+[Kongo]
+
+[Korean]
+Coréen
+[Kuanyama; Kwanyama]
+
+[Kurdish]
+
+[Lao]
+
+[Latin]
+
+[Latvian]
+
+[Limburgan; Limburger; Limburgish]
+
+[Lingala]
+
+[Lithuanian]
+
+[Luxembourgish; Letzeburgesch]
+
+[Luba-Katanga]
+
+[Ganda]
+
+[Macedonian]
+
+[Marshallese]
+
+[Malayalam]
+
+[Maori]
+
+[Marathi]
+
+[Malay]
+
+[Malagasy]
+
+[Maltese]
+
+[Moldavian]
+
+[Mongolian]
+
 [Nauru]
 Nauru
+[Navajo; Navaho]
+
+[Ndebele, South; South Ndebele]
+
+[Ndebele, North; North Ndebele]
+
+[Ndonga]
+
+[Nepali]
+
+[Norwegian Nynorsk; Nynorsk, Norwegian]
+
+[Bokmaal, Norwegian; Norwegian Bokmaal]
+
+[Norwegian]
+
+[Chichewa; Chewa; Nyanja]
+
+[Occitan (post 1500); Provencal]
+
+[Ojibwa]
+
+[Oriya]
+
+[Oromo]
+
+[Ossetian; Ossetic]
+
+[Panjabi; Punjabi]
+
+[Persian]
+
+[Pali]
+
+[Polish]
+
+[Portuguese]
+
+[Pushto]
+
+[Quechua]
+
+[Romansh]
+
+[Romanian]
+
+[Rundi]
+
+[Russian]
+
+[Sango]
+
+[Sanskrit]
+
+[Serbian]
+
+[Croatian]
+
+[Sinhala; Sinhalese]
+
+[Slovak]
+
+[Slovenian]
+
+[Northern Sami]
+
+[Samoan]
+
+[Shona]
+
+[Sindhi]
+
+[Somali]
+
+[Sotho, Southern]
+
+[Spanish; Castilian]
+
+[Sardinian]
+
+[Swati]
+
+[Sundanese]
+
+[Swahili]
+
+[Swedish]
+
+[Tahitian]
+
+[Tamil]
+
+[Tatar]
+
+[Telugu]
+
+[Tajik]
+
+[Tagalog]
+
+[Thai]
+Thaïlandais
+[Tibetan]
+
+[Tigrinya]
+
+[Tonga (Tonga Islands)]
+
+[Tswana]
+
+[Tsonga]
+
+[Turkmen]
+
+[Turkish]
+Turque
+[Twi]
+
+[Uighur; Uyghur]
+
+[Ukrainian]
+
+[Urdu]
+
+[Uzbek]
+
+[Venda]
+
+[Vietnamese]
+Vietnamien
+[Volapuk]
+
+[Welsh]
+
+[Walloon]
+
+[Wolof]
+
+[Xhosa]
+
+[Yiddish]
+
+[Yoruba]
+
+[Zhuang; Chuang]
+
+[Zulu]
+
 [These changes will take effect the next time you connect to the Jabber network.]
 Ces changements ne prendront effet qu'à la prochaine connexion au réseau Jabber.
 [Jabber Protocol Option]
 Options du protocole Jabber
-[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
-Cette opération détruira votre compte, rôle, et toutes informations relatives à votre compte stockées sur le serveur. Voulez-vous vraiment détruire entièrement votre compte ?
+[Confirm password]
+
+[Passwords do not match.]
+
+[This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
+
 [Account removal warning]
 Avertissement d'effacement de comtpe
+[You can change your password only when you are online]
+
+[You must be online]
+
 [Messaging]
 Envoi de message
+[Send messages slower, but with full acknowledgement]
+
+[Enable avatars]
+
+[Log chat state changes]
+
+[Log presence subscription state changes]
+
+[Log presence errors]
+
+[Enable user moods receiving]
+
+[Enable user tunes receiving]
+
+[Enable user activity receiving]
+
+[Receive notes]
+
+[Automatically save received notes]
+
+[Enable server-side history]
+
 [Server options]
 Options du serveur
 [Disable SASL authentication (for old servers)]
@@ -407,72 +1749,282 @@ Désactiver l'authentification SASL (pour les anciens serveurs)
 Activer la compression du Stream (si disponible)
 [Other]
 Autre
+[Enable remote controlling (from another resource of same JID only)]
+
 [Show transport agents on contact list]
 Voir les services de transports dans ma liste de contact
 [Automatically add contact when accept authorization]
 Ajouter auto. un contact après une autorisation acceptée
+[Automatically accept authorization requests]
+
+[Fix incorrect timestamps in incoming messages]
+
+[Disable frame]
+
+[Enable XMPP link processing (requires Association Manager)]
+
+[Keep contacts assigned to local groups (ignore roster group)]
+
+[Security]
+
+[Allow servers to request version (XEP-0092)]
+
+[Show information about operating system in version replies]
+
+[Accept only in band incoming filetransfers (don't disclose own IP)]
+
+[Accept HTTP Authentication requests (XEP-0070)]
+
 [General]
 Général
 [Autoaccept multiuser chat invitations]
 Accepter automatiquement les invitations des utilisateurs d'une conférence
+[Automatically join bookmarks on login]
+
 [Automatically join conferences on login]
 Rejoindre automatiquement une conférence à la connexion
+[Hide conference windows at startup]
+
+[Do not show multiuser chat invitations]
+
+[Log events]
+
+[Ban notifications]
+
+[Room configuration changes]
+
+[Affiliation changes]
+
+[Role changes]
+
 [Status changes]
 Changements d'état
+[Don't notify history messages]
+
 [JID]
 JID 
 [Nick Name]
 Pseudo
 [Group]
 Groupe
+[Subscription]
+
 [Uploading...]
 Mise à jour...
+[Downloading...]
+Télécharge...
+[XML for MS Excel (UTF-8 encoded)]
+
 [Connecting...]
 Connexion en cours...
 [Network]
 Réseau
+[Account]
+Compte
 [Advanced]
 Avancé
+[Public XMPP Network]
+
+[Secure XMPP Network]
+
+[Secure XMPP Network (old style)]
+
+[Google Talk!]
+
+[LiveJournal Talk]
+
+[Facebook Chat]
+
+[Odnoklassniki]
+
+[Some changes will take effect the next time you connect to the Jabber network.]
+
 ;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for]
-Changer le mot de passe de
+[Set New Password for %s@%S]
+
 [New password does not match.]
 Nouveau passe non fonctionnel
 [Current password is incorrect.]
 Le passe actuel est incorrect.
 ;file \protocols\JabberG\src\jabber_privacy.cpp
+[Sending request, please wait...]
+
+[Warning: privacy lists were changed on server.]
+
+[Error occurred while applying changes]
+
+[Privacy lists successfully saved]
+
+[Privacy list %s set as active]
+
+[Active privacy list successfully declined]
+
+[Error occurred while setting active list]
+
+[Privacy list %s set as default]
+
+[Default privacy list successfully declined]
+
+[Error occurred while setting default list]
+
+[Simple mode]
+
+[Advanced mode]
+
+[Add JID]
+
 [Activate]
 Activer
+[Set default]
+
 [Edit rule]
 Éditer la règle
 [Add rule]
 Ajouter une règle
 [Delete rule]
 Effacer la règle
+[Move rule up]
+
+[Move rule down]
+
+[Add list...]
+
 [Remove list]
 Effacer
+[** Default **]
+
+[** Subsription: both **]
+
+[** Subsription: to **]
+
+[** Subsription: from **]
+
+[** Subsription: none **]
+
 [<none>]
 <aucun>
+[allow ]
+
+[deny ]
+
+[all.]
+
+[messages]
+Messages
+[ and ]
+
+[incoming presences]
+
+[outgoing presences]
+
+[queries]
+
 [Else ]
 Sinon 
+[If Jabber ID is ']
+
+[ (nickname: ]
+
+[If group is ']
+
+[If subscription is ']
+
 [then ]
 puis 
+[ (act., def.)]
+
+[ (active)]
+
+[ (default)]
+
+[Ready.]
+
+[Privacy lists are not saved, discard any changes and exit?]
+
+[Please save list before activating]
+
+[First, save the list]
+
+[Please save list before you make it the default list]
+
+[Unable to save list because you are currently offline.]
+
+[List Editor...]
+
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[No compatible file transfer machanism exist]
+
+[Protocol is offline or no JID]
+
 ;file \protocols\JabberG\src\jabber_rc.cpp
+[Command completed successfully]
+
+[Error occurred during processing command]
+
+[Set status]
+
+[Set options]
+
+[Forward unread messages]
+
+[Leave group chats]
+
+[Lock workstation]
+
 [Quit Miranda NG]
 Quitter Miranda-IM
 [Change Status]
 Changerl'état
+[Choose the status and status message]
+
 [Status]
 État
+[Extended Away (N/A)]
+
+[Do Not Disturb]
+
 [Invisible]
 Invisible
 [Offline]
 Hors ligne
+[Priority]
+
+[Status message]
+
+[Change global status]
+
+[Set Options]
+
+[Set the desired options]
+
+[Automatically Accept File Transfers]
+
+[Play sounds]
+
+[Disable remote controlling (check twice what you are doing)]
+
+[There is no messages to forward]
+
+[Forward options]
+
 [%d message(s) to be forwarded]
 %d message(s) à envoyer
+[Mark messages as read]
+
 [%d message(s) forwarded]
 %d message(s) ont été envoyé
+[Workstation successfully locked]
+
+[Error %d occurred during workstation lock]
+
+[Confirmation needed]
+
+[Please confirm Miranda NG shutdown]
+
+[There is no group chats to leave]
+
+[Choose the group chats you want to leave]
+
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Erreur %s %s\r\nVeuiller choisir un autre serveur
@@ -482,6 +2034,8 @@ Erreur: réponse inconnue\r\nVeuillez sélectionner un autre serveur
 Erreur %s %s\r\nVeuillez indiquer plus de renseignement
 [Search error]
 Erreur dans la recherche
+[Select/type search service URL above and press <Go>]
+
 [Please wait...\r\nConnecting search server...]
 Veuillez patienter...\r\nConnexion en cours au serveur des recherches...
 [You have to be connected to server]
@@ -489,32 +2043,102 @@ Vosu êtes connecté au serveur
 ;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
 session chat fermée
+[sent subscription request]
+
+[approved subscription request]
+
+[declined subscription]
+
+[sent error presence]
+
+[sent unknown presence type]
+
 ;file \protocols\JabberG\src\jabber_thread.cpp
+[Enter password for %s]
+
 [Error: Not enough memory]
 Erreur: Mémoire insuffisante
 [Error: Cannot connect to the server]
 Erreur: Connexion impossible au Serveur
 [Error: Connection lost]
 Erreur: Connexion perdue
+[Requesting registration instruction...]
+
+[Authentication failed for %s@%S.]
+
+[Message redirected from: %s\r\n%s]
+
 [Sending registration information...]
 Envoi des infos d'enregistrement...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Resource]
+
+[Message]
+Message
 [<not specified>]
 <non spécifié>
+[Software]
+
+[Version]
+Version
 [System]
 Système
-[Yes]
-Oui
-[No]
-Non
+[unknown]
+Inconnu
+[Idle since]
+
+[Client capabilities]
+
+[Software information]
+
+[Operating system]
+
+[Operating system version]
+
+[Software version]
+
+[Miranda core version]
+
+[Mood]
+
+[Activity]
+
+[Tune]
+
+[both]
+les 2
+[to]
+Vers
+[from]
+
+[none]
+Aucun
+[Last logoff time]
+
+[Uptime]
+
+[Logoff message]
+
+[<no information available>]
+
+[Last active resource]
+
+[Please switch online to see more details.]
+
 [Copy]
 Copier
+[Copy only this value]
+
+[format]
+
 [Unknown format]
 Format inconnu
 [<Photo not available while offline>]
 <Photo non disponible si déconnecté>
 [<No photo>]
 <pas de photo>
+[Photo]
+
 ;file \protocols\JabberG\src\jabber_util.cpp
 [Redirect]
 Redirection
@@ -548,10 +2172,20 @@ Erreur du serveur distant
 Service indisponible
 [Remote server timeout]
 Délai du serveur distant dépassé
+[Unknown error]
+
 [Error]
 Erreur
 [Unknown error message]
 Erreur de message inconnu
+[Advanced Status]
+
+[Set mood...]
+
+[Set activity...]
+
+[OK (%d)]
+
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Homme
@@ -565,50 +2199,350 @@ Détails Jabber
 Détails Jabber: Éditer l'e-mail
 [Jabber vCard: Edit Phone Number]
 Détails Jabber: Éditer téléphone
+[Contacts]
+Contacts
+[Note]
+
 ;file \protocols\JabberG\src\jabber_ws.cpp
+[%s connection]
+
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[Afraid]
+
+[Amazed]
+
+[Amorous]
+
+[Angry]
+
+[Annoyed]
+
+[Anxious]
+
+[Aroused]
+
+[Ashamed]
+
+[Bored]
+
+[Brave]
+
 [Calm]
 Calme
+[Cautious]
+
+[Cold]
+
+[Confident]
+
+[Confused]
+
+[Contemplative]
+
+[Contented]
+
+[Cranky]
+
+[Crazy]
+
+[Creative]
+
+[Curious]
+
+[Dejected]
+
+[Depressed]
+
+[Disappointed]
+
+[Disgusted]
+
+[Dismayed]
+
 [Distracted]
 Distret
+[Embarrassed]
+
+[Envious]
+
 [Excited]
 Éxcité
+[Flirtatious]
+
 [Frustrated]
 Frusté
+[Grateful]
+
+[Grieving]
+
+[Grumpy]
+
+[Guilty]
+
 [Happy]
 Heureux
+[Hopeful]
+
 [Hot]
 Chaud
+[Humbled]
+
 [Humiliated]
 Humilié
+[Hungry]
+
+[Hurt]
+
+[Impressed]
+
+[In awe]
+
+[In love]
+
+[Indignant]
+
 [Interested]
 Intéressé
 [Intoxicated]
 Intoxcité
+[Invincible]
+
+[Jealous]
+
 [Lonely]
 Seul
+[Lost]
+
+[Lucky]
+
+[Mean]
+
+[Moody]
+
 [Nervous]
 Nerveux
 [Neutral]
 Neutre
 [Offended]
 Offensé
+[Outraged]
+
+[Playful]
+
 [Proud]
 Fier
+[Relaxed]
+
+[Relieved]
+
+[Remorseful]
+
+[Restless]
+
+[Sad]
+
 [Sarcastic]
 Sarcastique
+[Satisfied]
+
 [Serious]
 Sérieux
 [Shocked]
 Choqué
 [Shy]
 Timide
+[Sick]
+
+[Sleepy]
+
+[Spontaneous]
+
 [Stressed]
 Stressé
+[Strong]
+
 [Surprised]
 Surpris
+[Thankful]
+
+[Thirsty]
+
+[Tired]
+
 [Undefined]
 Non défini
+[Weak]
+
 [Worried]
 Inquiet
+[Mood: %s]
+
+[Set Mood]
+
+[Doing chores]
+
+[buying groceries]
+
+[cleaning]
+
+[cooking]
+
+[doing maintenance]
+
+[doing the dishes]
+
+[doing the laundry]
+
+[gardening]
+
+[running an errand]
+
+[walking the dog]
+
+[Drinking]
+
+[having a beer]
+
+[having coffee]
+
+[having tea]
+
+[Eating]
+
+[having a snack]
+
+[having breakfast]
+
+[having dinner]
+
+[having lunch]
+
+[Exercising]
+
+[cycling]
+
+[dancing]
+
+[hiking]
+
+[jogging]
+
+[playing sports]
+
+[running]
+
+[skiing]
+
+[swimming]
+
+[working out]
+
+[Grooming]
+
+[at the spa]
+
+[brushing teeth]
+
+[getting a haircut]
+
+[shaving]
+
+[taking a bath]
+
+[taking a shower]
+
+[Having appointment]
+
+[Inactive]
+
+[day off]
+
+[hanging out]
+
+[hiding]
+
+[on vacation]
+
+[praying]
+
+[scheduled holiday]
+
+[sleeping]
+
+[thinking]
+Pensif
+[Relaxing]
+
+[fishing]
+
+[gaming]
+Joue
+[going out]
+
+[partying]
+
+[reading]
+
+[rehearsing]
+
+[shopping]
+Fait les courses
+[smoking]
+
+[socializing]
+
+[sunbathing]
+
+[watching TV]
+Regarde la télé
+[watching a movie]
+
+[Talking]
+
+[in real life]
+
+[on the phone]
+Au téléphone
+[on video phone]
+
+[Traveling]
+
+[commuting]
+
+[driving]
+
+[in a car]
+
+[on a bus]
+
+[on a plane]
+
+[on a train]
+
+[on a trip]
+
+[walking]
+
+[Working]
+
+[coding]
+
+[in a meeting]
+
+[studying]
+Étudie
+[writing]
+
+[Activity: %s]
+
+[Set Activity]
+
+[Listening To]
+
+[Moods]
+
+[Activities]
+
 ;file \protocols\JabberG\src\ui_utils.cpp
+[Set filter...]
+

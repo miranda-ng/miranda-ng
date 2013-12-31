@@ -101,7 +101,7 @@ Fuseau horaire:
 [Skype credit:]
 
 [Change password]
-
+Changer le mot de passe
 [Old password:]
 
 [New password:]
@@ -109,7 +109,7 @@ Nouveau mot de passe:
 [Register new account]
 
 [Account]
-
+Compte
 [Connection]
 
 [Use port]
@@ -119,7 +119,7 @@ Nouveau mot de passe:
 [Use ports 80 and 443 as alternative incoming]
 
 [Default group:]
-
+Groupes:
 [Block]
 
 [Allow IMs from...]
@@ -342,7 +342,7 @@ Général
 [Call]
 
 [Conference]
-
+Chat
 [Send contact]
 
 [Contact]
@@ -366,6 +366,8 @@ Effacer
 Débloquer ce contact...
 [Block this person...]
 Bloquer ce contact...
+[Skype menu chooser]
+
 [Request authorization]
 Demander l'autorisation
 [Grant authorization]

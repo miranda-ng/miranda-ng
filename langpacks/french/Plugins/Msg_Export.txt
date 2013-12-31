@@ -5,7 +5,11 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
+[Exports every message, URL or File you receive to a text file.]
+
 ;file \plugins\Msg_Export\res\resource.rc
+[Browse]
+
 [Use internal viewer]
 Visionneur interne
 [Replace Miranda history]
@@ -18,6 +22,8 @@ Ajouter une ligne de plus
 Utiliser << et >>
 [Auto filename]
 Nommage auto
+[Clear all]
+Tout effacer
 [Help]
 Aide
 [Export all history]
@@ -50,10 +56,14 @@ Si le contact change de nom
 Demander quoi faire
 [Rename file]
 Renommer le fichier
+[Do nothing]
+
 [When user is deleted]
 Si le contact est effacé
 [Delete file]
 Effacer le fichier
+[Debug]
+
 [User &details]
 &Détails du contact
 [Export selected]
@@ -63,8 +73,28 @@ Remettre le nom de fichier par défaut
 [Copy]
 Copier
 ;file \plugins\Msg_Export\src\FileViewer.cpp
+[Failed to write to the RichEdit the buffer was to small.]
+
+[Error: Optimal buffer size decrecied to a to low size!]
+
+[Internal error! (lExtraRead >= 0)]
+
+[Faile to execute external file view]
+
+[Failed to load Rich Edit ( RICHED32.DLL )]
+
+[Failed to get handle to RichEdit!]
+
+[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
+
+[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+
+[With scroll to bottom %d\n]
+
 [Search string was not found!]
 Ligne recherchée non trouvée!
+[Save as RTF]
+
 [Color...]
 Couleur...
 [Font...]
@@ -73,13 +103,25 @@ Police...
 Surligner un contact
 [Failed to create file]
 Échec de la création du fichier
+[Failed to save file]
+
+[History was saved successfully in file\r\n]
+
+[Failed to create history dialog]
+
 ;file \plugins\Msg_Export\src\Glob.h
+[Miranda NG (Message Export Plugin)]
+
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Ouvrir l'historique &exporté
+[Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
+
 ;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
 Pas de contacts à exporter trouvés
+[Reading database information (Phase 1 of 2)]
+
 [Failed to export at least one contact]
 N'a pas exporté un seul contact
 [Sorting and writing database information ( Phase 2 of 2 )]
@@ -94,8 +136,20 @@ N'a pas trouvé Msg_Export.dll Veuillez localisé Msg_Export.txt manuellement.
 Fichier
 [Nick]
 Pseudo
+[Proto]
+
+[UIN]
+
 [You have not applied the changes, do you wish to apply them first?]
 Vous avez restauré les changements, voulez-vous d'abord les enregistrer?
+[Executable files]
+Fichiers exécutables
+[All files]
+Tous les fichiers
+[Failed to get the shells allocator!]
+
+[Failed to Allocate buffer space]
+
 [Select Destination Directory]
 Choix du répertoire de destination
 [Export Protocols]
@@ -106,25 +160,55 @@ Message Export
 Historique
 [General]
 Général
+[Additional]
+
 ;file \plugins\Msg_Export\src\utils.cpp
+[No_Nick]
+
+[No_Group]
+
+[DB: Attempt to get wrong type of value, string]
+
 [(Unknown Contact)]
 (Contact inconnu)
+[File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
+
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Échec du renommage/déplacement du fichier\n\nde:\t%s\n en:\t%s\n\nErreur: %s
+[\nError: ]
+
+[\nMessage has not been saved!\n]
+
+[Do you wish to save debug information?]
+
+[All\0*.*\0Text\0*.TXT\0\0]
+
 [Failed to open or create file :\n]
 Échec d'ouverture ou de création du fichier :\n
 [Failed to move to the end of the file :\n]
 Échec de mise en fin de fichier :\n
+[Failed to UTF8 byte order code to file :\n]
+
+[      History for\r\n]
+
 [User      : %User%\r\n]
 Contact   : %User%\r\n
 [Protocol  : %Proto%\r\n]
 Protocole : %Proto%\r\n
+[UIN       : %UIN%\r\n]
+
 [FirstName : %FirstName%\r\n]
 Nom       : %FirstName%\r\n
 [LastName  : %LastName%\r\n]
 prénom    : %LastName%\r\n
+[Age       : %Age%\r\n]
+
 [Gender    : %Gender%\r\n]
 Sexe      : %Gender%\r\n
+[e-mail    : %e-mail%\r\n]
+
+[Nick      : %Nick%\r\n]
+
 [City      : %City%\r\n]
 Ville     : %City%\r\n
 [State     : %State%\r\n]
@@ -135,6 +219,10 @@ Téléphone : %Phone%\r\n
 Page web  : %Homepage%\r\n
 [- About -\r\n%About%\r\n]
 - À propos -\r\n%About%\r\n
+[Failed to write user details to file :\n]
+
+[Failed to write timestamp and username to file :\n]
+
 [Failed to write message to the file :\n]
 Échec d'écriture du message dans le fichier :\n
 [URL: ]
@@ -151,19 +239,37 @@ Pseudo   :
 Prénom    :
 [LastName  :]
 Nom       :
+[e-mail    :]
+
 [Reason    :]
 Motif     :
 [Invalid Database event received. Type %d, size %d]
 Évènement de base de données reçu invalide. Type %d, taille %d
+[Failed to write Invalid Database event the file :\n]
+
 [The following user made an authorization request:]
 Le contact suivant vous fait une demande d'autorisation:
 [The following user added you to their contact list:]
 Le contact suivant vous a ajouté à sa liste:
+[UIN       :]
+
+[Failed to write AUTHREQUEST or ADDED to the file :\n]
+
 [EmailExpress from:]
 EmailExpress de:
+[WebPager from:]
+
+[No from address]
+
 [Failed to write EmailExpress to the file :\n]
 Échec d'écriture de l'EmailExpress dans le fichier :\n
 [Failed to write SMS to the file :\n]
 Échec d'écriture du SMS dans le fichier :\n
+[Unknown event type %d, size %d]
+
+[Failed to write Unknown event to the file :\n]
+
+[User has been deleted. Do you want to delete the file?]
+
 [Failed to delete the file]
 Échec de la suppression du fichier

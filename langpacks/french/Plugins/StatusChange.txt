@@ -5,6 +5,8 @@
 ;  Version: 1.3.0.0
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
+[Change status when you send/receive an event.]
+
 ;file \plugins\StatusChange\res\resource.rc
 [Offline]
 Hors ligne
@@ -26,8 +28,24 @@ Invisible
 Au téléphone
 [Out to lunch]
 Parti manger
+[On events...]
+
+[Send]
+
+[Receive]
+
+[Message]
+Message
 [URL]
 Lien
+[File transfer]
+Transfert de fichiers
+[...change status to...]
+
+[...if status is...]
+
 ;file \plugins\StatusChange\src\main.cpp
+[Status Change]
+Changement d'état
 [Status]
 État

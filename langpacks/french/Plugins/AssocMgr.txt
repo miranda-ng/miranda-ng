@@ -10,6 +10,8 @@ Permet de gérer les associations de fichier et d'ULR comme AIM, Yahoo messenger
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Associations enregistrées pour Miranda-NG:
+[Miscellaneous]
+Divers
 [&Start Miranda NG automatically when the computer starts (using current profile)]
 &Lancer Miranda-IM avec Windows (en utilisant le profil en cours)
 [Only associate with Miranda NG while it is &running]
@@ -17,6 +19,10 @@ Associer uniquement avec Miranda-IM quand il est lancé.
 ;file \plugins\AssocMgr\src\assoclist.cpp
 [%hs files]
 Fichiers %hs
+[Type]
+
+[Description]
+
 [URLs on websites]
 URL des sites web
 [File types]
@@ -31,18 +37,42 @@ Inconnu
 Erreur de lancement automatique
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 Il s'est produit une erreur lors de la modification de la liste des lancements automatiques.\n\nMotif: %s
+[Services]
+Services
+[Associations]
+
 [Miranda NG database]
 Profil Miranda-IM
 ;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
 Miranda-IM ne peut ouvrir le fichier
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
+
+[Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
+
 [Miranda NG could not open URL]
 Miranda-IM ne peut ouvrir cet URL
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
+
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
+
 ;file \plugins\AssocMgr\src\reg.cpp
+[Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
+
+[Registry warning]
+
 ;file \plugins\AssocMgr\src\test.cpp
+[AIM Link Protocol]
+
 [ICQ Link Shortcut]
 Raccourci du protocole ICQ
 [&Add to contact list...]
 &Ajouter à la liste de contacts...
 [Yahoo Link Protocol]
 Raccourci du protocole Yahoo
+[MSN Link Protocol]
+
+[Gadu-Gadu Link Protocol]
+
+[Jabber Link Protocol]
+

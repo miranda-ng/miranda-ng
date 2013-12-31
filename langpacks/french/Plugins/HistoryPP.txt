@@ -5,32 +5,76 @@
 ;  Version: 1.5.1.5
 ;  Authors: theMIROn
 ;============================================================
+[Easy, fast and feature complete history viewer.]
+
 [Voice calls]
 Appels vocaux
+[Voice call]
+
+[Sh&ow in history]
+
+[Log default]
+
+[History default]
+
+[Drop down arrow]
+
 [Status message changes]
 Modifications du message d'état
+[&Pseudo-edit]
+
+[Pseudo-edit mode...]
+
 [Group log messages]
 Regrouper les messages de même date
 [Need more options?]
 Besoin de plus de fonctions ?
+[Incoming WATrack notify]
+
+[Outgoing WATrack notify]
+
 [&Copy Link]
 &Copier le lien
 [WATrack notify]
 Notifications de WATrack
+[Open Link]
+
+[WATrack: information request]
+
+[Artist: %s\\nTitle: %s\\nAlbum: %s]
+
 [WATrack: %s]
 WATrack: %s
 [WATrack: request denied]
 WATrack: requête refusée
 [Imitate IEView API]
 Comme IEView
+[Text formatting options]
+
 [Enable raw RTF support]
 Activer le support des RTF bruts
 [Display changed avatars]
 Afficher les avatars modifiés
 [Change appearance]
 Changement de l'apparence
+[Grid background]
+
+[Grid messages]
+
+[History Actions]
+
 [Advanced search options]
 Recherche avancée
+[Limit search range]
+
+[Limit Search Sange]
+
+[Search messages from]
+
+[Text Formatting]
+
+[Limit Search Range]
+
 [Customize Filters]
 Filtres personnalisables
 [Filter Properties]
@@ -63,8 +107,22 @@ Fitlre d'évènements
 Détails d'évènement
 [&Reply Quoted]
 &Répondre en citant
+[Event Info]
+
 [Date/Time:]
 Date/Heure:
+[Copy All]
+Tout copier
+[&Select All]
+
+[SMS Message]
+
+[WebPager]
+
+[EMail Express]
+
+[Other event]
+
 [Global History Search]
 Recherche dans l'historique système
 [Search for]
@@ -77,6 +135,8 @@ Cherche un des mots
 Cherche tous les mots
 [Search exact phrase]
 Cherche phrase exacte
+[Include password-protected contacts]
+
 [Starting up...]
 Lancement...
 [No items found]
@@ -117,16 +177,22 @@ Tous les résultats
 Historique Système
 [Searching "%s"...]
 Recherche de "%s"...
+[Stop]
+
 [Searching... Please wait.]
 Recherche... Veuillez patienter.
 [Preparing search...]
 Préparation de la recherche...
 [Searching... %.0n items in %d contacts found]
 Recherche... %.0n éléments dans %d contacts trouvés
+[Enter the history password to search.]
+
 [Please wait while closing the window...]
 Veuillez patienter pendant la fermeture de la fenêtre...
 [Partial History [%s] - [%s]]
 Historique partiel [%s] - [%s]
+[Delete &Bookmark]
+
 [Remove &Bookmark]
 Effacer le favori
 [Ready to search]
@@ -137,34 +203,62 @@ Cliquer sur "Chercher"
 De %s
 [To %s]
 Vers %s
+[Advanced <<]
+
 [HotSearch: %s (F3 to find next)]
 Rechercher rapide: %s (F3 pour le suivant)
+[You have reached the end of the history.]
+
 [Do you want to continue searching at the beginning?]
 Voulez-vous reprendre la recherche depuis le début ?
 [History++ Search]
 Recherche History++
 [Saving...]
 Sauvegarde...
+[Searching...]
+
 [Deleting...]
 Suppression...
 [Do you really want to delete selected items (%.0f)?]
 Voulez-vous vraiment supprimer la sélection (%.0f) ?
+[Delete Selected]
+Supprimer la sélection
+[Do you really want to delete selected item?]
+
+[%s - History++]
+
 [History is empty]
 L'historique est vide
 [No such items]
 Aucune sélection
+[Conversations]
+
+[Conversations (F4)]
+
 [History Search]
 Recherche
 [His&tory Search]
 Recherche d'historique
 [&Open]
 &Ouvrir
+[Open &Link]
+
+[Open Link in New &Window]
+
+[Open &File]
+
+[Open File Fo&lder]
+
+[Disable &Processing]
+
 [Export as &HTML...]
 Exporter en &HTML...
 [Export as &XML...]
 Exporter en &XML...
 [Export as &RTF...]
 Exporter en &RTF...
+[Export as &mContacts...]
+
 [Export as &Text...]
 Exporter en &Text...
 [Empty history...]
@@ -195,8 +289,36 @@ Résultat: %s (F3 = suivant)
 %d évènement
 [%0.n events (%s)]
 %0.n évènement (%s)
+[Enable &Processing]
+
+[Do you really want to delete ALL items (%.0f) for this contact?]
+
+[Note: It can take several minutes for large history.]
+
 [Empty History]
 Effacer l'historique
+[Search Up (Ctrl+Up)]
+
+[Search Down (Ctrl+Down)]
+
+[HTML file (*.html; *.htm)|*.html;*.htm]
+
+[XML file (*.xml)|*.xml]
+
+[RTF file (*.rtf)|*.rtf]
+
+[Unicode text file (*.txt)|*.txt]
+
+[Text file (*.txt)|*.txt]
+
+[All files (*.*)|*.*]
+
+[Conversation started at %s]
+
+[Remove bookmark]
+Effacer ce favori
+[Bookmark]
+
 [Remove Bookmark]
 Effacer ce favori
 [Set Bookmark]
@@ -207,6 +329,8 @@ Cacher l'entête
 Envoi de fichier: %s
 [Incoming file transfer: %s]
 Réception de fichier: %s
+[Authorization request by %s (%s%d): %s]
+
 [You were added by %s (%s%d)]
 Vous avez été ajouté par %s (%s%d)
 [Outgoing contacts: %s]
@@ -229,6 +353,8 @@ Autorisation refusée par %s (%d): %s
 Demande d'autorisation par %s (%d): %s
 [Broadcast message from %s (%s): %s]
 Modèle de message de %s (%s): %s
+[All except status]
+
 [Show all events]
 Afficher tous les évènements
 [Avatar changes]
@@ -239,10 +365,22 @@ Tous, sauf les changements
 Tous, sauf les messages système
 [Other events (unknown)]
 Autres évènements (inconnus)
+[Webpager message]
+
+[EMail Express message]
+
+[Grid options]
+
 [Recent events on top]
 Évènements récents en haut
 [Use RTL by default]
 Aligner à droite
+[Additional processing support]
+
+[Enable BBCodes]
+
+[Change Appearance]
+Changement de l'apparence
 [To change fonts you need to install FontService plugin.]
 Afin de changer les polices, vous devez installer le plugin FontService.
 [FontService is installed. Go to Customize -> Fonts to change settings.]
@@ -259,14 +397,92 @@ Télécharger le plugin IcoLib
 Plus d'infos sur ces plugins
 [Open event details by Enter]
 Tapez Entrée pour ouvrir l'évènement
+[Search panel]
+
+[History search]
+Recherche
+[Search All Results]
+
+[Bookmark enabled]
+
+[Bookmark disabled]
+
+[Conversation divider]
+
+[Conversation icon]
+
+[Conversation summer]
+
+[Conversation autumn]
+
+[Conversation winter]
+
+[Conversation spring]
+
+[Conversation year]
+
+[Conversation hide]
+
+[Save All]
+
+[Delete All]
+
+[Events filter]
+
+[In-place filter wait]
+
+[Search Up]
+
+[Search Down]
+
+[End of page]
+
+[Clear in-place filter]
+
+[Conversation header]
+
+[Divider]
+
+[Incoming url]
+Lien reçu
+[Outgoing contacts]
+Envoi de contacts
+[Outgoing file]
+Fichier envoyé
+[Outgoing SMS Message]
+
+[Outgoing url]
+Lien envoyé
+[Selected background]
+
+[SMTP Simple]
+
 [Show sender information]
 Voir les infos de l'expéditeur
 [Show receiver information]
 Voir les infos du destinataire
+[Toggle &Processing]
+
+[Toolbar]
+
+[Incoming SMS Message]
+
 [Link URLs]
 Liens URLs
+[History++]
+
+[Unicode text file]
+
+[RTF file]
+
+[XML file]
+
 [Appearance options]
 Options d'apparence
+[Message log options]
+Options
+[HTML file]
+
 [&Browse Received Files]
 &Dossier des transferts
 [Include custom event type (0-65535)]
@@ -275,20 +491,40 @@ Inclure les évènements personnalisés (0-65535)
 &Ouvrir le dossier
 [&Copy Filename]
 &Copier le nom de fichier
+[Limit event types]
+
+[Search messages matched to]
+
+[Limit Event Types]
+
 [Hide Menu]
 Cacher le menu
+[&File Actions]
+
 [Unknown codepage %u]
 Codepage inconnu %u
+[History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
+
 [User %s (%d) changed ICQ client: %s]
 %s (%d) a changé de client ICQ: %s
 [Status request by %s (%d):%s]
 Demande d'état par %s (%d): %s
 [Ignored status request by %s (%d):%s]
 Demande d'état ignoré par %s (%d): %s
+[Artist: %s\\r\\nTitle: %s\\r\\nAlbum: %s]
+
 [No "%s" items]
 "%s" non trouvé
+[Cannot load icon pack (%s) from:\\r\\n%s\\r\\nThis can cause no icons will be shown.]
+
+[You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
+
+[Speak Message]
+
 [Next message]
 Mess. suivant
+[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
+
 [&Empty System History]
 &Vider l'historique système
 [&Empty History]
@@ -307,15 +543,201 @@ La version de AniSmiley n'est pas supportée.
 La version de SmileyAdd n'est pas supportée.
 [Running version of Emoticons is not supported]
 La version de Emoticons n'est pas supportée.
+[%.0f items in history]
+
+[%s (to %s)]
+
+[%s Header]
+
+[&Additional]
+
+[&Delete All]
+Tout &effacer
+[&Password Protection...]
+
+[(time and date)]
+
+[All Items]
+
+[and]
+Et
+[Authorization Request by %s (%s%s%d): %s]
+
+[Authorization Request Sample]
+
+[Change nick and date font for %s.]
+
+[Customize %s]
+
+[Customize the look of %s Event. Select it's font, font color and background color.]
+
+[Date Font Color]
+
+[Date Font]
+
+[Event Icons]
+
+[Forward &Message]
+
+[History++ Options]
+
+[History++ [%s]]
+
+[HTML file (*.htm)|*.htm;*.html|All files (*.*)|*.*]
+
+[HTML file (*.htm; *.html)|*.htm;*.html]
+
+[Incoming File Transfer Sample]
+
+[Incoming File Transfer:]
+
+[Incoming Message Sample]
+
+[Incoming URL Sample]
+
+[Incoming Url]
+Lien reçu
+[Make shure you have CAPS LOCK turned off.]
+
+[Make sure you have CAPS LOCK turned off.]
+
+[Miranda's settings used]
+
+[Nick Font Color]
+
+[Nick Font]
+
+[Nothing selected. Select item from the left and change it's properties below.]
+
+[Nothing Selected]
+
+[Outgoing File Transfer Sample]
+
+[Outgoing File Transfer:]
+
+[Outgoing Message Sample]
+
+[Outgoing URL Sample]
+
+[Outgoing Url]
+Lien envoyé
+[Recent at bottom]
+
+[Recent on top]
+
+[Save All as &HTML...]
+
+[Save All as &Text...]
+
+[Save All as &XML...]
+
+[Select search mode:]
+
+[Selected file and contact file folder not found]
+
+[SMS Sample]
+
+[Some Contact]
+
+[System History (%s)]
+
+[System Message Sample]
+
+[System Message]
+Message système
+[Use Miranda default settings]
+
+[You were added by %s (%s%s%d)]
+
+[You Were Added Message Sample]
+
+[Authorization request]
+Demande d'autorisation
+[Your were added message]
+
 [Show events count in menu]
 Afficher le compteur d'évènements dans le menu.
+[Group messages]
+
 [Disable border]
 Désactiver les bordures
+[Disable scroll bar]
+
+[History view options]
+
+[Visit Wiki page for more options]
+
+[&Code Editor...]
+
+[&Load...]
+
+[&Save...]
+
+[&User Name:]
+
 [(Unknown Contact)']
 (Contact inconnu)'
+[0 lines]
+
+[Other (unknown)]
+
 [Database:]
 Base de données:
+[Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
+
+[History++ (2in1)]
+
+[History++ Error]
+
+[History++ Warning]
+
+[%0.1n h]
+
+[%d min]
+
+[&Reset to Default]
+&Paramètres par défaut
 [Contact history]
 Historique du contact
+[Incoming nick]
+
+[Outgoing nick]
+
+[Incoming contacts]
+Contacts entrants
 [System message]
 Message système
+[Incoming timestamp]
+
+[Outgoing timestamp]
+
+[Open in &new window]
+Ouvrir dans une nouvelle fenêtre
+[Open in existing &window]
+
+[Copy &Link]
+
+[Co&py]
+
+[Select &All]
+Tout &sélectionner
+[Send &Message]
+Envoyer
+[User Details]
+Détails du contact
+[Enable SmileyAdd support]
+Activer le support de SmileyAdd
+[Always RTL]
+
+[Always LTR]
+
+[Enable MathModule support]
+Activer le support de MathModule
+[Show event icons]
+Voir l'icône des évènements
+[View user's history]
+Voir l'historique
+[View User's History]
+Voir l'historique
+[View &History]
+Voir l'&historique

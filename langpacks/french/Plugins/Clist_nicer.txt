@@ -440,6 +440,8 @@ Afficher une seconde ligne:
 Icônes de sur-couche sur les avatars
 [Show local time]
 Afficher l'heure locale
+[&Main menu]
+&Menu principal
 [E&xit]
 &Quitter
 [&Status]
@@ -555,7 +557,7 @@ Pas encore supporté
 [Copy from]
 
 [<None>]
-
+<aucun>
 [Raised]
 
 [Sunken]
@@ -582,7 +584,7 @@ Basculer le son
 [Minimize contact list]
 Minimiser la liste de contact
 [Status menu]
-
+Menu états
 [Select view mode]
 Sélectionner un mode d'affichage
 [Setup view modes]
@@ -863,14 +865,19 @@ Afficher la barre de titre
 Image skinée
 [Floating]
 Flottant
+;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
+
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[Group menu]
+
 [&Find/Add Contacts...]
 &Chercher/Ajouter des contacts...
-[&Main menu]
-&Menu principal
 [&Options...]
 &Paramètres...
 [&About the contact list...]
 À propos de l&a liste de contact...
+[Subgroup menu]
+
 [&New SubGroup]
 &Nouveau sous-groupe

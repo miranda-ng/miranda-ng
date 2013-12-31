@@ -16,6 +16,8 @@ e-mail:
 Pour:
 [Date:]
 Date:
+[Version:]
+
 [Locale:]
 Locale:
 [Download more Language Packs]
@@ -23,9 +25,13 @@ Télécharger plus de pack de traduction
 [Please restart Miranda NG for your changes to take effect.]
 Relancer Miranda NG pour que vos changements prennent effets.
 ;file \plugins\LangMan\src\main.cpp
+[Reload langpack]
+
 ;file \plugins\LangMan\src\options.cpp
 [All installed plugins are included.]
 Tous les plugins installés sont traduit.
+[(incompatible)]
+
 [Unknown]
 Inconnu
 [Current]
@@ -34,6 +40,8 @@ Actuel
 Langues installées
 [File]
 Fichier
+[built-in]
+
 [&Remove...]
 &Effacer...
 [Languages]

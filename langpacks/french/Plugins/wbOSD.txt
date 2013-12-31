@@ -29,9 +29,9 @@ Général
 [Other]
 Autre
 [Background color]
-
+Couleur de fond
 [Transparent]
-
+Transparent
 [Alpha:]
 
 [Timeout (ms):]
@@ -45,7 +45,7 @@ Changements d'état
 [Show my status changes]
 
 [Text color]
-
+Couleur du texte
 [Show events]
 
 [Format:]
@@ -61,10 +61,10 @@ Changements d'état
 [Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
 
 [Help]
-
+Aide
 [Miranda NG is great and this is a long message.]
 
 [Plugins]
-
+Plugins
 [OSD]
 

@@ -5,20 +5,90 @@
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
+[This plugin offers simple management functions to keep your extra statuses on one place.]
+
 ;file \plugins\CSList\res\cslist.rc
+[Custom Status List]
+
+[No items available in the database.\nClick the Add button to define some.]
+
+[Add/Modify Custom Status]
+
+[Add/Modify]
+
 [Cancel]
 Annuler
+[List settings]
+
+[Confirm deletion of items]
+
+[Delete entries in Custom status menu after Import]
+
+[Remember last window position]
+
+[Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
+
 ;file \plugins\CSList\src\cslist.cpp
 [Status]
 État
+[Add new item]
+
 [Add]
 Ajouter
+[Modify item]
+
+[Modify]
+
+[Warning]
+Avertissement
+[This field doesn't accept string longer than %d characters. The string will be truncated.]
+
+[Favorites]
+Favoris
+[Regular statuses]
+
+[Title]
+
+[Message]
+Message
+[Do you really want to delete selected item?]
+
+[Do you want old database entries to be deleted after Import?]
+
 ;file \plugins\CSList\src\cslist.h
 [Main Menu]
 Menu principal
+[Main Icon]
+
+[Modify selected item]
+
+[Delete selected item]
+
 [Remove]
 Retirer
+[Set/unset current item as favorite]
+
+[Favorite]
+
+[Undo changes]
+Annuler les changements
+[Import statuses from database]
+
+[Import]
+
+[Filter list]
+
+[Filter]
+
+[Close without changing custom status]
+
+[No change]
+
+[Clear custom status (reset to None) and close]
+
 [Clear]
 Effacer
+[Set custom status to selected one and close]
+
 [Set]
 OK

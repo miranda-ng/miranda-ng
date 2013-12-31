@@ -5,23 +5,49 @@
 ;  Version: 0.0.2.0
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
+[Plugin to shake the clist and chat window.]
+
 ;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 Protocoles
 [Specify options for each protocol]
 Options différentes pour chaque protocole
+[Open contact list]
+
+[Enable contact list shaking]
+
+[Open message window]
+
 [Enable message window shaking]
 Tremblement de la fenêtre de message
 [Show as status change]
 Afficher si changement d'état
+[Auto resend nudge after]
+
+[s]
+
+[Enable popup notification]
+
+[Respect ignore settings (status changes)]
+
 [Sending text]
 Message envoyé
 [Receiving text]
 Message reçu
+[Privacy]
+
+[Allow sending* one nudge to the same contact every:]
+
 [Allow receiving one nudge from the same contact every:]
 Autoriser la réception d'un wizz du même contact toutes les 
+[* Nudge sending delay is hardcoded and cannot be changed.]
+
+[Preview]
+Aperçu
 [Text]
 Texte
+[Allow nudges when you're:]
+
 [Offline]
 Hors ligne
 [Online]
@@ -44,13 +70,31 @@ Au téléphone
 Parti manger
 [Shaking Clist Options]
 Tremblement de la liste de contacts
+[Number of moves]
+
 [Width of move]
 Force du mouvement
+[Static]
+
 [Shaking Message Window Options]
 Tremblement de la fenêtre de message
 ;file \plugins\Nudge\src\main.cpp
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
 Vous ne pouvez pas envoyer tant de wizz (uniquement 1 toutes les %d sec, %d sec restantes)
+[Nudge]
+
+[Default Nudge]
+
+[Nudge as Default]
+
+[Send Nudge]
+
+[Show Nudge]
+
+[Nudge for %s]
+
+[Send &Nudge]
+
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
 Vous avez reçu un wizz

@@ -5,9 +5,25 @@
 ;  Version: 0.3.0.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
+[Handles listening information to/for contacts.]
+
 ;file \plugins\ListeningTo\res\resource.rc
+[Listening to information]
+
+[Enable sending listening information to contacts:]
+
+[Music]
+
+[Radio]
+
+[Video]
+
+[Others]
+
 [You also have to enable it per protocol in the main menu]
 Vous devez également l'activer par protocole dans le menu principal
+[XStatus]
+
 [For protocols that don't support listening to but support XStatus:]
 Pour les protocoles qui ne supportent pas "En écoute", mais XStatus:
 [Set XStatus to Music and show listening info]
@@ -16,12 +32,24 @@ Changer le XStatus en "Écoute de la musique" et afficher "En écoute"
 Si le XStatus est inactif, changer en "Écoute de la musique" et afficher "En écoute"
 [If XStatus is Music, show listening info]
 Si le XStatus est "Écoute de la musique", afficher "En écoute"
+[Do nothing]
+
+[Contacts]
+Contacts
 [Apply template for info from contacts (overrides contacts template)]
 Appliquer le modèle sur les contacts (écrase le modèle des contacts)
 [Get info from WATrack plugin]
 Recevoir les informations du plugin WATrack
 [Get info from these players:]
 Recevoir les informations de ces lecteurs:
+[Winamp (*)]
+
+[Windows Media Player]
+
+[iTunes]
+
+[foobar2000 (need to install the plugin manually)]
+
 [Other players]
 Autres lecteurs
 [Ask for new info every]
@@ -30,10 +58,40 @@ Actualiser toutes les:
 secondes
 [Allow auto-loading plugins into players (affect players with *)]
 (*) Autoriser le chargement automatique des plugins dans les lecteurs
+[mRadio]
+
+[Listening to]
+
 [Template:]
 Modèle:
+[Variables:]
+
+[%artist% - Artist name]
+
+[%album% - Album name]
+
+[%title% - Song title]
+
+[%track% - Track number]
+
+[%year% - Song year]
+
+[%genre% - Song genre]
+
+[%length% - Song length]
+
+[%player% - Player name]
+
+[%type% - Media type (Music, Radio, Video, etc.)]
+
 [When variable not found, use:]
 Si la variable est vide, utiliser:
+[Title:]
+
+[Message:]
+
+[Other Variables:]
+
 [%listening% - Listening to info (as set above)]
 %listening% - (comme configuré ci-dessus)
 [When nothing is playing, replace %listening% with:]
@@ -41,16 +99,64 @@ Si rien n'est en lecture, remplacer %listening% par:
 ;file \plugins\ListeningTo\src\listeningto.cpp
 [Send to %s]
 Envoyer à %s
+[Listening to (enabled)]
+
+[Listening to (disabled)]
+
+[ListeningTo]
+
+[Listening to music]
+
 [Send to all protocols]
 Envoyer à tous les protocoles
 [Listening info]
 En écoute
+[Listening info as set in the options]
+
+[Media type: Music, Video, etc.]
+
+[Artist name]
+
+[Album name]
+
+[Song name]
+
+[Track number]
+piste
+[Song year]
+année
+[Song genre]
+
+[Song length]
+
+[Player name]
+nom du lecteur
+[Don't send to any protocols]
+
+[Toggle send to all protocols]
+
+[Enable/Disable sending Listening To info (to all protocols)]
+
+[Disable ListeningTo (to all protocols)]
+
+[Enable ListeningTo (to all protocols)]
+
 ;file \plugins\ListeningTo\src\options.cpp
+[<Unknown>]
+<inconnu>
+[<Nothing is playing now>]
+
 [Status]
 État
 [General]
 Général
+[Format]
+
 [Players]
 Lecteurs
 ;file \plugins\ListeningTo\src\players\generic.cpp
+[Miranda ListeningTo receiver]
+
 ;file \plugins\ListeningTo\src\players\wmp.cpp
+[Miranda ListeningTo WMP receiver]
+

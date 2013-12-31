@@ -5,6 +5,8 @@
 ;  Version: 0.5.0.11
 ;  Authors: Scott Ellis
 ;============================================================
+[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
+
 ;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 Historique des popups
@@ -12,6 +14,8 @@ Historique des popups
 Fermer
 [Case sensitive]
 Respecter la casse
+[Default Timeout]
+
 [Never timeout]
 Sans durée
 [Set timeout:]
@@ -20,14 +24,52 @@ Délai:
 Largeur:
 [Maximum height:]
 Hauteur maximum:
+[Options]
+Paramètres
+[Opacity (%):]
+
+[Border]
+Bordures
+[Round corners (window)]
+
+[Preview]
+Aperçu
 [Transparent background]
 Arrière-plan transparent
+[Layout]
+
+[Avatar size:]
+
 [Disable when]
 Désactivé si
+[Global hover]
+
+[Sidebar width:]
+
+[Text indent:]
+
+[Padding:]
+
+[Round corners (avatar)]
+
+[Text color:]
+
+[Background color:]
+Couleur d'arrière-plan:
+[Set timeout]
+
 [Timeout value (0 = default):]
 Délai (0 = par défaut):
 ;file \plugins\YAPP\src\icons.cpp
+[Popups are enabled]
+
+[Popups are disabled]
+
+[Popup History]
+Historique des popups
 ;file \plugins\YAPP\src\notify_imp.cpp
+[YAPP Popups]
+
 ;file \plugins\YAPP\src\options.cpp
 [Example]
 Exemple
@@ -39,6 +81,18 @@ Exemple avec un long titre
 Lerapiderenardbrunasautépau-dessuslechienparesseux.
 [An avatar.]
 Un avatar.
+[Bottom right]
+
+[Bottom left]
+
+[Top right]
+
+[Top left]
+
+[Icon on left]
+
+[Icon on right]
+
 [No time]
 Pas d'heure
 [Time on left]
@@ -47,20 +101,52 @@ Heure sur la gauche
 Heure sur la droite
 [Time above avatar]
 Heure sur l'avatar
+[No avatar]
+
+[Left avatar]
+
+[Right avatar]
+
 [Status]
 État
 [Full-screen app running]
 Programme en plein écran
+[No animate]
+
+[Horizontal animate]
+
+[Vertical animate]
+
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Vous ne pouvez pas régler le délai par défaut à 0.\nLa valeur a été resetée.
 [Error]
 Erreur
+[Popups]
+Popups
+[Settings]
+
+[Classes]
+
 ;file \plugins\YAPP\src\services.cpp
+[Disable Popups]
+
+[Enable Popups]
+
 ;file \plugins\YAPP\src\yapp.cpp
+[Toggle Popups]
+
 [First line]
 Première ligne
+[Second line]
+Seconde ligne
+[Time]
+Heure
 [Background]
 Arrière-plan
+[Sidebar]
+
+[Title underline]
+
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 Copier le titre

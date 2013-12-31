@@ -5,21 +5,161 @@
 ;  Version: 1.0.0.3
 ;  Authors: Krzysztof Kral
 ;============================================================
+[Uploads the text to web page and sends the URL to your friends.]
+
 ;file \plugins\PasteIt\res\PasteIt.rc
+[Settings]
+
+[Default web page]
+
+[Default file encoding]
+
+[Auto-detect UTF-8]
+
+[Show confirmation dialog box]
+
+[Autosend download link to contact]
+Envoyer automatiquement l'URL au contact
+[Web page settings]
+
+[Web page to configure]
+
 [Configure]
 Configurer
+[Default formatting]
+
+[Auto-detect format from file extension]
+
+[Public paste]
+
+[Login as guest]
+
+[User key]
+
+[Get user key]
+
+[Configure formatting]
+
+[OK]
+OK
 [Cancel]
 Annuler
+[Up]
+
+[Down]
+
 [Delete]
 Effacer
+[Restore defaults]
+
+[Download more]
+
+[Login to pastebin.com]
+
 [User name]
 Utilisateur
+[Password]
+Mot de passe
+[Paste It]
+
+[Format]
+
+[Encoding]
+
+[Recode]
+
 ;file \plugins\PasteIt\src\Options.cpp
+[Use default codepage]
+
+[Thai]
+Thaïlandais
+[Japanese]
+Japonais
+[Simplified Chinese]
+Chinois simplifié
+[Korean]
+Coréen
+[Traditional Chinese]
+Chinois traditionnel
+[Central European]
+Europe Centrale
+[Cyrillic]
+
+[Cyrillic KOI8-R]
+
+[Latin I]
+Latin I
+[Greek]
+Grecque
+[Turkish]
+Turque
+[Hebrew]
+Hébreux
+[Arabic]
+Arabe
+[Baltic]
+Balte
+[Vietnamese]
+Vietnamien
+[Korean (Johab)]
+Coréen (Johab)
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+
+[Invalid codepage]
+
+[Services]
+Services
+[Main]
+Principales
 [Web page]
 Page Web
 ;file \plugins\PasteIt\src\PasteIt.cpp
+[All Files (*.*)]
+Tous les fichiers (*.*)
+[Paste It - Select file]
+
 [Error]
 Erreur
+[Paste from clipboard]
+
+[Paste from file]
+
+[Paste It HTTP connections]
+
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
+[You can only paste 1 file]
+
+[Cannot get data from clipboard]
+
+[File size is %d KB, do you realy want to paste such a large file?]
+
+[Are You sure?]
+
+[Cannot read file '%s']
+
+[File size is larger then 10 MB, cannot be sent]
+
+[Cannot open file '%s']
+
+[File '%s' is empty]
+
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[Error during sending text to web page: %s]
+
+[Error during sending text to web page]
+
+[Error during getting user key from web page: %s]
+
+[Paste expire date]
+
+[Never]
+Jamais
+[10 minutes]
+
+[1 hour]
+
+[1 day]
+
+[1 month]
+
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp

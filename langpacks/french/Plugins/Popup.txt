@@ -5,9 +5,15 @@
 ;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
+[Provides popup notification services for different plugins.]
+
 ;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Contenu && Style
+[Go to Customize > Fonts && Colors for fonts and colors options]
+
+[Miscellaneous]
+Divers
 [Effects]
 Effets
 [Live Preview]
@@ -20,30 +26,72 @@ Historique
 Activer l'historique des popups
 [Store last]
 Stocker dernière
+[events]
+Évènements
 [Use History++ to render log]
 Utiliser History++ pour le log
+[Avatars]
+Avatars
 [Draw avatar borders]
 Bordures sur les avatars
 [Draw borders for semitransparent avatars too]
 Bordures sur les avatars semi-transparents
+[Round corners by]
+
+[pixels]
+pixels
+[Avatar size:]
+
 [Enable avatar updates]
 Activer la mise à jour des avatars
+[Multimonitor]
+
 [Start the popups in the monitor with]
 Afficher les popups sur l'écran de
 [Miranda's window]
 la fenêtre de Miranda
 [the active window]
 la fenêtre active
+[Transparency]
+
+[Use transparency]
+
 [opacity:]
 opacité:
 [Opaque popups under cursor]
 Rendre opaques popups survolés
+[Slide Popup]
+
+[Effect:]
+Effet:
+[Time (in):]
+
+[ms]
+ms
+[Time (out):]
+
 [Limit window amount to:]
 Nombre maximum de popups:
+[Skins]
+Skins
 [* - built-in skins]
 * skins inclut
+[Skin options]
+Paramètre du skin
+[Preview]
+Aperçu
+[Download more skins]
+
+[Popup History]
+Historique des popups
+[Desktop]
+
 [Popup Area]
 Aspect
+[pixel(s)]
+
+[Distance between popups]
+
 [Configure popup area]
 Configuration du popup
 [Close]
@@ -76,8 +124,22 @@ Icônes alignés à gauche
 Icônes alignés à droite
 [Show Actions: (requires apply)]
 Actions: (appliquer avant aperçu)
+[Mouse Actions Overwrite]
+
+[Left Button]
+
+[Middle Button]
+
+[Right Button]
+
+[Notifications]
+Notifications
+[General options]
+Options générales
 [Enable this notification]
 Activer
+[Popup timeout:]
+
 [Left click action:]
 Clic droit:
 [Right click action:]
@@ -86,14 +148,30 @@ Clic gauche:
 Désactiver si l'état général est:
 [Disable when relevant protocol's status is...]
 Désactiver si l'état du protocole est:
+[Colors can be configured in\r\nCustomize > Fonts && Colors]
+
+[More...]
+
 [Disable if message window is open]
 Désactiver si la fenêtre de message est ouverte
+[Sec]
+secondes
+[0 = Default]
+0 = Défaut
+[-1 = Infinite]
+-1 = Infini
+[Per-contact settings]
+
 [Show always]
 Toujours visible
 [Ignore fullscreen]
 Ignorer si en plein-écran
 [Never show]
 Ne plus afficher
+[Show default]
+
+[Default Timeout]
+
 [Infinite popup delay]
 Affichage permanent
 [Popup delay:]
@@ -118,14 +196,38 @@ Réordonner les popups
 Désactivé quand:
 [Always (has priority)]
 Toujours (en priorité)
+[Fullscreen mode]
+
+[Debug]
+
 ;file \plugins\Popup\src\actions.cpp
+[no overwrite]
+
+[Send message]
+
+[Quick reply]
+
 [User details]
 Détails du contact
 [Contact menu]
 Menu Contact
+[Dismiss popup]
+
+[Pin popup]
+Verrouiller le popup
+[Copy to clipboard]
+Copier dans le Presse-Papiers
+[Action]
+
 ;file \plugins\Popup\src\config.cpp
+[The Jabberwocky]
+
+[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 Test de l'aperçu pour le réglage des popups. Ceci est supposé être assez long pour ne pas tenir sur une seule ligne...
+[This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
+
 [This is a notification message]
 Exemple de notification
 [This is a warning message]
@@ -133,29 +235,109 @@ Exemple de message d'avertissement
 [This is an error message]
 Exemple de message d'erreur
 ;file \plugins\Popup\src\effects.cpp
+[Square fading]
+
 ;file \plugins\Popup\src\font.cpp
+[Hovered Action]
+
+[Clock]
+
 ;file \plugins\Popup\src\history.cpp
+[Popup History is disabled]
+
+[Popup History message]
+
 ;file \plugins\Popup\src\icons.cpp
+[Popups are enabled]
+
+[Popups are disabled]
+
+[With "favorite" overlay]
+
+[With "fullscreen" overlay]
+
 [Refresh skin list]
 Rafraîchir la liste des skins
 [Popup Placement]
 Emplacement
+[OK]
+OK
 [Cancel]
 Annuler
+[Popup Group]
+
+[Favorite Contact]
+
+[Show in Fullscreen]
+
 [Blocked Contact]
 Contact bloqué
+[Quick Reply]
+
 [Pin Popup]
 Verrouiller le popup
 [Pinned Popup]
 Popup verrouillé
+[Send Message]
+
+[Contact Menu]
+Menu Contact
 [Add Contact Permanently]
 Ajouter le contact
+[Dismiss Popup]
+
 ;file \plugins\Popup\src\main.cpp
+[Classes]
+
+[Actions]
+
+[Contacts]
+Contacts
 [Advanced]
 Avancé
+[Toggle Popups]
+
+[Enable Popups]
+
+[Disable Popups]
+
+[Popup Plus]
+
+[Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
+
 ;file \plugins\Popup\src\opt_adv.cpp
+[No effect]
+
+[Fade in/out]
+
 ;file \plugins\Popup\src\opt_class.cpp
+[CLASS Plugins]
+
+[Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
+
 ;file \plugins\Popup\src\opt_gen.cpp
+[Offline]
+Hors ligne
+[Online]
+En ligne
+[Invisible]
+Invisible
+[Away]
+Absent
+[NA]
+Indisponible
+[Occupied]
+Occupé
+[DND]
+Ne pas déranger
+[Free for chat]
+OK pour un chat
+[Out to lunch]
+Parti manger
+[On the phone]
+Au téléphone
+[Width]
+
 [upper left corner]
 Angle haut gauche
 [lower left corner]
@@ -164,13 +346,33 @@ Angle bas gauche
 Angle bas droit
 [upper right corner]
 Angle haut droit
+[horizontal]
+
+[vertical]
+
+[Global Status]
+
+[Protocol Status]
+
+[You cannot specify a value lower than %d and higher than %d.]
+
+['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+
 [Popup Plus Warning]
 Avertissement de Popup Plus
 ;file \plugins\Popup\src\opt_skins.cpp
+[Failed to register %s class.]
+
 [Skin preview]
 Aperçu du Skin
 [Just take a look at this skin... ;)]
 Pris juste pour voir le Skin...  ;-)
+[Show clock]
+
+[Drop shadow effect]
+
+[non rectangular]
+
 [Enable Aero Glass (Vista+)]
 Activer Aero Glass (Vista+)
 [Use Windows colors]
@@ -183,8 +385,32 @@ Paramètres généraux
 Rafraîchir
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
+[Failed to GetClassInfoExW from EDIT class.]
+
+[Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
+
 ;file \plugins\Popup\src\services.cpp
 [Error]
 Erreur
+[Warning]
+Avertissement
+[Notify]
+
 ;file \plugins\Popup\src\skin.cpp
+[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+
 ;file \plugins\Popup\src\srmm_menu.cpp
+[Auto]
+
+[Favorite]
+
+[Block]
+
+[Popup Mode: Auto]
+
+[Popup Mode: Favorite]
+
+[Popup Mode: Ignore fullscreen]
+
+[Popup Mode: Block contact]
+

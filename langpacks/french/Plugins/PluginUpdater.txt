@@ -75,7 +75,7 @@ Clic gauche
 [On right click]
 Clic droit
 [Timeout]
-
+Délai du popup
 [0 = Default]
 0 = Défaut
 [-1 = Infinite]

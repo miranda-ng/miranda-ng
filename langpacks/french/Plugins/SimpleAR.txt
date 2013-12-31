@@ -5,6 +5,8 @@
 ;  Version: 2.0.2.6
 ;  Authors: Stark Wong, Mataes, Mikel-Ard-Ri
 ;============================================================
+[Simple Auto Replier.]
+
 ;file \plugins\SimpleAR\res\Resource.rc
 [Enable Auto Replier]
 Activer l'autoréponse
@@ -14,6 +16,8 @@ En-tête de la réponse:
 Réponse quand je suis
 [No-repeat Interval:]
 Répéter toutes les
+[mins]
+
 [&Default]
 Par &défaut
 ;file \plugins\SimpleAR\src\Main.cpp
@@ -33,6 +37,14 @@ Je suis en train de manger. Je reviens après.
 Désactiver la réponse automatique
 [Enable Auto&reply]
 Activer la réponse automatique
+[Turn off Autoanswer]
+
+[Turn on Autoanswer]
+
 [Dear %user%, the owner left the following message:]
 Salut %user%, le message suivant vous a été laissé:
 ;file \plugins\SimpleAR\src\Options.cpp
+[Simple Auto Replier]
+
+[Message Sessions]
+Sessions de message

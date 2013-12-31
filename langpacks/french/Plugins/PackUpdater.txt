@@ -5,20 +5,144 @@
 ;  Version: 0.0.1.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
+[Simple updater for Miranda NG premodified packs.]
+
 ;file \plugins\PackUpdater\Res\Resource.rc
+[Updates found!]
+Mises à jour trouvées!
+[Update]
+Mise à jour
+[View info]
+
 [Cancel]
 Annuler
+[PackUpdater has detected updated versions\nof the following Miranda components:]
+
+[Description]
+
+[Downloading...]
+Télécharge...
+[Pack update options]
+
+[On startup]
+Au démarrage
+[Remind about not installed pack update]
+
+[Hotkey]
+Raccourci clavier
+[Go to Customize -> Hotkeys to change the hotkey]
+Aller à Apparence -> Raccourcis clavier pour changer les raccourcis.
+[Notifications]
+Notifications
+[Message boxes]
+
+[Errors]
+Erreurs
+[Info messages]
+
+[Progress dialogs]
+
+[Every]
+Tous les
+[(but only once a day)]
+(mais seulement une fois par jour)
+[Message boxes (*)]
+
+[Back]
+Fond
 [Text]
 Texte
+[Colors]
+Couleurs
+[Use cus&tom colors]
+Utiliser des couleurs &personnalisées
+[Use &Windows colors]
+Utiliser les couleurs &Windows
+[Use Pop&up colors]
+Utiliser les couleurs des Pop&up
+[Preview]
+Aperçu
+[Click action]
+Action du clic
+[On left click]
+Clic gauche
+[On right click]
+Clic droit
+[Timeout]
+Délai du popup
+[0 = Default]
+0 = Défaut
+[-1 = Infinite]
+-1 = Infini
+[Sec]
+secondes
+[* Needs popup actions to be enabled]
+* Les actions sur popups doivent être activées
+[Not sets for "Message boxes"]
+
+[Boxes]
+
+[Popups]
+Popups
 ;file \plugins\PackUpdater\Src\Events.cpp
+[Check for pack updates]
+
+[Pack Updater]
+
 ;file \plugins\PackUpdater\Src\Notifications.cpp
+[An error occurred while downloading the update.]
+
+[Component Name]
+Nom du composant
 [Current Version]
 Votre version
 [New Version]
 Nouvelle version
+[Downloading pack updates...]
+
+[Downloading update...]
+
+[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+
+[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
+
 ;file \plugins\PackUpdater\Src\Notifications.h
+[Close popup]
+
+[Do nothing]
+
 ;file \plugins\PackUpdater\Src\Options.cpp
 [hours]
 heures
+[days]
+jours
+[Test]
+Test
+[Services]
+Services
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp
+[Clear pack updates folder]
+
 ;file \plugins\PackUpdater\Src\Utils.cpp
+['Yes' Button]
+Bouton 'Oui'
+['No' Button]
+Bouton 'Non'
+[Pack Updater HTTP connection]
+
+[URL for checking updates not found.]
+
+[Downloading version info...]
+
+[Name of Update's file is not supported.]
+
+[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
+
+[No updates found.]
+Aucune mises à jour trouvée.
+[No files for update.]
+
+[Update checking already started!]
+Vérification des mises à jour en cours!

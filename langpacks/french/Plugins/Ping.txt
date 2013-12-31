@@ -5,23 +5,41 @@
 ;  Version: 0.9.1.1
 ;  Authors: Scott Ellis
 ;============================================================
+[Ping labelled IP addresses or domain names.]
+
 ;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
 Délai entre chaque requêtes (secs):
+[Timeout]
+Délai du popup
 [Ping timeout (secs):]
 Délai d'échec (secs):
+[Logging]
+
+[Log to File]
+
 [Log Filename:]
 Sauver dans:
 [Network]
 Réseau
+[Popups]
+Popups
 [Reply]
 Réponse
 [Block Repetitions]
 Pas de répétitions
+[View Log]
+
+[Browse...]
+
+[Interface]
+
 [Do not change icon when testing]
 Ne pas changer d'icône pendant le test
 [Use the Customize/Fonts options to change text size and color.]
 Aller dans Apparence => Polices pour changer la taille et la couleur de la police de caractères.
+[Indent:]
+
 [Row height:]
 Hauteur de ligne:
 [Repeats for success/failure:]
@@ -36,10 +54,20 @@ Ajouter
 Retirer
 [Edit]
 Éditer
+[Up]
+
+[Down]
+
+[Edit Host]
+
+[OK]
+OK
 [Cancel]
 Annuler
 [Address:]
 Adresse:
+[Label:]
+
 [TCP Connect]
 Connexion TCP
 [Port:]
@@ -52,35 +80,75 @@ Régler mon état en:
 Réussi, si mon état est:
 [Execute the following command on double-click:]
 Exécuter les commandes suivantes suite à un double-clique:
+[Contact]
+
+[Protocols]
+
 [(Optional) Command Parameters:]
 Lignes de commandes (facultatif):
+[Menu]
+Menu
 [Graph]
 Graphe
+[Enable]
+Activer
 [Disable all pings]
 Activer tous les pings
 [Enable all pings]
 Désactiver tous les pings
+[Options...]
+
+[Hosts...]
+
 ;file \plugins\Ping\src\menu.cpp
+[PING]
+Ping
 [Enable All Pings]
 Activer tous les pings
 [Disable All Pings]
 Désactiver tous les pings
 ;file \plugins\Ping\src\options.cpp
+[All\0*.*\0Text\0*.TXT\0]
+
 [<none>]
 <aucun>
 [<all>]
 <tout>
+[Settings]
+
+[Hosts]
+
 ;file \plugins\Ping\src\ping.cpp
+[Ping Plugin]
+
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 Afficher une grille
 [Show stats]
 Voir les stats
+[%d ms]
+
 [AVG %.1lf ms]
 MOY %.1lf ms
+[MAX %hd ms]
+
+[MIN %hd ms]
+
 ;file \plugins\Ping\src\pingthread.cpp
+[%s - setting status of protocol '%s' (%d)]
+
+[%s - reply, %d]
+
+[%s - timeout]
+
+[Disable]
+
+[enabled]
+
 [double clicked]
 double-cliqué
+[Ping]
+Ping
 [Show/Hide &Ping Window]
 Voir/Cacher la fenêtre de &Ping
 ;file \plugins\Ping\src\rawping.cpp
@@ -97,3 +165,5 @@ Réponse en cours
 Pas de réponse
 [Testing]
 Test en cours
+[Disabled]
+Désactivé

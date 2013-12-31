@@ -5,15 +5,25 @@
 ;  Version: 1.5.0.3
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
+[Collects and prints information related to Miranda, the plugins and the OS.]
+
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Enregistrer vers:
+[OK]
+OK
 [Cancel]
 Annuler
 [Text file]
 Fichier texte
+[MessageBox]
+
 [DialogBox]
 Boîte de dialogue
+[Output Debug String]
+
+[Clipboard]
+Presse-papiers
 [Select output:]
 Fichier de sortie:
 [Upload to site]
@@ -34,10 +44,14 @@ Copier aussi dans le presse-papier
 Configuration du site
 [Username]
 ID
+[Password]
+Mot de passe
 [Highlight version number using]
 Surligner les numéros de version
 [Show disabled plugins too]
 Afficher aussi les plugins désactivés
+[Attempt to find unloadable plugins]
+
 [Suppress header information]
 Supprimer les en-têtes informatives
 [Enable debug messages]
@@ -52,6 +66,8 @@ Information de Version de Miranda
 Fermer
 [&Copy text]
 &Copier
+[Upload]
+
 [&Save to file]
 &Sauver dans un fichier
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp
@@ -66,11 +82,21 @@ Le presse papier n'est pas dispo, réessayez.
 [Information successfully copied into clipboard.]
 Écriture réussi dans le presse-papier.
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp
+[Customize using folders plugin]
+
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Êtes-vous sur de vouloir activer cette option ?\nVeuillez activer cette option seulement si vous savez ce que vous faites ou si quelqu'un vous l'a demandé !
 [Show plugin UUIDs?]
 Affichage de l'ID unique des Plugins!
 ;file \plugins\VersionInfo\src\hooked_events.cpp
+[VersionInfo]
+
+[Output folder]
+
+[Version Information]
+
+[Services]
+Services
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]

@@ -5,28 +5,78 @@
 ;  Version: 0.5.0.3
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
+[Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
+
 ;file \plugins\BossKeyPlus\res\BossKey.rc
+[BossKey]
+
+[Go to Customize -> Hotkeys to change the hotkey]
+Aller à Apparence -> Raccourcis clavier pour changer les raccourcis.
 [When I press the hotkey:]
 Quand je presse le raccourci suivant:
+[Change status to]
+
 [Change only if current status is Online]
 Changer seulement si je suis En ligne.
+[Use default status message]
+
 [Disable Sounds]
 Sons désactivés
+[Show the Tray Icon]
+
 [When I return:]
 Quand je reviens:
 [Request password:]
 Mot de passe:
 [Change status back]
 Remettre l'état précédent
+[Hotkey]
+Raccourci clavier
 [Password:]
 Passe:
+[OK]
+OK
 [Cancel]
 Annuler
+[EN]
+
+[Workstation is Locked]
+
+[Screen Saver is running]
+
+[Windows is inactive]
+
+[Hide Miranda when:]
+
+[Miranda is inactive]
+
+[min]
+
+[Miranda is started]
+
+[Others]
+
+[Create a main menu item]
+
+[Restore hiding on startup after failure]
+
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
+[Miranda NG is locked.\nEnter password to unlock it.]
+
+[Password is not correct!\nPlease, enter correct password.]
+
 [Hide Miranda NG]
 Cacher Miranda-IM
+[Hide]
+
+[Hide/Show Miranda]
+
+[get the BossKey name]
+
 ;file \plugins\BossKeyPlus\src\Options.cpp
 [Events]
 Évènements
+[Main]
+Principales
 [Advanced]
 Avancé

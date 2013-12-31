@@ -1,15 +1,25 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+
 ;file \protocols\MSN\res\msn.rc
+[MSN]
+
+[Live ID:]
+
 [Password:]
 Passe:
 [Nickname:]
 Pseudo:
+[Create a new Windows Live account]
+
+[Expert]
+
 [Send message font color/size info inside messages]
 Envoyer les infos de couleur/taille dans les messages
 [Disable all contacts not included into my contact list]
@@ -20,12 +30,24 @@ Gestion des groupes sur le serveur
 Lancer l'application suivante quand un Hotmail arrive:
 [Allow people on my contact list send messages to mobile device]
 Autoriser les contacts de ma liste à m'envoyer des messages sur mon portable
+[Connection settings]
+
+[Direct:]
+
 [Gateway:]
 Passage:
 [Reset]
 RAZ
+[Notify me when a message delivery has failed]
+
+[Incoming file transfers]
+Transferts de fichiers entrant
+[Your host (or router):]
+
 [Server List Manager]
 Gestion de la liste du serveur
+[Contact is on your local list]
+
 [Contact is included into your server list]
 Contact inclus dans ma liste du serveur
 [Allowed (active) contact]
@@ -34,22 +56,88 @@ Contact autorisé
 Contact bloqué
 [Somebody included you in his/her server list]
 Vous êtes dans la liste de ce contact
+[Refresh]
+
+[Hotmail]
+
+[Disable Popup notifications]
+
+[Disable Tray notifications]
+
+[Ignore new messages not in Inbox folder]
+
 [Other]
 Autre
+[Display errors using popups]
+
 [Enable 'Chat Session Established' popup]
 Activer le popup "La connexion au salon est établie"
 [Enable 'Contact left channel' popup]
 Activer le popup "Le contact a quitter le salon"
+[Disable Contact List notifications]
+
+[Set Nickname]
+
+[OK]
+OK
 [Cancel]
 Annuler
+[Mobile Device (used for SMS)]
+
+[Spouse/Partner]
+
+[Middle Name]
+
+[First Name]
+Prénom
+[Last Name]
+Nom
+[Anniversary]
+
+[Birthday]
+
+[Nickname]
+Pseudo
+[Place:]
+
+[MSN Delete Contact]
+
+[Remove from Hotmail Address book]
+
+[Block Contact]
+
+[Invite Contact To Chat]
+
+[Live ID]
+
+[&Invite]
+&Inviter
 [&Cancel]
 &Annuler
 [Add]
 Ajouter
 ;file \protocols\MSN\src\msn_chat.cpp
+[Chat #]
+
+[Me]
+
+[Others]
+
+[&Invite user...]
+
+[&Leave chat session]
+
+[User &details]
+&Détails du contact
+[User &history]
+
 ;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (not currently supported)]
 Le contact vous a envoyé une invitation à une conférence audio (actuellement non supportée) 
+[%I64u bytes]
+
+[Accept NetMeeting request from %s?]
+
 [MSN Protocol]
 Protocole MSN
 [MSN Alert]
@@ -66,13 +154,19 @@ Cette conversation est inactive, des participants l'on quitté.
 Pour reprendre la conversation, fermer cette session et commencer un nouveau chat.
 [There is only 1 person left in the chat, do you want to switch back to standard message window?]
 Il n'y a plus qu'une personne dans le chat, voulez-vous revenir à la fenêtre de message standard ?
+[MSN Chat]
+
 [Message delivery failed]
 Échec d'envoi du message.
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Contact non connecté
 ;file \protocols\MSN\src\msn_links.cpp
+[MSN Link Protocol]
+
 ;file \protocols\MSN\src\msn_lists.cpp
+[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
+
 [%s protocol]
 %s protocole
 ;file \protocols\MSN\src\msn_mail.cpp
@@ -82,18 +176,64 @@ Sujet: %s
 Hotmail de %s (%S)
 [Hotmail from %s]
 Hotmail de %s
+[Unread mail is available: %d in Inbox and %d in other folders.]
+
 ;file \protocols\MSN\src\msn_menu.cpp
+[&Unblock]
+
+[&Block]
+
+[Open &Hotmail Inbox]
+
+[Send &Hotmail E-mail]
+
 [You must be talking to start Netmeeting]
 Vous devez parler pour lancer Netmeeting
+[Set &Nickname]
+
+[Create &Chat]
+
+[Display &Hotmail Inbox]
+
+[View &Profile]
+
+[Setup Live &Alerts]
+
 [&Start Netmeeting]
 Lancer &Netmeeting
 ;file \protocols\MSN\src\msn_misc.cpp
+[Custom Smileys]
+
+[Notify]
+
 [Error]
 Erreur
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
+[Protocol icon]
+
+[Hotmail Inbox]
+
 [Profile]
 Profil
+[MSN Services]
+
+[Block user]
+
+[Invite to chat]
+
+[Start Netmeeting]
+
+[Contact list]
+Liste de contacts
+[Allowed list]
+
+[Blocked list]
+
+[Relative list]
+
+[Local list]
+
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 L'importation des groupes du serveur devrait changer l'apparence de votre liste de contacts à la prochaine connexion. Voulez-vous enregistrer vos groupes sur le serveur ?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
@@ -104,23 +244,53 @@ Options MSN
 Port et hôte automatique
 [Manually specify host/port]
 Port et hôte manuel
+[Disable]
+
+[IP info available only after login]
+
+[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
+
 [Network]
 Réseau
+[Account]
+Compte
+[Connection]
+
 [Server list]
 Liste côté serveur
+[Notifications]
+Notifications
 ;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (not currently supported)]
 Le contact vous a envoyé un flux webcam (actuellement non supporté)
 [Contact tried to view our webcam data (not currently supported)]
 Le contact a essayé de connecter à votre webcam (actuellement non supporté) 
 ;file \protocols\MSN\src\msn_proto.cpp
+[Live Mail]
+
+[Live Alert]
+
+[%s plugin HTTPS connections]
+
+[%s plugin connections]
+
+[Contact already in your contact list]
+
+[Protocol is offline]
+
 [You cannot send message to yourself]
 Vous ne pouvez vous envoyer de message à vous-même
 [Message is too long: SMS page limited to 133 UTF8 chars]
 Message trop long: les SMS sont limités à 133 caractères UTF-8
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
 Message trop long: MSN les limite à 1202 caractères en UTF8
+[Offline messaging is not allowed for LCS contacts]
+
 ;file \protocols\MSN\src\msn_svcs.cpp
+[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
+
+[Convert to Chat]
+
 ;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 La session chat a été arrêté car vous êtes inactif.

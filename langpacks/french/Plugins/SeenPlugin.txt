@@ -5,11 +5,39 @@
 ;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
+[Logs when a user was last seen online and which users were online while you were away.]
+
 ;file \plugins\SeenPlugin\res\resource.rc
+[Last seen options]
+
+[Last seen menuitem]
+
 [Show icon]
 Afficher l'icône
+[Userinfo tab]
+
+[Log to file]
+
+[Log to history]
+
+[Maximum size]
+
 [Variable list]
 Liste variables
+[Enable Idle support]
+
+[Ignore contacts going offline]
+
+[Enable 'Missed Ones' feature]
+
+[Count times]
+
+[Accounts to watch:]
+
+[Use popups]
+
+[Title]
+
 [Text]
 Texte
 [Popup Colors]
@@ -34,21 +62,63 @@ OK pour un chat
 Invisible
 [Offline]
 Hors ligne
+[Reset colors]
+
+[Last seen plugin]
+
+[OK]
+OK
+[You missed following contacts:]
+
+[Test\nTest]
+
+[Alert when user status changes]
+
 ;file \plugins\SeenPlugin\src\history.cpp
+[last seen history]
+
 [View User's Details]
 Voir les détails du contact
 [User Menu]
 Menu Contact
 [Send Instant Message]
 Envoyer un message instantané
+[Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
+
 ;file \plugins\SeenPlugin\src\main.cpp
+[LastSeen]
+
+[User status change]
+
+[Changed to Online]
+
+[User Logged Off]
+
+[User Logged In]
+
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <inconnu>
 [<none>]
 <aucun>
 ;file \plugins\SeenPlugin\src\options.cpp
+[Last Seen Variables]
+
+[Contacts]
+Contacts
+[Last seen]
+
+[Popups]
+Popups
 ;file \plugins\SeenPlugin\src\seen.h
+[%n is %s (%u)]
+
+[%i(%r)%bWas %o]
+
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
+
+[-- Date --]
+
 [year (4 digits)]
 année (4 chiffres)
 [year (2 digits)]
@@ -71,27 +141,133 @@ jour (court)
 heure (24)
 [hours (12)]
 heure (12)
+[AM/PM]
+
+[minutes]
+minutes
 [seconds]
 secondes
+[-- User --]
+
 [username]
 Identifiant
 [nick]
 Speudo
+[UIN/handle]
+
 [Group]
 Groupe
 [Status]
 État
+[Status message]
+
+[Old status]
+
+[external IP]
+
+[internal IP]
+
+[Client info]
+
 [Protocol]
 Protocole
+[Account]
+Compte
+[-- Format --]
+
 [tabulator]
 tabulation
 [line break]
 limite
+[Note:]
+
 [Use]
 Utiliser
+[for empty string]
+
+[instead of]
+
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
+[Sunday]
+
+[Monday]
+
+[Tuesday]
+
+[Wednesday]
+
+[Thursday]
+
+[Friday]
+
+[Saturday]
+
+[Sun.]
+
+[Mon.]
+
+[Tue.]
+
+[Wed.]
+
+[Thu.]
+
+[Fri.]
+
+[Sat.]
+
+[January]
+
+[February]
+
+[March]
+
+[April]
+
+[May]
+
+[June]
+
+[July]
+
+[August]
+
+[September]
+
+[October]
+
+[November]
+
+[December]
+
+[Jan.]
+
+[Feb.]
+
+[Mar.]
+
+[Apr.]
+
+[Jun.]
+
+[Jul.]
+
+[Aug.]
+
+[Sep.]
+
+[Oct.]
+
+[Nov.]
+
+[Dec.]
+
+[<never seen>]
+
 [Idle]
 Inactif
 [Unknown]
 Inconnu
+[Not Idle]
+

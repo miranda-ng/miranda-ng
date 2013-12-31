@@ -5,19 +5,27 @@
 ;  Version: 0.0.2.4
 ;  Authors: Denis Stanishevskiy
 ;============================================================
+[File transfer by using the messaging services - as plain text.]
+
 ;file \plugins\FileAsMessage\res\resources.rc
+[fileAsMessage]
+
 [Filename:]
 Fichier:
 [Size:]
 Taille:
 [Chunk size]
 Taille des morceaux
+[ms]
+ms
 [Delays between sends]
 Délai entre 2 envois
 [bytes]
 octets
 [Transfer settings]
 Configuration de transferts
+[Appearance]
+Apparence
 [Unsent]
 Non envoyé
 [Sent]
@@ -28,7 +36,11 @@ Envoyé
 Reçu
 [Use only alphanumeric encoding on transfer]
 Veuillez utiliser uniquement de l'alphanumérique sur les transferts
+[Extra options: Events > File Transfers, "Receiving files" group]
+
 ;file \plugins\FileAsMessage\src\dialog.cpp
+[File already exists. Overwrite?]
+
 [Couldn't open a file]
 Impossible d'ouvrir le fichier
 [Size: %d bytes]
@@ -45,6 +57,8 @@ En requête de parties manquantes
 Réception...
 [Sent successfully]
 Envoi réussi
+[Unknown command for "File As Message" was received]
+
 [Incoming file request. Do you want to proceed?]
 Requête de fichier entrant. Voulez-vous continuer?
 [Canceled by remote user]
@@ -70,6 +84,20 @@ Annulé par l'usager
 [Transfer is in progress. Do you really want to close?]
 Transfert en cours. Voulez-vous vraiment annuler ?
 ;file \plugins\FileAsMessage\src\main.cpp
+[Play]
+
+[Pause]
+Pause
+[Revive]
+
+[Stop]
+
+[Main]
+Principales
+[Plugins]
+Plugins
 [File As Message...]
 Fichier comme message...
 ;file \plugins\FileAsMessage\src\main.h
+[File As Message]
+

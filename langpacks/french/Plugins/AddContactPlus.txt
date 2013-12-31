@@ -5,13 +5,25 @@
 ;  Version: 0.9.9.1
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
+[Provides the ability to quickly add new contacts.]
+
 ;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 Ajouter le contact
+[Add contact\nAdd a contact to your contact list]
+
+[Account:]
+
+[Contact ID:]
+
 [Custom name:]
 Nom à afficher:
 [Group:]
 Groupe:
+[Options]
+Paramètres
+[Add temporarily]
+
 [Send "You were added"]
 Envoyer "Vous êtes ajouté"
 [Send authorization request]
@@ -27,4 +39,16 @@ Demande d'autorisation
 Veuillez autoriser ma demande et m'ajouter à votre liste de contact.
 [None]
 Aucun
+[The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
+
+[The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
+
 ;file \plugins\AddContactPlus\src\main.cpp
+[&Add contact...]
+
+[Open add contact dialog]
+
+[Main]
+Principales
+[AddContact+]
+

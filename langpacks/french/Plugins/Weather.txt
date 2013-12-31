@@ -5,45 +5,91 @@
 ;  Version: 0.4.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
+[Retrieves weather information and displays it in your contact list.]
+
 ;file \plugins\Weather\res\resource.rc
+[Update]
+Mise à jour
 [Brief Info]
 Info
 [Webpage]
 Page Web
 [Close]
 Fermer
+[Options]
+Paramètres
 [Update weather information on startup]
 Mettre à jour la météo au démarrage
 [Update weather information every]
 Mettre à jour les infos toutes les
+[minutes]
+minutes
 [Consider weather info updated only when condition and temperature are changed]
 Considérer la Météo à jour seulement si les conditions et température sont changées
 [Remove old data when updating]
 Effacer toutes les données lors d'une mise à jour.
 [Make the contact italic when weather alert is issued]
 Mettre en italique le contact quand l'alerte Météo est publiée.
+[Modes]
+
 [Use weather condition as protocol status]
 Gérer les conditions météo comme les états de protocole
 [Avatar only mode]
 Mode avatar uniquement
+[Units]
+
 [Temperature]
 Température
+[Celsius]
+
+[Fahrenheit]
+
 [Degree sign:]
 Symbole
 [Wind]
 Vent
+[km/h]
+
+[m/s]
+
+[mph]
+
+[knots]
+
 [Visibility]
 Visibilité
+[km]
+
+[miles]
+
 [Pressure]
 Pression
+[kPa]
+
+[mb (hPa)]
+
+[inches]
+
+[mm Hg (torr)]
+
 [Day/Month]
 Jour/Mois
+[No change]
+
 [2 chars]
 2 lettres
 [3 chars]
 3 lettres
+[Elevation]
+
+[ft]
+
+[m]
+
 [Do not append units to values]
 Ne pas indiquer d'unité
+[Do not display fractional values]
+
 [Frame]
 Images
 [Avatar size]
@@ -54,6 +100,8 @@ Modifier la Station Météo
 Station Météo
 [City name]
 Ville
+[ID]
+ID
 [Log Information]
 Enregistrement des Informations
 [Use internal history]
@@ -62,6 +110,10 @@ Utiliser un historique interne
 Utiliser un fichier externe
 [Overwrite file upon update]
 Écraser le fichier
+[Path:]
+
+[Link Settings]
+
 [More Info URL]
 Lien d'Info
 [Weather Map]
@@ -72,10 +124,20 @@ Autres options
 Prendre cette Station par défaut.
 [Disable automatic update for this station]
 Désactiver la mise à jour automatique pour cette Station.
+[Disable Popup for this station]
+
+[Change]
+
 [Cancel]
 Annuler
+[Popup Options]
+
+[Enable popups]
+
 [Popup only when condition changes]
 Seulement si les conditions changent
+[Colors]
+Couleurs
 [Background color]
 Couleur de fond
 [Text color]
@@ -90,16 +152,30 @@ Gauche
 Droit
 [Popup Delay]
 Délai des popups
+[Delay]
+
 [seconds]
 secondes
+[From Popup plugin]
+Comme le plugin Popup
+[Permanent]
+
 [Popup Text]
 Texte des popups
+[Popup Title]
+
+[Variables]
+
 [Default]
 Défaut
+[Preview]
+Aperçu
 [Updates]
 Mise à jour
 [Alerts]
 Notifications
+[Errors]
+Erreurs
 [Contact List]
 Liste de contacts
 [Brief Info Title]
@@ -110,10 +186,16 @@ Note/Info
 Info supplémen.
 [External Log]
 Log Externe
+[History Log]
+
+[Variable List]
+Liste variables
 [More Variables]
 Plus de variables
 [Reset]
 RAZ
+[Status Message]
+
 [Sunset]
 Coucher de soleil
 [Feel-like]
@@ -128,8 +210,12 @@ Lever de soleil
 Condensation
 [Humidity]
 Humidité
+[More...]
+
 [Weather Protocol INI Setup]
 Fichier INI de configuration pour Weather
+[Weather Protocol INI Setup\nInstall and load your weather ini file here]
+
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Weather n'as pas trouvé son fichier INI de configuration. Afin de configurer Weather et ajouter des Stations Météo, choisissez parmi les choix suivants:
 [Click here to download a weather ini file from Miranda file listing]
@@ -148,6 +234,10 @@ Quantité de mémoire utilisée
 Recharger l'INI
 [City:]
 Ville:
+[Menu]
+Menu
+[Dismiss Popup]
+
 [Open brief information]
 Ouvrir les infos brèves
 [Open complete forecast]
@@ -156,6 +246,10 @@ Ouvrir les prévisions au complet
 Ouvrir la carte météo
 [View history]
 Voir l'historique
+[Open log file]
+
+[Show user menu]
+
 [Show user detail]
 Voir détails utilisateur
 [To old setting]
@@ -163,11 +257,19 @@ Anciens réglages
 [To default]
 Par défaut
 ;file \plugins\Weather\src\weather.cpp
+[Enable/disable auto update]
+
+[Auto Update Enabled]
+
+[Auto Update Disabled]
+
 [Weather Condition Changed]
 Conditions météo changées
 [Weather Alert Issued]
 Alerte météo publiée
 ;file \plugins\Weather\src\weather.h
+[N/A]
+
 [Invalid ID format, missing "/" (10)]
 Format ID invalide, perte de "/" (10)
 [Invalid service (11)]
@@ -230,6 +332,8 @@ Conditions Météo de %n à %u
 %n at %u:	%c, %t (Ressenti %f)	Vent: %i %w	Humidité: %m]
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\nAujourd'hui:  maxi %h, mini %l]
+[Temperature: %[Temperature]]
+
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Information météo en cours pour %s.
@@ -254,13 +358,23 @@ L'adresse pour la carte météo n'a pas été renseignées. Vous pouvez y reméd
 Prendre le nom de la ville d'après l'identifiant
 [Weather INI information]
 Information sur l'INI de Weather
+[Browse]
+
 [View webpage]
 Site Web
+[Reset to default]
+Paramètres par défaut
 [Text Files]
 Fichiers txt
 [All Files]
 Tous les fichiers
 ;file \plugins\Weather\src\weather_conv.cpp
+[mb]
+Mo
+[in]
+Entrée
+[mm]
+
 [<unknown time>]
 <temps inconnu>
 [<Error>]
@@ -276,7 +390,41 @@ Erreur à l'obtention des données: %s
 [Weather HTTP connections]
 Connexions HTTP de Weather
 ;file \plugins\Weather\src\weather_icons.cpp
+[Protocol icon]
+
+[Update Disabled]
+
+[View Log]
+
+[Update with Clear]
+
+[View Brief]
+
+[View Complete]
+
+[Weather Update]
+
+[Popup]
+
+[No Popup]
+
+[Edit Settings]
+
 ;file \plugins\Weather\src\weather_info.cpp
+[Name]
+Nom
+[Author]
+
+[File Version]
+
+[INI Version]
+
+[Items]
+Objets
+[Display Name]
+
+[File Name]
+
 [The corresponding INI file for "%s" is not found.]
 Le fichier INI correspondant à %s n'a pas été trouvé.
 [Weather INI information for "%s":]
@@ -285,6 +433,10 @@ Information sur l'INI de Weather pour %s:
 Nom:
 [Internal Name:]
 Nom Interne:
+[Author:]
+
+[Version:]
+
 [INI Version:]
 Version de l'ini:
 [File Name:]
@@ -307,11 +459,23 @@ Format ini invalide de: %s
 [All update data has been reloaded.]
 Toutes les données ont bien été mise à jour.
 ;file \plugins\Weather\src\weather_mwin.cpp
+[Frame Font]
+
+[Frame Title Font]
+
+[Frame Background]
+
 ;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 Réseau
 [General]
 Général
+[Display]
+
+[Popups]
+Popups
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+
 [Weather Protocol Text Preview]
 Prévisualisation de Weather Protocole
 ;file \plugins\Weather\src\weather_popup.cpp
@@ -334,12 +498,18 @@ Supprimer les anciennes données et mettre à jour
 Information brève
 [Read Complete Forecast]
 Lire les prévisions au complet
+[Weather]
+
+[Enable/Disable Weather Update]
+
 [Update All Weather]
 MAJ de tout Weather
 [Remove Old Data then Update All]
 Effacer les anciennes données lors d'une MAJ totale
 [Weather Notification]
 Notification de Weather
+[Display in a frame]
+
 ;file \plugins\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 Impossible de retrouver la météo de %s
@@ -348,9 +518,13 @@ Impossible de retrouver la météo de %s
 Condition actuelles de %n
 [Last update on:   %u]
 Dernière mise à jour: %u
+[Variable]
+
 [Information]
 Informations
 [Retrieving new data, please wait...]
 Réception des données, veuillez patienter...
 [More Info]
 Plus d'info
+[No information available.\r\nPlease update weather condition first.]
+

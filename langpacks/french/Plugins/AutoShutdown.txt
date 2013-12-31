@@ -56,6 +56,8 @@ Quand tous vos contacts sont déconnectés
 Éteindre quand tous les fichiers auront été transféré
 [&Action:]
 &Action:
+[OK]
+OK
 [Cancel]
 Annuler
 [Unsaved data in open applications except Miranda NG might get lost.]
@@ -69,12 +71,16 @@ Cliquer sur "Annuler" pour annuler cette action, ou sur "Maintenant" pour ne pas
 Heure d'extinction:
 [Time left:]
 Temps restant:
+[Paused]
+EN PAUSE
 [&Unpause Countdown]
 &Relancer le comte à rebours
 [&Pause Countdown]
 Figer le compte à rebours
 [&Cancel Countdown]
 &Annuler le compte à rebours
+[AutoShutdown]
+
 [Countdown on Frame]
 Compte à rebours en image
 [Background]
@@ -82,14 +88,20 @@ Arrière-plan
 [Progress Bar]
 Progression
 ;file \plugins\AutoShutdown\src\main.cpp
+[Header]
+
+[Active]
+
+[Inactive]
+
 ;file \plugins\AutoShutdown\src\options.cpp
 [Events]
 Évènements
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
-[(current: %u%%)]
-(actuel: %u%%)
 [Second(s)]
 Seconde(s)
+[Minute(s)]
+minute(s)
 [Hour(s)]
 Heure(s)
 [Day(s)]
@@ -98,23 +110,19 @@ Jour(s)
 Semaine(s)
 [Month(s)]
 Mois
+[(current: %u%%)]
+(actuel: %u%%)
 [Start/Stop automatic shutdown]
 Lancer/Arrêter l'arrêt automatique
-[Stop automatic shutdown]
-Stopper l'arrêt automatique
 [Start automatic shutdown]
 Démarrer l'arrêt automatique
+[Stop automatic shutdown]
+Stopper l'arrêt automatique
 [Stop automatic &shutdown]
 Stopper l'arrêt &automatique
 [Automatic &shutdown...]
 Extinction Automatique...
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
-[Automatic Shutdown Error]
-Erreur de Automatic Shutdown
-[The shutdown process failed!\nReason: %s]
-La procédure d'extinction a échouée !\nMotif:%s
-[Unknown]
-Inconnu
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda-IM va être fermé automatiquement dans %u seconde(s).
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
@@ -133,6 +141,12 @@ L'ordinateur se verrouillera automatiquement dans %u seconde(s).
 Toutes les connexions seront désactivées dans %u seconde(s).
 [The computer will automatically be shut down in %u second(s).]
 L'ordinateur s'éteindra automatiquement dans %u seconde(s).
+[Automatic Shutdown Error]
+Erreur de Automatic Shutdown
+[The shutdown process failed!\nReason: %s]
+La procédure d'extinction a échouée !\nMotif:%s
+[Unknown]
+Inconnu
 [Inititiating the shutdown process failed!\nReason: %s]
 Échec de l'initialisation d'extinction !\nMotif: %s
 [Close Miranda NG]
@@ -149,6 +163,8 @@ Redémarrer l'ordinateur
 Mettre en veille
 [Hibernate mode]
 Mettre en veille prolongée
+[Lock workstation]
+
 [Hang up dialup connections]
 Couper Internet
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
@@ -176,3 +192,5 @@ Compte à rebours de Automatic Shutdown
 ;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle Automatic Shutdown]
 Automatic Shutdown
+[Main]
+Principales

@@ -5,28 +5,102 @@
 ;  Version: 1.3.0.10
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
+[Adds some useful options to a contacts menu.]
+
 ;file \plugins\MenuItemEx\res\resource.rc
+[Enter an authorization request]
+
 [&Send]
 &Envoyer
 [&Cancel]
 &Annuler
+[Shown menu items]
+
 [Visibility]
 Visibilité
+[Show alpha icons]
+
+[Hide from list]
+
 [Ignore]
 Ignorer
+[Copy to Account (Ctrl+click for move to Account)]
+
+[Send 'You were added']
+
+[Request Authorization]
+Demander l'autorisation
 [Browse Received Files]
 Voir Les Fichiers Reçus
+[Copy IP]
+
+[Copy MirVer]
+
+[Copy Status Message]
+
+[Add item name]
+
+[Copy ID]
+
+[Add protocol name]
+
+[Show ID in menu item]
+
+[Trim too long ID]
+
+[* Use Ctrl+click to see popup with the copied text]
+
+[Hide contact on 'Ignore all']
+
 ;file \plugins\MenuItemEx\src\main.cpp
+[Status message]
+
+[XStatus title]
+XStatus - Titre
+[XStatus message]
+
+[Listening to]
+
+[Activity title]
+
+[Activity text]
+
+[Show in list]
+
+[Always visible]
+Toujours visible
+[Never visible]
+
+[Copy to Account]
+
+[Copy xStatus Message]
+
+[All]
+
+[Messages]
+Messages
 [URL]
 Lien
 [Files]
 Fichiers
 [User Online]
 Utilisateur en ligne
+[Authorization]
+
 [You Were Added]
 Vous avez été ajouté
 [Typing Notify]
 Notification de frappe
+[Please authorize me to add you to my contact list.]
+
+[Do you want to send authorization request\nto new contact?]
+
+[Miranda NG]
+Miranda NG
+[MenuItemEx]
+
+[Open ignore settings]
+
 [Request authorization]
 Demander l'autorisation
 ;file \plugins\MenuItemEx\src\options.cpp

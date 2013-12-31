@@ -5,15 +5,23 @@
 ;  Version: 0.2.0.3
 ;  Authors: Felipe Brahm - souFrag
 ;============================================================
+[Plugin supports starting position of Contact List relative to the the taskbar and screen side.]
+
 ;file \plugins\StartPosition\res\resource.rc
 [Contact List Window Start Position]
 Définir la position de la liste de contact au démarrage
+[Left]
+
+[Right]
+
 [Pixels from Top]
 Pixels du haut
 [Pixels from Bottom]
 Pixels du bas
 [Pixels from Side]
 Pixels du bord
+[Width]
+
 [Always start...]
 Toujours lancer...
 [Minimized to System Tray]
@@ -23,3 +31,5 @@ Ouvert
 ;file \plugins\StartPosition\src\main.cpp
 [Contact List]
 Liste de contacts
+[Start position]
+

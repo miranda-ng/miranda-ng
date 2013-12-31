@@ -5,7 +5,17 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
+[Displays contacts, event notifications, protocol status with MW modifications.]
+
 ;file \plugins\Clist_mw\res\resource.rc
+[Settings]
+
+[Background color:]
+Couleur d'arrière-plan:
+[Selection color:]
+
+[Use background bitmap]
+Utiliser une image d'arrière-plan
 [Stretch to width]
 Étirer en largeur
 [Stretch to height]
@@ -18,6 +28,8 @@ Paver verticalement
 Défiler avec le texte
 [Stretch proportionally]
 Étirer proportionnellement
+[Tile vertically according to Row Height]
+
 [Warning!\r\nThis MenuObject not support user defined options.]
         -={ Avertissement }=-\r\nCe menu ne peut être modifié.
 [MenuObjects]
@@ -42,6 +54,8 @@ Non
 Oui
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Effacer de la liste mais conserver son historique et ses options.
+[Use Options->Contacts->Ignore to unhide contacts.]
+Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
 [Are you sure you want to delete %s?]
 Voulez-vous vraiment supprimer %s ?
 [This will erase all history and settings for this contact!]
@@ -72,6 +86,8 @@ Clic simple
 Afficher l'état dans la bulle
 [Disable icon blinking]
 Sans clignotement
+[ms, delay between icon blinking]
+
 [Show]
 Afficher
 [icon when statuses differ]
@@ -92,12 +108,16 @@ Icône de la barre des tâches
 Icône de la barre des tâches quand plusieurs protocoles sont utilisés
 [Contact List Sorting]
 Tri des contacts dans la liste
+[Don't move offline user to bottom]
+
 [Pin to desktop]
 Épingler au bureau
 [Rows]
 Lignes
 [Row height:]
 Hauteur de ligne:
+[pixels]
+pixels
 [Gamma correction]
 Correction gamma
 [Window]
@@ -108,12 +128,16 @@ Fenêtre principale style 'Outil'
 Minimiser dans barre système
 [Automatically resize window to height of list]
 Redimensionnement automatique de la fenêtre
+[maximum]
+maximum
 [% of screen]
 % de l'écran
 [Size upwards]
 Agrandir vers le haut
 [Title bar text:]
 Texte du titre:
+[Translucency options]
+Options de transparence
 [Fade contact list in/out]
 Fondu de la liste de contacts
 [Transparent contact list]
@@ -130,6 +154,8 @@ Déplacement facile
 Afficher la barre de titre
 [If window is partially covered, bring to front instead of hiding]
 Si la fenêtre est partiellement couverte, mettre en avant-plan plutôt que de cacher
+[Enable drop shadow (restart required)]
+
 [Items]
 Objets
 [Show divider between online and offline contacts]
@@ -174,10 +200,22 @@ Marge gauche:
 Griser toute la liste quand:
 [Dim idle contacts]
 Estomper les contacts inactifs
+[Hide vertical scrollbar]
+
 [Contact List Background]
 Arrière-plan de la liste
+[Use 'Meta' protocol icons for Metacontacts]
+
+[Avoid doubleclick expand]
+
+[Hide all 'Extra icons' for subcontacts]
+
 [MetaContacts supporting]
 Options pour les MetaContacts
+[Ignore Empty Extra icons places (arrange to right).]
+
+[Hide offline subcontacts.]
+
 [Status Bar]
 Barre d'état
 [Show status bar]
@@ -190,6 +228,8 @@ Afficher le nom des protocoles
 Afficher l'état du protocole
 [Right click opens status menu]
 Le clic droit ouvre le menu "État"
+[Right click opens Miranda menu]
+Le clic droit ouvre le menu Miranda
 [Make sections equal width]
 Faire des sections de taille égale
 [Show size grip]
@@ -200,6 +240,8 @@ Voir les effets 3D
 Icônes de connexion
 [Use New Drawer for StatusBar]
 Utiliser un nouveau "tiroir" pour StatusBar
+[&Main menu]
+&Menu principal
 [E&xit]
 &Quitter
 [&Status]
@@ -326,15 +368,76 @@ Pas de contacts ou protocoles
 [(Unknown Contact)]
 (Contact inconnu)
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[Tray menu]
+
 [&Find/Add Contacts...]
 &Chercher/Ajouter des contacts...
-[&Main menu]
-&Menu principal
+[&Options...]
+&Paramètres...
+[&About]
+
 ;file \plugins\Clist_mw\src\clui.cpp
+[My Contacts]
+Mes Contacts
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
+[Group menu]
+
+[Subgroup menu]
+
+[&New SubGroup]
+&Nouveau sous-groupe
 ;file \plugins\Clist_mw\src\keyboard.cpp
+[Close Miranda]
+Fermer Miranda
+[Restore last status]
+
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&FrameTitle]
+&Titre du Cadre
+[&Visible]
+&Visible
+[&Show TitleBar]
+&Afficher la barre de titre
+[&Locked]
+&Verrouillé
+[&Collapsed]
+
+[&Floating Mode]
+&Mode détaché
+[&Border]
+&Bordure
+[&Align]
+&Aligné
+[&Top]
+&Haut
+[&Client]
+&Client
+[&Bottom]
+&Bas
+[&Position]
+&Position
+[&Up]
+&Vers le Haut
+[&Down]
+&Vers le Bas
 [Frames]
 Cadres
+[Show All Frames]
+Montrer tous les cadres
+[Show All Titlebars]
+Montrer toutes les barres de titres
+[Hide All Titlebars]
+Cacher toutes les barres de titres
+[Lock Frame]
+Cadre vérouillé
+[Visible]
+Visible
+[Show TitleBar]
+Afficher la barre de titre
+[Floating]
+Flottant
+;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
+
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

@@ -1,11 +1,15 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo
+;  Plugin: Yahoo Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Gennady Feldman
 ;============================================================
+[Yahoo Protocol support for Miranda NG.]
+
 ;file \protocols\Yahoo\res\Yahoo.rc
+[Yahoo]
+
 [ID:]
 ID:
 [Password:]
@@ -14,46 +18,110 @@ Passe:
 Pseudo:
 [Create a new Yahoo account using the Yahoo website]
 Créer un nouveau compte depuis le site de Yahoo
+[Expert]
+
 [Use Yahoo Address Book (YAB)]
 Utiliser le carnet d'adresses Yahoo (YAB)
+[Show Avatars]
+Montrer les avatars
+[AutoLogin to Yahoo Website(s)]
+
 [Display Yahoo notifications]
 Afficher les notifications
 [Show Errors]
 Voir les erreurs
 [Yahoo Japan]
 Yahoo Japon
+[Create a new Yahoo account]
+
+[Connection Settings]
+
+[Login server:]
+
 [Port:]
 Port:
 [Reset]
 RAZ
 [Yahoo Ignore List]
 Liste des contacts à ignorer
+[Ignore anyone who is not on my Yahoo buddy list]
+
+[Ignore only the people below:]
+
 [&Add]
 &Ajouter
+[&Remove]
+
 [Set Custom Status]
 Personnaliser le message d'état
 [Show as busy]
 Signaler comme occupé
+[OK]
+OK
 [Cancel]
 Annuler
+[Protocol:]
+
+[Client:]
+
+[Chat Room Invitation Request]
+
 [&Join]
 Re&joindre
 [&Deny]
 &Refuser
+[Denial Message]
+
+[Invitation Message]
+
+[Host]
+
+[Invite Buddy To Chat Room]
+
+[Screen Name]
+
+[&Invite]
+&Inviter
 [&Cancel]
 &Annuler
+[Invitation reason]
+
 [Add]
 Ajouter
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 {Miranda} Invitation à la conférence ici: %s message: %s
+[%s denied invitation with message: %s]
+
+[Me]
+
+[Others]
+
+[&Invite user...]
+
+[&Leave chat session]
+
+[User &details]
+&Détails du contact
+[User &history]
+
+[Join My Conference...]
+
+[No, thank you...]
+
 ;file \protocols\Yahoo\src\icolib.cpp
+[Main]
+Principales
 [Mail]
 e-mail
 [Profile]
 Profil
+[Refresh]
+
 [Address Book]
 Carnet d'adresses
+[Set Status]
+
 [Calendar]
 Calendrier
 ;file \protocols\Yahoo\src\im.cpp
@@ -64,13 +132,17 @@ Délai d'envoi du message expiré
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Message trop grand: Les messages de Yahoo sont limités à 800 caractères de type UTF8
 ;file \protocols\Yahoo\src\links.cpp
+[YAHOO Link Protocol]
+Raccourci du protocole Yahoo
 ;file \protocols\Yahoo\src\main.cpp
+[YAHOO plugin HTTP connections]
+
 ;file \protocols\Yahoo\src\options.cpp
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 Les changements que vous avez faits exigent une reconnexion à Yahoo! pour entrer en vigueur
 [YAHOO Options]
 Options YAHOO
-[You need to be connected to Yahoo to add to ignore list.]
+[You need to be connected to Yahoo to add to Ignore List.]
 Vous devez être connecté à Yahoo pour pourvoir ajouter un contact à ignorer.
 [Yahoo Ignore]
 Contact Yahoo
@@ -84,7 +156,19 @@ Vous devez être connecté à Yahoo afin de retirer un contact de la liste.
 Vous devez sélectionner un contact dans la liste des ignorés afin de l'y retirer.
 [Network]
 Réseau
+[Account]
+Compte
+[Connection]
+
+[Ignore List]
+
 ;file \protocols\Yahoo\src\proto.cpp
+[New E-mail available in Inbox]
+
+[%s plugin connections]
+
+[ID]
+ID
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Veuillez entrer votre ID Yahoo dans Options/Réseaux/Yahoo
 [Please enter your Yahoo password in Options/Network/Yahoo]
@@ -98,24 +182,44 @@ Vous devez vous connecter pour pouvoir définir un message personnalisé
 Vous devez vous connecté afin de mettre à jour votre liste de contacts
 [Set &Custom Status]
 &Personnaliser le message d'état
+[&Edit My Profile]
+
 [&My Profile]
 &Mon profil
+[&Yahoo Mail]
+
+[&Address Book]
+
 [&Calendar]
 &Calendrier
+[Create Conference]
+
 [&Show Profile]
 &Afficher le profil
 ;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
 (miranda) réception d'une demande de webcam. (non actuellement supporté)
 ;file \protocols\Yahoo\src\yahoo.cpp
+[Calendar Reminder]
+
 [%s has rejected your request and sent the following message:]
 %s a rejeté votre requête et vous envoie le message suivant:
+[Invalid Contact]
+
+[The ID you tried to add is invalid.]
+
+[Unknown Error.]
+
+[New Mail]
+
 [You Have %i unread msgs]
 Vous avez %i msg non lus
 [New Mail (%i msgs)]
 Nouveau e-mail (%i msgs)
 [From: %s\nSubject: %s]
 De: %s\nsujet: %s
+[Yahoo System Message]
+
 [Yahoo Ping Error]
 Erreur Ping Yahoo
 [Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]

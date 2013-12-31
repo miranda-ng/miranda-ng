@@ -5,6 +5,8 @@
 ;  Version: 3.2.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
+[Advanced Database Editor.]
+
 ;file \plugins\DbEditorPP\res\resource.rc
 [Database Editor++ Search and Replace]
 Database Editor++ - Rechercher et Remplacer
@@ -16,6 +18,8 @@ Module
 Mot entier
 [Setting Name]
 Réglage
+[Setting Value]
+
 [&Search]
 &Recherche
 [Found field]
@@ -26,6 +30,8 @@ Champ trouvé
 &Annuler
 [Search For]
 Recherche de
+[Text:]
+
 [In:]
 avec
 [Replace With]
@@ -38,6 +44,8 @@ Sauver la position de la fenêtre
 Étendre automatiquement les réglages quand Database Editor++ démarre
 [Warn when deleting modules]
 Avertir avant la suppression d'un ou plusieurs modules
+["Open user tree in DBE++" menu item]
+
 [Use popups when watched settings change values]
 Afficher un popup quand les réglages sous surveillance sont modifiés
 [Popup timeout (0 for infinite)]
@@ -48,6 +56,10 @@ Couleur de fond
 Ajouter un module au contact
 [Add a module named]
 Ajouter module nommé
+[Add to all contacts (Includes Settings)]
+
+[OK]
+OK
 [Cancel]
 Annuler
 [Edit Setting]
@@ -56,18 +68,28 @@ Modifier réglage
 Nom de valeur:
 [Value Data:]
 Données de valeur:
+[Base]
+
 [Save Value as:]
 Enregistrer valeur sous:
 [Watched Database Variables]
 Variables de la base surveillées
 [Copy module to contact]
 Copier le module du contact
+[Copy to all contacts (Includes Settings)]
+
 [Contact to copy module and settings to]
 Contact vers lequel copier module et réglages
 [Import Module/Settings]
 Importer module / réglages
+[Import]
+
+[Insert &CR/LF]
+
 [Paste the Settings to import here.]
 Coller les réglages à importer ici.
+[DBEditor++]
+
 [&Main]
 &Menu
 [&Refresh Modules]
@@ -76,6 +98,8 @@ Actualiser les modules
 Actualiser les réglages
 [E&xit]
 &Quitter
+[&Actions]
+
 [&Search and Replace]
 &Rechercher et remplacer...
 [&Delete Module]
@@ -86,16 +110,22 @@ Actualiser les réglages
 Tout &voir
 [&Delete all]
 Tout &effacer
+[&Export]
+
 [Entire &Database]
 Toute la base de données
 [All &Settings]
 Tous les &réglages
 [All &Contacts]
 Tous les &contacts
+[&Import]
+
 [From a &file]
 Depuis un &fichier
 [From pasted &text]
 Depuis le &texte copié
+[&Options]
+&Paramètres
 [&Sort by protocol]
 &Trier par protocole
 [Show &All]
@@ -112,12 +142,24 @@ Afficher uniquement ceux non chargés
 Éditer &Dwords en Hexadécimal
 [&Restore position]
 &Restaurer la position
+[&Open Options]
+
 [&Edit / Rename]
 &Modifier / Renommer
 [NEW]
 Nouveau
+[&Byte]
+
+[&Word]
+
+[&Dword]
+
 [&String]
 &Chaîne
+[&Unicode]
+
+[BL&OB]
+
 [&Convert to]
 Con&vertir vers
 [Encyption]
@@ -187,9 +229,15 @@ Modifier valeur CHAÎNE
 Nouvelle valeur Unicode
 [Edit UNICODE value]
 Éditer une valeur Unicode
+[New BLOB value]
+
+[Edit BLOB value]
+
 [Couldn't allocate enough memory!]
 Impossible d'allouer assez de mémoire !
 ;file \plugins\DbEditorPP\src\copymodule.cpp
+[Settings]
+
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Voulez-vous vraiment supprimer le module "%s" ?
@@ -200,8 +248,12 @@ Supprime le module de la base de données
 [Delete module from Database... Loading]
 Supprime le module de la base de données... Mise à jour
 ;file \plugins\DbEditorPP\src\exportimport.cpp
+[INI Files]
+
 [All Files]
 Tous les fichiers
+[Export to file]
+
 [Error Loading Module List]
 Erreur de chargement liste de modules
 [Couldn't open file for writing]
@@ -211,6 +263,8 @@ Importer
 ;file \plugins\DbEditorPP\src\findwindow.cpp
 [Enter a string to search the DB for]
 Tapez les mots que vous recherchez dans la base de données
+[Stop]
+
 [Replaced with]
 Remplacé par
 [Deleted]
@@ -225,6 +279,8 @@ Trouvé
 %s réglage "%s", du module "%s", dans la section "%s"
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
 %s "%s" dans le réglage "%s", du module "%s", section "%s"
+[Searching...]
+
 [Error Loading Setting List]
 Erreur au chargement de la liste des réglages
 [Finished. %d items were found, %d items were deleted.]
@@ -240,9 +296,15 @@ Fermer les modules connus
 Ouvrir les modules connus
 [Contacts Group]
 Groupe
+[Unknown Contact]
+
 [Known Contact]
 Contact connu
 ;file \plugins\DbEditorPP\src\main.cpp
+[Database Editor++]
+
+[Open Database Editor]
+
 [Open user tree in DBE++]
 Ouvrir dans DataBase Editor
 ;file \plugins\DbEditorPP\src\main_window.cpp
@@ -258,21 +320,51 @@ Chargement des contacts...
 Chargement des modules...
 [Module tree not found]
 Arborescence du Module non trouvée
+[Contacts]
+Contacts
+[HANDLE]
+Pseudo
 [Add module to contact "%s"]
 Ajouter module au contact "%s"
 ;file \plugins\DbEditorPP\src\options.cpp
+[Database]
+
 ;file \plugins\DbEditorPP\src\settinglist.cpp
 [Name]
 Nom
 [Data]
 Données
+[Type]
+
 [Size]
 Taille
+[BLOB]
+
+[BYTE]
+
+[WORD]
+
+[DWORD]
+
+[STRING]
+
+[UNICODE]
+
 [<unsupported>]
 <non supporté>
 [<unknown>]
 <inconnu>
+[Decoded string..]
+
+[Encoded string..]
+
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
+[Contact]
+
+[Module]
+
+[Setting]
+
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
 Réglage de base de données modifié: \nModule "%s" , Réglage: "%s"\nNouvelle valeur: (BYTE) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]

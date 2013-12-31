@@ -5,6 +5,8 @@
 ;  Version: 0.2.5.3
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
+[Send SMS text messages to mobile phones through the IM networks.]
+
 ;file \plugins\SMS\res\resource.rc
 [Received SMS]
 SMS reçu
@@ -18,18 +20,26 @@ Suivant
 De:
 [Message received:]
 Message reçu:
+[Number:]
+Numéro:
 [Send SMS]
 Envoyer SMS
 [To:]
 À:
 [Add number to list]
 Ajouter à la Liste
+[&H]
+
 [Save number]
 Enregistrer
+[Multiple >>]
+
 [Enter message:]
 Tapez un message:
 [Chars:]
 Lettres:
+[%d/160]
+
 [&Send]
 &Envoyer
 [SMS Message Didn't Send]
@@ -48,6 +58,14 @@ au début
 à la fin
 [Put signature at the:]
 Où mettre la signature:
+[Use Signature]
+
+[Show server notifications]
+
+[Auto popup on new message]
+
+[Save window position per contact]
+
 [SMS Message Sent]
 Envoi d'un message SMS
 [&OK]
@@ -59,7 +77,11 @@ Source:
 [Network:]
 Réseau:
 ;file \plugins\SMS\src\options.cpp
+[From %s:\r\n\r\n]
+
 ;file \plugins\SMS\src\receive.cpp
+[SMS message didn't send by %S to %s because: %S]
+
 [SMS Message from %s]
 SMS de %s
 [SMS Confirmation from %s]
@@ -80,6 +102,8 @@ Voir/Cacher la Liste
 Voir combien de lettres ont été tapées
 [The SMS message send to %s timed out.]
 Échec de l'envoi du SMS à %s.
+[The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+
 [Invalid Phone Number]
 Numéro de téléphone invalide
 [Message is too long, press OK to continue.]
@@ -90,10 +114,14 @@ ERREUR - Message trop long
 Il doit d'abord y avoir des numéros dans la liste
 [No Numbers]
 Pas de numéro
+[Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+
 [Invalid phone number]
 Numéro invalide
 [<< Single]
 << Simple
 ;file \plugins\SMS\src\SMS_svc.cpp
+[Incoming SMS Message]
+
 [Incoming SMS Confirmation]
 Accusé de réception entrant

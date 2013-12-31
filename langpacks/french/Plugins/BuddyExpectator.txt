@@ -5,30 +5,134 @@
 ;  Version: 0.1.2.3
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
+[Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
+
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
+[When a contact returns after]
+
+[Show a popup]
+
 [Add an event (flashing icon) to the contact]
 Ajouter un évènement (icône clignotant) au contact
+[On event action (double click) or popup click:]
+
 [Open User Details]
 Ouvrir les détails du contact
+[Open message window]
+
+[Return notification]
+
+[When a contact is absent for]
+
+[Long time no see]
+
+[or comes online for the first time]
+
+[Enable "Miss you" feature]
+
+[Hide when no messages for]
+
+[Colors]
+Couleurs
 [Background]
 Arrière-plan
 [Text]
 Texte
+[Use Popups colors]
+
+[Use Windows colors]
+Utiliser les couleurs Windows
+[Delay]
+
 [Default]
 Défaut
 [Custom]
 Défini
+[Permanent]
+
 [sec]
 secondes
+[Preview]
+Aperçu
+[Last seen online:]
+
+[Last input message:]
+
+[Custom absence period:]
+
+[days]
+jours
+[Never hide this contact]
+
+[Enable Miss You]
+
 [Notify always]
 Toujours notifier
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
+[Tray/popup icon]
+
+[Enabled]
+
+[Disabled]
+Désactivé
+[Hide]
+
+[Never hide]
+
+[Hiding %s (%S)]
+
+[%d days since last message]
+
+[Disable Miss You]
+
+[You awaited this contact!]
+
+[has gone online for the first time.]
+
+[has returned after a long absence.]
+
+[has returned after being absent since %#x]
+
+[has not returned after a long absence.]
+
+[has not returned after being absent since %#x]
+
+[BuddyExpectator]
+
+[Contact returned]
+
+[Contact still absent]
+
+[Miss you event]
+
+[Hide contact event]
+
+[Buddy Expectator]
+
 [Hide contact]
 Cacher le contact
 ;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
 semaines
+[months]
+
 [years]
 années
+[Do nothing]
+
+[Delete the contact]
+
+[Contact name]
+
+[has returned after being absent since %d days]
+
+[Contacts]
+Contacts
+[Popups]
+Popups
 [not detected]
 non détecté
+[not found]
+Non trouvé
+[This contact has been absent for an extended period of time.]
+

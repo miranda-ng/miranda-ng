@@ -5,11 +5,15 @@
 ;  Version: 0.1.0.1
 ;  Authors: Anar Ibragimoff
 ;============================================================
+[Forwards messages to some contact when you are not available.]
+
 ;file \plugins\YARelay\res\yaRelay.rc
 [Forward messages from...]
 Envoyer le message à...
 [Everyone]
 Tous le monde
+[Contact]
+
 [Forward when your status is...]
 Envoyer si vous êtes...
 [Offline]
@@ -30,6 +34,8 @@ OK pour un chat
 Invisible
 [Forward messages to...]
 Transférer les messages à...
+[Template]
+
 [%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
 %u - pseudo du contact;   %i - UIN;    %t - heure;   \r%d - date;   %m - message
 [Forwarding options]
@@ -55,3 +61,7 @@ NOTE: Les messages de ce contact ne pourront être envoyés
 UN SEUL CONTACT
 [!DON'T FORWARD!]
 NE PAS EXPEDIER Á
+[Plugins]
+Plugins
+[yaRelay]
+

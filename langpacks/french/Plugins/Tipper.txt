@@ -5,19 +5,33 @@
 ;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
+[Tool Tip notification windows.]
+
 ;file \plugins\TipperYM\res\resource.rc
+[Options]
+Paramètres
+[Layout]
+
+[Text indent:]
+
 [Window]
 Fenêtre
 [Max width:]
 Largeur max:
 [Max height:]
 Hauteur max:
+[Avatar size:]
+
 [Show if list not focused]
 Afficher si liste couverte
 [General padding:]
 Remplissage général:
+[Hover time:]
+
 [Status bar tips]
 Barre de popup d'états
+[Alignment]
+Alignement
 [Labels:]
 Nom:
 [Values:]
@@ -26,43 +40,157 @@ Valeur:
 Largeur mini:
 [Min height:]
 Hauteur mini:
+[Sidebar width:]
+
+[Text padding:]
+
+[Outer avatar padding:]
+
+[Round corners (avatar)]
+
 [Keep original avatar size]
 Conserver la taille de l'avatar
+[Avatar border]
+
+[Title indent:]
+
+[Value indent:]
+
+[Inner avatar padding:]
+
+[Substitution]
+
+[Label:]
+
+[Contact protocol module]
+
 [Module:]
 Module:
+[Setting or prefix:]
+
 [Translation:]
 Traduction:
+[OK]
+OK
 [Cancel]
 Annuler
 [Item]
 Évènement
 [Value:]
 Valeur:
+[Variables]
+
 [Draw a line above]
 Mettre une ligne en dessous
 [Value on a new line]
 Valeur sur une nouvelle ligne
+[Parse Tipper variables first]
+
+[Preset items:]
+
 [Items]
 Objets
+[Substitutions]
+
 [Add]
 Ajouter
 [Remove]
 Retirer
+[Up]
+
+[Down]
+
 [Edit]
 Éditer
 [Separator]
 Séparateur
 [Advanced options]
 Options avancées
+[Retrieve XStatus details if auto-retrieve is disabled]
+
 [Extra icons]
 Icônes d'accès rapide
+[Smileys support]
+
 [Enable SmileyAdd support]
 Activer le support de SmileyAdd
 [Resize smileys]
 Redimensionner les avatars
+[Use protocol smileys]
+
+[Replace only isolated smileys]
+
+[Retrieve new status message]
+
+[Show tooltip after all content is ready (avatar && status message)]
+
+[Status bar and tray tooltip]
+
+[Limit status messages in status bar and tray tooltips to:]
+
+[characters]
+
+[Disable in invisible status]
+
+[Skins]
+Skins
+[Opacity (%):]
+
+[Transparency]
+
 [Effects]
 Effets
+[Border]
+Bordures
+[Shadow]
+
+[Round corners (window)]
+
+[Aero Glass (Vista+)]
+
+[Animation speed:]
+
+[Preview]
+Aperçu
+[No preview]
+
+[Skin option]
+
+[Load fonts and colors]
+
+[Enable skin coloring]
+
+[Reload skin list]
+
+[Apply skin]
+
+[Load tooltip proportions]
+
+[Get more skins]
+
+[Enable tray tooltips]
+
+[Handle tray tooltips by Tipper]
+
+[Favorite contacts]
+
+[Expand to second level after:]
+
+[ms]
+ms
+[First level tooltip]
+
+[Second level tooltip]
+
+[Hide offline protocols]
+
+[Hide offline]
+
+[Append protocol name]
+
 ;file \plugins\TipperYM\src\mir_smileys.cpp
+[Tipper smileys]
+
 ;file \plugins\TipperYM\src\options.cpp
 [You must enter a label]
 Vous devez entrer un nom
@@ -70,37 +198,173 @@ Vous devez entrer un nom
 Substitution incorrecte
 [<No Label>]
 <sans nom>
+[Add item]
+
+[Add separator]
+Ajouter
+[Move up]
+
+[Move down]
+
+[Icon on left]
+
+[Icon on right]
+
 [No icon]
 Sans icône
 [No title]
 Sans titre
+[Bottom right]
+
+[Bottom left]
+
+[Top right]
+
+[Top left]
+
+[Top]
+
 [Center]
 Centré
+[Bottom]
+
+[Left]
+
+[Right]
+
+[No avatar]
+
+[Left avatar]
+
+[Right avatar]
+
+[Max avatar size:]
+
 [None]
 Aucun
+[Animation]
+
 [Fade]
 Fondu
+[Appearance]
+Apparence
+[Tooltips]
+Info-Bulles
 [Customize]
 Apparence
 [Content]
 Contenu
+[Tray tooltip]
+
+[Extra]
+
 ;file \plugins\TipperYM\src\options.h
+[Show for all contact types]
+
+[Show only for contacts]
+
+[Show only for chatrooms]
+
+[Number of contacts]
+
+[Protocol lock status]
+
+[Logon time]
+
+[Unread emails]
+E-mails non-lus
 [Status]
 État
+[Status message]
+
+[Extra status]
+
+[Listening to]
+
+[Miranda uptime]
+
+[Clist event]
+
+[Jabber activity]
+
+[Gender]
+
+[Country flag]
+
+[Client]
+
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (verrouillé)
+[%s ago]
+
+[Log on:]
+
+[Unread emails:]
+
+[Status:]
+
+[Status message:]
+Message d'état:
+[Mood:]
+
+[XStatus:]
+
+[Activity:]
+
+[Listening to:]
+
+[Copy all items with labels]
+
+[Copy all items]
+
+[Copy avatar]
+
+[<No Label>: ]
+
+[<No Value>]
+
+[Fav. contacts]
+
 [Other]
 Autre
+[Miranda uptime:]
+
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Account]
+Compte
+[Account:]
+
+[Birthday]
+
+[Birthday:]
+
+[Client:]
+
+[Email]
+
+[Email:]
+
 [Gender:]
 Sexe:
+[Homepage]
+
 [Homepage:]
 Page web:
+[Identifier]
+
 [Idle]
 Inactif
 [Idle:]
 Inactivité:
+[IP]
+
+[IP:]
+
+[IP internal]
+
+[IP internal:]
+
 [Last message]
 Dernier message
 [Last message: (%sys:last_msg_reltime% ago)]
@@ -109,25 +373,341 @@ Dernier message: il y a %sys:last_msg_reltime%
 Nom
 [Name:]
 Nom:
+[Number of received messages]
+
+[Number of msg [IN]:]
+
+[Number of sent messages]
+
+[Number of msg [OUT]:]
+
+[Contact time]
+
 [Time:]
 Durée:
+[XStatus title]
+XStatus - Titre
+[XStatus title:]
+
+[XStatus text]
+
+[XStatus text:]
+
+[[jabber.dll] Activity title]
+
+[Activity title:]
+
+[[jabber.dll] Activity text]
+
+[Activity text:]
+
+[[seenplugin.dll] Last seen time]
+
+[Last seen time:]
+
+[[seenplugin.dll] Last seen status]
+
+[Last seen status:]
+
+[[weather.dll] Condition]
+
+[Condition:]
+
+[[weather.dll] Humidity]
+
+[Humidity:]
+
+[[weather.dll] Max/Min temperature]
+
+[Max/Min:]
+
+[[weather.dll] Moon]
+
+[Moon:]
+
+[[weather.dll] Pressure]
+
+[Pressure:]
+
+[[weather.dll] Sunrise]
+
 [Sunrise:]
 Aube:
+[[weather.dll] Sunset]
+
 [Sunset:]
 Aurore:
+[[weather.dll] Temperature]
+
+[Temperature:]
+
+[[weather.dll] Update time]
+
+[Update time:]
+
+[[weather.dll] UV Index]
+
+[UV Index:]
+
+[[weather.dll] Visibility]
+
+[Visibility:]
+
+[[weather.dll] Wind]
+
+[Wind:]
+
 ;file \plugins\TipperYM\src\skin_parser.cpp
+[# Solid color fill]
+
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Arrière-plan
 [Dividers]
 Séparateurs
+[Sidebar]
+
+[Title]
+
 [Labels]
 Nom
 [Values]
 Valeurs
+[Tray title]
+
+[Tipper]
+
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Femme
 [Male]
 Homme
+[[No translation]]
+
+[WORD to status description]
+
+[DWORD timestamp to time]
+
+[DWORD timestamp to time difference]
+
+[BYTE to Yes/No]
+
+[BYTE to Male/Female (ICQ)]
+
+[WORD to country name]
+
+[DWORD to ip address]
+
+[<prefix>Day|Month|Year to date]
+
+[<prefix>Day|Month|Year to age]
+
+[<prefix>Hours|Minutes|Seconds to time]
+
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+
+[<prefix>Day|Month to days to next birthday]
+
+[DWORD timestamp to time (no seconds)]
+
+[<prefix>Hours|Minutes to time]
+
+[DWORD timestamp to date (short)]
+
+[DWORD timestamp to date (long)]
+
+[xStatus: empty xStatus name to default name]
+
+[DWORD seconds to time difference]
+
+[BYTE timezone to time]
+
+[WORD to name of a day (0..6, 0 is Sunday)]
+
+[WORD to name of a month (1..12, 1 is January)]
+
+[BYTE to language (ICQ)]
+
 ;file \plugins\TipperYM\src\translations.h
+[Afrikaans]
+
+[Albanian]
+
+[Arabic]
+Arabe
+[Armenian]
+
+[Azerbaijani]
+
+[Belorussian]
+
+[Bhojpuri]
+
+[Bosnian]
+
+[Bulgarian]
+
+[Burmese]
+
+[Cantonese]
+
+[Catalan]
+
+[Chamorro]
+
+[Chinese]
+
+[Croatian]
+
+[Czech]
+
+[Danish]
+
+[Dutch]
+
+[English]
+
+[Esperanto]
+
+[Estonian]
+
+[Farsi]
+
+[Finnish]
+
+[French]
+
+[Gaelic]
+
+[German]
+
+[Greek]
+Grecque
+[Gujarati]
+
+[Hebrew]
+Hébreux
+[Hindi]
+
+[Hungarian]
+
+[Icelandic]
+
+[Indonesian]
+
+[Italian]
+
+[Japanese]
+Japonais
+[Khmer]
+
+[Korean]
+Coréen
+[Kurdish]
+
+[Lao]
+
+[Latvian]
+
+[Lithuanian]
+
+[Macedonian]
+
+[Malay]
+
+[Mandarin]
+
+[Mongolian]
+
+[Norwegian]
+
+[Persian]
+
+[Polish]
+
+[Portuguese]
+
+[Punjabi]
+
+[Romanian]
+
+[Russian]
+
+[Serbo-Croatian]
+
+[Sindhi]
+
+[Slovak]
+
+[Slovenian]
+
+[Somali]
+
+[Spanish]
+
+[Swahili]
+
+[Swedish]
+
+[Tagalog]
+
+[Taiwanese]
+
+[Tamil]
+
+[Tatar]
+
+[Thai]
+Thaïlandais
+[Turkish]
+Turque
+[Ukrainian]
+
+[Urdu]
+
+[Vietnamese]
+Vietnamien
+[Welsh]
+
+[Yiddish]
+
+[Yoruba]
+
+[Sunday]
+
+[Monday]
+
+[Tuesday]
+
+[Wednesday]
+
+[Thursday]
+
+[Friday]
+
+[Saturday]
+
+[January]
+
+[February]
+
+[March]
+
+[April]
+
+[May]
+
+[June]
+
+[July]
+
+[August]
+
+[September]
+
+[October]
+
+[November]
+
+[December]
+

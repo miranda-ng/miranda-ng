@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.5
 ;  Authors: bidyut, Maat
 ;============================================================
+[Adds options to automatically disable notifications when a protocol is in a certain status.]
+
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
 Pas de sons si:
@@ -20,3 +22,7 @@ Désactiver les sons
 [Enable &Sounds]
 Activer les sons
 ;file \plugins\ZeroNotification\src\main.cpp
+[Zero Notifications]
+
+[Plugins]
+Plugins

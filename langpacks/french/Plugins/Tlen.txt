@@ -5,37 +5,63 @@
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
+[Tlen protocol support for Miranda NG.]
+
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]
 Identifiant:
 [Password:]
 Passe:
+[Save password]
+
 [Create new account]
 Créer un compte
+[Tlen]
+
+[Options]
+Paramètres
+[Automatically reconnect after unintentional disconnection]
+
 [Leave status message after disconnection]
 Garder message d'état après déconnexion
 [Ignore advertisements]
 Ignorer les avertissements
+[Automatically delete contacts not in my roster]
+
 [Show offline users with status messages as invisible in contact list]
 Afficher contacts hors ligne avec le motif d'invisibilité dans la liste
+[Enable avatars]
+
 [Send and receive client version information]
 Envoyer et recevoir l'information de version du logiciel
 [Alert policy]
 Politique d'alerte
 [Use Nudge plugin]
 Utiliser le plugin Nudge
+[Log alerts as messages]
+
+[Group chat policy]
+
+[Image transfer policy]
+
 [Voice Chats]
 Chats vocaux
+[Voice chat policy]
+
 [Recording device:]
 Enregistreur: 
 [Playback device:]
 Lecteur:
 [Expert Options]
 Options expert
+[Login server:]
+
 [Connection Host:]
 Connexion sur l'hôte:
 [Port:]
 Port:
+[Keep connection alive]
+Garder la connection active
 [Enable encryption]
 Activer le cryptage
 [Enable Always Visible and Never Visible]
@@ -50,16 +76,34 @@ Type de proxy:
 Serveur Proxy:
 [Proxy requires authorization]
 Proxy demandant une identification
+[Mail Notification]
+
 [Enable incoming mail notification]
 Activer la notification de mail
+[Colors]
+Couleurs
 [Background]
 Arrière-plan
 [Text]
 Texte
+[Delay]
+
+[&From Popup plugin]
+
 [&Custom]
 &Défini
+[P&ermanent]
+
+[Preview]
+Aperçu
+[Tlen Password]
+
+[OK]
+OK
 [Cancel]
 Annuler
+[Nick name:]
+
 [First name:]
 Prénom:
 [Last name:]
@@ -74,6 +118,8 @@ Année de naiss.:
 Ville:
 [School:]
 École:
+[Occupation:]
+
 [Looking for:]
 Recherche:
 [Voice chats]
@@ -82,14 +128,20 @@ Chats vocaux
 État visible par tout le monde
 [Save changes]
 Sauver les modifs
+[Avatar]
+
 [Avatar Options]
 Avatar
+[Public avatar]
+
 [Tlen login:]
 Login Tlen:
 [Subscription:]
 Inscription:
 [Software:]
 Client:
+[Version:]
+
 [System:]
 Système:
 [Personal Information]
@@ -98,8 +150,12 @@ Infos personnelles
 Pseudo:
 [Age:]
 Age:
+[to]
+Vers
 [Extra Search Criterias]
 Recherche Supplémentaire
+[Status:]
+
 [Plan:]
 Plan:
 [Tlen Voice Chat]
@@ -110,74 +166,45 @@ Qualité
 Entrée
 [Out]
 Sortie
+[Finish]
+
 [Tlen Voice Chat Invitation]
 Invitation à un chat vocal Tlen
+[&Accept]
+&Accepter
 [From:]
 De:
 [The following invitation to join a voice chat is received.]
 L'invitation suivante à un chat vocal, a été reçue.
-;file \protocols\Tlen\src\tlen_iqid.cpp
-[Tlen Authentication]
-Authentification Tlen
-;file \protocols\Tlen\src\tlen_opt.cpp
-[General]
-Général
-[Advanced]
-Avancé
-[Network]
-Réseau
-[These changes will take effect the next time you connect to the Tlen network.]
-Certains changements ne prendront effets qu'à la reconnexion au réseau Tlen.
-[Tlen Protocol Option]
-Options
-[Accept all alerts]
-Accepter toutes les alertes
-[Ignore alerts from unauthorized contacts]
-Ignorer les alertes des contacts non autorisés
-[Ignore all alerts]
-Ignorer toutes les alertes
-[Always ask me]
-Toujours me demander
-[Accept invitations from authorized contacts]
-Accepter les invitations des contacts non autorisés
-[Accept all invitations]
-Accepter toutes les invitations
-[Ignore invitations from unauthorized contacts]
-Ignorer les invitations des contacts non autorisés
-[Ignore all invitation]
-Ignorer toutes les invitations
-[<Last message>]
-<Dernier message>
-[Forwarding]
-Envoi en cours
-;file \protocols\Tlen\src\tlen_svc.cpp
-[Tlen login]
-login Tlen
-;file \protocols\Tlen\src\tlen_thread.cpp
-[Tlen Connection Error]
-Erreur lors de la connexion à Tlen
-[Windows]
-Windows
-[%s Web Messages]
-%s messages web
-[Web message]
-message Web
-[An alert has been received.]
-Vous avez reçu une alerte.
-[Private conference]
-Chat privé
-;file \protocols\Tlen\src\tlen_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
+[Protocol icon]
+
+[Tlen inbox]
+
 [Group chats]
 Chats
+[Tlen chats]
+
+[Voice chat]
+Chat Vocal
 [Microphone]
 Micro
 [Speaker]
 Haut parleur
+[Send image]
+
 [Incoming mail]
 e-mail entrant
 [Alert]
 Alerte
+[Tlen Chats]
+
+[Multi-User Conference]
+
+[Tlen Mail]
+
+[Send picture]
+
 [Voice Chat]
 Chat Vocal
 [Request authorization]
@@ -187,6 +214,13 @@ Accorder l'autorisation
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 1 fichier
+[%d Files]
+Fichiers %d
+;file \protocols\Tlen\src\tlen_iqid.cpp
+[Authentication failed for]
+
+[Tlen Authentication]
+Authentification Tlen
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
 Vous avez été kické. Motif: %s 
@@ -214,8 +248,105 @@ Vous ne pouvez rejoindre plus de %s salon.
 les pseudos anonymes ne sont pas permis dans ce salon.
 [Unknown error code: %d]
 Code erreur inconnu: %d
+;file \protocols\Tlen\src\tlen_opt.cpp
+[General]
+Général
+[Advanced]
+Avancé
+[Notifications]
+Notifications
+[Network]
+Réseau
+[These changes will take effect the next time you connect to the Tlen network.]
+Certains changements ne prendront effets qu'à la reconnexion au réseau Tlen.
+[Tlen Protocol Option]
+Options
+[Accept all alerts]
+Accepter toutes les alertes
+[Ignore alerts from unauthorized contacts]
+Ignorer les alertes des contacts non autorisés
+[Ignore all alerts]
+Ignorer toutes les alertes
+[Always ask me]
+Toujours me demander
+[Accept invitations from authorized contacts]
+Accepter les invitations des contacts non autorisés
+[Accept all invitations]
+Accepter toutes les invitations
+[Ignore invitations from unauthorized contacts]
+Ignorer les invitations des contacts non autorisés
+[Ignore all invitation]
+Ignorer toutes les invitations
+[Accept all images]
+
+[Ignore images from unauthorized contacts]
+
+[Ignore all images]
+
+[<Last message>]
+<Dernier message>
+[Forwarding]
+Envoi en cours
+[SOCKS4]
+
+[SOCKS5]
+
+[%s mail]
+
 ;file \protocols\Tlen\src\tlen_picture.cpp
+[Image sent file://%s]
+
+[Image received file://%s]
+
+;file \protocols\Tlen\src\tlen_svc.cpp
+[Tlen login]
+login Tlen
+;file \protocols\Tlen\src\tlen_thread.cpp
+[Enter password for]
+
+[Tlen Connection Error]
+Erreur lors de la connexion à Tlen
+[Windows Server 2003]
+
+[Windows XP]
+
+[Windows 2000]
+
+[Windows NT]
+
+[Windows 95]
+
+[Windows 98]
+
+[Windows ME]
+
+[Windows]
+Windows
+[%s Web Messages]
+%s messages web
+[Web message]
+message Web
+[From]
+
+[E-mail]
+e-mail
+[An alert has been received.]
+Vous avez reçu une alerte.
+[Private conference]
+Chat privé
+[Subject]
+
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
+[Account]
+Compte
+[both]
+les 2
+[from]
+
+[none]
+Aucun
+[not on roster]
+
 ;file \protocols\Tlen\src\tlen_voice.cpp
 [...Connecting...]
 ...Connexion...
@@ -229,3 +360,8 @@ Code erreur inconnu: %d
 ...Refusée...
 [Default]
 Défaut
+;file \protocols\Tlen\src\tlen_ws.cpp
+[%s connection]
+
+[%s SOCKS connection]
+

@@ -2,14 +2,20 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
+[Loads and manages contact pictures for other plugins.]
+
 ;file \plugins\AVS\res\avs.rc
+[The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
+
 [Set default picture]
 Changer d'image par défaut
 [Delete default picture]
 Effacer l'image
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+
 [Try to draw avatar background transparent (for images without transparency)]
 Tenter de rendre l'arrière-plan transparent (pour des images sans transparence)
 [Number of points to define background:]
@@ -22,16 +28,24 @@ Transparence proportionnelle au nombre de couleurs
 Avatars en nuance de gris
 [Show warning messages]
 Afficher les avertissements
+[When setting avatars, always make them square]
+
 [Try to draw own avatar background transparent (for images without transparency)]
 Tenter de rendre l'arrière-plan transparent (pour des images sans transparence)
+[This uses the same additional options as in "Contact Avatars" tab]
+
 [Protect the picture and prevent automatic avatars from overwriting it]
 Protéger l'image et empêcher les avatars automatiques de la changer
 [Make the avatar square]
 Avatar en carré
 [Resize the avatar to fit max allowed protocol size]
 Redimensionner l'avatar pour correspondre au protocole
+[Dialog]
+
 [Contact picture]
 Avatar
+[Change]
+
 [Delete]
 Effacer
 [Reset]
@@ -46,10 +60,16 @@ Régler comme "caché"
 Tenter de rendre l'arrière-plan transparent
 [Use defaults]
 Par défaut
+[OK]
+OK
 [Cancel]
 Annuler
+[Options]
+Paramètres
 [Background]
 Arrière-plan
+[Transparent]
+Transparent
 [Points:]
 Point:
 [Color diff:]
@@ -62,6 +82,46 @@ Un avatar par protocole
 [Protocols have different avatars]
 Les protocoles ont différents avatars
 ;file \plugins\AVS\src\main.cpp
+[Global avatar]
+Avatar général
+[Global avatar for %s accounts]
+
+[Avatars]
+Avatars
+[My Avatars]
+Mon avatar
+[My Global Avatar Cache]
+Cache de l'avatar général
+[Fatal error, image services not found. Avatar services will be disabled.]
+Erreur critique, aucun service d'image trouvé. Avatar Services sera désactivé.
+[Avatar Service]
+
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+Définir les options d'avatar pour %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Effacer l'avatar du disque (peut-être nécessaire afin de recharger l'avatar, mais peut également effacer son véritable avatar) ?
+[Reset contact picture]
+Effacement de l'image du contact
+[Contact has no avatar]
+Contact sans avatar
+[Contacts]
+Contacts
+[Protocols]
+
+[Contact Avatars]
+
+[Own Avatars]
+
+[No avatar]
+
+[Are you sure you want to remove your avatar?]
+Êtes-vous sûr de vouloir effacer cet avatar ?
+[Global Avatar]
+Avatar général
+[Avatar]
+
+;file \plugins\AVS\src\services.cpp
 [All Files]
 Tous les fichiers
 [Windows Bitmaps]
@@ -76,26 +136,9 @@ Images PNG
 Animations Flash
 [XML Files]
 Fichiers XML
+[Grow avatar to fit max allowed protocol size]
+
 [Set My Avatar]
 Changer mon avatar
 [Set My Avatar for %s]
 Changer mon avatar pour %s
-[My Avatars]
-Mon avatar
-[My Global Avatar Cache]
-Cache de l'avatar général
-[Fatal error, image services not found. Avatar services will be disabled.]
-Erreur critique, aucun service d'image trouvé. Avatar Services sera désactivé.
-;file \plugins\AVS\src\options.cpp
-[Set avatar options for %s]
-Définir les options d'avatar pour %s
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Effacer l'avatar du disque (peut-être nécessaire afin de recharger l'avatar, mais peut également effacer son véritable avatar) ?
-[Reset contact picture]
-Effacement de l'image du contact
-[Contact has no avatar]
-Contact sans avatar
-[Are you sure you want to remove your avatar?]
-Êtes-vous sûr de vouloir effacer cet avatar ?
-[Global Avatar]
-Avatar général

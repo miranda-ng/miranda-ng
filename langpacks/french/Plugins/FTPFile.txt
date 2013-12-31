@@ -87,7 +87,7 @@ Serveur:
 [User info]
 Informations Utilisateur
 [UPLOADING...]
-
+Mise à jour...
 [Open in Browser]
 Ouvrir dans le navigateur
 [FTP File Manager]
@@ -212,7 +212,7 @@ EN ATTENTE...
 [UNKNOWN]
 INCONNU
 ;file \plugins\FTPFileYM\src\job_packer.cpp
-[Error occured when zipping the file(s).]
+[Error occurred when zipping the file(s).]
 Erreur lors de la compression du(des) fichier(s).
 [%0.1f kB/s]
 %0.1f kB/s

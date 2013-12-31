@@ -5,38 +5,94 @@
 ;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
+[Db autobackuper plugin.]
+
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
+[Backup progress]
+
 [Cancel]
 Annuler
 [Automatic backups]
 Sauvegardes automatiques
-[Number of backups to keep:]
-Nombre de sauvegarde à conserver:
 [Backup NOW]
 Sauvegarder
+[Disabled]
+Désactivé
 [When Miranda starts]
 Au démarrage de Miranda
 [When Miranda exits]
 À la fermeture de Miranda
 [Every:]
 Tous les:
+[Number of backups to keep:]
+Nombre de sauvegarde à conserver:
 [Backup to folder:]
 Dossier de sauvegarde:
+[Browse...]
+
+[Go to the "Customize -> Folders" to change settings]
+
+[Compress backup to zip-archive]
+
 [Disable progress bar]
 Désactiver la barre de progression
+[Disable popups]
+
 ;file \plugins\Db_autobackups\src\backup.cpp
+[Miranda NG database]
+Profil Miranda-IM
+[Created by:]
+
+[Miranda NG databases]
+
+[Compressed Miranda NG databases]
+
 [All files]
 Tous les fichiers
 [Backup in progress]
 Sauvegarde en cours
 [Copying database file...]
 Copie de la base de données...
+[Database backed up]
+
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup profile]
 Sauvegarder votre profil
+[Save profile as...]
+
 [Database backups]
 Profil sauvegardé
+[Backup folder]
+
+[Database]
+
 ;file \plugins\Db_autobackups\src\options.cpp
+[path to Miranda root folder]
+
+[path to current Miranda profile]
+
+[name of current Miranda profile (filename, without extension)]
+
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+
+[username for currently logged-on Windows user]
+
+["My Documents" folder for currently logged-on Windows user]
+
+["Desktop" folder for currently logged-on Windows user]
+
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+
+[Variables]
+
+[days]
+jours
+[hours]
+heures
+[minutes]
+minutes
 [Select backup folder]
 Sélectionner le répertoire de sauvegarde
 [Error creating backup folder]

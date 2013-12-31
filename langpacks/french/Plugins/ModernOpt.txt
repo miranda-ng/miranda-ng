@@ -5,19 +5,59 @@
 ;  Version: 0.1.0.0
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
+[Support for new options design.]
+
 ;file \plugins\ModernOpt\res\resource.rc
+[Visit official Miranda NG website]
+
+[Sample page]
+
 [Miranda NG Options]
 Options de Miranda NG
+[Use arrow keys to choose category]
+
+[OK]
+OK
 [Cancel]
 Annuler
 [Apply]
 Appliquer
+[Switch to classic options]
+
 [Advanced]
 Avancé
 ;file \plugins\ModernOpt\src\modernopt.cpp
+[Home]
+
+[Miranda NG configuration center]
+
 [Accounts]
 Comptes
+[Setup your account information to start messaging.]
+
+[Style]
+
+[Change the look of Miranda NG according to your taste.]
+
+[Contacts]
+Contacts
+[Configure behavior of your contact list.]
+
+[Chats]
+
+[Customize look&&feel of your chat windows here.]
+
 [Ignore]
 Ignorer
+[Ban those users and events, you are annoyed with.]
+
 [Status]
 État
+[Set your status messages and idle reporting.]
+
+[Addons]
+
+[Miranda NG is all about plugins. Manage all the plugins you have here.]
+
+[You have some unsaved changes here.\n Do you wish to apply settings before switching?]
+

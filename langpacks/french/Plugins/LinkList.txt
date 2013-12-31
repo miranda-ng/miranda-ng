@@ -5,30 +5,152 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
+[Generates a list of extracted URIs from the history.]
+
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Recherche
 [Close]
 Fermer
+[Search for:]
+
 [Message direction]
 Sens du messsage
+[Message types]
+
+[All directions]
+
+[Incoming only]
+
+[Outgoing only]
+
+[All types]
+
+[Mail addresses only]
+
+[Web addresses only]
+
+[Deep search]
+
+[Static]
+
+[Color Select]
+
 [Incoming messages]
 Messages reçus
+[Plugin Default]
+
+[Preview]
+Aperçu
 [Outgoing messages]
 Messages envoyés
+[Background color]
+Couleur de fond
+[Use Miranda Settings]
+
+[Text color]
+Couleur du texte
+[General Settings]
+
+[Open links always in a new window]
+
+[Update list on new events]
+
+[Show whole Message on 'mouse over' event]
+
+[Save window position individually for each contact]
+
+[Show...]
+
+[Date]
+
+[Parting line]
+
 [Timestamp]
 Heure
+[Direction]
+
+[Type]
+
 [&File]
 &Fichier
+[&Save]
+&Sauvegarder
 [&Close]
 &Fermer
+[&Options]
+&Paramètres
+[Message &Direction]
+
+[&Outgoing Messages Only]
+
+[&Incoming Messages Only]
+
+[Message &Type]
+
+[&Webaddresses Only]
+
+[&Mail-Addresses Only]
+
+[&Clear Search Results]
+
 [&Search]
 &Recherche
+[link]
+Lien
+[Open]
+Ouvrir
+[Open in new Window]
+
+[Copy to Clipboard]
+Copier dans le Presse-Papiers
+[Show Message]
+
 ;file \plugins\HistoryLinkListPlus\src\language.h
+[History Linklist]
+
+[History is empty!]
+
+[There are no links in history!]
+
 [Error]
 Erreur
+[incoming]
+Entrant
+[outgoing]
+Sortant
+[Filter]
+
+[no filter]
+
+[Search Filter]
+
+[no settings]
+
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[&Create Linklist]
+
 [History]
 Historique
+[Processing history...]
+
+[Could not create window!]
+
+[Could not allocate memory!]
+
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
+[Linklist Plugin]
+
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[Matches for searchtext]
+
+[Processing list...]
+
+[No messages found!\nPlease change current filter options.]
+
+[RTF file]
+
+[All files]
+Tous les fichiers
+[Save RTF File]
+
