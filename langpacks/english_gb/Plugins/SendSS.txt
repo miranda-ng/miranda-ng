@@ -5,5 +5,7 @@
 ;  Version: 0.8.3.1
 ;  Authors: Merlin
 ;============================================================
+[The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
+The type of a recipient was not MAPI_TO, MAPI_CC or MAPI_BCC
 [The user canceled one of the dialog boxes]
 The user cancelled one of the dialog boxes
