@@ -133,7 +133,7 @@ TOptionListItem m_lvItemsLog[] = {
 	0, LPGENT("Use Incoming/Outgoing Icons"), 1, LOI_TYPE_FLAG, MWF_LOG_INOUTICONS, 3,
 	0, LPGENT("Use Message Grouping"), 1, LOI_TYPE_FLAG, MWF_LOG_GROUPMODE, 0,
 	0, LPGENT("Indent message body"), 1, LOI_TYPE_FLAG, MWF_LOG_INDENT, 0,
-	0, LPGENT("Simple text formatting (*bold* etc.)"), 0, LOI_TYPE_FLAG, MWF_LOG_TEXTFORMAT, 0,
+	0, LPGENT("Simple text formatting (*bold*, etc.)"), 0, LOI_TYPE_FLAG, MWF_LOG_TEXTFORMAT, 0,
 	0, LPGENT("Support BBCode formatting"), 1, LOI_TYPE_FLAG, MWF_LOG_BBCODE, 0,
 	0, LPGENT("Place a separator in the log after a window lost its foreground status"), 0, LOI_TYPE_SETTING, (UINT_PTR)"usedividers", 0,
 	0, LPGENT("Only place a separator when an incoming event is announced with a popup"), 0, LOI_TYPE_SETTING, (UINT_PTR)"div_popupconfig", 0,
