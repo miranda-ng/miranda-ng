@@ -1695,7 +1695,7 @@ tabSRMM: %s
 Использовать значки входящего/исходящего сообщения
 [Use Message Grouping]
 Группировать сообщения
-[Simple text formatting (*bold* etc.)]
+[Simple text formatting (*bold*, etc.)]
 Простое форматирование (*жирный* и т.п.)
 [Support BBCode formatting]
 Поддержка BB-кодов
