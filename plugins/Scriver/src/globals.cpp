@@ -107,23 +107,6 @@ void RegisterIcons(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HICON hIconList[SIZEOF(iconList)];
-
-BOOL IsStaticIcon(HICON hIcon)
-{
-	for (int i = 0; i < SIZEOF(hIconList); i++)
-		if (hIcon == hIconList[i])
-			return TRUE;
-
-	return FALSE;
-}
-
-void ReleaseIconSmart(HICON hIcon)
-{
-	if (!IsStaticIcon(hIcon))
-		Skin_ReleaseIcon(hIcon);
-}
-
 int ImageList_AddIcon_Ex(HIMAGELIST hIml, int id) {
 	HICON hIcon = LoadSkinnedIcon(id);
  	int res = ImageList_AddIcon(hIml, hIcon);
@@ -153,10 +136,6 @@ int ImageList_AddIcon_ProtoEx(HIMAGELIST hIml, const char* szProto, int status) 
 
 void ReleaseIcons()
 {
-	for (int i = 0; i < SIZEOF(hIconList); i++)
-		if (hIconList[i] != NULL)
-			Skin_ReleaseIcon(hIconList[i]);
-
 	Skin_ReleaseIcon(g_dat.hMsgIcon);
 	Skin_ReleaseIcon(g_dat.hMsgIconBig);
 	Skin_ReleaseIcon(g_dat.hIconChatBig);
@@ -166,20 +145,18 @@ HICON GetCachedIcon(const char *name)
 {
 	for (int i = 0; i < SIZEOF(iconList); i++)
 		if (!strcmp(iconList[i].szName, name))
-			return hIconList[i];
+			return Skin_GetIconByHandle(iconList[i].hIcolib);
 
 	return NULL;
 }
 
-void LoadGlobalIcons() {
+void LoadGlobalIcons()
+{
 	int i;
-	int overlayIcon;
-	for (i = 0; i < SIZEOF(iconList); i++)
-		hIconList[i] = Skin_GetIcon(iconList[i].szName);
 
 	g_dat.hMsgIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	g_dat.hMsgIconBig = LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
-	g_dat.hIconChatBig = Skin_GetIcon("chat_window");
+	g_dat.hIconChatBig = Skin_GetIcon("chat_window", true);
 
 	ImageList_RemoveAll(g_dat.hButtonIconList);
 	ImageList_RemoveAll(g_dat.hChatButtonIconList);
@@ -195,7 +172,7 @@ void LoadGlobalIcons() {
 		ImageList_AddIcon(g_dat.hChatButtonIconList, GetCachedIcon(chatButtonIcons[i]));
 
 	ImageList_AddIcon(g_dat.hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
-	overlayIcon = ImageList_AddIcon(g_dat.hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
+	int overlayIcon = ImageList_AddIcon(g_dat.hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
 	ImageList_SetOverlayImage(g_dat.hHelperIconList, overlayIcon, 1);
 	for (i=IDI_GOOGLE; i < IDI_LASTICON; i++) {
 		HICON hIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(i), IMAGE_ICON, 0, 0, 0);

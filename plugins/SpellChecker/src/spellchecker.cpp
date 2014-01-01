@@ -212,11 +212,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s - %s"), 
 			TranslateT("Spell Checker"), languages[i]->full_name);
 		sid.tszTooltip = tmp;
-
-		HICON hIcon = (opts.use_flags) ? Skin_GetIconByHandle(languages[i]->hIcolib) : Skin_GetIcon("spellchecker_enabled");
-		sid.hIcon = CopyIcon(hIcon);
-		Skin_ReleaseIcon(hIcon);
-
+		sid.hIcon = (opts.use_flags) ? Skin_GetIconByHandle(languages[i]->hIcolib) : Skin_GetIcon("spellchecker_enabled");
 		Srmm_AddIcon(&sid);
 	}
 

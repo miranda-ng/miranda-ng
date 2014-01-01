@@ -233,14 +233,12 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	HookProtoEvent(ME_GC_EVENT, &CJabberProto::JabberGcEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CJabberProto::JabberGcMenuHook);
 
-	HICON hIcon = LoadIconEx("main");
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = m_szModuleName;
-	sid.hIcon = CopyIcon(hIcon);
+	sid.hIcon = LoadIconEx("main");
 	sid.flags = MBF_HIDDEN;
 	sid.szTooltip = LPGEN("Jabber Resource");
 	Srmm_AddIcon(&sid);
-	Skin_ReleaseIcon(hIcon);
 
 	HookProtoEvent(ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick);
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CJabberProto::OnProcessSrmmEvent);

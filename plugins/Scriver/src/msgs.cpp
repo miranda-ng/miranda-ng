@@ -389,8 +389,8 @@ static void RegisterStatusIcons()
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = SRMMMOD;
 	sid.dwId = 1;
-	sid.hIcon = CopyIcon(GetCachedIcon("scriver_TYPING"));
-	sid.hIconDisabled = CopyIcon(GetCachedIcon("scriver_TYPINGOFF"));
+	sid.hIcon = GetCachedIcon("scriver_TYPING");
+	sid.hIconDisabled = GetCachedIcon("scriver_TYPINGOFF");
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid);
 }
@@ -400,8 +400,8 @@ void ChangeStatusIcons()
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = SRMMMOD;
 	sid.dwId = 1;
-	sid.hIcon = CopyIcon(GetCachedIcon("scriver_TYPING"));
-	sid.hIconDisabled = CopyIcon(GetCachedIcon("scriver_TYPINGOFF"));
+	sid.hIcon = GetCachedIcon("scriver_TYPING");
+	sid.hIconDisabled = GetCachedIcon("scriver_TYPINGOFF");
 	sid.flags = MBF_HIDDEN;
 	Srmm_ModifyIcon(NULL, &sid);
 }

@@ -118,7 +118,6 @@ void InitSRMM()
 
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME;
-	sid.dwId = 0;
 	sid.hIcon = hIconFinished;
 	sid.hIconDisabled = hIconNotSecure;
 	sid.flags = MBF_DISABLED | MBF_HIDDEN;
