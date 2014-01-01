@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-14 Miranda NG project,
+Copyright (c) 2012-14 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -27,10 +27,8 @@ struct StatusIconChild : public MZeroedObject
 {
 	~StatusIconChild()
 	{
-		if (hIcon)
-			DestroyIcon(hIcon);
-		if (hIconDisabled)
-			DestroyIcon(hIconDisabled);
+		SafeDestroyIcon(hIcon);
+		SafeDestroyIcon(hIconDisabled);
 		mir_free(tszTooltip);
 	}
 
@@ -38,6 +36,15 @@ struct StatusIconChild : public MZeroedObject
 	HICON  hIcon, hIconDisabled;
 	int    flags;
 	TCHAR *tszTooltip;
+
+	void SafeDestroyIcon(HICON hIcon)
+	{
+		if (hIcon == NULL)
+			return;
+
+		if (!IcoLib_IsManaged(hIcon))
+			::DestroyIcon(hIcon);
+	}
 };
 
 struct StatusIconMain : public MZeroedObject
@@ -99,10 +106,7 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 		pc->hContact = hContact;
 		p->arChildren.insert(pc);
 	}
-	else {
-		if (pc->hIcon)
-			DestroyIcon(pc->hIcon);
-	}
+	else pc->SafeDestroyIcon(pc->hIcon);
 
 	pc->flags = sid->flags;
 	pc->hIcon = sid->hIcon;
