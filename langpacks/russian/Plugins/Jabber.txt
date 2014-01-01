@@ -1686,7 +1686,7 @@ XML для MS Excel (кодировка UTF-8)
 [There is no group chats to leave]
 Нет чатов для отключения
 [Error %s %s\r\nPlease select other server]
-Ошибка %s %s\r\nПожалуйста выберите другой сервер
+Ошибка %s %s\r\nПожалуйста, выберите другой сервер
 [Error: unknown reply received\r\nPlease select other server]
 Ошибка: принят неизвестный ответ\r\nПожалуйта выберите другой сервер
 [Error %s %s\r\nTry to specify more detailed]

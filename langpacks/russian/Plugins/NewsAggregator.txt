@@ -52,7 +52,7 @@
 [0 - check manually]
 0 - вручную
 [This feed seems to need authentication. Please fill username and password fields:]
-Каналу требуется аутентификация. Пожалуйста введите имя пользователя и пароль:
+Каналу требуется аутентификация. Пожалуйста, введите имя пользователя и пароль:
 [Username]
 Имя
 [Available feeds:]

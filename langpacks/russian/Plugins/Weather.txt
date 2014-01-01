@@ -502,7 +502,7 @@ ID города
 [Information]
 Информация
 [Retrieving new data, please wait...]
-Получаю новые данные. Подождите пожалуйста...
+Получаю новые данные. Подождите, пожалуйста...
 [More Info]
 Подробнее
 [No information available.\r\nPlease update weather condition first.]

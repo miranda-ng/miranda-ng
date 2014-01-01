@@ -596,7 +596,7 @@ WallOps от %s:\s
 [Kick]
 Выкинуть
 [Please enter the notice text]
-Пожалуйста введите текст уведомления
+Пожалуйста, введите текст уведомления
 [Please enter the channel name to invite to]
 Введите имя комнаты чата для приглашения
 [Invite to channel]
