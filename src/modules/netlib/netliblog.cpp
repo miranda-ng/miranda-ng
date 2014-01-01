@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -56,11 +57,11 @@ static int bIsActive = TRUE;
 static HANDLE hLogEvent = NULL;
 static HANDLE hLogger = NULL;
 
-static const TCHAR* szTimeFormats[] = 
+static const TCHAR* szTimeFormats[] =
 {
-	LPGENT("No times"), 
-	LPGENT("Standard hh:mm:ss times"), 
-	LPGENT("Times in milliseconds"), 
+	LPGENT("No times"),
+	LPGENT("Standard hh:mm:ss times"),
+	LPGENT("Times in milliseconds"),
 	LPGENT("Times in microseconds")
 };
 
@@ -335,21 +336,21 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	dwOriginalLastError = GetLastError();
 	switch (logOptions.timeFormat) {
 	case TIMEFORMAT_HHMMSS:
-		GetTimeFormatA(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, 
+		GetTimeFormatA(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER,
 			NULL, NULL, szTime, SIZEOF(szTime));
 		break;
 
 	case TIMEFORMAT_MILLISECONDS:
 		QueryPerformanceCounter(&liTimeNow);
 		liTimeNow.QuadPart -= mirandaStartTime;
-		mir_snprintf(szTime, SIZEOF(szTime), "%I64u.%03I64u", liTimeNow.QuadPart / perfCounterFreq, 
+		mir_snprintf(szTime, SIZEOF(szTime), "%I64u.%03I64u", liTimeNow.QuadPart / perfCounterFreq,
 			1000 * (liTimeNow.QuadPart % perfCounterFreq) / perfCounterFreq);
 		break;
 
 	case TIMEFORMAT_MICROSECONDS:
 		QueryPerformanceCounter(&liTimeNow);
 		liTimeNow.QuadPart -= mirandaStartTime;
-		mir_snprintf(szTime, SIZEOF(szTime), "%I64u.%06I64u", liTimeNow.QuadPart / perfCounterFreq, 
+		mir_snprintf(szTime, SIZEOF(szTime), "%I64u.%06I64u", liTimeNow.QuadPart / perfCounterFreq,
 			1000000 * (liTimeNow.QuadPart % perfCounterFreq) / perfCounterFreq);
 		break;
 
@@ -358,8 +359,8 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	if (logOptions.timeFormat || logOptions.showUser)
-		mir_snprintf(szHead, SIZEOF(szHead) - 1, "[%s%s%s] ", szTime, 
-		(logOptions.showUser && logOptions.timeFormat) ? " " : "", 
+		mir_snprintf(szHead, SIZEOF(szHead) - 1, "[%s%s%s] ", szTime,
+		(logOptions.showUser && logOptions.timeFormat) ? " " : "",
 		logOptions.showUser ? nlu->user.szSettingsModule : "");
 	else
 		szHead[0] = 0;
@@ -437,7 +438,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 	NetlibUser *nlu = nlc ? nlc->nlu : NULL;
-	int titleLineLen = mir_snprintf(szTitleLine, SIZEOF(szTitleLine), "(%p:%u) Data %s%s\r\n", 
+	int titleLineLen = mir_snprintf(szTitleLine, SIZEOF(szTitleLine), "(%p:%u) Data %s%s\r\n",
 		nlc, nlc ? nlc->s : 0, sent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
 	ReleaseMutex(hConnectionHeaderMutex);
 
@@ -488,7 +489,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 			if (colsInLine == 16) {
 				PBYTE p = buf + line;
 				pszBuf += wsprintfA(
-					pszBuf, "%08X: %02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X  ", 
+					pszBuf, "%08X: %02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X  ",
 					line, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[13], p[14], p[15]); //!!!!!!!!!!
 			}
 			else {

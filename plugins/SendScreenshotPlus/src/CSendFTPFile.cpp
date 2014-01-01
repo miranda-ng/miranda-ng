@@ -1,7 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
@@ -46,11 +48,11 @@ CSendFTPFile::~CSendFTPFile(){
 void	CSendFTPFile::Send() {
 
 	/*********************************************************************************************
-	 * Send file (files) to the FTP server and copy file URL 
+	 * Send file (files) to the FTP server and copy file URL
 	 * to message log or clipboard (according to plugin setting)
 	 *   wParam = (HANDLE)hContact
 	 *   lParam = (char *)filename
-	 * Filename format is same as GetOpenFileName (OPENFILENAME.lpstrFile) returns, 
+	 * Filename format is same as GetOpenFileName (OPENFILENAME.lpstrFile) returns,
 	 * see http://msdn2.microsoft.com/en-us/library/ms646839.aspx
 	 * Returns 0 on success or nonzero on failure
 	 * if (!wParam || !lParam) return 1
@@ -89,4 +91,3 @@ void	CSendFTPFile::SendThreadWrapper(void * Obj) {
 }
 
 //---------------------------------------------------------------------------
-

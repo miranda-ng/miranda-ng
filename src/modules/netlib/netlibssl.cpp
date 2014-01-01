@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -35,7 +36,7 @@ typedef BOOL (* SSL_EMPTY_CACHE_FN_M)(VOID);
 
 static HMODULE g_hSchannel;
 static PSecurityFunctionTableA g_pSSPI;
-static HANDLE g_hSslMutex; 
+static HANDLE g_hSslMutex;
 static SSL_EMPTY_CACHE_FN_M MySslEmptyCache;
 static CredHandle hCreds;
 static bool bSslInitDone;
@@ -54,8 +55,8 @@ static pfnCertVerifyCertificateChainPolicy fnCertVerifyCertificateChainPolicy;
 
 typedef enum
 {
-	sockOpen, 
-	sockClosed, 
+	sockOpen,
+	sockClosed,
 	sockError
 } SocketState;
 
@@ -74,7 +75,7 @@ struct SslHandle
 	int cbIoBuffer;
 	int sbIoBuffer;
 
-	SocketState state; 
+	SocketState state;
 };
 
 static void ReportSslError(SECURITY_STATUS scRet, int line, bool showPopup = false)
@@ -96,7 +97,7 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool showPopup = fal
 		break;
 
 	default:
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, 
+		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 			NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, SIZEOF(szMsgBuf), NULL);
 	}
 
@@ -126,7 +127,7 @@ static bool AcquireCredentials(void)
 
 	// Create an SSPI credential.
 	scRet = g_pSSPI->AcquireCredentialsHandleA(
-		NULL,                   // Name of principal    
+		NULL,                   // Name of principal
 		UNISP_NAME_A,           // Name of package
 		SECPKG_CRED_OUTBOUND,   // Flags indicating use
 		NULL,                   // Pointer to logon ID
@@ -144,7 +145,7 @@ static bool SSL_library_init(void)
 {
 	if (bSslInitDone) return true;
 
-	WaitForSingleObject(g_hSslMutex, INFINITE); 
+	WaitForSingleObject(g_hSslMutex, INFINITE);
 
 	if ( !bSslInitDone)
 	{
@@ -205,11 +206,11 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 	if ( !fnCertGetCertificateChain)
 		return true;
 
-	static LPSTR rgszUsages[] = 
-	{	
-		szOID_PKIX_KP_SERVER_AUTH, 
-		szOID_SERVER_GATED_CRYPTO, 
-		szOID_SGC_NETSCAPE 
+	static LPSTR rgszUsages[] =
+	{
+		szOID_PKIX_KP_SERVER_AUTH,
+		szOID_SERVER_GATED_CRYPTO,
+		szOID_SGC_NETSCAPE
 	};
 
 	CERT_CHAIN_PARA          ChainPara = {0};
@@ -222,7 +223,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 
 	PWSTR pwszServerName = mir_a2u(pszServerName);
 
-	scRet = g_pSSPI->QueryContextAttributesA(&ssl->hContext, 
+	scRet = g_pSSPI->QueryContextAttributesA(&ssl->hContext,
 		SECPKG_ATTR_REMOTE_CERT_CONTEXT, &pServerCert);
 	if (scRet != SEC_E_OK)
 		goto cleanup;
@@ -238,7 +239,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 	ChainPara.RequestedUsage.Usage.cUsageIdentifier = SIZEOF(rgszUsages);
 	ChainPara.RequestedUsage.Usage.rgpszUsageIdentifier = rgszUsages;
 
-	if ( !fnCertGetCertificateChain(NULL, pServerCert, NULL, pServerCert->hCertStore, 
+	if ( !fnCertGetCertificateChain(NULL, pServerCert, NULL, pServerCert->hCertStore,
 		&ChainPara, 0, NULL, &pChainContext))
 	{
 		scRet = GetLastError();
@@ -255,7 +256,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 
 	PolicyStatus.cbSize = sizeof(PolicyStatus);
 
-	if ( !fnCertVerifyCertificateChainPolicy(CERT_CHAIN_POLICY_SSL, pChainContext, 
+	if ( !fnCertVerifyCertificateChainPolicy(CERT_CHAIN_POLICY_SSL, pChainContext,
 		&PolicyPara, &PolicyStatus))
 	{
 		scRet = GetLastError();
@@ -281,7 +282,7 @@ cleanup:
 	return scRet == SEC_E_OK;
 }
 
-static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)    
+static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 {
 	SecBufferDesc   InBuffer;
 	SecBuffer       InBuffers[2];
@@ -295,7 +296,7 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 
 	BOOL            fDoRead;
 
-	dwSSPIFlags = 
+	dwSSPIFlags =
 		ISC_REQ_SEQUENCE_DETECT   |
 		ISC_REQ_REPLAY_DETECT     |
 		ISC_REQ_CONFIDENTIALITY   |
@@ -310,7 +311,7 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 	scRet = SEC_I_CONTINUE_NEEDED;
 
 	// Loop until the handshake is finished or an error occurs.
-	while (scRet == SEC_I_CONTINUE_NEEDED || scRet == SEC_E_INCOMPLETE_MESSAGE || scRet == SEC_I_INCOMPLETE_CREDENTIALS) 
+	while (scRet == SEC_I_CONTINUE_NEEDED || scRet == SEC_E_INCOMPLETE_MESSAGE || scRet == SEC_I_INCOMPLETE_CREDENTIALS)
 	{
 		// Read server data
 		if (0 == ssl->cbIoBuffer || scRet == SEC_E_INCOMPLETE_MESSAGE)
@@ -386,23 +387,23 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		OutBuffer.ulVersion = SECBUFFER_VERSION;
 
 		scRet = g_pSSPI->InitializeSecurityContextA(
-			&hCreds, 
-			&ssl->hContext, 
-			NULL, 
-			dwSSPIFlags, 
-			0, 
-			SECURITY_NATIVE_DREP, 
-			&InBuffer, 
-			0, 
-			NULL, 
-			&OutBuffer, 
-			&dwSSPIOutFlags, 
+			&hCreds,
+			&ssl->hContext,
+			NULL,
+			dwSSPIFlags,
+			0,
+			SECURITY_NATIVE_DREP,
+			&InBuffer,
+			0,
+			NULL,
+			&OutBuffer,
+			&dwSSPIOutFlags,
 			&tsExpiry);
 
-		// If success (or if the error was one of the special extended ones), 
+		// If success (or if the error was one of the special extended ones),
 		// send the contents of the output buffer to the server.
-		if (scRet == SEC_E_OK                 || 
-			scRet == SEC_I_CONTINUE_NEEDED    || 
+		if (scRet == SEC_E_OK                 ||
+			scRet == SEC_I_CONTINUE_NEEDED    ||
 			(FAILED(scRet) && (dwSSPIOutFlags & ISC_RET_EXTENDED_ERROR)))
 		{
 			if (OutBuffers[0].cbBuffer != 0 && OutBuffers[0].pvBuffer != NULL)
@@ -431,8 +432,8 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 			// Store remaining data for further use
 			if (InBuffers[1].BufferType == SECBUFFER_EXTRA)
 			{
-				memmove(ssl->pbIoBuffer, 
-					ssl->pbIoBuffer + (ssl->cbIoBuffer - InBuffers[1].cbBuffer), 
+				memmove(ssl->pbIoBuffer,
+					ssl->pbIoBuffer + (ssl->cbIoBuffer - InBuffers[1].cbBuffer),
 					InBuffers[1].cbBuffer);
 				ssl->cbIoBuffer = InBuffers[1].cbBuffer;
 			}
@@ -444,7 +445,7 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		// Check for fatal error.
 		if (FAILED(scRet)) break;
 
-		// server just requested client authentication. 
+		// server just requested client authentication.
 		if (scRet == SEC_I_INCOMPLETE_CREDENTIALS)
 		{
 			// Server has requested client authentication and
@@ -459,8 +460,8 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		// Copy any leftover data from the buffer, and go around again.
 		if (InBuffers[1].BufferType == SECBUFFER_EXTRA)
 		{
-			memmove(ssl->pbIoBuffer, 
-				ssl->pbIoBuffer + (ssl->cbIoBuffer - InBuffers[1].cbBuffer), 
+			memmove(ssl->pbIoBuffer,
+				ssl->pbIoBuffer + (ssl->cbIoBuffer - InBuffers[1].cbBuffer),
 				InBuffers[1].cbBuffer);
 
 			ssl->cbIoBuffer = InBuffers[1].cbBuffer;
@@ -517,17 +518,17 @@ static bool ClientConnect(SslHandle *ssl, const char *host)
 	OutBuffer.ulVersion = SECBUFFER_VERSION;
 
 	scRet = g_pSSPI->InitializeSecurityContextA(
-		&hCreds, 
-		NULL, 
-		(SEC_CHAR*)host, 
-		dwSSPIFlags, 
-		0, 
-		SECURITY_NATIVE_DREP, 
-		NULL, 
-		0, 
-		&ssl->hContext, 
-		&OutBuffer, 
-		&dwSSPIOutFlags, 
+		&hCreds,
+		NULL,
+		(SEC_CHAR*)host,
+		dwSSPIFlags,
+		0,
+		SECURITY_NATIVE_DREP,
+		NULL,
+		0,
+		&ssl->hContext,
+		&OutBuffer,
+		&dwSSPIOutFlags,
 		&tsExpiry);
 
 	if (scRet != SEC_I_CONTINUE_NEEDED)
@@ -541,7 +542,7 @@ static bool ClientConnect(SslHandle *ssl, const char *host)
 	{
 		NetlibDumpData(NULL, (unsigned char*)(OutBuffers[0].pvBuffer), OutBuffers[0].cbBuffer, 1, MSG_DUMPSSL);
 		cbData = send(ssl->s, (char*)OutBuffers[0].pvBuffer, OutBuffers[0].cbBuffer, 0);
-		if (cbData == SOCKET_ERROR || cbData == 0) 
+		if (cbData == SOCKET_ERROR || cbData == 0)
 		{
 			NetlibLogf(NULL, "SSL failure sending connection data (%d %d)", ssl->s, WSAGetLastError());
 			g_pSSPI->FreeContextBuffer(OutBuffers[0].pvBuffer);
@@ -628,17 +629,17 @@ void NetlibSslShutdown(SslHandle *ssl)
 	OutBuffer.ulVersion = SECBUFFER_VERSION;
 
 	scRet = g_pSSPI->InitializeSecurityContextA(
-		&hCreds, 
-		&ssl->hContext, 
-		NULL, 
-		dwSSPIFlags, 
-		0, 
-		SECURITY_NATIVE_DREP, 
-		NULL, 
-		0, 
-		&ssl->hContext, 
-		&OutBuffer, 
-		&dwSSPIOutFlags, 
+		&hCreds,
+		&ssl->hContext,
+		NULL,
+		dwSSPIFlags,
+		0,
+		SECURITY_NATIVE_DREP,
+		NULL,
+		0,
+		&ssl->hContext,
+		&OutBuffer,
+		&dwSSPIOutFlags,
 		&tsExpiry);
 
 	if (FAILED(scRet)) return;
@@ -858,7 +859,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 			// sequence.
 
 			scRet = ClientHandshakeLoop(ssl, FALSE);
-			if (scRet != SEC_E_OK) 
+			if (scRet != SEC_E_OK)
 			{
 				ssl->state = sockError;
 				return NetlibSslReadSetResult(ssl, buf, num, peek);
@@ -922,7 +923,7 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 
 		if (FAILED(scRet)) break;
 
-		// Calculate encrypted packet size 
+		// Calculate encrypted packet size
 		cbData = Buffers[0].cbBuffer + Buffers[1].cbBuffer + Buffers[2].cbBuffer;
 
 		// Send the encrypted data to the server.
@@ -963,7 +964,7 @@ static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 int LoadSslModule(void)
 {
 	CreateServiceFunction(MS_SYSTEM_GET_SI, GetSslApi);
-	g_hSslMutex = CreateMutex(NULL, FALSE, NULL); 
+	g_hSslMutex = CreateMutex(NULL, FALSE, NULL);
 	SecInvalidateHandle(&hCreds);
 
 	return 0;

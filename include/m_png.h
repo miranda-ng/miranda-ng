@@ -1,6 +1,9 @@
 /*
-Plugin of Miranda IM for reading/writing PNG images.
-Copyright (c) 2004-5 George Hazan (ghazan@postman.ru)
+
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2004-05 George Hazan (ghazan@postman.ru)
 
 Portions of this code are gotten from the libpng codebase.
 Copyright 2000, Willem van Schaik.  For conditions of distribution and

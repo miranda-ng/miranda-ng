@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -60,7 +61,7 @@ INT_PTR CloseAction(WPARAM wParam,LPARAM lParam)
 
 static HANDLE hWindowListIGN = 0;
 
-/*                                                              
+/*
  * dialog procedure for handling the contact ignore dialog (available from the contact
  * menu
  */
@@ -108,11 +109,11 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When needed by status message"));
 
 			if (cfg::clcdat) {
-				FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL); 
+				FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL);
 				if (contact && contact->type != CLCIT_CONTACT) {
 					DestroyWindow(hWnd);
 					return FALSE;
-				} 
+				}
 				else {
 					TCHAR szTitle[512];
 					DWORD dwFlags = cfg::getDword(hContact, "CList", "CLN_Flags", 0);
@@ -220,7 +221,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					LRESULT  checked = 0;
 					int      i = 0;
 
-					FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL); 
+					FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL);
 					if (iSel != CB_ERR) {
 						dwFlags &= ~(ECF_FORCEAVATAR | ECF_HIDEAVATAR);
 
@@ -347,13 +348,13 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-/*                                                              
+/*
  * service function: Open ignore settings dialog for the contact handle in wParam
  * (clist_nicer+ specific service)
- * 
+ *
  * Servicename = CList/SetContactIgnore
  *
- * ensure that dialog is only opened once (the dialog proc saves the window handle of an open dialog 
+ * ensure that dialog is only opened once (the dialog proc saves the window handle of an open dialog
  * of this type to the contacts database record).
  *
  * if dialog is already open, focus it.
@@ -376,10 +377,10 @@ static INT_PTR SetContactIgnore(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*                                                              
+/*
  * service function: Set a contacts floating status.
  * (clist_nicer+ specific service)
- * 
+ *
  * Servicename = CList/SetContactFloating
  *
  * a floating contact appears as a small independent top level window anywhere on

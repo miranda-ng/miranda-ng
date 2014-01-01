@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -114,7 +115,7 @@ static int Openfile(TCHAR *outputFile, int selection);
 
 static HANDLE hTTBButt = 0;
 
-static IconItem iconList[] = 
+static IconItem iconList[] =
 {
 	{ "Show", "Console_Up",   IDI_BTN_UP },
 	{ "Hide", "Console_Down", IDI_BTN_DN },
@@ -314,7 +315,7 @@ static LRESULT CALLBACK SubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lPa
 			return 0;
 		}
 		break;
-	}       
+	}
 	return mir_callNextSubclass(hwnd, SubclassProc, msg, wParam, lParam);
 }
 
@@ -632,7 +633,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		TCHAR title[MAX_PATH];
 		TCHAR name[MAX_PATH] = {0};
 		TCHAR path[MAX_PATH] = {0};
-		
+
 		hTabs = GetDlgItem(hwndDlg, IDC_TABS);
 
 		//TabCtrl_SetMinTabWidth(hTabs, 100);

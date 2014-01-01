@@ -2,10 +2,11 @@
 //                ICQ plugin for Miranda Instant Messenger
 //                ________________________________________
 //
-// Copyright © 2000-2001 Richard Hughes, Roland Rabien, Tristan Van de Vreede
-// Copyright © 2001-2002 Jon Keating, Richard Hughes
-// Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
-// Copyright © 2004-2010 Joe Kucera
+// Copyright (c) 2000-01 Richard Hughes, Roland Rabien, Tristan Van de Vreede
+// Copyright (c) 2001-02 Jon Keating, Richard Hughes
+// Copyright (c) 2002-04 Martin Öberg, Sam Kothari, Robert Rainwater
+// Copyright (c) 2004-10 Joe Kucera
+// Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

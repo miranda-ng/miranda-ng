@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -63,7 +64,7 @@ bool IsInsideRootDir(TCHAR* profiledir, bool exact)
 	VARST pfd( _T("%miranda_path%"));
 	if (exact)
 		return _tcsicmp(profiledir, pfd) == 0;
-	
+
 	return _tcsnicmp(profiledir, pfd, _tcslen(pfd)) == 0;
 }
 
@@ -368,7 +369,7 @@ int tryOpenDatabase(const TCHAR *tszProfile)
 			return 0;
 		}
 	}
-	
+
 	return (bWasOpened) ? -1 : EGROKPRF_CANTREAD;
 }
 

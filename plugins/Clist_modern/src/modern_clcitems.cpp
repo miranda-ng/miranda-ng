@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_clc.h"
 #include "hdr/modern_clist.h"
@@ -98,7 +100,7 @@ int cli_AddItemToGroup(ClcGroup *group,int iAboveItem)
 
 ClcGroup *cli_AddGroup(HWND hwnd,ClcData *dat,const TCHAR *szName, DWORD flags,int groupId,int calcTotalMembers)
 {
-	ClearRowByIndexCache();	
+	ClearRowByIndexCache();
 	if ( !dat->force_in_dialog && !(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN))
 		if ( !lstrcmp(_T("-@-HIDDEN-GROUP-@-"),szName)) { //group is hidden
 			ClearRowByIndexCache();
@@ -160,17 +162,17 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 	cont->image_is_special = FALSE;
 	cont->hContact = hContact;
 
-	pcli->pfnInvalidateDisplayNameCacheEntry(hContact);	
-	cacheEntry = pcli->pfnGetCacheEntry(hContact);	
-	
+	pcli->pfnInvalidateDisplayNameCacheEntry(hContact);
+	cacheEntry = pcli->pfnGetCacheEntry(hContact);
+
 	szProto = cacheEntry->m_cache_cszProto;
 	cont->proto = szProto;
 
 	if (szProto != NULL && !pcli->pfnIsHiddenMode(dat,pdnce___GetStatus( cacheEntry )))
 		cont->flags |= CONTACTF_ONLINE;
-	
+
 	apparentMode = szProto != NULL?cacheEntry->ApparentMode:0;
-	
+
 	if (apparentMode)
 		switch (apparentMode)
 		{
@@ -183,19 +185,19 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 			default:
 				cont->flags |= CONTACTF_VISTO|CONTACTF_INVISTO;
 		}
-	
-	if (cacheEntry->NotOnList) 
+
+	if (cacheEntry->NotOnList)
 		cont->flags |= CONTACTF_NOTONLIST;
 	idleMode = szProto != NULL?cacheEntry->IdleTS:0;
-	
-	if (idleMode) 
+
+	if (idleMode)
 		cont->flags |= CONTACTF_IDLE;
-	
+
 
 	//Add subcontacts
 	if (szProto)
-	{	
-		if ( g_szMetaModuleName && dat->IsMetaContactsEnabled && mir_strcmp(cont->proto,g_szMetaModuleName) == 0) 
+	{
+		if ( g_szMetaModuleName && dat->IsMetaContactsEnabled && mir_strcmp(cont->proto,g_szMetaModuleName) == 0)
 			AddSubcontacts(dat,cont,CLCItems_IsShowOfflineGroup(group));
 	}
 	cont->lastPaintCounter = 0;
@@ -283,7 +285,7 @@ void cli_DeleteItemFromTree(HWND hwnd,HANDLE hItem)
 
 	//check here contacts are not resorting
 	if (hwnd == pcli->hwndContactTree)
-		pcli->pfnFreeCacheItem( pcli->pfnGetCacheEntry(hItem)); 
+		pcli->pfnFreeCacheItem( pcli->pfnGetCacheEntry(hItem));
 	dat->needsResort = 1;
 	ClearRowByIndexCache();
 }
@@ -324,10 +326,10 @@ int RestoreSelection( ClcData *dat, HANDLE hSelected )
 		dat->selection = pcli->pfnGetRowsPriorTo( &dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact ));
 	}
 	else
-	{ 
+	{
 		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact->subcontacts ));
-	
-		if (dat->selection != -1 ) 
+
+		if (dat->selection != -1 )
 			dat->selection += selcontact->isSubcontact;
 	}
 	return dat->selection;
@@ -399,7 +401,7 @@ void cliRebuildEntireList(HWND hwnd,ClcData *dat)
 				else cont = AddContactToGroup(dat,group,cacheEntry);
 			}
 		}
-		if (cont) {	
+		if (cont) {
 			cont->SubAllocated = 0;
 			if (cont->proto && g_szMetaModuleName && dat->IsMetaContactsEnabled  && strcmp(cont->proto,g_szMetaModuleName) == 0)
 				AddSubcontacts(dat,cont,CLCItems_IsShowOfflineGroup(group));
@@ -500,7 +502,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 
 	ClcGroup *group;
 	ClcContact *contact;
-	
+
 	pcli->pfnHideInfoTip(hwnd, dat);
 	KillTimer(hwnd, TIMERID_INFOTIP);
 	KillTimer(hwnd, TIMERID_RENAME);
@@ -518,7 +520,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
 			group = group->cl.items[group->scanIndex]->group;
 			group->scanIndex = 0;
-			
+
 			SavedGroupState_t* p = new SavedGroupState_t;
 			p->groupId = group->groupId;
 			p->expanded = group->expanded;
@@ -606,7 +608,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 
 WORD pdnce___GetStatus(ClcCacheEntry *pdnce)
 {
-	if ( !pdnce) 
+	if ( !pdnce)
 		return ID_STATUS_OFFLINE;
 	else
 		return pdnce->m_cache_nStatus;
@@ -630,7 +632,7 @@ ClcCacheEntry* cliCreateCacheItem( HANDLE hContact )
 	ClcCacheEntry *p = (ClcCacheEntry *)mir_calloc(sizeof( ClcCacheEntry ));
 	if (p == NULL)
 		return NULL;
-		
+
 	p->hContact = hContact;
 	InvalidateDNCEbyPointer(hContact, p, 0);
 	p->szSecondLineText = NULL;
@@ -674,8 +676,8 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 			count += group->cl.count;
 			continue;
 		}
-		else if ((group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) && 
-			(group->cl.items[group->scanIndex]->subcontacts != NULL)  && 
+		else if ((group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) &&
+			(group->cl.items[group->scanIndex]->subcontacts != NULL)  &&
 			((group->cl.items[group->scanIndex]->SubExpanded || (!visibleOnly))))
 		{
 			count += group->cl.items[group->scanIndex]->SubAllocated;
@@ -760,6 +762,6 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, ClcDa
 		}
 		return (dbHidden | !filterResult | searchResult);
 	}
-	
+
 	return dbHidden | searchResult;
 }

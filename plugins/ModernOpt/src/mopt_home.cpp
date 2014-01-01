@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2007 Artem Shpynov
-Copyright 2000-2007 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-07 Miranda ICQ/IM project,
+Copyright (c) 2007 Artem Shpynov
 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -43,7 +44,7 @@ INT_PTR CALLBACK ModernOptHome_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 					MDescButton_SetTitle(hwndCtrl, TranslateTS(g_ModernOptPages[i].lpzTitle));
 					MDescButton_SetDescription(hwndCtrl, TranslateTS(g_ModernOptPages[i].lpzDescription));
 					DestroyIcon(hIcon);
-				} 
+				}
 				else ShowWindow(hwndCtrl, SW_HIDE);
 		}	}
 

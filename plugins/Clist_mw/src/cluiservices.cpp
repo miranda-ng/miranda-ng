@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 
 extern int CreateTimerForConnectingIcon(WPARAM,LPARAM);
@@ -66,7 +68,7 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 	SendMessage(pcli->hwndStatus,SB_SETBKCOLOR,0,db_get_dw(0,"CLUI","SBarBKColor",CLR_DEFAULT));
 	partWidths = (int*)alloca((protoCount+1)*sizeof(int));
 	//partWidths[0] = FirstIconOffset;
-	if ( db_get_b(NULL,"CLUI","UseOwnerDrawStatusBar",0)||db_get_b(NULL,"CLUI","EqualSections",1)) 
+	if ( db_get_b(NULL,"CLUI","UseOwnerDrawStatusBar",0)||db_get_b(NULL,"CLUI","EqualSections",1))
     {
 		RECT rc;
 		int toshow, part;
@@ -133,7 +135,7 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 				GetTextExtentPoint32(hdc, szStatus, (int)_tcslen(szStatus), &textSize);
 				x += textSize.cx;
 			}
-			if (showOpts&6) x += 2; 
+			if (showOpts&6) x += 2;
 			partWidths[partCount] = (partCount?partWidths[partCount-1]:startoffset)+x+extraspace;
 			partCount++;
 		}

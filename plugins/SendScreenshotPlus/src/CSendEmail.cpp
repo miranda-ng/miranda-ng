@@ -1,7 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
@@ -86,7 +88,7 @@ void	CSendEmail::Send() {
 void CSendEmail::SendThread() {
 	//This code based on SentTo.exe application.
 	//The default mail client for Simple MAPI or MAPI calls is defined by the
-	//HKLM\Software\Clients\Mail::(default) registry value. 
+	//HKLM\Software\Clients\Mail::(default) registry value.
 
 	MapiFileDesc arrfileDesc[1];
 
@@ -212,4 +214,3 @@ void	CSendEmail::SendThreadWrapper(void * Obj) {
 }
 
 //---------------------------------------------------------------------------
-

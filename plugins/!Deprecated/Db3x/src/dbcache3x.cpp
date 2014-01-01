@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (ñ) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -37,7 +38,7 @@ int CDb3x::FindLRUSection(void)
 	DWORD lowestLastUse = cacheSectionInfo[0].lastUsed;
 	for (int i = 1; i < CACHESECTIONCOUNT; i++)
 		if (cacheSectionInfo[i].lastUsed < lowestLastUse) {
-			lru = i; 
+			lru = i;
 			lowestLastUse = cacheSectionInfo[i].lastUsed;
 		}
 	return lru;

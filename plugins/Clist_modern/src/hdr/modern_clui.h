@@ -1,12 +1,11 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
-
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
-
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -22,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #ifndef modern_clui_h__
 #define modern_clui_h__
 
@@ -45,7 +45,7 @@ public:
 	static HRESULT InitClui()         { m_pCLUI = new CLUI(); return S_OK; };
 	static HWND&   ClcWnd()           { return pcli->hwndContactTree; }
 	static HWND&   CluiWnd()          { return pcli->hwndContactList; }
-	static CLUI *  GetClui()          { return m_pCLUI; } 
+	static CLUI *  GetClui()          { return m_pCLUI; }
 	static BOOL    IsMainMenuInited() { return CLUI::m_fMainMenuInited; }
 
 	CLINTERFACE void cliOnCreateClc();
@@ -53,7 +53,7 @@ public:
 	EVENTHOOK( OnEvent_ModulesLoaded );
 	EVENTHOOK( OnEvent_ContactMenuPreBuild );
 	EVENTHOOK( OnEvent_FontReload );
-	
+
 	SERVICE( Service_ShowMainMenu );
 	SERVICE( Service_ShowStatusMenu );
 	SERVICE( Service_Menu_ShowContactAvatar );
@@ -65,7 +65,7 @@ public:
 		if ( !m_hWnd ) m_hWnd = hwnd;
 
 		BOOL bHandled = FALSE;
-		LRESULT lRes= This->PreProcessWndProc( msg, wParam, lParam, bHandled ); 
+		LRESULT lRes= This->PreProcessWndProc( msg, wParam, lParam, bHandled );
 		if ( bHandled ) return lRes;
 
 		switch ( msg )

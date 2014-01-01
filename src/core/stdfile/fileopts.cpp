@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -36,16 +37,16 @@ struct virusscannerinfo {
 };
 
 static const struct virusscannerinfo virusScanners[] = {
-	{_T("Network Associates/McAfee VirusScan"), _T("SOFTWARE\\McAfee\\VirusScan"), _T("Scan32EXE"), _T("\"%s\" %%f /nosplash /comp /autoscan /autoexit /noboot")}, 
-	{_T("Dr Solomon's VirusScan (Network Associates)"), _T("SOFTWARE\\Network Associates\\TVD\\VirusScan\\AVConsol\\General"), _T("szScannerExe"), _T("\"%s\" %%f /uinone /noboot /comp /prompt /autoexit")}, 
-	{_T("Norton AntiVirus"), _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Navw32.exe"), NULL, _T("\"%s\" %%f /b- /m- /s+ /noresults")}, 
-	{_T("Computer Associates/Inoculate IT"), _T("Software\\Antivirus"), _T("ImageFilename"), _T("\"%s\" %%f /display = progress /exit")}, 
-	{_T("Computer Associates eTrust"), _T("SOFTWARE\\ComputerAssociates\\Anti-Virus\\Resident"), _T("VetPath"), _T("\"%s\" %%f /display = progress /exit")}, 
-	{_T("Kaspersky Anti-Virus"), _T("SOFTWARE\\KasperskyLab\\Components\\101"), _T("EXEName"), _T("\"%s\" /S /Q %%f")}, 
-	{_T("Kaspersky Anti-Virus"), _T("SOFTWARE\\KasperskyLab\\SetupFolders"), _T("KAV8"), _T("\"%savp.exe\" SCAN %%f")}, 
-	{_T("Kaspersky Anti-Virus"), _T("SOFTWARE\\KasperskyLab\\SetupFolders"), _T("KAV9"), _T("\"%savp.exe\" SCAN %%f")}, 
-	{_T("AntiVir PersonalEdition Classic"), _T("SOFTWARE\\Avira\\AntiVir PersonalEdition Classic"), _T("Path"), _T("\"%savscan.exe\" /GUIMODE = 2 /PATH = \"%%f\"")}, 
-	{_T("ESET NOD32 Antivirus"), _T("SOFTWARE\\ESET\\ESET Security\\CurrentVersion\\Info"), _T("InstallDir"), _T("\"%secls.exe\" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action = clean \"%%f\"")}, 
+	{_T("Network Associates/McAfee VirusScan"), _T("SOFTWARE\\McAfee\\VirusScan"), _T("Scan32EXE"), _T("\"%s\" %%f /nosplash /comp /autoscan /autoexit /noboot")},
+	{_T("Dr Solomon's VirusScan (Network Associates)"), _T("SOFTWARE\\Network Associates\\TVD\\VirusScan\\AVConsol\\General"), _T("szScannerExe"), _T("\"%s\" %%f /uinone /noboot /comp /prompt /autoexit")},
+	{_T("Norton AntiVirus"), _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Navw32.exe"), NULL, _T("\"%s\" %%f /b- /m- /s+ /noresults")},
+	{_T("Computer Associates/Inoculate IT"), _T("Software\\Antivirus"), _T("ImageFilename"), _T("\"%s\" %%f /display = progress /exit")},
+	{_T("Computer Associates eTrust"), _T("SOFTWARE\\ComputerAssociates\\Anti-Virus\\Resident"), _T("VetPath"), _T("\"%s\" %%f /display = progress /exit")},
+	{_T("Kaspersky Anti-Virus"), _T("SOFTWARE\\KasperskyLab\\Components\\101"), _T("EXEName"), _T("\"%s\" /S /Q %%f")},
+	{_T("Kaspersky Anti-Virus"), _T("SOFTWARE\\KasperskyLab\\SetupFolders"), _T("KAV8"), _T("\"%savp.exe\" SCAN %%f")},
+	{_T("Kaspersky Anti-Virus"), _T("SOFTWARE\\KasperskyLab\\SetupFolders"), _T("KAV9"), _T("\"%savp.exe\" SCAN %%f")},
+	{_T("AntiVir PersonalEdition Classic"), _T("SOFTWARE\\Avira\\AntiVir PersonalEdition Classic"), _T("Path"), _T("\"%savscan.exe\" /GUIMODE = 2 /PATH = \"%%f\"")},
+	{_T("ESET NOD32 Antivirus"), _T("SOFTWARE\\ESET\\ESET Security\\CurrentVersion\\Info"), _T("InstallDir"), _T("\"%secls.exe\" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action = clean \"%%f\"")},
 };
 
 #define M_UPDATEENABLING   (WM_USER+100)
@@ -241,4 +242,3 @@ int FileOptInitialise(WPARAM wParam, LPARAM)
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
-

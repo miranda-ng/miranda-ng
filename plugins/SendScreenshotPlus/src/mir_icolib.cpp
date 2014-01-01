@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -38,7 +39,7 @@ struct
 	WORD	idResource;
 	BYTE	size;
 }
-static icoDesc[] = 
+static icoDesc[] =
 {
 	// common
 	{ ICO_PLUG_SSWINDOW1,   LPGEN("Screenshot Icon1"), SECT_COMMON,  IDI_PLUG_MAIN,      -1 },
@@ -83,8 +84,8 @@ HICON IcoLib_GetIcon(LPCSTR pszIcon, bool big)
 /**
  * This function manually registers a single icon from the default icon library.
  *
- * @param		szIconID		- This is the uniquely identifying string for an icon. 
- *								  This string is the setting name in the database and should 
+ * @param		szIconID		- This is the uniquely identifying string for an icon.
+ *								  This string is the setting name in the database and should
  *								  only use ASCII characters.
  * @param		szDescription	- This is the description displayed in the options dialog.
  * @param		szSection		- This is the subsection, where the icon is organized in the options dialog.
@@ -163,10 +164,9 @@ VOID IcoLib_LoadModule()
 	szPluginFile = _T("Plugins\\")_T(__FILENAME);
 
 	// load default icon if required
-	ghDefIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_PLUG_DEFAULT), IMAGE_ICON, 
+	ghDefIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_PLUG_DEFAULT), IMAGE_ICON,
 		GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 
-	for (i = 0; i < SIZEOF(icoDesc); i++) 
+	for (i = 0; i < SIZEOF(icoDesc); i++)
 		IcoLib_RegisterIconHandleEx(icoDesc[i].pszName, icoDesc[i].pszDesc, icoDesc[i].pszSection, szPluginFile, icoDesc[i].idResource, icoDesc[i].size, ghDefIcon);
 }
-

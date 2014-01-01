@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -210,17 +211,17 @@ public:
 	}
 
 	__forceinline HANDLE CreateProtoEvent(const char *name)
-	{	return ::ProtoCreateHookableEvent(this, name); } 
+	{	return ::ProtoCreateHookableEvent(this, name); }
 
 	typedef int (__cdecl T::*MyEventFunc)(WPARAM, LPARAM);
 	__forceinline void HookProtoEvent(const char *name, MyEventFunc pFunc)
-	{	::ProtoHookEvent(this, name, (ProtoEventFunc)pFunc); } 
+	{	::ProtoHookEvent(this, name, (ProtoEventFunc)pFunc); }
 
 	typedef void (__cdecl T::*MyThreadFunc)(void*);
 	__forceinline void ForkThread(MyThreadFunc pFunc, void *param)
-	{	::ProtoForkThread(this, (ProtoThreadFunc)pFunc, param); } 
+	{	::ProtoForkThread(this, (ProtoThreadFunc)pFunc, param); }
 	HANDLE __forceinline ForkThreadEx(MyThreadFunc pFunc, void *param, UINT *pThreadId)
-	{	return ::ProtoForkThreadEx(this, (ProtoThreadFunc)pFunc, param, pThreadId); } 
+	{	return ::ProtoForkThreadEx(this, (ProtoThreadFunc)pFunc, param, pThreadId); }
 
 	typedef INT_PTR (__cdecl T::*MyServiceFunc)(WPARAM, LPARAM);
 	__forceinline void CreateProtoService(const char *name, MyServiceFunc pFunc)

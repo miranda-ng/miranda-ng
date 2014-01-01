@@ -1,8 +1,9 @@
 /*
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -19,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
 */
+
 #ifndef _M_USERINFOEX_H_
 #define _M_USERINFOEX_H_
 /*************************************************************
@@ -38,7 +40,7 @@ Otherwise the default icon is displayed for this treeitem.
 A dialogbox should call SetWindowLongPtr(hDlg, DWLP_MSGRESULT, PSP_CHANGED) on a PSN_INFOCHANGED notification if
 there are unsafed changes and apply button should keep enabled. Otherwise the changed status
 of the dialogbox is resetted as well as the changed status of the details dialog box itself if no page
-called this message. Because UserinfoEx now looks for changes in the settings of a user to keep the 
+called this message. Because UserinfoEx now looks for changes in the settings of a user to keep the
 shown inforamtion up to date.
 */
 #define PSP_CHANGED			2
@@ -134,7 +136,7 @@ typedef struct TDlgCommand {
 
 
 /* PSM_ISAEROMODE v0.8.2.1+
-This message can be sent to the propertysheet (details dialog) to examine, 
+This message can be sent to the propertysheet (details dialog) to examine,
 whether the aero adaption mode is enabled or not. This message should be used in
 each propertysheet page's dialog procedure as follows:
 
@@ -226,7 +228,7 @@ wParam = lParam = not used
 /* UserInfo/Reminder/Check v0.1.2.16+
 This service compares birthday date which is set by the protocol module of each contact
 to the first found custom set birthday date. If a difference is detected, the user is asked
-whether to update the custom set birthday by the one of the protocol or not. 
+whether to update the custom set birthday by the one of the protocol or not.
 
 If no custom birthday is set yet and the protocol contains a valid birthday, it is copied to
 primary custom module (e.g.: mBirthday or UserInfo).
@@ -247,7 +249,7 @@ lParam = not used
 /*************************************************************
  *	Uinfobuttonclass module
  */
- 
+
 // button styles
 #define MBS_DEFBUTTON		0x00001000L			// default button
 #define MBS_PUSHBUTTON		0x00002000L			// toggle button
@@ -291,7 +293,7 @@ wParam - 1 for long dateformat, 0 for short dateformat
 lParam - CONTACTINFO structure as for all other fields, too
 returns 0 on success and 1 on failure
 */
-#define CNF_BIRTHDATE		43	// returns date of birth (string)	
+#define CNF_BIRTHDATE		43	// returns date of birth (string)
 
 
 /*************************************************************
@@ -312,16 +314,16 @@ lParam=not used
 
 /* DB/Contact/GetSettingStrEx	v0.7.0.1+
 This service function reads a database setting from USERINFO module.
-If the setting does not exist, it is looked up in 'pszProto'. 
+If the setting does not exist, it is looked up in 'pszProto'.
 If 'hContact' points to a MetaContact, the setting is recursivly
 searched in all sub contacts, too, starting with the default contact,
 if the MetaContact does not directly provide the setting.
-This service can directly replace the default MS_DB_CONTACT_GETSETTING_STR 
-for reading contact information from the database. 
+This service can directly replace the default MS_DB_CONTACT_GETSETTING_STR
+for reading contact information from the database.
 There will be no difference for the user but the possible source of information.
 
-This service can be used to retrieve all kinds of settings! 
-Some versions of the default MS_DB_CONTACT_GETSETTING_STR service return 
+This service can be used to retrieve all kinds of settings!
+Some versions of the default MS_DB_CONTACT_GETSETTING_STR service return
 an error for BYTE, WORD and DWORD values if cgs.pValue->type is not 0.
 
 wParam = (WPARAM)(HANDLE)hContact
@@ -331,7 +333,7 @@ This service returns one of the results of MS_DB_CONTACT_GETSETTING_STR!
 */
 #define MS_DB_CONTACT_GETSETTING_STR_EX		"DB/Contact/GetSettingStrEx"
 
-static FORCEINLINE INT_PTR 
+static FORCEINLINE INT_PTR
 	DBGetContactSettingEx_Helper(
 		HANDLE hContact,
 		const char* pszProto,

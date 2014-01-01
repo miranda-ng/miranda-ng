@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_clist.h"
 #include "m_api/m_skin_eng.h"
@@ -103,14 +105,14 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 	static int draggingTitle;
 	MSG *msg = (MSG*)wParam;
 
-	if (msg->message == WM_DESTROY) 
+	if (msg->message == WM_DESTROY)
 		db_set_b(NULL,"CList","Docked",(BYTE)g_CluiData.fDocked);
 
 	if ( !g_CluiData.fDocked && msg->message != WM_CREATE && msg->message != WM_MOVING && msg->message != WM_CREATEDOCKED && msg->message != WM_MOVE && msg->message != WM_SIZE) return 0;
 	switch(msg->message) {
 		case WM_CREATE:
 			//if (GetSystemMetrics(SM_CMONITORS)>1) return 0;
-			if ( db_get_b(NULL,"CList","Docked",0) && db_get_b(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT)) 
+			if ( db_get_b(NULL,"CList","Docked",0) && db_get_b(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT))
 			{
 				PostMessage(msg->hwnd,WM_CREATEDOCKED, 0, 0);
 			}
@@ -180,7 +182,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 				dock_drag_dy = rcWindow.top-ptCursor.y;
 				Docking_GetMonitorRectFromPoint(ptCursor,&rcMonitor);
 
-				if (((ptCursor.x < rcMonitor.left+EDGESENSITIVITY) 
+				if (((ptCursor.x < rcMonitor.left+EDGESENSITIVITY)
 					 ||  (ptCursor.x >= rcMonitor.right-EDGESENSITIVITY))
 					 &&  db_get_b(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT))
 				{
@@ -192,7 +194,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 					SHAppBarMessage(ABM_NEW,&abd);
 					if (ptCursor.x < rcMonitor.left+EDGESENSITIVITY) g_CluiData.fDocked = DOCKED_LEFT;
 					else g_CluiData.fDocked = DOCKED_RIGHT;
-					//	TempDock = 1;				
+					//	TempDock = 1;
 					GetWindowRect(msg->hwnd,(LPRECT)msg->lParam);
 					rc = (RECT*)msg->lParam;
 					if (g_CluiData.fDocked == DOCKED_RIGHT)
@@ -201,7 +203,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 						dx = (rc->left < rcMonitor.left)?rc->left-rcMonitor.left:0;
 					OffsetRect(rc,-dx,0);
 					Docking_AdjustPosition(msg->hwnd,(LPRECT)&rcMonitor,(LPRECT)msg->lParam);
-					SendMessage(msg->hwnd,WM_SIZE, 0, 0);				
+					SendMessage(msg->hwnd,WM_SIZE, 0, 0);
 					g_CluiData.mutexPreventDockMoving = 0;
 					Sync(CLUIFrames_OnMoving,msg->hwnd,(LPRECT)msg->lParam);
 					g_CluiData.mutexPreventDockMoving = 1;
@@ -224,8 +226,8 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 				g_CluiData.mutexPreventDockMoving = 0;
 				SetWindowPos(msg->hwnd, 0, rcWindow.left,rcWindow.top, 0, 0, SWP_NOSIZE|SWP_NOZORDER|SWP_NOREDRAW|SWP_NOSENDCHANGING);
 				Sync(CLUIFrames_OnMoving,msg->hwnd,&rcWindow);
-				ModernSkinButton_ReposButtons( msg->hwnd, SBRF_DO_NOT_DRAW, NULL );// -= -=  -= 
-				g_CluiData.mutexPreventDockMoving = 1;		  
+				ModernSkinButton_ReposButtons( msg->hwnd, SBRF_DO_NOT_DRAW, NULL );// -= -=  -=
+				g_CluiData.mutexPreventDockMoving = 1;
 				return 1;
 			}
 
@@ -248,7 +250,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 				rc = *(RECT*)(msg->lParam);
 				g_CluiData.mutexPreventDockMoving = 0;
 				Sync(CLUIFrames_OnMoving,msg->hwnd,&rc);
-				// -= -=  -= 		
+				// -= -=  -=
 				return TRUE;
 			}
 		case WM_SHOWWINDOW:
@@ -269,7 +271,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 					Docking_AdjustPosition(msg->hwnd,&rcMonitor,&rc);
 					MoveWindow(msg->hwnd,rc.left,rc.top,rc.right-rc.left,rc.bottom-rc.top,FALSE);
 					Sync(CLUIFrames_OnMoving,msg->hwnd,&rc);
-					ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW,NULL);// -= -=  -= 
+					ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW,NULL);// -= -=  -=
 				}
 				else {
 					SHAppBarMessage(ABM_REMOVE,&abd);
@@ -279,7 +281,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 		case WM_NCHITTEST:
 			{	LONG result;
 			result = DefWindowProc(msg->hwnd,WM_NCHITTEST,msg->wParam,msg->lParam);
-			if (result == HTSIZE || result == HTTOP || result == HTTOPLEFT || result == HTTOPRIGHT  || 
+			if (result == HTSIZE || result == HTTOP || result == HTTOPLEFT || result == HTTOPRIGHT  ||
 				result == HTBOTTOM || result == HTBOTTOMRIGHT || result == HTBOTTOMLEFT) {*((LRESULT*)lParam) = HTCLIENT; return TRUE;}
 				if (g_CluiData.fDocked == DOCKED_LEFT && result == HTLEFT) {*((LRESULT*)lParam) = HTCLIENT; return TRUE;}
 				if (g_CluiData.fDocked == DOCKED_RIGHT && result == HTRIGHT) {*((LRESULT*)lParam) = HTCLIENT; return TRUE;}
@@ -300,7 +302,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 			{	RECT rc;
 			POINT pt;
 			GetClientRect(msg->hwnd,&rc);
-			if (((g_CluiData.fDocked == DOCKED_LEFT || g_CluiData.fDocked == -DOCKED_LEFT) && (short)LOWORD(msg->lParam)>rc.right)  || 
+			if (((g_CluiData.fDocked == DOCKED_LEFT || g_CluiData.fDocked == -DOCKED_LEFT) && (short)LOWORD(msg->lParam)>rc.right)  ||
 				((g_CluiData.fDocked == DOCKED_RIGHT || g_CluiData.fDocked == -DOCKED_RIGHT) && (short)LOWORD(msg->lParam) < 0)) {
 					ReleaseCapture();
 					draggingTitle = 0;
@@ -333,7 +335,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 				Docking_GetMonitorRectFromWindow(msg->hwnd,&rcMonitor);
 				GetWindowRect(msg->hwnd,&rc);
 				Docking_AdjustPosition(msg->hwnd,&rcMonitor,&rc);
-				Sync(CLUIFrames_OnMoving,msg->hwnd,&rc); // -= -=  -= 		
+				Sync(CLUIFrames_OnMoving,msg->hwnd,&rc); // -= -=  -=
 				ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW, NULL);
 
 				g_CluiData.mutexPreventDockMoving = 1;

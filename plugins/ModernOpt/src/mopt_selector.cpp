@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2007 Artem Shpynov
-Copyright 2000-2007 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-07 Miranda ICQ/IM project,
+Copyright (c) 2007 Artem Shpynov
 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -154,14 +155,14 @@ static void BuildSkinList(HWND hwndList, TCHAR *szExt, int nExtLength = -1, bool
 				SetCurrentDirectory(ffd.cFileName);
 				BuildSkinList(hwndList, szExt, nExtLength, false);
 				SetCurrentDirectory(_T(".."));
-			} 
+			}
 			else {
 				if (CheckExt(ffd.cFileName, szExt, nExtLength)) {
 					TSkinListItem *dat = new TSkinListItem(ffd.cFileName);
 					DWORD dwItem = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)ffd.cFileName);
 					SendMessage(hwndList, LB_SETITEMDATA, dwItem, (LPARAM)dat);
 			}	}
-		} 
+		}
 			while (FindNextFile(h, &ffd));
 		FindClose(h);
 	}
@@ -294,7 +295,7 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 					FillRect(lps->hDC, &lps->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
 					clBack = GetSysColor(COLOR_HIGHLIGHT);
 					clLine1 = GetSysColor(COLOR_HIGHLIGHTTEXT);
-				} 
+				}
 				else {
 					FillRect(lps->hDC, &lps->rcItem, GetSysColorBrush(COLOR_WINDOW));
 					clBack = GetSysColor(COLOR_WINDOW);
@@ -318,7 +319,7 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 					DrawIconEx(lps->hDC, lps->rcItem.left, (lps->rcItem.top+lps->rcItem.bottom-cyIcon)/2,
 						LoadSkinnedIcon(SKINICON_OTHER_EMPTYBLOB),
 						cxIcon, cyIcon, 0, NULL, DI_NORMAL);
-				} 
+				}
 				else {
 					DrawIconEx(lps->hDC, lps->rcItem.left, (lps->rcItem.top+lps->rcItem.bottom-cyIcon)/2,
 						LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT),
@@ -334,7 +335,7 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 
 				SetTextColor(lps->hDC, clLine2);
 				DrawText(lps->hDC, dat->path, -1, &lps->rcItem, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_PATH_ELLIPSIS|DT_BOTTOM);
-			} 
+			}
 			else if (lps->CtlID == IDC_PREVIEW1) {
 				int idx = SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETCURSEL, 0, 0);
 
@@ -343,7 +344,7 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 						TSkinListItem *dat = (TSkinListItem *)SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETITEMDATA, idx, 0);
 						CreatePreview(sd, dat->filename, lps);
 						//sttPreviewSkin(obj, dat->filename, lps);
-					} 
+					}
 					else CreatePreview(sd, NULL, lps);
 				}
 
@@ -351,7 +352,7 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 					HDC hdc = CreateCompatibleDC(lps->hDC);
 					SelectObject(hdc, sd->hbmpPreview);
 					BitBlt(lps->hDC,
-						lps->rcItem.left, lps->rcItem.top, 
+						lps->rcItem.left, lps->rcItem.top,
 						lps->rcItem.right - lps->rcItem.left, lps->rcItem.bottom - lps->rcItem.top,
 						hdc, 0, 0, SRCCOPY);
 					DeleteDC(hdc);

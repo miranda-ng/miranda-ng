@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2006 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-06 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -95,7 +96,7 @@ typedef struct {
 // The strings inside the struct need to be free using miranda free.
 #define PS_GET_LISTENINGTO	"/GetListeningTo"
 
-// Also the protocol have to save a string with the text the other user is (probabily) 
+// Also the protocol have to save a string with the text the other user is (probabily)
 // seeing under the main db key: <protocol>/ListeningTo
 
 // For a contact, the protocol should store the listening info as an string inside
@@ -118,14 +119,14 @@ typedef struct {
 // Returns a TCHAR* containg the user setting. This need to be free using miranda free.
 #define MS_LISTENINGTO_GETTEXTFORMAT	"ListeningTo/GetTextFormat"
 
-// Get the text the user wants him / his contacts to see, parsed with the info sent to 
+// Get the text the user wants him / his contacts to see, parsed with the info sent to
 // this service.  Uses the same variables as the above service to the default text.
 // wParam = TCHAR* - default text for this protocol
 // lParam = LISTENINGTOINFO *
 // Returns a TCHAR* containg the parsed text. This need to be free using miranda free.
 #define MS_LISTENINGTO_GETPARSEDTEXT	"ListeningTo/GetParsedText"
 
-// Get if the contact options about how to show the music info should be overriten or 
+// Get if the contact options about how to show the music info should be overriten or
 // not.
 // wParam = NULL
 // lParam = hContact
@@ -140,4 +141,3 @@ typedef struct {
 
 
 #endif  // M_PROTO_LISTENINGTO_H__
-

@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -79,7 +80,7 @@ typedef struct _MUUID {
 
 #define MIID_SERVICEMODE    {0x8a92c026, 0x953a, 0x4f5f, { 0x99, 0x21, 0xf2, 0xc2, 0xdc, 0x19, 0x5e, 0xc5}}
 
-/* Each service mode plugin must implement MS_SERVICEMODE_LAUNCH 
+/* Each service mode plugin must implement MS_SERVICEMODE_LAUNCH
    This service might return one of the following values:
 	SERVICE_CONTINUE - load Miranda normally, like there's no service plugins at all
 	SERVICE_ONLYDB - load database and then execute service plugin only

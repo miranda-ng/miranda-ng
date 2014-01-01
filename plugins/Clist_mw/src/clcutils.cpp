@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 #include "clc.h"
 
@@ -82,7 +84,7 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 		if (flags) *flags |= CLCHT_ONITEMICON;
 		return hit;
 	}
-	
+
 	hdc = GetDC(hwnd);
 	GetTextExtentPoint32(hdc,hitcontact->szText,lstrlen(hitcontact->szText),&textSize);
 	width = textSize.cx;
@@ -94,7 +96,7 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 		if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 			continue;
 
-		if ((style & CLS_EX_MULTICOLUMNALIGNLEFT)) {							
+		if ((style & CLS_EX_MULTICOLUMNALIGNLEFT)) {
 			x = (dat->leftMargin+indent*dat->groupIndent+checkboxWidth+dat->iconXSpace-2+width);
 			x += 16;
 			x = x+dat->extraColumnSpacing*(ic);
@@ -104,7 +106,7 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 			int ir;
 			if (dat->MetaIgnoreEmptyExtra) {
 				ir = 0;
-				for (int j = i;j<dat->extraColumnsCount;j++) 
+				for (int j = i;j<dat->extraColumnsCount;j++)
 					if (hitcontact->iExtraImage[j] != EMPTY_EXTRA_ICON)
 						ir++;
 			}
@@ -120,14 +122,14 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 
 			ReleaseDC(hwnd,hdc);
 			return hit;
-		}	
+		}
 	}
 
-	if (hitcontact->type == CLCIT_GROUP) 
+	if (hitcontact->type == CLCIT_GROUP)
 		oldfont = (HFONT)SelectObject(hdc,dat->fontInfo[FONTID_GROUPS].hFont);
-	else 
+	else
 		oldfont = (HFONT)SelectObject(hdc,dat->fontInfo[FONTID_CONTACTS].hFont);
-	
+
 	GetTextExtentPoint32(hdc,hitcontact->szText,lstrlen(hitcontact->szText),&textSize);
 	width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
@@ -199,7 +201,7 @@ void RecalcScrollBar(HWND hwnd,struct ClcData *dat)
 	RECT clRect;
 	NMCLISTCONTROL nm;
 	boolean sbar = FALSE;
-	
+
 	GetClientRect(hwnd,&clRect);
 
 	si.cbSize = sizeof(si);
@@ -208,7 +210,7 @@ void RecalcScrollBar(HWND hwnd,struct ClcData *dat)
 	si.nMax = dat->rowHeight*GetGroupContentsCount(&dat->list,2)-1;
 	si.nPage = clRect.bottom;
 	si.nPos = dat->yScroll;
-	
+
 	nm.hdr.code = CLN_LISTSIZECHANGE;
 	nm.hdr.hwndFrom = hwnd;
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
@@ -224,9 +226,9 @@ void RecalcScrollBar(HWND hwnd,struct ClcData *dat)
 	si.nPos = dat->yScroll;
 
 	sbar = (dat->noVScrollbar == 1||(int)si.nPage>si.nMax);
-	
+
 	ShowScrollBar(hwnd,SB_VERT,sbar? FALSE : TRUE);
-	if ( !sbar) {	
+	if ( !sbar) {
 		if ( GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_CONTACTLIST ) {
 			if ( dat->noVScrollbar == 0 ) SetScrollInfo(hwnd,SB_VERT,&si,TRUE);
 			else SetScrollInfo(hwnd,SB_VERT,&si,FALSE);
@@ -282,6 +284,6 @@ void LoadClcOptions(HWND hwnd,struct ClcData *dat)
 	saveLoadClcOptions( hwnd, dat );
 
 	for (i = 0; i <= FONTID_MAX; i++)
-		if (dat->fontInfo[i].fontHeight > dat->rowHeight) 
+		if (dat->fontInfo[i].fontHeight > dat->rowHeight)
 			dat->rowHeight = dat->fontInfo[i].fontHeight;
 }

@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -21,8 +22,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Created by Pescuma, modified by Artem Shpynov
-
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_rowheight_funcs.h"
 #include "hdr/modern_commonprototypes.h"
@@ -43,7 +44,7 @@ ROWCELL * gl_RowRoot;
 
 void FreeRowCell ()
 {
-	if (gl_RowRoot) 
+	if (gl_RowRoot)
 		cppDeleteTree(gl_RowRoot);
 }
 
@@ -62,7 +63,7 @@ SIZE GetAvatarSize(int imageWidth, int imageHeight, int maxWidth, int maxHeight)
 
   if (maxWidth == 0)
 	  maxWidth = maxHeight;
-  scalefactor = min((float)maxWidth/imageWidth,(float)maxHeight/imageHeight); 
+  scalefactor = min((float)maxWidth/imageWidth,(float)maxHeight/imageHeight);
   sz.cx = (LONG)(imageWidth*scalefactor);
   sz.cy = (LONG)(imageHeight*scalefactor);
   return sz;
@@ -82,7 +83,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 	BYTE i=0;
 	int res = 0;
 	int height = 0;
-	ClcCacheEntry *pdnce; 
+	ClcCacheEntry *pdnce;
 	BOOL hasAvatar = FALSE;
 	DWORD style;
 	style = GetWindowLongPtr(hwnd,GWL_STYLE);
@@ -103,11 +104,11 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 			if (szCounts && szCounts[0])
 				tmp = max(tmp,dat->fontModernInfo[contact->group->expanded?FONTID_OPENGROUPCOUNTS:FONTID_CLOSEDGROUPCOUNTS].fontHeight);
 		}
-		tmp = max(tmp, ICON_HEIGHT);       
+		tmp = max(tmp, ICON_HEIGHT);
 		tmp = max(tmp,dat->row_min_heigh);
 		tmp += dat->row_border*2;
-		if (contact->type == CLCIT_GROUP && 
-			contact->group->parent->groupId == 0 && 
+		if (contact->type == CLCIT_GROUP &&
+			contact->group->parent->groupId == 0 &&
 			contact->group->parent->cl.items[0] != contact)
 			tmp += dat->row_before_group_space;
 		if (item != -1) dat->row_heights[item] = tmp;
@@ -138,7 +139,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 						if (contact->type == CLCIT_GROUP)
 						{
 							char * szCounts = pcli->pfnGetGroupCountsText(dat, contact);
-							if (szCounts && strlen(szCounts)>0) 
+							if (szCounts && strlen(szCounts)>0)
 							{
 								RECT count_rc = {0};
 								// calc width and height
@@ -210,13 +211,13 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 							DeleteDC(hdc);
 						}
 					}
-					gl_RowTabAccess[i]->h = tmp;			    
+					gl_RowTabAccess[i]->h = tmp;
 				}
 				break;
 
 			case TC_STATUS:
-				if ((contact->type == CLCIT_GROUP && !dat->row_hide_group_icon) || 
-					 (contact->type == CLCIT_CONTACT && contact->iImage != -1  && 
+				if ((contact->type == CLCIT_GROUP && !dat->row_hide_group_icon) ||
+					 (contact->type == CLCIT_CONTACT && contact->iImage != -1  &&
 					 !(dat->icon_hide_on_avatar && dat->avatars_show	 &&  (hasAvatar || (!hasAvatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)) && !contact->image_is_special)))
 				{
 					gl_RowTabAccess[i]->h = ICON_HEIGHT;
@@ -225,8 +226,8 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 				break;
 
 			case TC_AVATAR:
-				if (dat->avatars_show && 
-					contact->type == CLCIT_CONTACT && 
+				if (dat->avatars_show &&
+					contact->type == CLCIT_CONTACT &&
 					(hasAvatar || (dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)))
 				{
 					int iW = 0, iH = 0;
@@ -239,7 +240,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 					else if (dat->avatar_cache.nodes) {
 						iW = dat->avatar_cache.nodes[contact->avatar_pos].width;
 						iH = dat->avatar_cache.nodes[contact->avatar_pos].height;
-					}					
+					}
 					SIZE sz = GetAvatarSize(iW,iH,dat->avatars_maxwidth_size,dat->avatars_maxheight_size);
 					if ((sz.cx == 0 || sz.cy == 0) &&  dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)
 						sz.cx = ICON_HEIGHT, sz.cy = ICON_HEIGHT;
@@ -252,7 +253,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 			case TC_EXTRA:
 				// Draw extra icons
 
-				if (contact->type == CLCIT_CONTACT && 
+				if (contact->type == CLCIT_CONTACT &&
 					(!contact->isSubcontact || db_get_b(NULL,"CLC","MetaHideExtra",SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0))
 				{
 					BOOL hasExtra = FALSE;
@@ -279,7 +280,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 			case TC_EXTRA7:
 			case TC_EXTRA8:
 			case TC_EXTRA9:
-				if (contact->type == CLCIT_CONTACT && 
+				if (contact->type == CLCIT_CONTACT &&
 					(!contact->isSubcontact || db_get_b(NULL,"CLC","MetaHideExtra",SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0))
 				{
 					int eNum = gl_RowTabAccess[i]->type-TC_EXTRA1;
@@ -313,7 +314,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 							gl_RowTabAccess[i]->w = text_size.cx;
 						}
 					}
-				}				  
+				}
 				break;
 			}
 		}
@@ -396,10 +397,10 @@ BOOL RowHeights_Alloc(ClcData *dat, int size)
 // Calc and store max row height
 
 static int contact_fonts[] = {
-	FONTID_CONTACTS, FONTID_INVIS, FONTID_OFFLINE, FONTID_NOTONLIST, FONTID_OFFINVIS, 
-	FONTID_AWAY,FONTID_DND, FONTID_NA, FONTID_OCCUPIED, FONTID_CHAT, FONTID_INVISIBLE, 
+	FONTID_CONTACTS, FONTID_INVIS, FONTID_OFFLINE, FONTID_NOTONLIST, FONTID_OFFINVIS,
+	FONTID_AWAY,FONTID_DND, FONTID_NA, FONTID_OCCUPIED, FONTID_CHAT, FONTID_INVISIBLE,
 	FONTID_PHONE, FONTID_LUNCH };
-	
+
 static int other_fonts[] = {FONTID_OPENGROUPS, FONTID_OPENGROUPCOUNTS,FONTID_CLOSEDGROUPS, FONTID_CLOSEDGROUPCOUNTS, FONTID_DIVIDERS, FONTID_CONTACT_TIME};
 
 int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
@@ -417,20 +418,20 @@ int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 		if (dat->text_replace_smileys && dat->first_line_draw_smileys && !dat->text_resize_smileys)
 			tmp = max(tmp, dat->text_smiley_height);
 
-		max_height += tmp; 
+		max_height += tmp;
 
 		if (dat->second_line_show) {
 			tmp = dat->fontModernInfo[FONTID_SECONDLINE].fontHeight;
 			if (dat->text_replace_smileys && dat->second_line_draw_smileys && !dat->text_resize_smileys)
 				tmp = max(tmp, dat->text_smiley_height);
-			max_height += dat->second_line_top_space + tmp; 
+			max_height += dat->second_line_top_space + tmp;
 		}
 
 		if (dat->third_line_show) {
 			tmp = dat->fontModernInfo[FONTID_THIRDLINE].fontHeight;
 			if (dat->text_replace_smileys && dat->third_line_draw_smileys && !dat->text_resize_smileys)
 				tmp = max(tmp, dat->text_smiley_height);
-			max_height += dat->third_line_top_space + tmp; 
+			max_height += dat->third_line_top_space + tmp;
 		}
 
 		// Get other font sizes
@@ -586,16 +587,16 @@ int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact,
 		}
 
 		// Avatar size
-		if (dat->avatars_show && !dat->avatars_ignore_size_for_row_height && 
-			contact->type == CLCIT_CONTACT && 
+		if (dat->avatars_show && !dat->avatars_ignore_size_for_row_height &&
+			contact->type == CLCIT_CONTACT &&
 			((dat->use_avatar_service && contact->avatar_data != NULL) || (!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE)) && !minimalistic )
 		{
 			height = max(height, dat->avatars_maxheight_size);
 		}
 
 		// Checkbox size
-		if ((style & CLS_CHECKBOXES && contact->type == CLCIT_CONTACT)  || 
-			 (style & CLS_GROUPCHECKBOXES && contact->type == CLCIT_GROUP)  || 
+		if ((style & CLS_CHECKBOXES && contact->type == CLCIT_CONTACT)  ||
+			 (style & CLS_GROUPCHECKBOXES && contact->type == CLCIT_GROUP)  ||
 			 (contact->type == CLCIT_INFO && contact->flags & CLCIIF_CHECKBOX))
 		{
 			height = max(height, dat->checkboxSize);
@@ -603,10 +604,10 @@ int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact,
 
 		// Icon size
 		if ( !dat->icon_ignore_size_for_row_height) {
-			if (contact->type == CLCIT_GROUP 
-				|| (contact->type == CLCIT_CONTACT && contact->iImage != -1 
+			if (contact->type == CLCIT_GROUP
+				|| (contact->type == CLCIT_CONTACT && contact->iImage != -1
 				&& !(dat->icon_hide_on_avatar && dat->avatars_show
-				&& ((dat->use_avatar_service && contact->avatar_data != NULL)  || 
+				&& ((dat->use_avatar_service && contact->avatar_data != NULL)  ||
 				(!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE))
 				&& !contact->image_is_special)))
 			{
@@ -678,7 +679,7 @@ int cliRowHitTest(ClcData *dat, int pos_y)
 }
 
 int cliGetRowHeight(ClcData *dat, int item)
-{	
+{
 	if ( item >= dat->row_heights_size || item  < 0 )
 		return dat->rowHeight;
 

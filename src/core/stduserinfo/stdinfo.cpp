@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -331,7 +332,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					SetValue(hwndDlg, IDC_ZIP, hContact, szProto, "CompanyZIP", SVS_ZEROISUNSPEC);
 					SetValue(hwndDlg, IDC_COUNTRY, hContact, szProto, "CompanyCountry", SVS_COUNTRY);
 					SetValue(hwndDlg, IDC_WEBPAGE, hContact, szProto, "CompanyHomepage", SVS_ZEROISUNSPEC);
-				}	
+				}
 			}
 			break;
 		}

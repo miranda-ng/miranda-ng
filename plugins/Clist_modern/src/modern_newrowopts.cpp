@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -28,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /************************************************************************/
 /*********      New row design options file handle               ********/
 /************************************************************************/
- 
+
 
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_clist.h"
@@ -37,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define COLUMNS_PLACE 254
 #define ROWS_PLACE 253
 
-typedef struct _NodeList 
+typedef struct _NodeList
 {
 	BYTE				bType;
 	int					pData;
@@ -51,7 +52,7 @@ NodeList * RootNode = NULL;
 NodeList * AddNode(NodeList * Parent)
 {
 	NodeList * res;
-	if ( !Parent) 
+	if ( !Parent)
 	{
 		res = (NodeList *)mir_alloc(sizeof(NodeList));
 		memset(res, 0, sizeof(NodeList));
@@ -92,11 +93,11 @@ BOOL RemoveNode(NodeList * FromList)
 		for (k = 0;k < FromList->itemParent->AllocatedChilds;k++)
 			if (&(FromList->itemParent->childNodes[k]) == FromList)
 			{
-				BOOL res = RemoveChildNode(FromList->itemParent,k);				
+				BOOL res = RemoveChildNode(FromList->itemParent,k);
 				return res;
 			}
 	}
-	do 
+	do
 	{
 		RemoveChildNode(FromList,0);
 	}
@@ -128,7 +129,7 @@ void TraceTreeLevel(NodeList * node)
 	{
 
 		if (node->childNodes[i].AllocatedChilds>0)
-			TraceTreeLevel(&(node->childNodes[i]));	
+			TraceTreeLevel(&(node->childNodes[i]));
 		else
 		{
 			PrintIdent();
@@ -177,7 +178,7 @@ BOOL CALLBACK DlgProcItemNewRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		}
 	case WM_NOTIFY:
 		{
-			switch (((LPNMHDR)lParam)->idFrom) 
+			switch (((LPNMHDR)lParam)->idFrom)
 			{
 			case 0:
 				{

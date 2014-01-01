@@ -1,8 +1,8 @@
 /*
 AddContact+ plugin for Miranda NG
 
-Copyright (C) 2007-2011 Bartosz 'Dezeath' Bia³ek
-Copyright (C) 2012-2013 Miranda NG Team
+Copyright (C) 2007-11 Bartosz 'Dezeath' Bia³ek
+Copyright (C) 2012-14 Miranda NG Team
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 static INT_PTR AddContactPlusDialog(WPARAM, LPARAM)
 {
 	if(hAddDlg) {
-		SetForegroundWindow(hAddDlg); 
+		SetForegroundWindow(hAddDlg);
 		SetFocus(hAddDlg);
 	}
 	else hAddDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDCONTACT), NULL, AddContactDlgProc, 0);
@@ -133,7 +133,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	Hotkey_Register(&hkd);
 
 	OnAccListChanged(0, 0);
-	
+
 	HookEvent(ME_TTB_MODULELOADED, CreateButton);
 	return 0;
 }
@@ -150,7 +150,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccListChanged);
-	
+
 	CreateServiceFunction(MS_ADDCONTACTPLUS_SHOW, AddContactPlusDialog);
 	return 0;
 }

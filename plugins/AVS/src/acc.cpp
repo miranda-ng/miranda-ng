@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2004 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-04 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -31,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GIF_DISPOSAL_BACKGROUND		2
 #define GIF_DISPOSAL_PREVIOUS		3
 
-typedef struct 
+typedef struct
 {
 	HANDLE hContact;
 	char proto[64];
@@ -90,7 +91,7 @@ void ResizeFlash(HWND hwnd, ACCData* data)
 			rc.bottom -= 2;
 		}
 
-		FLASHAVATAR fa = {0}; 
+		FLASHAVATAR fa = {0};
 		fa.hContact = data->hContact;
 		fa.cProto = data->proto;
 		fa.hParentWindow = hwnd;
@@ -105,7 +106,7 @@ void SetBkgFlash(HWND hwnd, ACCData* data)
 	if ((data->hContact != NULL || data->proto[0] != '\0')
 		&& ServiceExists(MS_FAVATAR_SETBKCOLOR))
 	{
-		FLASHAVATAR fa = {0}; 
+		FLASHAVATAR fa = {0};
 		fa.hContact = data->hContact;
 		fa.cProto = data->proto;
 		fa.hParentWindow = hwnd;
@@ -125,7 +126,7 @@ void DestroyFlash(HWND hwnd, ACCData* data)
 
 	if ((data->hContact != NULL || data->proto[0] != '\0') && ServiceExists(MS_FAVATAR_DESTROY))
 	{
-		FLASHAVATAR fa = {0}; 
+		FLASHAVATAR fa = {0};
 		fa.hContact = data->hContact;
 		fa.cProto = data->proto;
 		fa.hParentWindow = hwnd;
@@ -149,7 +150,7 @@ void StartFlash(HWND hwnd, ACCData* data)
 	else if (data->proto[0] != '\0')
 	{
 		protoPicCacheEntry *ace = NULL;
-		for (int i = 0; i < g_MyAvatars.getCount(); i++) 
+		for (int i = 0; i < g_MyAvatars.getCount(); i++)
 		{
 			if (!lstrcmpA(data->proto, g_MyAvatars[i].szProtoname))
 			{
@@ -160,7 +161,7 @@ void StartFlash(HWND hwnd, ACCData* data)
 
 		if (ace != NULL && ace->szFilename != NULL)
 			format = ProtoGetAvatarFormat(ace->szFilename);
-		else 
+		else
 			format = 0;
 	}
 	else
@@ -169,14 +170,14 @@ void StartFlash(HWND hwnd, ACCData* data)
 	if (format != PA_FORMAT_XML && format != PA_FORMAT_SWF)
 		return;
 
-	FLASHAVATAR fa = {0}; 
+	FLASHAVATAR fa = {0};
 	fa.hContact = data->hContact;
 	fa.cProto = data->proto;
 	fa.hParentWindow = hwnd;
 	fa.id = 1675;
 	CallService(MS_FAVATAR_MAKE, (WPARAM)&fa, 0);
 
-	if (fa.hWindow == NULL) 
+	if (fa.hWindow == NULL)
 		return;
 
 	data->showingFlash = TRUE;
@@ -189,21 +190,21 @@ BOOL AnimatedGifGetData(ACCData* data)
 	FIBITMAP *page = fei->FI_LockPage(data->ag.multi, 0);
 	if (page == NULL)
 		return FALSE;
-	
+
 	// Get info
 	FITAG *tag = NULL;
 	if (!fei->FI_GetMetadata(FIMD_ANIMATION, page, "LogicalWidth", &tag))
 		goto ERR;
 	data->ag.logicalWidth = *(WORD *)fei->FI_GetTagValue(tag);
-	
+
 	if (!fei->FI_GetMetadata(FIMD_ANIMATION, page, "LogicalHeight", &tag))
 		goto ERR;
 	data->ag.logicalHeight = *(WORD *)fei->FI_GetTagValue(tag);
-	
+
 	if (!fei->FI_GetMetadata(FIMD_ANIMATION, page, "Loop", &tag))
 		goto ERR;
 	data->ag.loop = (*(LONG *)fei->FI_GetTagValue(tag) > 0);
-	
+
 	if (fei->FI_HasBackgroundColor(page))
 		fei->FI_GetBackgroundColor(page, &data->ag.background);
 
@@ -217,15 +218,15 @@ ERR:
 
 void AnimatedGifDispodeFrame(ACCData* data)
 {
-	if (data->ag.frame.disposal_method == GIF_DISPOSAL_PREVIOUS) 
+	if (data->ag.frame.disposal_method == GIF_DISPOSAL_PREVIOUS)
 	{
 		// TODO
-	} 
-	else if (data->ag.frame.disposal_method == GIF_DISPOSAL_BACKGROUND) 
+	}
+	else if (data->ag.frame.disposal_method == GIF_DISPOSAL_BACKGROUND)
 	{
-		for (int y = 0; y < data->ag.frame.height; y++) 
+		for (int y = 0; y < data->ag.frame.height; y++)
 		{
-			RGBQUAD *scanline = (RGBQUAD *) fei->FI_GetScanLine(data->ag.dib, 
+			RGBQUAD *scanline = (RGBQUAD *) fei->FI_GetScanLine(data->ag.dib,
 				data->ag.logicalHeight - (y + data->ag.frame.top) - 1) + data->ag.frame.left;
 			for (int x = 0; x < data->ag.frame.width; x++)
 				*scanline++ = data->ag.background;
@@ -358,7 +359,7 @@ void StartAnimatedGif(HWND hwnd, ACCData* data)
 	AVATARCACHEENTRY *ace = NULL;
 
 	if (data->hContact != NULL)
-		ace = (AVATARCACHEENTRY *) GetAvatarBitmap((WPARAM) data->hContact, 0);	
+		ace = (AVATARCACHEENTRY *) GetAvatarBitmap((WPARAM) data->hContact, 0);
 	else
 		ace = (AVATARCACHEENTRY *) GetMyAvatar(0, (LPARAM) data->proto);
 
@@ -390,7 +391,7 @@ void StartAnimatedGif(HWND hwnd, ACCData* data)
 		goto ERR;
 
 	//fill with background color to start
-	for (y = 0; y < data->ag.logicalHeight; y++) 
+	for (y = 0; y < data->ag.logicalHeight; y++)
 	{
 		RGBQUAD *scanline = (RGBQUAD *) fei->FI_GetScanLine(data->ag.dib, y);
 		for (x = 0; x < data->ag.logicalWidth; x++)
@@ -463,7 +464,7 @@ static void Invalidate(HWND hwnd)
 		HWND parent = GetParent(hwnd);
 		RECT rc;
 		GetWindowRect(hwnd, &rc);
-		ScreenToClient(parent, &rc); 
+		ScreenToClient(parent, &rc);
 		InvalidateRect(parent, &rc, TRUE);
 	}
 	InvalidateRect(hwnd, NULL, TRUE);
@@ -492,13 +493,13 @@ static void DrawText(HDC hdc, HFONT hFont, const RECT &rc, const TCHAR *text)
 
 	// Calc text size
 	RECT tr_ret = tr;
-	DrawText(hdc, text, -1, &tr_ret, 
+	DrawText(hdc, text, -1, &tr_ret,
 			DT_WORDBREAK | DT_NOPREFIX | DT_CENTER | DT_CALCRECT);
 
 	// Calc needed size
 	tr.top += ((tr.bottom - tr.top) - (tr_ret.bottom - tr_ret.top)) / 2;
 	tr.bottom = tr.top + (tr_ret.bottom - tr_ret.top);
-	DrawText(hdc, text, -1, &tr, 
+	DrawText(hdc, text, -1, &tr,
 			DT_WORDBREAK | DT_NOPREFIX | DT_CENTER);
 
 	SelectObject(hdc, oldFont);
@@ -506,7 +507,7 @@ static void DrawText(HDC hdc, HFONT hFont, const RECT &rc, const TCHAR *text)
 
 static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM lParam) {
 	ACCData* data =  (ACCData *) GetWindowLongPtr(hwnd, 0);
-	switch(msg) 
+	switch(msg)
 	{
 		case WM_NCCREATE:
 		{
@@ -514,7 +515,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 			SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_TRANSPARENT);
 
 			data = (ACCData*) mir_alloc(sizeof(ACCData));
-			if (data == NULL) 
+			if (data == NULL)
 				return FALSE;
 			SetWindowLongPtr(hwnd, 0, (LONG_PTR)data);
 
@@ -536,7 +537,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 		case WM_NCDESTROY:
 		{
 			DestroyAnimation(hwnd, data);
-			if (data) 
+			if (data)
 			{
 				UnhookEvent(data->hHook);
 				UnhookEvent(data->hHookMy);
@@ -653,7 +654,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 			// Get avatar
 			if (data->showingFlash && ServiceExists(MS_FAVATAR_GETINFO))
 			{
-				FLASHAVATAR fa = {0}; 
+				FLASHAVATAR fa = {0};
 				fa.hContact = data->hContact;
 				fa.cProto = data->proto;
 				fa.hParentWindow = hwnd;
@@ -673,7 +674,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 			else
 				ace = (avatarCacheEntry *) CallService(MS_AV_GETAVATARBITMAP, (WPARAM) data->hContact, 0);
 
-			if (ace == NULL || ace->bmHeight == 0 || ace->bmWidth == 0 
+			if (ace == NULL || ace->bmHeight == 0 || ace->bmWidth == 0
 				|| (data->respectHidden && (ace->dwFlags & AVS_HIDEONCLIST)))
 			{
 				*width = 0;
@@ -689,14 +690,14 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 			{
 				*height = ace->bmHeight;
 				*width = ace->bmWidth;
-			} 
+			}
 			else if (ace->bmHeight > ace->bmWidth)
 			{
 				float dScale = targetHeight / (float)ace->bmHeight;
 				*height = targetHeight;
 				*width = (int) (ace->bmWidth * dScale);
 			}
-			else 
+			else
 			{
 				float dScale = targetWidth / (float)ace->bmWidth;
 				*height = (int) (ace->bmHeight * dScale);
@@ -734,7 +735,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 		{
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hwnd, &ps);
-			if (hdc == NULL) 
+			if (hdc == NULL)
 				break;
 
 			int oldBkMode = SetBkMode(hdc, TRANSPARENT);
@@ -783,7 +784,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 				avdrq.szProto = data->proto;
 				avdrq.hTargetDC = hdc;
 				avdrq.dwFlags = AVDRQ_HIDEBORDERONTRANSPARENCY
-					| (data->respectHidden ? AVDRQ_RESPECTHIDDEN : 0) 
+					| (data->respectHidden ? AVDRQ_RESPECTHIDDEN : 0)
 					| (data->hContact != NULL ? 0 : AVDRQ_OWNPIC)
 					| (data->avatarBorderColor == -1 ? 0 : AVDRQ_DRAWBORDER)
 					| (data->avatarRoundCornerRadius <= 0 ? 0 : AVDRQ_ROUNDEDCORNER)
@@ -806,8 +807,8 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 				}
 				else
 					ret = DrawAvatarPicture(0, (LPARAM)&avdrq);
-				
-				if (ret == 0) 
+
+				if (ret == 0)
 					DrawText(hdc, data->hFont, rc, data->noAvatarText);
 			}
 
@@ -885,7 +886,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 }
 
 
-int LoadACC() 
+int LoadACC()
 {
 	WNDCLASSEX wc = {0};
 	wc.cbSize         = sizeof(wc);

@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
@@ -58,7 +59,7 @@ void	mir_stradd(char*	&pszDest, const char	*pszSrc)
 		size_t lenSrc   = strlen(pszSrc);
 		size_t lenNew = lenDest + lenSrc + 1;
 		pszDest  = (char *) mir_realloc(pszDest, sizeof(char)* lenNew);
-		
+
 		strcpy(pszDest + lenDest, pszSrc);
 		pszDest[lenNew-1] = 0;
 	}
@@ -76,7 +77,7 @@ void	mir_wcsadd(wchar_t*	&pszDest, const wchar_t	*pszSrc)
 		size_t lenSrc   = wcslen(pszSrc);
 		size_t lenNew = lenDest + lenSrc + 1;
 		pszDest  = (wchar_t *) mir_realloc(pszDest, sizeof(wchar_t)*lenNew);
-		
+
 		wcscpy(pszDest + lenDest, pszSrc);
 		pszDest[lenNew-1] = 0;
 	}

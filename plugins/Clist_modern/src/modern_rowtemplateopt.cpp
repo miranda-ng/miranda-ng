@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_clist.h"
 #include "hdr/modern_commonprototypes.h"
@@ -30,9 +32,9 @@ static char* rowOptTmplStr;
 static ROWCELL* rowOptTmplRoot;
 static ROWCELL* rowOptTA[100];
 TCHAR *types[] = {
-	_T("none"),   _T("text1"),  _T("text2"),  _T("text3"),  _T("status"), 
-	_T("avatar"), _T("extra"),  _T("extra1"), _T("extra2"), _T("extra3"), 
-	_T("extra4"), _T("extra5"), _T("extra6"), _T("extra7"), _T("extra8"), 
+	_T("none"),   _T("text1"),  _T("text2"),  _T("text3"),  _T("status"),
+	_T("avatar"), _T("extra"),  _T("extra1"), _T("extra2"), _T("extra3"),
+	_T("extra4"), _T("extra5"), _T("extra6"), _T("extra7"), _T("extra8"),
 	_T("extra9"), _T("time"),   _T("space"),  _T("fspace")
 };
 
@@ -58,7 +60,7 @@ void rowOptShowSettings(HWND hwnd)
 
 	TreeView_GetItem(GetDlgItem(hwnd, IDC_ROWTREE), &tvi);
 	cell = (pROWCELL)tvi.lParam;
-	
+
 	if ( !tvi.hItem)  {
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTTYPE) ,0);
 		EnableWindow(GetDlgItem(hwnd,IDC_VALIGN),0);
@@ -96,7 +98,7 @@ void rowOptShowSettings(HWND hwnd)
 	}
 
 	SendDlgItemMessage(hwnd, IDC_CONTTYPE, CB_SETCURSEL, cell->type, 0);
-	
+
 	switch (cell->valign) {
 	case TC_VCENTER:
 		param = 1;
@@ -198,13 +200,13 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 			cell = cell->next;
 		}
 		else {
-			rowAddCell(cell->child, ((ROWCELL*)tviparent.lParam)->cont == TC_ROW?TC_COL:TC_ROW);		
+			rowAddCell(cell->child, ((ROWCELL*)tviparent.lParam)->cont == TC_ROW?TC_COL:TC_ROW);
 			cell = cell->child;
 		}
 
 		tvis.hInsertAfter = TVI_LAST;
 	}
-	
+
 	tvis.item.lParam = (LPARAM)cell;
 	tvis.hParent = hti;
 
@@ -213,7 +215,7 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 	tvis.item.iImage = 2;
 	tvis.item.iSelectedImage = 2;
 
-	TreeView_InsertItem(htree,&tvis);	
+	TreeView_InsertItem(htree,&tvis);
 
 	TreeView_Expand(htree, hti, TVM_EXPAND);
 
@@ -259,11 +261,11 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 		}
 		else
 		{
-			
-			tvpi.lParam = 0; 
+
+			tvpi.lParam = 0;
 			rowOptTmplRoot = (pROWCELL)tvpi.lParam;
 		}
-		
+
 	}
 
 	((pROWCELL)tvi.lParam)->next = NULL;
@@ -276,11 +278,11 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 	}
 
 	TreeView_DeleteItem(htree, hti);
-	
+
 
 	// Change icon at parent item
 	if ( !prnt || (prnt != prev)) return;
-						
+
 	if ( TreeView_GetChild(htree, prnt))
 	{
 		tvpi.iImage = 1;
@@ -292,7 +294,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 		tvpi.iSelectedImage = 2;
 	}
 	TreeView_SetItem(htree, &tvpi);
-	
+
 }
 
 void RefreshTree(HWND hwndDlg,HTREEITEM hti)
@@ -302,7 +304,7 @@ void RefreshTree(HWND hwndDlg,HTREEITEM hti)
 	TVITEM    tvi = {0};
 	if (hti == NULL) hti = TreeView_GetRoot(htree);
 	while (hti)
-	{	
+	{
 		tvi.hItem = hti;
 		tvi.mask = TVIF_HANDLE;//|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_TEXT;
 		TreeView_GetItem(htree, &tvi);
@@ -336,7 +338,7 @@ void RefreshTree(HWND hwndDlg,HTREEITEM hti)
 		hti = TreeView_GetNextSibling(htree,hti);
 	}
 
-	RedrawWindow(hwndDlg,NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);   
+	RedrawWindow(hwndDlg,NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 }
 
 INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -347,7 +349,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			int hbuf = 0, seq = 0;
 			HWND htree = GetDlgItem(hwndDlg,IDC_ROWTREE);
 
-			TranslateDialogDefault(hwndDlg);	
+			TranslateDialogDefault(hwndDlg);
 			rowOptTmplStr = db_get_sa(NULL, "ModernData", "RowTemplate");
 			if ( !rowOptTmplStr)
 				rowOptTmplStr = mir_strdup("<TR />");
@@ -409,7 +411,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				if (HIWORD(wParam) == CBN_SELENDOK) {
 					TVITEM tv = {0};
 					int index = SendMessage(GetDlgItem(hwndDlg,IDC_CONTTYPE),CB_GETCURSEL, 0, 0);
-					cell->type = index; 
+					cell->type = index;
 					RefreshTree(hwndDlg,NULL);
 				}
 
@@ -447,9 +449,9 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			}
 
 			if (HIWORD(wParam) == BN_CLICKED) {
-				if (lParam == (LPARAM)GetDlgItem(hwndDlg,IDC_ADDCONTAINER))	
+				if (lParam == (LPARAM)GetDlgItem(hwndDlg,IDC_ADDCONTAINER))
 					// Adding new container
-				{	
+				{
 					rowOptAddContainer(htree, hti);
 				}
 				else if (lParam == (LPARAM)GetDlgItem(hwndDlg,IDC_DELCONTAINER))
@@ -463,7 +465,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					RedrawWindow(htree,&da,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 				}
 				RefreshTree(hwndDlg,NULL);
-				RedrawWindow(GetParent(hwndDlg),NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);   
+				RedrawWindow(GetParent(hwndDlg),NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 			}
 			return TRUE;
 		}
@@ -539,7 +541,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				i++;
 			}
 
-			rowSizeWithReposition(rowOptTmplRoot, da.right-da.left);		
+			rowSizeWithReposition(rowOptTmplRoot, da.right-da.left);
 
 			i = -1;
 			while (rowOptTA[++i]) {
@@ -550,11 +552,11 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				case 0:
 					//if (rowOptTA[i] != (pROWCELL)curItem.lParam)
 					continue;
-				}			
-				Rectangle(hdc, 
-					rowOptTA[i]->r.left   + da.left, 
-					rowOptTA[i]->r.top    + da.top, 
-					rowOptTA[i]->r.right  + da.left, 
+				}
+				Rectangle(hdc,
+					rowOptTA[i]->r.left   + da.left,
+					rowOptTA[i]->r.top    + da.top,
+					rowOptTA[i]->r.right  + da.left,
 					rowOptTA[i]->r.bottom + da.top);
 			}
 

@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -152,7 +153,7 @@ static void FillHistoryThread(void* param)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	int oldBlobSize = 0;
 	HANDLE hDbEvent = db_event_last(hInfo->hContact);
-	
+
 	while (hDbEvent != NULL) {
 		if ( !IsWindow(hInfo->hwnd))
 			break;

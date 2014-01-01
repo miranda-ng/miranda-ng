@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -73,7 +74,7 @@ flags
 #define MB_NOPOPUP				0x00000200L
 #define MB_CUSTOMCOLOR			0x00000300L
 
-typedef struct _MSGBOX 
+typedef struct _MSGBOX
 {
 	UINT		cbSize;			// size of this structure
 	UINT		uType;			// parameters
@@ -83,7 +84,7 @@ typedef struct _MSGBOX
 	LPTSTR		ptszInfoText;
 	LPTSTR		ptszMsg;
 	HWND		hParent;		// parent window for the messagebox
-	COLORREF	colorBack;		// valid if MB_CUSTOMCOLOR is set 
+	COLORREF	colorBack;		// valid if MB_CUSTOMCOLOR is set
 	COLORREF	colorText;		// valid if MB_CUSTOMCOLOR is set
 } MSGBOX, *LPMSGBOX;
 

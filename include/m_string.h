@@ -1,3 +1,26 @@
+/*
+
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+all portions of this codebase are copyrighted to the people
+listed in contributors.txt.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+
 #pragma once
 
 #include <string.h>
@@ -49,7 +72,7 @@ struct CMStringData
 	int nDataLength;   // Length of currently used data in XCHARs (not including terminating null)
 	int nAllocLength;  // Length of allocated data in XCHARs (not including terminating null)
 	long nRefs;        // Reference count: negative == locked
-	
+
 	__forceinline void* data() { return (this + 1); }
 	__forceinline void AddRef() { InterlockedIncrement(&nRefs); }
 	__forceinline bool IsLocked() const { return nRefs < 0; }
@@ -339,7 +362,7 @@ public:
 
 		return m_pszData;
 	}
-	void UnlockBuffer() 
+	void UnlockBuffer()
 	{
 		CMStringData* pData = GetData();
 		pData->Unlock();
@@ -969,7 +992,7 @@ public:
 	}
 
 	static void __stdcall ConvertToBaseType(LPWSTR pszDest, int nDestLength, LPCWSTR pszSrc, int nSrcLength = -1)
-	{		
+	{
 		if (nSrcLength == -1) { nSrcLength=1 + GetBaseTypeLength(pszSrc); }
 		// nLen is in wchar_ts
 		#if _MSC_VER >= 1400
@@ -1040,7 +1063,7 @@ public:
 	{
 	}
 
-	static void __stdcall ConvertToAnsi(LPWSTR /*psz*/, size_t) 
+	static void __stdcall ConvertToAnsi(LPWSTR /*psz*/, size_t)
 	{
 	}
 };
@@ -1108,7 +1131,7 @@ public:
 		CThisSimpleString()
 	{
 		if (nLength > 0)
-		{			
+		{
 			//Convert ch to the BaseType
 			wchar_t pszCh[2] = { ch , 0 };
 			int nBaseTypeCharLen = 1;
@@ -1124,14 +1147,14 @@ public:
 			PXSTR pszBuffer = this->GetBuffer(nLength*nBaseTypeCharLen);
 			if (nBaseTypeCharLen == 1)
 			{   //Optimization for a common case - wide char translates to 1 ansi/wide char.
-				StringTraits::FloodCharacters(buffBaseTypeChar[0], nLength, pszBuffer);				
+				StringTraits::FloodCharacters(buffBaseTypeChar[0], nLength, pszBuffer);
 			} else
 			{
 				XCHAR* p=pszBuffer;
 				for (int i=0 ; i < nLength ;i++)
 				{
 					for (int j=0 ; j < nBaseTypeCharLen ;++j)
-					{	
+					{
 						*p=buffBaseTypeChar[j];
 						++p;
 					}
@@ -1337,7 +1360,7 @@ public:
 
 		PXSTR pszBuffer = this->GetBuffer(nNewLength);
 
-		// move existing bytes down 
+		// move existing bytes down
 #if _MSC_VER >= 1400
 		memmove_s(pszBuffer+iIndex+1, (nNewLength-iIndex)*sizeof(XCHAR), pszBuffer+iIndex, (nNewLength-iIndex)*sizeof(XCHAR));
 #else
@@ -1368,7 +1391,7 @@ public:
 			nNewLength += nInsertLength;
 
 			PXSTR pszBuffer = this->GetBuffer(nNewLength);
-			// move existing bytes down 
+			// move existing bytes down
 #if _MSC_VER >= 1400
 			memmove_s(pszBuffer+iIndex+nInsertLength, (nNewLength-iIndex-nInsertLength+1)*sizeof(XCHAR), pszBuffer+iIndex, (nNewLength-iIndex-nInsertLength+1)*sizeof(XCHAR));
 			memcpy_s(pszBuffer+iIndex, nInsertLength*sizeof(XCHAR), psz, nInsertLength*sizeof(XCHAR));
@@ -1469,9 +1492,9 @@ public:
 				while((pszTarget = StringTraits::StringFindString(pszStart, pszOld)) != NULL)
 				{
 					int nBalance = nOldLength-int(pszTarget-pszBuffer+nSourceLen);
-					memmove_s(pszTarget+nReplacementLen, nBalance*sizeof(XCHAR), 
+					memmove_s(pszTarget+nReplacementLen, nBalance*sizeof(XCHAR),
 						pszTarget+nSourceLen, nBalance*sizeof(XCHAR));
-					memcpy_s(pszTarget, nReplacementLen*sizeof(XCHAR), 
+					memcpy_s(pszTarget, nReplacementLen*sizeof(XCHAR),
 						pszNew, nReplacementLen*sizeof(XCHAR));
 					pszStart = pszTarget+nReplacementLen;
 					pszTarget[nReplacementLen+nBalance] = 0;
@@ -1696,7 +1719,7 @@ public:
 			PXSTR pszBuffer = this->GetBuffer(this->GetLength());
 			psz = pszBuffer+iFirst;
 			int nDataLength = this->GetLength()-iFirst;
-			memmove_s(pszBuffer, (this->GetLength()+1)*sizeof(XCHAR), 
+			memmove_s(pszBuffer, (this->GetLength()+1)*sizeof(XCHAR),
 				psz, (nDataLength+1)*sizeof(XCHAR));
 			this->ReleaseBufferSetLength(nDataLength);
 		}
@@ -1751,7 +1774,7 @@ public:
 
 		if (pszLast != NULL)
 		{
-			// truncate at left-most matching character  
+			// truncate at left-most matching character
 			int iLast = int(pszLast-this->GetString());
 			this->Truncate(iLast);
 		}
@@ -1792,7 +1815,7 @@ public:
 
 		if (pszLast != NULL)
 		{
-			// truncate at left-most matching character  
+			// truncate at left-most matching character
 			int iLast = int(pszLast-this->GetString());
 			this->Truncate(iLast);
 		}
@@ -1818,7 +1841,7 @@ public:
 			PXSTR pszBuffer = this->GetBuffer(this->GetLength());
 			psz = pszBuffer+iFirst;
 			int nDataLength = this->GetLength()-iFirst;
-			memmove_s(pszBuffer, (this->GetLength()+1)*sizeof(XCHAR), 
+			memmove_s(pszBuffer, (this->GetLength()+1)*sizeof(XCHAR),
 				psz, (nDataLength+1)*sizeof(XCHAR));
 			this->ReleaseBufferSetLength(nDataLength);
 		}
@@ -1848,7 +1871,7 @@ public:
 			PXSTR pszBuffer = this->GetBuffer(this->GetLength());
 			psz = pszBuffer+iFirst;
 			int nDataLength = this->GetLength()-iFirst;
-			memmove_s(pszBuffer, (this->GetLength()+1)*sizeof(XCHAR), 
+			memmove_s(pszBuffer, (this->GetLength()+1)*sizeof(XCHAR),
 				psz, (nDataLength+1)*sizeof(XCHAR));
 			this->ReleaseBufferSetLength(nDataLength);
 		}
@@ -1973,7 +1996,7 @@ public:
 		int nCurrentLength = this->GetLength();
 		int nAppendLength = StringTraits::GetFormattedLength(pszFormat, args);
 		PXSTR pszBuffer = this->GetBuffer(nCurrentLength+nAppendLength);
-		StringTraits::Format(pszBuffer+nCurrentLength, 
+		StringTraits::Format(pszBuffer+nCurrentLength,
 			nAppendLength+1, pszFormat, args);
 		this->ReleaseBufferSetLength(nCurrentLength+nAppendLength);
 	}

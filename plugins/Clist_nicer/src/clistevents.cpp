@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include <commonheaders.h>
 #include "../cluiframes/cluiframes.h"
 
@@ -118,10 +120,10 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			break;
 		}
     case WM_NCCALCSIZE:
-        return FrameNCCalcSize(hwnd, DefWindowProc, wParam, lParam, 
+        return FrameNCCalcSize(hwnd, DefWindowProc, wParam, lParam,
 			  wndFrameEventArea ? wndFrameEventArea->TitleBar.ShowTitleBar : 0);
     case WM_NCPAINT:
-        return FrameNCPaint(hwnd, DefWindowProc, wParam, lParam, 
+        return FrameNCPaint(hwnd, DefWindowProc, wParam, lParam,
 			  wndFrameEventArea ? wndFrameEventArea->TitleBar.ShowTitleBar : 0);
 	case WM_DRAWITEM:
 		{
@@ -212,7 +214,7 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 			if (cfg::dat.bWallpaperMode)
 				SkinDrawBg(hwnd, hdcMem);
-			
+
 			StatusItems_t *item = arStatusItems[ID_EXTBKEVTAREA - ID_STATUS_OFFLINE];
 			if (item->IGNORED)
 				FillRect(hdcMem, &rc, GetSysColorBrush(COLOR_3DFACE));

@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 #include "clist.h"
 
@@ -58,7 +60,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 			break;
 		}
-		case WM_DESTROY: 
+		case WM_DESTROY:
 		{
 			UnhookEvent( (HANDLE)GetWindowLongPtr(hwndDlg,GWLP_USERDATA));
 			break;
@@ -78,10 +80,10 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE, db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_HIDEEMPTYGROUPS, db_get_b(NULL,"CList","HideEmptyGroups",SETTING_HIDEEMPTYGROUPS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_DISABLEGROUPS, db_get_b(NULL,"CList","UseGroups",SETTING_USEGROUPS_DEFAULT) ? BST_UNCHECKED : BST_CHECKED);
-			CheckDlgButton(hwndDlg, IDC_SORTBYNAME, 
+			CheckDlgButton(hwndDlg, IDC_SORTBYNAME,
 					!db_get_b(NULL,"CList","SortByStatus",SETTING_SORTBYSTATUS_DEFAULT) &&
 					!db_get_b(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			
+
 			CheckDlgButton(hwndDlg, IDC_SORTBYSTATUS, db_get_b(NULL,"CList","SortByStatus",SETTING_SORTBYSTATUS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOOFFLINEMOVE, db_get_b(NULL,"CList","NoOfflineBottom",SETTING_NOOFFLINEBOTTOM_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -90,7 +92,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CheckDlgButton(hwndDlg, IDC_AUTOHIDE, db_get_b(NULL,"CList","AutoHide",SETTING_AUTOHIDE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_HIDETIME),IsDlgButtonChecked(hwndDlg,IDC_AUTOHIDE));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_HIDETIMESPIN),IsDlgButtonChecked(hwndDlg,IDC_AUTOHIDE));
-			{	
+			{
 				DWORD caps = CallService(MS_CLUI_GETCAPS,CLUICAPS_FLAGS1,0);
 				if ( !(caps&CLUIF_HIDEEMPTYGROUPS)) ShowWindow(GetDlgItem(hwndDlg,IDC_HIDEEMPTYGROUPS),SW_HIDE);
 				if ( !(caps&CLUIF_DISABLEGROUPS)) ShowWindow(GetDlgItem(hwndDlg,IDC_DISABLEGROUPS),SW_HIDE);
@@ -148,7 +150,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 			if (-1 == (int)SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_GETCURSEL,0,0))
 				SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_SETCURSEL,0,0);
-			SendDlgItemMessage(hwndDlg,IDC_BLINKSPIN,UDM_SETBUDDY,(WPARAM)GetDlgItem(hwndDlg,IDC_BLINKTIME),0);		// set buddy			
+			SendDlgItemMessage(hwndDlg,IDC_BLINKSPIN,UDM_SETBUDDY,(WPARAM)GetDlgItem(hwndDlg,IDC_BLINKTIME),0);		// set buddy
 			SendDlgItemMessage(hwndDlg,IDC_BLINKSPIN,UDM_SETRANGE,0,MAKELONG(0x3FFF,250));
 			SendDlgItemMessage(hwndDlg,IDC_BLINKSPIN,UDM_SETPOS,0,MAKELONG(db_get_w(NULL,"CList","IconFlashTime",550),0));
 			return TRUE;
@@ -186,7 +188,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					switch (((LPNMHDR)lParam)->code) {
 						case PSN_APPLY:
 							db_set_b(NULL,"CList","HideOffline",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_HIDEOFFLINE));
-							{	
+							{
 								DWORD caps = CallService(MS_CLUI_GETCAPS,CLUICAPS_FLAGS1,0);
 								if (caps & CLUIF_HIDEEMPTYGROUPS) db_set_b(NULL,"CList","HideEmptyGroups",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_HIDEEMPTYGROUPS));
 								if (caps & CLUIF_DISABLEGROUPS)   db_set_b(NULL,"CList","UseGroups",(BYTE)!IsDlgButtonChecked(hwndDlg,IDC_DISABLEGROUPS));
@@ -217,9 +219,9 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							{
 								int cursel = SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_GETCURSEL,0,0);
 								PROTOACCOUNT* pa = (PROTOACCOUNT*)SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_GETITEMDATA,cursel,0);
-								if ( pa == NULL ) 
+								if ( pa == NULL )
 									db_unset(NULL, "CList","PrimaryStatus");
-								else 
+								else
 									db_set_s(NULL,"CList","PrimaryStatus", pa->szModuleName);
 							}
 							pcli->pfnTrayIconIconsChanged();

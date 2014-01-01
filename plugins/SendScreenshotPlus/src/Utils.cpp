@@ -1,7 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
-Copyright 2000-2009 Miranda ICQ/IM project,
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
@@ -159,7 +161,7 @@ FIBITMAP* CaptureScreen  (HDC hDC,SIZE size,HWND hCapture){
 		BitBlt(hMemDC,0,0,size.cx,size.cy,hScrDC,0,0,CAPTUREBLT|SRCCOPY);
 	}
 	dib = FIP->FI_CreateDIBFromHBITMAP(hBitmap);
-	
+
 	if(hCapture){
 		//alpha channel from window is always wrong,
 		//coz GDI do not draw all in alpha mode.
@@ -316,7 +318,7 @@ LPTSTR SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, LPTSTR pszFilename, LPTST
 	}
 
 	ret = FIP->FI_SaveU(fif, dib, pszFile, flag);
-	
+
 
 	mir_free(FileExt);
 

@@ -1,8 +1,9 @@
 /*
 
 'Language Pack Manager'-Plugin for
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
 Copyright (C) 2005-2007 H. Herkenrath
 
 This program is free software; you can redistribute it and/or
@@ -38,4 +39,3 @@ Returns 0 on success, nonzero otherwise.
 #endif
 
 #endif // M_LANGMAN_H
-

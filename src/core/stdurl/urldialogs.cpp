@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -40,7 +41,7 @@ static void sttUpdateTitle(HWND hwndDlg, HANDLE hContact)
 			int hasName = 0;
 			char buf[128];
 			ZeroMemory(&ci, sizeof(ci));
-			
+
 			ci.cbSize = sizeof(ci);
 			ci.hContact = hContact;
 			ci.szProto = szProto;
@@ -61,7 +62,7 @@ static void sttUpdateTitle(HWND hwndDlg, HANDLE hContact)
 			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 			if (hasName)
 				SetDlgItemTextA(hwndDlg, IDC_NAME, buf);
-			else 
+			else
 				SetDlgItemText(hwndDlg, IDC_NAME, contactName);
 
 			szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
@@ -112,7 +113,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SetWindowText(hwndDlg, msg);
 			SetDlgItemText(hwndDlg, IDC_FROM, contactName);
 			SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETARROW, 1, 0);
-			
+
 			TCHAR str[128];
 			tmi.printTimeStamp(NULL, dbei.timestamp, _T("t d"), str, SIZEOF(str), 0);
 			SetDlgItemText(hwndDlg, IDC_DATE, str);
@@ -132,22 +133,22 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
 
 	case WM_DRAWITEM:
-		{	
+		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
 				char *szProto;
-				
+
 				szProto = GetContactProto(dat->hContact);
 				if (szProto) {
 					HICON hIcon;
-					
+
 					hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 					if (hIcon) {
 						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 						DestroyIcon(hIcon);
 		}	}	}	}
 		return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
-	
+
 	case DM_UPDATETITLE:
 		sttUpdateTitle(hwndDlg, dat->hContact);
 		break;
@@ -211,7 +212,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case IDC_ADD:
 			{
 				ADDCONTACTSTRUCT acs = {0};
-				
+
 				acs.handle = dat->hContact;
 				acs.handleType = HANDLE_CONTACT;
 				acs.szProto = 0;

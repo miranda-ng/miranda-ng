@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2006 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-06 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -86,9 +87,9 @@ void ProtocolsProc(int protoIndex, ACKDATA * ack)
 }
 
 #ifdef AALOG
-#define AALOG2 
+#define AALOG2
 #endif
-int IsReconnectForbidden(int protoIndex){ //0 if it permitted 
+int IsReconnectForbidden(int protoIndex){ //0 if it permitted
 #ifdef AALOG2
 	char str[256];
 #endif
@@ -170,7 +171,7 @@ void TimerProc()
 					);
 					CallService("Netlib/Log" ,(WPARAM)hNetlib ,(LPARAM)str);
 #endif
-				if ((courAwayStatus[i]==ID_STATUS_OFFLINE)||(reqStatus[i]==ID_STATUS_OFFLINE)){ 
+				if ((courAwayStatus[i]==ID_STATUS_OFFLINE)||(reqStatus[i]==ID_STATUS_OFFLINE)){
 					protoStatus[i]&=2; //keeping fatalerror if any
 #ifdef AALOG
 					sprintf(str,"TimerProc: %s Counting Cancelled: AwayStatus: %s; reqStatus: %s;",
@@ -190,18 +191,18 @@ void TimerProc()
 			case 4 : sprintf(str,"IsReconnectForbidden: %s fatal error and DontReconnect enabled",accounts[i]->szModuleName); break;
 			case 5 : sprintf(str,"IsReconnectForbidden: %s current AAStatus should not be reconnected",accounts[i]->szModuleName); break;
 #endif
-			case 0 : 
+			case 0 :
 #ifdef AALOG
 				sprintf(str,"IsReconnectForbidden: %s is permited to reconnect",accounts[i]->szModuleName);
 #endif
 				CallProtoService(accounts[i]->szModuleName, PS_SETSTATUS,  courAwayStatus[i], 0);
 				break;
-			default : 
+			default :
 #ifdef AALOG
 				sprintf(str,"IsReconnectForbidden: %s Surprising answer",accounts[i]->szModuleName);
 #endif
 				break;
-			} 
+			}
 #ifdef AALOG1
 			CallService("Netlib/Log" ,(WPARAM)hNetlib ,(LPARAM)str);
 #endif
@@ -252,7 +253,7 @@ INT_PTR CALLBACK DlgProcOptsReconnect(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			int thebit = numStatuses-StatusToProtoIndex(LOWORD(lParam),allprotomodes);
 			int value = IsDlgButtonChecked(hwndDlg, LOWORD(lParam)+32)==BST_CHECKED;
 			thebit = 1<<thebit;
-			reconnectOpts[courProtocolSelection] = 
+			reconnectOpts[courProtocolSelection] =
 				SetBits(reconnectOpts[courProtocolSelection],
 					thebit,
 					value);
@@ -277,15 +278,15 @@ INT_PTR CALLBACK DlgProcOptsReconnect(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		}
         case WM_COMMAND:
             switch (LOWORD(wParam)) {
-				case 	ID_STATUS_AWAY+32: 
+				case 	ID_STATUS_AWAY+32:
 				case 	ID_STATUS_DND+32:
-				case 	ID_STATUS_NA+32: 
+				case 	ID_STATUS_NA+32:
 				case 	ID_STATUS_OCCUPIED+32:
-				case 	ID_STATUS_INVISIBLE+32: 
-				case 	ID_STATUS_ONTHEPHONE+32: 
+				case 	ID_STATUS_INVISIBLE+32:
+				case 	ID_STATUS_ONTHEPHONE+32:
 				case 	ID_STATUS_OUTTOLUNCH+32:
 				case 	ID_STATUS_ONLINE+32:
-				case 	ID_STATUS_FREECHAT+32: 
+				case 	ID_STATUS_FREECHAT+32:
 				case 	ID_STATUS_OFFLINE+32:
 						SendMessage(hwndDlg, WM_USER+5,0,(wParam-32)|0x00100000);
 						break;
@@ -300,7 +301,7 @@ INT_PTR CALLBACK DlgProcOptsReconnect(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					break;
            }
 		if (HIWORD(wParam)==BN_CLICKED)
-		{ 
+		{
            SendMessage(GetParent(hwndDlg), PSM_CHANGED, (unsigned int)hwndDlg, 0);
 		}
         break;

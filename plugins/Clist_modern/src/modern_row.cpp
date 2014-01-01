@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -21,7 +22,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Created by Anton Senko aka ZORG , tweaked by Artem Shpynov aka FYR
-
 */
 
 #include "hdr/modern_commonheaders.h"
@@ -327,8 +327,8 @@ BOOL rowParse(ROWCELL* &cell, ROWCELL* parent, char *tbuf, int &hbuf, int &seque
 
 	if      (!_strnicmp(word, "<tr",   strlen(word))  || !_strnicmp(word, "<tr>",   strlen(word))) cont = TC_ROW;
 	else if ( !_strnicmp(word, "<tc",   strlen(word))  || !_strnicmp(word, "<tc>",   strlen(word))) cont = TC_COL;
-	else if ( !_strnicmp(word, "/>",     strlen(word)) || 
-		!_strnicmp(word, "</tr>",  strlen(word)) || 
+	else if ( !_strnicmp(word, "/>",     strlen(word)) ||
+		!_strnicmp(word, "</tr>",  strlen(word)) ||
 		!_strnicmp(word, "</tc>",  strlen(word))) return TRUE;
 	else return FALSE;
 

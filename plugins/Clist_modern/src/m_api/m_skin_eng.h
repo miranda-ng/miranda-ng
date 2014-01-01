@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -31,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /*defaults*/
 #define DEFAULT_FIT_MODE    FM_STRETCH
-#define DEFAULT_STYLE       ST_BRUSH  
+#define DEFAULT_STYLE       ST_BRUSH
 #define DEFAULT_BKCOLOUR    GetSysColor(COLOR_3DFACE)
 #define DEFAULT_SELBKCOLOUR   GetSysColor(COLOR_HIGHLIGHT)
 #define SIZING_MARGIN 3
@@ -68,7 +69,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /*SERVICES*/
 
-//toggle the 'hide offline contacts' flag and call CLUI   
+//toggle the 'hide offline contacts' flag and call CLUI
 //wParam=0
 //lParam=0
 #define MS_CLIST_TOGGLEHIDEOFFLINE  "CList/ToggleHideOffline"
@@ -96,7 +97,7 @@ typedef struct s_DEF_SKIN_OBJECT_PARAMS
 } DEF_SKIN_OBJECT_PARAMS;
 
 
-// Request painting glyph object 
+// Request painting glyph object
 // wParam = pointer to SKINDRAWREQUEST structure
 // lParam = 0
 #define MS_SKIN_DRAWGLYPH "ModernList/DrawGlyph"
@@ -112,11 +113,11 @@ typedef struct s_SKINDRAWREQUEST
   char szObjectID[255];      // Unic Object ID (path) to paint
   RECT rcDestRect;           // Rectangle to fit
   RECT rcClipRect;           // Rectangle to paint in.
-  HDC hDC;                   // Handler to device context to paint in. 
+  HDC hDC;                   // Handler to device context to paint in.
 } SKINDRAWREQUEST,*LPSKINDRAWREQUEST;
 
 /* SKINOBJECTDESCRIPTOR opbject descriptor structure */
-typedef struct tagSKINOBJECTDESCRIPTOR  
+typedef struct tagSKINOBJECTDESCRIPTOR
 {
   BYTE    bType;              // One of OT_* values.
   char*   szObjectID;         // Unic Object ID (path) [255] max
@@ -126,9 +127,9 @@ typedef struct tagSKINOBJECTDESCRIPTOR
 /* SKINOBJECTDESCRIPTOR opbject descriptor structure */
 typedef struct s_GLYPHOBJECT
 {
-  BYTE Style;                                // One of ST_* values 
+  BYTE Style;                                // One of ST_* values
   HBITMAP hGlyph;                            // Bitmap handler (for internal use only)
-  DWORD dwTop, dwLeft, dwBottom, dwRight;    // Margins 
+  DWORD dwTop, dwLeft, dwBottom, dwRight;    // Margins
   char* szFileName;                          // FileName of image
   DWORD dwColor;                             // Fill color
   BYTE dwAlpha;                              // Constant alpha-transparency level
@@ -180,11 +181,11 @@ int __inline CreateGlyphedObject(char * ObjID);
 
 //// Creating and registering objects
 //int __inline CreateGlyphedObject(char * ObjID)
-//{   
+//{
 //    DEF_SKIN_OBJECT_PARAMS prm={0};
 //    prm.defColor=DEFAULT_BKCOLOUR;
 //    prm.defStyle=DEFAULT_STYLE;
-//    prm.szObjectID=ObjID;   
+//    prm.szObjectID=ObjID;
 //    return CallService(MS_SKIN_REGISTERDEFOBJECT,(WPARAM)&prm,0);
 //}
 static BOOL __inline ScreenToClientRect(HWND hWnd, LPRECT lpRect)
@@ -222,7 +223,7 @@ static BOOL __inline ScreenToClientRect(HWND hWnd, LPRECT lpRect)
 //    prm.defStyle=defStyle;
 //    prm.szObjectID=ObjID;
 //    return CallService(MS_SKIN_REGISTERDEFOBJECT,(WPARAM)&prm,0);
-//}  
+//}
 //int __inline CreateGlyphedObjectDefColor(char * ObjID,DWORD defColor)
 //{
 //    DEF_SKIN_OBJECT_PARAMS prm={0};
@@ -230,7 +231,7 @@ static BOOL __inline ScreenToClientRect(HWND hWnd, LPRECT lpRect)
 //    prm.defStyle=ST_BRUSH;
 //    prm.szObjectID=ObjID;
 //    return CallService(MS_SKIN_REGISTERDEFOBJECT,(WPARAM)&prm,0);
-//}  
+//}
 INT_PTR ske_Service_DrawGlyph(WPARAM wParam,LPARAM lParam);
 int __inline SkinDrawGlyph(HDC hdc, RECT * rcSize, RECT * rcClip, char * objectID)
 {
@@ -238,7 +239,7 @@ int __inline SkinDrawGlyph(HDC hdc, RECT * rcSize, RECT * rcClip, char * objectI
   if (!objectID) return 0;
   rq.hDC=hdc;
   rq.rcDestRect=*rcSize;
-  rq.rcClipRect=*rcClip;  
+  rq.rcClipRect=*rcClip;
   strncpy(rq.szObjectID,objectID,SIZEOF(rq.szObjectID));
   return ske_Service_DrawGlyph((WPARAM)&rq,0);
   //return CallService(MS_SKIN_DRAWGLYPH,(WPARAM)&rq,0);
@@ -317,7 +318,7 @@ int __inline SkinInvalidateFrame(HWND hWnd, CONST RECT* lpRect)
 }
 // Alpha channel GDI replacements/helpers
 
-// 
+//
 // Paints text with correct alpha channel
 // wParam - pointer to AlphaTextOutParams
 #define MS_SKINENG_ALPHATEXTOUT "SkinEngine/ske_AlphaTextOut"
@@ -358,7 +359,7 @@ MODERNFONTEFFECT;
 
 typedef struct DrawTextWithEffectParam_tag
 {
-    int cbSize;   
+    int cbSize;
     HDC             hdc;                  // handle to DC
     LPCTSTR         lpchText;             // text to draw
     int             cchText;              // length of text to draw
@@ -371,19 +372,19 @@ typedef struct DrawTextWithEffectParam_tag
 #define MS_DRAW_TEXT_WITH_EFFECTW "Modern/SkinEngine/DrawTextWithEffectW"
 
 #ifdef UNICODE
-    #define MS_DRAW_TEXT_WITH_EFFECT MS_DRAW_TEXT_WITH_EFFECTW 
+    #define MS_DRAW_TEXT_WITH_EFFECT MS_DRAW_TEXT_WITH_EFFECTW
 #else
     #define MS_DRAW_TEXT_WITH_EFFECT MS_DRAW_TEXT_WITH_EFFECTA
 #endif
 
-// Helper 
+// Helper
 int __inline DrawTextWithEffect( HDC hdc, LPCTSTR lpchText, int cchText, RECT * lprc, UINT dwDTFormat, MODERNFONTEFFECT * pEffect )
 {
     DrawTextWithEffectParam params;
     static BYTE bIfServiceExists = ServiceExists( MS_DRAW_TEXT_WITH_EFFECT ) ? 1 : 0;
     if ( bIfServiceExists == 0 ) return DrawText ( hdc, lpchText, cchText, lprc, dwDTFormat );
-    
-    // else    
+
+    // else
     params.cbSize       = sizeof( DrawTextWithEffectParam );
     params.hdc          = hdc;
     params.lpchText     = lpchText;
@@ -409,8 +410,8 @@ typedef struct _DrawIconFixParam
   int yTop;
   HICON hIcon;
   int cxWidth;
-  int cyWidth; 
-  UINT istepIfAniCur; 
+  int cyWidth;
+  UINT istepIfAniCur;
   HBRUSH hbrFlickerFreeDraw;
   UINT diFlags;
 } DrawIconFixParam;

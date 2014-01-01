@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2005 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-05 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,7 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-Created by Pescuma 
+Created by Pescuma
 Based on work by nullbie
 
 */
@@ -99,7 +100,7 @@ __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
     // Are we running under Unicode Windows version ?
     if ((GetVersion() & 0x80000000) == 0)
 		pluginInfo.flags = 1; // UNICODE_AWARE
-    
+
 	pluginInfo.cbSize = sizeof(PLUGININFOEX);
 	return &pluginInfo;
 }
@@ -403,7 +404,7 @@ void RemoveSettings()
 			value = strchr(name, '=');
 			if (value == NULL)
 				value = &name[strlen(name)];
- 
+
 			// Has " ?
 			if (*name == '"' && *(value-1) == '"')
 			{
@@ -436,7 +437,7 @@ void ExecuteServices()
 			value = strchr(name, '=');
 			if (value == NULL)
 				value = &name[strlen(name)];
- 
+
 			// Has " ?
 			if (*name == '"' && *(value-1) == '"')
 			{
@@ -495,7 +496,7 @@ void RemoveDirectories()
 			value = strchr(name, '=');
 			if (value == NULL)
 				value = &name[strlen(name)];
- 
+
 			// Has " ?
 			if (*name == '"' && *(value-1) == '"')
 			{
@@ -531,7 +532,7 @@ void DisablePlugins()
 			value = strchr(name, '=');
 			if (value == NULL)
 				value = &name[strlen(name)];
- 
+
 			// Has " ?
 			if (*name == '"' && *(value-1) == '"')
 			{
@@ -614,7 +615,7 @@ void DeleteFileOrFolder(const char *name)
 				strTmp = &tmp[strlen(tmp)];
 			}
 
-			do 
+			do
 			{
 				if (strcmp(findData.cFileName, ".") && strcmp(findData.cFileName, ".."))
 				{
@@ -640,7 +641,7 @@ void DeleteFileOrFolder(const char *name)
 		hwnd = FindFirstFile(tmp, &findData);
 		if (hwnd != INVALID_HANDLE_VALUE)
 		{
-			do 
+			do
 			{
 				if (strcmp(findData.cFileName, ".") && strcmp(findData.cFileName, ".."))
 				{
@@ -656,7 +657,7 @@ void DeleteFileOrFolder(const char *name)
 		// Delete directory
 		RemoveDirectory(name);
 	}
-	else // Is a File	
+	else // Is a File
 	{
 		SetFileAttributes(name, FILE_ATTRIBUTE_ARCHIVE);
 		DeleteFile(name);
@@ -677,7 +678,7 @@ BOOL isMetaContact(HANDLE hContact)
 	dbcgs.szModule="Protocol";
 	dbcgs.szSetting="p";
 
-	if(CallService(MS_DB_CONTACT_GETSETTINGSTATIC,(WPARAM)hContact,(LPARAM)&dbcgs)) 
+	if(CallService(MS_DB_CONTACT_GETSETTINGSTATIC,(WPARAM)hContact,(LPARAM)&dbcgs))
 		return FALSE;
 
 	return strcmp(dbcgs.pValue->pszVal, METACONTACTS_PROTOCOL_NAME) == 0;
@@ -818,4 +819,3 @@ void DeleteSetting(const char *setting)
 
 	free(szModule);
 }
-

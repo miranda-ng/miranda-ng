@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 #include "clc.h"
 
@@ -104,7 +106,7 @@ struct CheckBoxValues_t {
 	DWORD style;
 	TCHAR *szDescr;
 };
-static const struct CheckBoxValues_t greyoutValues[]  = 
+static const struct CheckBoxValues_t greyoutValues[]  =
 {
 	{GREYF_UNFOCUS,  LPGENT("Not focused") },
 	{MODEF_OFFLINE,  LPGENT("Offline") },
@@ -119,7 +121,7 @@ static const struct CheckBoxValues_t greyoutValues[]  =
 	{PF2_ONTHEPHONE, LPGENT("On the phone") }
 };
 
-static const struct CheckBoxValues_t offlineValues[]  = 
+static const struct CheckBoxValues_t offlineValues[]  =
 {
 	{MODEF_OFFLINE,  LPGENT("Offline") },
 	{PF2_ONLINE,     LPGENT("Online") },
@@ -321,7 +323,7 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 		SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_SETCOLOUR,0,db_get_dw(NULL,"StatusBar","BkColour",CLCDEFAULT_BKCOLOUR));
 		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETDEFAULTCOLOUR,0,CLCDEFAULT_SELBKCOLOUR);
 		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETCOLOUR,0,db_get_dw(NULL,"StatusBar","SelBkColour",CLCDEFAULT_SELBKCOLOUR));
-		{	
+		{
 			DBVARIANT dbv;
 			if ( !db_get_s(NULL,"StatusBar","BkBitmap",&dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_FILENAME,dbv.pszVal);
@@ -390,7 +392,7 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				db_set_b(NULL,"StatusBar","UseBitmap",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_BITMAP));
-				{	
+				{
 					COLORREF col;
 					col = SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_GETCOLOUR,0,0);
 					if (col == CLCDEFAULT_BKCOLOUR) db_unset(NULL,"StatusBar","BkColour");
@@ -448,7 +450,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				char szPath[MAX_PATH];
 				if ( PathToAbsolute(dbv.pszVal, szPath))
 					SetDlgItemTextA(hwndDlg,IDC_FILENAME,szPath);
-				
+
 				mir_free(dbv.pszVal);
 			}
 		}
@@ -544,4 +546,3 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	}
 	return FALSE;
 }
-

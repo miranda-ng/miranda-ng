@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -227,7 +228,7 @@ char* NetlibAddressToString(SOCKADDR_INET_M* addr)
 	DWORD len = sizeof(saddr);
 	if ( !WSAAddressToStringA((PSOCKADDR)addr, sizeof(*addr), NULL, saddr, &len))
 		return mir_strdup(saddr);
-	
+
 	if (addr->si_family == AF_INET) {
 		char *szIp = inet_ntoa(addr->Ipv4.sin_addr);
 		if (addr->Ipv4.sin_port != 0) {

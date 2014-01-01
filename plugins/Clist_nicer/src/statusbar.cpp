@@ -1,8 +1,10 @@
 /*
-Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -41,7 +43,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_SETCURSOR:
 		{
 			POINT pt;
-			GetCursorPos(&pt);  
+			GetCursorPos(&pt);
 
 			SendMessage(GetParent(hwnd),msg,wParam,lParam);
 			if (pt.x == ptMouse.x && pt.y == ptMouse.y)
@@ -49,10 +51,10 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			ptMouse = pt;
 			if (tooltip_active){
-				KillTimer(hwnd, TIMERID_HOVER);				
+				KillTimer(hwnd, TIMERID_HOVER);
 				if ( !NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
 					CallService("mToolTip/HideTip", 0, 0);
-				tooltip_active = FALSE;		
+				tooltip_active = FALSE;
 			}
 			KillTimer(hwnd, TIMERID_HOVER);
 			SetTimer(hwnd, TIMERID_HOVER, 750, 0);
@@ -75,10 +77,10 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
-		KillTimer(hwnd, TIMERID_HOVER);				
+		KillTimer(hwnd, TIMERID_HOVER);
 		if ( !NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
 			CallService("mToolTip/HideTip", 0, 0);
-		tooltip_active = FALSE;		
+		tooltip_active = FALSE;
 		break;
 
 	case WM_PAINT:

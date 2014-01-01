@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -122,7 +123,7 @@ static int GetGeneralisedStatus(void)
 	return status;
 }
 
-static int GetRealStatus(struct ClcContact * contact, int status) 
+static int GetRealStatus(struct ClcContact * contact, int status)
 {
 	int i;
 	char *szProto = contact->proto;
@@ -151,7 +152,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 	int grey = 0,groupCountsFontTopShift;
 	HBRUSH hBrushAlternateGrey = NULL;
 	POINT pt;
-	RECT testrc;		
+	RECT testrc;
 
 	// yes I know about GetSysColorBrush()
 	COLORREF tmpbkcolour = dat->bkColour;
@@ -159,10 +160,10 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 	if (dat->greyoutFlags & pcli->pfnClcStatusToPf2(status) || style&WS_DISABLED) grey = 1;
 	else if (GetFocus() != hwnd && dat->greyoutFlags&GREYF_UNFOCUS) grey = 1;
 	GetClientRect(hwnd,&clRect);
-	
+
 	if (rcPaint == NULL) rcPaint = &clRect;
 	//rcPaint = &clRect;
-	
+
 	if (IsRectEmpty(rcPaint)) return;
 	GetCursorPos(&pt);
 	ScreenToClient(hwnd,&pt);
@@ -172,9 +173,9 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 	hdcMem = CreateCompatibleDC(hdc);
 	hBmpOsb = CreateBitmap(clRect.right,clRect.bottom,1,GetDeviceCaps(hdc,BITSPIXEL),NULL);
 	oldbmp = (HBITMAP)SelectObject(hdcMem,hBmpOsb);
-	{	
+	{
 		oldfont = (HFONT)SelectObject(hdcMem,dat->fontInfo[FONTID_GROUPS].hFont);
-		
+
 		TEXTMETRIC tm;
 		GetTextMetrics(hdcMem,&tm);
 		groupCountsFontTopShift = tm.tmAscent;
@@ -292,7 +293,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 			SIZE textSize,countsSize,spaceSize;
 			int width,checkboxWidth;
 			char *szCounts;
-			
+
 			if (subindex == -1) {
 				Drawing = group->cl.items[group->scanIndex];
 				subident = 0;
@@ -305,7 +306,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 
 			selected = index == dat->selection && (dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || GetFocus() == hwnd) && Drawing->type != CLCIT_DIVIDER;
 			hottrack = dat->exStyle&CLS_EX_TRACKSELECT && Drawing->type != CLCIT_DIVIDER && dat->iHotTrack == index;
-			
+
 			if (style&CLS_GREYALTERNATE && index&1) {
 				RECT rc;
 				rc.top = y; rc.bottom = rc.top+dat->rowHeight;
@@ -315,9 +316,9 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 
 			//setup
 			if (Drawing->type == CLCIT_GROUP) {
-				if (Drawing->group->expanded) 
+				if (Drawing->group->expanded)
 					ChangeToFont(hdcMem,dat,FONTID_GROUPS,&fontHeight);
-				else 
+				else
 					ChangeToFont(hdcMem,dat,FONTID_GROUPSCLOSED,&fontHeight);
 			}
 			else if (Drawing->type == CLCIT_INFO) {
@@ -328,13 +329,13 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 				ChangeToFont(hdcMem,dat,FONTID_DIVIDERS,&fontHeight);
 			else if (Drawing->type == CLCIT_CONTACT && (Drawing->flags&CONTACTF_NOTONLIST) && (!Drawing->isSubcontact))
 				ChangeToFont(hdcMem,dat,FONTID_NOTONLIST,&fontHeight);
-			else if ( Drawing->type == CLCIT_CONTACT && 
-				(	
+			else if ( Drawing->type == CLCIT_CONTACT &&
+				(
 					(Drawing->flags&CONTACTF_INVISTO && (!Drawing->isSubcontact) && GetRealStatus(group->cl.items[group->scanIndex], status) != ID_STATUS_INVISIBLE )
 					||
 					(Drawing->flags&CONTACTF_VISTO && (!Drawing->isSubcontact) && GetRealStatus(group->cl.items[group->scanIndex], status) == ID_STATUS_INVISIBLE)
-				) 
-			) 
+				)
+			)
 			{
 				// the contact is in the always visible list and the proto is invisible
 				// the contact is in the always invisible and the proto is in any other mode
@@ -367,7 +368,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 				// default value - paint on text
 				int x=dat->leftMargin+indent*dat->groupIndent+checkboxWidth+dat->iconXSpace-2+subident;
 				ImageList_DrawEx(dat->himlHighlight,0,hdcMem,x,y,min(width+5,clRect.right-x),dat->rowHeight,CLR_NONE,CLR_NONE,dat->exStyle&CLS_EX_NOTRANSLUCENTSEL?ILD_NORMAL:ILD_BLEND25);
-				SetTextColor(hdcMem,dat->selTextColour);	
+				SetTextColor(hdcMem,dat->selTextColour);
 			}
 			else if (hottrack)
 				SetHotTrackColour(hdcMem,dat);
@@ -436,11 +437,11 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 					else TextOutA(hdcMem,rc.right,rc.top+groupCountsFontTopShift,szCounts,lstrlenA(szCounts));
 
 					//ChangeToFont(hdcMem,dat,FONTID_GROUPS,&fontHeight);
-					if (Drawing->group->expanded) 
+					if (Drawing->group->expanded)
 					{
 						ChangeToFont(hdcMem,dat,FONTID_GROUPS,&fontHeight);
 					}
-					else 
+					else
 					{
 						ChangeToFont(hdcMem,dat,FONTID_GROUPSCLOSED,&fontHeight);
 					}
@@ -489,7 +490,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 			}
 
 			if (dat->style&CLS_SHOWSTATUSMESSAGES)
-			{							
+			{
 				// status message
 				if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->flags & CONTACTF_STATUSMSG) {
 					TCHAR * szText = group->cl.items[group->scanIndex]->szStatusMsg;
@@ -501,7 +502,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 					ChangeToFont(hdcMem,dat,FONTID_STATUSMSG,&fontHeight);
 					//ExtTextOut(hdcMem,rc.left,rc.top,ETO_CLIPPED,&rc,szText,lstrlen(szText),NULL);
 					DrawText(hdcMem, szText, lstrlen(szText), &rc, DT_SINGLELINE | DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS);
-				}		
+				}
 			}
 
 			if ( !Drawing->isSubcontact || ( db_get_b(NULL,"CLC","MetaHideExtra",0) == 0)) {
@@ -519,7 +520,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 						if (selected) mode = ILD_SELECTED;
 						else if (hottrack) {mode = ILD_FOCUS; colourFg = dat->hotTextColour;}
 						else if (Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST) {colourFg = dat->fontInfo[FONTID_NOTONLIST].colour; mode = ILD_BLEND50;}
-						{				  
+						{
 
 						}
 						if (dat->MetaIgnoreEmptyExtra) c--; else c = iImage;
@@ -535,7 +536,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 					}
 				}
 				else {
-					int ic = 0;	
+					int ic = 0;
 					for (iImage = 0;iImage<dat->extraColumnsCount;iImage++) {
 						COLORREF colourFg = dat->selBkColour;
 						int mode = ILD_NORMAL;
@@ -549,7 +550,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 							colourFg = dat->hotTextColour;
 						}
 						else if (Drawing->type == CLCIT_CONTACT && (Drawing->flags & CONTACTF_NOTONLIST)) {
-							colourFg = dat->fontInfo[FONTID_NOTONLIST].colour; 
+							colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
 							mode = ILD_BLEND50;
 						}
 

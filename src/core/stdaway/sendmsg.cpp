@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -59,7 +60,7 @@ static const char *StatusModeToDbSetting(int status, const char *suffix)
 	const char *prefix;
 	static char str[64];
 
-	switch(status) 
+	switch(status)
 	{
 		case ID_STATUS_AWAY:		prefix = "Away";		break;
 		case ID_STATUS_NA:			prefix = "Na";			break;
@@ -191,7 +192,7 @@ void ChangeAllProtoMessages(char *szProto, int statusMode, TCHAR *msg)
 		{
 			PROTOACCOUNT* pa = accounts[i];
 			if ( !Proto_IsAccountEnabled(pa)) continue;
-			if ((CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) && 
+			if ((CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) &&
 				!Proto_IsAccountLocked(pa))
 				CallProtoService(pa->szModuleName, PS_SETAWAYMSGT, statusMode, (LPARAM)msg);
 		}
@@ -219,7 +220,7 @@ struct SetAwasMsgNewData
 static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	SetAwayMsgData* dat = (SetAwayMsgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	
+
 	switch(message) {
 	case WM_INITDIALOG:
 		{
@@ -350,13 +351,13 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 		newdat->statusMode = statusMode;
 		if (hwndStatusMsg)
 			DestroyWindow(hwndStatusMsg);
-		hwndStatusMsg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETAWAYMSG), 
+		hwndStatusMsg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETAWAYMSG),
 			NULL, SetAwayMsgDlgProc, (LPARAM)newdat);
 	}
 	return 0;
 }
 
-static const int statusModes[] = 
+static const int statusModes[] =
 {
 	ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND,
 	ID_STATUS_FREECHAT, ID_STATUS_INVISIBLE, ID_STATUS_OUTTOLUNCH, ID_STATUS_ONTHEPHONE, ID_STATUS_IDLE
@@ -507,7 +508,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					int i = hLst ? (SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_GETCOUNT, 0, 0) - 1) :
 						(SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_GETCOUNT, 0, 0) - 1);
 					for (; i >= 0; i--) {
-						int status = hLst ? 
+						int status = hLst ?
 							SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_GETITEMDATA, i, 0):
 						SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_GETITEMDATA, i, 0);
 						SetStatusModeByte(status, "Ignore", (BYTE)dat->info[i].ignore);
@@ -551,7 +552,7 @@ static int AwayMsgSendModernOptInit(WPARAM wParam, LPARAM)
 	if (protoModeMsgFlags == 0)
 		return 0;
 
-	static const int iBoldControls[] = 
+	static const int iBoldControls[] =
 	{
 		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3,
 		MODERNOPT_CTRL_LAST

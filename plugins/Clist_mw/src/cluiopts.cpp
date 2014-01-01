@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 
 extern HMENU hMenuMain;
@@ -69,7 +71,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			EnableWindow(GetDlgItem(hwndDlg,IDC_TITLETEXT),FALSE);
 		}
 		CheckDlgButton(hwndDlg, IDC_FADEINOUT, db_get_b(NULL,"CLUI","FadeInOut",0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AUTOSIZE, db_get_b(NULL,"CLUI","AutoSize",0) ? BST_CHECKED : BST_UNCHECKED);			
+		CheckDlgButton(hwndDlg, IDC_AUTOSIZE, db_get_b(NULL,"CLUI","AutoSize",0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_DROPSHADOW, db_get_b(NULL,"CList","WindowShadow",0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_ONDESKTOP, db_get_b(NULL,"CList","OnDesktop", 0) ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwndDlg,IDC_MAXSIZESPIN,UDM_SETRANGE,0,MAKELONG(100,0));
@@ -104,7 +106,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 
 		if (s)
-		{				
+		{
 			SetDlgItemTextA(hwndDlg,IDC_TITLETEXT,s);
 			mir_free(s);
 		}
@@ -317,14 +319,14 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			EnableWindow(GetDlgItem(hwndDlg,IDC_EQUALSECTIONS),IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SBPANELBEVEL),IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWSIZEGRIP),IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_USECONNECTINGICON),IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR));	
-			EnableWindow(GetDlgItem(hwndDlg,IDC_USEOWNERDRAW),IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR));	
+			EnableWindow(GetDlgItem(hwndDlg,IDC_USECONNECTINGICON),IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR));
+			EnableWindow(GetDlgItem(hwndDlg,IDC_USEOWNERDRAW),IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR));
 
 		}
 		if (LOWORD(wParam) == IDC_DEFBKCOLOR)
 		{
 			SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_SETCOLOUR,0,CLR_DEFAULT);
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);		
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
 
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -361,7 +363,7 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SendMessage(pcli->hwndContactList,WM_SIZE,0,0);
 
 				OnStatusBarBackgroundChange();
-				CluiProtocolStatusChanged(0,0);			
+				CluiProtocolStatusChanged(0,0);
 				return TRUE;
 			}
 		}

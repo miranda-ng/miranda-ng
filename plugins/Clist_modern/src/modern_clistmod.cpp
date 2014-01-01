@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_clist.h"
 #include "hdr/modern_commonprototypes.h"
@@ -171,8 +173,8 @@ HRESULT  CluiLoadModule()
 	CreateServiceFunction("ModernSkinSel/Active", SvcActiveSkin);
 	CreateServiceFunction("ModernSkinSel/Preview", SvcPreviewSkin);
 	CreateServiceFunction("ModernSkinSel/Apply", SvcApplySkin);
-	
-	HookEvent(ME_DB_CONTACT_ADDED,ContactAdded);	
+
+	HookEvent(ME_DB_CONTACT_ADDED,ContactAdded);
 
 	CreateServiceFunction(MS_CLIST_TOGGLEHIDEOFFLINE,ToggleHideOffline);
 
@@ -183,7 +185,7 @@ HRESULT  CluiLoadModule()
 	hCListImages = ImageList_Create(16, 16, ILC_MASK|ILC_COLOR32, 32, 0);
 	InitCustomMenus();
 	InitTrayMenus();
-	
+
 	CLUI::InitClui();
 	return S_OK;
 }
@@ -222,13 +224,13 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	if (iStepY <= 0) iStepY = 16;
 
 	HWND hwndFocused = GetFocus();
-	
+
 	if ( IsIconic(hWnd) || !IsWindowVisible(hWnd))
 		return GWVS_HIDDEN;
-	
+
 	if ( db_get_b(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT) || !db_get_b(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
 		return GWVS_VISIBLE;
-	
+
 	if ( hwndFocused == pcli->hwndContactList || GetParent(hwndFocused) == pcli->hwndContactList )
 		return GWVS_VISIBLE;
 
@@ -294,7 +296,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 				a = ((a*g_CluiData.bCurrentAlpha)>>8);
 				po = (a>16);
 			}
-			
+
 			if (po || (!rgn && ptr == 0)) {
 				BOOL hWndFound = FALSE;
 				HWND hAuxOld = NULL;
@@ -400,7 +402,7 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 		RECT rcWindow;
 		GetWindowRect(pcli->hwndContactList,&rcWindow);
 		if (Utils_AssertInsideScreen(&rcWindow) == 1)
-			MoveWindow(pcli->hwndContactList, rcWindow.left, rcWindow.top, 
+			MoveWindow(pcli->hwndContactList, rcWindow.left, rcWindow.top,
 				rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 	}
 	else { //It needs to be hidden

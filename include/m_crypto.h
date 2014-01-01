@@ -1,8 +1,8 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -64,7 +64,7 @@ typedef MICryptoEngine* (__cdecl *pfnCryptoProviderFactory)(void);
 #define CPF_UNICODE 1
 
 #if defined(_UNICODE)
-	#define CPF_TCHAR CPF_UNICODE 
+	#define CPF_TCHAR CPF_UNICODE
 #else
 	#define CPF_TCHAR 0
 #endif

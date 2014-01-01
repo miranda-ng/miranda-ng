@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -30,8 +31,8 @@ HANDLE hIcons2ChangedEvent, hIconsChangedEvent;
 
 HICON hIconBlank = NULL;
 
-static HANDLE 
-	hIcoLib_AddNewIcon, hIcoLib_RemoveIcon, hIcoLib_GetIcon, hIcoLib_GetIcon2, 
+static HANDLE
+	hIcoLib_AddNewIcon, hIcoLib_RemoveIcon, hIcoLib_GetIcon, hIcoLib_GetIcon2,
 	hIcoLib_GetIconHandle, hIcoLib_IsManaged, hIcoLib_AddRef, hIcoLib_ReleaseIcon;
 
 int iconEventActive = 0;
@@ -189,7 +190,7 @@ static int InitializeBitmapInfoHeader(HBITMAP bitmap, BITMAPINFOHEADER* bi)
 	return 0; // Success
 }
 
-static int InternalGetDIBSizes(HBITMAP bitmap, int* InfoHeaderSize, int* ImageSize) 
+static int InternalGetDIBSizes(HBITMAP bitmap, int* InfoHeaderSize, int* ImageSize)
 {
 	BITMAPINFOHEADER bi;
 
@@ -239,7 +240,7 @@ static int GetIconData(HICON icon, BYTE** data, int* size)
 
 	if ( !GetIconInfo(icon, &iconInfo)) return 1; // Failure
 
-	if (InternalGetDIBSizes(iconInfo.hbmMask, &MonoInfoSize, &MonoBitsSize) || 
+	if (InternalGetDIBSizes(iconInfo.hbmMask, &MonoInfoSize, &MonoBitsSize) ||
 		InternalGetDIBSizes(iconInfo.hbmColor, &ColorInfoSize, &ColorBitsSize)) {
 		DeleteObject(iconInfo.hbmColor);
 		DeleteObject(iconInfo.hbmMask);
@@ -250,7 +251,7 @@ static int GetIconData(HICON icon, BYTE** data, int* size)
 	void* ColorInfo = mir_alloc(ColorInfoSize);
 	void* ColorBits = mir_alloc(ColorBitsSize);
 
-	if (InternalGetDIB(iconInfo.hbmMask, 0, MonoInfo, MonoBits) || 
+	if (InternalGetDIB(iconInfo.hbmMask, 0, MonoInfo, MonoBits) ||
 		InternalGetDIB(iconInfo.hbmColor, 0, ColorInfo, ColorBits)) {
 		SAFE_FREE(&MonoInfo);
 		SAFE_FREE(&MonoBits);

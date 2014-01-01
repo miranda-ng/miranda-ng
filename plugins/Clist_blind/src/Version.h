@@ -11,4 +11,4 @@
 #define __AUTHOR					"Ricardo Pescuma Domenecci, based on previous work from Miranda IM project"
 #define __AUTHOREMAIL				""
 #define __AUTHORWEB					"http://miranda-ng.org/p/Clist_blind/"
-#define __COPYRIGHT					"Copyright 2000-2009 Miranda IM project, Ricardo Pescuma Domenecci, 2013 Miranda NG project, George Hazan"
+#define __COPYRIGHT					"Copyright 2000-2009 Miranda IM project, Ricardo Pescuma Domenecci, 2013-14 Miranda NG project"

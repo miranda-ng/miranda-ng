@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2006 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-06 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -118,7 +119,7 @@ static BOOL idleDialogInInit = FALSE;
 #ifdef UNICODE
 				TCHAR *awayMsg=0;
 				if (HasAwayMessageW){
-					awayMsg = (TCHAR *) CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM) courAwayStatus[j], 0); 
+					awayMsg = (TCHAR *) CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM) courAwayStatus[j], 0);
 				} else {
 					char *temp=(char *)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM) courAwayStatus[j], 0);
 					if ((int)temp == CALLSERVICE_NOTFOUND) awayMsg = 0;
@@ -228,25 +229,25 @@ static BOOL idleDialogInInit = FALSE;
 			case 1: flags |= IDF_LONG; break;
 			case 2: flags |= IDF_ONFORCE; break;
 		}
-		if ( isIdle[j]==1  && isEventFired[j] == 0 ) { // idle and no one knows					
+		if ( isIdle[j]==1  && isEventFired[j] == 0 ) { // idle and no one knows
 			isEventFired[j]=1;
-			NotifyEventHooks( hIdleEvent, 0, IDF_ISIDLE | flags );			
+			NotifyEventHooks( hIdleEvent, 0, IDF_ISIDLE | flags );
 		}
 		if ( isIdle[j]==0 && isEventFired[j] == 1 ) { // not idle, no one knows
 			isEventFired[j]=0;
-			if ( !(idleOptsPerm&IdleSuppressAutoHere) ) NotifyEventHooks( hIdleEvent, 0, flags );			
+			if ( !(idleOptsPerm&IdleSuppressAutoHere) ) NotifyEventHooks( hIdleEvent, 0, flags );
 		}
-	}//for	
+	}//for
 //	{
 //		int flags = ( idleOptsPerm&IdleBitsPrivate ? IDF_PRIVACY:0 );
 //		if (isIdle[0]||isIdle[1]||isIdle[2]) flags |= IDF_ISIDLE;
 //		if (isIdle[0]) flags |= IDF_SHORT;
 //		if (isIdle[1]) flags |= IDF_LONG;
 //		if (isIdle[2]) flags |= IDF_ONFORCE;
-//		NotifyEventHooks( hIdleEvent, 0, flags );			
+//		NotifyEventHooks( hIdleEvent, 0, flags );
 //	}
 }
- 
+
  INT_PTR IdleGetInfo(WPARAM wParam, LPARAM lParam)
 {
 	MIRANDA_IDLE_INFO * mii = (MIRANDA_IDLE_INFO *) lParam;
@@ -277,16 +278,16 @@ INT_PTR CALLBACK DlgProcOptsIdle(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
             TranslateDialogDefault(hwndDlg);
 			InitDialogIdlePart(hwndDlg);
             return TRUE;
-		case WM_USER+4: 
+		case WM_USER+4:
 		{
-			DWORD nID[] = { IDC_IDLEONWINDOWS, 
-							IDC_IDLEUSEGLI, 
-							IDC_IDLEONMIRANDA, 
-							IDC_SCREENSAVER, 
-							IDC_LOCKED, 
-							IDC_IDLESHORT, 
-							IDC_IDLE1STTIME, 
-							IDC_IDLELONG, 
+			DWORD nID[] = { IDC_IDLEONWINDOWS,
+							IDC_IDLEUSEGLI,
+							IDC_IDLEONMIRANDA,
+							IDC_SCREENSAVER,
+							IDC_LOCKED,
+							IDC_IDLESHORT,
+							IDC_IDLE1STTIME,
+							IDC_IDLELONG,
 							IDC_IDLE2NDTIME//,IDC_IDLEPRIVATE
 							};
 			int j;
@@ -298,7 +299,7 @@ INT_PTR CALLBACK DlgProcOptsIdle(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					case IDC_IDLE1STTIME: nEnable &= IsDlgButtonChecked(hwndDlg, IDC_IDLESHORT) == BST_CHECKED ? 1 : 0; break;
 					case IDC_IDLE2NDTIME: nEnable &= IsDlgButtonChecked(hwndDlg, IDC_IDLELONG) == BST_CHECKED ? 1 : 0; break;
 				}
-				EnableWindow(GetDlgItem(hwndDlg, nID[j]), nEnable);				
+				EnableWindow(GetDlgItem(hwndDlg, nID[j]), nEnable);
 			}
 
 			idleOpts=SetBits(idleOpts,IdleBitsCheck,  IsDlgButtonChecked(hwndDlg, IDC_IDLECHECK) == BST_CHECKED);
@@ -313,7 +314,7 @@ INT_PTR CALLBACK DlgProcOptsIdle(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			idleOpts=SetBits(idleOpts,IdleSuppressIdleMenu, IsDlgButtonChecked(hwndDlg, IDC_DISABLEIDLEMENU) == BST_CHECKED);
 			idleOpts=SetBits(idleOpts,IdleHereOnStatusChange, IsDlgButtonChecked(hwndDlg, IDC_HEREONSTATUSCHANGE) == BST_CHECKED);
 			break;
-		} 
+		}
 		case WM_USER+8:
 		{
 			if (wParam == IDC_IDLE1STTIME) idleOpts = SetBits(idleOpts,IdleBitsTimeFirst,GetDlgItemInt(hwndDlg, wParam, NULL, FALSE));
@@ -322,7 +323,7 @@ INT_PTR CALLBACK DlgProcOptsIdle(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		}
         case WM_COMMAND:
             switch (LOWORD(wParam)) {
-				case IDC_IDLEBUTTON: 
+				case IDC_IDLEBUTTON:
 				case IDC_IDLEBUTTON+1:
 				case IDC_IDLEBUTTON+2:SimulateIdle(LOWORD(wParam)-IDC_IDLEBUTTON); break;
 				case IDC_IDLECHECK:
@@ -331,7 +332,7 @@ INT_PTR CALLBACK DlgProcOptsIdle(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				case IDC_IDLESHORT:
 				case IDC_IDLELONG:
 				case IDC_IDLEUSEGLI:
-				case IDC_SCREENSAVER: 
+				case IDC_SCREENSAVER:
 				case IDC_LOCKED:
 				case IDC_IDLEPRIVATE:
 				case IDC_DISBABLEAUTOHERE:
@@ -350,7 +351,7 @@ INT_PTR CALLBACK DlgProcOptsIdle(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				}
             }
             if (!idleDialogInInit) if ((HIWORD(wParam)==BN_CLICKED)||(HIWORD(wParam)==EN_CHANGE))
-			{ 
+			{
 				if ((LOWORD(wParam)!=IDC_IDLEBUTTON)&&(LOWORD(wParam)!=IDC_IDLEBUTTON+1)&&(LOWORD(wParam)!=IDC_IDLEBUTTON+2))
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
@@ -371,4 +372,3 @@ INT_PTR CALLBACK DlgProcOptsIdle(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
     }
     return FALSE;
 }
-

@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -206,7 +207,7 @@ template<class T> struct OBJLIST : public LIST<T>
 	__inline int remove(T *p)
 	{
 		int i = getIndex( p );
-		if ( i != -1 ) {	
+		if ( i != -1 ) {
 			remove(i);
 			return 1;
 		}

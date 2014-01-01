@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -74,7 +75,7 @@ static int ConvertBackslashes(char *str, UINT fileCp)
 	char *pstr;
 	for (pstr = str; *pstr; pstr = CharNextExA(fileCp, pstr, 0)) {
 		if (*pstr == '\\') {
-			shift++; 
+			shift++;
 			switch(pstr[1]) {
 				case 'n': *pstr = '\n'; break;
 				case 't': *pstr = '\t'; break;
@@ -84,7 +85,7 @@ static int ConvertBackslashes(char *str, UINT fileCp)
 			}
 			memmove(pstr+1, pstr+2, strlen(pstr+2) + 1);
 		}
-	}	
+	}
 	return shift;
 }
 
@@ -355,7 +356,7 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *szLangPack)
 		else if ( !lstrcmpA(line, "Last-Modified-Using")) {mir_snprintf(langPack.lastModifiedUsing, sizeof(langPack.lastModifiedUsing), "%s", pszColon); lrtrim(langPack.lastModifiedUsing);}
 		else if ( !lstrcmpA(line, "Authors")) {mir_snprintf(langPack.authors, sizeof(langPack.authors), "%s", pszColon); lrtrim(langPack.authors);}
 		else if ( !lstrcmpA(line, "Author-email")) {mir_snprintf(langPack.authorEmail, sizeof(langPack.authorEmail), "%s", pszColon); lrtrim(langPack.authorEmail);}
-		else if ( !lstrcmpA(line, "Locale")) { 
+		else if ( !lstrcmpA(line, "Locale")) {
 			char szBuf[20], *stopped;
 
 			lrtrim(pszColon + 1);

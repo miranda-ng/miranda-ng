@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2006 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-06 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -23,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "globals.h"
 
 
-long *idleMessOptsPerm;				
-long *idleMessOpts;					
+long *idleMessOptsPerm;
+long *idleMessOpts;
                                                 // xxxx xxxL xxxS xxxH xxxE xxx- RSTHERE-
 int *messCaps=0;
 
@@ -100,8 +101,8 @@ LRESULT SetDlgItemsIdleMessages(HWND hwndDlg, int coursel){
 
 		CheckDlgButton(hwndDlg, IDC_IDLEMSGHERE_THIS, (statusAvail[0] && GetBits(idleMessOpts[coursel],IdleMessOptsMaskUseHere))?BST_CHECKED:BST_UNCHECKED );
 		CheckDlgButton(hwndDlg, IDC_ENABLERESTOREMSG, (
-			statusAvail[0] && 
-			GetBits(idleMessOpts[coursel],IdleMessOptsMaskUseHere) && 
+			statusAvail[0] &&
+			GetBits(idleMessOpts[coursel],IdleMessOptsMaskUseHere) &&
 			GetBits(idleMessOpts[coursel],IdleMessOptsMaskRstHere))?BST_CHECKED:BST_UNCHECKED );
 		CheckDlgButton(hwndDlg, IDC_IDLEMSGSHORT_THIS, (statusAvail[1] && GetBits(idleMessOpts[coursel],IdleMessOptsMaskUseShort))?BST_CHECKED:BST_UNCHECKED );
 		CheckDlgButton(hwndDlg, IDC_IDLEMSGLONG_THIS, (statusAvail[2] && GetBits(idleMessOpts[coursel],IdleMessOptsMaskUseLong))?BST_CHECKED:BST_UNCHECKED );
@@ -138,27 +139,27 @@ INT_PTR CALLBACK DlgProcOptsIdleMessages(HWND hwndDlg, UINT msg, WPARAM wParam, 
             return TRUE;
 		case WM_USER+1:
 		{
-			EnableWindow(GetDlgItem(hwndDlg, IDC_RESTOREMSGSLIDER), wParam);				
+			EnableWindow(GetDlgItem(hwndDlg, IDC_RESTOREMSGSLIDER), wParam);
 			idleMessOpts[courProtocolSelection] = SetBits(idleMessOpts[courProtocolSelection],IdleMessOptsMaskRstHere,wParam);
 			break;
 		}
 		case WM_USER+2:
 		{
-			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLEMSGHERE), wParam);				
-			EnableWindow(GetDlgItem(hwndDlg, IDC_RESTOREMSGSLIDER), wParam);				
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ENABLERESTOREMSG), wParam);				
+			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLEMSGHERE), wParam);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_RESTOREMSGSLIDER), wParam);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ENABLERESTOREMSG), wParam);
 			idleMessOpts[courProtocolSelection] = SetBits(idleMessOpts[courProtocolSelection],IdleMessOptsMaskUseHere,wParam);
 			break;
 		}
 		case WM_USER+3:
 		{
-			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLEMSGSHORT), wParam);				
+			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLEMSGSHORT), wParam);
 			idleMessOpts[courProtocolSelection] = SetBits(idleMessOpts[courProtocolSelection],IdleMessOptsMaskUseShort,wParam);
 			break;
 		}
 		case WM_USER+4:
 		{
-			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLEMSGLONG), wParam);				
+			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLEMSGLONG), wParam);
 			idleMessOpts[courProtocolSelection] = SetBits(idleMessOpts[courProtocolSelection],IdleMessOptsMaskUseLong,wParam);
 			break;
 		}
@@ -182,7 +183,7 @@ INT_PTR CALLBACK DlgProcOptsIdleMessages(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					{
 						SendMessage(hwndDlg, WM_USER+1, (WPARAM)IsDlgButtonChecked(hwndDlg, IDC_ENABLERESTOREMSG) == BST_CHECKED, 0);
 						break;
-					} 			
+					}
 				case IDC_IDLEMSGHERE_THIS:
 					{
 						SendMessage(hwndDlg,WM_USER+2, (WPARAM)IsDlgButtonChecked(hwndDlg, IDC_IDLEMSGHERE_THIS) == BST_CHECKED, 0);
@@ -205,7 +206,7 @@ INT_PTR CALLBACK DlgProcOptsIdleMessages(HWND hwndDlg, UINT msg, WPARAM wParam, 
 							GetDlgItemText(hwndDlg,IDC_IDLEMSGHERE,str,maxMessageLength+1);
 							SendMessage(hwndDlg,WM_USER+8, 0, (LPARAM)str);
 						} else if (HIWORD(wParam)==EN_KILLFOCUS) {
-							GetDlgItemText(hwndDlg,IDC_IDLEMSGHERE,mesgHere[courProtocolSelection],maxMessageLength+1); 
+							GetDlgItemText(hwndDlg,IDC_IDLEMSGHERE,mesgHere[courProtocolSelection],maxMessageLength+1);
 							SendMessage(hwndDlg,WM_USER+8, 0, (LPARAM)"");
 						}
 						break;
@@ -217,7 +218,7 @@ INT_PTR CALLBACK DlgProcOptsIdleMessages(HWND hwndDlg, UINT msg, WPARAM wParam, 
 							GetDlgItemText(hwndDlg,IDC_IDLEMSGSHORT,str,maxMessageLength+1);
 							SendMessage(hwndDlg,WM_USER+8, 0, (LPARAM)str);
 						} else if (HIWORD(wParam)==EN_KILLFOCUS) {
-							GetDlgItemText(hwndDlg,IDC_IDLEMSGSHORT,mesgShort[courProtocolSelection],maxMessageLength+1); 
+							GetDlgItemText(hwndDlg,IDC_IDLEMSGSHORT,mesgShort[courProtocolSelection],maxMessageLength+1);
 							SendMessage(hwndDlg,WM_USER+8, 0, (LPARAM)"");
 						}
 						break;
@@ -229,7 +230,7 @@ INT_PTR CALLBACK DlgProcOptsIdleMessages(HWND hwndDlg, UINT msg, WPARAM wParam, 
 							GetDlgItemText(hwndDlg,IDC_IDLEMSGLONG,str,maxMessageLength+1);
 							SendMessage(hwndDlg,WM_USER+8, 0, (LPARAM)str);
 						} else if (HIWORD(wParam)==EN_KILLFOCUS) {
-							GetDlgItemText(hwndDlg,IDC_IDLEMSGLONG,mesgLong[courProtocolSelection],maxMessageLength+1); 
+							GetDlgItemText(hwndDlg,IDC_IDLEMSGLONG,mesgLong[courProtocolSelection],maxMessageLength+1);
 							SendMessage(hwndDlg,WM_USER+8, 0, (LPARAM)"");
 						}
 						break;
@@ -253,7 +254,7 @@ INT_PTR CALLBACK DlgProcOptsIdleMessages(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				break; //case WM_COMMAND
             }
             if (!idleDialogInInit) if ((HIWORD(wParam)==BN_CLICKED)||(HIWORD(wParam)==EN_CHANGE))
-			{ 
+			{
 				if (LOWORD(wParam)!=IDC_VARIABLES)
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}

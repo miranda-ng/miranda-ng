@@ -1,8 +1,10 @@
 /*
-Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -165,7 +167,7 @@ static void ShowPage(HWND hwnd, int page)
 static int UpdateClistItem(HANDLE hContact, DWORD mask)
 {
 	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hContact, MAKELONG(i - ID_STATUS_OFFLINE, 
+		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hContact, MAKELONG(i - ID_STATUS_OFFLINE,
 		(1 << (i - ID_STATUS_OFFLINE)) & mask ? i - ID_STATUS_OFFLINE : nullImage));
 
 	return 0;
@@ -226,7 +228,7 @@ static int FillDialog(HWND hwnd)
 
 	item.mask = LVIF_TEXT;
 	item.iItem = 1000;
-	for (i=0; i < protoCount; i++) 
+	for (i=0; i < protoCount; i++)
 	{
 		item.pszText = accs[i]->szModuleName;
 		newItem = SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
@@ -301,7 +303,7 @@ static void SetAllChildIcons(HWND hwndList,HANDLE hFirstItem,int iColumn,int iIm
 	//check groups
 	if (typeOfFirst == CLCIT_GROUP) hItem = hFirstItem;
 	else hItem = (HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hFirstItem);
-	while(hItem) 
+	while(hItem)
 	{
 		hChildItem = (HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_CHILD,(LPARAM)hItem);
 		if (hChildItem)
@@ -452,7 +454,7 @@ void SaveState()
 				HANDLE hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 				if (hItem == NULL)
 					continue;
-				
+
 				if (SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 					DWORD dwLocalMask = GetMaskForItem(hItem);
 					db_set_dw(hContact, CLVM_MODULE, szModeName, MAKELONG(1, (unsigned short)dwLocalMask));
@@ -479,7 +481,7 @@ void SaveState()
 				MAKEWORD(SendDlgItemMessage(clvmHwnd, IDC_LASTMESSAGEOP, CB_GETCURSEL, 0, 0),
 				SendDlgItemMessage(clvmHwnd, IDC_LASTMESSAGEUNIT, CB_GETCURSEL, 0, 0)));
 
-			SaveViewMode(szModeName, newGroupFilter, newProtoFilter, statusMask, dwGlobalMask, options, 
+			SaveViewMode(szModeName, newGroupFilter, newProtoFilter, statusMask, dwGlobalMask, options,
 				stickies, operators, lmdat);
 
 			if (szModeName && szModeName != (char*)szTempModeName)
@@ -532,7 +534,7 @@ static void UpdateFilters()
 	if (db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv_gf))
 		goto cleanup;
 	mir_snprintf(szSetting, 128, "%c%s_OPT", 246, szBuf);
-	if ((opt = db_get_dw(NULL, CLVM_MODULE, szSetting, -1)) != -1) 
+	if ((opt = db_get_dw(NULL, CLVM_MODULE, szSetting, -1)) != -1)
 	{
 		SendDlgItemMessage(clvmHwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
 	}
@@ -552,7 +554,7 @@ static void UpdateFilters()
 		item.pszText = szTemp;
 		item.cchTextMax = 255;
 
-		for (i=0; i < ListView_GetItemCount(hwndList); i++) 
+		for (i=0; i < ListView_GetItemCount(hwndList); i++)
 		{
 			item.iItem = i;
 			SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
@@ -667,7 +669,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	clvmHwnd = hwndDlg;
 
 	switch(msg) {
-	case WM_INITDIALOG: 
+	case WM_INITDIALOG:
 		xpt_EnableThemeDialogTexture(hwndDlg, ETDT_ENABLETAB);
 		himlViewModes = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 12, 0);
 		{
@@ -713,7 +715,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT,10, 0);
 			for (i=0; i <= FONTID_MAX; i++)
 				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETTEXTCOLOR,i,GetSysColor(COLOR_WINDOWTEXT));
-			
+
 			CLCINFOITEM cii = { sizeof(cii) };
 			cii.hParentGroup = 0;
 			cii.pszText = TranslateT("*** All contacts ***");
@@ -889,7 +891,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
 				if (nm->iColumn == -1)
 					break;
-					
+
 				DWORD hitFlags;
 				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg,IDC_CLIST,CLM_HITTEST,(WPARAM)&hitFlags,MAKELPARAM(nm->pt.x,nm->pt.y));
 				if (hItem == NULL)
@@ -897,7 +899,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				if ( !(hitFlags & CLCHT_ONITEMEXTRA))
 					break;
-					
+
 				int iImage = SendDlgItemMessage(hwndDlg,IDC_CLIST,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(nm->iColumn,0));
 				if (iImage == nullImage)
 					iImage = nm->iColumn;
@@ -970,31 +972,31 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	case WM_CREATE:
 		{
 			RECT rcMargins = {12, 0, 2,0};
-			hwndSelector = CreateWindow( MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP , 0, 0, 20, 20, 
+			hwndSelector = CreateWindow( MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP , 0, 0, 20, 20,
 				hwnd, (HMENU) IDC_SELECTMODE, g_hInst, NULL);
 			MakeButtonSkinned(hwndSelector);
 			SendMessage(hwndSelector, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select a view mode"), BATF_TCHAR);
-			SendMessage(hwndSelector, BUTTONSETMARGINS,0 ,(LPARAM) &rcMargins);			
-			SendMessage(hwndSelector, BUTTONSETID,0 ,(LPARAM) "ViewMode.Select");			
+			SendMessage(hwndSelector, BUTTONSETMARGINS,0 ,(LPARAM) &rcMargins);
+			SendMessage(hwndSelector, BUTTONSETID,0 ,(LPARAM) "ViewMode.Select");
 			SendMessage(hwndSelector, WM_SETFONT,0 ,(LPARAM) FONTID_VIEMODES+1 );
 			SendMessage(hwndSelector, BUTTONSETASFLATBTN, TRUE, 0 );
 			SendMessage(hwndSelector, MBM_UPDATETRANSPARENTFLAG, 0, 2);
-			SendMessage(hwndSelector, BUTTONSETSENDONDOWN, 0 ,(LPARAM) 1 );	
+			SendMessage(hwndSelector, BUTTONSETSENDONDOWN, 0 ,(LPARAM) 1 );
 
 			//SendMessage(hwndSelector, BM_SETASMENUACTION, 1, 0);
-			HWND hwndButton = CreateWindow( MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, 
+			HWND hwndButton = CreateWindow( MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 				hwnd, (HMENU) IDC_CONFIGUREMODES, g_hInst, NULL);
 			MakeButtonSkinned(hwndButton);
 			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Setup view modes"), BATF_TCHAR);
-			SendMessage(hwndButton, BUTTONSETID,0 ,(LPARAM) "ViewMode.Setup");	
+			SendMessage(hwndButton, BUTTONSETID,0 ,(LPARAM) "ViewMode.Setup");
 			SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0 );
 			SendMessage(hwndButton, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 
-			hwndButton = CreateWindow( MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, 
+			hwndButton = CreateWindow( MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 				hwnd, (HMENU) IDC_RESETMODES, g_hInst, NULL);
 			MakeButtonSkinned(hwndButton);
 			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear view mode and return to default display"), BATF_TCHAR);
-			SendMessage(hwndButton, BUTTONSETID,0 ,(LPARAM) "ViewMode.Clear");	
+			SendMessage(hwndButton, BUTTONSETID,0 ,(LPARAM) "ViewMode.Clear");
 			SendMessage(hwnd, WM_USER + 100, 0, 0);
 			SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0 );
 			SendMessage(hwndButton, MBM_UPDATETRANSPARENTFLAG, 0, 2);
@@ -1009,22 +1011,22 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			RECT rcCLVMFrame;
 			HDWP PosBatch = BeginDeferWindowPos(3);
 			GetClientRect(hwnd, &rcCLVMFrame);
-			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_RESETMODES), 0, 
+			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_RESETMODES), 0,
 				rcCLVMFrame.right - 23, 1, 22, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
-			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_CONFIGUREMODES), 0, 
+			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_CONFIGUREMODES), 0,
 				rcCLVMFrame.right - 45, 1, 22, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
-			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_SELECTMODE), 0, 
+			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_SELECTMODE), 0,
 				1, 1, rcCLVMFrame.right - 46, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
 			EndDeferWindowPos(PosBatch);
 		}
 		break;
 
 	case WM_USER + 100:
-		SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), MBM_SETICOLIBHANDLE, 0, 
+		SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), MBM_SETICOLIBHANDLE, 0,
 			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_reset", "Contact List", LPGEN("Reset view mode"), NULL, 0, g_hInst, IDI_RESETVIEW ));
 
-		SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), MBM_SETICOLIBHANDLE, 0, 
-			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_set", "Contact List", LPGEN("Setup view modes"), NULL, 0, g_hInst, IDI_SETVIEW ));			
+		SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), MBM_SETICOLIBHANDLE, 0,
+			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_set", "Contact List", LPGEN("Setup view modes"), NULL, 0, g_hInst, IDI_SETVIEW ));
 
 		{
 			for (int i=0; _buttons[i] != 0; i++) {
@@ -1053,7 +1055,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_NCPAINT:
 	case WM_PAINT:
-		if (GetParent(hwnd) == pcli->hwndContactList && g_CluiData.fLayered)				
+		if (GetParent(hwnd) == pcli->hwndContactList && g_CluiData.fLayered)
 			ValidateRect(hwnd,NULL);
 
 		else if (GetParent(hwnd) != pcli->hwndContactList || !g_CluiData.fLayered) {
@@ -1077,7 +1079,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				}
 				else ske_BltBackImage(hwnd,hdc2,&rc);
 
-				DrawViewModeBar(hwnd,hdc2);	
+				DrawViewModeBar(hwnd,hdc2);
 			}
 
 			for (int i=0; _buttons[i] != 0; i++) {
@@ -1205,7 +1207,7 @@ static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect)
 {
 	BOOL bFloat = (GetParent(hwnd) != pcli->hwndContactList);
 	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat)
-	{	
+	{
 		RECT rc;
 
 		if (rect) rc = *rect;
@@ -1282,7 +1284,7 @@ void CreateViewModeFrame()
 	frame.align = alBottom;
 	frame.hWnd = CreateWindowEx(0, _T("CLVMFrameWindow"), _T(CLVM_MODULE), WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU) 0, g_hInst, NULL);
 	g_hwndViewModeFrame = frame.hWnd;
-	hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&frame,0);	
+	hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&frame,0);
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hCLVMFrame, FU_FMPOS);
 	CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)frame.hWnd,(LPARAM)ViewModePaintCallbackProc); //$$$$$ register sub for frame
 
@@ -1391,7 +1393,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 			db_set_s(NULL, CLVM_MODULE, szSetting, name);
 		}
 		strncpy(g_CluiData.current_viewmode, name, 256);
-		g_CluiData.current_viewmode[255] = 0;  
+		g_CluiData.current_viewmode[255] = 0;
 
 		if (g_CluiData.filterFlags & CLVM_USELASTMSG)
 		{

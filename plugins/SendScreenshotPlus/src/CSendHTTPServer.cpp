@@ -1,7 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
@@ -132,4 +134,3 @@ INT_PTR CSendHTTPServer::MyCallService(const char *name, WPARAM wParam, LPARAM l
 	}* /
 	return g_MirCallService(name, wParam, lParam);
 }*/
-

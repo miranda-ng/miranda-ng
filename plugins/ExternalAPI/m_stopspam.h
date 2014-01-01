@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright © 2004-009 Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2004-009 Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

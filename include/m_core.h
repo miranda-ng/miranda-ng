@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -143,7 +144,7 @@ hContact was the last contact in the db or hContact was invalid.
  * DATABASE EVENTS
  */
 
-/* 
+/*
 Adds a new event to a contact's event list
 Returns a handle to the newly added event, or NULL on failure
 Triggers a db/event/added event just before it returns.
@@ -192,7 +193,7 @@ Events in a chain are sorted chronologically automatically
 
 MIR_CORE_DLL(HANDLE) db_event_first(HANDLE hContact);
 
-/* 
+/*
 Retrieves a handle to the first unread event in the chain for hContact
 Returns the handle, or NULL if hContact is invalid or all its events have been
 read

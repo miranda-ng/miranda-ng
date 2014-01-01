@@ -2,7 +2,7 @@
 
 Object UI extensions
 Copyright (C) 2008  Victor Pavlychko, George Hazan
-Copyright (C) 2012-13  Miranda NG Project
+Copyright (C) 2012-13  Miranda NG project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

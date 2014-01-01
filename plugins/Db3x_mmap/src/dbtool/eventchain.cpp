@@ -1,9 +1,11 @@
 /*
-Miranda Database Tool
-Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2011 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Miranda Database Tool
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright 2000-2011 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -258,7 +260,7 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 		}
 		free(dbePrev);
 	}
-	else if (!firstTime && dbeNew->timestamp < lastTimestamp) 
+	else if (!firstTime && dbeNew->timestamp < lastTimestamp)
 	{
 		DWORD found = 0;
 		DBEvent dbeTmp;
@@ -266,7 +268,7 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 
 		if (cb->bCheckOnly)
 		{
-			if (!cb->bAggressive) 
+			if (!cb->bAggressive)
 			{
 				ofsTmp = dbeOld.ofsPrev;
 				while(PeekSegment(ofsTmp,&dbeTmp,sizeof(dbeTmp)) == ERROR_SUCCESS)
@@ -274,7 +276,7 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 					if (dbeTmp.ofsPrev == ofsContact) {
 			    		found = 1;
 			    		break;
-					}	
+					}
 					if (dbeTmp.timestamp < dbeNew->timestamp) {
 					    found = 2;
 		    			break;
@@ -283,7 +285,7 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 				}
 			}
 			cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Event position in chain is not correct"));
-		} 
+		}
 		else
 		{
 			ofsTmp = ofsDestPrevEvent;
@@ -292,7 +294,7 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 				if (dbeTmp.ofsPrev == ofsContact) {
 					found = 1;
 					break;
-				}	
+				}
 				if (dbeTmp.timestamp < dbeNew->timestamp) {
 					found = 2;
 					break;

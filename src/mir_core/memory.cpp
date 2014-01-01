@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -170,7 +171,7 @@ MIR_CORE_DLL(char*) mir_strndup(const char *str, size_t len)
 {
 	if (str == NULL || len == 0)
 		return NULL;
-	
+
 	char *p = (char*)mir_alloc(len+1);
 	if (p) {
 		memcpy(p, str, len);
@@ -183,7 +184,7 @@ MIR_CORE_DLL(WCHAR*) mir_wstrndup(const WCHAR *str, size_t len)
 {
 	if (str == NULL || len == 0)
 		return NULL;
-	
+
 	WCHAR *p = (WCHAR*)mir_alloc(sizeof(WCHAR)*(len+1));
 	if (p) {
 		memcpy(p, str, sizeof(WCHAR)*len);

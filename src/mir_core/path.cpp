@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -67,7 +68,7 @@ MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, char* base)
 	char buf[MAX_PATH];
 	if (pSrc[0] < ' ')
 		return mir_snprintf(pOut, MAX_PATH, "%s", pSrc);
-	
+
 	if (pathIsAbsolute(pSrc))
 		return GetFullPathNameA(pSrc, MAX_PATH, pOut, NULL);
 
@@ -153,10 +154,10 @@ MIR_CORE_DLL(int) PathToAbsoluteW(const TCHAR *pSrc, TCHAR *pOut, TCHAR* base)
 	TCHAR buf[MAX_PATH];
 	if (pSrc[0] < ' ')
 		return mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
-	
+
 	if (pathIsAbsoluteW(pSrc))
 		return GetFullPathName(pSrc, MAX_PATH, pOut, NULL);
-	
+
 	if (base == NULL)
 		base = szMirandaPathW;
 

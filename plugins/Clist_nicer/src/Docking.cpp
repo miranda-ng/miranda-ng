@@ -1,8 +1,10 @@
 /*
-Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -18,10 +20,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-UNICODE - done.
-
 */
+
 #include "commonheaders.h"
 
 #define WM_DOCKCALLBACK   (WM_USER+121)
@@ -151,7 +151,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
                 if ((ptCursor.x < rcMonitor.left + EDGESENSITIVITY) || (ptCursor.x >= rcMonitor.right - EDGESENSITIVITY)) {
 					if ( !(GetWindowLongPtr(msg->hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)) {
 						SendMessage(msg->hwnd, CLUIINTM_REDRAW, 0, 0);
-						MessageBox(0, TranslateT("The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead."), 
+						MessageBox(0, TranslateT("The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead."),
 								   TranslateT("Contact list docking"), MB_OK);
 						return 0;
 					}

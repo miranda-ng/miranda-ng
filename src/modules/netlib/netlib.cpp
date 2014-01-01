@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -59,7 +60,7 @@ int GetNetlibHandleType(void *p)
 	}
 	__except(EXCEPTION_EXECUTE_HANDLER)
 	{}
-	
+
 	return NLH_INVALID;
 }
 
@@ -116,7 +117,7 @@ static INT_PTR GetNetlibUserSettingInt(const char *szUserModule, const char *szS
 	DBVARIANT dbv;
 	if (db_get(NULL, szUserModule, szSetting, &dbv) && db_get(NULL, "Netlib", szSetting, &dbv))
 		return defValue;
-	
+
 	if (dbv.type == DBVT_BYTE) return dbv.bVal;
 	if (dbv.type == DBVT_WORD) return dbv.wVal;
 	return dbv.dVal;

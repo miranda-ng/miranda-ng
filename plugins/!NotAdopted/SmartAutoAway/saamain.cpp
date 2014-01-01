@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2006 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-06 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -47,7 +48,7 @@ int LoadAutoAwayModule(void)
 //	idleTimeFirstOnPerm = db_get_b(NULL, IDLEMODULE, IDL_IDLETIME1STON, 0);
 //	idleTimeSecondOnPerm = db_get_b(NULL, IDLEMODULE, IDL_IDLETIME2NDON, 0);
 //	idleOnSaverPerm = db_get_b(NULL, IDLEMODULE, IDL_IDLEONSAVER, 0);
-//	idleOnLockPerm = db_get_b(NULL, IDLEMODULE, IDL_IDLEONLOCK, 0);	
+//	idleOnLockPerm = db_get_b(NULL, IDLEMODULE, IDL_IDLEONLOCK, 0);
 //	idlePrivatePerm = db_get_b(NULL, IDLEMODULE, IDL_IDLEPRIVATE, 0);
 	hService[0] = CreateServiceFunction(MS_IDLE_GETIDLEINFO, IdleGetInfo);
 
@@ -63,7 +64,7 @@ int LoadAutoAwayModule(void)
 	return 0;
 }
 
-int InitVariables( WPARAM wParam, LPARAM lParam ) 	
+int InitVariables( WPARAM wParam, LPARAM lParam )
 {
 	int j=0;
 	int i=0;
@@ -81,12 +82,12 @@ int InitVariables( WPARAM wParam, LPARAM lParam )
 
 #ifdef AALOG
 	{
-	    NETLIBUSER nlu = { 0 }; 
+	    NETLIBUSER nlu = { 0 };
 	    nlu.cbSize = sizeof(nlu);
 		nlu.szSettingsModule = "SAA";
 		nlu.flags=NUF_NOOPTIONS | NUF_NOHTTPSOPTION;
 	    nlu.szDescriptiveName = Translate(SECTIONNAME " Module");
-		hNetlib = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) & nlu); 
+		hNetlib = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) & nlu);
 	}
 	{
 		SYSTEMTIME st={0};
@@ -231,7 +232,7 @@ int InitVariables( WPARAM wParam, LPARAM lParam )
 //				comb |= (1<<15);
 				awayStatuses[j]=comb;
 				db_set_w(NULL,AA_MODULE,str,(WORD)awayStatuses[j]);
-			} 
+			}
 			awayStatusesPerm[j] = awayStatuses[j];
 
 			sprintf(str,AA_LASTREQUESTEDSTATUS,accounts[j]->szModuleName); //get last requested status
@@ -250,7 +251,7 @@ int InitVariables( WPARAM wParam, LPARAM lParam )
 			mesgLongPerm[j]=(TCHAR *)mir_alloc(sizeof(TCHAR)*(maxMessageLength+1));
 
 			if (messCaps[j]){
-				DBVARIANT dbv; 
+				DBVARIANT dbv;
 				sprintf(str,idleMsgOptionsName,accounts[j]->szModuleName);
 				idleMessOptsPerm[j] = idleMessOpts[j] = db_get_dw(NULL,AA_MODULE,str,idleMsgOptionsDefault);
 
@@ -305,14 +306,14 @@ int InitVariables( WPARAM wParam, LPARAM lParam )
 
 		}
 		CallService("Netlib/Log" ,(WPARAM)hNetlib ,(LPARAM)str);
-	} 
+	}
 #endif
 //something is hapaning here on startup, if main status is not offline
 //will move Notify hIdleEvent for later in the IdleTimer
 //	NotifyEventHooks( hIdleEvent, 0, idleOpts&IdleBitsPrivate?IDF_PRIVACY:0 ); //Tell everyone we are here
 	FirstTick = 1; //we will wait 1 ticks of the timer before Forcing Awake
 //	FirstTick = 10; //we will wait 20 seconds before Forcing Awake
-	hIdleTimer=SetTimer(NULL, 0, 2000, IdleTimer); 
+	hIdleTimer=SetTimer(NULL, 0, 2000, IdleTimer);
 //	{
 //		char str[20000]="";
 //		for (i=0;i<=101;i++){

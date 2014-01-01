@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-09 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -740,7 +741,7 @@ Returns the result of db_event_add()
 #define MS_PROTO_RECVMSG "Proto/RecvMessage"
 
 __forceinline INT_PTR Proto_RecvMessage(HANDLE hContact, PROTORECVEVENT *pcre)
-{	
+{
 	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)pcre };
 	return CallService(MS_PROTO_RECVMSG, 0, (LPARAM)&ccs );
 }

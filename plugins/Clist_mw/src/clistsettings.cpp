@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 #include "clist.h"
 
@@ -66,7 +68,7 @@ void FreeDisplayNameCache(SortedList *list)
 		FreeDisplayNameCacheItem((ClcCacheEntry*)list->items[i] );
 		mir_free(list->items[i]);
 	}
-	
+
 	List_Destroy(list);
 }
 
@@ -78,7 +80,7 @@ void CheckPDNCE(ClcCacheEntry *_pdnce)
 
 	if (pdnce->szProto == NULL && pdnce->protoNotExists == FALSE) {
 		pdnce->szProto = GetProtoForContact(pdnce->hContact);
-		if (pdnce->szProto == NULL) 
+		if (pdnce->szProto == NULL)
 			pdnce->protoNotExists = FALSE;
 		else {
 			if (CallService(MS_PROTO_ISPROTOCOLLOADED,0,(LPARAM)pdnce->szProto) == 0)
@@ -90,7 +92,7 @@ void CheckPDNCE(ClcCacheEntry *_pdnce)
 	}	}	}	}
 
 	if (pdnce->tszName == NULL)
-	{			
+	{
 		if (pdnce->protoNotExists)
 			pdnce->tszName = mir_tstrdup(TranslateT("_NoProtocol_"));
 		else {
@@ -98,7 +100,7 @@ void CheckPDNCE(ClcCacheEntry *_pdnce)
 				pdnce->tszName = GetNameForContact(pdnce->hContact,0,&pdnce->isUnknown);
 			else
 				pdnce->tszName = GetNameForContact(pdnce->hContact,0,NULL);
-		}	
+		}
 	}
 	else {
 		if (pdnce->isUnknown&&pdnce->szProto&&pdnce->protoNotExists == TRUE&&OnModulesLoadedCalled) {
@@ -124,7 +126,7 @@ void CheckPDNCE(ClcCacheEntry *_pdnce)
 
 	if (pdnce->bIsHidden == -1)
 		pdnce->bIsHidden = db_get_b(pdnce->hContact,"CList","Hidden",0);
-	
+
 	if (pdnce->noHiddenOffline == -1)
 		pdnce->noHiddenOffline = db_get_b(pdnce->hContact,"CList","noOffline",0);
 
@@ -133,7 +135,7 @@ void CheckPDNCE(ClcCacheEntry *_pdnce)
 
 	if (pdnce->ApparentMode == -1)
 		pdnce->ApparentMode = db_get_w(pdnce->hContact,pdnce->szProto,"ApparentMode",0);
-	
+
 	if (pdnce->NotOnList == -1)
 		pdnce->NotOnList = db_get_b(pdnce->hContact,"CList","NotOnList",0);
 
@@ -147,7 +149,7 @@ void InvalidateDisplayNameCacheEntryByPDNE(HANDLE hContact,ClcCacheEntry *pdnce,
 		return;
 
 	if ( SettingType == -1 || SettingType == DBVT_DELETED )
-	{		
+	{
         mir_free(pdnce->tszName);
 		pdnce->tszName = NULL;
 		mir_free(pdnce->tszGroup);
@@ -193,7 +195,7 @@ void InvalidateDisplayNameCacheEntryByPDNE(HANDLE hContact,ClcCacheEntry *pdnce,
 char *GetContactCachedProtocol(HANDLE hContact)
 {
 	ClcCacheEntry *cacheEntry = (ClcCacheEntry *)pcli->pfnGetCacheEntry(hContact);
-	if (cacheEntry&&cacheEntry->szProto) 
+	if (cacheEntry&&cacheEntry->szProto)
 		return cacheEntry->szProto;
 
 	return NULL;
@@ -263,7 +265,7 @@ int GetContactCachedStatus(HANDLE hContact)
 {
 	ClcCacheEntry *cacheEntry = (ClcCacheEntry *)pcli->pfnGetCacheEntry(hContact);
 	if (cacheEntry&&cacheEntry->status != 0) return cacheEntry->status;
-	return 0;	
+	return 0;
 }
 
 int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
@@ -275,7 +277,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 	if (hContact == NULL)
 		return 0;
 
-	__try  
+	__try
 	{
 		ClcCacheEntry *pdnce = (ClcCacheEntry *)pcli->pfnGetCacheEntry(hContact);
 		if (pdnce == NULL) {
@@ -287,11 +289,11 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 			if ( !strcmp(cws->szModule,pdnce->szProto)) {
 				InvalidateDisplayNameCacheEntryByPDNE(hContact,pdnce,cws->value.type);
 
-				if (cws->value.type == DBVT_WORD && !strcmp(cws->szSetting, "Status")) {				
+				if (cws->value.type == DBVT_WORD && !strcmp(cws->szSetting, "Status")) {
 					if ( !(pdnce->bIsHidden == 1)) {
 
 						if ( db_get_b((HANDLE)NULL,"CList","ShowStatusMsg",0)||db_get_b(hContact,"CList","StatusMsgAuto",0))
-							db_set_s(hContact, "CList", "StatusMsg", "");	
+							db_set_s(hContact, "CList", "StatusMsg", "");
 
 						if ( db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))	{
 							// User's state is changing, and we are hideOffline-ing
@@ -322,7 +324,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 				InvalidateDisplayNameCacheEntryByPDNE(hContact,pdnce,cws->value.type);
 
 			if ( !strcmp(cws->szSetting,"Hidden")) {
-				InvalidateDisplayNameCacheEntryByPDNE(hContact,pdnce,cws->value.type);		
+				InvalidateDisplayNameCacheEntryByPDNE(hContact,pdnce,cws->value.type);
 				if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
 					char *szProto = GetContactProto((HANDLE)wParam);
 					ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact, szProto, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)), 1);  //by FYR
@@ -336,15 +338,15 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 		if ( !strcmp(cws->szModule, "Protocol")) {
 			if ( !strcmp(cws->szSetting,"p")) {
 				OutputDebugStringA("CHANGE: proto\r\n");
-				InvalidateDisplayNameCacheEntryByPDNE(hContact, pdnce, cws->value.type);	
+				InvalidateDisplayNameCacheEntryByPDNE(hContact, pdnce, cws->value.type);
 				char *szProto = (cws->value.type == DBVT_DELETED) ? NULL : cws->value.pszVal;
 				ChangeContactIcon(hContact, ExtIconFromStatusMode(hContact, szProto, szProto == NULL?ID_STATUS_OFFLINE:db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE)),0); //by FYR
 			}
 		}
-	} 
-	__except (exceptFunction(GetExceptionInformation())) 
-	{ 
-	} 
+	}
+	__except (exceptFunction(GetExceptionInformation()))
+	{
+	}
 
 	return 0;
 }

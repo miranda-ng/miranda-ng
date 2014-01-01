@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_clc.h"
 #include "hdr/modern_commonprototypes.h"
@@ -59,10 +61,10 @@ int cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,C
 		return -1;
 	}
 
-	// Get hit item 
+	// Get hit item
 	hit = cliRowHitTest(dat, dat->yScroll + testy);
 
-	if (hit != -1) 
+	if (hit != -1)
 		hit = cliGetRowByIndex(dat, hit, &hitcontact, &hitgroup);
 
 	if (hit == -1) {
@@ -73,26 +75,26 @@ int cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,C
 	if (group) *group = hitgroup;
 	/////////
 
-	if (((testx < hitcontact->pos_indent) && !dat->text_rtl)  || 
-		((testx>clRect.right-hitcontact->pos_indent) && dat->text_rtl)) 
+	if (((testx < hitcontact->pos_indent) && !dat->text_rtl)  ||
+		((testx>clRect.right-hitcontact->pos_indent) && dat->text_rtl))
 	{
 		if (flags) *flags |= CLCHT_ONITEMINDENT;
 		return hit;
 	}
 
-	if (RectHitTest(&hitcontact->pos_check, testx, testy)) 
+	if (RectHitTest(&hitcontact->pos_check, testx, testy))
 	{
 		if (flags) *flags |= CLCHT_ONITEMCHECK;
 		return hit;
 	}
 
-	if (RectHitTest(&hitcontact->pos_avatar, testx, testy)) 
+	if (RectHitTest(&hitcontact->pos_avatar, testx, testy))
 	{
 		if (flags) *flags |= CLCHT_ONITEMICON;
 		return hit;
 	}
 
-	if (RectHitTest(&hitcontact->pos_icon, testx, testy)) 
+	if (RectHitTest(&hitcontact->pos_icon, testx, testy))
 	{
 		if (flags) *flags |= CLCHT_ONITEMICON;
 		return hit;
@@ -103,9 +105,9 @@ int cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,C
 	{
 		//			int c = -1;
 		int i;
-		for (i=0; i < dat->extraColumnsCount; i++) 
-		{  
-			if (RectHitTest(&hitcontact->pos_extra[i], testx, testy)) 
+		for (i=0; i < dat->extraColumnsCount; i++)
+		{
+			if (RectHitTest(&hitcontact->pos_extra[i], testx, testy))
 			{
 				if (flags) *flags |= CLCHT_ONITEMEXTRA|(i << 24);
 				return hit;
@@ -119,7 +121,7 @@ int cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,C
 		return hit;
 	}
 
-	if (RectHitTest(&hitcontact->pos_label, testx, testy)) 
+	if (RectHitTest(&hitcontact->pos_label, testx, testy))
 	{
 		if (flags) *flags |= CLCHT_ONITEMLABEL;
 		return hit;
@@ -160,7 +162,7 @@ void cliScrollTo(HWND hwnd,ClcData *dat,int desty,int noSmooth)
 						| GetKeyState( VK_HOME  )
 						| GetKeyState( VK_END   )) & 0x8000 );
 
-	if ( !noSmooth && !keyDown) 
+	if ( !noSmooth && !keyDown)
 	{
 		startTick = GetTickCount();
 		for (;;) {
@@ -171,12 +173,12 @@ void cliScrollTo(HWND hwnd,ClcData *dat,int desty,int noSmooth)
 				ScrollWindowEx(hwnd, 0, previousy-dat->yScroll,NULL,NULL,NULL,NULL,SW_INVALIDATE);
 			else
 			{
-				CallService(MS_SKINENG_UPTATEFRAMEIMAGE,(WPARAM) hwnd, (LPARAM) 0); 
+				CallService(MS_SKINENG_UPTATEFRAMEIMAGE,(WPARAM) hwnd, (LPARAM) 0);
 				//InvalidateRectZ(hwnd,NULL,FALSE);
 			}
 			previousy = dat->yScroll;
 			SetScrollPos(hwnd,SB_VERT,dat->yScroll,TRUE);
-			CallService(MS_SKINENG_UPTATEFRAMEIMAGE,(WPARAM) hwnd, (LPARAM) 0); 
+			CallService(MS_SKINENG_UPTATEFRAMEIMAGE,(WPARAM) hwnd, (LPARAM) 0);
 			UpdateWindow(hwnd);
 		}
 	}
@@ -221,8 +223,8 @@ void cliRecalcScrollBar(HWND hwnd,ClcData *dat)
 	if ( GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_CONTACTLIST ) {
 		if ( dat->noVScrollbar == 0 ) SetScrollInfo(hwnd,SB_VERT,&si,TRUE);
 		//else SetScrollInfo(hwnd,SB_VERT,&si,FALSE);
-	} 
-	else 
+	}
+	else
 		SetScrollInfo(hwnd,SB_VERT,&si,TRUE);
 	g_mutex_bSizing = 1;
 	cliScrollTo(hwnd,dat,dat->yScroll,1);
@@ -276,7 +278,7 @@ void cliBeginRenameSelection(HWND hwnd,ClcData *dat)
 
 	if (contact->type == CLCIT_CONTACT && contact->isSubcontact)
 		subident = dat->subIndent;
-	else 
+	else
 		subident = 0;
 
 	for (indent = 0;group->parent;indent++,group = group->parent);
@@ -290,12 +292,12 @@ void cliBeginRenameSelection(HWND hwnd,ClcData *dat)
 		for (i=0; i <= FONTID_MODERN_MAX; i++)
 			if (h < dat->fontModernInfo[i].fontHeight+4) h = dat->fontModernInfo[i].fontHeight+4;
 	}
-	//TODO contact->pos_label 
+	//TODO contact->pos_label
 
 
 	{
 
-		RECT rectW;      
+		RECT rectW;
 		int h2;
 		GetWindowRect(hwnd,&rectW);
 		//       w = contact->pos_full_first_row.right-contact->pos_full_first_row.left;
@@ -379,21 +381,21 @@ int GetDropTargetInformation(HWND hwnd,ClcData *dat,POINT pt)
 			topItem = cliGetRowByIndex(dat,topItem,&topcontact,&topgroup);
 			ok = 1;
 		} else if ((pt.y+dat->yScroll >= cliGetRowTopY(dat,hit+1)-dat->insertionMarkHitHeight)
-			 || (contact->type == CLCIT_GROUP && contact->group->expanded && contact->group->cl.count>0)) 
+			 || (contact->type == CLCIT_GROUP && contact->group->expanded && contact->group->cl.count>0))
 		{
 			//could be insertion mark (below)
 			topItem = hit; bottomItem = hit+1;
 			topcontact = contact; topgroup = group;
 			bottomItem = cliGetRowByIndex(dat,bottomItem,&bottomcontact,&bottomgroup);
-			ok = 1;	
+			ok = 1;
 		}
 		if (ok)
 		{
 			if (bottomItem == -1 && contact->type == CLCIT_GROUP)
 			{
 				bottomItem = topItem+1;
-			} 
-			else 
+			}
+			else
 			{
 				if (bottomItem == -1 && contact->type != CLCIT_GROUP && contact->groupId == 0)
 				{
@@ -403,7 +405,7 @@ int GetDropTargetInformation(HWND hwnd,ClcData *dat,POINT pt)
 				if (bottomItem != -1 && bottomcontact->type != CLCIT_GROUP)
 				{
 					ClcGroup *gr = bottomgroup;
-					do 
+					do
 					{
 						bottomItem = cliGetRowByIndex(dat,bottomItem-1,&bottomcontact,&bottomgroup);}
 					while (bottomItem >= 0 && bottomcontact->type != CLCIT_GROUP && bottomgroup == gr);
@@ -417,35 +419,35 @@ int GetDropTargetInformation(HWND hwnd,ClcData *dat,POINT pt)
 				int bi = cliGetRowByIndex(dat,bottomItem,&bottomcontact,&bottomgroup);
 				if (bi != -1)
 				{
-					group = bottomgroup;                    
+					group = bottomgroup;
 					if (bottomcontact == movecontact || group == movecontact->group)	return DROPTARGET_ONSELF;
 					dat->nInsertionLevel = -1; // decreasing here
 					for (;group;group = group->parent)
-					{   
+					{
 						dat->nInsertionLevel++;
 						if (group == movecontact->group) return DROPTARGET_ONSELF;
 					}
 				}
-			}           
+			}
 			dat->iInsertionMark = bottomItem;
 			dat->selection = nSetSelection;
 			return DROPTARGET_INSERTION;
 		}
 	}
-	if (contact->type == CLCIT_GROUP) 
+	if (contact->type == CLCIT_GROUP)
 	{
-		if (dat->iInsertionMark == -1) 
+		if (dat->iInsertionMark == -1)
 		{
-			if (movecontact->type == CLCIT_GROUP) 
+			if (movecontact->type == CLCIT_GROUP)
 			{	 //check not moving onto its own subgroup
 				dat->iInsertionMark = hit+1;
-				for (;group;group = group->parent) 
+				for (;group;group = group->parent)
 				{
 					dat->nInsertionLevel++;
 					if (group == movecontact->group) return DROPTARGET_ONSELF;
 				}
 			}
-			dat->selection = hit;            
+			dat->selection = hit;
 			return DROPTARGET_ONGROUP;
 		}
 	}
@@ -465,11 +467,11 @@ void RegisterCLUIFonts( void );
 void LoadCLCFonts( HWND hwnd, ClcData *dat )
 {
 	RegisterCLUIFonts();
-	
+
 	HDC hdc = GetDC(hwnd);
 	HFONT holdfont = (HFONT)GetCurrentObject( hdc, OBJ_FONT );
-	
-	for ( int i=0 ; i <= FONTID_MODERN_MAX; i++ ) 
+
+	for ( int i=0 ; i <= FONTID_MODERN_MAX; i++ )
 	{
 		if ( !dat->fontModernInfo[i].changed && dat->fontModernInfo[i].hFont )
 		{
@@ -493,11 +495,11 @@ void LoadCLCFonts( HWND hwnd, ClcData *dat )
 }
 
 void LoadCLCOptions(HWND hwnd, ClcData *dat )
-{ 
+{
 	int i;
 
 	g_CluiData.fDisableSkinEngine = db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT);
-	
+
 	LoadCLCFonts( hwnd, dat );
 
 	g_CluiData.bSortByOrder[0] = db_get_b(NULL,"CList","SortBy1",SETTING_SORTBY1_DEFAULT);
@@ -508,7 +510,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 	// Row
 	dat->row_min_heigh = db_get_w(NULL,"CList","MinRowHeight",CLCDEFAULT_ROWHEIGHT);
 	dat->row_border = db_get_w(NULL,"CList","RowBorder",SETTING_ROWBORDER_DEFAULT);
-	dat->row_before_group_space  = ((hwnd != pcli->hwndContactTree && pcli->hwndContactTree != NULL) 
+	dat->row_before_group_space  = ((hwnd != pcli->hwndContactTree && pcli->hwndContactTree != NULL)
 		 ||  !db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT))?0:db_get_w(NULL,"ModernSkin","SpaceBeforeGroup",SKIN_SPACEBEFOREGROUP_DEFAULT);
 	dat->row_variable_height = db_get_b(NULL,"CList","VariableRowHeight",SETTING_VARIABLEROWHEIGHT_DEFAULT);
 	dat->row_align_left_items_to_left = db_get_b(NULL,"CList","AlignLeftItemsToLeft",SETTING_ALIGNLEFTTOLEFT_DEFAULT);
@@ -702,33 +704,33 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 
 	if (dat->hBmpBackground) {DeleteObject(dat->hBmpBackground); dat->hBmpBackground = NULL;}
 	if (dat->hMenuBackground) {DeleteObject(dat->hMenuBackground); dat->hMenuBackground = NULL;}
-	
+
 	dat->useWindowsColours = db_get_b(NULL, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 
 	if (g_CluiData.fDisableSkinEngine)
 	{
 		DBVARIANT dbv;
-		if ( !dat->bkChanged) 
+		if ( !dat->bkChanged)
 		{
 			dat->bkColour = sttGetColor("CLC","BkColour",GetSysColor(COLOR_3DFACE));
-			{	
-				if ( db_get_b(NULL,"CLC","UseBitmap",CLCDEFAULT_USEBITMAP)) 
+			{
+				if ( db_get_b(NULL,"CLC","UseBitmap",CLCDEFAULT_USEBITMAP))
 				{
-					if ( !db_get_s(NULL,"CLC","BkBitmap",&dbv)) 
+					if ( !db_get_s(NULL,"CLC","BkBitmap",&dbv))
 					{
-						dat->hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);				
-						db_free(&dbv);						
+						dat->hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
+						db_free(&dbv);
 					}
 				}
 			}
 			dat->backgroundBmpUse = db_get_w(NULL,"CLC","BkBmpUse",CLCDEFAULT_BKBMPUSE);
-		}		
+		}
 		dat->MenuBkColor = sttGetColor("Menu","BkColour",CLCDEFAULT_BKCOLOUR);
 		dat->MenuBkHiColor = sttGetColor("Menu","SelBkColour",CLCDEFAULT_SELBKCOLOUR);
 
 		dat->MenuTextColor = sttGetColor("Menu","TextColour",CLCDEFAULT_TEXTCOLOUR);
 		dat->MenuTextHiColor = sttGetColor("Menu","SelTextColour",CLCDEFAULT_MODERN_SELTEXTCOLOUR);
-		
+
 		if ( db_get_b(NULL,"Menu","UseBitmap",CLCDEFAULT_USEBITMAP)) {
 			if ( !db_get_s(NULL,"Menu","BkBitmap",&dbv)) {
 				dat->hMenuBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
@@ -737,7 +739,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 		}
 		dat->MenuBmpUse = db_get_w(NULL,"Menu","BkBmpUse",CLCDEFAULT_BKBMPUSE);
 	}
-	
+
 	dat->greyoutFlags = db_get_dw(NULL,"CLC","GreyoutFlags",CLCDEFAULT_GREYOUTFLAGS);
 	dat->offlineModes = db_get_dw(NULL,"CLC","OfflineModes",CLCDEFAULT_OFFLINEMODES);
 	dat->selBkColour = sttGetColor("CLC","SelBkColour",CLCDEFAULT_SELBKCOLOUR);
@@ -745,7 +747,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 	dat->hotTextColour = db_get_dw(NULL,"CLC","HotTextColour",CLCDEFAULT_MODERN_HOTTEXTCOLOUR);
 	dat->quickSearchColour = db_get_dw(NULL,"CLC","QuickSearchColour",CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR);
 	if ( !g_szMetaModuleName && ServiceExists(MS_MC_GETPROTOCOLNAME)) g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE))  && 
+	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE))  &&
 		g_szMetaModuleName && db_get_b(NULL,g_szMetaModuleName,"Enabled",1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
 
 	if (pcli->hwndContactTree == NULL || dat->hWnd == pcli->hwndContactTree)
@@ -755,7 +757,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 
 	dat->expandMeta = db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT);
 	dat->useMetaIcon = db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT);
-	
+
 	dat->drawOverlayedStatus = db_get_b(NULL,"CLC","DrawOverlayedStatus",SETTING_DRAWOVERLAYEDSTATUS_DEFAULT);
 
 	dat->dbbMetaHideExtra = db_get_b(NULL,"CLC","MetaHideExtra",SETTING_METAHIDEEXTRA_DEFAULT);
@@ -787,7 +789,7 @@ int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat, BOOL bExpand
 	contact->SubExpanded = bExpand;
 	db_set_b(contact->hContact,"CList","Expanded",contact->SubExpanded);
 	dat->needsResort = 1;
-	pcli->pfnSortCLC(hwnd,dat,1);		
+	pcli->pfnSortCLC(hwnd,dat,1);
 	cliRecalcScrollBar(hwnd,dat);
 	return contact->SubExpanded;
 }
@@ -809,8 +811,8 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 			continue;
 		}
 		contact = group->cl.items[group->scanIndex];
-		if (contact->type != CLCIT_DIVIDER) 
-		{			
+		if (contact->type != CLCIT_DIVIDER)
+		{
 			bool found;
 			if (dat->filterSearch) {
 				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(contact->szText));
@@ -826,7 +828,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 					pcli->pfnSetGroupExpand(hwnd, dat, group, 1);
 				return pcli->pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex+SubCount);
 			}
-			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) 
+			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP)
 			{
 				if ( !(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || group->cl.items[group->scanIndex]->group->expanded) {
 					group = group->cl.items[group->scanIndex]->group;
@@ -836,7 +838,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 				}
 			}
 		}
-		if (contact->type == CLCIT_CONTACT && contact->SubAllocated)			
+		if (contact->type == CLCIT_CONTACT && contact->SubAllocated)
 		{
 			if ( !(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || contact->SubExpanded )
 			{

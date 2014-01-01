@@ -1,30 +1,25 @@
 /*
-* Miranda IM: the free IM client for Microsoft* Windows*
-*
-* Copyright 2000-2010 Miranda ICQ/IM project,
-* all portions of this codebase are copyrighted to the people
-* listed in contributors.txt.
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 2
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* you should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*
-* part of clist_nicer plugin for Miranda.
-*
-* (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
-*
-* $Id: clcpaint.cpp 12909 2010-10-06 14:53:00Z silvercircle $
-*
+
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
+listed in contributors.txt.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
@@ -1327,13 +1322,13 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 		DeleteDC(hdcAV);
 		return;
 	}
-	
+
 	int y = -dat->yScroll;
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
 
 	HBITMAP hOldBitmap = reinterpret_cast<HBITMAP>(SelectObject(hdcMem, hBmpOsb));
-	
+
 	TEXTMETRIC tm;
 	HFONT hOldFont = reinterpret_cast<HFONT>(SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPS].hFont));
 	GetTextMetrics(hdcMem, &tm);
@@ -1341,7 +1336,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
 	GetTextMetrics(hdcMem, &tm);
 	groupCountsFontTopShift -= tm.tmAscent;
-	
+
 	int fontHeight;
 	ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
 
@@ -1425,7 +1420,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 		}
 		DeleteDC(hdcBmp);
 	}
-	
+
 bgdone:
 	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;

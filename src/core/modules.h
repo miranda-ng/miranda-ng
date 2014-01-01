@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -197,7 +198,7 @@ serviceProc is defined by the caller as
 where fnParam does not need to be publicly known. Gives the ability to handle multiple services
 with the same function.
 
-added during 0.7+ (2007/04/24) 
+added during 0.7+ (2007/04/24)
 */
 HANDLE CreateServiceFunctionParam(const char *name, MIRANDASERVICEPARAM serviceProc, LPARAM lParam);
 
@@ -209,7 +210,7 @@ serviceProc is defined by the caller as
 where fnParam does not need to be publicly known. Gives the ability to handle multiple services
 with the same function.
 
-added during 0.7+ (2007/04/24) 
+added during 0.7+ (2007/04/24)
 */
 
 HANDLE CreateServiceFunctionObj(const char *name, MIRANDASERVICEOBJ serviceProc, void* object);

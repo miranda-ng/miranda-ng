@@ -1,7 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
@@ -46,9 +48,9 @@ extern FI_INTERFACE *FIP;
 
 typedef struct MyTabData {
 	TCITEMHEADER tcih;
-	HWND hwndMain;		//main window 
-	HWND hwndTab;		//tab control 
-	HWND hwndTabPage;	//current child dialog box 
+	HWND hwndMain;		//main window
+	HWND hwndTab;		//tab control
+	HWND hwndTabPage;	//current child dialog box
 }TAB_INFO;
 
 //---------------------------------------------------------------------------
@@ -57,7 +59,7 @@ class TfrmMain{
 		// Deklaration Standardkonstruktor/Standarddestructor
 		TfrmMain();
 		~TfrmMain();
-		
+
 		BYTE		m_opt_tabCapture;			//capure tab page
 		BYTE		m_opt_btnDesc;				//TCheckBox *chkDesc;
 		BYTE		m_opt_cboxDesktop;			//TRadioButton *rbtnDesktop;
@@ -65,7 +67,7 @@ class TfrmMain{
 		BYTE		m_opt_chkTimed;				//TCheckBox *chkTimed;
 		BYTE		m_opt_cboxSendBy;			//TComboBox *cboxSendBy;
 		bool		m_bOnExitSave;
-		
+
 		static void Unload();
 		void		Init(LPTSTR DestFolder, HANDLE Contact);
 		void		Close(){SendMessage(m_hWnd,WM_CLOSE,0,0);}
@@ -74,7 +76,7 @@ class TfrmMain{
 		void		SetTargetWindow(HWND hwnd=NULL);
 		void		btnCaptureClick();
 		void		cboxSendByChange();
-		
+
 	private:
 		HWND		m_hWnd;
 		HANDLE		m_hContact;
@@ -88,7 +90,7 @@ class TfrmMain{
 		FIBITMAP*	m_Screenshot;//Graphics::TBitmap *Screenshot;
 		RGBQUAD		m_AlphaColor;
 		CSend*		m_cSend;
-		
+
 		void chkTimedClick();
 		void imgTargetMouseUp();
 		void btnAboutClick();
@@ -100,12 +102,12 @@ class TfrmMain{
 		void FormClose();
 		static void edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl);
 		static void edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl);
-		
+
 	protected:
 		size_t			m_MonitorCount;
 		MONITORINFOEX*	m_Monitors;
 		RECT			m_VirtualScreen;
-		
+
 		BYTE			m_opt_chkOpenAgain;			//TCheckBox *chkOpenAgain;
 		BYTE			m_opt_chkClientArea;		//TCheckBox *chkClientArea;
 		BYTE			m_opt_edtQuality;			//TLabeledEdit *edtQuality;
@@ -116,20 +118,20 @@ class TfrmMain{
 		HWND			m_hwndTab;					//TabControl handle
 		HWND			m_hwndTabPage;				//TabControl activ page handle
 		HIMAGELIST		m_himlTab;					//TabControl imagelist
-		
+
 		typedef std::map<HWND, TfrmMain *> CHandleMapping;
 		static CHandleMapping _HandleMapping;
 		static INT_PTR CALLBACK DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-		
+
 		void wmInitdialog(WPARAM wParam, LPARAM lParam);
 		void wmCommand(WPARAM wParam, LPARAM lParam);
 		void wmClose(WPARAM wParam, LPARAM lParam);
 		void wmNotify(WPARAM wParam, LPARAM lParam);
 		void wmTimer(WPARAM wParam, LPARAM lParam);
-		
+
 		void UMevent(WPARAM wParam, LPARAM lParam);
 		void UMClosing(WPARAM wParam, LPARAM lParam);
-		
+
 		static INT_PTR CALLBACK DlgProc_CaptureWindow (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 		static INT_PTR CALLBACK DlgProc_CaptureDesktop(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 //		LRESULT CALLBACK DlgProc_UseLastFile   (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

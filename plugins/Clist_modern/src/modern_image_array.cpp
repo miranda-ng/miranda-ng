@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -21,8 +22,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Created by Pescuma
-
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_image_array.h"
 #include "hdr/modern_commonprototypes.h"
@@ -45,7 +46,7 @@ static BOOL ImageArray_Alloc(LP_IMAGE_ARRAY_DATA iad, int size)
 
 		if (iad->nodes != NULL)
 		{
-			IMAGE_ARRAY_DATA_NODE *tmp = (IMAGE_ARRAY_DATA_NODE *) realloc((void *)iad->nodes, 
+			IMAGE_ARRAY_DATA_NODE *tmp = (IMAGE_ARRAY_DATA_NODE *) realloc((void *)iad->nodes,
 											sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
 
 			if (tmp == NULL)
@@ -115,7 +116,7 @@ void ImageArray_Initialize(LP_IMAGE_ARRAY_DATA iad, BOOL width_based, int grow_s
 	{
 		iad->grow_step = 1;
 	}
-	iad->hdc = CreateCompatibleDC(NULL); 
+	iad->hdc = CreateCompatibleDC(NULL);
 	iad->img = NULL;
 
 	iad->width = 0;
@@ -143,7 +144,7 @@ HBITMAP ImageArray_Free(LP_IMAGE_ARRAY_DATA iad, BOOL keep_bitmap)
 		iad->height = 0;
 	}
 
-	if (iad->nodes != NULL) 
+	if (iad->nodes != NULL)
 	{
 		free(iad->nodes);
 		iad->nodes = NULL;
@@ -171,7 +172,7 @@ void ImageArray_Clear(LP_IMAGE_ARRAY_DATA iad)
 		iad->height = 0;
 	}
 
-	if (iad->nodes != NULL) 
+	if (iad->nodes != NULL)
 	{
 		free(iad->nodes);
 		iad->nodes = NULL;
@@ -237,7 +238,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 		LeaveCriticalSection(&iad->cs);
 		return -1;
 	}
-	
+
 	// Alloc array
 	if ( !ImageArray_Alloc(iad, iad->nodes_size + 1))
 	{
@@ -250,7 +251,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 
 	// Set some draw states
 	SelectObject(iad->hdc, hNewBmp);
-	hdc_old = CreateCompatibleDC(iad->hdc); 
+	hdc_old = CreateCompatibleDC(iad->hdc);
 	old_bmp = (HBITMAP)GetCurrentObject(hdc_old, OBJ_BITMAP);
 
 	SetBkMode(iad->hdc,TRANSPARENT);
@@ -407,12 +408,12 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 		LeaveCriticalSection(&iad->cs);
 		return FALSE;
 	}
-	
+
 	// Move image...
 
 	// Set some draw states
 	SelectObject(iad->hdc, hNewBmp);
-	hdc_old = CreateCompatibleDC(iad->hdc); 
+	hdc_old = CreateCompatibleDC(iad->hdc);
 
 	SetBkMode(iad->hdc, TRANSPARENT);
 	{
@@ -552,12 +553,12 @@ BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
 		LeaveCriticalSection(&iad->cs);
 		return FALSE;
 	}
-	
+
 	// Move image...
 
 	// Set some draw states
 	SelectObject(iad->hdc, hNewBmp);
-	hdc_old = CreateCompatibleDC(iad->hdc); 
+	hdc_old = CreateCompatibleDC(iad->hdc);
 
 	SetBkMode(iad->hdc, TRANSPARENT);
 	{

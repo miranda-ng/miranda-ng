@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Miranda NG Development Team"
 #define __AUTHOREMAIL				""
 #define __AUTHORWEB					"http://miranda-ng.org/p/StdCrypt/"
-#define __COPYRIGHT					"© 2012-13 Miranda NG Development Team"
+#define __COPYRIGHT					"© 2012-14 Miranda NG Development Team"

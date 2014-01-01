@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,12 +21,13 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "m_clui.h"
 #include "hdr/modern_clist.h"
 #include "hdr/modern_commonprototypes.h"
 
-struct 
+struct
 {
 	int m_cache_nStatus,order;
 } statusModeOrder[] = {
@@ -81,7 +83,7 @@ int GetProtoIndex(char * szName)
 	if (szName) {
 		PROTOACCOUNT **accs = NULL;
 		int accCount = 0;
-		ProtoEnumAccounts( &accCount, &accs );    
+		ProtoEnumAccounts( &accCount, &accs );
 
 		for (int i=0; i < accCount; i++)
 			if ( !mir_strcmpi(szName, accs[i]->szModuleName))
@@ -125,23 +127,23 @@ int CompareContacts2(const ClcContact *contact1,const ClcContact *contact2, int 
 		return 2*(statusa == ID_STATUS_OFFLINE)-1;
 	}
 
-	if (by == SORTBY_NAME) 
+	if (by == SORTBY_NAME)
 	{ //name
 		return mir_tstrcmpi(namea,nameb);
-	} 
-	if (by == SORTBY_NAME_LOCALE) 
+	}
+	if (by == SORTBY_NAME_LOCALE)
 	{ //name
 		static int LocaleId = -1;
 		if (LocaleId == -1) LocaleId = CallService(MS_LANGPACK_GETLOCALE, 0, 0);
 		return (CompareString(LocaleId,NORM_IGNORECASE,SAFETSTRING(namea),-1,SAFETSTRING(nameb),-1))-2;
-	} 
-	else if (by == SORTBY_LASTMSG) 
+	}
+	else if (by == SORTBY_LASTMSG)
 	{ //last message
 		DWORD ta = CompareContacts2_getLMTime(a);
 		DWORD tb = CompareContacts2_getLMTime(b);
 		return tb-ta;
-	} 
-	else if (by == SORTBY_PROTO) 
+	}
+	else if (by == SORTBY_PROTO)
 	{
 		int rc = GetProtoIndex(szProto1)-GetProtoIndex(szProto2);
 
@@ -156,7 +158,7 @@ int CompareContacts2(const ClcContact *contact1,const ClcContact *contact2, int 
 int cliCompareContacts(const ClcContact *contact1,const ClcContact *contact2)
 {
 	int i, r;
-	for (i=0; i < SIZEOF(g_CluiData.bSortByOrder); i++) 
+	for (i=0; i < SIZEOF(g_CluiData.bSortByOrder); i++)
 	{
 		r = CompareContacts2(contact1, contact2, g_CluiData.bSortByOrder[i]);
 		if (r != 0)
@@ -181,7 +183,7 @@ INT_PTR ToggleGroups(WPARAM wParam,LPARAM lParam)
 }
 
 INT_PTR SetUseGroups(WPARAM wParam, LPARAM lParam)
-{	
+{
 	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS);
 	if ( wParam != -1 )
 	{

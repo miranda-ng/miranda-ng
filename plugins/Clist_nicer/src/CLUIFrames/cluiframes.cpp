@@ -1,7 +1,9 @@
 /*
-Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -1677,7 +1679,7 @@ int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BO
 			ReleaseDC(hwnd, hdc);
 			return 0;
 		}
-		
+
 		if ( GetWindowLongPtr(hwnd, GWL_STYLE) & WS_BORDER) {
 			hdc = GetWindowDC(hwnd);
 			HPEN hPenOld = reinterpret_cast<HPEN>(SelectObject(hdc, g_hPenCLUIFrames));
@@ -2628,7 +2630,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			DestroyMenu(hmenu);
 		}
 		break;
-	
+
 	case WM_LBUTTONDBLCLK:
 		Framemod = -1;
 		lbypos = -1;
@@ -2977,7 +2979,7 @@ int CLUIFrameResizeFloatingFrame(int framepos)
 
 	if (Frames[framepos].TitleBar.ShowTitleBar)
 		RedrawWindow(Frames[framepos].TitleBar.hwnd, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-	
+
 	RedrawWindow(Frames[framepos].hWnd, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
 	return 0;
 }

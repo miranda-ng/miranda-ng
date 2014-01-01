@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -70,12 +71,12 @@ public:
 	BOOL ContainsString(TCHAR *data)
 	{
 		for (int i=0; i < _pageKeyWords.getCount(); i++)
-			if (_tcsstr(_pageKeyWords[i], data)) 
+			if (_tcsstr(_pageKeyWords[i], data))
 				return TRUE;
 		return FALSE;
 	}
 	static int PageSortFunc(const CPageKeywords* p1, const CPageKeywords* p2)
-	{ 	
+	{
 		if (p1->_pageHashKey < p2->_pageHashKey) { return -1; }
 		else if (p1->_pageHashKey > p2->_pageHashKey) { return 1; }
 		return 0;
@@ -96,4 +97,3 @@ public:
 };
 
 #endif //M_OPTIONS_FILTERING_H
-

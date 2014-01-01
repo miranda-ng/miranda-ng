@@ -1,12 +1,11 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
-
 listed in contributors.txt.
-
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -96,13 +95,13 @@ static RECT rcNewWindowRect={0},
 
 static HANDLE hFrameContactTree;
 
-static PROTOTICKS CycleStartTick[64]={0};//max 64 protocols 
+static PROTOTICKS CycleStartTick[64]={0};//max 64 protocols
 
 static int nAnimatedIconStep=100;
 
 HIMAGELIST hAvatarOverlays=NULL;
 
-OVERLAYICONINFO g_pAvatarOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1] = 
+OVERLAYICONINFO g_pAvatarOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1] =
 {
 	{ "AVATAR_OVERLAY_OFFLINE",		LPGEN("Offline"),		IDI_AVATAR_OVERLAY_OFFLINE,   -1},
 	{ "AVATAR_OVERLAY_ONLINE",		LPGEN("Online"),		IDI_AVATAR_OVERLAY_ONLINE,	  -1},
@@ -116,7 +115,7 @@ OVERLAYICONINFO g_pAvatarOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE +
 	{ "AVATAR_OVERLAY_LUNCH",		LPGEN("Out to lunch"),	IDI_AVATAR_OVERLAY_LUNCH,	  -1}
 };
 
-OVERLAYICONINFO g_pStatusOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1] = 
+OVERLAYICONINFO g_pStatusOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1] =
 {
 	{ "STATUS_OVERLAY_OFFLINE", LPGEN("Offline"), IDI_STATUS_OVERLAY_OFFLINE, -1},
 	{ "STATUS_OVERLAY_ONLINE", LPGEN("Online"), IDI_STATUS_OVERLAY_ONLINE, -1},
@@ -809,7 +808,7 @@ int CLUI_UpdateTimer(BYTE BringIn)
 		KillTimer(pcli->hwndContactList,TM_BRINGOUTTIMEOUT);
 		CLUI_SafeSetTimer(pcli->hwndContactList,TM_BRINGOUTTIMEOUT,wBehindEdgeHideDelay*100, NULL);
 	}
-	
+
 	if (bShowEventStarted == 0 && g_CluiData.nBehindEdgeState > 0) {
 		KillTimer(pcli->hwndContactList,TM_BRINGINTIMEOUT);
 		bShowEventStarted = (BOOL)CLUI_SafeSetTimer(pcli->hwndContactList,TM_BRINGINTIMEOUT,wBehindEdgeShowDelay*100, NULL);
@@ -976,7 +975,7 @@ static HICON CLUI_LoadIconFromExternalFile(TCHAR *filename, int i)
 	TCHAR szPath[MAX_PATH], szFullPath[MAX_PATH];
 	mir_sntprintf(szPath, SIZEOF(szPath), _T("Icons\\%s"), filename);
 	PathToAbsoluteT(szPath, szFullPath);
-	
+
 	HICON hIcon = NULL;
 	ExtractIconEx(szFullPath, i, NULL, &hIcon, 1);
 	return hIcon;
@@ -1595,7 +1594,7 @@ BOOL CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect, BOOL bErase)
 		g_flag_bFullRepaint = 1;
 		return 0;
 	}
-	
+
 	return InvalidateRect(hWnd,lpRect,bErase);
 }
 
@@ -1628,7 +1627,7 @@ HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName,  char *szDes
 		if ( !FileExists(fileFull))
 			fileFull[0] = _T('\0');
 	}
-	
+
 	if (fileFull[0] != _T('\0'))
 		sid.iDefaultIndex = -iDefaultIndex;
 	else {
@@ -2624,7 +2623,7 @@ LRESULT CLUI::OnDrawItem(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		return TRUE;
 	}
-	
+
 	if (dis->itemData == MENU_STATUSMENU) {
 		if ( !g_CluiData.fLayered) {
 			char buf[255] = {0};
@@ -2651,7 +2650,7 @@ LRESULT CLUI::OnDrawItem(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		return TRUE;
 	}
-		
+
 	if (dis->itemData == MENU_MINIMIZE && !g_CluiData.fLayered) {
 		//TODO check if caption is visible
 		char buf[255] = {0};

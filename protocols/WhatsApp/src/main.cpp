@@ -14,7 +14,7 @@ PLUGININFOEX pluginInfo = {
 	"Provides basic support for WhatsApp.",
 	"Uli Hecht",
 	"uli.hecht@gmail.com",
-	"© 2013 Uli Hecht",
+	"© 2013-14 Uli Hecht",
 	"http://example.com",
 	UNICODE_AWARE, //not transient
 	// {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
@@ -42,7 +42,7 @@ BOOL IsRunAsAdmin()
 		goto Cleanup;
 	}
 
-	// Determine whether the SID of administrators group is enabled in 
+	// Determine whether the SID of administrators group is enabled in
 	// the primary access token of the process.
 	if ( !CheckTokenMembership(NULL, pAdministratorsGroup, &fIsRunAsAdmin))
 	{
@@ -217,7 +217,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnInit = protoInit;
 	pd.fnUninit = protoUninit;
 	CallService(MS_PROTO_REGISTERMODULE,0,reinterpret_cast<LPARAM>(&pd));
-	
+
 	InitIcons();
 	//InitContactMenus();
 

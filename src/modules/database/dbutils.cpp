@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -44,7 +45,7 @@ static INT_PTR DbEventTypeRegister(WPARAM, LPARAM lParam)
 		DBEVENTTYPEDESCR* p = (DBEVENTTYPEDESCR*)mir_calloc(sizeof(DBEVENTTYPEDESCR));
 		p->cbSize = DBEVENTTYPEDESCR_SIZE;
 		p->module = mir_strdup(et->module);
-		p->eventType = et->eventType; 
+		p->eventType = et->eventType;
 		p->descr = mir_strdup(et->descr);
 		if (et->cbSize == DBEVENTTYPEDESCR_SIZE) {
 			if (et->textService)
@@ -117,7 +118,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		ptrT tszFirst(getEventString(dbei, buf));
 		ptrT tszLast(getEventString(dbei, buf));
 		ptrT tszEmail(getEventString(dbei, buf));
-		
+
 		CMString nick, text;
 		if (tszFirst || tszLast) {
 			nick.AppendFormat(_T("%s %s"), tszFirst, tszLast);
@@ -175,7 +176,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	// by default treat an event's blob as a string 
+	// by default treat an event's blob as a string
 	if (egt->datatype == DBVT_WCHAR) {
 		char *str = (char*)alloca(dbei->cbBlob + 1);
 		memcpy(str, dbei->pBlob, dbei->cbBlob);
@@ -298,7 +299,7 @@ static INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	char *tmp = makeFileName(g_profileName);
 	strncpy(dst, tmp, wParam);
 	mir_free(tmp);
-	
+
 	dst[wParam-1] = 0;
 	return 0;
 }

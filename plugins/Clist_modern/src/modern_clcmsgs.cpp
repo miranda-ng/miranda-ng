@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -31,7 +32,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 {
 	ClcContact *contact;
 	ClcGroup *group;
-	
+
 	switch(msg) {
 	case CLM_DELETEITEM:
 		pcli->pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
@@ -95,10 +96,10 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 			dat->fontModernInfo[FONTID_CONTACT_TIME].colour = lParam;
 			break;
 		case FONTID_OPENGROUPS:
-			dat->fontModernInfo[FONTID_CLOSEDGROUPS].colour = lParam;				
+			dat->fontModernInfo[FONTID_CLOSEDGROUPS].colour = lParam;
 			break;
 		case FONTID_OPENGROUPCOUNTS:
-			dat->fontModernInfo[FONTID_CLOSEDGROUPCOUNTS].colour = lParam;				
+			dat->fontModernInfo[FONTID_CLOSEDGROUPCOUNTS].colour = lParam;
 			break;
 		}
 		return 0;
@@ -194,21 +195,21 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 			else {
 				index = List_IndexOf((SortedList*)&group->cl,contact->subcontacts);
 				mainindex = index;
-				index += contact->isSubcontact;				
-			}			
-				
+				index += contact->isSubcontact;
+			}
+
 			BYTE k = db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT);
 			if (k) {
 				for (int i=0; i < mainindex; i++)
 				{
 					ClcContact *tempCont = group->cl.items[i];
 					if (tempCont->type == CLCIT_CONTACT && tempCont->SubAllocated && tempCont->SubExpanded)
-						index += tempCont->SubAllocated;				
+						index += tempCont->SubAllocated;
 				}
-			}					
+			}
 
 			dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, group, index);
-			pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);			
+			pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
 		}
 		return 0;
 

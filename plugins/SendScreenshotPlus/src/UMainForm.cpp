@@ -1,7 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
@@ -47,7 +49,7 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureWindow(HWND hDlg, UINT uMsg, WPARAM wP
 		SetDlgItemText(hDlg, ID_edtCaption, TranslateT("Drag&Drop the target on the desired window."));
 		TranslateDialogDefault(hDlg);
 		break;
-	case WM_CTLCOLOREDIT:		//ctrl is NOT read-only or disabled 
+	case WM_CTLCOLOREDIT:		//ctrl is NOT read-only or disabled
 	case WM_CTLCOLORSTATIC:		//ctrl is read-only or disabled
 		// make the rectangle on the top white
 		switch (GetWindowLongPtr((HWND)lParam, GWL_ID)) {
@@ -217,7 +219,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 		ImageList_AddIcon(m_himlTab, IcoLib_GetIcon(ICO_PLUG_SSWINDOW2));
 	}
 
-	//create the tab control. 
+	//create the tab control.
 	{
 	TAB_INFO itab;
 	RECT rcClient, rcTab;
@@ -230,10 +232,10 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	GetWindowRect(m_hwndTab, &rcTab);
 	GetWindowRect(m_hWnd, &rcClient);
-	
+
 	TabCtrl_SetImageList(m_hwndTab, m_himlTab);
 
-	// Add a tab for each of the three child dialog boxes. 
+	// Add a tab for each of the three child dialog boxes.
 	itab.tcih.mask		= TCIF_PARAM|TCIF_TEXT|TCIF_IMAGE;
 
 	itab.tcih.pszText	= TranslateT("Window");
@@ -386,11 +388,11 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 				case ID_chkEditor:
 					m_opt_chkEditor = (BYTE)Button_GetCheck((HWND)lParam);
 					break;
-				
+
 				case ID_bvlTarget:
 					if(m_opt_tabCapture==0) SetTimer(m_hWnd,ID_bvlTarget,BUTTON_POLLDELAY,NULL);
 					break;
-				
+
 				case ID_btnAbout:
 					TfrmMain::btnAboutClick();
 					break;
@@ -677,7 +679,7 @@ void TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 TfrmMain::TfrmMain() {
 	/* m_opt_XXX */
 	m_bOnExitSave	= TRUE;
-	
+
 	m_hWnd			= NULL;
 	m_hContact		= NULL;
 	m_bDeleteAfterSend=m_bFormAbout=m_bFormEdit=false;
@@ -687,7 +689,7 @@ TfrmMain::TfrmMain() {
 	m_Screenshot	= NULL;
 	/* m_AlphaColor */
 	m_cSend			= NULL;
-	
+
 	m_MonitorCount	= MonitorInfoEnum(m_Monitors, m_VirtualScreen);
 	m_Monitors		= NULL;
 	/* m_opt_XXX */ LoadOptions();
@@ -1046,11 +1048,11 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	TCHAR pszFormat[6];
 	ComboBox_GetText(hwndCombo, pszFormat, 6);
 	if(ret && (_tcsicmp (pszFormat,_T("png")) != 0)) {
-		
+
 			fif = FIP->FI_GetFIFFromFilenameU(ret);
 			dib_new = FIP->FI_LoadU(fif, ret,0);
-		
-		
+
+
 		if(dib_new) {
 			DeleteFile(ret);
 			mir_freeAndNil(ret);
@@ -1073,7 +1075,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 			mir_free(pszFileDesc);
 			mir_tcsadd(m_pszFileDesc, _T(""));
 		}
-		
+
 		if(m_cSend) {
 			mir_freeAndNil(m_cSend->m_pszFile); m_cSend->m_pszFile=mir_tstrdup(m_pszFile);
 			mir_freeAndNil(m_cSend->m_pszFileDesc); m_cSend->m_pszFileDesc=mir_tstrdup(m_pszFileDesc);

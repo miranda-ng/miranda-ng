@@ -1,7 +1,9 @@
 /*
-Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -606,8 +608,8 @@ static void PositionThumb( FRAMEWND *pThumb, short nX, short nY )
 		HWND_TOPMOST,
 		nNewX,
 		nNewY,
-		0, 
-		0, 
+		0,
+		0,
 		SWP_NOSIZE | SWP_NOZORDER|SWP_NOACTIVATE );
 
 
@@ -1858,7 +1860,7 @@ static int _us_DoAddFrame(WPARAM wParam,LPARAM lParam)
 		pcli->hwndContactList, NULL, g_hInst,
 		NULL);
 
-	SetWindowPos(g_pfwFrames[g_nFramesCount].TitleBar.hwndTip, HWND_TOPMOST, 0, 0, 0, 0, 
+	SetWindowPos(g_pfwFrames[g_nFramesCount].TitleBar.hwndTip, HWND_TOPMOST, 0, 0, 0, 0,
 		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 	{
 		TOOLINFOA ti;
@@ -1877,7 +1879,7 @@ static int _us_DoAddFrame(WPARAM wParam,LPARAM lParam)
 
 	g_pfwFrames[g_nFramesCount].oldstyles = GetWindowLongPtr(g_pfwFrames[g_nFramesCount].hWnd,GWL_STYLE);
 	g_pfwFrames[g_nFramesCount].TitleBar.oldstyles = GetWindowLongPtr(g_pfwFrames[g_nFramesCount].TitleBar.hwnd,GWL_STYLE);
-	//Frames[nFramescount].FloatingPos.x = 
+	//Frames[nFramescount].FloatingPos.x =
 
 	retval = g_pfwFrames[g_nFramesCount].id;
 	g_pfwFrames[g_nFramesCount].order = g_nFramesCount+1;
@@ -2048,9 +2050,9 @@ static int CLUIFrameMoveResize(const FRAMEWND *Frame)
 		{
 			SetWindowPos(Frame->OwnerWindow,NULL,Frame->wndSize.left+Off.x,Frame->wndSize.top+Off.y,
 				Frame->wndSize.right-Frame->wndSize.left,
-				Frame->wndSize.bottom-Frame->wndSize.top,SWP_NOZORDER|SWP_NOACTIVATE );   //- -= -= 
+				Frame->wndSize.bottom-Frame->wndSize.top,SWP_NOZORDER|SWP_NOACTIVATE );   //- -= -=
 
-			SetWindowPos(Frame->hWnd,NULL, 0, 0, 
+			SetWindowPos(Frame->hWnd,NULL, 0, 0,
 				Frame->wndSize.right-Frame->wndSize.left,
 				Frame->wndSize.bottom-Frame->wndSize.top,SWP_NOZORDER|SWP_NOACTIVATE);
 		}
@@ -2348,8 +2350,8 @@ int CLUIFrames_ApplyNewSizes(int mode)
 	int i;
 	g_CluiData.mutexPreventDockMoving = 0;
 	for (i=0; i < g_nFramesCount; i++) {
-		if ((mode == 1 && g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].OwnerWindow)  || 
-			(mode == 2 && g_pfwFrames[i].OwnerWindow == (HWND)-2)  || 
+		if ((mode == 1 && g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].OwnerWindow)  ||
+			(mode == 2 && g_pfwFrames[i].OwnerWindow == (HWND)-2)  ||
 			(mode == 3))
 			if (g_pfwFrames[i].floating){
 				CLUIFrameResizeFloatingFrame(i);
@@ -2448,7 +2450,7 @@ int SizeFramesByWindowRect(RECT *r, HDWP * PosBatch, int mode)
 						hwnd = GetParent(g_pfwFrames[i].OwnerWindow);
 						*PosBatch = DeferWindowPos(*PosBatch,g_pfwFrames[i].OwnerWindow,NULL,g_pfwFrames[i].wndSize.left+r->left,g_pfwFrames[i].wndSize.top+r->top,
 							g_pfwFrames[i].wndSize.right-g_pfwFrames[i].wndSize.left, g_pfwFrames[i].wndSize.bottom-g_pfwFrames[i].wndSize.top,SWP_NOZORDER|SWP_NOACTIVATE);
-						SetWindowPos(g_pfwFrames[i].hWnd,NULL, 0, 0, 
+						SetWindowPos(g_pfwFrames[i].hWnd,NULL, 0, 0,
 							g_pfwFrames[i].wndSize.right-g_pfwFrames[i].wndSize.left, g_pfwFrames[i].wndSize.bottom-g_pfwFrames[i].wndSize.top,SWP_NOZORDER|SWP_NOACTIVATE/*|SWP_NOSENDCHANGING*/);
 					}
 					//Frame
@@ -3251,8 +3253,8 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 									HWND_TOPMOST,
 									nLeft,
 									nTop,
-									0, 
-									0, 
+									0,
+									0,
 									SWP_NOSIZE |SWP_NOACTIVATE| SWP_NOZORDER );
 
 							ptOld = ptNew;

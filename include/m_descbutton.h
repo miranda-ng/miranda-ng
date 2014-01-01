@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2007 Artem Shpynov
-Copyright 2000-2007 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2007-12 Miranda ICQ/IM project,
+Copyright (c) 2007 Artem Shpynov
 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.

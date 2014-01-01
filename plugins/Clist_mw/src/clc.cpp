@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -98,11 +99,11 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 
 	if ((HANDLE)wParam != NULL && !strcmp(cws->szModule,"MetaContacts") && !strcmp(cws->szSetting,"Handle"))
 		pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED, 0, 0 );
-	
+
 	if ((HANDLE)wParam != NULL && !strcmp(cws->szModule,"CList")) {
 		if ( !strcmp( cws->szSetting, "noOffline" ))
 			pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED, wParam, lParam );
-		else if ( !strcmp(cws->szSetting,"StatusMsg")) 
+		else if ( !strcmp(cws->szSetting,"StatusMsg"))
 			pcli->pfnClcBroadcast( INTM_STATUSMSGCHANGED, wParam, lParam );
 	}
 	return 0;
@@ -127,7 +128,7 @@ static int ClcShutdown(WPARAM wParam, LPARAM lParam)
 }
 
 LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{     
+{
 	struct ClcData *dat = (struct ClcData*)GetWindowLongPtr(hwnd,0);
 	if ( msg >= CLM_FIRST && msg < CLM_LAST )
 		return pcli->pfnProcessExternalMessages(hwnd,dat,msg,wParam,lParam);
@@ -140,7 +141,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		break;
 
 	case INTM_ICONCHANGED:
-	{	
+	{
 		int recalcScrollBar = 0,shouldShow;
 		HANDLE hSelItem = NULL;
 		struct ClcContact *selcontact = NULL;
@@ -154,30 +155,30 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			status = ID_STATUS_OFFLINE;
 		else
 			status = cacheEntry->status;
-		
+
 		shouldShow = (GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_SHOWHIDDEN || !cacheEntry->bIsHidden) && (!pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline || CallService(MS_CLIST_GETCONTACTICON,wParam,0) != LOWORD(lParam));	//this means an offline msg is flashing, so the contact should be shown
 
 		ClcContact *contact;
 		ClcGroup *group;
-		if ( !FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {				
+		if ( !FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {
 			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
 					hSelItem = pcli->pfnContactToHItem(selcontact);
 				AddContactToTree(hwnd,dat,(HANDLE)wParam,0,0);
 				needsResort = 1;
-				recalcScrollBar = 1;					
+				recalcScrollBar = 1;
 				FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL);
-				if (contact) {						
+				if (contact) {
 					contact->iImage = (WORD)lParam;
 					pcli->pfnNotifyNewContact(hwnd,(HANDLE)wParam);
 					dat->needsResort = 1;
 				}
-			}				
+			}
 		}
 		else {
 			//item in list already
-			DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);				
-			if (contact->iImage == (WORD)lParam) break;				
+			DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);
+			if (contact->iImage == (WORD)lParam) break;
 			if (sortByStatus) dat->needsResort = 1;
 
 			if ( !shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
@@ -205,11 +206,11 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		}
 
 		SortClcByTimer(hwnd);
-		if (recalcScrollBar) RecalcScrollBar(hwnd,dat);			
+		if (recalcScrollBar) RecalcScrollBar(hwnd,dat);
 		goto LBL_Exit;
 	}
 	case INTM_STATUSMSGCHANGED:
-	{	
+	{
 		DBVARIANT dbv;
 
 		if ( !(dat->style & CLS_SHOWSTATUSMESSAGES))
@@ -250,7 +251,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			break;
 		}
 
-		if ( wParam == TIMERID_SUBEXPAND) {		
+		if ( wParam == TIMERID_SUBEXPAND) {
 			KillTimer(hwnd,TIMERID_SUBEXPAND);
 			if (hitcontact) {
 				if (hitcontact->SubExpanded) hitcontact->SubExpanded = 0; else hitcontact->SubExpanded = 1;
@@ -258,10 +259,10 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			}
 			hitcontact = NULL;
 			dat->needsResort = 1;
-			SortCLC(hwnd,dat,1);		
+			SortCLC(hwnd,dat,1);
 			RecalcScrollBar(hwnd,dat);
 			break;
-		}			
+		}
 		break;
 
 	case WM_DESTROY:
@@ -287,7 +288,7 @@ int LoadCLCModule(void)
 	LoadCLUIFramesModule();
 
 	himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);
-	
+
 	HookEvent(ME_SYSTEM_MODULESLOADED,ClcModulesLoaded);
 	hSettingChanged1 = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
 	HookEvent(ME_OPT_INITIALISE,ClcOptInit);

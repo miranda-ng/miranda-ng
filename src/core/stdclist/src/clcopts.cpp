@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -114,7 +115,7 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 	return flags;
 }
 
-static LONG CalcMinRowHeight() 
+static LONG CalcMinRowHeight()
 {
 	int i;
 	LONG minHeight = 16;
@@ -129,7 +130,7 @@ static LONG CalcMinRowHeight()
 		hFont = CreateFontIndirect(&lf);
 		hFont = ( HFONT )SelectObject(hdc, hFont);
 		GetTextExtentPoint32(hdc, _T("x"), 1, &fontSize);
-		if (fontSize.cy > minHeight) 
+		if (fontSize.cy > minHeight)
 			minHeight = fontSize.cy;
 		hFont = ( HFONT )SelectObject(hdc,hFont);
 		DeleteObject(hFont);
@@ -182,7 +183,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			LONG minHeight = CalcMinRowHeight();
 			LONG rowHeight = db_get_b(NULL, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
-			if (rowHeight < minHeight) { 
+			if (rowHeight < minHeight) {
 				rowHeight = minHeight;
 			}
 			SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_SETRANGE, 0, MAKELONG(255, minHeight));
@@ -193,7 +194,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			LONG minHeight = CalcMinRowHeight();
 			LONG rowHeight = SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_GETPOS, 0, 0);
-			if (rowHeight < minHeight) { 
+			if (rowHeight < minHeight) {
 				rowHeight = minHeight;
 				SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_SETPOS, 0, MAKELONG(rowHeight, 0));
 			}
@@ -208,7 +209,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SMOOTHTIME), IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
 		if (LOWORD(wParam) == IDC_GREYOUT)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), IsDlgButtonChecked(hwndDlg, IDC_GREYOUT));
-		if ((LOWORD(wParam) == IDC_LEFTMARGIN || LOWORD(wParam) == IDC_SMOOTHTIME || LOWORD(wParam) == IDC_GROUPINDENT 
+		if ((LOWORD(wParam) == IDC_LEFTMARGIN || LOWORD(wParam) == IDC_SMOOTHTIME || LOWORD(wParam) == IDC_GROUPINDENT
 			|| LOWORD(wParam) == IDC_ROWHEIGHT)
 			&& (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
 			return 0;

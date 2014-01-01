@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2006 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-06 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -37,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //#define ME_IDLE_CHANGED "Miranda/SmartIdle/Changed"
 //static HANDLE hIdleEvent = NULL;
- 
+
 
 #define allprotomodes			0x03FF         //0000 0011 1111 1111;
 #define aa_OnlyIfBitsDefault	0x01BB01B8 //2 x 0000 0001 1011 1011;
@@ -120,7 +121,7 @@ int AutoAwayEvent(WPARAM wParam, LPARAM lParam)
 		} else { //... lite if IDF_LONG is not set
 			if (curIdleStatus > 0) return 0; // we are already sleeping...
 			curIdleStatus = 1;
-		} 
+		}
 	} else { // we are going to awake
 		if (curIdleStatus == 0) return 0; // we are already awake...
 		curIdleStatus = 0;
@@ -132,17 +133,17 @@ int AutoAwayEvent(WPARAM wParam, LPARAM lParam)
 			db_set_dw(NULL,AA_MODULE,AA_LASTIDLETIME,(DWORD)lastIdleEventTime);
 	}	}
 	switch (curIdleStatus) {
-	case 0: 
+	case 0:
 		xModifyMenu(0,CMIF_CHECKED);
 		xModifyMenu(1,0);
 		xModifyMenu(2,0);
 		break;
-	case 1: 
+	case 1:
 		xModifyMenu(0,0);
 		xModifyMenu(1,CMIF_CHECKED);
 		xModifyMenu(2,0);
 		break;
-	case 2: 
+	case 2:
 		xModifyMenu(0,0);
 		xModifyMenu(1,CMIF_GRAYED);
 		xModifyMenu(2,CMIF_CHECKED);
@@ -159,7 +160,7 @@ int AutoAwayEvent(WPARAM wParam, LPARAM lParam)
 			if (isStatusLocked) newStatus = reqStatus[j];
 			else switch (curIdleStatus) {
 				case 1 : { //sleeping lite
-					if ( GetBits(awayStatusesPerm[j],maskIsShortAwayEnabled)){ 
+					if ( GetBits(awayStatusesPerm[j],maskIsShortAwayEnabled)){
 						int bits = 1<<(reqStatusInd);
 						BOOL permit = GetBits(onlyIfBitsPerm[j], bits);
 						if ( permit ) {
@@ -176,7 +177,7 @@ int AutoAwayEvent(WPARAM wParam, LPARAM lParam)
 							continue;
 						}
 
-					}  else continue; 
+					}  else continue;
 					break;
 				}
 				case 2 : { //sleeping deeply
@@ -196,7 +197,7 @@ int AutoAwayEvent(WPARAM wParam, LPARAM lParam)
 #endif
 							continue;
 						}
-					}   else continue; 
+					}   else continue;
 					break;
 				}
 				case 0: { //wakening up
@@ -245,7 +246,7 @@ int AutoAwayEvent(WPARAM wParam, LPARAM lParam)
 						CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, newStatus, 0),newStatus);
 					CallService("Netlib/Log" ,(WPARAM)hNetlib ,(LPARAM)str);
 #endif
-					if ( CallProtoService(accounts[j]->szModuleName, PS_GETSTATUS, 0, 0) != newStatus ) { 
+					if ( CallProtoService(accounts[j]->szModuleName, PS_GETSTATUS, 0, 0) != newStatus ) {
 						//if (db_get_b( NULL, accounts[j]->szModuleName, , "LockMainStatus", 0 ))
 						//	continue; //szName
 
@@ -268,7 +269,7 @@ int AutoAwayEvent(WPARAM wParam, LPARAM lParam)
 					CallService("Netlib/Log" ,(WPARAM)hNetlib ,(LPARAM)str);
 #endif
 				} else if (messCaps[j] && !(lParam&IDF_PRIVACY)){//setting the statusMessage if protocol supports AND privacy is disabled
-					TCHAR * awayMsg=0; 
+					TCHAR * awayMsg=0;
 					int specificMsg = messCaps[j] & Proto_Status2Flag(newStatus);
 
 					switch (curIdleStatus) {
@@ -289,7 +290,7 @@ int AutoAwayEvent(WPARAM wParam, LPARAM lParam)
 					} else {
 #ifdef UNICODE
 						if (HasAwayMessageW){
-							awayMsg = (TCHAR *) CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM) newStatus, 0); 
+							awayMsg = (TCHAR *) CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM) newStatus, 0);
 						} else {
 							char *temp=(char *)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM) newStatus, 0);
 							if ((int)temp == CALLSERVICE_NOTFOUND) awayMsg = 0;
@@ -308,7 +309,7 @@ int AutoAwayEvent(WPARAM wParam, LPARAM lParam)
 #ifdef AALOG
 					{
 						char str[1000];
-						sprintf(str,"%s: Specific Status Message is %s",accounts[j]->szModuleName, 
+						sprintf(str,"%s: Specific Status Message is %s",accounts[j]->szModuleName,
 							specificMsg?"Enabled":"Disabled");
 						CallService("Netlib/Log" ,(WPARAM)hNetlib ,(LPARAM)str);
 						sprintf(str,"%s: Going to %s (%d); StatusMessage is: %s", accounts[j]->szModuleName,CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, newStatus, 0),newStatus,
@@ -327,7 +328,7 @@ int AutoAwayEvent(WPARAM wParam, LPARAM lParam)
 					CallProtoService(accounts[j]->szModuleName, PS_SETAWAYMSG, newStatus, (LPARAM) awayMsg);
 #endif
 					if (awayMsg)  {
-#ifdef AALOG 
+#ifdef AALOG
 						{char str[1000];
 						sprintf(str,"%s: Cleaning after MS_AWAYMSG_GETSTATUSMSG: %s",accounts[j]->szModuleName,awayMsg);
 						CallService("Netlib/Log" ,(WPARAM)hNetlib ,(LPARAM)str);}
@@ -335,7 +336,7 @@ int AutoAwayEvent(WPARAM wParam, LPARAM lParam)
 						mir_free(awayMsg);
 					}
 					if ((curIdleStatus==0) && (GetBits(idleMessOpts[j],IdleMessOptsMaskRstHere)>0) && /*!starting &&*/ specificMsg){
-#ifdef AALOG 
+#ifdef AALOG
 						char str[1000];
 						sprintf(str,"%s: Scheduling \"ResetDefaultStatusMessage\" after %d seconds",accounts[j]->szModuleName,GetBits(idleMessOpts[j],IdleMessOptsMaskRstHereDelay));
 						CallService("Netlib/Log" ,(WPARAM)hNetlib ,(LPARAM)str);
@@ -368,7 +369,7 @@ extern int StatusModeChangeEvent(WPARAM wParam,LPARAM lParam)
 		sprintf(log,"Status Mode change event: %s: %s\n\n",lParam,CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wParam, 0));
 		CallService("Netlib/Log" ,(WPARAM)hNetlib ,(LPARAM)log);
 	}
-#endif 
+#endif
 	if (lParam){
 		for (j = 0 ; j < protoCount ; j++) {
 			//if ( accounts[j]->type != PROTOTYPE_PROTOCOL ) continue;
@@ -442,7 +443,7 @@ int ProtoAckEvent(WPARAM wParam,LPARAM lParam)
 #endif
 	char str[1024];
 	int j = 0;
-	ACKDATA * ack = (ACKDATA*) lParam; 
+	ACKDATA * ack = (ACKDATA*) lParam;
 	for (j = 0 ; j < protoCount ; j++) /*if (accounts[j]->type==PROTOTYPE_PROTOCOL)*/if (accounts[j]->bIsEnabled) if (strcmp(ack->szModule,accounts[j]->szModuleName)==0){
 		if (ack->type==ACKTYPE_STATUS) {
 //			MessageBox(	0,CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ack->lParam, 0),accounts[j]->szModuleName,0);
@@ -455,7 +456,7 @@ int ProtoAckEvent(WPARAM wParam,LPARAM lParam)
 					if (strcmp(ack->szModule,str)==0){
 						SetDlgItems(theDialog,GetCourSelProtocol(coursel));
 //						SendDlgItemMessage(theDialog, IDC_COURSTATUSLABEL, WM_SETTEXT, 0,
-//							(LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)courStatus[j], 0)); 
+//							(LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)courStatus[j], 0));
 					}
 				}
 			}
@@ -472,23 +473,23 @@ int ProtoAckEvent(WPARAM wParam,LPARAM lParam)
 //	if (theDialog) SendDlgItemMessage(theDialog, 40202, WM_SETTEXT, 0,(LPARAM)str);
 	sprintf(str,"%d",ack->type);
 	sprintf(log,"%stype: %s;",log,str);
-//	if (theDialog) SendDlgItemMessage(theDialog, 40203, WM_SETTEXT, 0,str); 
+//	if (theDialog) SendDlgItemMessage(theDialog, 40203, WM_SETTEXT, 0,str);
 	sprintf(str,"%d",ack->result);
 	sprintf(log,"%s result: %s;",log,str);
-//	if (theDialog) SendDlgItemMessage(theDialog, 40204, WM_SETTEXT, 0,str); 
+//	if (theDialog) SendDlgItemMessage(theDialog, 40204, WM_SETTEXT, 0,str);
 	sprintf(str,"%d(%s)",ack->hProcess,
 		CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ack->hProcess, 0));
 	sprintf(log,"%s hProcess: %s;",log,str);
-//	if (theDialog) SendDlgItemMessage(theDialog, 40205, WM_SETTEXT, 0,str); 
+//	if (theDialog) SendDlgItemMessage(theDialog, 40205, WM_SETTEXT, 0,str);
 	sprintf(str,"%d(%s)",ack->lParam,
 			CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ack->lParam, 0));
 	sprintf(log,"%s lParam: %s;",log,str);
-//	if (theDialog) SendDlgItemMessage(theDialog, 40206, WM_SETTEXT, 0,str); 
+//	if (theDialog) SendDlgItemMessage(theDialog, 40206, WM_SETTEXT, 0,str);
 	CallService("Netlib/Log" ,(WPARAM)hNetlib ,(LPARAM)log);
 #endif
 	return 0;
 }
- 
+
 
 int SimulateIdle(int idlstatus)
 {
@@ -502,7 +503,7 @@ int SimulateIdle(int idlstatus)
 	}
 	if (idleOptsPerm&IdleBitsPrivate) flags |= IDF_PRIVACY;
 	isCurrentlyIdle = idlstatus;
-	NotifyEventHooks( hIdleEvent, 0, flags );			
+	NotifyEventHooks( hIdleEvent, 0, flags );
 	return 0;
 }
 
@@ -516,12 +517,12 @@ LRESULT SetDlgItemsAA(HWND hwndDlg, int coursel){
 		EnableWindow(GetDlgItem(hwndDlg, IDC_AALONGSTATUS), enabledLong);
 		CheckDlgButton(hwndDlg, IDC_AASHORTIDLE, enabledShort?BST_CHECKED:BST_UNCHECKED );
 		CheckDlgButton(hwndDlg, IDC_AALONGIDLE, enabledLong?BST_CHECKED:BST_UNCHECKED );
-		
+
 		SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_RESETCONTENT, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_AALONGSTATUS, CB_RESETCONTENT, 0, 0);
 		for (i=0;i<numStatuses;i++){
 			if (StatusToProtoIndex(aa_Status[i],protoModes[coursel])){
-				// short idle flags			
+				// short idle flags
 				SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_ADDSTRING, 0, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)aa_Status[i], GSMDF_TCHAR) );
 				// long idle flags
 				SendDlgItemMessage(hwndDlg, IDC_AALONGSTATUS, CB_ADDSTRING, 0, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)aa_Status[i], GSMDF_TCHAR) );
@@ -572,7 +573,7 @@ INT_PTR CALLBACK DlgProcOptsAA(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			int thebit = numStatuses-StatusToProtoIndex(LOWORD(lParam),allprotomodes);
 			int value = IsDlgButtonChecked(hwndDlg, LOWORD(lParam)+t)==BST_CHECKED;
 			thebit = 1<<(thebit+t);
-			onlyIfBits[courProtocolSelection] = 
+			onlyIfBits[courProtocolSelection] =
 				SetBits(onlyIfBits[courProtocolSelection],
 					thebit,
 					value);
@@ -587,7 +588,7 @@ INT_PTR CALLBACK DlgProcOptsAA(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				awayStatuses[courProtocolSelection] = (short)SetBits(awayStatuses[courProtocolSelection],maskShortAwayStatus,awStInd);
 			} else if (lParam == IDC_AALONGSTATUS) {
 				awayStatuses[courProtocolSelection] = (short)SetBits(awayStatuses[courProtocolSelection],maskLongAwayStatus,awStInd);
-			} 
+			}
 #ifdef _DEBUG
 				else MessageBoxA(hwndDlg,"Came From Long Place","WM_USER+3",0)
 #endif //_DEBUG
@@ -603,29 +604,29 @@ INT_PTR CALLBACK DlgProcOptsAA(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 						SendMessage(hwndDlg, WM_USER+1,0,0);
 						break;
 					}
-				case 	ID_STATUS_AWAY: 
+				case 	ID_STATUS_AWAY:
 				case 	ID_STATUS_DND:
-				case 	ID_STATUS_NA: 
+				case 	ID_STATUS_NA:
 				case 	ID_STATUS_OCCUPIED:
-				case 	ID_STATUS_INVISIBLE: 
-				case 	ID_STATUS_ONTHEPHONE: 
+				case 	ID_STATUS_INVISIBLE:
+				case 	ID_STATUS_ONTHEPHONE:
 				case 	ID_STATUS_OUTTOLUNCH:
 				case 	ID_STATUS_ONLINE:
-				case 	ID_STATUS_FREECHAT: 
+				case 	ID_STATUS_FREECHAT:
 				case 	ID_STATUS_OFFLINE:
 					{
 						SendMessage(hwndDlg, WM_USER+2,0,wParam);
 						break;
 					}
-				case 	ID_STATUS_AWAY+16: 
+				case 	ID_STATUS_AWAY+16:
 				case 	ID_STATUS_DND+16:
-				case 	ID_STATUS_NA+16: 
+				case 	ID_STATUS_NA+16:
 				case 	ID_STATUS_OCCUPIED+16:
-				case 	ID_STATUS_INVISIBLE+16: 
-				case 	ID_STATUS_ONTHEPHONE+16: 
+				case 	ID_STATUS_INVISIBLE+16:
+				case 	ID_STATUS_ONTHEPHONE+16:
 				case 	ID_STATUS_OUTTOLUNCH+16:
 				case 	ID_STATUS_ONLINE+16:
-				case 	ID_STATUS_FREECHAT+16: 
+				case 	ID_STATUS_FREECHAT+16:
 				case 	ID_STATUS_OFFLINE+16:
 					{
 						SendMessage(hwndDlg, WM_USER+2,0,(wParam-16)|0x00010000);
@@ -660,6 +661,3 @@ INT_PTR CALLBACK DlgProcOptsAA(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
     }
     return FALSE;
 }
-
-
-

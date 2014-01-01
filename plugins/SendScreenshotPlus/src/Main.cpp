@@ -1,7 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
@@ -107,7 +109,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	RegisterServices();
 	AddMenuItems();
-	
+
 	//hotkey's
 	HOTKEYDESC hkd={sizeof(hkd)};
 	hkd.pszName="Open SendSS+";
@@ -164,10 +166,10 @@ int hook_SystemPreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	TfrmAbout::Unload();//crashes if done from "Unload" because of dependencies
 	TfrmMain::Unload();// "
-	
+
 	// Netlib unregister
 	NetlibClose();
-	
+
 	// uninitialize classes
 	CtrlButtonUnloadModule();
 	return 0;

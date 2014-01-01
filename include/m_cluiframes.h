@@ -1,6 +1,9 @@
 /*
-Miranda ICQ: the free icq client for MS Windows
-Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
+
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-02 Richard Hughes, Roland Rabien & Tristan Van de Vreede
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

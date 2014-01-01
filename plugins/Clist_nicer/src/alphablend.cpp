@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -49,7 +50,7 @@ void __forceinline DrawBorderStyle(HDC hdcwnd, RECT *rc, DWORD BORDERSTYLE)
 {
     HPEN hPenOld = 0;
     POINT pt;
-        
+
     switch(BORDERSTYLE) {
         case BDR_RAISEDOUTER:                 // raised
             MoveToEx(hdcwnd, rc->left, rc->bottom - 1, &pt);
@@ -94,16 +95,16 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
     UCHAR ubRedFinal = 0xFF;
     UCHAR ubGreenFinal = 0xFF;
     UCHAR ubBlueFinal = 0xFF;
-    UCHAR ubRed;        
+    UCHAR ubRed;
     UCHAR ubGreen;
     UCHAR ubBlue;
-    UCHAR ubRed2;        
+    UCHAR ubRed2;
     UCHAR ubGreen2;
     UCHAR ubBlue2;
 
-    int realx;  
+    int realx;
 
-    FLOAT fAlphaFactor; 
+    FLOAT fAlphaFactor;
     LONG realHeight = (rc->bottom - rc->top);
     LONG realWidth = (rc->right - rc->left);
     LONG realHeightHalf = realHeight >> 1;
@@ -289,7 +290,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
     saved_alpha = (UCHAR) (basecolor >> 24);
 
     // corners
-    BrMask = CreateSolidBrush(RGB(0xFF, 0x00, 0xFF)); 
+    BrMask = CreateSolidBrush(RGB(0xFF, 0x00, 0xFF));
     {
         bmi.bmiHeader.biWidth = ulBitmapWidth = realHeightHalf;
         bmi.bmiHeader.biHeight = ulBitmapHeight = realHeight;
@@ -309,7 +310,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
             DeleteDC(hdc);
             return;
         }
- 
+
         holdbrush = reinterpret_cast<HBRUSH>(SelectObject(hdc, BrMask));
         holdbitmap = reinterpret_cast<HBITMAP>(SelectObject(hdc, hbitmap));
         RoundRect(hdc, -1, -1, ulBitmapWidth * 2 + 1, (realHeight + 1), cfg::dat.cornerRadius << 1, cfg::dat.cornerRadius << 1);
@@ -336,7 +337,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
                     }
                 }
             }
-        }           
+        }
         GdiAlphaBlend(hdcwnd, rc->left, rc->top, ulBitmapWidth, ulBitmapHeight, hdc, 0, 0, ulBitmapWidth, ulBitmapHeight, bf);
         SelectObject(hdc, holdbitmap);
         DeleteObject(hbitmap);
@@ -372,9 +373,9 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
                     }
                 }
             }
-        }           
+        }
         GdiAlphaBlend(hdcwnd, rc->right - realHeightHalf, rc->top, ulBitmapWidth, ulBitmapHeight, hdc, 0, 0, ulBitmapWidth, ulBitmapHeight, bf);
-    }   
+    }
 	DrawBorderStyle(hdcwnd, rc, BORDERSTYLE);
 
     SelectObject(hdc, holdbitmap);
@@ -395,10 +396,10 @@ void __inline gradientHorizontal(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *
         *ubRedFinal = ubRed; *ubGreenFinal = ubGreen; *ubBlueFinal = ubBlue;
     } else { // solid to solid2
         if (FLG_GRADIENT & GRADIENT_LR) {
-            fSolidMulti = ((float) x / (float) ulBitmapWidth);  
+            fSolidMulti = ((float) x / (float) ulBitmapWidth);
             fInvSolidMulti = 1 - fSolidMulti;
         } else {
-            fInvSolidMulti = ((float) x / (float) ulBitmapWidth);                                   
+            fInvSolidMulti = ((float) x / (float) ulBitmapWidth);
             fSolidMulti = 1 - fInvSolidMulti;
         }
 
@@ -416,17 +417,17 @@ void __inline gradientVertical(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ub
 
     // solid to transparent
     if (transparent) {
-        *ubAlpha = (UCHAR) ((float) y / (float) ulBitmapHeight * 255);              
+        *ubAlpha = (UCHAR) ((float) y / (float) ulBitmapHeight * 255);
         *ubAlpha = FLG_GRADIENT & GRADIENT_BT ? 0xFF - *ubAlpha : *ubAlpha;
         *ubRedFinal = ubRed; *ubGreenFinal = ubGreen; *ubBlueFinal = ubBlue;
     } else { // solid to solid2
         if (FLG_GRADIENT & GRADIENT_BT) {
-            fSolidMulti = ((float) y / (float) ulBitmapHeight); 
+            fSolidMulti = ((float) y / (float) ulBitmapHeight);
             fInvSolidMulti = 1 - fSolidMulti;
         } else {
-            fInvSolidMulti = ((float) y / (float) ulBitmapHeight);  
+            fInvSolidMulti = ((float) y / (float) ulBitmapHeight);
             fSolidMulti = 1 - fInvSolidMulti;
-        }                           
+        }
 
         *ubRedFinal = (UCHAR) (((float) ubRed * (float) fInvSolidMulti) + ((float) ubRed2 * (float) fSolidMulti));
         *ubGreenFinal = (UCHAR) (((float) ubGreen * (float) fInvSolidMulti) + ((float) ubGreen2 * (float) fSolidMulti));

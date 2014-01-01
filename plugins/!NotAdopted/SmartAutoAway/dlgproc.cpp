@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2006 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-06 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -28,8 +29,8 @@ INT_PTR CALLBACK DlgProcAutoAwayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	static short int tabprotosel;
 	switch (msg)
 	{
-		case WM_INITDIALOG: 
-		{	
+		case WM_INITDIALOG:
+		{
 			short int t,p,protoListed;
 			TCITEM tci;
 			RECT theTabSpace;
@@ -66,12 +67,12 @@ INT_PTR CALLBACK DlgProcAutoAwayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SetDlgItems(hwndDlg, courProtocolSelection = GetCourSelProtocol(p));
 
 			tci.mask = TCIF_PARAM|TCIF_TEXT;
-			
+
 #ifdef SAA_PLUGIN
 			theDialogAA =  CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_SAA_AA), hwndDlg, DlgProcOptsAA);
 #else
 			theDialogAA =  CreateDialog(GetModuleHandle(NULL),MAKEINTRESOURCE(IDD_OPT_SAA_AA), hwndDlg, DlgProcOptsAA);
-#endif                  
+#endif
 			tci.lParam = (LPARAM)theDialogAA;
 			tci.pszText = TranslateT("Statuses");
 			GetClientRect(theDialogAA,&rcClient);
@@ -81,7 +82,7 @@ INT_PTR CALLBACK DlgProcAutoAwayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				rcClient.right,rcClient.bottom,1);
 			ShowWindow((HWND)tci.lParam, (t==0)?SW_SHOW:SW_HIDE);
 
-			
+
 #ifdef SAA_PLUGIN
 			theDialogIdle = CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_SAA_IDLE), hwndDlg, DlgProcOptsIdle);
 #else
@@ -142,7 +143,7 @@ INT_PTR CALLBACK DlgProcAutoAwayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						int cour = SendDlgItemMessage(hwndDlg, IDC_AAPROTOCOL, CB_GETCURSEL, 0, 0);
 						courProtocolSelection = GetCourSelProtocol(cour);
 						if ( HIWORD(wParam) != CBN_SELCHANGE ) return TRUE;
-						db_set_w(NULL, AA_MODULE, AA_PROTOSELECTION, 
+						db_set_w(NULL, AA_MODULE, AA_PROTOSELECTION,
 							(unsigned short)(tabprotosel=courProtocolSelection|(tabprotosel&0xFF00)));
 						SetDlgItems(hwndDlg, courProtocolSelection);
 						SetDlgItemsReconnect(theDialogReconnect,courProtocolSelection);
@@ -246,7 +247,7 @@ INT_PTR CALLBACK DlgProcAutoAwayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
                         TCITEM tci;
                         tci.mask = TCIF_PARAM;
                         TabCtrl_GetItem(GetDlgItem(hwndDlg,IDC_OPT_SAA_TAB),TabCtrl_GetCurSel(GetDlgItem(hwndDlg,IDC_OPT_SAA_TAB)),&tci);
-                        ShowWindow((HWND)tci.lParam,SW_HIDE);                     
+                        ShowWindow((HWND)tci.lParam,SW_HIDE);
                      }
                   break;
                   case TCN_SELCHANGE:
@@ -256,9 +257,9 @@ INT_PTR CALLBACK DlgProcAutoAwayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
                         tci.mask = TCIF_PARAM;
 						t = TabCtrl_GetCurSel(GetDlgItem(hwndDlg,IDC_OPT_SAA_TAB));
                         TabCtrl_GetItem(GetDlgItem(hwndDlg,IDC_OPT_SAA_TAB),t,&tci);
-						db_set_w(NULL, AA_MODULE, AA_PROTOSELECTION, 
+						db_set_w(NULL, AA_MODULE, AA_PROTOSELECTION,
 							(unsigned short)(tabprotosel=(t<<8)|(tabprotosel&0xF0FF)));
-                        ShowWindow((HWND)tci.lParam,SW_SHOW);                     
+                        ShowWindow((HWND)tci.lParam,SW_SHOW);
 						{ BOOL enableW = (tci.lParam!=(long)theDialogIdle);
 							EnableWindow(GetDlgItem(hwndDlg,IDC_AAPROTOCOL),enableW);
 							EnableWindow(GetDlgItem(hwndDlg,IDC_APPLYTOALL),enableW);
@@ -269,13 +270,10 @@ INT_PTR CALLBACK DlgProcAutoAwayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			   break;
 			}
 		  }//end case(LPNMHDR)lParam)->idFrom
-					
+
 		}
 //WTF???		if(wParam!=0x12345678) SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break; 
+		break;
 	}
 	return FALSE;
 }
-
-
-

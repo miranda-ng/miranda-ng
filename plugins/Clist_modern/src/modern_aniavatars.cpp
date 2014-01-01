@@ -1,8 +1,9 @@
-/**************************************************************************\
+/*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -19,18 +20,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
 
-****************************************************************************
+// File contains implementation of animated avatars in contact list
 
-Created: Mar 9, 2007
-
-Author:  Artem Shpynov aka FYR:  ashpynov@gmail.com
-
-****************************************************************************
-
-File contains implementation of animated avatars in contact list
-
-\**************************************************************************/
+***************************************************************************/
 
 #include "hdr/modern_commonheaders.h"
 
@@ -297,7 +291,7 @@ int AniAva_AddAvatar(HANDLE hContact, TCHAR * szFilename, int width, int heigth)
 	aacheck 0;
 	if ( !GDIPlus_IsAnimatedGif (szFilename))
 		return 0;
-	
+
 	mir_cslock lck(s_CS);
 	//first try to find window for contact avatar
 	HWND hwnd = NULL;
@@ -626,10 +620,10 @@ static int	_AniAva_LoadAvatarFromImage(TCHAR * szFileName, int width, int height
 		// copy from old and from new strip
 		BitBlt(hNewDC, 0, 0, s_width,s_height,s_hAniAvaDC, 0, 0, SRCCOPY);
 		BitBlt(hNewDC,s_width, 0, paai->FrameSize.cx*paai->nFrameCount,paai->FrameSize.cy,hTempDC, 0, 0, SRCCOPY);
-		
+
 		paai->nStripTop = s_width;
 		s_AniAvatarList.insert(paai);
-		
+
 		GdiFlush();
 		//remove temp DC
 		SelectObject(hTempDC,hOldBitmap);
@@ -694,7 +688,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 {
 	if (dat->bPaused>0)	{	dat->bPended = TRUE;	return; 	}
 	else dat->bPended = FALSE;
-	
+
 	if ( IMMEDIATE_DRAW && hdcParent == NULL ) return;
 	GdiFlush();
 
@@ -744,7 +738,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 				SelectObject(tempDC, hOldBrush);
 				DeleteObject(hBrush);
 				DeleteObject(rgnOutside);
-			} 
+			}
 			else if ( cornerRadius > 0 )
 				// else create clipping area (round corners)
 				hRgn = CreateRoundRectRgn(0, 0, szWnd.cx+1, szWnd.cy+1, cornerRadius << 1, cornerRadius << 1);
@@ -873,7 +867,7 @@ static void _AniAva_LoadOptions()
 	mir_cslock lck(s_CS);
 
 	s_bFlags = ( db_get_b(NULL,"CList","AvatarsDrawBorders",SETTINGS_AVATARDRAWBORDER_DEFAULT)?	AAO_HAS_BORDER		:0) |
-		( db_get_b(NULL,"CList","AvatarsRoundCorners",SETTINGS_AVATARROUNDCORNERS_DEFAULT)?	AAO_ROUND_CORNERS	:0) |	
+		( db_get_b(NULL,"CList","AvatarsRoundCorners",SETTINGS_AVATARROUNDCORNERS_DEFAULT)?	AAO_ROUND_CORNERS	:0) |
 		( db_get_b(NULL,"CList","AvatarsDrawOverlay",SETTINGS_AVATARDRAWOVERLAY_DEFAULT)?	AAO_HAS_OVERLAY		:0) |
 		((0) ? AAO_OPAQUE :0);
 
@@ -898,7 +892,7 @@ static void _AniAva_LoadOptions()
 	}
 	if (s_bFlags & AAO_OPAQUE)
 		s_bkgColor = 0;
-	s_bSeparateWindow = db_get_b(NULL,"CList","AvatarsInSeparateWnd",SETTINGS_AVATARINSEPARATE_DEFAULT); 
+	s_bSeparateWindow = db_get_b(NULL,"CList","AvatarsInSeparateWnd",SETTINGS_AVATARINSEPARATE_DEFAULT);
 }
 
 static int	_AniAva_SortAvatarInfo(const ANIAVA_INFO *aai1, const ANIAVA_INFO *aai2)
@@ -944,7 +938,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case AAM_RESUME:
 		dat->bPaused--;
 		if (dat->bPaused) return 0;
-		if (dat->bPended) 
+		if (dat->bPended)
 			if ( !IMMEDIATE_DRAW )
 				_AniAva_RenderAvatar(dat);
 		dat->bPended = FALSE;
@@ -1000,7 +994,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			SetWindowPos(hwnd,HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE|SWP_ASYNCWINDOWPOS);
 		else {
 			LONG exStyle = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
-			SetWindowPos(pcli->hwndContactList,hwnd, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);			
+			SetWindowPos(pcli->hwndContactList,hwnd, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);
 			if ( !(exStyle & WS_EX_TOPMOST))
 				SetWindowPos(pcli->hwndContactList,HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);
 		}

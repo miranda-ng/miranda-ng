@@ -1,8 +1,9 @@
 /*
 
 'AutoShutdown'-Plugin for
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
 Copyright (C) 2004-2007 H. Herkenrath
 
 This program is free software; you can redistribute it and/or
@@ -46,7 +47,7 @@ Returns 0 on success, nonzero otherwise.
 #define MS_AUTOSHUTDOWN_SHUTDOWN  "AutoShutdown/Shutdown"
 
 /* shutdown types */
-#define SDSDT_CLOSEMIRANDA         1  // close miranda process 
+#define SDSDT_CLOSEMIRANDA         1  // close miranda process
 #define SDSDT_SETMIRANDAOFFLINE    2  // set all protocols to offline
 #define SDSDT_LOGOFF               3  // logoff from Windows
 #define SDSDT_REBOOT               4  // reboot computer
@@ -72,14 +73,14 @@ Returns a pointer to a string on success, NULL on error.
 #define GSTDF_UNICODE       0x0002  // returns a Unicode string
 #define GSTDF_UNTRANSLATED  0x0004  // returns an untranslated string
 #if defined(_UNICODE)
-   #define GSTDF_TCHAR  GSTDF_UNICODE  // will return WCHAR* 
+   #define GSTDF_TCHAR  GSTDF_UNICODE  // will return WCHAR*
 #else
    #define GSTDF_TCHAR  0              // will return char*, as usual
 #endif
 
 /* Check if shutdown type is enabled   v1.4.0.0+
 Tests if a specific shutdown type is activated and its use is possible
-on the system. For example hibernate and stand-by modes are not available on 
+on the system. For example hibernate and stand-by modes are not available on
 older versions of Windows (needs Windows ME/2000+).
 Shutdown might also be prohibited by security restrictions.
 This services checks it all.

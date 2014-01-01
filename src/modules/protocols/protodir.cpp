@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2005 Miranda IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -124,7 +125,7 @@ char * contactDir_Proto_Get(contactDir * cd, HANDLE hContact)
 	e.proto="";
 	e.id="";
 	EnterCriticalSection(&cd->csLock);
-	if ( List_GetIndex(&cd->protoCache, &e, &index) ) { 
+	if ( List_GetIndex(&cd->protoCache, &e, &index) ) {
 		contactEntry * p = cd->protoCache.items[index];
 		szCache = p->proto;
 	}
@@ -220,7 +221,7 @@ static int contactDirGetProto(WPARAM wParam, LPARAM lParam)
 	return (int) contactDir_Proto_Get(&condir,(HANDLE)wParam);
 }
 
-#endif 
+#endif
 
 void InitContactDir(void)
 {

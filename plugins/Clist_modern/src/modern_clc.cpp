@@ -1,9 +1,9 @@
-// refactored step 1.
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -389,7 +389,7 @@ static BOOL clcItemNotHiddenOffline(ClcData *dat, ClcGroup* group, ClcContact *c
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(contact->hContact);
 	if (!pdnce) return FALSE;
 	if (pdnce->m_cache_nNoHiddenOffline) return TRUE;
-	
+
 	if (!group) return FALSE;
 	if (group->hideOffline) return FALSE;
 
@@ -898,7 +898,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 		}
 	}
 
-	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->SubAllocated && !contact->isSubcontact) 
+	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->SubAllocated && !contact->isSubcontact)
 	if (hitFlags&CLCHT_ONITEMICON && dat->expandMeta)
 	{
 		BYTE doubleClickExpand = db_get_b(NULL,"CLC","MetaDoubleClick",SETTING_METAAVOIDDBLCLICK_DEFAULT);
@@ -1251,7 +1251,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		switch(target) {
 		case DROPTARGET_ONSELF:
 			break;
-		
+
 		case DROPTARGET_ONCONTACT:
 			if ( ServiceExists(MS_MC_ADDTOMETA)) {
 				ClcContact *contDest, *contSour;

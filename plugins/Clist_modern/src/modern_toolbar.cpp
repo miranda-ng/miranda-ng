@@ -1,11 +1,12 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 Copyright 2007 Artem Shpynov
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -37,7 +38,7 @@ struct
 	BOOL bVisByDefault;
 	HANDLE hButton;
 }
-static BTNS[] = 
+static BTNS[] =
 {
 	{ "MainMenu", LPGEN("Main menu"), "CList/ShowMainMenu", LPGEN("Main menu"), NULL,  100 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "StatusMenu", LPGEN("Status menu"), "CList/ShowStatusMenu", LPGEN("Status menu"), NULL,  105 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
@@ -107,7 +108,7 @@ struct
 	HBITMAP  mtb_hBmpBackground;
 	COLORREF mtb_bkColour;
 	WORD     mtb_backgroundBmpUse;
-	BOOL     mtb_useWinColors; 
+	BOOL     mtb_useWinColors;
 }
 static tbdat = { NULL, CLCDEFAULT_BKCOLOUR, CLCDEFAULT_BKBMPUSE, CLCDEFAULT_USEWINDOWSCOLOURS };
 
@@ -129,18 +130,18 @@ static int ehhToolBarSettingsChanged(WPARAM wParam, LPARAM lParam)
 		if (!mir_strcmp(cws->szSetting,"UseSound"))
 			SetButtonPressed(7, cws->value.bVal);
 	}
-	
+
 	return 0;
 }
 
 static BOOL sttDrawToolBarBackground(HWND hwnd, HDC hdc, RECT *rect, ModernToolbarCtrl* pMTBInfo)
 {
 	BOOL bFloat = (GetParent(hwnd)!=pcli->hwndContactList);
-	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat) {	
+	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat) {
 		HBRUSH hbr;
 
 		RECT rc;
-		if (rect) 
+		if (rect)
 			rc=*rect;
 		else
 			GetClientRect(hwnd,&rc);
@@ -153,7 +154,7 @@ static BOOL sttDrawToolBarBackground(HWND hwnd, HDC hdc, RECT *rect, ModernToolb
 				FillRect(hdc, &rc, hbr);
 			}
 		}
-		else if (!tbdat.mtb_hBmpBackground && !tbdat.mtb_useWinColors) {			
+		else if (!tbdat.mtb_hBmpBackground && !tbdat.mtb_useWinColors) {
 			hbr = CreateSolidBrush(tbdat.mtb_bkColour);
 			FillRect(hdc, &rc, hbr);
 			DeleteObject(hbr);
@@ -171,7 +172,7 @@ static void sttDrawNonLayeredSkinedBar(HWND hwnd, HDC hdc)
 	rc.bottom++;
 	HDC hdc2 = CreateCompatibleDC(hdc);
 	HBITMAP hbmp = ske_CreateDIB32(rc.right, rc.bottom);
-	HBITMAP hbmpo = (HBITMAP)SelectObject(hdc2, hbmp);		
+	HBITMAP hbmpo = (HBITMAP)SelectObject(hdc2, hbmp);
 	if (GetParent(hwnd) != pcli->hwndContactList) {
 		HBRUSH br = GetSysColorBrush(COLOR_3DFACE);
 		FillRect(hdc2, &rc, br);
@@ -185,7 +186,7 @@ static void sttDrawNonLayeredSkinedBar(HWND hwnd, HDC hdc)
 	DeleteDC(hdc2);
 
 	SelectObject(hdc, (HFONT)GetStockObject(DEFAULT_GUI_FONT));
-	ValidateRect(hwnd, NULL);		        							
+	ValidateRect(hwnd, NULL);
 }
 
 static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -196,7 +197,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	case WM_ERASEBKGND:
 		return (g_CluiData.fDisableSkinEngine) ? sttDrawToolBarBackground(hwnd, (HDC)wParam, NULL, pMTBInfo) : 0;
 
-	case WM_NCPAINT:				
+	case WM_NCPAINT:
 	case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
@@ -206,7 +207,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				if ((!g_CluiData.fLayered || bFloat) && !g_CluiData.fDisableSkinEngine)
 					sttDrawNonLayeredSkinedBar(hwnd, ps.hdc);
 				else
-					sttDrawToolBarBackground(hwnd, ps.hdc, &ps.rcPaint, pMTBInfo);	
+					sttDrawToolBarBackground(hwnd, ps.hdc, &ps.rcPaint, pMTBInfo);
 				EndPaint(hwnd,&ps);
 			}
 		}
@@ -222,7 +223,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			RECT MyRect={0};
 			HDC hDC=(HDC)wParam;
 			GetWindowRect(hwnd,&MyRect);
-			
+
 			RECT rcClient;
 			GetClientRect(hwnd, &rcClient);
 			SkinDrawGlyph(hDC, &rcClient, &rcClient, "Bar,ID=ToolBar,Part=Background");
@@ -235,7 +236,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				Offset.x = childRect.left - MyRect.left;
 				Offset.y = childRect.top - MyRect.top;
 				SendMessage(mtbi->hWindow, BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
-			}	
+			}
 		}
 		return 0;
 
@@ -293,7 +294,7 @@ static void CopySettings(const char* to, const char* from, int defValue)
 void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam);
 
 static int Toolbar_ModuleReloaded(WPARAM wParam, LPARAM lParam)
-{	
+{
 	PLUGININFOEX *pInfo = (PLUGININFOEX*)wParam;
 	if ( !_stricmp(pInfo->shortName, "TopToolBar"))
 		TopToolbar_SetCustomProc(CustomizeButton, 0);
@@ -304,7 +305,7 @@ static int Toolbar_ModuleReloaded(WPARAM wParam, LPARAM lParam)
 static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 {
 	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("ToolBar Background")"/ToolBar"),0);
-	
+
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ehhToolBarSettingsChanged);
 
 	TopToolbar_SetCustomProc(CustomizeButton, 0);

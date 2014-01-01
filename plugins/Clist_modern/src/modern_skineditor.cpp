@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_clist.h"
 #include "hdr/modern_commonprototypes.h"
@@ -39,14 +41,14 @@ int  gl_controlID = 0;
 int EnableGroup(HWND hwndDlg, HWND first, BOOL bEnable);
 int ShowGroup(HWND hwndDlg, HWND first, BOOL bEnable);
 BOOL glOtherSkinWasLoaded = FALSE;
-BYTE glSkinWasModified = 0;  //1- but not applied, 2-stored to DB 
+BYTE glSkinWasModified = 0;  //1- but not applied, 2-stored to DB
 
 HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, TCHAR *Caption)
 {
   HTREEITEM res = NULL, tmp = NULL;
-  if (Parent) 
+  if (Parent)
     tmp = TreeView_GetChild(hTree,Parent);
-  else 
+  else
 	tmp = TreeView_GetRoot(hTree);
   while (tmp)
   {
@@ -78,8 +80,8 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 	}
 
 	ptr = path;
-	ptrE = path;	
-	do 
+	ptrE = path;
+	do
 	{
 		while (*ptrE != '/' && *ptrE != '\0') ptrE++;
 		if (*ptrE == '/')
@@ -98,15 +100,15 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 					tvis.item.pszText = ptr;
 					tvis.item.lParam = 0;
 					cItem = TreeView_InsertItem(GetDlgItem(hwndDlg, ID), &tvis);
-					
-				}	
+
+				}
 				rootItem = cItem;
 			}
 			ptr = ptrE;
 		}
 		else ext = TRUE;
 	}while (!ext);
-	
+
 	//Insert item node
 	{
 		TVINSERTSTRUCT tvis;
@@ -142,8 +144,8 @@ int enumDB_SkinObjectsForEditorProc(const char *szSetting,LPARAM lParam)
 			mir_free(value);
 			mir_free(desc);
 		}
-		mir_free(descKey);		
-	}	
+		mir_free(descKey);
+	}
 	return 0;
 }
 
@@ -168,12 +170,12 @@ void SetAppropriateGroups(HWND hwndDlg, int Type)
 	switch (Type)
 	{
 	case -1:
-		{	
+		{
 			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_1),FALSE);
 			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_ST_COLOUR),FALSE);
 			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_ST_ALPHA),FALSE);
 			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_2),FALSE);
-			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_3),FALSE);		
+			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_3),FALSE);
 			ShowWindow(GetDlgItem(hwndDlg,IDC_S_SIZE),FALSE);
 		}
 		break;
@@ -183,7 +185,7 @@ void SetAppropriateGroups(HWND hwndDlg, int Type)
 			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_ST_COLOUR),FALSE);
 			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_ST_ALPHA),FALSE);
 			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_2),FALSE);
-			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_3),FALSE);		
+			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_3),FALSE);
 			ShowWindow(GetDlgItem(hwndDlg,IDC_S_SIZE),FALSE);
 		}
 		break;
@@ -192,7 +194,7 @@ void SetAppropriateGroups(HWND hwndDlg, int Type)
 			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_1),TRUE);
 			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_ST_COLOUR),TRUE);
 			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_ST_ALPHA),TRUE);
-			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_2),FALSE);		
+			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_2),FALSE);
 			EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_3),FALSE);
 			ShowWindow(GetDlgItem(hwndDlg,IDC_S_SIZE),FALSE);
 			//Set Color and alpha
@@ -227,7 +229,7 @@ void SetControls(HWND hwndDlg, TCHAR *str)
 {
 	if ( !str)
 	{
-		SetAppropriateGroups(hwndDlg,-1); 
+		SetAppropriateGroups(hwndDlg,-1);
 		return;
 	}
 
@@ -256,27 +258,27 @@ void SetControls(HWND hwndDlg, TCHAR *str)
 	 case 2:
 		{
 			int fitmode = 0;
-			
+
 			int l = _ttoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
 			int t = _ttoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
 			int r = _ttoi(GetParamN(str,buf,SIZEOF(buf),6,',',TRUE));
 			int b = _ttoi(GetParamN(str,buf,SIZEOF(buf),7,',',TRUE));
 			int a = _ttoi(GetParamN(str,buf,SIZEOF(buf),8,',',TRUE));
-			
+
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS, 0, MAKELONG(a,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_SETPOS, 0, MAKELONG(l,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_SETPOS, 0, MAKELONG(t,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_RIGHT,UDM_SETPOS, 0, MAKELONG(r,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_BOTTOM,UDM_SETPOS, 0, MAKELONG(b,0));
-			
+
 			GetParamN(str,buf,SIZEOF(buf),2,',',TRUE);
 			SetDlgItemText(hwndDlg,IDC_FILE,buf);
-			
+
 			GetParamN(str,buf,SIZEOF(buf),3,',',TRUE);
 			if (!lstrcmpi(buf,_T("TileBoth"))) fitmode = FM_TILE_BOTH;
             else if (!lstrcmpi(buf,_T("TileVert"))) fitmode = FM_TILE_VERT;
             else if (!lstrcmpi(buf,_T("TileHorz"))) fitmode = FM_TILE_HORZ;
-            else fitmode = 0;  
+            else fitmode = 0;
 			SendDlgItemMessage(hwndDlg,IDC_FIT,CB_SETCURSEL,(WPARAM)fitmode,0);
 		}
 
@@ -284,7 +286,7 @@ void SetControls(HWND hwndDlg, TCHAR *str)
 	 case 3:
 		{
 			int fitmode = 0;
-			
+
 			int x = _ttoi(GetParamN(str,buf,SIZEOF(buf),3,',',TRUE));
 			int y = _ttoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
 			int w = _ttoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
@@ -295,7 +297,7 @@ void SetControls(HWND hwndDlg, TCHAR *str)
 			int r = _ttoi(GetParamN(str,buf,SIZEOF(buf),10, ',',TRUE));
 			int b = _ttoi(GetParamN(str,buf,SIZEOF(buf),11,',',TRUE));
 			int a = _ttoi(GetParamN(str,buf,SIZEOF(buf),12,',',TRUE));
-			
+
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS, 0, MAKELONG(a,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_SETPOS, 0, MAKELONG(l,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_SETPOS, 0, MAKELONG(t,0));
@@ -306,15 +308,15 @@ void SetControls(HWND hwndDlg, TCHAR *str)
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_POSTOP,UDM_SETPOS, 0, MAKELONG(y,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_WIDTH,UDM_SETPOS, 0, MAKELONG(w,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_HEIGHT,UDM_SETPOS, 0, MAKELONG(h,0));
-			
+
 			GetParamN(str,buf,SIZEOF(buf),2,',',TRUE);
 			SetDlgItemText(hwndDlg,IDC_FILE,buf);
-			
+
 			GetParamN(str,buf,SIZEOF(buf),7,',',TRUE);
 			if (!lstrcmpi(buf,_T("TileBoth"))) fitmode = FM_TILE_BOTH;
             else if (!lstrcmpi(buf,_T("TileVert"))) fitmode = FM_TILE_VERT;
             else if (!lstrcmpi(buf,_T("TileHorz"))) fitmode = FM_TILE_HORZ;
-            else fitmode = 0;  
+            else fitmode = 0;
 			SendDlgItemMessage(hwndDlg,IDC_FIT,CB_SETCURSEL,(WPARAM)fitmode,0);
 		}
 
@@ -336,13 +338,13 @@ int GetShortFileName(TCHAR *FullFile)
 		mir_free(file);
 		return 1; //skin folder relative
 	}
-	
+
 	PathToRelativeT(FullFile, buf);
 	if (buf[0] != '\\' && buf[1] != ':')
 		mir_sntprintf(FullFile, MAX_PATH, _T("\\%s"), buf);
 	else
 		_tcsncpy(FullFile, buf, MAX_PATH);
-	
+
 	mir_free(file);
 	return 2; //mirand folder relative
 }
@@ -419,7 +421,7 @@ TCHAR* MadeString(HWND hwndDlg)
 void UpdateInfo(HWND hwndDlg)
 {
 	TCHAR *b = MadeString(hwndDlg);
-	if (!b) 
+	if (!b)
 	{
 		SetDlgItemText(hwndDlg,IDC_EDIT1,_T(""));
 		return;
@@ -497,7 +499,7 @@ int GetFileSizes(HWND hwndDlg)
 		ske_UnloadGlyphImage(hbmp);
 	}
 
-	mir_sntprintf(buf, MAX_PATH, _T("%s %d x %d %s"),TranslateT("Image size is"), sz.cx, sz.cy, TranslateT("pixels")); 
+	mir_sntprintf(buf, MAX_PATH, _T("%s %d x %d %s"),TranslateT("Image size is"), sz.cx, sz.cy, TranslateT("pixels"));
 	SetDlgItemText(hwndDlg, IDC_S_SIZE, buf);
 	return 0;
 }
@@ -548,7 +550,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_POSTOP,UDM_SETRANGE, 0, MAKELONG(1000, 0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_WIDTH,UDM_SETRANGE, 0, MAKELONG(1000, 0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_HEIGHT,UDM_SETRANGE, 0, MAKELONG(1000, 0));
-		}		
+		}
 		EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_1),FALSE);
 		EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_ST_COLOUR),FALSE);
 		EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_ST_ALPHA),FALSE);
@@ -560,8 +562,8 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		glOtherSkinWasLoaded = FALSE;
 		break;
 
-	case WM_COMMAND:	
-		{	
+	case WM_COMMAND:
+		{
 			if (LOWORD(wParam) == IDC_TYPE)
 			{
 				if (HIWORD(wParam) == CBN_SELCHANGE)
@@ -581,7 +583,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				{
 					mir_free_and_nil(object_clipboard);
 
-					OPT_OBJECT_DATA *sd = NULL;  
+					OPT_OBJECT_DATA *sd = NULL;
 					HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg,IDC_OBJECT_TREE));
 					if (hti != 0)
 					{
@@ -591,7 +593,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						TreeView_GetItem(GetDlgItem(hwndDlg,IDC_OBJECT_TREE),&tvi);
 						sd = (OPT_OBJECT_DATA*)(tvi.lParam);
 					}
-					if (sd && sd->szValue) 
+					if (sd && sd->szValue)
 						object_clipboard = mir_tstrdup(sd->szValue);
 
 					EnableWindow(GetDlgItem(hwndDlg,IDC_PASTE),object_clipboard != NULL);
@@ -602,7 +604,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				if (HIWORD(wParam) == BN_CLICKED)
 				{
-					if (object_clipboard) 
+					if (object_clipboard)
 						SetControls(hwndDlg, object_clipboard);
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					UpdateInfo(hwndDlg);
@@ -621,7 +623,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					int res = 0;
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					ofn.hwndOwner = hwndDlg;
-					ofn.hInstance = NULL;					
+					ofn.hInstance = NULL;
 					ofn.lpstrFilter = _T("Images (*.png,*.jpg,*.bmp,*.gif,*.tga)\0*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tga\0All files (*.*)\0*.*\0\0");
 					ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
 					GetDlgItemText(hwndDlg, IDC_FILE, str, SIZEOF(str));
@@ -675,7 +677,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				|| LOWORD(wParam) == IDC_E_W
 				|| LOWORD(wParam) == IDC_E_H
 				|| LOWORD(wParam) == IDC_EDIT_ALPHA
-				) 
+				)
 				&&  HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 			{
 				return 0;
@@ -744,10 +746,10 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				{
 					StoreTreeToDB(GetDlgItem(hwndDlg,IDC_OBJECT_TREE),SKIN);
 					//ReloadSkin
-					ske_LoadSkinFromDB();	
+					ske_LoadSkinFromDB();
 					pcli->pfnClcBroadcast( INTM_RELOADOPTIONS, 0, 0);
 					Sync(CLUIFrames_OnClistResize_mod, 0, 0);
-					ske_RedrawCompleteWindow();        
+					ske_RedrawCompleteWindow();
 					Sync(CLUIFrames_OnClistResize_mod, 0, 0);
 					{
 						HWND hwnd = pcli->hwndContactList;
@@ -757,13 +759,13 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					}
 					return TRUE;
 				}
-				else 
+				else
 					return TRUE;
 			}
 			break;
 		}
 
-	case WM_DESTROY: 
+	case WM_DESTROY:
 		mir_free(object_clipboard);
 		break;
 
@@ -781,7 +783,7 @@ int EnableGroup(HWND hwndDlg, HWND first, BOOL bEnable)
 		EnableWindow(hwnd,bEnable);
 		hwnd = GetWindow(hwnd,GW_HWNDNEXT);
 		if ( !hwnd || GetWindowLongPtr(hwnd,GWL_STYLE)&WS_GROUP) exit = TRUE;
-	}	
+	}
 		while (!exit);
 	return 0;
 }
@@ -800,4 +802,3 @@ int ShowGroup(HWND hwndDlg, HWND first, BOOL bEnable)
 		while (!exit);
 	return 0;
 }
-

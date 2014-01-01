@@ -1,8 +1,9 @@
 /*
 
 'File Association Manager'-Plugin for
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
 Copyright (C) 2005-2007 H. Herkenrath
 
 This program is free software; you can redistribute it and/or
@@ -54,7 +55,7 @@ typedef struct {
 	const char *pszService;          // service to call when a file is opened
 	                                 // this service will be called with lParam set to
 	                                 // the file name being opened including path.
-	                                 // it can be assumed that the provided file name 
+	                                 // it can be assumed that the provided file name
 	                                 // is always the long path name.
 	                                 // return zero on suceess, nonzero on error.
 	                                 // Note: set this to NULL to pass the file name as

@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "hdr/modern_commonheaders.h"
 #include <m_clui.h>
 #include "hdr/modern_clist.h"
@@ -100,7 +102,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM wparam,LPARAM lparam)
 	for (i=0; i < pcli->hClcProtoCount; i++)
 	{
 		if ( !pcli->pfnGetProtocolVisibility(pcli->clcProto[i].szProto)) continue;
-		if (pcli->clcProto[i].dwStatus >= ID_STATUS_CONNECTING  && 
+		if (pcli->clcProto[i].dwStatus >= ID_STATUS_CONNECTING  &&
 			pcli->clcProto[i].dwStatus < ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES)
 		{
 			connectingCount++;
@@ -180,7 +182,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 					if (g_bMultiConnectionMode) {
 						if (_strcmpi(szChangedProto, g_szConnectingProto))
 							return -1;
-							
+
 						hIcon = (HICON)CLUI_GetConnectingIconService(NULL, 1);
 					}
 					else hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto,0);
@@ -225,7 +227,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 				else if ( db_get_b(NULL,"CList","AlwaysMulti",SETTING_ALWAYSMULTI_DEFAULT )) {
 					if ( !pcli->pfnGetProtocolVisibility(szChangedProto))
 						return -1;
-						
+
 					status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
 					if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES)
 						hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);

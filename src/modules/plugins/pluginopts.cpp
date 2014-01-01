@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -202,7 +203,7 @@ static bool UnloadPluginDynamically(PluginListItemData *dat)
 	if (p) {
 		if ( !Plugin_UnloadDyn(p))
 			return false;
-	
+
 		dat->hInst = NULL;
 	}
 	return true;
@@ -218,7 +219,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		}
 		else {
 			szFilter.AppendChar(wParam);
-	
+
 			for (int i = 0; i < arPluginList.getCount(); i++) {
 				PluginListItemData *p = arPluginList[i];
 				if (!_tcsnicmp(szFilter, p->fileName, szFilter.GetLength())) {
@@ -383,7 +384,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						return FALSE;
 					}
 					// find all another standard plugins by mask and disable them
-					if ((hdr->uNewState == 0x2000) && dat->stdPlugin != 0) 
+					if ((hdr->uNewState == 0x2000) && dat->stdPlugin != 0)
 					for (int iRow = 0; iRow != -1; iRow = ListView_GetNextItem(hwndList, iRow, LVNI_ALL)) {
 						if (iRow == hdr->iItem) // skip the plugin we're standing on
 							continue;

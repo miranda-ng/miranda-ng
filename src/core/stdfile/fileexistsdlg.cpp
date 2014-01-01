@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -52,7 +53,7 @@ static void DoAnnoyingShellCommand(HWND hwnd, const TCHAR *szFilename, int cmd, 
 	if (SHGetDesktopFolder(&pDesktopFolder) == NOERROR) {
 		ITEMIDLIST *pCurrentIdl;
 		WCHAR* wszFilename = (LPWSTR)szFilename;
-		
+
 		if (pDesktopFolder->ParseDisplayName(NULL, NULL, wszFilename, NULL, &pCurrentIdl, NULL) == NOERROR) {
 			if (pCurrentIdl->mkid.cb) {
 				ITEMIDLIST *pidl, *pidlNext, *pidlFilename;
@@ -223,13 +224,13 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		lisi->hwndDlg = hwndDlg;
 		lisi->szFilename = mir_tstrdup(fts->tszCurrentFile);
 		//can be a little slow, so why not?
-		forkthread(LoadIconsAndTypesThread, 0, lisi);			
+		forkthread(LoadIconsAndTypesThread, 0, lisi);
 		SetFocus(hwndFocus);
 		SetWindowLongPtr(hwndFocus, GWL_STYLE, GetWindowLongPtr(hwndFocus, GWL_STYLE)|BS_DEFPUSHBUTTON);
 		return FALSE;
 	}
 	case WM_COMMAND:
-	{	
+	{
 		PROTOFILERESUME pfr = {0};
 		switch(LOWORD(wParam)) {
 		case IDC_OPENFILE:
@@ -237,7 +238,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			return FALSE;
 
 		case IDC_OPENFOLDER:
-		{	
+		{
 			TCHAR szFile[MAX_PATH];
 			lstrcpyn(szFile, fts->tszCurrentFile, SIZEOF(szFile));
 			TCHAR *pszLastBackslash = _tcsrchr(szFile, '\\');
@@ -267,7 +268,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			break;
 
 		case IDC_SAVEAS:
-		{	
+		{
 			OPENFILENAME ofn = {0};
 			TCHAR filter[512], *pfilter;
 			TCHAR str[MAX_PATH];

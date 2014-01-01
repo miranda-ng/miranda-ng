@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -851,10 +852,10 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					hbrBack = CreateBrushIndirect(&lb);
 				}
 
-				SetRect(&rc, 
-					dis->rcItem.left+FSUI_COLORBOXLEFT, 
-					dis->rcItem.top+FSUI_FONTFRAMEVERT, 
-					dis->rcItem.left+FSUI_COLORBOXLEFT+FSUI_COLORBOXWIDTH, 
+				SetRect(&rc,
+					dis->rcItem.left+FSUI_COLORBOXLEFT,
+					dis->rcItem.top+FSUI_FONTFRAMEVERT,
+					dis->rcItem.left+FSUI_COLORBOXLEFT+FSUI_COLORBOXWIDTH,
 					dis->rcItem.bottom-FSUI_FONTFRAMEVERT);
 
 				FillRect(dis->hDC, &rc, hbrBack);
@@ -882,10 +883,10 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			else {
 				RECT rc;
 				HBRUSH hbrTmp;
-				SetRect(&rc, 
-					dis->rcItem.left+FSUI_COLORBOXLEFT, 
-					dis->rcItem.top+FSUI_FONTFRAMEVERT, 
-					dis->rcItem.left+FSUI_COLORBOXLEFT+FSUI_COLORBOXWIDTH, 
+				SetRect(&rc,
+					dis->rcItem.left+FSUI_COLORBOXLEFT,
+					dis->rcItem.top+FSUI_FONTFRAMEVERT,
+					dis->rcItem.left+FSUI_COLORBOXLEFT+FSUI_COLORBOXWIDTH,
 					dis->rcItem.bottom-FSUI_FONTFRAMEVERT);
 
 				hbrTmp = CreateSolidBrush(clText);
@@ -1415,9 +1416,9 @@ INT_PTR CALLBACK DlgPluginOpt(HWND, UINT, WPARAM, LPARAM);
 
 int FontsModernOptInit(WPARAM wParam, LPARAM lParam)
 {
-	static int iBoldControls[] = 
+	static int iBoldControls[] =
 	{
-		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3, 
+		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3,
 		MODERNOPT_CTRL_LAST
 	};
 

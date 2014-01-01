@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 #include "m_clui.h"
 #include "clist.h"
@@ -48,7 +50,7 @@ struct {
 static int GetContactStatus(HANDLE hContact)
 {
 	/*
-	
+
 	char *szProto;
 
 	szProto = GetContactProto(hContact,0);
@@ -100,7 +102,7 @@ void LoadContactTree(void)
 	sortNoOfflineBottom = db_get_b(NULL,"CList","NoOfflineBottom",SETTING_NOOFFLINEBOTTOM_DEFAULT);
 
 	CallService(MS_CLUI_LISTENDREBUILD,0,0);
-	
+
 	tick = GetTickCount()-tick;
 
 	char buf[255];
@@ -124,7 +126,7 @@ int CompareContacts( const struct ClcContact *contact1, const struct ClcContact 
 	if (sortByProto) {
 
 		/* deal with statuses, online contacts have to go above offline */
-		if (sortNoOfflineBottom == 0) 
+		if (sortNoOfflineBottom == 0)
 			if ((statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE)) {
 			return 2*(statusa == ID_STATUS_OFFLINE)-1;
 		}
@@ -132,7 +134,7 @@ int CompareContacts( const struct ClcContact *contact1, const struct ClcContact 
 		rc = strcmp(SAFESTRING(szProto1),SAFESTRING(szProto2)); /* strcmp() doesn't like NULL so feed in "" as needed */
 		if (rc != 0 && (szProto1 != NULL && szProto2 != NULL)) return rc;
 		/* protocols are the same, order by display name */
-	} 
+	}
 
 	if (sortByStatus) {
 		int ordera,orderb;

@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_clist.h"
 #include "m_genmenu.h"
@@ -65,7 +67,7 @@ void UninitCustomMenus(void)
 //////////////////////////////////////////////////////////////////////////
 
 #define CLUI_FAVSETRATE "CLUI/SetContactRate"  //LParam is rate, Wparam is contact handle
-#define CLUI_FAVTOGGLESHOWOFFLINE "CLUI/ToggleContactShowOffline" 
+#define CLUI_FAVTOGGLESHOWOFFLINE "CLUI/ToggleContactShowOffline"
 
 static HGENMENU  hFavoriteContactMenu = NULL;
 static HGENMENU *hFavoriteContactMenuItems = NULL;
@@ -79,7 +81,7 @@ static TCHAR *rates[] = {
 	LPGENT("None"),
 	LPGENT("Low"),
 	LPGENT("Medium"),
-	LPGENT("High") 
+	LPGENT("High")
 };
 
 static IconItem iconList[] =
@@ -108,14 +110,14 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 		int bufsize = (lstrlen(FAVMENUROOTNAME)+lstrlen(rates[bContactRate])+15)*sizeof(TCHAR);
 		TCHAR *name = (TCHAR*)_alloca(bufsize);
 		mir_sntprintf(name, bufsize/sizeof(TCHAR), _T("%s (%s)"),FAVMENUROOTNAME,rates[bContactRate]);
-		mi.ptszName = name;            
+		mi.ptszName = name;
 	}
 	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
-	if ( !hFavoriteContactMenu) 
+	if ( !hFavoriteContactMenu)
 		hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
 	else {
 		mi.flags |= CMIM_FLAGS | CMIM_NAME;
-		Menu_ModifyItem(hFavoriteContactMenu, &mi);				
+		Menu_ModifyItem(hFavoriteContactMenu, &mi);
 		bModifyMenu = TRUE;
 	}
 
@@ -153,7 +155,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 	mi.position = -100000000;
 	if (bModifyMenu && hShowIfOflineItem) {
 		mi.flags |= CMIM_FLAGS | CMIM_ICON;
-		Menu_ModifyItem(hShowIfOflineItem, &mi);            
+		Menu_ModifyItem(hShowIfOflineItem, &mi);
 	}
 	else hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
 
@@ -193,7 +195,7 @@ int UnloadFavoriteContactMenu()
 
 	if (hFavoriteContactMenu)
 		CallService(MO_REMOVEMENUITEM,(WPARAM)hFavoriteContactMenu,0);
-	hFavoriteContactMenu = NULL;   
+	hFavoriteContactMenu = NULL;
 
 	return 0;
 }

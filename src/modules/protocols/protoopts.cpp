@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -783,7 +784,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 								if (dwStatus >= ID_STATUS_ONLINE) {
 									TCHAR buf[ 200 ];
 									mir_sntprintf(buf, SIZEOF(buf), TranslateT("Account %s is being disabled"), pa->tszAccountName);
-									if (IDNO == ::MessageBox(hwndDlg, 
+									if (IDNO == ::MessageBox(hwndDlg,
 																TranslateT("Account is online. Disable account?"),
 																buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO)) {
 										pa->bIsEnabled = 1; //stay enabled
@@ -854,7 +855,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 					TCHAR buf[ 200 ];
 					mir_sntprintf(buf, SIZEOF(buf), TranslateT("Account %s is being deleted"), pa->tszAccountName);
 					if (pa->bOldProto) {
-						MessageBox(NULL, TranslateT("You need to disable plugin to delete this account"), buf, 
+						MessageBox(NULL, TranslateT("You need to disable plugin to delete this account"), buf,
 							MB_ICONERROR | MB_OK);
 						break;
 					}

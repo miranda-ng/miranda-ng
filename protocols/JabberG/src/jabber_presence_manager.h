@@ -5,7 +5,7 @@ Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-08  George Hazan
 Copyright (C) 2007     Maxim Mluhov
 Copyright (C) 2008-09  Dmitriy Chervov
-Copyright (C) 2012-13  Miranda NG Project
+Copyright (C) 2012-13  Miranda NG project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

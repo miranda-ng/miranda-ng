@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2007 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-07 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -48,7 +49,7 @@ lParam=0
 
 /* DB/GetProfilePath( W )			v0.5.1.5+
 Gets the path of the profile currently being used by the database module. This
-path does not include the last '\'. It is appended with the profile's name if 
+path does not include the last '\'. It is appended with the profile's name if
 ProfileSubDir=yes is set in the mirandaboot.ini.
   wParam=( WPARAM )( int )cbName
   lParam=( LPARAM )( char* )pszName
@@ -79,7 +80,7 @@ It supports:
 %PROFILENAME%	- expands to the name of the current profile,
 and all windows like environment variables such as:
 %USERPROFILE%, %WINDIR%, ...
-It returns the length of the absolute path in characters on success or 
+It returns the length of the absolute path in characters on success or
 0 if any of the environment variables was not translated.
 wParam=relative source path ( must be smaller than MAX_PATH )
 lParam=absolute destination path ( must be larger or equal to MAX_PATH )
@@ -98,7 +99,7 @@ lParam=absolute destination path ( must be larger or equal to MAX_PATH )
 
 /* Utils/PathToRelative( W )		v0.5.1.5+
 This service parses the given absolute path and translates it to a string
-containing as much environment variables as possible. 
+containing as much environment variables as possible.
 The return value is the length of the relative path in characters.
 wParam=absolute source path ( must be smaller than MAX_PATH )
 lParam=relative destination path ( must be larger or equal to MAX_PATH )

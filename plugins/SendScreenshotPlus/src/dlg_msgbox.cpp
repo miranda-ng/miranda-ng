@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -32,13 +33,13 @@ MSGPOPUPDATA, *LPMSGPOPUPDATA;
 
 /**
  * This helper function moves and resizes a dialog box's control element.
- * 
+ *
  * @param	hDlg		- the dialog box's window handle
  * @param	idCtrl		- the identication number of the control to move
- * @param	dx			-´number of pixels to horizontal move the control 
- * @param	dy			- number of pixels to vertical move the control 
- * @param	dw			- number of pixels to horizontal resize the control 
- * @param	dh			- number of pixels to vertical resize the control 
+ * @param	dx			-´number of pixels to horizontal move the control
+ * @param	dy			- number of pixels to vertical move the control
+ * @param	dw			- number of pixels to horizontal resize the control
+ * @param	dh			- number of pixels to vertical resize the control
  *
  * @return	nothing
  **/
@@ -66,14 +67,14 @@ HICON MsgLoadIcon(LPMSGBOX pMsgBox)
 	// load the desired status icon
 	switch (pMsgBox->uType & MB_ICONMASK)
 	{
-	
+
 	// custom icon defined by caller function
 	case MB_ICON_OTHER:
 		{
 			hIcon = pMsgBox->hiMsg;
 		}
 		break;
-	
+
 	// default windows icons
 	case MB_ICON_ERROR:
 	case MB_ICON_QUESTION:
@@ -96,7 +97,7 @@ HICON MsgLoadIcon(LPMSGBOX pMsgBox)
 
 /**
  * This function fills a given POPUPACTION structure with the data of a given message id,
- * which is normally used by the message box. This is required to let the user interact 
+ * which is normally used by the message box. This is required to let the user interact
  * with a popup in the same way as with a normal message dialog box.
  *
  * @param	pa			- reference to a POPUPACTION structure to fill
@@ -148,7 +149,7 @@ void MakePopupAction(POPUPACTION &pa, INT id)
 		pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
 		lstrcpyA(pa.lpzTitle, MODNAME"/No");
 		break;
-	
+
 	case IDHELP:
 		pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
 		lstrcpyA(pa.lpzTitle, MODNAME"/Help");
@@ -203,12 +204,12 @@ INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					GetObject(hNormalFont, sizeof(lf), &lf);
 					lf.lfWeight = FW_BOLD;
 					hNormalFont = CreateFontIndirect(&lf);
-					
+
 					// set infobar's textfont
 					SendDlgItemMessage(hDlg, TXT_NAME, WM_SETFONT, (WPARAM)hNormalFont, 0);
 
 					// set infobar's logo icon
-					SendDlgItemMessage(hDlg, ICO_DLGLOGO, STM_SETIMAGE, IMAGE_ICON, 
+					SendDlgItemMessage(hDlg, ICO_DLGLOGO, STM_SETIMAGE, IMAGE_ICON,
 						(LPARAM)((pMsgBox->hiLogo) ? pMsgBox->hiLogo : IcoLib_GetIcon(ICO_DLG_DETAILS)));
 
 					// anable headerbar
@@ -220,7 +221,7 @@ INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					RECT rc;
 					GetClientRect(GetDlgItem(hDlg, TXT_NAME), &rc);
 					InfoBarHeight = rc.bottom;
-					
+
 					if (pMsgBox->hiLogo)
 					{
 						SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)pMsgBox->hiLogo);
@@ -255,9 +256,9 @@ INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 					SelectObject(hDC, hNormalFont);
 
-					for (rs = h = pMsgBox->ptszMsg, txtHeight = 0, txtWidth = 0; h; h++) 
+					for (rs = h = pMsgBox->ptszMsg, txtHeight = 0, txtWidth = 0; h; h++)
 					{
-						if (*h == '\n' || *h == '\0') 
+						if (*h == '\n' || *h == '\0')
 						{
 							GetTextExtentPoint32(hDC, rs, h - rs, &ts);
 							if (ts.cx > txtWidth)
@@ -273,7 +274,7 @@ INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 						}
 					}
 					ReleaseDC(hDlg, hDC);
-				
+
 					// calc new dialog size
 					GetWindowRect(hDlg, &rcDlg);
 					GetWindowRect(GetDlgItem(hDlg, TXT_MESSAGE), &ws);
@@ -281,21 +282,21 @@ INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					needY = max(0, txtHeight - (ws.bottom - ws.top) + 5);
 					rcDlg.left -= needX/2; rcDlg.right += needX/2;
 					rcDlg.top -= (needY-InfoBarHeight)/2; rcDlg.bottom += (needY-InfoBarHeight)/2;
-					
+
 					// resize dialog window
-					MoveWindow(hDlg, 
-								rcDlg.left, rcDlg.top, 
-								rcDlg.right - rcDlg.left, 
+					MoveWindow(hDlg,
+								rcDlg.left, rcDlg.top,
+								rcDlg.right - rcDlg.left,
 								rcDlg.bottom - rcDlg.top,
 								FALSE);
 					ClientToScreen(hDlg, &mpt);
 
-					MoveCtrl(hDlg, STATIC_WHITERECT, -mpt.x, -mpt.y, needX, needY - InfoBarHeight); 
-					MoveCtrl(hDlg, TXT_NAME, -mpt.x, -mpt.y, needX, 0); 
-					MoveCtrl(hDlg, ICO_DLGLOGO, -mpt.x + needX, -mpt.y, 0, 0); 
-					MoveCtrl(hDlg, ICO_MSGDLG, -mpt.x, -mpt.y - InfoBarHeight, 0, 0); 
-					MoveCtrl(hDlg, TXT_MESSAGE, -mpt.x - icoWidth, -mpt.y - InfoBarHeight, needX, needY); 
-					MoveCtrl(hDlg, STATIC_LINE2, -mpt.x, -mpt.y + needY - InfoBarHeight, needX, 0); 
+					MoveCtrl(hDlg, STATIC_WHITERECT, -mpt.x, -mpt.y, needX, needY - InfoBarHeight);
+					MoveCtrl(hDlg, TXT_NAME, -mpt.x, -mpt.y, needX, 0);
+					MoveCtrl(hDlg, ICO_DLGLOGO, -mpt.x + needX, -mpt.y, 0, 0);
+					MoveCtrl(hDlg, ICO_MSGDLG, -mpt.x, -mpt.y - InfoBarHeight, 0, 0);
+					MoveCtrl(hDlg, TXT_MESSAGE, -mpt.x - icoWidth, -mpt.y - InfoBarHeight, needX, needY);
+					MoveCtrl(hDlg, STATIC_LINE2, -mpt.x, -mpt.y + needY - InfoBarHeight, needX, 0);
 
 					//
 					// Do pushbutton positioning
@@ -316,7 +317,7 @@ INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 						GetWindowRect(GetDlgItem(hDlg, IDCANCEL), &rcCancel);
 						OffsetRect(&rcCancel, -mpt.x, -mpt.y + needY - InfoBarHeight);
-						 
+
 						okWidth = rcOk.right - rcOk.left;
 						allWidth = rcAll.right - rcAll.left;
 						noneWidth = rcNone.right - rcNone.left;
@@ -432,7 +433,7 @@ INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 								SetDlgItemText(hDlg, IDCANCEL, LPGENT("No"));
 								rcCancel.right = rcDlg.right - rcDlg.left - 10;
 								rcCancel.left = rcCancel.right - caWidth;
-								rcNone.right = rcCancel.left - 5; 
+								rcNone.right = rcCancel.left - 5;
 								rcNone.left = rcNone.right - noneWidth;
 								rcAll.right = rcNone.left - 5;
 								rcAll.left = rcAll.right - allWidth;
@@ -453,23 +454,23 @@ INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 							}
 						}
 						// move ok button
-						MoveWindow(GetDlgItem(hDlg, IDOK), 
-							rcOk.left, rcOk.top, 
+						MoveWindow(GetDlgItem(hDlg, IDOK),
+							rcOk.left, rcOk.top,
 							rcOk.right - rcOk.left, rcOk.bottom - rcOk.top,
 							FALSE);
 						// move all button
-						MoveWindow(GetDlgItem(hDlg, IDALL), 
-							rcAll.left, rcAll.top, 
+						MoveWindow(GetDlgItem(hDlg, IDALL),
+							rcAll.left, rcAll.top,
 							rcAll.right - rcAll.left, rcAll.bottom - rcAll.top,
 							FALSE);
 						// move none button
-						MoveWindow(GetDlgItem(hDlg, IDNONE), 
-							rcNone.left, rcNone.top, 
+						MoveWindow(GetDlgItem(hDlg, IDNONE),
+							rcNone.left, rcNone.top,
 							rcNone.right - rcNone.left, rcNone.bottom - rcNone.top,
 							FALSE);
 						// move cancel button
-						MoveWindow(GetDlgItem(hDlg, IDCANCEL), 
-							rcCancel.left, rcCancel.top, 
+						MoveWindow(GetDlgItem(hDlg, IDCANCEL),
+							rcCancel.left, rcCancel.top,
 							rcCancel.right - rcCancel.left, rcCancel.bottom - rcCancel.top,
 							FALSE);
 					} // end* Do pushbutton positioning
@@ -489,7 +490,7 @@ INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CTLCOLORSTATIC:
 		{
-			switch (GetWindowLong((HWND)lParam, GWL_ID)) 
+			switch (GetWindowLong((HWND)lParam, GWL_ID))
 			{
 			case STATIC_WHITERECT:
 			case ICO_DLGLOGO:
@@ -506,7 +507,7 @@ INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
+			switch (LOWORD(wParam))
 			{
 			case IDOK:
 				EndDialog(hDlg, retOk);
@@ -688,7 +689,7 @@ LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 }
 
 /**
- * This is the service function for external plugins to use the nice messagebox 
+ * This is the service function for external plugins to use the nice messagebox
  *
  * @param	wParam		- HANDLE hContact which can display an avatar for popups
  * @param	lParam		- MSGBOX structure holding parameters
@@ -702,7 +703,7 @@ INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
 	LPMSGBOX pMsgBox = (LPMSGBOX)lParam;
 
 	// check input
-	if (PtrIsValid(pMsgBox) && pMsgBox->cbSize == sizeof(MSGBOX)) 
+	if (PtrIsValid(pMsgBox) && pMsgBox->cbSize == sizeof(MSGBOX))
 	{
 		// Shall the MessageBox displayed as popup?
 		if (!(pMsgBox->uType & (MB_INFOBAR|MB_NOPOPUP)) &&					// message box can be a popup?
@@ -724,8 +725,8 @@ INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
 
 /**
  * name:	MsgBox
- * desc:	calls a messagebox 
- * param:	
+ * desc:	calls a messagebox
+ * param:
  **/
 INT_PTR MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInfo, LPTSTR pszFormat, ...)
 {
@@ -750,8 +751,8 @@ INT_PTR MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInfo, LPTSTR
 
 /**
  * name:	MsgErr
- * desc:	calls a messagebox 
- * param:	
+ * desc:	calls a messagebox
+ * param:
  **/
 INT_PTR MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 {

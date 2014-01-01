@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -19,10 +20,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-UNICODE done
-
 */
+
 #include <commonheaders.h>
 #include "../coolsb/coolscroll.h"
 
@@ -221,7 +220,7 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 				LRESULT curSel = SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_GETCURSEL, 0, 0);
 				if (curSel != CB_ERR) {
-					cfg::dat.bGroupAlign = (BYTE)curSel; 
+					cfg::dat.bGroupAlign = (BYTE)curSel;
 					cfg::writeByte("CLC", "GroupAlign", cfg::dat.bGroupAlign);
 				}
 
@@ -459,10 +458,10 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			cfg::dat.bNoOfflineAvatars = IsDlgButtonChecked(hwndDlg, IDC_NOAVATARSOFFLINE) ? TRUE : FALSE;
 			cfg::writeByte("CList", "NoOfflineAV", (BYTE)cfg::dat.bNoOfflineAvatars);
-			
+
 			cfg::dat.bShowLocalTime = IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIME) ? 1 : 0;
 			cfg::writeByte("CLC", "ShowLocalTime", (BYTE)cfg::dat.bShowLocalTime);
-			
+
 			cfg::dat.bShowLocalTimeSelective = IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT) ? 1 : 0;
 			cfg::writeByte("CLC", "SelectiveLocalTime", (BYTE)cfg::dat.bShowLocalTimeSelective);
 
@@ -680,14 +679,14 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 						exStyle |= checkBoxToStyleEx[i].flag;
 				}
 				cfg::writeDword("CLC", "ExStyle", exStyle);
-			
+
 				DWORD fullGreyoutFlags = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS));
 				cfg::writeDword("CLC", "FullGreyoutFlags", fullGreyoutFlags);
 				if (IsDlgButtonChecked(hwndDlg, IDC_GREYOUT))
 					cfg::writeDword("CLC", "GreyoutFlags", fullGreyoutFlags);
 				else
 					cfg::writeDword("CLC", "GreyoutFlags", 0);
-			
+
 				cfgSetFlag(hwndDlg, IDC_FULLROWSELECT, CLUI_FULLROWSELECT);
 
 				cfg::writeWord("CLC", "ScrollTime", (WORD) SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));

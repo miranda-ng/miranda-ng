@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "m_clui.h"
 #include "hdr/modern_clist.h"
@@ -103,7 +105,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		if (LOWORD(wParam) == IDC_UP) {
 			if (HIWORD(wParam) != BN_CLICKED)
 				return 0;
-				
+
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST_ORDER);
 			int pos = SendMessage(hwndList, LB_GETCURSEL, 0, 0);
 			if (pos == LB_ERR)
@@ -242,7 +244,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 		TranslateDialogDefault(hwndDlg);
 		CheckDlgButton(hwndDlg, IDC_SHOW_AVATARS, db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 		CheckDlgButton(hwndDlg, IDC_SHOW_ANIAVATARS, db_get_b(NULL,"CList","AvatarsAnimated", ServiceExists(MS_AV_GETAVATARBITMAP)) == 1 ? BST_CHECKED : BST_UNCHECKED );
-		CheckDlgButton(hwndDlg, IDC_AVATAR_FASTDRAW, db_get_b(NULL,"CList","AvatarsInSeparateWnd",SETTINGS_AVATARINSEPARATE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); 
+		CheckDlgButton(hwndDlg, IDC_AVATAR_FASTDRAW, db_get_b(NULL,"CList","AvatarsInSeparateWnd",SETTINGS_AVATARINSEPARATE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_AVATAR_DRAW_BORDER, db_get_b(NULL,"CList","AvatarsDrawBorders",SETTINGS_AVATARDRAWBORDER_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 		CheckDlgButton(hwndDlg, IDC_AVATAR_ROUND_CORNERS, db_get_b(NULL,"CList","AvatarsRoundCorners",SETTINGS_AVATARROUNDCORNERS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 		CheckDlgButton(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK, db_get_b(NULL,"CList","AvatarsUseCustomCornerSize",SETTINGS_AVATARUSECUTOMCORNERSIZE_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
@@ -298,31 +300,31 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			EnableWindow( GetDlgItem( hwndDlg, IDC_AVATAR_FASTDRAW), FALSE );
 		}
 
-		if ( !IsDlgButtonChecked( hwndDlg, IDC_SHOW_ANIAVATARS )) 
+		if ( !IsDlgButtonChecked( hwndDlg, IDC_SHOW_ANIAVATARS ))
 			EnableWindow( GetDlgItem( hwndDlg, IDC_AVATAR_FASTDRAW), FALSE );
 
 		if ( !IsDlgButtonChecked(hwndDlg,IDC_AVATAR_DRAW_BORDER)) {
 			EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_BORDER_COLOR_L),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_BORDER_COLOR),FALSE);
 		}
-		
+
 		if ( !IsDlgButtonChecked(hwndDlg,IDC_AVATAR_ROUND_CORNERS)) {
 			EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN),FALSE);
-		}  
-		
+		}
+
 		if ( !IsDlgButtonChecked(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK)) {
 			EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN),FALSE);
-		}	
-		
+		}
+
 		if ( !IsDlgButtonChecked(hwndDlg,IDC_AVATAR_OVERLAY_ICONS)) {
 			EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_NORMAL),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_PROTOCOL),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_CONTACT),FALSE);
 		}
-		
+
 		if ( !ServiceExists(MS_AV_GETAVATARBITMAP)) {
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_ANIAVATARS),FALSE);
 			SetDlgItemText(hwndDlg, IDC_SHOW_ANIAVATARS, TranslateT("Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)"));
@@ -377,7 +379,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE),enabled && IsDlgButtonChecked(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN),enabled && IsDlgButtonChecked(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK));
 		}
-		
+
 		else if (LOWORD(wParam) == IDC_AVATAR_OVERLAY_ICONS) {
 			BOOL enabled = IsDlgButtonChecked(hwndDlg,IDC_SHOW_AVATARS) && IsDlgButtonChecked(hwndDlg,IDC_AVATAR_OVERLAY_ICONS);
 
@@ -470,7 +472,7 @@ static INT_PTR CALLBACK DlgProcItemIconOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 			case PSN_APPLY:
 				db_set_b(NULL,"CList","IconHideOnAvatar", (BYTE)IsDlgButtonChecked(hwndDlg,IDC_HIDE_ICON_ON_AVATAR));
 				db_set_b(NULL,"CList","IconDrawOnAvatarSpace", (BYTE)IsDlgButtonChecked(hwndDlg,IDC_DRAW_ON_AVATAR_SPACE));
-				db_set_b(NULL,"CList","HideGroupsIcon", (BYTE)IsDlgButtonChecked(hwndDlg,IDC_HIDE_GROUPSICON));						
+				db_set_b(NULL,"CList","HideGroupsIcon", (BYTE)IsDlgButtonChecked(hwndDlg,IDC_HIDE_GROUPSICON));
 				db_set_b(NULL,"CList","NoIconBlink", (BYTE)IsDlgButtonChecked(hwndDlg,IDC_ICONBLINK));
 				db_set_b(NULL,"CList","IconIgnoreSizeForRownHeight", (BYTE)IsDlgButtonChecked(hwndDlg,IDC_NOTCHECKICONSIZE));
 				db_set_b(NULL,"CList","AlwaysShowAlwaysVisIcon", (BYTE)IsDlgButtonChecked(hwndDlg,IDC_ALWAYS_VISIBLEICON));
@@ -532,7 +534,7 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 		{
 			int item;
 			TCHAR *align[] = {LPGENT("Left align group names"), LPGENT("Center group names"), LPGENT("Right align group names")};
-			for (int i=0; i < sizeof(align)/sizeof(char*); i++) 
+			for (int i=0; i < sizeof(align)/sizeof(char*); i++)
 				item = SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_ADDSTRING, 0, (LPARAM)TranslateTS(align[i]));
 			SendDlgItemMessage(hwndDlg,IDC_ALIGNGROUPCOMBO,CB_SETCURSEL,db_get_b(NULL,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT),0);
 		}
@@ -546,7 +548,7 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 		CheckDlgButton(hwndDlg, IDC_APPEND_NICK, db_get_b(NULL,"CList","FirstLineAppendNick",SETTING_FIRSTLINE_APPENDNICK_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 		CheckDlgButton(hwndDlg, IDC_TRIM_TEXT, db_get_b(NULL,"CList","TrimText",SETTING_FIRSTLINE_TRIMTEXT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 		{
-			bool smileAddPresent = ServiceExists(MS_SMILEYADD_BATCHPARSE) != 0; 
+			bool smileAddPresent = ServiceExists(MS_SMILEYADD_BATCHPARSE) != 0;
 			CLUI_ShowWindowMod(GetDlgItem(hwndDlg,IDC_REPLACE_SMILEYS), smileAddPresent ? SW_SHOW : SW_HIDE);
 			CLUI_ShowWindowMod(GetDlgItem(hwndDlg,IDC_USE_PROTOCOL_SMILEYS), smileAddPresent ? SW_SHOW : SW_HIDE);
 			//CLUI_ShowWindowMod(GetDlgItem(hwndDlg,IDC_RESIZE_SMILEYS), smileAddPresent ? SW_SHOW : SW_HIDE);
@@ -675,19 +677,19 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_TEXT || LOWORD(wParam) == IDC_STATUS || LOWORD(wParam) == IDC_NICKNAME || LOWORD(wParam) == IDC_STATUS_MESSAGE
 			||  LOWORD(wParam) == IDC_LISTENING_TO || LOWORD(wParam) == IDC_CONTACT_TIME) {
-			EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), IsDlgButtonChecked(hwndDlg,IDC_TEXT) 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), IsDlgButtonChecked(hwndDlg,IDC_TEXT)
 				&&  IsDlgButtonChecked(hwndDlg,IDC_SHOW));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLES_L), IsDlgButtonChecked(hwndDlg,IDC_TEXT) 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLES_L), IsDlgButtonChecked(hwndDlg,IDC_TEXT)
 				&&  IsDlgButtonChecked(hwndDlg,IDC_SHOW));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && 
-				(IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) &&
+				(IsDlgButtonChecked(hwndDlg,IDC_STATUS)
 				||  IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) &&
 				(IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) &&
 				(IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && 
-				(IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE), IsDlgButtonChecked(hwndDlg,IDC_SHOW) &&
+				(IsDlgButtonChecked(hwndDlg,IDC_STATUS)
 				||  IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 		}
 		else if (LOWORD(wParam) == IDC_SHOW) {
@@ -709,11 +711,11 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 
 			EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), enabled && IsDlgButtonChecked(hwndDlg,IDC_TEXT));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLES_L), enabled && IsDlgButtonChecked(hwndDlg,IDC_TEXT));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY), enabled && (IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY), enabled && (IsDlgButtonChecked(hwndDlg,IDC_STATUS)
 				|| IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY), enabled && IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), enabled && IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE), enabled && (IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE), enabled && (IsDlgButtonChecked(hwndDlg,IDC_STATUS)
 				|| IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 		}
 
@@ -849,16 +851,16 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_TEXT || LOWORD(wParam) == IDC_STATUS || LOWORD(wParam) == IDC_NICKNAME || LOWORD(wParam) == IDC_STATUS_MESSAGE
 			||  LOWORD(wParam) == IDC_LISTENING_TO || LOWORD(wParam) == IDC_CONTACT_TIME) {
-			EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), IsDlgButtonChecked(hwndDlg,IDC_TEXT) 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), IsDlgButtonChecked(hwndDlg,IDC_TEXT)
 				&&  IsDlgButtonChecked(hwndDlg,IDC_SHOW));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLES_L), IsDlgButtonChecked(hwndDlg,IDC_TEXT) 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLES_L), IsDlgButtonChecked(hwndDlg,IDC_TEXT)
 				&&  IsDlgButtonChecked(hwndDlg,IDC_SHOW));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && 
-				(IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) &&
+				(IsDlgButtonChecked(hwndDlg,IDC_STATUS)
 				||  IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && (IsDlgButtonChecked(hwndDlg,IDC_STATUS) || IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && (IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));																	
-			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && (IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));																	
+			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && (IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
+			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && (IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 		}
 		else if (LOWORD(wParam) == IDC_SHOW) {
 			BOOL enabled = IsDlgButtonChecked(hwndDlg,IDC_SHOW);
@@ -879,9 +881,9 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 
 			EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), enabled && IsDlgButtonChecked(hwndDlg,IDC_TEXT));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLES_L), enabled && IsDlgButtonChecked(hwndDlg,IDC_TEXT));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY), enabled && (IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY), enabled && (IsDlgButtonChecked(hwndDlg,IDC_STATUS)
 				||  IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
-			EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE), enabled && (IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
+			EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE), enabled && (IsDlgButtonChecked(hwndDlg,IDC_STATUS)
 				||  IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY), enabled && IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), enabled && IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE));
@@ -949,7 +951,7 @@ struct
 	int id;					// Dialog id
 	DLGPROC wnd_proc;		// Dialog function
 }
-static row_opt_items[]  = 
+static row_opt_items[]  =
 {
 	{ LPGEN("Row"), IDD_OPT_ITEM_ROW, DlgProcItemRowOpts },
 #ifdef _DEBUG

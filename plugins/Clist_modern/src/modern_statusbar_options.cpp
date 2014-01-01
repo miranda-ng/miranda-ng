@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,11 +21,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_clc.h"
 #include "hdr/modern_commonprototypes.h"
 #include "hdr/modern_defsettings.h"
-//#include "hdr/modern_effectenum.h"
 
 typedef struct _StatusBarProtocolOptions
 {
@@ -314,8 +315,8 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		return TRUE;
 
 	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_BUTTON1)  
-		{ 
+		if (LOWORD(wParam) == IDC_BUTTON1)
+		{
 			if (HIWORD(wParam) == BN_CLICKED)
 			{
 				CHOOSEFONTA fnt;
@@ -327,7 +328,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				ChooseFontA(&fnt);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 				return 0;
-			} 
+			}
 		}
 		else if (LOWORD(wParam) == IDC_COLOUR  || (LOWORD(wParam) == IDC_SBAR_HORIZ_ALIGN && HIWORD(wParam) == CBN_SELCHANGE)) SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		else if (LOWORD(wParam) == IDC_SHOWSBAR) {
@@ -369,7 +370,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			UpdateStatusBarOptionsDisplay(hwndDlg);
 
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);	  
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		}
 		else if (LOWORD(wParam) == IDC_STATUSBAR_PER_PROTO)
 		{
@@ -383,10 +384,10 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		}
 		else if (
-			LOWORD(wParam) == IDC_SHOWXSTATUS  || 
-			LOWORD(wParam) == IDC_SHOWBOTH  || 
-			LOWORD(wParam) == IDC_SHOWNORMAL  || 
-			LOWORD(wParam) == IDC_TRANSPARENTOVERLAY  || 
+			LOWORD(wParam) == IDC_SHOWXSTATUS  ||
+			LOWORD(wParam) == IDC_SHOWBOTH  ||
+			LOWORD(wParam) == IDC_SHOWNORMAL  ||
+			LOWORD(wParam) == IDC_TRANSPARENTOVERLAY  ||
 			LOWORD(wParam) == IDC_SHOWXSTATUSNAME)
 		{
 			UpdateXStatusIconOptions(hwndDlg, perProto, dat, curSelProto);
@@ -449,17 +450,17 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				_GlobalOptions.PaddingRight = (DWORD)SendDlgItemMessage(hwndDlg,IDC_OFFSETSPIN_RIGHT,UDM_GETPOS, 0, 0);
 		}
 		else if ((
-				LOWORD(wParam) == IDC_MULTI_COUNT  || 
-				LOWORD(wParam) == IDC_OFFSETICON  || 
-				LOWORD(wParam) == IDC_OFFSETICON2  || 
-				LOWORD(wParam) == IDC_OFFSETICON3  || 
-				LOWORD(wParam) == IDC_SBAR_BORDER_BOTTOM  || 
+				LOWORD(wParam) == IDC_MULTI_COUNT  ||
+				LOWORD(wParam) == IDC_OFFSETICON  ||
+				LOWORD(wParam) == IDC_OFFSETICON2  ||
+				LOWORD(wParam) == IDC_OFFSETICON3  ||
+				LOWORD(wParam) == IDC_SBAR_BORDER_BOTTOM  ||
 				LOWORD(wParam) == IDC_SBAR_BORDER_TOP
 			) && (
-				HIWORD(wParam) != EN_CHANGE  || 
+				HIWORD(wParam) != EN_CHANGE  ||
 				(HWND)lParam != GetFocus()
 			))
-			return 0; // dont make apply enabled during buddy set crap 
+			return 0; // dont make apply enabled during buddy set crap
 		else if ( LOWORD(wParam) == IDC_STATUSBAR_PROTO_LIST )
 		{
 			UpdateStatusBarOptionsDisplay(hwndDlg);
@@ -523,7 +524,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				db_set_b(NULL,"CLUI","ShowSBar",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR));
 
 				LoadStatusBarData();
-				cliCluiProtocolStatusChanged(0, 0);	
+				cliCluiProtocolStatusChanged(0, 0);
 				return TRUE;
 			}
 		}

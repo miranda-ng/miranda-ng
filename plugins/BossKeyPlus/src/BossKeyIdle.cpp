@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2005 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-05 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -24,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "BossKey.h"
 
 POINT mousepos;
-UINT_PTR hTimer; 
+UINT_PTR hTimer;
 UINT mouseidle, minutes;
 
 VOID CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT idEvent, DWORD dwTime);
@@ -36,9 +37,9 @@ static bool IsUserIdle()
 		CallService(MS_SYSTEM_GETIDLE, 0, (DWORD)&dwTick);
 		return GetTickCount() - dwTick > (minutes * 60 * 1000);
 	}
-	
+
 	LASTINPUTINFO ii = { sizeof(ii) };
-	if ( GetLastInputInfo(&ii)) 
+	if ( GetLastInputInfo(&ii))
 		return GetTickCount() - ii.dwTime > (minutes * 60 * 1000);
 
 	return FALSE;
@@ -46,7 +47,7 @@ static bool IsUserIdle()
 
 VOID CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT_PTR idEvent, DWORD dwTime)
 {
-	if ( hTimer == idEvent && !g_bWindowHidden && ((g_wMaskAdv & (OPT_HIDEIFWINIDLE | OPT_HIDEIFMIRIDLE) && IsUserIdle()) || 
+	if ( hTimer == idEvent && !g_bWindowHidden && ((g_wMaskAdv & (OPT_HIDEIFWINIDLE | OPT_HIDEIFMIRIDLE) && IsUserIdle()) ||
 		 (g_wMaskAdv & OPT_HIDEIFSCRSVR) && IsScreenSaverRunning()))
 		BossKeyHideMiranda(0, 0);
 }

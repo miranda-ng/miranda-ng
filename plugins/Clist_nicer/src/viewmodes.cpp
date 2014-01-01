@@ -1,7 +1,9 @@
 /*
-Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -18,11 +20,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-contact list view modes (CLVM)
-
-$Id: viewmodes.cpp 13824 2011-09-03 06:32:11Z borkra $
-
 */
 
 #include <commonheaders.h>
@@ -398,7 +395,7 @@ void SaveState()
 			DWORD options, lmdat;
 			SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szModeName);
 			dwGlobalMask = GetMaskForItem(hInfoItem);
-		
+
 			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 				if (hItem) {
@@ -1118,7 +1115,7 @@ void ApplyViewMode(const char *name)
 			cfg::dat.bFilterEffective |= CLVM_FILTER_LASTMSG_NEWERTHAN;
 		else
 			cfg::dat.bFilterEffective |= CLVM_FILTER_LASTMSG_OLDERTHAN;
-		
+
 		DWORD unit = LOWORD(cfg::dat.lastMsgFilter);
 		switch(HIBYTE(HIWORD(cfg::dat.lastMsgFilter))) {
 		case 0:

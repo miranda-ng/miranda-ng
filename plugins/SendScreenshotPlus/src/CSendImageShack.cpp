@@ -1,7 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-09 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
@@ -85,7 +87,7 @@ void CSendImageShack::Send() {
 		//nlhr.headers[x].szName		= "Authorization";
 		//nlhr.headers[x].szValue		= auth;		//Basic base-64-authorization
 
-		//$header .= "Content-type: multipart/form-data; boundary=" . part::getBoundary() . "\r\n"; 
+		//$header .= "Content-type: multipart/form-data; boundary=" . part::getBoundary() . "\r\n";
 		mir_snprintf(m_nlheader_ContentType, SIZEOF(m_nlheader_ContentType), "multipart/form-data; boundary=%s", m_MFDRboundary);
 		m_nlhr.headers[m_nlhr.headersCount-1].szName		= "Content-Type";
 		m_nlhr.headers[m_nlhr.headersCount-1].szValue		= m_nlheader_ContentType;
@@ -265,7 +267,7 @@ void CSendImageShack::AppendToData(const char *pszVal) {
 		size_t lenVal   = strlen(pszVal);
 		size_t sizeNew  = sizeof(char)*(m_nlhr.dataLength + lenVal + 1);
 		m_nlhr.pData    = (char*) mir_realloc(m_nlhr.pData, sizeNew);
-		
+
 		strcpy(m_nlhr.pData + sizeof(char)*m_nlhr.dataLength, pszVal);
 		m_nlhr.pData[sizeNew-1] = 0;
 		m_nlhr.dataLength = (int)sizeNew -1;
@@ -281,4 +283,3 @@ const char * CSendImageShack::GetTagContent(char * pszSource, const char * pszTa
 	if (e) *e = 0;
 	return b;
 }
-

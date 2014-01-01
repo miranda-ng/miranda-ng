@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -19,7 +20,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 */
 
 /*
@@ -80,26 +80,26 @@ static HANDLE amGetCurrentChain()
 static void amThreadProc(void *)
 {
 	thread_catcher lck(g_hAwayMsgThread);
-	
+
 	ClcCacheEntry dnce;
 	memset(&dnce, 0, sizeof(dnce));
 
 	while (!MirandaExiting()) {
-		HANDLE hContact = amGetCurrentChain(); 
-		while (hContact) { 
+		HANDLE hContact = amGetCurrentChain();
+		while (hContact) {
 			DWORD time = GetTickCount();
 			if ((time-amRequestTick) < AMASKPERIOD) {
 				SleepEx(AMASKPERIOD-(time-amRequestTick)+10, TRUE);
 				if ( MirandaExiting())
-					return; 
+					return;
 			}
 			CListSettings_FreeCacheItemData(&dnce);
 			dnce.hContact = (HANDLE)hContact;
 			Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&dnce);
-			
+
 			HANDLE ACK = 0;
 			if (dnce.ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
-				ACK = (HANDLE)CallContactService(hContact,PSS_GETAWAYMSG, 0, 0);		
+				ACK = (HANDLE)CallContactService(hContact,PSS_GETAWAYMSG, 0, 0);
 			if ( !ACK) {
 				ACKDATA ack;
 				ack.hContact = hContact;
@@ -124,7 +124,7 @@ static void amThreadProc(void *)
 			}
 			else break;
 			if ( MirandaExiting())
-				return;			
+				return;
 		}
 		WaitForSingleObjectEx(hamProcessEvent, INFINITE, TRUE);
 		ResetEvent(hamProcessEvent);
@@ -148,19 +148,19 @@ BOOL amWakeThread()
 */
 void amRequestAwayMsg(HANDLE hContact)
 {
-	if ( !g_CluiData.bInternalAwayMsgDiscovery || !hContact) 
+	if ( !g_CluiData.bInternalAwayMsgDiscovery || !hContact)
 		return;
 
-	//Do not re-ask for chat rooms   
+	//Do not re-ask for chat rooms
 	char *szProto = GetContactProto(hContact);
 	if (szProto != NULL && !db_get_b(hContact, szProto, "ChatRoom", 0))
-		amAddHandleToChain(hContact);        
+		amAddHandleToChain(hContact);
 }
 
 void InitAwayMsgModule()
 {
 	InitializeCriticalSection(&amCS);
-	hamProcessEvent = CreateEvent(NULL,FALSE,FALSE,NULL);   
+	hamProcessEvent = CreateEvent(NULL,FALSE,FALSE,NULL);
 	g_hAwayMsgThread = mir_forkthread(amThreadProc, 0);
 }
 

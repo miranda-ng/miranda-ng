@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2004 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-04 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -71,7 +72,7 @@ static void ReActiveCombo(HWND hwndDlg)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_TL), IsDlgButtonChecked(hwndDlg, IDC_CORNER));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_TR), IsDlgButtonChecked(hwndDlg, IDC_CORNER));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_BR), IsDlgButtonChecked(hwndDlg, IDC_CORNER));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_BL), IsDlgButtonChecked(hwndDlg, IDC_CORNER));	 
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_BL), IsDlgButtonChecked(hwndDlg, IDC_CORNER));
 		ChangeControlItems(hwndDlg, !IsDlgButtonChecked(hwndDlg, IDC_IGNORE), IDC_IGNORE);
 	} else {
 		ChangeControlItems(hwndDlg, !IsDlgButtonChecked(hwndDlg, IDC_IGNORE), IDC_IGNORE);
@@ -326,7 +327,7 @@ static void SetChangedStatusItemFlag(WPARAM wParam, HWND hwndDlg)
 				ChangedSItems.bCORNER = TRUE; break;
 
 			case IDC_BASECOLOUR:
-				ChangedSItems.bCOLOR = TRUE; break;	
+				ChangedSItems.bCOLOR = TRUE; break;
 			case IDC_BASECOLOUR2:
 				ChangedSItems.bCOLOR2 = TRUE; break;
 			case IDC_COLOR2_TRANSPARENT:
@@ -429,13 +430,13 @@ static void UpdateStatusStructSettingsFromOptDlg(HWND hwndDlg, int index)
 	}
 
 	if (ChangedSItems.bMARGIN_LEFT) {
-		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_LEFT), buf, 10);		
+		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_LEFT), buf, 10);
 		if (buf[0] != 0)
 			p->MARGIN_LEFT = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_LEFT_SPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_TOP) {
-		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_TOP), buf, 10);	
+		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_TOP), buf, 10);
 		if (buf[0] != 0)
 			p->MARGIN_TOP = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_TOP_SPIN, UDM_GETPOS, 0, 0);
 	}
@@ -447,7 +448,7 @@ static void UpdateStatusStructSettingsFromOptDlg(HWND hwndDlg, int index)
 	}
 
 	if (ChangedSItems.bMARGIN_BOTTOM) {
-		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_BOTTOM), buf, 10);	 
+		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_BOTTOM), buf, 10);
 		if (buf[0] != 0)
 			p->MARGIN_BOTTOM = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_BOTTOM_SPIN, UDM_GETPOS, 0, 0);
 	}
@@ -575,7 +576,7 @@ static void OnListItemsChange(HWND hwndDlg)
 			itemData = SendDlgItemMessage(hwndDlg, IDC_ITEMS, LB_GETITEMDATA, last_indizes[n], 0);
 			if (itemData == ID_EXTBKSEPARATOR)
 				continue;
-				
+
 			StatusItems_t *p = StatusItems[itemData - ID_EXTBK_FIRST];
 			if (p->ALPHA != pFirst->ALPHA)
 				DialogSettingForMultiSel.ALPHA = -1;
@@ -799,7 +800,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			OnListItemsChange(hwndDlg);
 			if (psd->pfnClcOptionsChanged)
 				psd->pfnClcOptionsChanged();
-			break;		
+			break;
 		case IDC_GRADIENT:
 			ReActiveCombo(hwndDlg);
 			break;
@@ -854,8 +855,8 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	return FALSE;
 }
 
-/*													
- * unimplemented														
+/*
+ * unimplemented
 */
 
 static BOOL CALLBACK SkinEdit_ImageItemEditProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -870,8 +871,8 @@ static INT_PTR SkinEdit_FillByCurrentSel(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*													
- * service function														
+/*
+ * service function
  * creates additional tab pages under the given parent window handle
  * expects a SKINDESCRIPTON * in lParam
 */

@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2004 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (ñ) 2000-04 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -40,7 +41,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // obtain the IP
 // wParam = (IPMODE)			- above MDYNDNS_IPMODE flag
 // lParam = (char*)				- pointer (min 16 bit buffer) that recive the IP (NULL on failure)
-// returns: other than 0 on failure, 
+// returns: other than 0 on failure,
 
 #define ME_MDYNDNS_GETIP		"mDynDNS/GetIP"
 

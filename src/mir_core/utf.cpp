@@ -1,12 +1,13 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project, 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
- Copyright 2000 Alexandre Julliard of Wine project 
+ Copyright 2000 Alexandre Julliard of Wine project
  (UTF-8 conversion routines)
 
 This program is free software; you can redistribute it and/or
@@ -14,7 +15,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -249,7 +250,7 @@ int Utf8toUcs2(const char *src, int srclen, wchar_t *dst, int dstlen)
 
 MIR_CORE_DLL(char*) Utf8DecodeCP(char *str, int codepage, wchar_t **ucs2)
 {
-	int len; 
+	int len;
 	bool needs_free = false;
 	wchar_t* tempBuf = NULL;
 	if (ucs2)
@@ -291,7 +292,7 @@ MIR_CORE_DLL(char*) Utf8DecodeCP(char *str, int codepage, wchar_t **ucs2)
 			return NULL;
 	}
 
-	Utf8toUcs2(str, len, tempBuf, destlen); 
+	Utf8toUcs2(str, len, tempBuf, destlen);
 	tempBuf[destlen] = 0;
 	WideCharToMultiByte(codepage, 0, tempBuf, -1, str, len + 1, "?", NULL);
 
@@ -337,7 +338,7 @@ MIR_CORE_DLL(wchar_t*) Utf8DecodeW(const char *str)
 
 MIR_CORE_DLL(char*) Utf8EncodeCP(const char* src, int codepage)
 {
-	int len; 
+	int len;
     bool needs_free = false;
 	char* result = NULL;
 	wchar_t* tempBuf;

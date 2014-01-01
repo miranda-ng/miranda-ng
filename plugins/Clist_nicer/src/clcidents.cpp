@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include <commonheaders.h>
 
 /* the CLC uses 3 different ways to identify elements in its list, this file
@@ -69,7 +71,7 @@ int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contact,
 					*isVisible = 0;
 				else {
 					int posy = RowHeight::getItemTopY(dat,index+1);
-					if (posy<dat->yScroll) 
+					if (posy<dat->yScroll)
 						*isVisible=0;
 					//if ((index + 1) * dat->rowHeight< dat->yScroll)
 					//    *isVisible = 0;

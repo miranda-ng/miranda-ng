@@ -1,6 +1,6 @@
 /*
 
-Miranda Scripting Plugin for Miranda-IM
+Miranda Scripting Plugin for Miranda NG
 Copyright 2004-2006 Piotr Pawluczuk (www.pawluczuk.info)
 
 This program is free software; you can redistribute it and/or
@@ -19,9 +19,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 /*
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 

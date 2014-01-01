@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-10 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -24,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 
-static const TCHAR *szClistFontIdDescr[FONTID_MAX+1] = 
+static const TCHAR *szClistFontIdDescr[FONTID_MAX+1] =
 {
 	LPGENT( "Standard contacts"),
 	LPGENT( "Online contacts to whom you have a different visibility"),
@@ -39,7 +40,7 @@ static const TCHAR *szClistFontIdDescr[FONTID_MAX+1] =
 	LPGENT( "Hover Contacts")
 };
 
-static int fontListOrder[FONTID_MAX + 1]  = 
+static int fontListOrder[FONTID_MAX + 1]  =
 {
 	FONTID_CONTACTS,
 	FONTID_INVIS,

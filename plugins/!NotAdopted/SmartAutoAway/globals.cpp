@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2006 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2000-06 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -110,4 +111,3 @@ HOTKEYDESC hotkeydescs[] = {
 	{sizeof(HOTKEYDESC), "saa_belongidle", "Long Idle", SECTIONNAME, AA_IDLE_BELONGIDLESERVICE, 0, 0},
 	{sizeof(HOTKEYDESC), "saa_reconnect", "Reconnect", SECTIONNAME, AA_IDLE_RECONNECTSERVICE, 0, 0},
   };
-

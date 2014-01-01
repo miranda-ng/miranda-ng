@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -21,7 +22,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Created by Pescuma
-
 */
 
 #pragma once
@@ -32,14 +32,14 @@ Created by Pescuma
 #include <windows.h>
 
 
-typedef struct _IMAGE_ARRAY_DATA_NODE 
+typedef struct _IMAGE_ARRAY_DATA_NODE
 {
 	int width;
 	int height;
 }
 IMAGE_ARRAY_DATA_NODE;
 
-typedef struct _IMAGE_ARRAY_DATA 
+typedef struct _IMAGE_ARRAY_DATA
 {
 	// Configuration
 	BOOL width_based;
@@ -83,7 +83,7 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos);
 // Remove an image
 BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos);
 
-// Draw an image 
+// Draw an image
 BOOL ImageArray_DrawImage(LP_IMAGE_ARRAY_DATA iad, int pos, HDC hdcDest, int nXDest, int nYDest, BYTE Alpha);
 
 

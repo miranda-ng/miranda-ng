@@ -1,8 +1,9 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -19,7 +20,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 */
 
 /*
@@ -83,7 +83,7 @@ static void gtaThreadProc(void *lpParam)
 	SHORTDATA data = {0};
 
 	while (!MirandaExiting()) {
-		Sync(CLUI_SyncGetShortData,(WPARAM)pcli->hwndContactTree,(LPARAM)&data);       
+		Sync(CLUI_SyncGetShortData,(WPARAM)pcli->hwndContactTree,(LPARAM)&data);
 		while (true) {
 			if ( MirandaExiting())
 				return;
@@ -98,8 +98,8 @@ static void gtaThreadProc(void *lpParam)
 			SHORTDATA *dat;
 			if (mpChain.dat == NULL || (!IsBadReadPtr(mpChain.dat,sizeof(mpChain.dat)) && mpChain.dat->hWnd == data.hWnd))
 				dat = &data;
-			else {        
-				Sync(CLUI_SyncGetShortData,(WPARAM)mpChain.dat->hWnd,(LPARAM)&dat2);       
+			else {
+				Sync(CLUI_SyncGetShortData,(WPARAM)mpChain.dat->hWnd,(LPARAM)&dat2);
 				dat = &dat2;
 			}
 			if ( MirandaExiting())
@@ -111,7 +111,7 @@ static void gtaThreadProc(void *lpParam)
 			if ( !Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&cacheEntry)) {
 				Cache_GetSecondLineText(dat, &cacheEntry);
 				Cache_GetThirdLineText(dat, &cacheEntry);
-				Sync(CLUI_SyncSetPDNCE, (WPARAM) CCI_LINES,(LPARAM)&cacheEntry);  
+				Sync(CLUI_SyncSetPDNCE, (WPARAM) CCI_LINES,(LPARAM)&cacheEntry);
 				CListSettings_FreeCacheItemData(&cacheEntry);
 			}
 
@@ -137,18 +137,18 @@ BOOL gtaWakeThread()
 int gtaAddRequest(ClcData *dat,ClcContact *contact,HANDLE hContact)
 {
 	if (MirandaExiting()) return 0;
-	gtalock;    
+	gtalock;
 	{
 		GTACHAINITEM * mpChain = (GTACHAINITEM *)malloc(sizeof(GTACHAINITEM));
 		mpChain->hContact = hContact;
 		mpChain->dat = dat;
 		mpChain->Next = NULL;
-		if (gtaLastItem) 
+		if (gtaLastItem)
 		{
 			gtaLastItem->Next = (GTACHAINITEM *)mpChain;
 			gtaLastItem = mpChain;
 		}
-		else 
+		else
 		{
 			gtaFirstItem = mpChain;
 			gtaLastItem = mpChain;

@@ -1,9 +1,10 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-03 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -90,7 +91,7 @@ ClcCacheEntry *GetCLCFullCacheEntry(struct ClcData *dat,HANDLE hContact)
 	if (pdnce == NULL) {
 		pdnce = (ClcCacheEntry*)mir_calloc(sizeof(ClcCacheEntry));
 		pdnce->hContact = hContact;
-	
+
 		int idx;
 		List_GetIndex(&dat->lCLCContactsCache,pdnce,&idx);
 		List_Insert(&dat->lCLCContactsCache,pdnce,idx);
@@ -117,12 +118,12 @@ void ClearClcContactCache(struct ClcData *dat,HANDLE hContact)
 		for (i = 0;i<(dat->lCLCContactsCache.realCount);i++) {
 			ClcCacheEntry *pdnce = (ClcCacheEntry *)dat->lCLCContactsCache.items[i];
 			pdnce->ClcContact = NULL;
-		}		
+		}
 		tick = GetTickCount()-tick;
 		{
 			char buf[256];
 			mir_snprintf(buf, SIZEOF(buf), "Clear full cache %d ms\r\n", tick);
-			OutputDebugStringA(buf);		
+			OutputDebugStringA(buf);
 		}
 	}
 	if ( !IsHContactGroup(hContact) && !IsHContactInfo(hContact)) {
@@ -163,9 +164,9 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 				if (ret == 0) {return 0;}
 				cacheEntry->ClcContact = (void *)z;
 			}
-			
+
 			if (cacheEntry->ClcContact != NULL) {
-				if (contact != NULL) 
+				if (contact != NULL)
 					*contact = (struct ClcContact *)cacheEntry->ClcContact;
 
 				return 1;
@@ -181,11 +182,11 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 			group = group->parent;
 			if (group == NULL)
 				break;
-			
+
 			nowVisible = 1;
 			for (tgroup = group;tgroup;tgroup = tgroup->parent)
 				if ( !group->expanded) {
-					nowVisible = 0; 
+					nowVisible = 0;
 					break;
 				}
 
@@ -215,7 +216,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 		if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT &&
 			group->cl.items[group->scanIndex]->SubAllocated>0)
 			for (i = 1; i<=group->cl.items[group->scanIndex]->SubAllocated; i++)
-				if (IsHContactContact(hItem)  && group->cl.items[group->scanIndex]->subcontacts[i-1].hContact == hItem) {	
+				if (IsHContactContact(hItem)  && group->cl.items[group->scanIndex]->subcontacts[i-1].hContact == hItem) {
 					if (contact) *contact = &group->cl.items[group->scanIndex]->subcontacts[i-1];
 					if (subgroup) *subgroup = group;
 					return 1;
@@ -262,7 +263,7 @@ int GetRowByIndex(struct ClcData *dat,int testindex,struct ClcContact **contact,
 			group->scanIndex++;
 			continue;
 		}
-		if ((index>0) && (index<CacheArrSize)) 
+		if ((index>0) && (index<CacheArrSize))
 		{
 			CacheIndex[index] = group;
 			CacheIndexClear = FALSE;
@@ -290,7 +291,7 @@ int GetRowByIndex(struct ClcData *dat,int testindex,struct ClcContact **contact,
 						}
 					}
 				}
-				
+
 		index++;
 		if ((group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) && (group->cl.items[group->scanIndex]->flags & CONTACTF_STATUSMSG))
 			index++;

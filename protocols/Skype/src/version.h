@@ -17,4 +17,4 @@
 #define __AUTHOR					"unsane, mataes, ghazan"
 #define __AUTHOREMAIL				"mataes2007@gmail.com"
 #define __AUTHORWEB					"http://miranda-ng.org/p/Skype/"
-#define __COPYRIGHT					"© 2012-2013 Miranda NG team"
+#define __COPYRIGHT					"© 2012-14 Miranda NG team"

@@ -1,6 +1,6 @@
 /*
-Copyright 2012-2013 Vladimir Lyubimov
-Copyright 2012-2013 Miranda-NG team,
+Copyright 2012-13 Vladimir Lyubimov
+Copyright 2012-14 Miranda NG team
 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
