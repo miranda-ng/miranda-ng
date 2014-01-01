@@ -41,33 +41,18 @@ struct MsgWndData
 	~MsgWndData();
 
 	void FlagsIconSet();
-	void FlagsIconUnset();
-	void FlagsIconUpdate()
-	{
-		g_bShowStatusIconFlag ? FlagsIconSet() : FlagsIconUnset();
-	}
+
 	void ContryIDchange(int ID)
 	{
-		m_countryID = ID; FlagsIconUpdate();
+		m_countryID = ID; FlagsIconSet();
 	}
-};
-
-struct IconList
-{
-	int m_ID;
-	BYTE m_TypeFlag;
-	HANDLE m_hIcon;
-	StatusIconData m_StatusIconData;
-
-	IconList(StatusIconData *sid);
-	~IconList();
 };
 
 typedef void (CALLBACK *BUFFEREDPROC)(LPARAM lParam);
 void CallFunctionBuffered(BUFFEREDPROC pfnBuffProc, LPARAM lParam, BOOL fAccumulateSameParam, UINT uElapse);
 
 void SvcFlagsEnableExtraIcons(bool bEnable, bool bUpdateDB);
-void CALLBACK UpdateStatusIcons(LPARAM lParam);
+void UpdateStatusIcons();
 
 void SvcFlagsLoadModule();
 void SvcFlagsOnModulesLoaded();

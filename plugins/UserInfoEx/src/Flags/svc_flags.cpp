@@ -38,6 +38,8 @@ static HANDLE hSettingChangedHook = NULL;
 
 static int OnContactSettingChanged(WPARAM wParam,LPARAM lParam);
 
+static LIST<MsgWndData> gMsgWndList(10, HandleKeySortT);
+
 /***********************************************************************************************************
  * Buffered functions
  ***********************************************************************************************************/
@@ -217,106 +219,39 @@ MsgWndData::MsgWndData(HWND hwnd, HANDLE hContact)
 	m_hContact = hContact;
 	m_countryID = (int)ServiceDetectContactOriginCountry((WPARAM)m_hContact, 0);
 
-	StatusIconData sid = { sizeof(sid) };
-	sid.szModule = MODNAMEFLAGS;
-	sid.flags = MBF_HIDDEN;
-	Srmm_AddIcon(&sid);
-
-	FlagsIconUpdate();
+	FlagsIconSet();
 }
 
 MsgWndData::~MsgWndData()
 {
-	FlagsIconUnset();			//check if realy need
 }
 
 void MsgWndData::FlagsIconSet()
 {
-	/* ensure status icon is registered */
-	if (m_countryID != 0xFFFF || g_bUseUnknownFlag) {
-		StatusIconData sid = { sizeof(sid) };
-		sid.szModule = MODNAMEFLAGS;
-		sid.hIconDisabled = sid.hIcon = LoadFlagIcon(m_countryID);
-		sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, m_countryID, 0));
-		Srmm_ModifyIcon(m_hContact, &sid);
-	}
-}
-
-void MsgWndData::FlagsIconUnset()
-{
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODNAMEFLAGS;
-	sid.flags = MBF_HIDDEN;
+	if (!g_bShowStatusIconFlag)
+		sid.flags = MBF_HIDDEN;
+	if (m_countryID != 0xFFFF || g_bUseUnknownFlag) {
+		sid.hIcon = LoadFlagIcon(m_countryID);
+		sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, m_countryID, 0));
+	}
+	else sid.flags = MBF_HIDDEN;
+	
 	Srmm_ModifyIcon(m_hContact, &sid);
 }
 
-static int CompareMsgWndData(const MsgWndData* p1, const MsgWndData* p2)
+void UpdateStatusIcons()
 {
-	return (int)((INT_PTR)p1->m_hContact - (INT_PTR)p2->m_hContact);
-}
-static LIST<MsgWndData> gMsgWndList(10, CompareMsgWndData);
-
-static int CompareIconListData(const IconList* p1, const IconList* p2)
-{
-	return (int)((INT_PTR)p1->m_ID - (INT_PTR)p2->m_ID);
-}
-static OBJLIST<IconList> gIListMW(10, CompareIconListData);
-
-IconList::IconList(StatusIconData *sid)
-{
-	m_StatusIconData.cbSize = sid->cbSize;
-	m_StatusIconData.szModule = mir_strdup(sid->szModule);
-	m_StatusIconData.dwId = sid->dwId;
-	m_StatusIconData.hIcon = CopyIcon(sid->hIcon);
-	m_StatusIconData.hIconDisabled = sid->hIconDisabled;
-	m_StatusIconData.flags = sid->flags;
-	m_StatusIconData.szTooltip = mir_strdup(sid->szTooltip);
-
-	m_ID = sid->dwId;
-	Srmm_AddIcon(sid);
-
-}
-IconList::~IconList()
-{
-	mir_free(m_StatusIconData.szModule);
-	mir_free(m_StatusIconData.szTooltip);
-}
-
-// const char *pszName;			// [Optional] Name of an icon registered with icolib to be used in GUI.
-static __inline int MessageAPI_AddIcon(const char* pszName, const char* szModul/*StatusIconData *sid*/, int ID, int flags, const char* szTooltip)
-{
-	HICON hIcon = Skin_GetIcon(pszName);
-
 	StatusIconData sid = { sizeof(sid) };
-	sid.szModule = (char*)szModul;
-	sid.dwId = (DWORD)ID;
-	sid.hIcon = (hIcon != NULL) ? CopyIcon(hIcon) : NULL;
-	sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, ID, 0));
-	Skin_ReleaseIcon(hIcon); /* does NULL check */
+	sid.szModule = MODNAMEFLAGS;
+	if (!g_bShowStatusIconFlag)
+		sid.flags = MBF_HIDDEN;
+	Srmm_ModifyIcon(NULL, &sid);
 
-	int res = -1;
-	IconList* p = new IconList(&sid);
-	if (!p->m_ID)
-		delete p;
-	else
-		res = gIListMW.insert(p);
-	if (res == -1)
-		delete p;
-	return res;
-}
-
-void CALLBACK UpdateStatusIcons(LPARAM lParam)
-{
-	if (!lParam) {
-		/* enum all opened message windows */
-		for (int i = 0; i < gMsgWndList.getCount(); i++)
-			gMsgWndList[i]->FlagsIconUpdate();
-	}
-	else {
-		int i = gMsgWndList.getIndex((MsgWndData*)&lParam);
-		if (i != -1)
-			gMsgWndList[i]->FlagsIconUpdate();
-	}
+	/* enum all opened message windows */
+	for (int i = 0; i < gMsgWndList.getCount(); i++)
+		gMsgWndList[i]->FlagsIconSet();
 }
 
 //hookProc ME_MSG_WINDOWEVENT
@@ -348,11 +283,10 @@ static int OnMsgWndEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//hookProc ME_SKIN2_ICONSCHANGED
+// hookProc ME_SKIN2_ICONSCHANGED
 static int OnStatusIconsChanged(WPARAM wParam, LPARAM lParam)
 {
-	if (g_bShowStatusIconFlag)
-		CallFunctionBuffered(UpdateStatusIcons, 0, FALSE, STATUSICON_REFRESHDELAY);
+	UpdateStatusIcons();
 	return 0;
 }
 
@@ -378,7 +312,7 @@ static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		int i = gMsgWndList.getIndex((MsgWndData*)&wParam);
 		if (i != -1) {
 			gMsgWndList[i]->ContryIDchange((int)ServiceDetectContactOriginCountry(wParam, 0));
-			gMsgWndList[i]->FlagsIconUpdate();
+			gMsgWndList[i]->FlagsIconSet();
 		}
 	}
 	return 0;
@@ -426,6 +360,12 @@ void SvcFlagsOnModulesLoaded()
 	SvcFlagsEnableExtraIcons(true, false);
 
 	/* Status Icon */
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MODNAMEFLAGS;
+	if (!g_bShowStatusIconFlag)
+		sid.flags = MBF_HIDDEN;
+	Srmm_AddIcon(&sid);
+
 	HookEvent(ME_MSG_WINDOWEVENT, OnMsgWndEvent);
 }
 
@@ -448,7 +388,6 @@ void SvcFlagsUnloadModule()
 		gMsgWndList.remove(i);
 	}
 	gMsgWndList.destroy();
-	gIListMW.destroy();
 
 	// Uninit misc
 	UnhookEvent(hApplyIconHook);

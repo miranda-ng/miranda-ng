@@ -366,7 +366,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 			FlagsClistChange |= SvcGenderEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_GENDER), true);
 
 			if (FlagsClistChange)  pcli->pfnSetAllExtraIcons(NULL);
-			if (FlagsMsgWndChange) UpdateStatusIcons(NULL);
+			if (FlagsMsgWndChange) UpdateStatusIcons();
 
 			// misc
 			BYTE bEnabled = IsDlgButtonChecked(hDlg, CHECK_OPT_ZODIACAVATAR);
