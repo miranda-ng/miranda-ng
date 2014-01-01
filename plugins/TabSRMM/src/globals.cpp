@@ -624,7 +624,11 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 
 void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 {
-	if (c == 0 || !c->isValid())
+	if (c == 0)
+		return;
+
+	TWindowData *dat = c->getDat();
+	if (dat == NULL || !c->isValid())
 		return;
 
 	HANDLE hContact = c->getContact();
@@ -663,7 +667,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.timestamp = time(NULL);
 	dbei.szModule = const_cast<char *>(c->getProto());
-	StreamInEvents(c->getDat()->hwnd, NULL, 1, 1, &dbei);
+	StreamInEvents(dat->hwnd, NULL, 1, 1, &dbei);
 }
 
 /**
