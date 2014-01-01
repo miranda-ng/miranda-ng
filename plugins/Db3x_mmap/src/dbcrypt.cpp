@@ -161,14 +161,18 @@ LBL_SetNewKey:
 		if (dbv.cpbVal != (WORD)iKeyLength)
 			goto LBL_SetNewKey;
 
-		if (!m_crypto->setKey(dbv.pbVal, iKeyLength))
-		if (!EnterPassword(dbv.pbVal, iKeyLength)) { // password protected?
-			if (m_dbHeader.version == DB_THIS_VERSION)
-				return 4;
+		if (!m_crypto->setKey(dbv.pbVal, iKeyLength)) {
+			if (!m_bEncrypted)
+				goto LBL_SetNewKey;
 
-			// one of the early used version of mmap was replaced then by mmap_sa
-			// simply remove old badly generated key
-			goto LBL_SetNewKey;
+			if (!EnterPassword(dbv.pbVal, iKeyLength)) { // password protected?
+				if (m_dbHeader.version == DB_THIS_VERSION)
+					return 4;
+
+				// one of the early used version of mmap was replaced then by mmap_sa
+				// simply remove old badly generated key
+				goto LBL_SetNewKey;
+			}
 		}
 
 		FreeVariant(&dbv);
