@@ -1,4 +1,2 @@
-﻿[Expands to your Miranda path (e.g., c:\\program files\\miranda ng).]
-[ProfileDir section (usually inside Miranda's folder).]
-[(e.g., default if your your profile is default.dat).]
+﻿[ProfileDir section (usually inside Miranda's folder).]
 [instead of expanding to Miranda's profile path.]

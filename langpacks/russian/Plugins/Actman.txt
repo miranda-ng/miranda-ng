@@ -308,6 +308,10 @@
 Байт
 [Word]
 Слово
+[Read]
+Чтение
+[Write]
+Запись
 [MessageBox]
 Окно уведомления
 [Start minimized]
