@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 /************************* Bitmap Access **************************/
 
-static HANDLE *phIconHandles = NULL;
-
 static int CountryNumberToBitmapIndex(int countryNumber)
 {
 	/* country number indices (same order as in flags.bmp) */
@@ -125,6 +123,8 @@ static int CountryNumberToBitmapIndex(int countryNumber)
 
 /************************* Utils **********************************/
 
+static HANDLE *phIconHandles = NULL;
+
 HICON LoadFlag(int countryNumber)
 {
 	/* create identifier */
@@ -147,7 +147,7 @@ HANDLE LoadFlagHandle(int countryNumber)
 
 int CountryNumberToIndex(int countryNumber)
 {
-	int nf=0;
+	int nf = 0;
 	for(int i=0; i < nCountriesCount; i++) {
 		if (countries[i].id == countryNumber) return i;
 		if (countries[i].id == 0xFFFF) nf=i;
@@ -287,34 +287,26 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 
 void InitIcons()
 {
-	HIMAGELIST			himl		= {0};
-	HBITMAP				hScrBM		= 0;
-	HBITMAP				hbmMask		= 0;
-	FIBITMAP			*dib		= NULL,
-						*dib_ico	= NULL;
-	UINT				bitDest		= ILC_COLOR8,
-						bit			= 24;
-
-//	BOOL				res;
-//	FREE_IMAGE_FORMAT	fif			= FIP->FI_GetFIFFromFilename("dummy.bmp");
-
 	/* all those flag icons storing in a large 24bit opaque bitmap to reduce file size */
-	if (NULL == (dib = LoadResource(IDB_FLAGSPNG,_T("PNG"))))
+	FIBITMAP *dib = LoadResource(IDB_FLAGSPNG, _T("PNG"));
+	if (dib == NULL)
 		return;
 
-	bitDest = bit = ILC_COLOR32;
+	UINT bit = ILC_COLOR32, bitDest = ILC_COLOR32;
 
 	if (FIP->FI_GetBPP(dib) != bit)
-		if (NULL == (dib = ConvertTo(dib, bit, 0))) return;
+	if (NULL == (dib = ConvertTo(dib, bit, 0)))
+		return;
 
 	//create new dib
-	if (NULL == (dib_ico = FIP->FI_Allocate(FIP->FI_GetWidth(dib), 16, bit,0,0,0))) {
+	FIBITMAP *dib_ico = FIP->FI_Allocate(FIP->FI_GetWidth(dib), 16, bit, 0, 0, 0);
+	if (dib_ico == NULL) {
 		FIP->FI_Unload(dib);
 		return;
 	}
 
-//	res = FIP->FI_IsTransparent(dib_ico);
-	if (bit<32) {
+	//	res = FIP->FI_IsTransparent(dib_ico);
+	if (bit < 32) {
 		//disable transparency
 		FIP->FI_SetTransparent(dib, FALSE);
 		FIP->FI_SetTransparent(dib_ico, FALSE);
@@ -322,18 +314,18 @@ void InitIcons()
 
 	UINT h = FIP->FI_GetHeight(dib_ico);
 	UINT w = FIP->FI_GetWidth(dib_ico);
-	UINT t = ((h - FIP->FI_GetHeight(dib))/2)+1;
+	UINT t = ((h - FIP->FI_GetHeight(dib)) / 2) + 1;
 	UINT b = t + FIP->FI_GetHeight(dib);
+	HBITMAP hbmMask = 0;
 
 	//copy dib to new dib_ico (centered)
-	if (FIP->FI_Paste(dib_ico, dib, 0, t-1, 255+1)) {
+	if (FIP->FI_Paste(dib_ico, dib, 0, t - 1, 255 + 1)) {
 		FIP->FI_Unload(dib);	dib = NULL;
 		switch (bitDest) {
-			case 8:
-			case 16:
-			case 24:
+		case 8:
+		case 16:
+		case 24:
 			{//transparency by 1bit monocrome icon mask (for bit < 32)
-				BYTE value;
 				FIBITMAP *dib_mask;
 				if (NULL == (dib_mask = FIP->FI_Allocate(w, h, 1, 0, 0, 0))) {
 					FIP->FI_Unload(dib_ico);
@@ -341,7 +333,7 @@ void InitIcons()
 				}
 				for(unsigned y = 0; y < h; y++)
 					for(unsigned x = 0; x < w; x++) {
-						value = ((y<t || y>=b)? 0:1);
+						BYTE value = ((y<t || y >= b) ? 0 : 1);
 						FIP->FI_SetPixelIndex(dib_mask, x, y, &value);
 					}
 				hbmMask = FIP->FI_CreateHBITMAPFromDIB(dib_mask);
@@ -379,7 +371,7 @@ void InitIcons()
 		return;
 	}
 
-	hScrBM = FIP->FI_CreateHBITMAPFromDIB(dib_ico);
+	HBITMAP hScrBM = FIP->FI_CreateHBITMAPFromDIB(dib_ico);
 	FIP->FI_Unload(dib_ico);
 
 	if (!hScrBM) {
@@ -388,7 +380,7 @@ void InitIcons()
 	}
 
 	//create ImageList
-	himl = ImageList_Create(16, 16 , bitDest | ILC_MASK, 0, nCountriesCount);
+	HIMAGELIST himl = ImageList_Create(16, 16, bitDest | ILC_MASK, 0, nCountriesCount);
 	ImageList_Add(himl, hScrBM, hbmMask);
 	DeleteObject(hScrBM);	hScrBM  = NULL;
 	DeleteObject(hbmMask);	hbmMask = NULL;

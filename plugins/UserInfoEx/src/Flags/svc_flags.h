@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define EXTRAIMAGE_REFRESHDELAY		100		/* time for which setting changes are buffered */
 #define STATUSICON_REFRESHDELAY		100		/* time for which setting changes are buffered */
 
-extern bool g_bShowExtraImgFlag, g_bUseUnknownFlag, g_bShowStatusIconFlag;
+extern bool g_bUseUnknownFlag, g_bShowStatusIconFlag;
 extern bool g_eiGender, g_eiHome, g_eiEmail, g_eiPhone;
 
 struct MsgWndData
@@ -51,7 +51,6 @@ struct MsgWndData
 typedef void (CALLBACK *BUFFEREDPROC)(LPARAM lParam);
 void CallFunctionBuffered(BUFFEREDPROC pfnBuffProc, LPARAM lParam, BOOL fAccumulateSameParam, UINT uElapse);
 
-void SvcFlagsEnableExtraIcons(bool bEnable, bool bUpdateDB);
 void UpdateStatusIcons();
 
 void SvcFlagsLoadModule();
