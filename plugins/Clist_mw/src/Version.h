@@ -8,7 +8,7 @@
 #define __PLUGIN_NAME				"MultiWindow contact list"
 #define __FILENAME					"Clist_mw.dll"
 #define __DESCRIPTION 				"Displays contacts, event notifications, protocol status with MW modifications."
-#define __AUTHOR					""
+#define __AUTHOR					"Bethoven"
 #define __AUTHOREMAIL				"bethoven@mailgate.ru"
 #define __AUTHORWEB					"http://miranda-ng.org/p/Clist_mw/"
 #define __COPYRIGHT					"Copyright 2000-2010 Miranda IM project, 2012 Miranda NG project."
