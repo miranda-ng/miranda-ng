@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber protocol support for Miranda NG.]
@@ -83,7 +83,7 @@
 [ZIP:]
 [Country:]
 [Full name:]
-[Nick name:]
+[Nickname:]
 [First name:]
 [Middle:]
 [Last name:]
@@ -146,7 +146,6 @@
 [<room jid>\nIncoming group chat invitation.]
 [You are invited to conference room by]
 [with following reason:]
-[Nickname:]
 [&Accept]
 [Jabber Bookmarks]
 [Server side bookmarks\nStore conference rooms and web links on server.]
@@ -300,6 +299,7 @@
 [Supports Miranda NG notes extension]
 [Supports Jingle]
 [Supports Roster Exchange]
+[Supports direct chat invitations (XEP-0249)]
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 ;file \protocols\JabberG\src\jabber_chat.cpp
@@ -651,7 +651,6 @@
 [Services...]
 [Registered Transports]
 [Local Server Transports]
-[Browse Chatrooms]
 [Create/Join group chat]
 [Roster editor]
 [Resource priority]
@@ -916,7 +915,6 @@
 [Status changes]
 [Don't notify history messages]
 [JID]
-[Nick Name]
 [Group]
 [Subscription]
 [Uploading...]

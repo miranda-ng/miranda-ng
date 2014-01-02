@@ -10,6 +10,7 @@
 [Supports chat history retrieving]
 [Supports chat history management]
 [Supports Roster Exchange]
+[Supports direct chat invitations (XEP-0249)]
 [Outgoing XML parsing error]
 [One or more addresses for communication related to abusive traffic]
 [One or more addresses for customer feedback]

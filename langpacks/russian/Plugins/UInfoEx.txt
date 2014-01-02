@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.4.2
+;  Version: 0.8.5.0
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -89,8 +89,6 @@
 Телефон может получать SMS
 [Add E-Mail]
 Добавить E-mail
-[Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
-Введите e-mail адрес.\n(например: john.doe@provider.com)
 [Enter a representitive name for the e-mail address here.]
 Введите имя для электронного адреса
 [Enter the e-mail address here.]
@@ -427,14 +425,16 @@ E-Mail
 Да
 [No]
 Нет
+[Abort]
+Отмена
 [Ignore]
 Игнорировать
 [Error]
 Ошибка
-[Protocol '%s' is offline]
-Протокол '%s' не в сети
 [Upload Details]
 Закачать Детали
+[Protocol '%s' is offline]
+Протокол '%s' не в сети
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 Вы сейчас не подключены к сети ICQ.\nВы должны быть в сети, чтобы обновить информацию на сервере.\n\nИзменения будут сохранены только в локальную базу данных.
 [Uploading]
@@ -491,17 +491,17 @@ E-Mail
 Экспорт: Папка
 [Default]
 По умолчанию
-[Details Infobar]
+[Details info bar]
 Детали
-[Phone Infobar]
+[Phone info bar]
 Телефон
-[E-Mail Infobar]
+[E-Mail info bar]
 Почта
 [Export VCard]
 Экспорт VCard
 [Import VCard]
 Импорт VCard
-[Anniversary Infobar]
+[Anniversary info bar]
 Юбилей
 [Update]
 Обновить

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -54,8 +54,8 @@
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 [Highlight message text]
 [Enable highlighting for message text]
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
-[Highlight messages containing my own nick name]
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
+[Highlight messages containing my own nickname]
 [List]
 [&Message]
 [Log]
@@ -489,7 +489,6 @@
 [Channel manager]
 [<Separator>]
 ;file \plugins\TabSRMM\src\container.cpp
-[Hide titlebar]
 [Message Session...]
 [Default container]
 [Attach to]
@@ -889,7 +888,7 @@
 [Draw grid lines]
 [Use Incoming/Outgoing Icons]
 [Use Message Grouping]
-[Simple text formatting (*bold* etc.)]
+[Simple text formatting (*bold*, etc.)]
 [Support BBCode formatting]
 [Place a separator in the log after a window lost its foreground status]
 [Only place a separator when an incoming event is announced with a popup]
@@ -1162,7 +1161,6 @@
 [Highlight User...]
 [Edit Highlight List...]
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[Nick name]
 [Unique ID]
 [Nick]
 [%s: Chat Room (%u user%s)]

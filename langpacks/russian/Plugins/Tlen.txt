@@ -133,8 +133,6 @@ E-mail:
 Система:
 [Personal Information]
 Персональные данные
-[Nickname:]
-Ник:
 [Age:]
 Возраст:
 [to]

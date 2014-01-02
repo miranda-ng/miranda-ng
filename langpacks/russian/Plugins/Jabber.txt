@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber protocol support for Miranda NG.]
@@ -273,8 +273,6 @@ Jabber vCard: добавление телефона
 Вас пригласил:
 [with following reason:]
 причина:
-[Nickname:]
-Ник:
 [&Accept]
 Принять
 [Jabber Bookmarks]
@@ -957,8 +955,6 @@ Jabber ошибка
 Транспорты
 [Local Server Transports]
 Транспорты сервера
-[Browse Chatrooms]
-Обзор комнаты чата
 [Create/Join group chat]
 Создать/войти в чат
 [Roster editor]
@@ -1473,8 +1469,6 @@ Jabber ошибка
 Смены статуса
 [Don't notify history messages]
 Не показывать уведомлений из истории
-[Nickname]
-Ник
 [Group]
 Группа
 [Subscription]

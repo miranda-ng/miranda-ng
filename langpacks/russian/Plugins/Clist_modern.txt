@@ -73,7 +73,7 @@
 Прокручивать с текстом
 [Stretch proportionally]
 Растянуть
-[Tile vertically according to Row Height]
+[Tile vertically according to row height]
 Растягивать вертикально по высоте
 [Use Windows Colors]
 Цвета Windows
@@ -181,7 +181,7 @@
 Многострочная панель статуса:
 [Accounts per line]
 Уч. записей в строке
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * Изменение высоты строки статуса: "Главное меню->Фреймы->Панель статуса->Плавающий режим" и растяните панель.
 [Hold [Shift] to inverse [Right Click] behavior]
 Shift+Правый клик - Главное меню
@@ -661,13 +661,13 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Оверлей статуса
 [Contact List smileys]
 Список контактов
-[List Background]
+[List background]
 Фон списка
-[Menu Background]
+[Menu background]
 Фон меню
-[StatusBar Background]
+[Status bar background]
 Фон панели статуса
-[Frames TitleBar BackGround]
+[Frames title bar background]
 Фон заголовка фреймов
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Хотите конвертировать '%s' в метаконтакт и добавить '%s' в него?
@@ -759,16 +759,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Текст выделенного меню
 [Frame title text]
 Текст заголовка фрейма
-[Statusbar text]
-Текст панели статуса
 [3rd party frames transparent back color]
 Фон прозрачности сторонних фреймов
-[General]
-Общее
-[List]
-Список
-[Window]
-Окно
 [Not focused]
 Не в фокусе
 [Offline]
@@ -811,7 +803,15 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 За левый край
 [Behind right edge]
 За правый край
-[Event Area Background]
+[General]
+Общее
+[List]
+Список
+[Window]
+Окно
+[List Background]
+Фон списка
+[Event area background]
 Фон области событий
 [Event Area]
 Область событий
@@ -989,7 +989,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Свернуть
 [To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Для отображения панели кнопок в Clist_modern необходим плагин TopToolBar. Нажмите "Да", чтобы скачать плагин или "Нет", чтобы продолжить не скачивая
-[ToolBar Background]
+[Toolbar background]
 Фон панели кнопок
 [Toolbar upgrade]
 Обновление панели кнопок
@@ -1071,14 +1071,12 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 В&низ
 [Show All Frames]
 Показать все фреймы
-[Show All Titlebars]
+[Show all title bars]
 Показывать названия
-[Hide All Titlebars]
+[Hide all title bars]
 Скрыть названия
 [Lock Frame]
 Закрепить фрейм
-[Show TitleBar]
-Показать заголовок
 [Frame menu]
 Меню фреймов
 [Group menu]

@@ -375,7 +375,7 @@
 Настройки скина
 [Group top padding]
 Верх. отступ групп
-[Frame titlebar height]
+[Frame title bar height]
 Высота названия фрейма
 [Ignore selection for groups]
 Игнорировать выделение для групп
@@ -787,7 +787,7 @@
 &Заголовок фрейма
 [&Visible]
 Показывать
-[&Show TitleBar]
+[&Show title bar]
 Показывать название
 [&Locked]
 Закрепить
@@ -817,15 +817,15 @@
 Фреймы
 [Show All Frames]
 Показать все фреймы
-[Show All Titlebars]
+[Show all title bars]
 Показывать названия
-[Hide All Titlebars]
+[Hide all title bars]
 Скрыть названия
 [Lock Frame]
 Закрепить фрейм
 [Visible]
 Видимо
-[Show TitleBar]
+[Show title bar]
 Показать заголовок
 [Skinned frame]
 Применять скин к фрейму

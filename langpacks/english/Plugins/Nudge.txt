@@ -2,10 +2,10 @@
 ;============================================================
 ;  File: Nudge.dll
 ;  Plugin: Nudge
-;  Version: 0.0.2.0
+;  Version: 0.1.0.0
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
-[Plugin to shake the clist and chat window.]
+[Plugin to shake the contact list and chat window.]
 ;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 [Specify options for each protocol]
@@ -37,7 +37,7 @@
 [Invisible]
 [On the phone]
 [Out to lunch]
-[Shaking Clist Options]
+[Shaking contact list options]
 [Number of moves]
 [Width of move]
 [Static]

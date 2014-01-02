@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.4.2
+;  Version: 0.8.5.0
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -50,7 +50,7 @@
 [Or enter a full international number:]
 [Phone can receive SMS text messages]
 [Add E-Mail]
-[Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
+[Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 [Enter a representitive name for the e-mail address here.]
 [Enter the e-mail address here.]
 [Show menu items]
@@ -234,8 +234,8 @@
 [Ignore]
 [Error]
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Protocol '%s' is offline]
 [Upload Details]
+[Protocol '%s' is offline]
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 [Uploading]
 [Creating the imagelist failed!]
@@ -268,12 +268,12 @@
 [Export: Modules]
 [Export: Folder]
 [Default]
-[Details Infobar]
-[Phone Infobar]
-[E-Mail Infobar]
+[Details info bar]
+[Phone info bar]
+[E-Mail info bar]
 [Export VCard]
 [Import VCard]
-[Anniversary Infobar]
+[Anniversary info bar]
 [Update]
 [Export]
 [Goto]
@@ -595,7 +595,7 @@
 [Anniversary Reminder]
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identificaion]
-[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]

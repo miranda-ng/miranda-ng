@@ -2435,6 +2435,8 @@ ANSI плагин
 Не указано
 [Unknown]
 Неизвестно
+[You were added by %s%s]
+Вас добавил %s%s
 [Afghanistan]
 Афганистан
 [Aland Islands]

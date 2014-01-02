@@ -1,4 +1,4 @@
-﻿[ProfileDir section (usually inside Miranda's folder).]
+﻿[Expands to your Miranda path (e.g., c:\\program files\\miranda ng).]
+[ProfileDir section (usually inside Miranda's folder).]
+[(e.g., default if your your profile is default.dat).]
 [instead of expanding to Miranda's profile path.]
-[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
-[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\' then:]

@@ -138,9 +138,9 @@
 [You will need to reconnect for the changes you have made on this page to take effect.]
 [Please complete the following form to create a new user profile]
 [Profile]
-[e.g. Workplace]
+[e.g., Workplace]
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 [Driver]
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
 [Download more plugins]
@@ -972,9 +972,6 @@
 [Outgoing message (10x10)]
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
-[signed off (was %s)]
-[signed on (%s)]
-[is now %s (was %s)]
 [%s is typing a message...]
 ;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
@@ -1121,6 +1118,7 @@
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
+[You were added by %s%s]
 [Contacts: ]
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
@@ -1216,7 +1214,7 @@
 [Re-enable Miranda plugin?]
 [Unable to load plugin in Service Mode!]
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 [Version]

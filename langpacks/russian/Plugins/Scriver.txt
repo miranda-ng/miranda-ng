@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -57,13 +57,13 @@
 Ограничить число вкладок на окна чата
 [Layout]
 Размещение
-[Show titlebar]
+[Show title bar]
 Показать название
 [Show status bar]
 Показывать панель статуса
 [Show toolbar]
 Показывать панель кнопок
-[Show infobar]
+[Show info bar]
 Показывать панель информации
 [Show avatars]
 Аватары
@@ -85,8 +85,6 @@
 Журнал в окне диалога
 [Enable IEView]
 Включить IEView
-[Log status changes]
-Запись изменений статусов в журнал
 [Show icons]
 Показывать значки
 [Show time]
@@ -449,25 +447,25 @@ Yahoo
 Навигация: Следующая вкладка
 [Navigate: Tab %d]
 Навигация: Вкладка %d
-[Window: Toggle Statusbar]
+[Window: Toggle status bar]
 Окно: вкл./выкл. панели статуса
-[Window: Toggle Titlebar]
+[Window: Toggle title bar]
 Окно: вкл./выкл. панели заголовка
-[Window: Toggle Toolbar]
+[Window: Toggle toolbar]
 Окно: вкл./выкл. панели кнопок
-[Window: Toggle Infobar]
+[Window: Toggle info bar]
 Окно: вкл./выкл. панели информации
-[Window: Clear Log]
+[Window: Clear log]
 Окно: Очистить лог
 [Window: Minimize]
 Окно: Свернуть
-[Window: Close Tab]
+[Window: Close tab]
 Окно: Закрыть вкладку
 [Action: Quote]
 Действие: Цитировать
-[Action: Send to All]
+[Action: Send to all]
 Действие: Послать всем
-[Action: Paste & Send]
+[Action: Paste and send]
 Действие: Вставить и отправить
 [Quote]
 Цитата
@@ -501,12 +499,6 @@ Yahoo
 Отправить
 [User Menu - %s]
 Меню пользователя - %s
-[signed off (was %s)]
-уходит (был(а) %s)
-[signed on (%s)]
-приходит (%s)
-[is now %s (was %s)]
-теперь %s (был(а) %s)
 [Sending in progress: %d message(s) left...]
 Отправка сообщения: %d осталось...
 [%s is typing a message...]
@@ -563,10 +555,12 @@ Yahoo
 Исходящий URL
 [Incoming URL]
 Входящий URL
-[Infobar contact name]
-Инфо-Панель: имя контакта
-[Infobar status message]
-Инфо-Панель: cтатусное сообщение
+[Info bar contact name]
+Инфо-панель: имя контакта
+[Info bar background]
+Фон инфо-панели
+[Info bar status message]
+Инфо-панель: cтатусное сообщение
 [Others nicknames]
 Другие псевдонимы
 [Your nickname]

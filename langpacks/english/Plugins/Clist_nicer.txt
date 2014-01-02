@@ -197,7 +197,7 @@
 [Corner radius]
 [Skin options]
 [Group top padding]
-[Frame titlebar height]
+[Frame title bar height]
 [Ignore selection for groups]
 [Load from skin file]
 [Export to skin file]
@@ -389,8 +389,8 @@
 [Thin border]
 [No border]
 ;file \plugins\Clist_nicer\src\Docking.cpp
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-[Clist docking]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[Contact list docking]
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 ;file \plugins\Clist_nicer\src\init.cpp
@@ -420,7 +420,7 @@
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
 [&Visible]
-[&Show TitleBar]
+[&Show title bar]
 [&Locked]
 [&Collapsed]
 [&Floating Mode]
@@ -435,11 +435,11 @@
 [&Down]
 [Frames]
 [Show All Frames]
-[Show All Titlebars]
-[Hide All Titlebars]
+[Show all title bars]
+[Hide all title bars]
 [Lock Frame]
 [Visible]
-[Show TitleBar]
+[Show title bar]
 [Skinned frame]
 [Floating]
 ;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp

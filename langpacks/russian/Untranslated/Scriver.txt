@@ -12,6 +12,5 @@
 [My Contact]
 [Lorem ipsum dolor sit amet,]
 [consectetur adipisicing elit]
-[Infobar background]
 [will return parsed string %miranda_userdata%\\Logs]
 [year without century, 01-  99]

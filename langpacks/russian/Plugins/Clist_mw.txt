@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 Показывает контакты, события, статусы протоколов. Мультиоконная модификация.
@@ -201,7 +201,7 @@ Cлужба:
 Затемнить неактивных пользователей
 [Hide vertical scrollbar]
 Скрыть полосу прокрутки
-[Contact List Background]
+[Contact list background]
 Фон списка
 [Use 'Meta' protocol icons for Metacontacts]
 'Мета' значки для метаконтактов
@@ -237,7 +237,7 @@ Cлужба:
 Эффект бордюра на панелях
 [Use connecting Icon]
 Значок соединения
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 Новый стиль панели статуса
 [&Main menu]
 Главное меню
@@ -297,6 +297,12 @@ Cлужба:
 Тонкая настройка
 [Backgrounds]
 Фоны
+[Status bar background]
+Фон панели статуса
+[List background]
+Фон списка
+[Frames title bar background]
+Фон заголовка фреймов
 [Standard contacts]
 Стандартные контакты
 [Online contacts to whom you have a different visibility]
@@ -325,14 +331,12 @@ Cлужба:
 Под курсором
 [Quicksearch Text]
 Быстрый поиск
+[Contact list]
+Список контактов
 [List]
 Список
-[List Background]
-Фон списка
 [List MetaContacts]
 Список метаконтактов
-[StatusBar Background]
-Фон панели статуса
 [Not focused]
 Не в фокусе
 [Offline]
@@ -385,7 +389,7 @@ _БезПротокола_
 &Заголовок фрейма
 [&Visible]
 Показывать
-[&Show TitleBar]
+[&Show title bar]
 Показывать название
 [&Locked]
 Закрепить
@@ -413,16 +417,14 @@ _БезПротокола_
 Фреймы
 [Show All Frames]
 Показать все фреймы
-[Show All Titlebars]
+[Show all title bars]
 Показывать названия
-[Hide All Titlebars]
+[Hide all title bars]
 Скрыть названия
 [Lock Frame]
 Закрепить фрейм
 [Visible]
 Видимо
-[Show TitleBar]
-Показать заголовок
 [Floating]
 Плавающее
 [Frame menu]

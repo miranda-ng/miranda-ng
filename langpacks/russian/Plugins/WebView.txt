@@ -29,6 +29,8 @@
 Настройки Эксперта
 [(not recommended)]
 (не рекомендуется)
+[URL:]
+URL:
 [Display]
 Показывать
 [Cancel]

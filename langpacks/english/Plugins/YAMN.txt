@@ -34,7 +34,7 @@
 [Auto retrieve body]
 [Check from menu]
 [Use contact notification for this account]
-[Replace nick name]
+[Replace nickname]
 [Disable Events]
 [Notifications]
 [New Mail]

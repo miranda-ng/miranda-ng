@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 ;file \plugins\Clist_mw\res\resource.rc
@@ -104,7 +104,7 @@
 [Gray out entire list when:]
 [Dim idle contacts]
 [Hide vertical scrollbar]
-[Contact List Background]
+[Contact list background]
 [Use 'Meta' protocol icons for Metacontacts]
 [Avoid doubleclick expand]
 [Hide all 'Extra icons' for subcontacts]
@@ -122,7 +122,7 @@
 [Show size grip]
 [Show bevel effect on panels]
 [Use connecting Icon]
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 [&Main menu]
 [E&xit]
 [&Status]
@@ -153,6 +153,10 @@
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 [Backgrounds]
+;file \plugins\Clist_mw\src\clc.cpp
+[Status bar background]
+[List background]
+[Frames title bar background]
 ;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 [Online contacts to whom you have a different visibility]
@@ -169,10 +173,9 @@
 [Hottrack Text]
 [Quicksearch Text]
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[Contact list]
 [List]
-[List Background]
 [List MetaContacts]
-[StatusBar Background]
 [Not focused]
 [Offline]
 [Online]
@@ -207,7 +210,7 @@
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
 [&Visible]
-[&Show TitleBar]
+[&Show title bar]
 [&Locked]
 [&Collapsed]
 [&Floating Mode]
@@ -221,11 +224,10 @@
 [&Down]
 [Frames]
 [Show All Frames]
-[Show All Titlebars]
-[Hide All Titlebars]
+[Show all title bars]
+[Hide all title bars]
 [Lock Frame]
 [Visible]
-[Show TitleBar]
 [Floating]
 ;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
