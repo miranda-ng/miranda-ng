@@ -44,8 +44,6 @@ CSkypeProto::~CSkypeProto()
 		::mir_free(this->password);
 		this->password = NULL;
 	}
-
-	this->chatRooms.destroy();
 }
 
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)

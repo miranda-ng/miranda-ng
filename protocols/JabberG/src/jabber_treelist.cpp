@@ -49,13 +49,11 @@ struct TTreeList_ItemInfo
 		flags(0), indent(0), sortIndex(0), iIcon(0), iOverlay(0), data(0) {}
 	~TTreeList_ItemInfo()
 	{
-		int i;
-		for (i = text.getCount(); i--;)
+		for (int i = text.getCount(); i--;)
 			mir_free(text[i]);
-		text.destroy();
-		for (i = subItems.getCount(); i--;)
-			delete subItems[i];
-		subItems.destroy();
+
+		for (int k = subItems.getCount(); k--;)
+			delete subItems[k];
 	}
 };
 

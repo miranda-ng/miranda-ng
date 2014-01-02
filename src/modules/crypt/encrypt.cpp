@@ -85,5 +85,4 @@ void UninitCrypt(void)
 		mir_free(p->pszDescr);
 		delete p;
 	}
-	arDbPlugins.destroy();
 }

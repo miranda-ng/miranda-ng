@@ -399,7 +399,6 @@ void UnloadSkinHotkeys(void)
 
 	for (int i=0; i < hotkeys.getCount(); i++)
 		FreeHotkey(hotkeys[i]);
-	hotkeys.destroy();
 
 	DestroyWindow(g_hwndHotkeyHost);
 }

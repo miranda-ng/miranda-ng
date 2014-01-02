@@ -52,11 +52,7 @@ public:
 	~CPageKeywords()
 	{
 		for (int j = 0; j < _pageKeyWords.getCount(); j++)
-		{
-			TCHAR *data = _pageKeyWords[j];
-			mir_free(data);
-		}
-		_pageKeyWords.destroy();
+			mir_free(_pageKeyWords[j]);
 	};
 
 	void AddKeyWord(TCHAR *ptKeyWord)

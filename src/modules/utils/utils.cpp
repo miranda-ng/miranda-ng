@@ -39,7 +39,6 @@ int  InitBitmapFilter(void);
 void InitXmlApi(void);
 
 void InitTimeZones(void);
-void UninitTimeZones(void);
 
 int  InitCrypt(void);
 void UninitCrypt(void);
@@ -492,5 +491,4 @@ void UnloadUtilsModule(void)
 
 	UninitCrypt();
 	FreeWindowList();
-	UninitTimeZones();
 }

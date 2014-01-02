@@ -186,7 +186,6 @@ void ProcessAllInputAreas(bool restoreText);
 void RichEditData_Destroy(void);
 
 void CloseSmileys(void);
-void DestroySmileyBase(void);
 void DestroyAniSmileys(void);
 
 void UrlDecode(char* str);

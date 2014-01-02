@@ -101,7 +101,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	g_accs.destroy();
 	InitAvaUnit(FALSE);
 	return 0;
 }

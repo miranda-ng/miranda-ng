@@ -227,11 +227,9 @@ void KillModuleExtraIcons(int hLangpack)
 	LIST<ExtraIconGroup> groups(1);
 	LoadGroups(groups);
 	RebuildListsBasedOnGroups(groups);
-	groups.destroy();
 
 	for (int k=0; k < arDeleted.getCount(); k++)
 		delete arDeleted[k];
-	arDeleted.destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -457,7 +455,6 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	groups.destroy();
 	return id;
 }
 
@@ -541,8 +538,4 @@ void UnloadExtraIconsModule(void)
 {
 	for (int i=0; i < registeredExtraIcons.getCount(); i++)
 		delete registeredExtraIcons[i];
-
-	registeredExtraIcons.destroy();
-	extraIconsByHandle.destroy();
-	extraIconsBySlot.destroy();
 }

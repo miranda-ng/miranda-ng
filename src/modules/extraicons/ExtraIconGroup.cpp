@@ -32,7 +32,6 @@ ExtraIconGroup::ExtraIconGroup(const char *_name) :
 
 ExtraIconGroup::~ExtraIconGroup()
 {
-	items.destroy();
 }
 
 void ExtraIconGroup::addExtraIcon(BaseExtraIcon *extra)

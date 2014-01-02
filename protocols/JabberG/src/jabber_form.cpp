@@ -580,7 +580,6 @@ void JabberFormDestroyUI(HWND hwndStatic)
 	if (controls) {
 		for (int i=0; i < controls->getCount(); i++)
 			mir_free((*controls)[i]);
-		controls->destroy();
 		delete controls;
 		SetWindowLongPtr(hwndStatic, GWLP_USERDATA, 0);
 	}

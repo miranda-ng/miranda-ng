@@ -102,7 +102,6 @@ MIR_CORE_DLL(void) UnloadCoreModule(void)
 	CloseHandle(hThreadQueueEmpty);
 	TlsFree(mir_tls);
 
-	UninitSubclassing();
 	UninitProtocols();
 	DestroyModularEngine();
 	UninitLogs();

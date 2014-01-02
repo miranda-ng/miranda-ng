@@ -66,12 +66,8 @@ CDb3Base::CDb3Base(const TCHAR *tszFileName) :
 
 CDb3Base::~CDb3Base()
 {
-	m_lResidentSettings.destroy();
-
 	// destroy modules
 	HeapDestroy(m_hModHeap);
-	m_lMods.destroy();
-	m_lOfs.destroy();
 
 	// destroy map
 	KillTimer(NULL, m_flushBuffersTimerId);

@@ -613,9 +613,10 @@ int LoadButtonModule(void)
 {
 	if (bModuleInitialized)
 		return 0;
-	bModuleInitialized = TRUE;
 
-	WNDCLASSEX wc = {0};
+	bModuleInitialized = true;
+
+	WNDCLASSEX wc = { 0 };
 	wc.cbSize = sizeof(wc);
 	wc.lpszClassName = MIRANDABUTTONCLASS;
 	wc.lpfnWndProc = MButtonWndProc;
@@ -635,12 +636,8 @@ int LoadButtonModule(void)
 
 void UnloadButtonModule()
 {
-	if ( !bModuleInitialized)
+	if (!bModuleInitialized)
 		return;
 
-	{
-		mir_cslock lck(csTips);
-		lToolTips.destroy();
-	}
 	DeleteCriticalSection(&csTips);
 }

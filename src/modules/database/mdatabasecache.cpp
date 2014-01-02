@@ -45,9 +45,6 @@ MDatabaseCache::MDatabaseCache() :
 
 MDatabaseCache::~MDatabaseCache()
 {
-	m_lContacts.destroy();
-	m_lSettings.destroy();
-	m_lGlobalSettings.destroy();
 	HeapDestroy(m_hCacheHeap);
 	DeleteCriticalSection(&m_cs);
 }

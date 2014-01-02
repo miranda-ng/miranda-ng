@@ -650,7 +650,6 @@ protected:
 				mir_free(newJids[i]->jid);
 				mir_free(newJids[i]);
 			}
-			newJids.destroy();
 		}
 
 		void addJid(HANDLE hItem, TCHAR *jid)
@@ -2112,6 +2111,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 	if (bDeleteOld)
 		for (int i=0; i < m_hPrivacyMenuItems.getCount(); i++)
 			CallService(MO_REMOVEMENUITEM, (WPARAM)m_hPrivacyMenuItems[i], 0);
+
 	m_hPrivacyMenuItems.destroy();
 
 	mir_cslock lck(m_privacyListManager.m_cs);

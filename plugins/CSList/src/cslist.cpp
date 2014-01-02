@@ -158,7 +158,6 @@ extern "C" __declspec(dllexport) int Load()
 
 extern "C" __declspec(dllexport) int Unload()
 {
-	arWindows.destroy();
 	return 0;
 }
 

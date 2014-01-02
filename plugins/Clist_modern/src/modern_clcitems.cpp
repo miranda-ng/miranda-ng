@@ -579,8 +579,6 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 		}
 		group->scanIndex++;
 	}
-	savedGroup.destroy();
-	savedContact.destroy();
 
 	for (i=0; i < savedInfo.getCount(); i++) {
 		if (savedInfo[i].parentId == -1)
@@ -593,7 +591,6 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 		j = pcli->pfnAddInfoItemToGroup(group, savedInfo[i].contact.flags, _T(""));
 		*group->cl.items[j] = savedInfo[i].contact;
 	}
-	savedInfo.destroy();
 
 	LOCK_RECALC_SCROLLBAR = FALSE;
 	pcli->pfnRecalculateGroupCheckboxes(hwnd, dat);

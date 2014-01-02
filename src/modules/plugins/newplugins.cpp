@@ -866,8 +866,4 @@ void UnloadNewPluginsModule(void)
 
 	if (hPluginListHeap) HeapDestroy(hPluginListHeap);
 	hPluginListHeap = 0;
-
-	pluginList.destroy();
-	servicePlugins.destroy();
-	clistPlugins.destroy();
 }

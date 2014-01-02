@@ -448,5 +448,4 @@ void DeinitServices()
 
 	for (int i = 0; i < arClasses.getCount(); i++)
 		FreePopupClass(arClasses[i]);
-	arClasses.destroy();
 }

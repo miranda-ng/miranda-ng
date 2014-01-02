@@ -860,7 +860,6 @@ CEnumList::~CEnumList()
 		if (p)
 			mir_free(p);
 	}
-	destroy();
 }
 
 LPSTR CEnumList::Insert(LPCSTR str)

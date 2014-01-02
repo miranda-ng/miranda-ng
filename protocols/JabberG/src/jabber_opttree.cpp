@@ -38,7 +38,6 @@ CCtrlTreeOpts::~CCtrlTreeOpts()
 {
 	for (int i=0; i < m_options.getCount(); i++)
 		delete m_options[i];
-	m_options.destroy();
 }
 
 void CCtrlTreeOpts::AddOption(TCHAR *szOption, CMOption<BYTE> &option)

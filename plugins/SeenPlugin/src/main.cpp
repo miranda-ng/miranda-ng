@@ -111,7 +111,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 	if (ehmissed)
 		UnhookEvent(ehmissed);
 
-	arContacts.destroy();
 	DeleteCriticalSection(&csContacts);
 	CloseHandle(g_hShutdownEvent);
 	return 0;

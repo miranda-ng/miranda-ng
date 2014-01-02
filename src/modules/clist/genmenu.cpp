@@ -186,7 +186,6 @@ int MO_RemoveAllObjects()
 {
 	for (int i=0; i < g_menus.getCount(); i++)
 		delete g_menus[i];
-
 	g_menus.destroy();
 	return 0;
 }
@@ -590,7 +589,6 @@ void KillModuleMenus(int hLangpack)
 
 	for (int k=0; k < param.arItems.getCount(); k++)
 		MO_RemoveMenuItem((WPARAM)param.arItems[k], 0);
-	param.arItems.destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

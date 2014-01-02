@@ -82,9 +82,6 @@ CPsHdr::~CPsHdr()
 	// delete data
 	for (int i = 0 ; i < _ignore.getCount(); i++)
 		mir_free(_ignore[i]);
-
-	// delete the list
-	_ignore.destroy();
 }
 
 void CPsHdr::Free_pPages() 

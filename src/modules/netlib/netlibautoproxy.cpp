@@ -447,7 +447,6 @@ void NetlibUnloadIeProxy(void)
 	for (i=0; i < proxyBypass.getCount(); i++)
 		mir_free(proxyBypass[i]);
 
-	proxyBypass.destroy();
 	mir_free(abuf.lpszScriptBuffer);
 
 	CloseHandle(hIeProxyMutex);

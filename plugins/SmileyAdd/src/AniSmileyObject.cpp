@@ -415,6 +415,5 @@ void DestroyAniSmileys(void)
 
 	for (int i=0; i < regAniSmileys.getCount(); i++)
 		delete regAniSmileys[i];
-	regAniSmileys.destroy();
 }
 

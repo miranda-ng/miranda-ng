@@ -239,7 +239,6 @@ int AniAva_UnloadModule()
 			_AniAva_DestroyAvatarWindow(s_Objects[i]->hWindow);
 			mir_free(s_Objects[i]);
 		}
-		s_Objects.destroy();
 
 		for (i=0; i < s_AniAvatarList.getCount(); i++) {
 			ANIAVA_INFO *aai = s_AniAvatarList[i];
@@ -247,7 +246,6 @@ int AniAva_UnloadModule()
 			free(aai->pFrameDelays);
 			mir_free(aai);
 		}
-		s_AniAvatarList.destroy();
 
 		_AniAva_RemoveAniAvaDC();
 		SetEvent(s_hExitEvent);

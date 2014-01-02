@@ -342,8 +342,8 @@ INT_PTR CALLBACK InputBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_INITDIALOG:
 	{
 		TranslateDialogDefault(hwndDlg);
-		SetWindowLong (hwndDlg, DWLP_USER, lParam);
-		SetDlgItemText (hwndDlg, IDC_TEXT, (TCHAR*)lParam);
+		SetWindowLongPtr(hwndDlg, DWLP_USER, lParam);
+		SetDlgItemText(hwndDlg, IDC_TEXT, (TCHAR*)lParam);
 		return TRUE;
 	}
 

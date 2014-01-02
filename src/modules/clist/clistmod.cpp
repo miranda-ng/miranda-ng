@@ -541,6 +541,5 @@ void UnloadContactListModule()
 	}
 	ImageList_Destroy(hCListImages);
 	UninitCListEvents();
-	protoIconIndex.destroy();
 	DestroyHookableEvent(hContactDoubleClicked);
 }

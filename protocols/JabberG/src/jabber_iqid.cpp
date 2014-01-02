@@ -154,8 +154,6 @@ void CJabberProto::OnProcessLoginRq(ThreadData* info, DWORD rq)
 					mir_free(nick);
 				}
 			}
-
-			ll.destroy();
 		}
 
 		OnProcessLoginRq(info, JABBER_LOGIN_BOOKMARKS_AJ);
@@ -519,8 +517,6 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 	if (m_options.AutoJoinConferences)
 		for (i=0; i < chatRooms.getCount(); i++)
 			GroupchatJoinByHContact((HANDLE)chatRooms[i], true);
-
-	chatRooms.destroy();
 
 	//UI_SAFE_NOTIFY(m_pDlgJabberJoinGroupchat, WM_JABBER_CHECK_ONLINE);
 	//UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_CHECK_ONLINE);

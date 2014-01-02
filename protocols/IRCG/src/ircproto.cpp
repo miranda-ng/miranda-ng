@@ -152,9 +152,6 @@ CIrcProto::~CIrcProto()
 	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
 	Netlib_CloseHandle(hNetlibDCC); hNetlibDCC = NULL;
 
-	m_dcc_chats.destroy();
-	m_dcc_xfers.destroy();
-
 	DeleteCriticalSection( &cs );
 	DeleteCriticalSection( &m_gchook );
 

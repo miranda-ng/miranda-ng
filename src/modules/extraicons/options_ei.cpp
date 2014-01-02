@@ -220,7 +220,6 @@ LRESULT CALLBACK TreeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 				TreeView_SelectItem(hwndDlg, hti.hItem);
 				Tree_Select(hwndDlg, selected);
-				selected.destroy();
 			}
 			else if (wParam & MK_SHIFT) {
 				HTREEITEM hItem = TreeView_GetSelection(hwndDlg);
@@ -233,7 +232,6 @@ LRESULT CALLBACK TreeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				TreeView_SelectItem(hwndDlg, hti.hItem);
 				Tree_Select(hwndDlg, selected);
 				Tree_SelectRange(hwndDlg, hItem, hti.hItem);
-				selected.destroy();
 			}
 
 			return 0;
@@ -342,8 +340,6 @@ static void GroupSelectedItems(HWND tree)
 		UnselectAll(tree);
 		TreeView_SelectItem(tree, hNew);
 	}
-
-	toRemove.destroy();
 }
 
 static void UngroupSelectedItems(HWND tree)
@@ -587,7 +583,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 
 			delete[] oldSlots;
-			groups.destroy();
 			return TRUE;
 		}
 		

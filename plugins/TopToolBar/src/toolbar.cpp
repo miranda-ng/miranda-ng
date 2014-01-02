@@ -716,7 +716,6 @@ int UnloadToolbarModule()
 
 	for (int i=0; i < Buttons.getCount(); i++)
 		delete Buttons[i];
-	Buttons.destroy();
 
 	mir_free(g_ctrl);
 	return 0;

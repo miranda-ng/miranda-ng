@@ -423,10 +423,9 @@ void UnloadNetlibModule(void)
 	for (int i = netlibUser.getCount(); i > 0; i--)
 		NetlibCloseHandle((WPARAM)netlibUser[i-1], 0);
 
-	netlibUser.destroy();
-
 	CloseHandle(hConnectionHeaderMutex);
-	if (hConnectionOpenMutex) CloseHandle(hConnectionOpenMutex);
+	if (hConnectionOpenMutex)
+		CloseHandle(hConnectionOpenMutex);
 	DeleteCriticalSection(&csNetlibUser);
 	WSACleanup();
 }

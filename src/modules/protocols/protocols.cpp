@@ -733,14 +733,10 @@ void UnloadProtocolsModule()
 			mir_free(protos[i]->szName);
 			mir_free(protos[i]);
 		}
-		protos.destroy();
 	}
 
 	for (int i=0; i < serviceItems.getCount(); i++)
 		mir_free(serviceItems[i]);
-	serviceItems.destroy();
-
-	filters.destroy();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

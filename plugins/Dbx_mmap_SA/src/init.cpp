@@ -141,7 +141,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	g_Dbs.destroy();
 	UnloadSecurity();
 	return 0;
 }

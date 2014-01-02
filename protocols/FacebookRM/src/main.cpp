@@ -129,7 +129,5 @@ extern "C" int __declspec(dllexport) Unload(void)
 	for(size_t i=0; i<SIZEOF(g_hEvents); i++)
 		UnhookEvent(g_hEvents[i]);
 
-	g_Instances.destroy();
-
 	return 0;
 }

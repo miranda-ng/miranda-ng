@@ -52,12 +52,10 @@ CYahooProto::~CYahooProto()
 
 	MenuUninit();
 
-	m_chatrooms.destroy();
-
 	FREE(m_startMsg);
 	FREE(m_pw_token);
 
-	Netlib_CloseHandle( m_hNetlibUser );
+	Netlib_CloseHandle(m_hNetlibUser);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

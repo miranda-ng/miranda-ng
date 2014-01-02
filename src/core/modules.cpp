@@ -68,7 +68,6 @@ void UnloadButtonModule(void);
 void UnloadClcModule(void);
 void UnloadContactListModule(void);
 void UnloadDatabase(void);
-void UnloadDbintfModule(void);
 void UnloadErrorsModule(void);
 void UnloadEventsModule(void);
 void UnloadExtraIconsModule(void);
@@ -179,6 +178,5 @@ void UnloadDefaultModules(void)
 	UnloadContactListModule();
 	UnloadEventsModule();
 	UnloadNetlibModule();
-	UnloadDbintfModule();
 	UnloadSslModule();
 }

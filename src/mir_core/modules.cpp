@@ -652,12 +652,8 @@ int InitialiseModularEngine(void)
 void DestroyModularEngine(void)
 {
 	DestroyHooks();
-	hooks.destroy();
 	DeleteCriticalSection(&csHooks);
 
 	DestroyServices();
-	services.destroy();
 	DeleteCriticalSection(&csServices);
-
-	pluginListAddr.destroy();
 }

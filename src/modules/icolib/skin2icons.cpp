@@ -881,7 +881,6 @@ void UnloadIcoLibModule(void)
 		IcoLib_FreeIcon(p);
 		mir_free(p);
 	}
-	iconList.destroy();
 
 	for (i = iconSourceList.getCount()-1; i >= 0; i--) {
 		IconSourceItem* p = iconSourceList[i];
@@ -891,7 +890,6 @@ void UnloadIcoLibModule(void)
 		SAFE_FREE((void**)&p->icon_data);
 		SAFE_FREE((void**)&p);
 	}
-	iconSourceList.destroy();
 
 	for (i = iconSourceFileList.getCount()-1; i >= 0; i--) {
 		IconSourceFile* p = iconSourceFileList[i];
@@ -899,13 +897,11 @@ void UnloadIcoLibModule(void)
 		SAFE_FREE((void**)&p->file);
 		SAFE_FREE((void**)&p);
 	}
-	iconSourceFileList.destroy();
 
 	for (i = 0; i < sectionList.getCount(); i++) {
 		SAFE_FREE((void**)&sectionList[i]->name);
 		mir_free(sectionList[i]);
 	}
-	sectionList.destroy();
 
 	SafeDestroyIcon(&hIconBlank);
 	bModuleInitialized = false;

@@ -592,9 +592,3 @@ void InitTimeZones(void)
 	tmi.cbSize = sizeof(tmi);
 	GetTimeApi(0, (LPARAM)&tmi);
 }
-
-void UninitTimeZones(void)
-{
-	g_timezonesBias.destroy();
-	g_timezones.destroy();
-}

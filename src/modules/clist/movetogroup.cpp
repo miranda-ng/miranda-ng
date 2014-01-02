@@ -109,8 +109,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 
 	pos += 100000; // Separator
 
-	for (i=0; ; i++)
-	{
+	for (i=0; ; i++) {
 		char intname[20];
 		_itoa(i, intname, 10);
 
@@ -129,7 +128,6 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		AddGroupItem(hMoveToGroupItem, groups[i].name, ++pos, groups[i].position, checked);
 	}
 
-	groups.destroy();
 	return 0;
 }
 
@@ -147,6 +145,5 @@ void MTG_OnmodulesLoad()
 
 int UnloadMoveToGroup(void)
 {
-	lphGroupsItems.destroy();
 	return 0;
 }

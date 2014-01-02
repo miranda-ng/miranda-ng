@@ -98,7 +98,6 @@ static void SaveTree(HWND hwndDlg)
 			delete Buttons[i];
 
 		Buttons = tmpList;
-		tmpList.destroy();	
 	}
 	SaveAllButtonsOptions();
 }

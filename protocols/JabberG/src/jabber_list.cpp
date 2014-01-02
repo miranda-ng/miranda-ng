@@ -39,7 +39,6 @@ JABBER_LIST_ITEM::~JABBER_LIST_ITEM()
 {
 	for (int i=0; i < arResources.getCount(); i++)
 		delete arResources[i];
-	arResources.destroy();
 
 	if (m_pItemResource)
 		delete m_pItemResource;

@@ -70,6 +70,5 @@ extern "C" int	__declspec(dllexport) Unload()
 {
 	HeapDestroy(hHeap);
 	ClearFI();
-	UninitFingerModule();
 	return 0;
 }

@@ -274,7 +274,6 @@ static INT_PTR DbDeleteModule(WPARAM, LPARAM lParam)
 		db_unset(NULL, (char*)lParam, vars[i]);
 		mir_free(vars[i]);
 	}
-	vars.destroy();
 	return 0;
 }
 
@@ -366,6 +365,4 @@ void UnloadEventsModule()
 		mir_free(p->iconService);
 		mir_free(p);
 	}
-
-	eventTypes.destroy();
 }

@@ -200,7 +200,6 @@ int ClcShutdown(WPARAM wParam, LPARAM lParam)
 	IMG_DeleteItems();
 	for (int i=0; i < arStatusItems.getCount(); i++)
 		mir_free(arStatusItems[i]);
-	arStatusItems.destroy();
 	return 0;
 }
 

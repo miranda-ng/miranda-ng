@@ -39,9 +39,6 @@ CDlgBase::CDlgBase(int idDialog, HWND hwndParent) :
 
 CDlgBase::~CDlgBase()
 {
-	// remove handlers
-	m_controls.destroy();
-
 	if (m_hwnd)
 		DestroyWindow(m_hwnd);
 }

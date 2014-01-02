@@ -180,11 +180,9 @@ void ThreadData::xmpp_client_query(void)
 				port = dnsPort;
 				break;
 		}	}
-		dnsList.destroy();
 		DnsRecordListFree(results, DnsFreeRecordList);
 	}
-	else
-		proto->debugLogA("%s not resolved", temp);
+	else proto->debugLogA("%s not resolved", temp);
 }
 
 void CJabberProto::xmlStreamInitialize(char *szWhich)

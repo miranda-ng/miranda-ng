@@ -467,9 +467,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	UninitPolls();
 	UnloadCache();
 
-	g_ProtoPictures.destroy();
-	g_MyAvatars.destroy();
-
 	DestroyHookableEvent(hEventChanged);
 	DestroyHookableEvent(hEventContactAvatarChanged);
 	DestroyHookableEvent(hMyAvatarChanged);

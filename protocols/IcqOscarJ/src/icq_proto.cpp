@@ -237,8 +237,6 @@ CIcqProto::~CIcqProto()
 		DestroyHookableEvent(m_modeMsgsEvent);
 
 	// Clean-up remaining protocol instance members
-	cookies.destroy();
-
 	UninitContactsCache();
 
 	CustomCapList.clear();

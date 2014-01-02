@@ -359,9 +359,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload()
 {
-	g_Instances.destroy();
-
-	// Cleanup WinSock
 	WSACleanup();
 	return 0;
 }

@@ -195,7 +195,6 @@ CJabberProto::~CJabberProto()
 	int i;
 	for (i=0; i < m_lstTransports.getCount(); i++)
 		mir_free(m_lstTransports[i]);
-	m_lstTransports.destroy();
 
 	for (i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
 		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szExt);
@@ -203,8 +202,6 @@ CJabberProto::~CJabberProto()
 		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szDescription);
 		delete m_lstJabberFeatCapPairsDynamic[i];
 	}
-	m_lstJabberFeatCapPairsDynamic.destroy();
-	m_hPrivacyMenuItems.destroy();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

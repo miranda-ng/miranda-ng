@@ -127,8 +127,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	// destroying contact menu
 	g_MenuUninit();
-
-	g_Instances.destroy();
 	return 0;
 }
 

@@ -208,6 +208,4 @@ void unregisterAliasTokens()
 		mir_free(p->szTranslation);
 		delete p;
 	}
-
-	arAliases.destroy();
 }

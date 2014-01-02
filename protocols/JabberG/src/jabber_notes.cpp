@@ -514,8 +514,6 @@ private:
 
 		if ( !selected)
 			m_tvFilter.SelectItem(htiRoot);
-
-		tagSet.destroy();
 	}
 
 	void RebuildTree()

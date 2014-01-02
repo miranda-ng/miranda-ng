@@ -468,6 +468,4 @@ void UnloadSkinSounds(void)
 {
 	for (int i=0; i < arSounds.getCount(); i++)
 		arSounds[i].clear();
-
-	arSounds.destroy();
 }

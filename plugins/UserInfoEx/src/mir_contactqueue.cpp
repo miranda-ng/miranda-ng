@@ -75,7 +75,6 @@ CContactQueue::~CContactQueue()
 	{
 		mir_free(_queue[i]);
 	}
-	_queue.destroy();
 
 	CloseHandle(_hEvent);
 	DeleteCriticalSection(&_cs);
@@ -111,9 +110,7 @@ void CContactQueue::RemoveAll()
 	Lock();
 
 	for (int i = _queue.getCount() - 1; i >= 0; --i)
-	{
 		mir_free(_queue[i]);
-	}
 	_queue.destroy();
 
 	Release();

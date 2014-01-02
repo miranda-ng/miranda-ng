@@ -112,8 +112,5 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	UninitContactMenus();
 	UninitTimers();
-
-	g_Instances.destroy();
-	
 	return 0;
 }

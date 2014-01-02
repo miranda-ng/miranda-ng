@@ -166,8 +166,3 @@ int LoadDbintfModule()
 	CreateServiceFunction(MS_DB_DESTROY_INSTANCE, srvDestroyInstance);
 	return 0;
 }
-
-void UnloadDbintfModule()
-{
-	arDbPlugins.destroy();
-}

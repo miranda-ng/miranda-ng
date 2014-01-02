@@ -272,8 +272,6 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				ListView_SetItemState(hwndList, i, (gActions[i]->flags & PAF_ENABLED) ? 0x2000 : 0x1000, LVIS_STATEIMAGEMASK);
 			}
 
-			groups.destroy();
-	
 			BOOL enabled = (PopupOptions.actions&ACT_ENABLE) ? TRUE : FALSE;
 			for (i = 0; i < SIZEOF(controls); ++i)
 				EnableWindow(GetDlgItem(hwnd, controls[i]), enabled);

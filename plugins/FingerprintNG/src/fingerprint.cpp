@@ -954,8 +954,3 @@ void InitFingerModule()
 	CreateServiceFunction(MS_FP_GETCLIENTDESCRW, ServiceGetClientDescrW);
 	CreateServiceFunction(MS_FP_GETCLIENTICONW, ServiceGetClientIconW);
 }
-
-void UninitFingerModule()
-{
-	arMonitoredWindows.destroy();
-}

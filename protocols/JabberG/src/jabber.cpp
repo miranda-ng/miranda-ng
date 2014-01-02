@@ -230,7 +230,5 @@ extern "C" int __declspec(dllexport) Unload(void)
 	DestroyHookableEvent(hDiscoInfoResult);
 
 	g_MenuUninit();
-
-	g_Instances.destroy();
 	return 0;
 }

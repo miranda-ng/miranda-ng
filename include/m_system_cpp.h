@@ -124,20 +124,27 @@ template<class T> struct LIST
 		sortFunc = FTSortFunc(id);
 	}
 
-	__inline T* operator[](int idx) const { return (idx >= 0 && idx < count) ? items[idx] : NULL; }
-	__inline int getCount(void)     const { return count; }
-	__inline T** getArray(void)     const { return items; }
-
 	__inline LIST(const LIST& x)
-	{	items = NULL;
+	{
+		items = NULL;
 		List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
 	}
 
 	__inline LIST& operator = (const LIST& x)
-	{	destroy();
+	{
+		destroy();
 		List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
 		return *this;
 	}
+
+	__inline ~LIST()
+	{
+		destroy();
+	}
+
+	__inline T*  operator[](int idx) const { return (idx >= 0 && idx < count) ? items[idx] : NULL; }
+	__inline int getCount(void)     const { return count; }
+	__inline T** getArray(void)     const { return items; }
 
 	__inline int getIndex(T *p) const
 	{	int idx;
@@ -145,14 +152,13 @@ template<class T> struct LIST
 	}
 
 	__inline void destroy(void)        { List_Destroy((SortedList*)this); }
+	__inline T*   find(T *p)            { return (T*)List_Find((SortedList*)this, p); }
+	__inline int  indexOf(T *p)         { return List_IndexOf((SortedList*)this, p); }
+	__inline int  insert(T *p, int idx) { return List_Insert((SortedList*)this, p, idx); }
+	__inline int  remove(int idx)       { return List_Remove((SortedList*)this, idx); }
 
-	__inline T*  find(T *p)            { return (T*)List_Find((SortedList*)this, p); }
-	__inline int indexOf(T *p)         { return List_IndexOf((SortedList*)this, p); }
-	__inline int insert(T *p, int idx) { return List_Insert((SortedList*)this, p, idx); }
-	__inline int remove(int idx)       { return List_Remove((SortedList*)this, idx); }
-
-	__inline int insert(T *p)          { return List_InsertPtr((SortedList*)this, p); }
-	__inline int remove(T *p)          { return List_RemovePtr((SortedList*)this, p); }
+	__inline int  insert(T *p)          { return List_InsertPtr((SortedList*)this, p); }
+	__inline int  remove(T *p)          { return List_RemovePtr((SortedList*)this, p); }
 
 	__inline void put(int idx, T *p)   { items[idx] = p; }
 

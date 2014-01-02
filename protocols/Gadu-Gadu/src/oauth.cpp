@@ -261,7 +261,6 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 
 	if (oauth_sign_request(oauth_parameters, httpmethod, url, consumer_secret, token_secret)) {
 		oauth_freeparams(oauth_parameters);
-		oauth_parameters.destroy();
 		return NULL;
 	}
 
@@ -285,7 +284,6 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 	}
 
 	oauth_freeparams(oauth_parameters);
-	oauth_parameters.destroy();
 	return res;
 }
 

@@ -362,8 +362,7 @@ INT_PTR CustomCatMenu(WPARAM wParam, LPARAM lParam)
 		SmileyCategoryType* smct = g_SmileyCategories.GetSmileyCategory((unsigned)lParam - 3);
 		if (smct != NULL) 
 			opt.WriteContactCategory(hContact, smct->GetName());
-		else
-		{
+		else {
 			CMString empty;
 			if (lParam == 1) empty = _T("<None>");
 			opt.WriteContactCategory(hContact, empty);

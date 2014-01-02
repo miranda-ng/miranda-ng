@@ -380,9 +380,3 @@ int CheckForTip(int x, int y, HWND hwnd, TCHAR** smltxt)
 
 	return -1;
 }
-
-void DestroySmileyBase(void)
-{
-	regSmileys.destroy();
-}
-

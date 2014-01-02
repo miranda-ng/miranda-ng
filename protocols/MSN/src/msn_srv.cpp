@@ -88,12 +88,11 @@ void CMsnProto::MSN_DeleteServerGroup(LPCSTR szId)
 
 void CMsnProto::MSN_FreeGroups(void)
 {
-	for (int i=0; i < grpList.getCount(); i++)
-	{
+	for (int i=0; i < grpList.getCount(); i++) {
 		ServerGroupItem* p = grpList[i];
 		mir_free(p->id);
 		mir_free(p->name);
-		mir_free (p);
+		mir_free(p);
 	}
 	grpList.destroy();
 }

@@ -135,7 +135,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	RichEditData_Destroy();
 	DestroyAniSmileys();
-	DestroySmileyBase();
 
 	g_SmileyCategories.ClearAll();
 	g_SmileyPackCStore.ClearAndFreeAll();
@@ -144,7 +143,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 	DestroyGdiPlus();
 
 	DownloadClose();
-	menuHandleArray.destroy();
 
 	mir_free(metaProtoName);
 	return 0;
