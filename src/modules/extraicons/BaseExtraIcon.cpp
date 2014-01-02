@@ -34,10 +34,10 @@ BaseExtraIcon::~BaseExtraIcon()
 {
 }
 
-void BaseExtraIcon::setOnClick(MIRANDAHOOKPARAM OnClick, LPARAM param)
+void BaseExtraIcon::setOnClick(MIRANDAHOOKPARAM pFunc, LPARAM pParam)
 {
-	OnClick = OnClick;
-	onClickParam = param;
+	OnClick = pFunc;
+	onClickParam = pParam;
 }
 
 int BaseExtraIcon::getID() const

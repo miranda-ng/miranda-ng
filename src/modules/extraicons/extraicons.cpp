@@ -357,17 +357,17 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 	if (wParam == 0)
 		return 0;
 
-	EXTRAICON_INFO *ei = (EXTRAICON_INFO *) wParam;
+	EXTRAICON_INFO *ei = (EXTRAICON_INFO *)wParam;
 	if (ei->cbSize < (int)sizeof(EXTRAICON_INFO))
 		return 0;
 	if (ei->type != EXTRAICON_TYPE_CALLBACK && ei->type != EXTRAICON_TYPE_ICOLIB)
 		return 0;
-	if ( IsEmpty(ei->name) || IsEmpty(ei->description))
+	if (IsEmpty(ei->name) || IsEmpty(ei->description))
 		return 0;
 	if (ei->type == EXTRAICON_TYPE_CALLBACK && (ei->ApplyIcon == NULL || ei->RebuildIcons == NULL))
 		return 0;
 
-	ptrT tszDesc( mir_a2t(ei->description));
+	ptrT tszDesc(mir_a2t(ei->description));
 	TCHAR *desc = TranslateTH(lParam, tszDesc);
 
 	BaseExtraIcon *extra = GetExtraIconByName(ei->name);
@@ -376,7 +376,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		// Found one, now merge it
-		if ( _tcsicmp(extra->getDescription(), desc)) {
+		if (_tcsicmp(extra->getDescription(), desc)) {
 			CMString newDesc = extra->getDescription();
 			newDesc += _T(" / ");
 			newDesc += desc;
@@ -420,7 +420,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 
 	mir_snprintf(setting, SIZEOF(setting), "Slot_%s", ei->name);
 	int slot = db_get_w(NULL, MODULE_NAME, setting, 1);
-	if (slot == (WORD) -1)
+	if (slot == (WORD)-1)
 		slot = -1;
 	extra->setSlot(slot);
 
@@ -447,7 +447,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 			extra->rebuildIcons();
 
 		slot = 0;
-		for (int i=0; i < extraIconsBySlot.getCount(); i++) {
+		for (int i = 0; i < extraIconsBySlot.getCount(); i++) {
 			ExtraIcon *ex = extraIconsBySlot[i];
 			if (ex->getSlot() < 0)
 				continue;
