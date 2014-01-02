@@ -92,13 +92,13 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Layout",IDC_STATIC,0,0,304,138
-    CONTROL         "Show titlebar",IDC_SHOWTITLEBAR,"Button",
+    CONTROL         "Show title bar",IDC_SHOWTITLEBAR,"Button",
 					BS_AUTOCHECKBOX | WS_TABSTOP,8,12,180,10
     CONTROL         "Show status bar",IDC_SHOWSTATUSBAR,"Button",
 					BS_AUTOCHECKBOX | WS_TABSTOP,8,23,180,10
     CONTROL         "Show toolbar",IDC_SHOWTOOLBAR,"Button",
 					BS_AUTOCHECKBOX | WS_TABSTOP,8,34,180,10
-    CONTROL         "Show infobar",IDC_SHOWINFOBAR,"Button",
+    CONTROL         "Show info bar",IDC_SHOWINFOBAR,"Button",
 					BS_AUTOCHECKBOX | WS_TABSTOP,8,45,180,10
     CONTROL         "Show avatars", IDC_AVATARSUPPORT,"Button",
 					BS_AUTOCHECKBOX | WS_TABSTOP,8,56,180,10

@@ -1748,13 +1748,13 @@ static int CLUIFramesLoadMainMenu()
 
 	// create "show all titlebars" menu
 	mi.position = separator++;
-	mi.pszName = LPGEN("Show All Titlebars");
+	mi.pszName = LPGEN("Show all title bars");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMESTB;
 	Menu_AddMainMenuItem(&mi);
 
 	// create "hide all titlebars" menu
 	mi.position = separator++;
-	mi.pszName = LPGEN("Hide All Titlebars");
+	mi.pszName = LPGEN("Hide all title bars");
 	mi.pszService = MS_CLIST_FRAMES_HIDEALLFRAMESTB;
 	Menu_AddMainMenuItem(&mi);
 	return 0;
@@ -3012,8 +3012,8 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 				else{AppendMenu(hmenu,MF_STRING,frame_menu_visible,TranslateT("Visible"));};
 
 				if (g_pfwFrames[framepos].TitleBar.ShowTitleBar)
-				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_showtitlebar,TranslateT("Show TitleBar"));}
-				else{AppendMenu(hmenu,MF_STRING,frame_menu_showtitlebar,TranslateT("Show TitleBar"));};
+				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_showtitlebar,TranslateT("Show title bar"));}
+				else{AppendMenu(hmenu,MF_STRING,frame_menu_showtitlebar,TranslateT("Show title bar"));};
 
 				if (g_pfwFrames[framepos].floating)
 				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_floating,TranslateT("Floating"));}

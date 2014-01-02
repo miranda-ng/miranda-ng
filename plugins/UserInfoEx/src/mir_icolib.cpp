@@ -65,12 +65,12 @@ static ICODESC icoDesc[] =
 	{ ICO_TREE_DEFAULT,      LPGEN("Default"),               SECT_TREE,    IDI_LST_FOLDER,          0 },
 																			   
 	// dialogs															   
-	{ ICO_DLG_DETAILS,       LPGEN("Details Infobar"),       SECT_DLG,     IDI_DLG_DETAILS,        48 },
-	{ ICO_DLG_PHONE,         LPGEN("Phone Infobar"),         SECT_DLG,     IDI_DLG_PHONE,           1 },
-	{ ICO_DLG_EMAIL,         LPGEN("E-Mail Infobar"),        SECT_DLG,     IDI_DLG_EMAIL,           1 },
+	{ ICO_DLG_DETAILS,       LPGEN("Details info bar"),       SECT_DLG,     IDI_DLG_DETAILS,        48 },
+	{ ICO_DLG_PHONE,         LPGEN("Phone info bar"),         SECT_DLG,     IDI_DLG_PHONE,           1 },
+	{ ICO_DLG_EMAIL,         LPGEN("E-Mail info bar"),        SECT_DLG,     IDI_DLG_EMAIL,           1 },
 	{ ICO_DLG_EXPORT,        LPGEN("Export VCard"),          SECT_DLG,     IDI_EXPORT,              1 },
 	{ ICO_DLG_IMPORT,        LPGEN("Import VCard"),          SECT_DLG,     IDI_IMPORT,              1 },
-	{ ICO_DLG_ANNIVERSARY,   LPGEN("Anniversary Infobar"),   SECT_DLG,     IDI_ANNIVERSARY,         1 },
+	{ ICO_DLG_ANNIVERSARY,   LPGEN("Anniversary info bar"),   SECT_DLG,     IDI_ANNIVERSARY,         1 },
 																			   
 	// button icons													   
 	{ ICO_BTN_UPDATE,        LPGEN("Update"),                SECT_BUTTONS, IDI_BTN_UPDATE,          0 },

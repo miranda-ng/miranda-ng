@@ -138,10 +138,10 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 		hSmileyAddOptionsChangedHook = HookEvent(ME_SMILEYADD_OPTIONSCHANGED,clcHookSmileyAddOptionsChanged);
 	}
 
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("List Background")"/CLC"),0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("Menu Background")"/Menu"),0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("StatusBar Background")"/StatusBar"),0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("Frames TitleBar BackGround")"/FrameTitleBar"),0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("List background")"/CLC"),0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("Menu background")"/Menu"),0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("Status bar background")"/StatusBar"),0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("Frames title bar background")"/FrameTitleBar"),0);
 
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,clcHookBkgndConfigChanged);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,BgStatusBarChange);

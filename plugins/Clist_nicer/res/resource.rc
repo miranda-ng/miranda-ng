@@ -447,7 +447,7 @@ BEGIN
     LTEXT           "Group top padding",IDC_STATIC,7,164,68,10
     EDITTEXT        IDC_LASTITEMPADDING,258,163,29,12,ES_AUTOHSCROLL
     CONTROL         "",IDC_LASTITEMPADDINGSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,274,164,11,13
-    LTEXT           "Frame titlebar height",IDC_STATIC,149,164,85,10
+    LTEXT           "Frame title bar height",IDC_STATIC,149,164,85,10
     CONTROL         "Ignore selection for groups",IDC_IGNORESELFORGROUPS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,152,286,10
 END

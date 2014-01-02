@@ -676,7 +676,7 @@ void CJabberProto::MenuInit()
 
 	CreateProtoService("/SD/Conferences", &CJabberProto::OnMenuHandleServiceDiscoveryConferences);
 	strcpy(tDest, "/SD/Conferences");
-	mi.pszName = LPGEN("Browse Chatrooms");
+	mi.pszName = LPGEN("Browse chatrooms");
 	mi.position = 2000050005;
 	mi.icolibItem = GetIconHandle(IDI_GROUP);
 	m_hMenuSDConferences = Menu_AddProtoMenuItem(&mi);

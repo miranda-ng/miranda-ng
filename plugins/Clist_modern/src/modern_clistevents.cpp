@@ -403,7 +403,7 @@ static void EventArea_HideShowNotifyFrame()
 int EventArea_Create(HWND hCluiWnd)
 {
 
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("Event Area Background")"/EventArea"),0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("Event area background")"/EventArea"),0);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,ehhEventAreaBackgroundSettingsChanged);
 	ehhEventAreaBackgroundSettingsChanged(0, 0);
 

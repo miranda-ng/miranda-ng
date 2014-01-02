@@ -585,7 +585,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid,int root,int popuppos,HGENMENU (*
 	mi.pszPopupName = (char *)root;
 	mi.popupPosition = frameid;
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Show TitleBar");
+	mi.pszName = LPGEN("&Show title bar");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAMETITLEBAR;
 	mi.pszContactOwner = (char *)0;
@@ -1375,7 +1375,7 @@ static int CLUIFramesLoadMainMenu()
 	mi.position = separator++;
 	mi.hParentMenu = MainMIRoot;
 	mi.flags = CMIF_CHILDPOPUP;
-	mi.pszName = LPGEN("Show All Titlebars");
+	mi.pszName = LPGEN("Show all title bars");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMESTB;
 	Menu_AddMainMenuItem(&mi);
 
@@ -1384,7 +1384,7 @@ static int CLUIFramesLoadMainMenu()
 	mi.position = separator++;
 	mi.hParentMenu = MainMIRoot;
 	mi.flags = CMIF_CHILDPOPUP;
-	mi.pszName = LPGEN("Hide All Titlebars");
+	mi.pszName = LPGEN("Hide all title bars");
 	mi.pszService = MS_CLIST_FRAMES_HIDEALLFRAMESTB;
 	Menu_AddMainMenuItem(&mi);
 	return 0;
@@ -2146,8 +2146,8 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				else{AppendMenu(hmenu,MF_STRING,frame_menu_visible,TranslateT("Visible"));}
 
 				if (Frames[framepos].TitleBar.ShowTitleBar)
-				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_showtitlebar,TranslateT("Show TitleBar"));}
-				else{AppendMenu(hmenu,MF_STRING,frame_menu_showtitlebar,TranslateT("Show TitleBar"));}
+				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_showtitlebar,TranslateT("Show title bar"));}
+				else{AppendMenu(hmenu,MF_STRING,frame_menu_showtitlebar,TranslateT("Show title bar"));}
 
 				if (Frames[framepos].floating)
 				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_floating,TranslateT("Floating"));}

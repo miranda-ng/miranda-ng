@@ -315,31 +315,31 @@ void RegisterKeyBindings() {
 	}
 
 	desc.pszName = "Scriver/Wnd/Toggle Statusbar";
-	desc.pszDescription = LPGEN("Window: Toggle Statusbar");
+	desc.pszDescription = LPGEN("Window: Toggle status bar");
 	desc.lParam = KB_SWITCHSTATUSBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'S');
 	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Titlebar";
-	desc.pszDescription = LPGEN("Window: Toggle Titlebar");
+	desc.pszDescription = LPGEN("Window: Toggle title bar");
 	desc.lParam = KB_SWITCHTITLEBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'M');
 	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Toolbar";
-	desc.pszDescription = LPGEN("Window: Toggle Toolbar");
+	desc.pszDescription = LPGEN("Window: Toggle toolbar");
 	desc.lParam = KB_SWITCHTOOLBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'T');
 	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Infobar";
-	desc.pszDescription = LPGEN("Window: Toggle Infobar");
+	desc.pszDescription = LPGEN("Window: Toggle info bar");
 	desc.lParam = KB_SWITCHINFOBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'N');
 	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Clear Log";
-	desc.pszDescription = LPGEN("Window: Clear Log");
+	desc.pszDescription = LPGEN("Window: Clear log");
 	desc.lParam = KB_CLEAR_LOG;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'L');
 	Hotkey_Register(&desc);
@@ -351,7 +351,7 @@ void RegisterKeyBindings() {
 	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Close Tab";
-	desc.pszDescription = LPGEN("Window: Close Tab");
+	desc.pszDescription = LPGEN("Window: Close tab");
 	desc.lParam = KB_CLOSE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F4);
 	Hotkey_Register(&desc);
@@ -365,13 +365,13 @@ void RegisterKeyBindings() {
 	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Action/Send All";
-	desc.pszDescription = LPGEN("Action: Send to All");
+	desc.pszDescription = LPGEN("Action: Send to all");
 	desc.lParam = KB_SEND_ALL;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, VK_RETURN);
 	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Action/PasteSend";
-	desc.pszDescription = LPGEN("Action: Paste & Send");
+	desc.pszDescription = LPGEN("Action: Paste and send");
 	desc.lParam = KB_PASTESEND;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, VK_INSERT);
 	Hotkey_Register(&desc);

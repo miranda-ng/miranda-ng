@@ -71,8 +71,8 @@ static const FontOptionsList fontOptionsList[] = {
 	{ LPGENT("Notices"), RGB(90, 90, 160), _T("Arial"), 0, -12, LPGENT("Incoming background")},
 	{ LPGENT("Outgoing URL"), RGB(0, 0, 255), _T("Arial"), 0, -12, LPGENT("Outgoing background")},
 	{ LPGENT("Incoming URL"), RGB(0, 0, 255), _T("Arial"), 0, -12, LPGENT("Incoming background")},
-	{ LPGENT("Infobar contact name"), RGB(0, 0, 0), _T("Arial"), FONTF_BOLD, -19, LPGENT("Infobar background")},
-	{ LPGENT("Infobar status message"), RGB(50, 50, 50), _T("Arial"), FONTF_ITALIC, -11, LPGENT("Infobar background")}
+	{ LPGENT("Info bar contact name"), RGB(0, 0, 0), _T("Arial"), FONTF_BOLD, -19, LPGENT("Info bar background")},
+	{ LPGENT("Info bar status message"), RGB(50, 50, 50), _T("Arial"), FONTF_ITALIC, -11, LPGENT("Info bar background")}
 };
 
 int fontOptionsListSize = SIZEOF(fontOptionsList);
@@ -114,7 +114,7 @@ static const colourOptionsList[] = {
 	{ LPGENT("Input area background"), SRMSGSET_INPUTBKGCOLOUR, 0, COLOR_WINDOW},
 	{ LPGENT("Incoming background"), SRMSGSET_INCOMINGBKGCOLOUR, 0, COLOR_WINDOW},
 	{ LPGENT("Outgoing background"), SRMSGSET_OUTGOINGBKGCOLOUR, 0, COLOR_WINDOW},
-	{ LPGENT("Infobar background"), SRMSGSET_INFOBARBKGCOLOUR, 0, COLOR_3DLIGHT},
+	{ LPGENT("Info bar background"), SRMSGSET_INFOBARBKGCOLOUR, 0, COLOR_3DLIGHT},
 };
 
 

@@ -138,7 +138,7 @@ BEGIN
     CONTROL         "Tile vertically",IDC_TILEV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,138,98,10
     CONTROL         "Scroll with text",IDC_SCROLL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,121,138,100,10
     CONTROL         "Stretch proportionally",IDC_PROPORTIONAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,121,125,101,10
-    CONTROL         "Tile vertically according to Row Height",IDC_TILEVROWH,
+    CONTROL         "Tile vertically according to row height",IDC_TILEVROWH,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,153,205,10
     COMBOBOX        IDC_BKGRLIST,4,4,226,155,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Use Windows Colors",IDC_USEWINCOL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,33,213,10
@@ -309,7 +309,7 @@ BEGIN
     RTEXT           "Accounts per line",IDC_STATIC,15,150,73,10
     EDITTEXT        IDC_MULTI_COUNT,93,148,48,12,ES_NUMBER
     CONTROL         "",IDC_MULTI_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,129,148,11,12
-    LTEXT           "* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.",IDC_STATIC,27,163,123,42,WS_DISABLED
+    LTEXT           "* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.",IDC_STATIC,27,163,123,42,WS_DISABLED
     LTEXT           "Hold [Shift] to inverse [Right Click] behavior",IDC_STATIC,27,207,267,8,WS_DISABLED
     LTEXT           "[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all",IDC_STATIC,27,216,267,8,WS_DISABLED
     CONTROL         "Set options per account",IDC_STATUSBAR_PER_PROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,12,134,10

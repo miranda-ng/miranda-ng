@@ -53,7 +53,7 @@ int ClcOptInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszGroup = LPGEN("Contact list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
 	odp.pszTitle = LPGEN("List");
 	odp.pfnDlgProc = DlgProcClcMainOpts;
@@ -62,7 +62,7 @@ int ClcOptInit(WPARAM wParam,LPARAM lParam)
 
 	if ( !ServiceExists(MS_BACKGROUNDCONFIG_REGISTER)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
-		odp.pszTitle = LPGEN("List Background");
+		odp.pszTitle = LPGEN("List background");
 		odp.pfnDlgProc = DlgProcClcBkgOpts;
 		odp.flags = ODPF_BOLDGROUPS;
 		Options_AddPage(wParam, &odp);
@@ -75,7 +75,7 @@ int ClcOptInit(WPARAM wParam,LPARAM lParam)
 
 	if ( !ServiceExists(MS_BACKGROUNDCONFIG_REGISTER)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
-		odp.pszTitle = LPGEN("StatusBar Background");
+		odp.pszTitle = LPGEN("Status bar background");
 		odp.pfnDlgProc = DlgProcStatusBarBkgOpts;
 		odp.flags = ODPF_BOLDGROUPS;
 		Options_AddPage(wParam, &odp);

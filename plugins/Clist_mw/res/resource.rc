@@ -261,7 +261,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Contact List Background",IDC_STATIC,4,4,227,141
+    GROUPBOX        "Contact list background",IDC_STATIC,4,4,227,141
     LTEXT           "Background color:",IDC_STATIC,12,20,72,8,NOT WS_GROUP
     CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,84,19,32,10
     LTEXT           "Selection color:",IDC_STATIC,12,36,72,8
@@ -315,7 +315,7 @@ BEGIN
     CONTROL         "Show size grip",IDC_SHOWSIZEGRIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,72,142,10
     CONTROL         "Show bevel effect on panels",IDC_SBPANELBEVEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,86,107,10
     CONTROL         "Use connecting Icon",IDC_USECONNECTINGICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,97,82,10
-    CONTROL         "Use New Drawer for StatusBar",IDC_USEOWNERDRAW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,160,142,10
+    CONTROL         "Use new drawer for status bar",IDC_USEOWNERDRAW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,160,142,10
 END
 
 
