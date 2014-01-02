@@ -111,9 +111,9 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 
 static int ClcModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)"StatusBar Background/StatusBar",0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)"List Background/CLC",0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)"Frames TitleBar BackGround/FrameTitleBar",0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("StatusBar Background")"/StatusBar"),0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("List Background")"/CLC"),0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("Frames TitleBar BackGround")"/FrameTitleBar"),0);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,BgClcChange);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,BgStatusBarChange);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,OnFrameTitleBarBackgroundChange);
