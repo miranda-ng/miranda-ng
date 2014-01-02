@@ -41,9 +41,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <vssym32.h>
 #include <Shlwapi.h>
 
-#include <vector>
-using namespace std;
+#ifdef _DEBUG
+#include <crtdbg.h>
+#endif
 
+#include <malloc.h>
 #include <stdio.h>
 #include <time.h>
 #include <stddef.h>

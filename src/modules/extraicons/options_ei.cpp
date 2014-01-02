@@ -27,6 +27,21 @@ Boston, MA 02111-1307, USA.
 
 int SortFunc(const ExtraIcon *p1, const ExtraIcon *p2);
 
+struct intlist
+{
+	intlist() : count(0), data(0) {}
+	~intlist() { mir_free(data); }
+
+	void add(int val)
+	{
+		data = (int*)mir_realloc(data, sizeof(int)*(count + 1));
+		data[count++] = val;
+	}
+
+	int count;
+	int *data;
+};
+
 // Functions //////////////////////////////////////////////////////////////////////////////////////
 
 BOOL ScreenToClient(HWND hWnd, LPRECT lpRect)
@@ -144,19 +159,19 @@ static int GetNumSelected(HWND tree)
 	return ret;
 }
 
-static void Tree_GetSelected(HWND tree, vector<HTREEITEM> &selected)
+static void Tree_GetSelected(HWND tree, LIST<_TREEITEM> &selected)
 {
 	HTREEITEM hItem = TreeView_GetRoot(tree);
 	while (hItem) {
 		if (IsSelected(tree, hItem))
-			selected.push_back(hItem);
+			selected.insert(hItem);
 		hItem = TreeView_GetNextSibling(tree, hItem);
 	}
 }
 
-static void Tree_Select(HWND tree, vector<HTREEITEM> &selected)
+static void Tree_Select(HWND tree, LIST<_TREEITEM> &selected)
 {
-	for (unsigned int i = 0; i < selected.size(); i++)
+	for (int i = 0; i < selected.getCount(); i++)
 		if (selected[i] != NULL)
 			Tree_Select(tree, selected[i]);
 }
@@ -183,43 +198,42 @@ LRESULT CALLBACK TreeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			if (wParam & MK_CONTROL) {
-				vector<HTREEITEM> selected;
+				LIST<_TREEITEM> selected(1);
 				Tree_GetSelected(hwndDlg, selected);
 
 				// Check if have to deselect it
-				for (unsigned int i = 0; i < selected.size(); i++) {
+				for (int i = 0; i < selected.getCount(); i++) {
 					if (selected[i] == hti.hItem) {
 						// Deselect it
 						UnselectAll(hwndDlg);
-						selected[i] = NULL;
+						selected.remove(i);
 
 						if (i > 0)
 							hti.hItem = selected[0];
-
-						else if (i + 1 < selected.size())
-							hti.hItem = selected[i + 1];
-
+						else if (i < selected.getCount())
+							hti.hItem = selected[i];
 						else
 							hti.hItem = NULL;
-
 						break;
 					}
 				}
 
 				TreeView_SelectItem(hwndDlg, hti.hItem);
 				Tree_Select(hwndDlg, selected);
+				selected.destroy();
 			}
 			else if (wParam & MK_SHIFT) {
 				HTREEITEM hItem = TreeView_GetSelection(hwndDlg);
 				if (hItem == NULL)
 					break;
 
-				vector<HTREEITEM> selected;
+				LIST<_TREEITEM> selected(1);
 				Tree_GetSelected(hwndDlg, selected);
 
 				TreeView_SelectItem(hwndDlg, hti.hItem);
 				Tree_Select(hwndDlg, selected);
 				Tree_SelectRange(hwndDlg, hItem, hti.hItem);
+				selected.destroy();
 			}
 
 			return 0;
@@ -229,19 +243,19 @@ LRESULT CALLBACK TreeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	return mir_callNextSubclass(hwndDlg, TreeProc, msg, wParam, lParam);
 }
 
-static vector<int>* Tree_GetIDs(HWND tree, HTREEITEM hItem)
+static intlist* Tree_GetIDs(HWND tree, HTREEITEM hItem)
 {
 	TVITEM tvi = { 0 };
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 	tvi.hItem = hItem;
 	TreeView_GetItem(tree, &tvi);
-	return (vector<int>*) tvi.lParam;
+	return (intlist*)tvi.lParam;
 }
 
 static HTREEITEM Tree_AddExtraIcon(HWND tree, BaseExtraIcon *extra, bool selected, HTREEITEM hAfter = TVI_LAST)
 {
-	vector<int>*ids = new vector<int> ;
-	ids->push_back(extra->getID());
+	intlist *ids = new intlist();
+	ids->add(extra->getID());
 
 	TVINSERTSTRUCT tvis = { 0 };
 	tvis.hInsertAfter = hAfter;
@@ -254,14 +268,14 @@ static HTREEITEM Tree_AddExtraIcon(HWND tree, BaseExtraIcon *extra, bool selecte
 	return TreeView_InsertItem(tree, &tvis);
 }
 
-static HTREEITEM Tree_AddExtraIconGroup(HWND tree, vector<int> &group, bool selected, HTREEITEM hAfter = TVI_LAST)
+static HTREEITEM Tree_AddExtraIconGroup(HWND tree, intlist &group, bool selected, HTREEITEM hAfter = TVI_LAST)
 {
-	vector<int>*ids = new vector<int> ;
+	intlist *ids = new intlist();
 	CMString desc;
 	int img = 0;
-	for (unsigned int i = 0; i < group.size(); i++) {
-		BaseExtraIcon *extra = registeredExtraIcons[group[i] - 1];
-		ids->push_back(extra->getID());
+	for (int i = 0; i < group.count; i++) {
+		BaseExtraIcon *extra = registeredExtraIcons[group.data[i] - 1];
+		ids->add(extra->getID());
 
 		if (img == 0 && !IsEmpty(extra->getDescIcon()))
 			img = extra->getID();
@@ -284,8 +298,8 @@ static HTREEITEM Tree_AddExtraIconGroup(HWND tree, vector<int> &group, bool sele
 
 static void GroupSelectedItems(HWND tree)
 {
-	vector<HTREEITEM> toRemove;
-	vector<int> ids;
+	LIST<_TREEITEM> toRemove(1);
+	intlist ids;
 	bool selected = false;
 	HTREEITEM hPlace = NULL;
 
@@ -301,35 +315,35 @@ static void GroupSelectedItems(HWND tree)
 			tvi.hItem = hItem;
 			TreeView_GetItem(tree, &tvi);
 
-			vector<int>*iids = (vector<int>*) tvi.lParam;
-			ids.insert(ids.end(), iids->begin(), iids->end());
+			intlist *iids = (intlist*)tvi.lParam;
+			for (int i = 0; i < iids->count; i++)
+				ids.add(iids->data[i]);
 
 			if ((tvi.state & INDEXTOSTATEIMAGEMASK(3)) == INDEXTOSTATEIMAGEMASK(2))
 				selected = true;
 
-			toRemove.push_back(hItem);
+			toRemove.insert(hItem);
 		}
 
 		hItem = TreeView_GetNextSibling(tree, hItem);
 	}
 
-	if (hPlace == NULL)
-		return; // None selected
+	if (hPlace != NULL) {
+		// Add new
+		HTREEITEM hNew = Tree_AddExtraIconGroup(tree, ids, selected, hPlace);
 
-	// Add new
-	int ii = ids.at(0);
-	ii = ids.at(1);
-	HTREEITEM hNew = Tree_AddExtraIconGroup(tree, ids, selected, hPlace);
+		// Remove old
+		for (int i = 0; i < toRemove.getCount(); i++) {
+			delete Tree_GetIDs(tree, toRemove[i]);
+			TreeView_DeleteItem(tree, toRemove[i]);
+		}
 
-	// Remove old
-	for (unsigned int i = 0; i < toRemove.size(); i++) {
-		delete Tree_GetIDs(tree, toRemove[i]);
-		TreeView_DeleteItem(tree, toRemove[i]);
+		// Select
+		UnselectAll(tree);
+		TreeView_SelectItem(tree, hNew);
 	}
 
-	// Select
-	UnselectAll(tree);
-	TreeView_SelectItem(tree, hNew);
+	toRemove.destroy();
 }
 
 static void UngroupSelectedItems(HWND tree)
@@ -338,18 +352,18 @@ static void UngroupSelectedItems(HWND tree)
 	if (hItem == NULL)
 		return;
 
-	vector<int>*ids = Tree_GetIDs(tree, hItem);
-	if (ids->size() < 2)
+	intlist *ids = Tree_GetIDs(tree, hItem);
+	if (ids->count < 2)
 		return;
 
 	bool selected = IsSelected(tree, hItem);
 
-	for (size_t i = ids->size(); i > 0; --i) {
-		BaseExtraIcon *extra = registeredExtraIcons[ids->at(i-1) - 1];
+	for (int i = ids->count - 1; i >= 0; i--) {
+		BaseExtraIcon *extra = registeredExtraIcons[ids->data[i] - 1];
 		Tree_AddExtraIcon(tree, extra, selected, hItem);
 	}
 
-	delete Tree_GetIDs(tree, hItem);
+	delete ids;
 	TreeView_DeleteItem(tree, hItem);
 
 	UnselectAll(tree);
@@ -392,9 +406,9 @@ static int ShowPopup(HWND hwndDlg, int popup)
 
 static int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-	vector<int>*a = (vector<int>*) lParam1;
-	vector<int>*b = (vector<int>*) lParam2;
-	return SortFunc(registeredExtraIcons[a->at(0)-1], registeredExtraIcons[b->at(0)-1]);
+	intlist*a = (intlist*)lParam1;
+	intlist*b = (intlist*)lParam2;
+	return SortFunc(registeredExtraIcons[a->data[0]-1], registeredExtraIcons[b->data[0]-1]);
 }
 
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -446,9 +460,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				if (extra->getType() == EXTRAICON_TYPE_GROUP) {
 					ExtraIconGroup *group = (ExtraIconGroup *)extra;
-					vector<int> ids;
+					intlist ids;
 					for (int j = 0; j < group->items.getCount(); j++)
-						ids.push_back(group->items[j]->getID());
+						ids.add(group->items[j]->getID());
 					Tree_AddExtraIconGroup(tree, ids, extra->isEnabled());
 				}
 				else Tree_AddExtraIcon(tree, (BaseExtraIcon *)extra, extra->isEnabled());
@@ -493,8 +507,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				tvi.hItem = ht;
 				TreeView_GetItem(tree, &tvi);
 
-				vector<int>*ids = (vector<int>*) tvi.lParam;
-				if (ids == NULL || ids->size() < 1)
+				intlist*ids = (intlist*) tvi.lParam;
+				if (ids == NULL || ids->count < 1)
 					continue; // ???
 
 				bool enabled = ((tvi.state & INDEXTOSTATEIMAGEMASK(3)) == INDEXTOSTATEIMAGEMASK(2));
@@ -502,8 +516,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (slot >= GetNumberOfSlots())
 					slot = -1;
 
-				if (ids->size() == 1) {
-					BaseExtraIcon *extra = registeredExtraIcons[ids->at(0) - 1];
+				if (ids->count == 1) {
+					BaseExtraIcon *extra = registeredExtraIcons[ids->data[0] - 1];
 					extra->setPosition(pos++);
 					extra->setSlot(slot);
 				}
@@ -513,8 +527,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					ExtraIconGroup *group = new ExtraIconGroup(name);
 
-					for (unsigned i = 0; i < ids->size(); i++) {
-						BaseExtraIcon *extra = registeredExtraIcons[ids->at(i) - 1];
+					for (int i=0; i < ids->count; i++) {
+						BaseExtraIcon *extra = registeredExtraIcons[ids->data[i] - 1];
 						extra->setPosition(pos++);
 
 						group->addExtraIcon(extra);
@@ -632,8 +646,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 				else if (sels == 1) {
 					HTREEITEM hItem = TreeView_GetSelection(tree);
-					vector<int>*ids = Tree_GetIDs(tree, hItem);
-					if (ids->size() > 1) {
+					intlist*ids = Tree_GetIDs(tree, hItem);
+					if (ids->count > 1) {
 						if (ShowPopup(hwndDlg, 1) == ID_UNGROUP) {
 							UngroupSelectedItems(tree);
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM) hwndDlg, 0);
