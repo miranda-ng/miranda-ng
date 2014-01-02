@@ -53,7 +53,7 @@ void IcolibExtraIcon::applyIcon(HANDLE hContact)
 
 	HANDLE hImage = INVALID_HANDLE_VALUE;
 
-	ptrA szIconName(db_get_sa(hContact, MODULE_NAME, name.c_str()));
+	ptrA szIconName(db_get_sa(hContact, MODULE_NAME, szName));
 	if (!IsEmpty(szIconName))
 		hImage = GetIcon(szIconName);
 
@@ -69,7 +69,7 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, HANDLE hIcoLib)
 		hIcoLib = NULL;
 
 	if (isEnabled()) {
-		ptrA szIconName(db_get_sa(hContact, MODULE_NAME, name.c_str()));
+		ptrA szIconName(db_get_sa(hContact, MODULE_NAME, szName));
 		if (!IsEmpty(szIconName))
 			RemoveIcon(szIconName);
 	}
@@ -93,7 +93,7 @@ int IcolibExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
 		icon = NULL;
 
 	if (isEnabled()) {
-		ptrA szIconName(db_get_sa(hContact, MODULE_NAME, name.c_str()));
+		ptrA szIconName(db_get_sa(hContact, MODULE_NAME, szName));
 		if (!IsEmpty(szIconName))
 			RemoveIcon(szIconName);
 	}
@@ -113,7 +113,7 @@ void IcolibExtraIcon::storeIcon(HANDLE hContact, void *icon)
 
 	const char *icolibName = (const char *)icon;
 	if (IsEmpty(icolibName))
-		db_unset(hContact, MODULE_NAME, name.c_str());
+		db_unset(hContact, MODULE_NAME, szName);
 	else
-		db_set_s(hContact, MODULE_NAME, name.c_str(), icolibName);
+		db_set_s(hContact, MODULE_NAME, szName, icolibName);
 }

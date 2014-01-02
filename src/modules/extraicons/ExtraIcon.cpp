@@ -24,7 +24,7 @@ Boston, MA 02111-1307, USA.
 #include "extraicons.h"
 
 ExtraIcon::ExtraIcon(const char *name) :
-	name(name), slot(-1), position(1000), hLangpack(0)
+	szName(mir_strdup(name)), slot(-1), position(1000), hLangpack(0)
 {
 }
 
@@ -34,7 +34,7 @@ ExtraIcon::~ExtraIcon()
 
 const char *ExtraIcon::getName() const
 {
-	return name.c_str();
+	return szName;
 }
 
 int ExtraIcon::getSlot() const

@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 #ifndef __COMMONS_H__
 # define __COMMONS_H__
 
-#define MODULE_NAME		"ExtraIcons"
+#define MODULE_NAME "ExtraIcons"
 
 // Global Variables
 extern HINSTANCE hInst;
@@ -35,7 +35,7 @@ extern HINSTANCE hInst;
 
 extern LIST<BaseExtraIcon> registeredExtraIcons;
 extern LIST<ExtraIcon> extraIconsByHandle, extraIconsBySlot;
-void RebuildListsBasedOnGroups(vector<ExtraIconGroup *> &groups);
+void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups);
 ExtraIcon * GetExtraIconBySlot(int slot);
 
 int GetNumberOfSlots();

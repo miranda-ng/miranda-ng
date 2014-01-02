@@ -445,13 +445,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				ExtraIcon *extra = extraIconsBySlot[k];
 
 				if (extra->getType() == EXTRAICON_TYPE_GROUP) {
-					ExtraIconGroup *group = (ExtraIconGroup *) extra;
+					ExtraIconGroup *group = (ExtraIconGroup *)extra;
 					vector<int> ids;
-					for (unsigned int j = 0; j < group->items.size(); j++)
+					for (int j = 0; j < group->items.getCount(); j++)
 						ids.push_back(group->items[j]->getID());
 					Tree_AddExtraIconGroup(tree, ids, extra->isEnabled());
 				}
-				else Tree_AddExtraIcon(tree, (BaseExtraIcon *) extra, extra->isEnabled());
+				else Tree_AddExtraIcon(tree, (BaseExtraIcon *)extra, extra->isEnabled());
 			}
 
 			TVSORTCB sort = { 0 };
@@ -481,7 +481,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			lastUsedSlot = MIN(lastUsedSlot, GetNumberOfSlots());
 
 			// Get user data and create new groups
-			vector<ExtraIconGroup *> groups;
+			LIST<ExtraIconGroup> groups(1);
 
 			BYTE pos = 0;
 			int firstEmptySlot = 0;
@@ -509,7 +509,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 				else {
 					char name[128];
-					mir_snprintf(name, SIZEOF(name), "__group_%d", groups.size());
+					mir_snprintf(name, SIZEOF(name), "__group_%d", groups.getCount());
 
 					ExtraIconGroup *group = new ExtraIconGroup(name);
 
@@ -521,7 +521,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 					group->setSlot(slot);
-					groups.push_back(group);
+					groups.insert(group);
 				}
 
 				ht = TreeView_GetNextSibling(tree, ht);
@@ -540,15 +540,15 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 
 			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM) MODULE_NAME "Groups");
-			db_set_w(NULL, MODULE_NAME "Groups", "Count", (WORD)groups.size());
-			for (unsigned k = 0; k < groups.size(); k++) {
+			db_set_w(NULL, MODULE_NAME "Groups", "Count", groups.getCount());
+			for (int k = 0; k < groups.getCount(); k++) {
 				ExtraIconGroup *group = groups[k];
 
 				char setting[512];
 				mir_snprintf(setting, SIZEOF(setting), "%d_count", k);
-				db_set_w(NULL, MODULE_NAME "Groups", setting, (WORD)group->items.size());
+				db_set_w(NULL, MODULE_NAME "Groups", setting, (WORD)group->items.getCount());
 
-				for (unsigned j = 0; j < group->items.size(); j++) {
+				for (int j = 0; j < group->items.getCount(); j++) {
 					BaseExtraIcon *extra = group->items[j];
 
 					mir_snprintf(setting, SIZEOF(setting), "%d_%d", k, j);
@@ -573,6 +573,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 
 			delete[] oldSlots;
+			groups.destroy();
 			return TRUE;
 		}
 		
@@ -600,8 +601,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM) hwndDlg, 0);
 						}
 					}
-					break;
 				}
+				break;
+
 			case TVN_KEYDOWN:
 				{
 					TV_KEYDOWN *nmkd = (TV_KEYDOWN *) lpnmhdr;
@@ -611,34 +613,32 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						if (hItem != NULL)
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM) hwndDlg, 0);
 					}
-					break;
 				}
-			case NM_RCLICK:
-				{
-					HTREEITEM hSelected = (HTREEITEM) SendMessage(tree, TVM_GETNEXTITEM, TVGN_DROPHILITE, 0);
-					if (hSelected != NULL && !IsSelected(tree, hSelected)) {
-						UnselectAll(tree);
-						TreeView_SelectItem(tree, hSelected);
-					}
+				break;
 
-					int sels = GetNumSelected(tree);
-					if (sels > 1) {
-						if (ShowPopup(hwndDlg, 0) == ID_GROUP) {
-							GroupSelectedItems(tree);
+			case NM_RCLICK:
+				HTREEITEM hSelected = (HTREEITEM) SendMessage(tree, TVM_GETNEXTITEM, TVGN_DROPHILITE, 0);
+				if (hSelected != NULL && !IsSelected(tree, hSelected)) {
+					UnselectAll(tree);
+					TreeView_SelectItem(tree, hSelected);
+				}
+
+				int sels = GetNumSelected(tree);
+				if (sels > 1) {
+					if (ShowPopup(hwndDlg, 0) == ID_GROUP) {
+						GroupSelectedItems(tree);
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM) hwndDlg, 0);
+					}
+				}
+				else if (sels == 1) {
+					HTREEITEM hItem = TreeView_GetSelection(tree);
+					vector<int>*ids = Tree_GetIDs(tree, hItem);
+					if (ids->size() > 1) {
+						if (ShowPopup(hwndDlg, 1) == ID_UNGROUP) {
+							UngroupSelectedItems(tree);
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM) hwndDlg, 0);
 						}
 					}
-					else if (sels == 1) {
-						HTREEITEM hItem = TreeView_GetSelection(tree);
-						vector<int>*ids = Tree_GetIDs(tree, hItem);
-						if (ids->size() > 1) {
-							if (ShowPopup(hwndDlg, 1) == ID_UNGROUP) {
-								UngroupSelectedItems(tree);
-								SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM) hwndDlg, 0);
-							}
-						}
-					}
-					break;
 				}
 			}
 		}

@@ -60,7 +60,7 @@ public:
 	int hLangpack;
 
 protected:
-	std::string name;
+	ptrA szName;
 
 	int slot;
 	int position;
@@ -165,7 +165,7 @@ public:
 	virtual int getPosition() const;
 	virtual void setSlot(int slot);
 
-	std::vector<BaseExtraIcon*> items;
+	LIST<BaseExtraIcon> items;
 
 	virtual int ClistSetExtraIcon(HANDLE hContact, HANDLE hImage);
 

@@ -128,10 +128,10 @@ BaseExtraIcon* GetExtraIconByName(const char *name)
 	return NULL;
 }
 
-static void LoadGroups(vector<ExtraIconGroup *> &groups)
+static void LoadGroups(LIST<ExtraIconGroup> &groups)
 {
-	unsigned int count = db_get_w(NULL, MODULE_NAME "Groups", "Count", 0);
-	for (unsigned int i = 0; i < count; i++) {
+	int count = db_get_w(NULL, MODULE_NAME "Groups", "Count", 0);
+	for (int i=0; i < count; i++) {
 		char setting[512];
 		mir_snprintf(setting, SIZEOF(setting), "%d_count", i);
 		unsigned int items = db_get_w(NULL, MODULE_NAME "Groups", setting, 0);
@@ -143,36 +143,33 @@ static void LoadGroups(vector<ExtraIconGroup *> &groups)
 
 		for (unsigned int j = 0; j < items; j++) {
 			mir_snprintf(setting, SIZEOF(setting), "%d_%d", i, j);
+			ptrA szIconName(db_get_sa(NULL, MODULE_NAME "Groups", setting));
+			if (IsEmpty(szIconName))
+				continue;
 
-			DBVARIANT dbv;
-			if (!db_get_s(NULL, MODULE_NAME "Groups", setting, &dbv)) {
-				if (!IsEmpty(dbv.pszVal)) {
-					BaseExtraIcon *extra = GetExtraIconByName(dbv.pszVal);
-					if (extra != NULL) {
-						group->items.push_back(extra);
+			BaseExtraIcon *extra = GetExtraIconByName(szIconName);
+			if (extra == NULL)
+				continue;
 
-						if (extra->getSlot() >= 0)
-							group->setSlot(extra->getSlot());
-					}
-				}
-				db_free(&dbv);
-			}
+			group->items.insert(extra);
+			if (extra->getSlot() >= 0)
+				group->setSlot(extra->getSlot());
 		}
 
-		if (group->items.size() < 2) {
+		if (group->items.getCount() < 2) {
 			delete group;
 			continue;
 		}
 
-		groups.push_back(group);
+		groups.insert(group);
 	}
 }
 
-static ExtraIconGroup* IsInGroup(vector<ExtraIconGroup *> &groups, BaseExtraIcon *extra)
+static ExtraIconGroup* IsInGroup(LIST<ExtraIconGroup> &groups, BaseExtraIcon *extra)
 {
-	for (unsigned int i = 0; i < groups.size(); i++) {
+	for (int i = 0; i < groups.getCount(); i++) {
 		ExtraIconGroup *group = groups[i];
-		for (unsigned int j = 0; j < group->items.size(); j++) {
+		for (int j = 0; j < group->items.getCount(); j++) {
 			if (extra == group->items[j])
 				return group;
 		}
@@ -180,31 +177,30 @@ static ExtraIconGroup* IsInGroup(vector<ExtraIconGroup *> &groups, BaseExtraIcon
 	return NULL;
 }
 
-void RebuildListsBasedOnGroups(vector<ExtraIconGroup *> &groups)
+void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups)
 {
 	extraIconsByHandle.destroy();
-	int k;
-	for (k=0; k < registeredExtraIcons.getCount(); k++)
-		extraIconsByHandle.insert(registeredExtraIcons[k]);
 
-	for (k=0; k < extraIconsBySlot.getCount(); k++) {
+	for (int i=0; i < registeredExtraIcons.getCount(); i++)
+		extraIconsByHandle.insert(registeredExtraIcons[i]);
+
+	for (int k=0; k < extraIconsBySlot.getCount(); k++) {
 		ExtraIcon *extra = extraIconsBySlot[k];
 		if (extra->getType() == EXTRAICON_TYPE_GROUP)
 			delete extra;
 	}
 	extraIconsBySlot.destroy();
 
-	unsigned int i;
-	for (i = 0; i < groups.size(); i++) {
+	for (int i=0; i < groups.getCount(); i++) {
 		ExtraIconGroup *group = groups[i];
 
-		for (unsigned int j = 0; j < group->items.size(); j++)
+		for (int j = 0; j < group->items.getCount(); j++)
 			extraIconsByHandle.put(group->items[j]->getID()-1, group);
 
 		extraIconsBySlot.insert(group);
 	}
 
-	for (k = 0; k < extraIconsByHandle.getCount(); k++) {
+	for (int k=0; k < extraIconsByHandle.getCount(); k++) {
 		ExtraIcon *extra = extraIconsByHandle[k];
 		if (extra->getType() != EXTRAICON_TYPE_GROUP)
 			extraIconsBySlot.insert(extra);
@@ -228,9 +224,10 @@ void KillModuleExtraIcons(int hLangpack)
 	if (arDeleted.getCount() == 0)
 		return;
 
-	vector<ExtraIconGroup*> groups;
+	LIST<ExtraIconGroup> groups(1);
 	LoadGroups(groups);
 	RebuildListsBasedOnGroups(groups);
+	groups.destroy();
 
 	for (int k=0; k < arDeleted.getCount(); k++)
 		delete arDeleted[k];
@@ -429,14 +426,14 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 	registeredExtraIcons.insert(extra);
 	extraIconsByHandle.insert(extra);
 
-	vector<ExtraIconGroup *> groups;
+	LIST<ExtraIconGroup> groups(1);
 	LoadGroups(groups);
 
 	ExtraIconGroup *group = IsInGroup(groups, extra);
 	if (group != NULL)
 		RebuildListsBasedOnGroups(groups);
 	else {
-		for (unsigned int i = 0; i < groups.size(); i++)
+		for (int i = 0; i < groups.getCount(); i++)
 			delete groups[i];
 
 		extraIconsBySlot.insert(extra);
@@ -460,6 +457,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
+	groups.destroy();
 	return id;
 }
 
