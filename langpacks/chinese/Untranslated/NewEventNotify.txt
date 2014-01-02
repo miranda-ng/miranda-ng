@@ -1,7 +1,0 @@
-﻿[Notifies you when you receive a message, url, file or any other event by displaying a popup.]
-[Show entry in the Popups menu]
-[URL]
-[Others]
-[Dismiss Popup]
-[Message-Event only]
-[Preview]

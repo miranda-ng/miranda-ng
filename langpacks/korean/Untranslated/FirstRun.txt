@@ -1,1 +1,0 @@
-﻿[Displays the Accounts window at the first start.]

@@ -1,6 +1,0 @@
-﻿[Console log window for Miranda.]
-[*** Console started ***]
-[*** Console paused ***]
-[*** Console resumed ***]
-[*** Console cleared ***]
-[Services]

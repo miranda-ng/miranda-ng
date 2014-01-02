@@ -1,7 +1,0 @@
-﻿[Support for new options design.]
-[Sample page]
-[Use arrow keys to choose category]
-[Home]
-[Miranda NG configuration center]
-[Chats]
-[Addons]

@@ -1,4 +1,0 @@
-﻿[Change status when you send/receive an event.]
-[Send]
-[URL]
-[File transfer]

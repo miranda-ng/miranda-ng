@@ -1,6 +1,0 @@
-﻿[Miranda NG Database Checker.]
-[< &Back]
-[&Next >]
-[Database Checker cannot find a suitable database plugin to open '%s'.]
-[Database driver '%s' doesn't support checking.]
-[Database]

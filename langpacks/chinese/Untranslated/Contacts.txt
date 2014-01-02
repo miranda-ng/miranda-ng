@@ -1,8 +1,0 @@
-﻿[Allows you to send and receive contacts.]
-[&User menu]
-[&History]
-[&Select All]
-[Popup]
-[Send Message]
-[Contacts from]
-[Send Contacts to]

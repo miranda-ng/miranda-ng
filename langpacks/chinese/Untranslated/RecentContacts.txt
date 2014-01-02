@@ -1,3 +1,0 @@
-﻿[Plugin settings]
-[Hide offline contacts]
-[Toggle Ignore]

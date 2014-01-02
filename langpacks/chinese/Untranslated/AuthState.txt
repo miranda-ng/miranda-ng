@@ -1,3 +1,0 @@
-﻿[If a contact didn't authorize you this plugin puts an icon in front of the contact's name.]
-[Plugin settings]
-[Auth]
