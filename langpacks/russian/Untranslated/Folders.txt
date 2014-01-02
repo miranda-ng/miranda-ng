@@ -1,2 +1,1 @@
-﻿[ProfileDir section (usually inside Miranda's folder).]
-[instead of expanding to Miranda's profile path.]
+﻿[instead of expanding to Miranda's profile path.]
