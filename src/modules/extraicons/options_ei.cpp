@@ -31,14 +31,11 @@ int SortFunc(const ExtraIcon *p1, const ExtraIcon *p2);
 
 BOOL ScreenToClient(HWND hWnd, LPRECT lpRect)
 {
-	BOOL ret;
 	POINT pt;
-
 	pt.x = lpRect->left;
 	pt.y = lpRect->top;
 
-	ret = ScreenToClient(hWnd, &pt);
-
+	BOOL ret = ScreenToClient(hWnd, &pt);
 	if (!ret)
 		return ret;
 

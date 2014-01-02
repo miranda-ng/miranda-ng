@@ -82,11 +82,6 @@ void RemoveIcon(const char *icolibName)
 		icon->refCount--;
 }
 
-static bool NotUsedIcon(const Icon &icon)
-{
-	return icon.refCount <= 0;
-}
-
 void ResetIcons()
 {
 	for (int i = usedIcons.getCount()-1; i >= 0; i--) {

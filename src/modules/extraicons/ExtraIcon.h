@@ -156,10 +156,10 @@ public:
 	virtual void onClick(HANDLE hContact);
 
 	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon);
-	virtual int  setIconByName(int id, HANDLE hContact, const char* icon);
+	virtual int  setIconByName(int id, HANDLE hContact, const char *icon);
 
-	virtual const TCHAR *getDescription() const;
-	virtual const char *getDescIcon() const;
+	virtual const TCHAR* getDescription() const;
+	virtual const char* getDescIcon() const;
 	virtual int getType() const;
 
 	virtual int getPosition() const;

@@ -229,6 +229,7 @@
     <ClInclude Include="..\include\m_database.h" />
     <ClInclude Include="..\include\m_db_int.h" />
     <ClInclude Include="..\include\m_email.h" />
+    <ClInclude Include="..\include\m_extraicons.h" />
     <ClInclude Include="..\include\m_file.h" />
     <ClInclude Include="..\include\m_findadd.h" />
     <ClInclude Include="..\include\m_history.h" />

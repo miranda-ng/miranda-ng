@@ -249,6 +249,9 @@
     <ClInclude Include="..\include\m_message.h">
       <Filter>Modules\srmm</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\m_extraicons.h">
+      <Filter>Modules\extraicons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\commonheaders.cpp">

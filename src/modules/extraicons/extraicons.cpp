@@ -29,8 +29,6 @@ Boston, MA 02111-1307, USA.
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 
-typedef vector<ExtraIcon*>::iterator IconIter;
-
 int SortFunc(const ExtraIcon *p1, const ExtraIcon *p2)
 {
 	int ret = p1->getPosition() - p2->getPosition();
@@ -170,7 +168,7 @@ static void LoadGroups(vector<ExtraIconGroup *> &groups)
 	}
 }
 
-static ExtraIconGroup * IsInGroup(vector<ExtraIconGroup *> &groups, BaseExtraIcon *extra)
+static ExtraIconGroup* IsInGroup(vector<ExtraIconGroup *> &groups, BaseExtraIcon *extra)
 {
 	for (unsigned int i = 0; i < groups.size(); i++) {
 		ExtraIconGroup *group = groups[i];

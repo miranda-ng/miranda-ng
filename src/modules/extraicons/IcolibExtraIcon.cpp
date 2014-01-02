@@ -53,13 +53,9 @@ void IcolibExtraIcon::applyIcon(HANDLE hContact)
 
 	HANDLE hImage = INVALID_HANDLE_VALUE;
 
-	DBVARIANT dbv;
-	if ( !db_get_s(hContact, MODULE_NAME, name.c_str(), &dbv)) {
-		if (!IsEmpty(dbv.pszVal))
-			hImage = GetIcon(dbv.pszVal);
-
-		db_free(&dbv);
-	}
+	ptrA szIconName(db_get_sa(hContact, MODULE_NAME, name.c_str()));
+	if (!IsEmpty(szIconName))
+		hImage = GetIcon(szIconName);
 
 	ClistSetExtraIcon(hContact, hImage);
 }
@@ -72,21 +68,17 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, HANDLE hIcoLib)
 	if (hIcoLib == INVALID_HANDLE_VALUE)
 		hIcoLib = NULL;
 
-	if ( isEnabled()) {
-		DBVARIANT dbv;
-		if ( !db_get_s(hContact, MODULE_NAME, name.c_str(), &dbv)) {
-			if (!IsEmpty(dbv.pszVal))
-				RemoveIcon(dbv.pszVal);
-
-			db_free(&dbv);
-		}
+	if (isEnabled()) {
+		ptrA szIconName(db_get_sa(hContact, MODULE_NAME, name.c_str()));
+		if (!IsEmpty(szIconName))
+			RemoveIcon(szIconName);
 	}
 
 	IcolibItem *p = (IcolibItem*)hIcoLib;
 	char *szName = (p) ? p->name : NULL;
 	storeIcon(hContact, szName);
 
-	if ( isEnabled())
+	if (isEnabled())
 		return ClistSetExtraIcon(hContact, (hIcoLib == NULL) ? INVALID_HANDLE_VALUE : AddIcon(szName));
 
 	return 0;
@@ -100,20 +92,16 @@ int IcolibExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
 	if (icon == INVALID_HANDLE_VALUE)
 		icon = NULL;
 
-	if ( isEnabled()) {
-		DBVARIANT dbv;
-		if ( !db_get_s(hContact, MODULE_NAME, name.c_str(), &dbv)) {
-			if (!IsEmpty(dbv.pszVal))
-				RemoveIcon(dbv.pszVal);
-
-			db_free(&dbv);
-		}
+	if (isEnabled()) {
+		ptrA szIconName(db_get_sa(hContact, MODULE_NAME, name.c_str()));
+		if (!IsEmpty(szIconName))
+			RemoveIcon(szIconName);
 	}
 
 	storeIcon(hContact, (char*)icon);
 
-	if ( isEnabled())
-		return ClistSetExtraIcon(hContact, ( IsEmpty(icon)) ? INVALID_HANDLE_VALUE : AddIcon(icon));
+	if (isEnabled())
+		return ClistSetExtraIcon(hContact, (IsEmpty(icon)) ? INVALID_HANDLE_VALUE : AddIcon(icon));
 
 	return 0;
 }
@@ -123,8 +111,8 @@ void IcolibExtraIcon::storeIcon(HANDLE hContact, void *icon)
 	if (hContact == NULL)
 		return;
 
-	const char *icolibName = (const char *) icon;
-	if ( IsEmpty(icolibName))
+	const char *icolibName = (const char *)icon;
+	if (IsEmpty(icolibName))
 		db_unset(hContact, MODULE_NAME, name.c_str());
 	else
 		db_set_s(hContact, MODULE_NAME, name.c_str(), icolibName);

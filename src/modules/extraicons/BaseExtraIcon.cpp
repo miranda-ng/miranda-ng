@@ -25,8 +25,8 @@ Boston, MA 02111-1307, USA.
 
 BaseExtraIcon::BaseExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param) :
 	ExtraIcon(name), id(id), OnClick(OnClick), onClickParam(param),
-	tszDescription( mir_tstrdup(description)),
-	szDescIcon( mir_strdup(descIcon))
+	tszDescription(mir_tstrdup(description)),
+	szDescIcon(mir_strdup(descIcon))
 {
 }
 
@@ -36,8 +36,8 @@ BaseExtraIcon::~BaseExtraIcon()
 
 void BaseExtraIcon::setOnClick(MIRANDAHOOKPARAM OnClick, LPARAM param)
 {
-	this->OnClick = OnClick;
-	this->onClickParam = param;
+	OnClick = OnClick;
+	onClickParam = param;
 }
 
 int BaseExtraIcon::getID() const
@@ -55,7 +55,7 @@ void BaseExtraIcon::setDescription(const TCHAR *desc)
 	tszDescription = mir_tstrdup(desc);
 }
 
-const char *BaseExtraIcon::getDescIcon() const
+const char* BaseExtraIcon::getDescIcon() const
 {
 	return szDescIcon;
 }
@@ -67,10 +67,8 @@ void BaseExtraIcon::setDescIcon(const char *icon)
 
 void BaseExtraIcon::onClick(HANDLE hContact)
 {
-	if (OnClick == NULL)
-		return;
-
-	OnClick((WPARAM) hContact, (LPARAM) ConvertToClistSlot(slot), onClickParam);
+	if (OnClick != NULL)
+		OnClick((WPARAM)hContact, (LPARAM)ConvertToClistSlot(slot), onClickParam);
 }
 
 int BaseExtraIcon::ClistSetExtraIcon(HANDLE hContact, HANDLE hImage)
