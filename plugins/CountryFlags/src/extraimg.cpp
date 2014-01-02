@@ -74,19 +74,12 @@ static void EnsureExtraImages(void)
 		SetExtraImage(hContact);
 }
 
-static void CALLBACK UpdateExtraImages(LPARAM lParam)
+void UpdateExtraImages()
 {
 	if (bShowExtraIcon)
 		EnsureExtraImages();
 	else
 		RemoveExtraImages();
-}
-
-static int ExtraImageApply(WPARAM wParam,LPARAM lParam)
-{
-	if (bShowExtraIcon)
-		SetExtraImage((HANDLE)wParam); /* unbuffered */
-	return 0;
 }
 
 /************************* Status Icon ****************************/
@@ -140,7 +133,7 @@ static int MsgWndEvent(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static void CALLBACK UpdateStatusIcons(LPARAM lParam)
+void CALLBACK UpdateStatusIcons(LPARAM)
 {
 	MessageWindowInputData msgwi = { sizeof(msgwi) };
 	msgwi.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
@@ -169,32 +162,16 @@ static int StatusIconsChanged(WPARAM wParam,LPARAM lParam)
 
 static int ExtraImgSettingChanged(WPARAM wParam,LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
-	if ((HANDLE)wParam == NULL) {
-		if (!lstrcmpA(dbcws->szModule,MODULENAME)) {
+	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
+	if (wParam != NULL) {
+		/* user details update */
+		if (!lstrcmpA(dbcws->szSetting,"RealIP") || !lstrcmpA(dbcws->szSetting,"Country") || !lstrcmpA(dbcws->szSetting,"CompanyCountry")) {
 			/* Extra Image */
-			if (!lstrcmpA(dbcws->szSetting,"ShowExtraImgFlag") ||
-			    !lstrcmpA(dbcws->szSetting,"ExtraImgFlagColumn") ||
-			    !lstrcmpA(dbcws->szSetting,"UseUnknownFlag") ||
-			    !lstrcmpA(dbcws->szSetting,"UseIpToCountry"))
-				CallFunctionBuffered(UpdateExtraImages,0,FALSE,EXTRAIMAGE_REFRESHDELAY);
+			SetExtraImage((HANDLE)wParam);
 			/* Status Icon */
-			if (!lstrcmpA(dbcws->szSetting,"ShowStatusIconFlag") ||
-			   !lstrcmpA(dbcws->szSetting,"UseUnknownFlag") ||
-			   !lstrcmpA(dbcws->szSetting,"UseIpToCountry"))
-			   if (ServiceExists(MS_MSG_REMOVEICON))
-				   CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);
+			if (ServiceExists(MS_MSG_REMOVEICON))
+				CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);
 		}
-	}
-	/* user details update */
-	else if (!lstrcmpA(dbcws->szSetting,"RealIP") ||
-	        !lstrcmpA(dbcws->szSetting,"Country") ||
-	        !lstrcmpA(dbcws->szSetting,"CompanyCountry")) {
-		/* Extra Image */
-	   SetExtraImage((HANDLE)wParam);
-		/* Status Icon */
-		if (ServiceExists(MS_MSG_REMOVEICON))
-		   CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);
 	}
 	return 0;
 }
@@ -203,10 +180,6 @@ static int ExtraImgSettingChanged(WPARAM wParam,LPARAM lParam)
 
 static int ExtraImgModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	/* Extra Image */
-	hExtraIcon = ExtraIcon_Register("flags_extra", LPGEN("Country flag"));
-	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,ExtraImageApply);
-
 	/* Status Icon */
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME; // dwID = 0
@@ -225,4 +198,9 @@ void InitExtraImg(void)
 	HookEvent(ME_SKIN2_ICONSCHANGED, StatusIconsChanged);
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ExtraImgSettingChanged);
+
+	/* Extra Image */
+	hExtraIcon = ExtraIcon_Register("flags_extra", LPGEN("Country flag"));
+	if (bShowExtraIcon)
+		EnsureExtraImages();
 }

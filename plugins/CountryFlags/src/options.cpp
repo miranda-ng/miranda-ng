@@ -21,14 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 bool bUseUnknown, bShowStatusIcon, bShowExtraIcon, bUseIpToCountry;
 
-void LoadOptions()
-{
-	bShowStatusIcon = db_get_b(NULL, MODULENAME, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
-	bShowExtraIcon  = db_get_b(NULL, MODULENAME, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT) != 0;
-	bUseUnknown     = db_get_b(NULL, MODULENAME, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
-	bUseIpToCountry = db_get_b(NULL, MODULENAME, "UseIpToCountry", SETTING_USEIPTOCOUNTRY_DEFAULT) != 0;
-}
-
 #define M_ENABLE_SUBCTLS  (WM_APP+1)
 
 static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
@@ -47,14 +39,14 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 
 	case M_ENABLE_SUBCTLS:
 		{
-			BOOL checked = IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG);
-			EnableWindow(GetDlgItem(hwndDlg,IDC_TEXT_EXTRAIMGFLAGCOLUMN),checked);
+			BOOL checked = IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWEXTRAIMGFLAG);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TEXT_EXTRAIMGFLAGCOLUMN), checked);
 			if (!checked)
-				checked = IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG);
-			EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG),checked);
-			EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY),checked);
-			return TRUE;
+				checked = IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWSTATUSICONFLAG);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_USEUNKNOWNFLAG), checked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_USEIPTOCOUNTRY), checked);
 		}
+		return TRUE;
 
 	case WM_COMMAND:
 		PostMessage(hwndDlg,M_ENABLE_SUBCTLS,0,0);
@@ -64,16 +56,23 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 	case WM_NOTIFY:
 		switch(((NMHDR*)lParam)->code) {
 		case PSN_APPLY: /* setting change hook will pick these up  */
-			db_set_b(NULL,MODULENAME,"UseUnknownFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG) != 0));
-			db_set_b(NULL,MODULENAME,"UseIpToCountry",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY) != 0));
-			/* Status Icon */
-			if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG)))
-				db_set_b(NULL,MODULENAME,"ShowStatusIconFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG) != 0));
-			/* Extra Image */
-			if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG)))
-				db_set_b(NULL,MODULENAME,"ShowExtraImgFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG) != 0));
+			bool bChanged = false, bTemp;
 
-			LoadOptions();
+			if ((bTemp = IsDlgButtonChecked(hwndDlg, IDC_CHECK_USEUNKNOWNFLAG) != 0) != bUseUnknown)
+				db_set_b(NULL, MODULENAME, "UseUnknownFlag", bUseUnknown = bTemp), bChanged = true;
+			if ((bTemp = IsDlgButtonChecked(hwndDlg, IDC_CHECK_USEIPTOCOUNTRY) != 0) != bUseIpToCountry)
+				db_set_b(NULL, MODULENAME, "UseIpToCountry", bUseIpToCountry = bTemp), bChanged = true;
+			/* Status Icon */
+			if ((bTemp = IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWSTATUSICONFLAG) != 0) != bShowStatusIcon)
+				db_set_b(NULL, MODULENAME, "ShowStatusIconFlag", bShowStatusIcon = bTemp), bChanged = true;
+			/* Extra Image */
+			if ((bTemp = IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWEXTRAIMGFLAG) != 0) != bShowExtraIcon)
+				db_set_b(NULL, MODULENAME, "ShowExtraImgFlag", bShowExtraIcon = bTemp), bChanged = true;
+
+			if (bChanged) {
+				UpdateExtraImages();
+				UpdateStatusIcons(0);
+			}
 			return TRUE;
 		}
 		break;
@@ -81,7 +80,7 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 	return FALSE;
 }
 
-int OnOptionsInit(WPARAM wParam,LPARAM lParam)
+int OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;

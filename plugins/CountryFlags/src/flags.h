@@ -63,6 +63,8 @@ void UninitIpToCountry(void);
 
 /* extraimg.c */
 void InitExtraImg(void);
+void UpdateExtraImages(void);
+void CALLBACK UpdateStatusIcons(LPARAM);
 
 /* utils.c */
 typedef void (CALLBACK *BUFFEREDPROC)(LPARAM lParam);
@@ -78,5 +80,4 @@ void KillBufferedFunctions(void);
 
 /* options.c */
 extern bool bUseUnknown, bShowStatusIcon, bShowExtraIcon, bUseIpToCountry;
-void LoadOptions(void);
 int OnOptionsInit(WPARAM wParam,LPARAM lParam);

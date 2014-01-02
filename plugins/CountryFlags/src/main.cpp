@@ -57,10 +57,15 @@ extern "C" __declspec(dllexport) int Load(void)
 	PrepareBufferedFunctions();
 	if ( CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&nCountriesCount, (LPARAM)&countries))
 		nCountriesCount = 0;
+
+	bShowStatusIcon = db_get_b(NULL, MODULENAME, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
+	bShowExtraIcon  = db_get_b(NULL, MODULENAME, "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT) != 0;
+	bUseUnknown     = db_get_b(NULL, MODULENAME, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
+	bUseIpToCountry = db_get_b(NULL, MODULENAME, "UseIpToCountry", SETTING_USEIPTOCOUNTRY_DEFAULT) != 0;
+
 	InitIcons();
 	InitIpToCountry();
 	InitExtraImg();
-	LoadOptions();
 	return 0;
 }
 
