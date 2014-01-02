@@ -152,7 +152,7 @@ static void SetExtraIcons(HANDLE hContact)
 
 			ptrA szValue(db_get_sa(hContact, p.db[j] == NULL ? proto : p.db[j], p.db[j + 1]));
 			if (!IsEmpty(szValue)) {
-				ExtraIcon_SetIcon(p.hExtraIcon, hContact, szValue);
+				ExtraIcon_SetIcon(p.hExtraIcon, hContact, p.hIcolib);
 				break;
 			}
 		}
@@ -195,7 +195,7 @@ static int SettingChanged(WPARAM wParam, LPARAM lParam)
 				continue;
 
 			bool show = (cws->value.type != DBVT_DELETED && !IsEmpty(cws->value.pszVal));
-			ExtraIcon_SetIcon(p.hExtraIcon, hContact, show ? cws->value.pszVal : NULL);
+			ExtraIcon_SetIcon(p.hExtraIcon, hContact, show ? p.hIcolib : NULL);
 			break;
 		}
 	}
