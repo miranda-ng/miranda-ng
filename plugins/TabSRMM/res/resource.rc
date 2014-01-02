@@ -220,8 +220,8 @@ BEGIN
     CONTROL         "Hide the status bar",IDC_CNTNOSTATUSBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,44,310,10
     CONTROL         "Hide the menu bar",IDC_HIDEMENUBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,55,310,10
     CONTROL         "User ID in status bar",IDC_UIDSTATUSBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,66,310,10
-    CONTROL         "Hide the tool bar",IDC_HIDETOOLBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,77,310,10
-    CONTROL         "Place the tool bar at the bottom (*)",IDC_BOTTOMTOOLBAR,
+    CONTROL         "Hide the toolbar",IDC_HIDETOOLBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,77,310,10
+    CONTROL         "Place the toolbar at the bottom (*)",IDC_BOTTOMTOOLBAR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,88,310,10
     CONTROL         "Show the info panel",IDC_INFOPANEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,99,310,10
     CONTROL         "Hide title bar",IDC_O_HIDETITLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,44,310,10
@@ -905,9 +905,9 @@ BEGIN
         MENUITEM "Show Menu Bar",               ID_VIEW_SHOWMENUBAR
         MENUITEM "Show Status Bar",             ID_VIEW_SHOWSTATUSBAR
         MENUITEM "Info Panel...",               ID_VIEW_INFOPANEL
-        POPUP "Tool Bar"
+        POPUP "Toolbar"
         BEGIN
-            MENUITEM "Show Tool Bar",               ID_VIEW_SHOWTOOLBAR
+            MENUITEM "Show toolbar",               ID_VIEW_SHOWTOOLBAR
             MENUITEM "Place toolbar at bottom",     ID_VIEW_BOTTOMTOOLBAR
         END
         MENUITEM "Title Bar",                   ID_VIEW_SHOWTITLEBAR

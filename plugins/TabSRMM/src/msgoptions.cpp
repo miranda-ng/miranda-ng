@@ -1282,7 +1282,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc  = DlgProcLogOptions;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab      = LPGEN("Tool bar");
+	odp.pszTab      = LPGEN("Toolbar");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TOOLBAR);
 	odp.pfnDlgProc  = DlgProcToolBar;
 	Options_AddPage(wParam, &odp);
