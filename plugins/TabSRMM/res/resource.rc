@@ -908,7 +908,7 @@ BEGIN
         POPUP "Tool Bar"
         BEGIN
             MENUITEM "Show Tool Bar",               ID_VIEW_SHOWTOOLBAR
-            MENUITEM "Place ToolBar at bottom",     ID_VIEW_BOTTOMTOOLBAR
+            MENUITEM "Place toolbar at bottom",     ID_VIEW_BOTTOMTOOLBAR
         END
         MENUITEM "Title Bar",                   ID_VIEW_SHOWTITLEBAR
         MENUITEM "Tabs at the bottom",              ID_VIEW_TABSATBOTTOM
