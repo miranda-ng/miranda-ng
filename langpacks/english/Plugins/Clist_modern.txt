@@ -412,7 +412,6 @@
 [General]
 [List]
 [Window]
-[List Background]
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
 [Event area background]
 [Event Area]

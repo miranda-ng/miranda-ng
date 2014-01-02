@@ -305,9 +305,9 @@
 Скрыть меню
 [User ID in status bar]
 ID пользователя в панели статуса
-[Hide the tool bar]
+[Hide the toolbar]
 Скрыть панель кнопок
-[Place the tool bar at the bottom (*)]
+[Place the toolbar at the bottom (*)]
 Панель кнопок снизу (*)
 [Show the info panel]
 Показать инфо-панель
@@ -879,11 +879,11 @@ Esc закрывает сессию (иначе - сворачивает)
 Показывать строку статуса
 [Info Panel...]
 Инфо-панель
-[Tool Bar]
-Панель инструментов
-[Show Tool Bar]
+[Toolbar]
+Панель кнопок
+[Show toolbar]
 Показывать панель кнопок
-[Place ToolBar at bottom]
+[Place toolbar at bottom]
 Поместить панель инструментов вниз
 [Title Bar]
 Заголовок
@@ -1129,7 +1129,7 @@ TabSRMM: Набирает
 Меню пользователя
 [Show user details]
 Показать информацию о контакте
-[Toggle tool bar]
+[Toggle toolbar]
 Переключить панель кнопок
 [Toggle info panel]
 Переключить инфо-панель
@@ -1395,8 +1395,6 @@ TabSRMM: Набирает
 Контейнеры
 [Message log]
 Журнал
-[Tool bar]
-Панель кнопок
 [Typing Notify]
 Набирает текст
 [Event notifications]
@@ -1479,8 +1477,6 @@ TabSRMM: Набирает
 Кадр 3
 [Frame 4]
 Кадр 4
-[Toolbar]
-Панель кнопок
 [Message Log]
 Журнал
 [Animated Tray]

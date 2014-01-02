@@ -809,8 +809,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Список
 [Window]
 Окно
-[List Background]
-Фон списка
 [Event area background]
 Фон области событий
 [Event Area]
