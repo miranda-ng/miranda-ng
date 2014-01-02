@@ -1974,7 +1974,7 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLIST_LISTBKG);
 		odp.pszGroup = LPGEN("Skins");
 		odp.pszTitle = LPGEN("Contact List");
-		odp.pszTab = LPGEN("List Background");
+		odp.pszTab = LPGEN("List background");
 		odp.pfnDlgProc = DlgProcClcBkgOpts;
 		odp.flags = ODPF_BOLDGROUPS;
 		Options_AddPage(wParam, &odp);
