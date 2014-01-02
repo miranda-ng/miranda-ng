@@ -63,7 +63,7 @@ int MessagePacket::getPacketContent(char *packet){
     index++;
     index += msgtype->readValue(buf,index,4);
 
-    if(msgtype->getValue()[0] == 0){
+    if (msgtype->getValue()[0] == 0){
         imindex = new VariableValue();
         index += imindex->readName(buf,index);
 
@@ -80,9 +80,9 @@ int MessagePacket::getPacketContent(char *packet){
             message += messageTemp.getValue()[i];
         }
         /*TODO: implement this and answer the package*/
-    }else if(msgtype->getValue()[0] == 1){
+    }else if (msgtype->getValue()[0] == 1){
         cout << "got ack for a message we have sent" << endl;
-    }else if(msgtype->getValue()[0] == 2){
+    }else if (msgtype->getValue()[0] == 2){
        memcpy(this->buf,buf,150);
         /*answer the packet*/
         cout << "some auth magic stuff" << length << endl;

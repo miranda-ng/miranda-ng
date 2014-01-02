@@ -34,15 +34,15 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HANDLE hcontact,char*
 	int type;
 
 	//versuche doppeltes laden zuvermeiden
-	if(hcontact) //avatar von freunden
+	if (hcontact) //avatar von freunden
 	{
-		if(db_get_dw(hcontact, "ContactPhoto", "XFireAvatarId", 0)==buddyinfo->avatarid &&
+		if (db_get_dw(hcontact, "ContactPhoto", "XFireAvatarId", 0)==buddyinfo->avatarid &&
 			db_get_b(hcontact, "ContactPhoto", "XFireAvatarMode", 0)==buddyinfo->avatarmode)
 			return;
 	}
 	else //eigeneder avatar
 	{
-		if(db_get_dw(hcontact, protocolname, "XFireAvatarId", 0)==buddyinfo->avatarid &&
+		if (db_get_dw(hcontact, protocolname, "XFireAvatarId", 0)==buddyinfo->avatarid &&
 			db_get_b(hcontact, protocolname, "XFireAvatarMode", 0)==buddyinfo->avatarmode)
 			return;
 
@@ -84,9 +84,9 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HANDLE hcontact,char*
 	}
 
 
-	if(dl!=FALSE)
+	if (dl!=FALSE)
 	{
-		if(hcontact) //buddyavatar setzen
+		if (hcontact) //buddyavatar setzen
 		{
 			db_set_dw(hcontact, "ContactPhoto", "XFireAvatarId", buddyinfo->avatarid);
 			db_set_b(hcontact, "ContactPhoto", "XFireAvatarMode", buddyinfo->avatarmode);

@@ -39,7 +39,7 @@ extern Xfire_gamelist xgamelist;
 
 //als funktion, damit es per thread geladen werden kann
 void LoadProfilStatus(LPVOID lparam) {
-	if(!lparam || !ghwndDlg)
+	if (!lparam || !ghwndDlg)
 		return;
 
 	//dl
@@ -50,7 +50,7 @@ void LoadProfilStatus(LPVOID lparam) {
 	strcat_s(url,255,".png");
 
 	//versuche das icon aus dem inet zulasen
-	if(GetWWWContent2(url,NULL,FALSE,&buf,&size))
+	if (GetWWWContent2(url,NULL,FALSE,&buf,&size))
 	{
 		//aus dem buffer ein hicon erzeugen
 		HBITMAP hbitmap=xgamelist.createHBITMAPfromdata(buf,size);
@@ -64,8 +64,8 @@ void LoadProfilStatus(LPVOID lparam) {
 void SetItemTxt(HWND hwndDlg,int feldid,char*feld,HANDLE hcontact,int type)
 {
 	DBVARIANT dbv;
-	if(!db_get(hcontact,protocolname,feld,&dbv)) {
-		if(type==1)
+	if (!db_get(hcontact,protocolname,feld,&dbv)) {
+		if (type==1)
 		{
 			char temp[255];
 			mir_snprintf(temp, SIZEOF(temp), "%i", dbv.wVal);
@@ -91,18 +91,18 @@ static int GetIPPortUDetails(HANDLE wParam,char* feld1,char* feld2)
     HGLOBAL clipbuffer;
 	char* buffer;
 
-	if(db_get_w((HANDLE)wParam, protocolname, feld2, -1)==0)
+	if (db_get_w((HANDLE)wParam, protocolname, feld2, -1)==0)
 		return 0;
 
 	DBVARIANT dbv;
-	if(db_get_s((HANDLE)wParam, protocolname, feld1,&dbv))
+	if (db_get_s((HANDLE)wParam, protocolname, feld1,&dbv))
 		return 0;
 
 	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w((HANDLE)wParam, protocolname, feld2, -1));
 
 	db_free(&dbv);
 
-	if(OpenClipboard(NULL))
+	if (OpenClipboard(NULL))
 	{
 		EmptyClipboard();
 
@@ -121,7 +121,7 @@ static int GetIPPortUDetails(HANDLE wParam,char* feld1,char* feld2)
 void addToList(HWND listbox,HANDLE hContact,char*key,char*val)
 {
 	DBVARIANT dbv;
-	if(!db_get(hContact,protocolname,val,&dbv))
+	if (!db_get(hContact,protocolname,val,&dbv))
 	{
 		LVITEMA lvitem;
 		memset(&lvitem,0,sizeof(lvitem));
@@ -152,7 +152,7 @@ void setGameInfo(HWND listbox,char *mbuf)
 
 	while(*mbuf2!=0)
 	{
-		if(*mbuf2==1&&mod==0)
+		if (*mbuf2==1&&mod==0)
 		{
 			temp[ii]=0;
 			mod=1;
@@ -163,7 +163,7 @@ void setGameInfo(HWND listbox,char *mbuf)
 			item++;
 			ii=-1;
 		}
-		else if(*mbuf2==2&&mod==1)
+		else if (*mbuf2==2&&mod==1)
 		{
 			temp[ii]=0;
 			mod=0;
@@ -262,11 +262,11 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 					  if (hContact)
 					  {
 							DBVARIANT dbv;
-							if(!db_get(hContact,protocolname,"Username",&dbv))
+							if (!db_get(hContact,protocolname,"Username",&dbv))
 							{
 								int usernamesize=strlen(dbv.pszVal)+1;
 								char* username=new char[usernamesize];
-								if(username)
+								if (username)
 								{
 									strcpy_s(username,usernamesize,dbv.pszVal);
 									mir_forkthread(LoadProfilStatus,(LPVOID)username);
@@ -275,7 +275,7 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 								db_free(&dbv);
 							}
 
-							if(!db_get(hContact,protocolname,"GameInfo",&dbv))
+							if (!db_get(hContact,protocolname,"GameInfo",&dbv))
 							{
 								setGameInfo(listbox,dbv.pszVal);
 								db_free(&dbv);
@@ -301,23 +301,23 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 							{
 								DBVARIANT dbv;
 
-								if(!db_get(hContact,protocolname,"GameId",&dbv))
+								if (!db_get(hContact,protocolname,"GameId",&dbv))
 								{
 									SendMessage(GetDlgItem(hwndDlg,IDC_GAMEICO),STM_SETICON,(WPARAM)xgamelist.iconmngr.getGameIcon(dbv.wVal),0);
 									db_free(&dbv);
 								}							
-								if(!db_get(hContact,protocolname,"VoiceId",&dbv))
+								if (!db_get(hContact,protocolname,"VoiceId",&dbv))
 								{
 									SendMessage(GetDlgItem(hwndDlg,IDC_VOICEICO),STM_SETICON,(WPARAM)xgamelist.iconmngr.getGameIcon(dbv.wVal),0);
 									db_free(&dbv);
 								}
 								
-								if(db_get(hContact,protocolname,"ServerIP",&dbv))
+								if (db_get(hContact,protocolname,"ServerIP",&dbv))
 								{
 									EnableWindow(GetDlgItem(hwndDlg,IDC_COPYGAME),FALSE);
 									db_free(&dbv);
 								}
-								if(db_get(hContact,protocolname,"VServerIP",&dbv))
+								if (db_get(hContact,protocolname,"VServerIP",&dbv))
 								{
 									EnableWindow(GetDlgItem(hwndDlg,IDC_COPYVOICE),FALSE);
 									db_free(&dbv);
@@ -388,27 +388,27 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 								char nick[256]="";
 								char status[256]="";
 								char game[512]="";
-								if(!db_get(hContact,"ContactPhoto","File",&dbv))
+								if (!db_get(hContact,"ContactPhoto","File",&dbv))
 								{
 									mir_snprintf(img,256,"<img src=\"%s\">",dbv.pszVal);
 									db_free(&dbv);
 								}
-								if(!db_get(hContact,protocolname,"Username",&dbv))
+								if (!db_get(hContact,protocolname,"Username",&dbv))
 								{
 									mir_snprintf(username,256,"<b>Username:</b> %s<br>",dbv.pszVal);
 									db_free(&dbv);
 								}
-								if(!db_get(hContact,protocolname,"Nick",&dbv))
+								if (!db_get(hContact,protocolname,"Nick",&dbv))
 								{
 									mir_snprintf(nick,256,"<b>Nick:</b> %s<br>",dbv.pszVal);
 									db_free(&dbv);
 								}
-								if(!db_get(hContact,protocolname,"XStatusMsg",&dbv))
+								if (!db_get(hContact,protocolname,"XStatusMsg",&dbv))
 								{
 									mir_snprintf(status,256,"<b>Status:</b> %s<br>",dbv.pszVal);
 									db_free(&dbv);
 								}
-								if(!db_get(hContact,protocolname,"RGame",&dbv))
+								if (!db_get(hContact,protocolname,"RGame",&dbv))
 								{
 									mir_snprintf(game,512,"<fieldset style='border:1px solid #0091d5;background-color:#0d2c3e;margin-bottom:8px;'><legend>Spiel</legend><table><tr><td valign=top style='font-family:Arial;font-size:11px;color:#fff;'><b><u>%s</u></b></td></tr></table></fieldset>",dbv.pszVal);
 									db_free(&dbv);

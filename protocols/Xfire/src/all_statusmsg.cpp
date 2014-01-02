@@ -31,22 +31,22 @@ BOOL BackupStatusMsg() {
 	XFireLog("Backup Status Message...");
 
 	//alten vector löschen
-	if(olstatusmsg!=NULL)
+	if (olstatusmsg!=NULL)
 	{
 		delete olstatusmsg;
 		olstatusmsg=NULL;
 	}
-	if(protoname!=NULL)
+	if (protoname!=NULL)
 	{
 		delete protoname;
 		protoname=NULL;
 	}
-	if(olstatus!=NULL)
+	if (olstatus!=NULL)
 	{
 		delete olstatus;
 		olstatus=NULL;
 	}
-	if(oltostatus!=NULL)
+	if (oltostatus!=NULL)
 	{
 		delete oltostatus;
 		oltostatus=NULL;
@@ -67,18 +67,18 @@ BOOL BackupStatusMsg() {
 		mir_snprintf(ttemp,128,"%s%s",temp[i]->szModuleName,PS_SETAWAYMSG);
 
 		//xfire wird geskipped, offline prots und invs prots auch, und locked status prots auch
-		if(!temp[i]->bIsEnabled||statusid==ID_STATUS_INVISIBLE||statusid==ID_STATUS_OFFLINE||!lstrcmpiA( temp[i]->szModuleName, protocolname )||!ServiceExists(ttemp)||db_get_b(NULL,temp[i]->szModuleName,"LockMainStatus",0)==1)
+		if (!temp[i]->bIsEnabled||statusid==ID_STATUS_INVISIBLE||statusid==ID_STATUS_OFFLINE||!lstrcmpiA( temp[i]->szModuleName, protocolname )||!ServiceExists(ttemp)||db_get_b(NULL,temp[i]->szModuleName,"LockMainStatus",0)==1)
 		{
 			XFireLog("-> Skip %s.",temp[i]->szModuleName);
 
 			olstatus->push_back(-1);
 			olstatusmsg->push_back("");
-			if(statustype) oltostatus->push_back(-1);
+			if (statustype) oltostatus->push_back(-1);
 			protoname->push_back("");
 			continue;
 		}
 
-		if(statustype)
+		if (statustype)
 		{
 			int dummystatusid = -1;
 			
@@ -115,35 +115,35 @@ BOOL BackupStatusMsg() {
 		switch(statusid)
 		{
 		case ID_STATUS_ONLINE:
-			if(db_get(NULL,"SRAway","OnMsg",&dbv))
+			if (db_get(NULL,"SRAway","OnMsg",&dbv))
 				olstatusmsg->push_back(Translate("Yep, I'm here."));
 			break;
 		case ID_STATUS_AWAY:
-			if(db_get(NULL,"SRAway","AwayMsg",&dbv))
+			if (db_get(NULL,"SRAway","AwayMsg",&dbv))
 				olstatusmsg->push_back(Translate("I've been away since %time%."));
 			break;
 		case ID_STATUS_NA:
-			if(db_get(NULL,"SRAway","NaMsg",&dbv))
+			if (db_get(NULL,"SRAway","NaMsg",&dbv))
 				olstatusmsg->push_back(Translate("Give it up, I'm not in!"));
 			break;
 		case ID_STATUS_OCCUPIED:
-			if(db_get(NULL,"SRAway","OccupiedMsg",&dbv))
+			if (db_get(NULL,"SRAway","OccupiedMsg",&dbv))
 				olstatusmsg->push_back(Translate("Not right now."));
 			break;
 		case ID_STATUS_DND:
-			if(db_get(NULL,"SRAway","DndMsg",&dbv))
+			if (db_get(NULL,"SRAway","DndMsg",&dbv))
 				olstatusmsg->push_back(Translate("Give a guy some peace, would ya?"));
 			break;
 		case ID_STATUS_FREECHAT:
-			if(db_get(NULL,"SRAway","FreeChatMsg",&dbv))
+			if (db_get(NULL,"SRAway","FreeChatMsg",&dbv))
 				olstatusmsg->push_back(Translate("Well, I would talk to you if Miranda ICQ supported chat"));
 			break;
 		case ID_STATUS_ONTHEPHONE:
-			if(db_get(NULL,"SRAway","OtpMsg",&dbv))
+			if (db_get(NULL,"SRAway","OtpMsg",&dbv))
 				olstatusmsg->push_back(Translate("That'll be the phone."));
 			break;
 		case ID_STATUS_OUTTOLUNCH:
-			if(db_get(NULL,"SRAway","OtlMsg",&dbv))
+			if (db_get(NULL,"SRAway","OtlMsg",&dbv))
 				olstatusmsg->push_back(Translate("Mmm... food."));
 			break;
 		default:
@@ -156,7 +156,7 @@ BOOL BackupStatusMsg() {
 
 		//ab in den vector
 		olstatus->push_back(statusid);
-		if(olstatus->size()>olstatusmsg->size())
+		if (olstatus->size()>olstatusmsg->size())
 		{
 			olstatusmsg->push_back(string(dbv.pszVal));
 			protoname->push_back(temp[i]->szModuleName);
@@ -228,12 +228,12 @@ BOOL SetGameStatusMsg()
 	CallService(MS_PROTO_ENUMACCOUNTS,(WPARAM)&anz,(LPARAM)&temp);
 	for(int i=0;i<anz;i++)
 	{
-		if(olstatus->at(i)!=-1)
+		if (olstatus->at(i)!=-1)
 		{
-			if(statustype)
+			if (statustype)
 			{
 				//newawaysys
-				if(ServiceExists("NewAwaySystem/SetStateA"))
+				if (ServiceExists("NewAwaySystem/SetStateA"))
 				{
 					XFireLog("-> SetStatusMsg of %s with NewAwaySystem/SetStateA.",protoname->at(i).c_str());
 
@@ -244,7 +244,7 @@ BOOL SetGameStatusMsg()
 					npi.szMsg=mir_strdup(statusMsg);
 					CallService("NewAwaySystem/SetStateA", (WPARAM)&npi, (LPARAM)1);
 				}
-				else if(ServiceExists("NewAwaySystem/SetStateW")) {
+				else if (ServiceExists("NewAwaySystem/SetStateW")) {
 					XFireLog("-> SetStatusMsg of %s with NewAwaySystem/SetStateW.",protoname->at(i).c_str());
 
 					NAS_PROTOINFO npi = {0};
@@ -263,7 +263,7 @@ BOOL SetGameStatusMsg()
 					//status auf beschäftigt wechseln
 					CallProtoService(temp[i]->szModuleName,PS_SETSTATUS,oltostatus->at(i),0);
 					//statusmsg für beschäftigt setzen
-					if(CallProtoService(temp[i]->szModuleName,PS_GETSTATUS,0,0)!=oltostatus->at(i))
+					if (CallProtoService(temp[i]->szModuleName,PS_GETSTATUS,0,0)!=oltostatus->at(i))
 					{
 						XFireLog("Set StatusMsg again, Status was not succesfully set.");
 						CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,oltostatus->at(i),(LPARAM)statusMsg);
@@ -285,20 +285,20 @@ BOOL SetGameStatusMsg()
 BOOL SetOldStatusMsg()
 {
 	//prüfe ob vector leer
-	if(olstatusmsg==NULL)
+	if (olstatusmsg==NULL)
 		return FALSE;
 
 	CallService(MS_PROTO_ENUMACCOUNTS,(WPARAM)&anz,(LPARAM)&temp);
 	for(int i=0;i<anz;i++)
 	{
-		if(olstatus->at(i)!=-1)
+		if (olstatus->at(i)!=-1)
 		{
-			if(statustype)
+			if (statustype)
 			{
 				//alten status setzen
 				CallProtoService(temp[i]->szModuleName,PS_SETSTATUS,olstatus->at(i),0);
 				//status wurde nicht gewechselt, dann statusmsg nachträglich setzen
-				if(CallProtoService(temp[i]->szModuleName,PS_GETSTATUS,0,0)!=olstatus->at(i))
+				if (CallProtoService(temp[i]->szModuleName,PS_GETSTATUS,0,0)!=olstatus->at(i))
 					CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,olstatus->at(i),(LPARAM)olstatusmsg->at(i).c_str());
 			}
 			else
@@ -310,22 +310,22 @@ BOOL SetOldStatusMsg()
 	}
 
 	//alten vector löschen
-	if(protoname!=NULL)
+	if (protoname!=NULL)
 	{
 		delete protoname;
 		protoname=NULL;
 	}
-	if(olstatusmsg!=NULL)
+	if (olstatusmsg!=NULL)
 	{
 		delete olstatusmsg;
 		olstatusmsg=NULL;
 	}
-	if(olstatus!=NULL)
+	if (olstatus!=NULL)
 	{
 		delete olstatus;
 		olstatus=NULL;
 	}
-	if(oltostatus!=NULL)
+	if (oltostatus!=NULL)
 	{
 		delete olstatus;
 		olstatus=NULL;

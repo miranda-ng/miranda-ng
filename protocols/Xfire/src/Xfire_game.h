@@ -113,64 +113,64 @@ public:
 		//dekonstruktor
 		~Xfire_game() {
 			//entferne dyn arrays
-			if(path)
+			if (path)
 			{
 				delete[] path;
 				path=NULL;
 			}
-			if(launchparams)
+			if (launchparams)
 			{
 				delete[] launchparams;
 				launchparams=NULL;
 			}
-			if(networkparams)
+			if (networkparams)
 			{
 				delete[] networkparams;
 				networkparams=NULL;
 			}
-			if(userparams)
+			if (userparams)
 			{
 				delete[] userparams;
 				userparams=NULL;
 			}
-			if(pwparams)
+			if (pwparams)
 			{
 				delete[] pwparams;
 				pwparams=NULL;
 			}
-			if(mustcontain)
+			if (mustcontain)
 			{
 				delete[] mustcontain;
 				mustcontain=NULL;
 			}
-			if(notcontain)
+			if (notcontain)
 			{
 				delete[] notcontain;
 				notcontain=NULL;
 			}
-			if(name)
+			if (name)
 			{
 				delete[] name;
 				name=NULL;
 			}
-			if(extraparams)
+			if (extraparams)
 			{
 				delete[] extraparams;
 				extraparams=NULL;
 			}
-			if(customgamename)
+			if (customgamename)
 			{
 				delete[] customgamename;
 				customgamename=NULL;
 			}
-			if(statusmsg)
+			if (statusmsg)
 			{
 				delete[] statusmsg;
 				statusmsg=NULL;
 			}
 
 			for(unsigned int i = 0 ; i < mpath.size() ; i ++) {
-				if(mpath.at(i)!=NULL)
+				if (mpath.at(i)!=NULL)
 					delete mpath.at(i);
 			}
 			mpath.clear();

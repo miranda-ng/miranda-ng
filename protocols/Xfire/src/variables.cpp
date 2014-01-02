@@ -13,7 +13,7 @@ char* Varxfiregame(ARGUMENTSINFO *ai)
 	if (ai->cbSize < sizeof(ARGUMENTSINFO)) 
 		return NULL;
 
-	if(ai->fi->hContact==NULL)
+	if (ai->fi->hContact==NULL)
 	{
 		//
 	}
@@ -21,7 +21,7 @@ char* Varxfiregame(ARGUMENTSINFO *ai)
 	{
 		char temp[256];
 		DBVARIANT dbv3;
-		if(!db_get(ai->fi->hContact,protocolname, "RGame",&dbv3))
+		if (!db_get(ai->fi->hContact,protocolname, "RGame",&dbv3))
 		{
 			strncpy(temp,dbv3.pszVal,255);
 			db_free(&dbv3);
@@ -39,7 +39,7 @@ char* Varmyxfiregame(ARGUMENTSINFO *ai)
 		return NULL;
 
 	DBVARIANT dbv3;
-	if(!db_get(NULL,protocolname, "currentgamename",&dbv3))
+	if (!db_get(NULL,protocolname, "currentgamename",&dbv3))
 	{
 		char* ret=mir_strdup(dbv3.pszVal);
 		db_free(&dbv3);
@@ -55,7 +55,7 @@ char* Varxfirevoice(ARGUMENTSINFO *ai)
 		return NULL;
 
 	DBVARIANT dbv3;
-	if(!db_get(ai->fi->hContact,protocolname, "RVoice",&dbv3))
+	if (!db_get(ai->fi->hContact,protocolname, "RVoice",&dbv3))
 	{
 		char* ret=mir_strdup(dbv3.pszVal);
 		db_free(&dbv3);
@@ -72,7 +72,7 @@ char* Varmyxfirevoiceip(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	DBVARIANT dbv3;
-	if(!db_get(NULL,protocolname, "VServerIP",&dbv3))
+	if (!db_get(NULL,protocolname, "VServerIP",&dbv3))
 	{
 		char* ret=mir_strdup(dbv3.pszVal);
 		db_free(&dbv3);
@@ -88,7 +88,7 @@ char* Varmyxfireserverip(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	DBVARIANT dbv3;
-	if(!db_get(NULL,protocolname, "ServerIP",&dbv3))
+	if (!db_get(NULL,protocolname, "ServerIP",&dbv3))
 	{
 		char* ret=mir_strdup(dbv3.pszVal);
 		db_free(&dbv3);
@@ -103,7 +103,7 @@ char* Varxfireserverip(ARGUMENTSINFO *ai) {
 	if (ai->cbSize < sizeof(ARGUMENTSINFO)) 
 		return NULL;
 
-	if(ai->fi->hContact==NULL)
+	if (ai->fi->hContact==NULL)
 	{
 		ai->flags = AIF_FALSE;
 		return mir_strdup("");
@@ -112,7 +112,7 @@ char* Varxfireserverip(ARGUMENTSINFO *ai) {
 	{
 		char temp[24];
 		DBVARIANT dbv3;
-		if(!db_get(ai->fi->hContact,protocolname, "ServerIP",&dbv3))
+		if (!db_get(ai->fi->hContact,protocolname, "ServerIP",&dbv3))
 		{
 			mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv3.pszVal, db_get_w(ai->fi->hContact, protocolname, "Port", 0));
 			db_free(&dbv3);
@@ -130,7 +130,7 @@ char* Varxfirevoiceip(ARGUMENTSINFO *ai) {
 	if (ai->cbSize < sizeof(ARGUMENTSINFO)) 
 		return NULL;
 
-	if(ai->fi->hContact==NULL)
+	if (ai->fi->hContact==NULL)
 	{
 		ai->flags = AIF_FALSE;
 		return mir_strdup("");
@@ -139,7 +139,7 @@ char* Varxfirevoiceip(ARGUMENTSINFO *ai) {
 	{
 		char temp[24];
 		DBVARIANT dbv3;
-		if(!db_get(ai->fi->hContact,protocolname, "VServerIP",&dbv3))
+		if (!db_get(ai->fi->hContact,protocolname, "VServerIP",&dbv3))
 		{
 			mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv3.pszVal, db_get_w(ai->fi->hContact, protocolname, "VPort", 0));
 			db_free(&dbv3);
@@ -159,7 +159,7 @@ char* Varmyxfirevoice(ARGUMENTSINFO *ai)
 		return NULL;
 
 	DBVARIANT dbv3;
-	if(!db_get(NULL,protocolname, "currentvoicename",&dbv3))
+	if (!db_get(NULL,protocolname, "currentvoicename",&dbv3))
 	{
 		char* ret=mir_strdup(dbv3.pszVal);
 		db_free(&dbv3);

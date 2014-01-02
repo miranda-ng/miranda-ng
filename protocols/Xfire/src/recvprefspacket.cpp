@@ -50,7 +50,7 @@ namespace xfirelib {
 		int kid=buf[index];
 		XDEBUG2("Konfigid: %d\n",kid);
 
-		if(kid<XFIRE_RECVPREFSPACKET_MAXCONFIGS&&kid>0)
+		if (kid<XFIRE_RECVPREFSPACKET_MAXCONFIGS&&kid>0)
 		{
 			config[kid].wasset=1;
 			for(int j=0;j<4;j++)
@@ -87,7 +87,7 @@ namespace xfirelib {
 	int anz=0;
 	for(int j=0;j<XFIRE_RECVPREFSPACKET_MAXCONFIGS;j++)
 	{
-		if(this->config[j].wasset==1)
+		if (this->config[j].wasset==1)
 		{
 			buf[index++]=j;
 			buf[index++]=this->config[j].data[0];

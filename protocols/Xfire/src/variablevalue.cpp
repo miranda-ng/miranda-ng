@@ -36,7 +36,7 @@ using namespace std;
     value = 0;
   }
   VariableValue::~VariableValue() {
-    if(value)
+    if (value)
       delete[] value;
   }
 
@@ -49,7 +49,7 @@ using namespace std;
   }
 
   void VariableValue::setValue( char * value) {
-    if(this->value) delete[] value;
+    if (this->value) delete[] value;
     this->value = value;
   }
   void VariableValue::setValue( std::string value ) {
@@ -111,12 +111,12 @@ using namespace std;
   int VariableValue::readValue(char *packet, int index, int length,int ignoreZeroAfterLength) {
     int read = 0;
     valueLength = length;
-    if(valueLength < 0) {
+    if (valueLength < 0) {
       valueLength = (unsigned char)packet[index+read];read++;
-      if(ignoreZeroAfterLength) read++;
+      if (ignoreZeroAfterLength) read++;
     }
 
-    if(value) delete[] value;
+    if (value) delete[] value;
     value = new char[valueLength];
     memcpy(value,packet+index+read,valueLength);
     read+=valueLength;

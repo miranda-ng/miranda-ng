@@ -18,13 +18,13 @@ INT_PTR CALLBACK DlgPwProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		case WM_COMMAND:
 		{
-			if(LOWORD(wParam) == IDOK)
+			if (LOWORD(wParam) == IDOK)
 			{
 				GetDlgItemTextA(hwndDlg,IDC_NICKNAME,password,sizeof(password));
 				EndDialog(hwndDlg,TRUE);
 				return TRUE;
 			}
-			else if(LOWORD(wParam) == IDCANCEL)
+			else if (LOWORD(wParam) == IDCANCEL)
 			{
 				EndDialog(hwndDlg,FALSE);
 				return FALSE;
@@ -36,13 +36,13 @@ INT_PTR CALLBACK DlgPwProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 BOOL ShowPwdDlg(char* pw) {
 	//kein gültiges ziel für das eingegebene passwort
-	if(&pw==NULL)
+	if (&pw==NULL)
 		return FALSE;
 	
-	if(DialogBox(hinstance,MAKEINTRESOURCE(IDD_SETNICKNAME),NULL,DlgPwProc))
+	if (DialogBox(hinstance,MAKEINTRESOURCE(IDD_SETNICKNAME),NULL,DlgPwProc))
 	{
 		//passwort kopieren
-		if(*password == 0)
+		if (*password == 0)
 			return FALSE;
 
 		strcpy_s(pw,255,password);

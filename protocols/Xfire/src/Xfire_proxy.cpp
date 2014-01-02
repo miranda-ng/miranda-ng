@@ -12,13 +12,13 @@ void FromServerToClient(LPVOID lParam) {
 
 	HANDLE hConnection=(HANDLE)lParam;
 	do {
-		if(!hBindPort) return;
+		if (!hBindPort) return;
 
 		int cbRead = Netlib_Recv(netlibcon, buf, sizeof(buf), 0);
-		if( cbRead == SOCKET_ERROR)
+		if ( cbRead == SOCKET_ERROR)
 			break;
 
-		if(cbRead) {
+		if (cbRead) {
 			Netlib_Send(hConnection, buf, cbRead, 0);
 		}
 	}
@@ -38,7 +38,7 @@ void XfireclientConnecting(HANDLE hConnection, DWORD, void* extra )
 	ncon.timeout=5;
 	netlibcon = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) hNetlib, (LPARAM) & ncon);
 
-	if(!netlibcon) {
+	if (!netlibcon) {
 		Netlib_CloseHandle(hConnection);
 	}
 
@@ -47,15 +47,15 @@ void XfireclientConnecting(HANDLE hConnection, DWORD, void* extra )
 	//schleife behandelt empfangende daten
 	do {
 		int cbRead = Netlib_Recv(hConnection, buf, sizeof(buf), 0);
-		if( cbRead == SOCKET_ERROR)
+		if ( cbRead == SOCKET_ERROR)
 		{
 			Netlib_CloseHandle(hConnection);
 			Netlib_CloseHandle(netlibcon);
 			break;
 		}
 
-		if(cbRead) {
-			if(!Netlib_Send(netlibcon, buf, cbRead, 0))
+		if (cbRead) {
+			if (!Netlib_Send(netlibcon, buf, cbRead, 0))
 			{
 				Netlib_CloseHandle(hConnection);
 				Netlib_CloseHandle(netlibcon);

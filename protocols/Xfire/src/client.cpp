@@ -144,7 +144,7 @@ using namespace std;
   void Client::startReadThread(LPVOID lParam) {
 	  void* ptr=(void*)lParam;
 #endif
-	if(ptr==NULL||((Client*)ptr)->packetReader==NULL)
+	if (ptr==NULL||((Client*)ptr)->packetReader==NULL)
 #ifndef NO_PTHREAD
 		return NULL;
 #else
@@ -156,7 +156,7 @@ using namespace std;
       XERROR(("Socket Exception ?! %s \n",ex.description().c_str() ));
 
 	  //miranda bescheid geben, wir haben verbindung verloren
-	  if(ptr==NULL||((Client*)ptr)->connected) SetStatus(ID_STATUS_OFFLINE,NULL);
+	  if (ptr==NULL||((Client*)ptr)->connected) SetStatus(ID_STATUS_OFFLINE,NULL);
 
       //((Client*)ptr)->disconnect();
     }
@@ -181,7 +181,7 @@ using namespace std;
 	  pthread_testcancel();
 #endif
       //Sleep(60000); // Sleep for 40 sek
-	  if(mySleep(60000,hConnectionClose))
+	  if (mySleep(60000,hConnectionClose))
 	  {
 #ifndef NO_PTHREAD
 		  return NULL;
@@ -193,7 +193,7 @@ using namespace std;
 	  pthread_testcancel();
 #endif
       XDEBUG(( "Sending KeepAlivePacket\n" ));
-      if(!me->send( &packet )) {
+      if (!me->send( &packet )) {
 	XINFO(( "Could not send KeepAlivePacket... exiting thread.\n" ));
 	break;
       }
@@ -209,21 +209,21 @@ using namespace std;
 	this->connected=FALSE;
 
 	//socket vom packetreader auf NULL, damit die readschleife geschlossen wird
-	if(this->packetReader!=NULL)
+	if (this->packetReader!=NULL)
 		this->packetReader->setSocket(NULL);
 
 	XDEBUG( "cancelling readthread... \n");
 #ifndef NO_PTHREAD
-	if(readthread.p!=NULL) pthread_cancel (readthread);
+	if (readthread.p!=NULL) pthread_cancel (readthread);
 	readthread.p=NULL;
 
 	XDEBUG( "cancelling sendpingthread... \n");
-	if(sendpingthread.p!=NULL) pthread_cancel (sendpingthread);
+	if (sendpingthread.p!=NULL) pthread_cancel (sendpingthread);
 	sendpingthread.p=NULL;
 #endif
 
     XDEBUG( "deleting socket...\n" );
-    if(socket){
+    if (socket){
         delete socket;
         socket = NULL;
     }
@@ -231,7 +231,7 @@ using namespace std;
   }
 
   bool Client::send( XFirePacketContent *content ) {
-    if(!socket) {
+    if (!socket) {
       XERROR(( "Trying to send content packet altough socket is NULL ! (ignored)\n" ));
       return false;
     }
@@ -248,11 +248,11 @@ using namespace std;
 
   void Client::receivedPacket( XFirePacket *packet ) {
     XDEBUG(("Client::receivedPacket\n"));
-    if( packet == NULL ) {
+    if ( packet == NULL ) {
       XERROR(("packet is NULL !!!\n"));
       return;
     }
-    if( packet->getContent() == NULL ) {
+    if ( packet->getContent() == NULL ) {
       XERROR(("ERRRR getContent() returns null ?!\n"));
       return;
     }
@@ -275,13 +275,13 @@ using namespace std;
     case XFIRE_MESSAGE_ID: {
       XDEBUG(( "Got Message, sending ACK\n" ));
         MessagePacket *message = (MessagePacket*)packet->getContent();
-        if(message->getMessageType() == 0){
+        if (message->getMessageType() == 0){
             MessageACKPacket *ack = new MessageACKPacket();
             memcpy(ack->sid,message->getSid(),16);
             ack->imindex = message->getImIndex();
             send( ack );
 	    delete ack;
-        }else if(message->getMessageType() == 2){
+        }else if (message->getMessageType() == 2){
             send(message);
         }
 	break;

@@ -20,7 +20,7 @@ INT_PTR CALLBACK DlgUpdateDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			char*buf=NULL; //leeren zeiger für den empfangen buffer
 			GetWWWContent2(INI_WHATSNEW,NULL,FALSE,&buf);
 
-			if(buf!=NULL)
+			if (buf!=NULL)
 			{
 				SetDlgItemTextA(hwndDlg,IDC_UPDATEGAMES,buf);
 				delete[] buf;
@@ -63,23 +63,23 @@ void UpdateMyXFireIni(LPVOID dummy) {
 
 	mir_snprintf(request,1024,"%s%d",INI_URLREQUEST,getfilesize(file2));
 
-	if(CheckWWWContent(request))
+	if (CheckWWWContent(request))
 	{
-		if(db_get_b(NULL,protocolname,"dontaskforupdate",0)==1||DialogBox(hinstance,MAKEINTRESOURCE(IDD_UPDATE),NULL,DlgUpdateDialogProc)==IDOK)
+		if (db_get_b(NULL,protocolname,"dontaskforupdate",0)==1||DialogBox(hinstance,MAKEINTRESOURCE(IDD_UPDATE),NULL,DlgUpdateDialogProc)==IDOK)
 		{
-			if(GetWWWContent2(request,file,FALSE))
+			if (GetWWWContent2(request,file,FALSE))
 			{
 				//altes backup löschen
 				remove(file3);
 				//derzeitige ini und sichern
 				rename(file2,file3);
 				//lösche .old, wenn aktiv
-				if(db_get_b(NULL,protocolname,"nobackupini",0))
+				if (db_get_b(NULL,protocolname,"nobackupini",0))
 					remove(file3);
 				//neue aktiv schalten
 				rename(file,file2);
 				
-				if(db_get_b(NULL,protocolname,"dontaskforupdate",0)==0) MSGBOX(Translate("The xfire_games.ini was updated."));
+				if (db_get_b(NULL,protocolname,"dontaskforupdate",0)==0) MSGBOX(Translate("The xfire_games.ini was updated."));
 			}
 			else
 				MSGBOX(Translate("Error during xfire_games.ini update."));
@@ -103,22 +103,22 @@ void UpdateMyIcons(LPVOID dummy) {
 
 	mir_snprintf(request,1024,"%s%d",ICO_URLREQUEST,getfilesize(file2));
 
-	if(CheckWWWContent(request))
+	if (CheckWWWContent(request))
 	{
-		if(db_get_b(NULL,protocolname,"dontaskforupdate",0)==1||MessageBoxA(NULL,Translate("There is a new Icons.dll online, do you want to update now?"),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
+		if (db_get_b(NULL,protocolname,"dontaskforupdate",0)==1||MessageBoxA(NULL,Translate("There is a new Icons.dll online, do you want to update now?"),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
-			if(GetWWWContent2(request,file,FALSE)) {
+			if (GetWWWContent2(request,file,FALSE)) {
 				//altes backup löschen
 				remove(file3);
 				//derzeitige ini und sichern
 				rename(file2,file3);
 				//lösche .old, wenn aktiv
-				if(db_get_b(NULL,protocolname,"nobackupini",0))
+				if (db_get_b(NULL,protocolname,"nobackupini",0))
 					remove(file3);
 				//neue aktiv schalten
 				rename(file,file2);
 				
-				if(db_get_b(NULL,protocolname,"dontaskforupdate",0)==0) MSGBOX(Translate("The Icons.dll was updated."));
+				if (db_get_b(NULL,protocolname,"dontaskforupdate",0)==0) MSGBOX(Translate("The Icons.dll was updated."));
 			}
 			else
 				MSGBOX(Translate("Error during Icons.dll Update."));

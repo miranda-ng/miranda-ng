@@ -36,10 +36,10 @@ int length_index = findString2(packet,attr, packet_length,strlen(attr),start)+at
 
 	unsigned int length = xfire_hex_to_intC(packet[length_index]);
 
-	if(max_length >= length){
+	if (max_length >= length){
 		memcpy(value,packet+length_index+2,length);
 	}
-	if(max_length > length){
+	if (max_length > length){
 		memset(value+length,0,1);
 	}
 	return length_index+2+length;

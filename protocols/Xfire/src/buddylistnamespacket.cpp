@@ -46,7 +46,7 @@ namespace xfirelib {
   void BuddyListNamesPacket::parseContent(char *buf, int length, int numberOfAtts) {
     int index = 0;
 	//prüfe ob das packet mit 0x7 anfängt um eventuell crashes zufixen
-	if(buf[0]!=0x7)
+	if (buf[0]!=0x7)
 	{
 		usernames = new vector<string>;
 		nicks = new vector<string>;

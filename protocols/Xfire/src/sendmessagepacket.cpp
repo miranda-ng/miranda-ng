@@ -41,7 +41,7 @@ namespace xfirelib {
 
   void SendMessagePacket::init(Client *client, string username, string message) {
     BuddyListEntry *entry = client->getBuddyList()->getBuddyByName(username);
-    if(entry) {
+    if (entry) {
       setSid(entry->sid);
     }
     this->message = message;
@@ -50,7 +50,7 @@ namespace xfirelib {
 
   void SendMessagePacket::initIMIndex() {
     string str_sid(sid);
-    if( imindexes.count( str_sid ) < 1 )
+    if ( imindexes.count( str_sid ) < 1 )
       imindex = imindexes[str_sid] = 1;
     else
       imindex = ++imindexes[str_sid];  
@@ -61,7 +61,7 @@ namespace xfirelib {
   }
 
   int SendMessagePacket::getPacketContent(char *buf) {
-    if( imindex == 0 ) initIMIndex();
+    if ( imindex == 0 ) initIMIndex();
 
     int index = 0;
     VariableValue val;

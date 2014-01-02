@@ -18,7 +18,7 @@ HWND hwndTab,hPage;
 void AddGameDialog(HWND hwndDlg,Xfire_game* game) {
 	//übergebendes game, dem editgame zuordnen, damit wechselt es in den editmodus
 	editgame=game;
-	if(DialogBox(hinstance,MAKEINTRESOURCE(IDD_ADDGAMEMAIN),hwndDlg,DlgAddGameProcMain)) {
+	if (DialogBox(hinstance,MAKEINTRESOURCE(IDD_ADDGAMEMAIN),hwndDlg,DlgAddGameProcMain)) {
 	}
 	//wieder auf NULL setzen
 	editgame=NULL;
@@ -36,7 +36,7 @@ static void FillGameList( LPVOID hwndDlg ) {
 	//das schließen des dialogs verhindern
 	dontClose=TRUE;
 
-	if(Inicache.size()==0)
+	if (Inicache.size()==0)
 	{
 		//temp xfirebaseob für strlower
 		Xfire_base tempxfire;
@@ -50,7 +50,7 @@ static void FillGameList( LPVOID hwndDlg ) {
 		//ini soll in den RAM geladen werden, fürs schnellere ausparsen
 		FILE* f=fopen(inipath,"rb");
 		//wenn ini nicht aufrufbar, abbrechen
-		if(f==NULL)
+		if (f==NULL)
 			return;
 		//ans ende der datei springen
 		fseek(f,0,SEEK_END);
@@ -59,7 +59,7 @@ static void FillGameList( LPVOID hwndDlg ) {
 		//buffer anelgen
 		buffer=new char[size+1];
 		//wenn nicht genug ram, abbruch
-		if(buffer==NULL)
+		if (buffer==NULL)
 			return;
 		//buffer nullen
 		memset(buffer,0,size+1);
@@ -85,11 +85,11 @@ static void FillGameList( LPVOID hwndDlg ) {
 		SendMessage(hwndPB, PBM_SETRANGE32, 0,size); 
 
 		//solange bis wir bei 0 angekommen sind
-		if(*p!=0)
+		if (*p!=0)
 			p++;
 		while(*p!=0)
 		{
-			if(*p=='['&&*(p-1)=='\n')
+			if (*p=='['&&*(p-1)=='\n')
 			{
 				z=zahlbuffer;
 				z2=zahlbuffer2;
@@ -101,7 +101,7 @@ static void FillGameList( LPVOID hwndDlg ) {
 					z++;
 				}
 				*z=0;
-				if(*p=='_') {
+				if (*p=='_') {
 					p++;
 					while(*p>='0'&&*p<='9'&&p!=0)
 					{
@@ -113,11 +113,11 @@ static void FillGameList( LPVOID hwndDlg ) {
 				}
 				
 				//erste zahl gefunden
-				if(z!=zahlbuffer)
+				if (z!=zahlbuffer)
 				{
 					int gameid=atoi(zahlbuffer);
 					//prüfe ob das game schon in der gameliste ist
-					if(!xgamelist.Gameinlist(gameid))
+					if (!xgamelist.Gameinlist(gameid))
 					{
 						char*name=p;
 						lbInicache listentry;
@@ -141,7 +141,7 @@ static void FillGameList( LPVOID hwndDlg ) {
 						//spielnamen in den listentry einfügen
 						strcpy_s(listentry.name,255,name);
 
-						if(z2!=zahlbuffer2)
+						if (z2!=zahlbuffer2)
 						{
 							listentry.gameid=MAKELONG(gameid,atoi(zahlbuffer2));
 							mir_snprintf(gameidtemp,10,"%d_%d",gameid,atoi(zahlbuffer2));
@@ -153,20 +153,20 @@ static void FillGameList( LPVOID hwndDlg ) {
 						}
 
 
-						if(xfire_GetPrivateProfileString(gameidtemp, "LauncherExe", "", ret, 512, inipath)) {
+						if (xfire_GetPrivateProfileString(gameidtemp, "LauncherExe", "", ret, 512, inipath)) {
 							//lower launchstring
 							tempxfire.strtolower(ret);
 							//einzelnen ziechen zusammenrechnen
-							if(z2!=zahlbuffer2)
+							if (z2!=zahlbuffer2)
 							{
 								//wenn pfad, dann exe vorher rausziehen
-								if(strrchr(ret,'\\'))
+								if (strrchr(ret,'\\'))
 									accLaunch=tempxfire.accStringByte(strrchr(ret,'\\'));
 								else
 									accLaunch=tempxfire.accStringByte(ret);
 							}
 							//Steam.exe als launcher?
-							if((ret[0]=='s')&&
+							if ((ret[0]=='s')&&
 								ret[1]=='t'&&
 								ret[2]=='e'&&
 								ret[3]=='a'&&
@@ -180,13 +180,13 @@ static void FillGameList( LPVOID hwndDlg ) {
 							}
 						}
 
-						if(z2!=zahlbuffer2) {
-							if(xfire_GetPrivateProfileString(gameidtemp, "DetectExe", "", ret, 512, inipath)) {
+						if (z2!=zahlbuffer2) {
+							if (xfire_GetPrivateProfileString(gameidtemp, "DetectExe", "", ret, 512, inipath)) {
 								//lower launchstring
 								tempxfire.strtolower(ret);
 								//einzelnen ziechen zusammenrechnen
 								//wenn pfad, dann exe vorher rausziehen
-								if(strrchr(ret,'\\'))
+								if (strrchr(ret,'\\'))
 									accDetect=tempxfire.accStringByte(strrchr(ret,'\\'));
 								else
 									accDetect=tempxfire.accStringByte(ret);
@@ -197,11 +197,11 @@ static void FillGameList( LPVOID hwndDlg ) {
 						BOOL addtolist=TRUE;
 
 						//schon ein eintrag vorhanden?
-						if(z2!=zahlbuffer2) {
+						if (z2!=zahlbuffer2) {
 							//uniq id zusammen bauen aus spielid sowie zusammengerechneten launchstring und detectstring
 							uniqid=MAKELONG(gameid,MAKEWORD(accLaunch,accDetect));
 							for(uint i = 0 ; i < dublBuffer.size() ; i ++) {
-								if(dublBuffer.at(i)==uniqid)
+								if (dublBuffer.at(i)==uniqid)
 								{
 									addtolist=FALSE;
 									break;
@@ -210,7 +210,7 @@ static void FillGameList( LPVOID hwndDlg ) {
 						}
 
 						//nur eintragen, wenn kein doppelter gefunden wurde
-						if(addtolist) {
+						if (addtolist) {
 							//eintrag einfügen
 							int idx=SendDlgItemMessageA( (HWND)hwndDlg, IDC_GAMELIST, LB_ADDSTRING, 0, (LPARAM)listentry.name);
 							SendDlgItemMessage( (HWND)hwndDlg, IDC_GAMELIST, LB_SETITEMDATA, idx, listentry.gameid);
@@ -232,7 +232,7 @@ static void FillGameList( LPVOID hwndDlg ) {
 		//liste mit dem cache aufbauen
 		for(uint i = 0 ; i < Inicache.size() ; i ++) {
 			//spielid in der liste spielliste?
-			if(!xgamelist.Gameinlist(LOWORD(Inicache.at(i).gameid)))
+			if (!xgamelist.Gameinlist(LOWORD(Inicache.at(i).gameid)))
 			{
 				//eintrag in die listeeinfügen
 				int idx=SendDlgItemMessageA( (HWND)hwndDlg, IDC_GAMELIST, LB_ADDSTRING, 0, (LPARAM)Inicache.at(i).name);
@@ -263,13 +263,13 @@ BOOL OpenFileDialog(HWND hwndDlg,OPENFILENAMEA*ofn,char*exe) {
 	//backslash suchen
 	exename=strrchr(exe,'\\')+1;
 	//kein backslash dann normal ret als exenamen verwenden
-	if((int)exename==1) exename=exe;
+	if ((int)exename==1) exename=exe;
 	//filterstring aufbauen
 	mir_snprintf(szFilter, SIZEOF(szFilter), "%s|%s|%s|*.*|", exename, exename, Translate("All Files"));
 	//umbruch in 0 wandeln
 	unsigned int sizeFilter=strlen(szFilter);
 	for(unsigned int i=0;i<sizeFilter;i++)
-		if(szFilter[i]=='|') szFilter[i]=0;
+		if (szFilter[i]=='|') szFilter[i]=0;
 	//openfiledia vorbereiten
 	ZeroMemory(ofn, sizeof(OPENFILENAMEA));
 	ofn->lStructSize = sizeof(OPENFILENAMEA);
@@ -304,7 +304,7 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 			}
 			break;
 		case WM_COMMAND:
-			if(LOWORD(wParam) == IDC_SEARCH && HIWORD(wParam)==EN_CHANGE)
+			if (LOWORD(wParam) == IDC_SEARCH && HIWORD(wParam)==EN_CHANGE)
 			{
 				char temp[256];
 				//eingabe bei der suche auslesen
@@ -312,26 +312,26 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 				//eingabe in der liste suchen
 				int idx=SendDlgItemMessageA(hwndDlg, IDC_GAMELIST, LB_FINDSTRING, 0, (LPARAM)temp);
 				//gefunden?
-				if(idx!=LB_ERR)
+				if (idx!=LB_ERR)
 				{
 					//als aktiv setzen
 					SendDlgItemMessage(hwndDlg, IDC_GAMELIST,LB_SETCURSEL,idx,0);
 				}
 			}
-			else if(LOWORD(wParam) == IDCANCEL)
+			else if (LOWORD(wParam) == IDCANCEL)
 			{
 				//nicht schließen, wenn noch der thread läuft
-				if(dontClose) {
+				if (dontClose) {
 					MessageBoxA(hwndDlg, Translate("Please wait, game.ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					return FALSE;
 				}
 				return SendMessage(GetParent(hwndDlg),WM_CLOSE,0,0);
 			}
-			else if(LOWORD(wParam) == IDC_CUSTOM)
+			else if (LOWORD(wParam) == IDC_CUSTOM)
 			{
 				int idx=SendDlgItemMessage(hwndDlg, IDC_GAMELIST, LB_GETCURSEL, 0, 0);
 				//es wurde was ausgewählt?
-				if(idx==LB_ERR) {
+				if (idx==LB_ERR) {
 					MessageBoxA(hwndDlg,Translate("Please choose one game in the list!"),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
 				}
 				else
@@ -344,13 +344,13 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 					int gameid1=LOWORD(gameids);
 					int gameid2=HIWORD(gameids);
 
-					if(gameid2!=0)
+					if (gameid2!=0)
 						mir_snprintf(gameidtemp,10,"%d_%d",gameid1,gameid2);
 					else
 						mir_snprintf(gameidtemp,10,"%d",gameid1);
 
 					//spielnamen holen
-					if(xfire_GetPrivateProfileString(gameidtemp, "LongName", "", ret, 512, inipath)) {
+					if (xfire_GetPrivateProfileString(gameidtemp, "LongName", "", ret, 512, inipath)) {
 						mir_snprintf(gameidtemp,10,"%d",gameid1);
 
 						//einige felder vorbelegen
@@ -369,11 +369,11 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 					}
 				}					
 			}
-			else if(LOWORD(wParam) == IDOK)
+			else if (LOWORD(wParam) == IDOK)
 			{
 				int idx=SendDlgItemMessage(hwndDlg, IDC_GAMELIST, LB_GETCURSEL, 0, 0);
 				//es wurde was ausgewählt?
-				if(idx==LB_ERR) {
+				if (idx==LB_ERR) {
 					MessageBoxA(hwndDlg,Translate("Please choose one game in the list!"),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
 				}
 				else
@@ -388,7 +388,7 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 					char gameidtemp[10]="";
 					char ret[512];
 					
-					if(gameid2!=0)
+					if (gameid2!=0)
 						mir_snprintf(gameidtemp,10,"%d_%d",gameid1,gameid2);
 					else
 						mir_snprintf(gameidtemp,10,"%d",gameid1);
@@ -402,9 +402,9 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 					newgame->custom=1;
 
 					//launcherexe abfragen
-					if(xfire_GetPrivateProfileString(gameidtemp, "LauncherExe", "", ret, 512, inipath)) {
+					if (xfire_GetPrivateProfileString(gameidtemp, "LauncherExe", "", ret, 512, inipath)) {
 						//datei vom user öffnen lassen
-						if(OpenFileDialog(hwndDlg,&ofn,ret))
+						if (OpenFileDialog(hwndDlg,&ofn,ret))
 						{
 							//lowercase pfad
 							newgame->strtolower(ofn.lpstrFile);
@@ -420,9 +420,9 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 					}
 
 					//detectexe abfragen
-					if(xfire_GetPrivateProfileString(gameidtemp, "DetectExe", "", ret, 512, inipath)) {
+					if (xfire_GetPrivateProfileString(gameidtemp, "DetectExe", "", ret, 512, inipath)) {
 						//datei vom user öffnen lassen
-						if(OpenFileDialog(hwndDlg,&ofn,ret))
+						if (OpenFileDialog(hwndDlg,&ofn,ret))
 						{
 							//lowercase pfad
 							newgame->strtolower(ofn.lpstrFile);
@@ -436,9 +436,9 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 							return FALSE;
 						}
 					} //MatchExe abfragen
-					else if(xfire_GetPrivateProfileString(gameidtemp, "MatchExe", "", ret, 512, inipath)) {
+					else if (xfire_GetPrivateProfileString(gameidtemp, "MatchExe", "", ret, 512, inipath)) {
 						//datei vom user öffnen lassen
-						if(OpenFileDialog(hwndDlg,&ofn,ret))
+						if (OpenFileDialog(hwndDlg,&ofn,ret))
 						{
 							//lowercase pfad
 							newgame->strtolower(ofn.lpstrFile);
@@ -455,20 +455,20 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 
 
 					//prüfe ob schon ein launchstring festgelegt wurde, wenn nicht die detectexe nehmen
-					if(!newgame->launchparams&&newgame->path) {
+					if (!newgame->launchparams&&newgame->path) {
 						newgame->setString(newgame->path,&newgame->launchparams);
 					}
 
 					//prüfe ob schon ein detectexe festgelegt wurde, wenn nicht die launchstring nehmen
-					if(newgame->launchparams&&!newgame->path) {
+					if (newgame->launchparams&&!newgame->path) {
 						newgame->setString(newgame->launchparams,&newgame->path);
 					}
 					
 					//LauncherUrl wird der launcherstring überschrieben
-					if(xfire_GetPrivateProfileString(gameidtemp, "LauncherUrl", "", ret, 512, inipath)) {
+					if (xfire_GetPrivateProfileString(gameidtemp, "LauncherUrl", "", ret, 512, inipath)) {
 						newgame->setString(ret,&newgame->launchparams);
 					}
-					else if(xfire_GetPrivateProfileString(gameidtemp, "Launch", "", ret, 512, inipath)) {
+					else if (xfire_GetPrivateProfileString(gameidtemp, "Launch", "", ret, 512, inipath)) {
 						str_replace(ret,"%UA_LAUNCHER_EXE_PATH%",""); //erstmal unwichtige sachen entfernen
 						//str_replace(ret,"%UA_LAUNCHER_EXTRA_ARGS%",""); // - auch entfernen	
 						str_replace(ret,"%UA_LAUNCHER_LOGIN_ARGS%",""); // - auch entfernen	
@@ -480,15 +480,15 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 					}
 
 					//restliche wichtige felder einfügen
-					if(xfire_GetPrivateProfileString(gameidtemp, "LauncherPasswordArgs", "", ret, 512, inipath))
+					if (xfire_GetPrivateProfileString(gameidtemp, "LauncherPasswordArgs", "", ret, 512, inipath))
 						newgame->setString(ret,&newgame->pwparams);
-					if(xfire_GetPrivateProfileString(gameidtemp, "LauncherNetworkArgs", "", ret, 512, inipath))
+					if (xfire_GetPrivateProfileString(gameidtemp, "LauncherNetworkArgs", "", ret, 512, inipath))
 						newgame->setString(ret,&newgame->networkparams);
-					if(xfire_GetPrivateProfileString(gameidtemp, "CommandLineMustContain[0]", "", ret, 512, inipath))
+					if (xfire_GetPrivateProfileString(gameidtemp, "CommandLineMustContain[0]", "", ret, 512, inipath))
 						newgame->setString(ret,&newgame->mustcontain);
-					if(xfire_GetPrivateProfileString(gameidtemp, "XUSERSendId", "", ret, 512, inipath))
+					if (xfire_GetPrivateProfileString(gameidtemp, "XUSERSendId", "", ret, 512, inipath))
 						newgame->send_gameid=atoi(ret);
-					if(xfire_GetPrivateProfileString(gameidtemp, "XUSERSetStatusMsg", "", ret, 512, inipath))
+					if (xfire_GetPrivateProfileString(gameidtemp, "XUSERSetStatusMsg", "", ret, 512, inipath))
 						newgame->setstatusmsg=atoi(ret);
 
 					//namen setzen und icon laden
@@ -508,7 +508,7 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 			break;
 		case WM_CLOSE:
 			//nicht schließen, wenn noch der thread läuft
-			if(dontClose) {
+			if (dontClose) {
 				MessageBoxA(hwndDlg, Translate("Please wait, game.ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 				return FALSE;
 			}
@@ -530,14 +530,14 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 	{
 		case WM_INITDIALOG:
 			//ein spiel wurde zum editieren geöffnet, felder alle vorbelegen
-			if(editgame) {
+			if (editgame) {
 				//add augf übernehmen umstellen
 				SetDlgItemTextA(hwndDlg,IDOK,Translate("Apply"));
 
 				//namen vorbelegen
-				if(editgame->customgamename)
+				if (editgame->customgamename)
 					SetDlgItemTextA(hwndDlg,IDC_ADD_NAME,editgame->customgamename);
-				else if(editgame->name)
+				else if (editgame->name)
 					SetDlgItemTextA(hwndDlg,IDC_ADD_NAME,editgame->name);
 				
 				//gameid setzen und feld schreibschützen
@@ -547,29 +547,29 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 				EnableWindow(GetDlgItem(hwndDlg,IDC_ADD_ID),FALSE);
 
 				//sendgameid setzen, bei -1 leer lassen
-				if(editgame->send_gameid!=-1)
+				if (editgame->send_gameid!=-1)
 				{
 					_itoa_s(editgame->send_gameid,gameid,10,10);
 					SetDlgItemTextA(hwndDlg,IDC_ADD_SENDID,gameid);
 				}
 
 				//launcherstring
-				if(editgame->launchparams) {
+				if (editgame->launchparams) {
 					SetDlgItemTextA(hwndDlg,IDC_ADD_LAUNCHEREXE,editgame->launchparams);
 				}
 
 				//detectstring
-				if(editgame->path) {
+				if (editgame->path) {
 					SetDlgItemTextA(hwndDlg,IDC_ADD_DETECTEXE,editgame->path);
 				}
 
 				//statusmsg
-				if(editgame->statusmsg) {
+				if (editgame->statusmsg) {
 					SetDlgItemTextA(hwndDlg,IDC_ADD_STATUSMSG,editgame->statusmsg);
 				}
 
 				//mustcontain parameter
-				if(editgame->mustcontain) {
+				if (editgame->mustcontain) {
 					SetDlgItemTextA(hwndDlg,IDC_ADD_CUSTOMPARAMS,editgame->mustcontain);
 				}
 			}
@@ -580,45 +580,45 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 
 		case WM_COMMAND:
 		{
-			if(LOWORD(wParam) == IDC_SENDIDHELP)
+			if (LOWORD(wParam) == IDC_SENDIDHELP)
 			{
 				MessageBoxA(hwndDlg, Translate("If you add a mod of an Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked."), Translate("XFire Options"), MB_OK|MB_ICONASTERISK);
 			}
-			else if(LOWORD(wParam) == IDC_GAMEIDHELP)
+			else if (LOWORD(wParam) == IDC_GAMEIDHELP)
 			{
 				MessageBoxA(hwndDlg, Translate("Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game."), Translate("XFire Options"), MB_OK|MB_ICONASTERISK);
 			}
-			else if(LOWORD(wParam) == IDC_ADD_BROWSEDETECT) 
+			else if (LOWORD(wParam) == IDC_ADD_BROWSEDETECT) 
 			{
 				OPENFILENAMEA ofn;
-				if(OpenFileDialog(hwndDlg,&ofn,"*.exe"))
+				if (OpenFileDialog(hwndDlg,&ofn,"*.exe"))
 				{
 					SetDlgItemTextA(hwndDlg,IDC_ADD_DETECTEXE,ofn.lpstrFile);
 				}
 			}
-			else if(LOWORD(wParam) == IDC_ADD_BROWSELAUNCHER) 
+			else if (LOWORD(wParam) == IDC_ADD_BROWSELAUNCHER) 
 			{
 				OPENFILENAMEA ofn;
-				if(OpenFileDialog(hwndDlg,&ofn,"*.exe"))
+				if (OpenFileDialog(hwndDlg,&ofn,"*.exe"))
 				{
 					SetDlgItemTextA(hwndDlg,IDC_ADD_LAUNCHEREXE,ofn.lpstrFile);
 				}
 			}
-			else if(LOWORD(wParam) == IDCANCEL)
+			else if (LOWORD(wParam) == IDCANCEL)
 			{
 				//nicht schließen, wenn noch der thread läuft
-				if(dontClose) {
+				if (dontClose) {
 					MessageBoxA(hwndDlg, Translate("Please wait, game.ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					return FALSE;
 				}
 				return SendMessage(GetParent(hwndDlg),WM_CLOSE,0,0);
 			}
-			else if(LOWORD(wParam) == IDOK)
+			else if (LOWORD(wParam) == IDOK)
 			{
 				char temp[256];
 
 				//fillgames sucht noch
-				if(dontClose) {
+				if (dontClose) {
 					MessageBoxA(hwndDlg, Translate("Please wait, game.ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					return FALSE;
 				}
@@ -626,16 +626,16 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 				//neuen gameeintrag anlegen
 				Xfire_game* newgame=NULL;
 				
-				if(editgame)
+				if (editgame)
 					newgame=editgame;
 				else
 					newgame=new Xfire_game();
 
 				//Spielname
 				GetDlgItemTextA(hwndDlg,IDC_ADD_NAME,temp,256);
-				if(!strlen(temp))
+				if (!strlen(temp))
 				{
-					if(!editgame) delete newgame;
+					if (!editgame) delete newgame;
 					return MessageBoxA(hwndDlg, Translate("Please enter a game name."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 				}
 				else
@@ -646,26 +646,26 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 					newgame->setString(temp,&newgame->name);
 				}
 				//spielid nur setzen/prüfen, wenn kein editgame
-				if(!editgame) {
+				if (!editgame) {
 					GetDlgItemTextA(hwndDlg,IDC_ADD_ID,temp,256);
-					if(!strlen(temp))
+					if (!strlen(temp))
 					{
-						if(!editgame) delete newgame;
+						if (!editgame) delete newgame;
 						return MessageBoxA(hwndDlg, Translate("Please enter a game ID."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					}
 					else
 					{
 						int gameid=atoi(temp);
 						//negative gameid blocken
-						if(gameid<1)
+						if (gameid<1)
 						{
-							if(!editgame) delete newgame;
+							if (!editgame) delete newgame;
 							return MessageBoxA(hwndDlg, Translate("Please enter a game ID above 1."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 						}
 						//gameid auf uniq prüfen
-						else if(xgamelist.getGamebyGameid(gameid))
+						else if (xgamelist.getGamebyGameid(gameid))
 						{
-							if(!editgame) delete newgame;
+							if (!editgame) delete newgame;
 							return MessageBoxA(hwndDlg, Translate("This game ID is already in use."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 						}
 						//gameid zuordnen
@@ -676,17 +676,17 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 				}
 				//zu sendene spielid
 				GetDlgItemTextA(hwndDlg,IDC_ADD_SENDID,temp,256);
-				if(strlen(temp))
+				if (strlen(temp))
 				{
 					//standardmäßig wird bei einem customeintrag keine id versendet
 					int sendid=atoi(temp);
-					if(sendid>0)
+					if (sendid>0)
 						newgame->send_gameid=sendid;
 				}
 
 				//launcher exe
 				GetDlgItemTextA(hwndDlg,IDC_ADD_LAUNCHEREXE,temp,256);
-				if(strlen(temp))
+				if (strlen(temp))
 				{
 					//lowercase pfad
 					newgame->strtolower(temp);
@@ -695,9 +695,9 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 				}
 				//detectexe
 				GetDlgItemTextA(hwndDlg,IDC_ADD_DETECTEXE,temp,256);
-				if(!strlen(temp))
+				if (!strlen(temp))
 				{
-					if(!editgame) delete newgame;
+					if (!editgame) delete newgame;
 					return MessageBoxA(hwndDlg, Translate("Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 				}
 				else
@@ -707,19 +707,19 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 					//detect exe
 					newgame->setString(temp,&newgame->path);
 					//wenn kein launcher exe/pfad angeben wurde, dann den gamepath nehmen
-					if(!newgame->launchparams)
+					if (!newgame->launchparams)
 						newgame->setString(temp,&newgame->launchparams);
 
 				}
 				//mustcontain parameter
 				GetDlgItemTextA(hwndDlg,IDC_ADD_CUSTOMPARAMS,temp,256);
-				if(strlen(temp))
+				if (strlen(temp))
 				{
 					newgame->setString(temp,&newgame->mustcontain);
 				}
 				//statusmsg speichern
 				GetDlgItemTextA(hwndDlg,IDC_ADD_STATUSMSG,temp,256);
-				if(strlen(temp))
+				if (strlen(temp))
 				{
 					newgame->setString(temp,&newgame->statusmsg);
 					newgame->setstatusmsg=1;
@@ -727,7 +727,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 				//custom eintrag aktivieren
 				newgame->custom=1;
 				//spiel in die gameliste einfügen, aber nur im nicht editmodus
-				if(!editgame) 
+				if (!editgame) 
 					xgamelist.Addgame(newgame);
 				//derzeitige gameliste in die datenbank eintragen
 				xgamelist.writeDatabase();
@@ -769,7 +769,7 @@ INT_PTR CALLBACK DlgAddGameProcMain (HWND hwndDlg,
 			hPage=CreateDialog(hinstance, MAKEINTRESOURCE(IDD_ADDGAME), hwndDlg, DlgAddGameProc);
 			
 			//bei editgame keine spiellisteauswahl
-			if(!editgame)
+			if (!editgame)
 			{
 				iTotal = TabCtrl_GetItemCount(hwndTab);
 				tci.mask = TCIF_PARAM|TCIF_TEXT;
@@ -792,7 +792,7 @@ INT_PTR CALLBACK DlgAddGameProcMain (HWND hwndDlg,
 			iTotal++;
 			
 			//bei editgame 2. registerkarte aktiv schalten
-			if(!editgame) {
+			if (!editgame) {
 				ShowWindow(hPage,FALSE);
 				TabCtrl_SetCurSel(hwndTab, 0);
 			}
@@ -801,9 +801,9 @@ INT_PTR CALLBACK DlgAddGameProcMain (HWND hwndDlg,
 		}
 		case WM_CLOSE:
 			//nicht schließen, wenn noch der thread läuft
-			if(dontClose) return FALSE;
+			if (dontClose) return FALSE;
 			//buffer leeren
-			if(buffer)
+			if (buffer)
 			{
 				delete[] buffer;
 				buffer=NULL;

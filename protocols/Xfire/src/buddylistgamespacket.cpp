@@ -42,7 +42,7 @@ namespace xfirelib {
 	type = 0;
   }
   BuddyListGamesPacket::~BuddyListGamesPacket() {
-    if(ips) {
+    if (ips) {
       for( vector<char*>::iterator it = ips->begin() ;
 	   it != ips->end() ; it++) {
 	delete[] *it;
@@ -124,7 +124,7 @@ namespace xfirelib {
     for(int i = 0 ; i < numberOfSids ; i++) {
       index += val.readValue(buf,index,2);
       long port = val.getValueAsLong();
-//	  if(port==0)
+//	  if (port==0)
 //	  {
 //		portwasnull=1;
 //	  }

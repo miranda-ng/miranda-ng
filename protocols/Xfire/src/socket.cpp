@@ -32,10 +32,10 @@ Socket::Socket( std::string host, int port, int useproxy, std::string proxyhost 
 	   0,
 	   sizeof ( m_addr ) );
 
-  if(!create()) {
+  if (!create()) {
     throw SocketException( "Could not create socket." );
   }
-  if(!connect(host,port,useproxy,proxyhost,proxyport)) {
+  if (!connect(host,port,useproxy,proxyhost,proxyport)) {
     throw SocketException( "Could not bind port." );
   }
 }
@@ -194,7 +194,7 @@ bool Socket::connect ( const std::string host, const int port, int useproxy,std:
   //if ( ! is_valid() ) return false;
 
   /*m_addr.sin_family = AF_INET;
-  if(useproxy)
+  if (useproxy)
   {
 	m_addr.sin_port = htons ( proxyport );
 	m_addr.sin_addr.s_addr=inet_addr(proxyhost.c_str());
@@ -212,7 +212,7 @@ bool Socket::connect ( const std::string host, const int port, int useproxy,std:
   if ( errno == EAFNOSUPPORT ) return false; */
   //status = ::connect ( m_sock, ( sockaddr * ) &m_addr, sizeof ( m_addr ) );
 
-  /*if(useproxy&&status==0) {
+  /*if (useproxy&&status==0) {
 	      char temp[1024];
 		  this->send("CONNECT cs.xfire.com:25999 HTTP/1.1\nHost: cs.xfire.com:25999\nUser-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows 98)\n\n");
 		  this->recv((char*)temp,1024);
@@ -235,7 +235,7 @@ bool Socket::connect ( const std::string host, const int port, int useproxy,std:
   }
   else {
     int errsv = errno;
-    if(errsv == SOCKET_ERROR) {
+    if (errsv == SOCKET_ERROR) {
      // std::cout << "Connection refused to " << host << ":" << port << std::endl;
       throw SocketException( "Connection refused." );
     }
@@ -248,7 +248,7 @@ void Socket::set_non_blocking ( const bool b )
 {
 /*	u_long arg=0;
 
-	if(b) arg=1;*/
+	if (b) arg=1;*/
 
 	//ioctlsocket(m_sock, 0x8004667e,&arg);
 //  int opts;

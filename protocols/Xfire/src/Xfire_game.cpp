@@ -6,11 +6,11 @@
 //prüft nach, ob das game das nötige extragameargs im launcherstring hat
 BOOL Xfire_game::haveExtraGameArgs() {
 	//kein launcher stirng, dann abbruch
-	if(!this->launchparams)
+	if (!this->launchparams)
 		return FALSE;
 
 	//wenn platzhalter vorhanden, dann TRUE zurück
-	if(this->inString(this->launchparams,"%UA_LAUNCHER_EXTRA_ARGS%"))
+	if (this->inString(this->launchparams,"%UA_LAUNCHER_EXTRA_ARGS%"))
 		return TRUE;
 
 	return FALSE;
@@ -19,14 +19,14 @@ BOOL Xfire_game::haveExtraGameArgs() {
 //startes das spiel
 BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 	//launchparam prüfen ob gefüllt?
-	if(this->launchparams==NULL)
+	if (this->launchparams==NULL)
 		return FALSE;
 
 	//ist launchparam großgenug für eibne urlprüfung?
-	if(strlen(this->launchparams)>5)
+	if (strlen(this->launchparams)>5)
 	{
 		//launchparams ne url? dann openurl funktion von miranda verwenden
-		if(this->launchparams[0]=='h'&&
+		if (this->launchparams[0]=='h'&&
 			this->launchparams[1]=='t'&&
 			this->launchparams[2]=='t'&&
 			this->launchparams[3]=='p'&&
@@ -40,15 +40,15 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 	int networksize=0;
 	char* mynetworkparams=NULL;
 
-	if(this->networkparams)
+	if (this->networkparams)
 	{
-		if(ip)
+		if (ip)
 		{
 			char portstr[6]="";
 			int pwsize=255;
 
 			//größe des netzwerparams berechnen
-			if(this->pwparams)
+			if (this->pwparams)
 				pwsize+=strlen(this->pwparams);
 
 			mynetworkparams=new char[strlen(this->networkparams)+pwsize];
@@ -63,14 +63,14 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 			str_replace(mynetworkparams,"%UA_GAME_HOST_PORT%",portstr);
 
 			//passwort dialog, nur wenn SHIFT gehalten wird beim join, da sonst immer gefragt wird
-			if(GetAsyncKeyState(VK_LSHIFT) && this->pwparams){
+			if (GetAsyncKeyState(VK_LSHIFT) && this->pwparams){
 				char password[256]=""; //passwort maximal 255 zeichen
 
-				if(ShowPwdDlg(password)) {
+				if (ShowPwdDlg(password)) {
 					char* mypwargs=new char[pwsize];
 
 					//speicher frei?
-					if(mypwargs!=NULL) {
+					if (mypwargs!=NULL) {
 						strcpy_s(mypwargs,pwsize,this->pwparams);
 						str_replace(mypwargs, "%UA_GAME_HOST_PASSWORD%", password);
 						str_replace(mynetworkparams,"%UA_LAUNCHER_PASSWORD_ARGS%",mypwargs);
@@ -91,13 +91,13 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 			str_replace(mynetworkparams,"%UA_LAUNCHER_RCON_ARGS%","");
 		}
 
-		if(mynetworkparams)
+		if (mynetworkparams)
 			networksize=strlen(mynetworkparams)+strlen(this->networkparams);
 	}
 
 	//extra parameter
 	int extraparamssize=0;
-	if(this->extraparams)
+	if (this->extraparams)
 	{
 		extraparamssize=strlen(this->extraparams);
 	}
@@ -106,10 +106,10 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 	char*temp=NULL;
 	temp=new char[strlen(this->launchparams)+networksize+extraparamssize+1];
 
-	if(temp==NULL)
+	if (temp==NULL)
 	{
 		//wenn nwparams gesetzt, leeren
-		if(mynetworkparams)
+		if (mynetworkparams)
 			delete[] mynetworkparams;
 
 		return FALSE;
@@ -119,7 +119,7 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 	strcpy_s(temp,strlen(this->launchparams)+1,this->launchparams);
 
 	//netzwerkparameter ?
-	if(mynetworkparams)
+	if (mynetworkparams)
 	{
 		str_replace(temp,"%UA_LAUNCHER_NETWORK_ARGS%",mynetworkparams);
 		delete[] mynetworkparams;
@@ -127,7 +127,7 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 	else
 		str_replace(temp,"%UA_LAUNCHER_NETWORK_ARGS%","");
 
-	if(this->extraparams)
+	if (this->extraparams)
 		str_replace(temp,"%UA_LAUNCHER_EXTRA_ARGS%",this->extraparams);
 	else
 		str_replace(temp,"%UA_LAUNCHER_EXTRA_ARGS%","");
@@ -139,11 +139,11 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 	// MessageBoxA(NULL,temp,temp,0);
 
 	//starten
-	if(CreateProcessA(0, temp, 0, 0, FALSE, 0, 0, GetLaunchPath(temp) , &si, &pi)==0)
+	if (CreateProcessA(0, temp, 0, 0, FALSE, 0, 0, GetLaunchPath(temp) , &si, &pi)==0)
 	{
 		//schlug fehl, dann runas methode verwenden
 		char*exe=strrchr(temp,'\\');
-		if(exe==0)
+		if (exe==0)
 		{
 			delete[] temp;
 			return FALSE;
@@ -151,10 +151,10 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 		*exe=0;
 		exe++;
 		char*params=strchr(exe,'.');
-		if(params!=0)
+		if (params!=0)
 		{
 			params=strchr(params,' ');
-			if(params!=0)
+			if (params!=0)
 			{
 				*params=0;
 				params++;
@@ -180,13 +180,13 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 {
 	//gibts net, weg mit dir
-	if(this->path==NULL)
+	if (this->path==NULL)
 		return FALSE;
 
 	//versuche ein processhandle des speils zubekommen
 	HANDLE op=OpenProcess(PROCESS_QUERY_INFORMATION|PROCESS_VM_READ, FALSE, processInfo->th32ProcessID);
 
-	if(op)
+	if (op)
 	{
 		//varaibele wohin der pfad eingelesen wird
 		TCHAR fpath[MAX_PATH]=_T("");
@@ -195,17 +195,17 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 		GetModuleFileNameEx(op,NULL,fpath,sizeof(fpath));
 
 		//8.3 pfade umwandeln, nur wenn sich eine tilde im string befindet
-		if(_tcschr(fpath,'~'))
+		if (_tcschr(fpath,'~'))
 			GetLongPathName(fpath,fpath,sizeof(fpath));
 
 		//alles in kelinbuchstaben umwandeln
 		this->strtolowerT(fpath);
 
-		if(this->wildcmp(_A2T(this->path),fpath))
-		//if(strcmp(this->path,fpath)==0)
+		if (this->wildcmp(_A2T(this->path),fpath))
+		//if (strcmp(this->path,fpath)==0)
 		{
 			//pfad stimmt überein, commandline prüfen
-			if(checkCommandLine(op,this->mustcontain,this->notcontain))
+			if (checkCommandLine(op,this->mustcontain,this->notcontain))
 			{
 				//handle zuamachen
 				CloseHandle(op);
@@ -218,10 +218,10 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 			int size=mpath.size();
 			for(int j=0;j<size;j++)
 			{
-				if(_tcsicmp(_A2T(mpath.at(j)),fpath)==0)
+				if (_tcsicmp(_A2T(mpath.at(j)),fpath)==0)
 				{
 					//pfad stimmt überein, commandline prüfen
-					if(checkCommandLine(op,this->mustcontain,this->notcontain))
+					if (checkCommandLine(op,this->mustcontain,this->notcontain))
 					{
 						//handle zumachen
 						CloseHandle(op);
@@ -234,16 +234,16 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 		//is nich das game, handle zumachen
 		CloseHandle(op);
 	}
-	else //if(this->mustcontain==NULL&&this->notcontain==NULL) //spiele die was bestimmtes im pfad benötigen skippen
+	else //if (this->mustcontain==NULL&&this->notcontain==NULL) //spiele die was bestimmtes im pfad benötigen skippen
 	{
 		char* exename=strrchr(this->path,'\\')+1;
 
 		//kleiner fix bei fehlerhaften pfaden kann keine exe ermittelt werden also SKIP
-		if((unsigned int)exename==0x1)
+		if ((unsigned int)exename==0x1)
 			return FALSE;
 
 		//vergleich die exenamen
-		if(_stricmp(exename,_T2A(processInfo->szExeFile))==0)
+		if (_stricmp(exename,_T2A(processInfo->szExeFile))==0)
 		{
 			return TRUE;
 		}
@@ -256,11 +256,11 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 				char* exename=strrchr(mpath.at(j),'\\')+1;
 
 				//mhn keien exe, nächsten pfad prüfen
-				if((unsigned int)exename==0x1)
+				if ((unsigned int)exename==0x1)
 					continue;
 
 				//exe vergleichen
-				if(_stricmp(exename,_T2A(processInfo->szExeFile))==0)
+				if (_stricmp(exename,_T2A(processInfo->szExeFile))==0)
 				{
 					//positive antwort an die gamedetection
 					return TRUE;
@@ -286,19 +286,19 @@ void Xfire_game::readFromDB(unsigned dbid)
 	this->readStringfromDB("gamepath",dbid,&this->path);
 
 	//8.3 fix, prüfe auf ~ pfad, wenn ja pfad var umwalnd in longname
-	if(this->path)
+	if (this->path)
 	{
 		BOOL found=FALSE;
 		for(unsigned int i=0;i<strlen(this->path);i++)
 		{
-			if(this->path[i] == '~')
+			if (this->path[i] == '~')
 			{
 				found=TRUE;
 				break;
 			}
 		}
 		//gefunden? dann stirng wandeln und in pfad speichern
-		if(found) {
+		if (found) {
 			char ctemp[MAX_PATH]="";
 			strcpy_s(ctemp,MAX_PATH,this->path);
 			GetLongPathNameA(ctemp,ctemp,sizeof(ctemp));
@@ -317,7 +317,7 @@ void Xfire_game::readFromDB(unsigned dbid)
 	//alle sonstigen werte
 	this->id=this->readWordfromDB("gameid",dbid);
 	this->send_gameid=this->readWordfromDB("gamesendid",dbid);
-	if(this->send_gameid==0)
+	if (this->send_gameid==0)
 		this->send_gameid=this->id;
 	this->setstatusmsg=this->readWordfromDB("gamesetsmsg",dbid,0);
 	this->custom=this->readBytefromDB("gamecustom",dbid,0);
@@ -335,7 +335,7 @@ void Xfire_game::readFromDB(unsigned dbid)
 		char* tpath=NULL;
 		this->readStringfromDB("gamepath",dbid,j,&tpath);
 
-		if(tpath)
+		if (tpath)
 		{
 			mpath.push_back(tpath);
 		}
@@ -348,7 +348,7 @@ void Xfire_game::readFromDB(unsigned dbid)
 //läd spielnamen aus, sowie icon
 void Xfire_game::setNameandIcon()
 {
-	if(this->customgamename)
+	if (this->customgamename)
 	{
 		this->setString(this->customgamename,&this->name);
 	}
@@ -378,31 +378,31 @@ void Xfire_game::writeToDB(unsigned dbid)
 
 	//alle sonstigen werte
 	this->writeWordtoDB("gameid",dbid,this->id);
-	if(this->send_gameid!=0&&this->send_gameid!=this->id) this->writeWordtoDB("gamesendid",dbid,this->send_gameid);
-	if(this->setstatusmsg!=0) this->writeWordtoDB("gamesetsmsg",dbid,this->setstatusmsg);
-	if(this->custom!=0) this->writeBytetoDB("gamecustom",dbid,this->custom);
+	if (this->send_gameid!=0&&this->send_gameid!=this->id) this->writeWordtoDB("gamesendid",dbid,this->send_gameid);
+	if (this->setstatusmsg!=0) this->writeWordtoDB("gamesetsmsg",dbid,this->setstatusmsg);
+	if (this->custom!=0) this->writeBytetoDB("gamecustom",dbid,this->custom);
 	//wenn gesetzt, dann eintrag machen
-	if(this->skip!=0)
+	if (this->skip!=0)
 		this->writeBytetoDB("gameskip",this->id,this->skip);
 	else //wenn nicht eintrag aus db löschen
 		this->removeDBEntry("gameskip",this->id);
-	if(this->notinstartmenu!=0)
+	if (this->notinstartmenu!=0)
 		this->writeBytetoDB("notinstartmenu",this->id,this->notinstartmenu);
 	else //wenn nicht eintrag aus db löschen
 		this->removeDBEntry("notinstartmenu",this->id);
-	if(this->noicqstatus!=0)
+	if (this->noicqstatus!=0)
 		this->writeBytetoDB("gamenostatus",this->id,this->noicqstatus);
 	else //wenn nicht eintrag aus db löschen
 		this->removeDBEntry("gamenostatus",this->id);
-	if(this->extraparams!=0)
+	if (this->extraparams!=0)
 		this->writeStringtoDB("gameextraparams",this->id,this->extraparams);
 	else //wenn nicht eintrag aus db löschen
 		this->removeDBEntry("gameextraparams",this->id);
-	if(this->customgamename!=0)
+	if (this->customgamename!=0)
 		this->writeStringtoDB("customgamename",this->id,this->customgamename);
 	else //wenn nicht eintrag aus db löschen
 		this->removeDBEntry("customgamename",this->id);
-	if(this->statusmsg!=0)
+	if (this->statusmsg!=0)
 		this->writeUtf8StringtoDB("statusmsg",this->id,this->statusmsg);
 	else //wenn nicht eintrag aus db löschen
 		this->removeDBEntry("statusmsg",this->id);
@@ -411,7 +411,7 @@ void Xfire_game::writeToDB(unsigned dbid)
 
 	//mehrere pfade
 	int size=mpath.size();
-	if(size>0)
+	if (size>0)
 	{
 		this->writeWordtoDB("gamemulti",dbid,mpath.size());
 		for(int j=0;j<size;j++)
@@ -421,7 +421,7 @@ void Xfire_game::writeToDB(unsigned dbid)
 	}
 	
 	//sendid 0 dann standard id reinladen
-	if(this->send_gameid==0)
+	if (this->send_gameid==0)
 		this->send_gameid=this->id;
 }
 
@@ -432,7 +432,7 @@ void Xfire_game::createMenuitem(unsigned int pos,int dbid)
 	strcpy(servicefunction, protocolname);
 	strcat(servicefunction, "StartGame%d");
 
-	if(dbid<0)
+	if (dbid<0)
 		dbid=pos;
 	
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -442,7 +442,7 @@ void Xfire_game::createMenuitem(unsigned int pos,int dbid)
 
 	mir_snprintf(temp, SIZEOF(temp), servicefunction, this->id);
 	//wenn die servicefunktion schon exisitert vernichten, hehe
-	if(ServiceExists(temp)) 
+	if (ServiceExists(temp)) 
 		DestroyServiceFunction(temp);
 	CreateServiceFunctionParam(temp,StartGame,this->id);
 	mi.pszService = temp;
@@ -458,7 +458,7 @@ void Xfire_game::createMenuitem(unsigned int pos,int dbid)
 //entfernt menüpunkt
 void Xfire_game::remoteMenuitem()
 {
-	if(menuhandle!=NULL)
+	if (menuhandle!=NULL)
 	{
 		CallService(MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )menuhandle, 0 );
 		menuhandle=NULL;
@@ -468,6 +468,6 @@ void Xfire_game::remoteMenuitem()
 //aktualisiert menüpunkt ob hidden
 void Xfire_game::refreshMenuitem()
 {
-	if(menuhandle != NULL)
+	if (menuhandle != NULL)
 		Menu_ShowItem(menuhandle, !this->notinstartmenu);
 }

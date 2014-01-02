@@ -70,14 +70,14 @@ namespace xfirelib {
   BuddyListEntry *BuddyList::getBuddyById(long userid) {
     for(uint i = 0 ; i < entries->size() ; i++) {
       BuddyListEntry *entry = entries->at(i);
-      if(entry->userid == userid)
+      if (entry->userid == userid)
 	return entry;
     }
 
 	//clan entries durchsuchen - dufte
 	for(uint i = 0 ; i < entriesClan->size() ; i++) {
       BuddyListEntry *entry = entriesClan->at(i);
-      if(entry->userid == userid)
+      if (entry->userid == userid)
 	return entry;
     }
 
@@ -87,14 +87,14 @@ namespace xfirelib {
   BuddyListEntry *BuddyList::getBuddyByName(string username) {
     for(uint i = 0 ; i < entries->size() ; i++) {
       BuddyListEntry *entry = entries->at(i);
-      if(entry->username == username)
+      if (entry->username == username)
 	return entry;
     }
 
 	//clan entries durchsuchen - dufte
     for(uint i = 0 ; i < entriesClan->size() ; i++) {
       BuddyListEntry *entry = entriesClan->at(i);
-      if(entry->username == username)
+      if (entry->username == username)
 	return entry;
     }
 
@@ -105,7 +105,7 @@ namespace xfirelib {
     for(uint i = 0 ; i < entries->size() ; i++) {
       BuddyListEntry *entry = entries->at(i);
 
-      if(memcmp((void *)sid,(void *)entry->sid,16) == 0) 
+      if (memcmp((void *)sid,(void *)entry->sid,16) == 0) 
 		return entry;
 
     }
@@ -114,7 +114,7 @@ namespace xfirelib {
     for(uint i = 0 ; i < entriesClan->size() ; i++) {
       BuddyListEntry *entry = entriesClan->at(i);
 
-      if(memcmp((void *)sid,(void *)entry->sid,16) == 0)
+      if (memcmp((void *)sid,(void *)entry->sid,16) == 0)
 	return entry;
 
     }
@@ -149,7 +149,7 @@ namespace xfirelib {
 	  mir_snprintf(temp,255,"Clan_%d",entry->clanid);
 
 	  DBVARIANT dbv;
-	  if(!db_get(NULL,protocolname,temp,&dbv))
+	  if (!db_get(NULL,protocolname,temp,&dbv))
 	  {
 	  	dummy=dbv.pszVal;
 	  }
@@ -166,7 +166,7 @@ namespace xfirelib {
   {
     for(uint i = 0 ; i < friends->sids->size() ; i++) {
       BuddyListEntry *entry = getBuddyBySid( friends->sids->at(i) );
-        if(entry){
+        if (entry){
 			XDEBUG2("Friends of Friend %s!\n",friends->usernames->at(i).c_str());
 			 entry->nick=friends->nicks->at(i);
 			 entry->username=friends->usernames->at(i);
@@ -180,7 +180,7 @@ namespace xfirelib {
   void BuddyList::updateOnlineBuddies(BuddyListOnlinePacket* buddiesOnline) {
     for(uint i = 0 ; i < buddiesOnline->userids->size() ; i++) {
       BuddyListEntry *entry = getBuddyById( buddiesOnline->userids->at(i) );
-        if(entry){
+        if (entry){
          entry->setSid( buddiesOnline->sids->at(i) );
 		 //buddies in miranda verarbeiten
 		 handlingBuddys(entry,0,NULL);
@@ -194,7 +194,7 @@ namespace xfirelib {
     bool isFirst = buddiesGames->getPacketId() == XFIRE_BUDDYS_GAMES_ID;
     for(uint i = 0 ; i < buddiesGames->sids->size() ; i++) {
       BuddyListEntry *entry = getBuddyBySid( buddiesGames->sids->at(i) );
-	  if(!entry) {
+	  if (!entry) {
 		  //nicht zuordbare sids zuordnen
 		  XERROR("Add dummy Contact in buddylist for friends of friends!\n");
 		  BuddyListEntry *newentry = new BuddyListEntry;
@@ -206,8 +206,8 @@ namespace xfirelib {
 		  //nochmal entry suchen
 		  entry = newentry; //getBuddyBySid( buddiesGames->sids->at(i) );
 	  }
-      if(entry){
-	if(isFirst) {
+      if (entry){
+	if (isFirst) {
 	  entry->game = buddiesGames->gameids->at(i);
 	  delete entry->gameObj; entry->gameObj = NULL;
 	} else {
@@ -216,9 +216,9 @@ namespace xfirelib {
 	}
 	XDEBUG(( "Resolving Game... \n" ));
 	XFireGameResolver *resolver = client->getGameResolver();
-	if(resolver) {
+	if (resolver) {
 	  XDEBUG(( "Resolving Game... \n" ));
-	  if(isFirst)
+	  if (isFirst)
 	    entry->gameObj = resolver->resolveGame( entry->game, i, buddiesGames );
 	  else
 	    entry->game2Obj = resolver->resolveGame( entry->game2, i, buddiesGames );
@@ -240,7 +240,7 @@ namespace xfirelib {
 
   void BuddyList::receivedPacket(XFirePacket *packet) {
     XFirePacketContent *content = packet->getContent();
-    if(content == 0) return;
+    if (content == 0) return;
     XDEBUG2( "hmm... %d\n", content->getPacketId() );
     switch(content->getPacketId()) {
     case XFIRE_BUDDYS_NAMES_ID: {
@@ -259,7 +259,7 @@ namespace xfirelib {
       XINFO(( "Received new nick of a buddy..\n" ));
       BuddyListEntry* entry=NULL;
 	  entry=this->getBuddyById(recvchangednick->userid);
-	  if(entry) {
+	  if (entry) {
 		  entry->nick=recvchangednick->newnick;
 		  recvchangednick->entry=(void*)entry;
 		  handlingBuddys(entry,0,NULL);
@@ -287,7 +287,7 @@ namespace xfirelib {
       XDEBUG2( "Buddy was removed from contact list (userid: %ld)\n", p->userid );
       std::vector<BuddyListEntry *>::iterator i = entries->begin();
       while( i != entries->end() ) {
-	if((*i)->userid == p->userid) {
+	if ((*i)->userid == p->userid) {
 	  BuddyListEntry *buddy = *i;
 	  XINFO(( "%s (%s) was removed from BuddyList.\n", buddy->username.c_str(), buddy->nick.c_str() ));
 	  p->username = buddy->username;
@@ -309,7 +309,7 @@ namespace xfirelib {
         BuddyListEntry *entry = getBuddyBySid( status->sids->at(i) );
 		//status->entries[i]=entry;
 
-        if(entry == NULL) {
+        if (entry == NULL) {
             XERROR(( "No such Entry - Got StatusMessage from someone who is not in the buddylist ??\n" ));
             return;
         }
@@ -327,7 +327,7 @@ namespace xfirelib {
   }
 
   BuddyListEntry::~BuddyListEntry() {
-	  if(lastpopup) {
+	  if (lastpopup) {
 		  delete[] lastpopup;
 		  lastpopup=NULL;
 	  }
@@ -346,20 +346,20 @@ namespace xfirelib {
   }
   bool BuddyListEntry::isOnline() {
     for(int i = 0 ; i < 16 ; i++) {
-      if(sid[i]) return true;
+      if (sid[i]) return true;
     }
     return false;
   }
   void BuddyListEntry::setSid(const char *sid) {
     int s=0;
 	for(int i = 0 ; i < 16 ; i++) { //wenn buddy offline geht, seine gameinfos zurücksetzen - dufte
-      if(sid[i])
+      if (sid[i])
 	  {
 		  s=1;
 		  break;
 	  }
     }
-	if(s)
+	if (s)
 	{
 		this->statusmsg = std::string();
 		this->game = 0;

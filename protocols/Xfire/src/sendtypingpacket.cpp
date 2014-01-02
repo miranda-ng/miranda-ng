@@ -44,7 +44,7 @@ std::map<std::string,int> SendTypingPacket::imindexes;
 
 void SendTypingPacket::init(Client *client, string username) {
 BuddyListEntry *entry = client->getBuddyList()->getBuddyByName(username);
-if(entry) {
+if (entry) {
 setSid(entry->sid);
 }
 initIMIndex();
@@ -52,7 +52,7 @@ initIMIndex();
 
 void SendTypingPacket::initIMIndex() {
 string str_sid(sid);
-if( imindexes.count( str_sid ) < 1 )
+if ( imindexes.count( str_sid ) < 1 )
 imindex = imindexes[str_sid] = 1;
 else
 imindex = ++imindexes[str_sid];
@@ -63,7 +63,7 @@ memcpy(this->sid,sid,16);
 }
 
 int SendTypingPacket::getPacketContent(char *buf) {
-if( imindex == 0 ) initIMIndex();
+if ( imindex == 0 ) initIMIndex();
 
 int index = 0;
 VariableValue val;

@@ -153,7 +153,6 @@ HANDLE CList_FindContact (int uid);
 void CList_MakeAllOffline();
 static INT_PTR UserIsTyping(WPARAM wParam, LPARAM lParam);
 HANDLE LoadGameIcon(char* g, int id, HICON* ico,BOOL onyico=FALSE,char * gamename=NULL,int*uu=NULL);
-void SetIcon(HANDLE hcontact,HANDLE hicon,int ctype=1);
 BOOL GetAvatar(char* username,XFireAvatar* av);
 //void SetAvatar(HANDLE hContact, char* username);
 static void SetAvatar(LPVOID lparam);
@@ -201,7 +200,6 @@ INT_PTR StartThisGame(WPARAM wParam,LPARAM lParam);
 int IconLibChanged(WPARAM wParam, LPARAM lParam);
 void SetAvatar2(LPVOID lparam);
 int ExtraListRebuild(WPARAM wparam, LPARAM lparam);
-int ExtraImageApply(WPARAM wparam, LPARAM lparam);
 
 //XFire Stuff
 using namespace xfirelib;
@@ -246,14 +244,14 @@ XFireClient* myClient=NULL;
 
 void XFireClient::CheckAvatar(BuddyListEntry* entry) {
 	//kein entry, zurück
-	if(!entry)
+	if (!entry)
 		return;
 
 	//keine avatars?
-	if(db_get_b(NULL,protocolname,"noavatars",-1)==0)
+	if (db_get_b(NULL,protocolname,"noavatars",-1)==0)
 	{
 		//avatar gelocked?
-		if(db_get_b(entry->hcontact, "ContactPhoto", "Locked", -1)!=1)
+		if (db_get_b(entry->hcontact, "ContactPhoto", "Locked", -1)!=1)
 		{
 			//avatar lade auftrag übergeben
 			this->avatarloader->loadAvatar(entry->hcontact,(char*)entry->username.c_str(),entry->userid);
@@ -265,7 +263,7 @@ void XFireClient::handlingBuddy(HANDLE handle){
 	vector<BuddyListEntry*> *entries = client->getBuddyList()->getEntries();
 	for(uint i = 0 ; i < entries->size() ; i ++) {
 		BuddyListEntry *entry = entries->at(i);
-		if(entry->hcontact==handle)
+		if (entry->hcontact==handle)
 		{
 			handlingBuddys(entry,0,NULL);
 			break;
@@ -275,7 +273,7 @@ void XFireClient::handlingBuddy(HANDLE handle){
 }
 
 void XFireClient::setNick(char*nnick) {
-	/*if(strlen(nnick)==0)
+	/*if (strlen(nnick)==0)
 		return;*/
 	SendNickChangePacket nick;
 	nick.nick = nnick;
@@ -285,7 +283,7 @@ void XFireClient::setNick(char*nnick) {
 
 void XFireClient::sendmsg(char*usr,char*cmsg) {
 		SendMessagePacket msg;
-	//	if(strlen(cmsg)>255)
+	//	if (strlen(cmsg)>255)
 	//		*(cmsg+255)=0;
 		msg.init(client, usr, cmsg);
 		client->send( &msg );
@@ -309,15 +307,15 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
   }
 
   XFireClient::~XFireClient() {
-	if(client!=NULL) {
+	if (client!=NULL) {
 		client->disconnect();
 		delete client;
 	}
-	if(avatarloader) {
+	if (avatarloader) {
 		delete avatarloader;
 		avatarloader=NULL;
 	}
-    if(lastInviteRequest!=NULL) delete lastInviteRequest;
+    if (lastInviteRequest!=NULL) delete lastInviteRequest;
   }
 
   void XFireClient::run() {
@@ -327,7 +325,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 
   void XFireClient::Status(string s) {
 	  //da bei xfire statusmsg nur 100bytes länge unterstützt werden, wird gecutted
-	  if(!client->gotBudduyList)
+	  if (!client->gotBudduyList)
 		  return;
 
 	  s = s.substr(0, 100);
@@ -347,7 +345,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 		  /*case XFIRE_RECVBUDDYCHANGEDNICK:
 		  {
 			  RecvBuddyChangedNick *changednick = (RecvBuddyChangedNick*)content;
-			  if(changednick) {
+			  if (changednick) {
 				handlingBuddys((BuddyListEntry*)changednick->entry,0,NULL);
 			  }
 			  break;
@@ -359,7 +357,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 			  memset(&xfireconfig,0,sizeof(xfire_prefitem)*XFIRE_RECVPREFSPACKET_MAXCONFIGS);
 			  RecvPrefsPacket *config = (RecvPrefsPacket*)content;
 			  //konfigs in array speichern
-			  if(config!=NULL)
+			  if (config!=NULL)
 			  {
 				  //ins preferenes array sichern
 				  for(int i=0;i<XFIRE_RECVPREFSPACKET_MAXCONFIGS;i++)
@@ -370,7 +368,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 				  for(int i=0;i<XFIRE_RECVPREFSPACKET_SUPPORTEDONFIGS;i++)
 				  {
 					  char temp=1;
-					  if(xfireconfig[xfireconfigitems[i].xfireconfigid].wasset==1)
+					  if (xfireconfig[xfireconfigitems[i].xfireconfigid].wasset==1)
 					  {
 						  temp=0;
 					  }
@@ -388,11 +386,11 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 
 			  XFireFoundBuddys *fb = (XFireFoundBuddys*)content;
 			  for(uint i = 0 ; i < fb->usernames->size() ; i++) {
-				  if((char*)fb->usernames->at(i).c_str()!=NULL)
+				  if ((char*)fb->usernames->at(i).c_str()!=NULL)
 					psr.nick = _A2T((char*)fb->usernames->at(i).c_str());
-				  if((char*)fb->fname->at(i).c_str()!=NULL)
+				  if ((char*)fb->fname->at(i).c_str()!=NULL)
 					  psr.firstName = _A2T((char*)fb->fname->at(i).c_str());
-				  if((char*)fb->lname->at(i).c_str()!=NULL)
+				  if ((char*)fb->lname->at(i).c_str()!=NULL)
 					  psr.lastName = _A2T((char*)fb->lname->at(i).c_str());
 				  ProtoBroadcastAck(protocolname, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
 			  }
@@ -406,11 +404,11 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 			  BuddyListEntry *entry = client->getBuddyList()->getBuddyById( buddyinfo->userid );
 
 			  //wenn die uid die gleiche wie die eigene ist, dann avatar auch selbst zuweisen
-			  if(buddyinfo->userid==this->myuid) {
+			  if (buddyinfo->userid==this->myuid) {
 				  ProcessBuddyInfo(buddyinfo,NULL,"myxfireavatar");
 			  }
 
-			  if(entry)
+			  if (entry)
 				ProcessBuddyInfo(buddyinfo,entry->hcontact,(char*)entry->username.c_str());
 
 			  break;
@@ -434,7 +432,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 			  GameInfoPacket *gameinfo = (GameInfoPacket*)content;
 			  for(uint i = 0 ; i < gameinfo->sids->size() ; i++) {
 				  BuddyListEntry *entry = client->getBuddyList()->getBuddyBySid( gameinfo->sids->at(i) );
-				  if(entry){
+				  if (entry){
 					entry->gameinfo = gameinfo->gameinfo->at(i);
 					handlingBuddys(entry,0,NULL);
 				  }
@@ -451,11 +449,11 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 		  {
 				//status nachricht nach der buddylist senden
 			    client->gotBudduyList=TRUE;
-				if(sendonrecieve)
+				if (sendonrecieve)
 				{
-					if(myClient!=NULL)
+					if (myClient!=NULL)
 					{
-						if(myClient->client->connected)
+						if (myClient->client->connected)
 						{
 							//
 							if (bpStatus == ID_STATUS_AWAY)
@@ -487,7 +485,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 				mir_snprintf(temp, SIZEOF(temp), "Clan_%d", clan->clanid);
 
 				DBVARIANT dbv;
-				if(!db_get(NULL,protocolname,temp,&dbv))
+				if (!db_get(NULL,protocolname,temp,&dbv))
 				{
 					dummy=dbv.pszVal;
 				}
@@ -496,7 +494,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 
 				for(uint i = 0 ; i < entries->size() ; i ++) {
 					BuddyListEntry *entry = entries->at(i);
-					if(entry->clanid==clan->clanid) {
+					if (entry->clanid==clan->clanid) {
 						handlingBuddys(entry,clan->clanid,dummy);
 					}
 				}
@@ -506,18 +504,18 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 		  {
 				for(uint i = 0 ; i < ((FriendsBuddyListNamesPacket*)content)->userids->size() ; i++) {
 					BuddyListEntry *entry = client->getBuddyList()->getBuddyById( ((FriendsBuddyListNamesPacket*)content)->userids->at(i) );
-					if(entry) {
+					if (entry) {
 						char fofname[128]=LPGEN("Friends of Friends Playing");
 						DBVARIANT dbv;
 						//gruppennamen überladen
-						if(!db_get(NULL,protocolname,"overload_fofgroupname",&dbv))
+						if (!db_get(NULL,protocolname,"overload_fofgroupname",&dbv))
 						{
 							strcpy_s(fofname,128,dbv.pszVal);
 							db_free(&dbv);
 						}
 						CreateGroup(Translate(fofname),"fofgroup");
 						HANDLE hc=handlingBuddys(entry,-1,Translate(fofname));
-						if(hc)
+						if (hc)
 						{
 							CheckAvatar(entry);
 							db_set_b(hc,protocolname,"friendoffriend",1);
@@ -530,7 +528,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 		  {
 			    for(uint i = 0 ; i < ((BuddyListOnlinePacket*)content)->userids->size() ; i++) {
 					BuddyListEntry *entry = client->getBuddyList()->getBuddyById( ((BuddyListOnlinePacket*)content)->userids->at(i) );
-					if(entry){
+					if (entry){
 						handlingBuddys(entry,0,NULL);
 					}
 				}
@@ -541,7 +539,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 			  for(uint i=0;i<((RecvStatusMessagePacket*)content)->sids->size();i++)
 			  {
 				  BuddyListEntry *entry = this->client->getBuddyList()->getBuddyBySid( ((RecvStatusMessagePacket*)content)->sids->at(i) );
-				  if(entry) //crashbug entfernt
+				  if (entry) //crashbug entfernt
 					setBuddyStatusMsg(entry); //auf eine funktion reduziert, verringert cpuauslastung und beseitigt das
 															 //das problem der fehlenden statusmsg
 				  //handlingBuddys(entry,0,NULL);
@@ -554,13 +552,13 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 			  for(uint i=0;i<((BuddyListGamesPacket*)content)->sids->size();i++)
 			  {
 				  BuddyListEntry *entry = this->client->getBuddyList()->getBuddyBySid( ((BuddyListGamesPacket*)content)->sids->at(i) );
-				  if(entry!=NULL)
+				  if (entry!=NULL)
 				  {
 					  //wir haben einen unbekannten user
-					  if(entry->username.length()==0)
+					  if (entry->username.length()==0)
 					  {
 						  //sid array ist noch nicht init
-						  if(sids==NULL)
+						  if (sids==NULL)
 						  {
 							  sids = new vector<char *>;
 						  }
@@ -572,7 +570,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 					  }
 					  else
 					  {
-						  if(entry->game == 0 && entry->hcontact != 0 && db_get_b(entry->hcontact,protocolname,"friendoffriend",0)==1)
+						  if (entry->game == 0 && entry->hcontact != 0 && db_get_b(entry->hcontact,protocolname,"friendoffriend",0)==1)
 							  db_set_w(entry->hcontact,protocolname,"Status",ID_STATUS_OFFLINE);
 						  else
 							  handlingBuddys(entry,0,NULL);
@@ -580,7 +578,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 				  }
 			  }
 			  //sid anfragen nur senden, wenn das sids array init wurde
-			  if(sids)
+			  if (sids)
 			  {
 				  SendSidPacket sp;
 				  sp.sids=sids;
@@ -594,7 +592,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 			  for(uint i=0;i<((BuddyListGames2Packet*)content)->sids->size();i++)
 			  {
 				  BuddyListEntry *entry = this->client->getBuddyList()->getBuddyBySid( ((BuddyListGames2Packet*)content)->sids->at(i) );
-				  if(entry!=NULL) handlingBuddys(entry,0,NULL);
+				  if (entry!=NULL) handlingBuddys(entry,0,NULL);
 			  }
 			  break;
 		  }
@@ -603,7 +601,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 			  InviteRequestPacket *invite = (InviteRequestPacket*)content;
 
 			  //nur nich blockierte buddy's durchlassen
-			  if(!db_get_b(NULL,"XFireBlock",(char*)invite->name.c_str(),0))
+			  if (!db_get_b(NULL,"XFireBlock",(char*)invite->name.c_str(),0))
 			  {
 				  XFireContact xfire_newc;
 				  xfire_newc.username=(char*)invite->name.c_str();
@@ -612,7 +610,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 
 				  HANDLE handle=CList_AddContact(xfire_newc,TRUE,TRUE,0);
 
-				  if(handle) {  // invite nachricht mitsenden
+				  if (handle) {  // invite nachricht mitsenden
 	    			  string str = (char*)invite->msg.c_str();
 
 					  PROTORECVEVENT pre;
@@ -620,7 +618,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 					  pre.timestamp = time(NULL);
 					  pre.szMessage = (char*)mir_utf8decode((char*)str.c_str(),NULL);
 					  //invite nachricht konnte nicht zugewiesen werden?!?!?!
-					  if(!pre.szMessage)
+					  if (!pre.szMessage)
 							pre.szMessage=(char*)str.c_str();
 					  pre.lParam = 0;
 					  ProtoChainRecvMsg(handle, &pre);
@@ -647,7 +645,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 				mir_snprintf(temp, SIZEOF(temp), "ClanUrl_%d", clan->clanid[i]);
 				db_set_s(NULL, protocolname, temp, (char*)clan->url[i].c_str());
 
-				if(!db_get_b(NULL,protocolname,"noclangroups",0)) {
+				if (!db_get_b(NULL,protocolname,"noclangroups",0)) {
 					CreateGroup((char*)clan->name[i].c_str(),"mainclangroup");
 				}
 			}
@@ -678,11 +676,11 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 			RecvOldVersionPacket *version = (RecvOldVersionPacket*)content;
 			char temp[255];
 
-			if((unsigned int)client->protocolVersion<(unsigned int)version->newversion)
+			if ((unsigned int)client->protocolVersion<(unsigned int)version->newversion)
 			{
 				db_set_b(NULL,protocolname,"protover",version->newversion);
 				//recprotoverchg
-				if(db_get_w(NULL,protocolname,"recprotoverchg",0)==0)
+				if (db_get_w(NULL,protocolname,"recprotoverchg",0)==0)
 				{
 					mir_snprintf(temp, SIZEOF(temp), Translate("The protocol version is too old. Changed current version from %d to %d. You can reconnect now."),client->protocolVersion,version->newversion);
 					MSGBOXE(temp);
@@ -711,9 +709,9 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 		case XFIRE_MESSAGE_ID: {
 			string str;
 
-			if( (( MessagePacket*)content)->getMessageType() == 0){
+			if ( (( MessagePacket*)content)->getMessageType() == 0){
 				BuddyListEntry *entry = client->getBuddyList()->getBuddyBySid( ((MessagePacket*)content)->getSid() );
-				if(entry!=NULL)
+				if (entry!=NULL)
 				{
 					str=((MessagePacket*)content)->getMessage();
 
@@ -726,9 +724,9 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 					ProtoChainRecvMsg(entry->hcontact, &pre);
 				}
 			}
-			else if( (( MessagePacket*)content)->getMessageType() == 3) {
+			else if ( (( MessagePacket*)content)->getMessageType() == 3) {
 				BuddyListEntry *entry = client->getBuddyList()->getBuddyBySid( ((MessagePacket*)content)->getSid() );
-				if(entry!=NULL)
+				if (entry!=NULL)
 					CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)entry->hcontact,5);
 			}
 
@@ -736,7 +734,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 		}
 
 	    //refresh buddy's
-	  /*  if(content->getPacketId()==XFIRE_RECV_STATUSMESSAGE_PACKET_ID||
+	  /*  if (content->getPacketId()==XFIRE_RECV_STATUSMESSAGE_PACKET_ID||
 			content->getPacketId()==XFIRE_BUDDYS_GAMES_ID||
 			content->getPacketId()==XFIRE_BUDDYS_GAMES2_ID)
         CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)-1, (LPARAM)FU_TBREDRAW | FU_FMREDRAW);*/
@@ -759,7 +757,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int  Unload(void)
 {
 	//urlprefix raushaun
-	if(ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
+	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
 		CallService(MS_ASSOCMGR_REMOVEURLTYPE, 0, (LPARAM)"xfire:");
 
 	//gamedetetion das dead signal geben
@@ -807,9 +805,9 @@ void StartIniUpdateAndDetection(LPVOID dummy)
 	EnterCriticalSection(&connectingMutex);
 
 	//ini/ico updater, nur wenn aktiv
-	if(db_get_b(NULL,protocolname,"autoiniupdate",0))
+	if (db_get_b(NULL,protocolname,"autoiniupdate",0))
 		UpdateMyXFireIni(NULL);
-	if(db_get_b(NULL,protocolname,"autoicodllupdate",0))
+	if (db_get_b(NULL,protocolname,"autoicodllupdate",0))
 		UpdateMyIcons(NULL);
 
 #ifndef NO_PTHREAD
@@ -824,46 +822,46 @@ void StartIniUpdateAndDetection(LPVOID dummy)
 
 INT_PTR UrlCall(WPARAM wparam,LPARAM lparam) {
 	//lparam!=0?
-	if(lparam) {
+	if (lparam) {
 		//nach dem doppelpunkt suchen
 		char*type=strchr((char*)lparam,':');
 		//gefunden, dann anch fragezeichen suchen
-		if(type)
+		if (type)
 		{
 			type++;
 			char*q=strchr(type,'?');
 			//gefunden? dann urltype ausschneiden
-			if(q)
+			if (q)
 			{
 				//abschneiden
 				*q=0;
 				//ein addfriend url request?
-				if(strcmp("add_friend",type)==0)
+				if (strcmp("add_friend",type)==0)
 				{
 					q++;
 					//nach = suchen
 					char*g=strchr(q,'=');
 					//gefunden? dann abschneiden
-					if(g)
+					if (g)
 					{
 						*g=0;
 						g++;
 						//user parameter?
-						if(strcmp("user",q)==0)
+						if (strcmp("user",q)==0)
 						{
 							//tempbuffer für die frage and en user
 							char temp[100];
 
-							if(strlen(g)>25) //zugroße abschneiden
+							if (strlen(g)>25) //zugroße abschneiden
 								*(g+25)=0;
 
 							mir_snprintf(temp, SIZEOF(temp), Translate("Do you really want to add %s to your friend list?"),g);
 							//Nutzer vorher fragen, ob er wirklich user xyz adden möchte
-							if(MessageBoxA(NULL,temp,"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
+							if (MessageBoxA(NULL,temp,"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
 							{
-								if(myClient!=NULL)
+								if (myClient!=NULL)
 								{
-									if(myClient->client->connected)
+									if (myClient->client->connected)
 									{
 										InviteBuddyPacket invite;
 										invite.addInviteName(g, Translate("Add me to your friends list."));
@@ -955,7 +953,7 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	}
 
 	//File Association Manager support
-	if(ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
+	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
 	{
 		AssocMgr_AddNewUrlType("xfire:",Translate("Xfire Link Protocol"),hinstance,IDI_TM,XFIRE_URLCALL,0);
 	}
@@ -964,15 +962,8 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	SkinAddNewSoundEx("xfirebstartgame",protocolname,LPGEN("Buddy start a game"));
 
 	//hook für mbot einfügen, nur wenn mbot option aktiv
-	if(db_get_b(NULL,protocolname,"mbotsupport",0))
+	if (db_get_b(NULL,protocolname,"mbotsupport",0))
 		HookEvent(XFIRE_INGAMESTATUSHOOK, mBotNotify);
-
-	//init der extraicons wenn service vorhanden
-	/*if(ServiceExists(MS_EXTRAICON_REGISTER))
-	{
-		extraiconGAME=ExtraIcon_Register("Game Icon","Xfire game icons.","XFIRE_main",RebuildIcons,ApplyIcons);
-		extraiconGAME=ExtraIcon_Register("Voice Icon","Xfire voice icons.","XFIRE_main");
-	}*/
 
 	//initialisiere teamspeak und co detection
 	voicechat.initVoicechat();
@@ -1006,23 +997,27 @@ int ExtraListRebuild(WPARAM wparam, LPARAM lparam)
 	return xgamelist.iconmngr.resetIconHandles();
 }
 
-int ExtraImageApply(WPARAM wparam, LPARAM lparam)
+int ExtraImageApply1(WPARAM wparam, LPARAM lparam)
+{
+	HANDLE hContact = (HANDLE)wparam;
+	char *szProto = GetContactProto(hContact);
+	if (szProto != NULL && !lstrcmpiA(szProto, protocolname) && db_get_w(hContact, protocolname, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+		int gameid = db_get_w(hContact, protocolname, "GameId", 0);
+		if (gameid != 0)
+			ExtraIcon_SetIcon(hExtraIcon1, hContact, xgamelist.iconmngr.getGameIconHandle(gameid));
+	}
+	return 0;
+}
+
+int ExtraImageApply2(WPARAM wparam, LPARAM lparam)
 {
 	HANDLE hContact=(HANDLE)wparam;
 	// TODO: maybe need to fix extra icons
 	char *szProto = GetContactProto(hContact);
 	if ( szProto != NULL && !lstrcmpiA( szProto, protocolname ) && db_get_w(hContact, protocolname, "Status", ID_STATUS_OFFLINE)!=ID_STATUS_OFFLINE) {
-		int gameid=db_get_w(hContact, protocolname, "GameId", 0);
-		int gameid2=db_get_w(hContact, protocolname, "VoiceId", 0);
-
-		if(gameid!=0)
-		{
-			SetIcon(hContact,xgamelist.iconmngr.getGameIconHandle(gameid));
-		}
-		if(gameid2!=0)
-		{
-			SetIcon(hContact,xgamelist.iconmngr.getGameIconHandle(gameid2),2);
-		}
+		int gameid = db_get_w(hContact, protocolname, "VoiceId", 0);
+		if (gameid != 0)
+			ExtraIcon_SetIcon(hExtraIcon2, hContact, xgamelist.iconmngr.getGameIconHandle(gameid));
 	}
 	return 0;
 }
@@ -1040,7 +1035,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
 	//keine protoversion in der db, dann wohl der erste start von xfire
-	if(db_get_b(NULL,protocolname,"protover",0)==0)
+	if (db_get_b(NULL,protocolname,"protover",0)==0)
 	{
 		db_set_b(NULL,protocolname,"protover",0x84);
 		db_set_w(NULL,protocolname,"avatarloadlatency",1000);
@@ -1050,7 +1045,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 		db_set_b(NULL,protocolname,"xfiresitegameico",1);
 		db_set_b(NULL,protocolname,"recprotoverchg",1);
 
-		if(MessageBoxA(NULL,Translate("It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer."),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
+		if (MessageBoxA(NULL,Translate("It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer."),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
 			db_set_b(NULL,protocolname,"autoiniupdate",1);
 			db_set_b(NULL,protocolname,"autoicodllupdate",1);
@@ -1087,7 +1082,6 @@ extern "C" __declspec(dllexport) int  Load(void)
 	CreateProtoServiceFunction(protocolname, PS_GETAVATARINFO, GetAvatarInfo);
 	CreateProtoServiceFunction(protocolname, PS_GETMYAVATAR, GetMyAvatar);
 
-	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, ExtraImageApply);
 	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, ExtraListRebuild);
 
 	//erstell eine hook für andere plugins damit diese nachprüfen können, ab wann jemand ingame ist oer nicht
@@ -1272,7 +1266,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	HookEvent( ME_CLIST_PREBUILDCONTACTMENU, RebuildContactMenu );
 
-	if(db_get_b(NULL,protocolname,"ipportdetec",0))
+	if (db_get_b(NULL,protocolname,"ipportdetec",0))
 	{
 		//MessageBoxA(0,"GetExtendedUdpTable not found. ServerIP/Port detection feature will be disabled.","Miranda XFire Protocol Plugin",MB_OK|MB_ICONINFORMATION);
 		db_set_b(NULL,protocolname,"ipportdetec",0);
@@ -1281,21 +1275,21 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	Icon_Register(hinstance, LPGEN("Protocols/XFire"), &icon, 1);
 
-	hExtraIcon1 = ExtraIcon_Register("xfire_game", LPGEN("XFire game icon"), "", ExtraListRebuild, ExtraImageApply);
-	hExtraIcon2 = ExtraIcon_Register("xfire_voice", LPGEN("XFire voice icon"), "", ExtraListRebuild, ExtraImageApply);
+	hExtraIcon1 = ExtraIcon_Register("xfire_game", LPGEN("XFire game icon"), "", NULL, ExtraImageApply1);
+	hExtraIcon2 = ExtraIcon_Register("xfire_voice", LPGEN("XFire voice icon"), "", NULL, ExtraImageApply2);
 	return 0;
 }
 
 //funktion liefert für xstatusid den passenden ico zurück, für tipper zb notwendig
 INT_PTR GetXStatusIcon(WPARAM wParam, LPARAM lParam) {
-	if(lParam == LR_SHARED)
+	if (lParam == LR_SHARED)
 	{
-		if(wParam>1)
+		if (wParam>1)
 			return (int)xgamelist.iconmngr.getGameIconFromId(wParam-2); //icocache[(int)wParam-2].hicon;
 	}
 	else
 	{
-		if(wParam>1)
+		if (wParam>1)
 			return (int)CopyIcon((HICON)xgamelist.iconmngr.getGameIconFromId(wParam-2)/*icocache[(int)wParam-2].hicon*/);
 	}
 
@@ -1316,7 +1310,7 @@ INT_PTR RecvMessage(WPARAM wParam, LPARAM lParam)
 
 static void SetMeAFK( LPVOID param )
 {
-	if(bpStatus==ID_STATUS_ONLINE)
+	if (bpStatus==ID_STATUS_ONLINE)
 	{
 		SetStatus(ID_STATUS_AWAY,(LPARAM)param);
 	}
@@ -1325,7 +1319,7 @@ static void SetMeAFK( LPVOID param )
 static void SetStatusLate( LPVOID param )
 {
 	Sleep(1000);
-	if(bpStatus==ID_STATUS_OFFLINE)
+	if (bpStatus==ID_STATUS_OFFLINE)
 	{
 		SetStatus((WPARAM)param,0);
 	}
@@ -1346,13 +1340,13 @@ static INT_PTR UserIsTyping(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = ( HANDLE )wParam;
     DBVARIANT dbv;
 
-	if(lParam==PROTOTYPE_SELFTYPING_ON)
+	if (lParam==PROTOTYPE_SELFTYPING_ON)
 	{
-		if(db_get_b(NULL,protocolname,"sendtyping",1)==1)
+		if (db_get_b(NULL,protocolname,"sendtyping",1)==1)
 		{
-			if(myClient!=NULL)
-				if(myClient->client->connected)
-					if(!db_get_s(hContact, protocolname, "Username",&dbv))
+			if (myClient!=NULL)
+				if (myClient->client->connected)
+					if (!db_get_s(hContact, protocolname, "Username",&dbv))
 					{
 						SendTypingPacket typing;
 						typing.init(myClient->client, dbv.pszVal);
@@ -1361,7 +1355,7 @@ static INT_PTR UserIsTyping(WPARAM wParam, LPARAM lParam)
 					}
 		}
 	}
-	else if(lParam==PROTOTYPE_SELFTYPING_OFF)
+	else if (lParam==PROTOTYPE_SELFTYPING_OFF)
 	{
 	}
 
@@ -1377,8 +1371,8 @@ INT_PTR SendMessage(WPARAM wParam, LPARAM lParam)
 	int sended=0;
 
 	db_get_s(ccs->hContact, protocolname, "Username",&dbv);
-	if(myClient!=NULL)
-		if(myClient->client->connected&&db_get_w(ccs->hContact, protocolname, "Status", -1)!=ID_STATUS_OFFLINE)
+	if (myClient!=NULL)
+		if (myClient->client->connected&&db_get_w(ccs->hContact, protocolname, "Status", -1)!=ID_STATUS_OFFLINE)
 		{
 			myClient->sendmsg(dbv.pszVal, ( char* )ccs->lParam);
 			mir_forkthread(SendAck,ccs->hContact);
@@ -1399,19 +1393,19 @@ INT_PTR SendMessage(WPARAM wParam, LPARAM lParam)
 
 INT_PTR GetCaps(WPARAM wParam,LPARAM lParam)
 {
-	if(wParam==PFLAGNUM_1)
+	if (wParam==PFLAGNUM_1)
 		return PF1_BASICSEARCH|PF1_MODEMSG|PF1_IM/*|PF1_SERVERCLIST*/;
-	else if(wParam==PFLAGNUM_2)
+	else if (wParam==PFLAGNUM_2)
 		return PF2_ONLINE|PF2_SHORTAWAY; // add the possible statuses here.
-	else if(wParam==PFLAGNUM_3)
+	else if (wParam==PFLAGNUM_3)
 		return PF2_ONLINE|(db_get_b(NULL,protocolname,"nocustomaway",0)==1?0:PF2_SHORTAWAY);
-	else if(wParam==PFLAGNUM_4)
+	else if (wParam==PFLAGNUM_4)
 		return PF4_SUPPORTTYPING|PF4_AVATARS;
-	else if(wParam==PFLAG_UNIQUEIDTEXT)
+	else if (wParam==PFLAG_UNIQUEIDTEXT)
 		return (INT_PTR)Translate("Username");
-	else if(wParam==PFLAG_UNIQUEIDSETTING)
+	else if (wParam==PFLAG_UNIQUEIDSETTING)
 		return (INT_PTR)"Username";
-	else if(wParam==PFLAG_MAXLENOFMESSAGE)
+	else if (wParam==PFLAG_MAXLENOFMESSAGE)
 		return 3996; //255;
 	return 0;
 }
@@ -1430,8 +1424,8 @@ INT_PTR GetName(WPARAM wParam,LPARAM lParam)
 //=======================================================
 INT_PTR TMLoadIcon(WPARAM wParam,LPARAM lParam)
 {
-	if(LOWORD( wParam ) == PLI_PROTOCOL) {
-		if(wParam & PLIF_ICOLIB)
+	if (LOWORD( wParam ) == PLI_PROTOCOL) {
+		if (wParam & PLIF_ICOLIB)
 			return (int)Skin_GetIcon("XFIRE_main");
 		return (int)CopyIcon( Skin_GetIcon("XFIRE_main"));
 	}
@@ -1445,7 +1439,7 @@ static void ConnectingThread(LPVOID params)
 
 	EnterCriticalSection(&connectingMutex);
 
-	if(myClient!=NULL&&myClient->client!=NULL)
+	if (myClient!=NULL&&myClient->client!=NULL)
 		myClient->run();
 	else
 	{
@@ -1453,13 +1447,13 @@ static void ConnectingThread(LPVOID params)
 		return;
 	}
 
-	if(myClient->client->connected)
+	if (myClient->client->connected)
 	{
 		sendonrecieve=TRUE;
 	}
 	else
 	{
-		if(db_get_w(NULL,protocolname,"noconnectfailedbox",0)==0) MSGBOXE(Translate("Unable to connect to XFire."));
+		if (db_get_w(NULL,protocolname,"noconnectfailedbox",0)==0) MSGBOXE(Translate("Unable to connect to XFire."));
 		wParam =ID_STATUS_OFFLINE;
 	}
 
@@ -1481,11 +1475,11 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 
 	oldStatus = bpStatus;
 
-	if(bpStatus==ID_STATUS_CONNECTING)
+	if (bpStatus==ID_STATUS_CONNECTING)
 		return 0;
 
-	if(wParam!=ID_STATUS_ONLINE&&wParam!=ID_STATUS_OFFLINE&&wParam!=ID_STATUS_AWAY&&wParam!=ID_STATUS_RECONNECT)
-		if(db_get_b(NULL,protocolname,"oninsteadafk",0)==0)
+	if (wParam!=ID_STATUS_ONLINE&&wParam!=ID_STATUS_OFFLINE&&wParam!=ID_STATUS_AWAY&&wParam!=ID_STATUS_RECONNECT)
+		if (db_get_b(NULL,protocolname,"oninsteadafk",0)==0)
 			wParam=ID_STATUS_AWAY; //protokoll auf away schalten
 		else
 			wParam=ID_STATUS_ONLINE; //protokoll auf online schalten
@@ -1495,7 +1489,7 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 		(wParam == ID_STATUS_AWAY && bpStatus==ID_STATUS_OFFLINE) // offline --> away
 		)
 	{
-		if(bpStatus == ID_STATUS_AWAY) // away --> online
+		if (bpStatus == ID_STATUS_AWAY) // away --> online
 		{
 			myClient->Status(statusmessage[0]);
 		}
@@ -1505,19 +1499,19 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 			DBVARIANT dbv;
 			DBVARIANT dbv2;
 
-			if(db_get(NULL,protocolname,"login",&dbv))
+			if (db_get(NULL,protocolname,"login",&dbv))
 			{
 				MSGBOXE(Translate("No Login name is set!"));
 				wParam=ID_STATUS_OFFLINE;
 			}
-			else if(db_get(NULL,protocolname,"password",&dbv2))
+			else if (db_get(NULL,protocolname,"password",&dbv2))
 			{
 				MSGBOXE(Translate("No Password is set!"));
 				wParam=ID_STATUS_OFFLINE;
 			}
 			else
 			{
-				if(myClient!=NULL)
+				if (myClient!=NULL)
 					delete myClient;
 
 				myClient = new XFireClient(dbv.pszVal,dbv2.pszVal,db_get_b(NULL,protocolname,"protover",0));
@@ -1542,13 +1536,13 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 	}
 	else if (wParam == ID_STATUS_AWAY && bpStatus!=ID_STATUS_AWAY)
 	{
-		if(bpStatus == ID_STATUS_OFFLINE) // nix
+		if (bpStatus == ID_STATUS_OFFLINE) // nix
 		{
 		}
-		else if(myClient!=NULL&&myClient->client->connected) // online --> afk
+		else if (myClient!=NULL&&myClient->client->connected) // online --> afk
 		{
 			//setze bei aktivem nocustomaway die alte awaystatusmsg zurück, bugfix
-			if(db_get_b(NULL,protocolname,"nocustomaway",0))
+			if (db_get_b(NULL,protocolname,"nocustomaway",0))
 				mir_snprintf(statusmessage[1], SIZEOF(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
 
 			myClient->Status(statusmessage[1]);
@@ -1559,8 +1553,8 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 		SetEvent(hConnectionClose);
 
 		// the status has been changed to offline (maybe run some more code)
-		if(myClient!=NULL)
-			if(myClient->client->connected)
+		if (myClient!=NULL)
+			if (myClient->client->connected)
 				myClient->client->disconnect();
 		CList_MakeAllOffline();
 
@@ -1572,7 +1566,7 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 		db_unset(NULL,protocolname, "VServerIP");
 		db_unset(NULL,protocolname, "ServerIP");
 
-		if(wParam == ID_STATUS_RECONNECT)
+		if (wParam == ID_STATUS_RECONNECT)
 		{
 			mir_forkthread(SetStatusLate,(LPVOID)oldStatus);
 			wParam = ID_STATUS_OFFLINE;
@@ -1623,9 +1617,9 @@ HANDLE CList_AddContact(XFireContact xfc, bool InList, bool SetOnline,int clan)
 			db_set_b(hContact, "CList", "NotOnList", 1);
 		db_unset(hContact, "CList", "Hidden");
 
-		if(strlen(xfc.nick)>0) {
+		if (strlen(xfc.nick)>0) {
 			db_set_utf(hContact, protocolname, "Nick", xfc.nick);
-		} else if(strlen(xfc.username)>0) {
+		} else if (strlen(xfc.username)>0) {
 			db_set_s(hContact, protocolname, "Nick", xfc.username);
 		}
 
@@ -1634,14 +1628,14 @@ HANDLE CList_AddContact(XFireContact xfc, bool InList, bool SetOnline,int clan)
 		//db_set_s(hContact, protocolname, "Screenname", xfc.nick);
 		db_set_dw(hContact, protocolname, "UserId", xfc.id);
 
-		if(clan>0)
+		if (clan>0)
 			db_set_dw(hContact, protocolname, "Clan", clan);
 
 		db_set_w(hContact, protocolname, "Status", SetOnline ? ID_STATUS_ONLINE:ID_STATUS_OFFLINE);
 
-		if(db_get_b(NULL,protocolname,"noavatars",-1)==0)
+		if (db_get_b(NULL,protocolname,"noavatars",-1)==0)
 		{
-			if(!db_get_b(NULL,protocolname,"specialavatarload",0))
+			if (!db_get_b(NULL,protocolname,"specialavatarload",0))
 			{
 				XFire_SetAvatar* xsa=new XFire_SetAvatar;
 				xsa->hContact=hContact;
@@ -1699,7 +1693,7 @@ void CList_MakeAllOffline()
 	for (HANDLE hContact = db_find_first(protocolname); hContact; hContact = db_find_next(hContact, protocolname)) {
 		//freunde von freunden in eine seperate liste setzen
 		//nur wenn das nicht abgestellt wurde
-		if(db_get_b(hContact,protocolname,"friendoffriend",0)==1 && db_get_b(NULL,protocolname,"fofdbremove",0)==1)
+		if (db_get_b(hContact,protocolname,"friendoffriend",0)==1 && db_get_b(NULL,protocolname,"fofdbremove",0)==1)
 			fhandles.push_back(hContact);
 
 		db_unset(hContact, "CList", "StatusMsg");
@@ -1715,7 +1709,7 @@ void CList_MakeAllOffline()
 		db_unset(hContact, protocolname, "XStatusId");
 		db_unset(hContact, protocolname, "XStatusName");
 
-		if(db_get_b(NULL,protocolname,"noavatars",-1)==1)
+		if (db_get_b(NULL,protocolname,"noavatars",-1)==1)
 		{
 			db_unset(hContact, "ContactPhoto", "File");
 			db_unset(hContact, "ContactPhoto", "RFile");
@@ -1729,10 +1723,10 @@ void CList_MakeAllOffline()
 		{
 			//prüf ob der avatar noch existiert
 			DBVARIANT dbv;
-			if(!db_get_s(hContact, "ContactPhoto", "File",&dbv))
+			if (!db_get_s(hContact, "ContactPhoto", "File",&dbv))
 			{
 				FILE*f=fopen(dbv.pszVal,"r");
-				if(f==NULL)
+				if (f==NULL)
 				{
 					db_unset(hContact, "ContactPhoto", "File");
 					db_unset(hContact, "ContactPhoto", "RFile");
@@ -1755,17 +1749,12 @@ void CList_MakeAllOffline()
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM) fhandles.at(i), 0);
 }
 
-void SetIcon(HANDLE hcontact,HANDLE hicon,int ctype)
-{
-	ExtraIcon_SetIcon((ctype == 1) ? hExtraIcon1 : hExtraIcon2, hcontact, hicon);
-}
-
 void SetAvatar2(LPVOID lparam) {
 	static int lasttime=0;
 	int sleep=db_get_w(NULL,protocolname,"avatarloadlatency",1000);
 	lasttime+=sleep;
 
-	if(mySleep(lasttime,hConnectionClose))
+	if (mySleep(lasttime,hConnectionClose))
 	{
 		delete lparam;
 		lasttime-=sleep;
@@ -1773,8 +1762,8 @@ void SetAvatar2(LPVOID lparam) {
 	}
 
 	GetBuddyInfo* buddyinfo=(GetBuddyInfo*)lparam;
-	if(myClient!=NULL)
-		if(myClient->client->connected)
+	if (myClient!=NULL)
+		if (myClient->client->connected)
 				myClient->client->send( buddyinfo );
 
 	delete lparam;
@@ -1789,29 +1778,29 @@ void SetAvatar(LPVOID lparam)
 	static int lasttime=0;
 	int sleep=db_get_w(NULL,protocolname,"avatarloadlatency",250);
 
-	if(bpStatus==ID_STATUS_OFFLINE)
+	if (bpStatus==ID_STATUS_OFFLINE)
 		return;
 
 	lasttime+=sleep;
 	//Sleep(lasttime);
-	if(mySleep(lasttime,hConnectionClose))
+	if (mySleep(lasttime,hConnectionClose))
 	{
 		delete lparam;
 		lasttime-=sleep;
 		return;
 	}
 
-	if(bpStatus==ID_STATUS_OFFLINE)
+	if (bpStatus==ID_STATUS_OFFLINE)
 		return;
 
 	XFireAvatar av;
 
 	XFire_SetAvatar* xsa=(XFire_SetAvatar*)lparam;
 
-	if(xsa->hContact==NULL)
+	if (xsa->hContact==NULL)
 		return;
 
-		if(GetAvatar(xsa->username,&av))
+		if (GetAvatar(xsa->username,&av))
 		{
 			PROTO_AVATAR_INFORMATIONT AI;
 			AI.cbSize = sizeof(AI);
@@ -1831,7 +1820,7 @@ BOOL GetAvatar(char* username,XFireAvatar* av)
 {
 	BOOL status=FALSE;
 
-	if(av==NULL||username==NULL)
+	if (av==NULL||username==NULL)
 		return FALSE;
 
 	char address[256]="http://www.xfire.com/profile/";
@@ -1847,7 +1836,7 @@ BOOL GetAvatar(char* username,XFireAvatar* av)
 
 	nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlib,(LPARAM)&nlhr);
 
-	if(nlhrReply) {
+	if (nlhrReply) {
 		//nicht auf dem server
 		if (nlhrReply->resultCode != 200) {
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)nlhrReply);
@@ -1874,10 +1863,10 @@ BOOL GetAvatar(char* username,XFireAvatar* av)
 
 			while(pointer<deathend&&*pointer_av!=0)
 			{
-				if(*pointer_av==*pointer)
+				if (*pointer_av==*pointer)
 				{
 					pointer_av++;
-					if(pointer_av-avatarid>4)
+					if (pointer_av-avatarid>4)
 						found=TRUE;
 				}
 				else
@@ -1886,7 +1875,7 @@ BOOL GetAvatar(char* username,XFireAvatar* av)
 				pointer++;
 			}
 			//was gefunden, nun das bild raustrennen
-			if(*pointer_av==0)
+			if (*pointer_av==0)
 			{
 				char * pos = NULL;
 				pos=strchr(pointer,'/');
@@ -1894,14 +1883,14 @@ BOOL GetAvatar(char* username,XFireAvatar* av)
 				pointer=pos;
 
 				pos=strchr(pointer,' ');
-				if(pos)
+				if (pos)
 				{
 					pos--;
 					*pos=0;
 
 					//analysieren, welchent typ das bild hat
 					pos=strrchr(pointer,'.');
-					if(pos)
+					if (pos)
 					{
 						char filename[512];
 						strcpy(filename, XFireGetFoldersPath ("Avatar"));
@@ -1909,7 +1898,7 @@ BOOL GetAvatar(char* username,XFireAvatar* av)
 
 						pos++;
 						//gif?!?!
-						if(*pos=='g'&&
+						if (*pos=='g'&&
 							*(pos+1)=='i'&&
 							*(pos+2)=='f')
 						{
@@ -1923,7 +1912,7 @@ BOOL GetAvatar(char* username,XFireAvatar* av)
 						}
 
 						//verusch das bild runterladen
-						if(GetWWWContent2(pointer,filename,FALSE))
+						if (GetWWWContent2(pointer,filename,FALSE))
 						{
 							strcpy_s(av->file,256,filename); //setzte dateinamen
 							status=TRUE; //avatarladen hat geklappt, cool :)
@@ -1944,18 +1933,18 @@ static INT_PTR GetIPPort(WPARAM wParam,LPARAM lParam)
     HGLOBAL clipbuffer;
 	char* buffer;
 
-	if(db_get_w((HANDLE)wParam, protocolname, "Port", -1)==0)
+	if (db_get_w((HANDLE)wParam, protocolname, "Port", -1)==0)
 		return 0;
 
 	DBVARIANT dbv;
-	if(db_get_s((HANDLE)wParam, protocolname, "ServerIP",&dbv))
+	if (db_get_s((HANDLE)wParam, protocolname, "ServerIP",&dbv))
 		return 0;
 
 	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w((HANDLE)wParam, protocolname, "Port", -1));
 
 	db_free(&dbv);
 
-	if(OpenClipboard(NULL))
+	if (OpenClipboard(NULL))
 	{
 		EmptyClipboard();
 
@@ -1977,18 +1966,18 @@ static INT_PTR GetVIPPort(WPARAM wParam,LPARAM lParam)
     HGLOBAL clipbuffer;
 	char* buffer;
 
-	if(db_get_w((HANDLE)wParam, protocolname, "VPort", -1)==0)
+	if (db_get_w((HANDLE)wParam, protocolname, "VPort", -1)==0)
 		return 0;
 
 	DBVARIANT dbv;
-	if(db_get_s((HANDLE)wParam, protocolname, "VServerIP",&dbv))
+	if (db_get_s((HANDLE)wParam, protocolname, "VServerIP",&dbv))
 		return 0;
 
 	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w((HANDLE)wParam, protocolname, "VPort", -1));
 
 	db_free(&dbv);
 
-	if(OpenClipboard(NULL))
+	if (OpenClipboard(NULL))
 	{
 		EmptyClipboard();
 
@@ -2009,7 +1998,7 @@ static INT_PTR GotoProfile(WPARAM wParam,LPARAM lParam)
 	DBVARIANT dbv;
 	char temp[64]="";
 
-	if(db_get_s((HANDLE)wParam, protocolname, "Username",&dbv))
+	if (db_get_s((HANDLE)wParam, protocolname, "Username",&dbv))
 		return 0;
 
 	strcpy(temp,"http://xfire.com/profile/");
@@ -2028,7 +2017,7 @@ static INT_PTR GotoXFireClanSite(WPARAM wParam,LPARAM lParam) {
 	int clanid=db_get_dw((HANDLE)wParam, protocolname, "Clan",-1);
 	mir_snprintf(temp, SIZEOF(temp), "ClanUrl_%d", clanid);
 
-	if(db_get_s(NULL, protocolname, temp,&dbv))
+	if (db_get_s(NULL, protocolname, temp,&dbv))
 		return 0;
 
 	strcpy(temp,"http://xfire.com/clans/");
@@ -2045,7 +2034,7 @@ static INT_PTR GotoProfile2(WPARAM wParam,LPARAM lParam)
 	DBVARIANT dbv;
 	char temp[64]="";
 
-	if(db_get_s(NULL, protocolname, "login",&dbv))
+	if (db_get_s(NULL, protocolname, "login",&dbv))
 		return 0;
 
 	strcpy(temp,"http://xfire.com/profile/");
@@ -2067,7 +2056,7 @@ static INT_PTR GotoProfileAct(WPARAM wParam,LPARAM lParam)
 	DBVARIANT dbv;
 	char temp[64]="";
 
-	if(db_get_s(NULL, protocolname, "login",&dbv))
+	if (db_get_s(NULL, protocolname, "login",&dbv))
 		return 0;
 
 	strcpy(temp,"http://www.xfire.com/?username=");
@@ -2098,7 +2087,7 @@ int RebuildContactMenu( WPARAM wParam, LPARAM lParam )
 
 	//kopieren von voice port und ip nur erlauben, wenn verfügbar
 	bEnabled = true;
-	if(db_get_s(hContact, protocolname, "VServerIP", &dbv))
+	if (db_get_s(hContact, protocolname, "VServerIP", &dbv))
 		bEnabled = false;
 	else
 		db_free(&dbv);
@@ -2114,7 +2103,7 @@ int RebuildContactMenu( WPARAM wParam, LPARAM lParam )
 	int gameid = db_get_w(hContact, protocolname, "GameId",0);
 	//spiel in xfirespieliste?
 	bEnabled = bEnabled2 = true;
-	if(!xgamelist.Gameinlist(gameid)) {
+	if (!xgamelist.Gameinlist(gameid)) {
 		//nein, dann start und join auf unsichbar schalten
 		bEnabled = bEnabled2 = false;
 	}
@@ -2122,10 +2111,10 @@ int RebuildContactMenu( WPARAM wParam, LPARAM lParam )
 		//gameobject holen
 		Xfire_game* game=xgamelist.getGamebyGameid(gameid);
 		//hat das spiel netzwerkparameter?
-		if(game) {
-			if(game->networkparams) {
+		if (game) {
+			if (game->networkparams) {
 				//is beim buddy ein port hinterlegt, also spielt er im internet?
-				if( !db_get_dw(hContact, protocolname, "Port",0)) {
+				if ( !db_get_dw(hContact, protocolname, "Port",0)) {
 					//nein, dann join button auch ausblenden
 					bEnabled = false;
 				}
@@ -2165,9 +2154,9 @@ void SetXFireGameStatusMsg(Xfire_game* game)
 	static char statusmsg[100]="";
 
 	//kein gameobject, dann abbrechen
-	if(!game) return;
+	if (!game) return;
 
-	if(!game->statusmsg)
+	if (!game->statusmsg)
 	{
 		xgamelist.getIniValue(game->id,"XUSERStatusMsg",statusmsg,100);
 	}
@@ -2176,9 +2165,9 @@ void SetXFireGameStatusMsg(Xfire_game* game)
 		strcpy_s(statusmsg,100,game->statusmsg);
 	}
 
-	if(statusmsg[0]!=0)
-		if(myClient!=NULL)
-			if(myClient->client->connected)
+	if (statusmsg[0]!=0)
+		if (myClient!=NULL)
+			if (myClient->client->connected)
 				myClient->Status(statusmsg);
 
 }
@@ -2202,7 +2191,7 @@ void gamedetectiont(LPVOID lparam)
 	time_t t1;
 
 
-	if(db_get_b(NULL,protocolname,"nogamedetect",0))
+	if (db_get_b(NULL,protocolname,"nogamedetect",0))
 #ifndef NO_PTHREAD
 		return ptr;
 #else
@@ -2217,7 +2206,7 @@ void gamedetectiont(LPVOID lparam)
 	{
 		//Sleep(12000);
 		//XFireLog("12 Sek warten...","");
-		if(mySleep(12000,hGameDetection))
+		if (mySleep(12000,hGameDetection))
 		{
 #ifndef NO_PTHREAD
 			return ptr;
@@ -2229,12 +2218,12 @@ void gamedetectiont(LPVOID lparam)
 #ifndef NO_PTHREAD
 		pthread_testcancel();
 #else
-		if(Miranda_Terminated())
+		if (Miranda_Terminated())
 			return;
 #endif
 
-		if(myClient!=NULL)
-			if(!myClient->client->connected)
+		if (myClient!=NULL)
+			if (!myClient->client->connected)
 			{
 				//XFireLog("PID und TSPID resett...","");
 				ts2pid=pid=0;
@@ -2246,11 +2235,11 @@ void gamedetectiont(LPVOID lparam)
 			{
 				//erstmal nach TS2 suchen
 				//XFireLog("Teamspeak detection...","");
-				if(db_get_b(NULL,protocolname,"ts2detection",0))
+				if (db_get_b(NULL,protocolname,"ts2detection",0))
 				{
 					SendGameStatus2Packet *packet = new SendGameStatus2Packet();
-					if(voicechat.checkVoicechat(packet)) {
-						if(myClient!=NULL)
+					if (voicechat.checkVoicechat(packet)) {
+						if (myClient!=NULL)
 						{
 							XFireLog("Send voicechat infos...");
 							myClient->client->send( packet );
@@ -2263,15 +2252,15 @@ void gamedetectiont(LPVOID lparam)
 					//if (hMapObject) {
 					//}
 					//wenn remote feature aktiviert, darüber ip erkennen
-					/*if(db_get_b(NULL,protocolname,"ts2useremote",0))
+					/*if (db_get_b(NULL,protocolname,"ts2useremote",0))
 					{
 						//ipholen
 						SendGameStatus2Packet *packet = new SendGameStatus2Packet();
-						if(TSSetupPacket(packet,&ts2pid,&ts2port))
+						if (TSSetupPacket(packet,&ts2pid,&ts2port))
 						{
 							db_set_w(NULL,protocolname,"currentvoice",packet->gameid);
 
-							if(packet->ip[3]!=0)
+							if (packet->ip[3]!=0)
 							{
 								mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d:%d", (unsigned char)packet->ip[3], (unsigned char)packet->ip[2], (unsigned char)packet->ip[1], (unsigned char)packet->ip[0],packet->port);
 								db_set_s(NULL, protocolname, "VServerIP", temp);
@@ -2283,7 +2272,7 @@ void gamedetectiont(LPVOID lparam)
 								db_unset(NULL,protocolname, "currentvoicename");
 							}
 
-							if(myClient!=NULL)
+							if (myClient!=NULL)
 								myClient->client->send( packet );
 						}
 						delete packet;
@@ -2291,24 +2280,24 @@ void gamedetectiont(LPVOID lparam)
 					}
 					else
 					{
-						if(!ts2pid)
+						if (!ts2pid)
 						{
-							if(FindTeamSpeak(&ts2pid,&vid))
+							if (FindTeamSpeak(&ts2pid,&vid))
 							{
 								//gefunden, serverdaten scannen
 								SendGameStatus2Packet *packet = new SendGameStatus2Packet();
-								if(myClient!=NULL)
-									if(GetServerIPPort2(ts2pid,myClient->client->localaddr,myClient->client->llocaladdr,&packet->ip[3],&packet->ip[2],&packet->ip[1],&packet->ip[0],&packet->port))
+								if (myClient!=NULL)
+									if (GetServerIPPort2(ts2pid,myClient->client->localaddr,myClient->client->llocaladdr,&packet->ip[3],&packet->ip[2],&packet->ip[1],&packet->ip[0],&packet->port))
 									{
-										if(packet->port!=0)
+										if (packet->port!=0)
 										{
 											packet->gameid=vid;
 
-											if(vid==32)
+											if (vid==32)
 												db_set_s(NULL, protocolname, "currentvoicename", "Teamspeak");
-											else if(vid==33)
+											else if (vid==33)
 												db_set_s(NULL, protocolname, "currentvoicename", "Ventrilo");
-											else if(vid==34)
+											else if (vid==34)
 												db_set_s(NULL, protocolname, "currentvoicename", "Mumble");
 
 											db_set_w(NULL,protocolname,"currentvoice",vid);
@@ -2316,7 +2305,7 @@ void gamedetectiont(LPVOID lparam)
 											mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d:%d", (unsigned char)packet->ip[3], (unsigned char)packet->ip[2], (unsigned char)packet->ip[1],(unsigned char)packet->ip[0],packet->port);
 											db_set_s(NULL, protocolname, "VServerIP", temp);
 
-											if(myClient!=NULL)
+											if (myClient!=NULL)
 												myClient->client->send( packet );
 										}
 									}
@@ -2326,9 +2315,9 @@ void gamedetectiont(LPVOID lparam)
 						else
 						{
 							//HANDLE op=OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, ts2pid);
-							//if(op!=NULL) GetExitCodeProcess(op,&ec);
+							//if (op!=NULL) GetExitCodeProcess(op,&ec);
 
-							//if(ec!=STILL_ACTIVE) //nicht mehr offen
+							//if (ec!=STILL_ACTIVE) //nicht mehr offen
 							if (GetProcessVersion(ts2pid) == 0)
 							{
 								SendGameStatus2Packet *packet = new SendGameStatus2Packet();
@@ -2337,7 +2326,7 @@ void gamedetectiont(LPVOID lparam)
 								db_unset(NULL,protocolname, "VServerIP");
 								db_unset(NULL,protocolname, "currentvoicename");
 
-								if(myClient!=NULL)
+								if (myClient!=NULL)
 									myClient->client->send( packet );
 								ts2pid=0;
 								delete packet;
@@ -2345,10 +2334,10 @@ void gamedetectiont(LPVOID lparam)
 							else
 							{
 								SendGameStatus2Packet *packet = new SendGameStatus2Packet();
-								if(myClient!=NULL)
-									if(GetServerIPPort2(ts2pid,myClient->client->localaddr,myClient->client->llocaladdr,&packet->ip[3],&packet->ip[2],&packet->ip[1],&packet->ip[0],&packet->port))
+								if (myClient!=NULL)
+									if (GetServerIPPort2(ts2pid,myClient->client->localaddr,myClient->client->llocaladdr,&packet->ip[3],&packet->ip[2],&packet->ip[1],&packet->ip[0],&packet->port))
 									{
-										if(packet->port!=0)
+										if (packet->port!=0)
 										{
 											packet->gameid=vid;
 											db_set_w(NULL,protocolname,"currentvoice",vid);
@@ -2356,18 +2345,18 @@ void gamedetectiont(LPVOID lparam)
 											mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d:%d", (unsigned char)packet->ip[3], (unsigned char)packet->ip[2], (unsigned char)packet->ip[1],(unsigned char)packet->ip[0],packet->port);
 											db_set_s(NULL, protocolname, "VServerIP", temp);
 
-											if(myClient!=NULL)
+											if (myClient!=NULL)
 												myClient->client->send( packet );
 										}
 									}
 								delete packet;
 							}
-							//if(op!=NULL) CloseHandle(op);
+							//if (op!=NULL) CloseHandle(op);
 						}
 					}*/
 				}
 
-				if(currentgame!=NULL)
+				if (currentgame!=NULL)
 				{
 
 					//XFireLog("XFire Gamedetection - Game still running...","");
@@ -2375,21 +2364,21 @@ void gamedetectiont(LPVOID lparam)
 					//prüf ob das spiel noch offen
 					ec=0;
 					//HANDLE op=OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pid);
-					//if(op!=NULL) GetExitCodeProcess(op,&ec);
+					//if (op!=NULL) GetExitCodeProcess(op,&ec);
 
-					//if(GetLastError()==5) //anwendung ist noch offen und der zugriff wird noch darauf blockiert
+					//if (GetLastError()==5) //anwendung ist noch offen und der zugriff wird noch darauf blockiert
 					//{
 						//
 					//}
-					//else if(ec!=STILL_ACTIVE) //nicht mehr offen
+					//else if (ec!=STILL_ACTIVE) //nicht mehr offen
 
 					if (!xgamelist.isValidPid(pid))
 					{
 						//XFireLog("XFire Gamedetection - Game was closed ID: %i",currentgame);
 						SendGameStatusPacket *packet = new SendGameStatusPacket();
 						packet->gameid=0;
-						if(db_get_b(NULL,protocolname,"sendgamestatus",1))
-							if(myClient!=NULL)
+						if (db_get_b(NULL,protocolname,"sendgamestatus",1))
+							if (myClient!=NULL)
 								myClient->client->send( packet );
 
 						//spielzeit messen
@@ -2398,42 +2387,42 @@ void gamedetectiont(LPVOID lparam)
 						tm * mytm=gmtime(&t3);
 
 						//statusmsg von xfire zurücksetzen
-						if(currentgame->setstatusmsg)
+						if (currentgame->setstatusmsg)
 						{
-							if(myClient!=NULL)
-								if(myClient->client->connected)
-									if(bpStatus==ID_STATUS_ONLINE)
+							if (myClient!=NULL)
+								if (myClient->client->connected)
+									if (bpStatus==ID_STATUS_ONLINE)
 										myClient->Status(statusmessage[0]);
-									else if(bpStatus==ID_STATUS_AWAY)
+									else if (bpStatus==ID_STATUS_AWAY)
 										myClient->Status(statusmessage[1]);
 						}
 
 						mir_snprintf(temp, SIZEOF(temp), Translate("Last game: %s playtime: %.2d:%.2d:%.2d"), currentgame->name, mytm->tm_hour, mytm->tm_min, mytm->tm_sec);
 						db_set_s(NULL, protocolname, "LastGame", temp);
 
-						if(currentgame->noicqstatus!=TRUE&&db_get_b(NULL,protocolname,"autosetstatusmsg",0))
+						if (currentgame->noicqstatus!=TRUE&&db_get_b(NULL,protocolname,"autosetstatusmsg",0))
 							SetOldStatusMsg();
 
 						db_set_w(NULL,protocolname,"currentgame",0);
 						db_unset(NULL,protocolname,"currentgamename");
 
 						//popup wieder aktivieren, menuservice funk aufrufen, nur wenn popups vorher abgestellt wurden
-						if(disabledpopups)
-							if(db_get_b(NULL,protocolname,"nopopups",0))
+						if (disabledpopups)
+							if (db_get_b(NULL,protocolname,"nopopups",0))
 							{
-								if(ServiceExists("Popup/EnableDisableMenuCommand"))
+								if (ServiceExists("Popup/EnableDisableMenuCommand"))
 								{
 									CallService("Popup/EnableDisableMenuCommand",NULL,NULL);
 								}
-								else if(ServiceExists("Popup/ToggleEnabled"))
+								else if (ServiceExists("Popup/ToggleEnabled"))
 								{
 									CallService("Popup/ToggleEnabled",NULL,NULL);
 								}
 								disabledpopups=FALSE;
 							}
 						//sound wieder aktivieren, nur wenn es vorher abgestellt wurde
-						if(disabledsound)
-							if(db_get_b(NULL,protocolname,"nosoundev",0))
+						if (disabledsound)
+							if (db_get_b(NULL,protocolname,"nosoundev",0))
 							{
 								db_set_b(NULL,"Skin","UseSound",1);
 								disabledsound=FALSE;
@@ -2454,17 +2443,17 @@ void gamedetectiont(LPVOID lparam)
 					{
 						//XFireLog("Spiel noch offen...","");
 						//nur nwspiele nach ip/port scannen
-						if(db_get_b(NULL,protocolname,"ipportdetec",0))
-							if(currentgame->networkparams!=NULL&&currentgame->send_gameid>0)
+						if (db_get_b(NULL,protocolname,"ipportdetec",0))
+							if (currentgame->networkparams!=NULL&&currentgame->send_gameid>0)
 							{
 								SendGameStatusPacket *packet = new SendGameStatusPacket();
 								//verscueh serverip und port zu scannen
 
 								XFireLog("IPPort detection...","");
-								if(GetServerIPPort(pid,myClient->client->localaddr,myClient->client->llocaladdr,&packet->ip[3],&packet->ip[2],&packet->ip[1],&packet->ip[0],&packet->port))
+								if (GetServerIPPort(pid,myClient->client->localaddr,myClient->client->llocaladdr,&packet->ip[3],&packet->ip[2],&packet->ip[1],&packet->ip[0],&packet->port))
 								{
 
-									if(packet->ip[3]!=0)
+									if (packet->ip[3]!=0)
 									{
 										mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d:%d", (unsigned char)packet->ip[3], (unsigned char)packet->ip[2], (unsigned char)packet->ip[1], (unsigned char)packet->ip[0], packet->port);
 										db_set_s(NULL, protocolname, "ServerIP", temp);
@@ -2476,11 +2465,11 @@ void gamedetectiont(LPVOID lparam)
 									}
 
 									packet->gameid=currentgame->send_gameid;
-									if(db_get_b(NULL,protocolname,"sendgamestatus",1))
-										if(myClient!=NULL)
+									if (db_get_b(NULL,protocolname,"sendgamestatus",1))
+										if (myClient!=NULL)
 											myClient->client->send( packet );
 
-									if(currentgame->noicqstatus!=TRUE&&db_get_b(NULL,protocolname,"autosetstatusmsg",0))
+									if (currentgame->noicqstatus!=TRUE&&db_get_b(NULL,protocolname,"autosetstatusmsg",0))
 										SetGameStatusMsg();
 								} else {
 									XFireLog("GetServerIPPort failed","");
@@ -2491,7 +2480,7 @@ void gamedetectiont(LPVOID lparam)
 						//packet->=xf[currentgame].gameid2;
 					}
 
-					//if(op!=NULL) CloseHandle(op);
+					//if (op!=NULL) CloseHandle(op);
 				}
 				else
 				{
@@ -2510,20 +2499,20 @@ void gamedetectiont(LPVOID lparam)
 					while ( Process32Next ( hSnapShot,processInfo ) != FALSE && currentgame==NULL)
 					{
 						//überspringe niedrige pids
-						if(processInfo->th32ProcessID<lowpids)
+						if (processInfo->th32ProcessID<lowpids)
 							continue;
 
 						Xfire_game* nextgame;
 						while(xgamelist.getnextGame(&nextgame))
 						{
-							if(nextgame->checkpath(processInfo))
+							if (nextgame->checkpath(processInfo))
 							{
 								SendGameStatusPacket *packet = new SendGameStatusPacket() ;
 
 								XFireLog("XFire Gamedetection - Spiel gefunden: %i",nextgame->id);
 
-								if(myClient!=NULL)
-									if(myClient->client->connected)
+								if (myClient!=NULL)
+									if (myClient->client->connected)
 									{
 										currentgame=nextgame;
 										pid=processInfo->th32ProcessID;
@@ -2532,10 +2521,10 @@ void gamedetectiont(LPVOID lparam)
 										packet->gameid=currentgame->send_gameid;
 										t1=time(NULL);
 
-										if(db_get_b(NULL,protocolname,"sendgamestatus",1))
+										if (db_get_b(NULL,protocolname,"sendgamestatus",1))
 										{
 											XFireLog("XFire Gamedetection - Sendgame-ID: %i",currentgame->send_gameid);
-											if(currentgame->send_gameid>0)
+											if (currentgame->send_gameid>0)
 											{
 												XFireLog("XFire Gamedetection - Setzte Status für XFire");
 												myClient->client->send( packet );
@@ -2548,32 +2537,32 @@ void gamedetectiont(LPVOID lparam)
 										NotifyEventHooks(hookgamestart,1,0);
 
 										//statusmsg für xfire setzen
-										if(currentgame->setstatusmsg)
+										if (currentgame->setstatusmsg)
 										{
 											SetXFireGameStatusMsg(currentgame);
 										}
 
-										if(currentgame->noicqstatus!=TRUE&&db_get_b(NULL,protocolname,"autosetstatusmsg",0))
+										if (currentgame->noicqstatus!=TRUE&&db_get_b(NULL,protocolname,"autosetstatusmsg",0))
 										{
 											BackupStatusMsg();
 											SetGameStatusMsg();
 										}
 										//popup abschalten, menuservice funk aufrufen
-										if(db_get_b(NULL,protocolname,"nopopups",0))
+										if (db_get_b(NULL,protocolname,"nopopups",0))
 										{
-											if(ServiceExists("Popup/EnableDisableMenuCommand")&&db_get_b(NULL,"Popup","ModuleIsEnabled",0)==1) /**/
+											if (ServiceExists("Popup/EnableDisableMenuCommand")&&db_get_b(NULL,"Popup","ModuleIsEnabled",0)==1) /**/
 											{
 												disabledpopups=TRUE;
 												CallService("Popup/EnableDisableMenuCommand",NULL,NULL);
 											}
-											else if(ServiceExists("Popup/ToggleEnabled")&&db_get_b(NULL,"YAPP","Enabled",0)==1)
+											else if (ServiceExists("Popup/ToggleEnabled")&&db_get_b(NULL,"YAPP","Enabled",0)==1)
 											{
 												disabledpopups=TRUE;
 												CallService("Popup/ToggleEnabled",NULL,NULL);
 											}
 										}
 										//sound abschalten
-										if(db_get_b(NULL,protocolname,"nosoundev",0)&&db_get_b(NULL,"Skin","UseSound",0)==1)
+										if (db_get_b(NULL,protocolname,"nosoundev",0)&&db_get_b(NULL,"Skin","UseSound",0)==1)
 										{
 											db_set_b(NULL,"Skin","UseSound",0);
 											disabledsound=TRUE;
@@ -2671,15 +2660,15 @@ void setBuddyStatusMsg(BuddyListEntry *entry)
 {
 	BuddyListEntry* entry=(BuddyListEntry*)ventry;
 	DBVARIANT dbv;
-	if(entry==NULL)
+	if (entry==NULL)
 		return;
-	if(db_get_b(NULL,protocolname,"noavatars",-1)==0)
+	if (db_get_b(NULL,protocolname,"noavatars",-1)==0)
 	{
-		if(db_get_b(entry->hcontact, "ContactPhoto", "Locked", -1)!=1)
+		if (db_get_b(entry->hcontact, "ContactPhoto", "Locked", -1)!=1)
 		{
-			if(!db_get_b(NULL,protocolname,"specialavatarload",0))
+			if (!db_get_b(NULL,protocolname,"specialavatarload",0))
 			{
-				if(db_get(entry->hcontact,"ContactPhoto", "File",&dbv))
+				if (db_get(entry->hcontact,"ContactPhoto", "File",&dbv))
 				{
 					XFire_SetAvatar* xsa=new XFire_SetAvatar;
 					xsa->hContact=entry->hcontact;
@@ -2710,24 +2699,24 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 	  HANDLE hContact;
 	  string game;
 
-	  if(entry==NULL)
+	  if (entry==NULL)
 		  return NULL;
 
 	  //wenn der buddy ich selbst ist, dann ignorieren
-	  if(IsContactMySelf(entry->username))
+	  if (IsContactMySelf(entry->username))
 		return NULL;
 
-		if(entry->hcontact==NULL)
+		if (entry->hcontact==NULL)
 		{
 			entry->hcontact=CList_FindContact(entry->userid);
-			if(entry->hcontact&&clan==-1)
+			if (entry->hcontact&&clan==-1)
 			{
 				db_set_w(entry->hcontact, protocolname, "Status", ID_STATUS_ONLINE);
 				db_set_s(entry->hcontact, protocolname, "MirVer", "xfire");
 			}
 		}
 
-		if(entry->hcontact==NULL)
+		if (entry->hcontact==NULL)
 		{
 			XFireContact xfire_newc;
 			xfire_newc.username=(char*)entry->username.c_str();
@@ -2748,7 +2737,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 				db_set_s(hContact, protocolname, "Nick", entry->username.c_str());
 			}
 
-			if(!entry->isOnline())
+			if (!entry->isOnline())
 			{
 				db_set_w(hContact, protocolname, "Status", ID_STATUS_OFFLINE);
 				db_unset(hContact, protocolname, "XStatusMsg");
@@ -2766,18 +2755,18 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 				db_unset(hContact, protocolname, "VoiceId");
 				db_unset(hContact, protocolname, "GameInfo");
 			}
-			else if(entry->game>0||entry->game2>0)
+			else if (entry->game>0||entry->game2>0)
 			{
 				char temp[XFIRE_MAX_STATIC_STRING_LEN]="";
 				char gname[255]="";
 
 				DummyXFireGame *gameob;
 
-				if(strlen(entry->gameinfo.c_str())>0)
+				if (strlen(entry->gameinfo.c_str())>0)
 					db_set_s(hContact, protocolname, "GameInfo", entry->gameinfo.c_str());
 
 				//beim voicechat foglendes machn
-				if(entry->game2>0)
+				if (entry->game2>0)
 				{
 					gameob=(DummyXFireGame*)entry->game2Obj; //obj wo ip und port sind auslesen
 
@@ -2785,9 +2774,9 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 
 					db_set_s(hContact, protocolname, "RVoice", gname);
 
-					if(gameob)
+					if (gameob)
 					{
-						if((unsigned char)gameob->ip[3]!=0) // wenn ip, dann speichern
+						if ((unsigned char)gameob->ip[3]!=0) // wenn ip, dann speichern
 						{
 							mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d", (unsigned char)gameob->ip[3], (unsigned char)gameob->ip[2], (unsigned char)gameob->ip[1], (unsigned char)gameob->ip[0]);
 							db_set_s(hContact, protocolname, "VServerIP", temp);
@@ -2802,7 +2791,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 
 					db_set_w(hContact, protocolname, "VoiceId", entry->game2);
 
-					SetIcon(hContact,xgamelist.iconmngr.getGameIconHandle(entry->game2),2);	//icon seperat setzen
+					ExtraIcon_SetIcon(hExtraIcon2, hContact, xgamelist.iconmngr.getGameIconHandle(entry->game2));
 				}
 				else
 				{
@@ -2810,11 +2799,11 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 					db_unset(hContact, protocolname, "VPort");
 					db_unset(hContact, protocolname, "RVoice");
 					db_unset(hContact, protocolname, "VoiceId");
-					SetIcon(hContact,(HANDLE)-1,2);
+					ExtraIcon_SetIcon(hExtraIcon2, hContact, INVALID_HANDLE_VALUE);
 				}
 
 				//beim game folgendes machen
-				if(entry->game>0)
+				if (entry->game>0)
 				{
 					HICON hicongame=xgamelist.iconmngr.getGameIcon(entry->game);
 
@@ -2826,7 +2815,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 					gameob=(DummyXFireGame*)entry->gameObj;
 
 					//popup, wenn jemand was spielt
-					if(db_get_b(NULL,protocolname,"gamepopup",0)==1) {
+					if (db_get_b(NULL,protocolname,"gamepopup",0)==1) {
 						char temp[256]="";
 
 						mir_snprintf(temp, SIZEOF(temp), Translate("%s is playing %s."),
@@ -2838,9 +2827,9 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 								entry->nick.c_str())
 							,gname);
 
-						if(gameob)
+						if (gameob)
 						{
-							if((unsigned char)gameob->ip[3]!=0)
+							if ((unsigned char)gameob->ip[3]!=0)
 							{
 								mir_snprintf(temp, SIZEOF(temp), Translate("%s is playing %s on server %d.%d.%d.%d:%d."),
 									//ist ein nick gesetzt?
@@ -2857,7 +2846,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 							POPUP-Filter
 							Nur Popups anzeigen die noch nicht angezeigt wurden
 						*/
-						if(entry->lastpopup==NULL)
+						if (entry->lastpopup==NULL)
 						{
 							//größe des popupstrings
 							int size=strlen(temp)+1;
@@ -2870,7 +2859,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 						}
 						else
 						{
-							if(strcmp(entry->lastpopup,temp)!=0)
+							if (strcmp(entry->lastpopup,temp)!=0)
 							{
 								delete[] entry->lastpopup;
 								entry->lastpopup=NULL;
@@ -2887,9 +2876,9 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 						}
 					}
 
-					if(gameob)
+					if (gameob)
 					{
-						if((unsigned char)gameob->ip[3]!=0)
+						if ((unsigned char)gameob->ip[3]!=0)
 						{
 							//ip und port in kontakt speichern
 							mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d", (unsigned char)gameob->ip[3], (unsigned char)gameob->ip[2], (unsigned char)gameob->ip[1], (unsigned char)gameob->ip[0]);
@@ -2897,8 +2886,8 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 							db_set_w(hContact, protocolname, "Port", (unsigned long)gameob->port);
 
 							//lass das query arbeiten
-							if(dontscan==FALSE)
-								if(ServiceExists("GameServerQuery/Query")&&db_get_b(NULL,protocolname,"gsqsupport",0))
+							if (dontscan==FALSE)
+								if (ServiceExists("GameServerQuery/Query")&&db_get_b(NULL,protocolname,"gsqsupport",0))
 								{
 									GameServerQuery_query gsqq={0};
 									gsqq.port=gameob->port;
@@ -2915,7 +2904,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 						}
 					}
 
-					SetIcon(hContact,xgamelist.iconmngr.getGameIconHandle(entry->game));
+					ExtraIcon_SetIcon(hExtraIcon1, hContact, xgamelist.iconmngr.getGameIconHandle(entry->game));
 
 					//db_unset(hContact, "CList", "StatusMsg");
 					db_set_w(hContact, protocolname, "Status", ID_STATUS_ONLINE);
@@ -2924,14 +2913,14 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 					db_set_b(hContact, protocolname, "XStatusId", xgamelist.iconmngr.getGameIconId(entry->game)+2);
 
 					//buddy vorher ein spielgestartet, wenn nicht sound spielen?
-					if(!db_get_w(hContact, protocolname, "GameId",0))
+					if (!db_get_w(hContact, protocolname, "GameId",0))
 						SkinPlaySound("xfirebstartgame");
 
 					db_set_w(hContact, protocolname, "GameId", entry->game);
 				}
 				else
 				{
-					SetIcon(hContact,(HANDLE)-1);
+					ExtraIcon_SetIcon(hExtraIcon1, hContact, INVALID_HANDLE_VALUE);
 					db_unset(hContact, protocolname, "ServerIP");
 					db_unset(hContact, protocolname, "Port");
 					db_unset(hContact, protocolname, "XStatusMsg");
@@ -2946,8 +2935,8 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 			{
 				setBuddyStatusMsg(entry);
 
-				SetIcon(hContact,(HANDLE)-1);
-				SetIcon(hContact,(HANDLE)-1,2);
+				ExtraIcon_SetIcon(hExtraIcon1, hContact, INVALID_HANDLE_VALUE);
+				ExtraIcon_SetIcon(hExtraIcon2, hContact, INVALID_HANDLE_VALUE);
 
 				// RM: test fix to remove xstatus when finished playing...
 				db_unset(hContact, protocolname, "XStatusMsg");
@@ -2966,19 +2955,20 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 			}
 			else
 			{
-				if(db_get_w(entry->hcontact, protocolname, "Status", -1)==ID_STATUS_OFFLINE)
+				if (db_get_w(entry->hcontact, protocolname, "Status", -1)==ID_STATUS_OFFLINE)
 				{
-					if(db_get_b(NULL, protocolname, "noclanavatars", 0)==1&&clan>0)
+					if (db_get_b(NULL, protocolname, "noclanavatars", 0)==1&&clan>0)
 						;
 					else
-						if(myClient) myClient->CheckAvatar(entry);
+						if (myClient) myClient->CheckAvatar(entry);
 				}
 
-				SetIcon(hContact,(HANDLE)-1);
-				SetIcon(hContact,(HANDLE)-1,2);
+				ExtraIcon_SetIcon(hExtraIcon1, hContact, INVALID_HANDLE_VALUE);
+				ExtraIcon_SetIcon(hExtraIcon2, hContact, INVALID_HANDLE_VALUE);
+
 				db_set_w(hContact, protocolname, "Status", ID_STATUS_ONLINE);
 				db_set_s(entry->hcontact, protocolname, "MirVer", "xfire");
-				if(clan>0) db_set_dw(hContact, protocolname, "Clan", clan);
+				if (clan>0) db_set_dw(hContact, protocolname, "Clan", clan);
 				//db_set_utf(hContact, "CList", "StatusMsg", "");
 				db_unset(hContact, protocolname, "XStatusMsg");
 				db_unset(hContact, protocolname, "XStatusId");
@@ -2994,20 +2984,20 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 				db_unset(hContact, protocolname, "VoiceId");
 			}
 		}
-		if(group!=NULL)
+		if (group!=NULL)
 		{
-			if(!db_get_b(NULL,protocolname,"noclangroups",0))
+			if (!db_get_b(NULL,protocolname,"noclangroups",0))
 			{
-				if(clan>0)
+				if (clan>0)
 				{
 					int val=db_get_b(NULL,protocolname,"mainclangroup",0);
 
-					if(	db_get_b(NULL,protocolname,"skipfriendsgroups",0)==0 ||
+					if (	db_get_b(NULL,protocolname,"skipfriendsgroups",0)==0 ||
 						(db_get_b(NULL,protocolname,"skipfriendsgroups",0)==1&&
 					     db_get_b(entry->hcontact, protocolname, "isfriend", 0)==0)
 						 )
 					{
-						if(val==0)
+						if (val==0)
 						{
 							db_set_s(entry->hcontact, "CList", "Group", group);
 						}
@@ -3017,7 +3007,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 							DBVARIANT dbv;
 							mir_snprintf(temp, SIZEOF(temp), "%d", val - 1);
 							db_get_s(NULL,"CListGroups",temp,&dbv);
-							if(dbv.pszVal!=NULL)
+							if (dbv.pszVal!=NULL)
 							{
 								mir_snprintf(temp, SIZEOF(temp), "%s\\%s", &dbv.pszVal[1], group);
 								db_set_s(entry->hcontact, "CList", "Group", temp);
@@ -3026,11 +3016,11 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 						}
 					}
 				}
-				else if(clan==-1)//hauptgruppe für fof
+				else if (clan==-1)//hauptgruppe für fof
 				{
 					int val=db_get_b(NULL,protocolname,"fofgroup",0);
 
-					if(val==0)
+					if (val==0)
 					{
 						db_set_s(entry->hcontact, "CList", "Group", group);
 					}
@@ -3040,7 +3030,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 						DBVARIANT dbv;
 						mir_snprintf(temp, SIZEOF(temp), "%d", val - 1);
 						db_get_s(NULL,"CListGroups",temp,&dbv);
-						if(dbv.pszVal!=NULL)
+						if (dbv.pszVal!=NULL)
 						{
 							mir_snprintf(temp, SIZEOF(temp), "%s\\%s", &dbv.pszVal[1], group);
 							db_set_s(entry->hcontact, "CList", "Group", temp);
@@ -3064,10 +3054,10 @@ INT_PTR AddtoList( WPARAM wParam, LPARAM lParam ) {
     if (ccs->hContact)
     {
 		DBVARIANT dbv2;
-		if(!db_get(ccs->hContact,protocolname,"Username",&dbv2)) {
+		if (!db_get(ccs->hContact,protocolname,"Username",&dbv2)) {
 
-			if(myClient!=NULL)
-				if(myClient->client->connected)
+			if (myClient!=NULL)
+				if (myClient->client->connected)
 				{
 					SendAcceptInvitationPacket accept;
 					accept.name = dbv2.pszVal;
@@ -3085,10 +3075,10 @@ INT_PTR AddtoList( WPARAM wParam, LPARAM lParam ) {
 
 static void __cdecl AckBasicSearch(void * pszNick)
 {
-	if(pszNick!=NULL)
+	if (pszNick!=NULL)
 	{
-		if(myClient!=NULL)
-			if(myClient->client->connected)
+		if (myClient!=NULL)
+			if (myClient->client->connected)
 			{
 				SearchBuddy search;
 				search.searchfor(( char* )pszNick);
@@ -3100,8 +3090,8 @@ static void __cdecl AckBasicSearch(void * pszNick)
 INT_PTR BasicSearch(WPARAM wParam,LPARAM lParam) {
 	static char buf[50];
 	if ( lParam ) {
-		if(myClient!=NULL)
-			if(myClient->client->connected)
+		if (myClient!=NULL)
+			if (myClient->client->connected)
 			{
 				lstrcpynA(buf, (const char *)lParam, 50);
 				mir_forkthread(AckBasicSearch, &buf );
@@ -3121,9 +3111,9 @@ INT_PTR SearchAddtoList(WPARAM wParam,LPARAM lParam)
 	if ( psr->cbSize != sizeof( PROTOSEARCHRESULT ))
 		return 0;
 
-	if((int)wParam==0)
-		if(myClient!=NULL)
-			if(myClient->client->connected)
+	if ((int)wParam==0)
+		if (myClient!=NULL)
+			if (myClient->client->connected)
 			{
 				InviteBuddyPacket invite;
 				invite.addInviteName( std::string(_T2A(psr->nick)), Translate("Add me to your friends list."));
@@ -3140,7 +3130,7 @@ void CreateGroup(char*grpn,char*field) {
 
 	int val=db_get_b(NULL,protocolname,field,0);
 
-	if(val==0)
+	if (val==0)
 	{
 		strcpy_s((char*)grp,255,grpn);//((char*)clan->name[i].c_str());
 	}
@@ -3150,7 +3140,7 @@ void CreateGroup(char*grpn,char*field) {
 		DBVARIANT dbv;
 		mir_snprintf(temp, SIZEOF(temp), "%d", val - 1);
 		db_get_s(NULL,"CListGroups",temp,&dbv);
-		if(dbv.pszVal!=NULL)
+		if (dbv.pszVal!=NULL)
 		{
 			mir_snprintf((char*)grp, 255, "%s\\%s", &dbv.pszVal[1], (char*)grpn);
 			db_free(&dbv);
@@ -3191,20 +3181,20 @@ void CreateGroup(char*grpn,char*field) {
 
 INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam) {
 	EnterCriticalSection(&modeMsgsMutex);
-	if(( char* )lParam==NULL)
+	if (( char* )lParam==NULL)
 	{
-		if(wParam==ID_STATUS_ONLINE)
+		if (wParam==ID_STATUS_ONLINE)
 		{
 			strcpy(statusmessage[0],"");
 		}
-		else if(wParam!=ID_STATUS_OFFLINE/*&&db_get_b(NULL,protocolname,"nocustomaway",0)==0*/)
+		else if (wParam!=ID_STATUS_OFFLINE/*&&db_get_b(NULL,protocolname,"nocustomaway",0)==0*/)
 		{
 			mir_snprintf(statusmessage[1], SIZEOF(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
 		}
 	}
 	else
 	{
-		if(wParam==ID_STATUS_ONLINE)
+		if (wParam==ID_STATUS_ONLINE)
 		{
 			strcpy(statusmessage[0],( char* )lParam);
 		}
@@ -3217,13 +3207,13 @@ INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam) {
 		}
 	}
 
-	if(myClient!=NULL)
+	if (myClient!=NULL)
 	{
-		if(myClient->client->connected)
+		if (myClient->client->connected)
 		{
-			if(bpStatus==ID_STATUS_ONLINE)
+			if (bpStatus==ID_STATUS_ONLINE)
 				myClient->Status(statusmessage[0]);
-			else if(wParam!=ID_STATUS_ONLINE&&wParam!=ID_STATUS_OFFLINE)
+			else if (wParam!=ID_STATUS_ONLINE&&wParam!=ID_STATUS_OFFLINE)
 				myClient->Status(statusmessage[1]);
 		}
 	}
@@ -3239,13 +3229,13 @@ INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam) {
 
 INT_PTR SetNickName(WPARAM newnick, LPARAM lparam)
 {
-	if(newnick==NULL)
+	if (newnick==NULL)
 	{
 		return FALSE;
 	}
 
-	if(myClient!=NULL)
-		if(myClient->client->connected)
+	if (myClient!=NULL)
+		if (myClient->client->connected)
 		{
 			myClient->setNick((char*)newnick);
 			db_set_s(NULL,protocolname,"Nick",(char*)newnick);
@@ -3257,8 +3247,8 @@ INT_PTR SetNickName(WPARAM newnick, LPARAM lparam)
 //sendet neue preferencen zu xfire
 INT_PTR SendPrefs(WPARAM wparam, LPARAM lparam)
 {
-	if(myClient!=NULL)
-		if(myClient->client->connected)
+	if (myClient!=NULL)
+		if (myClient->client->connected)
 		{
 			PrefsPacket prefs;
 			for(int i=0;i<XFIRE_RECVPREFSPACKET_MAXCONFIGS;i++)
@@ -3271,32 +3261,23 @@ INT_PTR SendPrefs(WPARAM wparam, LPARAM lparam)
 	return FALSE;
 }
 
-
-/*INT_PTR GetAwayMsg(WPARAM wParam, LPARAM lParam)
-{
-	CCSDATA* ccs = (CCSDATA*)lParam;
-
-	mir_forkthread(SendAMAck,ccs->hContact);
-	return 1;
-}*/
-
 int ContactDeleted(WPARAM wParam,LPARAM lParam)
 {
-	if(!db_get_b((HANDLE)wParam, protocolname, "DontSendDenyPacket", 0))
-		if(db_get_b((HANDLE)wParam,"CList","NotOnList",0))
+	if (!db_get_b((HANDLE)wParam, protocolname, "DontSendDenyPacket", 0))
+	if (db_get_b((HANDLE)wParam,"CList","NotOnList",0))
+	{
+		if (myClient!=NULL)
+		if (myClient->client->connected)
 		{
-			if(myClient!=NULL)
-				if(myClient->client->connected)
-				{
-					DBVARIANT dbv2;
-					if(!db_get((HANDLE)wParam,protocolname,"Username",&dbv2)) {
-						SendDenyInvitationPacket deny;
-						deny.name = dbv2.pszVal;
-						myClient->client->send( &deny );
-					}
-				}
+			DBVARIANT dbv2;
+			if (!db_get((HANDLE)wParam,protocolname,"Username",&dbv2)) {
+				SendDenyInvitationPacket deny;
+				deny.name = dbv2.pszVal;
+				myClient->client->send( &deny );
+			}
 		}
-		return 0;
+	}
+	return 0;
 }
 
 INT_PTR StartGame(WPARAM wParam,LPARAM lParam,LPARAM fParam)
@@ -3307,7 +3288,7 @@ INT_PTR StartGame(WPARAM wParam,LPARAM lParam,LPARAM fParam)
 	Xfire_game*game=xgamelist.getGamebyGameid(fParam);
 
 	//starte das spiel
-	if(game)
+	if (game)
 		game->start_game();
 
 	//gamelist blocken
@@ -3317,28 +3298,29 @@ INT_PTR StartGame(WPARAM wParam,LPARAM lParam,LPARAM fParam)
 	return 0;
 }
 
-INT_PTR RemoveFriend(WPARAM wParam,LPARAM lParam) {
+INT_PTR RemoveFriend(WPARAM wParam,LPARAM lParam)
+{
 	char temp[256];
 	DBVARIANT dbv;
 
-	if(!db_get_s((HANDLE)wParam, protocolname, "Username",&dbv))
+	if (!db_get_s((HANDLE)wParam, protocolname, "Username",&dbv))
 	{
 		mir_snprintf(temp, SIZEOF(temp), Translate("Do you really want to delete your friend %s?"), dbv.pszVal);
-		if(MessageBoxA(NULL,temp,Translate("Confirm Delete"),MB_YESNO|MB_ICONQUESTION)==IDYES)
+		if (MessageBoxA(NULL,temp,Translate("Confirm Delete"),MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
-			if(myClient!=NULL)
+			if (myClient!=NULL)
+			{
+				if (myClient->client->connected)
+				{
+					SendRemoveBuddyPacket removeBuddy;
+
+					removeBuddy.userid=db_get_dw((HANDLE)wParam,protocolname,"UserId",0);
+
+					if (removeBuddy.userid!=0)
 					{
-						if(myClient->client->connected)
-						{
-							SendRemoveBuddyPacket removeBuddy;
-
-							removeBuddy.userid=db_get_dw((HANDLE)wParam,protocolname,"UserId",0);
-
-							if(removeBuddy.userid!=0)
-							{
-								myClient->client->send(&removeBuddy);
-							}
+						myClient->client->send(&removeBuddy);
 					}
+				}
 			}
 		}
 		db_free(&dbv);
@@ -3346,24 +3328,25 @@ INT_PTR RemoveFriend(WPARAM wParam,LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR BlockFriend(WPARAM wParam,LPARAM lParam) {
+INT_PTR BlockFriend(WPARAM wParam,LPARAM lParam)
+{
 	DBVARIANT dbv;
 
-	if(!db_get_s((HANDLE)wParam, protocolname, "Username",&dbv))
+	if (!db_get_s((HANDLE)wParam, protocolname, "Username",&dbv))
 	{
-		if(MessageBoxA(NULL,Translate("Block this user from ever contacting you again?"),Translate("Block Confirmation"),MB_YESNO|MB_ICONQUESTION)==IDYES)
+		if (MessageBoxA(NULL,Translate("Block this user from ever contacting you again?"),Translate("Block Confirmation"),MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
-			if(myClient!=NULL)
-					{
-						if(myClient->client->connected)
-						{
-							db_set_b(NULL,"XFireBlock",dbv.pszVal,1);
+			if (myClient!=NULL)
+			{
+				if (myClient->client->connected)
+				{
+					db_set_b(NULL,"XFireBlock",dbv.pszVal,1);
 
-							SendDenyInvitationPacket deny;
-							deny.name = dbv.pszVal;
-							myClient->client->send( &deny );
-						}
-					}
+					SendDenyInvitationPacket deny;
+					deny.name = dbv.pszVal;
+					myClient->client->send( &deny );
+				}
+			}
 		}
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM) wParam, 1);
 		db_free(&dbv);
@@ -3382,7 +3365,7 @@ INT_PTR StartThisGame(WPARAM wParam,LPARAM lParam) {
 	Xfire_game*game=xgamelist.getGamebyGameid(id);
 
 	//starte das spiel
-	if(game)
+	if (game)
 		game->start_game();
 
 	//gamelist blocken
@@ -3402,11 +3385,11 @@ INT_PTR JoinGame(WPARAM wParam,LPARAM lParam) {
 	Xfire_game*game=xgamelist.getGamebyGameid(id);
 
 	//starte das spiel
-	if(game)
+	if (game)
 	{
 		DBVARIANT dbv; //dbv.pszVal
 		int port=db_get_w((HANDLE)wParam, protocolname, "Port",0);
-		if(!db_get_s((HANDLE)wParam, protocolname, "ServerIP",&dbv))
+		if (!db_get_s((HANDLE)wParam, protocolname, "ServerIP",&dbv))
 		{
 			//starte spiel mit netzwerk parametern
 			game->start_game(dbv.pszVal,port);
@@ -3433,7 +3416,7 @@ int doneQuery( WPARAM wParam, LPARAM lParam ) {
 	db_set_s(bud->hcontact, protocolname, "Players", temp);
 	db_set_b(bud->hcontact, protocolname, "Passworded", gameinfo->password);
 
-	if(myClient!=NULL)
+	if (myClient!=NULL)
 		handlingBuddys(bud,0,NULL,TRUE);
 
 	return 0;
@@ -3449,7 +3432,7 @@ int IconLibChanged(WPARAM wParam, LPARAM lParam) {
 	char temp[255];
 	for(int i=0;i<1024;i++)
 	{
-		if(icocache[i].hicon>0)
+		if (icocache[i].hicon>0)
 		{
 			//ImageList_ReplaceIcon(hAdvancedStatusIcon,(int)icocache[i].handle,icocache[i].hicon);
 			HANDLE before=icocache[i].handle;
@@ -3467,15 +3450,15 @@ int IconLibChanged(WPARAM wParam, LPARAM lParam) {
 INT_PTR GetAvatarInfo(WPARAM wParam, LPARAM lParam) {
 	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
-	if(db_get_b(NULL,protocolname,"noavatars",-1)!=0)
+	if (db_get_b(NULL,protocolname,"noavatars",-1)!=0)
 		return GAIR_NOAVATAR;
 
 	pai->format=db_get_w(pai->hContact,"ContactPhoto","Format",0);
-	if(pai->format==0)
+	if (pai->format==0)
 		return GAIR_NOAVATAR;
 
 	DBVARIANT dbv;
-	if(!db_get(pai->hContact,"ContactPhoto","File",&dbv))
+	if (!db_get(pai->hContact,"ContactPhoto","File",&dbv))
 	{
 		strcpy(pai->filename,dbv.pszVal);
 		db_free(&dbv);

@@ -34,17 +34,17 @@ namespace xfirelib {
       VariableValue *val = new VariableValue();
       read += val->readName(buf, read);
       XDEBUG(( "Read Variable Name: %s\n", val->getName().c_str() ));
-      if(val->getName() == "userid") {
+      if (val->getName() == "userid") {
 	read++; // ignore 02
 	read += val->readValue(buf, read, 3);
 	read++; // ignore 00
 	XDEBUG2( "My userid: %lu\n", val->getValueAsLong() );
 	this->myuid=val->getValueAsLong();
-      } else if(val->getName() == "sid") {
+      } else if (val->getName() == "sid") {
 	read++; // ignore 03
 	read+=val->readValue(buf, read, 16);
 	//XDEBUG(( "My SID: %u\n", val->getValue() ));
-      } else if(val->getName() == "nick") {
+      } else if (val->getName() == "nick") {
 	//int lengthLength = (int)val->getValueAsLong();
 	read++; // ignore 01
 	//read+=val->readValue(buf, read, -1, 1);
@@ -57,9 +57,9 @@ namespace xfirelib {
 
 	this->nick=std::string(val->getValue(),l);
 
-      } else if(val->getName() == "status") {
+      } else if (val->getName() == "status") {
 	read+=5; // ignore everything
-      } else if(val->getName() == "dlset") {
+      } else if (val->getName() == "dlset") {
 	read+=3; // ignore everything
       } else {
 	i = numberOfAtts; 

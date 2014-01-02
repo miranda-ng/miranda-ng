@@ -53,15 +53,15 @@ namespace xfirelib {
 	int nlen=0;
 	//FILE* f2;
 
-	if(socket==NULL) return;
+	if (socket==NULL) return;
 
     int r = socket->recv( buf, 5 );
 	int missingbytes=5-r;
-	if(missingbytes != 0) {
+	if (missingbytes != 0) {
 		XERROR3("Returned only %d bytes try last %d bytes again ?!: \n",r,missingbytes);
 		r+= socket->recv( &buf[r], missingbytes );
 	}
-    if(r != 5) {
+    if (r != 5) {
       XERROR2("Returned less than 5 ?!: %d\n",r);
       throw SocketException("Connection Closed ?");
     }
@@ -92,9 +92,9 @@ namespace xfirelib {
 
     XDEBUG5("packetid: %d numberOfAtts: %d length: %d Got: %d\n", (unsigned char)packetid,numberOfAtts,len-5,r2);
 
-    if(r2 < 1) return;
+    if (r2 < 1) return;
 
-	/*if((unsigned char)packetid==131)
+	/*if ((unsigned char)packetid==131)
 	{
 		sprintf(temp,"packet%d_%d.dmp",(unsigned char)packetid,rand());
 		f2=fopen(temp,"wb");
@@ -106,7 +106,7 @@ namespace xfirelib {
 
 	//sprintf(temp,"packet%d.dmp",(unsigned char)packetid);
 
-    if(contentClass == NULL) {
+    if (contentClass == NULL) {
 		/*sprintf(temp,"packet%d.dmp",(unsigned char)packetid);
 		f2=fopen(temp,"wb");
 		fwrite(contentbuf,1,len-5,f2);

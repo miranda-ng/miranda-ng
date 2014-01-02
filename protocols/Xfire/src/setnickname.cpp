@@ -13,7 +13,7 @@ INT_PTR CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			SendMessage(hwndDlg,WM_SETICON, (WPARAM)false, (LPARAM)LoadIcon(hinstance, MAKEINTRESOURCE(IDI_TM)));
 
 			DBVARIANT dbv;
-			if(!db_get(NULL,protocolname,"Nick",&dbv)) {
+			if (!db_get(NULL,protocolname,"Nick",&dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_NICKNAME,dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -21,7 +21,7 @@ INT_PTR CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		}
 		case WM_COMMAND:
 		{
-			if(LOWORD(wParam) == IDOK)
+			if (LOWORD(wParam) == IDOK)
 			{
 				char nick[255];
 				GetDlgItemTextA(hwndDlg,IDC_NICKNAME,nick,sizeof(nick));
@@ -31,7 +31,7 @@ INT_PTR CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				EndDialog(hwndDlg,TRUE);
 				return TRUE;
 			}
-			else if(LOWORD(wParam) == IDCANCEL)
+			else if (LOWORD(wParam) == IDCANCEL)
 			{
 				EndDialog(hwndDlg,FALSE);
 				return FALSE;

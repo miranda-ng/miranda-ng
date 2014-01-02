@@ -14,7 +14,7 @@ INT_PTR CALLBACK DlgPWProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_CLOSE:
 		{
 			GetDlgItemTextA(hwndDlg,IDC_PWSTRING,(LPSTR)pw,254);
-			if(usenick)
+			if (usenick)
 				GetDlgItemTextA(hwndDlg,IDC_PWNICK,(LPSTR)nick,254);
 			EndDialog(hwndDlg,(INT_PTR)pw);
 			break;
@@ -26,14 +26,14 @@ INT_PTR CALLBACK DlgPWProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			pw[0]=0;
 			nick[0]=0;
 			SendMessage(hwndDlg,WM_SETICON, (WPARAM)false, (LPARAM)LoadIcon(hinstance, MAKEINTRESOURCE(IDI_TM)));
-			if(!usenick)
+			if (!usenick)
 				EnableWindow(GetDlgItem(hwndDlg,IDC_PWNICK),FALSE);
 
 			return TRUE;
 		}
 		case WM_COMMAND:
 		{
-			if(LOWORD(wParam) == IDC_BTN4) {
+			if (LOWORD(wParam) == IDC_BTN4) {
 				SendMessage(hwndDlg,WM_CLOSE,0,0);
 			}
 			break;
@@ -43,7 +43,7 @@ INT_PTR CALLBACK DlgPWProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 void ShowPasswordDialog(char*pw,char*mynick) {
-	if(mynick!=NULL)
+	if (mynick!=NULL)
 	{
 		usenick=TRUE;
 	}
@@ -52,7 +52,7 @@ void ShowPasswordDialog(char*pw,char*mynick) {
 
 	char* npw = (char*)DialogBox(hinstance,MAKEINTRESOURCE(IDD_PWDLG),NULL,DlgPWProc);
 	strcpy(pw,npw);
-	if(mynick)
+	if (mynick)
 	{
 		strcpy(mynick,(char*)nick);
 	}

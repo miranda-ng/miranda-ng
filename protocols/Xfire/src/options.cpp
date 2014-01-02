@@ -104,7 +104,7 @@ static mytreeitem mytree[] = {
 //funktion zum auslesen aller einträge unter XFireBlock
 static int enumSettingsProc(const char *szSetting,LPARAM lParam)
 { 
-	if(strlen(szSetting)>0)
+	if (strlen(szSetting)>0)
 	{
 		SendDlgItemMessageA( (HWND)lParam, IDC_BLOCKUSER, LB_ADDSTRING, 0, (LPARAM)szSetting);
 	}
@@ -143,7 +143,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			strcat(inipath, "xfire_games.ini");
 			
 			FILE * f = fopen(inipath,"r");
-			if(f!=NULL)
+			if (f!=NULL)
 			{
 				fclose(f);
 				CheckDlgButton(hwndDlg,IDC_CHKG,1);
@@ -159,7 +159,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			strcat(inipath, "icons.dll");
 			
 			f = fopen(inipath,"r");
-			if(f!=NULL)
+			if (f!=NULL)
 			{
 				fclose(f);
 				CheckDlgButton(hwndDlg,IDC_CHKI,1);
@@ -168,16 +168,16 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			else
 				dllfound = FALSE;
 
-			if(!db_get(NULL,protocolname,"login",&dbv)) {
+			if (!db_get(NULL,protocolname,"login",&dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_LOGIN,dbv.pszVal);
 
 				db_free(&dbv);
 			}
-			if(!db_get(NULL,protocolname,"Nick",&dbv)) {
+			if (!db_get(NULL,protocolname,"Nick",&dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_NICK,dbv.pszVal);
 				db_free(&dbv);
 			}
-			if(!db_get(NULL,protocolname,"password",&dbv)) {
+			if (!db_get(NULL,protocolname,"password",&dbv)) {
 				//bit of a security hole here, since it's easy to extract a password from an edit box
 				SetDlgItemTextA(hwndDlg,IDC_PASSWORD,dbv.pszVal);
 				db_free(&dbv);
@@ -188,12 +188,12 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SetDlgItemTextA(hwndDlg,IDC_PVER,temp);
 
 			EnableWindow(GetDlgItem(hwndDlg,IDC_LASTGAME),FALSE);
-			if(!db_get(NULL,protocolname,"LastGame",&dbv)) {
+			if (!db_get(NULL,protocolname,"LastGame",&dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_LASTGAME,dbv.pszVal);
 				db_free(&dbv);
 			}
 
-			if(bpStatus==ID_STATUS_OFFLINE&&bpStatus!=ID_STATUS_CONNECTING) {
+			if (bpStatus==ID_STATUS_OFFLINE&&bpStatus!=ID_STATUS_CONNECTING) {
 				EnableDlgItem(hwndDlg, IDC_NICK, FALSE);
 			}
 			else
@@ -202,7 +202,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				for(int i=0;i<size;i++)
 				{
 					EnableDlgItem(hwndDlg, xfireconfigitems[i].id, TRUE);
-					if(xfireconfig[xfireconfigitems[i].xfireconfigid].wasset==0)
+					if (xfireconfig[xfireconfigitems[i].xfireconfigid].wasset==0)
 					{
 						CheckDlgButton(hwndDlg,xfireconfigitems[i].id,1);
 					}
@@ -212,7 +212,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					}
 				}
 				//wenn die erste option aktiv ist, untere aktivieren, sonst deaktivieren
-				if(!(BYTE)IsDlgButtonChecked(hwndDlg, IDC_KONFIG_1 ))
+				if (!(BYTE)IsDlgButtonChecked(hwndDlg, IDC_KONFIG_1 ))
 				{
 					CheckDlgButton(hwndDlg,IDC_KONFIG_2,0);
 					CheckDlgButton(hwndDlg,IDC_KONFIG_3,0);
@@ -227,7 +227,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 
 		case WM_COMMAND:
-			if(!(BYTE)IsDlgButtonChecked(hwndDlg, IDC_KONFIG_1 ))
+			if (!(BYTE)IsDlgButtonChecked(hwndDlg, IDC_KONFIG_1 ))
 			{
 				CheckDlgButton(hwndDlg,IDC_KONFIG_2,0);
 				CheckDlgButton(hwndDlg,IDC_KONFIG_3,0);
@@ -265,20 +265,20 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 					GetDlgItemTextA(hwndDlg,IDC_LOGIN,login,sizeof(login));
 					dbv.pszVal=NULL;
-					if(db_get(NULL,protocolname,"login",&dbv) || strcmp(login,dbv.pszVal))
+					if (db_get(NULL,protocolname,"login",&dbv) || strcmp(login,dbv.pszVal))
 						reconnectRequired=1;
-					if(dbv.pszVal!=NULL) db_free(&dbv);
+					if (dbv.pszVal!=NULL) db_free(&dbv);
 					
 					//den login lowercasen
 					int size=strlen(login);
 					BOOL mustlowercase=FALSE;
 					for(int i=0;i<size;i++)
 					{
-						if(login[i]>='A'&&login[i]<='Z')
+						if (login[i]>='A'&&login[i]<='Z')
 							mustlowercase=TRUE;
 						login[i]=tolower(login[i]);
 					}
-					if(mustlowercase) {
+					if (mustlowercase) {
 						MessageBoxA(NULL,Translate("The username must be lowercase, so it will be lowercased saved."),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
 						SetDlgItemTextA(hwndDlg,IDC_LOGIN,login);
 					}
@@ -289,28 +289,28 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					//nur wenn der nick erfolgreich übertragen wurde
 					GetDlgItemTextA(hwndDlg,IDC_NICK,login,sizeof(login));
 					dbv.pszVal=NULL;
-					if(db_get(NULL,protocolname,"Nick",&dbv) || strcmp(login,dbv.pszVal))
+					if (db_get(NULL,protocolname,"Nick",&dbv) || strcmp(login,dbv.pszVal))
 					{
-						if(CallService(XFIRE_SET_NICK,0,(WPARAM)login))
+						if (CallService(XFIRE_SET_NICK,0,(WPARAM)login))
 							db_set_s(NULL,protocolname,"Nick",login);
 					}
-					if(dbv.pszVal!=NULL) db_free(&dbv);
+					if (dbv.pszVal!=NULL) db_free(&dbv);
 
 					GetDlgItemTextA(hwndDlg,IDC_PASSWORD,str,sizeof(str));
 					dbv.pszVal = NULL;
-					if(db_get(NULL,protocolname,"password",&dbv) || strcmp(str,dbv.pszVal))
+					if (db_get(NULL,protocolname,"password",&dbv) || strcmp(str,dbv.pszVal))
 						reconnectRequired=1;
-					if(dbv.pszVal!=NULL) db_free(&dbv);
+					if (dbv.pszVal!=NULL) db_free(&dbv);
 					db_set_s(NULL,protocolname,"password",str);
 					GetDlgItemTextA(hwndDlg,IDC_SERVER,str,sizeof(str));
 
 					//neue preferencen sichern
-					if(bpStatus!=ID_STATUS_OFFLINE&&bpStatus!=ID_STATUS_CONNECTING)
+					if (bpStatus!=ID_STATUS_OFFLINE&&bpStatus!=ID_STATUS_CONNECTING)
 					{
 						int size=sizeof(xfireconfigitems)/sizeof(xfireconfigitem);
 						for(int i=0;i<size;i++)
 						{
-							if(!(BYTE)IsDlgButtonChecked(hwndDlg, xfireconfigitems[i].id))
+							if (!(BYTE)IsDlgButtonChecked(hwndDlg, xfireconfigitems[i].id))
 							{
 								db_set_b(NULL,protocolname,xfireconfigitems[i].dbentry,0);
 								xfireconfig[xfireconfigitems[i].xfireconfigid].wasset=1;
@@ -332,7 +332,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					//GetDlgItemTextA(hwndDlg,IDC_PVER,str,sizeof(str));
 					//db_set_b(NULL,protocolname,"protover",(char)atoi(str));
 
-					if(reconnectRequired) MessageBoxA(hwndDlg,Translate("The changes you have made require you to reconnect to the XFire network before they take effect"),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
+					if (reconnectRequired) MessageBoxA(hwndDlg,Translate("The changes you have made require you to reconnect to the XFire network before they take effect"),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
 					return TRUE;
 				}
 
@@ -391,7 +391,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					gruppen_id++;
 					mir_snprintf(temp, SIZEOF(temp), "%d", gruppen_id);
 					
-					if(dbv.pszVal!=NULL) {
+					if (dbv.pszVal!=NULL) {
 						SendDlgItemMessageA( hwndDlg, IDC_CLANGROUP, CB_ADDSTRING, 0, (LPARAM)&dbv.pszVal[1]);
 						SendDlgItemMessageA( hwndDlg, IDC_FOFGROUP, CB_ADDSTRING, 0, (LPARAM)&dbv.pszVal[1]);
 						db_free(&dbv);
@@ -475,7 +475,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			CheckDlgButton(hwndDlg,IDC_CHKI,dllfound);
 			CheckDlgButton(hwndDlg,IDC_CHKG,inifound);
 
-			if(HIWORD(wParam) == CBN_SELCHANGE)
+			if (HIWORD(wParam) == CBN_SELCHANGE)
 			{
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				return 0;
@@ -509,9 +509,9 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 								hti.pt.x=(short)LOWORD(GetMessagePos());
 								hti.pt.y=(short)HIWORD(GetMessagePos());
 								ScreenToClient(((LPNMHDR)lParam)->hwndFrom,&hti.pt);
-								if(TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom,&hti))
+								if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom,&hti))
 									if (hti.flags&TVHT_ONITEM)
-										if(hti.flags&TVHT_ONITEMSTATEICON)
+										if (hti.flags&TVHT_ONITEMSTATEICON)
 											if (TreeView_GetParent(hwndTree, hti.hItem)!=NULL)
 												SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 								break;
@@ -532,7 +532,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					for(int i=0;i<sizeof(mytree)/sizeof(mytreeitem);i++)
 					{
 						TVITEM tvic;
-						if(mytree[i].parent==0)
+						if (mytree[i].parent==0)
 						{
 							tvic.hItem=mytree[i].hitem;
 							tvic.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
@@ -558,7 +558,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					//GetDlgItemTextA(hwndDlg,IDC_PVER,str,sizeof(str));
 					//db_set_b(NULL,protocolname,"protover",(char)atoi(str));
 
-					if(reconnectRequired) MessageBoxA(hwndDlg,Translate("The changes you have made require you to reconnect to the XFire network before they take effect"),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
+					if (reconnectRequired) MessageBoxA(hwndDlg,Translate("The changes you have made require you to reconnect to the XFire network before they take effect"),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
 					return TRUE;
 				}
 
@@ -588,7 +588,7 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			strcat(inipath, "xfire_games.ini");
 			
 			FILE * f = fopen(inipath,"r");
-			if(f!=NULL)
+			if (f!=NULL)
 			{
 				fclose(f);
 				CheckDlgButton(hwndDlg,IDC_CHKG,1);
@@ -604,7 +604,7 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			strcat(inipath, "icons.dll");
 			
 			f = fopen(inipath,"r");
-			if(f!=NULL)
+			if (f!=NULL)
 			{
 				fclose(f);
 				CheckDlgButton(hwndDlg,IDC_CHKI,1);
@@ -640,16 +640,16 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			CheckDlgButton(hwndDlg,IDC_CHKI,dllfound);
 			CheckDlgButton(hwndDlg,IDC_CHKG,inifound);
 
-			if(LOWORD(wParam) == IDC_REMUSER) //nutzer soll aus der blockierliste raus
+			if (LOWORD(wParam) == IDC_REMUSER) //nutzer soll aus der blockierliste raus
 			{
 				char temp[255];
 				int sel=SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_GETCURSEL, 0, 0);
-				if(sel!=LB_ERR) //nur wenn was ausgewählt wurde
+				if (sel!=LB_ERR) //nur wenn was ausgewählt wurde
 				{
 					SendDlgItemMessageA(hwndDlg, IDC_BLOCKUSER, LB_GETTEXT, sel, (LPARAM)temp); 
 					SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_DELETESTRING, sel, 0);
 					db_unset(NULL,"XFireBlock",temp);
-					if(SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_GETCOUNT, 0, 0)==0)
+					if (SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_GETCOUNT, 0, 0)==0)
 						EnableDlgItem(hwndDlg, IDC_REMUSER, FALSE);
 				}
 			}
@@ -689,15 +689,15 @@ static INT_PTR CALLBACK DlgProcOpts5(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			CheckDlgButton(hwndDlg,IDC_ENABLESTSMSG,db_get_b(NULL,protocolname,"autosetstatusmsg",0));
 			CheckDlgButton(hwndDlg,IDC_CHGSTATUS,db_get_b(NULL,protocolname,"statuschgtype",0));
 			CheckDlgButton(hwndDlg,IDC_DNDFIRST,db_get_b(NULL,protocolname,"dndfirst",0));
-			if(!db_get(NULL,protocolname,"setstatusmsg",&dbv)) {
+			if (!db_get(NULL,protocolname,"setstatusmsg",&dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_STATUSMSG,dbv.pszVal);
 				db_free(&dbv);
 			}
-			if(!IsDlgButtonChecked(hwndDlg, IDC_ENABLESTSMSG))
+			if (!IsDlgButtonChecked(hwndDlg, IDC_ENABLESTSMSG))
 			{
 				EnableDlgItem(hwndDlg, IDC_STATUSMSG, FALSE);
 			}
-		/*	if(!ServiceExists(MS_VARS_FORMATSTRING))
+		/*	if (!ServiceExists(MS_VARS_FORMATSTRING))
 			{
 				EnableDlgItem(hwndDlg, IDC_STATUSMSG, FALSE);
 				EnableDlgItem(hwndDlg, IDC_ENABLESTSMSG, FALSE);
@@ -801,14 +801,14 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		case WM_COMMAND:
 		{
-			if(LOWORD(wParam)==IDC_REMOVE)
+			if (LOWORD(wParam)==IDC_REMOVE)
 			{
 				int idx=SendDlgItemMessage(hwndDlg, IDC_LGAMELIST, LB_GETCURSEL, 0, 0);
 
 				//was ausgewählt in der liste?
-				if(idx!=LB_ERR) {
+				if (idx!=LB_ERR) {
 					//user fragen ob er das game wirklich löschen will
-					if(MessageBoxA(hwndDlg,Translate("Are you sure you want to remove this game?"),Translate("XFire Options"),MB_YESNO|MB_ICONQUESTION)==IDYES) {
+					if (MessageBoxA(hwndDlg,Translate("Are you sure you want to remove this game?"),Translate("XFire Options"),MB_YESNO|MB_ICONQUESTION)==IDYES) {
 						//gameliste blocken
 						xgamelist.Block(TRUE);
 						//spielid auslesen
@@ -838,11 +838,11 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			}
 			else
-			if(LOWORD(wParam)==IDC_ADDGAME)
+			if (LOWORD(wParam)==IDC_ADDGAME)
 			{
 				//gameliste blocken
 				xgamelist.Block(TRUE);
-				//if(DialogBox(hinstance,MAKEINTRESOURCE(IDD_ADDGAME),hwndDlg,DlgAddGameProc)) {
+				//if (DialogBox(hinstance,MAKEINTRESOURCE(IDD_ADDGAME),hwndDlg,DlgAddGameProc)) {
 				AddGameDialog(hwndDlg);
 				//gameliste unblocken
 				xgamelist.Block(FALSE);
@@ -850,7 +850,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				SendMessage(hwndDlg,WM_FILLGAMELIST,0,0);
 			}
 			//copy gamelist to clipboard button entfernt
-			/*else if(LOWORD(wParam)==IDC_CREATETXTLIST) //gameliste als textform für debugging erstellen
+			/*else if (LOWORD(wParam)==IDC_CREATETXTLIST) //gameliste als textform für debugging erstellen
 			{
 				//gameliste blocken
 				xgamelist.Block(TRUE);
@@ -862,17 +862,17 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				xgamelist.setString("Xfire-gamelist:\r\n",&out);
 				while(xgamelist.getnextGame(&nextgame))
 				{
-					if(nextgame->name)
+					if (nextgame->name)
 					{
 						xgamelist.appendString("\r\nName: ",&out);
 						xgamelist.appendString(nextgame->name,&out);
 					}
-					if(nextgame->path)
+					if (nextgame->path)
 					{
 						xgamelist.appendString("\r\nPath: ",&out);
 						xgamelist.appendString(nextgame->path,&out);
 					}
-					if(nextgame->launchparams)
+					if (nextgame->launchparams)
 					{
 						xgamelist.appendString("\r\nLaunch: ",&out);
 						xgamelist.appendString(nextgame->launchparams,&out);
@@ -887,7 +887,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					xgamelist.appendString("\r\nSend-Id: ",&out);
 					xgamelist.appendString(temp,&out);
 
-					if(nextgame->skip)
+					if (nextgame->skip)
 					{
 						xgamelist.appendString("\r\nThis game will be skipped in game detection!",&out);
 					}
@@ -895,7 +895,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					xgamelist.appendString("\r\n",&out);
 				}
 
-				if(OpenClipboard(NULL))
+				if (OpenClipboard(NULL))
 				{
 					HGLOBAL clipbuffer;
 					char* buffer;
@@ -910,16 +910,16 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					CloseClipboard();
 				}
 
-				if(out!=NULL) delete[] out;
+				if (out!=NULL) delete[] out;
 
 				//gameliste unblocken
 				xgamelist.Block(FALSE);
 			}*/
-			else if(LOWORD(wParam)==IDC_EDITGAME) {
+			else if (LOWORD(wParam)==IDC_EDITGAME) {
 				int idx=SendDlgItemMessage(hwndDlg, IDC_LGAMELIST, LB_GETCURSEL, 0, 0);
 
 				//was ausgewählt in der liste?
-				if(idx!=LB_ERR) {
+				if (idx!=LB_ERR) {
 					//gameliste blocken
 					xgamelist.Block(TRUE);
 					//gameid der aktuellen auswahl auslesen
@@ -927,7 +927,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					//spielobject holen
 					Xfire_game* tempgame=xgamelist.getGamebyGameid(gameid);
 					//gültiger verweis?
-					if(tempgame) {
+					if (tempgame) {
 						//editmodus des addgamedialog
 						AddGameDialog(hwndDlg,tempgame);
 						//elemente wieder unsichtbar machen
@@ -948,11 +948,11 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				else
 					MessageBoxA(hwndDlg,Translate("Please select a game."),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
 			}else //wurde ein spiel aus der liste gewählt?
-			if(HIWORD(wParam)==LBN_SELCHANGE && LOWORD(wParam)==IDC_LGAMELIST)
+			if (HIWORD(wParam)==LBN_SELCHANGE && LOWORD(wParam)==IDC_LGAMELIST)
 			{
 				int idx=SendDlgItemMessage(hwndDlg, IDC_LGAMELIST, LB_GETCURSEL, 0, 0);
 				//es wurde was ausgewählt?
-				if(idx!=LB_ERR)
+				if (idx!=LB_ERR)
 				{
 					//textlänge auslesen
 					int size=SendDlgItemMessage(hwndDlg, IDC_LGAMELIST, LB_GETTEXTLEN, idx, 0);
@@ -961,7 +961,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					SendDlgItemMessageA(hwndDlg, IDC_LGAMELIST, LB_GETTEXT, idx, (LPARAM)text);
 					SetDlgItemTextA(hwndDlg,IDC_GAMENAME,text);
 					//textbuffer löschen
-					if(text!=NULL)
+					if (text!=NULL)
 					{
 						delete text;
 						text=NULL;
@@ -971,7 +971,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 					HICON hicon=xgamelist.iconmngr.getGameIcon(gameid);
 					//iconhandle holen und setzen
-					if(hicon)
+					if (hicon)
 						SendMessage(GetDlgItem(hwndDlg,IDC_GAMEICO),STM_SETICON,(WPARAM)hicon,0);
 					else
 						SendMessage(GetDlgItem(hwndDlg,IDC_GAMEICO),STM_SETICON,0,0);
@@ -984,7 +984,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					EnableDlgItem(hwndDlg, IDC_EXTRAPARAMS, TRUE);
 
 					Xfire_game* xgtemp = xgamelist.getGamebyGameid(gameid);
-					if(xgtemp && xgtemp->custom)
+					if (xgtemp && xgtemp->custom)
 					{
 						ShowWindow(GetDlgItem(hwndDlg,IDC_MANADDED),SW_SHOW);
 						ShowWindow(GetDlgItem(hwndDlg, IDC_EDITGAME), SW_SHOW);
@@ -1005,12 +1005,12 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					CheckDlgButton(hwndDlg,IDC_NOTINSTARTMENU,db_get_b(NULL,protocolname,temp,0));
 					
 					//extra parameter auslesen, aber nur, wenn das spiel auch sowas unterstützt
-					if(xgtemp && xgtemp->haveExtraGameArgs())
+					if (xgtemp && xgtemp->haveExtraGameArgs())
 					{
 						EnableDlgItem(hwndDlg, IDC_EXTRAPARAMS, TRUE);
 						mir_snprintf(temp, SIZEOF(temp), "gameextraparams_%d", gameid);
 						DBVARIANT dbv;
-						if(!db_get(NULL,protocolname,temp,&dbv))
+						if (!db_get(NULL,protocolname,temp,&dbv))
 						{
 							SetDlgItemTextA(hwndDlg,IDC_EXTRAPARAMS,dbv.pszVal);	
 							db_free(&dbv);
@@ -1025,12 +1025,12 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					}
 				}
 			}
-			else if(LOWORD(wParam)==IDC_APPLY)
+			else if (LOWORD(wParam)==IDC_APPLY)
 			{
 				//auswahl speichern
 				int idx=SendDlgItemMessage(hwndDlg, IDC_LGAMELIST, LB_GETCURSEL, 0, 0);
 				//es wurde was ausgewählt?
-				if(idx!=LB_ERR)
+				if (idx!=LB_ERR)
 				{
 					int gameid=SendDlgItemMessage( (HWND)hwndDlg, IDC_LGAMELIST, LB_GETITEMDATA, idx, 0);
 					int dbid;
@@ -1038,10 +1038,10 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					//gamelist blocken
 					xgamelist.Block(TRUE);
 
-					if(xgamelist.Gameinlist(gameid,&dbid))
+					if (xgamelist.Gameinlist(gameid,&dbid))
 					{
 						Xfire_game* game=xgamelist.getGame(dbid);
-						if(game)
+						if (game)
 						{
 							game->skip=(BYTE)IsDlgButtonChecked(hwndDlg, IDC_DONTDETECT);
 							game->noicqstatus=(BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOSTATUSMSG);
@@ -1050,7 +1050,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							//extra parameter auslesen und das gameobj schreiben
 							char str[128]="";
 							GetDlgItemTextA(hwndDlg,IDC_EXTRAPARAMS,str,sizeof(str));
-							if(str[0]!=0)
+							if (str[0]!=0)
 							{
 								//extra parameter sind gesetzt, zuweisen
 								game->setString(str,&game->extraparams);
@@ -1058,7 +1058,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							else
 							{
 								//extra parameter leer, wenn gesetzt entfernen/freigeben
-								if(game->extraparams)
+								if (game->extraparams)
 								{
 									delete[] game->extraparams;
 									game->extraparams=NULL;

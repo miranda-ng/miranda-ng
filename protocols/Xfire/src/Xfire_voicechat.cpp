@@ -14,7 +14,7 @@ Xfire_voicechat::Xfire_voicechat() {
 Xfire_voicechat::~Xfire_voicechat()
 {
 	//geladene tsr remote dll freigeben
-	if(tsrDLL) {
+	if (tsrDLL) {
 		FreeLibrary(tsrDLL);
 		tsrDLL=NULL;
 	}
@@ -29,10 +29,10 @@ void Xfire_voicechat::initVoicechat()
 
 //prüft ob das paket schonmal versendet wurde, soll unnötigen nwtraffic reduzieren, *ÜBERLEGUNG* ob wirklich notwendig
 BOOL Xfire_voicechat::alreadySend(SendGameStatus2Packet* packet) {
-	if(packet==NULL)
+	if (packet==NULL)
 		return FALSE;
 	
-	if(packet->ip[3] != lastpacket.ip[3] ||
+	if (packet->ip[3] != lastpacket.ip[3] ||
 	   packet->ip[2] != lastpacket.ip[2] ||
 	   packet->ip[1] != lastpacket.ip[1] ||
 	   packet->ip[0] != lastpacket.ip[0] ||
@@ -47,12 +47,12 @@ BOOL Xfire_voicechat::alreadySend(SendGameStatus2Packet* packet) {
 //prüft nach laufenden voicechat anwendungen
 BOOL Xfire_voicechat::checkVoicechat(SendGameStatus2Packet* packet) {
 	//kein gültiger verweis?
-	if(packet==NULL)
+	if (packet==NULL)
 		return FALSE;
 	//jeh nach letzten status handeln
 	switch(currentvoice) {
 		case XFIREVOICECHAT_TS2:
-			if(checkforTS2(packet)) {
+			if (checkforTS2(packet)) {
 				return alreadySend(packet);
 			}
 			else
@@ -66,7 +66,7 @@ BOOL Xfire_voicechat::checkVoicechat(SendGameStatus2Packet* packet) {
 			}
 			break;
 		case XFIREVOICECHAT_TS3:
-			if(checkforTS3(packet)) {
+			if (checkforTS3(packet)) {
 				return alreadySend(packet);
 			}
 			else
@@ -80,7 +80,7 @@ BOOL Xfire_voicechat::checkVoicechat(SendGameStatus2Packet* packet) {
 			}
 			break;
 		case XFIREVOICECHAT_MUMBLE:
-			if(checkforMumble(packet)) {
+			if (checkforMumble(packet)) {
 				return alreadySend(packet);
 			}
 			else
@@ -95,15 +95,15 @@ BOOL Xfire_voicechat::checkVoicechat(SendGameStatus2Packet* packet) {
 			break;
 		default:
 			//prüfe nach ts3
-			if(checkforTS3(packet)) {
+			if (checkforTS3(packet)) {
 				return alreadySend(packet);
 			}
 			//prüfe nach ts2
-			else if(checkforTS2(packet)) {
+			else if (checkforTS2(packet)) {
 				return alreadySend(packet);
 			}
 			//prüfe nach mumble
-			else if(checkforMumble(packet)) {
+			else if (checkforMumble(packet)) {
 				return alreadySend(packet);
 			}
 			break;
@@ -125,7 +125,7 @@ void Xfire_voicechat::resetCurrentvoicestatus() {
 
 //resettet das packet auf 0
 void Xfire_voicechat::resetSendGameStatus2Packet(SendGameStatus2Packet* packet) {
-	if(packet==NULL)
+	if (packet==NULL)
 		return;
 	//voiceid
 	packet->gameid=XFIREVOICECHAT_NOVOICE;
@@ -143,7 +143,7 @@ void Xfire_voicechat::writeToDatabase(SendGameStatus2Packet* packet) {
 	//für sprintf
 	char temp[32]="";
 
-	if(packet==NULL || packet->gameid==XFIREVOICECHAT_NOVOICE) {
+	if (packet==NULL || packet->gameid==XFIREVOICECHAT_NOVOICE) {
 		//einträge aus der db entfernen
 		db_unset(NULL,protocolname, "VServerIP");
 		db_unset(NULL,protocolname, "currentvoicename");
@@ -174,30 +174,30 @@ void Xfire_voicechat::writeToDatabase(SendGameStatus2Packet* packet) {
 HMODULE Xfire_voicechat::loadTSR(char* path,BOOL nolocaltest) {
 	TCHAR pathtotsr[MAX_PATH] = _T("");
 
-	/*if(path)
+	/*if (path)
 		; was tun*/
 	_tcscat_s(pathtotsr,MAX_PATH,_T("TSRemote.dll"));
 	
 	//versuche dll zuladen
 	HMODULE tsrDLL = LoadLibrary(pathtotsr);
 	//konnte nicht geladen werden 
-	if(!tsrDLL)
+	if (!tsrDLL)
 	{
 		XFireLog("TSRemote.dll load failed!");
 
 		//bei keinem lokalen test abbruch
-		if(nolocaltest) return NULL;
+		if (nolocaltest) return NULL;
 
 		//nochmal engl. lokal versuchen
 		tsrDLL = LoadLibrary(_T("C:\\Program Files\\Teamspeak2_RC2\\client_sdk\\TSRemote.dll"));
 
-		if(!tsrDLL) {
+		if (!tsrDLL) {
 			XFireLog("TSRemote.dll load faild (using standard installationpath)!");
 	
 			//deutsches sys?
 			tsrDLL = LoadLibrary(_T("C:\\Programme\\Teamspeak2_RC2\\client_sdk\\TSRemote.dll"));
 
-			if(!tsrDLL)
+			if (!tsrDLL)
 				XFireLog("TSRemote.dll load failed (using standard installationpath2)!");
 	
 				//aufgeben
@@ -218,7 +218,7 @@ HMODULE Xfire_voicechat::loadTSR(char* path,BOOL nolocaltest) {
 BOOL Xfire_voicechat::checkforTS3(SendGameStatus2Packet* packet) {
 	ts3IPPORT* ipport=NULL;
 	//kein gültiger verweis?
-	if(packet==NULL)
+	if (packet==NULL)
 		return FALSE;
 	//existiert ein filemap?
 	HANDLE hMapObject = OpenFileMappingA(FILE_MAP_READ, FALSE, "$ts3info4xfire$");
@@ -228,14 +228,14 @@ BOOL Xfire_voicechat::checkforTS3(SendGameStatus2Packet* packet) {
 	//versuch ipport zubesorgen
 	ipport = (ts3IPPORT *) MapViewOfFile(hMapObject, FILE_MAP_READ, 0, 0, sizeof(ts3IPPORT));
 	//fehler beim zugriff auf filemap?
-	if(ipport==NULL)
+	if (ipport==NULL)
 	{
 		CloseHandle(hMapObject);
 		return FALSE;
 	}
 
 	//wenn kein port, dann stimmt was mit der ip nicht, paket resetten
-	if(ipport->port==0) {
+	if (ipport->port==0) {
 		//packet resetten
 		resetSendGameStatus2Packet(packet);
 		//in db schreiben
@@ -267,7 +267,7 @@ BOOL Xfire_voicechat::checkforTS2(SendGameStatus2Packet* packet) {
 	TtsrServerInfo serverinfo={0};
 
 	//get funktion ist nicht initialisiert
-	if(this->tsrGetServerInfo==NULL || packet==NULL)
+	if (this->tsrGetServerInfo==NULL || packet==NULL)
 	{
 		return FALSE;
 	}
@@ -276,10 +276,10 @@ BOOL Xfire_voicechat::checkforTS2(SendGameStatus2Packet* packet) {
 	this->tsrGetServerInfo(&serverinfo);
 
 	//auswerten wenn serverip gesetzt
-	if(serverinfo.ServerIp[0]!=0)
+	if (serverinfo.ServerIp[0]!=0)
 	{
 		char * pos=strrchr(serverinfo.ServerIp,':');
-		if(pos==0)
+		if (pos==0)
 		{
 			return FALSE;
 		}
@@ -311,17 +311,17 @@ BOOL Xfire_voicechat::checkforTS2(SendGameStatus2Packet* packet) {
 //detection für mumble
 BOOL Xfire_voicechat::checkforMumble(SendGameStatus2Packet* packet) {
 	//kein gültiger verweis?
-	if(packet==NULL)
+	if (packet==NULL)
 		return FALSE;
 
 	//gültige pid
-	if(this->pid!=0 && !this->isValidPid(this->pid))
+	if (this->pid!=0 && !this->isValidPid(this->pid))
 	{
 		this->pid=0;
 		return FALSE;
 	}
 	else {
-		if(!this->getPidByProcessName(_T("mumble.exe"),&this->pid)) {
+		if (!this->getPidByProcessName(_T("mumble.exe"),&this->pid)) {
 			return FALSE;
 		}
 	}
@@ -331,14 +331,14 @@ BOOL Xfire_voicechat::checkforMumble(SendGameStatus2Packet* packet) {
 	//tcptabelle holen
 	GetExtendedTcpTable(NULL, &size, FALSE, AF_INET, TCP_TABLE_OWNER_PID_CONNECTIONS, 0);
 	//überhaupt was drin?
-	if(size) {
+	if (size) {
 		ptab=(MIB_TCPTABLE_OWNER_PID*)malloc(size);
 		//liste auslesen
-		if(GetExtendedTcpTable(ptab, &size, FALSE, AF_INET, TCP_TABLE_OWNER_PID_CONNECTIONS, 0) == NO_ERROR)
+		if (GetExtendedTcpTable(ptab, &size, FALSE, AF_INET, TCP_TABLE_OWNER_PID_CONNECTIONS, 0) == NO_ERROR)
 		{
 			for(unsigned int i=0;i<ptab->dwNumEntries;i++)
 			{
-				if(ptab->table[i].dwOwningPid==this->pid && ptab->table[i].dwLocalAddr!=ptab->table[i].dwRemoteAddr) //verbindung gefunden, hoffentlich
+				if (ptab->table[i].dwOwningPid==this->pid && ptab->table[i].dwLocalAddr!=ptab->table[i].dwRemoteAddr) //verbindung gefunden, hoffentlich
 				{
 					unsigned char*rip=(unsigned char*)&ptab->table[i].dwRemoteAddr;
 					XFireLog("IP %x,%x",ptab->table[i].dwRemoteAddr,ptab->table[i].dwRemotePort);

@@ -128,10 +128,10 @@ namespace xfirelib {
       //int b = socket->recv(str);
       XFirePacket *packet = new XFirePacket(this);
       XDEBUG(("Waiting for next packet... \n"));
-	  if(packet==NULL) continue;
+	  if (packet==NULL) continue;
       packet->recvPacket( socket );
       XINFO(("Received packet\n"));
-      if(packet->getContent() != NULL) {
+      if (packet->getContent() != NULL) {
 	fireListeners( packet );
       } else {
 	XDEBUG(("Packet Content was NULL ... Unknown Packet Id ??\n"));
@@ -152,7 +152,7 @@ namespace xfirelib {
   XFirePacketContent *PacketReader::getPacketContentClass(int packetId) {
     XDEBUG(("Searching for a content class...\n"));
     for(uint i = 0 ; i < packets->size() ; i++)
-      if(packets->at(i)->getPacketId() == packetId) return packets->at(i);
+      if (packets->at(i)->getPacketId() == packetId) return packets->at(i);
     XDEBUG(("None Found\n"));
     return NULL;
   }

@@ -124,11 +124,11 @@ void CSHA1::Update(UINT_8 *data, UINT_32 len)
 
 	j = (m_count[0] >> 3) & 63;
 
-	if((m_count[0] += len << 3) < (len << 3)) m_count[1]++;
+	if ((m_count[0] += len << 3) < (len << 3)) m_count[1]++;
 
 	m_count[1] += (len >> 29);
 
-	if((j + len) > 63)
+	if ((j + len) > 63)
 	{
 		i = 64 - j;
 		memcpy(&m_buffer[j], data, i);
@@ -151,16 +151,16 @@ bool CSHA1::HashFile(char *szFileName)
 	UINT_8 uData[SHA1_MAX_FILE_BUFFER];
 	FILE *fIn;
 
-	if(szFileName == NULL) return false;
+	if (szFileName == NULL) return false;
 
 	fIn = fopen(szFileName, "rb");
-	if(fIn == NULL) return false;
+	if (fIn == NULL) return false;
 
 	fseek(fIn, 0, SEEK_END);
 	ulFileSize = (unsigned long)ftell(fIn);
 	fseek(fIn, 0, SEEK_SET);
 
-	if(ulFileSize != 0)
+	if (ulFileSize != 0)
 	{
 		ulBlocks = ulFileSize / SHA1_MAX_FILE_BUFFER;
 		ulRest = ulFileSize % SHA1_MAX_FILE_BUFFER;
@@ -177,7 +177,7 @@ bool CSHA1::HashFile(char *szFileName)
 		Update((UINT_8 *)uData, SHA1_MAX_FILE_BUFFER);
 	}
 
-	if(ulRest != 0)
+	if (ulRest != 0)
 	{
 		fread(uData, 1, ulRest, fIn);
 		Update((UINT_8 *)uData, ulRest);
@@ -225,9 +225,9 @@ void CSHA1::ReportHash(char *szReport, unsigned char uReportType)
 	unsigned char i;
 	char szTemp[16];
 
-	if(szReport == NULL) return;
+	if (szReport == NULL) return;
 
-	if(uReportType == REPORT_HEX)
+	if (uReportType == REPORT_HEX)
 	{
 		mir_snprintf(szTemp, SIZEOF(szTemp), "%02X", m_digest[0]);
 		strcat(szReport, szTemp);
@@ -238,7 +238,7 @@ void CSHA1::ReportHash(char *szReport, unsigned char uReportType)
 			strcat(szReport, szTemp);
 		}
 	}
-	else if(uReportType == REPORT_DIGIT)
+	else if (uReportType == REPORT_DIGIT)
 	{
 		mir_snprintf(szTemp, SIZEOF(szTemp), "%u", m_digest[0]);
 		strcat(szReport, szTemp);

@@ -21,17 +21,17 @@ void Xfire_avatar_loader::loadThread(LPVOID lparam) {
 	Xfire_avatar_loader* loader=(Xfire_avatar_loader*)lparam;
 	
 	//kein loader, dann abbruch
-	if(!lparam)
+	if (!lparam)
 		return;
 
-	if(loader) {
+	if (loader) {
 		EnterCriticalSection(&loader->avatarMutex);
 		loader->threadrunning=TRUE;
 	}
 
 	while(1){
 		//keinen avatarload auftrag mehr
-		if(!loader->list.size())
+		if (!loader->list.size())
 			break;
 
 		//letzten load process holen
@@ -40,8 +40,8 @@ void Xfire_avatar_loader::loadThread(LPVOID lparam) {
 		//buddyinfo abfragen
 		GetBuddyInfo buddyinfo;
 		buddyinfo.userid=process.userid;
-		if(loader->client)
-			if(loader->client->connected)
+		if (loader->client)
+			if (loader->client->connected)
 			{
 				loader->client->send(&buddyinfo);
 			}
@@ -57,7 +57,7 @@ void Xfire_avatar_loader::loadThread(LPVOID lparam) {
 		Sleep(1000);
 	}
 
-	if(loader)
+	if (loader)
 	{
 		loader->threadrunning=FALSE;
 		LeaveCriticalSection(&loader->avatarMutex);
@@ -71,14 +71,14 @@ BOOL Xfire_avatar_loader::loadAvatar(HANDLE hcontact,char*username,unsigned int 
 
 	//struktur füllen
 	process.hcontact = hcontact;
-	if(username)
+	if (username)
 		strcpy_s(process.username,128,username);
 	process.userid=userid;
 
 	//Avataranfrage an die liste übergeben
 	this->list.push_back(process);
 
-	if(!threadrunning && client!=NULL) {
+	if (!threadrunning && client!=NULL) {
 		mir_forkthread(Xfire_avatar_loader::loadThread,(LPVOID)this);
 	}
 
