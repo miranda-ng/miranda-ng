@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is mir_free software; you can redistribute it and/or modify
+    This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -24,137 +24,106 @@ static CRITICAL_SECTION csVarRegister;
 static VARIABLEREGISTER *vr = NULL;
 static int vrCount = 0;
 
-static int addToVariablesRegister(TCHAR *szName, TCHAR *szText) {
-
-	int i;
-
-	if ((szName == NULL) || (szText == NULL) || (_tcslen(szName) <= 0)) {
+static int addToVariablesRegister(TCHAR *szName, TCHAR *szText)
+{
+	if ((szName == NULL) || (szText == NULL) || (_tcslen(szName) <= 0))
 		return -1;
-	}
-	EnterCriticalSection(&csVarRegister);
-	for (i=0;i<vrCount;i++) {
-		if ((!_tcscmp(vr[i].szName, szName))) { // && (vr[i].dwOwnerThread == GetCurrentThreadId())) {
+
+	mir_cslock lck(csVarRegister);
+	for (int i = 0; i < vrCount; i++) {
+		if ((!_tcscmp(vr[i].szName, szName))) {
 			mir_free(vr[i].szText);
 			vr[i].szText = mir_tstrdup(szText);
-			LeaveCriticalSection(&csVarRegister);
-			
 			return 0;
 		}
 	}
-	vr = ( VARIABLEREGISTER* )mir_realloc(vr, (vrCount+1)*sizeof(VARIABLEREGISTER));
-	if (vr == NULL) {
-		LeaveCriticalSection(&csVarRegister);
+	vr = (VARIABLEREGISTER*)mir_realloc(vr, (vrCount + 1)*sizeof(VARIABLEREGISTER));
+	if (vr == NULL)
 		return -1;
-	}
+
 	vr[vrCount].szName = mir_tstrdup(szName);
 	vr[vrCount].szText = mir_tstrdup(szText);
 	vr[vrCount].dwOwnerThread = GetCurrentThreadId();
 	vrCount += 1;
-	LeaveCriticalSection(&csVarRegister);
-
 	return 0;
 }
 
-static TCHAR *searchVariableRegister(TCHAR *szName) {
-
-	TCHAR *res;
-	int i;
-
-	res = NULL;
-	if ((szName == NULL) || (_tcslen(szName) <= 0)) {
+static TCHAR *searchVariableRegister(TCHAR *szName)
+{
+	if ((szName == NULL) || (_tcslen(szName) <= 0))
 		return NULL;
-	}
-	EnterCriticalSection(&csVarRegister);
-	for (i=0;i<vrCount;i++) {
-		if ((!_tcscmp(vr[i].szName, szName))) { // && (vr[i].dwOwnerThread == GetCurrentThreadId())) {
-			res = mir_tstrdup(vr[i].szText);
-			LeaveCriticalSection(&csVarRegister);
-			return res;
-		}
-	}
-	LeaveCriticalSection(&csVarRegister);
-	
+
+	mir_cslock lck(csVarRegister);
+	for (int i = 0; i < vrCount; i++)
+		if ((!_tcscmp(vr[i].szName, szName)))
+			return mir_tstrdup(vr[i].szText);
+
 	return NULL;
 }
 
-int clearVariableRegister() {
+int clearVariableRegister(bool bAll)
+{
+	int count = 0;
+	mir_cslock lck(csVarRegister);
+	for (int i = 0; i < vrCount; i++) {
+		if (!bAll && vr[i].dwOwnerThread != GetCurrentThreadId())
+			continue;
 
-	int i, count;	
+		mir_free(vr[i].szName);
+		mir_free(vr[i].szText);
+		if (vrCount > 1) {
+			memcpy(&vr[i], &vr[vrCount-1], sizeof(VARIABLEREGISTER));
+			vr = (VARIABLEREGISTER*)mir_realloc(vr, (vrCount-1)*sizeof(VARIABLEREGISTER));
+			if (vr == NULL)
+				return -1;
 
-	count = 0;
-	EnterCriticalSection(&csVarRegister);
-	for (i=0;i<vrCount;i++) {
-		if (vr[i].dwOwnerThread == GetCurrentThreadId()) {
-			mir_free(vr[i].szName);
-			mir_free(vr[i].szText);
-			if (vrCount > 1) {
-				memcpy(&vr[i], &vr[vrCount-1], sizeof(VARIABLEREGISTER));
-				vr = ( VARIABLEREGISTER* )mir_realloc(vr, (vrCount-1)*sizeof(VARIABLEREGISTER));
-				if (vr == NULL) {
-					LeaveCriticalSection(&csVarRegister);
-					return -1;
-				}
-				vrCount -= 1;
-			}
-			else {
-				mir_free(vr);
-				vr = NULL;
-				vrCount = 0;
-			}
-			count += 1;
+			vrCount--;
 		}
+		else {
+			mir_free(vr);
+			vr = NULL;
+			vrCount = 0;
+		}
+		count += 1;
 	}
-	LeaveCriticalSection(&csVarRegister);
 
 	return count;
 }
 
-static TCHAR *parsePut(ARGUMENTSINFO *ai) {
-
+static TCHAR *parsePut(ARGUMENTSINFO *ai)
+{
 	FORMATINFO fi;
 
-	if (ai->argc != 3) {
+	if (ai->argc != 3)
 		return NULL;
-	}
-//	ai->flags |= AIF_DONTPARSE;
-	if (addToVariablesRegister(ai->targv[1], ai->targv[2])) {
+
+	//	ai->flags |= AIF_DONTPARSE;
+	if (addToVariablesRegister(ai->targv[1], ai->targv[2]))
 		return NULL;
-	}
 
 	memcpy(&fi, ai->fi, sizeof(fi));
 	fi.tszFormat = ai->targv[2];
 	fi.flags |= FIF_TCHAR;
-	
 	return formatString(&fi);
 }
 
-static TCHAR *parsePuts(ARGUMENTSINFO *ai) {
+static TCHAR *parsePuts(ARGUMENTSINFO *ai)
+{
+	if (ai->argc != 3)
+		return NULL;
 
-	if (ai->argc != 3) {
+	if (addToVariablesRegister(ai->targv[1], ai->targv[2]))
 		return NULL;
-	}
-//	ai->flags |= AIF_DONTPARSE;
-	if (addToVariablesRegister(ai->targv[1], ai->targv[2])) {
-		return NULL;
-	}
 
 	return mir_tstrdup(_T(""));
 }
-	
-static TCHAR *parseGet(ARGUMENTSINFO *ai) {
 
-	TCHAR *szText;
-
-	if (ai->argc != 2) {
+static TCHAR *parseGet(ARGUMENTSINFO *ai)
+{
+	if (ai->argc != 2)
 		return NULL;
-	}
-//	ai->flags |= AIF_DONTPARSE;
-	szText = searchVariableRegister(ai->targv[1]);
-	if (szText == NULL) {
-		return NULL;
-	}
 
-	return szText;
+	return searchVariableRegister(ai->targv[1]);
 }
 
 int registerVariablesTokens()
@@ -163,11 +132,11 @@ int registerVariablesTokens()
 	registerIntToken(_T(PUT), parsePut, TRF_FUNCTION, LPGEN("Variables")"\t(x,y)\t"LPGEN("x, and stores y as variable named x"));//TRF_UNPARSEDARGS);
 	registerIntToken(_T(PUTS), parsePuts, TRF_FUNCTION, LPGEN("Variables")"\t(x,y)\t"LPGEN("only stores y as variables x"));//TRF_UNPARSEDARGS);
 	InitializeCriticalSection(&csVarRegister);
-
 	return 0;
 }
 
 void unregisterVariablesTokens()
 {
+	clearVariableRegister(true);
 	DeleteCriticalSection(&csVarRegister);
 }

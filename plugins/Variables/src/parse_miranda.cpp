@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is mir_free software; you can redistribute it and/or modify
+    This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -35,33 +35,33 @@ static TCHAR* parseCodeToStatus(ARGUMENTSINFO *ai)
 static int getContactInfoFlags(TCHAR *tszDesc)
 {
 	int flags = 0;
-	for (TCHAR *cur=tszDesc;(cur < (tszDesc+_tcslen(tszDesc))); cur++) {
+	for (TCHAR *cur = tszDesc; (cur < (tszDesc + _tcslen(tszDesc))); cur++) {
 		if (!_tcsnicmp(cur, _T(STR_PROTOID), _tcslen(_T(STR_PROTOID)))) {
-			flags|=CI_PROTOID;
+			flags |= CI_PROTOID;
 			cur += _tcslen(_T(STR_PROTOID)) - 1;
 		}
 		else if (!_tcsnicmp(cur, _T(STR_NICK), _tcslen(_T(STR_NICK)))) {
-			flags|=CI_NICK;
+			flags |= CI_NICK;
 			cur += _tcslen(_T(STR_NICK)) - 1;
 		}
 		else if (!_tcsnicmp(cur, _T(STR_FIRSTNAME), _tcslen(_T(STR_FIRSTNAME)))) {
-			flags|=CI_FIRSTNAME;
+			flags |= CI_FIRSTNAME;
 			cur += _tcslen(_T(STR_FIRSTNAME)) - 1;
 		}
 		else if (!_tcsnicmp(cur, _T(STR_LASTNAME), _tcslen(_T(STR_LASTNAME)))) {
-			flags|=CI_LASTNAME;
+			flags |= CI_LASTNAME;
 			cur += _tcslen(_T(STR_LASTNAME)) - 1;
 		}
 		else if (!_tcsnicmp(cur, _T(STR_DISPLAY), _tcslen(_T(STR_DISPLAY)))) {
-			flags|=CI_LISTNAME;
+			flags |= CI_LISTNAME;
 			cur += _tcslen(_T(STR_DISPLAY)) - 1;
 		}
 		else if (!_tcsnicmp(cur, _T(STR_EMAIL), _tcslen(_T(STR_EMAIL)))) {
-			flags|=CI_EMAIL;
+			flags |= CI_EMAIL;
 			cur += _tcslen(_T(STR_EMAIL)) - 1;
 		}
 		else if (!_tcsnicmp(cur, _T(STR_UNIQUEID), _tcslen(_T(STR_UNIQUEID)))) {
-			flags|=CI_UNIQUEID;
+			flags |= CI_UNIQUEID;
 			cur += _tcslen(_T(STR_UNIQUEID)) - 1;
 		}
 	}
@@ -77,7 +77,7 @@ static int getContactInfoFlags(TCHAR *tszDesc)
 
 static TCHAR* parseContact(ARGUMENTSINFO *ai)
 {
-	if (ai->argc < 3 || ai->argc > 4 )
+	if (ai->argc < 3 || ai->argc > 4)
 		return NULL;
 
 	int n = 0;
@@ -88,14 +88,14 @@ static TCHAR* parseContact(ARGUMENTSINFO *ai)
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = getContactInfoFlags(ai->targv[2]);
-	int count = getContactFromString( &ci );
+	int count = getContactFromString(&ci);
 	if (count == 0 || ci.hContacts == NULL)
 		return NULL;
 
 	if (ai->argc == 4 && *ai->targv[3] == 'r')
 		n = rand() % count;
 
-	if (count != 1 && ai->argc != 4 ) {
+	if (count != 1 && ai->argc != 4) {
 		mir_free(ci.hContacts);
 		return NULL;
 	}
@@ -115,7 +115,7 @@ static TCHAR* parseContactCount(ARGUMENTSINFO *ai)
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = getContactInfoFlags(ai->targv[2]);
-	int count = getContactFromString( &ci );
+	int count = getContactFromString(&ci);
 	if (count != 0 && ci.hContacts != NULL)
 		mir_free(ci.hContacts);
 
@@ -132,7 +132,7 @@ static TCHAR* parseContactInfo(ARGUMENTSINFO *ai)
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
-	int count = getContactFromString( &ci );
+	int count = getContactFromString(&ci);
 	if (count == 1 && ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
@@ -168,7 +168,7 @@ static TCHAR* parseDBProfilePath(ARGUMENTSINFO *ai)
 	TCHAR path[MAX_PATH];
 	if (CallService(MS_DB_GETPROFILEPATHT, SIZEOF(path), (LPARAM)path))
 		return NULL;
-	
+
 	return mir_tstrdup(path);
 }
 
@@ -211,13 +211,13 @@ static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
 
 	TCHAR *res = NULL, *szDefaultValue = NULL;
 	HANDLE hContact = NULL;
-	
-	if ( _tcslen(ai->targv[1]) > 0) {
+
+	if (_tcslen(ai->targv[1]) > 0) {
 		CONTACTSINFO ci = { 0 };
 		ci.cbSize = sizeof(ci);
 		ci.tszContact = ai->targv[1];
-		ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
-		int count = getContactFromString( &ci );
+		ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
+		int count = getContactFromString(&ci);
 		if (count == 1 && ci.hContacts != NULL) {
 			hContact = ci.hContacts[0];
 			mir_free(ci.hContacts);
@@ -251,15 +251,14 @@ static TCHAR* parseLastSeenDate(ARGUMENTSINFO *ai)
 	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
-	ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
-	int count = getContactFromString( &ci );
+	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
+	int count = getContactFromString(&ci);
 	if (count == 1 && ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
 	}
 	else {
-		if (ci.hContacts != NULL)
-			mir_free(ci.hContacts);
+		mir_free(ci.hContacts);
 		return NULL;
 	}
 
@@ -284,7 +283,7 @@ static TCHAR* parseLastSeenDate(ARGUMENTSINFO *ai)
 	lsTime.wMonth = db_get_w(hContact, szModule, "Month", 0);
 
 	int len = GetDateFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
-	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -306,8 +305,8 @@ static TCHAR* parseLastSeenTime(ARGUMENTSINFO *ai)
 	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
-	ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
-	int count = getContactFromString( &ci );
+	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
+	int count = getContactFromString(&ci);
 	if (count == 1 && ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
@@ -339,7 +338,7 @@ static TCHAR* parseLastSeenTime(ARGUMENTSINFO *ai)
 	lsTime.wYear = db_get_w(hContact, szModule, "Year", 0);
 
 	int len = GetTimeFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
-	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -360,8 +359,8 @@ static TCHAR* parseLastSeenStatus(ARGUMENTSINFO *ai)
 	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
-	ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
-	int count = getContactFromString( &ci );
+	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
+	int count = getContactFromString(&ci);
 	if ((count == 1) && (ci.hContacts != NULL)) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
@@ -404,7 +403,7 @@ static TCHAR* parseMyStatus(ARGUMENTSINFO *ai)
 	if (ai->argc == 1 || _tcslen(ai->targv[1]) == 0)
 		status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 	else
-		status = CallProtoService( _T2A(ai->targv[1]), PS_GETSTATUS, 0, 0);
+		status = CallProtoService(_T2A(ai->targv[1]), PS_GETSTATUS, 0, 0);
 
 	TCHAR *szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_UNICODE);
 	if (szStatus != NULL)
@@ -490,14 +489,14 @@ static BOOL isValidDbEvent(DBEVENTINFO *dbe, int flags)
 	BOOL bEventType, bEventFlags;
 
 	bEventType = ((dbe->eventType == EVENTTYPE_MESSAGE) && (flags & DBE_MESSAGE)) ||
-			((dbe->eventType == EVENTTYPE_URL) && (flags & DBE_URL)) ||
-			((dbe->eventType == EVENTTYPE_CONTACTS) && (flags & DBE_CONTACTS)) ||
-			((dbe->eventType == EVENTTYPE_ADDED) && (flags & DBE_ADDED)) ||
-			((dbe->eventType == EVENTTYPE_AUTHREQUEST) && (flags & DBE_AUTHREQUEST)) ||
-			((dbe->eventType == EVENTTYPE_FILE) && (flags & DBE_FILE)) ||
-			((flags & DBE_OTHER));
-	bEventFlags = (dbe->flags&DBEF_SENT)?(flags&DBE_SENT):(flags&DBE_RCVD);
-	bEventFlags = (bEventFlags && ((dbe->flags&DBEF_READ)?(flags&DBE_READ):(flags&DBE_UNREAD)));
+		((dbe->eventType == EVENTTYPE_URL) && (flags & DBE_URL)) ||
+		((dbe->eventType == EVENTTYPE_CONTACTS) && (flags & DBE_CONTACTS)) ||
+		((dbe->eventType == EVENTTYPE_ADDED) && (flags & DBE_ADDED)) ||
+		((dbe->eventType == EVENTTYPE_AUTHREQUEST) && (flags & DBE_AUTHREQUEST)) ||
+		((dbe->eventType == EVENTTYPE_FILE) && (flags & DBE_FILE)) ||
+		((flags & DBE_OTHER));
+	bEventFlags = (dbe->flags&DBEF_SENT) ? (flags&DBE_SENT) : (flags&DBE_RCVD);
+	bEventFlags = (bEventFlags && ((dbe->flags&DBEF_READ) ? (flags&DBE_READ) : (flags&DBE_UNREAD)));
 
 	return (bEventType && bEventFlags);
 }
@@ -609,7 +608,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 			}
 		}
 	}
-		while ( (!bEventOk) && (hDbEvent != NULL));
+	while ((!bEventOk) && (hDbEvent != NULL));
 
 	return hDbEvent;
 }
@@ -637,7 +636,7 @@ static TCHAR* parseDbEvent(ARGUMENTSINFO *ai)
 		flags |= DBE_RCVD;
 		break;
 	default:
-		flags |= DBE_RCVD|DBE_SENT;
+		flags |= DBE_RCVD | DBE_SENT;
 		break;
 	}
 	switch (*ai->targv[4]) {
@@ -648,17 +647,17 @@ static TCHAR* parseDbEvent(ARGUMENTSINFO *ai)
 		flags |= DBE_UNREAD;
 		break;
 	default:
-		flags |= DBE_READ|DBE_UNREAD;
+		flags |= DBE_READ | DBE_UNREAD;
 		break;
 	}
-	
+
 	HANDLE hContact = NULL;
 
 	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
-	ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
-	int count = getContactFromString( &ci );
+	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
+	int count = getContactFromString(&ci);
 	if ((count == 1) && (ci.hContacts != NULL)) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
@@ -707,31 +706,31 @@ static TCHAR* parseVersionString(ARGUMENTSINFO *ai)
 
 static TCHAR *parseContactNameString(ARGUMENTSINFO *ai)
 {
- 	if (ai->argc != 1 || ai->fi->hContact == NULL)
- 		return NULL;
- 
- 	ai->flags |= AIF_DONTPARSE;
- 	TCHAR *ret = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) ai->fi->hContact, GCDNF_TCHAR);
- 	if (ret == NULL)
- 		return NULL;
+	if (ai->argc != 1 || ai->fi->hContact == NULL)
+		return NULL;
+
+	ai->flags |= AIF_DONTPARSE;
+	TCHAR *ret = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ai->fi->hContact, GCDNF_TCHAR);
+	if (ret == NULL)
+		return NULL;
 
 	return mir_tstrdup(ret);
 }
 
 static TCHAR *parseMirDateString(ARGUMENTSINFO *ai)
 {
- 	if (ai->argc != 1)
- 		return NULL;
+	if (ai->argc != 1)
+		return NULL;
 
- 	ai->flags |= AIF_DONTPARSE;
+	ai->flags |= AIF_DONTPARSE;
 
- 	TCHAR ret[128];
-	DBTIMETOSTRINGT tst = {0};
- 	tst.szFormat = _T("d s");
- 	tst.szDest = ret;
- 	tst.cbDest = 128;
- 	if (CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM) time(NULL), (LPARAM) &tst))
- 		return NULL;
+	TCHAR ret[128];
+	DBTIMETOSTRINGT tst = { 0 };
+	tst.szFormat = _T("d s");
+	tst.szDest = ret;
+	tst.cbDest = 128;
+	if (CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)time(NULL), (LPARAM)&tst))
+		return NULL;
 
 	return mir_tstrdup(ret);
 }
@@ -744,36 +743,37 @@ static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai)
 	ai->flags |= AIF_DONTPARSE;
 
 	TCHAR corevar[MAX_PATH];
-	mir_sntprintf(corevar, MAX_PATH,_T("%%%s%%"), ai->targv[0]);
+	mir_sntprintf(corevar, MAX_PATH, _T("%%%s%%"), ai->targv[0]);
 	return Utils_ReplaceVarsT(corevar);
 }
 
 static TCHAR *parseMirSrvExists(ARGUMENTSINFO *ai)
 {
-	if (ai->argc != 2 )
+	if (ai->argc != 2)
 		return NULL;
 
-	if (!ServiceExists( _T2A( ai->targv[1] )))
+	if (!ServiceExists(_T2A(ai->targv[1])))
 		ai->flags |= AIF_FALSE;
 
 	return mir_tstrdup(_T(""));
 }
 
-int registerMirandaTokens() {
+int registerMirandaTokens()
+{
 	if (ServiceExists(MS_UTILS_REPLACEVARS)) {
 		// global vars
-		registerIntToken(_T("miranda_path"),		parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("path to Miranda root folder"));
-		registerIntToken(_T("miranda_profile"),		parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("path to current Miranda profile"));
-		registerIntToken(_T("miranda_profilename"), parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("name of current Miranda profile (filename, without extension)"));
-		registerIntToken(_T("miranda_userdata"),	parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%"));
-		registerIntToken(_T("miranda_avatarcache"), parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache"));
-		registerIntToken(_T("miranda_logpath"),		parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs"));
+		registerIntToken(_T("miranda_path"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("path to Miranda root folder"));
+		registerIntToken(_T("miranda_profile"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("path to current Miranda profile"));
+		registerIntToken(_T("miranda_profilename"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("name of current Miranda profile (filename, without extension)"));
+		registerIntToken(_T("miranda_userdata"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%"));
+		registerIntToken(_T("miranda_avatarcache"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache"));
+		registerIntToken(_T("miranda_logpath"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs"));
 
 		// OS vars
-		registerIntToken(_T("appdata"),				parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("same as environment variable %APPDATA% for currently logged-on Windows user"));
-		registerIntToken(_T("username"),			parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("username for currently logged-on Windows user"));
-		registerIntToken(_T("mydocuments"),			parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("\"My Documents\" folder for currently logged-on Windows user"));
-		registerIntToken(_T("desktop"),				parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("\"Desktop\" folder for currently logged-on Windows user"));
+		registerIntToken(_T("appdata"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("same as environment variable %APPDATA% for currently logged-on Windows user"));
+		registerIntToken(_T("username"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("username for currently logged-on Windows user"));
+		registerIntToken(_T("mydocuments"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("\"My Documents\" folder for currently logged-on Windows user"));
+		registerIntToken(_T("desktop"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("\"Desktop\" folder for currently logged-on Windows user"));
 	}
 	registerIntToken(_T(CODETOSTATUS), parseCodeToStatus, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x)\t"LPGEN("translates status code x into a status description"));
 	registerIntToken(_T(CONTACT), parseContact, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y,z)\t"LPGEN("zth contact with property y described by x, example: (unregistered,nick) (z is optional)"));
@@ -794,7 +794,7 @@ int registerMirandaTokens() {
 	registerIntToken(_T(VERSIONSTRING), parseVersionString, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("get the version of Miranda"));
 	registerIntToken(_T(CONTACT_NAME), parseContactNameString, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("get the contact display name"));
 	registerIntToken(_T(MIR_DATE), parseMirDateString, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("get the date and time (using Miranda format)"));
-	registerIntToken(_T(SRVEXISTS), parseMirSrvExists,	TRF_FUNCTION, LPGEN("Miranda Related")"\t(x)\t"LPGEN("TRUE if service function exists"));
+	registerIntToken(_T(SRVEXISTS), parseMirSrvExists, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x)\t"LPGEN("TRUE if service function exists"));
 
 	return 0;
 }

@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is mir_free software; you can redistribute it and/or modify
+    This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -34,8 +34,8 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai)
 
 	ai->flags = AIF_FALSE;
 
-	ptrA arg1( mir_t2a(ai->targv[1]));
-	ptrA arg2( mir_t2a(ai->targv[2]));
+	ptrA arg1(mir_t2a(ai->targv[1]));
+	ptrA arg2(mir_t2a(ai->targv[2]));
 
 	pcre *ppat = pcre_compile(arg1, 0, &err, &erroffset, NULL);
 	if (ppat == NULL)
@@ -54,7 +54,7 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai)
 
 /*
 	pattern, subject, substring no (== PCRE string no (starting at 0))
-*/
+	*/
 static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai)
 {
 	const char *err, *substring;
@@ -64,15 +64,15 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai)
 	if (ai->argc != 4)
 		return NULL;
 
-	ptrA arg1( mir_t2a(ai->targv[1]));
-	ptrA arg2( mir_t2a(ai->targv[2]));
-	ptrA arg3( mir_t2a(ai->targv[3]));
+	ptrA arg1(mir_t2a(ai->targv[1]));
+	ptrA arg2(mir_t2a(ai->targv[2]));
+	ptrA arg3(mir_t2a(ai->targv[3]));
 
 	number = atoi(arg3);
 	if (number < 0)
 		return NULL;
 
-	ai->flags = AIF_FALSE;	
+	ai->flags = AIF_FALSE;
 	pcre *ppat = pcre_compile(arg1, 0, &err, &erroffset, NULL);
 	if (ppat == NULL)
 		return NULL;

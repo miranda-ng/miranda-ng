@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is mir_free software; you can redistribute it and/or modify
+    This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -265,7 +265,6 @@ static TCHAR *getTokenCategory(TOKENREGISTEREX *tr) {
 			res = mir_a2t(helpText);
 			mir_free(helpText);
 			return res;
-
 		}
 		cur++;
 	}
@@ -345,200 +344,169 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 
 		mir_sntprintf(desc, len, _T("%c%s%s"), FUNC_CHAR, tr->tszTokenString, (tArgs!=NULL?tArgs:_T("")));
 	}
-	if (tArgs != NULL)
-		mir_free(tArgs);
 
-	if (helpText != NULL)
-		mir_free(helpText);
-
+	mir_free(tArgs);
+	mir_free(helpText);
 	return desc;
 }
 
-static int CALLBACK compareTokenHelp(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) {
-
-	TOKENREGISTEREX *tr1, *tr2;
-	TCHAR *cat1, *cat2;
-	int res;
-
-	res = 0;
-	tr1 = (TOKENREGISTEREX *)lParam1;
-	tr2 = (TOKENREGISTEREX *)lParam2;
+static int CALLBACK compareTokenHelp(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+{
+	TOKENREGISTEREX *tr1 = (TOKENREGISTEREX *)lParam1;
+	TOKENREGISTEREX *tr2 = (TOKENREGISTEREX *)lParam2;
 	if (tr1 == NULL || tr2 == NULL)
 		return 0;
 
-	cat1 = getTokenCategory(tr1);
-	cat2 = getTokenCategory(tr2);
-	if (cat1 != NULL && cat2 != NULL) {
-		res = _tcscmp(cat1, cat2);
-		mir_free(cat1);
-		mir_free(cat2);
-		cat1 = cat2 = NULL;
-		if (res != 0)
-			return res;
+	ptrT cat1(getTokenCategory(tr1));
+	ptrT cat2(getTokenCategory(tr2));
+	if (cat1 == NULL || cat2 == NULL)
+		return 0;
 
-		if (tr1->tszTokenString == NULL || tr2->tszTokenString == NULL)
-			return 0;
+	int res = _tcscmp(cat1, cat2);
+	if (res != 0)
+		return res;
 
-		return _tcscmp(tr1->tszTokenString, tr2->tszTokenString);
-	}
+	if (tr1->tszTokenString == NULL || tr2->tszTokenString == NULL)
+		return 0;
 
-	if (cat1 != NULL)
-		mir_free(cat1);
-
-	if (cat2 != NULL)
-		mir_free(cat2);
-
-	return 0;
+	return _tcscmp(tr1->tszTokenString, tr2->tszTokenString);
 }
 
-static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam) {
-
+static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	/* hwndDlg must be a child of the help dialog */
 	switch(msg) {
-	case WM_INITDIALOG: {
-		HELPDLGDATA *hdd;
-		TOKENREGISTEREX *tr;
-		HWND hList;
-		LVCOLUMN lvCol;
-		LVITEM lvItem;
-		TCHAR *tszTokenDesc, *tszHelpDesc, *last, *cat, *text;
-		int i;
+	case WM_INITDIALOG:
+		{
+			TOKENREGISTEREX *tr;
+			TCHAR *tszTokenDesc, *tszHelpDesc, *last, *cat, *text;
 
-		// token list things
-		hList = GetDlgItem(hwndDlg, IDC_TOKENLIST);
-		memset(&lvCol,0,sizeof(lvCol));
-		lvCol.mask = LVCF_TEXT;
-		lvCol.pszText=TranslateT("Token");
-		ListView_InsertColumn(hList, 0, &lvCol);
-		lvCol.pszText=TranslateT("Description");
-		ListView_InsertColumn(hList, 1, &lvCol);
+			// token list things
+			HWND hList = GetDlgItem(hwndDlg, IDC_TOKENLIST);
 
-		hdd = (HELPDLGDATA *)GetWindowLongPtr(GetParent(hwndDlg), GWLP_USERDATA);
-		i = -1;
-		do {
-			i += 1;
-			tszHelpDesc = tszTokenDesc = NULL;
-			tr = getTokenRegister(i);
-			if ((tr == NULL) || (tr->tszTokenString == NULL)) {
-				continue;
-			}
-			else if (hdd != NULL) {
-				if (!_tcscmp(tr->tszTokenString, _T(SUBJECT))) {
-					if (hdd->vhs->flags&VHF_HIDESUBJECTTOKEN) {
-						continue;
+			LVCOLUMN lvCol = { 0 };
+			lvCol.mask = LVCF_TEXT;
+			lvCol.pszText = TranslateT("Token");
+			ListView_InsertColumn(hList, 0, &lvCol);
+
+			lvCol.pszText = TranslateT("Description");
+			ListView_InsertColumn(hList, 1, &lvCol);
+
+			HELPDLGDATA *hdd = (HELPDLGDATA *)GetWindowLongPtr(GetParent(hwndDlg), GWLP_USERDATA);
+			int i = -1;
+			do {
+				i += 1;
+				tszHelpDesc = tszTokenDesc = NULL;
+				tr = getTokenRegister(i);
+				if ((tr == NULL) || (tr->tszTokenString == NULL))
+					continue;
+
+				else if (hdd != NULL) {
+					if (!_tcscmp(tr->tszTokenString, _T(SUBJECT))) {
+						if (hdd->vhs->flags&VHF_HIDESUBJECTTOKEN)
+							continue;
+
+						if (hdd->vhs->szSubjectDesc != NULL)
+							tszHelpDesc = mir_a2t(hdd->vhs->szSubjectDesc);
 					}
-					else if (hdd->vhs->szSubjectDesc != NULL) {
+					if (!_tcscmp(tr->tszTokenString, _T(MIR_EXTRATEXT))) {
+						if (hdd->vhs->flags & VHF_HIDEEXTRATEXTTOKEN)
+							continue;
 
-						tszHelpDesc = mir_a2t(hdd->vhs->szSubjectDesc);
-
-					}
-				}
-				if (!_tcscmp(tr->tszTokenString, _T(MIR_EXTRATEXT))) {
-					if (hdd->vhs->flags&VHF_HIDEEXTRATEXTTOKEN) {
-						continue;
-					}
-					else if (hdd->vhs->szExtraTextDesc != NULL) {
-
-						tszHelpDesc = mir_a2t(hdd->vhs->szExtraTextDesc);
-
+						if (hdd->vhs->szExtraTextDesc != NULL)
+							tszHelpDesc = mir_a2t(hdd->vhs->szExtraTextDesc);
 					}
 				}
-			}
-			memset(&lvItem,0,sizeof(lvItem));
-			lvItem.mask = LVIF_TEXT|LVIF_PARAM;
-			lvItem.iItem = ListView_GetItemCount(hList);
-			lvItem.iSubItem = 0;
-			lvItem.lParam = (LPARAM)tr;
-			tszTokenDesc = getTokenDescription(tr);
-			if (tszTokenDesc == NULL) {
-				continue;
-			}
-			lvItem.pszText = tszTokenDesc;
-			ListView_InsertItem(hList, &lvItem);
-			mir_free(tszTokenDesc);
 
-			lvItem.mask = LVIF_TEXT;
-			if (tszHelpDesc == NULL) {
-				tszHelpDesc = getHelpDescription(tr);
-			}
-			if (tszHelpDesc == NULL) {
-				tszHelpDesc = mir_tstrdup(_T("unknown"));
-			}
-			lvItem.iSubItem = 1;
-			lvItem.pszText = TranslateTS(tszHelpDesc);
-			ListView_SetItem(hList, &lvItem);
-			mir_free(tszHelpDesc);
-		} while (tr != NULL);
-		ListView_SetColumnWidth(hList, 0, LVSCW_AUTOSIZE);
-		ListView_SetColumnWidth(hList, 1, LVSCW_AUTOSIZE);
-		ListView_SortItems(hList, compareTokenHelp, 0);
-		last = text = NULL;
-		for (i=0;i<ListView_GetItemCount(hList);i++) {
-			lvItem.mask = LVIF_PARAM;
-			lvItem.iSubItem = 0;
-			lvItem.iItem = i;
-			if (ListView_GetItem(hList, &lvItem) == FALSE) {
-				continue;
-			}
-			cat = getTokenCategory((TOKENREGISTEREX *)lvItem.lParam);
-			if (cat != NULL) {
-				text = mir_tstrdup(TranslateTS(cat));
-				mir_free(cat);
-			}
-			else {
-				text = NULL;
-			}
-			if ((text != NULL) && ((last == NULL) || (_tcsicmp(last, text)))) {
-				lvItem.mask = LVIF_TEXT;
-				lvItem.pszText = text;
+				LVITEM lvItem = { 0 };
+				lvItem.mask = LVIF_TEXT | LVIF_PARAM;
+				lvItem.iItem = ListView_GetItemCount(hList);
+				lvItem.lParam = (LPARAM)tr;
+				tszTokenDesc = getTokenDescription(tr);
+				if (tszTokenDesc == NULL)
+					continue;
+
+				lvItem.pszText = tszTokenDesc;
 				ListView_InsertItem(hList, &lvItem);
-				if (last != NULL) {
-					mir_free(last);
-					lvItem.iSubItem = 0;
-					lvItem.pszText = _T("");
-					ListView_InsertItem(hList, &lvItem);
+				mir_free(tszTokenDesc);
+
+				lvItem.mask = LVIF_TEXT;
+				if (tszHelpDesc == NULL)
+					tszHelpDesc = getHelpDescription(tr);
+
+				if (tszHelpDesc == NULL)
+					tszHelpDesc = mir_tstrdup(_T("unknown"));
+
+				lvItem.iSubItem = 1;
+				lvItem.pszText = TranslateTS(tszHelpDesc);
+				ListView_SetItem(hList, &lvItem);
+				mir_free(tszHelpDesc);
+			}
+				while (tr != NULL);
+	
+			ListView_SetColumnWidth(hList, 0, LVSCW_AUTOSIZE);
+			ListView_SetColumnWidth(hList, 1, LVSCW_AUTOSIZE);
+			ListView_SortItems(hList, compareTokenHelp, 0);
+			last = text = NULL;
+			for (i = 0; i < ListView_GetItemCount(hList); i++) {
+				LVITEM lvItem = { 0 };
+				lvItem.mask = LVIF_PARAM;
+				lvItem.iItem = i;
+				if (ListView_GetItem(hList, &lvItem) == FALSE)
+					continue;
+
+				cat = getTokenCategory((TOKENREGISTEREX *)lvItem.lParam);
+				if (cat != NULL) {
+					text = mir_tstrdup(TranslateTS(cat));
+					mir_free(cat);
 				}
-				last = text;
+				else text = NULL;
+
+				if (text != NULL && (last == NULL || _tcsicmp(last, text))) {
+					lvItem.mask = LVIF_TEXT;
+					lvItem.pszText = text;
+					ListView_InsertItem(hList, &lvItem);
+					if (last != NULL) {
+						mir_free(last);
+						lvItem.iSubItem = 0;
+						lvItem.pszText = _T("");
+						ListView_InsertItem(hList, &lvItem);
+					}
+					last = text;
+				}
+				else mir_free(text);
 			}
-			else {
-				mir_free(text);
-			}
-		}
-		if (last != NULL) {
 			mir_free(last);
 		}
 		break;
-	}
 
 	case WM_NOTIFY:
 		if ((((NMHDR*)lParam)->idFrom == IDC_TOKENLIST) && (((NMHDR*)lParam)->code == NM_DBLCLK)) {
 			HWND hwndInputDlg = (HWND)SendMessage(GetParent(hwndDlg), VARM_GETDIALOG, (WPARAM)VHF_INPUT, 0);
-			if (hwndInputDlg == NULL) {
+			if (hwndInputDlg == NULL)
 				break;
-			}
+
 			HWND hList = GetDlgItem(hwndDlg, IDC_TOKENLIST);
 			int item = ListView_GetNextItem(hList, -1, LVNI_SELECTED|LVNI_FOCUSED);
 
-			LVITEM lvItem;
-			ZeroMemory(&lvItem, sizeof(lvItem));
+			LVITEM lvItem = { 0 };
 			lvItem.mask = LVIF_PARAM;
-			lvItem.iSubItem = 0;
 			lvItem.iItem = item;
-			if (ListView_GetItem(hList, &lvItem) == FALSE) {
+			if (ListView_GetItem(hList, &lvItem) == FALSE)
 				break;
-			}
+
 			TOKENREGISTER *tr = (TOKENREGISTER *)lvItem.lParam;
-			if (tr == NULL) {
+			if (tr == NULL)
 				break;
-			}
+
 			size_t len = _tcslen(tr->tszTokenString) + 2;
-			if (len < 0) {
+			if (len < 0)
 				break;
-			}
+
 			TCHAR *tokenString = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
-			if (tokenString == NULL) {
+			if (tokenString == NULL)
 				break;
-			}
+
 			ZeroMemory(tokenString, (len+1)*sizeof(TCHAR));
 			mir_sntprintf(tokenString, len + 1, _T("%c%s%c"), (tr->flags & TRF_FIELD) ? FIELD_CHAR : FUNC_CHAR, tr->tszTokenString, (tr->flags & TRF_FIELD) ? FIELD_CHAR : '(');
 			SendDlgItemMessage(hwndInputDlg, IDC_TESTSTRING, EM_REPLACESEL, (WPARAM)TRUE, (LPARAM)tokenString);
@@ -552,16 +520,16 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 }
 
 // "token only" dialog proc
-static INT_PTR CALLBACK tokenHelpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK tokenHelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	processTokenListMessage(hwndDlg, msg, wParam, lParam);
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		break;
 
 	case WM_SIZE:
-		if (!IsIconic( hwndDlg )) {
+		if (!IsIconic(hwndDlg)) {
 			UTILRESIZEDIALOG urd = { 0 };
 			urd.cbSize = sizeof(urd);
 			urd.hInstance = hInst;
@@ -582,29 +550,28 @@ static INT_PTR CALLBACK tokenHelpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 // from SRMM
 static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	RECT rc;
+
 	switch (msg) {
 	case WM_NCHITTEST:
 		return HTCLIENT;
 
 	case WM_SETCURSOR:
-	{
-		RECT rc;
 		GetClientRect(hwnd, &rc);
 		//SetCursor(rc.right > rc.bottom ? hCurSplitNS : hCurSplitWE);
 		if (rc.right > rc.bottom)
 			SetCursor(hCurSplitNS);
 
 		return TRUE;
-	}
+
 	case WM_LBUTTONDOWN:
 		SetCapture(hwnd);
 		return 0;
 
 	case WM_MOUSEMOVE:
 		if (GetCapture() == hwnd) {
-			RECT rc;
 			GetClientRect(hwnd, &rc);
-			SendMessage(GetParent(hwnd), DM_SPLITTERMOVED, rc.right > rc.bottom ? (short) HIWORD(GetMessagePos()) + rc.bottom / 2 : (short) LOWORD(GetMessagePos()) + rc.right / 2, (LPARAM) hwnd);
+			SendMessage(GetParent(hwnd), DM_SPLITTERMOVED, rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2, (LPARAM)hwnd);
 		}
 		return 0;
 
@@ -630,9 +597,9 @@ static int inputDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc
 {
 	INPUTDLGDATA *dat = (INPUTDLGDATA *)lParam;
 
-	switch(urc->wId) {
+	switch (urc->wId) {
 	case IDC_TOKENLIST:
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_TOP;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 
 	case IDC_TESTSTRING:
 		urc->rcItem.bottom -= dat->splitterPos - dat->originalSplitterPos;
@@ -645,10 +612,10 @@ static int inputDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc
 
 	case IDC_RESULT:
 		urc->rcItem.top -= dat->splitterPos - dat->originalSplitterPos;
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
 	}
 
-	return RD_ANCHORX_LEFT|RD_ANCHORY_TOP;
+	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
 static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
@@ -656,10 +623,10 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 	static INPUTDLGDATA *dat = (INPUTDLGDATA *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	processTokenListMessage(hwndDlg, msg, wParam, lParam);
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		dat = ( INPUTDLGDATA* )mir_alloc(sizeof(INPUTDLGDATA));
+		dat = (INPUTDLGDATA*)mir_alloc(sizeof(INPUTDLGDATA));
 		ZeroMemory(dat, sizeof(INPUTDLGDATA));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 		// splitter things
@@ -677,7 +644,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				dat->splitterPos = dat->originalSplitterPos;
 
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_SHOWHELP), &rc);
-			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_SPLITTER), SplitterSubclassProc);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTER), SplitterSubclassProc);
 
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_TESTSTRING), &rc);
 			dat->minInputSize.x = rc.right - rc.left;
@@ -695,23 +662,23 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		break;
 
 	case DM_SPLITTERMOVED:
-		{
-			POINT pt;
-			RECT rc, rcTeststring, rcResult;
-			int oldSplitterY;
+	{
+									POINT pt;
+									RECT rc, rcTeststring, rcResult;
+									int oldSplitterY;
 
-			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SPLITTER)) {
-				GetClientRect(hwndDlg, &rc);
-				pt.x = 0;
-				pt.y = wParam;
-				ScreenToClient(hwndDlg, &pt);
-				oldSplitterY = dat->splitterPos;
-				dat->splitterPos = rc.bottom - pt.y + 223;
-				GetWindowRect(GetDlgItem(hwndDlg, IDC_TESTSTRING), &rcTeststring);
-				GetWindowRect(GetDlgItem(hwndDlg, IDC_RESULT), &rcResult);
-				if ((((rcTeststring.bottom - rcTeststring.top) - (dat->splitterPos - oldSplitterY)) < dat->minInputSize.y) || (((rcResult.bottom - rcResult.top) + (dat->splitterPos - oldSplitterY)) < dat->minResultSize.y)) 
-					dat->splitterPos = oldSplitterY;
-		}	}
+									if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SPLITTER)) {
+										GetClientRect(hwndDlg, &rc);
+										pt.x = 0;
+										pt.y = wParam;
+										ScreenToClient(hwndDlg, &pt);
+										oldSplitterY = dat->splitterPos;
+										dat->splitterPos = rc.bottom - pt.y + 223;
+										GetWindowRect(GetDlgItem(hwndDlg, IDC_TESTSTRING), &rcTeststring);
+										GetWindowRect(GetDlgItem(hwndDlg, IDC_RESULT), &rcResult);
+										if ((((rcTeststring.bottom - rcTeststring.top) - (dat->splitterPos - oldSplitterY)) < dat->minInputSize.y) || (((rcResult.bottom - rcResult.top) + (dat->splitterPos - oldSplitterY)) < dat->minResultSize.y))
+											dat->splitterPos = oldSplitterY;
+									}	}
 
 		SendMessage(hwndDlg, WM_SIZE, 0, 0);
 		break;
@@ -725,17 +692,17 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		}
 		break;
 
-	case WM_GETMINMAXINFO: 
-		{
-			RECT rc, rcTeststring;
-			GetWindowRect(GetParent(hwndDlg), &rc);
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_TESTSTRING), &rcTeststring);
-			((MINMAXINFO*)lParam)->ptMinTrackSize.y = (rc.bottom - rc.top) - (((rcTeststring.bottom - rcTeststring.top) - dat->minResultSize.y));
-		}
+	case WM_GETMINMAXINFO:
+	{
+									RECT rc, rcTeststring;
+									GetWindowRect(GetParent(hwndDlg), &rc);
+									GetWindowRect(GetDlgItem(hwndDlg, IDC_TESTSTRING), &rcTeststring);
+									((MINMAXINFO*)lParam)->ptMinTrackSize.y = (rc.bottom - rc.top) - (((rcTeststring.bottom - rcTeststring.top) - dat->minResultSize.y));
+	}
 		break;
 
 	case WM_SIZE:
-		if (!IsIconic( hwndDlg )) {
+		if (!IsIconic(hwndDlg)) {
 			UTILRESIZEDIALOG urd = { 0 };
 			urd.cbSize = sizeof(urd);
 			urd.hInstance = hInst;
@@ -761,8 +728,8 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 			TCHAR *string = Hlp_GetDlgItemText(hwndDlg, IDC_TESTSTRING), *extraText;
 			int len = SendMessage(GetParent(hwndDlg), VARM_GETEXTRATEXTLENGTH, 0, 0);
 			if (len > 0) {
-				extraText = (TCHAR*)mir_calloc((len+1)* sizeof(TCHAR));
-				SendMessage(GetParent(hwndDlg), VARM_GETEXTRATEXT, (WPARAM)len+1, (LPARAM)extraText);
+				extraText = (TCHAR*)mir_calloc((len + 1)* sizeof(TCHAR));
+				SendMessage(GetParent(hwndDlg), VARM_GETEXTRATEXT, (WPARAM)len + 1, (LPARAM)extraText);
 			}
 			else extraText = NULL;
 
@@ -778,7 +745,8 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 						mir_free(oldString);
 				}
 				mir_free(string);
-		}	}
+			}
+		}
 		break;
 
 	case VARM_SETINPUTTEXT:
@@ -792,7 +760,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		return TRUE;
 
 	case VARM_GETINPUTTEXT:
-		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, 
+		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT,
 			SendMessage(GetDlgItem(hwndDlg, IDC_TESTSTRING), WM_GETTEXT, wParam, lParam));
 		return TRUE;
 
@@ -879,144 +847,140 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 	HELPDLGDATA *dat = (HELPDLGDATA *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch(msg) {
-	case WM_INITDIALOG: {
-		int tabCount;
-		HWND hTab, hShow, hPage;
-		TCITEM tci;
-		RECT rcTabs, rcParent;
-
-		hwndHelpDialog = hwndDlg;
+	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		dat = ( HELPDLGDATA* )mir_alloc(sizeof(HELPDLGDATA));
-		ZeroMemory(dat, sizeof(HELPDLGDATA));
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-		dat->vhs = (VARHELPINFO *)lParam;
-		// set tabs
-		tabCount = 0;
-		hTab = GetDlgItem(hwndDlg, IDC_TABS);
-		GetWindowRect(hTab, &rcTabs);
-		GetWindowRect(hwndDlg, &rcParent);
-		ZeroMemory(&tci, sizeof(TCITEM));
-		hShow = 0;
-		if (dat->vhs->flags&VHF_TOKENS) {
-			// token tab
-			tci.mask = TCIF_TEXT|TCIF_PARAM;
-			tci.pszText = TranslateT("Tokens");
-			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_TOKENS_DIALOG), hwndDlg, tokenHelpDlgProc, (LPARAM)GetParent(hwndDlg));
-			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+		{
+			hwndHelpDialog = hwndDlg;
+			dat = (HELPDLGDATA*)mir_calloc(sizeof(HELPDLGDATA));
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
+			dat->vhs = (VARHELPINFO *)lParam;
 
-			tci.lParam = (LPARAM)hPage;
-			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
-			ShowWindow(hPage, SW_HIDE);
-			TabCtrl_InsertItem(hTab, tabCount++, &tci);
-			hShow = hShow==0?hPage:hShow;
-		}
-		if (dat->vhs->flags&VHF_INPUT) {
-			// input tab
-			tci.mask = TCIF_TEXT|TCIF_PARAM;
-			tci.pszText = TranslateT("Input");
-			dat->hwndInputDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_INPUT_DIALOG), hwndDlg, inputDlgProc, (LPARAM)GetParent(hwndDlg));
-			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+			// set tabs
+			int tabCount = 0;
+			RECT rcTabs, rcParent;
+			HWND hTab = GetDlgItem(hwndDlg, IDC_TABS);
+			GetWindowRect(hTab, &rcTabs);
+			GetWindowRect(hwndDlg, &rcParent);
 
-			tci.lParam = (LPARAM)hPage;
-			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
-			ShowWindow(hPage, SW_HIDE);
-			TabCtrl_InsertItem(hTab, tabCount++, &tci);
-			hShow = hShow==0?hPage:hShow;
-			if ((dat->vhs->fi != NULL) && (dat->vhs->fi->szFormat != NULL)) {
-				if (dat->vhs->fi->flags & FIF_UNICODE)
-					SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)dat->vhs->fi->tszFormat);
-				else {
+			TCITEM tci = { 0 };
+			HWND hPage, hShow = 0;
+			if (dat->vhs->flags&VHF_TOKENS) {
+				// token tab
+				tci.mask = TCIF_TEXT | TCIF_PARAM;
+				tci.pszText = TranslateT("Tokens");
+				hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_TOKENS_DIALOG), hwndDlg, tokenHelpDlgProc, (LPARAM)GetParent(hwndDlg));
+				EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
-					WCHAR *wszFormatString = mir_a2t(dat->vhs->fi->szFormat);
-					SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)wszFormatString);
-					mir_free(wszFormatString);
-
-				}
-			}
-			else if (dat->vhs->hwndCtrl != NULL) {
-				TCHAR *tszText;
-
-				tszText = Hlp_GetWindowText(dat->vhs->hwndCtrl);
-				if (tszText != NULL) {
-					SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)tszText);
-					mir_free(tszText);
-				}
-			}
-			if (dat->vhs->fi != NULL || dat->vhs->hwndCtrl != NULL) {
-				SetWindowText(GetDlgItem(hwndDlg, IDC_CANCEL), TranslateT("Cancel"));
-				ShowWindow(GetDlgItem(hwndDlg, IDC_OK), SW_SHOW);
-			}
-		}
-		if ((dat->vhs->flags&VHF_SUBJECT) ||
-			((dat->vhs->flags&VHF_INPUT) && (((dat->vhs->fi != NULL) && (dat->vhs->fi->hContact != NULL)) || (dat->vhs->flags&VHF_SETLASTSUBJECT)))) {
-			// subject window is created, but not necessarily shown
-			dat->hwndSubjectDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CLIST_DIALOG), hwndDlg, clistDlgProc, (LPARAM)GetParent(hwndDlg));
-			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
-
-			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
-			ShowWindow(hPage, SW_HIDE);
-
-			if ((dat->vhs->fi != NULL) && (dat->vhs->fi->hContact != NULL))
-				SendMessage(hwndDlg, VARM_SETSUBJECT, (WPARAM)dat->vhs->fi->hContact, 0);
-			else if (dat->vhs->flags&VHF_SETLASTSUBJECT)
-				SendMessage(hwndDlg, VARM_SETSUBJECT, (WPARAM)INVALID_HANDLE_VALUE, 0);
-
-			if (dat->vhs->flags&VHF_SUBJECT) {
-				// create subject tab
 				tci.lParam = (LPARAM)hPage;
-				tci.mask = TCIF_TEXT|TCIF_PARAM;
-				tci.pszText = TranslateT("%subject%");
+				MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
+				ShowWindow(hPage, SW_HIDE);
 				TabCtrl_InsertItem(hTab, tabCount++, &tci);
-				hShow = hShow==0?hPage:hShow;
+				hShow = hShow == 0 ? hPage : hShow;
 			}
-		}
-		if ((dat->vhs->flags&VHF_EXTRATEXT) ||
-			((dat->vhs->flags&VHF_INPUT) && (dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL))) {
-			// extratext window is created, but not necessarily shown
-			dat->hwndExtraTextDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EXTRATEXT_DIALOG), hwndDlg, extratextDlgProc, (LPARAM)GetParent(hwndDlg));
-			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+			if (dat->vhs->flags&VHF_INPUT) {
+				// input tab
+				tci.mask = TCIF_TEXT | TCIF_PARAM;
+				tci.pszText = TranslateT("Input");
+				dat->hwndInputDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_INPUT_DIALOG), hwndDlg, inputDlgProc, (LPARAM)GetParent(hwndDlg));
+				EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
-			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
-			ShowWindow(hPage, SW_HIDE);
-			if ((dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL)) {
-				if (dat->vhs->fi->flags & FIF_UNICODE)
-					SendMessage(hwndDlg, VARM_SETEXTRATEXT, 0, (LPARAM)dat->vhs->fi->tszExtraText);
-				else {
+				tci.lParam = (LPARAM)hPage;
+				MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
+				ShowWindow(hPage, SW_HIDE);
+				TabCtrl_InsertItem(hTab, tabCount++, &tci);
+				hShow = hShow == 0 ? hPage : hShow;
+				if ((dat->vhs->fi != NULL) && (dat->vhs->fi->szFormat != NULL)) {
+					if (dat->vhs->fi->flags & FIF_UNICODE)
+						SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)dat->vhs->fi->tszFormat);
+					else {
 
-					WCHAR *wszSource = mir_a2t(dat->vhs->fi->szExtraText);
-					SendMessage(hwndDlg, VARM_SETEXTRATEXT, 0, (LPARAM)wszSource);
-					mir_free(wszSource);
+						WCHAR *wszFormatString = mir_a2t(dat->vhs->fi->szFormat);
+						SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)wszFormatString);
+						mir_free(wszFormatString);
 
+					}
+				}
+				else if (dat->vhs->hwndCtrl != NULL) {
+					TCHAR *tszText = Hlp_GetWindowText(dat->vhs->hwndCtrl);
+					if (tszText != NULL) {
+						SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)tszText);
+						mir_free(tszText);
+					}
+				}
+				if (dat->vhs->fi != NULL || dat->vhs->hwndCtrl != NULL) {
+					SetWindowText(GetDlgItem(hwndDlg, IDC_CANCEL), TranslateT("Cancel"));
+					ShowWindow(GetDlgItem(hwndDlg, IDC_OK), SW_SHOW);
 				}
 			}
-			if (dat->vhs->flags&VHF_EXTRATEXT) {
-				// create extratext tab
-				tci.mask = TCIF_TEXT|TCIF_PARAM;
-				tci.pszText = TranslateT("%extratext%");
-				tci.lParam = (LPARAM)hPage;
-				TabCtrl_InsertItem(hTab, tabCount++, &tci);
-				hShow = hShow==0?hPage:hShow;
-			}
-		}
-		if (dat->vhs->flags&VHF_HELP) {
-			// helpinfo tab
-			tci.mask = TCIF_TEXT|TCIF_PARAM;
-			tci.pszText = TranslateT("Help");
-			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HELPINFO_DIALOG), hwndDlg, helpInfoDlgProc, (LPARAM)GetParent(hwndDlg));
-			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+			if ((dat->vhs->flags&VHF_SUBJECT) ||
+				((dat->vhs->flags&VHF_INPUT) && (((dat->vhs->fi != NULL) && (dat->vhs->fi->hContact != NULL)) || (dat->vhs->flags&VHF_SETLASTSUBJECT)))) {
+				// subject window is created, but not necessarily shown
+				dat->hwndSubjectDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CLIST_DIALOG), hwndDlg, clistDlgProc, (LPARAM)GetParent(hwndDlg));
+				EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
-			tci.lParam = (LPARAM)hPage;
-			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
-			ShowWindow(hPage, SW_HIDE);
-			TabCtrl_InsertItem(hTab, tabCount++, &tci);
-			hShow = hShow==0?hPage:hShow;
-		}		
-		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, MODULENAME, "help");
-		SetWindowText(hwndDlg, TranslateT("Variables Help"));
-		ShowWindow(hShow, SW_SHOW);
-		break;
-	}
+				MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
+				ShowWindow(hPage, SW_HIDE);
+
+				if ((dat->vhs->fi != NULL) && (dat->vhs->fi->hContact != NULL))
+					SendMessage(hwndDlg, VARM_SETSUBJECT, (WPARAM)dat->vhs->fi->hContact, 0);
+				else if (dat->vhs->flags&VHF_SETLASTSUBJECT)
+					SendMessage(hwndDlg, VARM_SETSUBJECT, (WPARAM)INVALID_HANDLE_VALUE, 0);
+
+				if (dat->vhs->flags&VHF_SUBJECT) {
+					// create subject tab
+					tci.lParam = (LPARAM)hPage;
+					tci.mask = TCIF_TEXT | TCIF_PARAM;
+					tci.pszText = TranslateT("%subject%");
+					TabCtrl_InsertItem(hTab, tabCount++, &tci);
+					hShow = hShow == 0 ? hPage : hShow;
+				}
+			}
+			if ((dat->vhs->flags&VHF_EXTRATEXT) ||
+				((dat->vhs->flags&VHF_INPUT) && (dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL))) {
+				// extratext window is created, but not necessarily shown
+				dat->hwndExtraTextDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EXTRATEXT_DIALOG), hwndDlg, extratextDlgProc, (LPARAM)GetParent(hwndDlg));
+				EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+
+				MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
+				ShowWindow(hPage, SW_HIDE);
+				if ((dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL)) {
+					if (dat->vhs->fi->flags & FIF_UNICODE)
+						SendMessage(hwndDlg, VARM_SETEXTRATEXT, 0, (LPARAM)dat->vhs->fi->tszExtraText);
+					else {
+
+						WCHAR *wszSource = mir_a2t(dat->vhs->fi->szExtraText);
+						SendMessage(hwndDlg, VARM_SETEXTRATEXT, 0, (LPARAM)wszSource);
+						mir_free(wszSource);
+
+					}
+				}
+				if (dat->vhs->flags&VHF_EXTRATEXT) {
+					// create extratext tab
+					tci.mask = TCIF_TEXT | TCIF_PARAM;
+					tci.pszText = TranslateT("%extratext%");
+					tci.lParam = (LPARAM)hPage;
+					TabCtrl_InsertItem(hTab, tabCount++, &tci);
+					hShow = hShow == 0 ? hPage : hShow;
+				}
+			}
+			if (dat->vhs->flags&VHF_HELP) {
+				// helpinfo tab
+				tci.mask = TCIF_TEXT | TCIF_PARAM;
+				tci.pszText = TranslateT("Help");
+				hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HELPINFO_DIALOG), hwndDlg, helpInfoDlgProc, (LPARAM)GetParent(hwndDlg));
+				EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+
+				tci.lParam = (LPARAM)hPage;
+				MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
+				ShowWindow(hPage, SW_HIDE);
+				TabCtrl_InsertItem(hTab, tabCount++, &tci);
+				hShow = hShow == 0 ? hPage : hShow;
+			}
+			Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, MODULENAME, "help");
+			SetWindowText(hwndDlg, TranslateT("Variables Help"));
+			ShowWindow(hShow, SW_SHOW);
+			break;
+		}
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
@@ -1026,12 +990,12 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				if (len > 0) {
 					if ((dat->vhs->fi != NULL) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT))) {
 						if (dat->vhs->fi->flags&FIF_UNICODE) {
-							dat->vhs->fi->tszFormat = (TCHAR*)mir_calloc((len+1)*sizeof(WCHAR));
-							SendMessage(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->tszFormat);
+							dat->vhs->fi->tszFormat = (TCHAR*)mir_calloc((len + 1)*sizeof(WCHAR));
+							SendMessage(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len + 1, (LPARAM)dat->vhs->fi->tszFormat);
 						}
 						else {
-							dat->vhs->fi->szFormat = ( char* )mir_calloc(len+1);
-							SendMessageA(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->szFormat);
+							dat->vhs->fi->szFormat = (char*)mir_calloc(len + 1);
+							SendMessageA(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len + 1, (LPARAM)dat->vhs->fi->szFormat);
 						}
 					}
 				}
@@ -1042,9 +1006,9 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				if (len > 0) {
 					TCHAR *tszText;
 
-					tszText = (TCHAR*)mir_calloc((len+1)*sizeof(TCHAR));
+					tszText = (TCHAR*)mir_calloc((len + 1)*sizeof(TCHAR));
 					if (tszText != NULL) {
-						SendMessage(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len+1, (LPARAM)tszText);
+						SendMessage(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len + 1, (LPARAM)tszText);
 						SetWindowText(dat->vhs->hwndCtrl, tszText);
 						mir_free(tszText);
 					}
@@ -1060,12 +1024,12 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				int len = SendMessage(hwndDlg, VARM_GETEXTRATEXTLENGTH, 0, 0);
 				if (len > 0) {
 					if (dat->vhs->fi->flags&FIF_UNICODE) {
-						dat->vhs->fi->tszExtraText = (TCHAR*)mir_calloc((len+1)*sizeof(WCHAR));
-						SendMessage(hwndDlg, VARM_GETEXTRATEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->tszExtraText);
+						dat->vhs->fi->tszExtraText = (TCHAR*)mir_calloc((len + 1)*sizeof(WCHAR));
+						SendMessage(hwndDlg, VARM_GETEXTRATEXT, (WPARAM)len + 1, (LPARAM)dat->vhs->fi->tszExtraText);
 					}
 					else {
-						dat->vhs->fi->szExtraText = ( char* )mir_calloc(len+1);
-						SendMessageA(hwndDlg, VARM_GETEXTRATEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->szExtraText);
+						dat->vhs->fi->szExtraText = (char*)mir_calloc(len + 1);
+						SendMessageA(hwndDlg, VARM_GETEXTRATEXT, (WPARAM)len + 1, (LPARAM)dat->vhs->fi->szExtraText);
 					}
 				}
 				dat->vhs->fi->hContact = (HANDLE)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
@@ -1145,7 +1109,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			tci.mask = TCIF_PARAM;
 			count = TabCtrl_GetItemCount(hTab);
 			// return the largest of all pages
-			for (i=0;i<count;i++) {
+			for (i = 0; i < count; i++) {
 				TabCtrl_GetItem(hTab, i, &tci);
 				ZeroMemory(&pageMinMax, sizeof(pageMinMax));
 				SendMessage((HWND)tci.lParam, WM_GETMINMAXINFO, wParam, (LPARAM)&pageMinMax);
@@ -1155,38 +1119,34 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 		}
 		break;
 
-	case WM_SIZE: {
-		TCITEM tci;
-		int i, count;
-		HWND hTab;
-		RECT rcTabs, rcParent;
+	case WM_SIZE:
+		if (!IsIconic(hwndDlg)) {
+			UTILRESIZEDIALOG urd = { 0 };
+			urd.cbSize = sizeof(urd);
+			urd.hInstance = hInst;
+			urd.hwndDlg = hwndDlg;
+			urd.lParam = 0;
+			// ! uses ANSI version !
+			urd.lpTemplate = MAKEINTRESOURCEA(IDD_HELP_DIALOG);
+			urd.pfnResizer = helpDialogResize;
+			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
 
-		if(IsIconic(hwndDlg))
-			break;
+			SendMessage(hwndDlg, WM_MOVE, 0, 0);
 
-		UTILRESIZEDIALOG urd = { 0 };
-		urd.cbSize = sizeof(urd);
-		urd.hInstance = hInst;
-		urd.hwndDlg = hwndDlg;
-		urd.lParam = 0;
-		// ! uses ANSI version !
-		urd.lpTemplate = MAKEINTRESOURCEA(IDD_HELP_DIALOG);
-		urd.pfnResizer = helpDialogResize;
-		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+			RECT rcTabs, rcParent;
+			HWND hTab = GetDlgItem(hwndDlg, IDC_TABS);
+			GetWindowRect(hTab, &rcTabs);
+			GetWindowRect(hwndDlg, &rcParent);
 
-		SendMessage(hwndDlg, WM_MOVE, 0, 0);
-
-		hTab = GetDlgItem(hwndDlg, IDC_TABS);
-		GetWindowRect(hTab, &rcTabs);
-		GetWindowRect(hwndDlg, &rcParent);
-		tci.mask = TCIF_PARAM;
-		count = TabCtrl_GetItemCount(hTab);
-		for (i=0;i<count;i++) {
-			TabCtrl_GetItem(GetDlgItem(hwndDlg,IDC_TABS), i, &tci);
-			MoveWindow((HWND)tci.lParam, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
+			TCITEM tci;
+			tci.mask = TCIF_PARAM;
+			int count = TabCtrl_GetItemCount(hTab);
+			for (int i = 0; i < count; i++) {
+				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TABS), i, &tci);
+				MoveWindow((HWND)tci.lParam, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
+			}
 		}
 		break;
-	}
 
 	case WM_NOTIFY:
 		if ((((NMHDR*)lParam)->idFrom == IDC_TABS)) {
@@ -1216,17 +1176,17 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 
 	case WM_DESTROY:
 		Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, "help");
-		{
-			HWND hTab = GetDlgItem(hwndDlg, IDC_TABS);
-			
-			TCITEM tci;
-			tci.mask = TCIF_PARAM;
-			int count = TabCtrl_GetItemCount(hTab);
-			for ( int i=0; i < count; i++ ) {
-				TabCtrl_GetItem(hTab, i, &tci);
-				if (((HWND)tci.lParam != dat->hwndSubjectDlg) && ((HWND)tci.lParam != dat->hwndExtraTextDlg))
-					DestroyWindow((HWND)tci.lParam);
-		}	}
+
+		HWND hTab = GetDlgItem(hwndDlg, IDC_TABS);
+
+		TCITEM tci;
+		tci.mask = TCIF_PARAM;
+		int count = TabCtrl_GetItemCount(hTab);
+		for (int i = 0; i < count; i++) {
+			TabCtrl_GetItem(hTab, i, &tci);
+			if (((HWND)tci.lParam != dat->hwndSubjectDlg) && ((HWND)tci.lParam != dat->hwndExtraTextDlg))
+				DestroyWindow((HWND)tci.lParam);
+		}
 
 		// these windows might have been created, but not inserted as tabs
 		if (IsWindow(dat->hwndSubjectDlg))
@@ -1270,19 +1230,19 @@ INT_PTR showHelpService(WPARAM wParam, LPARAM lParam)
 	static FORMATINFO *fi = NULL;
 
 	if (fi == NULL)
-		fi = ( FORMATINFO* )mir_alloc(sizeof(FORMATINFO));
+		fi = (FORMATINFO*)mir_alloc(sizeof(FORMATINFO));
 
 	ZeroMemory(fi, sizeof(FORMATINFO));
 	fi->cbSize = sizeof(FORMATINFO);
 	fi->szFormat = (char *)lParam;
 	if (vhs == NULL)
-		vhs = ( VARHELPINFO* )mir_alloc(sizeof(VARHELPINFO));
+		vhs = (VARHELPINFO*)mir_alloc(sizeof(VARHELPINFO));
 
 	ZeroMemory(vhs, sizeof(VARHELPINFO));
 	vhs->cbSize = sizeof(VARHELPINFO);
 	vhs->fi = fi;
 	vhs->hwndCtrl = (HWND)wParam;
-	vhs->flags = VHF_FULLDLG|VHF_DONTFILLSTRUCT;
+	vhs->flags = VHF_FULLDLG | VHF_DONTFILLSTRUCT;
 
 	return showHelpExService(0, (LPARAM)vhs);
 }

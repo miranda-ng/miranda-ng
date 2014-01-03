@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is mir_free software; you can redistribute it and/or modify
+    This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -23,7 +23,7 @@ static TCHAR *getFullWinampTitleText()
 {
 	HWND hwndWinamp = FindWindow(_T("STUDIO"), NULL);
 	if (hwndWinamp == NULL)
-		hwndWinamp = FindWindow(_T("Winamp v1.x"),NULL);
+		hwndWinamp = FindWindow(_T("Winamp v1.x"), NULL);
 
 	if (hwndWinamp == NULL)
 		return NULL;
@@ -32,17 +32,17 @@ static TCHAR *getFullWinampTitleText()
 	if (szWinText == NULL)
 		return NULL;
 
-	if (GetWindowText(hwndWinamp, szWinText, GetWindowTextLength(hwndWinamp)+1) == 0) {
+	if (GetWindowText(hwndWinamp, szWinText, GetWindowTextLength(hwndWinamp) + 1) == 0) {
 		mir_free(szWinText);
 		return NULL;
 	}
-	TCHAR *szTitle = (TCHAR*)mir_alloc((2*_tcslen(szWinText)+1)*sizeof(TCHAR));
+	TCHAR *szTitle = (TCHAR*)mir_alloc((2 * _tcslen(szWinText) + 1)*sizeof(TCHAR));
 	if (szTitle == NULL) {
 		mir_free(szWinText);
 		return NULL;
 	}
 	_tcscpy(szTitle, szWinText);
-	_tcscpy(szTitle+_tcslen(szTitle), szWinText);
+	_tcscpy(szTitle + _tcslen(szTitle), szWinText);
 	mir_free(szWinText);
 
 	return szTitle;
@@ -70,7 +70,7 @@ static TCHAR *parseWinampSong(ARGUMENTSINFO *ai)
 	res = mir_tstrdup(scur);
 	mir_free(szTitle);
 	ai->flags |= AIF_DONTPARSE;
-	
+
 	return res;
 }
 
@@ -86,15 +86,15 @@ static TCHAR *parseWinampState(ARGUMENTSINFO *ai)
 
 	TCHAR *scur = _tcschr(szTitle, '.');
 	TCHAR *cur = _tcsstr(scur, _T(" - Winamp"));
-	if ((scur == NULL) || (cur == NULL)) {
+	if (scur == NULL || cur == NULL) {
 		mir_free(szTitle);
 		return mir_tstrdup(TranslateT("Stopped"));
 	}
-	if ((!_tcsncmp(cur+10, _T("[Stopped]"), 9))) {
+	if ((!_tcsncmp(cur + 10, _T("[Stopped]"), 9))) {
 		mir_free(szTitle);
 		return mir_tstrdup(TranslateT("Stopped"));
 	}
-	if ((!_tcsncmp(cur+10, _T("[Paused]"), 8))) {
+	if ((!_tcsncmp(cur + 10, _T("[Paused]"), 8))) {
 		mir_free(szTitle);
 		return mir_tstrdup(TranslateT("Paused"));
 	}

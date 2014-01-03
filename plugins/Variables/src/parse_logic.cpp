@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is mir_free software; you can redistribute it and/or modify
+    This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -26,9 +26,9 @@ static TCHAR *parseAnd(ARGUMENTSINFO *ai)
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
-	for (unsigned i=1; i < ai->argc; i++) {
+	for (unsigned i = 1; i < ai->argc; i++) {
 		fi.tszFormat = ai->targv[i];
-		mir_free( formatString(&fi));
+		mir_free(formatString(&fi));
 
 		if (fi.eCount > 0) {
 			ai->flags |= AIF_FALSE;
@@ -57,7 +57,7 @@ static TCHAR *parseIf(ARGUMENTSINFO *ai)
 	memcpy(&fi, ai->fi, sizeof(fi));
 	fi.eCount = fi.pCount = 0;
 	fi.tszFormat = ai->targv[1];
-	mir_free( formatString(&fi));
+	mir_free(formatString(&fi));
 
 	return mir_tstrdup((fi.eCount == 0) ? ai->targv[2] : ai->targv[3]);
 }
@@ -83,7 +83,7 @@ static TCHAR *parseIf3(ARGUMENTSINFO *ai)
 {
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
-	for (unsigned i=1; i < ai->argc; i++) {
+	for (unsigned i = 1; i < ai->argc; i++) {
 		fi.eCount = fi.pCount = 0;
 		fi.tszFormat = ai->targv[i];
 		TCHAR *szCondition = formatString(&fi);
@@ -92,7 +92,7 @@ static TCHAR *parseIf3(ARGUMENTSINFO *ai)
 
 		mir_free(szCondition);
 	}
-	
+
 	return NULL;
 }
 
@@ -104,13 +104,13 @@ static TCHAR *parseIfequal(ARGUMENTSINFO *ai)
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
 	fi.szFormat = ai->argv[1];
-	ptrT tszFirst( formatString(&fi));
+	ptrT tszFirst(formatString(&fi));
 	fi.szFormat = ai->argv[2];
-	ptrT tszSecond( formatString(&fi));
+	ptrT tszSecond(formatString(&fi));
 	if (tszFirst == NULL || tszSecond == NULL)
 		return NULL;
 
-	if ( ttoi(tszFirst) == ttoi(tszSecond))
+	if (ttoi(tszFirst) == ttoi(tszSecond))
 		return mir_tstrdup(ai->targv[3]);
 
 	return mir_tstrdup(ai->targv[4]);
@@ -124,13 +124,13 @@ static TCHAR *parseIfgreater(ARGUMENTSINFO *ai)
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
 	fi.szFormat = ai->argv[1];
-	ptrT tszFirst( formatString(&fi));
+	ptrT tszFirst(formatString(&fi));
 	fi.szFormat = ai->argv[2];
-	ptrT tszSecond( formatString(&fi));
+	ptrT tszSecond(formatString(&fi));
 	if (tszFirst == NULL || tszSecond == NULL)
 		return NULL;
 
-	if ( ttoi(tszFirst) > ttoi(tszSecond))
+	if (ttoi(tszFirst) > ttoi(tszSecond))
 		return mir_tstrdup(ai->targv[3]);
 
 	return mir_tstrdup(ai->targv[4]);
@@ -144,13 +144,13 @@ static TCHAR *parseIflonger(ARGUMENTSINFO *ai)
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
 	fi.szFormat = ai->argv[1];
-	ptrT tszFirst( formatString(&fi));
+	ptrT tszFirst(formatString(&fi));
 	fi.szFormat = ai->argv[2];
-	ptrT tszSecond( formatString(&fi));
+	ptrT tszSecond(formatString(&fi));
 	if (tszFirst == NULL || tszSecond == NULL)
 		return NULL;
 
-	if ( _tcslen(tszFirst) > _tcslen(tszSecond))
+	if (_tcslen(tszFirst) > _tcslen(tszSecond))
 		return mir_tstrdup(ai->targv[3]);
 
 	return mir_tstrdup(ai->targv[4]);
@@ -181,11 +181,11 @@ static TCHAR *parseFor(ARGUMENTSINFO *ai)
 		parsed = formatString(&fi);
 		if (parsed != NULL) {
 			if (res == NULL) {
-				res = (TCHAR*)mir_alloc( _tcslen(parsed)+1 * sizeof(TCHAR));
+				res = (TCHAR*)mir_alloc(_tcslen(parsed) + 1 * sizeof(TCHAR));
 				if (res == NULL)
 					return NULL;
 			}
-			else res = (TCHAR*)mir_realloc(res, (_tcslen(res)+_tcslen(parsed)+1)*sizeof(TCHAR));
+			else res = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(parsed) + 1)*sizeof(TCHAR));
 
 			_tcscat(res, parsed);
 		}
@@ -204,7 +204,7 @@ static TCHAR *parseEqual(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	if (ttoi(ai->targv[1]) != ttoi( ai->targv[2] ))
+	if (ttoi(ai->targv[1]) != ttoi(ai->targv[2]))
 		ai->flags |= AIF_FALSE;
 
 	return mir_tstrdup(_T(""));
@@ -215,7 +215,7 @@ static TCHAR *parseGreater(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	if (ttoi(ai->targv[1]) <= ttoi(ai->targv[2] ))
+	if (ttoi(ai->targv[1]) <= ttoi(ai->targv[2]))
 		ai->flags |= AIF_FALSE;
 
 	return mir_tstrdup(_T(""));
@@ -226,13 +226,14 @@ static TCHAR *parseLonger(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	if ( _tcslen(ai->targv[1]) <= _tcslen(ai->targv[2]))
+	if (_tcslen(ai->targv[1]) <= _tcslen(ai->targv[2]))
 		ai->flags |= AIF_FALSE;
 
 	return mir_tstrdup(_T(""));
 }
 
-static TCHAR *parseNot(ARGUMENTSINFO *ai) {
+static TCHAR *parseNot(ARGUMENTSINFO *ai)
+{
 	if (ai->argc != 2) {
 		return NULL;
 	}
@@ -240,7 +241,7 @@ static TCHAR *parseNot(ARGUMENTSINFO *ai) {
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
 	fi.tszFormat = ai->targv[1];
-	mir_free( formatString(&fi));
+	mir_free(formatString(&fi));
 
 	if (fi.eCount == 0)
 		ai->flags |= AIF_FALSE;
@@ -256,10 +257,10 @@ static TCHAR *parseOr(ARGUMENTSINFO *ai)
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
 	ai->flags |= AIF_FALSE;
-	for(unsigned i=1; (i<ai->argc) && (ai->flags&AIF_FALSE); i++) {
+	for (unsigned i = 1; (i < ai->argc) && (ai->flags&AIF_FALSE); i++) {
 		fi.tszFormat = ai->targv[i];
 		fi.eCount = 0;
-		mir_free( formatString(&fi));
+		mir_free(formatString(&fi));
 
 		if (fi.eCount == 0)
 			ai->flags &= ~AIF_FALSE;
@@ -285,11 +286,11 @@ static TCHAR *parseXor(ARGUMENTSINFO *ai)
 	memcpy(&fi, ai->fi, sizeof(fi));
 	ai->flags = AIF_FALSE;
 	fi.tszFormat = ai->targv[0];
-	mir_free( formatString(&fi));
+	mir_free(formatString(&fi));
 	int val1 = fi.eCount == 0;
 
 	fi.tszFormat = ai->targv[1];
-	mir_free( formatString(&fi));
+	mir_free(formatString(&fi));
 	int val2 = fi.eCount == 0;
 
 	ai->flags |= ((val1 & AIF_FALSE) == !(val2 & AIF_FALSE)) ? 0 : AIF_FALSE;
@@ -298,21 +299,21 @@ static TCHAR *parseXor(ARGUMENTSINFO *ai)
 
 int registerLogicTokens()
 {
-	registerIntToken(_T(AND), parseAnd, TRF_UNPARSEDARGS|TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y, ...)\t"LPGEN("performs logical AND (x && y && ...)"));
+	registerIntToken(_T(AND), parseAnd, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y, ...)\t"LPGEN("performs logical AND (x && y && ...)"));
 	registerIntToken(_T(STR_FALSE), parseFalse, TRF_FIELD, LPGEN("Logical Expressions")"\t"LPGEN("Boolean FALSE"));
-	registerIntToken(_T(FOR), parseFor, TRF_UNPARSEDARGS|TRF_FUNCTION, LPGEN("Logical Expressions")"\t(w,x,y,z)\t"LPGEN("performs w, then shows z and performs y while x is TRUE"));
-	registerIntToken(_T(IF), parseIf, TRF_UNPARSEDARGS|TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y,z)\t"LPGEN("shows y if x is TRUE, otherwise it shows z"));
-	registerIntToken(_T(IF2), parseIf2, TRF_UNPARSEDARGS|TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y)\t"LPGEN("shows x if x is TRUE, otherwise it shows y (if(x,x,y))"));
-	registerIntToken(_T(IF3), parseIf3, TRF_UNPARSEDARGS|TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y, ...)\t"LPGEN("the first argument parsed successfully"));
-	registerIntToken(_T(IFEQUAL), parseIfequal,	TRF_UNPARSEDARGS|TRF_FUNCTION, LPGEN("Logical Expressions")"\t(w,x,y,z)\t"LPGEN("y if w = x, else z"));
-	registerIntToken(_T(IFGREATER), parseIfgreater,	TRF_UNPARSEDARGS|TRF_FUNCTION, LPGEN("Logical Expressions")"\t(w,x,y,z)\t"LPGEN("y if w > x, else z"));
-	registerIntToken(_T(IFLONGER), parseIflonger, TRF_UNPARSEDARGS|TRF_FUNCTION, LPGEN("Logical Expressions")"\t(w,x,y,z)\t"LPGEN("y if string length of w > x, else z"));
-	registerIntToken(_T(EQUAL), parseEqual,	TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y)\t"LPGEN("TRUE if x = y"));
-	registerIntToken(_T(GREATER), parseGreater,	TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y)\t"LPGEN("TRUE if x > y"));
+	registerIntToken(_T(FOR), parseFor, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions")"\t(w,x,y,z)\t"LPGEN("performs w, then shows z and performs y while x is TRUE"));
+	registerIntToken(_T(IF), parseIf, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y,z)\t"LPGEN("shows y if x is TRUE, otherwise it shows z"));
+	registerIntToken(_T(IF2), parseIf2, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y)\t"LPGEN("shows x if x is TRUE, otherwise it shows y (if(x,x,y))"));
+	registerIntToken(_T(IF3), parseIf3, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y, ...)\t"LPGEN("the first argument parsed successfully"));
+	registerIntToken(_T(IFEQUAL), parseIfequal, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions")"\t(w,x,y,z)\t"LPGEN("y if w = x, else z"));
+	registerIntToken(_T(IFGREATER), parseIfgreater, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions")"\t(w,x,y,z)\t"LPGEN("y if w > x, else z"));
+	registerIntToken(_T(IFLONGER), parseIflonger, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions")"\t(w,x,y,z)\t"LPGEN("y if string length of w > x, else z"));
+	registerIntToken(_T(EQUAL), parseEqual, TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y)\t"LPGEN("TRUE if x = y"));
+	registerIntToken(_T(GREATER), parseGreater, TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y)\t"LPGEN("TRUE if x > y"));
 	registerIntToken(_T(LONGER), parseLonger, TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y)\t"LPGEN("TRUE if x is longer than y"));
-	registerIntToken(_T(NOT), parseNot, TRF_UNPARSEDARGS|TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x)\t"LPGEN("performs logical NOT (!x)"));
-	registerIntToken(_T(OR), parseOr, TRF_UNPARSEDARGS|TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y,...)\t"LPGEN("performs logical OR (x || y || ...)"));
+	registerIntToken(_T(NOT), parseNot, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x)\t"LPGEN("performs logical NOT (!x)"));
+	registerIntToken(_T(OR), parseOr, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y,...)\t"LPGEN("performs logical OR (x || y || ...)"));
 	registerIntToken(_T(STR_TRUE), parseTrue, TRF_FIELD, LPGEN("Logical Expressions")"\t"LPGEN("Boolean TRUE"));
-	registerIntToken(_T(XOR), parseXor, TRF_UNPARSEDARGS|TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y)\t"LPGEN("performs logical XOR (x ^ y)"));
+	registerIntToken(_T(XOR), parseXor, TRF_UNPARSEDARGS | TRF_FUNCTION, LPGEN("Logical Expressions")"\t(x,y)\t"LPGEN("performs logical XOR (x ^ y)"));
 	return 0;
 }

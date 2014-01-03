@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is mir_free software; you can redistribute it and/or modify
+    This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -19,7 +19,7 @@
 
 #include "variables.h"
 
-static TCHAR *parseGetParent(ARGUMENTSINFO *ai) 
+static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
@@ -30,14 +30,13 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
-	int count = getContactFromString( &ci );
+	int count = getContactFromString(&ci);
 	if (count == 1 && ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
 	}
 	else {
-		if (ci.hContacts != NULL)
-			mir_free(ci.hContacts);
+		mir_free(ci.hContacts);
 		return NULL;
 	}
 
@@ -50,8 +49,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
-	if (szUniqueID == NULL)
-	{
+	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
 		szUniqueID = (TCHAR *)mir_alloc(32);
 		mir_sntprintf(szUniqueID, 32, _T("%p"), hContact);
@@ -76,7 +74,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR *parseGetDefault(ARGUMENTSINFO *ai) 
+static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
@@ -87,14 +85,13 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
-	int count = getContactFromString( &ci );
+	int count = getContactFromString(&ci);
 	if (count == 1 && ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
 	}
 	else {
-		if (ci.hContacts != NULL)
-			mir_free(ci.hContacts);
+		mir_free(ci.hContacts);
 		return NULL;
 	}
 
@@ -132,7 +129,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai) 
+static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
@@ -143,14 +140,13 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
-	int count = getContactFromString( &ci );
+	int count = getContactFromString(&ci);
 	if (count == 1 && ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
-		mir_free( ci.hContacts );
+		mir_free(ci.hContacts);
 	}
 	else {
-		if (ci.hContacts != NULL)
-			mir_free( ci.hContacts );
+		mir_free(ci.hContacts);
 		return NULL;
 	}
 
@@ -188,12 +184,12 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 	return res;
 }
 
-int registerMetaContactsTokens() 
+int registerMetaContactsTokens()
 {
-	if (ServiceExists( MS_MC_GETPROTOCOLNAME )) {
-		registerIntToken( _T(MC_GETPARENT), parseGetParent, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get parent metacontact of contact x"));
-		registerIntToken( _T(MC_GETDEFAULT), parseGetDefault, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get default subcontact x"));
-		registerIntToken( _T(MC_GETMOSTONLINE), parseGetMostOnline, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get the 'most online' subcontact x"));
+	if (ServiceExists(MS_MC_GETPROTOCOLNAME)) {
+		registerIntToken(_T(MC_GETPARENT), parseGetParent, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get parent metacontact of contact x"));
+		registerIntToken(_T(MC_GETDEFAULT), parseGetDefault, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get default subcontact x"));
+		registerIntToken(_T(MC_GETMOSTONLINE), parseGetMostOnline, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get the 'most online' subcontact x"));
 	}
 
 	return 0;

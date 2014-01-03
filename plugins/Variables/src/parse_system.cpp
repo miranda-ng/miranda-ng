@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is mir_free software; you can redistribute it and/or modify
+    This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -41,7 +41,8 @@ static TCHAR *parseComputerName(ARGUMENTSINFO *ai)
 #include <pdh.h>
 #include <pdhmsg.h>
 
-static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai) {
+static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai)
+{
 
 	HQUERY hQuery;
 	PDH_FMT_COUNTERVALUE cValue;
@@ -51,7 +52,7 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai) {
 	if (ai->argc != 2)
 		return NULL;
 
-	if ( _tcslen(ai->targv[1]) == 0)
+	if (_tcslen(ai->targv[1]) == 0)
 		szCounter = mir_tstrdup(_T("\\Processor(_Total)\\% Processor Time"));
 	else {
 		int size = (int)_tcslen(ai->targv[1]) + 32;
@@ -109,7 +110,7 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai) {
 	//PdhRemoveCounter(*hCounter);
 	PdhCloseQuery(hQuery);
 	mir_free(szCounter);
-		
+
 	return mir_tstrdup(szVal);
 }
 #endif
@@ -117,13 +118,13 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai) {
 static TCHAR *parseCurrentDate(ARGUMENTSINFO *ai)
 {
 	TCHAR *szFormat;
-	if (ai->argc == 1 || (ai->argc > 1 && _tcslen(ai->targv[1]) == 0 ))
+	if (ai->argc == 1 || (ai->argc > 1 && _tcslen(ai->targv[1]) == 0))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[1];
 
 	int len = GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL, szFormat, NULL, 0);
-	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -144,7 +145,7 @@ static TCHAR *parseCurrentTime(ARGUMENTSINFO *ai)
 		szFormat = ai->targv[1];
 
 	int len = GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, szFormat, NULL, 0);
-	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -158,7 +159,7 @@ static TCHAR *parseCurrentTime(ARGUMENTSINFO *ai)
 
 static TCHAR *parseDirectory(ARGUMENTSINFO *ai)
 {
-	if (ai->argc < 2 || ai->argc > 3 )
+	if (ai->argc < 2 || ai->argc > 3)
 		return NULL;
 
 	int depth = 0;
@@ -178,9 +179,9 @@ static TCHAR *parseDirectory(ARGUMENTSINFO *ai)
 	if (ei >= _tcslen(ai->targv[1]))
 		return ai->targv[1];
 
-	for (bi = ei-1; bi > 0; bi--)
-		if (ai->targv[1][bi - 1] == '\\')
-			break;
+	for (bi = ei - 1; bi > 0; bi--)
+	if (ai->targv[1][bi - 1] == '\\')
+		break;
 
 	TCHAR *res = (TCHAR*)mir_alloc((ei - bi + 1) * sizeof(TCHAR));
 	_tcsncpy(res, ai->targv[1] + bi, ei - bi);
@@ -191,10 +192,10 @@ static TCHAR *parseDirectory(ARGUMENTSINFO *ai)
 /*
 	path, depth
 	returns complete path up to "path depth - depth"
-*/
+	*/
 static TCHAR *parseDirectory2(ARGUMENTSINFO *ai)
 {
-	if (ai->argc < 2 || ai->argc > 3 )
+	if (ai->argc < 2 || ai->argc > 3)
 		return NULL;
 
 	int depth = 1;
@@ -204,9 +205,9 @@ static TCHAR *parseDirectory2(ARGUMENTSINFO *ai)
 	if (depth <= 0)
 		return NULL;
 
-	TCHAR *ecur = ai->targv[1]+_tcslen(ai->targv[1]);
+	TCHAR *ecur = ai->targv[1] + _tcslen(ai->targv[1]);
 	while (depth > 0) {
-		while ( (*ecur != '\\') && (ecur > ai->targv[1]))
+		while ((*ecur != '\\') && (ecur > ai->targv[1]))
 			ecur--;
 
 		if (*ecur != '\\')
@@ -215,11 +216,11 @@ static TCHAR *parseDirectory2(ARGUMENTSINFO *ai)
 		depth -= 1;
 		ecur--;
 	}
-	TCHAR *res = (TCHAR*)mir_calloc((ecur-ai->targv[1]+2) * sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_calloc((ecur - ai->targv[1] + 2) * sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
-	_tcsncpy(res, ai->targv[1], (ecur-ai->targv[1])+1);
+	_tcsncpy(res, ai->targv[1], (ecur - ai->targv[1]) + 1);
 	return res;
 }
 
@@ -227,17 +228,17 @@ static int getTime(TCHAR *szTime, struct tm *date)
 {
 	// do some extra checks here
 	TCHAR *cur = szTime;
-	if (cur >= szTime+_tcslen(szTime))
+	if (cur >= szTime + _tcslen(szTime))
 		return -1;
 
-	date->tm_mon = _tcstoul(cur, &cur, 10)-1;
+	date->tm_mon = _tcstoul(cur, &cur, 10) - 1;
 	cur++;
-	if (cur >= szTime+_tcslen(szTime))
+	if (cur >= szTime + _tcslen(szTime))
 		return -1;
 
 	date->tm_mday = _tcstoul(cur, &cur, 10);
 	cur++;
-	if (cur >= szTime+_tcslen(szTime))
+	if (cur >= szTime + _tcslen(szTime))
 		return -1;
 
 	date->tm_year = _tcstoul(cur, &cur, 10);
@@ -246,19 +247,19 @@ static int getTime(TCHAR *szTime, struct tm *date)
 	else if (date->tm_year > 1900)
 		date->tm_year -= 1900;
 
-	date->tm_year = date->tm_year<38?date->tm_year+100:date->tm_year;
+	date->tm_year = date->tm_year < 38 ? date->tm_year + 100 : date->tm_year;
 	cur++;
-	if (cur >= szTime+_tcslen(szTime))
+	if (cur >= szTime + _tcslen(szTime))
 		return -1;
 
 	date->tm_hour = _tcstoul(cur, &cur, 10);
 	cur++;
-	if (cur >= szTime+_tcslen(szTime))
+	if (cur >= szTime + _tcslen(szTime))
 		return -1;
 
 	date->tm_min = _tcstoul(cur, &cur, 10);
 	cur++;
-	if (cur >= szTime+_tcslen(szTime))
+	if (cur >= szTime + _tcslen(szTime))
 		return -1;
 
 	date->tm_sec = _tcstoul(cur, &cur, 10);
@@ -266,7 +267,7 @@ static int getTime(TCHAR *szTime, struct tm *date)
 }
 
 static TCHAR *parseDiffTime(ARGUMENTSINFO *ai)
-{	
+{
 	struct tm t0, t1;
 	TCHAR szTime[32];
 	double diff;
@@ -311,11 +312,11 @@ static TCHAR *parseEnvironmentVariable(ARGUMENTSINFO *ai)
 	if (len <= 0)
 		return NULL;
 
-	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (len+1)*sizeof(TCHAR));
+	ZeroMemory(res, (len + 1)*sizeof(TCHAR));
 	if (ExpandEnvironmentStrings(ai->targv[1], res, len) == 0) {
 		mir_free(res);
 		return NULL;
@@ -331,7 +332,7 @@ static TCHAR *parseFileExists(ARGUMENTSINFO *ai)
 	HANDLE hFile = CreateFile(ai->targv[1], GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		ai->flags |= AIF_FALSE;
-	else 
+	else
 		CloseHandle(hFile);
 
 	return mir_tstrdup(_T(""));
@@ -350,9 +351,9 @@ static TCHAR *parseFindWindow(ARGUMENTSINFO *ai)
 	if (len == 0)
 		return NULL;
 
-	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
-	ZeroMemory(res, (len+1)*sizeof(TCHAR));
-	GetWindowText(hWin, res, len+1);
+	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
+	ZeroMemory(res, (len + 1)*sizeof(TCHAR));
+	GetWindowText(hWin, res, len + 1);
 	return res;
 }
 
@@ -372,7 +373,7 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 	tszRes = NULL;
 
 	if (ai->argc > 1)
-		_tcsncpy(tszFirst, ai->targv[1], SIZEOF(tszFirst)-1);
+		_tcsncpy(tszFirst, ai->targv[1], SIZEOF(tszFirst) - 1);
 
 	if (ai->argc > 2)
 		tszFilter = ai->targv[2];
@@ -387,7 +388,7 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 		if (*ai->targv[4] == 'd')
 			bFiles = FALSE;
 	}
-	if (tszFirst[_tcslen(tszFirst)-1] == '\\')
+	if (tszFirst[_tcslen(tszFirst) - 1] == '\\')
 		_tcsncat(tszFirst, tszFilter, SIZEOF(tszFirst) - _tcslen(tszFirst) - 1);
 	else {
 		_tcsncat(tszFirst, _T("\\"), SIZEOF(tszFirst) - _tcslen(tszFirst) - 1);
@@ -439,7 +440,7 @@ static TCHAR *parseProcessRunning(ARGUMENTSINFO *ai)
 	char *szProc, *ref;
 	szProc = ref = mir_u2a(ai->targv[1]);
 
-	EnumProcs((PROCENUMPROC) MyProcessEnumerator, (LPARAM)&szProc);
+	EnumProcs((PROCENUMPROC)MyProcessEnumerator, (LPARAM)&szProc);
 	if (szProc != NULL)
 		ai->flags |= AIF_FALSE;
 
@@ -478,13 +479,13 @@ static TCHAR *parseRegistryValue(ARGUMENTSINFO *ai)
 		mir_free(key);
 		return NULL;
 	}
-	TCHAR *subKey = cur+1;
+	TCHAR *subKey = cur + 1;
 	if (RegOpenKeyEx(hKey, subKey, 0, KEY_READ, &hKey) != ERROR_SUCCESS) {
 		mir_free(key);
 		return NULL;
 	}
 	mir_free(key);
-	len = MAX_REGVALUE_LENGTH+1;
+	len = MAX_REGVALUE_LENGTH + 1;
 	TCHAR *res = (TCHAR*)mir_alloc(len*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
@@ -539,7 +540,7 @@ static TCHAR *parseTimestamp2Date(ARGUMENTSINFO *ai)
 		return NULL;
 
 	int len = GetDateFormat(LOCALE_USER_DEFAULT, 0, &sysTime, szFormat, NULL, 0);
-	TCHAR *res = (TCHAR*)mir_calloc((len+1) * sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_calloc((len + 1) * sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -571,7 +572,7 @@ static TCHAR *parseTimestamp2Time(ARGUMENTSINFO *ai)
 		return NULL;
 
 	int len = GetTimeFormat(LOCALE_USER_DEFAULT, 0, &sysTime, szFormat, NULL, 0);
-	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -596,7 +597,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 		return NULL;
 
 	lineNo = ttoi(ai->targv[2]);
-	HANDLE hFile = CreateFile(ai->targv[1], GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	HANDLE hFile = CreateFile(ai->targv[1], GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return NULL;
 
@@ -622,7 +623,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 		if (pBuf == NULL)
 			return NULL;
 
-		if (ReadFile(hFile, pBuf, bufSz-csz, &readSz, NULL) == 0) {
+		if (ReadFile(hFile, pBuf, bufSz - csz, &readSz, NULL) == 0) {
 			CloseHandle(hFile);
 			mir_free(pBuf);
 			return NULL;
@@ -647,13 +648,13 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 	// count number of lines
 	do {
 		ZeroMemory(pBuf, bufSz);
-		if (ReadFile(hFile, pBuf, bufSz-csz, &readSz, NULL) == 0) {
+		if (ReadFile(hFile, pBuf, bufSz - csz, &readSz, NULL) == 0) {
 			CloseHandle(hFile);
 			mir_free(pBuf);
 			return NULL;
 		}
 		totalReadSz += readSz;
-		for (pCur = pBuf;*pCur != '\0';pCur += csz) {
+		for (pCur = pBuf; *pCur != '\0'; pCur += csz) {
 			if (tUC) {
 				if (!_tcsncmp((TCHAR*)pCur, _T("\r\n"), 2)) {
 					lineCount += 1;
@@ -672,27 +673,27 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 			}
 		}
 	}
-		while ( (totalReadSz < fileSz) && (readSz > 0));
+	while ((totalReadSz < fileSz) && (readSz > 0));
 
 	if (lineNo < 0)
 		lineNo = lineCount + lineNo + 1;
 	else if (*ai->targv[2] == 'r')
-		lineNo = (rand()%lineCount)+1;
+		lineNo = (rand() % lineCount) + 1;
 
 	totalReadSz = 0;
 	lineCount = 1;
 	linePos = 0xFFFFFFFF;
-	SetFilePointer(hFile, tUC?csz:0, NULL, FILE_BEGIN);
+	SetFilePointer(hFile, tUC ? csz : 0, NULL, FILE_BEGIN);
 	// find the position in the file where the requested line starts
 	do {
-		if (ReadFile(hFile, pBuf, bufSz-csz, &readSz, NULL) == 0) {
+		if (ReadFile(hFile, pBuf, bufSz - csz, &readSz, NULL) == 0) {
 			CloseHandle(hFile);
 			return NULL;
 		}
 		totalReadSz += readSz;
-		for (pCur = pBuf;((pCur < pBuf+bufSz) && (linePos == 0xFFFFFFFF));pCur+=csz) {
+		for (pCur = pBuf; ((pCur < pBuf + bufSz) && (linePos == 0xFFFFFFFF)); pCur += csz) {
 			if (lineCount == lineNo)
-				linePos = (tUC?csz:0) + totalReadSz - readSz + pCur - pBuf;
+				linePos = (tUC ? csz : 0) + totalReadSz - readSz + pCur - pBuf;
 
 			if (tUC) {
 				if (!_tcsncmp((TCHAR*)pCur, _T("\r\n"), 2)) {
@@ -713,11 +714,11 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 		}
 		if (((tUC) && (*(TCHAR*)pCur == '\r')) || ((!tUC) && (*(char *)pCur == '\r'))) {
 			// in case the \r was at the end of the buffer, \n could be next
-			SetFilePointer(hFile, -1*csz, NULL, FILE_CURRENT);
+			SetFilePointer(hFile, -1 * csz, NULL, FILE_CURRENT);
 			totalReadSz -= csz;
 		}
 	}
-		while ( (totalReadSz < fileSz) && (readSz > 0));
+	while ((totalReadSz < fileSz) && (readSz > 0));
 
 	if (linePos < 0) {
 		CloseHandle(hFile);
@@ -733,13 +734,13 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 	pCur = pBuf;
 	do {
 		icur = 0;
-		if (ReadFile(hFile, pBuf, bufSz-csz, &readSz, NULL) == 0) {
+		if (ReadFile(hFile, pBuf, bufSz - csz, &readSz, NULL) == 0) {
 			mir_free(pBuf);
 			CloseHandle(hFile);
 			return NULL;
 		}
-		for (pCur = pBuf;(pCur < pBuf+readSz); pCur += csz) {
-			if ((tUC) && ((!_tcsncmp((TCHAR*)pCur, _T("\r\n"), 2)) || (*(TCHAR*)pCur == '\n')) || 
+		for (pCur = pBuf; (pCur < pBuf + readSz); pCur += csz) {
+			if ((tUC) && ((!_tcsncmp((TCHAR*)pCur, _T("\r\n"), 2)) || (*(TCHAR*)pCur == '\n')) ||
 				((!tUC) && (((!strncmp((char *)pCur, "\r\n", 2)) || (*(char *)pCur == '\n'))))) {
 				CloseHandle(hFile);
 				if (tUC)
@@ -757,7 +758,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 				return res;
 			}
 		}
-		if (((DWORD)(linePos+(pCur-pBuf)) == fileSz)) { // eof
+		if (((DWORD)(linePos + (pCur - pBuf)) == fileSz)) { // eof
 			CloseHandle(hFile);
 
 			if (tUC) {
@@ -770,7 +771,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 
 			return res;
 		}
-		if (readSz == bufSz-csz) {
+		if (readSz == bufSz - csz) {
 			// buffer must be increased
 			bufSz += TXTFILEBUFSZ*csz;
 			if (((tUC) && (*(TCHAR*)pCur == '\r')) || ((!tUC) && (*(char *)pCur == '\r'))) {
@@ -778,11 +779,11 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 			}
 			icur = pCur - pBuf;
 			pBuf = (PBYTE)mir_realloc(pBuf, bufSz);
-			pCur = pBuf+icur;
-			ZeroMemory(pCur+1, TXTFILEBUFSZ*csz);
+			pCur = pBuf + icur;
+			ZeroMemory(pCur + 1, TXTFILEBUFSZ*csz);
 		}
 	}
-		while (readSz > 0);
+	while (readSz > 0);
 	CloseHandle(hFile);
 
 	return NULL;
@@ -795,7 +796,7 @@ static TCHAR *parseUpTime(ARGUMENTSINFO *ai)
 		return NULL;
 
 	HQUERY hQuery;
-	PDH_STATUS pdhStatus = PdhOpenQuery (NULL, 0, &hQuery);
+	PDH_STATUS pdhStatus = PdhOpenQuery(NULL, 0, &hQuery);
 	if (pdhStatus != ERROR_SUCCESS)
 		return NULL;
 
@@ -828,7 +829,8 @@ static TCHAR *parseUpTime(ARGUMENTSINFO *ai)
 }
 #endif
 
-static TCHAR *parseUserName(ARGUMENTSINFO *ai) {
+static TCHAR *parseUserName(ARGUMENTSINFO *ai)
+{
 	if (ai->argc != 1)
 		return NULL;
 
@@ -847,7 +849,8 @@ static TCHAR *parseUserName(ARGUMENTSINFO *ai) {
 }
 
 // clipboard support
-static TCHAR *parseClipboard(ARGUMENTSINFO *ai) {
+static TCHAR *parseClipboard(ARGUMENTSINFO *ai)
+{
 	if (ai->argc != 1)
 		return NULL;
 
@@ -873,8 +876,8 @@ static TCHAR *parseClipboard(ARGUMENTSINFO *ai) {
 	return res;
 }
 
-int registerSystemTokens() {
-
+int registerSystemTokens()
+{
 	registerIntToken(_T(COMPUTERNAME), parseComputerName, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("computer name"));
 #if _WIN32_WINNT>=0x0500
 	registerIntToken(_T(CPULOAD), parseCpuLoad, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("cpu load of process x (without extension) (x is optional)"));
@@ -898,16 +901,15 @@ int registerSystemTokens() {
 #if _WIN32_WINNT>=0x0500
 	registerIntToken(_T(UPTIME), parseUpTime, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("uptime in seconds"));
 #endif
-	if (!ServiceExists( MS_UTILS_REPLACEVARS ))
-		registerIntToken(_T(ENVIRONMENTVARIABLE), parseEnvironmentVariable, TRF_FUNCTION	, LPGEN("Miranda Core OS")"\t(%xxxxxxx%)\t"LPGEN("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)"));
+	if (!ServiceExists(MS_UTILS_REPLACEVARS))
+		registerIntToken(_T(ENVIRONMENTVARIABLE), parseEnvironmentVariable, TRF_FUNCTION, LPGEN("Miranda Core OS")"\t(%xxxxxxx%)\t"LPGEN("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)"));
 	else {
-		registerIntToken(_T(ENVIRONMENTVARIABLE), parseEnvironmentVariable, TRF_FUNCTION	, LPGEN("System Functions")"\t(x)\t"LPGEN("expand environment variable x"));
-		registerIntToken(_T(USERNAME), parseUserName, TRF_FIELD								, LPGEN("System Functions")"\t"LPGEN("user name"));
+		registerIntToken(_T(ENVIRONMENTVARIABLE), parseEnvironmentVariable, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("expand environment variable x"));
+		registerIntToken(_T(USERNAME), parseUserName, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("user name"));
 	}
 
 	srand((unsigned int)GetTickCount());
 
 	registerIntToken(_T(CLIPBOARD), parseClipboard, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("text from clipboard"));
-
 	return 0;
 }
