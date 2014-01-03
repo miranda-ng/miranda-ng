@@ -620,7 +620,7 @@
 
 // Internal Constants
 #define ICQ_PROTOCOL_NAME           LPGEN("ICQ")
-#define ICQ_PLUG_VERSION            __VERSION_DWORD
+#define ICQ_PLUG_VERSION            PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM)
 #define ICQ_VERSION                 8         // Protocol version
 #define DC_TYPE                     DC_NORMAL // Used for DC settings
 #define MAX_CONTACTSSEND            15

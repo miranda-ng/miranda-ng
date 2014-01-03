@@ -14,7 +14,7 @@ int __cdecl cpp_get_error(HANDLE context) {
 
 
 int __cdecl cpp_get_version(void) {
-    return __VERSION_DWORD;
+    return PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 }
 
 

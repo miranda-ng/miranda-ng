@@ -28,16 +28,16 @@ CLIST_INTERFACE *pcli;
 int hLangpack;
 
 PLUGININFOEX pluginInfo={
-		sizeof(PLUGININFOEX),
-		__PLUGIN_NAME,
-		__VERSION_DWORD,
-		__DESCRIPTION,
-		__AUTHOR,
-		__AUTHOREMAIL,
-		__COPYRIGHT,
-		__AUTHORWEB,
-		UNICODE_AWARE, //not transient
-		{0xaa7bfea, 0x1fc7, 0x45f0, {0x90, 0x6e, 0x2a, 0x46, 0xb6, 0xe1, 0x19, 0xcf}} // {0AA7BFEA-1FC7-45f0-906E-2A46B6E119CF}
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE, //not transient
+	{0xaa7bfea, 0x1fc7, 0x45f0, {0x90, 0x6e, 0x2a, 0x46, 0xb6, 0xe1, 0x19, 0xcf}} // {0AA7BFEA-1FC7-45f0-906E-2A46B6E119CF}
 };
 
 void YmsgrLinksInit(void);

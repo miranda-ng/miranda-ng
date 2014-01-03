@@ -685,50 +685,23 @@ bool CVersionInfo::GetPluginLists()
 			}
 
 			//Let's get the info.
-			if (MirandaPluginInfo != NULL) {//a valid miranda plugin
-				if (pluginInfo != NULL) {
-					//We have loaded the informations into pluginInfo.
-					std::tstring timedate = GetPluginTimestamp(&fd.ftLastWriteTime);
-					CPlugin thePlugin(fd.cFileName, _A2T(pluginInfo->shortName), pluginInfo->uuid, /*(pluginInfo->flags & 1) ? _T("Unicode aware") :*/ _T(""), (DWORD) pluginInfo->version, timedate.c_str(), _T(""));
-
-					if (PluginIsEnabled)
-						AddPlugin(thePlugin, listActivePlugins);
-					else {
-						if ((IsUUIDNull(pluginInfo->uuid)) && (mirandaVersion >= PLUGIN_MAKE_VERSION(0,8,0,9))) {
-							thePlugin.SetErrorMessage( _T("    Plugin does not have an UUID and will not work with Miranda 0.8.\r\n"));
-							AddPlugin(thePlugin, listUnloadablePlugins);
-						}
-						else AddPlugin(thePlugin, listInactivePlugins);
-
-						FreeLibrary(hInstPlugin); //We don't need it anymore.
-					}
-					FreePluginInfo(pluginInfo);
-					MirandaPluginInfo = NULL;
-					#ifdef _DEBUG
-						if (verbose) {
-							TCHAR szMsg[4096] = { 0 };
-							mir_sntprintf(szMsg, SIZEOF(szMsg), _T("Done with: %s"), fd.cFileName);
-							PUShowMessageT(szMsg, SM_NOTIFY);
-						}
-					#endif
-				}
-				else { //pluginINFO == NULL
-					pluginInfo = CopyPluginInfo(MirandaPluginInfo(PLUGIN_MAKE_VERSION(9, 9, 9, 9))); //let's see if the plugin likes this miranda version
-					char *szShortName = "<unknown>";
-					std::tstring time = GetPluginTimestamp(&fd.ftLastWriteTime); //get the plugin timestamp;
-					DWORD version = 0;
-					if (pluginInfo) {
-						szShortName = pluginInfo->shortName;
-						version = pluginInfo->version;
-					}
-
-					CPlugin thePlugin(fd.cFileName, _A2T(szShortName), (pluginInfo) ? pluginInfo->uuid : UUID_NULL, (/*((pluginInfo) && (pluginInfo->flags & 1)) ? _T("Unicode aware") :*/ _T("")), version, time.c_str(), _T("    Plugin refuses to load. Miranda version too old."));
-
-					AddPlugin(thePlugin, listUnloadablePlugins);
-					if (pluginInfo)
-						FreePluginInfo(pluginInfo);
-				}
+			if (MirandaPluginInfo == NULL || pluginInfo == NULL) {
+				FreeLibrary(hInstPlugin); //We don't need it anymore.
+				continue;
 			}
+
+			//We have loaded the informations into pluginInfo.
+			std::tstring timedate = GetPluginTimestamp(&fd.ftLastWriteTime);
+			CPlugin thePlugin(fd.cFileName, _A2T(pluginInfo->shortName), pluginInfo->uuid, /*(pluginInfo->flags & 1) ? _T("Unicode aware") :*/ _T(""), (DWORD) pluginInfo->version, timedate.c_str(), _T(""));
+
+			if (PluginIsEnabled)
+				AddPlugin(thePlugin, listActivePlugins);
+			else {
+				AddPlugin(thePlugin, listInactivePlugins);
+				FreeLibrary(hInstPlugin); //We don't need it anymore.
+			}
+			FreePluginInfo(pluginInfo);
+			MirandaPluginInfo = NULL;
 		}
 			while (FindNextFile(hFind,&fd));
 		FindClose(hFind);

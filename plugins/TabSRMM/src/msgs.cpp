@@ -201,14 +201,11 @@ static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
 	if (hwndTarget == 0)
 		hwndTarget = M.FindWindow((HANDLE)wParam);
 
-	if (hwndTarget) {
-		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndTarget, GWLP_USERDATA);
-		if (dat)
-			return (dat->dwFlags);
-		else
-			return 0;
-	} else
+	if (hwndTarget == 0)
 		return 0;
+
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndTarget, GWLP_USERDATA);
+	return (dat) ? dat->dwFlags : 0;
 }
 
 /*

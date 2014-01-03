@@ -18,13 +18,18 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define __FILEVERSION_STRING        0,11,0,3
-#define __VERSION_STRING            "0.11.0.3"
-#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0, 11, 0, 3)
+#define __MAJOR_VERSION          0
+#define __MINOR_VERSION          11
+#define __RELEASE_NUM            0
+#define __BUILD_NUM              2
 
-#define __PLUGIN_NAME               "MSN Protocol"
-#define __DESCRIPTION               "Microsoft Network (MSN) protocol support for Miranda NG."
-#define __AUTHOR                    "Boris Krasnovskiy, George Hazan, Richard Hughes"
-#define __AUTHOREMAIL               "borkra@miranda-im.org"
-#define __COPYRIGHT                 "© 2001-2012 Richard Hughes, George Hazan, Boris Krasnovskiy"
-#define __AUTHORWEB                 "http://miranda-ng.org/p/MSN/"
+#define __FILEVERSION_STRING     __MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+#define __TOSTRING(x)            #x
+#define __VERSION_STRING         __TOSTRING(__FILEVERSION_STRING)
+
+#define __PLUGIN_NAME            "MSN Protocol"
+#define __DESCRIPTION            "Microsoft Network (MSN) protocol support for Miranda NG."
+#define __AUTHOR                 "Boris Krasnovskiy, George Hazan, Richard Hughes"
+#define __AUTHOREMAIL            "borkra@miranda-im.org"
+#define __COPYRIGHT              "© 2001-2012 Richard Hughes, George Hazan, Boris Krasnovskiy"
+#define __AUTHORWEB              "http://miranda-ng.org/p/MSN/"

@@ -65,9 +65,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	gMirandaVersion = mirandaVersion;
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 8, 0, 0))
-		return NULL;
-
 	return &pluginInfo;
 }
 
@@ -166,15 +163,12 @@ void PasteIt(HANDLE hContact, int mode)
 							Miranda_Plugin_InfoEx infoEx = (Miranda_Plugin_InfoEx) GetProcAddress(hInst, "MirandaPluginInfoEx");
 							PLUGININFOEX* pi = NULL;
 							if(infoEx != NULL)
-							{
 								pi = infoEx(gMirandaVersion);
-							}
+
 							// If PLUGININFOEX flags contains UNICODE_AWARE,
 							// this mean that protocol is unicode.
 							if(pi != NULL && pi->cbSize == sizeof(PLUGININFOEX))
-							{
 								isUnicodePlugin = pi->flags & UNICODE_AWARE;
-							}
 						}
 					}
 

@@ -18,15 +18,19 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ////////////////////////////////////////////////////////////////////////////////
 
-#define __FILEVERSION_STRING        0,11,0,3
-#define __VERSION_STRING            "0.11.0.3"
-#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0, 11, 0, 3)
+#define __MAJOR_VERSION            0
+#define __MINOR_VERSION            11
+#define __RELEASE_NUM            0
+#define __BUILD_NUM               3
 
+#define __FILEVERSION_STRING      __MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+#define __TOSTRING(x)            #x
+#define __VERSION_STRING         __TOSTRING(__FILEVERSION_STRING)
 
-#define __PLUGIN_NAME				"Gadu-Gadu Protocol"
-#define __DESCRIPTION 				"Gadu-Gadu protocol support for Miranda NG."
-#define __AUTHOR					"Bartosz Bialek, Adam Strzelecki"
-#define __AUTHOREMAIL				"dezred"/*antispam*/"@"/*antispam*/"gmail"/*antispam*/"."/*antispam*/"com"
-#define __COPYRIGHT					"© 2009-2012 Bartosz Bialek, 2003-2009 Adam Strzelecki"
-#define __AUTHORWEB					"http://miranda-ng.org/p/GG/"
+#define __PLUGIN_NAME            "Gadu-Gadu Protocol"
+#define __DESCRIPTION             "Gadu-Gadu protocol support for Miranda NG."
+#define __AUTHOR                  "Bartosz Bialek, Adam Strzelecki"
+#define __AUTHOREMAIL            "dezred"/*antispam*/"@"/*antispam*/"gmail"/*antispam*/"."/*antispam*/"com"
+#define __COPYRIGHT               "© 2009-2012 Bartosz Bialek, 2003-2009 Adam Strzelecki"
+#define __AUTHORWEB               "http://miranda-ng.org/p/GG/"
 
