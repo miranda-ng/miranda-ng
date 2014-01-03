@@ -308,10 +308,6 @@
 Байт
 [Word]
 Слово
-[Read]
-Чтение
-[Write]
-Запись
 [MessageBox]
 Окно уведомления
 [Start minimized]
@@ -332,5 +328,9 @@
 Значение
 [Save value]
 Сохр. значение
+[Read]
+Чтение
+[Write]
+Запись
 [Unicode]
 Юникод
