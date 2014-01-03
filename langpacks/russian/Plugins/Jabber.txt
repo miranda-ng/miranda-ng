@@ -961,6 +961,10 @@ Jabber ошибка
 Редактор ростера
 [Resource priority]
 Приоритет ресурса
+[Increase priority by %d]
+Увеличить приоритет на %d
+[Decrease priority by %d]
+Уменьшить приоритет на %d
 [Resource priority [%d]]
 Приоритет ресурса [%d]
 [Join conference]
@@ -1561,6 +1565,14 @@ XML для MS Excel (кодировка UTF-8)
 ** Подписка: нет **
 [<none>]
 <нет>
+[Message]
+Сообщение
+[Presence (in)]
+Присутствие (вх)
+[Presence (out)]
+Присутствие (исх)
+[Query]
+Запрос
 [allow ]
 разрешить
 [deny ]
@@ -1723,8 +1735,6 @@ XML для MS Excel (кодировка UTF-8)
 Отсылка регистрационной информации...
 [Resource]
 Ресурс
-[Message]
-Сообщение
 [<not specified>]
 <не указано>
 [Software]

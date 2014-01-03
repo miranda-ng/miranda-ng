@@ -925,10 +925,10 @@ struct
 }
 static drawItems[] =
 {
-	{ _T("Message"),        "pl_msg_allow"   },
-	{ _T("Presence (in)"),  "pl_prin_allow"  },
-	{ _T("Presence (out)"), "pl_prout_allow" },
-	{ _T("Query"),          "pl_iq_allow"    }
+	{ LPGENT("Message"),        "pl_msg_allow"   },
+	{ LPGENT("Presence (in)"),  "pl_prin_allow"  },
+	{ LPGENT("Presence (out)"), "pl_prout_allow" },
+	{ LPGENT("Query"),          "pl_iq_allow"    }
 };
 
 BOOL CJabberDlgPrivacyLists::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
