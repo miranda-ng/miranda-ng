@@ -249,8 +249,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
 
 			vector<FILEINFO> &todo = *(vector<FILEINFO> *)lParam;
-			for (int i = 0; i < (int)todo.size(); ++i)
-			{
+			for (int i = 0; i < (int)todo.size(); ++i) {
 				lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_IMAGE;
 				lvI.iSubItem = 0;
 				lvI.lParam = (LPARAM)&todo[i];
@@ -421,7 +420,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 						INT rc = -1;
 						Title = TranslateT("Pack Updater");
 						Text = tszBuff;
-						if ( ServiceExists(MS_POPUP_ADDPOPUP) && ServiceExists(MS_POPUP_REGISTERACTIONS) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL,MODNAME, "Popups0", DEFAULT_POPUP_ENABLED) && (db_get_dw(NULL, "Popup", "Actions", 0) & 1))
+						if (ServiceExists(MS_POPUP_ADDPOPUP) && ServiceExists(MS_POPUP_REGISTERACTIONS) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL,MODNAME, "Popups0", DEFAULT_POPUP_ENABLED) && (db_get_dw(NULL, "Popup", "Actions", 0) & 1))
 							rc = DialogBox(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), NULL, DlgMsgPop);
 						else
 							rc = MessageBox(NULL, tszBuff, Title, MB_YESNO | MB_ICONQUESTION);
@@ -430,6 +429,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 								TCHAR* tszUtilRootPlug = NULL; 
 								TCHAR* tszUtilRootIco = NULL;
 								TCHAR* tszUtilRoot = NULL;
+								TCHAR  tszCurrentDir[MAX_PATH];
 
 								switch (arFileType[i]) {
 								case 0:
@@ -440,7 +440,12 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 									memset(&si, 0, sizeof(STARTUPINFO));
 									memset(&pi, 0, sizeof(PROCESS_INFORMATION));
 									si.cb = sizeof(STARTUPINFO);
-									CreateProcess(arFilePath[i].c_str(), _T(""), NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi);
+									{
+										_tcsncpy_s(tszCurrentDir, SIZEOF(tszCurrentDir), arFilePath[i].c_str(), _TRUNCATE);
+										TCHAR *p = _tcsrchr(tszCurrentDir, '\\');
+										if (p) *p = 0;
+									}
+									CreateProcess(arFilePath[i].c_str(), _T(""), NULL, NULL, FALSE, NULL, NULL, tszCurrentDir, &si, &pi);
 									i = UpdatesCount;
 									CallFunctionAsync(ExitMe, 0);
 									break;
@@ -503,8 +508,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 							mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s"), arFilePath[0].c_str());
 							Title = TranslateT("Pack Updater");
 							Text = tszBuff;
-							if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
-							{
+							if (ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 								Number = 2;
 								show_popup(0, Title, Text, Number, 0);
 							}

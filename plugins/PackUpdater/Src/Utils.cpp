@@ -132,10 +132,8 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	NETLIBHTTPREQUEST* pReply = NULL;
 	pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
 
-	if (pReply)
-	{
-		if ((200 == pReply->resultCode) && (pReply->dataLength > 0))
-		{
+	if (pReply) {
+		if (200 == pReply->resultCode && pReply->dataLength > 0) {
 			hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 			WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
 			ret = true;
@@ -198,12 +196,10 @@ static void CheckUpdates(void *)
 
 	// Load files info
 	db_get_ts(NULL, MODNAME, "File_VersionURL", &dbVar);
-	if (lstrcmp(dbVar.ptszVal, NULL) == 0)// URL is not set
-	{
+	if (lstrcmp(dbVar.ptszVal, NULL) == 0) { // URL is not set
 		Title=TranslateT("Pack Updater");
 		Text = TranslateT("URL for checking updates not found.");
-		if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED))
-		{
+		if (ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
 			Number = 1;
 			show_popup(0, Title, Text, Number, 0);
 		}
@@ -223,36 +219,32 @@ static void CheckUpdates(void *)
 	Text = TranslateT("Downloading version info...");
 	DlgDownloadProc();
 	mir_free(pFileUrl);
-	if (!DlgDld)
-	{
+	if (!DlgDld) {
 		hCheckThread = NULL;
 		return;
 	}
 
-	for (CurrentFile = 0; CurrentFile < FileCount; CurrentFile++)
-	{
+	for (CurrentFile = 0; CurrentFile < FileCount; CurrentFile++) {
 		FILEINFO FileInfo = {_T(""), _T(""), _T(""), _T(""), _T(""), _T(""), _T(""), {_T(""), _T("")}};
 
 		dbVar.ptszVal = NULL;
 		mir_snprintf(szKey, SIZEOF(szKey), "File_%d_CurrentVersion", CurrentFile + 1);
 		db_get_ts(NULL, MODNAME, szKey, &dbVar);
-		if (lstrcmp(dbVar.ptszVal, NULL) == 0)
-		{
+		if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
 			db_free(&dbVar);
 			lstrcpyn(FileInfo.tszCurVer, _T(""), SIZEOF(FileInfo.tszCurVer));
 		}
-		else
-			lstrcpyn(FileInfo.tszCurVer, dbVar.ptszVal, SIZEOF(FileInfo.tszCurVer));
+		else lstrcpyn(FileInfo.tszCurVer, dbVar.ptszVal, SIZEOF(FileInfo.tszCurVer));
+
 		dbVar.ptszVal = NULL;
 		mir_snprintf(szKey, SIZEOF(szKey), "File_%d_LastVersion", CurrentFile + 1);
 		db_get_ts(NULL, MODNAME, szKey, &dbVar);
-		if (lstrcmp(dbVar.ptszVal, NULL) == 0)
-		{
+		if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
 			db_free(&dbVar);
 			lstrcpyn(FileInfo.tszLastVer, _T(""), SIZEOF(FileInfo.tszLastVer));
 		}
-		else
-			lstrcpyn(FileInfo.tszLastVer, dbVar.ptszVal, SIZEOF(FileInfo.tszLastVer));
+		else lstrcpyn(FileInfo.tszLastVer, dbVar.ptszVal, SIZEOF(FileInfo.tszLastVer));
+
 		Files.push_back(FileInfo);
 
 		// Read version info
@@ -264,12 +256,10 @@ static void CheckUpdates(void *)
 		GetPrivateProfileString(tszFileInfo, _T("Descr"), _T(""), Files[CurrentFile].tszDescr, SIZEOF(Files[CurrentFile].tszDescr), tszTmpIni);
 		GetPrivateProfileString(tszFileInfo, _T("DiskFileName"), _T(""), tszBuff, MAX_PATH, tszTmpIni);
 
-		if (_tcsstr(tszBuff, _T("\\"))) //check update name
-		{
+		if (_tcsstr(tszBuff, _T("\\"))) { //check update name
 			Title = TranslateT("Pack Updater");
 			Text = TranslateT("Name of Update's file is not supported.");
-			if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED))
-			{
+			if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
 				Number = 1;
 				show_popup(0, Title, Text, Number, 0);
 			}
@@ -283,8 +273,7 @@ static void CheckUpdates(void *)
 		Files[CurrentFile].Force = GetPrivateProfileInt(tszFileInfo, _T("Force"), 0, tszTmpIni);
 		Files[CurrentFile].FileNum = CurrentFile+1;
 
-		if (Files[CurrentFile].FileType == 2)
-		{
+		if (Files[CurrentFile].FileType == 2) {
 			TCHAR pluginFolgerName[MAX_PATH];
 			if (lstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
 				mir_sntprintf(tszBuff, SIZEOF(tszBuff), _T("Plugins\\%s"), Files[CurrentFile].File.tszDiskPath);
@@ -295,65 +284,61 @@ static void CheckUpdates(void *)
 				continue;
 		}
 		// Compare versions
-		if (getVer(Files[CurrentFile].tszCurVer) < getVer(Files[CurrentFile].tszNewVer)) // Yeah, we've got new version.
-		{
+		if (getVer(Files[CurrentFile].tszCurVer) < getVer(Files[CurrentFile].tszNewVer)) { // Yeah, we've got new version.
 			TCHAR* tszSysRoot = Utils_ReplaceVarsT(_T("%SystemRoot%"));
 			TCHAR* tszProgFiles = Utils_ReplaceVarsT(_T("%ProgramFiles%"));
 
-			if (Files[CurrentFile].FileType != 1 && !IsUserAnAdmin() && (_tcsstr(tszRoot, tszSysRoot) || _tcsstr(tszRoot, tszProgFiles)))
-			{
+			if (Files[CurrentFile].FileType != 1 && !IsUserAnAdmin() && (_tcsstr(tszRoot, tszSysRoot) || _tcsstr(tszRoot, tszProgFiles))) {
 				MessageBox(NULL, TranslateT("Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights."), Title, MB_ICONINFORMATION);
 				DeleteFile(tszTmpIni);
 				hCheckThread = NULL;
 				return;
 			} // user have not admin's rights
-			else
-			{
-				//добавить проверку на существование файла
-				TCHAR tszFilePathDest[MAX_PATH] = {0};
-				TCHAR* tszUtilRootPlug = NULL;
-				TCHAR* tszUtilRootIco = NULL;
-				TCHAR* tszUtilRoot = NULL;
 
-				switch (Files[CurrentFile].FileType)
-				{
-					case 0:
-					case 1:
-						break;
-					case 2:
-						tszUtilRootPlug = Utils_ReplaceVarsT(_T("%miranda_path%\\Plugins"));
-						if (lstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
-							mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s"), tszUtilRootPlug, Files[CurrentFile].File.tszDiskPath);
-						else
-							mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s\\%s"), tszUtilRootPlug, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
-						mir_free(tszUtilRootPlug);
-						break;
-					case 3:
-						tszUtilRootIco = Utils_ReplaceVarsT(_T("%miranda_path%\\Icons"));
-						if (lstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
-							mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s"), tszUtilRootIco, Files[CurrentFile].File.tszDiskPath);
-						else
-							mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s\\%s"), tszUtilRootIco, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
-						mir_free(tszUtilRootIco);
-						break;
-					case 4:
-					case 5:
-						tszUtilRoot = Utils_ReplaceVarsT(_T("%miranda_path%"));
-						if (lstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
-							mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s"), tszUtilRoot, Files[CurrentFile].File.tszDiskPath);
-						else
-							mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s\\%s"), tszUtilRoot, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
-						mir_free(tszUtilRoot);
-						break;
-				}//end* switch (Files[CurrentFile].FileType)
+			//добавить проверку на существование файла
+			TCHAR tszFilePathDest[MAX_PATH] = {0};
+			TCHAR* tszUtilRootPlug = NULL;
+			TCHAR* tszUtilRootIco = NULL;
+			TCHAR* tszUtilRoot = NULL;
 
-				if (Files[CurrentFile].Force || Exists(tszFilePathDest))
-					UpdateFiles.push_back(Files[CurrentFile]);
-				// Save last version
-				lstrcpyn(Files[CurrentFile].tszLastVer, Files[CurrentFile].tszNewVer, SIZEOF(Files[CurrentFile].tszLastVer));
-				mir_snprintf(szKey, SIZEOF(szKey), "File_%d_LastVersion", CurrentFile + 1);
-				db_set_ts(NULL, MODNAME, szKey, Files[CurrentFile].tszLastVer);
-			} // user have admin's rights
+			switch (Files[CurrentFile].FileType) {
+			case 0:
+			case 1:
+				break;
+			case 2:
+				tszUtilRootPlug = Utils_ReplaceVarsT(_T("%miranda_path%\\Plugins"));
+				if (lstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
+					mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s"), tszUtilRootPlug, Files[CurrentFile].File.tszDiskPath);
+				else
+					mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s\\%s"), tszUtilRootPlug, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
+				mir_free(tszUtilRootPlug);
+				break;
+			case 3:
+				tszUtilRootIco = Utils_ReplaceVarsT(_T("%miranda_path%\\Icons"));
+				if (lstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
+					mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s"), tszUtilRootIco, Files[CurrentFile].File.tszDiskPath);
+				else
+					mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s\\%s"), tszUtilRootIco, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
+				mir_free(tszUtilRootIco);
+				break;
+			case 4:
+			case 5:
+				tszUtilRoot = Utils_ReplaceVarsT(_T("%miranda_path%"));
+				if (lstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
+					mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s"), tszUtilRoot, Files[CurrentFile].File.tszDiskPath);
+				else
+					mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s\\%s"), tszUtilRoot, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
+				mir_free(tszUtilRoot);
+				break;
+			}//end* switch (Files[CurrentFile].FileType)
+
+			if (Files[CurrentFile].Force || Exists(tszFilePathDest))
+				UpdateFiles.push_back(Files[CurrentFile]);
+			// Save last version
+			lstrcpyn(Files[CurrentFile].tszLastVer, Files[CurrentFile].tszNewVer, SIZEOF(Files[CurrentFile].tszLastVer));
+			mir_snprintf(szKey, SIZEOF(szKey), "File_%d_LastVersion", CurrentFile + 1);
+			db_set_ts(NULL, MODNAME, szKey, Files[CurrentFile].tszLastVer);
+
 			mir_free(tszSysRoot);
 			mir_free(tszProgFiles);
 		} // end compare versions
@@ -363,29 +348,26 @@ static void CheckUpdates(void *)
 	if (UpdateFiles.size()>0)
 		upd_ret = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)&UpdateFiles);
 	DeleteFile(tszTmpIni);
-	if (upd_ret == IDCANCEL)
-	{
+	if (upd_ret == IDCANCEL) {
 		hCheckThread = NULL;
 		return;
 	}
-	if (!UpdatesCount && !Silent)
-	{
+	
+	if (!UpdatesCount && !Silent) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No updates found.");
-		if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
-		{
+		if (ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
 		}
 		else if (db_get_b(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
 	}
-	if (!FileCount)
-	{
+
+	if (!FileCount) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No files for update.");
-		if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
-		{
+		if (ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
 		}
@@ -397,20 +379,17 @@ static void CheckUpdates(void *)
 
 void DoCheck(int iFlag)
 {
-	if (hCheckThread != NULL)
-	{
+	if (hCheckThread != NULL) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("Update checking already started!");
-		if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
-		{
+		if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
 		}
 		else if (db_get_b(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
 	}
-	else if (iFlag)
-	{
+	else if (iFlag) {
 		hCheckThread = mir_forkthread(CheckUpdates, 0);
 		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
 	}
@@ -418,8 +397,7 @@ void DoCheck(int iFlag)
 
 BOOL AllowUpdateOnStartup()
 {
-	if(OnlyOnceADay)
-	{
+	if(OnlyOnceADay) {
 		time_t now = time(NULL);
 		time_t was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
 
@@ -432,19 +410,18 @@ BOOL AllowUpdateOnStartup()
 LONG PeriodToMilliseconds(const INT period, BYTE& periodMeasure)
 {
 	LONG result = period * 1000;
-	switch(periodMeasure)
-	{
-		case 1:
-			// day
-			result *= 60 * 60 * 24;
-			break;
+	switch(periodMeasure) {
+	case 1:
+		// day
+		result *= 60 * 60 * 24;
+		break;
 
-		default:
-			// hour
-			if(periodMeasure != 0)
-				periodMeasure = 0;
-			result *= 60 * 60;
-			break;
+	default:
+		// hour
+		if(periodMeasure != 0)
+			periodMeasure = 0;
+		result *= 60 * 60;
+		break;
 	}
 	return result;
 }
@@ -457,8 +434,7 @@ VOID CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHig
 VOID InitTimer()
 {
 	CancelWaitableTimer(Timer);
-	if(UpdateOnPeriod)
-	{
+	if(UpdateOnPeriod) {
 		LONG interval = PeriodToMilliseconds(Period, PeriodMeasure);
 
 		_int64 qwDueTime = -10000i64 * interval;

@@ -161,35 +161,30 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	WORD i = 0;
+	int i;
+	WORD idCtrl;
 	char str[20] = {0}, str2[20] = {0};
 
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hdlg);
 		//Colors
-		if (MyOptions.DefColors == byCOLOR_OWN)
-		{
+		if (MyOptions.DefColors == byCOLOR_OWN) {
 			CheckDlgButton(hdlg, IDC_USEOWNCOLORS, BST_CHECKED);
 			CheckDlgButton(hdlg, IDC_USEPOPUPCOLORS, BST_UNCHECKED);
 			CheckDlgButton(hdlg, IDC_USEWINCOLORS, BST_UNCHECKED);
 		}
-		if (MyOptions.DefColors == byCOLOR_WINDOWS) 
-		{
+		if (MyOptions.DefColors == byCOLOR_WINDOWS) {
 			CheckDlgButton(hdlg, IDC_USEOWNCOLORS, BST_UNCHECKED);
 			CheckDlgButton(hdlg, IDC_USEPOPUPCOLORS, BST_UNCHECKED);
 			CheckDlgButton(hdlg, IDC_USEWINCOLORS, BST_CHECKED);
 		}
-		if (MyOptions.DefColors == byCOLOR_POPUP) 
-		{
+		if (MyOptions.DefColors == byCOLOR_POPUP) {
 			CheckDlgButton(hdlg, IDC_USEOWNCOLORS, BST_UNCHECKED);
 			CheckDlgButton(hdlg, IDC_USEPOPUPCOLORS, BST_CHECKED);
 			CheckDlgButton(hdlg, IDC_USEWINCOLORS, BST_UNCHECKED);
 		}
-		for (i = 0; i < POPUPS; i++) 
-		{
+		for (i = 0; i < POPUPS; i++) {
 			SendDlgItemMessage(hdlg, (i+42071), CPM_SETCOLOUR, 0, PopupsList[i].colorBack);
 			SendDlgItemMessage(hdlg, (i+41071), CPM_SETCOLOUR, 0, PopupsList[i].colorText);
 			EnableWindow(GetDlgItem(hdlg, (i+42071)), (MyOptions.DefColors == byCOLOR_OWN));
@@ -200,16 +195,14 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		SendDlgItemMessage(hdlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, -1, 9999);	
 		SetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, MyOptions.Timeout, TRUE);
 		//Mouse actions
-		for (i = 0; i < SIZEOF(PopupActions); i++)
-		{
+		for (i = 0; i < SIZEOF(PopupActions); i++) {
 			SendMessage(GetDlgItem(hdlg, IDC_LC), CB_SETITEMDATA, SendMessage(GetDlgItem(hdlg, IDC_LC), CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
 			SendMessage(GetDlgItem(hdlg, IDC_RC), CB_SETITEMDATA, SendMessage(GetDlgItem(hdlg, IDC_RC), CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
 		}
 		SendDlgItemMessage(hdlg, IDC_LC, CB_SETCURSEL, MyOptions.LeftClickAction, 0);
 		SendDlgItemMessage(hdlg, IDC_RC, CB_SETCURSEL, MyOptions.RightClickAction, 0);
 		//Popups nitified
-		for (i = 0; i < POPUPS; i++) 
-		{
+		for (i = 0; i < POPUPS; i++) {
 			mir_snprintf(str, SIZEOF(str), "Popups%d", i);
 			mir_snprintf(str2, SIZEOF(str2), "Popups%dM", i);
 			CheckDlgButton(hdlg, (i+40071), (db_get_b(NULL, MODNAME, str, DEFAULT_POPUP_ENABLED)) ? BST_CHECKED: BST_UNCHECKED);
@@ -225,21 +218,18 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			EnableWindow(GetDlgItem(hdlg, (40071)), TRUE);
 
 		return TRUE;
-	}
+
 	case WM_SHOWWINDOW:
 		if (!(db_get_dw(NULL, "Popup", "Actions", 0) & 1)  || !ServiceExists(MS_POPUP_REGISTERACTIONS))
 			EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
 		else
 			EnableWindow(GetDlgItem(hdlg, (40071)), TRUE);
-
 		return TRUE;
+
 	case WM_COMMAND:
-	{
-		WORD idCtrl = LOWORD(wParam), wNotifyCode = HIWORD(wParam);
-		if (wNotifyCode == CPN_COLOURCHANGED) 
-		{
-			if(idCtrl > 40070)
-			{
+		idCtrl = LOWORD(wParam);
+		if (HIWORD(wParam) == CPN_COLOURCHANGED) {
+			if(idCtrl > 40070) {
 				//It's a color picker change. idCtrl is the control id.
 				COLORREF color = SendDlgItemMessage(hdlg, idCtrl, CPM_GETCOLOUR, 0, 0);
 				int ctlID = idCtrl;
@@ -251,171 +241,146 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			}
 		}
-		if (wNotifyCode == CBN_SELCHANGE)
-		{ 	
+		if (HIWORD(wParam) == CBN_SELCHANGE) { 	
 			if (idCtrl == IDC_LC)
-			{
 				MyOptions.LeftClickAction = (BYTE)SendDlgItemMessage(hdlg, IDC_LC, CB_GETCURSEL, 0, 0);
-			}
 			else if(idCtrl == IDC_RC)
-			{
 				MyOptions.RightClickAction = (BYTE)SendDlgItemMessage(hdlg, IDC_RC, CB_GETCURSEL, 0, 0);
-			}
+
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		}
-		switch(idCtrl)
-		{
-			case IDC_USEOWNCOLORS: 
-			{
-				BOOL bEnableOthers = FALSE;
-				if (wNotifyCode != BN_CLICKED) 
-					break;
+
+		switch(idCtrl) {
+		case IDC_USEOWNCOLORS: 
+			if (HIWORD(wParam) == BN_CLICKED) {
 				MyOptions.DefColors = byCOLOR_OWN;
-				bEnableOthers = TRUE;
-				for (i = 0; i < POPUPS; i++) 
-				{
+				BOOL bEnableOthers = TRUE;
+				for (i = 0; i < POPUPS; i++) {
 					EnableWindow(GetDlgItem(hdlg, (i+42071)), bEnableOthers); //Background
 					EnableWindow(GetDlgItem(hdlg, (i+41071)), bEnableOthers); //Text
 				}
 				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-				break;
 			}
-			case IDC_USEWINCOLORS: 
-			{
-				BOOL bEnableOthers = FALSE;
-				if (wNotifyCode != BN_CLICKED) 
-					break;
+			break;
+		case IDC_USEWINCOLORS: 
+			if (HIWORD(wParam) == BN_CLICKED) {
 				//Use Windows colors
 				MyOptions.DefColors = byCOLOR_WINDOWS;
-				bEnableOthers = FALSE;
-				for (i = 0; i < POPUPS; i++) 
-				{
+				BOOL bEnableOthers = FALSE;
+				for (i = 0; i < POPUPS; i++) {
 					EnableWindow(GetDlgItem(hdlg, (i+42071)), bEnableOthers); //Background
 					EnableWindow(GetDlgItem(hdlg, (i+41071)), bEnableOthers); //Text
 				}
 				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-				break;
 			}
-			case IDC_USEPOPUPCOLORS:
-			{
-				BOOL bEnableOthers = FALSE;
-				if (wNotifyCode != BN_CLICKED)
-					break;
+			break;
+
+		case IDC_USEPOPUPCOLORS:
+			if (HIWORD(wParam) == BN_CLICKED) {
 				//Use Popup colors
 				MyOptions.DefColors = byCOLOR_POPUP;
-				bEnableOthers = FALSE;
-				for (i = 0; i < POPUPS; i++) 
-				{
+				BOOL bEnableOthers = FALSE;
+				for (i = 0; i < POPUPS; i++) {
 					EnableWindow(GetDlgItem(hdlg, (i+42071)), bEnableOthers); //Background
 					EnableWindow(GetDlgItem(hdlg, (i+41071)), bEnableOthers); //Text
 				}
 				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-				break;
 			}
-			case IDC_PREVIEW: 
-			{//Declarations and initializations
-				Title = TranslateT("Pack Updater");
-				Text = TranslateT("Test");
-				for (int i = 0; i < POPUPS; i++) 
-				{
-					if ((!IsDlgButtonChecked(hdlg, (i+40071))) || (!IsWindowEnabled(GetDlgItem(hdlg, (i+40071)))))
-						continue;
-					show_popup(0, Title, Text, i, 0);
-				}
-				break;
-			}
-			case IDC_TIMEOUT_VALUE:
-			case IDC_MSG_BOXES:
-			case IDC_ERRORS:
-			{
-				if (!IsDlgButtonChecked(hdlg, IDC_ERRORS))
-					EnableWindow(GetDlgItem(hdlg, IDC_ERRORS_MSG), TRUE);
-				else
-					EnableWindow(GetDlgItem(hdlg, IDC_ERRORS_MSG), FALSE);
-				if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
-					SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-				break;
-			}
-			case IDC_INFO_MESSAGES:
-			{
-				if (!IsDlgButtonChecked(hdlg, IDC_INFO_MESSAGES))
-					EnableWindow(GetDlgItem(hdlg, IDC_INFO_MESSAGES_MSG), TRUE);
-				else
-					EnableWindow(GetDlgItem(hdlg, IDC_INFO_MESSAGES_MSG), FALSE);
-				if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
-					SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-				break;
-			}
-			case IDC_PROGR_DLG:
-			{
-				if (!IsDlgButtonChecked(hdlg, IDC_PROGR_DLG))
-					EnableWindow(GetDlgItem(hdlg, IDC_PROGR_DLG_MSG), TRUE);
-				else
-					EnableWindow(GetDlgItem(hdlg, IDC_PROGR_DLG_MSG), FALSE);
-				if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
-					SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-				break;
-			}
-			case IDC_MSG_BOXES_MSG:
-			case IDC_ERRORS_MSG:
-			case IDC_INFO_MESSAGES_MSG:
-			case IDC_PROGR_DLG_MSG:
-				if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
-					SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 			break;
-		}//end* switch(idCtrl)
-		break;
-	}//end* case WM_COMMAND:
-	case WM_NOTIFY: 
-		switch (((LPNMHDR)lParam)->code) 
-		{
-			case PSN_RESET:
-			{
-				//Restore the options stored in memory.
-				LoadOptions();
-				InitPopupList();
-				return TRUE;
+
+		case IDC_PREVIEW: 
+			Title = TranslateT("Pack Updater");
+			Text = TranslateT("Test");
+			for (int i = 0; i < POPUPS; i++) {
+				if ((!IsDlgButtonChecked(hdlg, (i+40071))) || (!IsWindowEnabled(GetDlgItem(hdlg, (i+40071)))))
+					continue;
+				show_popup(0, Title, Text, i, 0);
 			}
-			case PSN_APPLY: 
-			{
-				//Text color
-				char szSetting[20] = {0};
-				DWORD ctlColor = 0;
-				for (i = 0; i <= POPUPS-1; i++) 
-				{
-					ctlColor = SendDlgItemMessage(hdlg, (i+42071), CPM_GETCOLOUR, 0, 0);
-					PopupsList[i].colorBack = ctlColor;
-					mir_snprintf(szSetting, SIZEOF(szSetting), "Popups%iBg", i);
-					db_set_dw(NULL, MODNAME, szSetting, ctlColor);
-					ctlColor = SendDlgItemMessage(hdlg, (i+41071), CPM_GETCOLOUR, 0, 0);
-					PopupsList[i].colorText = ctlColor;
-					mir_snprintf(szSetting, SIZEOF(szSetting), "Popups%iTx", i);
-					db_set_dw(NULL, MODNAME, szSetting, ctlColor);
-				}
-				//Colors
-				db_set_b(NULL, MODNAME, "DefColors", MyOptions.DefColors);
-				//Timeout
-				MyOptions.Timeout = GetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, 0, TRUE);
-				db_set_dw(NULL, MODNAME, "Timeout", MyOptions.Timeout);
-				//Left mouse click
-				db_set_b(NULL, MODNAME, "LeftClickAction", MyOptions.LeftClickAction);
-				//Right mouse click
-				db_set_b(NULL, MODNAME, "RightClickAction", MyOptions.RightClickAction);
-				//Notified popups
-				for (i = 0; i < POPUPS; i++) 
-				{
-					mir_snprintf(str, SIZEOF(str), "Popups%d", i);
-					db_set_b(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hdlg, (i+40071))));
-					mir_snprintf(str2, SIZEOF(str2), "Popups%dM", i);
-					db_set_b(NULL, MODNAME, str2, (BYTE)(IsDlgButtonChecked(hdlg, (i+1024))));
-				}
-				return TRUE;
-			} //case PSN_APPLY
-		} // switch code
-	break; //End WM_NOTIFY
-	} //switch message
-return FALSE;
+			break;
+
+		case IDC_TIMEOUT_VALUE:
+		case IDC_MSG_BOXES:
+		case IDC_ERRORS:
+			if (!IsDlgButtonChecked(hdlg, IDC_ERRORS))
+				EnableWindow(GetDlgItem(hdlg, IDC_ERRORS_MSG), TRUE);
+			else
+				EnableWindow(GetDlgItem(hdlg, IDC_ERRORS_MSG), FALSE);
+			if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
+				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_INFO_MESSAGES:
+			if (!IsDlgButtonChecked(hdlg, IDC_INFO_MESSAGES))
+				EnableWindow(GetDlgItem(hdlg, IDC_INFO_MESSAGES_MSG), TRUE);
+			else
+				EnableWindow(GetDlgItem(hdlg, IDC_INFO_MESSAGES_MSG), FALSE);
+			if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
+				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_PROGR_DLG:
+			if (!IsDlgButtonChecked(hdlg, IDC_PROGR_DLG))
+				EnableWindow(GetDlgItem(hdlg, IDC_PROGR_DLG_MSG), TRUE);
+			else
+				EnableWindow(GetDlgItem(hdlg, IDC_PROGR_DLG_MSG), FALSE);
+			if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
+				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_MSG_BOXES_MSG:
+		case IDC_ERRORS_MSG:
+		case IDC_INFO_MESSAGES_MSG:
+		case IDC_PROGR_DLG_MSG:
+			if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
+				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
+			break;
+		}
+		break;
+
+	case WM_NOTIFY: 
+		switch (((LPNMHDR)lParam)->code) {
+		case PSN_RESET:
+			//Restore the options stored in memory.
+			LoadOptions();
+			InitPopupList();
+			return TRUE;
+
+		case PSN_APPLY: 
+			//Text color
+			char szSetting[20] = {0};
+			DWORD ctlColor = 0;
+			for (i = 0; i <= POPUPS-1; i++) {
+				ctlColor = SendDlgItemMessage(hdlg, (i+42071), CPM_GETCOLOUR, 0, 0);
+				PopupsList[i].colorBack = ctlColor;
+				mir_snprintf(szSetting, SIZEOF(szSetting), "Popups%iBg", i);
+				db_set_dw(NULL, MODNAME, szSetting, ctlColor);
+				ctlColor = SendDlgItemMessage(hdlg, (i+41071), CPM_GETCOLOUR, 0, 0);
+				PopupsList[i].colorText = ctlColor;
+				mir_snprintf(szSetting, SIZEOF(szSetting), "Popups%iTx", i);
+				db_set_dw(NULL, MODNAME, szSetting, ctlColor);
+			}
+			//Colors
+			db_set_b(NULL, MODNAME, "DefColors", MyOptions.DefColors);
+			//Timeout
+			MyOptions.Timeout = GetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, 0, TRUE);
+			db_set_dw(NULL, MODNAME, "Timeout", MyOptions.Timeout);
+			//Left mouse click
+			db_set_b(NULL, MODNAME, "LeftClickAction", MyOptions.LeftClickAction);
+			//Right mouse click
+			db_set_b(NULL, MODNAME, "RightClickAction", MyOptions.RightClickAction);
+			//Notified popups
+			for (i = 0; i < POPUPS; i++) {
+				mir_snprintf(str, SIZEOF(str), "Popups%d", i);
+				db_set_b(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hdlg, (i+40071))));
+				mir_snprintf(str2, SIZEOF(str2), "Popups%dM", i);
+				db_set_b(NULL, MODNAME, str2, (BYTE)(IsDlgButtonChecked(hdlg, (i+1024))));
+			}
+			return TRUE;
+		}
+		break; //End WM_NOTIFY
+	}
+	return FALSE;
 }
 
 int OptInit(WPARAM wParam, LPARAM lParam)
