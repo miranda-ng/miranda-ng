@@ -28,11 +28,11 @@
 [You can choose the Miranda profile database to compact or repair.]
 Выберите профиль Miranda NG для сжатия или восстановления.
 [Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
-Выберите профиль базы в списке. Если его нет в списке, нажмите "Ещё..." для поиска на компьютере.
+Выберите &профиль базы в списке. Если его нет в списке, нажмите "Ещё..." для поиска на компьютере.
 [&File:]
-Файл:
+&Файл:
 [&Other...]
-Ещё...
+&Ещё...
 [Error Opening Database]
 Ошибка открытия базы
 [There was an error opening the profile database given.]
@@ -90,7 +90,7 @@
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
 Проверка базы завершена. Нажмите "Далее" для возврата в мастер и проверки другой базы, или "Завершить" для выхода.
 [&Finish]
-Завершить
+&Завершить
 [Click Next to continue]
 Нажмите "Далее" для продолжения
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]

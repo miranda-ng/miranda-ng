@@ -24,19 +24,19 @@
 [Contacts]
 Контакты
 [&Apply]
-Применить
+&Применить
 [&Remove]
-Очистить
+&Очистить
 [&Set as Default]
 &По умолчанию
 [Move &Up]
-Вверх
+&Вверх
 [Move &Down]
-Вниз
+&Вниз
 [Force use of default for sending (even if offline)]
 Всегда использовать по умолчанию (даже если оффлайн)
 [Send &Offline]
-В оффлайн
+В &оффлайн
 [Set default contact on receipt of message]
 Делать основным контактом по прибытии сообщения
 [Always send to default contact if not offline]

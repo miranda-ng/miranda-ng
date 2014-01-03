@@ -10,51 +10,51 @@
 [Shutdown]
 Выключение
 [&Show confirmation dialog before shutdown]
-Диалог подтверждения перед выключением
+&Диалог подтверждения перед выключением
 [&Countdown starts at:]
-Обратный отсчёт начнётся:
+&Обратный отсчёт начнётся:
 [seconds]
 секунд(ы)
 [Shutdown Events]
 События автовыключения
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
-Снова активировать автовыключение с теми же настройками, если Miranda NG была закрыта с включенным автовыключением.
+&Снова активировать автовыключение с теми же настройками, если Miranda NG была закрыта с включенным автовыключением.
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
-Игнорировать скрытые и временные контакты при наблюдении за всеми контактами не в сети
+&Игнорировать скрытые и временные контакты при наблюдении за всеми контактами не в сети
 [Critical Shutdown Events]
 Критические события автовыключения
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Автоматически выключать компьютер при следующих событиях:
 [&Thunderstorm warning is issued (Weather)]
-Штормовое предупреждение (плагин Weather)
+&Штормовое предупреждение (плагин Weather)
 [&Harddrive overheats (HDD Info)]
-Перегрев HDD (плагин HDD Info)
+&Перегрев HDD (плагин HDD Info)
 [Automatic Shutdown]
 Автовыключение
 [Select the automatic shutdown event]
 Выбор событий для автовыключения
 [Shutdown at &specific time]
-Выключить в заданное время
+Выключить в &заданное время
 [Shutdown a&t:]
-Выключить в:
+Выключить &в:
 [Shutdown i&n:]
-Выкл. через:
+Выкл. &через:
 [Shutdown when a &message is received containing the following text:]
-Выключить при получении сообщения, содержащего следующий текст:
+Выключить при получении &сообщения, содержащего следующий текст:
 [Shutdown when Miranda NG becomes &idle]
-Переход Miranda NG в режим ожидания
+Переход Miranda NG в режим &ожидания
 [Configure]
 Настроить
 [Shutdown when &prozessor usage drops below:]
-Выключить, если использование процессора упадёт до:
+Выключить, если использование &процессора упадёт до:
 [(current: 0%)]
 (сейчас 0%)
 [Shutdown when all contacts are &offline]
-Выключить, если все контакты не в сети
+Выключить, если все контакты &не в сети
 [Shutdown when all &file transfers are finished]
-Выключить, когда все передачи файлов завершились
+Выключить, когда все &передачи файлов завершились
 [&Action:]
-Действие:
+&Действие:
 [Cancel]
 Отмена
 [Unsaved data in open applications except Miranda NG might get lost.]
@@ -62,7 +62,7 @@
 [Please click "Cancel" if you would like to abort the process.]
 Нажмите "Отмена" если хотите прервать процесс
 [&Now!]
-Сейчас!
+&Сейчас!
 [Shutdown at:]
 Выключить в:
 [Time left:]
@@ -70,11 +70,11 @@
 [Paused]
 Пауза
 [&Unpause Countdown]
-Возобновить отсчёт
+&Возобновить отсчёт
 [&Pause Countdown]
-Приостановить отсчёт
+&Приостановить отсчёт
 [&Cancel Countdown]
-Отменить отсчёт
+&Отменить отсчёт
 [AutoShutdown]
 Автовыключение
 [Countdown on Frame]
@@ -112,9 +112,9 @@
 [Stop automatic shutdown]
 Остановить автовыключение 
 [Stop automatic &shutdown]
-Остановить автовыключение 
+Остановить &автовыключение 
 [Automatic &shutdown...]
-Автовыключение...
+&Автовыключение...
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG автоматически закроется через %u секунд(ы).
 [All Miranda NG protocols are going to be set to offline in %u second(s).]

@@ -96,7 +96,7 @@ E-mail:
 [Description:]
 Описание:
 [&Save changes]
-Сохранить изменения
+&Сохранить изменения
 [Enter token to continue]
 Введите маркер для продолжения
 [Cancel]
@@ -112,7 +112,7 @@ E-mail:
 [New e-mail:]
 Новый e-mail:
 [&Create]
-Создать
+&Создать
 [Remove Gadu-Gadu account]
 Удалить номер Gadu-Gadu
 [Yes, I want to remove my account]
@@ -220,9 +220,9 @@ HTTP ошибка записи
 [Unknown HTTP error]
 HTTP неизвестная ошибка
 [&Unblock]
-Разблокировать
+&Разблокировать
 [&Block]
-Блокировать
+&Блокировать
 [Contact list]
 Список контактов
 [%s connection]
@@ -232,9 +232,9 @@ HTTP неизвестная ошибка
 [Gadu-Gadu Number]
 Номер Gadu-Gadu
 [Open &conference...]
-Открыть конференцию...
+Открыть &конференцию...
 [&Clear ignored conferences]
-Очистить игнорируемые конференции
+&Очистить игнорируемые конференции
 [%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 %s начал(а) конференцию с %d участниками (%d неизвестно).\nПринять участие?
 [%s initiated the conference.]
@@ -282,7 +282,7 @@ HTTP неизвестная ошибка
 [Concurrent sessions]
 Параллельные сессии
 [&Image]
-Изображение
+&Изображение
 [Image cannot be written to disk.]
 Изображение не может быть записано на диск.
 [Image from %s]
@@ -340,7 +340,7 @@ IP адрес
 [Whois]
 Информация
 [Concurrent &sessions]
-Одновременные сессии
+Одновременные &сессии
 [Token retrieval failed because of error:\n\t%s]
 Маркер не получен из-за ошибки\n\t%s
 [Could not load token image.]

@@ -116,7 +116,7 @@
 [All &Contacts]
 Все &контакты...
 [&Import]
-Импорт
+&Импорт
 [From a &file]
 Из &файла...
 [From pasted &text]
@@ -180,7 +180,7 @@ BL&OB
 [Export Module]
 Экспортировать модуль...
 [&Clone]
-Клонировать
+&Клонировать
 [Export Contact]
 Экспортировать контакт...
 [Import Settings]
@@ -190,7 +190,7 @@ BL&OB
 [From pasted text]
 Из вставленного текста...
 [&Add Module]
-Добавить модуль...
+&Добавить модуль...
 [Export Settings]
 Экспортировать настройки
 [Export Contacts]

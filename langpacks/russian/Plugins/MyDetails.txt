@@ -78,7 +78,7 @@ RTL
 [Status Message:]
 Сообщение статуса:
 [&Offline]
-Отключён
+&Отключён
 [On&line]
 В с&ети
 [&Away]
@@ -94,9 +94,9 @@ RTL
 [&Invisible]
 &Невидимый
 [On the &Phone]
-На телефоне
+На &телефоне
 [Out to &Lunch]
-Обедаю
+&Обедаю
 [Set My Avatar...]
 Сменить мой аватар...
 [Set My Nickname...]

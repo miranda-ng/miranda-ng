@@ -40,7 +40,7 @@ E-mail:
 [built-in]
 встроенный
 [&Remove...]
-Удалить...
+&Удалить...
 [Languages]
 Языки
 [Customize]

@@ -14,7 +14,7 @@
 [Retrieving %s message...]
 Загрузка сообщения "%s"...
 [Co&py to Clipboard]
-Скопировать в буфер
+Ск&опировать в буфер
 [%s Message (%s)]
 Сообщение "%s" (%s)
 [Retrieving status message for %s...]

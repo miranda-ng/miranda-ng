@@ -92,7 +92,7 @@
 [Nudge for %s]
 Встряска для %s
 [Send &Nudge]
-Встряхнуть
+&Встряхнуть
 [You received a nudge]
 Вас встряхнули
 [You sent a nudge]

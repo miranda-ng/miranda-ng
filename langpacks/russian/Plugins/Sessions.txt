@@ -62,7 +62,7 @@
 [Save Session]
 Сохранить сессию
 [&Save Session]
-Сохранить
+&Сохранить
 [Enter session name:]
 Введите название сессии:
 [Save and Close]

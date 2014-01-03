@@ -162,27 +162,27 @@ exe игры:
 [Buddy start a game]
 Начало игры
 [&XFire Online Profile]
-Онлайн профиль XFire
+Онлайн профиль &XFire
 [XFire &Clan Site]
-Сайт клана Xfire
+Сайт &клана Xfire
 [C&opy Server Address and Port]
-Копировать адрес и порт сервера
+Ко&пировать адрес и порт сервера
 [Cop&y Voice Server Address and Port]
-Копировать адрес и порт сервера общения
+Копи&ровать адрес и порт сервера общения
 [Join &Game...]
-Зайти в игру...
+Зайти в &игру...
 [Play this game...]
 Играть в эту игру...
 [Remove F&riend...]
-Удалить из друзей...
+Удалить из др&узей...
 [Block U&ser...]
-Заблокировать пользователя...
+Заблокировать по&льзователя...
 [&My XFire Online Profile]
-Мой профиль XFire
+&Мой профиль XFire
 [&Rescan my games...]
-Пересканировать мои игры...
+&Пересканировать мои игры...
 [Set &Nickname]
-Псевдоним...
+&Псевдоним...
 [XFire game icon]
 Значок игры XFire
 [XFire voice icon]

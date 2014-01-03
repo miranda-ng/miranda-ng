@@ -182,7 +182,7 @@
 [View]
 Вид
 [Show &during the next]
-Даты за ближайшие
+Даты за &ближайшие
 [day(s)]
 дней
 [Reminder]
@@ -286,9 +286,9 @@ E-Mail
 [Country Flags]
 Флаги стран
 [Use &unknown flag if country cannot be determined]
-Показать неизвестный флаг, если страна не определена
+Показать &неизвестный флаг, если страна не определена
 [Show country flag as &status icon on message window]
-Показывать флаг, как значок статуса в окне беседы
+Показывать флаг, как значок &статуса в окне беседы
 [Birthday]
 День рождения
 [Age:]
@@ -588,7 +588,7 @@ E-Mail
 [&Export User Details]
 &Экспорт данных пользователя
 [&Import]
-Импорт
+&Импорт
 [&Import User Details]
 &Импорт данных пользователя
 [View/Change My &Details...]
@@ -604,9 +604,9 @@ E-Mail
 [Extended UserInfo]
 Личные данные
 [&Export Group]
-Экспортировать группу
+&Экспортировать группу
 [&Import Group]
-Импортировать группу
+&Импортировать группу
 [My Notes:]
 Мои заметки:
 [About:]
@@ -1048,7 +1048,7 @@ Web Дизайн
 [View Homepage]
 Сайт
 [&Homepage]
-Сайт
+&Сайт
 [Homepage (uinfoex)]
 Сайт (uinfoex)
 [[b]%s (%S)...[/b]\n%d Contacts remaning]

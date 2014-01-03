@@ -46,7 +46,7 @@ UTF8 в новых файлах
 [&Find...]
 &Найти
 [&External]
-Внешнее
+&Внешнее
 [&Close]
 &Закрыть
 [When filename changes]
@@ -82,7 +82,7 @@ UTF8 в новых файлах
 [Failed to create file]
 Ошибка создания файла
 [Open E&xported History]
-Экспортированная история
+Эк&спортированная история
 [No contacts found to export]
 Нет контактов для экспорта
 [Failed to export at least one contact]

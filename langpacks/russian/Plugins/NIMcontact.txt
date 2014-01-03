@@ -36,9 +36,9 @@
 [Program parameters:]
 Аргументы программы:
 [O&pen File]
-Открыть файл
+От&крыть файл
 [O&pen Folder]
-Открыть папку
+Отк&рыть папку
 [Link Settings]
 Настройка ссылок
 [Contact list settings]
@@ -72,7 +72,7 @@
 [String Maker]
 Создать строку
 [&Test String]
-Проверка
+&Проверка
 [&Exit]
 Вы&ход
 [String to test]
@@ -82,9 +82,9 @@
 [Help]
 Справка
 [&Export Non-IM Contact]
-Экспорт не-IM контакта
+&Экспорт не-IM контакта
 [Co&py Non-IM Contact]
-Копировать не-IM контакт
+Ко&пировать не-IM контакт
 [Type one replace string per line in the format "original text,new text"]
 Одна строка замены на каждую строчку в формате "оригинал,новый"
 [EXAMPLE: %fn1,%fn2]
@@ -108,16 +108,16 @@
 [Non-IM Contact]
 Не-IM контакт
 [&Non-IM Contact]
-Не-IM контакт
+&Не-IM контакт
 [&Add Non-IM Contact]
-Добавить не-IM контакт
+&Добавить не-IM контакт
 [&View/Edit Files]
-Просмотр/изменение файлов
+&Просмотр/изменение файлов
 [&Export all Non-IM Contacts]
-Экспорт всех не-IM контактов
+&Экспорт всех не-IM контактов
 [&Import Non-IM Contacts]
-Импорт не-IM контактов
+&Импорт не-IM контактов
 [&String Maker]
-Создать строку
+&Создать строку
 [E&dit Contact Settings]
-Изменить настройки контакта
+Изм&енить настройки контакта

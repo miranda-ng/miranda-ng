@@ -174,7 +174,7 @@
 [&Use Windows colors]
 &Цвета Windows
 [Use system &icons]
-Системные значки
+Системные &значки
 [Previe&w]
 &Тест
 [Use default colors]
@@ -268,7 +268,7 @@ xСтатус "%s"
 [Retrieving custom status details...]
 Запрос текста хСтатуса...
 [&Save changes]
-Сохранить изменения
+&Сохранить изменения
 [Confirm Password Change]
 Подтвердить смену пароля
 [Please re-type your new password:]

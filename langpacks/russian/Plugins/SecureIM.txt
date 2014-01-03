@@ -60,13 +60,13 @@
 [&Export]
 &Экспорт
 [&Import]
-Импорт
+&Импорт
 [Set &keyrings...]
-Установить keyring
+Установить &keyring
 [Disable keyrings use]
 Отключить keyrings
 [Load &Private key]
-Загрузить закрытый ключ
+Загрузить &закрытый ключ
 [Basic]
 Основные
 [Executable:]

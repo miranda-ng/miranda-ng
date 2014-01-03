@@ -52,7 +52,7 @@
 [Miranda NG Profile Manager]
 Менеджер профилей Miranda NG
 [&Run]
-Запустить
+&Запустить
 [&Exit]
 Вы&ход
 [Start in Service Mode with]
@@ -322,27 +322,27 @@
 [Font]
 Шрифт
 [&Font:]
-Шрифт:
+&Шрифт:
 [Font st&yle:]
-Стиль шрифта:
+Ст&иль шрифта:
 [\nStyles and effects are disabled for this font.]
 \nДля этого шрифта настройка стилей и эффектов отключена.
 [&Size:]
-Размер:
+&Размер:
 [Effects]
 Эффекты
 [Stri&keout]
-Зачеркнутый
+Заче&ркнутый
 [&Underline]
-Подчеркнутый
+&Подчеркнутый
 [&Color:]
-Цвет:
+&Цвет:
 [Sample]
 Пример
 [Sc&ript:]
-Скрипт:
+Ск&рипт:
 [&Apply]
-Применить
+&Применить
 [&Help]
 &Справка
 [Menu objects]
@@ -402,13 +402,13 @@ Cлужба:
 [&Add...]
 &Добавить...
 [&Edit]
-Править
+&Править
 [&Options]
 &Настройки
 [&Upgrade]
 &Обновить
 [&Remove...]
-Удалить...
+&Удалить...
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG перезапускается.\nПожалуйста, подождите...
 [Error console]
@@ -460,25 +460,25 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [&New group]
 Со&здать группу
 [&Hide offline users]
-Скрыть отключённых
+&Скрыть отключённых
 [Hide &offline users out here]
-Скрыть отключённых вне группы
+Скрыть &отключённых вне группы
 [Hide &empty groups]
-Скрыть пустые группы
+Скрыть &пустые группы
 [Disable &groups]
-Отключить группы
+Отключить &группы
 [Hide Miranda]
 Скрыть список контактов
 [Group]
 Группа
 [&New subgroup]
-Создать подгруппу
+&Создать подгруппу
 [&Hide offline users in here]
-Скрыть отключённых в группе
+&Скрыть отключённых в группе
 [&Rename group]
-Переименовать группу
+&Переименовать группу
 [&Delete group]
-Удалить группу
+&Удалить группу
 [&Reset to default]
 &Сбросить
 [find/add]
@@ -488,7 +488,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [User &details]
 &Информация
 [Send &message]
-Отправить сообщение
+Отправить &сообщение
 [Log]
 Журнал
 [&Copy]
@@ -498,7 +498,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Select &all]
 Выделить &всё
 [C&lear log]
-Очистить журнал
+Оч&истить журнал
 [Open in &new window]
 &Открыть в новом окне
 [&Open in existing window]
@@ -550,21 +550,21 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [&Send]
 &Отправить
 [&Emoticons]
-Смайлы
+&Смайлы
 [&Bold]
-Жирный
+&Жирный
 [&Italic]
-Курсив
+&Курсив
 [&Color]
-Цвет
+&Цвет
 [&Background color]
-Цвет фона
+Цвет &фона
 [&History]
-История
+&История
 [&Filter]
-Фильтр
+&Фильтр
 [&Room settings]
-Настройки
+&Настройки
 [&Show/Hide nicklist]
 &Показать/Скрыть список ников
 [Show these events only:]
@@ -664,11 +664,11 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Tabs]
 Вкладки
 [&Close tab]
-Закрыть вкладку
+&Закрыть вкладку
 [C&lose other tabs]
-Закрыть остальные вкладки
+За&крыть остальные вкладки
 [&Open at this position]
-Открыть в этом месте
+&Открыть в этом месте
 [Hide offline users]
 Скрыть отключённых
 [Hide empty groups]
@@ -860,9 +860,9 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Contact list background:]
 Фон списка контактов:
 [&Main menu]
-Главное меню
+&Главное меню
 [&Status]
-Статус
+&Статус
 [&Offline\tCtrl+0]
 Не в с&ети\tCtrl+0
 [On&line\tCtrl+1]
@@ -894,7 +894,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Total size:]
 Общий размер:
 [&User menu]
-Меню пользователя
+Меню &пользователя
 [Incoming file transfer]
 Входящий файл
 [A&ccept]
@@ -910,9 +910,9 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Save to:]
 Сохранять в:
 [&Open...]
-Открыть...
+&Открыть...
 [Open &folder]
-Открыть папку
+Открыть &папку
 [Transfer completed, open file(s).]
 Передача завершена, открыть файл(ы).
 [No data transferred]
@@ -1076,7 +1076,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Message session]
 Беседа
 [&Details]
-Детали
+&Детали
 [Message window event log]
 Журнал в окне диалога
 [Show names]
@@ -1242,7 +1242,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Re&ad %s message]
 &Прочитать сообщение "%s"
 [Re&ad status message]
-Прочитать статусное сообщение
+Пр&очитать статусное сообщение
 [I've been away since %time%.]
 Отошел в %time%.
 [Give it up, I'm not in!]
@@ -1614,7 +1614,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [The topic has been changed]
 Тема изменилась
 [&Join]
-Зайти
+&Зайти
 [%s wants your attention in %s]
 %s требует вашего внимания в %s
 [%s speaks in %s]
@@ -2058,7 +2058,7 @@ URL от %s
 [Open 'Find user' dialog]
 Открыть диалог поиска контактов
 [&Move to group]
-Группа
+&Группа
 [<Root group>]
 <Корневая группа>
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
@@ -2106,7 +2106,7 @@ Miranda NG не может открыть этот профиль
 [Problem creating profile]
 Проблема с созданием профиля
 [&Create]
-Создать
+&Создать
 [<In use>]
 <Используется>
 [Are you sure you want to remove profile "%s"?]
@@ -2314,7 +2314,7 @@ ID учётной записи
 [You need to disable plugin to delete this account]
 Для удаления учётной записи необходимо отключить протокол
 [&Accounts...]
-Учётные записи
+&Учётные записи
 [Remove shortcut]
 Удалить сочетание
 [Add another shortcut]

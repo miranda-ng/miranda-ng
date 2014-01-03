@@ -18,9 +18,9 @@
 [Cancel]
 Отмена
 [Select &all]
-Выбрать всё
+Выбрать &всё
 [Select &none]
-Снять выбор
+&Снять выбор
 [Hotkey]
 Горячая клавиша
 [Go to Customize -> Hotkeys to change the hotkey]
@@ -60,9 +60,9 @@
 [Colors]
 Цвета
 [Use cus&tom colors]
-Настроить цвета
+Настр&оить цвета
 [Use &Windows colors]
-Цвета Windows
+Цвета &Windows
 [Use Pop&up colors]
 Цвета Pop&up
 [Preview]

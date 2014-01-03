@@ -152,7 +152,7 @@
 [Export birthdays]
 Экспорт дней рождения
 [Add/change user &birthday]
-День рождения пользователя
+&День рождения пользователя
 [Check birthdays menu item]
 Проверить дни рождения
 [List birthdays menu item]

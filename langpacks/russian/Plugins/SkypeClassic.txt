@@ -150,7 +150,7 @@ SkypeOut контакты в статусе:
 [&File]
 &Файл
 [&Open group chat]
-Открыть чат
+&Открыть чат
 [Import Skype history]
 Импортировать историю из Skype
 [Add Skype contact]
@@ -164,11 +164,11 @@ SkypeOut контакты в статусе:
 [&Leave chat session]
 &Покинуть чат
 [Set &Topic...]
-Установить тему...
+Установить &тему...
 [User &details]
 &Информация
 [User &history]
-История пользователя
+&История пользователя
 [Do a SkypeOut-call]
 Позвонить по SkypeOut
 [Phone call]

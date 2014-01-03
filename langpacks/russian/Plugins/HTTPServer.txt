@@ -72,11 +72,11 @@ IP адрес 2
 [Default download limit]
 Лимит загрузок по умолч.
 [&Edit share]
-Изм. общее
+&Изм. общее
 [&Remove share]
-Удалить общее
+&Удалить общее
 [&Open in Browser]
-Открыть в браузере
+&Открыть в браузере
 [&Copy link]
 &Копировать ссылку
 [All files]

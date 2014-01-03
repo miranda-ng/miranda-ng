@@ -222,11 +222,11 @@ xСтатус "%s"
 [Your contact wakes you]
 Ваш собеседник будит вас
 [Display &Inbox]
-Открыть входящие
+Открыть &входящие
 [Display &Inbox status]
-Показать состояние ящика
+Показать состояние &ящика
 [Edit &Profile]
-Редактировать анкету
+Редактировать &анкету
 [My Album]
 Мой альбом
 [My Blog]
@@ -254,11 +254,11 @@ xСтатус "%s"
 [Grant authorization]
 Авторизовать
 [&Send postcard]
-Отправить открытку
+&Отправить открытку
 [&View Album]
-Посмотреть альбом
+&Посмотреть альбом
 [&Read Blog]
-Блог
+&Блог
 [Reply Blog Status]
 Ответ на статус в блоге
 [View Video]
@@ -268,7 +268,7 @@ xСтатус "%s"
 [World]
 Мир
 [Send &Nudge]
-Встряхнуть
+&Встряхнуть
 [Mail box deleted]
 Почтовый ящик удалён
 [Contact not on server]

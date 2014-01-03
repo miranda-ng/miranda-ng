@@ -16,9 +16,9 @@
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Скрыть "вкл/выкл звук" в главном меню (требуется перезапуск)
 [Disable &Sounds]
-Запретить звуки
+Запретить &звуки
 [Enable &Sounds]
-Разрешить звуки
+Разрешить &звуки
 [Zero Notifications]
 Запрет уведомлений
 [Plugins]

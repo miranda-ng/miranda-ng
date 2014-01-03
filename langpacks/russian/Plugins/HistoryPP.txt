@@ -12,7 +12,7 @@
 [Voice call]
 Звонок
 [Sh&ow in history]
-Показать в истории
+По&казать в истории
 [Log default]
 Как в логе
 [History default]
@@ -22,7 +22,7 @@
 [Status message changes]
 Смены статусного сообщения
 [&Pseudo-edit]
-Псевдо-редактирование
+&Псевдо-редактирование
 [Pseudo-edit mode...]
 Режим псевдо-редактирования...
 [Group log messages]
@@ -34,7 +34,7 @@
 [Outgoing WATrack notify]
 Исходящее уведомление WATrack
 [&Copy Link]
-Копировать ссылку
+&Копировать ссылку
 [WATrack notify]
 WATrack уведомление
 [Open Link]
@@ -94,9 +94,9 @@ WATrack: запрос запрещён
 [Customize Toolbar]
 Настройка панели инструментов
 [A&vailable buttons:]
-Доступные кнопки:
+До&ступные кнопки:
 [Buttons on &toolbar:]
-Кнопки на панели инструментов:
+Кнопки на &панели инструментов:
 [&Add >>]
 &Добавить >>
 [<< &Remove]
@@ -160,7 +160,7 @@ EMail Express
 [Set &Bookmark]
 Поставить &закладку
 [Rename &Bookmark]
-Переименовать закладку
+Переименовать &закладку
 [Copy &Text]
 Копировать &текст
 [&Save Selected...]
@@ -238,7 +238,7 @@ EMail Express
 [History Search]
 Поиск в истории
 [His&tory Search]
-Поиск в истории
+Поиск в ис&тории
 [&Open]
 &Открыть
 [Open &Link]
@@ -258,7 +258,7 @@ EMail Express
 [Export as &RTF...]
 Экспортировать в &RTF...
 [Export as &mContacts...]
-Экспортировать в mContacts...
+Экспортировать в &mContacts...
 [Export as &Text...]
 Экспортировать в &текстовый файл...
 [Empty history...]
@@ -290,7 +290,7 @@ EMail Express
 [%0.n events (%s)]
 %0.n событий (%s)
 [Enable &Processing]
-Включить обработку
+Включить &обработку
 [Do you really want to delete ALL items (%.0f) for this contact?]
 Удалить ВСЕ записи (%.0f) для этого контакта?
 [Note: It can take several minutes for large history.]
@@ -462,7 +462,7 @@ Enter для подробностей события
 [Show receiver information]
 Информация о получателе
 [Toggle &Processing]
-Переключить обработку
+Переключить &обработку
 [Toolbar]
 Панель кнопок
 [Incoming SMS Message]
@@ -484,13 +484,13 @@ XML файл
 [HTML file]
 HTML файл
 [&Browse Received Files]
-Просмотр файлов
+&Просмотр файлов
 [Include custom event type (0-65535)]
 Другой тип событий (0-65535)
 [&Open file folder]
-Открыть папку
+&Открыть папку
 [&Copy Filename]
-Скопировать имя
+&Скопировать имя
 [Limit event types]
 Ограничить типы
 [Search messages matched to]
@@ -500,7 +500,7 @@ HTML файл
 [Hide Menu]
 Скрыть меню
 [&File Actions]
-Действия
+&Действия
 [Unknown codepage %u]
 Неизвестная кодовая страница %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
@@ -668,13 +668,13 @@ HTML файл
 [Visit Wiki page for more options]
 Wiki-страница дополнительных параметров
 [&Code Editor...]
-Редактор кода...
+Редактор &кода...
 [&Load...]
-Загрузить...
+&Загрузить...
 [&Save...]
-Сохранить...
+&Сохранить...
 [&User Name:]
-Имя:
+&Имя:
 [(Unknown Contact)']
 (Неизвестный контакт)'
 [0 lines]
@@ -722,7 +722,7 @@ Wiki-страница дополнительных параметров
 [Select &All]
 Выделить &всё
 [Send &Message]
-Отправить сообщение
+Отправить &сообщение
 [User Details]
 О пользователе
 [Enable SmileyAdd support]

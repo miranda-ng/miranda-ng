@@ -36,7 +36,7 @@
 [Authentication]
 Аутентификация
 [Use &authentication]
-Использовать аутентификацию
+Использовать &аутентификацию
 [Login]
 Имя пользователя
 [Password]
@@ -68,7 +68,7 @@
 [Feeds to be imported:]
 Каналы для импорта:
 [&Import]
-Импорт
+&Импорт
 [Enter your username]
 Введите имя пользователя
 [Error]

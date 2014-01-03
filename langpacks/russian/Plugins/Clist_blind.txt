@@ -166,11 +166,11 @@ URL:
 [Show resize grip indicator]
 Индикатор изм. размера
 [&Main menu]
-Главное меню
+&Главное меню
 [E&xit]
 Вы&ход
 [&Status]
-Статус
+&Статус
 [&Offline\tCtrl+0]
 Не в с&ети\tCtrl+0
 [On&line\tCtrl+1]
@@ -198,27 +198,27 @@ URL:
 [Nowhere]
 Нигде
 [&New Group]
-Новая группа
+&Новая группа
 [&Hide Offline Users]
-Скрыть отключённых
+&Скрыть отключённых
 [Hide &Offline Users out here]
-Скрыть отключённых вне группы
+Скрыть &отключённых вне группы
 [Hide &Empty Groups]
-Скрыть пустые группы
+Скрыть &пустые группы
 [Disable &Groups]
-Отключить группы
+Отключить &группы
 [Hide Miranda]
 Скрыть список контактов
 [Group]
 Группа
 [&New Subgroup]
-Создать подгруппу
+&Создать подгруппу
 [&Hide Offline Users in here]
-Скрыть отключённых в группе
+&Скрыть отключённых в группе
 [&Rename Group]
-Переименовать группу
+&Переименовать группу
 [&Delete Group]
-Удалить группу
+&Удалить группу
 [Not focused]
 Не в фокусе
 [Offline]

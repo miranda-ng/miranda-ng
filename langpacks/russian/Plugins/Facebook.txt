@@ -84,9 +84,9 @@ URL:
 [&Leave chat session]
 &Покинуть чат
 [User &details]
-Данные контакта
+&Данные контакта
 [User &history]
-История пользователя
+&История пользователя
 [Unknown error]
 Неизвестная ошибка
 [Status update was successful.]

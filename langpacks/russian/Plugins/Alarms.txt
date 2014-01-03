@@ -106,7 +106,7 @@
 [Reminder Frame Context]
 Содержимое списка
 [&Suspend]
-Отложить
+&Отложить
 [&Edit...]
 &Изменить
 [&Delete]

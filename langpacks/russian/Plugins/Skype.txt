@@ -20,7 +20,7 @@ Skype протокол для Miranda NG.
 [Create conference]
 Создать конференцию
 [&Create]
-Создать
+&Создать
 [Topic:]
 Тема:
 [Guideline:]
@@ -202,7 +202,7 @@ SkypeKit.exe не распакован.
 [Conferences]
 Конференции
 [&User details]
-Информация о контакте
+Информация о &контакте
 [&Request auth]
 &Запросить авторизацию
 [Invite to conference]
@@ -222,11 +222,11 @@ SkypeKit.exe не распакован.
 [&Kick]
 &Выкинуть
 [Outlaw (&ban)]
-Забанить
+&Забанить
 [Copy &skypename]
 Копировать &Skype ID
 [Copy room &uri]
-Копировать URI конференции
+Копировать &URI конференции
 [Creator]
 Создатель
 [User]

@@ -96,7 +96,7 @@ AIM Установить Instant Idle
 [Chat Room]
 Чат
 [&Join]
-Зайти
+&Зайти
 [&Cancel]
 О&тмена
 [Change Password]
@@ -122,7 +122,7 @@ E-mail
 [Invite Buddy To Chat Room]
 Приглашение в комнату чата
 [&Invite]
-Пригласить
+&Пригласить
 [Invitation reason]
 Причина приглашения
 [&Deny]
@@ -142,7 +142,7 @@ E-mail
 [User &details]
 &Информация
 [User &history]
-История пользователя
+История &пользователя
 [Mismatched Screen Name or password.]
 Неправильное имя AIM или пароль.
 [Unknown error occurred when attempting to connect.]
@@ -212,15 +212,15 @@ E-mail
 [AIM Extended Status]
 Расширенный статус AIM
 [&Block]
-Блокировать
+&Блокировать
 [&Unblock]
-Разблокировать
+&Разблокировать
 [Manage Account]
 Управление учётной записью
 [Instant Idle]
 Установить Instant Idle
 [Read &HTML Away Message]
-Читать HTML статусное сообщение
+Читать &HTML статусное сообщение
 [Read Profile]
 Просмотреть профиль
 [Add To Server List]

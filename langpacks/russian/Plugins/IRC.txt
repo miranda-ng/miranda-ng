@@ -10,9 +10,9 @@
 [&Add]
 &Добавить
 [&Edit]
-Править
+&Править
 [&Del]
-Удалить
+&Удалить
 [Enable]
 Включено
 [only while connecting]
@@ -84,9 +84,9 @@ ID пользователя
 [Userinfo]
 Инфо
 [&Refresh]
-Обновить
+&Обновить
 [&Query]
-Запрос
+&Запрос
 [&Close]
 &Закрыть
 [Name]
@@ -114,7 +114,7 @@ ID пользователя
 [Perform]
 Выполнить
 [&Set]
-Установить
+&Установить
 [Alias]
 Алиас
 [Perform on event:]
@@ -140,17 +140,17 @@ ID пользователя
 [Channels on server]
 Комнаты чата сервера
 [&Join]
-Зайти
+&Зайти
 [Filter by]
 Фильтр по
 [C&onnect]
-Соединение
+Со&единение
 [&Save]
 &Сохранить
 [Hostmask]
 Маска
 [&Clear all]
-Очистить все
+&Очистить все
 [Online detection mode]
 Режим определения в сети
 [Basic]
@@ -228,7 +228,7 @@ Wildcard поиск по сети
 [CTCP Chat Request]
 Запрос на СТСР-чат
 [&Accept]
-Принять
+&Принять
 [&Deny]
 &Запретить
 [Enable (*)]
@@ -520,7 +520,7 @@ WallOps от %s:\s
 [&Quick connect]
 &Быстрый коннект
 [&Join channel]
-Войти в комнату чата
+&Войти в комнату чата
 [&Change your nickname]
 &Сменить ник
 [Show the &list of available channels]
@@ -532,9 +532,9 @@ WallOps от %s:\s
 [&WhoIs info]
 &Информация whois
 [Di&sconnect]
-Отключиться
+Отк&лючиться
 [&Add to ignore list]
-Добавить в черный список
+&Добавить в черный список
 [%s (%s) is requesting a client-to-client chat connection.]
 %s [%s] запрашивает соединение на СТСР-чат
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
@@ -640,13 +640,13 @@ WallOps от %s:\s
 [Show nick to list]
 Показать в списке
 [Show the server &window]
-Показать окно сервера
+Показать &окно сервера
 [&Leave the channel]
 &Покинуть комнату чата
 [&Invite to channel]
-Пригласить
+&Пригласить
 [Send &notice]
-Посылать уведомление
+Посылать &уведомление
 [&Slap]
 &Шлепок
 [Nickserv info]
@@ -654,7 +654,7 @@ Nickserv инфо
 [Nickserv kill ghost]
 Nickserv убить фантома
 [&Control]
-Управление ->
+&Управление ->
 [Give Owner]
 Режим +q
 [Take Owner]
@@ -664,37 +664,37 @@ Nickserv убить фантома
 [Take Admin]
 Режим -a
 [Give &Op]
-Режим +o
+&Режим +o
 [Take O&p]
-Режим -o
+Р&ежим -o
 [Give &Halfop]
-Режим +h
+Реж&им +h
 [Take H&alfop]
-Режим -h
+Режи&м -h
 [Give &Voice]
-Режим +v
+Режим& +v
 [Take V&oice]
-Режим -v
+Режим -&v
 [&Kick]
-Выкинуть
+&Выкинуть
 [Ki&ck (reason)]
-Выгнать (с причиной)
+Вы&гнать (с причиной)
 [&Ban]
-Бан
+&Бан
 [Ban'&n kick]
-Выгнать и забанить
+Выгна&ть и забанить
 [Ban'n kick (&reason)]
 Выгнать и забанить (с &причиной)
 [&Direct Connection]
-Прямое соединение ->
+&Прямое соединение ->
 [Request &Chat]
-Запрос чата
+Запрос &чата
 [Send &File]
-Передача файла
+Передача &файла
 [Add to &ignore list]
-Добавить в игнор
+Добавить в &игнор
 [&Add User]
-Добавить в контакты
+&Добавить в контакты
 [Connecting to]
 Соединение с
 [Offline]

@@ -58,13 +58,13 @@ E-mail:
 [&New]
 &Новое
 [D&n]
-Вн
+В&н
 [Setting:]
 Парам.:
 [De&fault]
-Умолчания
+Умо&лчания
 [&Set Item]
-Добавить
+&Добавить
 [At Start Sort by Status]
 Сортировать по состоянию
 [Global scope hotkey:]

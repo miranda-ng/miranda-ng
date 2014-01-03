@@ -12,11 +12,11 @@
 [&Add]
 &Добавить
 [&User menu]
-Меню пользователя
+Меню &пользователя
 [User &details]
 &Информация
 [&History]
-История
+&История
 [Choose contacts to be send:]
 Выбрать контакты для отправки:
 [&Send]
@@ -28,9 +28,9 @@
 [Received contacts]
 Принятые контакты
 [Add to &group:]
-Добавить в группу:
+Добавить в &группу:
 [&Details]
-Детали
+&Детали
 [Close]
 Закрыть
 [Contacts send error]

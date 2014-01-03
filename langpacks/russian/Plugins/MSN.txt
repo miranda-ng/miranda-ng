@@ -100,7 +100,7 @@ Hotmail
 [Block Contact]
 Заблокировать
 [&Invite]
-Пригласить
+&Пригласить
 [&Cancel]
 О&тмена
 [Add]
@@ -118,7 +118,7 @@ Hotmail
 [User &details]
 &Информация
 [User &history]
-История пользователя
+&История пользователя
 [Contact tried to open an audio conference (not currently supported)]
 Контакт пытался открыть аудиоконференцию (не поддерживается)
 [MSN Protocol]
@@ -156,27 +156,27 @@ MSN Чат
 [Unread mail is available: %d in Inbox and %d in other folders.]
 Имеется непрочитанная почта: %d входящих писем и %d в других папках.
 [&Unblock]
-Разблокировать
+&Разблокировать
 [&Block]
-Блокировать
+&Блокировать
 [Open &Hotmail Inbox]
 Открыть ящик &Hotmail
 [Send &Hotmail E-mail]
-Отправить почту Hotmail
+Отправить почту &Hotmail
 [You must be talking to start Netmeeting]
 Вы должны разговаривать перед запуском Netmeeting
 [Set &Nickname]
-Псевдоним...
+&Псевдоним...
 [Create &Chat]
 Создать &чат
 [Display &Hotmail Inbox]
-Показать ящик Hotmail
+Показать ящик &Hotmail
 [View &Profile]
 Просмотреть &профиль
 [Setup Live &Alerts]
 Настройки Live &Alerts
 [&Start Netmeeting]
-Запустить Netmeeting
+&Запустить Netmeeting
 [Custom Smileys]
 Смайлы
 [Notify]

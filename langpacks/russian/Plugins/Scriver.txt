@@ -152,15 +152,15 @@
 [Message Session]
 Беседа
 [&User menu]
-Меню пользователя
+Меню &пользователя
 [User &details]
 &Информация
 [&Emoticons]
-Смайлы
+&Смайлы
 [&Add]
 &Добавить
 [&History]
-История
+&История
 [&Quote]
 &Цитировать
 [Send To All Tabs]
@@ -174,19 +174,19 @@
 [No]
 Нет
 [&Bold]
-Жирный
+&Жирный
 [&Italic]
-Курсив
+&Курсив
 [&Underline]
-Подчеркнутый
+&Подчеркнутый
 [&Color]
-Цвет
+&Цвет
 [&Background color]
-Цвет фона
+Цвет &фона
 [&Filter]
-Фильтр
+&Фильтр
 [&Room Settings]
-Настройки
+&Настройки
 [&Show/hide nicklist]
 &Показать/Скрыть список ников
 [Show these events only:]
@@ -276,7 +276,7 @@
 [Yahoo]
 Yahoo
 [C&lear Log]
-Очистить журнал
+Оч&истить журнал
 [&Open link]
 &Открыть ссылку
 [&Copy link]
@@ -698,7 +698,7 @@ Miranda не смогла загрузить встроенную систему
 [<invalid>]
 <неверно>
 [&Join]
-Зайти
+&Зайти
 [&Leave]
 &Оставить
 [Flash when someone speaks]

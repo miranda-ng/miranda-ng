@@ -82,15 +82,15 @@
 [Message &Direction]
 Направление &сообщений
 [&Outgoing Messages Only]
-Только исходящие сообщения
+Только &исходящие сообщения
 [&Incoming Messages Only]
-Только входящие сообщения
+Только &входящие сообщения
 [Message &Type]
 Тип &сообщений
 [&Webaddresses Only]
-Только веб-адреса
+Только &веб-адреса
 [&Mail-Addresses Only]
-Только е-mail адреса
+Только &е-mail адреса
 [&Clear Search Results]
 &Очистить результаты поиска
 [&Search]

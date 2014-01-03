@@ -82,11 +82,11 @@ P2P Подключения
 [Delay]
 Задержка
 [&From Popup plugin]
-Установки Popup
+&Установки Popup
 [&Custom]
-Настроить
+&Настроить
 [P&ermanent]
-Постоянно
+Пос&тоянно
 [Preview]
 Тест
 [Tlen Password]
@@ -154,7 +154,7 @@ E-mail:
 [Tlen Voice Chat Invitation]
 Tlen приглашение голосового чата
 [&Accept]
-Принять
+&Принять
 [From:]
 От:
 [The following invitation to join a voice chat is received.]

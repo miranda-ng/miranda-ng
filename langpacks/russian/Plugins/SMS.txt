@@ -10,7 +10,7 @@
 [Received SMS]
 Полученное SMS
 [&Reply]
-Ответить
+&Ответить
 [&Close]
 &Закрыть
 [Read Next]
@@ -40,7 +40,7 @@
 [SMS Message Didn't Send]
 СМС сообщение не послано
 [&Try again]
-Попытаться еще
+&Попытаться еще
 [&Cancel]
 О&тмена
 [The SMS message send timed out]

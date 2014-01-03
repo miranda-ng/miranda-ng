@@ -96,7 +96,7 @@ OTR-шифрование: частное
 [OTR Encryption: Finished]
 OTR-шифрование: завершено
 [&Convert HTML (for Pidgin)]
-Конвертировать HTML (для Pidgin)
+&Конвертировать HTML (для Pidgin)
 [OTR encrypted session with '%s' has been terminated]
 Шифрованная сессия с '%s' была прекращена.
 [Requesting OTR encrypted session with '%s']

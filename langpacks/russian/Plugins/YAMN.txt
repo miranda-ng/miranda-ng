@@ -156,9 +156,9 @@
 [Text color]
 Цвет текста
 [Check &mail (All Account)]
-Проверить почту
+Проверить &почту
 [Check &mail (This Account)]
-Проверить почту
+Проверить &почту
 [Launch application]
 Запустить приложение
 [YAMN]

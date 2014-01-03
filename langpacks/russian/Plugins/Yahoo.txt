@@ -48,7 +48,7 @@ Yahoo Япония
 [&Add]
 &Добавить
 [&Remove]
-Очистить
+&Очистить
 [Set Custom Status]
 Установка xСтатуса
 [Show as busy]
@@ -60,7 +60,7 @@ Yahoo Япония
 [Client:]
 Клиент:
 [&Join]
-Зайти
+&Зайти
 [&Deny]
 &Запретить
 [Invite Buddy To Chat Room]
@@ -68,7 +68,7 @@ Yahoo Япония
 [Screen Name]
 Ник
 [&Invite]
-Пригласить
+&Пригласить
 [&Cancel]
 О&тмена
 [Invitation reason]
@@ -88,7 +88,7 @@ Yahoo Япония
 [User &details]
 &Информация
 [User &history]
-История пользователя
+&История пользователя
 [Join My Conference...]
 Заходи в мою комнату чата...
 [No, thank you...]
@@ -158,7 +158,7 @@ ID
 [You need to be connected to refresh your buddy list]
 Вы должны быть подключены для обновления списка
 [Set &Custom Status]
-Установить xСтатус
+Установить &xСтатус
 [&Edit My Profile]
 &Редактировать мой профиль
 [&My Profile]
@@ -172,7 +172,7 @@ ID
 [Create Conference]
 Создать комнату чата
 [&Show Profile]
-Профиль
+&Профиль
 [[miranda] Got webcam invite. (not currently supported)]
 (Miranda NG) Приглашение в видеоконференцию (пока не поддерживается)
 [Calendar Reminder]

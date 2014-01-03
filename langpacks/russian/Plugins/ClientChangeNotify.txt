@@ -62,9 +62,9 @@
 [) changed client to ]
 ) сменил клиент на\s
 [Disable c&lient change notification]
-Выключить уведомления о смене клиента
+Выключить уведомления о смене к&лиента
 [Enable c&lient change notification]
-Включить уведомления о смене клиента
+Включить уведомления о смене к&лиента
 [Popups]
 Всплывающие окна
 [ClientChangeNotify: Client changed]

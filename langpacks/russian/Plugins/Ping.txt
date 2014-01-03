@@ -140,7 +140,7 @@ TCP соединение
 [Ping]
 Пинг
 [Show/Hide &Ping Window]
-Показать/скрыть окно
+Показать/скрыть &окно
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Хост %s требует уменьшить количество посылаемого вами трафика.
 [Unknown Address]

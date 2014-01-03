@@ -468,9 +468,9 @@ HTTP подключение Weather
 [Station ID]
 ID города
 [Disable &weather notification]
-Выключить уведомления о смене погоды
+Выключить уведомления о смене &погоды
 [Enable &weather notification]
-Включить уведомления о смене погоды
+Включить уведомления о смене &погоды
 [Update Weather]
 Обновить погоду
 [Remove Old Data then Update]

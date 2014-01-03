@@ -264,7 +264,7 @@ Jabber vCard: добавление телефона
 [Invitation reason:]
 Причина приглашения:
 [&Invite]
-Пригласить
+&Пригласить
 [Group chat invitation]
 Приглашение в конференцию
 [<room jid>\nIncoming group chat invitation.]
@@ -274,7 +274,7 @@ Jabber vCard: добавление телефона
 [with following reason:]
 причина:
 [&Accept]
-Принять
+&Принять
 [Jabber Bookmarks]
 Закладки
 [Server side bookmarks\nStore conference rooms and web links on server.]
@@ -596,39 +596,39 @@ xHTML формат чат сообщений
 [user banned]
 забаненый
 [Change &nickname]
-Изменить ник
+Изменить &ник
 [&Invite a user]
-Пригласить пользователя
+&Пригласить пользователя
 [&Roles]
-Роли
+&Роли
 [&Participant list]
-Список участников
+Список &участников
 [&Moderator list]
-Список модераторов
+Список &модераторов
 [&Affiliations]
-Принадлежности
+&Принадлежности
 [&Member list]
-Список пользователей
+Список &пользователей
 [&Admin list]
-Список админов
+Список &админов
 [&Owner list]
-Список владельцев
+Список &владельцев
 [Outcast list (&ban)]
-Список забаненных
+Список &забаненных
 [&Room options]
-Настройки комнаты чата
+Настройки &комнаты чата
 [View/change &topic]
-Просмотр/смена темы
+Просмотр/смена &темы
 [Add to &bookmarks]
-Добавить в закладки
+Добавить в &закладки
 [&Configure...]
 &Настроить...
 [&Destroy room]
-Удалить комнату чата
+&Удалить комнату чата
 [Lin&ks]
-Ссылки
+Сс&ылки
 [Copy room &JID]
-Копировать JID комнаты чата
+Копировать &JID комнаты чата
 [Copy room topic]
 Копировать тему
 [&Send presence]
@@ -648,47 +648,47 @@ xHTML формат чат сообщений
 [&Slap]
 &Шлепок
 [&User details]
-Информация о контакте
+Информация о &контакте
 [Member &info]
-Права доступа
+Права &доступа
 [User &details]
 &Информация
 [&Add to roster]
 &Добавить в ростер
 [&Copy to clipboard]
-Скопировать в буфер обмена
+&Скопировать в буфер обмена
 [Invite to room]
 Пригласить в комнату чата
 [Set &role]
-Установить роль
+Установить &роль
 [&Visitor]
-Посетитель
+&Посетитель
 [&Participant]
-Участник
+&Участник
 [&Moderator]
-Модератор
+&Модератор
 [Set &affiliation]
-Установить принадлежность
+Установить &принадлежность
 [&None]
-Нет
+&Нет
 [&Member]
-Пользователь
+&Пользователь
 [&Admin]
 &Админ
 [&Owner]
-Владелец
+&Владелец
 [Outcast (&ban)]
-Забанить
+&Забанить
 [&Kick]
-Выкинуть
+&Выкинуть
 [Copy &nickname]
-Копировать ник
+Копировать &ник
 [Copy real &JID]
-Копировать JID
+Копировать &JID
 [Copy in-room JID]
 Копировать JID с комнаты чата
 [Real &JID: %s]
-Реальный JID: %s
+Реальный &JID: %s
 [%s\nSend group chat invitation.]
 %s\nПригласить в конференцию.
 [%s (not on roster)]
@@ -944,7 +944,7 @@ Jabber ошибка
 [Server's Choice]
 Выбор сервера
 [&Convert to Contact]
-Конвертировать в контакт
+&Конвертировать в контакт
 [&Convert to Chat Room]
 &Конвертировать в чат
 [Options...]
