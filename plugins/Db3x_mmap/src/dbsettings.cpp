@@ -83,7 +83,7 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 	DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 0);
 	if (pCachedValue != NULL) {
 		if (pCachedValue->type == DBVT_ASCIIZ || pCachedValue->type == DBVT_UTF8) {
-			bool bIsEncrypted = m_bEncrypted || ::isEncrypted(dbcgs->szModule, dbcgs->szSetting);
+			bool bIsEncrypted = /*m_bEncrypted || */ ::isEncrypted(dbcgs->szModule, dbcgs->szSetting);
 			int cbOrigLen = dbcgs->pValue->cchVal;
 			char *cbOrigPtr = dbcgs->pValue->pszVal;
 			memcpy(dbcgs->pValue, pCachedValue, sizeof(DBVARIANT));
@@ -412,7 +412,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	case DBVT_ASCIIZ: case DBVT_UTF8:
 		if (tmp.value.pszVal == NULL) return 1;
 		tmp.value.cchVal = (WORD)strlen(tmp.value.pszVal);
-		bIsEncrypted = m_bEncrypted || ::isEncrypted(dbcws->szModule, dbcws->szSetting);
+		bIsEncrypted = /*m_bEncrypted ||*/ ::isEncrypted(dbcws->szModule, dbcws->szSetting);
 		if (bIsEncrypted) {
 			size_t len;
 			BYTE *pResult = m_crypto->encodeString(tmp.value.pszVal, &len);

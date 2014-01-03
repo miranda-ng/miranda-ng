@@ -184,8 +184,7 @@ LBL_SetNewKey:
 		EnumModuleNames(sttModuleEnum, this);
 
 		// upgrade signature
-		memcpy(&m_dbHeader.signature, &dbSignatureU, sizeof(dbSignatureU));
-		DBWrite(0, &dbSignatureU, sizeof(dbSignatureU));
+		WriteSignature(dbSignatureU);
 	}
 
 	if (m_dbHeader.version == DB_OLD_VERSION) {

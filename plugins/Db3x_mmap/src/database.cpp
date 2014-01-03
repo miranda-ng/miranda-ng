@@ -60,7 +60,7 @@ DWORD CDb3Base::ReallocSpace(DWORD ofs, int oldSize, int newSize)
 	if (ofs+oldSize == m_dbHeader.ofsFileEnd) {
 		ofsNew = ofs;
 		m_dbHeader.ofsFileEnd += newSize-oldSize;
-		DBWrite(0,&m_dbHeader,sizeof(m_dbHeader));
+		DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 		log3("adding newspace %d@%08x+%d", newSize, ofsNew, oldSize);
 	}
 	else {

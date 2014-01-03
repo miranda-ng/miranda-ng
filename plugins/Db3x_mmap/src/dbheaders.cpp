@@ -65,6 +65,11 @@ int CDb3Base::CheckDbHeaders()
 	if (m_dbHeader.ofsUser == 0)
 		return EGROKPRF_DAMAGED;
 
-	m_bEncrypted = 0 == memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature));
 	return 0;
+}
+
+void CDb3Base::WriteSignature(DBSignature &sign)
+{
+	memcpy(&m_dbHeader.signature, &sign, sizeof(DBSignature));
+	DBWrite(0, &sign, sizeof(DBSignature));
 }

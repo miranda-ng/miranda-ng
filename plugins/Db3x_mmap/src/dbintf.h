@@ -54,9 +54,10 @@ DBHeader
 
 #define DBVT_ENCRYPTED 250
 
-struct DBSignature {
-  char name[15];
-  BYTE eof;
+struct DBSignature
+{
+	char name[15];
+	BYTE eof;
 };
 
 struct ModuleName
@@ -66,68 +67,69 @@ struct ModuleName
 };
 
 #include <pshpack1.h>
-struct DBHeader {
-  BYTE signature[16];      // 'Miranda ICQ DB',0,26
-  DWORD version;		   //as 4 bytes, ie 1.2.3.10 = 0x0102030a
-                           //this version is 0x00000700
-  DWORD ofsFileEnd;		   //offset of the end of the database - place to write
-                           //new structures
-  DWORD slackSpace;		   //a counter of the number of bytes that have been
-                           //wasted so far due to deleting structures and/or
-						   //re-making them at the end. We should compact when
-						   //this gets above a threshold
-  DWORD contactCount;	   //number of contacts in the chain,excluding the user
-  DWORD ofsFirstContact;   //offset to first DBContact in the chain
-  DWORD ofsUser;		   //offset to DBContact representing the user
-  DWORD ofsFirstModuleName;	//offset to first struct DBModuleName in the chain
+struct DBHeader
+{
+	BYTE signature[16];      // 'Miranda ICQ DB',0,26
+	DWORD version;		   //as 4 bytes, ie 1.2.3.10 = 0x0102030a
+	//this version is 0x00000700
+	DWORD ofsFileEnd;		   //offset of the end of the database - place to write
+	//new structures
+	DWORD slackSpace;		   //a counter of the number of bytes that have been
+	//wasted so far due to deleting structures and/or
+	//re-making them at the end. We should compact when
+	//this gets above a threshold
+	DWORD contactCount;	   //number of contacts in the chain,excluding the user
+	DWORD ofsFirstContact;   //offset to first DBContact in the chain
+	DWORD ofsUser;		   //offset to DBContact representing the user
+	DWORD ofsFirstModuleName;	//offset to first struct DBModuleName in the chain
 };
 
 #define DBCONTACT_SIGNATURE   0x43DECADEu
 
 struct DBContact
 {
-  DWORD signature;
-  DWORD ofsNext;			 //offset to the next contact in the chain. zero if
-                             //this is the 'user' contact or the last contact
-							 //in the chain
-  DWORD ofsFirstSettings;	 //offset to the first DBContactSettings in the
-                             //chain for this contact.
-  DWORD eventCount;			 //number of events in the chain for this contact
-  DWORD ofsFirstEvent,ofsLastEvent;	 //offsets to the first and last DBEvent in
-                                     //the chain for this contact
-  DWORD ofsFirstUnreadEvent; //offset to the first (chronological) unread event
-							 //in the chain, 0 if all are read
-  DWORD timestampFirstUnread; //timestamp of the event at ofsFirstUnreadEvent
+	DWORD signature;
+	DWORD ofsNext;			 //offset to the next contact in the chain. zero if
+	//this is the 'user' contact or the last contact
+	//in the chain
+	DWORD ofsFirstSettings;	 //offset to the first DBContactSettings in the
+	//chain for this contact.
+	DWORD eventCount;			 //number of events in the chain for this contact
+	DWORD ofsFirstEvent, ofsLastEvent;	 //offsets to the first and last DBEvent in
+	//the chain for this contact
+	DWORD ofsFirstUnreadEvent; //offset to the first (chronological) unread event
+	//in the chain, 0 if all are read
+	DWORD timestampFirstUnread; //timestamp of the event at ofsFirstUnreadEvent
 };
 
 #define DBMODULENAME_SIGNATURE  0x4DDECADEu
 struct DBModuleName
 {
-  DWORD signature;
-  DWORD ofsNext;		//offset to the next module name in the chain
-  BYTE cbName;			//number of characters in this module name
-  char name[1];			//name, no nul terminator
+	DWORD signature;
+	DWORD ofsNext;		//offset to the next module name in the chain
+	BYTE cbName;			//number of characters in this module name
+	char name[1];			//name, no nul terminator
 };
 
 #define DBCONTACTSETTINGS_SIGNATURE  0x53DECADEu
 struct DBContactSettings
 {
-  DWORD signature;
-  DWORD ofsNext;		 //offset to the next contactsettings in the chain
-  DWORD ofsModuleName;	 //offset to the DBModuleName of the owner of these
-                         //settings
-  DWORD cbBlob;			 //size of the blob in bytes. May be larger than the
-                         //actual size for reducing the number of moves
-						 //required using granularity in resizing
-  BYTE blob[1];			 //the blob. a back-to-back sequence of DBSetting
-                         //structs, the last has cbName = 0
+	DWORD signature;
+	DWORD ofsNext;		 //offset to the next contactsettings in the chain
+	DWORD ofsModuleName;	 //offset to the DBModuleName of the owner of these
+	//settings
+	DWORD cbBlob;			 //size of the blob in bytes. May be larger than the
+	//actual size for reducing the number of moves
+	//required using granularity in resizing
+	BYTE blob[1];			 //the blob. a back-to-back sequence of DBSetting
+	//structs, the last has cbName = 0
 };
 
 #define DBEVENT_SIGNATURE  0x45DECADEu
 struct DBEvent
 {
 	DWORD signature;
-	DWORD ofsPrev,ofsNext;	 //offset to the previous and next events in the
+	DWORD ofsPrev, ofsNext;	 //offset to the previous and next events in the
 	//chain. Chain is sorted chronologically
 	DWORD ofsModuleName;		 //offset to a DBModuleName struct of the name of
 	//the owner of this event
@@ -151,7 +153,9 @@ struct CDb3Base : public MIDatabase, public MIDatabaseChecker, public MZeroedObj
 	int Create(void);
 	int CreateDbHeaders(const DBSignature&);
 	int CheckDbHeaders();
+
 	void DatabaseCorruption(TCHAR *text);
+	void WriteSignature(DBSignature&);
 
 	__forceinline HANDLE getFile() const { return m_hDbFile; }
 	__forceinline bool isEncrypted() const { return m_bEncrypted; }
@@ -237,7 +241,7 @@ protected:
 
 	////////////////////////////////////////////////////////////////////////////
 	// database stuff
-public:	
+public:
 	UINT_PTR m_flushBuffersTimerId;
 	DWORD    m_flushFailTick;
 	PBYTE    m_pDbCache;
@@ -257,7 +261,8 @@ protected:
 	DWORD ReallocSpace(DWORD ofs, int oldSize, int newSize);
 
 	__forceinline PBYTE DBRead(HANDLE hContact, int bytesRequired, int *bytesAvail)
-	{	return DBRead((DWORD)hContact, bytesRequired, bytesAvail);
+	{
+		return DBRead((DWORD)hContact, bytesRequired, bytesAvail);
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -293,14 +298,14 @@ protected:
 	DWORD ConvertModuleNameOfs(DWORD ofsOld);
 	void ConvertOldEvent(DBEvent*& dbei);
 
-	int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs,int isStatic);
+	int GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcgs, int isStatic);
 	int WorkSettingsChain(DWORD ofsContact, DBContact *dbc, int firstTime);
 	int WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime);
 
 	DWORD WriteSegment(DWORD ofs, PVOID buf, int cbBytes);
 	DWORD WriteEvent(DBEvent *dbe);
-	void WriteOfsNextToPrevious(DWORD ofsPrev,DBContact *dbc,DWORD ofsNext);
-	void FinishUp(DWORD ofsLast,DBContact *dbc);
+	void WriteOfsNextToPrevious(DWORD ofsPrev, DBContact *dbc, DWORD ofsNext);
+	void FinishUp(DWORD ofsLast, DBContact *dbc);
 
 	DBCHeckCallback *cb;
 	DWORD sourceFileSize, ofsAggrCur;
@@ -326,4 +331,3 @@ protected:
 	void  InitDialogs();
 	bool  EnterPassword(const BYTE *pKey, const size_t keyLen);
 };
-

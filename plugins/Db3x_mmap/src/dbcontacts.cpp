@@ -142,7 +142,7 @@ STDMETHODIMP_(LONG) CDb3Base::DeleteContact(HANDLE hContact)
 	dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
 	if (m_dbHeader.ofsFirstContact == (DWORD)hContact) {
 		m_dbHeader.ofsFirstContact = dbc->ofsNext;
-		DBWrite(0,&m_dbHeader,sizeof(m_dbHeader));
+		DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 	}
 	else {
 		DWORD ofsNext = dbc->ofsNext;
@@ -161,7 +161,7 @@ STDMETHODIMP_(LONG) CDb3Base::DeleteContact(HANDLE hContact)
 	DeleteSpace((DWORD)hContact, sizeof(DBContact));
 	//decrement contact count
 	m_dbHeader.contactCount--;
-	DBWrite(0,&m_dbHeader,sizeof(m_dbHeader));
+	DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 	DBFlush(0);
 	return 0;
 }
@@ -179,8 +179,8 @@ STDMETHODIMP_(HANDLE) CDb3Base::AddContact()
 		dbc.ofsNext = m_dbHeader.ofsFirstContact;
 		m_dbHeader.ofsFirstContact = ofsNew;
 		m_dbHeader.contactCount++;
-		DBWrite(ofsNew,&dbc,sizeof(DBContact));
-		DBWrite(0,&m_dbHeader,sizeof(m_dbHeader));
+		DBWrite(ofsNew, &dbc, sizeof(DBContact));
+		DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 		DBFlush(0);
 	}
 	m_cache->AddContactToCache((HANDLE)ofsNew);

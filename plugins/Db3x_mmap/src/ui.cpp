@@ -192,6 +192,7 @@ LBL_Error:
 				SetDlgItemTextA(hwndDlg, IDC_USERPASS2, "");
 			}
 			else {
+				param->db->WriteSignature(dbSignatureU);
 				param->db->SetPassword(NULL);
 				param->db->StoreKey();
 				EndDialog(hwndDlg, IDREMOVE);
@@ -215,6 +216,7 @@ LBL_Error:
 			if (!CheckOldPassword(hwndDlg, param->db))
 				goto LBL_Error;
 
+			param->db->WriteSignature(dbSignatureE);
 			param->db->SetPassword(buf2);
 			param->db->StoreKey();
 			SecureZeroMemory(buf2, sizeof(buf2));
