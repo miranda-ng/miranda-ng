@@ -295,6 +295,7 @@
 	IDI_JOOST				ICON	"Jabber\\Joost.ico"
 	IDI_JRUDEVELS			ICON	"Jabber\\jrudevels.ico"
 	IDI_JTALK				ICON	"Jabber\\jTalk.ico"
+	IDI_JTALKMOD			ICON	"Jabber\\jTalkmod.ico"
 	IDI_JUICK				ICON	"Jabber\\juick.ico"
 	IDI_JWCHAT				ICON	"Jabber\\JWChat.ico"
 	IDI_JWGC				ICON	"Jabber\\JWGC.ico"

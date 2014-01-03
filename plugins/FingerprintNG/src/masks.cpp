@@ -388,7 +388,9 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_iJab",             _T("*iJab*"),                                   _T("iJab"),                         IDI_IJAB,                JABBER_CASE,        TRUE    },
 	{"client_iMeem",            _T("iMeem*"),                                   _T("iMeem"),                        IDI_IMEEM,               JABBER_CASE,        TRUE    },
 	{"client_iMov",             _T("*imov*"),                                   _T("iMov"),                         IDI_IMOV,                JABBER_CASE,        TRUE    },
-	{"client_jTalk",            _T("*jTalk*"),                                  _T("jTalk"),                        IDI_JTALK,               JABBER_CASE,        TRUE    },
+	{"client_jTalk",            _T("*jTalk"),                                   _T("jTalk"),                        IDI_JTALK,               JABBER_CASE,        TRUE    },
+	{"client_jTalkmod",         _T("|*jTalkmod*")
+                                _T("|*XEssZlSs8oF4EcTHU1b8BsVxcPg=*"),          _T("jTalkmod"),                     IDI_JTALKMOD,            JABBER_CASE,        TRUE    },
 	{"client_jabberDisk",       _T("|*jdisk*|*jabber*Disk*"),                   _T("jabberDisk"),                   IDI_JABBER_DISK,         JABBER_CASE,        TRUE    },
 	{"client_jabbim",           _T("*jabbim*"),                                 _T("Jabbim"),                       IDI_JABBIM,              JABBER_CASE,        TRUE    },
 	{"client_jabiru",           _T("*jabiru*"),                                 _T("Jabiru"),                       IDI_JABIRU,              JABBER_CASE,        TRUE    },
