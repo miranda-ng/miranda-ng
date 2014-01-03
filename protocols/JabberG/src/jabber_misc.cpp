@@ -449,7 +449,7 @@ void CJabberProto::UpdateMirVer(HANDLE hContact, pResourceStatus &resource)
 		return;
 
 	TCHAR szFullJid[JABBER_MAX_JID_LEN];
-	if (resource->m_tszResourceName)
+	if (resource->m_tszResourceName && !_tcschr(jid, '/'))
 		mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), jid, resource->m_tszResourceName);
 	else
 		lstrcpyn(szFullJid, jid, SIZEOF(szFullJid));
