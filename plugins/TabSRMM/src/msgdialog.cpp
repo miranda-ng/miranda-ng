@@ -2222,9 +2222,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								break;
 							EmptyClipboard();
 							hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(tr.lpstrText)+1));
-							lstrcpy((TCHAR*)GlobalLock(hData), tr.lpstrText);
+							TCHAR *buf = (TCHAR*)GlobalLock(hData);
+							lstrcpy(buf, tr.lpstrText);
 							GlobalUnlock(hData);
-							SetClipboardData(CF_TEXT, hData);
+							SetClipboardData(CF_UNICODETEXT, hData);
 							CloseClipboard();
 							break;
 						}
