@@ -136,7 +136,7 @@ static INT_PTR CALLBACK DlgProcVariables(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			TranslateT("(e.g., default if your your profile is default.dat)."),
 			TranslateT("Environment variables"),
 			TranslateT("The plugin can also expand environment variables; the variables are specified like in any other"),
-			TranslateT("program that can use environment variables, i.e. %<env variable>%."),
+			TranslateT("program that can use environment variables, i.e., %<env variable>%."),
 			TranslateT("Note: Environment variables are expanded before any Miranda variables. So if you have, for"),
 			TranslateT("example, %profile_path% defined as a system variable then it will be expanded to that value"),
 			TranslateT("instead of expanding to Miranda\'s profile path."),
