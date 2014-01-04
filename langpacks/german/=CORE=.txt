@@ -2128,7 +2128,7 @@ Einstellungsdialog öffnen
 [Open logging options]
 Logeinstellungen öffnen
 [Open 'Find user' dialog]
-'Kontakte suchen/hinzu&fügen'-Fenster öffnen
+'Kontakte suchen/hinzufügen'-Fenster öffnen
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 Verschiebe in Gruppe
@@ -2172,7 +2172,7 @@ Ungültiger Einstellungs-Typ für '%s'. Das erste Zeichen für jeden String muss
 [Authorization request from %s%s: %s]
 Autorisierungsanfrage von %s%s: %s
 [You were added by %s%s]
-
+Sie wurden von %s%s hinzugefügt.
 [Contacts: ]
 Kontakte:\s
 ;file \src\modules\database\profilemanager.cpp

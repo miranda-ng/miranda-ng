@@ -86,7 +86,7 @@ Andere Aktionsgruppen
 [Operation]
 Vorgang
 [Last result]
-Letzter Wert
+Letztes Ergebnis
 [Own settings]
 Eigene Einstellungen
 [Array]
@@ -124,19 +124,19 @@ BYTE-Array
 [Word Array]
 WORD-Array
 [Pointer to bytes]
-Zeiger in BYTEs
+Zeiger zu BYTEs
 [Pointer to words]
-Zeiger in WORDs
+Zeiger zu WORDs
 [Data length]
 Datenlänge
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
-'<proto>' im Dienstnamen wird durch den Namen des aktuellen Protokolls eines Kontakts abhängig vom Kontext (z. B. UseActions) ersetzt
+'<proto>' im Dienstnamen wird durch den Namen des aktuellen Protokolls eines Kontakts abhängig vom Kontext ersetzt.
 [Paste from]
 Einfügen von
 [Service result]
-Ergebnistyp des Dienstes
+Ergebnis des Dienstes
 [Free memory]
-Speicher freimachen
+Speicher freigeben
 [Integer]
 Integer
 [Append]
@@ -168,7 +168,7 @@ Auswahllistenformat
 [Apply format]
 Format anwenden
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
-
+Verwenden Sie Byte-Array/-Zeiger für ANSI-Strings\nVerwenden Sie Word-Array/-Zeiger für Unicode-Strings\n\n$## ersetzt Byte- durch Hex-Wert ##\n$#### ersetzt Word- durch Hex-Wert ### (nur für Unicode-Strings)\n\nAlle Datenlängen werden in Byte gemessen.
 [New]
 Neu
 [Hooks]
@@ -184,7 +184,7 @@ Gepackte Struktur
 [NativeInt]
 NativeInt
 [Starting from]
-Ausgehend von
+Starte am
 [Starting after]
 Starte nach
 [Start immediately]
@@ -192,15 +192,15 @@ Starte sofort
 [Since/after]
 Seit/danach
 [Repeat, times]
-Wiederh. Zeiten
+Anz. Wiederh.
 [Interval]
 Intervall
 [Break on non-zero result]
-Nicht-Null-Ergebnis umbrechen
+Bei Nicht-Null-Ergebnis abbrechen
 [Task sample]
 Aufgabenbeispiel
 [Send event on start time]
-Sende Ereignis an die Startzeit
+Ereignis zur Startzeit senden
 [Send event just once]
 Ereignis nur einmalig senden
 [Use Actions]
@@ -218,11 +218,11 @@ Traymenü
 [2 state button/item]
 Zwei-Zustand-Schaltfläche/Element
 [Save button/item state]
-Schaltfläche/Elementzustand 
+Schaltfläche/Elementzustand speichern
 [Normal button tooltip]
-Normale Schaltflächentooltip
+Tooltip normale Schaltfläche
 [Pressed button tooltip]
-Gedrückter Schaltflächentooltip
+Tooltip gedrückte Schaltfläche
 [Separated]
 Getrennt
 [Root popup:]
@@ -265,7 +265,7 @@ Beschr.
 [Open contact window]
 Kontaktfenster öffnen
 [Call service]
-Dienst ausführen
+Dienst aufrufen
 [Execute program]
 Programm ausführen
 [Insert text]
@@ -287,9 +287,9 @@ Mirandadiensthilfe
 [Return]
 Rückgabewert
 [Scheduler]
-
+Zeitplaner
 [TopToolbar]
-
+TopToolbar
 [Effect]
 Effekt
 [Start]
@@ -305,36 +305,36 @@ Neuer Kontakt zur Datenbank hinzugefügt
 [Contact deleting]
 Kontakt löschen
 [Parameter]
-
+Parameter
 [Manual]
-
+Manuell
 [Byte]
-
+Byte
 [Word]
-
+Word
 [MessageBox]
-
+Meldung
 [Start minimized]
-
+Minimiert starten
 [Hexadecimal]
-
+Hexadezimal
 [String]
-
+String
 [Program path]
-
+Programmpfad
 [Program args]
-
+Programmargumente
 [Clipboard]
-
+Zwischenablage
 [Text to insert]
-
+Text, der eingefügt werden soll
 [Value]
-
+Wert
 [Save value]
-
+Wert speichern
 [Read]
-
+Lesen
 [Write]
-
+Schreiben
 [Unicode]
-
+Unicode

@@ -1284,9 +1284,9 @@ Serverseitige Kontaktliste
 [Resource priority]
 Priorität des Standortes
 [Increase priority by %d]
-
+Priorität um %d erhöhen
 [Decrease priority by %d]
-
+Priorität um %d reduzieren
 [Resource priority [%d]]
 Standort-Priorität [%d]
 [Join conference]
@@ -1868,7 +1868,7 @@ Standardprivatsphäreliste erfolgreich entfernt
 [Error occurred while setting default list]
 Fehler beim Setzen der Standardprivatsphäreliste
 [Allow]
-
+Erlauben
 [Simple mode]
 Einfache Ansicht
 [Advanced mode]
@@ -1908,13 +1908,13 @@ Liste löschen
 [Message]
 Nachricht
 [Presence (in)]
-
+Presence (ein)
 [Presence (out)]
-
+Presence (aus)
 [Query]
-
+Query
 [List has no rules, empty lists will be deleted then changes applied]
-
+Liste ist leer und wird bei "Übernehmen" gelöscht.
 [allow ]
 erlaube\s
 [deny ]
@@ -1960,11 +1960,11 @@ Zuerst Liste speichern
 [Please save list before you make it the default list]
 Bitte zuerst die Liste speichern, bevor sie als Standardliste aktiviert wird.
 [No list selected]
-
+Keine Liste ausgewählt
 [Can't remove active or default list]
-
+Aktive Liste oder Standardliste kann nicht gelöscht werden!
 [Sorry]
-
+Entschuldigung
 [Unable to save list because you are currently offline.]
 Liste kann nicht gespeichert werden, weil Sie zurzeit offline sind.
 [List Editor...]
@@ -2072,13 +2072,13 @@ sende Anwesenheitsfehler
 [sent unknown presence type]
 sende unbekannten Anwesenheitstyp
 [Nick:]
-
+Nick:
 [Status:]
-
+Status:
 [Status text:]
-
+Statustext:
 [Real JID:]
-
+Echte JID:
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 Passwort für %s eingeben
