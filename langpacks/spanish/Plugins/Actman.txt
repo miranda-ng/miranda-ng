@@ -332,5 +332,9 @@ Eliminando contacto
 
 [Save value]
 
+[Read]
+
+[Write]
+
 [Unicode]
 

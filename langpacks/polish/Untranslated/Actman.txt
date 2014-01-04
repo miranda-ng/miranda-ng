@@ -30,4 +30,6 @@
 [Text to insert]
 [Value]
 [Save value]
+[Read]
+[Write]
 [Unicode]

@@ -332,5 +332,9 @@ Unicode низ
 
 [Save value]
 
+[Read]
+
+[Write]
+
 [Unicode]
 

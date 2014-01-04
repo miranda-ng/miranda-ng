@@ -332,5 +332,9 @@ Kontakt löschen
 
 [Save value]
 
+[Read]
+
+[Write]
+
 [Unicode]
 
