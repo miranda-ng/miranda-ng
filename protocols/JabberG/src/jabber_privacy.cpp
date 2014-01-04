@@ -380,8 +380,8 @@ public:
 
 		PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_COMBO_TYPE, CBN_SELCHANGE), 0);
 
-		SendDlgItemMessage(m_hwnd, IDC_COMBO_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateTS(_T("Deny")));
-		SendDlgItemMessage(m_hwnd, IDC_COMBO_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateTS(_T("Allow")));
+		SendDlgItemMessage(m_hwnd, IDC_COMBO_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Deny"));
+		SendDlgItemMessage(m_hwnd, IDC_COMBO_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Allow"));
 
 		SendDlgItemMessage(m_hwnd, IDC_COMBO_ACTION, CB_SETCURSEL, m_pRule->GetAction() ? 1 : 0, 0);
 
@@ -1038,7 +1038,7 @@ void CJabberDlgPrivacyLists::ShowAdvancedList(CPrivacyList *pList)
 
 	EnableWindow(GetDlgItem(m_hwnd, IDC_PL_RULES_LIST), !bListEmpty);
 	if (bListEmpty)
-		SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_ADDSTRING, 0, (LPARAM)TranslateTS(_T("List has no rules, empty lists will be deleted then changes applied")));
+		SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_ADDSTRING, 0, (LPARAM)TranslateT("List has no rules, empty lists will be deleted then changes applied"));
 	else
 		SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_SETCURSEL, nLbSel, 0);
 
@@ -1706,7 +1706,7 @@ void CJabberDlgPrivacyLists::lbLists_OnSelChange(CCtrlListBox *)
 		else {
 			EnableWindow(GetDlgItem(m_hwnd, IDC_PL_RULES_LIST), FALSE);
 			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_RESETCONTENT, 0, 0);
-			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_ADDSTRING, 0, (LPARAM)TranslateTS(_T("No list selected")));
+			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_ADDSTRING, 0, (LPARAM)TranslateT("No list selected"));
 		}
 		EnableEditorControls();
 		return;
@@ -1869,7 +1869,7 @@ void CJabberDlgPrivacyLists::btnRemoveList_OnClick(CCtrlButton *)
 			 (m_proto->m_privacyListManager.GetDefaultListName() && !_tcscmp(szListName, m_proto->m_privacyListManager.GetDefaultListName())))
 		{
 			lck.unlock();
-			MessageBox(m_hwnd, TranslateTS(_T("Can't remove active or default list")), TranslateTS(_T("Sorry")), MB_OK | MB_ICONSTOP);
+			MessageBox(m_hwnd, TranslateT("Can't remove active or default list"), TranslateT("Sorry"), MB_OK | MB_ICONSTOP);
 			return;
 		}
 		pList->SetDeleted();

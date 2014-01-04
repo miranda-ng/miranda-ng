@@ -180,7 +180,7 @@ INT_PTR __cdecl CJabberProto::OnGetEventTextChatStates(WPARAM, LPARAM lParam)
 	if (pdbEvent->dbei->cbBlob > 0) {
 		if (pdbEvent->dbei->pBlob[0] == JABBER_DB_EVENT_CHATSTATES_GONE) {
 			if (pdbEvent->datatype == DBVT_WCHAR)
-				return (INT_PTR)mir_tstrdup(TranslateTS(_T("closed chat session")));
+				return (INT_PTR)mir_tstrdup(TranslateT("closed chat session"));
 			else if (pdbEvent->datatype == DBVT_ASCIIZ)
 				return (INT_PTR)mir_strdup(Translate("closed chat session"));
 		}
@@ -199,42 +199,42 @@ INT_PTR __cdecl CJabberProto::OnGetEventTextPresence(WPARAM, LPARAM lParam)
 		switch (pdbEvent->dbei->pBlob[0]) {
 		case JABBER_DB_EVENT_PRESENCE_SUBSCRIBE:
 			if (pdbEvent->datatype == DBVT_WCHAR)
-				return (INT_PTR)mir_tstrdup(TranslateTS(_T("sent subscription request")));
+				return (INT_PTR)mir_tstrdup(TranslateT("sent subscription request"));
 			else if (pdbEvent->datatype == DBVT_ASCIIZ)
 				return (INT_PTR)mir_strdup(Translate("sent subscription request"));
 			break;
 
 		case JABBER_DB_EVENT_PRESENCE_SUBSCRIBED:
 			if (pdbEvent->datatype == DBVT_WCHAR)
-				return (INT_PTR)mir_tstrdup(TranslateTS(_T("approved subscription request")));
+				return (INT_PTR)mir_tstrdup(TranslateT("approved subscription request"));
 			else if (pdbEvent->datatype == DBVT_ASCIIZ)
 				return (INT_PTR)mir_strdup(Translate("approved subscription request"));
 			break;
 
 		case JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBE:
 			if (pdbEvent->datatype == DBVT_WCHAR)
-				return (INT_PTR)mir_tstrdup(TranslateTS(_T("declined subscription")));
+				return (INT_PTR)mir_tstrdup(TranslateT("declined subscription"));
 			else if (pdbEvent->datatype == DBVT_ASCIIZ)
 				return (INT_PTR)mir_strdup(Translate("declined subscription"));
 			break;
 
 		case JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBED:
 			if (pdbEvent->datatype == DBVT_WCHAR)
-				return (INT_PTR)mir_tstrdup(TranslateTS(_T("declined subscription")));
+				return (INT_PTR)mir_tstrdup(TranslateT("declined subscription"));
 			else if (pdbEvent->datatype == DBVT_ASCIIZ)
 				return (INT_PTR)mir_strdup(Translate("declined subscription"));
 			break;
 
 		case JABBER_DB_EVENT_PRESENCE_ERROR:
 			if (pdbEvent->datatype == DBVT_WCHAR)
-				return (INT_PTR)mir_tstrdup(TranslateTS(_T("sent error presence")));
+				return (INT_PTR)mir_tstrdup(TranslateT("sent error presence"));
 			else if (pdbEvent->datatype == DBVT_ASCIIZ)
 				return (INT_PTR)mir_strdup(Translate("sent error presence"));
 			break;
 
 		default:
 			if (pdbEvent->datatype == DBVT_WCHAR)
-				return (INT_PTR)mir_tstrdup(TranslateTS(_T("sent unknown presence type")));
+				return (INT_PTR)mir_tstrdup(TranslateT("sent unknown presence type"));
 			else if (pdbEvent->datatype == DBVT_ASCIIZ)
 				return (INT_PTR)mir_strdup(Translate("sent unknown presence type"));
 			break;
@@ -334,8 +334,8 @@ INT_PTR __cdecl CJabberProto::ServiceSendXML(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // "/GCGetToolTipText" - gets tooltip text
 
-static const TCHAR *JabberEnum2AffilationStr[] = { _T("None"), _T("Outcast"), _T("Member"), _T("Admin"), _T("Owner") };
-static const TCHAR *JabberEnum2RoleStr[] = { _T("None"), _T("Visitor"), _T("Participant"), _T("Moderator") };
+static const TCHAR *JabberEnum2AffilationStr[] = { LPGENT("None"), LPGENT("Outcast"), LPGENT("Member"), LPGENT("Admin"), LPGENT("Owner") },
+	*JabberEnum2RoleStr[] = { LPGENT("None"), LPGENT("Visitor"), LPGENT("Participant"), LPGENT("Moderator") };
 
 static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tszValue, TCHAR* buf, size_t bufSize)
 {
@@ -349,7 +349,7 @@ static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tsz
 	bufSize -= len;
 
 	if (bIsTipper)
-		mir_sntprintf(buf, bufSize, _T("%s%s%s%s"), _T("<b>"), TranslateTS(tszTitle), _T("</b>\t"), tszValue);
+		mir_sntprintf(buf, bufSize, _T("<b>%s</b>%s\t"), TranslateTS(tszTitle), tszValue);
 	else {
 		TCHAR *p = TranslateTS(tszTitle);
 		mir_sntprintf(buf, bufSize, _T("%s%s\t%s"), p, _tcslen(p)<=7 ? _T("\t") : _T(""), tszValue);
@@ -383,37 +383,35 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 
 	//JID:
 	if (_tcschr(info->m_tszResourceName, _T('@')) != NULL)
-		appendString(bIsTipper, _T("JID:"), info->m_tszResourceName, outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, LPGENT("JID:"), info->m_tszResourceName, outBuf, SIZEOF(outBuf));
 	else if (lParam) //or simple nick
-		appendString(bIsTipper, _T("Nick:"), (TCHAR*)lParam, outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, LPGENT("Nick:"), (TCHAR*)lParam, outBuf, SIZEOF(outBuf));
 
 	// status
 	if (info->m_iStatus >= ID_STATUS_OFFLINE && info->m_iStatus <= ID_STATUS_IDLE )
-		appendString(bIsTipper, _T("Status:"), pcli->pfnGetStatusModeDescription(info->m_iStatus, 0), outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, LPGENT("Status:"), pcli->pfnGetStatusModeDescription(info->m_iStatus, 0), outBuf, SIZEOF(outBuf));
 
 	// status text
 	if (info->m_tszStatusMessage)
-		appendString(bIsTipper, _T("Status text:"), info->m_tszStatusMessage, outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, LPGENT("Status text:"), info->m_tszStatusMessage, outBuf, SIZEOF(outBuf));
 
 	// Role
-	appendString(bIsTipper, _T("Role:"), TranslateTS(JabberEnum2RoleStr[info->m_role]), outBuf, SIZEOF(outBuf));
+	appendString(bIsTipper, LPGENT("Role:"), TranslateTS(JabberEnum2RoleStr[info->m_role]), outBuf, SIZEOF(outBuf));
 
 	// Affiliation
-	appendString(bIsTipper, _T("Affiliation:"), TranslateTS(JabberEnum2AffilationStr[info->m_affiliation]), outBuf, SIZEOF(outBuf));
+	appendString(bIsTipper, LPGENT("Affiliation:"), TranslateTS(JabberEnum2AffilationStr[info->m_affiliation]), outBuf, SIZEOF(outBuf));
 
 	// real jid
 	if (info->m_tszRealJid)
-		appendString(bIsTipper, _T("Real JID:"), info->m_tszRealJid, outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, LPGENT("Real JID:"), info->m_tszRealJid, outBuf, SIZEOF(outBuf));
 
-	return (INT_PTR)(outBuf[0] == 0 ? NULL : mir_tstrdup(outBuf));
+	return (outBuf[0] == 0 ? NULL : (INT_PTR) mir_tstrdup(outBuf));
 }
 
 // File Association Manager plugin support
 
-INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
-
 	TCHAR *arg = (TCHAR *)lParam;
 	if (arg == NULL)
 		return 1;

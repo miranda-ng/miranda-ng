@@ -741,7 +741,7 @@ void CJabberProto::MenuInit()
 	mi.pszService = srvFce;
 	mi.ptszName = szName;
 	mi.position = 2000040000;
-	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;
+	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	mi.hParentMenu = m_hMenuPriorityRoot;
 
 	mir_snprintf(srvFce, SIZEOF(srvFce), "%s/menuSetPriority/0", m_szModuleName);
@@ -756,10 +756,15 @@ void CJabberProto::MenuInit()
 			continue;
 		}
 
-		mi.icolibItem = (steps[i] > 0) ? GetIconHandle(IDI_ARROW_UP) : GetIconHandle(IDI_ARROW_DOWN);
-
 		mir_snprintf(srvFce, SIZEOF(srvFce), "%s/menuSetPriority/%d", m_szModuleName, steps[i]);
-		mir_sntprintf(szName, SIZEOF(szName), (steps[i] > 0) ? TranslateT("Increase priority by %d") : TranslateT("Decrease priority by %d"), abs(steps[i]));
+		if(steps[i] > 0) {
+			mir_sntprintf(szName, SIZEOF(szName), TranslateT("Increase priority by %d"), steps[i]);
+			mi.icolibItem = GetIconHandle(IDI_ARROW_UP);
+		}
+		else {
+			mir_sntprintf(szName, SIZEOF(szName), TranslateT("Decrease priority by %d"), -steps[i]);
+			mi.icolibItem = GetIconHandle(IDI_ARROW_DOWN);
+		}
 
 		if (needServices)
 			CreateProtoServiceParam(svcName, &CJabberProto::OnMenuSetPriority, (LPARAM)steps[i]);
@@ -803,7 +808,7 @@ void CJabberProto::UpdatePriorityMenu(short priority)
 	mir_sntprintf(szName, SIZEOF(szName), TranslateT("Resource priority [%d]"), (int)priority);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_TCHAR | CMIM_NAME;
+	mi.flags = CMIF_TCHAR | CMIM_NAME | CMIF_KEEPUNTRANSLATED;
 	mi.ptszName = szName;
 	Menu_ModifyItem(m_hMenuPriorityRoot, &mi);
 
