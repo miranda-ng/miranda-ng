@@ -1614,7 +1614,7 @@ LABEL_SHOWWINDOW:
 
 	case GC_FIREHOOK:
 		if (lParam) {
-			GCHOOK* gch = (GCHOOK *) lParam;
+			GCHOOK *gch = (GCHOOK *) lParam;
 			NotifyEventHooks(hSendEvent,0,(WPARAM)gch);
 			if ( gch->pDest ) {
 				mir_free( gch->pDest->pszID );

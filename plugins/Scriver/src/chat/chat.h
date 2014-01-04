@@ -422,16 +422,14 @@ void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 BOOL          DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
 BOOL          DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem);
 BOOL          IsEventSupported(int eventType);
-BOOL          LogToFile(SESSION_INFO *si, GCEVENT * gce);
+BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
 
 // message.c
 TCHAR*        DoRtfToTags( char* pszRtfText, SESSION_INFO *si);
 
 //////////////////////////////////////////////////////////////////////////////////
 
-TCHAR* a2tf( const TCHAR* str, int flags );
-TCHAR* replaceStr( TCHAR** dest, const TCHAR* src );
-char*  replaceStrA( char** dest, const char* src );
+TCHAR* a2tf(const TCHAR *str, int flags);
 
 #define DEFLOGFILENAME _T("%miranda_logpath%\\%proto%\\%userid%.log")
 #endif

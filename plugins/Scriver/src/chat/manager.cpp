@@ -39,10 +39,11 @@ void SetActiveSession(const TCHAR* pszID, const char* pszModule)
 
 void SetActiveSessionEx(SESSION_INFO *si)
 {
-	if ( si ) {
-		replaceStr( &pszActiveWndID, si->ptszID );
-		replaceStrA( &pszActiveWndModule, si->pszModule );
-}	}
+	if (si) {
+		replaceStrT(pszActiveWndID, si->ptszID);
+		replaceStr(pszActiveWndModule, si->pszModule);
+	}
+}
 
 SESSION_INFO* GetActiveSession( void )
 {
@@ -631,9 +632,9 @@ BOOL SM_ChangeUID(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID
 
 	while ( pTemp != NULL ) {
 		if (( !pszID || !lstrcmpi( pTemp->ptszID, pszID )) && !lstrcmpiA( pTemp->pszModule, pszModule )) {
-			USERINFO* ui = UM_FindUser( pTemp->pUsers, pszUID );
-			if ( ui )
-				replaceStr( &ui->pszUID, pszNewUID );
+			USERINFO *ui = UM_FindUser(pTemp->pUsers, pszUID);
+			if (ui)
+				replaceStrT(ui->pszUID, pszNewUID);
 
 			if ( pszID )
 				return TRUE;
@@ -655,11 +656,11 @@ BOOL SM_ChangeNick(const TCHAR* pszID, const char* pszModule, GCEVENT * gce)
 	while ( pTemp != NULL ) {
 		if (( !pszID || !lstrcmpi( pTemp->ptszID, pszID )) && !lstrcmpiA( pTemp->pszModule, pszModule )) {
 			USERINFO* ui = UM_FindUser(pTemp->pUsers, gce->ptszUID );
-			if ( ui ) {
-				replaceStr( &ui->pszNick, gce->ptszText);
-				SM_MoveUser( pTemp->ptszID, pTemp->pszModule, ui->pszUID );
-				if ( pTemp->hWnd )
-					SendMessage( pTemp->hWnd, GC_UPDATENICKLIST, 0, 0 );
+			if (ui) {
+				replaceStrT(ui->pszNick, gce->ptszText);
+				SM_MoveUser(pTemp->ptszID, pTemp->pszModule, ui->pszUID);
+				if (pTemp->hWnd)
+					SendMessage(pTemp->hWnd, GC_UPDATENICKLIST, 0, 0);
 			}
 
 			if (pszID)
@@ -670,11 +671,11 @@ BOOL SM_ChangeNick(const TCHAR* pszID, const char* pszModule, GCEVENT * gce)
 	}
 	return TRUE;
 }
-BOOL SM_RemoveAll (void)
+
+BOOL SM_RemoveAll(void)
 {
-	while (m_WndList)
-	{
-		SESSION_INFO*pLast = m_WndList->next;
+	while (m_WndList) {
+		SESSION_INFO *pLast = m_WndList->next;
 
 		if (m_WndList->hWnd)
 			SendMessage(m_WndList->hWnd, GC_EVENT_CONTROL+WM_USER+500, SESSION_TERMINATE, 0);
@@ -691,12 +692,12 @@ BOOL SM_RemoveAll (void)
 		m_WndList->iStatusCount = 0;
 		m_WndList->nUsersInNicklist = 0;
 
-		mir_free( m_WndList->pszModule );
-		mir_free( m_WndList->ptszID );
-		mir_free( m_WndList->ptszName );
-		mir_free( m_WndList->ptszStatusbarText );
-		mir_free( m_WndList->ptszTopic );
-		mir_free( m_WndList->pszHeader);
+		mir_free(m_WndList->pszModule);
+		mir_free(m_WndList->ptszID);
+		mir_free(m_WndList->ptszName);
+		mir_free(m_WndList->ptszStatusbarText);
+		mir_free(m_WndList->ptszTopic);
+		mir_free(m_WndList->pszHeader);
 		tcmdlist_free(m_WndList->windowData.cmdList);
 		mir_free(m_WndList);
 		m_WndList = pLast;
@@ -926,7 +927,7 @@ STATUSINFO * TM_AddStatus(STATUSINFO** ppStatusList, const TCHAR* pszStatus, int
 
 	if ( !TM_FindStatus(*ppStatusList, pszStatus)) {
 		STATUSINFO *node = (STATUSINFO*)mir_calloc(sizeof(STATUSINFO));
-		replaceStr( &node->pszGroup, pszStatus );
+		replaceStrT(node->pszGroup, pszStatus);
 		node->hIcon = (HICON)(*iCount);
 		while ((INT_PTR)node->hIcon > STATUSICONCOUNT - 1)
 			node->hIcon--;
@@ -1117,14 +1118,14 @@ USERINFO* UM_AddUser(STATUSINFO* pStatusList, USERINFO** ppUserList, const TCHAR
 	//	if (!UM_FindUser(*ppUserList, pszUI, wStatus)
 	{
 		USERINFO *node = (USERINFO*)mir_calloc(sizeof(USERINFO));
-		replaceStr( &node->pszUID, pszUID );
+		replaceStrT(node->pszUID, pszUID);
 
 		if (*ppUserList == NULL) { // list is empty
 			*ppUserList = node;
 			node->next = NULL;
 		}
 		else {
-			if ( pLast ) {
+			if (pLast) {
 				node->next = pTemp;
 				pLast->next = node;
 			}

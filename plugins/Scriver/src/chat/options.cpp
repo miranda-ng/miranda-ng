@@ -225,21 +225,20 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 
 void LoadLogFonts(void)
 {
-	int i;
-	for ( i = 0; i<OPTIONS_FONTCOUNT; i++)
+	for (int i = 0; i<OPTIONS_FONTCOUNT; i++)
 		LoadMsgDlgFont(i, &aFonts[i].lf, &aFonts[i].color, TRUE);
 }
 
 
-static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)
+static void InitSetting(TCHAR **ppPointer, char *pszSetting, TCHAR *pszDefault)
 {
 	DBVARIANT dbv;
 	if ( !db_get_ts(NULL, "Chat", pszSetting, &dbv )) {
-		replaceStr( ppPointer, dbv.ptszVal );
+		replaceStrT(*ppPointer, dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else replaceStr( ppPointer, pszDefault );
-	}
+	else replaceStrT(*ppPointer, pszDefault);
+}
 
 #define OPT_FIXHEADINGS (WM_USER+1)
 

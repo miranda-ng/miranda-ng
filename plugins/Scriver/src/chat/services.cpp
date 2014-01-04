@@ -306,28 +306,24 @@ static INT_PTR DoControl(GCEVENT *gce, WPARAM wp)
 		}
 		SM_SendMessage(gce->pDest->ptszID, gce->pDest->pszModule, GC_EVENT_CONTROL + WM_USER + 500, wp, 0);
 	}
-
 	else if (gce->pDest->iType == GC_EVENT_CHUID && gce->pszText)
 	{
 		SM_ChangeUID( gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszNick, gce->ptszText);
 	}
-
 	else if (gce->pDest->iType == GC_EVENT_CHANGESESSIONAME && gce->pszText)
 	{
 		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-		if ( si ) {
-			replaceStr( &si->ptszName, gce->ptszText );
+		if (si) {
+			replaceStrT(si->ptszName, gce->ptszText);
 			if (si->hWnd)
 				SendMessage(si->hWnd, DM_UPDATETITLEBAR, 0, 0);
 		}
 	}
-
 	else if (gce->pDest->iType == GC_EVENT_SETITEMDATA) {
 		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if (si)
 			si->dwItemData = gce->dwItemData;
 	}
-
 	else if (gce->pDest->iType ==GC_EVENT_GETITEMDATA) {
 		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if (si) {
@@ -340,8 +336,8 @@ static INT_PTR DoControl(GCEVENT *gce, WPARAM wp)
 	{
 		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if (si) {
-			replaceStr( &si->ptszStatusbarText, gce->ptszText );
-			if ( si->ptszStatusbarText )
+			replaceStrT(si->ptszStatusbarText, gce->ptszText);
+			if (si->ptszStatusbarText)
 				db_set_ts(si->windowData.hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
 				db_set_s(si->windowData.hContact, si->pszModule, "StatusBar", "");
@@ -475,7 +471,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	case GC_EVENT_TOPIC:
 		if (si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 			if (gce->pszText) {
-				replaceStr( &si->ptszTopic, gce->ptszText);
+				replaceStrT(si->ptszTopic, gce->ptszText);
 				db_set_ts(si->windowData.hContact, si->pszModule , "Topic", RemoveFormatting(si->ptszTopic));
 				if ( db_get_b( NULL, "Chat", "TopicOnClist", 0 ))
 					db_set_ts(si->windowData.hContact, "CList" , "StatusMsg", RemoveFormatting(si->ptszTopic));
