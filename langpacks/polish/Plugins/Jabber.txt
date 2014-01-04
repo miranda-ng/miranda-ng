@@ -1283,6 +1283,10 @@ Utwórz/Dołącz do czatu
 Zarządzanie listą kontaktów
 [Resource priority]
 Priorytet zasobu
+[Increase priority by %d]
+Zwiększ priorytet o %d
+[Decrease priority by %d]
+Zmniejsz priorytet o %d
 [Resource priority [%d]]
 Priorytet zasobów [%d]
 [Join conference]
@@ -1899,10 +1903,18 @@ Usuń listę
 ** Autoryzacja: brak **
 [<none>]
 <brak>
+[Message]
+Wiadomość
+[Presence (in)]
+Obecność (przych.)
+[Presence (out)]
+Obecność (wych.)
+[Query]
+Kolejka
 [allow ]
-zezwól 
+zezwól\s
 [deny ]
-odmów 
+odmów\s
 [all.]
 wszystko.
 [messages]
@@ -1910,9 +1922,9 @@ wiadomości
 [ and ]
  i\s
 [incoming presences]
- przychodzącą obecność
+przychodzącą obecność
 [outgoing presences]
- wychodzącą obecność
+wychodzącą obecność
 [queries]
 zapytania
 [Else ]
@@ -2069,8 +2081,6 @@ Wysyłanie informacji rejestracyjnych...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Resource]
 Zasób
-[Message]
-Wiadomość
 [<not specified>]
 <nieokreślone>
 [Software]
