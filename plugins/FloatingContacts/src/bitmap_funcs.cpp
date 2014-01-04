@@ -65,8 +65,7 @@ MyBitmap::MyBitmap(const char *fn, const char *fnAlpha)
 
 MyBitmap::~MyBitmap()
 {
-	if (bitsSave)
-		delete [] bitsSave;
+	delete [] bitsSave;
 	free();
 }
 
@@ -125,8 +124,7 @@ void MyBitmap::makeOpaqueRect(int x1, int y1, int x2, int y2)
 
 void MyBitmap::saveAlpha(int x, int y, int w, int h)
 {
-	if (bitsSave)
-		delete [] bitsSave;
+	delete [] bitsSave;
 
 	GdiFlush();
 
@@ -670,7 +668,6 @@ void MyBitmap::Blur(int w, int h)
 
 	src = buf_src;
 	tmp = buf_tmp;
-	dst = buf_dst;
 
 	float mul = 1.f/((w*2+1)*(h*2+1));
 	for (y = 0;y<height;y++)

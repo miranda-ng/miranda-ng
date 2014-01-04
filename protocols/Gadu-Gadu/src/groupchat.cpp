@@ -97,7 +97,7 @@ int GGPROTO::gc_destroy()
 	for(l = chats; l; l = l->next)
 	{
 		GGGC *chat = (GGGC *)l->data;
-		if (chat->recipients) free(chat->recipients);
+		free(chat->recipients);
 	}
 	list_destroy(chats, 1); chats = NULL;
 	return 1;
@@ -606,7 +606,7 @@ INT_PTR GGPROTO::gc_clearignored(WPARAM wParam, LPARAM lParam)
 		l = l->next;
 		if (chat->ignore)
 		{
-			if (chat->recipients) free(chat->recipients);
+			free(chat->recipients);
 			list_remove(&chats, chat, 1);
 			cleared = TRUE;
 		}

@@ -237,14 +237,14 @@ void GGPROTO::parsecontacts(char *contacts)
 		}
 
 		// Release stuff
-		if (strFirstName) free(strFirstName);
-		if (strLastName) free(strLastName);
-		if (strNickname) free(strNickname);
-		if (strNick) free(strNick);
-		if (strPhone) free(strPhone);
-		if (strGroup) free(strGroup);
-		if (strUin) free(strUin);
-		if (strMail) free(strMail);
+		free(strFirstName);
+		free(strLastName);
+		free(strNickname);
+		free(strNick);
+		free(strPhone);
+		free(strGroup);
+		free(strUin);
+		free(strMail);
 	}
 }
 

@@ -442,7 +442,7 @@ int Shutdown(WPARAM wParam, LPARAM lParam)
 {
 	deleteTimer.deinit();
 
-	if (manDlg) delete manDlg;
+	delete manDlg;
 	if (uDlg) SendMessage(uDlg->hwnd, WM_CLOSE, 0, 0);
 
 	UploadJob::jobDone.release();

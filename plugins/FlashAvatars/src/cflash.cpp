@@ -106,7 +106,7 @@ static bool DownloadFlashFile(char *url, const TCHAR* save_file, int recurse_cou
 			HANDLE hSaveFile = CreateFile(save_file, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 			if(hSaveFile != INVALID_HANDLE_VALUE) {
 				unsigned long bytes_written = 0;
-				if(WriteFile(hSaveFile, resp->pData, resp->dataLength, &bytes_written, NULL) == TRUE) {
+				if(WriteFile(hSaveFile, resp->pData, resp->dataLength, &bytes_written, NULL)) {
 					CloseHandle(hSaveFile);
 					CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 					resp = 0;

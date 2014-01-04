@@ -408,7 +408,7 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			proto->setString(FACEBOOK_KEY_PASS, str);
 
 			GetDlgItemText(hwnd,IDC_GROUP,tstr,sizeof(tstr));
-			if (lstrlen(tstr) > 0)
+			if (tstr[0] != '\0')
 			{
 				proto->setTString(FACEBOOK_KEY_DEF_GROUP, tstr);
 				Clist_CreateGroup( 0, tstr);

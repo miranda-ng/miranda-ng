@@ -139,12 +139,10 @@ static int gg_img_releasepicture(void *img)
 {
 	if (!img)
 		return FALSE;
-	if (((GGIMAGEENTRY *)img)->lpszFileName)
-		free(((GGIMAGEENTRY *)img)->lpszFileName);
+	free(((GGIMAGEENTRY *)img)->lpszFileName);
 	if (((GGIMAGEENTRY *)img)->hBitmap)
 		DeleteObject(((GGIMAGEENTRY *)img)->hBitmap);
-	if (((GGIMAGEENTRY *)img)->lpData)
-		free(((GGIMAGEENTRY *)img)->lpData);
+	free(((GGIMAGEENTRY *)img)->lpData);
 	free(img);
 
 	return TRUE;
@@ -1067,10 +1065,8 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 	debugLogA("img_loadpicture(): MS_IMG_LOAD(MEM) failed.");
 	if (dat)
 	{
-		if (dat->lpData)
-			free(dat->lpData);
-		if (dat->lpszFileName)
-			free(dat->lpszFileName);
+		free(dat->lpData);
+		free(dat->lpszFileName);
 		free(dat);
 	}
 	return NULL;

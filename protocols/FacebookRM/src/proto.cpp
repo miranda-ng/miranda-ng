@@ -63,12 +63,9 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 
 	// Create standard network connection
 	TCHAR descr[512];
-	char module[512];
 	NETLIBUSER nlu = {sizeof(nlu)};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
-	mir_snprintf(module, SIZEOF(module), "%s", m_szModuleName);
-	nlu.szSettingsModule = module;
 	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
@@ -726,8 +723,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	{
 		// After close, free
 		popup_data *data = (popup_data *)PUGetPluginData(hwnd);
-		if (data != NULL)
-			delete data;
+		delete data;
 	} return FALSE;
 
 	default:

@@ -71,9 +71,8 @@ int Info(char *title, char *format, ...)
 	va_start(vararg, format);
 	tBytes = mir_vsnprintf(str, sizeof(str), format, vararg);
 	if (tBytes > 0)
-		{
-			str[tBytes] = 0;
-		}
+		str[tBytes] = 0;
+
 	va_end(vararg);
 	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);
 }
@@ -83,7 +82,6 @@ int Info(char *title, char *format, ...)
 char *BinToHex(int size, PBYTE data)
 {
 	char *szresult = NULL;
-	char buffer[32] = {0}; //should be more than enough
 	int maxSize = size * 2 + HEX_SIZE + 1;
 	szresult = (char *) new char[ maxSize ];
 	mir_snprintf(szresult, maxSize, "%0*X", HEX_SIZE, size);
@@ -98,16 +96,13 @@ void HexToBin(TCHAR *inData, ULONG &size, LPBYTE &outData)
 	_tcsncpy(buffer + 2, inData, HEX_SIZE);
 	_stscanf(buffer, _T("%x"), &size);
 	outData = (unsigned char*)new char[size*2];
-	UINT i;
-	//size = i;
+
 	TCHAR *tmp = inData + HEX_SIZE;
 	buffer[4] = '\0'; //mark the end of the string
-	for (i = 0; i < size; i++)
-		{
-			_tcsncpy(buffer + 2, &tmp[i * 2], 2);
-			_stscanf(buffer, _T("%x"), &outData[i]);
-		}
-	i = size;
+	for (UINT i = 0; i < size; i++) {
+		_tcsncpy(buffer + 2, &tmp[i * 2], 2);
+		_stscanf(buffer, _T("%x"), &outData[i]);
+	}
 }
 
 int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, int size)
@@ -116,22 +111,21 @@ int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, 
 	int res = 1;
 	int len;
 	dbv.type = DBVT_ASCIIZ;
-	if (db_get_ts(NULL, ModuleName, szSettingName, &dbv) == 0)
-		{
-			res = 0;
-			int tmp = _tcslen(dbv.ptszVal);
-			len = (tmp < size - 1) ? tmp : size - 1;
-			_tcsncpy(szResult, dbv.ptszVal, len);
-			szResult[len] = '\0';
-			mir_free(dbv.ptszVal);
-		}
-		else{
-			res = 1;
-			int tmp = _tcslen(szError);
-			len = (tmp < size - 1) ? tmp : size - 1;
-			_tcsncpy(szResult, szError, len);
-			szResult[len] = '\0';
-		}
+	if (db_get_ts(NULL, ModuleName, szSettingName, &dbv) == 0) {
+		res = 0;
+		int tmp = _tcslen(dbv.ptszVal);
+		len = (tmp < size - 1) ? tmp : size - 1;
+		_tcsncpy(szResult, dbv.ptszVal, len);
+		szResult[len] = '\0';
+		mir_free(dbv.ptszVal);
+	}
+	else {
+		res = 1;
+		int tmp = _tcslen(szError);
+		len = (tmp < size - 1) ? tmp : size - 1;
+		_tcsncpy(szResult, szError, len);
+		szResult[len] = '\0';
+	}
 	return res;
 }
 
@@ -155,9 +149,8 @@ void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors)
 	RECT rChild;
 
 	if (parentPos->flags & SWP_NOSIZE)
-		{
-			return;
-		}
+		return;
+
 	GetWindowRect(parentPos->hwnd, &rParent);
 	rChild = AnchorCalcPos(window, &rParent, parentPos, anchors);
 	MoveWindow(window, rChild.left, rChild.top, rChild.right - rChild.left, rChild.bottom - rChild.top, FALSE);
@@ -174,13 +167,10 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 	int cx = rParent->right - rParent->left;
 	int cy = rParent->bottom - rParent->top;
 	if ((cx == parentPos->cx) && (cy == parentPos->cy))
-		{
-			return rChild;
-		}
+		return rChild;
+
 	if (parentPos->flags & SWP_NOSIZE)
-		{
-			return rChild;
-		}
+		return rChild;
 
 	rTmp.left = parentPos->x - rParent->left;
 	rTmp.right = (parentPos->x + parentPos->cx) - rParent->right;
@@ -194,21 +184,17 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 	rChild.bottom += cy;
 	//expanded the window accordingly, now we need to enforce the anchors
 	if ((anchors & ANCHOR_LEFT) && (!(anchors & ANCHOR_RIGHT)))
-		{
-			rChild.right -= cx;
-		}
+		rChild.right -= cx;
+
 	if ((anchors & ANCHOR_TOP) && (!(anchors & ANCHOR_BOTTOM)))
-		{
-			rChild.bottom -= cy;
-		}
+		rChild.bottom -= cy;
+
 	if ((anchors & ANCHOR_RIGHT) && (!(anchors & ANCHOR_LEFT)))
-		{
-			rChild.left += cx;
-		}
+		rChild.left += cx;
+
 	if ((anchors & ANCHOR_BOTTOM) && (!(anchors & ANCHOR_TOP)))
-		{
-			rChild.top += cy;
-		}
+		rChild.top += cy;
+
 	return rChild;
 }
 
@@ -219,9 +205,8 @@ DWORD WINAPI CheckEmailWorkerThread(LPVOID data)
 	int bForceAttempt = (int) data;
 
 	if (!exchangeServer.IsConnected())
-		{
-			exchangeServer.Connect(bForceAttempt);
-		}
+		exchangeServer.Connect(bForceAttempt);
+
 	exchangeServer.Check(bForceAttempt);
 
 	LeaveCriticalSection(&csCheck);
@@ -245,6 +230,4 @@ void _popupUtil(char* szMsg)
 	_tcscpy(ppd.lptzContactName, _T("Exchange notifier"));
 	_tcscpy(ppd.lptzText, mir_a2t(szMsg));
 	PUAddPopupT(&ppd); //show a popup to tell the user what we're doing.
-
-
 }

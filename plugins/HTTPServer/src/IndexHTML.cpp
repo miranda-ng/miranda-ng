@@ -328,7 +328,7 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 	if (pszTemp)
 		strcpy(szName, pszTemp + 1);
 
-	if (strlen(szName) == 0)
+	if (szName[0] == '\0')
 		strcpy(szName, "my Miranda Webserver");
 
 	do {

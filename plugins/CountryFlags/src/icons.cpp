@@ -208,7 +208,6 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 								DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,NULL,DI_NOMIRROR|DI_MASK);
 						SelectObject(hdc,hbmPrev);
 					}
-					DeleteObject(hrgn);
 				}
 				DeleteDC(hdc);
 			}

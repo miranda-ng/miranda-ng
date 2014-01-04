@@ -774,17 +774,15 @@ ThumbInfo *ThumbList::AddThumb(HWND hwnd, TCHAR *ptszName, HANDLE hContact)
 		return NULL;
 
 	ThumbInfo *pThumb = new ThumbInfo;
-	if (pThumb != NULL) {
-		_tcsncpy( pThumb->ptszName, ptszName, USERNAME_LEN - 1);
-		pThumb->hContact = hContact;
-		pThumb->hwnd = hwnd;
-		
-		pThumb->dockOpt.hwndLeft = NULL;
-		pThumb->dockOpt.hwndRight = NULL;
+	_tcsncpy( pThumb->ptszName, ptszName, USERNAME_LEN - 1);
+	pThumb->hContact = hContact;
+	pThumb->hwnd = hwnd;
 
-		pThumb->fTipActive = FALSE;
-		RegHotkey(hContact, hwnd);
-	}
+	pThumb->dockOpt.hwndLeft = NULL;
+	pThumb->dockOpt.hwndRight = NULL;
+
+	pThumb->fTipActive = FALSE;
+	RegHotkey(hContact, hwnd);
 
 	insert(pThumb);
 	return pThumb;

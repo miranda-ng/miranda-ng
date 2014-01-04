@@ -655,7 +655,7 @@ void RegHotkey(HANDLE hContact, HWND hwnd)
 	strncpy(szBuf, dbv.pszVal, MAX_PATH - 1);
 	db_free( &dbv );
 
-	if ( 0 != strlen( szBuf )) {
+	if (szBuf[0] !=  '\0') {
 		UINT nModifiers = 0;
 		char chKey = 0;
 		char szMod[2][20] = {0};

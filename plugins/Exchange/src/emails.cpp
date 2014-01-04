@@ -161,7 +161,7 @@ int CExchangeServer::IsServerAvailable()
 		// if connected then close smtp connection by sending a quit message
 		bAvailable = 1;
 		char message[] = "quit\n";
-		send(sServer, message, strlen(message), 0); 
+		send(sServer, message, (int)strlen(message), 0); 
 	}
 	res = closesocket(sServer); //close the socket
 	return bAvailable;
@@ -307,8 +307,8 @@ int ShowPopupMessage(TCHAR *title, TCHAR *message, int cUnreadEmails)
 	popup.colorBack = NULL;
 	popup.colorText = NULL;
 	popup.lchIcon = hiMailIcon;
-	_tcsncpy(popup.lptzContactName, title, MAX_CONTACTNAME);
-	_tcsncpy(popup.lptzText, message, MAX_SECONDLINE);
+	_tcsncpy_s(popup.lptzContactName, MAX_CONTACTNAME, title, _TRUNCATE);
+	_tcsncpy_s(popup.lptzText, MAX_SECONDLINE, message, _TRUNCATE);
 	popup.PluginWindowProc = DlgProcPopup;
 	popup.PluginData = (int *) cUnreadEmails;
 	return PUAddPopupT(&popup);

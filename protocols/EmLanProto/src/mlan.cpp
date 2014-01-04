@@ -321,7 +321,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 					db_set_w(hContact,PROTONAME, "Status", cont->m_status);
 					if (db_get_dw(hContact,PROTONAME, "RemoteVersion", 0)!=cont->m_ver)
 								db_set_dw(hContact,PROTONAME, "RemoteVersion", cont->m_ver);
-					if (old_status = ID_STATUS_OFFLINE)
+					if (old_status == ID_STATUS_OFFLINE)
 					{
 						u_int rip = cont->m_addr.S_un.S_addr;
 						int tip = (rip<<24)|((rip&0xff00)<<8)|((rip&0xff0000)>>8)|(rip>>24);
@@ -428,7 +428,7 @@ void CMLan::RecvMessageUrl(CCSDATA* ccs)
 
 	ZeroMemory(&dbei,sizeof(dbei));
 
-	if (ccs->szProtoService == PSR_MESSAGE)
+	if (!lstrcmpA(ccs->szProtoService, PSR_MESSAGE))
 		dbei.eventType = EVENTTYPE_MESSAGE;
 	else
 		dbei.eventType = EVENTTYPE_URL;
@@ -438,7 +438,7 @@ void CMLan::RecvMessageUrl(CCSDATA* ccs)
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags&PREF_CREATEREAD?DBEF_READ:0;
 	dbei.cbBlob = lstrlen(pre->szMessage)+1;
-	if (ccs->szProtoService==PSR_URL)
+	if (!lstrcmpA(ccs->szProtoService, PSR_URL))
 	{
 		dbei.cbBlob += 2+lstrlen(pre->szMessage+dbei.cbBlob+1);
 	}

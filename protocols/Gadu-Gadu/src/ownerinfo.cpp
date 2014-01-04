@@ -39,7 +39,7 @@ void __cdecl GGPROTO::remindpasswordthread(void *param)
 	debugLogA("remindpasswordthread(): Started.");
 	if (!rp || !rp->email || !rp->uin || !strlen(rp->email))
 	{
-		if (rp) free(rp);
+		free(rp);
 #ifdef DEBUGMODE
 		debugLogA("remindpasswordthread(): End. err1");
 #endif
@@ -68,7 +68,7 @@ void __cdecl GGPROTO::remindpasswordthread(void *param)
 		MessageBox(NULL, TranslateT("Password was sent to your e-mail."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
 
-	if (rp) free(rp);
+	free(rp);
 #ifdef DEBUGMODE
 	debugLogA("remindpasswordthread(): End.");
 #endif

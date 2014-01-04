@@ -110,8 +110,6 @@ INT_PTR ServiceIpToCountry(WPARAM wParam,LPARAM lParam)
 		if (wParam>=dwFrom) /* only search if wParam valid */
 			while (low<=high) {
 				i=low+((high-low)/2);
-				/* never happens */
-				if (i<0) DebugBreak();
 				/* analyze record */ 
 				id=GetDataRecord(data,i,&dwFrom,&dwTo);
 				if (dwFrom<=wParam && dwTo>=wParam) { LeaveRecordCache(); return id; }

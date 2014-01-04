@@ -330,7 +330,7 @@ static int gg_dcc7_listen_and_send_info(struct gg_dcc7 *dcc)
 	// we MUST fill hash to recive from server request for server connection
 	//snprintf((char*) pkt.hash, sizeof(pkt.hash), "0");
 	count = dcc->local_addr + external_port * rand();
-	snprintf((char*) pkt.hash, sizeof(pkt.hash), "%d", count);
+	mir_snprintf(pkt.hash, sizeof(pkt.hash), "%d", count);
 
 	return gg_send_packet(dcc->sess, GG_DCC7_INFO, &pkt, sizeof(pkt), NULL);
 }

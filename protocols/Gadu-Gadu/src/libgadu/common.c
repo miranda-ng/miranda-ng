@@ -541,7 +541,7 @@ int gg_http_hash(const char *format, ...)
 		char *arg, buf[16];
 
 		if (format[j] == 'u') {
-			snprintf(buf, sizeof(buf), "%d", va_arg(ap, uin_t));
+			mir_snprintf(buf, sizeof(buf), "%d", va_arg(ap, uin_t));
 			arg = buf;
 		} else {
 			if (!(arg = va_arg(ap, char*)))

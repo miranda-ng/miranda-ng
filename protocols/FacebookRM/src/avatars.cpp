@@ -40,7 +40,6 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *
 			std::tstring filename = GetAvatarFolder() + L'\\' + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str());
 			db_free(&dbv);			
 
-			ai.hContact = ai.hContact;
 			_tcsncpy_s(ai.filename, SIZEOF(ai.filename), filename.c_str(), _TRUNCATE);
 			ai.format = ProtoGetAvatarFormat(ai.filename);
 			return true;

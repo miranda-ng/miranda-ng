@@ -52,7 +52,7 @@ void PackerJob::getZipFilePath()
 		}
 	}
 
-	if (_tcslen(stzFileName) == 0)
+	if (stzFileName[0] == '\0')
 		_tcscpy(stzFileName, _T("archive"));
 
 	GetTempPath(SIZEOF(buff), buff);

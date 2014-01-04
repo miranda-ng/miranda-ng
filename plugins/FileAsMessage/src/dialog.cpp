@@ -447,7 +447,7 @@ void FILEECHO::incomeRequest(char *param)
 	if(p == NULL) return; *p++ = 0;
 	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, (WPARAM)hContact, (LPARAM)buf);
 	strncat(buf, param, sizeof(buf));
-	if(filename) free(filename);
+	free(filename);
 	filename = strdup(buf);
 	// p == &c
 	if(*p == 0) return; asBinary = (*p++) != '0';
@@ -1005,6 +1005,7 @@ LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
 	struct FILEECHO *dat = (struct FILEECHO*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	HWND hwndStatus = NULL;
 	switch( uMsg )
 	{
 		case WM_INITDIALOG:
@@ -1014,7 +1015,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 
 			dat->updateTitle();
 
-			CreateStatusWindow(WS_CHILD|WS_VISIBLE, "", hDlg, IDC_STATUS);
+			hwndStatus = CreateStatusWindow(WS_CHILD|WS_VISIBLE, "", hDlg, IDC_STATUS);
 			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG)dat);
 			WindowList_Add(hFileList, hDlg, dat->hContact);
 			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcons[ICON_MAIN]);
@@ -1058,8 +1059,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 			char *szProto = GetContactProto(dat->hContact);
 			if (szProto)
 			{
-				int dwStatus;
-				dwStatus = db_get_w(dat->hContact,szProto,"Status",ID_STATUS_OFFLINE);
+				int dwStatus = db_get_w(dat->hContact,szProto,"Status",ID_STATUS_OFFLINE);
 				if(dat->inSend && dwStatus != dat->contactStatus)
 				{
 					if(dat->contactStatus == ID_STATUS_OFFLINE)
@@ -1085,6 +1085,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 		}
 		case WM_DESTROY:
 			WindowList_Remove(hFileList, hDlg);
+			DestroyWindow(hwndStatus);
 			delete dat;
 		
 			return TRUE;
@@ -1103,7 +1104,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 					if(dat->iState & (STATE_IDLE|STATE_FINISHED|STATE_CANCELLED|STATE_PRERECV))
 					{
 						int len = GetWindowTextLength(GetDlgItem(hDlg, IDC_FILENAME))+1;
-						if(dat->filename) free(dat->filename);
+						free(dat->filename);
 						dat->filename = (char*)malloc(len);
 						GetDlgItemText(hDlg, IDC_FILENAME, dat->filename, len);
 						if(dat->inSend)

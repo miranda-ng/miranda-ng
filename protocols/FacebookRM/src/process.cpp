@@ -357,7 +357,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 			for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end(); ) {
 
 				facebook_chatroom *room = it->second;
-				HANDLE hChatContact;
+				HANDLE hChatContact = NULL;
 				if (GetChatUsers(room->thread_id.c_str()) == NULL) {
 					AddChat(room->thread_id.c_str(), room->chat_name.c_str());
 					hChatContact = ChatIDToHContact(room->thread_id);
@@ -366,7 +366,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 
 					for (std::map<std::string, std::string>::iterator jt = room->participants.begin(); jt != room->participants.end(); ) {
 						AddChatContact(room->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
-						jt++;
+						++jt;
 					}
 				}
 

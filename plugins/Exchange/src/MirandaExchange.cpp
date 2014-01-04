@@ -556,7 +556,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 			
 			if ( !(FAILED(hr)) || (pMsgSvcAdmin) ) 
 			{
-				hr = pMsgSvcAdmin->CreateMsgService((LPTSTR)"MSEMS", (LPTSTR)""/*"Microsoft Exchange Server"*/, NULL, 0);
+				hr = pMsgSvcAdmin->CreateMsgService(_T("MSEMS"), _T("")/*"Microsoft Exchange Server"*/, NULL, 0);
 				
 				if (!FAILED(hr)) 
 				{
@@ -601,10 +601,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 								(LPMAPIUID) pRows->aRow->lpProps[iSvcUID].Value.bin.lpb,
 								0, NULL, 2, spval);
 							
-							if (NULL!=szUniqName)
-							{
-								delete[] szUniqName;
-							}
+							delete[] szUniqName;
 						}
 					}
 				}
@@ -741,16 +738,13 @@ HRESULT CMirandaExchange::MarkAsRead( LPTSTR szEntryID )
 
 	HexToBin(szEntryID, ulC, lpData);
 
-	HRESULT hr = CallOpenEntry( m_lpMDB, NULL, NULL, m_lpMAPISession, ulC, (LPENTRYID) lpData, MAPI_BEST_ACCESS, NULL, (LPUNKNOWN*)&lpMessage);
-	if (NULL != lpData)
-	{
-		delete lpData;
-	}
+	CallOpenEntry( m_lpMDB, NULL, NULL, m_lpMAPISession, ulC, (LPENTRYID) lpData, MAPI_BEST_ACCESS, NULL, (LPUNKNOWN*)&lpMessage);
+	delete lpData;
 
 	if ( NULL != lpMessage)
 	{
-		hr = lpMessage->SetReadFlag( 0 );
-		hr = lpMessage->SaveChanges(FORCE_SAVE);	
+		lpMessage->SetReadFlag( 0 );
+		lpMessage->SaveChanges(FORCE_SAVE);	
 		
 		lpMessage->Release();
 		lpMessage = NULL;

@@ -515,7 +515,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 						}
 					}
 
-					HANDLE hChatContact;
+					HANDLE hChatContact = NULL;
 
 					// RM TODO: better use check if chatroom exists/is in db/is online... no?
 					/// e.g. HANDLE hChatContact = proto->ChatIDToHContact(thread_id); ?
@@ -593,7 +593,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (time_ == NULL)
 					continue;
 				JSONNODE *time = json_get(time_, "time");
-				if (time == NULL || text == NULL || url == NULL || alert_id == NULL || time == NULL)
+				if (time == NULL || text == NULL || url == NULL || alert_id == NULL)
 					continue;
 
 				unsigned __int64 timestamp = json_as_float(time);
@@ -659,7 +659,6 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			JSONNODE *time_ = json_get(it, "actor");
 			JSONNODE *story_ = json_get(it, "story_xhp");
 
-			std::string id = json_as_pstring(actor_);
 			time_t time = json_as_float(time_);
 			std::string text = json_as_pstring(story_);
 			text = utils::text::slashu_to_utf8(text);
@@ -711,7 +710,6 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			JSONNODE *alert_ids = json_get(it, "alert_ids");
 			for (unsigned int n = 0; n < json_size(alert_ids); n++) {
 				JSONNODE *idItr = json_at(alert_ids, n);
-				std::string alert_id = json_as_pstring(idItr);
 
 				// PUDeletePopup(hWndPopup);
 			}
