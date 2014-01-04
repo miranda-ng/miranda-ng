@@ -85,7 +85,7 @@ Használd ezt a kódlapot ANSI <-> Unicode fordításhoz:
 Gép-gép üzenetkezelés
 [Enable peer-to-peer message connections]
 Gép-gép üzenet kapcsolatok bekapcsolása
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 Passzív mód, vagyis nincs új kapcsolatlétesítés
 [Extra Features]
 Extra jellemzõk

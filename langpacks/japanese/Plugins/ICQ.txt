@@ -91,7 +91,7 @@ Ansi <-> Unicode 変換に使用するコードページ:
 P2P メッセージ
 [Enable peer-to-peer message connections]
 P2P メッセージ接続を有効
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 パッシブモード 新規接続は開始しません
 [Extra Features]
 追加機能

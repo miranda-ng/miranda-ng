@@ -1620,7 +1620,7 @@ XML для MS Excel (кодировка UTF-8)
 [First, save the list]
 Сохраните список
 [Please save list before you make it the default list]
-Сохраните список перед тем как сделать его списком по-умолчанию.
+Сохраните список перед тем как сделать его списком по умолчанию.
 [No list selected]
 Список не выбран
 [Can't remove active or default list]

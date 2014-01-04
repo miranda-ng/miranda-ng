@@ -83,7 +83,7 @@ Notifique-me quando a entrega da mensagem falhou (recomendado)
 Mensagem Peer-to-peer
 [Enable peer-to-peer message connections]
 Ativar conexões mensagem peer-to-peer
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 Modo passivo, ou seja, não iniciar novas conexões
 [Extra Features]
 Extra Features

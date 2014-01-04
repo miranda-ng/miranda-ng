@@ -106,7 +106,7 @@ Mensajería
 
 [Enable peer-to-peer message connections]
 
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 
 [Extra Features]
 

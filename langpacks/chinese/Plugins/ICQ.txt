@@ -89,7 +89,7 @@ ICQ 头像
 P2P 通信
 [Enable peer-to-peer message connections]
 启用 P2P 消息连接
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 被动模式, 即不发起新连接
 [Extra Features]
 额外功能

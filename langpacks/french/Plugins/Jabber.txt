@@ -1863,6 +1863,8 @@ Le passe actuel est incorrect.
 
 [Error occurred while setting default list]
 
+[Allow]
+
 [Simple mode]
 
 [Advanced mode]
@@ -1907,6 +1909,8 @@ Message
 
 [Query]
 
+[List has no rules, empty lists will be deleted then changes applied]
+
 [allow ]
 
 [deny ]
@@ -1950,6 +1954,12 @@ puis
 [First, save the list]
 
 [Please save list before you make it the default list]
+
+[No list selected]
+
+[Can't remove active or default list]
+
+[Sorry]
 
 [Unable to save list because you are currently offline.]
 
@@ -2056,6 +2066,14 @@ session chat fermée
 [sent error presence]
 
 [sent unknown presence type]
+
+[Nick:]
+
+[Status:]
+
+[Status text:]
+
+[Real JID:]
 
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]

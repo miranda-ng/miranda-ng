@@ -38,7 +38,7 @@
 [Never use legacy messaging (server acknowledgements)]
 [Peer-to-peer Messaging]
 [Enable peer-to-peer message connections]
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 [Extra Features]
 [Enable Custom status support for xtraz]
 [Enable Custom status support for moods]

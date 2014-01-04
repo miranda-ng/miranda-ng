@@ -83,7 +83,7 @@
 הודעות חיבור לחיבור
 [Enable peer-to-peer message connections]
 אפשר הודעות חיבורים מאחד לשני
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 מצב פסיבי, ז"א אל תתחיל חיבורים חדשים בעצמך
 [Extra Features]
 תכונות נוספות

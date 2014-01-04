@@ -106,7 +106,7 @@ ICQ
 Абмен паведамленнямі паміж карыстачамі
 [Enable peer-to-peer message connections]
 Прамыя злучэнні кліент-кліент
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 Пасіўны рэжым (не ініцыяваць далучэнні)
 [Extra Features]
 Дадатковыя магчымасці

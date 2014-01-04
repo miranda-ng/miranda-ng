@@ -1861,6 +1861,8 @@ Facebook чат
 Стандартният списък за поверителност бе успешно отменен
 [Error occurred while setting default list]
 Възникна грешка при задаването на стандартен списък
+[Allow]
+
 [Simple mode]
 Прост режим
 [Advanced mode]
@@ -1904,6 +1906,8 @@ Facebook чат
 [Presence (out)]
 
 [Query]
+
+[List has no rules, empty lists will be deleted then changes applied]
 
 [allow ]
 позволяване\s
@@ -1949,6 +1953,12 @@ Facebook чат
 Първо запишете списъка
 [Please save list before you make it the default list]
 Моля, запишете списъка преди да го направите стандартен
+[No list selected]
+
+[Can't remove active or default list]
+
+[Sorry]
+
 [Unable to save list because you are currently offline.]
 Списъка не може да бъде запаметен защото сте извън линия.
 [List Editor...]
@@ -2054,6 +2064,14 @@ Facebook чат
 [sent error presence]
 
 [sent unknown presence type]
+
+[Nick:]
+
+[Status:]
+
+[Status text:]
+
+[Real JID:]
 
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for]

@@ -106,7 +106,7 @@ Niemals Bestätigung alter Nachrichten einholen (Server Empfangsbestätigungen)
 Direktverbindung Nachrichten
 [Enable peer-to-peer message connections]
 Direktverbindungen für Nachrichtensitzungen
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 Passiver Modus, d. h. keine neuen Verbindungen herstellen
 [Extra Features]
 Zusätzliche Funktionen

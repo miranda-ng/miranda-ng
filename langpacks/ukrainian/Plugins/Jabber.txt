@@ -126,6 +126,14 @@ TLS
 відправив присутність з помилкою
 [sent unknown presence type]
 відправив невідомий тип присутності
+[Nick:]
+Нік:
+[Status:]
+Статус:
+[Status text:]
+Текст статусу:
+[Real JID:]
+Реальний JID:
 [Keep connection alive]
 Підтримувати з'єднання
 ; Чат-кімнати
@@ -465,8 +473,6 @@ Jabber Ad-Hoc команди на %s
 Статус:\t
 [Removing %s?]
 Видалити %s?
-[Real JID:]
-Реальний JID:
 ; Значки
 [Send note]
 Надіслати нотатку
@@ -760,8 +766,6 @@ Unicode зборка
 Видалити
 [Privacy lists are not saved, discard any changes and exit?]
 Списки приватності не збережені, скасувати зміни і вийти?
-[No list selected]
-Список не вибрано
 [Privacy rule]
 Правила приватності
 [Warning: privacy lists were changed on server.]
@@ -790,8 +794,6 @@ Unicode зборка
 Вихід. присутність
 [following stanza types:]
 Наступні типи подій:
-[Can't remove active or default list]
-Неможливо видалити активний або стандартний список
 [If group is ']
 Якщо група '
 [If Jabber ID is ']
@@ -1402,6 +1404,12 @@ Jabber помилка
 Збережіть список
 [Please save list before you make it the default list]
 Збережіть список перед тим як зробити його списком за замовчуванням.
+[No list selected]
+Список не вибрано
+[Can't remove active or default list]
+Неможливо видалити активний або стандартний список
+[Sorry]
+Вибачте
 [Unable to save list because you are currently offline.]
 Неможливо зберегти список, тому що ви не в мережі.
 [No compatible file transfer machanism exist]

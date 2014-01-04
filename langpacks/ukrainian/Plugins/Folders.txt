@@ -49,7 +49,7 @@
 Змінні оточення
 [The plugin can also expand environment variables; the variables are specified like in any other]
 Також плагін дозволяє використовувати змінні оточення. Вони задаються так само, як і в будь-якій
-[program that can use environment variables, i.e. %<env variable>%.]
+[program that can use environment variables, i.e., %<env variable>%.]
 програмі, яка може їх використовувати. Наприклад %<env variable>%.
 [Note: Environment variables are expanded before any Miranda variables. So if you have, for]
 Примітка. Змінні оточення обробляються перед будь-якими змінними Miranda NG. Якщо у вас,

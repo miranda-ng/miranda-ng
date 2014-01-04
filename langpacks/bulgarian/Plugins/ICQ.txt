@@ -106,7 +106,7 @@ ICQ аватари
 
 [Enable peer-to-peer message connections]
 Включване на peer-to-peer връзка при разговор
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 Пасивен режим (напр. без стартиране на нови връзки)
 [Extra Features]
 Допълнителни функции

@@ -1867,6 +1867,8 @@ Avanzado
 
 [Error occurred while setting default list]
 
+[Allow]
+
 [Simple mode]
 
 [Advanced mode]
@@ -1911,6 +1913,8 @@ Mensaje
 
 [Query]
 
+[List has no rules, empty lists will be deleted then changes applied]
+
 [allow ]
 
 [deny ]
@@ -1954,6 +1958,12 @@ Mensaje
 [First, save the list]
 
 [Please save list before you make it the default list]
+
+[No list selected]
+
+[Can't remove active or default list]
+
+[Sorry]
 
 [Unable to save list because you are currently offline.]
 
@@ -2060,6 +2070,14 @@ Fuera de línea
 [sent error presence]
 
 [sent unknown presence type]
+
+[Nick:]
+
+[Status:]
+
+[Status text:]
+
+[Real JID:]
 
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]

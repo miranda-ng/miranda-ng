@@ -51,7 +51,7 @@ Modifications non sauvegardées
 
 [The plugin can also expand environment variables; the variables are specified like in any other]
 
-[program that can use environment variables, i.e. %<env variable>%.]
+[program that can use environment variables, i.e., %<env variable>%.]
 
 [Note: Environment variables are expanded before any Miranda variables. So if you have, for]
 

@@ -101,7 +101,7 @@
 Обмін повідомленнями між користувачами
 [Enable peer-to-peer message connections]
 Прямі з'єднання клієнт-клієнт
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 Пасивний режим (не ініціювати підключення)
 [Extra Features]
 Додаткові можливості

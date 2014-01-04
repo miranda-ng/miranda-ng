@@ -106,7 +106,7 @@ Me prévenir lors de l'échec d'un envoi de message (recommandé)
 Envoi de message en peer-to-peer
 [Enable peer-to-peer message connections]
 Activer le support du mode peer-to-peer
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 Mode passif, ne pas créer de nouvelles connexions
 [Extra Features]
 Autres fonctions

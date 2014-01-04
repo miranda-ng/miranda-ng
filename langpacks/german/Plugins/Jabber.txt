@@ -1867,6 +1867,8 @@ Privatsphäreliste %s als Standard gesetzt
 Standardprivatsphäreliste erfolgreich entfernt
 [Error occurred while setting default list]
 Fehler beim Setzen der Standardprivatsphäreliste
+[Allow]
+
 [Simple mode]
 Einfache Ansicht
 [Advanced mode]
@@ -1910,6 +1912,8 @@ Nachricht
 [Presence (out)]
 
 [Query]
+
+[List has no rules, empty lists will be deleted then changes applied]
 
 [allow ]
 erlaube\s
@@ -1955,6 +1959,12 @@ Bitte speichern Sie die Liste vor der Aktivierung
 Zuerst Liste speichern
 [Please save list before you make it the default list]
 Bitte zuerst die Liste speichern, bevor sie als Standardliste aktiviert wird.
+[No list selected]
+
+[Can't remove active or default list]
+
+[Sorry]
+
 [Unable to save list because you are currently offline.]
 Liste kann nicht gespeichert werden, weil Sie zurzeit offline sind.
 [List Editor...]
@@ -2061,6 +2071,14 @@ Autorisierungsanfrage zurückgezogen
 sende Anwesenheitsfehler
 [sent unknown presence type]
 sende unbekannten Anwesenheitstyp
+[Nick:]
+
+[Status:]
+
+[Status text:]
+
+[Real JID:]
+
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 Passwort für %s eingeben

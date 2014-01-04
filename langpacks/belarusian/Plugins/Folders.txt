@@ -51,7 +51,7 @@
 Зменныя асяроддзя
 [The plugin can also expand environment variables; the variables are specified like in any other]
 Таксама плагін дазваляе выкарыстоўваць зменныя асяроддзя. Яны задаюцца гэтак жа, як у любой
-[program that can use environment variables, i.e. %<env variable>%.]
+[program that can use environment variables, i.e., %<env variable>%.]
 праграме, якая можа іх выкарыстоўваць. Напрыклад, %<env variable>%.
 [Note: Environment variables are expanded before any Miranda variables. So if you have, for]
 Нататка: Зменныя асяроддзя апрацоўваюцца найперш зменных Miranda NG. Калі ў вас,

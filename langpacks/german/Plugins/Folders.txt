@@ -51,7 +51,7 @@ wird erweitert zum Namen Ihres aktuellen Profils ohne Dateiendung.
 Umgebungsvariablen
 [The plugin can also expand environment variables; the variables are specified like in any other]
 Dieses Plugin kann auch Umgebungsvariablen auswerten; die Variablen werden angegeben wie in
-[program that can use environment variables, i.e. %<env variable>%.]
+[program that can use environment variables, i.e., %<env variable>%.]
 jedem anderen Programm, das Umgebungsvariablen verwendet, bspw. %<Umgebungsvariable>%.
 [Note: Environment variables are expanded before any Miranda variables. So if you have, for]
 Hinweis: Umgebungsvariablen werden vor den Miranda-Variablen ausgewertet. Wenn Sie also bspw.

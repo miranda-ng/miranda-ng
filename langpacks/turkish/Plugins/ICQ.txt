@@ -83,7 +83,7 @@ Bir ileti gönderilemediğinde beni uyar (önerilir)
 Uçtan-Uca İletişim
 [Enable peer-to-peer message connections]
 Uçtan-uca ileti bağlantılarını aç
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 Pasif kip, örneğin yeni bağlantılar açma
 [Extra Features]
 Ek Özellikler

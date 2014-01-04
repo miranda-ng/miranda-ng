@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PackUpdater.dll
 ;  Plugin: Pack updater
-;  Version: 0.0.1.1
+;  Version: 0.1.0.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
 [Cancel]
