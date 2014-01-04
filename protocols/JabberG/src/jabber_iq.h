@@ -78,6 +78,10 @@ public:
 	{
 		memset(this, 0, sizeof(*this));
 	}
+	__forceinline ~CJabberIqInfo()
+	{
+		mir_free(m_szReceiver);
+	}
 
 	__forceinline void SetReceiver(const TCHAR *szReceiver)
 	{	replaceStrT(m_szReceiver, szReceiver);

@@ -1333,22 +1333,16 @@ int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 		return 1;
 	}
 
-	TCHAR *newModeMsg = mir_tstrdup(msg);
+	if ((*szMsg == NULL && msg == NULL) || (*szMsg != NULL && msg != NULL && !lstrcmp(*szMsg, msg)))
+		return 0; // Message is the same, no update needed
 
-	if ((*szMsg == NULL && newModeMsg == NULL) ||
-		(*szMsg != NULL && newModeMsg != NULL && !lstrcmp(*szMsg, newModeMsg))) {
-		// Message is the same, no update needed
-		mir_free(newModeMsg);
-	}
-	else {
-		// Update with the new mode message
-		replaceStrT(*szMsg, newModeMsg);
-		// Send a presence update if needed
-		lck.unlock();
-		if (status == m_iStatus)
-			SendPresence(m_iStatus, true);
-	}
+	// Update with the new mode message
+	replaceStrT(*szMsg, msg);
 
+	// Send a presence update if needed
+	lck.unlock();
+	if (status == m_iStatus)
+		SendPresence(m_iStatus, true);
 	return 0;
 }
 

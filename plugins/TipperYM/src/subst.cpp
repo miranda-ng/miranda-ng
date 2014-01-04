@@ -887,8 +887,7 @@ TCHAR *GetProtoExtraStatusMessage(char *szProto)
 	if (!szProto)
 		return NULL;
 
-	if (!db_get_ts(0, szProto, "XStatusMsg", &dbv))
-	{
+	if (!db_get_ts(0, szProto, "XStatusMsg", &dbv)) {
 		if (_tcslen(dbv.ptszVal) != 0)
 			swzText = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
@@ -896,15 +895,11 @@ TCHAR *GetProtoExtraStatusMessage(char *szProto)
 		if (ServiceExists(MS_VARS_FORMATSTRING)) {
 			HANDLE hContact = db_find_first();
 			char *proto = GetContactProto(hContact);
-			while(!proto)
-			{
+			while(!proto) {
 				hContact = db_find_next(hContact);
 				if (hContact)
-				{
 					proto = GetContactProto(hContact);
-				}
-				else
-				{
+				else {
 					hContact = NULL;
 					break;
 				}
