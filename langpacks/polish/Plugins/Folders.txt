@@ -51,7 +51,7 @@ Rozwija się do nazwy obecnie załadowanego profilu bez rozszerzenia jego pliku.
 Zmienne środowiskowe
 [The plugin can also expand environment variables; the variables are specified like in any other]
 Wtyczka może także rozwijać zmienne środowiskowe; zmienne te są określone jak w każdym innym
-[program that can use environment variables, i.e. %<env variable>%.]
+[program that can use environment variables, i.e., %<env variable>%.]
 programie, który obsługuje zmienne środowiskowe, czyli %<env variable>%.
 [Note: Environment variables are expanded before any Miranda variables. So if you have, for]
 Uwaga: zmienne środowiskowe są rozwijane przed jakimikolwiek zmiennymi Mirandy. Dlatego jeżeli posiadasz

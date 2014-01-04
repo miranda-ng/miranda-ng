@@ -106,7 +106,7 @@ Nigdy nie używaj potwierdzeń serwera legacy wiadomości
 Wiadomości bezpośrednie
 [Enable peer-to-peer message connections]
 Włącz bezpośrednie połączenia dla wiadomości
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 Tryb pasywny, tzn. nie inicjuje nowych połączeń
 [Extra Features]
 Dodatkowe opcje

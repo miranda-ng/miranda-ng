@@ -1867,6 +1867,8 @@ Lista prywatności %s została ustawiona jako domyślna
 Domyślna lista została wyłączona
 [Error occurred while setting default list]
 Wystąpił błąd w czasie ustawiania domyślnej listy
+[Allow]
+Zezwól
 [Simple mode]
 Tryb podstawowy
 [Advanced mode]
@@ -1911,6 +1913,8 @@ Obecność (przych.)
 Obecność (wych.)
 [Query]
 Kolejka
+[List has no rules, empty lists will be deleted then changes applied]
+Lista nie ma żadnych zasad, puste listy zostaną usunięte, a zmiany zatwierdzone
 [allow ]
 zezwól\s
 [deny ]
@@ -1955,6 +1959,12 @@ Proszę zapisać listę przed aktywowaniem!
 Uwaga! Zapisz listę!
 [Please save list before you make it the default list]
 Proszę zapisać listę przed uczynieniem jej domyślną
+[No list selected]
+Nie wybrano listy
+[Can't remove active or default list]
+Nie można usunąć aktywnej lub domyślnej listy
+[Sorry]
+Przykro mi
 [Unable to save list because you are currently offline.]
 Nie można zapisać listy, ponieważ jesteś rozłączony.
 [List Editor...]
@@ -2061,6 +2071,14 @@ Odrzucono żądanie subskrypcji
 Informacja: Odnotowano obecność błędów
 [sent unknown presence type]
 wysłał nieznany typ obecności
+[Nick:]
+Nick:
+[Status:]
+Status:
+[Status text:]
+Opis:
+[Real JID:]
+Właściwy JID:
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 Wprowadź hasło dla %s
