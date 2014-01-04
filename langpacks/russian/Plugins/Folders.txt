@@ -59,9 +59,9 @@
 вместо переменной %profile_path% Miranda NG.
 [Examples:]
 Примеры:
-[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
+[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\\', current]
 Если значение ProfileDir секции ProfileDir файла mirandaboot.ini - это '.\\profiles\\', текущий
-[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\' then:]
+[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\\' then:]
 профиль это 'default.dat' и Miranda NG находится в 'c:\\program files\\miranda ng\\', то:
 [will expand to 'c:\\program files\\miranda ng']
 вернёт 'c:\\program files\\miranda ng'
