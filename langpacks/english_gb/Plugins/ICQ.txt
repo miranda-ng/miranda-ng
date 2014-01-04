@@ -7,6 +7,8 @@
 ;============================================================
 [Enter an authorization request]
 Enter an authorisation request
+[Passive mode (i.e., do not initiate new connections)]
+Passive mode (i.e. do not initiate new connections)
 [Allow direct connections only when I authorize or initiate them]
 Allow direct connections only when I authorise or initiate them
 [Contact List Authorization]

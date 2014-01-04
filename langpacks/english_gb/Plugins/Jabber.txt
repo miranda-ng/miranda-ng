@@ -27,6 +27,8 @@ Add to favourites
 Whether to automatically authorise subscription requests
 [Last name, surname, or family name of the user]
 Last name, surname or family name of the user
+[Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
+Whether allowed to log messages (i.e. whether Off-The-Record mode is required)
 [Request authorization]
 Request authorisation
 [Grant authorization]

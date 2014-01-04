@@ -9,5 +9,7 @@
 Expands to your Miranda path (e.g. c:\\program files\\miranda ng).
 [(e.g., default if your your profile is default.dat).]
 (e.g. default if your your profile is default.dat).
+[program that can use environment variables, i.e., %<env variable>%.]
+program that can use environment variables, i.e. %<env variable>%.
 [Customize]
 Customise
