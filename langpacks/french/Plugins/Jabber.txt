@@ -585,6 +585,8 @@ Conférences
 
 [Supports Roster Exchange]
 
+[Supports direct chat invitations (XEP-0249)]
+
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 

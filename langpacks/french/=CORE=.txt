@@ -2171,6 +2171,8 @@ Miranda ne comprend pas ce profil !
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 
+[You were added by %s%s]
+
 [Contacts: ]
 
 ;file \src\modules\database\profilemanager.cpp

@@ -332,5 +332,9 @@ Presse-papiers
 Valeur
 [Save value]
 
+[Read]
+
+[Write]
+
 [Unicode]
 

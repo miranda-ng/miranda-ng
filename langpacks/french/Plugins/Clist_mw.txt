@@ -299,6 +299,13 @@ Effacer le groupe
 Apparence
 [Backgrounds]
 Arrière-plan
+;file \plugins\Clist_mw\src\clc.cpp
+[Status bar background]
+Arrière plan de la barre d'état
+[List background]
+Arrière-plan
+[Frames title bar background]
+
 ;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Contacts standards
@@ -329,14 +336,12 @@ Texte sous souris
 [Quicksearch Text]
 Texte en recherche rapide
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[Contact list]
+Liste de contacts
 [List]
 Liste
-[List background]
-Arrière-plan
 [List MetaContacts]
 Liste MetaContacts
-[Status bar background]
-Arrière plan de la barre d'état
 [Not focused]
 Fenêtre inactive
 [Offline]
