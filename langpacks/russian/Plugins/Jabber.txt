@@ -1529,6 +1529,8 @@ XML для MS Excel (кодировка UTF-8)
 Стандартный список приватности успешно отклонен
 [Error occurred while setting default list]
 Ошибка при установке списка по умолчанию
+[Allow]
+Разрешить
 [Simple mode]
 Простой режим
 [Advanced mode]
@@ -1573,6 +1575,8 @@ XML для MS Excel (кодировка UTF-8)
 Присутствие (исх)
 [Query]
 Запрос
+[List has no rules, empty lists will be deleted then changes applied]
+В списке нет правил, пустые списки будут удалены, когда изменения вступят в силу
 [allow ]
 разрешить
 [deny ]
@@ -1617,6 +1621,12 @@ XML для MS Excel (кодировка UTF-8)
 Сохраните список
 [Please save list before you make it the default list]
 Сохраните список перед тем как сделать его списком по-умолчанию.
+[No list selected]
+Список не выбран
+[Can't remove active or default list]
+Невозможно удалить активный или стандартный список
+[Sorry]
+Извините
 [Unable to save list because you are currently offline.]
 Невозможно сохранить список, т.к. вы не в сети.
 [List Editor...]
@@ -1717,6 +1727,14 @@ XML для MS Excel (кодировка UTF-8)
 отправил присутствие с ошибкой
 [sent unknown presence type]
 отправил неизвестный тип присутствия
+[Nick:]
+Ник:
+[Status:]
+Статус:
+[Status text:]
+Текст статуса:
+[Real JID:]
+Реальный JID:
 [Enter password for %s]
 Введите пароль для %s
 [Error: Not enough memory]

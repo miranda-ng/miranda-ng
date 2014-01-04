@@ -49,7 +49,7 @@
 Переменные окружения
 [The plugin can also expand environment variables; the variables are specified like in any other]
 Также плагин позволяет использовать переменные окружения. Они задаются так же, как в любой
-[program that can use environment variables, i.e. %<env variable>%.]
+[program that can use environment variables, i.e., %<env variable>%.]
 программе, которая может их использовать. Например %<env variable>%.
 [Note: Environment variables are expanded before any Miranda variables. So if you have, for]
 Примечание: Переменные окружения обрабатываются перед любыми переменными Miranda NG. Если у вас,
