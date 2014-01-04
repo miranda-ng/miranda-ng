@@ -303,9 +303,9 @@ ANSI кодова таблица за кодиране и разкодиране
 Скриване на меню лентата
 [User ID in status bar]
 ID на потребителя в лентата за състояние
-[Hide the tool bar]
+[Hide the toolbar]
 Скриване на лентата с инструменти
-[Place the tool bar at the bottom (*)]
+[Place the toolbar at the bottom (*)]
 Лента с инструменти на дъното*
 [Show the info panel]
 Показване на информационния панел
@@ -877,11 +877,11 @@ Mаксимална ширина за лента с бутони
 Показване на лента за състояние
 [Info Panel...]
 Информационен панел...
-[Tool Bar]
+[Toolbar]
 Лента с инструменти
-[Show Tool Bar]
+[Show toolbar]
 Показване на лента с инструменти
-[Place ToolBar at bottom]
+[Place toolbar at bottom]
 Лентата с инструменти на дъното
 [Title Bar]
 Заглавна лента
@@ -1135,7 +1135,7 @@ TabSRMM Меню
 Меню на контакта
 [Show user details]
 Подробности за потребителя
-[Toggle tool bar]
+[Toggle toolbar]
 Лента с инструменти (Вкл./Изкл.)
 [Toggle info panel]
 Информационен панел (Вкл./Изкл.)
@@ -1408,8 +1408,6 @@ Latin I
 Контейнери
 [Message log]
 Дневник за съобщения
-[Tool bar]
-Лента с инструменти
 [Typing Notify]
 Уведомяване при писане
 [Event notifications]
@@ -1493,8 +1491,6 @@ Latin I
 Рамка 3
 [Frame 4]
 Рамка 4
-[Toolbar]
-Лента с инструменти
 [Message Log]
 Дневник за съобщения
 [Animated Tray]

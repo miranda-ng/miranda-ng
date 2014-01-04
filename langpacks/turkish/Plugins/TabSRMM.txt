@@ -195,7 +195,7 @@ Etkin kutulardaki etkin olmayan sekmeler için açılır pencere göster
 Durum çubuğunu gizle
 [Hide the menu bar]
 Menü çubuğunu gizle
-[Hide the tool bar]
+[Hide the toolbar]
 Araç çubuğunu gizle
 [Show the info panel]
 bilgi panelini göster
@@ -531,11 +531,11 @@ Kutuyu Kapar\tAlt-F4
 Menü Çubuğunu Göster
 [Show Status Bar]
 Durum Çubuğunu Göster
-[Tool Bar]
+[Toolbar]
 Araç Çubuğu
-[Show Tool Bar]
+[Show toolbar]
 Araç Çubuğunu Göster
-[Place ToolBar at bottom]
+[Place toolbar at bottom]
 Araç Çubuğunu Aşağı Koy
 [Title Bar]
 Başlık Çubuğu
@@ -711,8 +711,6 @@ Sekme ve Yerleşim
 Kutular
 [Message log]
 İleti Günlüğü
-[Tool bar]
-Araç Çubuğu
 [Typing Notify]
 Yazıyor Uyarısı
 [Log formatting]

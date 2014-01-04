@@ -314,9 +314,9 @@ Eventos
 
 [User ID in status bar]
 
-[Hide the tool bar]
+[Hide the toolbar]
 
-[Place the tool bar at the bottom (*)]
+[Place the toolbar at the bottom (*)]
 
 [Show the info panel]
 
@@ -888,11 +888,11 @@ Fuente
 
 [Info Panel...]
 
-[Tool Bar]
+[Toolbar]
 
-[Show Tool Bar]
+[Show toolbar]
 
-[Place ToolBar at bottom]
+[Place toolbar at bottom]
 
 [Title Bar]
 
@@ -1146,7 +1146,7 @@ Pegar y Enviar
 
 [Show user details]
 
-[Toggle tool bar]
+[Toggle toolbar]
 
 [Toggle info panel]
 
@@ -1419,8 +1419,6 @@ General
 
 [Message log]
 Registro de mensaje
-[Tool bar]
-
 [Typing Notify]
 Notificación de escritura
 [Event notifications]
@@ -1503,8 +1501,6 @@ Mensaje saliente
 [Frame 3]
 
 [Frame 4]
-
-[Toolbar]
 
 [Message Log]
 Registro de mensaje

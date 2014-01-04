@@ -121,7 +121,7 @@
 הסתר את סרגל המצב
 [Hide the menu bar]
 הסתר את סרגל התפריט
-[Hide the tool bar]
+[Hide the toolbar]
 הסתר את סרגל הכלים
 [Show the info panel]
 הראה את פאנל המידע
@@ -313,9 +313,9 @@ BB קוד
 הראה סרגל תפריט
 [Show Status Bar]
 הראה שורת מצב
-[Tool Bar]
+[Toolbar]
 סרגל כלים
-[Show Tool Bar]
+[Show toolbar]
 הראה סרגל כלים
 [Title Bar]
 שורת כותרת
@@ -431,8 +431,6 @@ IEViewפלאג ה
 חלונות טאב
 [Message log]
 יומן הודעה
-[Tool bar]
-סרגל כלים
 [Typing Notify]
 התראת כתיבה
 [Message window]

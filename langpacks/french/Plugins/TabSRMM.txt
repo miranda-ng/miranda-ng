@@ -314,9 +314,9 @@ Cacher la barre d'état
 Cacher le menu
 [User ID in status bar]
 
-[Hide the tool bar]
+[Hide the toolbar]
 Cacher la barre d'outils
-[Place the tool bar at the bottom (*)]
+[Place the toolbar at the bottom (*)]
 
 [Show the info panel]
 Afficher le panneau des infos
@@ -888,11 +888,11 @@ Voir barre de menu
 Voir barre d'état
 [Info Panel...]
 
-[Tool Bar]
+[Toolbar]
 Barre d'outils
-[Show Tool Bar]
+[Show toolbar]
 Voir barre d'outils
-[Place ToolBar at bottom]
+[Place toolbar at bottom]
 Placer la barre d'outils en bas
 [Title Bar]
 Barre de titre
@@ -1146,7 +1146,7 @@ Sélecteur de smileys
 
 [Show user details]
 
-[Toggle tool bar]
+[Toggle toolbar]
 
 [Toggle info panel]
 
@@ -1419,8 +1419,6 @@ Onglets
 Conteneurs
 [Message log]
 Historique récent
-[Tool bar]
-Barre d'outils
 [Typing Notify]
 Notification de frappe
 [Event notifications]
@@ -1504,8 +1502,6 @@ Image 2
 Image 3
 [Frame 4]
 Image 4
-[Toolbar]
-
 [Message Log]
 Historique récent
 [Animated Tray]

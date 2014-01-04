@@ -77,7 +77,7 @@ Sündmused
 Peida olekuriba
 [Hide the menu bar]
 Peida menüüriba
-[Hide the tool bar]
+[Hide the toolbar]
 Peida tööriistariba
 [Show the info panel]
 Kuva infopaneel
@@ -157,7 +157,7 @@ Font
 Kuva menüürida
 [Show Status Bar]
 Kuva olekuriba
-[Show Tool Bar]
+[Show toolbar]
 Kuva tööriistariba
 [Help]
 Spikker

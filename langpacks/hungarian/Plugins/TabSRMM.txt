@@ -193,7 +193,7 @@ Felugrók mutatása aktív befoglalók inaktív füleinél
 Állapotsor elrejtése
 [Hide the menu bar]
 Menüsor elrejtése
-[Hide the tool bar]
+[Hide the toolbar]
 Eszközsor elrejtése
 [Show the info panel]
 Infopanel mutatása
@@ -529,11 +529,11 @@ Befoglaló bezárása\tAlt-F4
 Menüsor mutatása
 [Show Status Bar]
 Állapotsor mutatása
-[Tool Bar]
+[Toolbar]
 Eszközsor
-[Show Tool Bar]
+[Show toolbar]
 eszköztár megjelenik
-[Place ToolBar at bottom]
+[Place toolbar at bottom]
 Eszköztár alulra
 [Title Bar]
 Címsor
@@ -709,8 +709,6 @@ Fülek és nézet
 Befoglalók
 [Message log]
 Üzenet napló
-[Tool bar]
-Fülsor
 [Typing Notify]
 Gépelés értesítés
 [Log formatting]

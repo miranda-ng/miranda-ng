@@ -275,9 +275,9 @@ ANSI 代码页
 隐藏菜单栏
 [User ID in status bar]
 状态栏用户 ID
-[Hide the tool bar]
+[Hide the toolbar]
 隐藏工具栏
-[Place the tool bar at the bottom (*)]
+[Place the toolbar at the bottom (*)]
 工具栏置底 (*)
 [Show the info panel]
 显示信息面板
@@ -769,11 +769,11 @@ Ctrl+Enter 发送消息 (总是启用)
 显示状态栏
 [Info Panel...]
 信息面板...
-[Tool Bar]
+[Toolbar]
 工具栏
-[Show Tool Bar]
+[Show toolbar]
 显示工具栏
-[Place ToolBar at bottom]
+[Place toolbar at bottom]
 在底部放置工具栏
 [Title Bar]
 标题栏
@@ -995,7 +995,7 @@ TabSRMM 菜单
 显示消息历史
 [Show user details]
 显示用户详细资料
-[Toggle tool bar]
+[Toggle toolbar]
 切换工具栏
 [Toggle info panel]
 切换信息面板
@@ -1155,8 +1155,6 @@ History++ 插件
 容器
 [Message log]
 消息记录
-[Tool bar]
-工具栏
 [Typing Notify]
 键入通知
 [Message window]

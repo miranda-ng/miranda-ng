@@ -314,9 +314,9 @@ Statusleiste verbergen
 Menüleiste verbergen
 [User ID in status bar]
 Benutzer-ID in Statusleiste
-[Hide the tool bar]
+[Hide the toolbar]
 Toolbar verbergen
-[Place the tool bar at the bottom (*)]
+[Place the toolbar at the bottom (*)]
 Toolbar unten platzieren (*)
 [Show the info panel]
 Infobereich anzeigen
@@ -888,11 +888,11 @@ Menüleiste anzeigen
 Statusleiste anzeigen
 [Info Panel...]
 Infobereich...
-[Tool Bar]
+[Toolbar]
 Toolbar
-[Show Tool Bar]
+[Show toolbar]
 Toolbar anzeigen
-[Place ToolBar at bottom]
+[Place toolbar at bottom]
 Toolbar unten platzieren
 [Title Bar]
 Titelleiste
@@ -1146,7 +1146,7 @@ Zeige Nachrichtenverlauf
 Benutzermenü anzeigen
 [Show user details]
 Kontaktdetails anzeigen
-[Toggle tool bar]
+[Toggle toolbar]
 Toolbar umschalten
 [Toggle info panel]
 Infoleiste umschalten
@@ -1419,8 +1419,6 @@ Tabs und Layout
 Container
 [Message log]
 Nachrichtenverlauf
-[Tool bar]
-Toolbar
 [Typing Notify]
 Tippbenachrichtigungen
 [Event notifications]
@@ -1504,8 +1502,6 @@ Frame 2
 Frame 3
 [Frame 4]
 Frame 4
-[Toolbar]
-Toolbar
 [Message Log]
 Nachrichtenverlauf
 [Animated Tray]

@@ -314,9 +314,9 @@ Ukryj pasek statusu
 Ukryj pasek menu
 [User ID in status bar]
 ID użytkownika w status barze
-[Hide the tool bar]
+[Hide the toolbar]
 Ukryj pasek narzędzi
-[Place the tool bar at the bottom (*)]
+[Place the toolbar at the bottom (*)]
 Przycisk paska narzędzi na dole (*)
 [Show the info panel]
 Pokaż panel informacji
@@ -888,11 +888,11 @@ Pokaż pasek menu
 Pokaż pasek statusu
 [Info Panel...]
 Panel informacji...
-[Tool Bar]
+[Toolbar]
 Pasek narzędzi
-[Show Tool Bar]
+[Show toolbar]
 Pokaż pasek narzędzi
-[Place ToolBar at bottom]
+[Place toolbar at bottom]
 Pasek narzędzi na dole
 [Title Bar]
 Pasek tytułowy
@@ -1146,7 +1146,7 @@ Pokaż historię
 Pokaż menu użytkownika
 [Show user details]
 Pokaż dane kontaktu
-[Toggle tool bar]
+[Toggle toolbar]
 Pokaż pasek narzędzi
 [Toggle info panel]
 Pokaż panel informacji
@@ -1419,8 +1419,6 @@ Karty i układ
 Kontenery
 [Message log]
 Dziennik wiadomości
-[Tool bar]
-Pasek narzędzi
 [Typing Notify]
 Pisanie
 [Event notifications]
@@ -1504,8 +1502,6 @@ Ramka 2
 Ramka 3
 [Frame 4]
 Ramka 4
-[Toolbar]
-Pasek narzędzi
 [Message Log]
 Dziennik wiadomości
 [Animated Tray]

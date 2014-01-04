@@ -275,9 +275,9 @@ ANSI に強制して送信 / 受信
 メニューバーを隠す
 [User ID in status bar]
 ステータスバーのユーザー ID
-[Hide the tool bar]
+[Hide the toolbar]
 ツールバーを隠す
-[Place the tool bar at the bottom (*)]
+[Place the toolbar at the bottom (*)]
 ツールバーを一番下に表示 (*)
 [Show the info panel]
 情報パネルを表示
@@ -769,11 +769,11 @@ dummy
 ステータスバーを表示
 [Info Panel...]
 情報パネル...]
-[Tool Bar]
+[Toolbar]
 ツールバー
-[Show Tool Bar]
+[Show toolbar]
 ツールバーを表示
-[Place ToolBar at bottom]
+[Place toolbar at bottom]
 ツールバーを一番下に表示
 [Title Bar]
 タイトルバー
@@ -1099,8 +1099,6 @@ History++ プラグイン
 コンテナ
 [Message log]
 メッセージログ
-[Tool bar]
-ツールバー
 [Typing Notify]
 入力中通知
 [Window layout tweaks]

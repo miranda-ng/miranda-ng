@@ -167,7 +167,7 @@ Vis popups for inaktive faner i aktive beholdere
 Skjul statuslinjen
 [Hide the menu bar]
 Skjul menylinjen
-[Hide the tool bar]
+[Hide the toolbar]
 Skjul verktøylinjen
 [Show the info panel]
 Vis info panelet
@@ -449,7 +449,7 @@ Lukk Beholder\tAlt-F4
 Vis Menylinje
 [Show Status Bar]
 Vis Statuslinje
-[Show Tool Bar]
+[Show toolbar]
 Vis Verktøylinje
 [Title Bar]
 Tittellinje

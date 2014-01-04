@@ -195,7 +195,7 @@ Mostrar pop-ups para abas inativas em recipientes de ativos
 Ocultar a barra de status
 [Hide the menu bar]
 Ocultar a barra de menu
-[Hide the tool bar]
+[Hide the toolbar]
 Ocultar a barra de ferramentas
 [Show the info panel]
 Mostrar o painel de informação
@@ -565,11 +565,11 @@ Fechar o Recipiente\tAlt-F4
 Mostrar Barra de Menus
 [Show Status Bar]
 Mostrar Barra de Status
-[Tool Bar]
+[Toolbar]
 Barra de Ferramentas
-[Show Tool Bar]
+[Show toolbar]
 Exibir Barra de Ferramentas
-[Place ToolBar at bottom]
+[Place toolbar at bottom]
 Colocar barra de tarefas em baixo
 [Title Bar]
 Barra de título
@@ -795,8 +795,6 @@ Guias e layout
 Containers
 [Message log]
 Reg. de Mensagem
-[Tool bar]
-Barra de ferramentas
 [Typing Notify]
 Escrevendo Notificação
 [Log formatting]

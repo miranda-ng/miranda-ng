@@ -314,9 +314,9 @@ Wikipedia
 Схаваць меню
 [User ID in status bar]
 ID карыстача ў панэлі статусу
-[Hide the tool bar]
+[Hide the toolbar]
 Схаваць панэль кнопак
-[Place the tool bar at the bottom (*)]
+[Place the toolbar at the bottom (*)]
 Панэль кнопак знізу (*)
 [Show the info panel]
 Паказаць інфа-панэль
@@ -888,11 +888,11 @@ Esc зачыняе сесію (інакш - згортвае)
 Паказваць радок статусу
 [Info Panel...]
 Інфа-панэль
-[Tool Bar]
+[Toolbar]
 Панэль прылад
-[Show Tool Bar]
+[Show toolbar]
 Паказваць панэль кнопак
-[Place ToolBar at bottom]
+[Place toolbar at bottom]
 Змясціць панэль прылад уніз
 [Title Bar]
 Загаловак
@@ -1146,7 +1146,7 @@ TabSRMM: Набірае
 Меню карыстача
 [Show user details]
 Паказаць інфармацыю пра кантакт
-[Toggle tool bar]
+[Toggle toolbar]
 Пераключыць панэль кнопак
 [Toggle info panel]
 Пераключыць інфа-панэль
@@ -1419,8 +1419,6 @@ TabSRMM: Набірае
 Кантэйнеры
 [Message log]
 Лог
-[Tool bar]
-Панэль кнопак
 [Typing Notify]
 Набірае тэкст
 [Event notifications]
@@ -1504,8 +1502,6 @@ TabSRMM: Набірае
 Кадр 3
 [Frame 4]
 Кадр 4
-[Toolbar]
-Панэль кнопак
 [Message Log]
 Журнал
 [Animated Tray]
