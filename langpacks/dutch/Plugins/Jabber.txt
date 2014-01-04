@@ -101,6 +101,8 @@ Netwerk
 Geavanceerd
 [<none>]
 <geen>
+[Message]
+Bericht
 [messages]
 Berichten
 [Status]
@@ -109,8 +111,6 @@ Status
 Onzichtbaar
 [Offline]
 Offline
-[Message]
-Bericht
 [Version]
 Versie
 [System]

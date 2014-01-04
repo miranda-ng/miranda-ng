@@ -1283,6 +1283,10 @@ Konferenzräume betreten/erstellen
 Serverseitige Kontaktliste
 [Resource priority]
 Priorität des Standortes
+[Increase priority by %d]
+
+[Decrease priority by %d]
+
 [Resource priority [%d]]
 Standort-Priorität [%d]
 [Join conference]
@@ -1899,6 +1903,14 @@ Liste löschen
 ** Autorisierung: keine **
 [<none>]
 <keine>
+[Message]
+Nachricht
+[Presence (in)]
+
+[Presence (out)]
+
+[Query]
+
 [allow ]
 erlaube\s
 [deny ]
@@ -2069,8 +2081,6 @@ Registrierungsdaten werden gesendet...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Resource]
 Standort
-[Message]
-Nachricht
 [<not specified>]
 <nicht angegeben>
 [Software]

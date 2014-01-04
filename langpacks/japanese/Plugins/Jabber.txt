@@ -921,6 +921,8 @@ JID の追加
 ** 予約: なし **
 [<none>]
 < なし >
+[Message]
+メッセージ
 [allow ]
 許可 
 [deny ]
@@ -1073,8 +1075,6 @@ Miranda NG のシャットダウンを確認してください
 メッセージが以下からリダイレクトされました:%s\r\n%s
 [Sending registration information...]
 登録情報を送信...
-[Message]
-メッセージ
 [<not specified>]
 < 指定なし >
 [Software]

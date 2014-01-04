@@ -153,6 +153,8 @@ Nettverk
 Avansert
 [<none>]
 <ingen>
+[Message]
+Melding
 [messages]
 Meldinger
 [Status]
@@ -161,8 +163,6 @@ Status
 Usynlig
 [Offline]
 Frakoblet
-[Message]
-Melding
 [<not specified>]
 <ikke spesifisert>
 [Version]

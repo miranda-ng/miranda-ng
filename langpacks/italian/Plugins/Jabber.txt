@@ -179,6 +179,8 @@ Rete
 Avanzate
 [<none>]
 <nessuno>
+[Message]
+Messaggio
 [Status]
 Stato
 [Invisible]
@@ -195,8 +197,6 @@ Errore: connessione interrotta
 Richiesta istruzioni per la registrazione...
 [Sending registration information...]
 Invio informazioni sulla registrazione...
-[Message]
-Messaggio
 [<not specified>]
 <non specificato>
 [Version]

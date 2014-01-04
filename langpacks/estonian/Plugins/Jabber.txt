@@ -131,6 +131,8 @@ Grupp
 Võrgustik
 [<none>]
 <pole>
+[Message]
+Teade
 [messages]
 Teated
 [Set status]
@@ -141,8 +143,6 @@ Staatus
 Nähtamatu
 [Offline]
 Väljas
-[Message]
-Teade
 [<not specified>]
 <pole märgitud>
 [Version]

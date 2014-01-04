@@ -1151,6 +1151,8 @@ Facebook 聊天
 ** 订阅: 无 **
 [<none>]
 <无>
+[Message]
+消息
 [allow ]
 允许
 [deny ]
@@ -1299,8 +1301,6 @@ Facebook 聊天
 消息已重定向: %s\r\n%s
 [Sending registration information...]
 正在发送注册信息...
-[Message]
-消息
 [<not specified>]
 <未指定>
 [Software]

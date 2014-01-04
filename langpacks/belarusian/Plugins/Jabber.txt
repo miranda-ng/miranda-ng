@@ -1609,6 +1609,8 @@ Odnoklassniki
 ** Падпіска: няма **
 [<none>]
 <няма>
+[Message]
+Паведамленне
 [allow ]
 дазволіць
 [deny ]
@@ -1779,8 +1781,6 @@ Odnoklassniki
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Resource]
 Рэсурс
-[Message]
-Паведамленне
 [<not specified>]
 <не паказана>
 [Software]

@@ -1283,6 +1283,10 @@ Servicios...
 
 [Resource priority]
 
+[Increase priority by %d]
+
+[Decrease priority by %d]
+
 [Resource priority [%d]]
 
 [Join conference]
@@ -1899,6 +1903,14 @@ Avanzado
 
 [<none>]
 <Nada>
+[Message]
+Mensaje
+[Presence (in)]
+
+[Presence (out)]
+
+[Query]
+
 [allow ]
 
 [deny ]
@@ -2069,8 +2081,6 @@ Fuera de línea
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Resource]
 
-[Message]
-Mensaje
 [<not specified>]
 <no especificado>
 [Software]

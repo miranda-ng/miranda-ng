@@ -107,6 +107,8 @@
 מתקדם
 [<none>]
 <ללא>
+[Message]
+הודעה
 [messages]
 הודעות
 [Set status]
@@ -117,8 +119,6 @@
 בלתי נראה
 [Offline]
 לא מחובר
-[Message]
-הודעה
 [<not specified>]
 <לא מוגדר>
 [Version]

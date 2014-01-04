@@ -1277,6 +1277,10 @@ Jabber източник
 Редактор на списъка с хора
 [Resource priority]
 Предимство на източника
+[Increase priority by %d]
+
+[Decrease priority by %d]
+
 [Resource priority [%d]]
 Предимство на източника [%d]
 [Join conference]
@@ -1893,6 +1897,14 @@ Facebook чат
 ** Упълномощаване: няма **
 [<none>]
 <няма>
+[Message]
+Съобщение
+[Presence (in)]
+
+[Presence (out)]
+
+[Query]
+
 [allow ]
 позволяване\s
 [deny ]
@@ -2061,8 +2073,6 @@ Facebook чат
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Resource]
 Източник
-[Message]
-Съобщение
 [<not specified>]
 <неуточнено>
 [Software]

@@ -811,6 +811,8 @@ Lista eltávolítása
 ** Hozzájárulás: egyik sem **
 [<none>]
 <nincs>
+[Message]
+Üzenet
 [allow ]
 engedélyezés 
 [deny ]
@@ -899,8 +901,6 @@ Regisztrációs utasítás kérése...
 üzenet átirányítva innen: %s\r\n%s
 [Sending registration information...]
 Regisztrációs információ küldése...
-[Message]
-Üzenet
 [<not specified>]
 <nincs megadva>
 [Software]

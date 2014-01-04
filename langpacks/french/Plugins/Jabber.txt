@@ -1897,6 +1897,14 @@ Effacer
 
 [<none>]
 <aucun>
+[Message]
+Message
+[Presence (in)]
+
+[Presence (out)]
+
+[Query]
+
 [allow ]
 
 [deny ]
@@ -2067,8 +2075,6 @@ Envoi des infos d'enregistrement...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Resource]
 
-[Message]
-Message
 [<not specified>]
 <non spécifié>
 [Software]

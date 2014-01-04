@@ -811,6 +811,8 @@ Listeyi sil
 ** Abonelik: yok **
 [<none>]
 <hiçbiri>
+[Message]
+İleti
 [allow ]
 izin 
 [deny ]
@@ -899,8 +901,6 @@ Kayıt bilgisi isteniyor...
 Şuradan ileti yeniden yönlendirildi: %s\r\n%s
 [Sending registration information...]
 Kayıt bilgisi gönderiliyor...
-[Message]
-İleti
 [<not specified>]
 <belirtilmemiş>
 [Software]
