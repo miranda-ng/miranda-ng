@@ -40,7 +40,7 @@
 Група\\Підгрупа
 [Timer Settings]
 Налаштування таймера
-[CList Settings]
+[Contact list settings]
 Налаштування списку
 [O&pen File]
 &Відкрити файл
@@ -84,7 +84,7 @@
 Інтервал у секундах)
 [This will take affect after Non-IM Contacts' status is changed]
 Зміни вступлять в силу після зміни статусу контактів
-[Link and CList Settings]
+[Link and Contact list Settings]
 Посилання та налаштування списку
 [Status Icon]
 Значок статусу

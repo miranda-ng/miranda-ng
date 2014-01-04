@@ -135,7 +135,7 @@ W x H: 0 x 0 像素
 多行状态栏: 
 [Accounts per line]
 在每一行显示帐号
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * 增加状态栏高度: \n由主菜单: 框架->状态栏->显示标题栏, 然后将状态栏标题向上或向下拉. 
 [Hold [Shift] to inverse [Right Click] behavior]
 按下 [Shift] 键反向 [右击] 行为
@@ -409,7 +409,7 @@ x100 毫秒
 以层叠方式显示标准状态
 [Right-To-Left reading mode (mirror template)]
 由右至左阅读模式 (镜像模板)
-[Replace smileys in clist]
+[Replace smileys in contact list]
 替换联系人列表中的表情符号
 [Draw smileys on first line]
 在第一行绘制表情符号
@@ -529,9 +529,9 @@ x100 毫秒
 删除群组(&D)
 [Contact List smileys]
 联系人列表表情
-[List Background]
+[List background]
 列表背景
-[StatusBar Background]
+[Status bar background]
 状态栏背景
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 您想将联系人 '%s' 转换为中继联系人并将 '%s' 加至该中继联系人? 
@@ -617,16 +617,8 @@ x100 毫秒
 选定菜单文本
 [Frame title text]
 框架标题文本
-[Statusbar text]
-状态栏文本
 [3rd party frames transparent back color]
 第三方框架使用透明背景色
-[General]
-常规
-[List]
-列表
-[Window]
-窗口
 [Not focused]
 未获取焦点
 [Offline]
@@ -669,6 +661,12 @@ x100 毫秒
 左方边缘后
 [Behind right edge]
 右方边缘后
+[General]
+常规
+[List]
+列表
+[Window]
+窗口
 [Event Area]
 事件区域
 [No Events]
@@ -809,7 +807,7 @@ Angeli-Ka (图形), FYR (模板)
 显示标题(&S)
 [&Expanded]
 扩展(&E)
-[Show TitleBar]
+[Show title bar]
 显示标题栏
 [&New SubGroup]
 新增子群组(&N)

@@ -455,8 +455,6 @@ Juntar-se a um canal
 Por favor, indique um canal para participar
 [Please select IRC network and enter the password if needed]
 Por favor, selecione a rede de IRC  e digite a senha, se necessário
-[Change nick name]
-Mudar apelido
 [Please enter a unique nickname]
 Por favor, digite um apelido exclusivo
 [Please enter your authentification code]

@@ -117,7 +117,7 @@ Vízszintes igazítás
 Többsoros állapotsor:
 [Accounts per line]
 Hozzáférések soronként
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * Az állapotsor növeléséhez:\na fõ menüben: Keretek->Állaposor->Állapotsor mutatása, majd az állapotsor megjelenõ címét húzza le vagy fel.
 [Set options per account]
 Beállítások hozzáférésenként
@@ -379,7 +379,7 @@ Extra állapot ikon a protokoll helyett
 Normál állapot rajzlása buborékban
 [Right-To-Left reading mode (mirror template)]
 Jobbról-balra olvasás mód (tükör sablon)
-[Replace smileys in clist]
+[Replace smileys in contact list]
 Emotikonok lecserélése a cListában
 [Draw smileys on first line]
 Emotikonok az elsõ sorban
@@ -501,9 +501,9 @@ Csoport átnevezése
 &Csoport törlése
 [Contact List smileys]
 Kapcsolati lista emotikonok
-[List Background]
+[List background]
 Lista háttérszín
-[StatusBar Background]
+[Status bar background]
 Állapotsor háttere
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Átalakítja '%s' partnert Metapartnerré, és hozzáadja '%s'-t ehhez?
@@ -577,12 +577,6 @@ Aktuális nézet mód szöveg
 Háttér
 [Selected text]
 Kijelölt Szöveg
-[General]
-Általános
-[List]
-Lista
-[Window]
-Ablak
 [Not focused]
 Nem fókuszált
 [Offline]
@@ -615,6 +609,12 @@ Elrejtés a tálcára
 Bal sarok mögött
 [Behind right edge]
 Jobb sarok mögött
+[General]
+Általános
+[List]
+Lista
+[Window]
+Ablak
 [Event Area]
 Esemény terület
 [No Events]

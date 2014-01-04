@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.4.2
+;  Version: 0.8.5.0
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -94,7 +94,7 @@ oder internationale Rufnummer:
 Telefon kann SMS-Nachrichten empfangen
 [Add E-Mail]
 E-Mail hinzufügen
-[Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
+[Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Geben Sie hier die volle E-Mail-Adresse ein.\n(z.B.:john.doe@provider.de)
 [Enter a representitive name for the e-mail address here.]
 Geben Sie einen Namen für die E-Mail-Adresse ein.
@@ -453,10 +453,10 @@ Ignorieren
 [Error]
 Fehler
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Protocol '%s' is offline]
-Protokoll '%s' ist offline.
 [Upload Details]
 Profil hochladen
+[Protocol '%s' is offline]
+Protokoll '%s' ist offline.
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 Es besteht momentan keine Verbindung mit dem ICQ-Netzwerk.\nUm das Profil hochladen zu können, muss vorher eine Verbindung aufgebaut werden.\n\nDas Profil wird nur in der Datenbank gespeichert.
 [Uploading]
@@ -519,17 +519,17 @@ Exportieren: Module
 Exportieren: Ordner
 [Default]
 Standard
-[Details Infobar]
+[Details info bar]
 Details-Infoleiste
-[Phone Infobar]
+[Phone info bar]
 Telefon-Infoleiste
-[E-Mail Infobar]
+[E-Mail info bar]
 E-Mail-Infoleiste
 [Export VCard]
 VCard exportieren
 [Import VCard]
 VCard importieren
-[Anniversary Infobar]
+[Anniversary info bar]
 Jahrestage-Infoleiste
 [Update]
 Aktualisieren
@@ -1157,7 +1157,7 @@ Jahrestagserinnerung
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identificaion]
 Kontaktidentifizierung
-[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 Der Kontakt %s(%s) besitzt keine ID in der vCard,\naber ein Kontakt in deiner Liste hat denselben Nick und dasselbe Protokoll.\nSollen die Informationen für diesen Kontakt überschrieben werden?
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]

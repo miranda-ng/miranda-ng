@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 Изобразява контакти, уведомявания за събития, състояние на протоколите и поддържа множество прозорци (в списъка).
@@ -202,7 +202,7 @@ ms между две мигания
 Потъмняване на бездействащите контакти
 [Hide vertical scrollbar]
 Без вертикална лента за придвижване
-[Contact List Background]
+[Contact list background]
 Фон на списъка с контакти
 [Use 'Meta' protocol icons for Metacontacts]
 Ползване на метаикони за метаконтактите
@@ -238,7 +238,7 @@ ms между две мигания
 
 [Use connecting Icon]
 Ползване на икона за свързване
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 
 [E&xit]
 Изход
@@ -297,6 +297,13 @@ ms между две мигания
 Персонализиране
 [Backgrounds]
 Фон
+;file \plugins\Clist_mw\src\clc.cpp
+[Status bar background]
+Фон на лентата за състояние
+[List background]
+Фон на списъка
+[Frames title bar background]
+
 ;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Стандартни контакти
@@ -327,14 +334,12 @@ ms между две мигания
 [Quicksearch Text]
 Бързо търсен текст
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[Contact list]
+Списък с контакти
 [List]
 Списък
-[List Background]
-Фон на списъка
 [List MetaContacts]
 Метаконтакти
-[StatusBar Background]
-Фон на лентата за състояние
 [Not focused]
 Дефокусирано
 [Offline]
@@ -397,7 +402,7 @@ _НямаПротокол_
 Заглавие на рамката
 [&Visible]
 Видима
-[&Show TitleBar]
+[&Show title bar]
 Показване на заглавна лента
 [&Locked]
 Заключена
@@ -425,16 +430,14 @@ _НямаПротокол_
 Рамки
 [Show All Frames]
 Показване на всички рамки
-[Show All Titlebars]
+[Show all titlebars]
 Показване на всички заглавни ленти
-[Hide All Titlebars]
+[Hide all titlebars]
 Скриване на всички заглавни ленти
 [Lock Frame]
 Заключване на рамката
 [Visible]
 Видима
-[Show TitleBar]
-Показване на заглавна лента
 [Floating]
 Плаващо
 ;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp

@@ -570,8 +570,6 @@ Rejoindre canal
 Veuillez entrer un canal
 [Please select IRC network and enter the password if needed]
 Veuillez sélectionner un réseau IRC et entrer le mot de passe si nécessaire.
-[Change nick name]
-Changer le pseudo
 [Please enter a unique nickname]
 Veuillez entrer un pseudo unique
 [Please enter your authentification code]

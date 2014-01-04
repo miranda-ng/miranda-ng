@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
@@ -95,9 +95,9 @@
 消息文本突出显示
 [Enable highlighting for message text]
 启用消息文本突出显示
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
 突出显示字词, 允许通配符像 * 和 ?, 用空格分隔多个条目. 如果您只想突出显示自己的呢称请留空.
-[Highlight messages containing my own nick name]
+[Highlight messages containing my own nickname]
 突出显示消息中自己的呢称
 [List]
 列表
@@ -839,8 +839,6 @@ Ctrl+Enter 发送消息 (总是启用)
 事件过滤器 - 按右键设置, 左键激活/失效
 [<Separator>]
 <分隔线>
-[Hide titlebar]
-隐藏标题栏
 [Message Session...]
 消息会话...
 [Default container]
@@ -1417,7 +1415,7 @@ TabSRMM 消息 (%s)
 使用传入/发送图标
 [Use Message Grouping]
 使用消息分组
-[Simple text formatting (*bold* etc.)]
+[Simple text formatting (*bold*, etc.)]
 简单文本格式化 (例如 *bold*)
 [Support BBCode formatting]
 支持 BBCode 格式化
@@ -1859,8 +1857,6 @@ Aero 发光效果
 突出显示用户...
 [Edit Highlight List...]
 编辑高亮列表...
-[Nick name]
-昵称
 [Unique ID]
 独有 ID
 [Nick]

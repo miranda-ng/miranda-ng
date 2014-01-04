@@ -127,7 +127,7 @@
 [Extra status]
 [Listening to]
 [Miranda uptime]
-[Clist event]
+[Contact list event]
 [Jabber activity]
 [Gender]
 [Country flag]

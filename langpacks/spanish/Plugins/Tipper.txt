@@ -277,7 +277,7 @@ Estado
 
 [Miranda uptime]
 
-[Clist event]
+[Contact list event]
 
 [Jabber activity]
 

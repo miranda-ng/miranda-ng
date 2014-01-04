@@ -260,11 +260,11 @@ SSL 传输
 请填写以下表格以创建新配置文件
 [Profile]
 配置文件
-[e.g. Workplace]
+[e.g., Workplace]
 例如工作地点
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 您可以不使用默认配置驱动程序, 可提供更多功能. 如有疑问, 请使用默认. 
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 例如 Miranda 数据库
 [Driver]
 驱动程序
@@ -1758,12 +1758,6 @@ Miranda NG 主页(&M)
 发送消息 (10x10)
 [Last message received on %s at %s.]
 最后消息接收于 %s %s. 
-[signed off (was %s)]
-已注销 (之前是 %s)
-[signed on (%s)]
-已登录 (%s)
-[is now %s (was %s)]
-现在 %s (之前是 %s)
 [%s is typing a message...]
 %s 正在键入消息...
 [File sent]
@@ -2120,7 +2114,7 @@ Miranda NG 选项
 无法以服务模式加载插件! 
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 无法启用任何已安装联系人列表插件, 甚至忽略参数选项中选定联系人列表都无法加载. 
-[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 无法找到联系人列表插件! 您需要 clist_classic 或其它 clist 插件.
 [Plugin]
 插件

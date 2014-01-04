@@ -289,7 +289,7 @@ Icoon in ruimte van avatar tekenen
 Groepen icoon verbergen
 [Right-To-Left reading mode (mirror template)]
 Rechts-Naar-Links leesmodus (spiegel template)
-[Replace smileys in clist]
+[Replace smileys in contact list]
 Smilyes in clist vervangen
 [Draw smileys on first line]
 Teken smileys op de eerste lijn
@@ -355,7 +355,7 @@ Offline gebruiker&s hierbinnen weergeven
 G&roep hernoemen
 [&Delete Group]
 Groep verwij&deren
-[List Background]
+[List background]
 Lijst achtergrond
 [Row items]
 Rij items
@@ -403,12 +403,6 @@ Statusbalk tekst
 Gebeurtenisgebied tekst
 [Background]
 Achtergrond
-[General]
-Algemeen
-[List]
-Lijst
-[Window]
-Scherm
 [Not focused]
 Geen focus
 [Offline]
@@ -441,6 +435,12 @@ Naar systeemvak verbergen
 Achter linker rand
 [Behind right edge]
 Achter rechter rand
+[General]
+Algemeen
+[List]
+Lijst
+[Window]
+Scherm
 [Text]
 Tekst
 [Extra icons]

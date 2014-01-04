@@ -44,7 +44,7 @@ URL
 
 [Link Settings]
 Настройки на връзката
-[CList Settings]
+[Contact list settings]
 
 [Group:]
 Група:

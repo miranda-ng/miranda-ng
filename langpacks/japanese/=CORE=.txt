@@ -262,11 +262,11 @@ UPnP ポートマッピングを有効
 新規ユーザープロファイルの作成用に以下のフォームを入力してください
 [Profile]
 プロファイル
-[e.g. Workplace]
+[e.g., Workplace]
 例 ワークスペース
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 デフォルトのプロファイルドライバー以外に , 追加機能等が提供されるプロファイルドライバーを選択できます
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 例 Miranda データベース
 [Driver]
 ドライバー
@@ -1742,12 +1742,6 @@ Miranda NG ホームページ
 発信メッセージ (10x10)
 [Last message received on %s at %s.]
 最終メッセージを%s %sに受信
-[signed off (was %s)]
-サインオフ (%s)
-[signed on (%s)]
-サインオン (%s)
-[is now %s (was %s)]
-は現在 %s (旧 %s)
 [%s is typing a message...]
 %s はメッセージを入力中...
 [File sent]

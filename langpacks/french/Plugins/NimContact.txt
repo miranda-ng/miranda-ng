@@ -44,7 +44,7 @@ Ouvrir &fichier
 Ouvrir &répertoire
 [Link Settings]
 
-[CList Settings]
+[Contact list settings]
 Options de la liste de contacts
 [Group:]
 Groupe:
@@ -126,7 +126,7 @@ Nouveau contact non-IM
 
 [Contacts Display Info]
 
-[Link and CList Settings]
+[Link and Contact list Settings]
 
 [Copy Contact]
 

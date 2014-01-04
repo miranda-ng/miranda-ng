@@ -325,7 +325,7 @@ Hızlı gradyan çizim yap
 Köşe çapı
 [Group top padding]
 Grup üst payı
-[Frame titlebar height]
+[Frame title bar height]
 Çerçeve başlık çubuğu yüksekliği
 [Ignore selection for groups]
 Gruplar için seçimi yoksay
@@ -589,9 +589,9 @@ Araç penceresi
 İnce sınır
 [No border]
 Sınır yok
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Varsayılan başlık çubuğu ve sınırı kullanılırken Clist yerleştirilemez. Araç penceresi veya sınırsız stil kullanın.
-[Clist docking]
+[Contact list docking]
 Clist yerleştirme
 [Current view mode: %s]
 Kullanılan görünüm kipi: %s

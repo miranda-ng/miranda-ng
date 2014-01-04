@@ -323,7 +323,7 @@ Bruk rask gradert tegning
 Hjørneradius
 [Group top padding]
 Gruppe topfyll
-[Frame titlebar height]
+[Frame title bar height]
 Rammens tittellinjehøyde
 [Ignore selection for groups]
 Ignorer valg for grupper
@@ -575,9 +575,9 @@ Verktøyvindu
 Tynn grense
 [No border]
 Ingen grense
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Clisten kan ikke sammenkobles ved bruk av standard titellinje og grense. Bruk et verktøyvindu eller grensefri stil istedet.
-[Clist docking]
+[Contact list docking]
 Clist sammenkobling
 [Current view mode: %s]
 Aktivt filter: %s

@@ -9,7 +9,7 @@
 增加选项当协议处于特定状态时自动禁用通知.
 [No sounds when:]
 无声音于:
-[No CLIST blink when:]
+[No CList blink when:]
 无联系人列表闪烁于:
 [No SysTray blink when:]
 无系统托盘闪烁于:

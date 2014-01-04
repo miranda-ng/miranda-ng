@@ -209,11 +209,11 @@ U moet opnieuw verbinden om de wijzigingen die u gemaakt heeft op deze pagina in
 Vul aub het volgende scherm in om een nieuw gebruikersprofiel te maken
 [Profile]
 Profiel
-[e.g. Workplace]
+[e.g., Workplace]
 bijv. Werkplek
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 U kan een andere profiel driver selecteren dan de standaard, het kan meer features en mogelijkheden bieden, bij twijfel gebruik de standaard.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 bijv. Miranda Database
 [Description:]
 Omschr.:

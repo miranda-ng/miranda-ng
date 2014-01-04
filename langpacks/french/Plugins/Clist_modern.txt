@@ -74,7 +74,7 @@ Paver verticalement
 Défiler avec le texte
 [Stretch proportionally]
 Étirer proportionnellement
-[Tile vertically according to Row Height]
+[Tile vertically according to row height]
 
 [Use Windows Colors]
 Couleurs de Windows
@@ -184,7 +184,7 @@ Horizontalement
 Barre des états
 [Accounts per line]
 Comptes par ligne
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 Pour réduire la barre des états:\nMenu Principal => Cadres => Barre d'état => Afficher la barre de titre. Puis tirez dessus.
 [Hold [Shift] to inverse [Right Click] behavior]
 
@@ -506,7 +506,7 @@ Utiliser l'icône Xstatus à la place du protocole
 État normal en surcouche
 [Right-To-Left reading mode (mirror template)]
 Lecture inversée (effet mirroir = DàG)
-[Replace smileys in clist]
+[Replace smileys in contact list]
 Afficher des smileys dans la CList
 [Use protocol smileys]
 
@@ -667,13 +667,13 @@ Skins
 
 [Contact List smileys]
 Smileys de la CList
-[List Background]
+[List background]
 Arrière-plan
-[Menu Background]
+[Menu background]
 
-[StatusBar Background]
+[Status bar background]
 Arrière plan de la barre d'état
-[Frames TitleBar BackGround]
+[Frames title bar background]
 
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Voulez-vous que le contact '%s' soit converti en MetaContact et y ajouter '%s' ?
@@ -766,16 +766,8 @@ Texte sélectionné
 
 [Frame title text]
 
-[Statusbar text]
-
 [3rd party frames transparent back color]
 
-[General]
-Général
-[List]
-Liste
-[Window]
-Fenêtre
 [Not focused]
 Fenêtre inactive
 [Offline]
@@ -818,8 +810,14 @@ dans le tray
 derrière le bord gauche
 [Behind right edge]
 derrière le bord droit
+[General]
+Général
+[List]
+Liste
+[Window]
+Fenêtre
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[Event Area Background]
+[Event area background]
 
 [Event Area]
 Zone d'évenement
@@ -1018,9 +1016,9 @@ Activer/désactiver les sons
 Sons désactivés
 [Minimize]
 Minimiser
-[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 
-[ToolBar Background]
+[Toolbar background]
 
 [Toolbar upgrade]
 
@@ -1104,14 +1102,12 @@ Modes d'affichages
 &Vers le Bas
 [Show All Frames]
 Montrer tous les cadres
-[Show All Titlebars]
+[Show all title bars]
 Montrer toutes les barres de titres
-[Hide All Titlebars]
+[Hide all title bars]
 Cacher toutes les barres de titres
 [Lock Frame]
 Cadre vérouillé
-[Show TitleBar]
-Afficher la barre de titre
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 

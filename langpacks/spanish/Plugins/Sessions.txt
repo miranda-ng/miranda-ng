@@ -46,7 +46,7 @@ Guardar
 
 [Warn, when some of LastSession contacts are hidden]
 
-[Show other warnings ("session already opened" etc.)]
+[Show other warnings ("session already opened", etc.)]
 
 [Crash Recovery mode]
 

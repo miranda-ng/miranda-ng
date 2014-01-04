@@ -388,7 +388,7 @@ Rayon
 Paramètre du skin
 [Group top padding]
 Décalage du haut des groupes
-[Frame titlebar height]
+[Frame title bar height]
 Hauteur de la barre de titre des cadres
 [Ignore selection for groups]
 Ignorer la sélection des groupes
@@ -763,9 +763,9 @@ Bords fins
 [No border]
 Sans bordure
 ;file \plugins\Clist_nicer\src\Docking.cpp
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 La CList ne peut être accouplé en utilisant la barre de titre et les bordures par défaut. Utilisez un toolwindow ou un modèle sans bordure à la place.
-[Clist docking]
+[Contact list docking]
 
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
@@ -821,7 +821,7 @@ Modes d'affichages
 &Titre du Cadre
 [&Visible]
 &Visible
-[&Show TitleBar]
+[&Show title bar]
 &Afficher la barre de titre
 [&Locked]
 &Verrouillé
@@ -851,15 +851,15 @@ Image skinnée
 Cadres
 [Show All Frames]
 Montrer tous les cadres
-[Show All Titlebars]
+[Show all title bars]
 Montrer toutes les barres de titres
-[Hide All Titlebars]
+[Hide all title bars]
 Cacher toutes les barres de titres
 [Lock Frame]
 Cadre vérouillé
 [Visible]
 Visible
-[Show TitleBar]
+[Show title bar]
 Afficher la barre de titre
 [Skinned frame]
 Image skinée

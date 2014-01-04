@@ -1249,8 +1249,6 @@ OutputDebugString()
 שליחת ההודעה התארכה יותר מהצפוי.
 [Last message received on %s at %s.]
 ההודעה האחרונה התקבלה ב %s בשעה %s.
-[signed off (was %s)]
-התנתק (היה %s)
 [%s is typing a message...]
 %s כותב/ת הודעה...
 [Outgoing messages]

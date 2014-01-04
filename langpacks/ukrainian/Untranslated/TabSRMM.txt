@@ -1,6 +1,6 @@
 ﻿[OK]
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
 [Google]
 [Wikipedia]
 [&Retry]
@@ -115,4 +115,3 @@
 ["My Documents" folder for currently logged-on Windows user]
 ["Desktop" folder for currently logged-on Windows user]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-[Nick name]

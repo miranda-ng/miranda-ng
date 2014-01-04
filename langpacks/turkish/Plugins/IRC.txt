@@ -461,8 +461,6 @@ Kanala katıl
 Katılacağınız kanalı yazın
 [Please select IRC network and enter the password if needed]
 IRC ağını seçin ve gerekiyorsa parolanızı yazın
-[Change nick name]
-Kısa adı değiştir
 [Please enter a unique nickname]
 Eşsiz bir kısa ad yazın
 [Please enter your authentification code]

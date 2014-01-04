@@ -132,7 +132,7 @@ Passe actuel:
 
 [Turn on debug log]
 
-[Use Jabber api on Miranda NG (recommended)]
+[Use Jabber API on Miranda NG (recommended)]
 
 [Default key]
 

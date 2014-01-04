@@ -102,7 +102,7 @@ Hasło Tlen
 OK
 [Cancel]
 Anuluj
-[Nick name:]
+[Nickname:]
 Pseudonim:
 [First name:]
 Imię:
@@ -146,8 +146,6 @@ Wersja:
 System:
 [Personal Information]
 Informacje osobiste
-[Nickname:]
-Nick:
 [Age:]
 Wiek:
 [to]

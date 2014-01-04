@@ -99,7 +99,7 @@
 סרגל מצבים מרובה שורות:
 [Accounts per line]
 חשבונות לשורה
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * כדי להגדיל גובה סרגל מצבים\n  הגדר בתפריט ראשי: פריימים סרגל מצבים הראה כותרת סרגל ואז משוך כותרת נראה של סרגל מצבים למעלה או למטה.\n\n\n
 [Set options per account]
 הגדר אפשרויות על פי חשבון
@@ -363,7 +363,7 @@ x100 מילי שניות
 צייר מצב רגיל כפרוש
 [Right-To-Left reading mode (mirror template)]
 מצב קריאה ימין לשמאל טמפלת מראה 
-[Replace smileys in clist]
+[Replace smileys in contact list]
 החלף סמיילים ב clist
 [Draw smileys on first line]
 צייר סמיילים בשורה הראשונה
@@ -447,9 +447,9 @@ XStatus יש עדיפות
 &מחק קבוצה
 [Contact List smileys]
 סמיילים של רשימת משתמשים
-[List Background]
+[List background]
 רקע הרשימה
-[StatusBar Background]
+[Status bar background]
 רקע שורת מצב
 [Standard contacts]
 אנשי קשר רגילים
@@ -473,12 +473,6 @@ XStatus יש עדיפות
 שורה שלישית
 [Background]
 רקע
-[General]
-כללי
-[List]
-רשימה
-[Window]
-חלון
 [Not focused]
 לא נבחר
 [Offline]
@@ -519,6 +513,12 @@ XStatus יש עדיפות
 מאחורי קצה שמאלי
 [Behind right edge]
 מאחורי קצה ימני
+[General]
+כללי
+[List]
+רשימה
+[Window]
+חלון
 [Event Area]
 איזור אירוע
 [No Events]
@@ -595,7 +595,5 @@ XStatus יש עדיפות
 מזער
 [Minutes]
 דקות
-[Show TitleBar]
-הראה סרגל כותרת
 [&New SubGroup]
 &תת קבוצה חדשה

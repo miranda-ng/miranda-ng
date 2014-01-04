@@ -57,7 +57,7 @@
 封锁用户列表
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 此列表包含您的所有 Xfire 封锁用户. 如果您想允许其发送好友邀请可于此移除.
-[You can simply block someone, if you right click on his friend request in clist and choose Block User...]
+[You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
 如您右键好友列表中的联系人并选择封锁用户, 可非常简单的封锁某人...
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 此文件用于游戏搜索, 游戏检测及游戏解析. 它包含所有 Xfire 支持的游戏.

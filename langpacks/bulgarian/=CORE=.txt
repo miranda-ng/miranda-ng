@@ -277,11 +277,11 @@ URL адреси
 Попълнете следния формуляр, за да създадете нов потребителски профил.
 [Profile]
 Профил
-[e.g. Workplace]
+[e.g., Workplace]
 напр. raboten
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Можете да изберете драйвер за профила, който да предлага повече функции. Ако имате съмнения използвайте стандартния.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 напр. db3x mmap driver
 [Driver]
 Драйвер
@@ -1874,12 +1874,6 @@ Popups за изобразяване
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Последното съобщение е получено на %s в %s.
-[signed off (was %s)]
-излезе (беше %s)
-[signed on (%s)]
-влезе (%s)
-[is now %s (was %s)]
-сега е %s (беше %s)
 [%s is typing a message...]
 %s пише съобщение...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -2146,6 +2140,8 @@ URL
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 
+[You were added by %s%s]
+
 [Contacts: ]
 
 ;file \src\modules\database\profilemanager.cpp
@@ -2321,7 +2317,7 @@ Miranda NG настройки
 Зареждането на приставката в сервизен режим е невъзможно!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Нито една от инсталираните приставки за списъка с контакти не може да бъде заредена.
-[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Не е намерена приставка за списъка с контакти! Необходима е StdClist или всяка друга clist приставка. 
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]

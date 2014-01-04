@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber protocol support for Miranda NG.]
@@ -160,7 +160,7 @@ Jabber парола
 Държава:
 [Full name:]
 Трите имена:
-[Nick name:]
+[Nickname:]
 Прякор:
 [First name:]
 Име:
@@ -286,8 +286,6 @@ JID:
 Поканени сте в конферентна стая от
 [with following reason:]
 със следната причина:
-[Nickname:]
-Прякор:
 [&Accept]
 Приемане
 [Jabber Bookmarks]
@@ -584,6 +582,8 @@ Jabber настроение
 [Supports Jingle]
 
 [Supports Roster Exchange]
+
+[Supports direct chat invitations (XEP-0249)]
 
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
@@ -1271,8 +1271,6 @@ Jabber източник
 Регистрирани транспорти
 [Local Server Transports]
 Видове транспорт на сървъра
-[Browse Chatrooms]
-Разглеждане на чат стаите
 [Create/Join group chat]
 Създаване/Влизане в групов чат
 [Roster editor]
@@ -1797,8 +1795,6 @@ Jabber източник
 
 [JID]
 JID
-[Nick Name]
-Прякор
 [Group]
 Група
 [Subscription]

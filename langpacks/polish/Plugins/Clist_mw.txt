@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 Wyświetla kontakty, powiadomienia o zdarzeniach, status protokołu z modyfikacjami wielookiennymi.
@@ -202,7 +202,7 @@ Przyciemnij całą listę kiedy:
 Przygaś bezczynne kontakty
 [Hide vertical scrollbar]
 Ukryj pionowy pasek przewijania
-[Contact List Background]
+[Contact list background]
 Tło listy kontaktów
 [Use 'Meta' protocol icons for Metacontacts]
 Użyj ikony "Meta" dla metakontaktów
@@ -238,7 +238,7 @@ Pokaż uchwyt
 Pokaz separatory na panelach
 [Use connecting Icon]
 Użyj ikony łączenia
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 Nowe rysowanie paska statusu
 [&Main menu]
 Menu główne
@@ -299,6 +299,13 @@ Usuń grupę
 Personalizacja
 [Backgrounds]
 Tło
+;file \plugins\Clist_mw\src\clc.cpp
+[Status bar background]
+Tło Paska Stanu
+[List background]
+Tło listy
+[Frames title bar background]
+Tło Paska Tytułu Ramek
 ;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Standardowe kontakty
@@ -329,14 +336,12 @@ Tekst pod kursorem
 [Quicksearch Text]
 Tekst szybkiego wyszukiwania
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[Contact list]
+Lista kontaktów
 [List]
 Lista
-[List Background]
-Tło listy
 [List MetaContacts]
 Lista metakontaktów
-[StatusBar Background]
-Tło paska statusu
 [Not focused]
 Nieaktywne
 [Offline]
@@ -397,7 +402,7 @@ Przywróć ostatni status
 Nazwa ramki
 [&Visible]
 Widoczny
-[&Show TitleBar]
+[&Show title bar]
 Pokaż pasek tytułu
 [&Locked]
 Zablokowany
@@ -425,16 +430,14 @@ Dół
 Ramki
 [Show All Frames]
 Pokaż wszystkie ramki
-[Show All Titlebars]
+[Show all titlebars]
 Pokaż wszystkie paski tytułów
-[Hide All Titlebars]
+[Hide all titlebars]
 Ukryj wszystkie paski tytułów
 [Lock Frame]
 Zablokuj ramkę
 [Visible]
 Widoczny
-[Show TitleBar]
-Pokaż pasek tutułu
 [Floating]
 Pływający
 ;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp

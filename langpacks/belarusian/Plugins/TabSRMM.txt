@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -102,9 +102,9 @@
 Падсвятленне тэксту ў паведамленні
 [Enable highlighting for message text]
 Уключыць падсвятленне тэксту ў паведамленні
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
 Словы для падсвятлення, дапускаюцца маскі выгляду * і ?, некалькі слоў для падсвятлення падзяляюцца прабеламі. Пакіньце пустым, калі жадаеце падсвятляць толькі сваю мянушку.
-[Highlight messages containing my own nick name]
+[Highlight messages containing my own nickname]
 Падсвятляць паведамленні, якія змяшчаюць свой нік
 [List]
 Спіс
@@ -968,8 +968,6 @@ Esc зачыняе сесію (інакш - згортвае)
 [<Separator>]
 <Падзельнік>
 ;file \plugins\TabSRMM\src\container.cpp
-[Hide titlebar]
-Схаваць загаловак акна
 [Message Session...]
 Гутарка...
 [Default container]
@@ -1739,7 +1737,7 @@ tabSRMM: %s
 Выкарыстоўваць значкі ўваходнага/выходнага паведамлення
 [Use Message Grouping]
 Групаваць паведамленні
-[Simple text formatting (*bold* etc.)]
+[Simple text formatting (*bold*, etc.)]
 Простае фарматаванне (*тоўсты* і да т.п.)
 [Support BBCode formatting]
 Падтрымка BB-кодаў
@@ -2267,8 +2265,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 [Edit Highlight List...]
 Рэдагаваць спіс падсвятлення
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[Nick name]
-Мянушка
 [Unique ID]
 Асабісты конт
 [Nick]

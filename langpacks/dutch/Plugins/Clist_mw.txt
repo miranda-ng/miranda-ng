@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Stretch to width]
 Tot breedte uitrekken
@@ -163,7 +163,7 @@ Linker marge:
 Gehele lijst grijs maken wanneer:
 [Dim idle contacts]
 Rustige personen donker maken
-[Contact List Background]
+[Contact list background]
 Persoon lijst achtergrond
 [Status Bar]
 Status balk
@@ -245,7 +245,7 @@ Status berichten
 Achtergrond
 [List]
 Lijst
-[List Background]
+[List background]
 Lijst achtergrond
 [Not focused]
 Geen focus

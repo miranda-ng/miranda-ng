@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Stretch to width]
 מתח לאורך
@@ -173,7 +173,7 @@
 האפר את כל הרשימה כש:
 [Dim idle contacts]
 הקהה אנשי קשר בלתי פעילים
-[Contact List Background]
+[Contact list background]
 רקע רשימת אנשי קשר
 [Status Bar]
 שורת מצב
@@ -267,9 +267,9 @@
 רקע
 [List]
 רשימה
-[List Background]
+[List background]
 רקע הרשימה
-[StatusBar Background]
+[Status bar background]
 רקע שורת מצב
 [Not focused]
 לא נבחר
@@ -305,5 +305,3 @@
 &תת קבוצה חדשה
 [Frames]
 מבנה רשימה
-[Show TitleBar]
-הראה סרגל כותרת

@@ -62,7 +62,7 @@ Automatycznie pobierz treść
 Sprawdź z menu
 [Use contact notification for this account]
 Użyj powiadomienia kontaktu dla tego konta
-[Replace nick name]
+[Replace nickname]
 Zastąp przydomek
 [Disable Events]
 Wyłącz zdarzenia

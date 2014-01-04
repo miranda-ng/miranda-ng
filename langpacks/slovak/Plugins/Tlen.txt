@@ -39,7 +39,7 @@ Permanentne
 OK
 [Cancel]
 Storno
-[Nick name:]
+[Nickname:]
 Prezívka:
 [First name:]
 Meno:
@@ -55,8 +55,6 @@ Mesto:
 Uložiť zmeny
 [Version:]
 Verzia:
-[Nickname:]
-Prezívka:
 [Age:]
 Vek:
 [to]

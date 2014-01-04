@@ -277,11 +277,11 @@ Vous devrez vous reconnecter afin de valider les modifications de cette page.
 Veuillez remplir le formulaire suivant pour créer un nouveau profil
 [Profile]
 Profil
-[e.g. Workplace]
+[e.g., Workplace]
 ex : Lieu de travail
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Choisissez le pilote de profil désiré suivant ses fonctionnalités et possibilités, mais dans le doute, utilisez le pilote par défaut.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 ex : Miranda Database
 [Driver]
 Pilote
@@ -1905,12 +1905,6 @@ Délai d'envoi du message expiré
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Dernier message reçu le %s à %s
-[signed off (was %s)]
-est parti (était %s)
-[signed on (%s)]
-est arrivé (%s)
-[is now %s (was %s)]
-est %s (était %s)
 [%s is typing a message...]
 %s vous écrit un message...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -2352,7 +2346,7 @@ Réactiver le plugin ?
 
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Impossible de lancer aucune des listes de contacts installées. Vos préférences d'affichage incompatibles ont dut être également ignoré.
-[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]

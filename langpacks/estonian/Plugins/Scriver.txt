@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Send message on 'Enter']
@@ -243,7 +243,7 @@ Tee tekst kursiivituks (CTRL+I)
 Tee tekst alla kriipsutatuks (CTRL+U)
 [Show the history (CTRL+H)]
 Kuva ajalugu (CTRL+H)
-[Nick name]
+[Nickname]
 Hüüdnimi
 [Unique ID]
 Unikaalne ID

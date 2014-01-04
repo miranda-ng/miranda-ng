@@ -277,11 +277,11 @@ Sie müssen sich neu verbinden, damit diese Änderungen wirksam werden.
 Bitte füllen Sie den folgenden Dialog aus, um ein neues Profil zu erstellen.
 [Profile]
 Profil
-[e.g. Workplace]
+[e.g., Workplace]
 z. B. Arbeitsplatz
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Sie können auch einen anderen Treiber für Ihr Profil verwenden, wenn Sie sich unsicher sind, verwenden Sie den Standard-Treiber.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 z. B. Miranda Datenbank
 [Driver]
 Treiber
@@ -1905,12 +1905,6 @@ Ausgehende Nachricht (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Letzte Nachricht am %s um %s erhalten.
-[signed off (was %s)]
-ist nun offline (war %s)
-[signed on (%s)]
-ist nun online (war %s)
-[is now %s (was %s)]
-ist nun %s (war %s)
 [%s is typing a message...]
 %s tippt eine Nachricht...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -2177,6 +2171,8 @@ Ungültiger Einstellungs-Typ für '%s'. Das erste Zeichen für jeden String muss
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 Autorisierungsanfrage von %s%s: %s
+[You were added by %s%s]
+
 [Contacts: ]
 Kontakte:\s
 ;file \src\modules\database\profilemanager.cpp
@@ -2352,7 +2348,7 @@ Miranda-Plugin erneut aktivieren?
 Kann Plugin nicht im Service-Modus starten.
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Miranda kann keines der angegebenen Plugins für die Kontaktliste starten, die entsprechenden Einstellungen für die \nKontaktliste werden ebenfalls ignoriert.
-[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Kann kein Kontaktlisten-Plugin finden!\nSie brauchen StdClist oder ein anderes Kontaktlisten-Plugin.
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]

@@ -570,8 +570,6 @@ Avanzado
 
 [Please select IRC network and enter the password if needed]
 
-[Change nick name]
-
 [Please enter a unique nickname]
 
 [Please enter your authentification code]

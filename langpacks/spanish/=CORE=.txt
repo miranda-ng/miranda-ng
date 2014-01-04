@@ -277,11 +277,11 @@ Tendrá que volver a conectarse para que los cambios en esta página surtan efec
 Por favor, complete el siguiente formulario para crear un nuevo perfil de usuario.
 [Profile]
 Perfil
-[e.g. Workplace]
+[e.g., Workplace]
 Ejemplo: Trabajo
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Puede seleccionar un controlador de perfil diferente del predeterminado, puede ofrecer más características o habilidades, en caso de duda usar el predeterminado.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 Ejemplo: Miranda Database
 [Driver]
 Controlador
@@ -1905,12 +1905,6 @@ Mensaje saliente (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Último mensaje recibido el %s a %s.
-[signed off (was %s)]
-firma deshabilitada (era %s)
-[signed on (%s)]
-firma habilitada (%s)
-[is now %s (was %s)]
-es ahora %s (era %s)
 [%s is typing a message...]
 %s está escribiendo un mensaje...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -2177,6 +2171,8 @@ Tipo de establecimiento no válido para '% s'. El primer carácter de cada valor
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 
+[You were added by %s%s]
+
 [Contacts: ]
 
 ;file \src\modules\database\profilemanager.cpp
@@ -2352,7 +2348,7 @@ Volver a activar el plugin de Miranda?
 ¡No se pueden cargar plugins en el modo de servicio!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 No se puede iniciar ninguno de los plugins instalados de lista de contactos, Incluso se ignoró sus preferencias para que la lista de contactos no pueda cargar cualquiera.
-[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 ¡No se puede encontrar un complemento de lista de contactos! Necesitas StdClist o cualquier otro plugin de clist.
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]

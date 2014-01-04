@@ -388,7 +388,7 @@ Eckradius
 Skin-Einstellungen
 [Group top padding]
 Gruppenabstand oben
-[Frame titlebar height]
+[Frame title bar height]
 Höhe der Titelzeilen
 [Ignore selection for groups]
 Markierungen für Gruppen ignorieren
@@ -763,9 +763,9 @@ Dünner Rahmen
 [No border]
 Kein Rahmen
 ;file \plugins\Clist_nicer\src\Docking.cpp
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 CList Nicer kann nicht andocken wenn Sie die Standard Titelleiste und Umrandung benutzen. Benutzen Sie ein Bearbeitungsfenster anstatt ein randlosen Stil.
-[Clist docking]
+[Contact list docking]
 Kontaktliste andocken
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
@@ -821,7 +821,7 @@ Kontaktfilter
 Elementtitel
 [&Visible]
 Sichtbar
-[&Show TitleBar]
+[&Show title bar]
 Titellei&ste anzeigen
 [&Locked]
 Gesperrt
@@ -851,15 +851,15 @@ Ab
 Frames
 [Show All Frames]
 Alle Frames anzeigen
-[Show All Titlebars]
+[Show all title bars]
 Alle Titelleisten anzeigen
-[Hide All Titlebars]
+[Hide all title bars]
 Alle Titelleisten verstecken
 [Lock Frame]
 Keine Größenänderung
 [Visible]
 Sichtbar
-[Show TitleBar]
+[Show title bar]
 Titelzeile anzeigen
 [Skinned frame]
 Skinnbarer Frame

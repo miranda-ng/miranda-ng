@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 
@@ -202,7 +202,7 @@ Griser toute la liste quand:
 Estomper les contacts inactifs
 [Hide vertical scrollbar]
 
-[Contact List Background]
+[Contact list background]
 Arrière-plan de la liste
 [Use 'Meta' protocol icons for Metacontacts]
 
@@ -238,7 +238,7 @@ Voir la poignée "Redimensionner"
 Voir les effets 3D
 [Use connecting Icon]
 Icônes de connexion
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 Utiliser un nouveau "tiroir" pour StatusBar
 [&Main menu]
 &Menu principal
@@ -331,11 +331,11 @@ Texte en recherche rapide
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Liste
-[List Background]
+[List background]
 Arrière-plan
 [List MetaContacts]
 Liste MetaContacts
-[StatusBar Background]
+[Status bar background]
 Arrière plan de la barre d'état
 [Not focused]
 Fenêtre inactive
@@ -397,7 +397,7 @@ Fermer Miranda
 &Titre du Cadre
 [&Visible]
 &Visible
-[&Show TitleBar]
+[&Show title bar]
 &Afficher la barre de titre
 [&Locked]
 &Verrouillé
@@ -425,16 +425,14 @@ Fermer Miranda
 Cadres
 [Show All Frames]
 Montrer tous les cadres
-[Show All Titlebars]
+[Show all titlebars]
 Montrer toutes les barres de titres
-[Hide All Titlebars]
+[Hide all titlebars]
 Cacher toutes les barres de titres
 [Lock Frame]
 Cadre vérouillé
 [Visible]
 Visible
-[Show TitleBar]
-Afficher la barre de titre
 [Floating]
 Flottant
 ;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp

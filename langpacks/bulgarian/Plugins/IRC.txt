@@ -570,8 +570,6 @@ Latin I
 Въведете име на канал, в който да влезете
 [Please select IRC network and enter the password if needed]
 Моля, изберете IRC мрежа и въведете парола, ако е необходимо.
-[Change nick name]
-Промяна на прякора
 [Please enter a unique nickname]
 Моля, въведете уникален прякор
 [Please enter your authentification code]

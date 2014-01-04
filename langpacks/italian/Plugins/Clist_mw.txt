@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Stretch to width]
 Allarga
@@ -165,7 +165,7 @@ Margine sinistro
 L'intera lista diventa grigia quando:
 [Dim idle contacts]
 Abbassa i contatti inattivi
-[Contact List Background]
+[Contact list background]
 Sfondo lista contatti
 [Status Bar]
 Barra di stato
@@ -251,7 +251,7 @@ Messaggi di stato
 Altro
 [List]
 Lista
-[List Background]
+[List background]
 Lista - Sfondo
 [Not focused]
 Non in primo piano

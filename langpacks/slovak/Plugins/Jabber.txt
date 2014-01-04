@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [OK]
@@ -73,7 +73,7 @@ PSČ:
 Krajina:
 [Full name:]
 Plné meno:
-[Nick name:]
+[Nickname:]
 Prezívka:
 [First name:]
 Meno:
@@ -111,8 +111,6 @@ Popis:
 Registrácia jabber agenta
 [Register]
 Registrovať
-[Nickname:]
-Prezívka:
 [Change %s Message]
 Zmeniť %s správu
 [Closing in %d]

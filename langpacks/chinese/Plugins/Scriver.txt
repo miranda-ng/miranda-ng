@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Behavior]
@@ -51,13 +51,13 @@
 群组聊天使用独立窗口
 [Limit number of group chats tabs per window to]
 群组聊天每窗口限制标签数量为
-[Show titlebar]
+[Show title bar]
 显示标题栏
 [Show status bar]
 显示状态栏
 [Show toolbar]
 显示工具栏
-[Show infobar]
+[Show info bar]
 显示信息栏
 [Use the contact's status icon as the window icon]
 使用联系人状态图标作为窗口图标
@@ -371,25 +371,25 @@ Unicode 已关闭
 导航: 下一个标签
 [Navigate: Tab %d]
 浏览: Tab %d
-[Window: Toggle Statusbar]
+[Window: Toggle status bar]
 窗口: 切换状态栏
-[Window: Toggle Titlebar]
+[Window: Toggle title bar]
 窗口: 切换标题栏
-[Window: Toggle Toolbar]
+[Window: Toggle toolbar]
 窗口: 切换工具栏
-[Window: Toggle Infobar]
+[Window: Toggle info bar]
 窗口: 切换信息栏
-[Window: Clear Log]
+[Window: Clear log]
 窗口: 清除记录
 [Window: Minimize]
 窗口: 最小化
-[Window: Close Tab]
+[Window: Close tab]
 窗口: 关闭标签
 [Action: Quote]
 操作: 报价
-[Action: Send to All]
+[Action: Send to all]
 活动: 发送至所有
-[Action: Paste & Send]
+[Action: Paste and send]
 操作: 粘贴并发送
 [Smiley]
 表情
@@ -415,12 +415,6 @@ Unicode 已关闭
 引用文本
 [User Menu - %s]
 用户菜单 - %s
-[signed off (was %s)]
-已注销 (之前是 %s)
-[signed on (%s)]
-已登录 (%s)
-[is now %s (was %s)]
-现在 %s (之前是 %s)
 [Sending in progress: %d message(s) left...]
 发送中: 尚余 %d 个消息
 [%s is typing a message...]
@@ -459,11 +453,11 @@ Unicode 已关闭
 发送网址
 [Incoming URL]
 传入网址
-[Infobar contact name]
+[Info bar contact name]
 信息栏 联系人名称
-[Infobar background]
+[Info bar background]
 信息栏背景
-[Infobar status message]
+[Info bar status message]
 信息栏 状态消息
 [Others nicknames]
 其它昵称
@@ -771,7 +765,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 控制此房间 (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 启用/禁用事件过滤器 (CTRL+F)
-[Nick name]
+[Nickname]
 昵称
 [Unique ID]
 独有 ID

@@ -209,7 +209,7 @@ Skryť nepripojených užívatelov v tejto skupine
 Premenovať skupinu
 [&Delete Group]
 Zmazať skupinu
-[List Background]
+[List background]
 Pozadie zoznamu
 [Contact names]
 Mená kontaktov

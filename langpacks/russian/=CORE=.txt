@@ -1851,12 +1851,6 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Исходящее сообщение (10x10)
 [Last message received on %s at %s.]
 Последнее сообщение вы получили %s в %s.
-[signed off (was %s)]
-уходит (был(а) %s)
-[signed on (%s)]
-приходит (%s)
-[is now %s (was %s)]
-теперь %s (был(а) %s)
 [%s is typing a message...]
 %s набирает текст...
 [File sent]
@@ -2091,6 +2085,8 @@ Miranda NG не может открыть этот профиль
 Неверный тип настройки для '%s'. Первая буква любого значения должна быть b, w, d, l, s, e, u, g, h или n.
 [Authorization request from %s%s: %s]
 Запрос авторизации от %s%s: %s
+[You were added by %s%s]
+Вас добавил %s%s
 [Contacts: ]
 Контакты:\s
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
@@ -2435,8 +2431,6 @@ ANSI плагин
 Не указано
 [Unknown]
 Неизвестно
-[You were added by %s%s]
-Вас добавил %s%s
 [Afghanistan]
 Афганистан
 [Aland Islands]

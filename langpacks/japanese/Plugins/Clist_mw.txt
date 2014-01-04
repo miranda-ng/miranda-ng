@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Stretch to width]
 幅を拡大
@@ -177,7 +177,7 @@
 リスト全体を灰色表示する:
 [Dim idle contacts]
 不要のコンタクトを暗くする
-[Contact List Background]
+[Contact list background]
 コンタクトリストの背景
 [MetaContacts supporting]
 メタコンタクトをサポート
@@ -203,7 +203,7 @@
 パネルの面取り効果を表示
 [Use connecting Icon]
 接続中アイコンを使用
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 ステータスバーに新規引出しを使用
 [&Main menu]
 メインメニュー (&M)
@@ -293,11 +293,11 @@ Miranda を非表示
 クイック検索テキスト
 [List]
 リスト
-[List Background]
+[List background]
 リストの背景
 [List MetaContacts]
 メタコンタクトのリスト
-[StatusBar Background]
+[Status bar background]
 ステータスバーの背景
 [Not focused]
 非フォーカス
@@ -335,5 +335,3 @@ Miranda を非表示
 新規サブグループ (&N)
 [Frames]
 フレーム
-[Show TitleBar]
-タイトルバーを表示

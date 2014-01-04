@@ -59,7 +59,7 @@
 Вибрати відкритий ключ зі списку
 [Encrypt file transfers]
 Шифрована передача файлів
-[Use Jabber api on Miranda NG (recommended)]
+[Use Jabber API on Miranda NG (recommended)]
 Використовувати Jabber api Miranda NG (Рекомендується)
 [Current private key id]
 Закритий ключ

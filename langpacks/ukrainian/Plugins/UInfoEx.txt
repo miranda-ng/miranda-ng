@@ -166,17 +166,17 @@
 Свята
 [Contact (Work)]
 Контакт (робочий)
-[Details Infobar]
+[Details info bar]
 Деталі
-[Phone Infobar]
+[Phone info bar]
 Телефон
-[E-Mail Infobar]
+[E-Mail info bar]
 Пошта
 [Export VCard]
 Експорт VCard
 [Import VCard]
 Імпорт VCard
-[Anniversary Infobar]
+[Anniversary info bar]
 Ювілей
 [Goto]
 Зайти на сайт
@@ -281,7 +281,7 @@
 Введіть категорію для номера:
 [Add E-Mail]
 Додати E-mail
-[Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
+[Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Введіть адресу E-mail.\n(наприклад, john.doe@provider.com)
 [Enter a representitive name for the e-mail address here.]
 Введіть ім'я для електронної адреси

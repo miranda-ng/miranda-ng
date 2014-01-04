@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.4.2
+;  Version: 0.8.5.0
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Edit Contact Information]
@@ -277,10 +277,10 @@ Ne
 Negeer
 [Error]
 Fout
-[Protocol '%s' is offline]
-Protocol '%s' is offline
 [Upload Details]
 Upload Details
+[Protocol '%s' is offline]
+Protocol '%s' is offline
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 U bent op dit moment niet verbonden met het ICQ netwerk.\nU moet online zijn om uw informatie te kunnen bijwerken op de server.\n\nUw wijzigingen worden alleen bewaard in de database.
 [Uploading]
@@ -321,15 +321,15 @@ Exporteren: Modules
 Exporteren: Folder
 [Default]
 Standaard
-[Details Infobar]
+[Details info bar]
 Details infobalk
-[Phone Infobar]
+[Phone info bar]
 Telefoon infobalk
-[E-Mail Infobar]
+[E-Mail info bar]
 E-Mail infobalk
 [Export VCard]
 VCard exporteren
-[Anniversary Infobar]
+[Anniversary info bar]
 Feest infobalk
 [Goto]
 Ga naar
@@ -483,7 +483,7 @@ Verjaardag herinnering
 Verjaardag herinnering: het komt eraan
 [Anniversary Reminder]
 Feest Herinnering
-[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 De persoon %s(%s) heeft geen uniek ID in de vCard,\nmaar er is een persoon in uw clist met dezelfde bijnaam en protocol.\nWilt u deze persoon gebruiken?
 [All Contacts]
 alle personen

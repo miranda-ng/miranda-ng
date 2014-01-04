@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Stretch to width]
 Genişliği Gerdir
@@ -177,7 +177,7 @@ Sol boşluk:
 Şu olduğunda tüm listeyi karart:
 [Dim idle contacts]
 Boştaki kişileri kıs
-[Contact List Background]
+[Contact list background]
 Kişi Listesi Art Alanı
 [MetaContacts supporting]
 MetaKişiler destekleniyor
@@ -203,7 +203,7 @@ boyut kavraması kullan
 Panellerde yuvarlatma etkisi kullan
 [Use connecting Icon]
 Bağlanıyor simgesini kullan
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 Drum Çubuğu için yeni çizimi kullan
 [&Main menu]
 Ana &menü
@@ -293,11 +293,11 @@ Sıcak takip yazısı
 Hızlı arama yazısı
 [List]
 Liste
-[List Background]
+[List background]
 Liste Art Alanı
 [List MetaContacts]
 KişiVerisini Listele
-[StatusBar Background]
+[Status bar background]
 Durum Çubuğu Art Alanı
 [Not focused]
 Odaklanmamış

@@ -131,7 +131,7 @@ Cancel
 多重線ステータスバー:
 [Accounts per line]
 アカウント毎に線を引く
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * ステータスバーの高さを増やすには:\nメインメニューの設定: フレーム ->  ステータスバー -> タイトルバーの表示 , でステータスバーのタイトルを引きあげたり引き下げたりする
 [Set options per account]
 アカウントごとにオプションを設定
@@ -399,7 +399,7 @@ Aero Glass (Vista+) を有効
 オーバーレイでノーマルステータスを描画
 [Right-To-Left reading mode (mirror template)]
 RTL 読み取りモード ( ミラーテンプレート )
-[Replace smileys in clist]
+[Replace smileys in contact list]
 コンタクトリストの顔文字を置き換える
 [Draw smileys on first line]
 1 行目に顔文字を描画
@@ -521,9 +521,9 @@ Miranda を非表示
 グループを削除 (&D)
 [Contact List smileys]
 コンタクトリストの顔文字
-[List Background]
+[List background]
 リストの背景
-[StatusBar Background]
+[Status bar background]
 ステータスバーの背景
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 コンタクト '%s' をメタコンタクトに変換して , '%s' を追加しますか ?
@@ -609,16 +609,8 @@ Miranda を非表示
 選択済メニューテキスト
 [Frame title text]
 フレーム表示文
-[Statusbar text]
-ステータスバーテキスト
 [3rd party frames transparent back color]
 サードパーティフレーム 透明背景色
-[General]
-全般
-[List]
-リスト
-[Window]
-ウィンドウ
 [Not focused]
 非フォーカス
 [Offline]
@@ -651,6 +643,12 @@ Miranda を非表示
 左端の背後
 [Behind right edge]
 右端の背後
+[General]
+全般
+[List]
+リスト
+[Window]
+ウィンドウ
 [Event Area]
 イベントエリア
 [No Events]
@@ -763,7 +761,5 @@ Angeli-Ka ( グラフィック ), FYR ( テンプレート )
 タイトルを表示 (&S)
 [&Expanded]
 展開済み (&E)
-[Show TitleBar]
-タイトルバーを表示
 [&New SubGroup]
 新規サブグループ (&N)

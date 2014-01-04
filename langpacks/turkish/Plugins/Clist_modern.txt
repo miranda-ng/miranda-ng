@@ -117,7 +117,7 @@ Yatay Yasla
 Çok satırlı durum çubuğu:
 [Accounts per line]
 Her satırdaki hesap
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 Durum çubuğunun yüksekliğini değiştirmek için:\nMenü->Çerçeveler->Durum Çubuğu->Başlık Çubuğunu Göster seçip beliren başlığı aşağı/yukarı çekin.
 [Set options per account]
 Her hesap için ayrı ayar yap
@@ -381,7 +381,7 @@ Protokol yerine diğer durum simgelerini kullan
 Normal durumu katman olarak yerleştir
 [Right-To-Left reading mode (mirror template)]
 Sağdan sola okuma kipi (ayna kalıbı)
-[Replace smileys in clist]
+[Replace smileys in contact list]
 Clist içine gülen yüzleri koy
 [Draw smileys on first line]
 Gülen yüzleri ilk satıra yerleştir
@@ -503,9 +503,9 @@ Grubu Yeniden Adlandı&r
 &Grubu Sil
 [Contact List smileys]
 Kişi Listesi gülen yüzler
-[List Background]
+[List background]
 Liste Art Alanı
-[StatusBar Background]
+[Status bar background]
 Durum Çubuğu Art Alanı
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 '%s' kişisinin '%s' Metakişisine dünüştürülmesini ve eklenmesini istiyor musunuz?
@@ -579,12 +579,6 @@ Kullanımdaki görünüm kipi yazısı
 Art Alan
 [Selected text]
 Seçili yazı
-[General]
-Genel
-[List]
-Liste
-[Window]
-Pencere
 [Not focused]
 Odaklanmamış
 [Offline]
@@ -617,6 +611,12 @@ Sistem tepsisine gizle
 Sol eşiğin arkasında
 [Behind right edge]
 Sağ eşiğin arkasında
+[General]
+Genel
+[List]
+Liste
+[Window]
+Pencere
 [Event Area]
 Etkinlik alanı
 [No Events]

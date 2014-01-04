@@ -250,11 +250,11 @@ Habilitar o mapeamento de portas UPnP
 Complete o formulário seguinte para criar um novo perfil
 [Profile]
 Perfil
-[e.g. Workplace]
+[e.g., Workplace]
 e.g. local de trabalho
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Pode selecionar um sistema de perfis diferente do padrão, poderá acrescentar mais funcionalidades, mas em caso de duvida utilize o padrão.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 e.g. Database do Miranda
 [Driver]
 Sistema
@@ -1588,12 +1588,6 @@ Mensagens de entrada (10x10)
 Mensagem de saída (10x10)
 [Last message received on %s at %s.]
 Última mensagem recebida em %s às %s.
-[signed off (was %s)]
-saiu (era %s)
-[signed on (%s)]
-entrou em (%s)
-[is now %s (was %s)]
-Agora é %s (era %s)
 [%s is typing a message...]
 %s está escrevendo uma mensagem...
 [File sent]

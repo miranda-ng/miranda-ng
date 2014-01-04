@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -573,8 +573,6 @@ TabSRMM Hakkında...
 İleti Günlüğü Seçenekleri
 [View User's History]
 Kullanıcı Geçmişini Göster
-[Hide titlebar]
-Başlık çubuğunu gizle
 [Message Session...]
 İleti Oturumu...
 [Attach to]
@@ -1079,8 +1077,6 @@ Başlık değişti %s
 %s dikkat çekti: %s
 [No word to look up]
 Aranacak kelime yok
-[Nick name]
-Kısa ad
 [Unique ID]
 Tekil kod
 [Nick]

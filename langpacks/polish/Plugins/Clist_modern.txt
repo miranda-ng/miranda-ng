@@ -74,7 +74,7 @@ Układaj pionowo
 Przewijaj z tekstem
 [Stretch proportionally]
 Rozciągnij proporcjonalnie
-[Tile vertically according to Row Height]
+[Tile vertically according to row height]
 Układaj pionowo zależnie od wysokości wiersza
 [Use Windows Colors]
 Użyj kolorów Windows
@@ -184,7 +184,7 @@ Poziome wyrówn.
 Wielolinijkowy pasek statusu:
 [Accounts per line]
 Protokołów w linii
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * Aby zwiększyć wysokość paska statusu - ustaw w głównym menu: Ramki -> Pasek statusu -> Pokaż pasek tytułu i wtedy pociągnij widoczny pasek w górę lub dół.
 [Hold [Shift] to inverse [Right Click] behavior]
 SHIFT+PPM wywołuje menu główne.
@@ -667,13 +667,13 @@ Nakładka awatara
 Nakładka statusu
 [Contact List smileys]
 Emotikony listy kontaktów
-[List Background]
+[List background]
 Tło listy
-[Menu Background]
+[Menu background]
 Tło Menu
-[StatusBar Background]
+[Status bar background]
 Tło Paska Stanu
-[Frames TitleBar BackGround]
+[Frames title bar background]
 Tło Paska Tytułu Ramek
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Chcesz przekonwertować kontakt "%s" do metakontaktu i dodać do niego "%s"?
@@ -766,16 +766,8 @@ Tekst menu
 Zaznaczony tekst menu
 [Frame title text]
 Tekst tytułu ramki
-[Statusbar text]
-Tekst na pasku statusu
 [3rd party frames transparent back color]
 Tło ramki jako przezroczyste
-[General]
-Ogólne
-[List]
-Lista
-[Window]
-Okno
 [Not focused]
 Nieaktywne
 [Offline]
@@ -818,9 +810,15 @@ Schowaj do zasobnika
 Za lewą krawędzią
 [Behind right edge]
 Za prawą krawędzią
+[General]
+Ogólne
+[List]
+Lista
+[Window]
+Okno
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[Event Area Background]
-Tło Obszaru Zdarzeń
+[Event area background]
+Tło obszaru zdarzeń
 [Event Area]
 Obszar zdarzeń
 [No Events]
@@ -1020,7 +1018,7 @@ Wyłącz dźwięki
 Minimalizuj
 [To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Aby wyświetlić pasek narzędzi w Clist_modern wymagana jest wtyczka TopToolBar. Kliknij Tak aby pobrać lub Nie aby kontynuować.
-[ToolBar Background]
+[Toolbar background]
 Tło Paska Narzędzi
 [Toolbar upgrade]
 Aktualizacja paska narzędzi
@@ -1104,14 +1102,12 @@ Góra
 Dół
 [Show All Frames]
 Pokaż wszystkie ramki
-[Show All Titlebars]
+[Show all title bars]
 Pokaż wszystkie paski tytułów
-[Hide All Titlebars]
+[Hide all title bars]
 Ukryj wszystkie paski tytułów
 [Lock Frame]
 Zablokuj ramkę
-[Show TitleBar]
-Pokaż pasek tytułu
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 Menu ramki

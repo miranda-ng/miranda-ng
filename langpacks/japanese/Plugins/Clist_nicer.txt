@@ -329,7 +329,7 @@ Cancel
 角の半径
 [Group top padding]
 グループ上部の余白
-[Frame titlebar height]
+[Frame title bar height]
 フレームタイトルバーの高さ
 [Ignore selection for groups]
 グループの無視選択
@@ -597,9 +597,9 @@ TabSRMM メニューを表示
 細い枠線
 [No border]
 枠線なし
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 clist は デフォルトのタイトルバーと枠線を使用時にはドッキングできません。ツールウィンドウもしくは無枠線スタイルを代わりに使用してください
-[Clist docking]
+[Contact list docking]
 Clist ドッキング
 [Current view mode: %s]
 現在の表示モード: %s
@@ -611,7 +611,7 @@ Clist ドッキング
 フレームにスキンを使用 (&S)
 [Frames]
 フレーム
-[Show TitleBar]
+[Show title bar]
 タイトルバーを表示
 [Skinned frame]
 フレームにスキンを使用

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Edit Note]
@@ -711,8 +711,6 @@ Jabber リソース
 登録済みトランスポート
 [Local Server Transports]
 ローカルサーバートランスポート
-[Browse Chatrooms]
-チャットルームの参照
 [Create/Join group chat]
 グループチャットの作成 / 参加
 [Roster editor]
@@ -837,8 +835,6 @@ HTTP 認証リクエストを受信 (XEP-0070)
 ステータス変更
 [JID]
 JID
-[Nick Name]
-ニックネーム
 [Group]
 グループ
 [Subscription]

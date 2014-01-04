@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -58,13 +58,13 @@ Seperate Fenster für Gruppenchats verwenden
 Maximale Anzahl an Gruppenchats in einem Fenster
 [Layout]
 Layout
-[Show titlebar]
+[Show title bar]
 Titelleiste anzeigen
 [Show status bar]
 Statusleiste anzeigen
 [Show toolbar]
 Toolbar anzeigen
-[Show infobar]
+[Show info bar]
 Infoleiste anzeigen
 [Show avatars]
 Avatare anzeigen
@@ -86,8 +86,6 @@ Linien
 Nachrichtenfenster-Ereignislog
 [Enable IEView]
 IEView aktivieren
-[Log status changes]
-Statuswechsel aufzeichnen
 [Show icons]
 Icons anzeigen
 [Show time]
@@ -470,25 +468,25 @@ Wechseln: Voriger Tab
 Wechseln: Nächster Tab
 [Navigate: Tab %d]
 Wechseln: Tab %d
-[Window: Toggle Statusbar]
+[Window: Toggle status bar]
 Fenster: Statusleiste umschalten
-[Window: Toggle Titlebar]
+[Window: Toggle title bar]
 Fenster: Titelleiste umschalten
-[Window: Toggle Toolbar]
+[Window: Toggle toolbar]
 Fenster: Toolbar umschalten
-[Window: Toggle Infobar]
+[Window: Toggle info bar]
 Fenster: Infoleiste umschalten
-[Window: Clear Log]
+[Window: Clear log]
 Fenster: Verlauf leeren
 [Window: Minimize]
 Fenster: Minimieren
-[Window: Close Tab]
+[Window: Close tab]
 Fenster: Tab schließen
 [Action: Quote]
 Aktion: Zitiere
-[Action: Send to All]
+[Action: Send to all]
 Aktion: Sende an alle
-[Action: Paste & Send]
+[Action: Paste and send]
 Aktion: Einfügen und senden
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
@@ -523,12 +521,6 @@ Emoticon einfügen
 Nachricht senden
 [User Menu - %s]
 Benutzermenü - %s
-[signed off (was %s)]
-ist nun offline (war %s)
-[signed on (%s)]
-ist nun online (war %s)
-[is now %s (was %s)]
-ist nun %s (war %s)
 [Sending in progress: %d message(s) left...]
 %d Nachricht(en) werden momentan gesendet.
 [%s is typing a message...]
@@ -597,11 +589,11 @@ Nachrichteneingabefeld Hintergrund
 Ausgehende URL
 [Incoming URL]
 Eingehende URL
-[Infobar contact name]
+[Info bar contact name]
 Statusleisten Kontaktname
-[Infobar background]
+[Info bar background]
 Infoleiste Hintergrund
-[Infobar status message]
+[Info bar status message]
 Infoleiste Statusnachricht
 [Others nicknames]
 Andere Nicks
@@ -1005,7 +997,7 @@ Benutzerliste anzeigen/verstecken (Strg+N)
 Raumeinstellungen (Strg+O)
 [Enable/disable the event filter (CTRL+F)]
 Ereignisfilter aktivieren/deaktivieren (Strg+F)
-[Nick name]
+[Nickname]
 Nickname
 [Unique ID]
 Unique ID

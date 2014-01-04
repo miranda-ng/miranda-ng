@@ -519,17 +519,17 @@ Eksport: Moduły
 Eksport: Folder
 [Default]
 Domyślny
-[Details Infobar]
+[Details info bar]
 Infobar - dane
-[Phone Infobar]
+[Phone info bar]
 Infobar - telefon
-[E-Mail Infobar]
+[E-Mail info bar]
 Infobar - E-mail
 [Export VCard]
 Eksport VCard
 [Import VCard]
 Import VCard
-[Anniversary Infobar]
+[Anniversary info bar]
 Infobar - rocznice
 [Update]
 Aktualizacja

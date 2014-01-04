@@ -46,7 +46,7 @@ Inne
 Wyklucz z sesji ukryte kontakty, przy zamykaniu
 [Warn, when some of LastSession contacts are hidden]
 Ostrzegaj, gdy niektóre z kontaktów są ukryte
-[Show other warnings ("session already opened" etc.)]
+[Show other warnings ("session already opened", etc.)]
 Pokaż inne ostrzeżenia ("sesja jest już otwarta" itp.)
 [Crash Recovery mode]
 Tryb Crash Recorvery

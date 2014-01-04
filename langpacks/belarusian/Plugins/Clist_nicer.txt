@@ -388,7 +388,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 Налады скіна
 [Group top padding]
 Верх. водступ груп
-[Frame titlebar height]
+[Frame title bar height]
 Вышыня назвы фрэйма
 [Ignore selection for groups]
 Ігнараваць вылучэнне для груп
@@ -763,9 +763,9 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [No border]
 Без рамкі
 ;file \plugins\Clist_nicer\src\Docking.cpp
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Немагчыма паркаваць спіс кантактаў пры выкарыстанні мяжы і загалоўка па змаўчанні. Выкарыстоўвайце стыль "Без меж" ці "Панэль"
-[Clist docking]
+[Contact list docking]
 Паркоўка
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
@@ -821,7 +821,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 &Загаловак фрэйма
 [&Visible]
 &Бачнасць
-[&Show TitleBar]
+[&Show title bar]
 Паказваць назву
 [&Locked]
 Замацаваць
@@ -851,15 +851,15 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 Фрэймы
 [Show All Frames]
 Паказаць усе фрэймы
-[Show All Titlebars]
+[Show all title bars]
 Паказваць назвы
-[Hide All Titlebars]
+[Hide all title bars]
 Схаваць назвы
 [Lock Frame]
 Замацаваць фрэйм
 [Visible]
 Мабыць
-[Show TitleBar]
+[Show title bar]
 Паказаць загаловак
 [Skinned frame]
 Ужываць скін да фрэйма

@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Stretch to width]
 Esticar em largura
@@ -175,7 +175,7 @@ Margem esquerda:
 Acinzentar lista quando
 [Dim idle contacts]
 Desvanecer contatos inativos
-[Contact List Background]
+[Contact list background]
 Fundo dos Contatos
 [MetaContacts supporting]
 Suporte ao Metacontatos
@@ -201,7 +201,7 @@ Redimensionar
 Mostrar efeito bisel em painéis
 [Use connecting Icon]
 Usar ícone conectando
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 Use Nova Gaveta para Barra de Status
 [&Main menu]
 &Menu principal
@@ -287,11 +287,11 @@ Texto Quente
 Texto de Pesquisa
 [List]
 Lista
-[List Background]
+[List background]
 Alterar Fundo
 [List MetaContacts]
 Listar Metacontatos
-[StatusBar Background]
+[Status bar background]
 Fundo da Barra de Status
 [Not focused]
 Não focalizado

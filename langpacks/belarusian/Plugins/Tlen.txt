@@ -100,7 +100,7 @@ Tlen Пароль
 ОК
 [Cancel]
 Скасаваць
-[Nick name:]
+[Nickname:]
 Псеўданім:
 [First name:]
 Імя:
@@ -140,8 +140,6 @@ Tlen Пароль
 Сістэма:
 [Personal Information]
 Персанальныя дадзеныя
-[Nickname:]
-Нік:
 [Age:]
 Узрост:
 [to]

@@ -181,7 +181,7 @@ Kuva siin väljas kasutajad
 Nimeta grupp ümber
 [&Delete Group]
 Kustuta grupp
-[List Background]
+[List background]
 Nimekirjade taust
 [Away contacts]
 Eemal kontaktid

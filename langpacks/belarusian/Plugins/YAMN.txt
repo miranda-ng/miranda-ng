@@ -40,7 +40,7 @@
 Запуск прыкладання
 [Use contact notification for this account]
 Натыфікацыя кантактам
-[Replace nick name]
+[Replace nickname]
 Замяніць нік
 [Disable Events]
 Выключыць падзеі

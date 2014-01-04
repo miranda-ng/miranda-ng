@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -571,8 +571,6 @@ a TabSRMM-rõl...
 Üzenetnapló beállítások
 [View User's History]
 Felhasználó elõzményeinek megtekintése
-[Hide titlebar]
-Címsor elrejtése
 [Message Session...]
 Üzenet munkamenet...
 [Attach to]
@@ -1077,8 +1075,6 @@ Információ %s
 Megjegyzés %s feladótól: %s
 [No word to look up]
 Nincs feloldandó szó
-[Nick name]
-Becenév
 [Unique ID]
 Egyedi azonosító
 [Nick]

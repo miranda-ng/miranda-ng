@@ -74,7 +74,7 @@ Mosaico vertical
 Desplazarse con el texto
 [Stretch proportionally]
 Estirar proporcionalmente
-[Tile vertically according to Row Height]
+[Tile vertically according to row height]
 Mosaico vertical de acuerdo con el alto de fila
 [Use Windows Colors]
 Usar colores de Windows
@@ -184,7 +184,7 @@ Alineación horizontal
 Barra de estado de líneas múltiples:
 [Accounts per line]
 Cuentas por línea
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * Para aumentar la altura de la barra de estado:\nAjuste en el menú principal: Marcos->Barra de estado->Mostrar barra de título, entonces arrastrar del título aparecido de la barra de estado hacia arriba o abajo.
 [Hold [Shift] to inverse [Right Click] behavior]
 Mantener [Shift] para invertir [Clic derecho] comportamiento
@@ -506,7 +506,7 @@ Margen izquierdo:
 
 [Right-To-Left reading mode (mirror template)]
 
-[Replace smileys in clist]
+[Replace smileys in contact list]
 
 [Use protocol smileys]
 
@@ -667,13 +667,13 @@ Pieles
 
 [Contact List smileys]
 
-[List Background]
+[List background]
 Lista de fondos
-[Menu Background]
+[Menu background]
 
-[StatusBar Background]
+[Status bar background]
 
-[Frames TitleBar BackGround]
+[Frames title bar background]
 
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 
@@ -766,16 +766,8 @@ Texto seleccionado
 
 [Frame title text]
 
-[Statusbar text]
-
 [3rd party frames transparent back color]
 
-[General]
-General
-[List]
-Lista
-[Window]
-Ventana
 [Not focused]
 No enfocado
 [Offline]
@@ -818,8 +810,14 @@ Global
 
 [Behind right edge]
 
+[General]
+General
+[List]
+Lista
+[Window]
+Ventana
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[Event Area Background]
+[Event area background]
 
 [Event Area]
 
@@ -1018,9 +1016,9 @@ Habilitar sonidos
 Desabilitar sonidos
 [Minimize]
 Minimizar
-[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
-Para ver una barra de herramientas en Clist Modern necesitas el plugin TopToolBar. Haga clic en Sí para descargarlo o Cancelar para continuar
-[ToolBar Background]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+Para ver una barra de herramientas en Clist_modern necesitas el plugin TopToolBar. Haga clic en Sí para descargarlo o Cancelar para continuar
+[Toolbar background]
 
 [Toolbar upgrade]
 Actualizar barra de herramientas
@@ -1104,13 +1102,11 @@ Modos de vista
 
 [Show All Frames]
 
-[Show All Titlebars]
+[Show all title bars]
 
-[Hide All Titlebars]
+[Hide all title bars]
 
 [Lock Frame]
-
-[Show TitleBar]
 
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]

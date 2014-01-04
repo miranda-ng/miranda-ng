@@ -570,8 +570,6 @@ Channel betreten
 Channelnamen zum Betreten eingeben
 [Please select IRC network and enter the password if needed]
 Bitte IRC-Netzwerk auswählen und gegebenenfalls Passwort eingeben
-[Change nick name]
-Nickname ändern
 [Please enter a unique nickname]
 Bitte eindeutigen Nick eingeben
 [Please enter your authentification code]

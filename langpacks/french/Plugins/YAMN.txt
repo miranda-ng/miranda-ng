@@ -62,7 +62,7 @@ Récupérer le message
 Vérifier depuis le menu
 [Use contact notification for this account]
 Afficher un contact dans la liste
-[Replace nick name]
+[Replace nickname]
 Remplacer le pseudo
 [Disable Events]
 Désactiver les évènements

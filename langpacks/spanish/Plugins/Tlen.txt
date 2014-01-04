@@ -102,7 +102,7 @@ Previsualizar
 Aceptar
 [Cancel]
 Cancelar
-[Nick name:]
+[Nickname:]
 Apodo:
 [First name:]
 Primer nombre:
@@ -146,8 +146,6 @@ Versión
 
 [Personal Information]
 
-[Nickname:]
-Apodo:
 [Age:]
 Edad:
 [to]

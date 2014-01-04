@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -355,8 +355,6 @@ BB קוד
 אפשרויות יומן הודעות
 [View User's History]
 הצג היסטוריה עם משתמש
-[Hide titlebar]
-הסתר כותרת
 [Attach to]
 חבר ל
 [Autoselect]
@@ -515,7 +513,7 @@ RSS אל תודיע אל אירועים מפרוטוקולי
 השתמש באייקוני הודעה נכנסת/יוצאת
 [Use Message Grouping]
 השתמש בקיבוץ הודעות
-[Simple text formatting (*bold* etc.)]
+[Simple text formatting (*bold*, etc.)]
 (תבנית טקסט פשוטה (*מודגש* ועוד
 [Support BBCode formatting]
 BB תמוך בתבניות קודי

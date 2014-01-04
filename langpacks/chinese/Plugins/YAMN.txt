@@ -43,7 +43,7 @@
 从菜单检查
 [Use contact notification for this account]
 为此帐号使用联系人通知
-[Replace nick name]
+[Replace nickname]
 替换昵称
 [Disable Events]
 禁用事件

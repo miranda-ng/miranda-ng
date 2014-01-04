@@ -429,8 +429,6 @@ Join kanal
 Vennligst skriv navnet på kanalen du vil joine
 [Please select IRC network and enter the password if needed]
 Vennligst velg IRC nettverk og skriv inn passord ved behov
-[Change nick name]
-Forandre kalle navn
 [Please enter a unique nickname]
 Vennligst skriv et unikt kallenavn
 [Kick]

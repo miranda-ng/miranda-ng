@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.4.2
+;  Version: 0.8.5.0
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Edit Contact Information]
@@ -361,17 +361,17 @@ IM 命名
 导出: 文件夹
 [Default]
 默认
-[Details Infobar]
+[Details info bar]
 详细资料信息栏
-[Phone Infobar]
+[Phone info bar]
 电话信息栏
-[E-Mail Infobar]
+[E-Mail info bar]
 邮件信息栏
 [Export VCard]
 导出 VCard
 [Import VCard]
 导入 vCard
-[Anniversary Infobar]
+[Anniversary info bar]
 周年纪念信息栏
 [Goto]
 转到

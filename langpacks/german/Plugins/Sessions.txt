@@ -46,7 +46,7 @@ Diverses
 Schließe versteckte Kontakte beim Beenden aus der Sitzung aus
 [Warn, when some of LastSession contacts are hidden]
 Warnung, wenn einige Kontakte der letzten Sitzung versteckt sind
-[Show other warnings ("session already opened" etc.)]
+[Show other warnings ("session already opened", etc.)]
 Warnungen anzeigen ("Sitzung bereits geöffnet" etc.)
 [Crash Recovery mode]
 Wiederherstellung nach Absturz

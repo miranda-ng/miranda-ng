@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Edit Note]
@@ -703,8 +703,6 @@ Jabber 资源
 已注册传输
 [Local Server Transports]
 本地服务器传输
-[Browse Chatrooms]
-浏览聊天室
 [Create/Join group chat]
 建立/加入群组聊天
 [Roster editor]
@@ -1073,8 +1071,6 @@ Jabber 协议选项
 角色变更
 [Status changes]
 状态变更
-[Nick Name]
-呢称
 [Group]
 群组
 [Subscription]

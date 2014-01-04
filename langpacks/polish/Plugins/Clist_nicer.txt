@@ -388,7 +388,7 @@ Promień rogów
 Opcje skórki
 [Group top padding]
 Położenie grupy
-[Frame titlebar height]
+[Frame title bar height]
 Wysokość paska tytułu
 [Ignore selection for groups]
 Ignoruj zaznaczenie dla grup
@@ -821,7 +821,7 @@ Tryby widoku
 Nazwa ramki
 [&Visible]
 Widoczny
-[&Show TitleBar]
+[&Show title bar]
 Pokaż pasek tytułu
 [&Locked]
 Zablokowany
@@ -851,15 +851,15 @@ Dół
 Ramki
 [Show All Frames]
 Pokaż wszystkie ramki
-[Show All Titlebars]
+[Show all title bars]
 Pokaż wszystkie paski tytułów
-[Hide All Titlebars]
+[Hide all title bars]
 Ukryj wszystkie paski tytułów
 [Lock Frame]
 Zablokuj ramkę
 [Visible]
 Widoczny
-[Show TitleBar]
+[Show title bar]
 Pokaż pasek tutułu
 [Skinned frame]
 Skórkowalna ramka

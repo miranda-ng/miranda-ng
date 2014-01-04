@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Stretch to width]
 Strekk til bredde
@@ -175,7 +175,7 @@ Venstremargin
 Grå ut hele listen når:
 [Dim idle contacts]
 Utydeliggjør inaktive kontakter
-[Contact List Background]
+[Contact list background]
 Kontaktliste bakgrunn
 [MetaContacts supporting]
 MetaKontakter støtter
@@ -201,7 +201,7 @@ Vis størrelsegrep
 Vis bevel effekt på paneler
 [Use connecting Icon]
 Bruk tilkoblings Ikon
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 Bruk ny Tegner for Statuslinjen
 [&Main menu]
 &Hovedmeny
@@ -287,11 +287,11 @@ Valgt Tekst
 Hurtigsøk Tekst
 [List]
 Liste
-[List Background]
+[List background]
 Listebakgrunn
 [List MetaContacts]
 Opplisting av MetaContacts
-[StatusBar Background]
+[Status bar background]
 Statuslinje Bakgrunn
 [Not focused]
 Ikke fokusert

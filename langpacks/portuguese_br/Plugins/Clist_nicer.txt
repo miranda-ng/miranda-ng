@@ -321,7 +321,7 @@ Use desenho gradiente rápido
 Cantos arredondados
 [Group top padding]
 Agrupar disposição superior
-[Frame titlebar height]
+[Frame title bar height]
 Altura da moldura da barra de título
 [Ignore selection for groups]
 Ignorar seleção para os grupos
@@ -575,9 +575,9 @@ Janela de Ferramentas
 Borda estreita
 [No border]
 Sem borda
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 O clist não pode ser encaixado ao usar a barra de título padrão e borda. Use uma ferramenta de janela ou estilo sem fronteiras em vez disso.
-[Clist docking]
+[Contact list docking]
 Encaixando lista de contatos
 [Current view mode: %s]
 Modo de exibição atual: %s

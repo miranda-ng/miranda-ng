@@ -9,7 +9,7 @@
 Автоматична заборона різних подій в залежності від певного статусу.
 [No sounds when:]
 Немає звуків, якщо:
-[No CLIST blink when:]
+[No CList blink when:]
 Немає миготіння у КЛ:
 [No SysTray blink when:]
 Немає миготіння у треї:

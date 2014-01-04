@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Stretch to width]
 가로로 늘리기
@@ -159,7 +159,7 @@
 전체 목록이 회색으로 됐을 때:
 [Dim idle contacts]
 희미한 무작업 상태의 대화 상대
-[Contact List Background]
+[Contact list background]
 대화 상대 목록 배경
 [Status Bar]
 상태바
@@ -247,7 +247,7 @@
 배경
 [List]
 목록
-[List Background]
+[List background]
 목록 배경
 [Not focused]
 포커스 되지 않음

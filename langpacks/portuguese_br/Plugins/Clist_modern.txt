@@ -131,7 +131,7 @@ Alinhamento horizontal
 Barra de status multilinha:
 [Accounts per line]
 Contas por linha
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * Para aumentar a altura Barra de Status:\nConfigure no menu principal: Janelas -> Barra de Estado -> Mostrar Barra de título e clique em título da barra de status para cima ou para baixo.
 [Set options per account]
 Defina as opções para cada conta
@@ -393,7 +393,7 @@ Use ícone de status do protocolo adicional ao invés
 Empate estado normal como overlay
 [Right-To-Left reading mode (mirror template)]
 Modo de leitura, da direita para a esquerda (espelho modelo)
-[Replace smileys in clist]
+[Replace smileys in contact list]
 Substituir smileys em clist
 [Draw smileys on first line]
 Mostrar smileys na primeira linha
@@ -513,9 +513,9 @@ Ocultar Miranda
 Status
 [Contact List smileys]
 Smileys dos Contatos
-[List Background]
+[List background]
 Alterar Fundo
-[StatusBar Background]
+[Status bar background]
 Fundo da Barra de Status
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Você quer contato que '%s' seja convertido para MetaContato e '%s' seja adicionado a ele?
@@ -607,16 +607,8 @@ Texto do Menu
 Texto de menu selecionado
 [Frame title text]
 Texto da janela de Título
-[Statusbar text]
-Texto da barra de status
 [3rd party frames transparent back color]
 Cor de fundo transparente para outras janelas
-[General]
-Geral
-[List]
-Lista
-[Window]
-Janela
 [Not focused]
 Não focalizado
 [Online]
@@ -653,6 +645,12 @@ Ocultar na bandeja
 Atrás borda esquerda
 [Behind right edge]
 Atrás borda direita
+[General]
+Geral
+[List]
+Lista
+[Window]
+Janela
 [Event Area]
 Área de eventos
 [No Events]

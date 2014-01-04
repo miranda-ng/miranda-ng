@@ -10,6 +10,7 @@
 [&E-mail]
 [URL]
 [E-mail]
+[You were added by %s%s]
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 [Ctrl + ]
 [Alt + ]

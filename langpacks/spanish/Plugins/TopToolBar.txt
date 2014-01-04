@@ -39,6 +39,8 @@ Establecer
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Por defecto
+[TopToolBar Background]
+
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
 No se ha encontrado el servicio Marcos, por lo que el plugin se desactivará.\nPara ejecutarlo es necesario instalar y/o activar el plugin de lista de contactos que lo soporte:\n- Lista de contactos Moderna\n- MultiWindow (MW)\n- Nicer+\nUsted puede obtenerlo en http://miranda-ng.org/
 [TopToolBar]

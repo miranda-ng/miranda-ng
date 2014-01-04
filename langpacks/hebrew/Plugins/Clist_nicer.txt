@@ -421,7 +421,7 @@
 דקות
 [Frames]
 מבנה רשימה
-[Show TitleBar]
+[Show title bar]
 הראה סרגל כותרת
 [&Find/Add Contacts...]
 &מצא/הוסף משתמשים

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Automatically pop up the window when]
@@ -47,13 +47,13 @@
 השתמש בחלונות נפרדים לקבוצות צ'אטים
 [Limit number of group chats tabs per window to]
 הגבל מספר קבוצות צ'אטים בחלון ל
-[Show titlebar]
+[Show title bar]
 הראה סרגל כותרת
 [Show status bar]
 הצג את שורת המצב
 [Show toolbar]
 הראה סרגל כלים
-[Show infobar]
+[Show info bar]
 הראה סרגל מידע
 [Use the contact's status icon as the window icon]
 השתמש בסמל המצב של איש בקשר כסמל של חלון ההודעות
@@ -313,8 +313,6 @@
 צטט
 [User Menu - %s]
 תפריט משתמש - %s
-[signed off (was %s)]
-התנתק (היה %s)
 [%s is typing a message...]
 %s כותב/ת הודעה...
 [Last message received on %s at %s.]

@@ -549,8 +549,6 @@ WallOps від %s:
 Введіть назву чат-кімнати
 [Please select IRC network and enter the password if needed]
 Виберіть мережу IRC і введіть пароль, якщо необхідно
-[Change nick name]
-Змінити нік
 [Please enter a unique nickname]
 Введіть унікальний нік
 [Please enter your authentification code]

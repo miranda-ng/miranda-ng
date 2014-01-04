@@ -150,7 +150,7 @@ Näide: 1050-1070, 2000-2010, 2500
 Sisenev ühendus
 [Profile]
 Profiil
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 nt. Miranda andmebaas
 [Driver]
 Draiver

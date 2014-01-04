@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Automatically pop up the window when]
@@ -315,12 +315,6 @@ Felhasználó elõzményeinek megtekintése
 Szöveg idézése
 [User Menu - %s]
 Felhasználómenü - %s
-[signed off (was %s)]
-kijelentkezett (korábban: %s)
-[signed on (%s)]
-bejelentkezett (ekkor: %s)
-[is now %s (was %s)]
-most %s (régebben: %s)
 [Sending in progress: %d message(s) left...]
 Küldés folyamatban: %s üzenet van hátra...
 [%s is typing a message...]
@@ -599,7 +593,7 @@ Becenévlista mutatása/elrejtése (CTRL+N)
 Szoba vezérlése (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Esemény szûrõ be/kikapcsolása
-[Nick name]
+[Nickname]
 Becenév
 [Unique ID]
 Egyedi azonosító

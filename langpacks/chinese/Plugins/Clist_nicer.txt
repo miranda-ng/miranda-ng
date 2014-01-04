@@ -333,7 +333,7 @@
 边角半径
 [Group top padding]
 群组顶端补位
-[Frame titlebar height]
+[Frame title bar height]
 框架标题栏高度
 [Ignore selection for groups]
 群组忽略选择
@@ -603,9 +603,9 @@
 细框线
 [No border]
 无框线
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 使用默认标题栏及框线时无法停靠联系人列表. 请改用工具窗口或无框线样式. 
-[Clist docking]
+[Contact list docking]
 停靠联系人列表
 [No events...]
 无事件...
@@ -621,7 +621,7 @@
 框架使用皮肤(&S)
 [Frames]
 框架
-[Show TitleBar]
+[Show title bar]
 显示标题栏
 [Skinned frame]
 框架使用皮肤

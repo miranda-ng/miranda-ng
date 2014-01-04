@@ -666,7 +666,7 @@ Unicode зборка
 Транспорти
 [Local Server Transports]
 Транспорти сервера
-[Browse Chatrooms]
+[Browse chatrooms]
 Огляд чат-кімнат
 [Create/Join group chat]
 Створити/увійти в чат
@@ -676,7 +676,7 @@ Unicode зборка
 Сервер:
 [Room:]
 Чат-кімнати:
-[Nick name:]
+[Nickname:]
 Псевдонім:
 [Recently відвідали chatrooms:]
 Останні відвідані чати:
@@ -706,8 +706,6 @@ Unicode зборка
 Інфо користувача: %s
 [%s (not on roster)]
 %s (не в ростері)
-[Nick Name]
-Нік
 [Privacy Lists]
 Списки приватності
 [List Editor...]
@@ -1254,8 +1252,6 @@ JID / URL:
 Визначення завершено
 [Registered transports]
 Транспорти
-[Browse chatrooms]
-Огляд чат-кімнат
 [Browse local transports]
 Огляд локальних транспортів
 ; Ad-Hoc команди і запрошення користувачів

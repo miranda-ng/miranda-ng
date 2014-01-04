@@ -256,11 +256,11 @@ Bu sayfada yaptığınız değişikliklerin etkin olması için yeniden bağlanm
 Yeni bir kullanıcı profili oluşturmak için aşağıdaki formu doldurun
 [Profile]
 Profile
-[e.g. Workplace]
+[e.g., Workplace]
 örnek işyeri
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Varsayılandan farklı bir profil sürücüsü seçebilirsiniz, bu daha geniş olanaklar sunabilir, emin değilseniz varsayılanı kullanın.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 örenek Miranda Veritabanı
 [Driver]
 Sürücü
@@ -1574,12 +1574,6 @@ Alınan ileti (10x10)
 Gönderilen ileti (10x10)
 [Last message received on %s at %s.]
 %s tarafından son ileti %s saatinde alındı
-[signed off (was %s)]
-çevrimdışı (%s idi)
-[signed on (%s)]
-çevrimiçi (%s)
-[is now %s (was %s)]
-şimdi %s (%s idi)
 [%s is typing a message...]
 %s bir ileti yazıyor...
 [File sent]

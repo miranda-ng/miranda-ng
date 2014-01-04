@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -633,8 +633,6 @@ Trocar Lista de nicks
 Filtro de evento - clique direito para instalação, clique esquerdo para ativar/desactivar
 [<Separator>]
 <Separador>
-[Hide titlebar]
-Ocultar barra de título
 [Message Session...]
 Mensagem de Sessão...
 [Attach to]
@@ -957,7 +955,7 @@ Traçar linhas de grade
 Uso de Entrada /Saída de Ícones
 [Use Message Grouping]
 Use Mensagem para Agrupamento
-[Simple text formatting (*bold* etc.)]
+[Simple text formatting (*bold*, etc.)]
 Formatação de texto simples (*negrito* etc)
 [Support BBCode formatting]
 Suporte para formatação BBCode
@@ -1251,8 +1249,6 @@ Informação in %s
 Notificação de %s: %s
 [No word to look up]
 Sem palavras para procurar
-[Nick name]
-Apelido
 [Unique ID]
 ID único
 [Nick]

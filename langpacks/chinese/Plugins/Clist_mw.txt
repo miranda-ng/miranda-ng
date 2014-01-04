@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Stretch to width]
 拉伸至宽度
@@ -177,7 +177,7 @@
 下列清况将整个列表变灰: 
 [Dim idle contacts]
 暗淡化闲置联系人
-[Contact List Background]
+[Contact list background]
 联系人列表背景
 [MetaContacts supporting]
 支持中继联系人
@@ -203,7 +203,7 @@
 显示面板斜角
 [Use connecting Icon]
 使用连接图标
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 状态栏使用新绘制方法
 [&Main menu]
 主菜单(&M)
@@ -291,11 +291,11 @@
 快速搜索文本
 [List]
 列表
-[List Background]
+[List background]
 列表背景
 [List MetaContacts]
 列出中继联系人
-[StatusBar Background]
+[Status bar background]
 状态栏背景
 [Not focused]
 未获取焦点
@@ -333,5 +333,3 @@
 关闭 Miranda
 [Frames]
 框架
-[Show TitleBar]
-显示标题栏

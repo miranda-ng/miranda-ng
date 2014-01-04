@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 
@@ -202,7 +202,7 @@ Vista gris a la lista completa cuando:
 Oscurecer contactos inactivos
 [Hide vertical scrollbar]
 Ocultar barra de desplazamiento vertical
-[Contact List Background]
+[Contact list background]
 Fondo de la lista de contactos
 [Use 'Meta' protocol icons for Metacontacts]
 
@@ -238,7 +238,7 @@ Igualar anchura de secciones
 
 [Use connecting Icon]
 
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 
 [&Main menu]
 &Menú principal
@@ -299,6 +299,13 @@ El&iminar Grupo
 Personalizar
 [Backgrounds]
 
+;file \plugins\Clist_mw\src\clc.cpp
+[Status bar background]
+
+[List background]
+Lista de fondos
+[Frames title bar background]
+
 ;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Contactos estándar
@@ -329,13 +336,11 @@ Texto rondado
 [Quicksearch Text]
 Búsqueda rápida de texto
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[Contact list]
+Lista de contactos
 [List]
 Lista
-[List Background]
-Lista de fondos
 [List MetaContacts]
-
-[StatusBar Background]
 
 [Not focused]
 No enfocado
@@ -396,7 +401,7 @@ Global
 
 [&Visible]
 
-[&Show TitleBar]
+[&Show title bar]
 
 [&Locked]
 
@@ -424,15 +429,13 @@ Global
 Marcos
 [Show All Frames]
 
-[Show All Titlebars]
+[Show all titlebars]
 
-[Hide All Titlebars]
+[Hide all titlebars]
 
 [Lock Frame]
 
 [Visible]
-
-[Show TitleBar]
 
 [Floating]
 

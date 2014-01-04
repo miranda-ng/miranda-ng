@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [OK]
@@ -633,8 +633,6 @@ Escolha do Servidor
 Transportes Registrado
 [Local Server Transports]
 Servidor Local de Transportes
-[Browse Chatrooms]
-Navegar Salas de Bate-papo
 [Create/Join group chat]
 Criar/Entrar na Grupo de Bate-papo
 [Roster editor]
@@ -723,8 +721,6 @@ Mudanças de papel
 Alterações de Status
 [JID]
 JID
-[Nick Name]
-Apelido
 [Group]
 Grupo
 [Subscription]

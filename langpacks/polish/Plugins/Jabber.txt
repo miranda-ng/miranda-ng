@@ -160,7 +160,7 @@ ZIP:
 Kraj:
 [Full name:]
 Pełna nazwa:
-[Nick name:]
+[Nickname:]
 Pseudonim:
 [First name:]
 Imię:
@@ -286,8 +286,6 @@ Zaproszenie czatowe
 Jesteś zaproszony do pokoju konferencyjnego przez
 [with following reason:]
 Powód:
-[Nickname:]
-Nick:
 [&Accept]
 Akceptuj
 [Jabber Bookmarks]
@@ -1279,8 +1277,6 @@ Usługi...
 Rejestruj Transport
 [Local Server Transports]
 Lokalne transporty
-[Browse Chatrooms]
-Szukaj pokoi
 [Create/Join group chat]
 Utwórz/Dołącz do czatu
 [Roster editor]
@@ -1805,8 +1801,6 @@ Zmiany statusu
 Filtruj historię wiadomości
 [JID]
 JID
-[Nick Name]
-Nick
 [Group]
 Grupa
 [Subscription]

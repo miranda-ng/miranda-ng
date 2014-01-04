@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Nudge.dll
 ;  Plugin: Nudge
-;  Version: 0.0.2.0
+;  Version: 0.1.0.0
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 [Protocol options]
@@ -49,7 +49,7 @@
 מדבר בטלפון
 [Out to lunch]
 אוכל ארוחת צהריים
-[Shaking Clist Options]
+[Shaking contact list options]
 Clist אפשרויות הרעדת
 [Number of moves]
 מספר תנועות

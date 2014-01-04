@@ -99,7 +99,7 @@ Påloggingstid
 Status
 [Miranda uptime]
 Miranda oppetid
-[Clist event]
+[Contact list event]
 Clist hendelse
 [Client]
 Klient

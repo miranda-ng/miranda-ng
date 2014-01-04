@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Automatically pop up the window when]
@@ -309,12 +309,6 @@ Se Brukerens Historikk
 Siter Tekst
 [User Menu - %s]
 Brukermeny - %s
-[signed off (was %s)]
-koblet fra (var %s)
-[signed on (%s)]
-koblet på (%s)
-[is now %s (was %s)]
-er nå %s (var %s)
 [Sending in progress: %d message(s) left...]
 Sender: %s melding(er) igjen...
 [%s is typing a message...]
@@ -585,7 +579,7 @@ Vis/skjul kallenavnlisten (CTRL+N)
 Kontroller dette rommet (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Aktiver/deaktiver hendelsesfilteret (CTRL+F)
-[Nick name]
+[Nickname]
 Kallenavn
 [Unique ID]
 Unik ID

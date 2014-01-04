@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.4.2
+;  Version: 0.8.5.0
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -94,7 +94,7 @@
 Телефонът може да получава SMS съобщения
 [Add E-Mail]
 Добавяне на имейл
-[Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
+[Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Въведете целия адрес на имейла.\n(напр. ivan@abv.bg)
 [Enter a representitive name for the e-mail address here.]
 Въведете представително име за е-поща.
@@ -453,10 +453,10 @@ popup за годишнина
 [Error]
 Грешка
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Protocol '%s' is offline]
-Протоколът "%s" е извън линия
 [Upload Details]
 Качване на подробностите
+[Protocol '%s' is offline]
+Протоколът "%s" е извън линия
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 В момента не сте свързани с ICQ мрежата.\nНеобходимо е да сте на линия, за да бъде обновена вашата информация на сървъра.\n\nНаправените промени ще бъдат запаметени само в базата данни.
 [Uploading]
@@ -519,17 +519,17 @@ popup за годишнина
 Износ: Папка
 [Default]
 Стандарт
-[Details Infobar]
+[Details info bar]
 Подробности в информационната лента
-[Phone Infobar]
+[Phone info bar]
 Телефон в информационната лента
-[E-Mail Infobar]
+[E-Mail info bar]
 Имейл в информационната лента
 [Export VCard]
 Изнасяне като VCard
 [Import VCard]
 Внасяне от VCard
-[Anniversary Infobar]
+[Anniversary info bar]
 Годишнина в информационната лента
 [Update]
 Обнови
@@ -1157,7 +1157,7 @@ Web дизайн
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identificaion]
 идентификация на контакта
-[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]

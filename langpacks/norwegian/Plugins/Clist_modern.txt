@@ -351,7 +351,7 @@ Bruk ekstra status ikon istedetfor protokoll
 Tegn normal status som overlapping
 [Right-To-Left reading mode (mirror template)]
 Høyre-Til-Venstre lesemodus (speil mal)
-[Replace smileys in clist]
+[Replace smileys in contact list]
 Erstatt smileyer i k.liste
 [Draw smileys on first line]
 Tegn smileyer på første linje
@@ -471,9 +471,9 @@ Skjul Miranda
 &Slett Gruppe
 [Contact List smileys]
 Kontaktliste smileyer
-[List Background]
+[List background]
 Listebakgrunn
-[StatusBar Background]
+[Status bar background]
 Statuslinje Bakgrunn
 [Row items]
 Radelementer
@@ -527,12 +527,6 @@ Aktiv filter tekst
 Bakgrunn
 [Selected text]
 Valgt Tekst
-[General]
-Generelt
-[List]
-Liste
-[Window]
-Vindu
 [Not focused]
 Ikke fokusert
 [Offline]
@@ -565,6 +559,12 @@ Skjul til oppgavelinje
 Bak venstre kant
 [Behind right edge]
 Bak høyre kant
+[General]
+Generelt
+[List]
+Liste
+[Window]
+Vindu
 [Event Area]
 Hendelsesområde
 [No Events]

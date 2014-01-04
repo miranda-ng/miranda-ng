@@ -570,8 +570,6 @@ Dołącz do kanału
 Proszę wpisać kanał, do którego chcesz dołączyć
 [Please select IRC network and enter the password if needed]
 Proszę wybrać sieć IRC i wpisać hasło, jeśli jest potrzebne
-[Change nick name]
-Zmień ksywkę
 [Please enter a unique nickname]
 Proszę wpisać nową ksywkę
 [Please enter your authentification code]

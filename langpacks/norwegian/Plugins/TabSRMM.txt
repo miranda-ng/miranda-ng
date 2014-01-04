@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -487,8 +487,6 @@ Om TabSRMM...
 Meldingslogg Valg
 [View User's History]
 Se Brukerens Historikk
-[Hide titlebar]
-Skjul tittellinje
 [Message Session...]
 Meldingsøkt...
 [Attach to]
@@ -991,8 +989,6 @@ Informasjon i %s
 Varsel fra %s: %s
 [No word to look up]
 Ingen ord å slå opp
-[Nick name]
-Kallenavn
 [Unique ID]
 Unik ID
 [Nick]

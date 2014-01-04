@@ -217,7 +217,7 @@
 &R 그룹명 바꾸기
 [&Delete Group]
 &D 그룹 삭제
-[List Background]
+[List background]
 목록 배경
 [Standard contacts]
 기본 대화 상대

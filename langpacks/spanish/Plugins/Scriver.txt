@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -58,13 +58,13 @@ Pestañas
 
 [Layout]
 
-[Show titlebar]
+[Show title bar]
 
 [Show status bar]
 Mostrar barra de estado
 [Show toolbar]
 
-[Show infobar]
+[Show info bar]
 
 [Show avatars]
 
@@ -85,8 +85,6 @@ Usar el icono de estado del contacto como el icono de la ventana
 [Message Window Event Log]
 Ventana de mensajes de registro de eventos
 [Enable IEView]
-
-[Log status changes]
 
 [Show icons]
 Mostrar iconos
@@ -470,25 +468,25 @@ Mensajería
 
 [Navigate: Tab %d]
 
-[Window: Toggle Statusbar]
+[Window: Toggle status bar]
 
-[Window: Toggle Titlebar]
+[Window: Toggle title bar]
 
-[Window: Toggle Toolbar]
+[Window: Toggle toolbar]
 
-[Window: Toggle Infobar]
+[Window: Toggle info bar]
 
-[Window: Clear Log]
+[Window: Clear log]
 
 [Window: Minimize]
 
-[Window: Close Tab]
+[Window: Close tab]
 
 [Action: Quote]
 
-[Action: Send to All]
+[Action: Send to all]
 
-[Action: Paste & Send]
+[Action: Paste and send]
 
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
@@ -523,12 +521,6 @@ Ver historial del usuario
 Enviar mensaje
 [User Menu - %s]
 
-[signed off (was %s)]
-firma deshabilitada (era %s)
-[signed on (%s)]
-firma habilitada (%s)
-[is now %s (was %s)]
-es ahora %s (era %s)
 [Sending in progress: %d message(s) left...]
 
 [%s is typing a message...]
@@ -597,11 +589,11 @@ Puntos de entrada
 URL saliente
 [Incoming URL]
 URL entrante
-[Infobar contact name]
+[Info bar contact name]
 
-[Infobar background]
+[Info bar background]
 
-[Infobar status message]
+[Info bar status message]
 
 [Others nicknames]
 Otros apodos
@@ -1005,7 +997,7 @@ Mostrar/ocultar la lista de apodos (CTRL+N)
 Controlar esta sala (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Activar/desactivar el filtro de eventos (CTRL+F)
-[Nick name]
+[Nickname]
 Apodo
 [Unique ID]
 ID único

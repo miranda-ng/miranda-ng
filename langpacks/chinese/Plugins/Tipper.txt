@@ -123,7 +123,7 @@
 状态
 [Miranda uptime]
 运行时间
-[Clist event]
+[Contact list event]
 联系人列表事件
 [Jabber activity]
 Jabber 活动

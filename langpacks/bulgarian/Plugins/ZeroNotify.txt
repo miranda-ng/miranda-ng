@@ -10,7 +10,7 @@
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
 Без звук когато:
-[No CLIST blink when:]
+[No CList blink when:]
 Без - в списъка:
 [No SysTray blink when:]
 Без мигане в трея:

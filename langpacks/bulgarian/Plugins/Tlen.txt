@@ -100,7 +100,7 @@
 ОК
 [Cancel]
 Отказ
-[Nick name:]
+[Nickname:]
 Прякор:
 [First name:]
 Име:
@@ -144,8 +144,6 @@
 
 [Personal Information]
 
-[Nickname:]
-Прякор:
 [Age:]
 Възраст:
 [to]

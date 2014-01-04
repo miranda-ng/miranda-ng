@@ -5,6 +5,7 @@
 [Can request advanced processing of message stanzas]
 [Supports generic publish-subscribe functionality]
 [Can block communications from particular other users using Privacy lists]
+[Supports direct chat invitations (XEP-0249)]
 [One or more addresses for communication related to abusive traffic]
 [One or more addresses for customer feedback]
 [One or more addresses for communication related to sales and marketing]

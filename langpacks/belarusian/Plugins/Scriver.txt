@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -58,13 +58,13 @@
 Абмежаваць лік укладак на вокны чата
 [Layout]
 Размяшчэнне
-[Show titlebar]
+[Show title bar]
 Паказаць назву
 [Show status bar]
 Паказваць панэль статусу
 [Show toolbar]
 Паказваць панэль кнопак
-[Show infobar]
+[Show info bar]
 Паказваць панэль інфармацыі
 [Show avatars]
 Аватары
@@ -86,8 +86,6 @@
 Журнал гутаркі
 [Enable IEView]
 Уключыць IEView
-[Log status changes]
-Запісваць змены статусаў
 [Show icons]
 Паказваць абразкі
 [Show time]
@@ -466,25 +464,25 @@ Yahoo
 Навігацыя: Папярэдняя ўкладка
 [Navigate: Next Tab]
 Навігацыя: Наступная ўкладка
-[Window: Toggle Statusbar]
+[Window: Toggle status bar]
 Вакно: укл/выкл панэль статусу
-[Window: Toggle Titlebar]
+[Window: Toggle title bar]
 Вакно: укл/выкл панэль загалоўка
-[Window: Toggle Toolbar]
+[Window: Toggle toolbar]
 Вакно: укл/выкл панэль кнопак
-[Window: Toggle Infobar]
+[Window: Toggle info bar]
 Вакно: укл/выкл панэль інфармацыі
-[Window: Clear Log]
+[Window: Clear log]
 Вакно: Ачысціць лог
 [Window: Minimize]
 Вакно: Згарнуць
-[Window: Close Tab]
+[Window: Close tab]
 Вакно: Зачыніць укладку
 [Action: Quote]
 Дзеянне: Цытаваць
-[Action: Send to All]
+[Action: Send to all]
 Дзеянне: Паслаць усім
-[Action: Paste & Send]
+[Action: Paste and send]
 Дзеянне: Уставіць і адправіць
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
@@ -519,12 +517,6 @@ Yahoo
 Адправіць
 [User Menu - %s]
 Меню карыстача - %s
-[signed off (was %s)]
-сыходзіць (быў(а) %s)
-[signed on (%s)]
-прыходзіць (%s)
-[is now %s (was %s)]
-зараз %s (быў(а) %s)
 [Sending in progress: %d message(s) left...]
 Адпраўка паведамлення: %d засталося...
 [%s is typing a message...]
@@ -585,11 +577,11 @@ URL атрыманы
 Выходныя URL
 [Incoming URL]
 Уваходны URL
-[Infobar contact name]
+[Info bar contact name]
 Інфа-Панэль: імя кантакту
-[Infobar background]
+[Info bar background]
 Фон інфопанэлі
-[Infobar status message]
+[Info bar status message]
 Інфа-Панэль: статутнае паведамленне
 [Others nicknames]
 Іншыя псеўданімы
@@ -991,7 +983,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Кантраляваць гэты чат-пакой (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Уключыць/выключыць фільтр падзей (CTRL+F)
-[Nick name]
+[Nickname]
 Мянушка
 [Unique ID]
 Асабісты конт

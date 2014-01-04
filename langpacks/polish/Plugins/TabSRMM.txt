@@ -102,9 +102,9 @@ Podświetlone nazwy, znak * oraz ? jest dozwolony. Oddzielaj wpisy spacjami.
 Podświetlany tekst
 [Enable highlighting for message text]
 Włącz podświetlanie dla tekstu wiadomości.
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
 Podświetlone słowa, znak * oraz ? jest dozwolony. Oddzielaj wpisy spacjami. Pozostaw puste jeśli chcesz podświetlić tylko swój nick.
-[Highlight messages containing my own nick name]
+[Highlight messages containing my own nickname]
 Podświetlaj wiadomości zawierające mój nick.
 [List]
 Lista
@@ -968,8 +968,6 @@ Zarządzanie kanałem
 [<Separator>]
 <Separator>
 ;file \plugins\TabSRMM\src\container.cpp
-[Hide titlebar]
-Ukryj pasek tytułu
 [Message Session...]
 Sesja rozmowy...
 [Default container]
@@ -1743,7 +1741,7 @@ Rysuj linie dzielące zdarzenia w dzienniku
 Użyj ikon dla Przychodzących/Wychodzących
 [Use Message Grouping]
 Użyj grupowania wiadomości
-[Simple text formatting (*bold* etc.)]
+[Simple text formatting (*bold*, etc.)]
 Proste formatowanie tekstu (*pogrubienie* itp.)
 [Support BBCode formatting]
 Wspieraj formatowanie BBCode
@@ -2277,8 +2275,6 @@ Podświetlany użytkownik...
 [Edit Highlight List...]
 Edytuj listę podświetleń...
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[Nick name]
-Nazwa
 [Unique ID]
 Unikalne ID
 [Nick]

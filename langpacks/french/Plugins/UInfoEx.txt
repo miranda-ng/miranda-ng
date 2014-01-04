@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.4.2
+;  Version: 0.8.5.0
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -94,7 +94,7 @@ Ou entrer un numéro international entier:
 Ce téléphone peut recevoir des SMS
 [Add E-Mail]
 Ajouter un e-mail
-[Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
+[Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 
 [Enter a representitive name for the e-mail address here.]
 Indiquez ici un nom représentatif pour l'e-amail.
@@ -453,10 +453,10 @@ Ignorer
 [Error]
 Erreur
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Protocol '%s' is offline]
-
 [Upload Details]
 Mise à jour des détails
+[Protocol '%s' is offline]
+
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 Vous n'êtes actuellement pas connecté à ICQ.\nVous devez être connecté afin de mettre à jour les infos sur le serveur.\nVos changements ne seront que sauvegardés dans votre profil Miranda.
 [Uploading]
@@ -519,17 +519,17 @@ Adresse
 
 [Default]
 Défaut
-[Details Infobar]
+[Details info bar]
 
-[Phone Infobar]
+[Phone info bar]
 
-[E-Mail Infobar]
+[E-Mail info bar]
 
 [Export VCard]
 
 [Import VCard]
 
-[Anniversary Infobar]
+[Anniversary info bar]
 
 [Update]
 Mise à jour
@@ -1157,7 +1157,7 @@ Rappel d'anniversaire
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identificaion]
 
-[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]

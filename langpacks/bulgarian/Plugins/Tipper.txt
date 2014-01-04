@@ -277,7 +277,7 @@ Tipper усмивки
 Слуша..
 [Miranda uptime]
 Miranda работи от
-[Clist event]
+[Contact list event]
 
 [Jabber activity]
 Jabber дейност

@@ -37,7 +37,7 @@
 打开文件(&P)
 [O&pen Folder]
 打开文件夹(&P)
-[CList Settings]
+[Contact list settings]
 联系人列表设置
 [Group:]
 群组: 

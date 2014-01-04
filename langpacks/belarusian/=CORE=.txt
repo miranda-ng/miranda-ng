@@ -277,11 +277,11 @@
 Запоўніце форму для стварэння профіля карыстача
 [Profile]
 Профіль
-[e.g. Workplace]
+[e.g., Workplace]
 напр. "Працоўны"
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Вы можаце абраць  іншы драйвер базы дадзеных, які мае больш магчымасцяў. Калі не ўпэўнены, выкарыстоўвайце драйвер па змаўчанні.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 напрыклад, dbx_mmap
 [Driver]
 Драйвер
@@ -1905,12 +1905,6 @@ Miranda
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Апошняе паведамленне вы атрымалі %s у %s.
-[signed off (was %s)]
-сыходзіць (быў(ла) %s)
-[signed on (%s)]
-прыходзіць (%s)
-[is now %s (was %s)]
-зараз %s (быў(ла) %s)
 [%s is typing a message...]
 %s набірае тэкст...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -2352,7 +2346,7 @@ Miranda NG не можа адкрыць гэты профіль
 Немагчыма загрузіць плагін у службовым рэжыме!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Немагчыма загрузіць ніводны з усталяваных плагінаў спісу кантактаў. Нават адключаныя ў наладах не запускаюцца.
-[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Не знойдзены плагін спісу канактаў. Вам патрэбны StdClist ці Clist_*.
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]

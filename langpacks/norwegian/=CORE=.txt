@@ -243,11 +243,11 @@ Du må koble til på nytt for at endringene du har gjort på denne siden vil akt
 Vennligst fyll ut følgende skjema for å lage ny brukerprofil
 [Profile]
 Profil
-[e.g. Workplace]
+[e.g., Workplace]
 eks. Arbeidsplass
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Du kan velge å bruke en annen profildriver enn den som er standard, den kan tilby flere muligheter, men hvis du er i tvil velg standard. 
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 eks. Miranda Database
 [Driver]
 Driver
@@ -1521,12 +1521,6 @@ Innkommende melding (10x10)
 Utgående melding (10x10)
 [Last message received on %s at %s.]
 Siste melding mottatt den %s kl. %s.
-[signed off (was %s)]
-koblet fra (var %s)
-[signed on (%s)]
-koblet på (%s)
-[is now %s (was %s)]
-er nå %s (var %s)
 [%s is typing a message...]
 %s skriver en melding...
 [File sent]

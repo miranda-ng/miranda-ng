@@ -10,8 +10,8 @@ Añade opciones para desactivar automáticamente notificaciones cuando el protoc
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
 Sin sonidos cuando:
-[No CLIST blink when:]
-No parpadear CLIST cuando:
+[No CList blink when:]
+No parpadear CList cuando:
 [No SysTray blink when:]
 No parpadear bandeja del sistema cuando:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]

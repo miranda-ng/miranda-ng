@@ -1,4 +1,4 @@
-﻿[Show other warnings ("session already opened" etc.)]
+﻿[Show other warnings ("session already opened", etc.)]
 [OK]
 [This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
 [Session Before Last Crash]

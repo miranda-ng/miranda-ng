@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Stretch to width]
 Nyújtás a szélességhez
@@ -177,7 +177,7 @@ Bal margó:
 Teljes lista kiszürkítése, ha:
 [Dim idle contacts]
 Inaktív partnerek halványítása
-[Contact List Background]
+[Contact list background]
 Kapcsolati lista háttér
 [MetaContacts supporting]
 MetaPartnerek támogatása
@@ -201,7 +201,7 @@ Méretezõ sarok mutatása
 Beesés hatás a paneleken
 [Use connecting Icon]
 Kapcsolat ikon használata
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 Új rajzoló használata az ÁllapotSorhoz
 [&Main menu]
 &Fõmenü
@@ -291,11 +291,11 @@ Gyorkövetés szöveg
 Gyorskeresés szöveg
 [List]
 Lista
-[List Background]
+[List background]
 Lista háttérszín
 [List MetaContacts]
 MetaPartnerek listázása
-[StatusBar Background]
+[Status bar background]
 Állapotsor háttere
 [Not focused]
 Nem fókuszált

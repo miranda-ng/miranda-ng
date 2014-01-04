@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -102,9 +102,9 @@ Namen, die hervorgeoben werden sollen, Platzhalter wie * und ? sind erlaubt, meh
 Hervorherbungen fur Nachrichtentext
 [Enable highlighting for message text]
 Hervorhebungen für Nachrichtentexte aktivieren
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
 Wörter, die hervorgehoben werden sollen; Platzhalter wie * und ? sind erlaubt, mehrere Einträge durch Leerzeichen trennen. Lassen Sie es leer, wenn Sie nur Ihren eigenen Nicknamen hervorheben wollen.
-[Highlight messages containing my own nick name]
+[Highlight messages containing my own nickname]
 Nachrichten, die meinen eigenen Nicknamen enthalten, hervorheben
 [List]
 Liste
@@ -968,8 +968,6 @@ Channelmanager
 [<Separator>]
 <Trennlinie>
 ;file \plugins\TabSRMM\src\container.cpp
-[Hide titlebar]
-Titelleiste verstecken
 [Message Session...]
 Nachrichtensitzung ...
 [Default container]
@@ -1743,7 +1741,7 @@ Gitterlinien zeigen
 Verschiedene Icons für ein- und ausgehende Nachrichten
 [Use Message Grouping]
 Nachrichten gruppieren
-[Simple text formatting (*bold* etc.)]
+[Simple text formatting (*bold*, etc.)]
 Einfache Textformatierung (*fett* etc.)
 [Support BBCode formatting]
 BBCode-Formatierung verwenden
@@ -2277,8 +2275,6 @@ Kein Wort zum Nachschlagen
 [Edit Highlight List...]
 Editiere "Highlight" Liste ...
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[Nick name]
-Nickname
 [Unique ID]
 Unique ID
 [Nick]

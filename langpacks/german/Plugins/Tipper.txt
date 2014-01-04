@@ -283,7 +283,7 @@ Extra Status
 Höre gerade
 [Miranda uptime]
 Miranda-Laufzeit
-[Clist event]
+[Contact list event]
 CList-Ereignis
 [Jabber activity]
 Jabber-Aktivität

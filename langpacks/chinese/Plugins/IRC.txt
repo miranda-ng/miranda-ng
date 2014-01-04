@@ -469,8 +469,6 @@ WhoIs 信息(&W)
 请输入要加入频道
 [Please select IRC network and enter the password if needed]
 请选择 IRC 网络并在需要时输入密码
-[Change nick name]
-变更昵称
 [Please enter a unique nickname]
 请输入独有的昵称
 [Please enter your authentification code]

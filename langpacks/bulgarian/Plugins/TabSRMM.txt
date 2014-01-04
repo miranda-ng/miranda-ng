@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -102,9 +102,9 @@
 Отличаване на текст от съобщения
 [Enable highlighting for message text]
 Включване
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
 Думи за отличаване, wildcards like * and ? are allowed, разделете записите с интервал. Не въвеждайте думи ако желаете само вашият прякор да бъде отличаван.
-[Highlight messages containing my own nick name]
+[Highlight messages containing my own nickname]
 Отличаване на съобщения, които съдържат моя прякор
 [List]
 Списък
@@ -957,8 +957,6 @@ Popups за събития
 [<Separator>]
 <Разделител>
 ;file \plugins\TabSRMM\src\container.cpp
-[Hide titlebar]
-Скриване на заглавната лента
 [Message Session...]
 Разговор...
 [Default container]
@@ -1732,7 +1730,7 @@ TabSRMM съобщение (%s)
 Ползване на входящи/изходящи икони
 [Use Message Grouping]
 Групиране на съобщенията
-[Simple text formatting (*bold* etc.)]
+[Simple text formatting (*bold*, etc.)]
 Лесно форматиране (*bold* и т.н.)
 [Support BBCode formatting]
 Поддържане на BBCode форматиране
@@ -2266,8 +2264,6 @@ TabSRMM предупреждение
 [Edit Highlight List...]
 Редактиране списъка за отличаване...
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[Nick name]
-Прякор
 [Unique ID]
 
 [Nick]

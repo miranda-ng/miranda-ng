@@ -248,11 +248,11 @@ UPnP port térképezés bekapcsolása
 Kérlek töltsd ki a következõ nyomtatványt új felhasználói prpfil létrehozásához
 [Profile]
 Profil
-[e.g. Workplace]
+[e.g., Workplace]
 pl. Munkahely
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Választhatsz az alapért.-tõl eltérõ profilmeghajtót is, ez több jellemzõt vagy képességet ajánl, ha kétséged van, használd az alapért.-tet.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 pl. Miranda Adatbázis
 [Driver]
 Meghajtó
@@ -1548,12 +1548,6 @@ Bejövõ üzenet (10x10)
 Kimenõ üzenet (10x10)
 [Last message received on %s at %s.]
 Utolsó üzenet fogadva, nap: %s, idõpont: %s.
-[signed off (was %s)]
-kijelentkezett (korábban: %s)
-[signed on (%s)]
-bejelentkezett (ekkor: %s)
-[is now %s (was %s)]
-most %s (régebben: %s)
 [%s is typing a message...]
 %s gépel...
 [File sent]

@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 Паказвае кантакты, з'явы, статусы протоколаў. MW мадыфікацыя.
@@ -202,7 +202,7 @@ Cлужба:
 Прыцьміць неактыўных карыстачоў
 [Hide vertical scrollbar]
 Схаваць паласу прагорткі
-[Contact List Background]
+[Contact list background]
 Фон спісу
 [Use 'Meta' protocol icons for Metacontacts]
 'Мета' значкі для метакантактаў
@@ -238,7 +238,7 @@ Cлужба:
 Эфект бардзюра на панэлях
 [Use connecting Icon]
 Значок злучэння
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 Новы стыль панэлі статусу
 [&Main menu]
 Галоўнае меню
@@ -331,11 +331,11 @@ Cлужба:
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Спіс
-[List Background]
+[List background]
 Фон спісу
 [List MetaContacts]
 Спіс метакантактаў
-[StatusBar Background]
+[Status bar background]
 Фон панэлі статусу
 [Not focused]
 Не ў фокусе
@@ -397,7 +397,7 @@ _Безпротокола_
 &Загаловак фрэйма
 [&Visible]
 &Бачнасць
-[&Show TitleBar]
+[&Show title bar]
 Паказваць назву
 [&Locked]
 Замацаваць
@@ -425,16 +425,14 @@ _Безпротокола_
 Фрэймы
 [Show All Frames]
 Паказаць усе фрэймы
-[Show All Titlebars]
+[Show all titlebars]
 Паказваць назвы
-[Hide All Titlebars]
+[Hide all titlebars]
 Схаваць назвы
 [Lock Frame]
 Замацаваць фрэйм
 [Visible]
 Мабыць
-[Show TitleBar]
-Паказаць загаловак
 [Floating]
 Плывучае
 ;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp

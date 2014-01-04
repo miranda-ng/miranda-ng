@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Automatically pop up the window when]
@@ -303,12 +303,6 @@ Exibir Histórico do Usuário
 Citar Texto
 [User Menu - %s]
 Menu do Usuário - %s
-[signed off (was %s)]
-saiu (era %s)
-[signed on (%s)]
-entrou em (%s)
-[is now %s (was %s)]
-Agora é %s (era %s)
 [Sending in progress: %d message(s) left...]
 Enviando em andamento: a mensagen(s) %d à esquerda...
 [%s is typing a message...]
@@ -583,7 +577,7 @@ Mostrar/ocultar a lista de apelidos (CTRL+N)
 Controlar esta sala (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Ativar/desativar o filtro de eventos (CTRL+F)
-[Nick name]
+[Nickname]
 Apelido
 [Unique ID]
 ID único

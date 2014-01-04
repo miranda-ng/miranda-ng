@@ -40,7 +40,7 @@
 Адкрыць тэчку
 [Link Settings]
 Налада спасылак
-[CList Settings]
+[Contact list settings]
 Налады спісу
 [Group:]
 Група:
@@ -98,7 +98,7 @@
 [New Non-IM Contact]
 Новы не-IM кантакт
 ;file \plugins\Non-IM Contact\src\dialog.cpp
-[Link and CList Settings]
+[Link and Contact list Settings]
 Спасылкі і налады спісу
 [Files]
 Файлы

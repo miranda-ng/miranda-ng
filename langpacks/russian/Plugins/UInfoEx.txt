@@ -432,7 +432,7 @@ E-Mail
 [Error]
 Ошибка
 [Upload Details]
-Закачать Детали
+Закачать детали
 [Protocol '%s' is offline]
 Протокол '%s' не в сети
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]

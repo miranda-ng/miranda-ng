@@ -10,7 +10,7 @@
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
 Няма гукаў, калі:
-[No CLIST blink when:]
+[No CList blink when:]
 Не мігаць спісам:
 [No SysTray blink when:]
 Няма мігцення ў трэі:

@@ -74,7 +74,7 @@
 Пракручваць з тэкстам
 [Stretch proportionally]
 Расцягнуць
-[Tile vertically according to Row Height]
+[Tile vertically according to row height]
 Расцягваць вертыкальна па вышыні
 [Use Windows Colors]
 Колеры Windows
@@ -184,7 +184,7 @@
 Шматрадковая панэль статусу:
 [Accounts per line]
 Контаў у радку
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * Змена вышыні радка статусу: "Галоўнае меню->Фрэймы->Панэль статусу->Плывучы рэжым" і расцягніце панэль.
 [Hold [Shift] to inverse [Right Click] behavior]
 Shift + Правы клік - Галоўнае меню
@@ -506,7 +506,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Звычайны статус аверлэем
 [Right-To-Left reading mode (mirror template)]
 Рэжым справа налева (люстраны шаблон)
-[Replace smileys in clist]
+[Replace smileys in contact list]
 Замяняць смайлікі ў спісе
 [Use protocol smileys]
 Смайлікі пратаколу
@@ -667,13 +667,13 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Аверлэй статусу
 [Contact List smileys]
 Смайлы спісу кантактаў
-[List Background]
+[List background]
 Фон спісу
-[Menu Background]
+[Menu background]
 Фон меню
-[StatusBar Background]
+[Status bar background]
 Фон панэлі статуса
-[Frames TitleBar BackGround]
+[Frames title bar background]
 Фон загалоўка фрэймаў
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго?
@@ -766,16 +766,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Тэкст вылучанага меню
 [Frame title text]
 Тэкст загалоўка фрэйма
-[Statusbar text]
-Тэкст панэлі статусу
 [3rd party frames transparent back color]
 Фон празрыстасці іншых фрэймаў
-[General]
-Агульнае
-[List]
-Спіс
-[Window]
-Акно
 [Not focused]
 Не ў фокусе
 [Offline]
@@ -818,8 +810,14 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 За левы край
 [Behind right edge]
 За правы край
+[General]
+Агульнае
+[List]
+Спіс
+[Window]
+Акно
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[Event Area Background]
+[Event area background]
 Фон вобласці падзей
 [Event Area]
 Вобласць падзей
@@ -1018,9 +1016,9 @@ Angeli-Ka (графіка), FYR (шаблон)
 Адключыць гукі
 [Minimize]
 Згарнуць
-[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
-Для панэлі кнопак ў Clist Modern неабходны дадатак TopToolBar. Каб спампаваць яго, нажміце "Да"
-[ToolBar Background]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+Для панэлі кнопак ў Clist_modern неабходны дадатак TopToolBar. Каб спампаваць яго, нажміце "Да"
+[Toolbar background]
 Фон панэлі кнопак
 [Toolbar upgrade]
 Аднаўленне тулбара
@@ -1104,14 +1102,12 @@ Angeli-Ka (графіка), FYR (шаблон)
 У&ніз
 [Show All Frames]
 Паказаць усе
-[Show All Titlebars]
+[Show all title bars]
 Паказваць назвы
-[Hide All Titlebars]
+[Hide all title bars]
 Схаваць назвы
 [Lock Frame]
 Замацаваць фрэйм
-[Show TitleBar]
-Паказаць загаловак
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 Меню фрэймаў

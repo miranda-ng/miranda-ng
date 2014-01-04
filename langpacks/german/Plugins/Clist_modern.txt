@@ -74,7 +74,7 @@ Vertikal kacheln
 Mit Text scrollen
 [Stretch proportionally]
 Proportional strecken
-[Tile vertically according to Row Height]
+[Tile vertically according to row height]
 Titel vertikal nach Zeilenhöhe anpassen
 [Use Windows Colors]
 Windowsfarben verwenden
@@ -184,7 +184,7 @@ Horizontale Ausr.
 Mehrzeilige Statusleiste
 [Accounts per line]
 Konten pro Zeile
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * Änderung der Statusleistenhöhe:\nHauptmenü->Frames->Statusl.->Titell. anzeigen, auf Titelleiste drücken und Höhe ändern.
 [Hold [Shift] to inverse [Right Click] behavior]
 Umschalt gedrückt halten, um Rechtsklick-Verhalten umzukehren
@@ -506,7 +506,7 @@ Nutze extra Statusicon anstatt Protokoll
 Normalen Status als Overlay
 [Right-To-Left reading mode (mirror template)]
 Rechts-nach-Links-Lesemodus
-[Replace smileys in clist]
+[Replace smileys in contact list]
 Textsmileys durch Grafik ersetzen
 [Use protocol smileys]
 Protokollspezifische Smileys
@@ -667,13 +667,13 @@ Avatar-Overlay
 Status-Overlay
 [Contact List smileys]
 Smileys in Kontaktliste
-[List Background]
+[List background]
 Liste Hintergrund
-[Menu Background]
+[Menu background]
 Menü Hintergrund
-[StatusBar Background]
+[Status bar background]
 Statusleiste Hintergrund
-[Frames TitleBar BackGround]
+[Frames title bar background]
 Frame Titelleisten Hintergrund
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Soll Kontakt '%s' in Metakontakt konvertiert und '%s' hinzugefügt werden?
@@ -766,16 +766,8 @@ Menütext
 Markierter Menütext
 [Frame title text]
 Frame-Titel-Text
-[Statusbar text]
-Statuszeilentext
 [3rd party frames transparent back color]
 Transparente Hintergrundfarbe Frames
-[General]
-Allgemein
-[List]
-Liste
-[Window]
-Fenster
 [Not focused]
 nicht fokussiert
 [Offline]
@@ -818,8 +810,14 @@ In Systemtray
 Hinter linken Rand
 [Behind right edge]
 Hinter rechten Rand
+[General]
+Allgemein
+[List]
+Liste
+[Window]
+Fenster
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[Event Area Background]
+[Event area background]
 Ereignisbereich Hintergrund
 [Event Area]
 Ereignisbereich
@@ -1018,9 +1016,9 @@ Klänge aktivieren
 Klänge deaktivieren
 [Minimize]
 Minimieren
-[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Um eine Toolbar in Clist Modern zu sehen, benötigen Sie das TopToolBar Plugin. Klicken Sie Ja um es zu installieren, oder Abbrechen um fortzusetzen.
-[ToolBar Background]
+[Toolbar background]
 Toolbar Hintergrund
 [Toolbar upgrade]
 Toolbar aktuallisieren
@@ -1104,14 +1102,12 @@ A&uf
 &Ab
 [Show All Frames]
 Alle Frames anzeigen
-[Show All Titlebars]
+[Show all title bars]
 Alle Titelleisten anzeigen
-[Hide All Titlebars]
+[Hide all title bars]
 Alle Titelleisten verstecken
 [Lock Frame]
 Keine Größenänderung
-[Show TitleBar]
-Titelzeile anzeigen
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 Framemenü

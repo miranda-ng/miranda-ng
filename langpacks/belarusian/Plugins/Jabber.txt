@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber protocol support for Miranda NG.]
@@ -160,7 +160,7 @@ Jabber Пароль
 Краіна:
 [Full name:]
 Поўнае імя:
-[Nick name:]
+[Nickname:]
 Псеўданім:
 [First name:]
 Імя:
@@ -286,8 +286,6 @@ JID:
 Вас запрасіў:
 [with following reason:]
 чыннік:
-[Nickname:]
-Нік:
 [&Accept]
 Прыняць
 [Jabber Bookmarks]
@@ -989,8 +987,6 @@ Jabber Рэсурс
 Транспарты
 [Local Server Transports]
 Транспарты сервера
-[Browse Chatrooms]
-Агляд чат-пакояў
 [Create/Join group chat]
 Стварыць/увайсці ў чат
 [Roster editor]
@@ -1515,8 +1511,6 @@ Jabber Рэсурс
 Не паказваць абвестак з гісторыі
 [JID]
 JID
-[Nick Name]
-Нік
 [Group]
 Група
 [Subscription]

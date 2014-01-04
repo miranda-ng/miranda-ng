@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
@@ -95,9 +95,9 @@ Cancel
 メッセージテキストを強調表示
 [Enable highlighting for message text]
 メッセージテキストの強調表示を有効
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
 単語に強調表示と , * や ? のようなワイルドカードが許可されている時 , 複数のエントリーは空白で分割します。もし自分のニックネームに強調表示のみを使用したい場合は空白のままにしてください
-[Highlight messages containing my own nick name]
+[Highlight messages containing my own nickname]
 自分自身のニックネームを含むメッセージを強調表示
 [List]
 リスト
@@ -815,8 +815,6 @@ TabSRMM バージョン情報...
 ユーザーの履歴を表示
 [Edit user notes]
 ユーザーメモを編集
-[Hide titlebar]
-タイトルバーを非表示
 [Message Session...]
 メッセージセッション...
 [Default container]
@@ -1343,7 +1341,7 @@ RSS プロトコルからのイベントを通知しない
 着信 / 発信 アイコンを使用
 [Use Message Grouping]
 メッセージグループを使用
-[Simple text formatting (*bold* etc.)]
+[Simple text formatting (*bold*, etc.)]
 シンプルテキスト書式設定 ( *bold* 等 )
 [Support BBCode formatting]
 BBCode 書式設定をサポート
@@ -1759,8 +1757,6 @@ Voiced
 ユーザーを強調表示...
 [Edit Highlight List...]
 強調表示リストを編集...
-[Nick name]
-ニックネーム
 [Unique ID]
 固有 ID
 [Nick]

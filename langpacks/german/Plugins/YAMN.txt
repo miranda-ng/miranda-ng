@@ -62,7 +62,7 @@ Automatisch den E-Mail-Text abfragen
 Prüfe vom Menü
 [Use contact notification for this account]
 Kontaktlistenhinweis für dieses Konto
-[Replace nick name]
+[Replace nickname]
 Ersetze Nickname
 [Disable Events]
 Deakt. Ereign.

@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 Показує контакти, події, статуси протоколів. Мультивіконна модифікація.
@@ -189,7 +189,7 @@
 Затемнити неактивних користувачів
 [Hide vertical scrollbar]
 Приховати вертикальну полосу прокрутки
-[Contact List Background]
+[Contact list background]
 Фон списку
 [Use 'Meta' protocol icons for Metacontacts]
 Використовувати значок Meta протоколу для метаконтактів
@@ -221,7 +221,7 @@
 Ефект бордюру на панелях
 [Use connecting Icon]
 Використовувати значок підключення
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 Новий стиль панелі статусу
 [E&xit]
 Ви&хід
@@ -279,6 +279,12 @@
 Тонка настройка
 [Backgrounds]
 Фон
+[Status bar background]
+Фон панелі статусу
+[List background]
+Фон списку
+[Frames title bar background]
+Фон заголовку фреймів
 [Standard contacts]
 Стандартні контакти
 [Online contacts to whom you have a different visibility]
@@ -307,14 +313,12 @@
 Під курсором
 [Quicksearch Text]
 Швидкий пошук
+[Contact list]
+Список контактів
 [List]
 Список
-[List Background]
-Фон списку
 [List MetaContacts]
 Список метаконтактів
-[StatusBar Background]
-Фон панелі статусу
 [Not focused]
 Не в фокусі
 [Offline]
@@ -363,7 +367,7 @@ _БезПротоколу_
 &Заголовок кадру
 [&Visible]
 Показувати
-[&Show TitleBar]
+[&Show title bar]
 Показувати назву
 [&Locked]
 Закріпити
@@ -391,15 +395,13 @@ _БезПротоколу_
 Фрейми
 [Show All Frames]
 Показати всі фрейми
-[Show All Titlebars]
+[Show all titlebars]
 Показувати назви
-[Hide All Titlebars]
+[Hide all titlebars]
 Приховати назви
 [Lock Frame]
 Закріпити фрейм
 [Visible]
 Видимий
-[Show TitleBar]
-Показати заголовок
 [Floating]
 Плаваюче

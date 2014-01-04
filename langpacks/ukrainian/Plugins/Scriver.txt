@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -57,13 +57,13 @@
 Обмежити кількість вкладок на вікна чату
 [Layout]
 Розміщення
-[Show titlebar]
+[Show title bar]
 Показати назву
 [Show status bar]
 Показувати панель статусу
 [Show toolbar]
 Показувати панель кнопок
-[Show infobar]
+[Show info bar]
 Показувати панель інформації
 [Show avatars]
 Аватари
@@ -85,8 +85,6 @@
 Журнал у вікні діалогу
 [Enable IEView]
 Включити IEView
-[Log status changes]
-Записувати зміни статусів в журнал
 [Show icons]
 Показувати значки
 [Show time]
@@ -453,25 +451,25 @@ Unicode вимкнено
 Навігація: Наступна вкладка
 [Navigate: Tab %d]
 Навігація: Вкладка %d
-[Window: Toggle Statusbar]
+[Window: Toggle status bar]
 Вікно: ввімк./вимк. панелі статусу
-[Window: Toggle Titlebar]
+[Window: Toggle title bar]
 Вікно: ввімк./вимк. панелі заголовка
-[Window: Toggle Toolbar]
+[Window: Toggle toolbar]
 Вікно: ввімк./вимк. панелі кнопок
-[Window: Toggle Infobar]
+[Window: Toggle info bar]
 Вікно: ввімк./вимк. панелі інформації
-[Window: Clear Log]
+[Window: Clear log]
 Вікно: Очистити лог
 [Window: Minimize]
 Вікно: Згорнути
-[Window: Close Tab]
+[Window: Close tab]
 Вікно: Закрити вкладку
 [Action: Quote]
 Дія: Цитувати
-[Action: Send to All]
+[Action: Send to all]
 Дія: Надіслати всім
-[Action: Paste & Send]
+[Action: Paste and send]
 Дія: Вставити та відправити
 [Quote]
 Цитата
@@ -505,12 +503,6 @@ Unicode вимкнено
 Відправити
 [User Menu - %s]
 Меню користувача - %s
-[signed off (was %s)]
-пішов (був(а) %s)
-[signed on (%s)]
-прийшов (%s)
-[is now %s (was %s)]
-тепер %s (був(а) %s)
 [Sending in progress: %d message(s) left...]
 Відправлення повідомлення: %d залишилося...
 [%s is typing a message...]
@@ -569,11 +561,11 @@ Unicode вимкнено
 Вихідний URL
 [Incoming URL]
 Вхідний URL
-[Infobar contact name]
+[Info bar contact name]
 Інфо-Панель: ім'я контакту
-[Infobar background]
+[Info bar background]
 Фон інфо-панелі
-[Infobar status message]
+[Info bar status message]
 Інфо-Панель: статусне повідомлення
 [Others nicknames]
 Інші псевдоніми
@@ -967,7 +959,7 @@ ID поточного контакту (якщо він визначений). �
 Контролювати цю чат-кімнату (Ctrl+O)
 [Enable/disable the event filter (CTRL+F)]
 Ввімкнути/вимкнути фільтр подій (Ctrl+F)
-[Nick name]
+[Nickname]
 Нік
 [Unique ID]
 Унік. ID

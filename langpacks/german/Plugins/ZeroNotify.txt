@@ -10,7 +10,7 @@ Ermöglicht die Deaktivierung von Benachrichtigungen, wenn ein Protokoll in eine
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
 Keine Klänge, wenn:
-[No CLIST blink when:]
+[No CList blink when:]
 Kein Blinken (Liste), wenn:
 [No SysTray blink when:]
 Kein Blinken (Tray), wenn:

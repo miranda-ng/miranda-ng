@@ -102,8 +102,8 @@ Aperçu
 OK
 [Cancel]
 Annuler
-[Nick name:]
-
+[Nickname:]
+Pseudo:
 [First name:]
 Prénom:
 [Last name:]
@@ -146,8 +146,6 @@ Client:
 Système:
 [Personal Information]
 Infos personnelles
-[Nickname:]
-Pseudo:
 [Age:]
 Age:
 [to]

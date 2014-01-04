@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [OK]
@@ -641,8 +641,6 @@ Sohbet Odasına &Dönüştür
 Kayıtlı Aktarımlar
 [Local Server Transports]
 Yerel Sunucu Aktarımları
-[Browse Chatrooms]
-Sohbet Odalarına Gözat
 [Create/Join group chat]
 Grup Sohbeti Oluştur/Katıl
 [Roster editor]
@@ -731,8 +729,6 @@ Rol değişiklikleri
 Durum değişikliği
 [JID]
 JID
-[Nick Name]
-Kısa ad
 [Group]
 Grup
 [Subscription]

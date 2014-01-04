@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 Zeigt Kontakte, Ereignisse und Protokollstatus mit erweiterten visuellen Änderungen an.
@@ -202,7 +202,7 @@ Liste grau färben, wenn:
 Inaktive Kontakte abblenden
 [Hide vertical scrollbar]
 Vertikale Bildlaufleiste ausblenden
-[Contact List Background]
+[Contact list background]
 Hintergrund der Kontaktliste
 [Use 'Meta' protocol icons for Metacontacts]
 Eigene Icons für Metakontakte verwenden
@@ -238,7 +238,7 @@ Zeige fixierte Größe
 Zeige Abschrägungseffekt auf Tafeln
 [Use connecting Icon]
 Benutze Verbindungsicon
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 Benutze neue Zeichnung für die Statusbar
 [&Main menu]
 &Hauptmenü
@@ -299,6 +299,13 @@ Gruppe löschen
 Customize
 [Backgrounds]
 Hintergründe
+;file \plugins\Clist_mw\src\clc.cpp
+[Status bar background]
+Statusleiste Hintergrund
+[List background]
+Liste Hintergrund
+[Frames title bar background]
+Frame Titelleisten Hintergrund
 ;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Standardkontakte
@@ -329,14 +336,12 @@ Hottracktext
 [Quicksearch Text]
 Schnellsuche-Text
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[Contact list]
+Kontaktliste
 [List]
 Liste
-[List Background]
-Hintergrund Liste
 [List MetaContacts]
 MetaContacts Liste
-[StatusBar Background]
-Statusbar Hintergrund
 [Not focused]
 nicht fokussiert
 [Offline]
@@ -397,7 +402,7 @@ Letzten Status wiederherstellen
 Elementtitel
 [&Visible]
 Sichtbar
-[&Show TitleBar]
+[&Show title bar]
 Titellei&ste anzeigen
 [&Locked]
 Gesperrt
@@ -425,16 +430,14 @@ Ab
 Frames
 [Show All Frames]
 Alle Elemente anzeigen
-[Show All Titlebars]
+[Show all titlebars]
 Alle Titelleisten anzeigen
-[Hide All Titlebars]
+[Hide all titlebars]
 Alle Titelleisten verstecken
 [Lock Frame]
 Keine Größenänderung
 [Visible]
 Sichtbar
-[Show TitleBar]
-Titelzeile anzeigen
 [Floating]
 Frei bewegend
 ;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp

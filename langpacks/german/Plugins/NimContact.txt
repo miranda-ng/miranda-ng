@@ -44,7 +44,7 @@ Datei öffnen
 Ordner öffnen
 [Link Settings]
 Link-Einstellungen
-[CList Settings]
+[Contact list settings]
 Kontaktlisteneinstellungen
 [Group:]
 Gruppe:
@@ -126,7 +126,7 @@ Neuer Nicht-IM-Kontakt
 Variablen zur Zeichenersetzung....\r\nIm Folgenden sind alle verwendbaren Variablen aufgeführt. Schauen Sie in der Hilfedatei für eine ausfühlliche Erklärung nach.\r\n\r\nfile(X)\t\t<- gibt die Datei an, aus der gelesen werden soll. MUSS entweder von start() oder end() oder wholeline() gefolgt werden.\r\nfilename(X)\t\t<- kopiert den Dateinamen von Datei X.\r\nstart(...)\t\t<- gibt an, wo mit dem Kopieren angefangen werden soll.\r\nend(...)\t\t<- gibt an, wo mit dem Kopieren aufgehört werden soll.\r\nwholeline(line(...))\t<- gibt eine ganze Zeile zum Kopieren an\r\n\r\nErklärung für stazt() und end()\r\n...............................\r\nMUSS mit line(), gefolgt von einer Zahl oder einer Zeichenkette in doppelten Anführungszeichen, ODER mit der csv(TrennerX)-Variable beginnen. Die Zahl gibt an, welches Zeichen in der Zeile den Beginn/das Ende des Kopierens markiert. Die Zeichenkette gibt eine solche in der Zeile mit demselben Zweck an.\r\n\r\ncsv(TrennerX) erklärt...\r\nDer Trenner ist entweder "Tab" oder "Leerzeichen" oder irgendein EINZELNES Zeichen. X ist der X-te Trenner, nach dem das Kopieren beginnt (oder vor dem aufgehört werden soll).\r\n\r\nAbschließend die Variable line(...)...\r\nInnerhalb der Klammern muss entweder eine Zahl (die die Zeilennummer angibt) oder eine Zeichenkette in doppelten Anführungszeichen (um die Zeile mit dieser Zeichenkette zu benutzen) oder lastline(X) stehen. Das X in lastline(X) ist die X-te Zeile oberhalb der letzten Zeile; das heißt, lastline(1) wird die vorletzte Zeile der Datei verwenden. Bei der Suche nach einer Zeile mit "einige Wörter" können Sie ein + oder ein - X nach der schließenden Klammer hinzufügen, etwa line("einige Wörter")+3, um zur dritten Zeile unterhalb der Zeile mit "einige Wörter" zu springen.\r\n\r\nEinige Beispiele...\r\nfilename(0) <- wird den Dateinamen der 0. Datei anzeigen\r\nfile(0)wholeline(line(0)) <- wird die ganze erste Zeile der 0. Datei anzeigen\r\nfile(0)wholeline(line("hallo")-1))) <- die ganze Zeile über dem ersten Auftreten von "hallo" in dieser Datei\r\nfile(0)start(line(lastline(1))csv(tab2))end(line(lastline())csv(tab4))) <- beginnt bei der vorletzten Zeile der Datei ab der 2. Tabvariable bis zur 4. Tabvariable in der letzten Zeile (der 0. Datei)\r\nfile(0)start(line("hallo")+1"zzzz")end(line(6)17)) <- beginnt beim ersten Auftreten von "zzzz" in der Zeile nach dem ersten Auftreten von "hallo" bis zum 17. Zeichen in der 6. Zeile (beginnend bei Zeile 0) der 0. Datei.\r\n
 [Contacts Display Info]
 Kontaktanzeige-Info.
-[Link and CList Settings]
+[Link and Contact list Settings]
 Link- und Kontaktl.-Einstell.
 [Copy Contact]
 Kontakt kopieren

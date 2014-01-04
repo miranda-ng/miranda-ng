@@ -102,7 +102,7 @@ Tlen-Passwort
 OK
 [Cancel]
 Abbrechen
-[Nick name:]
+[Nickname:]
 Nick:
 [First name:]
 Vorname:
@@ -146,8 +146,6 @@ Version:
 System:
 [Personal Information]
 Persönliche Informationen
-[Nickname:]
-Nick:
 [Age:]
 Alter:
 [to]

@@ -58,13 +58,13 @@ Użyj oddzielnych okien dla rozmów grupowych
 Ogranicz liczbę zakładek rozmów grupowych do
 [Layout]
 Układ
-[Show titlebar]
+[Show title bar]
 Pokaż pasek tytułowy
 [Show status bar]
 Pokaż pasek statusu
 [Show toolbar]
 Pokaż pasek narzędziowy
-[Show infobar]
+[Show info bar]
 Pokaż pasek informacji
 [Show avatars]
 Pokaż awatar
@@ -468,25 +468,25 @@ Przejdź: Poprzednia karta
 Przejdź: Następna karta
 [Navigate: Tab %d]
 Przejdź: Karta %d
-[Window: Toggle Statusbar]
+[Window: Toggle status bar]
 Okno: Przełącz pasek statusu
-[Window: Toggle Titlebar]
+[Window: Toggle title bar]
 Okno: Przełącz pasek tytułu
-[Window: Toggle Toolbar]
+[Window: Toggle toolbar]
 Okno: Przełącz pasek narzędzi
-[Window: Toggle Infobar]
+[Window: Toggle info bar]
 Okno: Przełącz pasek informacyjny
-[Window: Clear Log]
+[Window: Clear log]
 Okno: Wyczyść dziennik
 [Window: Minimize]
 Okno: Minimalizuj
-[Window: Close Tab]
+[Window: Close tab]
 Okno: Zamknij kartę
 [Action: Quote]
 Akcja: Cytuj
-[Action: Send to All]
+[Action: Send to all]
 Akcja: Wyślij do wszystkich
-[Action: Paste & Send]
+[Action: Paste and send]
 Akcja: Wklej i wyślij
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
@@ -589,11 +589,11 @@ Tło obszaru pisania wiadomości
 Wychodzący link
 [Incoming URL]
 Przychodzący link
-[Infobar contact name]
+[Info bar contact name]
 Nazwa kontaktu w pasku informacyjnym
-[Infobar background]
+[Info bar background]
 Tło paska informacyjnego
-[Infobar status message]
+[Info bar status message]
 Opis w pasku informacyjnym
 [Others nicknames]
 Pozostałe nazwy
@@ -997,7 +997,7 @@ Pokaż/ukryj listę nazw (Ctrl+N)
 Kontroluj ten pokój (Ctrl + O)
 [Enable/disable the event filter (CTRL+F)]
 Włącz/wyłącz filtr zdarzeń (Ctrl+F)
-[Nick name]
+[Nickname]
 Nazwa
 [Unique ID]
 Unikalne ID

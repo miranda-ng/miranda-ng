@@ -323,7 +323,7 @@ Gyors átmenet rajzolás használata
 Sarok átmérõ
 [Group top padding]
 Csoport felsõ térköz
-[Frame titlebar height]
+[Frame title bar height]
 Keret címsor magasság
 [Ignore selection for groups]
 Csoportok egy listáját mellõzi
@@ -587,9 +587,9 @@ Eszköz ablak
 Vékony keret
 [No border]
 Nincs keret
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 A CList nem dokkolható alap címsorral és kerettel. Használja az eszközablak vagy keretnélküli stílust.
-[Clist docking]
+[Contact list docking]
 CList dokkolás
 [Current view mode: %s]
 Aktuális nézet mód: %s

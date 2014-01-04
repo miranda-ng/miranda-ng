@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber protocol support for Miranda NG.]
@@ -160,7 +160,7 @@ POSTAL:
 País:
 [Full name:]
 Nombre completo:
-[Nick name:]
+[Nickname:]
 Apodo:
 [First name:]
 Primer nombre:
@@ -286,8 +286,6 @@ Añadir
 
 [with following reason:]
 
-[Nickname:]
-Apodo:
 [&Accept]
 
 [Jabber Bookmarks]
@@ -586,6 +584,8 @@ Enlaces
 [Supports Jingle]
 
 [Supports Roster Exchange]
+
+[Supports direct chat invitations (XEP-0249)]
 
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
@@ -1277,8 +1277,6 @@ Servicios...
 
 [Local Server Transports]
 
-[Browse Chatrooms]
-
 [Create/Join group chat]
 
 [Roster editor]
@@ -1802,8 +1800,6 @@ Cambios de estado
 [Don't notify history messages]
 
 [JID]
-
-[Nick Name]
 
 [Group]
 Grupo

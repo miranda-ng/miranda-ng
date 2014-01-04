@@ -388,7 +388,7 @@ ms
 Настройки на облика
 [Group top padding]
 
-[Frame titlebar height]
+[Frame title bar height]
 Височина на имената на рамките
 [Ignore selection for groups]
 
@@ -761,9 +761,9 @@ URL събития
 [No border]
 Без рамка
 ;file \plugins\Clist_nicer\src\Docking.cpp
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Загнездването на списъка е невъзможно, когато се използва стандартната заглавна лента и рамка. Използвайте рамка Tool Window или стил без рамка.
-[Clist docking]
+[Contact list docking]
 Загнездване на списъка
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
@@ -819,7 +819,7 @@ URL събития
 Заглавие на рамката
 [&Visible]
 Видима
-[&Show TitleBar]
+[&Show title bar]
 Показване на заглавна лента
 [&Locked]
 Заключена
@@ -849,15 +849,15 @@ URL събития
 Рамки
 [Show All Frames]
 Показване на всички рамки
-[Show All Titlebars]
+[Show all title bars]
 Показване на всички заглавни ленти
-[Hide All Titlebars]
+[Hide all title bars]
 Скриване на всички заглавни ленти
 [Lock Frame]
 Заключване на рамката
 [Visible]
 Видима
-[Show TitleBar]
+[Show title bar]
 Показване на заглавна лента
 [Skinned frame]
 Облицована рамка

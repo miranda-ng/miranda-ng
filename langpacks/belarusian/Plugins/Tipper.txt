@@ -283,7 +283,7 @@
 Слухаю
 [Miranda uptime]
 Час працы Miranda
-[Clist event]
+[Contact list event]
 Падзея спісу
 [Jabber activity]
 Занятак Jabber

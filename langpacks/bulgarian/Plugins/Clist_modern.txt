@@ -74,7 +74,7 @@
 Придвижване с текста
 [Stretch proportionally]
 Пропорционално разтягане
-[Tile vertically according to Row Height]
+[Tile vertically according to row height]
 
 [Use Windows Colors]
 Цветове от Windows
@@ -184,7 +184,7 @@
 Лента за състояние на няколко реда:
 [Accounts per line]
 Акаунти на ред
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * За увеличаване височината на лентата: Главно меню>Рамки >Лента за състояние>Показване на името, след което влачете появилото се име нагоре/надолу.
 [Hold [Shift] to inverse [Right Click] behavior]
 "Shift"+"Десен бутон" = Главно меню
@@ -506,7 +506,7 @@ MetaContacts - настройки
 Състоянието като насложена икона
 [Right-To-Left reading mode (mirror template)]
 Режим на четене отдясно наляво (огледален шаблон)
-[Replace smileys in clist]
+[Replace smileys in contact list]
 Замяна на усмивките в списъка с контакти
 [Use protocol smileys]
 
@@ -665,13 +665,13 @@ Modern contact list
 Насложени над състоянието икони
 [Contact List smileys]
 Усмивки в списъка с контакти
-[List Background]
+[List background]
 Фон на списъка
-[Menu Background]
+[Menu background]
 
-[StatusBar Background]
+[Status bar background]
 
-[Frames TitleBar BackGround]
+[Frames title bar background]
 
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Желаете ли контакта "%s" да бъде превърнат в метаконтакт и "%s" да бъде добавен към него?
@@ -762,16 +762,8 @@ Modern contact list
 Маркиран текст в менюто
 [Frame title text]
 Заглавие на рамките
-[Statusbar text]
-Текст в лентата за състояние
 [3rd party frames transparent back color]
 
-[General]
-Основни
-[List]
-Списък
-[Window]
-Прозорец
 [Not focused]
 Дефокусирано
 [Offline]
@@ -814,8 +806,14 @@ Modern contact list
 Зад левия ръб
 [Behind right edge]
 Зад десния ръб
+[General]
+Основни
+[List]
+Списък
+[Window]
+Прозорец
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[Event Area Background]
+[Event area background]
 
 [Event Area]
 Зона за събития
@@ -1016,9 +1014,9 @@ Angeli-Ka (изображения), FYR (шаблон)
 Изключване на звука
 [Minimize]
 Минимизиране
-[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
-За да имате лента с инструменти в Clist Modern се нуждаете от приставката TopToolBar.\nНатиснете "Да" ако искате да я свалите или "Отказ" за да продължите
-[ToolBar Background]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+За да имате лента с инструменти в Clist_modern се нуждаете от приставката TopToolBar.\nНатиснете "Да" ако искате да я свалите или "Отказ" за да продължите
+[Toolbar background]
 
 [Toolbar upgrade]
 
@@ -1102,14 +1100,12 @@ Angeli-Ka (изображения), FYR (шаблон)
 Надолу
 [Show All Frames]
 Показване на всички рамки
-[Show All Titlebars]
+[Show all title bars]
 Показване на всички заглавни ленти
-[Hide All Titlebars]
+[Hide all title bars]
 Скриване на всички заглавни ленти
 [Lock Frame]
 Заключване на рамката
-[Show TitleBar]
-Показване на заглавна лента
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 

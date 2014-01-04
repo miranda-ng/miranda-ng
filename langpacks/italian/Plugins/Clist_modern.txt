@@ -231,7 +231,7 @@ Nascondi utenti &offline qui dentro
 &Rinomina gruppo
 [&Delete Group]
 &Elimina gruppo
-[List Background]
+[List background]
 Lista - Sfondo
 [Standard contacts]
 Contatti standard

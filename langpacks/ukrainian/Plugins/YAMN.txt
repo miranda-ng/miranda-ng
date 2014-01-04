@@ -37,7 +37,7 @@
 Запуск програми
 [Use contact notification for this account]
 Нотифікація контактом
-[Replace nick name]
+[Replace nickname]
 Замінити псевдонім
 [Disable Events]
 Вимкнути новини

@@ -1849,12 +1849,6 @@ Cписок неактивний
 Вихідне повідомлення (10x10)
 [Last message received on %s at %s.]
 Останнє повідомлення отримано %s о %s
-[signed off (was %s)]
-від'єднався (був %s)
-[signed on (%s)]
-%s
-[is now %s (was %s)]
-%s (був %s)
 [%s is typing a message...]
 %s друкує вам повідомлення...
 [File sent]
@@ -2249,7 +2243,7 @@ Miranda не може відкрити цей профіль
 Неможливо запустити плагін у сервісному режимі!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Неможливо завантажити жоден встановлений плагін списку контактів. Навіть ігноруючи ваші налаштування, Miranda не може завантажити список контактів.
-[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Не знайдено жодного плагіна списку контактів! Вам потрібен StdClist або clist_*.dll.
 [Plugin]
 Плагін

@@ -13,9 +13,9 @@
 Застосовувати скін до фрейму
 [&About the contact list...]
 Про список контактів...
-[Clist docking]
+[Contact list docking]
 Парковка
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Неможливо паркувати список контактів при використанні кордону і заголовка за замовчуванням. Використовуйте стиль "Без кордонів" або "Панель"
 [Add New...]
 Додати...
@@ -191,7 +191,7 @@
 Плоскі кнопки
 [Floating contacts appearance]
 Відображення плаваючих контактів
-[Frame titlebar height]
+[Frame title bar height]
 Висота назви фрейму
 [Fully transparent (like TweakUI)]
 Повністю прозоре (як TweakUI)

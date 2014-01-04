@@ -44,7 +44,7 @@ Enlace
 
 [Link Settings]
 
-[CList Settings]
+[Contact list settings]
 
 [Group:]
 Grupo:
@@ -126,7 +126,7 @@ Seleccionar carpeta
 
 [Contacts Display Info]
 
-[Link and CList Settings]
+[Link and Contact list Settings]
 
 [Copy Contact]
 

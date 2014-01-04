@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Automatically pop up the window when]
@@ -47,13 +47,13 @@
 グループチャットに個別のウィンドウを使用
 [Limit number of group chats tabs per window to]
 ウィンドウ毎のグループチャットタブの数を以下に制限:
-[Show titlebar]
+[Show title bar]
 タイトルバーを表示
 [Show status bar]
 ステータスバーを表示
 [Show toolbar]
 ツールバーを表示
-[Show infobar]
+[Show info bar]
 情報バーを表示
 [Use the contact's status icon as the window icon]
 コンタクトステータスアイコンをウィンドウアイコンとして使用
@@ -389,12 +389,6 @@ Unicode オフ
 テキストを引用
 [User Menu - %s]
 ユーザーメニュー - %s
-[signed off (was %s)]
-サインオフ (%s)
-[signed on (%s)]
-サインオン (%s)
-[is now %s (was %s)]
-は現在 %s (旧 %s)
 [Sending in progress: %d message(s) left...]
 送信の進捗状況: 残り %dメッセージ...
 [%s is typing a message...]
@@ -433,11 +427,11 @@ Unicode オフ
 発信 URL
 [Incoming URL]
 着信 URL
-[Infobar contact name]
+[Info bar contact name]
 情報バーのコンタクト名
-[Infobar background]
+[Info bar background]
 情報バーの背景
-[Infobar status message]
+[Info bar status message]
 情報バーのステータスメッセージ
 [Others nicknames]
 その他のニックネーム
@@ -717,7 +711,7 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 このルームを管理する (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 イベントフィルターの有効 / 無効 (CTRL+F)
-[Nick name]
+[Nickname]
 ニックネーム
 [Unique ID]
 固有 ID

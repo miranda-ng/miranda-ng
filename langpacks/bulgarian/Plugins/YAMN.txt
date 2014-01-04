@@ -40,7 +40,7 @@ Copyright:
 
 [Use contact notification for this account]
 
-[Replace nick name]
+[Replace nickname]
 
 [Disable Events]
 

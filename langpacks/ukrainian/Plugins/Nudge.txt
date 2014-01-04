@@ -2,10 +2,10 @@
 ;============================================================
 ;  File: Nudge.dll
 ;  Plugin: Nudge
-;  Version: 0.0.2.0
+;  Version: 0.1.0.0
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
-[Plugin to shake the clist and chat window.]
+[Plugin to shake the contact list and chat window.]
 Плагін трясіння списку контактів і вікна повідомлень.
 [Protocol options]
 Налаштування протоколу
@@ -67,7 +67,7 @@
 На телефоні
 [Out to lunch]
 Обідаю
-[Shaking Clist Options]
+[Shaking contact list options]
 Тряска списку контактів
 [Number of moves]
 Кількість рухів

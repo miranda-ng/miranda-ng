@@ -337,8 +337,6 @@ Kanaal binnengaan
 Vul aub een kanaal in om binnen te gaan
 [Please select IRC network and enter the password if needed]
 Selecteer aub het IRC netwerk en vul indien nodig het wachtwoord in
-[Change nick name]
-Wijzig bijnaam
 [Please enter a unique nickname]
 Vul aub een unieke bijnaam in
 [Kick]

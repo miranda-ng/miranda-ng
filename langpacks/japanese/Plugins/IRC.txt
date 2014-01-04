@@ -473,8 +473,6 @@ WhoIs 情報 (&W)
 参加するチャンネルを入力してください
 [Please select IRC network and enter the password if needed]
 IRC ネットワークを選択して , 必要であればパスワードを入力してください
-[Change nick name]
-ニックネームの変更
 [Please enter a unique nickname]
 重複しないニックネームを入力してください
 [Please enter your authentification code]

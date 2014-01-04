@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven 
 ;============================================================
 [Background color:]
 Farba pozadia:
@@ -145,7 +145,7 @@ milisekúnd
 јavý okraj
 [Gray out entire list when:]
 Potlačiť intenzitu u týchto položiek:
-[Contact List Background]
+[Contact list background]
 Pozadie zoznamu kontaktov
 [Status Bar]
 Stavový riadok
@@ -207,6 +207,8 @@ Skryť nepripojených užívatelov v tejto skupine
 Premenovať skupinu
 [&Delete Group]
 Zmazať skupinu
+[List background]
+Pozadie zoznamu
 [Standard contacts]
 Štandardné kontakty
 [Online contacts to whom you have a different visibility]
@@ -223,10 +225,10 @@ Oddelovače
 Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
 [Background]
 Pozadie
+[Contact list]
+Zoznam kontaktov
 [List]
 Zoznam
-[List Background]
-Pozadie zoznamu
 [Not focused]
 Neoznačené
 [Offline]

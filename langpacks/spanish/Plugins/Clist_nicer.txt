@@ -388,7 +388,7 @@ Modo de vista de edición
 
 [Group top padding]
 
-[Frame titlebar height]
+[Frame title bar height]
 
 [Ignore selection for groups]
 
@@ -763,9 +763,9 @@ Búsqueda rápida de texto
 [No border]
 
 ;file \plugins\Clist_nicer\src\Docking.cpp
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 
-[Clist docking]
+[Contact list docking]
 
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
@@ -821,7 +821,7 @@ Modos de vista
 
 [&Visible]
 
-[&Show TitleBar]
+[&Show title bar]
 
 [&Locked]
 
@@ -851,15 +851,15 @@ Modos de vista
 Marcos
 [Show All Frames]
 
-[Show All Titlebars]
+[Show all title bars]
 
-[Hide All Titlebars]
+[Hide all title bars]
 
 [Lock Frame]
 
 [Visible]
 
-[Show TitleBar]
+[Show title bar]
 
 [Skinned frame]
 

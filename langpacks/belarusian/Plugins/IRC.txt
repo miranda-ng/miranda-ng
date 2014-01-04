@@ -570,8 +570,6 @@ CTCP %s адказ пасланы для %s: %s
 Увядзіце назву чат-пакою
 [Please select IRC network and enter the password if needed]
 Абярыце IRC сетка і ўвядзіце пароль, калі неабходна
-[Change nick name]
-Змяніць нік
 [Please enter a unique nickname]
 Увядзіце ўнікальны нік
 [Please enter your authentification code]

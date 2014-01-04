@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -58,13 +58,13 @@ Afficher le bouton Fermer sur chaque onglet
 
 [Layout]
 
-[Show titlebar]
+[Show title bar]
 Afficher la barre de titre
 [Show status bar]
 Afficher la barre d'état
 [Show toolbar]
 
-[Show infobar]
+[Show info bar]
 
 [Show avatars]
 Montrer les avatars
@@ -86,8 +86,6 @@ Utiliser l'icône d'état du contact comme icône de fenêtre
 Zone de texte de la Fenêtre
 [Enable IEView]
 Activer IEView
-[Log status changes]
-
 [Show icons]
 Voir les icônes
 [Show time]
@@ -470,25 +468,25 @@ Envoi de message
 
 [Navigate: Tab %d]
 
-[Window: Toggle Statusbar]
+[Window: Toggle status bar]
 
-[Window: Toggle Titlebar]
+[Window: Toggle title bar]
 
-[Window: Toggle Toolbar]
+[Window: Toggle toolbar]
 
-[Window: Toggle Infobar]
+[Window: Toggle info bar]
 
-[Window: Clear Log]
+[Window: Clear log]
 
 [Window: Minimize]
 
-[Window: Close Tab]
+[Window: Close tab]
 
 [Action: Quote]
 
-[Action: Send to All]
+[Action: Send to all]
 
-[Action: Paste & Send]
+[Action: Paste and send]
 
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
@@ -523,12 +521,6 @@ Citer
 
 [User Menu - %s]
 Menu Contact - %s
-[signed off (was %s)]
-est parti (était %s)
-[signed on (%s)]
-est arrivé (%s)
-[is now %s (was %s)]
-est %s (était %s)
 [Sending in progress: %d message(s) left...]
 Envoi en cours: il reste %d message(s)...
 [%s is typing a message...]
@@ -597,11 +589,11 @@ Zone de message
 Lien envoyé
 [Incoming URL]
 Lien reçu
-[Infobar contact name]
+[Info bar contact name]
 
-[Infobar background]
+[Info bar background]
 
-[Infobar status message]
+[Info bar status message]
 
 [Others nicknames]
 Autres pseudos
@@ -1005,7 +997,7 @@ Afficher/cacher la liste des pseudos (CTRL+N)
 Contrôler ce salon (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Activer/désactiver les filtres d'évènement (CTRL+F)
-[Nick name]
+[Nickname]
 Pseudo
 [Unique ID]
 ID unique

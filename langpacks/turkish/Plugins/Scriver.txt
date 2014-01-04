@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Automatically pop up the window when]
@@ -315,12 +315,6 @@ Kullanıcı Geçmişini Göster
 Yazı Alıntıla
 [User Menu - %s]
 Kullanıcı Menüsü - %s
-[signed off (was %s)]
-çevrimdışı (%s idi)
-[signed on (%s)]
-çevrimiçi (%s)
-[is now %s (was %s)]
-şimdi %s (%s idi)
 [Sending in progress: %d message(s) left...]
 Gönderiliyor: %d ileti kaldı...
 [%s is typing a message...]
@@ -599,7 +593,7 @@ Kısa adları göster/gizle (CTRL+N)
 Bu odayı denetle (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Etkinlik süzgecini aç/kapa (CTRL+F)
-[Nick name]
+[Nickname]
 Kısa ad
 [Unique ID]
 Tekil kod

@@ -461,8 +461,6 @@ Csatlakozás csatornához
 Kérlek adj meg egy csatornát a csatlakozáshoz
 [Please select IRC network and enter the password if needed]
 Kérlek válassz IRC hálózatot és add meg a jelszót ha szükséges
-[Change nick name]
-Becenév váltása
 [Please enter a unique nickname]
 Kérlek adj meg egy egyedi becenevet
 [Please enter your authentification code]
