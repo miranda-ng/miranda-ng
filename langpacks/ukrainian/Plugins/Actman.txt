@@ -136,7 +136,7 @@
 [Integer]
 Ціле
 [Append]
-Додавання
+Додати
 [Append data to file]
 Додати вміст у файл
 [Choose action]
@@ -325,3 +325,7 @@
 Значення
 [Save value]
 Збер. значення
+[Read]
+Читати
+[Write]
+Записати

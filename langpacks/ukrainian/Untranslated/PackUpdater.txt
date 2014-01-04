@@ -1,4 +1,0 @@
-﻿[Check for pack updates]
-[An error occurred while downloading the update.]
-[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-[Name of Update's file is not supported.]

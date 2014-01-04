@@ -6,29 +6,31 @@
 ;  Authors: MaKaR
 ;============================================================
 [Notify with popup if some connection established]
-Повідомлення спливаючими про встановлене з'єднання
-[Set popup colours]
-Вибрати колір спливаючих вікон
+Сповіщає у спливаючих вікнах про встановлене з'єднання
+[Set popup colors]
+Кольори
 [Popup options]
-Налаштування спливаючих вікон
+Спливаючі вікна
 [Background]
 Фон
 [Text]
 Текст
 [Close after:]
-Закрити після:
+Тривалість:
 [sec (0 default, -1 disabled)]
 с (0 замовчання, -1 вимкнути)
 [Settings]
 Налаштування
 [try resolve addresses]
-намагаються вирішувати адресою
-[Версія:]
+намагатися визначити адреси
+[Version:]
 Версія:
 [Show notification if no filter defined]
-Повідомляти, якщо жоден фільтр не визначений
+Сповіщати, якщо жоден фільтр не визначений
 [Attempt interval (ms)]
 Інтервал спроб (мс)
+['Online' means:]
+"Онлайн" означає:
 [Filters]
 Фільтри
 [DN]
@@ -37,18 +39,26 @@
 Вг
 [Rule editor]
 Редактор правил
+[Application name]
+Програма
 [Local IP:Port]
 Локальний IP:Порт
+[Action:]
+Дія:
 [Cancel]
-Скасування
+Скасувати
+[* and ? wildcard characters also available (for port enter number or *)]
+Дозволені символи підстановки ? і * (в полі "Порт" - цифри або *)
+[Remote IP:Port]
+Віддалений IP:Порт
 [Show]
 Показати
 [Hide]
-Приховати
+Сховати
 [Always show popup]
-Завжди показувати сплив. вікно
+Показувати сплив. вікно
 [Never show popup]
-Ніколи не показуваті сплив. вікно
+Не показувати сплив. вікно
 [Status]
 Статус
 [Application]
@@ -63,3 +73,5 @@
 Плагіни
 [New Connection Notification]
 Повідомлення про нове підключення
+[First close options window]
+Спочатку закрийте вікно налаштувань

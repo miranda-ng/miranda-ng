@@ -2085,6 +2085,8 @@ Miranda не може відкрити цей профіль
 Хибний тип налаштувань для '%s'. Першою літерою будь-якого значения має бути b, w, d, l, s, e, u, g, h або n.
 [Authorization request from %s%s: %s]
 Запит авторизації від %s%s: %s
+[You were added by %s%s]
+Вас додав %s%s
 [Contacts: ]
 Контакти:\s
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]

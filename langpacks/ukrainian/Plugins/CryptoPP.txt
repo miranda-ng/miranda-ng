@@ -6,11 +6,15 @@
 ;  Authors: Baloo
 ;============================================================
 [Crypto++ library for SecureIM plugin.]
-Служба шифрування для модуля SecureIM.
+Служба шифрування для плагіна SecureIM.
+[GnuPG Plugin - Passphrase]
+Плагін GnuPG - Пароль
+[Enter passphrase for the secret key of user:]
+Введіть фразу для секретного ключа користувача:
 [User ID]
-ID пользователя
+ID користувача
 [Cancel]
-Отмена
+Скасувати
 [GnuPG Plugin - Select public key]
 Вибрати публічний ключ плагіну GnuPG
 [Refresh]

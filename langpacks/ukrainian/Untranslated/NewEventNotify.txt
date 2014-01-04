@@ -1,4 +1,3 @@
 ﻿[URL]
-[Don't show Popup when Message-Dialog is already open]
 [ICQ Web pager]
 [ICQ Email express]

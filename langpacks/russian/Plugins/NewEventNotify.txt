@@ -5,17 +5,17 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[Notifies you when you receive a message, url, file or any other event by displaying a popup.]
+[Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 Уведомляет о получении сообщения, URL, файла или другого события, отображая информацию во всплывающих окнах.
-[General Options]
+[General options]
 Общие параметры
 [Show entry in the Popups menu]
 Пункт в меню "Вспл. окна"
-[Temporarily disable Event Popups]
-Временно запретить извещение
-[Show Preview of Event in Popup]
+[Temporarily disable event popups]
+Временно запретить уведомление
+[Show preview of event in popup]
 Предпросмотр события в окне
-[Popup Options]
+[Popup options]
 Всплывающие окна
 [Message]
 Сообщение
@@ -29,39 +29,39 @@
 Текст
 [Background]
 Фон
-[Time to expires]
+[Timeout]
 Время задержки
 [Notify me of...]
-Извещать меня о...
-[Left Click Actions]
+Уведомлять меня о...
+[Left click actions]
 По левому щелчку
-[Dismiss Popup]
-Закрыть
-[Open Event]
+[Dismiss popup]
+Закрыть окно
+[Open event]
 Открыть событие
-[Dismiss Event]
+[Dismiss event]
 Скрыть событие
-[Right Click Actions]
+[Right click actions]
 По правому щелчку
-[Time Expires Actions]
+[Timeout actions]
 По истечению времени
-[Message-Event only]
+[Message event only]
 Только для сообщений
-[Don't show Popup when Message-Dialog is already open]
+[Don't show popup when message dialog is already open]
 Не показывать, если открыто окно
-[Hide Popup when sending new message]
+[Hide popup when sending new message]
 Скрывать при отправке нового сообщения
-[Open Reply-Dialog instead of reading the Message]
+[Open reply dialog instead of reading the message]
 Диалог ответа вместо чтения сообщения
 [Merge popups from one user]
 Объединять от одного пользователя
 [Preview]
 Тест
-[Show Date]
+[Show date]
 Дата
-[Show Time]
+[Show time]
 Время
-[Show Headers]
+[Show headers]
 Заголовки
 [Number of begin shown messages]
 Количество сообщений для начала показа
@@ -86,7 +86,7 @@
 [Unknown Event]
 Неизвестное событие
 [Notify of new events]
-Извещать о новых событиях
+Уведомлять о новых событиях
 [Enable new event notification]
 Вкл. уведомления о событиях
 [Disable new event notification]

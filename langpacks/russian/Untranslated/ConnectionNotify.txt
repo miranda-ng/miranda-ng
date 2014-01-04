@@ -6,7 +6,6 @@
 [Show notification if no filter defined]
 [Attempt interval (ms)]
 [X]
-[Online mean]
 [DN]
 [Rule editor]
 [Local IP:Port]

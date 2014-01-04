@@ -35,6 +35,8 @@ AIM Деталі користувача
 Відключити розширені значки статусу
 [Notify about new mail]
 Повідомляти про нову пошту
+[Advanced Options]
+Додатково
 [Instant Idle on Login]
 Режим очікування при вході
 [Force Proxy File Transfers]
@@ -43,8 +45,12 @@ AIM Деталі користувача
 Представлятися як Sidekick/Hiptop
 [*Aim must be reconnected for some option to take effect]
 *AIM повинен бути перепідключений, щоб зміни вступили в силу
+[Connection]
+З'єднання
 [Port:]
 Порт:
+[Reset]
+Скинути
 [Disable SSL]
 Вимк. SSL
 [Manage Server Groups]
@@ -81,6 +87,8 @@ AIM Встановити Instant Idle
 Додати
 [Remove]
 Видалити
+[Idle]
+Очікування
 [Allow contacts to be notified of:]
 Повідомити про контакти:
 [Join Chat Room]
@@ -97,6 +105,8 @@ AIM Встановити Instant Idle
 Старий
 [New]
 Новий
+[Repeat]
+Повторити
 [*Passwords don't match.]
 *Паролі не співпадають.
 [Screen Name]
@@ -169,6 +179,8 @@ AIM Встановити Instant Idle
 Невідома помилка при додаванні до списку. Код %#x
 [Unknown error when attempting to modify a group. Error code %#x]
 Невідома помилка при спробі модифікувати групу. Код %#x
+[Block]
+Заблокувати
 [Profile]
 Профіль
 [AOL Mail]

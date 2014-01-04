@@ -10,7 +10,7 @@
 [Skin items]
 Елементи скіна
 [General]
-Загальна
+Загальне
 [Gradient]
 Градієнт
 [Left to right]
@@ -22,9 +22,9 @@
 [Bottom to top]
 Знизу вгору
 [Round corners]
-Округлені кути
+Заокруглені кути
 [Top-Left]
-Вгорі зліва
+Вгорі ліворуч
 [Top-Right]
 Вгорі праворуч
 [Bottom-Right]
@@ -32,7 +32,7 @@
 [Bottom-Left]
 Внизу ліворуч
 [Item colors]
-Пункт кольорів
+Кольори
 [First color]
 Перший колір
 [Text color]
@@ -50,7 +50,7 @@
 [Border style]
 Стиль елементу
 [3D border (bright / dark)]
-3D стиль (світлий/темний)
+3D-стиль (світлий/темний)
 [Item ignored]
 Елемент ігнорується
 [Dialog]
@@ -58,14 +58,14 @@
 [Not yet supported]
 Не підтримується
 [Copy from]
-Копіювати від
+Копіювати з
 [<None>]
-Нічого
+<немає>
 [Raised]
 Підведений
 [Sunken]
 Втоплений
 [Bumped]
-Наткнувся
+Опуклий
 [Etched]
 Гравірований

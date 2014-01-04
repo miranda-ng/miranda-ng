@@ -8,7 +8,7 @@
 [Allows you to send and receive contacts.]
 Дозволяє надсилати та отримувати контакти.
 [Send contacts]
-Відправити контакти
+Надіслати контакти
 [&Add]
 &Додати
 [&User menu]
@@ -18,15 +18,15 @@
 [&History]
 &Історія
 [Choose contacts to be send:]
-Вибрати контакти для відправки:
+Вибрати контакти для надсилання:
 [&Send]
-&Відправити
+&Надіслати
 [Cancel]
-Сказувати
+Скасувати
 [&Select All]
 &Вибрати все
 [Received contacts]
-Прийняті контакти
+Отримані контакти
 [Add to &group:]
 Додати в групу:
 [&Details]
@@ -34,32 +34,42 @@
 [Close]
 Закрити
 [Contacts send error]
-Помилка відправлення контактів
-[An error has occured. The protocol reported the following error:]
-Протокол повернув наступну помилку:
+Помилка надсилання контактів
+[An error has occurred. The protocol reported the following error:]
+Протокол повідомляє про наступну помилку:
 [Try again]
-Ще раз
+Повторити
 [Popup]
 Спливаюче вікно
 [Add to List]
 Додати
 [User details]
-О користуваче
+Про користувача
 [Send Message]
-Відправити
+Надіслати
 [Contacts received from]
-Отримані контакти від
+Отримано контакти від
 [Contacts]
 Контакти
 [Incoming Contacts]
 Вхідні контакти
 [Outgoing Contacts]
 Вихідні контакти
+[Nick]
+Нік
+[First Name]
+Ім'я
+[Last Name]
+Прізвище
 [Add Contact Permanently to List]
 Додати у список
 [View User's Details]
-Інформація о користуваче
+Інформація про користувача
 [View User's History]
-Історя повідомлень
+Історія повідомлень
 [User Menu]
 Меню користувача
+[Contacts from]
+Контакти від
+[Send Contacts to]
+Надіслати контакти

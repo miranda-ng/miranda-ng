@@ -1,2 +1,0 @@
-﻿[No items available in the database.\nClick the Add button to define some.]
-[This field doesn't accept string longer than %d characters. The string will be truncated.]

@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: PackUpdater.dll
 ;  Plugin: Pack updater
-;  Version: 0.0.1.1
+;  Version: 0.1.0.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
-Простий плагін для оновлень зборок Miranda NG.
+Простий плагін для оновлень збірок Miranda NG.
 [Updates found!]
 Знайдені оновлення!
 [Update]
@@ -16,7 +16,7 @@
 [Cancel]
 Скасувати
 [PackUpdater has detected updated versions\nof the following Miranda components:]
-Були знайдені оновлені версії наступних компонентів:
+Знайдено нові версії наступних компонентів:
 [Description]
 Опис
 [Downloading...]
@@ -26,39 +26,39 @@
 [On startup]
 При запуску
 [Remind about not installed pack update]
-Нагадувати про невстановленому оновлення
+Нагадувати про невстановлене оновлення
 [Hotkey]
 Гаряча клавіша
 [Go to Customize -> Hotkeys to change the hotkey]
-Перейти у Тонкі налаштування -> Горячі клавіші для зміни
+Налаштувати: Тонке налаштування -> Гарячі клавіші
 [Notifications]
-Повідомлення
+Сповіщення
 [Message boxes]
 Діалоги
 [Errors]
 Помилки
 [Info messages]
-Інфо повідомлення
+Інформація
 [Progress dialogs]
 Діалоги прогресу
 [Every]
 Кожні
 [(but only once a day)]
-(але тільки 1 раз в день)
+(але тільки 1 раз на день)
 [Message boxes (*)]
 Діалоги (*)
 [Back]
 Фон
 [Text]
 Текст
-[Colours]
+[Colors]
 Кольори
 [Use cus&tom colors]
-Налаштувати кольору
-[Use &Windows colours]
+Налаштувати кольори
+[Use &Windows colors]
 Кольори Windows
-[Use Pop&up colours]
-Кольори Pop&up
+[Use Pop&up colors]
+Кольори сплив. вікон
 [Preview]
 Тест
 [Click action]
@@ -70,24 +70,24 @@
 [Timeout]
 Таймаут
 [0 = Default]
-0=Змовчання
+0=Умовчання
 [-1 = Infinite]
 -1=Нескінченно
 [Sec]
 с
 [* Needs popup actions to be enabled]
-* Необхідні включені дії сплив. вікон
+* Необхідно ввімкнути дії сплив. вікон
 [Not sets for "Message boxes"]
 Не встановлює для "Діалоги"
 [Boxes]
 Вікна
 [Popups]
 Спливаючі вікна
-[Check pack for updates]
+[Check for pack updates]
 Перевірити оновлення збірки
 [Pack Updater]
 Оновлення збірки
-[An error occured while downloading the update.]
+[An error occurred while downloading the update.]
 Під час завантаження оновлення сталася помилка.
 [Component Name]
 Ім'я компонента
@@ -96,11 +96,13 @@
 [New Version]
 Нова версія
 [Downloading pack updates...]
-Завантаження оновленої сборки...
+Завантаження оновленої збірки...
 [Downloading update...]
 Завантаження оновлення...
+[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Завантаження завершені. Приступити до оновлення? Всі дані будуть збережені, а Miranda NG закрита.
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Оновлення завершені. Приступити до оновлення? Всі дані будуть збережені, а Miranda NG закрита.
+Завантаження завершено. Приступити до оновлення? Всі дані будуть збережені, а Miranda NG закрита.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 Ви відмовилися від негайної установки оновлення збірки.\nВи можете встановити це оновлення вручну звідси:\n\n%s
 [Close popup]
@@ -108,7 +110,7 @@
 [Do nothing]
 Нічого не робити
 [hours]
-годин(и)
+годин
 [days]
 днів
 [Test]
@@ -118,19 +120,19 @@
 [Clear pack updates folder]
 Очистити папку з оновленнями
 ['Yes' Button]
-Кнопка 'Так'
+Кнопка "Так"
 ['No' Button]
-Кнопка 'Ні'
+Кнопка "Ні"
 [Pack Updater HTTP connection]
-HTTP підключення Pack Updater
+HTTP-з'єднання PackUpdater
 [URL for checking updates not found.]
 Посилання для перевірки оновлень не знайдено.
 [Downloading version info...]
-Завантаження інформації про версіях...
-[Name of Update s file is not supported.]
-Ім'я файлу оновлення не підтримується.
+Завантаження інформації про версії...
+[Name of Update's file is not supported.]
+Ім'я файлу оновлень не підтримується.
 [Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
-Оновлення не можливо!\nВи не маєте адміністраторських прав.\nБудь ласка, запустіть Miranda NG з правами адміністратора.
+Оновлення неможливе!\nУ вас немає адміністраторських прав.\nБудь ласка, запустіть Miranda NG з правами адміністратора.
 [No updates found.]
 Оновлень немає.
 [No files for update.]

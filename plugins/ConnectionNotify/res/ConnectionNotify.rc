@@ -27,7 +27,7 @@ FONT 8, "Ms Shell Dlg", 400, 0, 1
     CONTROL         "Custom1", IDC_FGCOLOR, "ColourPicker", 0x50030000, 78, 185, 10, 9
     GROUPBOX        "Popup options", IDC_STATIC, 10, 164, 187, 52, WS_GROUP
     LTEXT           "Background", IDC_STATIC, 34, 186, 43, 8, SS_LEFT
-    LTEXT           "Text", IDC_STATIC, 94, 187, 41, 8, SS_LEFT
+    LTEXT           "Text", IDC_STATIC, 94, 186, 41, 8, SS_LEFT
     EDITTEXT        IDC_INTERVAL1, 60, 195, 21, 12, WS_GROUP | ES_AUTOHSCROLL
     RTEXT           "Close after:", IDC_STATIC, 12, 197, 47, 9, SS_RIGHT
     LTEXT           "sec (0 default, -1 disabled)", IDC_STATIC, 84, 197, 111, 8, SS_LEFT
@@ -41,7 +41,7 @@ FONT 8, "Ms Shell Dlg", 400, 0, 1
     AUTOCHECKBOX    "Show notification if no filter defined", ID_CHK_DEFAULTACTION, 12, 131, 187, 8
     LTEXT           "Attempt interval (ms)", IDC_STATIC, 35, 155, 163, 8, SS_LEFT
     PUSHBUTTON      "X", ID_DELETE, 297, 68, 16, 16, BS_ICON, WS_EX_CLIENTEDGE
-    LTEXT           "Online mean", IDC_STATIC, 211, 122, 92, 8, SS_LEFT
+    LTEXT           "'Online' means:", IDC_STATIC, 211, 122, 92, 8, SS_LEFT
     LTEXT           "Filters", IDC_STATIC, 6, 5, 289, 8, SS_LEFT
     PUSHBUTTON      "DN", ID_DOWN, 297, 52, 16, 16, BS_ICON, WS_EX_CLIENTEDGE
     PUSHBUTTON      "UP", ID_UP, 297, 37, 16, 16, BS_ICON, WS_EX_CLIENTEDGE
@@ -55,9 +55,9 @@ STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SETFOREGROUND | DS_SHELLFONT | 
 CAPTION "Rule editor"
 FONT 8, "Ms Shell Dlg"
 {
-    LTEXT           "Application name", -1, 8, 6, 61, 8, SS_LEFT
+    LTEXT           "Application name", -1, 4, 6, 65, 8, SS_LEFT
     EDITTEXT        ID_TEXT_NAME, 72, 4, 140, 13, ES_AUTOHSCROLL
-    LTEXT           "Local IP:Port", -1, 8, 24, 42, 8, SS_LEFT
+    LTEXT           "Local IP:Port", -1, 4, 24, 65, 8, SS_LEFT
     LTEXT           ":", -1, 213, 24, 8, 8, SS_LEFT
     LTEXT           ":", -1, 214, 43, 8, 8, SS_LEFT
     EDITTEXT        ID_TXT_LOCAL_IP, 72, 22, 140, 13, ES_AUTOHSCROLL
@@ -65,11 +65,11 @@ FONT 8, "Ms Shell Dlg"
     EDITTEXT        ID_TXT_REMOTE_IP, 72, 40, 140, 13, ES_AUTOHSCROLL
     EDITTEXT        ID_TXT_REMOTE_PORT, 217, 40, 45, 13, ES_AUTOHSCROLL
     COMBOBOX        ID_CBO_ACTION, 72, 57, 140, 48, WS_TABSTOP | WS_VSCROLL | CBS_DROPDOWNLIST
-    LTEXT           "Action:", -1, 8, 59, 23, 8, SS_LEFT
+    LTEXT           "Action:", -1, 4, 59, 23, 8, SS_LEFT
     DEFPUSHBUTTON   "OK", ID_OK, 153, 87, 52, 16
     PUSHBUTTON      "Cancel", ID_CANCEL, 209, 87, 52, 16
-    LTEXT           "* and ? wildcard characters also available (for port enter number or *)", -1, 8, 76, 253, 8, SS_LEFT
-    LTEXT           "Remote IP:Port", -1, 8, 42, 49, 8, SS_LEFT
+    LTEXT           "* and ? wildcard characters also available (for port enter number or *)", -1, 4, 76, 253, 8, SS_LEFT
+    LTEXT           "Remote IP:Port", -1, 4, 42, 65, 8, SS_LEFT
 }
 
 

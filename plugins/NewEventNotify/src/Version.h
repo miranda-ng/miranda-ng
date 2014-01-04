@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME				"NewEventNotify"
 #define __FILENAME					"NewEventNotify.dll"
-#define __DESCRIPTION 				"Notifies you when you receive a message, url, file or any other event by displaying a popup."
+#define __DESCRIPTION 				"Notifies you when you receive a message, URL, file or any other event by displaying a popup."
 #define __AUTHOR					"icebreaker, Prezes, vj, vlko, Joe @ Whale"
 #define __AUTHOREMAIL				"jokusoftware@miranda-im.org"
 #define __AUTHORWEB					"http://miranda-ng.org/p/NewEventNotify/"
