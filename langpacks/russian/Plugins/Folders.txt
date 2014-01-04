@@ -55,6 +55,8 @@
 Примечание: Переменные окружения обрабатываются перед любыми переменными Miranda NG. Если у вас,
 [example, %profile_path% defined as a system variable then it will be expanded to that value]
 к примеру, %profile_path% определена как системная переменная, тогда будет возвращено значение системной переменной
+[instead of expanding to Miranda's profile path.]
+переменной, а не переменной %profile_path% Miranda NG.
 [Examples:]
 Примеры:
 [If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
