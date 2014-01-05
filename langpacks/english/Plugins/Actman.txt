@@ -208,6 +208,7 @@
 [Use MMI]
 [UTF8+sign]
 [UTF16+sign]
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 [value]
 [name]
 [value (name)]

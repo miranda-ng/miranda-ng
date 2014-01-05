@@ -410,6 +410,8 @@
 UTF8+сигнатура
 [UTF16+sign]
 UTF16+сигнатура
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - выделенная (и заменённая) часть\r\n^e - заменено пустой строкой\r\n^v - вставить текст из буфера обмена\r\n^t - заменено табуляцией\r\n^l - заменено последним результатом, как юникод\r\n^h - заменено последним результатом, как шестнадцатеричное\r\n^f(имя[,str])\r\n     вставить строку из текстового файла.\r\n     содержимое внутри скобок обязано быть без пробелов
 [value]
 значение
 [name]
