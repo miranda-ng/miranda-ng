@@ -1,4 +1,5 @@
 ﻿[Collects and prints information related to Miranda, the plugins and the OS.]
+[OK]
 [Output Debug String]
 [Attempt to find unloadable plugins]
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]

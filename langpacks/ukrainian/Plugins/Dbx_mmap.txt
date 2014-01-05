@@ -6,140 +6,144 @@
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
-Підтримка бази Miranda NG: глобальні налаштування, контакти, історія, установки контактів і т.і.
-[db3x_mmap Plugin]
-Плагін db3x_mmap
-[Database]
-Профіль
-[Password]
-Пароль
-[Set password]
-Встановити пароль
-[Old password]
-Старий пароль
+Підтримка бази Miranda NG: глобальні налаштування, контакти, історія, установки контактів тощо.
+[Login to Miranda NG]
+Вхід в Miranda NG
+[Cancel]
+Скасувати
 [New password]
-Новий пароль 
+Новий пароль
+[Please enter your new password]
+Будь ласка, введіть новий пароль
+[Enter password]
+Введіть пароль
 [Change password]
 Змінити пароль
-[Change/remove password]
-Змінити/видалити пароль
 [Change]
 Змінити
 [Remove]
 Видалити
-[Please type in your password]
-Будь ласка, введіть ваш пароль
-[Please enter your new password]
-Будьласка введіть новий пароль
-[Password is too short!]
-Пароль занабто короткий!
-[Passwords do not match!]
-Пароли не співпадають!
-[Wrong old password entered!]
-Введено помилковий старий пароль! 
-[Password is not correct!]
-Невірний пароль!
-[Too many errors!]
-Дуже багато помилок!
+[Old password]
+Старий пароль
 [Database encryption mode]
 Режим шифрування бази
 [Standard]
 Стандартний
-[Total] 
-Повний 
+[Total]
+Повний
 [Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Шифрування тільки критичних даних (паролі, токени авторизації іті). Інші налаштування, а також історія залишаються незашифрованою. Швидко та ефективно, підходить в більшості випадків
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of loosing everything you've stored in a profile in case of loosing password. Recommended only for paranoidal users] 
-Всі налаштування і всі події історії зашифровані. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в профілі в разі втрати пароля. Рекомендується тільки параноїдальним користувачам
+Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими. Швидкий та ефективний, підходить для більшості випадків.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoidal users]
+Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в профілі в разі втрати пароля. Рекомендується тільки параноїдальним користувачам.
 [Disk is full. Miranda will now shutdown.]
-Диск сповнений. Miranda завершує роботу.
+Диск переповнений. Miranda завершує роботу.
 [Database failure. Miranda will now shutdown.]
 Помилка бази. Miranda NG буде закрита.
 [Database Error]
 Помилка бази
 [Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
-Miranda NG виявила пошкодження вашої базі даних. Це пошкодження може бути виправлене плагіном DbChecker. Будь ласка, завантажте його з http://miranda-ng.org/p/DbChecker/. Miranda NG буде закрита.
+Miranda NG виявила пошкодження вашої базі даних. Це пошкодження можна виправити за допомогою плагіна DbChecker. Будь ласка, завантажте його з http://miranda-ng.org/p/DbChecker/. Miranda NG буде закрита.
 [Database Panic]
 Проблема з базою
+[Change/remove password]
+Змінити/видалити пароль
+[Set password]
+Встановити пароль
+[Password]
+Пароль
+[Too many errors!]
+Дуже багато помилок!
+[Password is not correct!]
+Невірний пароль!
+[Please type in your password]
+Будь ласка, введіть ваш пароль
+[Wrong old password entered!]
+Введено помилковий старий пароль!
+[Password is too short!]
+Пароль занадто короткий!
+[Passwords do not match!]
+Паролі не співпадають!
+[Database]
+Профіль
 [Performing aggressive pass]
-Виконання агресивних пропуск
+Виконання агресивного проходу
 [Aggressive: random junk at %08X: skipping]
-Агресивний: випадкове сміття у %08X: пропуск
+Агресивний: випадкові дані на %08X: пропуск
 [Aggressive: unlinked data at %08X: can't automatically place]
-Агресивний: незв'язані дані в %08X: не може автоматично встановлювати
+Агресивний: незв'язані дані на %08X: неможливо автоматично визначити їх місце
 [Processing contact chain]
-Обробка ланцюжку контакта
+Обробка ланцюжка контактів
 [Contact count marked wrongly: correcting]
-Кількість контактів помилково позначено: виправлення
+Кількість контактів вказано помилково: виправлення
 [Contact chain corrupted, further entries ignored]
-Ланцюжок контакта пошкоджений, подальші записи ігноруються
+Ланцюжок контактів пошкоджений, подальші дані ігноруються
 [Invalid offset found (database truncated?)]
-Знайдене пошкоджених зміщення (базу даних спотворено?)
+Знайдено неправильне зміщення (база даних пошкоджена?)
 [Invalid offset found]
-Знайдене пошкоджених зміщення
+Знайдено неправильне зміщення
 [Error reading, database truncated? (%u)]
-Помилка при читанні, бази даних спотворена? (%u)
+Помилка при читанні, бази даних пошкоджена? (%u)
 [Can't write to working file, aggressive mode may be too aggressive now]
-Не можу писати у робочий файл, агресивний режим може бути занабно агресивним
+Неможливо записати у робочий файл, агресивний режим може бути занадто агресивним
 [Can't write to output file - disk full? (%u)]
-Не можу записати у вихідний файл - диск заповнений? (%u)
+Неможливо записати у файл - диск переповнений? (%u)
 [Event count marked wrongly: correcting]
-Число подій помилково позначено: виправлення
+Кількість подій вказано помилково: виправлення
 [Event chain corrupted, trying to recover...]
-Події ланцужку пошкоджені, намагаючись відновити...
+Ланцюжок подій пошкоджений, спроба відновити...
 [Event chain corrupted, further entries ignored]
-Події ланцюжку пошкоджені, подальші записи ігноруються
+Ланцюжок подій пошкоджений, подальші дані ігноруються
 [First event not marked as such: correcting]
 Перша подія не позначена як така: виправлення
 [Event marked as first which is not: correcting]
 Подія, позначена як перша, не є такою: виправлення
 [Extra flags found in event: removing]
-Додаткові прапори знайдені у події: видалення
+У події знайдені додаткові прапори: видалення
 [First unread event marked wrong: fixing]
 Першу непрочитану подію позначено неправильно: виправлення
 [Infeasibly large event blob: skipping]
-Нез'ясовно великий BLOB події: пропускаю
+Подія займає забагато місця: пропуск
 [Event not backlinked correctly: fixing]
-Подія з не правильним зворотнім посиланням: виправлення
+Подія з неправильним зворотнім посиланням: виправлення
 [Duplicate event was found: skipping]
-Знайдений дубль події: пропускаю
+Знайдено дубль події: пропуск
 [Event position in chain is not correct]
-Позиція події в ланцюжку некоректна
+Позиція події в ланцюжку не є коректною
 [Event position in chain is not correct: fixing]
-Позиція події в ланцюжку: виправляємо
+Позиція події в ланцюжку не є коректною: виправлення
 [Event position in chain is not correct: unable to fix]
-Позиція події в ланцюжку не є коректною: не в змозі виправити
+Позиція події в ланцюжку не є коректною: неможливо виправити
 [Processing final tasks]
 Виконання завершальних робіт
 [Database signature is corrupted, automatic repair is impossible]
-Бази даних пошкоджена, автоматичне виправлення неможливо
+Заголовок бази даних пошкоджений, автоматичне виправлення неможливе
 [Database is marked as belonging to an unknown version of Miranda]
-База даних позначаєна як належна до невідомої версії Miranda
+База даних належить невідомій версії Miranda
 [Database is newly created and has no data to process]
-База даних нова, і не має ніяких даних для обробки
+База даних нова, і не має даних для обробки
 [Processing completed successfully]
 Обробка завершена успішно
 [Can't create file mapping (%u)]
-Не можу створити файл зіставлення (%u)
+Неможливо створити файл карти (%u)
 [Can't create map view of file (%u)]
-Не можу створити карту вигляду файлу (%u)
+Неможливо створити карту файлу (%u)
 [Processing module name chain]
-Модуль обробки імені ланцюжка
+Обробка ланцюжка імен модулів
 [Module chain corrupted, further entries ignored]
-Ланцюг модуля пошкоджено, подальші записи ігноруються
+Ланцюжок модулів пошкоджений, подальші дані ігноруються
 [Module name '%s' is not unique: %d duplicates found]
-Ім'я модуля '%s' не є унікальним: %d знайдених дублікатів
+Ім'я модуля "%s" не є унікальним: знайдено %d дублікатів
 [Invalid module name offset, skipping data]
-Неправильне зміщення імені модуля, пропускаємо
+Неправильне зміщення імені модуля, пропуск даних
 [Settings chain corrupted, further entries ignored]
-Ланцюжок налаштувань пошкоджений, дані після ігноровані
+Ланцюжок налаштувань пошкоджений, подальші дані ігноруються
 [Infeasibly large settings blob: skipping]
-Нез'ясовно великий BLOB налаштувань: пропускаю
+Налаштування займає забагато місця: пропуск
 [Empty settings group at %08X: skipping]
-Пусті параметри групи у %08X: пропуск
+Група порожніх параметрів на %08X: пропуск
 [Processing user data]
 Обробка даних користувача
 [User corrupted, this could cause major problems]
-Користувачі пошкоджені, це може викликати серйозні проблеми
+Користувач пошкоджений, це може викликати серйозні проблеми
 [More than one user contact: keeping only first]
-Якщо більш ніж один користувач: інформування тільки перший
+Більше ніж один контакт користувача: збережено тільки перший

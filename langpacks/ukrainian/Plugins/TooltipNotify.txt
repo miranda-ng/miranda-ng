@@ -9,8 +9,6 @@
 Показує невелику повідомлення-підказку вище області трею при зміні статусу контакту.
 [Select protocols]
 Протоколи
-[OK]
-Так
 [Choose contacts...]
 Вибрати контакти...
 [Allow tooltip notifications for the following users:]

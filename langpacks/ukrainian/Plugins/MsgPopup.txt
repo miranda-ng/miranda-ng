@@ -8,7 +8,7 @@
 [Plugin replaces message boxes (those having only OK button) with popups.]
 Плагін замінює діалогові вікна (у яких є тільки кнопка OK) на спливаючі вікна.
 [ASTERISK style]
-ASTERISK стиль 
+ASTERISK стиль
 [Background color]
 Колір фону
 [Text color]

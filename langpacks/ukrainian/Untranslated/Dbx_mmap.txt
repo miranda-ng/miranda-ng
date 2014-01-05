@@ -1,6 +1,3 @@
-﻿[Login to Miranda NG]
-[EN]
+﻿[EN]
 [OK]
-[Total]
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of loosing everything you've stored in a profile in case of loosing password. Recommended only for paranoidal users]
 [Logo]

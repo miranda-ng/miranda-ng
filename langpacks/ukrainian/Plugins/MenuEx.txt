@@ -81,8 +81,6 @@
 Всі
 [Messages]
 Повідомлення
-[URL]
-Посилання (URL)
 [Files]
 Файли
 [User Online]

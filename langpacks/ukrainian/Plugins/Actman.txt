@@ -12,7 +12,9 @@
 [DWord]
 Дв.слово
 [You can use %name%, %uid%, %account% and %group% macros]
-Ви можете використовувати змінні %name%% uid%, %account% та %group%
+Ви можете використовувати змінні %name%, %uid%, %account% та %group%
+[You can use %name%, %uid%, %account% and %group% substitutes]
+Ви можете використовувати змінні %name%, %uid%, %account% та %group%
 [wParam type]
 Тип wParam
 [lParam type]
@@ -148,7 +150,7 @@
 [Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
 Текст <last> замінюється\r\nостаннім результатом\r\n\r\nТекст <param> замінюється\r\nпараметром
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^a - в кінці: автовідправка\r\n^f(name\[,str\])\r\n вставка рядка з текстового файлу.\r\n вміст дужок має бути без пробілів
+^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^a - в кінці: автовідправка\r\n^f(name\[,str\])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
 Текст <last> замінюється\r\nостаннім результатом\r\n\r\nПовернуте:\r\n--------\r\nOK\t\t= 1\r\nСкасувати\t\t= 2\r\nПерервати\t= 3\r\nПовтор\t\t= 4\r\nПропустити\t= 5\r\nТак\t\t= 6\r\nНі\t\t= 7\r\nЗакрити\t\t= 8
 [Don't use Variables]
@@ -329,3 +331,117 @@
 Читати
 [Write]
 Записати
+[Function call]
+Виклик функції
+[Chain]
+Посилання
+[Program]
+Виконати
+[Service]
+Виклик служби
+[In/Out]
+Ввід/Вивід
+[Storage]
+Сховище
+[Jump]
+Перейти
+[Result]
+Результат
+[Result type]
+Результат виклику служби
+[Function name]
+Ім'я функції
+[DLL name]
+Ім'я DLL
+[Call type]
+Тип виклику
+[Arguments]
+Аргументи
+[Number of arguments]
+Кількість аргументів
+[DLL Handle Cache]
+Кеш дескрипторів DLL
+[Keep to end]
+Тримати до кінця
+[Close immediately]
+Закрити негайно
+[Close for macro]
+Закрити для макроса
+[Wide String]
+Рядок Unicode
+[Get from active window]
+З активного вікна
+[Keep old result]
+Зберегти попередній результат
+[Same thread]
+У тому ж потоці
+[Don't wait end of execution]
+Не чекати до закінчення виконання
+[Structure size]
+Розмір структури
+[LastResult to ]
+Останній результат в\s
+[LastResult from]
+Останній результат із
+[Script process after]
+Скрипт після макроса
+[Wrap Text]
+Перенос рядків
+[Autosend]
+Надсилати автоматично
+[Opposite order]
+Зворотний порядок
+[Service list format]
+Формат списку служб
+[Current Macro]
+Поточний макрос
+[Select for FirstRun]
+Вибрати для першого запуску
+[Right justified text]
+Вирівнювання праворуч
+[Use MMI]
+Використ. MMI
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^f(имя[,str])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
+[value]
+значення
+[name]
+ім'я
+[value (name)]
+значення (ім'я)
+[name 'value']
+"ім'я" значення
+[contains]
+містить
+[starts with]
+починається з
+[ends with]
+закінчується на
+[= equ]
+= дорівнює
+[> greater]
+> більше
+[< lesser]
+< меньше
+[& and]
+& і
+[Slot 0]
+Слот 0
+[Slot 1]
+Слот 1
+[Slot 2]
+Слот 2
+[Slot 3]
+Слот 3
+[Slot 4]
+Слот 4
+[Slot 5]
+Слот 5
+[Slot 6]
+Слот 6
+[Slot 7]
+Слот 7
+[Slot 8]
+Слот 8
+[Slot 9]
+Слот 9

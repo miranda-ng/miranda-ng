@@ -1,4 +1,4 @@
-﻿[wParam]
-[lParam]
-[TopToolbar]
+﻿[TopToolbar]
 [Unicode]
+[UTF8+sign]
+[UTF16+sign]
