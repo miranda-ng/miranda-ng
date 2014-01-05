@@ -38,16 +38,16 @@ EN
 Агульна
 [Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
 Толькі крытычныя дадзеныя шыфруюцца (паролі, маркеры бяспекі і г.д.). Ўсё налады і гісторыя застаецца ў незашыфраваным выглядзе. Хуткі і эфектыўны, падыходзіць для большасці выпадкаў
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of loosing everything you've stored in a profile in case of loosing password. Recommended only for paranoidal users]
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoidal users]
 Усе налады і ўсе падзеі ў гісторыі шыфруюцца. Гэта робіць Міранда вельмі марудней і стварае рызыку страты ўсё, што вы захоўваецца ў профілі ў выпадку згубы пароль. Рэкамендуем толькі для паранаідальных карыстальнікаў
 ;file \plugins\Db3x_mmap\src\database.cpp
-[Disk is full. Miranda will now shutdown.]
+[Disk is full. Miranda will now shut down.]
 Дыск перапоўнены. Miranda будзе зачынена.
-[Database failure. Miranda will now shutdown.]
+[Database failure. Miranda will now shut down.]
 Памылка базы. Miranda NG будзе зачынена.
 [Database Error]
 Памылка базы
-[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
+[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
 Міранда знайшла пашкоджанні ў базе дадзеных. Яны могуць быць выпраўленыя плагінам DbChecker. Калі ласка, загрузіце яго з http://miranda-ng.org/p/DbChecker/. Міранда будзе зачынена.
 [Database Panic]
 Праблема з базай

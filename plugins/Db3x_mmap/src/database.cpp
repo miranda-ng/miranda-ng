@@ -84,14 +84,14 @@ void __cdecl dbpanic(void *arg)
 		TCHAR err[256];
 
 		if (dwErr == ERROR_DISK_FULL)
-			msg = TranslateT("Disk is full. Miranda will now shutdown.");
+			msg = TranslateT("Disk is full. Miranda will now shut down.");
 
-		mir_sntprintf(err, SIZEOF(err), msg, TranslateT("Database failure. Miranda will now shutdown."), dwErr);
+		mir_sntprintf(err, SIZEOF(err), msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
 
 		MessageBox(0,err,TranslateT("Database Error"),MB_SETFOREGROUND|MB_TOPMOST|MB_APPLMODAL|MB_ICONWARNING|MB_OK);
 	}
 	else
-		MessageBox(0,TranslateT("Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown."),
+		MessageBox(0,TranslateT("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down."),
 					TranslateT("Database Panic"),MB_SETFOREGROUND|MB_TOPMOST|MB_APPLMODAL|MB_ICONWARNING|MB_OK);
 	TerminateProcess(GetCurrentProcess(),255);
 }

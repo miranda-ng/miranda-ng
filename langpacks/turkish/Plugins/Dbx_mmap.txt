@@ -11,9 +11,9 @@ Tamam
 İptal
 [Remove]
 Sil
-[Disk is full. Miranda will now shutdown.]
+[Disk is full. Miranda will now shut down.]
 Disk tamamen dolu. Miranda kapanacak.
-[Database failure. Miranda will now shutdown.]
+[Database failure. Miranda will now shut down.]
 Veritabanı sorunu. Miranda kapanacak.
 [Database Error]
 Veritabanı Hatası

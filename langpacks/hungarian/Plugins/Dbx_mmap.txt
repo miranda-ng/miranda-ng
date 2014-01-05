@@ -11,9 +11,9 @@ OK
 Mégsem
 [Remove]
 Eltávolítás
-[Disk is full. Miranda will now shutdown.]
+[Disk is full. Miranda will now shut down.]
 A lemez megtelt. A Miranda most kilép.
-[Database failure. Miranda will now shutdown.]
+[Database failure. Miranda will now shut down.]
 Adatbázis hiba. A Miranda most leáll.
 [Database Error]
 Adatbázis hiba

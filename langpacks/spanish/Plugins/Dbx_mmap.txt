@@ -38,16 +38,16 @@ Eliminar
 
 [Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
 
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of loosing everything you've stored in a profile in case of loosing password. Recommended only for paranoidal users]
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoidal users]
 
 ;file \plugins\Db3x_mmap\src\database.cpp
-[Disk is full. Miranda will now shutdown.]
+[Disk is full. Miranda will now shut down.]
 
-[Database failure. Miranda will now shutdown.]
+[Database failure. Miranda will now shut down.]
 
 [Database Error]
 
-[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
+[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
 
 [Database Panic]
 

@@ -11,9 +11,9 @@ OK
 Avbryt
 [Remove]
 Fjern
-[Disk is full. Miranda will now shutdown.]
+[Disk is full. Miranda will now shut down.]
 Disken er full. Miranda vil nå avsluttes.
-[Database failure. Miranda will now shutdown.]
+[Database failure. Miranda will now shut down.]
 Databasefeil. Miranda vil nå avslutte.
 [Database Error]
 Databasefeil

@@ -38,16 +38,16 @@ Standardowy
 Całkowity
 [Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
 Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa  itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny sposób. Powinien wystarczyć w większości przypadków.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of loosing everything you've stored in a profile in case of loosing password. Recommended only for paranoidal users]
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoidal users]
 Wszystkie wpisy ustawień oraz zdarzenia historii są szyfrowane. Sprawia to, że Miranda działa wolniej oraz stwarza zagrożenie utraty wszystkiego co zapisane jest w profilu w przypadku utraty hasła. Zalecane tylko mającym obsesję na punkcie bezpieczeństwa.
 ;file \plugins\Db3x_mmap\src\database.cpp
-[Disk is full. Miranda will now shutdown.]
+[Disk is full. Miranda will now shut down.]
 Dysk jest pełny. Miranda zostanie zamknięta.
-[Database failure. Miranda will now shutdown.]
+[Database failure. Miranda will now shut down.]
 Awaria profilu. Miranda zostanie zamknięta.
 [Database Error]
 Błąd profilu
-[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
+[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
 Miranda wykryła błąd w twojej bazie danych. Może być naprawiony przez wtyczkę DbChecker. Pobierz go z http://miranda-ng.org/p/DbChecker/. Miranda zostanie teraz zamknięta.
 [Database Panic]
 Panika profilu

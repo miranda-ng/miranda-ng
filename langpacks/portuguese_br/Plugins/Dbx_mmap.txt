@@ -13,9 +13,9 @@ Cancelar
 Remover
 [Standard]
 Padrão
-[Disk is full. Miranda will now shutdown.]
+[Disk is full. Miranda will now shut down.]
 O disco está cheio. Miranda será encerrado agora.
-[Database failure. Miranda will now shutdown.]
+[Database failure. Miranda will now shut down.]
 Falha do banco de dados. Miranda será encerrado agora.
 [Database Error]
 Erro do banco de dados

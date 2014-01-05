@@ -15,9 +15,9 @@ Cancel
 削除
 [Standard]
 標準
-[Disk is full. Miranda will now shutdown.]
+[Disk is full. Miranda will now shut down.]
 ディスクが一杯です。Miranda を一旦終了します
-[Database failure. Miranda will now shutdown.]
+[Database failure. Miranda will now shut down.]
 データベースが障害を起こしました。Miranda を一旦終了します
 [Database Error]
 データベースエラー

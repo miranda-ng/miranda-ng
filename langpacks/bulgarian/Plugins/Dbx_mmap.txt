@@ -19,13 +19,13 @@
 [Enter password]
 
 ;file \plugins\Db3x_mmap\src\database.cpp
-[Disk is full. Miranda will now shutdown.]
+[Disk is full. Miranda will now shut down.]
 Дискът е пълен. Miranda ще бъде изключена сега.
-[Database failure. Miranda will now shutdown.]
+[Database failure. Miranda will now shut down.]
 Повреда в базата от данни. Miranda ще бъде изключена сега.
 [Database Error]
 Грешка в базата от данни
-[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
+[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
 
 [Database Panic]
 
