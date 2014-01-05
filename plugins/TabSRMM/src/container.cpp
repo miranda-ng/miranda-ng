@@ -30,6 +30,10 @@
 
 #include "commonheaders.h"
 
+#define CONTAINER_KEY "TAB_ContainersW"
+#define CONTAINER_SUBKEY "containerW"
+#define CONTAINER_PREFIX "CNTW_"
+
 TContainerData *pFirstContainer = 0;        // the linked list of struct ContainerWindowData
 TContainerData *pLastActiveContainer = NULL;
 
@@ -136,7 +140,6 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hCont
 	if (CMimAPI::m_shutDown)
 		return NULL;
 
-	char *szKey = "TAB_ContainersW";
 	int iFirstFree = -1, iFound = FALSE;
 
 	TContainerData *pContainer = (TContainerData *)mir_calloc( sizeof(TContainerData));
@@ -155,31 +158,26 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hCont
 	if (!M.GetByte("singlewinmode", 0)) {
 		do {
 			char szCounter[10];
-			mir_snprintf(szCounter, 8, "%d", i);
-		
-			DBVARIANT dbv;
-			if (db_get_ts(NULL, szKey, szCounter, &dbv)) {
+			itoa(i, szCounter, 10);
+			ptrT tszName(db_get_tsa(NULL, CONTAINER_KEY, szCounter));
+			if (tszName == NULL) {
 				if (iFirstFree != -1) {
 					pContainer->iContainerIndex = iFirstFree;
-					mir_snprintf(szCounter, 8, "%d", iFirstFree);
+					itoa(iFirstFree, szCounter, 10);
 				}
 				else pContainer->iContainerIndex = i;
 
-				db_set_ts(NULL, szKey, szCounter, name);
+				db_set_ts(NULL, CONTAINER_KEY, szCounter, name);
 				BuildContainerMenu();
 				break;
 			}
-			else {
-				if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
-					if (!_tcsncmp(dbv.ptszVal, name, CONTAINER_NAMELEN)) {
-						pContainer->iContainerIndex = i;
-						iFound = TRUE;
-					}
-					else if (!_tcsncmp(dbv.ptszVal, _T("**mir_free**"), CONTAINER_NAMELEN))
-						iFirstFree =  i;
-				}
-				db_free(&dbv);
+
+			if (!_tcsncmp(tszName, name, CONTAINER_NAMELEN)) {
+				pContainer->iContainerIndex = i;
+				iFound = TRUE;
 			}
+			else if (!_tcsncmp(tszName, _T("**mir_free**"), CONTAINER_NAMELEN))
+				iFirstFree = i;
 		}
 			while (++i && iFound == FALSE);
 	}
@@ -701,7 +699,6 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	case DM_RESTOREWINDOWPOS:
 		{
-			char *szSetting = "CNTW_";
 			char szCName[CONTAINER_NAMELEN + 20];
 			/*
 			* retrieve the container window geometry information from the database.
@@ -721,7 +718,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 							SetWindowPos(hwndDlg, 0, 50, 50, 450, 300, SWP_NOZORDER | SWP_NOACTIVATE);
 				}
 				else {
-					mir_snprintf(szCName, sizeof(szCName), "%s%d", szSetting, pContainer->iContainerIndex);
+					mir_snprintf(szCName, sizeof(szCName), "%s%d", CONTAINER_PREFIX, pContainer->iContainerIndex);
 					if (Utils_RestoreWindowPosition(hwndDlg, NULL, SRMSGMOD_T, szCName)) {
 						if (Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, SRMSGMOD_T, szCName))
 							if (Utils_RestoreWindowPosition(hwndDlg, NULL, SRMSGMOD_T, "split"))
@@ -953,13 +950,11 @@ panel_found:
 				if (iSelection >= IDM_CONTAINERMENU) {
 					DBVARIANT dbv = {0};
 					char szIndex[10];
-					char *szKey = "TAB_ContainersW";
-					mir_snprintf(szIndex, 8, "%d", iSelection - IDM_CONTAINERMENU);
+					itoa(iSelection - IDM_CONTAINERMENU, szIndex, 10);
 					if (iSelection - IDM_CONTAINERMENU >= 0) {
-						if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
-							SendMessage((HWND)item.lParam, DM_CONTAINERSELECTED, 0, (LPARAM)dbv.ptszVal);
-							db_free(&dbv);
-						}
+						ptrT tszName(db_get_tsa(NULL, CONTAINER_KEY, szIndex));
+						if (tszName != NULL)
+							SendMessage((HWND)item.lParam, DM_CONTAINERSELECTED, 0, tszName);
 					}
 					return 1;
 				}
@@ -1499,7 +1494,6 @@ panel_found:
 			TCHAR 		szTitleFormat[200];
 			TCHAR*		szThemeName = NULL;
 			DBVARIANT 	dbv = {0};
-			char *szSetting = "CNTW_";
 
 			szTitleFormat[0] = 0;
 
@@ -1513,14 +1507,14 @@ panel_found:
 				pContainer->settings = &PluginConfig.globalContainerSettings;
 
 				pContainer->szRelThemeFile[0] = pContainer->szAbsThemeFile[0] = 0;
-				mir_snprintf(szCname, 40, "%s_theme", szSetting);
+				mir_snprintf(szCname, 40, "%s_theme", CONTAINER_PREFIX);
 				if (!db_get_ts(pContainer->hContactFrom, SRMSGMOD_T, szCname, &dbv))
 					szThemeName = dbv.ptszVal;
 			}
 			else {
 				Utils::ReadPrivateContainerSettings(pContainer);
 				if (szThemeName == NULL) {
-					mir_snprintf(szCname, 40, "%s%d_theme", szSetting, pContainer->iContainerIndex);
+					mir_snprintf(szCname, 40, "%s%d_theme", CONTAINER_PREFIX, pContainer->iContainerIndex);
 					if (!db_get_ts(NULL, SRMSGMOD_T, szCname, &dbv))
 						szThemeName = dbv.ptszVal;
 				}
@@ -1863,22 +1857,19 @@ panel_found:
 			pContainer->fHidden = true;
 		}
 		else {
-			char szCName[40];
-			char *szSetting = "CNTW_";
-
 			if (TabCtrl_GetItemCount(hwndTab) > 1) {
 				LRESULT res = CWarning::show(CWarning::WARN_CLOSEWINDOW, MB_YESNOCANCEL | MB_ICONQUESTION);
 				if (IDNO == res || IDCANCEL == res)
 					break;
 			}
 
-			if (lParam == 0 && TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_MSGTABS)) > 0) {    // dont ask if container is empty (no tabs)
-				int    clients = TabCtrl_GetItemCount(hwndTab), i;
-				TCITEM item = { 0 };
-				int    iOpenJobs = 0;
+			// dont ask if container is empty (no tabs)
+			if (lParam == 0 && TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_MSGTABS)) > 0) {
+				int clients = TabCtrl_GetItemCount(hwndTab), iOpenJobs = 0;
 
+				TCITEM item = { 0 };
 				item.mask = TCIF_PARAM;
-				for (i = 0; i < clients; i++) {
+				for (int i = 0; i < clients; i++) {
 					TabCtrl_GetItem(hwndTab, i, &item);
 					if (item.lParam && IsWindow((HWND)item.lParam))
 						SendMessage((HWND)item.lParam, DM_CHECKQUEUEFORCLOSE, 0, (LPARAM)&iOpenJobs);
@@ -1895,12 +1886,10 @@ panel_found:
 				}
 			}
 
-			WINDOWPLACEMENT wp = { 0 };
-			wp.length = sizeof(wp);
-			/*
-			* save geometry information to the database...
-			*/
+			// save geometry information to the database...
 			if (!(pContainer->dwFlags & CNT_GLOBALSIZE)) {
+				WINDOWPLACEMENT wp = { 0 };
+				wp.length = sizeof(wp);
 				if (GetWindowPlacement(hwndDlg, &wp) != 0) {
 					if (pContainer->isCloned && pContainer->hContactFrom != 0) {
 						TCITEM item = { 0 };
@@ -1922,13 +1911,14 @@ panel_found:
 						}
 					}
 					else {
-						mir_snprintf(szCName, 40, "%s%dx", szSetting, pContainer->iContainerIndex);
+						char szCName[40];
+						mir_snprintf(szCName, 40, "%s%dx", CONTAINER_PREFIX, pContainer->iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.left);
-						mir_snprintf(szCName, 40, "%s%dy", szSetting, pContainer->iContainerIndex);
+						mir_snprintf(szCName, 40, "%s%dy", CONTAINER_PREFIX, pContainer->iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.top);
-						mir_snprintf(szCName, 40, "%s%dwidth", szSetting, pContainer->iContainerIndex);
+						mir_snprintf(szCName, 40, "%s%dwidth", CONTAINER_PREFIX, pContainer->iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
-						mir_snprintf(szCName, 40, "%s%dheight", szSetting, pContainer->iContainerIndex);
+						mir_snprintf(szCName, 40, "%s%dheight", CONTAINER_PREFIX, pContainer->iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 
 						db_set_b(0, SRMSGMOD_T, "splitmax", (BYTE)((wp.showCmd == SW_SHOWMAXIMIZED) ? 1 : 0));
@@ -1945,9 +1935,9 @@ panel_found:
 					if (TabCtrl_GetItem(hwndTab, i, &item)) {
 						HANDLE hContact;
 						SendMessage((HWND)item.lParam, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
-						//Utils::WriteContainerSettingsToDB(hContact, pContainer->settings);
 
-						mir_snprintf(szCName, 40, "%s_theme", szSetting);
+						char szCName[40];
+						mir_snprintf(szCName, 40, "%s_theme", CONTAINER_PREFIX);
 						if (lstrlen(pContainer->szRelThemeFile) > 1) {
 							if (pContainer->fPrivateThemeChanged == TRUE) {
 								M.pathToRelative(pContainer->szRelThemeFile, pContainer->szAbsThemeFile);
@@ -1962,7 +1952,7 @@ panel_found:
 					}
 				}
 			}
-			else Utils::SaveContainerSettings(pContainer, szSetting);
+			else Utils::SaveContainerSettings(pContainer, CONTAINER_PREFIX);
 			DestroyWindow(hwndDlg);
 		}
 	}
@@ -2125,8 +2115,8 @@ TContainerData* TSAPI FindContainerByName(const TCHAR *name)
 		return NULL;
 
 	for (TContainerData *p = pFirstContainer; p; p = p->pNext)
-	if (!_tcsncmp(p->szName, name, CONTAINER_NAMELEN))
-		return p;
+		if (!_tcsncmp(p->szName, name, CONTAINER_NAMELEN))
+			return p;
 
 	// error, didn't find it.
 	return NULL;
@@ -2187,11 +2177,9 @@ void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 		if (dwStyle & TCS_BUTTONS) {
 			if (pContainer->dwFlags & CNT_TABSBOTTOM) {
 				int nCount = TabCtrl_GetItemCount(hwndTab);
-				RECT rcItem;
-
 				if (nCount > 0) {
+					RECT rcItem;
 					TabCtrl_GetItemRect(hwndTab, nCount - 1, &rcItem);
-					//rc->top = pContainer->tBorder_outer_top;
 					rc->bottom = rcItem.top;
 				}
 			}
@@ -2228,108 +2216,82 @@ void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 
 int TSAPI GetContainerNameForContact(HANDLE hContact, TCHAR *szName, int iNameLen)
 {
-	DBVARIANT dbv;
-	if (M.GetByte("singlewinmode", 0)) {           // single window mode using cloned (temporary) containers
-		_tcsncpy(szName, _T("Message Session"), iNameLen);
+	// single window mode using cloned (temporary) containers
+	if (M.GetByte("singlewinmode", 0)) {
+		_tcsncpy_s(szName, iNameLen, _T("Message Session"), _TRUNCATE);
 		return 0;
 	}
 
-	if (M.GetByte("useclistgroups", 0)) {       // use clist group names for containers...
-		if (db_get_ts(hContact, "CList", "Group", &dbv)) {
-			_tcsncpy(szName, _T("default"), iNameLen);
+	// use clist group names for containers...
+	if (M.GetByte("useclistgroups", 0)) {
+		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
+		if (tszGroup == NULL) {
+			_tcsncpy_s(szName, iNameLen, _T("default"), _TRUNCATE);
 			return 0;
 		}
-		else {
-			if (lstrlen(dbv.ptszVal) > CONTAINER_NAMELEN)
-				dbv.ptszVal[CONTAINER_NAMELEN] = '\0';
-			_tcsncpy(szName, dbv.ptszVal, iNameLen);
-			szName[iNameLen] = '\0';
-			db_free(&dbv);
-			return dbv.cchVal;
-		}
+
+		_tcsncpy_s(szName, iNameLen, tszGroup, _TRUNCATE);
+		return 1;
 	}
 
-	if (db_get_ts(hContact, SRMSGMOD_T, "containerW", &dbv)) {
-		_tcsncpy(szName, _T("default"), iNameLen);
+	ptrT tszContainerName(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
+	if (tszContainerName == NULL) {
+		_tcsncpy_s(szName, iNameLen, _T("default"), _TRUNCATE);
 		return 0;
 	}
-	if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
-		_tcsncpy(szName, dbv.ptszVal, iNameLen);
-		szName[iNameLen] = 0;
-		db_free(&dbv);
-		return dbv.cpbVal;
-	}
-	db_free(&dbv);
-	return 0;
+
+	_tcsncpy_s(szName, iNameLen, tszContainerName, _TRUNCATE);
+	return 1;
 }
 
 void TSAPI DeleteContainer(int iIndex)
 {
-	char szIndex[10], szSetting[CONTAINER_NAMELEN + 30];
-	char *szKey = "TAB_ContainersW";
-	char *szSettingP = "CNTW_";
-	char *szSubKey = "containerW";
-	mir_snprintf(szIndex, 8, "%d", iIndex);
+	char szIndex[10];
+	itoa(iIndex, szIndex, 10);
+	ptrT tszContainerName(db_get_tsa(NULL, CONTAINER_KEY, szIndex));
+	if (tszContainerName == NULL)
+		return;
 
-	DBVARIANT dbv;
-	if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
-		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
-			TCHAR *wszContainerName = dbv.ptszVal;
-			db_set_ts(NULL, szKey, szIndex, _T("**mir_free**"));
+	db_set_ts(NULL, CONTAINER_KEY, szIndex, _T("**mir_free**"));
 
-			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-				DBVARIANT dbv_c;
-				if (!db_get_ts(hContact, SRMSGMOD_T, szSubKey, &dbv_c)) {
-					TCHAR *wszString = dbv_c.ptszVal;
-					if (_tcscmp(wszString, wszContainerName) && lstrlen(wszString) == lstrlen(wszContainerName))
-						db_unset(hContact, SRMSGMOD_T, "containerW");
-					db_free(&dbv_c);
-				}
-			}
-			mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%d_Flags", szSettingP, iIndex);
-			db_unset(NULL, SRMSGMOD_T, szSetting);
-			mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%d_Trans", szSettingP, iIndex);
-			db_unset(NULL, SRMSGMOD_T, szSetting);
-			mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dwidth", szSettingP, iIndex);
-			db_unset(NULL, SRMSGMOD_T, szSetting);
-			mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dheight", szSettingP, iIndex);
-			db_unset(NULL, SRMSGMOD_T, szSetting);
-			mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dx", szSettingP, iIndex);
-			db_unset(NULL, SRMSGMOD_T, szSetting);
-			mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dy", szSettingP, iIndex);
-			db_unset(NULL, SRMSGMOD_T, szSetting);
-		}
-		db_free(&dbv);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		ptrT tszValue(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
+		if (!lstrcmp(tszValue, tszContainerName))
+			db_unset(hContact, SRMSGMOD_T, CONTAINER_SUBKEY);
 	}
+
+	char szSetting[CONTAINER_NAMELEN + 30];
+	mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%d_Flags", CONTAINER_PREFIX, iIndex);
+	db_unset(NULL, SRMSGMOD_T, szSetting);
+	mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%d_Trans", CONTAINER_PREFIX, iIndex);
+	db_unset(NULL, SRMSGMOD_T, szSetting);
+	mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dwidth", CONTAINER_PREFIX, iIndex);
+	db_unset(NULL, SRMSGMOD_T, szSetting);
+	mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dheight", CONTAINER_PREFIX, iIndex);
+	db_unset(NULL, SRMSGMOD_T, szSetting);
+	mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dx", CONTAINER_PREFIX, iIndex);
+	db_unset(NULL, SRMSGMOD_T, szSetting);
+	mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dy", CONTAINER_PREFIX, iIndex);
+	db_unset(NULL, SRMSGMOD_T, szSetting);
 }
 
 void TSAPI RenameContainer(int iIndex, const TCHAR *szNew)
 {
-	DBVARIANT dbv;
-	char *szKey = "TAB_ContainersW";
-	char *szSettingP = "CNTW_";
-	char *szSubKey = "containerW";
+	if (lstrlen(szNew) == 0)
+		return;
+	
 	char szIndex[10];
+	itoa(iIndex, szIndex, 10);
+	ptrT tszContainerName(db_get_tsa(NULL, CONTAINER_KEY, szIndex));
+	if (tszContainerName == NULL)
+		return;
 
-	mir_snprintf(szIndex, 8, "%d", iIndex);
-	if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
-		if (szNew != NULL)
-		if (lstrlen(szNew) != 0)
-			db_set_ts(NULL, szKey, szIndex, szNew);
+	db_set_ts(NULL, CONTAINER_KEY, szIndex, szNew);
 
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			DBVARIANT dbv_c;
-			if (!db_get_ts(hContact, SRMSGMOD_T, szSubKey, &dbv_c)) {
-				if (!_tcscmp(dbv.ptszVal, dbv_c.ptszVal) && lstrlen(dbv_c.ptszVal) == lstrlen(dbv.ptszVal)) {
-					if (szNew != NULL) {
-						if (lstrlen(szNew) != 0)
-							db_set_ts(hContact, SRMSGMOD_T, szSubKey, szNew);
-					}
-				}
-				db_free(&dbv_c);
-			}
-		}
-		db_free(&dbv);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		ptrT tszValue(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
+		if (!lstrcmp(tszValue, tszContainerName))
+			db_set_ts(hContact, SRMSGMOD_T, CONTAINER_SUBKEY, szNew);
 	}
 }
 
@@ -2348,23 +2310,17 @@ HMENU TSAPI BuildContainerMenu()
 
 	HMENU hMenu = CreateMenu();
 	int i = 0;
-	do {
+	while (true) {
 		char szCounter[10];
-		mir_snprintf(szCounter, 8, "%d", i);
-
-		DBVARIANT dbv = { 0 };
-		if (db_get_ts(NULL, "TAB_ContainersW", szCounter, &dbv))
+		itoa(i, szCounter, 10);
+		ptrT tszName(db_get_tsa(NULL, CONTAINER_KEY, szCounter));
+		if (tszName == NULL)
 			break;
 
-		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
-			if (_tcsncmp(dbv.ptszVal, _T("**mir_free**"), CONTAINER_NAMELEN))
-				AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !_tcscmp(dbv.ptszVal, _T("default")) ?
-				TranslateT("Default container") : dbv.ptszVal);
-		}
-		db_free(&dbv);
+		if (_tcsncmp(tszName, _T("**mir_free**"), CONTAINER_NAMELEN))
+			AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !_tcscmp(tszName, _T("default")) ? TranslateT("Default container") : tszName);
 		i++;
-	}
-		while (true);
+	}		
 
 	InsertMenu(PluginConfig.g_hMenuContext, ID_TABMENU_ATTACHTOCONTAINER, MF_BYCOMMAND | MF_POPUP, (UINT_PTR)hMenu, TranslateT("Attach to"));
 	PluginConfig.g_hMenuContainer = hMenu;
