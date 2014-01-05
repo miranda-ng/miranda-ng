@@ -31,7 +31,6 @@ HKL hklEng = (HKL)0x04090409;
 LPCTSTR ptszSeparators = _T(" \t\n\r");
 
 HANDLE hOptionsInitialize;
-HANDLE hModulesLoaded;
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -49,22 +48,19 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfoEx);
 	ZeroMemory(hklLayouts, 20 * sizeof(HKL));
 	bLayNum = GetKeyboardLayoutList(20,hklLayouts);
-	if (bLayNum<2) 
+	if (bLayNum < 2) 
 		return 1;
-	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
+	
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	DWORD i;
-
-	for (i = 0;i<bLayNum;i++)	
+	for (int i = 0; i < bLayNum; i++)	
 		mir_free(ptszLayStrings[i]);
 
-	UnhookEvent(hOptionsInitialize);
-	UnhookEvent(hModulesLoaded);
 	DestroyServiceFunction(hChangeLayout);
 	DestroyServiceFunction(hGetLayoutOfText);
 	DestroyServiceFunction(hChangeTextLayout);

@@ -2,27 +2,22 @@
 
 INT_PTR APIChangeLayout(WPARAM wParam, LPARAM lParam)
 {
-	BOOL CurrentWord;
-	CurrentWord = moOptions.CurrentWordLayout;
+	BOOL CurrentWord = moOptions.CurrentWordLayout;
 	return ChangeLayout((HWND)wParam, TOT_Layout, CurrentWord);
 }
 
 INT_PTR APIGetLayoutOfText(WPARAM wParam, LPARAM lParam)
 {
-	LPTSTR ptszInText;
-	ptszInText = (TCHAR*)lParam;
+	LPTSTR ptszInText = (TCHAR*)lParam;
 	return (int) GetLayoutOfText(ptszInText);
 }
 
 INT_PTR APIChangeTextLayout(WPARAM wParam, LPARAM lParam)
 {
-	LPTSTR ptszInText;
-	CKLLayouts *ckllFromToLay;
+	LPTSTR ptszInText = (TCHAR*)wParam;
+	CKLLayouts *ckllFromToLay = (CKLLayouts*)lParam;
 
-	ptszInText = (TCHAR*)wParam;
-	ckllFromToLay = (CKLLayouts*)lParam;
-
-	return (int) ChangeTextLayout(ptszInText, ckllFromToLay->hklFrom, ckllFromToLay->hklTo, ckllFromToLay->bTwoWay);
+	return (INT_PTR)ChangeTextLayout(ptszInText, ckllFromToLay->hklFrom, ckllFromToLay->hklTo, ckllFromToLay->bTwoWay);
 }
 
 void ReadMainOptions()
@@ -55,7 +50,6 @@ void WriteMainOptions()
 	db_set_b(NULL, ModuleName, "CaseOperations", moOptions.bCaseOperations);
 }
 
-
 void ReadPopupOptions()
 {
 	poOptions.bColourType = db_get_b(NULL, ModuleName, "ColourType", 0);
@@ -80,7 +74,7 @@ void WritePopupOptions()
 
 void RegPopupActions()
 {
-	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		poOptions.paActions[0].cbSize = sizeof(POPUPACTION);
 		strcpy(poOptions.paActions[0].lpzTitle, ModuleName);
 		strcat(poOptions.paActions[0].lpzTitle, "/Copy to clipboard");
@@ -99,7 +93,7 @@ int OnIconsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static IconItem iconList[] = 
+static IconItem iconList[] =
 {
 	{ LPGEN("Popup"), "ckl_popup_icon", IDI_POPUPICON },
 	{ LPGEN("Copy to clipboard"), "ckl_copy_icon", IDI_COPYICON }
@@ -107,32 +101,24 @@ static IconItem iconList[] =
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	int i, iRes;
-	DBVARIANT dbv = {0};
 	LPCTSTR ptszEmptySting = _T("");
-	LPTSTR ptszCurrLayout;
-	LPSTR ptszTemp;
 
-	//Заполняем конфигурационные строки из базы. Если их там нет - генерируем.
-	for (i = 0; i < bLayNum; i++) {
-		ptszCurrLayout = GenerateLayoutString(hklLayouts[i]);
-		ptszTemp = GetNameOfLayout(hklLayouts[i]);
-		iRes = db_get_ts(NULL, ModuleName, ptszTemp, &dbv);
-		if (iRes != 0)
+	// Заполняем конфигурационные строки из базы. Если их там нет - генерируем.
+	for (int i = 0; i < bLayNum; i++) {
+		LPTSTR ptszCurrLayout = GenerateLayoutString(hklLayouts[i]);
+		LPSTR ptszTemp = GetNameOfLayout(hklLayouts[i]);
+		ptrT tszValue(db_get_tsa(NULL, ModuleName, ptszTemp));
+		if (tszValue == 0)
 			ptszLayStrings[i] = ptszCurrLayout;
-		else
-			if(_tcscmp((dbv.ptszVal), ptszEmptySting) == 0) {
-				ptszLayStrings[i] = ptszCurrLayout;
-				mir_free(dbv.ptszVal);
-			}
-			else
-			{
-				ptszLayStrings[i] = dbv.ptszVal;
-				if(_tcscmp(ptszCurrLayout, ptszLayStrings[i]) == 0)
-					db_unset(NULL, ModuleName, ptszTemp);
-				mir_free(ptszCurrLayout);
-			}
-			mir_free(ptszTemp);
+		else if (!_tcscmp(tszValue, ptszEmptySting))
+			ptszLayStrings[i] = ptszCurrLayout;
+		else {
+			ptszLayStrings[i] = tszValue.detouch();
+			if (!_tcscmp(ptszCurrLayout, ptszLayStrings[i]))
+				db_unset(NULL, ModuleName, ptszTemp);
+			mir_free(ptszCurrLayout);
+		}
+		mir_free(ptszTemp);
 	}
 
 	// Прочитаем основные настройки
@@ -148,7 +134,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// Хук на нажатие клавиши
 	kbHook_All = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)Keyboard_Hook, NULL, GetCurrentThreadId());
 
-	// Зарегим сервисы
 	hChangeLayout = CreateServiceFunction(MS_CKL_CHANGELAYOUT, APIChangeLayout);
 	hGetLayoutOfText = CreateServiceFunction(MS_CKL_GETLAYOUTOFTEXT, APIGetLayoutOfText);
 	hChangeTextLayout = CreateServiceFunction(MS_CKL_CHANGETEXTLAYOUT, APIChangeTextLayout);
@@ -176,7 +161,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgMainProcOptions;
 	Options_AddPage(wParam, &odp);
 
-	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPTION_FORM);
 		odp.pszGroup = LPGEN("Popups");
 		odp.pfnDlgProc = DlgPopupsProcOptions;
@@ -187,16 +172,13 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 
 LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 {
-	DWORD lcode;
-
-	if (code == HC_ACTION)
-	{
-		lcode = 0;
-		if ((GetKeyState(VK_SHIFT)&0x8000)) lcode |= HOTKEYF_SHIFT;
-		if ((GetKeyState(VK_CONTROL)&0x8000)) lcode |= HOTKEYF_CONTROL;
-		if ((GetKeyState(VK_MENU)&0x8000)) lcode |= HOTKEYF_ALT;
-		if ((GetKeyState(VK_LWIN)&0x8000)||(GetKeyState(VK_RWIN)&0x8000)) lcode |= HOTKEYF_EXT;
-		lcode = lcode<<8;
+	if (code == HC_ACTION) {
+		DWORD lcode = 0;
+		if ((GetKeyState(VK_SHIFT) & 0x8000)) lcode |= HOTKEYF_SHIFT;
+		if ((GetKeyState(VK_CONTROL) & 0x8000)) lcode |= HOTKEYF_CONTROL;
+		if ((GetKeyState(VK_MENU) & 0x8000)) lcode |= HOTKEYF_ALT;
+		if ((GetKeyState(VK_LWIN) & 0x8000) || (GetKeyState(VK_RWIN) & 0x8000)) lcode |= HOTKEYF_EXT;
+		lcode = lcode << 8;
 
 		if ((wParam != VK_SHIFT) && (wParam != VK_MENU) && (wParam != VK_CONTROL) && (wParam != VK_LWIN) && (wParam != VK_RWIN))
 			lcode += wParam;
@@ -222,10 +204,9 @@ LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 
 int CALLBACK CKLPopupDlgProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam)
 {
-	LPTSTR ptszPopupText;
+	LPTSTR ptszPopupText = (LPTSTR)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)&ptszPopupText);
 
-	ptszPopupText = (LPTSTR)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)&ptszPopupText);
-	switch(uiMessage) {
+	switch (uiMessage) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
 			if (!IsBadStringPtr(ptszPopupText, MaxTextSize))
