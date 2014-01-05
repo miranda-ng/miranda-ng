@@ -5,9 +5,9 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[General Options]
+[General options]
 Základné nastavenia
-[Popup Options]
+[Popup options]
 Popup nastavenia
 [File]
 Súbor

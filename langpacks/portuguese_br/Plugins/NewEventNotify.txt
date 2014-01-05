@@ -13,11 +13,11 @@ Arquivo
 Texto
 [Background]
 Fundo
-[Open Event]
+[Open event]
 Evento aberto
-[Dismiss Event]
+[Dismiss event]
 Retirar evento
-[Show Headers]
+[Show headers]
 Mostrar Cabeçalhos
 [Edit]
 Editar

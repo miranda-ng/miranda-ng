@@ -32,7 +32,7 @@ Wyświetl powiadomienie, jeżeli żaden filtr nie jest zdefiniowany
 Interwał próby (ms.)
 [X]
 X
-[Online mean]
+['Online' means:]
 Środek Online
 [Filters]
 Filtry

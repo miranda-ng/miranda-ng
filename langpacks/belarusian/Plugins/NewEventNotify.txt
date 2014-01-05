@@ -5,18 +5,18 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[Notifies you when you receive a message, url, file or any other event by displaying a popup.]
+[Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 Паведамляе аб атрыманні паведамлення, URL, файла ці іншай падзеі.
 ;file \plugins\NewEventNotify\res\resource.rc
-[General Options]
+[General options]
 Агульныя параметры
 [Show entry in the Popups menu]
 Пункт у меню "Ўсплывальныя вокны"
-[Temporarily disable Event Popups]
+[Temporarily disable event popups]
 Часова забараніць паведамленне
-[Show Preview of Event in Popup]
+[Show preview of event in popup]
 Прадпрагляд падзеі ў акне
-[Popup Options]
+[Popup options]
 Налады ўсплывальных вокнаў
 [Message]
 Паведамленне
@@ -30,39 +30,39 @@
 Тэкст
 [Background]
 Фон
-[Time to expires]
+[Timeout]
 Час затрымкі
 [Notify me of...]
 Паведамляць мяне о...
-[Left Click Actions]
+[Left click actions]
 Па левай пстрычцы
-[Dismiss Popup]
+[Dismiss popup]
 Убраць вакно
-[Open Event]
+[Open event]
 Адкрыць падзею
-[Dismiss Event]
+[Dismiss event]
 Схаваць падзею
-[Right Click Actions]
+[Right click actions]
 Па правай пстрычцы
-[Time Expires Actions]
+[Timeout actions]
 Па заканчэнні часу
-[Message-Event only]
+[Message event only]
 Толькі для паведамленняў
-[Don't show Popup when Message-Dialog is already open]
+[Don't show popup when message dialog is already open]
 Не паказваць, калі адкрыта акно
-[Hide Popup when sending new message]
+[Hide popup when sending new message]
 Хаваць пры адпраўцы новага паведамлення
-[Open Reply-Dialog instead of reading the Message]
+[Open reply dialog instead of reading the message]
 Дыялог адказу замест чытання паведамлення
 [Merge popups from one user]
 Аб'ядноўваць ад аднаго карыстача
 [Preview]
 Тэст
-[Show Date]
+[Show date]
 Дата
-[Show Time]
+[Show time]
 Час
-[Show Headers]
+[Show headers]
 Загалоўкі
 [Number of begin shown messages]
 Колькасць паведамленняў для пачатку паказу

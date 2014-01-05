@@ -5,7 +5,7 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[General Options]
+[General options]
 Opzioni generali
 [Message]
 Messaggio

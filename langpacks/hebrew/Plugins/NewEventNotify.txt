@@ -5,11 +5,11 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[General Options]
+[General options]
 אפשרויות כלליות
-[Temporarily disable Event Popups]
+[Temporarily disable event popups]
 בטל זמנית פופאפי אירועים
-[Show Preview of Event in Popup]
+[Show preview of event in popup]
 הצג תצוגה מקדימה של פופאפי אירועים
 [Message]
 הודעה
@@ -23,21 +23,21 @@
 רקע
 [Notify me of...]
 הודע לי על...
-[Left Click Actions]
+[Left click actions]
 לחיצה שמאלית...
-[Open Event]
+[Open event]
 פתח אירוע
-[Dismiss Event]
+[Dismiss event]
 סלק אירוע
-[Right Click Actions]
+[Right click actions]
 לחיצה ימנית...
-[Don't show Popup when Message-Dialog is already open]
+[Don't show popup when message dialog is already open]
 אל תראה פופאפ של אירועים כאשר חלון השיחה כבר פתוח
-[Open Reply-Dialog instead of reading the Message]
+[Open reply dialog instead of reading the message]
 פתח את חלון המענה במקום לקרוא את ההודעה
-[Show Date]
+[Show date]
 הראה תאריך
-[Show Headers]
+[Show headers]
 הראה כותרות עליונות
 [Edit]
 ערוך

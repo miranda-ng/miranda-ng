@@ -5,18 +5,18 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[Notifies you when you receive a message, url, file or any other event by displaying a popup.]
+[Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 
 ;file \plugins\NewEventNotify\res\resource.rc
-[General Options]
+[General options]
 Options générales
 [Show entry in the Popups menu]
 
-[Temporarily disable Event Popups]
+[Temporarily disable event popups]
 Désactiver les popups
-[Show Preview of Event in Popup]
+[Show preview of event in popup]
 Aperçu d'évènement dans popup
-[Popup Options]
+[Popup options]
 
 [Message]
 Message
@@ -30,39 +30,39 @@ Fichier
 Texte
 [Background]
 Arrière-plan
-[Time to expires]
+[Timeout]
 Délai
 [Notify me of...]
 Me notifier si...
-[Left Click Actions]
+[Left click actions]
 Clic gauche
-[Dismiss Popup]
+[Dismiss popup]
 
-[Open Event]
+[Open event]
 Ouvre l'évènement
-[Dismiss Event]
+[Dismiss event]
 Ferme l'évènement
-[Right Click Actions]
+[Right click actions]
 Clic droit
-[Time Expires Actions]
+[Timeout actions]
 Action après délai écoulé
-[Message-Event only]
+[Message event only]
 
-[Don't show Popup when Message-Dialog is already open]
+[Don't show popup when message dialog is already open]
 Ne pas voir le popup quand le message est déjà ouvert
-[Hide Popup when sending new message]
+[Hide popup when sending new message]
 Cacher le popup quand envoi d'un nouveau message
-[Open Reply-Dialog instead of reading the Message]
+[Open reply dialog instead of reading the message]
 Ouvrir la fenêtre de réponse au lieu de lire le message
 [Merge popups from one user]
 Fusionner les popups d'un contact
 [Preview]
 Aperçu
-[Show Date]
+[Show date]
 Voir la date
-[Show Time]
+[Show time]
 Voir l'heure
-[Show Headers]
+[Show headers]
 Voir l'en-tête
 [Number of begin shown messages]
 Nombre de messages affichés au début

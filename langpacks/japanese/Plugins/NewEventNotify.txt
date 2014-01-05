@@ -15,11 +15,11 @@ URL
 テキスト
 [Background]
 背景
-[Open Event]
+[Open event]
 イベントを開く
-[Dismiss Event]
+[Dismiss event]
 イベントの消去
-[Show Headers]
+[Show headers]
 ヘッダーを表示
 [Edit]
 編集

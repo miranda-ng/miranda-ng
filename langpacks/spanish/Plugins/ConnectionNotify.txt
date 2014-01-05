@@ -32,7 +32,7 @@ Versión
 
 [X]
 
-[Online mean]
+['Online' means:]
 
 [Filters]
 

@@ -15,13 +15,13 @@ Fil
 Tekst
 [Background]
 Bakgrunn
-[Open Event]
+[Open event]
 Åpne hendelse
-[Dismiss Event]
+[Dismiss event]
 Avvis hendelse
-[Show Date]
+[Show date]
 Vis Dato
-[Show Headers]
+[Show headers]
 Vis overskrifter
 [Edit]
 Rediger

@@ -5,18 +5,18 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[Notifies you when you receive a message, url, file or any other event by displaying a popup.]
+[Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 
 ;file \plugins\NewEventNotify\res\resource.rc
-[General Options]
+[General options]
 
 [Show entry in the Popups menu]
 
-[Temporarily disable Event Popups]
+[Temporarily disable event popups]
 
-[Show Preview of Event in Popup]
+[Show preview of event in popup]
 
-[Popup Options]
+[Popup options]
 
 [Message]
 Mensaje
@@ -30,39 +30,39 @@ Archivo
 Texto
 [Background]
 Fondo
-[Time to expires]
+[Timeout]
 
 [Notify me of...]
 
-[Left Click Actions]
+[Left click actions]
 
-[Dismiss Popup]
+[Dismiss popup]
 
-[Open Event]
+[Open event]
 
-[Dismiss Event]
+[Dismiss event]
 
-[Right Click Actions]
+[Right click actions]
 
-[Time Expires Actions]
+[Timeout actions]
 
-[Message-Event only]
+[Message event only]
 
-[Don't show Popup when Message-Dialog is already open]
+[Don't show popup when message dialog is already open]
 
-[Hide Popup when sending new message]
+[Hide popup when sending new message]
 
-[Open Reply-Dialog instead of reading the Message]
+[Open reply dialog instead of reading the message]
 
 [Merge popups from one user]
 
 [Preview]
 Previsualizar
-[Show Date]
+[Show date]
 
-[Show Time]
+[Show time]
 
-[Show Headers]
+[Show headers]
 
 [Number of begin shown messages]
 

@@ -32,7 +32,7 @@ Benachrichtigungen anzeigen falls kein Filter gesetzt wurde
 Versuchintervall (ms.)
 [X]
 X
-[Online mean]
+['Online' means:]
 Online bedeutet
 [Filters]
 Filter

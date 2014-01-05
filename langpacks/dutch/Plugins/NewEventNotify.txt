@@ -13,7 +13,7 @@ Bestand
 Tekst
 [Background]
 Achtergrond
-[Show Headers]
+[Show headers]
 Koppen weergeven
 [Edit]
 Bewerken

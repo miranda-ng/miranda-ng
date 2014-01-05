@@ -32,7 +32,7 @@
 
 [X]
 
-[Online mean]
+['Online' means:]
 
 [Filters]
 Филтри

@@ -5,18 +5,18 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[Notifies you when you receive a message, url, file or any other event by displaying a popup.]
+[Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 Benachrichtigt Sie per Popup, wenn Sie eine Nachricht, URL, Datei oder sontiges Ereignis empfangen
 ;file \plugins\NewEventNotify\res\resource.rc
-[General Options]
+[General options]
 Allgemeine Einstellungen
 [Show entry in the Popups menu]
 Eintrag in Hauptmenü -> Popups
-[Temporarily disable Event Popups]
+[Temporarily disable event popups]
 Ereignismeldungen deaktivieren
-[Show Preview of Event in Popup]
+[Show preview of event in popup]
 Vorschau des Ereignisses im Popup
-[Popup Options]
+[Popup options]
 Einstellungen für Popups
 [Message]
 Nachricht
@@ -30,39 +30,39 @@ Sonstiges
 Text
 [Background]
 Hintergrund
-[Time to expires]
+[Timeout]
 Anzeigedauer
 [Notify me of...]
 Diese Ereignisse zeigen...
-[Left Click Actions]
+[Left click actions]
 Aktion bei Linksklick
-[Dismiss Popup]
+[Dismiss popup]
 Popup schließen
-[Open Event]
+[Open event]
 Ereignis öffnen
-[Dismiss Event]
+[Dismiss event]
 Ereignis löschen
-[Right Click Actions]
+[Right click actions]
 Bei Rechtsklick
-[Time Expires Actions]
+[Timeout actions]
 Anzeigedauer abgelaufen
-[Message-Event only]
+[Message event only]
 Nur Textnachrichten
-[Don't show Popup when Message-Dialog is already open]
+[Don't show popup when message dialog is already open]
 Kein Popup zeigen, wenn Nachrichtenfenster offen ist
-[Hide Popup when sending new message]
+[Hide popup when sending new message]
 Popup beim Versenden von Nachrichten ausblenden
-[Open Reply-Dialog instead of reading the Message]
+[Open reply dialog instead of reading the message]
 Nachrichtenf. öffnen, nicht nur als gelesen markieren
 [Merge popups from one user]
 Popups eines Kontaktes zusammenfügen
 [Preview]
 Vorschau
-[Show Date]
+[Show date]
 Datum anzeigen
-[Show Time]
+[Show time]
 Zeit anzeigen
-[Show Headers]
+[Show headers]
 Titel anzeigen
 [Number of begin shown messages]
 Nachrichten zusammenfassen ab Nachricht Nummer

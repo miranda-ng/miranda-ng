@@ -32,7 +32,7 @@ Zobrazit upozornění pokud není definován žádný filtr
 Interval mezi pokusy (ms.)
 [X]
 X
-[Online mean]
+['Online' means:]
 Online znamená
 [Filters]
 Filtry

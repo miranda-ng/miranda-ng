@@ -32,7 +32,7 @@ Texte
 
 [X]
 
-[Online mean]
+['Online' means:]
 
 [Filters]
 
