@@ -12,7 +12,7 @@ FONT 8, "MS Shell Dlg", 0, 0
                                  CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL
   AUTOCHECKBOX "Keep old result"            , IDC_MACRO_KEEPOLD   , 1, 31, 166, 11
   AUTOCHECKBOX "Same thread"                , IDC_MACRO_SAMETHREAD, 1, 44, 166, 11
-  AUTOCHECKBOX "Don't wait end of execution", IDC_MACRO_NOWAIT    , 1, 57, 166, 11
+  AUTOCHECKBOX "Do not wait until the end of execution", IDC_MACRO_NOWAIT    , 1, 57, 166, 11
 }
 
 IDI_CHAIN   ICON "ico\chain.ico"

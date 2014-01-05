@@ -380,7 +380,7 @@
 Сохранить прежний результат
 [Same thread]
 В том же потоке
-[Don't wait end of execution]
+[Do not wait until the end of execution]
 Не дожидаться окончания выполнения
 [Structure size]
 Размер структуры
@@ -388,7 +388,7 @@
 Последний результат в\s
 [LastResult from]
 Последний результат из
-[Script process after]
+[Process script after]
 Скрипт после макроса
 [Wrap Text]
 Перенос строк

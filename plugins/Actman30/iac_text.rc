@@ -8,7 +8,7 @@ EXSTYLE  WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0
 {
   EDITTEXT IDC_TXT_TEXT, 1, 4, 166, 12, ES_AUTOHSCROLL
-  AUTOCHECKBOX  "Script process after",IDC_TXT_POST, 4, 18, 160, 11
+  AUTOCHECKBOX  "Process script after",IDC_TXT_POST, 4, 18, 160, 11
 }
 
 IDI_TEXT ICON "ico\text.ico"
