@@ -262,6 +262,8 @@
 ;other strings
 [Open contact window]
 Открыть окно контакта
+[Call service]
+Вызов службы
 [Execute program]
 Выполнить
 [Insert text]
