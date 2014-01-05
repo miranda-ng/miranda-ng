@@ -13,6 +13,8 @@
 Дв.слово
 [You can use %name%, %uid%, %account% and %group% macros]
 Вы можете использовать переменные %name%, %uid%, %account% и %group%
+[You can use %name%, %uid%, %account% and %group% substitutes]
+Вы можете использовать переменные %name%, %uid%, %account% и %group%
 [wParam type]
 Тип wParam
 [lParam type]
@@ -260,8 +262,6 @@
 ;other strings
 [Open contact window]
 Открыть окно контакта
-[Call service]
-Вызов службы
 [Execute program]
 Выполнить
 [Insert text]
@@ -327,10 +327,120 @@
 [Value]
 Значение
 [Save value]
-Сохр. значение
+Сохранить значение
 [Read]
 Чтение
 [Write]
 Запись
 [Unicode]
 Юникод
+[Function call]
+Вызов функции
+[Chain]
+Ссылка
+[Program]
+Выполнить
+[Service]
+Вызов службы
+[In/Out]
+Ввод/Вывод
+[Storage]
+Хранилище
+[Jump]
+Переход
+[Result]
+Результат
+[Result type]
+Результат вызова службы
+[Function name]
+Имя функции
+[DLL name]
+Имя DLL
+[Call type]
+Тип вызова
+[Arguments]
+Аргументы
+[Number of arguments]
+Количество аргументов
+[DLL Handle Cache]
+Кэш дескрипторов DLL
+[Keep to end]
+Держать до конца
+[Close immediately]
+Закрыть немедленно
+[Close for macro]
+Закрыть для макроса
+[Wide String]
+Юникодная строка
+[Get from active window]
+Из активного окна
+[Keep old result]
+Сохранить прежний результат
+[Same thread]
+В том же потоке
+[Don't wait end of execution]
+Не дожидаться окончания выполнения
+[Structure size]
+Размер структуры
+[LastResult to ]
+Последний результат в\s
+[LastResult from]
+Последний результат из
+[Script process after]
+Скрипт после макроса
+[Wrap Text]
+Перенос строк
+[Autosend]
+Автоматическая отправка
+[Opposite order]
+Обратный порядок
+[Service list format]
+Формат списка служб
+[Current Macro]
+Текущий макрос
+[Select for FirstRun]
+Выбрать для первого запуска
+[Right justified text]
+Выравнивание по правому краю
+[value]
+значение
+[name]
+имя
+[value (name)]
+значение (имя)
+[name 'value']
+'имя' значение
+[contains]
+включает
+[starts with]
+начинается с
+[ends with]
+заканчивается на
+[= equ]
+= равно
+[> greater]
+> больше
+[< lesser]
+< меньше
+[& and]
+& и
+[Slot 0]
+Слот 0
+[Slot 1]
+Слот 1
+[Slot 2]
+Слот 2
+[Slot 3]
+Слот 3
+[Slot 4]
+Слот 4
+[Slot 5]
+Слот 5
+[Slot 6]
+Слот 6
+[Slot 7]
+Слот 7
+[Slot 8]
+Слот 8
+[Slot 9]
+Слот 9

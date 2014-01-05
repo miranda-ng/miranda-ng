@@ -15,7 +15,7 @@ FONT 8, "MS Shell Dlg", 0, 0
 //                           ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
 
   AUTOCHECKBOX    "RTL"                , IDC_MSG_RTL  , 1, 54, 160, 11
-  AUTOCHECKBOX    "Right justifed text", IDC_MSG_RIGHT, 1, 67, 160, 11
+  AUTOCHECKBOX    "Right justified text", IDC_MSG_RIGHT, 1, 67, 160, 11
 
   GROUPBOX        "Icons"   , -1 , 0, 89, 167, 30, WS_GROUP
   AUTORADIOBUTTON "Error"   , IDC_MSGI_ERROR,   5, 98,  24, 20, BS_ICON
