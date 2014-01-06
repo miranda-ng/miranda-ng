@@ -235,7 +235,7 @@ int CDb3Base::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 	dbeNew->ofsPrev = ofsDestPrevEvent;
 	dbeNew->ofsNext = 0;
 
-	if (dbeOld.eventType == EVENTTYPE_MESSAGE && cb->bConvertUtf) {
+	if (dbeOld.eventType == EVENTTYPE_MESSAGE && cb->bConvertUtf && !(dbeOld.flags & DBEF_ENCRYPTED)) {
 		DWORD oldSize = dbeNew->cbBlob;
 		BYTE* pOldMemo = (BYTE*)_alloca(dbeNew->cbBlob);
 		memcpy(pOldMemo, dbeNew->blob, dbeNew->cbBlob);
@@ -252,8 +252,8 @@ int CDb3Base::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 			dbePrev->ofsModuleName == dbeNew->ofsModuleName &&
 			dbePrev->eventType == dbeNew->eventType &&
 			(dbePrev->flags & DBEF_SENT) == (dbeNew->flags & DBEF_SENT) &&
-			!memcmp(dbePrev->blob, dbeNew->blob, dbeNew->cbBlob)
-			) {
+			!memcmp(dbePrev->blob, dbeNew->blob, dbeNew->cbBlob))
+		{
 			cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Duplicate event was found: skipping"));
 			if (dbc->eventCount)
 				dbc->eventCount--;
@@ -328,7 +328,6 @@ int CDb3Base::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 			WriteSegment(dbeNew->ofsNext + offsetof(DBEvent, flags), &dbeTmp.flags, sizeof(DWORD));
 		}
 		else if (found == 2 && !cb->bCheckOnly) {
-
 			dbeNew->ofsPrev = ofsTmp;
 			dbeNew->ofsNext = dbeTmp.ofsNext;
 
