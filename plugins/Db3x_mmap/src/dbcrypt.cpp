@@ -387,15 +387,16 @@ void CDb3Mmap::ToggleEventsEncryption(HANDLE hContact)
 
 	// fast cycle through all events
 	for (DWORD offset = contact.ofsFirstEvent; offset != 0;) {
-		DBEvent evt = *(DBEvent*)DBRead(offset, sizeof(DBEvent), NULL);
+		DBEvent evt = *(DBEvent*)DBRead(offset, offsetof(DBEvent, blob), NULL);
 		if (evt.signature != DBEVENT_SIGNATURE)
 			return;
 
 		size_t len;
 		DWORD ofsDest;
 		mir_ptr<BYTE> pBlob;
+		BYTE *pSource = DBRead(offset + offsetof(DBEvent, blob), evt.cbBlob, 0);
 		if (!m_bEncrypted) { // we need more space
-			if ((pBlob = m_crypto->encodeBuffer(DBRead(offset + offsetof(DBEvent, blob), evt.cbBlob, 0), evt.cbBlob, &len)) == NULL)
+			if ((pBlob = m_crypto->encodeBuffer(pSource, evt.cbBlob, &len)) == NULL)
 				return;
 			
 			ofsDest = ReallocSpace(offset, offsetof(DBEvent, blob) + evt.cbBlob, offsetof(DBEvent, blob) + (DWORD)len);
@@ -420,7 +421,7 @@ void CDb3Mmap::ToggleEventsEncryption(HANDLE hContact)
 			evt.flags |= DBEF_ENCRYPTED;
 		}
 		else {
-			if ((pBlob = (BYTE*)m_crypto->decodeBuffer(evt.blob, evt.cbBlob, &len)) == NULL)
+			if ((pBlob = (BYTE*)m_crypto->decodeBuffer(pSource, evt.cbBlob, &len)) == NULL)
 				return;
 
 			ofsDest = offset; // reuse the old space
