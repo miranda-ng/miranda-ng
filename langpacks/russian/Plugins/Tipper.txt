@@ -438,7 +438,7 @@ IP
 [Wind:]
 Ветер:
 [# Solid color fill]
-# заливка цветом
+\# Заливка цветом
 [Background]
 Фон
 [Dividers]
