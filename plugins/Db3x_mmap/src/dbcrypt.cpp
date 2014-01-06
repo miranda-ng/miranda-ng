@@ -426,6 +426,9 @@ void CDb3Mmap::ToggleEventsEncryption(HANDLE hContact)
 
 			ofsDest = offset; // reuse the old space
 			evt.flags &= ~DBEF_ENCRYPTED;
+
+			if (len < evt.cbBlob)
+				DBFill(ofsDest + offsetof(DBEvent, blob) + (DWORD)len, evt.cbBlob - (DWORD)len);
 		}
 		evt.cbBlob = (DWORD)len;
 
