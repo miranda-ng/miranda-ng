@@ -16,18 +16,20 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\commonheaders.h"
 
 int CDb3Base::WorkInitialCheckHeaders()
 {
 	if (memcmp(m_dbHeader.signature, &dbSignatureU, sizeof(m_dbHeader.signature)) &&
+		 memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)) &&
 		 memcmp(m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)))
 	{
-		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Database signature is corrupted, automatic repair is impossible"));
+		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Database signature is corrupted, automatic repair is impossible"));
 		return ERROR_BAD_FORMAT;
 	}
 	if (m_dbHeader.version != DB_OLD_VERSION && m_dbHeader.version != DB_THIS_VERSION) {
-		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Database is marked as belonging to an unknown version of Miranda"));
+		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Database is marked as belonging to an unknown version of Miranda"));
 		return ERROR_BAD_FORMAT;
 	}
 	return ERROR_SUCCESS;
@@ -35,10 +37,10 @@ int CDb3Base::WorkInitialCheckHeaders()
 
 int CDb3Base::WorkInitialChecks(int firstTime)
 {
-	sourceFileSize = GetFileSize(m_hDbFile,NULL);
+	sourceFileSize = GetFileSize(m_hDbFile, NULL);
 	if (sourceFileSize == 0) {
-		cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Database is newly created and has no data to process"));
-		cb->pfnAddLogMessage(STATUS_SUCCESS,TranslateT("Processing completed successfully"));
+		cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Database is newly created and has no data to process"));
+		cb->pfnAddLogMessage(STATUS_SUCCESS, TranslateT("Processing completed successfully"));
 		return ERROR_INVALID_DATA;
 	}
 
@@ -50,21 +52,21 @@ int CDb3Base::WorkInitialChecks(int firstTime)
 	if (m_hMap)
 		m_pDbCache = (BYTE*)MapViewOfFile(m_hMap, cb->bAggressive ? FILE_MAP_COPY : FILE_MAP_READ, 0, 0, 0);
 	else {
-		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Can't create file mapping (%u)"),GetLastError());
+		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Can't create file mapping (%u)"), GetLastError());
 		return ERROR_ACCESS_DENIED;
 	}
 
 	if (!m_pDbCache) {
-		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Can't create map view of file (%u)"),GetLastError());
+		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Can't create map view of file (%u)"), GetLastError());
 		return ERROR_ACCESS_DENIED;
 	}
-	if (ReadSegment(0,&m_dbHeader,sizeof(m_dbHeader)) != ERROR_SUCCESS)
+	if (ReadSegment(0, &m_dbHeader, sizeof(m_dbHeader)) != ERROR_SUCCESS)
 		return ERROR_READ_FAULT;
 
-	if (WriteSegment(0,&m_dbHeader,sizeof(m_dbHeader)) == WS_ERROR)
+	if (WriteSegment(0, &m_dbHeader, sizeof(m_dbHeader)) == WS_ERROR)
 		return ERROR_HANDLE_DISK_FULL;
 
-	cb->spaceUsed = m_dbHeader.ofsFileEnd-m_dbHeader.slackSpace;
+	cb->spaceUsed = m_dbHeader.ofsFileEnd - m_dbHeader.slackSpace;
 	m_dbHeader.ofsFileEnd = sizeof(m_dbHeader);
 	return ERROR_NO_MORE_ITEMS;
 }

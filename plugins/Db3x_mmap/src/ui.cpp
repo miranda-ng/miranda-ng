@@ -266,8 +266,11 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			if (IsDlgButtonChecked(hwndDlg, IDC_TOTAL) == (BOOL)db->isEncrypted())
-				break;
+			if (IsDlgButtonChecked(hwndDlg, IDC_TOTAL) != (BOOL)db->isEncrypted()) {
+				db->ToggleEncryption();
+				CheckRadioButton(hwndDlg, IDC_STANDARD, IDC_TOTAL, IDC_STANDARD + db->isEncrypted());
+			}
+			break;
 		}
 		break;
 	}

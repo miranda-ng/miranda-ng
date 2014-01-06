@@ -16,14 +16,15 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\commonheaders.h"
 
 int CDb3Base::WorkFinalTasks(int firstTime)
 {
 	FreeModuleChain();
-	cb->pfnAddLogMessage(STATUS_MESSAGE,TranslateT("Processing final tasks"));
+	cb->pfnAddLogMessage(STATUS_MESSAGE, TranslateT("Processing final tasks"));
 	m_dbHeader.slackSpace = 0;
-	if (WriteSegment(0,&m_dbHeader,sizeof(m_dbHeader)) == WS_ERROR)
+	if (WriteSegment(0, &m_dbHeader, sizeof(m_dbHeader)) == WS_ERROR)
 		return ERROR_WRITE_FAULT;
 
 	if (m_hDbFile) {

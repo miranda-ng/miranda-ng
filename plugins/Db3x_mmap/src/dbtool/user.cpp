@@ -28,32 +28,32 @@ int CDb3Base::WorkUser(int firstTime)
 	int first = 0;
 
 	if (firstTime) {
-		cb->pfnAddLogMessage(STATUS_MESSAGE,TranslateT("Processing user data"));
-		if ( !SignatureValid(m_dbHeader.ofsUser, DBCONTACT_SIGNATURE)) {
-			cb->pfnAddLogMessage(STATUS_ERROR,TranslateT("User corrupted, this could cause major problems"));
+		cb->pfnAddLogMessage(STATUS_MESSAGE, TranslateT("Processing user data"));
+		if (!SignatureValid(m_dbHeader.ofsUser, DBCONTACT_SIGNATURE)) {
+			cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("User corrupted, this could cause major problems"));
 			return ERROR_NO_MORE_ITEMS;
 		}
 
-		if ( ReadSegment(m_dbHeader.ofsUser,&user,sizeof(DBContact)) != ERROR_SUCCESS)
+		if (ReadSegment(m_dbHeader.ofsUser, &user, sizeof(DBContact)) != ERROR_SUCCESS)
 			return ERROR_NO_MORE_ITEMS;
 
 		if (user.ofsNext) {
-			cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("More than one user contact: keeping only first"));
+			cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("More than one user contact: keeping only first"));
 			user.ofsNext = 0;
 		}
 
-		if ((ofsUser = WriteSegment(WSOFS_END,&user,sizeof(DBContact))) == WS_ERROR)
+		if ((ofsUser = WriteSegment(WSOFS_END, &user, sizeof(DBContact))) == WS_ERROR)
 			return ERROR_HANDLE_DISK_FULL;
 
 		m_dbHeader.ofsUser = ofsUser;
 		phase = 0;
 		first = 1;
 	}
-	
+
 	int ret;
-	switch(phase) {
+	switch (phase) {
 	case 0:
-		ret = WorkSettingsChain(ofsUser,&user,first);
+		ret = WorkSettingsChain(ofsUser, &user, first);
 		if (ret == ERROR_NO_MORE_ITEMS) {
 			phase++; first = 1;
 		}
@@ -61,13 +61,14 @@ int CDb3Base::WorkUser(int firstTime)
 		else break;
 
 	case 1:
-		ret = WorkEventChain(ofsUser,&user,first);
+		ret = WorkEventChain(ofsUser, &user, first);
 		if (ret == ERROR_NO_MORE_ITEMS) {
-			if (WriteSegment(ofsUser,&user,sizeof(DBContact)) == WS_ERROR)
+			if (WriteSegment(ofsUser, &user, sizeof(DBContact)) == WS_ERROR)
 				return ERROR_HANDLE_DISK_FULL;
 			return ERROR_NO_MORE_ITEMS;
 		}
-		else if (ret) return ret;
+		else if (ret)
+			return ret;
 		break;
 	}
 	return ERROR_SUCCESS;

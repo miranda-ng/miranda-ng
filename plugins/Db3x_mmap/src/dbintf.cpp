@@ -126,7 +126,6 @@ int CDb3Base::Load(bool bSkipInit)
 		if (InitModuleNames()) return 1;
 
 		m_bReadOnly = false;
-		m_bEncrypted = 0 == memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature));
 
 		hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
 		hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);

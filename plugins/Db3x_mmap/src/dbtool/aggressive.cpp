@@ -26,27 +26,27 @@ int CDb3Base::WorkAggressive(int firstTime)
 		if (!cb->bAggressive)
 			return ERROR_NO_MORE_ITEMS;
 
-		cb->pfnAddLogMessage(STATUS_MESSAGE,TranslateT("Performing aggressive pass"));
+		cb->pfnAddLogMessage(STATUS_MESSAGE, TranslateT("Performing aggressive pass"));
 		ofsAggrCur = 0;
 		cb->spaceProcessed = 0;
 	}
-	
-	int blockBytes = min(BLOCKSIZE+3,(int)(sourceFileSize-ofsAggrCur));
+
+	int blockBytes = min(BLOCKSIZE + 3, (int)(sourceFileSize - ofsAggrCur));
 	if (blockBytes <= 0)
 		return ERROR_NO_MORE_ITEMS;
 
 	BYTE *buf = m_pDbCache + ofsAggrCur;
 	blockBytes -= 3;
-	for (int i=0; i < blockBytes; i++) {
+	for (int i = 0; i < blockBytes; i++) {
 		if (buf[i]) {
 			if ((*(PDWORD)&buf[i] & 0x00FFFFFF) != 0xDECADE)
-				cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Aggressive: random junk at %08X: skipping"),ofsAggrCur+i);
+				cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Aggressive: random junk at %08X: skipping"), ofsAggrCur + i);
 			else
 				//TODO: give user the option of placing manually
-				cb->pfnAddLogMessage(STATUS_ERROR,TranslateT("Aggressive: unlinked data at %08X: can't automatically place"),ofsAggrCur+i);
+				cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Aggressive: unlinked data at %08X: can't automatically place"), ofsAggrCur + i);
 
 			for (; i < blockBytes; i++)
-				if (buf[i] == 0) {i--; break;}
+				if (buf[i] == 0) { i--; break; }
 		}
 	}
 	ofsAggrCur += BLOCKSIZE;

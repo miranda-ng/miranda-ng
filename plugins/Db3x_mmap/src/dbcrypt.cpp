@@ -47,8 +47,20 @@ struct VarDescr
 		szVar(mir_strdup(var)),
 		szValue(mir_strdup(value))
 		{}
-		
+
+	VarDescr(LPCSTR var, LPSTR value) :
+		szVar(mir_strdup(var)),
+		szValue(value)
+		{}
+
+	VarDescr(LPCSTR var, PBYTE value, int len) :
+		szVar(mir_strdup(var)),
+		szValue((char*)memcpy(mir_alloc(len), value, len)),
+		iLen(len)
+		{}
+
 	ptrA szVar, szValue;
+	int  iLen;
 };
 
 struct SettingUgraderParam
@@ -68,7 +80,7 @@ int sttSettingUgrader(const char *szSetting, LPARAM lParam)
 		if (!param->db->GetContactSettingStr(param->hContact, &dbcgs)) {
 			if (dbv.type == DBVT_UTF8) {
 				DecodeString(dbv.pszVal);
-				param->pList->insert(new VarDescr(szSetting, dbv.pszVal));
+				param->pList->insert(new VarDescr(szSetting, (LPCSTR)dbv.pszVal));
 			}
 			param->db->FreeVariant(&dbv);
 		}
@@ -162,7 +174,7 @@ LBL_SetNewKey:
 			goto LBL_SetNewKey;
 
 		if (!m_crypto->setKey(dbv.pbVal, iKeyLength)) {
-			if (!m_bEncrypted)
+			if (memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)))
 				goto LBL_SetNewKey;
 
 			if (!EnterPassword(dbv.pbVal, iKeyLength)) { // password protected?
@@ -178,9 +190,7 @@ LBL_SetNewKey:
 		FreeVariant(&dbv);
 	}
 
-	if (memcmp(&m_dbHeader.signature, &dbSignatureU, sizeof(m_dbHeader.signature)) &&
-		 memcmp(&m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)))
-	{
+	if (!memcmp(&m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature))) {
 		EnumModuleNames(sttModuleEnum, this);
 
 		// upgrade signature
@@ -191,6 +201,11 @@ LBL_SetNewKey:
 		m_dbHeader.version = DB_THIS_VERSION;
 		DBWrite(sizeof(dbSignatureU), &m_dbHeader.version, sizeof(m_dbHeader.version));
 	}
+
+	dbv.type = DBVT_BYTE;
+	dbcgs.szSetting = "DatabaseEncryption";
+	if (!GetContactSetting(NULL, &dbcgs))
+		m_bEncrypted = dbv.bVal != 0;
 
 	InitDialogs();
 	return 0;
@@ -222,4 +237,202 @@ void CDb3Mmap::SetPassword(LPCTSTR ptszPassword)
 		m_crypto->setPassword(ptrA(mir_utf8encodeT(ptszPassword)));
 	}
 	UpdateMenuItem();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDb3Mmap::ToggleEncryption()
+{
+	HANDLE hSave1 = hSettingChangeEvent;    hSettingChangeEvent = NULL;
+	HANDLE hSave2 = hEventAddedEvent;       hEventAddedEvent = NULL;
+	HANDLE hSave3 = hEventDeletedEvent;     hEventDeletedEvent = NULL;
+	HANDLE hSave4 = hEventFilterAddedEvent; hEventFilterAddedEvent = NULL;
+
+	mir_cslock lck(m_csDbAccess);
+	ToggleSettingsEncryption(NULL);
+	ToggleEventsEncryption(NULL);
+
+	for (HANDLE hContact = FindFirstContact(); hContact; hContact = FindNextContact(hContact)) {
+		ToggleSettingsEncryption(hContact);
+		ToggleEventsEncryption(hContact);
+	}
+
+	m_bEncrypted = !m_bEncrypted;
+
+	DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "DatabaseEncryption" };
+	dbcws.value.type = DBVT_BYTE;
+	dbcws.value.bVal = m_bEncrypted;
+	WriteContactSetting(NULL, &dbcws);
+
+	hSettingChangeEvent = hSave1;
+	hEventAddedEvent = hSave2;
+	hEventDeletedEvent = hSave3;
+	hEventFilterAddedEvent = hSave4;
+}
+
+void CDb3Mmap::ToggleSettingsEncryption(HANDLE hContact)
+{
+	if (!hContact)
+		hContact = (HANDLE)m_dbHeader.ofsUser;
+
+	DBContact *contact = (DBContact*)DBRead((DWORD)hContact, sizeof(DBContact), NULL);
+	if (contact->ofsFirstSettings == 0)
+		return;
+
+	// fast cycle through all settings
+	DBContactSettings *setting = (DBContactSettings*)DBRead(contact->ofsFirstSettings, sizeof(DBContactSettings), NULL);
+	DWORD offset = contact->ofsFirstSettings;
+	char *szModule = GetModuleNameByOfs(setting->ofsModuleName);
+	if (szModule == NULL)
+		return;
+
+	while (true) {
+		OBJLIST<VarDescr> arSettings(10);
+		char szSetting[256];
+		int bytesRemaining, len;
+		DWORD ofsBlobPtr = offset + offsetof(DBContactSettings, blob), ofsNext = setting->ofsNext;
+		PBYTE pBlob = (PBYTE)DBRead(ofsBlobPtr, 1, &bytesRemaining);
+		while (pBlob[0]) {
+			NeedBytes(1);
+			len = pBlob[0];
+			memcpy(szSetting, pBlob + 1, len); szSetting[len] = 0;
+			NeedBytes(1 + pBlob[0]);
+			MoveAlong(1 + pBlob[0]);
+			NeedBytes(5);
+
+			switch (pBlob[0]) {
+			case DBVT_ASCIIZ:
+				len = *(PWORD)(pBlob+1);
+				// we need to convert a string into utf8 and encrypt it
+				if (!m_bEncrypted) {
+					BYTE bSave = pBlob[len + 3]; pBlob[len + 3] = 0;
+					arSettings.insert(new VarDescr(szSetting, mir_utf8encode((LPCSTR)pBlob+3)));
+					pBlob[len + 3] = bSave;
+				}
+				NeedBytes(3 + len);
+				break;
+
+			case DBVT_UTF8:
+				len = *(PWORD)(pBlob + 1);
+				// we need to encrypt these strings
+				if (!m_bEncrypted) {
+					BYTE bSave = pBlob[len + 3]; pBlob[len + 3] = 0;
+					arSettings.insert(new VarDescr(szSetting, (LPCSTR)pBlob + 3));
+					pBlob[len + 3] = bSave;
+				}
+				NeedBytes(3 + len);
+				break;
+
+			case DBVT_ENCRYPTED:
+				len = *(PWORD)(pBlob + 1);
+				// we need to decrypt these strings
+				if (m_bEncrypted && !::isEncrypted(szModule, szSetting))
+					arSettings.insert(new VarDescr(szSetting, pBlob + 3, len));
+				NeedBytes(3 + len);
+				break;
+
+			case DBVT_BLOB:
+				NeedBytes(3 + *(PWORD)(pBlob + 1));
+				break;
+			}
+			NeedBytes(3);
+			MoveAlong(1 + GetSettingValueLength(pBlob));
+			NeedBytes(1);
+		}
+
+		for (int i = 0; i < arSettings.getCount(); i++) {
+			VarDescr &p = arSettings[i];
+			if (!m_bEncrypted) {
+				size_t len;
+				BYTE *pResult = m_crypto->encodeString(p.szValue, &len);
+				if (pResult != NULL) {
+					DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
+					dbcws.value.type = DBVT_ENCRYPTED;
+					dbcws.value.pbVal = pResult;
+					dbcws.value.cpbVal = (WORD)len;
+					WriteContactSetting(hContact, &dbcws);
+
+					mir_free(pResult);
+				}
+			}
+			else {
+				size_t realLen;
+				ptrA decoded(m_crypto->decodeString((PBYTE)(char*)p.szValue, p.iLen, &realLen));
+				if (decoded != NULL) {
+					DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
+					dbcws.value.type = DBVT_UTF8;
+					dbcws.value.pszVal = decoded;
+					dbcws.value.cchVal = (WORD)len;
+					WriteContactSetting(hContact, &dbcws);
+				}
+			}
+		}
+
+		if (!ofsNext)
+			break;
+
+		setting = (DBContactSettings *)DBRead(offset = ofsNext, sizeof(DBContactSettings), NULL);
+		if ((szModule = GetModuleNameByOfs(setting->ofsModuleName)) == NULL)
+			break;
+	}
+}
+
+void CDb3Mmap::ToggleEventsEncryption(HANDLE hContact)
+{
+	DWORD ofsContact = (hContact) ? (DWORD)hContact : m_dbHeader.ofsUser;
+
+	DBContact contact = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
+	if (contact.ofsFirstEvent == 0 || contact.signature != DBCONTACT_SIGNATURE)
+		return;
+
+	// fast cycle through all events
+	for (DWORD offset = contact.ofsFirstEvent; offset != 0;) {
+		DBEvent evt = *(DBEvent*)DBRead(offset, sizeof(DBEvent), NULL);
+		if (evt.signature != DBEVENT_SIGNATURE)
+			return;
+
+		size_t len;
+		DWORD ofsDest;
+		mir_ptr<BYTE> pBlob;
+		if (!m_bEncrypted) { // we need more space
+			if ((pBlob = m_crypto->encodeBuffer(DBRead(offset + offsetof(DBEvent, blob), evt.cbBlob, 0), evt.cbBlob, &len)) == NULL)
+				return;
+			
+			ofsDest = ReallocSpace(offset, offsetof(DBEvent, blob) + evt.cbBlob, offsetof(DBEvent, blob) + (DWORD)len);
+
+			if (evt.ofsNext) {
+				DBEvent *e = (DBEvent*)DBRead(evt.ofsNext, sizeof(DBEvent), NULL);
+				e->ofsPrev = ofsDest;
+				DBWrite(evt.ofsNext, e, sizeof(DBEvent));
+			}
+			if (evt.ofsPrev) {
+				DBEvent *e = (DBEvent*)DBRead(evt.ofsPrev, sizeof(DBEvent), NULL);
+				e->ofsNext = ofsDest;
+				DBWrite(evt.ofsPrev, e, sizeof(DBEvent));
+			}
+			if (contact.ofsFirstEvent == offset)
+				contact.ofsFirstEvent = ofsDest;
+			if (contact.ofsLastEvent == offset)
+				contact.ofsLastEvent = ofsDest;
+			if (contact.ofsFirstUnreadEvent == offset)
+				contact.ofsFirstUnreadEvent = ofsDest;
+
+			evt.flags |= DBEF_ENCRYPTED;
+		}
+		else {
+			if ((pBlob = (BYTE*)m_crypto->decodeBuffer(evt.blob, evt.cbBlob, &len)) == NULL)
+				return;
+
+			ofsDest = offset; // reuse the old space
+			evt.flags &= ~DBEF_ENCRYPTED;
+		}
+		evt.cbBlob = (DWORD)len;
+
+		DBWrite(ofsDest, &evt, offsetof(DBEvent, blob));
+		DBWrite(ofsDest + offsetof(DBEvent, blob), pBlob, (DWORD)len);
+
+		offset = evt.ofsNext;
+	}
+
+	DBWrite(ofsContact, &contact, sizeof(DBContact));
 }

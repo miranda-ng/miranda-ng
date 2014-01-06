@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-#define NeedBytes(n)   if(bytesRemaining<(n)) pBlob=(PBYTE)DBRead(ofsBlobPtr,(n),&bytesRemaining)
-#define MoveAlong(n)   {int x=n; pBlob+=(x); ofsBlobPtr+=(x); bytesRemaining-=(x);}
 #define VLT(n) ((n==DBVT_UTF8)?DBVT_ASCIIZ:n)
 
 DBSignature dbSignatureSecured = { "Miranda ICQ SD", 0x1A };
@@ -85,12 +83,6 @@ int CDbxMmapSA::CheckDbHeaders()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-
-static DWORD __inline GetSettingValueLength(PBYTE pSetting)
-{
-	if (pSetting[0] & DBVTF_VARIABLELENGTH) return 2 + *(PWORD)(pSetting + 1);
-	return pSetting[0];
-}
 
 void CDbxMmapSA::EncodeContactSettings(HANDLE hContact)
 {

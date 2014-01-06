@@ -54,6 +54,16 @@ DBHeader
 
 #define DBVT_ENCRYPTED 250
 
+#define NeedBytes(n)   if (bytesRemaining<(n)) pBlob = (PBYTE)DBRead(ofsBlobPtr,(n),&bytesRemaining)
+#define MoveAlong(n)   {int x = n; pBlob += (x); ofsBlobPtr += (x); bytesRemaining -= (x);}
+
+DWORD __forceinline GetSettingValueLength(PBYTE pSetting)
+{
+	if (pSetting[0] & DBVTF_VARIABLELENGTH)
+		return 2 + *(PWORD)(pSetting + 1);
+	return pSetting[0];
+}
+
 struct DBSignature
 {
 	char name[15];
@@ -141,8 +151,6 @@ struct DBEvent
 };
 
 #include <poppack.h>
-
-#define MAXCACHEDREADSIZE     65536
 
 struct CDb3Base : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
@@ -318,6 +326,7 @@ struct CDb3Mmap : public CDb3Base
 
 	int  Load(bool bSkipInit);
 
+	void ToggleEncryption(void);
 	void StoreKey(void);
 	void SetPassword(const TCHAR *ptszPassword);
 	void UpdateMenuItem(void);
@@ -326,6 +335,8 @@ struct CDb3Mmap : public CDb3Base
 
 protected:
 	int InitCrypt(void);
+	void ToggleEventsEncryption(HANDLE hContact);
+	void ToggleSettingsEncryption(HANDLE hContact);
 
 protected:
 	void  InitDialogs();

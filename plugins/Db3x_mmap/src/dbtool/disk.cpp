@@ -21,28 +21,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CDb3Base::SignatureValid(DWORD ofs, DWORD signature)
 {
-	DWORD sig;
-
-	if (ofs+sizeof(sig) >= sourceFileSize)	{
+	if (ofs + sizeof(DWORD) >= sourceFileSize) {
 		cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Invalid offset found (database truncated?)"));
 		return 0;
 	}
 
-	sig = *(DWORD*)(m_pDbCache+ofs);
-
+	DWORD sig = *(DWORD*)(m_pDbCache + ofs);
 	return sig == signature;
 }
 
 int CDb3Base::PeekSegment(DWORD ofs, PVOID buf, int cbBytes)
 {
-	DWORD bytesRead;
-
 	if (ofs >= sourceFileSize) {
 		cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Invalid offset found"));
 		return ERROR_SEEK;
 	}
 
-	if (ofs+cbBytes > sourceFileSize)
+	DWORD bytesRead;
+	if (ofs + cbBytes > sourceFileSize)
 		bytesRead = sourceFileSize - ofs;
 	else
 		bytesRead = cbBytes;
@@ -52,7 +48,7 @@ int CDb3Base::PeekSegment(DWORD ofs, PVOID buf, int cbBytes)
 		return ERROR_READ_FAULT;
 	}
 
-	CopyMemory(buf, m_pDbCache+ofs, bytesRead);
+	CopyMemory(buf, m_pDbCache + ofs, bytesRead);
 
 	if ((int)bytesRead<cbBytes) return ERROR_HANDLE_EOF;
 	return ERROR_SUCCESS;
@@ -64,12 +60,11 @@ int CDb3Base::ReadSegment(DWORD ofs, PVOID buf, int cbBytes)
 	if (ret != ERROR_SUCCESS && ret != ERROR_HANDLE_EOF) return ret;
 
 	if (cb->bAggressive) {
-		if (ofs+cbBytes > sourceFileSize) {
+		if (ofs + cbBytes > sourceFileSize) {
 			cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Can't write to working file, aggressive mode may be too aggressive now"));
-			ZeroMemory(m_pDbCache+ofs, sourceFileSize-ofs);
+			ZeroMemory(m_pDbCache + ofs, sourceFileSize - ofs);
 		}
-		else
-			ZeroMemory(m_pDbCache+ofs, cbBytes);
+		else ZeroMemory(m_pDbCache + ofs, cbBytes);
 	}
 	cb->spaceProcessed += cbBytes;
 	return ERROR_SUCCESS;
@@ -85,7 +80,7 @@ DWORD CDb3Base::WriteSegment(DWORD ofs, PVOID buf, int cbBytes)
 	}
 	SetFilePointer(cb->hOutFile, ofs, NULL, FILE_BEGIN);
 	WriteFile(cb->hOutFile, buf, cbBytes, &bytesWritten, NULL);
-	if ((int)bytesWritten<cbBytes) {
+	if ((int)bytesWritten < cbBytes) {
 		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Can't write to output file - disk full? (%u)"), GetLastError());
 		return WS_ERROR;
 	}
@@ -101,7 +96,7 @@ int CDb3Base::ReadWrittenSegment(DWORD ofs, PVOID buf, int cbBytes)
 
 	SetFilePointer(cb->hOutFile, ofs, NULL, FILE_BEGIN);
 	ReadFile(cb->hOutFile, buf, cbBytes, &bytesRead, NULL);
-	if ((int)bytesRead<cbBytes)
+	if ((int)bytesRead < cbBytes)
 		return ERROR_READ_FAULT;
 
 	return ERROR_SUCCESS;
