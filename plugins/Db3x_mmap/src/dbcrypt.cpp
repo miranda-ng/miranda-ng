@@ -360,9 +360,9 @@ void CDb3Mmap::ToggleSettingsEncryption(HANDLE hContact)
 				ptrA decoded(m_crypto->decodeString((PBYTE)(char*)p.szValue, p.iLen, &realLen));
 				if (decoded != NULL) {
 					DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
-					dbcws.value.type = DBVT_UTF8;
+					dbcws.value.type = DBVT_UNENCRYPTED;
 					dbcws.value.pszVal = decoded;
-					dbcws.value.cchVal = (WORD)len;
+					dbcws.value.cchVal = (WORD)realLen;
 					WriteContactSetting(hContact, &dbcws);
 				}
 			}
@@ -371,7 +371,7 @@ void CDb3Mmap::ToggleSettingsEncryption(HANDLE hContact)
 		if (!ofsNext)
 			break;
 
-		setting = (DBContactSettings *)DBRead(offset = ofsNext, sizeof(DBContactSettings), NULL);
+		setting = (DBContactSettings*)DBRead(offset = ofsNext, sizeof(DBContactSettings), NULL);
 		if ((szModule = GetModuleNameByOfs(setting->ofsModuleName)) == NULL)
 			break;
 	}

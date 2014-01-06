@@ -402,10 +402,13 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	switch (dbcwWork.value.type) {
 	case DBVT_BYTE: case DBVT_WORD: case DBVT_DWORD:
 		break;
+	
 	case DBVT_ASCIIZ: case DBVT_UTF8:
-		if (dbcwWork.value.pszVal == NULL) return 1;
-		dbcwWork.value.cchVal = (WORD)strlen(dbcwWork.value.pszVal);
 		bIsEncrypted = m_bEncrypted || ::isEncrypted(dbcws->szModule, dbcws->szSetting);
+LBL_WriteString:
+		if (dbcwWork.value.pszVal == NULL)
+			return 1;
+		dbcwWork.value.cchVal = (WORD)strlen(dbcwWork.value.pszVal);
 		if (bIsEncrypted) {
 			size_t len;
 			BYTE *pResult = m_crypto->encodeString(dbcwWork.value.pszVal, &len);
@@ -416,8 +419,14 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 			}
 		}
 		break;
+	
+	case DBVT_UNENCRYPTED:
+		dbcwNotif.value.type = dbcwWork.value.type = DBVT_UTF8;
+		goto LBL_WriteString;
+
 	case DBVT_BLOB: case DBVT_ENCRYPTED:
-		if (dbcwWork.value.pbVal == NULL) return 1;
+		if (dbcwWork.value.pbVal == NULL)
+			return 1;
 		break;
 	default:
 		return 1;

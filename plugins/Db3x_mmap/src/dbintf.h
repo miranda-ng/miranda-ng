@@ -52,7 +52,8 @@ DBHeader
 #define WSOFS_END   0xFFFFFFFF
 #define WS_ERROR    0xFFFFFFFF
 
-#define DBVT_ENCRYPTED 250
+#define DBVT_ENCRYPTED   250
+#define DBVT_UNENCRYPTED 251
 
 #define NeedBytes(n)   if (bytesRemaining<(n)) pBlob = (PBYTE)DBRead(ofsBlobPtr,(n),&bytesRemaining)
 #define MoveAlong(n)   {int x = n; pBlob += (x); ofsBlobPtr += (x); bytesRemaining -= (x);}
