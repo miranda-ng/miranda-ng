@@ -28,6 +28,8 @@ Skype пратакол для Miranda NG.
 Кіравала:
 [Enable joining]
 Дазволіць уваход у чат
+[New members join with role:]
+Роль для новых удзельнікаў:
 [Create with password]
 Стварыць з паролем
 [Password:]
@@ -124,9 +126,31 @@ Skype пратакол для Miranda NG.
 Спісу маіх кантактаў
 [Allow calls from...]
 Дазволіць званкі ад...
+[Automatically receive video and share screens with...]
+Аўтаматычна паказваць экран і прымаць выдэё ад...
+[No one]
+Нікога
 [Show avatars]
 Аватары
+[Contacts count]
+Лічыльнік кантактаў
+[Local time]
+Мясцовы час
+[Allow my online status to be shown on the web]
+Дазволіць адлюстраванне майго статуса далучэння
+[Block this person]
+Блакаваць карыстача
+[Remove from your Contact List]
+Выдаліць з спісу кантактаў
+[Abuse]
+Парушэнне
+[You can also report abuse from this user.]
+Вы таксама можаце паведаміць пра парушэнне гэтага карыстача
+[Report abuse]
+Паведаміць пра парушэнне
 ;file \protocols\Skype\src\skype.cpp
+[Did not unpack SkypeKit.exe.]
+SkypeKit.exe не распакаваны.
 ;file \protocols\Skype\src\skype_account.cpp
 [HTTPS proxy authentication failed]
 Аўтэнтыфікацыя па HTTP проксі не атрымалася
@@ -160,6 +184,8 @@ Skype пратакол для Miranda NG.
 Версія не падтрымліваецца
 [Account blocked]
 Конт заблакаваны
+[Logout from another instance]
+Выйсці на іншых прыладах
 [Password successfully changed]
 Пароль паспяхова зменены
 [Password changing]
@@ -174,6 +200,8 @@ Skype пратакол для Miranda NG.
 Уведзены пароль сапраўды такой жа як стары 
 [The new password was unacceptable]
 Новы пароль непрымальны 
+[Account was currently not logged in]
+Конт не далучаны
 ;file \protocols\Skype\src\skype_blocked.cpp
 [Name]
 Імя
@@ -209,10 +237,16 @@ Skype пратакол для Miranda NG.
 Капіяваць URI канферэнцыі
 [User]
 Карыстач
+[me]
+Я
+[Incoming group call finished]
+Уваходны групавы званок скончаны
 [The password is incorrect]
 Няслушны пароль
 [Your application to join the conference was denied]
 Ваша просьба пра далучэнне да канферэнцыі адхілена
+[Incoming group call started]
+Уваходны групавы званок
 [You did not select any contact]
 Вы не абралі кантакт
 [Hi! I'd like to add you to my contact list]
@@ -248,6 +282,8 @@ Skype пратакол для Miranda NG.
 Дома
 [General]
 Агульнае
+[Skype account]
+Конт Skype
 ;file \protocols\Skype\src\skype_icons.cpp
 [Protocol icon]
 Абразок пратаколу

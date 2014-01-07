@@ -1085,6 +1085,8 @@ Web Дызайн
 Сайт (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[b]%s (%S)...[/b]\n%d кантактаў засталося
 [Abort Refreshing Contact Details]
 Скасаваць абнаўленне дадзеных кантактаў
 [Do you want to cancel the current refresh procedure?]
@@ -1123,6 +1125,10 @@ Web Дызайн
 [Anniversary Reminder]
 Напамінак пра свята
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
+[contact identificaion]
+ідэнтыфікацыя кантакту
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
+Кантакт %s(%s) не мае ўнікальнага нумара ў vCard,\nале ў спісе кантактаў ёсць кантакт з такім жа псеўданімам і пратаколам.\nВы жадаеце выкарыстоўваць яго нумар для гэтага кантакту?
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
 Імпартаванне новага кантакту спынена!
@@ -1150,9 +1156,15 @@ Miranda NG
 Паказваць тэчку ўсталёўкі Miranda NG.
 [Shows the directory with all your Miranda's profiles.]
 Паказваць тэчку з усімі профілямі Miranda NG.
+[The OpenFileDialog returned an error: %d!]
+OpenFileDialog вярнуў памылку: %d!
+[The SaveFileDialog returned an error: %d!]
+SaveFileDialog вярнуў памылку: %d!
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 INI файл "%s"\nдля захавання кантакту не можа быць адкрыты.
+[None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
+Ніводны з %d кантактаў, у ini файле не адпавядае абранаму кантакту!\nНічога не будзе імпартавана
 [Import complete]
 Імпарт завершаны
 [Some basic statistics]

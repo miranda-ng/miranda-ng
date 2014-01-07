@@ -13,16 +13,14 @@
 Двойкавы
 [You can use %name%, %uid%, %account% and %group% macros]
 Вы можаце выкарыстоўваць зменныя %name%, %uid%, %account% і %group%
+[You can use %name%, %uid%, %account% and %group% substitutes]
+Вы можаце выкарыстоўваць зменныя %name%, %uid%, %account% і %group%
 [wParam type]
 Тып wParam
 [lParam type]
 Тып lParam
 [Service name]
 Імя службы
-[wParam]
-wParam
-[lParam]
-lParam
 [Result action]
 Вынік дзеяння
 [Window option]
@@ -56,7 +54,7 @@ lParam
 [Do not show]
 Не паказваць
 [Current path]
-Сучасны шлях
+Цяперашні шлях
 [Start normal]
 Звычайны запуск
 [last result]
@@ -304,3 +302,155 @@ lParam
 Новы кантакт дададзены ў базу
 [Contact deleting]
 Выдаліць кантакт
+[Parameter]
+Параметр
+[Manual]
+Ручны
+[Byte]
+Байт
+[Word]
+Слова
+[MessageBox]
+Вакно звесткі
+[Start minimized]
+Запуск згорнутым
+[Hexadecimal]
+Шаснадцаткавы
+[String]
+Радок
+[Program path]
+Пуць
+[Program args]
+Аргументы
+[Clipboard]
+Буфер абмену
+[Text to insert]
+Тэкст для ўстаўкі
+[Value]
+Значэнне
+[Save value]
+Захаваць значэнне
+[Read]
+Чытанне
+[Write]
+Запіс
+[Unicode]
+Юнікод
+[Function call]
+Вызаў функцыі
+[Chain]
+Спасылка
+[Program]
+Выканаць
+[Service]
+Служба
+[In/Out]
+Увод/Вывад
+[Storage]
+Хранілішча
+[Jump]
+Пераход
+[Result]
+Вынік
+[Result type]
+Вынік вызаву службы
+[Function name]
+Імя функцыі
+[DLL name]
+Імя DLL
+[Call type]
+Тып вызаву
+[Arguments]
+Аргументы
+[Number of arguments]
+Колькасць аргументаў
+[DLL Handle Cache]
+Кэш дэскрыптараў DLL
+[Keep to end]
+Трымаць да канца
+[Close immediately]
+Зачыніць адразу
+[Close for macro]
+Зачыніць да макраса
+[Wide String]
+Wide String
+[Get from active window]
+З актыўнага вакна
+[Keep old result]
+Захаваць папярэдні вынік
+[Same thread]
+У тым жа патоке
+[Do not wait until the end of execution]
+Не чакаць сканчэння выканання
+[Structure size]
+Памер структуры
+[LastResult to ]
+Апошні вынік ў\s
+[LastResult from]
+Апошні вынік з
+[Process script after]
+Скрыпт пасля макраса
+[Wrap Text]
+Перанос радкоў
+[Autosend]
+Аўтаадпраўка
+[Opposite order]
+Зваротны парадак
+[Service list format]
+Фармат ліста служб
+[Current Macro]
+Цяперашні макрас
+[Select for FirstRun]
+Абраць для першага запуска
+[Right justified text]
+Выраўноўванне па праваму краі
+[Use MMI]
+Скарыстаць MMI
+[UTF8+sign]
+UTF8+сігнатура
+[UTF16+sign]
+UTF16+сігнатура
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - вылучаная (і замененая) частка\r\n^e - заменена пустым радком\r\n^v - уставіць тэкст з буфера абмену\r\n^t - заменена табуляцыяй\r\n^l - заменена апошнім вынікам, як юнікод\r\n^h - заменена апошнім вынікам, як шаснаццатковае\r\n^f(імя[,str])\r\n     уставіць радок з тэкставага файла.\r\n     змесціва пасярод дужак абавязана быць без прабелаў
+[value]
+значэнне
+[name]
+імя
+[value (name)]
+значэнне (імя)
+[name 'value']
+'імя' значэнне
+[contains]
+улучае
+[starts with]
+пачынаецца з
+[ends with]
+скончваецца на
+[= equ]
+= экв.
+[> greater]
+> больш
+[< lesser]
+< меньш
+[& and]
+& і
+[Slot 0]
+Слот 0
+[Slot 1]
+Слот 1
+[Slot 2]
+Слот 2
+[Slot 3]
+Слот 3
+[Slot 4]
+Слот 4
+[Slot 5]
+Слот 5
+[Slot 6]
+Слот 6
+[Slot 7]
+Слот 7
+[Slot 8]
+Слот 8
+[Slot 9]
+Слот 9

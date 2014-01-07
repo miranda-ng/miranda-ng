@@ -44,6 +44,8 @@ AutoAway - убудова з пашыраным наборам функцый.
 Конт
 [Set]
 Абраць
+[when full-screen mode is active]
+у поўнаэкранным рэжыме
 [when screen saver engages]
 пры запуску застаўкі
 [when workstation is locked]

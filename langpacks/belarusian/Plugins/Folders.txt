@@ -57,6 +57,8 @@
 Нататка: Зменныя асяроддзя апрацоўваюцца найперш зменных Miranda NG. Калі ў вас,
 [example, %profile_path% defined as a system variable then it will be expanded to that value]
 напрыклад,  %profile_path% вызначана, як сістэмная зменная, тады будзе вернута значэнне сістэмнай
+[instead of expanding to Miranda's profile path.]
+замест зменнай %profile_path% Miranda NG.
 [Examples:]
 Прыклады:
 [will expand to 'c:\\program files\\miranda ng']

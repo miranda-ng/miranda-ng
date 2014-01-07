@@ -1,6 +1,6 @@
 ﻿;file \src\resource.rc
 [Enter account name (for example, My Google)]
-Увядзіце імя конту
+Увядзіце імя конта
 [Choose the protocol type]
 Выбар тыпу пратаколу
 [Specify the internal account name (optional)]
@@ -64,7 +64,7 @@
 [Name]
 Імя
 [Nick:]
-Нік:
+Мянушка:
 [First:]
 Імя:
 [Last:]
@@ -118,7 +118,7 @@
 [Do you want to allow this change?]
 Дазволіць змену?
 [&Allow all further changes to this section]
-&Дазволіць усезмены ў гэтай секцыі
+&Дазволіць усе змены ў гэтай секцыі
 [Cancel import]
 Скасаваць імпарт
 [Database import complete]
@@ -136,7 +136,7 @@
 [&Leave]
 Пакінуць
 [Netlib log options]
-Налады лга сеціва
+Налады лога сеціва
 [Show]
 Паказаць
 [Received bytes]
@@ -158,7 +158,7 @@
 [File]
 Файл
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
-Запусціць праграму пры запуску (напрыклад, tail -f, dbgview, etc.):
+Выканаць праграму пры запуску (напрыклад, tail -f, dbgview, etc.):
 [Run now]
 Вык. зараз
 [Show this dialog box when Miranda NG starts]
@@ -174,7 +174,7 @@
 [&Preview]
 Прагляд
 [Download more sounds]
-Запампаваць з Сеціва
+Запампаваць з сайта Miranda NG
 [Sound information]
 Дадатковая інфармацыя
 [Location:]
@@ -2171,6 +2171,8 @@ Miranda NG не можа адкрыць гэты профіль
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 Запыт аўтарызацыі от %s%s: %s
+[You were added by %s%s]
+Вас дадаў %s%s
 [Contacts: ]
 Кантакты:\s
 ;file \src\modules\database\profilemanager.cpp

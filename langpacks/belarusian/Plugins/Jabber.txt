@@ -993,6 +993,10 @@ Jabber Рэсурс
 Рэдактар росцера
 [Resource priority]
 Прыярытэт рэсурсу
+[Increase priority by %d]
+Павялічыць на %d
+[Decrease priority by %d]
+Паменьшыць на %d
 [Resource priority [%d]]
 Прыярытэт рэсурсу [%d]
 [Join conference]
@@ -1573,6 +1577,8 @@ Odnoklassniki
 Стандартны спіс прыватнасці паспяхова адхілены
 [Error occurred while setting default list]
 Памылка пры ўсталёўцы па змаўчанні
+[Allow]
+Дазволіць
 [Simple mode]
 Просты рэжым
 [Advanced mode]
@@ -1611,6 +1617,14 @@ Odnoklassniki
 <няма>
 [Message]
 Паведамленне
+[Presence (in)]
+Прысутнасць (зх)
+[Presence (out)]
+Прысутнасць (ув)
+[Query]
+Запыт
+[List has no rules, empty lists will be deleted then changes applied]
+У спісе няма правіл, пустыя спісы будуць выдаленыя
 [allow ]
 дазволіць
 [deny ]
@@ -1655,6 +1669,12 @@ Odnoklassniki
 Спачатку захавайце спіс
 [Please save list before you make it the default list]
 Захавайце спіс перад тым, як зрабіць яго спісам па змаўчанні.
+[No list selected]
+Спіс не абраны
+[Can't remove active or default list]
+Немагчыма выдаліць актыўны або сапраўдны спіс
+[Sorry]
+Выбачайце
 [Unable to save list because you are currently offline.]
 Немагчыма захаваць спіс, спачатку далучыцеся.
 [List Editor...]
@@ -1761,6 +1781,14 @@ Odnoklassniki
 адправіў прысутнасць з памылкай
 [sent unknown presence type]
 адправіў невядомы тып прысутнасці
+[Nick:]
+Мянушка:
+[Status:]
+Статус:
+[Status text:]
+Тэкст статуса:
+[Real JID:]
+Сапраўдны JID:
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 увядзіце пароль для %s

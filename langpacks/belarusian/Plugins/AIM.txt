@@ -9,9 +9,11 @@
 Плагiн пратаколу AOL Instant Messenger (AIM).
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
-AIM Дэталі карыстача
+Пра карыстача AIM
+[Screen Name:]
+Імя AIM:
 [Display Name:]
-Паказваць імя:
+Паказваць:
 [Password:]
 Пароль:
 [Login Server:]

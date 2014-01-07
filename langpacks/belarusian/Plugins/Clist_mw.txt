@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: Bethoven 
+;  Authors: Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 Паказвае кантакты, з'явы, статусы протоколаў. MW мадыфікацыя.
@@ -183,7 +183,7 @@ Cлужба:
 [Sort groups alphabetically]
 Сартаваць групы па алфавіце
 [Quicksearch in open groups only]
-Хуткі пошук толькі ў адкрытых групах
+Хуткі пошук толькі ў адчыненых гуртоў
 [Indent groups by:]
 Водступ для груп:
 [Visual]
@@ -299,6 +299,13 @@ Cлужба:
 Тонкая налада
 [Backgrounds]
 Фоны
+;file \plugins\Clist_mw\src\clc.cpp
+[Status bar background]
+Фон панэлі статусу
+[List background]
+Фон спісу
+[Frames title bar background]
+Фон загалоўка фрэймаў
 ;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Стандартныя кантакты
@@ -329,14 +336,12 @@ Cлужба:
 [Quicksearch Text]
 Хуткі пошук
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[Contact list]
+Спіс кантактаў
 [List]
 Спіс
-[List background]
-Фон спісу
 [List MetaContacts]
 Спіс метакантактаў
-[Status bar background]
-Фон панэлі статусу
 [Not focused]
 Не ў фокусе
 [Offline]
@@ -425,9 +430,9 @@ _Безпротокола_
 Фрэймы
 [Show All Frames]
 Паказаць усе фрэймы
-[Show all titlebars]
+[Show all title bars]
 Паказваць назвы
-[Hide all titlebars]
+[Hide all title bars]
 Схаваць назвы
 [Lock Frame]
 Замацаваць фрэйм
