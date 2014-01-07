@@ -18,7 +18,6 @@
 #define IDC_SUBMIT                      1010
 #define IDC_DELIVERY                    1011
 #define IDC_GROUPNAME                   1012
-#define IDC_VKDOMAIN                    1014
 
 // Next default values for new objects
 // 

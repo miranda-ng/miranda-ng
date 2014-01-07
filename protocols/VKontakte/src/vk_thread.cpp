@@ -17,6 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+char szBlankUrl[] = "http://api.vk.com/blank.html";
+
 void CVkProto::ShutdownSession()
 {
 	if (m_hWorkerThread) {
@@ -98,8 +100,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	if (reply->resultCode == 302) { // manual redirect
 		LPCSTR pszLocation = findHeader(reply, "Location");
 		if (pszLocation) {
-			CMStringA redirectUrl; redirectUrl.Format("http://api.%s/blank.html", m_baseDomain);
-			if (!_strnicmp(pszLocation, redirectUrl, redirectUrl.GetLength())) {
+			if (!_strnicmp(pszLocation, szBlankUrl, sizeof(szBlankUrl)-1)) {
 				m_szAccessToken = NULL;
 				LPCSTR p = strstr(pszLocation, VK_TOKEN_BEG);
 				if (p) {
@@ -460,8 +461,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 					int  ownerID = json_as_int(json_get(pAudio, "owner_id"));
 					ptrT ptszArtist(json_as_string(json_get(pAudio, "artist")));
 					ptrT ptszTitle(json_as_string(json_get(pAudio, "title")));
-					tszBody.AppendFormat(_T("%s: (%s - %s) - http://%S/audio%d_%d"),
-						TranslateT("Audio"), ptszArtist, ptszTitle, m_baseDomain, ownerID, aid);
+					tszBody.AppendFormat(_T("%s: (%s - %s) - http://vk.com/audio%d_%d"),
+						TranslateT("Audio"), ptszArtist, ptszTitle, ownerID, aid);
 				}
 				else if (!lstrcmp(ptszType, _T("video"))) {
 					JSONNODE *pVideo = json_get(pAttach, "video");
@@ -470,8 +471,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 					ptrT ptszTitle(json_as_string(json_get(pVideo, "title")));
 					int  vid = json_as_int(json_get(pVideo, "vid"));
 					int  ownerID = json_as_int(json_get(pVideo, "owner_id"));
-					tszBody.AppendFormat(_T("%s: %s - http://%S/video%d_%d"),
-						TranslateT("Video"), ptszTitle, m_baseDomain, ownerID, vid);
+					tszBody.AppendFormat(_T("%s: %s - http://vk.com/video%d_%d"),
+						TranslateT("Video"), ptszTitle, ownerID, vid);
 				}
 				else if (!lstrcmp(ptszType, _T("doc"))) {
 					JSONNODE *pDoc = json_get(pAttach, "doc");

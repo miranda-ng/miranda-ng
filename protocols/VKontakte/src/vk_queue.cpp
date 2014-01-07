@@ -64,7 +64,7 @@ AsyncHttpRequest* CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl,
 
 	CMStringA url;
 	if (*szUrl == '/') {	// relative url leads to a site
-		url = ((bSecure) ? "https://api." : "http://api.") + CMStringA(m_baseDomain);
+		url = ((bSecure) ? "https://" : "http://") + CMStringA("api.vk.com");
 		url += szUrl;
 		pReq->bIsMainConn = true;
 	}
@@ -105,12 +105,12 @@ void CVkProto::WorkerThread(void*)
 		// try to receive a response from server
 		RetrieveMyInfo();
 	else {
-		CMStringA redirectUrl; redirectUrl.Format("http://api.%s/blank.html", m_baseDomain);
 		// Initialize new OAuth session
+		extern char szBlankUrl[];
 		HttpParam params[] = {
 			{ "client_id", VK_APP_ID },
 			{ "scope", "friends,photos,audio,video,wall,messages,offline" },
-			{ "redirect_uri", redirectUrl },
+			{ "redirect_uri", szBlankUrl },
 			{ "display", "wap" },
 			{ "response_type", "token" }
 		};
