@@ -23,8 +23,6 @@ E-mail или номер телефона:
 Дополнительные настройки
 [Server-side delivery confirmation]
 Подтверждение доставки со стороны сервера
-[VKontakte domain]
-Домен/сервер VKontakte
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
@@ -51,3 +49,11 @@ E-mail или номер телефона:
 Вложения:
 [Photo]
 Фото
+[Audio]
+Аудио
+[Video]
+Видео
+[Document]
+Документ
+[Unsupported or unknown attachment type: %s]
+Неподдерживаемый или неизвестный тип вложения: %s 
