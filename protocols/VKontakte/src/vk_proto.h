@@ -131,6 +131,9 @@ struct CVkProto : public PROTO<CVkProto>
 	void SetServerStatus(int);
 
 	__forceinline bool IsOnline() const { return m_bOnline; }
+	
+	__forceinline LPCTSTR getGroup() const { return m_defaultGroup; }
+	__forceinline void setGroup(LPCTSTR grp) { m_defaultGroup = mir_tstrdup(grp); }
 
 private:
 	LIST<AsyncHttpRequest> m_arRequestsQueue;

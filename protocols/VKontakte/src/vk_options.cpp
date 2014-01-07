@@ -96,7 +96,7 @@ INT_PTR CVkProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	CVkProto* ppro = (CVkProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CVkProto *ppro = (CVkProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -115,6 +115,8 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			ptrT tszPassw(ppro->GetUserStoredPassword());
 			if (tszPassw != NULL)
 				SetDlgItemText(hwndDlg, IDC_PASSWORD, tszPassw);
+
+			SetDlgItemText(hwndDlg, IDC_GROUPNAME, ppro->getGroup());
 		}
 		CheckDlgButton(hwndDlg, IDC_DELIVERY, ppro->m_bServerDelivery);
 		return TRUE;
@@ -127,6 +129,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 		case IDC_LOGIN:
 		case IDC_PASSWORD:
+		case IDC_GROUPNAME:
 			if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -143,6 +146,12 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			TCHAR str[128];
 			GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 			ppro->setTString("Login", str);
+
+			GetDlgItemText(hwndDlg, IDC_GROUPNAME, str, SIZEOF(str));
+			if (_tcscmp(ppro->getGroup(), str)) {
+				ppro->setGroup(str);
+				ppro->setTString("ProtoGroup", str);
+			}
 
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
 			ptrA szRawPasswd(mir_utf8encodeT(str));
