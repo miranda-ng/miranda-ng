@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -15,10 +15,16 @@ E-mail или номер телефона:
 Открыть страницу ВКонтакте
 [Login settings]
 Настройки входа
+[Local settings]
+Локальные настройки
+[Contact list group:]
+Группа в списке контактов:
 [Advanced]
 Дополнительные настройки
 [Server-side delivery confirmation]
 Подтверждение доставки со стороны сервера
+[VKontakte domain]
+Домен/сервер VKontakte
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
