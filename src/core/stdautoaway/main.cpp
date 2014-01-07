@@ -1,8 +1,8 @@
 /*
 
-Standard auto away module for Myranda IM
+Standard auto away module for Miranda NG
 
-Copyright (C) 2012-13 George Hazan
+Copyright (C) 2012-14 George Hazan
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
