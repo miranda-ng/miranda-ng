@@ -442,7 +442,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			JSONNODE *pAttach;
 			for (int k=0; (pAttach = json_at(pAttachments, k)) != NULL; k++) {
 				tszBody.AppendChar('\t');
-				ptrT ptszType( json_as_string( json_get(pAttach, "type")));
+				ptrT ptszType(json_as_string(json_get(pAttach, "type")));
 				if ( !lstrcmp(ptszType, _T("photo"))) {
 					JSONNODE *pPhoto = json_get(pAttach, "photo");
 					if (pPhoto == NULL) continue;
@@ -452,6 +452,38 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 					int iHeight = json_as_int( json_get(pPhoto, "height"));
 					tszBody.AppendFormat( _T("%s: %s (%dx%d)"), TranslateT("Photo"), ptszLink, iWidth, iHeight);
 				}
+				else if (!lstrcmp(ptszType, _T("audio"))) {
+					JSONNODE *pAudio = json_get(pAttach, "audio");
+					if (pAudio == NULL) continue;
+
+					int  aid = json_as_int(json_get(pAudio, "aid"));
+					int  ownerID = json_as_int(json_get(pAudio, "owner_id"));
+					ptrT ptszArtist(json_as_string(json_get(pAudio, "artist")));
+					ptrT ptszTitle(json_as_string(json_get(pAudio, "title")));
+					tszBody.AppendFormat(_T("%s: (%s - %s) - http://%S/audio%d_%d"),
+						TranslateT("Audio"), ptszArtist, ptszTitle, m_baseDomain, ownerID, aid);
+				}
+				else if (!lstrcmp(ptszType, _T("video"))) {
+					JSONNODE *pVideo = json_get(pAttach, "video");
+					if (pVideo == NULL) continue;
+
+					ptrT ptszTitle(json_as_string(json_get(pVideo, "title")));
+					int  vid = json_as_int(json_get(pVideo, "vid"));
+					int  ownerID = json_as_int(json_get(pVideo, "owner_id"));
+					tszBody.AppendFormat(_T("%s: %s - http://%S/video%d_%d"),
+						TranslateT("Video"), ptszTitle, m_baseDomain, ownerID, vid);
+				}
+				else if (!lstrcmp(ptszType, _T("doc"))) {
+					JSONNODE *pDoc = json_get(pAttach, "doc");
+					if (pDoc == NULL) continue;
+
+					ptrT ptszTitle(json_as_string(json_get(pDoc, "title")));
+					ptrT ptszUrl(json_as_string(json_get(pDoc, "url")));
+					tszBody.AppendFormat(_T("%s: (%s) - %s"),
+						TranslateT("Document"), ptszTitle, ptszUrl);
+				}
+				else tszBody.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), ptszType);
+				
 				tszBody.AppendChar('\n');
 			}
 			ptszBody = mir_tstrdup(tszBody);
