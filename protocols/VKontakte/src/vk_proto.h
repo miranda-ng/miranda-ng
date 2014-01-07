@@ -135,6 +135,9 @@ struct CVkProto : public PROTO<CVkProto>
 	__forceinline LPCTSTR getGroup() const { return m_defaultGroup; }
 	__forceinline void setGroup(LPCTSTR grp) { m_defaultGroup = mir_tstrdup(grp); }
 
+	__forceinline LPCSTR getDomain() const { return m_baseDomain; }
+	__forceinline void setDomain(LPCSTR domain) { m_baseDomain = mir_strdup(domain); }
+
 private:
 	LIST<AsyncHttpRequest> m_arRequestsQueue;
 	CRITICAL_SECTION m_csRequestsQueue;
@@ -189,7 +192,7 @@ private:
 	bool   m_bOnline;
 
 	LONG   m_myUserId;
-	ptrA   m_szAccessToken;
+	ptrA   m_baseDomain, m_szAccessToken;
 	ptrT   m_defaultGroup;
 	UINT_PTR m_timer;
 

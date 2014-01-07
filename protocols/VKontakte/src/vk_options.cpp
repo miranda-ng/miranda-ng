@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	CVkProto* ppro = (CVkProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CVkProto *ppro = (CVkProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -117,6 +117,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				SetDlgItemText(hwndDlg, IDC_PASSWORD, tszPassw);
 
 			SetDlgItemText(hwndDlg, IDC_GROUPNAME, ppro->getGroup());
+			SetDlgItemTextA(hwndDlg, IDC_VKDOMAIN, ppro->getDomain());
 		}
 		CheckDlgButton(hwndDlg, IDC_DELIVERY, ppro->m_bServerDelivery);
 		return TRUE;
@@ -130,6 +131,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		case IDC_LOGIN:
 		case IDC_PASSWORD:
 		case IDC_GROUPNAME:
+		case IDC_VKDOMAIN:
 			if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -143,7 +145,10 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			TCHAR str[128];
+			union {
+				TCHAR str[128];
+				char  stra[256];
+			};
 			GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 			ppro->setTString("Login", str);
 
@@ -151,6 +156,12 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			if (_tcscmp(ppro->getGroup(), str)) {
 				ppro->setGroup(str);
 				ppro->setTString("ProtoGroup", str);
+			}
+
+			GetDlgItemTextA(hwndDlg, IDC_VKDOMAIN, stra, SIZEOF(stra));
+			if (strcmp(ppro->getDomain(), stra)) {
+				ppro->setDomain(stra);
+				ppro->setString("BaseDomain", stra);
 			}
 
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));

@@ -42,6 +42,10 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
+	m_baseDomain = getStringA("BaseDomain");
+	if (m_baseDomain == NULL)
+		m_baseDomain = mir_strdup("vk.com");
+
 	m_defaultGroup = getTStringA("ProtoGroup");
 	if (m_defaultGroup == NULL)
 		m_defaultGroup = mir_tstrdup(_T("VKontakte"));

@@ -98,7 +98,8 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	if (reply->resultCode == 302) { // manual redirect
 		LPCSTR pszLocation = findHeader(reply, "Location");
 		if (pszLocation) {
-			if ( !_strnicmp(pszLocation, VK_REDIRECT_URL, sizeof(VK_REDIRECT_URL)-1)) {
+			CMStringA redirectUrl; redirectUrl.Format("http://api.%s/blank.html", m_baseDomain);
+			if (!_strnicmp(pszLocation, redirectUrl, redirectUrl.GetLength())) {
 				m_szAccessToken = NULL;
 				LPCSTR p = strstr(pszLocation, VK_TOKEN_BEG);
 				if (p) {
