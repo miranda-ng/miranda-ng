@@ -388,7 +388,7 @@ Zakulacení rohu
 Možnosti skinu
 [Group top padding]
 Vyplnění skup. shora
-[Frame titlebar height]
+[Frame title bar height]
 Výška záhlaví rámečku
 [Ignore selection for groups]
 Ignorovat výběr skupiny
@@ -763,9 +763,9 @@ Tenký okraj
 [No border]
 Bez okraje
 ;file \plugins\Clist_nicer\src\Docking.cpp
-[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Seznam kontaktů nemůže být ukotven při použití výchozího stylu záhlaví a okraje. Použijte tenký styl záhlaví nebo okno bez okraje.
-[Clist docking]
+[Contact list docking]
 Ukotvení seznamu kontaktů
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
@@ -821,8 +821,8 @@ Pohledy
 &Záhlaví rámečku
 [&Visible]
 &Viditelný
-[&Show TitleBar]
-Zo&brazit záhlaví rámečku
+[&Show title bar]
+Zo&brazit záhlaví
 [&Locked]
 Zamkn&utý
 [&Collapsed]
@@ -851,16 +851,16 @@ Nahor&u
 Rámečky
 [Show All Frames]
 Zobrazit všechny rámečky
-[Show All Titlebars]
+[Show all title bars]
 Zobrazit záhlaví rámečků
-[Hide All Titlebars]
+[Hide all title bars]
 Skrýt záhlaví rámečků
 [Lock Frame]
 Zamknout rámeček
 [Visible]
 Viditelné
-[Show TitleBar]
-Zobrazit záhlaví rámečku
+[Show title bar]
+Zobrazit záhlaví
 [Skinned frame]
 Skin na rámeček
 [Floating]

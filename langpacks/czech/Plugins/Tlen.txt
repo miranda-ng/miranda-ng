@@ -102,7 +102,7 @@ Tlen :: Heslo
 OK
 [Cancel]
 Zrušit
-[Nick name:]
+[Nickname:]
 Přezdívka:
 [First name:]
 Jméno:
@@ -146,8 +146,6 @@ Verze:
 Systém:
 [Personal Information]
 Osobní informace
-[Nickname:]
-Přezdívka:
 [Age:]
 Věk:
 [to]

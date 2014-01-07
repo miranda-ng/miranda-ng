@@ -283,7 +283,7 @@ Rozšířený stav
 Poslech hudby
 [Miranda uptime]
 Doba běhu Mirandy
-[Clist event]
+[Contact list event]
 Událost v seznamu kontaktů
 [Jabber activity]
 Jabber aktivita

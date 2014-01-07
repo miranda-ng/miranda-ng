@@ -277,11 +277,11 @@ Poznámka: Provedené změny se projeví až při dalším připojení do sítě
 Po vyplnění následujících položek bude vytvořen nový profil
 [Profile]
 Profil
-[e.g. Workplace]
+[e.g., Workplace]
 např. Práce
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Zde můžete vybrat i jiný ovladač databáze s větším množstvím funkcí a možností. Pokud si však nejste jisti, ponechte výchozí.
-[e.g. Miranda Database]
+[e.g., Miranda Database]
 pro databázi Mirandy
 [Driver]
 Ovladač
@@ -1905,12 +1905,6 @@ Odchozí zpráva (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Poslední zpráva přijata %s v %s.
-[signed off (was %s)]
-(odhlášení, předchozí stav: %s)
-[signed on (%s)]
-(přihlášení, současný stav: %s)
-[is now %s (was %s)]
-(současný stav: %s, předchozí stav: %s)
 [%s is typing a message...]
 %s píše zprávu...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -2177,6 +2171,8 @@ Neplatný typ nastavení pro '%s'. První znak hodnoty musí být b, w, d, l, s,
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 Žádost o autorizaci od %s%s: %s
+[You were added by %s%s]
+%s%s si vás přidal
 [Contacts: ]
 Kontakty:\s
 ;file \src\modules\database\profilemanager.cpp
@@ -2352,8 +2348,8 @@ Chcete znovu aktivovat tento doplněk?
 Nelze načíst doplněk v nouzovém režimu
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Nelze spustit žádný z nainstalovaných doplňků pro seznam kontaktů a to i přesto, že byla ignorována vaše volba konkrétního doplňku.
-[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
-Nelze nalézt doplněk pro seznam kontaktů! Potřebujete StdClist nebo jiný doplněk.
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
+Nelze nalézt doplněk pro seznam kontaktů! Potřebujete StdClist nebo jiný doplněk pro seznam kontaktů.
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Doplněk

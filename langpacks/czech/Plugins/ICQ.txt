@@ -106,7 +106,7 @@ Nepoužívat původní způsob komunikace (s potvrzením ze serveru)
 Rozhovor (přímé spojení mezi klienty)
 [Enable peer-to-peer message connections]
 Povolit přímé spojení při psaní zprávy
-[Passive mode, i.e. do not initiate new connections]
+[Passive mode (i.e., do not initiate new connections)]
 Použít pasivní režim (= neiniciovat nová spojení)
 [Extra Features]
 Další možnosti

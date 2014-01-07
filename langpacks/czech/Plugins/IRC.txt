@@ -570,8 +570,6 @@ Přijít na kanál
 Zadejte požadovaný kanál
 [Please select IRC network and enter the password if needed]
 Vyberte síť serverů IRC a pokud je to nutné, zadejte heslo.
-[Change nick name]
-Změnit přezdívku
 [Please enter a unique nickname]
 Vyberte jinou přezdívku
 [Please enter your authentification code]

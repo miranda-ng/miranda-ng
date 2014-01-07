@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -102,9 +102,9 @@ Jména ke zvýraznění, zástupné znaky jako * a ? jsou povoleny, jednotlivé 
 Zvýraznění textu zprávy
 [Enable highlighting for message text]
 Povolit zvýraznění textu zprávy
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
 Slova ke zvýraznění, zástupné znaky jako * a ? jsou povoleny, jednotlivé položky se oddělují mezerami. Ponechte prázdné pokud chcete zvýraznit pouze vaši vlastní přezdívku.
-[Highlight messages containing my own nick name]
+[Highlight messages containing my own nickname]
 Zvýraznit zprávy obsahující vlastní přezdívku
 [List]
 Seznam
@@ -314,10 +314,10 @@ Skrýt stavovou lištu
 Skrýt hlavní nabídku
 [User ID in status bar]
 ID uživatele ve stavové liště
-[Hide the tool bar]
-Skrýt lištu s tlačítky
-[Place the tool bar at the bottom (*)]
-Umístit tlačítkovou lištu dole (*)
+[Hide the toolbar]
+Skrýt tlačítkovou lištu
+[Place the toolbar at the bottom (*)]
+Umístit tlačítkovou lištu dolů (*)
 [Show the info panel]
 Zobrazit info panel
 [Hide title bar]
@@ -888,12 +888,12 @@ Zobrazit hlavní nabídku
 Zobrazit stavovou lištu
 [Info Panel...]
 Informační panel...
-[Tool Bar]
+[Toolbar]
 Tlačítková lišta
-[Show Tool Bar]
-Zobrazit lištu s tlačítky
-[Place ToolBar at bottom]
-Tlačítková lišta v dolní části okna
+[Show toolbar]
+Zobrazit tlačítkovou lištu
+[Place toolbar at bottom]
+Umístit tlačítkovou lištu dolů
 [Title Bar]
 Záhlaví okna
 [Tabs at the bottom]
@@ -968,8 +968,6 @@ Správa kanálů
 [<Separator>]
 <oddělovač>
 ;file \plugins\TabSRMM\src\container.cpp
-[Hide titlebar]
-Skrýt záhlaví okna
 [Message Session...]
 Rozhovor...
 [Default container]
@@ -1148,7 +1146,7 @@ Použití smajlíku
 Zobrazit uživatelské menu
 [Show user details]
 
-[Toggle tool bar]
+[Toggle toolbar]
 
 [Toggle info panel]
 
@@ -1421,8 +1419,6 @@ Panely a rozvržení
 Kontejnery
 [Message log]
 Záznam komunikace
-[Tool bar]
-Tlačítková lišta
 [Typing Notify]
 Psaní zprávy
 [Event notifications]
@@ -1506,8 +1502,6 @@ Okno 2
 Okno 3
 [Frame 4]
 Okno 4
-[Toolbar]
-Lišta tlačítek
 [Message Log]
 Záznam komunikace
 [Animated Tray]
@@ -1743,8 +1737,8 @@ Zobrazit mřížku
 Použít příchozí a odchozí ikony
 [Use Message Grouping]
 Seskupovat zprávy
-[Simple text formatting (*bold* etc.)]
-Prosté formátování textu (*tučný* atd.)
+[Simple text formatting (*bold*, etc.)]
+Prosté formátování textu (*tučný*, atd.)
 [Support BBCode formatting]
 Formátovat text pomocí BBCode
 [Place a separator in the log after a window lost its foreground status]
@@ -2277,8 +2271,6 @@ Označit uživatele...
 [Edit Highlight List...]
 Upravit seznam označených uživatelů...
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[Nick name]
-Přezdívka
 [Unique ID]
 Identifikátor
 [Nick]

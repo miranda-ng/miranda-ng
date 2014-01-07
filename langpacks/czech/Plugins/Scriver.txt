@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.0.2
+;  Version: 2.10.1.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -58,13 +58,13 @@ Pro skupinové rozhovory použít jiné okno
 Omezit počet panelů v jednom okně na
 [Layout]
 Rozvržení
-[Show titlebar]
+[Show title bar]
 Zobrazit záhlaví
 [Show status bar]
 Zobrazit stavovou lištu
 [Show toolbar]
 Zobrazit lištu
-[Show infobar]
+[Show info bar]
 Zobrazit informační lištu
 [Show avatars]
 Zobrazit avatary
@@ -86,8 +86,6 @@ Min. velikost pole pro zadávání textu:
 Záznam událostí
 [Enable IEView]
 Použít doplněk IEView
-[Log status changes]
-Zaznamenávat změny stavu
 [Show icons]
 Zobrazit ikony
 [Show time]
@@ -470,25 +468,25 @@ Přejít na předchozí panel
 Přejít na další panel
 [Navigate: Tab %d]
 Přejít na panel č.%d
-[Window: Toggle Statusbar]
+[Window: Toggle status bar]
 Přepnout stavový řádek
-[Window: Toggle Titlebar]
+[Window: Toggle title bar]
 Přepnout záhlaví okna
-[Window: Toggle Toolbar]
+[Window: Toggle toolbar]
 Přepnout nástrojovou lištu
-[Window: Toggle Infobar]
+[Window: Toggle info bar]
 Přepnout informační lištu
-[Window: Clear Log]
+[Window: Clear log]
 Vymazat záznam
 [Window: Minimize]
 Minimalizovat okno
-[Window: Close Tab]
+[Window: Close tab]
 Zavřít panel
 [Action: Quote]
 Vložit citaci
-[Action: Send to All]
+[Action: Send to all]
 Poslat všem
-[Action: Paste & Send]
+[Action: Paste and send]
 Vložit text a poslat
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
@@ -523,12 +521,6 @@ Vložit smajlík
 Odeslat zprávu
 [User Menu - %s]
 Uživatelské menu - %s
-[signed off (was %s)]
-(odhlášení, předchozí stav: %s)
-[signed on (%s)]
-(přihlášení, současný stav: %s)
-[is now %s (was %s)]
-(současný stav: %s, předchozí stav: %s)
 [Sending in progress: %d message(s) left...]
 Odesílání; počet zpráv k odeslání: %d
 [%s is typing a message...]
@@ -597,11 +589,11 @@ Pozadí psaní zprávy
 Odchozí odkaz
 [Incoming URL]
 Příchozí odkaz
-[Infobar contact name]
+[Info bar contact name]
 Jméno v informační liště
-[Infobar background]
+[Info bar background]
 Pozadí informační lišty
-[Infobar status message]
+[Info bar status message]
 Stav v informační liště
 [Others nicknames]
 Ostatní přezdívky
@@ -1005,7 +997,7 @@ Zobrazí/skryje seznam účastníků (CTRL+N)
 Možnosti řízení kanálu (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Aktivuje/deaktivuje filtrování událostí (CTRL+F)
-[Nick name]
+[Nickname]
 Přezdívka
 [Unique ID]
 Identifikátor

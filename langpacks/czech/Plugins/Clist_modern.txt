@@ -74,7 +74,7 @@ Svisle vedle sebe
 Rolovat s textem
 [Stretch proportionally]
 Uzpůsobit poměrně
-[Tile vertically according to Row Height]
+[Tile vertically according to row height]
 Roztáhnout vertikálně dle výšky řádku
 [Use Windows Colors]
 Použít barvy Windows
@@ -184,7 +184,7 @@ Vodorovné zarovnání
 Víceřádková stavová lišta
 [Accounts per line]
 Účty na řádku
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * Stavový řádek zvýšíte takto:\nHl.nabídka: Rámečky->Stavová lišta->Zobrazit záhlaví a roztáhněte zobrazenou lištu myší.
 [Hold [Shift] to inverse [Right Click] behavior]
 Pomocí [Shift] obrátíte funkci [pravého tlačítka].
@@ -506,8 +506,8 @@ Zobrazit rozšířený stav místo ikony protokolu
 Vykreslit normální stav jako překryvnou ikonu
 [Right-To-Left reading mode (mirror template)]
 Režim Zprava doleva (zrcadlová šablona)
-[Replace smileys in clist]
-Grafické smajlíky v seznamu
+[Replace smileys in contact list]
+Grafické smajlíky v seznamu kontaktů
 [Use protocol smileys]
 Použít smajlíky protokolu
 [Draw smileys on first line]
@@ -667,13 +667,13 @@ Překrytí avataru
 Překrytí stavu
 [Contact List smileys]
 Smajlíky pro kontakty
-[List Background]
+[List background]
 Pozadí seznamu
-[Menu Background]
+[Menu background]
 Pozadí nabídky
-[StatusBar Background]
+[Status bar background]
 Pozadí stavové lišty
-[Frames TitleBar BackGround]
+[Frames title bar background]
 Pozadí záhlaví rámečku
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Chcete zkonvertovat kontakt '%s' na metakontakt a '%s' k němu přidat?
@@ -766,16 +766,8 @@ Text položky v nabídce
 Text vybrané položky v nabídce
 [Frame title text]
 Text záhlaví rámečku
-[Statusbar text]
-Text ve stavové liště
 [3rd party frames transparent back color]
 Klíčovací barva pozadí externích rámečků
-[General]
-Obecné
-[List]
-Seznam
-[Window]
-Okno
 [Not focused]
 Neaktivní
 [Offline]
@@ -818,8 +810,14 @@ Do oznam. oblasti
 Za levý okraj
 [Behind right edge]
 Za pravý okraj
+[General]
+Obecné
+[List]
+Seznam
+[Window]
+Okno
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[Event Area Background]
+[Event area background]
 Pozadí oblasti oznámení
 [Event Area]
 Oblast pro události
@@ -1018,9 +1016,9 @@ Povolit zvuky
 Zakázat zvuky
 [Minimize]
 Minimalizovat
-[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Pro zobrazení lišty tlačítek v seznamu kontaktů potřebujete doplněk TopToolBar. Klikněte na Ano pro stažení nebo Zrušit pro pokračování
-[ToolBar Background]
+[Toolbar background]
 Pozadí tlačítkové lišty
 [Toolbar upgrade]
 Aktualizace lišty tlačítek
@@ -1104,14 +1102,12 @@ Nahor&u
 &Dolů
 [Show All Frames]
 Zobrazit všechny rámečky
-[Show All Titlebars]
+[Show all title bars]
 Zobrazit záhlaví rámečků
-[Hide All Titlebars]
+[Hide all title bars]
 Skrýt záhlaví rámečků
 [Lock Frame]
 Zamknout rámeček
-[Show TitleBar]
-Zobrazit záhlaví rámečku
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 Nabídka rámečku

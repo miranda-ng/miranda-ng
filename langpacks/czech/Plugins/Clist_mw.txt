@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: 
+;  Authors: Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 Zobrazuje kontakty, upozornění na události, stavy protokolů a podporuje rámečky.
@@ -202,7 +202,7 @@ Zešednout seznam v případě:
 Zešednout neaktivní kontakty
 [Hide vertical scrollbar]
 Skrýt svislý posuvník
-[Contact List Background]
+[Contact list background]
 Pozadí seznamu kontaktů
 [Use 'Meta' protocol icons for Metacontacts]
 Použít ikony protokolu 'Meta' pro metakontakty
@@ -238,7 +238,7 @@ Zobrazit oddělovač
 Zobrazit efekt zkosení panelů
 [Use connecting Icon]
 Zobrazit průběh připojování
-[Use New Drawer for StatusBar]
+[Use new drawer for status bar]
 Použít nový systém stav. lišty
 [&Main menu]
 &Hlavní nabídka
@@ -299,6 +299,13 @@ Př&ejmenovat skupinu
 Vlastní úpravy
 [Backgrounds]
 Pozadí
+;file \plugins\Clist_mw\src\clc.cpp
+[Status bar background]
+Pozadí stavové lišty
+[List background]
+Pozadí seznamu
+[Frames title bar background]
+Pozadí záhlaví rámečku
 ;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Standardní kontakty
@@ -329,14 +336,12 @@ Zvýrazněný text
 [Quicksearch Text]
 Hledaný text
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[Contact list]
+Seznam kontaktů
 [List]
 Seznam
-[List Background]
-Pozadí seznamu
 [List MetaContacts]
 Seznam metakontaktů
-[StatusBar Background]
-Pozadí stavové lišty
 [Not focused]
 Neaktivní
 [Offline]
@@ -397,8 +402,8 @@ Obnovit předchozí stav
 &Záhlaví rámečku
 [&Visible]
 &Viditelný
-[&Show TitleBar]
-Zo&brazit záhlaví rámečku
+[&Show title bar]
+Zo&brazit záhlaví
 [&Locked]
 Zamkn&utý
 [&Collapsed]
@@ -425,16 +430,14 @@ Nahor&u
 Rámečky
 [Show All Frames]
 Zobrazit všechny rámečky
-[Show All Titlebars]
+[Show all title bars]
 Zobrazit záhlaví rámečků
-[Hide All Titlebars]
+[Hide all title bars]
 Skrýt záhlaví rámečků
 [Lock Frame]
 Zamknout rámeček
 [Visible]
 Viditelné
-[Show TitleBar]
-Zobrazit záhlaví rámečku
 [Floating]
 Plovoucí
 ;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp

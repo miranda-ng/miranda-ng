@@ -7,7 +7,7 @@
 [Toggle send later]
 [Show message history]
 [Show user details]
-[Toggle tool bar]
+[Toggle toolbar]
 [Toggle info panel]
 [Toggle text direction]
 [Toggle multi send]

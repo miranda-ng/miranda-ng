@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber protocol support for Miranda NG.]
@@ -160,7 +160,7 @@ PSČ:
 Země:
 [Full name:]
 Celé jméno:
-[Nick name:]
+[Nickname:]
 Přezdívka:
 [First name:]
 Jméno:
@@ -286,8 +286,6 @@ Pozvánka k diskusi
 Pozvánka do diskusní místnosti od
 [with following reason:]
 s následujícím zdůvodněním:
-[Nickname:]
-Přezdívka:
 [&Accept]
 &Přijmout
 [Jabber Bookmarks]
@@ -587,6 +585,8 @@ Podporuje rozšíření poznámky Miranda NG
 Podporuje Jingle
 [Supports Roster Exchange]
 Podporuje výměnu seznamů na serveru
+[Supports direct chat invitations (XEP-0249)]
+Podporuje přímé pozvánky do diskuzí (XEP-0249)
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Zadejte text, který vidíte
@@ -1277,14 +1277,16 @@ Služby
 Registrované služby
 [Local Server Transports]
 Zjistit lokální služby
-[Browse Chatrooms]
-Procházet diskuse
 [Create/Join group chat]
 Založit/připojit k diskusi
 [Roster editor]
 Seznamy na serveru
 [Resource priority]
 Priorita
+[Increase priority by %d]
+Zvýšit prioritu o %d
+[Decrease priority by %d]
+Snížit prioritu o %d
 [Resource priority [%d]]
 Priorita umístění (%d)
 [Join conference]
@@ -1803,8 +1805,6 @@ Změny stavu
 Neoznamovat staré zprávy
 [JID]
 Identifikátor
-[Nick Name]
-Přezdívka
 [Group]
 Skupina
 [Subscription]
@@ -1867,6 +1867,8 @@ Seznam %s je výchozí
 Výchozí seznam úspěšně přepnut
 [Error occurred while setting default list]
 
+[Allow]
+Povolit
 [Simple mode]
 Základní režim
 [Advanced mode]
@@ -1903,6 +1905,16 @@ Odebrat
 ** autorizace: žádná **
 [<none>]
 <žádný>
+[Message]
+Zpráva
+[Presence (in)]
+Stav (příchozí)
+[Presence (out)]
+Stav (odchozí)
+[Query]
+Dotaz
+[List has no rules, empty lists will be deleted then changes applied]
+Zatím bez pravidel; prázdné seznamy budou vymazány a stav následně uložen.
 [allow ]
 povolit 
 [deny ]
@@ -1947,6 +1959,12 @@ Nejprve prosím uložte vytvořený seznam.
 Uložit seznam
 [Please save list before you make it the default list]
 
+[No list selected]
+Vyberte požadovaný seznam.
+[Can't remove active or default list]
+Aktivní ani výchozí seznam nelze odstranit.
+[Sorry]
+Bohužel
 [Unable to save list because you are currently offline.]
 
 [List Editor...]
@@ -2053,6 +2071,14 @@ ukončil komunikaci
 
 [sent unknown presence type]
 
+[Nick:]
+Přezdívka:
+[Status:]
+Stav:
+[Status text:]
+Zpráva stavu:
+[Real JID:]
+Reálné JID:
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 Zadejte heslo pro %s
@@ -2073,8 +2099,6 @@ Odesílání registračních údajů...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Resource]
 Zdroj
-[Message]
-Zpráva
 [<not specified>]
 <neurčeno>
 [Software]

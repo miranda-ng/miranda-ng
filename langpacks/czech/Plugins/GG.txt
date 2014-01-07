@@ -352,9 +352,9 @@ Nelze vytvořit složku pro cache obrázků. CHYBA: %d: %s\n%s
 [Cannot save received image to file. ERROR: %d: %s\n%s]
 Nelze uložit přijatý obrázek do souboru. CHYBA: %d: %s\n%s
 [Cannot open image file. ERROR: %d: %s\n%s]
-Nelte otevřít soubor s obrázkem. CHYBA: %d: %s\n%s
+Nelze otevřít soubor s obrázkem. CHYBA: %d: %s\n%s
 [Image exceeds maximum allowed size of 255 KB.]
-Obrázek překračuje maximální povolenou veilkost 255 KB.
+Obrázek překračuje maximální povolenou velikost 255 KB.
 ;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
 Aktualizovat seznam kontaktů na serveru lze pouze po připojení k síti Gadu-Gadu.

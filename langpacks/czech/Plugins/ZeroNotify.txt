@@ -10,7 +10,7 @@ Přidává možnost automatického vypnutí upozornění, když je protokol v ur
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
 Vypnout zvuky při:
-[No CLIST blink when:]
+[No CList blink when:]
 Vypnout blikání v seznamu při:
 [No SysTray blink when:]
 Vypnout blikání v liště při:

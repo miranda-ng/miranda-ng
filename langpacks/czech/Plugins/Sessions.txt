@@ -46,7 +46,7 @@ Různé
 Při ukončení vyloučit skryté kontakty z relace
 [Warn, when some of LastSession contacts are hidden]
 Varovat když jsou některé kontakty z poslední relace skryty
-[Show other warnings ("session already opened" etc.)]
+[Show other warnings ("session already opened", etc.)]
 Zobrazovat ostatní varování ("relace je již otevřena", atd.)
 [Crash Recovery mode]
 Mód obnovení po pádu

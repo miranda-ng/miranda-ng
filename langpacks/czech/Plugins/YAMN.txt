@@ -62,7 +62,7 @@ Stáhnout celý text
 Vybrat poštu z menu
 [Use contact notification for this account]
 Použít nastavení z filtrování kontaktů
-[Replace nick name]
+[Replace nickname]
 Nahradit přezdívku
 [Disable Events]
 Vypnout události

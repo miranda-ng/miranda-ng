@@ -66,8 +66,8 @@ icons.dll
 Seznam blokovaných uživatelů
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 Tento seznam obsahuje všechny blokované uživatele Xfire. Chcete jim povolit žádost o autorizaci, odeberte je z tohoto seznamu.
-[You can simply block someone, if you right click on his friend request in clist and choose Block User...]
-Kontakty lze jednoduše filtrovat funkcí Blokovat uživatele, kterou naleznete v kontextové nabídce...
+[You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
+Kontakty lze jednoduše filtrovat funkcí Blokovat uživatele, kterou naleznete v kontextové nabídce kontaktu...
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Tento soubor je použit pro vyhledávání her, jejich detekování a zjišťování herních id. Obsahuje všechny Xfirem podporované hry.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
