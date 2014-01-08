@@ -37,7 +37,7 @@
 За: %d:%d:%d
 [Import not finished. Do you realy want close?]
 Імпорт не закінчений. Ви дійсно хочете закрити?
-[Error adding message to DB]
+[Error adding message to database]
 Помилка додавання в Базу повідомлення
 [Error opening file]
 Помилка відкриття файлу
@@ -73,11 +73,11 @@
 Файл: %s
 [To: %s]
 В: %s
-[Can"t determine destination contact]
+[Can't determine destination contact]
 Не можу визначити контакт призначення
 [Default extension]
 Розширення за замовчанням
-[Its not %s file]
+[It's not %s file]
 Це не файл %s
 [Duplicate:]
 Дублікат:
@@ -93,5 +93,3 @@
 Помилка ініціалізації XML-парсера
 [Import history to %s (%s)]
 Імпортувати історію у %s (%s)
-[Can't determine destination contact]
-Не вдається визначити контакт для імпорту

@@ -26,7 +26,7 @@
 [Old password]
 Старый пароль
 [Database encryption mode]
-Режим шифрования базы
+Режим шифрования профиля
 [Standard]
 Стандартный
 [Total]

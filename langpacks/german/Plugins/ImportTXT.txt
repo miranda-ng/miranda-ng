@@ -37,7 +37,7 @@ Duplikate: %d Nachrichten
 Ein: %d:%d:%d
 [Import not finished. Do you realy want close?]
 Import nicht abgeschlossen. Möchten Sie wirklich abbrechen?
-[Error adding message to DB]
+[Error adding message to database]
 Fehler beim Hinzufügen der Nachricht in die Datenbank
 [Error opening file]
 Fehler beim Öffnen der Datei
@@ -73,11 +73,11 @@ Wählen Sie einen Ordner für den Import aus...
 Datei: %s
 [To: %s]
 An: %s
-[Can''t determine destination contact]
+[Can't determine destination contact]
 Kann Zielkontakt nicht ermitteln
 [Default extension]
 Standarderweiterung
-[Its not %s file]
+[It's not %s file]
 Es ist keine %s-Datei
 [Duplicate:]
 Duplikat:
@@ -93,5 +93,3 @@ Zeige doppelte Einträge
 Fehler beim Initialisieren des XML-Parsers
 [Import history to %s (%s)]
 Verlauf nach %s (%s) importieren
-[Can't determine destination contact]
-Kann Zielkontakt nicht ermitteln

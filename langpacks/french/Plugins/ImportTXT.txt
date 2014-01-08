@@ -37,7 +37,7 @@ Tous les fichiers (*.*)
 
 [Import not finished. Do you realy want close?]
 
-[Error adding message to DB]
+[Error adding message to database]
 
 [Error opening file]
 
@@ -73,11 +73,11 @@ Tous les fichiers (*.*)
 
 [To: %s]
 
-[Can''t determine destination contact]
+[Can't determine destination contact]
 
 [Default extension]
 
-[Its not %s file]
+[It's not %s file]
 
 [Duplicate:]
 
@@ -92,6 +92,4 @@ Tous les fichiers (*.*)
 [Error at initialization XML parser]
 
 [Import history to %s (%s)]
-
-[Can't determine destination contact]
 

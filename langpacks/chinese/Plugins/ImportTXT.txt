@@ -33,7 +33,7 @@ CFG 文件错误:
 入: %d:%d:%d
 [Import not finished. Do you realy want close?]
 导入尚未完成. 您真的要关闭?
-[Error adding message to DB]
+[Error adding message to database]
 新增消息至数据库错误
 [Error mapping file]
 映象文件错误
@@ -67,11 +67,11 @@ CFG 文件错误:
 文件: %s
 [To: %s]
 至: %s
-[Can''t determine destination contact]
+[Can't determine destination contact]
 目标联系人无法找到
 [Default extension]
 默认扩展
-[Its not %s file]
+[It's not %s file]
 它不是一个 %s 文件
 [Duplicate:]
 重复:
@@ -87,5 +87,3 @@ CFG 文件错误:
 初始化 XML 解析器时发生错误
 [Import history to %s (%s)]
 导入历史至 %s (%s)
-[Can't determine destination contact]
-不确定目标联系人
