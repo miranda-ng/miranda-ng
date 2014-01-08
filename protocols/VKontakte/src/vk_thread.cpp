@@ -392,6 +392,8 @@ void CVkProto::RetrieveUnreadMessages()
 	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.get.json", true, &CVkProto::OnReceiveMessages, SIZEOF(params), params);
 }
 
+static char* szImageTypes[] = { "src_xxxbig", "src_xxbig", "src_xbig", "src_big", "src", "src_small" };
+
 void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveMessages %d", reply->resultCode);
@@ -441,17 +443,21 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			tszBody += TranslateT("Attachments:");
 			tszBody.AppendChar('\n');
 			JSONNODE *pAttach;
-			for (int k=0; (pAttach = json_at(pAttachments, k)) != NULL; k++) {
+			for (int k = 0; (pAttach = json_at(pAttachments, k)) != NULL; k++) {
 				tszBody.AppendChar('\t');
 				ptrT ptszType(json_as_string(json_get(pAttach, "type")));
-				if ( !lstrcmp(ptszType, _T("photo"))) {
+				if (!lstrcmp(ptszType, _T("photo"))) {
 					JSONNODE *pPhoto = json_get(pAttach, "photo");
 					if (pPhoto == NULL) continue;
 
-					ptrT ptszLink( json_as_string( json_get(pPhoto, "src_big")));
-					int iWidth = json_as_int( json_get(pPhoto, "width"));
-					int iHeight = json_as_int( json_get(pPhoto, "height"));
-					tszBody.AppendFormat( _T("%s: %s (%dx%d)"), TranslateT("Photo"), ptszLink, iWidth, iHeight);
+					ptrT ptszLink;
+					for (int i = 0; i < SIZEOF(szImageTypes); i++)
+						if ((ptszLink = json_as_string(json_get(pPhoto, szImageTypes[i]))) != NULL)
+							break;
+		
+					int iWidth = json_as_int(json_get(pPhoto, "width"));
+					int iHeight = json_as_int(json_get(pPhoto, "height"));
+					tszBody.AppendFormat(_T("%s: %s (%dx%d)"), TranslateT("Photo"), ptszLink, iWidth, iHeight);
 				}
 				else if (!lstrcmp(ptszType, _T("audio"))) {
 					JSONNODE *pAudio = json_get(pAttach, "audio");
@@ -484,7 +490,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 						TranslateT("Document"), ptszTitle, ptszUrl);
 				}
 				else tszBody.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), ptszType);
-				
+
 				tszBody.AppendChar('\n');
 			}
 			ptszBody = mir_tstrdup(tszBody);
