@@ -223,7 +223,7 @@ begin
         inc(AddMsg)
       else
       begin
-        s := 'Error adding message to DB';
+        s := 'Error adding message to database';
         DoMessage(ITXT_THREAD_ERROR, wparam(PWideChar(s)), 0);
       end
     else

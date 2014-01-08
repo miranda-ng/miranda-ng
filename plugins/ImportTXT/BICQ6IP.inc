@@ -80,7 +80,7 @@ begin
     end
     else
     begin
-      s := WideFormat(TranslateWideString('Its not %s file'), ['ICQ6 mdb']);
+      s := WideFormat(TranslateWideString('It''s not %s file'), ['ICQ6 mdb']);
       DoMessage(ITXT_THREAD_ERROR, wparam(PWideChar(s)), 0);
     end;
   finally

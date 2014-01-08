@@ -115,7 +115,7 @@ begin
                 inc(AddedMessages)
               else
               begin
-                s := 'Error adding message to DB';
+                s := 'Error adding message to database';
                 DoMessage(ITXT_THREAD_ERROR, wparam(PWideChar(s)), 0);
                 break;
               end
@@ -138,7 +138,7 @@ begin
     end
     else
     begin
-      s := WideFormat(TranslateWideString('Its not %s file'), ['QHF']);
+      s := WideFormat(TranslateWideString('It''s not %s file'), ['QHF']);
       DoMessage(ITXT_THREAD_ERROR, wparam(PWideChar(s)), 0);
     end
   else // file len
