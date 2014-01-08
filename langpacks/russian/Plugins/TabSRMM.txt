@@ -586,7 +586,7 @@ Cтатусы для автоматического создания вклад�
 [Before you can load or unload a skin, you must close all message windows.]
 Перед сменой скина, необходимо закрыть все окна сообщений.
 [Close open message windows now]
-Закрыть отрытое окно сообщений сейчас
+Закрыть открытое окно сообщений сейчас
 [Theme support]
 Поддержка схем
 [You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.]
