@@ -1,6 +1,0 @@
-﻿[Local settings]
-[Contact list group:]
-[Audio]
-[Video]
-[Document]
-[Unsupported or unknown attachment type: %s]

@@ -37,7 +37,7 @@ Duplikatów: %d wiadomości
 W: %d:%d:%d
 [Import not finished. Do you realy want close?]
 Import przerwany. Czy chcesz zamknąć?
-[Error adding message to DB]
+[Error adding message to database]
 Błąd dodawania wiadomości do bazy danych
 [Error opening file]
 Błąd otwierania pliku
@@ -73,11 +73,11 @@ Wybierz folder do importu...
 Plik: %s
 [To: %s]
 Do: %s
-[Can''t determine destination contact]
-Nie udało się ustalić kontaktu docelowego
+[Can't determine destination contact]
+Brak docelowego kontaktu
 [Default extension]
 Domyślne rozszerzenie
-[Its not %s file]
+[It's not %s file]
 To nie jest plik %s
 [Duplicate:]
 Duplikat:
@@ -93,5 +93,3 @@ Pokaż duplikaty
 Błąd inicjalizacji parsera XML
 [Import history to %s (%s)]
 Importuj historię %s (%s)
-[Can't determine destination contact]
-Brak docelowego kontaktu

@@ -56,10 +56,10 @@ Załączniki:
 [Photo]
 Zdjęcie
 [Audio]
-
+Audio
 [Video]
-
+Wideo
 [Document]
-
+Dokument
 [Unsupported or unknown attachment type: %s]
-
+Niewspierany albo nieznany typ załącznika: %s
