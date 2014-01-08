@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -16,6 +16,10 @@ Passwort:
 VKontakte-Seite öffnen
 [Login settings]
 Login-Einstellungen
+[Local settings]
+
+[Contact list group:]
+
 [Advanced]
 Erweitert
 [Server-side delivery confirmation]
@@ -51,3 +55,11 @@ Konto
 Anhänge:
 [Photo]
 Foto
+[Audio]
+
+[Video]
+
+[Document]
+
+[Unsupported or unknown attachment type: %s]
+

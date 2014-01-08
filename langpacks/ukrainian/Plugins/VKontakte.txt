@@ -13,6 +13,12 @@
 Пароль:
 [Open VKontakte site]
 Відкрити сторінку ВКонтактi
+[Login settings]
+Налаштування входу
+[Advanced]
+Додатково
+[Server-side delivery confirmation]
+Підтвердження доставки зі сторони серверу
 [Bots challenge test]
 Захист від ботів
 [Instruction:]
@@ -39,9 +45,3 @@
 Прикріплення:
 [Photo]
 Фото
-[Login settings]
-Налаштування входу
-[Advanced]
-Додатково
-[Server-side delivery confirmation]
-Підтвердження доставки зі сторони серверу

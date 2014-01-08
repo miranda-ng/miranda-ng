@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.5
+;  Version: 0.1.0.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -14,6 +14,16 @@ Correo o número de teléfono:
 Contraseña:
 [Open VKontakte site]
 Abrir sitio VKontakte
+[Login settings]
+
+[Local settings]
+
+[Contact list group:]
+
+[Advanced]
+
+[Server-side delivery confirmation]
+
 [Bots challenge test]
 Prueba de reto Bots
 [Instruction:]
@@ -45,3 +55,11 @@ Cuenta
 Adjuntos:
 [Photo]
 Foto
+[Audio]
+
+[Video]
+
+[Document]
+
+[Unsupported or unknown attachment type: %s]
+
