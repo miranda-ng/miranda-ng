@@ -288,7 +288,7 @@ tstring _DBGetStringW(HANDLE hContact,const char *szModule,const char *szSetting
 	{
 		if (dbv.type != DBVT_WCHAR)
 		{
-			MessageBox(NULL, TranslateT("DB: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
+			MessageBox(NULL, TranslateT("Database: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
 			ret = pszError;
 		}
 		else
@@ -310,7 +310,7 @@ string _DBGetStringA(HANDLE hContact,const char *szModule,const char *szSetting,
 	{
 		if (dbv.type != DBVT_ASCIIZ)
 		{
-			MessageBox(NULL, TranslateT("DB: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
+			MessageBox(NULL, TranslateT("Database: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
 			ret = pszError;
 		}
 		else

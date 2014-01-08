@@ -42,7 +42,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,197,294,10
     CONTROL         "Clicking on the icon in the status bar will change settings",IDC_HISTMW,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,211,294,10
-    CONTROL         "Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)",IDC_UNSAFEMODE,
+    CONTROL         "Use UNSAFE mode (sweep fastest as possible, but dangerous for database)",IDC_UNSAFEMODE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,225,294,10
 END
 

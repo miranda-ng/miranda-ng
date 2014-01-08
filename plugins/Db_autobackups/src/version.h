@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME			"Db autobackuper"
 #define __FILENAME				"Db_autobackups.dll"
-#define __DESCRIPTION 			"Db autobackuper plugin."
+#define __DESCRIPTION 			"Database autobackuper plugin."
 #define __AUTHOR				"chaos.persei, sje, Kildor, Billy_Bons"
 #define __AUTHOREMAIL			"chaos.persei@gmail.com"
 #define __AUTHORWEB				"http://miranda-ng.org/p/Db_autobackups/"
