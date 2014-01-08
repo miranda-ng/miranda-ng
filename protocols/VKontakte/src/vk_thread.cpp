@@ -385,11 +385,10 @@ void CVkProto::RetrieveUnreadMessages()
 	debugLogA("CVkProto::RetrieveMessages");
 
 	HttpParam params[] = {
-		{ "filters", "1" },
-		{ "preview_length", "0" },
+		{ "code", "return { \"msgs\":API.messages.get({\"filters\":1}), \"dlgs\":API.messages.getDialogs() };" },
 		{ "access_token", m_szAccessToken }
 	};
-	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.get.json", true, &CVkProto::OnReceiveMessages, SIZEOF(params), params);
+	PushAsyncHttpRequest(REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveMessages, SIZEOF(params), params);
 }
 
 static char* szImageTypes[] = { "src_xxxbig", "src_xxbig", "src_xbig", "src_big", "src", "src_small" };
@@ -405,11 +404,27 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (pResponse == NULL)
 		return;
 
+	JSONNODE *pDlgs = json_as_array(json_get(pResponse, "dlgs"));
+	if (pDlgs != NULL) {
+		int numDialogs = json_as_int(json_at(pDlgs, 0));
+		for (int i = 1; i <= numDialogs; i++) {
+			JSONNODE *pDlg = json_at(pDlgs, i);
+			if (pDlg == NULL)
+				continue;
+			
+			int chatid = json_as_int(json_get(pDlg, "chat_id"));
+			if (chatid != 0)
+				if (m_chats.find((CVkChatInfo*)&chatid) == NULL) {
+					AppendChat(chatid, pDlg);
+			}
+		}
+	}
+
+	CMStringA mids, lmids;
+
 	JSONNODE *pMsgs = json_as_array( json_get(pResponse, "msgs"));
 	if (pMsgs == NULL)
 		pMsgs = pResponse;
-
-	CMStringA mids, lmids;
 
 	int numMessages = json_as_int( json_at(pMsgs, 0));
 	for (int i=1; i <= numMessages; i++) {

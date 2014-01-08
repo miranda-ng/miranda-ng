@@ -31,6 +31,25 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	void *pUserInfo;
 };
 
+struct CVkChatUser
+{
+	int  userid;
+	ptrT tszTitle, tszImage;
+};
+
+struct CVkChatInfo
+{
+	CVkChatInfo(int _id) :
+		m_users(10, NumericKeySortT),
+		m_chatid(_id)
+		{}
+
+	int  m_chatid;
+	ptrT m_tszTitle;
+	HANDLE m_hContact;
+	OBJLIST<CVkChatUser> m_users;
+};
+
 struct CVkProto : public PROTO<CVkProto>
 {
 				CVkProto(const char*, const TCHAR*);
@@ -202,4 +221,7 @@ private:
 	bool   CheckMid(int msgid);
 
 	static INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	OBJLIST<CVkChatInfo> m_chats;
+	void AppendChat(int id, JSONNODE *pNode);
 };

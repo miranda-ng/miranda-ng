@@ -22,7 +22,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_arRequestsQueue(10),
 	m_sendIds(3, PtrKeySortT),
 	m_cookies(5),
-	m_msgId(1)
+	m_msgId(1),
+	m_chats(1, NumericKeySortT)
 {
 	InitQueue();
 
@@ -50,6 +51,11 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	db_set_resident(m_szModuleName, "Status");
 
 	m_bServerDelivery = getBool("ServerDelivery", true);
+
+	GCREGISTER gcr = { sizeof(gcr) };
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
