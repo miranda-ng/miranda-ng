@@ -19,8 +19,8 @@
 Очищать при закрытии окна сообщений
 [Clicking on the icon in the status bar will change settings]
 Щелчок по иконке в панели статусов меняет настройки
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
-Использовать НЕБЕЗОПАСНЫЙ режим (быстрее, но опаснее для БД)
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
+Использовать НЕБЕЗОПАСНЫЙ режим (быстрее, но опаснее для профиля)
 [Keep all events]
 Все события сохраняются в истории
 [Delete all events]

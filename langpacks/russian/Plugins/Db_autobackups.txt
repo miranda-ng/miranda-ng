@@ -5,7 +5,7 @@
 ;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
-[Db autobackuper plugin.]
+[Database autobackuper plugin.]
 Плагин авторезервирования профиля.
 [Backup progress]
 Процесс резервного копирования

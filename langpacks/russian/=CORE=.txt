@@ -2057,8 +2057,8 @@ URL от %s
 <Корневая группа>
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Файл профиля не должен находится в корневой папке Miranda.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
-Miranda не может открыть '%s', так как плагины для поддержки профилей не установлены.\nВам нужно установить плагин dbx_mmap.dll или подобный.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
+Miranda не может открыть '%s', так как плагины для поддержки профилей не установлены.\nНеобходимо установить плагин dbx_mmap.dll
 [No profile support installed!]
 Нет установленных плагинов базы!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]

@@ -85,7 +85,7 @@
 Вставить &CR/LF
 [Paste the Settings to import here.]
 Вставьте настройки сюда.
-[DBEditor++]
+[Database Editor++]
 Редактор базы
 [&Main]
 &Главное
@@ -253,7 +253,7 @@ INI файлы
 Не удается открыть файл на запись
 [Import from files]
 Импорт из файлов
-[Enter a string to search the DB for]
+[Enter a string to search the database for]
 Введите строку поиска
 [Stop]
 Стоп
@@ -291,8 +291,6 @@ INI файлы
 Неизвестный контакт
 [Known Contact]
 Известный контакт
-[Database Editor++]
-Редактор базы
 [Open Database Editor]
 Открыть редактор базы
 [Open user tree in DBE++]
