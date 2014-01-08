@@ -480,7 +480,7 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 		PostIrcMessage( _T("/PART %s"), window );
 
 		if (( one.IsEmpty() || !IsChannel( one ))) {
-			CHANNELINFO* wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, window, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
+			CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, window, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
 			if ( wi && wi->pszPassword )
 				PostIrcMessage( _T("/JOIN %s %s"), window, wi->pszPassword);
 			else
@@ -857,7 +857,7 @@ bool CIrcProto::PostIrcMessageWnd( TCHAR* window, HANDLE hContact, const TCHAR* 
 	if ( Message.IsEmpty())
 		return 0;
 
-	CHANNELINFO* wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, windowname, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
+	CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, windowname, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
 	int codepage = ( wi ) ? wi->codepage : getCodepage();
 
 	// process the message

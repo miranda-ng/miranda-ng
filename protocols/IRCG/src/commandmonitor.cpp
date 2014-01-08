@@ -372,7 +372,7 @@ bool CIrcProto::OnIrc_QUIT(const CIrcMessage* pmsg)
 			GCEVENT gce = {0};
 
 			gce.cbSize = sizeof(GCEVENT);
-			gcd.pszID = NULL;
+			gcd.ptszID = NULL;
 			gcd.pszModule = m_szModuleName;
 			gcd.iType = GC_EVENT_CONTROL;
 			gce.pDest = &gcd;
@@ -429,7 +429,7 @@ bool CIrcProto::OnIrc_KICK(const CIrcMessage* pmsg)
 		CallChatEvent( SESSION_OFFLINE, (LPARAM)&gce);
 
 		if ( m_rejoinIfKicked ) {
-			CHANNELINFO* wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, pmsg->parameters[0].c_str(), NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
+			CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, pmsg->parameters[0].c_str(), NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
 			if ( wi && wi->pszPassword )
 				PostIrcMessage( _T("/JOIN %s %s"), pmsg->parameters[0].c_str(), wi->pszPassword);
 			else
@@ -512,7 +512,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 					if (( int )pmsg->parameters.getCount() > iParametercount ) {	
 						if ( !_tcscmp(pmsg->parameters[2].c_str(), m_info.sNick.c_str())) {
 							char cModeBit = -1;
-							CHANNELINFO* wi = (CHANNELINFO *)DoEvent( GC_EVENT_GETITEMDATA, pmsg->parameters[0].c_str(), NULL, NULL, NULL, NULL, NULL, false, false, 0 );
+							CHANNELINFO *wi = (CHANNELINFO *)DoEvent( GC_EVENT_GETITEMDATA, pmsg->parameters[0].c_str(), NULL, NULL, NULL, NULL, NULL, false, false, 0 );
 							switch (*p1) {
 								case 'v':      cModeBit = 0;       break;
 								case 'h':      cModeBit = 1;       break;
@@ -1361,7 +1361,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 				
 				//Set the item data for the window
 				{
-					CHANNELINFO* wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, sChanName, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);					
+					CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, sChanName, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);					
 					if (!wi)
 						wi = new CHANNELINFO;
 					wi->OwnMode = btOwnMode;
@@ -2386,7 +2386,7 @@ bool CIrcProto::DoOnConnect( const CIrcMessage* )
 			gci.iItem = i;
 			gci.pszModule = m_szModuleName;
 			if ( !CallServiceSync( MS_GC_GETINFO, 0, (LPARAM)&gci) && gci.iType == GCW_CHATROOM ) {
-				CHANNELINFO* wi = ( CHANNELINFO* )gci.dwItemData;
+				CHANNELINFO *wi = ( CHANNELINFO* )gci.dwItemData;
 				if ( wi && wi->pszPassword )
 					PostIrcMessage( _T("/JOIN %s %s"), gci.pszName, wi->pszPassword);
 				else

@@ -131,7 +131,7 @@ static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 static int RoomWndResize(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc)
 {
 	RECT rc, rcTabs;
-	SESSION_INFO* si = (SESSION_INFO*)lParam;
+	SESSION_INFO *si = (SESSION_INFO*)lParam;
 	int			TabHeight;
 	BOOL		bControl = (BOOL)db_get_b(NULL, "Chat", "ShowTopButtons", 1);
 	BOOL		bFormat = (BOOL)db_get_b(NULL, "Chat", "ShowFormatButtons", 1);
@@ -734,7 +734,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
-	static SESSION_INFO* si = NULL;
+	static SESSION_INFO *si = NULL;
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		si = (SESSION_INFO*)lParam;
@@ -968,7 +968,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			i = TabCtrl_HitTest(hwnd, &tci);
 			if (i != -1 ) {
 				TCITEM tc;
-				SESSION_INFO* si ;
+				SESSION_INFO *si ;
 
 				tc.mask = TCIF_PARAM;
 				TabCtrl_GetItem(hwnd, i, &tc);
@@ -1150,7 +1150,7 @@ int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth)
 
 static void __cdecl phase2(void * lParam)
 {
-	SESSION_INFO* si = (SESSION_INFO*) lParam;
+	SESSION_INFO *si = (SESSION_INFO*) lParam;
 	Sleep(30);
 	if (si && si->hWnd)
 		PostMessage(si->hWnd, GC_REDRAWLOG3, 0, 0);
@@ -2014,16 +2014,16 @@ LABEL_SHOWWINDOW:
 
 	case GC_FIREHOOK:
 		if (lParam) {
-			GCHOOK* gch = (GCHOOK *) lParam;
-			NotifyEventHooks(hSendEvent,0,(WPARAM)gch);
-			if ( gch->pDest ) {
-				mir_free( gch->pDest->pszID );
-				mir_free( gch->pDest->pszModule );
-				mir_free( gch->pDest );
+			GCHOOK *gch = (GCHOOK *)lParam;
+			NotifyEventHooks(hSendEvent, 0, (WPARAM)gch);
+			if (gch->pDest) {
+				mir_free(gch->pDest->ptszID);
+				mir_free(gch->pDest->pszModule);
+				mir_free(gch->pDest);
 			}
-			mir_free( gch->ptszText );
-			mir_free( gch->ptszUID );
-			mir_free( gch );
+			mir_free(gch->ptszText);
+			mir_free(gch->ptszUID);
+			mir_free(gch);
 		}
 		break;
 

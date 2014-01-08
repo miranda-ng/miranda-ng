@@ -1075,7 +1075,7 @@ void CManagerDlg::OnApplyModes( CCtrlButton* )
 {
 	TCHAR window[256];
 	GetDlgItemText( m_hwnd, IDC_CAPTION, window, SIZEOF(window));
-	CHANNELINFO* wi = (CHANNELINFO *)m_proto->DoEvent(GC_EVENT_GETITEMDATA, window, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
+	CHANNELINFO *wi = (CHANNELINFO *)m_proto->DoEvent(GC_EVENT_GETITEMDATA, window, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
 	if ( wi ) {
 		TCHAR toadd[10]; *toadd = '\0';
 		TCHAR toremove[10]; *toremove = '\0';
@@ -1266,7 +1266,7 @@ void CManagerDlg::InitManager( int mode, const TCHAR* window )
 {
 	SetWindowText( GetDlgItem( m_hwnd, IDC_CAPTION ), window );
 
-	CHANNELINFO* wi = (CHANNELINFO *)m_proto->DoEvent(GC_EVENT_GETITEMDATA, window, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
+	CHANNELINFO *wi = (CHANNELINFO *)m_proto->DoEvent(GC_EVENT_GETITEMDATA, window, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
 	if ( wi ) {
 		if ( m_proto->IsConnected()) {
 			TCHAR temp[1000];

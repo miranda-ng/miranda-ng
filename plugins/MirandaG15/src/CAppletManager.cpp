@@ -843,8 +843,8 @@ void CAppletManager::SendTypingNotification(HANDLE hContact,bool bEnable)
 //************************************************************************
 HANDLE CAppletManager::SendMessageToContact(HANDLE hContact,tstring strMessage)
 {
-	string strAscii = toNarrowString(strMessage);
-	int bufSize = lstrlenA(strAscii.c_str())+1;
+	tstring strAscii = _A2T(toNarrowString(strMessage).c_str());
+	int bufSize = lstrlen(strAscii.c_str())+1;
 	SMessageJob *pJob = new SMessageJob();
 	pJob->dwTimestamp = GetTickCount();
 	pJob->hContact = hContact;
@@ -857,31 +857,24 @@ HANDLE CAppletManager::SendMessageToContact(HANDLE hContact,tstring strMessage)
 	if(pIRCCon && db_get_b(hContact, szProto, "ChatRoom", 0) != 0)
 	{
 		GCDEST gcd = {0};
-		GCEVENT gce = {0};
 
 		DBVARIANT dbv;
-		if (!db_get((HANDLE)hContact, szProto, "Nick", &dbv) && dbv.type == DBVT_ASCIIZ ) 
-			gcd.pszID = dbv.pszVal;
+		if (!db_get_ts((HANDLE)hContact, szProto, "Nick", &dbv)) 
+			gcd.ptszID = dbv.ptszVal;
 		else
 			return NULL;
 
-		string strID = string(gcd.pszID) + " - " + toNarrowString(pIRCCon->strNetwork).c_str();
-		gcd.pszID = (char*)strID.c_str();
+		tstring strID = tstring(gcd.ptszID) + _T(" - ") + tstring(_A2T(toNarrowString(pIRCCon->strNetwork).c_str()));
+		gcd.ptszID = (LPTSTR)strID.c_str();
 		gcd.pszModule = szProto;
 		gcd.iType = GC_EVENT_SENDMESSAGE;
 
-		gce.cbSize = sizeof(GCEVENT);
-		gce.pDest = &gcd;
-		gce.pszStatus = "";
-		// gce.bAddToLog = true;
-		gce.pszUserInfo = NULL;
-
-		gce.pszText = (char *)strAscii.c_str();
-
-		gce.dwItemData = NULL;
+		GCEVENT gce = { sizeof(gce), &gcd };
+		gce.dwFlags = GC_TCHAR;
+		gce.ptszStatus = _T("");
+		gce.ptszText = (LPTSTR)strAscii.c_str();
 		gce.time = time(NULL);
 		gce.bIsMe = true;
-
 		CallService(MS_GC_EVENT, NULL, (LPARAM) &gce);
 
 		pJob->hEvent = NULL;
@@ -928,7 +921,6 @@ HANDLE CAppletManager::SendMessageToContact(HANDLE hContact,tstring strMessage)
 		CAppletManager::GetInstance()->AddMessageJob(pJob);
 	}
 
-	
 	return pJob->hEvent;
 }
 
@@ -1279,7 +1271,7 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 	if(gce == NULL || gcd == NULL)
 		TRACE(_T("<< [%s] skipping invalid IRC event\n"));
 
-	TRACE(_T("<< [%s:%s] IRC event %04X\n"),toTstring(gcd->pszModule).c_str(),toTstring(gcd->pszID).c_str(),gcd->iType);
+	TRACE(_T("<< [%s:%s] IRC event %04X\n"),toTstring(gcd->pszModule).c_str(), gcd->ptszID, gcd->iType);
 	
 	// get the matching irc connection entry
 	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(toTstring(gcd->pszModule));

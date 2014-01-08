@@ -954,7 +954,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 				int len = min((( temp == NULL ) ? lstrlen( gcmi->pszID ) : ( int )( temp - gcmi->pszID + 1 )), SIZEOF(stzChanName)-1 );
 				lstrcpyn( stzChanName, gcmi->pszID, len );
 				stzChanName[ len ] = 0;
-				CHANNELINFO* wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA,stzChanName, NULL, NULL, NULL, NULL, NULL, false, false, 0);
+				CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA,stzChanName, NULL, NULL, NULL, NULL, NULL, false, false, 0);
 				BOOL bServOwner  = strchr(sUserModes.c_str(), 'q') == NULL?FALSE:TRUE;
 				BOOL bServAdmin  = strchr(sUserModes.c_str(), 'a') == NULL?FALSE:TRUE;
 				BOOL bOwner  = bServOwner?((wi->OwnMode>>4)&01):FALSE;

@@ -89,7 +89,7 @@ TCHAR* RemoveFormatting(const TCHAR* pszWord)
 
 static void __stdcall ShowRoomFromPopup(void * pi)
 {
-	SESSION_INFO* si = (SESSION_INFO*) pi;
+	SESSION_INFO *si = (SESSION_INFO*) pi;
 	ShowRoom(si, WINDOW_VISIBLE, TRUE);
 }
 
@@ -123,7 +123,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-static int ShowPopup(HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* pszProtoName,  TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
+static int ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon,  char* pszProtoName,  TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
 {
 	POPUPDATAT pd = {0};
 	va_list marker;
@@ -169,7 +169,7 @@ static int ShowPopup(HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* pszP
 	return PUAddPopupT(&pd);
 }
 
-static BOOL DoTrayIcon(SESSION_INFO* si, GCEVENT * gce)
+static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT * gce)
 {
 	int iEvent = gce->pDest->iType;
 
@@ -220,7 +220,7 @@ static BOOL DoTrayIcon(SESSION_INFO* si, GCEVENT * gce)
 	return TRUE;
 }
 
-static BOOL DoPopup(SESSION_INFO* si, GCEVENT * gce)
+static BOOL DoPopup(SESSION_INFO *si, GCEVENT * gce)
 {
 	int iEvent = gce->pDest->iType;
 
@@ -285,7 +285,7 @@ static BOOL DoPopup(SESSION_INFO* si, GCEVENT * gce)
 	return TRUE;
 }
 
-BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighlight, int bManyFix)
+BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT * gce, BOOL bHighlight, int bManyFix)
 {
 	if (!gce || !si ||  gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
@@ -430,7 +430,7 @@ const TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 	return NULL;
 }
 
-BOOL IsHighlighted(SESSION_INFO* si, const TCHAR* pszText)
+BOOL IsHighlighted(SESSION_INFO *si, const TCHAR* pszText)
 {
 	if ( g_Settings.HighlightEnabled && g_Settings.pszHighlightWords && pszText && si->pMe ) {
 		TCHAR* p1 = g_Settings.pszHighlightWords;
@@ -508,7 +508,7 @@ BOOL IsHighlighted(SESSION_INFO* si, const TCHAR* pszText)
 	return FALSE;
 }
 
-BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
+BOOL LogToFile(SESSION_INFO *si, GCEVENT * gce)
 {
 	MODULEINFO * mi = NULL;
 	TCHAR szBuffer[4096];
@@ -681,7 +681,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 	return FALSE;
 }
 
-UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO* si, TCHAR* pszUID, TCHAR* pszWordText)
+UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText)
 {
 	GCMENUITEMS gcmi = {0};
 	int i;
@@ -784,27 +784,25 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 
 	gcd->pszModule = mir_strdup( pszModule );
 
-	{
-		SESSION_INFO* si;
-		if (( si = SM_FindSession(pszID, pszModule)) == NULL )
-			return FALSE;
+	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
+	if (si == NULL)
+		return FALSE;
 
-		if ( !( si->dwFlags & GC_UNICODE )) {
-			gcd->pszID = mir_t2a( pszID );
-			gch->pszUID = mir_t2a( pszUID );
-			gch->pszText = mir_t2a( pszText );
-		}
-		else {
-			gcd->ptszID = mir_tstrdup( pszID );
-			gch->ptszUID = mir_tstrdup( pszUID );
-			gch->ptszText = mir_tstrdup( pszText );
-		}
+	if (!(si->dwFlags & GC_UNICODE)) {
+		gcd->ptszID = (LPTSTR)mir_t2a(pszID);
+		gch->pszUID = mir_t2a(pszUID);
+		gch->pszText = mir_t2a(pszText);
+	}
+	else {
+		gcd->ptszID = mir_tstrdup(pszID);
+		gch->ptszUID = mir_tstrdup(pszUID);
+		gch->ptszText = mir_tstrdup(pszText);
 	}
 
 	gcd->iType = iType;
 	gch->dwData = dwItem;
 	gch->pDest = gcd;
-	PostMessage(hwnd, GC_FIREHOOK, 0, (LPARAM) gch);
+	PostMessage(hwnd, GC_FIREHOOK, 0, (LPARAM)gch);
 	return TRUE;
 }
 
@@ -815,32 +813,29 @@ BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCH
 
 	gcd.pszModule = (char*)pszModule;
 
-	{
-		SESSION_INFO* si;
-		if (( si = SM_FindSession(pszID, pszModule)) == NULL )
-			return FALSE;
+	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
+	if (si == NULL)
+		return FALSE;
 
-		if ( !( si->dwFlags & GC_UNICODE )) {
-			gcd.pszID = mir_t2a( pszID );
-			gch.pszUID = mir_t2a( pszUID );
-			gch.pszText = mir_t2a( pszText );
-		}
-		else {
-			gcd.ptszID = mir_tstrdup( pszID );
-			gch.ptszUID = mir_tstrdup( pszUID );
-			gch.ptszText = mir_tstrdup( pszText );
-		}
+	if (!(si->dwFlags & GC_UNICODE)) {
+		gcd.ptszID = (LPTSTR)mir_t2a(pszID);
+		gch.pszUID = mir_t2a(pszUID);
+		gch.pszText = mir_t2a(pszText);
+	}
+	else {
+		gcd.ptszID = mir_tstrdup(pszID);
+		gch.ptszUID = mir_tstrdup(pszUID);
+		gch.ptszText = mir_tstrdup(pszText);
 	}
 
 	gcd.iType = iType;
 	gch.dwData = dwItem;
 	gch.pDest = &gcd;
-	NotifyEventHooks(hSendEvent,0,(WPARAM)&gch);
+	NotifyEventHooks(hSendEvent, 0, (WPARAM)&gch);
 
-	mir_free( gcd.pszID );
-	mir_free( gch.ptszUID );
-	mir_free( gch.ptszText );
-
+	mir_free(gcd.ptszID);
+	mir_free(gch.ptszUID);
+	mir_free(gch.ptszText);
 	return TRUE;
 }
 

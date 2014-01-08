@@ -1038,7 +1038,7 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 
 	if (!(si->dwFlags & GC_UNICODE)) {
 		DWORD dwCP = M.GetDword(si->hContact, "ANSIcodepage", 0);
-		gcd->pszID = mir_t2a(pszID);
+		gcd->ptszID = (LPTSTR)mir_t2a(pszID);
 		gch->pszUID = mir_t2a(pszUID);
 		gch->pszText = mir_t2a_cp(pszText, dwCP);
 	}
@@ -1066,7 +1066,7 @@ BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCH
 
 	if (!(si->dwFlags & GC_UNICODE)) {
 		DWORD dwCP = M.GetDword(si->hContact, "ANSIcodepage", 0);
-		gcd.pszID = mir_t2a(pszID);
+		gcd.ptszID = (LPTSTR)mir_t2a(pszID);
 		gch.pszUID = mir_t2a(pszUID);
 		gch.pszText = mir_t2a_cp(pszText, dwCP);
 	}
@@ -1080,7 +1080,7 @@ BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCH
 	gch.pDest = &gcd;
 	NotifyEventHooks(hSendEvent, 0, (WPARAM)&gch);
 
-	mir_free(gcd.pszID);
+	mir_free(gcd.ptszID);
 	mir_free(gch.ptszUID);
 	mir_free(gch.ptszText);
 	return TRUE;

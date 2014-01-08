@@ -577,8 +577,8 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		return GC_EVENT_ERROR;
 
 	int iRetVal = GC_EVENT_ERROR;
-	char *pMod = NULL;
-	TCHAR *pWnd = NULL;
+	LPCSTR pMod = NULL;
+	LPCTSTR pWnd = NULL;
 	GCDEST save_gcd;
 	GCEVENT save_gce;
 	SESSION_INFO *si = NULL;
@@ -663,7 +663,7 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 			else
 				gce->ptszText = a2tf(gce->ptszText, gce->dwFlags);
 		}
-		if (!gce->bIsMe && gce->pDest->pszID && gce->pszText && si)
+		if (!gce->bIsMe && gce->pDest->ptszID && gce->pszText && si)
 			bIsHighlighted = si->Highlight->match(gce, si, CMUCHighlight::MATCH_TEXT | CMUCHighlight::MATCH_NICKNAME) != 0;
 		break;
 
@@ -689,7 +689,7 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Decide which window (log) should have the event
-	if (gcd->pszID) {
+	if (gcd->ptszID) {
 		pWnd = gcd->ptszID;
 		pMod = gcd->pszModule;
 	}

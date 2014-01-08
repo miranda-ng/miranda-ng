@@ -2480,7 +2480,7 @@ LABEL_SHOWWINDOW:
 			GCHOOK* gch = (GCHOOK*) lParam;
 			NotifyEventHooks(hSendEvent, 0, (WPARAM)gch);
 			if (gch->pDest) {
-				mir_free(gch->pDest->pszID);
+				mir_free(gch->pDest->ptszID);
 				mir_free(gch->pDest->pszModule);
 				mir_free(gch->pDest);
 			}

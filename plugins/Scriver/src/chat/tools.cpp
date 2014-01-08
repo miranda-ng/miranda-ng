@@ -755,7 +755,7 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 		return FALSE;
 	
 	if (!(si->dwFlags & GC_UNICODE)) {
-		gcd->pszID = mir_t2a(pszID);
+		gcd->ptszID = (LPTSTR)mir_t2a(pszID);
 		gch->pszUID = mir_t2a(pszUID);
 		gch->pszText = mir_t2a(pszText);
 	}
@@ -783,7 +783,7 @@ BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCH
 		return FALSE;
 
 	if (!(si->dwFlags & GC_UNICODE)) {
-		gcd.pszID = mir_t2a(pszID);
+		gcd.ptszID = (LPTSTR)mir_t2a(pszID);
 		gch.pszUID = mir_t2a(pszUID);
 		gch.pszText = mir_t2a(pszText);
 	}
@@ -798,7 +798,7 @@ BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCH
 	gch.pDest = &gcd;
 	NotifyEventHooks(hSendEvent, 0, (WPARAM)&gch);
 
-	mir_free(gcd.pszID);
+	mir_free(gcd.ptszID);
 	mir_free(gch.ptszUID);
 	mir_free(gch.ptszText);
 	return TRUE;

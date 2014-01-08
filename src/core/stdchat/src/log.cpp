@@ -464,7 +464,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 	return 0;
 }
 
-void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedraw, BOOL bPhaseTwo)
+void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw, BOOL bPhaseTwo)
 {
 	EDITSTREAM stream;
 	LOGSTREAMDATA streamData;

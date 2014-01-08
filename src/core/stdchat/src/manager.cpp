@@ -37,12 +37,12 @@ MODULEINFO *m_ModList = 0;
 
 void SetActiveSession(const TCHAR* pszID, const char* pszModule)
 {
-	SESSION_INFO* si = SM_FindSession(pszID, pszModule);
+	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if ( si )
 		SetActiveSessionEx(si);
 }
 
-void SetActiveSessionEx(SESSION_INFO* si)
+void SetActiveSessionEx(SESSION_INFO *si)
 {
 	if ( si ) {
 		replaceStr( &pszActiveWndID, si->ptszID );
@@ -51,7 +51,7 @@ void SetActiveSessionEx(SESSION_INFO* si)
 
 SESSION_INFO* GetActiveSession( void )
 {
-	SESSION_INFO* si = SM_FindSession( pszActiveWndID, pszActiveWndModule );
+	SESSION_INFO *si = SM_FindSession( pszActiveWndID, pszActiveWndModule );
 	if ( si )
 		return si;
 
@@ -244,7 +244,7 @@ BOOL SM_SetStatusEx( const TCHAR* pszID, const char* pszModule, const TCHAR* psz
 	return TRUE;
 }
 
-HICON SM_GetStatusIcon(SESSION_INFO* si, USERINFO * ui)
+HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui)
 {
 	STATUSINFO * ti;
 	if (!ui || !si)
@@ -643,7 +643,7 @@ BOOL SM_SendUserMessage(const TCHAR* pszID, const char* pszModule, const TCHAR* 
 	return TRUE;
 }
 
-SESSION_INFO* SM_GetPrevWindow(SESSION_INFO* si)
+SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si)
 {
 	BOOL bFound = FALSE;
 	SESSION_INFO* pTemp = m_WndList;
@@ -669,7 +669,7 @@ SESSION_INFO* SM_GetPrevWindow(SESSION_INFO* si)
 	return NULL;
 }
 
-SESSION_INFO* SM_GetNextWindow(SESSION_INFO* si)
+SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -720,7 +720,7 @@ BOOL SM_ChangeUID(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID
 }
 
 
-BOOL SM_SetTabbedWindowHwnd(SESSION_INFO* si, HWND hwnd)
+BOOL SM_SetTabbedWindowHwnd(SESSION_INFO *si, HWND hwnd)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -915,7 +915,7 @@ SESSION_INFO* SM_FindSessionByIndex(const char* pszModule, int iItem)
 
 }
 
-char* SM_GetUsers(SESSION_INFO* si)
+char* SM_GetUsers(SESSION_INFO *si)
 {
 	SESSION_INFO* pTemp = m_WndList;
 	USERINFO* utemp = NULL;

@@ -66,7 +66,7 @@ static HANDLE
 
 #endif
 
-void ShowRoom(SESSION_INFO* si, WPARAM wp, BOOL bSetForeground)
+void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 {
 	if (!si)
 		return;
@@ -222,7 +222,7 @@ static INT_PTR Service_GetCount(WPARAM wParam,LPARAM lParam)
 static INT_PTR Service_GetInfo(WPARAM wParam,LPARAM lParam)
 {
 	GC_INFO * gci = (GC_INFO *) lParam;
-	SESSION_INFO* si = NULL;
+	SESSION_INFO *si = NULL;
 
 	if (!gci || !gci->pszModule)
 		return 1;
@@ -327,7 +327,7 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 
 	if (( mi = MM_FindModule( gcw->pszModule )) != NULL ) {
 		TCHAR* ptszID = a2tf( gcw->ptszID, gcw->dwFlags );
-		SESSION_INFO* si = SM_AddSession( ptszID, gcw->pszModule);
+		SESSION_INFO *si = SM_AddSession( ptszID, gcw->pszModule);
 
 		// create a new session and set the defaults
 		if ( si != NULL ) {
@@ -405,7 +405,7 @@ static int DoControl(GCEVENT * gce, WPARAM wp)
 		switch (wp) {
 		case WINDOW_HIDDEN:
 			{
-				SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+				SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 				if (si) {
 					si->bInitDone = TRUE;
 					SetActiveSession(si->ptszID, si->pszModule);
@@ -420,7 +420,7 @@ static int DoControl(GCEVENT * gce, WPARAM wp)
 		case WINDOW_VISIBLE:
 		case SESSION_INITDONE:
 			{
-				SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+				SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 				if (si) {
 					si->bInitDone = TRUE;
 					if (wp != SESSION_INITDONE || db_get_b(NULL, "Chat", "PopupOnJoin", 0) == 0)
@@ -439,7 +439,7 @@ static int DoControl(GCEVENT * gce, WPARAM wp)
 
 		case WINDOW_CLEARLOG:
 		{
-			SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+			SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 			if ( si ) {
 				LM_RemoveAll(&si->pLog, &si->pLogEnd);
 				if ( si->hWnd ) {
@@ -464,7 +464,7 @@ static int DoControl(GCEVENT * gce, WPARAM wp)
 
 	else if (gce->pDest->iType == GC_EVENT_CHANGESESSIONAME && gce->pszText)
 	{
-		SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if ( si ) {
 			replaceStr( &si->ptszName, gce->ptszText );
 			if ( si->hWnd )
@@ -476,13 +476,13 @@ static int DoControl(GCEVENT * gce, WPARAM wp)
 	}	}	}
 
 	else if (gce->pDest->iType == GC_EVENT_SETITEMDATA) {
-		SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if (si)
 			si->dwItemData = gce->dwItemData;
 	}
 
 	else if (gce->pDest->iType ==GC_EVENT_GETITEMDATA) {
-		SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if (si) {
 			gce->dwItemData = si->dwItemData;
 			return si->dwItemData;
@@ -491,7 +491,7 @@ static int DoControl(GCEVENT * gce, WPARAM wp)
 	}
 	else if (gce->pDest->iType == GC_EVENT_SETSBTEXT)
 	{
-		SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if (si) {
 			replaceStr( &si->ptszStatusbarText, gce->ptszText );
 			if ( si->ptszStatusbarText )
@@ -522,23 +522,26 @@ static int DoControl(GCEVENT * gce, WPARAM wp)
 
 static void AddUser(GCEVENT * gce)
 {
-	SESSION_INFO* si = SM_FindSession( gce->pDest->ptszID, gce->pDest->pszModule);
-	if ( si ) {
-		WORD status = TM_StringToWord( si->pStatuses, gce->ptszStatus );
-		USERINFO * ui = SM_AddUser( gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszNick, status);
-		if (ui) {
-			ui->pszNick = mir_tstrdup( gce->ptszNick );
+	SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+	if (si == NULL) return;
 
-			if (gce->bIsMe)
-				si->pMe = ui;
+	WORD status = TM_StringToWord(si->pStatuses, gce->ptszStatus);
+	USERINFO *ui = SM_AddUser(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszNick, status);
+	if (ui == NULL) return;
 
-			ui->Status = status;
-			ui->Status |= si->pStatuses->Status;
+	ui->pszNick = mir_tstrdup(gce->ptszNick);
 
-			if (si->hWnd) {
-				g_TabSession.pUsers = si->pUsers;
-				SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
-}	}	}	}
+	if (gce->bIsMe)
+		si->pMe = ui;
+
+	ui->Status = status;
+	ui->Status |= si->pStatuses->Status;
+
+	if (si->hWnd) {
+		g_TabSession.pUsers = si->pUsers;
+		SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
+	}
+}
 
 static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 {
@@ -565,15 +568,15 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 
 	EnterCriticalSection(&cs);
 
-	if ( !( gce->dwFlags & GC_UNICODE )) {
+	if (!(gce->dwFlags & GC_UNICODE)) {
 		save_gce = *gce;
 		save_gcd = *gce->pDest;
-		gce->pDest->ptszID = a2tf( gce->pDest->ptszID, gce->dwFlags );
-		gce->ptszUID       = a2tf( gce->ptszUID,       gce->dwFlags );
-		gce->ptszNick      = a2tf( gce->ptszNick,      gce->dwFlags );
-		gce->ptszStatus    = a2tf( gce->ptszStatus,    gce->dwFlags );
-		gce->ptszText      = a2tf( gce->ptszText,      gce->dwFlags );
-		gce->ptszUserInfo  = a2tf( gce->ptszUserInfo,  gce->dwFlags );
+		gce->pDest->ptszID = a2tf(gce->pDest->ptszID, gce->dwFlags);
+		gce->ptszUID = a2tf(gce->ptszUID, gce->dwFlags);
+		gce->ptszNick = a2tf(gce->ptszNick, gce->dwFlags);
+		gce->ptszStatus = a2tf(gce->ptszStatus, gce->dwFlags);
+		gce->ptszText = a2tf(gce->ptszText, gce->dwFlags);
+		gce->ptszUserInfo = a2tf(gce->ptszUserInfo, gce->dwFlags);
 	}
 
 	// Do different things according to type of event
@@ -605,38 +608,39 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 
 	case GC_EVENT_TOPIC:
 	{
-		SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-		if ( si ) {
-			if ( gce->pszText ) {
-				replaceStr( &si->ptszTopic, gce->ptszText);
-				if ( si->hWnd )
+		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		if (si) {
+			if (gce->pszText) {
+				replaceStr(&si->ptszTopic, gce->ptszText);
+				if (si->hWnd)
 					g_TabSession.ptszTopic = si->ptszTopic;
-				db_set_ts( si->hContact, si->pszModule , "Topic", RemoveFormatting( si->ptszTopic ));
-				if ( db_get_b( NULL, "Chat", "TopicOnClist", 0 ))
-					db_set_ts( si->hContact, "CList" , "StatusMsg", RemoveFormatting( si->ptszTopic ));
-		}	}
+				db_set_ts(si->hContact, si->pszModule, "Topic", RemoveFormatting(si->ptszTopic));
+				if (db_get_b(NULL, "Chat", "TopicOnClist", 0))
+					db_set_ts(si->hContact, "CList", "StatusMsg", RemoveFormatting(si->ptszTopic));
+			}
+		}
 		break;
 	}
 	case GC_EVENT_ADDSTATUS:
-		SM_GiveStatus( gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszStatus );
+		SM_GiveStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszStatus);
 		break;
 
 	case GC_EVENT_REMOVESTATUS:
-		SM_TakeStatus( gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszStatus);
+		SM_TakeStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszStatus);
 		break;
 
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_ACTION:
-		if ( !gce->bIsMe && gce->pDest->pszID && gce->pszText ) {
-			SESSION_INFO* si = SM_FindSession( gce->pDest->ptszID, gce->pDest->pszModule );
-			if ( si )
-				if ( IsHighlighted( si, gce->ptszText ))
+		if (!gce->bIsMe && gce->pDest->ptszID && gce->pszText) {
+			SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+			if (si)
+				if (IsHighlighted(si, gce->ptszText))
 					bIsHighlighted = TRUE;
 		}
 		break;
 
 	case GC_EVENT_NICK:
-		SM_ChangeNick( gce->pDest->ptszID, gce->pDest->pszModule, gce);
+		SM_ChangeNick(gce->pDest->ptszID, gce->pDest->pszModule, gce);
 		break;
 
 	case GC_EVENT_JOIN:
@@ -651,12 +655,12 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Decide which window (log) should have the event
-	if ( gcd->pszID ) {
+	if (gcd->ptszID) {
 		pWnd = gcd->ptszID;
 		pMod = gcd->pszModule;
 	}
 	else if ( gcd->iType == GC_EVENT_NOTICE || gcd->iType == GC_EVENT_INFORMATION ) {
-		SESSION_INFO* si = GetActiveSession();
+		SESSION_INFO *si = GetActiveSession();
 		if ( si && !lstrcmpA( si->pszModule, gcd->pszModule )) {
 			pWnd = si->ptszID;
 			pMod = si->pszModule;
@@ -676,7 +680,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 
 	// add to log
 	if ( pWnd ) {
-		SESSION_INFO* si = SM_FindSession(pWnd, pMod);
+		SESSION_INFO *si = SM_FindSession(pWnd, pMod);
 
 		// fix for IRC's old stuyle mode notifications. Should not affect any other protocol
 		if ((gce->pDest->iType == GC_EVENT_ADDSTATUS || gce->pDest->iType == GC_EVENT_REMOVESTATUS) && !( gce->dwFlags & GCEF_ADDTOLOG )) {

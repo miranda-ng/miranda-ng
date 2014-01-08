@@ -255,17 +255,16 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR DoControl(GCEVENT *gce, WPARAM wp)
 {
+	SESSION_INFO *si;
+
 	if ( gce->pDest->iType == GC_EVENT_CONTROL ) {
 		switch (wp) {
 		case WINDOW_HIDDEN:
-			{
-				SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-				if (si) {
-					si->bInitDone = TRUE;
-					SetActiveSession(si->ptszID, si->pszModule);
-					if (si->hWnd)
-						ShowRoom(si, wp, FALSE);
-				}
+			if (si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
+				si->bInitDone = TRUE;
+				SetActiveSession(si->ptszID, si->pszModule);
+				if (si->hWnd)
+					ShowRoom(si, wp, FALSE);
 			}
 			return 0;
 
@@ -273,14 +272,12 @@ static INT_PTR DoControl(GCEVENT *gce, WPARAM wp)
 		case WINDOW_MAXIMIZE:
 		case WINDOW_VISIBLE:
 		case SESSION_INITDONE:
-			{
-				SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-				if (si) {
-					si->bInitDone = TRUE;
-					if (wp != SESSION_INITDONE || db_get_b(NULL, "Chat", "PopupOnJoin", 0) == 0)
-						ShowRoom(si, wp, TRUE);
-					return 0;
-			}	}
+			if (si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
+				si->bInitDone = TRUE;
+				if (wp != SESSION_INITDONE || db_get_b(NULL, "Chat", "PopupOnJoin", 0) == 0)
+					ShowRoom(si, wp, TRUE);
+				return 0;
+			}
 			break;
 
 		case SESSION_OFFLINE:
@@ -292,15 +289,13 @@ static INT_PTR DoControl(GCEVENT *gce, WPARAM wp)
 			break;
 
 		case WINDOW_CLEARLOG:
-		{
-			SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-			if ( si ) {
+			if (si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 				LM_RemoveAll(&si->pLog, &si->pLogEnd);
 				si->iEventCount = 0;
 				si->LastTime = 0;
 			}
 			break;
-		}
+
 		case SESSION_TERMINATE:
 			return SM_RemoveSession(gce->pDest->ptszID, gce->pDest->pszModule, (gce->dwFlags & GCEF_REMOVECONTACT) != 0);
 		}
@@ -312,21 +307,18 @@ static INT_PTR DoControl(GCEVENT *gce, WPARAM wp)
 	}
 	else if (gce->pDest->iType == GC_EVENT_CHANGESESSIONAME && gce->pszText)
 	{
-		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-		if (si) {
+		if (si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 			replaceStrT(si->ptszName, gce->ptszText);
 			if (si->hWnd)
 				SendMessage(si->hWnd, DM_UPDATETITLEBAR, 0, 0);
 		}
 	}
 	else if (gce->pDest->iType == GC_EVENT_SETITEMDATA) {
-		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-		if (si)
+		if (si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule))
 			si->dwItemData = gce->dwItemData;
 	}
 	else if (gce->pDest->iType ==GC_EVENT_GETITEMDATA) {
-		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-		if (si) {
+		if (si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 			gce->dwItemData = si->dwItemData;
 			return si->dwItemData;
 		}
@@ -334,8 +326,7 @@ static INT_PTR DoControl(GCEVENT *gce, WPARAM wp)
 	}
 	else if (gce->pDest->iType ==GC_EVENT_SETSBTEXT)
 	{
-		SESSION_INFO *si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-		if (si) {
+		if (si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 			replaceStrT(si->ptszStatusbarText, gce->ptszText);
 			if (si->ptszStatusbarText)
 				db_set_ts(si->windowData.hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
@@ -365,27 +356,22 @@ static INT_PTR DoControl(GCEVENT *gce, WPARAM wp)
 static void AddUser(GCEVENT * gce)
 {
 	SESSION_INFO *si = SM_FindSession( gce->pDest->ptszID, gce->pDest->pszModule);
-	if ( si ) {
-		WORD status = TM_StringToWord( si->pStatuses, gce->ptszStatus );
-		USERINFO * ui = SM_AddUser( si, gce->ptszUID, gce->ptszNick, status);
-		if (ui) {
-			ui->pszNick = mir_tstrdup( gce->ptszNick );
+	if (si == NULL) return;
 
-			if (gce->bIsMe)
-				si->pMe = ui;
+	WORD status = TM_StringToWord(si->pStatuses, gce->ptszStatus);
+	USERINFO *ui = SM_AddUser(si, gce->ptszUID, gce->ptszNick, status);
+	if (ui == NULL) return;
 
-			ui->Status = status;
-			ui->Status |= si->pStatuses->Status;
-
-			if (si->hWnd) {
-				SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
-			}
-		}
-	}
+	ui->pszNick = mir_tstrdup(gce->ptszNick);
+	if (gce->bIsMe)
+		si->pMe = ui;
+	ui->Status = status;
+	ui->Status |= si->pStatuses->Status;
+	if (si->hWnd)
+			SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
 }
 
-
-void ShowRoom(SESSION_INFO * si, WPARAM wp, BOOL bSetForeground)
+void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 {
 	HWND hParent = NULL;
 	if (!si)
@@ -489,7 +475,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_ACTION:
-		if ( !gce->bIsMe && gce->pDest->pszID && gce->pszText) {
+		if (!gce->bIsMe && gce->pDest->ptszID && gce->pszText) {
 			if (si = SM_FindSession( gce->pDest->ptszID, gce->pDest->pszModule))
 				if ( IsHighlighted(si, gce->ptszText))
 					bIsHighlighted = TRUE;
@@ -512,13 +498,13 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Decide which window (log) should have the event
-	if ( gcd->pszID ) {
+	if (gcd->ptszID) {
 		pWnd = gcd->ptszID;
 		pMod = gcd->pszModule;
 	}
-	else if ( gcd->iType == GC_EVENT_NOTICE || gcd->iType == GC_EVENT_INFORMATION ) {
+	else if (gcd->iType == GC_EVENT_NOTICE || gcd->iType == GC_EVENT_INFORMATION) {
 		SESSION_INFO *si = GetActiveSession();
-		if (si && !lstrcmpA( si->pszModule, gcd->pszModule)) {
+		if (si && !lstrcmpA(si->pszModule, gcd->pszModule)) {
 			pWnd = si->ptszID;
 			pMod = si->pszModule;
 		}
@@ -529,19 +515,19 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		// Send the event to all windows with a user pszUID. Used for broadcasting QUIT etc
-		SM_AddEventToAllMatchingUID( gce );
-		if ( !bRemoveFlag ) {
+		SM_AddEventToAllMatchingUID(gce);
+		if (!bRemoveFlag) {
 			iRetVal = 0;
 			goto LBL_Exit;
 		}
 	}
 
 	// add to log
-	if ( pWnd ) {
+	if (pWnd) {
 		si = SM_FindSession(pWnd, pMod);
 
 		// fix for IRC's old stuyle mode notifications. Should not affect any other protocol
-		if ((gce->pDest->iType == GC_EVENT_ADDSTATUS || gce->pDest->iType == GC_EVENT_REMOVESTATUS) && !( gce->dwFlags & GCEF_ADDTOLOG )) {
+		if ((gce->pDest->iType == GC_EVENT_ADDSTATUS || gce->pDest->iType == GC_EVENT_REMOVESTATUS) && !(gce->dwFlags & GCEF_ADDTOLOG)) {
 			iRetVal = 0;
 			goto LBL_Exit;
 		}
