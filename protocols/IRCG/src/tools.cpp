@@ -406,18 +406,17 @@ TCHAR* __stdcall DoColorCodes(const TCHAR* text, bool bStrip, bool bReplacePerce
 
 INT_PTR CIrcProto::CallChatEvent(WPARAM wParam, LPARAM lParam)
 {
-	GCEVENT * gce = (GCEVENT *)lParam;
+	GCEVENT *gce = (GCEVENT *)lParam;
 	INT_PTR iVal = 0;
 
 	// first see if the scripting module should modify or stop this event
-	if (m_bMbotInstalled && m_scriptingEnabled && gce
-		&& gce->time != 0 && (gce->pDest->ptszID == NULL
-		|| lstrlen(gce->pDest->ptszID) != 0 && lstrcmpi(gce->pDest->ptszID, SERVERWINDOW))) {
+	if (m_bMbotInstalled && m_scriptingEnabled && gce && gce->time != 0 && 
+		 (gce->pDest->ptszID == NULL || lstrlen(gce->pDest->ptszID) != 0 && lstrcmpi(gce->pDest->ptszID, SERVERWINDOW)))
+	{
 		GCEVENT *gcevent = (GCEVENT*)lParam;
-		GCEVENT *gcetemp = NULL;
-		WPARAM wp = wParam;
-		gcetemp = (GCEVENT *)mir_alloc(sizeof(GCEVENT));
-		gcetemp->pDest = (GCDEST *)mir_alloc(sizeof(GCDEST));
+		WPARAM  wp = wParam;
+		GCEVENT *gcetemp = (GCEVENT*)mir_alloc(sizeof(GCEVENT));
+		gcetemp->pDest = (GCDEST*)mir_alloc(sizeof(GCDEST));
 		gcetemp->pDest->iType = gcevent->pDest->iType;
 		gcetemp->dwFlags = gcevent->dwFlags;
 		gcetemp->bIsMe = gcevent->bIsMe;
@@ -446,11 +445,11 @@ INT_PTR CIrcProto::CallChatEvent(WPARAM wParam, LPARAM lParam)
 		}
 
 		if (gcetemp) {
-			mir_free((void*)gcetemp->pszNick);
-			mir_free((void*)gcetemp->pszUID);
-			mir_free((void*)gcetemp->pszStatus);
-			mir_free((void*)gcetemp->pszUserInfo);
-			mir_free((void*)gcetemp->pszText);
+			mir_free((void*)gcetemp->ptszNick);
+			mir_free((void*)gcetemp->ptszUID);
+			mir_free((void*)gcetemp->ptszStatus);
+			mir_free((void*)gcetemp->ptszUserInfo);
+			mir_free((void*)gcetemp->ptszText);
 			mir_free((void*)gcetemp->pDest->ptszID);
 			mir_free((void*)gcetemp->pDest->pszModule);
 			mir_free((void*)gcetemp->pDest);
@@ -467,8 +466,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const TCHAR* pszWindow, const TCHAR* pszN
 	const TCHAR* pszText, const TCHAR* pszStatus, const TCHAR* pszUserInfo,
 	DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe, time_t timestamp)
 {
-	GCDEST gcd = { 0 };
-	GCEVENT gce = { 0 };
+	GCDEST gcd = { m_szModuleName, NULL, iEvent };
 	CMString sID;
 	CMString sText = _T("");
 
@@ -491,13 +489,9 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const TCHAR* pszWindow, const TCHAR* pszN
 	}
 	else gcd.ptszID = NULL;
 
-	gcd.pszModule = m_szModuleName;
-	gcd.iType = iEvent;
-
-	gce.cbSize = sizeof(GCEVENT);
-	gce.pDest = &gcd;
+	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszStatus = pszStatus;
-	gce.dwFlags = GC_TCHAR + ((bAddToLog) ? GCEF_ADDTOLOG : 0);
+	gce.dwFlags = (bAddToLog) ? GCEF_ADDTOLOG : 0;
 	gce.ptszNick = pszNick;
 	gce.ptszUID = pszNick;
 	if (iEvent == GC_EVENT_TOPIC)

@@ -334,37 +334,37 @@ int    Chat_IconsChanged(WPARAM wParam,LPARAM lParam);
 void   ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
 
 //manager.c
-void          SetActiveSession(const TCHAR* pszID, const char* pszModule);
+void          SetActiveSession(const TCHAR *pszID, const char* pszModule);
 void          SetActiveSessionEx(SESSION_INFO *si);
 SESSION_INFO* GetActiveSession(void);
-SESSION_INFO* SM_AddSession(const TCHAR* pszID, const char* pszModule);
-int           SM_RemoveSession(const TCHAR* pszID, const char* pszModule, BOOL removeContact);
-SESSION_INFO* SM_FindSession(const TCHAR* pszID, const char* pszModule);
+SESSION_INFO* SM_AddSession(const TCHAR *pszID, const char* pszModule);
+int           SM_RemoveSession(const TCHAR *pszID, const char* pszModule, BOOL removeContact);
+SESSION_INFO* SM_FindSession(const TCHAR *pszID, const char* pszModule);
 HWND          SM_FindWindowByContact(HANDLE hContact);
 USERINFO*     SM_AddUser(SESSION_INFO *si, const TCHAR* pszUID, const TCHAR* pszNick, WORD wStatus);
-BOOL          SM_ChangeUID(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszNewUID);
-BOOL          SM_ChangeNick(const TCHAR* pszID, const char* pszModule, GCEVENT * gce);
-BOOL          SM_RemoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID);
-BOOL          SM_SetOffline(const TCHAR* pszID, const char* pszModule);
+BOOL          SM_ChangeUID(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszNewUID);
+BOOL          SM_ChangeNick(const TCHAR *pszID, const char* pszModule, GCEVENT *gce);
+BOOL          SM_RemoveUser(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID);
+BOOL          SM_SetOffline(const TCHAR *pszID, const char* pszModule);
 HICON         SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui);
-BOOL          SM_SetStatus(const TCHAR* pszID, const char* pszModule, int wStatus);
-BOOL          SM_SetStatusEx(const TCHAR* pszID, const char* pszModule, const TCHAR* pszText, int flags );
-BOOL          SM_SendUserMessage(const TCHAR* pszID, const char* pszModule, const TCHAR* pszText);
-STATUSINFO*   SM_AddStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszStatus);
-BOOL          SM_AddEventToAllMatchingUID(GCEVENT * gce);
-BOOL          SM_AddEvent(const TCHAR* pszID, const char* pszModule, GCEVENT * gce, BOOL bIsHighlighted);
-LRESULT       SM_SendMessage(const TCHAR* pszID, const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam);
-BOOL          SM_PostMessage(const TCHAR* pszID, const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam);
+BOOL          SM_SetStatus(const TCHAR *pszID, const char* pszModule, int wStatus);
+BOOL          SM_SetStatusEx(const TCHAR *pszID, const char* pszModule, const TCHAR* pszText, int flags );
+BOOL          SM_SendUserMessage(const TCHAR *pszID, const char* pszModule, const TCHAR* pszText);
+STATUSINFO*   SM_AddStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszStatus);
+BOOL          SM_AddEventToAllMatchingUID(GCEVENT *gce);
+BOOL          SM_AddEvent(const TCHAR *pszID, const char* pszModule, GCEVENT *gce, BOOL bIsHighlighted);
+LRESULT       SM_SendMessage(const TCHAR *pszID, const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam);
+BOOL          SM_PostMessage(const TCHAR *pszID, const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam);
 BOOL          SM_BroadcastMessage(const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam, BOOL bAsync);
 BOOL          SM_RemoveAll (void);
-BOOL          SM_GiveStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszStatus);
-BOOL          SM_SetContactStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, WORD pszStatus);
-BOOL          SM_TakeStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszStatus);
-BOOL          SM_MoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID);
+BOOL          SM_GiveStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszStatus);
+BOOL          SM_SetContactStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, WORD pszStatus);
+BOOL          SM_TakeStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszStatus);
+BOOL          SM_MoveUser(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID);
 int           SM_GetCount(const char* pszModule);
 SESSION_INFO* SM_FindSessionByIndex(const char* pszModule, int iItem);
 char*         SM_GetUsers(SESSION_INFO *si);
-USERINFO*     SM_GetUserFromIndex(const TCHAR* pszID, const char* pszModule, int index);
+USERINFO*     SM_GetUserFromIndex(const TCHAR *pszID, const char* pszModule, int index);
 char          SM_GetStatusIndicator(SESSION_INFO *si, USERINFO * ui);
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent);
 MODULEINFO*   MM_AddModule(const char* pszModule);
@@ -373,7 +373,7 @@ void          MM_FixColors();
 void          MM_FontsChanged(void);
 void          MM_IconsChanged(void);
 BOOL          MM_RemoveAll (void);
-BOOL          TabM_AddTab(const TCHAR* pszID, const char* pszModule);
+BOOL          TabM_AddTab(const TCHAR *pszID, const char* pszModule);
 BOOL          TabM_RemoveAll (void);
 STATUSINFO*   TM_AddStatus(STATUSINFO** ppStatusList, const TCHAR* pszStatus, int* iCount);
 STATUSINFO*   TM_FindStatus(STATUSINFO* pStatusList, const TCHAR* pszStatus);
@@ -412,15 +412,15 @@ int           WCCmp(TCHAR* wild, TCHAR*string);
 
 //tools.c
 TCHAR*        RemoveFormatting(const TCHAR* pszText);
-BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT * gce, BOOL bHighlight, int bManyFix);
+BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
 int           GetColorIndex(const char* pszModule, COLORREF cr);
 void          CheckColorsInModule(const char* pszModule);
 TCHAR*        my_strstri(const TCHAR* s1, const TCHAR* s2) ;
 BOOL          IsHighlighted(SESSION_INFO *si, const TCHAR* pszText);
 UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void          DestroyGCMenu(HMENU *hMenu, int iIndex);
-BOOL          DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
-BOOL          DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem);
+BOOL          DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
+BOOL          DoEventHook(const TCHAR *pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem);
 BOOL          IsEventSupported(int eventType);
 BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
 
@@ -428,8 +428,6 @@ BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
 TCHAR*        DoRtfToTags( char* pszRtfText, SESSION_INFO *si);
 
 //////////////////////////////////////////////////////////////////////////////////
-
-TCHAR* a2tf(const TCHAR *str, int flags);
 
 #define DEFLOGFILENAME _T("%miranda_logpath%\\%proto%\\%userid%.log")
 #endif

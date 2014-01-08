@@ -30,7 +30,7 @@ SESSION_INFO* m_WndList = 0;
 TABLIST * g_TabList = 0;
 MODULEINFO *m_ModList = 0;
 
-void SetActiveSession(const TCHAR* pszID, const char* pszModule)
+void SetActiveSession(const TCHAR *pszID, const char* pszModule)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if ( si )
@@ -60,7 +60,7 @@ SESSION_INFO* GetActiveSession( void )
 //		Keeps track of all sessions and its windows
 //---------------------------------------------------
 
-SESSION_INFO* SM_AddSession( const TCHAR* pszID, const char* pszModule)
+SESSION_INFO* SM_AddSession( const TCHAR *pszID, const char* pszModule)
 {
 	if ( !pszID || !pszModule )
 		return NULL;
@@ -84,7 +84,7 @@ SESSION_INFO* SM_AddSession( const TCHAR* pszID, const char* pszModule)
 	return NULL;
 }
 
-int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, BOOL removeContact)
+int SM_RemoveSession(const TCHAR *pszID, const char* pszModule, BOOL removeContact)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -154,7 +154,7 @@ int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, BOOL removeConta
 	return FALSE;
 }
 
-SESSION_INFO* SM_FindSession(const TCHAR* pszID, const char* pszModule)
+SESSION_INFO* SM_FindSession(const TCHAR *pszID, const char* pszModule)
 {
 	SESSION_INFO *pTemp = m_WndList;
 
@@ -183,7 +183,7 @@ HWND SM_FindWindowByContact(HANDLE hContact)
 	return NULL;
 }
 
-BOOL SM_SetOffline(const TCHAR* pszID, const char* pszModule)
+BOOL SM_SetOffline(const TCHAR *pszID, const char* pszModule)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -208,7 +208,7 @@ BOOL SM_SetOffline(const TCHAR* pszID, const char* pszModule)
 	return TRUE;
 }
 
-BOOL SM_SetStatusEx( const TCHAR* pszID, const char* pszModule, const TCHAR* pszText, int flags )
+BOOL SM_SetStatusEx( const TCHAR *pszID, const char* pszModule, const TCHAR* pszText, int flags )
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -282,7 +282,7 @@ HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui)
 	return GetCachedIcon("chat_status0");
 }
 
-BOOL SM_AddEventToAllMatchingUID(GCEVENT * gce)
+BOOL SM_AddEventToAllMatchingUID(GCEVENT *gce)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 	int bManyFix = 0;
@@ -311,7 +311,7 @@ BOOL SM_AddEventToAllMatchingUID(GCEVENT * gce)
 	return 0;
 }
 
-BOOL SM_AddEvent(const TCHAR* pszID, const char* pszModule, GCEVENT * gce, BOOL bIsHighlighted)
+BOOL SM_AddEvent(const TCHAR *pszID, const char* pszModule, GCEVENT *gce, BOOL bIsHighlighted)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -353,7 +353,7 @@ USERINFO * SM_AddUser( SESSION_INFO * si, const TCHAR* pszUID, const TCHAR* pszN
 	return p;
 }
 
-BOOL SM_MoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID)
+BOOL SM_MoveUser(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID)
 {
 	SESSION_INFO *pTemp = m_WndList;
 
@@ -371,7 +371,7 @@ BOOL SM_MoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID)
 	return FALSE;
 }
 
-BOOL SM_RemoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID)
+BOOL SM_RemoveUser(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -401,7 +401,7 @@ BOOL SM_RemoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUI
 	return 0;
 }
 
-USERINFO * SM_GetUserFromIndex(const TCHAR* pszID, const char* pszModule, int index)
+USERINFO * SM_GetUserFromIndex(const TCHAR *pszID, const char* pszModule, int index)
 {
 	SESSION_INFO *pTemp = m_WndList;
 
@@ -418,7 +418,7 @@ USERINFO * SM_GetUserFromIndex(const TCHAR* pszID, const char* pszModule, int in
 }
 
 
-STATUSINFO * SM_AddStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszStatus)
+STATUSINFO * SM_AddStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszStatus)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -439,7 +439,7 @@ STATUSINFO * SM_AddStatus(const TCHAR* pszID, const char* pszModule, const TCHAR
 	return 0;
 }
 
-BOOL SM_GiveStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszStatus)
+BOOL SM_GiveStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszStatus)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -463,7 +463,7 @@ BOOL SM_GiveStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUI
 	return FALSE;
 }
 
-BOOL SM_SetContactStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, WORD wStatus)
+BOOL SM_SetContactStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, WORD wStatus)
 {
 	SESSION_INFO* pTemp = m_WndList, *pLast = NULL;
 
@@ -487,7 +487,7 @@ BOOL SM_SetContactStatus(const TCHAR* pszID, const char* pszModule, const TCHAR*
 	return FALSE;
 }
 
-BOOL SM_TakeStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszStatus)
+BOOL SM_TakeStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszStatus)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -510,7 +510,7 @@ BOOL SM_TakeStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUI
 
 	return FALSE;
 }
-LRESULT SM_SendMessage(const TCHAR* pszID, const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT SM_SendMessage(const TCHAR *pszID, const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -530,7 +530,7 @@ LRESULT SM_SendMessage(const TCHAR* pszID, const char* pszModule, UINT msg, WPAR
 	return 0;
 }
 
-BOOL SM_PostMessage(const TCHAR* pszID, const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
+BOOL SM_PostMessage(const TCHAR *pszID, const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -573,7 +573,7 @@ BOOL SM_BroadcastMessage(const char* pszModule, UINT msg, WPARAM wParam, LPARAM 
 	return TRUE;
 }
 
-BOOL SM_SetStatus(const TCHAR* pszID, const char* pszModule, int wStatus)
+BOOL SM_SetStatus(const TCHAR *pszID, const char* pszModule, int wStatus)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -602,7 +602,7 @@ BOOL SM_SetStatus(const TCHAR* pszID, const char* pszModule, int wStatus)
 	return TRUE;
 }
 
-BOOL SM_SendUserMessage(const TCHAR* pszID, const char* pszModule, const TCHAR* pszText)
+BOOL SM_SendUserMessage(const TCHAR *pszID, const char* pszModule, const TCHAR* pszText)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -623,7 +623,7 @@ BOOL SM_SendUserMessage(const TCHAR* pszID, const char* pszModule, const TCHAR* 
 }
 
 
-BOOL SM_ChangeUID(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszNewUID)
+BOOL SM_ChangeUID(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszNewUID)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -646,7 +646,7 @@ BOOL SM_ChangeUID(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID
 }
 
 
-BOOL SM_ChangeNick(const TCHAR* pszID, const char* pszModule, GCEVENT * gce)
+BOOL SM_ChangeNick(const TCHAR *pszID, const char* pszModule, GCEVENT *gce)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 

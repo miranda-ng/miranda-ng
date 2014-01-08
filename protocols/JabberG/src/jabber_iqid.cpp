@@ -445,11 +445,9 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		else db_unset(hContact, "CList", "MyHandle");
 
 		if ( isChatRoom(hContact)) {
-			GCSESSION gcw = {0};
-			gcw.cbSize = sizeof(GCSESSION);
+			GCSESSION gcw = { sizeof(gcw) };
 			gcw.iType = GCW_CHATROOM;
 			gcw.pszModule = m_szModuleName;
-			gcw.dwFlags = GC_TCHAR;
 			gcw.ptszID = jid;
 			gcw.ptszName = NEWTSTR_ALLOCA(jid);
 

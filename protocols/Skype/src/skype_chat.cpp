@@ -161,17 +161,10 @@ void ChatRoom::CreateChatSession(bool showWindow)
 	gcw.dwItemData = (DWORD)this;
 	::CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
-	GCDEST gcd = { ppro->m_szModuleName, { NULL }, GC_EVENT_ADDGROUP };
-	gcd.ptszID = this->cid;
-
 	// load chat roles
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
-	gce.dwFlags = GC_TCHAR;
-	gce.pDest = &gcd;
-	
-	for (int i = 1; i < SIZEOF(ChatRoom::Roles) - 2; i++)
-	{
+	GCDEST gcd = { ppro->m_szModuleName, this->cid, GC_EVENT_ADDGROUP };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	for (int i = 1; i < SIZEOF(ChatRoom::Roles) - 2; i++) {
 		gce.ptszStatus = ::TranslateTS(ChatRoom::Roles[i]);
 		::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
@@ -205,16 +198,9 @@ wchar_t *ChatRoom::GetUri()
 
 void ChatRoom::ShowWindow()
 {
-	GCDEST gcd = { this->ppro->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
-	gcd.ptszID = this->cid;
-
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
-	gce.dwFlags = GC_TCHAR;
-	gce.pDest = &gcd;
-
 	// show window
-	gcd.iType = GC_EVENT_CONTROL;
+	GCDEST gcd = { this->ppro->m_szModuleName, this->cid, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	::CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
 }
 
@@ -357,13 +343,8 @@ void ChatRoom::LeaveChat()
 	if (this->conversation->RetireFrom())
 		this->ppro->debugLogW(L"Retired from conversation %s", this->cid);
 
-	GCDEST gcd = { ppro->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
-	gcd.ptszID = this->cid;
-
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
-	gce.dwFlags = GC_TCHAR;
-	gce.pDest = &gcd;
+	GCDEST gcd = { ppro->m_szModuleName, this->cid, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	::CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 	::CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 }
@@ -378,28 +359,19 @@ void ChatRoom::LeaveChatAndDelete()
 	if (this->conversation->Delete())
 		this->ppro->debugLogW(L"Delete conversation %s", this->cid);
 
-	GCDEST gcd = { ppro->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
-	gcd.ptszID = this->cid;
-
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
-	gce.dwFlags = GC_TCHAR;
-	gce.pDest = &gcd;
+	GCDEST gcd = { ppro->m_szModuleName, this->cid, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	::CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 	::CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 }
 
 void ChatRoom::SendEvent(const ChatMember &item, int eventType, DWORD timestamp, DWORD flags, DWORD itemData, const wchar_t *status, const wchar_t *message)
 {
-	GCDEST gcd = { ppro->m_szModuleName, { NULL }, eventType };
-	gcd.ptszID = this->cid;
-
 	bool isMe = this->IsMe(item);
 
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(gce);
-	gce.dwFlags = GC_TCHAR | flags;
-	gce.pDest = &gcd;
+	GCDEST gcd = { ppro->m_szModuleName, this->cid, eventType };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.dwFlags = flags;
 	gce.ptszUID = item.GetSid();
 	gce.ptszNick = !isMe ? item.GetNick() : ::TranslateT("me");
 	gce.bIsMe = isMe;
@@ -1270,14 +1242,8 @@ void CSkypeProto::CloseAllChatSessions()
 		gci.iItem = i;
 		if ( !::CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
 		{
-			GCDEST gcd = { this->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
-			gcd.ptszID = gci.pszID;
-
-			GCEVENT gce = {0};
-			gce.cbSize = sizeof(GCEVENT);
-			gce.dwFlags = GC_TCHAR;
-			gce.pDest = &gcd;
-			
+			GCDEST gcd = { this->m_szModuleName, gci.pszID, GC_EVENT_CONTROL };
+			GCEVENT gce = { sizeof(gce), &gcd };			
 			::CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 			::CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 		}

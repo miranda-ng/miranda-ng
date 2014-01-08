@@ -30,22 +30,15 @@ void FacebookProto::UpdateChat(const TCHAR *tchat_id, const char *id, const char
 	ptrT tnick( mir_a2t_cp(name,CP_UTF8));
 	ptrT ttext( mir_a2t_cp(message,CP_UTF8));
 
-	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = (TCHAR *)tchat_id;
-
-	GCEVENT gce  = {sizeof(gce)};
-	gce.pDest    = &gcd;
+	GCDEST gcd = { m_szModuleName, (TCHAR*)tchat_id, GC_EVENT_MESSAGE };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszText = ttext;
-	gce.time     = timestamp ? timestamp : ::time(NULL);
-	gce.dwFlags  = GC_TCHAR;
-	gcd.iType  = GC_EVENT_MESSAGE;
+	gce.time = timestamp ? timestamp : ::time(NULL);
 	if (id != NULL)
 		gce.bIsMe = !strcmp(id,facy.self_.user_id.c_str());
-	gce.dwFlags  |= GCEF_ADDTOLOG;
-
+	gce.dwFlags |= GCEF_ADDTOLOG;
 	gce.ptszNick = tnick;
 	gce.ptszUID  = tid;
-
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 	
 	std::map<std::tstring, facebook_chatroom>::iterator chatroom = facy.chat_rooms.find(tchat_id);
@@ -60,15 +53,9 @@ void FacebookProto::RenameChat(const char *chat_id, const char *name)
 	ptrT tchat_id( mir_a2t(chat_id));
 	ptrT tname( mir_a2t_cp(name, CP_UTF8));
 
-	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = tchat_id;
-
-	GCEVENT gce  = {sizeof(gce)};
-	gce.pDest    = &gcd;
+	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_CHANGESESSIONAME };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszText = tname;
-	gce.dwFlags  = GC_TCHAR;
-	gcd.iType    = GC_EVENT_CHANGESESSIONAME;
-
 	CallService(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
 
@@ -159,17 +146,14 @@ void FacebookProto::AddChatContact(const TCHAR *tchat_id, const char *id, const 
 	ptrT tnick( mir_a2t_cp(name, CP_UTF8));
 	ptrT tid( mir_a2t(id));
 
-	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = (TCHAR *)tchat_id;
-	gcd.iType  = GC_EVENT_JOIN;
-
-	GCEVENT gce    = {sizeof(gce)};
-	gce.pDest      = &gcd;
-	gce.dwFlags    = GC_TCHAR | GCEF_ADDTOLOG;
-	gce.ptszNick   = tnick;
-	gce.ptszUID    = tid;
-	gce.time       = ::time(NULL);
-	gce.bIsMe      = !strcmp(id, facy.self_.user_id.c_str());
+	GCDEST gcd = { m_szModuleName, (TCHAR *)tchat_id, GC_EVENT_JOIN };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.pDest = &gcd;
+	gce.dwFlags = GCEF_ADDTOLOG;
+	gce.ptszNick = tnick;
+	gce.ptszUID = tid;
+	gce.time = ::time(NULL);
+	gce.bIsMe = !strcmp(id, facy.self_.user_id.c_str());
 
 	if (gce.bIsMe)
 		gce.ptszStatus = _T("Admin");
@@ -192,18 +176,12 @@ void FacebookProto::RemoveChatContact(const TCHAR *tchat_id, const char *id)
 
 	ptrT tid( mir_a2t(id));
 	
-	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = (TCHAR *)tchat_id;
-	gcd.iType  = GC_EVENT_PART;
-
-	GCEVENT gce    = {sizeof(gce)};
-	gce.pDest      = &gcd;
-	gce.dwFlags    = GC_TCHAR | GCEF_ADDTOLOG;
-	//gce.ptszNick   = mir_a2t_cp(name, CP_UTF8);
-	gce.ptszUID    = tid;
-	gce.ptszNick   = tid;
-	gce.time       = ::time(NULL);
-	gce.bIsMe      = false;//!strcmp(id, facy.self_.user_id.c_str());
+	GCDEST gcd = { m_szModuleName, (TCHAR *)tchat_id, GC_EVENT_PART };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.dwFlags = GCEF_ADDTOLOG;
+	gce.ptszUID = gce.ptszNick = tid;
+	gce.time = ::time(NULL);
+	gce.bIsMe = false;//!strcmp(id, facy.self_.user_id.c_str());
 
 	std::map<std::tstring, facebook_chatroom>::iterator room = facy.chat_rooms.find(tchat_id);
 	if (room != facy.chat_rooms.end())
@@ -235,26 +213,19 @@ bool FacebookProto::IsChatContact(const TCHAR *chat_id, const char *id)
 
 void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 {
-	GCSESSION gcw = {sizeof(gcw)};
-
 	// Create the group chat session
-	gcw.dwFlags   = GC_TCHAR;
-	gcw.iType     = GCW_CHATROOM;
+	GCSESSION gcw = { sizeof(gcw) };
+	gcw.iType = GCW_CHATROOM;
+	gcw.ptszID = tid;
 	gcw.pszModule = m_szModuleName;
-	gcw.ptszName  = tname;
-	gcw.ptszID    = tid;
+	gcw.ptszName = tname;
 	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
 	// Send setting events
-	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = (TCHAR *)tid;
-
-	GCEVENT gce = {sizeof(gce)};
-	gce.pDest = &gcd;
-	gce.dwFlags = GC_TCHAR;
+	GCDEST gcd = { m_szModuleName, (TCHAR*)tid, GC_EVENT_ADDGROUP };
+	GCEVENT gce = { sizeof(gce), &gcd };
 
 	// Create a user statuses
-	gcd.iType = GC_EVENT_ADDGROUP;
 	gce.ptszStatus = _T("Admin");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 	gce.ptszStatus = _T("Normal");
@@ -274,23 +245,6 @@ void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 	CallServiceSync(MS_GC_EVENT,SESSION_INITDONE,reinterpret_cast<LPARAM>(&gce));
 	CallServiceSync(MS_GC_EVENT,SESSION_ONLINE,  reinterpret_cast<LPARAM>(&gce));
 }
-
-/*void FacebookProto::SetTopic(const char *topic)
-{
-	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = const_cast<TCHAR*>(m_tszUserName);
-	gcd.iType = GC_EVENT_TOPIC;
-
-	GCEVENT gce = {sizeof(gce)};
-	gce.pDest = &gcd;
-	gce.dwFlags = GC_TCHAR;
-	gce.time = ::time(NULL);
-	
-	std::string top = Translate(topic);
-	gce.ptszText = mir_a2t(top.c_str());
-	CallServiceSync(MS_GC_EVENT,0,  reinterpret_cast<LPARAM>(&gce));
-}
-*/
 
 INT_PTR FacebookProto::OnJoinChat(WPARAM wParam,LPARAM suppress)
 {	
@@ -317,15 +271,8 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM wParam,LPARAM suppress)
 		return 0;
 
 	// Create a group
-	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = const_cast<TCHAR*>(m_tszUserName);
-
-	GCEVENT gce = {sizeof(gce)};
-	gce.pDest = &gcd;
-	gce.dwFlags = GC_TCHAR;
-
-	gcd.iType = GC_EVENT_ADDGROUP;
-
+	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_ADDGROUP };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszStatus = _T("Admin");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 	
@@ -343,18 +290,12 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM wParam,LPARAM suppress)
 
 INT_PTR FacebookProto::OnLeaveChat(WPARAM,LPARAM)
 {
-	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = NULL;
-	gcd.iType = GC_EVENT_CONTROL;
-
-	GCEVENT gce = {sizeof(gce)};
-	gce.dwFlags = GC_TCHAR;
+	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
-	gce.pDest = &gcd;
 
 	CallServiceSync(MS_GC_EVENT,SESSION_OFFLINE,  reinterpret_cast<LPARAM>(&gce));
 	CallServiceSync(MS_GC_EVENT,SESSION_TERMINATE,reinterpret_cast<LPARAM>(&gce));
-
 	return 0;
 }
 
@@ -365,10 +306,8 @@ void FacebookProto::SetChatStatus(int status)
 	gcd.ptszID = const_cast<TCHAR*>(m_tszUserName);
 	gcd.iType = GC_EVENT_CONTROL;
 
-	GCEVENT gce = {sizeof(gce)};
-	gce.dwFlags = GC_TCHAR;
+	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
-	gce.pDest = &gcd;
 
 	if(status == ID_STATUS_ONLINE)
 	{

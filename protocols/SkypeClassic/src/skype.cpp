@@ -820,18 +820,16 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	add_contextmenu(NULL);
 	if ( ServiceExists( MS_GC_REGISTER )) 
 	{
-		GCREGISTER gcr = {0};
 		static COLORREF crCols[1] = {0};
 		char szEvent[MAXMODULELABELLENGTH];
 
-		gcr.cbSize = sizeof( GCREGISTER );
-		gcr.dwFlags = GC_CHANMGR | GC_TCHAR; // |GC_ACKMSG; // TODO: Not implemented yet
-        gcr.ptszModuleDispName = _T("Skype protocol");
+		GCREGISTER gcr = { sizeof(gcr) };
+		gcr.dwFlags = GC_CHANMGR; // |GC_ACKMSG; // TODO: Not implemented yet
+		gcr.ptszDispName = _T("Skype protocol");
 		gcr.pszModule = SKYPE_PROTONAME;
 		if (CallService(MS_GC_REGISTER, 0, (LPARAM)&gcr)) 
-		{
 			OUTPUT(_T("Unable to register with Groupchat module!"));
-		}
+
 		_snprintf (szEvent, sizeof(szEvent), "%s\\ChatInit", SKYPE_PROTONAME);
 		hInitChat = CreateHookableEvent(szEvent);
 		hEvInitChat = HookEvent(szEvent, ChatInit);
@@ -925,20 +923,14 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				}
 				if (!strcmp(type,"KICKED")) 
 				{
-					GCDEST gcd = {0};
-					GCEVENT gce = {0};
-					CONTACTINFO ci = {0};
-
 					if (!hChat) __leave;
-					gcd.pszModule = SKYPE_PROTONAME;
-					gcd.ptszID = make_nonutf_tchar_string((const unsigned char*)chat);
-					gcd.iType = GC_EVENT_KICK;
-					gce.cbSize = sizeof(GCEVENT);
-					gce.pDest = &gcd;
-					gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
+					GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)chat), GC_EVENT_KICK };
+					GCEVENT gce = { sizeof(gce), &gcd };
+					gce.dwFlags = GCEF_ADDTOLOG;
 					gce.time = timestamp;
 
 					if (users=SkypeGetErr (cmdMessage, args.msgnum, "USERS")) {
+						CONTACTINFO ci = {0};
 						ci.hContact = find_contact(users);
 						gce.ptszUID= make_nonutf_tchar_string((const unsigned char*)users);
 						if (who=SkypeGetErr (cmdMessage, args.msgnum, szPartnerHandle)) {
@@ -961,9 +953,6 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				}
 				if (!strcmp(type,"SETROLE")) 
 				{
-					GCDEST gcd = {0};
-					GCEVENT gce = {0};
-					CONTACTINFO ci = {0};
 					gchat_contact *gcContact;
 					char *pszRole;
 
@@ -971,17 +960,15 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 					// USERS - Wessen Rolle wurde gesetzt
 					// ROLE - Die neue Rolle
 					if (!hChat) __leave;
-					gcd.pszModule = SKYPE_PROTONAME;
-					gcd.ptszID = make_nonutf_tchar_string((const unsigned char*)chat);
-					gcd.iType = GC_EVENT_REMOVESTATUS;
-					gce.cbSize = sizeof(GCEVENT);
-					gce.pDest = &gcd;
-					gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
+					GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)chat), GC_EVENT_REMOVESTATUS };
+					GCEVENT gce = { sizeof(gce), &gcd };
+					gce.dwFlags = GCEF_ADDTOLOG;
 					gce.time = timestamp;
 
 					if (users=SkypeGetErr (cmdMessage, args.msgnum, "USERS")) {
 						gce.ptszUID= make_nonutf_tchar_string((const unsigned char*)users);
 						if (who=SkypeGetErr (cmdMessage, args.msgnum, szPartnerHandle)) {
+							CONTACTINFO ci = {0};
 							ci.cbSize = sizeof(ci);
 							ci.szProto = SKYPE_PROTONAME;
 							ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
@@ -1019,19 +1006,13 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				}
 				if (!strcmp(type,"SETTOPIC")) 
 				{
-					GCDEST gcd = {0};
-					GCEVENT gce = {0};
-					CONTACTINFO ci = {0};
-
 					LOG(("FetchMessageThread CHAT SETTOPIC"));
-					gcd.pszModule = SKYPE_PROTONAME;
-					gcd.ptszID = make_nonutf_tchar_string((const unsigned char*)chat);
-					gcd.iType = GC_EVENT_TOPIC;
-					gce.cbSize = sizeof(GCEVENT);
-					gce.pDest = &gcd;
-					gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
+					GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)chat), GC_EVENT_TOPIC };
+					GCEVENT gce = { sizeof(gce), &gcd };
+					gce.dwFlags = GCEF_ADDTOLOG;
 					gce.time = timestamp;
 					if (who=SkypeGetErr (cmdMessage, args.msgnum, szPartnerHandle)) {
+						CONTACTINFO ci = {0};
 						ci.hContact = find_contact(who);
 						gce.ptszUID = make_nonutf_tchar_string((const unsigned char*)who);
 						ci.cbSize = sizeof(ci);
@@ -1059,19 +1040,13 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				}
 				if (!strcmp(type,"LEFT") || (bAddedMembers = strcmp(type,"ADDEDMEMBERS")==0)) 
 				{
-					GCDEST gcd = {0};
-					GCEVENT gce = {0};
-					CONTACTINFO ci = {0};
 					char *pszInvited = Translate("invited ");
 
 					LOG(("FetchMessageThread CHAT LEFT or ADDEDMEMBERS"));
 					if (bAddedMembers) {
-						gcd.pszModule = SKYPE_PROTONAME;
-						gcd.ptszID = make_nonutf_tchar_string((const unsigned char*)chat);
-						gcd.iType = GC_EVENT_ACTION;
-						gce.cbSize = sizeof(GCEVENT);
-						gce.pDest = &gcd;
-						gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
+						GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)chat), GC_EVENT_ACTION };
+						GCEVENT gce = { sizeof(gce), &gcd };
+						gce.dwFlags = GCEF_ADDTOLOG;
 						gce.time = timestamp;
 						if (users=SkypeGetErr (cmdMessage, args.msgnum, "USERS")) {
 							// We assume that users buffer has enough room for "invited" string
@@ -1080,18 +1055,22 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 							gce.ptszText= make_tchar_string((const unsigned char*)users);
 							if (who=SkypeGetErr (cmdMessage, args.msgnum, szPartnerHandle)) {
 								DBVARIANT dbv;
-
 								if (db_get_s(NULL, SKYPE_PROTONAME, SKYPE_NAME, &dbv)==0) {
 									gce.bIsMe = strcmp(who, dbv.pszVal)==0;
 									db_free(&dbv);
 								}
-								if (!gce.bIsMe) ci.hContact = find_contact(who);
-								gce.ptszUID= make_nonutf_tchar_string((const unsigned char*)who);							
+								gce.ptszUID = make_nonutf_tchar_string((const unsigned char*)who);							
+
+								CONTACTINFO ci = {0};
 								ci.cbSize = sizeof(ci);
+								if (!gce.bIsMe)
+									ci.hContact = find_contact(who);
 								ci.szProto = SKYPE_PROTONAME;
 								ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-								if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)) gce.ptszNick=ci.pszVal; 
-								else gce.ptszNick=gce.ptszUID;
+								if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci))
+									gce.ptszNick = ci.pszVal; 
+								else
+									gce.ptszNick = gce.ptszUID;
         
 								CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 								free_nonutf_tchar_string((void*)gce.ptszUID);
@@ -1251,36 +1230,31 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 			bHasPartList) || msgptr[0]==0) __leave;
 
 		if (isGroupChat && bUseGroupChat) {
-			GCDEST gcd = {0};
-			GCEVENT gce = {0};
 			DBVARIANT dbv = {0};
-			CONTACTINFO ci = {0};
 
 			LOG(("FetchMessageThread This is a group chat message"));
 			if (!hChat) ChatStart(chat, FALSE);
-			gcd.pszModule = SKYPE_PROTONAME;
-			gcd.ptszID = make_nonutf_tchar_string((const unsigned char*)chat);
-			gcd.iType = bEmoted?GC_EVENT_ACTION:GC_EVENT_MESSAGE;
-			gce.cbSize = sizeof(GCEVENT);
-			gce.pDest = &gcd;
-			if ((gce.bIsMe = (direction&DBEF_SENT)?TRUE:FALSE) &&
-				db_get_s(NULL, SKYPE_PROTONAME, SKYPE_NAME, &dbv)==0)
+			GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)chat), bEmoted ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
+			GCEVENT gce = { sizeof(gce), &gcd };
+			if ((gce.bIsMe = (direction&DBEF_SENT)?TRUE:FALSE) && db_get_s(NULL, SKYPE_PROTONAME, SKYPE_NAME, &dbv)==0)
 			{
 				free(who);
 				who = _strdup(dbv.pszVal);
 				db_free(&dbv);
 			}
 			gce.ptszUID = make_nonutf_tchar_string((const unsigned char*)who);
+			gce.ptszNick = gce.ptszUID;
+
+			CONTACTINFO ci = {0};
 			ci.cbSize = sizeof(ci);
 			ci.szProto = SKYPE_PROTONAME;
 			ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-			ci.hContact = !gce.bIsMe?hContact:NULL;
-			gce.ptszNick=gce.ptszUID;
-			if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)) gce.ptszNick=ci.pszVal; 
-			gce.time = timestamp>0?timestamp:(DWORD)SkypeTime(NULL);				
-			gce.pszText = msgptr;
-			if (pre.flags & PREF_UNICODE) gce.pszText += msglen;
-			gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
+			ci.hContact = !gce.bIsMe ? hContact : NULL;
+			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
+				gce.ptszNick = ci.pszVal; 
+			gce.time = timestamp > 0 ? timestamp : (DWORD)SkypeTime(NULL);				
+			gce.ptszText = (TCHAR*)(msgptr+msglen);
+			gce.dwFlags = GCEF_ADDTOLOG;
 			CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
 			MsgList_Add (pre.lParam, INVALID_HANDLE_VALUE);	// Mark as groupchat
 			if (ci.pszVal) mir_free (ci.pszVal);
@@ -2119,19 +2093,12 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 						*ptr=0;
 						if (hContact = find_chatA(szSkypeMsg+5))
 						{
-							GCDEST gcd = {0};
-							GCEVENT gce = {0};
-
 							if (db_get_w(hContact, SKYPE_PROTONAME, "Status", ID_STATUS_OFFLINE) !=
 								ID_STATUS_OFFLINE)
 							{
-								gcd.pszModule = SKYPE_PROTONAME;
-								gcd.ptszID = make_nonutf_tchar_string((const unsigned char*)szSkypeMsg+5);
-								gcd.iType = GC_EVENT_CHANGESESSIONAME;
-								gce.cbSize = sizeof(GCEVENT);
-								gce.pDest = &gcd;
+								GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)szSkypeMsg+5), GC_EVENT_CHANGESESSIONAME };
+								GCEVENT gce = { sizeof(gce), &gcd };
 								gce.ptszText = make_tchar_string((const unsigned char*)ptr+14);
-								gce.dwFlags = GC_TCHAR;
 								if (gce.ptszText) {
 									CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
 									db_set_ts (hContact, SKYPE_PROTONAME, "Nick", gce.ptszText);

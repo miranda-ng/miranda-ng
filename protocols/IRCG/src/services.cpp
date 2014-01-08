@@ -221,20 +221,13 @@ int __cdecl CIrcProto::OnContactDeleted(WPARAM wp, LPARAM)
 	if ( !getTString( hContact, "Nick", &dbv )) {
 		int type = getByte(hContact, "ChatRoom", 0);
 		if ( type != 0 ) {
-			GCEVENT gce = {0};
-			GCDEST gcd = {0};
 			CMString S = _T("");
 			if (type == GCW_CHATROOM)
 				S = MakeWndID( dbv.ptszVal );
 			if (type == GCW_SERVER)
 				S = SERVERWINDOW;
-			gce.cbSize = sizeof(GCEVENT);
-			gce.dwItemData = 0;
-			gcd.iType = GC_EVENT_CONTROL;
-			gcd.pszModule = m_szModuleName;
-			gce.dwFlags = GC_TCHAR;
-			gce.pDest = &gcd;
-			gcd.ptszID = ( TCHAR* )S.c_str();
+			GCDEST gcd = { m_szModuleName, (TCHAR*)S.c_str(), GC_EVENT_CONTROL };
+			GCEVENT gce = { sizeof(gce), &gcd };
 			int i = CallChatEvent( SESSION_TERMINATE, (LPARAM)&gce);
 			if (i && type == GCW_CHATROOM)
 				PostIrcMessage( _T("/PART %s %s"), dbv.ptszVal, m_userInfo);
@@ -276,16 +269,10 @@ INT_PTR __cdecl CIrcProto::OnLeaveChat(WPARAM wp, LPARAM)
 		if ( getByte(( HANDLE )wp, "ChatRoom", 0) == GCW_CHATROOM) {
 			PostIrcMessage( _T("/PART %s %s"), dbv.ptszVal, m_userInfo);
 
-			GCEVENT gce = {0};
-			GCDEST gcd = {0};
 			CMString S = MakeWndID(dbv.ptszVal);
-			gce.cbSize = sizeof(GCEVENT);
-			gce.dwFlags = GC_TCHAR;
-			gcd.iType = GC_EVENT_CONTROL;
-			gcd.pszModule = m_szModuleName;
-			gce.pDest = &gcd;
-			gcd.ptszID = ( TCHAR* )S.c_str();
-			CallChatEvent( SESSION_TERMINATE, (LPARAM)&gce);
+			GCDEST gcd = { m_szModuleName, (TCHAR*)S.c_str(), GC_EVENT_CONTROL };
+			GCEVENT gce = { sizeof(gce), &gcd };
+			CallChatEvent(SESSION_TERMINATE, (LPARAM)&gce);
 		}
 		db_free(&dbv);
 	}
@@ -399,14 +386,8 @@ INT_PTR __cdecl CIrcProto::OnShowListMenuCommand(WPARAM, LPARAM)
 
 INT_PTR __cdecl CIrcProto::OnShowServerMenuCommand(WPARAM, LPARAM)
 {
-	GCEVENT gce = {0};
-	GCDEST gcd = {0};
-	gcd.iType = GC_EVENT_CONTROL;
-	gcd.ptszID = SERVERWINDOW;
-	gce.dwFlags = GC_TCHAR;
-	gcd.pszModule = m_szModuleName;
-	gce.cbSize = sizeof(GCEVENT);
-	gce.pDest = &gcd;
+	GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	CallChatEvent( WINDOW_VISIBLE, (LPARAM)&gce);
 	return 0;
 }
@@ -530,8 +511,8 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 
 			// first see if the scripting module should modify or stop this event
 			if (m_bMbotInstalled && m_scriptingEnabled && wParam == NULL) {
-				gchtemp = (GCHOOK *)mir_alloc(sizeof(GCHOOK));
-				gchtemp->pDest = (GCDEST *)mir_alloc(sizeof(GCDEST));
+				gchtemp = (GCHOOK*)mir_alloc(sizeof(GCHOOK));
+				gchtemp->pDest = (GCDEST*)mir_alloc(sizeof(GCDEST));
 				gchtemp->pDest->iType = gchook->pDest->iType;
 				gchtemp->dwData = gchook->dwData;
 
@@ -567,7 +548,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 					break;
 
 				case GC_USER_MESSAGE:
-					if (gch && gch->pszText && lstrlen(gch->ptszText) > 0 ) {
+					if (gch && gch->ptszText && *gch->ptszText) {
 						TCHAR* pszText = new TCHAR[lstrlen(gch->ptszText)+1000];
 						lstrcpy(pszText, gch->ptszText);
 						DoChatFormatting(pszText);
@@ -599,16 +580,11 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 
 					case 3:
 						PostIrcMessage( _T("/PART %s %s"), p1, m_userInfo );
-						{	GCEVENT gce = {0};
-							GCDEST gcd = {0};
+						{
 							S = MakeWndID(p1);
-							gce.cbSize = sizeof(GCEVENT);
-							gcd.iType = GC_EVENT_CONTROL;
-							gcd.pszModule = m_szModuleName;
-							gce.dwFlags = GC_TCHAR;
-							gce.pDest = &gcd;
-							gcd.ptszID = ( TCHAR* )S.c_str();
-							CallChatEvent( SESSION_TERMINATE, (LPARAM)&gce);
+							GCDEST gcd = { m_szModuleName, (TCHAR*)S.c_str(), GC_EVENT_CONTROL };
+							GCEVENT gce = { sizeof(gce), &gcd };
+							CallChatEvent(SESSION_TERMINATE, (LPARAM)&gce);
 						}
 						break;
 					case 4:		// show server window
@@ -836,8 +812,8 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 	}	}	}
 
 	if ( gchtemp ) {
-		mir_free(gchtemp->pszUID);
-		mir_free(gchtemp->pszText);
+		mir_free(gchtemp->ptszUID);
+		mir_free(gchtemp->ptszText);
 		mir_free(gchtemp->pDest->ptszID);
 		mir_free(gchtemp->pDest->pszModule);
 		mir_free(gchtemp->pDest);
@@ -1149,18 +1125,11 @@ void CIrcProto::ConnectToServer(void)
 
 void CIrcProto::DisconnectFromServer(void)
 {
-	GCEVENT gce = {0};
-	GCDEST gcd = {0};
-
 	if ( m_perform && IsConnected())
 		DoPerform( "Event: Disconnect" );
 
-	gcd.iType = GC_EVENT_CONTROL;
-	gcd.ptszID = NULL; // all windows
-	gcd.pszModule = m_szModuleName;
-	gce.cbSize = sizeof(GCEVENT);
-	gce.pDest = &gcd;
-
+	GCDEST gcd = { m_szModuleName, 0, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	CallChatEvent( SESSION_TERMINATE, (LPARAM)&gce);
 	ForkThread( &CIrcProto::DisconnectServerThread, 0 );
 }

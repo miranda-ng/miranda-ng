@@ -599,7 +599,7 @@ begin
   gce.pDest   :=@gcd;
   gce.bIsMe   :=true;
   gce.szText.w:=pszText;
-  gce.dwFlags :=GCEF_ADDTOLOG+GC_UNICODE;
+  gce.dwFlags :=GCEF_ADDTOLOG;
   gce.time    :=GetCurrentTime;
 
   CallServiceSync(MS_GC_EVENT,0,lparam(@gce));

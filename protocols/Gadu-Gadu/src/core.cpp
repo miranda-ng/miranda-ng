@@ -826,21 +826,19 @@ retry:
 						if (chat)
 						{
 							TCHAR id[32];
-							GCDEST gcdest = {0};
-							gcdest.pszModule = m_szModuleName;
-							gcdest.ptszID = chat;
-							gcdest.iType = GC_EVENT_MESSAGE;
-							GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
-							time_t t = time(NULL);
 							UIN2IDT(e->event.msg.sender, id);
-							gcevent.ptszUID = id;
+
+							GCDEST gcd = { m_szModuleName, chat, GC_EVENT_MESSAGE };
+							GCEVENT gce = { sizeof(gce), &gcd };
+							time_t t = time(NULL);
+							gce.ptszUID = id;
 							TCHAR* messageT = mir_utf8decodeT(e->event.msg.message);
-							gcevent.ptszText = messageT;
-							gcevent.ptszNick = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) getcontact(e->event.msg.sender, 1, 0, NULL), GCDNF_TCHAR);
-							gcevent.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
-							gcevent.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
+							gce.ptszText = messageT;
+							gce.ptszNick = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) getcontact(e->event.msg.sender, 1, 0, NULL), GCDNF_TCHAR);
+							gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
+							gce.dwFlags = GCEF_ADDTOLOG;
 							debugLog(_T("mainthread() (%x): Conference message to room %s & id %s."), this, chat, id);
-							CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
+							CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 							mir_free(messageT);
 						}
 					}
@@ -893,29 +891,26 @@ retry:
 					if (chat)
 					{
 						TCHAR id[32];
-						DBVARIANT dbv;
-						GCDEST gcdest = {0};
-						gcdest.pszModule = m_szModuleName;
-						gcdest.ptszID = chat;
-						gcdest.iType = GC_EVENT_MESSAGE;
-						GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
 						UIN2IDT(getDword(GG_KEY_UIN, 0), id);
-						gcevent.ptszUID = id;
+
+						DBVARIANT dbv;
+						GCDEST gcd = { m_szModuleName, chat, GC_EVENT_MESSAGE };
+						GCEVENT gce = { sizeof(gce), &gcd };
+						gce.ptszUID = id;
 						TCHAR* messageT = mir_utf8decodeT(e->event.multilogon_msg.message);
-						gcevent.ptszText = messageT;
+						gce.ptszText = messageT;
 						TCHAR* nickT;
 						if (!getTString(GG_KEY_NICK, &dbv)){
 							nickT = mir_tstrdup(dbv.ptszVal);
 							db_free(&dbv);
-						} else {
-							nickT = mir_tstrdup(TranslateT("Me"));
 						}
-						gcevent.ptszNick = nickT;
-						gcevent.time = e->event.multilogon_msg.time;
-						gcevent.bIsMe = 1;
-						gcevent.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
+						else nickT = mir_tstrdup(TranslateT("Me"));
+						gce.ptszNick = nickT;
+						gce.time = e->event.multilogon_msg.time;
+						gce.bIsMe = 1;
+						gce.dwFlags = GCEF_ADDTOLOG;
 						debugLog(_T("mainthread() (%x): Sent conference message to room %s."), this, chat);
-						CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
+						CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 						mir_free(messageT);
 						mir_free(nickT);
 					}
@@ -1284,12 +1279,8 @@ int GGPROTO::contactdeleted(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	if ( isChatRoom(hContact) && !getTString(hContact, "ChatRoomID", &dbv) && gc_enabled)
 	{
-		GCDEST gcdest = {0};
-		gcdest.pszModule = m_szModuleName;
-		gcdest.ptszID = dbv.ptszVal;
-		gcdest.iType = GC_EVENT_CONTROL;
-		GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
-		gcevent.dwFlags = GC_TCHAR;
+		GCDEST gcd = { m_szModuleName, dbv.ptszVal, GC_EVENT_CONTROL };
+		GCEVENT gce = { sizeof(gce), &gcd };
 		GGGC *chat = gc_lookup(dbv.ptszVal);
 
 		debugLogA("contactdeleted(): Terminating chat %x, id %s from contact list...", chat, dbv.pszVal);
@@ -1299,8 +1290,8 @@ int GGPROTO::contactdeleted(WPARAM wParam, LPARAM lParam)
 			free(chat->recipients);
 			list_remove(&chats, chat, 1);
 			// Terminate chat window / shouldn't cascade entry is deleted
-			CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gcevent);
-			CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gcevent);
+			CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
+			CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 		}
 
 		db_free(&dbv);
@@ -1366,17 +1357,13 @@ int GGPROTO::dbsettingchanged(WPARAM wParam, LPARAM lParam)
 			static int cascade = 0;
 			if (!cascade && dbv.ptszVal)
 			{
-				GCDEST gcdest = {0};
-				gcdest.pszModule = m_szModuleName;
-				gcdest.ptszID = dbv.ptszVal;
-				gcdest.iType = GC_EVENT_CHANGESESSIONAME;
-				GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
-				gcevent.dwFlags = GC_TCHAR;
-				gcevent.ptszText = ptszVal;
+				GCDEST gcd = { m_szModuleName, dbv.ptszVal, GC_EVENT_CHANGESESSIONAME };
+				GCEVENT gce = { sizeof(gce), &gcd };
+				gce.ptszText = ptszVal;
 				debugLogA("dbsettingchanged(): Conference %s was renamed.", dbv.pszVal);
 				// Mark cascading
 				/* FIXME */ cascade = 1;
-				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
+				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 				/* FIXME */ cascade = 0;
 			}
 			db_free(&dbv);

@@ -46,8 +46,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
   NOTE. Chat keeps its own copies of strings passed.
 
-  
-  * * Example of implementing this rule * *: 
+
+  * * Example of implementing this rule * *:
   * * This is a code snippet that is common in protocols * *:
 
 
@@ -131,11 +131,6 @@ const
   GC_SINGLEFORMAT = $0100; //the protocol supports only 1 formatting per message
   GC_FONTSIZE     = $0200; //enable font size selection
 
-  GC_UNICODE   = $1000; //NOT SUPPORTED YET! Enable unicode (if chat supports it),
-                        //Pass UNICODE instead of ASCII. Note that
-                        //registration will fail if the unicode version  of chat is not installed                  
-  GC_TCHAR = GC_UNICODE;
-
 // Error messages
   GC_REGISTER_WRONGVER  = 1; //You appear to be using the wrong version of this API. Registration failed.
   GC_REGISTER_ERROR     = 2; //An internal error occurred. Registration failed.
@@ -195,8 +190,8 @@ type
     szName         :TCHAR; //The name of the session as it will be displayed to the user
     szID           :TCHAR; //The unique identifier for the session.
     szStatusbarText:TCHAR; //Optional text to set in the statusbar of the chat room window, or NULL.
-    dwFlags        :dword;  
-    dwItemData     :dword; //Set user defined data for this session. Retrieve it by using the GC_EVENT_GETITEMDATA event
+    dwFlags        :dword;
+    dwItemData     :int_ptr; //Set user defined data for this session. Retrieve it by using the GC_EVENT_GETITEMDATA event
   end;
 
 const
@@ -394,7 +389,7 @@ const
 //  pszText    - The text
   GC_EVENT_SENDMESSAGE = $1008;
 
-//  GC_EVENT_SETSTATUSEX - not shown in the log (Space or tab delimited list of pszUID's to indicate as away). 
+//  GC_EVENT_SETSTATUSEX - not shown in the log (Space or tab delimited list of pszUID's to indicate as away).
 //  Used by IRC to mark users as away in the nicklist. If UIDs can contain spaces, use tabs
 //  pszText    - Space or tab delimited list of pszUID's
 
@@ -460,7 +455,7 @@ type
     dwFlags   :dword;   // event flags: GCEF_ADDTOLOG, GC_UNICODE
 
                         // FALSE any other time than when initializing the window (before sending SESSION_INITDONE)
-    dwItemData:dword_ptr; // User specified data.
+    dwItemData:int_ptr; // User specified data.
     time      :dword;   // Timestamp of the event
   end;
 
@@ -514,7 +509,7 @@ type
     pszModule :PAnsiChar; // the module name as registered in MS_GC_REGISTER
     pszID     :TCHAR;     // unique ID of the session
     pszName   :TCHAR;     // display name of the session
-    dwItemData:dword_ptr; // user specified data.
+    dwItemData:int_ptr; // user specified data.
     iCount    :int;       // count of users in the nicklist
     pszUsers  :PAnsiChar; // space separated string containing the UID's of the users in the user list.
                           // NOTE. Use Mirandas mmi_free() on the returned string.
@@ -554,7 +549,7 @@ type
     pDest :PGCDEST;   // pointer to a GCDEST structure which specifies from which session the hook was triggered
     szText:TCHAR;     // usage depends on type of event
     szUID :TCHAR;     // unique identifier, usage depends on type of event
-    dwData:dword_ptr; // user defined data, usage depends on type of event}
+    dwData:int_ptr;   // user defined data, usage depends on type of event}
   end;
 
 {

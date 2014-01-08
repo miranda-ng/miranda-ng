@@ -176,7 +176,7 @@ int OmegleProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	GCREGISTER gcr = {sizeof(gcr)};
 	gcr.dwFlags = GC_TYPNOTIF; //GC_ACKMSG;
 	gcr.pszModule = m_szModuleName;
-	gcr.pszModuleDispName = m_szModuleName;
+	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = OMEGLE_MESSAGE_LIMIT;
 	gcr.nColors = 0;
 	gcr.pColors = NULL;

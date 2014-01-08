@@ -218,13 +218,11 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 
 	m_pInfoFrame = new CJabberInfoFrame(this);
 
-	GCREGISTER gcr = {0};
-	gcr.cbSize = sizeof(GCREGISTER);
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR | GC_TCHAR;
-	gcr.iMaxText = 0;
+	GCREGISTER gcr = { sizeof(gcr) };
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
 	gcr.nColors = 16;
 	gcr.pColors = &crCols[0];
-	gcr.ptszModuleDispName = m_tszUserName;
+	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
 

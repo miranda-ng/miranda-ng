@@ -464,7 +464,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	INT_PTR  __cdecl Scripting_GetIrcData(WPARAM wparam, LPARAM lparam);
 	BOOL Scripting_TriggerMSPRawIn(char ** pszRaw);
 	BOOL Scripting_TriggerMSPRawOut(char ** pszRaw);
-	BOOL Scripting_TriggerMSPGuiIn(WPARAM * wparam, GCEVENT * gce);
+	BOOL Scripting_TriggerMSPGuiIn(WPARAM * wparam, GCEVENT *gce);
 	BOOL Scripting_TriggerMSPGuiOut(GCHOOK * gch);
 
 	// services.cpp

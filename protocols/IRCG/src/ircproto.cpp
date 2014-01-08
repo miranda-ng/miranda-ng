@@ -214,10 +214,10 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 
 	if ( ServiceExists( MS_GC_REGISTER )) {
 		GCREGISTER gcr = { sizeof(GCREGISTER) };
-		gcr.dwFlags = GC_CHANMGR | GC_BOLD | GC_ITALICS | GC_UNDERLINE | GC_COLOR | GC_BKGCOLOR | GC_TCHAR;
+		gcr.dwFlags = GC_CHANMGR | GC_BOLD | GC_ITALICS | GC_UNDERLINE | GC_COLOR | GC_BKGCOLOR;
 		gcr.nColors = 16;
 		gcr.pColors = colors;
-		gcr.ptszModuleDispName = m_tszUserName;
+		gcr.ptszDispName = m_tszUserName;
 		gcr.pszModule = m_szModuleName;
 		CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
 
@@ -225,26 +225,18 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 		HookProtoEvent(ME_GC_BUILDMENU, &CIrcProto::GCMenuHook);
 
 		GCSESSION gcw = { sizeof(GCSESSION) };
-		gcw.dwFlags = GC_TCHAR;
 		gcw.iType = GCW_SERVER;
 		gcw.ptszID = SERVERWINDOW;
 		gcw.pszModule = m_szModuleName;
 		gcw.ptszName = NEWTSTR_ALLOCA(( TCHAR* )_A2T( m_network ));
 		CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
-		GCDEST gcd = { 0 };
-		gcd.ptszID = SERVERWINDOW;
-		gcd.pszModule = m_szModuleName;
-		gcd.iType = GC_EVENT_CONTROL;
-
-		GCEVENT gce = { sizeof(GCEVENT) };
-		gce.dwFlags = GC_TCHAR;
-		gce.pDest = &gcd;
-
+		GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
+		GCEVENT gce = { sizeof(gce), &gcd };
 		if ( m_useServer && !m_hideServerWindow )
-			CallChatEvent( WINDOW_VISIBLE, (LPARAM)&gce);
+			CallChatEvent(WINDOW_VISIBLE, (LPARAM)&gce);
 		else
-			CallChatEvent( WINDOW_HIDDEN, (LPARAM)&gce);
+			CallChatEvent(WINDOW_HIDDEN, (LPARAM)&gce);
 		bChatInstalled = TRUE;
 	}
 	else {

@@ -142,41 +142,11 @@ void PasteIt(HANDLE hContact, int mode)
 					// PSS_MESSAGE is not compatible with chat rooms
 					// there are no simple method to send text to all users
 					// in chat room. 
-					// First I check if protocol is unicode or ascii.
-					BOOL isUnicodePlugin = TRUE;
-					PROTOACCOUNT* protoAc = ProtoGetAccount(szProto);
-					if(protoAc != NULL)
-					{
-						// protoAc->ppro is abstract class, that contains
-						// methods implemented in protocol ddl`s segment.
-						// Method address in vptr table must be converted
-						// to hInstance of protocol dll.
-						PROTO_INTERFACE* protoInt = protoAc->ppro;
-						MEMORY_BASIC_INFORMATION mb;
-						INT_PTR *vptr = *(INT_PTR**)&protoAc->ppro;  
-						INT_PTR *vtable = (INT_PTR *)*vptr;   
-						if(VirtualQuery((void*)vtable[0], &mb, sizeof(MEMORY_BASIC_INFORMATION)))
-						{
-							typedef PLUGININFOEX * (__cdecl * Miranda_Plugin_InfoEx) ( DWORD mirandaVersion );
-							HINSTANCE hInst = (HINSTANCE)mb.AllocationBase;
-							// Now I can get PLUGININFOEX from protocol
-							Miranda_Plugin_InfoEx infoEx = (Miranda_Plugin_InfoEx) GetProcAddress(hInst, "MirandaPluginInfoEx");
-							PLUGININFOEX* pi = NULL;
-							if(infoEx != NULL)
-								pi = infoEx(gMirandaVersion);
-
-							// If PLUGININFOEX flags contains UNICODE_AWARE,
-							// this mean that protocol is unicode.
-							if(pi != NULL && pi->cbSize == sizeof(PLUGININFOEX))
-								isUnicodePlugin = pi->flags & UNICODE_AWARE;
-						}
-					}
-
 					// Next step is to get all protocol sessions and find
 					// one with correct hContact 
 					GC_INFO gci = {0};    
-					GCDEST  gcd = {0};    
-					GCEVENT gce = {0};
+					GCDEST  gcd = { szProto, NULL, GC_EVENT_SENDMESSAGE };
+					GCEVENT gce = { sizeof(gce), &gcd };
 					int cnt = (int)CallService(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)szProto);  
 					for (int i = 0; i < cnt ; i++ ) 
 					{
@@ -189,29 +159,13 @@ void PasteIt(HANDLE hContact, int mode)
 							// In this place session was finded, gci.pszID contains
 							// session ID, but it is in unicode or ascii format,
 							// depends on protocol wersion
-							gcd.pszModule = szProto;
-							gcd.iType = GC_EVENT_SENDMESSAGE;
 							gcd.ptszID = gci.pszID;
-							gce.cbSize = sizeof(GCEVENT);                     
-							gce.pDest = &gcd;                 
 							gce.bIsMe = TRUE;             
-							gce.dwFlags = isUnicodePlugin ? (GCEF_ADDTOLOG | GC_UNICODE) : GCEF_ADDTOLOG;  
-							wchar_t* s = NULL;
-							if(isUnicodePlugin)
-							{
-								// If session ID is in unicode, text must be too in unicode
-								s = mir_a2u_cp(pasteToWeb->szFileLink, CP_ACP);
-								gce.ptszText = s;             
-							}
-							else
-							{
-								// If session ID is in ascii, text must be too in ascii
-								gce.pszText = pasteToWeb->szFileLink;            
-							}
+							gce.dwFlags = GCEF_ADDTOLOG;  
+							gce.ptszText = mir_a2u_cp(pasteToWeb->szFileLink, CP_ACP);             
 							gce.time = time(NULL);                                            
 							CallService(MS_GC_EVENT, 0, (LPARAM)(GCEVENT *) &gce); 
-							if(s != NULL)
-								mir_free(s);                       
+							mir_free((void*)gce.ptszText);                       
 							break;  
 						}
 					}

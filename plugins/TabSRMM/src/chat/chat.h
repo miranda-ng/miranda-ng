@@ -308,8 +308,6 @@ struct COLORCHOOSER
 #include "chatprototypes.h"
 #include "chat_resource.h"
 
-TCHAR* a2tf(const TCHAR* str, int flags, DWORD cp = 0);
-
 extern char *szChatIconString;
 
 #define DEFLOGFILENAME _T("%miranda_logpath%\\%proto%\\%userid%.log")

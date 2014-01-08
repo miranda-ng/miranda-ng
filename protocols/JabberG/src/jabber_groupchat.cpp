@@ -820,18 +820,13 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const TCHAR *ol
 			setTString(hContact, "MyNick", newNick);
 	}
 
-	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CHUID };
-	gcd.ptszID = item->jid;
-
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
-	gce.pDest = &gcd;
+	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_CHUID };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszNick = oldNick;
 	gce.ptszText = newNick;
 	if (jid != NULL)
 		gce.ptszUserInfo = jid;
 	gce.time = time(0);
-	gce.dwFlags = GC_TCHAR;
 	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 
 	gcd.iType = GC_EVENT_NICK;
@@ -1072,8 +1067,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	if ( !lstrcmp(type, _T("error")))
 		return;
 
-	GCDEST gcd = { m_szModuleName, NULL, 0 };
-	gcd.ptszID = item->jid;
+	GCDEST gcd = { m_szModuleName, item->jid, 0 };
 
 	const TCHAR *msgText = NULL;
 
@@ -1141,14 +1135,12 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	}
 	else nick = NULL;
 
-	GCEVENT gce = { sizeof(GCEVENT) };
-	gce.pDest = &gcd;
+	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszUID = resource;
 	gce.ptszNick = nick;
 	gce.time = msgTime;
 	gce.ptszText = EscapeChatTags((TCHAR*)msgText);
 	gce.bIsMe = nick == NULL ? FALSE : (lstrcmp(resource, item->nick) == 0);
-	gce.dwFlags = GC_TCHAR;
 
 	if (!isHistory)
 		gce.dwFlags |= GCEF_ADDTOLOG;
@@ -1166,7 +1158,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 	}
 
-	mir_free((void*)gce.pszText); // Since we processed msgText and created a new string
+	mir_free((void*)gce.ptszText); // Since we processed msgText and created a new string
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

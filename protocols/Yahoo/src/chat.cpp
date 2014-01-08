@@ -180,13 +180,11 @@ static const COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 
 void CYahooProto::ChatRegister(void)
 {
-	GCREGISTER gcr = {0};
-	gcr.cbSize = sizeof(gcr);
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR | GC_TCHAR;
-	gcr.iMaxText = 0;
+	GCREGISTER gcr = { sizeof(gcr) };
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
 	gcr.nColors = 16;
 	gcr.pColors = (COLORREF*)crCols;
-	gcr.ptszModuleDispName = m_tszUserName;
+	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 
@@ -198,22 +196,15 @@ void CYahooProto::ChatStart(const char* room)
 {
 	TCHAR* idt = mir_a2t(room);
 
-	GCSESSION gcw = {0};
-	gcw.cbSize = sizeof(gcw);
-	gcw.dwFlags = GC_TCHAR;
+	GCSESSION gcw = { sizeof(gcw) };
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = idt;
 	gcw.ptszID = idt;
 	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
-	GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_ADDGROUP };
-	gcd.ptszID = idt;
-
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(gce);
-	gce.dwFlags = GC_TCHAR;
-	gce.pDest = &gcd;
+	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_ADDGROUP };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszStatus = TranslateT("Me");
 	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
@@ -233,13 +224,9 @@ void CYahooProto::ChatLeave(const char* room)
 {
 	TCHAR* idt = mir_a2t(room);
 
-	GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_CONTROL };
-	gcd.ptszID = idt;
-
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
-	gce.dwFlags = GC_TCHAR | GCEF_REMOVECONTACT;
-	gce.pDest = &gcd;
+	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.dwFlags = GCEF_REMOVECONTACT;
 	CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 
@@ -260,13 +247,9 @@ void CYahooProto::ChatEvent(const char* room, const char* who, int evt, const TC
 	HANDLE hContact = getbuddyH(who);
 	TCHAR* nick = hContact ? (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), GCDNF_TCHAR) : snt;
 
-	GCDEST gcd = { m_szModuleName, { NULL },  evt };
-	gcd.ptszID = idt;
-
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(gce);
-	gce.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-	gce.pDest = &gcd;
+	GCDEST gcd = { m_szModuleName, idt, evt };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = nick;
 	gce.ptszUID = snt;
 	gce.bIsMe = _stricmp(who, m_yahoo_id) == 0;

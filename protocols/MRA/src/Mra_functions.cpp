@@ -509,15 +509,13 @@ HANDLE CMraProto::MraHContactFromEmail(const CMStringA& szEmail, BOOL bAddIfNeed
 	if (!bFound && bAddIfNeeded) {
 		//not already there: add
 		if (IsEMailChatAgent(szEmail)) {
-			GCSESSION gcw = {0};
 			CMStringW wszEMail = szEmail;
 
-			gcw.cbSize = sizeof(GCSESSION);
+			GCSESSION gcw = { sizeof(gcw) };
 			gcw.iType = GCW_CHATROOM;
 			gcw.pszModule = m_szModuleName;
 			gcw.ptszName = wszEMail;
 			gcw.ptszID = (LPWSTR)wszEMail.c_str();
-			gcw.dwFlags = GC_UNICODE;
 
 			if (CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw) == 0) {
 				BOOL bChatAdded = FALSE;

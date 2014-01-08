@@ -125,9 +125,7 @@ static VOID CALLBACK JabberOfflineChatWindows(void* param)
 {
 	CJabberProto *ppro = (CJabberProto*)param;
 	GCDEST gcd = { ppro->m_szModuleName, NULL, GC_EVENT_CONTROL };
-	GCEVENT gce = { 0 };
-	gce.cbSize = sizeof(GCEVENT);
-	gce.pDest = &gcd;
+	GCEVENT gce = { sizeof(gce), &gcd };
 	CallService(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 }
 

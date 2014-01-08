@@ -16,12 +16,10 @@ bool CMraProto::MraChatRegister()
 	if ( !ServiceExists(MS_GC_REGISTER))
 		return FALSE;
 
-	GCREGISTER gcr = {0};
-	gcr.cbSize = sizeof(GCREGISTER);
-	gcr.dwFlags = GC_UNICODE;
+	GCREGISTER gcr = { sizeof(gcr) };
 	gcr.iMaxText = MRA_MAXLENOFMESSAGE;
 	gcr.nColors = 0;
-	gcr.ptszModuleDispName = m_tszUserName;
+	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
 
@@ -33,38 +31,25 @@ INT_PTR CMraProto::MraChatSessionNew(HANDLE hContact)
 {
 	if (bChatExists)
 	if (hContact) {
-		GCSESSION gcw = {0};
 		CMStringW wszEMail;
 		mraGetStringW(hContact, "e-mail", wszEMail);
 
-		gcw.cbSize = sizeof(GCSESSION);
+		GCSESSION gcw = { sizeof(gcw) };
 		gcw.iType = GCW_CHATROOM;
 		gcw.pszModule = m_szModuleName;
 		gcw.ptszName = GetContactNameW(hContact);
 		gcw.ptszID = wszEMail;
 		gcw.ptszStatusbarText = _T("status bar");
-		gcw.dwFlags = GC_TCHAR;
 		gcw.dwItemData = (DWORD)hContact;
 		if ( !CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw)) {
-			GCDEST gcd = {0};
-			GCEVENT gce = {0};
-
-			gcd.pszModule = m_szModuleName;
-			gcd.ptszID = (TCHAR*)wszEMail.c_str();
-			gcd.iType = GC_EVENT_ADDGROUP;
-
-			gce.cbSize = sizeof(GCEVENT);
-			gce.pDest = &gcd;
-			gce.dwFlags = GC_UNICODE;
+			GCDEST gcd = { m_szModuleName, (TCHAR*)wszEMail.c_str(), GC_EVENT_ADDGROUP };
+			GCEVENT gce = { sizeof(gce), &gcd };
 			for (int i = 0; i < SIZEOF(lpwszStatuses); i++) {
 				gce.ptszStatus = TranslateTS(lpwszStatuses[i]);
 				CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 			}
 
-			gce.cbSize = sizeof(GCEVENT);
-			gce.pDest = &gcd;
 			gcd.iType = GC_EVENT_CONTROL;
-
 			CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
 			CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 
@@ -83,19 +68,14 @@ void CMraProto::MraChatSessionDestroy(HANDLE hContact)
 	if ( !bChatExists)
 		return;
 
-	GCDEST gcd = {0};
-	GCEVENT gce = {0};
-	CMStringW wszEMail;
+	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
 
-	gcd.pszModule = m_szModuleName;
-	gcd.iType = GC_EVENT_CONTROL;
+	CMStringW wszEMail;
 	if (hContact) {
 		mraGetStringW(hContact, "e-mail", wszEMail);
 		gcd.ptszID = (LPWSTR)wszEMail.c_str();
 	}
-	gce.cbSize = sizeof(GCEVENT);
-	gce.pDest = &gcd;
-	gce.dwFlags = GC_UNICODE;
 
 	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, (LPARAM)&gce);
@@ -108,18 +88,14 @@ INT_PTR CMraProto::MraChatSessionEventSendByHandle(HANDLE hContactChatSession, D
 
 	CMStringW wszID, wszUID, wszNick;
 
-	GCDEST gcd = {0};
-	gcd.pszModule = m_szModuleName;
+	GCDEST gcd = { m_szModuleName, 0, dwType };
 	if (hContactChatSession) {
 		mraGetStringW(hContactChatSession, "e-mail", wszID);
 		gcd.ptszID = (LPWSTR)wszID.c_str();
 	}
-	gcd.iType = dwType;
 
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
-	gce.pDest = &gcd;
-	gce.dwFlags = GC_UNICODE|dwFlags;
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.dwFlags = dwFlags;
 	gce.ptszUID = wszUID;
 	gce.ptszStatus = lpwszStatus;
 	gce.ptszText = lpwszMessage;

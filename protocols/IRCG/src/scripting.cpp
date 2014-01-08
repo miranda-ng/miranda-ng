@@ -78,17 +78,10 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertGuiIn(WPARAM wParam,LPARAM lParam)
 static void __stdcall OnHook(void * pi)
 {
 	GCHOOK* gch = ( GCHOOK* )pi;
-
-	//Service_GCEventHook(1, (LPARAM) gch);
-
-	if(gch->pszUID)
-		free(gch->pszUID);
-	if(gch->pszText)
-		free(gch->pszText);
-	if(gch->pDest->ptszID)
-		free(gch->pDest->ptszID);
-	if(gch->pDest->pszModule)
-		free(gch->pDest->pszModule);
+	free(gch->ptszUID);
+	free(gch->ptszText);
+	free(gch->pDest->ptszID);
+	free(gch->pDest->pszModule);
 	delete gch->pDest;
 	delete gch;
 }
@@ -111,11 +104,12 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut( WPARAM, LPARAM lParam )
 		gchook->pDest->iType = gch->pDest->iType;
 		if ( gch->ptszText )
 			gchook->ptszText = _tcsdup( gch->ptszText );
-		else gchook->pszText = NULL;
+		else gchook->ptszText = NULL;
 
 		if ( gch->ptszUID )
 			gchook->ptszUID = _tcsdup( gch->ptszUID );
-		else gchook->pszUID = NULL;
+		else
+			gchook->ptszUID = NULL;
 
 		if ( gch->pDest->ptszID ) {
 			CMString S = MakeWndID( gch->pDest->ptszID );
@@ -152,7 +146,7 @@ BOOL CIrcProto::Scripting_TriggerMSPRawOut(char ** pszRaw)
 	return iVal > 0 ? FALSE : TRUE;
 }
 
-BOOL CIrcProto::Scripting_TriggerMSPGuiIn(WPARAM * wparam, GCEVENT * gce)
+BOOL CIrcProto::Scripting_TriggerMSPGuiIn(WPARAM * wparam, GCEVENT *gce)
 {
 	WPARAM_GUI_IN wgi = {0};
 

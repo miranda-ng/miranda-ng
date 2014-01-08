@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static SESSION_INFO *s_WndList = NULL;
 static MODULEINFO *s_ModList = NULL;
 
-void SetActiveSession(const TCHAR* pszID, const char* pszModule)
+void SetActiveSession(const TCHAR *pszID, const char* pszModule)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si)
@@ -59,7 +59,7 @@ SESSION_INFO* GetActiveSession(void)
 //		Keeps track of all sessions and its windows
 //---------------------------------------------------
 
-SESSION_INFO* SM_AddSession(const TCHAR* pszID, const char* pszModule)
+SESSION_INFO* SM_AddSession(const TCHAR *pszID, const char* pszModule)
 {
 	if (!pszID || !pszModule)
 		return NULL;
@@ -89,7 +89,7 @@ SESSION_INFO* SM_AddSession(const TCHAR* pszID, const char* pszModule)
 	return node;
 }
 
-int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, bool removeContact)
+int SM_RemoveSession(const TCHAR *pszID, const char* pszModule, bool removeContact)
 {
 	if (!pszModule)
 		return FALSE;
@@ -165,7 +165,7 @@ void SM_RemoveContainer(TContainerData *pContainer)
 			si->pContainer = NULL;
 }
 
-SESSION_INFO* SM_FindSession(const TCHAR* pszID, const char* pszModule)
+SESSION_INFO* SM_FindSession(const TCHAR *pszID, const char* pszModule)
 {
 	if (!pszID || !pszModule)
 		return NULL;
@@ -177,7 +177,7 @@ SESSION_INFO* SM_FindSession(const TCHAR* pszID, const char* pszModule)
 	return NULL;
 }
 
-BOOL SM_SetOffline(const TCHAR* pszID, const char* pszModule)
+BOOL SM_SetOffline(const TCHAR *pszID, const char* pszModule)
 {
 	if (!pszModule)
 		return FALSE;
@@ -197,7 +197,7 @@ BOOL SM_SetOffline(const TCHAR* pszID, const char* pszModule)
 	return TRUE;
 }
 
-BOOL SM_SetStatusEx(const TCHAR* pszID, const char* pszModule, const TCHAR* pszText, int flags)
+BOOL SM_SetStatusEx(const TCHAR *pszID, const char* pszModule, const TCHAR* pszText, int flags)
 {
 	if (!pszModule)
 		return FALSE;
@@ -284,7 +284,7 @@ BOOL SM_AddEventToAllMatchingUID(GCEVENT *gce, BOOL bIsHighLight)
 	return 0;
 }
 
-BOOL SM_AddEvent(const TCHAR* pszID, const char* pszModule, GCEVENT *gce, BOOL bIsHighlighted)
+BOOL SM_AddEvent(const TCHAR *pszID, const char* pszModule, GCEVENT *gce, BOOL bIsHighlighted)
 {
 	if (!pszID || !pszModule)
 		return TRUE;
@@ -317,7 +317,7 @@ BOOL SM_AddEvent(const TCHAR* pszID, const char* pszModule, GCEVENT *gce, BOOL b
 	return TRUE;
 }
 
-USERINFO* SM_AddUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszNick, WORD wStatus)
+USERINFO* SM_AddUser(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszNick, WORD wStatus)
 {
 	if (!pszID || !pszModule)
 		return NULL;
@@ -332,7 +332,7 @@ USERINFO* SM_AddUser(const TCHAR* pszID, const char* pszModule, const TCHAR* psz
 	return 0;
 }
 
-BOOL SM_MoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID)
+BOOL SM_MoveUser(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID)
 {
 	if (!pszID || !pszModule || !pszUID)
 		return FALSE;
@@ -345,7 +345,7 @@ BOOL SM_MoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID)
 	return TRUE;
 }
 
-BOOL SM_RemoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID)
+BOOL SM_RemoveUser(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID)
 {
 	if (!pszModule || !pszUID)
 		return FALSE;
@@ -370,7 +370,7 @@ BOOL SM_RemoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUI
 	return 0;
 }
 
-USERINFO* SM_GetUserFromIndex(const TCHAR* pszID, const char* pszModule, int index)
+USERINFO* SM_GetUserFromIndex(const TCHAR *pszID, const char* pszModule, int index)
 {
 	if (!pszModule)
 		return NULL;
@@ -382,7 +382,7 @@ USERINFO* SM_GetUserFromIndex(const TCHAR* pszID, const char* pszModule, int ind
 	return UM_FindUserFromIndex(si->pUsers, index);
 }
 
-STATUSINFO* SM_AddStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszStatus)
+STATUSINFO* SM_AddStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszStatus)
 {
 	if (!pszID || !pszModule)
 		return NULL;
@@ -397,7 +397,7 @@ STATUSINFO* SM_AddStatus(const TCHAR* pszID, const char* pszModule, const TCHAR*
 	return ti;
 }
 
-BOOL SM_GiveStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszStatus)
+BOOL SM_GiveStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszStatus)
 {
 	if (!pszID || !pszModule)
 		return FALSE;
@@ -415,7 +415,7 @@ BOOL SM_GiveStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUI
 	return TRUE;
 }
 
-BOOL SM_SetContactStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, WORD wStatus)
+BOOL SM_SetContactStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, WORD wStatus)
 {
 	if (!pszID || !pszModule)
 		return FALSE;
@@ -433,7 +433,7 @@ BOOL SM_SetContactStatus(const TCHAR* pszID, const char* pszModule, const TCHAR*
 	return TRUE;
 }
 
-BOOL SM_TakeStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszStatus)
+BOOL SM_TakeStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszStatus)
 {
 	if (!pszID || !pszModule)
 		return FALSE;
@@ -451,7 +451,7 @@ BOOL SM_TakeStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUI
 	return TRUE;
 }
 
-LRESULT SM_SendMessage(const TCHAR* pszID, const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT SM_SendMessage(const TCHAR *pszID, const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	for (SESSION_INFO *si = s_WndList; si && pszModule; si = si->next) {
 		if ((!pszID || !lstrcmpi(si->ptszID, pszID)) && !lstrcmpiA(si->pszModule, pszModule)) {
@@ -468,7 +468,7 @@ LRESULT SM_SendMessage(const TCHAR* pszID, const char* pszModule, UINT msg, WPAR
 	return 0;
 }
 
-BOOL SM_PostMessage(const TCHAR* pszID, const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
+BOOL SM_PostMessage(const TCHAR *pszID, const char* pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (!pszID || !pszModule)
 		return 0;
@@ -514,7 +514,7 @@ BOOL SM_InvalidateLogDirectories()
 	return TRUE;
 }
 
-BOOL SM_SetStatus(const TCHAR* pszID, const char* pszModule, int wStatus)
+BOOL SM_SetStatus(const TCHAR *pszID, const char* pszModule, int wStatus)
 {
 	if (!pszModule)
 		return FALSE;
@@ -538,7 +538,7 @@ BOOL SM_SetStatus(const TCHAR* pszID, const char* pszModule, int wStatus)
 	return TRUE;
 }
 
-BOOL SM_SendUserMessage(const TCHAR* pszID, const char* pszModule, const TCHAR* pszText)
+BOOL SM_SendUserMessage(const TCHAR *pszID, const char* pszModule, const TCHAR* pszText)
 {
 	if (!pszModule || !pszText)
 		return FALSE;
@@ -555,7 +555,7 @@ BOOL SM_SendUserMessage(const TCHAR* pszID, const char* pszModule, const TCHAR* 
 	return TRUE;
 }
 
-BOOL SM_ChangeUID(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszNewUID)
+BOOL SM_ChangeUID(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszNewUID)
 {
 	if (!pszModule)
 		return FALSE;
@@ -574,7 +574,7 @@ BOOL SM_ChangeUID(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID
 	return TRUE;
 }
 
-BOOL SM_ChangeNick(const TCHAR* pszID, const char* pszModule, GCEVENT *gce)
+BOOL SM_ChangeNick(const TCHAR *pszID, const char* pszModule, GCEVENT *gce)
 {
 	if (!pszModule)
 		return FALSE;
@@ -640,7 +640,7 @@ BOOL SM_RemoveAll(void)
 	return TRUE;
 }
 
-void SM_AddCommand(const TCHAR* pszID, const char* pszModule, const char* lpNewCommand)
+void SM_AddCommand(const TCHAR *pszID, const char* pszModule, const char* lpNewCommand)
 {
 	for (SESSION_INFO *si = s_WndList; si; si = si->next) {
 		if (lstrcmpi(si->ptszID, pszID) == 0 && lstrcmpiA(si->pszModule, pszModule) == 0) {      // match
@@ -677,7 +677,7 @@ void SM_AddCommand(const TCHAR* pszID, const char* pszModule, const char* lpNewC
 	}
 }
 
-char* SM_GetPrevCommand(const TCHAR* pszID, const char* pszModule) // get previous command. returns NULL if previous command does not exist. current command remains as it was.
+char* SM_GetPrevCommand(const TCHAR *pszID, const char* pszModule) // get previous command. returns NULL if previous command does not exist. current command remains as it was.
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -696,7 +696,7 @@ char* SM_GetPrevCommand(const TCHAR* pszID, const char* pszModule) // get previo
 	return pPrevCmd ? pPrevCmd->lpCommand : NULL;
 }
 
-char* SM_GetNextCommand(const TCHAR* pszID, const char* pszModule) // get next command. returns NULL if next command does not exist. current command becomes NULL (a prev command after this one will get you the last command)
+char* SM_GetNextCommand(const TCHAR *pszID, const char* pszModule) // get next command. returns NULL if next command does not exist. current command becomes NULL (a prev command after this one will get you the last command)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == NULL)

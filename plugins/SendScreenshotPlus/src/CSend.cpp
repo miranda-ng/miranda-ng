@@ -148,16 +148,10 @@ void	CSend::svcSendChat() {
 		gci.Flags = BYINDEX | HCONTACT | ID;
 		CallService(MS_GC_GETINFO, 0, (LPARAM) &gci);
 		if (gci.hContact == m_hContact) {
-			GCDEST	gcd = {0};
-			gcd.pszModule = m_pszProto;
-			gcd.iType = GC_EVENT_SENDMESSAGE;
-			gcd.ptszID = gci.pszID;
-
-			GCEVENT gce = {0};
-			gce.cbSize = sizeof(GCEVENT);
-			gce.pDest = &gcd;
+			GCDEST gcd = { m_pszProto, gci.pszID, GC_EVENT_SENDMESSAGE };
+			GCEVENT gce = { sizeof(gce), &gcd };
 			gce.bIsMe = TRUE;
-			gce.dwFlags = GC_TCHAR|GCEF_ADDTOLOG;
+			gce.dwFlags = GCEF_ADDTOLOG;
 			gce.ptszText = m_szEventMsgT;
 			gce.time = time(NULL);
 

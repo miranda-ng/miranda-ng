@@ -47,21 +47,15 @@ int CMsnProto::MSN_ChatInit(ThreadData *info)
 	mir_sntprintf(szName, SIZEOF(szName), _T("%s %s%s"),
 		m_tszUserName, TranslateT("Chat #"), info->mChatID);
 
-	GCSESSION gcw = {0};
-	gcw.cbSize = sizeof(GCSESSION);
-	gcw.dwFlags = GC_TCHAR;
+	GCSESSION gcw = { sizeof(gcw) };
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = szName;
 	gcw.ptszID = info->mChatID;
 	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
-	GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_ADDGROUP };
-	gcd.ptszID = info->mChatID;
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
-	gce.dwFlags = GC_TCHAR;
-	gce.pDest = &gcd;
+	GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_ADDGROUP };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszStatus = TranslateT("Me");
 	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
@@ -95,13 +89,9 @@ void CMsnProto::MSN_ChatStart(ThreadData* info)
 	MSN_ChatInit(info);
 
 	// add all participants onto the list
-	GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_JOIN };
-	gcd.ptszID = info->mChatID;
-
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
-	gce.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-	gce.pDest = &gcd;
+	GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_JOIN };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszStatus = TranslateT("Others");
 	gce.time = time(NULL);
 	gce.bIsMe = FALSE;
@@ -121,12 +111,9 @@ void CMsnProto::MSN_ChatStart(ThreadData* info)
 
 void CMsnProto::MSN_KillChatSession(TCHAR* id)
 {
-	GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_CONTROL };
-	gcd.ptszID = id;
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
-	gce.dwFlags = GC_TCHAR | GCEF_REMOVECONTACT;
-	gce.pDest = &gcd;
+	GCDEST gcd = { m_szModuleName, id, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.dwFlags = GCEF_REMOVECONTACT;
 	CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 }
@@ -320,7 +307,7 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 {
-	GCHOOK *gch = (GCHOOK*) lParam;
+	GCHOOK *gch = (GCHOOK*)lParam;
 	if (!gch)
 		return 1;
 
@@ -349,13 +336,9 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 					DBVARIANT dbv;
 					int bError = getTString("Nick", &dbv);
 
-					GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_MESSAGE };
-					gcd.ptszID = gch->pDest->ptszID;
-
-					GCEVENT gce = {0};
-					gce.cbSize = sizeof(GCEVENT);
-					gce.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-					gce.pDest = &gcd;
+					GCDEST gcd = { m_szModuleName, gch->pDest->ptszID, GC_EVENT_MESSAGE };
+					GCEVENT gce = { sizeof(gce), &gcd };
+					gce.dwFlags = GCEF_ADDTOLOG;
 					gce.ptszNick = bError ? _T("") : dbv.ptszVal;
 					gce.ptszUID = mir_a2t(MyOptions.szEmail);
 					gce.time = time(NULL);

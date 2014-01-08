@@ -38,13 +38,9 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 	def_avatar_folder_ = std::tstring( VARST( _T("%miranda_avatarcache%"))) + _T("\\") + m_tszUserName;
 
 	// Register group chat
-	GCREGISTER gcr = {0};
-	gcr.cbSize = sizeof(GCREGISTER);
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR | GC_TCHAR;
-	gcr.iMaxText = 0;
-	gcr.nColors = 0;
-	gcr.pColors = NULL; //(COLORREF*)crCols;
-	gcr.ptszModuleDispName = m_tszUserName;
+	GCREGISTER gcr = { sizeof(gcr) };
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 

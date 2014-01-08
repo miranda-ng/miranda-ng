@@ -133,7 +133,6 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = szNick;
 	gcw.ptszID = item->jid;
-	gcw.dwFlags = GC_TCHAR;
 	CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw);
 
 	HANDLE hContact = HContactFromJID(item->jid);
@@ -166,19 +165,13 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 
 	item->bChatActive = TRUE;
 
-	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_ADDGROUP };
-	gcd.ptszID = item->jid;
-
-	GCEVENT gce = { sizeof(GCEVENT) };
-	gce.pDest = &gcd;
-	gce.dwFlags = GC_TCHAR;
+	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_ADDGROUP };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	for (i = SIZEOF(sttStatuses)-1; i >= 0; i--) {
 		gce.ptszStatus = TranslateTS(sttStatuses[i]);
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 	}
 
-	gce.cbSize = sizeof(GCEVENT);
-	gce.pDest = &gcd;
 	gcd.iType = GC_EVENT_CONTROL;
 	CallServiceSync(MS_GC_EVENT, (item->bAutoJoin && m_options.AutoJoinHidden) ? WINDOW_HIDDEN : SESSION_INITDONE, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
@@ -253,17 +246,13 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 	}
 
 	if (*buf) {
-		GCDEST gcd = { m_szModuleName, 0, 0 };
-		gcd.ptszID = item->jid;
-		GCEVENT gce = {0};
-		gce.cbSize = sizeof(GCEVENT);
+		GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_INFORMATION };
+		GCEVENT gce = { sizeof(gce), &gcd };
 		gce.ptszNick = user->m_tszResourceName;
 		gce.ptszUID = user->m_tszResourceName;
 		gce.ptszText = EscapeChatTags(buf);
-		gce.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-		gce.pDest = &gcd;
+		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.time = time(0);
-		gcd.iType = GC_EVENT_INFORMATION;
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 
 		mir_free((void*)gce.ptszText); // Since we processed msgText and created a new string
@@ -286,17 +275,13 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *
 	if (myNick == NULL)
 		myNick = JabberNickFromJID(m_szJabberJID);
 
-	GCDEST gcd = { m_szModuleName, 0, 0 };
-	gcd.ptszID = item->jid;
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
+	GCDEST gcd = { m_szModuleName, item->jid };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszNick = nick;
 	gce.ptszUID = resource;
 	if (jid != NULL)
 		gce.ptszUserInfo = jid;
 	gce.ptszText = szReason;
-	gce.dwFlags = GC_TCHAR;
-	gce.pDest = &gcd;
  	if (item->bChatActive == 2) {
 		gce.dwFlags |= GCEF_ADDTOLOG;
 		gce.time = time(0);
@@ -351,14 +336,10 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 {
 	TCHAR *szMessage = NULL;
 
-	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
-	gcd.ptszID = item->jid;
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
+	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszUID = item->jid;
 	gce.ptszText = xmlGetText(reason);
-	gce.dwFlags = GC_TCHAR;
-	gce.pDest = &gcd;
 
 	if (code != 307 && code != 301) {
 		CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
@@ -1453,7 +1434,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 
 	switch (gch->pDest->iType) {
 	case GC_USER_MESSAGE:
-		if (gch->pszText && lstrlen(gch->ptszText) > 0) {
+		if (gch->ptszText && lstrlen(gch->ptszText) > 0) {
 			rtrimt(gch->ptszText);
 
 			if (m_bJabberOnline) {

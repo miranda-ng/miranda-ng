@@ -43,13 +43,9 @@ int WhatsAppProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
 				
 				// #TODO Move to SendMsgWorker, otherwise all messages are "acknowledged" by Miranda
 
-				GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_MESSAGE };
-				gcd.ptszID = hook->pDest->ptszID;
-
-				GCEVENT gce = {0};
-				gce.cbSize = sizeof(GCEVENT);
-				gce.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-				gce.pDest = &gcd;
+				GCDEST gcd = { m_szModuleName, hook->pDest->ptszID, GC_EVENT_MESSAGE };
+				GCEVENT gce = { sizeof(gce), &gcd };
+				gce.dwFlags = GCEF_ADDTOLOG;
 				gce.ptszNick = mir_a2t(this->nick.c_str());
 				gce.ptszUID = mir_a2t(this->jid.c_str());
 				gce.time = time(NULL);

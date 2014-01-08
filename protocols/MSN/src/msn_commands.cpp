@@ -470,13 +470,9 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 		if (info->mChatID[0])
 		{
-			GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_MESSAGE };
-			gcd.ptszID = info->mChatID;
-
-			GCEVENT gce = {0};
-			gce.cbSize = sizeof(GCEVENT);
-			gce.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-			gce.pDest = &gcd;
+			GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_MESSAGE };
+			GCEVENT gce = { sizeof(gce), &gcd };
+			gce.dwFlags = GCEF_ADDTOLOG;
 			gce.ptszUID = mir_a2t(email);
 			gce.ptszNick = GetContactNameT(hContact);
 			gce.time = time(NULL);
@@ -487,7 +483,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			mir_free(p);
 
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-			mir_free((void*)gce.pszText);
+			mir_free((void*)gce.ptszText);
 			mir_free((void*)gce.ptszUID);
 		}
 		else if (hContact)
@@ -1181,19 +1177,15 @@ LBL_InvalidCommand:
 			// modified for chat
 			if (msnHaveChatDll)
 			{
-				GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_QUIT };
-				gcd.ptszID = info->mChatID;
-
-				GCEVENT gce = {0};
-				gce.cbSize = sizeof(GCEVENT);
-				gce.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-				gce.pDest = &gcd;
+				GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_QUIT };
+				GCEVENT gce = { sizeof(gce), &gcd };
+				gce.dwFlags = GCEF_ADDTOLOG;
 				gce.ptszNick = GetContactNameT(hContact);
 				gce.ptszUID = mir_a2t(data.userEmail);
 				gce.time = time(NULL);
 				gce.bIsMe = FALSE;
 				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-				mir_free((void*)gce.pszUID);
+				mir_free((void*)gce.ptszUID);
 			}
 
 			int personleft = info->contactLeft(data.userEmail);
@@ -1207,13 +1199,9 @@ LBL_InvalidCommand:
 			{
 				if (!strcmp(data.isIdle, "1"))
 				{
-					GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_INFORMATION };
-					gcd.ptszID = info->mChatID;
-
-					GCEVENT gce = {0};
-					gce.cbSize = sizeof(GCEVENT);
-					gce.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-					gce.pDest = &gcd;
+					GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_INFORMATION };
+					GCEVENT gce = { sizeof(gce), &gcd };
+					gce.dwFlags = GCEF_ADDTOLOG;
 					gce.bIsMe = FALSE;
 					gce.time = time(NULL);
 					gce.ptszText = TranslateT("This conversation has been inactive, participants will be removed.");
@@ -1565,13 +1553,9 @@ remove:
 				{
 					if (chatCreated)
 					{
-						GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_JOIN };
-						gcd.ptszID = info->mChatID;
-
-						GCEVENT gce = {0};
-						gce.cbSize = sizeof(GCEVENT);
-						gce.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-						gce.pDest = &gcd;
+						GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_JOIN };
+						GCEVENT gce = { sizeof(gce), &gcd };
+						gce.dwFlags = GCEF_ADDTOLOG;
 						gce.ptszNick = GetContactNameT(hContact);
 						gce.ptszUID = mir_a2t(data.userEmail);
 						gce.ptszStatus = TranslateT("Others");

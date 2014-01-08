@@ -385,7 +385,7 @@ int FacebookProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	GCREGISTER gcr = {sizeof(gcr)};
 	gcr.dwFlags = 0; //GC_ACKMSG;
 	gcr.pszModule = m_szModuleName;
-	gcr.pszModuleDispName = m_szModuleName;
+	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = FACEBOOK_MESSAGE_LIMIT;
 	gcr.nColors = 0;
 	gcr.pColors = NULL;

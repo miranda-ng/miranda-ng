@@ -224,14 +224,8 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 
 	if ( command == _T("/servershow") || command == _T("/serverhide")) {
 		if ( m_useServer ) {
-			GCEVENT gce = {0};
-			GCDEST gcd = {0};
-			gce.dwFlags = GC_TCHAR;
-			gcd.iType = GC_EVENT_CONTROL;
-			gcd.ptszID = SERVERWINDOW;
-			gcd.pszModule = m_szModuleName;
-			gce.cbSize = sizeof(GCEVENT);
-			gce.pDest = &gcd;
+			GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
+			GCEVENT gce = { sizeof(gce), &gcd };
 			CallChatEvent( command == _T("/servershow") ? WINDOW_VISIBLE : WINDOW_HIDDEN, (LPARAM)&gce);
 		}
 		return true;
@@ -261,15 +255,9 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 		else
 			S = MakeWndID( window );
 
-		GCEVENT gce = {0};
-		GCDEST gcd = {0};
-		gce.cbSize = sizeof(GCEVENT);
-		gcd.iType = GC_EVENT_CONTROL;
-		gcd.pszModule = m_szModuleName;
-		gce.pDest = &gcd;
-		gce.dwFlags = GC_TCHAR;
-		gcd.ptszID = (TCHAR*)S.c_str();
-		CallChatEvent( WINDOW_CLEARLOG, (LPARAM)&gce);
+		GCDEST gcd = { m_szModuleName, (TCHAR*)S.c_str(), GC_EVENT_CONTROL };
+		GCEVENT gce = { sizeof(gce), &gcd };
+		CallChatEvent(WINDOW_CLEARLOG, (LPARAM)&gce);
 		return true;
 	}
 
@@ -488,15 +476,9 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 			return true;
 		}
 
-		GCEVENT gce = {0};
-		GCDEST gcd = {0};
-		gcd.iType = GC_EVENT_CONTROL;
 		CMString S = MakeWndID(window);
-		gcd.ptszID = (TCHAR*)S.c_str();
-		gcd.pszModule = m_szModuleName;
-		gce.cbSize = sizeof(GCEVENT);
-		gce.dwFlags = GC_TCHAR;
-		gce.pDest = &gcd;
+		GCDEST gcd = { m_szModuleName, (TCHAR*)S.c_str(), GC_EVENT_CONTROL };
+		GCEVENT gce = { sizeof(gce), &gcd };
 		CallChatEvent( SESSION_TERMINATE, (LPARAM)&gce);
 
 		PostIrcMessage( _T("/JOIN %s"), GetWordAddress(text.c_str(), 1));

@@ -2722,11 +2722,6 @@ LABEL_SHOWWINDOW:
 						break;
 					}
 
-					if (si->iType != GCW_SERVER && !(si->dwFlags & GC_UNICODE)) {
-						int pos = GetMenuItemCount(hMenu);
-						RemoveMenu(hMenu, pos - 1, MF_BYPOSITION);
-						RemoveMenu(PluginConfig.g_hMenuEncoding, 1, MF_BYPOSITION);
-					}
 					DestroyGCMenu(&hMenu, 5);
 				}
 			}
