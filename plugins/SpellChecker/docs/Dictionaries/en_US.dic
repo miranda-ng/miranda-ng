@@ -1,4 +1,27 @@
-62076
+62118
+0/nm
+1/n1
+2/nm
+3/nm
+4/nm
+5/nm
+6/nm
+7/nm
+8/nm
+9/nm
+0th/pt
+1st/p
+1th/tc
+2nd/p
+2th/tc
+3rd/p
+3th/tc
+4th/pt
+5th/pt
+6th/pt
+7th/pt
+8th/pt
+9th/pt
 a
 A
 AA
@@ -141,7 +164,7 @@ abortion/MS
 abortiveness/M
 abortive/PY
 abort/SRDVG
-Abo/SM
+Abo/SM!
 abound/GDS
 about/S
 aboveboard
@@ -830,6 +853,7 @@ advisee/MS
 advisement/MS
 adviser/M
 advise/ZRSDGLB
+advisor/S
 advisor's
 advisory/S
 advocacy/SM
@@ -2022,6 +2046,7 @@ analogue/SM
 analogy/MS
 anal/Y
 analysand/MS
+analyses
 analysis/AM
 analyst/SM
 analytical/Y
@@ -3020,6 +3045,7 @@ Argentinean/S
 Argentine/SM
 Argentinian/S
 argent/MS
+arginine/MS
 Argonaut/MS
 argonaut/S
 argon/MS
@@ -3456,7 +3482,7 @@ assessor/MS
 asset/SM
 asseverate/XSDNG
 asseveration/M
-asshole/MS
+asshole/MS!
 assiduity/SM
 assiduousness/SM
 assiduous/PY
@@ -7487,7 +7513,7 @@ bugeyed
 bugged/C
 buggered
 buggering
-bugger/SCM
+bugger/SCM!
 buggery/M
 bugging/C
 buggy/RSMT
@@ -7551,10 +7577,10 @@ bullock/MS
 bullpen/MS
 bullring/SM
 bullseye
-bullshit/MS
-bullshitted
-bullshitter/S
-bullshitting
+bullshit/MS!
+bullshitted/!
+bullshitter/S!
+bullshitting/!
 bullwhackers
 Bullwinkle/M
 bullyboy/MS
@@ -8134,7 +8160,7 @@ camerawomen
 Cameron/M
 Cameroonian/S
 Cameroon/SM
-came/SN
+came/N
 Camey/M
 Camila/M
 Camile/M
@@ -10766,7 +10792,7 @@ cockpit/MS
 cockroach/SM
 cockscomb/SM
 cockshies
-cocksucker/S
+cocksucker/S!
 cocksure
 cocktail/GDMS
 cocky/RPT
@@ -12173,7 +12199,7 @@ Coolidge/M
 coolie/MS
 coolness/MS
 cool/YDRPJGZTS
-coon/MS
+coon/MS!
 coonskin/MS
 cooperage/MS
 cooperate/VNGXSD
@@ -12860,7 +12886,7 @@ crappie/M
 crapping
 crappy/RST
 crapshooter/SM
-crap/SMDG
+crap/SMDG!
 crasher/M
 crashing/Y
 crash/SRDGZ
@@ -13382,7 +13408,7 @@ cunnilingus/SM
 Cunningham/M
 cunningness/M
 cunning/RYSPT
-cunt/SM
+cunt/SM!
 cupboard/SM
 cupcake/SM
 Cupertino/M
@@ -15259,7 +15285,7 @@ Dickens/M
 dicker/DG
 Dickerson/M
 dickey/SM
-dick/GZXRDMS
+dick/GZXRDMS!
 Dickie/M
 dickier
 dickiest
@@ -19886,7 +19912,7 @@ farther
 farthermost
 farthest
 farthing/SM
-fart/MDGS
+fart/MDGS!
 fas
 fascia/SM
 fascicle/DSM
@@ -20572,6 +20598,7 @@ firedamp/SM
 fired/U
 firefight/JRGZS
 firefly/MS
+Firefox/M
 fireguard/M
 firehouse/MS
 firelight/GZSM
@@ -21990,8 +22017,8 @@ FTC
 FTP
 fuchsia/MS
 Fuchs/M
-fucker/M
-fuck/GZJRDMS
+fucker/M!
+fuck/GZJRDMS!
 FUD
 fuddle/GSD
 fudge/GMSD
@@ -23364,6 +23391,7 @@ gnawing/M
 gneiss/SM
 Gnni/M
 gnomelike
+GNOME/M
 gnome/SM
 gnomic
 gnomish
@@ -23533,6 +23561,7 @@ gooey
 goofiness/MS
 goof/SDMG
 goofy/RPT
+Google/M
 gooier
 gooiest
 gook/SM
@@ -25883,6 +25912,7 @@ hippopotamus/SM
 hip/PSM
 hippy's
 hipster/MS
+hiragana
 Hiram/M
 hire/AGSD
 hireling/SM
@@ -25903,6 +25933,7 @@ hisser/M
 hissing/M
 Hiss/M
 histamine/SM
+histidine/SM
 histochemic
 histochemical
 histochemistry/M
@@ -30316,6 +30347,7 @@ Kassey/M
 Kassia/M
 Kassie/M
 Kassi/M
+katakana
 Katalin/M
 Kata/M
 Katee/M
@@ -30395,6 +30427,7 @@ KB
 KC
 kcal/M
 kc/M
+KDE/M
 Keane/M
 Kean/M
 Kearney/M
@@ -31042,7 +31075,7 @@ Kramer/M
 Krasnodar/M
 Krasnoyarsk/M
 Krause/M
-kraut/S
+kraut/S!
 Krebs/M
 Kremlin/M
 Kremlinologist/MS
@@ -35557,6 +35590,7 @@ microscopical/Y
 microscopy/MS
 microsecond/MS
 microsimulation/S
+Microsystems
 micros/M
 Microsoft/M
 microsomal
@@ -36544,6 +36578,7 @@ monotonicity
 monotonousness/MS
 monotonous/YP
 monotony/MS
+monovalent
 monoxide/SM
 Monroe/M
 Monro/M
@@ -36790,8 +36825,8 @@ mote's
 motet/SM
 mothball/DMGS
 motherboard/MS
-motherfucker/MS
-motherfucking
+motherfucker/MS!
+motherfucking/!
 motherhood/SM
 mothering/M
 motherland/SM
@@ -36920,6 +36955,7 @@ Mozambique/M
 Mozart/M
 Mozelle/M
 Mozes/M
+Mozilla/M
 mozzarella/MS
 mp
 MP
@@ -38093,7 +38129,7 @@ Niger/M
 niggardliness/SM
 niggardly/P
 niggard/SGMDY
-nigger/SGDM
+nigger/SGDM!
 niggler/M
 niggle/RSDGZJ
 niggling/Y
@@ -39415,7 +39451,7 @@ Ojibwa/SM
 Okamoto/M
 okapi/SM
 Okayama/M
-okay's
+okay/M
 Okeechobee/M
 O'Keeffe
 Okefenokee
@@ -39593,6 +39629,7 @@ ooh/GD
 oohs
 oolitic
 Oona/M
+OOo/M
 oops/S
 Oort/M
 ooze/GDS
@@ -39617,6 +39654,7 @@ openhanded/P
 openhearted
 opening/M
 openness/S
+OpenOffice.org/M
 opens/A
 openwork/MS
 open/YRDJGZTP
@@ -42588,7 +42626,7 @@ Pisces/M
 Pisistratus/M
 pismire/SM
 Pissaro/M
-piss/DSRG
+piss/DSRG!
 pistachio/MS
 piste/SM
 pistillate
@@ -43174,7 +43212,7 @@ polymerization/SM
 polymerize/SDG
 polymer/MS
 polymorphic
-polymorphisms
+polymorphism/MS
 polymorph/M
 polymyositis
 Polynesia/M
@@ -44491,6 +44529,7 @@ provable/P
 provably
 prov/DRGZB
 proved/U
+proven/U
 prove/ESDAG
 provenance/SM
 Provençal
@@ -44962,6 +45001,8 @@ Pyrex/SM
 pyridine/M
 pyrimidine/SM
 pyrite/MS
+pyroelectric
+pyroelectricity/SM
 pyrolysis/M
 pyrolyze/RSM
 pyromaniac/SM
@@ -49689,6 +49730,7 @@ sequester/SDG
 sequestrate/XGNDS
 sequestration/M
 sequin/SDMG
+sequitur
 Sequoia/M
 sequoia/MS
 Sequoya/M
@@ -50278,9 +50320,9 @@ shirtmaker/M
 shirtsleeve/MS
 shirttail/S
 shirtwaist/SM
-shit/S
-shitting
-shitty/RT
+shit/S!
+shitting/!
+shitty/RT!
 Shiva/M
 shiverer/M
 shiver/GDR
@@ -55965,6 +56007,7 @@ thruster/M
 thrust/ZGSR
 Thruway/MS
 thruway/SM
+Thunderbird/M
 Thu
 Thucydides/M
 thudded
@@ -61320,7 +61363,7 @@ Wooten/M
 woozily
 wooziness/MS
 woozy/RTP
-wop/MS
+wop/MS!
 Worcestershire/M
 Worcester/SM
 wordage/SM
