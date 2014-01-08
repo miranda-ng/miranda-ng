@@ -1,8 +1,8 @@
 ﻿#muuid {32579908-724b-467f-adad-22b6359a749a}
 ;============================================================
-;  File: Vkontakte.dll
-;  Module: Vkontakte protocol
-;  Versions: 0.1.0.6
+;  File: VKontakte.dll
+;  Plugin: VKontakte protocol
+;  Version: 0.1.0.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -15,6 +15,10 @@
 Відкрити сторінку ВКонтактi
 [Login settings]
 Налаштування входу
+[Local settings]
+Локальні налаштування
+[Contact list group:]
+Група в списку контактів:
 [Advanced]
 Додатково
 [Server-side delivery confirmation]
@@ -28,20 +32,28 @@
 [Cancel]
 Скасувати
 [Captcha form icon]
-Значок форми за капчею
+Значок форми з капчею
 [Protocols]
 Протоколи
 [VKontakte]
-Вконтакті
+ВКонтакті
 [Enter the text you see]
 Введіть текст, який бачите
 [Network]
 Мережа
 [Account]
-Обликовий запис
+Обліковий запис
 [%s server connection]
 Підключення до серверу %s
 [Attachments:]
 Прикріплення:
 [Photo]
 Фото
+[Audio]
+Аудіо
+[Video]
+Відео
+[Document]
+Документ
+[Unsupported or unknown attachment type: %s]
+Цей тип прикріплень не підтримується: %s 

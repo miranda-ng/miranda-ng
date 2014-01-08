@@ -44,12 +44,12 @@
 [Warn when deleting modules]
 Попереджати при видаленні модулів
 ["Open user tree in DBE++" menu item]
-Пункт меню "відкрити в редакторі бази" у кожного контакту
+Пункт меню "Відкрити в редакторі бази" у кожного контакту
 [Use popups when watched settings change values]
 Спливаючі вікна при зміні спостережуваних значень
 [Popup timeout (0 for infinite)]
 Тривалість (0 = залишити)
-[Background colour]
+[Background color]
 Колір фону
 [Add a module to contact]
 Додати модуль в контакт
@@ -58,7 +58,7 @@
 [Add to all contacts (Includes Settings)]
 У всі контакти (включаючи налаштування)
 [Cancel]
-Скасування
+Скасувати
 [Edit Setting]
 Редагувати налаштування
 [Value Name:]
@@ -76,16 +76,16 @@
 [Copy to all contacts (Includes Settings)]
 У всі контакти (і загальні налаштування)
 [Contact to copy module and settings to]
-Копіювати модуль настроювання
+Копіювати модуль та налаштування в
 [Import Module/Settings]
 Імпортувати модуль/налаштування
 [Import]
 Імпорт
 [Insert &CR/LF]
 Вставити &CR/LF
-[Paste the Settings here to import.]
+[Paste the Settings to import here.]
 Вставте налаштування сюди.
-[DBEditor++]
+[Database Editor++]
 Редактор бази
 [&Main]
 &Головне
@@ -124,13 +124,13 @@
 [&Options]
 &Налаштування
 [&Sort by protocol]
-Сортувати по &протоколу
+Впорядкувати за &протоколом
 [Show &All]
 Показати &всі
 [Show only &Loaded]
 Показати тільки &завантажені
-[Show only &Created]
-Показати тільки в&ивінтажені
+[Show only &Unloaded]
+Показати тільки в&ивантажені
 [Edit &Bytes in Hex]
 &Байти в шістнадцятковому вигляді
 [Edit &Words in Hex]
@@ -138,7 +138,7 @@
 [Edit &Dwords in Hex]
 &Подвійні слова в шістнадцятковому вигляді
 [&Restore position]
-В&становити положення
+В&ідновити положення
 [&Open Options]
 &Відкрити налаштування
 [&Edit / Rename]
@@ -155,8 +155,6 @@
 Р&ядок
 [&Unicode]
 &Юнікод
-[BL&OB]
-BL&OB
 [&Convert to]
 &Перевести в
 [Encyption]
@@ -204,7 +202,7 @@ BL&OB
 [Reload Watch List]
 Оновити список спостережень
 [Cannot Convert!]
-Не можу конвертувати!
+Неможливо конвертувати!
 [New BYTE value]
 Створити байт
 [Edit BYTE value]
@@ -229,7 +227,7 @@ BL&OB
 Створити BLOB
 [Edit BLOB value]
 Редагувати BLOB
-[Couldnt allocate enough memory!]
+[Couldn't allocate enough memory!]
 Неможливо виділити пам'ять!
 [Settings]
 Налаштування
@@ -239,8 +237,8 @@ BL&OB
 Видалити модуль?
 [Delete module from Database]
 Видалити модуль з бази
-[Delete module from Database Loading...]
-Видалення модуля з бази Завантаження...
+[Delete module from Database... Loading]
+Видалення модуля з бази... Завантаження
 [INI Files]
 INI файли
 [All Files]
@@ -253,7 +251,7 @@ INI файли
 Не вдається відкрити файл на запис
 [Import from files]
 Імпорт з файлів
-[Enter a string to search the DB for]
+[Enter a string to search the database for]
 Введіть рядок пошуку
 [Stop]
 Зупинити
@@ -263,14 +261,14 @@ INI файли
 Видалено
 [Found]
 Знайдено
-[%s Module\"% s \ " in contact "%s"]
-%s модуль "% s" \ " в контакті "%s"
-[%s Setting%s in module\"% s \ " in contact "%s" - "%s"]
-%s налаштування\"%s" у модулі "%s \ " контакту "%s" - "%s"
-[%s Setting%s in module\"% s \ " in contact "%s"]
-%s настройка "%s" у модулі\"%s \ " контакту "%s"
-[%s "%s" Setting in\"% s \ " in module\"% s \ " in contact "%s"]
-%s "%s" у налаштуванні\"%s \" у модулі\"%s \" контакту "%s"
+[%s Module "%s" in contact "%s"]
+%s модуль "%s" у контакті "%s"
+[%s Setting "%s" in module "%s" in contact "%s" - "%s"]
+%s налаштування "%s" у модулі "%s" контакту "%s" - "%s"
+[%s Setting "%s" in module "%s" in contact "%s"]
+%s налаштування "%s" у модулі "%s" контакту "%s"
+[%s "%s" in Setting "%s" in module "%s" in contact "%s"]
+%s "%s" у налаштуванні "%s" у модулі "%s" контакту "%s"
 [Searching...]
 Пошук...
 [Error Loading Setting List]
@@ -282,9 +280,9 @@ INI файли
 [Finished. %d items were found.]
 Пошук завершено. Знайдено %d елементів.
 [Closed Known Module]
-Відомий модуль (закритий)
+Модуль (згорнутий)
 [Open Known Module]
-Відомий модуль (відкрито)
+Модуль (розгорнутий)
 [Contacts Group]
 Група контактів
 [Unknown Contact]
@@ -309,8 +307,6 @@ INI файли
 Дерево модулів не знайдено
 [Contacts]
 Контакти
-[HANDLE]
-HANDLE
 [Add module to contact "%s"]
 Додати модуль контакту "%s"
 [Database]
@@ -324,15 +320,15 @@ HANDLE
 [Size]
 Розмір
 [BYTE]
-байт
+Байт
 [WORD]
-слово
+Слово
 [DWORD]
-дв. слово
+Подв. слово
 [STRING]
-рядок
+Рядок
 [UNICODE]
-юнікод
+Юнікод
 [<unsupported>]
 <не підтримується>
 [<unknown>]
@@ -348,12 +344,12 @@ HANDLE
 [Setting]
 Параметр
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-Змінено налаштування бази: \nМодуль: "%s" , настройка: "%s"\nНовое значення: (байт) %d
+Змінено налаштування бази: \nмодуль: "%s" , настройка: "%s"\nНове значення: (байт) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-Змінено налаштування бази: \nМодуль: "%s" , настройка: "%s"\nНовое значення: (слово) %d
+Змінено налаштування бази: \nмодуль: "%s" , настройка: "%s"\nНове значення: (слово) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-Змінено налаштування бази: \nМодуль: "%s" , настройка: "%s"\nНовое значення: (подвійне слово) 0x%X
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value:% s"]
-Змінено налаштування бази: \nМодуль: "%s" , настройка: "%s"\nНовое значення: "%s"
+Змінено налаштування бази: \nмодуль: "%s" , настройка: "%s"\nНове значення: (подвійне слово) 0x%X
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
+Змінено налаштування бази: \nмодуль: "%s" , настройка: "%s"\nНове значення: "%s"
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Змінено налаштування БД: \nМодуль: "%s" , Настройка: "%s"\nНовое значення: (UTF8) "%s"
+Змінено налаштування бази: \nмодуль: "%s" , настройка: "%s"\nНове значення: (UTF8) "%s"

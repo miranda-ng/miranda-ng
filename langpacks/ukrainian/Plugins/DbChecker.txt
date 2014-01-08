@@ -6,14 +6,14 @@
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
-Плагін перевірки БД Miranda NG.
+Плагін перевірки баз даних Miranda NG.
 [Welcome to the Miranda Database Wizard]
 Ласкаво просимо до майстра бази даних
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
 Використовуючи цей майстер, ви можете зменшити розмір профілю видаленням "мертвого" простору.
 [To continue, click Next.]
 Натисніть "Далі" для продовження.
-[This programme is licenced under the terms of the GNU General Public License.]
+[This program is licenced under the terms of the GNU General Public License.]
 Програма ліцензована під умовами GNU General Public License.
 [Miranda Database Tool]
 Інструмент бази Miranda NG
@@ -38,7 +38,7 @@
 [There was an error opening the profile database given.]
 Помилка відкриття бази профілю.
 [Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
-Натисніть Далі, щоб повторити читання файлу, або натисніть Назад, щоб вибрати інший профіль бази даних.
+Натисніть "Далі", щоб повторити читання файлу, або "Назад", щоб вибрати інший профіль бази даних.
 [The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
 Файл використовується іншою копією Miranda NG. Закрийте всі копії і натисніть "Далі" для повтору.
 [File Access Options]
@@ -68,11 +68,11 @@
 [Mark all events read]
 Позначити як прочитані
 [Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
-Позначити усі події як прочитані. Це виправить проблеми зі старими повідомленнями, завжди відображеними у вікні повідомлення.
+Позначити усі події як прочитані. Це виправить проблеми зі старими повідомленнями, які завжди відображаються у вікні повідомлень.
 [Convert old Unicode messages to UTF8]
 Конвертувати старі Unicode повідомлення в UTF8
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
-Конвертує історію повідомлень з <0.7 формату (ANSI+UCS2) в новий UTF8 формат. У більшості випадків допомагає зберегти місце на диску (рекомендується).
+Конвертує історію повідомлень з формату <0.7 (ANSI+UCS2) в новий формат UTF8. У більшості випадків допомагає зберегти місце на диску (рекомендується).
 [Working...]
 Виконання...
 [Please wait while the requested operations are being performed.]
@@ -84,7 +84,7 @@
 [Launch Miranda with this profile]
 Запустити Miranda NG з цим профілем
 [Launches Miranda with the profile that was just worked on.]
-Запускає Miranda NG з попереднім профілем
+Запускає Miranda NG з обробленим профілем
 [Backup:]
 Резерв:
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
@@ -94,15 +94,15 @@
 [Click Next to continue]
 Натисніть "Далі" для продовження
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
-Обробка ще не завершена; якщо ви скасуєте її зараз, то зміни не будуть застосовані до оригінальної базі даних. Ви хочете скасувати?
+Обробка ще не завершена; якщо ви скасуєте її зараз, то зміни не будуть застосовані до оригінальної бази даних. Ви хочете скасувати?
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
-Обробка ще не завершена; якщо ви перейдете тому зараз, то зміни не будуть застосовані до оригінальної базі даних. Ви хочете перейти назад?
+Обробка ще не завершена; якщо ви перейдете назад зараз, то зміни не будуть застосовані до оригінальної бази даних. Ви хочете перейти назад?
 [Database Checker cannot find a suitable database plugin to open '%s'.]
-Плагін перевірки не може знайти відповідного драйвера БД для відкриття '%s'.
+Плагін перевірки не може знайти відповідного драйвера БД для відкриття "%s".
 [Error]
 Помилка
 [Database driver '%s' doesn't support checking.]
-Драйвер профілю '%s' не підтримує перевірку.
+Драйвер профілю "%s" не підтримує перевірку.
 [Database]
 Профіль
 [Total size]
@@ -114,11 +114,11 @@
 [All Files]
 Усі файли
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
-Були знайдені помилки, але ви не зберегли резервну копію. Суворо рекомендується зробити її, інакше ви можете втратити важливі дані. Ви хочете зберегти резервну копію оригінальної бази даних?
+Знайдено помилки, але ви не зберегли резервну копію. Суворо рекомендується зробити її, інакше ви можете втратити важливі дані. Ви хочете зберегти резервну копію оригінальної бази даних?
 [%s\\Backup of %s]
 %s\\Резервна копія %s
 [%s\\Backup (%d) of %s]
-%s\\Резервна копія (%d) of %s
+%s\\Резервна копія (%d) %s
 [Unable to rename original file]
 Неможливо перейменувати оригінальний файл
 [Unable to delete original file]
@@ -134,7 +134,7 @@
 [Processing aborted by user]
 Обробка скасована користувачем
 [Elapsed time: %d sec]
-Витрачено часу: %d сек.
+Витрачено часу: %d с
 [All tasks completed but with errors (%d)]
 Всі завдання завершені, але %d з помилками
 [All tasks completed successfully]

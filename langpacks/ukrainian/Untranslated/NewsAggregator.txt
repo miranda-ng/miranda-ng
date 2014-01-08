@@ -1,7 +1,2 @@
 ﻿[OK]
-[All item's tags are valid. Put them between #. Example: #<author>#]
-[Feed name]
-[empty]
-[Auto Update Enabled]
-[Auto Update Disabled]
-[Enable/disable auto update]
+[URL]

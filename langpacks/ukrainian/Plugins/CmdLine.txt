@@ -11,7 +11,7 @@
 Немає допомоги для '%s'.
 [Available commands: ]
 Доступні команди:\s
-[Miranda has been closed or an error has occured while waiting for the result, could not process request.]
+[Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
 Miranda була закрита або сталася помилка при очікуванні результату, неможливо обробити запит.
 [%s usage:\n]
 %s використання:\n
@@ -58,7 +58,7 @@ Miranda була закрита або сталася помилка при оч
 [Allows you to search/list contacts or open a message windows for specified contacts.\nUsage:\n  contacts list [<keyword> [account:<account>] [id:<id>] [status:<status>] [<keyword> [...]]].\nThe command will search all contacts and display the ones matching the search criteria. To search for a specific account use the keyword 'account:<account>'. To search for contacts that have a certain ID use the keyword 'id:<id>'. To search for contacts that have a certain status use 'status:<status>'.\n  contacts open [<keyword> [account:<account>] [id:<id>] [status:<status>] [<keyword> [...]]].\nThe command will open a message window for all contacts that match the search criteria. To search for a specific account use the keyword 'account:<account>'. To search for contacts that have a certain ID use the keyword 'id:<id>'. To search for contacts that have a certain status use 'status:<status>'. If no keyword is specified the command will open a message window for all contacts that have unread messages.]
 Дозволяє шукати/відображати контакти або відкривати вікно повідомлень для вказаних контактів.\nВикористання:\n  contacts list [<ключ> [account:<обліковий запис>] [id:<id>] [status:<статус>] [<ключ> [...]]].\nКоманда відобразить всі контакти, знайдені за вказаними критеріями.\nДля пошуку за обліковим записом використовуйте параметр 'account:<обліковий запис>'.\nДля пошуку контакту за ID використовуйте ключ 'id:<id>'.\nДля пошуку контактів із вказаним статусом, використовуйте 'status:<статус>'.\n  contacts open [<ключ> [account:<обліковий запис>] [id:<id>] [status:<статус>] [<ключ> [...]]].\nКоманда відкриє вікно повідомлень для всіх контактів, знайдених за вказаними критеріями.\nДля пошуку за обліковим записом використовуйте параметр 'account:<обліковий запис>'.\nДля пошуку контакту за ID використовуйте ключ 'id:<id>'.\nДля пошуку контактів із вказаним статусом, використовуйте 'status:<статус>'.\nЯкщо не вказано жодного ключа, команда відкриє вікно повідомлень для всіх контактів з непрочитаними повідомленнями.
 [Shows history or unread messages for a contact.\nUsage: history <command> <contact>.\n<Command> is one of the following commands:\n  unread - show unread messages for that contact.\n  show <contact> <start> <finish> - show history from event number <start> to <finish>. If any number is negative it is interpreted as a relative index from the last event number +1 (so the last event for a contact is -1).]
-Відображає непрочитані повідомлення або історію контакту.\nВикористання: history <команда> <контакт>.\n<Команда> - одна з наступних команд:\n  unread - відобразити непрочитані повідомлення від вказаного контакту.\n  show <контакт> <старт> <фініш> - відобразити історію, починаючи з події <старт> по <фініш>.\nБудь-яке від'ємне значення інтерпретується як відносний індекс від останнього значення +1 (т.ч. остання подія для контакту це -1).
+Відображає непрочитані повідомлення або історію контакту.\nВикористання: history <команда> <контакт>.\n<Команда> - одна з наступних команд:\n  unread - відобразити непрочитані повідомлення від вказаного контакту.\n  show <контакт> <старт> <фініш> - відобразити історію, починаючи з події <старт> по <фініш>.\nБудь-яке від'ємне значення інтерпретується як відносний індекс від останнього значення +1. Т.ч. остання подія для контакту це -1.
 [Shows version information for Miranda and CmdLine plugin. If VersionInfo plugin is installed it will use its report instead.\nUsage: version.\nThe command will print Miranda's and CmdLine's version numbers or, if VersionInfo plugin is installed, it will show VersionInfo's report.]
 Відображає інформацію про версії Miranda і плагіна CmdLine. Якщо встановлений плагін VersionInfo, буде використовуватися звіт цього плагіна.\nВикористання: version.\nКоманда відобразить версії Miranda і плагіна CmdLine або, якщо встановлений плагін VersionInfo, буде відображений звіт VersionInfo.
 [Changes the user's nickname on the given protocol to the new name.\nUsage: setnickname <protocol> new_nickname.]
@@ -77,8 +77,22 @@ Miranda була закрита або сталася помилка при оч
 Змінено глобальний статус на '%s' (попередній був '%s').
 [Changed '%s' status to '%s' (previous status was '%s').]
 Змінено '%s' статус '%s' (попередній був '%s').
+['%s' doesn't seem to be a valid account.]
+Обліковий запис '%s' вказаний неправильно або не існує.
+[Failed to change status for account '%s' to '%s'.]
+Не вдалося змінити статус для облікового запису '%s' на '%s'.
+[Failed to set '%S' status message to '%s' (status is '%s').]
+Не вдалося встановити повідомлення статусу '%S' для '%s' (статус '%s').
+[Successfully set '%S' status message to '%s' (status is '%s').]
+Повідомлення статусу '%S' успішно встановлено для '%s' (статус '%s').
+[Account '%S' does not support away messages, skipping.]
+Обліковий запис '%S' не підтримує повідомлень статусу, пропуск.
 [Changed '%s' status message to '%s' (status is '%s').]
-Змінено '%s' повідомлення статусу на '%s' (статус '%s').
+Повідомлення статусу '%s' змінено на '%s' (статус '%s').
+[Account '%s' does not support away messages, skipping.]
+Обліковий запис '%s' не підтримує повідомлень статусу, пропуск.
+[Failed to change status message for account '%s' to '%s' (status is '%s').]
+Не вдалося змінити повідомлення статусу для облікового запису '%s' на '%s' (статус '%s').
 [Issued check email command to Exchange plugin.]
 Відправлена команда перевірки пошти для плагіна Exchange.
 [Exchange plugin is not running.]
@@ -87,49 +101,55 @@ Miranda була закрита або сталася помилка при оч
 Відправлена команда перевірки пошти для плагіна YAMN.
 [YAMN plugin is not running.]
 Плагін YAMN не запущений.
+[CallService call successful: service '%s' returned %p.]
+Успішний виклик команди CallService: команда '%s' повернула %p.
 [Invalid parameter '%s' passed to CallService command.]
-Неправильний аргумент '%s' відправлений команді CallService.
+Неправильний аргумент '%s' для команди CallService.
 [Service '%s' does not exist.]
 Служба '%s' не існує.
 [Message sent to '%s'.]
 Повідомлення надіслано для '%s'.
+[Message to '%s' was marked as sent but the account seems to be offline]
+Повідомлення для '%s' позначено як надіслане, але обліковий запис, здається, від'єднаний.
 [Could not send message to '%s'.]
-Неможливо відправити повідомлення для '%s'.
+Неможливо надіслати повідомлення для '%s'.
 [Timed out while waiting for acknowledgement for contact '%s'.]
-Таймаут очікування підтвердження від контакту '%s'.
+Час очікування підтвердження від контакту '%s' вичерпано.
 [Could not find contact handle for contact '%s'.]
 Неможливо знайти обробник для контакту '%s'.
 [Setting '%s/%s' deleted.]
 Налаштування '%s/%s' видалено.
 [Wrote '%s:%s' to database entry '%s/%s'.]
-Записано '%s:%s' запис '%s/%s' бази даних.
+Записано '%s:%s' у запис '%s/%s' бази даних.
 [Could not retrieve setting '%s/%s': %s.]
 Неможливо прочитати налаштування '%s/%s': %s.
 [Setting '%s/%s' was not found.]
 Налаштування '%s/%s' не знайдено.
 ['%s' proxy was disabled.]
-'%s' проксі вимкнений.
+Проксі '%s' вимкнений.
 ['%s' proxy was enabled.]
-'%s' проксі включено.
+Проксі '%s' увімкнений.
 [%s proxy server: %s %s:%d.]
-%s проксі сервер: %s %s:%d.
+%s проксі-сервер: %s %s:%d.
 [%s proxy set to %s %s:%d.]
 %s проксі встановлений на %s %s:%d.
 [%s The port or the proxy type parameter is invalid.]
-%s Порт або тип проксі невірний.
+%s Порт або тип проксі неправильный.
 [[me]]
 [Я]
 [No unread messages found.]
 Немає непрочитаних повідомлень.
 [%s:%s - %d unread events.]
-%s:%s - %d непрочитані повідомлення.
+%s:%s - %d непрочитаних повідомлень.
 [Contact '%s' has '%d' events in history.]
 Контакт '%s' має '%d' подій в історії.
+[Error setting nickname to '%s' for protocol '%s']
+Помилка зміни ніку на '%s' для протоколу '%s'.
 [Could not create CommandLine listening server!]
 Неможливо створити сервер CommandLine!
 [You can only run one instance of CmdLine plugin.]
 Ви можете запускати тільки одну копію плагіна CmdLine.
 [Notify]
-Повідомлення
+Сповіщення
 [Warning]
 Попередження

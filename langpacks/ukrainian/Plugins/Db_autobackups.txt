@@ -3,22 +3,20 @@
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
 ;  Version: 0.0.0.10
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3667
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/db_autobackups/
-;  Authors: chaos.persei, sje, Kildor, Billy_Bons, Vasilich
+;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
-[Db autobackuper plugin.]
+[Database autobackuper plugin.]
 Плагін авторезервування профілю.
 [Backup progress]
 Резервне копіювання
 [Cancel]
 Скасувати
 [Automatic backups]
-Авторезервирование профілю
+Авторезервування профілю
 [Backup NOW]
 Резервувати ЗАРАЗ!
 [Disabled]
-Вимкнути
+Вимкнено
 [When Miranda starts]
 При старті
 [When Miranda exits]
@@ -26,33 +24,33 @@
 [Every:]
 Кожні:
 [Number of backups to keep:]
-Число резервних копій для зберігання:
+Кількість резервних копій для зберігання:
 [Backup to folder:]
 Папка для резервних копій
 [Browse...]
 Обрати...
 [Go to the "Customize -> Folders" to change settings]
-Відкрийте "Тонка налаштування -> Папки" для зміни налаштувань
+Відкрийте "Тонке налаштування -> Папки" для зміни налаштувань
 [Compress backup to zip-archive]
-Сжать резервную копию в zip-архив
+Стиснути резервну копію в zip-архів
 [Disable progress bar]
-Відключити індикацію
+Вимкнути індикацію
 [Disable popups]
-Відключити сплив. вікна
+Вимкнути сплив. вікна
 [Miranda NG database]
-База данних Miranda NG
+База даних Miranda NG
 [Created by:]
 Створена:
 [Miranda NG databases]
-Бази данних Miranda NG
+Бази даних Miranda NG
 [Compressed Miranda NG databases]
-Стиснуті бази данних Miranda NG
+Стиснуті бази даних Miranda NG
 [All files]
 Усі файли
 [Backup in progress]
 Резервування у процесі
 [Copying database file...]
-Копіювання файлу бази данних...
+Копіювання файлу бази даних...
 [Database backed up]
 Профіль зарезервовано
 [Backup profile]
@@ -64,7 +62,7 @@
 [Backup folder]
 Папка резервування
 [Database]
-База данних
+База даних
 [path to Miranda root folder]
 шлях до папки програми
 [path to current Miranda profile]
@@ -78,11 +76,11 @@
 [username for currently logged-on Windows user]
 ім'я поточного користувача системи
 ["My Documents" folder for currently logged-on Windows user]
-"Мої Документи" папку для поточного користувача Windows
+папка "Мої документи" для поточного користувача Windows
 ["Desktop" folder for currently logged-on Windows user]
-"Desktop" папка для поточного користувача Windows
+папка "Робочий стіл" для поточного користувача Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-будь-які змінні, визначені в поточній сесії Windows (такі як %systemroot%, %allusersprofile%, та ін.)
+будь-які змінні, визначені в поточній сесії Windows (такі як %systemroot%, %allusersprofile% тощо)
 [Variables]
 Змінні
 [days]

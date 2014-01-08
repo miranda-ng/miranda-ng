@@ -192,7 +192,7 @@
 [Are You sure?]
 Ви впевнені?
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-Ви дійсно хочете видалити всі імпортовані повідомлення для цього контакту?\nПримітка - наступне завдання планувача імпортує ці повідомлення знов.
+Ви дійсно хочете видалити всі імпортовані повідомлення для цього контакту?\nПримітка: наступне завдання планувача імпортує ці повідомлення знову.
 [Open in &new window]
 &Відкрити у новому вікні
 [&Open in existing window]

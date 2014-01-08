@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
 ;============================================================
 [Notifies you if you have unread email on an exchange server.]
-Повідомляє вас, якщо у вас є непрочитані повідомлення ел. пошти на сервері exchange.
+Повідомляє вас про непрочитані повідомлення E-mail на сервері Exchange.
 [Unread emails]
 Непрочитані листи
 [Close]
@@ -34,15 +34,15 @@
 [minutes]
 хвилин
 [Check server before trying to connect]
-Перевірте сервер, перш ніж намагатися підключитися
+Перевіряти сервер перед спробою підключення
 [Try to connect]
-Спробуйте підключитися
+Підключатися
 [times before giving up]
 разів до відмови
 [Show email notifications using popup module]
-Показати повідомлення ел. поштою через модуль спливаючих вікон
+Сповіщати про пошту у спливаючих вікнах
 [Entry ID]
-Параметри входу
+ID запису
 [Subject]
 Тема
 [Sender]
@@ -52,12 +52,12 @@
 [You have one unread email...]
 У вас є один непрочитаний лист...
 [Exchange email]
-Ел. пошта Exchange
-[Do you want to see the email headers ?]
-Ви хочете, бачити заголовки електронної пошти?
+Пошта Exchange
+[Do you want to see the email headers?]
+Показувати заголовки листів?
 [Check exchange mailbox]
 Перевірте поштову скриньку Exchange
 [Exchange notify]
-Exchange повідомлення
+Сповіщення Exchange
 [Plugins]
 Плагіни
