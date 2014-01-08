@@ -6,7 +6,7 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-Апавяшчэнне і прагляд новай пошты для Miranda NG. Убудаваны пратакол POP3.
+Абвесткі і прагляд новай пошты для Miranda NG. Убудаваны пратакол POP3.
 ;file \plugins\YAMN\res\YAMN.rc
 [OK]
 ОК
@@ -27,7 +27,7 @@
 [Check interval [min]:]
 Інтэрвал праверкі (мін):
 [Notifications]
-Апавяшчэнні
+Абвесткі
 [Sound]
 Гук
 [Message]
@@ -41,7 +41,7 @@
 [Use contact notification for this account]
 Натыфікацыя кантактам
 [Replace nickname]
-Замяніць нік
+Замяніць мянушку
 [Disable Events]
 Выключыць падзеі
 [Server:]
@@ -67,11 +67,11 @@ SSL
 [Only check when...]
 Правяраць, калі...
 [Sound notification if failed]
-Гукавое апавяшчэнне пры памылцы
+Гукавая абвестка пры памылцы
 [Message notification if failed]
 Акно з паведамленнем пры памылцы
 [Tray icon notification if failed]
-Апавяшчэнне ў трэі пры памылцы
+Абвестка ў трэі пры памылцы
 [Reset counter]
 Скід лічыльніка
 [Default]
@@ -103,7 +103,7 @@ APOP
 [Away]
 Адсутнічаю
 [N/A]
-Недаступны
+Недасяжны
 [Occupied]
 Заняты
 [DND]
@@ -137,11 +137,11 @@ APOP
 [Don't show seconds]
 Не паказваць секунды
 [Mail Notifications]
-Апавяшчэнні пра пошту
+Абвестка пра пошту
 [Popup]
 Вакно
 [Single popup]
-Адно акно
+Адно вакно
 [Multi popup]
 Шмат вокнаў
 [Use custom color]
@@ -149,7 +149,7 @@ APOP
 [No new mail notifications]
 Пры адсутнасці новай пошты
 [Popup if no mail]
-Усплывальнае акно
+Усплывальнае вакно
 [Persistant message]
 Працягласць
 [Connection failure notifications]
@@ -186,7 +186,7 @@ YAMN: новы ліст
 YAMN: збой далучэння
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
-Нік
+Мянушка
 [No new mail message]
 Няма новых лістоў
 ;file \plugins\YAMN\src\browser\badconnect.cpp
@@ -289,7 +289,7 @@ POP3 модуль - памылка пры запісе ў файл
 [Cannot login to POP3 server.]
 Не магу аўтарызавацца на POP3 серверы
 [Bad user or password.]
-Няправільнае імя карыстача ці пароль
+Няправільнае імя кантакта ці пароль
 [Server does not support APOP authorization.]
 Сервер не падтрымлівае APOP аўтэнтыфікацыю
 [Error while executing POP3 command.]
@@ -344,7 +344,7 @@ OpenSSL не загружаны
 [All Files]
 Усе файлы
 [Select executable used for notification]
-Выбар праграмы для апавяшчэння
+Выбар праграмы для абвесткі
 [Dialog box error]
 Вакно памылкі
 [Failed]

@@ -74,7 +74,7 @@
 [Away]
 Адсутнічаю
 [NA]
-Недаступны
+Недасяжны
 [Occupied]
 Заняты
 [DND]
@@ -126,7 +126,7 @@
 [Days]
 Дзён
 [Show confirmation window? (0 to not Show)]
-Паказаць акно пацверджання? (0, каб не паказваць)
+Паказаць вакно пацверджання? (0, каб не паказваць)
 [Seconds to wait before sending]
 Чаканне ў секундах перад адпраўкай
 [Pounce being sent to %s in %d seconds]

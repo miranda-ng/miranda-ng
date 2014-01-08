@@ -17,9 +17,9 @@
 [Text file]
 Тэкставы файл
 [MessageBox]
-Акно апавяшчэння
+Вакно абвесткі
 [DialogBox]
-Дыялогавае вакно
+Вакно гутаркі
 [Output Debug String]
 Выснова адладкавых радкоў
 [Clipboard]
@@ -35,7 +35,7 @@
 [Do it now]
 Зрабіць
 [Show window in taskbar]
-Паказаць акно ў панэлі задач
+Паказаць вакно ў панэлі задач
 [Ask every time]
 Заўсёды пытаць
 [Also copy info to clipboard]
@@ -43,7 +43,7 @@
 [Upload site settings]
 Налады сайта
 [Username]
-Імя карыстача
+Імя кантакта
 [Password]
 Пароль
 [Highlight version number using]
@@ -78,7 +78,7 @@ UUID плагiна
 [Error during the creation of file "%s". Disk may be full or write protected.]
 Памылка стварэння файла %s. Магчыма дыск поўны ці абаронены.
 [The clipboard is not available, retry.]
-Буфер абмену недаступны, паўтарыце спробу.
+Буфер абмену недасяжны, паўтарыце спробу.
 [Information successfully copied into clipboard.]
 Інфармацыя паспяхова скапіявана ў буфер абмену.
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp

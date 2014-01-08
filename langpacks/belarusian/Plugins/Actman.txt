@@ -30,7 +30,7 @@
 [Start hidden]
 Запуск утоеным
 [Show in messagebox]
-Паказваць у звычайным акне
+Паказваць у звычайным вакне
 [Start maximized]
 Запуск разгорнутым
 [Continued]
@@ -80,7 +80,7 @@
 [Variables script]
 Скрыпт зменных
 [Other Action groups]
-Іншыя групы дзеянняў
+Іншыя гурты дзеянняў
 [Operation]
 Аперацыя
 [Last result]
@@ -261,7 +261,7 @@
 Апісанне
 ;other strings
 [Open contact window]
-Адчыніць акно кантакту
+Адчыніць вакно кантакту
 [Call service]
 Выклік службы
 [Execute program]

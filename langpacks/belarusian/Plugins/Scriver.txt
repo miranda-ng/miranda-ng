@@ -6,12 +6,12 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
-Модуль асабістых і групавых чатаў для Miranda NG.
+Модуль асабістых і гуртавых гутарак для Miranda NG.
 ;file \plugins\Scriver\res\resource.rc
 [Behavior]
 Паводзіны
 [Automatically pop up the window when]
-Аўтаматычна паказваць акно калі 
+Аўтаматычна паказваць вакно калі 
 [and stay minimized]
 і заставацца згорнутым
 [Cascade new windows]
@@ -51,7 +51,7 @@
 [Switch to active tab]
 Перамыкацца на актыўную ўкладку
 [Limit number of tabs per window to]
-Абмежаваць лік укладак на акно
+Абмежаваць лік укладак на вакно
 [Use separate windows for group chats]
 Асобныя вокны для чата
 [Limit number of group chats tabs per window to]
@@ -101,7 +101,7 @@
 [Show names]
 Паказваць імёны
 [Enable message grouping]
-Групаваць паведамленні
+Гуртаваць паведамленні
 [Mark follow-up msgs with timestamp]
 Адзначаць датай
 [Start message text on a new line]
@@ -125,17 +125,17 @@
 [minutes]
 хвілін(ы)
 [Typing Notification Options]
-Налады апавяшчэнняў набору
+Налады абвестак набору
 [Send typing notifications to the following users when you are typing a message to them:]
-Апавяшчаць адзначаных карыстачоў пра тое, што вы набіраеце паведамленне:
+Абвесціць адзначаных карыстачоў пра тое, што вы набіраеце паведамленне:
 [Show typing notification switch in the status bar]
-Перамыкач "Апавяшчэнне пра набор" у панэлі статусу
+Перамыкач "Абвестка пра набор" у панэлі статусу
 [Show typing notifications when a user is typing a message]
-Паказваць апавяшчэнні пра набор тэксту
+Паказваць абвесткі пра набор тэксту
 [Update message window icons when a user is typing]
-Абнавіць значок акна пры наборы паведамлення Вам
+Абнавіць значок вакна пры наборы паведамлення Вам
 [Show typing notification when no message dialog is open]
-Апавяшчаць пра набор тэксту, пры зачыненым вакне гутаркі
+Абвесціць пра набор тэксту, пры зачыненым вакне гутаркі
 [Flash in the system tray and in the contact list]
 Міргаць у трэі і ў спісе кантактаў
 [Show balloon popup]
@@ -199,7 +199,7 @@
 [Messages]
 Паведамленні
 [Nick changes]
-Змена ніка
+Змена мянушкі
 [Users joining]
 Уваходы ў чат
 [Users leaving]
@@ -215,13 +215,13 @@
 [User kicks]
 Выспятак
 [Notices]
-Апавяшчэнні
+Абвесткі
 [Options]
 Налады
 [Other]
 Іншае
 [Add new rooms to group:]
-Дадаваць чат-пакоі ў групу:
+Дадаваць чат-пакоі ў гурт:
 [User list row height]
 Вышыня спісу карыстачоў
 [pixels]
@@ -342,7 +342,7 @@ Yahoo
 [User is typing]
 Піша паведамленне
 [Typing notification off]
-"Апавяшчэнне пра набор" выкл.
+"Абвесткі пра набор" выкл.
 [Unicode is on]
 Юнікод уключаны
 [Unicode is off]
@@ -360,7 +360,7 @@ Yahoo
 [Outgoing message (10x10)]
 Выходнае паведамленне (10x10)
 [Notice (10x10)]
-Апавяшчэнне (10x10)
+Абвестка (10x10)
 [Window Icon]
 Абразок вакна
 [Text color]
@@ -582,7 +582,7 @@ URL атрыманы
 [Info bar background]
 Фон інфопанэлі
 [Info bar status message]
-Інфа-Панэль: статутнае паведамленне
+Інфа-Панэль: статуснае паведамленне
 [Others nicknames]
 Іншыя псеўданімы
 [Your nickname]
@@ -598,7 +598,7 @@ URL атрыманы
 [User is now known as ...]
 Змена псеўданіма
 [Notice from user]
-Апавяшчэнне
+Абвестка
 [Incoming message]
 Уваходнае паведамленне
 [Outgoing message]
@@ -636,7 +636,7 @@ URL атрыманы
 [Away]
 Адсутнічаю
 [NA]
-Недаступны
+Недасяжны
 [Occupied]
 Заняты
 [DND]
@@ -665,15 +665,15 @@ URL атрыманы
 [%s is typing a message]
 %s набірае тэкст
 [Typing Notification]
-Апавяшчэнне пра набор тэксту
+Абвестка пра набор тэксту
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda не змагла загрузіць убудаваную сістэму сообпаведамленняў, бо адсутнічае riched20.dll. Калі ў вас Windows 95 або WINE, праверце наяўнасць файла riched20.dll. Нажміце "Да", каб працягнуць загрузку.
 [Instant messages]
 Паведамленні IM
 [Incoming (Focused Window)]
-Уваходныя (актыўнае акно)
+Уваходныя (актыўнае вакно)
 [Incoming (Unfocused Window)]
-Уваходныя (неактыўнае акно)
+Уваходныя (неактыўнае вакно)
 [Incoming (New Session)]
 Уваходныя (новыя сеанс)
 [Outgoing]
@@ -713,7 +713,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [%s kicked %s]
 %s выкінуў %s
 [Notice from %s]
-Апавяшчэнне ад %s
+Абвестка ад %s
 [The topic is '%s%s']
 Тэма '%s%s'
 [ (set by %s on %s)]
@@ -735,7 +735,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Flash when someone speaks]
 Міргаць, калі хтосьці кажа
 [Flash when a word is highlighted]
-Мігаць акном, калі ёсць падсветленыя паведамленні
+Мігаць вакном, калі ёсць падсветленыя паведамленні
 [Show chat user list]
 Паказваць карыстачоў у спісе
 [Enable button context menus]
@@ -783,7 +783,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Show users being kicked]
 Выспяткі з чат-пакою
 [Show notices]
-Апавяшчэнні
+Абвесткі
 [Show users changing name]
 Змена псеўданіма
 [Show information messages]
@@ -809,9 +809,9 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Show icon in tray for users kicking other user]
 Выспятак
 [Show icon in tray for notices]
-Значок у трэі для апавяшчэнняў
+Значок у трэі для абвестак
 [Show icon in tray for name changes]
-Змены псеўданімаў
+Змены мянушак
 [Show icon in tray for information messages]
 Інфармацыйныя паведамленні
 [Show icon in tray for status changes]
@@ -835,7 +835,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Show popup for users kicking other user]
 Выспятак 
 [Show popup for notices]
-Паказаць вокны для апавяшчэнняў
+Паказаць вокны для абвестак
 [Show popup for name changes]
 Змены псеўданімаў
 [Show popup for information messages]
@@ -847,7 +847,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Icons to display in the tray]
 Абразкі ў сістэмным латку
 [nick of current contact (if defined)]
-нік бягучага кантакту (калі вызначаны)
+мянушка бягучага кантакту (калі пазначана)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 назва пратаколу бягучага кантакту (калі вызначана). Назва ўліковага запісу выкарыстоўваецца калі пратакол падтрымлівае шматконтнасць
 [User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
@@ -911,7 +911,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 [User has changed name]
 Карыстач змяніў імя
 [User has sent a notice]
-Карыстач адправіў апавяшчэнне
+Карыстач адправіў абвестку
 [The topic has been changed]
 Тэма змянілася
 ;file \plugins\Scriver\src\chat\services.cpp
@@ -945,7 +945,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 [%s kicked %s (%s)]
 %s выкінуў %s (%s)
 [Notice from %s: %s]
-Апавяшчэнне ад %s: %s
+Абвестка ад %s: %s
 [The topic is '%s']
 Тэма '%s'
 [The topic is '%s' (set by %s)]
@@ -962,7 +962,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 [Manager]
 Мэнэджар
 [Nick list]
-Спіс нікаў
+Спіс мянушак
 [Insert a smiley]
 Уставіць смайл
 [Make the text bold (CTRL+B)]

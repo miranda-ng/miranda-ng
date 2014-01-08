@@ -29,7 +29,7 @@
 [Show addresses]
 Паказваць адрасы
 [Use server window]
-Выкарыстоўваць акно сервера
+Выкарыстоўваць вакно сервера
 [Show server window on startup]
 Акно сервера пры запуску
 [Keep connection alive]
@@ -47,7 +47,7 @@
 [Port range]
 Дыяпазон портаў
 [Nick]
-Нік
+Мянушка
 [User ID (Ident)]
 ID карыстача
 [Full name (e-mail)]
@@ -57,7 +57,7 @@ ID карыстача
 [Server name]
 Імя сервера
 [Alternative nick]
-Альтэрн. нік
+Альт. мянушка
 [Ident]
 Ідэнтыфікацыя
 [System]
@@ -233,7 +233,7 @@ Wildcard пошук па сетцы
 [Auto-accept from:]
 Аўтапрыем ад:
 [Send notice]
-Пасылаць апавяшчэнне
+Пасылаць абвестку
 [CTCP Chat Request]
 Запыт на CTCP-чат
 [&Accept]
@@ -259,11 +259,7 @@ Wildcard пошук па сетцы
 [Messages]
 Паведамленні
 [Notices]
-Апавяшчэнні
-[CTCP]
-CTCP
-[DCC]
-DCC
+Абвесткі
 [Ignore mask ( nick!user@host )]
 Маска ігнаравання( nick!user@host )
 [Network (*)]
@@ -277,7 +273,7 @@ DCC
 [Password:]
 Пароль:
 [Alternate nick]
-Альтэрнатыўны нік
+Альт. мянушка
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Запыт CTCP-чата ад %s
@@ -325,7 +321,7 @@ CTCP %s адказ ад %s: %s
 [(probably truncated by server)]
 (магчыма абмежавана серверам)
 [Change nickname]
-Змяніць нік
+Змяніць мянушку
 [IRC error]
 Памылка IRC
 [Unknown]
@@ -404,7 +400,7 @@ CTCP %s запыт пасланы для %s
 [Information]
 Інфармацыя
 [Nickname]
-Нік
+Мянушка
 [DCC ERROR: No valid files specified]
 Памылка DCC: Няма даступных файлаў
 [DCC reversed file transfer request sent to %s [%s]]
@@ -420,7 +416,7 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 [Please choose an IRC-network to go online. This network will be the default.]
 Абярыце IRC сетка. Гэта сетка будзе абрана па змаўчанні.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Немагчыма ўсталяваць далучэнне. Вы не ўвялі ўсе неабходныя дадзеныя (нік, User ID і імя)
+Немагчыма ўсталяваць далучэнне. Вы не ўвялі ўсе неабходныя дадзеныя (мянушка, User ID і імя)
 ;file \protocols\IRCG\src\options.cpp
 [Main]
 Галоўны
@@ -540,14 +536,14 @@ CTCP %s адказ пасланы для %s
 [CTCP %s reply sent to %s: %s]
 CTCP %s адказ пасланы для %s: %s
 [Notice to %s: ]
-Апавяшчэнне для %s:
+Абвестка для %s:
 ;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
-&Хуткі канэкт
+&Хуткае далучэнне
 [&Join channel]
 Увайсці ў чат-пакой
 [&Change your nickname]
-&Змяніць нік
+&Змяніць мянушку
 [Show the &list of available channels]
 &Спіс чат-пакояў
 [&Show the server window]
@@ -571,15 +567,15 @@ CTCP %s адказ пасланы для %s: %s
 [Please select IRC network and enter the password if needed]
 Абярыце IRC сетка і ўвядзіце пароль, калі неабходна
 [Please enter a unique nickname]
-Увядзіце ўнікальны нік
+Увядзіце ўнікальную мянушку
 [Please enter your authentification code]
 Увядзіце код аўтэнтыфікацыі
 [Authentificate nick]
 Аўтэнтыфікаваць
 [Are you sure you want to unregister your current nick?]
-Вы ўпэўнены, што жадаеце выдаліць ваш нік?
+Вы ўпэўнены, што жадаеце выдаліць мянушку?
 [Delete nick]
-Выдаліць нік
+Выдаліць мянушку
 [Identify nick]
 Ідэнтыфікаваць
 [Please enter your password]
@@ -593,33 +589,33 @@ CTCP %s адказ пасланы для %s: %s
 [Change language of NickServ messages]
 Змяніць мову паведамленняў Nickserv
 [Please enter URL that will be linked to your nick]
-Увядзіце спасылку на ваш нік
+Увядзіце спасылку на вашу мянушку
 [Set URL, linked to nick]
-Спасылка на нік
+Спасылка на мянушку
 [Please enter your e-mail, that will be linked to your nick]
-Увядзіце e-mail вашага ніка
+Увядзіце e-mail вашай мянушкі
 [Set e-mail, linked to nick]
-Усталяваць e-mail, які спасылаецца на нік
+Усталяваць e-mail, які спасылаецца на мянушку
 [Please enter some information about your nick]
-Увядзіце інфармацыю пра ваш нік
+Увядзіце інфармацыю пра вашу мянушку
 [Set information for nick]
-Усталяваць інфа пра нік
+Інфармацыя пра мянушку
 [Please enter nick you want to link to your current nick]
-Увядзіце нік, які трэба замацаваць за бягучым нікам
+Увядзіце мянушку, якую трэба замацаваць за бягучай
 [Link another nick to current nick]
-Замацаваць іншы нік да гэтага ніка
+Замацаваць іншую да гэтай мянушкі
 [Please enter nick you want to unlink from your current nick]
-Увядзіце нік, які трэба адчапіць ад бягучага
+Увядзіце мянушку, якую трэба адчапіць ад бягучай
 [Unlink another nick from current nick]
-Адчапіць іншы нік ад бягучага
+Адчапіць іншую мянушку ад бягучай
 [Please enter nick you want to set as your main nick]
-Увядзіце нік, які будзе асноўным нікам
+Увядзіце мянушку, які будзе галоўнай
 [Set main nick]
-Усталяваць галоўны нік
+Усталяваць галоўную мянушку
 [Kick]
 Выкінуць
 [Please enter the notice text]
-Калі ласка ўвядзіце тэкст апавяшчэння
+Калі ласка ўвядзіце тэкст абвесткі
 [Please enter the channel name to invite to]
 Увядзіце імя чат-пакоі для запрашэння
 [Invite to channel]
@@ -627,7 +623,7 @@ CTCP %s адказ пасланы для %s: %s
 [NickServ]
 NickServ
 [Register nick]
-Зарэгістраваць нік
+Зарэгістраваць мянушку
 [Auth nick]
 Аўтарызаваць
 [Remind password]
@@ -645,15 +641,15 @@ NickServ
 [Show e-mail in info]
 Паказаць e-mail
 [Set security for nick]
-Усталяваць абарону на нік
+Усталяваць абарону на мянушку
 [Remove security for nick]
-Выдаліць абарону ніка
+Выдаліць абарону мянушкі
 [Link nick to current]
-Замацаваць нік да бягучага
+Замацаваць мянушку да бягучага
 [Unlink nick from current]
-Адчапіць нік ад бягучага
+Адчапіць мянушку ад бягучага
 [List all your nicks]
-Спіс вашых нікаў
+Спіс вашых мянушак
 [List your channels]
 Спіс вашых чат-пакояў
 [Kill unauthorized: off]
@@ -663,17 +659,17 @@ NickServ
 [Kill unauthorized: quick]
 Забіць забароненых: хутка
 [Hide nick from list]
-Схаваць нік у спісе
+Схаваць мянушку у спісе
 [Show nick to list]
 Паказаць у спісе
 [Show the server &window]
-Паказаць акно сервера
+Паказаць вакно сервера
 [&Leave the channel]
 &Пакінуць чат-пакой
 [&Invite to channel]
 Запрасіць
 [Send &notice]
-Пасылаць апавяшчэнне
+Пасылаць абвестку
 [&Slap]
 &Аплявуха
 [Nickserv info]
@@ -729,7 +725,7 @@ Nickserv забіць фантому
 Адключаны
 ;file \protocols\IRCG\src\userinfo.cpp
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
-Хутчэй! Шукае ў сетцы для дакладнай адпаведнасці толькі мянушкай. Маска хосту з'яўляецца неабавязковай і забяспечвае дадатковую абарону пры выкарыстанні. Групавыя сімвалы (* і?) Не дапускаюцца.
+Хутчэй! Шукае ў сетцы для дакладнай адпаведнасці толькі мянушкай. Маска хосту з'яўляецца неабавязковай і забяспечвае дадатковую абарону пры выкарыстанні. Гуртавыя сімвалы (* і?) Не дапускаюцца.
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
 Марудней! Шукае ў сетцы для мянушак адпаведныя падстаноўкі. Маска хаста з'яўляецца абавязковай і не менш за 4 знакаў
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]

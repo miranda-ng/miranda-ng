@@ -35,9 +35,9 @@ IP адрас 2
 [External server name]
 Вонкавае імя сервера
 [This is the link pasted to the message window]
-Гэта спасылка, устаўленая ў акно паведамленняў
+Гэта спасылка, устаўленая ў вакно гутаркі
 [Write log file]
-Запісваць журнал
+Весьці лог
 [Enable / Disable HTTP server]
 Укл/Выкл HTTP Сервер
 [Main menu items]
@@ -57,7 +57,7 @@ IP адрас 2
 [Transfer limit (Kb/s)]
 Ліміт хуткасці (Kb/s)
 [No control when Away/NA]
-Адкл. калі недаступны/заняты
+Адкл. калі недасяжны/заняты
 [Connection control]
 Кантроль злучэнняў
 [Index creation]
@@ -69,11 +69,11 @@ IP адрас 2
 [Create XML]
 Стварыць XML
 [Notifications]
-Апавяшчэнні
+Абвесткі
 [Total connection limit]
 Максімальна злучэнняў
 [Connections per user limit]
-Ліміт на карыстача
+Ліміт на кантакт
 [Default download limit]
 Ліміт загрузак па змаўч.
 [&Edit share]
@@ -103,7 +103,7 @@ Miranda NG HTTP-сервер
 [Real path]
 Рэальны шлях
 [User]
-Карыстач
+Кантакт
 [Agent]
 Агент
 [Completed]

@@ -23,9 +23,9 @@
 [Confirm deletion of items]
 Пацвярджаць выдаленне пунктаў
 [Delete entries in Custom status menu after Import]
-Пасля імпарту, выдаляць тэксты статутаў у спісе ICQ
+Пасля імпарту, выдаляць тэксты статусаў у спісе ICQ
 [Remember last window position]
-Памятаць апошняе становішча акна
+Памятаць апошняе становішча вакна
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 Нататка: Пункты меню адлюстроўваюцца толькі пры наяўнасці хоць бы аднаго правільна ўсталяванага ўліковага запісу ICQ. Праверце, калі ў вас ёсць прынамсі адзін Конт з UIN.
 ;file \plugins\CSList\src\cslist.cpp
@@ -46,7 +46,7 @@
 [Favorites]
 Абраныя
 [Regular statuses]
-Частыя статуты
+Частыя статусы
 [Title]
 Загаловак
 [Message]
@@ -59,7 +59,7 @@
 [Main Menu]
 Галоўнае меню
 [Main Icon]
-Галоўны значок
+Галоўны абразок
 [Modify selected item]
 Змяніць абраны пункт
 [Delete selected item]
@@ -73,9 +73,9 @@
 [Undo changes]
 Адмяніць змены
 [Import statuses from database]
-Імпарт статутаў з базы дадзеных
+Імпарт статусаў з базы дадзеных
 [Import]
-Імпартаваць
+Імпарт
 [Filter list]
 Фільтр
 [Filter]
@@ -83,7 +83,7 @@
 [Close without changing custom status]
 Зачыніць без змен
 [No change]
-без зм.
+Без змен
 [Clear custom status (reset to None) and close]
 Ачысціць хстатус (паставіць у Няма) і зачыніць
 [Clear]

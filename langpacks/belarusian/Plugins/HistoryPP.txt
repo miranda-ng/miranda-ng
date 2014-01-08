@@ -26,17 +26,17 @@
 [Pseudo-edit mode...]
 Рэжым псеўда-рэдагаванні...
 [Group log messages]
-Групаваць паведамленні
+Гуртаваць паведамленні
 [Need more options?]
 Жадаеце больш налад?
 [Incoming WATrack notify]
-Уваходнае апавяшчэнне WATrack
+Уваходная абвестка WATrack
 [Outgoing WATrack notify]
-Выходнае апавяшчэнне WATrack
+Выходная абвестка WATrack
 [&Copy Link]
 Капіяваць спасылку
 [WATrack notify]
-WATrack апавяшчэнне
+Абвестка WATrack
 [Open Link]
 Адкрыць спасылку
 [WATrack: information request]
@@ -188,7 +188,7 @@ EMail Express
 [Enter the history password to search.]
 Для пошуку неабходна ўвесці пароль.
 [Please wait while closing the window...]
-Пачакайце зачыненні акна...
+Пачакайце зачыненні вакна...
 [Partial History [%s] - [%s]]
 Частка гісторыі [%s] - [%s]
 [Delete &Bookmark]
@@ -244,7 +244,7 @@ EMail Express
 [Open &Link]
 Адкрыць &спасылку
 [Open Link in New &Window]
-Адкрыць спасылку ў новым акне
+Адкрыць спасылку ў новым вакне
 [Open &File]
 Адкрыць &файл
 [Open File Fo&lder]
@@ -604,9 +604,9 @@ HTML (*.htm; *.html)|*.htm;*.htm
 [Miranda's settings used]
 Выкарыстоўваюцца налады Miranda
 [Nick Font Color]
-Колер ніка
+Колер мянушкі
 [Nick Font]
-Шрыфт ніка
+Шрыфт мянушкі
 [Nothing selected. Select item from the left and change it's properties below.]
 Нічога не абрана. Абярыце элемент злева і зменіце яго налады ніжэй.
 [Nothing Selected]
@@ -658,7 +658,7 @@ HTML (*.htm; *.html)|*.htm;*.htm
 [Show events count in menu]
 Лічыльнік падзей у меню
 [Group messages]
-Групаваць паведамленні
+Гуртаваць паведамленні
 [Disable border]
 Адключыць мяжу
 [Disable scroll bar]

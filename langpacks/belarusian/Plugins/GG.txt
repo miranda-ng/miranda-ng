@@ -85,7 +85,7 @@
 [Family name:]
 Прозвішча:
 [Nickname:]
-Нік:
+Мянушка:
 [Gender:]
 Пол:
 [City:]
@@ -169,7 +169,7 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 [Received invalid server response.]
 Атрыманы няслушны адказ сервера.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
-Спроба далучэння з серверам перапынілася з памылкай. Магчыма, знікла далучэнне да лакальнай сеткі.
+Спроба далучэння з серверам перапынілася з памылкай. Магчыма, знікла далучэнне да лакальнага сеціва.
 [Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
 Ваш лагін ці пароль не прыняты серверам Gadu-Gadu. Калі ласка, праверце іх правільнасць Меню->Налады->Сетка->Gadu-Gadu і паспрабуйце яшчэ раз.
 [Connecting to Gadu-Gadu hub failed.]
@@ -228,7 +228,7 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 [System tray icon]
 Абразок у трэі
 [Popup window]
-Усплывальнае акно
+Усплывальнае вакно
 [Message with [img] BBCode]
 Паведамленне з [img] BB-кодам
 [You need to specify your registration e-mail first.]
@@ -396,7 +396,7 @@ HTTP невядомая памылка
 Пароль высланы на ваш e-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
 [Notify]
-Апавяшчэнне
+Абвестка
 [Error]
 Памылка
 ;file \protocols\Gadu-Gadu\src\services.cpp

@@ -61,19 +61,17 @@
 [Monitor Miranda's activity only]
 Сачыць толькі за Miranda
 [Reset status on return]
-Аднавіць статут пры вяртанні
+Аднавіць статус пры вяртанні
 [Confirm resetting status]
-Пацвердзіць скід статуту
+Пацвердзіць скід статусу
 [Only set if current status is]
-Толькі калі статут:
+Толькі калі статус:
 [Command line]
 Камандны радок
-[OK]
-ОК
 [Copy to clipboard]
 Капіяваць у буфер
 [Command line:]
-Кам. радок:
+Камандны радок:
 [Create shortcut]
 Стварыць цэтлік
 [Add new profile]
@@ -81,7 +79,7 @@
 [Profile name]
 Імя профіля
 [Set window state]
-Стан акна
+Стан вакна
 [Show dialog]
 Паказваць дыялог
 [Set status to offline before exit]
@@ -105,11 +103,9 @@
 [s]
 з
 [Set window location]
-Пазіцыя акна
+Пазіцыя вакна
 [Set window size]
-Памер акна
-[x]
-x
+Памер вакна
 [Allow override]
 Змяняць
 [Note: status profiles can be created in the 'Status profiles' options screen]
@@ -139,13 +135,13 @@ Dial-up (эксперыментальна)
 [Do nothing]
 Нічога не рабіць
 [Close popup]
-Зачыніць акно
+Зачыніць вакно
 [Cancel reconnecting]
 Адмена далучэння
 [Colors]
 Колеры
 [Preview]
-Тэст
+Прагляд
 [Events]
 Падзеі
 [Show when connection is lost]
@@ -183,7 +179,7 @@ Dial-up (эксперыментальна)
 [Confirm dialog timeout (secs)]
 Інтэрвал пацверджання (сек)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Вы ўключылі функцыю змены статуту ў частцы налад "Рэжым чакання", налады ААА будуць ігнаравацца.
+Вы ўключылі функцыю змены статусу ў частцы налад "Рэжым чакання", налады ААА будуць ігнаравацца.
 [Monitor keyboard activity]
 Сачыць за актыўнасцю клавіятуры
 [Monitor mouse activity]
@@ -199,7 +195,7 @@ Dial-up (эксперыментальна)
 [Disable checking]
 Не правяраць
 [Set status message]
-Усталяваць статутнае паведамленне
+Усталяваць статуснае паведамленне
 [Status]
 Статус
 [Add...]

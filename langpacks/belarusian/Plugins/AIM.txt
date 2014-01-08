@@ -31,11 +31,11 @@
 [Disable Avatars]
 Адключыць аватары
 [Disable Account Type Icons]
-Адкл. значкі тыпаў контаў
+Адкл. абразкі тыпаў контаў
 [Disable Extended Status Icons]
-Адкл. пашыраныя значкі статусу
+Адкл. пашыраныя абразкі статусу
 [Notify about new mail]
-Апавяшчаць пра новую пошту
+Абвяшчаць пра новую пошту
 [Advanced Options]
 Дадаткова
 [Instant Idle on Login]
@@ -55,7 +55,7 @@
 [Disable SSL]
 Выкл. SSL
 [Manage Server Groups]
-Кіраваць групамі на серверы
+Кіраваць гуртамі на серверы
 [Force Single Client]
 Толькі адна сесія
 [Save Profile]
@@ -91,7 +91,7 @@ AIM Усталяваць Instant Idle
 [Idle]
 Чаканне
 [Allow contacts to be notified of:]
-Апавясціць кантакты пра:
+Абвясціць кантакты пра:
 [Join Chat Room]
 Зайсці ў чат
 [Chat Room]
@@ -308,7 +308,7 @@ AIM Усталяваць Instant Idle
 [Item you want to modify not found in list.]
 Элемент, які неабходна змяніць не знойдзены ў спісе.
 [Unknown error when attempting to modify a group. Error code %#x]
-Невядомая памылка пры спробе змены групы. Код памылкі %#x
+Невядомая памылка пры спробе змены гурта. Код памылкі %#x
 [You've got mail! Checked at]
 Вам ліст! праверана на
 [Error uploading avatar. (Too small)]
@@ -341,7 +341,7 @@ ICQ
 [AOL Mail]
 Пошта AOL
 [AIM Icon]
-Значок AIM
+Абразок AIM
 [AOL Bot]
 Бот AOL
 [Admin]

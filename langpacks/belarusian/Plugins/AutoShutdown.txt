@@ -56,8 +56,6 @@
 Выключыць, калі ўсе перадачы файлаў завяршыліся
 [&Action:]
 Дзеянне:
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Unsaved data in open applications except Miranda NG might get lost.]
@@ -186,7 +184,7 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 [Sets all protocols to offline and closes all RAS connections.]
 Адключыць усе пратаколы і разарваць усе тэлефонныя злучэнні.
 [Alerts]
-Апавяшчэнні
+Абвесткі
 [Automatic Shutdown Countdown]
 Зваротны адлік аўтавыключэння
 ;file \plugins\AutoShutdown\src\utils.cpp

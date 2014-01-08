@@ -148,7 +148,7 @@ TCP злучэнне
 [Ping]
 Пінг
 [Show/Hide &Ping Window]
-Паказаць/схаваць акно
+Паказаць/схаваць вакно
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Хост %s патрабуе паменшыць колькасць пасыланага вамі трафіку.

@@ -37,7 +37,7 @@
 [Replace smileys in user names]
 Смайлы ў імёнах
 [Hide window border]
-Схаваць межы акна
+Схаваць межы вакна
 [Embed YouTube videos]
 Убудоўваць відэа з YouTube
 [Size:]
@@ -57,9 +57,9 @@
 [Template Options]
 Налады шаблону
 [Use message grouping]
-Групоўка паведамленняў
+Гуртоўка паведамленняў
 [Show nicknames]
-Паказваць нікі
+Паказваць мянушкі
 [Show time]
 Паказваць час
 [Show seconds]

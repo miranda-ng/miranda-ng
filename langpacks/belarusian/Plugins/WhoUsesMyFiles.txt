@@ -6,16 +6,14 @@
 ;  Authors: Nikolay Redko
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
-Сканіраванне сеткавых карыстальнікаў вашых агульных файлаў, а адпаведнае апавяшчэнне усплывальнымі вокнамі.
+Сканіраванне сеткавых карыстальнікаў вашых агульных файлаў, і абвестка ўсплывальнымі вокнамі.
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 WUMF: Бягучыя злучэнні
-[OK]
-ОК
 [Popup delay settings]
 Налады паказу Popup
 [Popup Delay (seconds)]
-Акно бачнае (секунд)
+Вакно бачнае (секунд)
 [Background color]
 Колер фону
 [Text color]

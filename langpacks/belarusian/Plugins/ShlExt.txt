@@ -9,7 +9,7 @@
 Інтэграцыя Miranda NG ў меню правадніка Windows.
 ;file \plugins\ShellExt\res\shldlgs.rc
 [Display contacts in their assigned groups (if any)]
-Адлюстроўваць кантакты па групах (калі ёсць)
+Адлюстроўваць кантакты па гуртах (калі ёсць)
 [Only if/when the contact list is using them]
 Толькі калі іх выкарыстоўвае спіс кантактаў
 [Display hidden, ignored or temporary contacts]

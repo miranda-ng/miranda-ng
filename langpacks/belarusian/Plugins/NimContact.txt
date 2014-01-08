@@ -43,11 +43,11 @@
 [Contact list settings]
 Налады спісу
 [Group:]
-Група:
+Гурт:
 [Status Icon]
 Значок статусу
 [Group\\Sub-Group]
-Група\\Падгрупа
+Гурт\\Падгурт
 [Timer Settings]
 Налады таймера
 [Use Timer]

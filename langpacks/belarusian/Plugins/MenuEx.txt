@@ -49,7 +49,7 @@
 [Trim too long ID]
 Абразаць доўгі ID
 [* Use Ctrl+click to see popup with the copied text]
-* Выкарыстоўвайце Ctrl+клік для паказу ўсплывальнага акна са скапіяваным тэкстам
+* Выкарыстоўвайце Ctrl+клік для паказу ўсплывальнага вакна са скапіяваным тэкстам
 [Hide contact on 'Ignore all']
 Хаваць пры 'Ignore all'
 ;file \plugins\MenuItemEx\src\main.cpp

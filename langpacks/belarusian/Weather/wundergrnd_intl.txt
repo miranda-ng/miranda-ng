@@ -241,7 +241,7 @@
 [Tuesday]
 Аўторак
 [Wednesday]
-Асяроддзе
+Серада
 [Thursday]
 Чацвер
 [Friday]

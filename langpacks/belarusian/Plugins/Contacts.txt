@@ -13,7 +13,7 @@
 [&Add]
 &Дадаць
 [&User menu]
-Меню карыстача
+Меню кантакта
 [User &details]
 &Інфармацыя
 [&History]
@@ -29,7 +29,7 @@
 [Received contacts]
 Прынятыя кантакты
 [Add to &group:]
-Дадаць у групу:
+Дадаць у гурт:
 [&Details]
 Дэталі
 [Close]
@@ -45,7 +45,7 @@
 [Add to List]
 Дадаць
 [User details]
-Пра карыстача
+Пра кантакт
 [Send Message]
 Адправіць
 ;file \plugins\ContactsPlus\src\main.cpp
@@ -67,11 +67,11 @@
 [Add Contact Permanently to List]
 Дадаць у спіс
 [View User's Details]
-Інфармацыя пра карыстача
+Інфармацыя пра кантакт
 [View User's History]
 Гісторыя паведамленняў
 [User Menu]
-Меню карыстача
+Меню кантакта
 [Contacts from]
 Кантакты ад
 ;file \plugins\ContactsPlus\src\send.cpp

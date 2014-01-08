@@ -15,7 +15,7 @@
 [Temporarily disable event popups]
 Часова забараніць паведамленне
 [Show preview of event in popup]
-Прадпрагляд падзеі ў акне
+Прадпрагляд падзеі ў вакне
 [Popup options]
 Налады ўсплывальных вокнаў
 [Message]
@@ -49,15 +49,15 @@
 [Message event only]
 Толькі для паведамленняў
 [Don't show popup when message dialog is already open]
-Не паказваць, калі адкрыта акно
+Не паказваць, калі адкрыта вакно
 [Hide popup when sending new message]
 Хаваць пры адпраўцы новага паведамлення
 [Open reply dialog instead of reading the message]
 Дыялог адказу замест чытання паведамлення
 [Merge popups from one user]
-Аб'ядноўваць ад аднаго карыстача
+Аб'ядноўваць ад аднаго кантакта
 [Preview]
-Тэст
+Паргляд
 [Show date]
 Дата
 [Show time]
@@ -91,9 +91,9 @@
 [Notify of new events]
 Паведамляць пра новыя падзеі
 [Enable new event notification]
-Укл. апавяшчэнні пра падзеі
+Укл. абвесткі пра падзеі
 [Disable new event notification]
-Выкл. апавяшчэнні пра падзеі
+Выкл. абвесткі пра падзеі
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Падзеі

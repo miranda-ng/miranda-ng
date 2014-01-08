@@ -39,9 +39,9 @@
 [Events are opened]
 Падзеі будуць адкрытыя
 [End of 'notify when' conditions]
-Канчатак "апавяшчаць калі"
+Канчатак "абвясціць калі"
 [Notify when]
-Апавяшчаць, калі
+Абвяшчаць, калі
 [Full Screen mode]
 Поўнаэкранны рэжым
 [Screen Saver is running]
@@ -61,7 +61,7 @@
 [Occupied]
 Заняты
 [NA]
-Недаступны
+Недасяжны
 [DND]
 Не турбаваць
 [Free for chat]

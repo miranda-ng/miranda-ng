@@ -17,9 +17,9 @@
 [Action 2]
 Дзеянне 2
 [Sweep on closing message window]
-Чысціць пры зачыненні акна паведамленняў
+Чысціць пры зачыненні вакна гутаркі
 [Clicking on the icon in the status bar will change settings]
-Пстрычка па абразку ў панэлі статутаў змяняе налады
+Пстрычка па абразку ў панэлі статусаў змяняе налады
 [Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
 Выкарыстоўваць НЕБЯСПЕЧНЫ рэжым (хутчэй, але небяспечней для БД)
 ;file \plugins\HistorySweeperLight\src\main.cpp

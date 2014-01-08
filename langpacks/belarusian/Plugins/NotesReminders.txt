@@ -198,7 +198,7 @@
 [Add New Reminder]
 Дадаць напамінак…
 [Alerts]
-Апавяшчэнні
+Абвесткі
 [Reminder triggered]
 Спрацоўванне напамінку
 [Reminder triggered (Alternative 1)]

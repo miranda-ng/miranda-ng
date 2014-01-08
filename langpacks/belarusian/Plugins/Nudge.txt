@@ -19,7 +19,7 @@
 [Open message window]
 Адкрыць вакно гутаркі
 [Enable message window shaking]
-Трэсці акно паведамленняў
+Трэсці вакно гутаркі
 [Show as status change]
 Паказваць як змену статусу
 [Auto resend nudge after]
@@ -55,7 +55,7 @@
 [Away]
 Адсутнічаю
 [NA]
-Недаступны
+Недасяжны
 [Occupied]
 Заняты
 [DND]
@@ -104,4 +104,4 @@
 [Events]
 Падзеі
 [Window Shaking]
-Трасенне акна
+Трасяніна вакна

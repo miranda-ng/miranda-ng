@@ -33,7 +33,7 @@
 [Modes]
 Рэжымы
 [Use weather condition as protocol status]
-Стан надвор'я як статут пратаколу
+Стан надвор'я як статус конту
 [Avatar only mode]
 Толькі аватар
 [Units]
@@ -125,7 +125,7 @@ URL дап. інфармацыі
 [Disable automatic update for this station]
 Адключыць аўтаабнаўленне з гэтай станцыі
 [Disable Popup for this station]
-Не выводзіць усплывальнае акно
+Не выводзіць усплывальнае вакно
 [Change]
 Змена
 [Cancel]
@@ -151,7 +151,7 @@ URL дап. інфармацыі
 [Right Click]
 Правая
 [Popup Delay]
-Затрымка акна
+Затрымка вакна
 [Delay]
 Затрымка
 [seconds]
@@ -163,7 +163,7 @@ URL дап. інфармацыі
 [Popup Text]
 Усплывальны тэкст
 [Popup Title]
-Загаловак акна
+Загаловак вакна
 [Variables]
 Зменныя
 [Default]
@@ -173,7 +173,7 @@ URL дап. інфармацыі
 [Updates]
 Абнаўленні
 [Alerts]
-Апавяшчэнні
+Падзеі
 [Errors]
 Памылкі
 [Contact List]
@@ -217,7 +217,7 @@ URL дап. інфармацыі
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Усталёўка INI надвор'я\n Усталёўка і загрузка вашага INI надвор'я тут
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
-Пратакол надвор'я не можа знайсці ніводнага INI файла надвор'я на вашым кампутары. Для ўсталёўкі INI надвор'і і даданні горада вынікайце гэтым указанням:
+Конт надвор'я не можа знайсці ніводнага INI файла надвор'я на вашым кампутары. Для ўсталёўкі INI надвор'і і даданні горада вынікайце гэтым указанням:
 [Click here to download a weather ini file from Miranda file listing]
 Націсніце тут для загрузкі INI надвор'і са спісу файлаў Miranda NG
 [Extract the weather ini file from archive to this directory]
@@ -225,7 +225,7 @@ URL дап. інфармацыі
 [Click here to load the data from the new ini file into memory]
 Націсніце для загрузкі дадзеных з INI файла ў памяць
 [Add new weather station and close this dialog]
-Дадайце новы горад і зачыніце гэта акно
+Дадайце новы горад і зачыніце гэта вакно
 [Total INI files]
 Усяго ini файлаў
 [Total memory used]
@@ -269,7 +269,7 @@ Weather: Надвор'е змянілася
 Weather: Пагоднае папярэджанне
 ;file \plugins\Weather\src\weather.h
 [N/A]
-Недаступны
+Недасяжны
 [Invalid ID format, missing "/" (10)]
 Няправільны фармат ID, не "/" (10)
 [Invalid service (11)]
@@ -317,7 +317,7 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 [HTTP Error: Bad gateway (502)]
 Памылка HTTP: Няправільны шлюз (502)
 [HTTP Error: Service unavailable (503)]
-Памылка HTTP: Сэрвіс недаступны (503)
+Памылка HTTP: Сэрвіс недасяжны (503)
 [HTTP Error: Gateway timeout (504)]
 Памылка HTTP: Таймаўт шлюза (504)
 [%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
@@ -340,7 +340,7 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 [%s is now the default weather station]
 %s станцыя надвор'я па змаўчанні
 [Weather Protocol]
-Пратакол надвор'я
+Конт надвор'я
 [Please try again after weather update is completed.]
 Паспрабуйце пасля завяршэння абнаўлення звестак пра надвор'е
 [<Enter station name here>]
@@ -391,7 +391,7 @@ URL поўнага прагнозу надвор'я не ўсталяваны. �
 HTTP падлучэнне Weather
 ;file \plugins\Weather\src\weather_icons.cpp
 [Protocol icon]
-Абразок пратаколу
+Абразок конту
 [Update Disabled]
 Абнаўленні выкл
 [View Log]
@@ -477,7 +477,7 @@ HTTP падлучэнне Weather
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c   прагноз на сёння\n%d   бягучая дата\n%e   раса\n%f   адчуванне\n%h   максімум\n%i   кірунак ветра\n%l   мінімум\n%m   вільготнасць\n%n   горад\n%p   ціск\n%r   узыход\n%s   ID гарады\n%t   тэмпература\n%u   абнаўленне\n%v   бачнасць\n%w   хуткасць ветра\n%y   заход
 [Weather Protocol Text Preview]
-Прагляд пратаколу надвор'я
+Прагляд конту надвор'я
 ;file \plugins\Weather\src\weather_popup.cpp
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\t прагноз на сёння\n%d\t бягучая дата\n%e\t раса\n%f\t адчуванне\n%h\t максімум\n%i\t кірунак ветра\n%l\t мінімум\n%m\t вільготнасць\n%n\t горад\n%p\t ціск\n%r\t узыход\n%s\tID гарады\n%t\t тэмпература\n%u\t абнаўленне\n%v\t бачнасць\n%w\t хуткасць ветра\n%y\t заход
@@ -487,9 +487,9 @@ HTTP падлучэнне Weather
 [Station ID]
 ID гарады
 [Disable &weather notification]
-Выключыць апавяшчэнні пра змену надвор'я
+Выключыць абвесткі пра змену надвор'я
 [Enable &weather notification]
-Уключыць апавяшчэнні пра змену надвор'я
+Уключыць абвесткі пра змену надвор'я
 [Update Weather]
 Абнавіць надвор'е
 [Remove Old Data then Update]

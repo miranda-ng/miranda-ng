@@ -6,7 +6,7 @@
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
-Убудова падтрымкі пратакола Omegle ў Miranda NG.
+Плагін падтрымкі пратаколу Omegle ў Miranda NG.
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
 Сервер:

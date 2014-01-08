@@ -69,7 +69,7 @@
 [Mark all events read]
 Пазначыць як прачытаныя
 [Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
-Пазначыць усе падзеі як прачытаныя. Гэта выправіць праблемы са старымі паведамленнямі, заўсёды адлюстроўванымі ў акне паведамлення
+Пазначыць усе падзеі як прачытаныя. Гэта выправіць праблемы са старымі паведамленнямі, заўсёды адлюстроўванымі ў вакне паведамлення
 [Convert old Unicode messages to UTF8]
 Канверсаваць старыя Unicode паведамленні ў UTF8
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]

@@ -145,7 +145,7 @@
 [Shadow]
 Цень
 [Round corners (window)]
-Акругляць куты акна
+Акругляць куты вакна
 [Aero Glass (Vista+)]
 Эфект Aero Glass (Vista+)
 [Animation speed:]
@@ -680,7 +680,7 @@ IP:
 [Tuesday]
 Аўторак
 [Wednesday]
-Асяроддзе
+Серада
 [Thursday]
 Чацвер
 [Friday]

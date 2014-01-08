@@ -403,7 +403,7 @@ JID / URL:
 [Chat options]
 Налады чата
 [Alternate nick:]
-Альтэрнатыўны нік:
+Альт. мянушка:
 [Custom messages]
 Свае паведамленні
 [Quit:]
@@ -484,7 +484,7 @@ Jabber Ad-Hoc каманды на %s
 [Address (JID or URL)]
 Адрас (JID ці URL)
 [Nickname]
-Нік
+Мянушка
 [Conferences]
 Канферэнцыі
 [Links]
@@ -564,7 +564,7 @@ xHTML фармат чат-паведамленняў
 [Supports private XML Storage (for bookmakrs and other)]
 Захоўванне XML (для закладак і інш.)
 [Supports attention requests ('nudge')]
-Падтрымка апавяшчэнняў увагі ('nudge')
+Падтрымка абестак увагі ('nudge')
 [Can report information about user activity]
 Паведамленне пра актыўнасць карыстача
 [Receives information about user activity]
@@ -618,7 +618,7 @@ xHTML фармат чат-паведамленняў
 [user banned]
 забанены
 [Change &nickname]
-Змяніць нік
+Змяніць мянушку
 [&Invite a user]
 Запрасіць карыстача
 [&Roles]
@@ -660,7 +660,7 @@ xHTML фармат чат-паведамленняў
 [Away]
 Адсутнічаю
 [NA]
-Недаступны
+Недасяжны
 [DND]
 Не турбаваць
 [Free for chat]
@@ -704,7 +704,7 @@ xHTML фармат чат-паведамленняў
 [&Kick]
 Выкінуць
 [Copy &nickname]
-Капіяваць нік
+Капіяваць мянушку
 [Copy real &JID]
 Капіяваць JID
 [Copy in-room JID]
@@ -716,9 +716,9 @@ xHTML фармат чат-паведамленняў
 [%s (not on roster)]
 %s (не ў росцеры)
 [Member Info: %s]
-Інфо карыстальніка:% s
+Пра кантакт:% s
 [Member Information\n%s from %s]
-Інфармацыя пра карыстальніка\n%s з%s
+Пра кантакт\n%s з%s
 [Real JID not available]
 Сапраўдны JID недасяжны
 [Reason to kick %s]
@@ -850,7 +850,7 @@ Jabber памылка
 [Login/logout]
 Увайсці/Выйсці
 [Resolve nicks]
-Вызначыць нікі
+Пазначыць мянушкі
 [Send note]
 Адправіць нататку
 [AdHoc Command]
@@ -1037,7 +1037,7 @@ Jabber Рэсурс
 [All tags]
 Усе тэгі
 [Notes are not saved, close this window without uploading data to server?]
-Нататкі не захаваны, зачыніць акно без загрузкі нататак на сервер?
+Нататкі не захаваны, зачыніць вакно без загрузкі нататак на сервер?
 [Are you sure?]
 Вы ўпэўнены?
 [Incoming note]
@@ -1476,7 +1476,7 @@ Jabber Рэсурс
 [Enable XMPP link processing (requires Association Manager)]
 Апрацоўваць XMPP спасылкі (патрабуецца плагін "Association Manager")
 [Keep contacts assigned to local groups (ignore roster group)]
-Выкарыстоўваць лакальныя групы (ігнараваць групы росцеру)
+Выкарыстоўваць лакальныя гурты (ігнараваць гурты росцеру)
 [Security]
 Бяспека
 [Allow servers to request version (XEP-0092)]
@@ -1498,11 +1498,11 @@ Jabber Рэсурс
 [Hide conference windows at startup]
 Не адкрываць вокны чат-канферэнцый пры ўваходзе
 [Do not show multiuser chat invitations]
-Не паказваць запрашэнні ў шматкарыстальніцкі чат
+Не паказваць запрашэнні ў шматкарыстацкі чат
 [Log events]
 Запіс падзей у журнал
 [Ban notifications]
-Апавяшчэнні пра баны
+Абвесткі пра баны
 [Room configuration changes]
 Змена налад канферэнцыі
 [Affiliation changes]
@@ -1513,10 +1513,8 @@ Jabber Рэсурс
 Змены статусу
 [Don't notify history messages]
 Не паказваць абвестак з гісторыі
-[JID]
-JID
 [Group]
-Група
+Гурт
 [Subscription]
 Падпіска
 [Uploading...]
@@ -1646,15 +1644,15 @@ Odnoklassniki
 [If Jabber ID is ']
 Калі JID  '
 [ (nickname: ]
- (нік:
+ (мянушка:
 [If group is ']
-Калі група '
+Калі гурт '
 [If subscription is ']
 Калі падпіска  '
 [then ]
 то
 [ (act., def.)]
-(акціўна, змаўч.)
+(актыўна, змаўч.)
 [ (active)]
  (актыўны)
 [ (default)]
@@ -1752,7 +1750,7 @@ Odnoklassniki
 [There is no group chats to leave]
 Няма чатаў для адключэння
 [Choose the group chats you want to leave]
-Абярыце групавыя чаты, якія вы хочаце пакінуць
+Абярыце чаты, якія вы хочаце пакінуць
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Памылка %s %s\r\n Калі ласка абярыце іншы сервер
@@ -1770,7 +1768,7 @@ Odnoklassniki
 Трэба далучэнне да сервера
 ;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
-зачыніў акно чата
+зачыніў вакно чата
 [sent subscription request]
 адправіў запыт на падпіску
 [approved subscription request]

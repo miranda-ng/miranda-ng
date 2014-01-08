@@ -22,15 +22,15 @@
 Па змаўчанні
 ;file \plugins\SimpleAR\src\Main.cpp
 [I am currently away. I will reply to you when I am back.]
-Цяпер мяне няма на месцы, адкажу як толькі вярнуся.
+Зараз мяне няма на месцы, адкажу як толькі вярнуся.
 [I am currently very busy and can't spare any time to talk with you. Sorry...]
 Прашу не турбаваць.
 [I am not available right now.]
 Мяне няма.
 [I am now doing something, I will talk to you later.]
-Цяпер я чымсьці заняты, пагаворым пазней.
+Зараз я чымсьці заняты, пагаворым пазней.
 [I am on the phone right now. I will get back to you very soon.]
-Выбачыце, цяпер я кажу па тэлефоне.
+Выбачыце, зараз я кажу па тэлефоне.
 [I am having meal right now. I will get back to you very soon.]
 Я абедаю, пагаворым пазней.
 [Disable Auto&reply]

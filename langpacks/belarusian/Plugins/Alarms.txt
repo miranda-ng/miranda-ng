@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
-Усталёўка штодзённых, штотыднёвых і разавых апавяшчэнняў.
+Усталёўка штодзённых, штотыднёвых і разавых напамінкаў.
 ;file \plugins\Alarms\res\resource.rc
 [New]
 Стварыць
@@ -61,7 +61,7 @@
 [Actions]
 Дзеянні
 [Popup window]
-Усплывальнае акно
+Усплывальнае вакно
 [Sound:]
 Гук:
 [Run command:]
@@ -175,7 +175,7 @@
 [Tuesday]
 Аўторак
 [Wednesday]
-Асяроддзе
+Серада
 [Thursday]
 Чацвер
 [Friday]
@@ -187,6 +187,6 @@
 [Error]
 Памылка
 [The alarm time you have selected is in the past.]
-Абраны вамі час - у мінулым.
+Абраны вамі час ужо мінуў.
 [Events]
 Падзеі

@@ -11,7 +11,7 @@
 [Console]
 Кансоль
 [Single window mode*]
-Просты рэжым акна*
+Просты рэжым вакна*
 [Show icons in log*]
 Паказваць значкі ў часопісе*
 [New lines between events*]

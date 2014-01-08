@@ -20,7 +20,7 @@
 Абярыце ваша імя
 ;file \protocols\EmLanProto\src\amdproto.cpp
 [User name or '*']
-Імя карыстача ці  '*'
+Імя кантакта ці  '*'
 [E-mage LAN protocol]
 Пратакол E-mage LAN 
 [Network]

@@ -8,7 +8,7 @@
 [Create new category]
 Новая катэгорыя
 [Don't send status message]
-Не паказ. статут. паведамленне
+Не паказв. ст. паведамленне
 [Enable autoreply]
 Уключыць аўтаадказнік
 [New Away System]
@@ -24,7 +24,7 @@
 [Been gone since %nas_awaysince_time%, will be back later.]
 Сышоў з %nas_awaysince_time%, буду пазней.
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
-Цяпер ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,вячэраю,абедаю),снедаю),вячэраю) з %nas_awaysince_time%.
+Зараз ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,вячэраю,абедаю),снедаю),вячэраю) з %nas_awaysince_time%.
 [Create new message]
 Новае паведамленне
 [Default messages]
@@ -60,7 +60,7 @@
 [New Away System plugin requires Miranda version 0.6.0.0 or above.]
 Модулю сістэмы паведамленняў NAS патрэбна Miranda версіі 0.6.0.0 ці вышэй.
 [New Away System: Status message request notifications]
-Сістэма паведамленняў: Апавяшчэнне запыту статутнага паведамлення
+Сістэма паведамленняў: Абвестка запыту статуснага паведамлення
 [New Away System\t(x)\tAway since date in format x (x is optional)]
 Сістэма паведамленняў\t(x)\t Адсутнічаю з даты ў фармаце x (x неабавязковы)
 [New Away System\t(x)\tAway since time in format x (x is optional)]
@@ -118,7 +118,7 @@ NewAwaySys: Уваходны запыт статутнага паведамле�
 [&Other]
 &Іншае
 [&Save current window settings as default]
-&Захаваць бягучыя налады акна па змаўчанні
+&Захаваць бягучыя налады вакна па змаўчанні
 [...for each status separately]
 для кожнага статуту асобна
 [Autoreply format:]
@@ -136,7 +136,7 @@ NewAwaySys: Уваходны запыт статутнага паведамле�
 [Disable parsing of status messages by Variables plugin]
 Адключыць апрацоўку статутнага паведамлення модулем Variables
 [Don't notify of requests]
-Не апавяшчаць пра запыт
+Не абвяшчаць пра запыт
 [Don't reply to ICQ contacts]
 Не адказваць ICQ кантактам
 [Don't reply when I'm invisible to the contact]
@@ -148,7 +148,7 @@ NewAwaySys: Уваходны запыт статутнага паведамле�
 [Ignore requests]
 Ігнараваць запыты
 [Log to a file only when popup notification for a contact is enabled]
-Запісваць у файл, толькі калі апавяшчэнне акном уключана
+Запісваць у файл, толькі калі абвестка вакном уключана
 [Means the setting is different for different status modes / contacts]
 Азначае, што налады розныя для розных тыпаў статутаў / кантактаў
 [Message tree category menu]
@@ -160,17 +160,17 @@ NewAwaySys: Уваходны запыт статутнага паведамле�
 [Note: these settings are applied to all status modes at once.]
 Падказка: Гэтыя налады ўжываюцца адразу да ўсіх тыпаў статутаў
 [Notify of requests]
-Апавяшчаць пра запыт
+Абвяшчаць пра запыт
 [Only notify when:]
-Апавяшчаць, толькі калі:
+Абвяшчаць, толькі калі:
 [Popup text format]
-Фармат усплывальнага акна
+Фармат усплывальнага вакна
 [Remember last message used for a contact...]
 Запамінаць апошняе паведамленне для кантакту
 [Reply only when Idle]
 Адказваць толькі ў простае
 [Reply only when contact's message window is closed]
-Адказваць, толькі калі акно гутаркі зачынена
+Адказваць, толькі калі вакно гутаркі зачынена
 [Reset per-protocol messages when changing global status]
 Пераўсталяваць паведамленні для кожнага пратаколу пры змене глабальнага статуту
 [Reset this counter also when I just change my status text\n(when status icon remains the same)]
@@ -180,7 +180,7 @@ NewAwaySys: Уваходны запыт статутнага паведамле�
 [Save autoreply to the history]
 Захоўваць паведамленне аўтаадказніка ў гісторыі
 [Save default window settings &automatically]
-Захоўваць налады акна &аўтаматычна
+Захоўваць налады вакна аўтаматычна
 [Se&ttings]
 Налады
 [Send an autoreply]
@@ -190,7 +190,7 @@ NewAwaySys: Уваходны запыт статутнага паведамле�
 [Set as &default for]
 Вуснаў. па &змаўчанні для
 [Set away message window options]
-Налады акна паведамлення недаступнасці
+Налады вакна паведамлення недасяжнасці
 [Show &contacts]
 Паказваць &кантакты
 [Show predefined &messages]
@@ -214,7 +214,7 @@ NewAwaySys: Уваходны запыт статутнага паведамле�
 [most recent messages (0=disable)]
 апошніх паведамленняў (0=адключыць)
 [seconds before closing the status message dialog (-1=don't close)]
-секунд перад зачыненнем акна выбару статутаў(-1=не зачыняць)
+секунд перад зачыненнем вакна выбару статусаў(-1=не зачыняць)
 [times (-1=infinite)]
 раз(-1=бясконца)
 [ (autoreply only)]
@@ -242,7 +242,7 @@ _кантакты *
 [Show settings menu]
 Меню налад
 [      Popup notification]
-      Апавяшчэнне ўсплывальным акном
+      Абвестка вакном
 [?cinfo(%subject%,display) (?cinfo(%subject%,id)) is reading your %nas_statdesc% message:\r\n%nas_message%]
 ?cinfo(%subject%,display) (?cinfo(%subject%,id)) чытае Ваша %nas_statdesc% паведамленне:\r\n%nas_message%
 [Away since date in format x (x is optional)]
@@ -277,11 +277,11 @@ _кантакты *
 [You may put your frequently used and favorite messages in this category.]
 Вы можаце змясціць сюды часта выкарыстоўваныя і каханыя паведамленні.
 [Your nick for current protocol]
-Ваш нік для гэтага пратаколу
+Ваша мянушка для гэтага пратаколу
 [Your status message (this variable is used in log and popup format strings only)]
-Ваша статутнае паведамленне (гэта зменная выкарыстоўваецца ў логу і фармаце ўсплывальнага акна)
+Ваша статутнае паведамленне (гэта зменная выкарыстоўваецца ў логу і фармаце ўсплывальнага сакна)
 [Your master, %nas_mynick%, is %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, I'll tell him you dropped by...]
-%nas_mynick%, цяпер %nas_statdesc% з дня ?nas_awaysince_date(dddd)... Калі ён вернецца, я яму паведамлю пра вас...
+%nas_mynick%, зараз %nas_statdesc% з дня ?nas_awaysince_date(dddd)... Калі ён вернецца, я яму паведамлю пра вас...
 [I'm on the phone since %nas_awaysince_time%, give me a sec!]
 Я кажу па тэлефоне з %nas_awaysince_time%, хвіліначку!
 [Having my ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]

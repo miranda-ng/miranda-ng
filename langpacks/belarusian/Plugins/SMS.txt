@@ -61,13 +61,11 @@
 [Auto popup on new message]
 Вакно на новае паведамленне
 [Save window position per contact]
-Захоўваць пазіцыю акна пакантактна
+Захоўваць пазіцыю вакна пакантактна
 [SMS Message Sent]
 СМС паведамленне паслана
-[&OK]
-&OK
 [Message ID:]
-ID паведамленні:
+ID паведамлення:
 [Source:]
 Крыніца:
 [Network:]

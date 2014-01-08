@@ -49,9 +49,9 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Hide offline users]
 Схаваць адключаных
 [Hide empty groups]
-Схаваць пустыя групы
+Схаваць пустыя гурты
 [Disable groups]
-Адключыць групы
+Адключыць гурты
 [Ask before deleting contacts]
 Пацверджанне выдалення
 [Disable icon blinking]
@@ -95,21 +95,21 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Do not show system tray icon tooltips on mouse over]
 Не паказваць усплывальныя падказкі пры навядзенні на значок у трэі
 [Groups]
-Групы
+Гурты
 [Draw a line alongside group names]
-Лінія ўздоўж назваў груп
+Лінія ўздоўж назваў гуртоў
 [Show number of contacts in a group]
-Паказаць лік кантактаў у групе
+Паказаць колькасць кантактаў у гурце
 [Hide numbers when all offline]
 Хаваць лічыльнік калі ўсё адключаны
 [Sort groups alphabetically]
-Сартаваць групы па алфавіце
+Сартаваць гурты па алфавіце
 [Quicksearch in open groups only]
-Хуткі пошук толькі ў адкрытых групах
+Хуткі пошук толькі ў адчыненых гуртах
 [No expand/collapse icon]
 Не паказваць значок згортвання/разгортванні
 [Center groupnames horizontally]
-Выраўняць назвы груп па цэнтры
+Выраўняць назвы гуртоў па цэнтры
 [Alignment]
 Выраўняць
 [Margins (left/right)]
@@ -119,9 +119,9 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Minimum row height:]
 Мін. вышыня радка
 [Group row height]
-Мін. вышыня групы
+Мін. вышыня гурта
 [Indent groups by:]
-Водступ для груп:
+Водступ для гуртоў:
 [Inner Row vertical padding]
 Вертыкальны водступ паміж шэрагамі
 [Margins and spacing]
@@ -135,7 +135,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Finally by]
 апошняе
 [Move events to the top of list\nor group]
-Перасоўваць падзеі наверх спісу ці групы
+Перасоўваць падзеі наверх спісу ці гурта
 [Do not separate offline contacts]
 Не адлучаць адключаныя кантакты
 [Hide as offline]
@@ -199,7 +199,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Border]
 Рамка
 [Title bar text:]
-Загаловак акна:
+Загаловак вакна:
 [Pin to desktop]
 Прымацаваць ды стала
 [Show drop shadow (restart required)]
@@ -209,7 +209,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [seconds]
 секунд(ы)
 [Automatically resize window to height of list]
-Аўтаматычна змяняць памер акна
+Аўтаматычна змяняць памер вакна
 [maximum]
 максімум
 [% of screen]
@@ -217,7 +217,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Size upwards]
 Расцягваць угару
 [If window is partially covered, bring to front instead of hiding]
-Змясціць акно на пярэдні план, калі яно прычынена іншымі вокнамі
+Змясціць вакно на пярэдні план, калі яно прычынена іншымі вокнамі
 [Always Hide On Taskbar]
 Заўсёды хаваць у трэі.
 [Client margins]
@@ -251,7 +251,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Disable rename of items by clicking twice]
 Адключыць пераназванне па дзвюх пстрычках
 [Show selection even when list is not focused]
-Вылучэнне, нават калі акно неактыўнае
+Вылучэнне, нават калі вакно неактыўнае
 [Make selection highlight translucent]
 Напаўпразрыстае вылучэнне
 [Use full row for selection and hottracking]
@@ -327,7 +327,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [New]
 Стварыць
 [Include groups]
-Уключыць групы
+Уключыць гурты
 [Include status modes]
 Уключыць статусы
 [Cancel]
@@ -343,7 +343,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Protocol]
 Пратакол
 [Group]
-Група
+Гурт
 [Status mode]
 Рэжым статусу
 [Automatically clear this view mode after]
@@ -373,7 +373,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Automatically fill background with wallpaper (tiled wallpaper only)]
 Аўтаматычна запаўняць фон шпалерамі (для забрукаваных шпалер)
 [Apply group indent values to background drawing]
-Ужыць налады водступу для групы да фону
+Ужыць налады водступу для гурта да фону
 [Use per protocol/contact skinning]
 Вык. скіны для пратаколаў/кантактаў
 [Protocol skins override status text colors]
@@ -387,11 +387,11 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Skin options]
 Налады скіна
 [Group top padding]
-Верх. водступ груп
+Верх. водступ гуртоў
 [Frame title bar height]
 Вышыня назвы фрэйма
 [Ignore selection for groups]
-Ігнараваць вылучэнне для груп
+Ігнараваць вылучэнне для гуртоў
 [Load from skin file]
 Загрузіць з файла
 [Export to skin file]
@@ -473,27 +473,27 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Nowhere]
 Нідзе
 [&New Group]
-Ства&рыць групу
+Стварыць гурт
 [&Hide Offline Users]
 Схаваць адключаных
 [Hide &Offline Users out here]
-Схаваць адключаных па-за групай
+Схаваць адключаных па-за гуртом
 [Hide &Empty Groups]
-Схаваць пустыя групы
+Схаваць пустыя гурты
 [Disable &Groups]
-Адключыць групы
+Адключыць гурты
 [Hide Miranda]
 Схаваць спіс кантактаў
 [&New Subgroup]
-Стварыць падгрупу
+Стварыць падгурт
 [&Hide Offline Users in here]
-Схаваць адключаных у групе
+Схаваць адключаных у гурце
 [&Rename Group]
-Пераназваць групу
+Пераназваць гурт
 [&Delete Group]
-Выдаліць групу
+Выдаліць гурт
 [Move marked Contacts to this Group]
-Перамясціць адзначаныя кантакты ў гэту групу
+Перамясціць адзначаныя кантакты ў гэты гурт
 [Appearance]
 Знешні выгляд
 [Show Status Icons]
@@ -572,7 +572,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Show / hide offline contacts]
 Паказаць/схаваць афлайн кантакты
 [Toggle group mode]
-Паказаць/схаваць групы
+Паказаць/схаваць гурты
 [Find and add contacts]
 Знайсці і дадаць кантакты
 [Accounts]
@@ -601,7 +601,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Away]
 Адсутнічаю
 [NA]
-Недаступны
+Недасяжны
 [Occupied]
 Заняты
 [DND]
@@ -641,13 +641,13 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [When needed]
 Калі неабходна
 [With Nickname - left]
-Злева ад ніка
+Злева ад мянушкі
 [Far left]
 Па левым краі
 [Far right]
 Па правым краі
 [With Nickname - right]
-Справа ад ніка
+Справа ад мянушкі
 [List layout]
 Размяшчэнне спісу
 [Background]
@@ -657,7 +657,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Contacts]
 Кантакты
 [Groups and layout]
-Групы і размяшчэнне
+Гурты і размяшчэнне
 [Advanced]
 Дадаткова
 [Skins]
@@ -690,7 +690,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Toggle show online/offline]
 Укл/Выкл адключаных карыстачоў
 [Toggle groups]
-Укл/Выкл групы
+Укл/Выкл гурты
 [Find contacts]
 Знайсці кантакты
 [Show TabSRMM session list]
@@ -740,7 +740,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Contacts which are 'not on list']
 Кантакты 'не ў спісе'
 [Group member counts]
-Лічыльнікі груп
+Лічыльнікі гуртоў
 [Dividers]
 Падзельнікі
 [Frame titles]
@@ -775,7 +775,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 Падзей няма...
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
-Кантакты па-за групамі
+Кантакты па-за гуртамі
 [And]
 І
 [Or]
@@ -880,4 +880,4 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Subgroup menu]
 Меню падгуртоў
 [&New SubGroup]
-Стварыць падгрупу
+Стварыць падгурт

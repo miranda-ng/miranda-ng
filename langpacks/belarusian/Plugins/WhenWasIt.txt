@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
-Апавяшчэнне пра хуткія дні нараджэння.
+Абвестка пра дні нараджэння.
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
 Паведаміць пра дзень нараджэння:
@@ -57,7 +57,7 @@
 [seconds]
 секунд
 [Notify for]
-Апавяшчэнні
+Абвесткі
 [afterwards]
  пасля
 [In background]
@@ -112,7 +112,7 @@
 [All contacts except hidden and ignored ones]
 Усё, акрамя ўтоеных і ігнаруемых
 [Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
-Усталёўвае затрымку апавяшчэння пра надыходзячыя інш.\n Фармат: затрымка па змаўчанні [ | затрымка для інш сёння]
+Усталёўвае затрымку абвесткі пра надыходзячыя інш.\n Фармат: затрымка па змаўчанні [ | затрымка для інш сёння]
 [Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
 Абярыце модуль захоўвання дзён нараджэнняў.\r\n"UserInfo" па змаўчанні.\r\n Выкарыстоўваць "Модуль пратаколу" каб бачыць дадзеныя ў дадзеных кантакту\n"mBirthday модуль" захоўвае таксама, як і модуль mBirthday
 [Set birthday for %s:]
@@ -120,7 +120,7 @@
 [%S protocol]
 %S пратакол
 [N/A]
-Недаступны
+Недасяжны
 [Unknown]
 Невядома
 [Birthday list (%d)]
@@ -163,7 +163,7 @@
 [Export birthdays]
 Экспарт дзён нараджэння
 [Add/change user &birthday]
-Дзень нараджэння карыстача
+Дзень нараджэння кантакта
 ;file \plugins\WhenWasIt\src\icons.cpp
 [Check birthdays menu item]
 Праверыць дні нараджэння
@@ -208,9 +208,9 @@
 %s\n%s споўнілася %d
 ;file \plugins\WhenWasIt\src\services.cpp
 [Starting to refresh user details]
-Пачатак абнаўлення інфармацыі пра карыстачоў
+Пачатак абнаўлення інфармацыі пра кантакты
 [Done refreshing user details]
-Абнаўленне інфармацыі пра карыстачоў завершана
+Абнаўленне інфармацыі пра кантакты завершана
 [Could not create worker thread. Error#%d - threadID %d]
 Не ўдалося стварыць працоўны струмень. Error#%d - threadID %d
 [Error]

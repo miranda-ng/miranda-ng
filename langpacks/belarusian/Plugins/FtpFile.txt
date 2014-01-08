@@ -71,7 +71,7 @@ FTP-конты
 [To:]
 Для:
 [Nick]
-Нік
+Мянушка
 [Close]
 Зачыніць
 [Clipboard]
@@ -119,7 +119,7 @@ FTP файл мэнэджар
 [Copy URL]
 Капіяваць спасылку
 [Close dialog after upload finishes]
-Зачыніць акно пасля канчатка загрузкі
+Зачыніць вакно пасля канчатка загрузкі
 [Automatically delete file after...]
 Аўтаматычна выдаліць файл праз...
 [Disabled]

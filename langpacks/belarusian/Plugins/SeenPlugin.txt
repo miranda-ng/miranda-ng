@@ -6,7 +6,7 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
-Запамінае, калі карыстач апошні раз далучаўся і хто быў далучаны, пакуль вы адсутнічалі.
+Запамінае, калі кантакт апошні раз далучаўся і хто быў далучаны, пакуль вы адсутнічалі.
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Параметры апошняга з'яўлення
@@ -35,7 +35,7 @@
 [Accounts to watch:]
 Конты для назірання:
 [Use popups]
-Успл. акна
+Успл. вокны
 [Title]
 Загаловак
 [Text]
@@ -47,7 +47,7 @@
 [Away]
 Адсутнічаю
 [NA]
-Недаступны
+Недасяжны
 [Occupied]
 Заняты
 [DND]
@@ -76,22 +76,22 @@
 [last seen history]
 гісторыя апошняй сустрэчы
 [View User's Details]
-Інфармацыя пра карыстача
+Пра кантакт
 [User Menu]
-Меню карыстача
+Меню кантакта
 [Send Instant Message]
 Адправіць імгненнае паведамленне
 ;file \plugins\SeenPlugin\src\main.cpp
 [LastSeen]
 Апошняе з'яўленне
 [User status change]
-Змена статусу карыстача
+Змена статусу кантакта
 [Changed to Online]
 Змена: Далучаны
 [User Logged Off]
-Карыстач Адключаны
+Кантакт Адключаны
 [User Logged In]
-Карыстач Падлучаны
+Кантакт далучаны
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <невядома>
@@ -142,15 +142,15 @@
 [seconds]
 секунд(ы)
 [-- User --]
--- Карыстач --
+-- Кантакт --
 [username]
-карыстач
+кантакт
 [nick]
-нік
+мянушка
 [UIN/handle]
 нумар/апрацоўнік
 [Group]
-Група
+Гурт
 [Status]
 Статус
 [Status message]
@@ -190,7 +190,7 @@
 [Tuesday]
 Аўторак
 [Wednesday]
-Асяроддзе
+Серада
 [Thursday]
 Чацвер
 [Friday]

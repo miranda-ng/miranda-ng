@@ -33,9 +33,9 @@ MirFox/Error
 [just send message]
 проста адправіць паведамленне
 [send message and open message window]
-адправіць і адчыніць акно гутаркі
+адправіць і адчыніць вакно гутаркі
 [show message window with pasted message]
-паказаць акно гутаркі з устаўленым паведамленнем
+паказаць вакно гутаркі з устаўленым паведамленнем
 [** All contacts **]
 ** Усе кантакты **
 [Protocol]

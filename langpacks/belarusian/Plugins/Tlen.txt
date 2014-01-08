@@ -35,23 +35,23 @@ Tlen
 [Send and receive client version information]
 Адпраўляць і атрымліваць версіі кліентаў
 [Alert policy]
-Палітыка апавяшчэння
+Правілы падзей
 [Use Nudge plugin]
-Ужываць Трасяніну
+Ужываць плагін увагі Nudge
 [Log alerts as messages]
 Захоўв. падзеі як паведамленні
 [Group chat policy]
-Палітыка чатаў
+Правілы гутарак
 [Voice Chats]
-Галасавыя чаты
+Галасавыя гутаркі
 [Voice chat policy]
-Палітыка групавых чатаў
+Правілы галасавых гутарак
 [Recording device:]
 Прылада запісу:
 [Playback device:]
-Прылада прайгр.
+Прылада прайгр.:
 [Expert Options]
-Налады Эксперта
+Пашыраныя налады
 [Login server:]
 Сервер:
 [Connection Host:]
@@ -77,7 +77,7 @@ P2P далучэнні
 [Mail Notification]
 Абвестка пра пошту
 [Enable incoming mail notification]
-Укл. апавяшчэнне пра ўваходную пошту
+Укл. абвестку пра ўваходную пошту
 [Colors]
 Колеры
 [Background]
@@ -246,7 +246,7 @@ Tlen пошта
 [Advanced]
 Дадаткова
 [Notifications]
-Апавяшчэнні
+Абвесткі
 [Network]
 Сеціва
 [These changes will take effect the next time you connect to the Tlen network.]
@@ -254,11 +254,11 @@ Tlen пошта
 [Tlen Protocol Option]
 Налады пратаколу Tlen
 [Accept all alerts]
-Прымаць усе апавяшчэнні
+Прымаць усе падзеі
 [Ignore alerts from unauthorized contacts]
-Ігнараваць апавяшчэнні ад неаўтарызаваных кантактаў
+Ігнараваць падзеі ад неаўтарызаваных кантактаў
 [Ignore all alerts]
-Ігнараваць усе апавяшчэнні
+Ігнараваць усе падзеі
 [Always ask me]
 Заўсёды пытаць
 [Accept invitations from authorized contacts]
@@ -315,7 +315,7 @@ Windows
 [E-mail]
 Пошта
 [An alert has been received.]
-Апавяшчэнне прынята.
+Абвестка прынята.
 [Private conference]
 Асабістая канферэнцыя
 [Subject]

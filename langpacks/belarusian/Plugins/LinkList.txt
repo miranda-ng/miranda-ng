@@ -53,13 +53,13 @@
 [General Settings]
 Асноўныя налады
 [Open links always in a new window]
-Заўсёды адкрываць спасылкі ў новым акне
+Заўсёды адкрываць спасылкі ў новым вакне
 [Update list on new events]
 Аўтаматычнае абнаўленне спісу пры новых падзеях
 [Show whole Message on 'mouse over' event]
 Паказваць поўнае паведамленне пры навядзенні мышы
 [Save window position individually for each contact]
-Захоўваць пазіцыю акна асобна для кожнага кантакту
+Захоўваць пазіцыю вакна асобна для кожнага кантакту
 [Show...]
 Паказваць...
 [Date]
@@ -77,9 +77,9 @@
 [&Save]
 &Захаваць
 [&Close]
-&Зачыніць
+Зачыніць
 [&Options]
-&Налады
+Налады
 [Message &Direction]
 Кірунак &паведамленняў
 [&Outgoing Messages Only]
@@ -93,15 +93,15 @@
 [&Mail-Addresses Only]
 Толькі e-mail адрасы
 [&Clear Search Results]
-&Ачысціць вынікі пошуку
+Ачысціць вынікі пошуку
 [&Search]
-&Шукаць
+Шукаць
 [link]
 спасылка
 [Open]
 Адкрыць
 [Open in new Window]
-Адкрыць у новым акне
+Адкрыць у новым вакне
 [Copy to Clipboard]
 Капіяваць у буфер
 [Show Message]
@@ -135,7 +135,7 @@
 [Processing history...]
 Апрацоўка гісторыі...
 [Could not create window!]
-Немагчыма стварыць акно!
+Немагчыма стварыць вакно!
 [Could not allocate memory!]
 Немагчыма размеркаваць памяць!
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp

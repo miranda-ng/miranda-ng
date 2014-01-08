@@ -14,7 +14,7 @@
 [Don't merge windows]
 Не "склейваць" вокны
 [At opening one more message window]
-Пры адкрыцці больш аднаго акна
+Пры адкрыцці больш аднаго вакна
 [Merge windows in opening order]
 "Прыляпляць" вокны ў парадку адкрыцця
 [Merge only first window]

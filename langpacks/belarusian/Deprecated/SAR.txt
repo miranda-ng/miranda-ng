@@ -11,7 +11,7 @@
 [Reply action:]
 Затрымка адказу:
 [Do not execute actions if conversation window with user is opened]
-Не выконваць дзеянні, калі акно кантакту адкрыта
+Не выконваць дзеянні, калі вакно кантакту адкрыта
 [Smart Auto Replier settings]
 Налады аўтаадказніка
 [Rule action]

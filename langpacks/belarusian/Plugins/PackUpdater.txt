@@ -33,7 +33,7 @@
 [Go to Customize -> Hotkeys to change the hotkey]
 Налада ў Тонкая налада -> Гарачыя клавішы
 [Notifications]
-Апавяшчэнні
+Абвесткі
 [Message boxes]
 Дыялогі
 [Errors]
@@ -110,7 +110,7 @@
 Вы адмовіліся ад неадкладнай усталёўкі абнаўлення зборкі.\n Вы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
 ;file \plugins\PackUpdater\Src\Notifications.h
 [Close popup]
-Зачыніць акно
+Зачыніць вакно
 [Do nothing]
 Нічога не рабіць
 ;file \plugins\PackUpdater\Src\Options.cpp

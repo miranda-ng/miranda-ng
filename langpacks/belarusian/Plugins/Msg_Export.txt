@@ -59,7 +59,7 @@ UTF8 у новых файлах
 [Do nothing]
 Нічога не рабіць
 [When user is deleted]
-Пры выдаленні карыстача
+Пры выдаленні кантакта
 [Delete file]
 Выдаліць файл
 [Debug]
@@ -105,7 +105,7 @@ UTF8 у новых файлах
 [File]
 Файл
 [Nick]
-Нік
+Мянушка
 [Proto]
 Пратакол
 [UIN]
@@ -158,9 +158,9 @@ e-mail    :
 [Reason    :]
 Чыннік   :
 [The following user made an authorization request:]
-Наступны карыстач запытаў аўтарызацыю:
+Наступны кантакт запытаў аўтарызацыю:
 [The following user added you to their contact list:]
-Карыстач дадаў вас у свой спіс кантактаў:
+Кантакт дадаў вас у свой спіс кантактаў:
 [EmailExpress from:]
 EmailExpress ад:
 [WebPager from:]

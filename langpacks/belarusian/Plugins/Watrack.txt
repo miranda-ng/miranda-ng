@@ -12,7 +12,7 @@
 [xStatus will cleared before text changing and restored with new text later.]
 хстатус будзе вычышчаны перад зменай тэксту і адноўлены з новым тэкстам пазней
 [Paste played music info into message window or status text]
-Устаўляе інфармацыю пра прайграваную музыку ў акно паведамлення ці ў статуснае паведамленне
+Устаўляе інфармацыю пра прайграваную музыку ў вакно гутаркі ці ў статуснае паведамленне
 [Use XStatus]
 Выкарыстоўваць хстатус
 [If this option is "ON", XStatus doesn't depend on protocol status.]
@@ -72,7 +72,7 @@
 [Use buttons gap]
 Пропуск паміж кнопкамі
 [Frame template]
-Шаблон акна
+Шаблон вакна
 [Text effect]
 Эфект тэксту
 [Text movement]
@@ -126,9 +126,9 @@
 [song year (date)]
 Год песні (дата)
 [player window title]
-Загаловак акна прайгравальніка
+Загаловак вакна прайгравальніка
 [width, video only]
-Шырыня акна, толькі для відэа
+Шырыня вакна, толькі для відэа
 [player version]
 Версія прайгравальніка
 [VBR or not (empty)]
@@ -144,7 +144,7 @@
 ["mono"/"stereo"]
 "мана"/"стэрэа"
 [height, video only]
-Вышыня акна, толькі для відэа
+Вышыня вакна, толькі для відэа
 [FPS (frames per second), video only]
 FPS (кадраў у секунду), толькі для відэа
 [media file name]
@@ -288,7 +288,7 @@ VBR ці пуста
 [lowercase %type%]
 маленькі %type%
 [If this option is "ON", you can paste music info to your message window pressing hotkey.]
-Калі опцыя ўключана, вы можаце ўстаўляць інфармацыю пра музыку ў акно паведамленняў, націснуўшы на гарачыя клавішы.
+Калі опцыя ўключана, вы можаце ўстаўляць інфармацыю пра музыку ў вакно паведамленняў, націснуўшы на гарачыя клавішы.
 [If this option is "ON", status text will be replaced by music info.]
 Калі опцыя ўключана, тэкст статусаў будзе замешчаны на інфармацыю пра музыку
 [If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
@@ -314,7 +314,7 @@ VBR ці пуста
 [Use "Variables" plugin]
 Выкарыстоўваць плагін Variables
 [Sorry, but i don't use WATrack right now!]
-Выбачыце, але цяпер я не выкарыстоўваю WATrack!
+Выбачыце, але зараз я не выкарыстоўваю WATrack!
 [Next track]
 След. трэк
 [Show player]
@@ -458,7 +458,7 @@ VBR ці няма
 [  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
  Час абнаўлення (сек) - абнаўленне інфармацыі ў статусных паведамленнях. Калі нуль, аўтаабнаўленне выключана\n Працуе, толькі калі xСтатус "Музыка".\n Калі плэер выключаны ці спынены, xСтатус прыбіраецца.\n Калі тэкст пусты, статуснае паведамленне не змяняецца.\n Калі налады захоўваюцца ў ini файле, яны выдаляцца з базы Miranda, інакш ini файл будзе выдалены.
 ["Variables" module use]
-Выкарыстоўваць "Variables"
+Выкарыстоўваць плагін зменных
 [Acoustic]
 Акустыка
 [Use ICQ XStatus]
@@ -474,7 +474,7 @@ VBR ці няма
 [WATrack data insert hotkey]
 Устаўка інфармацыі
 [WATrack popup hotkey]
-Усплывальнае акно
+Усплывальнае вакно
 [Switch ON these modules]
 Укл./выкл. плагінаў Watrack
 [Modules]
@@ -558,7 +558,7 @@ VBR ці няма
 [No any special notes for this player]
 Дадатковая інфармацыя адсутнічае
 [popup test]
-Усплывальнае акно
+Усплывальнае вакно
 [Frame (main)]
 Фрэйм (асноўнае)
 [Frame (text)]

@@ -31,9 +31,9 @@
 [Automatically grant authorization to new users]
 Аўтаматычна аўтарызоўваць новых карыстачоў
 [Notify me when a message delivery has failed]
-Апавясціць, калі паведамленне не дайшло
+Абвясціць, калі паведамленне не дайшло
 [Notify about new mail if increment]
-Апавяшчаць толькі пра новую пошту
+Абвяшчаць толькі пра новую пошту
 [Notify about new mail tray icon]
 Паказваць значок у трэі пры прыходзе пошты
 [Click to Inbox]
@@ -49,7 +49,7 @@
 [Summary]
 Рэзюмэ
 [Nickname:]
-Нік:
+Мянушка:
 [First name:]
 Імя:
 [Last name:]
@@ -125,9 +125,9 @@
 [Leave empty if you don't want to change password]
 Пакіньце пустым калі не жадаеце змяняць пароль
 [Popup type]
-Тып акна
+Тып вакна
 [Popup settings]
-Налады ўсплывальнага акна
+Налады ўсплывальнага вакна
 [Enable]
 Уключана
 [&Use Windows colors]
@@ -148,12 +148,10 @@ xСтатус "%s"
 Загаловак:
 [Message:]
 паведамленне:
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Notify]
-Апавяшчэнне
+Абвестка
 [Written:]
 Напісаў:
 [Select e-mail]
@@ -229,11 +227,11 @@ xСтатус "%s"
 [Your contact wakes you]
 Ваш суразмоўца будзіць вас
 [Display &Inbox]
-Адкрыць уваходныя
+Уваходныя
 [Display &Inbox status]
-Паказаць стан скрыні
+Стан скрыні
 [Edit &Profile]
-Рэдагаваць анкету
+Анкета
 [My Album]
 Мой альбом
 [My Blog]
@@ -263,13 +261,13 @@ xСтатус "%s"
 [&Send postcard]
 Адправіць паштоўку
 [&View Album]
-Паглядзець альбом
+Глядзець альбом
 [&Read Blog]
 Блог
 [Reply Blog Status]
 Адказаць на статус блога
 [View Video]
-Паглядзець  відэа
+Глядзець  відэа
 [Answers]
 Адказы
 [World]
@@ -311,9 +309,9 @@ Mail.ru
 [Contact Menu]
 Меню кантакту
 [Extra status]
-Дап. статус
+Дадаткова
 [Custom Status]
-хстатус
+хСтатус
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Няма
@@ -399,7 +397,7 @@ MRIM_CS_CONTACT_LIST2: невядомая памылка сервера, код:
 [MRIM_CS_SMS_ACK: not found in queue]
 MRIM_CS_SMS_ACK: не знойдзены ў чэргі
 [Mail.ru System notify]
-Сістэмнае апавяшчэнне ад адміністрацыі Mail.ru
+Сістэмная абвестка ад адміністрацыі Mail.ru
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Sick]
 Хворы

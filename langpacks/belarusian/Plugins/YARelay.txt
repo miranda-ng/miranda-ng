@@ -23,7 +23,7 @@
 [Away]
 Адсутнічаю
 [NA]
-Недаступны
+Недасяжны
 [Occupied]
 Заняты
 [DND]
@@ -37,7 +37,7 @@
 [Template]
 Шаблон
 [%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
-%u - нік;   %i - UIN;    %t - час;   \r%d - дата;   %m - паведамленне
+%u - мянушка;   %i - UIN;    %t - час;   \r%d - дата;   %m - паведамленне
 [Forwarding options]
 Налады перасылання
 [Split message (%m)]

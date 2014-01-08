@@ -6,16 +6,16 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
-Асацыяцыя пашырэнняў файлаў і URL-спасылак з пратаколамі: AIM, Yahoo, Jabber, Gadu-Gadu, Tlen.
+Супастаўленне пашырэнняў файлаў і спасылак з пратаколамі: AIM, Yahoo, Jabber, Gadu-Gadu, Tlen.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
-Зарэгістраваныя асацыяцыі для Miranda NG:
+Зарэгістраваныя супастаўленні для Miranda NG:
 [Miscellaneous]
 Іншае
 [&Start Miranda NG automatically when the computer starts (using current profile)]
 &Загружаць праграму пры запуску кампутара (выкарыстоўваючы гэты профіль)
 [Only associate with Miranda NG while it is &running]
-Асацыяваць толькі падчас &працы праграмы
+Супаставіць толькі падчас &працы праграмы
 ;file \plugins\AssocMgr\src\assoclist.cpp
 [%hs files]
 %hs файлы
@@ -36,18 +36,18 @@
 [Autostart error]
 Памылка аўтазагрузкі
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
-Адбылася памылка запісу для мадыфікацыі спісу аўтазапуску.\n\n Чыннік: %s
+Адбылася памылка запісу пры змяненні спісу аўтазапуску.\n\nЧыннік: %s
 [Services]
 Службы
 [Associations]
-Асацыяцыі
+Супастаўленні
 [Miranda NG database]
 База дадзеных Miranda NG
 ;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
 Miranda NG не можа адкрыць файл
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
-Міранда NG не ў стане адкрыць "% S".\n\nНезарэгістраваны апрацоўшчык для дадзенага тыпу файлаў.
+Міранда NG не можа адкрыць "% S".\n\nНезарэгістраваны апрацоўшчык для дадзенага тыпу файлаў.
 [Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
 Міранда NG не ў стане адкрыць "% S".\n\nФайл не можа быць апрацаваны.
 [Miranda NG could not open URL]
@@ -63,16 +63,16 @@ Miranda NG не можа адчыніць "% S".\n\nДадзеная спасы�
 Заўвага рэестра
 ;file \plugins\AssocMgr\src\test.cpp
 [AIM Link Protocol]
-Пратакол AIM
+Спасылка AIM
 [ICQ Link Shortcut]
-Пратакол ICQ
+Спасылка ICQ
 [&Add to contact list...]
 Дадаць кантакт у спіс
 [Yahoo Link Protocol]
-Пратакол Yahoo
+Спасылка Yahoo
 [MSN Link Protocol]
-Пратакол MSN
+Спасылка MSN
 [Gadu-Gadu Link Protocol]
-Пратакол Gadu-Gadu
+Спасылка Gadu-Gadu
 [Jabber Link Protocol]
-Пратакол Jabber
+Спасылка Jabber

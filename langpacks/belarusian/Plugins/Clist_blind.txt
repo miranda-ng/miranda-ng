@@ -39,13 +39,13 @@
 [Hide offline users]
 Схаваць адключаных
 [Hide empty groups]
-Схаваць пустыя групы
+Схаваць пустыя гурты
 [Disable groups]
-Адключыць групы
+Адключыць гурты
 [Ask before deleting contacts]
 Пацверджанне выдалення
 [Sort contacts by name]
-Сартаванне па імі
+Сартаванне па імені
 [Sort contacts by status]
 Сартаванне па статусе
 [Sort contacts by protocol]
@@ -91,7 +91,7 @@
 [seconds]
 секунд(ы)
 [Automatically resize window to height of list]
-Аўтаматычна змяняць памер акна
+Аўтаматычна змяняць памер вакна
 [maximum]
 максімум
 [% of screen]
@@ -99,7 +99,7 @@
 [Size upwards]
 Расцягваць угару
 [Title bar text:]
-Загаловак акна:
+Загаловак вакна:
 [Translucency options]
 Налады празрыстасці
 [Fade contact list in/out]
@@ -117,7 +117,7 @@
 [Show title bar]
 Паказваць загаловак
 [If window is partially covered, bring to front instead of hiding]
-Змясціць акно на пярэдні план, калі яно прычынена іншымі вокнамі
+Змясціць вакно на пярэдні план, калі яно прычынена іншымі вокнамі
 [Show drop shadow (restart required)]
 Цень (патрэбен перазапуск)
 [Pin to desktop]
@@ -127,21 +127,21 @@
 ['Hide Offline' means to hide:]
 'Схаваць адключаных' - схаваць:
 [Groups]
-Групы
+Гурты
 [Show counts of number of contacts in a group]
-Паказваць колькасць карыстачоў у групах
+Паказваць колькасць канатактаў у гуртах
 [Hide group counts when there are none online]
 Хаваць лічыльнік, калі няма далучаных карыстачоў
 [Sort groups alphabetically]
-Сартаваць групы па алфавіце
+Сартаваць гурты па алфавіце
 [Quicksearch in open groups only]
-Хуткі пошук толькі ў адкрытых групах
+Хуткі пошук толькі ў адчыненых гуртах
 [Templates]
 Шаблоны
 [Contact:]
 Кантакт:
 [Group:]
-Група:
+Гурт:
 [Divider:]
 Падзельнік:
 [Info:]
@@ -199,27 +199,27 @@
 [Nowhere]
 Нідзе
 [&New Group]
-Ства&рыць групу
+Стварыць гурт
 [&Hide Offline Users]
 Схаваць адключаных
 [Hide &Offline Users out here]
-Схаваць адключаных па-за групай
+Схаваць адключаных па-за гуртом
 [Hide &Empty Groups]
-Схаваць пустыя групы
+Схаваць пустыя гурты
 [Disable &Groups]
-Адключыць групы
+Адключыць гурты
 [Hide Miranda]
 Схаваць спіс кантактаў
 [Group]
-Група
+Гурт
 [&New Subgroup]
-Стварыць падгрупу
+Стварыць падгурт
 [&Hide Offline Users in here]
-Схаваць адключаных у групе
+Схаваць адключаных у гурце
 [&Rename Group]
-Пераназваць групу
+Пераназваць гурт
 [&Delete Group]
-Выдаліць групу
+Выдаліць гурт
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Не ў фокусе
@@ -230,7 +230,7 @@
 [Away]
 Адсутнічаю
 [NA]
-Недаступны
+Недасяжны
 [Occupied]
 Заняты
 [DND]
@@ -244,7 +244,7 @@
 [On the phone]
 На тэлефоне
 [Group: %name% %count% [%mode%]]
-Група: %name% %count% [%mode%]
+Гурт: %name% %count% [%mode%]
 [Divider: %s]
 Драйвер: %s
 [Info: %s]

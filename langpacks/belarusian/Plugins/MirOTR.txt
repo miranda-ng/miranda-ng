@@ -23,7 +23,7 @@ OTR Стварэнне закрытага ключа
 [Never]
 Не выкарыстоўваць
 [End sessions on window close]
-Спыніць сесію пры зачыненні акна
+Спыніць сесію пры зачыненні вакна
 [End sessions when contacts go offline]
 Спыніць сесію, калі кантакт адключаецца
 [Prefix encrypted IMs:]
@@ -33,9 +33,9 @@ OTR Стварэнне закрытага ключа
 [Also remove OTR system messages]
 Выдаліць сістэмныя паведамленні OTR
 [Show OTR system messages inline]
-Паказваць сістэмныя паведамленні ў акне гутарак
+Паказваць сістэмныя паведамленні ў вакне гутарак
 [Show OTR system messages as popup]
-Паказваць сістэмныя паведамленні ва ўсплывальным акне
+Паказваць сістэмныя паведамленні ва ўсплывальным вакне
 [Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
 Вяртаць завершаныя сесіі ў звычайны тэкст па тайм-аўту
 [Show verification dialog when receiving unverified fingerprint]
@@ -51,7 +51,7 @@ OTR Стварэнне закрытага ключа
 [Set OTR policy per contact]
 Усталяваць OTR-палітыку пакантактна
 [View & Modify status of known fingerprints]
-Прагляд і рэдагаванне статутаў вядомых адбіткаў
+Прагляд і рэдагаванне статусаў вядомых адбіткаў
 [Set verified]
 Праверана
 [Set unknown]
@@ -73,7 +73,7 @@ OTR Стварэнне закрытага ключа
 [&Yes]
 &Так
 [OTR status]
-OTR-статут
+OTR-статус
 [&Start OTR session]
 &Запусціць OTR-сесію
 [&Refresh OTR session]
@@ -92,7 +92,7 @@ OTR-статут
 [No]
 Не
 [OTR status (Click for more options)]
-Статут OTR (націсніце для опцый)
+Статус OTR (націсніце для налад)
 [OTR Encryption: Disabled]
 OTR-шыфраванне: адключана
 [OTR Encryption: UNVERIFIED]

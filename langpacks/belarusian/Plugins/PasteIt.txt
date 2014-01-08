@@ -17,7 +17,7 @@
 [Auto-detect UTF-8]
 Аўтавызначэнне UTF-8
 [Show confirmation dialog box]
-Паказваць дыялогавае акно пацверджання
+Паказваць дыялогавае вакно пацверджання
 [Autosend download link to contact]
 Адправіць спасылку аўтаматычна
 [Web page settings]
@@ -35,9 +35,9 @@ Web-старонка для налады
 [Login as guest]
 Увайсці як госць
 [User key]
-Ключ карыстача
+Ключ кантакта
 [Get user key]
-Атрымаць ключ карыстача
+Атрымаць ключ кантакта
 [Configure formatting]
 Наладзіць фарматаванне
 [OK]
@@ -149,7 +149,7 @@ HTTP далучэнне Paste It
 [Error during sending text to web page]
 Памылка пры адпраўцы тэксту на web-старонку
 [Error during getting user key from web page: %s]
-Памылка пры атрыманні ключа карыстача ад web-старонкі: %s
+Памылка пры атрыманні ключа кантакта ад web-старонкі: %s
 [Paste expire date]
 Уставіць на тэрмін
 [Never]

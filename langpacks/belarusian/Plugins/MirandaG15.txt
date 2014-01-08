@@ -25,7 +25,7 @@
 [Titles:]
 Загалоўкі:
 [Notifications:]
-Апавяшчэнні:
+Абвесткі:
 [Turn off backlights]
 Уключыць падсветку
 [If the applet is active:]
@@ -49,7 +49,7 @@
 [Lock the screen]
 Заблакаваць экран
 [Notifications]
-Апавяшчэнні
+Абвесткі
 [Notification screen title]
 Загаловак вакна абвесткі
 [Hide it]
@@ -99,7 +99,7 @@
 [Messages]
 Паведамленні
 [User events]
-Падзеі карыстача
+Падзеі кантакта
 [Emotes]
 Эмоцыі
 [Status changes]
@@ -107,7 +107,7 @@
 [Special IRC events:]
 Толькі IRC
 [Notices]
-Апавяшчэнні
+Абвесткі
 [Channel events]
 Падзеі канала
 [Cut off nicknames after]
@@ -141,7 +141,7 @@
 [Don't change group states]
 Не змяняць станы гуртоў
 [Collapse all groups]
-Згарнуць усе групы
+Згарнуць усе гурты
 [Show only contacts from the following protocols:]
 Паказваць толькі кантакты наступных контаў:
 [Protocol filter]

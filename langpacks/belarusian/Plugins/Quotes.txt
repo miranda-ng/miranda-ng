@@ -9,9 +9,7 @@
 Дадатак адлюстроўвае курсы валют і каціровак.
 ;file \plugins\Quotes\res\Forex.rc
 [Variable List]
-Зменныя
-[OK]
-ОК
+Спіс зменных
 [Edit Settings]
 Змяніць налады
 [Use contact specific settings]
@@ -41,9 +39,9 @@
 [Add to &Log only if Value Changed]
 Дадаваць у файл, толькі калі змянілася значэнне
 [Show &Popup Window]
-Паказваць усплывальнае акно
+Паказваць усплывальнае вакно
 [Show Popup Window Only if Value &Changed]
-Паказваць усплывальнае акно толькі, калі змянілася значэнне
+Паказваць усплывальнае вакно толькі, калі змянілася значэнне
 [Cancel]
 Скасаваць
 [Popup settings...]
@@ -165,7 +163,7 @@
 HTTP далучэнне Quotes
 ;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
-Абразок пратаколу
+Абразок конту
 [Quote/Rate up]
 Значэнне вырасла
 [Quote/Rate down]
@@ -181,7 +179,7 @@ HTTP далучэнне Quotes
 [Swap button]
 Памяняць месцамі
 [Import]
-Імпартаваць
+Імпарт
 ;file \plugins\Quotes\src\ImportExport.cpp
 [Xml File (*.xml)]
 Файл Xml(*.xml)

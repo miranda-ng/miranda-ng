@@ -17,9 +17,9 @@
 [Enter an authorization request]
 Тэкст запыту аўтарызацыі
 [&Send]
-&Адправіць
+Адправіць
 [&Cancel]
-С&касаваць
+Скасаваць
 [Enter ICQ Password]
 Увядзіце пароль ICQ
 [Enter a password for UIN %d:]
@@ -59,7 +59,7 @@ ICQ
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 Падтрымліваць далучэнне (калі вы выкарыстоўваеце проксі-сервер і часта раз'ядноўваецеся)
 [Ignore concurrent error messages]
-Не паказваць акно памылкі, пакуль не зачынена папярэдняе
+Не паказваць вакно памылкі, пакуль не зачынена папярэдняе
 [Show connection error messages:]
 Паказваць памылкі далучэння:
 [ICQ contacts stored on server]
@@ -99,7 +99,7 @@ ICQ
 [Make me temporarily visible to contacts I send message to]
 Станавіцца бачным для кантакту, якому пасылаеце паведамленне
 [Notify me when a message delivery has failed (recommended)]
-Апавяшчаць пра няўдалую дастаўку паведамленняў (рэкамендуецца)
+Абвяшчаць пра няўдалую дастаўку паведамленняў (рэкамендуецца)
 [Never use legacy messaging (server acknowledgements)]
 Ігнараваць стары метад, выкарыстоўваць паведамленні сервера пра дастаўку
 [Peer-to-peer Messaging]
@@ -205,7 +205,7 @@ ICQ
 [Summary]
 Рэзюмэ
 [Nickname:]
-Нік:
+Мянушка:
 [First name:]
 Імя:
 [Last name:]
@@ -292,7 +292,7 @@ xСтатус "%s"
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
 Няўдалае далучэнне.\nВаш нумар ці пароль не прыняты серверам (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
-Памылка далучэння.\nСервер часова недаступны (%d).
+Памылка далучэння.\nСервер часова недасяжны (%d).
 [Connection failed.\nServer has too many connections from your IP (%d).]
 Няўдалае далучэнне.\nВельмі шмат далучэнняў з вашага IP (%d).
 [Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
@@ -345,7 +345,7 @@ xСтатус "%s"
 [SNAC(4.1) SENDMSG Error (x%02x)]
 SNAC(4.1) Памылка SENDMSG (x%02x)
 [Contact "%s" has closed the message window.]
-Кантакт "%s" зачыніў акно паведамленняў.
+Кантакт "%s" зачыніў вакно паведамленняў.
 [ICQ Note]
 Інфармацыя ICQ
 ;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
@@ -360,17 +360,17 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 [Adding of contact to server list failed.]
 Не атрымалася дадаць кантакт на сервер.
 [Adding of group to server list failed.]
-Не атрымалася дадаць групу на сервер.
+Не атрымалася дадаць гурт на сервер.
 [Removing of contact from server list failed.]
 Не атрымалася выдаліць кантакт з сервера.
 [Updating of group on server list failed.]
-Не атрымалася абнавіць групу на серверы.
+Не атрымалася абнавіць гурт на серверы.
 [Removing of group from server list failed.]
-Не атрымалася выдаліць групу з сервера.
+Не атрымалася выдаліць гурт з сервера.
 [Moving of user to another group on server list failed.]
-Не атрымалася перамясціць кантакт у іншую групу на серверы.
+Не атрымалася перамясціць кантакт у іншы гурт на серверы.
 [Renaming of server group failed.]
-Не атрымалася пераназваць групу на серверы.
+Не атрымалася пераназваць гурт на серверы.
 [Contact "%s" was authorized in the server list.]
 Кантакт "%s" аўтарызаваны ў спісе на серверы.
 [Contact "%s" lost its authorization in the server list.]
@@ -1237,7 +1237,7 @@ Web-службы
 [Scientific/Technical Org.]
 Навукова-тэхнічная арганізацыя
 [Self Improvement Group]
-Група самаўдасканальвання
+Гурт самаўдасканальвання
 [Spiritual/Religious Org.]
 Рэлігійная арганізацыя
 [Sports Org.]
@@ -1330,7 +1330,7 @@ Web-службы
 Усплывальныя вокны
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Popup Title]
-Загаловак акна
+Загаловак вакна
 [Sample Note]
 Прыклад нататкі
 [Sample Warning]
@@ -1365,7 +1365,7 @@ ID карыстача
 [The contact's information was too big and was truncated.]
 Інфармацыя пра кантакт занадта доўгая і была абрэзана.
 [Failed to create the correct sub-group, the using closest parent group.]
-Не атрымалася зрабіць падгрупу, будзе выкарыстана бліжэйшая група.
+Не атрымалася зрабіць падгурт, будзе выкарыстана бліжэйшы гурт.
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
 НЕ ЗНОЙДЗЕНА
@@ -1382,17 +1382,17 @@ ID карыстача
 [Ready...]
 Гатова...
 [Server rate warning -> slowing down the process.]
-Папярэджанне сервера пра хуткасць -> запавольваюся...
+Папярэджанне сервера -> запавольваюся...
 [Adding group "%s"...]
-Дадаю групу "%s"...
+Дадаю гурт "%s"...
 [Uploading %s...]
 Загружаю %s...
 [No upload group available]
-Няма групы для загрузкі
+Няма гурта для загрузкі
 [Deleting %s...]
 Выдаляю %s...
 [Moving %s to group "%s"...]
-Перамяшчаю %s у групу "%s"...
+Перамяшчаю %s у гурт "%s"...
 [Adding %s to visible list...]
 Дадаю %s у спіс бачнасці...
 [Adding %s to invisible list...]
@@ -1402,11 +1402,11 @@ ID карыстача
 [Deleting %s from invisible list...]
 Выдаляю %s са спісу нябачнасці...
 [Cleaning groups]
-Чышчу групы
+Чышчу гурты
 [Updating group "%s"...]
-Абнаўляю групу "%s"...
+Абнаўляю гурт "%s"...
 [Deleting group "%s"...]
-Выдаляю групу "%s"...
+Выдаляю гурт "%s"...
 [All operations complete]
 Усе аперацыі завершаны
 [Close]
@@ -1471,7 +1471,7 @@ ID карыстача
 [On WC]
 У туалеце
 [To be or not to be]
-Быць альбо не быць?
+Быць ці не быць?
 [Watching pro7 on TV]
 Гляджу тэлевізар
 [Love]
@@ -1493,7 +1493,7 @@ ID карыстача
 [Monkey]
 Малпа
 [Birdie]
-Птушанятка
+Птушаня
 [Cool]
 Круты
 [Evil]
@@ -1529,7 +1529,7 @@ ID карыстача
 [Candy]
 Цукерка
 [Crazy Professor]
-Звар'яцелы прафесар
+Прафесар вар'ят
 [Ninja]
 Ніндзя
 [Cocktail]
@@ -1551,7 +1551,7 @@ ID карыстача
 [Broken hearted]
 Разбітае сэрца
 [Free for Chat]
-Свабодны
+Вольны
 [@home]
 Дома
 [@work]
@@ -1565,7 +1565,7 @@ ID карыстача
 [Snoring]
 Храпу
 [On my mobile]
-З мабільніка
+Мабільнік
 [Depressed]
 Падушаны
 [Beetle]
@@ -1769,7 +1769,7 @@ GMT+12:00 Камчатка, Фіджы, Маршалавы в-пы, Окленд
 [Personal]
 Асабістае
 [Nickname]
-Нік
+Мянушка
 [First name]
 Імя
 [Last name]
@@ -1891,7 +1891,7 @@ GMT+12:00 Камчатка, Фіджы, Маршалавы в-пы, Окленд
 [Unknown value]
 Невядомае значэнне
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
-Вы зрабілі змены, але не захавалі іх на серверы. Зачыніць акно?
+Вы зрабілі змены, але не захавалі іх на серверы. Зачыніць вакно?
 [Upload in progress...]
 Загрузка...
 [Upload in progress...%d%%]

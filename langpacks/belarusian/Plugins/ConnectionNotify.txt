@@ -27,11 +27,9 @@
 [Version:]
 Версія:
 [Show notification if no filter defined]
-Апавяшчаць, калі ні адзін фільтр не вызначаны
+Абвяшчаць, калі ні адзін фільтр не вызначаны
 [Attempt interval (ms)]
 Інтэрвал спроб (ms.)
-[X]
-X
 [Filters]
 Фільтры
 [DN]
@@ -46,8 +44,6 @@ X
 Мясцовы IP: Порт
 [Action:]
 Праграма:
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [* and ? wildcard characters also available (for port enter number or *)]

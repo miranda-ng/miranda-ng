@@ -6,7 +6,7 @@
 ;  Authors: perf
 ;============================================================
 [Shows a small tooltip above system tray area when a contact status is changed.]
-Апавяшчэнні ў трэі пры змене статусу кантакту.
+Абвесткі ў трэі пры змене статусу кантакту.
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 Пратаколы
@@ -15,11 +15,11 @@
 [Choose contacts]
 Абярыце кантакты
 [Allow tooltip notifications for the following users:]
-Уключыць апавяшчэнні для адзначаных кантактаў:
+Уключыць абвесткі для адзначаных кантактаў:
 [Cancel]
 Скасаваць
 [Notify upon the following events]
-Апавяшчаць пра наступныя падзеі
+Абвясціць пра наступныя падзеі
 [Online]
 Далучаны
 [Offline]
@@ -31,7 +31,7 @@
 [Protocols]
 Пратаколы
 [Suppress notifications upon connection for]
-Не апавяшчаць пры падлучэнні
+Не абвяшчаць пры далучэнні
 [sec]
 сек
 [Prefix protocol name]
@@ -55,7 +55,7 @@
 [Misc]
 Іншае
 [Obey 'Suppress online notification' settings]
-Уключыць часовую забарону апавяшчэнняў
+Часова забараніць абвесткі
 [Auto positioning]
 Аўтапазіцыя
 [Transparent input]
@@ -72,17 +72,17 @@
 Чаканне
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
-Апавяшчэнні
+Абветскі
 [Other status]
 Іншы статус
 [Tooltip Notify: Online]
-Апавяшчэнні: Далучаны
+Абвесткі: Далучаны
 [Tooltip Notify: Offline]
-Апавяшчэнні: Адключыўся
+Абвесткі: Адключыўся
 [Tooltip Notify: Other]
-Апавяшчэнні: Іншае
+Абвесткі: Іншае
 [Tooltip Notify: Typing]
-Апавяшчэнні: Друкуе
+Абвесткі: Друкуе
 [Popups]
 Усплывальныя вокны
 [** New contacts **]

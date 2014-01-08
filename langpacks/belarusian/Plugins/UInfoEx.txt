@@ -18,14 +18,12 @@
 &Абнаўленне
 [Updating]
 Абнаўленне
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Apply]
 Ужыць
 [Nick:]
-Нік:
+Мянушка:
 [Display Name:]
 Паказваць імя:
 [Title:]
@@ -237,7 +235,7 @@
 [Common]
 Агульныя
 [Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
-Змяняць мае асабістыя дадзеныя праз UserInfoEx (недаступна, калі ICQ не падтрымлівае)
+Змяняць мае асабістыя дадзеныя праз UserInfoEx (недасяжна, калі ICQ не падтрымлівае)
 [TreeView]
 Дрэва
 [Adapt propertysheet pages to aero mode.]
@@ -269,9 +267,9 @@
 [ContactMenu]
 Меню кантакту
 [GroupMenu]
-Меню груп
+Меню гутроў
 [SubGroupMenu]
-Меню падгруп
+Меню падгуртоў
 [AccountMenu]
 Меню контаў
 [Extra Icons]
@@ -626,9 +624,9 @@ E-Mail
 [Extended UserInfo]
 Асабістыя дадзеныя
 [&Export Group]
-Экспартаваць групу
+Экспартаваць гурт
 [&Import Group]
-Імпартаваць групу
+Імпартаваць гурт
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 Мае нататкі:
@@ -658,13 +656,13 @@ E-Mail
 [Question]
 Пытанне
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
-Гэта функцыя выдаліць усе налады, якія вы зрабілі \nУсе налады дрэва, пазіцый акна, і інш.!\n\nВы сапраўды жадаеце працягнуць?
+Гэта функцыя выдаліць усе налады, якія вы зрабілі \nУсе налады дрэва, пазіцый вакна, і інш.!\n\nВы сапраўды жадаеце працягнуць?
 [Ready]
 Гатова
 [Everything is done!]
 Усё выканана!
 [All settings are reset to default values now!]
-Усе ўсталёўкі цяпер будуць скінуты!
+Усе налады зараз будуць скінуты!
 [Reminder disabled]
 Напамінкі адключаны
 [Bithdays only]
@@ -1024,7 +1022,7 @@ Web Дызайн
 [Scientific/Technical Org.]
 Навукова-тэхнічная арганізацыя
 [Self Improvement Group]
-Група самаўдасканальвання
+Гурт самаўдасканальвання
 [Spiritual/Religious Org.]
 Рэлігійная арганізацыя
 [Sports Org.]
@@ -1113,7 +1111,7 @@ Web Дызайн
 [\n%s becomes %d years old.]
 \n%s выканаецца %d.
 [No anniversaries to remind of]
-Няма свят, пра якія трэба апавяшчаць
+Няма свят, пра якія трэба абвясціць
 [Backing up and syncing all birthdays complete!]
 Рэзерваванне і сінхранізацыя ўсіх Дзён нараджэнняў завершаны!
 [Reminder (uinfoex)]
@@ -1179,7 +1177,7 @@ INI файл "%s"\nнельга адчыніць для чытання.
 [Select a destination file...]
 Абярыце імя файла для экспарту
 [Import User Details from VCard]
-Імпарт дэталей карыстальніка з vCard
+Імпарт дэталей кантакта з vCard
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 Немагчыма стварыць XML файл!\n%S

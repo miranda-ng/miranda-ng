@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
-Праверка арфаграфіі ў акне паведамленняў. Выкарыстоўвае Hunspell для праверкі.
+Праверка арфаграфіі ў вакне паведамленняў. Выкарыстоўвае Hunspell для праверкі.
 ;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
 Замены
@@ -53,7 +53,7 @@
 [Underline type:]
 Тып падкрэслення:
 [Show corrections in submenu]
-Групаваць выпраўленні ў падменю
+Гуртаваць выпраўленні ў падменю
 [Show all corrections in context menu (takes more time to show)]
 Паказваць усе выпраўленні ў меню (патрабуе больш часу)
 [Show wrong word]

@@ -19,7 +19,7 @@
 [List content:]
 Утрыманне спісу:
 [Show counts of number of contacts in a group]
-Паказваць колькасць карыстачоў у групах
+Паказваць колькасць карыстачоў у гуртах
 [Hide group counts when there are none online]
 Хаваць лічыльнік, калі няма далучаных карыстачоў
 [1st:]
@@ -139,9 +139,9 @@
 [New]
 Стварыць
 [Include groups]
-Уключыць групы
+Уключыць гурты
 [Show contacts in groups]
-Паказваць кантакты ў групах
+Паказваць кантакты ў гуртах
 [Include status modes]
 Уключыць статусы
 [OK]
@@ -157,7 +157,7 @@
 [Protocol]
 Пратакол
 [Group]
-Група
+Гурт
 [Status mode]
 Рэжым статусу
 [Automatically clear this view mode after]
@@ -239,9 +239,9 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Hide offline users]
 Схаваць адключаных
 [Hide empty groups]
-Схаваць пустыя групы
+Схаваць пустыя гурты
 [Disable groups]
-Адключыць групы
+Адключыць гурты
 [Ask before deleting contacts]
 Пацверджанне выдалення
 [Don't move offline user to bottom]
@@ -251,7 +251,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Contact List Sorting]
 Сартаванне спісу кантактаў
 [Place offline users out of groups]
-Адключаных паказваць па-за групамі
+Адключаных паказваць па-за гуртамі
 [Gamma correction]
 Карэкцыя гамы
 [Default]
@@ -267,7 +267,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Bring to front if covered]
 Перасоўваць на пярэдні план
 [Automatically resize window to height of list]
-Аўтаматычна змяняць памер акна
+Аўтаматычна змяняць памер вакна
 [maximum]
 максімум
 [% of screen]
@@ -321,7 +321,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Disable rename of items by clicking twice]
 Адключыць пераназванне па дзвюх пстрычках
 [Show selection even when list is not focused]
-Вылучэнне, нават калі акно неактыўнае
+Вылучэнне, нават калі вакно неактыўнае
 [Make selection highlight translucent]
 Напаўпразрыстае вылучэнне
 [Dim idle contacts]
@@ -329,15 +329,15 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 ['Hide Offline' means to hide:]
 'Схаваць адключаных' - схаваць:
 [Groups]
-Групы
+Гурты
 [Draw a line alongside group names]
-Лінія ўздоўж назваў груп
+Лінія ўздоўж назваў гуртоў
 [Sort groups alphabetically]
-Сартаваць групы па алфавіце
+Сартаваць гурты па алфавіце
 [Quicksearch in open groups only]
-Хуткі пошук толькі ў адкрытых групах
+Хуткі пошук толькі ў адчыненых грутах
 [Indent groups by:]
-Водступ для груп:
+Водступ для гуртоў:
 [Visual]
 Візуальныя налады
 [Scroll list smoothly]
@@ -413,13 +413,13 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Thin border main window]
 Тонкая мяжа спісу
 [Borderless main window]
-Галоўнае акно без меж
+Галоўнае вакно без меж
 [Show menu bar]
 Паказваць меню
 [Show title bar]
 Паказваць загаловак
 [Title bar text:]
-Загаловак акна:
+Загаловак вакна:
 [Tool style main window]
 Стыль панэлі загалоўка
 [Minimize to tray]
@@ -497,13 +497,13 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Draw icon in avatar space]
 Значкі на месцы аватара
 [Hide groups icon]
-Схаваць значок груп
+Схаваць значок гуртоў
 [Always show "Always visibile" icon]
 Значок бачнасці заўсёды
 [Use extra status icon instead protocol]
 Значок хстатуса замест пратаколу
 [Draw normal status as overlay]
-Звычайны статус аверлэем
+Звычайны статус адбіткам
 [Right-To-Left reading mode (mirror template)]
 Рэжым справа налева (люстраны шаблон)
 [Replace smileys in contact list]
@@ -517,7 +517,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Align to right]
 Выраўняць справа
 [Append nick if different from custom name]
-Дадаваць нік, калі ён выдатны ад імя ў спісе
+Дадаваць мянушку, калі яна выдатная ад імя ў спісе
 [Trim long text with ellipsis]
 Абразаць доўгі тэкст шматкроп'ем
 [Show second line]
@@ -531,7 +531,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Status]
 Статус
 [Nickname]
-Нік
+Мянушка
 [Status Message]
 Статуснае паведамленне
 [Listening to]
@@ -635,36 +635,36 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Nowhere]
 Нідзе
 [&New Group]
-Ства&рыць групу
+Стварыць гурт
 [&Hide Offline Users]
 Схаваць адключаных
 [Hide &Offline Users out here]
-Схаваць адключаных па-за групай
+Схаваць адключаных па-за гуртом
 [Hide &Empty Groups]
-Схаваць пустыя групы
+Схаваць пустыя гурты
 [Disable &Groups]
-Адключыць групы
+Адключыць гурты
 [Hide Miranda]
 Схаваць спіс кантактаў
 [&New Subgroup]
-Стварыць падгрупу
+Стварыць падгурт
 [&Hide Offline Users in here]
-Схаваць адключаных у групе
+Схаваць адключаных у гурце
 [&Show Offline Users in here]
-Паказаць адключаных у групе
+Паказаць адключаных у гурце
 [&Rename Group]
-Пераназваць групу
+Пераназваць гурт
 [&Delete Group]
-Выдаліць групу
+Выдаліць гурт
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Skins]
 Скіны
 [Modern contact list]
 Прадвінуты спіс кантактаў
 [Avatar Overlay]
-Аверлэй аватара
+Адбітак аватара
 [Status Overlay]
-Аверлэй статусу
+Адбітак статусу
 [Contact List smileys]
 Смайлы спісу кантактаў
 [List background]
@@ -713,7 +713,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [DND contacts]
 Кантакт "не турбаваць"
 [NA contacts]
-Кантакт "недаступны"
+Кантакт "недасяжны"
 [Occupied contacts]
 Кантакт "заняты"
 [Free for chat contacts]
@@ -733,13 +733,13 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Contacts who are 'not on list']
 Кантакты "не ў спісе"
 [Open groups]
-Адкрытыя групы
+Адчыненыя гурты
 [Open group member counts]
-Адкрытыя групы (колькасць)
+Адчыненыя гурты (колькасць)
 [Closed groups]
-Зачыненыя групы
+Зачыненыя гурты
 [Closed group member counts]
-Зачыненыя групы (колькасць)
+Зачыненыя гурты (колькасць)
 [Dividers]
 Падзельнікі
 [Second line]
@@ -856,11 +856,11 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
 Анімаваныя аватары (патрэбны GDI+ і сервіс аватараў (avs.dll))
 [Left align group names]
-Імёны груп злева
+Імёны гуртоў злева
 [Center group names]
-Імёны груп па цэнтры
+Імёны гуртоў па цэнтры
 [Right align group names]
-Імёны груп справа
+Імёны гуртоў справа
 [Row]
 Радок
 [Row design]
@@ -1003,11 +1003,11 @@ Angeli-Ka (графіка), FYR (шаблон)
 [Find user]
 Знайсці
 [Use/Disable groups]
-Уключыць/Выключыць групы
+Уключыць/Выключыць гурты
 [Use groups]
-Уключыць сартаванне па групах
+Уключыць гурты
 [Disable Groups]
-Выключыць сартаванне па групах
+Выключыць гурты
 [Enable/Disable sounds]
 Уключыць/Выключыць гукі
 [Enable sounds]
@@ -1021,10 +1021,10 @@ Angeli-Ka (графіка), FYR (шаблон)
 [Toolbar background]
 Фон панэлі кнопак
 [Toolbar upgrade]
-Аднаўленне тулбара
+Аднаўленне панэлі кнопак
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
-Кантакты па-за групамі
+Кантакты па-за гуртамі
 [And]
 І
 [Or]
@@ -1113,8 +1113,8 @@ Angeli-Ka (графіка), FYR (шаблон)
 Меню фрэймаў
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [Group menu]
-Меню груп
+Меню гуртоў
 [Subgroup menu]
-Меню падгруп
+Меню падгуртоў
 [&New SubGroup]
-Стварыць падгрупу
+Стварыць падгурт

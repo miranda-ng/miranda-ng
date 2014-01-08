@@ -115,7 +115,7 @@ Skype пратакол для Miranda NG.
 [Use ports 80 and 443 as alternative incoming]
 Выкарыстоўваць порты 80 і 443 як уваходныя
 [Default group:]
-Група:
+Гурт:
 [Block]
 Заблакаваць
 [Allow IMs from...]
@@ -139,13 +139,13 @@ Skype пратакол для Miranda NG.
 [Allow my online status to be shown on the web]
 Дазволіць адлюстраванне майго статуса далучэння
 [Block this person]
-Блакаваць карыстача
+Блакаваць кантакт
 [Remove from your Contact List]
 Выдаліць з спісу кантактаў
 [Abuse]
 Парушэнне
 [You can also report abuse from this user.]
-Вы таксама можаце паведаміць пра парушэнне гэтага карыстача
+Вы таксама можаце паведаміць пра парушэнне гэтага кантакта
 [Report abuse]
 Паведаміць пра парушэнне
 ;file \protocols\Skype\src\skype.cpp
@@ -222,7 +222,7 @@ SkypeKit.exe не распакаваны.
 [&Helper]
 &Памагаты
 [&User]
-&Карыстач
+&Кантакт
 [&Listener]
 &Слухач
 [&Add]
@@ -236,17 +236,17 @@ SkypeKit.exe не распакаваны.
 [Copy room &uri]
 Капіяваць URI канферэнцыі
 [User]
-Карыстач
+Кантакт
 [me]
 Я
 [Incoming group call finished]
-Уваходны групавы званок скончаны
+Уваходны гуртавы званок скончаны
 [The password is incorrect]
 Няслушны пароль
 [Your application to join the conference was denied]
 Ваша просьба пра далучэнне да канферэнцыі адхілена
 [Incoming group call started]
-Уваходны групавы званок
+Уваходны гуртавы званок
 [You did not select any contact]
 Вы не абралі кантакт
 [Hi! I'd like to add you to my contact list]
@@ -307,9 +307,9 @@ SkypeKit.exe не распакаваны.
 SkypeKit не запусціўся.
 ;file \protocols\Skype\src\skype_menus.cpp
 [Unblock this person...]
-Разбракаваць карыстача...
+Разбракаваць кантакт...
 [Block this person...]
-Блакаваць карыстача
+Блакаваць кантакт
 [Skype menu chooser]
 Выбар конту Skype
 [Request authorization]

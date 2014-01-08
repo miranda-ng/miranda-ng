@@ -63,9 +63,9 @@ Cлужба:
 [Hide offline users]
 Схаваць адключаных
 [Hide empty groups]
-Схаваць пустыя групы
+Схаваць пустыя гурты
 [Disable groups]
-Адключыць групы
+Адключыць гурты
 [Ask before deleting contacts]
 Пацверджанне выдалення
 [Always on top]
@@ -127,7 +127,7 @@ Cлужба:
 [Minimize to tray]
 Схаваць у сістэмны латок
 [Automatically resize window to height of list]
-Аўтаматычна змяняць памер акна
+Аўтаматычна змяняць памер вакна
 [maximum]
 максімум
 [% of screen]
@@ -135,7 +135,7 @@ Cлужба:
 [Size upwards]
 Расцягваць угару
 [Title bar text:]
-Загаловак акна:
+Загаловак вакна:
 [Translucency options]
 Налады празрыстасці
 [Fade contact list in/out]
@@ -153,13 +153,13 @@ Cлужба:
 [Show title bar]
 Паказваць загаловак
 [If window is partially covered, bring to front instead of hiding]
-Змясціць акно на пярэдні план, калі яно прычынена іншымі вокнамі
+Змясціць вакно на пярэдні план, калі яно прычынена іншымі вокнамі
 [Enable drop shadow (restart required)]
 Уключыць цень (патрэбен перазапуск)
 [Items]
 Элементы
 [Show divider between online and offline contacts]
-Мяжа паміж злуч. і адкл. карыстачамі
+Мяжа паміж злуч. і адкл. кантактамі
 [Hot track items as mouse passes over]
 Падсвятленне пад курсорам мышы
 [Disable drag and drop of items]
@@ -167,25 +167,25 @@ Cлужба:
 [Disable rename of items by clicking twice]
 Адключыць пераназванне па дзвюх пстрычках
 [Show selection even when list is not focused]
-Вылучэнне, нават калі акно неактыўнае
+Вылучэнне, нават калі вакно неактыўнае
 [Make selection highlight translucent]
 Напаўпразрыстае вылучэнне
 ['Hide Offline' means to hide:]
 'Схаваць адключаных' - схаваць:
 [Groups]
-Групы
+гурты
 [Draw a line alongside group names]
-Лінія ўздоўж назваў груп
+Лінія ўздоўж назваў гуртоў
 [Show counts of number of contacts in a group]
-Паказваць колькасць карыстачоў у групах
+Паказваць колькасць карыстачоў у гуртах
 [Hide group counts when there are none online]
 Хаваць лічыльнік, калі няма далучаных карыстачоў
 [Sort groups alphabetically]
-Сартаваць групы па алфавіце
+Сартаваць гурты па алфавіце
 [Quicksearch in open groups only]
 Хуткі пошук толькі ў адчыненых гуртоў
 [Indent groups by:]
-Водступ для груп:
+Водступ для гуртоў:
 [Visual]
 Візуальныя налады
 [Scroll list smoothly]
@@ -273,27 +273,27 @@ Cлужба:
 [Nowhere]
 Нідзе
 [&New Group]
-Ства&рыць групу
+Стварыць гурт
 [&Hide Offline Users]
 Схаваць адключаных
 [Hide &Offline Users out here]
-Схаваць адключаных па-за групай
+Схаваць адключаных па-за гуртом
 [Hide &Empty Groups]
-Схаваць пустыя групы
+Схаваць пустыя гурты
 [Disable &Groups]
-Адключыць групы
+Адключыць гурты
 [Hide Miranda]
 Схаваць спіс кантактаў
 [Group]
-Група
+Гурт
 [&New Subgroup]
-Стварыць падгрупу
+Стварыць падгурт
 [&Hide Offline Users in here]
-Схаваць адключаных у групе
+Схаваць адключаных у гурце
 [&Rename Group]
-Пераназваць групу
+Пераназваць гурт
 [&Delete Group]
-Выдаліць групу
+Выдаліць гурт
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 Тонкая налада
@@ -316,7 +316,7 @@ Cлужба:
 [Contacts which are 'not on list']
 Кантакты 'не ў спісе'
 [Group member counts]
-Лічыльнікі груп
+Лічыльнікі гуртоў
 [Dividers]
 Падзельнікі
 [Offline contacts to whom you have a different visibility]
@@ -324,7 +324,7 @@ Cлужба:
 [Status messages]
 Статусныя паведамленні
 [Group Closed]
-Зачыненая група
+Зачынены гурт
 [Hover Contacts]
 Кантакты пад паказальнікам
 [Background]
@@ -351,7 +351,7 @@ Cлужба:
 [Away]
 Адсутнічаю
 [NA]
-Недаступны
+Недасяжны
 [Occupied]
 Заняты
 [DND]
@@ -387,11 +387,11 @@ _Безпротокола_
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 [Group menu]
-Меню груп
+Меню гуртоў
 [Subgroup menu]
-Меню падгруп
+Меню падгуртоў
 [&New SubGroup]
-Стварыць падгрупу
+Стварыць падгурт
 ;file \plugins\Clist_mw\src\keyboard.cpp
 [Close Miranda]
 Зачыніць праграму

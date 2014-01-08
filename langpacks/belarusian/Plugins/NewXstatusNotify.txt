@@ -6,7 +6,7 @@
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
-Апавяшчае вас пра змены статусаў, хстатусаў ці статусных паведамленняў.
+Абвяшчае вас пра змены статусаў, хстатусаў ці статусных паведамленняў.
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Паведамляць, калі статус кантакту змяняецца на:
@@ -21,7 +21,7 @@
 [Away]
 Адсутнічаю
 [NA]
-Недаступны
+Недасяжны
 [Occupied]
 Заняты
 [DND]
@@ -35,11 +35,11 @@
 [Plugin activation]
 Актывізацыя плагiна
 [Automatically turn off Popups and Sounds on status change]
-Выключаць успл. акна і гукі пры змене статусу
+Выключаць успл. вакна і гукі пры змене статусу
 [Configure]
 Наладзіць
 [Notify me for people not in my Contact List]
-Апавяшчаць мяне пра кантакты не ў спісе
+Абвяшчаць мяне пра кантакты не ў спісе
 [Blink icon in the system tray]
 Абразок, што мігае у сіст. трэі
 [Use status icon]
@@ -71,7 +71,7 @@
 [Status Notify]
 Змена статусу
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
-Асабістыя гукі выключаны.\n\nКаб іх уключыць, ідзіце ў Налады - Статус - Апавяшчэнне, уключыце \n"Індывідуальныя гукі", і зноў адчыніце гэта вакно.
+Асабістыя гукі выключаны.\n\nКаб іх уключыць, ідзіце ў Налады - Статус - Абвесткі, уключыце \n"Індывідуальныя гукі", і зноў адчыніце гэта вакно.
 [Sounds]
 Гукі
 [Popups]
@@ -109,7 +109,7 @@
 [Click action]
 Дзеянні па пстрычцы
 [Show contact group name]
-Паказваць імя групы кантакту
+Паказваць імя гурта кантакту
 [Use alternative descriptions]
 Выкарыстоўваць альтэрнатыўнае апісанне
 [0 = Default]
@@ -129,7 +129,7 @@
 [Connection timeout]
 Чаканне пры старце
 [Notification]
-Апавяшчэнне
+Абвесткі
 [Disable for extra status 'Music']
 Адключыць для дап. статусу "Музыка"
 [Truncate message length to:]
@@ -151,9 +151,7 @@
 [Reset]
 Скід
 [Disable notifications]
-Выключыць апавяшчэнні
-[OK]
-ОК
+Выключыць Абвесткі
 [Cancel]
 Скасаваць
 [Disable globally]
@@ -163,15 +161,15 @@
 [Disable when my status is:]
 Адключаць, калі мой статус:
 [Extra status log]
-Запіс дап. статусаў
+Запіс дад. статусаў
 [Enable logging extra status to message window]
-Уключыць запіс дап. статусаў у акно паведамленняў
+Уключыць запіс дап. статусаў у вакно гутаркі
 [Keep events in history]
 Захоўваць падзеі ў гісторыю
 [Prevent identical logs]
 Прадухіляць аднолькавыя запісы
 [On opening ML:]
-Адкрыццё акна:
+Адкрыццё вакна:
 [General]
 Агульнае
 [Show Popups when I connect]
@@ -210,7 +208,7 @@
 [playing]
 грае
 [%s is now %s]
-%s цяпер %s
+%s зараз %s
 [%s, %s. %s changed to: %s (was: %s).\r\n]
 %s, %s. %s змяніў(а): %s (быў(а): %s).\r\n
 [(M) is back online!]
@@ -294,13 +292,13 @@
 [User: On The Phone]
 Карыстач: тэлефануе
 [Enable status notification]
-Уключыць апавяшчэнні пра змену статусу
+Уключыць абвесткі пра змену статусу
 [Disable status notification]
-Выключыць апавяшчэнні пра змену статусу
+Выключыць абвесткі пра змену статусу
 [Notification enabled]
-Апавяшчэнне ўключана
+Абвесткі ўключаны
 [Notification disabled]
-Апавяшчэнне выключана
+Абвесткі выключаны
 [New Status Notify]
 Змены статуса
 [User: from offline (has priority!)]
@@ -312,7 +310,7 @@
 [Extra status removed]
 Дадатковы статус выдалены
 [Toggle status notification]
-Укл/Выкл апавяшчэнні пра змену статусу
+Укл/Выкл абвесткі пра змену статусу
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Усе 
@@ -340,9 +338,9 @@
 [Open message window]
 Адкрыць вакно гутаркі
 [Close popup]
-Зачыніць акно
+Зачыніць вакно
 [Open contact details window]
-Адчыніць акно дэталяў кантакту
+Адчыніць вакно дэталяў кантакту
 [Open contact menu]
 Адкрыць меню кантакту
 [Open contact history]
@@ -355,7 +353,7 @@
 [Can't open the log file!]
 Не магу адкрыць файл лога!
 [NewXstatusNotify]
-Апавяшчэнне пра змену статусаў
+Абвесткі пра змену статусаў
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
 Настрой

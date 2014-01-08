@@ -27,7 +27,7 @@
 [Copy result to clipboard]
 Капіяваць вынік у буфер абмену
 [Show result in Popup]
-Паказаць вынік у акне
+Паказаць вынік у вакне
 [Strings for keyboard layouts]
 Радкі для раскладак клавіятуры
 [EN]

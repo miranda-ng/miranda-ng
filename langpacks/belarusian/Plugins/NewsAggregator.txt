@@ -35,13 +35,13 @@
 [minutes]
 хвілін(ы)
 [Check Feed]
-Праверыць
+Праверка
 [Authentication]
 Аўтэнтыфікацыя
 [Use &authentication]
 Выкарыстоўваць аўтэнтыфікацыю
 [Login]
-Імя карыстача
+Імя кантакта
 [Password]
 Пароль
 [Visualization]
@@ -57,7 +57,7 @@
 [Feed name]
 Назва ленты
 [This feed seems to need authentication. Please fill username and password fields:]
-Канал патрабуе аўтэнтыфікацыі. Увядзіце імя карыстальніка і пароль:
+Канал патрабуе аўтэнтыфікацыі. Увядзіце імя кантакта і пароль:
 [Username]
 Імя
 [Available feeds:]
@@ -76,7 +76,7 @@
 Імпарт
 ;file \plugins\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
-Увядзіце імя карыстальніка
+Увядзіце імя кантакта
 [Error]
 Памылка
 [Enter your password]
@@ -101,9 +101,9 @@
 Наслушны файл імпарта
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
-Абразок пратаколу
+Абразок конту
 [Check All Feeds]
-Праверыць усе каналы
+Праверка ўсіх каналаў
 [Add Feed]
 Дадаць канал
 [Import Feeds]

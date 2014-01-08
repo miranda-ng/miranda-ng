@@ -6,16 +6,12 @@
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
-Падтрымка пратакола Microsoft Network (MSN).
+Падтрымка пратаколу Microsoft Network (MSN).
 ;file \protocols\MSN\res\msn.rc
-[MSN]
-MSN
-[Live ID:]
-Live ID:
 [Password:]
 Пароль:
 [Nickname:]
-Нік:
+Мянушка:
 [Create a new Windows Live account]
 Стварыць новы конт Windows Live
 [Expert]
@@ -25,7 +21,7 @@ Live ID:
 [Disable all contacts not included into my contact list]
 Адключыць усе кантакты не ў спісе кантактаў
 [Manage server groups]
-Кіраваць групамі на серверы
+Кіраваць гуртамі на серверы
 [Run the following application when new Hotmail arrives]
 Запусціць прыкладанне пры з'яўленні новай пошты
 [Allow people on my contact list send messages to mobile device]
@@ -39,7 +35,7 @@ Live ID:
 [Reset]
 Скід
 [Notify me when a message delivery has failed]
-Апавясціць, калі паведамленне не дайшло
+Абвясціць, калі паведамленне не дайшло
 [Incoming file transfers]
 Прыем файлаў
 [Your host (or router):]
@@ -61,9 +57,9 @@ Live ID:
 [Hotmail]
 Пошта
 [Disable Popup notifications]
-Адключыць апавяшчэнне ўсплывальнымі вокнамі
+Адключыць абвесткі ўсплывальнымі вокнамі
 [Disable Tray notifications]
-Адключыць апавяшчэнні ў трэі
+Адключыць абвесткі ў трэі
 [Ignore new messages not in Inbox folder]
 Ігнараваць новыя лісты не з "Уваходных"
 [Other]
@@ -71,15 +67,13 @@ Live ID:
 [Display errors using popups]
 Паказваць памылкі ў вокнах
 [Enable 'Chat Session Established' popup]
-Усплывальнае акно 'Чат сесія ўсталявана'
+Усплывальнае вакно 'Чат сесія ўсталявана'
 [Enable 'Contact left channel' popup]
-Усплывальнае акно 'Кантакт пакінуў канал'
+Усплывальнае вакно 'Кантакт пакінуў канал'
 [Disable Contact List notifications]
-Адключыць апавяшчэнні ў спісе кантактаў
+Адключыць абвесткі ў спісе кантактаў
 [Set Nickname]
-Увод ніка
-[OK]
-ОК
+Мянушка
 [Cancel]
 Скасаваць
 [Mobile Device (used for SMS)]
@@ -97,7 +91,7 @@ Live ID:
 [Birthday]
 Дзень нараджэння
 [Nickname]
-Нік
+Мянушка
 [Place:]
 Месца:
 [MSN Delete Contact]
@@ -108,8 +102,6 @@ Live ID:
 Заблакаваць
 [Invite Contact To Chat]
 Запрасіць да чата
-[Live ID]
-Live ID
 [&Invite]
 Запрасіць
 [&Cancel]
@@ -124,13 +116,13 @@ Live ID
 [Others]
 Іншае
 [&Invite user...]
-Запрасіць карыстача...
+Запрасіць кантакт...
 [&Leave chat session]
 &Пакінуць сеанс
 [User &details]
 Дадзеныя кантакту
 [User &history]
-Гісторыя карыстача
+Гісторыя кантакта
 ;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (not currently supported)]
 Кантакт спрабаваў адкрыць аўдыёканферэнцыю (не падтрымліваецца)
@@ -141,7 +133,7 @@ Live ID
 [MSN Protocol]
 Пратакол MSN
 [MSN Alert]
-MSN апавяшчэнне
+Абвестка MSN
 [Chat session established by my request]
 Сесія ўсталявана па маім запыце
 [Chat session established by contact request]
@@ -153,17 +145,17 @@ MSN апавяшчэнне
 [To resume the conversation, please quit this session and start a new chat session.]
 Каб працягнуць гутарку, пакіньце гэты сеанс і пачніце новы сеанс.
 [There is only 1 person left in the chat, do you want to switch back to standard message window?]
-У чаце застаўся толькі адзін чалавек, вярнуцца да акна дыялогу?
+У чаце застаўся толькі адзін чалавек, вярнуцца да вакна дыялогу?
 [MSN Chat]
 MSN Чат
 [Message delivery failed]
 Дастаўка паведамлення не атрымалася
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
-Карыстач не далучаны
+Кантакт не далучаны
 ;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
-Пратакол MSN
+Спасылка MSN
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Кантакт %s быў выдалены з сервера.\nЦi хочаце вы пакінуць яго ў лакальным спісе, каб захаваць гісторыю?
@@ -205,13 +197,13 @@ MSN Чат
 [Custom Smileys]
 Свае смайлы
 [Notify]
-Апавяшчэнне
+Абвестка
 [Error]
 Памылка
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
-Абразок пратаколу
+Абразок конту
 [Hotmail Inbox]
 Уваходныя Hotmail
 [Profile]
@@ -235,7 +227,7 @@ MSN Чат
 [Local list]
 Лакальны спіс
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
-Імпарт груп з сервера можа змяніць размяшчэнне кантактаў пасля наступнага ўваходу. Загрузіць групы на сервер?
+Імпарт гуртоў з сервера можа змяніць размяшчэнне кантактаў пасля наступнага ўваходу. Загрузіць гурты на сервер?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
 Змены ўступяць пры наступным уваходзе ў сетку MSN
 [MSN Options]
@@ -259,7 +251,7 @@ MSN Чат
 [Server list]
 Спіс на серверы
 [Notifications]
-Апавяшчэнні
+Абвесткі
 ;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (not currently supported)]
 Кантакт спрабаваў адправіць дадзеныя з вэб-камеры (не падтрымліваецца)
@@ -269,7 +261,7 @@ MSN Чат
 [Live Mail]
 Live пошта
 [Live Alert]
-Live апавяшчэнне
+Live абвестка
 [%s plugin HTTPS connections]
 %s далучэнне па HTTPS
 [%s plugin connections]

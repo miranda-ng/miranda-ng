@@ -51,7 +51,7 @@
 [Remove Excluded contacts after restart]
 Выдаляць часова дададзеныя кантакты пасля перазапуску
 [Add contacts to specified group:]
-Дадаць кантакты ў групу:
+Дадаць кантакты ў гурт:
 [Ignore URL in messages and auth requests]
 Ігнараваць спасылкі ў паведамленнях і запытах аўтарызацыі
 [Add contact to server list]

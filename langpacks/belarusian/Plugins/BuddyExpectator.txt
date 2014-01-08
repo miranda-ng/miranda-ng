@@ -6,22 +6,22 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 [Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
-Плагiн апавяшчае пра вяртанне кантакту ці яго працяглай адсутнасці.
+Плагiн абвяшчае пра вяртанне кантакту ці яго працяглай адсутнасці.
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after]
 Пры з'яўленні кантакту пасля
 [Show a popup]
-Паказваць усплывальнае акно
+Паказваць усплывальнае вакно
 [Add an event (flashing icon) to the contact]
 Дадаць падзею (які мігціць значок) да кантакту
 [On event action (double click) or popup click:]
-На дзеянні падзеі (дв. клік) ці клік па ўсп. акну
+На дзеянні падзеі (дв. клік) ці клік па ўсп. вакну
 [Open User Details]
-Адкрыць дэталі карыстача
+Дэталі кантакта
 [Open message window]
 Адкрыць вакно гутаркі
 [Return notification]
-Апавяшчэнне вяртання
+Абвестка пра вяртанне
 [When a contact is absent for]
 Калі кантакт адсутнічае
 [Long time no see]
@@ -70,7 +70,7 @@
 Паведамляць заўсёды
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 [Tray/popup icon]
-Значок у трэі/усплывальным акне
+Значок у трэі/успл. вакне
 [Enabled]
 Уключаны
 [Disabled]

@@ -37,7 +37,7 @@
 [DND]
 Не турбаваць
 [NA]
-Недаступны
+Недасяжны
 [Occupied]
 Заняты
 [Free for chat]
@@ -71,7 +71,7 @@
 [Active Modes]
 Актыўныя рэжымы
 [Active Users]
-Актыўныя карыстальнікі
+Актыўныя кантакты
 [The following events are being ignored:]
 Наступныя падзеі будуць праігнараваны:
 [Messages]
@@ -104,7 +104,7 @@
 [%u requests your authorization]
 %u запрасіў у вас аўтарызацыю
 [there is an incoming file from %u]
-ёсць файл ад карыстальніка %u.
+ёсць файл ад кантакта %u.
 [%u says]
 %u піша:
 ;file \plugins\WinterSpeak\src\main.cpp

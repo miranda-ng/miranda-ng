@@ -31,7 +31,7 @@
 [Favorite Contacts]
 Абраныя кантакты
 [Enable groups]
-Уключыць групы
+Уключыць гурты
 [Multicolumn menu]
 Некалькі слупкоў
 [Configure fonts and colors...]
@@ -46,7 +46,7 @@
 нядаўніх кантактаў
 ;file \plugins\FavContacts\src\favlist.h
 [<no group>]
-<няма групы>
+<няма гурта>
 ;file \plugins\FavContacts\src\main.cpp
 [Favorite Contact]
 Абраны кантакт

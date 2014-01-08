@@ -95,7 +95,7 @@ EN
 [Error reading, database truncated? (%u)]
 Памылка чытання, база дадзеных абрэзана? (%u)
 [Can't write to working file, aggressive mode may be too aggressive now]
-Немагчыма запісаць у працоўны файл, агрэсіўны рэжым цяпер можа быць занадта агрэсіўны
+Немагчыма запісаць у працоўны файл, агрэсіўны рэжым зараз можа быць занадта агрэсіўны
 [Can't write to output file - disk full? (%u)]
 Немагчыма запісаць файл - дыск перапоўнены? (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
@@ -156,11 +156,11 @@ EN
 [Infeasibly large settings blob: skipping]
 Налада займае занадта шмат месца: прапусканы
 [Empty settings group at %08X: skipping]
-Група пустых значэнняў на %08X: прапускаю
+Гурт пустых значэнняў на %08X: прапускаю
 ;file \plugins\Db3x_mmap\src\dbtool\user.cpp
 [Processing user data]
 Апрацоўка карыстацкіх дадзеных
 [User corrupted, this could cause major problems]
-Карыстач пашкоджаны, гэта можа быць сур'ёзнай праблемай
+Кантакт пашкоджаны, гэта можа быць сур'ёзнай праблемай
 [More than one user contact: keeping only first]
-Больш чым адзін кантакт карыстача: захоўваем толькі першы
+Больш чым адзін кантакт: захоўваем толькі першы

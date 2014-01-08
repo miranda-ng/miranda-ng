@@ -6,7 +6,7 @@
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Plugin for quick insert pre-defined messages in message input area.]
-Дазваляе ўстаўляць загатаваныя фразы ў акно паведамленняў
+Дазваляе ўстаўляць загатаваныя фразы ў вакно паведамленняў
 ;file \plugins\QuickMessages\res\quickmessages.rc
 [Button Right-Click value]
 Функцыя правай кнопкі мышы

@@ -17,9 +17,9 @@
 [Clear statistics]
 Ачысціць
 [Notification]
-Апавяшчэнне
+Абвесткі
 [Notify me on every]
-Апавяшчаць кожныя
+Абвяшчаць кожныя
 [kilobytes]
 кілабайт
 [minutes]
@@ -31,7 +31,7 @@
 [Reset to default]
 Па змаўчанні
 [Popup timeout]
-Працягласць акна
+Працягласць вакна
 [From Popup plugin]
 Па змаўчанні
 [Custom]
@@ -68,7 +68,7 @@
 [Draw frame as skin element]
 Адмалёўваць фрэйм як элемент скіна
 [Show tooltip in traffic window]
-Паказваць падказку ў акне трафіку
+Паказваць падказку ў вакне трафіку
 ["Toggle traffic counter" in main menu]
 "Перамыкач лічыльніка трафіку" ў галоўным меню
 [Visible accounts]
@@ -138,13 +138,13 @@
 [Show/Hide frame]
 Паказаць/Схаваць фрэйм
 [Hide traffic window]
-Схаваць акно трафіку
+Схаваць вакно трафіку
 [Clear the current (Now:) value]
 Скінуць бягучае (Now:) значэнне
 [Toggle traffic counter]
 Пераключыйь лічыльнік трафіка
 [Traffic counter notification]
-Апавяшчэнне лічыльніка трафіку
+Абвестка лічыльніка трафіку
 [%d kilobytes sent]
 %d Кб адпраўлена
 [%d kilobytes received]

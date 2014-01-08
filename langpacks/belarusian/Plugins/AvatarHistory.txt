@@ -25,17 +25,15 @@
 [Log this user's avatars changes to history]
 Захоўваць змену аватараў у гісторыі
 [Show popups for this user]
-Успл. акна для гэтага карыстача
-[OK]
-ОК
+Успл. вокны для гэтага кантакта
 [Protocols]
 Пратаколы
 [Enable tracking for these protocols:]
 Адсочваць наступныя пратаколы:
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
-Метакантакты апрацоўваюцца асоба: інфармацыя заўсёды капіюецца з субкантактаў (апавяшчэнні ад метакантактаў ігнаруюцца)
+Метакантакты апрацоўваюцца асоба: інфармацыя заўсёды капіюецца з субкантактаў (абвесткі ад метакантактаў ігнаруюцца)
 [Show popup when a contact change his avatar]
-Усплывальнае акно пры змене аватара
+Усплывальнае вакно пры змене аватара
 [Colors]
 Колеры
 [Background color]
@@ -135,12 +133,12 @@
 [History]
 Гісторыя
 [Avatar Overlay]
-Аверлэй аватара
+Адбітак аватара
 ;file \plugins\AvatarHistory\src\options.cpp
 [Do nothing]
 Нічога не рабіць
 [Close popup]
-Зачыніць акно
+Зачыніць вакно
 [Show avatar history]
 Паказаць гісторыю аватараў
 [Show contact history]

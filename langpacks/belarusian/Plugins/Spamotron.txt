@@ -81,7 +81,7 @@
 [Responses: (saved in %response%, %response-n% variables)]
 Адказы: (знаходзяцца ў зменных %response%, %response-n%)
 [Reply on success:]
-Апавяшчаць пры пацверджанні:
+Абвесціць пры пацверджанні:
 [Send challenge on authorization request:]
 Адпраўляць кантрольнае пытанне пры запыце аўтарызацыі:
 [Keep blocked messages in contact history]
@@ -91,7 +91,7 @@
 [Reset to defaults]
 Скінуць
 [Enable popup notifications]
-Уключыць апавяшчэнні ўсплывальнымі вокнамі
+Уключыць абвесткі ўсплывальнымі вокнамі
 [Appearance]
 Знешні выгляд
 [Foreground]

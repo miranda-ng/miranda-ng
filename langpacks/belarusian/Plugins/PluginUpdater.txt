@@ -45,7 +45,7 @@
 [Custom version]
 Зададзеная карыстачом версія
 [Notifications]
-Апавяшчэнні
+Абвесткі
 [Message boxes (*)]
 Дыялогі (*)
 [Errors]

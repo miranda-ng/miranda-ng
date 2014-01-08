@@ -122,7 +122,7 @@ HTTP далучэнне SendSS
 [Buttons]
 Кнопкі
 [Overlays]
-Аверлэі
+Адбіткі
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [< Copyright]
 < Правы
@@ -130,7 +130,7 @@ HTTP далучэнне SendSS
 Правы
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
-Перацягнеце прыцэл на патрэбнае акно.
+Перацягнеце прыцэл на патрэбнае вакно.
 [Window]
 Акно
 [Desktop]
@@ -144,4 +144,4 @@ HTTP далучэнне SendSS
 [Information]
 Інфармацыя
 [Select a target window.]
-Абярыце акно для адпраўкі.
+Абярыце вакно для адпраўкі.

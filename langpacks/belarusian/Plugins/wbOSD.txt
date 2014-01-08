@@ -51,7 +51,7 @@
 [Format:]
 Фармат:
 [Show message window after click]
-Націск адкрывае акно паведамлення
+Націск адкрывае вакно гутаркі
 [Show when my status is:]
 Паказваць OSD, калі мой статус:
 ;file \plugins\wbOSD\src\events.cpp

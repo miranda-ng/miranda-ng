@@ -23,6 +23,6 @@
 Дазволіць гукі
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
-Забарона апавяшчэнняў
+Забарона абвестак
 [Plugins]
 Плагіны

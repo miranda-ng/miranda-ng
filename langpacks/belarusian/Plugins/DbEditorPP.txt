@@ -45,7 +45,7 @@
 [Warn when deleting modules]
 Папярэджваць пры выдаленні плагінаў
 ["Open user tree in DBE++" menu item]
-Пункт меню "адкрыць у рэдактары базы" ў кожнага кантакту
+Пункт меню "Рэдактар базы" ў кожнага кантакту
 [Use popups when watched settings change values]
 Усплывальныя вокны пры змене назіраных значэнняў
 [Popup timeout (0 for infinite)]
@@ -295,7 +295,7 @@ INI файлы
 [Open Known Module]
 Вядомы плагін (адкрыты)
 [Contacts Group]
-Група кантактаў
+Гурт кантактаў
 [Unknown Contact]
 Невядомы кантакт
 [Known Contact]
@@ -304,9 +304,9 @@ INI файлы
 [Database Editor++]
 Рэдактар базы
 [Open Database Editor]
-Адкрыць рэдактар базы
+Рэдактар базы
 [Open user tree in DBE++]
-Адкрыць у рэдактары базы
+Рэдактары базы
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Вы ўпэўнены, што жадаеце выдаліць кантакт "%s"?

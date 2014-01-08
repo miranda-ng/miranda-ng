@@ -9,11 +9,9 @@
 Дазваляе паказваць і рэдагаваць вашы дэталі для ўсіх пратаколаў.
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
-Мой нік
+Мая мянушка
 [Nickname:]
-Нік:
-[OK]
-ОК
+Мянушка:
 [Cancel]
 Скасаваць
 [General]
@@ -89,7 +87,7 @@ RTL
 [&Away]
 &Адсутнічаю
 [&NA]
-&Недаступны
+Недасяжны
 [Occ&upied]
 Зан&ят
 [&DND]
@@ -107,11 +105,11 @@ RTL
 [Set My Avatar...]
 Змяніць мой аватар...
 [Set My Nickname...]
-Змяніць мой нік...
+Змяніць мянушку...
 [Set My Status Message...]
-Змяніць статутнае паведамленне...
+Змяніць статуснае паведамленне...
 [Enable Listening To]
-Уключыць Цяпер слухаю
+Уключыць Зараз слухаю
 [Show next account]
 Наступны конт
 [Show previous account]
@@ -121,9 +119,9 @@ RTL
 [Don't cycle through accounts]
 Не змяняць конты
 [Nick popup]
-Нік
+Мянушка
 [Status message popup]
-Статутнае паведамленне
+Статуснае паведамленне
 [Avatar popup]
 Аватар
 ;file \plugins\MyDetails\src\data.cpp
@@ -131,7 +129,7 @@ RTL
 <няма імя статусу>
 ;file \plugins\MyDetails\src\frame.cpp
 [Nickname]
-Нік
+Мянушка
 [Status]
 Статус
 [Status Message]
@@ -147,13 +145,13 @@ RTL
 [Show My Details]
 Паказаць мае дэталі
 [Enable Listening To for %s]
-Уключыць Цяпер слухаю для %s
+Уключыць Зараз слухаю для %s
 [Set My Avatar for %s...]
 Змяніць мой аватар для %s...
 [Set My Nickname for %s...]
-Змяніць мой нік для %s...
+Змяніць мянушку для %s...
 [Set My Status Message for %s...]
-Змяніць статутнае паведамленне для %s...
+Змяніць статуснае паведамленне для %s...
 [Hide My Details]
 Схаваць мае дэталі
 ;file \plugins\MyDetails\src\mydetails.cpp
@@ -164,7 +162,7 @@ RTL
 [Next protocol]
 Наступны пратакол
 [Set My Nickname for %s]
-Змяніць мой нік для %s
+Змяніць мянушку для %s
 [Set My Status Message for %s]
 Усталяваць статус для %s
 [Contact List]

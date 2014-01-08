@@ -29,7 +29,7 @@
 [Max length:]
 Макс. даўжыня:
 [Pop up dialog box]
-Паказаць дыялогавае акно
+Паказаць дыялогавае вакно
 [Do not change status message]
 Не змяняць паведамленне статусу
 [Always set the same message]
@@ -87,9 +87,9 @@
 [recent messages (0 = disable)]
 апошніх паведамленняў (0=адключыць)
 [Automatically close dialog window after]
-Аўтаматычна зачыняць акно пасля
+Аўтаматычна зачыняць вакно пасля
 [Remember last dialog window position]
-Памятаць апошнюю пазіцыю акна
+Памятаць апошнюю пазіцыю вакна
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Выдаляць знакі звароту карэткі (CR = '\\r' = #0D) з паведамленняў статусу
 [Show 'Copy Away Message' item in contact menu]

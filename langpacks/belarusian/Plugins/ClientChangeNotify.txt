@@ -19,15 +19,15 @@
 [Don't remind me anymore]
 Больш не нагадваць
 [Enable notification]
-Уключыць апавяшчэнне
+Уключыць абвесткі
 [Show previous client name]
 Паказваць папярэдняе імя кліента 
 [Notify also when just client version changes]
-Апавяшчаць, калі зменіцца версія кліента 
+Абвесціць, калі зменіцца версія кліента 
 [Show client version]
 Паказаць версію кліента 
 [Don't notify for contacts with disabled status notification]
-Не апавяшчаць для кантактаў з адключаным апавяшчэннем статуту
+Не абвяшчаць для кантактаў з адключанай абвесткай статусу
 [Click action]
 Дзеянні па пстрычцы
 [On left click]
@@ -66,25 +66,25 @@
 [) changed client to ]
 ) змяніў кліент на 
 [Client change notifications:]
-Апавяшчэнні  змены кліента:
+Абвесткі пра змену кліента:
 [Never, ignore client changes for this contact]
 Ніколі, ігнараваць змены кліента гэтага кантакту
 [Always except when client change notifications are disabled globally]
-Заўсёды, акрамя таго, калі апавяшчэнні змены кліента адключаныя глабальна
+Заўсёды, акрамя таго, калі абвесткі змены кліента адключаныя глабальна
 [Always, even when client change notifications are disabled globally]
-Заўсёды, нават калі апавяшчэнні змены кліента адключаныя глабальна
+Заўсёды, нават калі абвесткі змены кліента адключаныя глабальна
 [Use global settings (default)]
 Глабальныя налады (змаўчанне)
 [Disable c&lient change notification]
-Выключыць апавяшчэнні пра змену кліента
+Выключыць абвесткі пра змену кліента
 [Enable c&lient change notification]
-Уключыць апавяшчэнні пра змену кліента
+Уключыць абвесткі пра змену кліента
 [Popups]
 Усплывальныя вокны
 [ClientChangeNotify: Client changed]
-Апавяшчэнне пра змену кліента: Кліент змяніўся
+Абвестка пра змену кліента: Кліент змяніўся
 [ClientChangeNotify]
-Апавяшчэнне пра змену кліента
+Абвестка пра змену кліента
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
 `[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
@@ -98,9 +98,9 @@
 [Open message window]
 Адкрыць вакно гутаркі
 [Close popup]
-Зачыніць акно
+Зачыніць вакно
 [Open contact details window]
-Адчыніць акно дэталяў кантакту
+Адчыніць вакно дэталяў кантакту
 [Open contact menu]
 Адкрыць меню кантакту
 [Open contact history]

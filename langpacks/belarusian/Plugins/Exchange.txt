@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
 ;============================================================
 [Notifies you if you have unread email on an exchange server.]
-Апавяшчае, калі ў вас ёсць непрачытаныя электроннай пошты на Exchange Server.
+Абвяшчае, калі ў вас ёсць непрачытаныя электроннай пошты на Exchange Server.
 ;file \plugins\Exchange\res\exchange.rc
 [Unread emails]
 Непрачытаныя лісты
@@ -41,7 +41,7 @@
 [times before giving up]
 разоў, перш чым здацца
 [Show email notifications using popup module]
-Паказаць апавяшчэнні праз усплывальнае вакно
+Паказаць абвесткі праз усплывальнае вакно
 ;file \plugins\Exchange\src\dlg_handlers.cpp
 [Entry ID]
 Параметры уваходу

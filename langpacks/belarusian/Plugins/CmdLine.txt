@@ -68,7 +68,7 @@ Miranda была зачынена ці адбылася памылка пры ч
 [Shows version information for Miranda and CmdLine plugin. If VersionInfo plugin is installed it will use its report instead.\nUsage: version.\nThe command will print Miranda's and CmdLine's version numbers or, if VersionInfo plugin is installed, it will show VersionInfo's report.]
 Адлюстроўвае інфармацыю пра версіі Miranda і плагіна CmdLine. Калі ўсталяваны плагін VersionInfo, будзе выкарыстоўвацца справаздача гэтага плагіна.\nВыкарыстанне: version.\nКаманда адлюструе версіі Miranda і плагіна CmdLine ці, калі ўсталяваны плагін VersionInfo, будзе адлюстравана справаздача VersionInfo.
 [Changes the user's nickname on the given protocol to the new name.\nUsage: setnickname <protocol> new_nickname.]
-Мяняе мянушку карыстальніка на пазначаным пратаколе.\nВыкарыстанне: setnickname <пратакол> новая_мянушка.
+Мяняе мянушку кантакта ў пазначаным пратаколе.\nВыкарыстанне: setnickname <пратакол> новая_мянушка.
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
 Уключэнне і адключэнне сцяга "ігнараваць" для паказаных кантактаў.\nВыкарыстанне:\n  ignore (block | unblock) <кантакт> [<кантакт> [<кантакт> [...]]].\nКаманда пераключыць (усталюе ці выдаліць) ігнараванне для пазначаных кантактаў.
 ;file \plugins\CmdLine\src\mimcmd_handlers.cpp
@@ -81,13 +81,13 @@ Miranda была зачынена ці адбылася памылка пры ч
 [Current global status: %s.%s]
 Глабальны статус зараз: %s.%s
 [Changed global status to '%s' (previous status was '%s').]
-Зменены глабальны статут на '%s' (папярэдні быў '%s').
+Зменены глабальны статус на '%s' (папярэдні быў '%s').
 [Changed '%s' status to '%s' (previous status was '%s').]
-Зменены '%s' статут на '%s' (папярэдні быў '%s').
+Зменены '%s' статус на '%s' (папярэдні быў '%s').
 [Successfully set '%S' status message to '%s' (status is '%s').]
-Успешно установлено '%s' сообщение статуса для '%s' (статус '%s').
+Папяхова ўсталявана '%s' паведамленне статуса для '%s' (статус '%s').
 [Changed '%s' status message to '%s' (status is '%s').]
-Зменена '%s' паведамленне статуту на '%s' (статут '%s').
+Зменена '%s' паведамленне статусу на '%s' (статус '%s').
 [Issued check email command to Exchange plugin.]
 Адпраўлена каманда праверкі пошты для плагіна Exchange.
 [Exchange plugin is not running.]
@@ -141,6 +141,6 @@ Miranda была зачынена ці адбылася памылка пры ч
 Вы можаце запускаць толькі адну копію плагіна CmdLine.
 ;file \plugins\CmdLine\src\utils.cpp
 [Notify]
-Апавяшчэнне
+Абвестка
 [Warning]
 Папярэджанне

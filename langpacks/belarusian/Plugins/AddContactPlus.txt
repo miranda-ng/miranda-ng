@@ -19,7 +19,7 @@ ID Кантакта:
 [Custom name:]
 Зададзенае імя:
 [Group:]
-Група:
+Гурт:
 [Options]
 Налады
 [Add temporarily]

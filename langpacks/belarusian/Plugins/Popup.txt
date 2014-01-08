@@ -51,7 +51,7 @@ History++ для гісторыі вокнаў
 [Miranda's window]
 Вакно Miranda NG
 [the active window]
-Актыўнае акно
+Актыўнае вакно
 [Transparency]
 Празрыстасць
 [Use transparency]
@@ -101,7 +101,7 @@ History++ для гісторыі вокнаў
 [Enable popup actions]
 Уключыць дзеянні
 [Popup Actions are those tiny buttons below notification text.]
-Дзеянні - гэта маленькія кнопкі пад тэкстам акна.
+Дзеянні - гэта маленькія кнопкі пад тэкстам вакна.
 [Common Actions]
 Агульныя дзеянні
 [Please choose in what cases default actions should be added:]
@@ -133,11 +133,11 @@ History++ для гісторыі вокнаў
 [Right Button]
 Правая кнопка
 [Notifications]
-Апавяшчэнні
+Абвесткі
 [General options]
 Агульныя параметры
 [Enable this notification]
-Уключыць гэта апавяшчэнне
+Уключыць гэтую абвестку
 [Popup timeout:]
 Працягласць:
 [Left click action:]
@@ -208,7 +208,7 @@ History++ для гісторыі вокнаў
 [Quick reply]
 Хуткі адказ
 [User details]
-Інфармацыя пра карыстача
+Інфармацыя пра кантакт
 [Contact menu]
 Меню кантакту
 [Dismiss popup]
@@ -227,7 +227,7 @@ History++ для гісторыі вокнаў
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
 Гэта адмысловы прадпрагляд для налад модуля ўсплывальных вокнаў. Тэкст і загаловак досыць доўгія для таго каб вы змаглі наладзіць скін і модуль, бо вам падабаецца ;)
 [This is a notification message]
-Гэта апавяшчэнне
+Гэта абвестка
 [This is a warning message]
 Гэта папярэджанне
 [This is an error message]
@@ -256,12 +256,10 @@ History++ для гісторыі вокнаў
 Абнавіць спіс
 [Popup Placement]
 Становішча
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Popup Group]
-Група вокнаў
+Гурт вокнаў
 [Favorite Contact]
 Абраны кантакт
 [Show in Fullscreen]
@@ -306,7 +304,7 @@ History++ для гісторыі вокнаў
 Плыўны паказ
 ;file \plugins\Popup\src\opt_class.cpp
 [CLASS Plugins]
-Групы модуляў
+Гурты плагінаў
 ;file \plugins\Popup\src\opt_gen.cpp
 [Offline]
 Адключаны
@@ -317,7 +315,7 @@ History++ для гісторыі вокнаў
 [Away]
 Адсутнічаю
 [NA]
-Недаступны
+Недасяжны
 [Occupied]
 Заняты
 [DND]
@@ -379,7 +377,7 @@ History++ для гісторыі вокнаў
 [Warning]
 Папярэджанне
 [Notify]
-Апавяшчэнне
+Абвестка
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]

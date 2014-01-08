@@ -73,7 +73,7 @@
 [Smart Auto Away Module]
 Модуль Пашыранага чакання
 [%s cannot set status messages]
-%s не выкарыстоўвае статутных паведамленняў
+%s не выкарыстоўвае статусных паведамленняў
 [I am here]
 Я тут
 [I am back]
@@ -89,13 +89,13 @@
 [I fell asleep on %H:%M:%S %d %E %Y (%W)%b%Z (%z)]
 Я сплю з %H:%M:%S %d %E %Y (%W)%b%Z (%z)
 [Set the default status message after ]
-Усталяваць стандартнае статутнае паведамленне пасля:
+Усталяваць стандартнае статуснае паведамленне пасля:
 [Variables to use]
 Выкарыстоўваныя зменныя
 [Time Zone]
 Гадзінны пояс
 [Reconnect after]
-Переподключиться пасля
+Перадалучыцца пасля
 [Localized Date (Long)]
 Лакальная дата (пашырана)
 [Localized Date (Short)]

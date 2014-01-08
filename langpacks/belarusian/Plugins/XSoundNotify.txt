@@ -6,12 +6,12 @@
 ;  Authors: Roman Torsten
 ;============================================================
 [Provides extended options for sound notifications.]
-Падае пашыраныя опцыі гукавых апавяшчэнняў пра ўваходныя паведамленні.
+Падае пашыраныя опцыі гукавых абвестак пра ўваходныя паведамленні.
 ;file \plugins\XSoundNotify\res\XSoundNotify.rc
 [Account:]
 Конт:
 [Nick:]
-Нік:
+Мянушка:
 [Sound:]
 Гук:
 [Not set]

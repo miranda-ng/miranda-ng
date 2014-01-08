@@ -9,23 +9,23 @@
 Fingerprint NG адлюстроўвае абразкі кліентаў, выкарыстованых вашымі суразмоўцамі.
 ;file \plugins\FingerprintNG\res\resource.rc
 [Fingerprint overlays icons]
-Аверлэі абразкоў кліентаў
+Адбіткі кліентаў
 [Miranda clients]
 Кліенты Miranda
 [Miranda packs overlays]
-Абразкі зборак Miranda
+Адбіткі зборак
 [Show Miranda version at Overlay#2]
-Значок версіі на аверлэі #2
+Значок версіі на адбітку #2
 [Resource overlays]
-Аверлэі рэсурсаў
+Адбіткі рэсурсаў
 [Platform overlays]
-Абразкі платформы
+Адбіткі платформы
 [Protocols overlays]
-Абразкі пратаколаў
+Адбіткі пратаколаў
 [Unicode overlay]
-Unicode
+Адбітак Unicode
 [Secure overlays]
-Абразкі шыфравання
+Адбітак шыфравання
 [Select protocols]
 Пратаколы
 [AIM clients]
@@ -67,13 +67,13 @@ Unicode
 [Client icons]
 Кліенты
 [Pack overlays]
-Абразкі зборак
+Адбіткі зборак
 [Multi-proto clients]
 Мульты-пратакол
 [Other protocols]
 Іншыя пратаколы
 [Overlays]
-Аверлэі
+Адбіткі
 [Resource]
 Рэсурс
 [Platform]

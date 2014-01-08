@@ -6,7 +6,7 @@
 ;  Authors: nullbie, Thief
 ;============================================================
 [Shows a splash at Miranda startup.]
-Паказвае ўсплывальнае акно пры старце Miranda NG.
+Паказвае ўсплывальнае вакно пры старце Miranda NG.
 ;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
 Налады застаўкі

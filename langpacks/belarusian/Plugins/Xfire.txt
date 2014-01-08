@@ -15,7 +15,7 @@
 [XFire]
 XFire
 [Nick:]
-Нік:
+Мянушка:
 [Current protocol version:]
 Бягучая версія пратаколу:
 [Note: You can only change these settings, if you are connected to Xfire.]
@@ -39,9 +39,9 @@ XFire
 [Show my voice chat server to my friends]
 Паказваць мой сервер галасавога чата маім сябрам
 [Show people when I type to them]
-Паказваць апавяшчэнне пра мой набор тэксту
+Паказваць абвестку пра мой набор тэксту
 [Show nicknames when available]
-Паказваць нікі калі даступна
+Паказваць мянушкі калі даступна
 [Show friends of my friends]
 Паказваць сяброў маіх сяброў
 [Options]
@@ -51,11 +51,11 @@ XFire
 [Display Error and Infomessage:]
 Памылка і паведамленне:
 [Main group for clan groups:]
-Група для групы кланаў:
+Гурт для кланаў:
 [Automatically scan for games:]
 Аўтаматычны пошук гульняў:
 [Main group for Friends of Friends:]
-Асноўная група для сяброў сяброў:
+Асноўны гурт для сяброў з сяброў:
 [Files]
 Файлы
 [xfire_games.ini]
@@ -129,9 +129,7 @@ IP:
 [Join]
 Далучыцца
 [Set Nickname]
-Увод ніка
-[OK]
-ОК
+Увод мянушкі
 [Cancel]
 Скасаваць
 [Update]
@@ -237,7 +235,7 @@ XFireне падтрымлівае паведамленні адключаным
 [Confirm Delete]
 Пацвердзіце выдаленне
 [Block this user from ever contacting you again?]
-Блакаваць гэтага карыстальніка калі ён звяжацца з Вамі зноў?
+Блакаваць гэты кантакт калі ён звяжацца з Вамі зноў?
 [Block Confirmation]
 Блок пацверджання
 ;file \protocols\Xfire\src\options.cpp
@@ -270,7 +268,7 @@ XFireне падтрымлівае паведамленні адключаным
 [Don't display game search results]
 Не паказваць вынікі пошуку гульняў
 [Don't display game search status window]
-Не паказваць акно пры пошуку гульняў
+Не паказваць вакно пры пошуку гульняў
 [Display popup if someone starts a game]
 Усплывальныя вокны, калі хто-небудзь пачынае гульню
 [Don't automatically create clan groups]
@@ -314,7 +312,7 @@ XFireне падтрымлівае паведамленні адключаным
 [Daily]
 Дзён
 [<Root Group>]
-<Каранёвая група>
+<Каранёвы гурт>
 [Are you sure you want to remove this game?]
 Вы ўпэунены, што жадаеце выдаліць гульню?
 [Please select a game.]

@@ -65,7 +65,7 @@
 [Key length:]
 Доўгая ключа
 [Real name:]
-Імя / Нік:
+Імя/Мянушка:
 [Comment:]
 Каментарый:
 [Expire date:]
@@ -91,7 +91,7 @@
 [Select keyserver for key search:]
 Выбраць сервер ключоў для пошуку:
 [Userlist:]
-Ліст карыстальнікаў:
+Ліст кантактаў:
 [Export PubKey]
 Захаваць ключ
 [Select own key]

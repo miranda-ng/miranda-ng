@@ -15,7 +15,7 @@
 [Always show contact list]
 Заўсёды паказваць спіс кантактаў
 [Show groups in contact list]
-Паказваць групы ў спісе кантактаў
+Паказваць гурты ў спісе кантактаў
 [Do not show Find control border]
 Не маляваць рамку для радка пошуку
 [Default Event Filter]
@@ -59,9 +59,9 @@
 [Enable Smileys]
 Уключыць смайлы
 [Search forward in list group]
-Шукаць далей у групе
+Шукаць далей у гурце
 [Search forward in message window]
-Шукаць далей у акне паведамленняў
+Шукаць далей у вакне гутаркі
 [Match Case]
 Улічваць рэгістр
 [Match Whole Word]
@@ -71,7 +71,7 @@
 [Only Outgoing Messages]
 Толькі выходныя паведамленні
 [Only Selected Group]
-Толькі абраная група
+Толькі абраны гурт
 [All Contacts]
 Усе кантакты
 [Export To Txt]
@@ -89,9 +89,9 @@
 [Add task]
 Дадаць задачу
 [Edit task]
-Рэд. задачу
+Кіраваць
 [Delete task]
-Выд. задачу
+Выдаліць
 [Display errors using popups]
 Паказваць памылкі ў вокнах
 [Save errors to system history]
@@ -136,8 +136,6 @@
 * Адмоўныя значэнні для фільтравання ранніх падзей
 [Execute task for specified contacts]
 Выконваць задачу для вызначаных кантактаў
-[OK]
-ОК
 [Cancel]
 Скасаваць
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
@@ -150,9 +148,9 @@
 [Execute history task]
 Выканаць задачу гісторыі
 [Incoming message]
-Уваходнае паведамленне
+Уваходнае
 [Outgoing message]
-Выходнае паведамленне
+Зыходнае
 [Status change]
 Змена статусу
 [Show Contacts]
@@ -162,7 +160,7 @@
 [Find Next]
 Знайсці далей
 [Find Previous]
-Знайсці папярэдняе
+Знайсці раней
 [Plus in export]
 Плюс у экспарце
 [Minus in export]
@@ -201,9 +199,9 @@
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 Вы хочаце выдаліць усе імпартаваныя паведамленні гэтага кантакту?\nПамятаеце, што наступная запланаваная задача будзе зноў імпартуе гэтыя паведамленні.
 [Open in &new window]
-&Адкрыць у новым акне
+Адкрыць у новым вакне
 [&Open in existing window]
-Адкрыць у &бягучым акне
+Адкрыць у &бягучым вакне
 [&Copy link]
 &Капіяваць спасылку
 [Copy]
@@ -215,7 +213,7 @@
 [Reply &Quoted]
 Адказаць з &цытатай
 [Delete Group]
-Выдаленне групы
+Выдаленне гурту
 [Options]
 Налады
 [Filters]
@@ -237,9 +235,9 @@ Txt
 [Dat (mContacts)]
 Dat (мКантакты)
 [Save window position as default]
-Захаваць становішча акна
+Захаваць становішча вакна
 [Save window position for all contacts]
-Захаваць становішча акна для ўсіх кантактаў
+Захаваць становішча вакна для ўсіх кантактаў
 [Do you want to save imported messages to local profile?]
 Вы хочаце захаваць імпартаваныя паведамленні ў лакальны профіль?
 [File contains history for different contact. Do you want to change contact and import?]
@@ -266,7 +264,7 @@ Dat (мКантакты)
 [SMS message]
 Паведамленне SMS
 [Group list]
-Спіс груп
+Спіс гуртоў
 [Messages]
 Паведамленні
 [Searching]
@@ -316,7 +314,7 @@ Dat (мКантакты)
 [Switch Only Outgoing Messages]
 Толькі выходныя паведамленні
 [Switch Only Selected Group]
-Толькі абраныя групы
+Толькі абраныя гурты
 [Switch All Contacts]
 Усе кантакты
 [Export To Binary]
@@ -360,9 +358,9 @@ Dat (мКантакты)
 [Import and Marge]
 Імпарт і зьліцьцё
 [Minute]
-Хвіліны
+Хвілін
 [Hour]
-Гадзіна
+Гадзін
 [At Start]
 Пры запуску
 [At Finish]
@@ -382,7 +380,7 @@ Dat (мКантакты)
 [Tuesday]
 Аўторак
 [Wednesday]
-Асяроддзе
+Серада
 [Thursday]
 Чацвер
 [Friday]
@@ -475,7 +473,7 @@ FTP шлях павінен змяшчаць '/' замест '\', а пачын
 [Search]
 Пошук
 [You have reached the end of the group.]
-Вы дасягнулі канца групы
+Вы дасягнулі канца гурту.
 [You have reached the end of the history.]
 Вы дабраліся да канца гісторыі.
 ;file \plugins\BasicHistory\src\TxtExport.cpp
