@@ -47,6 +47,8 @@ MMATCH   ICON "mmatch.ico"
 MMONKEY  ICON "mmonkey.ico"
 // Media Player Classic
 MPC      ICON "mpc.ico"
+// Media Player Classic - Black Edition
+MPC_BE   ICON "mpc-be.ico"
 // MPlayer
 MPLAYER  ICON "mplayer.ico"
 // MRadio
