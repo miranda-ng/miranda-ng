@@ -475,10 +475,16 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 			ptszUrl = item->m_name;
 
 			char szMyHash[33];
-			CalculateModuleHash(tszBuf, szMyHash);
+			__try {
+				CalculateModuleHash(tszBuf, szMyHash);
+				bHasNewVersion = opts.bForceRedownload ? true : strcmp(szMyHash, item->m_szHash) != 0;
+			}
+			__except(EXCEPTION_EXECUTE_HANDLER) {
+				ZeroMemory(szMyHash, 0);
+				bHasNewVersion = true;	// smth went wrong, reload a file from scratch
+			}
 
 			MyCRC = item->m_crc;
-			bHasNewVersion = opts.bForceRedownload ? true : strcmp(szMyHash, item->m_szHash) != 0;
 		}
 		else { // file was marked for deletion, add it to the list anyway
 			bHasNewVersion = true;
