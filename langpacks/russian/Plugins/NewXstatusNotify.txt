@@ -328,7 +328,7 @@ xСтатус удален
 [Message log]
 Журнал
 [(was %s)]
-(было %s)
+(был(а) %s)
 [Open message window]
 Открыть окно беседы
 [Close popup]
