@@ -83,9 +83,8 @@ void CSkypeProto::InitChatModule()
 {
 	GCREGISTER gcr = {0};
 	gcr.cbSize = sizeof(gcr);
-	gcr.dwFlags = GC_TCHAR;
 	gcr.iMaxText = 0;
-	gcr.ptszModuleDispName = this->m_tszUserName;
+	gcr.ptszDispName = this->m_tszUserName;
 	gcr.pszModule = this->m_szModuleName;
 	::CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 
@@ -154,7 +153,6 @@ void ChatRoom::CreateChatSession(bool showWindow)
 	GCSESSION gcw = {0};
 	gcw.cbSize = sizeof(gcw);
 	gcw.iType = GCW_CHATROOM;
-	gcw.dwFlags = GC_TCHAR;
 	gcw.pszModule = ppro->m_szModuleName;
 	gcw.ptszName = this->name;
 	gcw.ptszID = this->cid;
