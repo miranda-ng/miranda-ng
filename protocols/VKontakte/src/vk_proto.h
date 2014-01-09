@@ -31,11 +31,12 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	void *pUserInfo;
 };
 
-struct CVkChatUser
+struct CVkChatUser : public MZeroedObject
 {
 	CVkChatUser(int _id) : m_uid(_id) {}
 
 	int  m_uid;
+	bool m_bDel;
 	ptrT m_tszTitle, m_tszImage;
 };
 
@@ -227,8 +228,11 @@ private:
 
 	OBJLIST<CVkChatInfo> m_chats;
 	CVkChatInfo* AppendChat(int id, JSONNODE *pNode);
+	void AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	int __cdecl OnChatEvent(WPARAM, LPARAM);
+	void OnSendChatMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	CMString GetAttachmentDescr(JSONNODE*);
 };

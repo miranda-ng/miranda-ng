@@ -432,6 +432,12 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (pMsg == NULL)
 			continue;
 
+		int chat_id = json_as_int(json_get(pMsg, "chat_id"));
+		if (chat_id != 0) {
+			AppendChatMessage(chat_id, pMsg, false);
+			continue;
+		}			
+
 		char szMid[40];
 		int mid = json_as_int(json_get(pMsg, "mid"));
 		_itoa(mid, szMid, 10);
@@ -521,12 +527,39 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 	for (int i=0; (pChild = json_at(pUpdates, i)) != NULL; i++) {
 		switch (json_as_int( json_at(pChild, 0))) {
 		case VKPOLL_MSG_ADDED: // new message
-			msgid = json_as_int( json_at(pChild, 1));
-			flags = json_as_int( json_at(pChild, 2));
+			msgid = json_as_int(json_at(pChild, 1));
+			flags = json_as_int(json_at(pChild, 2));
 
 			// skip outgoing messages sent from a client
-			if ((flags & VKFLAG_MSGOUTBOX) && !(flags & VKFLAG_MSGCHAT))
-				break;
+			if (flags & VKFLAG_MSGOUTBOX) {
+				if (!(flags & VKFLAG_MSGCHAT))
+					break;
+
+				// my chat message
+				int from_id = json_as_int(json_at(pChild, 3));
+				if (from_id > 2000000000) {
+					from_id -= 2000000000;
+					CVkChatInfo *cc = m_chats.find((CVkChatInfo*)&from_id);
+					if (cc != NULL) {
+						TCHAR tszId[20];
+						_itot(m_myUserId, tszId, 10);
+						ptrT tszBody(json_as_string(json_at(pChild, 6)));
+
+						CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&m_myUserId);
+						LPCTSTR ptszNick = (cu) ? cu->m_tszTitle : TranslateT("me");
+
+						GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_MESSAGE };
+						GCEVENT gce = { sizeof(GCEVENT), &gcd };
+						gce.bIsMe = true;
+						gce.ptszUID = tszId;
+						gce.time = time(0);
+						gce.dwFlags = GCEF_ADDTOLOG;
+						gce.ptszNick = ptszNick;
+						gce.ptszText = tszBody;
+						CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
+					}
+				}
+			}
 
 			if ( !CheckMid(msgid)) {
 				if ( !mids.IsEmpty())
@@ -554,10 +587,10 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			break;
 
 		case VKPOLL_CHAT_CHANGED:
-			int chatid = json_as_int(json_at(pChild, 1));
-			int isSelf = json_as_int(json_at(pChild, 2));
-			if (!isSelf)
-				AppendChat(chatid, NULL);
+			int chat_id = json_as_int(json_at(pChild, 1));
+			CVkChatInfo *cc = m_chats.find((CVkChatInfo*)&chat_id);
+			if (cc)
+				RetrieveChatInfo(cc);
 			break;
 		}
 	}
