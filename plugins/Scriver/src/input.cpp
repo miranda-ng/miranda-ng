@@ -29,8 +29,8 @@ enum KB_ACTIONS {KB_PREV_TAB = 1, KB_NEXT_TAB, KB_SWITCHTOOLBAR,
 				 KB_SWITCHSTATUSBAR, KB_SWITCHTITLEBAR, KB_SWITCHINFOBAR, KB_MINIMIZE, KB_CLOSE, KB_CLEAR_LOG,
 				 KB_TAB1, KB_TAB2, KB_TAB3, KB_TAB4, KB_TAB5, KB_TAB6, KB_TAB7, KB_TAB8, KB_TAB9, KB_SEND_ALL, KB_PASTESEND, KB_QUOTE};
 
-void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, HANDLE hContact) {
-
+void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, HANDLE hContact)
+{
 	HMENU hMenu, hSubMenu;
 	POINT pt;
 	CHARRANGE sel, all = { 0, -1 };
@@ -46,12 +46,12 @@ void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, HANDLE hConta
 		EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
 		EnableMenuItem(hSubMenu, IDM_DELETE, MF_BYCOMMAND | MF_GRAYED);
 	}
-	if (!SendMessage(hwnd, EM_CANUNDO, 0, 0)) {
+	if (!SendMessage(hwnd, EM_CANUNDO, 0, 0))
 		EnableMenuItem(hSubMenu, IDM_UNDO, MF_BYCOMMAND | MF_GRAYED);
-	}
-	if (!SendMessage(hwnd, EM_CANREDO, 0, 0)) {
+
+	if (!SendMessage(hwnd, EM_CANREDO, 0, 0))
 		EnableMenuItem(hSubMenu, IDM_REDO, MF_BYCOMMAND | MF_GRAYED);
-	}
+
 	if (!SendMessage(hwnd, EM_CANPASTE, 0, 0)) {
 		EnableMenuItem(hSubMenu, IDM_PASTESEND, MF_BYCOMMAND | MF_GRAYED);
 		if (!IsClipboardFormatAvailable(CF_HDROP))
@@ -214,26 +214,26 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, Common
 						}
 						if (cmdListNew != NULL) {
 							char *textBuffer;
-							if (windowData->flags & CWDF_RTF_INPUT) {
+							if (windowData->flags & CWDF_RTF_INPUT)
 								textBuffer = GetRichTextRTF(hwnd);
-							} else {
+							else
 								textBuffer = GetRichTextEncoded(hwnd, windowData->codePage);
-							}
+
 							if (textBuffer != NULL) {
 								windowData->cmdList = tcmdlist_append(windowData->cmdList, textBuffer, 20, TRUE);
 								mir_free(textBuffer);
 							}
 						}
-					} else if (windowData->cmdListCurrent->prev != NULL) {
-						cmdListNew = windowData->cmdListCurrent->prev;
 					}
-				} else {
+					else if (windowData->cmdListCurrent->prev != NULL)
+						cmdListNew = windowData->cmdListCurrent->prev;
+				}
+				else {
 					if (windowData->cmdListCurrent != NULL) {
-						if (windowData->cmdListCurrent->next != NULL) {
+						if (windowData->cmdListCurrent->next != NULL)
 							cmdListNew = windowData->cmdListCurrent->next;
-						} else if (!windowData->cmdListCurrent->temporary) {
+						else if (!windowData->cmdListCurrent->temporary)
 							SetWindowText(hwnd, _T(""));
-						}
 					}
 				}
 				if (cmdListNew != NULL) {
@@ -266,21 +266,19 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, Common
 		}
 		break;
 	case WM_SYSKEYUP:
-		{
-			if ((wParam == VK_LEFT) && isAlt)
-				return 0;
+		if ((wParam == VK_LEFT) && isAlt)
+			return 0;
 
-			if ((wParam == VK_RIGHT) && isAlt)
-				return 0;
-		}
+		if ((wParam == VK_RIGHT) && isAlt)
+			return 0;
 		break;
 	}
 
 	return -1;
 }
 
-void RegisterKeyBindings() {
-
+void RegisterKeyBindings()
+{
 	char strDesc[64], strName[64];
 	HOTKEYDESC desc = {sizeof(desc) };
 	desc.pszSection = LPGEN("Messaging");

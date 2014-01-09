@@ -346,7 +346,7 @@ BOOL          SM_ChangeUID(const TCHAR *pszID, const char* pszModule, const TCHA
 BOOL          SM_ChangeNick(const TCHAR *pszID, const char* pszModule, GCEVENT *gce);
 BOOL          SM_RemoveUser(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUID);
 BOOL          SM_SetOffline(const TCHAR *pszID, const char* pszModule);
-HICON         SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui);
+HICON         SM_GetStatusIcon(SESSION_INFO *si, USERINFO *ui);
 BOOL          SM_SetStatus(const TCHAR *pszID, const char* pszModule, int wStatus);
 BOOL          SM_SetStatusEx(const TCHAR *pszID, const char* pszModule, const TCHAR* pszText, int flags );
 BOOL          SM_SendUserMessage(const TCHAR *pszID, const char* pszModule, const TCHAR* pszText);
@@ -365,7 +365,7 @@ int           SM_GetCount(const char* pszModule);
 SESSION_INFO* SM_FindSessionByIndex(const char* pszModule, int iItem);
 char*         SM_GetUsers(SESSION_INFO *si);
 USERINFO*     SM_GetUserFromIndex(const TCHAR *pszID, const char* pszModule, int index);
-char          SM_GetStatusIndicator(SESSION_INFO *si, USERINFO * ui);
+char          SM_GetStatusIndicator(SESSION_INFO *si, USERINFO *ui);
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent);
 MODULEINFO*   MM_AddModule(const char* pszModule);
 MODULEINFO*   MM_FindModule(const char* pszModule);

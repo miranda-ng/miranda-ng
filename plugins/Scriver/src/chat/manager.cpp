@@ -229,7 +229,7 @@ BOOL SM_SetStatusEx( const TCHAR *pszID, const char* pszModule, const TCHAR* psz
 	return TRUE;
 }
 
-char SM_GetStatusIndicator(SESSION_INFO *si, USERINFO * ui)
+char SM_GetStatusIndicator(SESSION_INFO *si, USERINFO *ui)
 {
 	STATUSINFO * ti;
 	if (!ui || !si)
@@ -260,7 +260,7 @@ char SM_GetStatusIndicator(SESSION_INFO *si, USERINFO * ui)
 	return '\0';
 }
 
-HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui)
+HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO *ui)
 {
 	STATUSINFO * ti;
 	if (!ui || !si)
@@ -381,7 +381,7 @@ BOOL SM_RemoveUser(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUI
 	while ( pTemp != NULL ) {
 		if (( !pszID || !lstrcmpi( pTemp->ptszID, pszID )) && !lstrcmpiA( pTemp->pszModule, pszModule )) {
 			DWORD dw;
-			USERINFO * ui = UM_FindUser(pTemp->pUsers, pszUID);
+			USERINFO *ui = UM_FindUser(pTemp->pUsers, pszUID);
 			if ( ui ) {
 				pTemp->nUsersInNicklist--;
 
@@ -448,7 +448,7 @@ BOOL SM_GiveStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszUI
 
 	while ( pTemp != NULL ) {
 		if ( !lstrcmpi( pTemp->ptszID, pszID ) && !lstrcmpiA( pTemp->pszModule, pszModule )) {
-			USERINFO * ui = UM_GiveStatus(pTemp->pUsers, pszUID, TM_StringToWord(pTemp->pStatuses, pszStatus));
+			USERINFO *ui = UM_GiveStatus(pTemp->pUsers, pszUID, TM_StringToWord(pTemp->pStatuses, pszStatus));
 			if (ui) {
 				SM_MoveUser( pTemp->ptszID, pTemp->pszModule, ui->pszUID );
 				if ( pTemp->hWnd )
@@ -472,7 +472,7 @@ BOOL SM_SetContactStatus(const TCHAR *pszID, const char* pszModule, const TCHAR*
 
 	while ( pTemp != NULL ) {
 		if ( !lstrcmpi( pTemp->ptszID, pszID ) && !lstrcmpiA( pTemp->pszModule, pszModule )) {
-			USERINFO * ui = UM_SetContactStatus(pTemp->pUsers, pszUID, wStatus);
+			USERINFO *ui = UM_SetContactStatus(pTemp->pUsers, pszUID, wStatus);
 			if (ui) {
 				SM_MoveUser( pTemp->ptszID, pTemp->pszModule, ui->pszUID );
 				if ( pTemp->hWnd )
