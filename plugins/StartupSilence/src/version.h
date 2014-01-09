@@ -21,7 +21,7 @@
 // stuff that will be used in PluginInfo section and in Version resource
 #define __PLUGIN_NAME				"StartupSilence"
 #define __FILENAME					"StartupSilence.dll"
-#define __DESC						"Filtering popups and mute sounds for 10-300 sec at Miranda NG startup and setting up popups and sound to predefined state (Automatically per computer settings)."
+#define __DESC						"Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings)."
 #define __AUTHOR					"Vladimir Lyubimov"
 #define __AUTHOREMAIL				""
 #define __AUTHORWEB					"http://miranda-ng.org/"

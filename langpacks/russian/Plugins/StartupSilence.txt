@@ -5,8 +5,8 @@
 ;  Version: 0.2.0.0
 ;  Authors: Vladimir Lyubimov
 ;============================================================
-[Disables ALL popups and sounds for 10-300 sec at Miranda startup and enables them always for Miranda NG (Automatically per computer settings).]
-Отключает ВСЕ звуки и всплывающие окна при старте Миранды на 10-300 секунд и включает их всегда для Miranda NG (Автоматически запоминает настройки для каждого компьютера).
+[Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
+Отключает все звуки и всплывающие окна при старте Миранды на 10-300 секунд, затем возвращает их к заданному состоянию (Автоматически запоминает настройки для каждого компьютера).
 [Silence at Startup]
 Тихий запуск
 [Settings for the next Computer Name:]
