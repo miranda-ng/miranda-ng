@@ -37,12 +37,12 @@ INT_PTR SilenceConnection(WPARAM wParam, LPARAM lParam);
 
 #define SS_SERVICE_NAME "StartupSilence/ToggleEnabled"
 
-#define SS_SILENCE_CONNECTION "StartupSilence/SilenceConnection"
 //StartupSilence/SilenceConnection
 //external service for mute sound and popups according to plugin settings
 //wParam = 2 - SilenceConnection is on
 //wParam = 0 - SilenceConnection is off
 //lParam = 0 - not in use
+#define SS_SILENCE_CONNECTION "StartupSilence/SilenceConnection"
 
 #define POPUPONOFF "Popup/ToggleEnabled"
 #define POPUPONOFFPP "Popup/EnableDisableMenuCommand"

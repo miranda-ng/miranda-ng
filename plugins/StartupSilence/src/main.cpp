@@ -144,12 +144,11 @@ int DisablePopup(WPARAM wParam, LPARAM lParam)
 					return 0;
 				return 1;
 			}
-			else return 0;
+			else return 0;//or allow popups for unread mail notification from MRA, keepstatus ... other services?
 		}
 	else if (timer == 2)
 			return 1;	//block all popups at startup
 	return 0;	//---> just allow all popups with this return
-				//or allow popups for unread mail notification from MRA, keepstatus ... other services?
 }
 
 void EnablePopupModule()
