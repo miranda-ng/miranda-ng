@@ -13,7 +13,7 @@
 [Action 2]
 [Sweep on closing message window]
 [Clicking on the icon in the status bar will change settings]
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
 ;file \plugins\HistorySweeperLight\src\main.cpp
 [Keep all events]
 [Delete all events]

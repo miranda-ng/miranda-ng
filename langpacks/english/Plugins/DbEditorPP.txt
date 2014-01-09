@@ -47,7 +47,7 @@
 [Import]
 [Insert &CR/LF]
 [Paste the Settings to import here.]
-[DBEditor++]
+[Database Editor++]
 [&Main]
 [&Refresh Modules]
 [Refresh &Settings]
@@ -136,7 +136,7 @@
 [Couldn't open file for writing]
 [Import from files]
 ;file \plugins\DbEditorPP\src\findwindow.cpp
-[Enter a string to search the DB for]
+[Enter a string to search the database for]
 [Stop]
 [Replaced with]
 [Deleted]
@@ -157,7 +157,6 @@
 [Unknown Contact]
 [Known Contact]
 ;file \plugins\DbEditorPP\src\main.cpp
-[Database Editor++]
 [Open Database Editor]
 [Open user tree in DBE++]
 ;file \plugins\DbEditorPP\src\main_window.cpp

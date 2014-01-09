@@ -89,7 +89,7 @@
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 [No_Group]
-[DB: Attempt to get wrong type of value, string]
+[Database: Attempt to get wrong type of value, string]
 [(Unknown Contact)]
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]

@@ -195,7 +195,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	fontid.deffontsettings.size = -11;
 	lstrcpyA(fontid.deffontsettings.szFace, "MS Shell Dlg");
 	fontid.deffontsettings.style = 0;
-	mir_snprintf(fontid.name, SIZEOF(fontid.name), "%s (colors only)", notification->lpzName);
+	mir_snprintf(fontid.name, SIZEOF(fontid.name), LPGEN("%s (colors only)"), notification->lpzName);
 	mir_snprintf(fontid.prefix, SIZEOF(fontid.prefix), "{%s/%s}text", notification->lpzGroup, notification->lpzName);
 	fontid.deffontsettings.style = 0;
 	FontRegister(&fontid);
@@ -204,7 +204,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	colourid.cbSize = sizeof(colourid);
 	mir_snprintf(colourid.group, sizeof(colourid.group), "%s/%s", PU_FNT_AND_COLOR, notification->lpzGroup);
 	lstrcpyA(colourid.dbSettingsGroup, "PopupNotifications");
-	mir_snprintf(colourid.name, SIZEOF(colourid.name), "%s (colors only)", notification->lpzName);
+	mir_snprintf(colourid.name, SIZEOF(colourid.name), LPGEN("%s (colors only)"), notification->lpzName);
 	mir_snprintf(colourid.setting, SIZEOF(colourid.setting), "{%s/%s}backColor", notification->lpzGroup, notification->lpzName);
 	colourid.defcolour = ptd->notification.colorBack;
 	ColourRegister(&colourid);
@@ -255,13 +255,13 @@ void FillNotificationData(POPUPDATA2 *ppd, DWORD *disableWhen)
 	FontID fontid = {0};				//use ansi version of fontID coz POPUPNOTIFICATION use char
 	fontid.cbSize = sizeof(fontid);
 	mir_snprintf(fontid.group, sizeof(fontid.group), "%s/%s", PU_FNT_AND_COLOR, ptd->notification.lpzGroup);
-	mir_snprintf(fontid.name, SIZEOF(fontid.name), "%s (colors only)", ptd->notification.lpzName);
+	mir_snprintf(fontid.name, SIZEOF(fontid.name), LPGEN("%s (colors only)"), ptd->notification.lpzName);
 	ppd->colorText = (COLORREF)CallService(MS_FONT_GET, (WPARAM)&fontid, (LPARAM)&lf);
 
 	ColourID colourid = {0};			//use ansi version of ColourID coz POPUPNOTIFICATION use char
 	colourid.cbSize = sizeof(colourid);
 	mir_snprintf(colourid.group, sizeof(colourid.group), "%s/%s", PU_FNT_AND_COLOR, ptd->notification.lpzGroup);
-	mir_snprintf(colourid.name, SIZEOF(colourid.name), "%s (colors only)", ptd->notification.lpzName);
+	mir_snprintf(colourid.name, SIZEOF(colourid.name), LPGEN("%s (colors only)"), ptd->notification.lpzName);
 	ppd->colorBack = (COLORREF)CallService(MS_COLOUR_GET, (WPARAM)&colourid, 0);
 
 	char setting[MAXMODULELABELLENGTH];
