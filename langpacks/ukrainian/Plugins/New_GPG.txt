@@ -63,7 +63,7 @@
 Використовувати Jabber api Miranda NG (Рекомендується)
 [Current private key id]
 Закритий ключ
-[This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn.]
+[This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
 Вибраний вами exe не GnuPG!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
 [Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn.]
 Ваша версія GnuPG не підтримується і може працювати не правильно!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
