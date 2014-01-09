@@ -19,9 +19,9 @@
 [List content:]
 Утрыманне спісу:
 [Show counts of number of contacts in a group]
-Паказваць колькасць карыстачоў у гуртах
+Паказваць колькасць кантактаў у гуртах
 [Hide group counts when there are none online]
-Хаваць лічыльнік, калі няма далучаных карыстачоў
+Хаваць лічыльнік, калі няма далучаных кантактаў
 [1st:]
 1-шы:
 [2nd:]
@@ -313,7 +313,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Items]
 Элементы
 [Show divider between online and offline contacts]
-Мяжа паміж злуч. і адкл. карыстачамі
+Мяжа паміж далучанымі і адключанымі
 [Hot track items as mouse passes over]
 Падсвятленне пад курсорам мышы
 [Disable drag and drop of items]
@@ -325,7 +325,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Make selection highlight translucent]
 Напаўпразрыстае вылучэнне
 [Dim idle contacts]
-Прыцьміць неактыўных карыстачоў
+Прыцьміць неактыўныя
 ['Hide Offline' means to hide:]
 'Схаваць адключаных' - схаваць:
 [Groups]
@@ -717,7 +717,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Occupied contacts]
 Кантакт "заняты"
 [Free for chat contacts]
-Кантакт "гатовы пабалбатаць"
+Кантакт "вольны"
 [Invisible contacts]
 Кантакт "нябачны"
 [On the phone contacts]

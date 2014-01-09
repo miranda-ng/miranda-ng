@@ -183,7 +183,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Use Overlay icons on avatars]
 Выкарыстоўваць накладанне значкоў на аватары
 [Dim idle contacts]
-Прыцьміць неактыўных карыстачоў
+Прыцьміць неактыўных
 [Replace status icons with xStatus]
 Замяніць значкі статусу хстатусам
 [Window]
@@ -243,7 +243,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Items]
 Элементы
 [Show divider between online and offline contacts]
-Мяжа паміж злуч. і адкл. карыстачамі
+Мяжа паміж далучанымі і адключанымі
 [Hot track items as mouse passes over]
 Падсвятленне пад курсорам мышы
 [Disable drag and drop of items]
@@ -728,7 +728,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
 Вам патрэбны FloatingContacts плагін, убудаваныя плаваючыя кантакты былі выдаленыя
 [Warning]
-Папярэджанне
+Увага
 [Standard contacts]
 Стандартныя кантакты
 [Online contacts to whom you have a different visibility]

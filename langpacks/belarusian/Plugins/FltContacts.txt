@@ -45,7 +45,7 @@
 [Single click interface]
 Адна пстрычка
 [Dim idle contacts]
-Прыцьміць неактыўных карыстачоў
+Прыцьміць неактыўныя кантакты
 [Idle contacts]
 Неактыўныя кантакты
 [Border]

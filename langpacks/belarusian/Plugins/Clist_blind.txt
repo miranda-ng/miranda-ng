@@ -131,7 +131,7 @@
 [Show counts of number of contacts in a group]
 Паказваць колькасць канатактаў у гуртах
 [Hide group counts when there are none online]
-Хаваць лічыльнік, калі няма далучаных карыстачоў
+Хаваць лічыльнік, калі няма далучаных кантактаў
 [Sort groups alphabetically]
 Сартаваць гурты па алфавіце
 [Quicksearch in open groups only]

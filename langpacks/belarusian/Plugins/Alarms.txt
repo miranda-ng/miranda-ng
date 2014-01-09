@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
-Усталёўка штодзённых, штотыднёвых і разавых напамінкаў.
+Устаноўка штодзённых, штотыднёвых і разавых напамінкаў.
 ;file \plugins\Alarms\res\resource.rc
 [New]
 Стварыць

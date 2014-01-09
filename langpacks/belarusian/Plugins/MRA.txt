@@ -27,9 +27,9 @@
 [Automatically add contacts to server list on logon]
 Аўтаматычна дадаваць кантакты на сервер пры далучэнні
 [Automatically grant authorization to users in contact list]
-Аўтаматычна аўтарызоўваць карыстачоў са спісу
+Аўтаматычна аўтарызоўваць кантакты ў спісе
 [Automatically grant authorization to new users]
-Аўтаматычна аўтарызоўваць новых карыстачоў
+Аўтаматычна аўтарызоўваць новыя кантакты
 [Notify me when a message delivery has failed]
 Абвясціць, калі паведамленне не дайшло
 [Notify about new mail if increment]
@@ -73,7 +73,7 @@
 [State:]
 Штат:
 [Search online users only]
-Толькі далучоных карыстачоў
+Толькі далучаныя
 [City:]
 Горад:
 [Remember]
@@ -249,9 +249,9 @@ xСтатус "%s"
 [Web search]
 Пошук у вэбе
 [Update all users info]
-Абнавіць інфармацыю ўсіх карыстачоў
+Абнавіць інфармацыю пра ўсіх
 [Check users avatars updates]
-Праверыць абнаўленні выяў карыстачоў
+Праверыць абнаўленні ўсіх аватараў
 [Request authorization for all]
 Запытаць аўтарызацыю ва ўсіх
 [Request authorization]
@@ -322,7 +322,7 @@ Mail.ru
 [Question]
 Пытанне
 [Warning]
-Папярэджанне
+Увага
 [Error]
 Памылка
 [NewMail]

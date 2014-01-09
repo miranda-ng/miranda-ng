@@ -19,7 +19,7 @@
 [Connection]
 Далучэнне
 [Username:]
-Логін:
+Імя кантакта:
 [Password:]
 Пароль:
 [Server:]

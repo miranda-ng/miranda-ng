@@ -33,9 +33,9 @@
 [Do not change status message]
 Не змяняць паведамленне статусу
 [Always set the same message]
-Заўсёды ўсталёўваць гэта паведамленне
+Заўсёды ставіць гэта паведамленне
 [Do not set status message]
-Не усталёўваць статуснае паведамленне
+Не ставіць статуснае паведамленне
 [Status messages]
 Паведамленні статусу
 [Pop up dialog asking for new message]
@@ -117,7 +117,7 @@
 [Independent setting for each protocol]
 Незалежна для кожнага пратакола
 [Pop up dialog asking for status message]
-Паказваць дыялог запытання смены статуса
+Паказваць вакно запытання смены статуса
 [Cut]
 Выразаць
 [Copy]

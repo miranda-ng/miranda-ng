@@ -68,7 +68,7 @@ MirFox
 [MirFox error]
 MirFox Памылка
 [Status message set on %s]
-Усталёўка статусу на %s
+Устаноўка статусу на %s
 [Status message set]
 Усталёўка статусу
 [Cannot set status message on %s]

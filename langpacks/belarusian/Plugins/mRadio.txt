@@ -70,7 +70,7 @@ PreBuf, % (75%)
 [Bitrate]
 Бітрэйт
 [Stone Room]
-Пакой з каменя
+Каменны пакой
 [Living Room]
 Гасціная
 [Drugged]
@@ -142,7 +142,7 @@ URL станцыі/плэйліста
 [Status message template]
 Шаблон паведамлення статусу
 [Equalizer presets]
-Перадусталёўкі эквалайзера
+Перадустаноўкі
 [Export All]
 Экспартаваць усё
 [Current status]

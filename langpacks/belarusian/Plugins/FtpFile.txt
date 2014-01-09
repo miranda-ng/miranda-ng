@@ -254,7 +254,7 @@ SFTP (Абаронены FTP праз SSH)
 [minutes]
 хвілін(ы)
 [hours]
-гадзіны(ов)
+гадзін(ы)
 [days]
 дзён
 [Services]

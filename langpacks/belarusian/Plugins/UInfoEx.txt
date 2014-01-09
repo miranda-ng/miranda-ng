@@ -6,7 +6,7 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
-Плагін пашыранай інфармацыі пра карыстача. Дазваляе рэдагаваць усю інфармацыю, абвяшчае пра дні нараджэння і г.д.
+Плагін пашыранай інфармацыі кантактаў. Дазваляе рэдагаваць усю інфармацыю, абвяшчае пра дні нараджэння і г.д.
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information]
 Рэдагаваць дадзеныя кантакту
@@ -107,7 +107,7 @@
 [Check every]
 Прав. кожныя
 [hours]
-гадзіны(ов)
+гадзін(ы)
 [Icon flashing on event]
 Мігценне значка пры падзеі
 [Enabled]
@@ -592,7 +592,7 @@ E-Mail
 [Anniversary later]
 Свята пазней
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-Увага: Версія Вашага цяперашняга набора абразкоў адрозніваецца ад версіі UserInfoEx.\nНекаторыя абразкі могуць адлюстроўвацца няправільна
+Увага: Версія Вашага цяперашняга набора абразкоў адрозніваецца ад версіі UserInfoEx.\nНекаторыя абразкі могуць адлюстроўвацца няслушна
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Увага: Набор абразкоў не знойдзены ў тэчках: 'customize\\icons', 'icons' і 'plugins'!
 [Main]
@@ -658,7 +658,7 @@ E-Mail
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
 Гэта функцыя выдаліць усе налады, якія вы зрабілі \nУсе налады дрэва, пазіцый вакна, і інш.!\n\nВы сапраўды жадаеце працягнуць?
 [Ready]
-Гатова
+Выканана
 [Everything is done!]
 Усё выканана!
 [All settings are reset to default values now!]
@@ -1074,7 +1074,7 @@ Web Дызайн
 Пол (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
-У карыстача няма хатняй старонкі
+У кантакта няма хатняй старонкі
 [View Homepage]
 Сайт
 [&Homepage]
@@ -1151,7 +1151,7 @@ Web Дызайн
 [Miranda NG]
 Miranda NG
 [Shows Miranda's installation directory.]
-Паказваць тэчку ўсталёўкі Miranda NG.
+Паказваць тэчку ўстаноўкі Miranda NG.
 [Shows the directory with all your Miranda's profiles.]
 Паказваць тэчку з усімі профілямі Miranda NG.
 [The OpenFileDialog returned an error: %d!]
@@ -1196,7 +1196,7 @@ INI файл "%s"\nнельга адчыніць для чытання.
 [The version of the XMLCard is not supported by UserInfoEx]
 Гэтая версія XML карткіне падтрымліваецца плагінам UserInfoEx
 [Complete]
-Гатова
+Выканана
 [Owner contact successfully imported.]
 Інфармацыя Уладальніка паспяхова імпартаваная.
 [Selected XMLCard does not contain an owner contact!]

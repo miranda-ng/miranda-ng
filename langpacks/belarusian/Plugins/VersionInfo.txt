@@ -43,7 +43,7 @@
 [Upload site settings]
 Налады сайта
 [Username]
-Імя кантакта
+Імя карыстача
 [Password]
 Пароль
 [Highlight version number using]

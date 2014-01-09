@@ -41,7 +41,7 @@
 [Use &authentication]
 Выкарыстоўваць аўтэнтыфікацыю
 [Login]
-Імя кантакта
+Імя карыстача
 [Password]
 Пароль
 [Visualization]
@@ -57,9 +57,9 @@
 [Feed name]
 Назва ленты
 [This feed seems to need authentication. Please fill username and password fields:]
-Канал патрабуе аўтэнтыфікацыі. Увядзіце імя кантакта і пароль:
+Канал патрабуе аўтэнтыфікацыі. Увядзіце імя карыстача і пароль:
 [Username]
-Імя
+Імя карыстача
 [Available feeds:]
 Існыя каналы:
 [Feeds to be exported:]
@@ -76,7 +76,7 @@
 Імпарт
 ;file \plugins\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
-Увядзіце імя кантакта
+Увядзіце імя карыстача
 [Error]
 Памылка
 [Enter your password]

@@ -37,7 +37,7 @@
 [Do not share my idle info.]
 Не сумяшчаць інфармацыю пра прастой
 [Do not set "Not Idle" automaticaly]
-Не ўсталёўваць "Няма прастою" аўтамат.
+Не ставіць "Няма прастою"
 [Set "Not Idle" on manual status change]
 "Няма прастою" пры ручной змене
 [Simulate Idle]

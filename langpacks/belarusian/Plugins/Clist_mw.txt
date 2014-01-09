@@ -177,9 +177,9 @@ Cлужба:
 [Draw a line alongside group names]
 Лінія ўздоўж назваў гуртоў
 [Show counts of number of contacts in a group]
-Паказваць колькасць карыстачоў у гуртах
+Паказваць колькасць кантактаў у гуртах
 [Hide group counts when there are none online]
-Хаваць лічыльнік, калі няма далучаных карыстачоў
+Хаваць лічыльнік, калі няма далучаных
 [Sort groups alphabetically]
 Сартаваць гурты па алфавіце
 [Quicksearch in open groups only]
@@ -199,7 +199,7 @@ Cлужба:
 [Gray out entire list when:]
 Зрабіць шэрым, калі:
 [Dim idle contacts]
-Прыцьміць неактыўных карыстачоў
+Прыцьміць неактыўныя кантакты
 [Hide vertical scrollbar]
 Схаваць паласу прагорткі
 [Contact list background]

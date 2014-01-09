@@ -114,7 +114,7 @@ URL:
 Паспяховае абнаўленне статуса.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
-Калі ласка, увядзіце імя кантакта.
+Калі ласка, увядзіце імя карыстача.
 [Please enter a password.]
 Калі ласка, увядзіце пароль.
 ;file \protocols\FacebookRM\src\constants.h

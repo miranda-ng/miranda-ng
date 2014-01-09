@@ -53,11 +53,9 @@ Yahoo Японія
 [&Remove]
 Ачысціць
 [Set Custom Status]
-Усталёўка xСтатуса
+Устаноўка xСтатуса
 [Show as busy]
 Паказаць як "заняты"
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Protocol:]
@@ -77,7 +75,7 @@ Yahoo Японія
 [Host]
 Хост
 [Invite Buddy To Chat Room]
-Запрашэнне ў чат-пакой
+Запрашэнне ў чат
 [Screen Name]
 Мянушка
 [&Invite]
@@ -90,7 +88,7 @@ Yahoo Японія
 Дадаць
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
-(Miranda NG) Атрымана запрашэнне ў пакой %s:%s
+(Miranda NG) Атрымана запрашэнне ў чат %s:%s
 [%s denied invitation with message: %s]
 %s адмаўляе запрашэнне з паведамленнем: %s
 [Me]
@@ -106,7 +104,7 @@ Yahoo Японія
 [User &history]
 Гісторыя кантакта
 [Join My Conference...]
-Заходзь ў мой чат-пакой...
+Заходзь ў мой чат...
 [No, thank you...]
 Не, дзякуй...
 ;file \protocols\Yahoo\src\icolib.cpp
@@ -193,7 +191,7 @@ ID
 [&Calendar]
 &Каляндар
 [Create Conference]
-Стварыць чат-пакой
+Стварыць чат
 [&Show Profile]
 Профіль
 ;file \protocols\Yahoo\src\webcam.cpp
@@ -223,7 +221,7 @@ ID, якога вы сабраліся дадаць, несапраўдны.
 [Yahoo Ping Error]
 Yahoo памылка пінгу
 [Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
-Не магу аўтарызавацца ў Yahoo - імя не распазнана. Праверце Ваша імя кантакта.
+Не магу аўтарызавацца ў Yahoo - імя не распазнана. Праверце Ваша імя.
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Не магу аўтарызавацца ў Yahoo - пароль няслушны. Праверце вашы імя канткта і пароль.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]

@@ -348,7 +348,7 @@ Email express ад %s (%s): %s
 [Authorization request denied by %s (%d): %s]
 У аўтарызацыі адмоўлена %s (%d): %s
 [User %s (%d) removed himself from your contact list: %s]
-Карыстач %s (%d) вылаліў(ла) сябе з вашага спісу кантактаў: %s
+Кантакт %s (%d) вылаліў(ла) сябе з вашага спісу кантактаў: %s
 [Authorization future request by %s (%d): %s]
 Будучы запыт аўтарызацыі ад %s (%d): %s
 [Broadcast message from %s (%s): %s]

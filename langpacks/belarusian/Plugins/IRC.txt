@@ -23,7 +23,7 @@
 [Rejoin channel if kicked]
 Перазайсці пры перадалучэнні
 [Rejoin channels on reconnect]
-Зайсці ў чат-пакоі пры далучэнні
+Заходзіць у чаты пры далучэнні
 [Disable tray balloon on error]
 Адключыць паведамленні ў трэі
 [Show addresses]
@@ -41,7 +41,7 @@
 [Update online statuses for users]
 Абнаўляць статусы для карысцяў.
 [Update statuses in channel nicklist]
-Абноў. статусы ў спісе чат-пакоі
+Абнаўл. статусы ў спісе удзельнікаў
 [Internet address]
 Сеткавы адрас
 [Port range]
@@ -49,7 +49,7 @@
 [Nick]
 Мянушка
 [User ID (Ident)]
-ID карыстача
+ID кантакта
 [Full name (e-mail)]
 Поўнае імя
 [Password]
@@ -67,7 +67,7 @@ ID карыстача
 [Default network]
 Сетка па змаўчанні
 [User info - Required]
-Інфа карыстача - Неабходна
+Пра кантакт - Неабходна
 [Other]
 Іншае
 [Check every (s):]
@@ -147,7 +147,7 @@ SSL
 [Network]
 Сеціва
 [Channels on server]
-Чат-пакоі сервера
+Чаты сервера
 [&Join]
 Зайсці
 [Filter by]
@@ -193,13 +193,13 @@ Wildcard пошук па сетцы
 [Topic]
 Тэма
 [User modes]
-Рэжымы карыстача
+Карыстацкі рэжым
 [Channel modes]
-Рэжымы чат-пакоі
+Рэжымы чата
 [Hidden]
 Утоены
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
-Опцыі налады чат-пакоі. Для налады чат-пакоі патрэбныя правы адміністратара.
+Налады чата. Для кіравання патрэбныя правы адміністратара.
 [Strip colors]
 Колеры палос
 [Normal]
@@ -243,7 +243,7 @@ Wildcard пошук па сетцы
 [Enable (*)]
 Актываваць (*)
 [Ignore channel messages by default]
-Ігнараваць паведамленні чат-пакоі па змаўчанні
+Ігнараваць паведамленні чата па змаўчанні
 [Ignore filetransfer requests]
 Ігнараваць перадачы файлаў
 [Ignore DCC Chat requests]
@@ -251,9 +251,9 @@ Wildcard пошук па сетцы
 [Ignore DCC Chat requests from unknown contacts]
 Ігнараваць запыты DCC чатаў ад невядомых кантактаў
 [Ignore users]
-Ігнараваць карыстачоў
+Ігнараваць кантакты
 [(*) Queries from users on your contact list are never ignored]
-(*) Не ігнараваць запыты ад карыстачоў са спісу
+(*) Не ігнараваць запыты ад кантыктаў з спісу
 [Queries]
 Запыты
 [Messages]
@@ -313,11 +313,11 @@ CTCP PING адказ ад %s: %u сек (з)
 [CTCP %s reply from %s: %s]
 CTCP %s адказ ад %s: %s
 [Downloading list (%u%%) - %u channels]
-Загружаецца спіс (%u%%) - %u% чат-пакояў
+Загружаецца спіс (%u%%) - %u% чатаў
 [Downloading list - %u channels]
-Загружаецца спіс - %u чат-пакояў
+Загружаецца спіс - %u чатаў
 [Done: %u channels]
-Гатова: %u чат-пакояў
+Выканана: %u чатаў
 [(probably truncated by server)]
 (магчыма абмежавана серверам)
 [Change nickname]
@@ -370,9 +370,9 @@ Jerk
 [This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
 Гэта каманда не рэкамендавана для сеткі такога памеру!\r\nГэта можа заняць рэсурсы сістэмы прыкладна ад %u да %u хвілін.\r\n Жадаеце працягнуць?
 [IRC warning]
-Папярэджанне IRC
+Заўвага IRC
 [Aborted]
-Адменена
+Скасавана
 [CTCP %s request sent to %s]
 CTCP %s запыт пасланы для %s
 [DCC ERROR: Unable to automatically resolve external IP]
@@ -497,7 +497,7 @@ WhoIs
 [<Local IP: ]
 <Лакальны IP:>
 [Click to set commands that will be performed for this event]
-Клікніце для ўсталёўкі каманд апрацоўкі гэтай падзеі
+Клікніце для каманд апрацоўкі гэтай падзеі
 [Click to delete the commands for this event]
 Клікніце для выдалення каманд гэтай падзеі
 [Default ANSI codepage]
@@ -541,15 +541,15 @@ CTCP %s адказ пасланы для %s: %s
 [&Quick connect]
 &Хуткае далучэнне
 [&Join channel]
-Увайсці ў чат-пакой
+Увайсці ў чат
 [&Change your nickname]
 &Змяніць мянушку
 [Show the &list of available channels]
-&Спіс чат-пакояў
+&Спіс чат
 [&Show the server window]
 &Акно сервера
 [Channel &settings]
-&Налады чат-пакою
+&Налады чат
 [&WhoIs info]
 &Інфармацыя
 [Di&sconnect]
@@ -559,11 +559,11 @@ CTCP %s адказ пасланы для %s: %s
 [%s (%s) is requesting a client-to-client chat connection.]
 %s [%s] запытвае злучэнне на CTCP-чат
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Увядзіце маску (nick!user@host) \nУвага! Карыстачы са спісу кантакту не будуць ігнаравацца!
+Увядзіце маску (nick!user@host) \nУвага! Кантакты са спісу кантакту не будуць ігнаравацца!
 [Join channel]
 Зайсці на канал
 [Please enter a channel to join]
-Увядзіце назву чат-пакою
+Увядзіце назву чата
 [Please select IRC network and enter the password if needed]
 Абярыце IRC сетка і ўвядзіце пароль, калі неабходна
 [Please enter a unique nickname]
@@ -617,11 +617,9 @@ CTCP %s адказ пасланы для %s: %s
 [Please enter the notice text]
 Калі ласка ўвядзіце тэкст абвесткі
 [Please enter the channel name to invite to]
-Увядзіце імя чат-пакоі для запрашэння
+Увядзіце імя чата для запрашэння
 [Invite to channel]
-Запрасіць у чат-пакой
-[NickServ]
-NickServ
+Запрасіць у чат
 [Register nick]
 Зарэгістраваць мянушку
 [Auth nick]
@@ -651,7 +649,7 @@ NickServ
 [List all your nicks]
 Спіс вашых мянушак
 [List your channels]
-Спіс вашых чат-пакояў
+Спіс вашых чатаў
 [Kill unauthorized: off]
 Забіць забароненых: выкл
 [Kill unauthorized: on]
@@ -665,7 +663,7 @@ NickServ
 [Show the server &window]
 Паказаць вакно сервера
 [&Leave the channel]
-&Пакінуць чат-пакой
+&Пакінуць чат
 [&Invite to channel]
 Запрасіць
 [Send &notice]
@@ -731,7 +729,7 @@ Nickserv забіць фантому
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
 Налады не захаваны.\n\n Поле "Псеўданім" павінна ўтрымоўваць прынамсі чатыры знака (уключаючы маскі), і супадаць з псеўданімам па змаўчанні для гэтага кантакту.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
-Налады не захаваны!\n\nДля гэтага рэжыма павінна быць усталёвана поўная маска хаста.
+Налады не захаваны!\n\nДля гэтага рэжыма павінна быць пазначана поўная маска хаста.
 ;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
 Пачакайце, калі ласка...

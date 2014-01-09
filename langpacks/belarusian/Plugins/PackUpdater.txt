@@ -79,7 +79,7 @@
 [* Needs popup actions to be enabled]
 * Неабходны ўключаныя дзеянні успл. вокнаў
 [Not sets for "Message boxes"]
-Не ўсталёўвае для "Дыялогі"
+Не ўстаноўвае для "Гутаркі"
 [Boxes]
 Вокны
 [Popups]
@@ -107,7 +107,7 @@
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
 Загрузка завершана. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda NG зачынена.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
-Вы адмовіліся ад неадкладнай усталёўкі абнаўлення зборкі.\n Вы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
+Вы адмовіліся ад неадкладнай устаноўкі абнаўлення зборкі.\n Вы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
 ;file \plugins\PackUpdater\Src\Notifications.h
 [Close popup]
 Зачыніць вакно
@@ -115,7 +115,7 @@
 Нічога не рабіць
 ;file \plugins\PackUpdater\Src\Options.cpp
 [hours]
-гадзіны(ов)
+гадзін(ы)
 [days]
 дзён
 [Test]

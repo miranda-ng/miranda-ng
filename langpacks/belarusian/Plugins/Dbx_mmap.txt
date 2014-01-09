@@ -84,14 +84,14 @@ EN
 [Processing contact chain]
 Апрацоўка ланцужка кантактаў
 [Contact count marked wrongly: correcting]
-Лік кантактаў паказана няправільна: выпраўленне
+Лік кантактаў паказана няслушна: выпраўленне
 [Contact chain corrupted, further entries ignored]
 Ланцужок кантактаў пашкоджана, наступныя дадзеныя праігнараваны
 ;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
 [Invalid offset found (database truncated?)]
 Няслушнае зрушэнне (база няпоўная?)
 [Invalid offset found]
-Знойдзена няправільнае зрушэнне
+Знойдзена няслушнае зрушэнне
 [Error reading, database truncated? (%u)]
 Памылка чытання, база дадзеных абрэзана? (%u)
 [Can't write to working file, aggressive mode may be too aggressive now]
@@ -100,7 +100,7 @@ EN
 Немагчыма запісаць файл - дыск перапоўнены? (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
 [Event count marked wrongly: correcting]
-Лік падзей паказана няправільна: выпраўленне
+Лік падзей паказана няслушна: выпраўленне
 [Event chain corrupted, trying to recover...]
 Ланцужок падзей пашкоджана, спрабую выправіць...
 [Event chain corrupted, further entries ignored]
@@ -112,7 +112,7 @@ EN
 [Extra flags found in event: removing]
 Дадатковыя сцягі знойдзены ў падзеі: выдаленне
 [First unread event marked wrong: fixing]
-Першая непрачытаная падзея пазначана няправільна: выпраўленне
+Першая непрачытаная падзея пазначана няслушна: выпраўленне
 [Infeasibly large event blob: skipping]
 Падзея займае занадта шмат месца: прапусканы
 [Event not backlinked correctly: fixing]
@@ -149,7 +149,7 @@ EN
 [Module name '%s' is not unique: %d duplicates found]
 Імя плагіна '%s' не паўторана: знойдзена %d дублікатаў
 [Invalid module name offset, skipping data]
-Няправільнае зрушэнне імя плагіна, прапушчаны дадзеныя
+Няслушнае зрушэнне імя плагіна, прапушчаны дадзеныя
 ;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
 [Settings chain corrupted, further entries ignored]
 Ланцужок налад пашкоджана, наступныя дадзеныя ігнараваны

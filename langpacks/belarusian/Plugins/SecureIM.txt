@@ -124,8 +124,6 @@
 Карыстач:
 [Password:]
 Пароль:
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [SecureIM plugin Passphrase of private key]
@@ -188,17 +186,17 @@ SecureIM выключаны...
 [SecureIM: Error while decrypting the message.]
 SecureIM: Памылка расшыфроўкі паведамлення.
 [SecureIM: Error while decrypting the message, bad message length.]
-SecureIM: Памылка пры расшыфроўкі паведамлення, няправільная даўжыня паведамлення.
+SecureIM: Памылка пры расшыфроўкі паведамлення, няслушная даўжыня.
 [SecureIM: Error while decrypting the message, bad message CRC.]
-SecureIM: Памылка пры расшыфроўкі паведамлення, няправільная кантрольная сума паведамлення.
+SecureIM: Памылка пры расшыфроўкі паведамлення, няслушная кантрольная сума паведамлення.
 [User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
-Карыстач не адказаў на абмен ключамі!\n\Ваша паведамленне знаходзіцца ў чэргі SecureIM, жадаеце адправіць яго не зашыфраваным?
+Кантакт не адказаў на абмен ключамі!\n\Ваша паведамленне знаходзіцца ў чэргі SecureIM, жадаеце адправіць яго не зашыфраваным?
 [SecureIM not enabled! You must enable SecureIM with this user...]
-SecureIM выключаны! Вы павінны ўключыць яго для гэтага карыстача...
+SecureIM выключаны! Вы павінны ўключыць яго для гэтага канакта...
 [Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
-Немагчыма адправіць шыфраванае паведамленне!\nКарыстач зараз адключаны, і яго ключ шыфравання састарэлы, вы жадаеце адправіць паведамленне?\nЯно будзе адпраўлена незашыфраваным!
+Немагчыма адправіць шыфраванае паведамленне!\nКантакт зараз адключаны, і яго ключ шыфравання састарэлы, вы жадаеце адправіць паведамленне?\nЯно будзе адпраўлена незашыфраваным!
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
-Модуль SecureIM не можа быць загружаны, таму што бібліятэка cryptopp.dll не знойдзена ці няправільнай версіі!
+Модуль SecureIM не можа быць загружаны, таму што бібліятэка cryptopp.dll не знойдзена ці не адпавядае версіі!
 [SecureIM can't encrypt message! Check trust of PGP/GPG key!]
 SecureIM не можа адправіць шыфраванае паведамленне! Праверце давер да PGP/GPG ключу!
 [Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
@@ -242,7 +240,7 @@ PGP SDK не знойдзены!
 [Private key not loaded!]
 Сакрэтны ключ не загружаны!
 [The new settings will become valid when you restart Miranda NG!]
-Змены набудуць моц пасля перазагрузкі Miranda NG!
+Змены адбудуцца пасля перазагрузкі Miranda NG!
 [Keyrings disabled!]
 Keyrings адключаны!
 [Native]
@@ -282,7 +280,7 @@ SecureIM: атрымана нешыфраванае паведамленне:\n
 [SecureIM received encrypted message:\n]
 SecureIM: атрымана шыфраванае паведамленне:\n
 [Session closed by receiving incorrect message type]
-Сесія зачынена, атрыманы няправільны тып паведамлення
+Сесія зачынена, атрыманы няслушны тып паведамлення
 [Session closed by other side on error]
 Сесія зачынена з таго боку з памылкай
 [Error while decoding AES message]

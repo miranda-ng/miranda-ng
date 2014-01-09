@@ -9,7 +9,7 @@
 Падтрымка пратакола Gadu-Gadu для Miranda NG.
 ;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
-Інфармацыя пра карыстача Gadu-Gadu
+Пра кантакт Gadu-Gadu
 [Gadu-Gadu Number:]
 Нумар Gadu-Gadu:
 [Password:]
@@ -137,7 +137,7 @@
 [to:]
 да:
 [Search online users only]
-Толькі далучоных карыстачоў
+Толькі далучаныя
 [&Close]
 &Зачыніць
 [&Send]
@@ -220,7 +220,7 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 [General]
 Агульнае
 [Conference]
-Чат-пакой
+Чат
 [Advanced]
 Дадаткова
 [<Last Status>]

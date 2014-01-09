@@ -6,7 +6,7 @@
 ;  Authors: Awkward
 ;============================================================
 [Clear xStatus before set new one]
-Чысціць хстатус перад усталёўкай новага
+Чысціць хстатус перад устаноўкай новага
 [Emulate Multimedia keys]
 Эмуляцыя мультымедыйных клавіш
 [xStatus will cleared before text changing and restored with new text later.]
@@ -234,7 +234,7 @@ FPS (кадраў у секунду), толькі для відэа
 [No player]
 Няма плэера
 [User message]
-Карыстачу
+Паведамленне
 [Channel message]
 У чат
 [If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
@@ -502,7 +502,7 @@ VBR ці няма
 [Emulate multimedia keys presses to control palyer]
 Эмуляцыя націскаў мультымедыйных клавіш, для кіравання прайгравальнікам
 [User music info text]
-Інфармацыя пра музыку карыстача
+Інфармацыя пра музыку
 [(%artist%, %title%, %album% and %year% macros can be used only)]
 (выкарыстоўваюцца толькі макрасы %artist%, %title%, %album% і %year%)
 [Disable Plugin]
@@ -542,7 +542,7 @@ VBR ці няма
 [Status (templates)]
 Статус (шаблоны)
 [Set XStatus when...]
-Усталёўваць хстатус калі
+Ставіць хстатус калі
 [XStatus is empty or 'Music']
 няма хстатуса ці хстатус "Музыка"
 ['Music' status is set]

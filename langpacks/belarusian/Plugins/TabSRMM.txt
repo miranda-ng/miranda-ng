@@ -43,7 +43,7 @@
 [Options]
 Налады
 [Add new rooms to group:]
-Дадаваць чат-пакоі ў гурт:
+Дадаваць чаты ў гурт:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 Інтэграваны чат выключаны. Вы можаце ўключыць яго тут, а затым вам неабходны перазапуск Міранды пасля занясення гэтай змены.\n\nНеабходна адключыць стандартны модуль чата, калі вы ўключаеце падтрымку чатаў тут. Інакш чаты могуць наогул не працаваць.
 [Log files]
@@ -209,7 +209,7 @@ Wikipedia
 [entries]
 пунктаў
 [Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Налады, адзначаныя (*) набудуць моц толькі пасля перазапуску Miranda NG.
+Налады, адзначаныя (*) адбудуцца толькі пасля перазапуску Miranda NG.
 [More about advanced tweaks]
 Падрабязней пра дадатковыя налады
 [Revert to (safe) defaults]
@@ -389,7 +389,7 @@ ID карыстача ў панэлі статусу
 [Help on this]
 Апісанне налад
 [Reset all hidden warnings]
-Скінуць усе ўтоеныя папярэджанні
+Скінуць усе ўтоеныя заўвагі
 [Indent values]
 Інтэрвалы водступаў
 [Left/Right]
@@ -733,7 +733,7 @@ Esc зачыняе сесію (інакш - згортвае)
 [Close Other Tabs]
 Зачыніць іншыя ўкладкі
 [Leave Chat Room]
-Пакінуць чат-пакой
+Пакінуць чат
 [Save Tab Position]
 Захаваць пазіцыю
 [Clear saved Tab Position]
@@ -1035,7 +1035,7 @@ Esc зачыняе сесію (інакш - згортвае)
 [&User]
 &Карыстач
 [&Room]
-Чат-пакой
+Чат
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
 Гук: %s. Клік для пераключэння статусу, SHIFT+клік для ўсіх адкрытых кантэйнераў
 [disabled]
@@ -1178,7 +1178,7 @@ TabSRMM: Набірае
 [Messaging Settings...]
 Налады перапіскі...
 [Room Settings...]
-Налады пакоя..
+Налады чата...
 [Close Session]
 Зачыніць сесію
 [Copy To Clipboard]
@@ -1275,7 +1275,7 @@ TabSRMM: Набірае
 [The selected protocol cannot be forced at this time]
 Зараз гэты пратакол не можа быць абраны
 [Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Папярэджанне: для адпраўкі паведамленняў вы абралі конт, які зараз адключаны.
+Увага: для адпраўкі паведамленняў вы абралі конт, які зараз адключаны.
 [Contact is offline and this protocol does not support sending files to offline users.]
 Кантакт не далучаны а гэты пратакол не падтрымлівае афлайн паведамленні.
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp
@@ -1565,7 +1565,7 @@ TabSRMM: Набірае
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 У чэргі ёсць неадпраўленыя паведамленні, якія чакаюць пацверджанні.\nКалі вы зачыніце вакно, Miranda паспрабуе адправіць іх, але не зможа папярэдзіць пра магчымыя памылкі.\nВы сапраўды жадаеце зачыніць вакно(а)?
 [Message window warning]
-Папярэджанне вакна гутаркі
+Заўвага вакна гутаркі
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
 Паведамленне змешчана ў чаргу для наступнай дастаўкі.\nЯно будзе дастаўлена як мага раней і Вы будзеце абвешчаны ўсплывальным вакном.
 [The send later feature is not available on this protocol.]
@@ -1592,7 +1592,7 @@ tabSRMM: %s
 [%d Unread]
 %d непрачытана
 [Chat room %s]
-Чат-пакой %s
+Чат %s
 [%d User(s)]
 %d карыстачоў
 [Server window]
@@ -1810,7 +1810,7 @@ tabSRMM: %s
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 Адсутны кампанент | Набор абразкоў не знойдзены. Калі ласка, усталюйце яго ў дырэкторыю значкоў па змаўчанні.\n\nНа дадзены момант абразкі недасяжныя
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
-Папярэджанне Aero peek|Вы ўключылі выкарыстанне асаблівасцяў Aero Peek і выкарыстоўваеце скін вакна гутаркі\n\nГэта можа прывесці да малаважных візуальных скажэнняў у хуткім праглядзе.
+Заўвага Aero peek|Вы ўключылі выкарыстанне асаблівасцяў Aero Peek і выкарыстоўваеце скін вакна гутаркі\n\nГэта можа прывесці да малаважных візуальных скажэнняў у хуткім праглядзе.
 [Filetransfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
 Праблема перадачы файла|Няўдалая перасылка малюнка.\n\nМагчымыя прычыны: перадача файлаў не падтрымліваецца, кантакт не далучаны, вы знаходзіцеся ў стаусе "Нябачны" і кантакт, якому адсылаецца файл не ў спісе бачных.
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
@@ -1822,7 +1822,7 @@ tabSRMM: %s
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Загрузка схемы|Загрузка колераў і шрыфтоў можа змяніць налады, усталяваныя Вашым скінам.\n\nВы жадаеце працягнуць?
 [TabSRMM warning message]
-Папярэджанне
+Заўвага TabSRMM
 ;file \plugins\TabSRMM\src\chat\clist.cpp
 [Join chat]
 Увайсці ў чат
@@ -1941,7 +1941,7 @@ tabSRMM: %s
 [Information messages]
 Інфармацыйныя паведамленні
 [User enables status for ...]
-Усталёўка статусу
+Устаноўка статусу
 [User disables status for ...]
 Здыманне статусу
 [Action message]
@@ -1993,7 +1993,7 @@ tabSRMM: %s
 [* Dividers]
 Падзельнікі
 [* Error and warning Messages]
-Памылкі і папярэджанні
+Памылкі і заўвагі
 [* Symbols (incoming)]
 Знакі (уваходныя)
 [* Symbols (outgoing)]
@@ -2019,15 +2019,15 @@ tabSRMM: %s
 [Activate chat window on highlight]
 Актываваць вакно чата пры падсветленай падзеі
 [Show list of users in the chat room]
-Паказваць спіс карыстачоў у чат-пакоі
+Паказваць спіс удзельнікаў чата
 [Colorize nicknames in member list]
-Каляровыя мянушкі ў спісе карыстачоў
+Каляровыя мянушкі ў спісе
 [Show button menus when right clicking the buttons]
 Паказваць меню кнопкі па правай пстрычцы
 [Show topic as status message on the contact list]
-Паказаць тэму чат-пакоі ў спісе кантактаў як паведамленне статусу
+Паказаць тэму чата ў спісе кантактаў як паведамленне статусу
 [Do not pop up the window when joining a chat room]
-Не адчыняць вакно чата пры ўваходзе ў чат-пакой
+Не адчыняць вакно чата пры ўваходзе ў чат
 [Hide or show the window by double click in the contact list]
 Адкрыць ці схаваць вакно чата па падвойнай пстрычцы ў спісе кантактаў
 [Sync splitter position with standard IM sessions]
@@ -2057,7 +2057,7 @@ IRC-стыль (тэкставы) індыкатараў роляў удзель
 [Strip colors from messages in the log]
 Забараніць колеры ў логе
 [Enable the 'event filter' for new rooms]
-Уключыць 'фільтр падзей' для новых чат-пакояў
+Уключыць 'фільтр падзей' для новых чат
 [Use IRC style status indicators in the log]
 IRC-стыль(тэкставы) індыкатараў роляў у логе чата
 [Allow clickable user names in the message log]
@@ -2255,7 +2255,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 [&Message %s]
 &Паведамленне %s
 [Highlight User...]
-Падсвятляць карыстачоў
+Падсвятляць удзельнікаў
 [Edit Highlight List...]
 Кіраваць спіс падсвятлення
 ;file \plugins\TabSRMM\src\chat\window.cpp
@@ -2264,25 +2264,25 @@ ID бягучага кантакту (калі вызначаны). Напрык
 [Nick]
 Мянушка
 [%s: Chat Room (%u user%s)]
-%s: Чат-пакой (%u карыстачоў)
+%s: Чат (%u удзельнікаў)
 [%s: Chat Room (%u users%s)]
-%s: Чат-пакой (%u карыстачоў%s)
+%s: Чат (%u удзельнікаў %s)
 [, event filter active]
 , фільтр падзей уключаны
 [%s: Message Session]
 %s: гутарка
 [%s: Message Session (%u users)]
-%s: гутарка (%u карыстачоў)
+%s: гутарка (%u удзельнікаў)
 [, %d %s, %d %s idle]
 , %d %s, %d %s не актыўны
 [hours]
-гадзіны(ов)
+гадзін(ы)
 [hour]
 гадзіна
 [minutes]
 хвілін(ы)
 [minute]
-хвіліна(у)
+хвіліна(ы)
 [, %d %s idle]
 , %d %s не актыўны
 [The filter canoot be enabled, because there are no event types selected either global or for this chat room]

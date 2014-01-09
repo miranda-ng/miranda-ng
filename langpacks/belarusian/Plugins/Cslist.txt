@@ -40,7 +40,7 @@
 [Modify]
 Змяніць
 [Warning]
-Папярэджанне
+Увага
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
 Гэта поле не прымае радок даўжэй, чым% D знакаў. Радок будзе ссечаны.
 [Favorites]

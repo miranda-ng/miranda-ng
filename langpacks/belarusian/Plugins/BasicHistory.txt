@@ -49,7 +49,7 @@
 [Delta time to group messages:]
 Абмежаваць час для паведамленняў:
 [hours]
-гадзіны(ов)
+гадзін(ы)
 [Limit messages to:]
 Абмежаваць паведамленні да:
 [Show date in timestamps]
@@ -144,7 +144,7 @@
 [View &History]
 &Гісторыя
 [Delete All User History]
-Выдаліць усю гісторыю карыстача
+Выдаліць усю гісторыю кантакта
 [Execute history task]
 Выканаць задачу гісторыі
 [Incoming message]

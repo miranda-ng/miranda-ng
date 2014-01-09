@@ -126,3 +126,5 @@
 [Live ID:]
 [Live ID]
 [JID]
+[NickServ]
+[EN]

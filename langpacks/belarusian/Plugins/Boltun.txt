@@ -17,13 +17,13 @@
 [Boltun Autochat everybody while away]
 Балбатун кажа з усімі, калі мяне няма
 [Warn contacts Boltun is chatting]
-Папярэджваць пра гутарку з Балбатуном
+Папярэдзіць пра гутарку з Балбатуном
 [Mark replied messages as read]
 Адзначаць паведамленні як прачытаныя
 [sec]
 сек
 [Warning text]
-Тэкст папярэджання
+Тэкст заўвагі
 [Time before the answer]
 Час перад адказам
 [Typing time depends on message length (in chars)]

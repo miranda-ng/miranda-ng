@@ -87,7 +87,7 @@ P2P далучэнні
 [Delay]
 Затрымка
 [&From Popup plugin]
-Усталёўкі Popup
+Устаноўкі Popup
 [&Custom]
 Наладзіць
 [P&ermanent]
@@ -188,7 +188,7 @@ Tlen чаты
 [Incoming mail]
 Уваходная пошта
 [Alert]
-Папярэджанні
+Увага
 [Tlen Chats]
 Tlen чаты
 [Multi-User Conference]
@@ -217,15 +217,15 @@ Tlen пошта
 [You have been kicked. Reason: %s ]
 Вас выгналі. Чыннік: %s
 [You cannot join this chat room, because you are banned.]
-Вы не можаце ўвайсці ў пакой, таму што Вы заблакаваны.
+Вы не можаце ўвайсці ў чат, таму што Вы заблакаваны.
 [Chat room not found.]
-Пакой чата не знойдзена.
+Чат не знойдзены.
 [This is a private chat room and you are not one of the members.]
-Гэта прыватная чат-пакой, і вы не яе чалец.
+Гэта прыватны чат, і вы не яго ўдзельнік.
 [You cannot send any message unless you join this chat room.]
-Вы не можаце пасылаць паведамленне, пакуль Вы не ўвайшлі ў пакой.
+Вы не можаце пасылаць паведамленне, пакуль Вы не ўвайшлі ў чат.
 [Chat room with already created.]
-Пакой ужо створана.
+Чат ужо створаны.
 [Nickname '%s' is already registered.]
 Псеўданім '%s' ужо зарэгістраваны.
 [Nickname already in use, please try another one. Hint: '%s' is free.]
@@ -233,11 +233,11 @@ Tlen пошта
 [You cannot register more than %s nicknames.]
 Вы не можаце зарэгістраваць больш чым %s псеўданімаў.
 [You cannot create more than %s chat rooms.]
-Вы не можаце стварыць больш чым %s пакояў.
+Вы не можаце стварыць больш чым %s чатаў.
 [You cannot join more than %s chat rooms.]
-Вы не можаце ўвайсці ў больш чым %s пакояў.
+Вы не можаце ўвайсці ў больш чым %s чатаў.
 [Anonymous nicknames are not allowed in this chat room.]
-Ананімныя псеўданімы забаронены ў гэтым пакоі.
+Ананімныя мянушкі забаронены ў гэтым чаты.
 [Unknown error code: %d]
 Невядомая памылка: %d
 ;file \protocols\Tlen\src\tlen_opt.cpp
@@ -250,7 +250,7 @@ Tlen пошта
 [Network]
 Сеціва
 [These changes will take effect the next time you connect to the Tlen network.]
-Змены набудуць моц, пасля таго як Вы перападключыцеся Tlen.
+Змены адбудуцца, пасля таго як Вы перападключыцеся Tlen.
 [Tlen Protocol Option]
 Налады пратаколу Tlen
 [Accept all alerts]

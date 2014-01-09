@@ -289,7 +289,7 @@ POP3 модуль - памылка пры запісе ў файл
 [Cannot login to POP3 server.]
 Не магу аўтарызавацца на POP3 серверы
 [Bad user or password.]
-Няправільнае імя кантакта ці пароль
+Няслушнае імя ці пароль
 [Server does not support APOP authorization.]
 Сервер не падтрымлівае APOP аўтэнтыфікацыю
 [Error while executing POP3 command.]
@@ -356,7 +356,7 @@ OpenSSL не загружаны
 [Please wait while no account is in use.]
 Калі ласка, пачакайце, пакуль ніводны конт не выкарыстоўваецца.
 [This is not a valid number value]
-Няправільнае лікавае значэнне
+Няслушнае лічбавае значэнне
 [Input error]
 Памылка ўводу
 [Please select application to run]

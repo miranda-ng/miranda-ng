@@ -137,7 +137,7 @@
 [Error]
 Памылка
 [Warning]
-Папярэджанне
+Заўвага
 [This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
 Абраны вамі exe не GnuPG!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
 [Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
@@ -161,7 +161,7 @@
 [You didn't set a private key.\nWould you like to set it now?]
 Вы не выбралі прыватны ключ.\nВы хочаце зрабіць гэта зараз?
 [Own private key warning]
-Папярэджанне! Не вылучаны прыватны ключ.
+Увага! Не вылучаны прыватны ключ.
 ;file \plugins\New_GPG\src\messages.cpp
 ;file \plugins\New_GPG\src\options.cpp
 [Services]

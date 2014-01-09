@@ -84,7 +84,7 @@
 [Files]
 Файлы
 [User Online]
-Карыстач далучаны
+Кантакт далучаны
 [Authorization]
 Аўтарызацыя
 [You Were Added]

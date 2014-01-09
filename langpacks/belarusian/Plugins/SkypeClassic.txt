@@ -67,7 +67,7 @@
 [Port:]
 Порт:
 [* You must restart Miranda NG in order to let the settings take effect]
-* Змены набудуць моц толькі пасля перазапуску.
+* Змены адбудуцца толькі пасля перазапуску.
 [This Skype proxy requires password authentication:]
 Проксі патрабуе пароль:
 [Name:]

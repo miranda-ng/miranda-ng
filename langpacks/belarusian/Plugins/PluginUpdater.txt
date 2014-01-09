@@ -43,7 +43,7 @@
 [Development version with debug symbols]
 Версія ў распрацоўцы з сімваламі адладкі
 [Custom version]
-Зададзеная карыстачом версія
+Зададзеная версія
 [Notifications]
 Абвесткі
 [Message boxes (*)]
@@ -85,7 +85,7 @@
 [* Needs popup actions to be enabled]
 * Неабходны ўключаныя дзеянні успл. вокнаў
 [Not sets for "Message boxes"]
-Не ўсталёўвае для "Дыялогі"
+Не ўстаноўвае для "Гутаркі"
 [Boxes]
 Вокны
 [Popups]
@@ -138,7 +138,7 @@
 Абнаўленне ўжо запушчана!
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
-гадзіны(ов)
+гадзін(ы)
 [days]
 дзён
 [Test]

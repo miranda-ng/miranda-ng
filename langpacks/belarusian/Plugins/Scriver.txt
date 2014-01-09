@@ -127,7 +127,7 @@
 [Typing Notification Options]
 Налады абвестак набору
 [Send typing notifications to the following users when you are typing a message to them:]
-Абвесціць адзначаных карыстачоў пра тое, што вы набіраеце паведамленне:
+Абвесціць адзначаных пра тое, што вы набіраеце паведамленне:
 [Show typing notification switch in the status bar]
 Перамыкач "Абвестка пра набор" у панэлі статусу
 [Show typing notifications when a user is typing a message]
@@ -153,7 +153,7 @@
 [Message Session]
 Гутарка
 [&User menu]
-Меню карыстача
+Меню кантакта
 [User &details]
 &Інфармацыя
 [&Emoticons]
@@ -221,9 +221,9 @@
 [Other]
 Іншае
 [Add new rooms to group:]
-Дадаваць чат-пакоі ў гурт:
+Дадаваць чаты ў гурт:
 [User list row height]
-Вышыня спісу карыстачоў
+Вышыня спісу кантактаў
 [pixels]
 пікс.
 [Log Options]
@@ -251,7 +251,7 @@
 [KB]
 KB
 [Group Chat]
-Чат-пакой
+Чат
 [Use same style as in the message log]
 Той жа стыль, што і ў логе
 [Use default colors]
@@ -382,9 +382,9 @@ Yahoo
 [Event filter enabled]
 Фільтр падзей уключаны
 [Hide userlist]
-Схаваць спіс карыстачоў
+Схаваць спіс
 [Show userlist]
-Паказаць спіс карыстачоў
+Паказаць спіс
 [Status 1 (10x10)]
 Статус 1 (10x10)
 [Status 2 (10x10)]
@@ -492,9 +492,9 @@ Yahoo
 [Add Contact]
 Дадаць кантакт
 [User Menu]
-Меню карыстача
+Меню кантакта
 [User details]
-Пра карыстача
+Пра кантакт
 [History]
 Гісторыя
 [Send]
@@ -506,7 +506,7 @@ Yahoo
 [Add Contact Permanently to List]
 Дадаць у спіс
 [View User's Details]
-Інфармацыя пра карыстача
+Пра кантакт
 [View User's History]
 Гісторыя паведамленняў
 [Quote Text]
@@ -516,7 +516,7 @@ Yahoo
 [Send Message]
 Адправіць
 [User Menu - %s]
-Меню карыстача - %s
+Меню кантакта - %s
 [Sending in progress: %d message(s) left...]
 Адпраўка паведамлення: %d засталося...
 [%s is typing a message...]
@@ -588,11 +588,11 @@ URL атрыманы
 [Your nickname]
 Ваш псеўданім
 [User has joined]
-Карыстач далучыўся
+Кантакт далучыўся
 [User has left]
-Карыстач сышоў
+Кантакт сышоў
 [User has disconnected]
-Карыстач адключыўся
+Кантакт адключыўся
 [User kicked ...]
 Выспятак
 [User is now known as ...]
@@ -608,7 +608,7 @@ URL атрыманы
 [Information messages]
 Інфармацыйныя паведамленні
 [User enables status for ...]
-Усталёўка статусу
+Устаноўка статусу
 [User disables status for ...]
 Здыманне статусу
 [Action message]
@@ -622,9 +622,9 @@ URL атрыманы
 [User list members (online)]
 Удзельнікі спісу (далучаныя)
 [User list background]
-Фон спісу карыстачоў
+Фон спісу кантактаў
 [User list members (away)]
-Карыстачы (адсутнічаюць)
+Кантакты (адсутнічаюць)
 [User list lines]
 Лініі спісу
 [User list background (selected)]
@@ -737,13 +737,13 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Flash when a word is highlighted]
 Мігаць вакном, калі ёсць падсветленыя паведамленні
 [Show chat user list]
-Паказваць карыстачоў у спісе
+Паказваць кантакты ў спісе
 [Enable button context menus]
 Уключыць кнопкі ў кантэкстным меню
 [Show topic on your contact list (if supported)]
 Паказваць тэму ў спісе кантактаў (калі падтрымліваецца)
 [Do not play sounds when focused]
-Не гуляць гук, калі пакой на пярэднім плане
+Не груць гук, калі на пярэднім плане
 [Do not pop up when joining]
 Не паказваць усплывальныя вокны, калі хтосьці заходзіць
 [Show and hide by double clicking in the contact list]
@@ -753,7 +753,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Display contact status icon before role icon]
 Паказваць значок статусу, пасля значка роляў
 [Add ':' to auto-completed names]
-Дадаваць ":" да імёнаў карыстачоў
+Дадаваць ":" да імёнаў кантактаў
 [Prefix all events with a timestamp]
 Падстаўляць час ва ўсе падзеі
 [Only prefix with timestamp if it has changed]
@@ -767,21 +767,21 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Strip colors from messages]
 Забараніць колеры паведамленняў
 [Enable 'event filter' for new rooms]
-Уключаць "фільтр падзей" для новых пакояў
+Уключаць "фільтр падзей" для новых чатаў
 [Show topic changes]
 Змена тэмы
 [Show users joining]
-Новыя карыстачы
+Новыя кантакты
 [Show users disconnecting]
-Карыстачы, якія пакінулі сервер
+Кантакты, што пакінулі сервер
 [Show messages]
 Паведамленні
 [Show actions]
 Дзеянні
 [Show users leaving]
-Карыстачы, што пакінулі чат-пакой
+Кантакты, што пакінулі чат
 [Show users being kicked]
-Выспяткі з чат-пакою
+Выспяткі з чата
 [Show notices]
 Абвесткі
 [Show users changing name]
@@ -791,7 +791,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Show status changes of users]
 Змена статусу
 [Show icons in tray only when the chat room is not active]
-Паказваць абразкі толькі калі вакно чат-пакоя неактыўнае
+Паказваць абразкі толькі калі вакно чата неактыўнае
 [Show icon in tray for topic changes]
 Змена тэмы
 [Show icon in tray for users joining]
@@ -817,7 +817,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Show icon in tray for status changes]
 Змены статусаў
 [Show popups only when the chat room is not active]
-Паказваць успл. вокны толькі пры не актыўным вакне чат-пакоя
+Паказваць успл. вокны толькі пры не актыўным вакне чата
 [Show popup for topic changes]
 Змена тэмы
 [Show popup for users joining]
@@ -903,15 +903,15 @@ ID бягучага кантакту (калі вызначаны). Напрык
 [Message is highlighted]
 Паведамленне вылучана
 [User has performed an action]
-Карыстач здзейсніў дзеянне
+Кантакт здзейсніў дзеянне
 [User has kicked some other user]
-Карыстач штурхнуў іншага
+Кантакт штурхнуў іншага
 [User's status was changed]
 Статус карыстача змяніўся
 [User has changed name]
-Карыстач змяніў імя
+Кантакт змяніў імя
 [User has sent a notice]
-Карыстач адправіў абвестку
+Кантакт адправіў абвестку
 [The topic has been changed]
 Тэма змянілася
 ;file \plugins\Scriver\src\chat\services.cpp
@@ -978,9 +978,9 @@ ID бягучага кантакту (калі вызначаны). Напрык
 [Show the history (CTRL+H)]
 Паказаць гісторыю (CTRL+H)
 [Show/hide the nicklist (CTRL+N)]
-Паказаць/схаваць спіс карыстачоў (CTRL+N)
+Паказаць/схаваць спіс кантактаў (CTRL+N)
 [Control this room (CTRL+O)]
-Кантраляваць гэты чат-пакой (CTRL+O)
+Кантраляваць гэты чат (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Уключыць/выключыць фільтр падзей (CTRL+F)
 [Nickname]
@@ -990,10 +990,10 @@ ID бягучага кантакту (калі вызначаны). Напрык
 [Status]
 Статус
 [%s: Chat Room (%u user)]
-%s: Чат-пакой (%u карыстач)
+%s: Чат (%u кантакт)
 [%s: Chat Room (%u users)]
-%s: Чат-пакой (%u карыстачоў)
+%s: Чат (%u кантактаў)
 [%s: Message Session]
 %s: гутарка
 [%s: Message Session (%u users)]
-%s: гутарка (%u карыстачоў)
+%s: гутарка (%u кантактаў)

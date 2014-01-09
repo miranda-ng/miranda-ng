@@ -34,7 +34,7 @@
 [Error]
 Памылка
 [MessagePopup]
-Папярэджанні
+Увага
 [Popups]
 Усплывальныя вокны
 ;file \plugins\MsgPopup\src\options.cpp
@@ -43,6 +43,6 @@
 [Message with exclamation]
 Усклік
 [Message with error]
-Папярэджанне пра памылку
+Заўвага пра памылку
 [Message with asterisk]
 Паведамленне *з зорачкай*

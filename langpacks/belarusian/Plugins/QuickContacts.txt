@@ -41,7 +41,7 @@
 Шпаркія кантакты
 ;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Open dialog]
-Адкрыць дыялог
+Адкрыць гутарку
 [Make a voice call]
 Патэлефанаваць
 [Send file]

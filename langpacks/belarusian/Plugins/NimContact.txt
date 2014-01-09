@@ -65,7 +65,7 @@
 [Timer interval (in seconds)]
 Інтэрвал (у секундах)
 [This will take affect after Non-IM Contacts' status is changed]
-Змены набудуць моц пасля змены статусу кантактаў
+Змены адбудуцца пасля змены статусу кантактаў
 [Timer Options]
 Опцыі таймера
 [String Maker]

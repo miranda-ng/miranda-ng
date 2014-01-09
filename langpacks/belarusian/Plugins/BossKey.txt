@@ -34,12 +34,8 @@
 Гарачая клавіша
 [Password:]
 Пароль:
-[OK]
-ОК
 [Cancel]
 Скасаваць
-[EN]
-EN
 [Workstation is Locked]
 Кампутар заблакаваны
 [Screen Saver is running]
@@ -51,7 +47,7 @@ Windows не актыўны
 [Miranda is inactive]
 Праграма неактыўная
 [min]
-мін.
+хв.
 [Miranda is started]
 Праграма запускаецца
 [Others]
@@ -64,7 +60,7 @@ Windows не актыўны
 [Miranda NG is locked.\nEnter password to unlock it.]
 Miranda заблакавана.\n Увядзіце ваш пароль для разблакоўкі.
 [Password is not correct!\nPlease, enter correct password.]
-Няправільны пароль!\n Увядзіце правільны пароль.
+Няслушны пароль!\n Увядзіце правільны пароль.
 [Hide Miranda NG]
 Схаваць Miranda NG
 [Hide]

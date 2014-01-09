@@ -50,7 +50,7 @@
 [Ignore]
 Ігнараваць
 [Ban those users and events, you are annoyed with.]
-Заблакуйце карыстачоў і падзеі, якія вам не патрэбны.
+Заблакуйце кантакты і падзеі, якія вам не патрэбны.
 [Status]
 Статус
 [Set your status messages and idle reporting.]

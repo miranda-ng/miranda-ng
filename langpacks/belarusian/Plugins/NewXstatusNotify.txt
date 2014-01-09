@@ -218,7 +218,7 @@
 [(U) is back online!]
 далучаны ізноў!
 [User: Online]
-Карыстач: Далучаны
+Кантатк: Далучаны
 [(M) went offline! :(]
 Адключыўся! :(
 [(F) went offline! :(]
@@ -226,7 +226,7 @@
 [(U) went offline! :(]
 Адключыўся! :(
 [User: Offline]
-Карыстач: адключаны
+Кантакт: Адключаны
 [(M) hides in shadows...]
 схаваўся ў цені...
 [(F) hides in shadows...]
@@ -234,7 +234,7 @@
 [(U) hides in shadows...]
 схаваўся ў цені...
 [User: Invisible]
-Карыстач: нябачны
+Кантакт: Нябачны
 [(M) feels talkative!]
 вольны!
 [(F) feels talkative!]
@@ -242,7 +242,7 @@
 [(U) feels talkative!]
 вольны(ая)!
 [User: Free For Chat]
-Карыстач: Свабодны
+Кантакт: Вольны
 [(M) went Away]
 адышоў
 [(F) went Away]
@@ -250,7 +250,7 @@
 [(U) went Away]
 адышоў
 [User: Away]
-Карыстач: адсутнічае
+Кантакт: Адсутнічае
 [(M) isn't there anymore!]
 адсутнічае!
 [(F) isn't there anymore!]
@@ -258,7 +258,7 @@
 [(U) isn't there anymore!]
 адсутнічае!
 [User: Not Available]
-Карыстач: недаступны
+Кантакт: Недасяжны
 [(M) has something else to do.]
 заняты чымсьці іншым.
 [(F) has something else to do.]
@@ -266,7 +266,7 @@
 [(U) has something else to do.]
 заняты чымсьці іншым.
 [User: Occupied]
-Карыстач: заняты
+Кантакт: заняты
 [(M) doesn't want to be disturbed!]
 просьба не турбаваць!
 [(F) doesn't want to be disturbed!]
@@ -274,7 +274,7 @@
 [(U) doesn't want to be disturbed!]
 просіць не турбаваць!
 [User: Do Not Disturb]
-Карыстач: не турбаваць
+Кантакт: Не турбаваць
 [(M) is eating something]
 нешта есць
 [(F) is eating something]
@@ -282,7 +282,7 @@
 [(U) is eating something]
 нешта есць
 [User: Out To Lunch]
-Карыстач: абедае
+Кантакт: Абедае
 [(M) had to answer the phone]
 тэлефануе
 [(F) had to answer the phone]
@@ -290,7 +290,7 @@
 [(U) had to answer the phone]
 теэлефануе
 [User: On The Phone]
-Карыстач: тэлефануе
+Кантакт: Тэлефануе
 [Enable status notification]
 Уключыць абвесткі пра змену статусу
 [Disable status notification]
@@ -302,7 +302,7 @@
 [New Status Notify]
 Змены статуса
 [User: from offline (has priority!)]
-Карыстач:  далучаецца (мае прыярытэт!)
+Кантакт:  далучаецца (мае прыярытэт!)
 [Extra status changed]
 Дадатковы статус зменены
 [Extra status message changed]

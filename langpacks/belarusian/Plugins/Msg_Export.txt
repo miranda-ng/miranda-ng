@@ -99,7 +99,7 @@ UTF8 у новых файлах
 [Max line width must be at least %d]
 Макс шырыня радка павінна быць не меней %d
 [You need to restart Miranda to change the history function]
-Змены функцыі гісторыі набудуць моц пасля перазапуску Miranda
+Змены функцыі гісторыі адбудуцца пасля перазапуску
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 Не атрымалася атрымаць шлях да Msg_Export.dll\n Калі ласка знайдзіце Msg_Export.txt самастойна
 [File]

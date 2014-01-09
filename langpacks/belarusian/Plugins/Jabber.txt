@@ -12,14 +12,12 @@
 Рэдагаваць нататку
 [Tags:]
 Тэгі:
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Type:]
 Тып:
 [User:]
-Лагін:
+Імя карыстача:
 [Domain/Server:]
 Дамен/Сервер:
 [Password:]
@@ -81,7 +79,7 @@ TLS
 [Automatically delete contacts not in my roster]
 Аўтаматычна выдаляць кантакты, якія не ў спісе
 [User directory:]
-Дырэкторыя карыстачоў:
+Дырэкторыя кантактаў:
 [Language for human-readable resources:]
 Мова для бачных чалавеку рэсурсаў:
 [File Transfer]
@@ -111,7 +109,7 @@ TLS
 [Register...]
 Рэгістрацыя...
 [Browse/Join chat room...]
-Агляд пакояў...
+Агляд чатаў...
 [Search...]
 Пошук...
 [Registered Jabber Transports]
@@ -137,7 +135,7 @@ Jabber форма
 [Back]
 Фон
 [Complete]
-Гатова
+Выканана
 [Jabber Password]
 Jabber Пароль
 [Remember password for this session]
@@ -247,9 +245,9 @@ PCS
 [Create or Join group chat]
 Стварыць ці далучыцца да чата
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
-Чат-пакой Jabber\nСтварэнне ці ўваход у чат-пакой.
+Чат Jabber\nСтварэнне ці ўваход у чат.
 [Room:]
-Чат-пакой:
+Чат:
 [Recently visited chatrooms:]
 Апошнія наведаныя чаты:
 [Bookmarks]
@@ -267,9 +265,9 @@ JID:
 [Register]
 Рэгістрацыя
 [Invite Users]
-Запрашэнне карыстачоў
+Запрашэнне кантактаў
 [<room jid>\nSend group chat invitation.]
-<room jid>\nЗапрасіць у чат-пакой.
+<room jid>\nЗапрасіць у чат.
 [Other JID:]
 Іншы JID:
 [Add]
@@ -281,7 +279,7 @@ JID:
 [Group chat invitation]
 Запрашэнне ў канферэнцыю
 [<room jid>\nIncoming group chat invitation.]
-<room jid>\nЗапрашэнне ў чат-пакой.
+<room jid>\nЗапрашэнне ў чат.
 [You are invited to conference room by]
 Вас запрасіў:
 [with following reason:]
@@ -291,7 +289,7 @@ JID:
 [Jabber Bookmarks]
 Закладкі
 [Server side bookmarks\nStore conference rooms and web links on server.]
-Закладкі на серверы\nЗахоўваць чат-пакоі і спасылкі на серверы.
+Закладкі на серверы\nЗахоўваць чаты і спасылкі на серверы.
 [Remove]
 Выдаліць
 [Edit]
@@ -301,7 +299,7 @@ JID:
 [Bookmark Type]
 Тып закладкі
 [Conference]
-Чат-пакой
+Чат
 [Transport]
 Транспарт
 [URL]
@@ -387,9 +385,9 @@ JID / URL:
 [Jabber Account Information:]
 Інфармацыя Jabber конта:
 [Member Information]
-Правы доступу
+Правы ўдзельніка
 [Member Information\n<user ID>]
-Інфармацыя пра карыстача\n<user ID>
+Пра ўдзельніка\n<user ID>
 [Role:]
 Роля:
 [Set role]
@@ -462,7 +460,7 @@ XML Кансоль
 [Not supported]
 Не падтрымліваецца
 [Done]
-Гатова
+Выканана
 [In progress. Please Wait...]
 У прагэсе. Пачакайце...
 [Execute]
@@ -518,7 +516,7 @@ Bytestream проксі недасяжны.
 [Can report chat state in a chat session]
 Паведамленне пра стан чата ў чат сесіі
 [Can report information about the last activity of the user]
-Паведамленне пра апошнюю актыўнасць карыстача
+Паведамленне пра апошнюю актыўнасць кантакта
 [Can report own version information]
 Паведамленне версій
 [Can report local time of the user]
@@ -554,7 +552,7 @@ xHTML фармат чат-паведамленняў
 [Supports New_GPG plugin for Miranda NG]
 Падтрымка New_GPG плагіна
 [Can block communications from particular other users using Privacy lists]
-Блакаванне карыстачоў з выкарыстаннем лістоў прыватнасці
+Блакаванне кантактаў з выкарыстаннем лістоў прыватнасці
 [Supports Message Receipts]
 Прыём паведамленняў
 [Can report information about the music to which a user is listening]
@@ -566,9 +564,9 @@ xHTML фармат чат-паведамленняў
 [Supports attention requests ('nudge')]
 Падтрымка абестак увагі ('nudge')
 [Can report information about user activity]
-Паведамленне пра актыўнасць карыстача
+Паведамленне пра актыўнасць кантакта
 [Receives information about user activity]
-Прыём інфармацыі пра занятак карыстача
+Прыём інфармацыі пра занятак кантакта
 [Supports Miranda NG notes extension]
 Падтрымка нататак Miranda
 [Supports Jingle]
@@ -580,7 +578,7 @@ xHTML фармат чат-паведамленняў
 [None]
 Няма
 [Member]
-Карыстач
+Удзельнік
 [Admin]
 Адмін
 [Owner]
@@ -600,13 +598,13 @@ xHTML фармат чат-паведамленняў
 [Owners]
 Уладальнікі
 [User %s is now banned.]
-Карыстач %s быў забанены.
+Кантакт %s быў забанены.
 [User %s changed status to %s with message: %s]
 %s змяніў статус на %s: %s
 [User %s changed status to %s]
 %s змяніў статус на %s.
 [Room configuration was changed.]
-Налады пакою зменены.
+Налады чата зменены.
 [Outcast]
 Выгнаныя
 [Affiliation of %s was changed to '%s'.]
@@ -614,13 +612,13 @@ xHTML фармат чат-паведамленняў
 [Role of %s was changed to '%s'.]
 Роля %s змянілася на '%s'.
 [because room is now members-only]
-таму што пакой толькі для пастаянных удзельнікаў
+таму што чат толькі для пастаянных удзельнікаў
 [user banned]
 забанены
 [Change &nickname]
 Змяніць мянушку
 [&Invite a user]
-Запрасіць карыстача
+Запрасіць кантакт
 [&Roles]
 Ролі
 [&Participant list]
@@ -630,7 +628,7 @@ xHTML фармат чат-паведамленняў
 [&Affiliations]
 Прыналежнасць
 [&Member list]
-Спіс карыстачоў
+Спіс удзельнікаў
 [&Admin list]
 Спіс адмінаў
 [&Owner list]
@@ -638,7 +636,7 @@ xHTML фармат чат-паведамленняў
 [Outcast list (&ban)]
 Спіс забаненых
 [&Room options]
-Налады пакою
+Налады чата
 [View/change &topic]
 Прагляд/змена тэмы
 [Add to &bookmarks]
@@ -646,11 +644,11 @@ xHTML фармат чат-паведамленняў
 [&Configure...]
 &Наладзіць...
 [&Destroy room]
-Выдаліць пакой
+Выдаліць чат
 [Lin&ks]
 Спасылкі
 [Copy room &JID]
-Капіяваць JID пакою
+Капіяваць JID чата
 [Copy room topic]
 Капіяваць тэму
 [&Send presence]
@@ -680,7 +678,7 @@ xHTML фармат чат-паведамленняў
 [&Copy to clipboard]
 Скапіяваць у буфер абмену
 [Invite to room]
-Запрасіць у чат-пакой
+Запрасіць у чат
 [Set &role]
 Усталяваць ролю
 [&Visitor]
@@ -694,7 +692,7 @@ xHTML фармат чат-паведамленняў
 [&None]
 Не
 [&Member]
-Карыстач
+Удзельнік
 [&Admin]
 &Адмін
 [&Owner]
@@ -708,7 +706,7 @@ xHTML фармат чат-паведамленняў
 [Copy real &JID]
 Капіяваць JID
 [Copy in-room JID]
-Капіяваць JID з пакою
+Капіяваць JID з чата
 [Real &JID: %s]
 Рэальны JID: %s
 [%s\nSend group chat invitation.]
@@ -716,9 +714,9 @@ xHTML фармат чат-паведамленняў
 [%s (not on roster)]
 %s (не ў росцеры)
 [Member Info: %s]
-Пра кантакт:% s
+Пра удзельніка:% s
 [Member Information\n%s from %s]
-Пра кантакт\n%s з%s
+Пра удзельніка\n%s з%s
 [Real JID not available]
 Сапраўдны JID недасяжны
 [Reason to kick %s]
@@ -756,7 +754,7 @@ Jabber памылка
 [Browse local transports]
 Агляд лакальных транспартаў
 [Browse chatrooms]
-Агляд чат-пакояў
+Агляд чатаў
 [Contact Menu...]
 Меню кантакту...
 [View vCard]
@@ -813,17 +811,17 @@ Jabber памылка
 Прозвішча
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
-Памылка запыту спісу пакояў.
+Памылка запыту спісу чатаў.
 [No rooms available on server.]
-На серверы няма дасяжных пакояў
+На серверы няма дасяжных чатаў
 [Room list request timed out.]
-Час запроса спісу пакояў
+Час запроса спісу чатаў
 [<no nick>]
 <без мянушкі>
 [Loading...]
 Загрузка...
 [Please wait for room list to download.]
-Калі ласка, пачакайце пакуль спіс пакояў загрузіцца.
+Калі ласка, пачакайце пакуль спіс чатаў загрузіцца.
 [Bookmarks...]
 Закладкі...
 [Change nickname in <%s>]
@@ -934,7 +932,7 @@ Jabber памылка
 [Voice List]
 Спіс удзельнікаў
 [Member List]
-Спіс карыстачоў
+Спіс удзельнікаў
 [Moderator List]
 Спіс мадэратараў
 [Ban List]
@@ -1498,7 +1496,7 @@ Jabber Рэсурс
 [Hide conference windows at startup]
 Не адкрываць вокны чат-канферэнцый пры ўваходзе
 [Do not show multiuser chat invitations]
-Не паказваць запрашэнні ў шматкарыстацкі чат
+Не паказваць запрашэнні ў чат
 [Log events]
 Запіс падзей у журнал
 [Ban notifications]
@@ -1549,7 +1547,7 @@ Odnoklassniki
 Некаторыя змены ўступяць у сілу пасля наступнага далучэння.
 ;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for %s@%S]
-Усталёўка новага пароля для %s@%S
+Устаноўка новага пароля для %s@%S
 [New password does not match.]
 Новыя паролі не супадаюць
 [Current password is incorrect.]
@@ -1568,7 +1566,7 @@ Odnoklassniki
 [Active privacy list successfully declined]
 Актыўны спіс прыватнасці адхілены паспяхова
 [Error occurred while setting active list]
-Памылка пры усталёўцы спісу актыўным
+Памылка пры ўстаноўцы спісу актыўным
 [Privacy list %s set as default]
 Спіс прыватнасці %s - асноўны
 [Default privacy list successfully declined]

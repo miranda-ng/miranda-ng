@@ -29,7 +29,7 @@
 [Show warning messages]
 Паказваць папярэджанні
 [When setting avatars, always make them square]
-Рабіць аватары квадратнымі пры ўсталёўцы
+Рабіць аватары квадратнымі пры ўстаноўцы
 [Try to draw own avatar background transparent (for images without transparency)]
 Выводзіць фон свайго аватара празрыстым (для аватараў без празрыстасці)
 [This uses the same additional options as in "Contact Avatars" tab]

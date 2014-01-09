@@ -229,7 +229,7 @@ History++ для гісторыі вокнаў
 [This is a notification message]
 Гэта абвестка
 [This is a warning message]
-Гэта папярэджанне
+Гэта заўвага
 [This is an error message]
 Гэта паведамленне пра памылку
 ;file \plugins\Popup\src\effects.cpp
@@ -347,7 +347,7 @@ History++ для гісторыі вокнаў
 [You cannot specify a value lower than %d and higher than %d.]
 Значэнне меншае %d ці большае %d не дапушчаецца.
 [Popup Plus Warning]
-Папярэджанне Popup Plus
+Заўвага Popup Plus
 ;file \plugins\Popup\src\opt_skins.cpp
 [Skin preview]
 Прагляд скіна
@@ -375,7 +375,7 @@ History++ для гісторыі вокнаў
 [Error]
 Памылка
 [Warning]
-Папярэджанне
+Заўвага
 [Notify]
 Абвестка
 ;file \plugins\Popup\src\skin.cpp

@@ -158,9 +158,9 @@ RTL
 [Listening to]
 Слухаю
 [Previous protocol]
-Папярэдні пратакол
+Папярэдні конт
 [Next protocol]
-Наступны пратакол
+Наступны конт
 [Set My Nickname for %s]
 Змяніць мянушку для %s
 [Set My Status Message for %s]

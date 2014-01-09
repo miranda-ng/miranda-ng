@@ -290,7 +290,7 @@ SkypeKit.exe не распакаваны.
 [Call]
 Званок
 [Conference]
-Чат-пакой
+Чат
 [Send contact]
 Адаслаць кантакт
 [Contact]

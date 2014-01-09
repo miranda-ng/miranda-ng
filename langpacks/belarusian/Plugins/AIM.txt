@@ -9,7 +9,7 @@
 Плагiн пратаколу AOL Instant Messenger (AIM).
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
-Пра карыстача AIM
+Пра кантакт AIM
 [Screen Name:]
 Імя AIM:
 [Display Name:]
@@ -45,7 +45,7 @@
 [Masquerade as a Sidekick/Hiptop User]
 Уяўляцца як Sidekick/Hiptop
 [*Aim must be reconnected for some option to take effect]
-*AIM павінен быць перадалучаны, каб змены набылі моц
+*Змены адбудуцца пры наступным далучэнні AIM
 [Connection]
 Далучэнне
 [Port:]
@@ -75,7 +75,7 @@ AIM Усталяваць Instant Idle
 [Users who can contact me:]
 Тыя хто можа звязацца са мной:
 [Allow all users]
-Усе карыстачы
+Усе кантакты
 [Allow only users on contact list]
 Усё з майго спісу кантактаў
 [Allow only users below]
@@ -95,13 +95,13 @@ AIM Усталяваць Instant Idle
 [Join Chat Room]
 Зайсці ў чат
 [Chat Room]
-Чат пакой
+Чат
 [&Join]
 Зайсці
 [&Cancel]
 С&касаваць
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
-Гэта дазваляе атрымаць доступ да карыстацкіх чатаў. Каб атрымаць доступ, выкарыстоўвайце спасылкі
+Гэта дазваляе атрымаць доступ да чатаў. Каб атрымаць доступ, выкарыстоўвайце спасылкі
 [Change Password]
 Змяніць пароль
 [Original]
@@ -123,7 +123,7 @@ AIM Усталяваць Instant Idle
 [Save Changes]
 Захаваць змены
 [Invite Buddy To Chat Room]
-Запрашэнне ў чат-пакой
+Запрашэнне ў чат
 [&Invite]
 Запрасіць
 [Invitation reason]
@@ -135,25 +135,25 @@ AIM Усталяваць Instant Idle
 [Message]
 Паведамленне
 [Room]
-Чат-пакой
+Чат
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
 Я
 [Others]
 Іншае
 [&Invite user...]
-Запрасіць карыстача...
+Запрасіць кантакт...
 [&Leave chat session]
 &Пакінуць сеанс
 [User &details]
 Дадзеныя кантакту
 [User &history]
-Гісторыя карыстача
+Гісторыя кантакта
 ;file \protocols\AimOscar\src\error.cpp
 [Invalid Screen Name or password.]
 Няслушнае імя ці пароль
 [Mismatched Screen Name or password.]
-Няправільнае імя AIM ці пароль.
+Няслушнае імя AIM ці пароль.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 Вы далучаецеся занадта часта. Паспрабуйце паўтарыць праз 10 хвілін.
 [Unknown error occurred when attempting to connect.]
@@ -413,7 +413,7 @@ AOL
 Далучайцеся да мяне ў гэтым чаце!
 ;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
-Калі ласка, увядзі імя карыстача ў наладах
+Калі ласка, увядзіце імя ў наладах
 [Please, enter a password in the options dialog.]
 Калі ласка, увядзіце пароль у наладах.
 [Failed to open file: %s %s]
