@@ -443,11 +443,11 @@ void SaveState()
 	if (iLen) {
 		unsigned int stickies = 0;
 
-		TCHAR *szTempModeName = ( TCHAR* )mir_alloc((iLen + 1)*sizeof(TCHAR));
+		TCHAR *szTempModeName = (TCHAR*)mir_alloc((iLen + 1)*sizeof(TCHAR));
 		if (szTempModeName) {
 			SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szTempModeName);
 
-			ptrA szModeName( mir_utf8encodeT(szTempModeName));
+			ptrA szModeName(mir_utf8encodeT(szTempModeName));
 
 			DWORD dwGlobalMask = GetMaskForItem(hInfoItem);
 			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
@@ -484,11 +484,8 @@ void SaveState()
 			SaveViewMode(szModeName, newGroupFilter, newProtoFilter, statusMask, dwGlobalMask, options,
 				stickies, operators, lmdat);
 
-			if (szModeName && szModeName != (char*)szTempModeName)
-				mir_free(szModeName);
 			mir_free(szTempModeName);
 			szTempModeName = NULL;
-			szModeName = NULL;
 		}
 	}
 	EnableWindow(GetDlgItem(clvmHwnd, IDC_APPLY), FALSE);

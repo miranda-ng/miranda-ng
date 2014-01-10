@@ -33,7 +33,6 @@ This file contains code related to new modern free positioned skinned buttons
 
 #define MODERNSKINBUTTONCLASS "MirandaModernSkinButtonClass"
 BOOL ModernSkinButtonModuleIsLoaded = FALSE;
-static HANDLE hookSystemShutdown_ModernSkinButton = NULL;
 static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, LPARAM lParam);
 int ModernSkinButtonUnloadModule(WPARAM wParam, LPARAM lParam);
 int SkinSelector_DeleteMask(MODERNMASK *mm);
@@ -83,7 +82,6 @@ int ModernSkinButtonLoadModule()
 	wc.style          = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
 	InitializeCriticalSection(&csTips);
-	hookSystemShutdown_ModernSkinButton = HookEvent(ME_SYSTEM_SHUTDOWN, ModernSkinButtonUnloadModule);
 	ModernSkinButtonModuleIsLoaded = TRUE;
 	return 0;
 }
