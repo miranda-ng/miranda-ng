@@ -38,8 +38,7 @@ void MsnLinks_Destroy(void);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Global variables
 
-bool msnHaveChatDll;
-int  avsPresent = -1;
+int avsPresent = -1;
 
 static const PLUGININFOEX pluginInfo =
 {
@@ -86,7 +85,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason,LPVOID lpvRes
 static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	avsPresent = ServiceExists(MS_AV_SETMYAVATART) != 0;
-	msnHaveChatDll = ServiceExists(MS_GC_REGISTER) != 0;
 
 	MsnLinks_Init();
 

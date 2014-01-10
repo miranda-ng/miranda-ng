@@ -42,7 +42,7 @@ INT_PTR CMraProto::MraChatSessionNew(HANDLE hContact)
 		gcw.ptszStatusbarText = _T("status bar");
 		gcw.dwItemData = (DWORD)hContact;
 		if ( !CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw)) {
-			GCDEST gcd = { m_szModuleName, (TCHAR*)wszEMail.c_str(), GC_EVENT_ADDGROUP };
+			GCDEST gcd = { m_szModuleName, wszEMail.c_str(), GC_EVENT_ADDGROUP };
 			GCEVENT gce = { sizeof(gce), &gcd };
 			for (int i = 0; i < SIZEOF(lpwszStatuses); i++) {
 				gce.ptszStatus = TranslateTS(lpwszStatuses[i]);

@@ -406,60 +406,7 @@ TCHAR* __stdcall DoColorCodes(const TCHAR* text, bool bStrip, bool bReplacePerce
 
 INT_PTR CIrcProto::CallChatEvent(WPARAM wParam, LPARAM lParam)
 {
-	GCEVENT *gce = (GCEVENT *)lParam;
-	INT_PTR iVal = 0;
-
-	// first see if the scripting module should modify or stop this event
-	if (m_bMbotInstalled && m_scriptingEnabled && gce && gce->time != 0 && 
-		 (gce->pDest->ptszID == NULL || lstrlen(gce->pDest->ptszID) != 0 && lstrcmpi(gce->pDest->ptszID, SERVERWINDOW)))
-	{
-		GCEVENT *gcevent = (GCEVENT*)lParam;
-		WPARAM  wp = wParam;
-		GCEVENT *gcetemp = (GCEVENT*)mir_alloc(sizeof(GCEVENT));
-		gcetemp->pDest = (GCDEST*)mir_alloc(sizeof(GCDEST));
-		gcetemp->pDest->iType = gcevent->pDest->iType;
-		gcetemp->dwFlags = gcevent->dwFlags;
-		gcetemp->bIsMe = gcevent->bIsMe;
-		gcetemp->cbSize = sizeof(GCEVENT);
-		gcetemp->dwItemData = gcevent->dwItemData;
-		gcetemp->time = gcevent->time;
-		gcetemp->pDest->ptszID = mir_tstrdup(gcevent->pDest->ptszID);
-		gcetemp->pDest->pszModule = mir_strdup(gcevent->pDest->pszModule);
-		gcetemp->ptszText = mir_tstrdup(gcevent->ptszText);
-		gcetemp->ptszUID = mir_tstrdup(gcevent->ptszUID);
-		gcetemp->ptszNick = mir_tstrdup(gcevent->ptszNick);
-		gcetemp->ptszStatus = mir_tstrdup(gcevent->ptszStatus);
-		gcetemp->ptszUserInfo = mir_tstrdup(gcevent->ptszUserInfo);
-
-		if (Scripting_TriggerMSPGuiIn(&wp, gcetemp) && gcetemp) {
-			//MBOT CORRECTIONS
-			//if ( gcetemp && gcetemp->pDest && gcetemp->pDest->ptszID ) {
-			if (gcetemp && gcetemp->pDest && gcetemp->pDest->ptszID &&
-				!my_strstri(gcetemp->pDest->ptszID, (IsConnected()) ? m_info.sNetwork.c_str() : TranslateT("Offline"))) {
-
-				CMString sTempId = MakeWndID(gcetemp->pDest->ptszID);
-				mir_realloc(gcetemp->pDest->ptszID, sizeof(TCHAR)*(sTempId.GetLength() + 1));
-				lstrcpyn(gcetemp->pDest->ptszID, sTempId.c_str(), sTempId.GetLength() + 1);
-			}
-			iVal = CallServiceSync(MS_GC_EVENT, wp, (LPARAM)gcetemp);
-		}
-
-		if (gcetemp) {
-			mir_free((void*)gcetemp->ptszNick);
-			mir_free((void*)gcetemp->ptszUID);
-			mir_free((void*)gcetemp->ptszStatus);
-			mir_free((void*)gcetemp->ptszUserInfo);
-			mir_free((void*)gcetemp->ptszText);
-			mir_free((void*)gcetemp->pDest->ptszID);
-			mir_free((void*)gcetemp->pDest->pszModule);
-			mir_free((void*)gcetemp->pDest);
-			mir_free((void*)gcetemp);
-		}
-
-		return iVal;
-	}
-
-	return CallServiceSync(MS_GC_EVENT, wParam, (LPARAM)gce);
+	return CallServiceSync(MS_GC_EVENT, wParam, (LPARAM)lParam);
 }
 
 INT_PTR CIrcProto::DoEvent(int iEvent, const TCHAR* pszWindow, const TCHAR* pszNick,

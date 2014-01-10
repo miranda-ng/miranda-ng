@@ -2017,12 +2017,12 @@ LABEL_SHOWWINDOW:
 			GCHOOK *gch = (GCHOOK *)lParam;
 			NotifyEventHooks(hSendEvent, 0, (WPARAM)gch);
 			if (gch->pDest) {
-				mir_free(gch->pDest->ptszID);
-				mir_free(gch->pDest->pszModule);
+				mir_free((void*)gch->pDest->ptszID);
+				mir_free((void*)gch->pDest->pszModule);
 				mir_free(gch->pDest);
 			}
-			mir_free(gch->ptszText);
-			mir_free(gch->ptszUID);
+			mir_free((void*)gch->ptszText);
+			mir_free((void*)gch->ptszUID);
 			mir_free(gch);
 		}
 		break;

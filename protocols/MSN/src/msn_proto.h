@@ -411,7 +411,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	int  MSN_ChatInit(ThreadData* info);
 	void MSN_ChatStart(ThreadData* info);
-	void MSN_KillChatSession(TCHAR* id);
+	void MSN_KillChatSession(const TCHAR* id);
 
 	HANDLE MSN_GetChatInernalHandle(HANDLE hContact);
 

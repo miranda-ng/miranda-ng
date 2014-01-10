@@ -98,7 +98,7 @@ int GGPROTO::gc_destroy()
 	return 1;
 }
 
-GGGC* GGPROTO::gc_lookup(TCHAR *id)
+GGGC* GGPROTO::gc_lookup(const TCHAR *id)
 {
 	GGGC *chat;
 	list_t l;
@@ -152,8 +152,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Message typed / send only if online
-	if (isonline() && (gch->pDest->iType == GC_USER_MESSAGE) && gch->ptszText)
-	{
+	if (isonline() && (gch->pDest->iType == GC_USER_MESSAGE) && gch->ptszText) {
 		TCHAR id[32];
 		UIN2IDT(uin, id);
 		DBVARIANT dbv;
@@ -172,7 +171,8 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 
 		// Get rid of CRLF at back
 		int lc = (int)_tcslen(gch->ptszText) - 1;
-		while(lc >= 0 && (gch->ptszText[lc] == '\n' || gch->ptszText[lc] == '\r')) gch->ptszText[lc --] = 0;
+		while(lc >= 0 && (gch->ptszText[lc] == '\n' || gch->ptszText[lc] == '\r'))
+			gch->ptszText[lc --] = 0;
 
 		gce.time = time(NULL);
 		gce.bIsMe = 1;
@@ -219,7 +219,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	GGGC *chat;
 	TCHAR id[32];
 	uin_t uin; DBVARIANT dbv;
-	GCDEST gcd = {m_szModuleName, 0, GC_EVENT_ADDGROUP};
+	GCDEST gcd = { m_szModuleName, 0, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 
 	debugLogA("gc_getchat(): Count %d.", recipients_count);

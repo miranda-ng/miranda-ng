@@ -48,7 +48,7 @@ static CRITICAL_SECTION m_GCMutex;
    Returns:    Pointer to the gchat_contacts entry for the given id.
 			   NULL on failure (not enough memory)
 */
-gchat_contacts *GetChat(TCHAR *szChatId) {
+gchat_contacts *GetChat(const TCHAR *szChatId) {
 	int i;
 
 	for (i=0;i<chatcount;i++)
@@ -165,7 +165,7 @@ void RemChatContact(gchat_contacts *gc, const TCHAR *who) {
 		}
 }
 
-HANDLE find_chat(TCHAR *chatname) {
+HANDLE find_chat(LPCTSTR chatname) {
 	char *szProto;
 	int tCompareResult;
 	HANDLE hContact;
@@ -390,7 +390,7 @@ int __cdecl  ChatInit(WPARAM wParam, LPARAM lParam)
 	if (!CallService(MS_GC_NEWSESSION, 0, (LPARAM)&gcw)) {
 		char *szChatRole;
 
-		GCDEST gcd = { SKYPE_PROTONAME, (TCHAR*)gcw.ptszID, GC_EVENT_ADDGROUP };
+		GCDEST gcd = { SKYPE_PROTONAME, gcw.ptszID, GC_EVENT_ADDGROUP };
 		GCEVENT gce = { sizeof(gce), &gcd };
 		gce.ptszStatus = _T("CREATOR");
 		// BUG: Groupchat returns nonzero on success here in earlier versions, so we don't check
@@ -476,7 +476,7 @@ void KillChatSession(GCDEST *gcd)
 	LeaveCriticalSection(&m_GCMutex);
 }
 
-void InviteUser(TCHAR *szChatId)
+void InviteUser(const TCHAR *szChatId)
 {
 	HMENU tMenu = CreatePopupMenu();
 	HANDLE hContact = db_find_first(), hInvitedUser;
@@ -535,7 +535,7 @@ static void KickUser (HANDLE hContact, GCHOOK *gch)
 	if (SkypeSend ("ALTER CHAT "STR" KICK "STR, gch->pDest->ptszID, gch->ptszUID)!=-1) {
 		if (ptr=SkypeRcv("ALTER CHAT KICK", 2000)) {
 			if (strncmp(ptr, "ERROR", 5)) {
-				GCDEST gcd = { SKYPE_PROTONAME, (TCHAR*)gch->pDest->ptszID, GC_EVENT_KICK };
+				GCDEST gcd = { SKYPE_PROTONAME, gch->pDest->ptszID, GC_EVENT_KICK };
 				GCEVENT gce = { sizeof(gce), &gcd };
 				gce.time = (DWORD)time(NULL);
 				gce.dwFlags = GCEF_ADDTOLOG;
@@ -564,7 +564,7 @@ static void KickUser (HANDLE hContact, GCHOOK *gch)
 	LeaveCriticalSection(&m_GCMutex);
 }
 
-void SetChatTopic (TCHAR *szChatId, TCHAR *szTopic, BOOL bSet)
+void SetChatTopic(const TCHAR *szChatId, TCHAR *szTopic, BOOL bSet)
 {
 	HANDLE hContact = find_chat (szChatId);
 	char *szUTFTopic;
@@ -704,11 +704,11 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 					{
 						TCHAR *ptr, buf[MAX_BUF];
 
-						ptr = SkypeGetT ("CHAT", gch->pDest->ptszID, "TOPIC");
+						ptr = SkypeGetT ("CHAT", (TCHAR*)gch->pDest->ptszID, "TOPIC");
 						_tcscpy(buf, ptr);
 						free(ptr);
 						if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INPUTBOX), NULL, InputBoxDlgProc, (LPARAM)&buf))
-							SetChatTopic (gch->pDest->ptszID, buf, TRUE);
+							SetChatTopic(gch->pDest->ptszID, buf, TRUE);
 						break;
 					}
 				}

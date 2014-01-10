@@ -181,20 +181,18 @@ CMsnProto::~CMsnProto()
 
 int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	if (msnHaveChatDll) {
-		GCREGISTER gcr = {0};
-		gcr.cbSize = sizeof(GCREGISTER);
-		gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
-		gcr.iMaxText = 0;
-		gcr.nColors = 16;
-		gcr.pColors = (COLORREF*)crCols;
-		gcr.ptszDispName = m_tszUserName;
-		gcr.pszModule = m_szModuleName;
-		CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
+	GCREGISTER gcr = {0};
+	gcr.cbSize = sizeof(GCREGISTER);
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+	gcr.iMaxText = 0;
+	gcr.nColors = 16;
+	gcr.pColors = (COLORREF*)crCols;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 
-		HookProtoEvent(ME_GC_EVENT, &CMsnProto::MSN_GCEventHook);
-		HookProtoEvent(ME_GC_BUILDMENU, &CMsnProto::MSN_GCMenuHook);
-	}
+	HookProtoEvent(ME_GC_EVENT, &CMsnProto::MSN_GCEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CMsnProto::MSN_GCMenuHook);
 
 	HookProtoEvent(ME_IDLE_CHANGED, &CMsnProto::OnIdleChanged);
 	InitPopups();

@@ -59,7 +59,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	c->m_hContact = gci.hContact;
 	m_chats.insert(c);
 
-	GCDEST gcd = { m_szModuleName, sid.GetBuffer(), GC_EVENT_ADDGROUP };
+	GCDEST gcd = { m_szModuleName, sid, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	for (int i = SIZEOF(sttStatuses)-1; i >= 0; i--) {
 		gce.ptszStatus = TranslateTS(sttStatuses[i]);
@@ -88,7 +88,7 @@ void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 	szQuery.AppendFormat("\"users\": API.messages.getChatUsers({\"chat_id\":%d, \"fields\":\"uid,first_name,last_name\"})", cc->m_chatid);
 
 	if (!cc->m_bHistoryRead)
-		szQuery.AppendFormat(",\"msgs\": API.messages.getHistory({\"chat_id\":%d, \"count\":\"20\", \"rev\":\"1\"})", cc->m_chatid);
+		szQuery.AppendFormat(",\"msgs\": API.messages.getHistory({\"chat_id\":%d, \"count\":\"20\", \"rev\":\"0\"})", cc->m_chatid);
 
 	szQuery.Append("};");
 

@@ -385,7 +385,7 @@ bool CIrcProto::OnIrc_PART(const CIrcMessage* pmsg)
 		DoEvent(GC_EVENT_PART, pmsg->parameters[0].c_str(), pmsg->prefix.sNick.c_str(), pmsg->parameters.getCount()>1?pmsg->parameters[1].c_str():NULL, NULL, host.c_str(), NULL, true, false); 
 		if ( pmsg->prefix.sNick == m_info.sNick ) {
 			CMString S = MakeWndID(pmsg->parameters[0].c_str());
-			GCDEST gcd = { m_szModuleName, (TCHAR*)S.c_str(), GC_EVENT_CONTROL };
+			GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
 			CallChatEvent(SESSION_OFFLINE, (LPARAM)&gce);
 		}
@@ -404,7 +404,7 @@ bool CIrcProto::OnIrc_KICK(const CIrcMessage* pmsg)
 
 	if ( pmsg->parameters[1] == m_info.sNick ) {
 		CMString S = MakeWndID( pmsg->parameters[0].c_str());
-		GCDEST gcd = { m_szModuleName, (TCHAR*)S.c_str(), GC_EVENT_CONTROL };
+		GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
 		CallChatEvent(SESSION_OFFLINE, (LPARAM)&gce);
 
@@ -1257,7 +1257,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 			gcw.ptszName = sChanName;
 			if (!CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw)) {
 				DBVARIANT dbv;
-				GCDEST gcd = { m_szModuleName, (TCHAR*)sID.c_str(), GC_EVENT_ADDGROUP };
+				GCDEST gcd = { m_szModuleName, sID.c_str(), GC_EVENT_ADDGROUP };
 				GCEVENT gce = { sizeof(gce), &gcd };
 
 				PostIrcMessage( _T("/MODE %s"), sChanName );

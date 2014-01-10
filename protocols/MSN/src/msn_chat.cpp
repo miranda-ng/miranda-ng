@@ -109,7 +109,7 @@ void CMsnProto::MSN_ChatStart(ThreadData* info)
 	}
 }
 
-void CMsnProto::MSN_KillChatSession(TCHAR* id)
+void CMsnProto::MSN_KillChatSession(const TCHAR* id)
 {
 	GCDEST gcd = { m_szModuleName, id, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -329,8 +329,8 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 				ThreadData* thread = MSN_GetThreadByChatId(gch->pDest->ptszID);
 				if (thread)
 				{
-					rtrimt(gch->ptszText); // remove the ending linebreak
 					TCHAR* pszMsg = UnEscapeChatTags(NEWTSTR_ALLOCA(gch->ptszText));
+					rtrimt(pszMsg); // remove the ending linebreak
 					thread->sendMessage('N', NULL, NETID_MSN, UTF8(pszMsg), 0);
 
 					DBVARIANT dbv;

@@ -800,7 +800,7 @@ BOOL DoEventHook(const TCHAR *pszID, const char* pszModule, int iType, const TCH
 	if (si == NULL)
 		return FALSE;
 
-	GCDEST gcd = { (char*)pszModule, (LPTSTR)pszID, iType };
+	GCDEST gcd = { (char*)pszModule, pszID, iType };
 	GCHOOK gch = { 0 };
 	gch.ptszUID = (LPTSTR)pszUID;
 	gch.ptszText = (LPTSTR)pszText;

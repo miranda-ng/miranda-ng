@@ -748,8 +748,8 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int 
 		return FALSE;
 	
 	GCDEST *gcd = (GCDEST*)mir_calloc(sizeof(GCDEST));
-	replaceStr(gcd->pszModule, pszModule);
-	replaceStrT(gcd->ptszID, pszID);
+	gcd->pszModule = mir_strdup(pszModule);
+	gcd->ptszID = mir_tstrdup(pszID);
 	gcd->iType = iType;
 
 	GCHOOK *gch = (GCHOOK*)mir_calloc(sizeof(GCHOOK));
@@ -767,7 +767,7 @@ BOOL DoEventHook(const TCHAR *pszID, const char* pszModule, int iType, const TCH
 	if (si == NULL)
 		return FALSE;
 
-	GCDEST gcd = { (char*)pszModule, (LPTSTR)pszID, iType };
+	GCDEST gcd = { pszModule, pszID, iType };
 	GCHOOK gch = { 0 };
 	gch.ptszUID = (LPTSTR)pszUID;
 	gch.ptszText = (LPTSTR)pszText;

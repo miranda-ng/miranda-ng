@@ -25,8 +25,8 @@ typedef struct {
 
 int ChatInit(WPARAM, LPARAM);
 int  __cdecl ChatStart(char *szChatId, BOOL bJustCreate);
-gchat_contacts *GetChat(TCHAR *szChatId);
-HANDLE find_chat(TCHAR *chatname);
+gchat_contacts *GetChat(LPCTSTR szChatId);
+HANDLE find_chat(LPCTSTR chatname);
 #ifdef _UNICODE
 HANDLE find_chatA(char *chatname);
 #else
@@ -44,4 +44,4 @@ INT_PTR GCOnLeaveChat(WPARAM wParam,LPARAM lParam);
 INT_PTR GCOnJoinChat(WPARAM wParam,LPARAM lParam);
 void GCInit(void);
 void GCExit(void);
-void SetChatTopic (TCHAR *szChatId, TCHAR *szTopic, BOOL bSet);
+void SetChatTopic (const TCHAR *szChatId, TCHAR *szTopic, BOOL bSet);

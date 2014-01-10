@@ -1259,7 +1259,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 			MsgList_Add (pre.lParam, INVALID_HANDLE_VALUE);	// Mark as groupchat
 			if (ci.pszVal) mir_free (ci.pszVal);
 			free_nonutf_tchar_string((void*)gce.ptszUID);
-			free_nonutf_tchar_string(gcd.ptszID);
+			free_nonutf_tchar_string((void*)gcd.ptszID);
 
 			// Yes, we have successfully read the msg
 			if (!args.bDontMarkSeen)

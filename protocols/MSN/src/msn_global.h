@@ -776,8 +776,7 @@ const char msnStoreAppId[] = "Messenger Client 9.0";
 const char msnProductVer[] = "14.0.8117.0416";
 const char msnProtID[] = "MSNP18";
 
-extern	HINSTANCE	hInst;
-extern	bool		msnHaveChatDll;
+extern HINSTANCE hInst;
 
 ///////////////////////////////////////////////////////////////////////////////
 // UTF8 encode helper

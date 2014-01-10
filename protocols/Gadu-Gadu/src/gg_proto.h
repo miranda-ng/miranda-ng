@@ -211,7 +211,7 @@ struct GGPROTO : public PROTO<GGPROTO>
 	void gc_menus_init(HGENMENU hRoot);
 	int gc_destroy();
 	TCHAR * gc_getchat(uin_t sender, uin_t *recipients, int recipients_count);
-	GGGC *gc_lookup(TCHAR *id);
+	GGGC *gc_lookup(const TCHAR *id);
 	int gc_changenick(HANDLE hContact, TCHAR *ptszNick);
 
 	int __cdecl gc_event(WPARAM wParam, LPARAM lParam);

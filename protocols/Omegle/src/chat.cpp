@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void OmegleProto::UpdateChat(const TCHAR *name, const TCHAR *message, bool addtolog)
 {
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_MESSAGE };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
 	gce.ptszText = message;
@@ -207,14 +207,14 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 
 /*void OmegleProto::SendChatEvent(int type)
 {
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_CONTROL };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	CallServiceSync(MS_GC_EVENT,WINDOW_CLEARLOG,reinterpret_cast<LPARAM>(&gce));
 }*/
 
 void OmegleProto::AddChatContact(const TCHAR *name)
 {	
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_JOIN };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = DWORD(time(0));
 	gce.dwFlags = GCEF_ADDTOLOG;
@@ -236,7 +236,7 @@ void OmegleProto::AddChatContact(const TCHAR *name)
 
 void OmegleProto::DeleteChatContact(const TCHAR *name)
 {
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_PART };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = name;
@@ -264,7 +264,7 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM,LPARAM suppress)
 		return 0;
 
 	// Create a group
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_ADDGROUP };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	
 	gce.ptszStatus = _T("Admin");
@@ -284,7 +284,7 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM,LPARAM suppress)
 
 void OmegleProto::SetTopic(const TCHAR *topic)
 {		
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_TOPIC };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
 
@@ -298,7 +298,7 @@ void OmegleProto::SetTopic(const TCHAR *topic)
 
 INT_PTR OmegleProto::OnLeaveChat(WPARAM,LPARAM)
 {
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_CONTROL };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
 
@@ -310,7 +310,7 @@ INT_PTR OmegleProto::OnLeaveChat(WPARAM,LPARAM)
 
 void OmegleProto::SetChatStatus(int status)
 {
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_CONTROL };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
 	
@@ -347,7 +347,7 @@ void OmegleProto::ClearChat()
 	if (getByte(OMEGLE_KEY_NO_CLEAR, 0))
 		return;
 
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_CONTROL };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, reinterpret_cast<LPARAM>(&gce));
 }

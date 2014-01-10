@@ -50,27 +50,6 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertRawOut( WPARAM, LPARAM lParam )
 
 INT_PTR __cdecl CIrcProto::Scripting_InsertGuiIn(WPARAM wParam,LPARAM lParam)
 {
-	GCEVENT* gce = (GCEVENT *) lParam;
-	WPARAM_GUI_IN * wgi = (WPARAM_GUI_IN *) wParam;
-
-
-	if ( m_bMbotInstalled && m_scriptingEnabled && gce ) {	
-		TCHAR* p1 = NULL;
-		CMString S;
-		if ( gce->pDest && gce->pDest->ptszID ) {
-			p1 = gce->pDest->ptszID;
-			S = MakeWndID(gce->pDest->ptszID);
-			gce->pDest->ptszID = ( TCHAR* )S.c_str();
-		}
-		gce->cbSize = sizeof(GCEVENT);
-
-		CallServiceSync( MS_GC_EVENT, wgi?wgi->wParam:0, (LPARAM)gce);
-
-		if ( p1 )
-			gce->pDest->ptszID = p1;
-		return 0;
-	}
-
 	return 1;
 }
 
@@ -80,8 +59,8 @@ static void __stdcall OnHook(void * pi)
 	GCHOOK* gch = ( GCHOOK* )pi;
 	free(gch->ptszUID);
 	free(gch->ptszText);
-	free(gch->pDest->ptszID);
-	free(gch->pDest->pszModule);
+	free((void*)gch->pDest->ptszID);
+	free((void*)gch->pDest->pszModule);
 	delete gch->pDest;
 	delete gch;
 }

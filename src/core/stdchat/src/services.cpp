@@ -487,8 +487,6 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 {
 	GCEVENT *gce = (GCEVENT*)lParam;
 	GCDEST *gcd = NULL;
-	TCHAR* pWnd = NULL;
-	char* pMod = NULL;
 	BOOL bIsHighlighted = FALSE;
 	BOOL bRemoveFlag = FALSE;
 
@@ -581,6 +579,8 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Decide which window (log) should have the event
+	LPCTSTR pWnd = NULL;
+	LPCSTR pMod = NULL;
 	if (gcd->ptszID) {
 		pWnd = gcd->ptszID;
 		pMod = gcd->pszModule;

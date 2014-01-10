@@ -358,8 +358,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	HANDLE           m_evWndCreate;
 
 	CMString m_statusMessage;
-	bool    m_bMbotInstalled;
-	int     m_iTempCheckTime;
+	int      m_iTempCheckTime;
 
 	CIrcSessionInfo si;
 

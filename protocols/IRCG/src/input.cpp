@@ -255,7 +255,7 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 		else
 			S = MakeWndID( window );
 
-		GCDEST gcd = { m_szModuleName, (TCHAR*)S.c_str(), GC_EVENT_CONTROL };
+		GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
 		CallChatEvent(WINDOW_CLEARLOG, (LPARAM)&gce);
 		return true;
@@ -477,7 +477,7 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 		}
 
 		CMString S = MakeWndID(window);
-		GCDEST gcd = { m_szModuleName, (TCHAR*)S.c_str(), GC_EVENT_CONTROL };
+		GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
 		CallChatEvent( SESSION_TERMINATE, (LPARAM)&gce);
 

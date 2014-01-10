@@ -17,6 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+static COLORREF sttColors[] = { 0, 1, 2, 3, 4, 5, 6 };
+
 CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	PROTO<CVkProto>(szModuleName, ptszUserName),
 	m_arRequestsQueue(10),
@@ -57,6 +59,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	GCREGISTER gcr = { sizeof(gcr) };
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
+	gcr.nColors = SIZEOF(sttColors);
+	gcr.pColors = sttColors;
 	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
 
 	// Set all contacts offline -- in case we crashed

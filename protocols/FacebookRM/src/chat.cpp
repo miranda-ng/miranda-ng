@@ -30,7 +30,7 @@ void FacebookProto::UpdateChat(const TCHAR *tchat_id, const char *id, const char
 	ptrT tnick( mir_a2t_cp(name,CP_UTF8));
 	ptrT ttext( mir_a2t_cp(message,CP_UTF8));
 
-	GCDEST gcd = { m_szModuleName, (TCHAR*)tchat_id, GC_EVENT_MESSAGE };
+	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszText = ttext;
 	gce.time = timestamp ? timestamp : ::time(NULL);
@@ -146,7 +146,7 @@ void FacebookProto::AddChatContact(const TCHAR *tchat_id, const char *id, const 
 	ptrT tnick( mir_a2t_cp(name, CP_UTF8));
 	ptrT tid( mir_a2t(id));
 
-	GCDEST gcd = { m_szModuleName, (TCHAR *)tchat_id, GC_EVENT_JOIN };
+	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.pDest = &gcd;
 	gce.dwFlags = GCEF_ADDTOLOG;
@@ -176,7 +176,7 @@ void FacebookProto::RemoveChatContact(const TCHAR *tchat_id, const char *id)
 
 	ptrT tid( mir_a2t(id));
 	
-	GCDEST gcd = { m_szModuleName, (TCHAR *)tchat_id, GC_EVENT_PART };
+	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_PART };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszUID = gce.ptszNick = tid;
@@ -222,7 +222,7 @@ void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
 	// Send setting events
-	GCDEST gcd = { m_szModuleName, (TCHAR*)tid, GC_EVENT_ADDGROUP };
+	GCDEST gcd = { m_szModuleName, tid, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 
 	// Create a user statuses
@@ -271,7 +271,7 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM wParam,LPARAM suppress)
 		return 0;
 
 	// Create a group
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_ADDGROUP };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszStatus = _T("Admin");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
@@ -302,10 +302,7 @@ INT_PTR FacebookProto::OnLeaveChat(WPARAM,LPARAM)
 /*
 void FacebookProto::SetChatStatus(int status)
 {
-	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = const_cast<TCHAR*>(m_tszUserName);
-	gcd.iType = GC_EVENT_CONTROL;
-
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
 

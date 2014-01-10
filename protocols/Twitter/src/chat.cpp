@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void TwitterProto::UpdateChat(const twitter_user &update)
 {
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_MESSAGE };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.pDest = &gcd;
 	gce.bIsMe = (update.username == twit_.get_username());
@@ -89,7 +89,7 @@ int TwitterProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 // TODO: remove nick?
 void TwitterProto::AddChatContact(const char *name,const char *nick)
 {
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_JOIN };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = DWORD(time(0));
 	gce.ptszNick = mir_a2t(nick ? nick:name);
@@ -103,7 +103,7 @@ void TwitterProto::AddChatContact(const char *name,const char *nick)
 
 void TwitterProto::DeleteChatContact(const char *name)
 {
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_PART };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = DWORD(time(0));
 	gce.ptszNick = mir_a2t(name);
@@ -127,7 +127,7 @@ INT_PTR TwitterProto::OnJoinChat(WPARAM,LPARAM suppress)
 		return 0;
 
 	// ***** Create a group
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_ADDGROUP };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszStatus = _T("Normal");
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
@@ -147,7 +147,7 @@ INT_PTR TwitterProto::OnLeaveChat(WPARAM,LPARAM)
 {
 	in_chat_ = false;
 
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_CONTROL };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 
 	CallServiceSync(MS_GC_EVENT,SESSION_OFFLINE,  reinterpret_cast<LPARAM>(&gce));
@@ -157,7 +157,7 @@ INT_PTR TwitterProto::OnLeaveChat(WPARAM,LPARAM)
 
 void TwitterProto::SetChatStatus(int status)
 {
-	GCDEST gcd = { m_szModuleName, (TCHAR*)m_tszUserName, GC_EVENT_CONTROL };
+	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 
 	if(status == ID_STATUS_ONLINE)

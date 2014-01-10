@@ -439,9 +439,9 @@ struct GCSESSION
 // The GCDEST structure. It is passed to Chat inside GCEVENT.
 struct GCDEST
 {
-	LPSTR  pszModule;              // Name of the protocol (same as you registered with)
-	LPTSTR ptszID;                 // Unique identifier of the session, or NULL to broadcast to all sessions as specified above
-	int    iType;                  // Use GC_EVENT_* as defined above. Only one event per service call.
+	LPCSTR  pszModule;             // Name of the protocol (same as you registered with)
+	LPCTSTR ptszID;                // Unique identifier of the session, or NULL to broadcast to all sessions as specified above
+	int     iType;                 // Use GC_EVENT_* as defined above. Only one event per service call.
 };
 
 // The GCEVENT structure
@@ -548,8 +548,8 @@ struct GC_INFO
 struct GCHOOK
 {
 	GCDEST *pDest;       // pointer to a GCDEST structure which specifies from which session the hook was triggered
-	TCHAR  *ptszText;    // usage depends on type of event
-	TCHAR  *ptszUID;     // unique identifier, usage depends on type of event
+	LPTSTR  ptszText;    // usage depends on type of event
+	LPTSTR  ptszUID;     // unique identifier, usage depends on type of event
 	INT_PTR dwData;      // user defined data, usage depends on type of event
 };
 
