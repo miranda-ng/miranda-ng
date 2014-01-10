@@ -55,7 +55,7 @@ void JabberChatDllError()
 
 int JabberCompareJids(const TCHAR *jid1, const TCHAR *jid2)
 {
-	if ( !lstrcmpi(jid1, jid2))
+	if (!lstrcmpi(jid1, jid2))
 		return 0;
 
 	// match only node@domain part
@@ -115,7 +115,7 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 		if ((q = _tcschr(p, '/')) != NULL)
 			*q = '\0';
 
-	if ( !stripResource && q != NULL)	// so that resource is not stripped
+	if (!stripResource && q != NULL)	// so that resource is not stripped
 		*q = '/';
 
 	// We can't use JabberHContactFromJID() here because of the stripResource option
@@ -146,7 +146,7 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 
 BOOL CJabberProto::AddDbPresenceEvent(HANDLE hContact, BYTE btEventType)
 {
-	if ( !hContact)
+	if (!hContact)
 		return FALSE;
 
 	switch (btEventType) {
@@ -154,12 +154,12 @@ BOOL CJabberProto::AddDbPresenceEvent(HANDLE hContact, BYTE btEventType)
 	case JABBER_DB_EVENT_PRESENCE_SUBSCRIBED:
 	case JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBE:
 	case JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBED:
-		if ( !m_options.LogPresence)
+		if (!m_options.LogPresence)
 			return FALSE;
 		break;
 
 	case JABBER_DB_EVENT_PRESENCE_ERROR:
-		if ( !m_options.LogPresenceErrors)
+		if (!m_options.LogPresenceErrors)
 			return FALSE;
 		break;
 	}
@@ -194,7 +194,7 @@ void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbL
 	if (hContact != NULL) {
 		char str[ 256 ];
 		DBVARIANT dbv;
-		if ( !db_get_utf(hContact, m_szModuleName, "jid", &dbv)) {
+		if (!db_get_utf(hContact, m_szModuleName, "jid", &dbv)) {
 			strncpy(str, dbv.pszVal, sizeof str);
 			str[ sizeof(str)-1 ] = 0;
 			db_free(&dbv);
@@ -224,7 +224,7 @@ void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
 		hContact = (HANDLE)db_find_first(m_szModuleName);
 
 	for (; hContact != NULL; hContact = db_find_next(hContact, m_szModuleName)) {
-		if ( !getByte(hContact, "IsTransported", 0))
+		if (!getByte(hContact, "IsTransported", 0))
 			continue;
 
 		ptrT dbJid( getTStringA(hContact, "jid")); if (dbJid == NULL) continue;
@@ -235,7 +235,7 @@ void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
 			continue;
 
 		*p = 0;
-		if ( !lstrcmp(jid, p+1) && !lstrcmp(dbJid, dbNick)) {
+		if (!lstrcmp(jid, p+1) && !lstrcmp(dbJid, dbNick)) {
 			*p = '@';
 			m_ThreadInfo->resolveID = SendGetVcard(dbJid);
 			m_ThreadInfo->resolveContact = hContact;
@@ -252,7 +252,7 @@ void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
 
 void CJabberProto::SetServerStatus(int iNewStatus)
 {
-	if ( !m_bJabberOnline)
+	if (!m_bJabberOnline)
 		return;
 
 	// change status
@@ -287,27 +287,6 @@ void CJabberProto::SetServerStatus(int iNewStatus)
 
 // Process a string, and double all % characters, according to chat.dll's restrictions
 // Returns a pointer to the new string (old one is not freed)
-TCHAR* EscapeChatTags(TCHAR* pszText)
-{
-	int nChars = 0;
-	for (TCHAR *p = pszText; (p = _tcschr(p, '%')) != NULL; p++)
-		nChars++;
-
-	if (nChars == 0)
-		return mir_tstrdup(pszText);
-
-	TCHAR *pszNewText = (TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(pszText) + 1 + nChars)), *s, *d;
-	if (pszNewText == NULL)
-		return mir_tstrdup(pszText);
-
-	for (s = pszText, d = pszNewText; *s; s++) {
-		if (*s == '%')
-			*d++ = '%';
-		*d++ = *s;
-	}
-	*d = 0;
-	return pszNewText;
-}
 
 TCHAR* UnEscapeChatTags(TCHAR* str_in)
 {
@@ -342,7 +321,7 @@ static sttCapsNodeToName_Map[] =
 void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 {
 	HANDLE hContact = HContactFromJID(item->jid);
-	if ( !hContact)
+	if (!hContact)
 		return;
 
 	debugLogA("JabberUpdateMirVer: for jid %S", item->jid);
@@ -359,20 +338,20 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 
 void CJabberProto::FormatMirVer(pResourceStatus &resource, TCHAR *buf, int bufSize)
 {
-	if ( !buf || !bufSize) return;
-	buf[ 0 ] = _T('\0');
-	if ( !resource) return;
+	if (!buf || !bufSize) return;
+	buf[ 0 ] = 0;
+	if (!resource) return;
 
 	// jabber:iq:version info requested and exists?
 	if (resource->m_dwVersionRequestTime && resource->m_tszSoftware) {
 		debugLogA("JabberUpdateMirVer: for iq:version rc %S: %S", resource->m_tszResourceName, resource->m_tszSoftware);
-		if ( !resource->m_tszSoftwareVersion || _tcsstr(resource->m_tszSoftware, resource->m_tszSoftwareVersion))
+		if (!resource->m_tszSoftwareVersion || _tcsstr(resource->m_tszSoftware, resource->m_tszSoftwareVersion))
 			lstrcpyn(buf, resource->m_tszSoftware, bufSize);
 		else
 			mir_sntprintf(buf, bufSize, _T("%s %s"), resource->m_tszSoftware, resource->m_tszSoftwareVersion);
 	}
 	// no version info and no caps info? set MirVer = resource name
-	else if ( !resource->m_tszCapsNode || !resource->m_tszCapsVer) {
+	else if (!resource->m_tszCapsNode || !resource->m_tszCapsVer) {
 		debugLogA("JabberUpdateMirVer: for rc %S: %S", resource->m_tszResourceName, resource->m_tszResourceName);
 		if (resource->m_tszResourceName)
 			lstrcpyn(buf, resource->m_tszResourceName, bufSize);

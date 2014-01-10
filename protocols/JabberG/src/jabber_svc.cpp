@@ -80,7 +80,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatar(WPARAM wParam, LPARAM lParam)
 	if (buf == NULL || size <= 0)
 		return -1;
 
-	if ( !m_options.EnableAvatars)
+	if (!m_options.EnableAvatars)
 		return -2;
 
 	GetAvatarFileName(NULL, buf, size);
@@ -118,7 +118,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
-	if ( !m_options.EnableAvatars)
+	if (!m_options.EnableAvatars)
 		return GAIR_NOAVATAR;
 
 	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
@@ -359,7 +359,7 @@ static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tsz
 
 INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lParam)
 {
-	if ( !wParam || !lParam)
+	if (!wParam || !lParam)
 		return 0; //room global tooltip not supported yet
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, (TCHAR*)wParam);
@@ -378,7 +378,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 	// Affiliation:  Affiliation
 
 	TCHAR outBuf[2048];
-	outBuf[0]=_T('\0');
+	outBuf[0]=0;
 
 	bool bIsTipper = db_get_b(NULL, "Tab_SRMsg", "adv_TipperTooltip", 0) && ServiceExists("mToolTip/HideTip");
 
@@ -428,7 +428,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	for (++szJid; *szJid == _T('/'); ++szJid);
 
 	// empty jid?
-	if ( !*szJid)
+	if (!*szJid)
 		return 1;
 
 	// command code
@@ -443,9 +443,9 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 		*(szSecondParam++) = 0;
 
 	// no command or message command
-	if ( !szCommand || (szCommand && !_tcsicmp(szCommand, _T("message")))) {
+	if (!szCommand || (szCommand && !_tcsicmp(szCommand, _T("message")))) {
 		// message
-		if ( !ServiceExists(MS_MSG_SENDMESSAGEW))
+		if (!ServiceExists(MS_MSG_SENDMESSAGEW))
 			return 1;
 
 		TCHAR *szMsgBody = NULL;
@@ -471,7 +471,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	}
 	
 	if (!_tcsicmp(szCommand, _T("roster"))) {
-		if ( !HContactFromJID(szJid)) {
+		if (!HContactFromJID(szJid)) {
 			JABBER_SEARCH_RESULT jsr = { 0 };
 			jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
 			jsr.hdr.flags = PSR_TCHAR;
@@ -489,23 +489,23 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	}
 	
 	// chat join invitation
-	if ( !_tcsicmp(szCommand, _T("join"))) {
+	if (!_tcsicmp(szCommand, _T("join"))) {
 		GroupchatJoinRoomByJid(NULL, szJid);
 		return 0;
 	}
 	
 	// service discovery request
-	if ( !_tcsicmp(szCommand, _T("disco"))) {
+	if (!_tcsicmp(szCommand, _T("disco"))) {
 		OnMenuHandleServiceDiscovery(0, (LPARAM)szJid);
 		return 0;
 	}
 	
 	// ad-hoc commands
-	if ( !_tcsicmp(szCommand, _T("command"))) {
+	if (!_tcsicmp(szCommand, _T("command"))) {
 		if (szSecondParam) {
-			if ( !_tcsnicmp(szSecondParam, _T("node="), 5)) {
+			if (!_tcsnicmp(szSecondParam, _T("node="), 5)) {
 				szSecondParam += 5;
-				if ( !*szSecondParam)
+				if (!*szSecondParam)
 					szSecondParam = NULL;
 			}
 			else szSecondParam = NULL;
@@ -516,7 +516,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	}
 	
 	// send file
-	if ( !_tcsicmp(szCommand, _T("sendfile"))) {
+	if (!_tcsicmp(szCommand, _T("sendfile"))) {
 		if (!ServiceExists(MS_FILE_SENDFILE))
 			return 1;
 
@@ -535,7 +535,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 // XEP-0224 support (Attention/Nudge)
 INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM wParam, LPARAM)
 {
-	if ( !m_bJabberOnline)
+	if (!m_bJabberOnline)
 		return 0;
 
 	HANDLE hContact = (HANDLE)wParam;
@@ -560,12 +560,12 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM wParam, LPARAM)
 
 BOOL CJabberProto::SendHttpAuthReply(CJabberHttpAuthParams *pParams, BOOL bAuthorized)
 {
-	if ( !m_bJabberOnline || !pParams || !m_ThreadInfo)
+	if (!m_bJabberOnline || !pParams || !m_ThreadInfo)
 		return FALSE;
 
 	if (pParams->m_nType == CJabberHttpAuthParams::IQ) {
 		XmlNodeIq iq(bAuthorized ? _T("result") : _T("error"), pParams->m_szIqId, pParams->m_szFrom);
-		if ( !bAuthorized) {
+		if (!bAuthorized) {
 			iq << XCHILDNS(_T("confirm"), JABBER_FEAT_HTTP_AUTH) << XATTR(_T("id"), pParams->m_szId)
 					<< XATTR(_T("method"), pParams->m_szMethod) << XATTR(_T("url"), pParams->m_szUrl);
 			iq << XCHILD(_T("error")) << XATTRI(_T("code"), 401) << XATTR(_T("type"), _T("auth"))
@@ -576,7 +576,7 @@ BOOL CJabberProto::SendHttpAuthReply(CJabberHttpAuthParams *pParams, BOOL bAutho
 	else if (pParams->m_nType == CJabberHttpAuthParams::MSG) {
 		XmlNode msg(_T("message"));
 		msg << XATTR(_T("to"), pParams->m_szFrom);
-		if ( !bAuthorized)
+		if (!bAuthorized)
 			msg << XATTR(_T("type"), _T("error"));
 		if (pParams->m_szThreadId)
 			msg << XCHILD(_T("thread"), pParams->m_szThreadId);
@@ -584,7 +584,7 @@ BOOL CJabberProto::SendHttpAuthReply(CJabberHttpAuthParams *pParams, BOOL bAutho
 		msg << XCHILDNS(_T("confirm"), JABBER_FEAT_HTTP_AUTH) << XATTR(_T("id"), pParams->m_szId)
 					<< XATTR(_T("method"), pParams->m_szMethod) << XATTR(_T("url"), pParams->m_szUrl);
 
-		if ( !bAuthorized)
+		if (!bAuthorized)
 			msg << XCHILD(_T("error")) << XATTRI(_T("code"), 401) << XATTR(_T("type"), _T("auth"))
 					<< XCHILDNS(_T("not-authorized"), _T("urn:ietf:params:xml:xmpp-stanzas"));
 
@@ -665,11 +665,11 @@ INT_PTR __cdecl CJabberProto::OnHttpAuthRequest(WPARAM wParam, LPARAM lParam)
 {
 	CLISTEVENT *pCle = (CLISTEVENT *)lParam;
 	CJabberHttpAuthParams *pParams = (CJabberHttpAuthParams *)pCle->lParam;
-	if ( !pParams)
+	if (!pParams)
 		return 0;
 
 	CJabberDlgHttpAuth *pDlg = new CJabberDlgHttpAuth(this, (HWND)wParam, pParams);
-	if ( !pDlg) {
+	if (!pDlg) {
 		pParams->Free();
 		mir_free(pParams);
 		return 0;

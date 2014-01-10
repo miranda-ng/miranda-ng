@@ -47,8 +47,8 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 		param->ppro->m_hwndJabberAddBookmark = hwndDlg;
 		TranslateDialogDefault(hwndDlg);
 		if (item = param->m_item) {
-			if ( !lstrcmp(item->type, _T("conference"))) {
-				if ( !_tcschr(item->jid, _T('@'))) {	  //no room name - consider it is transport
+			if (!lstrcmp(item->type, _T("conference"))) {
+				if (!_tcschr(item->jid, _T('@'))) {	  //no room name - consider it is transport
 					SendDlgItemMessage(hwndDlg, IDC_AGENT_RADIO, BM_SETCHECK, BST_CHECKED, 0);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
@@ -145,7 +145,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 		break;
 
 	case WM_JABBER_CHECK_ONLINE:
-		if ( !param->ppro->m_bJabberOnline)
+		if (!param->ppro->m_bJabberOnline)
 			EndDialog(hwndDlg, 0);
 		break;
 
@@ -192,7 +192,7 @@ private:
 
 	void btnAdd_OnClick(CCtrlFilterListView *)
 	{
-		if ( !m_proto->m_bJabberOnline) return;
+		if (!m_proto->m_bJabberOnline) return;
 
 		JabberAddBookmarkDlgParam param;
 		param.ppro = m_proto;
@@ -202,7 +202,7 @@ private:
 
 	void btnEdit_OnClick(CCtrlFilterListView *)
 	{
-		if ( !m_proto->m_bJabberOnline) return;
+		if (!m_proto->m_bJabberOnline) return;
 
 		int iItem = m_lvBookmarks.GetNextItem(-1, LVNI_SELECTED);
 		if (iItem < 0) return;
@@ -221,7 +221,7 @@ private:
 
 	void btnRemove_OnClick(CCtrlFilterListView *)
 	{
-		if ( !m_proto->m_bJabberOnline) return;
+		if (!m_proto->m_bJabberOnline) return;
 
 		int iItem = m_lvBookmarks.GetNextItem(-1, LVNI_SELECTED);
 		if (iItem < 0) return;
@@ -261,7 +261,7 @@ CJabberDlgBookmarks::CJabberDlgBookmarks(CJabberProto *proto) :
 
 void CJabberDlgBookmarks::UpdateData()
 {
-	if ( !m_proto->m_bJabberOnline) return;
+	if (!m_proto->m_bJabberOnline) return;
 
 	m_proto->m_ThreadInfo->send(
 		XmlNodeIq( m_proto->AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
@@ -329,11 +329,11 @@ void CJabberDlgBookmarks::OpenBookmark()
 	JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
 	if (item == NULL) return;
 
-	if ( !lstrcmpi(item->type, _T("conference"))) {
+	if (!lstrcmpi(item->type, _T("conference"))) {
 		m_lvBookmarks.SetItemState(iItem, 0, LVIS_SELECTED); // Unselect the item
 
 		/* some hack for using bookmark to transport not under XEP-0048 */
-		if ( !_tcschr(item->jid, _T('@')))
+		if (!_tcschr(item->jid, _T('@')))
 			//the room name is not provided let consider that it is transport and send request to registration
 			m_proto->RegisterAgent(NULL, item->jid);
 		else {
@@ -378,7 +378,7 @@ INT_PTR CJabberDlgBookmarks::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void CJabberDlgBookmarks::OnProtoCheckOnline(WPARAM, LPARAM)
 {
-	if ( !m_proto->m_bJabberOnline) {
+	if (!m_proto->m_bJabberOnline) {
 		m_btnAdd.Disable();
 		m_btnEdit.Disable();
 		m_btnRemove.Disable();

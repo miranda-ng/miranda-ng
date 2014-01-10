@@ -48,13 +48,13 @@ void CJabberProto::OnIqResultGetMuc(HXML iqNode, CJabberIqInfo *pInfo)
 	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
 	if ((from = xmlGetAttrValue(iqNode, _T("from"))) == NULL) return;
 
-	if ( !_tcscmp(type, _T("result"))) {
+	if (!_tcscmp(type, _T("result"))) {
 		if ((queryNode = xmlGetChild(iqNode , "query")) != NULL) {
 			str = xmlGetAttrValue(queryNode, _T("xmlns"));
-			if ( !lstrcmp(str, JABBER_FEAT_MUC_OWNER)) {
+			if (!lstrcmp(str, JABBER_FEAT_MUC_OWNER)) {
 				if ((xNode = xmlGetChild(queryNode , "x")) != NULL) {
 					str = xmlGetAttrValue(xNode, _T("xmlns"));
-					if ( !lstrcmp(str, JABBER_FEAT_DATA_FORMS))
+					if (!lstrcmp(str, JABBER_FEAT_DATA_FORMS))
 						//LaunchForm(xNode);
 						FormCreateDialog(xNode, _T("Jabber Conference Room Configuration"), &CJabberProto::SetMucConfig, mir_tstrdup(from));
 				}
@@ -81,7 +81,7 @@ static void sttFillJidList(HWND hwndDlg)
 	}
 
 	jidListInfo = (JABBER_MUC_JIDLIST_INFO *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	if ( !jidListInfo)
+	if (!jidListInfo)
 		return;
 
 	hwndList = GetDlgItem(hwndDlg, IDC_LIST);
@@ -109,7 +109,7 @@ static void sttFillJidList(HWND hwndDlg)
 				lvi.iItem = 0;
 				for (i=0; ; i++) {
 					HXML itemNode = xmlGetChild(queryNode ,i);
-					if ( !itemNode)
+					if (!itemNode)
 						break;
 
 					if ((jid = xmlGetAttrValue(itemNode, _T("jid"))) != NULL) {
@@ -325,28 +325,24 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 					lvi.cchTextMax = sizeof(text);
 					ListView_GetItem(nm->hdr.hwndFrom, &lvi);
 					if (lvi.lParam == (LPARAM)(-1)) {
-						TCHAR szBuffer[ 1024 ];
-						_tcscpy(szBuffer, dat->type2str());
-						if ( !dat->ppro->EnterString(szBuffer, SIZEOF(szBuffer), NULL, JES_COMBO, "gcAddNick_"))
+						CMString szBuffer(dat->type2str());
+						if (!dat->ppro->EnterString(szBuffer, NULL, JES_COMBO, "gcAddNick_"))
 							break;
 
 						// Trim leading and trailing whitespaces
-						TCHAR *p = szBuffer, *q;
-						for (p = szBuffer; *p!='\0' && isspace(BYTE(*p)); p++);
-						for (q = p; *q!='\0' && !isspace(BYTE(*q)); q++);
-						if (*q != '\0') *q = '\0';
-						if (*p == '\0')
+						szBuffer.Trim();
+						if (szBuffer.IsEmpty())
 							break;
-						TCHAR rsn[ 1024 ];
-						_tcscpy(rsn, dat->type2str());
+						
+						CMString rsn(dat->type2str());
 						if (dat->type == MUC_BANLIST) {
-							dat->ppro->EnterString(rsn, SIZEOF(rsn), TranslateT("Reason to ban") , JES_COMBO, "gcAddReason_");
+							dat->ppro->EnterString(rsn, TranslateT("Reason to ban"), JES_COMBO, "gcAddReason_");
 							if (szBuffer)
-								dat->ppro->AddMucListItem(dat, p , rsn);
+								dat->ppro->AddMucListItem(dat, szBuffer, rsn);
 							else
-								dat->ppro->AddMucListItem(dat, p);
+								dat->ppro->AddMucListItem(dat, szBuffer);
 						}
-						else dat->ppro->AddMucListItem(dat, p);
+						else dat->ppro->AddMucListItem(dat, szBuffer);
 					}
 					else {
 						//delete
@@ -495,7 +491,7 @@ void CJabberProto::OnIqResultMucGetJidList(HXML iqNode, JABBER_MUC_JIDLIST_TYPE 
 
 	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
 
-	if ( !lstrcmp(type, _T("result"))) {
+	if (!lstrcmp(type, _T("result"))) {
 		if ((jidListInfo = new JABBER_MUC_JIDLIST_INFO) != NULL) {
 			jidListInfo->type = listType;
 			jidListInfo->ppro = this;

@@ -34,20 +34,13 @@ BOOL CJabberPresenceManager::FillPermanentHandlers()
 
 BOOL CJabberPresenceManager::HandlePresencePermanent(HXML node, ThreadData *pThreadData)
 {
-	BOOL bStopHandling = FALSE;
-	Lock();
-	CJabberPresencePermanentInfo *pInfo = m_pPermanentHandlers;
-	while (pInfo && !bStopHandling) {
+	mir_cslock lck(m_cs);
+	for (CJabberPresencePermanentInfo *pInfo = m_pPermanentHandlers; pInfo; pInfo = pInfo->m_pNext) {
 		CJabberPresenceInfo presenceInfo;
 		presenceInfo.m_pUserData = pInfo->m_pUserData;
-
-		if ((ppro->*(pInfo->m_pHandler))(node, pThreadData, &presenceInfo)) {
-			bStopHandling = TRUE;
-			break;
-		}
-		pInfo = pInfo->m_pNext;
+		if ((ppro->*(pInfo->m_pHandler))(node, pThreadData, &presenceInfo))
+			return true;
 	}
-	Unlock();
 
-	return bStopHandling;
+	return false;
 }

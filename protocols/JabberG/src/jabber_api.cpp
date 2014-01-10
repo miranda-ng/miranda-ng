@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR __cdecl CJabberProto::JabberGetApi(WPARAM wParam, LPARAM lParam)
 {
 	IJabberInterface **ji = (IJabberInterface**)lParam;
-	if ( !ji)
+	if (!ji)
 		return -1;
 	*ji = this;
 	return 0;
@@ -52,7 +52,7 @@ DWORD CJabberProto::GetJabberVersion() const
 
 int CJabberProto::CompareJIDs(LPCTSTR jid1, LPCTSTR jid2)
 {
-	if ( !jid1 || !jid2) return 0;
+	if (!jid1 || !jid2) return 0;
 	return JabberCompareJids(jid1, jid2);
 }
 
@@ -206,7 +206,7 @@ int CJabberProto::RemoveHandler(HJHANDLER hHandler)
 JabberFeatCapPairDynamic *CJabberProto::FindFeature(LPCTSTR szFeature)
 {
 	for (int i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-		if ( !lstrcmp(m_lstJabberFeatCapPairsDynamic[i]->szFeature, szFeature))
+		if (!lstrcmp(m_lstJabberFeatCapPairsDynamic[i]->szFeature, szFeature))
 			return m_lstJabberFeatCapPairsDynamic[i];
 
 	return NULL;
@@ -214,18 +214,18 @@ JabberFeatCapPairDynamic *CJabberProto::FindFeature(LPCTSTR szFeature)
 
 int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
 {
-	if ( !szFeature)
+	if (!szFeature)
 		return false;
 
 	// check for this feature in core features, and return false if it's present, to prevent re-registering a core feature
 	int i;
 	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
-		if ( !lstrcmp(g_JabberFeatCapPairs[i].szFeature, szFeature))
+		if (!lstrcmp(g_JabberFeatCapPairs[i].szFeature, szFeature))
 			return false;
 
 	mir_cslock lck(m_csLists);
 	JabberFeatCapPairDynamic *fcp = FindFeature(szFeature);
-	if ( !fcp) { // if the feature is not registered yet, allocate new bit for it
+	if (!fcp) { // if the feature is not registered yet, allocate new bit for it
 		JabberCapsBits jcb = JABBER_CAPS_OTHER_SPECIAL; // set all bits not included in g_JabberFeatCapPairs
 
 		// set all bits occupied by g_JabberFeatCapPairs
@@ -240,7 +240,7 @@ int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
 		jcb = (~jcb) & (JabberCapsBits)(-(__int64)(~jcb));
 
 		// no more free bits
-		if ( !jcb)
+		if (!jcb)
 			return false;
 
 		// remove unnecessary symbols from szFeature to make the string shorter, and use it as szExt
@@ -269,7 +269,7 @@ int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
 
 int CJabberProto::AddFeatures(LPCTSTR szFeatures)
 {
-	if ( !szFeatures)
+	if (!szFeatures)
 		return false;
 
 	mir_cslockfull lck(m_csLists);
@@ -278,8 +278,8 @@ int CJabberProto::AddFeatures(LPCTSTR szFeatures)
 	while (szFeat[0]) {
 		JabberFeatCapPairDynamic *fcp = FindFeature(szFeat);
 		// if someone is trying to add one of core features, RegisterFeature() will return false, so we don't have to perform this check here
-		if ( !fcp) { // if the feature is not registered yet
-			if ( !RegisterFeature(szFeat, NULL))
+		if (!fcp) { // if the feature is not registered yet
+			if (!RegisterFeature(szFeat, NULL))
 				ret = false;
 			else
 				fcp = FindFeature(szFeat); // update fcp after RegisterFeature()
@@ -300,7 +300,7 @@ int CJabberProto::AddFeatures(LPCTSTR szFeatures)
 
 int CJabberProto::RemoveFeatures(LPCTSTR szFeatures)
 {
-	if ( !szFeatures)
+	if (!szFeatures)
 		return false;
 
 	mir_cslockfull lck(m_csLists);

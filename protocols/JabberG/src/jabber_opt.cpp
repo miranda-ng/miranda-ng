@@ -477,7 +477,7 @@ protected:
 
 		for (i=0; g_LanguageCodes[i].szCode; i++) {
 			int iItem = m_cbLocale.AddString(TranslateTS(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
-			if ( !_tcscmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
+			if (!_tcscmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
 				m_cbLocale.SetCurSel(iItem);
 		}
 
@@ -562,8 +562,9 @@ private:
 
 	void btnRegister_OnClick(CCtrlButton *)
 	{
-		TCHAR buf[512] = _T(""), pass[512];
-		if ( !m_proto->EnterString(buf, SIZEOF(buf), TranslateT("Confirm password"), JES_PASSWORD))
+		CMString buf;
+		TCHAR pass[512];
+		if (!m_proto->EnterString(buf, TranslateT("Confirm password"), JES_PASSWORD))
 			return;
 
 		m_txtPassword.GetText(pass, SIZEOF(pass));
@@ -610,7 +611,7 @@ private:
 
 	void btnChangePassword_OnClick(CCtrlButton *)
 	{
-		if ( !m_proto->m_bJabberOnline) {
+		if (!m_proto->m_bJabberOnline) {
 			MessageBox(NULL,
 				TranslateT("You can change your password only when you are online"),
 				TranslateT("You must be online"), MB_OK | MB_ICONSTOP);
@@ -622,7 +623,7 @@ private:
 
 	void cbServer_OnDropdown(CCtrlCombo*)
 	{
-		if ( !m_gotservers)
+		if (!m_gotservers)
 			mir_forkthread(QueryServerListThread, this);
 	}
 
@@ -675,13 +676,13 @@ private:
 		BOOL bManualHost = m_chkManualHost.GetState() == BST_CHECKED;
 		if (m_chkUseSsl.GetState() == BST_CHECKED) {
 			m_chkUseTls.Disable();
-			if ( !bManualHost)
+			if (!bManualHost)
 				m_txtPort.SetInt(5223);
 		}
 		else {
-			if ( !m_proto->m_options.Disable3920auth)
+			if (!m_proto->m_options.Disable3920auth)
 				m_chkUseTls.Enable();
-			if ( !bManualHost)
+			if (!bManualHost)
 				m_txtPort.SetInt(5222);
 		}
 	}
@@ -727,10 +728,10 @@ private:
 		if (node) {
 			for (int i=0; ; i++) {
 				HXML n = xmlGetChild(node, i);
-				if ( !n)
+				if (!n)
 					break;
 
-				if ( !lstrcmp(xmlGetName(n), _T("item")))
+				if (!lstrcmp(xmlGetName(n), _T("item")))
 					if (const TCHAR *jid = xmlGetAttrValue(n, _T("jid")))
 						if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
 							 m_cbServer.AddString(jid);
@@ -749,7 +750,7 @@ private:
 		HWND hwnd = wnd->GetHwnd();
 		bool bIsError = true;
 
-		if ( !IsWindow(hwnd)) return;
+		if (!IsWindow(hwnd)) return;
 
 		NETLIBHTTPREQUEST request = {0};
 		request.cbSize = sizeof(request);
@@ -982,7 +983,7 @@ static int	_RosterInsertListItem(HWND hList, const TCHAR * jid, const TCHAR * ni
 static void _RosterListClear(HWND hwndDlg)
 {
 	HWND hList = GetDlgItem(hwndDlg, IDC_ROSTER);
-	if ( !hList)
+	if (!hList)
 		return;
 
 	ListView_DeleteAllItems(hList);
@@ -1049,7 +1050,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 			TCHAR *p = _tcschr(tszJid, _T('@'));
 			if (p) {
 				p = _tcschr(tszJid, _T('/'));
-				if (p) *p = _T('\0');
+				if (p) *p = 0;
 			}
 			if ( ListView_FindItem(hList, -1, &lvfi) == -1) {
 				ptrT tszName( db_get_tsa(hContact, "CList", "MyHandle"));
@@ -1068,7 +1069,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 	if (rrud.bRRAction == RRA_SYNCROSTER) {
 		SetDlgItemText(rrud.hwndDlg, IDC_UPLOAD, TranslateT("Uploading..."));
 		HXML queryRoster = xmlGetChild(node , "query");
-		if ( !queryRoster)
+		if (!queryRoster)
 			return;
 
 		XmlNodeIq iq( AddIQ(&CJabberProto::_RosterHandleGetRequest, JABBER_IQ_TYPE_SET));
@@ -1093,20 +1094,20 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 				query << XCHILD(_T("item")) << XATTR(_T("jid"), jid) << XATTR(_T("subscription") ,_T("remove"));
 				itemCount++;
 			}
-			else if ( !bRemove) {
+			else if (!bRemove) {
 				BOOL bPushed = itemRoster ? TRUE : FALSE;
-				if ( !bPushed) {
+				if (!bPushed) {
 					const TCHAR *rosterName = xmlGetAttrValue(itemRoster, _T("name"));
-					if ((rosterName != NULL || name[0]!=_T('\0')) && lstrcmpi(rosterName,name))
+					if ((rosterName != NULL || name[0]!=0) && lstrcmpi(rosterName,name))
 						bPushed=TRUE;
-					if ( !bPushed) {
+					if (!bPushed) {
 						rosterName = xmlGetAttrValue(itemRoster, _T("subscription"));
-						if ((rosterName != NULL || subscr[0]!=_T('\0')) && lstrcmpi(rosterName,subscr))
+						if ((rosterName != NULL || subscr[0]!=0) && lstrcmpi(rosterName,subscr))
 							bPushed=TRUE;
 					}
-					if ( !bPushed) {
+					if (!bPushed) {
 						const TCHAR *rosterGroup = xmlGetText( xmlGetChild(itemRoster, "group"));
-						if ((rosterGroup != NULL || group[0]!=_T('\0')) && lstrcmpi(rosterGroup,group))
+						if ((rosterGroup != NULL || group[0]!=0) && lstrcmpi(rosterGroup,group))
 							bPushed=TRUE;
 					}
 				}
@@ -1148,7 +1149,7 @@ void CJabberProto::_RosterSendRequest(HWND hwndDlg, BYTE rrAction)
 
 static void _RosterItemEditEnd(HWND hEditor, ROSTEREDITDAT * edat, BOOL bCancel)
 {
-	if ( !bCancel)
+	if (!bCancel)
 	{
 		int len = GetWindowTextLength(hEditor) + 1;
 		TCHAR *buff=(TCHAR*)mir_alloc(len*sizeof(TCHAR));
@@ -1164,7 +1165,7 @@ static void _RosterItemEditEnd(HWND hEditor, ROSTEREDITDAT * edat, BOOL bCancel)
 static LRESULT CALLBACK _RosterItemNewEditProc(HWND hEditor, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ROSTEREDITDAT * edat = (ROSTEREDITDAT *) GetWindowLongPtr(hEditor,GWLP_USERDATA);
-	if ( !edat) return 0;
+	if (!edat) return 0;
 	switch(msg) {
 	case WM_KEYDOWN:
 		switch(wParam) {
@@ -1214,10 +1215,10 @@ void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 	ofn.nMaxFile = SIZEOF(filename);
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.lpstrDefExt = _T("xml");
-	if ( !GetSaveFileName(&ofn)) return;
+	if (!GetSaveFileName(&ofn)) return;
 
 	FILE * fp = fopent(filename,_T("w"));
-	if ( !fp) return;
+	if (!fp) return;
 	HWND hList = GetDlgItem(hwndDlg, IDC_ROSTER);
 	int ListItemCount = ListView_GetItemCount(hList);
 
@@ -1278,11 +1279,11 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 	ofn.nMaxFile = sizeof(filename);
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.lpstrDefExt = "xml";
-	if ( !GetOpenFileNameA(&ofn))
+	if (!GetOpenFileNameA(&ofn))
 		return;
 
 	FILE * fp=fopen(filename,"r");
-	if ( !fp)
+	if (!fp)
 		return;
 
 	DWORD bufsize = _filelength(_fileno(fp));
@@ -1313,7 +1314,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 					while (TRUE)
 					{
 						HXML Row = xmlGetNthChild(Table, _T("Row"), index++);
-						if ( !Row)
+						if (!Row)
 							break;
 
 						BOOL bAdd=FALSE;
@@ -1325,7 +1326,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 						HXML Data = (Cell) ? xmlGetChild(Cell , "Data") : XmlNode();
 						if (Data)
 						{
-							if ( !lstrcmpi(xmlGetText(Data),_T("+"))) bAdd=TRUE;
+							if (!lstrcmpi(xmlGetText(Data),_T("+"))) bAdd=TRUE;
 							else if (lstrcmpi(xmlGetText(Data),_T("-"))) continue;
 
 							Cell = xmlGetNthChild(Row, _T("Cell"),2);
@@ -1334,7 +1335,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 							if (Data)
 							{
 								jid=xmlGetText(Data);
-								if ( !jid || lstrlen(jid)==0) continue;
+								if (!jid || lstrlen(jid)==0) continue;
 							}
 
 							Cell=xmlGetNthChild(Row,_T("Cell"),3);
@@ -1664,23 +1665,23 @@ protected:
 			lstrcpynA(manualServer, dbManualServer, SIZEOF(manualServer));
 
 		m_canregister = true;
-		if ( !lstrcmpA(manualServer, "talk.google.com")) {
+		if (!lstrcmpA(manualServer, "talk.google.com")) {
 			m_cbType.SetCurSel(ACC_GTALK);
 			m_canregister = false;
 		}
-		else if ( !lstrcmpA(server, "livejournal.com")) {
+		else if (!lstrcmpA(server, "livejournal.com")) {
 			m_cbType.SetCurSel(ACC_LJTALK);
 			m_canregister = false;
 		}
-		else if ( !lstrcmpA(server, "chat.facebook.com")) {
+		else if (!lstrcmpA(server, "chat.facebook.com")) {
 			m_cbType.SetCurSel(ACC_FBOOK);
 			m_canregister = false;
 		}
-		else if ( !lstrcmpA(manualServer, "xmpp.odnoklassniki.ru")) {
+		else if (!lstrcmpA(manualServer, "xmpp.odnoklassniki.ru")) {
 			m_cbType.SetCurSel(ACC_OK);
 			m_canregister = false;
 		}
-		else if ( !lstrcmpA(server, "S.ms")) {
+		else if (!lstrcmpA(server, "S.ms")) {
 			m_cbType.SetCurSel(ACC_SMS);
 			m_canregister = false;
 		}
@@ -1740,7 +1741,7 @@ protected:
 		DWORD dwCompNameLength = MAX_COMPUTERNAME_LENGTH;
 		if (GetComputerName(szCompName, &dwCompNameLength)) {
 			m_cbResource.GetText(szResource, SIZEOF(szResource));
-			if ( !lstrcmp(szCompName, szResource))
+			if (!lstrcmp(szCompName, szResource))
 				bUseHostnameAsResource = TRUE;
 		}
 		m_proto->m_options.HostNameAsResource = bUseHostnameAsResource;
@@ -1847,10 +1848,11 @@ private:
 
 	void btnRegister_OnClick(CCtrlButton *)
 	{
-		TCHAR buf[512] = _T(""), pass[512];
-		if ( !m_proto->EnterString(buf, SIZEOF(buf), TranslateT("Confirm password"), JES_PASSWORD))
+		CMString buf;
+		if (!m_proto->EnterString(buf, TranslateT("Confirm password"), JES_PASSWORD))
 			return;
 
+		TCHAR pass[512];
 		m_txtPassword.GetText(pass, SIZEOF(pass));
 		if (lstrcmp(buf, pass)) {
 			MessageBox(m_hwnd, TranslateT("Passwords do not match."), _T("Miranda NG"), MB_ICONSTOP|MB_OK);
@@ -1885,7 +1887,7 @@ private:
 
 	void cbServer_OnDropdown(CCtrlCombo*)
 	{
-		if ( !m_gotservers)
+		if (!m_gotservers)
 			mir_forkthread(QueryServerListThread, this);
 	}
 
@@ -1948,7 +1950,7 @@ private:
 
 void CJabberDlgAccMgrUI::CheckRegistration()
 {
-	if ( !m_canregister) {
+	if (!m_canregister) {
 		m_btnRegister.Disable();
 		return;
 	}
@@ -2135,7 +2137,6 @@ void CJabberDlgAccMgrUI::setupSMS()
 	m_txtManualHost.Disable();
 	m_txtPort.Disable();
 	m_btnRegister.Disable();
-	//	m_cbResource.Disable();
 }
 
 void CJabberDlgAccMgrUI::RefreshServers(HXML node)
@@ -2147,17 +2148,16 @@ void CJabberDlgAccMgrUI::RefreshServers(HXML node)
 	if (bDropdown) m_cbServer.ShowDropdown(false);
 
 	m_cbServer.ResetContent();
-	if (node)
-	{
-		for (int i=0; ; i++) {
+	if (node) {
+		for (int i = 0;; i++) {
 			HXML n = xmlGetChild(node, i);
-			if ( !n)
+			if (!n)
 				break;
 
-			if ( !lstrcmp(xmlGetName(n), _T("item")))
-				if (const TCHAR *jid = xmlGetAttrValue(n, _T("jid")))
-					if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
-						m_cbServer.AddString(jid);
+			if (!lstrcmp(xmlGetName(n), _T("item")))
+			if (const TCHAR *jid = xmlGetAttrValue(n, _T("jid")))
+			if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
+				m_cbServer.AddString(jid);
 		}
 	}
 
@@ -2173,10 +2173,10 @@ void CJabberDlgAccMgrUI::QueryServerListThread(void *arg)
 	HWND hwnd = wnd->GetHwnd();
 	bool bIsError = true;
 
-	NETLIBHTTPREQUEST request = {0};
+	NETLIBHTTPREQUEST request = { 0 };
 	request.cbSize = sizeof(request);
 	request.requestType = REQUEST_GET;
-	request.flags = NLHRF_GENERATEHOST|NLHRF_SMARTREMOVEHOST|NLHRF_SMARTAUTHHEADER|NLHRF_HTTP11;
+	request.flags = NLHRF_GENERATEHOST | NLHRF_SMARTREMOVEHOST | NLHRF_SMARTAUTHHEADER | NLHRF_HTTP11;
 	request.szUrl = "http://xmpp.org/services/services.xml";
 
 	NETLIBHTTPREQUEST *result = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)wnd->GetProto()->m_hNetlibUser, (LPARAM)&request);
@@ -2189,9 +2189,11 @@ void CJabberDlgAccMgrUI::QueryServerListThread(void *arg)
 				if (queryNode && IsWindow(hwnd)) {
 					SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
 					bIsError = false;
-			}	}
+				}
+			}
 			mir_free(ptszText);
-	}	}
+		}
+	}
 
 	if (result)
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)result);
@@ -2209,12 +2211,12 @@ INT_PTR CJabberProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 void CJabberProto::JabberUpdateDialogs(BOOL)
 {
 	if (rrud.hwndDlg)
-		SendMessage(rrud.hwndDlg, JM_STATUSCHANGED, 0,0);
+		SendMessage(rrud.hwndDlg, JM_STATUSCHANGED, 0, 0);
 }
 
 INT_PTR __cdecl CJabberProto::OnMenuOptions(WPARAM, LPARAM)
 {
-	OPENOPTIONSDIALOG ood = {0};
+	OPENOPTIONSDIALOG ood = { 0 };
 	ood.cbSize = sizeof(ood);
 	ood.pszGroup = "Network";
 	ood.pszPage = mir_t2a(m_tszUserName);

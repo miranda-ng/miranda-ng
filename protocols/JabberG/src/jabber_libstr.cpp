@@ -26,8 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int lstrcmp_null(const TCHAR *s1, const TCHAR *s2)
 {
-	if ( !s1 && !s2) return 0;
-	if ( !s1) return -1;
-	if ( !s2) return 1;
+	if (!s1 && !s2) return 0;
+	if (!s1) return -1;
+	if (!s2) return 1;
 	return lstrcmp(s1, s2);
 }

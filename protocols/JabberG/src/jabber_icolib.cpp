@@ -186,7 +186,7 @@ HICON CJabberProto::LoadIconEx(const char* name, bool big)
 	if (HICON result = g_LoadIconEx(name, big))
 		return result;
 
-	if ( !strcmp(name, "main"))
+	if (!strcmp(name, "main"))
 		return Skin_GetIconByHandle(m_hProtoIcon, big);
 
 	return NULL;
@@ -228,7 +228,7 @@ static BOOL WildComparei(const TCHAR *name, const TCHAR *mask)
 
 static BOOL MatchMask(const TCHAR *name, const TCHAR *mask)
 {
-	if ( !mask || !name)
+	if (!mask || !name)
 		return mask == name;
 
 	if (*mask != '|')
@@ -240,7 +240,7 @@ static BOOL MatchMask(const TCHAR *name, const TCHAR *mask)
 		while (mask[e] != '\0' && mask[e] != '|')
 			e++;
 
-		temp[e]= _T('\0');
+		temp[e]= 0;
 		if (WildComparei(name, temp+s))
 			return TRUE;
 
@@ -319,7 +319,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 
 	mir_sntprintf(Group, SIZEOF(Group), _T("Status Icons/%s/%S %s"), m_tszUserName, proto, TranslateT("transport"));
 	mir_snprintf(defFile, SIZEOF(defFile), "proto_%s.dll",proto);
-	if ( !hAdvancedStatusIcon)
+	if (!hAdvancedStatusIcon)
 		hAdvancedStatusIcon=(HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);
 
 	mir_cslock lck(m_csModeMsgMutex);
@@ -394,10 +394,10 @@ int CJabberProto::OnReloadIcons(WPARAM, LPARAM)
 INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact=(HANDLE)wParam;
-	if ( !hContact)
+	if (!hContact)
 		return -1;
 
-	if ( !getByte(hContact, "IsTransported", 0))
+	if (!getByte(hContact, "IsTransported", 0))
 		return -1;
 
 	int iID = GetTransportProtoID( ptrT( getTStringA(hContact, "Transport")));
@@ -418,7 +418,7 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, HANDLE hContact)
 {
 	// check if transport is already set
-	if ( !jid || !hContact)
+	if (!jid || !hContact)
 		return FALSE;
 
 	// strip domain part from jid

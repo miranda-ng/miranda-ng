@@ -169,7 +169,7 @@ protected:
 	{
 		CJabberAdhocSession* pSession = m_pSessions;
 		while (pSession) {
-			if ( !_tcscmp(pSession->GetSessionId(), szSession))
+			if (!_tcscmp(pSession->GetSessionId(), szSession))
 				return pSession;
 			pSession = pSession->GetNext();
 		}
@@ -179,7 +179,7 @@ protected:
 	CJabberAdhocSession* AddNewSession()
 	{
 		CJabberAdhocSession* pSession = new CJabberAdhocSession(m_pProto);
-		if ( !pSession)
+		if (!pSession)
 			return NULL;
 
 		pSession->SetNext(m_pSessions);
@@ -192,7 +192,7 @@ protected:
 	{
 		CJabberAdhocNode* pNode = m_pNodes;
 		while (pNode) {
-			if ( !_tcscmp(pNode->GetNode(), szNode))
+			if (!_tcscmp(pNode->GetNode(), szNode))
 				return pNode;
 			pNode = pNode->GetNext();
 		}
@@ -201,7 +201,7 @@ protected:
 
 	BOOL RemoveSession(CJabberAdhocSession* pSession)
 	{
-		if ( !m_pSessions)
+		if (!m_pSessions)
 			return FALSE;
 
 		if (pSession == m_pSessions) {
@@ -226,7 +226,7 @@ protected:
 
 	BOOL _ExpireSession(DWORD dwExpireTime)
 	{
-		if ( !m_pSessions)
+		if (!m_pSessions)
 			return FALSE;
 
 		CJabberAdhocSession* pSession = m_pSessions;
@@ -277,11 +277,11 @@ public:
 	BOOL AddNode(TCHAR* szJid, TCHAR* szNode, TCHAR* szName, JABBER_ADHOC_HANDLER pHandler)
 	{
 		CJabberAdhocNode* pNode = new CJabberAdhocNode(m_pProto, szJid, szNode, szName, pHandler);
-		if ( !pNode)
+		if (!pNode)
 			return FALSE;
 
 		Lock();
-		if ( !m_pNodes)
+		if (!m_pNodes)
 			m_pNodes = pNode;
 		else {
 			CJabberAdhocNode* pTmp = m_pNodes;

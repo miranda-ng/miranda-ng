@@ -258,7 +258,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		SetContactOfflineStatus(hContact);
 
-		if ( !getByte(hContact, "IsTransport", 0))
+		if (!getByte(hContact, "IsTransport", 0))
 			continue;
 
 		ptrT jid( getTStringA(hContact, "jid"));
@@ -347,7 +347,7 @@ HANDLE CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 	else {
 		// already exist
 		// Set up a dummy "NotOnList" when adding permanently only
-		if ( !(flags & PALF_TEMPORARY))
+		if (!(flags & PALF_TEMPORARY))
 			db_set_b(hContact, "CList", "NotOnList", 1);
 	}
 
@@ -406,7 +406,7 @@ HANDLE __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, HANDL
 
 int CJabberProto::Authorize(HANDLE hDbEvent)
 {
-	if ( !m_bJabberOnline)
+	if (!m_bJabberOnline)
 		return 1;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
@@ -454,7 +454,7 @@ int CJabberProto::Authorize(HANDLE hDbEvent)
 
 int CJabberProto::AuthDeny(HANDLE hDbEvent, const TCHAR*)
 {
-	if ( !m_bJabberOnline)
+	if (!m_bJabberOnline)
 		return 1;
 
 	debugLogA("Entering AuthDeny");
@@ -517,7 +517,7 @@ HANDLE __cdecl CJabberProto::ChangeInfo(int /*iInfoType*/, void*)
 
 HANDLE __cdecl CJabberProto::FileAllow(HANDLE /*hContact*/, HANDLE hTransfer, const TCHAR *szPath)
 {
-	if ( !m_bJabberOnline)
+	if (!m_bJabberOnline)
 		return 0;
 
 	filetransfer *ft = (filetransfer*)hTransfer;
@@ -573,7 +573,7 @@ int __cdecl CJabberProto::FileCancel(HANDLE /*hContact*/, HANDLE hTransfer)
 
 int __cdecl CJabberProto::FileDeny(HANDLE, HANDLE hTransfer, const TCHAR *)
 {
-	if ( !m_bJabberOnline)
+	if (!m_bJabberOnline)
 		return 1;
 
 	filetransfer *ft = (filetransfer*)hTransfer;
@@ -602,7 +602,7 @@ int __cdecl CJabberProto::FileDeny(HANDLE, HANDLE hTransfer, const TCHAR *)
 int __cdecl CJabberProto::FileResume(HANDLE hTransfer, int *action, const TCHAR **szFilename)
 {
 	filetransfer *ft = (filetransfer*)hTransfer;
-	if ( !m_bJabberOnline || ft == NULL)
+	if (!m_bJabberOnline || ft == NULL)
 		return 1;
 
 	if (*action == FILERESUME_RENAME)
@@ -645,11 +645,11 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, HANDLE hContact)
 
 int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 {
-	if ( !m_bJabberOnline || isChatRoom(hContact))
+	if (!m_bJabberOnline || isChatRoom(hContact))
 		return 1;
 
 	TCHAR jid[JABBER_MAX_JID_LEN];
-	if ( !GetClientJID(hContact, jid, SIZEOF(jid)))
+	if (!GetClientJID(hContact, jid, SIZEOF(jid)))
 		return 1;
 
 	if (m_ThreadInfo) {
@@ -674,7 +674,7 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 			if (pDelimiter) {
 				*pDelimiter = 0;
 				pDelimiter++;
-				if ( !*pDelimiter)
+				if (!*pDelimiter)
 					pDelimiter = NULL;
 			}
 			JABBER_LIST_ITEM *tmpItem = NULL;
@@ -759,7 +759,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 	debugLogA("JabberBasicSearch called with lParam = '%s'", szJid);
 
 	JABBER_SEARCH_BASIC *jsb;
-	if ( !m_bJabberOnline || (jsb=(JABBER_SEARCH_BASIC*)mir_alloc(sizeof(JABBER_SEARCH_BASIC))) == NULL)
+	if (!m_bJabberOnline || (jsb=(JABBER_SEARCH_BASIC*)mir_alloc(sizeof(JABBER_SEARCH_BASIC))) == NULL)
 		return 0;
 
 	if (_tcschr(szJid, '@') == NULL) {
@@ -796,7 +796,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 
 HANDLE __cdecl CJabberProto::SearchByEmail(const TCHAR *email)
 {
-	if ( !m_bJabberOnline || email == NULL)
+	if (!m_bJabberOnline || email == NULL)
 		return 0;
 
 	ptrA szServerName( getStringA("Jud"));
@@ -812,7 +812,7 @@ HANDLE __cdecl CJabberProto::SearchByEmail(const TCHAR *email)
 
 HANDLE __cdecl CJabberProto::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName)
 {
-	if ( !m_bJabberOnline)
+	if (!m_bJabberOnline)
 		return NULL;
 
 	BOOL bIsExtFormat = m_options.ExtendedSearch;
@@ -899,7 +899,7 @@ int __cdecl CJabberProto::SendContacts(HANDLE hContact, int flags, int nContacts
 		return 0;
 
 	TCHAR szClientJid[JABBER_MAX_JID_LEN];
-	if ( !GetClientJID(hContact, szClientJid, SIZEOF(szClientJid)))
+	if (!GetClientJID(hContact, szClientJid, SIZEOF(szClientJid)))
 		return 0;
 
 	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
@@ -925,7 +925,7 @@ int __cdecl CJabberProto::SendContacts(HANDLE hContact, int flags, int nContacts
 
 HANDLE __cdecl CJabberProto::SendFile(HANDLE hContact, const TCHAR *szDescription, TCHAR** ppszFiles)
 {
-	if ( !m_bJabberOnline) return 0;
+	if (!m_bJabberOnline) return 0;
 
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 		return 0;
@@ -951,7 +951,7 @@ HANDLE __cdecl CJabberProto::SendFile(HANDLE hContact, const TCHAR *szDescriptio
 	}
 
 	// fix for very smart clients, like gajim
-	if ( !m_options.BsDirect && !m_options.BsProxyManual) {
+	if (!m_options.BsDirect && !m_options.BsProxyManual) {
 		// disable bytestreams
 		jcb &= ~JABBER_CAPS_BYTESTREAMS;
 	}
@@ -1036,7 +1036,7 @@ static char PGP_EPILOG[] = "\r\n-----END PGP MESSAGE-----\r\n";
 int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 {
 	TCHAR szClientJid[JABBER_MAX_JID_LEN];
-	if ( !m_bJabberOnline || !GetClientJID(hContact, szClientJid, SIZEOF(szClientJid))) {
+	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, SIZEOF(szClientJid))) {
 		TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Protocol is offline or no JID"));
 		ForkThread(&CJabberProto::SendMessageAckThread, param);
 		return 1;
@@ -1045,7 +1045,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 	TCHAR *msg;
 	int  isEncrypted, id = SerialNext();
 
-	if ( !strncmp(pszSrc, PGP_PROLOG, strlen(PGP_PROLOG))) {
+	if (!strncmp(pszSrc, PGP_PROLOG, strlen(PGP_PROLOG))) {
 		const char* szEnd = strstr(pszSrc, PGP_EPILOG);
 		char* tempstring = (char*)alloca(strlen(pszSrc) + 1);
 		size_t nStrippedLength = strlen(pszSrc) - strlen(PGP_PROLOG) - (szEnd ? strlen(szEnd) : 0);
@@ -1074,7 +1074,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 		msgType = _T("chat");
 
 	XmlNode m(_T("message")); xmlAddAttr(m, _T("type"), msgType);
-	if ( !isEncrypted)
+	if (!isEncrypted)
 		m << XCHILD(_T("body"), msg);
 	else {
 		m << XCHILD(_T("body"), _T("[This message is encrypted.]"));
@@ -1104,7 +1104,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 		// if message delivery check disabled in settings
 		!m_options.MsgAck || !getByte(hContact, "MsgAck", TRUE))
 	{
-		if ( !lstrcmp(msgType, _T("groupchat")))
+		if (!lstrcmp(msgType, _T("groupchat")))
 			xmlAddAttr(m, _T("to"), szClientJid);
 		else {
 			id = SerialNext();
@@ -1151,7 +1151,7 @@ int __cdecl CJabberProto::SetApparentMode(HANDLE hContact, int mode)
 		return 1;
 
 	setWord(hContact, "ApparentMode", (WORD)mode);
-	if ( !m_bJabberOnline)
+	if (!m_bJabberOnline)
 		return 0;
 
 	ptrT jid( getTStringA(hContact, "jid"));
@@ -1350,10 +1350,10 @@ int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 
 int __cdecl CJabberProto::UserIsTyping(HANDLE hContact, int type)
 {
-	if ( !m_bJabberOnline) return 0;
+	if (!m_bJabberOnline) return 0;
 
 	TCHAR szClientJid[JABBER_MAX_JID_LEN];
-	if ( !GetClientJID(hContact, szClientJid, SIZEOF(szClientJid)))
+	if (!GetClientJID(hContact, szClientJid, SIZEOF(szClientJid)))
 		return 0;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, szClientJid);

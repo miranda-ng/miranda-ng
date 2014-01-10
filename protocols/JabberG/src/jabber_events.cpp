@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CJabberProto::OnContactDeleted(WPARAM wParam, LPARAM)
 {
-	if ( !m_bJabberOnline)	// should never happen
+	if (!m_bJabberOnline)	// should never happen
 		return 0;
 
 	HANDLE hContact = (HANDLE)wParam;
@@ -42,7 +42,7 @@ int CJabberProto::OnContactDeleted(WPARAM wParam, LPARAM)
 		return 0;
 
 	if (ListGetItemPtr(LIST_ROSTER, jid)) {
-		if ( !_tcschr(jid, _T('@'))) {
+		if (!_tcschr(jid, _T('@'))) {
 			TCHAR szStrippedJid[JABBER_MAX_JID_LEN];
 			JabberStripJid(m_ThreadInfo->fullJID, szStrippedJid, SIZEOF(szStrippedJid));
 			TCHAR *szDog = _tcschr(szStrippedJid, _T('@'));
@@ -167,11 +167,11 @@ int __cdecl CJabberProto::OnDbSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (strcmp(cws->szModule, "CList"))
 		return 0;
 
-	if ( !strcmp(cws->szSetting, "Group"))
+	if (!strcmp(cws->szSetting, "Group"))
 		OnRenameGroup(cws, hContact);
-	else if ( !strcmp(cws->szSetting, "MyHandle"))
+	else if (!strcmp(cws->szSetting, "MyHandle"))
 		OnRenameContact(cws, hContact);
-	else if ( !strcmp(cws->szSetting, "NotOnList"))
+	else if (!strcmp(cws->szSetting, "NotOnList"))
 		OnAddContactForever(cws, hContact);
 
 	return 0;

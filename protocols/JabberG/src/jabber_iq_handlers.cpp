@@ -125,9 +125,9 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 	OSVERSIONINFOEX osvi = { 0 };
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	BOOL bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi);
-	if ( !bOsVersionInfoEx) {
+	if (!bOsVersionInfoEx) {
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-		if ( !GetVersionEx((OSVERSIONINFO*)&osvi))
+		if (!GetVersionEx((OSVERSIONINFO*)&osvi))
 			return FALSE;
 	}
 
@@ -322,10 +322,10 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 BOOL CJabberProto::OnIqRequestVersion(HXML, CJabberIqInfo *pInfo)
 {
-	if ( !pInfo->GetFrom())
+	if (!pInfo->GetFrom())
 		return TRUE;
 
-	if ( !m_options.AllowVersionRequests)
+	if (!m_options.AllowVersionRequests)
 		return FALSE;
 
 	XmlNodeIq iq(_T("result"), pInfo);
@@ -335,7 +335,7 @@ BOOL CJabberProto::OnIqRequestVersion(HXML, CJabberIqInfo *pInfo)
 
 	if (m_options.ShowOSVersion) {
 		TCHAR os[256] = {0};
-		if ( !GetOSDisplayString(os, SIZEOF(os)))
+		if (!GetOSDisplayString(os, SIZEOF(os)))
 			lstrcpyn(os, _T("Microsoft Windows"), SIZEOF(os));
 		query << XCHILD(_T("os"), os);
 	}
@@ -436,7 +436,7 @@ BOOL CJabberProto::OnIqProcessIqOldTime(HXML, CJabberIqInfo *pInfo)
 
 BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 {
-	if ( !m_options.EnableAvatars)
+	if (!m_options.EnableAvatars)
 		return TRUE;
 
 	int pictureType = m_options.AvatarType;
@@ -497,20 +497,20 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 	// RFC 3921 #7.2 Business Rules
 	if (pInfo->GetFrom()) {
 		TCHAR *szFrom = JabberPrepareJid(pInfo->GetFrom());
-		if ( !szFrom)
+		if (!szFrom)
 			return TRUE;
 
 		TCHAR *szTo = JabberPrepareJid(m_ThreadInfo->fullJID);
-		if ( !szTo) {
+		if (!szTo) {
 			mir_free(szFrom);
 			return TRUE;
 		}
 
 		TCHAR *pDelimiter = _tcschr(szFrom, _T('/'));
-		if (pDelimiter) *pDelimiter = _T('\0');
+		if (pDelimiter) *pDelimiter = 0;
 
 		pDelimiter = _tcschr(szTo, _T('/'));
-		if (pDelimiter) *pDelimiter = _T('\0');
+		if (pDelimiter) *pDelimiter = 0;
 
 		BOOL bRetVal = _tcscmp(szFrom, szTo) == 0;
 
@@ -518,7 +518,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 		mir_free(szTo);
 
 		// invalid JID
-		if ( !bRetVal) {
+		if (!bRetVal) {
 			debugLogA("<iq/> attempt to hack via roster push from %S", pInfo->GetFrom());
 			return TRUE;
 		}
@@ -532,7 +532,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 	debugLogA("<iq/> Got roster push, query has %d children", xmlGetChildCount(queryNode));
 	for (int i=0; ; i++) {
 		HXML itemNode = xmlGetChild(queryNode ,i);
-		if ( !itemNode)
+		if (!itemNode)
 			break;
 
 		if (_tcscmp(xmlGetName(itemNode), _T("item")) != 0)
@@ -543,7 +543,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 			continue;
 
 		// we will not add new account when subscription=remove
-		if ( !_tcscmp(str, _T("to")) || !_tcscmp(str, _T("both")) || !_tcscmp(str, _T("from")) || !_tcscmp(str, _T("none"))) {
+		if (!_tcscmp(str, _T("to")) || !_tcscmp(str, _T("both")) || !_tcscmp(str, _T("from")) || !_tcscmp(str, _T("none"))) {
 			if ((name = xmlGetAttrValue(itemNode, _T("name"))) != NULL)
 				nick = mir_tstrdup(name);
 			else
@@ -575,7 +575,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 					}
 					else db_unset(hContact, "CList", "MyHandle");
 
-					if ( !m_options.IgnoreRosterGroups) {
+					if (!m_options.IgnoreRosterGroups) {
 						if (item->group != NULL) {
 							Clist_CreateGroup(0, item->group);
 							db_set_ts(hContact, "CList", "Group", item->group);
@@ -588,15 +588,15 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 		}
 
 		if ((item=ListGetItemPtr(LIST_ROSTER, jid)) != NULL) {
-			if ( !_tcscmp(str, _T("both"))) item->subscription = SUB_BOTH;
-			else if ( !_tcscmp(str, _T("to"))) item->subscription = SUB_TO;
-			else if ( !_tcscmp(str, _T("from"))) item->subscription = SUB_FROM;
+			if (!_tcscmp(str, _T("both"))) item->subscription = SUB_BOTH;
+			else if (!_tcscmp(str, _T("to"))) item->subscription = SUB_TO;
+			else if (!_tcscmp(str, _T("from"))) item->subscription = SUB_FROM;
 			else item->subscription = SUB_NONE;
 			debugLogA("Roster push for jid=%S, set subscription to %S", jid, str);
 			// subscription = remove is to remove from roster list
 			// but we will just set the contact to offline and not actually
 			// remove, so that history will be retained.
-			if ( !_tcscmp(str, _T("remove"))) {
+			if (!_tcscmp(str, _T("remove"))) {
 				if ((hContact=HContactFromJID(jid)) != NULL) {
 					SetContactOfflineStatus(hContact);
 					ListRemove(LIST_ROSTER, jid);
@@ -616,11 +616,11 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 
 BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 {
-	if ( !pInfo->GetFrom() || !pInfo->GetHContact())
+	if (!pInfo->GetFrom() || !pInfo->GetHContact())
 		return TRUE;
 
 	HXML n = xmlGetChild(pInfo->GetChildNode(), "url");
-	if ( !n || !xmlGetText(n))
+	if (!n || !xmlGetText(n))
 		return TRUE;
 
 	if (m_options.BsOnlyIBB) {
@@ -642,7 +642,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 
 	// Parse the URL
 	TCHAR *str = (TCHAR*)xmlGetText(n);	// URL of the file to get
-	if ( !_tcsnicmp(str, _T("http://"), 7)) {
+	if (!_tcsnicmp(str, _T("http://"), 7)) {
 		TCHAR *p = str + 7, *q;
 		if ((q = _tcschr(p, '/')) != NULL) {
 			TCHAR text[1024];
@@ -699,7 +699,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 
 BOOL CJabberProto::OnHandleDiscoInfoRequest(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	if ( !pInfo->GetChildNode())
+	if (!pInfo->GetChildNode())
 		return TRUE;
 
 	const TCHAR *szNode = xmlGetAttrValue(pInfo->GetChildNode(), _T("node"));
@@ -721,7 +721,7 @@ BOOL CJabberProto::OnHandleDiscoInfoRequest(HXML iqNode, CJabberIqInfo *pInfo)
 
 BOOL CJabberProto::OnHandleDiscoItemsRequest(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	if ( !pInfo->GetChildNode())
+	if (!pInfo->GetChildNode())
 		return TRUE;
 
 	// ad-hoc commands check:
@@ -735,7 +735,7 @@ BOOL CJabberProto::OnHandleDiscoItemsRequest(HXML iqNode, CJabberIqInfo *pInfo)
 	if (szNode)
 		xmlAddAttr(resultQuery, _T("node"), szNode);
 
-	if ( !szNode && m_options.EnableRemoteControl)
+	if (!szNode && m_options.EnableRemoteControl)
 		resultQuery << XCHILD(_T("item")) << XATTR(_T("jid"), m_ThreadInfo->fullJID)
 			<< XATTR(_T("node"), JABBER_FEAT_COMMANDS) << XATTR(_T("name"), _T("Ad-hoc commands"));
 
@@ -762,20 +762,20 @@ BOOL CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
 
 BOOL CJabberProto::OnIqHttpAuth(HXML node, CJabberIqInfo *pInfo)
 {
-	if ( !m_options.AcceptHttpAuth)
+	if (!m_options.AcceptHttpAuth)
 		return TRUE;
 
-	if ( !node || !pInfo->GetChildNode() || !pInfo->GetFrom() || !pInfo->GetIdStr())
+	if (!node || !pInfo->GetChildNode() || !pInfo->GetFrom() || !pInfo->GetIdStr())
 		return TRUE;
 
 	HXML pConfirm = xmlGetChild(node , "confirm");
-	if ( !pConfirm)
+	if (!pConfirm)
 		return TRUE;
 
 	const TCHAR *szId = xmlGetAttrValue(pConfirm, _T("id"));
 	const TCHAR *szMethod = xmlGetAttrValue(pConfirm, _T("method"));
 	const TCHAR *szUrl = xmlGetAttrValue(pConfirm, _T("url"));
-	if ( !szId || !szMethod || !szUrl)
+	if (!szId || !szMethod || !szUrl)
 		return TRUE;
 
 	CJabberHttpAuthParams *pParams = (CJabberHttpAuthParams*)mir_calloc(sizeof(CJabberHttpAuthParams));

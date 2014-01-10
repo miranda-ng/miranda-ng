@@ -43,7 +43,7 @@ struct CJabberProto;
 enum TJabberGcLogInfoType { INFO_BAN, INFO_STATUS, INFO_CONFIG, INFO_AFFILIATION, INFO_ROLE };
 
 // for JabberEnterString
-enum { JES_MULTINE, JES_COMBO, JES_RICHEDIT, JES_PASSWORD };
+enum { JES_MULTILINE, JES_COMBO, JES_RICHEDIT, JES_PASSWORD };
 
 typedef UNIQUE_MAP<TCHAR,TCharKeyCmp> U_TCHAR_MAP;
 
@@ -357,9 +357,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   AdminSet(const TCHAR *to, const TCHAR *ns, const TCHAR *szItem, const TCHAR *itemVal, const TCHAR *var, const TCHAR *varVal);
 	void   AdminGet(const TCHAR *to, const TCHAR *ns, const TCHAR *var, const TCHAR *varVal, JABBER_IQ_HANDLER foo);
 	void   AdminSetReason(const TCHAR *to, const TCHAR *ns, const TCHAR *szItem, const TCHAR *itemVal, const TCHAR *var, const TCHAR *varVal, const TCHAR *rsn);
-	void   AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* str);
-	void   AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* str , TCHAR* rsn);
-	void   DeleteMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* jid);
+	void   AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const TCHAR* str);
+	void   AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const TCHAR* str, const TCHAR* rsn);
+	void   DeleteMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const TCHAR* jid);
 
 	//---- jabber_console.cpp ------------------------------------------------------------
 
@@ -765,7 +765,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	HANDLE HContactFromJID(const TCHAR *jid , BOOL bStripResource = 3);
 	HANDLE ChatRoomHContactFromJID(const TCHAR *jid);
 	void   SendVisibleInvisiblePresence(BOOL invisible);
-	void   SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR *msg = NULL);
+	void   SendPresenceTo(int status, const TCHAR* to, HXML extra, const TCHAR *msg = NULL);
 	void   SendPresence(int m_iStatus, bool bSendToAll);
 	void   StringAppend(char* *str, int *sizeAlloced, const char* fmt, ...);
 	void   RebuildInfoFrame(void);
@@ -775,9 +775,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	TCHAR* GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen);
 
 	void   ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *param, int recentCount=JABBER_DEFAULT_RECENT_COUNT);
-	void   ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param, TCHAR *string, int recentCount=JABBER_DEFAULT_RECENT_COUNT);
-	BOOL   EnterString(TCHAR *result, size_t resultLen, TCHAR *caption=NULL, int type=0, char *windowName=NULL, int recentCount=JABBER_DEFAULT_RECENT_COUNT, int timeout=0);
-	BOOL   IsMyOwnJID(LPCTSTR szJID);
+	void   ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param, const TCHAR *string, int recentCount=JABBER_DEFAULT_RECENT_COUNT);
+	BOOL   EnterString(CMString &result, LPCTSTR caption, int type, char *windowName=NULL, int recentCount=JABBER_DEFAULT_RECENT_COUNT, int timeout=0);
+	bool   IsMyOwnJID(LPCTSTR szJID);
 
 	void __cdecl LoadHttpAvatars(void* param);
 

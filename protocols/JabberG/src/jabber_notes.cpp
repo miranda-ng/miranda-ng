@@ -33,9 +33,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static TCHAR *StrTrimCopy(TCHAR *str)
 {
-	if ( !str) return 0;
+	if (!str) return 0;
 	while (*str && _istspace(*str)) ++str;
-	if ( !*str) return mir_tstrdup(str);
+	if (!*str) return mir_tstrdup(str);
 
 	TCHAR *res = mir_tstrdup(str);
 	for (TCHAR *p = res + lstrlen(res) - 1; p >= res; --p)
@@ -117,11 +117,11 @@ void CNoteItem::SetData(TCHAR *title, TCHAR *from, TCHAR *text, TCHAR *tags)
 
 bool CNoteItem::HasTag(const TCHAR *szTag)
 {
-	if ( !szTag || !*szTag)
+	if (!szTag || !*szTag)
 		return true;
 
 	for (TCHAR *p = m_szTags; p && *p; p = p + lstrlen(p) + 1)
-		if ( !lstrcmp(p, szTag))
+		if (!lstrcmp(p, szTag))
 			return true;
 
 	return false;
@@ -356,7 +356,7 @@ public:
 	{
 		if (m_adding) return FALSE;
 		if (lps->itemID == -1) return TRUE;
-		if ( !lps->itemData) return TRUE;
+		if (!lps->itemData) return TRUE;
 
 		HDC hdc = lps->hDC;
 		CNoteItem *pNote = (CNoteItem *)lps->itemData;
@@ -408,7 +408,7 @@ public:
 	{
 		if (m_adding) return FALSE;
 		if (lps->itemID == -1) return TRUE;
-		if ( !lps->itemData) return TRUE;
+		if (!lps->itemData) return TRUE;
 
 		HDC hdc = GetDC(m_hwnd);
 		CNoteItem *pNote = (CNoteItem *)lps->itemData;
@@ -501,7 +501,7 @@ private:
 		{
 			TCHAR *tags = m_proto->m_notes[i].GetTags();
 			for (TCHAR *tag = tags; tag && *tag; tag = tag + lstrlen(tag) + 1)
-				if ( !tagSet.find(tag))
+				if (!tagSet.find(tag))
 					tagSet.insert(tag);
 		}
 
@@ -513,7 +513,7 @@ private:
 			InsertTag(htiRoot, tagSet[j], select);
 		}
 
-		if ( !selected)
+		if (!selected)
 			m_tvFilter.SelectItem(htiRoot);
 	}
 
@@ -755,7 +755,7 @@ void CJabberProto::ProcessIncomingNote(CNoteItem *pNote, bool ok)
 
 void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 {
-	if ( !ok || !pNote->IsNotEmpty())
+	if (!ok || !pNote->IsNotEmpty())
 	{
 		delete pNote;
 		return;
@@ -796,12 +796,12 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 
 bool CJabberProto::OnIncomingNote(const TCHAR *szFrom, HXML hXml)
 {
-	if ( !m_options.AcceptNotes)
+	if (!m_options.AcceptNotes)
 		return false;
 
-	if ( !szFrom || !hXml) return true;
+	if (!szFrom || !hXml) return true;
 	CNoteItem *pItem = new CNoteItem(hXml, (TCHAR *)szFrom);
-	if ( !pItem->IsNotEmpty())
+	if (!pItem->IsNotEmpty())
 	{
 		delete pItem;
 		return true;
@@ -832,7 +832,7 @@ INT_PTR __cdecl CJabberProto::OnIncomingNoteEvent(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *pCle = (CLISTEVENT *)lParam;
 	CNoteItem *pNote = (CNoteItem *)pCle->lParam;
-	if ( !pNote)
+	if (!pNote)
 		return 0;
 
 	CJabberDlgBase *pDlg = new CJabberDlgNoteItem(this, pNote, &CJabberProto::ProcessIncomingNote);

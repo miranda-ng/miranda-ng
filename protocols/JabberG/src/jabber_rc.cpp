@@ -42,7 +42,7 @@ CJabberAdhocSession::CJabberAdhocSession(CJabberProto* global)
 
 BOOL CJabberProto::IsRcRequestAllowedByACL(CJabberIqInfo *pInfo)
 {
-	if ( !pInfo || !pInfo->GetFrom())
+	if (!pInfo || !pInfo->GetFrom())
 		return FALSE;
 
 	return IsMyOwnJID(pInfo->GetFrom());
@@ -50,16 +50,16 @@ BOOL CJabberProto::IsRcRequestAllowedByACL(CJabberIqInfo *pInfo)
 
 BOOL CJabberProto::HandleAdhocCommandRequest(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	if ( !pInfo->GetChildNode())
+	if (!pInfo->GetChildNode())
 		return TRUE;
 
-	if ( !m_options.EnableRemoteControl || !IsRcRequestAllowedByACL(pInfo)) {
+	if (!m_options.EnableRemoteControl || !IsRcRequestAllowedByACL(pInfo)) {
 		// FIXME: send error and return
 		return TRUE;
 	}
 
 	const TCHAR *szNode = xmlGetAttrValue(pInfo->GetChildNode(), _T("node"));
-	if ( !szNode)
+	if (!szNode)
 		return TRUE;
 
 	m_adhocManager.HandleCommandRequest(iqNode, pInfo, (TCHAR*)szNode);
@@ -68,10 +68,10 @@ BOOL CJabberProto::HandleAdhocCommandRequest(HXML iqNode, CJabberIqInfo *pInfo)
 
 BOOL CJabberAdhocManager::HandleItemsRequest(HXML, CJabberIqInfo *pInfo, const TCHAR *szNode)
 {
-	if ( !szNode || !m_pProto->m_options.EnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
+	if (!szNode || !m_pProto->m_options.EnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
 		return FALSE;
 
-	if ( !_tcscmp(szNode, JABBER_FEAT_COMMANDS)) {
+	if (!_tcscmp(szNode, JABBER_FEAT_COMMANDS)) {
 		XmlNodeIq iq(_T("result"), pInfo);
 		HXML resultQuery = iq << XQUERY(JABBER_FEAT_DISCO_ITEMS) << XATTR(_T("node"), JABBER_FEAT_COMMANDS);
 
@@ -79,7 +79,7 @@ BOOL CJabberAdhocManager::HandleItemsRequest(HXML, CJabberIqInfo *pInfo, const T
 		CJabberAdhocNode* pNode = GetFirstNode();
 		while (pNode) {
 			TCHAR *szJid = pNode->GetJid();
-			if ( !szJid)
+			if (!szJid)
 				szJid = m_pProto->m_ThreadInfo->fullJID;
 
 			resultQuery << XCHILD(_T("item")) << XATTR(_T("jid"), szJid)
@@ -97,11 +97,11 @@ BOOL CJabberAdhocManager::HandleItemsRequest(HXML, CJabberIqInfo *pInfo, const T
 
 BOOL CJabberAdhocManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, const TCHAR *szNode)
 {
-	if ( !szNode || !m_pProto->m_options.EnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
+	if (!szNode || !m_pProto->m_options.EnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
 		return FALSE;
 
 	// FIXME: same code twice
-	if ( !_tcscmp(szNode, JABBER_FEAT_COMMANDS)) {
+	if (!_tcscmp(szNode, JABBER_FEAT_COMMANDS)) {
 		XmlNodeIq iq(_T("result"), pInfo);
 		HXML resultQuery = iq << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR(_T("node"), JABBER_FEAT_COMMANDS);
 		resultQuery << XCHILD(_T("identity")) << XATTR(_T("name"), _T("Ad-hoc commands"))
@@ -144,7 +144,7 @@ BOOL CJabberAdhocManager::HandleCommandRequest(HXML iqNode, CJabberIqInfo *pInfo
 
 	Lock();
 	CJabberAdhocNode* pNode = FindNode(szNode);
-	if ( !pNode) {
+	if (!pNode) {
 		Unlock();
 
 		m_pProto->m_ThreadInfo->send(
@@ -160,7 +160,7 @@ BOOL CJabberAdhocManager::HandleCommandRequest(HXML iqNode, CJabberIqInfo *pInfo
 	CJabberAdhocSession* pSession = NULL;
 	if (szSessionId) {
 		pSession = FindSession(szSessionId);
-		if ( !pSession) {
+		if (!pSession) {
 			Unlock();
 
 			XmlNodeIq iq(_T("error"), pInfo);
@@ -174,7 +174,7 @@ BOOL CJabberAdhocManager::HandleCommandRequest(HXML iqNode, CJabberIqInfo *pInfo
 	else
 		pSession = AddNewSession();
 
-	if ( !pSession) {
+	if (!pSession) {
 		Unlock();
 
 		m_pProto->m_ThreadInfo->send(
@@ -336,11 +336,11 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 		// result form here
 		HXML commandNode = pInfo->GetChildNode();
 		HXML xNode = xmlGetChildByTag(commandNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
-		if ( !xNode)
+		if (!xNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		HXML fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("status")), valueNode;
-		if ( !xNode)
+		if (!xNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		LPCTSTR ptszValue = xmlGetText( xmlGetChild(fieldNode , "value"));
@@ -348,13 +348,13 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		int status;
-		if ( !_tcscmp(ptszValue, _T("away"))) status = ID_STATUS_AWAY;
-		else if ( !_tcscmp(ptszValue, _T("xa"))) status = ID_STATUS_NA;
-		else if ( !_tcscmp(ptszValue, _T("dnd"))) status = ID_STATUS_DND;
-		else if ( !_tcscmp(ptszValue, _T("chat"))) status = ID_STATUS_FREECHAT;
-		else if ( !_tcscmp(ptszValue, _T("online"))) status = ID_STATUS_ONLINE;
-		else if ( !_tcscmp(ptszValue, _T("invisible"))) status = ID_STATUS_INVISIBLE;
-		else if ( !_tcscmp(ptszValue, _T("offline"))) status = ID_STATUS_OFFLINE;
+		if (!_tcscmp(ptszValue, _T("away"))) status = ID_STATUS_AWAY;
+		else if (!_tcscmp(ptszValue, _T("xa"))) status = ID_STATUS_NA;
+		else if (!_tcscmp(ptszValue, _T("dnd"))) status = ID_STATUS_DND;
+		else if (!_tcscmp(ptszValue, _T("chat"))) status = ID_STATUS_FREECHAT;
+		else if (!_tcscmp(ptszValue, _T("online"))) status = ID_STATUS_ONLINE;
+		else if (!_tcscmp(ptszValue, _T("invisible"))) status = ID_STATUS_INVISIBLE;
+		else if (!_tcscmp(ptszValue, _T("offline"))) status = ID_STATUS_OFFLINE;
 		else
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
@@ -437,7 +437,7 @@ int CJabberProto::AdhocOptionsHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 		// result form here
 		HXML commandNode = pInfo->GetChildNode();
 		HXML xNode = xmlGetChildByTag(commandNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
-		if ( !xNode)
+		if (!xNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		// Automatically Accept File Transfers
@@ -478,7 +478,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 
 			dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
 			int nGetTextResult = db_event_get(hDbEvent, &dbei);
-			if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
+			if (!nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
 				TCHAR *szEventText = DbGetEventTextT(&dbei, CP_ACP);
 				if (szEventText) {
 					nEventsSent++;
@@ -496,7 +496,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 	TCHAR szMsg[ 1024 ];
 	if (pSession->GetStage() == 0) {
 		int nUnreadEvents = RcGetUnreadEventsCount();
-		if ( !nUnreadEvents) {
+		if (!nUnreadEvents) {
 			mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("There is no messages to forward"));
 
 			m_ThreadInfo->send(
@@ -538,7 +538,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 		// result form here
 		HXML commandNode = pInfo->GetChildNode();
 		HXML xNode = xmlGetChildByTag(commandNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
-		if ( !xNode)
+		if (!xNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		BOOL bRemoveCListEvents = TRUE;
@@ -677,7 +677,7 @@ int CJabberProto::AdhocQuitMirandaHandler(HXML, CJabberIqInfo *pInfo, CJabberAdh
 		// result form here
 		HXML commandNode = pInfo->GetChildNode();
 		HXML xNode = xmlGetChildByTag(commandNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
-		if ( !xNode)
+		if (!xNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		HXML fieldNode, valueNode;
@@ -709,7 +709,7 @@ int CJabberProto::AdhocLeaveGroupchatsHandler(HXML, CJabberIqInfo *pInfo, CJabbe
 			}
 		}
 
-		if ( !nChatsCount) {
+		if (!nChatsCount) {
 			TCHAR szMsg[ 1024 ];
 			mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("There is no group chats to leave"));
 
@@ -757,7 +757,7 @@ int CJabberProto::AdhocLeaveGroupchatsHandler(HXML, CJabberIqInfo *pInfo, CJabbe
 		// result form here
 		HXML commandNode = pInfo->GetChildNode();
 		HXML xNode = xmlGetChildByTag(commandNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
-		if ( !xNode)
+		if (!xNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		// Groupchat list here:

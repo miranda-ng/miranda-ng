@@ -167,13 +167,13 @@ public:
 							break;
 
 						if (xmlGetName(n)) {
-							if ( !lstrcmp(xmlGetName(n), _T("instructions"))) {
+							if (!lstrcmp(xmlGetName(n), _T("instructions"))) {
 								JabberFormSetInstruction(m_hwnd, xmlGetText(n));
 							}
-							else if ( !lstrcmp(xmlGetName(n), _T("key")) || !lstrcmp(xmlGetName(n), _T("registered"))) {
+							else if (!lstrcmp(xmlGetName(n), _T("key")) || !lstrcmp(xmlGetName(n), _T("registered"))) {
 								// do nothing
 							}
-							else if ( !lstrcmp(xmlGetName(n), _T("password")))
+							else if (!lstrcmp(xmlGetName(n), _T("password")))
 								JabberFormAppendControl(hFrame, layout_info, JFORM_CTYPE_TEXT_PRIVATE, xmlGetName(n), xmlGetText(n));
 							else 	// everything else is a normal text field
 								JabberFormAppendControl(hFrame, layout_info, JFORM_CTYPE_TEXT_SINGLE, xmlGetName(n), xmlGetText(n));
@@ -247,18 +247,18 @@ public:
 			// use old registration information form
 			for (int i=0; ; i++) {
 				HXML n = xmlGetChild(queryNode ,i);
-				if ( !n)
+				if (!n)
 					break;
 
 				if (xmlGetName(n)) {
-					if ( !lstrcmp(xmlGetName(n), _T("key"))) {
+					if (!lstrcmp(xmlGetName(n), _T("key"))) {
 						// field that must be passed along with the registration
 						if (xmlGetText(n))
 							xmlAddChild(query, xmlGetName(n), xmlGetText(n));
 						else
 							xmlAddChild(query, xmlGetName(n));
 					}
-					else if ( !lstrcmp(xmlGetName(n), _T("registered")) || !lstrcmp(xmlGetName(n), _T("instructions"))) {
+					else if (!lstrcmp(xmlGetName(n), _T("registered")) || !lstrcmp(xmlGetName(n), _T("instructions"))) {
 						// do nothing, we will skip these
 					}
 					else {

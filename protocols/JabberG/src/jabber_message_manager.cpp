@@ -65,15 +65,15 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 
 		LPCTSTR szType = xmlGetAttrValue(node, _T("type"));
 		if (szType) {
-			if ( !_tcsicmp(szType, _T("normal")))
+			if (!_tcsicmp(szType, _T("normal")))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_NORMAL;
-			else if ( !_tcsicmp(szType, _T("error")))
+			else if (!_tcsicmp(szType, _T("error")))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_ERROR;
-			else if ( !_tcsicmp(szType, _T("chat")))
+			else if (!_tcsicmp(szType, _T("chat")))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_CHAT;
-			else if ( !_tcsicmp(szType, _T("groupchat")))
+			else if (!_tcsicmp(szType, _T("groupchat")))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_GROUPCHAT;
-			else if ( !_tcsicmp(szType, _T("headline")))
+			else if (!_tcsicmp(szType, _T("headline")))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_HEADLINE;
 			else
 				return FALSE;
@@ -144,7 +144,7 @@ CJabberMessagePermanentInfo* CJabberMessageManager::AddPermanentHandler(
 	pInfo->m_iPriority = iPriority;
 
 	mir_cslock lck(m_cs);
-	if ( !m_pPermanentHandlers)
+	if (!m_pPermanentHandlers)
 		m_pPermanentHandlers = pInfo;
 	else {
 		if (m_pPermanentHandlers->m_iPriority > pInfo->m_iPriority) {
@@ -165,7 +165,7 @@ CJabberMessagePermanentInfo* CJabberMessageManager::AddPermanentHandler(
 bool CJabberMessageManager::DeletePermanentHandler(CJabberMessagePermanentInfo *pInfo)
 { 
 	mir_cslock lck(m_cs);
-	if ( !m_pPermanentHandlers)
+	if (!m_pPermanentHandlers)
 		return FALSE;
 
 	if (m_pPermanentHandlers == pInfo) { // check first item

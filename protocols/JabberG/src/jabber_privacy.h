@@ -198,7 +198,7 @@ public:
 	BOOL AddRule(PrivacyListRuleType type, const TCHAR *szValue, BOOL bAction, DWORD dwOrder, DWORD dwPackets)
 	{
 		CPrivacyListRule *pRule = new CPrivacyListRule(m_proto, type, szValue, bAction, dwOrder, dwPackets);
-		if ( !pRule)
+		if (!pRule)
 			return FALSE;
 		pRule->SetNext(m_pRules);
 		m_pRules = pRule;
@@ -212,7 +212,7 @@ public:
 	}
 	BOOL RemoveRule(CPrivacyListRule *pRuleToRemove)
 	{
-		if ( !m_pRules)
+		if (!m_pRules)
 			return FALSE;
 
 		if (m_pRules == pRuleToRemove) {
@@ -237,9 +237,9 @@ public:
 	BOOL Reorder()
 	{
 		// 0 or 1 rules?
-		if ( !m_pRules)
+		if (!m_pRules)
 			return TRUE;
-		if ( !m_pRules->GetNext()) {
+		if (!m_pRules->GetNext()) {
 			m_pRules->SetOrder(100);
 			return TRUE;
 		}
@@ -254,7 +254,7 @@ public:
 
 		// create pointer array for sort procedure
 		CPrivacyListRule **pRules = (CPrivacyListRule **)mir_alloc(dwCount * sizeof(CPrivacyListRule *));
-		if ( !pRules)
+		if (!pRules)
 			return FALSE;
 		DWORD dwPos = 0;
 		pRule = m_pRules;
@@ -371,7 +371,7 @@ public:
 	{
 		CPrivacyList *pList = m_pLists;
 		while (pList) {
-			if ( !_tcscmp(pList->GetListName(), szListName))
+			if (!_tcscmp(pList->GetListName(), szListName))
 				return pList;
 			pList = pList->GetNext();
 		}
@@ -411,7 +411,7 @@ public:
 	{
 		CPrivacyList *pList = m_pLists;
 		while (pList) {
-			if ( !pList->IsLoaded())
+			if (!pList->IsLoaded())
 				return FALSE;
 			pList = pList->GetNext();
 		}

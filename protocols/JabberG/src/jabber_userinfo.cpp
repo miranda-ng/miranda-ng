@@ -45,7 +45,7 @@ struct UserInfoStringBuf
 	~UserInfoStringBuf() { mir_free(buf); }
 
 	void append(TCHAR *str) {
-		if ( !str) return;
+		if (!str) return;
 
 		int length = lstrlen(str);
 		if (size - offset < length + 1) {
@@ -159,7 +159,7 @@ void sttCleanupInfo(HWND hwndTree, int stage)
 			hItem = hItemTmp;
 		else {
 			while (1) {
-				if ( !(hItem = TreeView_GetParent(hwndTree, hItem))) break;
+				if (!(hItem = TreeView_GetParent(hwndTree, hItem))) break;
 				if (hItemTmp = TreeView_GetNextSibling(hwndTree, hItem)) {
 					hItem = hItemTmp;
 					break;
@@ -261,7 +261,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 		int len = lstrlen(buf);
 		if (len > 0) buf[len-1] = 0;
 	}
-	else if ( !r->m_dwIdleStartTime)
+	else if (!r->m_dwIdleStartTime)
 		lstrcpyn(buf, TranslateT("unknown"), SIZEOF(buf));
 	else
 		lstrcpyn(buf, TranslateT("<not specified>"), SIZEOF(buf));
@@ -272,7 +272,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	mir_sntprintf(buf, SIZEOF(buf), _T("%s/%s"), item->jid, r->m_tszResourceName);
 	JabberCapsBits jcb = ppro->GetResourceCapabilites(buf, TRUE);
 
-	if ( !(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
+	if (!(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
 		HTREEITEM htiCaps = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), NULL, TranslateT("Client capabilities"), sttInfoLineId(resource, INFOLINE_CAPS));
 		int i;
 		for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
@@ -369,7 +369,7 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 		int len = lstrlen(buf);
 		if (len > 0) buf[len-1] = 0;
 	}
-	else if ( !r->m_dwIdleStartTime)
+	else if (!r->m_dwIdleStartTime)
 		lstrcpyn(buf, TranslateT("unknown"), SIZEOF(buf));
 	else
 		lstrcpyn(buf, TranslateT("<not specified>"), SIZEOF(buf));
@@ -395,7 +395,7 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 		for (int i=0; i < item->arResources.getCount(); i++)
 			sttFillResourceInfo(ppro, hwndTree, htiRoot, item, i+1);
 	}
-	else if ( !_tcschr(item->jid, _T('@')) || (r->m_iStatus != ID_STATUS_OFFLINE))
+	else if (!_tcschr(item->jid, _T('@')) || (r->m_iStatus != ID_STATUS_OFFLINE))
 		sttFillResourceInfo(ppro, hwndTree, htiRoot, item, 0);
 
 	sttCleanupInfo(hwndTree, 1);
@@ -414,7 +414,7 @@ static void sttGetNodeText(HWND hwndTree, HTREEITEM hti, UserInfoStringBuf *buf,
 	tvi.hItem = hti;
 	tvi.cchTextMax = 256;
 	tvi.pszText = buf->allocate(tvi.cchTextMax);
-	if ( !TreeView_GetItem(hwndTree, &tvi)) { // failure, maybe item was removed...
+	if (!TreeView_GetItem(hwndTree, &tvi)) { // failure, maybe item was removed...
 		buf->buf[ buf->offset ] = 0;
 		buf->actualize();
 		return;
@@ -446,7 +446,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		if (CallService(MS_DB_CONTACT_IS, (WPARAM)lParam, 0))
 			dat->hContact = (HANDLE)lParam;
-		else if ( !IsBadReadPtr((void*)lParam, sizeof(JABBER_LIST_ITEM))) {
+		else if (!IsBadReadPtr((void*)lParam, sizeof(JABBER_LIST_ITEM))) {
 			dat->hContact = NULL;
 			dat->item = (JABBER_LIST_ITEM *)lParam;
 		}
@@ -465,17 +465,17 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		break;
 
 	case WM_JABBER_REFRESH:
-		if ( !dat) break;
+		if (!dat) break;
 
-		if ( !dat->item) {
+		if (!dat->item) {
 			ptrT jid( dat->ppro->getTStringA(dat->hContact, "jid"));
 			if (jid == NULL)
 				break;
 
-			if ( !(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)))
+			if (!(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)))
 				dat->item = dat->ppro->ListGetItemPtr(LIST_ROSTER, jid);
 
-			if ( !dat->item) {
+			if (!dat->item) {
 				HWND hwndTree = GetDlgItem(hwndDlg, IDC_TV_INFO);
 				TreeView_DeleteAllItems(hwndTree);
 				HTREEITEM htiRoot = sttFillInfoLine(hwndTree, NULL, dat->ppro->LoadIconEx("main"), _T("JID"), jid, sttInfoLineId(0, INFOLINE_NAME), true);
@@ -560,7 +560,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				if (dat->hContact != NULL) {
 					ptrT jid( dat->ppro->getTStringA(dat->hContact, "jid"));
 					if (jid != NULL)
-						if ( !(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)))
+						if (!(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)))
 							dat->item = dat->ppro->ListGetItemPtr(LIST_ROSTER, jid);
 				}
 				break;
@@ -710,9 +710,9 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		break;
 
 	case WM_PAINT:
-		if ( !photoInfo->ppro->m_bJabberOnline)
+		if (!photoInfo->ppro->m_bJabberOnline)
 			SetDlgItemText(hwndDlg, IDC_CANVAS, TranslateT("<Photo not available while offline>"));
-		else if ( !photoInfo->hBitmap)
+		else if (!photoInfo->hBitmap)
 			SetDlgItemText(hwndDlg, IDC_CANVAS, TranslateT("<No photo>"));
 		else {
 			BITMAP bm;
@@ -797,7 +797,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 {
-	if ( !CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName))
+	if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName))
 		return 0;
 
 	HANDLE hContact = (HANDLE)lParam;
@@ -841,7 +841,7 @@ void JabberUserInfoInit()
 
 void JabberUserInfoUpdate(HANDLE hContact)
 {
-	if ( !hContact)
+	if (!hContact)
 		WindowList_BroadcastAsync(hUserInfoList, WM_JABBER_REFRESH, 0, 0);
 	else if (HWND hwnd = WindowList_Find(hUserInfoList, hContact))
 		PostMessage(hwnd, WM_JABBER_REFRESH, 0, 0);

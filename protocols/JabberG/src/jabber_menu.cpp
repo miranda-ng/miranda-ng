@@ -79,7 +79,7 @@ static CJabberProto* JabberGetInstanceByHContact(HANDLE hContact)
 		return NULL;
 
 	for (int i=0; i < g_Instances.getCount(); i++)
-		if ( !strcmp(szProto, g_Instances[i]->m_szModuleName))
+		if (!strcmp(szProto, g_Instances[i]->m_szModuleName))
 			return g_Instances[i];
 
 	return NULL;
@@ -362,7 +362,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		}
 	}
 
-	if ( !m_bJabberOnline)
+	if (!m_bJabberOnline)
 		return 0;
 
 	Menu_ShowItem(g_hMenuDirectPresence[0], TRUE);
@@ -491,7 +491,7 @@ INT_PTR __cdecl CJabberProto::OnMenuConvertChatContact(WPARAM wParam, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM wParam, LPARAM)
 {
-	if ( !wParam) return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
+	if (!wParam) return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
 
 	ptrT roomID( getTStringA((HANDLE)wParam, "ChatRoomID"));
 	if (roomID == NULL) return 0;
@@ -552,7 +552,7 @@ INT_PTR __cdecl CJabberProto::OnMenuRevokeAuth(WPARAM wParam, LPARAM)
 INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if ( !getByte(hContact, "IsTransport", 0))
+	if (!getByte(hContact, "IsTransport", 0))
 		return 0;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT( getTStringA(hContact, "jid")));
@@ -568,7 +568,7 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM wParam, LPARAM)
 INT_PTR __cdecl CJabberProto::OnMenuTransportResolve(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if ( !getByte(hContact, "IsTransport", 0))
+	if (!getByte(hContact, "IsTransport", 0))
 		return 0;
 
 	ptrT jid( getTStringA(hContact, "jid"));
@@ -752,7 +752,7 @@ void CJabberProto::MenuInit()
 
 	int steps[] = { 10, 5, 1, 0, -1, -5, -10 };
 	for (int i=0; i < SIZEOF(steps); i++) {
-		if ( !steps[i]) {
+		if (!steps[i]) {
 			mi.position += 100000;
 			continue;
 		}
@@ -802,7 +802,7 @@ INT_PTR CJabberProto::OnMenuSetPriority(WPARAM, LPARAM, LPARAM dwDelta)
 
 void CJabberProto::UpdatePriorityMenu(short priority)
 {
-	if ( !m_hMenuPriorityRoot || m_priorityMenuValSet && (priority == m_priorityMenuVal))
+	if (!m_hMenuPriorityRoot || m_priorityMenuValSet && (priority == m_priorityMenuVal))
 		return;
 
 	TCHAR szName[128];
@@ -935,7 +935,7 @@ void CJabberProto::CheckMenuItems()
 {
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_FLAGS;
-	if ( !m_menuItemsStatus)
+	if (!m_menuItemsStatus)
 		clmi.flags |= CMIF_GRAYED;
 
 	Menu_ModifyItem(m_hMenuChangePassword, &clmi);
@@ -973,7 +973,7 @@ void CJabberProto::MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item)
 		return;
 
 	HANDLE hContact = HContactFromJID(item->jid);
-	if ( !hContact)
+	if (!hContact)
 		return;
 
 	StatusIconData sid = { sizeof(sid) };
@@ -987,7 +987,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN) {
-		if ( !hDialogsList)
+		if (!hDialogsList)
 			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
@@ -1004,11 +1004,11 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 
 		DBVARIANT dbv;
 		BOOL bSupportTyping = FALSE;
-		if ( !db_get(event->hContact, "SRMsg", "SupportTyping", &dbv)) {
+		if (!db_get(event->hContact, "SRMsg", "SupportTyping", &dbv)) {
 			bSupportTyping = dbv.bVal == 1;
 			db_free(&dbv);
 		}
-		else if ( !db_get(NULL, "SRMsg", "DefaultTyping", &dbv)) {
+		else if (!db_get(NULL, "SRMsg", "DefaultTyping", &dbv)) {
 			bSupportTyping = dbv.bVal == 1;
 			db_free(&dbv);
 		}
@@ -1039,7 +1039,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	HANDLE hContact = (HANDLE)wParam;
-	if ( !hContact)
+	if (!hContact)
 		return 0;
 
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, ptrT( getTStringA(hContact, "jid")));
@@ -1089,7 +1089,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM wParam, LPARAM lParam)
 
 INT_PTR __cdecl CJabberProto::OnMenuHandleResource(WPARAM wParam, LPARAM, LPARAM res)
 {
-	if ( !m_bJabberOnline || !wParam)
+	if (!m_bJabberOnline || !wParam)
 		return 0;
 
 	HANDLE hContact = (HANDLE)wParam;
@@ -1121,7 +1121,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleResource(WPARAM wParam, LPARAM, LPARAM
 
 INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM wParam, LPARAM lParam, LPARAM res)
 {
-	if ( !m_bJabberOnline || !wParam)
+	if (!m_bJabberOnline || !wParam)
 		return 0;
 
 	HANDLE hContact = (HANDLE)wParam;
@@ -1142,10 +1142,9 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM wParam, LPARAM l
 	}
 	else jid = tszJid;
 
-	TCHAR buf[1024] = _T("");
-	EnterString(buf, SIZEOF(buf), TranslateT("Status Message"), JES_MULTINE);
-
-	SendPresenceTo(res, jid, NULL, buf);
+	CMString szValue;
+	if (EnterString(szValue, TranslateT("Status Message"), JES_MULTILINE))
+		SendPresenceTo(res, jid, NULL, szValue);
 	return 0;
 }
 

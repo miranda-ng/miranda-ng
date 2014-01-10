@@ -143,9 +143,9 @@ void CCtrlTreeOpts::OnInit()
 			}
 
 			hItem = FindNamedItem(hSection, pItemName);
-			if ( !sectionName || !hItem)
+			if (!sectionName || !hItem)
 			{
-				if ( !hItem)
+				if (!hItem)
 				{
 					TVINSERTSTRUCT tvis = {0};
 
@@ -175,7 +175,7 @@ void CCtrlTreeOpts::OnInit()
 						}
 					}
 					hItem = InsertItem(&tvis);
-					if ( !sectionName)
+					if (!sectionName)
 						m_options[i]->m_hItem = hItem;
 				}
 			}

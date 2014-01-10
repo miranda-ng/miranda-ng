@@ -294,11 +294,11 @@ public:
 	}
 	BOOL AddFeature(const TCHAR *szFeature)
 	{
-		if ( !szFeature)
+		if (!szFeature)
 			return FALSE;
 
 		CJabberSDFeature *pFeature = new CJabberSDFeature(szFeature);
-		if ( !pFeature)
+		if (!pFeature)
 			return FALSE;
 
 		pFeature->SetNext(m_pFeatures);
@@ -308,11 +308,11 @@ public:
 	}
 	BOOL AddIdentity(const TCHAR *szCategory, const TCHAR *szType, const TCHAR *szName)
 	{
-		if ( !szCategory || !szType)
+		if (!szCategory || !szType)
 			return FALSE;
 
 		CJabberSDIdentity *pIdentity = new CJabberSDIdentity(szCategory, szType, szName);
-		if ( !pIdentity)
+		if (!pIdentity)
 			return FALSE;
 
 		pIdentity->SetNext(m_pIdentities);
@@ -322,11 +322,11 @@ public:
 	}
 	BOOL AddChildNode(const TCHAR *szJid, const TCHAR *szNode, const TCHAR *szName)
 	{
-		if ( !szJid)
+		if (!szJid)
 			return FALSE;
 
 		CJabberSDNode *pNode = new CJabberSDNode(szJid, szNode, szName);
-		if ( !pNode)
+		if (!pNode)
 			return FALSE;
 
 		pNode->SetNext(m_pChild);
@@ -336,7 +336,7 @@ public:
 	}
 	BOOL AppendString(TCHAR **ppBuffer, TCHAR *szString)
 	{
-		if ( !*ppBuffer) {
+		if (!*ppBuffer) {
 			*ppBuffer = mir_tstrdup(szString);
 			return TRUE;
 		}
@@ -463,11 +463,11 @@ public:
 	}
 	CJabberSDNode* AddPrimaryNode(const TCHAR *szJid, const TCHAR *szNode, const TCHAR *szName)
 	{
-		if ( !szJid)
+		if (!szJid)
 			return FALSE;
 
 		CJabberSDNode *pNode = new CJabberSDNode(szJid, szNode, szName);
-		if ( !pNode)
+		if (!pNode)
 			return NULL;
 
 		pNode->SetNext(m_pPrimaryNodes);

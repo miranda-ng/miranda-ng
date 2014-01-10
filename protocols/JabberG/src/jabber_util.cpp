@@ -135,9 +135,9 @@ TCHAR* JabberPrepareJid(LPCTSTR jid)
 {
 	if (jid == NULL) return NULL;
 	TCHAR *szNewJid = mir_tstrdup(jid);
-	if ( !szNewJid) return NULL;
+	if (!szNewJid) return NULL;
 	TCHAR *pDelimiter = _tcschr(szNewJid, _T('/'));
-	if (pDelimiter) *pDelimiter = _T('\0');
+	if (pDelimiter) *pDelimiter = 0;
 	CharLower(szNewJid);
 	if (pDelimiter) *pDelimiter = _T('/');
 	return szNewJid;
@@ -162,7 +162,7 @@ char* __stdcall JabberUrlDecode(char *str)
 	for (p=q=str; *p!='\0'; p++,q++) {
 		if (*p == '<') {
 			// skip CDATA
-			if ( !strncmp(p, "<![CDATA[", 9)) {
+			if (!strncmp(p, "<![CDATA[", 9)) {
 				p += 9;
 				char *tail = strstr(p, "]]>");
 				size_t count = tail ? (tail-p) : strlen(p);
@@ -173,11 +173,11 @@ char* __stdcall JabberUrlDecode(char *str)
 			else *q = *p;
 		}
 		else if (*p == '&') {
-			if ( !strncmp(p, "&amp;", 5)) {	*q = '&'; p += 4; }
-			else if ( !strncmp(p, "&apos;", 6)) { *q = '\''; p += 5; }
-			else if ( !strncmp(p, "&gt;", 4)) { *q = '>'; p += 3; }
-			else if ( !strncmp(p, "&lt;", 4)) { *q = '<'; p += 3; }
-			else if ( !strncmp(p, "&quot;", 6)) { *q = '"'; p += 5; }
+			if (!strncmp(p, "&amp;", 5)) {	*q = '&'; p += 4; }
+			else if (!strncmp(p, "&apos;", 6)) { *q = '\''; p += 5; }
+			else if (!strncmp(p, "&gt;", 4)) { *q = '>'; p += 3; }
+			else if (!strncmp(p, "&lt;", 4)) { *q = '<'; p += 3; }
+			else if (!strncmp(p, "&quot;", 6)) { *q = '"'; p += 5; }
 			else { *q = *p;	}
 		}
 		else *q = *p;
@@ -194,11 +194,11 @@ void __stdcall JabberUrlDecodeW(WCHAR *str)
 	WCHAR *p, *q;
 	for (p=q=str; *p!='\0'; p++,q++) {
 		if (*p == '&') {
-			if ( !wcsncmp(p, L"&amp;", 5)) {	*q = '&'; p += 4; }
-			else if ( !wcsncmp(p, L"&apos;", 6)) { *q = '\''; p += 5; }
-			else if ( !wcsncmp(p, L"&gt;", 4)) { *q = '>'; p += 3; }
-			else if ( !wcsncmp(p, L"&lt;", 4)) { *q = '<'; p += 3; }
-			else if ( !wcsncmp(p, L"&quot;", 6)) { *q = '"'; p += 5; }
+			if (!wcsncmp(p, L"&amp;", 5)) {	*q = '&'; p += 4; }
+			else if (!wcsncmp(p, L"&apos;", 6)) { *q = '\''; p += 5; }
+			else if (!wcsncmp(p, L"&gt;", 4)) { *q = '>'; p += 3; }
+			else if (!wcsncmp(p, L"&lt;", 4)) { *q = '<'; p += 3; }
+			else if (!wcsncmp(p, L"&quot;", 6)) { *q = '"'; p += 5; }
 			else { *q = *p;	}
 		}
 		else {
@@ -505,7 +505,7 @@ TCHAR* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 
 void CJabberProto::SendVisibleInvisiblePresence(BOOL invisible)
 {
-	if ( !m_bJabberOnline) return;
+	if (!m_bJabberOnline) return;
 
 	LISTFOREACH(i, this, LIST_ROSTER)
 	{
@@ -577,9 +577,9 @@ time_t __stdcall JabberIsoToUnixTime(const TCHAR *stamp)
 		return (time_t) 0;
 }
 
-void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR *msg)
+void CJabberProto::SendPresenceTo(int status, const TCHAR* to, HXML extra, const TCHAR *msg)
 {
-	if ( !m_bJabberOnline) return;
+	if (!m_bJabberOnline) return;
 
 	// Send <presence/> update for status (we won't handle ID_STATUS_OFFLINE here)
 	short iPriority = (short)getWord("Priority", 0);
@@ -718,7 +718,7 @@ int __stdcall JabberGetPacketID(HXML n)
 
 	const TCHAR *str = xmlGetAttrValue(n, _T("id"));
 	if (str)
-		if ( !_tcsncmp(str, _T(JABBER_IQID), SIZEOF(JABBER_IQID)-1))
+		if (!_tcsncmp(str, _T(JABBER_IQID), SIZEOF(JABBER_IQID)-1))
 			result = _ttoi(str + SIZEOF(JABBER_IQID)-1);
 
 	return result;
@@ -786,7 +786,7 @@ TCHAR* __stdcall JabberStripJid(const TCHAR *jid, TCHAR *dest, size_t destLen)
 LPCTSTR __stdcall JabberGetPictureType(HXML node, const char *picBuf)
 {
 	if (LPCTSTR ptszType = xmlGetText( xmlGetChild(node , "TYPE")))
-		if ( !_tcscmp(ptszType, _T("image/jpeg")) ||
+		if (!_tcscmp(ptszType, _T("image/jpeg")) ||
 		     !_tcscmp(ptszType, _T("image/png"))  ||
 		     !_tcscmp(ptszType, _T("image/gif"))  ||
 		     !_tcscmp(ptszType, _T("image/bmp")))
@@ -847,7 +847,7 @@ TStringPairs::~TStringPairs()
 const char* TStringPairs::operator[](const char* key) const
 {
 	for (int i=0; i < numElems; i++)
-		if ( !strcmp(elems[i].name, key))
+		if (!strcmp(elems[i].name, key))
 			return elems[i].value;
 
 	return "";
@@ -866,13 +866,13 @@ void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *par
 			SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, tszRecent);
 	}
 
-	if ( !SendDlgItemMessage(hwndDlg, idcCombo, CB_GETCOUNT, 0, 0))
+	if (!SendDlgItemMessage(hwndDlg, idcCombo, CB_GETCOUNT, 0, 0))
 		SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, (LPARAM)_T(""));
 }
 
-void CJabberProto::ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param, TCHAR *string, int recentCount)
+void CJabberProto::ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param, const TCHAR *string, int recentCount)
 {
-	if ( !string || !*string)
+	if (!string || !*string)
 		return;
 	if (SendDlgItemMessage(hwndDlg, idcCombo, CB_FINDSTRING, (WPARAM)-1, (LPARAM)string) != CB_ERR)
 		return;
@@ -895,11 +895,11 @@ void CJabberProto::ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param
 static VOID CALLBACK sttRebuildInfoFrameApcProc(void* param)
 {
 	CJabberProto *ppro = (CJabberProto *)param;
-	if ( !ppro->m_pInfoFrame)
+	if (!ppro->m_pInfoFrame)
 		return;
 
 	ppro->m_pInfoFrame->LockUpdates();
-	if ( !ppro->m_bJabberOnline) {
+	if (!ppro->m_bJabberOnline) {
 		ppro->m_pInfoFrame->RemoveInfoItem("$/PEP");
 		ppro->m_pInfoFrame->RemoveInfoItem("$/Transports");
 		ppro->m_pInfoFrame->UpdateInfoItem("$/JID", LoadSkinnedIconHandle(SKINICON_OTHER_USERDETAILS), TranslateT("Offline"));
@@ -907,7 +907,7 @@ static VOID CALLBACK sttRebuildInfoFrameApcProc(void* param)
 	else {
 		ppro->m_pInfoFrame->UpdateInfoItem("$/JID", LoadSkinnedIconHandle(SKINICON_OTHER_USERDETAILS), ppro->m_szJabberJID);
 
-		if ( !ppro->m_bPepSupported)
+		if (!ppro->m_bPepSupported)
 			ppro->m_pInfoFrame->RemoveInfoItem("$/PEP");
 		else {
 			ppro->m_pInfoFrame->RemoveInfoItem("$/PEP/");
@@ -994,9 +994,10 @@ const TCHAR *JabberStrIStr(const TCHAR *str, const TCHAR *substr)
 
 ////////////////////////////////////////////////////////////////////////
 // clipboard processing
-void JabberCopyText(HWND hwnd, TCHAR *text)
+
+void JabberCopyText(HWND hwnd, const TCHAR *text)
 {
-	if ( !hwnd || !text) return;
+	if (!hwnd || !text) return;
 
 	OpenClipboard(hwnd);
 	EmptyClipboard();
@@ -1011,20 +1012,18 @@ void JabberCopyText(HWND hwnd, TCHAR *text)
 /////////////////////////////////////////////////////////////////////////////////////////
 // One string entry dialog
 
-struct JabberEnterStringParams
+struct JabberEnterStringParam
 {
 	CJabberProto *ppro;
 
-	int type;
-	TCHAR *caption;
-	TCHAR *result;
-	size_t resultLen;
-	char *windowName;
-	int recentCount;
-	int timeout;
-
-	int idcControl;
-	int height;
+	int       type;
+	LPCTSTR   caption;
+	CMString &result;
+	char     *windowName;
+	int       recentCount;
+	int       timeout;
+	int       idcControl;
+	int       height;
 };
 
 static int sttEnterStringResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
@@ -1033,25 +1032,25 @@ static int sttEnterStringResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 	case IDC_TXT_MULTILINE:
 	case IDC_TXT_COMBO:
 	case IDC_TXT_RICHEDIT:
-		return RD_ANCHORX_LEFT|RD_ANCHORY_TOP|RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 
 	case IDOK:
 	case IDCANCEL:
-		return RD_ANCHORX_RIGHT|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 	}
-	return RD_ANCHORX_LEFT|RD_ANCHORY_TOP;
+	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
 static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	JabberEnterStringParams *params = (JabberEnterStringParams *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	JabberEnterStringParam *params = (JabberEnterStringParam *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIconBig(SKINICON_OTHER_RENAME));
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_RENAME));
-		params = (JabberEnterStringParams *)lParam;
+		params = (JabberEnterStringParam *)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)params);
 		SetWindowText(hwndDlg, params->caption);
 		{
@@ -1059,19 +1058,19 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			switch (params->type) {
 			case JES_PASSWORD:
 				params->idcControl = IDC_TXT_PASSWORD;
-				params->height = rc.bottom-rc.top;
+				params->height = rc.bottom - rc.top;
 				break;
 
-			case JES_MULTINE:
+			case JES_MULTILINE:
 				params->idcControl = IDC_TXT_MULTILINE;
 				params->height = 0;
-				rc.bottom += (rc.bottom-rc.top) * 2;
-				SetWindowPos(hwndDlg, NULL, 0, 0, rc.right-rc.left, rc.bottom-rc.top, SWP_NOMOVE|SWP_NOREPOSITION);
+				rc.bottom += (rc.bottom - rc.top) * 2;
+				SetWindowPos(hwndDlg, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_NOMOVE | SWP_NOREPOSITION);
 				break;
 
 			case JES_COMBO:
 				params->idcControl = IDC_TXT_COMBO;
-				params->height = rc.bottom-rc.top;
+				params->height = rc.bottom - rc.top;
 				if (params->windowName && params->recentCount)
 					params->ppro->ComboLoadRecentStrings(hwndDlg, IDC_TXT_COMBO, params->windowName, params->recentCount);
 				break;
@@ -1081,8 +1080,8 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				SendDlgItemMessage(hwndDlg, IDC_TXT_RICHEDIT, EM_AUTOURLDETECT, TRUE, 0);
 				SendDlgItemMessage(hwndDlg, IDC_TXT_RICHEDIT, EM_SETEVENTMASK, 0, ENM_LINK);
 				params->height = 0;
-				rc.bottom += (rc.bottom-rc.top) * 2;
-				SetWindowPos(hwndDlg, NULL, 0, 0, rc.right-rc.left, rc.bottom-rc.top, SWP_NOMOVE|SWP_NOREPOSITION);
+				rc.bottom += (rc.bottom - rc.top) * 2;
+				SetWindowPos(hwndDlg, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_NOMOVE | SWP_NOREPOSITION);
 				break;
 			}
 		}
@@ -1128,7 +1127,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 	case WM_SIZE:
 		{
-			UTILRESIZEDIALOG urd = {0};
+			UTILRESIZEDIALOG urd = { 0 };
 			urd.cbSize = sizeof(urd);
 			urd.hInstance = hInst;
 			urd.hwndDlg = hwndDlg;
@@ -1171,25 +1170,6 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDOK:
-			GetDlgItemText(hwndDlg, params->idcControl, params->result, (int)params->resultLen);
-			params->result[ params->resultLen-1 ] = 0;
-
-			if ((params->type == JES_COMBO) && params->windowName && params->recentCount)
-				params->ppro->ComboAddRecentString(hwndDlg, IDC_TXT_COMBO, params->windowName, params->result, params->recentCount);
-			if (params->windowName)
-				Utils_SaveWindowPosition(hwndDlg, NULL, params->ppro->m_szModuleName, params->windowName);
-
-			EndDialog(hwndDlg, 1);
-			break;
-
-		case IDCANCEL:
-			if (params->windowName)
-				Utils_SaveWindowPosition(hwndDlg, NULL, params->ppro->m_szModuleName, params->windowName);
-
-			EndDialog(hwndDlg, 0);
-			break;
-
 		case IDC_TXT_MULTILINE:
 		case IDC_TXT_RICHEDIT:
 			if ((HIWORD(wParam) != EN_SETFOCUS) && (HIWORD(wParam) != EN_KILLFOCUS)) {
@@ -1204,28 +1184,42 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				KillTimer(hwndDlg, 1001);
 			}
 			break;
+
+		case IDCANCEL:
+			if (params->windowName)
+				Utils_SaveWindowPosition(hwndDlg, NULL, params->ppro->m_szModuleName, params->windowName);
+
+			EndDialog(hwndDlg, 0);
+			break;
+
+		case IDOK:
+			HWND hWnd = GetDlgItem(hwndDlg, params->idcControl);
+			int len = GetWindowTextLength(hWnd);
+			params->result.Truncate(len);
+			GetWindowText(hWnd, params->result.GetBuffer(), len);
+
+			if ((params->type == JES_COMBO) && params->windowName && params->recentCount)
+				params->ppro->ComboAddRecentString(hwndDlg, IDC_TXT_COMBO, params->windowName, params->result, params->recentCount);
+			if (params->windowName)
+				Utils_SaveWindowPosition(hwndDlg, NULL, params->ppro->m_szModuleName, params->windowName);
+
+			EndDialog(hwndDlg, 1);
+			break;
 		}
 	}
 
 	return FALSE;
 }
 
-BOOL CJabberProto::EnterString(TCHAR *result, size_t resultLen, TCHAR *caption, int type, char *windowName, int recentCount, int timeout)
+BOOL CJabberProto::EnterString(CMString &result, LPCTSTR caption, int type, char *windowName, int recentCount, int timeout)
 {
-	bool free_caption = false;
-	if ( !caption || caption == result) {
-		free_caption = true;
-		caption = mir_tstrdup(result);
-		result[0] = _T('\0');
+	if (caption == NULL) {
+		caption = NEWTSTR_ALLOCA(result.GetString());
+		result.Empty();
 	}
 
-	JabberEnterStringParams params = { this, type, caption, result, resultLen, windowName, recentCount, timeout };
-
-	BOOL bRetVal = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GROUPCHAT_INPUT), GetForegroundWindow(), sttEnterStringDlgProc, LPARAM(&params));
-
-	if (free_caption) mir_free(caption);
-
-	return bRetVal;
+	JabberEnterStringParam param = { this, type, caption, result, windowName, recentCount, timeout };
+	return DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GROUPCHAT_INPUT), GetForegroundWindow(), sttEnterStringDlgProc, LPARAM(&param));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1244,52 +1238,46 @@ bool JabberReadXep203delay(HXML node, time_t &msgTime)
 	// skip '-' chars
 	TCHAR *szStamp = NEWTSTR_ALLOCA(ptszTimeStamp);
 	int si = 0, sj = 0;
-	while (1) {
+	while (true) {
 		if (szStamp[si] == _T('-'))
 			si++;
-		else
-			if ( !(szStamp[sj++] = szStamp[si++]))
-				break;
+		else if (!(szStamp[sj++] = szStamp[si++]))
+			break;
 	};
 	msgTime = JabberIsoToUnixTime(szStamp);
 	return msgTime != 0;
 }
 
-BOOL CJabberProto::IsMyOwnJID(LPCTSTR szJID)
+bool CJabberProto::IsMyOwnJID(LPCTSTR szJID)
 {
 	if (m_ThreadInfo == NULL)
-		return FALSE;
+		return false;
 
-	TCHAR *szFrom = JabberPrepareJid(szJID);
-	if ( !szFrom)
-		return FALSE;
+	ptrT szFrom(JabberPrepareJid(szJID));
+	if (szFrom == NULL)
+		return false;
 
-	TCHAR *szTo = JabberPrepareJid(m_ThreadInfo->fullJID);
-	if ( !szTo) {
-		mir_free(szFrom);
-		return FALSE;
-	}
+	ptrT szTo(JabberPrepareJid(m_ThreadInfo->fullJID));
+	if (szTo == NULL)
+		return false;
 
 	TCHAR *pDelimiter = _tcschr(szFrom, _T('/'));
-	if (pDelimiter) *pDelimiter = _T('\0');
+	if (pDelimiter)
+		*pDelimiter = 0;
 
 	pDelimiter = _tcschr(szTo, _T('/'));
-	if (pDelimiter) *pDelimiter = _T('\0');
+	if (pDelimiter)
+		*pDelimiter = 0;
 
-	BOOL bRetVal = _tcscmp(szFrom, szTo) == 0;
-
-	mir_free(szFrom);
-	mir_free(szTo);
-
-	return bRetVal;
+	return _tcscmp(szFrom, szTo) == 0;
 }
 
 void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 {
 	OBJLIST<JABBER_HTTP_AVATARS> &avs = *(OBJLIST<JABBER_HTTP_AVATARS>*)param;
 	HANDLE hHttpCon = NULL;
-	for (int i=0; i < avs.getCount(); i++) {
-		NETLIBHTTPREQUEST nlhr = {0};
+	for (int i = 0; i < avs.getCount(); i++) {
+		NETLIBHTTPREQUEST nlhr = { 0 };
 		nlhr.cbSize = sizeof(nlhr);
 		nlhr.requestType = REQUEST_GET;
 		nlhr.flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_PERSISTENT;
@@ -1308,14 +1296,14 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					AI.hContact = avs[i].hContact;
 
 					if (getByte(AI.hContact, "AvatarType", PA_FORMAT_UNKNOWN) != (unsigned char)pictureType) {
-						TCHAR tszFileName[ MAX_PATH ];
+						TCHAR tszFileName[MAX_PATH];
 						GetAvatarFileName(AI.hContact, tszFileName, SIZEOF(tszFileName));
 						DeleteFile(tszFileName);
 					}
 
 					setByte(AI.hContact, "AvatarType", pictureType);
 
-					char buffer[2*MIR_SHA1_HASH_SIZE+1];
+					char buffer[2 * MIR_SHA1_HASH_SIZE + 1];
 					BYTE digest[MIR_SHA1_HASH_SIZE];
 					mir_sha1_ctx sha;
 					mir_sha1_init(&sha);
@@ -1323,9 +1311,9 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					mir_sha1_finish(&sha, digest);
 					bin2hex(digest, sizeof(digest), buffer);
 
-					ptrA cmpsha( getStringA(AI.hContact, "AvatarSaved"));
+					ptrA cmpsha(getStringA(AI.hContact, "AvatarSaved"));
 					if (cmpsha == NULL || strnicmp(cmpsha, buffer, sizeof(buffer))) {
-						TCHAR tszFileName[ MAX_PATH ];
+						TCHAR tszFileName[MAX_PATH];
 						GetAvatarFileName(AI.hContact, tszFileName, SIZEOF(tszFileName));
 						_tcsncpy(AI.filename, tszFileName, SIZEOF(AI.filename));
 						FILE* out = _tfopen(tszFileName, _T("wb"));
@@ -1334,7 +1322,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 							fclose(out);
 							setString(AI.hContact, "AvatarSaved", buffer);
 							ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
-							debugLogA("Broadcast new avatar: %s",AI.filename);
+							debugLogA("Broadcast new avatar: %s", AI.filename);
 						}
 						else ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
 					}

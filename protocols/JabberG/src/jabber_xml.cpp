@@ -246,15 +246,15 @@ HXML __fastcall xmlGetNthChild(HXML hXml, LPCTSTR tag, int nth)
 {
 	int i, num;
 
-	if ( !hXml || tag == NULL || _tcslen(tag) <= 0 || nth < 1)
+	if (!hXml || tag == NULL || _tcslen(tag) <= 0 || nth < 1)
 		return NULL;
 
 	num = 1;
 	for (i=0; ; i++) {
 		HXML n = xi.getChild(hXml, i);
-		if ( !n)
+		if (!n)
 			break;
-		if ( !lstrcmp(tag, xmlGetName(n))) {
+		if (!lstrcmp(tag, xmlGetName(n))) {
 			if (num == nth)
 				return n;
 
@@ -278,7 +278,7 @@ LPCTSTR __fastcall xmlGetText(HXML xml)
 
 void XPath::ProcessPath(LookupInfo &info, bool bCreate)
 {
-	if ( !info.nodeName) return;
+	if (!info.nodeName) return;
 
 	TCHAR *nodeName = (TCHAR *)alloca(sizeof(TCHAR) * (info.nodeName.length+1));
 	lstrcpyn(nodeName, info.nodeName.p, info.nodeName.length+1);
@@ -320,7 +320,7 @@ XPath::PathType XPath::LookupImpl(bool bCreate)
 		case S_START:
 		{
 			ProcessPath(info, bCreate);
-			if ( !m_hXml)
+			if (!m_hXml)
 			{
 				state = S_FINAL_ERROR;
 				break;
@@ -503,7 +503,7 @@ XPath::PathType XPath::LookupImpl(bool bCreate)
 		}
 		}
 
-		if ( !*p && (state < S_FINAL))
+		if (!*p && (state < S_FINAL))
 		{
 			state = S_FINAL_ERROR;
 		}

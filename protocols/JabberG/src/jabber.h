@@ -670,7 +670,6 @@ int    g_OnToolbarInit(WPARAM, LPARAM);
 
 void   JabberChatDllError(void);
 int    JabberCompareJids(const TCHAR *jid1, const TCHAR *jid2);
-TCHAR* EscapeChatTags(TCHAR* pszText);
 TCHAR* UnEscapeChatTags(TCHAR* str_in);
 
 //---- jabber_adhoc.cpp	---------------------------------------------
@@ -750,7 +749,7 @@ time_t str2time(const TCHAR*);
 #define JabberUnixToDosT JabberUnixToDosW
 
 const TCHAR *JabberStrIStr(const TCHAR *str, const TCHAR *substr);
-void JabberCopyText(HWND hwnd, TCHAR *text);
+void JabberCopyText(HWND hwnd, const TCHAR *text);
 CJabberProto *JabberChooseInstance(bool bIsLink=false);
 
 bool JabberReadXep203delay(HXML node, time_t &msgTime);

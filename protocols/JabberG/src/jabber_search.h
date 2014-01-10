@@ -163,7 +163,7 @@ public:
 		int index=_Records.getIndex(rec);
 		if (index<0)
 		{
-			if ( !_Records.insert(rec)) delete rec;
+			if (!_Records.insert(rec)) delete rec;
 			else
 			{
 				index=_Records.getIndex(rec);
@@ -184,7 +184,7 @@ public:
 		if (index<0)
 		{
 			_KEYTYPE* newKey=CopyProc(Key);
-			if ( !_Records.insert(rec))
+			if (!_Records.insert(rec))
 			{
 				delete rec;
 				DestroyProc(newKey);

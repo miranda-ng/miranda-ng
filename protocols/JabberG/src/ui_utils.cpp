@@ -163,7 +163,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_CLOSE:
 		m_lresult = FALSE;
 		OnClose();
-		if ( !m_lresult) {
+		if (!m_lresult) {
 			if (m_isModal)
 				EndDialog(m_hwnd, 0);
 			else
@@ -483,7 +483,7 @@ void CCtrlData::OnInit()
 
 void CCtrlData::NotifyChange()
 {
-	if ( !m_parentWnd || m_parentWnd->IsInitialized()) m_changed = true;
+	if (!m_parentWnd || m_parentWnd->IsInitialized()) m_changed = true;
 	if (m_parentWnd) {
 		m_parentWnd->OnChange(this);
 		if (m_parentWnd->IsInitialized())
@@ -1353,7 +1353,7 @@ void CCtrlFilterListView::FilterHighlight(TCHAR *str)
 		if (str) {
 			for (int j = 0; j < 10; ++j) {
 				GetItemText(i, j, buf, SIZEOF(buf));
-				if ( !*buf)
+				if (!*buf)
 					break;
 
 				if (_tcsstr(buf, str)) {
@@ -1603,7 +1603,7 @@ void CCtrlTreeView::TranslateTree()
 			hItem = hItemTmp;
 		else {
 			while (true) {
-				if ( !(hItem = GetParent(hItem)))
+				if (!(hItem = GetParent(hItem)))
 					break;
 				if (hItemTmp = GetNextSibling(hItem)) {
 					hItem = hItemTmp;
@@ -1624,7 +1624,7 @@ HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const TCHAR *name)
 	else
 		tvi.hItem = GetRoot();
 
-	if ( !name)
+	if (!name)
 		return tvi.hItem;
 
 	tvi.mask = TVIF_TEXT;
@@ -1634,7 +1634,7 @@ HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const TCHAR *name)
 	while (tvi.hItem) {
 		GetItem(&tvi);
 
-		if ( !lstrcmp(tvi.pszText, name))
+		if (!lstrcmp(tvi.pszText, name))
 			return tvi.hItem;
 
 		tvi.hItem = GetNextSibling(tvi.hItem);
@@ -1937,7 +1937,7 @@ void CCtrlPages::AddPage(TCHAR *ptszName, HICON hIcon, CCallback<void> onCreate,
 	tci.pszText = ptszName;
 	if (hIcon)
 	{
-		if ( !m_hIml)
+		if (!m_hIml)
 		{
 			m_hIml = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
 			TabCtrl_SetImageList(m_hwnd, m_hIml);
@@ -1975,7 +1975,7 @@ void CCtrlPages::AttachDialog(int iPage, CDlgBase *pDlg)
 
 void CCtrlPages::ShowPage(CDlgBase *pDlg)
 {
-	if ( !pDlg) return;
+	if (!pDlg) return;
 
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
@@ -2273,7 +2273,7 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_SETTEXT:
 		if (m_show_label && IsWindowUnicode(m_hwnd)) {
 			TCHAR *szTitle = (TCHAR *)lParam;
-			if ( !_tcsstr(szTitle, m_proto_interface->m_tszUserName)) {
+			if (!_tcsstr(szTitle, m_proto_interface->m_tszUserName)) {
 				UpdateProtoTitle(szTitle);
 				return TRUE;
 			}
@@ -2310,7 +2310,7 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void CProtoIntDlgBase::UpdateProtoTitle(const TCHAR *szText)
 {
-	if ( !m_show_label) return;
+	if (!m_show_label) return;
 
 	int curLength;
 	const TCHAR *curText;
@@ -2326,7 +2326,7 @@ void CProtoIntDlgBase::UpdateProtoTitle(const TCHAR *szText)
 		curText = tmp;
 	}
 
-	if ( !_tcsstr(curText, m_proto_interface->m_tszUserName)) {
+	if (!_tcsstr(curText, m_proto_interface->m_tszUserName)) {
 		int length = curLength + lstrlen(m_proto_interface->m_tszUserName) + 256;
 		TCHAR *text = (TCHAR *)_alloca(length * sizeof(TCHAR));
 		mir_sntprintf(text, length, _T("%s [%s: %s]"), curText, TranslateT("Account"), m_proto_interface->m_tszUserName);

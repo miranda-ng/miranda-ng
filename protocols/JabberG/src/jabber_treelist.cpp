@@ -201,7 +201,7 @@ HTREELISTITEM TreeList_GetActiveItem(HWND hwnd)
 HTREELISTITEM TreeList_AddItem(HWND hwnd, HTREELISTITEM hParent, TCHAR *text, LPARAM nodeDdata)
 {
 	TTreeList_Data *data = (TTreeList_Data *)sttTreeList_GeWindowData(hwnd);
-	if ( !hParent) hParent = data->root;
+	if (!hParent) hParent = data->root;
 
 	TTreeList_ItemInfo *item = new TTreeList_ItemInfo;
 	item->data = nodeDdata;
@@ -359,7 +359,7 @@ BOOL TreeList_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, UINT id
 				ListView_GetItem(lpnmia->hdr.hwndFrom, &lvi);
 
 				HTREELISTITEM hItem = (lvi.iItem < 0) ? data-> root : (HTREELISTITEM)lvi.lParam;
-				if ( !hItem->subItems.getCount() && !(hItem->flags & TLIF_FAKEPARENT)) break;
+				if (!hItem->subItems.getCount() && !(hItem->flags & TLIF_FAKEPARENT)) break;
 				data->hItemSelected = hItem;
 
 				NMTREEVIEW nmtv;
@@ -480,7 +480,7 @@ static int sttTreeList_SortItems_Cmp5(const void *p1, const void *p2) { return -
 
 static void sttTreeList_SortItems(HTREELISTITEM hItem, LPARAM data)
 {
-	if ( !hItem->subItems.getCount()) return;
+	if (!hItem->subItems.getCount()) return;
 
 	typedef int (__cdecl *TQSortCmp)(const void *, const void *);
 	static TQSortCmp funcs[] =
@@ -499,7 +499,7 @@ static void sttTreeList_ResetIndex(HTREELISTITEM hItem, LPARAM data)
 {
 	hItem->flags &= ~TLIF_HASITEM;
 
-	if ( !hItem->parent || (hItem->parent->flags & TLIF_VISIBLE) && (hItem->parent->flags & TLIF_EXPANDED))
+	if (!hItem->parent || (hItem->parent->flags & TLIF_VISIBLE) && (hItem->parent->flags & TLIF_EXPANDED))
 		hItem->flags |= TLIF_VISIBLE;
 	else
 		hItem->flags &= ~TLIF_VISIBLE;

@@ -272,9 +272,9 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 
 		int from;
 		const TCHAR *itemName = xmlGetName(itemNode);
-		if ( !lstrcmp(itemName, _T("to")))
+		if (!lstrcmp(itemName, _T("to")))
 			from = DBEF_SENT;
-		else if ( !lstrcmp(itemName, _T("from")))
+		else if (!lstrcmp(itemName, _T("from")))
 			from = 0;
 		else
 			continue;
@@ -297,7 +297,7 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 		dbei.flags = DBEF_READ + DBEF_UTF + from;
 		dbei.pBlob = (PBYTE)(char*)szEventText;
 		dbei.timestamp = tmStart + _ttol(tszSecs) - timezone;
-		if ( !IsDuplicateEvent(hContact, dbei))
+		if (!IsDuplicateEvent(hContact, dbei))
 			db_event_add(hContact, &dbei);
 	}
 }

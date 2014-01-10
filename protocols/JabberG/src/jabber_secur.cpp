@@ -35,11 +35,11 @@ TNtlmAuth::TNtlmAuth(ThreadData* info, const char* mechanism, const TCHAR *hostn
 	szHostName = hostname;
 
 	const TCHAR *szProvider;
-	if ( !strcmp(mechanism, "GSS-SPNEGO"))
+	if (!strcmp(mechanism, "GSS-SPNEGO"))
 		szProvider = _T("Negotiate");
-	else if ( !strcmp(mechanism, "GSSAPI"))
+	else if (!strcmp(mechanism, "GSSAPI"))
 		szProvider = _T("GSSAPI");
-	else if ( !strcmp(mechanism, "NTLM"))
+	else if (!strcmp(mechanism, "NTLM"))
 		szProvider = _T("NTLM");
 	else {
 		bIsValid = false;
@@ -48,7 +48,7 @@ TNtlmAuth::TNtlmAuth(ThreadData* info, const char* mechanism, const TCHAR *hostn
 
 	TCHAR szSpn[ 1024 ] = _T("");
 	if (strcmp(mechanism, "NTLM")) {
-		if ( !getSpn(szSpn, SIZEOF(szSpn)) && !strcmp(mechanism, "GSSAPI")) {
+		if (!getSpn(szSpn, SIZEOF(szSpn)) && !strcmp(mechanism, "GSSAPI")) {
 			bIsValid = false;
 			return;
 	}	}
@@ -68,7 +68,7 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 
 	TCHAR szFullUserName[128] = _T("");
 	ULONG szFullUserNameLen = SIZEOF(szFullUserName);
-	if ( !GetUserNameEx(NameDnsDomain, szFullUserName, &szFullUserNameLen)) {
+	if (!GetUserNameEx(NameDnsDomain, szFullUserName, &szFullUserNameLen)) {
 		szFullUserName[ 0 ] = 0;
 		szFullUserNameLen = SIZEOF(szFullUserName);
 		GetUserNameEx(NameSamCompatible, szFullUserName, &szFullUserNameLen);
@@ -105,7 +105,7 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 
 char* TNtlmAuth::getInitialRequest()
 {
-	if ( !hProvider)
+	if (!hProvider)
 		return NULL;
 
 	// This generates login method advertisement packet
@@ -120,7 +120,7 @@ char* TNtlmAuth::getInitialRequest()
 
 char* TNtlmAuth::getChallenge(const TCHAR *challenge)
 {
-	if ( !hProvider)
+	if (!hProvider)
 		return NULL;
 
 	char *text = (!lstrcmp(challenge, _T("="))) ? mir_strdup("") : mir_t2a(challenge), *result;
@@ -254,7 +254,7 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 	ptrA chl((char*)mir_base64_decode( _T2A(challenge), &chlLen));
 
 	char *r = strstr(chl, "r=");
-	if ( !r)
+	if (!r)
 		return NULL;
 
 	char *e = strchr(r, ','); if (e) *e = 0;

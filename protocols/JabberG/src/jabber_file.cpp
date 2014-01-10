@@ -126,7 +126,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 						}
 						else if ((s=strchr(str, ':')) != NULL) {
 							*s = '\0';
-							if ( !strcmp(str, "Content-Length"))
+							if (!strcmp(str, "Content-Length"))
 								ft->std.totalBytes = ft->std.currentFileSize = _atoi64(s+1);
 					}	}
 
@@ -367,7 +367,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 		debugLogA("FT Got: %s", str);
 		if (ft->state == FT_CONNECTING) {
 			// looking for "GET filename.ext HTTP/1.1"
-			if ( !strncmp(str, "GET ", 4)) {
+			if (!strncmp(str, "GET ", 4)) {
 				for (t=str+4; *t!='\0' && *t!=' '; t++);
 				*t = '\0';
 				for (t=str+4; *t!='\0' && *t=='/'; t++);
@@ -460,7 +460,7 @@ filetransfer::~filetransfer()
 {
 	ppro->debugLogA("Destroying file transfer session %08p", this);
 
-	if ( !bCompleted)
+	if (!bCompleted)
 		ppro->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, this, 0);
 
 	close();

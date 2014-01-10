@@ -34,20 +34,13 @@ BOOL CJabberSendManager::FillPermanentHandlers()
 
 BOOL CJabberSendManager::HandleSendPermanent(HXML node, ThreadData *pThreadData)
 {
-	BOOL bStopHandling = FALSE;
-	Lock();
-	CJabberSendPermanentInfo *pInfo = m_pPermanentHandlers;
-	while (pInfo && !bStopHandling) {
+	mir_cslock lck(m_cs);
+	for (CJabberSendPermanentInfo *pInfo = m_pPermanentHandlers; pInfo; pInfo = pInfo->m_pNext) {
 		CJabberSendInfo sendInfo;
 		sendInfo.m_pUserData = pInfo->m_pUserData;
-
-		if ((ppro->*(pInfo->m_pHandler))(node, pThreadData, &sendInfo)) {
-			bStopHandling = TRUE;
-			break;
-		}
-		pInfo = pInfo->m_pNext;
+		if ((ppro->*(pInfo->m_pHandler))(node, pThreadData, &sendInfo))
+			return true;
 	}
-	Unlock();
 
-	return bStopHandling;
+	return false;
 }

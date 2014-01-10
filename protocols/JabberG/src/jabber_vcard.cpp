@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CJabberProto::SendGetVcard(const TCHAR *jid)
 {
-	if ( !m_bJabberOnline) return 0;
+	if (!m_bJabberOnline) return 0;
 
 	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultGetVcard, JABBER_IQ_TYPE_GET, jid);
 	m_ThreadInfo->send( XmlNodeIq(pInfo) << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP)
@@ -101,7 +101,7 @@ static INT_PTR CALLBACK PersonalDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			case PSN_APPLY:
 				ppro->m_vCardUpdates &= ~(1UL<<iPageId);
 				ppro->SaveVcardToDB(hwndDlg, iPageId);
-				if ( !ppro->m_vCardUpdates)
+				if (!ppro->m_vCardUpdates)
 					ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
 				break;
 		}	}
@@ -164,7 +164,7 @@ static INT_PTR CALLBACK HomeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case PSN_APPLY:
 				ppro->m_vCardUpdates &= ~(1UL<<iPageId);
 				ppro->SaveVcardToDB(hwndDlg, iPageId);
-				if ( !ppro->m_vCardUpdates)
+				if (!ppro->m_vCardUpdates)
 					ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
 				break;
 		}	}
@@ -230,7 +230,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case PSN_APPLY:
 				ppro->m_vCardUpdates &= ~(1UL<<iPageId);
 				ppro->SaveVcardToDB(hwndDlg, iPageId);
-				if ( !ppro->m_vCardUpdates)
+				if (!ppro->m_vCardUpdates)
 					ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
 				break;
 		}	}
@@ -262,7 +262,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		if ( !lParam) break; // Launched from userinfo
+		if (!lParam) break; // Launched from userinfo
 		TranslateDialogDefault(hwndDlg);
 		SendDlgItemMessage(hwndDlg, IDC_LOAD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPEN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 		SendDlgItemMessage(hwndDlg, IDC_LOAD, BUTTONSETASFLATBTN, TRUE, 0);
@@ -464,7 +464,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case PSN_APPLY:
 				dat->ppro->m_vCardUpdates &= ~(1UL<<iPageId);
 				dat->ppro->SaveVcardToDB(hwndDlg, iPageId);
-				if ( !dat->ppro->m_vCardUpdates)
+				if (!dat->ppro->m_vCardUpdates)
 					dat->ppro->SetServerVcard(dat->ppro->m_bPhotoChanged, dat->ppro->m_szPhotoFileName);
 				break;
 		}	}
@@ -494,7 +494,7 @@ static INT_PTR CALLBACK NoteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		if ( !lParam) break; // Launched from userinfo
+		if (!lParam) break; // Launched from userinfo
 		ppro = (CJabberProto*)lParam;
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
@@ -522,7 +522,7 @@ static INT_PTR CALLBACK NoteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case PSN_APPLY:
 				ppro->m_vCardUpdates &= ~(1UL<<iPageId);
 				ppro->SaveVcardToDB(hwndDlg, iPageId);
-				if ( !ppro->m_vCardUpdates)
+				if (!ppro->m_vCardUpdates)
 					ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
 				break;
 		}	}
@@ -692,7 +692,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 
 	switch(msg) {
 	case WM_INITDIALOG:
-		if ( !lParam) break; // Launched from userinfo
+		if (!lParam) break; // Launched from userinfo
 		ppro = (CJabberProto*)lParam;
 		{
 			LVCOLUMN lvc;
@@ -782,7 +782,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 			case PSN_APPLY:
 				ppro->m_vCardUpdates &= ~(1UL<<iPageId);
 				ppro->SaveVcardToDB(hwndDlg, iPageId);
-				if ( !ppro->m_vCardUpdates)
+				if (!ppro->m_vCardUpdates)
 					ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
 				break;
 			}
@@ -1018,7 +1018,7 @@ void CJabberProto::AppendVcardFromDB(HXML n, char *tag, char *key)
 
 void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 {
-	if ( !m_bJabberOnline) return;
+	if (!m_bJabberOnline) return;
 
 	int  i;
 	char idstr[33];

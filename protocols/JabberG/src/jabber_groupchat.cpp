@@ -166,12 +166,12 @@ struct JabberGcRecentInfo
 private:
 	BOOL null_strequals(const TCHAR *str1, const TCHAR *str2)
 	{
-		if ( !str1 && !str2) return TRUE;
-		if ( !str1 && str2 && !*str2) return TRUE;
-		if ( !str2 && str1 && !*str1) return TRUE;
+		if (!str1 && !str2) return TRUE;
+		if (!str1 && str2 && !*str2) return TRUE;
+		if (!str2 && str1 && !*str1) return TRUE;
 
-		if ( !str1 && str2) return FALSE;
-		if ( !str2 && str1) return FALSE;
+		if (!str1 && str2) return FALSE;
+		if (!str2 && str1) return FALSE;
 
 		return !lstrcmp(str1, str2);
 	}
@@ -634,7 +634,7 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				{
 					JABBER_LIST_ITEM *item = 0;
 					if (item = m_proto->ListGetItemPtrFromIndex(i))
-						if ( !lstrcmp(item->type, _T("conference")))
+						if (!lstrcmp(item->type, _T("conference")))
 							AppendMenu(hMenu, MF_STRING, (UINT_PTR)item, item->name);
 				}
 				AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
@@ -742,26 +742,20 @@ struct JabberGroupchatChangeNicknameParam
 
 static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 {
-	JabberGroupchatChangeNicknameParam* param = (JabberGroupchatChangeNicknameParam*)arg;
+	JabberGroupchatChangeNicknameParam *param = (JabberGroupchatChangeNicknameParam*)arg;
 	if (param == NULL)
 		return;
 
 	JABBER_LIST_ITEM *item = param->ppro->ListGetItemPtr(LIST_CHATROOM, param->jid);
 	if (item != NULL) {
-		TCHAR szBuffer[1024];
-		TCHAR szCaption[1024];
-		szBuffer[0] = _T('\0');
-
-		TCHAR *roomName = item->name ? item->name : item->jid;
-		mir_sntprintf(szCaption, SIZEOF(szCaption), TranslateT("Change nickname in <%s>"), roomName);
+		CMString szBuffer, szTitle;
+		szTitle.Format(TranslateT("Change nickname in <%s>"), item->name ? item->name : item->jid);
 		if (item->nick)
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s"), item->nick);
+			szBuffer = item->nick;
 
-		if (param->ppro->EnterString(szBuffer, SIZEOF(szBuffer), szCaption, JES_COMBO, "gcNick_")) {
-			TCHAR text[1024];
+		if (param->ppro->EnterString(szBuffer, szTitle, JES_COMBO, "gcNick_")) {
 			replaceStrT(item->nick, szBuffer);
-			mir_sntprintf(text, SIZEOF(text), _T("%s/%s"), item->jid, szBuffer);
-			param->ppro->SendPresenceTo(param->ppro->m_iStatus, text, NULL);
+			param->ppro->SendPresenceTo(param->ppro->m_iStatus, CMString().Format(_T("%s/%s"), item->jid, szBuffer), NULL);
 		}
 	}
 
@@ -1113,11 +1107,14 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	}
 	else nick = NULL;
 
+	CMString tszText(msgText);
+	tszText.Replace(_T("%"), _T("%%"));
+
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszUID = resource;
 	gce.ptszNick = nick;
 	gce.time = msgTime;
-	gce.ptszText = EscapeChatTags((TCHAR*)msgText);
+	gce.ptszText = tszText;
 	gce.bIsMe = nick == NULL ? FALSE : (lstrcmp(resource, item->nick) == 0);
 
 	if (!isHistory)
@@ -1135,8 +1132,6 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 		gcd.iType = GC_EVENT_SETSBTEXT;
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 	}
-
-	mir_free((void*)gce.ptszText); // Since we processed msgText and created a new string
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

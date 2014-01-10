@@ -127,7 +127,7 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	HXML siNode, featureNode, xNode, fieldNode, valueNode;
 	filetransfer *ft = (filetransfer *)pInfo->GetUserData();
-	if ( !ft) return;
+	if (!ft) return;
 
 	if ((pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) && pInfo->m_szFrom && pInfo->m_szTo) {
 		if ((siNode = xmlGetChild(iqNode , "si")) != NULL) {
@@ -153,7 +153,7 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
 								ft->type = FT_BYTESTREAM;
 								ft->jbt = jbt;
 								ForkThread((MyThreadFunc)&CJabberProto::ByteSendThread, jbt);
-							} else if ( !_tcscmp(xmlGetText(valueNode), JABBER_FEAT_IBB)) {
+							} else if (!_tcscmp(xmlGetText(valueNode), JABBER_FEAT_IBB)) {
 								JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *) mir_alloc(sizeof (JABBER_IBB_TRANSFER));
 								ZeroMemory(jibb, sizeof(JABBER_IBB_TRANSFER));
 								jibb->srcJID = mir_tstrdup(pInfo->m_szTo);
@@ -270,7 +270,7 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 
 void CJabberProto::FtSendFinal(BOOL success, filetransfer *ft)
 {
-	if ( !success) {
+	if (!success) {
 		debugLogA("File transfer complete with error");
 		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ft->state == FT_DENIED ? ACKRESULT_DENIED : ACKRESULT_FAILED, ft, 0);
 	}
@@ -298,7 +298,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 	int i;
     unsigned __int64 filesize;
 
-	if ( !iqNode ||
+	if (!iqNode ||
 		  (from = xmlGetAttrValue(iqNode, _T("from"))) == NULL ||
 		  (str = xmlGetAttrValue(iqNode,  _T("type"))) == NULL || _tcscmp(str, _T("set")) ||
 		  (siNode = xmlGetChildByTag(iqNode, "si", "xmlns", JABBER_FEAT_SI)) == NULL)
@@ -319,15 +319,15 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 			HXML optionNode = NULL;
 			JABBER_FT_TYPE ftType = FT_OOB;
 
-			if ( !bIbbOnly) {
+			if (!bIbbOnly) {
 				for (i=0; ; i++) {
 					optionNode = xmlGetChild(fieldNode ,i);
-					if ( !optionNode)
+					if (!optionNode)
 						break;
 
-					if ( !lstrcmp(xmlGetName(optionNode), _T("option"))) {
+					if (!lstrcmp(xmlGetName(optionNode), _T("option"))) {
 						if ((n = xmlGetChild(optionNode , "value")) != NULL && xmlGetText(n)) {
-							if ( !_tcscmp(xmlGetText(n), JABBER_FEAT_BYTESTREAMS)) {
+							if (!_tcscmp(xmlGetText(n), JABBER_FEAT_BYTESTREAMS)) {
 								ftType = FT_BYTESTREAM;
 								break;
 			}	}	}	}	}
@@ -336,12 +336,12 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 			if (bIbbOnly || !optionNode) {
 				for (i=0; ; i++) {
 					optionNode = xmlGetChild(fieldNode ,i);
-					if ( !optionNode)
+					if (!optionNode)
 						break;
 
-					if ( !lstrcmp(xmlGetName(optionNode), _T("option"))) {
+					if (!lstrcmp(xmlGetName(optionNode), _T("option"))) {
 						if ((n = xmlGetChild(optionNode , "value")) != NULL && xmlGetText(n)) {
-							if ( !_tcscmp(xmlGetText(n), JABBER_FEAT_IBB)) {
+							if (!_tcscmp(xmlGetText(n), JABBER_FEAT_IBB)) {
 								ftType = FT_IBB;
 								break;
 			}	}	}	}	}
@@ -391,7 +391,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 
 void CJabberProto::FtAcceptSiRequest(filetransfer *ft)
 {
-	if ( !m_bJabberOnline || ft == NULL || ft->jid == NULL || ft->sid == NULL) return;
+	if (!m_bJabberOnline || ft == NULL || ft->jid == NULL || ft->sid == NULL) return;
 
 	JABBER_LIST_ITEM *item;
 	if ((item=ListAdd(LIST_FTRECV, ft->sid)) != NULL) {
@@ -408,7 +408,7 @@ void CJabberProto::FtAcceptSiRequest(filetransfer *ft)
 
 void CJabberProto::FtAcceptIbbRequest(filetransfer *ft)
 {
-	if ( !m_bJabberOnline || ft == NULL || ft->jid == NULL || ft->sid == NULL) return;
+	if (!m_bJabberOnline || ft == NULL || ft->jid == NULL || ft->sid == NULL) return;
 
 	JABBER_LIST_ITEM *item;
 	if ((item=ListAdd(LIST_FTRECV, ft->sid)) != NULL) {
@@ -455,13 +455,13 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 	const TCHAR *id = xmlGetAttrValue(iqNode, _T("id"));
 	const TCHAR *from = xmlGetAttrValue(iqNode, _T("from"));
 	const TCHAR *to = xmlGetAttrValue(iqNode, _T("to"));
-	if ( !id || !from || !to) return FALSE;
+	if (!id || !from || !to) return FALSE;
 
 	HXML ibbNode = xmlGetChildByTag(iqNode, bOpen ? "open" : "close", "xmlns", JABBER_FEAT_IBB);
-	if ( !ibbNode) return FALSE;
+	if (!ibbNode) return FALSE;
 
 	const TCHAR *sid = xmlGetAttrValue(ibbNode, _T("sid"));
-	if ( !sid) return FALSE;
+	if (!sid) return FALSE;
 
 	// already closed?
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTRECV, sid);
@@ -475,7 +475,7 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 
 	// open event
 	if (bOpen) {
-		if ( !item->jibb) {
+		if (!item->jibb) {
 			JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *) mir_alloc(sizeof(JABBER_IBB_TRANSFER));
 			ZeroMemory(jibb, sizeof(JABBER_IBB_TRANSFER));
 			jibb->srcJID = mir_tstrdup(from);

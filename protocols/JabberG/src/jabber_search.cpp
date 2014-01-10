@@ -87,7 +87,7 @@ static int JabberSearchFrameProc(HWND hwnd, int msg, WPARAM wParam, LPARAM lPara
 //
 static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat)
 {
-	if ( !FieldDat || !FieldDat->Label || !FieldDat->Var)
+	if (!FieldDat || !FieldDat->Label || !FieldDat->Var)
 		return FALSE;
 
 	HFONT hFont = (HFONT)SendMessage(hwndDlg, WM_GETFONT, 0, 0);
@@ -109,7 +109,7 @@ static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat)
 	HWND hwndVar=CreateWindowEx(0|WS_EX_CLIENTEDGE,_T("EDIT"),(LPCTSTR)FieldDat->defValue,WS_CHILD|WS_TABSTOP, CornerX+5, CornerY + Order*40+14, width ,20,hwndParent,NULL,hInst,0);
 	SendMessage(hwndLabel, WM_SETFONT, (WPARAM)hFont,0);
 	SendMessage(hwndVar, WM_SETFONT, (WPARAM)hFont,0);
-	if ( !FieldDat->bHidden) {
+	if (!FieldDat->bHidden) {
 		ShowWindow(hwndLabel,SW_SHOW);
 		ShowWindow(hwndVar,SW_SHOW);
 		EnableWindow(hwndLabel,!FieldDat->bReadOnly);
@@ -134,14 +134,14 @@ static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat)
 
 void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	if ( !searchHandleDlg)
+	if (!searchHandleDlg)
 		return;
 
 	LPCTSTR type = xmlGetAttrValue(iqNode, _T("type"));
 	if (type == NULL)
 		return;
 
-	if ( !lstrcmp(type, _T("result"))) {
+	if (!lstrcmp(type, _T("result"))) {
 		HXML queryNode = xmlGetNthChild(iqNode, _T("query"), 1);
 		HXML xNode = xmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 
@@ -157,10 +157,10 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo)
 			int Order=0;
 			for (int i=0; ; i++) {
 				HXML chNode = xmlGetChild(queryNode, i);
-				if ( !chNode)
+				if (!chNode)
 					break;
 
-				if ( !_tcsicmp(xmlGetName(chNode), _T("instructions")) && xmlGetText(chNode))
+				if (!_tcsicmp(xmlGetName(chNode), _T("instructions")) && xmlGetText(chNode))
 					SetDlgItemText(searchHandleDlg,IDC_INSTRUCTIONS,TranslateTS(xmlGetText(chNode)));
 				else if (xmlGetName(chNode)) {
 					Data *MyData=(Data*)malloc(sizeof(Data));
@@ -183,7 +183,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo)
 		PostMessage(searchHandleDlg,WM_USER+10,0,0);
 		ShowWindow(searchHandleDlg,SW_SHOW);
 	}
-	else if ( !lstrcmp(type, _T("error"))) {
+	else if (!lstrcmp(type, _T("error"))) {
 		const TCHAR *code=NULL;
 		const TCHAR *description=NULL;
 		TCHAR buff[255];
@@ -252,13 +252,13 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 
 	for (i=0; i < nUsersFound; i++) {
 	   TCHAR buff[200]=_T("");
-	   Results.jsr.jid[0]=_T('\0');
+	   Results.jsr.jid[0]=0;
 	   U_TCHAR_MAP * pmUserData = (U_TCHAR_MAP *) plUsersInfo->operator [](i);
 	   for (int j=0; j < nFieldCount; j++) {
 		   TCHAR* var = ListOfFields[j];
 		   TCHAR* value = pmUserData->operator [](var);
 		   Results.pszFields[j] = value ? value : (TCHAR *)_T(" ");
-		   if ( !_tcsicmp(var,_T("jid")) && value)
+		   if (!_tcsicmp(var,_T("jid")) && value)
 			   _tcsncpy(Results.jsr.jid, value, SIZEOF(Results.jsr.jid));
 	   }
 	   {
@@ -309,7 +309,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo *pInfo)
 		return;
 	}
 
-	if ( !lstrcmp(type, _T("result"))) {
+	if (!lstrcmp(type, _T("result"))) {
 		HXML queryNode = xmlGetNthChild(iqNode, _T("query"), 1);
 		HXML xNode = xmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 		if (xNode) {
@@ -332,7 +332,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo *pInfo)
 				while (HXML fieldNode = xmlGetNthChild(itemNode, _T("field"), j++)) {
 					if (TCHAR* var = (TCHAR*)xmlGetAttrValue(fieldNode, _T("var"))) {
 						if (TCHAR* Text = (TCHAR*)xmlGetText(xmlGetChild(fieldNode, _T("value")))) {
-							if ( !mColumnsNames[var])
+							if (!mColumnsNames[var])
 								mColumnsNames.insert(var,var);
 							pUserColumn->insert(var,Text);
 				}	}	}
@@ -354,7 +354,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo *pInfo)
 
 				for (int j=0; ; j++) {
 					HXML child = xmlGetChild(itemNode, j);
-					if ( !child)
+					if (!child)
 						break;
 
 					const TCHAR *szColumnName = xmlGetName(child);
@@ -369,7 +369,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo *pInfo)
 				SearchResults.insert((void*)pUserColumn);
 		}	}
 	}
-	else if ( !lstrcmp(type, _T("error"))) {
+	else if (!lstrcmp(type, _T("error"))) {
 		const TCHAR *code = NULL;
 		const TCHAR *description = NULL;
 		TCHAR buff[255];
@@ -406,7 +406,7 @@ static BOOL CALLBACK DeleteChildWindowsProc(HWND hwnd, LPARAM)
 static void JabberSearchFreeData(HWND hwndDlg, JabberSearchData * dat)
 {
 	//lock
-	if ( !dat->fSearchRequestIsXForm && dat->nJSInfCount && dat->pJSInf) {
+	if (!dat->fSearchRequestIsXForm && dat->nJSInfCount && dat->pJSInf) {
 		for (int i=0; i < dat->nJSInfCount; i++) {
 			if (dat->pJSInf[i].hwndValueItem)
 				DestroyWindow(dat->pJSInf[i].hwndValueItem);
@@ -463,7 +463,7 @@ int CJabberProto::SearchRenewFields(HWND hwndDlg, JabberSearchData * dat)
 
 	SetDlgItemText(hwndDlg,IDC_INSTRUCTIONS,m_bJabberOnline ? TranslateT("Please wait...\r\nConnecting search server...") : TranslateT("You have to be connected to server"));
 
-	if ( !m_bJabberOnline)
+	if (!m_bJabberOnline)
 		return 0;
 
 	searchHandleDlg = hwndDlg;
@@ -712,11 +712,11 @@ HWND __cdecl CJabberProto::CreateExtendedSearchUI(HWND parent)
 
 HWND __cdecl CJabberProto::SearchAdvanced(HWND hwndDlg)
 {
-	if ( !m_bJabberOnline || !hwndDlg)
+	if (!m_bJabberOnline || !hwndDlg)
 		return 0;	//error
 
 	JabberSearchData * dat=(JabberSearchData *)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-	if ( !dat)
+	if (!dat)
 		return 0; //error
 
 	// check if server connected (at least one field exists)
@@ -750,7 +750,7 @@ HWND __cdecl CJabberProto::SearchAdvanced(HWND hwndDlg)
 		for (int i=0; i<dat->nJSInfCount; i++) {
 			TCHAR szFieldValue[100];
 			GetWindowText(dat->pJSInf[i].hwndValueItem, szFieldValue, SIZEOF(szFieldValue));
-			if (szFieldValue[0] != _T('\0')) {
+			if (szFieldValue[0] != 0) {
 				xmlAddChild(query, dat->pJSInf[i].szFieldName, szFieldValue);
 				fRequestNotEmpty=TRUE;
 	}	}	}

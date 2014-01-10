@@ -112,7 +112,7 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 	TCHAR *q = NULL;
 	// strip resource name if any
 	//fyr
-	if ( !((list== LIST_ROSTER)  && ListGetItemPtr(LIST_CHATROOM, jid))) { // but only if it is not chat room contact
+	if (!((list== LIST_ROSTER)  && ListGetItemPtr(LIST_CHATROOM, jid))) { // but only if it is not chat room contact
 		if (list != LIST_VCARD_TEMP) {
 			TCHAR *p;
 			if ((p = _tcschr(s, '@')) != NULL)
@@ -122,7 +122,7 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 	}
 	else bUseResource = true;
 
-	if ( !bUseResource && list == LIST_ROSTER) {
+	if (!bUseResource && list == LIST_ROSTER) {
 		//if it is a chat room keep resource and made it resource sensitive
 		if (ChatRoomHContactFromJID(s)) {
 			if (q != NULL)
@@ -221,7 +221,7 @@ pResourceStatus JABBER_LIST_ITEM::findResource(const TCHAR *resourceName) const
 
 	for (int i=0; i < arResources.getCount(); i++) {
 		JABBER_RESOURCE_STATUS *r = arResources[i];
-		if ( !_tcscmp(r->m_tszResourceName, resourceName))
+		if (!_tcscmp(r->m_tszResourceName, resourceName))
 			return r;
 	}
 

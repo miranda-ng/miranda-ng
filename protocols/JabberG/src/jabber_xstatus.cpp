@@ -334,11 +334,11 @@ BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_WINDOW));
 	}
 
-	if ( !mode->m_subitem || (lpdis->itemState & ODS_COMBOBOXEDIT)) {
+	if (!mode->m_subitem || (lpdis->itemState & ODS_COMBOBOXEDIT)) {
 		TCHAR text[128];
 		if (mode->m_subitem) {
 			for (int i = lpdis->itemData; i >= 0; --i)
-				if ( !m_modes[i].m_subitem) {
+				if (!m_modes[i].m_subitem) {
 					mir_sntprintf(text, SIZEOF(text), _T("%s [%s]"), m_modes[i].m_title, mode->m_title);
 					break;
 				}
@@ -415,7 +415,7 @@ void CPepService::ResetPublish()
 
 void CPepService::ForceRepublishOnLogin()
 {
-	if ( !m_wasPublished)
+	if (!m_wasPublished)
 		Publish();
 }
 
@@ -489,7 +489,7 @@ void CPepGuiService::UpdateMenuItem(HANDLE hIcolibIcon, TCHAR *text)
 	if (m_szText) mir_free(m_szText);
 	m_szText = text ? mir_tstrdup(text) : NULL;
 
-	if ( !m_hMenuItem) return;
+	if (!m_hMenuItem) return;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR | CMIM_ICON | CMIM_NAME;
@@ -617,9 +617,9 @@ CPepMood::~CPepMood()
 void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
 {
 	HANDLE hContact = NULL, hSelfContact = NULL;
-	if ( !m_proto->IsMyOwnJID(from)) {
+	if (!m_proto->IsMyOwnJID(from)) {
 		hContact = m_proto->HContactFromJID(from);
-		if ( !hContact) return;
+		if (!hContact) return;
 	}
 	else hSelfContact = m_proto->HContactFromJID(from);
 
@@ -631,11 +631,11 @@ void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
 	}
 
 	HXML n, moodNode = XPath(itemsNode, _T("item/mood[@xmlns='") JABBER_FEAT_USER_MOOD _T("']"));
-	if ( !moodNode) return;
+	if (!moodNode) return;
 
 	LPCTSTR moodType = NULL, moodText = NULL;
 	for (int i=0; n = xmlGetChild(moodNode, i); i++) {
-		if ( !_tcscmp(xmlGetName(n), _T("text")))
+		if (!_tcscmp(xmlGetName(n), _T("text")))
 			moodText = xmlGetText(n);
 		else
 			moodType = xmlGetName(n);
@@ -647,7 +647,7 @@ void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
 	SetMood(hContact, moodType, fixedText);
 	mir_free(fixedText);
 
-	if ( !hContact && m_mode >= 0)
+	if (!hContact && m_mode >= 0)
 		ForceRepublishOnLogin();
 }
 
@@ -678,7 +678,7 @@ void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText
 		char* p = mir_t2a(szMood);
 
 		for (int i = 1; i < SIZEOF(g_arrMoods); i++)
-			if ( !lstrcmpA(g_arrMoods[i].szTag, p)) {
+			if (!lstrcmpA(g_arrMoods[i].szTag, p)) {
 				mood = i;
 				break;
 			}
@@ -689,7 +689,7 @@ void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText
 			return;
 	}
 
-	if ( !hContact) {
+	if (!hContact) {
 		m_mode = mood;
 		replaceStrT(m_text, szText);
 
@@ -734,14 +734,14 @@ void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText
 
 void CPepMood::ShowSetDialog(BYTE bQuiet)
 {
-	if ( !bQuiet) {
+	if (!bQuiet) {
 		CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Mood"));
 		for (int i = 1; i < SIZEOF(g_arrMoods); i++)
 			dlg.AddStatusMode(i, g_arrMoods[i].szTag, g_MoodIcons.GetIcon(g_arrMoods[i].szTag), TranslateTS(g_arrMoods[i].szName));
 
 		dlg.SetActiveStatus(m_mode, m_text);
 		dlg.DoModal();
-		if ( !dlg.OkClicked())
+		if (!dlg.OkClicked())
 			return;
 
 		m_mode = dlg.GetStatusMode();
@@ -866,7 +866,7 @@ inline char *ActivityGetId(int id)
 // -1 if not found, otherwise activity number
 static int ActivityCheck(LPCTSTR szFirstNode, LPCTSTR szSecondNode)
 {
-	if ( !szFirstNode) return 0;
+	if (!szFirstNode) return 0;
 
 	char *s1 = mir_t2a(szFirstNode), *s2 = mir_t2a(szSecondNode);
 
@@ -876,13 +876,13 @@ static int ActivityCheck(LPCTSTR szFirstNode, LPCTSTR szSecondNode)
 		if (g_arrActivities[i].szFirst && !strcmp(s1, g_arrActivities[i].szFirst)) {
 			// first part found
 			nFirst = i;
-			if ( !s2) {
+			if (!s2) {
 				nSecond = i;
 				break;
 			}
 			i++; // move to next
 			while (g_arrActivities[i].szSecond) {
-				if ( !strcmp(g_arrActivities[i].szSecond, s2)) {
+				if (!strcmp(g_arrActivities[i].szSecond, s2)) {
 					nSecond = i;
 					break;
 				}
@@ -925,7 +925,7 @@ char *ActivityGetFirst(int id)
 
 char *ActivityGetFirst(char *szId)
 {
-	if ( !szId) return NULL;
+	if (!szId) return NULL;
 
 	int id = SIZEOF(g_arrActivities) - 1;
 	bool found_second = false;
@@ -995,9 +995,9 @@ CPepActivity::~CPepActivity()
 void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
 {
 	HANDLE hContact = NULL, hSelfContact = NULL;
-	if ( !m_proto->IsMyOwnJID(from)) {
+	if (!m_proto->IsMyOwnJID(from)) {
 		hContact = m_proto->HContactFromJID(from);
-		if ( !hContact) return;
+		if (!hContact) return;
 	}
 	else hSelfContact = m_proto->HContactFromJID(from);
 
@@ -1009,7 +1009,7 @@ void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
 	}
 
 	HXML actNode = XPath(itemsNode, _T("item/activity[@xmlns='") JABBER_FEAT_USER_ACTIVITY _T("']"));
-	if ( !actNode)
+	if (!actNode)
 		return;
 
 	LPCTSTR szText = XPathT(actNode, "text");
@@ -1032,7 +1032,7 @@ void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
 	SetActivity(hContact, szFirstNode, szSecondNode, fixedText);
 	mir_free(fixedText);
 
-	if ( !hContact && m_mode >= 0)
+	if (!hContact && m_mode >= 0)
 		ForceRepublishOnLogin();
 }
 
@@ -1075,7 +1075,7 @@ void CPepActivity::SetActivity(HANDLE hContact, LPCTSTR szFirst, LPCTSTR szSecon
 	TCHAR activityTitle[128];
 	ActivityBuildTitle(activity, activityTitle, SIZEOF(activityTitle));
 
-	if ( !hContact) {
+	if (!hContact) {
 		m_mode = activity;
 		replaceStrT(m_text, szText);
 
@@ -1115,7 +1115,7 @@ void CPepActivity::ShowSetDialog(BYTE bQuiet)
 	dlg.SetActiveStatus(m_mode, m_text);
 	dlg.DoModal();
 
-	if ( !dlg.OkClicked()) return;
+	if (!dlg.OkClicked()) return;
 
 	m_mode = dlg.GetStatusMode();
 	if (m_mode >= 0) {
@@ -1152,10 +1152,10 @@ HICON CJabberProto::GetXStatusIcon(int bStatus, UINT flags)
 
 INT_PTR __cdecl CJabberProto::OnGetXStatusIcon(WPARAM wParam, LPARAM lParam)
 {
-	if ( !m_bJabberOnline)
+	if (!m_bJabberOnline)
 		return 0;
 
-	if ( !wParam)
+	if (!wParam)
 		wParam = ((CPepMood*)m_pepServices.Find(JABBER_FEAT_USER_MOOD))->m_mode;
 
 	if (wParam < 1 || wParam >= SIZEOF(g_arrMoods))
@@ -1173,7 +1173,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusIcon(WPARAM wParam, LPARAM lParam)
 
 BOOL CJabberProto::SendPepTune(TCHAR* szArtist, TCHAR* szLength, TCHAR* szSource, TCHAR* szTitle, TCHAR* szTrack, TCHAR* szUri)
 {
-	if ( !m_bJabberOnline || !m_bPepSupported)
+	if (!m_bJabberOnline || !m_bPepSupported)
 		return FALSE;
 
 	XmlNodeIq iq(_T("set"), SerialNext());
@@ -1196,7 +1196,7 @@ BOOL CJabberProto::SendPepTune(TCHAR* szArtist, TCHAR* szLength, TCHAR* szSource
 
 void CJabberProto::SetContactTune(HANDLE hContact, LPCTSTR szArtist, LPCTSTR szLength, LPCTSTR szSource, LPCTSTR szTitle, LPCTSTR szTrack)
 {
-	if ( !szArtist && !szTitle) {
+	if (!szArtist && !szTitle) {
 		delSetting(hContact, "ListeningTo");
 		ResetAdvStatus(hContact, ADVSTATUS_TUNE);
 		return;
@@ -1253,7 +1253,7 @@ void overrideStr(TCHAR*& dest, const TCHAR *src, BOOL unicode, const TCHAR *def 
 INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 {
 	LISTENINGTOINFO *cm = (LISTENINGTOINFO *)lParam;
-	if ( !cm || cm->cbSize != sizeof(LISTENINGTOINFO)) {
+	if (!cm || cm->cbSize != sizeof(LISTENINGTOINFO)) {
 		SendPepTune(NULL, NULL, NULL, NULL, NULL, NULL);
 		delSetting("ListeningTo");
 	}
@@ -1270,7 +1270,7 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 		overrideStr(szLength, cm->ptszLength, unicode);
 
 		TCHAR szLengthInSec[ 32 ];
-		szLengthInSec[ 0 ] = _T('\0');
+		szLengthInSec[ 0 ] = 0;
 		if (szLength) {
 			unsigned int multiplier = 1, result = 0;
 			for (TCHAR *p = szLength; *p; p++)
@@ -1283,7 +1283,7 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 					result += (_ttoi(szTmp) * multiplier);
 					multiplier /= 60;
 					szTmp = _tcschr(szTmp, _T(':'));
-					if ( !szTmp)
+					if (!szTmp)
 						break;
 					szTmp++;
 				}
@@ -1331,7 +1331,7 @@ void CJabberProto::XStatusInit()
 
 INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
-	if ( !m_bPepSupported || !m_bJabberOnline)
+	if (!m_bPepSupported || !m_bJabberOnline)
 		return 1;
 
 	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
@@ -1413,7 +1413,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 
 INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
-	if ( !m_bPepSupported || !m_bJabberOnline)
+	if (!m_bPepSupported || !m_bJabberOnline)
 		return 1;
 
 	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;

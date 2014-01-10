@@ -240,7 +240,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 	CloseHandle(jbt->hProxyEvent);
 	jbt->hProxyEvent = NULL;
 
-	if ( !jbt->szStreamhostUsed) {
+	if (!jbt->szStreamhostUsed) {
 		if (bDirect) {
 			SetEvent(jbt->hSendEvent);
 			CloseHandle(jbt->hSendEvent);
@@ -416,7 +416,7 @@ void CJabberProto::IqResultStreamActivate(HXML iqNode, CJabberIqInfo*)
 	if (item == NULL)
 		return;
 
-	if ( !lstrcmp(xmlGetAttrValue(iqNode, _T("type")), _T("result")))
+	if (!lstrcmp(xmlGetAttrValue(iqNode, _T("type")), _T("result")))
 		item->jbt->bStreamActivated = TRUE;
 
 	if (item->jbt->hProxyEvent)
@@ -484,7 +484,7 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 	mir_free(buffer);
 	(this->*jbt->pfnFinal)((jbt->state == JBT_DONE) ? TRUE : FALSE, jbt->ft);
 	jbt->ft = NULL;
-	if ( !validStreamhost)
+	if (!validStreamhost)
 		m_ThreadInfo->send( XmlNodeIq(_T("error"), jbt->iqId, jbt->srcJID)
 			<< XCHILD(_T("error")) << XATTRI(_T("code"), 404) << XATTR(_T("type"), _T("cancel"))
 			<< XCHILDNS(_T("item-not-found"), _T("urn:ietf:params:xml:ns:xmpp-stanzas")));
@@ -674,7 +674,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 
 	(this->*jbt->pfnFinal)((jbt->state==JBT_DONE)?TRUE:FALSE, jbt->ft);
 	jbt->ft = NULL;
-	if ( !validStreamhost && szId && from) {
+	if (!validStreamhost && szId && from) {
 		debugLogA("bytestream_recv_connection session not completed");
 
 		m_ThreadInfo->send( XmlNodeIq(_T("error"), szId, from)
