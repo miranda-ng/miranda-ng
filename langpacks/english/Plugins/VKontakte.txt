@@ -25,12 +25,17 @@
 [VKontakte]
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
+;file \protocols\VKontakte\src\vk_chats.cpp
+[Participants]
+[Owners]
+[Unknown]
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 [Account]
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[me]
 [Attachments:]
 [Photo]
 [Audio]

@@ -95,32 +95,6 @@ TLS
 Отключите все опции, если у вас проблемы с отправкой файлов. Могут возникнуть проблемы с передачей больших файлов.
 [Jabber Account Registration]
 Регистрация учётной записи Jabber
-[Jabber Agents]
-Агенты Jabber
-[Register/Search Jabber Agents]
-Регистрация/поиск агентов Jabber
-[Jabber server:]
-Сервер Jabber:
-[Browse]
-Обзор
-[Register...]
-Регистрация
-[Browse/Join chat room...]
-Обзор комнат...
-[Search...]
-Поиск...
-[Registered Jabber Transports]
-Зарегистрированные транспорты Jabber
-[Log on]
-Войти
-[Log off]
-Выйти
-[Register with a new service...]
-Регистрация новой службы...
-[Close]
-Закрыть
-[Command]
-Команда
 [Jabber Form]
 Jabber форма
 [Instruction:]
@@ -231,12 +205,10 @@ Jabber vCard: добавление телефона
 Новый пароль:
 [Confirm New Password:]
 Подтверждение:
-[Jabber Multi-User Conference]
-Конференция Jabber
-[Conference server:]
-Сервер:
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Комната чата Jabber\nСоздание или вход в комнату чата.
+[Conference server:]
+Сервер:
 [Room:]
 Комната чата:
 [Recently visited chatrooms:]
@@ -249,10 +221,6 @@ Jabber vCard: добавление телефона
 Применить фильтр
 [Reset Filter]
 Сбросить фильтр
-[Jabber Agent Registration]
-Регистрация агента Jabber
-[Register]
-Регистрация
 [Invite Users]
 Приглашение пользователей
 [<room jid>\nSend group chat invitation.]
@@ -283,6 +251,8 @@ Jabber vCard: добавление телефона
 Удалить
 [Edit]
 Изменить
+[Close]
+Закрыть
 [Bookmark Details]
 Детали закладки
 [Bookmark Type]
@@ -361,10 +331,6 @@ Hовое имя списка приватности:
 Обновить
 [Node:]
 Узел:
-[Change %s Message]
-Изменить сообщение "%s"
-[Closing in %d]
-Закрыть (%d)
 [Account type:]
 Тип аккаунта:
 [Login server:]
@@ -463,6 +429,10 @@ Jabber Ad-Hoc команды на %s
 Отправить Ad-Hoc команду %s
 [No message]
 Нет сообщения
+[Jabber Agent Registration]
+Регистрация агента Jabber
+[Register]
+Регистрация
 [Please wait...]
 Подождите, пожалуйста...
 [Bookmark Name]

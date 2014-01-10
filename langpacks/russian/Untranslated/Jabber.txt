@@ -1,6 +1,5 @@
 ﻿[OK]
 [Jabber]
-[Data form test]
 [X400]
 [Create or Join group chat]
 [JID:]

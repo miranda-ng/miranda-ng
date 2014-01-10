@@ -39,12 +39,20 @@ E-mail или номер телефона:
 ВКонтакте
 [Enter the text you see]
 Введите текст, который видите
+[Participants]
+Участники
+[Owners]
+Владельцы
+[Unknown]
+Неизвестный
 [Network]
 Сеть
 [Account]
 Учётная запись
 [%s server connection]
 Подключение к серверу %s
+[me]
+Я
 [Attachments:]
 Вложения:
 [Photo]
