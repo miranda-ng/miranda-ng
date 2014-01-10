@@ -39,12 +39,20 @@
 ВКонтакті
 [Enter the text you see]
 Введіть текст, який бачите
+[Participants]
+Учасники
+[Owners]
+Власники
+[Unknown]
+Невідомий
 [Network]
 Мережа
 [Account]
 Обліковий запис
 [%s server connection]
 Підключення до серверу %s
+[me]
+Я
 [Attachments:]
 Прикріплення:
 [Photo]

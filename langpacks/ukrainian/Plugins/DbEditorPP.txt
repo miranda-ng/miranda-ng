@@ -289,8 +289,6 @@ INI файли
 Невідомий контакт
 [Known Contact]
 Відомий контакт
-[Database Editor++]
-Редактор бази
 [Open Database Editor]
 Відкрити редактор бази
 [Open user tree in DBE++]

@@ -56,7 +56,7 @@ ID запису
 [Do you want to see the email headers?]
 Показувати заголовки листів?
 [Check exchange mailbox]
-Перевірте поштову скриньку Exchange
+Перевірити пошту Exchange
 [Exchange notify]
 Сповіщення Exchange
 [Plugins]

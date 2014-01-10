@@ -1,4 +1,3 @@
 ﻿[EN]
 [OK]
-[Database is Secured MMAP database]
-[Sorry, but your database encrypted with unknown module]
+[Email:]

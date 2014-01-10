@@ -1,8 +1,0 @@
-﻿[Filename:]
-[Use only alphanumeric encoding on transfer]
-[Unknown command for "File As Message" was received]
-[Incoming file request. Do you want to proceed?]
-[New incoming file request. Do you want to proceed?]
-[Failed on file initialization]
-[Paused...]
-[File As Message...]

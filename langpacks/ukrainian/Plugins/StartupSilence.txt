@@ -5,32 +5,36 @@
 ;  Version: 0.2.0.0
 ;  Authors: Vladimir Lyubimov
 ;============================================================
-[Disables ALL popups and sounds for 10-300 sec at Miranda startup and enables them always for Miranda NG (Automatically per computer settings).]
-Відключає ВСІ звуки і спливаючі вікна при старті Miranda на 10-300 секунд і вмикає їх завжди для Miranda NG (Автоматично запам'ятовує налаштування для кожного комп'ютера).
+[Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
+Відключає звуки і спливаючі вікна при старті Miranda на 10-300 секунд, а потім вмикає їх знову згідно з налаштуваннями (автоматично запам'ятовуються для кожного комп'ютера).
 [Silence at Startup]
 Тихий запуск
 [Settings for the next Computer Name:]
 Налаштування для комп'ютера:
 [Enable silence at startup]
-Ввімкнути легкий запуск
+Ввімкнути тихий запуск
 [for]
 на
 [10-300 seconds (Default 20)]
 10-300 секунд (Замовчання 20)
 [Show Popup notification]
-Повідомляти у спливаючих вікнах
+Сповіщати у спливаючих вікнах
 [Popup time 1-30 seconds (Default 5)]
 Час показу 1-30 секунд (Замовчання 5)
 [Main Menu Item (plugin reload or Miranda restart required)]
-Пункт у головному меню (потрібен перезапуск Miranda).
+Пункт у головному меню (потрібен перезапуск Miranda)
 [TopToolBar button (Miranda restart required)]
-Кнопка в TopToolBar (потрібен перезапуск Miranda).
+Кнопка в TopToolBar (потрібен перезапуск Miranda)
 [Reset to default\r\n(for this computer)]
 Скинути налаштування\r\n(для цього комп'ютера)
 [You need to configure it once for each computer, where you run your Miranda NG.]
-Необхідно один раз налаштовувати для нового комп'ютера, де Ви запускаєте Miranda NG.
+Необхідно один раз налаштовувати для нового комп'ютера, де ви запускаєте Miranda NG.
 [No Apply button required.]
 Налаштування зберігаються автоматично.
+[Enable sounds]
+Ввімкнути звуки
+[Allow mRadio or Weather popups, etc.]
+Дозволити сплив. вікна mRadio, Weather тощо
 [Events]
 Події
 [Silence at startup]
@@ -38,26 +42,28 @@
 [Toggle Silence OFF]
 Вимкнути тихий запуск
 [Toggle Silence ON]
-Включити легкий запуск
+Ввімкнути тихий запуск
 [Toggle Silence OFF TTB]
 Вимкнено тихий запуск TTB
 [Toggle Silence ON TTB]
-Включений тихий запуск TTB
+Ввімкнено тихий запуск TTB
 [Sounds and popups are enabled]
-Звуки і спливаючі вікна включені
+Звуки і спливаючі вікна ввімкнено
 [Sounds and popups are disabled temporarily]
 Звуки і спливаючі вікна тимчасово вимкнено
+[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]
+Звуки і спливаючі вікна тимчасово вимкнено.\nДозволено сплив. вікна mRadio, Weather тощо.
 [Silent Startup mode changed to ON]
-Тихий запуск включений
+Тихий запуск ввімкнено
 [Silent Startup mode changed to OFF]
 Тихий запуск вимкнено
 [Silence At Startup is ON]
-Тихий запуск включений
+Тихий запуск ввімкнено
 [Silence At Startup is OFF]
 Тихий запуск вимкнено
 [Toggle Silence At Startup]
 Тихий запуск Ввімк/Вимк
 [You have to install TopToolBar to use this option.]
-Для використання цієї функції потрібен встановлений модуль TopToolBar
+Для використання цієї функції потрібно встановити плагін TopToolBar
 [You have to install "YAPP" or "Popup+" to use this option.]
-Для використання цієї функції потрібен встановлений \"YAPP\" або \"Popup+\" модуль спливаючих вікон.
+Для використання цієї функції потрібно встановити плагін спливаючих вікон: \"YAPP\" або \"Popup+\"

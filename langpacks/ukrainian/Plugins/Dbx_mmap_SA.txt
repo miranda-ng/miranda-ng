@@ -6,7 +6,7 @@
 ;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
-Підтримка бази даних Miranda NG: глобальні налаштування, контакти, історія, встановлення контактів. Розширена модифікація з підтримкою шифрування.
+Підтримка бази даних Miranda NG: глобальні налаштування, контакти, історія, налаштування контактів. Розширена модифікація з підтримкою шифрування.
 [Login to Miranda NG]
 Вхід в Miranda NG
 [Cancel]
@@ -28,15 +28,15 @@
 [No]
 Ні
 [A file containing new database settings has been placed in the Miranda NG directory.]
-Файл з новими налаштуваннями бази даних був поміщений в каталог Miranda NG.
+Файл з новими налаштуваннями бази даних вміщено в каталог Miranda NG.
 [Do you want to import the settings now?]
 Імпортувати налаштування зараз?
 [No to all]
 Ні для всіх
 [&View contents]
 &Вміст
-[Security systems to prevent malicious changes are in place and you will be попереджені before changes that are not known to be safe.]
-Система безпеки для запобігання небажаних змін активна і ви будете попереджені перед небезпечними змінами.
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Захист від небезпечних змін ввімкнено, вас попередять про зміни налаштувань, що можуть бути небезпечними.
 [Database Setting Change]
 Зміна налаштувань бази даних
 [Database settings are being imported from]
@@ -60,9 +60,9 @@
 [The import has completed from]
 Імпорт завершено з
 [What do you want to do with the file now?]
-Що ви бажаєте зробити з файлом?
+Що зробити з файлом?
 [&Recycle]
-&Використовувати знову
+&Використати знову
 [&Delete]
 &Видалити
 [&Move/Rename]
@@ -77,16 +77,16 @@
 Автор:
 [Site:]
 Сайт:
-[Email:]
-Ел. пошта:
 [Unique ID:]
 Унік. ID:
+[Database is Secured MMAP database]
+БД: база даних з шифрованням
 [You are not authorized for access to Database]
-Ви не авторізовані для доступу к ДБ
+Ви не авторизовані для доступу до БД
 [Secured MMAP: authorization successful]
-Secured MMAP: авторізація підтверджена
+Secured MMAP: авторизація успішна
 [Database is marked as belonging to an unknown version of Miranda]
-Прифіль позначено як створену невідомою версією Miranda
+Базу даних позначено як створену невідомою версією Miranda
 [Database Features]
 Можливості БД
 [Database]
@@ -106,7 +106,7 @@ Secured MMAP: авторізація підтверджена
 [Too many errors!]
 Забагато помилок!
 [Password is not correct!]
-Пароль невірний!
+Пароль неправильный!
 [Please enter your new password]
 Будь ласка, введіть новий пароль
 [Password is too short!]
@@ -114,7 +114,9 @@ Secured MMAP: авторізація підтверджена
 [Passwords do not match!]
 Паролі не збігаються!
 [Wrong password!]
-Невірний пароль!
+Неправильний пароль!
+[Sorry, but your database encrypted with unknown module]
+БД зашифровано за допомогою невідомого алгоритму
 [Error]
 Помилка
 [Crypto modules not found]
@@ -122,6 +124,6 @@ Secured MMAP: авторізація підтверджена
 [DB is already secured!]
 Профіль вже зашифрований!
 [current database]
-поточна ДБ
+поточна БД
 [Set Password]
 Встановити пароль

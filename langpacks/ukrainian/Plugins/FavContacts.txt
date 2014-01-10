@@ -8,15 +8,15 @@
 [Favorite contacts menu.]
 Меню обраних контактів.
 [Customize]
-Тонкі налаштування
+Тонке налаштування
 [Show second line]
-Відображати другу лінію
+Показувати другий рядок
 [Show avatars]
 Аватари
 [Draw avatar border]
 Границя на аватарах
 [Round corners by]
-Округлити кути
+Заокруглити кути
 [px.]
 пікс.
 [Hide for transparent avatars]
@@ -30,7 +30,7 @@
 [Favorite Contacts]
 Обрані контакти
 [Enable groups]
-Вимкнути групи
+Увімкнути групи
 [Multicolumn menu]
 Декілька стовпців
 [Configure fonts and colors...]
@@ -48,7 +48,7 @@
 [Favorite Contact]
 Обрані контакти
 [Regular Contact]
-Звичайний контакт
+Звичайні контакти
 [Contact name]
 Ім'я контакту
 [Second line]
@@ -56,11 +56,11 @@
 [Selected contact name (color)]
 Ім'я контакту під курсором
 [Selected second line (color)]
-Відображення іншого рядка під курсором
+Другий рядок під курсором
 [Background]
 Фон
 [Selected background]
-Обрати фон
+Фон виділеного
 [Show favorite contacts]
 Показати обрані контакти
 [Contacts]

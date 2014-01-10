@@ -1,4 +1,4 @@
-﻿﻿#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
+﻿#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
 ;  Plugin: Custom status list
@@ -9,7 +9,7 @@
 Простий менеджер xСтатусів та можливість зберігати xСтатуси в одному місці.
 [Custom Status List]
 Мій список статусів
-[No available items in the database.\nClick the Add button to define some.]
+[No items available in the database.\nClick the Add button to define some.]
 Немає записів у базі даних.\nНатисніть на кнопку "Додати", щоб заповнити список.
 [Add/Modify Custom Status]
 Додати/Змінити статус
@@ -26,7 +26,7 @@
 [Remember last window position]
 Пам'ятати останнє положення вікна
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
-Примітка. Пункти меню відображаються лише за наявності хоча б одного правильно налаштованого облікового запису. Перевірте, чи є у вас принаймні один обліковий запис з UIN.
+Примітка. Пункти меню відображаються лише за наявності хоча б одного правильно налаштованого облікового запису. Переконайтеся, що у вас є принаймні один обліковий запис з UIN.
 [Status]
 Статус
 [Add new item]

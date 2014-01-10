@@ -5,12 +5,26 @@
 ;  Version: 0.0.0.7
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
 ;============================================================
+[This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
+Очистка системної історії, історії всіх контактів або лише вказаних; може видаляти історію старішу за вказаний час; видалення можливе при запуску або виході з програми.
+[History Sweeper Light]
+Очистка історії
+[Sweep history for this contacts:]
+Очистити історію для цих контактів:
 [Action 1]
 Дія 1
 [Action 2]
 Дія 2
+[Sweep on closing message window]
+Очищати при закритті вікна повідомлень
+[Clicking on the icon in the status bar will change settings]
+Клацання по значкові на панелі статусів змінює налаштування
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
+Режим НЕБЕЗПЕЧНИЙ (швидший, але є ризик пошкодження профілю)
+[Keep all events]
+Усі події зберігаються в історії
 [Delete all events]
-Видалити всі
+Усі події видаляються з історії
 [Delete older than 1 day]
 Видалити усе старіше 1 дня
 [Delete older than 3 days]
@@ -18,15 +32,27 @@
 [Delete older than 7 days]
 Видалити усе старіше 7 днів
 [Delete older than 2 weeks (14 days)]
-Видалити усе старіше 2 тижнів (14 днів)
+Видалити усе старіше 2 тижнів
 [Delete older than 1 month (30 days)]
-Видалити усе старіше 1 місяця (30 днів)
+Видалити усе старіше 1 місяця
 [Delete older than 3 months (90 days)]
-Видалити усе старіше 3 місяців (90 днів)
+Видалити усе старіше 3 місяців
 [Delete older than 6 months (180 days)]
-Видалити усе старіше 6 місяців (180 днів)
+Видалити усе старіше 6 місяців
 [Delete older than 1 year (365 days)]
-Видалити усе старіше 1 року (365 днів)
+Видалити усе старіше 1 року
+[Keep 1 last event]
+Зберегти 1 останню подію
+[Keep 2 last events]
+Зберегти 2 останніх події
+[Keep 5 last events]
+Зберегти 5 останніх подій
+[Keep 10 last events]
+Зберегти 10 останніх подій
+[Keep 20 last events]
+Зберегти 20 останніх подій
+[Keep 50 last events]
+Зберегти 50 останніх подій
 [Default Action]
 Дія за замовчанням
 [Delete All]

@@ -2057,7 +2057,7 @@ Miranda намагається оновити вашу структуру збе
 Miranda намагається оновити вашу структуру зберігання профілів.\nНе вдається автоматично перемістити профіль %s на нове місце %s. Ймовірно, у програми недостатньо прав. Перемістіть профіль уручну.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Файл профілю не повинен знаходится у корневій папці Miranda. Перемістіть ваш профіль на інше місце.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda не може відкрити "%s", оскільки не встановлено жодного драйвера бази.\nНеобхідно встановити dbx_mmap.dll або його аналог.
 [No profile support installed!]
 Відсутній драйвер бази

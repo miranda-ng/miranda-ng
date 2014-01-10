@@ -5,9 +5,11 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
+[Exports every message, URL or File you receive to a text file.]
+Експорт повідомлень, посилань чи отриманих файлів у текстовий файл.
 [Browse]
 Огляд
-[Internal Use viewer]
+[Use internal viewer]
 Внутр. перегляд
 [Replace Miranda history]
 Замінити історію
@@ -85,9 +87,11 @@ UTF8 в нових файлах
 &Експортована історія
 [No contacts found to export]
 Немає контактів для експорту
+[Reading database information (Phase 1 of 2)]
+Крок 1: Читання бази даних
 [Failed to export at least one contact]
 Не вдалося експортувати як мінімум 1 контакт
-[Sorting and writing information database ( Phase 2 of 2 )]
+[Sorting and writing database information ( Phase 2 of 2 )]
 Крок 2: Сортування і запис інформації
 [Max line width must be at least %d]
 Макс ширина рядка повинна бути не менше %d
@@ -99,9 +103,11 @@ UTF8 в нових файлах
 Файл
 [Nick]
 Нік
+[Proto]
+Протокол
 [UIN]
 Номер
-[You have unapplyed changes do you wish to apply these first ?]
+[You have not applied the changes, do you wish to apply them first?]
 Є незбережені зміни, застосувати?
 [Executable files]
 Виконувані файли
@@ -116,41 +122,45 @@ UTF8 в нових файлах
 [History]
 Історія
 [General]
-Загальна
+Загальне
 [Additional]
 Додатково
 [(Unknown Contact)]
 (Невідомий контакт)
+[File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
+Ім'я файлу для контакта "%s" змінилось!\n\nз:\t%s\nна:\t%s\n\nПерейменувати файл?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Не вдалося перейменувати файл\n\nстаре ім'я:\t%s\nнове ім'я:\t%s\n\nПомилка: %s
 [\nError: ]
 \nПомилка:\s
+[\nMessage has not been saved!\n]
+\nПовідомлення не збережено!\n
+[Do you wish to save debug information?]
+Зберегти інформацію налагодження?
 [Failed to open or create file :\n]
-Не вдалося відкрити або створити файл :\n
+Не вдалося відкрити або створити файл:\n
 [Failed to move to the end of the file :\n]
 Не вдалося перейти до кінця файлу:\n
 [Failed to write message to the file :\n]
 Не вдалося записати повідомлення у файл:\n
 [File: ]
-Файл:
+Файл:\s
 [Description: ]
 Опис:\s
 [Failed to write URL/File to the file :\n]
-Не вдалося записати передачу файлу або URL файл:\n
-[Nick :]
+Не вдалося записати передачу файлу або URL у файл:\n
+[Nick      :]
 Псевдонім :
 [FirstName :]
 Ім'я :
-[LastName :]
+[LastName  :]
 Прізвище :
-[e-mail :]
-E-mail :
-[Reason :]
+[Reason    :]
 Причина :
 [The following user made an authorization request:]
-Наступний користувач запросив авторизацію:
+Користувач запросив авторизацію:
 [The following user added you to their contact list:]
-Користувач додав вас в свій список контактів:
+Користувач додав вас у свій список контактів:
 [EmailExpress from:]
 EmailExpress від:
 [WebPager from:]
@@ -158,8 +168,14 @@ WebPager від:
 [No from address]
 без адреси
 [Failed to write EmailExpress to the file :\n]
-Не вдалося записати EmailExpress в файл:\n
+Не вдалося записати EmailExpress у файл:\n
 [Failed to write SMS to the file :\n]
-Не вдалося записати SMS в файл:\n
+Не вдалося записати SMS у файл:\n
+[Unknown event type %d, size %d]
+Невідомий тип події %d, розмір %d
+[Failed to write Unknown event to the file :]
+Не вдалося записати невідому подію у файл:
+[User has been deleted. Do you want to delete the file?]
+Контакт видалений. Видалити файл?
 [Failed to delete the file]
 Не вдалося видалити файл

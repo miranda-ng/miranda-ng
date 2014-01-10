@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FltContacts.dll
 ;  Plugin: Floating contacts
-;  Version: 0.7.0.0
+;  Version: 0.7.0.1
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Floating Contacts plugin for Miranda.]
@@ -10,7 +10,7 @@
 [Hiding contacts]
 Приховування контактів
 [Hide offline contacts]
-Приховати відключених
+Сховати відключених
 [Stick together]
 Склеювати контакти
 [Use fixed width]
@@ -32,26 +32,32 @@
 [0 = Default]
 0=Умовчання
 [*requires Tipper plugin]
-*потребуе Tipper
+*потрібен плагін Tipper
 [Bring to front]
 На передній план
 [Bring to front every]
-Перемістити вгору на кожні
+Переміщати вгору кожні
 [seconds]
-секунд(и)
+секунд
 [Hide when contact list is shown]
-Ховати колі список контактів видно
+Ховати коли список контактів видно
 [Single click interface]
-Один клацання
+Одне клацання
 [Dim idle contacts]
-Затемнити неактивних користувачів
+Затемняти неактивних користувачів
+[Idle contacts]
+Неактивні контакти
 [Border]
 Рамка
 [Draw border]
 Показувати рамку
+[Left-top edge's color:]
+Колір лівого-верхнього краю:
+[Right-bottom edge's color:]
+Колір правого-нижнього краю:
 [Background]
 Фон
-[Background colour:]
+[Background color:]
 Колір фону:
 [Use background bitmap]
 Фонове зображення
@@ -70,13 +76,13 @@
 [Standard contacts]
 Стандартні контакти
 [Online contacts to whom you have a different visibility]
-Контакти із зміненою видимістю (в мережі)
+Контакти зі зміненою видимістю (онлайн)
 [Offline contacts]
-Відключені контакти
+Від'єднані контакти
 [Offline contacts to whom you have a different visibility]
-Контакти із зміненою видимістю (відключені)
+Контакти зі зміненою видимістю (від'єднані)
 [Contacts which are 'not on list']
-Контакти 'не в списку'
+Контакти поза списком
 [Floating contacts]
 Плаваючі контакти
 [Show all thumbs]
@@ -84,7 +90,7 @@
 [Hide all thumbs]
 Приховати плаваючі контакти
 [Remove thumb]
-Прибрати плаваючих контакт
+Прибрати плаваючий контакт
 [Show/Hide all thumbs]
 Показати/Приховати всі контакти
 [Floating Contacts]

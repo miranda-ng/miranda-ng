@@ -6,13 +6,13 @@
 ;  Authors: faith_healer, ghazan, mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
-Fingerprint NG відображаються значки клієнтів, використовуваних вашими співрозмовниками.
+Відображає значки клієнтів, використовуваних вашими співрозмовниками.
 [Fingerprint overlays icons]
 Оверлеї значків клієнтів
 [Miranda clients]
 Клієнти Miranda
 [Miranda packs overlays]
-Оверлеї зборок Miranda
+Оверлеї збірок Miranda
 [Show Miranda version at Overlay#2]
 Значок версії на накладанні #2
 [Resource overlays]
@@ -52,24 +52,24 @@ Fingerprint NG відображаються значки клієнтів, ви�
 [Yahoo clients]
 Клієнти Yahoo
 [Multi-protocol clients]
-Мульти-протокольні клієнти
+Мультипротокольні клієнти
 [Other (rare) protocols]
 Клієнти рідкісних протоколів
 [Other icons]
 Інші значки
 [Show client icon in message window status bar]
-Показати значок клієнта у вікні повідомлень статус бару
+Показувати значок клієнта на панелі статусу вікна повідомлень
 [Fingerprint]
 Значки клієнтів
 [Client icons]
 Клієнти
 [Pack overlays]
-Оверлеї зборок
+Оверлеї збірок
 [Multi-proto clients]
-Мульти-протокол
+Мультипротокол
 [Other protocols]
 Інші протоколи
-[overlays]
+[Overlays]
 Оверлеї
 [Resource]
 Ресурс
@@ -79,6 +79,34 @@ Fingerprint NG відображаються значки клієнтів, ви�
 Безпека
 [Protocol]
 Протокол
+[Miranda NG stable]
+Стабільна Miranda NG
+[Miranda IM (old versions)]
+Miranda IM (стара версія)
+[Miranda (unknown)]
+Miranda (невідома)
+[spam client]
+Спам-клієнт
+[PHP Jabber Client]
+PHP-клієнт Jabber
+[MP3 Script for mIRC]
+MP3-скрипт для mIRC
+[Mail.Ru Agent (official)]
+Mail.Ru Агент (офіційный)
+[Mail.Ru (unknown client)]
+Mail.Ru (невідомий клієнт)
+[TM 2008 and >]
+TM 2008 і вище
+[Gadu-Gadu client]
+Клієнт Gadu-Gadu
+[Tlen.pl client]
+Клієнт Tlen.pl
+[Python-based clients]
+Клієнти на основі Python
+[Jabber client]
+Клієнт Jabber
+[XMPP client]
+Клієнт XMPP
 [Client not found]
 Незнайдений клієнт
 [Unknown client]
@@ -109,6 +137,64 @@ Fingerprint NG відображаються значки клієнтів, ви�
 Оверлей Yahoo
 [Mail.Ru Agent overlay]
 Оверлей Mail.Ru Agent
+[ICQ 2003 overlay]
+Оверлей ICQ 2003
+[ICQ Lite 4 overlay]
+Оверлей ICQ Lite 4
+[ICQ v5.x overlay]
+Оверлей ICQ v5.x
+[ICQ v6.x overlay]
+Оверлей ICQ v6.x
+[ICQ v7.x overlay]
+Оверлей ICQ v7.x
+[ICQ v8.x overlay]
+Оверлей ICQ v8.x
+[Yahoo v11.x overlay]
+Оверлей Yahoo v11.x
+[Yahoo v10.x overlay]
+Оверлей Yahoo v10.x
+[Yahoo v9.x overlay]
+Оверлей Yahoo v9.x
+[Gadu-Gadu v11 client]
+Gadu-Gadu v11 клієнт
+[Gadu-Gadu v10 client]
+Gadu-Gadu v10 клієнт
+[Gadu-Gadu v9 client]
+Gadu-Gadu v9 клієнт
+[Gadu-Gadu v8 client]
+Gadu-Gadu v8 клієнт
+[Tlen 7.x overlay]
+Оверлей Tlen 7.x
+[Tlen 6.x overlay]
+Оверлей Tlen 6.x
+[Tlen 5.x overlay]
+Оверлей Tlen 5.x
+[TM/QQ 2012 overlay]
+Оверлей TM/QQ 2012
+[TM/QQ 2011 overlay]
+Оверлей TM/QQ 2011
+[TM/QQ 2010 overlay]
+Оверлей TM/QQ 2010
+[TM/QQ 2009 overlay]
+Оверлей TM/QQ 2009
+[TM/QQ 2008 overlay]
+Оверлей TM/QQ 2008
+[TM/QQ 2007 overlay]
+Оверлей TM/QQ 2007
+[TM/QQ 2006 overlay]
+Оверлей TM/QQ 2006
+[TM/QQ 2005 overlay]
+Оверлей TM/QQ 2005
+[QQ 2004 overlay]
+Оверлей QQ 2004
+[TM 3.x / QQ 2003 overlay]
+Оверлей TM 3.x / QQ 2003
+[TM 2.x overlay]
+Оверлей TM 2.x
+[TM 1.x overlay]
+Оверлей TM 1.x
+[QQ 2000 overlay]
+Оверлей QQ 2000
 [Windows overlay]
 Оверлей Windows
 [iOS overlay (iPhone/iPad)]
@@ -139,6 +225,32 @@ Fingerprint NG відображаються значки клієнтів, ви�
 Оверлей work
 [notebook overlay]
 Оверлей notebook
+[Miranda NG v0.6 #2 overlay]
+Оверлей Miranda NG v0.6 #2
+[Miranda NG v0.5 #2 overlay]
+Оверлей Miranda NG v0.5 #2
+[Miranda NG v0.4 #2 overlay]
+Оверлей Miranda NG v0.4 #2
+[Miranda NG v0.3 #2 overlay]
+Оверлей Miranda NG v0.3 #2
+[Miranda NG v0.2 #2 overlay]
+Оверлей Miranda NG v0.2 #2
+[Miranda NG v0.1 #2 overlay]
+Оверлей Miranda NG v0.1 #2
+[Miranda IM v0.10 #2 overlay]
+Оверлей Miranda IM v0.10 #2
+[Miranda IM v0.9 #2 overlay]
+Оверлей Miranda IM v0.9 #2
+[Miranda IM v0.8 #2 overlay]
+Оверлей Miranda IM v0.8 #2
+[Miranda IM v0.7 #2 overlay]
+Оверлей Miranda IM v0.7 #2
+[Miranda IM v0.6 #2 overlay]
+Оверлей Miranda IM v0.6 #2
+[Miranda IM v0.5 #2 overlay]
+Оверлей Miranda IM v0.5 #2
+[Miranda IM v0.4 #2 overlay]
+Оверлей Miranda IM v0.4 #2
 [x64 overlay]
 Оверлей x64
 [x32 overlay]

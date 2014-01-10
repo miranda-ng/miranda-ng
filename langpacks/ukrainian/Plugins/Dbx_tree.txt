@@ -10,14 +10,16 @@
 [dbxTree Profile Wizard]
 Майстер профілю dbxTree
 [Cancel]
-Отмена
+Скасувати
 [Next >]
 Далі >
 [< Prev]
 < Назад
+[Journal "%s" was found on start.\nBackup "%s"%s created and backup "%s"%s created.\nYou may delete these file(s) after successful start from "%s".]
+Журнал "%s" знайдено.\nРезервна копія "%s"%s створена; резервна копія "%s"%s створена.\nЦі файли можна видалити після успішного запуску з "%s".
 [ was successfully]
  було успішно
 [ could not be]
  не може бути
 [Journal "%s" was found on start.\nBackups "%s" and "%s" could not be created in "%s".]
-Журнал "%s" не знайдено.\nРезервна копія "%s" та "%s" не може бути створена у "%s"
+Журнал "%s" не знайдено.\nРезервні копії "%s" та "%s" не можуть бути створені в "%s".

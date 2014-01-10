@@ -9,7 +9,7 @@
 Передача файлів на основі сервісу повідомлень - через звичайний текст.
 [fileAsMessage]
 Файл через повідомлення
-[Filename]
+[Filename:]
 Ім'я файлу:
 [Size:]
 Розмір:
@@ -33,14 +33,14 @@
 До передачі
 [Received]
 Прийнято
-[Use only alphanumeric on transfer encoding]
-Тільки літерами-цифрова кодування для передачі
+[Use only alphanumeric encoding on transfer]
+Тільки буквено-цифрове кодування для передач
 [Extra options: Events > File Transfers, "Receiving files" group]
-Доп. налаштування: Події > Передача файлів, "Прийом файлів"
+Дод. налаштування: Події -> Передача файлів, "Прийом файлів"
 [File already exists. Overwrite?]
 Файл вже існує. Перезаписати?
 [Couldn't open a file]
-Не вийшло відкрити файл
+Не вдалося відкрити файл
 [Size: %d bytes]
 Розмір: %d байт
 [Request sent. Awaiting of acceptance..]
@@ -54,18 +54,20 @@
 [Receiving...]
 Отримання...
 [Sent successfully]
-Написано успішно
-[Incoming file request. Do you want proceed?]
-Вхідний файл. Хочете продовжити?
+Надіслано успішно
+[Unknown command for "File As Message" was received]
+Невідома команда для "File As Message"
+[Incoming file request. Do you want to proceed?]
+Вхідний файл. Продовжити?
 [Canceled by remote user]
 Скасовано віддаленим користувачем
-[New incoming file request. Do you want proceed?]
-Новий вхідний файл. Хочете продовжити?
+[New incoming file request. Do you want to proceed?]
+Новий вхідний файл. Продовжити?
 [File transfer is paused because of dropped connection]
 Припинено через роз'єднання
-[Initialization Failed on file]
+[Failed on file initialization]
 Помилка при ініціалізації файлу
-[Призупинено...]
+[Paused...]
 Пауза...
 [Synchronizing...]
 Синхронізація...
@@ -78,7 +80,7 @@
 [Canceled by user]
 Скасовано користувачем
 [Transfer is in progress. Do you really want to close?]
-Іде передача файлу. Перервати?
+Триває передача файлу. Перервати?
 [Play]
 Пуск
 [Pause]
@@ -91,7 +93,7 @@
 Головний
 [Plugins]
 Плагіни
-[File Message As...]
+[File As Message...]
 Файл через повідомлення...
 [File As Message]
 Файл через повідомлення
