@@ -23,20 +23,6 @@ enum
 	IDM_KICK, IDM_INFO
 };
 
-static gc_item sttLogListItems[] =
-{
-	{ LPGENT("&Invite a user"), IDM_INVITE, MENU_ITEM },
-	{ LPGENT("View/change &topic"), IDM_TOPIC, MENU_POPUPITEM },
-	{ NULL, 0, MENU_SEPARATOR },
-	{ LPGENT("&Destroy room"), IDM_DESTROY, MENU_POPUPITEM }
-};
-
-static gc_item sttListItems[] =
-{
-	{ LPGENT("&User details"), IDM_INFO, MENU_ITEM },
-	{ LPGENT("&Kick"), IDM_KICK, MENU_ITEM }
-};
-
 static LPCTSTR sttStatuses[] = { LPGENT("Participants"), LPGENT("Owners") };
 
 CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
@@ -52,7 +38,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	c = new CVkChatInfo(id);
 	if (pDlg != NULL) {
 		tszTitle = json_as_string(json_get(pDlg, "title"));
-		c->m_tszTitle = mir_tstrdup((tszTitle != NULL) ? tszTitle : _T(""));
+		c->m_tszTopic = mir_tstrdup((tszTitle != NULL) ? tszTitle : _T(""));
 	}
 
 	CMString sid; sid.Format(_T("%S_%d"), m_szModuleName, id);
@@ -134,8 +120,8 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	JSONNODE *info = json_get(pResponse, "info");
 	if (info != NULL) {
 		ptrT tszTitle(json_as_string(json_get(info, "title")));
-		if (lstrcmp(tszTitle, cc->m_tszTitle)) {
-			cc->m_tszTitle = mir_tstrdup(tszTitle);
+		if (lstrcmp(tszTitle, cc->m_tszTopic)) {
+			cc->m_tszTopic = mir_tstrdup(tszTitle);
 
 			GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_TOPIC };
 			GCEVENT gce = { sizeof(GCEVENT), &gcd };
@@ -160,18 +146,20 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			TCHAR tszId[20];
 			_itot(uid, tszId, 10);
 
-			bool bNew = false;
+			bool bNew;
 			CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&uid);
 			if (cu == NULL) {
 				cc->m_users.insert(cu = new CVkChatUser(uid));
 				bNew = true;
 			}
+			else bNew = cu->m_bUnknown;
 			cu->m_bDel = false;
 
 			ptrT fName(json_as_string(json_get(pUser, "first_name")));
 			ptrT lName(json_as_string(json_get(pUser, "last_name")));
 			CMString tszNick = CMString(fName).Trim() + _T(" ") + CMString(lName).Trim();
 			cu->m_tszTitle = mir_tstrdup(tszNick);
+			cu->m_bUnknown = false;
 			
 			cu->m_tszImage = json_as_string(json_get(pUser, "photo"));
 
@@ -199,6 +187,8 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			GCEVENT gce = { sizeof(GCEVENT), &gcd };
 			gce.ptszUID = tszId;
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+
+			cc->m_users.remove(i);
 		}
 	}
 
@@ -267,6 +257,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR 
 	if (cu == NULL) {
 		cc->m_users.insert(cu = new CVkChatUser(uid));
 		cu->m_tszTitle = mir_tstrdup(TranslateT("Unknown"));
+		cu->m_bUnknown = true;
 	}
 
 	GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_MESSAGE };
@@ -368,12 +359,67 @@ void CVkProto::OnSendChatMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static INT_PTR CALLBACK InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		{
+			CVkProto *ppro = (CVkProto*)lParam;
+			HWND hwndCombo = GetDlgItem(hwndDlg, IDC_CONTACT);
+			for (HANDLE hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
+				TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
+				int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, LPARAM(ptszNick));
+				SendMessage(hwndCombo, CB_SETITEMDATA, idx, (LPARAM)hContact);
+			}
+			SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
+		}
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDCANCEL:
+			EndDialog(hwndDlg, 0);
+			return TRUE;
+
+		case IDOK:
+			int idx = SendDlgItemMessage(hwndDlg, IDC_CONTACT, CB_GETCURSEL, 0, 0);
+			if (idx != -1)
+				EndDialog(hwndDlg, SendDlgItemMessage(hwndDlg, IDC_CONTACT, CB_GETITEMDATA, idx, 0));
+			else
+				EndDialog(hwndDlg, 0);
+			return TRUE;
+		}		
+	}
+
+	return 0;
+}
+
 void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 {
+	HANDLE hContact;
 	char szChatId[20];
 	_itoa(cc->m_chatid, szChatId, 10);
 
 	switch (gch->dwData) {
+	case IDM_INVITE:
+		hContact = (HANDLE)DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INVITE), NULL, InviteDlgProc, (LPARAM)this);
+		if (hContact != NULL) {
+			int uid = getDword(hContact, "ID", -1);
+			if (uid == -1) break;
+
+			char szUid[20];
+			_itoa(uid, szUid, 10);
+
+			HttpParam params[] = {
+				{ "uid", szUid },
+				{ "chat_id", szChatId },
+				{ "access_token", m_szAccessToken }
+			};
+			PushAsyncHttpRequest(REQUEST_GET, "/method/messages.addChatUser.json", true, NULL, SIZEOF(params), params);
+		}
+		break;
+
 	case IDM_DESTROY:
 		if (IDYES == MessageBox(NULL,
 			TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"),
@@ -424,11 +470,26 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			{ "access_token", m_szAccessToken }
 		};
 		PushAsyncHttpRequest(REQUEST_GET, "/method/messages.removeChatUser.json", true, NULL, SIZEOF(params), params);
+		cu->m_bUnknown = true;
 		break;
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+static gc_item sttLogListItems[] =
+{
+	{ LPGENT("&Invite a user"), IDM_INVITE, MENU_ITEM },
+	{ LPGENT("View/change &topic"), IDM_TOPIC, MENU_POPUPITEM },
+	{ NULL, 0, MENU_SEPARATOR },
+	{ LPGENT("&Destroy room"), IDM_DESTROY, MENU_POPUPITEM }
+};
+
+static gc_item sttListItems[] =
+{
+	{ LPGENT("&User details"), IDM_INFO, MENU_ITEM },
+	{ LPGENT("&Kick"), IDM_KICK, MENU_ITEM }
+};
 
 int CVkProto::OnGcMenuHook(WPARAM, LPARAM lParam)
 {

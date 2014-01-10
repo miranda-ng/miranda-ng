@@ -5,6 +5,7 @@
 #define IDD_ACCMGRUI                    101
 #define IDD_CAPTCHAFORM                 102
 #define IDD_OPT_MAIN                    103
+#define IDD_INVITE                      104
 #define IDI_KEYS                        203
 #define IDC_LOGIN                       1001
 #define IDC_PASSWORD                    1002
@@ -18,15 +19,16 @@
 #define IDC_SUBMIT                      1010
 #define IDC_DELIVERY                    1011
 #define IDC_GROUPNAME                   1012
+#define IDC_CONTACT                     1015
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        104
+#define _APS_NEXT_RESOURCE_VALUE        105
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1015
+#define _APS_NEXT_CONTROL_VALUE         1016
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
