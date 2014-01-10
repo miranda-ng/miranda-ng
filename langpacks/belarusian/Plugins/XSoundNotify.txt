@@ -15,19 +15,17 @@
 [Sound:]
 Гук:
 [Not set]
-Не ўсталявана
+Не наладжана
 [Choose]
 Абраць
 [Test play]
-Тэст
+Прагляд
 [Reset]
 Скід
 [Ignore sound for this contact]
 Ігнараваць гук для гэтага кантакту
 [XSoundNotify]
 XSoundNotify
-[OK]
-ОК
 [Cancel]
 Скасаваць
 ;file \plugins\XSoundNotify\src\dialog.cpp

@@ -19,7 +19,7 @@
 [Version:]
 Версія:
 [Preview]
-Тэст
+Прагляд
 [Display]
 Паказваць
 [Replace only smileys surrounded by spaces]
@@ -33,7 +33,7 @@
 [Animate]
 Анімацыя
 [Maximum 'Custom smiley' height]
-Макс. вышыня загруж. смайлаў
+Макс. вышыня смайлаў
 [Minimum smiley height]
 Мін. вышыня смайлаў
 [Smiley selector]

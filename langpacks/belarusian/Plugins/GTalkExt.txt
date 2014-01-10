@@ -39,13 +39,13 @@
 [Text color]
 Колер тэксту
 [Timeout]
-Таймаўт
+Затрымка
 [If both colors set to the same value, default colors will be used]
 Калі абодва колеры аднолькавыя, будуць скарыстаны колеры па змаўчанні
 [0 means default timeout,\n-1 means no timeout]
 0 - па змаўчанні,\n-1 - Бясконца
 [Test]
-Тэст
+Прагляд
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 Адкрыць паштовую скрыню

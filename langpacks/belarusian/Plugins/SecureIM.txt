@@ -15,13 +15,13 @@
 [Enable Secure File Transfer]
 Уключыць шыфроўку файлаў
 [Always show status icons in contact list]
-Паказваць значок у спісе кантактаў
+Паказваць абразок у спісе кантактаў
 [Context Menu only for "Miranda" clients]
 Пункт у меню толькі для Miranda
 [Status in Context Menu]
 Статус у кантэкст. меню
 [Disable encryption for game plugins]
-Адкл. шыфраванне для game модуляў
+Адключыць шыфраванне для game плагінаў
 [Always secured if possible]
 Па магчымасці ўключаць шыфраванне
 [Not secured for NotOnList]
@@ -97,7 +97,7 @@
 [SecureIM Popup Colors]
 Колеры ўсплывальных паведамленняў SecureIM
 [Preview]
-Тэст
+Прагляд
 [Events]
 Падзеі
 [Popup Timeout]
@@ -127,7 +127,7 @@
 [Cancel]
 Скасаваць
 [SecureIM plugin Passphrase of private key]
-Модуль SecureIM. Фраза-пароль для прыватнага ключа 
+Плагін SecureIM. Фраза-пароль для прыватнага ключа 
 [Enter passphrase for the secret key:]
 Увядзіце фразу-пароль для сакрэтнага ключа:
 [Mode]
@@ -196,7 +196,7 @@ SecureIM выключаны! Вы павінны ўключыць яго для 
 [Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
 Немагчыма адправіць шыфраванае паведамленне!\nКантакт зараз адключаны, і яго ключ шыфравання састарэлы, вы жадаеце адправіць паведамленне?\nЯно будзе адпраўлена незашыфраваным!
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
-Модуль SecureIM не можа быць загружаны, таму што бібліятэка cryptopp.dll не знойдзена ці не адпавядае версіі!
+Плагін SecureIM не можа быць загружаны, таму што бібліятэка cryptopp.dll не знойдзена ці не адпавядае версіі!
 [SecureIM can't encrypt message! Check trust of PGP/GPG key!]
 SecureIM не можа адправіць шыфраванае паведамленне! Праверце давер да PGP/GPG ключу!
 [Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
@@ -288,7 +288,7 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 [Error while decoding RSA message]
 Памылка пры расшыфроўцы RSA паведамленні
 [Session closed on timeout]
-Сесія зачынена па таймаўце
+Сесія зачынена па затрымцы
 [Session closed by other side when status "disabled"]
 Сесія зачынена другім бокам, статус "адключаны"
 [Session closed on error: %02x]

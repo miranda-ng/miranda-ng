@@ -63,15 +63,13 @@
 [Label:]
 Пазнака:
 [Contact protocol module]
-Модуль пратаколу кантакту
+Плагін пратаколу кантакту
 [Module:]
-Модуль:
+Плагін:
 [Setting or prefix:]
 Параметр, прэфікс:
 [Translation:]
 Пераўтварэнне:
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Item]
@@ -151,7 +149,7 @@
 [Animation speed:]
 Хуткасць анімацыі:
 [Preview]
-Тэст
+Прагляд
 [No preview]
 Няма прэв'ю
 [Skin option]
@@ -278,7 +276,7 @@
 [Status message]
 Паведамленне статусу
 [Extra status]
-Дап. статус
+Дад. статус
 [Listening to]
 Слухаю
 [Miranda uptime]

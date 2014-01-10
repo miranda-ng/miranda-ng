@@ -47,11 +47,9 @@
 [Don't steal focus unless idle]
 Калі не актыўны, не перахапляць фокус
 [Preview]
-Тэст
+Прагляд
 [Alarm]
 Напамінак 
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Title:]

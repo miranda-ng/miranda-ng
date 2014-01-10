@@ -38,8 +38,6 @@
 Пачатак:
 [End:]
 Канец:
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Apply]
@@ -59,9 +57,9 @@
 [From Popup plugin]
 Па змаўчанні
 [Permanent]
-Увесь час
+Пастаянна
 [Preview]
-Тэст
+Прагляд
 [Colors]
 Колеры
 [Use custom colors]
@@ -92,14 +90,10 @@
 Сеціва
 [Popups]
 Усплывальныя вокны
-;file \plugins\WebView\src\webview_alerts.cpp
-;file \plugins\WebView\src\webview_datawnd.cpp
-;file \plugins\WebView\src\webview_getdata.cpp
 [Alert!]
 Увага!
 [Online]
 Далучаны
-;file \plugins\WebView\src\webview_opts.cpp
 [Popup plugin]
 Успл. вокны
 ;file \plugins\WebView\src\webview_services.cpp

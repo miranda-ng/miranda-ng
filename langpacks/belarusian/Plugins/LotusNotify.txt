@@ -22,24 +22,44 @@
 Тэкст
 [Close after:]
 Закрыць пасля:
+[sec (0 default,\n -1 disabled)]
+с (0 змаўчанне,\n -1 выключана)
+[Left button click cmd:]
+Каманда па левай пстрычцы мышы:
 [Command parameters:]
 Параметры каманды:
 [version:]
 версія:
+[Filter messages contain below strings in:]
+Фільтраваць паведамленні, што ўтрымоўваюць:
 [Sender]
 Адпраўшчык
 [Subject]
 Тэма
+[Lotus connection settings]
+Налады далучэння Lotus
 [Primary server:]
 Галоўны сервер:
 [Database:]
 База дадзеных:
+[try detect]
+спрабаваць выявіць
 [Secondary server:]
 Другі сервер:
 [Check interval:]
 Інтэрвал праверкі:
+[(0-disabled)]
+0-выключана
+[min.]
+хв.
 [Password:]
 Пароль:
+[Offline status mean:]
+Аўтаномны статус:
+[To / CopyTo]
+Каму / Копія
+[autoregister]
+Аўтарэгістрацыя
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Не ўдалося загрузіць усе неабходныя функцыі Lotus API
@@ -69,7 +89,11 @@ notes.ini, здаецца, быў усталяваны правільна.
 Плагіны
 [&Check Lotus]
 Праверыць Lotus
+[Lotus Notify]
+Паведамленні Lotus
 [New Lotus document detected]
 Выяўлены новы Lotus дакумент
 [LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)]
 LotusNotify.dll не можа працаваць з 64-бітнай Мірандай. (Lotus кліент толькі 32bit)
+[LotusNotify]
+Паведамленні Lotus

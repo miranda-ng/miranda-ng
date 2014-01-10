@@ -13,7 +13,7 @@
 [Custom folders]
 Тэчкі
 [Preview]
-Тэст
+Прагляд
 [Edit]
 Змяніць
 [Refresh preview]

@@ -47,7 +47,7 @@
 [Out to lunch]
 Абедаю
 [Preview]
-Тэст
+Прагляд
 ;file \plugins\BASS_interface\src\Bass_interface.h
 [Bass Interface]
 Бібліятэка BASS

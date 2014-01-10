@@ -19,13 +19,7 @@
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 Было злоўлена выключэнне. Вы можаце і далей працаваць з праграмай, але пажадана перазапусціць Міранду як мага хутчэй. Магчыма, пашкоджаны ўнутраныя структуры дадзеных і гэта можа аказаць сур'ёзны ўплыў на стабільнасць.
 [About CList Nicer+]
-Пра плагін Nicer+
-[OK]
-ОК
-[Clist Nicer+]
-Clist Nicer+
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miranda NG.
+Пра Nicer+
 [Version]
 Версія
 [Support and latest version information]
@@ -93,7 +87,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Only when statuses differ]
 Пры розных статусах
 [Do not show system tray icon tooltips on mouse over]
-Не паказваць усплывальныя падказкі пры навядзенні на значок у трэі
+Не паказваць усплывальныя падказкі пры навядзенні на абразок у трэі
 [Groups]
 Гурты
 [Draw a line alongside group names]
@@ -107,7 +101,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Quicksearch in open groups only]
 Хуткі пошук толькі ў адчыненых гуртах
 [No expand/collapse icon]
-Не паказваць значок згортвання/разгортванні
+Не паказваць абразок згортвання/разгортванні
 [Center groupnames horizontally]
 Выраўняць назвы гуртоў па цэнтры
 [Alignment]
@@ -179,7 +173,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [When possible, draw status icons in avatar space]
 Калі магчыма, маляваць значкі статусу ў аватары
 [Use metacontact protocol icons instead of subcontacts]
-Значок пратаколу метакантакту замест субкантакту
+Абразок конта метакантакта замест субкантакту
 [Use Overlay icons on avatars]
 Выкарыстоўваць накладанне значкоў на аватары
 [Dim idle contacts]
@@ -337,7 +331,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Sticky contacts]
 Замацаваныя кантакты
 [Clear all]
-Ачысціць
+Сцерці ўсё
 [Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
 Пры карыстанні спісам кантактаў з левага боку, вы можаце абраць кантакты, якія будуць замацаваны за гэтым рэжымам прагляду. Гэтыя кантакты ібудуць ігнараваць стандартныя правілы фільтра і выкарыстоўваць толькі фільтр статусу ніжэй.
 [Protocol]
@@ -437,7 +431,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Show 2nd line:]
 Другі радок:
 [Draw overlay icon on avatar]
-Значок па-над аватарам
+Абразок па-над аватарам
 [Show local time]
 Лакальны час
 [&Main menu]
@@ -590,7 +584,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Setup view modes]
 Наладзіць рэжымы выгляду
 [Clear view mode]
-Ачысціць рэжым выгляду
+Сцерці рэжым выгляду
 ;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 Не ў фокусе
@@ -809,7 +803,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Setup View Modes...]
 Наладзіць рэжымы выгляду...
 [Clear current View Mode]
-Ачысціць бягучы рэжым выгляду
+Сцерці бягучы рэжым выгляду
 [Select a view mode]
 Выбар рэжыму прагляду
 [Clear view mode and return to default display]

@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
-Модуль асабістых і гуртавых гутарак для Miranda NG.
+Плагін асабістых і гуртавых гутарак для Miranda NG.
 ;file \plugins\Scriver\res\resource.rc
 [Behavior]
 Паводзіны
@@ -133,7 +133,7 @@
 [Show typing notifications when a user is typing a message]
 Паказваць абвесткі пра набор тэксту
 [Update message window icons when a user is typing]
-Абнавіць значок вакна пры наборы паведамлення Вам
+Абнавіць абразок вакна пры наборы паведамлення Вам
 [Show typing notification when no message dialog is open]
 Абвесціць пра набор тэксту, пры зачыненым вакне гутаркі
 [Flash in the system tray and in the contact list]
@@ -163,9 +163,7 @@
 [&History]
 Гісторыя
 [&Quote]
-Цыціраваць
-[&OK]
-&OK
+Цытыраваць
 [Send To All Tabs]
 Адправіць усім укладкам
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -278,22 +276,8 @@ KB
 Вылучыць &усё
 [Word lookup]
 Знайсці слова
-[Google]
-Google
-[Bing]
-Bing
-[Yandex]
-Yandex
-[Wikipedia (en)]
-Wikipedia (en)
-[Google Maps]
-Google Maps
-[Google Translate]
-Google Translate
-[Yahoo]
-Yahoo
 [C&lear Log]
-Ачысціць лог
+Сцерці лог
 [&Open link]
 &адчыніць спасылку
 [&Copy link]
@@ -315,7 +299,7 @@ Yahoo
 [Delete]
 Выдаліць
 [Clear]
-Ачысціць
+Сцерці
 [Close Other Tabs]
 Зачыніць іншыя ўкладкі
 [Close Tab]
@@ -325,7 +309,7 @@ Yahoo
 [&Message]
 &Паведамленне
 [Clear lo&g]
-Ачысціць ча&т
+Сцерці чат
 [Co&py all]
 Капіяваць усё
 ;file \plugins\Scriver\src\globals.cpp
@@ -416,7 +400,7 @@ Yahoo
 [Kick (10x10)]
 Выгнаць (10х10)
 [Nickchange (10x10)]
-Змена псеўданіма (10х10)
+Змена мянушкі (10х10)
 [Topic (10x10)]
 Тэма (10х10)
 [Highlight (10x10)]
@@ -473,7 +457,7 @@ Yahoo
 [Window: Toggle info bar]
 Вакно: укл/выкл панэль інфармацыі
 [Window: Clear log]
-Вакно: Ачысціць лог
+Вакно: Сцерці лог
 [Window: Minimize]
 Вакно: Згарнуць
 [Window: Close tab]
@@ -584,9 +568,9 @@ URL атрыманы
 [Info bar status message]
 Інфа-Панэль: статуснае паведамленне
 [Others nicknames]
-Іншыя псеўданімы
+Іншыя мянушкі
 [Your nickname]
-Ваш псеўданім
+Ваша мянушка
 [User has joined]
 Кантакт далучыўся
 [User has left]
@@ -596,7 +580,7 @@ URL атрыманы
 [User kicked ...]
 Выспятак
 [User is now known as ...]
-Змена псеўданіма
+Змена мянушкі
 [Notice from user]
 Абвестка
 [Incoming message]
@@ -690,7 +674,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 Па-над усіх вокнамі
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
-Таймаўт адпраўкі паведамлення
+Затрымка адпраўкі паведамлення
 ;file \plugins\Scriver\src\chat\clist.cpp
 [Join chat]
 Увайсці ў чат
@@ -751,7 +735,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Show contact statuses (if supported)]
 Паказваць статусы (калі падтрымліваецца)
 [Display contact status icon before role icon]
-Паказваць значок статусу, пасля значка роляў
+Паказваць абразок статусу, пасля абразка роляў
 [Add ':' to auto-completed names]
 Дадаваць ":" да імёнаў кантактаў
 [Prefix all events with a timestamp]
@@ -785,7 +769,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Show notices]
 Абвесткі
 [Show users changing name]
-Змена псеўданіма
+Змена мянушкі
 [Show information messages]
 Інфармацыйныя паведамленні
 [Show status changes of users]
@@ -809,7 +793,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Show icon in tray for users kicking other user]
 Выспятак
 [Show icon in tray for notices]
-Значок у трэі для абвестак
+Абразок у трэі для абвестак
 [Show icon in tray for name changes]
 Змены мянушак
 [Show icon in tray for information messages]
@@ -837,7 +821,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Show popup for notices]
 Паказаць вокны для абвестак
 [Show popup for name changes]
-Змены псеўданімаў
+Змены мянушак
 [Show popup for information messages]
 Інфармацыйныя паведамленні
 [Show popup for status changes]

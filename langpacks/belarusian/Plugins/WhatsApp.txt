@@ -32,11 +32,9 @@
 Для рэгістрацыі нумара і атрымання паролю скарыстайцеся праграмай WART з тэчкі Plugins
 [Cancel]
 Скасаваць
-[OK]
-ОК
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country-code.]
-Абярыце код краіны
+Абярыце код краіны.
 [Please enter a phone-number without country code.]
 Увядзіце нумар тэлефона без кода краіны
 [Please enter a nickname.]

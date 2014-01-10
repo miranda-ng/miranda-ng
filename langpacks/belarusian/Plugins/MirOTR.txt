@@ -37,7 +37,7 @@ OTR Стварэнне закрытага ключа
 [Show OTR system messages as popup]
 Паказваць сістэмныя паведамленні ва ўсплывальным вакне
 [Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
-Вяртаць завершаныя сесіі ў звычайны тэкст па тайм-аўту
+Вяртаць завершаныя сесіі ў звычайны тэкст пры затрымцы
 [Show verification dialog when receiving unverified fingerprint]
 Дыялог пацверджання пры атрыманні неправеранага адбітка
 [Set OTR policy per protocol]

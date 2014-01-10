@@ -79,7 +79,7 @@
 [Mobile Device (used for SMS)]
 Мабільная прылада (SMS)
 [Spouse/Partner]
-Муж(а)/Партнёр
+Сужэнец(ца)/Партнёр
 [Middle Name]
 Імя па бацьку
 [First Name]
@@ -182,7 +182,7 @@ MSN Чат
 [You must be talking to start Netmeeting]
 Вы павінны размаўляць перад запускам Netmeeting
 [Set &Nickname]
-Псеўданім...
+Мянушка...
 [Create &Chat]
 Стварыць &чат
 [Display &Hotmail Inbox]
@@ -241,7 +241,7 @@ MSN Чат
 [IP info available only after login]
 Інфармацыя о IP даступная пасля ўваходу
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
-Пратакол MSN патрабуе таймаўту адпраўкі паведамлення не меней 60 секунд. Выправіце налады.
+Пратакол MSN патрабуе затрымцы адпраўкі паведамлення не меней 60 секунд. Выправіце налады.
 [Network]
 Сеціва
 [Account]
@@ -259,9 +259,9 @@ MSN Чат
 Кантакт спрабаваў прагледзець нашу вэб-камеру (не падтрымліваецца)
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
-Live пошта
+Пошта Live
 [Live Alert]
-Live абвестка
+Абвестка Live
 [%s plugin HTTPS connections]
 %s далучэнне па HTTPS
 [%s plugin connections]
@@ -280,7 +280,7 @@ Live абвестка
 Паведамленні адключаным LCS кантактам немагчымыя
 ;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-Для MSN таймаўт адпраўлення паведамлення павінен быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш плагін гутаркі.
+Для MSN затрымка адпраўлення паведамлення павінна быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш плагін гутаркі.
 [Convert to Chat]
 Канвертаваць у чат
 ;file \protocols\MSN\src\msn_ws.cpp

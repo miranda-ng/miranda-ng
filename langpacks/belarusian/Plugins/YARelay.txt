@@ -45,7 +45,7 @@
 [Send only first]
 Адсылаць першыя
 [Max size of split part (chars)]
-Макс. памер часткі (сімв.)
+Макс. памер часткі (сімвалаў)
 [Mark received messages as 'read']
 Пазначаць атрыманыя паведамленні як прачытаныя
 [Save sent messages in recipient's history]

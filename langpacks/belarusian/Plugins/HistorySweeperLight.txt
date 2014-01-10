@@ -11,7 +11,7 @@
 [History Sweeper Light]
 Чыстка гісторыі
 [Sweep history for this contacts:]
-Ачысціць гісторыю для гэтых кантактаў:
+Сцерці гісторыю для гэтых кантактаў:
 [Action 1]
 Дзеянне 1
 [Action 2]

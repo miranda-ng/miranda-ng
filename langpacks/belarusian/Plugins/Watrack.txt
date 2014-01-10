@@ -62,7 +62,7 @@
 [Frame refresh time]
 Абнаўленне фрэйма, сек
 [Hide frame when no music played]
-Хаваць фрэйм калі нічога не гуляе
+Хаваць фрэйм калі нічога не грае
 [Center horizontally]
 Цэнтраваць гарызантальна
 [Center vertically]
@@ -136,7 +136,7 @@
 [player version in text format]
 Версія прайгравальніка ў тэкставым фармаце
 [player status (stopped,playing,paused)]
-Статус прайгравальніка (спынены, гуляе, паўза)
+Статус прайгравальніка (спынены, грае, паўза)
 [player name]
 Назва прайгравальніка
 [time/length * 100%]
@@ -218,7 +218,7 @@ FPS (кадраў у секунду), толькі для відэа
 [Use existing XStatus]
 Выкарыстоўваць бягучы xСтатус
 [Only if 'Music' status was set]
-Толькі пры статуце "Музыка"
+Толькі пры статусе "Музыка"
 [Keep 'Music' status]
 Пакідаць статус "Музыка"
 [Replace underlines with spaces]
@@ -296,7 +296,7 @@ VBR ці пуста
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
 Калі опцыя ўключана, плагін паспрабуе атрымаць інфармацыю пра музыку ад плэера, працуе не з усімі плэерамі
 [If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
-Калі опцыя ўключана, xСтатус змяняецца толькі пры ўжо ўсталяваным у "Музыка" статуце.
+Калі опцыя ўключана, xСтатус змяняецца толькі пры ўжо ўсталяваным у "Музыка" статусе.
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
 Калі ўключана гэта опцыя, xСтатус не залежыць ад статусу ICQ.
 [If this option is "ON", XStatus not changed when player shutdowned.]
@@ -366,7 +366,7 @@ VBR ці пуста
 [Try to use OLE interface]
 Выкарыстоўваць метад OLE
 [player status (stopped, playing, paused)]
-статус плэера (спынены, гуляе, на паўзе)
+статус плэера (спынены, грае, на паўзе)
 [player]
 плэер
 [Independed Xstatus]
@@ -510,9 +510,9 @@ VBR ці няма
 [Enable Plugin]
 Уключыць плагін
 [Don't forget to enter Login and Password to use Last.fm service]
-Не забудзьцеся ўвесці лагін і пароль, што б карыстацца сэрвісам Last.fm
+Не забудзьцеся ўвесці імя і пароль, каб карыстацца сэрвісам Last.fm
 [Don't forget to enter Login and Password to use MyShows service]
-Каб карыстацца MyShows, увяздіце логін і пароль.
+Каб карыстацца MyShows, увяздіце імя і пароль
 [Attempts]
 спроб
 [Disable scrobbling]
@@ -550,7 +550,7 @@ VBR ці няма
 [any XStatus is set]
 усталяваны любы хстатус
 [Players list\n(F1 for note)]
-Спіс плэераў\n(Націсніце F1 для дап. інф.)
+Спіс плэераў\n(Націсніце F1 для инфармацыі)
 [Chat Template]
 Шаблон для чатаў
 [This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]

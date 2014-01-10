@@ -23,7 +23,7 @@
 Кантакты
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
-Галоўны значок
+Галоўны абразок
 [Contact]
 Кантакт
 [Toggle Ignore]

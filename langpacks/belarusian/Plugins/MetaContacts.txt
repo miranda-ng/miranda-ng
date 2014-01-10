@@ -27,7 +27,7 @@
 [&Apply]
 Ужыць
 [&Remove]
-Ачысціць
+выдаліць
 [&Set as Default]
 &Па змаўчанні
 [Move &Up]

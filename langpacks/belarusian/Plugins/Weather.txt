@@ -115,7 +115,7 @@ ID
 [Link Settings]
 Налада спасылак
 [More Info URL]
-URL дап. інфармацыі
+Дадатковая інфармацыя
 [Weather Map]
 Карта надвор'я
 [Other Options]
@@ -159,7 +159,7 @@ URL дап. інфармацыі
 [From Popup plugin]
 Па змаўчанні
 [Permanent]
-Увесь час
+Пастаянна
 [Popup Text]
 Усплывальны тэкст
 [Popup Title]
@@ -169,7 +169,7 @@ URL дап. інфармацыі
 [Default]
 Змаўчанні
 [Preview]
-Тэст
+Прагляд
 [Updates]
 Абнаўленні
 [Alerts]
@@ -183,7 +183,7 @@ URL дап. інфармацыі
 [Note Text]
 Тэкст
 [Extra Text]
-Дап. тэкст
+Дад. тэкст
 [External Log]
 Вонкавая гісторыя
 [History Log]
@@ -319,7 +319,7 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 [HTTP Error: Service unavailable (503)]
 Памылка HTTP: Сэрвіс недасяжны (503)
 [HTTP Error: Gateway timeout (504)]
-Памылка HTTP: Таймаўт шлюза (504)
+Памылка HTTP: Затрымка шлюза (504)
 [%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
 %c\n Тэмпература: %t\n Адчуванне: %f\n Ціск: %p\n Вецер: %i  %w\n Вільготнасць: %m\n Раса: %e\n Бачнасць: %v\n\n Узыход: %r\n Заход: %y\n\n Прагноз на 5 дзён:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
 [Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
@@ -349,7 +349,7 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 <Увядзіце ID гарады>
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
-Лог надвор'я не вядзецца
+Лог надвор'я не вядзецца.
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
 URL поўнага прагнозу надвор'я не ўсталяваны. Вы можаце ўсталяваць яго ў наладах.
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]

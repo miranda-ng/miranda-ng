@@ -38,7 +38,7 @@
 [Carpeted Hallway]
 Пакрыты калідор
 [Play from first]
-Гуляць спачатку
+Граць спачатку
 [Shuffle playlist]
 Перамяшаць плэйліст
 [Loop single media]
@@ -46,7 +46,7 @@
 [Station Name]
 Імя станцыі
 [Timeout, ms (5000)]
-Таймаўт, мс (5000)
+Затрымка, мс (5000)
 [PreBuf, % (75%)]
 PreBuf, % (75%)
 [Hallway]

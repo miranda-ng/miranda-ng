@@ -47,7 +47,7 @@
 [The SMS message send timed out]
 Ліміт часу адпраўкі SMS
 [SMS Plugin]
-Модуль SMS
+Плагін SMS
 [Begining]
 пачатак
 [End]

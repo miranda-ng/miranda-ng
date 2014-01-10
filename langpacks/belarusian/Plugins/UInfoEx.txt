@@ -141,7 +141,7 @@
 [Custom]
 Наладзіць
 [Permanent]
-Увесь час
+Пастаянна
 [Show reminder messages as popups (if reminder is enabled)]
 Напамінкі ва ўсплывальных вокнах (калі дазволены)
 [Anniversary popup colors]
@@ -151,7 +151,7 @@
 [Replace message boxes with popups]
 Замяніць дыялогі ўсплывальнымі вокнамі
 [Preview]
-Тэст
+Прагляд
 [Homepage:]
 Сайт:
 [Add Affiliation]
@@ -325,9 +325,9 @@ E-Mail
 [Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 Адзначце ў спісе тыя плагіны, якія вы жадаеце экспартаваць для кантактаў. Для дадання кантакту з файла ў выглядзе новага запісу, неабходна экспартаваць хоць бы плагін пратаколу.
 [Check all]
-Абраць усё
+Пазначыць усё
 [Uncheck all]
-Ачысціць усё
+Зняць усё
 [&Export]
 &Экспарт
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
@@ -693,7 +693,7 @@ E-Mail
 [Sorry, but there is a problem with adding a new item of type "%s"]
 Памылка дадання новага элемента з тыпам "%s"
 [<empty>]
-<не>
+<пуста>
 [Add Affliation]
 Дадаць
 [Edit Category]
@@ -1126,7 +1126,7 @@ Web Дызайн
 [contact identificaion]
 ідэнтыфікацыя кантакту
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
-Кантакт %s(%s) не мае ўнікальнага нумара ў vCard,\nале ў спісе кантактаў ёсць кантакт з такім жа псеўданімам і пратаколам.\nВы жадаеце выкарыстоўваць яго нумар для гэтага кантакту?
+Кантакт %s(%s) не мае ўнікальнага нумара ў vCard,\nале ў спісе кантактаў ёсць кантакт таго ж конту і з такім жа іменем.\nВы жадаеце выкарыстоўваць яго нумар для гэтага кантакту?
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
 Імпартаванне новага кантакту спынена!

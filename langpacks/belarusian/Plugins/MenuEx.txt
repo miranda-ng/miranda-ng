@@ -80,7 +80,7 @@
 [Messages]
 Паведамленні
 [URL]
-Ссылка
+Спасылка
 [Files]
 Файлы
 [User Online]
@@ -94,11 +94,9 @@
 [Please authorize me to add you to my contact list.]
 Дазволіце, калі ласка, дадаць Вас у спіс.
 [Do you want to send authorization request\nto new contact?]
-Ці жадаеце вы паслаць запыт аўтарызацыі\n новаму кантакту?
-[Miranda NG]
-Miranda NG
+Ці жадаеце вы паслаць запыт аўтарызацыі\nноваму кантакту?
 [MenuItemEx]
-Дап. пункты меню
+Дадатковае меню
 [Open ignore settings]
 Адкрыць налады ігнаравання
 [Request authorization]

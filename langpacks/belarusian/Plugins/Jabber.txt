@@ -30,8 +30,6 @@
 Рэгістрацыя
 [Use custom connection host and port:]
 Налада далучэння (вузел і порт):
-[Use Domain Login]
-Даменны лагін
 [Go]
 >>
 [Search service]
@@ -159,7 +157,7 @@ Jabber Пароль
 [Full name:]
 Поўнае імя:
 [Nickname:]
-Псеўданім:
+Мянушка  :
 [First name:]
 Імя:
 [Middle:]
@@ -303,7 +301,7 @@ JID:
 [Transport]
 Транспарт
 [URL]
-Ссылка
+Спасылка
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
 Аўта-ўваход (Неабходна ўключыць аўтаматычны ўваход у наладах)
 [Room JID/ URL:]
@@ -437,7 +435,7 @@ HTTP аўтарызацыя\nПрыняць ці адхіліць ўваходн
 [XML Console]
 XML Кансоль
 [Reset log]
-Ачысціць лог
+Скінуць лог
 [Send]
 Адправіць
 ;file \protocols\JabberG\src\jabber.cpp
@@ -738,7 +736,7 @@ xHTML фармат чат-паведамленняў
 Jabber памылка
 ;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
-таймаўт запыту.
+затрымка запыту.
 [Node hierarchy]
 Іерархія вузла
 [Node]
@@ -1889,7 +1887,7 @@ Odnoklassniki
 [Registration required]
 Патрабуецца рэгістрацыя
 [Request timeout]
-Таймаўт запыту
+Затрымка запыту
 [Conflict]
 Канфлікт
 [Internal server error]
@@ -1901,7 +1899,7 @@ Odnoklassniki
 [Service unavailable]
 Служба недаступная
 [Remote server timeout]
-Таймаўт выдаленага сервера
+Затрымка выдаленага сервера
 [Unknown error]
 Невядомая памылка
 [Error]

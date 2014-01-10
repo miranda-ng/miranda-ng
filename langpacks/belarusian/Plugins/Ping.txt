@@ -11,9 +11,9 @@
 [Delay between pings (secs):]
 Затрымка паміж пінгамі (сек):
 [Timeout]
-Таймаўт
+Затрымка
 [Ping timeout (secs):]
-Таймаўт пінгаў (сек):
+Затрымка пінгаў (сек):
 [Logging]
 Гісторыя
 [Log to File]
@@ -35,7 +35,7 @@
 [Interface]
 Інтэрфейс
 [Do not change icon when testing]
-Не змяняць значок пры тэставанні
+Не змяняць абразок пры праглядзе
 [Use the Customize/Fonts options to change text size and color.]
 Налада шрыфтоў у "Тонкая налада->Шрыфты і колеры"
 [Indent:]
@@ -60,8 +60,6 @@
 Уніз
 [Edit Host]
 Кіраваць хост
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Address:]
@@ -138,7 +136,7 @@ TCP злучэнне
 [%s - reply, %d]
 %s - адказ, %d
 [%s - timeout]
-%s - таймаўт
+%s - затрымка
 [Disable]
 Выключыць
 [enabled]

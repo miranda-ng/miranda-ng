@@ -19,8 +19,6 @@ MPD Хост
 Watrack MPD злучэнне
 ;file \plugins\Watrack_MPD\src\options.cpp
 [Winamp Track]
-Зараз гуляе (WATrack)
+Зараз слухаю (WATrack)
 [Plugins]
 Плагіны
-[Watrack MPD]
-Watrack MPD

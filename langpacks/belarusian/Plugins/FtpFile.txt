@@ -17,7 +17,7 @@ FTP-конты
 [Password]
 Пароль
 [URL]
-Ссылка
+Спасылка
 [Directory on server]
 Тэчка на серверы
 [Port]
@@ -102,8 +102,6 @@ FTP файл мэнэджар
 Выдаліць з FTP
 [Enter file name]
 Увядзіце імя файла
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [File exists]

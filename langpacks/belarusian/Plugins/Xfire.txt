@@ -11,9 +11,7 @@
 [Password:]
 Пароль:
 [Login name:]
-Лагін
-[XFire]
-XFire
+Імя карыстача:
 [Nick:]
 Мянушка:
 [Current protocol version:]
@@ -58,12 +56,8 @@ XFire
 Асноўны гурт для сяброў з сяброў:
 [Files]
 Файлы
-[xfire_games.ini]
-xfire_games.ini
-[icons.dll]
-icons.dll
 [Blocked User List]
-Спіса блакаваных кантактаў
+Спіс блакаваных кантактаў
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 Гэты спіс утрымоўвае заблакаваныя кантакты. Вы можаце выдаліць аднаго, што дазволіць яму пасылаць вам паведамленні.
 [You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
@@ -116,8 +110,6 @@ icons.dll
 Галасавы чат
 [Name:]
 Імя:
-[IP:]
-IP:
 [Port:]
 Порт:
 [User details]
@@ -213,7 +205,7 @@ ID гульні:
 [&Rescan my games...]
 Перасканіраваць гульні...
 [Set &Nickname]
-Псеўданім...
+Мянушка...
 [Protocols/XFire]
 Пратаколы/XFire
 [XFire game icon]
@@ -227,7 +219,7 @@ XFireне падтрымлівае паведамленні адключаным
 [Unable to connect to XFire.]
 Не магу далучыцца да XFire.
 [No Login name is set!]
-Лагін не ўсталяваны!
+Не ўказана імя карыстача!
 [Playing]
 Грае
 [Do you really want to delete your friend %s?]

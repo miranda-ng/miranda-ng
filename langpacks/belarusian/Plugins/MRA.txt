@@ -35,7 +35,7 @@
 [Notify about new mail if increment]
 Абвяшчаць толькі пра новую пошту
 [Notify about new mail tray icon]
-Паказваць значок у трэі пры прыходзе пошты
+Паказваць абразок у трэі пры прыходзе пошты
 [Click to Inbox]
 Праверыць пошту пстрычкай
 [Show received formatted text (receive RTF)]
@@ -97,7 +97,7 @@
 [No out connection on receive]
 Забараніць выходныя далучэнні пры атрыманні
 [Out connections: ignore additional ports (443, 2041)]
-Выходныя далучэнні: ігнараваць дап. порты (443, 2041)
+Выходныя далучэнні: ігнараваць дад. порты (443, 2041)
 [Hide my IP addresses]
 Хаваць мае IP адрасы
 [Add extra address]
@@ -137,9 +137,9 @@
 [Text Color]
 Колер тэксту
 [Timeout]
-Таймаўт
+Затрымка
 [Previe&w]
-&Тэст
+Прагляд
 [Custom Status "%s" Details]
 xСтатус "%s"
 [Closing in %d]

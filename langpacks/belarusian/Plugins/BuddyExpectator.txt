@@ -13,7 +13,7 @@
 [Show a popup]
 Паказваць усплывальнае вакно
 [Add an event (flashing icon) to the contact]
-Дадаць падзею (які мігціць значок) да кантакту
+Дадаць падзею (мігаючы абразок) да кантакту
 [On event action (double click) or popup click:]
 На дзеянні падзеі (дв. клік) ці клік па ўсп. вакну
 [Open User Details]
@@ -49,11 +49,11 @@
 [Custom]
 Наладзіць
 [Permanent]
-Увесь час
+Пастаянна
 [sec]
 сек
 [Preview]
-Тэст
+Прагляд
 [Last seen online:]
 Апошняе з'яўленне:
 [Last input message:]
@@ -70,7 +70,7 @@
 Паведамляць заўсёды
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 [Tray/popup icon]
-Значок у трэі/успл. вакне
+Абразок у трэі/успл. вакне
 [Enabled]
 Уключаны
 [Disabled]

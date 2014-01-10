@@ -10,8 +10,6 @@
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 Пратаколы
-[OK]
-ОК
 [Choose contacts]
 Абярыце кантакты
 [Allow tooltip notifications for the following users:]
@@ -61,7 +59,7 @@
 [Transparent input]
 Празрысты ўваход
 [Preview]
-Тэст
+Прагляд
 [Translucency options]
 Налады празрыстасці
 [Transparent tooltip]

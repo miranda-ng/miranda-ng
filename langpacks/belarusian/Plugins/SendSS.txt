@@ -10,8 +10,6 @@
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 Гутарка
-[OK]
-ОК
 [All]
 Усё
 [None]
@@ -20,6 +18,8 @@
 Скасаваць
 [Send screenshot]
 Адаслаць скрыншот
+[Send screenshot to\n<unknown>]
+Адправіць здыма экрату\n<невядома>
 [Ti&med capture]
 Затрымка захопу
 [Time (secs):]
@@ -52,19 +52,31 @@
 Загаловак:
 [Size (HxW):]
 Памер (HxW):
+[Target Tool]
+Прыцэл
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[GCHAT error]
+Памылка GCHAT
 [An unknown error has occurred.]
 Невядомая памылка.
 [Error]
 Памылка
 ;file \plugins\SendScreenshotPlus\src\CSend.h
+[Unable to initiate %s.]
+Не ўдалося ініцыяваць %s.
+[MAPI error (%i):\n%s.]
+Памылка MAPI (%i):\n%s.
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[The specified attachment was not found]
+Укладанне не знойдзена
+[The specified attachment could not be opened]
+Укладанне немагчыма адчыніць
 [Unknown Error]
 Невядомая памылка
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [Could not start the HTTP Server plugin.]
-Не магу запусціць модуль HTTP Сервер.
+Не магу запусціць плагін HTTP Server.
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
@@ -104,10 +116,22 @@ HTTP далучэнне SendSS
 Абразок здымка 2
 [Default]
 Змаўчанні
+[Overlay on]
+Адбітак укл.
+[Overlay off]
+Адбітак вык.
 [Help]
 Даведка
 [Open Folder]
 Адкрыць тэчку
+[Description off]
+Апісанне вык.
+[Description on]
+Апісанне ўкл.
+[Delete off]
+Выдаленне вык.
+[Delete on]
+Выдаленне ўкл.
 [Prev]
 Назад
 [Next]
@@ -124,6 +148,8 @@ HTTP далучэнне SendSS
 [Overlays]
 Адбіткі
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
+[Credits]
+Аўтары
 [< Copyright]
 < Правы
 [Copyright]
@@ -131,10 +157,20 @@ HTTP далучэнне SendSS
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Перацягнеце прыцэл на патрэбнае вакно.
+[Send screenshot to\n]
+Адправіць здымак экрану
 [Window]
 Акно
 [Desktop]
 Працоўны стол
+[<Entire Desktop>]
+<Увесь Працоўны стол>
+[Monitor]
+Манітор
+[ (primary)]
+ (галоўны)
+[<Only save>]
+<Толькі захаваць>
 [File Transfer]
 Перадача файла
 [E-mail]
@@ -143,5 +179,15 @@ HTTP далучэнне SendSS
 Файл на FTP
 [Information]
 Інфармацыя
+[Delete after send]
+Выдаліць пасля адпраўкі
+[Capture]
+Запіс
 [Select a target window.]
 Абярыце вакно для адпраўкі.
+[Screenshot ]
+Здымак экрану
+[of "]
+з "
+[" Window]
+" вакно

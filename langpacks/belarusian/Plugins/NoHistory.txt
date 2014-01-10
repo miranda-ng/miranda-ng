@@ -16,7 +16,7 @@
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Гэта аперацыя цалкам выдаліць гісторыю гэтага кантакту.\nВы ўпэўнены?
 [Clear History]
-Ачысціць
+Сцерці гісторыю
 [Enable History]
 Уключыць гісторыю
 [Disable History]
@@ -31,7 +31,7 @@
 [Enable]
 Уключана
 [Clear]
-Ачысціць
+Сцерці
 [No History]
 Без гісторыі
 ;file \plugins\NoHistory\src\options.cpp

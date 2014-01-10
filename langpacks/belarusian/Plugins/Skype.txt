@@ -11,11 +11,11 @@ Skype пратакол для Miranda NG.
 [Invite contacts to conference]
 Запрасіць у канферэнцыю
 [Skype name:]
-Лагін Skype:
+Імя Skype:
 [&Invite]
 Запрасіць
 [&Cancel]
-С&касаваць
+Скасаваць
 [Add]
 Дадаць
 [Create conference]
@@ -38,8 +38,6 @@ Skype пратакол для Miranda NG.
 Пацверджанне:
 [Password hint:]
 Падказка пароля:
-[&OK]
-&OK
 [Set password]
 Усталяваць пароль
 [Hint:]
@@ -48,8 +46,6 @@ Skype пратакол для Miranda NG.
 Увядзіце пароль
 [Remember this session password]
 Запомніць пароль сеансу
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Status text:]
@@ -169,7 +165,7 @@ SkypeKit.exe не распакаваны.
 [Unacceptable password]
 Недапушчальны пароль
 [Skype name is taken]
-Лагін Skype заняты
+Імя Skype занята
 [Incorrect password]
 Няслушны пароль
 [Too many login attempts]
@@ -331,7 +327,7 @@ SkypeKit не запусціўся.
 [for last year]
 за апошні год
 [for all time]
-за ўвесь час
+заўсёды
 ;file \protocols\Skype\src\skype_messages.cpp
 [Incoming call started]
 Уваходны званок

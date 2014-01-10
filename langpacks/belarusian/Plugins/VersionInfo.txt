@@ -10,8 +10,6 @@
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Вывесці ў:
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Text file]
@@ -69,7 +67,7 @@ UUID плагiна
 [Upload]
 Загрузіць
 [&Save to file]
-&У файл
+У файл
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
 Калі вы збіраецеся выкарыстоўваць гэтую справаздачу для паведамлення пра памылку, не забудзьцеся наведацьтрэкер, каб дапамагчы распрацоўнікам.\r\nКалі вы гэтага не зробіце, памылка не будзе выпраўлена!

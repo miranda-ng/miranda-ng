@@ -14,29 +14,63 @@
 Мова:
 [Visible name:]
 Бачнае імя:
+[Your interests (separated by commas):]
+Вашыя інтарэсы (падзяляйце коскамі):
 ;file \protocols\Omegle\src\chat.cpp
 [Server]
 Сервер
+[Last question is empty.]
+Вы не ўвялі пытанне.
+[Your question is too short.]
+Вашае пытанне вялікае.
+[Your '/asl' setting is empty.]
+Вашыя налады  '/asl' пустыя.
+[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
+Існуюць тры розных рэжыму у чаце:\n1) Стандартны рэжым\t - Вы прама з выпадковы незнаёмец прыватнай\n2) Рэжым запросу\t - спытаеце вы двух незнаёмцаў пытанне і паглядзець, як яны абмяркоўваюць яго (вы не можаце далучыцца да іх размову, толькі глядзець)\n3) Шпіёнскі рэжым\t - Вы і незнаёмы атрымаў пытанне абмеркаваць з трэцяга незнаёмца (ён не можа далучыцца да размовы, толькі глядзець)\n\nАдпраўце '/commands' для спіска каманд.
+[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
+Вы можаце выкарыстоўваць розныя каманды:\n/help\t - паказаць інфармацыю пра рэжымы чат\n/new\t - пачаць стандартным рэжыме\n/ask <question> - пачаць рэжым запроса з вашым пытаннем\n/ask\t - пачатак рэжыма запроса з вашага апошняга задаюць пытанне\n/spy\t - пачаць Шпіёнскі рэжым\n/quit\t - адключыцца ад незнаёмца ці спыніць далучэнне\n/asl\t - адправіць наканаванага паведамлення ASL\n\nЗаўвага: Вы можаце далучыцца да іншага незнаёмца без адключэння ад цяперашняга.
+[You aren't connected to any stranger. Send '/help' or '/commands' for help.]
+Вы не злучаны з незнаёмцам. Адпраўце '/help' ці ''/commands' для даведкі.
+[You can't send messages in question mode.]
+Вы не можаце адпраўляць паведамленні ў рэжыме запроса.
+[Omegle is a great way of meeting new friends!]
+Omegle гэта новы спосаб сяброўства!
 [You]
 Вы
 ;file \protocols\Omegle\src\communication.cpp
 [Connection error.]
 Памылка далучэння
+[Connected to server %s. There are %s users online now.]
+Далучэнняў да сервера %s. Там зараз далучана %s кантактаў.
+[Connected to server %s.]
+Далучэнне да сервера %s.
 [Stranger 1]
 Незнаёмы 1
 [Stranger 2]
 Незнаёмы 2
 [Stranger]
 Незнаёмец
+[You and the Stranger both like: ]
+Вам і незнаёмцу падабаецца:\s
 [Stranger is typing.]
 Незнаёмец піша.
+[Stranger stopped typing.]
+Незнаёмец спыніў друк.
+[%s disconnected.]
+%s адкючыўся.
+[Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
+Патрэбны код праверкі.\nПерайдзіце на http://omegle.com, увядзіце там капчу і паспрабуйце ізноў.
 [Error: ]
 Памылка:
+[We are still waiting...]
+Мы доўга чакаем...
 ;file \protocols\Omegle\src\connection.cpp
 [Connecting canceled.]
 Далучэнне адменена.
 [Disconnecting...]
 Разрыў злучэння...
+[We are already waiting for new stranger...]
+Мы ўжо чакаем незнаёмца...
 [Connecting...]
 Далучэнне...
 [Waiting for Stranger...]
@@ -44,6 +78,10 @@
 ;file \protocols\Omegle\src\constants.h
 [Random]
 Выпадкова
+[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
+Незнаёмец карыстаецца мабільнай старонкай Omegle (з телефона ці планшэта)
+[You both speak the same language.]
+Вы абодва гавораце на адной мове.
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s

@@ -61,7 +61,7 @@
 [Keep main status offline*]
 Захоўваць галоўны статус не ў сеткі*
 [* Setting this option may confuse other plugins]
-* Можа канфліктаваць з іншымі модулямі
+* Можа канфліктаваць з іншымі плагінамі
 [-- Time Zone --]
 -- Гадзінны пояс --
 [total bias]
@@ -71,7 +71,7 @@
 [reconnect after]
 перадалучыць праз
 [Smart Auto Away Module]
-Модуль Пашыранага чакання
+Плагін Auto Away
 [%s cannot set status messages]
 %s не выкарыстоўвае статусных паведамленняў
 [I am here]

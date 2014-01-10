@@ -22,13 +22,13 @@ wParam тып:
 [lParam type:]
 lParam тып:
 [Sort by Status]
-Сартаваць па статуце
+Сартаваць па статусу
 [Don't Use Tool Window Style]
 Выкарыстоўваць тэмы Windows
 [Draw Grid]
 Маляваць сетку
 [integer value]
-цэлы лік
+цэлае значэнне
 [Save Item]
 Захаваць значэнне
 [Client ID]
@@ -44,7 +44,7 @@ lParam тып:
 [UID:]
 Карыстач:
 [E-mail Address:]
-E-mail:
+Пошта:
 [MirandaV]
 Версія Miranda
 [Ext IP]
@@ -56,9 +56,7 @@ E-mail:
 [Quick Search Options]
 Налады хуткага пошуку
 [&New]
-&Новае
-[D&n]
-Зн
+Новае
 [Setting:]
 Парам.:
 [De&fault]

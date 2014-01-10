@@ -15,7 +15,7 @@
 [Units]
 Адзінкі
 [Clear statistics]
-Ачысціць
+Сцерці
 [Notification]
 Абвесткі
 [Notify me on every]
@@ -37,7 +37,7 @@
 [Custom]
 Наладзіць
 [Test]
-Тэст
+Прагляд
 [Show now]
 Паказаць
 [Space between lines:]
@@ -52,7 +52,7 @@
 [Display]
 Паказваць
 [Icon]
-Значок
+Абразок
 [Account name]
 Імя конта
 [Current traffic]

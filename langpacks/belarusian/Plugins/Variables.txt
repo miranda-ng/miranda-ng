@@ -6,7 +6,7 @@
 ;  Authors: P Boon
 ;============================================================
 [Adds support for dynamic variables in strings for plugins.]
-Падтрымка дынамічных зменных для іншых модуляў
+Падтрымка дынамічных зменных для іншых плагінаў
 ;file \plugins\Variables\res\Variables.rc
 [Parse options]
 Налады аналізу
@@ -42,8 +42,6 @@
 Маркер %extratext% будзе прыняты, як адмысловы радок, якая залежыць ад сітуацыі, як і дзе гэты радок скарыстана. Выкарыстоўвайце гэты дыялог, каб сімуляваць радок, якая будзе падстаўляцца ў %extratext%
 [Close]
 Зачыніць
-[OK]
-ОК
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 Служба зменных падстаўляе розным маркерам адпаведныя значэнні. Прыклад: Я выкарыстоўваю Miranda NG версіі %mirandaversion%. У маркер %mirandaversion% будзе падстаўлены адпаведны нумар версіі вашай Miranda IM. Наступны спіс паказвае ўсе даступныя маркеры.
 [Notes]
@@ -89,7 +87,7 @@
 [retrieves song name of the song currently playing in Winamp]
 атрымлівае імя песні якая грае ў Winamp
 [retrieves current Winamp state (Playing/Paused/Stopped)]
-атрымлівае стан Winamp (гуляе/паўза/спынены)
+атрымлівае стан Winamp (грае/паўза/спынены)
 ;file \plugins\Variables\src\parse_inet.cpp
 [Internet Related]
 Інтэрнэт
@@ -146,7 +144,7 @@ x + y + ...
 [converts decimal value x to hex value and padds to length y]
 перакладае дзесятковае значэнне x у шаснаццатковае, выкарыстоўваючы даўжыню y
 [x modulo y (remainder of x divided by y)]
-модуль x ад у (рэштка x, дзеленага на y)
+модуль x ад у (рэшта x, дзеленага на y)
 [x times y]
 x памножанае на y
 [x times y divided by z]
@@ -210,7 +208,7 @@ z кантакт з уласцівасцю y, апісанай у x, прыкл�
 [db profile path]
 шлях профіля базы
 [db setting z of module y of contact x and return w if z isn't exist (w is optional)]
-атрымаць наладу z модуля y кантакту x ці вярнуць w, калі z не існуе (w не абавязкова)
+атрымаць наладу z плагіна y кантакту x ці вярнуць w, калі z не існуе (w не абавязкова)
 [get event for contact x (optional), according to y,z,w, see documentation]
 атрымаць падзею для кантакту x (неабавязкова), адпаведнае y,z,w, гл. дакументацыю
 [get last seen time of contact x in format y (y is optional)]
@@ -254,7 +252,7 @@ z кантакт з уласцівасцю y, апісанай у x, прыкл�
 [inserts 'end of line' character]
 устаўляе знак EOL
 [depends on calling plugin]
-залежыць ад модуля, які выклікае токен
+залежыць ад плагіна, які выклікае токен
 [replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
 замяніць усе супадзенні \\n (Unix) на \\r\\n (Windows)
 [cuts x after the first line and appends y (y is optional)]

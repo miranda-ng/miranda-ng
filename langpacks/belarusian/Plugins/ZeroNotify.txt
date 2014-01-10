@@ -6,7 +6,7 @@
 ;  Authors: bidyut, Maat
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
-Аўтаматычная забарона розных падзей, у залежнасці ад вызначанага статусу
+Аўтаматычная забарона розных падзей, у залежнасці ад вызначанага статусу.
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
 Няма гукаў, калі:

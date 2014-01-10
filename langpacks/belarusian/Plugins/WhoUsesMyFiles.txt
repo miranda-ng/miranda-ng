@@ -21,7 +21,7 @@ WUMF: Бягучыя злучэнні
 [Previe&w]
 &Тэст
 [Show infinitely]
-Увесь час
+Паказваць засўсёды
 [Default Popup delay]
 Як у Popup
 [Choose delay time]
@@ -55,8 +55,6 @@ WUMF: Бягучыя злучэнні
 [Show current connections]
 Паказаць злучэнні
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
-[ID]
-ID
 [User]
 Кантакт
 [File]
@@ -86,8 +84,6 @@ Popup плагін не знойдзены!
 Пакуль не рэалізавана...
 [Show connections list]
 Паказаць спіс далучэнняў
-[Wumf]
-Wumf
 [Services]
 Службы
 [Popups]

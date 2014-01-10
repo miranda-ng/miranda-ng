@@ -58,6 +58,8 @@
 Інфармацыя з <a href="http://www.google.com">Google</a>
 [Close]
 Зачыніць
+[Chart]
+Дыяграма
 [Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
 Інфармацыя з <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>
 [Get data from:]
@@ -83,9 +85,9 @@
 [Custom]
 Наладзіць
 [Permanent]
-Увесь час
+Пастаянна
 [Preview]
-Тэст
+Прагляд
 [&Choose Quotes to watch in contact list:]
 &Абярыце каціроўкі для назірання ў спісе кантактаў:
 [&Refresh Quotes Every:]
@@ -113,7 +115,7 @@
 [&Watched currency rates:]
 &Адсочваныя курсы валют:
 [&Remove]
-Ачысціць
+Выдаліць
 [&Refresh Rates Every:]
 &Абнаўляць курсы кожныя:
 [Quote\\Rate Info]
@@ -123,8 +125,7 @@
 [&Watched Quotes:]
 &Адсочваныя каціроўкі:
 [Status &Message:]
-Паведамленне &статусу:
-;file \plugins\Quotes\src\Chart.h
+Паведамленне статусу:
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 Секунд

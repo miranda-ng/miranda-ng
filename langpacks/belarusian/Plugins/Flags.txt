@@ -13,7 +13,7 @@
 [Show country flag as &status icon on message window]
 Паказваць сцяг, як абразок статусу ў вакне гутаркі
 [Show country flag as &extra image on contact list]
-Паказваць сцяг, як дап. значок у кантакт-лісце
+Паказваць сцяг дадатковм абразком у спісе кантактаў
 [Use &IP-to-country database for country detection]
 Выкарыстоўваць базу IP для вызначэння краіны
 [Use &unknown flag if the country cannot be determined]

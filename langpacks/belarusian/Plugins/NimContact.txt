@@ -19,7 +19,7 @@
 [file(#)]
 файл(#)
 [URL]
-Ссылка
+Спасылка
 [Update URL every]
 Абнаўляць URL праз
 [Intervals]
@@ -45,7 +45,7 @@
 [Group:]
 Гурт:
 [Status Icon]
-Значок статусу
+Абразок статусу
 [Group\\Sub-Group]
 Гурт\\Падгурт
 [Timer Settings]
@@ -73,7 +73,7 @@
 [&Test String]
 Праверка
 [&Exit]
-Вы&хад
+Выхад
 [String to test]
 Радок для прагляду
 [Returns....]
@@ -110,7 +110,7 @@
 [Plugins]
 Плагіны
 [Main Icon]
-Галоўны значок
+Галоўны абразок
 [Non-IM Contact]
 Не-IM кантакт
 [&Non-IM Contact]

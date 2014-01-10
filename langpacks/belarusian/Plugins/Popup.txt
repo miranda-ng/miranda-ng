@@ -6,7 +6,7 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
-Падае сэрвіс усплывальных вокнаў для розных модуляў.
+Падае сэрвіс усплывальных вокнаў для розных плагінаў.
 ;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Стыль вокнаў
@@ -79,7 +79,7 @@ History++ для гісторыі вокнаў
 [Skin options]
 Налады скіна
 [Preview]
-Тэст
+Прагляд
 [Download more skins]
 Запампаваць скіны
 [Popup History]
@@ -223,9 +223,9 @@ History++ для гісторыі вокнаў
 [The Jabberwocky]
 Пустаслоўе
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
-Тэставы прадпрагляд для налад модуля ўсплывальных вокнаў. Загаловак досыць доўгі...
+Тэставы прадпрагляд для налад плагіна ўсплывальных вокнаў. Загаловак досыць доўгі...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
-Гэта адмысловы прадпрагляд для налад модуля ўсплывальных вокнаў. Тэкст і загаловак досыць доўгія для таго каб вы змаглі наладзіць скін і модуль, бо вам падабаецца ;)
+Гэта адмысловы прадпрагляд для налад плагіна ўсплывальных вокнаў. Тэкст і загаловак досыць доўгія для таго каб вы змаглі наладзіць скін і модуль, бо вам падабаецца ;)
 [This is a notification message]
 Гэта абвестка
 [This is a warning message]
@@ -277,7 +277,7 @@ History++ для гісторыі вокнаў
 [Contact Menu]
 Меню кантакту
 [Add Contact Permanently]
-Дадаць кантакт увесь час
+Дадаць кантакт заўсёды
 [Dismiss Popup]
 Убраць вакно
 ;file \plugins\Popup\src\main.cpp

@@ -8,8 +8,6 @@
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Абвесткі і прагляд новай пошты для Miranda NG. Убудаваны пратакол POP3.
 ;file \plugins\YAMN\res\YAMN.rc
-[OK]
-ОК
 [Installed plugins]
 Усталяваныя плагiны
 [Version:]
@@ -21,7 +19,7 @@
 [Contact:]
 Кантакт:
 [WWW:]
-сайт:
+Сайт:
 [Check this account]
 Правяраць гэты конт
 [Check interval [min]:]
@@ -47,15 +45,13 @@
 [Server:]
 Сервер:
 [User Name:]
-Лагін:
+Імя карыстача:
 [Password:]
 Пароль:
 [Codepage:]
 Кадоўка:
 [Port:]
 Порт:
-[SSL]
-SSL
 [Disable STLS]
 Выключыць STLS
 [Startup check]
@@ -80,8 +76,6 @@ SSL
 Статус:
 [Account]
 Конт
-[APOP]
-APOP
 [Name:]
 Імя:
 [Options]
@@ -157,9 +151,9 @@ APOP
 [Popup notification if failed]
 Усплываць пры памылцы
 [..s Popup duration]
-сек (працягласць)
+..сек (працягласць)
 [Preview]
-Тэст
+Прагляд
 [Background color]
 Колер фону
 [Text color]
@@ -263,7 +257,7 @@ YAMN (унутраны POP3) памылка чытання
 [Error while copying data to disk occurred. Is file in use?]
 Памылка капіявання дадзеных на дыску. Файл ужо выкарыстоўваецца?
 [POP3 plugin- write file error]
-POP3 модуль - памылка пры запісе ў файл
+POP3 плагін - памылка пры запісе ў файл
 [Connecting to server]
 Злучаюся з серверам
 [Entering POP3 account]

@@ -77,7 +77,7 @@ MirFox Памылка
 не магу ўсталяваць статус
 ;file \plugins\MirFox\src\MirfoxMiranda.cpp
 [This MirFox (Miranda) plugin is too old. Please update it.]
-Гэта старая версія MirFox убудовы. Калі ласка, абновіце яго.
+Гэта старая версія MirFox. Калі ласка, абнавіце яго.
 [MirFox (Miranda) - Error]
 MirFox (Міранда) - Памылка
 [This MirFox (Miranda) plugin cannot start because some other MirFox component is too old. Please, check and update your MirFox components.]

@@ -10,10 +10,6 @@
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [Login to Miranda NG]
 Уваход у Miranda NG
-[EN]
-EN
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [New password]

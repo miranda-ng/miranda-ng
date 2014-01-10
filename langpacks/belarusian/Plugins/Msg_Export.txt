@@ -16,14 +16,12 @@
 Замяніць гісторыю
 [Use UTF8 in new files]
 UTF8 у новых файлах
-[Append extra new line]
-Дап. пераклад радка
 [Use << and >>]
 Знакі << і >>
 [Auto filename]
 Аўта імёны
 [Clear all]
-Ачысціць
+Сцерці
 [Help]
 Даведка
 [Export all history]
@@ -148,7 +146,7 @@ URL:
 [Failed to write URL/File to the file :\n]
 Не атрымалася запісаць перадачу файла ці URL у файл:\n
 [Nick      :]
-Псеўданім :
+Мянушка    :
 [FirstName :]
 Імя       :
 [LastName  :]

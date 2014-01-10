@@ -16,8 +16,6 @@
 Налады Miranda
 [Use arrow keys to choose category]
 Выкарыстоўвайце клавішы са стрэлкамі, каб выбраць катэгорыю
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Apply]

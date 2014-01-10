@@ -26,12 +26,8 @@
 Увядзіце пароль для нумара %d:
 [Remember this session password]
 Запомніць пароль сеансу
-[OK]
-ОК
 [Cancel]
 Скасаваць
-[ICQ]
-ICQ
 [ICQ number:]
 Нумар ICQ:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -165,7 +161,7 @@ ICQ
 [Text Color]
 Колер тэксту
 [Timeout]
-Таймаўт
+Затрымка
 [Note]
 Нататка
 [Warning]
@@ -1642,7 +1638,7 @@ xСтатус %s
 Кантрольная сума файла "%s" не супадае, файл можа быць пашкоджаны.
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
-<няверна>
+<памылкова>
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 Эневеток, Кваджалейн
@@ -1887,7 +1883,7 @@ GMT+12:00 Камчатка, Фіджы, Маршалавы в-пы, Окленд
 [<unremovable once applied>]
 <нельга выдаліць пасля ўводу>
 [<empty>]
-<не>
+<пуста>
 [Unknown value]
 Невядомае значэнне
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]

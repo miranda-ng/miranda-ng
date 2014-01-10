@@ -56,8 +56,6 @@
 Адказаць, паставіць званок %s на паўзу
 [Hang up]
 Адбіць званок
-[OK]
-ОК
 [Dialog]
 Гутарка
 [Use Skype proxy connection over network instead of local Skype API]
@@ -116,10 +114,14 @@
 Паказваць ў спісе кантактаў поўнае імя замест мянушкі
 [SkypeOut contacts are in status:]
 SkypeOut кантакты ў статусе:
+[Cleanup Nicknames]
+Сцерці мянушкі
 [Skype Popups]
 Усплывальныя вокны Skype
 [Incoming Calls]
 Уваходныя званкі
+[Show incoming calls]
+Паказаць уваходныя званкі
 [seconds]
 секунд(ы)
 [Background]
@@ -129,7 +131,7 @@ SkypeOut кантакты ў статусе:
 [Text]
 Тэкст
 [Preview]
-Тэст
+Прагляд
 [Error Messages]
 Памылкі
 [Display error messages]
@@ -173,6 +175,10 @@ SkypeOut кантакты ў статусе:
 Пазваніць па SkypeOut
 [Phone call]
 Званок
+[Incoming Skype Call]
+Уваходны званок Skype
+[Incoming call from %s]
+Уваходны званок Skype ад %s
 [Connection to Skype lost]
 Далучэнне да Skype згублена
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]

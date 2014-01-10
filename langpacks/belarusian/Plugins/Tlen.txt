@@ -16,8 +16,6 @@
 Захаваць пароль
 [Create new account]
 Новы конт
-[Tlen]
-Tlen
 [Options]
 Налады
 [Automatically reconnect after unintentional disconnection]
@@ -91,17 +89,15 @@ P2P далучэнні
 [&Custom]
 Наладзіць
 [P&ermanent]
-Увесь час
+Пастаянна
 [Preview]
-Тэст
+Прагляд
 [Tlen Password]
 Tlen Пароль
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Nickname:]
-Псеўданім:
+Мянушка:
 [First name:]
 Імя:
 [Last name:]
@@ -145,7 +141,7 @@ Tlen Пароль
 [to]
 у
 [Extra Search Criterias]
-Дап. крытэры пошуку
+Дадатковыя крытэрыі
 [Status:]
 Статус:
 [Plan:]
@@ -227,11 +223,11 @@ Tlen пошта
 [Chat room with already created.]
 Чат ужо створаны.
 [Nickname '%s' is already registered.]
-Псеўданім '%s' ужо зарэгістраваны.
+Мянушка '%s' ужо занята.
 [Nickname already in use, please try another one. Hint: '%s' is free.]
-Псеўданім ужо выкарыстоўваецца, абярыце іншы. Падказка: '%s' вольны.
+Мянушка ужо выкарыстоўваецца, абярыце іншую. Падказка: '%s' вольны.
 [You cannot register more than %s nicknames.]
-Вы не можаце зарэгістраваць больш чым %s псеўданімаў.
+Вы не можаце зарэгістраваць больш чым %s мянушак.
 [You cannot create more than %s chat rooms.]
 Вы не можаце стварыць больш чым %s чатаў.
 [You cannot join more than %s chat rooms.]

@@ -59,7 +59,7 @@
 [Just checks that the database is valid, without writing anything to the disk.]
 Толькі праверка базы, без запісу чаго-небудзь на дыск.
 [Cleaning Options]
-Опцыі ачысткі
+Налады сцірання
 [You can choose to remove information from the database while it is being processed.]
 Вы можаце выдаліць інфармацыю з базы падчас працэсу.
 [Erase all histories]

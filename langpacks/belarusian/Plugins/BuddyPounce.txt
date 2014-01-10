@@ -18,8 +18,6 @@
 Адпраўленне адбудзецца
 [Buddy Pounce]
 Адправіць потым
-[OK]
-ОК
 [The Message:]
 Паведамленне:
 [Delete Pounce]

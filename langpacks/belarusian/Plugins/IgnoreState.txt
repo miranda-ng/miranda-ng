@@ -20,7 +20,7 @@
 [Messages]
 Паведамленні
 [URL]
-Ссылка
+Спасылка
 [Files]
 Файлы
 [User Online]

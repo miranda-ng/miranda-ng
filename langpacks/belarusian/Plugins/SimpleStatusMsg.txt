@@ -18,8 +18,6 @@
 Скапіяваць у буфер
 [%s Message (%s)]
 Паведамленне "%s" (%s)
-[OK]
-ОК
 [Retrieving status message for %s...]
 Атрыманне паведамлення статусу для %s...
 [Behavior on status change]
@@ -41,7 +39,7 @@
 [Pop up dialog asking for new message]
 Дыялог для новых паведамленняў
 [Set an empty message]
-Вуснаў. пустое паведамленне
+Уст. пустое паведамленне
 [Use default message]
 Ужыв. стандартнае паведамленне
 [Use last message]
@@ -49,7 +47,7 @@
 [Use last message set for this status]
 Ужыв. апошняе паведамленне для гэтага статусу
 [Set the following message:]
-Вуснаў. наступнае паведамленне:
+Уст. наступнае паведамленне:
 [Put default message in message list]
 Стандартнае паведамленне ў спіс
 [Variables]
@@ -99,9 +97,9 @@
 [Show 'Status Message...' item in status menu]
 Паказваць 'Паведамленне статусу' у кантэкстным меню
 [Clear History]
-Ачысціць
+Сцерці гісторыю
 [Clear Predefined]
-Ачысціць
+Сцерці
 [* This feature is available only when using StartupStatus plugin.]
 * Гэта магчымасць даступная толькі пры выкарыстанні дадатку StartupStatus
 [Status on Startup]

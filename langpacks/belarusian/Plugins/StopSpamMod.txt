@@ -43,9 +43,9 @@
 [Case insensitive answer checking]
 Не ўлічваць рэгістр адказу
 [Disable question in invisible mode]
-Адключыць пытанне пры статуце "Нябачны"
+Адключыць пытанне пры статусе "Нябачны"
 [Enable integration with DOS plugin]
-Уключыць інтэграцыю з DOS модулем
+Уключыць інтэграцыю з DOS плагінам
 [Exclude contacts which we sending something from spam check]
 Адключаць антыспам для кантактаў, якім паслалі паведамленне
 [Remove Excluded contacts after restart]
@@ -81,7 +81,7 @@
 Выдаліць часовыя кантакты
 ;file \plugins\StopSpamMod\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
-Няма больш спаму! Робаты адпачываюць!\r\n\r\nГэты плагін працуе проста:\r\nУ той час як паведамленні ад кантактаў у Вашым спісе прыходзяць без праверкі на спам, паведамленні ад невядомых кантактаў вам не дастаўляюцца. Але яны не ігнаруюцца, модуль адказвае простым пытаннем, і калі кантакт дае правільны адказ, модуль дадае яго ў спіс, для таго каб ён мог звязацца з Вамі.
+Няма больш спаму! Робаты адпачываюць!\r\n\r\nГэты плагін працуе проста:\r\nУ той час як паведамленні ад кантактаў у Вашым спісе прыходзяць без праверкі на спам, паведамленні ад невядомых кантактаў вам не дастаўляюцца. Але яны не ігнаруюцца, плагін адказвае простым пытаннем, і калі кантакт дае правільны адказ, плагін дадае яго ў спіс, для таго каб ён мог звязацца з Вамі.
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
 Прывітанне! Вы гавораце з с анты-спам ботам. Клі ласка, напішыце "nospam" без двукоссяў, каб прайсці праверку.
 [StopSpam: send a message and reply to an anti-spam bot question.]

@@ -100,8 +100,6 @@
 Захаваць змены
 [Enter token to continue]
 Увядзіце маркер для працягу
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Create Gadu-Gadu account]
@@ -171,7 +169,7 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Спроба далучэння з серверам перапынілася з памылкай. Магчыма, знікла далучэнне да лакальнага сеціва.
 [Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
-Ваш лагін ці пароль не прыняты серверам Gadu-Gadu. Калі ласка, праверце іх правільнасць Меню->Налады->Сетка->Gadu-Gadu і паспрабуйце яшчэ раз.
+Вашае імя ці пароль не прыняты серверам Gadu-Gadu. Калі ласка, праверце іх правільнасць Меню->Налады->Сетка->Gadu-Gadu і паспрабуйце яшчэ раз.
 [Connecting to Gadu-Gadu hub failed.]
 Злучэнне з Gadu-Gadu разарвана.
 [Cannot establish secure connection.]
@@ -282,11 +280,11 @@ HTTP невядомая памылка
 [Open &conference...]
 Адкрыць канферэнцыю...
 [&Clear ignored conferences]
-Ачысціць ігнаруемыя канферэнцыі
+Сцерці ігнаруемыя канферэнцыі
 [%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-%s пачаў(а) канферэнцыю з %d удзельнікамі (%d невядома).\nПрыняць удзел?
+%s пачаў(ла) канферэнцыю з %d удзельнікамі (%d невядома).\nПрыняць удзел?
 [%s initiated the conference.]
-%s пачаў(а) канферэнцыю.
+%s пачаў(ла) канферэнцыю.
 [This is my own conference.]
 Гэта мая канферэнцыя.
 [Participants]

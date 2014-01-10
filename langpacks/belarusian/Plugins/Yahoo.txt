@@ -51,7 +51,7 @@ Yahoo Японія
 [&Add]
 &Дадаць
 [&Remove]
-Ачысціць
+Выдаліць
 [Set Custom Status]
 Устаноўка xСтатуса
 [Show as busy]
@@ -124,20 +124,20 @@ Yahoo Японія
 Каляндар
 ;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
-Yahoo памылка
+Памылка Yahoo
 [The message send timed out.]
-Таймаўт адпраўкі паведамлення
+Затрымка адпраўкі паведамлення
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Паведамленне занадта доўгае: Yahoo абмежавана ў 800 UTF8 знакаў
 ;file \protocols\Yahoo\src\links.cpp
 [YAHOO Link Protocol]
-YAHOO Link пратакол
+Спасылка YAHOO
 ;file \protocols\Yahoo\src\main.cpp
 [YAHOO plugin HTTP connections]
-YAHOO плагіна HTTP злучэнні
+HTTP злучэнні YAHOO
 ;file \protocols\Yahoo\src\options.cpp
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
-Змены ўступяць пры наступным уваходзе ў сетку Yahoo.
+Змены ўступяць пры наступным уваходзе ў Yahoo.
 [YAHOO Options]
 Налады Yahoo
 [You need to be connected to Yahoo to add to Ignore List.]
@@ -165,8 +165,6 @@ Yahoo Ігнор
 Новая пошта ў тэчцы "Ўваходныя"
 [%s plugin connections]
 %s злучэнне з серверам
-[ID]
-ID
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Увядзіце ваш Yahoo ID - Налады/Сеціва/Yahoo
 [Please enter your Yahoo password in Options/Network/Yahoo]
@@ -183,13 +181,13 @@ ID
 [&Edit My Profile]
 &Рэдагаваць мой профіль
 [&My Profile]
-Мой &профіль
+Мой профіль
 [&Yahoo Mail]
-Пошта &Yahoo
+Пошта Yahoo
 [&Address Book]
-&Адрасная кніга
+Адрасная кніга
 [&Calendar]
-&Каляндар
+Каляндар
 [Create Conference]
 Стварыць чат
 [&Show Profile]
@@ -223,7 +221,7 @@ Yahoo памылка пінгу
 [Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
 Не магу аўтарызавацца ў Yahoo - імя не распазнана. Праверце Ваша імя.
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
-Не магу аўтарызавацца ў Yahoo - пароль няслушны. Праверце вашы імя канткта і пароль.
+Не магу аўтарызавацца ў Yahoo - пароль няслушны. Праверце вашы імя і пароль.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Не магу аўтарызавацца ў Yahoo. Ваш конт заблакаваны.\nНаведайце %s.
 [You have been logged out of the Yahoo service, possibly due to a duplicate login.]
@@ -249,4 +247,4 @@ Yahoo памылка пінгу
 [Server Connection Error: %s]
 Памылка злучэння сервера: %s
 [Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
-Немагчыма далучыцца да сервера Yahoo. Праверце налады, і станы далучэння.
+Немагчыма далучыцца да сервера Yahoo. Праверце налады, і стан далучэння.

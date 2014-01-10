@@ -6,7 +6,7 @@
 ;  Authors: Baloo
 ;============================================================
 [Crypto++ library for SecureIM plugin.]
-Бібліятэка шыфравання для ўбудовы SecureIM.
+Бібліятэка шыфравання для плагіна SecureIM.
 ;file \plugins\CryptoPP\src\GPGw\gpg.rc
 [GnuPG Plugin - Passphrase]
 GnuPG плагін - ключ

@@ -21,7 +21,7 @@
 [Pitch]
 вышыня
 [Test]
-Тэст
+Прагляд
 [Lexicon]
 Слоўнік
 [Welcome Message]

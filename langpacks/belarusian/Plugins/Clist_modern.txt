@@ -41,7 +41,7 @@
 [Inactive opacity:]
 Акно неактыўнае:
 [Active opacity:]
-Акно актыўнае:
+Вакно актыўнае:
 [Show Avatars]
 Паказваць аватары
 [Animate Avatars]
@@ -144,14 +144,12 @@
 Паказваць кантакты ў гуртах
 [Include status modes]
 Уключыць статусы
-[OK]
-ОK
 [Cancel]
 Скасаваць
 [Sticky contacts]
 Замацаваныя кантакты
 [Clear all]
-Ачысціць
+Сцерці ўсё
 [Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
 Пры карыстанні спісам кантактаў з левага боку, вы можаце абраць кантакты, якія будуць замацаваны за гэтым рэжымам прагляду. Гэтыя кантакты ібудуць ігнараваць стандартныя правілы фільтра і выкарыстоўваць толькі фільтр статусу ніжэй.
 [Protocol]
@@ -205,7 +203,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Use connecting icon]
 Абразкі далучэння
 [Show xStatus icon]
-Значок xСтатуса
+Абразок xСтатуса
 [Show both icons]
 Абодва значка
 [Show normal status as overlay]
@@ -373,7 +371,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [System tray icon mode]
 Паводзіны значка ў сістэмным трэі
 [Use xStatus icon]
-Значок xСтатуса
+Абразок xСтатуса
 [Ignore Empty Extra icons places (arrange to right).]
 Ігнараваць пустыя дадатковыя значкі (справа)
 [Use 'Meta' protocol icons for Metacontacts]
@@ -471,7 +469,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Draw border on avatar]
 Рамкі на выявах
 [Draw overlay icons]
-Значкі на аватарах
+Абразкі на аватарах
 [Round corners of avatars]
 Закругленыя аватары
 [Ignore size for row height calcs]
@@ -481,11 +479,11 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Custom corner size:]
 Памер кута:
 [Normal overlay icon]
-Звычайны значок
+Звычайны абразок
 [Protocol status icon]
-Значок пратаколу
+Абразок конта
 [Contact icon]
-Значок кантакту
+Абразок кантакта
 [height]
 вышыня
 [Max width]
@@ -493,15 +491,15 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Use old render method (fast, but has artefacts)]
 Стары метад адмалёўкі (хутчэй, але могуць быць "артэфакты")
 [Hide icon when showing avatar]
-Хаваць значок пратаколу
+Хаваць абразок конта
 [Draw icon in avatar space]
 Значкі на месцы аватара
 [Hide groups icon]
-Схаваць значок гуртоў
+Схаваць абразок гуртоў
 [Always show "Always visibile" icon]
-Значок бачнасці заўсёды
+Абразок бачнасці заўсёды
 [Use extra status icon instead protocol]
-Значок хстатуса замест пратаколу
+Абразок хстатуса замест конту
 [Draw normal status as overlay]
 Звычайны статус адбіткам
 [Right-To-Left reading mode (mirror template)]
@@ -553,7 +551,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Draw smileys on third line]
 Смайлікі на трэцяй сцёку
 [Preview]
-Тэст
+Прагляд
 [Top/Left]
 Вышэй/Лявей
 [Bottom/Right]
@@ -848,7 +846,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Avatar]
 Аватар
 [Icon]
-Значок
+Абразок
 [Text]
 Тэкст
 [Extra icons]

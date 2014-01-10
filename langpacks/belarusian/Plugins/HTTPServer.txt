@@ -53,7 +53,7 @@ IP адрас 2
 [%ExternalIP% variable]
 %ExternalIP% зменная
 [Test]
-Тэст
+Прагляд
 [Transfer limit (Kb/s)]
 Ліміт хуткасці (Kb/s)
 [No control when Away/NA]
@@ -144,6 +144,16 @@ HTTP Новы агульны файл
 [Share removed]
 Агульнае выдалена
 ;file \plugins\HTTPServer\src\main.cpp
+[Failed to open or create log file]
+Памылка адкрыцця ці стварэння лога
+[Failed to move to the end of the log file]
+Памылка перасоўвання ў канец лога
+[Failed to open or create file ]
+Памылка адкрыцця ці стварэння файла
+[Failed to write xml header to file ]
+Памылка запісу ў загаловак XML файлу
+[Failed to write xml data to file ]
+Памылка запісу у XML файл
 [Disable HTTP server]
 Адключыць HTTP сервер
 [Enable HTTP server]

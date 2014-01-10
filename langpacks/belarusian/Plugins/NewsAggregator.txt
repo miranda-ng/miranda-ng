@@ -20,8 +20,6 @@
 Экспарт
 [Retrieve news at startup]
 Атрымліваць пры запуску
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [General Settings]
@@ -29,7 +27,7 @@
 [Title]
 Загаловак
 [URL]
-Ссылка
+Спасылка
 [Check every]
 Прав. кожныя
 [minutes]

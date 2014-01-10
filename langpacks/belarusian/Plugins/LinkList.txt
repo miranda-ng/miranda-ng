@@ -41,7 +41,7 @@
 [Plugin Default]
 Па змаўчанні
 [Preview]
-Тэст
+Прагляд
 [Outgoing messages]
 Выходныя паведамленні
 [Background color]
@@ -93,7 +93,7 @@
 [&Mail-Addresses Only]
 Толькі e-mail адрасы
 [&Clear Search Results]
-Ачысціць вынікі пошуку
+Сцерці вынікі пошуку
 [&Search]
 Шукаць
 [link]

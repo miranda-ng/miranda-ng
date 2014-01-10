@@ -237,7 +237,7 @@ Cлужба:
 [Show bevel effect on panels]
 Эфект бардзюра на панэлях
 [Use connecting Icon]
-Значок злучэння
+Абразок далучэння
 [Use new drawer for status bar]
 Новы стыль панэлі статусу
 [&Main menu]

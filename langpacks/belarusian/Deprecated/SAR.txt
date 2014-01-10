@@ -1,7 +1,7 @@
 ﻿;  File: sar.dll
 ;  Module: Smart Auto Replier
 [Advanced autoreplier plugin which is capable to execute custom actions depending on incoming messages.]
-Перадавы модуль аўтаадказнік, здольны выконваць розныя дзеянні ў залежнасці ад уваходных паведамленняў
+Перадавы плагін аўтаадказнік, здольны выконваць розныя дзеянні ў залежнасці ад уваходных паведамленняў
 [Smart Auto Replier]
 Разумны аўтаадказнік
 [Enable Smart Auto Replier]
@@ -21,7 +21,7 @@
 [Please, choose contact to apply rule to]
 Калі ласка, абярыце кантакт якому ўжываецца правіла
 [Generated autoreply by SAR plugin:\n]
-Згенераваны аўтаадказ ад SAR модуля:\n
+Згенераваны аўтаадказ ад SAR плагіна:\n
 [Smart Auto Replier script]
 Рыпанне аўтаадказніка
 [Internal error]

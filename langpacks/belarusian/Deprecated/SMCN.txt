@@ -21,11 +21,11 @@
 [Status Message Changed]
 Статуснае паведамленне змянілася
 [changes his/her status message to:]
-памяняў(а) статуснае паведамленне на:
+памяняўла) статуснае паведамленне на:
 [cleares his/her status message]
-выдаліў(а) статуснае паведамленне
+выдаліў(ла) статуснае паведамленне
 [changes his/her status message:]
-памяняў(а) статуснае паведамленне:
+памяняў(ла) статуснае паведамленне:
 [<empty status message>]
 <пустое статуснае паведамленне>
 [Old status message]
@@ -67,7 +67,7 @@ URL у статусным паведамленні
 [View status message history]
 Гісторыя статусных паведамленняў
 [Clear history]
-Ачысціць
+Сцерці гісторыю
 [Do not log empty status messages]
 Не запісваць пустыя статусныя паведамленні
 [Only if status message has changed]

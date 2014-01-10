@@ -51,21 +51,19 @@
 [Custom]
 Наладзіць
 [Permanent]
-Увесь час
+Пастаянна
 [Actions]
 Дзеянні
 [On right click:]
 Правая пстрычка:
 [On left click:]
 Левая пстрычка:
-[Track]
-Трэк
 [Avatar change:]
 Змена аватара:
 [Avatar removal:]
 Выдаленне аватара:
 [Preview]
-Тэст
+Прагляд
 [Avatar History: Select how to store history avatars]
 Гісторыя аватараў: абярыце, як захоўваць гісторыю аватараў
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
@@ -126,9 +124,9 @@
 Кантакт выдаліў выяву
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
-выдаліў(а) свой аватар
+выдаліў(ла) свой аватар
 [changed his/her avatar]
-змяніў(а) свой аватар
+змяніў(ла) свой аватар
 ;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 Гісторыя

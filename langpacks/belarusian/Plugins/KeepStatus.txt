@@ -27,7 +27,7 @@
 [Don't reconnect if no internet connection seems available]
 Не далучацца, калі няма злучэння з Інтэрнэтам
 [Continuously check for internet connection]
-Увесь час правяраць далучэнне да Інтэрнэту
+Заўсёды правяраць далучэнне да Інтэрнэту
 [Do so by pinging host]
 Пінгаваць хост
 [Confirm status]
@@ -99,7 +99,7 @@
 [Set after]
 праз
 [Timeout]
-Таймаўт
+Затрымка
 [s]
 з
 [Set window location]
@@ -157,7 +157,7 @@ Dial-up (эксперыментальна)
 [Custom]
 Наладзіць
 [Permanent]
-Увесь час
+Пастаянна
 [Show additional information in popups]
 Дадатковая інфармацыя
 [Use Miranda's message setting]

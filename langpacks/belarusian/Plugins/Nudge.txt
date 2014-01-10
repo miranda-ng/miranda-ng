@@ -43,7 +43,7 @@
 [* Nudge sending delay is hardcoded and cannot be changed.]
 * Гэту лічбу нельга змяняць, яна ў кодзе модуля.
 [Preview]
-Тэст
+Прагляд
 [Text]
 Тэкст
 [Allow nudges when you're:]

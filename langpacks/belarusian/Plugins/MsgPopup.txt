@@ -21,11 +21,11 @@
 [QUESTION style]
 Пытанне
 [Preview]
-Тэст
+Прагляд
 [Timeout]
-Таймаўт
+Затрымка
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
-Адмысловыя значэнні "таймаўту":\n -1 - увесь час, 0 - значэнне па змаўчанні
+Адмысловыя значэнні "затрымкі":\n -1 - заўсёды, 0 - значэнне па змаўчанні
 [Emit a sound]
 Граць гук
 ;file \plugins\MsgPopup\src\main.cpp

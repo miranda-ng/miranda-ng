@@ -25,7 +25,7 @@
 [Cancel]
 Скасаваць
 [Miscellaneous options]
-Дап. налады
+Іншыя налады
 [Use group chat for Twitter feed]
 Чат для адлюстравання паведамленняў
 [Base URL:]
@@ -61,9 +61,9 @@ URL:
 [Custom]
 Наладзіць
 [Permanent]
-Увесь час
+Пастаянна
 [Preview]
-Тэст
+Прагляд
 [But not during sign-on]
 Але не падчас уваходу
 [Enter Twitter PIN]
@@ -74,14 +74,14 @@ URL:
 [OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
 Зменныя OAuth страцілі паслядоўнасць і былі абнулены. Калі ласка, далучыцеся зноў і аўтарызуйце Miranda на Twitter.com (яшчэ раз з PIN-кодам)
 [Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
-Не атрымалася атрымаць жэтоны доступу Twitter, выйдзіце і паўтарыце спробу. Калі гэта адбываецца ўвесь час, праверце злучэнне з інтэрнэтам.
+Не атрымалася атрымаць жэтоны доступу Twitter, выйдзіце і паўтарыце спробу. Калі так адбываецца заўсёды, праверце злучэнне з інтэрнэтам.
 ;file \protocols\Twitter\src\proto.cpp
 [Send Tweet...]
 Паслаць твіт...
 [Network]
 Сеціва
 [Basic]
-Асноўныя
+Галоўныя
 [Popups]
 Усплывальныя вокны
 [%s server connection]

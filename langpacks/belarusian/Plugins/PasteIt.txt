@@ -40,8 +40,6 @@ Web-старонка для налады
 Атрымаць ключ кантакта
 [Configure formatting]
 Наладзіць фарматаванне
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Up]
@@ -57,7 +55,7 @@ Web-старонка для налады
 [Login to pastebin.com]
 Увайсці на pastebin.com
 [User name]
-Лагін
+Імя карыстача
 [Password]
 Пароль
 [Paste It]

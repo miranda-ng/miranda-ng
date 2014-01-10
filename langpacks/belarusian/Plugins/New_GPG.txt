@@ -5,9 +5,9 @@
 ;  Version: 0.0.0.11
 ;  Authors: sss
 ;============================================================
+[New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
+Забяспечвае падтрымку шыфравання GPG.
 ;file \plugins\New_GPG\res\new_gpg.rc
-[OK]
-ОК
 [Load from file]
 Імпарт з файла
 [Select existing]
@@ -32,6 +32,8 @@
 Згенераваць і выкарыстоўваць ключ
 [Account:]
 Конт:
+[Key ID:]
+ID ключа:
 [Change password]
 Змяніць пароль
 [Set GPG bin path and keyring home dir.]
@@ -66,6 +68,8 @@
 Доўгая ключа
 [Real name:]
 Імя/Мянушка:
+[Email:]
+Пошта:
 [Comment:]
 Каментарый:
 [Expire date:]
@@ -90,12 +94,18 @@
 Імпартаваць
 [Select keyserver for key search:]
 Выбраць сервер ключоў для пошуку:
+[Received encrypted file]
+Атрыманы шыфраваны файл
+[Decrypt]
+Расшыфраваць
+[Current password:]
+Цяперашні пароль:
+[New password twice:]
+Паўтарыце новы пароль:
 [Userlist:]
 Ліст кантактаў:
 [Export PubKey]
 Захаваць ключ
-[Select own key]
-Выбраць свой ключ
 [Turn on debug log]
 Укл. запіс адладкі
 [Use Jabber API on Miranda NG (recommended)]
@@ -106,6 +116,8 @@
 Автообмен ключамі
 [Copy own key]
 Капір. свой ключ
+[Select own key]
+Выбраць свой ключ
 [Add tags to encoded and decoded messages]
 Дадаваць пазнакі да паведамленняў
 [Incoming message tags:]
@@ -158,6 +170,8 @@
 Замяніць
 [Accept]
 Прыняць
+[ for account ]
+ для конта\s
 [You didn't set a private key.\nWould you like to set it now?]
 Вы не выбралі прыватны ключ.\nВы хочаце зрабіць гэта зараз?
 [Own private key warning]
@@ -182,6 +196,14 @@
 Пратакол
 [Do you want to remove key from entire metacontact (all subcontacts)?]
 Вы хочаце прыбраць ключ для метаконтакта (усіх субконтактаў)?
+[Set log file]
+Пазначыць файл лога
+[LOG files]
+Файлы лога
+[Choose gpg.exe]
+Знайсці gpg.exe
 ;file \plugins\New_GPG\src\utilities.cpp
 [and]
 і
+[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
+Стары пароль не супадае, вы можаце працягваць, але GPG адхіліць няслушны пароль.\nХочаце прадоўжыць?

@@ -30,8 +30,6 @@
 Выпраўленне:
 [Use variables in correction]
 Выкарыстоўваць зменныя для замены
-[OK]
-ОК
 [Cancel]
 Скасаваць
 [Spell Checker]

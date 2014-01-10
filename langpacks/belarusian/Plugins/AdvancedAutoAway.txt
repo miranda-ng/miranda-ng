@@ -6,7 +6,7 @@
 ;  Authors: P Boon
 ;============================================================
 [An Auto Away module with some more options than the original.]
-AutoAway - убудова з пашыраным наборам функцый.
+AutoAway - плагін з пашыраным наборам функцый.
 ;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Правяраць
@@ -27,7 +27,7 @@ AutoAway - убудова з пашыраным наборам функцый.
 [Don't reconnect if no internet connection seems available]
 Не далучацца, калі няма злучэння з Інтэрнэтам
 [Continuously check for internet connection]
-Увесь час правяраць далучэнне да Інтэрнэту
+Пастаянна правяраць далучэнне да Інтэрнэту
 [Do so by pinging host]
 Пінгаваць хост
 [Confirm status]
@@ -99,7 +99,7 @@ AutoAway - убудова з пашыраным наборам функцый.
 [Set after]
 праз
 [Timeout]
-Таймаўт
+Затрымка
 [s]
 з
 [Set window location]
@@ -141,7 +141,7 @@ Dial-up (эксперыментальна)
 [Colors]
 Колеры
 [Preview]
-Тэст
+Прагляд
 [Events]
 Падзеі
 [Show when connection is lost]

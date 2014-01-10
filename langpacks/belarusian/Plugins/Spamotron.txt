@@ -99,7 +99,7 @@
 [Background]
 Фон
 [Timeout]
-Таймаўт
+Затрымка
 [Contact blocked]
 Кантакт заблакаваны
 [Contact approved]
@@ -113,7 +113,7 @@
 [Default timeout]
 Па змаўчанні
 [Preview]
-Тэст
+Прагляд
 ;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
 Размяшчэнне базы Байеса

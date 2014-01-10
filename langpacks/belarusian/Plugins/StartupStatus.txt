@@ -6,7 +6,7 @@
 ;  Authors: P Boon
 ;============================================================
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
-Пачатковы статус, дазваляе вам наладзіць, які статус будзе пры запуску Miranda у кожнага пратаколу.
+Пачатковы статус, дазваляе вам наладзіць, які статус будзе пры запуску Miranda у кожнага конта.
 ;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Правяраць
@@ -27,7 +27,7 @@
 [Don't reconnect if no internet connection seems available]
 Не далучацца, калі няма злучэння з Інтэрнэтам
 [Continuously check for internet connection]
-Увесь час правяраць далучэнне да Інтэрнэту
+Пастаянна правяраць далучэнне да Інтэрнэту
 [Do so by pinging host]
 Пінгаваць хост
 [Confirm status]
@@ -97,7 +97,7 @@
 [Set after]
 праз
 [Timeout]
-Таймаўт
+Затрымка
 [s]
 з
 [Set window location]
@@ -139,7 +139,7 @@ Dial-up (эксперыментальна)
 [Colors]
 Колеры
 [Preview]
-Тэст
+Прагляд
 [Events]
 Падзеі
 [Show when connection is lost]
@@ -155,7 +155,7 @@ Dial-up (эксперыментальна)
 [Custom]
 Наладзіць
 [Permanent]
-Увесь час
+Пастаянна
 [Show additional information in popups]
 Дадатковая інфармацыя
 [Use Miranda's message setting]

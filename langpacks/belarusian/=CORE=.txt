@@ -252,7 +252,7 @@
 [(often %d)]
 (частая %d)
 [Use custom login (domain login picked up automatically)]
-Імя карыстача (уваход з даменным лагінам аўтаматычны)
+Імя карыстача (уваход з даменным іменем аўтаматычны)
 [Username:]
 Карыстач:
 [Password:]
@@ -500,7 +500,7 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 [Select &all]
 Вылучыць &усё
 [C&lear log]
-Ачысціць лог
+Сцерці лог
 [Open in &new window]
 Адкрыць у новым вакне
 [&Open in existing window]
@@ -643,13 +643,9 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 [&Message]
 Паведамленне
 [Clear lo&g]
-Ачысціць чат
+Сцерці чат
 [Word lookup]
 Знайсці слова
-[Google]
-Google
-[Wikipedia]
-Wikipedia
 [Link]
 Спасылка
 [Open a &new browser window]
@@ -669,7 +665,7 @@ Wikipedia
 [Select all]
 Вылучыць усё
 [Clear]
-Ачысціць
+Сцерці
 [Tabs]
 Укладкі
 [&Close tab]
@@ -965,7 +961,7 @@ Wikipedia
 [File transfers]
 Перадача файлаў
 [Clear completed]
-Ачысціць завершаныя
+Сцерці завершаныя
 [Close]
 Зачыніць
 [Receiving files]
@@ -1256,11 +1252,11 @@ Miranda
 [(Unknown)]
 (невядомы)
 [%s requested authorization\n%u (%s) on %s]
-%s запытаў(а) аўтарызацыю\n%u (%s) у %s
+%s запытаў(ла) аўтарызацыю\n%u (%s) у %s
 [%s requested authorization\n%u on %s]
-%s запытаў(а) аўтарызацыю\n%u у %s
+%s запытаў(ла) аўтарызацыю\n%u у %s
 [%s requested authorization\n%s on %s]
-%s запытаў(а) аўтарызацыю\n%s у %s
+%s запытаў(ла) аўтарызацыю\n%s у %s
 [Feature is not supported by protocol]
 Не падтрымліваецца пратаколам
 ;file \src\core\stdaway\awaymsg.cpp
@@ -1330,9 +1326,9 @@ Miranda
 <няверна>
 ;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
-Іншыя псеўданімы
+Іншыя мянушкі
 [Your nickname]
-Ваш псеўданім
+Ваша мянушка
 [User has joined]
 Кантакт далучыўся
 [User has left]
@@ -1342,7 +1338,7 @@ Miranda
 [User kicked ...]
 Выспятак
 [User is now known as ...]
-Змена псеўданіма
+Змена мянушкі
 [Notice from user]
 Абвестка
 [Incoming message]
@@ -1442,7 +1438,7 @@ Miranda
 [Show notices]
 Паказваць абвесткі
 [Show users changing name]
-Змена псеўданіма
+Змена мянушкі
 [Show information messages]
 Інфармацыйныя паведамленні
 [Show status changes of users]
@@ -1492,7 +1488,7 @@ Miranda
 [Show icon in tray for notices]
 Абразок абвесткі ў трэі
 [Show icon in tray for name changes]
-Змены псеўданімаў
+Змены мянушак
 [Show icon in tray for information messages]
 Інфармацыйныя паведамленні
 [Show icon in tray for status changes]
@@ -1518,7 +1514,7 @@ Miranda
 [Show popup for notices]
 Вакно абвесткі
 [Show popup for name changes]
-Змены псеўданімаў
+Змены мянушак
 [Show popup for information messages]
 Інфармацыйныя паведамленні
 [Show popup for status changes]
@@ -1588,7 +1584,7 @@ Miranda
 [Kick (10x10)]
 Выгнаць (10х10)
 [Nick change (10x10)]
-Змена псеўданіма (10х10)
+Змена мянушкі (10х10)
 [Notice (10x10)]
 Абвестка (10x10)
 [Topic (10x10)]
@@ -1894,7 +1890,7 @@ Miranda
 Чаканне
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
-Таймаўт адпраўкі паведамлення
+Затрымка адпраўкі паведамлення
 ;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 Уваходнае паведамленне (10x10)
@@ -1990,7 +1986,7 @@ URL ад %s
 [Web page address (&URL)]
 Спасылка (&URL)
 [URL]
-Ссылка
+Спасылка
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Адправіць URL
@@ -2483,7 +2479,7 @@ ANSI плагін
 [Move to group]
 У гурт
 [On]
-Укл
+Укл.
 [Off]
 Адкл.
 [Running core plugin]
@@ -2520,8 +2516,6 @@ ANSI плагін
 Вам патрэбны плагін службы малюнкаў для падтрымкі PNG.
 [All bitmaps]
 Усе выявы
-[Windows bitmaps]
-Windows Bitmap
 [JPEG bitmaps]
 Выявы JPEG
 [GIF bitmaps]

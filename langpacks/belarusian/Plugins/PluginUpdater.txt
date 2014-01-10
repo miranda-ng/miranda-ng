@@ -67,7 +67,7 @@
 [Use Pop&up colors]
 Колеры Pop&up
 [Preview]
-Тэст
+Прагляд
 [Click action]
 Дзеянні па пстрычцы
 [On left click]
@@ -75,7 +75,7 @@
 [On right click]
 Правая пстрычка
 [Timeout]
-Таймаўт
+Затрымка
 [0 = Default]
 0=Змаўчанне
 [-1 = Infinite]
@@ -142,7 +142,7 @@
 [days]
 дзён
 [Test]
-Тэст
+Прагляд
 [Services]
 Службы
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp

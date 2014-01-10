@@ -57,11 +57,11 @@ EN
 [Text]
 Тэкст
 [Timeout]
-Таймаўт
+Затрымка
 [From Popup plugin]
 Па змаўчанні
 [Permanent]
-Увесь час
+Пастаянна
 [Custom]
 Наладзіць
 [On left click]
@@ -73,7 +73,7 @@ EN
 [On right click]
 Правая пстрычка
 [Preview]
-Тэст
+Прагляд
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 [ChangeKeyboardLayout]
 Змена раскладкі

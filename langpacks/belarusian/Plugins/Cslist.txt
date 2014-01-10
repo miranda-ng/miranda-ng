@@ -85,10 +85,10 @@
 [No change]
 Без змен
 [Clear custom status (reset to None) and close]
-Ачысціць хстатус (паставіць у Няма) і зачыніць
+Сцерці хстатус (паставіць у Няма) і зачыніць
 [Clear]
-Ачысціць
+Сцерці
 [Set custom status to selected one and close]
-Вуснаў. хстатус на абраны і зачыніць
+Уст. хстатус на абраны і зачыніць
 [Set]
 Абраць
