@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.7
+;  Version: 0.1.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31,6 +31,10 @@ E-mail или номер телефона:
 Принять
 [Cancel]
 Отмена
+[Invite user to chat]
+Пригласить пользователя в чат
+[Choose one of your contacts to be invited:]
+Выбор пользователя для приглашения в чат:
 [Captcha form icon]
 Иконка формы с капчей
 [Protocols]
@@ -45,6 +49,20 @@ E-mail или номер телефона:
 Владельцы
 [Unknown]
 Неизвестный
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Этот чат будет уничтожен со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
+[Warning]
+Предупреждение
+[&Invite a user]
+&Пригласить пользователя
+[View/change &topic]
+Просмотр/смена &темы
+[&Destroy room]
+&Удалить комнату чата
+[&User details]
+Информация о &контакте
+[&Kick]
+&Выкинуть
 [Network]
 Сеть
 [Account]

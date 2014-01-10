@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.7
+;  Version: 0.1.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -19,6 +19,9 @@
 [Instruction:]
 [Submit]
 [Cancel]
+[Invite user to chat]
+[OK]
+[Choose one of your contacts to be invited:]
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 [Protocols]
@@ -29,6 +32,13 @@
 [Participants]
 [Owners]
 [Unknown]
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+[Warning]
+[&Invite a user]
+[View/change &topic]
+[&Destroy room]
+[&User details]
+[&Kick]
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 [Account]
