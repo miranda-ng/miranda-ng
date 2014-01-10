@@ -8,13 +8,23 @@
 #define IDD_OPT_REGISTER                105
 #define IDD_AGENTS                      106
 #define IDD_FORM                        107
+#define IDD_NOTEBOOK                    108
 #define IDI_USER2ROOM                   109
 #define IDI_REFRESH                     110
 #define IDD_PASSWORD                    111
+#define IDD_CAPTCHAFORM                 112
+#define IDI_BOOKMARKS                   113
+#define IDD_BOOKMARKS                   114
+#define IDD_BOOKMARK_ADD                115
+#define IDD_PRIVACY_LISTS               116
+#define IDD_PRIVACY_RULE                117
+#define IDD_PRIVACY_ADD_LIST            118
+#define IDD_SERVICE_DISCOVERY           119
+#define IDD_NOTE_EDIT                   120
+#define IDD_MODERNOPT                   121
 #define IDI_ADDCONTACT                  122
 #define IDI_DELETE                      123
 #define IDI_EDIT                        124
-#define IDD_DATAFORM_TEST               125
 #define IDD_VCARD_HOME                  126
 #define IDD_VCARD_PERSONAL              127
 #define IDD_VCARD_WORK                  128
@@ -24,10 +34,10 @@
 #define IDI_OPEN                        131
 #define IDD_VCARD_PHOTO                 132
 #define IDD_VCARD_NOTE                  133
+#define IDD_PEP_SIMPLE                  134
 #define IDD_CHANGEPASSWORD              136
 #define IDD_SEARCHUSER                  138
 #define IDD_OPT_JABBER2                 140
-#define IDD_GROUPCHAT                   141
 #define IDI_KEYS                        144
 #define IDI_GROUP                       147
 #define IDD_GROUPCHAT_JOIN              148
@@ -36,7 +46,6 @@
 #define IDI_SAVE                        166
 #define IDD_GROUPCHAT_INPUT             167
 #define IDD_JIDLIST                     171
-#define IDD_AGENT_MANUAL_REGISTER       182
 #define IDD_GROUPCHAT_INVITE            183
 #define IDD_GROUPCHAT_INVITE_ACCEPT     184
 #define IDD_OPT_JABBER3                 185
@@ -58,7 +67,6 @@
 #define IDI_NODE_WEATHER                203
 #define IDD_CONSOLE                     205
 #define IDI_CONSOLE                     207
-#define IDD_DATAFORM_PAGE               208
 #define IDI_PL_MSG_ALLOW                209
 #define IDI_PL_MSG_DENY                 210
 #define IDI_PL_PRIN_ALLOW               211
@@ -66,7 +74,6 @@
 #define IDI_PL_PROUT_ALLOW              213
 #define IDI_PL_PROUT_DENY               214
 #define IDI_PL_QUERY_ALLOW              215
-#define IDD_SETMOODMSG                  216
 #define IDI_PL_QUERY_DENY               216
 #define IDI_PL_LIST_ACTIVE              217
 #define IDI_PL_LIST_ANY                 218
@@ -80,9 +87,6 @@
 #define IDD_ACCMGRUI                    227
 #define IDD_HTTP_AUTH                   228
 #define IDI_HTTP_AUTH                   229
-#define IDD_PEP_SIMPLE                  230
-#define IDD_NOTEBOOK                    231
-#define IDD_NOTE_EDIT                   232
 #define IDI_NOTES                       233
 #define IDI_SEND_NOTE                   234
 #define IDC_STATUSBAR                   999
@@ -96,14 +100,6 @@
 #define IDC_LINK_PUBLIC_SERVER          1009
 #define IDC_NAME                        1009
 #define IDC_PROGRESS_REG                1011
-#define IDC_AGENT_TRANSPORT             1015
-#define IDC_AGENT_REGISTER              1016
-#define IDC_AGENT_LOGON                 1017
-#define IDC_AGENT_UNREGISTER            1018
-#define IDC_AGENT_SERVER                1019
-#define IDC_AGENT_LOGOFF                1020
-#define IDC_AGENT_LIST                  1021
-#define IDC_AGENT_SEARCH                1022
 #define IDC_SUBMIT                      1023
 #define IDC_NEXT                        1025
 #define IDC_PREV                        1026
@@ -172,7 +168,6 @@
 #define IDC_PRIORITY_LABEL              1106
 #define IDC_NEWPASSWD                   1107
 #define IDC_COMBO_ACCTYPE               1108
-#define IDD_MODERNOPT                   1110
 #define IDC_PROXY_ADDR                  1112
 #define IDC_DIRECT_ADDR                 1114
 #define IDC_DIRECT_MANUAL               1121
@@ -182,7 +177,6 @@
 #define IDC_ROOM                        1124
 #define IDC_PROXY_MANUAL                1124
 #define IDC_SERVER                      1125
-#define IDC_BROWSE                      1126
 #define IDC_VSCROLL                     1128
 #define IDC_NICK                        1129
 #define IDC_EDIT                        1131
@@ -246,7 +240,6 @@
 #define IDC_BTN_VIEWLIST                1255
 #define IDC_BTN_FILTERAPPLY             1258
 #define IDC_ROSTER                      1261
-#define IDC_MSG_MOOD                    1262
 #define IDC_OPTTREE                     1263
 #define IDC_LB_LISTS                    1264
 #define IDC_LST_NOTES                   1264
@@ -316,34 +309,24 @@
 #define IDC_USEDOMAINLOGIN              1323
 #define IDC_TXT_ALTNICK                 1323
 #define IDC_SAVE_PERM                   1324
-#define IDI_BOOKMARKS                   3000
-#define IDD_BOOKMARKS                   3001
 #define IDC_BM_LIST                     3002
 #define IDC_ADD                         3004
 #define IDC_REMOVE                      3005
-#define IDD_BOOKMARK_ADD                3006
 #define IDC_UP_RULE                     3006
 #define IDC_ROOM_JID                    3007
-#define IDD_PRIVACY_LISTS               3007
 #define IDC_DOWN_RULE                   3007
 #define IDC_APPLY                       3008
-#define IDD_PRIVACY_RULE                3008
 #define IDC_ROOM_RADIO                  3009
-#define IDD_PRIVACY_ADD_LIST            3009
-#define IDD_SERVICE_DISCOVERY           3010
 #define IDC_URL_RADIO                   3011
-#define IDD_GROUPCHAT_INFO_TABS         3011
 #define IDC_AGENT_RADIO                 3012
-#define IDD_GROUPCHAT_ADMLIST           3012
 #define IDC_BOOKMARK_TYPE               3013
 #define IDC_CHECK_BM_AUTOJOIN           3014
 #define IDI_PRIVACY_LISTS               3016
 #define IDI_SERVICE_DISCOVERY           3017
-#define IDD_CAPTCHAFORM                 3018
 #define IDC_VALUE                       3019
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
