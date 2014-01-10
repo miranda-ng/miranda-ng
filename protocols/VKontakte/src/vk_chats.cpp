@@ -17,6 +17,26 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+enum
+{
+	IDM_TOPIC, IDM_INVITE, IDM_DESTROY,
+	IDM_KICK, IDM_INFO
+};
+
+static gc_item sttLogListItems[] =
+{
+	{ LPGENT("&Invite a user"), IDM_INVITE, MENU_ITEM },
+	{ LPGENT("View/change &topic"), IDM_TOPIC, MENU_POPUPITEM },
+	{ NULL, 0, MENU_SEPARATOR },
+	{ LPGENT("&Destroy room"), IDM_DESTROY, MENU_POPUPITEM }
+};
+
+static gc_item sttListItems[] =
+{
+	{ LPGENT("&User details"), IDM_INFO, MENU_ITEM },
+	{ LPGENT("&Kick"), IDM_KICK, MENU_ITEM }
+};
+
 static LPCTSTR sttStatuses[] = { LPGENT("Participants"), LPGENT("Owners") };
 
 CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
@@ -49,7 +69,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	gci.pszModule = m_szModuleName;
 	gci.pszID = sid.GetBuffer();
 	gci.Flags = BYID | HCONTACT;
-	CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
+	CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
 	c->m_hContact = gci.hContact;
 	m_chats.insert(c);
 
@@ -237,7 +257,15 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
 	gce.ptszNick = cu->m_tszTitle;
 	gce.ptszText = tszBody;
-	CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
+	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CVkChatUser* CVkChatInfo::GetUserById(LPCTSTR ptszId)
+{
+	int user_id = _ttoi(ptszId);
+	return m_users.find((CVkChatUser*)&user_id);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -256,20 +284,15 @@ TCHAR* UnEscapeChatTags(TCHAR* str_in)
 
 int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 {
-	GCHOOK* gch = (GCHOOK*)lParam;
+	GCHOOK *gch = (GCHOOK*)lParam;
 	if (gch == NULL)
 		return 0;
 
 	if (lstrcmpiA(gch->pDest->pszModule, m_szModuleName))
 		return 0;
 
-	CVkChatInfo *cc = NULL;
-	for (int i = 0; i < m_chats.getCount(); i++)
-	if (!lstrcmp(m_chats[i].m_tszId, gch->pDest->ptszID)) {
-		cc = &m_chats[i];
-		break;
-	}
-	if (cc == NULL)
+	CVkChatInfo *cc = (CVkChatInfo*)gch->dwData;
+	if (m_chats.getIndex(cc) == -1)
 		return 0;
 
 	switch (gch->pDest->iType) {
@@ -291,6 +314,13 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			};
 			PushAsyncHttpRequest(REQUEST_GET, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, SIZEOF(params), params);
 		}
+
+	case GC_USER_LOGMENU:
+		LogMenuHook(cc, gch);
+		break;
+
+	case GC_USER_NICKLISTMENU:
+		NickMenuHook(cc, gch);
 		break;
 	}
 	return 0;
@@ -307,3 +337,86 @@ void CVkProto::OnSendChatMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
+{
+	char szChatId[20];
+	_itoa(cc->m_chatid, szChatId, 10);
+
+	switch (gch->dwData) {
+	case IDM_DESTROY:
+		if (IDYES == MessageBox(NULL,
+			TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"),
+			TranslateT("Warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
+		{
+			HttpParam params[] = {
+				{ "chat_id", szChatId },
+				{ "access_token", m_szAccessToken }
+			};
+			AsyncHttpRequest *pReq = PushAsyncHttpRequest(REQUEST_GET, "/method/messages.deleteDialog.json", true, &CVkProto::OnChatDestroy, SIZEOF(params), params);
+			pReq->pUserInfo = cc;
+		}
+		break;
+	}
+}
+
+void CVkProto::OnChatDestroy(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+{
+	debugLogA("CVkProto::OnChatDestroy %d", reply->resultCode);
+	if (reply->resultCode == 200) {
+		CVkChatInfo *cc = (CVkChatInfo*)pReq->pUserInfo;
+
+		GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_QUIT };
+		GCEVENT gce = { sizeof(GCEVENT), &gcd };
+		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+
+		CallService(MS_DB_CONTACT_DELETE, (WPARAM)cc->m_hContact, 0);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
+{
+	CVkChatUser* cu = cc->GetUserById(gch->ptszUID);
+	if (cu == NULL)
+		return;
+
+	char szUid[20], szChatId[20];
+	_itoa(cu->m_uid, szUid, 10);
+	_itoa(cc->m_chatid, szChatId, 10);
+
+	switch (gch->dwData) {
+	case IDM_KICK:
+		HttpParam params[] = {
+			{ "chat_id", szChatId },
+			{ "uid", szUid },
+			{ "access_token", m_szAccessToken }
+		};
+		PushAsyncHttpRequest(REQUEST_GET, "/method/messages.removeChatUser.json", true, NULL, SIZEOF(params), params);
+		break;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int CVkProto::OnGcMenuHook(WPARAM, LPARAM lParam)
+{
+	GCMENUITEMS* gcmi = (GCMENUITEMS*)lParam;
+	if (gcmi == NULL)
+		return 0;
+
+	if (lstrcmpiA(gcmi->pszModule, m_szModuleName))
+		return 0;
+
+	if (gcmi->Type == MENU_ON_LOG) {
+		gcmi->nItems = SIZEOF(sttLogListItems);
+		gcmi->Item = sttLogListItems;
+	}
+	else if (gcmi->Type == MENU_ON_NICKLIST) {
+		gcmi->nItems = SIZEOF(sttListItems);
+		gcmi->Item = sttListItems;
+	}
+	return 0;
+}

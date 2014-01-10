@@ -556,7 +556,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 						gce.dwFlags = GCEF_ADDTOLOG;
 						gce.ptszNick = ptszNick;
 						gce.ptszText = tszBody;
-						CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
+						CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 					}
 				}
 			}

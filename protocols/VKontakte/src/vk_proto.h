@@ -52,6 +52,8 @@ struct CVkChatInfo : public MZeroedObject
 	ptrT m_tszTitle, m_tszId;
 	HANDLE m_hContact;
 	OBJLIST<CVkChatUser> m_users;
+
+	CVkChatUser* GetUserById(LPCTSTR);
 };
 
 struct CVkProto : public PROTO<CVkProto>
@@ -231,8 +233,12 @@ private:
 	void AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	int __cdecl OnChatEvent(WPARAM, LPARAM);
 	void OnSendChatMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnChatDestroy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	int __cdecl OnChatEvent(WPARAM, LPARAM);
+	int __cdecl OnGcMenuHook(WPARAM, LPARAM);
+	void LogMenuHook(CVkChatInfo*, GCHOOK*);
+	void NickMenuHook(CVkChatInfo*, GCHOOK*);
 
 	CMString GetAttachmentDescr(JSONNODE*);
 };

@@ -31,8 +31,9 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	CreateProtoService(PS_GETAVATARINFOT, &CVkProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS,  &CVkProto::SvcGetAvatarCaps);
 
-	HookProtoEvent(ME_OPT_INITIALISE, &CVkProto::OnOptionsInit);
 	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
+	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
+	HookProtoEvent(ME_OPT_INITIALISE, &CVkProto::OnOptionsInit);
 
 	TCHAR descr[512];
 	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s server connection"), m_tszUserName);
