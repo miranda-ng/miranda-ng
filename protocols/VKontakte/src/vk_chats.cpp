@@ -101,10 +101,8 @@ void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 	// retrieve users
 	szQuery.AppendFormat("\"users\": API.messages.getChatUsers({\"chat_id\":%d, \"fields\":\"uid,first_name,last_name\"})", cc->m_chatid);
 
-	if (!cc->m_bHistoryRead) {
-		cc->m_bHistoryRead = true;
+	if (!cc->m_bHistoryRead)
 		szQuery.AppendFormat(",\"msgs\": API.messages.getHistory({\"chat_id\":%d, \"count\":\"20\", \"rev\":\"1\"})", cc->m_chatid);
-	}
 
 	szQuery.Append("};");
 
@@ -213,7 +211,14 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 			AppendChatMessage(cc->m_chatid, pMsg, true);
 		}
+		cc->m_bHistoryRead = true;
 	}
+
+	for (int j = 0; j < cc->m_msgs.getCount(); j++) {
+		CVkChatMessage &p = cc->m_msgs[j];
+		AppendChatMessage(cc, p.m_uid, p.m_date, p.m_tszBody, false);
+	}
+	cc->m_msgs.destroy();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -230,24 +235,39 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 		m_sendIds.insert((void*)mid);
 
 	int uid = json_as_int(json_get(pMsg, "uid"));
-	TCHAR tszId[20];
-	_itot(uid, tszId, 10);
 
 	int msgTime = json_as_int(json_get(pMsg, "date"));
 	time_t now = time(NULL);
 	if (!msgTime || msgTime > now)
 		msgTime = now;
 
+	ptrT tszBody(json_as_string(json_get(pMsg, "body")));
+	JSONNODE *pAttachments = json_get(pMsg, "attachments");
+	if (pAttachments != NULL)
+		tszBody = mir_tstrdup(CMString(tszBody) + GetAttachmentDescr(pAttachments));
+
+	if (cc->m_bHistoryRead)
+		AppendChatMessage(cc, uid, msgTime, tszBody, bIsHistory);
+	else {
+		CVkChatMessage *cm = new CVkChatMessage();
+		cm->m_mid = mid;
+		cm->m_uid = uid;
+		cm->m_date = msgTime;
+		cm->m_tszBody = tszBody.detouch();
+		cc->m_msgs.insert(cm);
+	}
+}
+
+void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory)
+{
+	TCHAR tszId[20];
+	_itot(uid, tszId, 10);
+
 	CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&uid);
 	if (cu == NULL) {
 		cc->m_users.insert(cu = new CVkChatUser(uid));
 		cu->m_tszTitle = mir_tstrdup(TranslateT("Unknown"));
 	}
-
-	ptrT tszBody(json_as_string(json_get(pMsg, "body")));
-	JSONNODE *pAttachments = json_get(pMsg, "attachments");
-	if (pAttachments != NULL)
-		tszBody = mir_tstrdup(CMString(tszBody) + GetAttachmentDescr(pAttachments));
 
 	GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(GCEVENT), &gcd };
@@ -256,11 +276,20 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 	gce.time = msgTime;
 	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
 	gce.ptszNick = cu->m_tszTitle;
-	gce.ptszText = tszBody;
+	gce.ptszText = ptszBody;
 	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+CVkChatInfo* CVkProto::GetChatById(LPCTSTR ptszId)
+{
+	for (int i = 0; i < m_chats.getCount(); i++)
+		if (!lstrcmp(m_chats[i].m_tszId, ptszId))
+			return &m_chats[i];
+
+	return NULL;
+}
 
 CVkChatUser* CVkChatInfo::GetUserById(LPCTSTR ptszId)
 {
@@ -291,8 +320,8 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 	if (lstrcmpiA(gch->pDest->pszModule, m_szModuleName))
 		return 0;
 
-	CVkChatInfo *cc = (CVkChatInfo*)gch->dwData;
-	if (m_chats.getIndex(cc) == -1)
+	CVkChatInfo *cc = GetChatById(gch->pDest->ptszID);
+	if (cc == NULL)
 		return 0;
 
 	switch (gch->pDest->iType) {
