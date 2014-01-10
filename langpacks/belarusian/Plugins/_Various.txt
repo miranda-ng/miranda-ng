@@ -1,44 +1,44 @@
-;  This file is for lines that jpgen.js doesn't add to english templates but nevertheless must be translated.
+п»ї;  This file is for lines that jpgen.js doesn't add to english templates but nevertheless must be translated.
 ;  =CORE=
 [<mixed>]
-<розныя>
+<СЂРѕР·РЅС‹СЏ>
 ;  Popup
 [Flat borders]
-Плоскія межы
+РџР»РѕСЃРєС–СЏ РјРµР¶С‹
 [Draw gradient background]
-Фон з градыентам
+Р¤РѕРЅ Р· РіСЂР°РґС‹РµРЅС‚Р°Рј
 [Show icon]
-Паказваць абразок
+РџР°РєР°Р·РІР°С†СЊ Р°Р±СЂР°Р·РѕРє
 [Show avatars]
-Паказваць аватары
+РџР°РєР°Р·РІР°С†СЊ Р°РІР°С‚Р°СЂС‹
 ;  Various actions and tipper items not included in source code.
 [Last seen:]
-Апошняе з'яўленне:
+РђРїРѕС€РЅСЏРµ Р·'СЏСћР»РµРЅРЅРµ:
 [Online since:]
-Далучаны:
+Р”Р°Р»СѓС‡Р°РЅС‹:
 [Away since:]
-Адсутнічае з:
+РђРґСЃСѓС‚РЅС–С‡Р°Рµ Р·:
 [NA since:]
-Недасяжны з:
+РќРµРґР°СЃСЏР¶РЅС‹ Р·:
 [Registered:]
-Зарэгістраваны:
+Р—Р°СЂСЌРіС–СЃС‚СЂР°РІР°РЅС‹:
 [Idle ago:]
-Неактыўны з:
+РќРµР°РєС‚С‹СћРЅС‹ Р·:
 [Messages received]
-Прынята паведамленняў
+РџСЂС‹РЅСЏС‚Р° РїР°РІРµРґР°РјР»РµРЅРЅСЏСћ
 [Messages sent]
-Адпраўлена паведамленняў
+РђРґРїСЂР°СћР»РµРЅР° РїР°РІРµРґР°РјР»РµРЅРЅСЏСћ
 [Total messages: %sys:msg_count_all%]
-Усяго паведамленняў: %sys:msg_count_all%
+РЈСЃСЏРіРѕ РїР°РІРµРґР°РјР»РµРЅРЅСЏСћ: %sys:msg_count_all%
 [Last message: (%sys:last_msg_reltime% along)]
-Апошняе паведамленне: (%sys:last_msg_reltime% назад)
+РђРїРѕС€РЅСЏРµ РїР°РІРµРґР°РјР»РµРЅРЅРµ: (%sys:last_msg_reltime% РЅР°Р·Р°Рґ)
 [(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
-(прынята: %sys:msg_count_in%, паслана: %sys:msg_count_out%)
+(РїСЂС‹РЅСЏС‚Р°: %sys:msg_count_in%, РїР°СЃР»Р°РЅР°: %sys:msg_count_out%)
 [Coordinates]
-Каардынаты
+РљР°Р°СЂРґС‹РЅР°С‚С‹
 [Import from database]
-Імпарт з профіля
+Р†РјРїР°СЂС‚ Р· РїСЂРѕС„С–Р»СЏ
 [Current = %r\\nPrevious = %p]
-Бягучы = %r\\nПапярэдні = %p
+Р‘СЏРіСѓС‡С‹ = %r\\nРџР°РїСЏСЂСЌРґРЅС– = %p
 [Langpack reload]
-Перазагрузка моўнага пакета
+РџРµСЂР°Р·Р°РіСЂСѓР·РєР° РјРѕСћРЅР°РіР° РїР°РєРµС‚Р°
