@@ -459,7 +459,7 @@ Viditelnost:
 Vítr:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
-# Vyplnění plnou barvou
+\# Vyplnění plnou barvou
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Pozadí

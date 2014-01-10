@@ -457,7 +457,7 @@ IP:
 Вецер:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
-# заліванне колерам
+\# заліванне колерам
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Фон

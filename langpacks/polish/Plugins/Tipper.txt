@@ -459,7 +459,7 @@ Widoczność:
 Wiatr:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
-# Jednolity kolor
+\# Jednolity kolor
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Tło

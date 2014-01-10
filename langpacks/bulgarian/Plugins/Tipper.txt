@@ -449,7 +449,7 @@ Miranda работи от:
 Вятър:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
-# запълване с плътен цвят
+\# запълване с плътен цвят
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Фон

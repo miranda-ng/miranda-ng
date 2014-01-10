@@ -436,7 +436,7 @@
 [Wind:]
 Вітер:
 [# Solid color fill]
-# заливка кольором
+\# заливка кольором
 [Background]
 Фон
 [Dividers]

@@ -16,4 +16,4 @@ Centre
 [Customize]
 Customise
 [# Solid color fill]
-# Solid colour fill
+\# Solid colour fill

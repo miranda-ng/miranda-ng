@@ -284,7 +284,7 @@ Höre gerade
 [Miranda uptime]
 Miranda-Laufzeit
 [Contact list event]
-CList-Ereignis
+Ereignis in Kontaktliste
 [Jabber activity]
 Jabber-Aktivität
 [Gender]
@@ -459,7 +459,7 @@ Sichtweite:
 Wind:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
-# Farbfüllung
+\# Farbfüllung
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Hintergrund
@@ -568,7 +568,7 @@ Niederländisch
 [English]
 Englisch
 [Esperanto]
-Esperanto (Plansprache)
+Esperanto
 [Estonian]
 Estnisch
 [Farsi]
