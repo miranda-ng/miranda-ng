@@ -49,14 +49,16 @@ E-mail или номер телефона:
 Владельцы
 [Unknown]
 Неизвестный
+[Enter new chat title]
+Введите новый заголовок чата
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 Этот чат будет уничтожен со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
 [Warning]
 Предупреждение
 [&Invite a user]
 &Пригласить пользователя
-[View/change &topic]
-Просмотр/смена &темы
+[View/change &title]
+Просмотр/смена &заголовка
 [&Destroy room]
 &Удалить комнату чата
 [&User details]
