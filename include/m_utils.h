@@ -461,4 +461,36 @@ __forceinline TCHAR* Utils_ReplaceVarsT(const TCHAR *szData) {
 	#define MS_UTILS_GETBITMAPFILTERSTRINGST MS_UTILS_GETBITMAPFILTERSTRINGS
 #endif
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// one field form
+
+#define ESF_MULTILINE 1
+#define ESF_COMBO     2
+#define ESF_RICHEDIT  3
+#define ESF_PASSWORD  4
+
+typedef struct
+{
+	int      cbSize;         // structure size
+	int      type;           // one of ESF_* constants
+	LPCSTR   szModuleName;   // module name to save window size and combobox strings
+	LPCSTR   szDataPrefix;   // prefix for stored database variables
+	LPCTSTR  caption;        // window caption
+	LPTSTR  *result;         // initial value + result entered
+	int      recentCount;    // number of combobox strings to store
+	int      timeout;        // timeout for the form auto-close
+}
+ENTER_STRING;
+
+// enters one string
+// wParam = 0 (unused)
+// lParam = ENTER_STRING* (form description)
+// returns TRUE on pressing OK if Cancel was pressed
+#define MS_UTILS_ENTERSTRING "Utils/EnterString"
+
+__forceinline BOOL EnterString(ENTER_STRING *pForm)
+{
+	return (BOOL)CallService(MS_UTILS_ENTERSTRING, 0, (LPARAM)pForm);
+}
+
 #endif // M_UTILS_H__

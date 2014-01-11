@@ -1065,7 +1065,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			szBuffer.Format(_T("%s: "), me->m_tszResourceName);
 			szTitle.Format(TranslateT("Reason to kick %s"), him->m_tszResourceName);
 			TCHAR *resourceName_copy = mir_tstrdup(him->m_tszResourceName); // copy resource name to prevent possible crash if user list rebuilds
-			if (ppro->EnterString(szBuffer, szTitle, JES_MULTILINE, "gcReason_"))
+			if (ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE, "gcReason_"))
 				ppro->m_ThreadInfo->send(
 					XmlNodeIq(_T("set"), ppro->SerialNext(), item->jid) << XQUERY(JABBER_FEAT_MUC_ADMIN)
 						<< XCHILD(_T("item")) << XATTR(_T("nick"), resourceName_copy) << XATTR(_T("role"), _T("none"))
@@ -1144,7 +1144,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 				szBuffer.Format(_T("%s: "), me->m_tszResourceName);
 				szTitle.Format(TranslateT("Reason to ban %s"), him->m_tszResourceName);
 
-				if (ppro->EnterString(szBuffer, szTitle, JES_MULTILINE, "gcReason_"))
+				if (ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE, "gcReason_"))
 					ppro->m_ThreadInfo->send(
 						XmlNodeIq(_T("set"), ppro->SerialNext(), item->jid) << XQUERY(JABBER_FEAT_MUC_ADMIN)
 							<< XCHILD(_T("item")) << XATTR(_T("jid"), szVictimBareJid) << XATTR(_T("affiliation"), _T("outcast"))
@@ -1173,7 +1173,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			if (!szInviteTo) break;
 
 			szTitle.Format(TranslateT("Invite %s to %s"), him->m_tszResourceName, szInviteTo);
-			if (!ppro->EnterString(szBuffer, szTitle, JES_MULTILINE))
+			if (!ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE))
 				break;
 
 			szTitle.Format(_T("%s/%s"), item->jid, resourceName_copy);
@@ -1271,7 +1271,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		szTitle.Format(TranslateT("Set topic for %s"), gch->pDest->ptszID);
 		szBuffer = item->getTemp()->m_tszStatusMessage;
 		szBuffer.Replace(_T("\n"), _T("\r\n"));
-		if (ppro->EnterString(szBuffer, szTitle, JES_RICHEDIT, "gcTopic_"))
+		if (ppro->EnterString(szBuffer, szTitle, ESF_RICHEDIT, "gcTopic_"))
 			ppro->m_ThreadInfo->send(
 				XmlNode(_T("message")) << XATTR(_T("to"), gch->pDest->ptszID) << XATTR(_T("type"), _T("groupchat"))
 					<< XCHILD(_T("subject"), szBuffer));
@@ -1281,7 +1281,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		szTitle.Format(TranslateT("Change nickname in %s"), gch->pDest->ptszID);
 		if (item->nick)
 			szBuffer = item->nick;
-		if (ppro->EnterString(szBuffer, szTitle, JES_COMBO, "gcNick_")) {
+		if (ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
 			JABBER_LIST_ITEM *item = ppro->ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID);
 			if (item != NULL) {
 				TCHAR text[1024];
@@ -1317,7 +1317,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 	}
 	case IDM_DESTROY:
 		szTitle.Format(TranslateT("Reason to destroy %s"), gch->pDest->ptszID);
-		if (ppro->EnterString(szBuffer, szTitle, JES_MULTILINE, "gcReason_"))
+		if (ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE, "gcReason_"))
 			ppro->m_ThreadInfo->send(
 				XmlNodeIq(_T("set"), ppro->SerialNext(), gch->pDest->ptszID) << XQUERY(JABBER_FEAT_MUC_OWNER)
 					<< XCHILD(_T("destroy")) << XCHILD(_T("reason"), szBuffer));

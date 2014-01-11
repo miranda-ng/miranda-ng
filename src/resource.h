@@ -21,6 +21,7 @@
 #define IDI_LOADED_GRAY                 113
 #define IDI_NOTLOADED_GRAY              114
 #define IDD_ADDED                       115
+#define IDD_ENTER_STRING                116
 #define IDD_URLSEND                     119
 #define IDD_URLRECV                     120
 #define IDD_AUTHREQ                     121
@@ -232,6 +233,10 @@
 #define IDC_GENMENU_DEFAULT             1089
 #define IDC_CANVAS                      1094
 #define IDC_CANVAS2                     1095
+#define IDC_TXT_MULTILINE               1096
+#define IDC_TXT_PASSWORD                1097
+#define IDC_TXT_COMBO                   1098
+#define IDC_TXT_RICHEDIT                1099
 #define IDC_BUILDTIME                   1108
 #define IDC_CREDITSFILE                 1109
 #define IDC_NUMBER                      1113
@@ -537,7 +542,7 @@
 #define ID_UNGROUP                      40067
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        328

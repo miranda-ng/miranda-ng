@@ -156,9 +156,6 @@
     <ClInclude Include="..\include\m_userinfo.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\m_utils.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\newpluginapi.h">
       <Filter>SDK</Filter>
     </ClInclude>
@@ -251,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="..\include\m_extraicons.h">
       <Filter>Modules\extraicons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\m_utils.h">
+      <Filter>Modules\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -553,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="modules\srmm\statusicon.cpp">
       <Filter>Modules\srmm</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\utils\enterstring.cpp">
+      <Filter>Modules\utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -455,6 +455,9 @@
     <ClCompile Include="modules\utils\colourpicker.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="modules\utils\enterstring.cpp" >
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="modules\utils\hyperlink.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>

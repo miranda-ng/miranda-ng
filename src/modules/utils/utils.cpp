@@ -43,6 +43,8 @@ void InitTimeZones(void);
 int  InitCrypt(void);
 void UninitCrypt(void);
 
+INT_PTR __cdecl svcEnterString(WPARAM, LPARAM lParam);
+
 static BOOL bModuleInitialized = FALSE;
 
 static CountryListEntry countries[] = {
@@ -470,6 +472,7 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYISOCODE, GetCountryByISOCode);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYLIST, GetCountryList);
 	CreateServiceFunction(MS_UTILS_GETRANDOM, GenerateRandom);
+	CreateServiceFunction(MS_UTILS_ENTERSTRING, svcEnterString);
 	CreateServiceFunction(MS_SYSTEM_RESTART, RestartMiranda);
 
 	InitOpenUrl();

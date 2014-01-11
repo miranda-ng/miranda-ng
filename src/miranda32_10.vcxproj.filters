@@ -554,6 +554,9 @@
     <ClCompile Include="modules\srmm\statusicon.cpp">
       <Filter>Modules\srmm</Filter>
     </ClCompile>
+    <ClCompile Include="modules\utils\enterstring.cpp">
+      <Filter>Modules\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

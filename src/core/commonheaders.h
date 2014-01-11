@@ -40,6 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commctrl.h>
 #include <vssym32.h>
 #include <Shlwapi.h>
+#include <Richedit.h>
 
 #ifdef _DEBUG
 #include <crtdbg.h>

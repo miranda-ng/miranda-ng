@@ -44,7 +44,6 @@
 #define IDI_AGENTS                      154
 #define IDI_VCARD                       155
 #define IDI_SAVE                        166
-#define IDD_GROUPCHAT_INPUT             167
 #define IDD_JIDLIST                     171
 #define IDD_GROUPCHAT_INVITE            183
 #define IDD_GROUPCHAT_INVITE_ACCEPT     184
@@ -182,8 +181,6 @@
 #define IDC_EDIT                        1131
 #define IDC_LIST                        1133
 #define IDC_TABS                        1141
-#define IDC_TXT_MULTILINE               1141
-#define IDC_TXT_PASSWORD                1142
 #define IDC_MANUAL_REGISTER             1167
 #define IDC_REASON                      1171
 #define IDC_CLIST                       1172
@@ -286,7 +283,6 @@
 #define IDC_TXT_ID                      1295
 #define IDC_CB_FILTER                   1296
 #define IDC_TXT_ROLE                    1296
-#define IDC_TXT_COMBO                   1296
 #define IDC_CB_TYPE                     1296
 #define IDC_TXT_METHOD                  1296
 #define IDC_CB_MODES                    1296
@@ -295,7 +291,6 @@
 #define IDC_TXT_FROM                    1298
 #define IDC_TXT_AFFILIATION             1299
 #define IDC_ICO_STATUS                  1300
-#define IDC_TXT_RICHEDIT                1302
 #define IDC_TXT_SLAP                    1304
 #define IDC_TXT_TAGS                    1304
 #define IDC_EMAILS                      1306

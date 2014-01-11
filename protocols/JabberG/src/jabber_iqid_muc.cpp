@@ -326,7 +326,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 					ListView_GetItem(nm->hdr.hwndFrom, &lvi);
 					if (lvi.lParam == (LPARAM)(-1)) {
 						CMString szBuffer(dat->type2str());
-						if (!dat->ppro->EnterString(szBuffer, NULL, JES_COMBO, "gcAddNick_"))
+						if (!dat->ppro->EnterString(szBuffer, NULL, ESF_COMBO, "gcAddNick_"))
 							break;
 
 						// Trim leading and trailing whitespaces
@@ -336,7 +336,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 						
 						CMString rsn(dat->type2str());
 						if (dat->type == MUC_BANLIST) {
-							dat->ppro->EnterString(rsn, TranslateT("Reason to ban"), JES_COMBO, "gcAddReason_");
+							dat->ppro->EnterString(rsn, TranslateT("Reason to ban"), ESF_COMBO, "gcAddReason_");
 							if (szBuffer)
 								dat->ppro->AddMucListItem(dat, szBuffer, rsn);
 							else

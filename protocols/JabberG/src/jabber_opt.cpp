@@ -564,7 +564,7 @@ private:
 	{
 		CMString buf;
 		TCHAR pass[512];
-		if (!m_proto->EnterString(buf, TranslateT("Confirm password"), JES_PASSWORD))
+		if (!m_proto->EnterString(buf, TranslateT("Confirm password"), ESF_PASSWORD))
 			return;
 
 		m_txtPassword.GetText(pass, SIZEOF(pass));
@@ -1849,7 +1849,7 @@ private:
 	void btnRegister_OnClick(CCtrlButton *)
 	{
 		CMString buf;
-		if (!m_proto->EnterString(buf, TranslateT("Confirm password"), JES_PASSWORD))
+		if (!m_proto->EnterString(buf, TranslateT("Confirm password"), ESF_PASSWORD))
 			return;
 
 		TCHAR pass[512];

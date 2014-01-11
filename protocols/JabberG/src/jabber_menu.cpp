@@ -1143,7 +1143,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM wParam, LPARAM l
 	else jid = tszJid;
 
 	CMString szValue;
-	if (EnterString(szValue, TranslateT("Status Message"), JES_MULTILINE))
+	if (EnterString(szValue, TranslateT("Status Message"), ESF_MULTILINE))
 		SendPresenceTo(res, jid, NULL, szValue);
 	return 0;
 }

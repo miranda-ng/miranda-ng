@@ -1009,208 +1009,6 @@ void JabberCopyText(HWND hwnd, const TCHAR *text)
 	CloseClipboard();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// One string entry dialog
-
-struct JabberEnterStringParam
-{
-	CJabberProto *ppro;
-
-	int       type;
-	LPCTSTR   caption;
-	CMString &result;
-	char     *windowName;
-	int       recentCount;
-	int       timeout;
-	int       idcControl;
-	int       height;
-};
-
-static int sttEnterStringResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
-{
-	switch (urc->wId) {
-	case IDC_TXT_MULTILINE:
-	case IDC_TXT_COMBO:
-	case IDC_TXT_RICHEDIT:
-		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-
-	case IDOK:
-	case IDCANCEL:
-		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
-	}
-	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
-}
-
-static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	JabberEnterStringParam *params = (JabberEnterStringParam *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIconBig(SKINICON_OTHER_RENAME));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_RENAME));
-		params = (JabberEnterStringParam *)lParam;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)params);
-		SetWindowText(hwndDlg, params->caption);
-		{
-			RECT rc; GetWindowRect(hwndDlg, &rc);
-			switch (params->type) {
-			case JES_PASSWORD:
-				params->idcControl = IDC_TXT_PASSWORD;
-				params->height = rc.bottom - rc.top;
-				break;
-
-			case JES_MULTILINE:
-				params->idcControl = IDC_TXT_MULTILINE;
-				params->height = 0;
-				rc.bottom += (rc.bottom - rc.top) * 2;
-				SetWindowPos(hwndDlg, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_NOMOVE | SWP_NOREPOSITION);
-				break;
-
-			case JES_COMBO:
-				params->idcControl = IDC_TXT_COMBO;
-				params->height = rc.bottom - rc.top;
-				if (params->windowName && params->recentCount)
-					params->ppro->ComboLoadRecentStrings(hwndDlg, IDC_TXT_COMBO, params->windowName, params->recentCount);
-				break;
-
-			case JES_RICHEDIT:
-				params->idcControl = IDC_TXT_RICHEDIT;
-				SendDlgItemMessage(hwndDlg, IDC_TXT_RICHEDIT, EM_AUTOURLDETECT, TRUE, 0);
-				SendDlgItemMessage(hwndDlg, IDC_TXT_RICHEDIT, EM_SETEVENTMASK, 0, ENM_LINK);
-				params->height = 0;
-				rc.bottom += (rc.bottom - rc.top) * 2;
-				SetWindowPos(hwndDlg, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_NOMOVE | SWP_NOREPOSITION);
-				break;
-			}
-		}
-		ShowWindow(GetDlgItem(hwndDlg, params->idcControl), SW_SHOW);
-		SetDlgItemText(hwndDlg, params->idcControl, params->result);
-
-		if (params->windowName)
-			Utils_RestoreWindowPosition(hwndDlg, NULL, params->ppro->m_szModuleName, params->windowName);
-
-		SetTimer(hwndDlg, 1000, 50, NULL);
-
-		if (params->timeout > 0) {
-			SetTimer(hwndDlg, 1001, 1000, NULL);
-			TCHAR buf[128];
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("OK (%d)"), params->timeout);
-			SetDlgItemText(hwndDlg, IDOK, buf);
-		}
-
-		return TRUE;
-
-	case WM_DESTROY:
-		WindowFreeIcon(hwndDlg);
-		break;
-
-	case WM_TIMER:
-		switch (wParam) {
-		case 1000:
-			KillTimer(hwndDlg,1000);
-			EnableWindow(GetParent(hwndDlg), TRUE);
-			break;
-
-		case 1001:
-			TCHAR buf[128];
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("OK (%d)"), --params->timeout);
-			SetDlgItemText(hwndDlg, IDOK, buf);
-
-			if (params->timeout < 0) {
-				KillTimer(hwndDlg, 1001);
-				UIEmulateBtnClick(hwndDlg, IDOK);
-			}
-		}
-		return TRUE;
-
-	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd = { 0 };
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_GROUPCHAT_INPUT);
-			urd.pfnResizer = sttEnterStringResizer;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-		}
-		break;
-
-	case WM_GETMINMAXINFO:
-		{
-			LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
-			if (params && params->height)
-				lpmmi->ptMaxSize.y = lpmmi->ptMaxTrackSize.y = params->height;
-		}
-		break;
-
-	case WM_NOTIFY:
-		{
-			ENLINK *param = (ENLINK *)lParam;
-			if (param->nmhdr.idFrom != IDC_TXT_RICHEDIT) break;
-			if (param->nmhdr.code != EN_LINK) break;
-			if (param->msg != WM_LBUTTONUP) break;
-
-			CHARRANGE sel;
-			SendMessage(param->nmhdr.hwndFrom, EM_EXGETSEL, 0, (LPARAM) & sel);
-			if (sel.cpMin != sel.cpMax) break; // allow link selection
-
-			TEXTRANGE tr;
-			tr.chrg = param->chrg;
-			tr.lpstrText = (TCHAR *)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 2));
-			SendMessage(param->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
-
-			char *tmp = mir_t2a(tr.lpstrText);
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM)tmp);
-			mir_free(tmp);
-			mir_free(tr.lpstrText);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_TXT_MULTILINE:
-		case IDC_TXT_RICHEDIT:
-			if ((HIWORD(wParam) != EN_SETFOCUS) && (HIWORD(wParam) != EN_KILLFOCUS)) {
-				SetDlgItemText(hwndDlg, IDOK, TranslateT("OK"));
-				KillTimer(hwndDlg, 1001);
-			}
-			break;
-
-		case IDC_TXT_COMBO:
-			if ((HIWORD(wParam) != CBN_SETFOCUS) && (HIWORD(wParam) != CBN_KILLFOCUS)) {
-				SetDlgItemText(hwndDlg, IDOK, TranslateT("OK"));
-				KillTimer(hwndDlg, 1001);
-			}
-			break;
-
-		case IDCANCEL:
-			if (params->windowName)
-				Utils_SaveWindowPosition(hwndDlg, NULL, params->ppro->m_szModuleName, params->windowName);
-
-			EndDialog(hwndDlg, 0);
-			break;
-
-		case IDOK:
-			HWND hWnd = GetDlgItem(hwndDlg, params->idcControl);
-			int len = GetWindowTextLength(hWnd);
-			params->result.Truncate(len);
-			GetWindowText(hWnd, params->result.GetBuffer(), len+1);
-
-			if ((params->type == JES_COMBO) && params->windowName && params->recentCount)
-				params->ppro->ComboAddRecentString(hwndDlg, IDC_TXT_COMBO, params->windowName, params->result, params->recentCount);
-			if (params->windowName)
-				Utils_SaveWindowPosition(hwndDlg, NULL, params->ppro->m_szModuleName, params->windowName);
-
-			EndDialog(hwndDlg, 1);
-			break;
-		}
-	}
-
-	return FALSE;
-}
-
 BOOL CJabberProto::EnterString(CMString &result, LPCTSTR caption, int type, char *windowName, int recentCount, int timeout)
 {
 	if (caption == NULL) {
@@ -1218,8 +1016,22 @@ BOOL CJabberProto::EnterString(CMString &result, LPCTSTR caption, int type, char
 		result.Empty();
 	}
 
-	JabberEnterStringParam param = { this, type, caption, result, windowName, recentCount, timeout };
-	return DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GROUPCHAT_INPUT), GetForegroundWindow(), sttEnterStringDlgProc, LPARAM(&param));
+	TCHAR *pData = mir_tstrdup(result);
+
+	ENTER_STRING param = { sizeof(param) };
+	param.type = type;
+	param.caption = caption;
+	param.szModuleName = m_szModuleName;
+	param.szDataPrefix = windowName;
+	param.recentCount = recentCount;
+	param.timeout = timeout;
+	param.result = &pData;
+	BOOL res = ::EnterString(&param);
+	if (res) {
+		result = pData;
+		mir_free(pData);
+	}
+	return res;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
