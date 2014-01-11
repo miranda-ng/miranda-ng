@@ -1107,7 +1107,6 @@
 [Advanced Status]
 [Set mood...]
 [Set activity...]
-[OK (%d)]
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 [Female]
@@ -1120,6 +1119,7 @@
 ;file \protocols\JabberG\src\jabber_ws.cpp
 [%s connection]
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[OK (%d)]
 [Afraid]
 [Amazed]
 [Amorous]

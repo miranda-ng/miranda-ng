@@ -1312,6 +1312,8 @@
 [JPEG bitmaps]
 [GIF bitmaps]
 [PNG bitmaps]
+;file \src\modules\utils\enterstring.cpp
+[OK (%d)]
 ;file \src\modules\utils\path.cpp
 [Avatars]
 [Avatars root folder]
