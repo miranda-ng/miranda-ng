@@ -25,8 +25,8 @@
 אישור
 [Cancel]
 ביטול
-[DBEditor++]
-עורך בסיס נתונים
+[Database Editor++]
+עורך בסיס נתונים++
 [E&xit]
 &יציאה
 [&Delete all]
@@ -45,8 +45,6 @@
 קבוצת משתמשים
 [Known Contact]
 משתמש ידוע
-[Database Editor++]
-עורך בסיס נתונים++
 [Contacts]
 אנשי קשר
 [Name]

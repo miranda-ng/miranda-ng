@@ -88,8 +88,8 @@ Importieren
 Zeilenumbru&ch
 [Paste the Settings to import here.]
 Zu importierende Einstellungen hier einfügen.
-[DBEditor++]
-DBEditor++
+[Database Editor++]
+Datenbank-Editor++
 [&Main]
 Allge&mein
 [&Refresh Modules]
@@ -261,7 +261,7 @@ Konnte nicht in Datei schreiben
 [Import from files]
 Import aus Dateien
 ;file \plugins\DbEditorPP\src\findwindow.cpp
-[Enter a string to search the DB for]
+[Enter a string to search the database for]
 Geben Sie einen Suchstring für die Datenbank ein
 [Stop]
 Stopp
@@ -301,8 +301,6 @@ Unbekannter Kontakt
 [Known Contact]
 Bekannter Kontakt
 ;file \plugins\DbEditorPP\src\main.cpp
-[Database Editor++]
-Datenbank-Editor++
 [Open Database Editor]
 Öffne Datenbank-Editor++
 [Open user tree in DBE++]

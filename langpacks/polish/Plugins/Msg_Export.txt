@@ -167,7 +167,7 @@ Dodatkowe
 Brak nicka
 [No_Group]
 Brak grupy
-[DB: Attempt to get wrong type of value, string]
+[Database: Attempt to get wrong type of value, string]
 Baza danych: próba pobrania złego typu wartości, ciąg
 [(Unknown Contact)]
 (Nieznany kontakt)

@@ -86,7 +86,7 @@
 Уставіць &CR/LF
 [Paste the Settings to import here.]
 Устаўце налады сюды.
-[DBEditor++]
+[Database Editor++]
 Рэдактар базы
 [&Main]
 &Галоўнае
@@ -257,7 +257,7 @@ INI файлы
 [Import from files]
 Імпарт з файлаў
 ;file \plugins\DbEditorPP\src\findwindow.cpp
-[Enter a string to search the DB for]
+[Enter a string to search the database for]
 Увядзіце радок пошуку
 [Stop]
 Спыніць
@@ -297,8 +297,6 @@ INI файлы
 [Known Contact]
 Вядомы кантакт
 ;file \plugins\DbEditorPP\src\main.cpp
-[Database Editor++]
-Рэдактар базы
 [Open Database Editor]
 Рэдактар базы
 [Open user tree in DBE++]

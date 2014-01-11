@@ -38,7 +38,7 @@
 [Additional]
 [No_Nick]
 [No_Group]
-[DB: Attempt to get wrong type of value, string]
+[Database: Attempt to get wrong type of value, string]
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 [\nError: ]
 [\nMessage has not been saved!\n]

@@ -2141,7 +2141,7 @@ Ce groupe
 
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 
 [No profile support installed!]
 Pas de support de profil installé !

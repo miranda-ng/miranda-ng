@@ -79,7 +79,7 @@
 插入 CR/LF(&C)
 [Paste the Settings to import here.]
 在此粘贴要导入设置. 
-[DBEditor++]
+[Database Editor++]
 数据库编辑器
 [&Main]
 主要(&M)
@@ -233,7 +233,7 @@ INI 文件
 无法写入打开文件
 [Import from files]
 从文件导入
-[Enter a string to search the DB for]
+[Enter a string to search the database for]
 请输入要在数据库中搜索的字符串
 [Replaced with]
 替换为
@@ -265,8 +265,6 @@ INI 文件
 联系人群组
 [Known Contact]
 已知联系人
-[Database Editor++]
-数据库编辑器
 [Open Database Editor]
 打开数据库编辑器
 [Open user tree in DBE++]

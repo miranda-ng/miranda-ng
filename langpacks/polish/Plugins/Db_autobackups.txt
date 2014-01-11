@@ -5,7 +5,7 @@
 ;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
-[Db autobackuper plugin.]
+[Database autobackuper plugin.]
 Wtyczka do automatycznego tworzenia kopii zapasowej profilu.
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Backup progress]

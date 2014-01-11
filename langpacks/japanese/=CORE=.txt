@@ -1914,7 +1914,7 @@ Fax
 グループに移動 (&M)
 [<Root group>]
 < ルートグループ >
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda は ' %s ' を開けませんでした。プロファイルプラグインがインストールされていません\ndbx_mmap.dllもしくは , それに相当するものをインストールしてください
 [No profile support installed!]
 プロファイルサポートがインストールされていません!

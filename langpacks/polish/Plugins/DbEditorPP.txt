@@ -88,8 +88,8 @@ Importuj
 Umieść CR/LF
 [Paste the Settings to import here.]
 Wklej tu ustawienia do zaimportowania.
-[DBEditor++]
-DBEditor++
+[Database Editor++]
+Edytor profilu
 [&Main]
 Główne
 [&Refresh Modules]
@@ -261,7 +261,7 @@ Nie udało się otworzyć pliku do zapisu
 [Import from files]
 Importuj z plików
 ;file \plugins\DbEditorPP\src\findwindow.cpp
-[Enter a string to search the DB for]
+[Enter a string to search the database for]
 Wprowadź tekst do znalezienia w bazie
 [Stop]
 Stop
@@ -301,8 +301,6 @@ Nieznane kontakty
 [Known Contact]
 Znane kontakty
 ;file \plugins\DbEditorPP\src\main.cpp
-[Database Editor++]
-Edytor profilu
 [Open Database Editor]
 Otwórz edytor profilu
 [Open user tree in DBE++]

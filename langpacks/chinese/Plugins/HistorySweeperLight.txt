@@ -11,7 +11,7 @@
 清除以下联系人历史:
 [Sweep on closing message window]
 关闭窗口时清理
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
 使用 UNSAFE 模式 (可更快速清除, 但对数据库有危害)
 [*** System History ***]
 *** 系统历史 ***

@@ -88,8 +88,8 @@ OK
 
 [Paste the Settings to import here.]
 Поставете настройките за внасяне тук.
-[DBEditor++]
-DBEditor++
+[Database Editor++]
+Database Editor++
 [&Main]
 Главно
 [&Refresh Modules]
@@ -261,7 +261,7 @@ INI файлове
 [Import from files]
 Внос от файл
 ;file \plugins\DbEditorPP\src\findwindow.cpp
-[Enter a string to search the DB for]
+[Enter a string to search the database for]
 Въведете низ за търсене в базата от данни
 [Stop]
 Стоп
@@ -301,8 +301,6 @@ INI файлове
 [Known Contact]
 Познат контакт
 ;file \plugins\DbEditorPP\src\main.cpp
-[Database Editor++]
-Database Editor++
 [Open Database Editor]
 Отваряне на Database Editor++
 [Open user tree in DBE++]

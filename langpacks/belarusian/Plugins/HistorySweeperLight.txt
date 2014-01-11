@@ -20,7 +20,7 @@
 Чысціць пры зачыненні вакна гутаркі
 [Clicking on the icon in the status bar will change settings]
 Пстрычка па абразку ў панэлі статусаў змяняе налады
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
 Выкарыстоўваць НЕБЯСПЕЧНЫ рэжым (хутчэй, але небяспечней для БД)
 ;file \plugins\HistorySweeperLight\src\main.cpp
 [Keep all events]

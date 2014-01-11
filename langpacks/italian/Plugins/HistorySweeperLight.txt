@@ -9,7 +9,7 @@
 Questo plugin può pulire lo storico di sistema, lo storico di tutti i contatti o solo di quelli scelti; può pulire anche lo storico più vecchio di una certa data; e può farlo all'avvio/alla chiusura di Miranda NG.
 [Sweep history for this contacts:]
 Pulisci lo storico per questi contatti:
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
 Usa la modalità NON SICURA (pulizia più veloce, ma pericolosa per il DB)
 [History]
 Storico

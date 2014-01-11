@@ -88,7 +88,7 @@ Importer module / réglages
 
 [Paste the Settings to import here.]
 Coller les réglages à importer ici.
-[DBEditor++]
+[Database Editor++]
 
 [&Main]
 &Menu
@@ -261,7 +261,7 @@ N'a pu ouvrir le fichier à écrire
 [Import from files]
 Importer
 ;file \plugins\DbEditorPP\src\findwindow.cpp
-[Enter a string to search the DB for]
+[Enter a string to search the database for]
 Tapez les mots que vous recherchez dans la base de données
 [Stop]
 
@@ -301,8 +301,6 @@ Groupe
 [Known Contact]
 Contact connu
 ;file \plugins\DbEditorPP\src\main.cpp
-[Database Editor++]
-
 [Open Database Editor]
 
 [Open user tree in DBE++]

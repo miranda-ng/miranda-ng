@@ -167,7 +167,7 @@ Zusätzlich
 
 [No_Group]
 
-[DB: Attempt to get wrong type of value, string]
+[Database: Attempt to get wrong type of value, string]
 
 [(Unknown Contact)]
 (Unbekannter Kontakt)

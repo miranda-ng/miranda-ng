@@ -1734,7 +1734,7 @@ Bu grup
 Gruba &Taşı
 [<Root group>]
 <Kök Grup>
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda hiç bir profil eklentisi kurulmamış olduğundan '%s' ögesini açamadı.\ndbx_mmap.dll veya eşdeğerini kurmalısınız.
 [No profile support installed!]
 Hiç profil desteği kurulmamış!

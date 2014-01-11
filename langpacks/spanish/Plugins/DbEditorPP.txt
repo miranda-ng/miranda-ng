@@ -88,7 +88,7 @@ Cancelar
 
 [Paste the Settings to import here.]
 
-[DBEditor++]
+[Database Editor++]
 
 [&Main]
 
@@ -261,7 +261,7 @@ Importar a archivo
 [Import from files]
 
 ;file \plugins\DbEditorPP\src\findwindow.cpp
-[Enter a string to search the DB for]
+[Enter a string to search the database for]
 
 [Stop]
 
@@ -301,8 +301,6 @@ Importar a archivo
 [Known Contact]
 
 ;file \plugins\DbEditorPP\src\main.cpp
-[Database Editor++]
-
 [Open Database Editor]
 
 [Open user tree in DBE++]

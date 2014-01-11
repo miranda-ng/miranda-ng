@@ -2110,8 +2110,8 @@ URL
 Грешка при надстройването структурата на профила.\nПреместването на профила "%s" в %s е невъзможно.\nВероятно Miranda NG не разполага с необходимите права. Моля, преместете файла ръчно.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Не може да съхранявате профили в основната директория на Miranda NG.\nМоля, преместете профила в друга папка.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
-Отварянето на '%s' е невъзможно, защото липсва приставка за профили.\nНеобходимо е да инсталирате dbx_mmap.dll или еквивалентна приставка.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
+Отварянето на '%s' е невъзможно, защото липсва приставка за профили.\nНеобходимо е да инсталирате dbx_mmap.dll
 [No profile support installed!]
 Не е инсталирана поддръжка на профила!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]

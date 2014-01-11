@@ -305,6 +305,9 @@ Avancé
 
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 
+;file \plugins\Popup\src\notifications.cpp
+[%s (colors only)]
+
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 

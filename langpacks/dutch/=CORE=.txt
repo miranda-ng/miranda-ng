@@ -1323,7 +1323,7 @@ Opties scherm openen
 Zoek gebruiker scherm openen
 [&Move to group]
 Naar groep verplaatsen
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda kan '%s' niet openen omdat u geen profiel plugins heeft geinstalleerd.\nU moet dbx_mmap.dll of een equivalent installeren.
 [No profile support installed!]
 Geen profiel ondersteuning geinstalleerd!

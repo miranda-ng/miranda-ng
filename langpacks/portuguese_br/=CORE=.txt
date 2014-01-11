@@ -1770,8 +1770,8 @@ Abrir Diálogo Procurar Usuário
 &Mover para o Grupo
 [<Root group>]
 <Grupo Raiz>
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
-Miranda não consegue abrir '% s' porque você não tem qualquer perfil de plugins instalados.\n Você precisa instalar dbx_mmap.dll ou equivalente.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
+Miranda não consegue abrir '% s' porque você não tem qualquer perfil de plugins instalados.\n Você precisa instalar dbx_mmap.dll
 [No profile support installed!]
 Nenhum perfil de apoio instalado!
 [Miranda can't understand that profile]

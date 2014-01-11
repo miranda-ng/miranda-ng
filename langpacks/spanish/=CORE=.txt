@@ -2141,8 +2141,8 @@ Miranda está tratando de actualizar su estructura de perfil.\nNo se puede mover
 Miranda está tratando de actualizar su estructura de perfil.\nNo puede mover el perfil %s a la nueva ubicación %s automáticamente\nLo más probable es por falta de privilegios. Por favor, mueva el perfil manualmente.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 El perfil no se puede colocar en la carpeta raíz de Miranda.\nPor favor, mueva el perfil Miranda a otro lugar.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
-Miranda no puede abrir '%s', ya que no tiene ningún tipo de plugin instalado perfil.\nNecesita instalar dbx_mmap.dll o equivalente.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
+Miranda no puede abrir '%s', ya que no tiene ningún tipo de plugin instalado perfil.\nNecesita instalar dbx_mmap.dll
 [No profile support installed!]
 ¡No soporta el perfil instalado!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]

@@ -1954,7 +1954,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 移至群组
 [<Root group>]
 <根群组>
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda 无法打开 '%s', 因为您没有安装任何配置文件插件. \n您需要安装 dbx_mmap.dll 或类似插件. 
 [No profile support installed!]
 未安装配置文件支持! 

@@ -20,7 +20,7 @@ Aktion 2
 Nach dem Schließen des Nachrichtenfenster löschen
 [Clicking on the icon in the status bar will change settings]
 Klick auf das Icon in der Statusleiste ändert die Einstellungen
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
 Schnellen Löschmodus aktivieren (hierbei können Schäden am Profil entstehen!)
 ;file \plugins\HistorySweeperLight\src\main.cpp
 [Keep all events]

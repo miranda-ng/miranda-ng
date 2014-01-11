@@ -1708,7 +1708,7 @@ Ez a csoport
 Csoporthoz &adás
 [<Root group>]
 <Alap csoport>
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda nem tudja megnyitni '%s'-t, mert nincs telepítve profil beépülõ.\nTelepítsd a dbx_mmap.dll-t, vagy ennek megfelelõt.
 [No profile support installed!]
 Nincs profiltámogatás telepítve!

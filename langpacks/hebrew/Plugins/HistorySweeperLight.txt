@@ -7,7 +7,7 @@
 ;============================================================
 [Sweep history for this contacts:]
 :מחק הסטוריה לאנשי הקשר האלה
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
 השתמש במצב לא בטוח מנקה מהר ככל האפשר אבל מסוכן לבסיס נתונים
 [History]
 היסטוריה\n

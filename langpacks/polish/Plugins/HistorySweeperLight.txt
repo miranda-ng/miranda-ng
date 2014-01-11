@@ -20,7 +20,7 @@ Akcja 2
 Usuwaj przy zamykaniu okna rozmowy
 [Clicking on the icon in the status bar will change settings]
 Kliknięcie na ikonę na pasku statusu będzie zmieniać ustawienia
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
 Użyj trybu UNSAFE (najszybszy, lecz niebezpieczny dla profilu)
 ;file \plugins\HistorySweeperLight\src\main.cpp
 [Keep all events]

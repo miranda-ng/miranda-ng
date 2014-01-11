@@ -13,7 +13,7 @@
 [Failed to Allocate buffer space]
 [No_Nick]
 [No_Group]
-[DB: Attempt to get wrong type of value, string]
+[Database: Attempt to get wrong type of value, string]
 [Failed to UTF8 byte order code to file :\n]
 [Failed to write Invalid Database event the file :\n]
 [Failed to write AUTHREQUEST or ADDED to the file :\n]

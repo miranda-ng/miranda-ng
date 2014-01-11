@@ -16,7 +16,7 @@
 [Failed to Allocate buffer space]
 [No_Nick]
 [No_Group]
-[DB: Attempt to get wrong type of value, string]
+[Database: Attempt to get wrong type of value, string]
 [All\0*.*\0Text\0*.TXT\0\0]
 [Failed to UTF8 byte order code to file :\n]
 [      History for\r\n]
