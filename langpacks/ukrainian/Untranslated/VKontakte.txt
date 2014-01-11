@@ -1,4 +1,5 @@
-﻿[Invite user to chat]
+﻿[Hide chats on startup]
+[Invite user to chat]
 [OK]
 [Choose one of your contacts to be invited:]
 [Create group chat]

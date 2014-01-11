@@ -24,6 +24,8 @@ Login-Einstellungen
 Erweitert
 [Server-side delivery confirmation]
 Serverseitige Empfangsbestätigungen
+[Hide chats on startup]
+
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]

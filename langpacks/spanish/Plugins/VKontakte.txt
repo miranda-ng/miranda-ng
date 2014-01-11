@@ -24,6 +24,8 @@ Abrir sitio VKontakte
 
 [Server-side delivery confirmation]
 
+[Hide chats on startup]
+
 [Bots challenge test]
 Prueba de reto Bots
 [Instruction:]

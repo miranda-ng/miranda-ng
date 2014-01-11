@@ -24,6 +24,8 @@ Opcje logowania
 Zaawansowane
 [Server-side delivery confirmation]
 Potwierdzenie dostarczenia ze strony serwera
+[Hide chats on startup]
+
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]

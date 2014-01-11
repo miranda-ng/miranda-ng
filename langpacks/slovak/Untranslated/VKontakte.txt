@@ -5,6 +5,7 @@
 [Local settings]
 [Contact list group:]
 [Server-side delivery confirmation]
+[Hide chats on startup]
 [Bots challenge test]
 [Submit]
 [Invite user to chat]

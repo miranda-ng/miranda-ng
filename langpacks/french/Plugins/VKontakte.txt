@@ -24,6 +24,8 @@ Passe :
 Avancé
 [Server-side delivery confirmation]
 
+[Hide chats on startup]
+
 [Bots challenge test]
 
 [Instruction:]
