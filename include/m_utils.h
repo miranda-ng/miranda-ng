@@ -488,7 +488,7 @@ ENTER_STRING;
 // enters one string
 // wParam = 0 (unused)
 // lParam = ENTER_STRING* (form description)
-// returns TRUE on pressing OK if Cancel was pressed
+// returns TRUE on pressing OK or FALSE if Cancel was pressed
 #define MS_UTILS_ENTERSTRING "Utils/EnterString"
 
 __forceinline BOOL EnterString(ENTER_STRING *pForm)
