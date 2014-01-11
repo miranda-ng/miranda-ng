@@ -58,6 +58,8 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	gci.Flags = BYID | HCONTACT;
 	CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
 	c->m_hContact = gci.hContact;
+
+	setTString(gci.hContact, "Nick", tszTitle);
 	m_chats.insert(c);
 
 	GCDEST gcd = { m_szModuleName, sid, GC_EVENT_ADDGROUP };
@@ -69,7 +71,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 
 	gcd.iType = GC_EVENT_CONTROL;
 	gce.ptszStatus = 0;
-	CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
+	CallServiceSync(MS_GC_EVENT, (m_bHideChats) ? WINDOW_HIDDEN : SESSION_INITDONE, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 
 	RetrieveChatInfo(c);

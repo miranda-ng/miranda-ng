@@ -53,6 +53,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	db_set_resident(m_szModuleName, "Status");
 
 	m_bServerDelivery = getBool("ServerDelivery", true);
+	m_bHideChats = getBool("HideChats", true);
 
 	// Chats
 	GCREGISTER gcr = { sizeof(gcr) };

@@ -224,7 +224,7 @@ private:
 
 	void   __cdecl SendMsgAck(void *param);
 
-	bool   m_bOnline;
+	bool   m_bOnline, m_bHideChats;
 
 	LONG   m_myUserId;
 	ptrA   m_szAccessToken;

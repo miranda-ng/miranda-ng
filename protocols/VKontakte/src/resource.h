@@ -21,12 +21,11 @@
 #define IDC_DELIVERY                    1011
 #define IDC_GROUPNAME                   1012
 #define IDC_CLIST                       1013
+#define IDC_HIDECHATS                   1014
 #define IDC_CONTACT                     1015
-#define IDC_BUTTON1                     1018
-#define IDC_BUTTON2                     1019
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1

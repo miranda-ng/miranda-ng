@@ -34,11 +34,11 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon, true));
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon));
 		{
-			ptrT tszLogin( ppro->getTStringA("Login"));
+			ptrT tszLogin(ppro->getTStringA("Login"));
 			if (tszLogin != NULL)
 				SetDlgItemText(hwndDlg, IDC_LOGIN, tszLogin);
 
-			ptrT tszPassw( ppro->GetUserStoredPassword());
+			ptrT tszPassw(ppro->GetUserStoredPassword());
 			if (tszPassw != NULL)
 				SetDlgItemText(hwndDlg, IDC_PASSWORD, tszPassw);
 		}
@@ -119,6 +119,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			SetDlgItemText(hwndDlg, IDC_GROUPNAME, ppro->getGroup());
 		}
 		CheckDlgButton(hwndDlg, IDC_DELIVERY, ppro->m_bServerDelivery);
+		CheckDlgButton(hwndDlg, IDC_HIDECHATS, ppro->m_bHideChats);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -135,6 +136,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			break;
 
 		case IDC_DELIVERY:
+		case IDC_HIDECHATS:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -160,6 +162,9 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 			ppro->m_bServerDelivery = IsDlgButtonChecked(hwndDlg, IDC_DELIVERY) == BST_CHECKED;
 			ppro->setByte("ServerDelivery", ppro->m_bServerDelivery);
+
+			ppro->m_bHideChats = IsDlgButtonChecked(hwndDlg, IDC_HIDECHATS) == BST_CHECKED;
+			ppro->setByte("HideChats", ppro->m_bHideChats);
 		}
 		break;
 
