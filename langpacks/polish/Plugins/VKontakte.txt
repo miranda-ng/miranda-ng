@@ -17,15 +17,15 @@ Otwórz stronę VKontakte
 [Login settings]
 Opcje logowania
 [Local settings]
-
+Ustawienia lokalne
 [Contact list group:]
-
+Grupa na liście kontaktów:
 [Advanced]
 Zaawansowane
 [Server-side delivery confirmation]
 Potwierdzenie dostarczenia ze strony serwera
 [Hide chats on startup]
-
+Ukryj czaty podczas startu
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]
@@ -35,17 +35,17 @@ Wyślij
 [Cancel]
 Anuluj
 [Invite user to chat]
-
+Zaproś użytkownika do czatu
 [OK]
-
+OK
 [Choose one of your contacts to be invited:]
-
+Wybierz jeden z kontaktów, który chcesz zaprosić:
 [Create group chat]
-
+Utwórz  czat grupowy
 [Mark users you want to invite to a new chat]
-
+Zaznacz użytkowników, których chcesz zaprosić do nowego czatu
 [New chat's title:]
-
+Nazwa nowego czatu:
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 Ikona formularza Captcha
@@ -58,27 +58,27 @@ VKontakte
 Wprowadź tekst, który widzisz
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
-
+Uczestnicy
 [Owners]
-
+Właściciele
 [Unknown]
-
+Nieznany
 [Enter new chat title]
-
+Wprowadź nową nazwę czatu
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-
+Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
 [Warning]
-
+Ostrzeżenie
 [&Invite a user]
-
+Zaproś użytkownika
 [View/change &title]
-
+Zobacz/zmień nazwę
 [&Destroy room]
-
+Zniszcz pokój
 [&User details]
-
+Dane użytkownika
 [&Kick]
-
+Wykop
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Protokoły
@@ -88,10 +88,10 @@ Konto
 [%s server connection]
 Połączenie %s
 [Create new chat]
-
+Utwórz nowy czat
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [me]
-
+ja
 [Attachments:]
 Załączniki:
 [Photo]

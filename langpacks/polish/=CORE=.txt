@@ -2540,7 +2540,7 @@ Mapa bitowa GIF
 Mapa bitowa PNG
 ;file \src\modules\utils\enterstring.cpp
 [OK (%d)]
-
+OK (%d)
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Awatary
