@@ -1016,8 +1016,6 @@ BOOL CJabberProto::EnterString(CMString &result, LPCTSTR caption, int type, char
 		result.Empty();
 	}
 
-	TCHAR *pData = mir_tstrdup(result);
-
 	ENTER_STRING param = { sizeof(param) };
 	param.type = type;
 	param.caption = caption;
@@ -1025,11 +1023,11 @@ BOOL CJabberProto::EnterString(CMString &result, LPCTSTR caption, int type, char
 	param.szDataPrefix = windowName;
 	param.recentCount = recentCount;
 	param.timeout = timeout;
-	param.result = &pData;
+	param.ptszInitVal = result;
 	BOOL res = ::EnterString(&param);
 	if (res) {
-		result = pData;
-		mir_free(pData);
+		result = param.ptszResult;
+		mir_free(param.ptszResult);
 	}
 	return res;
 }

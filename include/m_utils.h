@@ -471,14 +471,17 @@ __forceinline TCHAR* Utils_ReplaceVarsT(const TCHAR *szData) {
 
 typedef struct
 {
-	int      cbSize;         // structure size
-	int      type;           // one of ESF_* constants
-	LPCSTR   szModuleName;   // module name to save window size and combobox strings
-	LPCSTR   szDataPrefix;   // prefix for stored database variables
-	LPCTSTR  caption;        // window caption
-	LPTSTR  *result;         // initial value + result entered
-	int      recentCount;    // number of combobox strings to store
-	int      timeout;        // timeout for the form auto-close
+	int     cbSize;         // structure size
+	int     type;           // one of ESF_* constants
+	LPCSTR  szModuleName;   // module name to save window size and combobox strings
+	LPCSTR  szDataPrefix;   // prefix for stored database variables
+	LPCTSTR caption;        // window caption
+	union {
+		LPCTSTR ptszInitVal; // initial value (note: the core DOES NOT free it)
+		LPTSTR  ptszResult;  // result entered (must be freed via mir_free)
+	};
+	int     recentCount;    // number of combobox strings to store
+	int     timeout;        // timeout for the form auto-close
 }
 ENTER_STRING;
 
