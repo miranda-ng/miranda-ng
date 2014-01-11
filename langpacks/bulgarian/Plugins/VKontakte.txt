@@ -1,35 +1,89 @@
-﻿[VKontakte protocol support for Miranda NG.]
+﻿#muuid {32579908-724b-467f-adad-22b6359a749a}
+;============================================================
+;  File: VKontakte.dll
+;  Plugin: VKontakte protocol
+;  Version: 0.1.0.8
+;  Authors: Miranda NG Team
+;============================================================
+[VKontakte protocol support for Miranda NG.]
+
 [E-mail or phone number:]
+
+[Password:]
+
 [Open VKontakte site]
+
 [Login settings]
+
 [Local settings]
+
 [Contact list group:]
+
+[Advanced]
+
 [Server-side delivery confirmation]
+
 [Bots challenge test]
+
+[Instruction:]
+
 [Submit]
+
+[Cancel]
+
 [Invite user to chat]
+
 [OK]
+
 [Choose one of your contacts to be invited:]
+
 [Captcha form icon]
+
 [Protocols]
+
 [VKontakte]
+
 [Enter the text you see]
+
 [Participants]
+
 [Owners]
+
 [Unknown]
+
 [Enter new chat title]
+
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+
 [Warning]
+
 [&Invite a user]
+
 [View/change &title]
+
 [&Destroy room]
+
 [&User details]
+
 [&Kick]
+
+[Network]
+
 [Account]
+
 [%s server connection]
+
 [me]
+
 [Attachments:]
+
+[Photo]
+
 [Audio]
+
 [Video]
+
 [Document]
+
 [Unsupported or unknown attachment type: %s]
+

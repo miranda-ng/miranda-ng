@@ -100,32 +100,6 @@ Hinweis:
 Deaktivieren Sie obige Checkboxen, wenn Sie Probleme beim Versenden von Dateien haben. Dies kann Probleme beim Versand großer Dateien verursachen.
 [Jabber Account Registration]
 Jabber-Accountregistrierung
-[Jabber Agents]
-Jabberagenten
-[Register/Search Jabber Agents]
-Jabberagenten suchen/registrieren
-[Jabber server:]
-Jabberserver:
-[Browse]
-Durchsuchen
-[Register...]
-Registrieren
-[Browse/Join chat room...]
-Konferenzraum suchen/betreten
-[Search...]
-Suchen...
-[Registered Jabber Transports]
-Angemeldete Jabbertransporte
-[Log on]
-Anmelden
-[Log off]
-Abmelden
-[Register with a new service...]
-bei speziellem Agenten anmelden
-[Close]
-Schließen
-[Command]
-Befehl
 [Jabber Form]
 Jabberformular
 [Instruction:]
@@ -144,8 +118,6 @@ Jabber-Passwort
 Passwort für diese Sitzung behalten
 [Save password permanently]
 Passwort dauerhaft speichern
-[Data form test]
-Datenformulartest
 [Address1:]
 Adresse 1:
 [Address2:]
@@ -240,14 +212,12 @@ Aktuelles Passwort:
 Neues Passwort:
 [Confirm New Password:]
 Bestätigung:
-[Jabber Multi-User Conference]
-Anmeldung Jabber-Mehrbenutzerkonferenz
-[Conference server:]
-Konferenzserver:
 [Create or Join group chat]
 Konferenzräume betreten/erstellen
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Jabber-Mehrbenutzerkonferenz\nKonferenzräume betreten oder erstellen.
+[Conference server:]
+Konferenzserver:
 [Room:]
 Raum:
 [Recently visited chatrooms:]
@@ -260,12 +230,6 @@ JID-Liste
 Filter anwenden
 [Reset Filter]
 Filter zurücksetzen
-[Jabber Agent Registration]
-Anmeldung an Jabberagenten
-[JID:]
-JID:
-[Register]
-Registrieren
 [Invite Users]
 Benutzer einladen
 [<room jid>\nSend group chat invitation.]
@@ -296,6 +260,8 @@ Auf Server gespeicherte Lesezeichen\nSpeicherung von Konferenzräumen und Weblin
 Entfernen
 [Edit]
 Bearbeiten
+[Close]
+Schließen
 [Bookmark Details]
 Lesezeichendetails
 [Bookmark Type]
@@ -372,12 +338,10 @@ Listenansicht
 Favoriten
 [Refresh]
 Aktualisieren
+[JID:]
+JID:
 [Node:]
 Knoten:
-[Change %s Message]
-'%s'-Nachricht ändern
-[Closing in %d]
-In %d schließen
 [Account type:]
 Account-Typ:
 [Login server:]
@@ -482,6 +446,10 @@ Jabber-Ad-Hoc-Befehl an %s senden
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Keine Nachr.
+[Jabber Agent Registration]
+Anmeldung an Jabberagenten
+[Register]
+Registrieren
 [Please wait...]
 Bitte warten...
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
@@ -2208,8 +2176,6 @@ Erweiterter Status
 Stimmung setzen...
 [Set activity...]
 Aktivität setzen...
-[OK (%d)]
-OK (%d)
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 männlich
@@ -2231,6 +2197,8 @@ Anmerkung
 [%s connection]
 %s Verbindung
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[OK (%d)]
+OK (%d)
 [Afraid]
 Ängstlich
 [Amazed]

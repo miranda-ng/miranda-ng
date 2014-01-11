@@ -75,30 +75,6 @@ TLS を使用
 ファイル送信のトラブルに悩んだら上のチェックマークを全て外してみてください\nただし大きいファイルの転送に問題が発生する原因になります
 [Jabber Account Registration]
 Jabber アカウント登録
-[Jabber Agents]
-Jabber エージェント
-[Register/Search Jabber Agents]
-Jabber エージェントの登録 / 検索
-[Jabber server:]
-Jabber サーバー:
-[Register...]
-登録...
-[Browse/Join chat room...]
-チャットルームの参照 / 参加...
-[Search...]
-検索...
-[Registered Jabber Transports]
-Jabber 転送の登録
-[Log on]
-ログオン
-[Log off]
-ログオフ
-[Register with a new service...]
-新規サービスを登録...
-[Close]
-閉じる
-[Command]
-コマンド
 [Jabber Form]
 Jabber フォーム
 [Instruction:]
@@ -107,8 +83,6 @@ Jabber フォーム
 送信
 [Complete]
 完了
-[Data form test]
-データフォームのテスト
 [Address1:]
 アドレス 1:
 [Address2:]
@@ -181,14 +155,12 @@ PCS
 新規パスワード:
 [Confirm New Password:]
 新規パスワードの確認:
-[Jabber Multi-User Conference]
-Jabber マルチユーザー会議
-[Conference server:]
-会議サーバー:
 [Create or Join group chat]
 グループチャットの作成もしくは参加
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Jabber マルチユーザー会議\n新規作成もしくは既存の会議室に参加します
+[Conference server:]
+会議サーバー:
 [Room:]
 ルーム:
 [Recently visited chatrooms:]
@@ -201,12 +173,6 @@ JID リスト
 フィルター適用
 [Reset Filter]
 フィルターのリセット
-[Jabber Agent Registration]
-Jabber エージェント登録
-[JID:]
-JID:
-[Register]
-登録
 [Invite Users]
 ユーザーを招待
 [<room jid>\nSend group chat invitation.]
@@ -235,6 +201,8 @@ Jabber ブックマーク
 削除
 [Edit]
 編集
+[Close]
+閉じる
 [Bookmark Details]
 ブックマークの詳細
 [Bookmark Type]
@@ -307,12 +275,10 @@ URL
 リスト表示
 [Favorites]
 お気に入り
+[JID:]
+JID:
 [Node:]
 ノード:
-[Change %s Message]
-%s メッセージを変更する
-[Closing in %d]
-%d 秒後に閉じる
 [Account type:]
 アカウント型:
 [Register account now]
@@ -389,6 +355,10 @@ Jabber アドホックコマンド:
 アドホックコマンドを送信:
 [No message]
 メッセージなし
+[Jabber Agent Registration]
+Jabber エージェント登録
+[Register]
+登録
 [Bookmark Name]
 ブックマーク名
 [Address (JID or URL)]

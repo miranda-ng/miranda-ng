@@ -2538,6 +2538,9 @@ Images JPEG
 Images GIF
 [PNG bitmaps]
 Images PNG
+;file \src\modules\utils\enterstring.cpp
+[OK (%d)]
+
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Avatars

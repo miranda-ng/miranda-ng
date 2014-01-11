@@ -16,3 +16,4 @@
 [Shift + ]
 [Win + ]
 [SMS]
+[OK (%d)]

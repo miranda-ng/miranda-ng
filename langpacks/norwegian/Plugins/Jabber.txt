@@ -79,10 +79,6 @@ Meldinger
 Tjeneste Oppdagelse
 [Favorites]
 Favoritter
-[Change %s Message]
-Forandre %s Melding
-[Closing in %d]
-Lukker om %d
 [Status message:]
 Statusmelding:
 [Authorization request]

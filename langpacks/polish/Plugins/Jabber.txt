@@ -100,32 +100,6 @@ Info:
 Jeśli masz problemy z przesyłaniem plików, spróbuj odznaczyć powyższe opcje. Może to jednak spowodować kłopoty z transferem dużych plików.
 [Jabber Account Registration]
 Rejestracja konta Jabbera
-[Jabber Agents]
-Agenty Jabbera
-[Register/Search Jabber Agents]
-Rejestruj/przeszukaj agenty Jabbera
-[Jabber server:]
-Serwer Jabbera:
-[Browse]
-Przeglądaj
-[Register...]
-Rejestruj...
-[Browse/Join chat room...]
-Przeglądaj pokoje rozmów...
-[Search...]
-Szukaj...
-[Registered Jabber Transports]
-Zarejestrowane transporty
-[Log on]
-Zaloguj
-[Log off]
-Wyloguj
-[Register with a new service...]
-Zarejestruj w nowej usłudze...
-[Close]
-Zamknij
-[Command]
-Polecenie
 [Jabber Form]
 Formularz Jabbera
 [Instruction:]
@@ -144,8 +118,6 @@ Hasło Jabber
 Zapamiętaj hasło dla tej sesji
 [Save password permanently]
 Zapisz hasło
-[Data form test]
-Test formularza danych
 [Address1:]
 Adres 1:
 [Address2:]
@@ -240,14 +212,12 @@ Obecne hasło:
 Nowe hasło:
 [Confirm New Password:]
 Potwierdź nowe hasło:
-[Jabber Multi-User Conference]
-Konferencja Jabbera
-[Conference server:]
-Serwer konferencji:
 [Create or Join group chat]
 Utwórz lub przyłącz się do czatu.
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Czaty Jabber\nUtwórz lub przyłącz się do czatu.
+[Conference server:]
+Serwer konferencji:
 [Room:]
 Pokój:
 [Recently visited chatrooms:]
@@ -260,12 +230,6 @@ Lista JID
 Zastosuj filtr
 [Reset Filter]
 Resetuj filtr
-[Jabber Agent Registration]
-Rejestracja agenta Jabbera
-[JID:]
-JID:
-[Register]
-Zarejestruj
 [Invite Users]
 Zaproś użytkownika
 [<room jid>\nSend group chat invitation.]
@@ -296,6 +260,8 @@ Zakładki\nPokoje czatowe i linki web na serwerze.
 Usuń
 [Edit]
 Edytuj
+[Close]
+Zamknij
 [Bookmark Details]
 Szczegóły zakładki
 [Bookmark Type]
@@ -372,12 +338,10 @@ Wyświetl jako listę
 Ulubione
 [Refresh]
 Odśwież
+[JID:]
+JID:
 [Node:]
 Węzeł:
-[Change %s Message]
-Zmień opis dla "%s"
-[Closing in %d]
-Zamykanie w %d
 [Account type:]
 Typ konta:
 [Login server:]
@@ -482,6 +446,10 @@ Wysyłanie polecenia Ad-Hoc do %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Brak wiadomości
+[Jabber Agent Registration]
+Rejestracja agenta Jabbera
+[Register]
+Zarejestruj
 [Please wait...]
 Proszę czekać...
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
@@ -2208,8 +2176,6 @@ Zaawansowany status
 Ustaw nastrój...
 [Set activity...]
 Ustaw aktywność...
-[OK (%d)]
-OK (%d)
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Mężczyzna
@@ -2231,6 +2197,8 @@ Uwagi
 [%s connection]
 Połączenie %s
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[OK (%d)]
+OK (%d)
 [Afraid]
 Przestraszony
 [Amazed]

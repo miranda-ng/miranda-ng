@@ -53,10 +53,6 @@
 설명:
 [Nickname:]
 대화명:
-[Change %s Message]
-%s 메세지 변경
-[Closing in %d]
-%d 에서 닫는중
 [Authorization request]
 권한 요청
 [None]

@@ -100,32 +100,6 @@ Info:
 Essayer de tout décocher ci-dessous si vous rencontrez des problèmes avec l'envoi de fichier (surtout dans le cas de gros fichiers).
 [Jabber Account Registration]
 Enregistrement d'un compte Jabber
-[Jabber Agents]
-Services Jabber
-[Register/Search Jabber Agents]
-Enregistrer/Rechercher
-[Jabber server:]
-Serveur:
-[Browse]
-
-[Register...]
-Enregistrer...
-[Browse/Join chat room...]
-Chercher/Joindre un salon
-[Search...]
-Chercher...
-[Registered Jabber Transports]
-Enregistrer un transport 
-[Log on]
-Connexion
-[Log off]
-Déconnexion
-[Register with a new service...]
-Enregistrer avec nouv. service
-[Close]
-Fermer
-[Command]
-Commande
 [Jabber Form]
 
 [Instruction:]
@@ -143,8 +117,6 @@ Terminé
 [Remember password for this session]
 
 [Save password permanently]
-
-[Data form test]
 
 [Address1:]
 Adresse1:
@@ -240,14 +212,12 @@ Passe actuel:
 Nouveau passe:
 [Confirm New Password:]
 Vérifier le passe:
-[Jabber Multi-User Conference]
-Salon de chat
-[Conference server:]
-Serveur du chat:
 [Create or Join group chat]
 
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 
+[Conference server:]
+Serveur du chat:
 [Room:]
 Salon:
 [Recently visited chatrooms:]
@@ -260,12 +230,6 @@ Liste des JID
 
 [Reset Filter]
 
-[Jabber Agent Registration]
-Enregistrement des Services Jabber
-[JID:]
-JID:
-[Register]
-Enregistrer
 [Invite Users]
 
 [<room jid>\nSend group chat invitation.]
@@ -296,6 +260,8 @@ Favoris Jabber
 Retirer
 [Edit]
 Éditer
+[Close]
+Fermer
 [Bookmark Details]
 Détails du favori
 [Bookmark Type]
@@ -372,12 +338,10 @@ Nom de la nouvelle liste:
 Favoris
 [Refresh]
 
+[JID:]
+JID:
 [Node:]
 
-[Change %s Message]
-Changer le message de \"%s\"
-[Closing in %d]
-Fermeture dans %d
 [Account type:]
 Type de compte:
 [Login server:]
@@ -482,6 +446,10 @@ Demande de la liste de commande. Veuillez patienter...
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Pas de message
+[Jabber Agent Registration]
+Enregistrement des Services Jabber
+[Register]
+Enregistrer
 [Please wait...]
 
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
@@ -2204,8 +2172,6 @@ Erreur de message inconnu
 
 [Set activity...]
 
-[OK (%d)]
-
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Homme
@@ -2227,6 +2193,8 @@ Contacts
 [%s connection]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[OK (%d)]
+
 [Afraid]
 
 [Amazed]

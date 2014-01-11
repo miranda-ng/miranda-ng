@@ -2507,6 +2507,9 @@ JPEG изображения
 GIF изображения
 [PNG bitmaps]
 PNG изображения
+;file \src\modules\utils\enterstring.cpp
+[OK (%d)]
+
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Аватари

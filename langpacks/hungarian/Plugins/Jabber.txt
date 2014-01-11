@@ -65,30 +65,6 @@ Tipp:
 Próbáld kivenni az összes bejelölést, ha gondod van a fájlküldéssel. Ez gondot okozhat nagy fájlok küldésénél.
 [Jabber Account Registration]
 Jabber fiók regisztráció
-[Jabber Agents]
-Jabber ügynökök
-[Register/Search Jabber Agents]
-Jabber ügynökök regisztrálása/keresése
-[Jabber server:]
-Jabber szerver:
-[Register...]
-Regisztrálás...
-[Browse/Join chat room...]
-Böngész/Csatlakozás csevegésszobához...
-[Search...]
-Keresés...
-[Registered Jabber Transports]
-Regisztrált Jabber átvitelek
-[Log on]
-Bejelentkezés
-[Log off]
-Kijelentkezés
-[Register with a new service...]
-Regisztrálás új szolgáltatással...
-[Close]
-Bezárás
-[Command]
-Parancs
 [Jabber Form]
 Jabber ûrlap
 [Instruction:]
@@ -97,8 +73,6 @@ Utasítás:
 Engedélyezés
 [Complete]
 Teljes
-[Data form test]
-Adatok a tesztrõl
 [Address1:]
 Cím1:
 [Address2:]
@@ -171,12 +145,10 @@ Jelenlegi jelszó:
 Új jelszó:
 [Confirm New Password:]
 Új jelszó megerõsítése:
-[Jabber Multi-User Conference]
-Jabber Több-felhasználós konferencia
-[Conference server:]
-Konferencia szerver:
 [Create or Join group chat]
 Csoportos csevegés létrehozása vagy csatlakozása
+[Conference server:]
+Konferencia szerver:
 [Room:]
 Szoba:
 [Recently visited chatrooms:]
@@ -189,12 +161,6 @@ JID lista
 Szûrõ alkalmazása
 [Reset Filter]
 Szûrõ visszaállítása
-[Jabber Agent Registration]
-Jabber ügynök bejegyzése
-[JID:]
-JID:
-[Register]
-Regisztrálás
 [Other JID:]
 Másik JID:
 [Add]
@@ -207,6 +173,8 @@ Jabber könyvjelzõk
 Eltávolítás
 [Edit]
 Szerkeszt
+[Close]
+Bezárás
 [Bookmark Details]
 Könyvjelzõ részletek
 [Bookmark Type]
@@ -277,12 +245,10 @@ Megtekintés faként
 Megtekintés listaként
 [Favorites]
 Kedvencek
+[JID:]
+JID:
 [Node:]
 Csomópont:
-[Change %s Message]
-Változtat %s üzenet
-[Closing in %d]
-Bezárás %d
 [Account type:]
 Fiók típus:
 [Register account now]
@@ -349,6 +315,10 @@ Jabber alkalmi parancsok itt:
 Alkalmi parancs küldése ide:
 [No message]
 Nincs üzenet
+[Jabber Agent Registration]
+Jabber ügynök bejegyzése
+[Register]
+Regisztrálás
 [Bookmark Name]
 Könyvjelzõ név
 [Address (JID or URL)]

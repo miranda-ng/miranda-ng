@@ -21,8 +21,6 @@
 יציאה:
 [Close]
 סגור
-[Command]
-פקודה
 [Complete]
 הושלם
 [Date of birth:]
@@ -53,10 +51,6 @@
 הודעות
 [Favorites]
 מועדפים
-[Change %s Message]
-שנה הודעת %s
-[Closing in %d]
-סוגר תוך %d
 [Authorization request]
 בקשת אישור
 [None]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.7
+;  Version: 0.1.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -32,6 +32,12 @@ Instrukcja:
 Wyślij
 [Cancel]
 Anuluj
+[Invite user to chat]
+
+[OK]
+
+[Choose one of your contacts to be invited:]
+
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 Ikona formularza Captcha
@@ -42,6 +48,29 @@ VKontakte
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
+;file \protocols\VKontakte\src\vk_chats.cpp
+[Participants]
+
+[Owners]
+
+[Unknown]
+
+[Enter new chat title]
+
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+
+[Warning]
+
+[&Invite a user]
+
+[View/change &title]
+
+[&Destroy room]
+
+[&User details]
+
+[&Kick]
+
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Protokoły
@@ -51,6 +80,8 @@ Konto
 [%s server connection]
 Połączenie %s
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[me]
+
 [Attachments:]
 Załączniki:
 [Photo]

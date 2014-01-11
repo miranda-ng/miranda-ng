@@ -5,7 +5,7 @@
 ;  Version: 0.2.0.0
 ;  Authors: Vladimir Lyubimov
 ;============================================================
-[Disables ALL popups and sounds for 10-300 sec at Miranda startup and enables them always for Miranda NG (Automatically per computer settings).]
+[Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
 
 ;file \plugins\StartupSilence\res\StartupSilence.rc
 [Silence at Startup]

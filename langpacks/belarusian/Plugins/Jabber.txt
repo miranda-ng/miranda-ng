@@ -96,32 +96,6 @@ TLS
 Адключыце ўсе опцыі, калі ў вас праблемы з адпраўкай файлаў. Могуць з'явіцца праблемы з перадачай вялікіх файлаў.
 [Jabber Account Registration]
 Рэгістрацыя конту Jabber
-[Jabber Agents]
-Агенты Jabber
-[Register/Search Jabber Agents]
-Рэгістрацыя/пошук агентаў Jabber
-[Jabber server:]
-Сервер Jabber:
-[Browse]
-Агляд
-[Register...]
-Рэгістрацыя...
-[Browse/Join chat room...]
-Агляд чатаў...
-[Search...]
-Пошук...
-[Registered Jabber Transports]
-Зарэгістраваныя Jabber транспарты
-[Log on]
-Увайсці
-[Log off]
-Выйсці
-[Register with a new service...]
-Рэгістрацыя новага сэрвіса...
-[Close]
-Зачыніць
-[Command]
-Каманда
 [Jabber Form]
 Jabber форма
 [Instruction:]
@@ -140,8 +114,6 @@ Jabber Пароль
 Захаваць пароль для гэтай сесіі
 [Save password permanently]
 Захаваць пароль
-[Data form test]
-Кантрольная форма дадзеных
 [Address1:]
 Адрас 1:
 [Address2:]
@@ -236,14 +208,12 @@ PCS
 Новы пароль:
 [Confirm New Password:]
 Пацверджанне:
-[Jabber Multi-User Conference]
-Канферэнцыя Jabber
-[Conference server:]
-Сервер:
 [Create or Join group chat]
 Стварыць ці далучыцца да чата
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Чат Jabber\nСтварэнне ці ўваход у чат.
+[Conference server:]
+Сервер:
 [Room:]
 Чат:
 [Recently visited chatrooms:]
@@ -256,12 +226,6 @@ PCS
 Ужыць фільтр
 [Reset Filter]
 Скінуць фільтр
-[Jabber Agent Registration]
-Рэгістрацыя агента Jabber
-[JID:]
-JID:
-[Register]
-Рэгістрацыя
 [Invite Users]
 Запрашэнне кантактаў
 [<room jid>\nSend group chat invitation.]
@@ -292,6 +256,8 @@ JID:
 Выдаліць
 [Edit]
 Змяніць
+[Close]
+Зачыніць
 [Bookmark Details]
 Дэталі закладкі
 [Bookmark Type]
@@ -368,12 +334,10 @@ JID / URL:
 Абраныя
 [Refresh]
 Абнавіць
+[JID:]
+JID:
 [Node:]
 Вузел:
-[Change %s Message]
-Змяніць паведамленне "%s"
-[Closing in %d]
-Зачыніць (%d)
 [Account type:]
 Тып конту:
 [Login server:]
@@ -472,6 +436,10 @@ Jabber Ad-Hoc каманды на %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Няма паведамлення
+[Jabber Agent Registration]
+Рэгістрацыя агента Jabber
+[Register]
+Рэгістрацыя
 [Please wait...]
 Пачакайце, калі ласка...
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
@@ -1912,8 +1880,6 @@ Odnoklassniki
 Настрой...
 [Set activity...]
 Занятак...
-[OK (%d)]
-OK (%d)
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Мужчынскі
@@ -1935,6 +1901,8 @@ Jabber vCard: рэдагаванне тэлефона
 [%s connection]
 Злучэнне %s
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[OK (%d)]
+OK (%d)
 [Afraid]
 Спалоханы
 [Amazed]

@@ -100,32 +100,6 @@ Indicio:
 Tratar de desactivar todas las marcas de verificación de arriba si usted está experimentando problemas con el envío de archivos. Pero puede causar problemas con la transferencia de archivos de gran tamaño.
 [Jabber Account Registration]
 Registro de cuenta Jabber
-[Jabber Agents]
-Agentes Jabber
-[Register/Search Jabber Agents]
-Registrarse/Buscar agentes Jabber
-[Jabber server:]
-Servidor Jabber:
-[Browse]
-Navegar
-[Register...]
-Registrar...
-[Browse/Join chat room...]
-Buscar/Unirse a sala de chat...
-[Search...]
-Buscar...
-[Registered Jabber Transports]
-Transportes Jabber registrados
-[Log on]
-Acceder
-[Log off]
-Salir
-[Register with a new service...]
-Regístrarse con un nuevo servicio...
-[Close]
-Cerrar
-[Command]
-Comando
 [Jabber Form]
 Formulario Jabber
 [Instruction:]
@@ -144,8 +118,6 @@ Contraseña Jabber
 Recordar contraseña para esta sesión
 [Save password permanently]
 Guardar contraseña de forma permanente
-[Data form test]
-Pronar comportamiento de datos
 [Address1:]
 Dirección1
 [Address2:]
@@ -240,13 +212,11 @@ Detalles:
 
 [Confirm New Password:]
 
-[Jabber Multi-User Conference]
-
-[Conference server:]
-
 [Create or Join group chat]
 
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
+
+[Conference server:]
 
 [Room:]
 
@@ -259,12 +229,6 @@ Detalles:
 [Apply Filter]
 
 [Reset Filter]
-
-[Jabber Agent Registration]
-
-[JID:]
-
-[Register]
 
 [Invite Users]
 
@@ -296,6 +260,8 @@ Añadir
 Eliminar
 [Edit]
 Editar
+[Close]
+Cerrar
 [Bookmark Details]
 
 [Bookmark Type]
@@ -372,12 +338,10 @@ Mensajes
 
 [Refresh]
 Refrescar
+[JID:]
+
 [Node:]
 
-[Change %s Message]
-Cambiar %s mensaje
-[Closing in %d]
-Cerrando en %d
 [Account type:]
 
 [Login server:]
@@ -481,6 +445,10 @@ Enviar
 
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
+
+[Jabber Agent Registration]
+
+[Register]
 
 [Please wait...]
 
@@ -2208,8 +2176,6 @@ Error
 
 [Set activity...]
 
-[OK (%d)]
-
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Masculino
@@ -2231,6 +2197,8 @@ Contactos
 [%s connection]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[OK (%d)]
+
 [Afraid]
 
 [Amazed]

@@ -63,30 +63,6 @@ Dica:
 Tente desmarcar todas as marcas de seleção acima se você estiver enfrentando problemas com o envio de arquivos. Mas ela pode causar problemas com a transferência de arquivos grandes.
 [Jabber Account Registration]
 Registro de Conta Jabber
-[Jabber Agents]
-Agentes Jabber
-[Register/Search Jabber Agents]
-Cadastre-se/Procura Jabber agentes
-[Jabber server:]
-Servidor Jabber:
-[Register...]
-Registrar...
-[Browse/Join chat room...]
-Procurar/Entrar na sala de bate-papo...
-[Search...]
-Procurar...
-[Registered Jabber Transports]
-Transportes Registrados Jabber
-[Log on]
-Registrar
-[Log off]
-Registro desligado
-[Register with a new service...]
-Registrar com um novo serviço...
-[Close]
-Fechar
-[Command]
-Comando
 [Jabber Form]
 Jabber Formulário
 [Instruction:]
@@ -95,8 +71,6 @@ Instrução:
 Enviar
 [Complete]
 Completo
-[Data form test]
-Dados de teste de formulário
 [Address1:]
 Endereço1:
 [Address2:]
@@ -167,12 +141,10 @@ Senha atual:
 Nova Senha:
 [Confirm New Password:]
 Confirmar Nova Senha:
-[Jabber Multi-User Conference]
-Conferência Multi-usuário Jabber
-[Conference server:]
-Servidor de Conferência:
 [Create or Join group chat]
 Criar ou participar de Grupo de Bate-papo
+[Conference server:]
+Servidor de Conferência:
 [Room:]
 Sala:
 [Recently visited chatrooms:]
@@ -185,12 +157,6 @@ Lista JID
 Aplicar filtro
 [Reset Filter]
 Limpar Filtro
-[Jabber Agent Registration]
-Registro do Agente Jabber
-[JID:]
-JID:
-[Register]
-Registro
 [Other JID:]
 Outros JID:
 [Add]
@@ -203,6 +169,8 @@ Jabber Favoritos
 Remover
 [Edit]
 Editar
+[Close]
+Fechar
 [Bookmark Details]
 Detalhes das Preferências
 [Bookmark Type]
@@ -271,12 +239,10 @@ Exibir como árvore
 Exibir como lista
 [Favorites]
 Favoritos
+[JID:]
+JID:
 [Node:]
 Nó:
-[Change %s Message]
-Alterar mensagem %s
-[Closing in %d]
-Fechando em %d
 [Account type:]
 Tipo de conta:
 [Register account now]
@@ -345,6 +311,10 @@ Jabber Ad-Hoc comandos at %s
 Enviando comando Ad-Hoc para %s
 [No message]
 Sem mensagem
+[Jabber Agent Registration]
+Registro do Agente Jabber
+[Register]
+Registro
 [Bookmark Name]
 Nome do indicador
 [Address (JID or URL)]

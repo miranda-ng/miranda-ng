@@ -65,30 +65,6 @@ Bytestream vekil sunucu üzerinden dosya aktarımına izin ver:
 Dosya göndermekte sorun yaşıyorsanız yukarıdaki tüm işaretleri kaldırmayı deneyin. ancak büyük dosyaları göndermekte sorun olabilir.
 [Jabber Account Registration]
 Jabber Hesap Kaydı
-[Jabber Agents]
-Jabber Ajanları
-[Register/Search Jabber Agents]
-Jabber Ajanlarını Kaydet/Ara
-[Jabber server:]
-Jabber Sunucsu:
-[Register...]
-Kayıt ol...
-[Browse/Join chat room...]
-Sohbet odasına Gözat/Katıl...
-[Search...]
-Ara...
-[Registered Jabber Transports]
-Kayıtlı Jabber Aktarımları
-[Log on]
-Giriş
-[Log off]
-Çıkış
-[Register with a new service...]
-Yeni bir hizmetle kayıt ol...
-[Close]
-Kapat
-[Command]
-Komut
 [Jabber Form]
 Jabber Form
 [Instruction:]
@@ -97,8 +73,6 @@ Açıklama:
 Gönder
 [Complete]
 Tamamlandı
-[Data form test]
-Sınama verisi
 [Address1:]
 Adres1:
 [Address2:]
@@ -171,12 +145,10 @@ Açıklama:
 Yeni Parola:
 [Confirm New Password:]
 Yeni Parolayı Onayla:
-[Jabber Multi-User Conference]
-Jabber Çok Kişili Konferans
-[Conference server:]
-Konferans sunucusu:
 [Create or Join group chat]
 Grup Sohbetine Katıl/Oluştur
+[Conference server:]
+Konferans sunucusu:
 [Room:]
 Oda:
 [Recently visited chatrooms:]
@@ -189,12 +161,6 @@ JID Listesi
 Süzgeç Uygula
 [Reset Filter]
 Süzgeci Sıfırla
-[Jabber Agent Registration]
-Jabber Ajan Kaydı
-[JID:]
-JID:
-[Register]
-Kayıt Ol
 [Other JID:]
 Başka JID:
 [Add]
@@ -207,6 +173,8 @@ Jabber Yer İmleri
 Sil
 [Edit]
 Değiştir
+[Close]
+Kapat
 [Bookmark Details]
 Yer İmi Detayları
 [Bookmark Type]
@@ -277,12 +245,10 @@ Ağaç olarak göster
 Liste olarak göster
 [Favorites]
 Sık Kullanılanlar
+[JID:]
+JID:
 [Node:]
 Düğüm:
-[Change %s Message]
-%s iletisini değiştir
-[Closing in %d]
-Kapanıyor %d
 [Account type:]
 Hesap tipi:
 [Register account now]
@@ -349,6 +315,10 @@ Komut listesi isteniyor. Lütfen bekleyin...
 Ad-Hoc komutları şuraya gönderiliyor
 [No message]
 İleti yok
+[Jabber Agent Registration]
+Jabber Ajan Kaydı
+[Register]
+Kayıt Ol
 [Bookmark Name]
 Yer İmi Adı
 [Address (JID or URL)]

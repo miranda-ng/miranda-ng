@@ -39,22 +39,6 @@ Navždy zachovať pripojenie
 Adresár užívateľa:
 [Jabber Account Registration]
 Jabber registrácia konta
-[Jabber Agents]
-Jabber agenti
-[Register/Search Jabber Agents]
-Registrácia/Hľadanie jabber agentov
-[Jabber server:]
-Jabber server:
-[Browse]
-Listovať
-[Registered Jabber Transports]
-registrovať jabber transport
-[Log on]
-Prihlásiť
-[Log off]
-Odhlásiť
-[Close]
-Zavrieť
 [Instruction:]
 Inštrukcie:
 [Back]
@@ -107,14 +91,8 @@ Práca
 Fax:
 [Description:]
 Popis:
-[Jabber Agent Registration]
-Registrácia jabber agenta
-[Register]
-Registrovať
-[Change %s Message]
-Zmeniť %s správu
-[Closing in %d]
-Zavrieť (za %d s)
+[Close]
+Zavrieť
 [Login server:]
 Prihlasovací server
 [Authorization request]
@@ -123,6 +101,10 @@ Požiadavka na autorizáciu
 Žiadna
 [No message]
 Žiadna správa
+[Jabber Agent Registration]
+Registrácia jabber agenta
+[Register]
+Registrovať
 [Please wait...]
 Prosím čakaj...
 [Nickname]

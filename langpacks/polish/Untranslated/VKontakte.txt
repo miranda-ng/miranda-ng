@@ -15,7 +15,3 @@
 [&User details]
 [&Kick]
 [me]
-[Audio]
-[Video]
-[Document]
-[Unsupported or unknown attachment type: %s]

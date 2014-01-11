@@ -2,3 +2,4 @@
 [You were added by %s%s]
 [Contacts: ]
 [Status menu]
+[OK (%d)]

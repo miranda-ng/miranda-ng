@@ -77,10 +77,6 @@ Teated
 Teenuse avastamine
 [Favorites]
 Lemmikud
-[Change %s Message]
-Muuda "%s" teadet
-[Closing in %d]
-Sulgub %d s. pärast
 [Status message:]
 Oleku teade:
 [Chat options]

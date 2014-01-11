@@ -69,30 +69,6 @@
 如果您发送文件时遇到麻烦, 请尝试取消选定以上所有选项. 但发送大型文件时可能出现问题. 
 [Jabber Account Registration]
 Jabber 帐号注册
-[Jabber Agents]
-Jabber 代理
-[Register/Search Jabber Agents]
-注册/搜索 Jabber 代理
-[Jabber server:]
-Jabber 服务器: 
-[Register...]
-注册...
-[Browse/Join chat room...]
-浏览/加入聊天室...
-[Search...]
-搜索...
-[Registered Jabber Transports]
-已注册的 Jabber 传输
-[Log on]
-登录
-[Log off]
-注销
-[Register with a new service...]
-注册新服务...
-[Close]
-关闭
-[Command]
-命令
 [Jabber Form]
 Jabber 表单
 [Instruction:]
@@ -101,8 +77,6 @@ Jabber 表单
 提交
 [Complete]
 完成
-[Data form test]
-资料表单测试
 [Address1:]
 地址 1: 
 [Address2:]
@@ -165,18 +139,16 @@ Jabber vCard: 添加电话号码
 新密码: 
 [Confirm New Password:]
 确认新密码: 
-[Jabber Multi-User Conference]
-Jabber 多用户会议
-[Conference server:]
-会议服务器: 
 [Create or Join group chat]
 建立或加入群组聊天
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Jabber 多用户会议\n建立或加入已存在的会议室.
+[Conference server:]
+会议服务器:
 [Room:]
-房间: 
+房间:
 [Recently visited chatrooms:]
-最近访问过的聊天室: 
+最近访问过的聊天室:
 [Bookmarks]
 书签
 [JID List]
@@ -185,16 +157,12 @@ JID 列表
 应用过滤器
 [Reset Filter]
 重置过滤器
-[Jabber Agent Registration]
-Jabber 代理注册
-[Register]
-注册
 [Invite Users]
 邀请用户
 [<room jid>\nSend group chat invitation.]
 <房间 JID>\n发送群聊邀请.
 [Other JID:]
-其它 JID: 
+其它 JID:
 [Add]
 添加
 [Invitation reason:]
@@ -217,6 +185,8 @@ Jabber 书签
 移除
 [Edit]
 编辑
+[Close]
+关闭
 [Bookmark Details]
 书签详细资料
 [Bookmark Type]
@@ -289,10 +259,6 @@ Jabber 书签
 我的最爱
 [Node:]
 节点: 
-[Change %s Message]
-变更 %s 消息
-[Closing in %d]
-%d 秒关闭
 [Account type:]
 帐号类型: 
 [Register account now]
@@ -375,6 +341,10 @@ Jabber 特别命令于
 发送特别命令到
 [No message]
 无消息
+[Jabber Agent Registration]
+Jabber 代理注册
+[Register]
+注册
 [Please wait...]
 请稍等...
 [Bookmark Name]
@@ -1401,8 +1371,6 @@ Miranda 核心版本
 设置心情...
 [Set activity...]
 设为活动...
-[OK (%d)]
-是 (%d)
 [Male]
 男
 [Female]
@@ -1415,6 +1383,8 @@ Jabber vCard: 编辑邮箱地址
 Jabber vCard: 编辑电话号码
 [Contacts]
 联系人
+[OK (%d)]
+是 (%d)
 [Afraid]
 恐惧
 [Amazed]

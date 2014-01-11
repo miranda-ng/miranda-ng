@@ -1,4 +1,4 @@
-﻿[Disables ALL popups and sounds for 10-300 sec at Miranda startup and enables them always for Miranda NG (Automatically per computer settings).]
+﻿[Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
 [Silence at Startup]
 [Settings for the next Computer Name:]
 [Enable silence at startup]

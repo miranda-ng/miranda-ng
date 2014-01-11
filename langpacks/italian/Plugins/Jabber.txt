@@ -9,6 +9,8 @@
 OK
 [Cancel]
 Annulla
+[Close]
+Chiudi
 [Type:]
 Tipo:
 [User:]
@@ -37,22 +39,6 @@ Specifica manualmente host connessione
 Directory di utenti:
 [Jabber Account Registration]
 Registrazione account di Jabber
-[Jabber Agents]
-Agenti di Jabber
-[Register/Search Jabber Agents]
-Registra/Cerca agenti di Jabber
-[Jabber server:]
-Server Jabber:
-[Registered Jabber Transports]
-Trasporti di Jabber registrati
-[Log on]
-Login
-[Log off]
-Logoff
-[Close]
-Chiudi
-[Command]
-Comando
 [Instruction:]
 Istruzione:
 [Address1:]
@@ -109,22 +95,18 @@ Descrizione:
 Nuova password:
 [Room:]
 Stanza:
-[Jabber Agent Registration]
-Registrazione agente di Jabber
-[Register]
-Registra
 [Nickname:]
 Nick:
 [URL]
 URL
-[Change %s Message]
-Modifica messaggio di %s
-[Closing in %d]
-Chiusura in %d
 [Authorization request]
 Richiesta di autorizzazione
 [No message]
 Nessun messaggio
+[Jabber Agent Registration]
+Registrazione agente di Jabber
+[Register]
+Registra
 [None]
 Nessuno
 [Owner]

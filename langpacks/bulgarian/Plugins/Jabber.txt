@@ -100,32 +100,6 @@ Jabber
 Премахнете горните отметки, ако имате проблеми с изпращането на файлове. Може да причини проблеми с обмена на големи файлове.
 [Jabber Account Registration]
 Регистриране на Jabber акаунт
-[Jabber Agents]
-Jabber агенти
-[Register/Search Jabber Agents]
-Регистриране/Търсене на Jabber агенти
-[Jabber server:]
-Jabber сървър:
-[Browse]
-Разглеждане
-[Register...]
-Регистриране...
-[Browse/Join chat room...]
-Разглеждане/Влизане в чат стая...
-[Search...]
-Търсене...
-[Registered Jabber Transports]
-Регистрирани Jabber транспорти
-[Log on]
-Вписване
-[Log off]
-Отписване
-[Register with a new service...]
-Регистриране в нова услуга...
-[Close]
-Затваряне
-[Command]
-Команда
 [Jabber Form]
 Jabber формуляр
 [Instruction:]
@@ -144,8 +118,6 @@ Jabber парола
 Запомни за сесията
 [Save password permanently]
 Запомни за постоянно
-[Data form test]
-
 [Address1:]
 Адрес 1:
 [Address2:]
@@ -240,14 +212,12 @@ PCS
 Нова парола:
 [Confirm New Password:]
 Потвърдете новата парола:
-[Jabber Multi-User Conference]
-Jabber конференция
-[Conference server:]
-Сървър:
 [Create or Join group chat]
 Създаване или влизане в групов чат
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Jabber конференция\nСъздайте/присъединете се към съществуваща стая.
+[Conference server:]
+Сървър:
 [Room:]
 Стая:
 [Recently visited chatrooms:]
@@ -260,12 +230,6 @@ JID списък
 Прилагане на филтъра
 [Reset Filter]
 Анулиране на филтъра
-[Jabber Agent Registration]
-Регистрация на Jabber агент
-[JID:]
-JID:
-[Register]
-Регистриране
 [Invite Users]
 Покани потребите
 [<room jid>\nSend group chat invitation.]
@@ -296,6 +260,8 @@ Jabber отметки
 Премахване
 [Edit]
 Редактиране
+[Close]
+Затваряне
 [Bookmark Details]
 Подробности за отметката
 [Bookmark Type]
@@ -372,12 +338,10 @@ JID на стаята/URL:
 Любими
 [Refresh]
 Обновяване
+[JID:]
+JID:
 [Node:]
 Възел:
-[Change %s Message]
-Промяна на текста "%s"
-[Closing in %d]
-Затваряне след %d
 [Account type:]
 Тип на акаунта:
 [Login server:]
@@ -480,6 +444,10 @@ Jabber настроение
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Няма съобщение
+[Jabber Agent Registration]
+Регистрация на Jabber агент
+[Register]
+Регистриране
 [Please wait...]
 Моля, изчакайте...
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
@@ -2219,6 +2187,8 @@ Jabber vCard: Редактиране на телефонен номер
 [%s connection]
 %s връзка
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[OK (%d)]
+
 [Afraid]
 Уплашен
 [Amazed]
