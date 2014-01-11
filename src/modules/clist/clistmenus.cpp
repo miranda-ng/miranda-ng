@@ -1129,7 +1129,7 @@ int fnConvertMenu(CLISTMENUITEM* mi, TMO_MenuItem* pmi)
 	if (mi == NULL || pmi == NULL)
 		return FALSE;
 
-	if (mi->cbSize != sizeof(CLISTMENUITEM) && mi->cbSize != CLISTMENUITEM_OLDSIZE_V1)
+	if (mi->cbSize != sizeof(CLISTMENUITEM))
 		return FALSE;
 
 	memset(pmi, 0, sizeof(TMO_MenuItem));
@@ -1140,9 +1140,7 @@ int fnConvertMenu(CLISTMENUITEM* mi, TMO_MenuItem* pmi)
 	pmi->hotKey = mi->hotKey;
 	pmi->pszName = mi->pszName;
 	pmi->position = mi->position;
-	if (mi->cbSize == sizeof(CLISTMENUITEM))
-		pmi->hLangpack = mi->hLangpack;
-
+	pmi->hLangpack = mi->hLangpack;
 	return TRUE;
 }
 
