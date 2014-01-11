@@ -125,6 +125,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		ptrT tszTitle(json_as_string(json_get(info, "title")));
 		if (lstrcmp(tszTitle, cc->m_tszTopic)) {
 			cc->m_tszTopic = mir_tstrdup(tszTitle);
+			setTString(cc->m_hContact, "Nick", tszTitle);
 
 			GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_CHANGESESSIONAME };
 			GCEVENT gce = { sizeof(GCEVENT), &gcd };
