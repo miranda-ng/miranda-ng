@@ -146,7 +146,7 @@ void	CSend::svcSendChat() {
 	for (int i = 0; i < cnt ; i++ ) {
 		gci.iItem = i;
 		gci.Flags = BYINDEX | HCONTACT | ID;
-		CallService(MS_GC_GETINFO, 0, (LPARAM) &gci);
+		CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
 		if (gci.hContact == m_hContact) {
 			GCDEST gcd = { m_pszProto, gci.pszID, GC_EVENT_SENDMESSAGE };
 			GCEVENT gce = { sizeof(gce), &gcd };
@@ -156,7 +156,7 @@ void	CSend::svcSendChat() {
 			gce.time = time(NULL);
 
 			//* returns 0 on success or error code on failure
-			res = 200 + (int)CallService(MS_GC_EVENT, 0, (LPARAM) &gce);
+			res = 200 + (int)CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
 			break;
 		}
 	}

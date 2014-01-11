@@ -371,8 +371,8 @@ HANDLE OmegleProto::GetChatHandle()
 	GC_INFO gci = {0};
 	gci.Flags = HCONTACT;
 	gci.pszModule = m_szModuleName;
-	gci.pszID = const_cast<TCHAR*>(m_tszUserName);
-	CallService(MS_GC_GETINFO, 0, (LPARAM)(GC_INFO *) &gci);
+	gci.pszID = m_tszUserName;
+	CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
 
 	return gci.hContact;
 }

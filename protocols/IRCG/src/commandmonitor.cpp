@@ -618,7 +618,7 @@ bool CIrcProto::OnIrc_NOTICE(const CIrcMessage* pmsg)
 					S3.Delete(S3.GetLength()-1, 1);
 					S3.Delete(0,1);
 					CMString Wnd = MakeWndID( S3.c_str());
-					gci.pszID = ( TCHAR* )Wnd.c_str();
+					gci.pszID = Wnd.c_str();
 					if ( !CallServiceSync( MS_GC_GETINFO, 0, (LPARAM)&gci ) && gci.iType == GCW_CHATROOM )
 						S2 = GetWord( gci.pszID, 0 );
 					else

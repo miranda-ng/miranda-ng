@@ -255,7 +255,7 @@ void ChatRoom::Start(const ConversationRef &conversation, bool showWindow)
 	this->conversation.fetch();
 	this->conversation->SetChatRoom(this);
 
-	GC_INFO gci = {0};
+	GC_INFO gci = { 0 };
 	gci.Flags = BYID | HCONTACT;
 	gci.pszModule = ppro->m_szModuleName;
 	gci.pszID = this->cid;
@@ -1207,11 +1207,13 @@ INT_PTR CSkypeProto::CreateChatRoomCommand(WPARAM, LPARAM)
 
 void CSkypeProto::ChatRoomInvite(HANDLE hContact)
 {
-	GC_INFO gci = {0};
+	ptrT chat_id(::db_get_tsa(hContact, this->m_szModuleName, "ChatRoomID"));
+
+	GC_INFO gci = { 0 };
 	gci.Flags = BYID | USERS | DATA;
 	gci.pszModule = this->m_szModuleName;
-	gci.pszID = ::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID");
-	if ( !::CallService(MS_GC_GETINFO, 0, (LPARAM)(GC_INFO *) &gci))
+	gci.pszID = chat_id;
+	if ( !::CallService(MS_GC_GETINFO, 0, (LPARAM)&gci))
 	{
 		ChatRoom *room = (ChatRoom *)gci.dwItemData;
 		if (room != NULL && gci.pszUsers != NULL)
@@ -1225,7 +1227,6 @@ void CSkypeProto::ChatRoomInvite(HANDLE hContact)
 			delete param;
 		}
 	}	
-	::mir_free(gci.pszID);
 }
 
 void CSkypeProto::CloseAllChatSessions()
@@ -1250,7 +1251,7 @@ void CSkypeProto::CloseAllChatSessions()
 
 ChatRoom *CSkypeProto::FindChatRoom(const wchar_t *cid)
 {
-	GC_INFO gci = {0};
+	GC_INFO gci = { 0 };
 	gci.Flags = BYID | DATA;
 	gci.pszModule = this->m_szModuleName;
 	gci.pszID = (wchar_t*)cid;
@@ -1362,11 +1363,11 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 
 		case CHAT_LIST_MENU::ICM_CONF_INVITE:
 			{
-				GC_INFO gci = {0};
+				GC_INFO gci = { 0 };
 				gci.Flags = BYID | USERS;
 				gci.pszModule = this->m_szModuleName;
 				gci.pszID = gch->pDest->ptszID;
-				if ( !::CallService(MS_GC_GETINFO, 0, (LPARAM)(GC_INFO *) &gci) && gci.pszUsers != NULL)
+				if ( !::CallService(MS_GC_GETINFO, 0, (LPARAM)&gci) && gci.pszUsers != NULL)
 				{
 					StringList invitedContacts(_A2T(gci.pszUsers));
 					ChatRoomParam *param = new ChatRoomParam(NULL, invitedContacts, this);
@@ -1502,7 +1503,7 @@ void CSkypeProto::UpdateChatUserStatus(const ContactRef &contact)
 	contact->GetIdentity(identity);
 	ptrW sid(::mir_utf8decodeW(identity));
 
-	GC_INFO gci = {0};
+	GC_INFO gci = { 0 };
 	gci.Flags = BYINDEX | DATA;
 	gci.pszModule = this->m_szModuleName;
 
@@ -1531,7 +1532,7 @@ void CSkypeProto::UpdateChatUserNick(const ContactRef &contact)
 
 	ptrW nick(::mir_utf8decodeW(((CContact::Ref)contact)->GetNick()));
 
-	GC_INFO gci = {0};
+	GC_INFO gci = { 0 };
 	gci.Flags = BYINDEX | DATA;
 	gci.pszModule = this->m_szModuleName;
 

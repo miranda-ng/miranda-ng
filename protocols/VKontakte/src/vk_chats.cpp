@@ -53,7 +53,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 
 	GC_INFO gci = { 0 };
 	gci.pszModule = m_szModuleName;
-	gci.pszID = sid.GetBuffer();
+	gci.pszID = sid;
 	gci.Flags = BYID | HCONTACT;
 	CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
 	c->m_hContact = gci.hContact;

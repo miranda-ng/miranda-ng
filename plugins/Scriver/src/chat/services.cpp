@@ -71,7 +71,7 @@ static INT_PTR Service_GetCount(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR Service_GetInfo(WPARAM wParam,LPARAM lParam)
 {
-	GC_INFO *gci = (GC_INFO *) lParam;
+	GC_INFO *gci = (GC_INFO *)lParam;
 	if (!gci || !gci->pszModule)
 		return 1;
 

@@ -372,7 +372,7 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 		GC_INFO gci = {0};
 		gci.Flags = BYID|NAME|COUNT;
 		gci.pszModule = m_szModuleName;
-		gci.pszID = (TCHAR*)S.c_str();
+		gci.pszID = S.c_str();
 		if ( !CallServiceSync( MS_GC_GETINFO, 0, ( LPARAM )&gci ))
 			mir_sntprintf( szTemp, SIZEOF(szTemp), _T("users: %u"), gci.iCount);
 

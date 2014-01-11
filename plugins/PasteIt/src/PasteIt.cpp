@@ -153,7 +153,7 @@ void PasteIt(HANDLE hContact, int mode)
 						gci.iItem = i;
 						gci.pszModule = szProto;
 						gci.Flags = BYINDEX | HCONTACT | ID;
-						CallService(MS_GC_GETINFO, 0, (LPARAM)(GC_INFO *) &gci);
+						CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
 						if (gci.hContact == hContact) 
 						{
 							// In this place session was finded, gci.pszID contains

@@ -508,8 +508,8 @@ struct GC_INFO
 	DWORD     Flags;        // use a combination of the above flags
 	int       iItem;        // session type (GCW_*)
 	int       iType;        // session type (GCW_*)
-	LPSTR     pszModule;    // the module name as registered in MS_GC_REGISTER
-	LPTSTR    pszID;        // unique ID of the session
+	LPCSTR    pszModule;    // the module name as registered in MS_GC_REGISTER
+	LPCTSTR   pszID;        // unique ID of the session
 	LPTSTR    pszName;      // display name of the session
 	INT_PTR   dwItemData;   // user specified data.
 	int       iCount;       // count of users in the nicklist

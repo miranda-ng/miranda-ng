@@ -196,8 +196,8 @@ char *FacebookProto::GetChatUsers(const TCHAR *chat_id)
 	GC_INFO gci = {0};
 	gci.Flags = USERS;
 	gci.pszModule = m_szModuleName;
-	gci.pszID = (TCHAR *)chat_id;
-	CallService(MS_GC_GETINFO, 0, (LPARAM)(GC_INFO *) &gci);
+	gci.pszID = chat_id;
+	CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
 
 	debugLogA("**Chat - Users in chat %s: %s", _T2A(chat_id), gci.pszUsers);
 

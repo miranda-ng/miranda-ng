@@ -188,9 +188,9 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 		else if (sRequest == "usercount" && !sChannel.IsEmpty()) {
 			CMString S = MakeWndID(sChannel.c_str());
 			GC_INFO gci = {0};
-			gci.Flags = BYID|COUNT;
+			gci.Flags = BYID | COUNT;
 			gci.pszModule = m_szModuleName;
-			gci.pszID = (TCHAR*)S.c_str();
+			gci.pszID = S.c_str();
 			if ( !CallServiceSync( MS_GC_GETINFO, 0, (LPARAM)&gci )) {
 				TCHAR szTemp[40];
 				mir_sntprintf(szTemp, 35, _T("%u"), gci.iCount);
@@ -202,7 +202,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			GC_INFO gci = {0};
 			gci.Flags = BYID|USERS;
 			gci.pszModule = m_szModuleName;
-			gci.pszID = ( TCHAR* )S.c_str();
+			gci.pszID = S.c_str();
 			if ( !CallServiceSync( MS_GC_GETINFO, 0, (LPARAM)&gci ))
 				return (INT_PTR)mir_strdup( gci.pszUsers );
 		}
@@ -212,8 +212,8 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			if ( i >= 0 ) {
 				int j = 0;
 				while (j < i) {
-					GC_INFO gci = {0};
-					gci.Flags = BYINDEX|ID;
+					GC_INFO gci = { 0 };
+					gci.Flags = BYINDEX | ID;
 					gci.pszModule = m_szModuleName;
 					gci.iItem = j;
 					if ( !CallServiceSync( MS_GC_GETINFO, 0, ( LPARAM )&gci )) {
