@@ -31,10 +31,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CVkProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETAVATARINFOT, &CVkProto::SvcGetAvatarInfo);
-	CreateProtoService(PS_GETAVATARCAPS,  &CVkProto::SvcGetAvatarCaps);
+	CreateProtoService(PS_GETAVATARCAPS, &CVkProto::SvcGetAvatarCaps);
 
-	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
-	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
 	HookProtoEvent(ME_OPT_INITIALISE, &CVkProto::OnOptionsInit);
 
 	TCHAR descr[512];
@@ -56,12 +54,18 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 	m_bServerDelivery = getBool("ServerDelivery", true);
 
+	// Chats
 	GCREGISTER gcr = { sizeof(gcr) };
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	gcr.nColors = SIZEOF(sttColors);
 	gcr.pColors = sttColors;
 	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
+
+	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);
+
+	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
+	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
@@ -75,6 +79,17 @@ CVkProto::~CVkProto()
 
 int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
+	char szService[100];
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_CREATECHAT);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIF_CHILDPOPUP;
+	mi.hParentMenu = MO_GetProtoRootMenu(m_szModuleName);
+	mi.pszService = szService;
+	mi.position = 10009;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);
+	mi.pszName = LPGEN("Create new chat");
+	Menu_AddProtoMenuItem(&mi);
 	return 0;
 }
 

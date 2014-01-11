@@ -80,6 +80,20 @@ BEGIN
     COMBOBOX        IDC_CONTACT,7,26,177,99,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
+IDD_GC_CREATE DIALOGEX 0, 0, 215, 229
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Create group chat"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x1,4,17,206,116,WS_EX_CLIENTEDGE
+    LTEXT           "Mark users you want to invite to a new chat",IDC_STATIC,4,7,206,8
+    LTEXT           "New chat's title:",IDC_STATIC,9,142,198,8
+    EDITTEXT        IDC_TITLE,4,153,206,52,ES_MULTILINE | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,107,211,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,160,211,50,14
+END
+
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
@@ -117,6 +131,14 @@ BEGIN
         RIGHTMARGIN, 184
         TOPMARGIN, 7
         BOTTOMMARGIN, 58
+    END
+
+    IDD_GC_CREATE, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 210
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 225
     END
 END
 #endif    // APSTUDIO_INVOKED

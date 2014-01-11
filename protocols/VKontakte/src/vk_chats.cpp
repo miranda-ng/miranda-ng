@@ -488,6 +488,11 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 	_itoa(cc->m_chatid, szChatId, 10);
 
 	switch (gch->dwData) {
+	case IDM_INFO:
+		if (HANDLE hContact = FindUser(cu->m_uid))
+			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+		break;
+		
 	case IDM_KICK:
 		HttpParam params[] = {
 			{ "chat_id", szChatId },
@@ -534,4 +539,127 @@ int CVkProto::OnGcMenuHook(WPARAM, LPARAM lParam)
 		gcmi->Item = sttListItems;
 	}
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void FilterContacts(HWND hwndDlg, CVkProto *ppro)
+{
+	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		char *proto = GetContactProto(hContact);
+		if (lstrcmpA(proto, ppro->m_szModuleName) || ppro->isChatRoom(hContact))
+			if (HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_FINDCONTACT, (WPARAM)hContact, 0))
+				SendMessage(hwndClist, CLM_DELETEITEM, (WPARAM)hItem, 0);
+	}
+}
+
+static void ResetOptions(HWND hwndDlg)
+{
+	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
+	SendMessage(hwndClist, CLM_SETBKBITMAP, 0, 0);
+	SendMessage(hwndClist, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
+	SendMessage(hwndClist, CLM_SETGREYOUTFLAGS, 0, 0);
+	SendMessage(hwndClist, CLM_SETLEFTMARGIN, 4, 0);
+	SendMessage(hwndClist, CLM_SETINDENT, 10, 0);
+	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, 1, 0);
+	SendMessage(hwndClist, CLM_GETHIDEOFFLINEROOT, 1, 0);
+	for (int i = 0; i <= FONTID_MAX; i++)
+		SendMessage(hwndClist, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
+}
+
+static INT_PTR CALLBACK GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CVkProto *ppro = (CVkProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	NMCLISTCONTROL* nmc;
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		ppro = (CVkProto*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		{
+			HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
+			SetWindowLongPtr(hwndClist, GWL_STYLE,
+				GetWindowLongPtr(hwndClist, GWL_STYLE) |  CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
+			SendMessage(hwndClist, CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
+
+			ResetOptions(hwndDlg);
+		}
+		return TRUE;
+
+	case WM_NOTIFY:
+		nmc = (NMCLISTCONTROL*)lParam;
+		if (nmc->hdr.idFrom == IDC_CLIST && nmc->hdr.code == CLN_LISTREBUILT)
+			FilterContacts(hwndDlg, ppro);
+		break;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDCANCEL:
+			EndDialog(hwndDlg, 0);
+			return TRUE;
+
+		case IDOK:
+			HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
+			CMStringA uids;
+			for (HANDLE hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
+				if (ppro->isChatRoom(hContact))
+					continue;
+
+				if (int hItem = SendMessage(hwndClist, CLM_FINDCONTACT, (WPARAM)hContact, 0)) {
+					if (SendMessage(hwndClist, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
+						int uid = ppro->getDword(hContact, "ID", 0);
+						if (uid != NULL) {
+							if (!uids.IsEmpty())
+								uids.AppendChar(',');
+							uids.AppendFormat("%d", uid);
+						}
+					}
+				}
+			}
+
+			TCHAR tszTitle[1024];
+			GetDlgItemText(hwndDlg, IDC_TITLE, tszTitle, SIZEOF(tszTitle));
+			ppro->CreateNewChat(uids, tszTitle);
+			EndDialog(hwndDlg, 0);
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+INT_PTR CVkProto::SvcCreateChat(WPARAM, LPARAM)
+{
+	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GC_CREATE), NULL, GcCreateDlgProc, (LPARAM)this);
+	return 0;
+}
+
+void CVkProto::CreateNewChat(LPCSTR uids, LPCTSTR ptszTitle)
+{
+	ptrA szTitle(mir_utf8encodeT(ptszTitle));
+
+	HttpParam params[] = {
+		{ "title", szTitle },
+		{ "uids", uids },
+		{ "access_token", m_szAccessToken }
+	};
+	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.createChat.json", true, &CVkProto::OnCreateNewChat, SIZEOF(params), params);
+}
+
+void CVkProto::OnCreateNewChat(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+{
+	debugLogA("CVkProto::OnCreateNewChat %d", reply->resultCode);
+	if (reply->resultCode != 200)
+		return;
+
+	JSONROOT pRoot;
+	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
+	if (pResponse == NULL)
+		return;
+
+	int chat_id = json_as_int(pResponse);
+	if (chat_id != NULL)
+		AppendChat(chat_id, NULL);
 }

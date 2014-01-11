@@ -15,6 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#define PS_CREATECHAT "/CreateNewChat"
+
 struct CVkProto;
 typedef void (CVkProto::*VK_REQUEST_HANDLER)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest*);
 
@@ -163,6 +165,9 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void SetServerStatus(int);
 
+	void CreateNewChat(LPCSTR uids, LPCTSTR ptrszTitle);
+	void OnCreateNewChat(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
 	__forceinline bool IsOnline() const { return m_bOnline; }
 	
 	__forceinline LPCTSTR getGroup() const { return m_defaultGroup; }
@@ -250,6 +255,7 @@ private:
 	void NickMenuHook(CVkChatInfo*, GCHOOK*);
 	LPTSTR ChangeChatTopic(CVkChatInfo*);
 	CVkChatInfo* GetChatById(LPCTSTR ptszId);
+	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 
 	CMString GetAttachmentDescr(JSONNODE*);
 };
