@@ -24,7 +24,7 @@ E-mail или номер телефона:
 [Server-side delivery confirmation]
 Подтверждение доставки со стороны сервера
 [Hide chats on startup]
-Прятать чаты при входе
+Не открывать окна комнат чата при входе
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
