@@ -78,7 +78,7 @@ Cоздать комнату чата
 [%s server connection]
 Подключение к серверу %s
 [Create new chat]
-
+Создать новый чат
 [me]
 Я
 [Attachments:]
