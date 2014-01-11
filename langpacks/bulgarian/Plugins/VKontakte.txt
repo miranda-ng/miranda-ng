@@ -37,6 +37,12 @@
 
 [Choose one of your contacts to be invited:]
 
+[Create group chat]
+
+[Mark users you want to invite to a new chat]
+
+[New chat's title:]
+
 [Captcha form icon]
 
 [Protocols]
@@ -72,6 +78,8 @@
 [Account]
 
 [%s server connection]
+
+[Create new chat]
 
 [me]
 

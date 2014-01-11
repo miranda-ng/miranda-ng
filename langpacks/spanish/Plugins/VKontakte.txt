@@ -38,6 +38,12 @@ Cancelar
 
 [Choose one of your contacts to be invited:]
 
+[Create group chat]
+
+[Mark users you want to invite to a new chat]
+
+[New chat's title:]
+
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 Formulario Captcha icono
@@ -79,6 +85,8 @@ Cuenta
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s conexión al servidor
+[Create new chat]
+
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [me]
 
