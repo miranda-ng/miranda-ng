@@ -23,6 +23,8 @@ E-mail или номер телефона:
 Дополнительные настройки
 [Server-side delivery confirmation]
 Подтверждение доставки со стороны сервера
+[Hide chats on startup]
+Прятать чаты при входе
 [Bots challenge test]
 Защита от ботов
 [Instruction:]

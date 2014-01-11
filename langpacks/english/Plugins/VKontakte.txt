@@ -15,6 +15,7 @@
 [Contact list group:]
 [Advanced]
 [Server-side delivery confirmation]
+[Hide chats on startup]
 [Bots challenge test]
 [Instruction:]
 [Submit]
