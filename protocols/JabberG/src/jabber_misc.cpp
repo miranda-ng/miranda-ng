@@ -517,7 +517,8 @@ void CJabberProto::MsgPopup(HANDLE hContact, const TCHAR *szMsg, const TCHAR *sz
 		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
 
 		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
-	} else {
+	}
+	else {
 		DWORD mtype = MB_OK | MB_SETFOREGROUND | MB_ICONSTOP;
 		MessageBox(NULL, szMsg, szTitle, mtype);
 	}

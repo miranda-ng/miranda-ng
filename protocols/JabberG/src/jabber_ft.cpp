@@ -153,7 +153,8 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
 								ft->type = FT_BYTESTREAM;
 								ft->jbt = jbt;
 								ForkThread((MyThreadFunc)&CJabberProto::ByteSendThread, jbt);
-							} else if (!_tcscmp(xmlGetText(valueNode), JABBER_FEAT_IBB)) {
+							}
+							else if (!_tcscmp(xmlGetText(valueNode), JABBER_FEAT_IBB)) {
 								JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *) mir_alloc(sizeof (JABBER_IBB_TRANSFER));
 								ZeroMemory(jibb, sizeof(JABBER_IBB_TRANSFER));
 								jibb->srcJID = mir_tstrdup(pInfo->m_szTo);

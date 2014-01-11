@@ -105,13 +105,11 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 	jibb->hEvent = NULL;
 
 	if (jibb->bStreamInitialized) {
-
 		jibb->wPacketId = 0;
 
 		BOOL bSent = (this->*jibb->pfnSend)(JABBER_IBB_BLOCK_SIZE, jibb->ft);
 
-		if (!jibb->bStreamClosed)
-		{
+		if (!jibb->bStreamClosed) {
 			jibb->hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
 			m_ThreadInfo->send(
@@ -124,10 +122,8 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 
 			if (jibb->bStreamClosed && bSent)
 				jibb->state = JIBB_DONE;
-
-		} else {
-			jibb->state = JIBB_ERROR;
 		}
+		else jibb->state = JIBB_ERROR;
 	}
 
 	(this->*jibb->pfnFinal)((jibb->state==JIBB_DONE)?TRUE:FALSE, jibb->ft);

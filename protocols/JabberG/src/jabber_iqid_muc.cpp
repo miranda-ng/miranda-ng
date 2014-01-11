@@ -365,24 +365,16 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 		{
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_FILTER), GWLP_USERDATA, 1);
 			sttFillJidList(hwndDlg);
-		} else
-		if ((LOWORD(wParam) == IDC_BTN_FILTERRESET) ||
+		}
+		else if ((LOWORD(wParam) == IDC_BTN_FILTERRESET) ||
 			((LOWORD(wParam) == IDCANCEL) && (GetFocus() == GetDlgItem(hwndDlg, IDC_FILTER))))
 		{
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_FILTER), GWLP_USERDATA, 0);
 			sttFillJidList(hwndDlg);
 		}
 		break;
-/*	case WM_SETCURSOR:
-		if (LOWORD(LPARAM)!= HTCLIENT) break;
-		if (GetForegroundWindow() == GetParent(hwndDlg)) {
-			POINT pt;
-			GetCursorPos(&pt);
-			ScreenToClient(hwndDlg,&pt);
-			SetFocus(ChildWindowFromPoint(hwndDlg,pt));	  //ugly hack because listviews ignore their first click
-		}
-		break;
-*/	case WM_CLOSE:
+
+	case WM_CLOSE:
 		{
 			HWND hwndList;
 			int count, i;

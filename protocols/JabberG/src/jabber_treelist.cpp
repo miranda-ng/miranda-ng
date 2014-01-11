@@ -208,12 +208,11 @@ HTREELISTITEM TreeList_AddItem(HWND hwnd, HTREELISTITEM hParent, TCHAR *text, LP
 	item->parent = hParent;
 	item->text.insert(mir_tstrdup(text));
 	item->flags |= TLIF_MODIFIED;
-	if (hParent->flags & TLIF_ROOT)
-	{
+	if (hParent->flags & TLIF_ROOT) {
 		item->flags |= TLIF_EXPANDED;
 		data->hItemSelected = item;
 	}
-	item->indent = hParent->indent+1;
+	item->indent = hParent->indent + 1;
 	hParent->subItems.insert(item);
 	return item;
 }
@@ -263,10 +262,11 @@ void TreeList_SetIcon(HTREELISTITEM hItem, int iIcon, int iOverlay)
 
 void TreeList_RecursiveApply(HTREELISTITEM hItem, void (*func)(HTREELISTITEM, LPARAM), LPARAM data)
 {
-	for (int i=0; i < hItem->subItems.getCount(); i++) {
+	for (int i = 0; i < hItem->subItems.getCount(); i++) {
 		func(hItem->subItems[i], data);
 		TreeList_RecursiveApply(hItem->subItems[i], func, data);
-}	}
+	}
+}
 
 void TreeList_Update(HWND hwnd)
 {
@@ -298,19 +298,17 @@ void TreeList_Update(HWND hwnd)
 				lvi.stateMask = LVIS_OVERLAYMASK|LVIS_STATEIMAGEMASK;
 				lvi.iImage = ptli->iIcon;
 				if (data->mode == TLM_TREE)
-				{
 					lvi.state =
 						INDEXTOSTATEIMAGEMASK(
-							((ptli->subItems.getCount() == 0) && !(ptli->flags & TLIF_FAKEPARENT)) ? 0 :
-								(ptli->flags & TLIF_EXPANDED) ? 1 : 2) |
+						((ptli->subItems.getCount() == 0) && !(ptli->flags & TLIF_FAKEPARENT)) ? 0 :
+						(ptli->flags & TLIF_EXPANDED) ? 1 : 2) |
 						INDEXTOOVERLAYMASK(ptli->iOverlay);
-				} else
-				{
+				else
 					lvi.state =
 						INDEXTOSTATEIMAGEMASK(
-							((ptli->subItems.getCount() == 0) && !(ptli->flags & TLIF_FAKEPARENT)) ? 0 : 3) |
+						((ptli->subItems.getCount() == 0) && !(ptli->flags & TLIF_FAKEPARENT)) ? 0 : 3) |
 						INDEXTOOVERLAYMASK(ptli->iOverlay);
-				}
+
 				ListView_SetItem(hwnd, &lvi);
 				for (int j = 1; j < ptli->text.getCount(); ++j)
 					ListView_SetItemText(hwnd, i, j, ptli->text[j]);
@@ -320,11 +318,10 @@ void TreeList_Update(HWND hwnd)
 	}
 	if (data->mode == TLM_TREE)
 		TreeList_RecursiveApply(hItem, sttTreeList_CreateItems, (LPARAM)hwnd);
-	else
-	{
+	else {
 		for (int i = data->hItemSelected->subItems.getCount(); i--;)
 			sttTreeList_CreateItems_List(data->hItemSelected->subItems[i], (LPARAM)hwnd);
-		for  (HTREELISTITEM hItem = data->hItemSelected; !(hItem->flags & TLIF_ROOT); hItem = hItem->parent)
+		for (HTREELISTITEM hItem = data->hItemSelected; !(hItem->flags & TLIF_ROOT); hItem = hItem->parent)
 			sttTreeList_CreateItems_List(hItem, (LPARAM)hwnd);
 	}
 	ListView_SortItems(hwnd, sttTreeList_SortFunc, 0);
@@ -514,17 +511,13 @@ static void sttTreeList_FilterItems(HTREELISTITEM hItem, LPARAM data)
 		if (JabberStrIStr(hItem->text[i], (TCHAR *)data))
 			break;
 
-	if (i < hItem->text.getCount())
-	{
-		while (!(hItem->flags & TLIF_ROOT))
-		{
+	if (i < hItem->text.getCount()) {
+		while (!(hItem->flags & TLIF_ROOT)) {
 			hItem->flags |= TLIF_FILTERED;
 			hItem = hItem->parent;
 		}
-	} else
-	{
-		hItem->flags &= ~TLIF_FILTERED;
 	}
+	else hItem->flags &= ~TLIF_FILTERED;
 }
 
 static void sttTreeList_CreateItems(HTREELISTITEM hItem, LPARAM data)

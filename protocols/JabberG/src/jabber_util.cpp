@@ -1196,7 +1196,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			HWND hWnd = GetDlgItem(hwndDlg, params->idcControl);
 			int len = GetWindowTextLength(hWnd);
 			params->result.Truncate(len);
-			GetWindowText(hWnd, params->result.GetBuffer(), len);
+			GetWindowText(hWnd, params->result.GetBuffer(), len+1);
 
 			if ((params->type == JES_COMBO) && params->windowName && params->recentCount)
 				params->ppro->ComboAddRecentString(hwndDlg, IDC_TXT_COMBO, params->windowName, params->result, params->recentCount);

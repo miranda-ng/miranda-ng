@@ -157,7 +157,8 @@ void JabberFormSetInstruction(HWND hwndForm, const TCHAR *text)
 		HWND hwndEdit = GetDlgItem(hwndForm, IDC_INSTRUCTION);
 		SetWindowLongPtr(hwndEdit, GWL_STYLE, WS_VSCROLL | GetWindowLongPtr(hwndEdit, GWL_STYLE));
 		rcText.bottom = rcText.top + (rcWindow.bottom-rcWindow.top)/5;
-	} else {
+	}
+	else {
 		HWND hwndEdit = GetDlgItem(hwndForm, IDC_INSTRUCTION);
 		SetWindowLongPtr(hwndEdit, GWL_STYLE, ~WS_VSCROLL & GetWindowLongPtr(hwndEdit, GWL_STYLE));
 	}

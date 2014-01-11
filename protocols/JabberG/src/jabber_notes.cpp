@@ -38,8 +38,7 @@ static TCHAR *StrTrimCopy(TCHAR *str)
 	if (!*str) return mir_tstrdup(str);
 
 	TCHAR *res = mir_tstrdup(str);
-	for (TCHAR *p = res + lstrlen(res) - 1; p >= res; --p)
-	{
+	for (TCHAR *p = res + lstrlen(res) - 1; p >= res; --p) {
 		if (_istspace(*p))
 			*p = 0;
 		else
@@ -51,21 +50,12 @@ static TCHAR *StrTrimCopy(TCHAR *str)
 
 CNoteItem::CNoteItem()
 {
-	m_szTitle =
-	m_szFrom =
-	m_szText =
-	m_szTags =
-	m_szTagsStr = NULL;
+	m_szTitle = m_szFrom = m_szText = m_szTags = m_szTagsStr = NULL;
 }
 
 CNoteItem::CNoteItem(HXML hXml, TCHAR *szFrom)
 {
-	m_szTitle =
-	m_szFrom =
-	m_szText =
-	m_szTags =
-	m_szTagsStr = NULL;
-
+	m_szTitle = m_szFrom = m_szText = m_szTags = m_szTagsStr = NULL;
 	SetData(
 		XPathT(hXml, "title"),
 		szFrom ? szFrom : XPathT(hXml, "@from"),
@@ -97,13 +87,11 @@ void CNoteItem::SetData(TCHAR *title, TCHAR *from, TCHAR *text, TCHAR *tags)
 	const TCHAR *szTags = tags;
 	TCHAR *p = m_szTags = (TCHAR *)mir_alloc((lstrlen(szTags) + 2 /*for double zero*/) * sizeof(TCHAR));
 	TCHAR *q = m_szTagsStr = (TCHAR *)mir_alloc((lstrlen(szTags) + 1) * sizeof(TCHAR));
-	for (; szTags && *szTags; ++szTags)
-	{
+	for (; szTags && *szTags; ++szTags) {
 		if (_istspace(*szTags))
 			continue;
 
-		if (*szTags == _T(','))
-		{
+		if (*szTags == _T(',')) {
 			*q++ = _T(',');
 			*p++ = 0;
 			continue;
@@ -252,13 +240,12 @@ void CJabberDlgNoteItem::OnInitDialog()
 	CSuper::OnInitDialog();
 	WindowSetIcon(m_hwnd, m_proto, "notes");
 
-	if (m_fnProcess)
-	{
-		TCHAR buf[256];
+	if (m_fnProcess) {
+		CMString buf;
 		if (m_fnProcess == &CJabberProto::ProcessIncomingNote)
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Incoming note from %s"), m_pNote->GetFrom());
+			buf.Format(TranslateT("Incoming note from %s"), m_pNote->GetFrom());
 		else
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Send note to %s"), m_pNote->GetFrom());
+			buf.Format(TranslateT("Send note to %s"), m_pNote->GetFrom());
 
 		SetWindowText(m_hwnd, buf);
 	}
@@ -270,19 +257,18 @@ void CJabberDlgNoteItem::OnInitDialog()
 
 int CJabberDlgNoteItem::Resizer(UTILRESIZECONTROL *urc)
 {
-	switch (urc->wId)
-	{
+	switch (urc->wId) {
 	case IDC_TXT_TITLE:
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_TOP;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 	case IDC_TXT_TEXT:
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 	case IDC_ST_TAGS:
 	case IDC_TXT_TAGS:
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
 
 	case IDOK:
 	case IDCANCEL:
-		return RD_ANCHORX_RIGHT|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 	}
 
 	return CSuper::Resizer(urc);
@@ -302,18 +288,18 @@ public:
 	void SetFonts(HFONT hfntNormal, HFONT hfntSmall, HFONT hfntBold)
 	{
 		m_hfntNormal = hfntNormal;
-		m_hfntSmall	= hfntSmall;
+		m_hfntSmall = hfntSmall;
 		m_hfntBold = hfntBold;
 	}
 
-	int AddString(TCHAR *text, LPARAM data=0)
+	int AddString(TCHAR *text, LPARAM data = 0)
 	{
 		m_adding = true;
 		int idx = CCtrlListBox::AddString(text, data);
 		m_adding = false;
 		if (idx == LB_ERR) return idx;
 
-		MEASUREITEMSTRUCT mis = {0};
+		MEASUREITEMSTRUCT mis = { 0 };
 		mis.CtlType = ODT_LISTBOX;
 		mis.CtlID = m_idCtrl;
 		mis.itemID = idx;
@@ -331,13 +317,11 @@ public:
 
 	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	{
-		if (msg == WM_SIZE)
-		{
+		if (msg == WM_SIZE) {
 			SendMessage(m_hwnd, WM_SETREDRAW, FALSE, 0);
 			int cnt = GetCount();
-			for (int idx = 0; idx < cnt; ++idx)
-			{
-				MEASUREITEMSTRUCT mis = {0};
+			for (int idx = 0; idx < cnt; ++idx) {
+				MEASUREITEMSTRUCT mis = { 0 };
 				mis.CtlType = ODT_LISTBOX;
 				mis.CtlID = m_idCtrl;
 				mis.itemID = idx;
@@ -362,19 +346,17 @@ public:
 		CNoteItem *pNote = (CNoteItem *)lps->itemData;
 
 		SetBkMode(hdc, TRANSPARENT);
-		if (lps->itemState & ODS_SELECTED)
-		{
+		if (lps->itemState & ODS_SELECTED) {
 			FillRect(hdc, &lps->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
 			SetTextColor(hdc, GetSysColor(COLOR_HIGHLIGHTTEXT));
-		} else
-		{
+		}
+		else {
 			FillRect(hdc, &lps->rcItem, GetSysColorBrush(COLOR_WINDOW));
 			SetTextColor(hdc, GetSysColor(COLOR_WINDOWTEXT));
 		}
 
-		if (lps->itemID)
-		{
-			RECT rcTmp = lps->rcItem; rcTmp.bottom = rcTmp.top+1;
+		if (lps->itemID) {
+			RECT rcTmp = lps->rcItem; rcTmp.bottom = rcTmp.top + 1;
 			FillRect(hdc, &rcTmp, GetSysColorBrush(COLOR_BTNSHADOW));
 		}
 
@@ -384,17 +366,16 @@ public:
 		rc.top += 2;
 
 		SelectObject(hdc, m_hfntBold);
-		rc.top += DrawText(hdc, pNote->GetTitle(), -1, &rc, DT_NOPREFIX|DT_SINGLELINE|DT_END_ELLIPSIS);
+		rc.top += DrawText(hdc, pNote->GetTitle(), -1, &rc, DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS);
 		SelectObject(hdc, m_hfntNormal);
-		if (pNote->GetFrom())
-		{
+		if (pNote->GetFrom()) {
 			TCHAR buf[256];
 			mir_sntprintf(buf, SIZEOF(buf), TranslateT("From: %s"), pNote->GetFrom());
-			rc.top += DrawText(hdc, buf, -1, &rc, DT_NOPREFIX|DT_SINGLELINE|DT_END_ELLIPSIS);
+			rc.top += DrawText(hdc, buf, -1, &rc, DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS);
 		}
-		rc.top += DrawText(hdc, pNote->GetText(), -1, &rc, DT_NOPREFIX|DT_WORDBREAK|DT_EXPANDTABS|DT_END_ELLIPSIS);
+		rc.top += DrawText(hdc, pNote->GetText(), -1, &rc, DT_NOPREFIX | DT_WORDBREAK | DT_EXPANDTABS | DT_END_ELLIPSIS);
 		SelectObject(hdc, m_hfntSmall);
-		rc.top += DrawText(hdc, pNote->GetTagsStr(), -1, &rc, DT_NOPREFIX|DT_SINGLELINE|DT_END_ELLIPSIS);
+		rc.top += DrawText(hdc, pNote->GetTagsStr(), -1, &rc, DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS);
 		rc.top += 5;
 
 		int h = min(255, max(0, rc.bottom - rc.top));
@@ -420,23 +401,22 @@ public:
 
 		SelectObject(hdc, m_hfntBold);
 		rcTmp = rc;
-		DrawText(hdc, pNote->GetTitle(), -1, &rcTmp, DT_NOPREFIX|DT_SINGLELINE|DT_END_ELLIPSIS|DT_CALCRECT);
+		DrawText(hdc, pNote->GetTitle(), -1, &rcTmp, DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS | DT_CALCRECT);
 		lps->itemHeight += rcTmp.bottom;
 		SelectObject(hdc, m_hfntNormal);
-		if (pNote->GetFrom())
-		{
+		if (pNote->GetFrom()) {
 			TCHAR buf[256];
 			mir_sntprintf(buf, SIZEOF(buf), TranslateT("From: %s"), pNote->GetFrom());
 			rcTmp = rc;
-			DrawText(hdc, buf, -1, &rcTmp, DT_NOPREFIX|DT_SINGLELINE|DT_END_ELLIPSIS|DT_CALCRECT);
+			DrawText(hdc, buf, -1, &rcTmp, DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS | DT_CALCRECT);
 			lps->itemHeight += rcTmp.bottom;
 		}
 		rcTmp = rc;
-		DrawText(hdc, pNote->GetText(), -1, &rcTmp, DT_NOPREFIX|DT_WORDBREAK|DT_EXPANDTABS|DT_END_ELLIPSIS|DT_CALCRECT);
+		DrawText(hdc, pNote->GetText(), -1, &rcTmp, DT_NOPREFIX | DT_WORDBREAK | DT_EXPANDTABS | DT_END_ELLIPSIS | DT_CALCRECT);
 		lps->itemHeight += rcTmp.bottom;
 		SelectObject(hdc, m_hfntSmall);
 		rcTmp = rc;
-		DrawText(hdc, pNote->GetTagsStr(), -1, &rcTmp, DT_NOPREFIX|DT_SINGLELINE|DT_END_ELLIPSIS|DT_CALCRECT);
+		DrawText(hdc, pNote->GetTagsStr(), -1, &rcTmp, DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS | DT_CALCRECT);
 		lps->itemHeight += rcTmp.bottom;
 		lps->itemHeight += 5;
 
@@ -484,10 +464,10 @@ private:
 
 	void InsertTag(HTREEITEM htiRoot, const TCHAR *tag, bool bSelect)
 	{
-		TVINSERTSTRUCT tvi = {0};
+		TVINSERTSTRUCT tvi = { 0 };
 		tvi.hParent = htiRoot;
 		tvi.hInsertAfter = TVI_LAST;
-		tvi.itemex.mask = TVIF_TEXT|TVIF_PARAM;
+		tvi.itemex.mask = TVIF_TEXT | TVIF_PARAM;
 		tvi.itemex.pszText = (TCHAR *)tag;
 		tvi.itemex.lParam = (LPARAM)mir_tstrdup(tag);
 		HTREEITEM hti = m_tvFilter.InsertItem(&tvi);
@@ -497,17 +477,15 @@ private:
 	void PopulateTags(HTREEITEM htiRoot, TCHAR *szActiveTag)
 	{
 		LIST<TCHAR> tagSet(5, _tcscmp);
-		for (int i=0; i < m_proto->m_notes.getCount(); i++)
-		{
+		for (int i = 0; i < m_proto->m_notes.getCount(); i++) {
 			TCHAR *tags = m_proto->m_notes[i].GetTags();
 			for (TCHAR *tag = tags; tag && *tag; tag = tag + lstrlen(tag) + 1)
-				if (!tagSet.find(tag))
-					tagSet.insert(tag);
+			if (!tagSet.find(tag))
+				tagSet.insert(tag);
 		}
 
 		bool selected = false;
-		for (int j = 0; j < tagSet.getCount(); ++j)
-		{
+		for (int j = 0; j < tagSet.getCount(); ++j) {
 			bool select = !lstrcmp(szActiveTag, tagSet[j]);
 			selected |= select;
 			InsertTag(htiRoot, tagSet[j], select);
@@ -519,23 +497,19 @@ private:
 
 	void RebuildTree()
 	{
-		TVITEMEX tvi = {0};
-		tvi.mask = TVIF_HANDLE|TVIF_PARAM;
+		TVITEMEX tvi = { 0 };
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 		tvi.hItem = m_tvFilter.GetSelection();
 		m_tvFilter.GetItem(&tvi);
 		TCHAR *szActiveTag = mir_tstrdup((TCHAR *)tvi.lParam);
 
 		m_tvFilter.DeleteAllItems();
 
-		TVINSERTSTRUCT tvis = {0};
-		tvis.hParent = NULL;
+		TVINSERTSTRUCT tvis = { 0 };
 		tvis.hInsertAfter = TVI_LAST;
-		tvis.itemex.mask = TVIF_TEXT|TVIF_PARAM|TVIF_STATE;
-		tvis.itemex.stateMask =
-		tvis.itemex.state = TVIS_BOLD|TVIS_EXPANDED;
+		tvis.itemex.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
+		tvis.itemex.stateMask = tvis.itemex.state = TVIS_BOLD | TVIS_EXPANDED;
 		tvis.itemex.pszText = TranslateT("All tags");
-		tvis.itemex.lParam = NULL;
-
 
 		PopulateTags(m_tvFilter.InsertItem(&tvis), szActiveTag);
 		mir_free(szActiveTag);
@@ -562,13 +536,12 @@ private:
 		CJabberDlgNoteItem dlg(this, pNote);
 		dlg.DoModal();
 
-		if (pNote->IsNotEmpty())
-		{
+		if (pNote->IsNotEmpty()) {
 			m_proto->m_notes.insert(pNote);
 			m_proto->m_notes.Modify();
 			UpdateData();
-		} else
-		{
+		}
+		else {
 			delete pNote;
 			return;
 		}
@@ -578,13 +551,10 @@ private:
 	void btnEdit_OnClick(CCtrlFilterListView *)
 	{
 		int idx = m_lstNotes.GetCurSel();
-		if (idx != LB_ERR)
-		{
-			if (CNoteItem *pItem = (CNoteItem *)m_lstNotes.GetItemData(idx))
-			{
+		if (idx != LB_ERR) {
+			if (CNoteItem *pItem = (CNoteItem *)m_lstNotes.GetItemData(idx)) {
 				CJabberDlgNoteItem dlg(this, pItem);
-				if (dlg.DoModal())
-				{
+				if (dlg.DoModal()) {
 					m_proto->m_notes.Modify();
 					RebuildTree();
 				}
@@ -596,10 +566,8 @@ private:
 	void btnRemove_OnClick(CCtrlFilterListView *)
 	{
 		int idx = m_lstNotes.GetCurSel();
-		if (idx != LB_ERR)
-		{
-			if (CNoteItem *pItem = (CNoteItem *)m_lstNotes.GetItemData(idx))
-			{
+		if (idx != LB_ERR) {
+			if (CNoteItem *pItem = (CNoteItem *)m_lstNotes.GetItemData(idx)) {
 				m_lstNotes.DeleteString(idx);
 				m_proto->m_notes.remove(pItem);
 			}
@@ -640,12 +608,12 @@ private:
 
 CJabberDlgNotes::CJabberDlgNotes(CJabberProto *proto) :
 	CSuper(proto, IDD_NOTEBOOK, NULL),
-	m_btnAdd(this,      IDC_ADD,    SKINICON_OTHER_ADDCONTACT, LPGEN("Add")),
-	m_btnEdit(this,     IDC_EDIT,   SKINICON_OTHER_RENAME,     LPGEN("Edit")),
-	m_btnRemove(this,   IDC_REMOVE, SKINICON_OTHER_DELETE,     LPGEN("Remove")),
-	m_lstNotes(this,	IDC_LST_NOTES),
-	m_tvFilter(this,	IDC_TV_FILTER),
-	m_btnSave(this,		IDC_APPLY)
+	m_btnAdd(this, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add")),
+	m_btnEdit(this, IDC_EDIT, SKINICON_OTHER_RENAME, LPGEN("Edit")),
+	m_btnRemove(this, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove")),
+	m_lstNotes(this, IDC_LST_NOTES),
+	m_tvFilter(this, IDC_TV_FILTER),
+	m_btnSave(this, IDC_APPLY)
 {
 	m_btnAdd.OnClick = Callback(this, &CJabberDlgNotes::btnAdd_OnClick);
 	m_btnEdit.OnClick = Callback(this, &CJabberDlgNotes::btnEdit_OnClick);
@@ -684,10 +652,8 @@ void CJabberDlgNotes::OnInitDialog()
 
 void CJabberDlgNotes::OnClose()
 {
-	if (m_proto->m_notes.IsModified())
-	{
-		if (IDYES != MessageBox(m_hwnd, TranslateT("Notes are not saved, close this window without uploading data to server?"), TranslateT("Are you sure?"), MB_ICONWARNING|MB_YESNO|MB_DEFBUTTON2))
-		{
+	if (m_proto->m_notes.IsModified()) {
+		if (IDYES != MessageBox(m_hwnd, TranslateT("Notes are not saved, close this window without uploading data to server?"), TranslateT("Are you sure?"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2)) {
 			m_lresult = TRUE;
 			return;
 		}
@@ -718,17 +684,17 @@ void CJabberDlgNotes::OnProtoRefresh(WPARAM, LPARAM)
 int CJabberDlgNotes::Resizer(UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
-		case IDC_TV_FILTER:
-			return RD_ANCHORX_LEFT|RD_ANCHORY_HEIGHT;
-		case IDC_LST_NOTES:
-			return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
-		case IDC_APPLY:
-		case IDCANCEL:
-			return RD_ANCHORX_RIGHT|RD_ANCHORY_BOTTOM;
-		case IDC_ADD:
-		case IDC_EDIT:
-		case IDC_REMOVE:
-			return RD_ANCHORX_LEFT|RD_ANCHORY_BOTTOM;
+	case IDC_TV_FILTER:
+		return RD_ANCHORX_LEFT | RD_ANCHORY_HEIGHT;
+	case IDC_LST_NOTES:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+	case IDC_APPLY:
+	case IDCANCEL:
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+	case IDC_ADD:
+	case IDC_EDIT:
+	case IDC_REMOVE:
+		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 	}
 	return CSuper::Resizer(urc);
 }
@@ -738,8 +704,7 @@ int CJabberDlgNotes::Resizer(UTILRESIZECONTROL *urc)
 
 void CJabberProto::ProcessIncomingNote(CNoteItem *pNote, bool ok)
 {
-	if (ok && pNote->IsNotEmpty())
-	{
+	if (ok && pNote->IsNotEmpty()) {
 		m_notes.insert(pNote);
 
 		XmlNodeIq iq(_T("set"));
@@ -747,16 +712,13 @@ void CJabberProto::ProcessIncomingNote(CNoteItem *pNote, bool ok)
 		HXML storage = query << XCHILDNS(_T("storage"), JABBER_FEAT_MIRANDA_NOTES);
 		m_notes.SaveXml(storage);
 		m_ThreadInfo->send(iq);
-	} else
-	{
-		delete pNote;
 	}
+	else delete pNote;
 }
 
 void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 {
-	if (!ok || !pNote->IsNotEmpty())
-	{
+	if (!ok || !pNote->IsNotEmpty()) {
 		delete pNote;
 		return;
 	}
@@ -801,24 +763,22 @@ bool CJabberProto::OnIncomingNote(const TCHAR *szFrom, HXML hXml)
 
 	if (!szFrom || !hXml) return true;
 	CNoteItem *pItem = new CNoteItem(hXml, (TCHAR *)szFrom);
-	if (!pItem->IsNotEmpty())
-	{
+	if (!pItem->IsNotEmpty()) {
 		delete pItem;
 		return true;
 	}
 
-	if (m_options.AutosaveNotes && HContactFromJID(szFrom))
-	{
+	if (m_options.AutosaveNotes && HContactFromJID(szFrom)) {
 		ProcessIncomingNote(pItem, true);
 		return false;
 	}
 
-	CLISTEVENT cle = {0};
+	CLISTEVENT cle = { 0 };
 	char szService[256];
-	mir_snprintf(szService, sizeof(szService),"%s%s", m_szModuleName, JS_INCOMING_NOTE_EVENT);
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, JS_INCOMING_NOTE_EVENT);
 	cle.cbSize = sizeof(CLISTEVENT);
 	cle.hIcon = (HICON)LoadIconEx("notes");
-	cle.flags = CLEF_PROTOCOLGLOBAL|CLEF_TCHAR;
+	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_TCHAR;
 	cle.hDbEvent = (HANDLE)("test");
 	cle.lParam = (LPARAM)pItem;
 	cle.pszService = szService;
@@ -853,7 +813,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleNotes(WPARAM, LPARAM)
 INT_PTR __cdecl CJabberProto::OnMenuSendNote(WPARAM wParam, LPARAM)
 {
 	if (wParam) {
-		CNoteItem *pItem = new CNoteItem(NULL, ptrT( getTStringA((HANDLE)wParam, "jid")));
+		CNoteItem *pItem = new CNoteItem(NULL, ptrT(getTStringA((HANDLE)wParam, "jid")));
 		CJabberDlgBase *pDlg = new CJabberDlgNoteItem(this, pItem, &CJabberProto::ProcessOutgoingNote);
 		pDlg->Show();
 	}

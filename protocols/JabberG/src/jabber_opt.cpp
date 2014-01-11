@@ -1870,19 +1870,12 @@ private:
 		m_cbServer.GetTextA(regInfo.server, SIZEOF(regInfo.server));
 		regInfo.port = (WORD)m_txtPort.GetInt();
 		if (m_chkManualHost.GetState() == BST_CHECKED)
-		{
 			m_txtManualHost.GetTextA(regInfo.manualHost, SIZEOF(regInfo.manualHost));
-		} else
-		{
+		else
 			regInfo.manualHost[0] = '\0';
-		}
 
-		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port>0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0]))
-		{
-			CJabberDlgRegister dlg(m_proto, m_hwnd, &regInfo);
-			dlg.DoModal();
-//			DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_OPT_REGISTER), m_hwnd, JabberRegisterDlgProc, (LPARAM)&regInfo);
-		}
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0]))
+			CJabberDlgRegister(m_proto, m_hwnd, &regInfo).DoModal();
 	}
 
 	void cbServer_OnDropdown(CCtrlCombo*)
@@ -1917,8 +1910,7 @@ private:
 	{
 		CCtrlCheck *chk = (CCtrlCheck *)sender;
 
-		if (chk->GetState() == BST_CHECKED)
-		{
+		if (chk->GetState() == BST_CHECKED) {
 			char buf[256];
 			m_cbServer.GetTextA(buf, SIZEOF(buf));
 			m_txtManualHost.SetTextA(buf);
@@ -1926,8 +1918,8 @@ private:
 
 			m_txtManualHost.Enable();
 			m_txtPort.Enable();
-		} else
-		{
+		}
+		else {
 			m_txtManualHost.Disable();
 			m_txtPort.Disable();
 		}

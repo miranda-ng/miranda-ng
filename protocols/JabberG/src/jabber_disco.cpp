@@ -498,7 +498,8 @@ void CJabberProto::ApplyNodeIcon(HTREELISTITEM hItem, CJabberSDNode *pNode)
 			iOverlay = SD_OVERLAY_REGISTERED;
 		else
 			iOverlay = SD_OVERLAY_NONE;
-	} else if (pNode->GetInfoRequestId() == JABBER_DISCO_RESULT_OK) {
+	}
+	else if (pNode->GetInfoRequestId() == JABBER_DISCO_RESULT_OK) {
 		if (IsNodeRegistered(pNode))
 			iOverlay = SD_OVERLAY_REGISTERED;
 		else if (pNode->GetInfoRequestId() == JABBER_DISCO_RESULT_ERROR)
@@ -640,7 +641,8 @@ void CJabberDlgDiscovery::OnInitDialog()
 		SetDlgItemText(m_hwnd, IDC_COMBO_JID, m_jid);
 		SetDlgItemText(m_hwnd, IDC_COMBO_NODE, _T(""));
 		m_focusEditAfterBrowse = false;
-	} else {
+	}
+	else {
 		SetDlgItemTextA(m_hwnd, IDC_COMBO_JID, m_proto->m_ThreadInfo->server);
 		SetDlgItemText(m_hwnd, IDC_COMBO_NODE, _T(""));
 		m_focusEditAfterBrowse = true;

@@ -40,7 +40,8 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData *pThreadData, CJabberMes
 			char *errText = mir_t2a(szErrText);
 			ProtoBroadcastAck(pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, (LPARAM)errText);
 			mir_free(errText);
-		} else {
+		}
+		else {
 			TCHAR buf[512];
 			HXML bodyNode = xmlGetChild(node, "body");
 			if (bodyNode)
@@ -75,11 +76,11 @@ BOOL CJabberProto::OnMessagePubsubEvent(HXML node, ThreadData *pThreadData, CJab
 BOOL CJabberProto::OnMessageGroupchat(HXML node, ThreadData *pThreadData, CJabberMessageInfo* pInfo)
 {
 	JABBER_LIST_ITEM *chatItem = ListGetItemPtr(LIST_CHATROOM, pInfo->GetFrom());
-	if (chatItem)
-	{	// process GC message
+	if (chatItem) // process GC message
 		GroupchatProcessMessage(node);
-	} else
-	{	// got message from unknown conference... let's leave it :)
+	
+	// got message from unknown conference... let's leave it :)
+	else { 
 //			TCHAR *conference = NEWTSTR_ALLOCA(from);
 //			if (TCHAR *s = _tcschr(conference, _T('/'))) *s = 0;
 //			XmlNode p("presence"); xmlAddAttr(p, "to", conference); xmlAddAttr(p, "type", "unavailable");

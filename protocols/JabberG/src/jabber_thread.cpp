@@ -670,7 +670,8 @@ void CJabberProto::PerformAuthentication(ThreadData* info)
 		if (!auth->isValid()) {
 			delete auth;
 			auth = NULL;
-		} else {
+		}
+		else {
 			request = auth->getInitialRequest();
 			if (!request) {
 				delete auth;

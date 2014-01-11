@@ -46,12 +46,13 @@ TNtlmAuth::TNtlmAuth(ThreadData* info, const char* mechanism, const TCHAR *hostn
 		return;
 	}
 
-	TCHAR szSpn[ 1024 ] = _T("");
+	TCHAR szSpn[1024] = _T("");
 	if (strcmp(mechanism, "NTLM")) {
 		if (!getSpn(szSpn, SIZEOF(szSpn)) && !strcmp(mechanism, "GSSAPI")) {
 			bIsValid = false;
 			return;
-	}	}
+		}
+	}
 
 	if ((hProvider = Netlib_InitSecurityProvider2(szProvider, szSpn)) == NULL)
 		bIsValid = false;
@@ -65,11 +66,10 @@ TNtlmAuth::~TNtlmAuth()
 
 bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 {
-
 	TCHAR szFullUserName[128] = _T("");
 	ULONG szFullUserNameLen = SIZEOF(szFullUserName);
 	if (!GetUserNameEx(NameDnsDomain, szFullUserName, &szFullUserNameLen)) {
-		szFullUserName[ 0 ] = 0;
+		szFullUserName[0] = 0;
 		szFullUserNameLen = SIZEOF(szFullUserName);
 		GetUserNameEx(NameSamCompatible, szFullUserName, &szFullUserNameLen);
 	}
@@ -82,12 +82,11 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 		TCHAR *szFullUserNameU = _tcsupr(mir_tstrdup(szFullUserName));
 		mir_sntprintf(szSpn, dwSpnLen, _T("xmpp/%s/%s@%s"), szHostName, szFullUserName, szFullUserNameU);
 		mir_free(szFullUserNameU);
-	} else {
+	}
+	else {
 		const char* connectHost = info->manualHost[0] ? info->manualHost : info->server;
 
-		 unsigned long ip = inet_addr(connectHost);
-		// Convert host name to FQDN
-//		PHOSTENT host = (ip == INADDR_NONE) ? gethostbyname(szHost) : gethostbyaddr((char*)&ip, 4, AF_INET);
+		unsigned long ip = inet_addr(connectHost);
 		PHOSTENT host = (ip == INADDR_NONE) ? NULL : gethostbyaddr((char*)&ip, 4, AF_INET);
 		if (host && host->h_name)
 			connectHost = host->h_name;
@@ -98,8 +97,6 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 	}
 
 	Netlib_Logf(NULL, "SPN: %S", szSpn);
-
-
 	return true;
 }
 
@@ -176,13 +173,13 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	mir_md5_append(&ctx, (BYTE*)":", 1);
 	mir_md5_append(&ctx, (BYTE*)realm, (int)strlen(realm));
 	mir_md5_append(&ctx, (BYTE*)":", 1);
-	mir_md5_append(&ctx, (BYTE*)(char*)passw,  (int)strlen(passw));
+	mir_md5_append(&ctx, (BYTE*)(char*)passw, (int)strlen(passw));
 	mir_md5_finish(&ctx, (BYTE*)hash1);
 
 	mir_md5_init(&ctx);
 	mir_md5_append(&ctx, (BYTE*)hash1, 16);
 	mir_md5_append(&ctx, (BYTE*)":", 1);
-	mir_md5_append(&ctx, (BYTE*)nonce,  (int)strlen(nonce));
+	mir_md5_append(&ctx, (BYTE*)nonce, (int)strlen(nonce));
 	mir_md5_append(&ctx, (BYTE*)":", 1);
 	mir_md5_append(&ctx, (BYTE*)cnonce, (int)strlen(cnonce));
 	mir_md5_finish(&ctx, (BYTE*)hash1);
@@ -195,8 +192,8 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	mir_md5_init(&ctx);
 	mir_snprintf(tmpBuf, SIZEOF(tmpBuf), "%08x%08x%08x%08x", htonl(hash1[0]), htonl(hash1[1]), htonl(hash1[2]), htonl(hash1[3]));
 	mir_md5_append(&ctx, (BYTE*)tmpBuf, (int)strlen(tmpBuf));
-	mir_md5_append(&ctx, (BYTE*)":",    1);
-	mir_md5_append(&ctx, (BYTE*)nonce,  (int)strlen(nonce));
+	mir_md5_append(&ctx, (BYTE*)":", 1);
+	mir_md5_append(&ctx, (BYTE*)nonce, (int)strlen(nonce));
 	mir_snprintf(tmpBuf, SIZEOF(tmpBuf), ":%08d:", iCallCount);
 	mir_md5_append(&ctx, (BYTE*)tmpBuf, (int)strlen(tmpBuf));
 	mir_md5_append(&ctx, (BYTE*)cnonce, (int)strlen(cnonce));
@@ -212,7 +209,7 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 		uname, realm, nonce, cnonce, iCallCount, serv,
 		htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
-   return mir_base64_encode((PBYTE)buf, cbLen);
+	return mir_base64_encode((PBYTE)buf, cbLen);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -232,14 +229,13 @@ TScramAuth::~TScramAuth()
 	mir_free(serverSignature);
 }
 
-void TScramAuth::Hi(BYTE* res , char* passw, size_t passwLen, char* salt, size_t saltLen, int ind)
+void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t saltLen, int ind)
 {
-	BYTE u[ MIR_SHA1_HASH_SIZE ];
-	memcpy(u, salt,  saltLen); *(unsigned*)(u + saltLen) = htonl(1); saltLen += 4;
+	BYTE u[MIR_SHA1_HASH_SIZE];
+	memcpy(u, salt, saltLen); *(unsigned*)(u + saltLen) = htonl(1); saltLen += 4;
 	memset(res, 0, MIR_SHA1_HASH_SIZE);
 
-	for (int i=0; i < ind; i++)
-	{
+	for (int i = 0; i < ind; i++) {
 		mir_hmac_sha1(u, (BYTE*)passw, passwLen, u, saltLen);
 		saltLen = sizeof(u);
 
@@ -251,14 +247,14 @@ void TScramAuth::Hi(BYTE* res , char* passw, size_t passwLen, char* salt, size_t
 char* TScramAuth::getChallenge(const TCHAR *challenge)
 {
 	unsigned chlLen;
-	ptrA chl((char*)mir_base64_decode( _T2A(challenge), &chlLen));
+	ptrA chl((char*)mir_base64_decode(_T2A(challenge), &chlLen));
 
 	char *r = strstr(chl, "r=");
 	if (!r)
 		return NULL;
 
 	char *e = strchr(r, ','); if (e) *e = 0;
-	ptrA snonce( mir_strdup(r + 2));
+	ptrA snonce(mir_strdup(r + 2));
 	if (e) *e = ',';
 
 	size_t cnlen = strlen(cnonce);
@@ -304,30 +300,30 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 	char authmsg[4096];
 	int authmsgLen = mir_snprintf(authmsg, sizeof(authmsg), "%s,%s,c=biws,r=%s", msg1, chl, snonce);
 
-	BYTE clientSig[ MIR_SHA1_HASH_SIZE ];
+	BYTE clientSig[MIR_SHA1_HASH_SIZE];
 	mir_hmac_sha1(clientSig, storedKey, sizeof(storedKey), (BYTE*)authmsg, authmsgLen);
 
-	BYTE clientProof[ MIR_SHA1_HASH_SIZE ];
+	BYTE clientProof[MIR_SHA1_HASH_SIZE];
 	for (unsigned j = 0; j < sizeof(clientKey); j++)
 		clientProof[j] = clientKey[j] ^ clientSig[j];
 
 	/* Calculate the server signature */
-	BYTE serverKey[ MIR_SHA1_HASH_SIZE ];
+	BYTE serverKey[MIR_SHA1_HASH_SIZE];
 	mir_hmac_sha1(serverKey, saltedPassw, sizeof(saltedPassw), (BYTE*)"Server Key", 10);
 
-	BYTE srvSig[ MIR_SHA1_HASH_SIZE ];
+	BYTE srvSig[MIR_SHA1_HASH_SIZE];
 	mir_hmac_sha1(srvSig, serverKey, sizeof(serverKey), (BYTE*)authmsg, authmsgLen);
 	serverSignature = mir_base64_encode((PBYTE)srvSig, sizeof(srvSig));
 
 	char buf[4096];
-	ptrA encproof( mir_base64_encode((PBYTE)clientProof, sizeof(clientProof)));
+	ptrA encproof(mir_base64_encode((PBYTE)clientProof, sizeof(clientProof)));
 	int cbLen = mir_snprintf(buf, sizeof(buf), "c=biws,r=%s,p=%s", snonce, encproof);
 	return mir_base64_encode((PBYTE)buf, cbLen);
 }
 
 char* TScramAuth::getInitialRequest()
 {
-	ptrA uname( mir_utf8encodeT(info->username));
+	ptrA uname(mir_utf8encodeT(info->username));
 
 	unsigned char nonce[24];
 	CallService(MS_UTILS_GETRANDOM, sizeof(nonce), (LPARAM)nonce);
@@ -342,7 +338,7 @@ char* TScramAuth::getInitialRequest()
 bool TScramAuth::validateLogin(const TCHAR *challenge)
 {
 	unsigned chlLen;
-	ptrA chl((char*)mir_base64_decode( _T2A(challenge), &chlLen));
+	ptrA chl((char*)mir_base64_decode(_T2A(challenge), &chlLen));
 	return chl && strncmp((char*)chl + 2, serverSignature, chlLen - 2) == 0;
 }
 
@@ -362,7 +358,7 @@ TPlainAuth::~TPlainAuth()
 
 char* TPlainAuth::getInitialRequest()
 {
-	ptrA uname( mir_utf8encodeT(info->username)), passw( mir_utf8encodeT(info->password));
+	ptrA uname(mir_utf8encodeT(info->username)), passw(mir_utf8encodeT(info->password));
 
 	size_t size = 2 * strlen(uname) + strlen(passw) + strlen(info->server) + 4;
 	char *toEncode = (char*)alloca(size);
