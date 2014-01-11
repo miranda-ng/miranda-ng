@@ -248,6 +248,7 @@ private:
 	int __cdecl OnGcMenuHook(WPARAM, LPARAM);
 	void LogMenuHook(CVkChatInfo*, GCHOOK*);
 	void NickMenuHook(CVkChatInfo*, GCHOOK*);
+	LPTSTR ChangeChatTopic(CVkChatInfo*);
 	CVkChatInfo* GetChatById(LPCTSTR ptszId);
 
 	CMString GetAttachmentDescr(JSONNODE*);

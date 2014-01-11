@@ -19,6 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 enum
 {
+	IDM_NONE,
 	IDM_TOPIC, IDM_INVITE, IDM_DESTROY,
 	IDM_KICK, IDM_INFO
 };
@@ -123,7 +124,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (lstrcmp(tszTitle, cc->m_tszTopic)) {
 			cc->m_tszTopic = mir_tstrdup(tszTitle);
 
-			GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_TOPIC };
+			GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_CHANGESESSIONAME };
 			GCEVENT gce = { sizeof(GCEVENT), &gcd };
 			gce.ptszText = tszTitle;
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
@@ -395,6 +396,17 @@ static INT_PTR CALLBACK InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return 0;
 }
 
+LPTSTR CVkProto::ChangeChatTopic(CVkChatInfo *cc)
+{
+	ENTER_STRING pForm = { sizeof(pForm) };
+	pForm.type = ESF_MULTILINE;
+	pForm.caption = TranslateT("Enter new chat title");
+	pForm.ptszInitVal = cc->m_tszTopic;
+	pForm.szModuleName = m_szModuleName;
+	pForm.szDataPrefix = "gctopic_";
+	return (!EnterString(&pForm)) ? NULL : pForm.ptszResult;
+}
+
 void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 {
 	HANDLE hContact;
@@ -402,6 +414,19 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 	_itoa(cc->m_chatid, szChatId, 10);
 
 	switch (gch->dwData) {
+	case IDM_TOPIC:
+		if (LPTSTR ptszNew = ChangeChatTopic(cc)) {
+			ptrA szTitle(mir_utf8encodeT(ptszNew));
+			HttpParam params[] = {
+				{ "title", szTitle },
+				{ "chat_id", szChatId },
+				{ "access_token", m_szAccessToken }
+			};
+			PushAsyncHttpRequest(REQUEST_GET, "/method/messages.editChat.json", true, NULL, SIZEOF(params), params);
+			mir_free(ptszNew);
+		}
+		break;
+
 	case IDM_INVITE:
 		hContact = (HANDLE)DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INVITE), NULL, InviteDlgProc, (LPARAM)this);
 		if (hContact != NULL) {
@@ -480,9 +505,9 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 static gc_item sttLogListItems[] =
 {
 	{ LPGENT("&Invite a user"), IDM_INVITE, MENU_ITEM },
-	{ LPGENT("View/change &topic"), IDM_TOPIC, MENU_POPUPITEM },
+	{ LPGENT("View/change &title"), IDM_TOPIC, MENU_ITEM },
 	{ NULL, 0, MENU_SEPARATOR },
-	{ LPGENT("&Destroy room"), IDM_DESTROY, MENU_POPUPITEM }
+	{ LPGENT("&Destroy room"), IDM_DESTROY, MENU_ITEM }
 };
 
 static gc_item sttListItems[] =
