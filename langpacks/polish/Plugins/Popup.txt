@@ -307,7 +307,7 @@ Popupy
 Błąd: Nie mogłem zarejestrować klasy okna Popup\r\nWtyczka nie będzie działać.
 ;file \plugins\Popup\src\notifications.cpp
 [%s (colors only)]
-
+%s (tylko kolory)
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Brak efektu
