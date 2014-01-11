@@ -35,6 +35,12 @@ E-mail или номер телефона:
 Пригласить пользователя в чат
 [Choose one of your contacts to be invited:]
 Выбор пользователя для приглашения в чат:
+[Create group chat]
+Cоздать комнату чата
+[Mark users you want to invite to a new chat]
+Отметить пользователей для приглашения в комнату чата
+[New chat's title:]
+Звголовок новой комнаты
 [Captcha form icon]
 Иконка формы с капчей
 [Protocols]
@@ -71,6 +77,8 @@ E-mail или номер телефона:
 Учётная запись
 [%s server connection]
 Подключение к серверу %s
+[Create new chat]
+
 [me]
 Я
 [Attachments:]

@@ -22,6 +22,9 @@
 [Invite user to chat]
 [OK]
 [Choose one of your contacts to be invited:]
+[Create group chat]
+[Mark users you want to invite to a new chat]
+[New chat's title:]
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 [Protocols]
@@ -45,6 +48,7 @@
 [Account]
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
+[Create new chat]
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [me]
 [Attachments:]
