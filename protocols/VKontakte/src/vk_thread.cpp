@@ -432,15 +432,18 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (pMsg == NULL)
 			continue;
 
+		char szMid[40];
+		int mid = json_as_int(json_get(pMsg, "mid"));
+		_itoa(mid, szMid, 10);
+		if (!mids.IsEmpty())
+			mids.AppendChar(',');
+		mids.Append(szMid);
+
 		int chat_id = json_as_int(json_get(pMsg, "chat_id"));
 		if (chat_id != 0) {
 			AppendChatMessage(chat_id, pMsg, false);
 			continue;
 		}			
-
-		char szMid[40];
-		int mid = json_as_int(json_get(pMsg, "mid"));
-		_itoa(mid, szMid, 10);
 
 		// VK documentation lies: even if you specified preview_length=0, 
 		// long messages get cut out. So we need to retrieve them from scratch
@@ -475,10 +478,6 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		recv.pCustomData = szMid;
 		recv.cbCustomDataSize = (int)strlen(szMid);
 		ProtoChainRecvMsg(hContact, &recv);
-
-		if (!mids.IsEmpty())
-			mids.AppendChar(',');
-		mids.Append(szMid);
 	}
 
 	MarkMessagesRead(mids);

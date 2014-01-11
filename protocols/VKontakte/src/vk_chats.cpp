@@ -243,12 +243,13 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 	if (cc->m_bHistoryRead)
 		AppendChatMessage(cc, uid, msgTime, tszBody, bIsHistory);
 	else {
-		CVkChatMessage *cm = new CVkChatMessage();
-		cm->m_mid = mid;
+		CVkChatMessage *cm = cc->m_msgs.find((CVkChatMessage *)&mid);
+		if (cm == NULL)
+			cc->m_msgs.insert(cm = new CVkChatMessage(mid));
+
 		cm->m_uid = uid;
 		cm->m_date = msgTime;
 		cm->m_tszBody = tszBody.detouch();
-		cc->m_msgs.insert(cm);
 	}
 }
 

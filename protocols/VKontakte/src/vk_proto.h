@@ -35,6 +35,8 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 
 struct CVkChatMessage : public MZeroedObject
 {
+	CVkChatMessage(int _id) : m_mid(_id) {}
+
 	int  m_mid, m_uid, m_date;
 	ptrT m_tszBody;
 };
