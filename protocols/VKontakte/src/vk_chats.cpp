@@ -192,6 +192,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	JSONNODE *msgs = json_as_array(json_get(pResponse, "msgs"));
 	if (msgs != NULL) {
+		cc->m_bHistoryRead = true;
 		for (int i = 1;; i++) {
 			JSONNODE *pMsg = json_at(msgs, i);
 			if (pMsg == NULL)
@@ -199,7 +200,6 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 			AppendChatMessage(cc->m_chatid, pMsg, true);
 		}
-		cc->m_bHistoryRead = true;
 	}
 
 	for (int j = 0; j < cc->m_msgs.getCount(); j++) {
