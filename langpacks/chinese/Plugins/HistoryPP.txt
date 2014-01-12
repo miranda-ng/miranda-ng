@@ -39,8 +39,6 @@ WATrack: 请求被拒绝
 启用原始 RTF 支持
 [Display changed avatars]
 显示已变更头像
-[Change appearance]
-变更外观
 [Grid background]
 网格背景
 [Grid messages]

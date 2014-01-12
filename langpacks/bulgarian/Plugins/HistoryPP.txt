@@ -55,8 +55,6 @@ WATrack: отхвърлена молба
 
 [Display changed avatars]
 Изобразяване на променени аватари
-[Change appearance]
-Промяна на външния вид
 [Grid background]
 Фон на мрежата
 [Grid messages]

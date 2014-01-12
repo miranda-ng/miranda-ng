@@ -55,8 +55,6 @@ Comme IEView
 Activer le support des RTF bruts
 [Display changed avatars]
 Afficher les avatars modifiés
-[Change appearance]
-Changement de l'apparence
 [Grid background]
 
 [Grid messages]

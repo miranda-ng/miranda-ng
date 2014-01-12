@@ -55,8 +55,6 @@ Textformatierungs-Einstellungen
 RTF-Textformatierungen aktivieren
 [Display changed avatars]
 Geänderte Avatare anzeigen
-[Change appearance]
-Aussehen ändern
 [Grid background]
 Hintergrund des Verlaufsfensters
 [Grid messages]

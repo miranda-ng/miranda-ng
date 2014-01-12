@@ -25,8 +25,6 @@ Opties voor het formateren van tekst
 Ruwe RTF ondersteuning inschakelen
 [Display changed avatars]
 Gewijzigde avatars tonen
-[Change appearance]
-Uiterlijk wijzigen
 [Grid background]
 Grid achtergrond
 [Grid messages]

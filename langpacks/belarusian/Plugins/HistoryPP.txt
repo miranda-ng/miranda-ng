@@ -55,8 +55,6 @@ WATrack: запыт забаронены
 Падтрымка RAW RTF
 [Display changed avatars]
 Паказваць змененыя аватары
-[Change appearance]
-Налада знешняга выгляду
 [Grid background]
 Фон сеткі
 [Grid messages]
