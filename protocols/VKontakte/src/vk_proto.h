@@ -23,15 +23,53 @@ typedef void (CVkProto::*VK_REQUEST_HANDLER)(NETLIBHTTPREQUEST*, struct AsyncHtt
 struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 {
 	AsyncHttpRequest();
+	AsyncHttpRequest(CVkProto*, int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc);
 	~AsyncHttpRequest();
 
 	void AddHeader(LPCSTR, LPCSTR);
 	void Redirect(NETLIBHTTPREQUEST*);
 
-	bool bNeedsRestart, bIsMainConn;
+	CMStringA m_szUrl;
+	bool bNeedsRestart, bIsMainConn, m_bHasParams;
 	VK_REQUEST_HANDLER m_pFunc;
 	void *pUserInfo;
 };
+
+struct PARAM
+{
+	LPCSTR szName;
+	__forceinline PARAM(LPCSTR _name) : szName(_name) {}
+};
+
+struct INT_PARAM : public PARAM
+{
+	int iValue;
+	__forceinline INT_PARAM(LPCSTR _name, int _value) :
+		PARAM(_name), iValue(_value)
+	{
+	}
+};
+AsyncHttpRequest* operator<<(AsyncHttpRequest*, const INT_PARAM&);
+
+struct CHAR_PARAM : public PARAM
+{
+	LPCSTR szValue;
+	__forceinline CHAR_PARAM(LPCSTR _name, LPCSTR _value) :
+		PARAM(_name), szValue(_value)
+	{
+	}
+};
+AsyncHttpRequest* operator<<(AsyncHttpRequest*, const CHAR_PARAM&);
+
+struct TCHAR_PARAM : public PARAM
+{
+	LPCTSTR tszValue;
+	__forceinline TCHAR_PARAM(LPCSTR _name, LPCTSTR _value) :
+		PARAM(_name), tszValue(_value)
+	{
+	}
+};
+AsyncHttpRequest* operator<<(AsyncHttpRequest*, const TCHAR_PARAM&);
 
 struct CVkChatMessage : public MZeroedObject
 {
@@ -176,6 +214,8 @@ struct CVkProto : public PROTO<CVkProto>
 	__forceinline void setGroup(LPCTSTR grp) { m_defaultGroup = mir_tstrdup(grp); }
 
 private:
+	friend struct AsyncHttpRequest;
+
 	LIST<AsyncHttpRequest> m_arRequestsQueue;
 	CRITICAL_SECTION m_csRequestsQueue;
 	CMStringA m_prevUrl;
@@ -202,8 +242,7 @@ private:
 	void   ExecuteRequest(AsyncHttpRequest*);
 	void   __cdecl WorkerThread(void*);
 
-	AsyncHttpRequest* PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams = 0, HttpParam *pParams = 0, int iTimeout = 10000);
-	AsyncHttpRequest* PushAsyncHttpRequest(AsyncHttpRequest*, int iTimeout = 10000);
+	AsyncHttpRequest* Push(AsyncHttpRequest*, int iTimeout = 10000);
 
 	bool   RunCaptchaForm(LPCSTR szUrl, CMStringA&);
 	bool   AutoFillForm(char*, CMStringA&, CMStringA&);
@@ -239,14 +278,14 @@ private:
 	bool   m_prevError;
 
 	LIST<void> m_sendIds;
-	bool   CheckMid(int msgid);
+	bool   CheckMid(int guid);
 
 	static INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	OBJLIST<CVkChatInfo> m_chats;
 	CVkChatInfo* AppendChat(int id, JSONNODE *pNode);
 	void AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory);
-	void AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory);
+	void AppendChatMessage(CVkChatInfo *cc, int mid, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendChatMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

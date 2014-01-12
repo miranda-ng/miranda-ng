@@ -76,13 +76,11 @@ void CVkProto::SetServerStatus(int iNewStatus)
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_iStatus = ID_STATUS_OFFLINE; 
-		HttpParam param = { "access_token", m_szAccessToken };
-		PushAsyncHttpRequest(REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth, 1, &param);
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
 	}
 	else if (iNewStatus != ID_STATUS_INVISIBLE) {
 		m_iStatus = ID_STATUS_ONLINE; 
-		HttpParam param = { "access_token", m_szAccessToken };
-		PushAsyncHttpRequest(REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth, 1, &param);
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth));
 	}
 	else m_iStatus = ID_STATUS_INVISIBLE; 
 
@@ -128,12 +126,11 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 				pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
 				pReq->AddHeader("Referer", m_prevUrl);
 				pReq->Redirect(reply);
-				if (pReq->szUrl) {
+				if (pReq->m_szUrl) {
 					ApplyCookies(pReq);
-					m_prevUrl = pReq->szUrl;
+					m_prevUrl = pReq->m_szUrl;
 				}
-
-				PushAsyncHttpRequest(pReq);
+				Push(pReq);
 			}
 		}
 		else ConnectionFailed(LOGINERR_NOSERVER);
@@ -170,20 +167,19 @@ LBL_NoForm:
 	pReq->flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	pReq->pData = mir_strdup(szBody);
 	pReq->dataLength = szBody.GetLength();
-	pReq->szUrl = mir_strdup(szAction); m_prevUrl = pReq->szUrl;
+	pReq->m_szUrl = szAction; m_prevUrl = pReq->m_szUrl;
 	pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	pReq->Redirect(reply);
 	ApplyCookies(pReq);
-	PushAsyncHttpRequest(pReq);
+	Push(pReq);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CVkProto::RetrieveMyInfo()
 {
-	HttpParam param = { "access_token", m_szAccessToken };
-	PushAsyncHttpRequest(REQUEST_GET, "/method/getUserInfoEx.json", true, &CVkProto::OnReceiveMyInfo, 1, &param);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/getUserInfoEx.json", true, &CVkProto::OnReceiveMyInfo));
 }
 
 void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -219,15 +215,8 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
-	char szUserId[40];
-	_itoa(userID, szUserId, 10);
-
-	HttpParam params[] = {
-		{ "fields", "uid,first_name,last_name,photo_medium,sex,bdate,city,relation" },
-		{ "uids", szUserId },
-		{ "access_token", m_szAccessToken }
-	};
-	PushAsyncHttpRequest(REQUEST_GET, "/method/getProfiles.json", true, &CVkProto::OnReceiveUserInfo, SIZEOF(params), params);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/getProfiles.json", true, &CVkProto::OnReceiveUserInfo)
+		<< INT_PARAM("uids", userID) << CHAR_PARAM("fields", "uid,first_name,last_name,photo_medium,sex,bdate,city,relation"));
 }
 
 void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -292,13 +281,9 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 void CVkProto::RetrieveFriends()
 {
 	debugLogA("CVkProto::RetrieveFriends");
-
-	HttpParam params[] = {
-		{ "fields", "uid,first_name,last_name,photo_medium,sex,country,timezone,contacts" },
-		{ "count", "1000" },
-		{ "access_token", m_szAccessToken }
-	};
-	PushAsyncHttpRequest(REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends, SIZEOF(params), params);
+	
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends)
+		<< INT_PARAM("count", 1000) << CHAR_PARAM("fields", "uid,first_name,last_name,photo_medium,sex,country,timezone,contacts"));
 }
 
 void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -361,11 +346,8 @@ void CVkProto::MarkMessagesRead(const CMStringA &mids)
 	if (mids.IsEmpty())
 		return;
 
-	HttpParam params[] = {
-		{ "mids", mids },
-		{ "access_token", m_szAccessToken }
-	};
-	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, SIZEOF(params), params);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth)
+		<< CHAR_PARAM("mids", mids));
 }
 
 void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
@@ -373,22 +355,16 @@ void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
 	if (mids.IsEmpty())
 		return;
 
-	HttpParam params[] = {
-		{ "mids", mids },
-		{ "access_token", m_szAccessToken }
-	};
-	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.getById.json", true, &CVkProto::OnReceiveMessages, SIZEOF(params), params);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getById.json", true, &CVkProto::OnReceiveMessages)
+		<< CHAR_PARAM("mids", mids));
 }
 
 void CVkProto::RetrieveUnreadMessages()
 {
 	debugLogA("CVkProto::RetrieveMessages");
 
-	HttpParam params[] = {
-		{ "code", "return { \"msgs\":API.messages.get({\"filters\":1}), \"dlgs\":API.messages.getDialogs() };" },
-		{ "access_token", m_szAccessToken }
-	};
-	PushAsyncHttpRequest(REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveMessages, SIZEOF(params), params);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveMessages)
+		<< CHAR_PARAM("code", "return { \"msgs\":API.messages.get({\"filters\":1}), \"dlgs\":API.messages.getDialogs() };"));
 }
 
 static char* szImageTypes[] = { "src_xxxbig", "src_xxbig", "src_xbig", "src_big", "src", "src_small" };
@@ -490,8 +466,7 @@ void CVkProto::RetrievePollingInfo()
 {
 	debugLogA("CVkProto::RetrievePollingInfo");
 
-	HttpParam param = { "access_token", m_szAccessToken };
-	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo, 1, &param);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo));
 }
 
 void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -527,44 +502,16 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 		switch (json_as_int( json_at(pChild, 0))) {
 		case VKPOLL_MSG_ADDED: // new message
 			msgid = json_as_int(json_at(pChild, 1));
-			flags = json_as_int(json_at(pChild, 2));
 
 			// skip outgoing messages sent from a client
-			if (flags & VKFLAG_MSGOUTBOX) {
-				if (!(flags & VKFLAG_MSGCHAT))
+			flags = json_as_int(json_at(pChild, 2));
+			if ((flags & VKFLAG_MSGOUTBOX) && !(flags & VKFLAG_MSGCHAT))
+				if (CheckMid(msgid))
 					break;
 
-				// my chat message
-				int from_id = json_as_int(json_at(pChild, 3));
-				if (from_id > 2000000000) {
-					from_id -= 2000000000;
-					CVkChatInfo *cc = m_chats.find((CVkChatInfo*)&from_id);
-					if (cc != NULL) {
-						TCHAR tszId[20];
-						_itot(m_myUserId, tszId, 10);
-						ptrT tszBody(json_as_string(json_at(pChild, 6)));
-
-						CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&m_myUserId);
-						LPCTSTR ptszNick = (cu) ? cu->m_tszTitle : TranslateT("me");
-
-						GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_MESSAGE };
-						GCEVENT gce = { sizeof(GCEVENT), &gcd };
-						gce.bIsMe = true;
-						gce.ptszUID = tszId;
-						gce.time = time(0);
-						gce.dwFlags = GCEF_ADDTOLOG;
-						gce.ptszNick = ptszNick;
-						gce.ptszText = tszBody;
-						CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-					}
-				}
-			}
-
-			if ( !CheckMid(msgid)) {
-				if ( !mids.IsEmpty())
-					mids.AppendChar(',');
-				mids.AppendFormat("%d", msgid);
-			}
+			if (!mids.IsEmpty())
+				mids.AppendChar(',');
+			mids.AppendFormat("%d", msgid);
 			break;
 
 		case VKPOLL_USR_ONLINE:
@@ -604,7 +551,7 @@ int CVkProto::PollServer()
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken));
-	req.flags = NLHRF_NODUMPHEADERS | NLHRF_PERSISTENT;
+	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT;
 	req.timeout = 30000;
 	req.nlc = m_pollingConn;
 

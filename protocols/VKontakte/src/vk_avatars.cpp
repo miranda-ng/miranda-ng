@@ -78,11 +78,11 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if ( IsOnline()) {
 		AsyncHttpRequest *pReq = new AsyncHttpRequest();
 		pReq->flags = NLHRF_NODUMP | NLHRF_REDIRECT;
-		pReq->szUrl = mir_strdup(szUrl);
+		pReq->m_szUrl = szUrl;
 		pReq->pUserInfo = (char*)AI->hContact;
 		pReq->m_pFunc = &CVkProto::OnReceiveAvatar;
 		pReq->requestType = REQUEST_GET;
-		PushAsyncHttpRequest(pReq);
+		Push(pReq);
 
 		debugLogA("Requested to read an avatar from '%s'", szUrl);
 		return GAIR_WAITFOR;

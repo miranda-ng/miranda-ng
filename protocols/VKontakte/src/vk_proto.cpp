@@ -175,19 +175,12 @@ int CVkProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 	else
 		msg = mir_utf8encode(msg);
 
-	char szID[40];
-	_itoa(userID, szID, 10);
-	HttpParam params[] = {
-		{ "type", "0" },
-		{ "uid",  szID },
-		{ "message", szMsg },
-		{ "access_token", m_szAccessToken }
-	};
-
 	ULONG msgId = ::InterlockedIncrement(&m_msgId);
-	AsyncHttpRequest *pReq = PushAsyncHttpRequest(REQUEST_GET, "/method/messages.send.json", true, &CVkProto::OnSendMessage, SIZEOF(params), params);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.send.json", true, &CVkProto::OnSendMessage)
+		<< INT_PARAM("type", 0) << INT_PARAM("uid", m_myUserId) << CHAR_PARAM("message", msg);
 	pReq->pData = (char*)hContact;
 	pReq->pUserInfo = (void*)msgId;
+	Push(pReq);
 
 	if (!m_bServerDelivery)
 		ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, msgId));

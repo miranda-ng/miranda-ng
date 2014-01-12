@@ -35,6 +35,7 @@ void CVkProto::UninitQueue()
 void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
 LBL_Restart:
+	pReq->szUrl = pReq->m_szUrl.GetBuffer();
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
 	if (reply != NULL) {
 		if (pReq->m_pFunc != NULL)
@@ -55,35 +56,7 @@ LBL_Restart:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-AsyncHttpRequest* CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams, HttpParam *pParams, int iTimeout)
-{
-	AsyncHttpRequest *pReq = new AsyncHttpRequest();
-	pReq->flags = NLHRF_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	if (bSecure)
-		pReq->flags |= NLHRF_SSL;
-
-	CMStringA url;
-	if (*szUrl == '/') {	// relative url leads to a site
-		url = ((bSecure) ? "https://" : "http://") + CMStringA("api.vk.com");
-		url += szUrl;
-		pReq->bIsMainConn = true;
-	}
-	else url = szUrl;
-	
-	for (int i=0; i < nParams; i++) {
-		url.AppendChar((i == 0) ? '?' : '&');
-		url += pParams[i].szName;
-		url.AppendChar('=');
-		url += ptrA( mir_urlEncode(pParams[i].szValue));
-	}
-
-	pReq->requestType = iRequestType;
-	pReq->szUrl = mir_strdup(url);
-	pReq->m_pFunc = pFunc;
-	return PushAsyncHttpRequest(pReq, iTimeout);
-}
-
-AsyncHttpRequest* CVkProto::PushAsyncHttpRequest(AsyncHttpRequest *pReq, int iTimeout)
+AsyncHttpRequest* CVkProto::Push(AsyncHttpRequest *pReq, int iTimeout)
 {
 	pReq->timeout = iTimeout;
 	{
@@ -107,14 +80,9 @@ void CVkProto::WorkerThread(void*)
 	else {
 		// Initialize new OAuth session
 		extern char szBlankUrl[];
-		HttpParam params[] = {
-			{ "client_id", VK_APP_ID },
-			{ "scope", "friends,photos,audio,video,wall,messages,offline" },
-			{ "redirect_uri", szBlankUrl },
-			{ "display", "wap" },
-			{ "response_type", "token" }
-		};
-		PushAsyncHttpRequest(REQUEST_GET, "/oauth/authorize", false, &CVkProto::OnOAuthAuthorize, SIZEOF(params), params);
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/oauth/authorize", false, &CVkProto::OnOAuthAuthorize)
+			<< INT_PARAM("client_id", VK_APP_ID) << CHAR_PARAM("scope", "friends,photos,audio,video,wall,messages,offline")
+			<< CHAR_PARAM("redirect_uri", szBlankUrl) << CHAR_PARAM("display", "wap") << CHAR_PARAM("response_type", "token"));
 	}
 
 	while(true) {
@@ -138,4 +106,31 @@ void CVkProto::WorkerThread(void*)
 
 	m_hWorkerThread = 0;
 	debugLogA("CVkProto::WorkerThread: leaving");
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const INT_PARAM &param)
+{
+	CMStringA &s = pReq->m_szUrl;
+	s.AppendFormat("%c%s=%i", pReq->m_bHasParams ? '&' : '?', param.szName, param.iValue);
+	pReq->m_bHasParams = true;
+	return pReq;
+}
+
+AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const CHAR_PARAM &param)
+{
+	CMStringA &s = pReq->m_szUrl;
+	s.AppendFormat("%c%s=%s", pReq->m_bHasParams ? '&' : '?', param.szName, ptrA(mir_urlEncode(param.szValue)));
+	pReq->m_bHasParams = true;
+	return pReq;
+}
+
+AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const TCHAR_PARAM &param)
+{
+	ptrA szValue(mir_utf8encodeT(param.tszValue));
+	CMStringA &s = pReq->m_szUrl;
+	s.AppendFormat("%c%s=%s", pReq->m_bHasParams ? '&' : '?', param.szName, ptrA(mir_urlEncode(szValue)));
+	pReq->m_bHasParams = true;
+	return pReq;
 }

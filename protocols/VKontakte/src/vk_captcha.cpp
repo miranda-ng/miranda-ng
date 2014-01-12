@@ -106,7 +106,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = (LPSTR)szUrl;
-	req.flags = NLHRF_NODUMPHEADERS;
+	req.flags = VK_NODUMPHEADERS;
 
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if (reply == NULL)
@@ -152,9 +152,8 @@ bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, JSONNODE *pErrorNode)
 	if ( !RunCaptchaForm(szUrl, userReply))
 		return false;
 
-	CMStringA szNewUrl = pReq->szUrl;
-	szNewUrl.AppendFormat("&captcha_sid=%s&captcha_key=%s", szSid, userReply.GetString());
-	replaceStr(pReq->szUrl, mir_strndup(szNewUrl, szNewUrl.GetLength()));
+	pReq->m_szUrl = pReq->szUrl;
+	pReq->m_szUrl.AppendFormat("&captcha_sid=%s&captcha_key=%s", szSid, userReply.GetString());
 	pReq->bNeedsRestart = true;
 	return true;
 }

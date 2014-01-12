@@ -55,10 +55,10 @@ HANDLE CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	return hNewContact;
 }
 
-bool CVkProto::CheckMid(int msgid)
+bool CVkProto::CheckMid(int guid)
 {
 	for (int i=m_sendIds.getCount()-1; i >= 0; i--)
-		if (m_sendIds[i] == (HANDLE)msgid) {
+		if ((int)m_sendIds[i] == guid) {
 			m_sendIds.remove(i);
 			return true;
 		}
@@ -216,6 +216,31 @@ AsyncHttpRequest::AsyncHttpRequest()
 	AddHeader("Accept-Encoding", "booo");
 }
 
+AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, VK_REQUEST_HANDLER pFunc)
+{
+	cbSize = sizeof(NETLIBHTTPREQUEST);
+
+	AddHeader("Connection", "keep-alive");
+	AddHeader("Accept-Encoding", "booo");
+
+	flags = VK_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
+	if (bSecure)
+		flags |= NLHRF_SSL;
+
+	if (*_url == '/') {	// relative url leads to a site
+		m_szUrl = ((bSecure) ? "https://" : "http://") + CMStringA("api.vk.com");
+		m_szUrl += _url;
+		bIsMainConn = true;
+	}
+	else m_szUrl = _url;
+
+	if (bSecure)
+		this << CHAR_PARAM("access_token", ppro->m_szAccessToken);
+
+	requestType = iRequestType;
+	m_pFunc = pFunc;
+}
+
 AsyncHttpRequest::~AsyncHttpRequest()
 {
 	for (int i=0; i < headersCount; i++) {
@@ -223,7 +248,6 @@ AsyncHttpRequest::~AsyncHttpRequest()
 		mir_free(headers[i].szValue);
 	}
 	mir_free(headers);
-	mir_free(szUrl);
 	mir_free(pData);
 }
 
@@ -240,7 +264,7 @@ void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
 	for (int i=0; i < nhr->headersCount; i++) {
 		LPCSTR szValue = nhr->headers[i].szValue;
 		if (!_stricmp(nhr->headers[i].szName, "Location"))
-			replaceStr(szUrl, szValue);
+			m_szUrl = szValue;
 	}
 }
 
@@ -286,7 +310,7 @@ void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 	CMStringA szCookie;
 
 	for (int i=0; i < m_cookies.getCount(); i++) {
-		if ( !strstr(pReq->szUrl, m_cookies[i].m_domain))
+		if (!strstr(pReq->m_szUrl, m_cookies[i].m_domain))
 			continue;
 
 		if (!szCookie.IsEmpty())

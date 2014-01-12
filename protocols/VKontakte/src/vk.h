@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define VK_APP_ID  "3917910"
+#define VK_APP_ID  3917910
 
 #define VKPOLL_MSG_REMOVED   0
 #define VKPOLL_MSG_NEWFLAGS  1
@@ -40,10 +40,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKFLAG_MSGFIXED    256 // сообщение проверено пользователем на спам
 #define VKFLAG_MSGMEDIA    512 // сообщение содержит медиаконтент
 
-struct HttpParam
-{
-	LPCSTR szName, szValue;
-};
+#if defined(_DEBUG)
+	#define VK_NODUMPHEADERS 0
+#else
+	#define VK_NODUMPHEADERS NLHRF_NODUMPHEADERS
+#endif
 
 extern HINSTANCE hInst;
 
