@@ -57,9 +57,9 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Miranda_NG",       _T("|*nightly.miranda.im*")
                                 NIGHTLY_CORE_VERSION,                           _T("Miranda NG"),                    IDI_MIRANDA_NG,          MIRANDA_CASE },
 
-	{"client_Miranda_NG_stbl",  _T("|Miranda*NG*"),                              LPGENT("Miranda NG stable"),         IDI_MIRANDA_NG_STABLE,   MIRANDA_CASE },
+	{"client_Miranda_NG_stbl",  _T("|Miranda*NG*"),                             LPGENT("Miranda NG stable"),         IDI_MIRANDA_NG_STABLE,   MIRANDA_CASE },
 
-	{"client_Miranda_010xx",    _T("Miranda*IM*0.10.*"),                         _T("Miranda IM v0.10.x.x"),          IDI_MIRANDA_010X,        MIRANDA_CASE },
+	{"client_Miranda_010xx",    _T("Miranda*IM*0.10.*"),                        _T("Miranda IM v0.10.x.x"),          IDI_MIRANDA_010X,        MIRANDA_CASE },
 	{"client_Miranda_09XX",     _T("|*Miranda*IM*0.9*")
                                 _T("|*miranda-im.org/caps#*0.9*"),              _T("Miranda IM v0.9.x.x"),           IDI_MIRANDA_09XX,        MIRANDA_CASE },
 	{"client_Miranda_08XX",     _T("|^Miranda*0.7*Jabb*")
@@ -67,13 +67,13 @@ KN_FP_MASK def_kn_fp_mask[] =
                                 _T("|*miranda-im.org/caps#*0.8*"),              _T("Miranda IM v0.8.x.x"),           IDI_MIRANDA_08XX,        MIRANDA_CASE },
 	{"client_Miranda_07XX",     _T("|*Miranda*0.7*")
                                 _T("|*miranda-im.org/caps#*0.7*"),              _T("Miranda IM v0.7.x.x"),           IDI_MIRANDA_07XX,        MIRANDA_CASE },
-	{"client_Miranda_06XX",     _T("*Miranda*0.6*"),                             _T("Miranda IM v0.6.x.x"),           IDI_MIRANDA_06XX,        MIRANDA_CASE },
-	{"client_Miranda_05XX",     _T("*Miranda*0.5*"),                             _T("Miranda IM v0.5.x.x"),           IDI_MIRANDA_05XX,        MIRANDA_CASE },
-	{"client_Miranda_04XX",     _T("*Miranda*0.4*"),                             _T("Miranda IM v0.4.x.x"),           IDI_MIRANDA_04XX,        MIRANDA_CASE },
+	{"client_Miranda_06XX",     _T("*Miranda*0.6*"),                            _T("Miranda IM v0.6.x.x"),           IDI_MIRANDA_06XX,        MIRANDA_CASE },
+	{"client_Miranda_05XX",     _T("*Miranda*0.5*"),                            _T("Miranda IM v0.5.x.x"),           IDI_MIRANDA_05XX,        MIRANDA_CASE },
+	{"client_Miranda_04XX",     _T("*Miranda*0.4*"),                            _T("Miranda IM v0.4.x.x"),           IDI_MIRANDA_04XX,        MIRANDA_CASE },
 
-	{"client_Miranda_old",      _T("*Miranda*0.?*"),                         LPGENT("Miranda IM (old versions)"),     IDI_MIRANDA_OLD,         MIRANDA_CASE },
+	{"client_Miranda_old",      _T("*Miranda*0.?*"),                        LPGENT("Miranda IM (old versions)"),     IDI_MIRANDA_OLD,         MIRANDA_CASE },
 
-	{"client_Miranda_unknown",  _T("*Miranda*"),                             LPGENT("Miranda (unknown)"),            IDI_MIRANDA_UNKNOWN,     MIRANDA_CASE },
+	{"client_Miranda_unknown",  _T("*Miranda*"),                            LPGENT("Miranda (unknown)"),             IDI_MIRANDA_UNKNOWN,     MIRANDA_CASE },
 
 //#########################################################################################################################################################################
 //#################################   MULTI-PROTOCOL   ####################################################################################################################
@@ -522,10 +522,10 @@ KN_FP_MASK def_kn_fp_mask[] =
 //#########################################################################################################################################################################
 	{"client_MRA_official",     _T("|magent*|Mail.ru Agent*official*")
                                 _T("|Mail.ru Agent*PC*")
-                                _T("|*agent.mail.ru*"),                    LPGENT("Mail.Ru Agent (official)"),     IDI_MAIL_RU_OFFICIAL,    MRA_CASE,           TRUE    },
+                                _T("|*agent.mail.ru*"),                    LPGENT("Mail.Ru Agent (official)"),      IDI_MAIL_RU_OFFICIAL,    MRA_CASE,           TRUE    },
 	{"client_MRA_Mobile",       _T("|wmagent*|MobileAgent*")
                                 _T("|sagent*|Mail.ru Agent*Symbian*")
-                                _T("|jagent*"),                                _T("Mail.Ru Mobile Agent"),         IDI_MAIL_RU_MOBILE,      MRA_CASE,           TRUE    },
+                                _T("|jagent*|iphoneagent*"),                    _T("Mail.Ru Mobile Agent"),         IDI_MAIL_RU_MOBILE,      MRA_CASE,           TRUE    },
 	{"client_MRA_web",          _T("|webagent*|*Web Agent*"),                   _T("Mail.Ru Web Agent"),            IDI_MAIL_RU_WEBAGENT,    MRA_CASE,           TRUE    },
 	{"client_MRA_unknown",      _T("Mail.ru Agent*"),                       LPGENT("Mail.Ru (unknown client)"),     IDI_MAIL_RU_UNKNOWN,     MRA_CASE,           TRUE    },
 
