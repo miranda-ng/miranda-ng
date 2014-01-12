@@ -538,14 +538,11 @@ INT_PTR CALLBACK FBEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 		switch (LOWORD(wparam))
 		{
 		case IDC_PREVIEW:
-		{
-			TCHAR protoName[255];
-			lstrcpy(protoName, proto->m_tszUserName);
-			proto->NotifyEvent(protoName, TranslateT("Sample event"), NULL, FACEBOOK_EVENT_CLIENT);
-			proto->NotifyEvent(protoName, TranslateT("Sample request"), NULL, FACEBOOK_EVENT_OTHER);
-			proto->NotifyEvent(protoName, TranslateT("Sample newsfeed"), NULL, FACEBOOK_EVENT_NEWSFEED);
-			proto->NotifyEvent(protoName, TranslateT("Sample notification"), NULL, FACEBOOK_EVENT_NOTIFICATION);
-		} break;
+			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample event"), NULL, FACEBOOK_EVENT_CLIENT);
+			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample request"), NULL, FACEBOOK_EVENT_OTHER);
+			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample newsfeed"), NULL, FACEBOOK_EVENT_NEWSFEED);
+			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample notification"), NULL, FACEBOOK_EVENT_NOTIFICATION);
+			break;
 		}
 
 		if ((LOWORD(wparam)==IDC_PREVIEW || (HWND)lparam!=GetFocus()))

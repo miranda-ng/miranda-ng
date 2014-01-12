@@ -516,9 +516,8 @@ void FacebookProto::ProcessMessages(void* data)
 	for(std::vector<facebook_notification*>::size_type i=0; i<notifications.size(); i++)
 	{
 		debugLogA("      Got notification: %s", notifications[i]->text.c_str());
-		ptrT szTitle( mir_utf8decodeT(this->m_szModuleName));
 		ptrT szText( mir_utf8decodeT(notifications[i]->text.c_str()));
-		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link, &notifications[i]->id);
+		NotifyEvent(m_tszUserName, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link, &notifications[i]->id);
 		delete notifications[i];
 	}
 	notifications.clear();
@@ -568,9 +567,8 @@ void FacebookProto::ProcessNotifications(void*)
 	for(std::vector<facebook_notification*>::size_type i=0; i<notifications.size(); i++)
 	{
 		debugLogA("      Got notification: %s", notifications[i]->text.c_str());
-		ptrT szTitle( mir_utf8decodeT(this->m_szModuleName));
 		ptrT szText( mir_utf8decodeT(notifications[i]->text.c_str()));
-		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link, &notifications[i]->id);
+		NotifyEvent(m_tszUserName, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link, &notifications[i]->id);
 		delete notifications[i];
 	}
 	notifications.clear();
