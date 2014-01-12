@@ -85,7 +85,7 @@ struct CVkChatUser : public MZeroedObject
 
 	int  m_uid;
 	bool m_bDel, m_bUnknown;
-	ptrT m_tszTitle, m_tszImage;
+	ptrT m_tszNick;
 };
 
 struct CVkChatInfo : public MZeroedObject

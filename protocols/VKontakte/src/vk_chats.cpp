@@ -158,11 +158,9 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			ptrT fName(json_as_string(json_get(pUser, "first_name")));
 			ptrT lName(json_as_string(json_get(pUser, "last_name")));
 			CMString tszNick = CMString(fName).Trim() + _T(" ") + CMString(lName).Trim();
-			cu->m_tszTitle = mir_tstrdup(tszNick);
+			cu->m_tszNick = mir_tstrdup(tszNick);
 			cu->m_bUnknown = false;
 			
-			cu->m_tszImage = json_as_string(json_get(pUser, "photo"));
-
 			if (bNew) {
 				GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_JOIN };
 				GCEVENT gce = { sizeof(GCEVENT), &gcd };
@@ -251,7 +249,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int mid, int uid, int msgTime,
 	CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&uid);
 	if (cu == NULL) {
 		cc->m_users.insert(cu = new CVkChatUser(uid));
-		cu->m_tszTitle = mir_tstrdup(TranslateT("Unknown"));
+		cu->m_tszNick = mir_tstrdup(TranslateT("Unknown"));
 		cu->m_bUnknown = true;
 	}
 
@@ -264,7 +262,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int mid, int uid, int msgTime,
 	gce.ptszUID = tszId;
 	gce.time = msgTime;
 	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
-	gce.ptszNick = cu->m_tszTitle;
+	gce.ptszNick = cu->m_tszNick;
 	gce.ptszText = ptszBody;
 	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 }
