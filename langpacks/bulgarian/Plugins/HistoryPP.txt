@@ -377,22 +377,6 @@ EMail Express съобщение
 
 [Enable BBCodes]
 Включване на BBCodes
-[Change Appearance]
-
-[To change fonts you need to install FontService plugin.]
-За да променяте шрифтове трябва да инсталирате приставката FontService.
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-FontService е инсталиран. Персонализиране>Шрифтове за смяна на шрифт.
-[Download FontService plugin]
-Сваляне на FontService приставка
-[To change icons you need to install IcoLib plugin.]
-За да променяте икони трябва да инсталирате приставката IcoLib.
-[IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib е инсталирана. Персонализиране>Икони за смяна на икони.
-[Download IcoLib plugin]
-Сваляне на IcoLib приставка
-[More info on these plugins]
-Още информация за тези приставки
 [Open event details by Enter]
 Enter отваря подробности за събитието
 [Search panel]
@@ -682,8 +666,6 @@ URL връзки
 [Database:]
 
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
-
-[History++ (2in1)]
 
 [History++ Error]
 

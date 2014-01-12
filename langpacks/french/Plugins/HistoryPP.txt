@@ -377,22 +377,6 @@ Aligner à droite
 
 [Enable BBCodes]
 
-[Change Appearance]
-Changement de l'apparence
-[To change fonts you need to install FontService plugin.]
-Afin de changer les polices, vous devez installer le plugin FontService.
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-FontService est installé. Aller dans Apparence -> Polices, pour les changer.
-[Download FontService plugin]
-Télécharger le plugin FontService
-[To change icons you need to install IcoLib plugin.]
-Afin de changer les icônes, vous devez installer le plugin IcoLib.
-[IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib est installé. Aller dans Apparence -> Icônes, pour les changer.
-[Download IcoLib plugin]
-Télécharger le plugin IcoLib
-[More info on these plugins]
-Plus d'infos sur ces plugins
 [Open event details by Enter]
 Tapez Entrée pour ouvrir l'évènement
 [Search panel]
@@ -682,8 +666,6 @@ Désactiver les bordures
 [Database:]
 Base de données:
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
-
-[History++ (2in1)]
 
 [History++ Error]
 

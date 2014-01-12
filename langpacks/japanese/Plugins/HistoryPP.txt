@@ -31,8 +31,6 @@ WATrack: リクエストは拒否されました
 生 RTF ファイル形式サポートを有効
 [Display changed avatars]
 変更されたアバターを表示
-[Change appearance]
-外観を変更
 [History Actions]
 履歴操作
 [Advanced search options]
@@ -275,22 +273,6 @@ EMail Express メッセージ
 最近のイベントを一番上
 [Use RTL by default]
 RTL をデフォルトで使用
-[Change Appearance]
-外観を変更
-[To change fonts you need to install FontService plugin.]
-フォントを変更するには FontService プラグインをインストールする必要があります
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-FontService はインストール済みです。設定変更: カスタマイズ -> フォント
-[Download FontService plugin]
-FontService プラグインをダウンロード
-[To change icons you need to install IcoLib plugin.]
-アイコンを変更するには IcoLib プラグインをインストールする必要があります
-[IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib はインストール済みです。設定変更: カスタマイズ -> アイコン
-[Download IcoLib plugin]
-IcoLib プラグインをダウンロード
-[More info on these plugins]
-これらのプラグインに関する詳細情報
 [Open event details by Enter]
 エンターキーでイベントの詳細情報を開く
 [History search]

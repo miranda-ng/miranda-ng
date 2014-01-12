@@ -55,8 +55,6 @@ Opcje formatowania tekstu
 Włącz wsparcie dla surowego RTF
 [Display changed avatars]
 Wyświetl zmienione awatary
-[Change appearance]
-Zmień wygląd
 [Grid background]
 Kolor tła
 [Grid messages]
@@ -379,22 +377,6 @@ Użyj domyślnie RTL
 Wsparcie dodatkowego przetwarzania
 [Enable BBCodes]
 Włącz BBCode
-[Change Appearance]
-Zmień wygląd
-[To change fonts you need to install FontService plugin.]
-Zainstaluj wtyczkę FontService aby móc zmienić czcionkę.
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-Wykryto FontService. Czcionki możesz zmienić w Personalizacja -> Czcionki.
-[Download FontService plugin]
-Pobierz wtyczkę FontService
-[To change icons you need to install IcoLib plugin.]
-Zainstaluj wtyczkę IcoLib aby móc zmienić ikony.
-[IcoLib is installed. Go to Customize -> Icons to change icons.]
-Wykryto IcoLib. Ikony możesz zmienić w Personalizacja -> Ikony.
-[Download IcoLib plugin]
-Pobierz wtyczkę IcoLib
-[More info on these plugins]
-Więcej informacji o tych wtyczkach
 [Open event details by Enter]
 Enter otwiera szczegóły zdarzenia
 [Search panel]
@@ -685,8 +667,6 @@ Inne nieznane
 Profil:
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
 Szybka wtyczka do historii z możliwością filtrowania.\nBazuje na usprawnionym kodzie wtyczki History+.
-[History++ (2in1)]
-History++ (2w1)
 [History++ Error]
 Błąd History++
 [History++ Warning]

@@ -293,22 +293,6 @@ ANSI 编码
 最近事件放在顶端
 [Use RTL by default]
 默认使用由右向左
-[Change Appearance]
-变更外观
-[To change fonts you need to install FontService plugin.]
-若要变更字体您需要安装 FontService 插件. 
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-FontService 已安装. 请到 "自定义->字体" 变更设置. 
-[Download FontService plugin]
-下载 FontService 插件
-[To change icons you need to install IcoLib plugin.]
-若要变更图标您需要安装 IcoLib 插件
-[IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib 已经安装. 请到 "自定义->图标" 变更设置. 
-[Download IcoLib plugin]
-下载 IcoLib 插件
-[More info on these plugins]
-更多关于这些插件的信息
 [Open event details by Enter]
 按 Enter 打开事件详细资料
 [Search panel]

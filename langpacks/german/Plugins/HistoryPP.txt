@@ -377,22 +377,6 @@ RTL standardmäßig aktivieren
 Zusätzliche Gestaltung
 [Enable BBCodes]
 BBCodes aktivieren
-[Change Appearance]
-Aussehen ändern
-[To change fonts you need to install FontService plugin.]
-Um Schriften zu ändern, wird das FontService-Plugin benötigt.
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-FontService installiert. 'Customize -> Schriftarten' um Einstellungen zu ändern.
-[Download FontService plugin]
-FontService-Plugin herunterladen
-[To change icons you need to install IcoLib plugin.]
-Um Icons zu ändern, wird das IcoLib-Plugin benötigt.
-[IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib installiert. 'Customize -> Icons' um Einstellungen zu ändern.
-[Download IcoLib plugin]
-IcoLib-Plugin herunterladen
-[More info on these plugins]
-Weitere Informationen zu den Plugins
 [Open event details by Enter]
 Ereignisdetails mit 'Enter' öffnen
 [Search panel]
@@ -683,8 +667,6 @@ Andere (unbekannt)
 Datenbank:
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
 Schnelles Verlaufsplugin mit Filtermöglichkeiten.\\nBasiert auf verbessertem Code vom History+ Plugin.
-[History++ (2in1)]
-History++ (2 in 1)
 [History++ Error]
 History++-Fehler
 [History++ Warning]

@@ -307,20 +307,6 @@ Recente gebeurtenissen boven
 Gebruik standaard RTL
 [Additional processing support]
 Aanvullende ondersteuning voor verwerking
-[Change Appearance]
-Uiterlijk wijzigen
-[To change fonts you need to install FontService plugin.]
-Om lettertypes te wijzigen moet u de FontService plugin installeren.
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-FontService is geinstalleerd. Ga naar Aanpassen -> Lettertypes voor wijzigingen.
-[Download FontService plugin]
-FontService plugin downloaden
-[To change icons you need to install IcoLib plugin.]
-Om iconen te wijzigen moet u de IcoLib plugin installeren.
-[Download IcoLib plugin]
-IcoLib plugin downloaden
-[More info on these plugins]
-Meer informatie over deze plugins
 [Open event details by Enter]
 Gebeurtenisdetails bij Enter openen
 [History search]

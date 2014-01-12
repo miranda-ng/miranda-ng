@@ -33,8 +33,6 @@ Imitate IEView API
 Ativar suporte raw RTF
 [Display changed avatars]
 Mostrar mudança de avatares
-[Change appearance]
-Mudar aparência
 [Grid background]
 Grelha de fundo
 [Grid messages]
@@ -189,22 +187,6 @@ Mensagem de E-mail Expresso
 Eventos recentes no topo
 [Use RTL by default]
 Use RTL como padrão
-[Change Appearance]
-Mudar aparência
-[To change fonts you need to install FontService plugin.]
-Para alterar as fontes precisa de instalar o plugin 'FontService'
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-Fontservice está instalado. Vá a Personalizar -> Fontes para alterar a configuração.
-[Download FontService plugin]
-Descarregue o plugin FontService
-[To change icons you need to install IcoLib plugin.]
-Para alterar ícones necessita de instalar o plugin IcoLib
-[IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib está instalado. Vá a Personalizar -> 'Ícones para alterar os ícones.
-[Download IcoLib plugin]
-Descarregue o plugin IcoLib
-[More info on these plugins]
-Mais informação sobre estes plugins
 [Open event details by Enter]
 Abrir detalhes de eventos com 'Enter'
 [Search panel]

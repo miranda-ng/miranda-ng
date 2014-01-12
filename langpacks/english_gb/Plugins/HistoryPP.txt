@@ -19,10 +19,6 @@ Authorisation request granted by %s (%d): %s
 Authorisation request denied by %s (%d): %s
 [Authorization future request by %s (%d): %s]
 Authorisation future request by %s (%d): %s
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-FontService is installed. Go to Customise -> Fonts to change settings.
-[IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib is installed. Go to Customise -> Icons to change icons.
 [Authorization Request by %s (%s%s%d): %s]
 Authorisation Request by %s (%s%s%d): %s
 [Authorization Request Sample]

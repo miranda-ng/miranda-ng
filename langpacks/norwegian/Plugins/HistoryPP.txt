@@ -25,8 +25,6 @@ Etterlign IEView API
 Aktiver raw RTF støtte
 [Display changed avatars]
 Vis endrede avatarer
-[Change appearance]
-Endre utseende
 [Grid background]
 Rutenett bakgrunn
 [Grid messages]
@@ -49,18 +47,6 @@ EPost Ekspressmelding
 Nye hendelser øverst
 [Use RTL by default]
 Bruk RTL som standard
-[Change Appearance]
-Endre utseende
-[To change fonts you need to install FontService plugin.]
-For å endre skriften må du installere FontService tillegget.
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-FontService er installert. Gå til Tilpass -> Skrifter for å endre innstillinger.
-[To change icons you need to install IcoLib plugin.]
-For å endre ikoner må du installere IcoLib tillegget.
-[IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib er installert. Gå til Tilpass -> Ikoner for å endre ikoner.
-[More info on these plugins]
-Mer informasjom om tilleggene
 [Open event details by Enter]
 Åpne hendelsedetaljer med Enter
 [Search panel]

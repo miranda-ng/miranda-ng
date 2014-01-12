@@ -55,8 +55,6 @@ WATrack: запит заборонений
 Підтримка RAW RTF
 [Display changed avatars]
 Показувати змінени аватар
-[Change appearance]
-Налаштування зовнішнього вигляду
 [Grid background]
 Фон сітки
 [Grid messages]
@@ -379,8 +377,6 @@ Email express від %s (%s): %s
 Підтримка додаткової обробки
 [Enable BBCodes]
 Підтримка BBCode
-[Change Appearance]
-Змінити зовнішній вигляд
 [Open event details by Enter]
 Enter для подробиць події
 [Search panel]

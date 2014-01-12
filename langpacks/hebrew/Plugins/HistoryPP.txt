@@ -29,8 +29,6 @@ WATrack הודעה
 אפשר תמיכה RTF גולמית
 [Display changed avatars]
 הצג אוואטרים שהשתנו
-[Change appearance]
-שנה מראה
 [Grid background]
 רשת רקע
 [Grid messages]
@@ -121,22 +119,6 @@ ANSI קידוד
 אירועים אחרונים יהיו ראשונים
 [Use RTL by default]
 השתמש RTL כברירת מחדל
-[Change Appearance]
-שנה מראה
-[To change fonts you need to install FontService plugin.]
-כדי לשנות פונטים אתה צריך להתקין FontService פלאגין.
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-שירות פונטים מותקן. לך להתאמה אישית -> פונטים כדי לשנות הגדרה.
-[Download FontService plugin]
-הורד פונט תהליך פלאגין
-[To change icons you need to install IcoLib plugin.]
-כדי לשנות אייקונים אתה צריך להתקין IcoLib .פלאגין 
-[IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib מותקן. לך להתאמה אישית -> אייקונים כדי לשנות אייקונים.
-[Download IcoLib plugin]
-הורד IcoLib פלאג
-[More info on these plugins]
-מידע נוסף על פלאגים אלה
 [Open event details by Enter]
 פתח פרטי אירוע על ידי אנטר
 [Search panel]
@@ -301,8 +283,6 @@ HTML קובץ
 אפשרויות צפיה בהיסטוריה
 [Visit Wiki page for more options]
 בקר בדף ויקי לאפשרויות נוספות
-[History++ (2in1)]
-היסטוריה++ (2in1)
 [&Reset to Default]
 אפס &לברירת מחדל
 [Contact history]
