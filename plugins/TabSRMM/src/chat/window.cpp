@@ -2942,13 +2942,13 @@ LABEL_SHOWWINDOW:
 					if (g_Settings.bDoubleClick4Privat ? GetKeyState(VK_SHIFT) & 0x8000 : !(GetKeyState(VK_SHIFT) & 0x8000)) {
 						LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
-						TCHAR* pszName = (TCHAR*)_alloca(sizeof(TCHAR) * (lstrlen(ui->pszUID) + 3));
+						CMString tszName;
 						if (start == 0)
-							mir_sntprintf(pszName, lstrlen(ui->pszUID) + 3, _T("%s: "), ui->pszUID);
+							tszName.Format(_T("%s: "), ui->pszNick);
 						else
-							mir_sntprintf(pszName, lstrlen(ui->pszUID) + 2, _T("%s "), ui->pszUID);
+							tszName.Format(_T("%s "), ui->pszNick);
 
-						SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM)pszName);
+						SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM)tszName.GetString());
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 					}

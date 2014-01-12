@@ -1243,12 +1243,12 @@ void LoadGlobalSettings(void)
 	g_Settings.crPUBkgColour = M.GetDword("Chat", "PopupColorBG", GetSysColor(COLOR_WINDOW));
 	g_Settings.crPUTextColour = M.GetDword("Chat", "PopupColorText", 0);
 	g_Settings.bClassicIndicators = M.GetBool("Chat", "ClassicIndicators", false);
-	//MAD
+
 	g_Settings.bLogClassicIndicators = M.GetBool("Chat", "LogClassicIndicators", false);
 	g_Settings.bAlternativeSorting   = M.GetBool("Chat", "AlternativeSorting", true);
 	g_Settings.bAnnoyingHighlight	= M.GetBool("Chat", "AnnoyingHighlight", false);
 	g_Settings.bCreateWindowOnHighlight = M.GetBool("Chat", "CreateWindowOnHighlight", true);
-	//MAD_
+
 	g_Settings.bLogSymbols = M.GetBool("Chat", "LogSymbols", true);
 	g_Settings.bClickableNicks = M.GetBool("Chat", "ClickableNicks", true);
 	g_Settings.bColorizeNicks = M.GetBool("Chat", "ColorizeNicks", true);
