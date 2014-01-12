@@ -192,7 +192,6 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	JSONNODE *msgs = json_as_array(json_get(pResponse, "msgs"));
 	if (msgs != NULL) {
-		cc->m_bHistoryRead = true;
 		for (int i = 1;; i++) {
 			JSONNODE *pMsg = json_at(msgs, i);
 			if (pMsg == NULL)
@@ -200,11 +199,12 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 			AppendChatMessage(cc->m_chatid, pMsg, true);
 		}
+		cc->m_bHistoryRead = true;
 	}
 
 	for (int j = 0; j < cc->m_msgs.getCount(); j++) {
 		CVkChatMessage &p = cc->m_msgs[j];
-		AppendChatMessage(cc, p.m_mid, p.m_uid, p.m_date, p.m_tszBody, false);
+		AppendChatMessage(cc, p.m_mid, p.m_uid, p.m_date, p.m_tszBody, p.m_bHistory);
 	}
 	cc->m_msgs.destroy();
 }
@@ -241,6 +241,7 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 		cm->m_uid = uid;
 		cm->m_date = msgTime;
 		cm->m_tszBody = tszBody.detouch();
+		cm->m_bHistory = bIsHistory;
 	}
 }
 

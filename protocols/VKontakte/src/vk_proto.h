@@ -76,6 +76,7 @@ struct CVkChatMessage : public MZeroedObject
 	CVkChatMessage(int _id) : m_mid(_id) {}
 
 	int  m_mid, m_uid, m_date;
+	bool m_bHistory;
 	ptrT m_tszBody;
 };
 
