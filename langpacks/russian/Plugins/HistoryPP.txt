@@ -55,8 +55,6 @@ WATrack: запрос запрещён
 Поддержка RAW RTF
 [Display changed avatars]
 Показывать изменённые аватары
-[Change appearance]
-Настройка внешнего вида
 [Grid background]
 Фон сетки
 [Grid messages]
@@ -379,22 +377,6 @@ Email express от %s (%s): %s
 Поддержка дополнительной обработки
 [Enable BBCodes]
 Поддержка BBCode
-[Change Appearance]
-Изменить внешний вид
-[To change fonts you need to install FontService plugin.]
-Для изменения шрифтов необходим плагин FontService.
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-FontService установлен. Настройки: "Тонкая настройка -> Шрифты и цвета"
-[Download FontService plugin]
-Загрузить плагин FontService
-[To change icons you need to install IcoLib plugin.]
-Для изменения значков необходим плагин IcoLib.
-[IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib установлен. Настройки: "Тонкая настройка -> Значки"
-[Download IcoLib plugin]
-Загрузить плагин IcoLib
-[More info on these plugins]
-Дополнительная информация об этих плагинах
 [Open event details by Enter]
 Enter для подробностей события
 [Search panel]
@@ -685,8 +667,6 @@ Wiki-страница дополнительных параметров
 База данных:
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
 Быстрый просмотрщик истории с возможностью фильтрации.\\nСоздан на основе плагина History+.
-[History++ (2in1)]
-История++ (2в1)
 [History++ Error]
 Ошибка History++
 [History++ Warning]
