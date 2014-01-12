@@ -490,52 +490,53 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		}
 		break;
 	case WM_SETTEXT:
-	case WM_SETICON: {
+	case WM_SETICON:
 		if (CSkin::m_frameSkins) {
 			DefWindowProc(hwndDlg, msg, wParam, lParam);
 			RedrawWindow(hwndDlg, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW | RDW_NOCHILDREN);
 			return 0;
 		}
 		break;
-						  }
-	case WM_NCHITTEST: {
-		RECT r;
-		POINT pt;
-		int k = 0;
-		int clip = CSkin::m_bClipBorder;
 
-		if (!pContainer)
-			break;
+	case WM_NCHITTEST:
+		{
+			RECT r;
+			POINT pt;
+			int k = 0;
+			int clip = CSkin::m_bClipBorder;
 
-		if (!(pContainer->dwFlags & CNT_NOTITLE))
-			break;
+			if (!pContainer)
+				break;
 
-		GetWindowRect(hwndDlg, &r);
-		GetCursorPos(&pt);
-		if (pt.y <= r.bottom && pt.y >= r.bottom - clip - 6) {
-			if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
-				return HTBOTTOM;
-			if (pt.x < r.left + clip + 10)
-				return HTBOTTOMLEFT;
-			if (pt.x > r.right - clip - 10)
-				return HTBOTTOMRIGHT;
+			if (!(pContainer->dwFlags & CNT_NOTITLE))
+				break;
 
+			GetWindowRect(hwndDlg, &r);
+			GetCursorPos(&pt);
+			if (pt.y <= r.bottom && pt.y >= r.bottom - clip - 6) {
+				if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
+					return HTBOTTOM;
+				if (pt.x < r.left + clip + 10)
+					return HTBOTTOMLEFT;
+				if (pt.x > r.right - clip - 10)
+					return HTBOTTOMRIGHT;
+
+			}
+			else if (pt.y >= r.top && pt.y <= r.top + 6) {
+				if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
+					return HTTOP;
+				if (pt.x < r.left + clip + 10)
+					return HTTOPLEFT;
+				if (pt.x > r.right - clip - 10)
+					return HTTOPRIGHT;
+			}
+			else if (pt.x >= r.left && pt.x <= r.left + clip + 6)
+				return HTLEFT;
+			else if (pt.x >= r.right - clip - 6 && pt.x <= r.right)
+				return HTRIGHT;
 		}
-		else if (pt.y >= r.top && pt.y <= r.top + 6) {
-			if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
-				return HTTOP;
-			if (pt.x < r.left + clip + 10)
-				return HTTOPLEFT;
-			if (pt.x > r.right - clip - 10)
-				return HTTOPRIGHT;
-		}
-		else if (pt.x >= r.left && pt.x <= r.left + clip + 6)
-			return HTLEFT;
-		else if (pt.x >= r.right - clip - 6 && pt.x <= r.right)
-			return HTRIGHT;
-
 		return(DefWindowProc(hwndDlg, WM_NCHITTEST, wParam, lParam));
-							 }
+
 	case 0xae:						// must be some undocumented message - seems it messes with the title bar...
 		if (CSkin::m_frameSkins)
 			return 0;
