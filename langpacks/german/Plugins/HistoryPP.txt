@@ -625,8 +625,6 @@ Irgendein Kontakt
 Systemverlauf (%s)
 [System Message Sample]
 Systemnachrichtenbeispiel
-[System Message]
-Systemnachricht
 [Use Miranda default settings]
 Miranda-Standardeinstellungen verwenden
 [You were added by %s (%s%s%d)]

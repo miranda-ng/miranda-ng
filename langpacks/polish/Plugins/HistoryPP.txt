@@ -625,8 +625,6 @@ Jakiś kontakt
 Historia systemowa (%s)
 [System Message Sample]
 Fragment systemowej wiadomości
-[System Message]
-Wiadomość systemowa
 [Use Miranda default settings]
 Użyj domyślnych ustawień Mirandy
 [You were added by %s (%s%s%d)]

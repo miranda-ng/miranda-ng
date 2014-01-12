@@ -179,8 +179,6 @@ Esempio SMS
 Alcuni contatti
 [System Message Sample]
 Esempio Messaggio di Sistema
-[System Message]
-Messaggio di sistema
 [Use Miranda default settings]
 Usa le impostazioni predefinite di Miranda
 [You were added by %s (%s%s%d)]

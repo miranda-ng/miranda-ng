@@ -625,8 +625,6 @@ Lien envoyé
 
 [System Message Sample]
 
-[System Message]
-Message système
 [Use Miranda default settings]
 
 [You were added by %s (%s%s%d)]

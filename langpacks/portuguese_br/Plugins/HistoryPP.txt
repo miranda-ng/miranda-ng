@@ -287,8 +287,6 @@ Excluir também histórico dos subcontatos
 Url chegando
 [Outgoing Url]
 Url saindo
-[System Message]
-Sistema de mensagem
 [Authorization request]
 Pedido de autorização
 [Show events count in menu]

@@ -343,8 +343,6 @@ RTL をデフォルトで使用
 着信 URL
 [Outgoing Url]
 発信 URL
-[System Message]
-システムメッセージ
 [Authorization request]
 認証リクエスト
 [Show events count in menu]

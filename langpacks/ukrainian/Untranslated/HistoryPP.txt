@@ -7,5 +7,4 @@
 [HTML file (*.htm)|*.htm;*.html|All files (*.*)|*.*]
 [Select search mode:]
 [System Message Sample]
-[System Message]
 [System message]

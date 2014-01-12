@@ -73,8 +73,6 @@ Meldingslogg valg
 Innkommende URL
 [Outgoing Url]
 Utgående URL
-[System Message]
-System melding
 [Authorization request]
 Godkjenningsforespørsel
 [&Reset to Default]

@@ -625,8 +625,6 @@ HTML (*.htm; *.html)|*.htm;*.htm
 Сістэмная гісторыя (%s)
 [System Message Sample]
 Гэта сістэмнае паведамленне
-[System Message]
-Сістэмнае паведамленне
 [Use Miranda default settings]
 Выкарыстоўваць налады Miranda
 [You were added by %s (%s%s%d)]

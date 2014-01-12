@@ -413,8 +413,6 @@ ANSI 编码
 传入网址
 [Outgoing Url]
 发送网址
-[System Message]
-系统消息
 [Authorization request]
 授权请求
 [Show events count in menu]

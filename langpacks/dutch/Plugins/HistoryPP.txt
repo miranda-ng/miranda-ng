@@ -331,8 +331,6 @@ Informatie van ontvanger tonen
 Binnenkomende URL
 [Outgoing Url]
 Uitgaande URL
-[System Message]
-Systeembericht
 [Authorization request]
 Autorisatie verzoek
 [&Reset to Default]

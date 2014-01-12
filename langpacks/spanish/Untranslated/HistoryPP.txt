@@ -306,7 +306,6 @@
 [Some Contact]
 [System History (%s)]
 [System Message Sample]
-[System Message]
 [Use Miranda default settings]
 [You were added by %s (%s%s%d)]
 [You Were Added Message Sample]

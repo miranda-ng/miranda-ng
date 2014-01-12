@@ -625,8 +625,6 @@ URL връзки
 
 [System Message Sample]
 
-[System Message]
-
 [Use Miranda default settings]
 
 [You were added by %s (%s%s%d)]

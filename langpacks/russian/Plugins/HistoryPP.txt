@@ -625,8 +625,6 @@ HTML файл
 Системная история (%s)
 [System Message Sample]
 Это системное сообщение
-[System Message]
-Системное сообщение
 [Use Miranda default settings]
 Использовать настройки Miranda NG
 [You were added by %s (%s%s%d)]

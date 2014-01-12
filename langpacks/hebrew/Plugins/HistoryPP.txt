@@ -261,8 +261,6 @@ HTML קובץ
 קצת תוכן
 [System Message Sample]
 הודעת מערכת לדוגמא
-[System Message]
-הודעת מערכת
 [Use Miranda default settings]
 השתמש בהגדרות ברירת מחדל של המירנדה
 [You were added by %s (%s%s%d)]
