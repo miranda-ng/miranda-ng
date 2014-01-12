@@ -73,11 +73,9 @@ VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 	nlhr.nlc = hNetlibHttp;
 
 	// change the header so the plugin is pretended to be IE 6 + WinXP
-	if (db_get_b(hContact, MODULE, "UseAuth", 0) || IsDlgButtonChecked(hwndDlg, IDC_USEAUTH))
-		nlhr.headersCount = 5;
-	else
-		nlhr.headersCount = 4;
-	nlhr.headers = (NETLIBHTTPHEADER *)mir_alloc(sizeof(NETLIBHTTPHEADER) * nlhr.headersCount);
+	NETLIBHTTPHEADER headers[5];
+	nlhr.headersCount = 4;
+	nlhr.headers = headers;
 	nlhr.headers[0].szName  = "User-Agent";
 	nlhr.headers[0].szValue = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
 	nlhr.headers[1].szName  = "Cache-Control";
@@ -87,6 +85,7 @@ VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 	nlhr.headers[3].szName  = "Connection";
 	nlhr.headers[3].szValue = "close";
 	if (db_get_b(hContact, MODULE, "UseAuth", 0) || IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
+		nlhr.headersCount++;
 		nlhr.headers[4].szName  = "Authorization";
 	
 		char auth[256];
@@ -104,31 +103,26 @@ VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 			memcpy(*szData, nlhrReply->pData, nlhrReply->dataLength);
 			(*szData)[nlhrReply->dataLength] = 0;
 		}
-		else if (nlhrReply->resultCode == 401)
-		{
+		else if (nlhrReply->resultCode == 401) {
 			ItemInfo SelItem = {0};
 			SelItem.hwndList = hwndDlg;
 			SelItem.hContact = hContact;
 			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
-			{
 				GetNewsData(tszUrl, szData, hContact, hwndDlg);
-			}
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
-	} else {
+	}
+	else {
 		if (nlhr.resultCode == 401) {
 			ItemInfo SelItem = {0};
 			SelItem.hwndList = hwndDlg;
 			SelItem.hContact = hContact;
 			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
-			{
 				GetNewsData(tszUrl, szData, hContact, hwndDlg);
-			}
 		}
 	}
 
 	mir_free(szUrl);
-	mir_free(nlhr.headers);
 }
 
 VOID CreateList(HWND hwndList)
@@ -402,8 +396,9 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	char *szUrl = mir_t2a(tszURL);
 	nlhr.szUrl = szUrl;
+	NETLIBHTTPHEADER headers[4];
 	nlhr.headersCount = 4;
-	nlhr.headers=(NETLIBHTTPHEADER *)mir_alloc(sizeof(NETLIBHTTPHEADER) * nlhr.headersCount);
+	nlhr.headers = headers;
 	nlhr.headers[0].szName = "User-Agent";
 	nlhr.headers[0].szValue = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
 	nlhr.headers[1].szName = "Connection";
@@ -463,7 +458,6 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	}
 
 	mir_free(szUrl);
-	mir_free(nlhr.headers);
 
 	if (hFile)
 		CloseHandle(hFile);
