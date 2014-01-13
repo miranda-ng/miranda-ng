@@ -150,7 +150,6 @@
 #define IDI_AUTH_GRANT                  325
 #define IDI_AUTH_REQUEST                326
 #define IDI_AUTH_REVOKE                 327
-#define IDC_SAVE                        1001
 #define IDI_ONTHEPHONE                  1002
 #define IDC_MESSAGE                     1002
 #define IDI_OUTTOLUNCH                  1003
