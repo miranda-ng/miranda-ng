@@ -165,8 +165,6 @@
 Зап. сейчас
 [Show this dialog box when Miranda NG starts]
 Показать это окно при запуске Miranda NG
-[Save as default]
-Сохранить настройки
 [SSL traffic]
 Трафик SSL
 [Sounds]
