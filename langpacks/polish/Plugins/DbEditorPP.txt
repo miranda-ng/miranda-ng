@@ -337,7 +337,7 @@ Typ
 [Size]
 Rozmiar
 [*** encrypted ***]
-
+*** zaszyfrowane
 [UNICODE]
 UNICODE
 [BLOB]
