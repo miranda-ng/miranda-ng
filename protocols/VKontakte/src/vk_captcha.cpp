@@ -149,7 +149,7 @@ bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, JSONNODE *pErrorNode)
 		return false;
 
 	CMStringA userReply;
-	if ( !RunCaptchaForm(szUrl, userReply))
+	if (!RunCaptchaForm(szUrl, userReply))
 		return false;
 
 	pReq->m_szUrl = pReq->szUrl;

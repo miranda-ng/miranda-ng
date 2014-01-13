@@ -69,7 +69,7 @@ void CVkProto::OnLoggedOut()
 
 void CVkProto::SetServerStatus(int iNewStatus)
 {
-	if ( !IsOnline() || iNewStatus < ID_STATUS_OFFLINE)
+	if (!IsOnline() || iNewStatus < ID_STATUS_OFFLINE)
 		return;
 
 	int iOldStatus = m_iStatus;
@@ -143,15 +143,13 @@ LBL_NoForm:
 		return;
 	}
 
-	if ( strstr(reply->pData, "Invalid login or password") ||
-		  strstr(reply->pData, ptrA( mir_utf8encodecp("неверный логин или пароль", 1251))))
-	{
+	if (strstr(reply->pData, "service_msg_warning")) {
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
 	}
 
 	// Application requests access to user's account
-	if ( !strstr(reply->pData, "form method=\"post\""))
+	if (!strstr(reply->pData, "form method=\"post\""))
 		goto LBL_NoForm;
 
 	CMStringA szAction, szBody;
@@ -198,7 +196,7 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	for (size_t i = 0; i < json_size(pResponse); i++) {
 		JSONNODE *it = json_at(pResponse, i);
 		LPCSTR id = json_name(it);
-		if ( !_stricmp(id, "user_id")) {
+		if (!_stricmp(id, "user_id")) {
 			m_myUserId = json_as_int(it);
 			setDword("ID", m_myUserId);
 		}
@@ -257,7 +255,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			tszNick.Append(szValue);
 		}
 
-		if ( !tszNick.IsEmpty())
+		if (!tszNick.IsEmpty())
 			setTString(hContact, "Nick", tszNick);
 	
 		setByte(hContact, "Gender", json_as_int( json_get(pRecord, "sex")) == 2 ? 'M' : 'F');
@@ -297,14 +295,14 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	if (pResponse == NULL)
 		return;
 
-	for (int i=0; (pInfo = json_at(pResponse, i)) != NULL; i++) {
-		ptrT szValue( json_as_string( json_get(pInfo, "uid")));
+	for (int i = 0; (pInfo = json_at(pResponse, i)) != NULL; i++) {
+		ptrT szValue(json_as_string(json_get(pInfo, "uid")));
 		if (szValue == NULL)
 			continue;
 
 		CMString tszNick;
-		HANDLE hContact = FindUser( _ttoi(szValue), true);
-		szValue = json_as_string( json_get(pInfo, "first_name"));
+		HANDLE hContact = FindUser(_ttoi(szValue), true);
+		szValue = json_as_string(json_get(pInfo, "first_name"));
 		if (szValue) {
 			setTString(hContact, "FirstName", szValue);
 
@@ -312,30 +310,32 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 			tszNick.AppendChar(' ');
 		}
 
-		if (szValue = json_as_string( json_get(pInfo, "last_name"))) {
+		if (szValue = json_as_string(json_get(pInfo, "last_name"))) {
 			setTString(hContact, "LastName", szValue);
 			tszNick.Append(szValue);
 		}
 
-		if ( !tszNick.IsEmpty())
+		if (!tszNick.IsEmpty())
 			setTString(hContact, "Nick", tszNick);
 
-		szValue = json_as_string( json_get(pInfo, "photo_medium"));
+		szValue = json_as_string(json_get(pInfo, "photo_medium"));
 		SetAvatarUrl(hContact, szValue);
 
-		setWord(hContact, "Status", (json_as_int( json_get(pInfo, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE); 
+		setWord(hContact, "Status", (json_as_int(json_get(pInfo, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
 
-		int iValue = json_as_int( json_get(pInfo, "sex"));
+		int iValue = json_as_int(json_get(pInfo, "sex"));
 		if (iValue)
 			setByte(hContact, "Gender", (iValue == 2) ? 'M' : 'F');
 
-		if ((iValue = json_as_int( json_get(pInfo, "timezone"))) != 0)
+		if ((iValue = json_as_int(json_get(pInfo, "timezone"))) != 0)
 			setByte(hContact, "Timezone", iValue * -2);
 
-		szValue = json_as_string( json_get(pInfo, "mobile_phone"));
-		if (szValue && *szValue) setTString(hContact, "Cellular", szValue);
-		szValue = json_as_string( json_get(pInfo, "home_phone"));
-		if (szValue && *szValue) setTString(hContact, "Phone", szValue);
+		szValue = json_as_string(json_get(pInfo, "mobile_phone"));
+		if (szValue && *szValue)
+			setTString(hContact, "Cellular", szValue);
+		szValue = json_as_string(json_get(pInfo, "home_phone"));
+		if (szValue && *szValue)
+			setTString(hContact, "Phone", szValue);
 	}
 }
 
@@ -387,23 +387,23 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			JSONNODE *pDlg = json_at(pDlgs, i);
 			if (pDlg == NULL)
 				continue;
-			
+
 			int chatid = json_as_int(json_get(pDlg, "chat_id"));
 			if (chatid != 0)
-				if (m_chats.find((CVkChatInfo*)&chatid) == NULL) {
-					AppendChat(chatid, pDlg);
+			if (m_chats.find((CVkChatInfo*)&chatid) == NULL) {
+				AppendChat(chatid, pDlg);
 			}
 		}
 	}
 
 	CMStringA mids, lmids;
 
-	JSONNODE *pMsgs = json_as_array( json_get(pResponse, "msgs"));
+	JSONNODE *pMsgs = json_as_array(json_get(pResponse, "msgs"));
 	if (pMsgs == NULL)
 		pMsgs = pResponse;
 
-	int numMessages = json_as_int( json_at(pMsgs, 0));
-	for (int i=1; i <= numMessages; i++) {
+	int numMessages = json_as_int(json_at(pMsgs, 0));
+	for (int i = 1; i <= numMessages; i++) {
 		JSONNODE *pMsg = json_at(pMsgs, i);
 		if (pMsg == NULL)
 			continue;
@@ -419,18 +419,18 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (chat_id != 0) {
 			AppendChatMessage(chat_id, pMsg, false);
 			continue;
-		}			
+		}
 
 		// VK documentation lies: even if you specified preview_length=0, 
 		// long messages get cut out. So we need to retrieve them from scratch
-		ptrT ptszBody( json_as_string( json_get(pMsg, "body")));
-/*		if (_tcslen(ptszBody) > 100) {
-			if (!lmids.IsEmpty())
-				lmids.AppendChar(',');
-			lmids.Append(szMid);
-			continue;
-		}
-  */
+		ptrT ptszBody(json_as_string(json_get(pMsg, "body")));
+		/*		if (_tcslen(ptszBody) > 100) {
+					if (!lmids.IsEmpty())
+					lmids.AppendChar(',');
+					lmids.Append(szMid);
+					continue;
+					}
+					*/
 		int datetime = json_as_int(json_get(pMsg, "date"));
 		int isOut = json_as_int(json_get(pMsg, "out"));
 		int uid = json_as_int(json_get(pMsg, "uid"));
@@ -480,9 +480,9 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	if (pResponse == NULL)
 		return;
 
-	m_pollingTs = mir_t2a( ptrT( json_as_string( json_get(pResponse, "ts"))));
-	m_pollingKey = mir_t2a( ptrT( json_as_string( json_get(pResponse, "key"))));
-	m_pollingServer = mir_t2a( ptrT( json_as_string( json_get(pResponse, "server"))));
+	m_pollingTs = mir_t2a(ptrT(json_as_string(json_get(pResponse, "ts"))));
+	m_pollingKey = mir_t2a(ptrT(json_as_string(json_get(pResponse, "key"))));
+	m_pollingServer = mir_t2a(ptrT(json_as_string(json_get(pResponse, "server"))));
 	if (!m_hPollingThread && m_pollingTs != NULL && m_pollingKey != NULL && m_pollingServer != NULL)
 		m_hPollingThread = ForkThreadEx(&CVkProto::PollingThread, NULL, NULL);
 }
@@ -498,8 +498,8 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 	HANDLE hContact;
 
 	JSONNODE *pChild;
-	for (int i=0; (pChild = json_at(pUpdates, i)) != NULL; i++) {
-		switch (json_as_int( json_at(pChild, 0))) {
+	for (int i = 0; (pChild = json_at(pUpdates, i)) != NULL; i++) {
+		switch (json_as_int(json_at(pChild, 0))) {
 		case VKPOLL_MSG_ADDED: // new message
 			msgid = json_as_int(json_at(pChild, 1));
 
@@ -515,19 +515,19 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			break;
 
 		case VKPOLL_USR_ONLINE:
-			uid = -json_as_int( json_at(pChild, 1));
+			uid = -json_as_int(json_at(pChild, 1));
 			if ((hContact = FindUser(uid)) != NULL)
 				setWord(hContact, "Status", ID_STATUS_ONLINE);
 			break;
 
 		case VKPOLL_USR_OFFLINE:
-			uid = -json_as_int( json_at(pChild, 1));
+			uid = -json_as_int(json_at(pChild, 1));
 			if ((hContact = FindUser(uid)) != NULL)
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			break;
 
 		case VKPOLL_USR_UTN:
-			uid = json_as_int( json_at(pChild, 1));
+			uid = json_as_int(json_at(pChild, 1));
 			if ((hContact = FindUser(uid)) != NULL)
 				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, 5);
 			break;
@@ -570,8 +570,8 @@ int CVkProto::PollServer()
 			retVal = -1;
 			debugLogA("Polling key expired, restarting polling thread");
 		}
-		else if ( CheckJsonResult(NULL, reply, pRoot)) {
-			m_pollingTs = mir_t2a( ptrT( json_as_string( json_get(pRoot, "ts"))));
+		else if (CheckJsonResult(NULL, reply, pRoot)) {
+			m_pollingTs = mir_t2a(ptrT(json_as_string(json_get(pRoot, "ts"))));
 			JSONNODE *pUpdates = json_get(pRoot, "updates");
 			if (pUpdates != NULL)
 				PollUpdates(pUpdates);

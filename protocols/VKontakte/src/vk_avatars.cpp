@@ -117,7 +117,7 @@ void CVkProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen)
 void CVkProto::SetAvatarUrl(HANDLE hContact, LPCTSTR ptszUrl)
 {
 	ptrT oldUrl( getTStringA(hContact, "AvatarUrl"));
-	if ( !lstrcmp(ptszUrl, oldUrl))
+	if (!lstrcmp(ptszUrl, oldUrl))
 		return;
 
 	if (ptszUrl == NULL) {

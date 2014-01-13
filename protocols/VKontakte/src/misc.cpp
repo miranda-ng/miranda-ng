@@ -69,7 +69,7 @@ bool CVkProto::CheckMid(int guid)
 LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 {
 	for (int i=0; i < pReq->headersCount; i++)
-		if ( !_stricmp(pReq->headers[i].szName, szField))
+		if (!_stricmp(pReq->headers[i].szName, szField))
 			return pReq->headers[i].szValue;
 
 	return NULL;
@@ -81,7 +81,7 @@ JSONNODE* CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST 
 	if (pRoot == NULL)
 		return NULL;
 
-	if ( !CheckJsonResult(pReq, reply, pRoot))
+	if (!CheckJsonResult(pReq, reply, pRoot))
 		return NULL;
 
 	return json_get(pRoot, "response");
@@ -191,11 +191,11 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 			else if (name == "captcha_key") {
 				char *pCaptchaBeg = strstr(pFormBeg, "<img id=\"captcha\"");
 				if (pCaptchaBeg != NULL)
-					if ( !RunCaptchaForm( getAttr(pCaptchaBeg, "src"), value))
+					if (!RunCaptchaForm( getAttr(pCaptchaBeg, "src"), value))
 						return false;
 			}
 
-			if ( !result.IsEmpty())
+			if (!result.IsEmpty())
 				result.AppendChar('&');
 			result += name + "=";
 			result += ptrA( mir_urlEncode(value));
@@ -287,11 +287,11 @@ void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 				szCookieName = szToken.Tokenize("=", iStart2);
 				szCookieVal  = szToken.Tokenize("=", iStart2);
 			}
-			else if ( !strncmp(szToken, "domain=", 7))
+			else if (!strncmp(szToken, "domain=", 7))
 				szDomain = szToken.Mid(7);
 		}
 
-		if ( !szCookieName.IsEmpty() && !szDomain.IsEmpty()) {
+		if (!szCookieName.IsEmpty() && !szDomain.IsEmpty()) {
 			int k;
 			for (k=0; k < m_cookies.getCount(); k++) {
 				if (m_cookies[k].m_name == szCookieName) {
@@ -320,6 +320,6 @@ void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 		szCookie.Append(m_cookies[i].m_value);
 	}
 
-	if ( !szCookie.IsEmpty())
+	if (!szCookie.IsEmpty())
 		pReq->AddHeader("Cookie", szCookie);
 }
