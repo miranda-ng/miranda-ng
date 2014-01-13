@@ -844,6 +844,12 @@ STDMETHODIMP_(BOOL) CDataBase::EnumResidentSettings(DBMODULEENUMPROC pFunc, void
 
 STDMETHODIMP_(void) CDataBase::SetCacheSafetyMode(BOOL) {}
 
+
+STDMETHODIMP_(BOOL) CDataBase::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
+{
+	return FALSE;
+}
+
 bool CompatibilityRegister()
 {
 	hEventDeletedEvent     = CreateHookableEvent(ME_DB_EVENT_DELETED);

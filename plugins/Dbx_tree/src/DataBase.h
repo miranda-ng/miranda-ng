@@ -226,6 +226,7 @@ protected:  // to be compatible with the standard Miranda databases
 	STDMETHODIMP_(BOOL)   EnumContactSettings(HANDLE hContact, DBCONTACTENUMSETTINGS* dbces);
 	STDMETHODIMP_(BOOL)   SetSettingResident(BOOL bIsResident, const char *pszSettingName);
 	STDMETHODIMP_(BOOL)   EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
+	STDMETHODIMP_(BOOL)   IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting);
 
 	int CheckProto(HANDLE hContact, const char *proto);
 };

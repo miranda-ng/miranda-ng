@@ -103,6 +103,7 @@ interface MIDatabase
 	STDMETHOD_(BOOL,EnumContactSettings)(HANDLE hContact, DBCONTACTENUMSETTINGS* dbces) PURE;
 	STDMETHOD_(BOOL,SetSettingResident)(BOOL bIsResident, const char *pszSettingName) PURE;
 	STDMETHOD_(BOOL,EnumResidentSettings)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
+	STDMETHOD_(BOOL,IsSettingEncrypted)(LPCSTR szModule, LPCSTR szSetting) PURE;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

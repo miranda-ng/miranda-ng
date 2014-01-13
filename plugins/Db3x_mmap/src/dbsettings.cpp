@@ -28,7 +28,7 @@ DBCachedContact* AddToCachedContactList(HANDLE hContact, int index);
 
 #define VLT(n) ((n == DBVT_UTF8 || n == DBVT_ENCRYPTED)?DBVT_ASCIIZ:n)
 
-bool isEncrypted(LPCSTR szModule, LPCSTR szSetting)
+BOOL CDb3Base::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
 {
 	if (!_strnicmp(szSetting, "password", 8))      return true;
 	if (!strcmp(szSetting, "NLProxyAuthPassword")) return true;
@@ -404,7 +404,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 		break;
 	
 	case DBVT_ASCIIZ: case DBVT_UTF8:
-		bIsEncrypted = m_bEncrypted || ::isEncrypted(dbcws->szModule, dbcws->szSetting);
+		bIsEncrypted = m_bEncrypted || IsSettingEncrypted(dbcws->szModule, dbcws->szSetting);
 LBL_WriteString:
 		if (dbcwWork.value.pszVal == NULL)
 			return 1;

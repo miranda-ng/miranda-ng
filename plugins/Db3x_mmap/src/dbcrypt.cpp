@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool isEncrypted(LPCSTR szModule, LPCSTR szSetting);
-
 //VERY VERY VERY BASIC ENCRYPTION FUNCTION
 
 static void Encrypt(char *msg, BOOL up)
@@ -74,7 +72,7 @@ struct SettingUgraderParam
 int sttSettingUgrader(const char *szSetting, LPARAM lParam)
 {
 	SettingUgraderParam *param = (SettingUgraderParam*)lParam;
-	if (isEncrypted(param->szModule, szSetting)) {
+	if (param->db->IsSettingEncrypted(param->szModule, szSetting)) {
 		DBVARIANT dbv = { DBVT_UTF8 };
 		DBCONTACTGETSETTING dbcgs = { param->szModule, szSetting, &dbv };
 		if (!param->db->GetContactSettingStr(param->hContact, &dbcgs)) {
@@ -326,7 +324,7 @@ void CDb3Mmap::ToggleSettingsEncryption(HANDLE hContact)
 			case DBVT_ENCRYPTED:
 				len = *(PWORD)(pBlob + 1);
 				// we need to decrypt these strings
-				if (m_bEncrypted && !::isEncrypted(szModule, szSetting))
+				if (m_bEncrypted && !IsSettingEncrypted(szModule, szSetting))
 					arSettings.insert(new VarDescr(szSetting, pBlob + 3, len));
 				NeedBytes(3 + len);
 				break;
