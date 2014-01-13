@@ -101,3 +101,5 @@
 Події
 [Window Shaking]
 Тряска вікна
+[Show as status change]
+Показати, як зміна статусу

@@ -1,5 +1,4 @@
 ﻿[Indent text]
-[&OK]
 [You are about to send a message to all open tabs.\nAre you sure?]
 [Trim to]
 [OK]

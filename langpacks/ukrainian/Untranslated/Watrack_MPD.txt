@@ -1,3 +1,0 @@
-﻿[MPD Host]
-[Watrack MPD connection]
-[Winamp Track]

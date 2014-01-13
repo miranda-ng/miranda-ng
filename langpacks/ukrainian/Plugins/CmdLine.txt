@@ -153,3 +153,5 @@ Miranda була закрита або сталася помилка при оч
 Сповіщення
 [Warning]
 Попередження
+[Could not initialize CmdLine plugin property]
+Не вдалося ініціалізувати власності CmdLine

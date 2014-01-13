@@ -1,3 +1,0 @@
-﻿[Alley]
-[Custom INI file]
-[Device list]

@@ -1,7 +1,0 @@
-﻿[SSL]
-[&OK]
-[CTCP]
-[DCC]
-[Jerk]
-[DCC'n CTCP]
-[NickServ]

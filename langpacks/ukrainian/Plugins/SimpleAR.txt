@@ -43,3 +43,5 @@
 Автовідповідач
 [Message Sessions]
 Бесіди
+[I am on the phone right now. I will get back to you very soon.]
+Прямо зараз я на телефоні. Але я повернуся дуже скоро.

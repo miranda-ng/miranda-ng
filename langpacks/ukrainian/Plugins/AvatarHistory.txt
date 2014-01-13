@@ -161,3 +161,5 @@ AVH Debug: Копіювання файлу успішно
 Невідомий номер
 [Unknown Protocol]
 Невідомий протокол
+[Avatar History: Unable to create shortcut]
+Історія аватарів: Неможливо створити ярлик

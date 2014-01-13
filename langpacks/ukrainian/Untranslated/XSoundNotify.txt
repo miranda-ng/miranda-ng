@@ -1,3 +1,0 @@
-﻿[XSoundNotify]
-[OK]
-[XSound Notify]

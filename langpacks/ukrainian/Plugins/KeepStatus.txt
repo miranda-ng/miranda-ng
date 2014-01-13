@@ -321,3 +321,11 @@ Dial-up (експериментальна)
 <немає>
 [Closing in %d]
 Закрити (%d)
+[when full-screen mode is active]
+коли повноекранний режим
+[Set docked]
+Паркувати
+[Automatically hang up on exit]
+Автоматично відєднуватися (Dial-Up) при віході
+[TriggerData]
+Данні виклику

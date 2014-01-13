@@ -96,3 +96,15 @@
 Посилань в історії не знайдено!
 [Unable to load the Rich Edit control!]
 Засоби редагування не завантажені!
+[no filter]
+немає фільтру
+[Search Filter]
+Пошуковий фільтр
+[no settings]
+немае налаштувань
+[Could not allocate memory!]
+Не вдається виділити пам'ять!
+[RTF file]
+RTF файл
+[Save RTF File]
+Зберегти у RTF файл

@@ -2925,3 +2925,13 @@ ANSI-плагін
 Замбія
 [Zimbabwe]
 Зімбабве
+[E-mail:]
+Пошта:
+[&E-mail]
+&Пошта
+[URL]
+Посилання
+[E-mail]
+Пошта 
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Клієнт не взмозі декодувати повідомлення хоста. Можлива причина: хост не підтримує SSL або потребує не існуючу бібліотеку

@@ -93,3 +93,5 @@
 Помилка ініціалізації XML-парсера
 [Import history to %s (%s)]
 Імпортувати історію у %s (%s)
+[Click "Next" to start Import or "Cancel" to Abort.]
+Натисніть "Далі" для старту, або "Скасувати" для закінчення.

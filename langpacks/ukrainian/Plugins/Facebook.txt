@@ -241,3 +241,23 @@
 Перевірити запити дружби
 [Check Newsfeeds]
 Перевірити новини
+[E-mail:]
+Пошта:
+[URL:]
+Посилання:
+[Login error: Invalid request.]
+Помилка входу: Запит неприпустим.
+[Login error: Some Facebook things are required.]
+Помилка входу: Деякі Facebook речі є обов'язковими.
+[Login error: Captcha code is required. Bad login credentials?]
+Помилка входу: Потрібна капча. Погані облікові дані для входу?
+[Login error, probably bad login credentials.]
+Помилка входу, ймовірно погані дані облікового запису.
+[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
+Потребують підтвердження, для відправлення повідомлень іншим клієнтам.\nВідкрийте сайт Facebook і спробуйте надіслати повідомлення знову!
+[Default]
+За замовчанням
+[%s and more (%d)]
+%s і більше (%d)
+[Unable to get Netlib connection for Facebook]
+Facebook не вдається отримати від Netlib з'єднання

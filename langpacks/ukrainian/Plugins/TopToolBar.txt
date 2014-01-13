@@ -43,3 +43,5 @@
 Панель кнопок
 [Contact List]
 Список контактів
+[TopToolBar Background]
+Фон панелі кнопок

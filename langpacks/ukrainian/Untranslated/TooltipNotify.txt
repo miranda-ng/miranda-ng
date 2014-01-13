@@ -1,3 +1,0 @@
-﻿[OK]
-[Choose contacts]
-[Shows/Hides contact list]

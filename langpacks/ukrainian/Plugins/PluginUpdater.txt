@@ -13,6 +13,8 @@
 Знайдено нові версії плагінів Miranda NG. Натисніть на кнопку "Деталі" для докладної інформації.
 [Update]
 Оновити
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
+Оновлення завершено. Натисніть "Так" для негайного перезавантаження програми або "Ні", щоб відкласти оновлення до виходу.
 [Details >>]
 Деталі >>
 [Cancel]

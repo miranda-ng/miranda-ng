@@ -63,3 +63,33 @@
 Документ
 [Unsupported or unknown attachment type: %s]
 Цей тип прикріплень не підтримується: %s 
+[Hide chats on startup]
+Приховувати чати при завантаженні
+[Invite user to chat]
+Запросити користувача у чат
+[Choose one of your contacts to be invited:]
+Оберіть контакти, що будуть запрошені у чат:
+[Create group chat]
+Створити груповий чат
+[Mark users you want to invite to a new chat]
+Відзначте користувачів, яких ви хочете запросити в новий чат
+[New chat's title:]
+Назва нової кімнати:
+[Enter new chat title]
+Введіть нову назву чату
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Цей чат буде знищено назавжди з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
+[Warning]
+Попередження
+[&Invite a user]
+&Запросити користувача
+[View/change &title]
+Перегяд/зміна &назви
+[&Destroy room]
+&Видалити кімнату чата
+[&User details]
+&Інформація про користувача
+[&Kick]
+&Викинути
+[Create new chat]
+Створити новий чат

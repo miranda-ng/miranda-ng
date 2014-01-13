@@ -713,3 +713,23 @@ Wiki-сторінка додаткових параметрів
 Підтримка MathModule
 [Show event icons]
 Значки подій
+[History Search]
+Пошук в історії
+[All files (*.*)|*.*]
+Усі файли (*.*)|*.*
+[Status change: %s]
+Зтанус змінено: %s
+[History search]
+Пошук в історії
+[SMTP Simple]
+Простий SMTP
+[No "%s" items]
+Немає "%s" елементив
+[HTML file (*.htm)|*.htm;*.html|All files (*.*)|*.*]
+HTML файл (*.htm)|*.htm;*.html|Усі файли (*.*)|*.*]
+[Select search mode:]
+Оберіть режим пошуку:
+[System Message Sample]
+Зразок системного повідомлення
+[System message]
+Системне повідомлення

@@ -24,7 +24,7 @@
 [Contact]
 Контакт
 [Toggle Ignore]
-Переключить игнорирование
+Переключить игнорирования
 [Ignore Contact]
 Игнорировать контакт
 [Show Contact]

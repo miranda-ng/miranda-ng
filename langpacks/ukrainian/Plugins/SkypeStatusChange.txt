@@ -17,3 +17,5 @@
 Зміна статусу Skype
 [Plugins]
 Плагіни
+[Skype status change according to Miranda status.]
+Зміна статусу Skype у відповідності з статусом Miranda.]

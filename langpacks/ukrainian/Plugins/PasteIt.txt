@@ -153,3 +153,5 @@ HTTP підключення Paste It
 1 день
 [1 month]
 1 місяць
+[Paste expire date]
+Вставити дату закінчення
