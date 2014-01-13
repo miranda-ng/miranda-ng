@@ -336,6 +336,11 @@ Données
 
 [Size]
 Taille
+
+[*** encrypted ***]
+
+[UNICODE]
+
 [BLOB]
 
 [BYTE]
@@ -345,8 +350,6 @@ Taille
 [DWORD]
 
 [STRING]
-
-[UNICODE]
 
 [<unsupported>]
 <non supporté>

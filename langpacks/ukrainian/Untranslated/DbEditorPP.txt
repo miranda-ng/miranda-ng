@@ -1,4 +1,5 @@
 ﻿[OK]
 [BL&OB]
 [HANDLE]
+[*** encrypted ***]
 [BLOB]

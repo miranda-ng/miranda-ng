@@ -317,6 +317,8 @@ INI файли
 Тип
 [Size]
 Розмір
+[UNICODE]
+Юнікод
 [BYTE]
 Байт
 [WORD]
@@ -325,8 +327,6 @@ INI файли
 Подв. слово
 [STRING]
 Рядок
-[UNICODE]
-Юнікод
 [<unsupported>]
 <не підтримується>
 [<unknown>]

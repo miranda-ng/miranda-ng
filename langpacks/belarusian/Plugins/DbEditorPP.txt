@@ -332,6 +332,8 @@ HANDLE
 Тып
 [Size]
 Памер
+[UNICODE]
+юнікод
 [BLOB]
 BLOB
 [BYTE]
@@ -342,8 +344,6 @@ BLOB
 дв. слова
 [STRING]
 радок
-[UNICODE]
-юнікод
 [<unsupported>]
 <не падтрымліваецца>
 [<unknown>]

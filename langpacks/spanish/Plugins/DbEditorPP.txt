@@ -336,6 +336,10 @@ Nombre
 Tipo
 [Size]
 Tamaño
+[*** encrypted ***]
+
+[UNICODE]
+
 [BLOB]
 
 [BYTE]
@@ -345,8 +349,6 @@ Tamaño
 [DWORD]
 
 [STRING]
-
-[UNICODE]
 
 [<unsupported>]
 

@@ -336,6 +336,10 @@ Wert
 Typ
 [Size]
 Größe
+[*** encrypted ***]
+
+[UNICODE]
+UNICODE
 [BLOB]
 BLOB
 [BYTE]
@@ -346,8 +350,6 @@ WORD
 DWORD
 [STRING]
 STRING
-[UNICODE]
-UNICODE
 [<unsupported>]
 <nicht unterstützt>
 [<unknown>]
