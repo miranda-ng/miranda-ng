@@ -75,22 +75,22 @@ bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
 		{
 			DWORD buf_length = 256 * 1024;	// 256 KB
 			HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
-			UINT i = 0;
+			DWORD dwTotalBytes = 0;
 			MSG msg;
 			if (void* buf = mir_alloc( buf_length ))
 			{
 				while (GetWindowLongPtr(progress_dialog, GWLP_USERDATA) != 1)
 				{
-					DWORD read = 0;
-					if (!ReadFile( hSrc, buf, buf_length, &read, NULL))
+					DWORD dwRead = 0;
+					if (!ReadFile(hSrc, buf, buf_length, &dwRead, NULL))
 						break;
 
-					if (read == 0) // EOF
+					if (dwRead == 0) // EOF
 					{
 						ret = true;
 						break;
 					}
-					res = zipWriteInFileInZip(hZip, buf, read);
+					res = zipWriteInFileInZip(hZip, buf, dwRead);
 					if (res != ZIP_OK)
 						break;
 
@@ -102,7 +102,8 @@ bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
 							DispatchMessage(&msg);
 						}
 					}
-					SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100 / ((int)fad.nFileSizeLow / buf_length) * ++i), 0);
+					dwTotalBytes += dwRead;
+					SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100.0 * double(dwRead) / double(fad.nFileSizeLow)), 0);
 				}
 				mir_free(buf);
 			}
@@ -174,7 +175,7 @@ int RotateBackups()
 
 	while(bf)
 	{
-		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY){
+		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 			if (FindNextFile(hFind, &FindFileData))
 				continue;
 			else break;
@@ -219,9 +220,9 @@ int Backup(TCHAR* backup_filename)
 		TCHAR *backupfolder = Utils_ReplaceVarsT(options.folder);
 		// ensure the backup folder exists (either create it or return non-zero signifying error)
 		int err = CreateDirectoryTreeT(backupfolder);
-		if (err != ERROR_ALREADY_EXISTS && err != 0) {
+		if (err != ERROR_ALREADY_EXISTS && err != 0)
 			return 1;
-		}
+
 		SYSTEMTIME st;
 		GetLocalTime(&st);
 		GetComputerName(buffer, &size);
