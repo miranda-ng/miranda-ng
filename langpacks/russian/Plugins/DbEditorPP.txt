@@ -303,6 +303,8 @@ INI файлы
 Загрузка контактов...
 [Loading modules...]
 Загрузка модулей...
+[Module tree not found]
+Дерево модулей не найдено
 [Contacts]
 Контакты
 [HANDLE]
@@ -319,6 +321,10 @@ HANDLE
 Тип
 [Size]
 Размер
+[*** encrypted ***]
+***зашифровано***
+[UNICODE]
+юникод
 [BLOB]
 BLOB
 [BYTE]
@@ -329,8 +335,6 @@ BLOB
 дв. слово
 [STRING]
 строка
-[UNICODE]
-юникод
 [<unsupported>]
 <не поддерживается>
 [<unknown>]
