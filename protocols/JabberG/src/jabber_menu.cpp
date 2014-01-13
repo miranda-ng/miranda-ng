@@ -441,7 +441,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	mi.pszService = text;
 	mi.pszContactOwner = m_szModuleName;
 
-	TCHAR szTmp[512];
+	CMString szTmp;
 	for (int i=0; i < nMenuResourceItemsNew; i++) {
 		mir_snprintf(tDest, SIZEOF(text) - nModuleNameLength, "/UseResource_%d", i);
 		if (i >= m_nMenuResourceItems) {
@@ -454,16 +454,16 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		if (i < item->arResources.getCount()) {
 			pResourceStatus r(item->arResources[i]);
 			CLISTMENUITEM clmi = { sizeof(clmi) };
-			clmi.flags = CMIM_NAME|CMIM_FLAGS | CMIF_CHILDPOPUP|CMIF_TCHAR;
-			if ((item->resourceMode == RSMODE_MANUAL) && (item->m_pManualResource == r))
+			clmi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_CHILDPOPUP | CMIF_TCHAR;
+			if (item->resourceMode == RSMODE_MANUAL && item->m_pManualResource == r)
 				clmi.flags |= CMIF_CHECKED;
 			if (ServiceExists(MS_FP_GETCLIENTICONT)) {
 				clmi.flags |= CMIM_ICON;
-				FormatMirVer(r, szTmp, SIZEOF(szTmp));
+				FormatMirVer(r, szTmp);
 				clmi.hIcon = Finger_GetClientIcon(szTmp, 0);
 			}
-			mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s [%s, %d]"), r->m_tszResourceName, pcli->pfnGetStatusModeDescription(r->m_iStatus, 0), r->m_iPriority);
-			clmi.ptszName = szTmp;
+			szTmp.Format(_T("%s [%s, %d]"), r->m_tszResourceName, pcli->pfnGetStatusModeDescription(r->m_iStatus, 0), r->m_iPriority);
+			clmi.ptszName = szTmp.GetBuffer();
 			Menu_ModifyItem(m_phMenuResourceItems[i], &clmi);
 			DestroyIcon(clmi.hIcon);
 		}
@@ -480,7 +480,7 @@ INT_PTR __cdecl CJabberProto::OnMenuConvertChatContact(WPARAM wParam, LPARAM)
 	BYTE bIsChatRoom = isChatRoom(hContact);
 	const char *szSetting = (bIsChatRoom) ? "ChatRoomID" : "jid";
 
-	ptrT jid( getTStringA(hContact, szSetting));
+	ptrT jid(getTStringA(hContact, szSetting));
 	if (jid != NULL) {
 		delSetting(hContact, szSetting);
 		setTString(hContact, szSetting, jid);
@@ -493,12 +493,12 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM wParam, LPARAM)
 {
 	if (!wParam) return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
 
-	ptrT roomID( getTStringA((HANDLE)wParam, "ChatRoomID"));
+	ptrT roomID(getTStringA((HANDLE)wParam, "ChatRoomID"));
 	if (roomID == NULL) return 0;
 
 	if (ListGetItemPtr(LIST_ROSTER, roomID) == NULL) {
-		ptrT group( db_get_tsa((HANDLE)wParam, "CList", "Group"));
-		ptrT nick( getTStringA((HANDLE)wParam, "Nick"));
+		ptrT group(db_get_tsa((HANDLE)wParam, "CList", "Group"));
+		ptrT nick(getTStringA((HANDLE)wParam, "Nick"));
 
 		AddContactToRoster(roomID, nick, group);
 		if (m_options.AddRoster2Bookmarks == TRUE) {
@@ -520,7 +520,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleRequestAuth(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact != NULL && m_bJabberOnline) {
-		ptrT jid( getTStringA(hContact, "jid"));
+		ptrT jid(getTStringA(hContact, "jid"));
 		if (jid != NULL)
 			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("subscribe")));
 	}
@@ -531,7 +531,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleGrantAuth(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact != NULL && m_bJabberOnline) {
-		ptrT jid( getTStringA(hContact, "jid"));
+		ptrT jid(getTStringA(hContact, "jid"));
 		if (jid != NULL)
 			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("subscribed")));
 	}
@@ -542,7 +542,7 @@ INT_PTR __cdecl CJabberProto::OnMenuRevokeAuth(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact != NULL && m_bJabberOnline) {
-		ptrT jid( getTStringA(hContact, "jid"));
+		ptrT jid(getTStringA(hContact, "jid"));
 		if (jid != NULL)
 			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("unsubscribed")));
 	}
@@ -555,7 +555,7 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM wParam, LPARAM)
 	if (!getByte(hContact, "IsTransport", 0))
 		return 0;
 
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT( getTStringA(hContact, "jid")));
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT(getTStringA(hContact, "jid")));
 	if (item != NULL) {
 		XmlNode p(_T("presence")); xmlAddAttr(p, _T("to"), item->jid);
 		if (item->getTemp()->m_iStatus == ID_STATUS_ONLINE)
@@ -571,8 +571,8 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportResolve(WPARAM wParam, LPARAM)
 	if (!getByte(hContact, "IsTransport", 0))
 		return 0;
 
-	ptrT jid( getTStringA(hContact, "jid"));
-	if (jid != NULL) 
+	ptrT jid(getTStringA(hContact, "jid"));
+	if (jid != NULL)
 		ResolveTransportNicks(jid);
 	return 0;
 }
@@ -583,7 +583,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM wParam, LPARAM)
 	if (!hContact)
 		return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
 
-	ptrT roomID( getTStringA(hContact, "ChatRoomID"));
+	ptrT roomID(getTStringA(hContact, "ChatRoomID"));
 	if (roomID == NULL)
 		return 0;
 
@@ -604,7 +604,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM wParam, LPARAM)
 
 void CJabberProto::MenuInit()
 {
-	char text[ 200 ];
+	char text[200];
 	strcpy(text, m_szModuleName);
 	char* tDest = text + strlen(text);
 
@@ -751,14 +751,14 @@ void CJabberProto::MenuInit()
 		CreateProtoServiceParam(svcName, &CJabberProto::OnMenuSetPriority, 0);
 
 	int steps[] = { 10, 5, 1, 0, -1, -5, -10 };
-	for (int i=0; i < SIZEOF(steps); i++) {
+	for (int i = 0; i < SIZEOF(steps); i++) {
 		if (!steps[i]) {
 			mi.position += 100000;
 			continue;
 		}
 
 		mir_snprintf(srvFce, SIZEOF(srvFce), "%s/menuSetPriority/%d", m_szModuleName, steps[i]);
-		if(steps[i] > 0) {
+		if (steps[i] > 0) {
 			mir_sntprintf(szName, SIZEOF(szName), TranslateT("Increase priority by %d"), steps[i]);
 			mi.icolibItem = GetIconHandle(IDI_ARROW_UP);
 		}
@@ -791,10 +791,11 @@ void CJabberProto::MenuInit()
 INT_PTR CJabberProto::OnMenuSetPriority(WPARAM, LPARAM, LPARAM dwDelta)
 {
 	int iDelta = (int)dwDelta;
-	short priority = 0;
-	priority = (short)getWord("Priority", 0) + iDelta;
-	if (priority > 127) priority = 127;
-	else if (priority < -128) priority = -128;
+	int priority = getWord("Priority", 0) + iDelta;
+	if (priority > 127)
+		priority = 127;
+	else if (priority < -128)
+		priority = -128;
 	setWord("Priority", priority);
 	SendPresence(m_iStatus, true);
 	return 0;
@@ -834,7 +835,7 @@ void CJabberProto::GlobalMenuInit()
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Hotkeys
 
-	char text[ 200 ];
+	char text[200];
 	strcpy(text, m_szModuleName);
 	char* tDest = text + strlen(text);
 
@@ -991,7 +992,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
-		ptrT jid( getTStringA(event->hContact, "jid"));
+		ptrT jid(getTStringA(event->hContact, "jid"));
 		if (jid != NULL) {
 			JABBER_LIST_ITEM *pItem = ListGetItemPtr(LIST_ROSTER, jid);
 			if (pItem && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO) && m_options.EnableMsgArchive)
@@ -1016,18 +1017,18 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			return 0;
 
 		TCHAR jid[JABBER_MAX_JID_LEN];
-		if ( GetClientJID(event->hContact, jid, SIZEOF(jid))) {
-			pResourceStatus r( ResourceInfoFromJID(jid));
+		if (GetClientJID(event->hContact, jid, SIZEOF(jid))) {
+			pResourceStatus r(ResourceInfoFromJID(jid));
 			if (r && r->m_bMessageSessionActive) {
 				r->m_bMessageSessionActive = FALSE;
 
 				if (GetResourceCapabilites(jid, TRUE) & JABBER_CAPS_CHATSTATES)
 					m_ThreadInfo->send(
-						XmlNode(_T("message")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("chat")) << XATTRID( SerialNext())
-							<< XCHILDNS(_T("gone"), JABBER_FEAT_CHATSTATES));
+					XmlNode(_T("message")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("chat")) << XATTRID(SerialNext())
+					<< XCHILDNS(_T("gone"), JABBER_FEAT_CHATSTATES));
 			}
 		}
-	}	
+	}
 
 	return 0;
 }
@@ -1042,7 +1043,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM wParam, LPARAM lParam)
 	if (!hContact)
 		return 0;
 
-	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, ptrT( getTStringA(hContact, "jid")));
+	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, ptrT(getTStringA(hContact, "jid")));
 	if (LI == NULL)
 		return 0;
 
@@ -1056,15 +1057,15 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM wParam, LPARAM lParam)
 	AppendMenu(hMenu, MF_STRING, MENUITEM_SERVER, TranslateT("Highest priority (server's choice)"));
 
 	AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
-	for (int i=0; i < LI->arResources.getCount(); i++)
-		AppendMenu(hMenu, MF_STRING, MENUITEM_RESOURCES+i, LI->arResources[i]->m_tszResourceName);
+	for (int i = 0; i < LI->arResources.getCount(); i++)
+		AppendMenu(hMenu, MF_STRING, MENUITEM_RESOURCES + i, LI->arResources[i]->m_tszResourceName);
 
 	if (LI->resourceMode == RSMODE_LASTSEEN)
-		CheckMenuItem(hMenu, MENUITEM_LASTSEEN, MF_BYCOMMAND|MF_CHECKED);
+		CheckMenuItem(hMenu, MENUITEM_LASTSEEN, MF_BYCOMMAND | MF_CHECKED);
 	else if (LI->resourceMode == RSMODE_SERVER)
-		CheckMenuItem(hMenu, MENUITEM_SERVER, MF_BYCOMMAND|MF_CHECKED);
+		CheckMenuItem(hMenu, MENUITEM_SERVER, MF_BYCOMMAND | MF_CHECKED);
 	else if (LI->m_pManualResource)
-		CheckMenuItem(hMenu, MENUITEM_RESOURCES + LI->arResources.indexOf(LI->m_pManualResource), MF_BYCOMMAND|MF_CHECKED);
+		CheckMenuItem(hMenu, MENUITEM_RESOURCES + LI->arResources.indexOf(LI->m_pManualResource), MF_BYCOMMAND | MF_CHECKED);
 
 	int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, WindowList_Find(hDialogsList, hContact), NULL);
 
@@ -1093,7 +1094,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleResource(WPARAM wParam, LPARAM, LPARAM
 		return 0;
 
 	HANDLE hContact = (HANDLE)wParam;
-	ptrT tszJid( getTStringA(hContact, "jid"));
+	ptrT tszJid(getTStringA(hContact, "jid"));
 	if (tszJid == NULL)
 		return 0;
 
@@ -1126,10 +1127,10 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM wParam, LPARAM l
 
 	HANDLE hContact = (HANDLE)wParam;
 
-	TCHAR *jid, text[ 1024 ];
-	ptrT tszJid( getTStringA(hContact, "jid"));
+	TCHAR *jid, text[1024];
+	ptrT tszJid(getTStringA(hContact, "jid"));
 	if (tszJid == NULL) {
-		ptrT roomid( getTStringA(hContact, "ChatRoomID"));
+		ptrT roomid(getTStringA(hContact, "ChatRoomID"));
 		if (roomid == NULL)
 			return 0;
 
@@ -1163,20 +1164,20 @@ CJabberProto* JabberChooseInstance(bool bIsLink)
 	}
 
 	if (bIsLink)
-		for (int i=0; i < g_Instances.getCount(); i++)
+		for (int i = 0; i < g_Instances.getCount(); i++)
 			if (g_Instances[i]->m_options.ProcessXMPPLinks)
 				return g_Instances[i];
 
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 
 	int nItems = 0, lastItemId = 0;
-	for (int i=0; i < g_Instances.getCount(); i++) {
+	for (int i = 0; i < g_Instances.getCount(); i++) {
 		clmi.flags = CMIM_FLAGS;
 
 		CJabberProto *ppro = g_Instances[i];
 		if (ppro->m_iStatus != ID_STATUS_OFFLINE && ppro->m_iStatus != ID_STATUS_CONNECTING) {
 			++nItems;
-			lastItemId = i+1;
+			lastItemId = i + 1;
 			clmi.flags |= CMIM_ICON;
 			clmi.hIcon = LoadSkinnedProtoIcon(ppro->m_szModuleName, ppro->m_iStatus);
 		}
@@ -1206,5 +1207,5 @@ CJabberProto* JabberChooseInstance(bool bIsLink)
 		return NULL;
 	}
 
-	return lastItemId ? g_Instances[lastItemId-1] : NULL;
+	return lastItemId ? g_Instances[lastItemId - 1] : NULL;
 }

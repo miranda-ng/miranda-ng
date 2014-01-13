@@ -604,7 +604,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen);
 	void   ResolveTransportNicks(const TCHAR *jid);
 	void   SetServerStatus(int iNewStatus);
-	void   FormatMirVer(pResourceStatus &resource, TCHAR *buf, int bufSize);
+	void   FormatMirVer(pResourceStatus &resource, CMString&);
 	void   UpdateMirVer(JABBER_LIST_ITEM *item);
 	void   UpdateMirVer(HANDLE hContact, pResourceStatus &resource);
 	void   UpdateSubscriptionInfo(HANDLE hContact, JABBER_LIST_ITEM *item);

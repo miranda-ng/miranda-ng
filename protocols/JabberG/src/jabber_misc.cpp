@@ -336,25 +336,25 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 		UpdateMirVer(hContact, p);
 }
 
-void CJabberProto::FormatMirVer(pResourceStatus &resource, TCHAR *buf, int bufSize)
+void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 {
-	if (!buf || !bufSize) return;
-	buf[ 0 ] = 0;
-	if (!resource) return;
+	res.Empty();
+	if (resource == NULL)
+		return;
 
 	// jabber:iq:version info requested and exists?
 	if (resource->m_dwVersionRequestTime && resource->m_tszSoftware) {
 		debugLogA("JabberUpdateMirVer: for iq:version rc %S: %S", resource->m_tszResourceName, resource->m_tszSoftware);
 		if (!resource->m_tszSoftwareVersion || _tcsstr(resource->m_tszSoftware, resource->m_tszSoftwareVersion))
-			lstrcpyn(buf, resource->m_tszSoftware, bufSize);
+			res = resource->m_tszSoftware;
 		else
-			mir_sntprintf(buf, bufSize, _T("%s %s"), resource->m_tszSoftware, resource->m_tszSoftwareVersion);
+			res.Format(_T("%s %s"), resource->m_tszSoftware, resource->m_tszSoftwareVersion);
 	}
 	// no version info and no caps info? set MirVer = resource name
 	else if (!resource->m_tszCapsNode || !resource->m_tszCapsVer) {
 		debugLogA("JabberUpdateMirVer: for rc %S: %S", resource->m_tszResourceName, resource->m_tszResourceName);
 		if (resource->m_tszResourceName)
-			lstrcpyn(buf, resource->m_tszResourceName, bufSize);
+			res = resource->m_tszResourceName;
 	}
 	// XEP-0115 caps mode
 	else {
@@ -363,66 +363,45 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, TCHAR *buf, int bufSi
 		int i;
 
 		// search through known software list
-		for (i=0; i < SIZEOF(sttCapsNodeToName_Map); i++)
-			if (_tcsstr(resource->m_tszCapsNode, sttCapsNodeToName_Map[i].node))
-			{
-				mir_sntprintf(buf, bufSize, _T("%s %s"), sttCapsNodeToName_Map[i].name, resource->m_tszCapsVer);
+		for (i = 0; i < SIZEOF(sttCapsNodeToName_Map); i++)
+			if (_tcsstr(resource->m_tszCapsNode, sttCapsNodeToName_Map[i].node)) {
+				res.Format(_T("%s %s"), sttCapsNodeToName_Map[i].name, resource->m_tszCapsVer);
 				break;
 			}
 
 		// unknown software
 		if (i == SIZEOF(sttCapsNodeToName_Map))
-			mir_sntprintf(buf, bufSize, _T("%s %s"), resource->m_tszCapsNode, resource->m_tszCapsVer);
+			res.Format(_T("%s %s"), resource->m_tszCapsNode, resource->m_tszCapsVer);
 	}
 
 	// attach additional info for fingerprint plguin
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_PLATFORMX86)) && !_tcsstr(buf, _T("x86")))
-	{
-		int offset = lstrlen(buf);
-		mir_sntprintf(buf + offset, bufSize - offset, _T(" x86"));
-	}
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_PLATFORMX86)) && !_tcsstr(res, _T("x86")))
+		res.Append(_T(" x86"));
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_PLATFORMX64)) && !_tcsstr(buf, _T("x64")))
-	{
-		int offset = lstrlen(buf);
-		mir_sntprintf(buf + offset, bufSize - offset, _T(" x64"));
-	}
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_PLATFORMX64)) && !_tcsstr(res, _T("x64")))
+		res.Append(_T(" x64"));
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_SECUREIM)) && !_tcsstr(buf, _T("(SecureIM)")))
-	{
-		int offset = lstrlen(buf);
-		mir_sntprintf(buf + offset, bufSize - offset, _T(" (SecureIM)"));
-	}
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_SECUREIM)) && !_tcsstr(res, _T("(SecureIM)")))
+		res.Append(_T(" (SecureIM)"));
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_MIROTR)) && !_tcsstr(buf, _T("(MirOTR)")))
-	{
-		int offset = lstrlen(buf);
-		mir_sntprintf(buf + offset, bufSize - offset, _T(" (MirOTR)"));
-	}
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_MIROTR)) && !_tcsstr(res, _T("(MirOTR)")))
+		res.Append(_T(" (MirOTR)"));
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_NEWGPG)) && !_tcsstr(buf, _T("(New_GPG)")))
-	{
-		int offset = lstrlen(buf);
-		mir_sntprintf(buf + offset, bufSize - offset, _T(" (New_GPG)"));
-	}
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_NEWGPG)) && !_tcsstr(res, _T("(New_GPG)")))
+		res.Append(_T(" (New_GPG)"));
 
-	if (resource->m_tszResourceName && !_tcsstr(buf, resource->m_tszResourceName))
-	{
-		if (_tcsstr(buf, _T("Miranda IM")) || _tcsstr(buf, _T("Miranda NG")) || m_options.ShowForeignResourceInMirVer)
-		{
-			int offset = lstrlen(buf);
-			mir_sntprintf(buf + offset, bufSize - offset, _T(" [%s]"), resource->m_tszResourceName);
-		}
-	}
+	if (resource->m_tszResourceName && !_tcsstr(res, resource->m_tszResourceName))
+		if (_tcsstr(res, _T("Miranda IM")) || _tcsstr(res, _T("Miranda NG")) || m_options.ShowForeignResourceInMirVer)
+			res.AppendFormat(_T(" [%s]"), resource->m_tszResourceName);
 }
 
 
 void CJabberProto::UpdateMirVer(HANDLE hContact, pResourceStatus &resource)
 {
-	TCHAR szMirVer[ 512 ];
-	FormatMirVer(resource, szMirVer, SIZEOF(szMirVer));
-	if (szMirVer[0])
-		setTString(hContact, "MirVer", szMirVer);
+	CMString tszMirVer;
+	FormatMirVer(resource, tszMirVer);
+	if (!tszMirVer.IsEmpty())
+		setTString(hContact, "MirVer", tszMirVer);
 
 	ptrT jid( getTStringA(hContact, "jid"));
 	if (jid == NULL)
@@ -438,8 +417,7 @@ void CJabberProto::UpdateMirVer(HANDLE hContact, pResourceStatus &resource)
 
 void CJabberProto::UpdateSubscriptionInfo(HANDLE hContact, JABBER_LIST_ITEM *item)
 {
-	switch (item->subscription)
-	{
+	switch (item->subscription) {
 	case SUB_TO:
 		setTString(hContact, "SubscriptionText", TranslateT("To"));
 		setString(hContact, "Subscription", "to");
