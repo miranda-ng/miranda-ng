@@ -49,7 +49,7 @@ void addwatchtolist(HWND hwnd2list, struct DBsetting *lParam)
 	{
 		ModuleSettingLL settinglist;
 		struct DBsetting dummy;
-		struct ModSetLinkLinkItem *setting;
+		ModSetLinkLinkItem *setting;
 		if (!EnumSettings(hContact,module,&settinglist)) return;
 		dummy.hContact = hContact;
 		dummy.module = mir_tstrdup(module);
@@ -58,7 +58,7 @@ void addwatchtolist(HWND hwnd2list, struct DBsetting *lParam)
 		{
 			dummy.setting = setting->name;
 			addwatchtolist(hwnd2list, &dummy);
-			setting = (struct ModSetLinkLinkItem *)setting->next;
+			setting = (ModSetLinkLinkItem *)setting->next;
 		}
 		mir_free(dummy.module);
 		FreeModuleSettingLL(&settinglist);

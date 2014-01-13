@@ -3,12 +3,11 @@
 void copyModule(char* module, HANDLE hContactFrom, HANDLE hContactTo)
 {
 	ModuleSettingLL msll;
-	struct ModSetLinkLinkItem *setting;
 
-	EnumSettings(hContactFrom,module, &msll);
+	EnumSettings(hContactFrom, module, &msll);
 
-	setting = msll.first;
-	while(setting) {
+	ModSetLinkLinkItem *setting = msll.first;
+	while (setting) {
 		DBVARIANT dbv;
 		if (!GetSetting(hContactFrom, module, setting->name, &dbv)) {
 			switch (dbv.type) {
@@ -33,7 +32,7 @@ void copyModule(char* module, HANDLE hContactFrom, HANDLE hContactTo)
 			}
 		}
 		db_free(&dbv);
-		setting = (struct ModSetLinkLinkItem *)setting->next;
+		setting = setting->next;
 	}
 	FreeModuleSettingLL(&msll);
 }

@@ -85,7 +85,7 @@ void exportModule(HANDLE hContact, char* module, FILE* file)
 {
 	char tmp[32];
 	ModuleSettingLL settinglist;
-	struct ModSetLinkLinkItem *setting;
+	ModSetLinkLinkItem *setting;
 
 	EnumSettings(hContact,module,&settinglist);
 
@@ -147,7 +147,7 @@ void exportModule(HANDLE hContact, char* module, FILE* file)
 				break;
 			}
 		}
-		setting = (struct ModSetLinkLinkItem *)setting->next;
+		setting = (ModSetLinkLinkItem *)setting->next;
 	}
 	FreeModuleSettingLL(&settinglist);
 }
@@ -199,7 +199,7 @@ void exportDB(HANDLE hContact, char* module) // hContact == -1 export entire db.
 	char fileName[MAX_PATH];
 	int nullcontactDone = 0;
 	ModuleSettingLL modlist;
-	struct ModSetLinkLinkItem *mod;
+	ModSetLinkLinkItem *mod;
 
 	// enum all the modules
 	if (!EnumModules(&modlist)) { msg(Translate("Error Loading Module List"),modFullname); return;}
@@ -223,11 +223,11 @@ void exportDB(HANDLE hContact, char* module) // hContact == -1 export entire db.
 				{
 					if (IsModuleEmpty(hContact, mod->name))
 					{
-						mod = (struct ModSetLinkLinkItem *)mod->next;
+						mod = (ModSetLinkLinkItem *)mod->next;
 						continue;
 					}
 					exportModule(hContact, mod->name, file);
-					mod = (struct ModSetLinkLinkItem *)mod->next;
+					mod = (ModSetLinkLinkItem *)mod->next;
 					if (mod)
 						fprintf(file, "\n");
 				}
@@ -268,11 +268,11 @@ void exportDB(HANDLE hContact, char* module) // hContact == -1 export entire db.
 					{
 						if (IsModuleEmpty(hContact, mod->name))
 						{
-							mod = (struct ModSetLinkLinkItem *)mod->next;
+							mod = (ModSetLinkLinkItem *)mod->next;
 							continue;
 						}
 						exportModule(hContact, mod->name, file);
-						mod = (struct ModSetLinkLinkItem *)mod->next;
+						mod = (ModSetLinkLinkItem *)mod->next;
 						if (mod)
 							fprintf(file, "\n");
 					}
@@ -299,11 +299,11 @@ void exportDB(HANDLE hContact, char* module) // hContact == -1 export entire db.
 				{
 					if (IsModuleEmpty(hContact, mod->name))
 					{
-						mod = (struct ModSetLinkLinkItem *)mod->next;
+						mod = (ModSetLinkLinkItem *)mod->next;
 						continue;
 					}
 					exportModule(hContact, mod->name, file);
-					mod = (struct ModSetLinkLinkItem *)mod->next;
+					mod = (ModSetLinkLinkItem *)mod->next;
 					if (mod)
 						fprintf(file, "\n");
 				}

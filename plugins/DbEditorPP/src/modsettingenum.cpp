@@ -2,42 +2,42 @@
 
 void FreeModuleSettingLL(ModuleSettingLL* msll)
 {
-    if (msll)
-    {
+	if (msll == NULL)
+		return;
 
-		struct ModSetLinkLinkItem *item = msll->first;
-		struct ModSetLinkLinkItem *temp;
+	ModSetLinkLinkItem *item = msll->first;
+	ModSetLinkLinkItem *temp;
 
-		while (item)
-		{
-			mir_free(item->name);
-			temp = item;
-			item = (struct ModSetLinkLinkItem *)item->next;
-			mir_free(temp);
-		}
-
-		msll->first = 0;
-		msll->last = 0;
+	while (item) {
+		mir_free(item->name);
+		temp = item;
+		item = (ModSetLinkLinkItem *)item->next;
+		mir_free(temp);
 	}
+
+	msll->first = 0;
+	msll->last = 0;
 }
 
 int enumModulesSettingsProc( const char *szName , DWORD ofsModuleName , LPARAM lParam)
 {
 	ModuleSettingLL *msll = (ModuleSettingLL *)lParam;
-	if (!msll->first)
-	{
-		msll->first = (struct ModSetLinkLinkItem *)mir_alloc(sizeof(struct ModSetLinkLinkItem));
-		if (!msll->first) return 1;
+	if (!msll->first) {
+		msll->first = (ModSetLinkLinkItem *)mir_alloc(sizeof(ModSetLinkLinkItem));
+		if (!msll->first)
+			return 1;
+
 		msll->first->name = mir_tstrdup(szName);
 		msll->first->next = 0;
 		msll->last = msll->first;
 	}
-	else
-	{
-		struct ModSetLinkLinkItem *item = (struct ModSetLinkLinkItem *)mir_alloc(sizeof(struct ModSetLinkLinkItem));
-		if (!item) return 1;
-		msll->last->next = (BYTE*)item;
-		msll->last = (struct ModSetLinkLinkItem *)item;
+	else {
+		ModSetLinkLinkItem *item = (ModSetLinkLinkItem *)mir_alloc(sizeof(ModSetLinkLinkItem));
+		if (!item)
+			return 1;
+
+		msll->last->next = item;
+		msll->last = item;
 		item->name = mir_tstrdup(szName);
 		item->next = 0;
 	}
@@ -48,15 +48,13 @@ int EnumModules(ModuleSettingLL *msll) // 1 = success, 0 = fail
 {
 	msll->first = 0;
 	msll->last = 0;
-	return !CallService(MS_DB_MODULES_ENUM, (WPARAM)msll,(WPARAM)enumModulesSettingsProc);
+	return !CallService(MS_DB_MODULES_ENUM, (WPARAM)msll, (WPARAM)enumModulesSettingsProc);
 }
 
-
-int enumSettingsProc(const char *szSetting,LPARAM lParam)
+int enumSettingsProc(const char *szSetting, LPARAM lParam)
 {
-	return enumModulesSettingsProc(szSetting,0,lParam);
+	return enumModulesSettingsProc(szSetting, 0, lParam);
 }
-
 
 int EnumSettings(HANDLE hContact, char* module, ModuleSettingLL *msll)
 {
@@ -67,10 +65,10 @@ int EnumSettings(HANDLE hContact, char* module, ModuleSettingLL *msll)
 	dbces.lParam = (LPARAM)msll;
 	msll->first = 0;
 	msll->last = 0;
-	return !CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact,(LPARAM)&dbces);
+	return !CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&dbces);
 }
 
-int CheckIfModuleIsEmptyProc(const char *szSetting,LPARAM lParam)
+int CheckIfModuleIsEmptyProc(const char *szSetting, LPARAM lParam)
 {
 	return 1;
 }
@@ -78,11 +76,10 @@ int CheckIfModuleIsEmptyProc(const char *szSetting,LPARAM lParam)
 int IsModuleEmpty(HANDLE hContact, char* szModule)
 {
 	DBCONTACTENUMSETTINGS dbces;
-	int retVal;
 	dbces.pfnEnumProc = CheckIfModuleIsEmptyProc;
 	dbces.szModule = szModule;
-	retVal = CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact,(LPARAM)&dbces);
+	int retVal = CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&dbces);
 	if (retVal >= 0)
 		return 0;
-	else return 1;
+	return 1;
 }

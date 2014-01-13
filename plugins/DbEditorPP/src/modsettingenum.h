@@ -1,16 +1,18 @@
-struct ModSetLinkLinkItem {
+struct ModSetLinkLinkItem
+{
 	char *name;
-	BYTE *next; //struct ModSetLinkLinkItem
+	ModSetLinkLinkItem *next;
 };
 
-typedef struct {
-	struct ModSetLinkLinkItem *first;
-	struct ModSetLinkLinkItem *last;
-} ModuleSettingLL;
+struct ModuleSettingLL
+{
+	ModSetLinkLinkItem *first;
+	ModSetLinkLinkItem *last;
+};
 
 int EnumModules(ModuleSettingLL *msll);
-int EnumSettings(HANDLE hContact, char* module, ModuleSettingLL *msll);
+int EnumSettings(HANDLE hContact, char *module, ModuleSettingLL *msll);
 
 void FreeModuleSettingLL(ModuleSettingLL *msll);
 
-int IsModuleEmpty(HANDLE hContact, char* szModule);
+int IsModuleEmpty(HANDLE hContact, char *szModule);

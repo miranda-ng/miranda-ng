@@ -31,6 +31,7 @@
 #include <m_langpack.h>
 #include <m_protomod.h>
 #include <m_database.h>
+#include <m_db_int.h>
 #include <m_system.h>
 #include <m_protocols.h>
 #include <m_userinfo.h>
@@ -165,6 +166,8 @@ extern HIMAGELIST himl2;
 extern int Mode;
 extern int Hex;
 extern int Order;
+
+extern MIDatabase *g_db;
 
 extern BOOL usePopups;
 

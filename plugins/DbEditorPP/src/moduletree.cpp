@@ -11,7 +11,7 @@ int doContacts(HWND hwnd2Tree,HTREEITEM contactsRoot,ModuleSettingLL *modlist, H
 	TVINSERTSTRUCT tvi;
 	HTREEITEM contact;
 	ModuleTreeInfoStruct *lParam;
-	struct ModSetLinkLinkItem *module;
+	ModSetLinkLinkItem *module;
 	int count = CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
 	int itemscount = 0;
 	int loaded, i = 0, icon = 0;
@@ -105,7 +105,7 @@ int doContacts(HWND hwnd2Tree,HTREEITEM contactsRoot,ModuleSettingLL *modlist, H
 					tvi.item.lParam = (LPARAM)lParam;
 					TreeView_InsertItem(hwnd2Tree, &tvi);
 				}
-				module = (struct ModSetLinkLinkItem *)module->next;
+				module = (ModSetLinkLinkItem *)module->next;
 			}
 
 			hItem = findItemInTree(hwnd2Tree, hSelectedContact, SelectedModule);
@@ -127,7 +127,7 @@ void doItems(HWND hwnd2Tree,ModuleSettingLL *modlist, int count)
 	TVITEM item ={0};
 	HANDLE hContact;
 	ModuleTreeInfoStruct *lParam;
-	struct ModSetLinkLinkItem *module;
+	ModSetLinkLinkItem *module;
 	char percent[96], title[64];
 	HWND hwnd = GetParent(hwnd2Tree);
 	int i = 0;
@@ -177,7 +177,7 @@ void doItems(HWND hwnd2Tree,ModuleSettingLL *modlist, int count)
 				tvi.item.lParam = (LPARAM)lParam;
 				TreeView_InsertItem(hwnd2Tree, &tvi);
 			}
-			module = (struct ModSetLinkLinkItem *)module->next;
+			module = (ModSetLinkLinkItem *)module->next;
 		}
 	}
 
@@ -370,7 +370,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 	ModuleTreeInfoStruct *lParam;
 
 	// module list
-	struct ModSetLinkLinkItem *module;
+	ModSetLinkLinkItem *module;
 	ModuleSettingLL modlist;
 
 	hRestore = NULL;
@@ -482,7 +482,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 
 				TreeView_InsertItem(hwnd2Tree, &tvi);
 			}
-			module = (struct ModSetLinkLinkItem *)module->next;
+			module = (ModSetLinkLinkItem *)module->next;
 		}
 
 		if (db_get_b(NULL,modname,"ExpandSettingsOnOpen",0))
@@ -556,7 +556,7 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 				HTREEITEM item = {0};
 				ModuleTreeInfoStruct *_lParam;
 				HWND hwnd2Tree = GetDlgItem(hwnd2mainWindow,IDC_MODULES);
-				struct ModSetLinkLinkItem *module;
+				ModSetLinkLinkItem *module;
 				ModuleSettingLL modlist;
 				HANDLE hContact = mtis->hContact;
 
@@ -584,7 +584,7 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 						tvi.item.lParam = (LPARAM)_lParam;
 						TreeView_InsertItem(hwnd2Tree, &tvi);
 					}
-					module = (struct ModSetLinkLinkItem *)module->next;
+					module = (ModSetLinkLinkItem *)module->next;
 				}
 
 				FreeModuleSettingLL(&modlist);

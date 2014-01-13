@@ -7,7 +7,7 @@ int deleteModule(char* module, HANDLE hContact, int fromMenu)
 {
 	char msg[1024];
 	ModuleSettingLL settinglist;
-	struct ModSetLinkLinkItem *setting;
+	ModSetLinkLinkItem *setting;
 
 	if (!module) return 0;
 
@@ -24,7 +24,7 @@ int deleteModule(char* module, HANDLE hContact, int fromMenu)
 	while (setting)
 	{
 		db_unset(hContact, module, setting->name);
-		setting = (struct ModSetLinkLinkItem *)setting->next;
+		setting = setting->next;
 	}
 	FreeModuleSettingLL(&settinglist);
 	return 1;
@@ -34,7 +34,7 @@ void __cdecl PopulateModuleDropListThreadFunc(LPVOID di)
 {
 	HWND hwnd = (HWND)di;
 	ModuleSettingLL msll;
-	struct ModSetLinkLinkItem *module;
+	ModSetLinkLinkItem *module;
 	int moduleEmpty;
 	if (!EnumModules(&msll)) DestroyWindow(hwnd);
 	module = msll.first;
@@ -44,7 +44,7 @@ void __cdecl PopulateModuleDropListThreadFunc(LPVOID di)
 		if (!IsModuleEmpty(NULL,module->name)) {
 			SendDlgItemMessage(hwnd,IDC_CONTACTS,CB_ADDSTRING,0,(LPARAM)module->name);
 			moduleEmpty = 0;
-			module = (struct ModSetLinkLinkItem *)module->next;
+			module = module->next;
 			continue;
 		}
 		for (HANDLE hContact = db_find_first();moduleEmpty && hContact;hContact = db_find_next(hContact)) {
@@ -55,7 +55,7 @@ void __cdecl PopulateModuleDropListThreadFunc(LPVOID di)
 			}
 		}
 
-		module = (struct ModSetLinkLinkItem *)module->next;
+		module = module->next;
 		SendDlgItemMessage(hwnd,IDC_CONTACTS,CB_SETCURSEL,0,0);
 	}
 	SendDlgItemMessage(hwnd,IDC_CONTACTS,CB_SETCURSEL,0,0);
