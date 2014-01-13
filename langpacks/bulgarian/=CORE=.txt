@@ -145,6 +145,8 @@ Miranda NG диспечер на профили
 Изпратени байтове
 [Additional data due to proxy communication]
 Допълнителни данни поради прокси комуникация
+[SSL traffic]
+SSL трафик
 [Text dumps where available]
 
 [Auto-detect text]
@@ -163,10 +165,6 @@ OutputDebugString()
 Стартиране
 [Show this dialog box when Miranda NG starts]
 Показване на този прозорец, когато Miranda NG стартира
-[Save as default]
-Запис като стандарт
-[SSL traffic]
-SSL трафик
 [Sounds]
 Звук
 [&Change...]

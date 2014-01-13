@@ -139,8 +139,6 @@ File
 Esegui ora
 [Show this dialog box when Miranda NG starts]
 Mostra questa finestra all'avvio di Miranda NG
-[Save as default]
-Salva come predefinito
 [Sounds]
 Suoni
 [&Change...]

@@ -135,8 +135,6 @@ Fil
 Kjør nå
 [Show this dialog box when Miranda NG starts]
 Vis denne dialogboksen når Miranda NG Starter
-[Save as default]
-Lagre som standard
 [Sounds]
 Lyder
 [&Change...]

@@ -135,8 +135,6 @@ Bestand
 Nu uitvoeren
 [Show this dialog box when Miranda NG starts]
 Deze dialoog weergeven wanneer Miranda NG start
-[Save as default]
-Als standaard opslaan
 [Sounds]
 Geluiden
 [&Change...]

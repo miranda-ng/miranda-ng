@@ -90,8 +90,6 @@ Cuenta
 [Create new chat]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[me]
-
 [Attachments:]
 Adjuntos:
 [Photo]

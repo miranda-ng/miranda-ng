@@ -145,6 +145,8 @@ Octets reçus
 Octets envoyés
 [Additional data due to proxy communication]
 Autres données venant de la communication proxy
+[SSL traffic]
+Traffic SSL
 [Text dumps where available]
 Décharges de texte là où disponible
 [Auto-detect text]
@@ -163,10 +165,6 @@ Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc.):
 Exécuter maintenant
 [Show this dialog box when Miranda NG starts]
 Toujours afficher au démarrage de Miranda NG
-[Save as default]
-Enregistrer par défaut
-[SSL traffic]
-Traffic SSL
 [Sounds]
 Sons
 [&Change...]

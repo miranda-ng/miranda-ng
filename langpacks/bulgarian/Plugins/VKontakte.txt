@@ -83,8 +83,6 @@
 
 [Create new chat]
 
-[me]
-
 [Attachments:]
 
 [Photo]

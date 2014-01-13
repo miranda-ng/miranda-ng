@@ -145,6 +145,8 @@ Bytes recibidos
 Bytes enviados
 [Additional data due to proxy communication]
 Datos adicionales debido a la comunicación de proxy
+[SSL traffic]
+Tráfico SSL
 [Text dumps where available]
 Dumpear texto cuando se pueda
 [Auto-detect text]
@@ -163,10 +165,6 @@ Ejecutar programa cuando miranda NG comienza (por ejemplo tail-f, dbgview, etc.)
 Ejecutar ahora
 [Show this dialog box when Miranda NG starts]
 Mostrar este cuadro de diálogo cuando Miranda NG inicia
-[Save as default]
-Guardar predeterminado
-[SSL traffic]
-Tráfico SSL
 [Sounds]
 Sonidos
 [&Change...]

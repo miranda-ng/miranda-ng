@@ -143,6 +143,8 @@
 Адпраў. байты
 [Additional data due to proxy communication]
 Дадатковыя дадзеныя пра проксі
+[SSL traffic]
+Трафік SSL
 [Text dumps where available]
 Тэкставыя дампы (калі ёсць)
 [Auto-detect text]
@@ -161,10 +163,6 @@
 Вык. зараз
 [Show this dialog box when Miranda NG starts]
 Паказаць гэты дыялог пры запуску Miranda NG
-[Save as default]
-Захаваць налады
-[SSL traffic]
-Трафік SSL
 [Sounds]
 Гукі
 [&Change...]

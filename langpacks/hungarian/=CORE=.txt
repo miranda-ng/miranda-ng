@@ -140,8 +140,6 @@ OutputDebugString()
 Fájl
 [Run now]
 Futtatás most
-[Save as default]
-Mentés alapért.-ként
 [Sounds]
 Hangok
 [&Change...]

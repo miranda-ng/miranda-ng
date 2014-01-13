@@ -130,6 +130,8 @@ Alınan bayt
 Gönderilen bayt
 [Additional data due to proxy communication]
 Vekil iletişiminden dolayı ek veri
+[SSL traffic]
+SSL Trafiği
 [Text dumps where available]
 Uygun olan yazı dökümleri
 [Auto-detect text]
@@ -146,10 +148,6 @@ Dosya
 Şimdi çalıştır
 [Show this dialog box when Miranda NG starts]
 Miranda NG başladığında şu yazıyı göster
-[Save as default]
-varsayılan olarak kaydet
-[SSL traffic]
-SSL Trafiği
 [Sounds]
 Sesler
 [&Change...]

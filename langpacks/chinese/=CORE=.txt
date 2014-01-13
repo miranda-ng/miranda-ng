@@ -134,6 +134,8 @@ Netlib 记录选项
 发送字节
 [Additional data due to proxy communication]
 因代理服务器通讯而导致的额外数据开销
+[SSL traffic]
+SSL 传输
 [Text dumps where available]
 若可用则文本转储
 [Auto-detect text]
@@ -148,10 +150,6 @@ Netlib 记录选项
 立即运行
 [Show this dialog box when Miranda NG starts]
 Miranda NG 启动时显示此对话框
-[Save as default]
-保存为默认值
-[SSL traffic]
-SSL 传输
 [Sounds]
 声音
 [&Change...]

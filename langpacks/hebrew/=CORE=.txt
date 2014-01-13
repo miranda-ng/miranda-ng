@@ -123,8 +123,6 @@ OutputDebugString()
 הפעל
 [Show this dialog box when Miranda NG starts]
 הצב את הדיאלוג הזה כשמירנדה מתחילה
-[Save as default]
-שמור כברירת מחדל
 [Sounds]
 צלילים
 [&Change...]

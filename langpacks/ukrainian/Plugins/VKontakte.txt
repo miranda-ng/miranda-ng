@@ -51,8 +51,6 @@
 Обліковий запис
 [%s server connection]
 Підключення до серверу %s
-[me]
-Я
 [Attachments:]
 Прикріплення:
 [Photo]

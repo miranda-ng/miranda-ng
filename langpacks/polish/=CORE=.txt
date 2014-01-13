@@ -145,6 +145,8 @@ Odebrane bajty
 Wysłane bajty
 [Additional data due to proxy communication]
 Dodatkowe dane potrzebne do połączenia przez proxy
+[SSL traffic]
+Połączenie SSL
 [Text dumps where available]
 Dziel tekst tam gdzie możliwe
 [Auto-detect text]
@@ -163,10 +165,6 @@ Uruchom program podczas uruchamiania Mirandy NG (np tail -f, dbgview, itp.):
 Uruchom teraz
 [Show this dialog box when Miranda NG starts]
 Pokazuj to okno przy starcie
-[Save as default]
-Ustaw jako domyślne
-[SSL traffic]
-Połączenie SSL
 [Sounds]
 Dźwięki
 [&Change...]

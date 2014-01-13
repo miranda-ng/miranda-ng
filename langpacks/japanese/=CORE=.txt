@@ -132,6 +132,8 @@ Netlib ログオプション
 送信バイト数
 [Additional data due to proxy communication]
 プロキシ通信用の追加データ
+[SSL traffic]
+SSL トラフィック
 [Text dumps where available]
 利用可能な場所にテキストを書き出し
 [Auto-detect text]
@@ -148,10 +150,6 @@ OutputDebugString()
 すぐに実行
 [Show this dialog box when Miranda NG starts]
 Miranda NG の起動時にこのダイアログボックスを表示
-[Save as default]
-デフォルトとして保存
-[SSL traffic]
-SSL トラフィック
 [Sounds]
 音声
 [&Change...]

@@ -32,7 +32,6 @@
 [Account]
 [%s server connection]
 [Create new chat]
-[me]
 [Attachments:]
 [Audio]
 [Video]

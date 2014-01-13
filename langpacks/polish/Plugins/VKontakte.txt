@@ -90,8 +90,6 @@ Połączenie %s
 [Create new chat]
 Utwórz nowy czat
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[me]
-ja
 [Attachments:]
 Załączniki:
 [Photo]

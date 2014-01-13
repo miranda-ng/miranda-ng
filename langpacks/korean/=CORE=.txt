@@ -131,8 +131,6 @@ OutputDebugString()
 지금 실행
 [Show this dialog box when Miranda NG starts]
 미란다 IM 시작시 이 대화 상자 보이기
-[Save as default]
-기본값으로 저장
 [Sounds]
 사운드
 [&Change...]

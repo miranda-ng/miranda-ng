@@ -146,8 +146,6 @@ Arquivo
 Executar agora
 [Show this dialog box when Miranda NG starts]
 Mostrar esta caixa de diálogo quando inicia Miranda NG BR
-[Save as default]
-Salvar como padrão
 [Sounds]
 Sons
 [&Change...]

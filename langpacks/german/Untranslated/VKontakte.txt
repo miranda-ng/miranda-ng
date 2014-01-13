@@ -19,7 +19,6 @@
 [&User details]
 [&Kick]
 [Create new chat]
-[me]
 [Audio]
 [Video]
 [Document]
