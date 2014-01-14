@@ -144,9 +144,9 @@ Plugin Updater
 [Services]
 Услуги
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
-[Check for plugin updates]
+[Check for updates]
 Проверка за актуализации
-[Show full plugin list]
+[Available components list]
 Пълният списък с приставки
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]

@@ -146,9 +146,9 @@
 [Services]
 Службы
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
-[Check for plugin updates]
+[Check for updates]
 Праверыць абнаўленні
-[Show full plugin list]
+[Available components list]
 Увесь спіс плагінаў
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]

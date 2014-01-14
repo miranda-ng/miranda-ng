@@ -143,9 +143,9 @@
 Тест
 [Services]
 Служби
-[Check for plugin updates]
+[Check for updates]
 Перевірити оновлення плагінів
-[Show full plugin list]
+[Available components list]
 Показати повний список плагінів
 ['Yes' Button]
 Кнопка "Так"

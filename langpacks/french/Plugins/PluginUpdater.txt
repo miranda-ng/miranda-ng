@@ -146,9 +146,9 @@ Test
 [Services]
 Services
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
-[Check for plugin updates]
+[Check for updates]
 Vérifier la présence de mises à jour
-[Show full plugin list]
+[Available components list]
 Montrer la liste complète des plugins
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
