@@ -58,6 +58,7 @@
 [Enable All Pings]
 [Disable All Pings]
 ;file \plugins\Ping\src\options.cpp
+[Open log file]
 [All\0*.*\0Text\0*.TXT\0]
 [<none>]
 [<all>]
@@ -72,15 +73,19 @@
 [AVG %.1lf ms]
 [MAX %hd ms]
 [MIN %hd ms]
+[Ping Graph]
 ;file \plugins\Ping\src\pingthread.cpp
-[%s - setting status of protocol '%s' (%d)]
+[%s - setting status of protocol '%S' (%d)]
+[Ping Reply]
 [%s - reply, %d]
+[Ping Timeout]
 [%s - timeout]
 [Disable]
 [enabled]
 [double clicked]
 [Ping]
 [Show/Hide &Ping Window]
+[List]
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 ;file \plugins\Ping\src\utils.cpp
