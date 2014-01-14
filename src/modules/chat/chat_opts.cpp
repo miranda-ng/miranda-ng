@@ -234,6 +234,9 @@ void LoadGlobalSettings(void)
 	ci.pSettings->ShowContactStatus = db_get_b(NULL, "Chat", "ShowContactStatus", 0);
 	ci.pSettings->ContactStatusFirst = db_get_b(NULL, "Chat", "ContactStatusFirst", 0);
 
+	if (ci.OnLoadSettings)
+		ci.OnLoadSettings();
+
 	InitSetting(&ci.pSettings->pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
 	InitSetting(&ci.pSettings->pszTimeStampLog, "LogTimestamp", _T("[%d %b %y %H:%M]"));
 	InitSetting(&ci.pSettings->pszIncomingNick, "HeaderIncoming", _T("%n:"));

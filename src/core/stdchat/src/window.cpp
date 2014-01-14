@@ -2367,7 +2367,7 @@ LABEL_SHOWWINDOW:
 
 			si->bNicklistEnabled = !si->bNicklistEnabled;
 
-			SendDlgItemMessage(hwndDlg,IDC_SHOWNICKLIST,BM_SETIMAGE,IMAGE_ICON,(LPARAM)LoadIconEx( si->bNicklistEnabled ? "nicklist" : "nicklist2", FALSE ));
+			SendDlgItemMessage(hwndDlg, IDC_SHOWNICKLIST, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(si->bNicklistEnabled ? "nicklist" : "nicklist2", FALSE));
 			SendMessage(hwndDlg, GC_SCROLLTOBOTTOM, 0, 0);
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			break;

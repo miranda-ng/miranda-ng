@@ -128,36 +128,36 @@ void LoadLogIcons(void);
 //colorchooser.c
 INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-//log.c
-void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw, BOOL bPhaseTwo);
-void   ValidateFilename (TCHAR * filename);
+// log.c
+void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw, BOOL bPhaseTwo);
+void ValidateFilename (TCHAR * filename);
 TCHAR* MakeTimeStamp(TCHAR* pszStamp, time_t time);
-char*  Log_CreateRtfHeader(MODULEINFO * mi);
+char* Log_CreateRtfHeader(MODULEINFO * mi);
 
-//window.c
+// window.c
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam);
 int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth);
 
-//options.c
-int    OptionsInit(void);
-int    OptionsUnInit(void);
-void   AddIcons(void);
-HICON  LoadIconEx(char* pszIcoLibName, BOOL big);
+// options.c
+int OptionsInit(void);
+int OptionsUnInit(void);
+void AddIcons(void);
+HICON LoadIconEx(char* pszIcoLibName, BOOL big);
 
 // services.c
-void   ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
-//tools.c
-int           GetColorIndex(const char* pszModule, COLORREF cr);
-void          CheckColorsInModule(const char* pszModule);
-int           GetRichTextLength(HWND hwnd);
-UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
-void          DestroyGCMenu(HMENU *hMenu, int iIndex);
-BOOL          DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
-BOOL          DoEventHook(const TCHAR *pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem);
+void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
+
+// tools.c
+int  GetColorIndex(const char* pszModule, COLORREF cr);
+void CheckColorsInModule(const char* pszModule);
+int  GetRichTextLength(HWND hwnd);
+UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
+void DestroyGCMenu(HMENU *hMenu, int iIndex);
+BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
 
 // message.c
-char*         Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
-TCHAR*        DoRtfToTags( char* pszRtfText, SESSION_INFO *si);
+char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
+TCHAR* DoRtfToTags( char* pszRtfText, SESSION_INFO *si);
 
 BOOL TabM_AddTab(const TCHAR *pszID, const char* pszModule);
 BOOL TabM_RemoveAll(void);

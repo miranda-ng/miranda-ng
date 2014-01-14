@@ -52,7 +52,7 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 			g_TabSession.lpCurrentCommand = NULL;
 		}
 
-		//Do we need to create a tabbed window?
+		// Do we need to create a tabbed window?
 		if (g_TabSession.hWnd == NULL)
 			g_TabSession.hWnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHANNEL), NULL, RoomWndProc, (LPARAM)&g_TabSession);
 

@@ -74,11 +74,11 @@ void CheckColorsInModule(const char* pszModule)
 
 UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText)
 {
-	GCMENUITEMS gcmi = { 0 };
 	HMENU hSubMenu = 0;
-
 	*hMenu = GetSubMenu(g_hMenu, iIndex);
 	TranslateMenu(*hMenu);
+
+	GCMENUITEMS gcmi = { 0 };
 	gcmi.pszID = si->ptszID;
 	gcmi.pszModule = si->pszModule;
 	gcmi.pszUID = pszUID;
