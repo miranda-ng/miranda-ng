@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 3.2.0.0
+;  Version: 3.2.0.1
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -88,8 +88,8 @@ Importovat
 Vložit &CR/LF
 [Paste the Settings to import here.]
 Zde vložte požadovaný text:
-[DBEditor++]
-DBEditor++
+[Database Editor++]
+Editor databáze ++
 [&Main]
 &Soubor
 [&Refresh Modules]
@@ -261,8 +261,8 @@ Nelze otevřít soubor pro zápis
 [Import from files]
 Importovat ze souboru
 ;file \plugins\DbEditorPP\src\findwindow.cpp
-[Enter a string to search the DB for]
-Zadejte prosím požadovaný řetězec
+[Enter a string to search the database for]
+Zadejte prosím požadovaný řetězec pro vyhledávání
 [Stop]
 Zastavit
 [Replaced with]
@@ -301,8 +301,6 @@ Neznámý kontakt
 [Known Contact]
 Známý kontakt
 ;file \plugins\DbEditorPP\src\main.cpp
-[Database Editor++]
-Editor databáze ++
 [Open Database Editor]
 Otevřít editor databáze
 [Open user tree in DBE++]
@@ -338,6 +336,10 @@ Obsah
 Typ
 [Size]
 Velikost
+[*** encrypted ***]
+*** zašifrováno ***
+[UNICODE]
+UNICODE
 [BLOB]
 BLOB
 [BYTE]
@@ -348,8 +350,6 @@ WORD
 DWORD
 [STRING]
 STRING
-[UNICODE]
-UNICODE
 [<unsupported>]
 <nepodporováno>
 [<unknown>]

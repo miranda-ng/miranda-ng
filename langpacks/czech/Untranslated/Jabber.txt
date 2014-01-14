@@ -1,5 +1,4 @@
-﻿[Data form test]
-[HTTP Authorization\nAccept or reject incoming request]
+﻿[HTTP Authorization\nAccept or reject incoming request]
 [Someone (maybe you) has requested the following file:]
 [Request was sent from JID:]
 [The transaction identifier is:]

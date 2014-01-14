@@ -100,32 +100,6 @@ Tip:
 Máte-li problémy s přenosem souborů, vypněte všechny výše uvedené možnosti. Na druhou stranu to může zamezit přenosu velkých souborů.
 [Jabber Account Registration]
 Jabber :: Registrace účtu
-[Jabber Agents]
-Jabber :: Transporty
-[Register/Search Jabber Agents]
-Registrovat služby
-[Jabber server:]
-Server Jabber:
-[Browse]
-Procházet
-[Register...]
-Registrovat...
-[Browse/Join chat room...]
-Procházet/Připojit...
-[Search...]
-Hledat...
-[Registered Jabber Transports]
-Registrované služby
-[Log on]
-Přihlásit
-[Log off]
-Odhlásit
-[Register with a new service...]
-Registrovat novou službu...
-[Close]
-Zavřít
-[Command]
-Příkaz
 [Jabber Form]
 Jabber :: Formulář
 [Instruction:]
@@ -144,8 +118,6 @@ Jabber :: Heslo
 Zapamatovat si heslo pro tuto relaci
 [Save password permanently]
 Uložit heslo permanentně
-[Data form test]
-
 [Address1:]
 Adresa:
 [Address2:]
@@ -240,14 +212,12 @@ Původní heslo:
 Nové heslo:
 [Confirm New Password:]
 Nové heslo znovu:
-[Jabber Multi-User Conference]
-Diskusní skupina
-[Conference server:]
-Diskusní server:
 [Create or Join group chat]
 Založit nebo se připojit do diskuse
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Diskusní skupina\nZaložit nebo se připojit do existující diskusní skupiny.
+[Conference server:]
+Diskusní server:
 [Room:]
 Místnost:
 [Recently visited chatrooms:]
@@ -260,12 +230,6 @@ Seznam identifikátorů
 Použít filtr
 [Reset Filter]
 Zrušit filtr
-[Jabber Agent Registration]
-Jabber :: Registrace služby
-[JID:]
-Identifikátor:
-[Register]
-Registrovat
 [Invite Users]
 Pozvat uživatele
 [<room jid>\nSend group chat invitation.]
@@ -296,6 +260,8 @@ Záložky na serveru\nUložení diskusí a odkazů do seznamu na serveru
 Odebrat
 [Edit]
 Upravit
+[Close]
+Zavřít
 [Bookmark Details]
 Informace o záložce
 [Bookmark Type]
@@ -372,12 +338,10 @@ Zobrazit jako seznam
 Oblíbené
 [Refresh]
 Aktualizovat
+[JID:]
+Identifikátor:
 [Node:]
 Uzel:
-[Change %s Message]
-Odpověď pro stav '%s'
-[Closing in %d]
-Zavře se za %d sek.
 [Account type:]
 Typ účtu:
 [Login server:]
@@ -482,6 +446,10 @@ Zjišťování seznamu příkazů. Počkejte prosím...
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Žádná zpráva
+[Jabber Agent Registration]
+Jabber :: Registrace služby
+[Register]
+Registrovat
 [Please wait...]
 Počkejte prosím...
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
@@ -2208,8 +2176,6 @@ Pokročilý stav
 Zadat náladu...
 [Set activity...]
 Zadat činnost...
-[OK (%d)]
-OK (%d)
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 muž
@@ -2231,6 +2197,8 @@ Poznámka
 [%s connection]
 %s - spojení se serverem
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
+[OK (%d)]
+OK (%d)
 [Afraid]
 obavy
 [Amazed]

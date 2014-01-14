@@ -145,6 +145,8 @@ Přijatá data
 Odeslaná data
 [Additional data due to proxy communication]
 Včetně komunikace s proxy
+[SSL traffic]
+Včetně dat SSL
 [Text dumps where available]
 Přednostně textový výpis
 [Auto-detect text]
@@ -163,10 +165,6 @@ Spustit program při startu Mirandy NG (např. tail -f, dbgview, atd.):
 Spustit
 [Show this dialog box when Miranda NG starts]
 Zobrazit toto okno při spuštění Mirandy
-[Save as default]
-Uložit jako výchozí
-[SSL traffic]
-Včetně dat SSL
 [Sounds]
 Zvuky
 [&Change...]
@@ -2051,6 +2049,11 @@ In&formace o sobě...
 Přidat kontakt
 [Please authorize my request and add me to your contact list.]
 Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
+;file \src\modules\chat\chat_opts.cpp
+;file \src\modules\chat\chat_svc.cpp
+;file \src\modules\chat\clist.cpp
+;file \src\modules\chat\log.cpp
+;file \src\modules\chat\tools.cpp
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]
@@ -2141,8 +2144,8 @@ Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže b
 Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže být přesunut do nového umístění %s automaticky,\nnejspíše kvůli nedostatečným oprávněním. Přesuňte prosím profil ručně.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil nemůže být umístěn v kořenové složce Mirandy.\nProsím přesuňte profil Mirandy na jiné místo.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
-Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nPoužijte dbx_mmap.dll (pro staré profily) nebo jiný.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
+Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nNainstalujte si dbx_mmap.dll.
 [No profile support installed!]
 Není nainstalovaná podpora pro profily!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
@@ -2538,6 +2541,9 @@ Obrázky typu JPEG
 Obrázky typu GIF
 [PNG bitmaps]
 Obrázky typu PNG
+;file \src\modules\utils\enterstring.cpp
+[OK (%d)]
+OK (%d)
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Avatary

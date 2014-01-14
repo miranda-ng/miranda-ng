@@ -69,7 +69,6 @@
 [0 lines]
 [Other (unknown)]
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
-[History++ (2in1)]
 [History++ Error]
 [History++ Warning]
 [%0.1n h]

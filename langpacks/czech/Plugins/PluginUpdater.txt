@@ -146,9 +146,9 @@ Ověřit
 [Services]
 Služby
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
-[Check for plugin updates]
-Zkontrolovat aktualizace
-[Show full plugin list]
+[Check for updates]
+Zjistit aktualizace
+[Available components list]
 Komponenty ke stažení...
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]

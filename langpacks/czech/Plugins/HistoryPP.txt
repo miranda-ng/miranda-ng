@@ -55,8 +55,6 @@ Imitovat IEView API
 Povolit RTF formátování
 [Display changed avatars]
 Zobrazovat změněné avatary
-[Change appearance]
-Změna vzhledu
 [Grid background]
 Pozadí mřížky
 [Grid messages]
@@ -379,22 +377,6 @@ Psát standardně zprava doleva
 
 [Enable BBCodes]
 Povolit BBCode
-[Change Appearance]
-Změna vzhledu
-[To change fonts you need to install FontService plugin.]
-Změna nastavení písem vyžaduje doplněk FontService.
-[FontService is installed. Go to Customize -> Fonts to change settings.]
-FontService je nainstalován. Přejděte do sekce Vlastní úpravy -> Písma a barvy.
-[Download FontService plugin]
-Stáhnout doplněk FontService
-[To change icons you need to install IcoLib plugin.]
-Změna nastavení ikon vyžaduje doplněk IcoLib.
-[IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib je nainstalován. Přejděte do sekce Vlastní úpravy -> Ikony.
-[Download IcoLib plugin]
-Stáhnout doplněk IcoLib
-[More info on these plugins]
-Více informací o těchto doplňcích
 [Open event details by Enter]
 Zobrazit dod. informace klávesou ENTER
 [Search panel]
@@ -643,8 +625,6 @@ Odchozí odkaz
 
 [System Message Sample]
 
-[System Message]
-Zpráva systému
 [Use Miranda default settings]
 
 [You were added by %s (%s%s%d)]
@@ -684,8 +664,6 @@ N&ačíst...
 [Database:]
 Databáze:
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
-
-[History++ (2in1)]
 
 [History++ Error]
 

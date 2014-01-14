@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.6
+;  Version: 0.1.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -16,9 +16,15 @@ Heslo:
 
 [Login settings]
 
+[Local settings]
+
+[Contact list group:]
+
 [Advanced]
 Extra
 [Server-side delivery confirmation]
+
+[Hide chats on startup]
 
 [Bots challenge test]
 Kontrola robotů
@@ -28,6 +34,18 @@ Instrukce:
 Potvrdit
 [Cancel]
 Zrušit
+[Invite user to chat]
+
+[OK]
+OK
+[Choose one of your contacts to be invited:]
+
+[Create group chat]
+
+[Mark users you want to invite to a new chat]
+
+[New chat's title:]
+
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 
@@ -38,6 +56,29 @@ Protokoly
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Zadejte text, který vidíte
+;file \protocols\VKontakte\src\vk_chats.cpp
+[Participants]
+Účastníci
+[Owners]
+Vlastníci
+[Unknown]
+neznámý
+[Enter new chat title]
+
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+
+[Warning]
+Upozornění
+[&Invite a user]
+Pozvat už&ivatele
+[View/change &title]
+
+[&Destroy room]
+Zruši&t místnost
+[&User details]
+Informace o &uživateli
+[&Kick]
+Vy&kopnout
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Sítě
@@ -46,8 +87,18 @@ Sítě
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s - spojení se serverem
+[Create new chat]
+
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Attachments:]
 Přílohy:
 [Photo]
 Fotka
+[Audio]
+Audio
+[Video]
+Video
+[Document]
+Dokument
+[Unsupported or unknown attachment type: %s]
+Nepodporovaný nebo neznámý typ přílohy: %s
