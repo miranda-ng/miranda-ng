@@ -1197,8 +1197,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 	JabberReadXep203delay(node, msgTime);
 
 	// XEP-0224 support (Attention/Nudge)
-	if (xmlGetChildByTag(node, "attention", "xmlns", JABBER_FEAT_ATTENTION) ||
-		xmlGetChildByTag(node, "attention", "xmlns", JABBER_FEAT_ATTENTION_0)) {
+	if (xmlGetChildByTag(node, "attention", "xmlns", JABBER_FEAT_ATTENTION)) {
 		if (!hContact)
 			hContact = CreateTemporaryContact(from, chatItem);
 		if (hContact)

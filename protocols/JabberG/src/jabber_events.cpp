@@ -37,7 +37,7 @@ int CJabberProto::OnContactDeleted(WPARAM wParam, LPARAM)
 		return 0;
 
 	HANDLE hContact = (HANDLE)wParam;
-	ptrT jid( getTStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
+	ptrT jid(getTStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
 	if (jid == NULL)
 		return 0;
 
@@ -47,11 +47,11 @@ int CJabberProto::OnContactDeleted(WPARAM wParam, LPARAM)
 			JabberStripJid(m_ThreadInfo->fullJID, szStrippedJid, SIZEOF(szStrippedJid));
 			TCHAR *szDog = _tcschr(szStrippedJid, _T('@'));
 			if (szDog && _tcsicmp(szDog + 1, jid))
-				m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext(), jid) << XQUERY(JABBER_FEAT_REGISTER) << XCHILD(_T("remove")));
+				m_ThreadInfo->send(XmlNodeIq(_T("set"), SerialNext(), jid) << XQUERY(JABBER_FEAT_REGISTER) << XCHILD(_T("remove")));
 		}
 
 		// Remove from roster, server also handles the presence unsubscription process.
-		m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext()) << XQUERY(JABBER_FEAT_IQ_ROSTER)
+		m_ThreadInfo->send(XmlNodeIq(_T("set"), SerialNext()) << XQUERY(JABBER_FEAT_IQ_ROSTER)
 			<< XCHILD(_T("item")) << XATTR(_T("jid"), jid) << XATTR(_T("subscription"), _T("remove")));
 	}
 	return 0;
@@ -60,9 +60,9 @@ int CJabberProto::OnContactDeleted(WPARAM wParam, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberDbSettingChanged - process database changes
 
-static TCHAR* sttSettingToTchar(DBCONTACTWRITESETTING* cws)
+static TCHAR* sttSettingToTchar(DBCONTACTWRITESETTING *cws)
 {
-	switch(cws->value.type) {
+	switch (cws->value.type) {
 	case DBVT_ASCIIZ:
 		return mir_a2t(cws->value.pszVal);
 
@@ -75,13 +75,13 @@ static TCHAR* sttSettingToTchar(DBCONTACTWRITESETTING* cws)
 	return NULL;
 }
 
-void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hContact)
+void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 {
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT( getTStringA(hContact, "jid")));
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT(getTStringA(hContact, "jid")));
 	if (item == NULL)
 		return;
 
-	ptrT tszNick( db_get_tsa(hContact, "CList", "MyHandle"));
+	ptrT tszNick(db_get_tsa(hContact, "CList", "MyHandle"));
 	if (tszNick == NULL)
 		tszNick = getTStringA(hContact, "Nick");
 	if (tszNick == NULL)
@@ -106,7 +106,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hCon
 	}
 }
 
-void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING* cws, HANDLE hContact)
+void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 {
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT( getTStringA(hContact, "jid")));
 	if (item == NULL)
@@ -128,15 +128,15 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING* cws, HANDLE hC
 
 void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 {
-	if (cws->value.type != DBVT_DELETED && !(cws->value.type==DBVT_BYTE && cws->value.bVal==0))
+	if (cws->value.type != DBVT_DELETED && !(cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
 		return;
 
-	ptrT jid( getTStringA(hContact, "jid"));
+	ptrT jid(getTStringA(hContact, "jid"));
 	if (jid == NULL)
 		return;
 
 	debugLogA("Add %S permanently to list", jid);
-	ptrT nick( db_get_tsa(hContact, "CList", "MyHandle"));
+	ptrT nick(db_get_tsa(hContact, "CList", "MyHandle"));
 	if (nick == NULL)
 		nick = getTStringA(hContact, "Nick");
 	if (nick == NULL)
@@ -144,10 +144,10 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, HANDL
 	if (nick == NULL)
 		return;
 
-	AddContactToRoster(jid, nick, ptrT( db_get_tsa(hContact, "CList", "Group")));
+	AddContactToRoster(jid, nick, ptrT(db_get_tsa(hContact, "CList", "Group")));
 
 	XmlNode xPresence(_T("presence")); xPresence << XATTR(_T("to"), LPCTSTR(jid)) << XATTR(_T("type"), _T("subscribe"));
-	ptrT myNick( getTStringA(NULL, "Nick"));
+	ptrT myNick(getTStringA(NULL, "Nick"));
 	if (myNick != NULL)
 		xPresence << XCHILD(_T("nick"), LPCTSTR(myNick)) << XATTR(_T("xmlns"), JABBER_FEAT_NICK);
 	m_ThreadInfo->send(xPresence);

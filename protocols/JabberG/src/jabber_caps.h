@@ -131,24 +131,23 @@ typedef unsigned __int64 JabberCapsBits;
 
 #define JABBER_FEAT_CAPTCHA                     _T("urn:xmpp:captcha")
 
+#define JABBER_FEAT_ATTENTION                   _T("urn:xmpp:attention:0")
+#define JABBER_CAPS_ATTENTION                   ((JabberCapsBits)1<<36)
+
 // deferred
-#define JABBER_FEAT_ATTENTION                   _T("http://www.xmpp.org/extensions/xep-0224.html#ns")
-#define JABBER_CAPS_ATTENTION                   ((JabberCapsBits)1<<34)
 #define JABBER_FEAT_USER_ACTIVITY               _T("http://jabber.org/protocol/activity")
-#define JABBER_CAPS_USER_ACTIVITY               ((JabberCapsBits)1<<35)
+#define JABBER_CAPS_USER_ACTIVITY               ((JabberCapsBits)1<<37)
 #define JABBER_FEAT_USER_ACTIVITY_NOTIFY        _T("http://jabber.org/protocol/activity+notify")
-#define JABBER_CAPS_USER_ACTIVITY_NOTIFY        ((JabberCapsBits)1<<36)
-#define JABBER_FEAT_ATTENTION_0                 _T("urn:xmpp:attention:0")
-#define JABBER_CAPS_ATTENTION_0                 ((JabberCapsBits)1<<37)
+#define JABBER_CAPS_USER_ACTIVITY_NOTIFY        ((JabberCapsBits)1<<38)
 #define JABBER_FEAT_MIRANDA_NOTES               _T("http://miranda-ng.org/storage#notes")
-#define JABBER_CAPS_MIRANDA_NOTES               ((JabberCapsBits)1<<38)
+#define JABBER_CAPS_MIRANDA_NOTES               ((JabberCapsBits)1<<39)
 #define JABBER_FEAT_JINGLE                      _T("urn:xmpp:jingle:1")
-#define JABBER_CAPS_JINGLE                      ((JabberCapsBits)1<<39)
+#define JABBER_CAPS_JINGLE                      ((JabberCapsBits)1<<40)
 #define JABBER_FEAT_ROSTER_EXCHANGE             _T("http://jabber.org/protocol/rosterx")
-#define JABBER_CAPS_ROSTER_EXCHANGE             ((JabberCapsBits)1<<40)
+#define JABBER_CAPS_ROSTER_EXCHANGE             ((JabberCapsBits)1<<41)
 
 #define JABBER_FEAT_DIRECT_MUC_INVITE           _T("jabber:x:conference")
-#define JABBER_CAPS_DIRECT_MUC_INVITE           ((JabberCapsBits)1<<41)
+#define JABBER_CAPS_DIRECT_MUC_INVITE           ((JabberCapsBits)1<<42)
 
 #define JABBER_FEAT_PUBSUB_EVENT                _T("http://jabber.org/protocol/pubsub#event")
 #define JABBER_FEAT_PUBSUB_NODE_CONFIG          _T("http://jabber.org/protocol/pubsub#node_config")
@@ -161,7 +160,7 @@ typedef unsigned __int64 JabberCapsBits;
                                      JABBER_CAPS_BYTESTREAMS | JABBER_CAPS_IBB | JABBER_CAPS_OOB | JABBER_CAPS_CHATSTATES | JABBER_CAPS_AGENTS | JABBER_CAPS_BROWSE | \
 											    JABBER_CAPS_VERSION | JABBER_CAPS_LAST_ACTIVITY | JABBER_CAPS_DATA_FORMS | JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_VCARD_TEMP | \
 												 JABBER_CAPS_ENTITY_TIME | JABBER_CAPS_PING | JABBER_CAPS_PRIVACY_LISTS | JABBER_CAPS_MESSAGE_RECEIPTS | JABBER_CAPS_PRIVATE_STORAGE | \
-												 JABBER_CAPS_ATTENTION_0 | JABBER_CAPS_ROSTER_EXCHANGE | JABBER_CAPS_DIRECT_MUC_INVITE)
+												 JABBER_CAPS_ROSTER_EXCHANGE | JABBER_CAPS_DIRECT_MUC_INVITE)
 
 #define JABBER_CAPS_MIRANDA_ALL     (JABBER_CAPS_MIRANDA_PARTIAL | JABBER_CAPS_COMMANDS | \
                                      JABBER_CAPS_USER_MOOD_NOTIFY | JABBER_CAPS_USER_TUNE_NOTIFY | JABBER_CAPS_USER_ACTIVITY_NOTIFY | JABBER_CAPS_PLATFORMX86 | JABBER_CAPS_PLATFORMX64)
@@ -171,6 +170,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_EXT_MIROTR                       "mirotr"
 #define JABBER_EXT_JINGLE                       "jingle"
 #define JABBER_EXT_NEWGPG                       "new_gpg"
+#define JABBER_EXT_NUDGE                        "nudge"
 #define JABBER_EXT_COMMANDS                     "cmds"
 #define JABBER_EXT_USER_MOOD                    "mood"
 #define JABBER_EXT_USER_TUNE                    "tune"
