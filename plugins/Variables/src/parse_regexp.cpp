@@ -93,9 +93,8 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai)
 	return mir_tstrdup(_T(""));
 }
 
-int registerRegExpTokens()
+void registerRegExpTokens()
 {
-	registerIntToken(_T(REGEXPCHECK), parseRegExpCheck, TRF_FUNCTION, LPGEN("Regular Expressions")"\t(x,y)\t"LPGEN("(ANSI input only) the number of substring matches found in y with pattern x"));
-	registerIntToken(_T(REGEXPSUBSTR), parseRegExpSubstr, TRF_FUNCTION, LPGEN("Regular Expressions")"\t(x,y,z)\t"LPGEN("(ANSI input only) substring match number z found in subject y with pattern x"));
-	return 0;
+	registerIntToken(REGEXPCHECK, parseRegExpCheck, TRF_FUNCTION, LPGEN("Regular Expressions")"\t(x,y)\t"LPGEN("(ANSI input only) the number of substring matches found in y with pattern x"));
+	registerIntToken(REGEXPSUBSTR, parseRegExpSubstr, TRF_FUNCTION, LPGEN("Regular Expressions")"\t(x,y,z)\t"LPGEN("(ANSI input only) substring match number z found in subject y with pattern x"));
 }

@@ -23,7 +23,7 @@ typedef struct {
 	DWORD dwOwnerThread;
 } VARIABLEREGISTER;
 
-#define PUT					"put"
-#define PUTS				"puts"
-#define GET					"get"
+#define PUT					_T("put")
+#define PUTS				_T("puts")
+#define GET					_T("get")
 

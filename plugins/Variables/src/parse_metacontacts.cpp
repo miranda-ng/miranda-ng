@@ -184,13 +184,11 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 	return res;
 }
 
-int registerMetaContactsTokens()
+void registerMetaContactsTokens()
 {
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME)) {
-		registerIntToken(_T(MC_GETPARENT), parseGetParent, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get parent metacontact of contact x"));
-		registerIntToken(_T(MC_GETDEFAULT), parseGetDefault, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get default subcontact x"));
-		registerIntToken(_T(MC_GETMOSTONLINE), parseGetMostOnline, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get the 'most online' subcontact x"));
+		registerIntToken(MC_GETPARENT, parseGetParent, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get parent metacontact of contact x"));
+		registerIntToken(MC_GETDEFAULT, parseGetDefault, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get default subcontact x"));
+		registerIntToken(MC_GETMOSTONLINE, parseGetMostOnline, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get the 'most online' subcontact x"));
 	}
-
-	return 0;
 }

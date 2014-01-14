@@ -17,7 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define URLENC				"urlenc"
-#define URLDEC				"urldec"
-#define NTOA				"ntoa"
-#define HTOA				"htoa"
+#define URLENC	_T("urlenc")
+#define URLDEC	_T("urldec")
+#define NTOA	_T("ntoa")
+#define HTOA	_T("htoa")

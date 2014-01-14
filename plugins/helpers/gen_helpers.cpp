@@ -126,13 +126,8 @@ int ttoi(TCHAR *string)
 
 TCHAR *itot(int num)
 {
-
-	char tRes[32];
-
+	TCHAR tRes[32];
 	// check this
-	_itoa(num, tRes, 10);
-
-
-	return mir_a2t(tRes);
-
+	_itot(num, tRes, 10);
+	return mir_tstrdup(tRes);
 }

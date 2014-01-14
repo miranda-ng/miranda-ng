@@ -107,7 +107,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 			if (string != NULL) {
 				TCHAR *newString = variables_parsedup(string, NULL, NULL);
 				if (newString != NULL) {
-					SetWindowText(GetDlgItem(hwndDlg, IDC_RESULT), newString);
+					SetDlgItemText(hwndDlg, IDC_RESULT, newString);
 					mir_free(newString);
 				}
 				mir_free(string);
@@ -127,7 +127,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 	return FALSE;
 }
 
-int OptionsInit(WPARAM wParam, LPARAM lParam)
+int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position      = 150000000;

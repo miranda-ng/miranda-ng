@@ -17,6 +17,6 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define WINAMPSONG			"winampsong"
-#define WINAMPSTATE			"winampstate"
+#define WINAMPSONG			_T("winampsong")
+#define WINAMPSTATE			_T("winampstate")
 #define DEF_WINAMPTITLE		"Winamp3"

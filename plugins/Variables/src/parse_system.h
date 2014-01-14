@@ -17,26 +17,26 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define COMPUTERNAME		"computername"
-#define CPULOAD				"cpuload"
-#define CDATE				"cdate"
-#define CTIME				"ctime"
-#define DIRECTORY			"directory"
-#define DIRECTORY2			"directory2"
-#define DIFFTIME			"difftime"
-#define DIREXISTS			"direxists"
-#define ENVIRONMENTVARIABLE	"env_var"
-#define FILEEXISTS			"fileexists"
-#define FINDWINDOW			"findwindow"
-#define LISTDIR				"ls"
-#define PROCESSRUNNING		"processrunning"
-#define REGISTRYVALUE		"regvalue"
-#define TIMESTAMP2DATE		"ts2date"
-#define TIMESTAMP2TIME		"ts2time"
-#define TXTFILE				"txtfile"
-#define UPTIME				"uptime"
-#define USERNAME			"username"
-#define CLIPBOARD			"clipboard"
+#define COMPUTERNAME		_T("computername")
+#define CPULOAD				_T("cpuload")
+#define CDATE				_T("cdate")
+#define CTIME				_T("ctime")
+#define DIRECTORY			_T("directory")
+#define DIRECTORY2			_T("directory2")
+#define DIFFTIME			_T("difftime")
+#define DIREXISTS			_T("direxists")
+#define ENVIRONMENTVARIABLE	_T("env_var")
+#define FILEEXISTS			_T("fileexists")
+#define FINDWINDOW			_T("findwindow")
+#define LISTDIR				_T("ls")
+#define PROCESSRUNNING		_T("processrunning")
+#define REGISTRYVALUE		_T("regvalue")
+#define TIMESTAMP2DATE		_T("ts2date")
+#define TIMESTAMP2TIME		_T("ts2time")
+#define TXTFILE				_T("txtfile")
+#define UPTIME				_T("uptime")
+#define USERNAME			_T("username")
+#define CLIPBOARD			_T("clipboard")
 
 #define TXTFILEBUFSZ		4096
 #define MAX_REGVALUE_LENGTH	1024

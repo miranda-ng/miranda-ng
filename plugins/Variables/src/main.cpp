@@ -20,7 +20,6 @@
 
 HINSTANCE hInst;
 
-DWORD g_mirandaVersion;
 int hLangpack = 0;
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -46,9 +45,8 @@ PLUGININFOEX pluginInfoEx = {
 	{0x59b0036e, 0x5403, 0x422e, {0x88, 0x3b, 0xc9, 0xaa, 0xf4, 0x25, 0x68, 0x2b}}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	g_mirandaVersion = mirandaVersion;
 	return &pluginInfoEx;
 }
 

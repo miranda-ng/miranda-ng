@@ -17,7 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define ADDALIAS		"alias"
+#define ADDALIAS		_T("alias")
 
 int isValidTokenChar(TCHAR tc);
 TCHAR *getArguments(TCHAR *string, TCHAR ***aargv, int *aargc);

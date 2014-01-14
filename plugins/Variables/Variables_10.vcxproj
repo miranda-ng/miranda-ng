@@ -224,12 +224,14 @@
     <ClInclude Include="src\parse_str.h" />
     <ClInclude Include="src\parse_system.h" />
     <ClInclude Include="src\parse_variables.h" />
-    <ClInclude Include="src\parse_xml.h" />
     <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Variables.rc" />
     <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\V.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

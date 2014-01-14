@@ -97,11 +97,10 @@ static TCHAR *parseHToA(ARGUMENTSINFO *ai)
 	return mir_a2t(inet_ntoa(in));
 }
 
-int registerInetTokens()
+void registerInetTokens()
 {
-	registerIntToken(_T(URLENC), parseUrlEnc, TRF_FUNCTION, LPGEN("Internet Related")"\t(x)\t"LPGEN("converts each non-html character into hex format"));
-	registerIntToken(_T(URLDEC), parseUrlDec, TRF_FUNCTION, LPGEN("Internet Related")"\t(x)\t"LPGEN("converts each hex value into non-html character"));
-	registerIntToken(_T(NTOA), parseNToA, TRF_FUNCTION, LPGEN("Internet Related")"\t(x)\t"LPGEN("converts a 32-bit number to IPv4 dotted notation"));
-	registerIntToken(_T(HTOA), parseHToA, TRF_FUNCTION, LPGEN("Internet Related")"\t(x)\t"LPGEN("converts a 32-bit number (in host byte order) to IPv4 dotted notation"));
-	return 0;
+	registerIntToken(URLENC, parseUrlEnc, TRF_FUNCTION, LPGEN("Internet Related")"\t(x)\t"LPGEN("converts each non-html character into hex format"));
+	registerIntToken(URLDEC, parseUrlDec, TRF_FUNCTION, LPGEN("Internet Related")"\t(x)\t"LPGEN("converts each hex value into non-html character"));
+	registerIntToken(NTOA, parseNToA, TRF_FUNCTION, LPGEN("Internet Related")"\t(x)\t"LPGEN("converts a 32-bit number to IPv4 dotted notation"));
+	registerIntToken(HTOA, parseHToA, TRF_FUNCTION, LPGEN("Internet Related")"\t(x)\t"LPGEN("converts a 32-bit number (in host byte order) to IPv4 dotted notation"));
 }

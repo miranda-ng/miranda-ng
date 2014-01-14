@@ -125,9 +125,6 @@
     <ClInclude Include="src\parse_variables.h">
       <Filter>Header Files\Parse</Filter>
     </ClInclude>
-    <ClInclude Include="src\parse_xml.h">
-      <Filter>Header Files\Parse</Filter>
-    </ClInclude>
     <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -148,5 +145,10 @@
     <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\V.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

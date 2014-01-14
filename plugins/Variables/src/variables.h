@@ -29,6 +29,9 @@
 #include <vdmdbg.h>
 #include <lmcons.h>
 
+#include <pdh.h>
+#include <pdhmsg.h>
+
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_langpack.h>
@@ -63,7 +66,6 @@
 #include "parse_str.h"
 #include "parse_system.h"
 #include "parse_variables.h"
-#include "parse_xml.h"
 
 #define MODULENAME "Variables"
 
@@ -84,8 +86,30 @@
 #define COMMENT_STRING      "#"
 
 // special tokens
-#define SUBJECT       "subject"
-#define MIR_EXTRATEXT "extratext"
+#define SUBJECT       _T("subject")
+#define MIR_EXTRATEXT _T("extratext")
+
+#define VAR_HELP_TEXT LPGENT("--- Special characters ---\r\n\r\n\
+The following characters have a special meaning in a formatting string:\r\n\r\n\
+?<function>(<arguments>)\r\n\
+This will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n\
+!<function>(<arguments>)\r\n\
+This will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n\
+%<field>%\r\n\
+This will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n\
+`<string>`\r\n\
+This will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n\
+#<comment>\r\n\
+This will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n\
+--- Contacts ---\r\n\r\n\
+Whenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n\
+(1) Using a unique id (UIN for ICQ, email for MSN) or, a protocol id followed by a unique id in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n\
+(2) Using the contact function:\r\n\
+?contact(x,y)\r\n\
+A contact will be searched which will have value x for its property y, y can be one of the following:\r\n\
+first, last, nick, email, id or display\r\n\r\n\
+For example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.\
+")
 
 // options
 #define IDT_PARSE 1
@@ -153,32 +177,32 @@ int  getContactFromString( CONTACTSINFO* );
 int  initContactModule();
 int  deinitContactModule();
 // alias
-int  registerAliasTokens();
+void  registerAliasTokens();
 void unregisterAliasTokens();
 // system
-int  registerSystemTokens();
+void  registerSystemTokens();
 // external
-int  registerExternalTokens();
+void  registerExternalTokens();
 // miranda
-int  registerMirandaTokens();
+void  registerMirandaTokens();
 // str
-int  registerStrTokens();
+void  registerStrTokens();
 // variables
-int  registerVariablesTokens();
+void  registerVariablesTokens();
 void unregisterVariablesTokens();
 int  clearVariableRegister(bool bAll);
 // logic
-int  registerLogicTokens();
+void  registerLogicTokens();
 // math
-int  registerMathTokens();
+void  registerMathTokens();
 // metacontacts
-int registerMetaContactsTokens();
+void registerMetaContactsTokens();
 // options
-int  OptionsInit(WPARAM wParam, LPARAM lParam);
+int  OptionsInit(WPARAM wParam, LPARAM);
 // reg exp
-int  registerRegExpTokens();
+void  registerRegExpTokens();
 // inet
-int  registerInetTokens();
+void  registerInetTokens();
 // help
 INT_PTR  showHelpService(WPARAM wParam, LPARAM lParam);
 INT_PTR  showHelpExService(WPARAM wParam, LPARAM lParam);
@@ -187,5 +211,3 @@ int  iconsChanged(WPARAM wParam, LPARAM lParam);
 
 int ttoi(TCHAR *string);
 TCHAR *itot(int num);
-
-extern DWORD g_mirandaVersion;

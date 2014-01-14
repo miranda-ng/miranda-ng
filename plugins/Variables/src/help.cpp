@@ -99,9 +99,6 @@ static INT_PTR CALLBACK extratextDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 
 // dialog box for the %subject% selection
 void ResetCList(HWND hwndDlg) {
-
-	int i;
-
 	if ((CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT)) || !(GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE)&CLS_USEGROUPS))
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) FALSE, 0);
 	else
@@ -112,7 +109,7 @@ void ResetCList(HWND hwndDlg) {
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKBITMAP, 0, (LPARAM) (HBITMAP) NULL);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT, 10, 0);
-	for (i = 0; i <= FONTID_MAX; i++)
+	for (int i = 0; i <= FONTID_MAX; i++)
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
@@ -243,33 +240,28 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 // dialog box for the tokens
 static TCHAR *getTokenCategory(TOKENREGISTEREX *tr) {
-
-	TCHAR *res;
-
-	char *cat, *cur, *helpText;
-
 	if (tr == NULL) {
 		return NULL;
 	}
-	cat = NULL;
-	helpText = mir_strdup(tr->szHelpText);
+	char *cat = NULL;
+	char *helpText = mir_strdup(tr->szHelpText);
 	if (helpText == NULL) {
 		return NULL;
 	}
-	cur = helpText;
+	char *cur = helpText;
 	while (*cur != 0) {
 		if (*cur == '\t') {
 			*cur = 0;
 			helpText = ( char* )mir_realloc(helpText, strlen(helpText)+1);
 
-			res = mir_a2t(helpText);
+			TCHAR *res = mir_a2t(helpText);
 			mir_free(helpText);
 			return res;
 		}
 		cur++;
 	}
 
-	res = mir_a2t(helpText);
+	TCHAR *res = mir_a2t(helpText);
 	mir_free(helpText);
 	return res;
 
@@ -402,14 +394,14 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 					continue;
 
 				else if (hdd != NULL) {
-					if (!_tcscmp(tr->tszTokenString, _T(SUBJECT))) {
+					if (!_tcscmp(tr->tszTokenString, SUBJECT)) {
 						if (hdd->vhs->flags&VHF_HIDESUBJECTTOKEN)
 							continue;
 
 						if (hdd->vhs->szSubjectDesc != NULL)
 							tszHelpDesc = mir_a2t(hdd->vhs->szSubjectDesc);
 					}
-					if (!_tcscmp(tr->tszTokenString, _T(MIR_EXTRATEXT))) {
+					if (!_tcscmp(tr->tszTokenString, MIR_EXTRATEXT)) {
 						if (hdd->vhs->flags & VHF_HIDEEXTRATEXTTOKEN)
 							continue;
 
@@ -663,22 +655,22 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case DM_SPLITTERMOVED:
 	{
-									POINT pt;
-									RECT rc, rcTeststring, rcResult;
-									int oldSplitterY;
+		POINT pt;
+		RECT rc, rcTeststring, rcResult;
+		int oldSplitterY;
 
-									if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SPLITTER)) {
-										GetClientRect(hwndDlg, &rc);
-										pt.x = 0;
-										pt.y = wParam;
-										ScreenToClient(hwndDlg, &pt);
-										oldSplitterY = dat->splitterPos;
-										dat->splitterPos = rc.bottom - pt.y + 223;
-										GetWindowRect(GetDlgItem(hwndDlg, IDC_TESTSTRING), &rcTeststring);
-										GetWindowRect(GetDlgItem(hwndDlg, IDC_RESULT), &rcResult);
-										if ((((rcTeststring.bottom - rcTeststring.top) - (dat->splitterPos - oldSplitterY)) < dat->minInputSize.y) || (((rcResult.bottom - rcResult.top) + (dat->splitterPos - oldSplitterY)) < dat->minResultSize.y))
-											dat->splitterPos = oldSplitterY;
-									}	}
+		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SPLITTER)) {
+			GetClientRect(hwndDlg, &rc);
+			pt.x = 0;
+			pt.y = wParam;
+			ScreenToClient(hwndDlg, &pt);
+			oldSplitterY = dat->splitterPos;
+			dat->splitterPos = rc.bottom - pt.y + 223;
+			GetWindowRect(GetDlgItem(hwndDlg, IDC_TESTSTRING), &rcTeststring);
+			GetWindowRect(GetDlgItem(hwndDlg, IDC_RESULT), &rcResult);
+			if ((((rcTeststring.bottom - rcTeststring.top) - (dat->splitterPos - oldSplitterY)) < dat->minInputSize.y) || (((rcResult.bottom - rcResult.top) + (dat->splitterPos - oldSplitterY)) < dat->minResultSize.y))
+				dat->splitterPos = oldSplitterY;
+		}	}
 
 		SendMessage(hwndDlg, WM_SIZE, 0, 0);
 		break;
@@ -694,10 +686,10 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case WM_GETMINMAXINFO:
 	{
-									RECT rc, rcTeststring;
-									GetWindowRect(GetParent(hwndDlg), &rc);
-									GetWindowRect(GetDlgItem(hwndDlg, IDC_TESTSTRING), &rcTeststring);
-									((MINMAXINFO*)lParam)->ptMinTrackSize.y = (rc.bottom - rc.top) - (((rcTeststring.bottom - rcTeststring.top) - dat->minResultSize.y));
+		RECT rc, rcTeststring;
+		GetWindowRect(GetParent(hwndDlg), &rc);
+		GetWindowRect(GetDlgItem(hwndDlg, IDC_TESTSTRING), &rcTeststring);
+		((MINMAXINFO*)lParam)->ptMinTrackSize.y = (rc.bottom - rc.top) - (((rcTeststring.bottom - rcTeststring.top) - dat->minResultSize.y));
 	}
 		break;
 

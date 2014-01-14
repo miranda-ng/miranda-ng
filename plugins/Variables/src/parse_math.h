@@ -17,14 +17,14 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define ADD					"add"
-#define DIV					"div"
-#define HEX					"hex"
-#define MOD					"mod"
-#define MUL					"mul"
-#define MULDIV				"muldiv"
-#define MIN					"min"
-#define MAX					"max"
-#define NUM					"num"
-#define RAND				"rand"
-#define SUB					"sub"
+#define ADD					_T("add")
+#define DIV					_T("div")
+#define HEX					_T("hex")
+#define MOD					_T("mod")
+#define MUL					_T("mul")
+#define MULDIV				_T("muldiv")
+#define MIN					_T("min")
+#define MAX					_T("max")
+#define NUM					_T("num")
+#define RAND				_T("rand")
+#define SUB					_T("sub")

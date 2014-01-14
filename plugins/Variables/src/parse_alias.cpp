@@ -186,11 +186,10 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
 	return (res == 0) ? mir_tstrdup(_T("")) : NULL;
 }
 
-int registerAliasTokens()
+void registerAliasTokens()
 {
-	registerIntToken(_T(ADDALIAS), parseAddAlias, TRF_FUNCTION | TRF_UNPARSEDARGS, LPGEN("Variables")"\t(x,y)\t"LPGEN("stores y as alias named x"));//TRF_UNPARSEDARGS);
+	registerIntToken(ADDALIAS, parseAddAlias, TRF_FUNCTION | TRF_UNPARSEDARGS, LPGEN("Variables")"\t(x,y)\t"LPGEN("stores y as alias named x"));//TRF_UNPARSEDARGS);
 	InitializeCriticalSection(&csAliasRegister);
-	return 0;
 }
 
 void unregisterAliasTokens()

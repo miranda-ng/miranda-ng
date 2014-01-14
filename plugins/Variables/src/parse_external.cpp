@@ -102,10 +102,8 @@ static TCHAR *parseWinampState(ARGUMENTSINFO *ai)
 	return mir_tstrdup(_T("Playing"));
 }
 
-int registerExternalTokens()
+void registerExternalTokens()
 {
-	registerIntToken(_T(WINAMPSONG), parseWinampSong, TRF_FIELD, LPGEN("External Applications")"\t"LPGEN("retrieves song name of the song currently playing in Winamp"));
-	registerIntToken(_T(WINAMPSTATE), parseWinampState, TRF_FIELD, LPGEN("External Applications")"\t"LPGEN("retrieves current Winamp state (Playing/Paused/Stopped)"));
-
-	return 0;
+	registerIntToken(WINAMPSONG, parseWinampSong, TRF_FIELD, LPGEN("External Applications")"\t"LPGEN("retrieves song name of the song currently playing in Winamp"));
+	registerIntToken(WINAMPSTATE, parseWinampState, TRF_FIELD, LPGEN("External Applications")"\t"LPGEN("retrieves current Winamp state (Playing/Paused/Stopped)"));
 }
