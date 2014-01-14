@@ -12,7 +12,7 @@ void InitMenus()
 	mi.ptszPopupName = LPGENT("PING");
 	mi.position = 2000060000;
 	mi.hIcon = hIconResponding;
-	mi.ptszName = LPGENT("Enable All Pings");
+	mi.ptszName = LPGENT("Enable all pings");
 	mi.pszService = PLUG "/EnableAll";
 	Menu_AddMainMenuItem(&mi);
 
@@ -20,7 +20,7 @@ void InitMenus()
 	mi.position = 2000060001;
 	mi.popupPosition = 0;
 	mi.hIcon = hIconDisabled;
-	mi.ptszName = LPGENT("Disable All Pings");
+	mi.ptszName = LPGENT("Disable all pings");
 	mi.pszService = PLUG "/DisableAll";
 	Menu_AddMainMenuItem(&mi);
 }
