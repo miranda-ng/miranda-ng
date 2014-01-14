@@ -78,8 +78,12 @@ struct GlobalLogSettings : public GlobalLogSettingsBase
 
 extern GlobalLogSettings g_Settings;
 extern SESSION_INFO g_TabSession;
+extern TABLIST *g_TabList;
+extern HMENU g_hMenu;
+extern HBRUSH hListBkgBrush, hListSelectedBkgBrush;
 
 extern HINSTANCE g_hInst;
+extern BOOL SmileyAddInstalled;
 
 struct CREOleCallback : public IRichEditOleCallback
 {
@@ -104,6 +108,8 @@ struct CREOleCallback : public IRichEditOleCallback
 	STDMETHOD(GetContextMenu) (WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE FAR * lpchrg, HMENU FAR * lphmenu) ;
 };
 
+extern CREOleCallback reOleCallback;
+
 struct COLORCHOOSER
 {
 	MODULEINFO*   pModule;
@@ -113,8 +119,6 @@ struct COLORCHOOSER
 	BOOL          bForeground;
 	SESSION_INFO *si;
 };
-
-extern BOOL SmileyAddInstalled;
 
 //main.c
 

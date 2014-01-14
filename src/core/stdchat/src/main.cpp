@@ -27,16 +27,11 @@ CHAT_MANAGER *pci;
 SESSION_INFO g_TabSession;
 
 HINSTANCE   g_hInst;
-HANDLE      g_hWindowList;
 HMENU       g_hMenu = NULL;
 int         hLangpack;
 
-BOOL        IEviewInstalled = FALSE;
-BOOL        SmileyAddInstalled = FALSE;
-BOOL        PopupInstalled = FALSE;
-
-HBRUSH      hListBkgBrush = NULL;
-HBRUSH      hListSelectedBkgBrush = NULL;
+BOOL IEviewInstalled = FALSE, SmileyAddInstalled = FALSE, PopupInstalled = FALSE;
+HBRUSH hListBkgBrush = NULL, hListSelectedBkgBrush = NULL;
 
 GlobalLogSettings g_Settings;
 

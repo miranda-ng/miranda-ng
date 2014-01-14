@@ -124,7 +124,7 @@ void RegisterFonts(void)
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_NEEDRESTART;
 	for (i = 0; i < msgDlgFontCount; i++, index++) {
 		strncpy(fontid.dbSettingsGroup, "ChatFonts", sizeof(fontid.dbSettingsGroup));
-		_tcsncpy(fontid.group, _T("Chat Module"), SIZEOF(fontid.group));
+		_tcsncpy(fontid.group, _T("Chat module"), SIZEOF(fontid.group));
 		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
 		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", index);
 		strncpy(fontid.prefix, idstr, sizeof(fontid.prefix));
@@ -135,14 +135,14 @@ void RegisterFonts(void)
 		fontid.deffontsettings.size = fontOptionsList[i].defSize;
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		_tcsncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fontid.deffontsettings.szFace));
-		_tcsncpy(fontid.backgroundGroup, _T("Chat Module"), SIZEOF(fontid.backgroundGroup));
+		_tcsncpy(fontid.backgroundGroup, _T("Chat module"), SIZEOF(fontid.backgroundGroup));
 		switch (i) {
 		case 17:
-			_tcsncpy(fontid.backgroundName, _T("Message Background"), SIZEOF(fontid.backgroundName));
+			_tcsncpy(fontid.backgroundName, _T("Message background"), SIZEOF(fontid.backgroundName));
 			break;
 		case 18:
 		case 19:
-			_tcsncpy(fontid.backgroundName, _T("Userlist Background"), SIZEOF(fontid.backgroundName));
+			_tcsncpy(fontid.backgroundName, _T("Userlist background"), SIZEOF(fontid.backgroundName));
 			break;
 		default:
 			_tcsncpy(fontid.backgroundName, _T("Background"), SIZEOF(fontid.backgroundName));

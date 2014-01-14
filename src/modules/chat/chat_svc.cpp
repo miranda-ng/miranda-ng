@@ -30,7 +30,7 @@ BOOL SmileyAddInstalled, PopupInstalled, IEviewInstalled;
 HGENMENU hJoinMenuItem, hLeaveMenuItem;
 CRITICAL_SECTION	cs;
 
-void RegisterFonts( void );
+void RegisterFonts(void);
 
 static HANDLE
    hServiceRegister = NULL,

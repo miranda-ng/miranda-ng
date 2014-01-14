@@ -27,47 +27,6 @@ extern HBRUSH       hListBkgBrush;
 extern HBRUSH       hListSelectedBkgBrush;
 extern BOOL         PopupInstalled;
 
-#define FONTF_BOLD   1
-#define FONTF_ITALIC 2
-struct FontOptionsList
-{
-	const TCHAR*  szDescr;
-	COLORREF      defColour;
-	const TCHAR*  szDefFace;
-	BYTE          defCharset, defStyle; 
-	char          defSize;
-	COLORREF      colour;
-	const TCHAR*  szFace;
-	BYTE          charset, style;
-	char          size;
-}
-
-//remeber to put these in the Translate( ) template file too
-static const fontOptionsList[] = {
-	{ LPGENT("Timestamp"),                    RGB(50, 50, 240),   _T("Terminal"), DEFAULT_CHARSET, 0, -8},
-	{ LPGENT("Others nicknames"),             RGB(0, 0, 0),       _T("Verdana"), DEFAULT_CHARSET, FONTF_BOLD, -12},
-	{ LPGENT("Your nickname"),                RGB(0, 0, 0),       _T("Verdana"), DEFAULT_CHARSET, FONTF_BOLD, -12},
-	{ LPGENT("User has joined"),              RGB(90, 160, 90),   _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("User has left"),                RGB(160, 160, 90),  _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("User has disconnected"),        RGB(160, 90, 90),   _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("User kicked ..."),              RGB(100, 100, 100), _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("User is now known as ..."),     RGB(90, 90, 160),   _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("Notice from user"),             RGB(160, 130, 60),  _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("Incoming message"),             RGB(90, 90, 90),    _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("Outgoing message"),             RGB(90, 90, 90),    _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("The topic is ..."),             RGB(70, 70, 160),   _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("Information messages"),         RGB(130, 130, 195), _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("User enables status for ..."),  RGB(70, 150, 70),   _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("User disables status for ..."), RGB(150, 70, 70),   _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("Action message"),               RGB(160, 90, 160),  _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("Highlighted message"),          RGB(180, 150, 80),  _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("Message typing area"),          RGB(0, 0, 40),      _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("User list members (online)"),   RGB(0,0, 0),        _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("User list members (away)"),     RGB(170, 170, 170), _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-};
-
-const int msgDlgFontCount = SIZEOF(fontOptionsList);
-
 struct branch_t
 {
 	const TCHAR* szDescr;
@@ -302,75 +261,6 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 		break;
 	}
 	return 0;
-}
-
-void RegisterFonts(void)
-{
-	FontIDT fontid = { 0 };
-	ColourIDT colourid;
-	char idstr[10];
-	int index = 0, i;
-
-	fontid.cbSize = sizeof(FontIDT);
-	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_NEEDRESTART;
-	for (i = 0; i < msgDlgFontCount; i++, index++) {
-		strncpy(fontid.dbSettingsGroup, "ChatFonts", sizeof(fontid.dbSettingsGroup));
-		_tcsncpy(fontid.group, _T("Chat Module"), SIZEOF(fontid.group));
-		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
-		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", index);
-		strncpy(fontid.prefix, idstr, sizeof(fontid.prefix));
-		fontid.order = index;
-
-		fontid.deffontsettings.charset = fontOptionsList[i].defCharset;
-		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
-		fontid.deffontsettings.size = fontOptionsList[i].defSize;
-		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
-		_tcsncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fontid.deffontsettings.szFace));
-		_tcsncpy(fontid.backgroundGroup, _T("Chat Module"), SIZEOF(fontid.backgroundGroup));
-		switch (i) {
-		case 17:
-			_tcsncpy(fontid.backgroundName, _T("Message Background"), SIZEOF(fontid.backgroundName));
-			break;
-		case 18:
-		case 19:
-			_tcsncpy(fontid.backgroundName, _T("Userlist Background"), SIZEOF(fontid.backgroundName));
-			break;
-		default:
-			_tcsncpy(fontid.backgroundName, _T("Background"), SIZEOF(fontid.backgroundName));
-			break;
-		}
-		FontRegisterT(&fontid);
-	}
-
-	colourid.cbSize = sizeof(ColourIDT);
-	colourid.order = 0;
-	strncpy(colourid.dbSettingsGroup, "Chat", sizeof(colourid.dbSettingsGroup));
-
-	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
-	_tcsncpy(colourid.group, LPGENT("Chat module"), SIZEOF(colourid.group));
-	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegisterT(&colourid);
-
-	strncpy(colourid.setting, "ColorMessageBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Message background"), SIZEOF(colourid.name));
-	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegisterT(&colourid);
-
-	strncpy(colourid.setting, "ColorNicklistBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("User list background"), SIZEOF(colourid.name));
-	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegisterT(&colourid);
-
-	strncpy(colourid.setting, "ColorNicklistLines", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("User list lines"), SIZEOF(colourid.name));
-	colourid.defcolour = GetSysColor(COLOR_INACTIVEBORDER);
-	ColourRegisterT(&colourid);
-
-	strncpy(colourid.setting, "ColorNicklistSelectedBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("User list background (selected)"), SIZEOF(colourid.name));
-	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
-	ColourRegisterT(&colourid);
 }
 
 // add icons to the skinning module

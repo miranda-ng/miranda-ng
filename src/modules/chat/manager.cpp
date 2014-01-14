@@ -939,7 +939,7 @@ static void MM_IconsChanged(void)
 {
 	MODULEINFO *pTemp = m_ModList, *pLast = NULL;
 	ImageList_ReplaceIcon(ci.hIconsList, 0, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
-	// ImageList_ReplaceIcon(ci.hIconsList, 1, LoadIconEx("overlay", FALSE));
+	ImageList_ReplaceIcon(ci.hIconsList, 1, LoadIconEx("overlay", FALSE));
 	while (pTemp != NULL) {
 		pTemp->OnlineIconIndex = ImageList_ReplaceIcon(ci.hIconsList, pTemp->OnlineIconIndex, LoadSkinnedProtoIcon(pTemp->pszModule, ID_STATUS_ONLINE));
 		pTemp->OfflineIconIndex = ImageList_ReplaceIcon(ci.hIconsList, pTemp->OfflineIconIndex, LoadSkinnedProtoIcon(pTemp->pszModule, ID_STATUS_OFFLINE));
