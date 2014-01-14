@@ -103,6 +103,8 @@ TCP соединение
 Включить все пинги
 [Disable All Pings]
 Выключить все пинги
+[Open log file]
+Открыть журнал
 [<none>]
 <нет>
 [<all>]
@@ -125,8 +127,8 @@ TCP соединение
 МАКС %hd мс
 [MIN %hd ms]
 МИН %hd мс
-[%s - setting status of protocol '%s' (%d)]
-%d - установка статуса протокола '%s' (%d)
+[%s - setting status of protocol '%S' (%d)]
+%s - установка статуса протокола '%S' (%d)
 [%s - reply, %d]
 %s - ответ, %d
 [%s - timeout]
@@ -141,6 +143,8 @@ TCP соединение
 Пинг
 [Show/Hide &Ping Window]
 Показать/скрыть &окно
+[List]
+Список
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Хост %s требует уменьшить количество посылаемого вами трафика.
 [Unknown Address]
