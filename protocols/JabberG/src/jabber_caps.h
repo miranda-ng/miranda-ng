@@ -161,14 +161,15 @@ typedef unsigned __int64 JabberCapsBits;
                                      JABBER_CAPS_BYTESTREAMS | JABBER_CAPS_IBB | JABBER_CAPS_OOB | JABBER_CAPS_CHATSTATES | JABBER_CAPS_AGENTS | JABBER_CAPS_BROWSE | \
 											    JABBER_CAPS_VERSION | JABBER_CAPS_LAST_ACTIVITY | JABBER_CAPS_DATA_FORMS | JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_VCARD_TEMP | \
 												 JABBER_CAPS_ENTITY_TIME | JABBER_CAPS_PING | JABBER_CAPS_PRIVACY_LISTS | JABBER_CAPS_MESSAGE_RECEIPTS | JABBER_CAPS_PRIVATE_STORAGE | \
-												 JABBER_CAPS_ATTENTION_0 | JABBER_CAPS_JINGLE | JABBER_CAPS_ROSTER_EXCHANGE | JABBER_CAPS_DIRECT_MUC_INVITE)
+												 JABBER_CAPS_ATTENTION_0 | JABBER_CAPS_ROSTER_EXCHANGE | JABBER_CAPS_DIRECT_MUC_INVITE)
 
-#define JABBER_CAPS_MIRANDA_ALL     (JABBER_CAPS_MIRANDA_PARTIAL | JABBER_CAPS_SECUREIM | JABBER_CAPS_MIROTR | JABBER_CAPS_NEWGPG | JABBER_CAPS_COMMANDS | \
+#define JABBER_CAPS_MIRANDA_ALL     (JABBER_CAPS_MIRANDA_PARTIAL | JABBER_CAPS_COMMANDS | \
                                      JABBER_CAPS_USER_MOOD_NOTIFY | JABBER_CAPS_USER_TUNE_NOTIFY | JABBER_CAPS_USER_ACTIVITY_NOTIFY | JABBER_CAPS_PLATFORMX86 | JABBER_CAPS_PLATFORMX64)
 
 
 #define JABBER_EXT_SECUREIM                     "secureim"
 #define JABBER_EXT_MIROTR                       "mirotr"
+#define JABBER_EXT_JINGLE                       "jingle"
 #define JABBER_EXT_NEWGPG                       "new_gpg"
 #define JABBER_EXT_COMMANDS                     "cmds"
 #define JABBER_EXT_USER_MOOD                    "mood"
@@ -296,9 +297,20 @@ public:
 
 struct JabberFeatCapPair
 {
-	const TCHAR *szFeature;
+	LPCTSTR szFeature;
 	JabberCapsBits jcbCap;
-	const TCHAR *tszDescription;
+	LPCTSTR tszDescription;
+};
+
+struct JabberFeatCapPairExt
+{
+	LPCTSTR szFeature;
+	JabberCapsBits jcbCap;
+	LPCSTR szService;
+
+	int Valid() const
+	{	return (szService == NULL) ? true : ServiceExists(szService);
+	}
 };
 
 struct JabberFeatCapPairDynamic
@@ -309,7 +321,7 @@ struct JabberFeatCapPairDynamic
 	TCHAR *szDescription;
 };
 
-extern const JabberFeatCapPair g_JabberFeatCapPairs[];
-extern const JabberFeatCapPair g_JabberFeatCapPairsExt[];
+extern const JabberFeatCapPair    g_JabberFeatCapPairs[];
+extern const JabberFeatCapPairExt g_JabberFeatCapPairsExt[];
 
 #endif
