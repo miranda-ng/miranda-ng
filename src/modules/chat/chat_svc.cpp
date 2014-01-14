@@ -26,7 +26,6 @@ INT_PTR SvcGetChatManager(WPARAM, LPARAM);
 
 #include "chat.h"
 
-BOOL SmileyAddInstalled, PopupInstalled, IEviewInstalled;
 HGENMENU hJoinMenuItem, hLeaveMenuItem;
 CRITICAL_SECTION	cs;
 
@@ -447,8 +446,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	case GC_EVENT_ACTION:
 		if (!gce->bIsMe && gce->pDest->ptszID && gce->ptszText) {
 			SESSION_INFO *si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-			if (si)
-			if (IsHighlighted(si, gce->ptszText))
+			if (si && IsHighlighted(si, gce->ptszText))
 				bIsHighlighted = TRUE;
 		}
 		break;
@@ -530,13 +528,6 @@ static INT_PTR Service_GetAddEventPtr(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ModuleLoad(WPARAM wParam, LPARAM lParam)
-{
-	IEviewInstalled = ServiceExists(MS_IEVIEW_WINDOW);
-	PopupInstalled = ServiceExists(MS_POPUP_ADDPOPUP);
-	return 0;
-}
-
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	char* mods[3] = { "Chat", "ChatFonts" };
@@ -562,13 +553,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
-
-	if (ServiceExists(MS_SMILEYADD_SHOWSELECTION)) {
-		SmileyAddInstalled = TRUE;
-		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
-	}
-
-	ModuleLoad(0, 0);
+	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
 
 	ci.SetAllOffline(TRUE, NULL);
 	return 0;
@@ -595,8 +580,6 @@ void LoadChatModule(void)
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
-	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
-	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 
 	CreateServiceFunction(MS_GC_REGISTER, Service_Register);
 	CreateServiceFunction(MS_GC_NEWSESSION, Service_NewChat);

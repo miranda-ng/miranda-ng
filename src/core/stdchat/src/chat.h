@@ -83,7 +83,7 @@ extern HMENU g_hMenu;
 extern HBRUSH hListBkgBrush, hListSelectedBkgBrush;
 
 extern HINSTANCE g_hInst;
-extern BOOL SmileyAddInstalled;
+extern BOOL SmileyAddInstalled, PopupInstalled;
 
 struct CREOleCallback : public IRichEditOleCallback
 {
@@ -147,18 +147,13 @@ HICON  LoadIconEx(char* pszIcoLibName, BOOL big);
 // services.c
 void   ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
 //tools.c
-TCHAR*        RemoveFormatting(const TCHAR* pszText);
-BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
 int           GetColorIndex(const char* pszModule, COLORREF cr);
 void          CheckColorsInModule(const char* pszModule);
-const TCHAR*  my_strstri(const TCHAR* s1, const TCHAR* s2) ;
 int           GetRichTextLength(HWND hwnd);
-BOOL          IsHighlighted(SESSION_INFO *si, const TCHAR* pszText);
 UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 BOOL          DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
 BOOL          DoEventHook(const TCHAR *pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem);
-BOOL          IsEventSupported(int eventType);
 
 // message.c
 char*         Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);

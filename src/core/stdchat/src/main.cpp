@@ -25,12 +25,12 @@ CLIST_INTERFACE *pcli;
 CHAT_MANAGER *pci;
 
 SESSION_INFO g_TabSession;
+HMENU g_hMenu = NULL;
 
-HINSTANCE   g_hInst;
-HMENU       g_hMenu = NULL;
-int         hLangpack;
+HINSTANCE g_hInst;
+int hLangpack;
 
-BOOL IEviewInstalled = FALSE, SmileyAddInstalled = FALSE, PopupInstalled = FALSE;
+BOOL SmileyAddInstalled = FALSE, PopupInstalled = FALSE;
 HBRUSH hListBkgBrush = NULL, hListSelectedBkgBrush = NULL;
 
 GlobalLogSettings g_Settings;

@@ -23,10 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_fontservice.h>
 
-extern HBRUSH       hListBkgBrush;
-extern HBRUSH       hListSelectedBkgBrush;
-extern BOOL         PopupInstalled;
-
 struct branch_t
 {
 	const TCHAR* szDescr;
@@ -181,19 +177,17 @@ static void FillBranch(HWND hwndTree, HTREEITEM hParent, const struct branch_t *
 static void SaveBranch(HWND hwndTree, const struct branch_t *branch, HTREEITEM *hItemB, int nValues)
 {
 	TVITEM tvi;
-	BYTE bChecked;
-	int i;
 	int iState = 0;
 
 	tvi.mask=TVIF_HANDLE|TVIF_STATE;
-	for (i=0;i<nValues;i++) {
+	for (int i = 0; i < nValues; i++) {
 		tvi.hItem = hItemB[i];
 		TreeView_GetItem(hwndTree,&tvi);
-		bChecked = ((tvi.state&TVIS_STATEIMAGEMASK)>>12==1)?0:1;
-		if(branch[i].iMode) {
+		BYTE bChecked = (((tvi.state & TVIS_STATEIMAGEMASK) >> 12) == 1) ? 0 : 1;
+		if (branch[i].iMode) {
 			if (bChecked)
 				iState |= branch[i].iMode;
-			if (iState&GC_EVENT_ADDSTATUS)
+			if (iState & GC_EVENT_ADDSTATUS)
 				iState |= GC_EVENT_REMOVESTATUS;
 			db_set_dw(NULL, "Chat", branch[i].szDBName, (DWORD)iState);
 		}
