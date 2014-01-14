@@ -22,35 +22,31 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //globals
 CLIST_INTERFACE *pcli;
+CHAT_MANAGER *pci;
+
+SESSION_INFO g_TabSession;
 
 HINSTANCE   g_hInst;
 HANDLE      g_hWindowList;
 HMENU       g_hMenu = NULL;
 int         hLangpack;
 
-FONTINFO    aFonts[OPTIONS_FONTCOUNT];
-HICON       hIcons[30];
 BOOL        IEviewInstalled = FALSE;
-HBRUSH      hListBkgBrush = NULL;
 BOOL        SmileyAddInstalled = FALSE;
 BOOL        PopupInstalled = FALSE;
-HBRUSH      hEditBkgBrush = NULL;
+
+HBRUSH      hListBkgBrush = NULL;
 HBRUSH      hListSelectedBkgBrush = NULL;
 
-HIMAGELIST  hImageList = NULL;
+HANDLE hBuildMenuEvent, hSendEvent;
 
-HIMAGELIST  hIconsList = NULL;
-
-TCHAR*      pszActiveWndID = 0;
-char*       pszActiveWndModule = 0;
+GlobalLogSettings g_Settings;
 
 /* Missing MinGW GUIDs */
 #ifdef __MINGW32__
 const CLSID IID_IRichEditOle = { 0x00020D00, 0x00, 0x00, { 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46 } };
 const CLSID IID_IRichEditOleCallback = { 0x00020D03, 0x00, 0x00, { 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46 } };
 #endif
-
-struct GlobalLogSettings_t g_Settings;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -78,18 +74,229 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CHAT, MIID_LAST};
 
+int OnShutdown(WPARAM, LPARAM)
+{
+	TabM_RemoveAll();
+	return 0;
+}
+
+void TabsInit(void)
+{
+	ZeroMemory(&g_TabSession, sizeof(SESSION_INFO));
+	g_TabSession.iType = GCW_TABROOM;
+	g_TabSession.iSplitterX = g_Settings.iSplitterX;
+	g_TabSession.iSplitterY = g_Settings.iSplitterY;
+	g_TabSession.iLogFilterFlags = (int)db_get_dw(NULL, "Chat", "FilterFlags", 0x03E0);
+	g_TabSession.bFilterEnabled = db_get_b(NULL, "Chat", "FilterEnabled", 0);
+	g_TabSession.bNicklistEnabled = db_get_b(NULL, "Chat", "ShowNicklist", 1);
+	g_TabSession.iFG = 4;
+	g_TabSession.bFGSet = TRUE;
+	g_TabSession.iBG = 2;
+	g_TabSession.bBGSet = TRUE;
+
+	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
+}
+
+static void OnAddLog(SESSION_INFO *si, int isOk)
+{
+	if (isOk && si->hWnd) {
+		g_TabSession.pLog = si->pLog;
+		g_TabSession.pLogEnd = si->pLogEnd;
+		SendMessage(si->hWnd, GC_ADDLOG, 0, 0);
+	}
+	else if (si->hWnd) {
+		g_TabSession.pLog = si->pLog;
+		g_TabSession.pLogEnd = si->pLogEnd;
+		SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
+	}
+}
+
+static void OnClearLog(SESSION_INFO *si)
+{
+	if (si->hWnd) {
+		g_TabSession.pLog = si->pLog;
+		g_TabSession.pLogEnd = si->pLogEnd;
+	}
+}
+
+static void OnSessionDblClick(SESSION_INFO *si)
+{
+	if (g_Settings.TabsEnable)
+		SendMessage(si->hWnd, GC_REMOVETAB, 1, (LPARAM)si);
+	else
+		PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
+}
+
+static void OnSessionRemove(SESSION_INFO *si)
+{
+	if (!g_Settings.TabsEnable) {
+		if (si->hWnd)
+			SendMessage(si->hWnd, GC_EVENT_CONTROL + WM_USER + 500, SESSION_TERMINATE, 0);
+	}
+	else if (g_TabSession.hWnd)
+		SendMessage(g_TabSession.hWnd, GC_REMOVETAB, 1, (LPARAM)si);
+
+	if (si->hWnd)
+		g_TabSession.nUsersInNicklist = 0;
+}
+
+static void OnSessionRename(SESSION_INFO *si)
+{
+	if (g_TabSession.hWnd && g_Settings.TabsEnable) {
+		g_TabSession.ptszName = si->ptszName;
+		SendMessage(g_TabSession.hWnd, GC_SESSIONNAMECHANGE, 0, (LPARAM)si);
+	}
+}
+
+static void OnSessionReplace(SESSION_INFO *si)
+{
+	if (si->hWnd)
+		g_TabSession.nUsersInNicklist = 0;
+
+	if (!g_Settings.TabsEnable) {
+		if (si->hWnd)
+			RedrawWindow(GetDlgItem(si->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
+	}
+	else if (g_TabSession.hWnd)
+		RedrawWindow(GetDlgItem(g_TabSession.hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
+}
+
+static void OnSessionOffline(SESSION_INFO *si)
+{
+	if (si->hWnd) {
+		g_TabSession.nUsersInNicklist = 0;
+		if (g_Settings.TabsEnable)
+			g_TabSession.pUsers = 0;
+	}
+}
+
+static void OnEventBroadcast(SESSION_INFO *si, GCEVENT *gce)
+{
+	if (pci->SM_AddEvent(si->ptszID, si->pszModule, gce, FALSE) && si->hWnd && si->bInitDone) {
+		g_TabSession.pLog = si->pLog;
+		g_TabSession.pLogEnd = si->pLogEnd;
+		SendMessage(si->hWnd, GC_ADDLOG, 0, 0);
+	}
+	else if (si->hWnd && si->bInitDone) {
+		g_TabSession.pLog = si->pLog;
+		g_TabSession.pLogEnd = si->pLogEnd;
+		SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
+	}
+}
+
+static void OnSetStatusBar(SESSION_INFO *si)
+{
+	if (si->hWnd) {
+		g_TabSession.ptszStatusbarText = si->ptszStatusbarText;
+		SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
+	}
+}
+
+static void OnAddUser(SESSION_INFO *si, USERINFO*)
+{
+	if (si->hWnd)
+		g_TabSession.nUsersInNicklist++;
+}
+
+static void OnNewUser(SESSION_INFO *si, USERINFO*)
+{
+	if (si->hWnd) {
+		g_TabSession.pUsers = si->pUsers;
+		SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
+	}
+}
+
+static void OnRemoveUser(SESSION_INFO *si, USERINFO*)
+{
+	if (si->hWnd) {
+		g_TabSession.pUsers = si->pUsers;
+		g_TabSession.nUsersInNicklist--;
+	}
+}
+
+static void OnAddStatus(SESSION_INFO *si, STATUSINFO*)
+{
+	if (g_Settings.TabsEnable && si->hWnd)
+		g_TabSession.pStatuses = si->pStatuses;
+}
+
+static void OnSetStatus(SESSION_INFO *si, int wStatus)
+{
+	if (g_Settings.TabsEnable) {
+		if (si->hWnd)
+			g_TabSession.wStatus = wStatus;
+		if (g_TabSession.hWnd)
+			PostMessage(g_TabSession.hWnd, GC_FIXTABICONS, 0, (LPARAM)si);
+	}
+}
+
+static void OnSetTopic(SESSION_INFO *si)
+{
+	if (si->hWnd)
+		g_TabSession.ptszTopic = si->ptszTopic;
+}	
+
+static void OnFlashWindow(SESSION_INFO *si, int bInactive)
+{
+	if (!bInactive)
+		return;
+	
+	if (!g_Settings.TabsEnable && si->hWnd && db_get_b(NULL, "Chat", "FlashWindowHighlight", 0) != 0)
+		SetTimer(si->hWnd, TIMERID_FLASHWND, 900, NULL);
+	if (g_Settings.TabsEnable && g_TabSession.hWnd)
+		SendMessage(g_TabSession.hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
+}
+
+static void OnLoadSettings()
+{
+	g_Settings.TabsEnable = db_get_b(NULL, "Chat", "Tabs", 1);
+	g_Settings.TabRestore = db_get_b(NULL, "Chat", "TabRestore", 0);
+	g_Settings.TabsAtBottom = db_get_b(NULL, "Chat", "TabBottom", 0);
+	g_Settings.TabCloseOnDblClick = db_get_b(NULL, "Chat", "TabCloseOnDblClick", 0);
+
+	if (hListBkgBrush != NULL)
+		DeleteObject(hListBkgBrush);
+	hListBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorNicklistBG", GetSysColor(COLOR_WINDOW)));
+
+	if (hListSelectedBkgBrush != NULL)
+		DeleteObject(hListSelectedBkgBrush);
+	hListSelectedBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT)));
+}
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	// set the memory & utf8 managers
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
 	mir_getCLI();
-
-	UpgradeCheck();
+	
+	mir_getCI();
+	pci->pSettings = &g_Settings;
+	pci->OnAddUser = OnAddUser;
+	pci->OnNewUser = OnNewUser;
+	pci->OnRemoveUser = OnRemoveUser;
+	
+	pci->OnAddStatus = OnAddStatus;
+	pci->OnSetStatus = OnSetStatus;
+	pci->OnSetTopic = OnSetTopic;
+	
+	pci->OnAddLog = OnAddLog;
+	pci->OnClearLog = OnClearLog;
+	
+	pci->OnSessionOffline = OnSessionOffline;
+	pci->OnSessionRemove = OnSessionRemove;
+	pci->OnSessionRename = OnSessionRename;
+	pci->OnSessionReplace = OnSessionReplace;
+	pci->OnSessionDblClick = OnSessionDblClick;
+	
+	pci->OnEventBroadcast = OnEventBroadcast;
+	pci->OnLoadSettings = OnLoadSettings;
+	pci->OnSetStatusBar = OnSetStatusBar;
+	pci->OnFlashWindow = OnFlashWindow;
+	pci->ShowRoom = ShowRoom;
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
-	HookEvents();
-	CreateServiceFunctions();
-	CreateHookableEvents();
+	AddIcons();
+	LoadIcons();
 	OptionsInit();
 	TabsInit();
 	return 0;
@@ -104,95 +311,51 @@ extern "C" __declspec(dllexport) int Unload(void)
 	db_set_dw(NULL, "Chat", "roomwidth" , g_Settings.iWidth);
 	db_set_dw(NULL, "Chat", "roomheight", g_Settings.iHeight);
 
-	CList_SetAllOffline(TRUE, NULL);
-
-	mir_free(pszActiveWndID);
-	mir_free(pszActiveWndModule);
-
 	DestroyMenu(g_hMenu);
-	DestroyHookableEvents();
-	FreeIcons();
 	OptionsUnInit();
-	UnhookEvents();
 	return 0;
-}
-
-void UpgradeCheck(void)
-{
-	DWORD dwVersion = db_get_dw(NULL, "Chat", "OldVersion", PLUGIN_MAKE_VERSION(0,2,9,9));
-	if (pluginInfo.version > dwVersion && dwVersion < PLUGIN_MAKE_VERSION(0,3,0,0)) {
-		db_unset(NULL, "ChatFonts",	"Font18");
-		db_unset(NULL, "ChatFonts",	"Font18Col");
-		db_unset(NULL, "ChatFonts",	"Font18Set");
-		db_unset(NULL, "ChatFonts",	"Font18Size");
-		db_unset(NULL, "ChatFonts",	"Font18Sty");
-		db_unset(NULL, "ChatFonts",	"Font19");
-		db_unset(NULL, "ChatFonts",	"Font19Col");
-		db_unset(NULL, "ChatFonts",	"Font19Set");
-		db_unset(NULL, "ChatFonts",	"Font19Size");
-		db_unset(NULL, "ChatFonts",	"Font19Sty");
-		db_unset(NULL, "Chat",		"ColorNicklistLines");
-		db_unset(NULL, "Chat",		"NicklistIndent");
-		db_unset(NULL, "Chat",		"NicklistRowDist");
-		db_unset(NULL, "Chat",		"ShowFormatButtons");
-		db_unset(NULL, "Chat",		"ShowLines");
-		db_unset(NULL, "Chat",		"ShowName");
-		db_unset(NULL, "Chat",		"ShowTopButtons");
-		db_unset(NULL, "Chat",		"SplitterX");
-		db_unset(NULL, "Chat",		"SplitterY");
-		db_unset(NULL, "Chat",		"IconFlags");
-		db_unset(NULL, "Chat",		"LogIndentEnabled");
-	}
-
-	db_set_dw(NULL, "Chat", "OldVersion", pluginInfo.version);
 }
 
 void LoadLogIcons(void)
 {
-	hIcons[ICON_ACTION]     = LoadIconEx( "log_action", FALSE );
-	hIcons[ICON_ADDSTATUS]  = LoadIconEx( "log_addstatus", FALSE );
-	hIcons[ICON_HIGHLIGHT]  = LoadIconEx( "log_highlight", FALSE );
-	hIcons[ICON_INFO]       = LoadIconEx( "log_info", FALSE );
-	hIcons[ICON_JOIN]       = LoadIconEx( "log_join", FALSE );
-	hIcons[ICON_KICK]       = LoadIconEx( "log_kick", FALSE );
-	hIcons[ICON_MESSAGE]    = LoadIconEx( "log_message_in", FALSE );
-	hIcons[ICON_MESSAGEOUT] = LoadIconEx( "log_message_out", FALSE );
-	hIcons[ICON_NICK]       = LoadIconEx( "log_nick", FALSE );
-	hIcons[ICON_NOTICE]     = LoadIconEx( "log_notice", FALSE );
-	hIcons[ICON_PART]       = LoadIconEx( "log_part", FALSE );
-	hIcons[ICON_QUIT]       = LoadIconEx( "log_quit", FALSE );
-	hIcons[ICON_REMSTATUS]  = LoadIconEx( "log_removestatus", FALSE );
-	hIcons[ICON_TOPIC]      = LoadIconEx( "log_topic", FALSE );
-	hIcons[ICON_STATUS1]    = LoadIconEx( "status1", FALSE );
-	hIcons[ICON_STATUS2]    = LoadIconEx( "status2", FALSE );
-	hIcons[ICON_STATUS3]    = LoadIconEx( "status3", FALSE );
-	hIcons[ICON_STATUS4]    = LoadIconEx( "status4", FALSE );
-	hIcons[ICON_STATUS0]    = LoadIconEx( "status0", FALSE );
-	hIcons[ICON_STATUS5]    = LoadIconEx( "status5", FALSE );
+	pci->hIcons[ICON_ACTION]     = LoadIconEx("log_action", FALSE);
+	pci->hIcons[ICON_ADDSTATUS]  = LoadIconEx("log_addstatus", FALSE);
+	pci->hIcons[ICON_HIGHLIGHT]  = LoadIconEx("log_highlight", FALSE);
+	pci->hIcons[ICON_INFO]       = LoadIconEx("log_info", FALSE);
+	pci->hIcons[ICON_JOIN]       = LoadIconEx("log_join", FALSE);
+	pci->hIcons[ICON_KICK]       = LoadIconEx("log_kick", FALSE);
+	pci->hIcons[ICON_MESSAGE]    = LoadIconEx("log_message_in", FALSE);
+	pci->hIcons[ICON_MESSAGEOUT] = LoadIconEx("log_message_out", FALSE);
+	pci->hIcons[ICON_NICK]       = LoadIconEx("log_nick", FALSE);
+	pci->hIcons[ICON_NOTICE]     = LoadIconEx("log_notice", FALSE);
+	pci->hIcons[ICON_PART]       = LoadIconEx("log_part", FALSE);
+	pci->hIcons[ICON_QUIT]       = LoadIconEx("log_quit", FALSE);
+	pci->hIcons[ICON_REMSTATUS]  = LoadIconEx("log_removestatus", FALSE);
+	pci->hIcons[ICON_TOPIC]      = LoadIconEx("log_topic", FALSE);
+	pci->hIcons[ICON_STATUS1]    = LoadIconEx("status1", FALSE);
+	pci->hIcons[ICON_STATUS2]    = LoadIconEx("status2", FALSE);
+	pci->hIcons[ICON_STATUS3]    = LoadIconEx("status3", FALSE);
+	pci->hIcons[ICON_STATUS4]    = LoadIconEx("status4", FALSE);
+	pci->hIcons[ICON_STATUS0]    = LoadIconEx("status0", FALSE);
+	pci->hIcons[ICON_STATUS5]    = LoadIconEx("status5", FALSE);
 }
 
 void LoadIcons(void)
 {
-	memset(hIcons, 0, sizeof(hIcons));
+	memset(pci->hIcons, 0, sizeof(pci->hIcons));
 
 	LoadLogIcons();
-	LoadMsgLogBitmaps();
 
-	hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 3);
-	hIconsList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 100);
-	ImageList_AddIcon(hIconsList,LoadSkinnedIcon( SKINICON_EVENT_MESSAGE));
-	ImageList_AddIcon(hIconsList,LoadIconEx( "overlay", FALSE ));
-	ImageList_SetOverlayImage(hIconsList, 1, 1);
-	ImageList_AddIcon(hImageList, (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0));
-	ImageList_AddIcon(hImageList, (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0));
+	pci->hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 3);
+	pci->hIconsList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 100);
+	ImageList_AddIcon(pci->hIconsList, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
+	ImageList_AddIcon(pci->hIconsList, LoadIconEx("overlay", FALSE));
+	ImageList_SetOverlayImage(pci->hIconsList, 1, 1);
+	ImageList_AddIcon(pci->hImageList, (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0));
+	ImageList_AddIcon(pci->hImageList, (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0));
 }
 
-void FreeIcons(void)
-{
-	FreeMsgLogBitmaps();
-	ImageList_Destroy(hImageList);
-	ImageList_Destroy(hIconsList);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 CREOleCallback reOleCallback;
 

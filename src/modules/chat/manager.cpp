@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	STATUSICONCOUNT 6
 
 SESSION_INFO *m_WndList = 0;
-TABLIST      *g_TabList = 0;
 MODULEINFO   *m_ModList = 0;
 
 static void SetActiveSessionEx(SESSION_INFO *si)
@@ -87,27 +86,17 @@ static SESSION_INFO* SM_AddSession(const TCHAR *pszID, const char* pszModule)
 
 static int SM_RemoveSession(const TCHAR *pszID, const char* pszModule, BOOL removeContact)
 {
-	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
-
 	if (!pszModule)
 		return FALSE;
 
+	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 	while (pTemp != NULL) {
-		if ((!pszID && pTemp->iType != GCW_SERVER || !lstrcmpi(pTemp->ptszID, pszID)) && !lstrcmpiA(pTemp->pszModule, pszModule)) // match
-		{
-			COMMANDINFO *pCurComm;
+		// match
+		if ((!pszID && pTemp->iType != GCW_SERVER || !lstrcmpi(pTemp->ptszID, pszID)) && !lstrcmpiA(pTemp->pszModule, pszModule)) {
 			DWORD dw = pTemp->dwItemData;
 
-			if (!ci.pSettings->TabsEnable) {
-				if (pTemp->hWnd)
-					SendMessage(pTemp->hWnd, GC_EVENT_CONTROL + WM_USER + 500, SESSION_TERMINATE, 0);
-			}
-			else if (ci.tabSession.hWnd)
-				SendMessage(ci.tabSession.hWnd, GC_REMOVETAB, 1, (LPARAM)pTemp);
-
-			if (pTemp->hWnd)
-				ci.tabSession.nUsersInNicklist = 0;
-
+			if (ci.OnSessionRemove)
+				ci.OnSessionRemove(pTemp);
 			DoEventHook(pTemp->ptszID, pTemp->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (DWORD)pTemp->dwItemData);
 
 			if (pLast == NULL)
@@ -124,7 +113,7 @@ static int SM_RemoveSession(const TCHAR *pszID, const char* pszModule, BOOL remo
 			// contact may have been deleted here already, since function may be called after deleting
 			// contact so the handle may be invalid, therefore db_get_b shall return 0
 			if (pTemp->hContact && db_get_b(pTemp->hContact, pTemp->pszModule, "ChatRoom", 0) != 0) {
-				CList_SetOffline(pTemp->hContact, pTemp->iType == GCW_CHATROOM ? TRUE : FALSE);
+				ci.SetOffline(pTemp->hContact, pTemp->iType == GCW_CHATROOM ? TRUE : FALSE);
 				db_set_s(pTemp->hContact, pTemp->pszModule, "Topic", "");
 				db_set_s(pTemp->hContact, pTemp->pszModule, "StatusBar", "");
 				db_unset(pTemp->hContact, "CList", "StatusMsg");
@@ -142,7 +131,7 @@ static int SM_RemoveSession(const TCHAR *pszID, const char* pszModule, BOOL remo
 			mir_free(pTemp->pszName);
 
 			// delete commands
-			pCurComm = pTemp->lpCommands;
+			COMMANDINFO *pCurComm = pTemp->lpCommands;
 			while (pCurComm != NULL) {
 				COMMANDINFO *pNext = pCurComm->next;
 				mir_free(pCurComm->lpCommand);
@@ -168,11 +157,10 @@ static int SM_RemoveSession(const TCHAR *pszID, const char* pszModule, BOOL remo
 
 static SESSION_INFO* SM_FindSession(const TCHAR *pszID, const char* pszModule)
 {
-	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
-
 	if (!pszID || !pszModule)
 		return NULL;
 
+	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 	while (pTemp != NULL) {
 		if (!lstrcmpi(pTemp->ptszID, pszID) && !lstrcmpiA(pTemp->pszModule, pszModule))
 			return pTemp;
@@ -185,22 +173,18 @@ static SESSION_INFO* SM_FindSession(const TCHAR *pszID, const char* pszModule)
 
 static BOOL SM_SetOffline(const TCHAR *pszID, const char* pszModule)
 {
-	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
-
 	if (!pszModule)
 		return FALSE;
 
+	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 	while (pTemp != NULL) {
 		if ((!pszID || !lstrcmpi(pTemp->ptszID, pszID)) && !lstrcmpiA(pTemp->pszModule, pszModule)) {
 			ci.UM_RemoveAll(&pTemp->pUsers);
 			pTemp->nUsersInNicklist = 0;
-			if (pTemp->hWnd)
-				ci.tabSession.nUsersInNicklist = 0;
 			if (pTemp->iType != GCW_SERVER)
 				pTemp->bInitDone = FALSE;
-			if (ci.pSettings->TabsEnable && pTemp->hWnd)
-				ci.tabSession.pUsers = 0;
-
+			if (ci.OnSessionOffline)
+				ci.OnSessionOffline(pTemp);
 			if (pszID)
 				return TRUE;
 		}
@@ -267,18 +251,12 @@ static BOOL SM_AddEventToAllMatchingUID(GCEVENT *gce)
 		if (!lstrcmpiA(pTemp->pszModule, gce->pDest->pszModule)) {
 			if (ci.UM_FindUser(pTemp->pUsers, gce->ptszUID)) {
 				if (pTemp->bInitDone) {
-					if (ci.SM_AddEvent(pTemp->ptszID, pTemp->pszModule, gce, FALSE) && pTemp->hWnd && pTemp->bInitDone) {
-						ci.tabSession.pLog = pTemp->pLog;
-						ci.tabSession.pLogEnd = pTemp->pLogEnd;
-						SendMessage(pTemp->hWnd, GC_ADDLOG, 0, 0);
-					}
-					else if (pTemp->hWnd && pTemp->bInitDone) {
-						ci.tabSession.pLog = pTemp->pLog;
-						ci.tabSession.pLogEnd = pTemp->pLogEnd;
-						SendMessage(pTemp->hWnd, GC_REDRAWLOG2, 0, 0);
-					}
+					if (ci.OnEventBroadcast)
+						ci.OnEventBroadcast(pTemp, gce);
+
 					if (!(gce->dwFlags & GCEF_NOTNOTIFY))
 						DoSoundsFlashPopupTrayStuff(pTemp, gce, FALSE, bManyFix);
+
 					bManyFix++;
 					if ((gce->dwFlags & GCEF_ADDTOLOG) && ci.pSettings->LoggingEnabled)
 						LogToFile(pTemp, gce);
@@ -339,8 +317,8 @@ static USERINFO* SM_AddUser(const TCHAR *pszID, const char* pszModule, const TCH
 		if (!lstrcmpi(pTemp->ptszID, pszID) && !lstrcmpiA(pTemp->pszModule, pszModule)) {
 			USERINFO *p = ci.UM_AddUser(pTemp->pStatuses, &pTemp->pUsers, pszUID, pszNick, wStatus);
 			pTemp->nUsersInNicklist++;
-			if (pTemp->hWnd)
-				ci.tabSession.nUsersInNicklist++;
+			if (ci.OnAddUser)
+				ci.OnAddUser(pTemp, p);
 			return p;
 		}
 		pLast = pTemp;
@@ -381,10 +359,8 @@ static BOOL SM_RemoveUser(const TCHAR *pszID, const char* pszModule, const TCHAR
 			USERINFO *ui = ci.UM_FindUser(pTemp->pUsers, pszUID);
 			if (ui) {
 				pTemp->nUsersInNicklist--;
-				if (pTemp->hWnd) {
-					ci.tabSession.pUsers = pTemp->pUsers;
-					ci.tabSession.nUsersInNicklist--;
-				}
+				if (ci.OnRemoveUser)
+					ci.OnRemoveUser(pTemp, ui);
 
 				dw = ci.UM_RemoveUser(&pTemp->pUsers, pszUID);
 
@@ -420,7 +396,7 @@ static USERINFO* SM_GetUserFromIndex(const TCHAR *pszID, const char* pszModule, 
 }
 
 
-STATUSINFO * SM_AddStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszStatus)
+STATUSINFO* SM_AddStatus(const TCHAR *pszID, const char* pszModule, const TCHAR* pszStatus)
 {
 	SESSION_INFO *pTemp = m_WndList, *pLast = NULL;
 
@@ -432,8 +408,8 @@ STATUSINFO * SM_AddStatus(const TCHAR *pszID, const char* pszModule, const TCHAR
 			STATUSINFO *ti = ci.TM_AddStatus(&pTemp->pStatuses, pszStatus, &pTemp->iStatusCount);
 			if (ti)
 				pTemp->iStatusCount++;
-			if (ci.pSettings->TabsEnable && pTemp->hWnd)
-				ci.tabSession.pStatuses = pTemp->pStatuses;
+			if (ci.OnAddStatus)
+				ci.OnAddStatus(pTemp, ti);
 			return ti;
 		}
 		pLast = pTemp;
@@ -585,9 +561,6 @@ static BOOL SM_SetStatus(const TCHAR *pszID, const char* pszModule, int wStatus)
 	while (pTemp != NULL) {
 		if ((!pszID || !lstrcmpi(pTemp->ptszID, pszID)) && !lstrcmpiA(pTemp->pszModule, pszModule)) {
 			pTemp->wStatus = wStatus;
-			if (pTemp->hWnd && ci.pSettings->TabsEnable)
-				ci.tabSession.wStatus = wStatus;
-
 			if (pTemp->hContact) {
 				if (pTemp->iType != GCW_SERVER && wStatus != ID_STATUS_OFFLINE)
 					db_unset(pTemp->hContact, "CList", "Hidden");
@@ -595,8 +568,8 @@ static BOOL SM_SetStatus(const TCHAR *pszID, const char* pszModule, int wStatus)
 				db_set_w(pTemp->hContact, pTemp->pszModule, "Status", (WORD)wStatus);
 			}
 
-			if (ci.pSettings->TabsEnable && ci.tabSession.hWnd)
-				PostMessage(ci.tabSession.hWnd, GC_FIXTABICONS, 0, (LPARAM)pTemp);
+			if (ci.OnSetStatus)
+				ci.OnSetStatus(pTemp, wStatus);
 
 			if (pszID)
 				return TRUE;
@@ -750,7 +723,7 @@ static BOOL SM_RemoveAll(void)
 			SendMessage(m_WndList->hWnd, GC_EVENT_CONTROL + WM_USER + 500, SESSION_TERMINATE, 0);
 		DoEventHook(m_WndList->ptszID, m_WndList->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (DWORD)m_WndList->dwItemData);
 		if (m_WndList->hContact)
-			CList_SetOffline(m_WndList->hContact, m_WndList->iType == GCW_CHATROOM ? TRUE : FALSE);
+			ci.SetOffline(m_WndList->hContact, m_WndList->iType == GCW_CHATROOM ? TRUE : FALSE);
 		db_set_s(m_WndList->hContact, m_WndList->pszModule, "Topic", "");
 		db_unset(m_WndList->hContact, "CList", "StatusMsg");
 		db_set_s(m_WndList->hContact, m_WndList->pszModule, "StatusBar", "");
@@ -1055,50 +1028,6 @@ static BOOL MM_RemoveAll(void)
 		m_ModList = pLast;
 	}
 	m_ModList = NULL;
-	return TRUE;
-}
-
-
-
-//---------------------------------------------------
-//		Tab list manager functions
-//
-//		Necessary to keep track of what tabs should
-//		be restored
-//---------------------------------------------------
-
-static BOOL TabM_AddTab(const TCHAR *pszID, const char* pszModule)
-{
-	TABLIST *node = NULL;
-	if (!pszID || !pszModule)
-		return FALSE;
-
-	node = (TABLIST*)mir_alloc(sizeof(TABLIST));
-	ZeroMemory(node, sizeof(TABLIST));
-	node->pszID = mir_tstrdup(pszID);
-	node->pszModule = mir_strdup(pszModule);
-
-	if (g_TabList == NULL) { // list is empty
-		g_TabList = node;
-		node->next = NULL;
-	}
-	else {
-		node->next = g_TabList;
-		g_TabList = node;
-	}
-	return TRUE;
-}
-
-static BOOL TabM_RemoveAll(void)
-{
-	while (g_TabList != NULL) {
-		TABLIST * pLast = g_TabList->next;
-		mir_free(g_TabList->pszModule);
-		mir_free(g_TabList->pszID);
-		mir_free(g_TabList);
-		g_TabList = pLast;
-	}
-	g_TabList = NULL;
 	return TRUE;
 }
 
@@ -1607,9 +1536,6 @@ CHAT_MANAGER ci =
 	MM_IconsChanged,
 	MM_RemoveAll,
 
-	TabM_AddTab,
-	TabM_RemoveAll,
-
 	TM_AddStatus,
 	TM_FindStatus,
 	TM_StringToWord,
@@ -1630,10 +1556,20 @@ CHAT_MANAGER ci =
 
 	LM_AddEvent,
 	LM_TrimLog,
-	LM_RemoveAll
+	LM_RemoveAll,
+
+	AddRoom,
+	SetOffline,
+	SetAllOffline,
+	AddEvent,
+	FindRoom,
+	NULL, // must be implemented in a plugin
+	Log_CreateRTF,
+	LoadMsgDlgFont
 };
 
 INT_PTR SvcGetChatManager(WPARAM, LPARAM)
 {
+	LoadChatModule();
 	return (INT_PTR)&ci;
 }

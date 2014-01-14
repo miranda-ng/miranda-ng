@@ -205,14 +205,8 @@ static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)
 
 void LoadGlobalSettings(void)
 {
-	LOGFONT lf;
-
 	ci.pSettings->LogLimitNames = db_get_b(NULL, "Chat", "LogLimitNames", 1);
 	ci.pSettings->ShowTime = db_get_b(NULL, "Chat", "ShowTimeStamp", 1);
-	ci.pSettings->TabsEnable = db_get_b(NULL, "Chat", "Tabs", 1);
-	ci.pSettings->TabsAtBottom = db_get_b(NULL, "Chat", "TabBottom", 0);
-	ci.pSettings->TabCloseOnDblClick = db_get_b(NULL, "Chat", "TabCloseOnDblClick", 0);
-	ci.pSettings->TabRestore = db_get_b(NULL, "Chat", "TabRestore", 0);
 	ci.pSettings->SoundsFocus = db_get_b(NULL, "Chat", "SoundsFocus", 0);
 	ci.pSettings->ShowTimeIfChanged = (BOOL)db_get_b(NULL, "Chat", "ShowTimeStampIfChanged", 0);
 	ci.pSettings->TimeStampEventColour = (BOOL)db_get_b(NULL, "Chat", "TimeStampEventColour", 0);
@@ -246,25 +240,24 @@ void LoadGlobalSettings(void)
 	InitSetting(&ci.pSettings->pszOutgoingNick, "HeaderOutgoing", _T("%n:"));
 	InitSetting(&ci.pSettings->pszHighlightWords, "HighlightWords", _T("%m"));
 
-	{
-		TCHAR pszTemp[MAX_PATH];
-		DBVARIANT dbv;
-		ci.pSettings->pszLogDir = (TCHAR *)mir_realloc(ci.pSettings->pszLogDir, MAX_PATH*sizeof(TCHAR));
-		if (!db_get_ts(NULL, "Chat", "LogDirectory", &dbv)) {
-			lstrcpyn(pszTemp, dbv.ptszVal, MAX_PATH);
-			db_free(&dbv);
-		}
-		else {
-			TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_logpath%\\Chat"));
-			lstrcpyn(pszTemp, tmpPath, SIZEOF(pszTemp) - 1);
-			mir_free(tmpPath);
-		}
-
-		PathToAbsoluteT(pszTemp, ci.pSettings->pszLogDir);
+	TCHAR pszTemp[MAX_PATH];
+	DBVARIANT dbv;
+	ci.pSettings->pszLogDir = (TCHAR *)mir_realloc(ci.pSettings->pszLogDir, MAX_PATH*sizeof(TCHAR));
+	if (!db_get_ts(NULL, "Chat", "LogDirectory", &dbv)) {
+		lstrcpyn(pszTemp, dbv.ptszVal, MAX_PATH);
+		db_free(&dbv);
 	}
+	else {
+		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_logpath%\\Chat"));
+		lstrcpyn(pszTemp, tmpPath, SIZEOF(pszTemp) - 1);
+		mir_free(tmpPath);
+	}
+
+	PathToAbsoluteT(pszTemp, ci.pSettings->pszLogDir);
 
 	ci.pSettings->LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
+	LOGFONT lf;
 	if (ci.pSettings->MessageBoxFont)
 		DeleteObject(ci.pSettings->MessageBoxFont);
 	LoadMsgDlgFont(17, &lf, NULL);
@@ -299,17 +292,14 @@ static void FreeGlobalSettings(void)
 
 int GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth)
 {
-	HDC hdc;
-	HFONT hOldFont;
-	RECT rc = { 0 };
-	int i;
-
 	if (!pszText || !hFont)
 		return 0;
 
-	hdc = GetDC(NULL);
-	hOldFont = (HFONT)SelectObject(hdc, hFont);
-	i = DrawText(hdc, pszText, -1, &rc, DT_CALCRECT);
+	HDC hdc = GetDC(NULL);
+	HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
+
+	RECT rc = { 0 };
+	int i = DrawText(hdc, pszText, -1, &rc, DT_CALCRECT);
 	SelectObject(hdc, hOldFont);
 	ReleaseDC(NULL, hdc);
 	return bWidth ? rc.right - rc.left : rc.bottom - rc.top;
@@ -318,6 +308,7 @@ int GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth)
 int OptionsInit(void)
 {
 	LoadLogFonts();
+
 	LOGFONT lf;
 	LoadMsgDlgFont(18, &lf, NULL);
 	lstrcpy(lf.lfFaceName, _T("MS Shell Dlg"));

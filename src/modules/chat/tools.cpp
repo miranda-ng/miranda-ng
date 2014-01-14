@@ -86,7 +86,7 @@ TCHAR* RemoveFormatting(const TCHAR* pszWord)
 static void __stdcall ShowRoomFromPopup(void * pi)
 {
 	SESSION_INFO *si = (SESSION_INFO*)pi;
-	ShowRoom(si, WINDOW_VISIBLE, TRUE);
+	ci.ShowRoom(si, WINDOW_VISIBLE, TRUE);
 }
 
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -170,43 +170,43 @@ static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 		switch (iEvent) {
 		case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 		case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
-			CList_AddEvent(si->hContact, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE), "chaticon", 0, TranslateT("%s wants your attention in %s"), gce->ptszNick, si->ptszName);
+			ci.AddEvent(si->hContact, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE), "chaticon", 0, TranslateT("%s wants your attention in %s"), gce->ptszNick, si->ptszName);
 			break;
 		case GC_EVENT_MESSAGE:
-			CList_AddEvent(si->hContact, ci.hIcons[ICON_MESSAGE], "chaticon", CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
+			ci.AddEvent(si->hContact, ci.hIcons[ICON_MESSAGE], "chaticon", CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
 			break;
 		case GC_EVENT_ACTION:
-			CList_AddEvent(si->hContact, ci.hIcons[ICON_ACTION], "chaticon", CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
+			ci.AddEvent(si->hContact, ci.hIcons[ICON_ACTION], "chaticon", CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
 			break;
 		case GC_EVENT_JOIN:
-			CList_AddEvent(si->hContact, ci.hIcons[ICON_JOIN], "chaticon", CLEF_ONLYAFEW, TranslateT("%s has joined %s"), gce->ptszNick, si->ptszName);
+			ci.AddEvent(si->hContact, ci.hIcons[ICON_JOIN], "chaticon", CLEF_ONLYAFEW, TranslateT("%s has joined %s"), gce->ptszNick, si->ptszName);
 			break;
 		case GC_EVENT_PART:
-			CList_AddEvent(si->hContact, ci.hIcons[ICON_PART], "chaticon", CLEF_ONLYAFEW, TranslateT("%s has left %s"), gce->ptszNick, si->ptszName);
+			ci.AddEvent(si->hContact, ci.hIcons[ICON_PART], "chaticon", CLEF_ONLYAFEW, TranslateT("%s has left %s"), gce->ptszNick, si->ptszName);
 			break;
 		case GC_EVENT_QUIT:
-			CList_AddEvent(si->hContact, ci.hIcons[ICON_QUIT], "chaticon", CLEF_ONLYAFEW, TranslateT("%s has disconnected"), gce->ptszNick);
+			ci.AddEvent(si->hContact, ci.hIcons[ICON_QUIT], "chaticon", CLEF_ONLYAFEW, TranslateT("%s has disconnected"), gce->ptszNick);
 			break;
 		case GC_EVENT_NICK:
-			CList_AddEvent(si->hContact, ci.hIcons[ICON_NICK], "chaticon", CLEF_ONLYAFEW, TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
+			ci.AddEvent(si->hContact, ci.hIcons[ICON_NICK], "chaticon", CLEF_ONLYAFEW, TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
 			break;
 		case GC_EVENT_KICK:
-			CList_AddEvent(si->hContact, ci.hIcons[ICON_KICK], "chaticon", CLEF_ONLYAFEW, TranslateT("%s kicked %s from %s"), gce->ptszStatus, gce->ptszNick, si->ptszName);
+			ci.AddEvent(si->hContact, ci.hIcons[ICON_KICK], "chaticon", CLEF_ONLYAFEW, TranslateT("%s kicked %s from %s"), gce->ptszStatus, gce->ptszNick, si->ptszName);
 			break;
 		case GC_EVENT_NOTICE:
-			CList_AddEvent(si->hContact, ci.hIcons[ICON_NOTICE], "chaticon", CLEF_ONLYAFEW, TranslateT("Notice from %s"), gce->ptszNick);
+			ci.AddEvent(si->hContact, ci.hIcons[ICON_NOTICE], "chaticon", CLEF_ONLYAFEW, TranslateT("Notice from %s"), gce->ptszNick);
 			break;
 		case GC_EVENT_TOPIC:
-			CList_AddEvent(si->hContact, ci.hIcons[ICON_TOPIC], "chaticon", CLEF_ONLYAFEW, TranslateT("Topic change in %s"), si->ptszName);
+			ci.AddEvent(si->hContact, ci.hIcons[ICON_TOPIC], "chaticon", CLEF_ONLYAFEW, TranslateT("Topic change in %s"), si->ptszName);
 			break;
 		case GC_EVENT_INFORMATION:
-			CList_AddEvent(si->hContact, ci.hIcons[ICON_INFO], "chaticon", CLEF_ONLYAFEW, TranslateT("Information in %s"), si->ptszName);
+			ci.AddEvent(si->hContact, ci.hIcons[ICON_INFO], "chaticon", CLEF_ONLYAFEW, TranslateT("Information in %s"), si->ptszName);
 			break;
 		case GC_EVENT_ADDSTATUS:
-			CList_AddEvent(si->hContact, ci.hIcons[ICON_ADDSTATUS], "chaticon", CLEF_ONLYAFEW, TranslateT("%s enables \'%s\' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
+			ci.AddEvent(si->hContact, ci.hIcons[ICON_ADDSTATUS], "chaticon", CLEF_ONLYAFEW, TranslateT("%s enables \'%s\' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
 			break;
 		case GC_EVENT_REMOVESTATUS:
-			CList_AddEvent(si->hContact, ci.hIcons[ICON_REMSTATUS], "chaticon", CLEF_ONLYAFEW, TranslateT("%s disables \'%s\' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
+			ci.AddEvent(si->hContact, ci.hIcons[ICON_REMSTATUS], "chaticon", CLEF_ONLYAFEW, TranslateT("%s disables \'%s\' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
 			break;
 		}
 	}
@@ -286,7 +286,6 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		return FALSE;
 
 	BOOL bInactive = si->hWnd == NULL || GetForegroundWindow() != si->hWnd;
-	// bInactive |=  GetActiveWindow() != si->hWnd; // Removed this, because it seemed to be FALSE, even when window was focused, causing incorrect notifications
 
 	int iEvent = gce->pDest->iType;
 
@@ -294,16 +293,14 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;
 		if (bInactive || !ci.pSettings->SoundsFocus)
 			SkinPlaySound("ChatHighlight");
-		if (!ci.pSettings->TabsEnable && bInactive && si->hWnd && db_get_b(NULL, "Chat", "FlashWindowHighlight", 0) != 0)
-			SetTimer(si->hWnd, TIMERID_FLASHWND, 900, NULL);
 		if (db_get_b(si->hContact, "CList", "Hidden", 0) != 0)
 			db_unset(si->hContact, "CList", "Hidden");
 		if (bInactive)
 			DoTrayIcon(si, gce);
 		if (bInactive || !ci.pSettings->PopupInactiveOnly)
 			DoPopup(si, gce);
-		if (ci.pSettings->TabsEnable && bInactive && ci.tabSession.hWnd)
-			SendMessage(ci.tabSession.hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
+		if (ci.OnFlashWindow)
+			ci.OnFlashWindow(si, bInactive);
 		return TRUE;
 	}
 
@@ -343,15 +340,13 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		case GC_EVENT_MESSAGE:
 			if (bInactive || !ci.pSettings->SoundsFocus)
 				SkinPlaySound("ChatMessage");
-			if (!ci.pSettings->TabsEnable && bInactive && ci.pSettings->FlashWindow && si->hWnd)
-				SetTimer(si->hWnd, TIMERID_FLASHWND, 900, NULL);
 
 			if (bInactive && !(si->wState & STATE_TALK)) {
 				si->wState |= STATE_TALK;
 				db_set_w(si->hContact, si->pszModule, "ApparentMode", (LPARAM)(WORD)40071);
 			}
-			if (ci.pSettings->TabsEnable && bInactive && ci.tabSession.hWnd)
-				SendMessage(ci.tabSession.hWnd, GC_SETTABHIGHLIGHT, 0, (LPARAM)si);
+			if (ci.OnFlashWindow)
+				ci.OnFlashWindow(si, bInactive);
 			break;
 		case GC_EVENT_ACTION:
 			if (bInactive || !ci.pSettings->SoundsFocus)
@@ -491,11 +486,8 @@ BOOL IsHighlighted(SESSION_INFO *si, const TCHAR* pszText)
 						p2 += 1;
 					p3 = p2;
 
-					CharLower(szWord1);
-					CharLower(szWord2);
-
 					// compare the words, using wildcards
-					if (WCCmp(szWord1, RemoveFormatting(szWord2)))
+					if (wildcmpit(szWord1, RemoveFormatting(szWord2)))
 						return TRUE;
 				}
 			}

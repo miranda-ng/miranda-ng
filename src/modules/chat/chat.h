@@ -36,26 +36,27 @@ extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
 extern HANDLE hChatSendEvent;
 extern BOOL PopupInstalled;
 
-//log.c
+// log.c
 void   LoadMsgLogBitmaps(void);
 void   FreeMsgLogBitmaps(void);
-void   ValidateFilename (TCHAR * filename);
-TCHAR* MakeTimeStamp(TCHAR* pszStamp, time_t time);
-char*  Log_CreateRtfHeader(MODULEINFO * mi);
+void   ValidateFilename (TCHAR *filename);
+TCHAR* MakeTimeStamp(TCHAR *pszStamp, time_t time);
+char*  Log_CreateRtfHeader(MODULEINFO *mi);
+char*  Log_CreateRTF(LOGSTREAMDATA *streamData);
 
-//clist.c
-HANDLE        CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType);
-BOOL          CList_SetOffline(HANDLE hContact, BOOL bHide);
-BOOL          CList_SetAllOffline(BOOL bHide, const char *pszModule);
-int           CList_RoomDoubleclicked(WPARAM wParam,LPARAM lParam);
-INT_PTR       CList_EventDoubleclicked(WPARAM wParam,LPARAM lParam);
-INT_PTR       CList_JoinChat(WPARAM wParam, LPARAM lParam);
-INT_PTR       CList_LeaveChat(WPARAM wParam, LPARAM lParam);
-int			  CList_PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
-INT_PTR		  CList_PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam);
-BOOL          CList_AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ... ) ;
-HANDLE        CList_FindRoom (const char* pszModule, const TCHAR* pszRoom) ;
-int           WCCmp(TCHAR* wild, TCHAR*string);
+// clist.c
+BOOL    AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
+HANDLE  AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType);
+HANDLE  FindRoom(const char* pszModule, const TCHAR* pszRoom);
+BOOL    SetAllOffline(BOOL bHide, const char *pszModule);
+BOOL    SetOffline(HANDLE hContact, BOOL bHide);
+
+int     RoomDoubleclicked(WPARAM wParam,LPARAM lParam);
+INT_PTR EventDoubleclicked(WPARAM wParam,LPARAM lParam);
+INT_PTR JoinChat(WPARAM wParam, LPARAM lParam);
+INT_PTR LeaveChat(WPARAM wParam, LPARAM lParam);
+int     PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
+INT_PTR PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam);
 
 // options.c
 int    OptionsInit(void);
@@ -66,28 +67,25 @@ HICON  LoadIconEx(char* pszIcoLibName, BOOL big);
 void   LoadLogFonts(void);
 
 // services.c
-void   HookEvents(void);
-void   UnhookEvents(void);
-void   CreateServiceFunctions(void);
-void   CreateHookableEvents(void);
-void   DestroyHookableEvents(void);
-void   TabsInit(void);
-void   ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
+void   InitChatModule(void);
+void   LoadChatModule(void);
+void   UnloadChatModule(void);
 
-//tools.c
-int           GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth);
-TCHAR*        RemoveFormatting(const TCHAR* pszText);
-BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
-int           GetColorIndex(const char* pszModule, COLORREF cr);
-void          CheckColorsInModule(const char* pszModule);
-const TCHAR*  my_strstri(const TCHAR* s1, const TCHAR* s2) ;
-int           GetRichTextLength(HWND hwnd);
-BOOL          IsHighlighted(SESSION_INFO *si, const TCHAR* pszText);
-UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
-void          DestroyGCMenu(HMENU *hMenu, int iIndex);
-BOOL          DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
-BOOL          DoEventHook(const TCHAR *pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem);
-BOOL          IsEventSupported(int eventType);
-BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
+// tools.c
+int    GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth);
+TCHAR *RemoveFormatting(const TCHAR* pszText);
+BOOL   DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
+int    GetColorIndex(const char* pszModule, COLORREF cr);
+void   CheckColorsInModule(const char* pszModule);
+int    GetRichTextLength(HWND hwnd);
+BOOL   IsHighlighted(SESSION_INFO *si, const TCHAR* pszText);
+UINT   CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
+void   DestroyGCMenu(HMENU *hMenu, int iIndex);
+BOOL   DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
+BOOL   DoEventHook(const TCHAR *pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem);
+BOOL   IsEventSupported(int eventType);
+BOOL   LogToFile(SESSION_INFO *si, GCEVENT *gce);
+
+const TCHAR*  my_strstri(const TCHAR* s1, const TCHAR* s2);
 
 #pragma comment(lib,"comctl32.lib")

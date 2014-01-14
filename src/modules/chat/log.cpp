@@ -28,9 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static PBYTE pLogIconBmpBits[14];
 static int logIconBmpSize[ SIZEOF(pLogIconBmpBits) ];
 
-static int logPixelSY = 0;
-static int logPixelSX = 0;
-
 static int EventToIndex(LOGINFO * lin)
 {
 	switch (lin->iType) {
@@ -85,7 +82,7 @@ static char *Log_SetStyle(int style, int fontindex)
 
 	static char szStyle[128];
 	mir_snprintf(szStyle, SIZEOF(szStyle), "\\f%u\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", 
-		style, style + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / logPixelSY);
+		style, style + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
 	return szStyle;
 }
 
@@ -323,7 +320,7 @@ TCHAR* MakeTimeStamp( TCHAR* pszStamp, time_t time)
 	return szTime;
 }
 
-static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
+char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 {
 	char *buffer, *header;
 	int bufferAlloced, bufferEnd, i, me = 0;
@@ -374,13 +371,13 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE)
 				{
 					iii = lin->bIsHighlighted?16:(lin->bIsMe ? 2 : 1);
-					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / logPixelSY);
+					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
 				}
 				else
 				{
 					iii = lin->bIsHighlighted?16:EventToIndex(lin);
-					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / logPixelSY);
+					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
 				}
 			}
@@ -479,13 +476,10 @@ char* Log_CreateRtfHeader(MODULEINFO * mi)
 
 
 	//get the number of pixels per logical inch
-	{
-		HDC hdc;
-		hdc = GetDC(NULL);
-		logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-		logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
-		ReleaseDC(NULL, hdc);
-	}
+	HDC hdc = GetDC(NULL);
+	ci.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+	ci.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
+	ReleaseDC(NULL, hdc);
 
 	// ### RTF HEADER
 
@@ -512,12 +506,12 @@ char* Log_CreateRtfHeader(MODULEINFO * mi)
 
 		if (ci.pSettings->dwIconFlags)
 		{
-			iIndent += (14*1440)/logPixelSX;
+			iIndent += (14 * 1440) / ci.logPixelSX;
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
 		}
 		if (ci.pSettings->ShowTime)
 		{
-			int iSize = (ci.pSettings->LogTextIndent*1440)/logPixelSX;
+			int iSize = (ci.pSettings->LogTextIndent * 1440) / ci.logPixelSX;
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize );
 			if (ci.pSettings->LogIndentEnabled)
 				iIndent += iSize;

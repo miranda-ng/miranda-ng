@@ -82,7 +82,7 @@ BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
 {
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
-		if ( MM_FindModule( szProto )) {
+		if ( pci->MM_FindModule( szProto )) {
 			if ( !pszModule || ( pszModule && !strcmp( pszModule, szProto ))) {
 				int i = db_get_b(hContact, szProto, "ChatRoom", 0);
 				if ( i != 0 ) {
@@ -104,7 +104,7 @@ int CList_RoomDoubleclicked( WPARAM wParam, LPARAM lParam )
 		return 0;
 
 	szProto = GetContactProto(hContact);
-	if ( MM_FindModule(szProto)) {
+	if ( pci->MM_FindModule(szProto)) {
 		if ( db_get_b( hContact, szProto, "ChatRoom", 0 ) == 0 )
 			return 0;
 
@@ -198,7 +198,7 @@ INT_PTR CList_PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam)
 	return CList_PrebuildContactMenu(wParam, lParam);
 }
 
-BOOL CList_AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ... )
+BOOL pci->AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ... )
 {
 	CLISTEVENT cle = {0};
 	va_list marker;

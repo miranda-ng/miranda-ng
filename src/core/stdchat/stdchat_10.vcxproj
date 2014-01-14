@@ -201,7 +201,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\clist.cpp" />
     <ClCompile Include="src\colorchooser.cpp" />
     <ClCompile Include="src\log.cpp" />
     <ClCompile Include="src\stdafx.cpp">

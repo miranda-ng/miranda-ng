@@ -22,9 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 
-HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType)
+HANDLE AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType)
 {
-	HANDLE hContact = CList_FindRoom(pszModule, pszRoom);
+	HANDLE hContact = ci.FindRoom(pszModule, pszRoom);
 	DBVARIANT dbv;
 	TCHAR pszGroup[50];
 
@@ -67,7 +67,7 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 	return hContact;
 }
 
-BOOL CList_SetOffline(HANDLE hContact, BOOL bHide)
+BOOL SetOffline(HANDLE hContact, BOOL bHide)
 {
 	if ( hContact ) {
 		char* szProto = GetContactProto(hContact);
@@ -80,7 +80,7 @@ BOOL CList_SetOffline(HANDLE hContact, BOOL bHide)
 	return FALSE;
 }
 
-BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
+BOOL SetAllOffline(BOOL bHide, const char *pszModule)
 {
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
@@ -98,7 +98,7 @@ BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
 	return TRUE;
 }
 
-int CList_RoomDoubleclicked( WPARAM wParam, LPARAM lParam )
+int RoomDoubleclicked( WPARAM wParam, LPARAM lParam )
 {
 	BOOL bRedrawFlag = FALSE;
 
@@ -121,15 +121,14 @@ int CList_RoomDoubleclicked( WPARAM wParam, LPARAM lParam )
 				&& db_get_b(NULL, "Chat", "ToggleVisibility", 0) == 1
 				&& !CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0)
 				&& IsWindowVisible(si->hWnd)
-				&& !IsIconic(si->hWnd)) {
-				if (ci.pSettings->TabsEnable)
-					SendMessage(si->hWnd, GC_REMOVETAB, 1, (LPARAM)si);
-				else
-					PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
+				&& !IsIconic(si->hWnd))
+			{
+				if (ci.OnSessionDblClick)
+					ci.OnSessionDblClick(si);
 				db_free(&dbv);
 				return 1;
 			}
-			ShowRoom(si, WINDOW_VISIBLE, TRUE);
+			ci.ShowRoom(si, WINDOW_VISIBLE, TRUE);
 		}
 		db_free(&dbv);
 		return 1;
@@ -138,38 +137,39 @@ int CList_RoomDoubleclicked( WPARAM wParam, LPARAM lParam )
 	return 0;
 }
 
-INT_PTR CList_EventDoubleclicked(WPARAM wParam,LPARAM lParam)
+INT_PTR EventDoubleclicked(WPARAM wParam,LPARAM lParam)
 {
-	return CList_RoomDoubleclicked((WPARAM) ((CLISTEVENT*)lParam)->hContact,(LPARAM) 0);
+	return RoomDoubleclicked((WPARAM)((CLISTEVENT*)lParam)->hContact, 0);
 }
 
-INT_PTR CList_JoinChat(WPARAM wParam, LPARAM lParam)
+INT_PTR JoinChat(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if ( hContact ) {
+	if (hContact) {
 		char* szProto = GetContactProto(hContact);
-		if ( szProto ) {
-			if ( db_get_w( hContact, szProto, "Status", 0 ) == ID_STATUS_OFFLINE )
-				CallProtoService( szProto, PS_JOINCHAT, wParam, lParam );
+		if (szProto) {
+			if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE)
+				CallProtoService(szProto, PS_JOINCHAT, wParam, lParam);
 			else
-				CList_RoomDoubleclicked( wParam, 0 );
-	}	}
+				RoomDoubleclicked(wParam, 0);
+		}
+	}
 
 	return 0;
 }
 
-INT_PTR CList_LeaveChat(WPARAM wParam, LPARAM lParam)
+INT_PTR LeaveChat(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if ( hContact ) {
+	if (hContact) {
 		char* szProto = GetContactProto(hContact);
-		if ( szProto )
-			CallProtoService( szProto, PS_LEAVECHAT, wParam, lParam );
+		if (szProto)
+			CallProtoService(szProto, PS_LEAVECHAT, wParam, lParam);
 	}
 	return 0;
 }
 
-int CList_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact == NULL)
@@ -199,24 +199,24 @@ int CList_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CList_PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam)
+INT_PTR PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam)
 {
-	return CList_PrebuildContactMenu(wParam, lParam);
+	return PrebuildContactMenu(wParam, lParam);
 }
 
-BOOL CList_AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ... )
+BOOL AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ... )
 {
-	CLISTEVENT cle = {0};
-	va_list marker;
 	TCHAR szBuf[4096];
 
 	if (!fmt || !fmt[0] || _tcslen(fmt) > 2000)
 		return FALSE;
 
+	va_list marker;
 	va_start(marker, fmt);
 	mir_vsntprintf(szBuf, SIZEOF(szBuf), fmt, marker);
 	va_end(marker);
 
+	CLISTEVENT cle = { 0 };
 	cle.cbSize = sizeof(cle);
 	cle.hContact = hContact;
 	cle.hDbEvent = hEvent;
@@ -236,7 +236,7 @@ BOOL CList_AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR
 	return TRUE;
 }
 
-HANDLE CList_FindRoom (const char* pszModule, const TCHAR* pszRoom)
+HANDLE FindRoom (const char* pszModule, const TCHAR* pszRoom)
 {
 	for (HANDLE hContact = db_find_first(pszModule); hContact; hContact = db_find_next(hContact, pszModule)) {
 		if ( !db_get_b(hContact, pszModule, "ChatRoom", 0))
@@ -253,41 +253,4 @@ HANDLE CList_FindRoom (const char* pszModule, const TCHAR* pszRoom)
 	}
 
 	return 0;
-}
-
-int WCCmp(TCHAR* wild, TCHAR* string)
-{
-	TCHAR *cp, *mp;
-	if ( wild == NULL || !wild[0] || string == NULL || !string[0])
-		return 0;
-
-	while ((*string) && (*wild != '*')) {
-		if ((*wild != *string) && (*wild != '?'))
-			return 0;
-
-		wild++;
-		string++;
-	}
-
-	while (*string) {
-		if (*wild == '*') {
-			if (!*++wild)
-				return 1;
-
-			mp = wild;
-			cp = string+1;
-		}
-		else if ((*wild == *string) || (*wild == '?')) {
-			wild++;
-			string++;
-		}
-		else {
-			wild = mp;
-			string = cp++;
-	}	}
-
-	while (*wild == '*')
-		wild++;
-
-	return !*wild;
 }

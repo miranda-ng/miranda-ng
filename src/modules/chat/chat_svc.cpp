@@ -22,14 +22,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\..\core\commonheaders.h"
 
+INT_PTR SvcGetChatManager(WPARAM, LPARAM);
+
 #include "chat.h"
 
 BOOL SmileyAddInstalled, PopupInstalled, IEviewInstalled;
-
-HANDLE            hChatSendEvent;
-HANDLE            hBuildMenuEvent;
-HGENMENU          hJoinMenuItem, hLeaveMenuItem;
-SESSION_INFO		g_TabSession;
+HANDLE hChatSendEvent, hBuildMenuEvent;
+HGENMENU hJoinMenuItem, hLeaveMenuItem;
 CRITICAL_SECTION	cs;
 
 void RegisterFonts( void );
@@ -46,111 +45,25 @@ static HANDLE
    hEventJoinChat = NULL,
    hEventLeaveChat = NULL;
 
-void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
-{
-	if (!si)
-		return;
-
-	if (ci.pSettings->TabsEnable) {
-		// the session is not the current tab, so we copy the necessary
-		// details into the SESSION_INFO for the tabbed window
-		if (!si->hWnd) {
-			g_TabSession.iEventCount = si->iEventCount;
-			g_TabSession.iStatusCount = si->iStatusCount;
-			g_TabSession.iType = si->iType;
-			g_TabSession.nUsersInNicklist = si->nUsersInNicklist;
-			g_TabSession.pLog = si->pLog;
-			g_TabSession.pLogEnd = si->pLogEnd;
-			g_TabSession.pMe = si->pMe;
-			g_TabSession.dwFlags = si->dwFlags;
-			g_TabSession.pStatuses = si->pStatuses;
-			g_TabSession.ptszID = si->ptszID;
-			g_TabSession.pszModule = si->pszModule;
-			g_TabSession.ptszName = si->ptszName;
-			g_TabSession.ptszStatusbarText = si->ptszStatusbarText;
-			g_TabSession.ptszTopic = si->ptszTopic;
-			g_TabSession.pUsers = si->pUsers;
-			g_TabSession.hContact = si->hContact;
-			g_TabSession.wStatus = si->wStatus;
-			g_TabSession.lpCommands = si->lpCommands;
-			g_TabSession.lpCurrentCommand = NULL;
-		}
-
-		//Do we need to create a tabbed window?
-//		if (g_TabSession.hWnd == NULL) !!!!!!!!!!!!!!!!!!!!!!!
-//			g_TabSession.hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CHANNEL), NULL, RoomWndProc, (LPARAM)&g_TabSession);
-
-		SetWindowLongPtr(g_TabSession.hWnd, GWL_EXSTYLE, GetWindowLongPtr(g_TabSession.hWnd, GWL_EXSTYLE) | WS_EX_APPWINDOW);
-
-		// if the session was not the current tab we need to tell the window to
-		// redraw to show the contents of the current SESSION_INFO
-		if (!si->hWnd) {
-			ci.SM_SetTabbedWindowHwnd(si, g_TabSession.hWnd);
-			SendMessage(g_TabSession.hWnd, GC_ADDTAB, -1, (LPARAM)si);
-			SendMessage(g_TabSession.hWnd, GC_TABCHANGE, 0, (LPARAM)&g_TabSession);
-		}
-
-		ci.SetActiveSession(si->ptszID, si->pszModule);
-
-		if (!IsWindowVisible(g_TabSession.hWnd) || wp == WINDOW_HIDDEN)
-			SendMessage(g_TabSession.hWnd, GC_EVENT_CONTROL + WM_USER + 500, wp, 0);
-		else {
-			if (IsIconic(g_TabSession.hWnd))
-				ShowWindow(g_TabSession.hWnd, SW_NORMAL);
-
-			PostMessage(g_TabSession.hWnd, WM_SIZE, 0, 0);
-			if (si->iType != GCW_SERVER)
-				SendMessage(g_TabSession.hWnd, GC_UPDATENICKLIST, 0, 0);
-			else
-				SendMessage(g_TabSession.hWnd, GC_UPDATETITLE, 0, 0);
-			SendMessage(g_TabSession.hWnd, GC_REDRAWLOG, 0, 0);
-			SendMessage(g_TabSession.hWnd, GC_UPDATESTATUSBAR, 0, 0);
-			ShowWindow(g_TabSession.hWnd, SW_SHOW);
-			if (bSetForeground)
-				SetForegroundWindow(g_TabSession.hWnd);
-		}
-		SendMessage(g_TabSession.hWnd, WM_MOUSEACTIVATE, 0, 0);
-		SetFocus(GetDlgItem(g_TabSession.hWnd, IDC_MESSAGE));
-		return;
-	}
-
-	//Do we need to create a window?
-//	if (si->hWnd == NULL) !!!!!!!!!!!!!!!!!!!!!!!s
-//		si->hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CHANNEL), NULL, RoomWndProc, (LPARAM)si);
-
-	SetWindowLongPtr(si->hWnd, GWL_EXSTYLE, GetWindowLongPtr(si->hWnd, GWL_EXSTYLE) | WS_EX_APPWINDOW);
-	if (!IsWindowVisible(si->hWnd) || wp == WINDOW_HIDDEN)
-		SendMessage(si->hWnd, GC_EVENT_CONTROL + WM_USER + 500, wp, 0);
-	else {
-		if (IsIconic(si->hWnd))
-			ShowWindow(si->hWnd, SW_NORMAL);
-		ShowWindow(si->hWnd, SW_SHOW);
-		SetForegroundWindow(si->hWnd);
-	}
-
-	SendMessage(si->hWnd, WM_MOUSEACTIVATE, 0, 0);
-	SetFocus(GetDlgItem(si->hWnd, IDC_MESSAGE));
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Post-load event hooks
 
 static int FontsChanged(WPARAM wParam, LPARAM lParam)
 {
 	LoadLogFonts();
-	{
-		LOGFONT lf;
-		HFONT hFont;
-		int iText;
 
-		LoadMsgDlgFont(0, &lf, NULL);
-		hFont = CreateFontIndirect(&lf);
-		iText = GetTextPixelSize(MakeTimeStamp(ci.pSettings->pszTimeStamp, time(NULL)), hFont, TRUE);
-		DeleteObject(hFont);
-		ci.pSettings->LogTextIndent = iText;
-		ci.pSettings->LogTextIndent = ci.pSettings->LogTextIndent * 12 / 10;
-		ci.pSettings->LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
-	}
+	LOGFONT lf;
+	HFONT hFont;
+	int iText;
+
+	LoadMsgDlgFont(0, &lf, NULL);
+	hFont = CreateFontIndirect(&lf);
+	iText = GetTextPixelSize(MakeTimeStamp(ci.pSettings->pszTimeStamp, time(NULL)), hFont, TRUE);
+	DeleteObject(hFont);
+	ci.pSettings->LogTextIndent = iText;
+	ci.pSettings->LogTextIndent = ci.pSettings->LogTextIndent * 12 / 10;
+	ci.pSettings->LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
+
 	ci.MM_FontsChanged();
 	ci.MM_FixColors();
 	ci.SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
@@ -173,7 +86,6 @@ static int PreShutdown(WPARAM wParam, LPARAM lParam)
 
 	ci.SM_RemoveAll();
 	ci.MM_RemoveAll();
-	ci.TabM_RemoveAll();
 	return 0;
 }
 
@@ -265,7 +177,7 @@ static INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
 	mi->pszHeader = Log_CreateRtfHeader(mi);
 
 	CheckColorsInModule((char*)gcr->pszModule);
-	CList_SetAllOffline(TRUE, gcr->pszModule);
+	ci.SetAllOffline(TRUE, gcr->pszModule);
 	return 0;
 }
 
@@ -287,8 +199,6 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 
 	// create a new session and set the defaults
 	if (si != NULL) {
-		TCHAR szTemp[256];
-
 		si->dwItemData = gcw->dwItemData;
 		if (gcw->iType != GCW_SERVER)
 			si->wStatus = ID_STATUS_ONLINE;
@@ -310,11 +220,13 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 			si->iBG = 2;
 			si->bBGSet = TRUE;
 		}
+
+		TCHAR szTemp[256];
 		if (si->iType == GCW_SERVER)
 			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("Server: %s"), si->ptszName);
 		else
 			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s"), si->ptszName);
-		si->hContact = CList_AddRoom(gcw->pszModule, gcw->ptszID, szTemp, si->iType);
+		si->hContact = ci.AddRoom(gcw->pszModule, gcw->ptszID, szTemp, si->iType);
 		db_set_s(si->hContact, si->pszModule, "Topic", "");
 		db_unset(si->hContact, "CList", "StatusMsg");
 		if (si->ptszStatusbarText)
@@ -325,21 +237,14 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 	else {
 		SESSION_INFO* si2 = ci.SM_FindSession(gcw->ptszID, gcw->pszModule);
 		if (si2) {
-			if (si2->hWnd)
-				g_TabSession.nUsersInNicklist = 0;
-
 			ci.UM_RemoveAll(&si2->pUsers);
 			ci.TM_RemoveAll(&si2->pStatuses);
 
 			si2->iStatusCount = 0;
 			si2->nUsersInNicklist = 0;
 
-			if (!ci.pSettings->TabsEnable) {
-				if (si2->hWnd)
-					RedrawWindow(GetDlgItem(si2->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
-			}
-			else if (g_TabSession.hWnd)
-				RedrawWindow(GetDlgItem(g_TabSession.hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
+			if (ci.OnSessionReplace)
+				ci.OnSessionReplace(si2);
 		}
 	}
 
@@ -357,7 +262,7 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 				si->bInitDone = TRUE;
 				ci.SetActiveSession(si->ptszID, si->pszModule);
 				if (si->hWnd)
-					ShowRoom(si, wp, FALSE);
+					ci.ShowRoom(si, wp, FALSE);
 			}
 			return 0;
 
@@ -368,7 +273,7 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 			if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 				si->bInitDone = TRUE;
 				if (wp != SESSION_INITDONE || db_get_b(NULL, "Chat", "PopupOnJoin", 0) == 0)
-					ShowRoom(si, wp, TRUE);
+					ci.ShowRoom(si, wp, TRUE);
 				return 0;
 			}
 			break;
@@ -384,10 +289,8 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 		case WINDOW_CLEARLOG:
 			if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 				ci.LM_RemoveAll(&si->pLog, &si->pLogEnd);
-				if (si->hWnd) {
-					g_TabSession.pLog = si->pLog;
-					g_TabSession.pLogEnd = si->pLogEnd;
-				}
+				if (ci.OnClearLog)
+					ci.OnClearLog(si);
 				si->iEventCount = 0;
 				si->LastTime = 0;
 			}
@@ -408,11 +311,8 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 			replaceStrT(si->ptszName, gce->ptszText);
 			if (si->hWnd)
 				SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
-
-			if (g_TabSession.hWnd && ci.pSettings->TabsEnable) {
-				g_TabSession.ptszName = si->ptszName;
-				SendMessage(g_TabSession.hWnd, GC_SESSIONNAMECHANGE, 0, (LPARAM)si);
-			}
+			if (ci.OnSessionRename)
+				ci.OnSessionRename(si);
 		}
 	}
 
@@ -435,11 +335,9 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 				db_set_ts(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
 				db_set_s(si->hContact, si->pszModule, "StatusBar", "");
-			if (si->hWnd) {
-				g_TabSession.ptszStatusbarText = si->ptszStatusbarText;
-				SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
-			}
 		}
+		if (ci.OnSetStatusBar)
+			ci.OnSetStatusBar(si);
 	}
 	else if (gce->pDest->iType == GC_EVENT_ACK) {
 		ci.SM_SendMessage(gce->pDest->ptszID, gce->pDest->pszModule, GC_ACKMESSAGE, 0, 0);
@@ -472,10 +370,8 @@ static void AddUser(GCEVENT *gce)
 	ui->Status = status;
 	ui->Status |= si->pStatuses->Status;
 
-	if (si->hWnd) {
-		g_TabSession.pUsers = si->pUsers;
-		SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
-	}
+	if (ci.OnNewUser)
+		ci.OnNewUser(si, ui);
 }
 
 static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
@@ -530,9 +426,9 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 			if (si) {
 				if (gce->ptszText) {
 					replaceStrT(si->ptszTopic, gce->ptszText);
-					if (si->hWnd)
-						g_TabSession.ptszTopic = si->ptszTopic;
 					db_set_ts(si->hContact, si->pszModule, "Topic", RemoveFormatting(si->ptszTopic));
+					if (ci.OnSetTopic)
+						ci.OnSetTopic(si);
 					if (db_get_b(NULL, "Chat", "TopicOnClist", 0))
 						db_set_ts(si->hContact, "CList", "StatusMsg", RemoveFormatting(si->ptszTopic));
 				}
@@ -607,16 +503,9 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		if (si && (si->bInitDone || gce->pDest->iType == GC_EVENT_TOPIC || (gce->pDest->iType == GC_EVENT_JOIN && gce->bIsMe))) {
-			if (ci.SM_AddEvent(pWnd, pMod, gce, bIsHighlighted) && si->hWnd) {
-				g_TabSession.pLog = si->pLog;
-				g_TabSession.pLogEnd = si->pLogEnd;
-				SendMessage(si->hWnd, GC_ADDLOG, 0, 0);
-			}
-			else if (si->hWnd) {
-				g_TabSession.pLog = si->pLog;
-				g_TabSession.pLogEnd = si->pLogEnd;
-				SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
-			}
+			int isOk = ci.SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
+			if (ci.OnAddLog)
+				ci.OnAddLog(si, isOk);
 			if (!(gce->dwFlags & GCEF_NOTNOTIFY))
 				DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
 			if ((gce->dwFlags & GCEF_ADDTOLOG) && ci.pSettings->LoggingEnabled)
@@ -649,15 +538,13 @@ static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Service creation
-
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	char* mods[3] = { "Chat", "ChatFonts" };
 	CallService("DBEditorpp/RegisterModule", (WPARAM)mods, 2);
 
 	RegisterFonts();
+	OptionsInit();
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090001;
@@ -684,29 +571,34 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	ModuleLoad(0, 0);
 
-	CList_SetAllOffline(TRUE, NULL);
+	ci.SetAllOffline(TRUE, NULL);
 	return 0;
 }
 
-void HookEvents(void)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Service creation
+
+static bool bInited = false;
+
+void InitChatModule(void)
 {
+	CreateServiceFunction("GChat/GetInterface", SvcGetChatManager);
+}
+
+void LoadChatModule(void)
+{
+	if (bInited)
+		return;
+
 	InitializeCriticalSection(&cs);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CList_PrebuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
-}
 
-void UnhookEvents(void)
-{
-	DeleteCriticalSection(&cs);
-}
-
-void CreateServiceFunctions(void)
-{
 	CreateServiceFunction(MS_GC_REGISTER, Service_Register);
 	CreateServiceFunction(MS_GC_NEWSESSION, Service_NewChat);
 	CreateServiceFunction(MS_GC_EVENT, Service_AddEvent);
@@ -714,36 +606,24 @@ void CreateServiceFunctions(void)
 	CreateServiceFunction(MS_GC_GETINFO, Service_GetInfo);
 	CreateServiceFunction(MS_GC_GETSESSIONCOUNT, Service_GetCount);
 
-	CreateServiceFunction("GChat/DblClickEvent", CList_EventDoubleclicked);
-	CreateServiceFunction("GChat/PrebuildMenuEvent", CList_PrebuildContactMenuSvc);
-	CreateServiceFunction("GChat/JoinChat", CList_JoinChat);
-	CreateServiceFunction("GChat/LeaveChat", CList_LeaveChat);
-}
+	CreateServiceFunction("GChat/DblClickEvent", EventDoubleclicked);
+	CreateServiceFunction("GChat/PrebuildMenuEvent", PrebuildContactMenuSvc);
+	CreateServiceFunction("GChat/JoinChat", JoinChat);
+	CreateServiceFunction("GChat/LeaveChat", LeaveChat);
 
-void CreateHookableEvents(void)
-{
 	hChatSendEvent = CreateHookableEvent(ME_GC_EVENT);
 	hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
+	bInited = true;
 }
 
-void DestroyHookableEvents(void)
+void UnloadChatModule(void)
 {
+	if (!bInited)
+		return;
+
+	OptionsUnInit();
+	DeleteCriticalSection(&cs);
+
 	DestroyHookableEvent(hChatSendEvent);
 	DestroyHookableEvent(hBuildMenuEvent);
-}
-
-void TabsInit(void)
-{
-	ZeroMemory(&g_TabSession, sizeof(SESSION_INFO));
-
-	g_TabSession.iType = GCW_TABROOM;
-	g_TabSession.iSplitterX = ci.pSettings->iSplitterX;
-	g_TabSession.iSplitterY = ci.pSettings->iSplitterY;
-	g_TabSession.iLogFilterFlags = (int)db_get_dw(NULL, "Chat", "FilterFlags", 0x03E0);
-	g_TabSession.bFilterEnabled = db_get_b(NULL, "Chat", "FilterEnabled", 0);
-	g_TabSession.bNicklistEnabled = db_get_b(NULL, "Chat", "ShowNicklist", 1);
-	g_TabSession.iFG = 4;
-	g_TabSession.bFGSet = TRUE;
-	g_TabSession.iBG = 2;
-	g_TabSession.bBGSet = TRUE;
 }

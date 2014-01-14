@@ -66,7 +66,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_db_int.h>
-#include <m_chat_int.h>
 #include <m_clc.h>
 #include <m_clui.h>
 #include <m_crypto.h>
@@ -101,5 +100,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_ssl.h>
 #include <m_netlib.h>
 #include <m_xml.h>
+
+typedef struct GlobalLogSettingsBase GlobalLogSettings;
+#include <m_chat_int.h>
 
 #include "../resource.h"

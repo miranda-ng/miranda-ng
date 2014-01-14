@@ -249,56 +249,52 @@ struct LOGSTREAMDATA
    SESSION_INFO *si;
 };
 
-struct GlobalLogSettings
+struct GlobalLogSettingsBase
 {
-	BOOL        ShowTime;
-	BOOL        ShowTimeIfChanged;
-	BOOL        LoggingEnabled;
-	BOOL        FlashWindow;
-	BOOL        HighlightEnabled;
-	BOOL        LogIndentEnabled;
-	BOOL        StripFormat;
-	BOOL        SoundsFocus;
-	BOOL        PopupInactiveOnly;
-	BOOL        TrayIconInactiveOnly;
-	BOOL        AddColonToAutoComplete;
-	BOOL        TabsEnable;
-	BOOL        TabCloseOnDblClick;
-	BOOL        TabRestore;
-	BOOL        LogLimitNames;
-	BOOL        TabsAtBottom;
-	BOOL        TimeStampEventColour;
-	DWORD       dwIconFlags;
-	DWORD       dwTrayIconFlags;
-	DWORD       dwPopupFlags;
-	int         LogTextIndent;
-	int         LoggingLimit;
-	int         iEventLimit;
-	int         iPopupStyle;
-	int         iPopupTimeout;
-	int         iSplitterX;
-	int         iSplitterY;
-	int         iX;
-	int         iY;
-	int         iWidth;
-	int         iHeight;
-	TCHAR*      pszTimeStamp;
-	TCHAR*      pszTimeStampLog;
-	TCHAR*      pszIncomingNick;
-	TCHAR*      pszOutgoingNick;
-	TCHAR*      pszHighlightWords;
-	TCHAR*      pszLogDir;
-	HFONT       UserListFont;
-	HFONT       UserListHeadingsFont;
-	HFONT       MessageBoxFont;
-	HFONT       NameFont;
-	COLORREF    crLogBackground;
-	COLORREF    crUserListColor;
-	COLORREF    crUserListBGColor;
-	COLORREF    crUserListSelectedBGColor;
-	COLORREF    crUserListHeadingsColor;
-	COLORREF    crPUTextColour;
-	COLORREF    crPUBkgColour;
+	BOOL     ShowTime;
+	BOOL     ShowTimeIfChanged;
+	BOOL     LoggingEnabled;
+	BOOL     FlashWindow;
+	BOOL     HighlightEnabled;
+	BOOL     LogIndentEnabled;
+	BOOL     StripFormat;
+	BOOL     SoundsFocus;
+	BOOL     PopupInactiveOnly;
+	BOOL     TrayIconInactiveOnly;
+	BOOL     AddColonToAutoComplete;
+	BOOL     LogLimitNames;
+	BOOL     TimeStampEventColour;
+	DWORD    dwIconFlags;
+	DWORD    dwTrayIconFlags;
+	DWORD    dwPopupFlags;
+	int      LogTextIndent;
+	int      LoggingLimit;
+	int      iEventLimit;
+	int      iPopupStyle;
+	int      iPopupTimeout;
+	int      iSplitterX;
+	int      iSplitterY;
+	int      iX;
+	int      iY;
+	int      iWidth;
+	int      iHeight;
+	TCHAR*   pszTimeStamp;
+	TCHAR*   pszTimeStampLog;
+	TCHAR*   pszIncomingNick;
+	TCHAR*   pszOutgoingNick;
+	TCHAR*   pszHighlightWords;
+	TCHAR*   pszLogDir;
+	HFONT    UserListFont;
+	HFONT    UserListHeadingsFont;
+	HFONT    MessageBoxFont;
+	HFONT    NameFont;
+	COLORREF crLogBackground;
+	COLORREF crUserListColor;
+	COLORREF crUserListBGColor;
+	COLORREF crUserListSelectedBGColor;
+	COLORREF crUserListHeadingsColor;
+	COLORREF crPUTextColour;
+	COLORREF crPUBkgColour;
 	BOOL		ShowContactStatus;
 	BOOL		ContactStatusFirst;
 };
@@ -349,9 +345,6 @@ struct CHAT_MANAGER
 	void          (*MM_IconsChanged)(void);
 	BOOL          (*MM_RemoveAll)(void);
 
-	BOOL          (*TabM_AddTab)(const TCHAR *pszID, const char* pszModule);
-	BOOL          (*TabM_RemoveAll)(void);
-
 	STATUSINFO*   (*TM_AddStatus)(STATUSINFO** ppStatusList, const TCHAR* pszStatus, int* iCount);
 	STATUSINFO*   (*TM_FindStatus)(STATUSINFO* pStatusList, const TCHAR* pszStatus);
 	WORD          (*TM_StringToWord)(STATUSINFO* pStatusList, const TCHAR* pszStatus);
@@ -374,16 +367,55 @@ struct CHAT_MANAGER
 	BOOL          (*LM_TrimLog)(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd, int iCount);
 	BOOL          (*LM_RemoveAll)(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd);
 
+	HANDLE        (*AddRoom)(const char* pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType);
+	BOOL          (*SetOffline)(HANDLE hContact, BOOL bHide);
+	BOOL          (*SetAllOffline)(BOOL bHide, const char *pszModule);
+	BOOL          (*AddEvent)(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
+	HANDLE        (*FindRoom)(const char* pszModule, const TCHAR* pszRoom);
+	void          (*ShowRoom)(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
+
+	char*         (*Log_CreateRTF)(LOGSTREAMDATA *streamData);
+	void          (*LoadMsgDlgFont)(int i, LOGFONT *lf, COLORREF *color);
+
+	void (*OnSessionDblClick)(SESSION_INFO*);
+	void (*OnSessionOffline)(SESSION_INFO*);
+	void (*OnSessionRemove)(SESSION_INFO*);
+	void (*OnSessionRename)(SESSION_INFO*);
+	void (*OnSessionReplace)(SESSION_INFO*);
+
+	void (*OnAddLog)(SESSION_INFO*, int);
+	void (*OnClearLog)(SESSION_INFO*);
+	void (*OnEventBroadcast)(SESSION_INFO *si, GCEVENT *gce);
+	
+	void (*OnSetStatusBar)(SESSION_INFO*);
+	void (*OnSetTopic)(SESSION_INFO*);
+
+	void (*OnAddUser)(SESSION_INFO*, USERINFO*);
+	void (*OnNewUser)(SESSION_INFO*, USERINFO*);
+	void (*OnRemoveUser)(SESSION_INFO *si, USERINFO*);
+
+	void (*OnAddStatus)(SESSION_INFO *si, STATUSINFO*);
+	void (*OnSetStatus)(SESSION_INFO *si, int);
+
+	void (*OnLoadSettings)(void);
+	void (*OnFlashWindow)(SESSION_INFO *si, int);
+
 	// data
-	GlobalLogSettings *pSettings;
-	HICON         hIcons[30];
+	GlobalLogSettingsBase *pSettings;
+
 	HIMAGELIST	  hImageList, hIconsList;
+	HICON         hIcons[30];
 	FONTINFO      aFonts[OPTIONS_FONTCOUNT];
-	SESSION_INFO  tabSession;
 	TCHAR        *szActiveWndID;
 	char         *szActiveWndModule;
+	int           logPixelSY, logPixelSX;
 };
 
 extern CHAT_MANAGER ci, *pci;
+
+__forceinline void mir_getCI(void)
+{
+	pci = (CHAT_MANAGER*)CallService("GChat/GetInterface", 0, 0);
+}
 
 #endif // M_CHAT_INT_H__
