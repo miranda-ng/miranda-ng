@@ -22,9 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 
-extern HMENU        g_hMenu;
-extern HANDLE       hBuildMenuEvent ;
-extern HANDLE       hSendEvent;
+extern HMENU g_hMenu;
 
 int GetRichTextLength(HWND hwnd)
 {
@@ -554,7 +552,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		gcmi.Type = MENU_ON_NICKLIST;
 	}
 
-	NotifyEventHooks(hBuildMenuEvent, 0, (WPARAM)&gcmi);
+	NotifyEventHooks(pci->hBuildMenuEvent, 0, (WPARAM)&gcmi);
 
 	if (gcmi.nItems > 0)
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
@@ -631,7 +629,7 @@ BOOL DoEventHook(const TCHAR *pszID, const char* pszModule, int iType, const TCH
 	gch.ptszText = (LPTSTR)pszText;
 	gch.dwData = dwItem;
 	gch.pDest = &gcd;
-	NotifyEventHooks(hSendEvent, 0, (WPARAM)&gch);
+	NotifyEventHooks(pci->hSendEvent, 0, (WPARAM)&gch);
 	return TRUE;
 }
 

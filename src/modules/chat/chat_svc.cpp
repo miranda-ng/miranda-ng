@@ -27,7 +27,6 @@ INT_PTR SvcGetChatManager(WPARAM, LPARAM);
 #include "chat.h"
 
 BOOL SmileyAddInstalled, PopupInstalled, IEviewInstalled;
-HANDLE hChatSendEvent, hBuildMenuEvent;
 HGENMENU hJoinMenuItem, hLeaveMenuItem;
 CRITICAL_SECTION	cs;
 
@@ -611,8 +610,8 @@ void LoadChatModule(void)
 	CreateServiceFunction("GChat/JoinChat", JoinChat);
 	CreateServiceFunction("GChat/LeaveChat", LeaveChat);
 
-	hChatSendEvent = CreateHookableEvent(ME_GC_EVENT);
-	hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
+	ci.hSendEvent = CreateHookableEvent(ME_GC_EVENT);
+	ci.hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
 	bInited = true;
 }
 
@@ -624,6 +623,6 @@ void UnloadChatModule(void)
 	OptionsUnInit();
 	DeleteCriticalSection(&cs);
 
-	DestroyHookableEvent(hChatSendEvent);
-	DestroyHookableEvent(hBuildMenuEvent);
+	DestroyHookableEvent(ci.hSendEvent);
+	DestroyHookableEvent(ci.hBuildMenuEvent);
 }

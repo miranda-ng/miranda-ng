@@ -33,7 +33,6 @@ struct GCPTRS
 };
 
 extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
-extern HANDLE hChatSendEvent;
 extern BOOL PopupInstalled;
 
 // log.c

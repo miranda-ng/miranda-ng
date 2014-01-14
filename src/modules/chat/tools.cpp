@@ -703,7 +703,7 @@ BOOL DoEventHook(const TCHAR *pszID, const char* pszModule, int iType, const TCH
 	gch.ptszText = (LPTSTR)pszText;
 	gch.dwData = dwItem;
 	gch.pDest = &gcd;
-	NotifyEventHooks(hChatSendEvent, 0, (WPARAM)&gch);
+	NotifyEventHooks(ci.hSendEvent, 0, (WPARAM)&gch);
 	return TRUE;
 }
 

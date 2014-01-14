@@ -403,12 +403,13 @@ struct CHAT_MANAGER
 	// data
 	GlobalLogSettingsBase *pSettings;
 
-	HIMAGELIST	  hImageList, hIconsList;
-	HICON         hIcons[30];
-	FONTINFO      aFonts[OPTIONS_FONTCOUNT];
-	TCHAR        *szActiveWndID;
-	char         *szActiveWndModule;
-	int           logPixelSY, logPixelSX;
+	HIMAGELIST hImageList, hIconsList;
+	HANDLE     hBuildMenuEvent, hSendEvent;
+	HICON      hIcons[30];
+	FONTINFO   aFonts[OPTIONS_FONTCOUNT];
+	TCHAR     *szActiveWndID;
+	char      *szActiveWndModule;
+	int        logPixelSY, logPixelSX;
 };
 
 extern CHAT_MANAGER ci, *pci;

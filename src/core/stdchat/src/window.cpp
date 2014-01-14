@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern TABLIST *g_TabList;
 extern HBRUSH hListBkgBrush, hListSelectedBkgBrush;
-extern HANDLE hSendEvent;
 extern CREOleCallback reOleCallback;
 extern HMENU g_hMenu;
 extern BOOL SmileyAddInstalled;
@@ -1811,31 +1810,27 @@ END_REMOVETAB:
 		{
 			MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT *) lParam;
 			if (mis->CtlType == ODT_MENU)
-			{
 				return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
-			} else
-			{
-				int ih = GetTextPixelSize( _T("AQGgl'"), g_Settings.UserListFont,FALSE);
-				int ih2 = GetTextPixelSize( _T("AQGg'"), g_Settings.UserListHeadingsFont,FALSE);
-				int font = ih > ih2?ih:ih2;
-				int height = db_get_b(NULL, "Chat", "NicklistRowDist", 12);
 
-				// make sure we have space for icon!
-				if (g_Settings.ShowContactStatus)
-					font = font > 16 ? font : 16;
+			int ih = GetTextPixelSize( _T("AQGgl'"), g_Settings.UserListFont,FALSE);
+			int ih2 = GetTextPixelSize( _T("AQGg'"), g_Settings.UserListHeadingsFont,FALSE);
+			int font = ih > ih2?ih:ih2;
+			int height = db_get_b(NULL, "Chat", "NicklistRowDist", 12);
 
-				mis->itemHeight = height > font?height:font;
-			}
-			return TRUE;
+			// make sure we have space for icon!
+			if (g_Settings.ShowContactStatus)
+				font = font > 16 ? font : 16;
+
+			mis->itemHeight = height > font?height:font;
 		}
+		return TRUE;
 
 	case WM_DRAWITEM:
 		{
 			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *) lParam;
 			if (dis->CtlType == ODT_MENU)
-			{
 				return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
-			} else
+			
 			if (dis->CtlID == IDC_LIST) {
 				HFONT  hFont, hOldFont;
 				HICON  hIcon;
@@ -1881,15 +1876,15 @@ END_REMOVETAB:
 					TextOut(dis->hDC, dis->rcItem.left+x_offset, dis->rcItem.top, ui->pszNick, lstrlen(ui->pszNick));
 					SelectObject(dis->hDC, hOldFont);
 
-					if (si->pAccPropServicesForNickList)
-					{
+					if (si->pAccPropServicesForNickList) {
 						wchar_t *nick = mir_t2u(ui->pszNick);
 						si->pAccPropServicesForNickList->SetHwndPropStr(GetDlgItem(hwndDlg,IDC_LIST), OBJID_CLIENT, dis->itemID+1, PROPID_ACC_NAME, nick);
 						mir_free(nick);
 					}
 				}
 				return TRUE;
-		}	}
+			}
+		}
 
 	case GC_UPDATENICKLIST:
 		{
@@ -1901,69 +1896,69 @@ END_REMOVETAB:
 		break;
 
 	case GC_EVENT_CONTROL + WM_USER+500:
-		{
-			switch(wParam) {
-			case SESSION_OFFLINE:
-				SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
-				SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
+		switch (wParam) {
+		case SESSION_OFFLINE:
+			SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
+			SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
+			return TRUE;
+
+		case SESSION_ONLINE:
+			SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
+			return TRUE;
+
+		case WINDOW_HIDDEN:
+			SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
+			return TRUE;
+
+		case WINDOW_CLEARLOG:
+			SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
+			return TRUE;
+
+		case SESSION_TERMINATE:
+			SendMessage(hwndDlg, GC_SAVEWNDPOS, 0, 0);
+			if (db_get_b(NULL, "Chat", "SavePosition", 0)) {
+				db_set_dw(si->hContact, "Chat", "roomx", si->iX);
+				db_set_dw(si->hContact, "Chat", "roomy", si->iY);
+				db_set_dw(si->hContact, "Chat", "roomwidth", si->iWidth);
+				db_set_dw(si->hContact, "Chat", "roomheight", si->iHeight);
+			}
+			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
+				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)"chaticon");
+			si->wState &= ~STATE_TALK;
+			db_set_w(si->hContact, si->pszModule, "ApparentMode", (LPARAM)0);
+			SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
+			return TRUE;
+
+		case WINDOW_MINIMIZE:
+			ShowWindow(hwndDlg, SW_MINIMIZE);
+			goto LABEL_SHOWWINDOW;
+
+		case WINDOW_MAXIMIZE:
+			ShowWindow(hwndDlg, SW_MAXIMIZE);
+			goto LABEL_SHOWWINDOW;
+
+		case SESSION_INITDONE:
+			if (db_get_b(NULL, "Chat", "PopupOnJoin", 0) != 0)
 				return TRUE;
-
-			case SESSION_ONLINE:
-				SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
-				return TRUE;
-
-			case WINDOW_HIDDEN:
-				SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
-				return TRUE;
-
-			case WINDOW_CLEARLOG:
-				SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
-				return TRUE;
-
-			case SESSION_TERMINATE:
-				SendMessage(hwndDlg,GC_SAVEWNDPOS,0,0);
-				if (db_get_b(NULL, "Chat", "SavePosition", 0)) {
-					db_set_dw(si->hContact, "Chat", "roomx", si->iX);
-					db_set_dw(si->hContact, "Chat", "roomy", si->iY);
-					db_set_dw(si->hContact, "Chat", "roomwidth" , si->iWidth);
-					db_set_dw(si->hContact, "Chat", "roomheight", si->iHeight);
-				}
-				if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
-					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)"chaticon");
-				si->wState &= ~STATE_TALK;
-				db_set_w(si->hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
-				SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
-				return TRUE;
-
-			case WINDOW_MINIMIZE:
-				ShowWindow(hwndDlg, SW_MINIMIZE);
-				goto LABEL_SHOWWINDOW;
-
-			case WINDOW_MAXIMIZE:
-				ShowWindow(hwndDlg, SW_MAXIMIZE);
-				goto LABEL_SHOWWINDOW;
-
-			case SESSION_INITDONE:
-				if (db_get_b(NULL, "Chat", "PopupOnJoin", 0)!=0)
-					return TRUE;
-				// fall through
-			case WINDOW_VISIBLE:
-				if (IsIconic(hwndDlg))
-					ShowWindow(hwndDlg, SW_NORMAL);
+			// fall through
+		case WINDOW_VISIBLE:
+			if (IsIconic(hwndDlg))
+				ShowWindow(hwndDlg, SW_NORMAL);
 LABEL_SHOWWINDOW:
-				SendMessage(hwndDlg, WM_SIZE, 0, 0);
-				SendMessage(hwndDlg, GC_REDRAWLOG, 0, 0);
-				SendMessage(hwndDlg, GC_UPDATENICKLIST, 0, 0);
-				SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
-				ShowWindow(hwndDlg, SW_SHOW);
-				SendMessage(hwndDlg, WM_SIZE, 0, 0);
-				SetForegroundWindow(hwndDlg);
-				return TRUE;
-		}	}
+			SendMessage(hwndDlg, WM_SIZE, 0, 0);
+			SendMessage(hwndDlg, GC_REDRAWLOG, 0, 0);
+			SendMessage(hwndDlg, GC_UPDATENICKLIST, 0, 0);
+			SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
+			ShowWindow(hwndDlg, SW_SHOW);
+			SendMessage(hwndDlg, WM_SIZE, 0, 0);
+			SetForegroundWindow(hwndDlg);
+			return TRUE;
+		}
 		break;
 
 	case GC_SPLITTERMOVED:
-		{	POINT pt;
+		{
+			POINT pt;
 			RECT rc;
 			RECT rcLog;
 			BOOL bFormat = IsWindowVisible(GetDlgItem(hwndDlg,IDC_SMILEY));
@@ -2010,7 +2005,7 @@ LABEL_SHOWWINDOW:
 	case GC_FIREHOOK:
 		if (lParam) {
 			GCHOOK *gch = (GCHOOK *)lParam;
-			NotifyEventHooks(hSendEvent, 0, (WPARAM)gch);
+			NotifyEventHooks(pci->hSendEvent, 0, (WPARAM)gch);
 			if (gch->pDest) {
 				mir_free((void*)gch->pDest->ptszID);
 				mir_free((void*)gch->pDest->pszModule);
@@ -2038,12 +2033,11 @@ LABEL_SHOWWINDOW:
 
 	case GC_SHOWCOLORCHOOSER:
 		{
-			HWND ColorWindow;
-			RECT rc;
-			BOOL bFG = lParam == IDC_COLOR?TRUE:FALSE;
+			BOOL bFG = lParam == IDC_COLOR ? TRUE : FALSE;
 			COLORCHOOSER * pCC = (COLORCHOOSER *)mir_alloc(sizeof(COLORCHOOSER));
 
-			GetWindowRect(GetDlgItem(hwndDlg, bFG?IDC_COLOR:IDC_BKGCOLOR), &rc);
+			RECT rc;
+			GetWindowRect(GetDlgItem(hwndDlg, bFG ? IDC_COLOR : IDC_BKGCOLOR), &rc);
 			pCC->hWndTarget = GetDlgItem(hwndDlg, IDC_MESSAGE);
 			pCC->pModule = pci->MM_FindModule(si->pszModule);
 			pCC->xPosition = rc.left+3;
@@ -2051,7 +2045,7 @@ LABEL_SHOWWINDOW:
 			pCC->bForeground = bFG;
 			pCC->si = si;
 
-			ColorWindow= CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_COLORCHOOSER), hwndDlg, DlgProcColorToolWindow, (LPARAM) pCC);
+			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_COLORCHOOSER), hwndDlg, DlgProcColorToolWindow, (LPARAM) pCC);
 		}
 		break;
 
@@ -2124,14 +2118,11 @@ LABEL_SHOWWINDOW:
 
 	case WM_NOTIFY:
 		{
-			LPNMHDR pNmhdr;
-
-			pNmhdr = (LPNMHDR)lParam;
+			LPNMHDR pNmhdr = (LPNMHDR)lParam;
 			switch (pNmhdr->code) {
 			case NM_RCLICK:
 				if (pNmhdr->idFrom == IDC_TAB  ) {
 					int i = TabCtrl_GetCurSel(pNmhdr->hwndFrom);
-
 					if (i != -1) {
 						SESSION_INFO* s;
 						HMENU hSubMenu;

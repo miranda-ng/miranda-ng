@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 
-//globals
+// globals
 CLIST_INTERFACE *pcli;
 CHAT_MANAGER *pci;
 
@@ -37,8 +37,6 @@ BOOL        PopupInstalled = FALSE;
 
 HBRUSH      hListBkgBrush = NULL;
 HBRUSH      hListSelectedBkgBrush = NULL;
-
-HANDLE hBuildMenuEvent, hSendEvent;
 
 GlobalLogSettings g_Settings;
 
