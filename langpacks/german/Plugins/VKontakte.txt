@@ -17,15 +17,15 @@ VKontakte-Seite öffnen
 [Login settings]
 Login-Einstellungen
 [Local settings]
-
+Lokale Einstellungen
 [Contact list group:]
-
+Kontaktlistengruppe:
 [Advanced]
 Erweitert
 [Server-side delivery confirmation]
 Serverseitige Empfangsbestätigungen
 [Hide chats on startup]
-
+Chats beim Start verbergen
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
@@ -35,17 +35,17 @@ Senden
 [Cancel]
 Abbrechen
 [Invite user to chat]
-
+Benutzer zum Chat einladen
 [OK]
-
+OK
 [Choose one of your contacts to be invited:]
-
+Wählen Sie einen Kontakt aus, den Sie einladen wollen:
 [Create group chat]
-
+Gruppenchat erstellen
 [Mark users you want to invite to a new chat]
-
+Markieren Sie die Benutzer, die Sie in einen neuen Chat einladen wollen
 [New chat's title:]
-
+Titel des neuen Chats:
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 Captcha Form. Icon
@@ -58,27 +58,27 @@ VKontakte
 Geben Sie den Text ein, den Sie sehen
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
-
+Teilnehmer
 [Owners]
-
+Besitzer
 [Unknown]
-
+Unbekannt
 [Enter new chat title]
-
+Neuen Chattitel eingeben
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-
+Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
 [Warning]
-
+Warnung
 [&Invite a user]
-
+Benutzer e&inladen
 [View/change &title]
-
+&Titel ansehen/ändern
 [&Destroy room]
-
+Raum &zerstören
 [&User details]
-
+Kontakt&profil
 [&Kick]
-
+&Kick
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Netzwerk
@@ -88,17 +88,17 @@ Konto
 [%s server connection]
 %s Serververbindung
 [Create new chat]
-
+Neuen Chat erstellen
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Attachments:]
 Anhänge:
 [Photo]
 Foto
 [Audio]
-
+Audio
 [Video]
-
+Video
 [Document]
-
+Dokument
 [Unsupported or unknown attachment type: %s]
-
+Nicht unterstützter oder unbekannter Anhangtyp: %s

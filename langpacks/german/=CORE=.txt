@@ -2538,7 +2538,7 @@ GIF-Bilder
 PNG-Bilder
 ;file \src\modules\utils\enterstring.cpp
 [OK (%d)]
-
+OK (%d)
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Avatare

@@ -10,11 +10,11 @@ Kontaktfenster
 [vars]
 Variablen
 [DWord]
-DWORD
+DWord
 [You can use %name%, %uid%, %account% and %group% macros]
 Sie können die Makros %name%, %uid%, %account% und %group% verwenden
 [You can use %name%, %uid%, %account% and %group% substitutes]
-
+Sie können die Makros %name%, %uid%, %account% und %group% verwenden
 [wParam type]
 wParam-Typ
 [lParam type]
@@ -118,13 +118,13 @@ Struktureditor
 [Result as structure]
 Ergebnis als Struktur
 [Byte Array]
-BYTE-Array
+Byte-Array
 [Word Array]
-WORD-Array
+Word-Array
 [Pointer to bytes]
-Zeiger zu BYTEs
+Zeiger zu Bytes
 [Pointer to words]
-Zeiger zu WORDs
+Zeiger zu Words
 [Data length]
 Datenlänge
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
@@ -138,9 +138,9 @@ Speicher freigeben
 [Integer]
 Integer
 [Append]
-Anheften
+Anhängen
 [Append data to file]
-Daten zu Datei hinzufügen
+Daten an Datei anhängen
 [Choose action]
 Aktion auswählen
 [A&ppend]
@@ -154,9 +154,9 @@ Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nText <param> wird\r\nd
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
 Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nRückgabewerte:\r\n--------\r\nOK\t\t= 1\r\nAbbrechen\t= 2\r\nAbbruch\t\t= 3\r\nWiederholen\t= 4\r\nIgnorieren\t= 5\r\nJa\t\t= 6\r\nNein\t\t= 7\r\nSchließen\t\t= 8
 [Don't use Variables]
-Variablen nicht benutzen
+Variablen nicht verwenden
 [Contact list format]
-Kontaklistenformat
+Kontaktlistenformat
 [Active accounts only]
 Nur aktive Konten
 [Dropdown list format]
@@ -180,7 +180,7 @@ QWord
 [Packed structure]
 Gepackte Struktur
 [NativeInt]
-NativeInt
+Nativer Int
 [Starting from]
 Starte am
 [Starting after]
@@ -269,7 +269,7 @@ Programm ausführen
 [Insert text]
 Text einfügen
 [Use Variables]
-Variablen benutzen
+Variablen verwenden
 [number value]
 Nummernwert
 [ANSI string]
@@ -337,120 +337,120 @@ Schreiben
 [Unicode]
 Unicode
 [Function call]
-
+Funktion aufrufen
 [Chain]
-
+Ablauf
 [Program]
-
+Programm
 [Service]
-
+Dienst
 [In/Out]
-
+Ein/Aus
 [Storage]
-
+Speicherung
 [Jump]
-
+Sprung
 [Result]
-
+Ergebnis
 [Result type]
-
+Ergebnistyp
 [Function name]
-
+Funktionsname
 [DLL name]
-
+DLL-Name
 [Call type]
-
+Aufrufart
 [Arguments]
-
+Argumente
 [Number of arguments]
-
+Anzahl Argumente
 [DLL Handle Cache]
-
+DLL Handle Cache
 [Keep to end]
-
+Am Ende behalten
 [Close immediately]
-
+Sofort schließen
 [Close for macro]
-
+Für Makro schließen
 [Wide String]
-
+Wide String
 [Get from active window]
-
+Vom aktiven Fenster beziehen
 [Keep old result]
-
+Altes Ergebnis behalten
 [Same thread]
-
+Selber Thread
 [Do not wait until the end of execution]
-
+Nicht auf das Ende der Ausführung warten
 [Structure size]
-
+Strukturgröße
 [LastResult to ]
-
+Letztes Ergebnis zu
 [LastResult from]
-
+Letztes Ergebnis von
 [Process script after]
-
+Skript ausführen nach
 [Wrap Text]
-
+Text umbrechen
 [Autosend]
-
+Autosend
 [Opposite order]
-
+Umgekehrte Reihenfolge
 [Service list format]
-
+Dienstlistenformat
 [Current Macro]
-
+Ausgewähltes Makro
 [Select for FirstRun]
-
+Für FirstRun auswählen
 [Right justified text]
-
+Rechts ausgerichteter Text
 [Use MMI]
-
+MMI verwenden
 [UTF8+sign]
-
+UTF8+Sign.
 [UTF16+sign]
-
+UTF16+Sign.
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-
+^s - ausgewählter (und ersetzter) teil\r\n^e - durch leeren String ersetzt\r\n^v - Text aus zwischenablage einfügen\r\n^t - durch Tabulatoren ersetzt\r\n^l - durch letztes Ergebnis als Unicode ersetzt\r\n^h - durch letztes Ergebnis als Hex ersetzt\r\n^f(name[,str])\r\n     Zeile aus Textdatei einfügen.\r\n   Inhalt in Klammern ohne Leerzeichen.
 [value]
-
+Wert
 [name]
-
+Name
 [value (name)]
-
+Wert (Name)
 [name 'value']
-
+Name 'Wert'
 [contains]
-
+beinhaltet
 [starts with]
-
+beginnt mit
 [ends with]
-
+endet mit
 [= equ]
-
+= gleich
 [> greater]
-
+> größer
 [< lesser]
-
+< kleiner
 [& and]
-
+& und
 [Slot 0]
-
+Slot 0
 [Slot 1]
-
+Slot 1
 [Slot 2]
-
+Slot 2
 [Slot 3]
-
+Slot 3
 [Slot 4]
-
+Slot 4
 [Slot 5]
-
+Slot 5
 [Slot 6]
-
+Slot 6
 [Slot 7]
-
+Slot 7
 [Slot 8]
-
+Slot 8
 [Slot 9]
-
+Slot 9
