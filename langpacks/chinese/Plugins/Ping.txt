@@ -99,8 +99,8 @@ Ping 插件
 最大 %hd 毫秒
 [MIN %hd ms]
 最小 %hd 毫秒
-[%s - setting status of protocol '%s' (%d)]
-%s - 设置协议状态 '%s' (%d)
+[%s - setting status of protocol '%S' (%d)]
+%s - 设置协议状态 '%S' (%d)
 [%s - reply, %d]
 %s - 答复, %d
 [%s - timeout]

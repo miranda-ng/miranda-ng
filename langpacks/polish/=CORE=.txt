@@ -2049,6 +2049,11 @@ Pokaż/zmień moje dane...
 Dodaj kontakt
 [Please authorize my request and add me to your contact list.]
 Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
+;file \src\modules\chat\chat_opts.cpp
+;file \src\modules\chat\chat_svc.cpp
+;file \src\modules\chat\clist.cpp
+;file \src\modules\chat\log.cpp
+;file \src\modules\chat\tools.cpp
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]

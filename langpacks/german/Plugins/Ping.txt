@@ -108,6 +108,8 @@ Alle Pings aktivieren
 [Disable All Pings]
 Alle Pings deaktivieren
 ;file \plugins\Ping\src\options.cpp
+[Open log file]
+
 [All\0*.*\0Text\0*.TXT\0]
 Alle\0*.*\0Text\0*.txt\0
 [<none>]
@@ -134,11 +136,17 @@ Statistiken
 Max. %hd ms
 [MIN %hd ms]
 Min. %hd ms
+[Ping Graph]
+
 ;file \plugins\Ping\src\pingthread.cpp
-[%s - setting status of protocol '%s' (%d)]
-%s - setze Status des Protokolls '%s' (%d)
+[%s - setting status of protocol '%S' (%d)]
+%s - setze Status des Protokolls '%S' (%d)
+[Ping Reply]
+
 [%s - reply, %d]
 %s - Antwort, %d
+[Ping Timeout]
+
 [%s - timeout]
 %s - Zeitüberschreitung
 [Disable]
@@ -151,6 +159,8 @@ bei Doppelklick
 Ping
 [Show/Hide &Ping Window]
 &Pingfenster zeigen/verstecken
+[List]
+
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Host %s fordert Sie dazu auf, die Menge an gesendetem Datenverkehr zu reduzieren.

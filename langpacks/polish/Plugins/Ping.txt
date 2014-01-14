@@ -108,6 +108,8 @@ Włącz wszystkie pingi
 [Disable All Pings]
 Wyłącz wszystkie pingi
 ;file \plugins\Ping\src\options.cpp
+[Open log file]
+
 [All\0*.*\0Text\0*.TXT\0]
 Wszystkie\0*.*\0Tekst\0*.TXT\0
 [<none>]
@@ -134,11 +136,17 @@ AVG %.1lf ms
 MAX %hd ms
 [MIN %hd ms]
 MIN %hd ms
+[Ping Graph]
+
 ;file \plugins\Ping\src\pingthread.cpp
-[%s - setting status of protocol '%s' (%d)]
-%s - ustawianie statusu protokołu "%s" (%d)
+[%s - setting status of protocol '%S' (%d)]
+%s - ustawianie statusu protokołu "%S" (%d)
+[Ping Reply]
+
 [%s - reply, %d]
 %s - odpowiedź, %d
+[Ping Timeout]
+
 [%s - timeout]
 %s - czas oczekiwania
 [Disable]
@@ -151,6 +159,8 @@ dwuklik
 Ping
 [Show/Hide &Ping Window]
 Pokaż/Ukryj okno Pingu
+[List]
+
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Host %s prosi o zredukowanie produkowanego przez ciebie ruchu.

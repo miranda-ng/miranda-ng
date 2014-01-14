@@ -131,8 +131,8 @@ TCP злучэнне
 [MIN %hd ms]
 МІН %hd мс
 ;file \plugins\Ping\src\pingthread.cpp
-[%s - setting status of protocol '%s' (%d)]
-%d - устаноўка статусу пратаколу '%s' (%d)
+[%s - setting status of protocol '%S' (%d)]
+%d - устаноўка статусу пратаколу '%S' (%d)
 [%s - reply, %d]
 %s - адказ, %d
 [%s - timeout]

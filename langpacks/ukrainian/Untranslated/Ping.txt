@@ -3,3 +3,8 @@
 [Repeats for success/failure:]
 [OK]
 [(Optional) Command Parameters:]
+[Open log file]
+[Ping Graph]
+[Ping Reply]
+[Ping Timeout]
+[List]

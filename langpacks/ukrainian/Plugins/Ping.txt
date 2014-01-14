@@ -127,8 +127,8 @@ TCP з'єднання
 МАКС %hd мс
 [MIN %hd ms]
 ХВ %hd мс
-[%s - setting status of protocol '%s' (%d)]
-%d - встановлення статусу протоколу '%s' (%d)
+[%s - setting status of protocol '%S' (%d)]
+%d - встановлення статусу протоколу '%S' (%d)
 [%s - reply, %d]
 %s - відповідь, %d
 [%s - timeout]
