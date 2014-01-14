@@ -109,7 +109,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 400010000;
 	mi.icolibItem = Skin_GetIconHandle("check_update");
-	mi.pszName = LPGEN("Check for plugin updates");
+	mi.pszName = LPGEN("Check for updates");
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
 
@@ -118,15 +118,15 @@ extern "C" __declspec(dllexport) int Load(void)
 
 		mi.position++;
 		mi.icolibItem = Skin_GetIconHandle("plg_list");
-		mi.pszName = LPGEN("Show full plugin list");
+		mi.pszName = LPGEN("Available components list");
 		mi.pszService = MODNAME"/ShowList";
 		Menu_AddMainMenuItem(&mi);
 	#endif
 
 	// Add hotkey
 	HOTKEYDESC hkd = { sizeof(hkd) };
-	hkd.pszName = "Check for plugin updates";
-	hkd.pszDescription = "Check for plugin updates";
+	hkd.pszName = "Check for updates";
+	hkd.pszDescription = "Check for updates";
 	hkd.pszSection = "Plugin Updater";
 	hkd.pszService = MODNAME"/CheckUpdates";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;

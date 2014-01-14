@@ -141,10 +141,10 @@
 Тест
 [Services]
 Службы
-[Check for plugin updates]
-Проверить обновления плагинов
-[Show full plugin list]
-Список плагинов для установки
+[Check for updates]
+Проверить обновления
+[Available components list]
+Компоненты для установки
 ['Yes' Button]
 Кнопка 'Да'
 ['No' Button]

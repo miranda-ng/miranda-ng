@@ -78,8 +78,8 @@
 [Test]
 [Services]
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
-[Check for plugin updates]
-[Show full plugin list]
+[Check for updates]
+[Available components list]
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
 ['No' Button]
