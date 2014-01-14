@@ -103,7 +103,7 @@ bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
 						}
 					}
 					dwTotalBytes += dwRead;
-					SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100.0 * double(dwRead) / double(fad.nFileSizeLow)), 0);
+					SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100.0 * double(dwTotalBytes) / double(fad.nFileSizeLow)), 0);
 				}
 				mir_free(buf);
 			}
