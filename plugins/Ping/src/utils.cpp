@@ -18,25 +18,27 @@ LRESULT CALLBACK NullWindowProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 void CALLBACK sttMainThreadCallback( ULONG_PTR dwParam )
 {
-	POPUPDATA* ppd = ( POPUPDATA* )dwParam;
+	POPUPDATAT* ppd = ( POPUPDATAT* )dwParam;
 
-	if ( ServiceExists(MS_POPUP_ADDPOPUP))
-		PUAddPopup(ppd);
+	if ( ServiceExists(MS_POPUP_ADDPOPUPT))
+		PUAddPopupT(ppd);
 
 	free( ppd );
 }
 
-void __stdcall	ShowPopup( const char* line1, const char* line2, int flags )
+void __stdcall	ShowPopup(TCHAR *line1,TCHAR *line2, int flags )
 {
 	if(CallService(MS_SYSTEM_TERMINATED, 0, 0)) return;
 
-	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
-		POPUPDATA* ppd = ( POPUPDATA* )calloc( sizeof( POPUPDATA ), 1 );
+	 if(ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
+		ShowClassPopupT("pingpopups",line1,line2);
+	} else if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
+		POPUPDATAT *ppd = ( POPUPDATAT* )calloc( sizeof( POPUPDATAT ), 1 );
 
 		ppd->lchContact = NULL;
 		ppd->lchIcon = (flags ? hIconResponding : hIconNotResponding);
-		strncpy( ppd->lpzContactName, line1,MAX_CONTACTNAME);
-		strncpy( ppd->lpzText, line2, MAX_SECONDLINE);
+		_tcsncpy( ppd->lptzContactName, line1, MAX_CONTACTNAME);
+		_tcsncpy( ppd->lptzText, line2, MAX_SECONDLINE);
 
 		ppd->colorBack = GetSysColor( COLOR_BTNFACE );
 		ppd->colorText = GetSysColor( COLOR_WINDOWTEXT );
@@ -45,15 +47,10 @@ void __stdcall	ShowPopup( const char* line1, const char* line2, int flags )
 		ppd->PluginWindowProc = NullWindowProc;
 		ppd->PluginData = NULL;
 
-		QueueUserAPC(sttMainThreadCallback, mainThread, ( ULONG )ppd );
+		QueueUserAPC(sttMainThreadCallback, mainThread, ( ULONG_PTR)ppd );
 	}
-	else if(ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-		POPUPDATACLASS d = {sizeof(d), "pingpopups"};
-		d.pwszTitle = (wchar_t *)line1;
-		d.pwszText = (wchar_t *)line2;
-		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&d);
-	} else {
-		MessageBox( NULL, line2, PLUG " Message", MB_OK | MB_ICONINFORMATION );
+	else{
+		MessageBox( NULL, line2, _T(PLUG) _T(" Message"), MB_OK | MB_ICONINFORMATION );
 		return;
 	}
 }
@@ -63,19 +60,19 @@ void __stdcall	ShowPopup( const char* line1, const char* line2, int flags )
 // wParam is zero
 // lParam is address of PINGADDRESS structure where ping result is placed (i.e. modifies 'responding' 
 // and 'round_trip_time')
-INT_PTR PluginPing(WPARAM wParam,LPARAM lParam)
+INT_PTR PluginPing(WPARAM,LPARAM lParam)
 {
 	PINGADDRESS *pa = (PINGADDRESS *)lParam;
 
 	if(pa->port == -1) {
 		// ICMP echo
 		if(use_raw_ping) {
-			pa->round_trip_time = raw_ping(pa->pszName, options.ping_timeout * 1000);
+			pa->round_trip_time = raw_ping(_T2A(pa->pszName), options.ping_timeout * 1000);
 			pa->responding = (pa->round_trip_time != -1);
 		} else {
 		
 			ICMP_ECHO_REPLY result;
-			pa->responding = ICMP::get_instance()->ping(pa->pszName, result);
+			pa->responding = ICMP::get_instance()->ping(_T2A(pa->pszName), result);
 			if(pa->responding)
 				pa->round_trip_time = (short)result.RoundTripTime;
 			else
@@ -89,11 +86,12 @@ INT_PTR PluginPing(WPARAM wParam,LPARAM lParam)
 		//GetLocalTime(&systime);
 		NETLIBOPENCONNECTION conn = {0};
 		conn.cbSize = sizeof(NETLIBOPENCONNECTION);
-		conn.szHost = pa->pszName;
+		conn.szHost = mir_t2a(pa->pszName);
 		conn.wPort = pa->port;
 		conn.timeout = options.ping_timeout;
 
 		HANDLE s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&conn);
+		mir_free((void*)conn.szHost);
 
 		clock_t end_tcp = clock();
 		
@@ -225,8 +223,8 @@ INT_PTR DblClick(WPARAM wParam, LPARAM lParam) {
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
 	for(pinglist_it i = pl.begin(); i != pl.end(); ++i) {
 		if(i->item_id == (DWORD)wParam) {
-			if(strlen(i->pszCommand)) {
-				ShellExecute(0, "open", i->pszCommand, i->pszParams, 0, SW_SHOW);
+			if(_tcslen(i->pszCommand)) {
+				ShellExecute(0, _T("open"), i->pszCommand, i->pszParams, 0, SW_SHOW);
 			} else {
 				return CallService(PLUG "/ToggleEnabled", wParam, 0);
 			}
@@ -240,24 +238,24 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 	DBVARIANT dbv;
 	char buf[256];
 	mir_snprintf(buf, 256, "Address%d", index);
-	if(!db_get(0, "PingPlug", buf, &dbv)) {
-		strncpy(pa.pszName, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
+	if(!db_get_ts(0, "PingPlug", buf, &dbv)) {
+		_tcsncpy(pa.pszName, dbv.ptszVal, MAX_PINGADDRESS_STRING_LENGTH);
 		db_free(&dbv);
 	} else
-		strcpy(pa.pszName, Translate("Unknown Address"));
+		_tcsncpy(pa.pszName, TranslateT("Unknown Address"), MAX_PINGADDRESS_STRING_LENGTH);
 
 	mir_snprintf(buf, 256, "Label%d", index);
-	if(!db_get(0, "PingPlug", buf, &dbv)) {
-		strncpy(pa.pszLabel, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
+	if(!db_get_ts(0, "PingPlug", buf, &dbv)) {
+		_tcsncpy(pa.pszLabel, dbv.ptszVal, MAX_PINGADDRESS_STRING_LENGTH);
 		db_free(&dbv);
 	} else
-		strcpy(pa.pszLabel, Translate("Unknown"));
+		_tcsncpy(pa.pszLabel, TranslateT("Unknown"), MAX_PINGADDRESS_STRING_LENGTH);
 
 	mir_snprintf(buf, 256, "Port%d", index);
 	pa.port = (int)db_get_dw(0, "PingPlug", buf, -1);
 
 	mir_snprintf(buf, 256, "Proto%d", index);
-	if(!db_get(0, "PingPlug", buf, &dbv)) {
+	if(!db_get_s(0, "PingPlug", buf, &dbv)) {
 		strncpy(pa.pszProto, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
 		db_free(&dbv);
 		mir_snprintf(buf, 256, "Status%d", index);
@@ -309,7 +307,7 @@ static int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-static int ReloadIcons(WPARAM wParam, LPARAM lParam)
+static int ReloadIcons(WPARAM, LPARAM)
 {
 	hIconResponding = Skin_GetIcon("ping_responding");
 	hIconNotResponding = Skin_GetIcon("ping_not_responding");
@@ -330,7 +328,7 @@ static IconItem iconList[] =
 
 void InitUtils()
 {
-	Icon_Register(hInst, LPGENT("Ping"), iconList, SIZEOF(iconList));
+	Icon_Register(hInst, LPGEN("Ping"), iconList, SIZEOF(iconList));
 
 	hIconResponding = Skin_GetIcon("ping_responding");
 	hIconNotResponding = Skin_GetIcon("ping_not_responding");

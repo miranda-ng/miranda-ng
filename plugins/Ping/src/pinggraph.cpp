@@ -187,23 +187,23 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				SetBkMode(hdc, TRANSPARENT);
 				SetTextColor(hdc, GetSysColor(COLOR_3DDKSHADOW));
-				char buff[64];
+				TCHAR buff[64];
 				if(wd->show_grid)
 				{
-					mir_snprintf(buff, SIZEOF(buff), Translate("%d ms"), MARK_TIME);
-					TextOut(hdc, r.right - 100, r.bottom - (int)(unit_height * MARK_TIME + 0.5f), buff, (int)strlen(buff));
+					mir_sntprintf(buff, SIZEOF(buff), TranslateT("%d ms"), MARK_TIME);
+					TextOut(hdc, r.right - 100, r.bottom - (int)(unit_height * MARK_TIME + 0.5f), buff, (int)_tcslen(buff));
 				}
 
 				if (wd->show_stat)
 				{
 					SetTextColor(hdc, RGB(255, 0, 0));
-					mir_snprintf(buff, SIZEOF(buff), Translate("AVG %.1lf ms"), avg);
-					TextOut(hdc, r.left + 10, r.bottom - (int)(avg * unit_height + 0.5f), buff, (int)strlen(buff));
+					mir_sntprintf(buff, SIZEOF(buff), TranslateT("AVG %.1lf ms"), avg);
+					TextOut(hdc, r.left + 10, r.bottom - (int)(avg * unit_height + 0.5f), buff, (int)_tcslen(buff));
 					if (max_value != avg) {
-						mir_snprintf(buff, SIZEOF(buff), Translate("MAX %hd ms"), max_value);
-						TextOut(hdc, r.left + 10, r.bottom - (int)(max_value * unit_height + 0.5f), buff, (int)strlen(buff));
-						mir_snprintf(buff, SIZEOF(buff), Translate("MIN %hd ms"), min_value);
-						TextOut(hdc, r.left + 10, r.bottom - (int)(min_value * unit_height + 0.5f), buff, (int)strlen(buff));
+						mir_sntprintf(buff, SIZEOF(buff), TranslateT("MAX %hd ms"), max_value);
+						TextOut(hdc, r.left + 10, r.bottom - (int)(max_value * unit_height + 0.5f), buff, (int)_tcslen(buff));
+						mir_sntprintf(buff, SIZEOF(buff), TranslateT("MIN %hd ms"), min_value);
+						TextOut(hdc, r.left + 10, r.bottom - (int)(min_value * unit_height + 0.5f), buff, (int)_tcslen(buff));
 					}
 				}
 
@@ -275,11 +275,11 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	wndclass.lpszClassName = _T(PLUG) _T("GraphWindow");
 	RegisterClass(&wndclass);
 
-	char title[256];
-	strcpy(title, "Ping Graph");
+	TCHAR title[256];
+	_tcsncpy(title, TranslateT("Ping Graph"), SIZEOF(title));
 	if(lParam) {
-		strcat(title, " - ");
-		strncat(title, (char *)lParam, 256 - 13);
+		_tcsncat(title, _T(" - "), SIZEOF(title));
+		_tcsncat(title, (TCHAR *)lParam, SIZEOF(title));
 	}
 
 	HWND parent = 0;

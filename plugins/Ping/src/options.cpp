@@ -5,17 +5,13 @@ PingOptions options;
 // main ping options 
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HWND hw;
-	OPENFILENAME ofn = {0};
-
 	switch ( msg ) {
 	case WM_INITDIALOG: {
 		TranslateDialogDefault( hwndDlg );
 
-		if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-			hw = GetDlgItem(hwndDlg, IDC_CHK_ATTACH);
-			EnableWindow(hw, FALSE);
-		}
+		if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ATTACH), FALSE);
+
 		CheckDlgButton(hwndDlg, IDC_CHK_ATTACH, options.attach_to_clist);
 
 		SetDlgItemInt(hwndDlg, IDC_PPM, options.ping_period, FALSE);
@@ -27,30 +23,24 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		CheckDlgButton(hwndDlg, IDC_CHK_LOGCSV, options.log_csv);
 		CheckDlgButton(hwndDlg, IDC_CHK_NOTESTICON, options.no_test_icon);
 
-		SendMessage(GetDlgItem(hwndDlg, IDC_SP_INDENT), UDM_SETRANGE, 0, (LPARAM)MAKELONG(500, 0));
-		SendMessage(GetDlgItem(hwndDlg, IDC_SP_INDENT), UDM_SETPOS, 0, options.indent);
-		SendMessage(GetDlgItem(hwndDlg, IDC_SP_ROWHEIGHT), UDM_SETRANGE, 0, (LPARAM)MAKELONG(500, 6));
-		SendMessage(GetDlgItem(hwndDlg, IDC_SP_ROWHEIGHT), UDM_SETPOS, 0, options.row_height);
+		SendDlgItemMessage(hwndDlg, IDC_SP_INDENT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(500, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SP_INDENT, UDM_SETPOS, 0, options.indent);
+		SendDlgItemMessage(hwndDlg, IDC_SP_ROWHEIGHT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(500, 6));
+		SendDlgItemMessage(hwndDlg, IDC_SP_ROWHEIGHT, UDM_SETPOS, 0, options.row_height);
 
 		SetDlgItemInt(hwndDlg, IDC_RPT, options.retries, FALSE);
 
 		SetDlgItemText(hwndDlg, IDC_ED_FILENAME, options.log_filename);
 		if(!options.logging) {
-			hw = GetDlgItem(hwndDlg, IDC_ED_FILENAME);
-			EnableWindow(hw, FALSE);
-			hw = GetDlgItem(hwndDlg, IDC_BTN_LOGBROWSE);
-			EnableWindow(hw, FALSE);
-			hw = GetDlgItem(hwndDlg, IDC_CHK_LOGCSV);
-			EnableWindow(hw, FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_FILENAME), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_LOGBROWSE), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_LOGCSV), FALSE);
 		}
 
-		if( !ServiceExists( MS_POPUP_ADDPOPUP )) {
-			hw = GetDlgItem(hwndDlg, IDC_CHECKPOPUP);
-			EnableWindow(hw, FALSE);
-			hw = GetDlgItem(hwndDlg, IDC_CHECKPOPUP2);
-			EnableWindow(hw, FALSE);
-			hw = GetDlgItem(hwndDlg, IDC_CHK_BLOCK);
-			EnableWindow(hw, FALSE);
+		if( !ServiceExists( MS_POPUP_ADDPOPUPT )) {
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECKPOPUP), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECKPOPUP2), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_BLOCK), FALSE);
 		} 
 		return TRUE;
 	}
@@ -74,12 +64,9 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		if ( HIWORD( wParam ) == BN_CLICKED ) {
 			switch( LOWORD( wParam )) {
 			case IDC_CHK_LOG:
-				hw = GetDlgItem(hwndDlg, IDC_ED_FILENAME);
-				EnableWindow(hw, IsDlgButtonChecked(hwndDlg, IDC_CHK_LOG));
-				hw = GetDlgItem(hwndDlg, IDC_BTN_LOGBROWSE);
-				EnableWindow(hw, IsDlgButtonChecked(hwndDlg, IDC_CHK_LOG));
-				hw = GetDlgItem(hwndDlg, IDC_CHK_LOGCSV);
-				EnableWindow(hw, IsDlgButtonChecked(hwndDlg, IDC_CHK_LOG));
+				EnableWindow(GetDlgItem(hwndDlg, IDC_ED_FILENAME), IsDlgButtonChecked(hwndDlg, IDC_CHK_LOG));
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_LOGBROWSE), IsDlgButtonChecked(hwndDlg, IDC_CHK_LOG));
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_LOGCSV), IsDlgButtonChecked(hwndDlg, IDC_CHK_LOG));
 				// drop through
 			case IDC_CHK_LOGCSV:
 			case IDC_CHECKPOPUP:
@@ -94,12 +81,13 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				CallService(PLUG "/ViewLogData", 0, 0);
 				break;
 			case IDC_BTN_LOGBROWSE:
+			{
+				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
 				ofn.lpstrFile = options.log_filename;
 				ofn.hwndOwner = hwndDlg;
-				ofn.Flags = CC_FULLOPEN;
-				//ofn.lpstrFile[0] = '\0';
-				ofn.nMaxFile = sizeof(options.log_filename);
+				ofn.nMaxFile = SIZEOF(options.log_filename);
+				ofn.lpstrTitle = TranslateT("Open log file");
 				ofn.lpstrFilter = LPGENT("All\0*.*\0Text\0*.TXT\0");
 				ofn.nFilterIndex = 1;
 				ofn.lpstrFileTitle = NULL;
@@ -111,6 +99,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					SetDlgItemText(hwndDlg, IDC_ED_FILENAME, ofn.lpstrFile);
 					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 				}
+			}
 				break;
 			}
 			break;
@@ -160,7 +149,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			RefreshWindow(0, 0);
 
-			if(options.logging) CallService(PLUG "/Log", (WPARAM)"options changed", 0);
+			if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("options changed"), 0);
 			if(hWakeEvent) SetEvent(hWakeEvent);
 			return TRUE;
 		}
@@ -175,76 +164,62 @@ PINGADDRESS add_edit_addr;
 
 // host edit
 INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
-	HWND hw;
-	int sel;
-	char *strptr;
-
 	switch ( msg ) {
 	case WM_INITDIALOG: 
 		TranslateDialogDefault(hwndDlg);
-		{
-			for(int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-				strptr = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, (LPARAM)0);
-				hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT);
-				SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)strptr);
-				hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT2);
-				SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)strptr);
-			}
-
-			hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT);
-			SendMessage(hw, CB_SETCURSEL, 1, 0);
-			hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT2);
-			SendMessage(hw, CB_SETCURSEL, 0, 0);
-
-			SetDlgItemText(hwndDlg, IDC_ED_DESTADDR, add_edit_addr.pszName);
-			SetDlgItemText(hwndDlg, IDC_ED_DESTLAB, add_edit_addr.pszLabel);
-			SetDlgItemText(hwndDlg, IDC_ED_COMMAND, add_edit_addr.pszCommand);
-			SetDlgItemText(hwndDlg, IDC_ED_PARAMS, add_edit_addr.pszParams);
-
-			CheckDlgButton(hwndDlg, IDC_CHK_DESTTCP, add_edit_addr.port != -1);
-			if(add_edit_addr.port != -1) {
-				hw = GetDlgItem(hwndDlg, IDC_ED_DESTPORT);
-				EnableWindow(hw, TRUE);
-				SetDlgItemInt(hwndDlg, IDC_ED_DESTPORT, add_edit_addr.port, FALSE);
-			}
-			{
-				int num_protocols;
-				PROTOACCOUNT **pppDesc;
-
-				ProtoEnumAccounts(&num_protocols,&pppDesc);
-				hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTPROTO);
-				SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)Translate("<none>"));
-				SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)Translate("<all>"));
-				for(int i = 0; i < num_protocols; i++) {
-						SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)pppDesc[i]->tszAccountName);
-				}
-
-				if(add_edit_addr.pszProto[0] == '\0') {
-					SendMessage(hw, CB_SETCURSEL, 0, 0);
-				} else {
-					SendMessage(hw, CB_SELECTSTRING, 0, (LPARAM)add_edit_addr.pszProto);
-					hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT);
-					EnableWindow(hw, TRUE);
-					SendMessage(hw, CB_SETCURSEL, (WPARAM)(add_edit_addr.set_status - ID_STATUS_OFFLINE), 0);
-					hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT2);
-					EnableWindow(hw, TRUE);
-					SendMessage(hw, CB_SETCURSEL, (WPARAM)(add_edit_addr.get_status - ID_STATUS_OFFLINE), 0);
-				}
-			}
-			// ? doesn't work? ?
-			hw = GetDlgItem(hwndDlg, IDC_ED_DESTLAB);
-			SetFocus(hw);
+		for(int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+			INT_PTR ret = CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, GSMDF_TCHAR);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTSTAT, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)ret);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTSTAT2, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)ret);
 		}
+
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTSTAT, CB_SETCURSEL, 1, 0);
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTSTAT2, CB_SETCURSEL, 0, 0);
+
+		SetDlgItemText(hwndDlg, IDC_ED_DESTADDR, add_edit_addr.pszName);
+		SetDlgItemText(hwndDlg, IDC_ED_DESTLAB, add_edit_addr.pszLabel);
+		SetDlgItemText(hwndDlg, IDC_ED_COMMAND, add_edit_addr.pszCommand);
+		SetDlgItemText(hwndDlg, IDC_ED_PARAMS, add_edit_addr.pszParams);
+
+		CheckDlgButton(hwndDlg, IDC_CHK_DESTTCP, add_edit_addr.port != -1);
+		if(add_edit_addr.port != -1) {
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_DESTPORT), TRUE);
+			SetDlgItemInt(hwndDlg, IDC_ED_DESTPORT, add_edit_addr.port, FALSE);
+		}
+
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)TranslateT("<none>"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)TranslateT("<all>"));
+
+		{
+			int num_protocols;
+			PROTOACCOUNT **pppDesc;
+
+			ProtoEnumAccounts(&num_protocols,&pppDesc);
+			for(int i = 0; i < num_protocols; i++)
+				SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)pppDesc[i]->tszAccountName);
+				
+		}
+
+		if(add_edit_addr.pszProto[0] == '\0') {
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_SETCURSEL, 0, 0);
+		} else {
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_SELECTSTRING, 0, (LPARAM)add_edit_addr.pszProto);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT), TRUE);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTSTAT, CB_SETCURSEL, (WPARAM)(add_edit_addr.set_status - ID_STATUS_OFFLINE), 0);
+
+			EnableWindow(GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT2), TRUE);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTSTAT2, CB_SETCURSEL, (WPARAM)(add_edit_addr.get_status - ID_STATUS_OFFLINE), 0);
+		}
+
+		// ? doesn't work? ?
+		SetFocus(GetDlgItem(hwndDlg, IDC_ED_DESTLAB));
 		return FALSE;
 	case WM_COMMAND:
 		if (HIWORD( wParam ) == LBN_SELCHANGE && LOWORD(wParam) == IDC_COMBO_DESTPROTO) {
-			hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTPROTO);
-			sel = SendMessage(hw, CB_GETCURSEL, 0, 0);
+			int sel = SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_GETCURSEL, 0, 0);
 			if(sel != CB_ERR) {
-				hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT);
-				EnableWindow(hw, sel != 0);
-				hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT2);
-				EnableWindow(hw, sel != 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT), sel != 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT2), sel != 0);
 			}
 		}
 
@@ -253,8 +228,7 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			switch( LOWORD( wParam ))
 			{
 			case IDC_CHK_DESTTCP:
-				hw = GetDlgItem(hwndDlg, IDC_ED_DESTPORT);
-				EnableWindow(hw, IsDlgButtonChecked(hwndDlg, IDC_CHK_DESTTCP));
+				EnableWindow(GetDlgItem(hwndDlg, IDC_ED_DESTPORT), IsDlgButtonChecked(hwndDlg, IDC_CHK_DESTTCP));
 				break;
 			case IDOK:
 				GetDlgItemText(hwndDlg, IDC_ED_DESTADDR, add_edit_addr.pszName, MAX_PINGADDRESS_STRING_LENGTH);
@@ -262,19 +236,18 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				GetDlgItemText(hwndDlg, IDC_ED_COMMAND, add_edit_addr.pszCommand, MAX_PATH);
 				GetDlgItemText(hwndDlg, IDC_ED_PARAMS, add_edit_addr.pszParams, MAX_PATH);
 
-				hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTPROTO);
-				if(SendMessage(hw, CB_GETCURSEL, 0, 0) != -1)
+				if(SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_GETCURSEL, 0, 0) != -1)
 				{
-					GetDlgItemText(hwndDlg, IDC_COMBO_DESTPROTO, add_edit_addr.pszProto, MAX_PINGADDRESS_STRING_LENGTH);
-					if(!strcmp(add_edit_addr.pszProto, Translate("<none>"))) add_edit_addr.pszProto[0] = '\0';
+					GetDlgItemTextA(hwndDlg, IDC_COMBO_DESTPROTO, add_edit_addr.pszProto, MAX_PINGADDRESS_STRING_LENGTH);
+					if(!strcmp(add_edit_addr.pszProto, Translate("<none>")))
+						add_edit_addr.pszProto[0] = '\0';
 					else {
-						hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT);
-						sel = SendMessage(hw, CB_GETCURSEL, 0, 0);
-						if(sel != -1)
+						int sel = SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTSTAT, CB_GETCURSEL, 0, 0);
+						if(sel != CB_ERR)
 							add_edit_addr.set_status = ID_STATUS_OFFLINE + sel;
-						hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT2);
-						sel = SendMessage(hw, CB_GETCURSEL, 0, 0);
-						if(sel != -1)
+
+						sel = SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTSTAT2, CB_GETCURSEL, 0, 0);
+						if(sel != CB_ERR)
 							add_edit_addr.get_status = ID_STATUS_OFFLINE + sel;
 					}
 				} else
@@ -290,12 +263,12 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					add_edit_addr.port = -1;
 
 				EndDialog(hwndDlg, IDOK);
+				RefreshWindow(0, 0);
 				break;
 			case IDCANCEL:
 				EndDialog(hwndDlg, IDCANCEL);
 				break;
 			}
-
 		}
 
 		return TRUE;
@@ -318,47 +291,33 @@ bool Edit(HWND hwnd, PINGADDRESS &addr)
 // ping hosts list window
 static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	//OPENFILENAME ofn = {0};
-	HWND hw;
-	int sel;
-
 	switch ( msg ) {
 	case WM_INITDIALOG: 
-		{
 			TranslateDialogDefault( hwndDlg );
 
 			Lock(&data_list_cs, "init options dialog");
 			temp_list = data_list;
 			Unlock(&data_list_cs);
 
-			hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
 			for (pinglist_it i = temp_list.begin(); i != temp_list.end(); ++i)
 			{
-				int index = SendMessage(hw, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)i->pszLabel);
-				SendMessage(hw, LB_SETITEMDATA, index, (LPARAM)&(*i));
+				int index = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)i->pszLabel);
+				SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, index, (LPARAM)&(*i));
 			}
-
-		}
 		return TRUE;
 
 	case WM_COMMAND:
 		if (HIWORD( wParam ) == LBN_SELCHANGE && LOWORD(wParam) == IDC_LST_DEST)
 		{
-			hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-			sel = SendMessage(hw, LB_GETCURSEL, 0, 0);
+			int sel = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
 			if(sel != LB_ERR)
 			{
-				hw = GetDlgItem(hwndDlg, IDC_BTN_DESTREM);
-				EnableWindow(hw, TRUE);
-				hw = GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT);
-				EnableWindow(hw, TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTREM), TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT), TRUE);
 
-				hw = GetDlgItem(hwndDlg, IDC_BTN_DESTUP);
-				EnableWindow(hw, (sel > 0));
-				hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-				int count = SendMessage(hw, LB_GETCOUNT, 0, 0);
-				hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
-				EnableWindow(hw, (sel < count - 1));
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), (sel > 0));
+				int count = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCOUNT, 0, 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), (sel < count - 1));
 			}
 		}
 
@@ -367,33 +326,30 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			switch( LOWORD( wParam ))
 			{
 			case IDC_BTN_DESTEDIT:
-				hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-				sel = SendMessage(hw, LB_GETCURSEL, 0, 0);
+			{
+				int sel = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
 				if (sel != LB_ERR)
 				{
-					PINGADDRESS *item = (PINGADDRESS *)SendMessage(hw, LB_GETITEMDATA, sel, 0);
+					PINGADDRESS *item = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel, 0);
 					PINGADDRESS temp = *item;
 					if (Edit(hwndDlg, temp))
 					{
 						*item = temp;
-						SendMessage(hw, LB_DELETESTRING, (WPARAM)sel, 0);
-						SendMessage(hw, LB_INSERTSTRING, (WPARAM)sel, (LPARAM)item->pszLabel);
-						SendMessage(hw, LB_SETITEMDATA, (WPARAM)sel, (LPARAM)item);
-						SendMessage(hw, LB_SETCURSEL, (WPARAM)sel, 0);
+						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel, 0);
+						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)sel, (LPARAM)item->pszLabel);
+						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)sel, (LPARAM)item);
+						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETCURSEL, (WPARAM)sel, 0);
 
-						hw = GetDlgItem(hwndDlg, IDC_BTN_DESTREM);
-						EnableWindow(hw, TRUE);
-						hw = GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT);
-						EnableWindow(hw, TRUE);
-						hw = GetDlgItem(hwndDlg, IDC_BTN_DESTUP);
-						EnableWindow(hw, sel > 0);
-						hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
-						int count = SendMessage(hw, LB_GETCOUNT, 0, 0);
-						EnableWindow(hw, (sel < count - 1));
+						EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTREM), TRUE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT), TRUE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), sel > 0);
+						int count = SendDlgItemMessage(hwndDlg, IDC_BTN_DESTDOWN, LB_GETCOUNT, 0, 0);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), (sel < count - 1));
 
 						SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 					}
 				}
+			}
 				break;
 			case IDC_BTN_DESTADD:
 
@@ -410,56 +366,46 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				{
 					temp_list.push_back(add_edit_addr);
 
-					hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-					int index = SendMessage(hw, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)add_edit_addr.pszLabel);
-					hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-					SendMessage(hw, LB_SETCURSEL, (WPARAM)index, 0);
-					SendMessage(hw, LB_SETITEMDATA, (WPARAM)index, (LPARAM)&(temp_list.back()));
+					int index = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)add_edit_addr.pszLabel);
+					SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETCURSEL, (WPARAM)index, 0);
+					SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)index, (LPARAM)&(temp_list.back()));
 
-					hw = GetDlgItem(hwndDlg, IDC_BTN_DESTREM);
-					EnableWindow(hw, TRUE);
-					hw = GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT);
-					EnableWindow(hw, TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTREM), TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT), TRUE);
 
-					sel = (int)temp_list.size() - 1;
-					hw = GetDlgItem(hwndDlg, IDC_BTN_DESTUP);
-					EnableWindow(hw, (sel > 0));
-					hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-					int count = SendMessage(hw, LB_GETCOUNT, 0, 0);
-					hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
-					EnableWindow(hw, (sel < count - 1));
+					int sel = (int)temp_list.size() - 1;
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), (sel > 0));
+					int count = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCOUNT, 0, 0);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), (sel < count - 1));
 
 					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 				}
 
 				break;
 			case IDC_BTN_DESTREM:
-				hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-				sel = SendMessage(hw, LB_GETCURSEL, 0, 0);
+			{
+				int sel = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
 				if(sel != LB_ERR) {
-					PINGADDRESS *item = (PINGADDRESS *)SendMessage(hw, LB_GETITEMDATA, sel, 0);
-					SendMessage(hw, LB_DELETESTRING, (WPARAM)sel, 0);
+					PINGADDRESS *item = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel, 0);
+					SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel, 0);
 					temp_list.remove(*item);
 				}
 
-				hw = GetDlgItem(hwndDlg, IDC_BTN_DESTREM);
-				EnableWindow(hw, FALSE);
-				hw = GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT);
-				EnableWindow(hw, FALSE);
-				hw = GetDlgItem(hwndDlg, IDC_BTN_DESTUP);
-				EnableWindow(hw, FALSE);
-				hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
-				EnableWindow(hw, FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTREM), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), FALSE);
 
 				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				RefreshWindow(0, 0);
 				break;
+			}
 			case IDC_BTN_DESTDOWN:
 				{
-					hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-					int sel2 = SendMessage(hw, LB_GETCURSEL, 0, 0);
+					int sel2 = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
 					if(sel2 != LB_ERR) {
-						PINGADDRESS *item = (PINGADDRESS *)SendMessage(hw, LB_GETITEMDATA, sel2, 0),
-							*item2 = (PINGADDRESS *)SendMessage(hw, LB_GETITEMDATA, sel2 + 1, 0);
+						PINGADDRESS *item = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel2, 0),
+							*item2 = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel2 + 1, 0);
 						if(item && item2)
 						{
 							add_edit_addr = *item;
@@ -471,20 +417,17 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							item->index = index2;
 							item2->index = index;
 
-							SendMessage(hw, LB_DELETESTRING, (WPARAM)sel2, (LPARAM)0);
-							SendMessage(hw, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
-							SendMessage(hw, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
-							SendMessage(hw, LB_DELETESTRING, (WPARAM)(sel2 + 1), (LPARAM)0);
-							SendMessage(hw, LB_INSERTSTRING, (WPARAM)(sel2 + 1), (LPARAM)item2->pszLabel);
-							SendMessage(hw, LB_SETITEMDATA, (WPARAM)(sel2 + 1), (LPARAM)item2);
-							SendMessage(hw, LB_SETCURSEL, (WPARAM)(sel2 + 1), 0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel2, (LPARAM)0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)(sel2 + 1), (LPARAM)0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)(sel2 + 1), (LPARAM)item2->pszLabel);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)(sel2 + 1), (LPARAM)item2);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETCURSEL, (WPARAM)(sel2 + 1), 0);
 
-							hw = GetDlgItem(hwndDlg, IDC_BTN_DESTUP);
-							EnableWindow(hw, (sel2 + 1 > 0));
-							hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-							int count = SendMessage(hw, LB_GETCOUNT, 0, 0);
-							hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
-							EnableWindow(hw, (sel2 + 1 < count - 1));
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), (sel2 + 1 > 0));
+							int count = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCOUNT, 0, 0);
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), (sel2 + 1 < count - 1));
 
 							SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 						}
@@ -493,11 +436,10 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				break;
 			case IDC_BTN_DESTUP:
 				{
-					hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-					int sel2 = SendMessage(hw, LB_GETCURSEL, 0, 0);
+					int sel2 = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
 					if(sel2 != LB_ERR) {
-						PINGADDRESS *item = (PINGADDRESS *)SendMessage(hw, LB_GETITEMDATA, sel2, 0),
-							*item2 = (PINGADDRESS *)SendMessage(hw, LB_GETITEMDATA, sel2 - 1, 0);
+						PINGADDRESS *item = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel2, 0),
+							*item2 = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel2 - 1, 0);
 
 						if (item && item2)
 						{
@@ -510,22 +452,19 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							item->index = index2;
 							item2->index = index;
 
-							SendMessage(hw, LB_DELETESTRING, (WPARAM)sel2, (LPARAM)0);
-							SendMessage(hw, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
-							SendMessage(hw, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel2, (LPARAM)0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
 
-							SendMessage(hw, LB_DELETESTRING, (WPARAM)(sel2 - 1), (LPARAM)0);
-							SendMessage(hw, LB_INSERTSTRING, (WPARAM)(sel2 - 1), (LPARAM)item2->pszLabel);
-							SendMessage(hw, LB_SETITEMDATA, (WPARAM)(sel2 - 1), (LPARAM)item2);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)(sel2 - 1), (LPARAM)0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)(sel2 - 1), (LPARAM)item2->pszLabel);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)(sel2 - 1), (LPARAM)item2);
 
-							SendMessage(hw, LB_SETCURSEL, (WPARAM)(sel2 - 1), 0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETCURSEL, (WPARAM)(sel2 - 1), 0);
 
-							hw = GetDlgItem(hwndDlg, IDC_BTN_DESTUP);
-							EnableWindow(hw, (sel2 - 1 > 0));
-							hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-							int count = SendMessage(hw, LB_GETCOUNT, 0, 0);
-							hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
-							EnableWindow(hw, (sel2 - 1 < count - 1));
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), (sel2 - 1 > 0));
+							int count = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCOUNT, 0, 0);
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), (sel2 - 1 < count - 1));
 
 							SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 						}
@@ -557,7 +496,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-int PingOptInit(WPARAM wParam,LPARAM lParam)
+int PingOptInit(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
@@ -566,12 +505,12 @@ int PingOptInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszTitle = LPGENT("PING");
 
 	odp.ptszTab = LPGENT("Settings");
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_DIALOG1);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG1);
 	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab = LPGENT("Hosts");
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_DIALOG2);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG2);
 	odp.pfnDlgProc = DlgProcOpts2;
 	Options_AddPage(wParam,&odp);
 	return 0;

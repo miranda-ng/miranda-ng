@@ -33,7 +33,7 @@ const bool PINGADDRESS::operator<(const PINGADDRESS &b) const
 
 // lParam is address of pointer to a std::list<PINGADDRESS> 
 // copies data into this structure
-INT_PTR GetPingList(WPARAM wParam,LPARAM lParam)
+INT_PTR GetPingList(WPARAM,LPARAM lParam)
 {
 	PINGLIST *pa = (PINGLIST *)lParam;
 
@@ -44,7 +44,7 @@ INT_PTR GetPingList(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR GetListSize(WPARAM wParam, LPARAM lParam)
+INT_PTR GetListSize(WPARAM, LPARAM)
 {
 	INT_PTR ret = 0;
 	EnterCriticalSection(&list_cs);
@@ -65,17 +65,17 @@ void write_ping_address(PINGADDRESS &i)
 	}
 
 	db_set_dw(0, buff, "Id", i.item_id);
-	db_set_s(0, buff, "Address", i.pszName);
-	db_set_s(0, buff, "Label", i.pszLabel);
+	db_set_ts(0, buff, "Address", i.pszName);
+	db_set_ts(0, buff, "Label", i.pszLabel);
 	db_set_w(0, buff, "Status", i.status);
 	db_set_dw(0, buff, "Port", i.port);
 	db_set_s(0, buff, "Proto", i.pszProto);
-	if(strlen(i.pszCommand))
-		db_set_s(0, buff, "Command", i.pszCommand);
+	if(_tcslen(i.pszCommand))
+		db_set_ts(0, buff, "Command", i.pszCommand);
 	else
 		db_unset(0, buff, "Command");
-	if(strlen(i.pszParams))
-		db_set_s(0, buff, "CommandParams", i.pszParams);
+	if(_tcslen(i.pszParams))
+		db_set_ts(0, buff, "CommandParams", i.pszParams);
 	else
 		db_unset(0, buff, "CommandParams");
 	db_set_w(0, buff, "SetStatus", i.set_status);
@@ -117,13 +117,13 @@ bool read_ping_address(PINGADDRESS &pa) {
 	if((pa.item_id = db_get_dw(0, buff, "Id", 0)) == 0)	return false;
 
 	DBVARIANT dbv;
-	if(!db_get(0, buff, "Address", &dbv)) {
-		strncpy(pa.pszName, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
+	if(!db_get_ts(0, buff, "Address", &dbv)) {
+		_tcsncpy(pa.pszName, dbv.ptszVal, MAX_PINGADDRESS_STRING_LENGTH);
 		db_free(&dbv);
 	} else return false;
 
-	if(!db_get(0, buff, "Label", &dbv)) {
-		strncpy(pa.pszLabel, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
+	if(!db_get_ts(0, buff, "Label", &dbv)) {
+		_tcsncpy(pa.pszLabel, dbv.ptszVal, MAX_PINGADDRESS_STRING_LENGTH);
 		db_free(&dbv);
 	} else return false;
 
@@ -132,18 +132,18 @@ bool read_ping_address(PINGADDRESS &pa) {
 
 	pa.port = (int)db_get_dw(0, buff, "Port", -1);
 
-	if(!db_get(0, buff, "Proto", &dbv)) {
+	if(!db_get_s(0, buff, "Proto", &dbv)) {
 		strncpy(pa.pszProto, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
 		db_free(&dbv);
 	} else pa.pszProto[0] = '\0';
 
-	if(!db_get(0, buff, "Command", &dbv)) {
-		strncpy(pa.pszCommand, dbv.pszVal, MAX_PATH);
+	if(!db_get_ts(0, buff, "Command", &dbv)) {
+		_tcsncpy(pa.pszCommand, dbv.ptszVal, MAX_PATH);
 		db_free(&dbv);
 	} else
 		pa.pszCommand[0] = '\0';
-	if(!db_get(0, buff, "CommandParams", &dbv)) {
-		strncpy(pa.pszParams, dbv.pszVal, MAX_PATH);
+	if(!db_get_ts(0, buff, "CommandParams", &dbv)) {
+		_tcsncpy(pa.pszParams, dbv.ptszVal, MAX_PATH);
 		db_free(&dbv);
 	} else
 		pa.pszParams[0] = '\0';

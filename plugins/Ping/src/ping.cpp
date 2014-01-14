@@ -79,12 +79,10 @@ int OnShutdown(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam) {
+int OnModulesLoaded(WPARAM, LPARAM) {
 	NETLIBUSER nl_user = {0};
 	nl_user.cbSize = sizeof(nl_user);
 	nl_user.szSettingsModule = PLUG;
-	//nl_user.flags = NUF_OUTGOING | NUF_HTTPGATEWAY | NUF_NOOPTIONS;
-	//nl_user.flags = NUF_OUTGOING | NUF_NOOPTIONS;
 	nl_user.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nl_user.ptszDescriptiveName = TranslateT("Ping Plugin");
 	nl_user.szHttpGatewayHello = 0;
@@ -114,7 +112,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam) {
 
 	graphs_init();
 
-	if(options.logging) CallService(PLUG "/Log", (WPARAM)"start", 0);
+	if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("start"), 0);
 
 	return 0;
 }
@@ -164,7 +162,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	CloseHandle( mainThread );
 
-	if(options.logging) CallService(PLUG "/Log", (WPARAM)"stop", 0);
+	if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("stop"), 0);
 
 	return 0;
 }

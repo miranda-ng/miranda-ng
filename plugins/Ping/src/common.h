@@ -53,7 +53,7 @@
 #define DEFAULT_SHOW_POPUP2		false
 #define DEFAULT_BLOCK_REPS		true
 #define DEFAULT_LOGGING_ENABLED	false
-#define DEFAULT_LOG_FILENAME	"ping_log.txt"
+#define DEFAULT_LOG_FILENAME	_T("ping_log.txt")
 #define DEFAULT_NO_TEST_ICON	true
 #define DEFAULT_ATTACH_TO_CLIST	false
 
@@ -63,7 +63,7 @@
 typedef struct {
 	int ping_period, ping_timeout;
 	bool show_popup, show_popup2, block_reps, logging;
-	char log_filename[MAX_PATH];
+	TCHAR log_filename[MAX_PATH];
 	bool no_test_icon;
 	int row_height;
 	int indent;
@@ -90,16 +90,16 @@ typedef LinkedList< HistPair > HistoryList;
 struct PINGADDRESS {
 	int cbSize;	//size in bytes of this structure
 	DWORD item_id;
-	char pszName[MAX_PINGADDRESS_STRING_LENGTH];		//IP address or domain name
-	char pszLabel[MAX_PINGADDRESS_STRING_LENGTH];
+	TCHAR pszName[MAX_PINGADDRESS_STRING_LENGTH];		//IP address or domain name
+	TCHAR pszLabel[MAX_PINGADDRESS_STRING_LENGTH];
 	bool responding;
 	int status;
 	short round_trip_time;
 	int miss_count;
 	int port; // -1 for ICMP, non-zero for TCP
 	char pszProto[MAX_PINGADDRESS_STRING_LENGTH];
-	char pszCommand[MAX_PATH];
-	char pszParams[MAX_PATH];
+	TCHAR pszCommand[MAX_PATH];
+	TCHAR pszParams[MAX_PATH];
 	unsigned int get_status;		// on success, if status equals this
 	unsigned int set_status;	// set it to this
 	int index;
