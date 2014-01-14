@@ -213,7 +213,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 						SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_SETITEMDATA, item, (LPARAM)statusModeList[i]);
 						if (statusModeList[i] == setting->lv1Status) {
 							SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_SETCURSEL, (WPARAM)item, 0);
-							SetDlgItemText(hwndDlg, IDC_SETNASTR, CMString().Format(TranslateT("minutes of %s mode"), statusMode));
+							SetDlgItemText(hwndDlg, IDC_SETNASTR, CMString(FORMAT, TranslateT("minutes of %s mode"), statusMode));
 						}
 						if (statusModeList[i] == setting->lv2Status)
 							SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_SETCURSEL, (WPARAM)item, 0);
@@ -228,7 +228,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
 
 			setting->lv1Status = (int)SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_GETCURSEL, 0, 0), 0);
-			SetDlgItemText(hwndDlg, IDC_SETNASTR, CMString().Format(TranslateT("minutes of %s mode"), pcli->pfnGetStatusModeDescription(setting->lv1Status, 0)));
+			SetDlgItemText(hwndDlg, IDC_SETNASTR, CMString(FORMAT, TranslateT("minutes of %s mode"), pcli->pfnGetStatusModeDescription(setting->lv1Status, 0)));
 			break;
 
 		case IDC_LV2STATUS:

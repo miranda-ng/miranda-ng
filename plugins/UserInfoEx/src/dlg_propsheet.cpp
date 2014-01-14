@@ -124,7 +124,7 @@ private:
 		// check if icq is online
 		if (!IsProtoOnline((*_pPd)->szModuleName))
 			MsgBox(_pPs->hDlg, MB_ICON_WARNING, TranslateT("Upload Details"),
-				CMString().Format(TranslateT("Protocol '%s' is offline"), _A2T((*_pPd)->szModuleName)),
+				CMString(FORMAT, TranslateT("Protocol '%s' is offline"), _A2T((*_pPd)->szModuleName)),
 				TranslateT("You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only."));
 
 		// start uploading process
@@ -1138,8 +1138,8 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 		HWND hName = GetDlgItem(hDlg, TXT_NAME);
 		SetWindowText(hName, pszName);
-		SetWindowText(hDlg, CMString().Format(_T("%s - %s"), pszName, TranslateT("Edit Contact Information")));
-		SetDlgItemText(hDlg, IDC_HEADERBAR, CMString().Format(_T("%s\n%s"), TranslateT("Edit Contact Information"), pszName));
+		SetWindowText(hDlg, CMString(FORMAT, _T("%s - %s"), pszName, TranslateT("Edit Contact Information")));
+		SetDlgItemText(hDlg, IDC_HEADERBAR, CMString(FORMAT, _T("%s\n%s"), TranslateT("Edit Contact Information"), pszName));
 
 		// redraw the name control
 		POINT	pt = { 0, 0 };

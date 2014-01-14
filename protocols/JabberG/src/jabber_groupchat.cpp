@@ -755,7 +755,7 @@ static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 
 		if (param->ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
 			replaceStrT(item->nick, szBuffer);
-			param->ppro->SendPresenceTo(param->ppro->m_iStatus, CMString().Format(_T("%s/%s"), item->jid, szBuffer), NULL);
+			param->ppro->SendPresenceTo(param->ppro->m_iStatus, CMString(FORMAT, _T("%s/%s"), item->jid, szBuffer), NULL);
 		}
 	}
 

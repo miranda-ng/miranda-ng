@@ -727,7 +727,7 @@ public:
 	{
 		CSuper::OnInitDialog();
 
-		SetDlgItemText(m_hwnd, IDC_HEADERBAR, CMString().Format(TranslateT("%s\nSend group chat invitation."), m_room));
+		SetDlgItemText(m_hwnd, IDC_HEADERBAR, CMString(FORMAT, TranslateT("%s\nSend group chat invitation."), m_room));
 		WindowSetIcon(m_hwnd, m_proto, "group");
 
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE,
