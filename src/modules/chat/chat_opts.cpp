@@ -322,12 +322,18 @@ int OptionsInit(void)
 	ci.pSettings->UserListFont = NULL;
 	ci.pSettings->UserListHeadingsFont = NULL;
 	ci.pSettings->MessageBoxFont = NULL;
-	ci.pSettings->iSplitterX = db_get_w(NULL, "Chat", "SplitterX", 105);
-	ci.pSettings->iSplitterY = db_get_w(NULL, "Chat", "SplitterY", 90);
 	ci.pSettings->iX = db_get_dw(NULL, "Chat", "roomx", -1);
 	ci.pSettings->iY = db_get_dw(NULL, "Chat", "roomy", -1);
 	ci.pSettings->iWidth = db_get_dw(NULL, "Chat", "roomwidth", -1);
 	ci.pSettings->iHeight = db_get_dw(NULL, "Chat", "roomheight", -1);
+
+	ci.pSettings->iSplitterX = db_get_w(NULL, "Chat", "SplitterX", 105);
+	if (ci.pSettings->iSplitterX <= 50)
+		ci.pSettings->iSplitterX = 105;
+	ci.pSettings->iSplitterY = db_get_w(NULL, "Chat", "SplitterY", 50);
+	if (ci.pSettings->iSplitterY <= 20)
+		ci.pSettings->iSplitterY = 50;
+
 	LoadGlobalSettings();
 
 	SkinAddNewSoundEx("ChatMessage", LPGEN("Group chats"), LPGEN("Incoming message"));

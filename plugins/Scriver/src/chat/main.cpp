@@ -96,11 +96,9 @@ int Chat_ModulesLoaded(WPARAM wParam,LPARAM lParam)
 void LoadIcons(void)
 {
 	LoadMsgLogBitmaps();
-	return ;
 }
 
 void FreeIcons(void)
 {
 	FreeMsgLogBitmaps();
-	return;
 }
