@@ -18,7 +18,7 @@ function DBReadUTF8   (hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;d
 function DBReadUnicode(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;default:PWideChar=nil):PWideChar;
 
 function DBReadStruct (hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;
-         ptr:pointer;size:dword):Integer;
+         ptr:pointer;size:dword):uint_ptr;
 function DBWriteStruct(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;
          ptr:pointer;size:dword):Integer;
 
@@ -70,8 +70,9 @@ begin
 end;
 
 function DBReadSettingStr(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
-  Result:=db_get_s(hContact,szModule,szSetting,dbv,DBVT_ASCIIZ);
+  result:=db_get_s(hContact, szModule, szSetting, dbv, DBVT_ASCIIZ);
 end;
 
 function DBReadStringLength(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar):integer;
@@ -84,7 +85,7 @@ begin
   if (i<>0) or (dbv.szVal.a=nil) or (dbv.szVal.a^=#0) then
     result:=0
   else
-    result:=lstrlena(dbv.szVal.a);
+    result:=StrLen(dbv.szVal.a);
   DBFreeVariant(@dbv);
 end;
 
@@ -95,8 +96,7 @@ var
   i:int_ptr;
 begin
   FillChar(dbv,SizeOf(dbv),0);
-  dbv._type    :=enc;
-  i:=db_get_s(hContact,szModule,szSetting,@dbv,DBVT_ASCIIZ);
+  i:=db_get_s(hContact,szModule,szSetting,@dbv,enc);
   if i=0 then
     default:=dbv.szVal.a;
 
@@ -105,11 +105,11 @@ begin
   else
     StrDup(result,default);
 
-//!!  if i=0 then
-    DBFreeVariant(@dbv);
+  DBFreeVariant(@dbv);
 end;
 
 function DBReadUTF8(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;default:PAnsiChar=nil):PAnsiChar;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=DBReadString(hContact,szModule,szSetting,default,DBVT_UTF8);
 end;
@@ -133,7 +133,7 @@ begin
 end;
 
 function DBReadStruct(hContact:THANDLE;szModule:PAnsiChar;szSetting:PAnsiChar;
-         ptr:pointer;size:dword):Integer;
+         ptr:pointer;size:dword):uint_ptr;
 var
   dbv:TDBVariant;
 begin
@@ -143,9 +143,11 @@ begin
   if (DBReadSetting(0,szModule,szSetting,@dbv)=0) and
      (dbv.pbVal<>nil) and (dbv.cpbVal=size) then
   begin
+    if ptr=nil then
+      mGetMem(ptr,size);
     move(dbv.pbVal^,ptr^,size);
     DBFreeVariant(@dbv);
-    result:=1;
+    result:=uint_ptr(ptr)
   end
   else
     result:=0;
@@ -233,17 +235,21 @@ function DBDeleteGroup(hContact:THANDLE;szModule:PAnsiChar;prefix:pAnsiChar=nil)
 var
   ces:TDBCONTACTENUMSETTINGS;
   p:PAnsiChar;
-  num,len:integer;
+  code,num:integer;
   ptr:pAnsiChar;
+  res:boolean;
+  len:cardinal;
+  mask:array [0..31] of AnsiChar;
 begin
   ces.szModule:=szModule;
   num:=0;
-
+  //calculate size for setting names buffer
   ces.pfnEnumProc:=@EnumSettingsProcCalc;
   ces.lParam     :=lParam(@num);
   ces.ofsSettings:=0;
   CallService(MS_DB_CONTACT_ENUMSETTINGS,hContact,lparam(@ces));
 
+  //get setting names list
   GetMem(p,num+1);
   ptr:=p;
   ces.pfnEnumProc:=@EnumSettingsProc;
@@ -253,15 +259,53 @@ begin
   ptr^:=#0;
 
   ptr:=p;
+  code:=0;
   if (prefix<>nil) and (prefix^<>#0) then
-    len:=StrLen(prefix)
+  begin
+    len:=StrLen(prefix);
+
+    if prefix[len-1]='*' then // bla*
+    begin
+      code:=1;
+      dec(len);
+    end;
+    if prefix^='*' then // *bla
+    begin
+      code:=code or 2;
+      dec(len);
+      inc(prefix);
+    end;
+  end
   else
     len:=0;
+  StrCopy(mask,prefix,len);
+
   while ptr^<>#0 do
   begin
-    if (len=0) or (StrCmp(prefix,ptr,len)=0) then
+    if len<>0 then
     begin
-      db_unset(hContact,szModule,ptr);
+      res:=false;
+      case code of
+        // postfix (right side)
+        2: begin
+          num:=StrLen(ptr)-len;
+          if num>=0 then
+            res:=StrCmp(mask,ptr+num,len)=0;
+        end;
+        // content (left, middle or right, no matter)
+        3: begin
+          res:=StrPos(ptr,mask)<>nil;
+        end;
+      else // 0 or 1, prefix (left side)
+        res:=StrCmp(mask,ptr,len)=0;
+      end;
+    end
+    else
+      res:=true;
+
+    if res then
+    begin
+      DBDeleteSetting(hContact,szModule,ptr);
     end;
     while ptr^<>#0 do inc(ptr);
     inc(ptr);
@@ -269,7 +313,7 @@ begin
   FreeMem(p);
 end;
 
-function DBDeleteModule(szModule:PAnsiChar):integer; // 0.8.0+
+function DBDeleteModule(szModule:PAnsiChar):integer;
 begin
   result:=0;
   CallService(MS_DB_MODULE_DELETE,0,lParam(szModule));

@@ -6,8 +6,8 @@ uses windows;
 
 // exported flags
 const
-  EF_SCRIPT = 1;
-  EF_ALL    = EF_SCRIPT; // what can be changed
+  EF_SCRIPT = 1;         // right now, just "Variables" script
+  EF_ALL    = EF_SCRIPT; // what can be changed in runtime
   EF_FORCES = $80;
   EF_FORCET = $40;
   EF_FORCE  = EF_FORCES or EF_FORCET;
@@ -21,6 +21,14 @@ function EnableEditField(wnd:HWND; enable:boolean):boolean; overload;
 function EnableEditField(Dialog:HWND; id:uint; enable:boolean):boolean; overload;
 function ShowEditField(wnd:HWND; mode:integer):boolean;overload;
 function ShowEditField(Dialog:HWND; id:uint; mode:integer):boolean;overload;
+
+{
+  -1 - cancel
+   1 - script
+   0 - new text
+}
+function ShowEditBox(parent:HWND;var text:pWideChar;title:pWideChar):int_ptr;
+
 
 implementation
 
@@ -371,6 +379,181 @@ end;
 function ShowEditField(Dialog:HWND; id:uint; mode:integer):boolean;
 begin
   result:=ShowEditField(GetDlgItem(Dialog,id),mode);
+end;
+
+//----- Separate Edit window -----
+
+type
+  pResultText = ^tResultText;
+  tResultText = record
+    text:pWideChar;
+    typ :integer;
+  end;
+  pSepDlgParam = ^tSepDlgParam;
+  tSepDlgParam = record
+    title:pWideChar;
+    text :pWideChar;
+  end;
+
+function EditWndProcSep(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+var
+  pc:pWideChar;
+  wnd,wnd1:HWND;
+  vhi:TVARHELPINFO;
+  p:pResultText;
+  cr:integer;
+  idshow,idhide:integer;
+  urd:TUTILRESIZEDIALOG;
+begin
+  result:=0;
+
+  case hMessage of
+    WM_DESTROY: begin
+    end;
+
+    WM_INITDIALOG: begin
+      TranslateDialogDefault(Dialog);
+
+      SetWindowTextW(Dialog,pSepDlgParam(lParam)^.title);
+
+      idshow:=IDC_TEXT_EDIT_NW;
+      idhide:=IDC_TEXT_EDIT_W;
+      SetDlgItemTextW(Dialog,idshow,pSepDlgParam(lParam)^.text);
+      ShowWindow(GetDlgItem(Dialog,idshow),SW_SHOW);
+      ShowWindow(GetDlgItem(Dialog,idhide),SW_HIDE);
+
+      wnd:=GetDlgItem(Dialog,IDC_SCRIPT_HELP);
+      if ServiceExists(MS_VARS_FORMATSTRING)<>0 then
+      begin
+        SendMessage(wnd,BM_SETIMAGE,IMAGE_ICON,
+            CallService(MS_VARS_GETSKINITEM,0,VSI_HELPICON));
+        SendMessage(wnd,BUTTONADDTOOLTIP,
+            CallService(MS_VARS_GETSKINITEM,0,VSI_HELPTIPTEXT),0);
+{
+        SendMessage(wnd,BM_SETIMAGE,IMAGE_ICON,
+            CallService(MS_SKIN_LOADICON,SKINICON_OTHER_HELP,0));
+}
+      end
+      else
+      begin
+        ShowWindow(wnd,SW_HIDE);
+      end;
+    end;
+
+    WM_GETMINMAXINFO: begin
+      with PMINMAXINFO(lParam)^ do
+      begin
+        ptMinTrackSize.x:=200;
+        ptMinTrackSize.y:=180;
+      end;
+    end;
+
+    WM_SIZE: begin
+      FillChar(urd,SizeOf(TUTILRESIZEDIALOG),0);
+      urd.cbSize    :=SizeOf(urd);
+      urd.hwndDlg   :=Dialog;
+      urd.hInstance :=hInstance;
+      urd.lpTemplate:='IDD_EDITCONTROL';
+      urd.lParam    :=0;
+      urd.pfnResizer:=@EditDlgResizer;
+      CallService(MS_UTILS_RESIZEDIALOG,0,tlparam(@urd));
+    end;
+
+    WM_COMMAND: begin
+      case wParam shr 16 of
+        BN_CLICKED: begin
+          case loword(wParam) of
+            IDC_TEXT_WRAP: begin
+              if IsDlgButtonChecked(Dialog,IDC_TEXT_WRAP)<>BST_UNCHECKED then
+              begin
+                idshow:=IDC_TEXT_EDIT_W;
+                idhide:=IDC_TEXT_EDIT_NW;
+              end
+              else
+              begin
+                idshow:=IDC_TEXT_EDIT_NW;
+                idhide:=IDC_TEXT_EDIT_W;
+              end;
+              wnd :=GetDlgItem(Dialog,idhide);
+              wnd1:=GetDlgItem(Dialog,idshow);
+              pc:=GetDlgText(wnd);
+              SetDlgItemTextW(Dialog,idshow,pc);
+              mFreeMem(pc);
+              cr:=hiword(SendMessage(wnd,EM_GETSEL,0,0));
+              SendMessage(wnd1,EM_SETSEL,-1,cr);
+              ShowWindow(wnd1,SW_SHOW);
+              ShowWindow(wnd ,SW_HIDE);
+
+//              SetWindowLongPtr(wnd,GWL_STYLE,GetWindowLongPtr(wnd,GWL_STYLE) xor WS_HSCROLL);
+//              SetWindowLongPtr(wnd,GWL_STYLE,GetWindowLongPtr(wnd,GWL_STYLE) xor ES_AUTOHSCROLL);
+
+            end;
+
+            IDC_SCRIPT_HELP: begin
+              FillChar(vhi,SizeOf(vhi),0);
+              with vhi do
+              begin
+                cbSize:=SizeOf(vhi);
+                flags :=VHF_FULLDLG or VHF_SETLASTSUBJECT;
+                if IsDlgButtonChecked(Dialog,IDC_TEXT_WRAP)<>BST_UNCHECKED then
+                  hwndCtrl:=GetDlgItem(Dialog,IDC_TEXT_EDIT_W)
+                else
+                  hwndCtrl:=GetDlgItem(Dialog,IDC_TEXT_EDIT_NW);
+              end;
+              CallService(MS_VARS_SHOWHELPEX,Dialog,tlparam(@vhi));
+            end;
+
+            IDOK: begin
+              mGetMem(p,SizeOf(tResultText));
+
+              if IsDlgButtonChecked(Dialog,IDC_TEXT_SCRIPT)<>BST_UNCHECKED then
+                p^.typ:=1
+              else
+                p^.typ:=0;
+
+              if IsDlgButtonChecked(Dialog,IDC_TEXT_WRAP)<>BST_UNCHECKED then
+                p^.text:=GetDlgText(Dialog,IDC_TEXT_EDIT_W)
+              else
+                p^.text:=GetDlgText(Dialog,IDC_TEXT_EDIT_NW);
+
+              EndDialog(Dialog,uint_ptr(p));
+            end;
+
+            IDCANCEL: begin // clear result / restore old value
+              EndDialog(Dialog,0);
+            end;
+          end;
+        end;
+      end;
+    end;
+{
+    WM_NOTIFY: begin
+      case integer(PNMHdr(lParam)^.code) of
+        PSN_APPLY: begin
+        end;
+      end;
+    end;
+}
+  end;
+end;
+
+function ShowEditBox(parent:HWND;var text:pWideChar;title:pWideChar):int_ptr;
+var
+  tmp:pResultText;
+  par:tSepDlgParam;
+begin
+  par.title:=title;
+  par.text :=text;
+  result:=DialogBoxParamW(hInstance,'IDD_EDITCONTROL',parent,@EditWndProcSep,tlparam(@par));
+  if result<>0 then
+  begin
+    tmp:=pResultText(result);
+    text  :=tmp^.text;
+    result:=tmp^.typ;
+    mFreeMem(tmp);
+  end
+  else
+    result:=-1;
 end;
 
 end.

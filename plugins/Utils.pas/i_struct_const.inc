@@ -13,6 +13,7 @@ const
   // Structure editor
   IDC_DATA_FULL     = 2001;
   IDC_DATA_TYPE     = 2002;
+  IDC_DATA_SIZE     = 2004;
   IDC_DATA_EDIT     = 2005;
   IDC_DATA_LEN      = 2006;
   IDC_DATA_HELP     = 2007;

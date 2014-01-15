@@ -23,8 +23,10 @@ function StringToGUID(const astr:PWideChar):TGUID; overload;
 function CB_SelectData(cb:HWND;data:lparam):lresult; overload;
 function CB_SelectData(Dialog:HWND;id:cardinal;data:lparam):lresult; overload;
 function CB_GetData   (cb:HWND;idx:integer=-1):lresult; overload;
-function CB_AddStrData (cb:HWND;astr:pAnsiChar;data:lparam=0;idx:integer=-1):HWND;
-function CB_AddStrDataW(cb:HWND;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND;
+function CB_AddStrData (cb:HWND;astr:pAnsiChar;data:lparam=0;idx:integer=-1):HWND; overload;
+function CB_AddStrData (Dialog:HWND;id:cardinal;astr:pAnsiChar;data:lparam=0;idx:integer=-1):HWND; overload;
+function CB_AddStrDataW(cb:HWND;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND; overload;
+function CB_AddStrDataW(Dialog:HWND;id:cardinal;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND; overload;
 
 // CommCtrl - ListView
 Procedure ListView_GetItemTextA(hwndLV:hwnd;i:WPARAM;iSubItem:integer;pszText:Pointer;cchTextMax:integer);
@@ -42,6 +44,8 @@ function  LV_CheckDirection(list:HWND):integer; // bit 0 - can move up, bit 1 - 
 // CommDLG - Dialogs
 function ShowDlg (dst:PAnsiChar;fname:PAnsiChar=nil;Filter:PAnsiChar=nil;open:boolean=true):boolean;
 function ShowDlgW(dst:PWideChar;fname:PWideChar=nil;Filter:PWideChar=nil;open:boolean=true):boolean;
+
+procedure GetUnitSize(wnd:HWND; var baseUnitX, baseUnitY: integer);
 
 implementation
 
@@ -220,6 +224,11 @@ begin
   SendMessageA(cb,CB_SETITEMDATA,idx,data);
 end;
 
+function CB_AddStrData(Dialog:HWND;id:cardinal;astr:pAnsiChar;data:lparam=0;idx:integer=-1):HWND;
+begin
+  result:=CB_AddStrData(GetDlgItem(Dialog,id),astr,data,idx);
+end;
+
 function CB_AddStrDataW(cb:HWND;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND;
 begin
   result:=cb;
@@ -228,6 +237,11 @@ begin
   else
     idx:=SendMessageW(cb,CB_INSERTSTRING,idx,lparam(astr));
   SendMessage(cb,CB_SETITEMDATA,idx,data);
+end;
+
+function CB_AddStrDataW(Dialog:HWND;id:cardinal;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND;
+begin
+  result:=CB_AddStrDataW(GetDlgItem(Dialog,id),astr,data,idx);
 end;
 
 function StringToGUID(const astr:PAnsiChar):TGUID;
@@ -456,6 +470,11 @@ function ShowDlg(dst:PAnsiChar;fname:PAnsiChar=nil;Filter:PAnsiChar=nil;open:boo
 var
   NameRec:OpenFileNameA;
 begin
+  if dst=nil then
+  begin
+    result:=false;
+    exit;
+  end;
   FillChar(NameRec,SizeOf(NameRec),0);
   with NameRec do
   begin
@@ -485,6 +504,11 @@ function ShowDlgW(dst:PWideChar;fname:PWideChar=nil;Filter:PWideChar=nil;open:bo
 var
   NameRec:OpenFileNameW;
 begin
+  if dst=nil then
+  begin
+    result:=false;
+    exit;
+  end;
   FillChar(NameRec,SizeOf(NameRec),0);
   with NameRec do
   begin
@@ -508,6 +532,23 @@ begin
     result:=GetOpenFileNameW({$IFDEF FPC}@{$ENDIF}NameRec)
   else
     result:=GetSaveFileNameW({$IFDEF FPC}@{$ENDIF}NameRec)
+end;
+
+procedure GetUnitSize(wnd:HWND; var baseUnitX, baseUnitY: integer);
+var
+  DC  :HDC;
+  hfo :HFONT;
+  tm  :TTEXTMETRIC;
+  size:TSIZE;
+begin
+  dc:=GetDC(wnd);
+  hfo:=SelectObject(dc,SendMessage(wnd,WM_GETFONT,0,0));
+  GetTextMetrics(dc,tm);
+  GetTextExtentPoint32(dc,'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',52,size);
+  SelectObject(dc,hfo);
+  ReleaseDC(wnd,dc);
+  baseUnitX:=(size.cx div 26+1) div 2;
+  baseUnitY:=tm.tmHeight;
 end;
 
 end.

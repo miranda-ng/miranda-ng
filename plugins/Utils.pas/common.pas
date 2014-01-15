@@ -13,7 +13,6 @@ windows
 {$ENDIF}
 ;
 
-procedure ShowDump(ptr:pbyte;len:integer);
 
 Const {- Character sets -}
   sBinNum   = ['0'..'1'];
@@ -34,39 +33,10 @@ const
   HexDigitChr  : array [0..15] of AnsiChar = ('0','1','2','3','4','5','6','7',
                                               '8','9','A','B','C','D','E','F');
 
-const
-  mimecnt = 5;
-  mimes:array [0..mimecnt-1] of record
-     mime:PAnsiChar;
-     ext:array [0..3] of AnsiChar
-  end = (
-  (mime:'image/gif' ; ext:'GIF'),
-  (mime:'image/jpg' ; ext:'JPG'),
-  (mime:'image/jpeg'; ext:'JPG'),
-  (mime:'image/png' ; ext:'PNG'),
-  (mime:'image/bmp' ; ext:'BMP')
-);
-
 var
   IsW2K,
   IsVista,
   IsAnsi:boolean;
-
-const
-  CP_UNICODE    = 1200;
-  CP_REVERSEBOM = 65534;
-const
-  SIGN_UNICODE    = $FEFF;
-  SIGN_REVERSEBOM = $FFFE;
-  SIGN_UTF8       = $BFBBEF;
-
-function BSwap(value:dword):dword;
-
-function Hash(s:pointer; len:integer{const Seed: LongWord=$9747b28c}): LongWord;
-
-function Encode(dst,src:pAnsiChar):PAnsiChar;
-function Decode(dst,src:pAnsiChar):PAnsiChar;
-function GetTextFormat(Buffer:pByte;sz:cardinal):integer;
 
 function IIF(cond:bool;ret1,ret2:integer  ):integer;   overload;
 function IIF(cond:bool;ret1,ret2:PAnsiChar):PAnsiChar; overload;
@@ -78,19 +48,50 @@ function IIF(cond:bool;const ret1,ret2:string):string; overload;
 {$IFNDEF DELPHI_7_UP}
 function IIF(cond:bool;ret1,ret2:variant  ):variant;   overload;
 {$ENDIF}
+function Min(a,b:integer):integer;
+function Max(a,b:integer):integer;
 
 function GetImageType (buf:pByte;mime:PAnsiChar=nil):dword;
 function GetImageTypeW(buf:pByte;mime:PWideChar=nil):int64;
 
+//----- Clipboard -----
+
 procedure CopyToClipboard(txt:pointer; Ansi:bool);
 function  PasteFromClipboard(Ansi:boolean;cp:dword=CP_ACP):pointer;
+
+//----- Memory -----
 
 function  mGetMem (var dst;size:integer):pointer;
 procedure mFreeMem(var ptr);
 function  mReallocMem(var dst; size:integer):pointer;
+procedure FillWord(var buf;count:cardinal;value:word); register;
+function CompareMem(P1, P2: Pointer; Length: Integer): Boolean;
+procedure ShowDump(ptr:pbyte;len:integer);
+function BSwap(value:dword):dword;
+function Hash(s:pointer; len:integer{const Seed: LongWord=$9747b28c}): LongWord;
 
-// String processing
+type
+  tSortProc = function (First,Second:integer):integer;
+  {0=equ; 1=1st>2nd; -1=1st<2nd }
+procedure ShellSort(size:integer;Compare,Swap:tSortProc);
+
+//----- String processing -----
 function FormatStrW(fmt:pWideChar; arr:array of pWideChar):pWideChar;
+function FormatSimpleW(fmt:pWideChar; arr:array of const):pWideChar;
+
+const
+  SIGN_UNICODE    = $FEFF;
+  SIGN_REVERSEBOM = $FFFE;
+  SIGN_UTF8       = $BFBBEF;
+const
+  CP_ACP        = 0;
+  CP_UTF8       = 65001;
+  CP_UNICODE    = 1200;
+  CP_REVERSEBOM = 65534;
+// trying to recognize text encoding. Returns CP_
+function GetTextFormat(Buffer:pByte;sz:cardinal):integer;
+
+//----- Encoding conversion -----
 
 function WideToCombo(src:PWideChar;var dst;cp:integer=CP_ACP):integer;
 
@@ -112,10 +113,17 @@ function FastAnsiToWideBuf(src:PAnsiChar;dst:PWideChar;len:cardinal=cardinal(-1)
 function FastWideToAnsi   (src:PWideChar;var dst:PAnsiChar):PAnsiChar;
 function FastAnsiToWide   (src:PAnsiChar;var dst:PWideChar):PWideChar;
 
+// encode/decode text (URL coding)
+function Encode(dst,src:pAnsiChar):PAnsiChar;
+function Decode(dst,src:pAnsiChar):PAnsiChar;
+// '\n'(#13#10) and '\t' (#9) (un)escaping
 function UnEscape(buf:PAnsiChar):PAnsiChar;
 function Escape  (buf:PAnsiChar):PAnsiChar;
+procedure UpperCase(src:pWideChar);
+procedure LowerCase(src:pWideChar);
 
-// ----- base strings functions -----
+//----- base strings functions -----
+
 function StrDup (var dst:PAnsiChar;src:PAnsiChar;len:cardinal=0):PAnsiChar;
 function StrDupW(var dst:PWideChar;src:PWideChar;len:cardinal=0):PWideChar;
 function StrDelete (aStr:PAnsiChar;pos,len:cardinal):PAnsiChar;
@@ -149,14 +157,43 @@ function StrPosW(const aStr, aSubStr: PWideChar): PWideChar;
 function StrIndex (const aStr, aSubStr: PAnsiChar):integer;
 function StrIndexW(const aStr, aSubStr: PWideChar):integer;
 
-procedure FillWord(var buf;count:cardinal;value:word); register;
-function CompareMem(P1, P2: Pointer; Length: Integer): Boolean;
+function GetPairChar(ch:AnsiChar):AnsiChar; overload;
+function GetPairChar(ch:WideChar):WideChar; overload;
 
-function Min(a,b:integer):integer;
-function Max(a,b:integer):integer;
+//----- String/number conversion -----
+
+function IntToHex(dst:pWideChar;Value:int64;Digits:integer=0):pWideChar; overload;
+function IntToHex(dst:PAnsiChar;Value:int64;Digits:integer=0):PAnsiChar; overload;
+function IntToStr(dst:pWideChar;Value:int64;Digits:integer=0):pWideChar; overload;
+function IntToStr(dst:PAnsiChar;Value:int64;Digits:integer=0):PAnsiChar; overload;
+function StrToInt(src:pWideChar):int64; overload;
+function StrToInt(src:PAnsiChar):int64; overload;
+function HexToInt(src:pWideChar;len:cardinal=$FFFF):int64; overload;
+function HexToInt(src:PAnsiChar;len:cardinal=$FFFF):int64; overload;
+function NumToInt(src:pWideChar):int64; overload;
+function NumToInt(src:pAnsiChar):int64; overload;
+
+//----- Date and Time -----
+const
+  SecondsPerDay = 24*60*60;
+  // Days between 1/1/0001 and 12/31/1899
+  DateDelta = 693594;
+  // Days between TDateTime basis (12/31/1899) and Unix time_t basis (1/1/1970)
+  UnixDateDelta = 25569;
+  // Days between Unix time_t basis (1/1/1970) and Windows timestamp (1/1/1601)
+  WinDateDelta = 134774; // 
+
+function IsLeapYear(Year:Word):Boolean;
+function EncodeTime(Hour, Minute, Sec: cardinal):TDateTime;
+function EncodeDate(Year, Month , Day: cardinal):TDateTime;
 
 function Timestamp(Year,Month,Day:cardinal;Hour:cardinal=0;Minute:cardinal=0;Sec:cardinal=0):dword;
 function GetCurrentTime:dword;
+
+procedure UnixTimeToFileTime(ts:int_ptr; var pft:TFILETIME);
+function FileTimeToUnixTime(const pft: TFILETIME):int_ptr;
+function TimeStampToLocalTimeStamp(ts:int_ptr):int_ptr;
+function TimestampToDateTime(ts:int_ptr):TDateTime;
 
 function TimeToInt(stime:PAnsiChar):integer; overload;
 function TimeToInt(stime:PWideChar):integer; overload;
@@ -176,18 +213,6 @@ function IntToTime(dst:PAnsiChar;time:integer):PAnsiChar; overload;
 }
 function IntToK(dst:pWideChar;value,divider,prec,post:integer):pWideChar;
 
-// string conversion
-function IntToHex(dst:pWideChar;Value:int64;Digits:integer=0):pWideChar; overload;
-function IntToHex(dst:PAnsiChar;Value:int64;Digits:integer=0):PAnsiChar; overload;
-function IntToStr(dst:pWideChar;Value:int64;Digits:integer=0):pWideChar; overload;
-function IntToStr(dst:PAnsiChar;Value:int64;Digits:integer=0):PAnsiChar; overload;
-function StrToInt(src:pWideChar):int64; overload;
-function StrToInt(src:PAnsiChar):int64; overload;
-function HexToInt(src:pWideChar;len:cardinal=$FFFF):int64; overload;
-function HexToInt(src:PAnsiChar;len:cardinal=$FFFF):int64; overload;
-function NumToInt(src:pWideChar):int64; overload;
-function NumToInt(src:pAnsiChar):int64; overload;
-
 // filename work
 function ChangeExt (src,ext:PAnsiChar):PAnsiChar;
 function ChangeExtW(src,ext:PWideChar):PWideChar;
@@ -196,138 +221,12 @@ function ExtractW(s:pWideChar;name:Boolean=true):pWideChar;
 function GetExt(fname,dst:pWideChar;maxlen:dword=100):pWideChar; overload;
 function GetExt(fname,dst:PAnsiChar;maxlen:dword=100):PAnsiChar; overload;
 
-procedure UpperCase(src:pWideChar);
-procedure LowerCase(src:pWideChar);
-function  GetPairChar(ch:AnsiChar):AnsiChar; overload;
-function  GetPairChar(ch:WideChar):WideChar; overload;
-
-type
-  tSortProc = function (First,Second:integer):integer;
-  {0=equ; 1=1st>2nd; -1=1st<2nd }
-procedure ShellSort(size:integer;Compare,Swap:tSortProc);
-
 function isPathAbsolute(path:pWideChar):boolean; overload;
 function isPathAbsolute(path:PAnsiChar):boolean; overload;
 
+//-----------------------------------------------------------------------------
+
 implementation
-
-// Murmur 2.0
-function Hash(s:pointer; len:integer{const Seed: LongWord=$9747b28c}): LongWord;
-var
-  lhash: LongWord;
-  k: LongWord;
-  tmp,data: pByte;
-const
-  // 'm' and 'r' are mixing constants generated offline.
-  // They're not really 'magic', they just happen to work well.
-  m = $5bd1e995;
-  r = 24;
-begin
-  //The default seed, $9747b28c, is from the original C library
-
-  // Initialize the hash to a 'random' value
-  lhash := {seed xor }len;
-
-  // Mix 4 bytes at a time into the hash
-  data := s;
-
-  while(len >= 4) do
-  begin
-    k := PLongWord(data)^;
-
-    k := k*m;
-    k := k xor (k shr r);
-    k := k*m;
-
-    lhash := lhash*m;
-    lhash := lhash xor k;
-
-    inc(data,4);
-    dec(len,4);
-  end;
-
-  //   Handle the last few bytes of the input array
-  if len = 3 then
-  begin
-    tmp:=data;
-    inc(tmp,2);
-    lhash := lhash xor (LongWord(tmp^) shl 16);
-  end;
-  if len >= 2 then
-  begin
-    tmp:=data;
-    inc(tmp);
-    lhash := lhash xor (LongWord(tmp^) shl 8);
-  end;
-  if len >= 1 then
-  begin
-    lhash := lhash xor (LongWord(data^));
-    lhash := lhash * m;
-  end;
-
-  // Do a few final mixes of the hash to ensure the last few
-  // bytes are well-incorporated.
-  lhash := lhash xor (lhash shr 13);
-  lhash := lhash * m;
-  lhash := lhash xor (lhash shr 15);
-
-  Result := lhash;
-end;
-
-function BSwap(value:dword):dword;
-  {$IFNDEF WIN64}
-begin
-  asm
-    mov   eax,value
-    bswap eax
-    mov   result,eax
-  end;
-  {$ELSE}
-begin
-  result:=((value and $000000FF) shl 6) +
-          ((value and $0000FF00) shl 2) +
-          ((value and $00FF0000) shr 2) +
-          ((value and $FF000000) shr 6);
-  {$ENDIF}
-end;
-
-function Encode(dst,src:pAnsiChar):PAnsiChar;
-begin
-  while src^<>#0 do
-  begin
-    if not (src^ in [' ','%','+','&','?',#128..#255]) then
-      dst^:=src^
-    else
-    begin
-      dst^:='%'; inc(dst);
-      dst^:=HexDigitChr[ord(src^) shr 4]; inc(dst);
-      dst^:=HexDigitChr[ord(src^) and $0F];
-    end;
-    inc(src);
-    inc(dst);
-  end;
-  dst^:=#0;
-  result:=dst;
-end;
-
-function Decode(dst,src:pAnsiChar):PAnsiChar;
-begin
-  while (src^<>#0) and (src^<>'&') do
-  begin
-    if (src^='%') and ((src+1)^ in sHexNum) and ((src+2)^ in sHexNum) then
-    begin
-      inc(src);
-      dst^:=AnsiChar(HexToInt(src,2));
-      inc(src);
-    end
-    else
-      dst^:=src^;
-    inc(dst);
-    inc(src);
-  end;
-  dst^:=#0;
-  result:=dst;
-end;
 
 const
   IS_TEXT_UNICODE_ASCII16            = $1;
@@ -445,40 +344,69 @@ begin
 	end;
 end;
 
-function IIF(cond:bool;ret1,ret2:integer):integer; overload;
+function IIF(cond:bool;ret1,ret2:integer):integer; overload;{$IFDEF AllowInline}inline;{$ENDIF}
 begin
   if cond then result:=ret1 else result:=ret2;
 end;
-function IIF(cond:bool;ret1,ret2:PAnsiChar):PAnsiChar; overload;
+function IIF(cond:bool;ret1,ret2:PAnsiChar):PAnsiChar; overload;{$IFDEF AllowInline}inline;{$ENDIF}
 begin
   if cond then result:=ret1 else result:=ret2;
 end;
-function IIF(cond:bool;ret1,ret2:pWideChar):pWideChar; overload;
+function IIF(cond:bool;ret1,ret2:pWideChar):pWideChar; overload;{$IFDEF AllowInline}inline;{$ENDIF}
 begin
   if cond then result:=ret1 else result:=ret2;
 end;
-function IIF(cond:bool;ret1,ret2:Extended):Extended; overload;
+function IIF(cond:bool;ret1,ret2:Extended):Extended; overload;{$IFDEF AllowInline}inline;{$ENDIF}
 begin
   if cond then result:=ret1 else result:=ret2;
 end;
-function IIF(cond:bool;ret1,ret2:tDateTime):tDateTime; overload;
+function IIF(cond:bool;ret1,ret2:tDateTime):tDateTime; overload;{$IFDEF AllowInline}inline;{$ENDIF}
 begin
   if cond then result:=ret1 else result:=ret2;
 end;
-function IIF(cond:bool;ret1,ret2:pointer):pointer; overload;
+function IIF(cond:bool;ret1,ret2:pointer):pointer; overload;{$IFDEF AllowInline}inline;{$ENDIF}
 begin
   if cond then result:=ret1 else result:=ret2;
 end;
-function IIF(cond:bool;const ret1,ret2:string):string; overload;
+function IIF(cond:bool;const ret1,ret2:string):string; overload;{$IFDEF AllowInline}inline;{$ENDIF}
 begin
   if cond then result:=ret1 else result:=ret2;
 end;
 {$IFNDEF DELPHI_7_UP}
-function IIF(cond:bool;ret1,ret2:variant):variant; overload;
+function IIF(cond:bool;ret1,ret2:variant):variant; overload;{$IFDEF AllowInline}inline;{$ENDIF}
 begin
   if cond then result:=ret1 else result:=ret2;
 end;
 {$ENDIF}
+
+function Min(a,b:integer):integer;{$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  if a>b then
+    result:=b
+  else
+    result:=a;
+end;
+
+function Max(a,b:integer):integer;{$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  if a<b then
+    result:=b
+  else
+    result:=a;
+end;
+
+const
+  mimecnt = 5;
+  mimes:array [0..mimecnt-1] of record
+     mime:PAnsiChar;
+     ext:array [0..3] of AnsiChar
+  end = (
+  (mime:'image/gif' ; ext:'GIF'),
+  (mime:'image/jpg' ; ext:'JPG'),
+  (mime:'image/jpeg'; ext:'JPG'),
+  (mime:'image/png' ; ext:'PNG'),
+  (mime:'image/bmp' ; ext:'BMP')
+);
 
 function GetImageType(buf:pByte;mime:PAnsiChar=nil):dword;
 var
@@ -532,6 +460,8 @@ begin
     else if pword (buf)^=$4D42     then result:=$00000050004D0042 // 'BMP'
   end;
 end;
+
+//----- Clipboard -----
 
 procedure CopyToClipboard(txt:pointer; Ansi:bool);
 var
@@ -906,7 +836,7 @@ begin
   result:=dst;
 end;
 
-//----- Memory work -----
+//----- Memory -----
 
 procedure FillWord(var buf;count:cardinal;value:word); register;
 {$IFNDEF WIN64}assembler;
@@ -1054,7 +984,7 @@ begin
     inc(pbyte(p2));
   end;
   result:=true;
-end; 
+end;
 {$ENDIF}
 
 function mGetMem(var dst;size:integer):pointer;
@@ -1090,20 +1020,171 @@ begin
   result:=pointer(dst);
 end;
 
-function Min(a,b:integer):integer;
+procedure ShowDump(ptr:pbyte;len:integer);
+var
+  buf: array of Ansichar;
+  i:integer;
+  p:pAnsiChar;
+  p1:pByte;
+  cnt:integer;
 begin
-  if a>b then
-    result:=b
-  else
-    result:=a;
+  SetLength(buf,len*4+1);
+  p:=@buf[0];
+  p1:=ptr;
+  cnt:=0;
+  for i:=0 to len-1 do
+  begin
+    IntToHex(p,p1^,2);
+    inc(p,2);
+    inc(p1);
+    inc(cnt);
+    if cnt=4 then
+    begin
+      cnt:=0;
+      p^:='.';
+      inc(p);
+    end;
+  end;
+  p^:=#0;
+  messageboxa(0,@buf[0],'',0);
 end;
 
-function Max(a,b:integer):integer;
+// Murmur 2.0
+function Hash(s:pointer; len:integer{const Seed: LongWord=$9747b28c}): LongWord;
+var
+  lhash: LongWord;
+  k: LongWord;
+  tmp,data: pByte;
+const
+  // 'm' and 'r' are mixing constants generated offline.
+  // They're not really 'magic', they just happen to work well.
+  m = $5bd1e995;
+  r = 24;
 begin
-  if a<b then
-    result:=b
-  else
-    result:=a;
+  //The default seed, $9747b28c, is from the original C library
+
+  // Initialize the hash to a 'random' value
+  lhash := {seed xor }len;
+
+  // Mix 4 bytes at a time into the hash
+  data := s;
+
+  while(len >= 4) do
+  begin
+    k := PLongWord(data)^;
+
+    k := k*m;
+    k := k xor (k shr r);
+    k := k*m;
+
+    lhash := lhash*m;
+    lhash := lhash xor k;
+
+    inc(data,4);
+    dec(len,4);
+  end;
+
+  //   Handle the last few bytes of the input array
+  if len = 3 then
+  begin
+    tmp:=data;
+    inc(tmp,2);
+    lhash := lhash xor (LongWord(tmp^) shl 16);
+  end;
+  if len >= 2 then
+  begin
+    tmp:=data;
+    inc(tmp);
+    lhash := lhash xor (LongWord(tmp^) shl 8);
+  end;
+  if len >= 1 then
+  begin
+    lhash := lhash xor (LongWord(data^));
+    lhash := lhash * m;
+  end;
+
+  // Do a few final mixes of the hash to ensure the last few
+  // bytes are well-incorporated.
+  lhash := lhash xor (lhash shr 13);
+  lhash := lhash * m;
+  lhash := lhash xor (lhash shr 15);
+
+  Result := lhash;
+end;
+
+function BSwap(value:dword):dword;
+  {$IFNDEF WIN64}
+begin
+  asm
+    mov   eax,value
+    bswap eax
+    mov   result,eax
+  end;
+  {$ELSE}
+begin
+  result:=((value and $000000FF) shl 24) +
+          ((value and $0000FF00) shl  8) +
+          ((value and $00FF0000) shr  8) +
+          ((value and $FF000000) shr 24);
+  {$ENDIF}
+end;
+
+procedure ShellSort(size:integer;Compare,Swap:tSortProc);
+var
+  i,j,gap:longint;
+begin
+  gap:=size shr 1;
+  while gap>0 do
+  begin
+    for i:=gap to size-1 do
+    begin
+      j:=i-gap;
+      while (j>=0) and (Compare(j,UInt(j+gap))>0) do
+      begin
+        Swap(j,UInt(j+gap));
+        dec(j,gap);
+      end;
+    end;
+    gap:=gap shr 1;
+  end;
+end;
+
+function Encode(dst,src:pAnsiChar):PAnsiChar;
+begin
+  while src^<>#0 do
+  begin
+    if not (src^ in [' ','%','+','&','?',#128..#255]) then
+      dst^:=src^
+    else
+    begin
+      dst^:='%'; inc(dst);
+      dst^:=HexDigitChr[ord(src^) shr 4]; inc(dst);
+      dst^:=HexDigitChr[ord(src^) and $0F];
+    end;
+    inc(src);
+    inc(dst);
+  end;
+  dst^:=#0;
+  result:=dst;
+end;
+
+function Decode(dst,src:pAnsiChar):PAnsiChar;
+begin
+  while (src^<>#0) and (src^<>'&') do
+  begin
+    if (src^='%') and ((src+1)^ in sHexNum) and ((src+2)^ in sHexNum) then
+    begin
+      inc(src);
+      dst^:=AnsiChar(HexToInt(src,2));
+      inc(src);
+    end
+    else
+      dst^:=src^;
+    inc(dst);
+    inc(src);
+  end;
+  dst^:=#0;
+  result:=dst;
 end;
 
 function UnEscape(buf:PAnsiChar):PAnsiChar;
@@ -1133,23 +1214,35 @@ begin
   result:=buf;
 end;
 
-procedure ShellSort(size:integer;Compare,Swap:tSortProc);
+procedure UpperCase(src:pWideChar);
 var
-  i,j,gap:longint;
+  c:WideChar;
 begin
-  gap:=size shr 1;
-  while gap>0 do
+  if src<>nil then
   begin
-    for i:=gap to size-1 do
+    while src^<>#0 do
     begin
-      j:=i-gap;
-      while (j>=0) and (Compare(j,UInt(j+gap))>0) do
-      begin
-        Swap(j,UInt(j+gap));
-        dec(j,gap);
-      end;
+      c:=src^;
+      if (c>='a') and (c<='z') then
+        src^:=WideChar(ord(c)-$20);
+      inc(src);
     end;
-    gap:=gap shr 1;
+  end;
+end;
+
+procedure LowerCase(src:pWideChar);
+var
+  c:WideChar;
+begin
+  if src<>nil then
+  begin
+    while src^<>#0 do
+    begin
+      c:=src^;
+      if (c>='A') and (c<='Z') then
+        src^:=WideChar(ord(c)+$20);
+      inc(src);
+    end;
   end;
 end;
 
@@ -1198,6 +1291,8 @@ begin
   end;
 end;
 
+//----- String processing -----
+
 function FormatStrW(fmt:pWideChar; arr:array of pWideChar):pWideChar;
 var
   i,len:integer;
@@ -1233,6 +1328,66 @@ begin
       pc^:=fmt^;
       inc(pc);
       inc(fmt);
+    end;
+  end;
+  pc^:=#0;
+end;
+
+function FormatSimpleW(fmt:pWideChar; arr:array of const):pWideChar;
+var
+  i,len:integer;
+  pc:pWideChar;
+  number:integer;
+begin
+  result:=nil;
+  if (fmt=nil) or (fmt^=#0) then
+    exit;
+
+  // calculate length
+  len:=StrLenW(fmt); // -2*Length(arr)
+  for i:=0 to HIGH(arr) do
+  begin
+    case arr[i].VType of
+      vtInteger  : inc(len,10); // max len of VInteger text
+      vtPWideChar: inc(len,StrLenW(arr[i].VPWideChar));
+    end;
+  end;
+
+  // format
+  mGetMem(result,(len+1)*SizeOf(WideChar));
+  pc:=result;
+  number:=0;
+  while fmt^<>#0 do
+  begin
+    if (fmt^='%') then
+    begin
+      case (fmt+1)^ of
+        's': begin
+          if number<=HIGH(arr) then
+          begin
+            pc:=StrCopyEW(pc,arr[number].VPWideChar);
+            inc(number);
+          end;
+          inc(fmt,2);
+        end;
+        'd': begin
+          if number<=HIGH(arr) then
+          begin
+            pc:=StrEndW(IntToStr(pc,arr[number].VInteger));
+            inc(number);
+          end;
+          inc(fmt,2);
+        end;
+        '%': begin
+          pc^:='%';
+          inc(pc);
+          inc(fmt,2);
+        end;
+      else
+        pc^:=fmt^;
+        inc(pc);
+        inc(fmt);
+      end;
     end;
   end;
   pc^:=#0;
@@ -1798,7 +1953,7 @@ begin
     result:=(p-aStr)+1; //!!!!
 end;
 
-// ----- filenames  -----
+//----- filename work -----
 
 function ChangeExt(src,ext:PAnsiChar):PAnsiChar;
 var
@@ -1948,6 +2103,20 @@ begin
   end;
 end;
 
+function isPathAbsolute(path:pWideChar):boolean;
+begin
+  result:=((path[1]=':') and (path[2]='\')) or ((path[0]='\') {and (path[1]='\')}) or
+          (StrPosW(path,'://')<>nil);
+end;
+
+function isPathAbsolute(path:pAnsiChar):boolean;
+begin
+  result:=((path[1]=':') and (path[2]='\')) or ((path[0]='\') {and (path[1]='\')}) or
+          (StrPos(path,'://')<>nil);
+end;
+
+//----- Date and Time -----
+
 type
   PDayTable = ^TDayTable;
   TDayTable = array [0..11] of cardinal;
@@ -1956,11 +2125,6 @@ const
   MonthDays: array [Boolean] of TDayTable =
     ((31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31),
      (31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31));
-
-const
-  DateDelta = 693594;
-{ Days between TDateTime basis (12/31/1899) and Unix time_t basis (1/1/1970) }
-  UnixDateDelta = 25569;
 
 function IsLeapYear(Year:Word):Boolean;
 begin
@@ -1997,7 +2161,7 @@ begin
     t := t + EncodeTime(Hour, Minute, Sec)
   else
     t := t - EncodeTime(Hour, Minute, Sec);
-  result:=Round((t - UnixDateDelta) * 86400)
+  result:=Round((t - UnixDateDelta) * SecondsPerDay);
 end;
 
 function GetCurrentTime:dword;
@@ -2006,6 +2170,38 @@ var
 begin
   GetSystemTime(st);
   result:=Timestamp(st.wYear,st.wMonth,st.wDay,st.wHour,st.wMinute,st.wSecond);
+end;
+
+procedure UnixTimeToFileTime(ts:int_ptr; var pft:TFILETIME);
+var
+  ll:uint64;
+begin
+	ll := (int64(WinDateDelta)*SecondsPerDay + ts) * 10000000;
+	pft.dwLowDateTime  := DWORD(ll);
+	pft.dwHighDateTime := ll shr 32;
+end;
+
+function FileTimeToUnixTime(const pft: TFILETIME):int_ptr;
+var
+  ll:uint64;
+begin
+	ll := (uint64(pft.dwHighDateTime) shl 32) or pft.dwLowDateTime;
+	ll := (ll div 10000000) - int64(WinDateDelta)*SecondsPerDay;
+	result := int_ptr(ll);
+end;
+
+function TimeStampToLocalTimeStamp(ts:int_ptr):int_ptr;
+var
+  ft,lft:TFileTime;
+begin
+  UnixTimeToFileTime(ts,ft);
+  FileTimeToLocalFileTime(ft, lft);
+  result:=FileTimeToUnixTime(lft);
+end;
+
+function TimestampToDateTime(ts:int_ptr):TDateTime;
+begin
+  Result := UnixDateDelta + TimeStampToLocalTimeStamp(ts) / SecondsPerDay;
 end;
 
 function TimeToInt(stime:PAnsiChar):integer;
@@ -2096,8 +2292,13 @@ begin
   result:=FastAnsiToWideBuf(IntToTime(buf,time),dst);
 end;
 
+//----- String/number conversion -----
+
 function NumToInt(src:pWideChar):int64;
 begin
+  result:=0;
+  if src=nil then exit;
+
   if (src[0]='$') and
      (AnsiChar(src[1]) in sHexNum) then
     result:=HexToInt(src+1)
@@ -2112,6 +2313,9 @@ end;
 
 function NumToInt(src:pAnsiChar):int64;
 begin
+  result:=0;
+  if src=nil then exit;
+
   if (src[0]='$') and
      (src[1] in sHexNum) then
     result:=HexToInt(src+1)
@@ -2308,38 +2512,6 @@ begin
   result:=dst;
 end;
 
-procedure UpperCase(src:pWideChar);
-var
-  c:WideChar;
-begin
-  if src<>nil then
-  begin
-    while src^<>#0 do
-    begin
-      c:=src^;
-      if (c>='a') and (c<='z') then
-        src^:=WideChar(ord(c)-$20);
-      inc(src);
-    end;
-  end;
-end;
-
-procedure LowerCase(src:pWideChar);
-var
-  c:WideChar;
-begin
-  if src<>nil then
-  begin
-    while src^<>#0 do
-    begin
-      c:=src^;
-      if (c>='A') and (c<='Z') then
-        src^:=WideChar(ord(c)+$20);
-      inc(src);
-    end;
-  end;
-end;
-
 function GetPairChar(ch:AnsiChar):AnsiChar;
 begin
   case ch of
@@ -2434,46 +2606,6 @@ begin
   result:=dst;
 end;
 
-function isPathAbsolute(path:pWideChar):boolean;
-begin
-  result:=((path[1]=':') and (path[2]='\')) or ((path[0]='\') {and (path[1]='\')}) or
-          (StrPosW(path,'://')<>nil);
-end;
-
-function isPathAbsolute(path:pAnsiChar):boolean;
-begin
-  result:=((path[1]=':') and (path[2]='\')) or ((path[0]='\') {and (path[1]='\')}) or
-          (StrPos(path,'://')<>nil);
-end;
-
-procedure ShowDump(ptr:pbyte;len:integer);
-var
-  buf: array of Ansichar;
-  i:integer;
-  p:pAnsiChar;
-  p1:pByte;
-  cnt:integer;
-begin
-  SetLength(buf,len*4+1);
-  p:=@buf[0];
-  p1:=ptr;
-  cnt:=0;
-  for i:=0 to len-1 do
-  begin
-    IntToHex(p,p1^,2);
-    inc(p,2);
-    inc(p1);
-    inc(cnt);
-    if cnt=4 then
-    begin
-      cnt:=0;
-      p^:='.';
-      inc(p);
-    end;
-  end;
-  p^:=#0;
-  messageboxa(0,@buf[0],'',0);
-end;
 begin
   CheckSystem;
 end.

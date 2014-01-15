@@ -10,6 +10,7 @@ const
   char_hex       = '$';
   char_return    = '*';
   char_script    = '%';
+  char_size      = '@';
 {$IFDEF Miranda}
   char_mmi       = '&';
 {$ENDIF}
@@ -30,6 +31,7 @@ const
   SF_RETURN = $00000001;
   SF_SCRIPT = $00000002;
   SF_MMI    = $00000004;
+  SF_SIZE   = $00000008;
   SF_LAST   = $00000080;
 type
   // int_ptr = to use aligned structure data at start
@@ -177,6 +179,7 @@ begin
   begin
     case txt^ of
       char_return: res.flags:=res.flags or SF_RETURN;
+      char_size  : res.flags:=res.flags or SF_SIZE;
 {$IFDEF Miranda}
       char_script: res.flags:=res.flags or SF_SCRIPT;
       char_mmi   : res.flags:=res.flags or SF_MMI;
@@ -608,6 +611,11 @@ begin
   begin
     p:=StrScan(pc,char_separator);
     GetOneElement(pc,element,false);
+
+    if (element.flags and SF_SIZE)<>0 then
+    begin
+      element.value:=summ-addsize;
+    end;
 
     if (element.flags and SF_SCRIPT)<>0 then
     begin

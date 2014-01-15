@@ -466,6 +466,8 @@ var
   nsn,nss:integer;
 begin
   result:=nil;
+  if storage=nil then exit;
+
   nss:=HashOf(section);
   if namespace=nil then
   begin

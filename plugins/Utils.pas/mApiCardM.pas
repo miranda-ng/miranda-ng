@@ -11,6 +11,7 @@ type
     function  GetDescription:pAnsiChar; 
     function  GetResultType :pAnsiChar; 
     procedure SetCurrentService(item:pAnsiChar);
+    function  GetWindowStatus:boolean;
   public
     constructor Create(fname:pAnsiChar; lparent:HWND=0);
     destructor Destroy; override;
@@ -19,12 +20,14 @@ type
     function NameFromList(cb:HWND):pAnsiChar;
     function HashToName(ahash:longword):pAnsiChar;
     function FillParams(wnd:HWND{;item:pAnsiChar};wparam:boolean):pAnsiChar;
+    function GetParam(wparam:boolean):pAnsiChar;
     procedure Show;//(item:pAnsiChar);
 
     property Description:pAnsiChar read GetDescription;
     property ResultType :pAnsiChar read GetResultType;
     property Service    :pAnsiChar write SetCurrentService;
     property Event      :pAnsiChar write SetCurrentService;
+    property IsShown    :boolean   read GetWindowStatus;
   private
     storage:pointer;
     current:pointer;
@@ -86,6 +89,28 @@ begin
     result:=nil;
 end;
 
+function tmApiCard.GetWindowStatus:boolean;
+begin
+  result:=HelpWindow<>0;
+end;
+
+function tmApiCard.GetParam(wparam:boolean):pAnsiChar;
+var
+  paramname:pAnsiChar;
+begin
+  if storage=nil then
+  begin
+    result:=nil;
+    exit;
+  end;
+  if wparam then
+    paramname:='wparam'
+  else
+    paramname:='lparam';
+
+  StrDup(result,GetParamSectionStr(current,paramname,''));
+end;
+
 function tmApiCard.FillParams(wnd:HWND{;item:pAnsiChar};wparam:boolean):pAnsiChar;
 var
   buf :array [0..2047] of AnsiChar;
@@ -107,6 +132,10 @@ begin
 
   StrCopy(buf,GetParamSectionStr(current,paramname,''));
   StrDup(result,@buf);
+
+  if wnd=0 then
+    exit;
+
   SendMessage(wnd,CB_RESETCONTENT,0,0);
   if buf[0]<>#0 then
   begin
@@ -139,7 +168,7 @@ begin
       begin
         FastAnsitoWideBuf(p,tmp);
         SendMessageW(wnd,CB_ADDSTRING,0,lparam(TranslateW(tmp)));
-        if (p=@buf) and (lstrcmpia(p,'structure')=0) then
+        if (p=@buf) and (StrCmp(p,'structure')=0) then
           break;
       end;
       p:=pc+1;
@@ -184,6 +213,7 @@ begin
     // edit field is text from list
     if StrCmp(pc,@buf)=0 then
     begin
+      mFreeMem(pc);
       result:=HashToName(CB_GetData(cb,idx));
       exit;
     end;

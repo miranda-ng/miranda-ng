@@ -49,7 +49,7 @@ function CreatePlaylistBuf(buf:pointer;format:integer):tPlaylist;
 
 implementation
 
-uses windows, common, io, memini;//, m_api, mirutils;
+uses windows, common, io, memini;
 
 const
   plSizeStart = 2048;
