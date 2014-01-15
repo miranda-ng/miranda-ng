@@ -73,23 +73,6 @@ int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-void TabsInit(void)
-{
-	ZeroMemory(&g_TabSession, sizeof(SESSION_INFO));
-	g_TabSession.iType = GCW_TABROOM;
-	g_TabSession.iSplitterX = g_Settings.iSplitterX;
-	g_TabSession.iSplitterY = g_Settings.iSplitterY;
-	g_TabSession.iLogFilterFlags = (int)db_get_dw(NULL, "Chat", "FilterFlags", 0x03E0);
-	g_TabSession.bFilterEnabled = db_get_b(NULL, "Chat", "FilterEnabled", 0);
-	g_TabSession.bNicklistEnabled = db_get_b(NULL, "Chat", "ShowNicklist", 1);
-	g_TabSession.iFG = 4;
-	g_TabSession.bFGSet = TRUE;
-	g_TabSession.iBG = 2;
-	g_TabSession.bBGSet = TRUE;
-
-	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
-}
-
 static void OnAddLog(SESSION_INFO *si, int isOk)
 {
 	if (isOk && si->hWnd) {
@@ -254,6 +237,18 @@ static void OnLoadSettings()
 	if (hListSelectedBkgBrush != NULL)
 		DeleteObject(hListSelectedBkgBrush);
 	hListSelectedBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT)));
+
+	ZeroMemory(&g_TabSession, sizeof(SESSION_INFO));
+	g_TabSession.iType = GCW_TABROOM;
+	g_TabSession.iSplitterX = g_Settings.iSplitterX;
+	g_TabSession.iSplitterY = g_Settings.iSplitterY;
+	g_TabSession.iLogFilterFlags = (int)db_get_dw(NULL, "Chat", "FilterFlags", 0x03E0);
+	g_TabSession.bFilterEnabled = db_get_b(NULL, "Chat", "FilterEnabled", 0);
+	g_TabSession.bNicklistEnabled = db_get_b(NULL, "Chat", "ShowNicklist", 1);
+	g_TabSession.iFG = 4;
+	g_TabSession.bFGSet = TRUE;
+	g_TabSession.iBG = 2;
+	g_TabSession.bBGSet = TRUE;
 }
 
 extern "C" __declspec(dllexport) int Load(void)
@@ -291,7 +286,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	AddIcons();
 	LoadIcons();
 	OptionsInit();
-	TabsInit();
+
+	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	return 0;
 }
 

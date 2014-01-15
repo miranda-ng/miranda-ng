@@ -124,7 +124,7 @@ static int RoomWndResize(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc)
 	BOOL bFormat = (BOOL)db_get_b(NULL, "Chat", "ShowFormatButtons", 1);
 	BOOL bToolbar = bFormat || bControl;
 	BOOL bSend = (BOOL)db_get_b(NULL, "Chat", "ShowSend", 0);
-	BOOL bNick = si->iType!=GCW_SERVER && si->bNicklistEnabled;
+	BOOL bNick = si->iType != GCW_SERVER && si->bNicklistEnabled;
 	BOOL bTabs = g_Settings.TabsEnable;
 	BOOL bTabBottom = g_Settings.TabsAtBottom;
 
@@ -134,19 +134,19 @@ static int RoomWndResize(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc)
 	TabCtrl_AdjustRect(GetDlgItem(hwndDlg, IDC_TAB), FALSE, &rcTabs);
 	TabHeight -= (rcTabs.bottom - rcTabs.top);
 	ShowWindow(GetDlgItem(hwndDlg, IDC_SMILEY), (SmileyAddInstalled && bFormat) ? SW_SHOW : SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_BOLD), bFormat?SW_SHOW:SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_UNDERLINE), bFormat?SW_SHOW:SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_ITALICS), bFormat?SW_SHOW:SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_COLOR), bFormat?SW_SHOW:SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOR), bFormat?SW_SHOW:SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_HISTORY), bControl?SW_SHOW:SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_SHOWNICKLIST), bControl?SW_SHOW:SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_FILTER), bControl?SW_SHOW:SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_CHANMGR), bControl?SW_SHOW:SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDOK), bSend?SW_SHOW:SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), bNick?SW_SHOW:SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_CLOSE), g_Settings.TabsEnable?SW_SHOW:SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_TAB), g_Settings.TabsEnable?SW_SHOW:SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_BOLD), bFormat ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_UNDERLINE), bFormat ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_ITALICS), bFormat ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_COLOR), bFormat ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOR), bFormat ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_HISTORY), bControl ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_SHOWNICKLIST), bControl ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_FILTER), bControl ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_CHANMGR), bControl ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDOK), bSend ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), bNick ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_CLOSE), g_Settings.TabsEnable ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_TAB), g_Settings.TabsEnable ? SW_SHOW : SW_HIDE);
 	if (si->iType != GCW_SERVER)
 		ShowWindow(GetDlgItem(hwndDlg, IDC_LIST), si->bNicklistEnabled?SW_SHOW:SW_HIDE);
 	else
@@ -167,50 +167,58 @@ static int RoomWndResize(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc)
 	switch(urc->wId) {
 	case IDOK:
 		GetWindowRect(si->hwndStatus, &rc);
-		urc->rcItem.left = bSend?315:urc->dlgNewSize.cx ;
-		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY+23;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom-rc.top)-1;
-		return RD_ANCHORX_RIGHT|RD_ANCHORY_CUSTOM;
+		urc->rcItem.left = bSend ? 315 : urc->dlgNewSize.cx;
+		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 23;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_CUSTOM;
 
 	case IDC_TAB:
 		urc->rcItem.top = 1;
 		urc->rcItem.left = 0;
 		urc->rcItem.right = urc->dlgNewSize.cx- 24;
-		urc->rcItem.bottom = bToolbar?(urc->dlgNewSize.cy - si->iSplitterY):(urc->dlgNewSize.cy - si->iSplitterY+20);
-		return RD_ANCHORX_CUSTOM|RD_ANCHORY_CUSTOM;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - si->iSplitterY;
+		if (bToolbar)
+			urc->rcItem.bottom += 20;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_LOG:
 		urc->rcItem.top = bTabs?(bTabBottom?0:rcTabs.top-1):0;
 		urc->rcItem.left = 0;
 		urc->rcItem.right = bNick?urc->dlgNewSize.cx - si->iSplitterX:urc->dlgNewSize.cx;
-		urc->rcItem.bottom = bToolbar?(bTabs&&bTabBottom?urc->dlgNewSize.cy - si->iSplitterY-TabHeight + 6:urc->dlgNewSize.cy - si->iSplitterY):(bTabs&&bTabBottom?urc->dlgNewSize.cy - si->iSplitterY-TabHeight+26:urc->dlgNewSize.cy - si->iSplitterY+20);
-		return RD_ANCHORX_CUSTOM|RD_ANCHORY_CUSTOM;
+		urc->rcItem.bottom = (bTabs && bTabBottom) ? urc->dlgNewSize.cy - si->iSplitterY - TabHeight + 6 : urc->dlgNewSize.cy - si->iSplitterY;
+		if (bToolbar)
+			urc->rcItem.bottom += 20;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_LIST:
 		urc->rcItem.top = bTabs?(bTabBottom?0:rcTabs.top-1):0;
 		urc->rcItem.right = urc->dlgNewSize.cx ;
 		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX + 2;
-		urc->rcItem.bottom = bToolbar?(bTabs&&bTabBottom?urc->dlgNewSize.cy - si->iSplitterY-TabHeight + 6:urc->dlgNewSize.cy - si->iSplitterY):(bTabs&&bTabBottom?urc->dlgNewSize.cy - si->iSplitterY-TabHeight+26:urc->dlgNewSize.cy - si->iSplitterY+20);
-		return RD_ANCHORX_CUSTOM|RD_ANCHORY_CUSTOM;
+		urc->rcItem.bottom = (bTabs && bTabBottom) ? urc->dlgNewSize.cy - si->iSplitterY - TabHeight + 6 : urc->dlgNewSize.cy - si->iSplitterY;
+		if (bToolbar)
+			urc->rcItem.bottom += 20;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_SPLITTERX:
-		urc->rcItem.right = urc->dlgNewSize.cx - si->iSplitterX+2;
+		urc->rcItem.right = urc->dlgNewSize.cx - si->iSplitterX + 2;
 		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX;
-		urc->rcItem.bottom = bToolbar?(bTabs&&bTabBottom?urc->dlgNewSize.cy - si->iSplitterY-TabHeight + 6:urc->dlgNewSize.cy - si->iSplitterY):(bTabs&&bTabBottom?urc->dlgNewSize.cy - si->iSplitterY-TabHeight+26:urc->dlgNewSize.cy - si->iSplitterY+20);
-		urc->rcItem.top = bTabs ?rcTabs.top:1;
-		return RD_ANCHORX_CUSTOM|RD_ANCHORY_CUSTOM;
+		urc->rcItem.bottom = (bTabs && bTabBottom) ? urc->dlgNewSize.cy - si->iSplitterY - TabHeight + 6 : urc->dlgNewSize.cy - si->iSplitterY;
+		if (bToolbar)
+			urc->rcItem.bottom += 20;
+		urc->rcItem.top = bTabs ? rcTabs.top : 1;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_SPLITTERY:
-		urc->rcItem.top = bToolbar?urc->dlgNewSize.cy - si->iSplitterY:urc->dlgNewSize.cy - si->iSplitterY+20;
-		urc->rcItem.bottom = bToolbar?(urc->dlgNewSize.cy - si->iSplitterY+2):(urc->dlgNewSize.cy - si->iSplitterY+22);
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_CUSTOM;
+		urc->rcItem.top = bToolbar ? urc->dlgNewSize.cy - si->iSplitterY : urc->dlgNewSize.cy - si->iSplitterY + 20;
+		urc->rcItem.bottom = bToolbar ? (urc->dlgNewSize.cy - si->iSplitterY + 2) : (urc->dlgNewSize.cy - si->iSplitterY + 22);
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
 	case IDC_MESSAGE:
 		GetWindowRect(si->hwndStatus, &rc);
-		urc->rcItem.right = bSend?urc->dlgNewSize.cx - 64:urc->dlgNewSize.cx ;
-		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY+22;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom-rc.top)-1 ;
-		return RD_ANCHORX_LEFT|RD_ANCHORY_CUSTOM;
+		urc->rcItem.right = bSend ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
+		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 22;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
 
 	case IDC_SMILEY:
 	case IDC_ITALICS:
