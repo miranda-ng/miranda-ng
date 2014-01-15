@@ -104,7 +104,7 @@
 [Infeasibly large event blob: skipping]
 Подія займає забагато місця: пропуск
 [Event not backlinked correctly: fixing]
-Подія з неправильним зворотнім посиланням: виправлення
+Подія з неправильним зворотним посиланням: виправлення
 [Duplicate event was found: skipping]
 Знайдено дубль події: пропуск
 [Event position in chain is not correct]

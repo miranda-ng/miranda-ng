@@ -1,7 +1,4 @@
-﻿[HTTP Web Server plugin for Miranda.]
-[This is the link pasted to the message window]
-[Notifications]
-[Miranda NG HTTP-Server]
+﻿[Miranda NG HTTP-Server]
 [Selected link size is 0]
 [Failed to get access to clipboard]
 [Failed to get close the clipboard]

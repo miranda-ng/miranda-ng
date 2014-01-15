@@ -6,7 +6,7 @@
 ;  Authors: ValeraVi, Kildor
 ;============================================================
 [Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
-Додає пункт в головне меню, який відкриває діалог з останніми контактами.
+Додає в головне меню пункт, який відкриває діалог з останніми контактами.
 [Recent Contacts]
 Останні контакти
 [Plugin settings]
@@ -16,18 +16,18 @@
 [Format of date and time\n(Look to readme for placeholders help)]
 Формат дати та часу\n(Формат дивіться у readme)
 [Hide offline contacts]
-Приховати відключених
+Сховати від'єднаних
 [Contacts]
 Контакти
 [Main icon]
 Головний значок
 [Contact]
 Контакт
+[Toggle Ignore]
+Перемикач ігнорування
 [Ignore Contact]
 Ігнорувати контакт
 [Show Contact]
-Відобразити контакт
+Показати контакт
 [Show Recent Contacts]
 Показати недавні контакти
-[Toggle Ignore]
-Перемикачь ігнорування

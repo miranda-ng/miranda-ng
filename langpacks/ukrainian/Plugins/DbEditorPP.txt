@@ -317,6 +317,8 @@ INI файли
 Тип
 [Size]
 Розмір
+[*** encrypted ***]
+***зашифровано***
 [UNICODE]
 Юнікод
 [BYTE]
@@ -351,11 +353,3 @@ INI файли
 Змінено налаштування бази: \nмодуль: "%s" , настройка: "%s"\nНове значення: "%s"
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
 Змінено налаштування бази: \nмодуль: "%s" , настройка: "%s"\nНове значення: (UTF8) "%s"
-[BL&OB]
-BL&OB
-[HANDLE]
-HANDLE
-[*** encrypted ***]
-***зашифровано***
-[BLOB]
-BLOB

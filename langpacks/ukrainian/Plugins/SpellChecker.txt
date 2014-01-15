@@ -10,10 +10,10 @@
 [Replacements]
 Заміни
 [Enable auto-replacements]
-Включити автозаміну
+Ввімкнути автозаміну
 [Language:]
 Мова:
-[Додати...]
+[Add...]
 Додати...
 [Edit...]
 Правка...
@@ -30,7 +30,7 @@
 [Use variables in correction]
 Використовувати змінні для заміни
 [Cancel]
-Скасування
+Скасувати
 [Spell Checker]
 Орфографія
 [Default language:]
@@ -42,7 +42,7 @@
 [Ignore words in UPPER CASE]
 Ігнорувати слова ВЕЛИКИМИ ЛІТЕРАМИ
 [Ask before sending a message with spelling errors]
-Запитувати перед відсиланням повідомлення з помилками
+Запитувати перед надсиланням повідомлення з помилками
 [Download more dictionaries]
 Завантажити інші словники
 [Advanced]
@@ -56,15 +56,21 @@
 [Show wrong word]
 Показувати слово з помилкою
 [Use flags]
-Відображати прапори
+Показувати прапори
 [Use input language to select dictionary]
 Використовувати мову введення для вибору словника
 [Use dictionaries from other programs]
 Використовувати словники з інших програм
 [Avoid removing underscores (slows down checking of long texts)]
 Не видаляти підкреслення (уповільнює перевірку великих текстів)
+[The wrong word can't be empty!]
+Слово з помилкою не може бути порожнім!
 [Wrong Correction]
 Невірне виправлення
+[The correction can't be empty!]
+Виправлення не може бути порожнім!
+[The correction can't be equal to the wrong word!]
+Виправлення та слово з помилкою не можуть співпадати!
 [Message Sessions]
 Бесіди
 [Auto-replacements]
@@ -72,13 +78,13 @@
 [Line]
 Лінія
 [Dotted]
-Точками
+Крапки
 [Dash]
 Тире
 [Dash dot]
 Крапка тире
 [Dash dot dot]
-Дві точки тире
+Дві крапки тире
 [Wave]
 Хвиля
 [Thick]
@@ -96,13 +102,13 @@
 [Enable/disable spell checker]
 Ввімкнути/вимкнути перевірку орфографії
 [Enabled]
-Ввімкнений
+Ввімкнено
 [Disabled]
 Вимкнено
 [There are %d spelling errors. Are you sure you want to send this message?]
-Є %d орфографічних помилк. Ви впевнені, що хочете відправити це повідомлення?
-[Your message window does not support SpellChecker Plugin.\nIf you use SRMM, tabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
-Ваше вікно повідомлень не підтримує плагін перевірки орфографії.\nЯкщо ви використовуєте SRMM, tabSRMM або Scriver, будь ласка, оновити їх до останньої версії,\nВ іншому випадку запитайте у автора плагіну вікна повідомлень додавання підтримки Перевірки Орфографії.
+Є %d орфографічних помилок. Ви впевнені, що хочете відправити це повідомлення?
+[Your message window does not support SpellChecker Plugin.\nIf you use SRMM, TabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
+Ваш плагін вікна повідомлень не підтримує перевірку орфографії.\nЯкщо ви користуєтесь TabSRMM або Scriver, будь ласка, оновіть їх до найновішої версії.\nНапишіть автору плагіна вікна повідомлень і попросіть додати підтримку SpellChecker.
 [Other...]
 Інше...
 [Always replace with]
@@ -114,10 +120,10 @@
 [Corrections]
 Виправлення
 [Wrong word: %s]
-Невірне слово: %s
+Слово з помилкою: %s
 [Language]
 Мова
 [Enable spell checking]
-Ввімкнути перевірку правопису
+Ввімкнути перевірку орфографії
 [Wrong words]
-Неправильні слова
+Слова з помилками

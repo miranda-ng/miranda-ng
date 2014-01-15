@@ -8,15 +8,15 @@
 [Simple Auto Replier.]
 Простий автовідповідач.
 [Enable Auto Replier]
-Автовідповідь ввімкнена
+Ввімкнути автовідповідь
 [Reply Message Heading:]
-Заголовок автовідповіді:
+Заголовок:
 [Reply Message when]
 Автовідповідь коли
 [No-repeat Interval:]
 Не повторювати:
 [mins]
-хвил.
+хв.
 [&Default]
 За замовчанням
 [I am currently away. I will reply to you when I am back.]
@@ -27,21 +27,21 @@
 Мене немає.
 [I am now doing something, I will talk to you later.]
 Зараз я трохи зайнятий, поговоримо пізніше.
+[I am on the phone right now. I will get back to you very soon.]
+Зараз я розмовляю по телефону, скоро повернуся.
 [I am having meal right now. I will get back to you very soon.]
 Я обідаю, поговоримо пізніше.
 [Disable Auto&reply]
-Вимкнути автоматичну відповідь
+Вимкнути автовідповідач
 [Enable Auto&reply]
-Увимкнути автоматичну відповідь
+Увімкнути автовідповідач
 [Turn off Autoanswer]
-Отключить автоответ
+Вимкнути автовідповідач
 [Turn on Autoanswer]
-Ввімкнути автоматичну відповідь
+Ввімкнути автовідповідач
 [Dear %user%, the owner left the following message:]
-Вітаю %user%, %username% залишив Вам повідомлення:
+Вітаю %user%, %username% залишив вам повідомлення:
 [Simple Auto Replier]
 Автовідповідач
 [Message Sessions]
 Бесіди
-[I am on the phone right now. I will get back to you very soon.]
-Прямо зараз я на телефоні. Але я повернуся дуже скоро.

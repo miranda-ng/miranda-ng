@@ -6,11 +6,11 @@
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
-[HTTP Web Server модуль для Miranda NG.]
+HTTP веб-сервер для Miranda NG.
 [IPAddress1]
-IP адреса 1
+IP-адреса 1
 [IPAddress2]
-IP адреса 2
+IP-адреса 2
 [Max downloads]
 Макс. завантажень
 [Address]
@@ -18,27 +18,27 @@ IP адреса 2
 [Mask]
 Маска
 [Share name]
-"Ім'я шари"
+Ім'я "шари"
 [Allowed IP]
 Дозволені IP
 [HTTP Server statistics view]
-Статистика переглядів HTTP сервера
+Перегляд статистики HTTP-сервера
 [Display hidden shares]
-Показувати "скриті шари"
+Показувати приховані "шари"
 [New share]
 Нова "шара"
 [Show HTTP server statistics]
-Статистика сервера НТТР
+Статистика НТТР-сервера
 [Set to default]
 За замовчанням
 [External server name]
 Зовнішнє ім'я сервера
-[This is the link to the pasted message window]
-Це посилання, вставлена у вікно повідомлень
+[This is the link pasted to the message window]
+Це посилання, вставлене у вікно повідомлень
 [Write log file]
 Записувати журнал
 [Enable / Disable HTTP server]
-Ввімк./Вимк. HTTP сервер
+Ввімк./Вимк. HTTP-сервер
 [Main menu items]
 Елементи головного меню
 [Open log]
@@ -50,15 +50,15 @@ IP адреса 2
 [URL address]
 Адреса URL
 [%ExternalIP% variable]
-%ExternalIP% змінна
+Змінна %ExternalIP%
 [Test]
 Тест
 [Transfer limit (Kb/s)]
 Ліміт швидкості (Кб/с)
 [No control when Away/NA]
-Вимк. якщо недосяжний/зайнятий
+Вимк. якщо Недоступний/Зайнятий
 [Connection control]
-Контроль з'єднання
+Контроль з'єднань
 [Index creation]
 Створення індексу
 [Disable]
@@ -67,8 +67,8 @@ IP адреса 2
 Створити HTML (сумісно)
 [Create XML]
 Створити XML
-[Повідомлення]
-Повідомлення
+[Notifications]
+Сповіщення
 [Total connection limit]
 Максимально з'єднань
 [Connections per user limit]
@@ -83,8 +83,6 @@ IP адреса 2
 Відкрити в браузері
 [&Copy link]
 &Копіювати посилання
-[Miranda NG HTTP Server]
-Miranda NG HTTP Server
 [Share Current Directory]
 Розшарити поточку папку
 [All files]
@@ -110,17 +108,17 @@ Miranda NG HTTP Server
 [No share selected]
 Папка не вибрана
 [Current IP Address: ]
-Поточна IP-адреса:
+Поточна IP-адреса:\s
 [Current Address: ]
-Поточна адреса:
+Поточна адреса:\s
 [IP Adress: ]
-IP-адреса
+IP-адреса:\s
 [You external ip was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\nс: %s
 [You need to restart Miranda to change the main menu]
 Зміни в меню набудуть чинності після перезапуску програми.
 [HTTP Server]
-HTTP Сервер
+HTTP-сервер
 [Network]
 Мережа
 [HTTP Share new file]
@@ -140,6 +138,6 @@ HTTP Новий розшарений файл
 [Failed to write xml data to file ]
 Помилка запису у XML файл
 [Disable HTTP server]
-Вимкнути HTTP сервер
+Вимкнути HTTP-сервер
 [Enable HTTP server]
-Ввімкнути HTTP Сервер
+Ввімкнути HTTP-сервер

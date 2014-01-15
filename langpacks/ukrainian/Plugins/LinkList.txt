@@ -1,110 +1,151 @@
-﻿#muuid {da0b09f5-9c66-488c-ae37-8a5f191c9079}
+﻿#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;============================================================
-;  File: linklist.dll
-;  Module: History Linklist Plugin for Miranda NG
-;  Versions: 0.1.1.1-0.1.1.2
+;  File: LinkList.dll
+;  Plugin: History linklist plus
+;  Version: 0.0.0.2
+;  Authors: Thomas Wendel, gureedo
 ;============================================================
 [Generates a list of extracted URIs from the history.]
 Створює і показує список посилань з історії контакту.
-[&Clear Search Results]
-&Очистити результати пошуку
-[&Incoming Messages Only]
-Тільки вхідні повідомлення
-[&Mail-Addresses Only]
-Тільки адреси E-mail
-[&Outgoing Messages Only]
-Тільки вихідні повідомлення
-[&Webaddresses Only]
-Тільки веб-адреси
-[All directions]
-Всі напрямки
-[All types]
-Всі види
-[Background color]
-Фон
-[Color Select]
-Вибір кольору
-[Deep search]
-Глибокий пошук
-[Incoming only]
-Тільки вхідні
-[Linklist Plugin]
-Плагін Linklist
-[Mail addresses only]
-Тільки адреси E-mail
-[Message &Direction]
-Напрямок &повідомлень
-[Message &Type]
-Тип &повідомлень
+[Search]
+Пошук
+[Close]
+Закрити
+[Search for:]
+Знайти:
+[Message direction]
+Напрямок повідомлень
 [Message types]
 Типи повідомлень
-[Open in new Window]
-Відкрити у новому вікні
-[Open links always in a new window]
-Завжди відкривати посилання в новому вікні
+[All directions]
+Всі напрямки
+[Incoming only]
+Тільки вхідні
 [Outgoing only]
 Тільки вихідні
-[Parting line]
-Розділ. лінію
-[Plugin Default]
-За замовчуванням
-[Save window position individually for each contact]
-Зберігати позицію вікна окремо для кожного контакту
-[Show Message]
-Показати повідомлення
-[Show whole Message on 'mouse over' event]
-Показувати повне повідомлення при наведенні миші
-[Show...]
-Показати...
-[Text color]
-Колір тексту
-[Update list on new events]
-Автоматичне оновлення списку нових подій
-[Use Miranda Settings]
-Використовувати налаштування програми
+[All types]
+Всі види
+[Mail addresses only]
+Тільки адреси E-mail
 [Web addresses only]
 Тільки веб-адреси
+[Deep search]
+Глибокий пошук
+[Static]
+Статичний
+[Color Select]
+Вибір кольору
+[Incoming messages]
+Вхідні повідомлення
+[Plugin Default]
+За замовчуванням
+[Preview]
+Тест
+[Outgoing messages]
+Вихідні повідомлення
+[Background color]
+Фон
+[Use Miranda Settings]
+Використовувати налаштування програми
+[Text color]
+Колір тексту
+[General Settings]
+Основні налаштування
+[Open links always in a new window]
+Завжди відкривати посилання в новому вікні
+[Update list on new events]
+Автоматичне оновлення списку нових подій
+[Show whole Message on 'mouse over' event]
+Показувати повне повідомлення при наведенні миші
+[Save window position individually for each contact]
+Зберігати позицію вікна окремо для кожного контакту
+[Show...]
+Показати...
+[Date]
+Дата
+[Parting line]
+Розділ. лінію
+[Timestamp]
+Час
+[Direction]
+Напрямок
+[Type]
+Тип
+[&File]
+&Файл
+[&Save]
+&Зберегти
+[&Close]
+&Закрити
+[&Options]
+&Налаштування
+[Message &Direction]
+Напрямок &повідомлень
+[&Outgoing Messages Only]
+Тільки вихідні повідомлення
+[&Incoming Messages Only]
+Тільки вхідні повідомлення
+[Message &Type]
+Тип &повідомлень
+[&Webaddresses Only]
+Тільки веб-адреси
+[&Mail-Addresses Only]
+Тільки адреси E-mail
+[&Clear Search Results]
+&Очистити результати пошуку
+[&Search]
+&Пошук
+[link]
+Посилання
+[Open]
+Відкрити
+[Open in new Window]
+Відкрити у новому вікні
+[Copy to Clipboard]
+Копіювати в буфер
+[Show Message]
+Показати повідомлення
 [History Linklist]
 Історія посилань
-[&Create Linklist]
-&Створити список
-[No Miranda Settings specified!]
-Налаштування програми не визначені!
-[incoming]
-вхідні
-[mailaddresses]
-Адреси E-mail
-[Matches for searchtext]
-Виявлення відповідностей при пошуку
-[Miranda Linklist]
-Журнал посилань Miranda NG
-[outgoing]
-вихідні
-[Processing history...]
-Обробка історії...
-[Processing list...]
-Обробка списку...
-[search options]
-параметри пошуку
 [History is empty!]
 Історія порожня!
-[Could not create window!]
-Неможливо створити вікно!
-[No messages found!\nPlease change current filter options.]
-Повідомлень не знайдено!\nБудь ласка, змініть поточні параметри фільтру.
 [There are no links in history!]
 Посилань в історії не знайдено!
-[Unable to load the Rich Edit control!]
-Засоби редагування не завантажені!
+[Error]
+Помилка
+[incoming]
+вхідні
+[outgoing]
+вихідні
+[Filter]
+Фільтр
 [no filter]
 немає фільтру
 [Search Filter]
 Пошуковий фільтр
 [no settings]
-немае налаштувань
+немає налаштувань
+[&Create Linklist]
+&Створити список
+[History]
+Історія
+[Processing history...]
+Обробка історії...
+[Could not create window!]
+Неможливо створити вікно!
 [Could not allocate memory!]
 Не вдається виділити пам'ять!
+[Linklist Plugin]
+Плагін Linklist
+[Matches for searchtext]
+Виявлення відповідностей при пошуку
+[Processing list...]
+Обробка списку...
+[No messages found!\nPlease change current filter options.]
+Повідомлень не знайдено!\nБудь ласка, змініть поточні параметри фільтру.
 [RTF file]
-RTF файл
+Файл RTF
+[All files]
+Усі файли
 [Save RTF File]
-Зберегти у RTF файл
+Зберегти у файл RTF

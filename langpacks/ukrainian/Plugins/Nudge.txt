@@ -19,12 +19,12 @@
 Відкрити вікно бесіди
 [Enable message window shaking]
 Трясти вікно повідомлень
-[Show as change status]
-Відображати як зміну статусу
+[Show as status change]
+Показувати як зміну статусу
 [Auto resend nudge after]
-Повторювати кожні тряску
+Повторювати тряску кожні
 [s]
-з
+с
 [Enable popup notification]
 Включити спливаючі вікна
 [Respect ignore settings (status changes)]
@@ -36,7 +36,7 @@
 [Privacy]
 Приватність
 [Allow sending* one nudge to the same contact every:]
-Трясти той же контакт один раз кожні:
+Трясти один і той же контакт кожні:
 [Allow receiving one nudge from the same contact every:]
 Прийом трясіння від одного контакту кожні:
 [* Nudge sending delay is hardcoded and cannot be changed.]
@@ -46,7 +46,7 @@
 [Text]
 Текст
 [Allow nudges when you're:]
-Дозволяти тряску коли Ви:
+Дозволяти тряску коли ви:
 [Offline]
 Не в мережі
 [Online]
@@ -78,7 +78,7 @@
 [Shaking Message Window Options]
 Тряска вікна повідомлень
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Не можна посилати багато струсів (тільки 1 кожні %d с, %d сек залишилося)
+Не можна посилати багато струсів (тільки 1 кожні %d с, %d с залишилося)
 [Nudge]
 Тряска
 [Default Nudge]
@@ -101,5 +101,3 @@
 Події
 [Window Shaking]
 Тряска вікна
-[Show as status change]
-Показати, як зміна статусу

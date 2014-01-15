@@ -6,17 +6,17 @@
 ;  Authors: perf
 ;============================================================
 [Shows a small tooltip above system tray area when a contact status is changed.]
-Показує невелику повідомлення-підказку вище області трею при зміні статусу контакту.
+Показує невелике повідомлення-підказку вище області трею при зміні статусу контакту.
 [Select protocols]
 Протоколи
-[Choose contacts...]
-Вибрати контакти...
+[Choose contacts]
+Виберіть контакти
 [Allow tooltip notifications for the following users:]
 Дозволити повідомлення-підказки для наступних категорій користувачів:
 [Cancel]
-Скасування
+Скасувати
 [Notify upon the following events]
-Повідомити на наступних подій
+Сповіщати про наступні події
 [Online]
 В мережі
 [Offline]
@@ -28,33 +28,47 @@
 [Protocols]
 Протоколи
 [Suppress notifications upon connection for]
-Заглушити повідомлення при підключенні до
+Не сповіщати при підключенні до
 [sec]
 с
+[Prefix protocol name]
+Ім'я облікового запису
 [Duration]
 Тривалість
 [Show tooltip for]
 Показати підказку
 [ms]
 мс
+[Duration x2 upon online event]
+В 2 рази довша для "У мережі"
 [Double click on tooltip]
 Двічі клацніть по підказці
-[Shows/Hides CList]
-Показує/Ховає список контактів
+[Shows/Hides contact list]
+Показує/ховає список контактів
 [Opens message dialog]
 Відкриває вікно повідомлень
 [Behavior]
 Поведінка
 [Misc]
 Інше
+[Obey 'Suppress online notification' settings]
+Ввімкнути тимчасову заборону повідомлень
+[Auto positioning]
+Автопозиция
+[Transparent input]
+Прозорий вхід
 [Preview]
 Тест
 [Translucency options]
 Налаштування прозорості
+[Transparent tooltip]
+Прозорість
 [Contacts]
 Контакти
 [Idle]
 Очікування
+[Tooltip Notify]
+Спливаючі повідомлення
 [Other status]
 Інші статуси
 [Tooltip Notify: Online]
@@ -75,33 +89,5 @@
 Не в очікуванні
 [Unknown]
 невідомо
-[Tooltip Notify]
-Спливаючі повідомлення
-[Notify upon the following contact status changes]
-Повідомляти про зміни статусів подальших контактів
-[Duration x2 upon online event]
-В 2 рази довша для "У мережі"
-[Work in conjunction with 'Suppress online notification']
-Працювати разом із "Забороною повідомлень про вихід у мережу"
-[Default positioning]
-Позиція за замовчуванням
-[[Hint: right-click on the tooltip to move it when in custom placement mode]]
-Порада: Вікно повідомлення можна перетягнути правою кнопкою миші
-[Transparent tooltip]
-Прозорість
-[%s is %s]
-%s зараз %s
-[Auto positioning]
-Автопозиция
-[Prefix protocol name]
-Ім'я облікового запису
-[Transparent input]
-Прозорий вхід
-[Obey 'Suppress online notification' settings]
-Включити тимчасовий заборона повідомлень
 [is]
 тепер
-[Choose contacts]
-Обрати контакти
-[Shows/Hides contact list]
-Показати/сховати контакт лист

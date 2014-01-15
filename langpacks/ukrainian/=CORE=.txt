@@ -291,6 +291,8 @@
 Опис:
 [Author(s):]
 Автор(и):
+[E-mail:]
+Пошта:
 [Homepage:]
 Сайт:
 [Unique ID:]
@@ -1269,72 +1271,8 @@ Cповіщати про друк, коли вікно повідомлень з
 Увійти до чату
 [Open chat window]
 Відкрити вікно чату
-[%s has joined]
-%s увійшов
-[You have joined %s]
-Ви приєдналися %s
-[%s has left]
-%s вийшов
-[%s has disconnected]
-%s від'єднався
-[%s is now known as %s]
-%s змінив ім'я на %s
-[You are now known as %s]
-Ви відомі як %s
-[%s kicked %s]
-%s вигнав %s
-[Notice from %s: ]
-Приватне повідомлення від %s:\s
-[The topic is '%s%s']
-Тема '%s%s'
-[ (set by %s on %s)]
- (встановив %s %s)
-[ (set by %s)]
- (встановив %s)
-[%s enables '%s' status for %s]
-%s вмикає статус '%s' для %s
-[%s disables '%s' status for %s]
-%s вимикає статус "%s" для %s
 [<invalid>]
 <неправильно>
-[Others nicknames]
-Ніки інших
-[Your nickname]
-Ваш нік
-[User has joined]
-Входи до чату
-[User has left]
-Виходи з чату
-[User has disconnected]
-Користувач від'єднався
-[User kicked ...]
-Стусани
-[User is now known as ...]
-Зміни ніків
-[Notice from user]
-Приватні повідомлення
-[Incoming message]
-Вхідні повідомлення
-[Outgoing message]
-Вихідні повідомлення
-[The topic is ...]
-Зміни теми
-[Information messages]
-Інформаційні повідомлення
-[User enables status for ...]
-Ввімкнення статусу ...
-[User disables status for ...]
-Вимкнення статусу
-[Action message]
-Дії
-[Highlighted message]
-Підсвічені повідомлення
-[Message typing area]
-Поле вводу повідомлення
-[User list members (online)]
-Користувачі (онлайн)
-[User list members (away)]
-Користувачі (відсутні)
 [Use a tabbed interface]
 Ввімкнути вкладки
 [Close tab on double click]
@@ -1491,16 +1429,6 @@ Cповіщати про друк, коли вікно повідомлень з
 Інформаційні повідомлення
 [Show popup for status changes]
 Зміни статусів
-[Chat module]
-Чати
-[Message background]
-Фон повідомлення
-[User list background]
-Фон списку користувачів
-[User list lines]
-Лінії списку користувачів
-[User list background (selected)]
-Фон списку користувачів (вибране)
 [Window icon]
 Значок вікна
 [Bold]
@@ -1597,56 +1525,6 @@ Cповіщати про друк, коли вікно повідомлень з
 Чат
 [Popups]
 Спливаючі вікна
-[Message is highlighted]
-Підсвічені повідомлення
-[User has performed an action]
-Дії
-[User has kicked some other user]
-Стусани
-[User's status was changed]
-Зміни статусів
-[User has changed name]
-Зміни ніків
-[User has sent a notice]
-Приватні повідомлення
-[The topic has been changed]
-Зміни теми
-[&Join]
-Увійти до чату
-[%s wants your attention in %s]
-%s потребує вашої уваги в %s
-[%s speaks in %s]
-%s говорить в %s
-[%s has joined %s]
-%s увійшов до %s
-[%s has left %s]
-%s вийшов з %s
-[%s kicked %s from %s]
-%s вигнав %s з %s
-[Notice from %s]
-Приватне повідомлення від %s
-[Topic change in %s]
-Зміна теми в %s
-[Information in %s]
-Інформація у %s
-[%s enables '%s' status for %s in %s]
-%s вмикає статус "%s" для %s у %s
-[%s disables '%s' status for %s in %s]
-%s вимикає статус "%s" для %s у %s
-[%s says: %s]
-%s каже: %s
-[%s has left (%s)]
-%s вийшов (%s)
-[%s has disconnected (%s)]
-%s від'єднався (%s)
-[%s kicked %s (%s)]
-%s вигнав %s (%s)
-[Notice from %s: %s]
-Приватне повідомлення від %s: %s
-[The topic is '%s']
-Тема: %s
-[The topic is '%s' (set by %s)]
-Тема %s (встановив %s)
 [Look up '%s':]
 Шукати "%s" у
 [No word to look up]
@@ -1739,6 +1617,8 @@ Cписок неактивний
 Користувач не зареєстрував свою адресу E-mail.
 [Send e-mail]
 Надіслати E-mail
+[&E-mail]
+&Пошта
 [File from %s]
 Файл від %s
 [bytes]
@@ -1907,6 +1787,10 @@ Miranda не змогла завантажити вбудований модул
 Невідома помилка.
 [Invalid message]
 Повідомлення пошкоджене
+[Outgoing message]
+Вихідні повідомлення
+[Incoming message]
+Вхідні повідомлення
 [Outgoing URL]
 Вихідний URL
 [Incoming URL]
@@ -1927,6 +1811,8 @@ Miranda не змогла завантажити вбудований модул
 URL від %s
 [Web page address (&URL)]
 Надіслати &URL
+[URL]
+Посилання
 [Send URL to]
 Надіслати URL
 [Send timed out]
@@ -1979,6 +1865,126 @@ URL від %s
 Додати контакт
 [Please authorize my request and add me to your contact list.]
 Будь ласка, авторизуйте мене і внесіть до свого списку контактів.
+[Others nicknames]
+Ніки інших
+[Your nickname]
+Ваш нік
+[User has joined]
+Входи до чату
+[User has left]
+Виходи з чату
+[User has disconnected]
+Користувач від'єднався
+[User kicked ...]
+Стусани
+[User is now known as ...]
+Зміни ніків
+[Notice from user]
+Приватні повідомлення
+[The topic is ...]
+Зміни теми
+[Information messages]
+Інформаційні повідомлення
+[User enables status for ...]
+Ввімкнення статусу ...
+[User disables status for ...]
+Вимкнення статусу
+[Action message]
+Дії
+[Highlighted message]
+Підсвічені повідомлення
+[Message typing area]
+Поле вводу повідомлення
+[User list members (online)]
+Користувачі (онлайн)
+[User list members (away)]
+Користувачі (відсутні)
+[Chat module]
+Чати
+[Message background]
+Фон повідомлення
+[User list background]
+Фон списку користувачів
+[User list lines]
+Лінії списку користувачів
+[User list background (selected)]
+Фон списку користувачів (вибране)
+[Message is highlighted]
+Підсвічені повідомлення
+[User has performed an action]
+Дії
+[User has kicked some other user]
+Стусани
+[User's status was changed]
+Зміни статусів
+[User has changed name]
+Зміни ніків
+[User has sent a notice]
+Приватні повідомлення
+[The topic has been changed]
+Зміни теми
+[&Join]
+Увійти до чату
+[%s has joined]
+%s увійшов
+[You have joined %s]
+Ви приєдналися %s
+[%s has left]
+%s вийшов
+[%s has disconnected]
+%s від'єднався
+[%s is now known as %s]
+%s змінив ім'я на %s
+[You are now known as %s]
+Ви відомі як %s
+[%s kicked %s]
+%s вигнав %s
+[Notice from %s: ]
+Приватне повідомлення від %s:\s
+[The topic is '%s%s']
+Тема '%s%s'
+[ (set by %s on %s)]
+ (встановив %s %s)
+[ (set by %s)]
+ (встановив %s)
+[%s enables '%s' status for %s]
+%s вмикає статус '%s' для %s
+[%s disables '%s' status for %s]
+%s вимикає статус "%s" для %s
+[%s wants your attention in %s]
+%s потребує вашої уваги в %s
+[%s speaks in %s]
+%s говорить в %s
+[%s has joined %s]
+%s увійшов до %s
+[%s has left %s]
+%s вийшов з %s
+[%s kicked %s from %s]
+%s вигнав %s з %s
+[Notice from %s]
+Приватне повідомлення від %s
+[Topic change in %s]
+Зміна теми в %s
+[Information in %s]
+Інформація у %s
+[%s enables '%s' status for %s in %s]
+%s вмикає статус "%s" для %s у %s
+[%s disables '%s' status for %s in %s]
+%s вимикає статус "%s" для %s у %s
+[%s says: %s]
+%s каже: %s
+[%s has left (%s)]
+%s вийшов (%s)
+[%s has disconnected (%s)]
+%s від'єднався (%s)
+[%s kicked %s (%s)]
+%s вигнав %s (%s)
+[Notice from %s: %s]
+Приватне повідомлення від %s: %s
+[The topic is '%s']
+Тема: %s
+[The topic is '%s' (set by %s)]
+Тема %s (встановив %s)
 [Custom status]
 xСтатус
 [%s (locked)]
@@ -2003,6 +2009,8 @@ xСтатус
 Нік
 [FirstName]
 Ім'я
+[E-mail]
+Пошта 
 [LastName]
 Прізвище
 [Username]
@@ -2026,7 +2034,7 @@ xСтатус
 [New group]
 Нова група
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Справді бажаєте видалити групу "%s"?\nРезультати цієї дії є незворотніми.
+Справді бажаєте видалити групу "%s"?\nРезультати цієї дії є незворотними.
 [Delete group]
 Видалити групу
 [You already have a group with that name. Please enter a unique name for the group.]
@@ -2215,6 +2223,8 @@ Miranda не може відкрити цей профіль
 <Усі з'єднання>
 [Network]
 Мережа
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Клієнт не може декодувати повідомлення хоста. Можлива причина: хост не підтримує SSL або потрібна бібліотека відсутня.
 [Host we are connecting to is not the one certificate was issued for]
 Виданий сертифікат не відповідає імені сервера, з яким встановлюється з'єднання
 [<all modules>]
@@ -2925,13 +2935,3 @@ ANSI-плагін
 Замбія
 [Zimbabwe]
 Зімбабве
-[E-mail:]
-Пошта:
-[&E-mail]
-&Пошта
-[URL]
-Посилання
-[E-mail]
-Пошта 
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Клієнт не взмозі декодувати повідомлення хоста. Можлива причина: хост не підтримує SSL або потребує не існуючу бібліотеку

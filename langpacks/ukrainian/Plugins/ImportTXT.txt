@@ -22,7 +22,7 @@
 [All files (*.*)]
 Усі файли (*.*)
 [Error in cfg file: ]
-Помилка в файлі cfg:
+Помилка у файлі cfg:\s
 [No Files Patterns Found]
 Не знайдені файли шаблонів
 [No messages in this file]
@@ -38,7 +38,7 @@
 [Import not finished. Do you realy want close?]
 Імпорт не закінчений. Ви дійсно хочете закрити?
 [Error adding message to database]
-Помилка додавання в Базу повідомлення
+Помилка додавання повідомлення в базу
 [Error opening file]
 Помилка відкриття файлу
 [Error mapping file]
@@ -48,9 +48,9 @@
 [Header not found]
 Заголовок не знайдено
 [Import Text Files Wizard]
-Майстер Імпорту Текстових Файлів
+Майстер імпорту текстових файлів
 [This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
-Цей майстер допоможе вам імпортувати повідомлення з деяких інших клієнтів і плагінів Miranda NG, зберігають їх у текстових файлах.
+Цей майстер допоможе вам імпортувати повідомлення з деяких інших клієнтів і плагінів Miranda NG, збережені у текстових файлах.
 [Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
 Клацніть "Далі", щоб вибрати інформацію для імпортування, або "Скасувати", щоб вийти з цього майстра.
 [Choose type of imported files:]
@@ -64,9 +64,9 @@
 [All previous chosen files will try to import to this protocol.]
 Всі вибрані файли будуть імпортовані у цей протокол.
 [Select protocol or account:]
-Виберіть протокол або аккаунт:
-[Click "Next" to start or Import "Cancel" to Abort.]
-Натисніть "Далі" для початку Імпорту або "Скасувати" для виходу.
+Виберіть протокол або обліковий запис:
+[Click "Next" to start Import or "Cancel" to Abort.]
+Натисніть "Далі" для початку імпорту, або "Скасувати" для виходу.
 [Select folder for import...]
 Виберіть папку для імпорту...
 [File: %s]
@@ -93,5 +93,3 @@
 Помилка ініціалізації XML-парсера
 [Import history to %s (%s)]
 Імпортувати історію у %s (%s)
-[Click "Next" to start Import or "Cancel" to Abort.]
-Натисніть "Далі" для старту, або "Скасувати" для закінчення.

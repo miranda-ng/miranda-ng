@@ -285,6 +285,8 @@
 Повернуте
 [Scheduler]
 Планувальник
+[TopToolbar]
+Панель кнопок
 [Effect]
 Ефект
 [Start]
@@ -401,6 +403,10 @@
 Вирівнювання праворуч
 [Use MMI]
 Використ. MMI
+[UTF8+sign]
+UTF8+сигнатури
+[UTF16+sign]
+UTF16+сигнатури
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^f(имя[,str])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
 [value]
@@ -445,9 +451,3 @@
 Слот 8
 [Slot 9]
 Слот 9
-[TopToolbar]
-Верхня панель
-[UTF8+sign]
-UTF8+сігнатури
-[UTF16+sign]
-UTF16+сігнатури

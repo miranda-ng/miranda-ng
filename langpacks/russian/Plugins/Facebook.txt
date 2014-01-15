@@ -87,6 +87,8 @@ URL:
 &Данные контакта
 [User &history]
 &История пользователя
+[Login error: %s]
+Ошибка входа: %s
 [Unknown error]
 Неизвестная ошибка
 [Status update was successful.]
@@ -159,6 +161,8 @@ URL:
 Вы не можете отправлять сообщения без подключения к сети.
 [%s server connection]
 %s подключение к серверу 
+[Unable to get Netlib connection for Facebook]
+Не удается установить соединение с Facebook
 [Network]
 Сеть
 [Account]

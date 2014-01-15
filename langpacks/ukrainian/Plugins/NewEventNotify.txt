@@ -19,6 +19,8 @@
 Спливаючі вікна
 [Message]
 Повідомлення
+[URL]
+Посилання
 [File]
 Файл
 [Others]
@@ -81,6 +83,10 @@
 Вас додали
 [Requests your authorization]
 Запит авторизації
+[ICQ Web pager]
+Веб-пейджер ICQ
+[ICQ Email express]
+Експрес-пошта ICQ
 [Unknown Event]
 Невідома подія
 [Notify of new events]
@@ -109,9 +115,3 @@
 Тест плагіна
 [[b]Number of new message(s): %d[/b]\n]
 [b]Кількість нових повідомлень: %d[/b]\n
-[URL]
-Посилання
-[ICQ Web pager]
-Веб пейджер ICQ
-[ICQ Email express]
-Експрес пошта ICQ

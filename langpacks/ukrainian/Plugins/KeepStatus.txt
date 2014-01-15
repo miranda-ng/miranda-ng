@@ -18,7 +18,7 @@
 [Show popups]
 Показувати спливаючі вікна
 [General]
-Загальна
+Загальне
 [Accounts to check]
 Облікові записи для перевірки
 [Dial-Up]
@@ -43,6 +43,8 @@
 Обліковий запис
 [Set]
 Вибрати
+[when full-screen mode is active]
+у повноекранному режимі
 [when screen saver engages]
 коли працює заставка
 [when workstation is locked]
@@ -62,7 +64,7 @@
 [Confirm resetting status]
 Підтвердити відновлення статусу
 [Only set if current status is]
-Тільки якщо встановлено поточний стан
+Тільки якщо поточний статус
 [Command line]
 Ком. рядок
 [Copy to clipboard]
@@ -82,9 +84,11 @@
 [Set status to offline before exit]
 Встановити статус офлайн перед виходом.
 [Show CMDL]
-Показати CMDL
+Ком. рядок
 [Activate status profile]
 Активувати профіль статусу
+[Set docked]
+Паркувати
 [Other]
 Інше
 [Status on startup]
@@ -109,6 +113,8 @@
 Вікно при старті
 [Automatically dial on startup]
 Автоматично встановлювати з'єднання при запуску
+[Automatically hang up on exit]
+Розривати зв'язок (Dial-Up) при виході
 [Dial-up (experimental)]
 Dial-up (експериментальна)
 [Background color]
@@ -251,6 +257,8 @@ Dial-up (експериментальна)
 Стають активними без зміни статусу
 [Pre-conditions]
 Попередні умови
+[TriggerData]
+Дані виклику
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Статус: статус, який має бути встановлено для облікового запису\r\nОбліковий запис: обліковий запис, для якого потрібно змінити статус
 [Protocol]
@@ -321,11 +329,3 @@ Dial-up (експериментальна)
 <немає>
 [Closing in %d]
 Закрити (%d)
-[when full-screen mode is active]
-коли повноекранний режим
-[Set docked]
-Паркувати
-[Automatically hang up on exit]
-Автоматично відєднуватися (Dial-Up) при віході
-[TriggerData]
-Данні виклику

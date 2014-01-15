@@ -530,7 +530,7 @@ HTML файл
 [%s (to %s)]
 %s (на %s)
 [%s Header]
-Заголовок %s]
+Заголовок %s
 [&Additional]
 &Дополнительно
 [&Delete All]

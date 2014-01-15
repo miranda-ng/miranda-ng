@@ -6,15 +6,13 @@
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
-Оновлення плагінів Miranda NG.
+Оновлення плагінів та інших компонентів Miranda NG.
 [Updates found!]
 Знайдені оновлення!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
-Знайдено нові версії плагінів Miranda NG. Натисніть на кнопку "Деталі" для докладної інформації.
+Знайдено нові версії компонентів Miranda NG. Натисніть на кнопку "Деталі" для докладної інформації.
 [Update]
 Оновити
-[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
-Оновлення завершено. Натисніть "Так" для негайного перезавантаження програми або "Ні", щоб відкласти оновлення до виходу.
 [Details >>]
 Деталі >>
 [Cancel]
@@ -144,15 +142,15 @@
 [Services]
 Служби
 [Check for updates]
-Перевірити оновлення плагінів
+Перевірити оновлення
 [Available components list]
-Показати повний список плагінів
+Список компонентів
 ['Yes' Button]
 Кнопка "Так"
 ['No' Button]
 Кнопка "Ні"
 [Plugin info]
-Інормація
+Інформація
 [Plugin list]
 Список плагінів
 [Plugin Updater HTTP connection]
