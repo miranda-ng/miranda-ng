@@ -19,24 +19,12 @@ uses
   mirutils,
   common;
 
-var
-  opthook:cardinal;
-  onloadhook:cardinal;
-  onstatus,
-  ondelete,
-//  onaccount,
-  onadd:cardinal;
-  servshow:cardinal;
-
-const
-  icohook:THANDLE = 0;
-
 function MirandaPluginInfoEx(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
 begin
   result:=@PluginInfo;
   PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
   PluginInfo.shortName  :='Quick Search';
-  PluginInfo.version    :=$01040114;
+  PluginInfo.version    :=$01040200;
   PluginInfo.description:=
     'This plugin allows you to quick search for nickname, '+
     'firstname, lastname, email, uin in your contact list. '+
@@ -102,12 +90,6 @@ begin
   Skin_AddIcon(@sid);
   DestroyIcon(sid.hDefaultIcon);
 
-  sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_ITEM),IMAGE_ICON,16,16,0);
-  sid.pszName        :=QS_ITEM;
-  sid.szDescription.a:='Save Column';
-  Skin_AddIcon(@sid);
-  DestroyIcon(sid.hDefaultIcon);
-
   sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_UP),IMAGE_ICON,16,16,0);
   sid.pszName        :=QS_UP;
   sid.szDescription.a:='Column Up';
@@ -150,7 +132,7 @@ begin
   Skin_AddIcon(@sid);
   DestroyIcon(sid.hDefaultIcon);
 
-  icohook:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+  HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 end;
 
 function OnOptInitialise(wParam:WPARAM;lParam:LPARAM):int;cdecl;
@@ -174,29 +156,21 @@ end;
 function OpenSearchWindow(wParam:WPARAM;lParam:LPARAM):int_ptr;cdecl;
 begin
   result:=0;
-  if not opened then
-    OpenSrWindow(pointer(wParam),lParam)
-  else
-    BringToFront;
+  OpenSrWindow(pointer(wParam),lParam)
 end;
 
 function OnModulesLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 begin
-  UnhookEvent(onloadhook);
-
   RegisterIcons;
   RegisterColors;
 
-  servshow:=CreateServiceFunction(QS_SHOWSERVICE,@OpenSearchWindow);
+  CreateServiceFunction(QS_SHOWSERVICE,@OpenSearchWindow);
   AddRemoveMenuItemToMainMenu;
 
   reghotkeys;
 
-  onadd    :=HookEvent(ME_DB_CONTACT_ADDED        ,@OnContactAdded);
-  ondelete :=HookEvent(ME_DB_CONTACT_DELETED      ,@OnContactDeleted);
-  onstatus :=HookEvent(ME_CLIST_CONTACTICONCHANGED,@OnStatusChanged);
-//  onaccount:=HookEvent(ME_PROTO_ACCLISTCHANGED    ,@OnAccountChanged);
   HookEvent(ME_TTB_MODULELOADED,@OnTTBLoaded);
+
   Result:=0;
 end;
 
@@ -204,9 +178,9 @@ function Load():Integer;cdecl;
 begin
   Result:=0;
   Langpack_register;
-  opthook   :=HookEvent(ME_OPT_INITIALISE      ,@OnOptInitialise);
-  onloadhook:=HookEvent(ME_SYSTEM_MODULESLOADED,@OnModulesLoaded);
-  loadopt_db(true);
+  HookEvent(ME_OPT_INITIALISE      ,@OnOptInitialise);
+  HookEvent(ME_SYSTEM_MODULESLOADED,@OnModulesLoaded);
+  qsopt.numcolumns:=loadopt_db(qsopt.columns);
 end;
 
 function Unload:Integer;cdecl;
@@ -214,20 +188,11 @@ begin
   result:=0;
   removetoolbar; //??
 
-  DestroyServiceFunction(servshow);
-  UnhookEvent(opthook);
-  UnhookEvent(onadd);
-  UnhookEvent(ondelete);
-  UnhookEvent(onstatus);
-//  UnhookEvent(onaccount);
-  if icohook<>0 then
-    UnhookEvent(icohook);
-
 //  unreghotkeys;
 
   CloseSrWindow;
 
-  clear_columns;
+  clear_columns(qsopt.columns);
 end;
 
 exports

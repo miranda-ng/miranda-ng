@@ -4,26 +4,6 @@ interface
 uses windows,messages,commctrl,m_api,dbsettings,mirutils;
 
 const
-  // for QS window only
-  IDM_STAYONTOP = WM_USER+1;
-  WM_MYADDCONTACT    = WM_USER+2;
-  WM_MYDELETECONTACT = WM_USER+3;
-
-  WM_MYSHOWHIDEITEM = WM_USER + 4;
-  WM_MYMOVEITEM     = WM_USER + 5;
-const
-  wcUp      = 1;
-  wcDown    = 2;
-  wcHide    = 3;
-  wcShow    = 4;
-  wcDelete  = 5;
-  wcInsert  = 6;
-  wcChange  = 7;
-  wcRefresh = 8;
-
-const
-  opened:boolean = false;
-const
   QS_QS     :PAnsiChar = 'QS_QS';
   QS_NEW    :PAnsiChar = 'QS_New';
   QS_ITEM   :PAnsiChar = 'QS_Item';
@@ -42,91 +22,123 @@ const
 const
   StatusSort = 1000;
 
-const
-  ptNumber  = 0;
-  ptInteger = 1;
-  ptString  = 2;
-  ptUnicode = 3;
-  ptCurrent = 4;
-
 const //types
-  ST_BYTE        = 0;
-  ST_WORD        = 1;
-  ST_INT         = 2;
-  ST_STRING      = 3;
-  ST_IP          = 4;
-  ST_LASTSEEN    = 5;
-  ST_CONTACTINFO = 6;
-  ST_LASTEVENT   = 7;
-  ST_TIMESTAMP   = 8;
-  ST_SERVICE     = 9;
-  ST_SCRIPT      = 10;
-  ST_METACONTACT = 11;
+  QSTS_BYTE      = 0;
+  QSTS_WORD      = 1;
+  QSTS_DWORD     = 2;
+  QSTS_STRING    = 3;
+  QSTS_IP        = 4;
+  QSTS_TIMESTAMP = 5;
+  QSTS_SIGNED    = 6;
+  QSTS_HEXNUM    = 7;
 
-  ST_MAXTYPE     = 11;
+  // must be non-zero for empty-column checking
+  QST_SETTING     = 100;
+  QST_SCRIPT      = 1;
+  QST_SERVICE     = 2;
+  QST_CONTACTINFO = 3;
+  QST_OTHER       = 200;
+
+  QSTO_LASTSEEN    = 0;
+  QSTO_LASTEVENT   = 1;
+  QSTO_METACONTACT = 2;
+  QSTO_EVENTCOUNT  = 3;
 
 const
   COL_ON      = $0001; // Show column
   COL_INIT    = $0002; // No need to update
+  COL_FILTER  = $0004; // Filter column by pattern
+  // QS window runtime flags
   COL_XSTATUS = $0100;
   COL_GENDER  = $0200;
   COL_CLIENT  = $0400;
+  COL_GROUP   = $0800;
+  COL_CNTNR   = $1000;
+  COL_REFRESH = $FF00; // mask
+
+const
+  QSO_SORTBYSTATUS = $00000001; // Sort by status
+  QSO_DRAWGRID     = $00000002; // Draw listview grid
+  QSO_TOOLSTYLE    = $00000004; // QS window tool style
+  QSO_SAVEPATTERN  = $00000008; // Save filter pattern
+  QSO_AUTOCLOSE    = $00000010; // Close QS window after action
+  QSO_CLIENTICONS  = $00000020; // Show client icons (fingerprint)
+
+  QSO_MAINOPTIONS  = $0000FFFF; // mask for common options
+
+  // QS window options
+  QSO_STAYONTOP    = $00010000; // Stay QS window on top
+  QSO_SHOWOFFLINE  = $00020000; // Show offline contacts
+  QSO_COLORIZE     = $00040000; // Colorize lines
+  QSO_SORTASC      = $00080000; // Sort column ascending
 
 {$include resource.inc}
 
 type
   tserviceparam = record
-    case _type:word of
-      0: (n:dword);
-      1: (i:integer);
-      2: (a:PAnsiChar);
-      3: (w:PWideChar);
-  end;
-type
-  tcolumnitem=record
-    title          :PWideChar;
-    module_name    :PAnsiChar;
-    width          :dword;
-    setting_type   :dword;     // ST_* constants
-    setting_cnftype:dword;     // pt* constants
-    wparam         :tserviceparam;
-    lparam         :tserviceparam;
-    flags          :dword;     // COL_* constants
-  end;
-  tcolumnarray = array of tcolumnitem;
-  tqsopt=record
-    grrect          :TRECT;
-    columns         :tcolumnarray;//array of tcolumnitem;
-    numcolumns      :integer;
-    columnsort      :integer;
-    ascendsort      :boolean;
-    sortbystatus    :boolean;
-    drawgrid        :boolean;
-    showinmenu      :boolean;
-    showonlyinlist  :boolean;
-    showintoptoolbar:boolean;
-    usetoolstyle    :boolean;
-    closeafteraction:boolean;
-    stayontop       :boolean;
-    showoffline     :boolean;
-    showclienticons :boolean;
-    exportheaders   :boolean;
-    singlecsv       :boolean;
-    skipminimized   :boolean;
-    savepattern     :boolean;
-    colorize        :boolean;
+    value:uint_ptr;
+    _type:dword;
   end;
 
+type
+  pcolumnitem = ^tcolumnitem;
+  tcolumnitem = record
+    title          :PWideChar;
+    setting_type   :dword;     // QST_* constants
+    flags          :word;      // COL_* constants
+    width          :word;
+    case integer of
+      // db setting
+      0: (
+        datatype:integer;      // QSTS_* constants
+        module  :pAnsiChar;
+        setting :pAnsiChar;
+      );
+      // script
+      1: (script:pWideChar);
+      // service
+      2: (
+        service:pAnsiChar;
+        wparam :tserviceparam;
+        lparam :tserviceparam;
+        restype:dword;
+      );
+      // contact info
+      3: (cnftype:dword);      // CNF_* constants
+      // other
+      4: (other:integer);      // QSTO_* constants
+  end;
+  tcolumnarray = array of tcolumnitem;
+
+const
+  MaxColumnAmount = 64;
+type
+  tqsopt = record
+    grrect    :TRECT;        // QS window rect
+    columns   :array [0..MaxColumnAmount-1] of tcolumnitem;
+    numcolumns:integer;      // columns array size (really, needs just for db reading)
+    columnsort:integer;      // sorted column number
+    flags     :dword;        // QSO_* options
+  end;
+
+  
 procedure reghotkeys;
 procedure unreghotkeys;
 
 procedure saveopt_wnd;
+procedure loadopt_wnd;
+function savecolumn(num:integer; const column:tcolumnitem):boolean;
 procedure saveopt_db;
-procedure loadopt_db(full:boolean);
-procedure clear_columns;
-function new_column(after:integer=-1):integer;
-procedure delete_column(pos:integer);
-procedure loaddefaultcolumns;
+function loadopt_db(var columns:array of tcolumnitem):integer;
+function loaddefaultcolumns(var columns:array of tcolumnitem):integer;
+
+function CloneColumns(var dst: array of tcolumnitem; const src:array of tcolumnitem):integer;
+function CloneColumn (var dst:tcolumnitem; const src:tcolumnitem):boolean;
+
+procedure clear_columns(var columns:array of tcolumnitem);
+procedure clear_column (var column:tcolumnitem);
+
+function  new_column(var columns:array of tcolumnitem):integer;
 
 procedure AddRemoveMenuItemToMainMenu;
 procedure addtotoolbar;
@@ -137,11 +149,11 @@ var
 
 const
   MainMenuItem:integer=0;
-  hTTBButton  :thandle=0;
+  hTTBButton  :THANDLE=0;
 
 implementation
 
-uses common;
+uses common, sparam;
 
 const
   HKN_GLOBAL:PAnsiChar = 'QS_Global';
@@ -150,36 +162,34 @@ const
   so_mright          :PAnsiChar = 'mright';
   so_mtop            :PAnsiChar = 'mtop';
   so_mleft           :PAnsiChar = 'mleft';
+
   so_columnsort      :PAnsiChar = 'columnsort';
-  so_sortbystatus    :PAnsiChar = 'sortbystatus';
-  so_ascendsort      :PAnsiChar = 'ascendsort';
-  so_showonlyinlist  :PAnsiChar = 'showonlyinlist';
-  so_dontusetoolstyle:PAnsiChar = 'dontusetoolstyle';
-  so_showinmenu      :PAnsiChar = 'showinmenu';
-  so_showintoptoolbar:PAnsiChar = 'showintoptoolbar';
-  so_closeafteraction:PAnsiChar = 'closeafteraction';
-  so_exportheaders   :PAnsiChar = 'exportheaders';
-  so_singlecsv       :PAnsiChar = 'singlecsv';
-  so_savepattern     :PAnsiChar = 'savepattern';
+  so_flags           :PAnsiChar = 'flags';
+
   so_numcolumns      :PAnsiChar = 'numcolumns';
   so_item            :PAnsiChar = 'item';
-  so_drawgrid        :PAnsiChar = 'drawgrid';
-  so_stayontop       :PAnsiChar = 'stayontop';
-  so_showclienticons :PAnsiChar = 'showclienticons';
-  so_skipminimized   :PAnsiChar = 'skipminimized';
-  so_showoffline     :PAnsiChar = 'showoffline';
-  so_colorize        :PAnsiChar = 'colorize';
 
   so__title          :PAnsiChar = '_title';
+  so__width          :PAnsiChar = '_width';
+  so__flags          :PAnsiChar = '_flags';
   so__setting_type   :PAnsiChar = '_setting_type';
-  so__setting_cnftype:PAnsiChar = '_setting_cnftype';
-  so__module_name    :PAnsiChar = '_module_name';
+
+  so__cnftype        :PAnsiChar = '_cnftype';
+
+  so__datatype       :PAnsiChar = '_datatype';
+  so__module         :PAnsiChar = '_module';
+  so__setting        :PAnsiChar = '_setting';
+
+  so__script         :PAnsiChar = '_script';
+
+  so__service        :PAnsiChar = '_service';
+  so__restype        :PAnsiChar = '_restype';
   so__wparam_type    :PAnsiChar = '_wparam_type';
   so__lparam_type    :PAnsiChar = '_lparam_type';
   so__wparam         :PAnsiChar = '_wparam';
   so__lparam         :PAnsiChar = '_lparam';
-  so__width          :PAnsiChar = '_width';
-  so__flags          :PAnsiChar = '_flags';
+
+  so__other          :PAnsiChar = '_other';
 
 procedure reghotkeys;
 var
@@ -221,21 +231,18 @@ var
 begin
   removetoolbar;
 
-  if qsopt.showintoptoolbar then
+  if ServiceExists(MS_TTB_ADDBUTTON)>0 then
   begin
-    if ServiceExists(MS_TTB_ADDBUTTON)>0 then
-    begin
-      ZeroMemory(@ttbopt,sizeof(ttbopt));
-      ttbopt.cbSize    :=sizeof(ttbopt);
-      ttbopt.pszService:=QS_SHOWSERVICE;
-      ttbopt.hIconUp   :=CallService(MS_SKIN2_GETICON,0,lparam(QS_QS));
-      ttbopt.hIconDn   :=ttbopt.hIconUp;
-      ttbopt.dwFlags   :=TTBBF_VISIBLE;
-      ttbopt.name      :=qs_module;
-      hTTBButton:=TopToolbar_AddButton(@ttbopt);
-      if hTTBButton=THANDLE(-1) then
-        hTTBButton:=0;
-    end;
+    ZeroMemory(@ttbopt,sizeof(ttbopt));
+    ttbopt.cbSize    :=sizeof(ttbopt);
+    ttbopt.pszService:=QS_SHOWSERVICE;
+    ttbopt.hIconUp   :=CallService(MS_SKIN2_GETICON,0,lparam(QS_QS));
+    ttbopt.hIconDn   :=ttbopt.hIconUp;
+    ttbopt.dwFlags   :=TTBBF_VISIBLE;
+    ttbopt.name      :=qs_module;
+    hTTBButton:=TopToolbar_AddButton(@ttbopt);
+    if hTTBButton=THANDLE(-1) then
+      hTTBButton:=0;
   end;
 end;
 
@@ -243,256 +250,336 @@ procedure AddRemoveMenuItemToMainMenu;
 var
   cmi:TCLISTMENUITEM;
 begin
-  if qsopt.showinmenu then
-  begin
-    if MainMenuItem<>0 then exit;
-    ZeroMemory(@cmi,sizeof(cmi));
-    cmi.cbSize      :=sizeof(cmi) ;
-    cmi.szName.a    :=qs_name;
-    cmi.position    :=500050000;
+  if MainMenuItem<>0 then exit;
+
+  ZeroMemory(@cmi,sizeof(cmi));
+  cmi.cbSize      :=sizeof(cmi) ;
+  cmi.szName.a    :=qs_name;
+  cmi.position    :=500050000;
 //    cmi.pszPopupName:=nil;
 //    cmi.flags       :=0;
-    cmi.pszService  :=QS_SHOWSERVICE;
-    cmi.hIcon       :=CallService(MS_SKIN2_GETICON,0,lparam(QS_QS));
-    MainMenuItem    :=Menu_AddMainMenuItem(@cmi);
-  end
-  else
+  cmi.pszService  :=QS_SHOWSERVICE;
+  cmi.hIcon       :=CallService(MS_SKIN2_GETICON,0,lparam(QS_QS));
+  MainMenuItem    :=Menu_AddMainMenuItem(@cmi);
+
   begin
+{
     if (MainMenuItem<>0) and
        (ServiceExists(MS_CLIST_REMOVEMAINMENUITEM)<>0) then
     begin
       CallService(MS_CLIST_REMOVEMAINMENUITEM,MainMenuItem,0);
       MainMenuItem:=0;
     end;
+}
   end;
 end;
 
 // -------- column functions ---------
 
-procedure clear_column(num:integer);
+function CloneColumn(var dst:tcolumnitem; const src:tcolumnitem):boolean;
 begin
-  with qsopt.columns[num] do
+  if src.setting_type=0 then
   begin
-    mFreeMem(title);
-    if setting_type<>ST_CONTACTINFO then
+    result:=false;
+    exit;
+  end;
+
+  move(src,dst,SizeOf(tcolumnitem));
+  StrDupW(dst.title,dst.title);
+  case dst.setting_type of
+    QST_SETTING: begin
+      StrDup(dst.module,dst.module);
+      StrDup(dst.setting,dst.setting);
+    end;
+    QST_SCRIPT: begin
+      StrDupW(dst.script,dst.script);
+    end;
+    QST_SERVICE: begin
+      StrDup(dst.service,dst.service);
+      if (dst.wparam._type=ACF_STRING) or (dst.wparam._type=ACF_UNICODE) then
+        StrDupW(pWideChar(dst.wparam.value),pWideChar(dst.wparam.value));
+      if (dst.wparam._type=ACF_STRING) or (dst.wparam._type=ACF_UNICODE) then
+        StrDupW(pWideChar(dst.lparam.value),pWideChar(dst.lparam.value));
+    end;
+  end;
+  result:=true;
+end;
+
+function CloneColumns(var dst: array of tcolumnitem; const src:array of tcolumnitem):integer;
+var
+  i,cnt:integer;
+begin
+  cnt:=0;
+  for i:=0 to MaxColumnAmount-1 do
+  begin
+    if CloneColumn(dst[cnt],src[i]) then
+      inc(cnt);
+  end;
+  result:=cnt;
+end;
+
+procedure clear_column(var column:tcolumnitem);
+begin
+  if column.setting_type=0 then // empty already
+    exit;
+
+  mFreeMem(column.title);
+  case column.setting_type of
+    QST_SETTING: begin
+      mFreeMem(column.module);
+      mFreeMem(column.setting);
+    end;
+    QST_SCRIPT: begin
+      mFreeMem(column.script);
+    end;
+    QST_SERVICE: begin
+      mFreeMem(column.service);
+      if (column.wparam._type=ACF_STRING) or (column.wparam._type=ACF_UNICODE) then
+        mFreeMem(pointer(column.wparam.value));
+      if (column.wparam._type=ACF_STRING) or (column.wparam._type=ACF_UNICODE) then
+        mFreeMem(pointer(column.lparam.value));
+    end;
+    QST_CONTACTINFO: begin
+    end;
+    QST_OTHER: begin
+    end;
+  end;
+  column.setting_type:=0; // mark as unused
+end;
+
+procedure clear_columns(var columns:array of tcolumnitem);
+var
+  i:integer;
+begin
+  for i:=0 to MaxColumnAmount-1 do
+    clear_column(columns[i]);
+end;
+
+function new_column(var columns:array of tcolumnitem):integer;
+var
+  i:integer;
+begin
+  result:=MaxColumnAmount-1;
+  for i:=0 to MaxColumnAmount-1 do
+  begin
+    if columns[i].setting_type=0 then // "empty" condition
     begin
-      mFreeMem(module_name);
-      if setting_type<>ST_SERVICE then
-        mFreeMem(wparam.a)
-      else
+      with columns[i] do
       begin
-        if (wparam._type=ptString) or (wparam._type=ptUnicode) then mFreeMem(wparam.a);
-        if (lparam._type=ptString) or (lparam._type=ptUnicode) then mFreeMem(lparam.a);
+        StrDupW(title,'New column');
+        width:=64;
+        flags:=COL_ON;
+        setting_type:=QST_SETTING;
       end;
+
+      result:=i;
+      break;
     end;
   end;
 end;
 
-procedure clear_columns;
+function loaddefaultcolumns(var columns:array of tcolumnitem):integer;
 var
   i:integer;
 begin
-  for i:=0 to qsopt.numcolumns-1 do
-    clear_column(i);
-  FillChar(qsopt.columns[0],Length(qsopt.columns),0);
-  qsopt.numcolumns:=0;
-end;
+  clear_columns(columns);
+  // lazy to renumber if changes
+  i:=0;
 
-procedure delete_column(pos:integer);
-begin
-  if (pos>=0) and (qsopt.numcolumns>0) then
+  // account
+  with columns[i] do
   begin
-    dec(qsopt.numcolumns);
-    clear_column(pos);
-    move(qsopt.columns[pos+1],qsopt.columns[pos],(qsopt.numcolumns-pos)*sizeof(tcolumnitem));
-    SetLength(qsopt.columns,qsopt.numcolumns);
-  end;
-end;
-
-function new_column(after:integer=-1):integer;
-begin
-  SetLength(qsopt.columns,qsopt.numcolumns+1);
-  FillChar(qsopt.columns[qsopt.numcolumns],SizeOf(tcolumnitem),0);
-  with qsopt.columns[qsopt.numcolumns] do
-  begin
-    StrDupW(title,'New column');
-    width:=64;
-    flags:=COL_ON;
-  end;
-  result:=qsopt.numcolumns;
-  inc(qsopt.numcolumns);
-end;
-
-procedure MakeTitle(var title; name:pAnsiChar);
-begin
-  FastAnsiToWide(name,pWideChar(title));
-end;
-
-procedure loaddefaultcolumns;
-begin
-  clear_columns;
-  qsopt.numcolumns:=15;
-  SetLength(qsopt.columns    ,qsopt.numcolumns);
-  FillChar(qsopt.columns[0],qsopt.numcolumns*SizeOf(tcolumnitem),0);
-
-  // protocol
-  with qsopt.columns[0] do
-  begin
-    MakeTitle(title,'Protocol');
-    StrDup (module_name,MS_PROTO_GETCONTACTBASEPROTO);
+    StrDupW(title,'Account');
     width          :=82;
-    setting_type   :=ST_SERVICE;
-    setting_cnftype:=ptString;
-    wparam._type   :=ptCurrent;
-    lparam._type   :=ptNumber;
-    lparam.n       :=0;
     flags          :=COL_ON;
+    setting_type   :=QST_SERVICE;
+    StrDup (service,MS_PROTO_GETCONTACTBASEACCOUNT);
+    restype        :=ACF_RSTRING;
+    wparam._type   :=ACF_CURRENT;
+    lparam._type   :=ACF_NUMBER;
+    lparam.value   :=0;
   end;
+  inc(i);
 
-  with qsopt.columns[1] do
+  // gender
+  with columns[i] do
   begin
-    MakeTitle(title,'Real Protocol');
-    StrDup(module_name,'Protocol');
-    StrDup(wparam.a   ,'p');
-    width          :=82;
-    setting_type   :=ST_STRING;
-    flags          :=0;
-  end;
-
-  //gender
-  with qsopt.columns[2] do
-  begin
-    MakeTitle(title,'Gender');
+    StrDupW(title,'Gender');
     width          :=20;
-    setting_type   :=ST_CONTACTINFO;
-    setting_cnftype:=CNF_GENDER;
     flags          :=COL_ON;
+    setting_type   :=QST_CONTACTINFO;
+    cnftype        :=CNF_GENDER;
   end;
+  inc(i);
 
-  //uin
-  with qsopt.columns[3] do
+  // uin
+  with columns[i] do
   begin
-    MakeTitle(title,'UserID');
+    StrDupW(title,'UserID');
     width          :=80;
-    setting_type   :=ST_CONTACTINFO;
-    setting_cnftype:=CNF_UNIQUEID;
     flags          :=COL_ON;
+    setting_type   :=QST_CONTACTINFO;
+    cnftype        :=CNF_UNIQUEID;
   end;
+  inc(i);
 
-  //username(displayname)
-  with qsopt.columns[4] do
+  // username(displayname)
+  with columns[i] do
   begin
-    MakeTitle(title,'Nickname');
-    StrDup(module_name,MS_CLIST_GETCONTACTDISPLAYNAME);
+    StrDupW(title,'Nickname');
     width          :=76;
-    setting_type   :=ST_SERVICE;
-    setting_cnftype:=ptUnicode;
-    wparam._type   :=ptCurrent;
-    lparam._type   :=ptNumber;
-    lparam.n       :=2; // 0 for ANSI
     flags          :=COL_ON;
+    setting_type   :=QST_SERVICE;
+    StrDup(service,MS_CLIST_GETCONTACTDISPLAYNAME);
+    restype        :=ACF_RUNICODE;
+    wparam._type   :=ACF_CURRENT;
+    lparam._type   :=ACF_NUMBER;
+    lparam.value   :=2; // 0 for ANSI
   end;
+  inc(i);
 
-  //firstname
-  with qsopt.columns[5] do
+  // firstname
+  with columns[i] do
   begin
-    MakeTitle(title,'First name');
+    StrDupW(title,'First name');
     width          :=68;
-    setting_type   :=ST_CONTACTINFO;
-    setting_cnftype:=CNF_FIRSTNAME;
     flags          :=COL_ON;
+    setting_type   :=QST_CONTACTINFO;
+    cnftype        :=CNF_FIRSTNAME;
   end;
+  inc(i);
 
-  //lastname
-  with qsopt.columns[6] do
+  // lastname
+  with columns[i] do
   begin
-    MakeTitle(title,'Last name');
+    StrDupW(title,'Last name');
     width          :=66;
-    setting_type   :=ST_CONTACTINFO;
-    setting_cnftype:=CNF_LASTNAME;
     flags          :=COL_ON;
+    setting_type   :=QST_CONTACTINFO;
+    cnftype        :=CNF_LASTNAME;
   end;
+  inc(i);
 
-  //group
-  with qsopt.columns[7] do
+  // group
+  with columns[i] do
   begin
-    MakeTitle(title,'Group');
+    StrDupW(title,'Group');
     width          :=80;
-    StrDup(module_name,'CList');
-    StrDup(wparam.a   ,'Group');
-    setting_type   :=ST_STRING;
     flags          :=COL_ON;
+    setting_type   :=QST_SETTING;
+    datatype       :=QSTS_STRING;
+    StrDup(module ,'CList');
+    StrDup(setting,'Group');
   end;
+  inc(i);
 
-  //email
-  with qsopt.columns[8] do
+  // TabSRMM container
+  with columns[i] do
   begin
-    MakeTitle(title,'E-mail');
+    StrDupW(title,'Container');
+    width          :=80;
+    flags          :=COL_ON;
+    setting_type   :=QST_SETTING;
+    datatype       :=QSTS_STRING;
+    StrDup(module ,'Tab_SRMsg');
+    StrDup(setting,'containerW');
+  end;
+  inc(i);
+
+  // email
+  with columns[i] do
+  begin
+    StrDupW(title,'E-mail');
     width          :=116;
-    setting_type   :=ST_CONTACTINFO;
-    setting_cnftype:=CNF_EMAIL;
     flags          :=COL_ON;
+    setting_type   :=QST_CONTACTINFO;
+    cnftype        :=CNF_EMAIL;
   end;
+  inc(i);
 
- //miranda version
-  with qsopt.columns[9] do
+ // miranda version
+  with columns[i] do
   begin
-    MakeTitle(title,'Client ID');
-    StrDup(wparam.a,'MirVer');
+    StrDupW(title,'Client ID');
     width       :=60;
-    setting_type:=ST_STRING;
     flags       :=COL_ON;
+    setting_type:=QST_SETTING;
+    datatype    :=QSTS_STRING;
+    StrDup(setting,'MirVer');
   end;
+  inc(i);
 
- //IP version
-  with qsopt.columns[10] do
+ // IP version
+  with columns[i] do
   begin
-    MakeTitle(title,'Ext IP');
-    StrDup(module_name,'ICQ');
-    StrDup(wparam.a   ,'IP');
+    StrDupW(title,'Ext IP');
     width       :=100;
-    setting_type:=ST_IP;
     flags       :=0;
+    setting_type:=QST_SETTING;
+    datatype    :=QSTS_IP;
+    StrDup(module ,'ICQ');
+    StrDup(setting,'IP');
   end;
+  inc(i);
 
- //LastSeen
-  with qsopt.columns[11] do
+ // LastSeen
+  with columns[i] do
   begin
-    MakeTitle(title,'LastSeen');
-    StrDup(module_name,'SeenModule');
+    StrDupW(title,'LastSeen');
     width       :=116;
-    setting_type:=ST_LASTSEEN;
     flags       :=0;
+    setting_type:=QST_OTHER;
+    other       :=QSTO_LASTSEEN;
   end;
+  inc(i);
 
- //last event
-  with qsopt.columns[12] do
+ // last event
+  with columns[i] do
   begin
-    MakeTitle(title,'Last Event');
+    StrDupW(title,'Last Event');
     width       :=100;
-    setting_type:=ST_LASTEVENT;
     flags       :=0;
+    setting_type:=QST_OTHER;
+    other       :=QSTO_LASTEVENT;
   end;
+  inc(i);
 
- //online since
-  with qsopt.columns[13] do
+ // online since
+  with columns[i] do
   begin
-    MakeTitle(title,'Online since');
-    StrDup(module_name,'ICQ');
-    StrDup(wparam.a   ,'LogonTS');
+    StrDupW(title,'Online since');
     width       :=100;
-    setting_type:=ST_TIMESTAMP;
     flags       :=0;
+    setting_type:=QST_SETTING;
+    datatype    :=QSTS_TIMESTAMP;
+    StrDup(module ,'ICQ');
+    StrDup(setting,'LogonTS');
   end;
+  inc(i);
 
- //metacontacts
-  with qsopt.columns[14] do
+ // metacontacts
+  with columns[i] do
   begin
-    MakeTitle(title,'Metacontact');
+    StrDupW(title,'Metacontact');
     width       :=50;
-    setting_type:=ST_METACONTACT;
     flags       :=0;
+    setting_type:=QST_OTHER;
+    other       :=QSTO_METACONTACT;
   end;
+  inc(i);
+
+  // events
+  with columns[i] do
+  begin
+    StrDupW(title,'Event count');
+    width       :=50;
+    flags       :=0;
+    setting_type:=QST_OTHER;
+    other       :=QSTO_EVENTCOUNT;
+  end;
+  inc(i);
+
+  result:=i;
 end;
 
 // -------- save/load settings ---------
@@ -513,114 +600,93 @@ procedure WriteUnicode(setting:PAnsiChar;value:PWideChar);
 begin
   DBWriteUnicode(0,qs_module,setting,value)
 end;
-procedure WriteBool(setting:PAnsiChar;value:bool);
-begin
-  DBWriteByte(0,qs_module,setting,ord(value))
-end;
 
 procedure saveopt_wnd;
+begin
+  WriteInt(so_mbottom    ,qsopt.grrect.bottom);
+  WriteInt(so_mright     ,qsopt.grrect.right);
+  WriteInt(so_mtop       ,qsopt.grrect.top);
+  WriteInt(so_mleft      ,qsopt.grrect.left);
+
+  WriteInt(so_flags      ,qsopt.flags);
+  WriteInt(so_columnsort ,qsopt.columnsort);
+end;
+
+function savecolumn(num:integer; const column:tcolumnitem):boolean;
 var
-  i:integer;
   buf:array [0..127] of AnsiChar;
   p,pp:PAnsiChar;
 begin
-  WriteInt (so_mbottom    ,qsopt.grrect.bottom);
-  WriteInt (so_mright     ,qsopt.grrect.right);
-  WriteInt (so_mtop       ,qsopt.grrect.top);
-  WriteInt (so_mleft      ,qsopt.grrect.left);
-
-  WriteBool(so_showoffline,qsopt.showoffline);
-  WriteBool(so_colorize   ,qsopt.colorize);
-
-  WriteInt (so_columnsort ,qsopt.columnsort);
+  if column.setting_type=0 then
+  begin
+    result:=false;
+    exit;
+  end;
+  result:=true;
 
   pp:=StrCopyE(buf,so_item);
-  for i:=0 to qsopt.numcolumns-1 do
+  p:=StrEnd(IntToStr(pp,num));
+  with column do
   begin
-    p:=StrEnd(IntToStr(pp,i));
-    with qsopt.columns[i] do
-    begin
-      StrCopy(p,so__flags); WriteInt (buf,flags);
-      StrCopy(p,so__width); WriteWord(buf,width);
+    StrCopy(p,so__setting_type); WriteWord(buf,setting_type);
+    StrCopy(p,so__title); WriteUnicode(buf,title);
+    StrCopy(p,so__flags); WriteWord(buf,flags);
+    StrCopy(p,so__width); WriteWord(buf,width);
+    case setting_type of
+      QST_SETTING: begin
+        StrCopy(p,so__datatype); WriteInt(buf,datatype);
+        StrCopy(p,so__module  ); WriteStr(buf,module);
+        StrCopy(p,so__setting ); WriteStr(buf,setting);
+      end;
+
+      QST_SCRIPT: begin
+        StrCopy(p,so__script); WriteUnicode(buf,script);
+      end;
+
+      QST_CONTACTINFO: begin
+        StrCopy(p,so__cnftype); WriteWord(buf,cnftype);
+      end;
+
+      QST_SERVICE: begin
+        StrCopy(p,so__service    ); WriteStr(buf,service);
+        StrCopy(p,so__restype    ); WriteInt(buf,restype);
+        StrCopy(p,so__wparam_type); WriteInt(buf,wparam._type);
+        StrCopy(p,so__lparam_type); WriteInt(buf,lparam._type);
+        StrCopy(p,so__wparam);
+        case wparam._type of
+          ACF_NUMBER : WriteInt    (buf,wparam.value);
+          ACF_STRING : WriteStr    (buf,pointer(wparam.value));
+          ACF_UNICODE: WriteUnicode(buf,pointer(wparam.value));
+        end;
+        StrCopy(p,so__lparam);
+        case lparam._type of
+          ACF_NUMBER : WriteInt    (buf,lparam.value);
+          ACF_STRING : WriteStr    (buf,pointer(lparam.value));
+          ACF_UNICODE: WriteUnicode(buf,pointer(lparam.value));
+        end;
+      end;
+
+      QST_OTHER: begin
+        StrCopy(p,so__other); WriteInt(buf,other);
+      end;
     end;
   end;
 end;
 
-{
-  "fast" writing"
-  order array - if column order only changed
-  column flags - if checkboxes changed only
-}
 procedure saveopt_db;
 var
-  i:integer;
-  buf:array [0..127] of AnsiChar;
-  p,pp:PAnsiChar;
+  i,cnt:integer;
 begin
-  WriteWord(so_numcolumns      ,qsopt.numcolumns);
+  DBDeleteGroup(0,qs_module,'item*');
+  WriteInt(so_flags,qsopt.flags);
 
-  WriteBool(so_sortbystatus    ,qsopt.sortbystatus);
-  WriteBool(so_showinmenu      ,qsopt.showinmenu);
-//  WriteInt (so_columnsort      ,qsopt.columnsort);
-  WriteBool(so_ascendsort      ,qsopt.ascendsort);
-  WriteBool(so_showonlyinlist  ,qsopt.showonlyinlist);
-
-  WriteBool(so_showintoptoolbar,qsopt.showintoptoolbar);
-  WriteBool(so_dontusetoolstyle,not qsopt.usetoolstyle);
-  WriteBool(so_closeafteraction,qsopt.closeafteraction);
-  WriteBool(so_drawgrid        ,qsopt.drawgrid);
-  WriteBool(so_stayontop       ,qsopt.stayontop);
-  WriteBool(so_showclienticons ,qsopt.showclienticons);
-  WriteBool(so_exportheaders   ,qsopt.exportheaders);
-  WriteBool(so_singlecsv       ,qsopt.singlecsv);
-  WriteBool(so_skipminimized   ,qsopt.skipminimized);
-  WriteBool(so_savepattern     ,qsopt.savepattern);
-
-  pp:=StrCopyE(buf,so_item);
-  for i:=0 to qsopt.numcolumns-1 do
+  cnt:=0;
+  for i:=0 to MaxColumnAmount-1 do
   begin
-    p:=StrEnd(IntToStr(pp,i));
-    with qsopt.columns[i] do
-    begin
-      StrCopy(p,so__title);
-      WriteUnicode(buf,title);
-      case setting_type of
-        ST_SCRIPT: begin
-          StrCopy(p,so__wparam);
-          WriteUnicode(buf,wparam.w);
-        end;
-        ST_CONTACTINFO: begin
-          StrCopy(p,so__setting_cnftype); WriteWord(buf,setting_cnftype);
-        end;
-        ST_SERVICE: begin
-          StrCopy(p,so__module_name    ); WriteStr (buf,module_name);
-          StrCopy(p,so__setting_cnftype); WriteWord(buf,setting_cnftype);
-          StrCopy(p,so__wparam_type    ); WriteWord(buf,wparam._type);
-          StrCopy(p,so__lparam_type    ); WriteWord(buf,lparam._type);
-          StrCopy(p,so__wparam);
-          case wparam._type of
-            ptNumber,
-            ptInteger: WriteInt    (buf,wparam.n);
-            ptString : WriteStr    (buf,wparam.a);
-            ptUnicode: WriteUnicode(buf,wparam.w);
-          end;
-          StrCopy(p,so__lparam);
-          case lparam._type of
-            ptNumber,
-            ptInteger: WriteInt    (buf,lparam.n);
-            ptString : WriteStr    (buf,lparam.a);
-            ptUnicode: WriteUnicode(buf,lparam.w);
-          end;
-        end;
-      else
-        StrCopy(p,so__module_name); WriteStr(buf,module_name);
-        StrCopy(p,so__wparam     ); WriteStr(buf,wparam.a);
-      end;
-      StrCopy(p,so__setting_type); WriteWord(buf,setting_type);
-      StrCopy(p,so__flags       ); WriteInt (buf,flags);
-      StrCopy(p,so__width       ); WriteWord(buf,width);
-    end;
+    if savecolumn(cnt,qsopt.columns[i]) then
+      inc(cnt);
   end;
+  WriteWord(so_numcolumns,cnt);
 end;
 
 function GetInt(setting:PAnsiChar;default:integer):integer;
@@ -630,10 +696,6 @@ end;
 function GetWord(setting:PAnsiChar;default:word):word;
 begin
   result:=DBReadWord(0,qs_module,setting,default);
-end;
-function GetBool(setting:PAnsiChar;default:bool):bool;
-begin
-  result:=bool(DBReadByte(0,qs_module,setting,integer(default)));
 end;
 function GetStr(setting:PAnsiChar):PAnsiChar;
 begin
@@ -648,100 +710,101 @@ end;
   if "fast"writing enabled
   fill columns accordingly comumn order array
 }
-procedure loadopt_db(full:boolean);
+
+procedure loadopt_wnd;
+begin
+  qsopt.grrect.bottom:=GetInt(so_mbottom,240);
+  qsopt.grrect.right :=GetInt(so_mright ,550);
+  qsopt.grrect.top   :=GetInt(so_mtop   ,0);
+  qsopt.grrect.left  :=GetInt(so_mleft  ,0);
+
+  qsopt.columnsort   :=GetInt(so_columnsort,StatusSort);
+  qsopt.flags        :=GetInt(so_flags,QSO_SORTBYSTATUS+QSO_DRAWGRID+QSO_CLIENTICONS+
+                                       QSO_COLORIZE+QSO_SORTASC);
+end;
+
+function loadopt_db(var columns:array of tcolumnitem):integer;
 var
-  i:integer;
   buf:array [0..127] of AnsiChar;
   p,pp:PAnsiChar;
+  i:integer;
 begin
-  if full then
+  if DBGetSettingType(0,qs_module,so_flags)=DBVT_DELETED then
   begin
-    zeromemory(@qsopt,sizeof(qsopt));
-
-    qsopt.grrect.bottom:=GetInt(so_mbottom,240);
-    qsopt.grrect.right :=GetInt(so_mright,550);
-    qsopt.grrect.top   :=GetInt(so_mtop,0);
-    qsopt.grrect.left  :=GetInt(so_mleft,0);
-
-    qsopt.columnsort      :=GetInt (so_columnsort,StatusSort);
-    qsopt.sortbystatus    :=GetBool(so_sortbystatus,true);
-    qsopt.ascendsort      :=GetBool(so_ascendsort  ,true);
-
-    qsopt.showonlyinlist  :=GetBool(so_showonlyinlist  ,false);
-    qsopt.usetoolstyle    :=not GetBool(so_dontusetoolstyle,false);
-    qsopt.showinmenu      :=GetBool(so_showinmenu      ,true);
-    qsopt.showintoptoolbar:=GetBool(so_showintoptoolbar,true);
-    qsopt.closeafteraction:=GetBool(so_closeafteraction,false);
-    qsopt.drawgrid        :=GetBool(so_drawgrid        ,true);
-    qsopt.stayontop       :=GetBool(so_stayontop       ,false);
-    qsopt.singlecsv       :=GetBool(so_singlecsv       ,false);
-    qsopt.exportheaders   :=GetBool(so_exportheaders   ,false);
-    qsopt.showoffline     :=GetBool(so_showoffline     ,true);
-    qsopt.skipminimized   :=GetBool(so_skipminimized   ,true);
-    qsopt.savepattern     :=GetBool(so_savepattern     ,true);
-    qsopt.colorize        :=GetBool(so_colorize        ,true);
-
-    if ServiceExists(MS_FP_GETCLIENTICONW)<>0 then
-      qsopt.showclienticons:=GetBool(so_showclienticons,true)
-    else
-      qsopt.showclienticons:=false;
+    DBDeleteModule(qs_module);
+    qsopt.flags:=
+        QSO_SORTBYSTATUS or QSO_DRAWGRID or
+        QSO_CLIENTICONS  or QSO_COLORIZE or
+        QSO_SORTASC;
+    result:=0;
   end
   else
-    clear_columns;
-
-  qsopt.numcolumns:=GetWord(so_numcolumns,0);
-  if qsopt.numcolumns=0 then
   begin
-    loaddefaultcolumns;
+    qsopt.flags:=GetInt(so_flags,
+        QSO_SORTBYSTATUS or QSO_DRAWGRID or
+        QSO_CLIENTICONS  or QSO_COLORIZE or
+        QSO_SORTASC);
+    result:=GetWord(so_numcolumns,0);
+  end;
+
+  if result=0 then
+  begin
+    result:=loaddefaultcolumns(columns);
     saveopt_db;
   end
   else
   begin
+    clear_columns(columns);
+
     pp:=StrCopyE(buf,so_item);
-    SetLength(qsopt.columns,qsopt.numcolumns);
-    FillChar(qsopt.columns[0],SizeOf(tcolumnitem)*qsopt.numcolumns,0);
-    for i:=0 to qsopt.numcolumns-1 do
+//??    FillChar(qsopt.columns[0],SizeOf(qsopt.columns),0);
+    for i:=0 to result-1 do
     begin
       p:=StrEnd(IntToStr(pp,i));
-      with qsopt.columns[i] do
+      with columns[i] do
       begin
-        StrCopy(p,so__title);
-        title:=GetUnicode(buf);
         StrCopy(p,so__setting_type); setting_type:=GetWord(buf,0);
+        StrCopy(p,so__title); title:=GetUnicode(buf);
+        StrCopy(p,so__width); width:=GetWord(buf,20);
+        StrCopy(p,so__flags); flags:=GetWord(buf,COL_ON);
         case setting_type of
-          ST_SCRIPT: begin
-            StrCopy(p,so__wparam);
-            wparam.w:=GetUnicode(buf);
+          QST_SETTING: begin
+            StrCopy(p,so__datatype); datatype:=GetInt(buf,0);
+            StrCopy(p,so__module  ); module  :=GetStr(buf);
+            StrCopy(p,so__setting ); setting :=GetStr(buf);
           end;
-          ST_CONTACTINFO: begin
-            StrCopy(p,so__setting_cnftype); setting_cnftype:=GetWord(buf,0);
+
+          QST_SCRIPT: begin
+            StrCopy(p,so__script); script:=GetUnicode(buf);
           end;
-          ST_SERVICE: begin
-            StrCopy(p,so__setting_cnftype); setting_cnftype:=GetWord(buf,0);
-            StrCopy(p,so__module_name); module_name :=GetStr(buf);
-            StrCopy(p,so__wparam_type); wparam._type:=GetWord(buf,0);
-            StrCopy(p,so__lparam_type); lparam._type:=GetWord(buf,0);
+
+          QST_CONTACTINFO: begin
+            StrCopy(p,so__cnftype); cnftype:=GetWord(buf,0);
+          end;
+
+          QST_SERVICE: begin
+            StrCopy(p,so__service); service:=GetStr(buf);
+            StrCopy(p,so__restype); restype:=GetInt(buf,0);
+            StrCopy(p,so__wparam_type); wparam._type:=GetInt(buf,0);
+            StrCopy(p,so__lparam_type); lparam._type:=GetInt(buf,0);
             StrCopy(p,so__wparam);
             case wparam._type of
-              ptNumber,
-              ptInteger: wparam.n:=GetInt(buf,0);
-              ptString : wparam.a:=GetStr(buf);
-              ptUnicode: wparam.w:=GetUnicode(buf);
+              ACF_NUMBER : wparam.value:=GetInt(buf,0);
+              ACF_STRING : wparam.value:=uint_ptr(GetStr(buf));
+              ACF_UNICODE: wparam.value:=uint_ptr(GetUnicode(buf));
             end;
             StrCopy(p,so__lparam);
             case lparam._type of
-              ptNumber,
-              ptInteger: lparam.n:=GetInt(buf,0);
-              ptString : lparam.a:=GetStr(buf);
-              ptUnicode: lparam.w:=GetUnicode(buf);
+              ACF_NUMBER : lparam.value:=GetInt(buf,0);
+              ACF_STRING : lparam.value:=uint_ptr(GetStr(buf));
+              ACF_UNICODE: lparam.value:=uint_ptr(GetUnicode(buf));
             end;
           end;
-        else
-          StrCopy(p,so__module_name); module_name:=GetStr(buf);
-          StrCopy(p,so__wparam     ); wparam.a   :=GetStr(buf);
+
+          QST_OTHER: begin
+            StrCopy(p,so__other); other:=GetInt(buf,0);
+          end;
         end;
-        StrCopy(p,so__width); width:=GetWord(buf,20);
-        StrCopy(p,so__flags); flags:=GetInt (buf,COL_ON);
       end;
     end;
   end;

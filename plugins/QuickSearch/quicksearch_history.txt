@@ -7,7 +7,11 @@ Service:
 
 History:
 
-1.4.1.20 - unneded frame removed
+1.4.2.0 (27 dec 2013)
+  Options dialog redesign
+  Lot of internal changes
+  "life" sync between option dialog and main window removed
+  Contact list frame removed
 1.4.1.19 ()
   FastMM4 memory manager used (not native Delphi or miranda)
   Fixed some Memory leaks 
