@@ -177,40 +177,37 @@ static int RoomWndResize(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc)
 		urc->rcItem.left = 0;
 		urc->rcItem.right = urc->dlgNewSize.cx- 24;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - si->iSplitterY;
-		if (bToolbar)
+		if (!bToolbar)
 			urc->rcItem.bottom += 20;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_LOG:
 		urc->rcItem.top = bTabs?(bTabBottom?0:rcTabs.top-1):0;
 		urc->rcItem.left = 0;
-		urc->rcItem.right = bNick?urc->dlgNewSize.cx - si->iSplitterX:urc->dlgNewSize.cx;
-		urc->rcItem.bottom = (bTabs && bTabBottom) ? urc->dlgNewSize.cy - si->iSplitterY - TabHeight + 6 : urc->dlgNewSize.cy - si->iSplitterY;
-		if (bToolbar)
-			urc->rcItem.bottom += 20;
+		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - si->iSplitterX : urc->dlgNewSize.cx;
+LBL_CalcBottom:
+		urc->rcItem.bottom = urc->dlgNewSize.cy - si->iSplitterY;
+		if (bTabs && bTabBottom) urc->rcItem.bottom += 6 - TabHeight;
+		if (!bToolbar) urc->rcItem.bottom += 20;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_LIST:
 		urc->rcItem.top = bTabs?(bTabBottom?0:rcTabs.top-1):0;
 		urc->rcItem.right = urc->dlgNewSize.cx ;
 		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX + 2;
-		urc->rcItem.bottom = (bTabs && bTabBottom) ? urc->dlgNewSize.cy - si->iSplitterY - TabHeight + 6 : urc->dlgNewSize.cy - si->iSplitterY;
-		if (bToolbar)
-			urc->rcItem.bottom += 20;
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+		goto LBL_CalcBottom;
 
 	case IDC_SPLITTERX:
-		urc->rcItem.right = urc->dlgNewSize.cx - si->iSplitterX + 2;
-		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX;
-		urc->rcItem.bottom = (bTabs && bTabBottom) ? urc->dlgNewSize.cy - si->iSplitterY - TabHeight + 6 : urc->dlgNewSize.cy - si->iSplitterY;
-		if (bToolbar)
-			urc->rcItem.bottom += 20;
 		urc->rcItem.top = bTabs ? rcTabs.top : 1;
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX;
+		urc->rcItem.right = urc->rcItem.left + 2;
+		goto LBL_CalcBottom;
 
 	case IDC_SPLITTERY:
-		urc->rcItem.top = bToolbar ? urc->dlgNewSize.cy - si->iSplitterY : urc->dlgNewSize.cy - si->iSplitterY + 20;
-		urc->rcItem.bottom = bToolbar ? (urc->dlgNewSize.cy - si->iSplitterY + 2) : (urc->dlgNewSize.cy - si->iSplitterY + 22);
+		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY;
+		if (!bToolbar)
+			urc->rcItem.top += 20;
+		urc->rcItem.bottom = urc->rcItem.top + 2;
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
 	case IDC_MESSAGE:
@@ -227,25 +224,25 @@ static int RoomWndResize(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc)
 	case IDC_COLOR:
 	case IDC_BKGCOLOR:
 		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY+3;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - si->iSplitterY+19;
-		return RD_ANCHORX_LEFT|RD_ANCHORY_CUSTOM;
+		urc->rcItem.bottom = urc->rcItem.top + 16;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
 
 	case IDC_HISTORY:
 	case IDC_CHANMGR:
 	case IDC_SHOWNICKLIST:
 	case IDC_FILTER:
 		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY+3;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - si->iSplitterY+19;
-		return RD_ANCHORX_RIGHT|RD_ANCHORY_CUSTOM;
+		urc->rcItem.bottom = urc->rcItem.top + 16;
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_CUSTOM;
 
 	case IDC_CLOSE:
-		urc->rcItem.right = urc->dlgNewSize.cx-3;
 		urc->rcItem.left = urc->dlgNewSize.cx - 19;
-		urc->rcItem.bottom = bTabBottom?(bToolbar?urc->dlgNewSize.cy - si->iSplitterY-2:urc->dlgNewSize.cy - si->iSplitterY-2+20):19;
-		urc->rcItem.top = bTabBottom?(bToolbar?urc->dlgNewSize.cy - si->iSplitterY-18:urc->dlgNewSize.cy - si->iSplitterY-18+20):3;
-		return RD_ANCHORX_CUSTOM|RD_ANCHORY_CUSTOM;
+		urc->rcItem.right = urc->rcItem.left + 16;
+		urc->rcItem.top = bTabBottom ? (bToolbar ? urc->dlgNewSize.cy - si->iSplitterY - 18 : urc->dlgNewSize.cy - si->iSplitterY - 18 + 20) : 3;
+		urc->rcItem.bottom = urc->rcItem.top + 16;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 	}
-	return RD_ANCHORX_LEFT|RD_ANCHORY_TOP;
+	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
 static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

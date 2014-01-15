@@ -90,8 +90,8 @@ static void SM_FreeSession(SESSION_INFO *si)
 	// contact so the handle may be invalid, therefore db_get_b shall return 0
 	if (si->hContact && db_get_b(si->hContact, si->pszModule, "ChatRoom", 0) != 0) {
 		ci.SetOffline(si->hContact, si->iType == GCW_CHATROOM ? TRUE : FALSE);
-		db_set_s(si->hContact, m_WndList->pszModule, "Topic", "");
-		db_set_s(si->hContact, m_WndList->pszModule, "StatusBar", "");
+		db_set_s(si->hContact, si->pszModule, "Topic", "");
+		db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 		db_unset(si->hContact, "CList", "StatusMsg");
 	}
 
@@ -902,7 +902,6 @@ static void MM_IconsChanged(void)
 		ImageList_ReplaceIcon(ci.hIconsList, pTemp->OfflineIconIndex + 1, pTemp->hOfflineTalkIcon);
 		pTemp = pTemp->next;
 	}
-	return;
 }
 
 static void MM_FontsChanged(void)
