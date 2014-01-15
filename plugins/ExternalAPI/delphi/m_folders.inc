@@ -34,6 +34,7 @@ const
   CURRENT_PROFILEW  = '%current_profile%';
   MIRANDA_PATHW     = '%miranda_path%';
   MIRANDA_USERDATAW = '%miranda_userdata%';
+  PLUGINS_PATHW     = '%miranda_path%\plugins';
 
   FOLDER_AVATARS        = PROFILE_PATH+'\'+CURRENT_PROFILE+'\avatars';
   FOLDER_VCARDS         = PROFILE_PATH+'\'+CURRENT_PROFILE+'\vcards';
@@ -58,15 +59,20 @@ const
 
 type
   TFOLDERSDATA = record
-    cbSize:integer;                                  //size of struct
-    //section name, if it doesn't exist it will be created otherwise it will just add this entry to it
-    szSection:array [0..FOLDERS_NAME_MAX_SIZE-1] of AnsiChar;
-    szName   :array [0..FOLDERS_NAME_MAX_SIZE-1] of AnsiChar;  //entry name - will be shown in options
-    szFormat :TCHAR; // default string format. Fallback string in case
-                     // there's no entry in the database for this
-                     // folder. This should be the initial value for
-                     // the path, users will be able to change it later.
-    flags    :DWORD; // FF_* flags
+    cbSize    :integer;   // size of struct
+    szSection :PAnsiChar; // section name, if it doesn't exist it will be created
+                          // otherwise it will just add this entry to it
+    szName    :PAnsiChar; // entry name - will be shown in options
+    szFormat  :TCHAR;     // default string format. Fallback string in case
+                          // there's no entry in the database for this
+                          // folder. This should be the initial value for
+                          // the path, users will be able to change it later.
+    flags     :DWORD;     // FF_* flags
+    // V2.0
+    szUserName:TChar;     // for display purposes. if NULL, plugins gets it as the
+                          // translated szName String is dup()'d so you can free it
+                          // later. If you set the unicode string don't forget to set
+                          // the flag accordingly.
   end;
 
 const
@@ -97,7 +103,8 @@ type
                           // of characters that can be copied to it (so for
                           // unicode strings you don't send the number of
                           // bytes but the length of the string).
-		szPath:TChar;         //pointer to the buffer that receives the path without the last "\\"
+		szPath:TChar;         // pointer to the buffer that receives the path without the last "\\"
+		Flags: dword;         // FF_* flags
   end;
 
 const
@@ -108,25 +115,6 @@ const
   Should return 0 on success, or nonzero otherwise.
 }
   MS_FOLDERS_GET_PATH = 'Folders/Get/Path';
-
-type
-  TFOLDERSGETALLOCDATA = record
-    cbSize:integer;
-    szPath:^TCHAR; // address of a string variable where the path should be
-                   // stored (the last \ won't be copied).
-  end;
-
-const
-{
-  Folders/GetRelativePath/Alloc service
-  wParam - (WPARAM) (int) - Handle to registered path
-  lParam - (LPARAM) (FOLDERSALLOCDATA *) data
-  This service is the same as MS_FOLDERS_GET_PATH with the difference that this service
-  allocates the needed space for the buffer. It uses miranda's memory functions for that and you need
-  to use those to free the resulting buffer.
-  Should return 0 on success, or nonzero otherwise. Currently it only returns 0.
-}
-  MS_FOLDERS_GET_PATH_ALLOC = 'Folders/Get/Path/Alloc';
 
 {
   Folders/On/Path/Changed

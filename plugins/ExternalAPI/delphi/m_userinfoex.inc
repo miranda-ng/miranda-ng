@@ -242,8 +242,9 @@ lParam = not used
   MBS_FLAT       = $00004000; // flat button
   MBS_DOWNARROW  = $00008000; // has arrow on the right
 
+  MBBF_UNICODE = 1;
 // BUTTONADDTOOLTIP
-// use lParam=MBF_UNICODE to set unicode tooltips
+// use lParam=MBBF_UNICODE to set unicode tooltips
 // for lParam=0 the string is interpreted as ansi
 
 // message to explicitly translate the buttons text,

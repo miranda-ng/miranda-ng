@@ -159,26 +159,16 @@ type
     bHardUpdate  :boolean;    // clist modern requires to delete buttons to update them
 
     pButtonList  :PSortedList;
-
-    lResult      :LRESULT;     // custom window proc result
-    fnWindowProc :TWNDPROC;    // custom window proc
-  end;
-
-type
-  PTBCtrlCustomize = ^TTBCtrlCustomize;
-  TTBCtrlCustomize = record
-    cbLen       :size_t;            // total length of the internal data structure
-    fnWindowProc:TWNDPROC;          // subclassed windows procedure for the custom button
   end;
 
 {
   Sets the custom painting procedure for a toolbar
   wParam = not used
-  lParam = TTBCtrlCustomize*
+  lParam = lParam = size_t: size of new data block (published from TTBCtrl)
   Usage: SendMessage(hwndToolbar, TTB_SETCUSTOM, 0, (LPARAM)&CustomData);
   Only works on TopToolbars
 }
 const
-  TTB_SETCUSTOM = WM_USER+1;
+  TTB_SETCUSTOMDATASIZE = WM_USER+1;
 
 {$ENDIF}

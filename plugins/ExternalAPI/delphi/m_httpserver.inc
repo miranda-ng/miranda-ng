@@ -23,7 +23,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 const
   OPT_SEND_LINK = 1;
 
-typedef struct 
+type
   PSTFileShareInfo = ^TSTFileShareInfo;
   TSTFileShareInfo = record
     lStructSize  :dword; // Set to sizeof(STFileShareInfo)
@@ -43,6 +43,7 @@ typedef struct
 // The buffer must be large enough to store the path and file name string, 
 // including the terminating null character. 
 
+const
 /////////////////////////////////////////////
 ///   Service MS_HTTP_ADD_CHANGE_REMOVE   ///
 /////////////////////////////////////////////
@@ -99,5 +100,18 @@ typedef struct
 // returns the count of shares in the buffer pointed to by LPSTFileShareInfo
 
   MS_HTTP_GET_ALL_SHARES = 'HTTPServer/GetAllShares';
+
+/////////////////////////////////////////////
+////   Service MS_HTTP_GET_LINK         /////
+/////////////////////////////////////////////
+//
+// wParam = (char*)pszSrvPath;
+// lParam = 0
+// Return URL Link on success, 0 on failure
+// Return pointer must be mir_free by caller
+//
+// Return the URL link to the pszSrvPath
+
+  MS_HTTP_GET_LINK = 'HTTPServer/GetLink';
 
 {$ENDIF}
