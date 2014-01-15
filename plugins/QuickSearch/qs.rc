@@ -138,8 +138,8 @@ FONT 8, "Ms Shell Dlg",0,0
 }
 /*
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,4,1,18
- PRODUCTVERSION 0,8,0,0
+ FILEVERSION 1,4,2,0
+ PRODUCTVERSION 1,4,0,0
  FILEFLAGSMASK $3F
  FILEOS 4
  FILETYPE 2
@@ -152,11 +152,11 @@ BEGIN
       VALUE "CompanyName",""
       VALUE "Comments", "Plugin to quick search for nickname, firstname, lastname, email, uin in your contact list"0
       VALUE "FileDescription", "Quick info search plugin for Miranda NG"0
-      VALUE "FileVersion", "1, 4, 1, 19 "0
+      VALUE "FileVersion", "1, 4, 2, 0 "0
       VALUE "InternalName", "QuickSearch"0
       VALUE "OriginalFilename", "quicksearch.dll"0
       VALUE "ProductName", "QuickSearch Dynamic Link Library (DLL)"0
-      VALUE "ProductVersion", "0, 8, 0, 0 "0
+      VALUE "ProductVersion", "1, 4, 2, 0 "0
       VALUE "SpecialBuild", "12.09.2012 "0
     END
   END
