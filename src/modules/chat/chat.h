@@ -43,8 +43,8 @@ char*  Log_CreateRTF(LOGSTREAMDATA *streamData);
 
 // clist.c
 BOOL    AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
-HANDLE  AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType);
-HANDLE  FindRoom(const char* pszModule, const TCHAR* pszRoom);
+HANDLE  AddRoom(const char *pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType);
+HANDLE  FindRoom(const char *pszModule, const TCHAR* pszRoom);
 BOOL    SetAllOffline(BOOL bHide, const char *pszModule);
 BOOL    SetOffline(HANDLE hContact, BOOL bHide);
 
@@ -72,14 +72,14 @@ void   UnloadChatModule(void);
 int    GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth);
 TCHAR *RemoveFormatting(const TCHAR* pszText);
 BOOL   DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
-int    GetColorIndex(const char* pszModule, COLORREF cr);
-void   CheckColorsInModule(const char* pszModule);
+int    GetColorIndex(const char *pszModule, COLORREF cr);
+void   CheckColorsInModule(const char *pszModule);
 int    GetRichTextLength(HWND hwnd);
 BOOL   IsHighlighted(SESSION_INFO *si, const TCHAR* pszText);
 UINT   CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void   DestroyGCMenu(HMENU *hMenu, int iIndex);
-BOOL   DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
-BOOL   DoEventHook(const TCHAR *pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem);
+BOOL   DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
+BOOL   DoEventHook(const TCHAR *pszID, const char *pszModule, int iType, const TCHAR *pszUID, const TCHAR* pszText, DWORD dwItem);
 BOOL   IsEventSupported(int eventType);
 BOOL   LogToFile(SESSION_INFO *si, GCEVENT *gce);
 

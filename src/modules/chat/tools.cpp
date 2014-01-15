@@ -370,7 +370,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	return TRUE;
 }
 
-int GetColorIndex(const char* pszModule, COLORREF cr)
+int GetColorIndex(const char *pszModule, COLORREF cr)
 {
 	MODULEINFO *pMod = ci.MM_FindModule(pszModule);
 	int i = 0;
@@ -390,7 +390,7 @@ int GetColorIndex(const char* pszModule, COLORREF cr)
 // in the messagebox. THis is to vvercome limitations in the richedit
 // that I do not know currently how to fix
 
-void CheckColorsInModule(const char* pszModule)
+void CheckColorsInModule(const char *pszModule)
 {
 	MODULEINFO *pMod = ci.MM_FindModule(pszModule);
 	int i = 0;
@@ -671,7 +671,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	return FALSE;
 }
 
-BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem)
+BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem)
 {
 	SESSION_INFO *si = ci.SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -691,7 +691,7 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int 
 	return TRUE;
 }
 
-BOOL DoEventHook(const TCHAR *pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem)
+BOOL DoEventHook(const TCHAR *pszID, const char *pszModule, int iType, const TCHAR *pszUID, const TCHAR* pszText, DWORD dwItem)
 {
 	SESSION_INFO *si = ci.SM_FindSession(pszID, pszModule);
 	if (si == NULL)

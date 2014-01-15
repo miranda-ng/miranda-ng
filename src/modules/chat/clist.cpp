@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 
-HANDLE AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType)
+HANDLE AddRoom(const char *pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType)
 {
 	HANDLE hContact = ci.FindRoom(pszModule, pszRoom);
 	DBVARIANT dbv;
@@ -236,7 +236,7 @@ BOOL AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt,
 	return TRUE;
 }
 
-HANDLE FindRoom (const char* pszModule, const TCHAR* pszRoom)
+HANDLE FindRoom (const char *pszModule, const TCHAR* pszRoom)
 {
 	for (HANDLE hContact = db_find_first(pszModule); hContact; hContact = db_find_next(hContact, pszModule)) {
 		if ( !db_get_b(hContact, pszModule, "ChatRoom", 0))

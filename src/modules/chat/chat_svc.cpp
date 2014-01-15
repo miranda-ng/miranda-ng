@@ -233,7 +233,7 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 			db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 	}
 	else {
-		SESSION_INFO* si2 = ci.SM_FindSession(gcw->ptszID, gcw->pszModule);
+		SESSION_INFO *si2 = ci.SM_FindSession(gcw->ptszID, gcw->pszModule);
 		if (si2) {
 			ci.UM_RemoveAll(&si2->pUsers);
 			ci.TM_RemoveAll(&si2->pStatuses);
