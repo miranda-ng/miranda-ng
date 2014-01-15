@@ -32,15 +32,15 @@ HANDLE g_hOptions = NULL;
 #define FONTF_ITALIC 2
 struct FontOptionsList
 {
-	const TCHAR*  szDescr;
-	COLORREF      defColour;
-	const TCHAR*  szDefFace;
-	BYTE          defCharset, defStyle; 
-	char          defSize;
-	COLORREF      colour;
-	const TCHAR*  szFace;
-	BYTE          charset, style;
-	char          size;
+	LPCTSTR  szDescr;
+	COLORREF defColour;
+	LPCTSTR  szDefFace;
+	BYTE     defCharset, defStyle; 
+	char     defSize;
+	COLORREF colour;
+	LPCTSTR  szFace;
+	BYTE     charset, style;
+	char     size;
 }
 
 //remeber to put these in the Translate( ) template file too
@@ -71,7 +71,7 @@ const int msgDlgFontCount = SIZEOF(fontOptionsList);
 
 void LoadLogFonts(void)
 {
-	for (int i = 0; i < OPTIONS_FONTCOUNT; i++)
+	for (int i=0; i < OPTIONS_FONTCOUNT; i++)
 		LoadMsgDlgFont(i, &ci.aFonts[i].lf, &ci.aFonts[i].color);
 }
 
@@ -115,17 +115,16 @@ void LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF* colour)
 
 void RegisterFonts(void)
 {
-	FontIDT fontid = { 0 };
-	ColourIDT colourid;
-	char idstr[10];
-	int index = 0, i;
+	int index = 0;
 
-	fontid.cbSize = sizeof(FontIDT);
+	FontIDT fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_NEEDRESTART;
-	for (i = 0; i < msgDlgFontCount; i++, index++) {
+	for (int i=0; i < msgDlgFontCount; i++, index++) {
 		strncpy(fontid.dbSettingsGroup, "ChatFonts", sizeof(fontid.dbSettingsGroup));
 		_tcsncpy(fontid.group, _T("Chat module"), SIZEOF(fontid.group));
 		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
+
+		char idstr[10];
 		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", index);
 		strncpy(fontid.prefix, idstr, sizeof(fontid.prefix));
 		fontid.order = index;
@@ -151,8 +150,7 @@ void RegisterFonts(void)
 		FontRegisterT(&fontid);
 	}
 
-	colourid.cbSize = sizeof(ColourIDT);
-	colourid.order = 0;
+	ColourIDT colourid = { sizeof(colourid) };
 	strncpy(colourid.dbSettingsGroup, "Chat", sizeof(colourid.dbSettingsGroup));
 
 	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));

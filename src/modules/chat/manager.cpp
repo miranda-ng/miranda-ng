@@ -66,8 +66,7 @@ static SESSION_INFO* SM_AddSession(const TCHAR *pszID, const char *pszModule)
 		return NULL;
 
 	if (!ci.SM_FindSession(pszID, pszModule)) {
-		SESSION_INFO *node = (SESSION_INFO*)mir_alloc(sizeof(SESSION_INFO));
-		ZeroMemory(node, sizeof(SESSION_INFO));
+		SESSION_INFO *node = (SESSION_INFO*)mir_calloc(sizeof(SESSION_INFO));
 		node->ptszID = mir_tstrdup(pszID);
 		node->pszModule = mir_strdup(pszModule);
 
@@ -1483,8 +1482,10 @@ CHAT_MANAGER ci =
 	LoadMsgDlgFont
 };
 
-INT_PTR SvcGetChatManager(WPARAM, LPARAM)
+INT_PTR SvcGetChatManager(WPARAM, LPARAM lParam)
 {
 	LoadChatModule();
+	ci.pSettings = (GlobalLogSettingsBase*)lParam;
+	OptionsInit();
 	return (INT_PTR)&ci;
 }

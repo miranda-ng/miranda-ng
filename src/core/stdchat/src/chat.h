@@ -68,6 +68,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 #include "richutil.h"
 
+#define EM_SUBCLASSED          (WM_USER+200)
+#define EM_UNSUBCLASSED        (WM_USER+201)
+#define EM_ACTIVATE            (WM_USER+202)
+
 struct TABLIST
 {
 	TCHAR*  pszID;

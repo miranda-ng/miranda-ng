@@ -339,20 +339,16 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	if (header)
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, header);
 
-
 	// ### RTF BODY (one iteration per event that should be streamed in)
-	while ( lin )
-	{
+	while (lin) {
 		// filter
-		if (streamData->si->iType != GCW_CHATROOM || !streamData->si->bFilterEnabled || (streamData->si->iLogFilterFlags&lin->iType) != 0)
-		{
+		if (streamData->si->iType != GCW_CHATROOM || !streamData->si->bFilterEnabled || (streamData->si->iLogFilterFlags&lin->iType) != 0) {
 			// create new line, and set font and color
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\par%s ", Log_SetStyle(0, 0));
 
 			// Insert icon
-			if (lin->iType&ci.pSettings->dwIconFlags || lin->bIsHighlighted&&ci.pSettings->dwIconFlags&GC_EVENT_HIGHLIGHT)
-			{
-				int iIndex = (lin->bIsHighlighted&&ci.pSettings->dwIconFlags&GC_EVENT_HIGHLIGHT) ? ICON_HIGHLIGHT : EventToIcon(lin);
+			if (lin->iType & ci.pSettings->dwIconFlags || lin->bIsHighlighted&&ci.pSettings->dwIconFlags & GC_EVENT_HIGHLIGHT) {
+				int iIndex = (lin->bIsHighlighted && ci.pSettings->dwIconFlags & GC_EVENT_HIGHLIGHT) ? ICON_HIGHLIGHT : EventToIcon(lin);
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
 				while (bufferAlloced - bufferEnd < logIconBmpSize[0])
 					bufferAlloced += 4096;
@@ -361,35 +357,31 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				bufferEnd += logIconBmpSize[iIndex];
 			}
 
-			if (ci.pSettings->TimeStampEventColour)
-			{
+			if (ci.pSettings->TimeStampEventColour) {
 				LOGFONT &lf = ci.aFonts[0].lf;
 
 				// colored timestamps
 				static char szStyle[256];
 				int iii;
-				if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE)
-				{
+				if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
 					iii = lin->bIsHighlighted?16:(lin->bIsMe ? 2 : 1);
 					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
 				}
-				else
-				{
+				else {
 					iii = lin->bIsHighlighted?16:EventToIndex(lin);
 					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
 				}
 			}
-			else
-				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(0, 0 ));
+			else Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(0, 0 ));
+
 			// insert a TAB if necessary to put the timestamp in the right position
 			if (ci.pSettings->dwIconFlags)
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tab ");
 
 			//insert timestamp
-			if (ci.pSettings->ShowTime)
-			{
+			if (ci.pSettings->ShowTime) {
 				TCHAR szTimeStamp[30], szOldTimeStamp[30];
 
 				lstrcpyn( szTimeStamp, MakeTimeStamp(ci.pSettings->pszTimeStamp, lin->time), 30);
@@ -402,8 +394,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			}
 
 			// Insert the nick
-			if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE)
-			{
+			if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
 				TCHAR pszTemp[300], *p1;
 
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1, lin->bIsMe ? 2 : 1));
@@ -417,13 +408,10 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			}
 
 			// Insert the message
-			{
-				i = lin->bIsHighlighted?16:EventToIndex(lin);
-				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(i, i));
-				streamData->lin = lin;
-				AddEventToBuffer(&buffer, &bufferEnd, &bufferAlloced, streamData);
-			}
-
+			i = lin->bIsHighlighted?16:EventToIndex(lin);
+			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(i, i));
+			streamData->lin = lin;
+			AddEventToBuffer(&buffer, &bufferEnd, &bufferAlloced, streamData);
 		}
 		lin = lin->prev;
 	}
@@ -433,49 +421,17 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	return buffer;
 }
 
-static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
+char* Log_CreateRtfHeader(MODULEINFO *mi)
 {
-	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA *) dwCookie;
-
-	if (lstrdat)
-	{
-		// create the RTF
-		if (lstrdat->buffer == NULL)
-		{
-			lstrdat->bufferOffset = 0;
-			lstrdat->buffer = Log_CreateRTF(lstrdat);
-			lstrdat->bufferLen = lstrlenA(lstrdat->buffer);
-		}
-
-		// give the RTF to the RE control
-		*pcb = min(cb, lstrdat->bufferLen - lstrdat->bufferOffset);
-		CopyMemory(pbBuff, lstrdat->buffer + lstrdat->bufferOffset, *pcb);
-		lstrdat->bufferOffset += *pcb;
-
-		// free stuff if the streaming operation is complete
-		if (lstrdat->bufferOffset == lstrdat->bufferLen)
-		{
-			mir_free(lstrdat->buffer);
-			lstrdat->buffer = NULL;
-		}
-	}
-
-	return 0;
-}
-
-char* Log_CreateRtfHeader(MODULEINFO * mi)
-{
-	char *buffer;
-	int bufferAlloced, bufferEnd, i = 0;
+	int bufferAlloced, bufferEnd, i;
 
 	// guesstimate amount of memory for the RTF header
 	bufferEnd = 0;
 	bufferAlloced = 4096;
-	buffer = (char *) mir_realloc(mi->pszHeader, bufferAlloced);
+	char *buffer = (char *)mir_realloc(mi->pszHeader, bufferAlloced);
 	buffer[0] = '\0';
 
-
-	//get the number of pixels per logical inch
+	// get the number of pixels per logical inch
 	HDC hdc = GetDC(NULL);
 	ci.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	ci.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
@@ -501,36 +457,25 @@ char* Log_CreateRtfHeader(MODULEINFO * mi)
 	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "}\\pard");
 
 	// set tabs and indents
-	{
-		int iIndent = 0;
+	int iIndent = 0;
 
-		if (ci.pSettings->dwIconFlags)
-		{
-			iIndent += (14 * 1440) / ci.logPixelSX;
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
-		}
-		if (ci.pSettings->ShowTime)
-		{
-			int iSize = (ci.pSettings->LogTextIndent * 1440) / ci.logPixelSX;
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize );
-			if (ci.pSettings->LogIndentEnabled)
-				iIndent += iSize;
-		}
-		/*
-		{ // text indent
-		int iSize = (135*1440)/logPixelSX;
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize );
-		if (ci.pSettings->LogIndentEnabled)
-		iIndent += iSize;
-
-		}
-		*/
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\fi-%u\\li%u", iIndent, iIndent);
+	if (ci.pSettings->dwIconFlags) {
+		iIndent += (14 * 1440) / ci.logPixelSX;
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
 	}
+	if (ci.pSettings->ShowTime) {
+		int iSize = (ci.pSettings->LogTextIndent * 1440) / ci.logPixelSX;
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize);
+		if (ci.pSettings->LogIndentEnabled)
+			iIndent += iSize;
+	}
+
+	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\fi-%u\\li%u", iIndent, iIndent);
 	return buffer;
 }
 
-#define RTFPICTHEADERMAXSIZE   78
+#define RTFPICTHEADERMAXSIZE 78
+
 void LoadMsgLogBitmaps(void)
 {
 	HBRUSH hBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW)));
@@ -556,20 +501,20 @@ void LoadMsgLogBitmaps(void)
 	for (int i = 0; i < SIZEOF(pLogIconBmpBits); i++) {
 		HICON hIcon = ci.hIcons[i];
 		size_t size = RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2;
-		pLogIconBmpBits[i] = (PBYTE) mir_alloc(size);
+		pLogIconBmpBits[i] = (PBYTE)mir_alloc(size);
 		int rtfHeaderSize = mir_snprintf((char *)pLogIconBmpBits[i], size, "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight);
 		HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBkgBrush);
 		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
 		SelectObject(hdcMem, hoBmp);
-		GetDIBits(hdc, hBmp, 0, bih.biHeight, pBmpBits, (BITMAPINFO *) & bih, DIB_RGB_COLORS);
-		{
-			int n;
-			for (n = 0; n < sizeof(BITMAPINFOHEADER); n++)
-				sprintf((char *)pLogIconBmpBits[i] + rtfHeaderSize + n * 2, "%02X", ((PBYTE) & bih)[n]); //!!!!!!!!!!!!!
-			for (n = 0; n < widthBytes * bih.biHeight; n += 4)
-				sprintf((char *)pLogIconBmpBits[i] + rtfHeaderSize + (bih.biSize + n) * 2, "%02X%02X%02X%02X", pBmpBits[n], pBmpBits[n + 1], pBmpBits[n + 2], pBmpBits[n + 3]); //!!!!!!!!!!!!!
-		}
+		GetDIBits(hdc, hBmp, 0, bih.biHeight, pBmpBits, (BITMAPINFO *)& bih, DIB_RGB_COLORS);
+
+		int n;
+		for (n = 0; n < sizeof(BITMAPINFOHEADER); n++)
+			sprintf((char *)pLogIconBmpBits[i] + rtfHeaderSize + n * 2, "%02X", ((PBYTE)& bih)[n]); //!!!!!!!!!!!!!
+		for (n = 0; n < widthBytes * bih.biHeight; n += 4)
+			sprintf((char *)pLogIconBmpBits[i] + rtfHeaderSize + (bih.biSize + n) * 2, "%02X%02X%02X%02X", pBmpBits[n], pBmpBits[n + 1], pBmpBits[n + 2], pBmpBits[n + 3]); //!!!!!!!!!!!!!
+
 		logIconBmpSize[i] = rtfHeaderSize + (bih.biSize + widthBytes * bih.biHeight) * 2 + 1;
 		pLogIconBmpBits[i][logIconBmpSize[i] - 1] = '}';
 	}
@@ -582,7 +527,6 @@ void LoadMsgLogBitmaps(void)
 
 void FreeMsgLogBitmaps(void)
 {
-	int i;
-	for (i = 0; i < SIZEOF(pLogIconBmpBits); i++)
+	for (int i = 0; i < SIZEOF(pLogIconBmpBits); i++)
 		mir_free(pLogIconBmpBits[i]);
 }

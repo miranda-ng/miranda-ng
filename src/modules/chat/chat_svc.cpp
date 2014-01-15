@@ -533,28 +533,6 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	char* mods[3] = { "Chat", "ChatFonts" };
 	CallService("DBEditorpp/RegisterModule", (WPARAM)mods, 2);
 
-	RegisterFonts();
-	OptionsInit();
-
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.position = -2000090001;
-	mi.flags = CMIF_DEFAULT;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);
-	mi.pszName = LPGEN("&Join");
-	mi.pszService = "GChat/JoinChat";
-	hJoinMenuItem = Menu_AddContactMenuItem(&mi);
-
-	mi.position = -2000090000;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_LEAVE);
-	mi.flags = CMIF_NOTOFFLINE;
-	mi.pszName = LPGEN("&Leave");
-	mi.pszService = "GChat/LeaveChat";
-	hLeaveMenuItem = Menu_AddContactMenuItem(&mi);
-
-	HookEvent(ME_FONT_RELOAD, FontsChanged);
-	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
-	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
-
 	ci.SetAllOffline(TRUE, NULL);
 	return 0;
 }
@@ -595,6 +573,28 @@ void LoadChatModule(void)
 
 	ci.hSendEvent = CreateHookableEvent(ME_GC_EVENT);
 	ci.hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
+
+	RegisterFonts();
+
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.position = -2000090001;
+	mi.flags = CMIF_DEFAULT;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);
+	mi.pszName = LPGEN("&Join");
+	mi.pszService = "GChat/JoinChat";
+	hJoinMenuItem = Menu_AddContactMenuItem(&mi);
+
+	mi.position = -2000090000;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_LEAVE);
+	mi.flags = CMIF_NOTOFFLINE;
+	mi.pszName = LPGEN("&Leave");
+	mi.pszService = "GChat/LeaveChat";
+	hLeaveMenuItem = Menu_AddContactMenuItem(&mi);
+
+	HookEvent(ME_FONT_RELOAD, FontsChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
+	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
+
 	bInited = true;
 }
 

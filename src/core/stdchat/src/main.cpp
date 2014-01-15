@@ -257,8 +257,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 	
-	mir_getCI();
-	pci->pSettings = &g_Settings;
+	mir_getCI(&g_Settings);
 	pci->OnAddUser = OnAddUser;
 	pci->OnNewUser = OnNewUser;
 	pci->OnRemoveUser = OnRemoveUser;

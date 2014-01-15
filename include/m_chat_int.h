@@ -64,10 +64,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_REDRAWLOG2          (WM_USER+140)
 #define GC_REDRAWLOG3          (WM_USER+141)
 
-#define EM_SUBCLASSED          (WM_USER+200)
-#define EM_UNSUBCLASSED        (WM_USER+201)
-#define EM_ACTIVATE            (WM_USER+202)
-
 #define TIMERID_FLASHWND       205
 
 #define GCW_TABROOM            10
@@ -398,9 +394,9 @@ struct CHAT_MANAGER
 
 extern CHAT_MANAGER ci, *pci;
 
-__forceinline void mir_getCI(void)
+__forceinline void mir_getCI(GlobalLogSettingsBase *pSettings)
 {
-	pci = (CHAT_MANAGER*)CallService("GChat/GetInterface", 0, 0);
+	pci = (CHAT_MANAGER*)CallService("GChat/GetInterface", 0, (LPARAM)pSettings);
 }
 
 #endif // M_CHAT_INT_H__
