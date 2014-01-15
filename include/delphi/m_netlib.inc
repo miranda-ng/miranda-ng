@@ -235,17 +235,6 @@ type
   TNetlibNewConnectionProc    = procedure(hNewConnection:THandle; dwRemoveIP:DWORD); cdecl;
   TNetlibNewConnectionProc_V2 = procedure(hNewConnection:THandle; dwRemoveIP:DWORD; pExtra:pointer); cdecl;
 
-  PNETLIBBINDOLD = ^TNETLIBBINDOLD;
-  TNETLIBBINDOLD = record
-    cbSize: int;
-    pfnNewConnection:TNetlibNewConnectionProc; // function to call when there's
-                                               // a new connection, dwRemoteIP is
-                                               // in host byte order -- the handle
-                                               // is to the new connection
-    dwInternalIP: DWORD;                       // set on return, host byte order
-    wPort: WORD;                               // set on return, host byte order
-  end;
-
   PNETLIBBIND = ^TNETLIBBIND;
   TNETLIBBIND = record
     cbSize:int;
@@ -496,7 +485,7 @@ const
   lParam=(LPARAM)(SOCKADDR_INET*) numeric IP address structure
   Returns 0 on success
 }
-  MS_NETLIB_STARINGTOADDRESS:PAnsiChar = 'Netlib/StringToAddress';
+  MS_NETLIB_STRINGTOADDRESS:PAnsiChar = 'Netlib/StringToAddress';
 
 {
   Converts numerical representation of IP in SOCKADDR_INET into string representation with IP and port

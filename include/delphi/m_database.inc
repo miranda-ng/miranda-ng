@@ -215,6 +215,11 @@ const
       lParam=pointer to TDBEVENTGETTEXT
     dbe should be the valid database event read via MS_DB_EVENT_GET
     Only events of type EVENTTYPE_MESSAGE are supported.
+
+  egt->dbei should be the valid database event read via db_event_get()
+  egt->datatype = DBVT_WCHAR or DBVT_ASCIIZ or DBVT_TCHAR.
+  egt->codepage is any valid codepage, CP_ACP by default.
+
     Function returns a pointer to a string in the required format.
     This string should be freed by a call of mir_free
   }

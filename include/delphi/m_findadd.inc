@@ -31,6 +31,6 @@ const
              already open.
     Returns: Always returns 0
   }
-  MS_FINDADDFINDADD:PAnsiChar = 'FindAdd/FindAddCommand';
+  MS_FINDADD_FINDADD:PAnsiChar = 'FindAdd/FindAddCommand';
 
 {$ENDIF}

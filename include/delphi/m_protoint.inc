@@ -49,6 +49,7 @@ type
     tszUserName   :TChar;
     szModuleName  :PAnsiChar;
     hProtoIcon    :THandle;
+    hNetlibUser   :THandle;
 
     AddToList       :function(intf:PPROTO_INTERFACE;flags:int; var psr:TPROTOSEARCHRESULT):THANDLE; cdecl;
     AddToListByEvent:function(intf:PPROTO_INTERFACE;flags:int; iContact:int; hDbEvent:THANDLE):THANDLE; cdecl;

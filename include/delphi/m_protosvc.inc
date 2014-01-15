@@ -179,10 +179,11 @@ const
 
   // for PSR_MESSAGE
 
-  PREF_CREATEREAD = 1; // create the database event with the 'read' flag set
-  PREF_UNICODE    = 2;
-  PREF_RTL        = 4; // 0.5+ addition: support for right-to-left messages
-  PREF_UTF        = 8; // message is in utf-8 (0.7.0+)
+  PREF_CREATEREAD =  1; // create the database event with the 'read' flag set
+  PREF_UNICODE    =  2;
+  PREF_RTL        =  4; // 0.5+ addition: support for right-to-left messages
+  PREF_UTF        =  8; // message is in utf-8 (0.7.0+)
+  PREF_SENT       = 16; // message will be created with the DBEF_SENT flag
 
   // for PS_FILERESUME
 
@@ -223,12 +224,12 @@ type
 
   PPROTORECVEVENT = ^TPROTORECVEVENT;
   TPROTORECVEVENT = record
-    flags     : DWORD;
-    timestamp : DWORD;
-    szMessage : TChar;
-    lParam    : LPARAM;
-    customInfo: Pointer;
-    customSize: DWORD;
+    flags           : DWORD;
+    timestamp       : DWORD;
+    szMessage       : TChar;
+    lParam          : LPARAM;
+    pCustomData     : pointer;
+    cbCustomDataSize: DWORD;
   end;
 
   PPROTORECVFILE = ^TPROTORECVFILE;
@@ -294,8 +295,6 @@ const
     Returns: 0 on success, [non zero] on failure
     Notes  : This service is not available unless PF1_MODEMSGSEND is set,
              and PF1_INDIVMODEMSG is *not* set.
-             If PF1_INDIVMODEMSG is set, then see PSS_AWAYMSSG for details
-             of operations of away messages.
              -
              Protocol modules smust support lParam=NULL, it may eithere mean
              to use an empty message or (preferably) not to reply at all to
@@ -348,7 +347,7 @@ const
   PS_GETSTATUS = '/GetStatus';
 
   {
-    wParam : HANDLE
+    wParam : HDBEVENT
     lParam : 0
     Affect : allow 'somebody' to add the user to their contact list, see notes
     Returns: 0 on success, [non zero] on failure
@@ -358,13 +357,13 @@ const
              protocolSpecific: DWORD;
              nick, firstname, lastName, e-mail, requestReason: ASCIIZ;
              -
-             HANDLE musts be the handle of such an event, one or more
+             HDBEVENT musts be the handle of such an event, one or more
              fields may be empty if the protocol doesn't support them
   }
   PS_AUTHALLOW = '/Authorize';
 
   {
-    wParam : HANDLE
+    wParam : HDBEVENT
     lParam : TChar - Reason
     Affect : Deny an authorisation request
     Returns: 0 on success, [non zero] on failure
@@ -502,10 +501,10 @@ const
 
   {
     wParam : MAKEWPARAM(flags, iContact)
-    lParam : HANDLE
+    lParam : HDBEVENT
     Affects: Add a contact to the contact list given an auth/added/contacts events, see notes
     Returns: A HCONTACT or NULL(0) on failure
-    Notes  : HANDLE must be either EVENTTYPE_AUTHREQ or EVENTTYPE_ADDED
+    Notes  : HDBEVENT must be either EVENTTYPE_AUTHREQ or EVENTTYPE_ADDED
              flags are the same as PS_ADDTOLIST,
              -
              iContacts is only used for contacts vents, it is 0-based index
@@ -650,6 +649,14 @@ const
   Returns the max length
 }
   PS_GETMYWAYDMAXLENGTH = '/GetMyWAYDMaxLength';
+
+{
+  Get the unread email message count, optional
+  wParam = (WPARAM)0
+  lParam = (LPARAM)0
+  Returns the number of unread emails
+}
+  PS_GETUNREADEMAILCOUNT = '/GetUnreadEmailCount';
 
 // these should be called with CallContactService()
 

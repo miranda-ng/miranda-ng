@@ -68,8 +68,8 @@ function Options_AddPage(wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
 function Hotkey_Register(hk:PHOTKEYDESC):int_ptr;
 
 function Skin_AddIcon(si:PSKINICONDESC):THANDLE;
-procedure Icon_Register(hInst:HINST; const szSection:pAnsiChar; pIcons:pIconItem ; iCount:size_t; prefix:PAnsiChar=nil);
-procedure Icon_RegisterW(hInst:HINST; const szSection:pWideChar; pIcons:pIconItemW; iCount:size_t; prefix:PAnsiChar=nil);
+procedure Icon_Register (hInst:HINST; const szSection:pAnsiChar; pIcons:pIconItem ; iCount:size_t; prefix:PAnsiChar);
+procedure Icon_RegisterW(hInst:HINST; const szSection:pWideChar; pIcons:pIconItemW; iCount:size_t; prefix:PAnsiChar);
 
 procedure FontRegister(pFontID:pFontID);
 procedure FontRegisterW(pFontID:pFontIDW);
@@ -343,6 +343,7 @@ begin
   Result := CreateServiceFunction(szStr, @serviceProc);
 end;
 
+// Hidden variable hLangpack - do not use Inline style
 function Srmm_AddIcon(sid: PStatusIconData):int_ptr;
 begin
   result:=CallService(MS_MSG_ADDICON, hLangpack, LPARAM(sid));

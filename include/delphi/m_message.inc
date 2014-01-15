@@ -126,17 +126,27 @@ const
 }
   MS_MSG_SETSTATUSTEXT:PAnsiChar = 'MessageAPI/SetStatusText';
 
+type
+  pMessageWindowEvent = ^MessageWindowEvent;
+  MessageWindowEvent = record
+    cbSize   :int;
+    seq      :int;          // number returned by PSS_MESSAGE
+    hContact :THANDLE;
+    dbei     :PDBEVENTINFO; // database event written on the basis of message sent
+  end;
+
+const
 { wparam=0(unused)
-  lparam=(pMessageWindowEvent) event being written
+  lparam=(pMessageWindowEvent) event written
   fired before SRMM writes an entered message into the database
 }
   ME_MSG_PRECREATEEVENT:PAnsiChar = 'MessageAPI/PreCreateEvent';
 
 { wParam = 0
-  lParam = (MessageWindowPopupData *)&MessageWindowPopupData;
-  Fired to allow plugins to add itens to the msg window popup menu
-  Always fired twice: once with MSG_WINDOWPOPUP_SHOWING and once with MSG_WINDOWPOPUP_SELECTED.
-  This is done to allow cleaning of resources.
+ lParam = (MessageWindowPopupData *)&MessageWindowPopupData;
+ Fired to allow plugins to add itens to the msg window popup menu
+ Always fired twice: once with MSG_WINDOWPOPUP_SHOWING and once with MSG_WINDOWPOPUP_SELECTED.
+ This is done to allow cleaning of resources.
 }
   ME_MSG_WINDOWPOPUP:PAnsiChar = 'MessageAPI/WindowPopupRequested';
 
@@ -156,15 +166,6 @@ type
     hMenu    :HMENU;   // The handle to the menu
     pt       :TPOINT;  // The point, in screen coords
     selection:int;     // The menu control id or 0 if no one was selected
-  end;
-
-type
-  pMessageWindowEvent = ^MessageWindowEvent;
-  MessageWindowEvent = record
-    cbSize   :int;
-    seq      :int;     // number returned by PSS_MESSAGE
-    hContact :THANDLE;
-    dbei     :pDbEventInfo; // database event written on the basis of message sent
   end;
 
 // status icons

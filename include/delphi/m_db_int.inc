@@ -99,6 +99,7 @@ type
     EnumContactSettings :function(hContact:THANDLE; dbces:PDBCONTACTENUMSETTINGS):bool; stdcall;
     SetSettingResident  :function(bIsResident:bool; const pszSettingName:PAnsiChar):bool; stdcall;
     EnumResidentSettings:function(pFunc:TDBMODULEENUMPROC; pParam:pointer):bool; stdcall;
+    IsSettingEncrypted  :function(szModule:PAnsiChar; szSetting:pAnsiChar):bool; stdcall;
   end;
 
 ///////////////////////////////////////////////////////////////////////////////

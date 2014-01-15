@@ -78,6 +78,10 @@ const
   SKINICON_OTHER_INVISIBLE_ALL = 245; // v.0.93.4+
   SKINICON_OTHER_FRAME         = 246; // v.0.94.1+
 
+  SKINICON_AUTH_ADD            = 247; // v.0.94.4+
+  SKINICON_AUTH_REQUEST        = 248; // v.0.94.4+
+  SKINICON_AUTH_GRANT          = 249; // v.0.94.4+
+  SKINICON_AUTH_REVOKE         = 250; // v.0.94.4+
 {
   SKINICON_EVENT_MESSAGE_BIG     = 300;
   SKINICON_EVENT_URL_BIG         = 301;

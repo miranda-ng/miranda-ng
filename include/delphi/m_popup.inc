@@ -302,6 +302,17 @@ const
   MS_POPUP_SHOWMESSAGE :PAnsiChar = 'Popup/ShowMessage';
   MS_POPUP_SHOWMESSAGEW:PAnsiChar = 'Popup/ShowMessageW';
 
+{ Popup/Filter
+Filters Popups out
+
+wParam = (HANDLE)hContact
+lParam = (void*)pWindowProc;
+
+returns: 0 = Popup allowed, 1 = Popup filtered out
+}
+
+  ME_Popup_FILTER:PAnsiChar = 'Popup/Filter';
+
 { Popup/RegisterActions
 Registers your action in popup action list
 

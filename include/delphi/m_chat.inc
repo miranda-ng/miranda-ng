@@ -126,7 +126,7 @@ const
   GC_COLOR        = $0008; //enable the 'foreground color' button
   GC_BKGCOLOR     = $0010; //enable the 'background color' button
   GC_ACKMSG       = $0020; //the protocol must acknowlege messages sent
-  GC_TYPNOTIF     = $0040; //NOT SUPPORTED YET! Enable typing notifications.
+  GC_TYPNOTIF     = $0040; //enable typing notifications.
   GC_CHANMGR      = $0080; //enable the 'channel settings' button
   GC_SINGLEFORMAT = $0100; //the protocol supports only 1 formatting per message
   GC_FONTSIZE     = $0200; //enable font size selection
@@ -184,12 +184,12 @@ const
 // GCSESSION structure
 type
   TGCSESSION = record
-    cbSize         :int;   //Set to sizeof(GCSESSION);
-    iType          :int;   //Use one of the GCW_* flags above to set the type of session
+    cbSize         :int;     //Set to sizeof(GCSESSION);
+    iType          :int;     //Use one of the GCW_* flags above to set the type of session
     pszModule      :PAnsiChar; //The name of the protocol owning the session (the same as pszModule when you register)
-    szName         :TCHAR; //The name of the session as it will be displayed to the user
-    szID           :TCHAR; //The unique identifier for the session.
-    szStatusbarText:TCHAR; //Optional text to set in the statusbar of the chat room window, or NULL.
+    szName         :TCHAR;   //The name of the session as it will be displayed to the user
+    szID           :TCHAR;   //The unique identifier for the session.
+    szStatusbarText:TCHAR;   //Optional text to set in the statusbar of the chat room window, or NULL.
     dwFlags        :dword;
     dwItemData     :int_ptr; //Set user defined data for this session. Retrieve it by using the GC_EVENT_GETITEMDATA event
   end;
@@ -396,6 +396,7 @@ const
   GC_SSE_ONLYLISTED    = $0001; // processes only listed contacts, resets all contacts otherwise
   GC_SSE_ONLINE        = $0002; // displays a contact online, otherwise away
   GC_SSE_TABDELIMITED  = $0004; // use tabs as delimiters
+  GC_SSE_OFFLINE       = $0008; // displays a contact offline, otherwise away
 
   GC_EVENT_SETSTATUSEX = $1009;
 
@@ -464,6 +465,8 @@ const
 
   GCEF_ADDTOLOG      = $0001;
   GCEF_REMOVECONTACT = $0002;
+// Added in Miranda NG 0.94.4+
+  GCEF_NOTNOTIFY     = $0004;
 
 // OK! That was about everything that you need to know about for operating Chat in a basic way.
 // There are however some more things you will need to know about. Some you may use and some you may not need,
@@ -509,7 +512,7 @@ type
     pszModule :PAnsiChar; // the module name as registered in MS_GC_REGISTER
     pszID     :TCHAR;     // unique ID of the session
     pszName   :TCHAR;     // display name of the session
-    dwItemData:int_ptr; // user specified data.
+    dwItemData:int_ptr;   // user specified data.
     iCount    :int;       // count of users in the nicklist
     pszUsers  :PAnsiChar; // space separated string containing the UID's of the users in the user list.
                           // NOTE. Use Mirandas mmi_free() on the returned string.
@@ -537,19 +540,19 @@ const
   GC_USER_NICKLISTMENU = 4; // user has selected a userlist menu item, valid members: dwData. See ME_GC_BUILDMENU
   GC_USER_TYPNOTIFY    = 5; // NOT IMPLEMENTED YET! user is typing
   GC_USER_PRIVMESS     = 6; // user requests to send a private message to a user. pszUID is valid
+  GC_SESSION_TERMINATE = 7; // the session is about to be terminated, the "user defined data" is passed in dwData, which can be good free'ing any allocated memory.
   GC_USER_LEAVE        = 8; // user requests to leave the session
   GC_USER_CLOSEWND     = 9; // user closed the window (this is usually not an indication that the protocol
                             // should take action, but MSN may want to terminate the session here)
-  GC_SESSION_TERMINATE = 7; // the session is about to be terminated, the "user defined data" is passed in dwData, which can be good free'ing any allocated memory.
 
   ME_GC_EVENT:PAnsiChar = 'GChat/OutgoingEvent';
 
 type
   TGCHOOK = record
-    pDest :PGCDEST;   // pointer to a GCDEST structure which specifies from which session the hook was triggered
-    szText:TCHAR;     // usage depends on type of event
-    szUID :TCHAR;     // unique identifier, usage depends on type of event
-    dwData:int_ptr;   // user defined data, usage depends on type of event}
+    pDest :PGCDEST; // pointer to a GCDEST structure which specifies from which session the hook was triggered
+    szText:TCHAR;   // usage depends on type of event
+    szUID :TCHAR;   // unique identifier, usage depends on type of event
+    dwData:int_ptr; // user defined data, usage depends on type of event}
   end;
 
 {
@@ -594,12 +597,12 @@ type
 
 type
   TGCMENUITEMS = record
-    pszModule:PAnsiChar;    // Contains the protocol name, do NOT change.
-    pszID    :TCHAR;    // The unique identifier of the session that triggered the hook, do NOT change.
-    pszUID   :TCHAR;    // Contains the unique identifier if Type = MENU_ON_NICKLIST. do NOT change.
-    _Type    :int;      // Type of menu. MENU_ON_* flags used. do NOT change.
-    nItems   :int;      // Set this to the number of menu items you want to add
-    Item     :pgc_item; // pointer to the first in the array of gc_item's
+    pszModule:PAnsiChar; // Contains the protocol name, do NOT change.
+    pszID    :TCHAR;     // The unique identifier of the session that triggered the hook, do NOT change.
+    pszUID   :TCHAR;     // Contains the unique identifier if Type = MENU_ON_NICKLIST. do NOT change.
+    _Type    :int;       // Type of menu. MENU_ON_* flags used. do NOT change.
+    nItems   :int;       // Set this to the number of menu items you want to add
+    Item     :pgc_item;  // pointer to the first in the array of gc_item's
   end;
 
 const

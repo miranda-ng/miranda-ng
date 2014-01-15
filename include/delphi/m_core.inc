@@ -41,6 +41,7 @@ function CmdLine_GetOption(ptszParameter:PWideChar):PWideChar; stdcall;
 // database functions
 
 const
+  DBVT_ASIS            = 0;   // in, for db_get_s, to not translate output value
   DBVT_DELETED         = 0;   // setting got deleted, no values are valid
   DBVT_BYTE            = 1;   // bVal, cVal are valid
   DBVT_WORD            = 2;   // wVal, sVal are valid
@@ -52,6 +53,7 @@ const
   DBVTF_VARIABLELENGTH = $80; // ?
 
 type
+  HDBEVENT = THANDLE;
   PDBVARIANT = ^TDBVARIANT;
   TDBVARIANT = record
     _type: Byte;
@@ -73,12 +75,14 @@ type
   end;
 
 const
-  DBEF_FIRST =  1; // internally only, do not use
-  DBEF_SENT  =  2; // if set, the event was sent by the user, otherwise it was received
-  DBEF_READ  =  4; // event has been read by the user -- only needed for history
-  DBEF_RTL   =  8; // event contains the right-to-left aligned text
-  DBEF_UTF   = 16; // event contains a text in utf-8
+  DBEF_FIRST     =  1; // internally only, do not use
+  DBEF_SENT      =  2; // if set, the event was sent by the user, otherwise it was received
+  DBEF_READ      =  4; // event has been read by the user -- only needed for history
+  DBEF_RTL       =  8; // event contains the right-to-left aligned text
+  DBEF_UTF       = 16; // event contains a text in utf-8
+  DBEF_ENCRYPTED = 32; // event is encrypted (never reported outside a driver)
 
+const
   EVENTTYPE_MESSAGE     = 0;
   EVENTTYPE_URL         = 1;
   EVENTTYPE_CONTACTS    = 2;     // v0.1.2.2+
@@ -98,42 +102,168 @@ type
     pBlob    : PByte; // pointer to buffer containing the module defined event data
   end;
 
+(******************************************************************************
+ * DATABASE EVENTS
+ *)
+
+{
+Adds a new event to a contact's event list
+Returns a handle to the newly added event, or NULL on failure
+Triggers a db/event/added event just before it returns.
+Events are sorted chronologically as they are entered, so you cannot guarantee
+that the new hEvent is the last event in the chain, however if a new event is
+added that has a timestamp less than 90 seconds *before* the event that should
+be after it, it will be added afterwards, to allow for protocols that only
+store times to the nearest minute, and slight delays in transports.
+There are a few predefined eventTypes below for easier compatibility, but
+modules are free to define their own, beginning at 2000
+DBEVENTINFO.timestamp is in GMT, as returned by time(). There are services
+db/time/x below with useful stuff for dealing with it.
+}
 function db_event_add(hContact:THANDLE; dbei:PDBEVENTINFO):THANDLE; stdcall;
                  external CoreDLL name 'db_event_add';
+
+{
+Gets the number of events in the chain belonging to a contact in the database.
+Returns the number of events in the chain owned by hContact or -1 if hContact
+is invalid. They can be retrieved using the db_event_first/last() services.
+}
 function db_event_count(hContact:THANDLE):int; stdcall;
                  external CoreDLL name 'db_event_count';
+
+{
+Removes a single event from the database
+hDbEvent should have been returned by db_event_add/first/last/next/prev()
+Returns 0 on success, or nonzero if hDbEvent was invalid
+Triggers a db/event/deleted event just *before* the event is deleted
+}
 function db_event_delete(hContact:THANDLE; hDbEvent:THANDLE):int; stdcall;
                  external CoreDLL name 'db_event_delete';
+
+{
+Retrieves a handle to the first event in the chain for hContact
+Returns the handle, or NULL if hContact is invalid or has no events
+Events in a chain are sorted chronologically automatically
+}
 function db_event_first(hContact:THANDLE):THANDLE; stdcall;
                  external CoreDLL name 'db_event_first';
+
+{
+Retrieves a handle to the first unread event in the chain for hContact
+Returns the handle, or NULL if hContact is invalid or all its events have been
+read
+
+Events in a chain are sorted chronologically automatically, but this does not
+necessarily mean that all events after the first unread are unread too. They
+should be checked individually with db_event_next() and db_event_get()
+This service is designed for startup, reloading all the events that remained
+unread from last time
+}
 function db_event_firstUnread(hContact:THANDLE):THANDLE; stdcall;
                  external CoreDLL name 'db_event_firstUnread';
+
+{
+Retrieves all the information stored in hDbEvent
+hDbEvent should have been returned by db_event_add/first/last/next/prev()
+Returns 0 on success or nonzero if hDbEvent is invalid
+Don't forget to set dbe.cbSize, dbe.pBlob and dbe.cbBlob before calling this
+service
+The correct value dbe.cbBlob can be got using db/event/getblobsize
+If successful, all the fields of dbe are filled. dbe.cbBlob is set to the
+actual number of bytes retrieved and put in dbe.pBlob
+If dbe.cbBlob is too small, dbe.pBlob is filled up to the size of dbe.cbBlob
+and then dbe.cbBlob is set to the required size of data to go in dbe.pBlob
+On return, dbe.szModule is a pointer to the database module's own internal list
+of modules. Look but don't touch.
+}
 function db_event_get(hDbEvent:THANDLE; dbei:PDBEVENTINFO):int; stdcall;
                  external CoreDLL name 'db_event_get';
+
+{
+Retrieves the space in bytes required to store the blob in hDbEvent
+hDbEvent should have been returned by db_event_add/first/last/next/prev()
+Returns the space required in bytes, or -1 if hDbEvent is invalid
+}
 function db_event_getBlobSize(hDbEvent:THANDLE):int; stdcall;
                  external CoreDLL name 'db_event_getBlobSize';
+
+{
+Retrieves a handle to the contact that owns hDbEvent.
+hDbEvent should have been returned by db_event_add/first/last/next/prev()
+NULL is a valid return value, meaning, as usual, the user.
+Returns (HANDLE)(-1) if hDbEvent is invalid, or the handle to the contact on
+success
+This service is exceptionally slow. Use only when you have no other choice at
+all.
+}
 function db_event_getContact(hDbEvent:THANDLE):THANDLE; stdcall;
                  external CoreDLL name 'db_event_getContact';
+
+{
+Retrieves a handle to the last event in the chain for hContact
+Returns the handle, or NULL if hContact is invalid or has no events
+Events in a chain are sorted chronologically automatically
+}
 function db_event_last(hDbEvent:THANDLE):THANDLE; stdcall;
                  external CoreDLL name 'db_event_last';
+
+{
+Changes the flags for an event to mark it as read.
+hDbEvent should have been returned by db_event_add/first/last/next/prev()
+Returns the entire flag DWORD for the event after the change, or -1 if hDbEvent
+is invalid.
+This is the one database write operation that does not trigger an event.
+Modules should not save flags states for any length of time.
+}
 function db_event_markRead(hContact, hDbEvent:THANDLE):int; stdcall;
                  external CoreDLL name 'db_event_markRead';
+
+{
+Retrieves a handle to the next event in a chain after hDbEvent
+Returns the handle, or NULL if hDbEvent is invalid or is the last event
+Events in a chain are sorted chronologically automatically
+}
 function db_event_next(hDbEvent:THANDLE):THANDLE; stdcall;
                  external CoreDLL name 'db_event_next';
+
+{
+Retrieves a handle to the previous event in a chain before hDbEvent
+Returns the handle, or NULL if hDbEvent is invalid or is the first event
+Events in a chain are sorted chronologically automatically
+}
 function db_event_prev(hDbEvent:THANDLE):THANDLE; stdcall;
                  external CoreDLL name 'db_event_prev';
 
 function db_free(dbv:PDBVARIANT):int_ptr; stdcall;
                  external CoreDLL name 'db_free';
-function db_set_resident(const szModule:pAnsiChar; const szSetting:pAnsiChar; bEnable:int):int; stdcall;
-                 external CoreDLL name 'db_set_resident';
-function db_unset(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):int_ptr; stdcall;
-                 external CoreDLL name 'db_unset';
 
+(******************************************************************************
+ * DATABASE CONTACTS
+ *)
+
+{
+Gets the handle of the first contact in the database. This handle can be used
+with loads of functions. It does not need to be closed.
+You can specify szProto to find only its contacts
+Returns a handle to the first contact in the db on success, or NULL if there
+are no contacts in the db.
+}
 function db_find_first(const szModule:pAnsiChar=nil):THANDLE; stdcall;
                  external CoreDLL name 'db_find_first';
+
+{
+Gets the handle of the next contact after hContact in the database. This handle
+can be used with loads of functions. It does not need to be closed.
+You can specify szProto to find only its contacts
+Returns a handle to the contact after hContact in the db on success or NULL if
+hContact was the last contact in the db or hContact was invalid.
+}
 function db_find_next(hContact:THANDLE; const szModule:pAnsiChar=nil):THANDLE; stdcall;
                  external CoreDLL name 'db_find_next';
+
+(******************************************************************************
+ * DATABASE SETTINGS
+ *)
 
 function db_get(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall;
                  external CoreDLL name 'db_get';
@@ -166,6 +296,12 @@ function db_set_utf(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:
                  external CoreDLL name 'db_set_utf';
 function db_set_blob(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:pointer; len:uint):int_ptr; stdcall;
                  external CoreDLL name 'db_set_blob';
+
+function db_unset(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):int_ptr; stdcall;
+                  external CoreDLL name 'db_unset';
+
+function db_set_resident(const szModule:pAnsiChar; const szSetting:pAnsiChar; bEnable:int):int; stdcall;
+                 external CoreDLL name 'db_set_resident';
 
 // deprecated Aliases
 function DBFreeVariant(dbv:PDBVARIANT):int_ptr; stdcall;
@@ -331,10 +467,10 @@ type
   tagIconItemW = tIconItemW;
 
 procedure mir_Icon_Register(hInst:HINST; const szSection:pAnsiChar; pIcons:pIconItem;
-    iCount:size_t; prefix:PAnsiChar; hLangpack:int); stdcall;
+    iCount:size_t; prefix:PAnsiChar; hLangpack:int=0); stdcall;
                  external CoreDLL name 'Icon_Register';
 procedure mir_Icon_RegisterW(hInst:HINST; const szSection:pWideChar; pIcons:pIconItemW;
-    iCount:size_t; prefix:PAnsiChar; hLangpack:int); stdcall;
+    iCount:size_t; prefix:PAnsiChar; hLangpack:int=0); stdcall;
                  external CoreDLL name 'Icon_RegisterT';
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -440,28 +576,23 @@ function mir_writeLogW(hLog:THandle; format:PWideChar):int;cdecl;
 
 // Define the state of the MD5 Algorithm.
 type
-  pmir_md5_byte_t = ^mir_md5_byte_t;
-  pmir_md5_word_t = ^mir_md5_word_t;
-  mir_md5_byte_t = byte;     // 8-bit byte
-  mir_md5_word_t = cardinal; // 32-bit word
-
   pmir_md5_state_t = ^mir_md5_state_t;
   mir_md5_state_t = record
-    count:array [0.. 1] of mir_md5_word_t; // message length in bits, lsw first
-    abcd :array [0.. 3] of mir_md5_word_t; // digest buffer
-    buf  :array [0..63] of mir_md5_byte_t; // accumulate block
+    count:array [0.. 1] of cardinal; // message length in bits, lsw first
+    abcd :array [0.. 3] of cardinal; // digest buffer
+    buf  :array [0..63] of byte;     // accumulate block
   end;
 
-  TMD5Hash = array [0..15] of mir_md5_byte_t;
+  TMD5Hash = array [0..15] of byte;
 
 procedure mir_md5_init(pms:pmir_md5_state_t); stdcall;
-                 external CoreDLL name 'mir_md5_init';
-procedure mir_md5_append(pms:pmir_md5_state_t; const data:pmir_md5_byte_t; nbytes:int); stdcall;
-                 external CoreDLL name 'mir_md5_append';
+                       external CoreDLL name 'mir_md5_init';
+procedure mir_md5_append(pms:pmir_md5_state_t; const data:pbyte; nbytes:int); stdcall;
+                         external CoreDLL name 'mir_md5_append';
 procedure mir_md5_finish(pms:pmir_md5_state_t; digest:TMD5Hash); stdcall;
-                 external CoreDLL name 'mir_md5_finish';
-procedure mir_md5_hash(const data:pmir_md5_byte_t; len:int; digest:TMD5Hash); stdcall;
-                 external CoreDLL name 'mir_md5_hash';
+                         external CoreDLL name 'mir_md5_finish';
+procedure mir_md5_hash(const data:pbyte; len:int; digest:TMD5Hash); stdcall;
+                       external CoreDLL name 'mir_md5_hash';
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -538,11 +669,26 @@ function mir_vsnwprintf(buffer:pWideChar;count:size_t;fmt:pWideChar;va:va_list):
 function ProtoBroadcastAck(const szModule: PAnsiChar; hContact: THandle; type_: int; result_: int; hProcess: THandle; lParam: LPARAM): int_ptr; stdcall;
                  external CoreDLL name 'ProtoBroadcastAck';
 
+function ProtoServiceExists(const szModule, szName:PAnsiChar):int; stdcall;
+                 external CoreDLL name 'ProtoServiceExists';
+
 function ProtoCallService(const szModule, szName:PAnsiChar; wParam:WPARAM; lParam:LPARAM):int_ptr; stdcall;
                  external CoreDLL name 'ProtoServiceExists';
 
-function ProtoServiceExists(const szModule, szName:PAnsiChar):int; stdcall;
-                 external CoreDLL name 'ProtoServiceExists';
+
+// Call it in the very beginning of your proto's constructor
+procedure ProtoConstructor(pThis:pointer{PPROTO_INTERFACE}; const pszModuleName:PAnsiChar;
+                           ptszUserName:PWideChar); stdcall;
+                 external CoreDLL name 'ProtoConstructor';
+
+// Call it in the very end of your proto's destructor
+procedure ProtoDestructor(pThis:pointer{PPROTO_INTERFACE}); stdcall;
+                 external CoreDLL name 'ProtoDestructor';
+
+procedure ProtoLogA(pThis:pointer{PPROTO_INTERFACE}; szFormat :pAnsiChar; args:va_list); stdcall;
+                 external CoreDLL name 'ProtoLogA';
+procedure ProtoLogW(pThis:pointer{PPROTO_INTERFACE}; wszFormat:pWideChar; args:va_list); stdcall;
+                 external CoreDLL name 'ProtoLogW';
 
 // returns image extension by a PA_* constant or empty string for PA_FORMAT_UNKNOWN
 function ProtoGetAvatarExtension(format:int):PWideChar; stdcall;
@@ -563,11 +709,6 @@ function ProtoGetBufferFormat(const buf:PByte; var ext:PWideChar):int; stdcall;
 
 ///////////////////////////////////////////////////////////////////////////////
 // sha1 functions
-type
-  pmir_sha1_byte_t = ^mir_sha1_byte_t;
-  pmir_sha1_long_t = ^mir_sha1_long_t;
-  mir_sha1_byte_t = byte;
-  mir_sha1_long_t = longword;
 
 const
   MIR_SHA1_HASH_SIZE = 20;
@@ -575,32 +716,33 @@ const
 type
   pmir_sha1_ctx = ^mir_sha1_ctx;
   mir_sha1_ctx = record
-    H:array [0.. 4] of mir_sha1_long_t;
-    W:array [0..79] of mir_sha1_long_t;
+    H:array [0.. 4] of longword;
+    W:array [0..79] of longword;
     lenW:int;
-    sizeHi,sizeLo:mir_sha1_long_t;
+    sizeHi,sizeLo:longword;
   end;
 
-  SHA1Hash = array [0..MIR_SHA1_HASH_SIZE-1] of mir_sha1_byte_t;
+  SHA1Hash = array [0..MIR_SHA1_HASH_SIZE-1] of byte;
 
 procedure mir_sha1_init(ctx:pmir_sha1_ctx); stdcall;
                  external CoreDLL name 'mir_sha1_init';
-procedure mir_sha1_append(ctx:pmir_sha1_ctx; dataIn:pmir_sha1_byte_t; len:int); stdcall;
+procedure mir_sha1_append(ctx:pmir_sha1_ctx; dataIn:pbyte; len:int); stdcall;
                  external CoreDLL name 'mir_sha1_append';
 procedure mir_sha1_finish(ctx:pmir_sha1_ctx; hashout:SHA1Hash); stdcall;
                  external CoreDLL name 'mir_sha1_finish';
-procedure mir_sha1_hash(dataIn:pmir_sha1_byte_t; len:int;hashout:SHA1Hash); stdcall;
+procedure mir_sha1_hash(dataIn:pbyte; len:int;hashout:SHA1Hash); stdcall;
                  external CoreDLL name 'mir_sha1_hash';
 
-procedure mir_hmac_sha1(hashout:SHA1Hash; const key:pmir_sha1_byte_t; keyLen:size_t; const dataIn:pmir_sha1_byte_t; dataLen:size_t); stdcall;
+procedure mir_hmac_sha1(hashout:SHA1Hash; const key:pbyte; keyLen:size_t;
+                        const dataIn:pbyte; dataLen:size_t); stdcall;
                  external CoreDLL name 'mir_hmac_sha1';
 
 ///////////////////////////////////////////////////////////////////////////////
 // strings
 
-function mir_base64_decode(str:pAnsiChar; var resultSize:int):PByte; stdcall;
+function mir_base64_decode(str:pAnsiChar; var resultSize:int):pByte; stdcall;
                external CoreDLL name 'mir_base64_decode';
-function mir_base64_encode(data:PByte; dataSize:int):pAnsiChar; stdcall;
+function mir_base64_encode(str:pAnsiChar; dataSize:int):pAnsiChar; stdcall;
                external CoreDLL name 'mir_base64_encode';
 function mir_base64_encodebuf(data:PByte; dataSize:int; output:pAnsiChar; outputLen:int):pAnsiChar; stdcall;
                external CoreDLL name 'mir_base64_encodebuf';
@@ -740,12 +882,15 @@ function  mir_callNextSubclass(Wnd:HWND; WndProc:TWNDPROC; uMsg:uint; wParam:WPA
 procedure mir_unsubclassWindow(Wnd:HWND; WndProc:TWNDPROC); stdcall;
                  external CoreDLL name 'mir_unsubclassWindow';
 
+procedure KillModuleSubclassing(hInst: HMODULE);
+                       external CoreDLL name 'KillModuleSubclassing';
+
 ///////////////////////////////////////////////////////////////////////////////
 // Windows utilities
 
-function IsWinVerVistaPlus():int; stdcall;
+function IsWinVerVistaPlus():bool; stdcall;
                  external CoreDLL name 'IsWinVerVistaPlus';
-function IsWinVer7Plus():int; stdcall;
+function IsWinVer7Plus():bool; stdcall;
                  external CoreDLL name 'IsWinVer7Plus';
 function IsFullScreen():int; stdcall;
                  external CoreDLL name 'IsFullScreen';
@@ -753,5 +898,8 @@ function IsWorkstationLocked():int; stdcall;
                  external CoreDLL name 'IsWorkstationLocked';
 function IsScreenSaverRunning():int; stdcall;
                  external CoreDLL name 'IsScreenSaverRunning';
+
+procedure UnloadCoreModule(); stdcall;
+          external CoreDLL name 'UnloadCoreModule';
 
 {$ENDIF}

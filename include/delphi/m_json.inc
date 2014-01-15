@@ -1,90 +1,154 @@
+{
+Miranda IM: the free IM client for Microsoft* Windows*
+
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
+listed in contributors.txt.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+}
+
 {$IFNDEF MIM_LIBJSON}
 {$DEFINE MIM_LIBJSON}
 
 type
- PJSONNODE = ^JSONNODE;
- JSONNODE = pointer; 
- TJSONNODE_ITERATOR = pointer; //^^JSONNODE; // typedef JSONNODE** JSONNODE_ITERATOR;
+  PJSONNODE = ^JSONNODE;
+  JSONNODE = pointer;
 
-// This function get the service interface for direct calling
-// wParam=(WPARAM)(LPJSONSERVICEINTERFACE)
-// lParam=0
-// Return value ALWAYS 0
+procedure json_free(str:pointer); stdcall;
+          external CoreDLL name 'json_free';
+procedure json_delete(node:PJSONNODE); stdcall;
+          external CoreDLL name 'json_delete';
 
-type
-  PJSONSERVICEINTERFACE = ^TJSONSERVICEINTERFACE;
-  TJSONSERVICEINTERFACE = record
-    free              : procedure (str:pointer);cdecl;
-    delete_           : procedure (node:PJSONNODE);cdecl;
-    free_all          : procedure ;cdecl;
-    delete_all        : procedure ;cdecl;
-    parse             : function (json:PAnsiChar):PJSONNODE;cdecl;
-    strip_white_space : function (json:PAnsiChar):PAnsiChar;cdecl;
-    validate          : function (json:PAnsiChar):PJSONNODE;cdecl;
+function json_parse(json:pAnsiChar):PJSONNODE; stdcall;
+          external CoreDLL name 'json_parse';
+function json_strip_white_space(json:pAnsiChar):pWideChar; stdcall;
+          external CoreDLL name 'json_strip_white_space';
 
-    new_a     : function (name:PAnsiChar; value:PAnsiChar):PJSONNODE;cdecl;
-    new_i     : function (name:PAnsiChar; value:long):PJSONNODE;cdecl;
-    new_f     : function (name:PAnsiChar; value:double):PJSONNODE;cdecl;
-    new_b     : function (name:PAnsiChar; value:int):PJSONNODE;cdecl;
-    new_      : function (_type:char):PJSONNODE;cdecl;
+function json_validate(json:pAnsiChar):PJSONNODE; stdcall;
+          external CoreDLL name 'json_validate';
 
-    copy      : function (orig:PJSONNODE):PJSONNODE;cdecl;
-    duplicate : function (orig:PJSONNODE):PJSONNODE;cdecl;
+{
+	stuff that's in class JSONNode
+}
+//ctors
+function json_new_a(name:pAnsiChar; value:pAnsiChar):PJSONNODE; stdcall;
+          external CoreDLL name 'json_new_a';
+function json_new_i(name:pAnsiChar; value:long):PJSONNODE; stdcall;
+          external CoreDLL name 'json_new_i';
+function json_new_f(name:pAnsiChar; value:double):PJSONNODE; stdcall;
+          external CoreDLL name 'json_new_f';
+function json_new_b(name:pAnsiChar; value:int):PJSONNODE; stdcall;
+          external CoreDLL name 'json_new_b';
+function json_new(typ:AnsiChar):PJSONNODE; stdcall;
+          external CoreDLL name 'json_new';
+function json_copy(const orig:PJSONNODE):PJSONNODE; stdcall;
+          external CoreDLL name 'json_copy';
+function json_duplicate(const orig:PJSONNODE):PJSONNODE; stdcall;
+          external CoreDLL name 'json_duplicate';
 
-    set_a     : procedure (node:PJSONNODE; value:PAnsiChar);cdecl;
-    set_i     : procedure (node:PJSONNODE; value:long);cdecl;
-    set_f     : procedure (node:PJSONNODE; value:double);cdecl;
-    set_b     : procedure (node:PJSONNODE; value:int);cdecl;
-    set_n     : procedure (node:PJSONNODE; orig:PJSONNODE);cdecl;
+//assignment
+procedure json_set_a(node:PJSONNODE; value:pAnsiChar); stdcall;
+          external CoreDLL name 'json_set_a';
+procedure json_set_i(node:PJSONNODE; value:long); stdcall;
+          external CoreDLL name 'json_set_i';
+procedure json_set_f(node:PJSONNODE; value:double); stdcall;
+          external CoreDLL name 'json_set_f';
+procedure json_set_b(node:PJSONNODE; value:int); stdcall;
+          external CoreDLL name 'json_set_b';
+procedure json_set_n(node:PJSONNODE; const orig: PJSONNODE); stdcall;
+          external CoreDLL name 'json_set_n';
 
-    _type       : function (node:PJSONNODE):char;cdecl;
-    size        : function (node:PJSONNODE):uint;cdecl;
-    empty       : function (node:PJSONNODE):int;cdecl;
-    name        : function (node:PJSONNODE):PAnsiChar;cdecl;
-    get_comment : function (node:PJSONNODE):PAnsiChar;cdecl;
+//inspectors
+function json_type(const node:PJSONNODE):AnsiChar; stdcall;
+          external CoreDLL name 'json_type';
+function json_size(const node:PJSONNODE):size_t; stdcall;
+          external CoreDLL name 'json_size';
+function json_empty(const node:PJSONNODE):int; stdcall;
+          external CoreDLL name 'json_empty';
+function json_name(const node:PJSONNODE):pAnsiChar; stdcall;
+          external CoreDLL name 'json_name';
 
-    as_string : function (node:PJSONNODE):PAnsiChar;cdecl;
-    as_int    : function (node:PJSONNODE):long;cdecl;
-    as_float  : function (node:PJSONNODE):double;cdecl;
-    as_bool   : function (node:PJSONNODE):int;cdecl;
-    as_node   : function (node:PJSONNODE):PJSONNODE;cdecl;
-    as_array  : function (node:PJSONNODE):PJSONNODE;cdecl;
-    as_binary : function (node:PJSONNODE; size:Pulong):pointer;cdecl;
+function json_get_comment(const node:PJSONNODE):pAnsiChar; stdcall;
+          external CoreDLL name 'json_get_comment';
 
-    write           : function (node:PJSONNODE):PAnsiChar;cdecl;
-    write_formatted : function (node:PJSONNODE):PAnsiChar;cdecl;
-    set_name        : procedure (node:PJSONNODE; name:PAnsiChar);cdecl;
-    set_comment     : procedure (node:PJSONNODE; comment:PAnsiChar);cdecl;
-    clear           : procedure (node:PJSONNODE);cdecl;
-    nullify         : procedure (node:PJSONNODE);cdecl;
-    swap            : procedure (node:PJSONNODE; node2:PJSONNODE);cdecl;
-    merge           : procedure (node:PJSONNODE; node2:PJSONNODE);cdecl;
-    preparse        : procedure (node:PJSONNODE);cdecl;
-    set_binary      : procedure (node:PJSONNODE; data:pointer; length:ulong);cdecl;
-    cast            : procedure (node:PJSONNODE; _type:AnsiChar);cdecl;
-    reserve         : procedure (node:PJSONNODE; siz:uint);cdecl;
-    at              : function (node:PJSONNODE; pos:uint):PJSONNODE;cdecl;
-    get             : function (node:PJSONNODE; name:PAnsiChar):PJSONNODE;cdecl;
-    get_nocase      : function (node:PJSONNODE; name:PAnsiChar):PJSONNODE;cdecl;
-    pop_back_nocase : function (node:PJSONNODE; name:PAnsiChar):PJSONNODE;cdecl;
-    push_back       : procedure (node:PJSONNODE; node2:PJSONNODE);cdecl;
-    pop_back_at     : function (node:PJSONNODE; pos:uint):PJSONNODE;cdecl;
-    pop_back        : function (node:PJSONNODE; name:PAnsiChar):PJSONNODE;cdecl;
-    find            : function (node:PJSONNODE; name:PAnsiChar):TJSONNODE_ITERATOR;cdecl;
-    find_nocase     : function (node:PJSONNODE; name:PAnsiChar):TJSONNODE_ITERATOR;cdecl;
-    erase           : function (node:PJSONNODE; it:TJSONNODE_ITERATOR):TJSONNODE_ITERATOR;cdecl;
-    erase_multi     : function (node:PJSONNODE; start:TJSONNODE_ITERATOR;
-                                _end:TJSONNODE_ITERATOR):TJSONNODE_ITERATOR;cdecl;
-    insert          : function (node:PJSONNODE; it:TJSONNODE_ITERATOR; node2:PJSONNODE):TJSONNODE_ITERATOR;cdecl;
-    insert_multi    : function (node:PJSONNODE; it:TJSONNODE_ITERATOR; start:TJSONNODE_ITERATOR;
-                                _end:TJSONNODE_ITERATOR):TJSONNODE_ITERATOR;cdecl;
+function json_as_string(const node:PJSONNODE):pWideChar; stdcall;
+          external CoreDLL name 'json_as_string';
+function json_as_int(const node:PJSONNODE):long; stdcall;
+          external CoreDLL name 'json_as_int';
+function json_as_float(const node:PJSONNODE):double; stdcall;
+          external CoreDLL name 'json_as_float';
+function json_as_bool(const node:PJSONNODE):int; stdcall;
+          external CoreDLL name 'json_as_bool';
+function json_as_node(const node:PJSONNODE):PJSONNODE; stdcall;
+          external CoreDLL name 'json_as_node';
+function json_as_array(const node:PJSONNODE):PJSONNODE; stdcall;
+          external CoreDLL name 'json_as_array';
 
-    _begin : function (node:PJSONNODE):TJSONNODE_ITERATOR;cdecl;
-    _end   : function (node:PJSONNODE):TJSONNODE_ITERATOR;cdecl;
-    equal  : function (node:PJSONNODE; node2:PJSONNODE):int;cdecl;
-  end;
+function json_write(const node:PJSONNODE):pWideChar; stdcall;
+          external CoreDLL name 'json_write';
+function json_write_formatted(const node:PJSONNODE):pWideChar; stdcall;
+          external CoreDLL name 'json_write_formatted';
 
-const
-  MS_JSON_GETINTERFACE:PAnsiChar = 'JSON/GetInterface';
+//modifiers
+procedure json_set_name(node:PJSONNODE; name:pAnsiChar); stdcall;
+          external CoreDLL name 'json_set_name';
+
+procedure json_set_comment(node:PJSONNODE; comment:pAnsiChar); stdcall;
+          external CoreDLL name 'json_set_comment';
+
+procedure json_clear(node:PJSONNODE); stdcall;
+          external CoreDLL name 'json_clear';
+procedure json_nullify(node:PJSONNODE); stdcall;
+          external CoreDLL name 'json_nullify';
+procedure json_swap(node:PJSONNODE; node2:PJSONNODE); stdcall;
+          external CoreDLL name 'json_swap';
+procedure json_merge(node:PJSONNODE; node2:PJSONNODE); stdcall;
+          external CoreDLL name 'json_merge';
+
+procedure json_preparse(node:PJSONNODE); stdcall;
+          external CoreDLL name 'json_preparse';
+
+procedure json_set_binary(node:PJSONNODE; data:pointer; length:ulong); stdcall;
+          external CoreDLL name 'json_set_binary';
+
+procedure json_cast(node:PJSONNODE; typ:AnsiChar); stdcall;
+          external CoreDLL name 'json_cast';
+
+//children access
+procedure json_reserve(node:PJSONNODE; siz:size_t); stdcall;
+          external CoreDLL name 'json_reserve';
+function  json_at(node:PJSONNODE; pos:size_t):PJSONNODE; stdcall;
+          external CoreDLL name 'json_at';
+function  json_get(node:PJSONNODE; name:pAnsiChar):PJSONNODE; stdcall;
+          external CoreDLL name 'json_get';
+
+function json_get_nocase(node:PJSONNODE; name:pAnsiChar):PJSONNODE; stdcall;
+          external CoreDLL name 'json_get_nocase';
+function json_pop_back_nocase(node:PJSONNODE; name:pAnsiChar):PJSONNODE; stdcall;
+          external CoreDLL name 'json_pop_back_nocase';
+
+procedure json_push_back(node:PJSONNODE; node2:PJSONNODE); stdcall;
+          external CoreDLL name 'json_push_back';
+function  json_pop_back_at(node:PJSONNODE; pos:size_t):PJSONNODE; stdcall;
+          external CoreDLL name 'json_pop_back_at';
+function  json_pop_back(node:PJSONNODE; name:pAnsiChar):PJSONNODE; stdcall;
+          external CoreDLL name 'json_pop_back';
+
+//comparsion
+function json_equal(node:PJSONNODE; node2:PJSONNODE):int; stdcall;
+          external CoreDLL name 'json_equal';
 
 {$ENDIF}

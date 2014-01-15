@@ -236,19 +236,19 @@ var
   {$include m_iconheader.inc}
   {$include m_extraicons.inc}
   {$include m_errors.inc}
-  {$include m_help.inc}
   {$include m_proto_listeningto.inc}
   {$include m_toptoolbar.inc}
   {$include m_msg_buttonsbar.inc}
   {$include m_json.inc}
   {$include m_xstatus.inc}
   {$include m_zlib.inc}
-{$define M_API_UNIT}
-  {$include m_helpers.inc}
-  {$include m_clistint.inc}
+  {$include m_pluginupdater.inc}
   {$include m_metacontacts.inc}
   {$include m_timezones.inc}
   {$include m_crypto.inc}
+{$define M_API_UNIT}
+  {$include m_helpers.inc}
+  {$include m_clistint.inc}
 
 implementation
 

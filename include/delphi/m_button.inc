@@ -27,7 +27,7 @@ const
   {
     Sets whether a dropdown arrow is used
     wParam = TRUE/FALSE turns arrow on or off
-    lParam = not used
+    lParam = 0 (unused)
     Usage: SendMessage(hwndbutton,BUTTONSETARROW,1,0);
     Only works on MButtonClass buttons
   }
@@ -36,7 +36,7 @@ const
   {
     Sets whether the button is a default button
     wParam = TRUE/FALSE default on/off
-    lParam = not used
+    lParam = 0 (unused)
     Usage: SendMessage(hwndbutton,BUTTONSETDEFAULT,1,0);
     Only works on MButtonClass buttons
   }
@@ -45,7 +45,7 @@ const
   {
     Sets the button as a push button
     wParam = 1/0 as on/off
-    lParam = not used
+    lParam = 0 (unused)
     Usage: SendMessage(hwndbutton,BUTTONSETASPUSHBTN,1,0);
     Only works on MButtonClass buttons
   }
@@ -54,7 +54,7 @@ const
   {
     Sets the button type as a flat button without borders v0.3.3+
     wParam = 1/0 as on/off
-    lParam = not used
+    lParam = 0 (unused)
     Usage: SendMessage(hwndbutton,BUTTONSETASFLATBTN,1,0);
     Only works on MButtonClass buttons
   }
@@ -73,7 +73,7 @@ const
   {
     Sets the button type as a themed button
     wParam = TRUE/FALSE default on/off
-    lParam = not used
+    lParam = 0 (unused)
     Usage: SendMessage(hwndbutton, BUTTONSETASTHEMEDBTN, 1, 0);
     Only works on MButtonClass buttons
   }
@@ -81,11 +81,19 @@ const
 
 {
     Sets the custom painting procedure for a button
-    wParam = not used
-    lParam = MButtonCustomize* (refer to mbutton_int.h for details)
-    Usage: SendMessage(hwndbutton, BUTTONSETCUSTOM, 0, (LPARAM)&CustomData);
+    wParam = new data block length (inherited from MButtonCtrl)
+    lParam = (pfnPainterFunc)pfnPainter (refer to mbutton_int.h for details)
+    Usage: SendMessage(hwndbutton, BUTTONSETCUSTOM, 0, (LPARAM)MyPainter);
     Only works on MButtonClass buttons
 }
-  BUTTONSETCUSTOM = WM_USER + 7;
+  BUTTONSETCUSTOMPAINT = WM_USER + 7;
+
+{
+    Forces a button to send clicks on push
+    wParam = TRUE/FALSE default on/off
+    lParam = 0 (unused)
+    Usage: SendMessage(hwndbutton, BUTTONSETSENDONDOWN, TRUE, 0);
+}
+  BUTTONSETSENDONDOWN = WM_USER + 8;
 
 {$ENDIF}

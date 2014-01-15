@@ -393,5 +393,35 @@ const
   %mydocuments%         -> location of the "My Documents" shell folder.
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// one field form
+
+const
+  ESF_MULTILINE = 1;
+  ESF_COMBO     = 2;
+  ESF_RICHEDIT  = 3;
+  ESF_PASSWORD  = 4;
+
+type
+  PENTER_STRING = ^TENTER_STRING;
+  TENTER_STRING = record
+    cbSize      :int;       // structure size
+    _type       :int;       // one of ESF_* constants
+    szModuleName:pAnsiChar; // module name to save window size and combobox strings
+    szDataPrefix:pAnsiChar; // prefix for stored database variables
+    caption     :pAnsiChar; // window caption
+    // next TChar fields is on same place
+    // ptszInitVal:TChar;   // initial value (note: the core DOES NOT free it)
+    ptszResult  :TChar;     // result entered (must be freed via mir_free)
+    recentCount :int;       // number of combobox strings to store
+    timeout     :int;       // timeout for the form auto-close
+  end;
+
+const
+// enters one string
+// wParam = 0 (unused)
+// lParam = PENTER_STRING (form description)
+// returns TRUE on pressing OK or FALSE if Cancel was pressed
+  MS_UTILS_ENTERSTRING:pAnsiChar = 'Utils/EnterString';
 
 {$ENDIF}

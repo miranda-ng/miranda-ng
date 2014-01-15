@@ -98,17 +98,6 @@ type
     szFilename  : array[0..MAX_PATH-1] of AnsiChar; // filename of the avatar (absolute path)
   end;
 
-  PCacheNode = ^TCacheNode;
-  TCacheNode = record
-    pNextNode:pCacheNode;
-    ace      :TavatarCacheEntry;
-//    cs       :RTL_CRITICAL_SECTION;
-    loaded   :bool;
-    mustLoad :int;
-    dwFlags  :DWORD;
-    pa_format:int;
-  end;
-
 const
   AVDRQ_FALLBACKPROTO            = $0001; // use the protocol picture as fallback (currently not used)
   AVDRQ_FAILIFNOTCACHED          = $0002; // don't create a cache entry if it doesn't already
