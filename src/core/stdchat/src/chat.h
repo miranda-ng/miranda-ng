@@ -79,6 +79,10 @@ struct TABLIST
 	TABLIST *next;
 };
 
+struct MODULEINFO : public GCModuleInfoBase {};
+struct SESSION_INFO : public GCSessionInfoBase {};
+struct LOGSTREAMDATA : public GCLogStreamDataBase {};
+
 struct GlobalLogSettings : public GlobalLogSettingsBase
 {
 	BOOL TabsEnable;

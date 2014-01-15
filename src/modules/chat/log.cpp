@@ -224,28 +224,28 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 {
 	TCHAR szTemp[512], szTemp2[512];
 	TCHAR* pszNick = NULL;
-	if ( streamData->lin->ptszNick ) {
-		if ( ci.pSettings->LogLimitNames && lstrlen( streamData->lin->ptszNick ) > 20 ) {
-			lstrcpyn( szTemp2, streamData->lin->ptszNick, 20 );
-			lstrcpyn( szTemp2+20, _T("..."), 4);
+	if (streamData->lin->ptszNick) {
+		if (ci.pSettings->LogLimitNames && lstrlen(streamData->lin->ptszNick) > 20) {
+			lstrcpyn(szTemp2, streamData->lin->ptszNick, 20);
+			lstrcpyn(szTemp2 + 20, _T("..."), 4);
 		}
-		else lstrcpyn( szTemp2, streamData->lin->ptszNick, 511 );
+		else lstrcpyn(szTemp2, streamData->lin->ptszNick, 511);
 
-		if ( streamData->lin->ptszUserInfo )
-			mir_sntprintf( szTemp, SIZEOF(szTemp), _T("%s (%s)"), szTemp2, streamData->lin->ptszUserInfo );
+		if (streamData->lin->ptszUserInfo)
+			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s (%s)"), szTemp2, streamData->lin->ptszUserInfo);
 		else
-			mir_sntprintf( szTemp, SIZEOF(szTemp), _T("%s"), szTemp2 );
+			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s"), szTemp2);
 		pszNick = szTemp;
 	}
 
-	if ( streamData && streamData->lin ) {
-		switch ( streamData->lin->iType ) {
+	if (streamData && streamData->lin) {
+		switch (streamData->lin->iType) {
 		case GC_EVENT_MESSAGE:
-			if ( streamData->lin->ptszText )
-				Log_AppendRTF( streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText );
+			if (streamData->lin->ptszText)
+				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
 			break;
 		case GC_EVENT_ACTION:
-			if ( streamData->lin->ptszNick && streamData->lin->ptszText) {
+			if (streamData->lin->ptszNick && streamData->lin->ptszText) {
 				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, _T("%s "), streamData->lin->ptszNick);
 				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
 			}
@@ -286,7 +286,7 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 			break;
 		case GC_EVENT_NOTICE:
 			if (pszNick && streamData->lin->ptszText) {
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("Notice from %s: "), pszNick );
+				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("Notice from %s: "), pszNick);
 				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
 			}
 			break;
@@ -294,9 +294,9 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 			if (streamData->lin->ptszText)
 				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, TranslateT("The topic is \'%s%s\'"), streamData->lin->ptszText, _T("%r"));
 			if (streamData->lin->ptszNick)
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, 
-					streamData->lin->ptszUserInfo ? TranslateT(" (set by %s on %s)"): TranslateT(" (set by %s)"),
-					streamData->lin->ptszNick, streamData->lin->ptszUserInfo);
+				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
+				streamData->lin->ptszUserInfo ? TranslateT(" (set by %s on %s)") : TranslateT(" (set by %s)"),
+				streamData->lin->ptszNick, streamData->lin->ptszUserInfo);
 			break;
 		case GC_EVENT_INFORMATION:
 			if (streamData->lin->ptszText)
@@ -308,14 +308,14 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 			break;
 		case GC_EVENT_REMOVESTATUS:
 			if (streamData->lin->ptszNick && streamData->lin->ptszText && streamData->lin->ptszStatus)
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s disables \'%s\' status for %s"), streamData->lin->ptszText , streamData->lin->ptszStatus, streamData->lin->ptszNick);
+				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s disables \'%s\' status for %s"), streamData->lin->ptszText, streamData->lin->ptszStatus, streamData->lin->ptszNick);
 			break;
 }	}	}
 
-TCHAR* MakeTimeStamp( TCHAR* pszStamp, time_t time)
+TCHAR* MakeTimeStamp(TCHAR* pszStamp, time_t time)
 {
 	static TCHAR szTime[30];
-	if ( !_tcsftime(szTime, SIZEOF(szTime)-1, pszStamp, localtime(&time)))
+	if (!_tcsftime(szTime, SIZEOF(szTime) - 1, pszStamp, localtime(&time)))
 		_tcsncpy(szTime, TranslateT("<invalid>"), SIZEOF(szTime));
 	return szTime;
 }
@@ -329,8 +329,8 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 	// guesstimate amount of memory for the RTF
 	bufferEnd = 0;
-	bufferAlloced = streamData->bRedraw ? 1024 * (streamData->si->iEventCount+2) : 2048;
-	buffer = (char *) mir_alloc(bufferAlloced);
+	bufferAlloced = streamData->bRedraw ? 1024 * (streamData->si->iEventCount + 2) : 2048;
+	buffer = (char *)mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
 
 	// ### RTF HEADER
@@ -352,7 +352,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
 				while (bufferAlloced - bufferEnd < logIconBmpSize[0])
 					bufferAlloced += 4096;
-				buffer = (char *) mir_realloc(buffer, bufferAlloced);
+				buffer = (char *)mir_realloc(buffer, bufferAlloced);
 				CopyMemory(buffer + bufferEnd, pLogIconBmpBits[iIndex], logIconBmpSize[iIndex]);
 				bufferEnd += logIconBmpSize[iIndex];
 			}
@@ -364,17 +364,17 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				static char szStyle[256];
 				int iii;
 				if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
-					iii = lin->bIsHighlighted?16:(lin->bIsMe ? 2 : 1);
+					iii = lin->bIsHighlighted ? 16 : (lin->bIsMe ? 2 : 1);
 					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
 				}
 				else {
-					iii = lin->bIsHighlighted?16:EventToIndex(lin);
+					iii = lin->bIsHighlighted ? 16 : EventToIndex(lin);
 					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
 				}
 			}
-			else Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(0, 0 ));
+			else Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(0, 0));
 
 			// insert a TAB if necessary to put the timestamp in the right position
 			if (ci.pSettings->dwIconFlags)
@@ -384,11 +384,11 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			if (ci.pSettings->ShowTime) {
 				TCHAR szTimeStamp[30], szOldTimeStamp[30];
 
-				lstrcpyn( szTimeStamp, MakeTimeStamp(ci.pSettings->pszTimeStamp, lin->time), 30);
-				lstrcpyn( szOldTimeStamp, MakeTimeStamp(ci.pSettings->pszTimeStamp, streamData->si->LastTime), 30);
-				if ( !ci.pSettings->ShowTimeIfChanged || streamData->si->LastTime == 0 || lstrcmp(szTimeStamp, szOldTimeStamp )) {
+				lstrcpyn(szTimeStamp, MakeTimeStamp(ci.pSettings->pszTimeStamp, lin->time), 30);
+				lstrcpyn(szOldTimeStamp, MakeTimeStamp(ci.pSettings->pszTimeStamp, streamData->si->LastTime), 30);
+				if (!ci.pSettings->ShowTimeIfChanged || streamData->si->LastTime == 0 || lstrcmp(szTimeStamp, szOldTimeStamp)) {
 					streamData->si->LastTime = lin->time;
-					Log_AppendRTF( streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, _T("%s"), szTimeStamp );
+					Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, _T("%s"), szTimeStamp);
 				}
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tab ");
 			}
@@ -408,7 +408,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			}
 
 			// Insert the message
-			i = lin->bIsHighlighted?16:EventToIndex(lin);
+			i = lin->bIsHighlighted ? 16 : EventToIndex(lin);
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(i, i));
 			streamData->lin = lin;
 			AddEventToBuffer(&buffer, &bufferEnd, &bufferAlloced, streamData);
@@ -450,7 +450,7 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(ci.aFonts[i].color), GetGValue(ci.aFonts[i].color), GetBValue(ci.aFonts[i].color));
 
-	for(i = 0; i < mi->nColorCount; i++)
+	for (i = 0; i < mi->nColorCount; i++)
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
 
 	// new paragraph

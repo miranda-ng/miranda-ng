@@ -328,9 +328,9 @@ int OptionsInit(void)
 	ci.pSettings->iSplitterX = db_get_w(NULL, "Chat", "SplitterX", 105);
 	if (ci.pSettings->iSplitterX <= 50)
 		ci.pSettings->iSplitterX = 105;
-	ci.pSettings->iSplitterY = db_get_w(NULL, "Chat", "SplitterY", 50);
-	if (ci.pSettings->iSplitterY <= 20)
-		ci.pSettings->iSplitterY = 50;
+	ci.pSettings->iSplitterY = db_get_w(NULL, "Chat", "SplitterY", 90);
+	if (ci.pSettings->iSplitterY <= 65)
+		ci.pSettings->iSplitterY = 90;
 
 	LoadGlobalSettings();
 

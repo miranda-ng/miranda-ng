@@ -23,6 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_popup.h>
 #include <m_fontservice.h>
 
+struct MODULEINFO : public GCModuleInfoBase {};
+struct SESSION_INFO : public GCSessionInfoBase {};
+struct LOGSTREAMDATA : public GCLogStreamDataBase {};
+
 // special service for tweaking performance
 #define MS_GC_GETEVENTPTR  "GChat/GetNewEventPtr"
 typedef INT_PTR(*GETEVENTFUNC)(WPARAM wParam, LPARAM lParam);

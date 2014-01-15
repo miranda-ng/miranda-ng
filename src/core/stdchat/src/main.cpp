@@ -253,11 +253,12 @@ static void OnLoadSettings()
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	// set the memory & utf8 managers
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 	
 	mir_getCI(&g_Settings);
+	pci->cbModuleInfo = sizeof(MODULEINFO);
+	pci->cbSession = sizeof(SESSION_INFO);
 	pci->OnAddUser = OnAddUser;
 	pci->OnNewUser = OnNewUser;
 	pci->OnRemoveUser = OnRemoveUser;
@@ -284,6 +285,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
 	AddIcons();
 	LoadIcons();
+
+	OnLoadSettings();
 	OptionsInit();
 
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);

@@ -96,7 +96,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //structs
 
-struct  MODULEINFO
+struct SESSION_INFO;
+struct MODULEINFO;
+struct LOGSTREAMDATA;
+
+struct GCModuleInfoBase
 {
 	char*     pszModule;
 	TCHAR*    ptszModDispName;
@@ -164,7 +168,7 @@ struct USERINFO
    USERINFO *next;
 };
 
-struct SESSION_INFO
+struct GCSessionInfoBase
 {
    HWND        hWnd;
 
@@ -215,10 +219,10 @@ struct SESSION_INFO
    int         iOldItemID;
 
    interface IAccPropServices* pAccPropServicesForNickList;
-   SESSION_INFO *next;
+	SESSION_INFO *next;
 };
 
-struct LOGSTREAMDATA
+struct GCLogStreamDataBase
 {
    char*         buffer;
    int           bufferOffset, bufferLen;
@@ -226,7 +230,7 @@ struct LOGSTREAMDATA
    LOGINFO*      lin;
    BOOL          bStripFormat;
    BOOL          bRedraw;
-   SESSION_INFO *si;
+	SESSION_INFO *si;
 };
 
 struct GlobalLogSettingsBase
@@ -278,6 +282,8 @@ struct GlobalLogSettingsBase
 	BOOL		ShowContactStatus;
 	BOOL		ContactStatusFirst;
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 struct CHAT_MANAGER
 {
@@ -390,6 +396,7 @@ struct CHAT_MANAGER
 	TCHAR     *szActiveWndID;
 	char      *szActiveWndModule;
 	int        logPixelSY, logPixelSX;
+	int        cbModuleInfo, cbSession;
 };
 
 extern CHAT_MANAGER ci, *pci;

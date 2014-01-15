@@ -68,7 +68,8 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, BOOL bRedr
 
 	HWND hwndRich = GetDlgItem(hwndDlg, IDC_LOG);
 	
-	LOGSTREAMDATA streamData = { 0 };
+	LOGSTREAMDATA streamData;
+	ZeroMemory(&streamData, sizeof(streamData));
 	streamData.hwnd = hwndRich;
 	streamData.si = si;
 	streamData.lin = lin;
