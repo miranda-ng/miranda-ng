@@ -1095,7 +1095,7 @@ static int RestoreWindowPosition(HWND hwnd, HANDLE hContact, char * szModule, ch
 	return 1;
 }
 
-int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth)
+int GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth)
 {
 	if (!pszText || !hFont)
 		return 0;
@@ -1202,8 +1202,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			// LoadGlobalSettings(); !!!!!!!!!!!!!!!!!!!!!!
 			InitButtons(hwndDlg, si);
 
-			HICON hIcon = si->wStatus==ID_STATUS_ONLINE?pci->MM_FindModule(si->pszModule)->hOnlineIcon:pci->MM_FindModule(si->pszModule)->hOfflineIcon;
 			// stupid hack to make icons show. I dunno why this is needed currently
+			HICON hIcon = si->wStatus == ID_STATUS_ONLINE ? pci->MM_FindModule(si->pszModule)->hOnlineIcon : pci->MM_FindModule(si->pszModule)->hOfflineIcon;
 			if (!hIcon) {
 				pci->MM_IconsChanged();
 				hIcon = (si->wStatus == ID_STATUS_ONLINE) ? pci->MM_FindModule(si->pszModule)->hOnlineIcon : pci->MM_FindModule(si->pszModule)->hOfflineIcon;
