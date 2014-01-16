@@ -72,8 +72,8 @@ interface MIDatabase
 	STDMETHOD_(void,SetCacheSafetyMode)(BOOL) PURE;
 
 	STDMETHOD_(LONG,GetContactCount)(void) PURE;
-	STDMETHOD_(HANDLE,FindFirstContact)(const char* szProto = NULL) PURE;
-	STDMETHOD_(HANDLE,FindNextContact)(HANDLE hContact, const char* szProto = NULL) PURE;
+	STDMETHOD_(HANDLE,FindFirstContact)(const char *szProto = NULL) PURE;
+	STDMETHOD_(HANDLE,FindNextContact)(HANDLE hContact, const char *szProto = NULL) PURE;
 
 	STDMETHOD_(LONG,DeleteContact)(HANDLE hContact) PURE;
 	STDMETHOD_(HANDLE,AddContact)(void) PURE;

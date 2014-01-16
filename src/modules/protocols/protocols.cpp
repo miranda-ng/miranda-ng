@@ -214,7 +214,7 @@ static int Proto_ValidTypingContact(HANDLE hContact, char *szProto)
 static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam == PROTOTYPE_SELFTYPING_OFF || lParam == PROTOTYPE_SELFTYPING_ON) {
-		char* szProto = GetContactProto((HANDLE)wParam);
+		char *szProto = GetContactProto((HANDLE)wParam);
 		if ( !szProto)
 			return 0;
 
@@ -244,7 +244,7 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void Proto_SetStatus(const char* szProto, unsigned status)
+void Proto_SetStatus(const char *szProto, unsigned status)
 {
 	if (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)
 	{
@@ -741,7 +741,7 @@ void UnloadProtocolsModule()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-pfnUninitProto GetProtocolDestructor(char* szProto)
+pfnUninitProto GetProtocolDestructor(char *szProto)
 {
 	PROTOCOLDESCRIPTOR temp;
 	temp.szName = szProto;

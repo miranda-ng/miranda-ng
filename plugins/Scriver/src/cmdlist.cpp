@@ -23,8 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-TCmdList *tcmdlist_append(TCmdList *list, const char *data, int maxSize, BOOL temporary) {
-	TCmdList *n;
+TCmdList *tcmdlist_append(TCmdList *list, const char *data, int maxSize, BOOL temporary)
+{
 	TCmdList *new_list = (TCmdList *)mir_alloc(sizeof(TCmdList));
 	TCmdList *attach_to = NULL;
 
@@ -35,23 +35,23 @@ TCmdList *tcmdlist_append(TCmdList *list, const char *data, int maxSize, BOOL te
 	new_list->temporary = temporary;
 	new_list->next = NULL;
 	new_list->szCmd = mir_strdup(data);
-	for (n=list; n!=NULL; n=n->next) {
+	for (TCmdList *n = list; n != NULL; n = n->next)
 		attach_to = n;
-	}
-	if (attach_to==NULL) {
+
+	if (attach_to == NULL) {
 		new_list->prev = NULL;
 		return new_list;
-	} else {
-		new_list->prev = attach_to;
-		attach_to->next = new_list;
-		if (tcmdlist_len(list)>maxSize) {
-			list = tcmdlist_remove_first(list);
-		}
-		return list;
 	}
+
+	new_list->prev = attach_to;
+	attach_to->next = new_list;
+	if (tcmdlist_len(list) > maxSize)
+		list = tcmdlist_remove_first(list);
+	return list;
 }
 
-TCmdList *tcmdlist_remove_first(TCmdList *list) {
+TCmdList *tcmdlist_remove_first(TCmdList *list)
+{
 	TCmdList *n = list;
 	if (n->next) n->next->prev = n->prev;
 	if (n->prev) n->prev->next = n->next;
@@ -61,17 +61,18 @@ TCmdList *tcmdlist_remove_first(TCmdList *list) {
 	return list;
 }
 
-TCmdList *tcmdlist_remove(TCmdList *list, TCmdList *n) {
+TCmdList *tcmdlist_remove(TCmdList *list, TCmdList *n)
+{
 	if (n->next) n->next->prev = n->prev;
 	if (n->prev) n->prev->next = n->next;
-	if (n==list) list = n->next;
+	if (n == list) list = n->next;
 	mir_free(n->szCmd);
 	mir_free(n);
 	return list;
 }
 
-TCmdList *tcmdlist_append2(TCmdList *list, HANDLE hContact, const char *data) {
-	TCmdList *n;
+TCmdList *tcmdlist_append2(TCmdList *list, HANDLE hContact, const char *data)
+{
 	TCmdList *new_list = (TCmdList *)mir_alloc(sizeof(TCmdList));
 	TCmdList *attach_to = NULL;
 
@@ -84,27 +85,26 @@ TCmdList *tcmdlist_append2(TCmdList *list, HANDLE hContact, const char *data) {
 	new_list->hContact = hContact;
 	new_list->szCmd = mir_strdup(data);
 	list = tcmdlist_remove2(list, hContact);
-	for (n=list; n!=NULL; n=n->next) {
+	for (TCmdList *n = list; n != NULL; n = n->next)
 		attach_to = n;
-	}
-	if (attach_to==NULL) {
+
+	if (attach_to == NULL) {
 		new_list->prev = NULL;
 		return new_list;
 	}
-	else {
-		new_list->prev = attach_to;
-		attach_to->next = new_list;
-		return list;
-	}
+
+	new_list->prev = attach_to;
+	attach_to->next = new_list;
+	return list;
 }
 
-TCmdList *tcmdlist_remove2(TCmdList *list, HANDLE hContact) {
-	TCmdList *n;
-	for (n=list; n!=NULL; n=n->next) {
-		if (n->hContact==hContact) {
+TCmdList *tcmdlist_remove2(TCmdList *list, HANDLE hContact)
+{
+	for (TCmdList *n = list; n != NULL; n = n->next) {
+		if (n->hContact == hContact) {
 			if (n->next) n->next->prev = n->prev;
 			if (n->prev) n->prev->next = n->next;
-			if (n==list) list = n->next;
+			if (n == list) list = n->next;
 			mir_free(n->szCmd);
 			mir_free(n);
 			return list;
@@ -113,40 +113,38 @@ TCmdList *tcmdlist_remove2(TCmdList *list, HANDLE hContact) {
 	return list;
 }
 
-TCmdList *tcmdlist_get2(TCmdList *list, HANDLE hContact) {
-	TCmdList *n;
-	for (n=list; n!=NULL; n=n->next) {
-		if (n->hContact==hContact) {
+TCmdList *tcmdlist_get2(TCmdList *list, HANDLE hContact)
+{
+	for (TCmdList *n = list; n != NULL; n = n->next)
+		if (n->hContact == hContact)
 			return n;
-		}
-	}
+
 	return NULL;
 }
 
-int tcmdlist_len(TCmdList *list) {
-	TCmdList *n;
+int tcmdlist_len(TCmdList *list)
+{
 	int i = 0;
-
-	for (n=list; n!=NULL; n=n->next) {
+	for (TCmdList *n = list; n != NULL; n = n->next)
 		i++;
-	}
+
 	return i;
 }
 
-TCmdList *tcmdlist_last(TCmdList *list) {
-	TCmdList *n;
-
-	for (n=list; n!=NULL; n=n->next) {
+TCmdList *tcmdlist_last(TCmdList *list)
+{
+	for (TCmdList *n = list; n != NULL; n = n->next)
 		if (!n->next)
 			return n;
-	}
+
 	return NULL;
 }
 
-void tcmdlist_free(TCmdList *list) {
+void tcmdlist_free(TCmdList *list)
+{
 	TCmdList *n = list, *next;
 
-	while (n!=NULL) {
+	while (n != NULL) {
 		next = n->next;
 		mir_free(n->szCmd);
 		mir_free(n);

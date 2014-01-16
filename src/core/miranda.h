@@ -114,7 +114,7 @@ int ImageList_AddIcon_NotShared(HIMAGELIST hIml, LPCTSTR szResource);
 int ImageList_ReplaceIcon_NotShared(HIMAGELIST hIml, int iIndex, HINSTANCE hInstance, LPCTSTR szResource);
 
 int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, int iconId);
-int ImageList_AddIcon_ProtoIconLibLoaded(HIMAGELIST hIml, const char* szProto, int iconId);
+int ImageList_AddIcon_ProtoIconLibLoaded(HIMAGELIST hIml, const char *szProto, int iconId);
 int ImageList_ReplaceIcon_IconLibLoaded(HIMAGELIST hIml, int nIndex, HICON hIcon);
 
 #define Safe_DestroyIcon(hIcon) if (hIcon) DestroyIcon(hIcon)

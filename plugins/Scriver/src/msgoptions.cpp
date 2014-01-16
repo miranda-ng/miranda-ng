@@ -118,14 +118,11 @@ static const colourOptionsList[] = {
 	{ LPGENT("Info bar background"), SRMSGSET_INFOBARBKGCOLOUR, 0, COLOR_3DLIGHT},
 };
 
-int Chat_FontsChanged(WPARAM wParam,LPARAM lParam);
-
 int FontServiceFontsChanged(WPARAM wParam, LPARAM lParam)
 {
 	LoadMsgLogIcons();
 	LoadInfobarFonts();
 	WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
-	Chat_FontsChanged(wParam, lParam);
 	return 0;
 }
 
@@ -236,14 +233,12 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 	ChangeStatusIcons();
 	WindowList_Broadcast(g_dat.hMessageWindowList, DM_REMAKELOG, 0, 0);
 	WindowList_Broadcast(g_dat.hMessageWindowList, DM_CHANGEICONS, 0, 1);
-	Chat_IconsChanged(wParam, lParam);
 	return 0;
 }
 
 int SmileySettingsChanged(WPARAM wParam, LPARAM lParam)
 {
 	WindowList_Broadcast(g_dat.hMessageWindowList, DM_REMAKELOG, wParam, 0);
-	Chat_SmileyOptionsChanged(wParam, lParam);
 	return 0;
 }
 
@@ -347,7 +342,7 @@ static void ApplyChanges(int i)
 		ReloadGlobals();
 		WindowList_Broadcast(g_dat.hParentWindowList, DM_OPTIONSAPPLIED, 0, 0);
 		WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
-		SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
+		pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 	}
 }
 

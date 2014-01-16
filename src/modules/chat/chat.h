@@ -47,8 +47,8 @@ char*  Log_CreateRTF(LOGSTREAMDATA *streamData);
 
 // clist.c
 BOOL    AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
-HANDLE  AddRoom(const char *pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType);
-HANDLE  FindRoom(const char *pszModule, const TCHAR* pszRoom);
+HANDLE  AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType);
+HANDLE  FindRoom(const char *pszModule, const TCHAR *pszRoom);
 BOOL    SetAllOffline(BOOL bHide, const char *pszModule);
 BOOL    SetOffline(HANDLE hContact, BOOL bHide);
 

@@ -28,7 +28,6 @@ GlobalMessageData g_dat;
 static int ackevent(WPARAM wParam, LPARAM lParam);
 
 extern int    Chat_ModulesLoaded(WPARAM wParam,LPARAM lParam);
-extern int    Chat_PreShutdown(WPARAM wParam,LPARAM lParam);
 
 static const char *buttonIcons[] = {"scriver_CLOSEX", "scriver_QUOTE", "scriver_SMILEY", 
 									"scriver_ADD", NULL, "scriver_USERDETAILS", "scriver_HISTORY", 
@@ -410,9 +409,8 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 				ewd->queueItem = item;
 				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
 				SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)ewd);
-			} else {
-				RemoveSendQueueItem(item);
 			}
+			else RemoveSendQueueItem(item);
 		}
 		return 0;
 	}

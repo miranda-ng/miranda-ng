@@ -26,10 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static int CalculateCoordinatesToButton(COLORCHOOSER * pCC, POINT pt)
 {
 	int iSquareRoot = (int)sqrt((double)pCC->pModule->nColorCount);
-	int nCols = iSquareRoot * iSquareRoot < pCC->pModule->nColorCount?iSquareRoot+1:iSquareRoot;
+	int nCols = iSquareRoot * iSquareRoot < pCC->pModule->nColorCount ? iSquareRoot + 1 : iSquareRoot;
 
 	int col = pt.x / 25;
-	int row = (pt.y-20) / 20;
+	int row = (pt.y - 20) / 20;
 	int pos = nCols * row + col;
 
 	if (pt.y < 20 && pos >= pCC->pModule->nColorCount)
@@ -42,14 +42,14 @@ static RECT CalculateButtonToCoordinates(COLORCHOOSER * pCC, int buttonPosition)
 {
 	RECT pt;
 	int iSquareRoot = (int)sqrt((double)pCC->pModule->nColorCount);
-	int nCols = iSquareRoot * iSquareRoot < pCC->pModule->nColorCount?iSquareRoot+1:iSquareRoot;
+	int nCols = iSquareRoot * iSquareRoot < pCC->pModule->nColorCount ? iSquareRoot + 1 : iSquareRoot;
 
 	int row = buttonPosition / nCols;
 	int col = buttonPosition % nCols;
 
-	pt.left = col * 25+1;
+	pt.left = col * 25 + 1;
 	pt.top = row * 20 + 20;
-	pt.right = pt.left + 25-1;
+	pt.right = pt.left + 25 - 1;
 	pt.bottom = pt.top + 20;
 
 	return pt;
@@ -64,57 +64,52 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	static int iColumns;
 	static HWND hPreviousActiveWindow;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		RECT rc;
-		int iSquareRoot;
-		int width ;
-		int height;
-
 		TranslateDialogDefault(hwndDlg);
-		pCC = (COLORCHOOSER*) lParam;
+		{
+			pCC = (COLORCHOOSER*)lParam;
 
-		iCurrentHotTrack = -2;
-		bChoosing = FALSE;
+			iCurrentHotTrack = -2;
+			bChoosing = FALSE;
 
-		iSquareRoot = (int)sqrt((double)pCC->pModule->nColorCount);
+			int iSquareRoot = (int)sqrt((double)pCC->pModule->nColorCount);
 
-		iColumns = iSquareRoot * iSquareRoot == pCC->pModule->nColorCount?iSquareRoot:iSquareRoot+1;
-		iRows = iSquareRoot;
+			iColumns = iSquareRoot * iSquareRoot == pCC->pModule->nColorCount ? iSquareRoot : iSquareRoot + 1;
+			iRows = iSquareRoot;
 
-		rc.top = rc.left = 100;
-		rc.right =  100 +  iColumns * 25 + 1;
-		rc.bottom = iRows * 20 + 100 + 20;
+			RECT rc;
+			rc.top = rc.left = 100;
+			rc.right = 100 + iColumns * 25 + 1;
+			rc.bottom = iRows * 20 + 100 + 20;
 
-		AdjustWindowRectEx(&rc, GetWindowLongPtr(hwndDlg, GWL_STYLE), FALSE, GetWindowLongPtr(hwndDlg, GWL_EXSTYLE));
+			AdjustWindowRectEx(&rc, GetWindowLongPtr(hwndDlg, GWL_STYLE), FALSE, GetWindowLongPtr(hwndDlg, GWL_EXSTYLE));
 
-		width = rc.right - rc.left;
-		height = rc.bottom - rc.top;
+			int width = rc.right - rc.left;
+			int height = rc.bottom - rc.top;
 
-		pCC->yPosition -= height;
+			pCC->yPosition -= height;
 
-
-		SetDlgItemText(hwndDlg, IDC_CHAT_COLORTEXT, pCC->bForeground?TranslateT("Text color"):TranslateT("Background color"));
-		SetWindowPos(GetDlgItem(hwndDlg, IDC_CHAT_COLORTEXT), NULL, 0, 0, width, 20, 0);
-		SetWindowPos(hwndDlg, NULL, pCC->xPosition, pCC->yPosition, width, height, SWP_SHOWWINDOW);
+			SetDlgItemText(hwndDlg, IDC_CHAT_COLORTEXT, pCC->bForeground ? TranslateT("Text color") : TranslateT("Background color"));
+			SetWindowPos(GetDlgItem(hwndDlg, IDC_CHAT_COLORTEXT), NULL, 0, 0, width, 20, 0);
+			SetWindowPos(hwndDlg, NULL, pCC->xPosition, pCC->yPosition, width, height, SWP_SHOWWINDOW);
 		}
 		break;
 
 	case WM_CTLCOLOREDIT:
 	case WM_CTLCOLORSTATIC:
-		if ((HWND)lParam==GetDlgItem(hwndDlg,IDC_CHAT_COLORTEXT)) {
-			SetTextColor((HDC)wParam,RGB(60,60,150));
-			SetBkColor((HDC)wParam,GetSysColor(COLOR_WINDOW));
+		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_CHAT_COLORTEXT)) {
+			SetTextColor((HDC)wParam, RGB(60, 60, 150));
+			SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
 			return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
 		}
 		break;
 
 	case WM_COMMAND:
-		switch ( LOWORD( wParam )) {
- 		case IDOK:
+		switch (LOWORD(wParam)) {
+		case IDOK:
 			if (iCurrentHotTrack >= 0)
-			PostMessage(hwndDlg, WM_LBUTTONUP, 0, 0);
+				PostMessage(hwndDlg, WM_LBUTTONUP, 0, 0);
 			break;
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
@@ -131,17 +126,16 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			cf.dwEffects = 0;
 			hWindow = GetParent(pCC->hWndTarget);
 
-			if ( pCC->bForeground ) {
+			if (pCC->bForeground) {
 				pCC->si->bFGSet = TRUE;
 				pCC->si->iFG = iCurrentHotTrack;
-				if ( IsDlgButtonChecked( hWindow, IDC_CHAT_COLOR )) {
+				if (IsDlgButtonChecked(hWindow, IDC_CHAT_COLOR)) {
 					cf.dwMask = CFM_COLOR;
 					cf.crTextColor = pCC->pModule->crColors[iCurrentHotTrack];
-					if (pCC->pModule->bSingleFormat) {
+					if (pCC->pModule->bSingleFormat)
 						SendMessage(pCC->hWndTarget, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
-					} else {
+					else
 						SendMessage(pCC->hWndTarget, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-					}
 				}
 			}
 			else {
@@ -150,11 +144,10 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				if (IsDlgButtonChecked(hWindow, IDC_CHAT_BKGCOLOR)) {
 					cf.dwMask = CFM_BACKCOLOR;
 					cf.crBackColor = pCC->pModule->crColors[iCurrentHotTrack];
-					if (pCC->pModule->bSingleFormat) {
+					if (pCC->pModule->bSingleFormat)
 						SendMessage(pCC->hWndTarget, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
-					} else {
+					else
 						SendMessage(pCC->hWndTarget, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-					}
 				}
 			}
 		}

@@ -160,7 +160,7 @@ int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, int iconId)
 	return res;
 }
 
-int ImageList_AddIcon_ProtoIconLibLoaded(HIMAGELIST hIml, const char* szProto, int iconId)
+int ImageList_AddIcon_ProtoIconLibLoaded(HIMAGELIST hIml, const char *szProto, int iconId)
 {
 	HICON hIcon = LoadSkinProtoIcon(szProto, iconId);
 	int res = ImageList_AddIcon(hIml, hIcon);
@@ -189,7 +189,7 @@ void Window_SetIcon_IcoLib(HWND hWnd, int iconId)
 	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinIcon(iconId));
 }
 
-void Window_SetProtoIcon_IcoLib(HWND hWnd, const char* szProto, int iconId)
+void Window_SetProtoIcon_IcoLib(HWND hWnd, const char *szProto, int iconId)
 {
 	SendMessage(hWnd, WM_SETICON, ICON_BIG,   (LPARAM)LoadSkinProtoIcon(szProto, iconId, true));
 	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinProtoIcon(szProto, iconId));
@@ -219,7 +219,7 @@ void Button_FreeIcon_IcoLib(HWND hwndDlg, int itemId)
 //  wParam = szProto
 //  lParam = status
 //
-HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
+HICON LoadSkinProtoIcon(const char *szProto, int status, bool big)
 {
 	char iconName[MAX_PATH];
 	INT_PTR caps2;

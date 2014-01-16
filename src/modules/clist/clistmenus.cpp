@@ -51,7 +51,7 @@ HANDLE hStatusMenuObject = 0;
 int UnloadMoveToGroup(void);
 
 int statustopos(int status);
-void Proto_SetStatus(const char* szProto, unsigned status);
+void Proto_SetStatus(const char *szProto, unsigned status);
 
 bool prochotkey;
 

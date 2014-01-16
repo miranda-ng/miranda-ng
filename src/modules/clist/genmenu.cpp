@@ -234,7 +234,7 @@ INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey)
 
 INT_PTR MO_GetProtoRootMenu(WPARAM wParam, LPARAM lParam)
 {
-	char* szProto = (char*)wParam;
+	char *szProto = (char*)wParam;
 	if (szProto == NULL)
 		return 0;
 

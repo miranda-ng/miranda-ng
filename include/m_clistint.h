@@ -178,7 +178,7 @@ struct trayIconInfo_t
 
 typedef struct _menuProto
 {
-	char* szProto; //This is DLL-based unique name
+	char *szProto; //This is DLL-based unique name
 	HGENMENU pMenu;
 	HICON hIcon;
 }
@@ -366,7 +366,7 @@ typedef struct
 	/* clui.c */
 	LRESULT (CALLBACK *pfnContactListWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	void (*pfnCluiProtocolStatusChanged)(int status, const char* szProto);
+	void (*pfnCluiProtocolStatusChanged)(int status, const char *szProto);
 	void (*pfnDrawMenuItem)(LPDRAWITEMSTRUCT, HICON, HICON);
 	void (*pfnLoadCluiGlobalOpts)(void);
 	BOOL (*pfnInvalidateRect)(HWND hwnd, CONST RECT* lpRect, BOOL bErase);

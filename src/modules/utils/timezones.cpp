@@ -184,7 +184,7 @@ static HANDLE timeapiGetInfoByContact(HANDLE hContact, DWORD dwFlags)
 	signed char timezone = (signed char)db_get_b(hContact, "UserInfo", "Timezone", -1);
 	if (timezone == -1)
 	{
-		char* szProto = GetContactProto(hContact);
+		char *szProto = GetContactProto(hContact);
 		if ( !db_get_ts(hContact, szProto, "TzName", &dbv))
 		{
 			HANDLE res = timeapiGetInfoByName(dbv.ptszVal, dwFlags);

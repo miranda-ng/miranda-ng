@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_chat.h>
 
 #define OPTIONS_FONTCOUNT 17
+#define STATUSICONCOUNT 6
 
 #define GC_UPDATETITLE         (WM_USER+100)
 #define GC_SPLITTERMOVED       (WM_USER+101)
@@ -105,13 +106,15 @@ struct GCModuleInfoBase
 	char*     pszModule;
 	TCHAR*    ptszModDispName;
 	char*     pszHeader;
-	BOOL      bBold;
-	BOOL      bUnderline;
-	BOOL      bItalics;
-	BOOL      bColor;
-	BOOL      bBkgColor;
-	BOOL      bChanMgr;
-	BOOL      bAckMsg;
+	bool      bBold;
+	bool      bUnderline;
+	bool      bItalics;
+	bool      bColor;
+	bool      bBkgColor;
+	bool      bChanMgr;
+	bool      bAckMsg;
+	bool      bSingleFormat;
+	bool      bFontSize;
 	int       nColorCount;
 	COLORREF* crColors;
 	HICON     hOnlineIcon;
@@ -353,11 +356,11 @@ struct CHAT_MANAGER
 	BOOL          (*LM_TrimLog)(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd, int iCount);
 	BOOL          (*LM_RemoveAll)(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd);
 
-	HANDLE        (*AddRoom)(const char *pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType);
+	HANDLE        (*AddRoom)(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType);
 	BOOL          (*SetOffline)(HANDLE hContact, BOOL bHide);
 	BOOL          (*SetAllOffline)(BOOL bHide, const char *pszModule);
 	BOOL          (*AddEvent)(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
-	HANDLE        (*FindRoom)(const char *pszModule, const TCHAR* pszRoom);
+	HANDLE        (*FindRoom)(const char *pszModule, const TCHAR *pszRoom);
 	void          (*ShowRoom)(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
 
 	char*         (*Log_CreateRTF)(LOGSTREAMDATA *streamData);
@@ -397,6 +400,8 @@ struct CHAT_MANAGER
 	char      *szActiveWndModule;
 	int        logPixelSY, logPixelSX;
 	int        cbModuleInfo, cbSession;
+	
+	SESSION_INFO *wndList;
 };
 
 extern CHAT_MANAGER ci, *pci;

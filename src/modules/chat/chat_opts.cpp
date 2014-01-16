@@ -291,6 +291,19 @@ static void FreeGlobalSettings(void)
 		DeleteObject(ci.pSettings->UserListHeadingsFont);
 }
 
+void SetIndentSize()
+{
+	if (ci.pSettings->ShowTime) {
+		LOGFONT lf;
+		LoadMsgDlgFont(0, &lf, NULL);
+		HFONT hFont = CreateFontIndirect(&lf);
+		int iText = GetTextPixelSize(MakeTimeStamp(ci.pSettings->pszTimeStamp, time(NULL)), hFont, TRUE);
+		DeleteObject(hFont);
+		ci.pSettings->LogTextIndent = iText * 12 / 10;
+	}
+	else ci.pSettings->LogTextIndent = 0;
+}
+
 int GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth)
 {
 	if (!pszText || !hFont)
@@ -349,13 +362,7 @@ int OptionsInit(void)
 	if (ci.pSettings->LoggingEnabled)
 		CreateDirectoryTreeT(ci.pSettings->pszLogDir);
 
-	LOGFONT lf2;
-	LoadMsgDlgFont(0, &lf2, NULL);
-	HFONT hFont = CreateFontIndirect(&lf2);
-	int iText = GetTextPixelSize(MakeTimeStamp(ci.pSettings->pszTimeStamp, time(NULL)), hFont, TRUE);
-	DeleteObject(hFont);
-	ci.pSettings->LogTextIndent = iText;
-	ci.pSettings->LogTextIndent = ci.pSettings->LogTextIndent * 12 / 10;
+	SetIndentSize();
 	return 0;
 }
 

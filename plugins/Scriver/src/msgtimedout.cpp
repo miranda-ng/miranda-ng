@@ -37,11 +37,11 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			TranslateDialogDefault(hwndDlg);
 			if (ewd != NULL) {
 				ShowWindow(GetParent(ewd->hwndParent), SW_RESTORE);
-				if (ewd->szDescription) {
+				if (ewd->szDescription)
 					SetDlgItemText(hwndDlg, IDC_ERRORTEXT, ewd->szDescription);
-				} else {
+				else
 					SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateT("An unknown error has occurred."));
-				}
+
 				if (ewd->szText) {
 					SETTEXTEX  st = {0};
 					st.flags = ST_DEFAULT;
@@ -49,11 +49,11 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					
 					SendDlgItemMessage(hwndDlg, IDC_MSGTEXT, EM_SETTEXTEX, (WPARAM) &st, (LPARAM)ewd->szText);
 				}
-				if (ewd->szName) {
+				if (ewd->szName)
 					mir_sntprintf(szText, SIZEOF(szText), _T("%s - %s"), TranslateT("Send Error"), ewd->szName);
-				} else {
+				else
 					mir_sntprintf(szText, SIZEOF(szText), _T("%s"), TranslateT("Send Error"));
-				}
+
 				SetWindowText(hwndDlg, szText);
 				GetWindowRect(hwndDlg, &rc);
 				GetWindowRect(GetParent(ewd->hwndParent), &rcParent);

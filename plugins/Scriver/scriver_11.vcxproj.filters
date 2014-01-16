@@ -12,9 +12,6 @@
       <UniqueIdentifier>{c6f77fbc-2b2a-48c9-b9c9-73d4f0f73fb3}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
-    <Filter Include="Header Files\chat">
-      <UniqueIdentifier>{b1d0ab9c-9a6b-4f3b-9697-560060e476ec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{8b31b6e6-ed45-4468-b82e-965e2154ef0c}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
@@ -65,9 +62,6 @@
     </ClCompile>
     <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat\clist.cpp">
-      <Filter>Source Files\chat</Filter>
     </ClCompile>
     <ClCompile Include="src\chat\colorchooser.cpp">
       <Filter>Source Files\chat</Filter>
@@ -137,11 +131,11 @@
     <ClInclude Include="src\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\chat\chat.h">
-      <Filter>Header Files\chat</Filter>
-    </ClInclude>
     <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chat\chat.h">
+      <Filter>Source Files\chat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

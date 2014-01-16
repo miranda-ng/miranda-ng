@@ -487,7 +487,7 @@ struct DeactivationThreadParam
 	bool             bErase;
 };
 
-pfnUninitProto GetProtocolDestructor(char* szProto);
+pfnUninitProto GetProtocolDestructor(char *szProto);
 
 static int DeactivationThread(DeactivationThreadParam* param)
 {

@@ -105,30 +105,27 @@ static INT_PTR Service_GetCount(WPARAM wParam, LPARAM lParam)
 static INT_PTR Service_GetInfo(WPARAM wParam, LPARAM lParam)
 {
 	GC_INFO *gci = (GC_INFO *)lParam;
-	SESSION_INFO *si = NULL;
-
 	if (!gci || !gci->pszModule)
 		return 1;
 
 	mir_cslock lck(cs);
 
-	if (gci->Flags&BYINDEX)
+	SESSION_INFO *si;
+	if (gci->Flags & BYINDEX)
 		si = ci.SM_FindSessionByIndex(gci->pszModule, gci->iItem);
 	else
 		si = ci.SM_FindSession(gci->pszID, gci->pszModule);
+	if (si == NULL)
+		return 1;
 
-	if (si) {
-		if (gci->Flags & DATA)     gci->dwItemData = si->dwItemData;
-		if (gci->Flags & HCONTACT) gci->hContact = si->hContact;
-		if (gci->Flags & TYPE)     gci->iType = si->iType;
-		if (gci->Flags & COUNT)    gci->iCount = si->nUsersInNicklist;
-		if (gci->Flags & USERS)    gci->pszUsers = ci.SM_GetUsers(si);
-		if (gci->Flags & ID)       gci->pszID = si->ptszID;
-		if (gci->Flags & NAME)     gci->pszName = si->ptszName;
-		return 0;
-	}
-
-	return 1;
+	if (gci->Flags & DATA)     gci->dwItemData = si->dwItemData;
+	if (gci->Flags & HCONTACT) gci->hContact = si->hContact;
+	if (gci->Flags & TYPE)     gci->iType = si->iType;
+	if (gci->Flags & COUNT)    gci->iCount = si->nUsersInNicklist;
+	if (gci->Flags & USERS)    gci->pszUsers = ci.SM_GetUsers(si);
+	if (gci->Flags & ID)       gci->pszID = si->ptszID;
+	if (gci->Flags & NAME)     gci->pszName = si->ptszName;
+	return 0;
 }
 
 static INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
@@ -146,13 +143,15 @@ static INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
 		return GC_REGISTER_ERROR;
 
 	mi->ptszModDispName = mir_tstrdup(gcr->ptszDispName);
-	mi->bBold = gcr->dwFlags & GC_BOLD;
-	mi->bUnderline = gcr->dwFlags & GC_UNDERLINE;
-	mi->bItalics = gcr->dwFlags & GC_ITALICS;
-	mi->bColor = gcr->dwFlags & GC_COLOR;
-	mi->bBkgColor = gcr->dwFlags & GC_BKGCOLOR;
-	mi->bAckMsg = gcr->dwFlags & GC_ACKMSG;
-	mi->bChanMgr = gcr->dwFlags & GC_CHANMGR;
+	mi->bBold = (gcr->dwFlags & GC_BOLD) != 0;
+	mi->bUnderline = (gcr->dwFlags & GC_UNDERLINE) != 0;
+	mi->bItalics = (gcr->dwFlags & GC_ITALICS) != 0;
+	mi->bColor = (gcr->dwFlags & GC_COLOR) != 0;
+	mi->bBkgColor = (gcr->dwFlags & GC_BKGCOLOR) != 0;
+	mi->bAckMsg = (gcr->dwFlags & GC_ACKMSG) != 0;
+	mi->bChanMgr = (gcr->dwFlags & GC_CHANMGR) != 0;
+	mi->bSingleFormat = (gcr->dwFlags & GC_SINGLEFORMAT) != 0;
+	mi->bFontSize = (gcr->dwFlags & GC_FONTSIZE) != 0;
 	mi->iMaxText = gcr->iMaxText;
 	mi->nColorCount = gcr->nColors;
 	if (gcr->nColors > 0) {
@@ -189,13 +188,12 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 		return GC_NEWSESSION_WRONGVER;
 
 	mir_cslock lck(cs);
-	MODULEINFO* mi = ci.MM_FindModule(gcw->pszModule);
+	MODULEINFO *mi = ci.MM_FindModule(gcw->pszModule);
 	if (mi == NULL)
 		return GC_NEWSESSION_ERROR;
 
-	SESSION_INFO *si = ci.SM_AddSession(gcw->ptszID, gcw->pszModule);
-
 	// create a new session and set the defaults
+	SESSION_INFO *si = ci.SM_AddSession(gcw->ptszID, gcw->pszModule);
 	if (si != NULL) {
 		si->dwItemData = gcw->dwItemData;
 		if (gcw->iType != GCW_SERVER)
@@ -223,7 +221,7 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 		if (si->iType == GCW_SERVER)
 			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("Server: %s"), si->ptszName);
 		else
-			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s"), si->ptszName);
+			_tcsncpy_s(szTemp, SIZEOF(szTemp), si->ptszName, _TRUNCATE);
 		si->hContact = ci.AddRoom(gcw->pszModule, gcw->ptszID, szTemp, si->iType);
 		db_set_s(si->hContact, si->pszModule, "Topic", "");
 		db_unset(si->hContact, "CList", "StatusMsg");
@@ -232,18 +230,15 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 		else
 			db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 	}
-	else {
-		SESSION_INFO *si2 = ci.SM_FindSession(gcw->ptszID, gcw->pszModule);
-		if (si2) {
-			ci.UM_RemoveAll(&si2->pUsers);
-			ci.TM_RemoveAll(&si2->pStatuses);
+	else if (si = ci.SM_FindSession(gcw->ptszID, gcw->pszModule)) {
+		ci.UM_RemoveAll(&si->pUsers);
+		ci.TM_RemoveAll(&si->pStatuses);
 
-			si2->iStatusCount = 0;
-			si2->nUsersInNicklist = 0;
+		si->iStatusCount = 0;
+		si->nUsersInNicklist = 0;
 
-			if (ci.OnSessionReplace)
-				ci.OnSessionReplace(si2);
-		}
+		if (ci.OnSessionReplace)
+			ci.OnSessionReplace(si);
 	}
 
 	return 0;
@@ -361,10 +356,8 @@ static void AddUser(GCEVENT *gce)
 	if (ui == NULL) return;
 
 	ui->pszNick = mir_tstrdup(gce->ptszNick);
-
 	if (gce->bIsMe)
 		si->pMe = ui;
-
 	ui->Status = status;
 	ui->Status |= si->pStatuses->Status;
 
@@ -392,6 +385,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	if (!IsEventSupported(gcd->iType))
 		return GC_EVENT_ERROR;
 
+	SESSION_INFO *si;
 	mir_cslock lck(cs);
 
 	// Do different things according to type of event
@@ -419,17 +413,14 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		return ci.SM_SetContactStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
 
 	case GC_EVENT_TOPIC:
-		{
-			SESSION_INFO *si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-			if (si) {
-				if (gce->ptszText) {
-					replaceStrT(si->ptszTopic, gce->ptszText);
-					db_set_ts(si->hContact, si->pszModule, "Topic", RemoveFormatting(si->ptszTopic));
-					if (ci.OnSetTopic)
-						ci.OnSetTopic(si);
-					if (db_get_b(NULL, "Chat", "TopicOnClist", 0))
-						db_set_ts(si->hContact, "CList", "StatusMsg", RemoveFormatting(si->ptszTopic));
-				}
+		if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
+			if (gce->ptszText) {
+				replaceStrT(si->ptszTopic, gce->ptszText);
+				db_set_ts(si->hContact, si->pszModule, "Topic", RemoveFormatting(si->ptszTopic));
+				if (ci.OnSetTopic)
+					ci.OnSetTopic(si);
+				if (db_get_b(NULL, "Chat", "TopicOnClist", 0))
+					db_set_ts(si->hContact, "CList", "StatusMsg", RemoveFormatting(si->ptszTopic));
 			}
 		}
 		break;
@@ -445,7 +436,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_ACTION:
 		if (!gce->bIsMe && gce->pDest->ptszID && gce->ptszText) {
-			SESSION_INFO *si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+			si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 			if (si && IsHighlighted(si, gce->ptszText))
 				bIsHighlighted = TRUE;
 		}
@@ -474,7 +465,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		pMod = gcd->pszModule;
 	}
 	else if (gcd->iType == GC_EVENT_NOTICE || gcd->iType == GC_EVENT_INFORMATION) {
-		SESSION_INFO *si = ci.GetActiveSession();
+		si = ci.GetActiveSession();
 		if (si && !lstrcmpA(si->pszModule, gcd->pszModule)) {
 			pWnd = si->ptszID;
 			pMod = si->pszModule;
@@ -490,7 +481,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 
 	// add to log
 	if (pWnd) {
-		SESSION_INFO *si = ci.SM_FindSession(pWnd, pMod);
+		si = ci.SM_FindSession(pWnd, pMod);
 
 		// fix for IRC's old stuyle mode notifications. Should not affect any other protocol
 		if ((gce->pDest->iType == GC_EVENT_ADDSTATUS || gce->pDest->iType == GC_EVENT_REMOVESTATUS) && !(gce->dwFlags & GCEF_ADDTOLOG))

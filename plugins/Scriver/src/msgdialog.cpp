@@ -23,12 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-#define TIMERID_MSGSEND      0
-#define TIMERID_FLASHWND     1
-#define TIMERID_TYPE         2
-#define TIMERID_UNREAD       3
-#define TIMEOUT_TYPEOFF      10000      //send type off after 10 seconds of inactivity
-#define TIMEOUT_UNREAD		 800       //multiple-send bombproofing: send max 3 messages every 4 seconds
 #define VALID_AVATAR(x)      (x==PA_FORMAT_PNG||x==PA_FORMAT_JPEG||x==PA_FORMAT_ICON||x==PA_FORMAT_BMP||x==PA_FORMAT_GIF)
 
 #define ENTERCLICKTIME   1000   //max time in ms during which a double-tap on enter will cause a send
@@ -79,58 +73,61 @@ static TCHAR *GetQuotedTextW(TCHAR * text)
 	l = (int)wcslen(text);
 	newLine = 1;
 	wasCR = 0;
-	for (i=j=0; i<l; i++) {
-		if (text[i]=='\r') {
+	for (i = j = 0; i < l; i++) {
+		if (text[i] == '\r') {
 			wasCR = 1;
 			newLine = 1;
-			j += text[i+1]!='\n' ? 2 : 1;
-		} else if (text[i]=='\n') {
+			j += text[i + 1] != '\n' ? 2 : 1;
+		}
+		else if (text[i] == '\n') {
 			newLine = 1;
 			j += wasCR ? 1 : 2;
 			wasCR = 0;
-		} else {
+		}
+		else {
 			j++;
 			if (newLine) {
 				//for (;i<l && text[i]=='>';i++) j--;
-				j+=2;
+				j += 2;
 			}
 			newLine = 0;
 			wasCR = 0;
 		}
 	}
-	j+=3;
-	out = (TCHAR *)mir_alloc(sizeof(TCHAR) * j);
+	j += 3;
+	out = (TCHAR *)mir_alloc(sizeof(TCHAR)* j);
 	newLine = 1;
 	wasCR = 0;
-	for (i=j=0; i<l; i++) {
-		if (text[i]=='\r') {
+	for (i = j = 0; i < l; i++) {
+		if (text[i] == '\r') {
 			wasCR = 1;
 			newLine = 1;
 			out[j++] = '\r';
-			if (text[i+1]!='\n') {
-				out[j++]='\n';
-			}
-		} else if (text[i]=='\n') {
+			if (text[i + 1] != '\n')
+				out[j++] = '\n';
+		}
+		else if (text[i] == '\n') {
 			newLine = 1;
-			if (!wasCR) {
-				out[j++]='\r';
-			}
-			out[j++]='\n';
+			if (!wasCR)
+				out[j++] = '\r';
+
+			out[j++] = '\n';
 			wasCR = 0;
-		} else {
+		}
+		else {
 			if (newLine) {
-				out[j++]='>';
-				out[j++]=' ';
+				out[j++] = '>';
+				out[j++] = ' ';
 				//for (;i<l && text[i]=='>';i++) j--;
 			}
 			newLine = 0;
 			wasCR = 0;
-			out[j++]=text[i];
+			out[j++] = text[i];
 		}
 	}
-	out[j++]='\r';
-	out[j++]='\n';
-	out[j++]='\0';
+	out[j++] = '\r';
+	out[j++] = '\n';
+	out[j++] = '\0';
 	return out;
 }
 
@@ -539,15 +536,15 @@ static void MessageDialogResize(HWND hwndDlg, struct SrmmWindowData *dat, int w,
 	if (hSplitterPos > ( h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1 ) / 2)
 		hSplitterPos =  ( h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1 ) / 2;
 	
-	if (h - hSplitterPos - infobarHeight < hSplitterMinTop) {
+	if (h - hSplitterPos - infobarHeight < hSplitterMinTop)
 		hSplitterPos = h - hSplitterMinTop - infobarHeight;
-	}
-	if (hSplitterPos < avatarHeight) {
+
+	if (hSplitterPos < avatarHeight)
 		hSplitterPos = avatarHeight;
-	}
-	if (hSplitterPos < hSplitterMinBottom) {
+
+	if (hSplitterPos < hSplitterMinBottom)
 		hSplitterPos = hSplitterMinBottom;
-	}
+
 	if (!(pdat->flags2 & SMF2_SHOWINFOBAR)) {
 		if (dat->avatarPic && (g_dat.flags&SMF_AVATAR)) {
 			avatarWidth = BOTTOM_RIGHT_AVATAR_HEIGHT;
@@ -555,16 +552,16 @@ static void MessageDialogResize(HWND hwndDlg, struct SrmmWindowData *dat, int w,
 			if (avatarHeight < BOTTOM_RIGHT_AVATAR_HEIGHT) {
 				avatarHeight = BOTTOM_RIGHT_AVATAR_HEIGHT;
 				hSplitterPos = avatarHeight - toolbarHeight + 2;
-			} else {
-				avatarHeight = BOTTOM_RIGHT_AVATAR_HEIGHT;
 			}
+			else avatarHeight = BOTTOM_RIGHT_AVATAR_HEIGHT;
+
 			avatarWidth = avatarHeight;
-			if (avatarWidth > BOTTOM_RIGHT_AVATAR_HEIGHT && avatarWidth > w/4) {
+			if (avatarWidth > BOTTOM_RIGHT_AVATAR_HEIGHT && avatarWidth > w/4)
 				avatarWidth = w /4;
-			}
-			if ((toolbarWidth - avatarWidth - 2) < dat->toolbarSize.cx) {
+
+			if ((toolbarWidth - avatarWidth - 2) < dat->toolbarSize.cx)
 				avatarWidth = toolbarWidth - dat->toolbarSize.cx - 2;
-			}
+
 			toolbarWidth -= avatarWidth + 2;
 			messageEditWidth -= avatarWidth + 1;
 		}
@@ -1850,14 +1847,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (!(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000)) {
 					dat->nLastTyping = GetTickCount();
 					if (len != 0) {
-						if (dat->nTypeMode == PROTOTYPE_SELFTYPING_OFF) {
+						if (dat->nTypeMode == PROTOTYPE_SELFTYPING_OFF)
 							NotifyTyping(dat, PROTOTYPE_SELFTYPING_ON);
-						}
-					} else {
-						if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON) {
-							NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
-						}
 					}
+					else if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON)
+						NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
 				}
 			}
 			break;

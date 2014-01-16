@@ -45,7 +45,7 @@ static CRITICAL_SECTION trayLockCS;
 
 static BOOL fTrayInited = FALSE;
 
-static TCHAR* sttGetXStatus(const char* szProto)
+static TCHAR* sttGetXStatus(const char *szProto)
 {
 	TCHAR* result = NULL;
 

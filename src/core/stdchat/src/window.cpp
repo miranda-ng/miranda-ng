@@ -24,13 +24,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static HKL hkl = NULL;
 
-typedef struct
+struct MESSAGESUBDATA
 {
 	time_t lastEnterTime;
 	TCHAR  szTabSave[20];
-} MESSAGESUBDATA;
+};
 
-static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
+static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	RECT rc;
 
@@ -88,23 +88,23 @@ static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 	SendDlgItemMessage( hwndDlg, IDC_FILTER,       BUTTONSETASFLATBTN, TRUE, 0 );
 	SendDlgItemMessage( hwndDlg, IDC_CLOSE,        BUTTONSETASFLATBTN, TRUE, 0 );
 
-	SendMessage(GetDlgItem(hwndDlg,IDC_SMILEY), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Insert a smiley"), 0);
-	SendMessage(GetDlgItem(hwndDlg,IDC_BOLD), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text bold (CTRL+B)"), 0);
-	SendMessage(GetDlgItem(hwndDlg,IDC_ITALICS), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text italicized (CTRL+I)"), 0);
-	SendMessage(GetDlgItem(hwndDlg,IDC_UNDERLINE), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text underlined (CTRL+U)"), 0);
-	SendMessage(GetDlgItem(hwndDlg,IDC_BKGCOLOR), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a background color for the text (CTRL+L)"), 0);
-	SendMessage(GetDlgItem(hwndDlg,IDC_COLOR), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a foreground color for the text (CTRL+K)"), 0);
-	SendMessage(GetDlgItem(hwndDlg,IDC_HISTORY), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show the history (CTRL+H)"), 0);
-	SendMessage(GetDlgItem(hwndDlg,IDC_SHOWNICKLIST), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show/hide the nicklist (CTRL+N)"), 0);
-	SendMessage(GetDlgItem(hwndDlg,IDC_CHANMGR), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Control this room (CTRL+O)"), 0);
-	SendMessage(GetDlgItem(hwndDlg,IDC_FILTER), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Enable/disable the event filter (CTRL+F)"), 0);
-	SendMessage(GetDlgItem(hwndDlg,IDC_CLOSE), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Close current tab (CTRL+F4)"), 0);
+	SendMessage(GetDlgItem(hwndDlg, IDC_SMILEY), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Insert a smiley"), 0);
+	SendMessage(GetDlgItem(hwndDlg, IDC_BOLD), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text bold (CTRL+B)"), 0);
+	SendMessage(GetDlgItem(hwndDlg, IDC_ITALICS), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text italicized (CTRL+I)"), 0);
+	SendMessage(GetDlgItem(hwndDlg, IDC_UNDERLINE), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text underlined (CTRL+U)"), 0);
+	SendMessage(GetDlgItem(hwndDlg, IDC_BKGCOLOR), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a background color for the text (CTRL+L)"), 0);
+	SendMessage(GetDlgItem(hwndDlg, IDC_COLOR), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a foreground color for the text (CTRL+K)"), 0);
+	SendMessage(GetDlgItem(hwndDlg, IDC_HISTORY), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show the history (CTRL+H)"), 0);
+	SendMessage(GetDlgItem(hwndDlg, IDC_SHOWNICKLIST), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show/hide the nicklist (CTRL+N)"), 0);
+	SendMessage(GetDlgItem(hwndDlg, IDC_CHANMGR), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Control this room (CTRL+O)"), 0);
+	SendMessage(GetDlgItem(hwndDlg, IDC_FILTER), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Enable/disable the event filter (CTRL+F)"), 0);
+	SendMessage(GetDlgItem(hwndDlg, IDC_CLOSE), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Close current tab (CTRL+F4)"), 0);
 	SendDlgItemMessage(hwndDlg, IDC_BOLD, BUTTONSETASPUSHBTN, TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDC_ITALICS, BUTTONSETASPUSHBTN, TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDC_UNDERLINE, BUTTONSETASPUSHBTN, TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDC_COLOR, BUTTONSETASPUSHBTN, TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDC_BKGCOLOR, BUTTONSETASPUSHBTN, TRUE, 0);
-	
+
 	MODULEINFO *pInfo = pci->MM_FindModule(si->pszModule);
 	if (pInfo) {
 		EnableWindow(GetDlgItem(hwndDlg, IDC_BOLD), pInfo->bBold);
@@ -114,9 +114,10 @@ static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOR), pInfo->bBkgColor);
 		if (si->iType == GCW_CHATROOM)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANMGR), pInfo->bChanMgr);
-}	}
+	}
+}
 
-static int RoomWndResize(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc)
+static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
 	SESSION_INFO *si = (SESSION_INFO*)lParam;
 
@@ -148,7 +149,7 @@ static int RoomWndResize(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc)
 	ShowWindow(GetDlgItem(hwndDlg, IDC_CLOSE), g_Settings.TabsEnable ? SW_SHOW : SW_HIDE);
 	ShowWindow(GetDlgItem(hwndDlg, IDC_TAB), g_Settings.TabsEnable ? SW_SHOW : SW_HIDE);
 	if (si->iType != GCW_SERVER)
-		ShowWindow(GetDlgItem(hwndDlg, IDC_LIST), si->bNicklistEnabled?SW_SHOW:SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_LIST), si->bNicklistEnabled ? SW_SHOW : SW_HIDE);
 	else
 		ShowWindow(GetDlgItem(hwndDlg, IDC_LIST), SW_HIDE);
 
@@ -164,7 +165,7 @@ static int RoomWndResize(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANMGR), pci->MM_FindModule(si->pszModule)->bChanMgr);
 	}
 
-	switch(urc->wId) {
+	switch (urc->wId) {
 	case IDOK:
 		GetWindowRect(si->hwndStatus, &rc);
 		urc->rcItem.left = bSend ? 315 : urc->dlgNewSize.cx;
@@ -175,14 +176,14 @@ static int RoomWndResize(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc)
 	case IDC_TAB:
 		urc->rcItem.top = 1;
 		urc->rcItem.left = 0;
-		urc->rcItem.right = urc->dlgNewSize.cx- 24;
+		urc->rcItem.right = urc->dlgNewSize.cx - 24;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - si->iSplitterY;
 		if (!bToolbar)
 			urc->rcItem.bottom += 20;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_LOG:
-		urc->rcItem.top = bTabs?(bTabBottom?0:rcTabs.top-1):0;
+		urc->rcItem.top = bTabs ? (bTabBottom ? 0 : rcTabs.top - 1) : 0;
 		urc->rcItem.left = 0;
 		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - si->iSplitterX : urc->dlgNewSize.cx;
 LBL_CalcBottom:
@@ -192,8 +193,8 @@ LBL_CalcBottom:
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_LIST:
-		urc->rcItem.top = bTabs?(bTabBottom?0:rcTabs.top-1):0;
-		urc->rcItem.right = urc->dlgNewSize.cx ;
+		urc->rcItem.top = bTabs ? (bTabBottom ? 0 : rcTabs.top - 1) : 0;
+		urc->rcItem.right = urc->dlgNewSize.cx;
 		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX + 2;
 		goto LBL_CalcBottom;
 
@@ -223,7 +224,7 @@ LBL_CalcBottom:
 	case IDC_UNDERLINE:
 	case IDC_COLOR:
 	case IDC_BKGCOLOR:
-		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY+3;
+		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 3;
 		urc->rcItem.bottom = urc->rcItem.top + 16;
 		return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
 
@@ -231,7 +232,7 @@ LBL_CalcBottom:
 	case IDC_CHANMGR:
 	case IDC_SHOWNICKLIST:
 	case IDC_FILTER:
-		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY+3;
+		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 3;
 		urc->rcItem.bottom = urc->rcItem.top + 16;
 		return RD_ANCHORX_RIGHT | RD_ANCHORY_CUSTOM;
 
@@ -248,13 +249,13 @@ LBL_CalcBottom:
 static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	SESSION_INFO *Parentsi = (SESSION_INFO*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
-	MESSAGESUBDATA *dat = (MESSAGESUBDATA *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	MESSAGESUBDATA *dat = (MESSAGESUBDATA*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch (msg) {
 	case EM_SUBCLASSED:
-		dat = (MESSAGESUBDATA *) mir_alloc(sizeof(MESSAGESUBDATA));
+		dat = (MESSAGESUBDATA*)mir_alloc(sizeof(MESSAGESUBDATA));
 
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR) dat);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)dat);
 		dat->szTabSave[0] = '\0';
 		dat->lastEnterTime = 0;
 		return 0;
@@ -287,29 +288,30 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			if (wParam == VK_SPACE && isCtrl && !isAlt) // ctrl-space (paste clean text)
 				return TRUE;
 
-    		if (wParam == '\n' || wParam == '\r') {
-	       		if ((isCtrl != 0) ^ (0 != db_get_b(NULL, "Chat", "SendOnEnter", 1))) {
-		      		PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
-			     	return 0;
-			    }
-			    if (db_get_b(NULL, "Chat", "SendOnDblEnter", 0)) {
-				    if (dat->lastEnterTime + 2 < time(NULL))
-					   dat->lastEnterTime = time(NULL);
-				    else {
+			if (wParam == '\n' || wParam == '\r') {
+				if ((isCtrl != 0) ^ (0 != db_get_b(NULL, "Chat", "SendOnEnter", 1))) {
+					PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
+					return 0;
+				}
+				if (db_get_b(NULL, "Chat", "SendOnDblEnter", 0)) {
+					if (dat->lastEnterTime + 2 < time(NULL))
+						dat->lastEnterTime = time(NULL);
+					else {
 						SendMessage(hwnd, WM_KEYDOWN, VK_BACK, 0);
 						SendMessage(hwnd, WM_KEYUP, VK_BACK, 0);
 						PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
 						return 0;
-				    }
-			    }
-		    }
-		    else
-		        dat->lastEnterTime = 0;
+					}
+				}
+			}
+			else
+				dat->lastEnterTime = 0;
 
 			if (wParam == 1 && isCtrl && !isAlt) {      //ctrl-a
 				SendMessage(hwnd, EM_SETSEL, 0, -1);
 				return 0;
-		}	}
+			}
+		}
 		break;
 
 	case WM_KEYDOWN:
@@ -351,10 +353,9 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				return TRUE;
 			}
 
-			if (wParam <= '9' && wParam >= '1' && isCtrl && !isAlt) { // CTRL + 1 -> 9 (switch tab)
+			if (wParam <= '9' && wParam >= '1' && isCtrl && !isAlt) // CTRL + 1 -> 9 (switch tab)
 				if (g_Settings.TabsEnable)
 					SendMessage(GetParent(hwnd), GC_SWITCHTAB, 0, (LPARAM)((int)wParam - (int)'1'));
-			}
 
 			if (wParam <= VK_NUMPAD9 && wParam >= VK_NUMPAD1 && isCtrl && !isAlt) // CTRL + 1 -> 9 (switch tab)
 				if (g_Settings.TabsEnable)
@@ -515,47 +516,46 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (wParam == VK_UP && isCtrl && !isAlt) {
-				int iLen;
-				GETTEXTLENGTHEX gtl = {0};
-				SETTEXTEX ste;
-				LOGFONT lf;
 				char* lpPrevCmd = pci->SM_GetPrevCommand(Parentsi->ptszID, Parentsi->pszModule);
 
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 
+				LOGFONT lf;
 				pci->LoadMsgDlgFont(17, &lf, NULL);
-				ste.flags = ST_DEFAULT;
-				ste.codepage = CP_ACP;
-				if (lpPrevCmd)
-					SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&ste, (LPARAM)lpPrevCmd);
-				else
-					SetWindowText(hwnd, _T(""));
 
+				if (lpPrevCmd) {
+					SETTEXTEX ste;
+					ste.flags = ST_DEFAULT;
+					ste.codepage = CP_ACP;
+					SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&ste, (LPARAM)lpPrevCmd);
+				}
+				else SetWindowText(hwnd, _T(""));
+
+				GETTEXTLENGTHEX gtl = { 0 };
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
-				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
+				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 				SendMessage(hwnd, EM_SCROLLCARET, 0,0);
 				SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
-				SendMessage(hwnd, EM_SETSEL,iLen,iLen);
+				SendMessage(hwnd, EM_SETSEL, iLen, iLen);
 				dat->lastEnterTime = 0;
 				return TRUE;
 			}
 
 			if (wParam == VK_DOWN && isCtrl && !isAlt) {
-				GETTEXTLENGTHEX gtl = {0};
-				SETTEXTEX ste;
-
 				char* lpPrevCmd = pci->SM_GetNextCommand(Parentsi->ptszID, Parentsi->pszModule);
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 
-				ste.flags = ST_DEFAULT;
-				ste.codepage = CP_ACP;
-				if (lpPrevCmd)
-					SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&ste, (LPARAM) lpPrevCmd);
-				else
-					SetWindowText(hwnd, _T(""));
+				if (lpPrevCmd) {
+					SETTEXTEX ste;
+					ste.flags = ST_DEFAULT;
+					ste.codepage = CP_ACP;
+					SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&ste, (LPARAM)lpPrevCmd);
+				}
+				else SetWindowText(hwnd, _T(""));
 
+				GETTEXTLENGTHEX gtl = { 0 };
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
 				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
@@ -639,10 +639,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 	case WM_RBUTTONUP:
 	case WM_MBUTTONUP:
 		{
-			UINT u = 0;
-			UINT u2 = 0;
 			COLORREF cr;
-
 			pci->LoadMsgDlgFont(17, NULL, &cr);
 
 			CHARFORMAT2 cf;
@@ -652,7 +649,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 			if (pci->MM_FindModule(Parentsi->pszModule) && pci->MM_FindModule(Parentsi->pszModule)->bColor) {
 				int index = GetColorIndex(Parentsi->pszModule, cf.crTextColor);
-				u = IsDlgButtonChecked(GetParent(hwnd), IDC_COLOR);
+				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_COLOR);
 
 				if (index >= 0) {
 					Parentsi->bFGSet = TRUE;
@@ -668,7 +665,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			if (pci->MM_FindModule(Parentsi->pszModule) && pci->MM_FindModule(Parentsi->pszModule)->bBkgColor) {
 				int index = GetColorIndex(Parentsi->pszModule, cf.crBackColor);
 				COLORREF crB = (COLORREF)db_get_dw(NULL, "Chat", "ColorMessageBG", GetSysColor(COLOR_WINDOW));
-				u = IsDlgButtonChecked(GetParent(hwnd), IDC_BKGCOLOR);
+				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_BKGCOLOR);
 
 				if (index >= 0) {
 					Parentsi->bBGSet = TRUE;
@@ -681,8 +678,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (pci->MM_FindModule(Parentsi->pszModule) && pci->MM_FindModule(Parentsi->pszModule)->bBold) {
-				u = IsDlgButtonChecked(GetParent(hwnd), IDC_BOLD);
-				u2 = cf.dwEffects;
+				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_BOLD);
+				UINT u2 = cf.dwEffects;
 				u2 &= CFE_BOLD;
 				if (u == BST_UNCHECKED && u2)
 					CheckDlgButton(GetParent(hwnd), IDC_BOLD, BST_CHECKED);
@@ -691,8 +688,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (pci->MM_FindModule(Parentsi->pszModule) && pci->MM_FindModule(Parentsi->pszModule)->bItalics) {
-				u = IsDlgButtonChecked(GetParent(hwnd), IDC_ITALICS);
-				u2 = cf.dwEffects;
+				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_ITALICS);
+				UINT u2 = cf.dwEffects;
 				u2 &= CFE_ITALIC;
 				if (u == BST_UNCHECKED && u2)
 					CheckDlgButton(GetParent(hwnd), IDC_ITALICS, BST_CHECKED);
@@ -701,14 +698,15 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (pci->MM_FindModule(Parentsi->pszModule) && pci->MM_FindModule(Parentsi->pszModule)->bUnderline) {
-				u = IsDlgButtonChecked(GetParent(hwnd), IDC_UNDERLINE);
-				u2 = cf.dwEffects;
+				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_UNDERLINE);
+				UINT u2 = cf.dwEffects;
 				u2 &= CFE_UNDERLINE;
 				if (u == BST_UNCHECKED && u2)
 					CheckDlgButton(GetParent(hwnd), IDC_UNDERLINE, BST_CHECKED);
 				else if (u == BST_CHECKED && u2 == 0)
 					CheckDlgButton(GetParent(hwnd), IDC_UNDERLINE, BST_UNCHECKED);
-		}	}
+			}
+		}
 		break;
 
 	case EM_UNSUBCLASSED:

@@ -97,7 +97,7 @@ static void Log_Append(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, co
 		if (charsDone >= 0)
 			break;
 		*cbBufferAlloced += 4096;
-		*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
+		*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
 	}
 	va_end(va);
 	*cbBufferEnd += charsDone;
@@ -111,7 +111,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 	char* d;
 
 	va_start(va, fmt);
-	lineLen = mir_vsntprintf( line, 8000, fmt, va);
+	lineLen = mir_vsntprintf(line, 8000, fmt, va);
 	if (lineLen < 0) lineLen = 8000;
 	line[lineLen] = 0;
 	va_end(va);
@@ -335,7 +335,6 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 	// ### RTF HEADER
 	header = mi->pszHeader;
-
 	if (header)
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, header);
 

@@ -31,16 +31,14 @@ enum KB_ACTIONS {KB_PREV_TAB = 1, KB_NEXT_TAB, KB_SWITCHTOOLBAR,
 
 void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, HANDLE hContact)
 {
-	HMENU hMenu, hSubMenu;
 	POINT pt;
 	CHARRANGE sel, all = { 0, -1 };
-	MessageWindowPopupData mwpd;
 	int selection;
 
-	hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-	hSubMenu = GetSubMenu(hMenu, 2);
+	HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+	HMENU hSubMenu = GetSubMenu(hMenu, 2);
 	TranslateMenu(hSubMenu);
-	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)& sel);
+	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 	if (sel.cpMin == sel.cpMax) {
 		EnableMenuItem(hSubMenu, IDM_CUT, MF_BYCOMMAND | MF_GRAYED);
 		EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
@@ -58,15 +56,16 @@ void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, HANDLE hConta
 			EnableMenuItem(hSubMenu, IDM_PASTE, MF_BYCOMMAND | MF_GRAYED);
 	}
 	if (lParam == 0xFFFFFFFF) {
-		SendMessage(hwnd, EM_POSFROMCHAR, (WPARAM) & pt, (LPARAM)sel.cpMax);
+		SendMessage(hwnd, EM_POSFROMCHAR, (WPARAM)& pt, (LPARAM)sel.cpMax);
 		ClientToScreen(hwnd, &pt);
 	}
 	else {
-		pt.x = (short) LOWORD(lParam);
-		pt.y = (short) HIWORD(lParam);
+		pt.x = (short)LOWORD(lParam);
+		pt.y = (short)HIWORD(lParam);
 	}
 
 	// First notification
+	MessageWindowPopupData mwpd;
 	mwpd.cbSize = sizeof(mwpd);
 	mwpd.uType = MSG_WINDOWPOPUP_SHOWING;
 	mwpd.uFlags = MSG_WINDOWPOPUP_INPUT;
@@ -111,11 +110,10 @@ void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, HANDLE hConta
 		SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& all);
 		break;
 	case IDM_CLEAR:
-		SetWindowText(hwnd, _T( "" ));
+		SetWindowText(hwnd, _T(""));
 		break;
 	}
 	DestroyMenu(hMenu);
-	//PostMessage(hwnd, WM_KEYUP, 0, 0 );
 }
 
 int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CommonWindowData *windowData)
@@ -186,7 +184,7 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, Common
 
 	switch (msg) {
 	case WM_KEYDOWN:
-		if (wParam >= '1' && wParam <='9' && isCtrl) {
+		if (wParam >= '1' && wParam <= '9' && isCtrl) {
 			SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEBYINDEX, 0, wParam - '1');
 			return 0;
 		}
@@ -244,7 +242,7 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, Common
 					else
 						iLen = SetRichTextEncoded(hwnd, cmdListNew->szCmd, windowData->codePage);
 
-					SendMessage(hwnd, EM_SCROLLCARET, 0,0);
+					SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 					SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 					RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
 					SendMessage(hwnd, EM_SETSEL, iLen, iLen);
@@ -280,12 +278,12 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, Common
 void RegisterKeyBindings()
 {
 	char strDesc[64], strName[64];
-	HOTKEYDESC desc = {sizeof(desc) };
+	HOTKEYDESC desc = { sizeof(desc) };
 	desc.pszSection = LPGEN("Messaging");
 	desc.pszName = "Scriver/Nav/Previous Tab";
 	desc.pszDescription = LPGEN("Navigate: Previous Tab");
 	desc.lParam = KB_PREV_TAB;
-	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_TAB);
+	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, VK_TAB);
 	Hotkey_Register(&desc);
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_PRIOR);
 	Hotkey_Register(&desc);
@@ -315,25 +313,25 @@ void RegisterKeyBindings()
 	desc.pszName = "Scriver/Wnd/Toggle Statusbar";
 	desc.pszDescription = LPGEN("Window: Toggle status bar");
 	desc.lParam = KB_SWITCHSTATUSBAR;
-	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'S');
+	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'S');
 	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Titlebar";
 	desc.pszDescription = LPGEN("Window: Toggle title bar");
 	desc.lParam = KB_SWITCHTITLEBAR;
-	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'M');
+	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'M');
 	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Toolbar";
 	desc.pszDescription = LPGEN("Window: Toggle toolbar");
 	desc.lParam = KB_SWITCHTOOLBAR;
-	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'T');
+	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'T');
 	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Infobar";
 	desc.pszDescription = LPGEN("Window: Toggle info bar");
 	desc.lParam = KB_SWITCHINFOBAR;
-	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'N');
+	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'N');
 	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Clear Log";
@@ -387,22 +385,21 @@ BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *
 	tr.lpstrText = (LPWSTR)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
 	SendMessage(lParam->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 	if (_tcschr(tr.lpstrText, _T('@')) != NULL && _tcschr(tr.lpstrText, _T(':')) == NULL && _tcschr(tr.lpstrText, _T('/')) == NULL) {
-		MoveMemory(tr.lpstrText + sizeof(TCHAR) * 7, tr.lpstrText, sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
-		CopyMemory(tr.lpstrText, _T("mailto:"), sizeof(TCHAR) * 7);
+		MoveMemory(tr.lpstrText + sizeof(TCHAR)* 7, tr.lpstrText, sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
+		CopyMemory(tr.lpstrText, _T("mailto:"), sizeof(TCHAR)* 7);
 	}
 
 	BOOL bOpenLink = TRUE;
 
 	if (((ENLINK*)lParam)->msg == WM_RBUTTONDOWN) {
-		HMENU hMenu, hSubMenu;
 		POINT pt;
 		bOpenLink = FALSE;
-		hMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXT));
-		hSubMenu = GetSubMenu(hMenu, 1);
+		HMENU hMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXT));
+		HMENU hSubMenu = GetSubMenu(hMenu, 1);
 		TranslateMenu(hSubMenu);
-		pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
-		pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
-		ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
+		pt.x = (short)LOWORD(((ENLINK*)lParam)->lParam);
+		pt.y = (short)HIWORD(((ENLINK*)lParam)->lParam);
+		ClientToScreen(((NMHDR*)lParam)->hwndFrom, &pt);
 		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
 		case IDM_OPENLINK:
 			bOpenLink = TRUE;

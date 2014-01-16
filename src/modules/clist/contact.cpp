@@ -47,7 +47,7 @@ static const struct {
 
 static int GetContactStatus(HANDLE hContact)
 {
-	char* szProto = GetContactProto(hContact);
+	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return ID_STATUS_OFFLINE;
 	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);

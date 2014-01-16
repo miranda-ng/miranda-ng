@@ -22,57 +22,56 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 
-HANDLE AddRoom(const char *pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType)
+HANDLE AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType)
 {
 	HANDLE hContact = ci.FindRoom(pszModule, pszRoom);
 	DBVARIANT dbv;
 	TCHAR pszGroup[50];
 
 	*pszGroup = '\0';
-	if ( !db_get_ts( NULL, "Chat", "AddToGroup", &dbv )) {
-		if ( lstrlen( dbv.ptszVal ) > 0 )
-			lstrcpyn( pszGroup, dbv.ptszVal, 50);
+	if (!db_get_ts(NULL, "Chat", "AddToGroup", &dbv)) {
+		if (lstrlen(dbv.ptszVal) > 0)
+			lstrcpyn(pszGroup, dbv.ptszVal, 50);
 		db_free(&dbv);
 	}
-	else lstrcpyn( pszGroup, _T("Chat rooms"), 50);
+	else lstrcpyn(pszGroup, _T("Chat rooms"), 50);
 
-	if ( pszGroup[0] )
+	if (pszGroup[0])
 		Clist_CreateGroup(0, pszGroup);
 
-	if ( hContact ) { //contact exist, make sure it is in the right group
+	if (hContact) { //contact exist, make sure it is in the right group
 		if (pszGroup[0]) {
-			ptrT grpName( db_get_tsa(hContact, "CList", "Group"));
-			if ( !lstrcmp(pszGroup, grpName))
+			ptrT grpName(db_get_tsa(hContact, "CList", "Group"));
+			if (!lstrcmp(pszGroup, grpName))
 				db_set_ts(hContact, "CList", "Group", pszGroup);
 		}
 
-		db_set_w( hContact, pszModule, "Status", ID_STATUS_OFFLINE );
-		db_set_ts(hContact, pszModule, "Nick", pszDisplayName );
+		db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
+		db_set_ts(hContact, pszModule, "Nick", pszDisplayName);
 		return hContact;
 	}
 
 	// here we create a new one since no one is to be found
-	if (( hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0)) == NULL )
+	if ((hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0)) == NULL)
 		return NULL;
 
-	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) pszModule );
-	if ( pszGroup && lstrlen( pszGroup ) > 0 )
-		db_set_ts(hContact, "CList", "Group", pszGroup );
+	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)pszModule);
+	if (pszGroup && lstrlen(pszGroup) > 0)
+		db_set_ts(hContact, "CList", "Group", pszGroup);
 	else
-		db_unset( hContact, "CList", "Group" );
-	db_set_ts( hContact, pszModule, "Nick", pszDisplayName );
-	db_set_ts( hContact, pszModule, "ChatRoomID", pszRoom );
-	db_set_b( hContact, pszModule, "ChatRoom", (BYTE)iType );
-	db_set_w( hContact, pszModule, "Status", ID_STATUS_OFFLINE );
+		db_unset(hContact, "CList", "Group");
+	db_set_ts(hContact, pszModule, "Nick", pszDisplayName);
+	db_set_ts(hContact, pszModule, "ChatRoomID", pszRoom);
+	db_set_b(hContact, pszModule, "ChatRoom", (BYTE)iType);
+	db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
 	return hContact;
 }
 
 BOOL SetOffline(HANDLE hContact, BOOL bHide)
 {
-	if ( hContact ) {
-		char* szProto = GetContactProto(hContact);
-		int i = db_get_b(hContact, szProto, "ChatRoom", 0);
-		db_set_w(hContact, szProto,"ApparentMode",(LPARAM) 0);
+	if (hContact) {
+		char *szProto = GetContactProto(hContact);
+		db_set_w(hContact, szProto, "ApparentMode", (LPARAM)0);
 		db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		return TRUE;
 	}
@@ -98,12 +97,10 @@ BOOL SetAllOffline(BOOL bHide, const char *pszModule)
 	return TRUE;
 }
 
-int RoomDoubleclicked( WPARAM wParam, LPARAM lParam )
+int RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 {
-	BOOL bRedrawFlag = FALSE;
-
 	HANDLE hContact = (HANDLE)wParam;
-	if ( !hContact )
+	if (!hContact)
 		return 0;
 
 	char *szProto = GetContactProto(hContact);
@@ -120,8 +117,7 @@ int RoomDoubleclicked( WPARAM wParam, LPARAM lParam )
 			if (si->hWnd != NULL
 				&& db_get_b(NULL, "Chat", "ToggleVisibility", 0) == 1
 				&& !CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0)
-				&& IsWindowVisible(si->hWnd)
-				&& !IsIconic(si->hWnd))
+				&& IsWindowVisible(si->hWnd) && !IsIconic(si->hWnd))
 			{
 				if (ci.OnSessionDblClick)
 					ci.OnSessionDblClick(si);
@@ -146,7 +142,7 @@ INT_PTR JoinChat(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact) {
-		char* szProto = GetContactProto(hContact);
+		char *szProto = GetContactProto(hContact);
 		if (szProto) {
 			if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE)
 				CallProtoService(szProto, PS_JOINCHAT, wParam, lParam);
@@ -162,7 +158,7 @@ INT_PTR LeaveChat(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact) {
-		char* szProto = GetContactProto(hContact);
+		char *szProto = GetContactProto(hContact);
 		if (szProto)
 			CallProtoService(szProto, PS_LEAVECHAT, wParam, lParam);
 	}
@@ -236,15 +232,15 @@ BOOL AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt,
 	return TRUE;
 }
 
-HANDLE FindRoom (const char *pszModule, const TCHAR* pszRoom)
+HANDLE FindRoom(const char *pszModule, const TCHAR *pszRoom)
 {
 	for (HANDLE hContact = db_find_first(pszModule); hContact; hContact = db_find_next(hContact, pszModule)) {
-		if ( !db_get_b(hContact, pszModule, "ChatRoom", 0))
+		if (!db_get_b(hContact, pszModule, "ChatRoom", 0))
 			continue;
 
 		DBVARIANT dbv;
-		if ( !db_get_ts( hContact, pszModule, "ChatRoomID", &dbv )) {
-			if ( !lstrcmpi(dbv.ptszVal, pszRoom)) {
+		if (!db_get_ts(hContact, pszModule, "ChatRoomID", &dbv)) {
+			if (!lstrcmpi(dbv.ptszVal, pszRoom)) {
 				db_free(&dbv);
 				return hContact;
 			}

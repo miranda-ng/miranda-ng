@@ -482,7 +482,6 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int OnSystemPreshutdown(WPARAM wParam, LPARAM lParam)
 {
-	Chat_PreShutdown(wParam, lParam);
 	WindowList_Broadcast(g_dat.hMessageWindowList, WM_CLOSE, 0, 0);
 	WindowList_Broadcast(g_dat.hParentWindowList, WM_CLOSE, 0, 0);
 	DeinitStatusIcons();
