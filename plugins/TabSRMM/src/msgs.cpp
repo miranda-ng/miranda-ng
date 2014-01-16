@@ -39,9 +39,7 @@ HMODULE 			g_hIconDLL = 0;
 
 static void 	UnloadIcons();
 
-int     Chat_IconsChanged(WPARAM wp, LPARAM lp);
-void    Chat_AddIcons(void);
-int     Chat_PreShutdown(WPARAM wParam, LPARAM lParam);
+void Chat_AddIcons(void);
 
 /*
  * fired event when user changes IEView plugin options. Apply them to all open tabs
@@ -60,7 +58,7 @@ int IEViewOptionsChanged(WPARAM,LPARAM)
 int SmileyAddOptionsChanged(WPARAM,LPARAM)
 {
 	M.BroadcastMessage(DM_SMILEYOPTIONSCHANGED, 0, 0);
-	SM_BroadcastMessage(NULL, DM_SMILEYOPTIONSCHANGED, 0, 0, FALSE);
+	pci->SM_BroadcastMessage(NULL, DM_SMILEYOPTIONSCHANGED, 0, 0, FALSE);
 	return 0;
 }
 
@@ -499,7 +497,6 @@ int IcoLibIconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	LoadFromIconLib();
 	CacheMsgLogIcons();
-	Chat_IconsChanged(wParam, lParam);
 	return 0;
 }
 
@@ -509,8 +506,6 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 	CacheMsgLogIcons();
 	M.BroadcastMessage(DM_OPTIONSAPPLIED, 0, 0);
 	M.BroadcastMessage(DM_UPDATEWINICON, 0, 0);
-	Chat_IconsChanged(wParam, lParam);
-
 	return 0;
 }
 

@@ -746,7 +746,6 @@ extern const int msgDlgFontCount;
 // rtl support
 #define SRMSGDEFSET_MOD_RTL                      0
 
-#define TIMERID_FLASHWND     1
 #define TIMEOUT_FLASHWND     900
 #define TIMERID_HEARTBEAT    2
 #define TIMEOUT_HEARTBEAT    20000

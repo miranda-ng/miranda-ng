@@ -24,21 +24,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HANDLE AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType)
 {
-	HANDLE hContact = ci.FindRoom(pszModule, pszRoom);
-	DBVARIANT dbv;
-	TCHAR pszGroup[50];
+	TCHAR pszGroup[50]; *pszGroup = '\0';
+	ptrT groupName(db_get_tsa(NULL, "Chat", "AddToGroup"));
+	if (groupName)
+		_tcsncpy_s(pszGroup, SIZEOF(pszGroup), groupName, _TRUNCATE);
+	else
+		_tcscpy(pszGroup, _T("Chat rooms"));
 
-	*pszGroup = '\0';
-	if (!db_get_ts(NULL, "Chat", "AddToGroup", &dbv)) {
-		if (lstrlen(dbv.ptszVal) > 0)
-			lstrcpyn(pszGroup, dbv.ptszVal, 50);
-		db_free(&dbv);
+	if (pszGroup[0])  {
+		HANDLE hGroup = Clist_GroupExists(pszGroup);
+		if (hGroup == 0) {
+			hGroup = Clist_CreateGroup(0, pszGroup);
+			if (hGroup) {
+				CallService(MS_CLUI_GROUPADDED, (WPARAM)hGroup, 0);
+				CallService(MS_CLIST_GROUPSETEXPANDED, (WPARAM)hGroup, 1);
+			}
+		}
 	}
-	else lstrcpyn(pszGroup, _T("Chat rooms"), 50);
 
-	if (pszGroup[0])
-		Clist_CreateGroup(0, pszGroup);
-
+	HANDLE hContact = ci.FindRoom(pszModule, pszRoom);
 	if (hContact) { //contact exist, make sure it is in the right group
 		if (pszGroup[0]) {
 			ptrT grpName(db_get_tsa(hContact, "CList", "Group"));
@@ -109,28 +113,25 @@ int RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 0)
 		return 0;
 
-	DBVARIANT dbv;
-	if (!db_get_ts(hContact, szProto, "ChatRoomID", &dbv)) {
-		SESSION_INFO *si = ci.SM_FindSession(dbv.ptszVal, szProto);
-		if (si) {
-			// is the "toggle visibility option set, so we need to close the window?
-			if (si->hWnd != NULL
-				&& db_get_b(NULL, "Chat", "ToggleVisibility", 0) == 1
-				&& !CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0)
-				&& IsWindowVisible(si->hWnd) && !IsIconic(si->hWnd))
-			{
-				if (ci.OnSessionDblClick)
-					ci.OnSessionDblClick(si);
-				db_free(&dbv);
-				return 1;
-			}
-			ci.ShowRoom(si, WINDOW_VISIBLE, TRUE);
-		}
-		db_free(&dbv);
-		return 1;
-	}
+	ptrT roomid(db_get_tsa(hContact, szProto, "ChatRoomID"));
+	if (roomid == NULL)
+		return 0;
 
-	return 0;
+	SESSION_INFO *si = ci.SM_FindSession(roomid, szProto);
+	if (si) {
+		// is the "toggle visibility option set, so we need to close the window?
+		if (si->hWnd != NULL &&
+			 db_get_b(NULL, "Chat", "ToggleVisibility", 0) == 1 &&
+			 !CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0) &&
+			 IsWindowVisible(si->hWnd) && !IsIconic(si->hWnd))
+		{
+			if (ci.OnSessionDblClick)
+				ci.OnSessionDblClick(si);
+			return 1;
+		}
+		ci.ShowRoom(si, WINDOW_VISIBLE, TRUE);
+	}
+	return 1;
 }
 
 INT_PTR EventDoubleclicked(WPARAM wParam,LPARAM lParam)
@@ -238,14 +239,9 @@ HANDLE FindRoom(const char *pszModule, const TCHAR *pszRoom)
 		if (!db_get_b(hContact, pszModule, "ChatRoom", 0))
 			continue;
 
-		DBVARIANT dbv;
-		if (!db_get_ts(hContact, pszModule, "ChatRoomID", &dbv)) {
-			if (!lstrcmpi(dbv.ptszVal, pszRoom)) {
-				db_free(&dbv);
-				return hContact;
-			}
-			db_free(&dbv);
-		}
+		ptrT roomid(db_get_tsa(hContact, pszModule, "ChatRoomID"));
+		if (roomid != NULL && !lstrcmpi(roomid, pszRoom))
+			return hContact;
 	}
 
 	return 0;

@@ -70,6 +70,9 @@ static SESSION_INFO* SM_AddSession(const TCHAR *pszID, const char *pszModule)
 	node->ptszID = mir_tstrdup(pszID);
 	node->pszModule = mir_strdup(pszModule);
 
+	if (ci.OnCreateSession)
+		ci.OnCreateSession(node, ci.MM_FindModule(pszModule));
+
 	if (ci.wndList == NULL) { // list is empty
 		ci.wndList = node;
 		node->next = NULL;
@@ -292,6 +295,7 @@ static BOOL SM_AddEvent(const TCHAR *pszID, const char *pszModule, GCEVENT *gce,
 
 			if (ci.pSettings->iEventLimit > 0 && pTemp->iEventCount > ci.pSettings->iEventLimit + 20) {
 				ci.LM_TrimLog(&pTemp->pLog, &pTemp->pLogEnd, pTemp->iEventCount - ci.pSettings->iEventLimit);
+				pTemp->bTrimmed = true;
 				pTemp->iEventCount = ci.pSettings->iEventLimit;
 				return FALSE;
 			}
@@ -652,6 +656,8 @@ static BOOL SM_ChangeNick(const TCHAR *pszID, const char *pszModule, GCEVENT *gc
 				SM_MoveUser(pTemp->ptszID, pTemp->pszModule, ui->pszUID);
 				if (pTemp->hWnd)
 					SendMessage(pTemp->hWnd, GC_UPDATENICKLIST, 0, 0);
+				if (ci.OnChangeNick)
+					ci.OnChangeNick(pTemp);
 			}
 
 			if (pszID)
@@ -1455,7 +1461,10 @@ CHAT_MANAGER ci =
 	FindRoom,
 	Log_CreateRTF,
 	LoadMsgDlgFont,
-	MakeTimeStamp
+	MakeTimeStamp,
+	DoPopup,
+	ShowPopup,
+	RemoveFormatting
 };
 
 INT_PTR SvcGetChatManager(WPARAM, LPARAM lParam)

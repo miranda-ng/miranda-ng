@@ -419,7 +419,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 			}
 		}
 	}
-	LoadGlobalSettings();
+
 	mir_free(szIniFilename);
 }
 

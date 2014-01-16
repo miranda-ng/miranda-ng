@@ -2263,10 +2263,10 @@ void TSAPI ClearLog(TWindowData *dat)
 	}
 	else if (dat && dat->bType == SESSIONTYPE_CHAT && dat->si) {
 		SESSION_INFO *si = dat->si;
-		SESSION_INFO* s = SM_FindSession(si->ptszID, si->pszModule);
+		SESSION_INFO* s = pci->SM_FindSession(si->ptszID, si->pszModule);
 		if (s) {
 			SetDlgItemText(dat->hwnd, IDC_CHAT_LOG, _T(""));
-			LM_RemoveAll(&s->pLog, &s->pLogEnd);
+			pci->LM_RemoveAll(&s->pLog, &s->pLogEnd);
 			s->iEventCount = 0;
 			s->LastTime = 0;
 			si->iEventCount = 0;

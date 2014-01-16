@@ -116,7 +116,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-static int ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
+int ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
 {
 	static TCHAR szBuf[4 * 1024];
 
@@ -214,7 +214,7 @@ static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
-static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
+BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
 	int iEvent = gce->pDest->iType;
 

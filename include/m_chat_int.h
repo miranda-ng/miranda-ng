@@ -148,6 +148,7 @@ struct LOGINFO
    BOOL    bIsHighlighted;
    time_t  time;
    int     iType;
+	DWORD   dwFlags;
    LOGINFO *next, *prev;
 };
 
@@ -178,6 +179,7 @@ struct GCSessionInfoBase
    BOOL        bFilterEnabled;
    BOOL        bNicklistEnabled;
    BOOL        bInitDone;
+	BOOL        bTrimmed;
 
    char*       pszModule;
    TCHAR*      ptszID;
@@ -363,6 +365,10 @@ struct CHAT_MANAGER
 	char*         (*Log_CreateRTF)(LOGSTREAMDATA *streamData);
 	void          (*LoadMsgDlgFont)(int i, LOGFONT *lf, COLORREF *color);
 	TCHAR*        (*MakeTimeStamp)(TCHAR *pszStamp, time_t time);
+	BOOL          (*DoPopup)(SESSION_INFO *si, GCEVENT *gce);
+	int           (*ShowPopup)(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
+	TCHAR*        (*RemoveFormatting)(const TCHAR *pszText);
+	BOOL          (*DoSoundsFlashPopupTrayStuff)(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
 
 	int logPixelSY, logPixelSX;
 	char *szActiveWndModule;
@@ -376,6 +382,7 @@ struct CHAT_MANAGER
 	// user-defined custom callbacks
 	void (*OnCreateModule)(MODULEINFO*);
 
+	void (*OnCreateSession)(SESSION_INFO*, MODULEINFO*);
 	void (*OnSessionDblClick)(SESSION_INFO*);
 	void (*OnSessionOffline)(SESSION_INFO*);
 	void (*OnSessionRemove)(SESSION_INFO*);
@@ -393,6 +400,7 @@ struct CHAT_MANAGER
 	void (*OnAddUser)(SESSION_INFO*, USERINFO*);
 	void (*OnNewUser)(SESSION_INFO*, USERINFO*);
 	void (*OnRemoveUser)(SESSION_INFO *si, USERINFO*);
+	void (*OnChangeNick)(SESSION_INFO *si);
 
 	void (*OnAddStatus)(SESSION_INFO *si, STATUSINFO*);
 	void (*OnSetStatus)(SESSION_INFO *si, int);

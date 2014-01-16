@@ -87,7 +87,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, BOOL bRedr
 
 		//set the insertion point at the bottom
 		sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
-		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM) & sel);
+		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM) &sel);
 
 		// fix for the indent... must be a M$ bug
 		if (sel.cpMax == 0)
@@ -151,7 +151,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, BOOL bRedr
 		// need to invalidate the window
 		if (bFlag) {
 			sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
-			SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM) & sel);
+			SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM) &sel);
 			SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
 			InvalidateRect(hwndRich, NULL, TRUE);
 }	}	}

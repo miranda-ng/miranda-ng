@@ -398,7 +398,7 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 static void LoadLogFonts(void)
 {
 	for (int i=0; i < OPTIONS_FONTCOUNT; i++)
-		LoadMsgDlgFont(FONTSECTION_CHAT, i, &aFonts[i].lf, &aFonts[i].color, CHAT_FONTMODULE);
+		LoadMsgDlgFont(FONTSECTION_CHAT, i, &pci->aFonts[i].lf, &pci->aFonts[i].color, CHAT_FONTMODULE);
 }
 
 static IconItem _icons[] =
@@ -586,11 +586,8 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch1, SIZEOF(branch1));
 					SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch2, SIZEOF(branch2));
 
-					LoadGlobalSettings();
-					MM_FontsChanged();
-					FreeMsgLogBitmaps();
-					LoadMsgLogBitmaps();
-					SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
+					pci->MM_FontsChanged();
+					pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 					SM_ReconfigureFilters();
 				}
 				return TRUE;
@@ -807,22 +804,19 @@ void RegisterFontServiceFonts() {
 int FontServiceFontsChanged(WPARAM,LPARAM)
 {
 	LoadLogFonts();
-	FreeMsgLogBitmaps();
-	LoadMsgLogBitmaps();
 
 	LOGFONT lf;
 	LoadMsgDlgFont(FONTSECTION_CHAT, 0, &lf, NULL, CHAT_FONTMODULE);
 	HFONT hFont = CreateFontIndirect(&lf);
-	int iText = GetTextPixelSize(MakeTimeStamp(g_Settings.pszTimeStamp, time(NULL)), hFont, true);
+	int iText = GetTextPixelSize(pci->MakeTimeStamp(g_Settings.pszTimeStamp, time(NULL)), hFont, true);
 	DeleteObject(hFont);
 	g_Settings.LogTextIndent = iText;
 	g_Settings.LogTextIndent = g_Settings.LogTextIndent * 12 / 10;
-	g_Settings.bLogIndentEnabled = M.GetBool("Chat", "LogIndentEnabled", true);
+	g_Settings.LogIndentEnabled = M.GetBool("Chat", "LogIndentEnabled", true);
 
-	LoadGlobalSettings();
-	MM_FontsChanged();
-	MM_FixColors();
-	SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
+	pci->MM_FontsChanged();
+	pci->MM_FixColors();
+	pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 
 	PluginConfig.reloadSettings();
 	CSkin::initAeroEffect();
@@ -857,13 +851,13 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			SetDlgItemText(hwndDlg, IDC_TIMESTAMP, g_Settings.pszTimeStamp);
 			SetDlgItemText(hwndDlg, IDC_OUTSTAMP, g_Settings.pszOutgoingNick);
 			SetDlgItemText(hwndDlg, IDC_INSTAMP, g_Settings.pszIncomingNick);
-			CheckDlgButton(hwndDlg, IDC_LOGGING, g_Settings.bLoggingEnabled);
+			CheckDlgButton(hwndDlg, IDC_LOGGING, g_Settings.LoggingEnabled);
 			SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, g_Settings.pszLogDir);
-			Utils::enableDlgControl(hwndDlg, IDC_LOGDIRECTORY, g_Settings.bLoggingEnabled);
-			Utils::enableDlgControl(hwndDlg, IDC_FONTCHOOSE, g_Settings.bLoggingEnabled);
+			Utils::enableDlgControl(hwndDlg, IDC_LOGDIRECTORY, g_Settings.LoggingEnabled);
+			Utils::enableDlgControl(hwndDlg, IDC_FONTCHOOSE, g_Settings.LoggingEnabled);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_SETRANGE, 0, MAKELONG(10000, 0));
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, "Chat", "LoggingLimit", 100), 0));
-			Utils::enableDlgControl(hwndDlg, IDC_LIMIT, g_Settings.bLoggingEnabled);
+			Utils::enableDlgControl(hwndDlg, IDC_LIMIT, g_Settings.LoggingEnabled);
 
 			if (ServiceExists(MS_UTILS_REPLACEVARS)) {
 				TCHAR tszTooltipText[2048];
@@ -924,7 +918,6 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			*/
 		case IDC_MUC_OPENLOGBASEDIR: {
 			OPENFILENAME ofn = {0};
-			SESSION_INFO si = {0};
 			TCHAR	tszReturnName[MAX_PATH];
 			TCHAR	tszInitialDir[_MAX_DRIVE + _MAX_PATH + 10];
 			TCHAR	tszTemp[MAX_PATH + 20], *p = 0, *p1 = 0;
@@ -1015,8 +1008,8 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				GetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, pszText1, iLen + 1);
 				db_set_ts(NULL, "Chat", "LogDirectory", pszText1);
 				mir_free(pszText1);
-				g_Settings.bLoggingEnabled = IsDlgButtonChecked(hwndDlg, IDC_LOGGING) == BST_CHECKED;
-				db_set_b(0, "Chat", "LoggingEnabled", g_Settings.bLoggingEnabled);
+				g_Settings.LoggingEnabled = IsDlgButtonChecked(hwndDlg, IDC_LOGGING) == BST_CHECKED;
+				db_set_b(0, "Chat", "LoggingEnabled", g_Settings.LoggingEnabled);
 			}
 			else {
 				db_unset(NULL, "Chat", "LogDirectory");
@@ -1065,27 +1058,24 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			db_set_w(NULL, "Chat", "LogLimit", (WORD)iLen);
 			mir_free(pszText);
 
-			if (hListBkgBrush)
-				DeleteObject(hListBkgBrush);
-			hListBkgBrush = CreateSolidBrush(M.GetDword("Chat", "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR));
+			if (pci->hListBkgBrush)
+				DeleteObject(pci->hListBkgBrush);
+			pci->hListBkgBrush = CreateSolidBrush(M.GetDword("Chat", "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR));
 
 			LoadLogFonts();
-			FreeMsgLogBitmaps();
-			LoadMsgLogBitmaps();
 
 			LOGFONT lf;
 			LoadMsgDlgFont(FONTSECTION_CHAT, 0, &lf, NULL, CHAT_FONTMODULE);
 			HFONT hFont = CreateFontIndirect(&lf);
-			int iText = GetTextPixelSize(MakeTimeStamp(g_Settings.pszTimeStamp, time(NULL)), hFont, true);
+			int iText = GetTextPixelSize(pci->MakeTimeStamp(g_Settings.pszTimeStamp, time(NULL)), hFont, true);
 			DeleteObject(hFont);
 			g_Settings.LogTextIndent = iText;
 			g_Settings.LogTextIndent = g_Settings.LogTextIndent * 12 / 10;
-			g_Settings.bLogIndentEnabled = M.GetBool("Chat", "LogIndentEnabled", true);
+			g_Settings.LogIndentEnabled = M.GetBool("Chat", "LogIndentEnabled", true);
 
-			LoadGlobalSettings();
-			MM_FontsChanged();
-			MM_FixColors();
-			SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
+			pci->MM_FontsChanged();
+			pci->MM_FixColors();
+			pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 
 			PluginConfig.reloadSettings();
 			CacheMsgLogIcons();
@@ -1201,9 +1191,9 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 				db_set_b(0, "Chat", "SkipWhenNoWindow", IsDlgButtonChecked(hwndDlg, IDC_NOPOPUPSFORCLOSEDWINDOWS) ? 1 : 0);
 				db_set_b(0, "Chat", "TrayIconInactiveOnly", IsDlgButtonChecked(hwndDlg, IDC_TRAYONLYFORINACTIVE) ? 1 : 0);
-				LoadGlobalSettings();
-				MM_FontsChanged();
-				SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
+
+				pci->MM_FontsChanged();
+				pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 				SM_ReconfigureFilters();
 				return TRUE;
 			}
@@ -1213,171 +1203,16 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-void LoadGlobalSettings(void)
-{
-	LOGFONT lf;
-	char szBuf[40];
-
-	g_Settings.bLogLimitNames = M.GetBool("Chat", "LogLimitNames", true);
-	g_Settings.bShowTime = M.GetBool("Chat", "ShowTimeStamp", true);
-	g_Settings.bShowTimeIfChanged = M.GetBool("Chat", "ShowTimeStampIfChanged", false);
-	g_Settings.bTimeStampEventColour = M.GetBool("Chat", "TimeStampEventColour", false);
-	g_Settings.iEventLimit = db_get_w(NULL, "Chat", "LogLimit", 100);
-	g_Settings.iEventLimitThreshold = db_get_w(NULL, "Chat", "LogLimitThreshold", 20);
-	g_Settings.dwIconFlags = M.GetDword("Chat", "IconFlags", 0x0000);
-	g_Settings.LoggingLimit = (size_t)db_get_w(NULL, "Chat", "LoggingLimit", 100);
-	g_Settings.bLoggingEnabled = M.GetBool("Chat", "LoggingEnabled", false);
-	g_Settings.bOpenInDefault = M.GetBool("Chat", "DefaultContainer", true);
-	g_Settings.bFlashWindow = M.GetBool("Chat", "FlashWindow", false);
-	g_Settings.bFlashWindowHightlight = M.GetBool("Chat", "FlashWindowHighlight", false);
-	g_Settings.UserListColors[CHAT_STATUS_NORMAL] = M.GetDword(CHAT_FONTMODULE, "Font18Col", RGB(0, 0, 0));
-	g_Settings.UserListColors[CHAT_STATUS_AWAY] = M.GetDword(CHAT_FONTMODULE, "Font19Col", RGB(170, 170, 170));
-	g_Settings.UserListColors[CHAT_STATUS_OFFLINE] = M.GetDword(CHAT_FONTMODULE, "Font5Col", RGB(160, 90, 90));
-	g_Settings.crUserListBGColor = M.GetDword("Chat", "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR);
-	g_Settings.bStripFormat = M.GetBool("Chat", "StripFormatting", false);
-	g_Settings.bTrayIconInactiveOnly = M.GetBool("Chat", "TrayIconInactiveOnly", true);
-	g_Settings.bBBCodeInPopups = M.GetByte("Chat", "BBCodeInPopups", 0) != 0;
-	g_Settings.bAddColonToAutoComplete = M.GetBool("Chat", "AddColonToAutoComplete", true);
-	g_Settings.iPopupStyle = M.GetByte("Chat", "PopupStyle", 1);
-	g_Settings.iPopupTimeout = db_get_w(NULL, "Chat", "PopupTimeout", 3);
-	g_Settings.crPUBkgColour = M.GetDword("Chat", "PopupColorBG", GetSysColor(COLOR_WINDOW));
-	g_Settings.crPUTextColour = M.GetDword("Chat", "PopupColorText", 0);
-	g_Settings.bClassicIndicators = M.GetBool("Chat", "ClassicIndicators", false);
-
-	g_Settings.bLogClassicIndicators = M.GetBool("Chat", "LogClassicIndicators", false);
-	g_Settings.bAlternativeSorting   = M.GetBool("Chat", "AlternativeSorting", true);
-	g_Settings.bAnnoyingHighlight	= M.GetBool("Chat", "AnnoyingHighlight", false);
-	g_Settings.bCreateWindowOnHighlight = M.GetBool("Chat", "CreateWindowOnHighlight", true);
-
-	g_Settings.bLogSymbols = M.GetBool("Chat", "LogSymbols", true);
-	g_Settings.bClickableNicks = M.GetBool("Chat", "ClickableNicks", true);
-	g_Settings.bColorizeNicks = M.GetBool("Chat", "ColorizeNicks", true);
-	g_Settings.bColorizeNicksInLog = M.GetBool("Chat", "ColorizeNicksInLog", true);
-	g_Settings.bScaleIcons = M.GetBool("Chat", "ScaleIcons", true);
-	g_Settings.bUseDividers = M.GetBool("Chat", "UseDividers", true);
-	g_Settings.bDividersUsePopupConfig = M.GetBool("Chat", "DividersUsePopupConfig", true);
-
-	g_Settings.bDoubleClick4Privat = M.GetBool("Chat", "DoubleClick4Privat", false);
-	g_Settings.bShowContactStatus = M.GetBool("Chat", "ShowContactStatus", true);
-	g_Settings.bContactStatusFirst = M.GetBool("Chat", "ContactStatusFirst", false);
-
-	if (hListBkgBrush)
-		DeleteObject(hListBkgBrush);
-	hListBkgBrush = CreateSolidBrush(M.GetDword("Chat", "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR));
-
-	InitSetting(g_Settings.pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
-	InitSetting(g_Settings.pszTimeStampLog, "LogTimestamp", _T("[%d %b %y %H:%M]"));
-	InitSetting(g_Settings.pszIncomingNick, "HeaderIncoming", _T("%n:"));
-	InitSetting(g_Settings.pszOutgoingNick, "HeaderOutgoing", _T("%n:"));
-
-	DBVARIANT dbv;
-
-	if (!db_get_ts(NULL, "Chat", "LogDirectory", &dbv)) {
-		lstrcpyn(g_Settings.pszLogDir, dbv.ptszVal, MAX_PATH);
-		db_free(&dbv);
-	}
-	else lstrcpyn(g_Settings.pszLogDir, DEFLOGFILENAME, MAX_PATH);
-
-	g_Settings.pszLogDir[MAX_PATH - 1] = 0;
-
-	g_Settings.bLogIndentEnabled = M.GetBool("Chat", "LogIndentEnabled", true);
-
-	// nicklist
-
-	if (g_Settings.UserListFonts[0]) {
-		DeleteObject(g_Settings.UserListFonts[CHAT_STATUS_NORMAL]);
-		DeleteObject(g_Settings.UserListFonts[CHAT_STATUS_AWAY]);
-		DeleteObject(g_Settings.UserListFonts[CHAT_STATUS_OFFLINE]);
-	}
-
-	LoadMsgDlgFont(FONTSECTION_CHAT, 18, &lf, NULL, CHAT_FONTMODULE);
-	g_Settings.UserListFonts[CHAT_STATUS_NORMAL] = CreateFontIndirect(&lf);
-
-	LoadMsgDlgFont(FONTSECTION_CHAT, 19, &lf, NULL, CHAT_FONTMODULE);
-	g_Settings.UserListFonts[CHAT_STATUS_AWAY] = CreateFontIndirect(&lf);
-
-	LoadMsgDlgFont(FONTSECTION_CHAT, 5, &lf, NULL, CHAT_FONTMODULE);
-	g_Settings.UserListFonts[CHAT_STATUS_OFFLINE] = CreateFontIndirect(&lf);
-
-	int ih = GetTextPixelSize(_T("AQGglo"), g_Settings.UserListFonts[CHAT_STATUS_NORMAL], false);
-	int ih2 = GetTextPixelSize(_T("AQGglo"), g_Settings.UserListFonts[CHAT_STATUS_AWAY], false);
-	g_Settings.iNickListFontHeight = max(M.GetByte("Chat", "NicklistRowDist", 12), (ih > ih2 ? ih : ih2));
-
-	for (int i=0; i < 7; i++) {
-		mir_snprintf(szBuf, 20, "NickColor%d", i);
-		g_Settings.nickColors[i] = M.GetDword("Chat", szBuf, g_Settings.UserListColors[0]);
-	}
-	g_Settings.nickColors[5] = M.GetDword("Chat", "NickColor5", GetSysColor(COLOR_HIGHLIGHT));
-	g_Settings.nickColors[6] = M.GetDword("Chat", "NickColor6", GetSysColor(COLOR_HIGHLIGHTTEXT));
-	if (g_Settings.SelectionBGBrush)
-		DeleteObject(g_Settings.SelectionBGBrush);
-	g_Settings.SelectionBGBrush = CreateSolidBrush(g_Settings.nickColors[5]);
-}
-
-static void FreeGlobalSettings(void)
-{
-	mir_free(g_Settings.pszTimeStamp);
-	mir_free(g_Settings.pszTimeStampLog);
-	mir_free(g_Settings.pszIncomingNick);
-	mir_free(g_Settings.pszOutgoingNick);
-	for (int i=0; i < SIZEOF(g_Settings.UserListFonts); i++)
-		if (g_Settings.UserListFonts[i])
-			DeleteObject(g_Settings.UserListFonts[i]);
-
-	if (g_Settings.SelectionBGBrush)
-		DeleteObject(g_Settings.SelectionBGBrush);
-
-	delete g_Settings.Highlight;
-}
-
 int OptionsInit(void)
 {
 	LoadLogFonts();
 
-	LOGFONT lf;
-	LoadMsgDlgFont(FONTSECTION_CHAT, 17, &lf, NULL, CHAT_FONTMODULE);
-	lstrcpy(lf.lfFaceName, _T("MS Shell Dlg"));
-	lf.lfUnderline = lf.lfItalic = lf.lfStrikeOut = 0;
-	lf.lfHeight = -17;
-	lf.lfWeight = FW_BOLD;
-	ZeroMemory(&g_Settings, sizeof(TMUCSettings));
-	g_Settings.NameFont = CreateFontIndirect(&lf);
-	g_Settings.iSplitterX = db_get_w(NULL, "Chat", "SplitterX", 105);
-	if (g_Settings.iSplitterX <= 50)
-		g_Settings.iSplitterX = 105;
-	g_Settings.iSplitterY = db_get_w(NULL, "Chat", "splitY", 50);
-	if (g_Settings.iSplitterY <= 20)
-		g_Settings.iSplitterY = 50;
-	g_Settings.hGroup = 0;
-	LoadGlobalSettings();
 	g_Settings.Highlight = new CMUCHighlight();
 
-	SkinAddNewSoundEx("ChatMessage",   LPGEN("Group chats"), LPGEN("Incoming message"));
-	SkinAddNewSoundEx("ChatSent",      LPGEN("Group chats"), LPGEN("Outgoing message"));
-	SkinAddNewSoundEx("ChatHighlight", LPGEN("Group chats"), LPGEN("Message is highlighted"));
-	SkinAddNewSoundEx("ChatAction",    LPGEN("Group chats"), LPGEN("User has performed an action"));
-	SkinAddNewSoundEx("ChatJoin",      LPGEN("Group chats"), LPGEN("User has joined"));
-	SkinAddNewSoundEx("ChatPart",      LPGEN("Group chats"), LPGEN("User has left"));
-	SkinAddNewSoundEx("ChatKick",      LPGEN("Group chats"), LPGEN("User has kicked some other user"));
-	SkinAddNewSoundEx("ChatMode",      LPGEN("Group chats"), LPGEN("User's status was changed"));
-	SkinAddNewSoundEx("ChatNick",      LPGEN("Group chats"), LPGEN("User has changed name"));
-	SkinAddNewSoundEx("ChatNotice",    LPGEN("Group chats"), LPGEN("User has sent a notice"));
-	SkinAddNewSoundEx("ChatQuit",      LPGEN("Group chats"), LPGEN("User has disconnected"));
-	SkinAddNewSoundEx("ChatTopic",     LPGEN("Group chats"), LPGEN("The topic has been changed"));
-
-	LoadMsgDlgFont(FONTSECTION_CHAT, 0, &lf, NULL, CHAT_FONTMODULE);
-	HFONT hFont = CreateFontIndirect(&lf);
-	int iText = GetTextPixelSize(MakeTimeStamp(g_Settings.pszTimeStamp, time(NULL)), hFont, true);
-	DeleteObject(hFont);
-	g_Settings.LogTextIndent = iText;
-	g_Settings.LogTextIndent = g_Settings.LogTextIndent * 12 / 10;
 	return 0;
 }
 
 int OptionsUnInit(void)
 {
-	FreeGlobalSettings();
-	DeleteObject(hListBkgBrush);
-	DeleteObject(g_Settings.NameFont);
 	return 0;
 }

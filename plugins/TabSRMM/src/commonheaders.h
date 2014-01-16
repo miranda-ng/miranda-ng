@@ -78,7 +78,7 @@
 #include <m_file.h>
 #include <m_fontservice.h>
 #include <m_acc.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_protomod.h>
 #include <m_hotkeys.h>
 #include <m_genmenu.h>
@@ -245,7 +245,6 @@ extern ButtonSet g_ButtonSet;
 extern HANDLE g_hEvent;
 extern RECT rcLastStatusBarClick;
 extern PLUGININFOEX pluginInfo;
-extern HICON hIcons[];
 extern TTemplateSet RTL_Active, LTR_Active;
 extern LOGFONTA logfonts[MSGDLGFONTCOUNT + 2];
 extern COLORREF fontcolors[MSGDLGFONTCOUNT + 2];
@@ -258,16 +257,8 @@ extern const TCHAR *pszIDCSAVE_save, *pszIDCSAVE_close;
 extern char *TemplateNames[];
 extern HANDLE hUserPrefsWindowList;
 extern TCpTable cpTable[];
-extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
-extern FONTINFO	aFonts[OPTIONS_FONTCOUNT];
-extern TCHAR *pszActiveWndID;
-extern char *pszActiveWndModule;
-extern CRITICAL_SECTION cs;
-extern HBRUSH hListBkgBrush;
 extern HMODULE g_hIconDLL;
 extern HMENU g_hMenu;
-extern HANDLE hBuildMenuEvent;
-extern HANDLE hSendEvent;
 
 extern int 	LoadSendRecvMessageModule(void);
 extern int 	SplitmsgShutdown(void);

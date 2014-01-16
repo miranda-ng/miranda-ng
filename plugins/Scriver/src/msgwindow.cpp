@@ -828,13 +828,14 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_DESTROY:
 		{
 			char szSettingName[64];
-			for (int i=dat->childrenCount; --i >= 0;) {
+			for (int i = dat->childrenCount; i >= 0; i--) {
 				TCITEM tci;
 				tci.mask = TCIF_PARAM | TCIF_IMAGE;
-				TabCtrl_GetItem(dat->hwndTabs, i, &tci);
-				TabCtrl_DeleteItem(dat->hwndTabs, i);
-				mir_free((MessageWindowTabData *) tci.lParam);
-				ReleaseIcon(tci.iImage);
+				if (TabCtrl_GetItem(dat->hwndTabs, i, &tci)) {
+					mir_free((MessageWindowTabData *)tci.lParam);
+					ReleaseIcon(tci.iImage);
+					TabCtrl_DeleteItem(dat->hwndTabs, i);
+				}
 			}
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			WindowList_Remove(g_dat.hParentWindowList, hwndDlg);

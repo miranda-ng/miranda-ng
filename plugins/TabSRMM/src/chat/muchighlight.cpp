@@ -132,7 +132,7 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 			int		words = 0;
 			M.startTimer();
 	#endif
-			TCHAR	*tszCleaned = ::RemoveFormatting(pgce->ptszText, true, true);
+			TCHAR	*tszCleaned = pci->RemoveFormatting(pgce->ptszText);
 			TCHAR	*p = tszCleaned;
 			TCHAR  	*p1;
 			UINT	i = 0;

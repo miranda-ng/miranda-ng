@@ -30,6 +30,8 @@
 
 #include "commonheaders.h"
 
+void Chat_ModulesLoaded();
+
 CGlobals 	PluginConfig;
 CGlobals*	pConfig = &PluginConfig;
 
@@ -339,6 +341,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	PluginConfig.reloadSystemModulesChanged();
 
+	::Chat_ModulesLoaded();
 	::BuildContainerMenu();
 
 	::CB_InitDefaultButtons();
@@ -375,7 +378,6 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	::RegisterFontServiceFonts();
 	::CacheLogFonts();
-	::Chat_ModulesLoaded(wParam, lParam);
 	if (PluginConfig.g_PopupAvail)
 		TN_ModuleInit();
 
@@ -537,8 +539,6 @@ int CGlobals::MetaContactEvent(WPARAM wParam, LPARAM lParam)
 
 int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 {
-	::Chat_PreShutdown();
-
 	::TN_ModuleDeInit();
 
 	while(pFirstContainer){

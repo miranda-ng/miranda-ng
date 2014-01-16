@@ -33,17 +33,17 @@
 #ifndef _TABSRMM_FUNCTIONS_H
 #define _TABSRMM_FUNCTIONS_H
 
-int   Chat_PreShutdown();
-int   Chat_ModulesLoaded(WPARAM wp, LPARAM lp);
-int   AvatarChanged(WPARAM wParam, LPARAM lParam);
-int   MyAvatarChanged(WPARAM wParam, LPARAM lParam);
-int   IcoLibIconsChanged(WPARAM wParam, LPARAM lParam);
-int   FontServiceFontsChanged(WPARAM wParam, LPARAM lParam);
-int   SmileyAddOptionsChanged(WPARAM wParam, LPARAM lParam);
-int   IEViewOptionsChanged(WPARAM wParam, LPARAM lParam);
-void  RegisterFontServiceFonts();
-int   ModPlus_PreShutdown(WPARAM wparam, LPARAM lparam);
-int   ModPlus_Init(WPARAM wparam, LPARAM lparam);
+int  AvatarChanged(WPARAM wParam, LPARAM lParam);
+int  MyAvatarChanged(WPARAM wParam, LPARAM lParam);
+int  IconsChanged(WPARAM wParam, LPARAM lParam);
+int  IcoLibIconsChanged(WPARAM wParam, LPARAM lParam);
+int  FontServiceFontsChanged(WPARAM wParam, LPARAM lParam);
+int  SmileyAddOptionsChanged(WPARAM wParam, LPARAM lParam);
+int  IEViewOptionsChanged(WPARAM wParam, LPARAM lParam);
+int  ModPlus_PreShutdown(WPARAM wparam, LPARAM lparam);
+int  ModPlus_Init(WPARAM wparam, LPARAM lparam);
+
+void RegisterFontServiceFonts();
 
 LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 

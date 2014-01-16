@@ -869,7 +869,7 @@ void CThumbMUC::update()
 void CThumbMUC::renderContent()
 {
 	if (m_dat->si) {
-		const MODULEINFO*	mi = MM_FindModule(m_dat->si->pszModule);
+		const MODULEINFO*	mi = pci->MM_FindModule(m_dat->si->pszModule);
 		wchar_t				szTemp[250];
 		const wchar_t*		szStatusMsg = 0;
 

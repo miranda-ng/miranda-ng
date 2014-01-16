@@ -399,7 +399,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					if (pszName == NULL) {
 						pszName = dat->szTabSave;
 						SendMessage(hwnd, EM_SETSEL, start, end);
-						if (end !=start)
+						if (end != start)
 							SendMessage(hwnd, EM_REPLACESEL, FALSE, (LPARAM) pszName);
 						dat->szTabSave[0] = '\0';
 					}
@@ -417,9 +417,9 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				return 0;
 			}
 
-			if (dat->szTabSave[0] != '\0' && wParam != VK_RIGHT && wParam != VK_LEFT
-					&& wParam != VK_SPACE && wParam != VK_RETURN && wParam != VK_BACK
-					&& wParam != VK_DELETE ) {
+			if (dat->szTabSave[0] != '\0' && wParam != VK_RIGHT && wParam != VK_LEFT &&
+				 wParam != VK_SPACE && wParam != VK_RETURN && wParam != VK_BACK && wParam != VK_DELETE)
+			{
 				if (g_Settings.AddColonToAutoComplete && start == 0)
 					SendMessageA(hwnd, EM_REPLACESEL, FALSE, (LPARAM) ": ");
 
@@ -432,25 +432,25 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (wParam == 0x49 && isCtrl && !isAlt) { // ctrl-i (italics)
-				CheckDlgButton(GetParent(hwnd), IDC_ITALICS, IsDlgButtonChecked(GetParent(hwnd), IDC_ITALICS) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
+				CheckDlgButton(GetParent(hwnd), IDC_ITALICS, IsDlgButtonChecked(GetParent(hwnd), IDC_ITALICS) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_ITALICS, 0), 0);
 				return TRUE;
 			}
 
 			if (wParam == 0x42 && isCtrl && !isAlt) { // ctrl-b (bold)
-				CheckDlgButton(GetParent(hwnd), IDC_BOLD, IsDlgButtonChecked(GetParent(hwnd), IDC_BOLD) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
+				CheckDlgButton(GetParent(hwnd), IDC_BOLD, IsDlgButtonChecked(GetParent(hwnd), IDC_BOLD) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_BOLD, 0), 0);
 				return TRUE;
 			}
 
 			if (wParam == 0x55 && isCtrl && !isAlt) { // ctrl-u (paste clean text)
-				CheckDlgButton(GetParent(hwnd), IDC_UNDERLINE, IsDlgButtonChecked(GetParent(hwnd), IDC_UNDERLINE) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
+				CheckDlgButton(GetParent(hwnd), IDC_UNDERLINE, IsDlgButtonChecked(GetParent(hwnd), IDC_UNDERLINE) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_UNDERLINE, 0), 0);
 				return TRUE;
 			}
 
 			if (wParam == 0x4b && isCtrl && !isAlt) { // ctrl-k (paste clean text)
-				CheckDlgButton(GetParent(hwnd), IDC_COLOR, IsDlgButtonChecked(GetParent(hwnd), IDC_COLOR) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
+				CheckDlgButton(GetParent(hwnd), IDC_COLOR, IsDlgButtonChecked(GetParent(hwnd), IDC_COLOR) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_COLOR, 0), 0);
 				return TRUE;
 			}
@@ -470,7 +470,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (wParam == 0x4c && isCtrl && !isAlt) { // ctrl-l (paste clean text)
-				CheckDlgButton(GetParent(hwnd), IDC_BKGCOLOR, IsDlgButtonChecked(GetParent(hwnd), IDC_BKGCOLOR) == BST_UNCHECKED?BST_CHECKED:BST_UNCHECKED);
+				CheckDlgButton(GetParent(hwnd), IDC_BKGCOLOR, IsDlgButtonChecked(GetParent(hwnd), IDC_BKGCOLOR) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_BKGCOLOR, 0), 0);
 				return TRUE;
 			}
@@ -498,7 +498,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				return TRUE;
 			}
 
-			if ((wParam == 45 && isShift || wParam == 0x56 && isCtrl )&& !isAlt) { // ctrl-v (paste clean text)
+			if ((wParam == 45 && isShift || wParam == 0x56 && isCtrl) && !isAlt) { // ctrl-v (paste clean text)
 				SendMessage(hwnd, EM_PASTESPECIAL, CF_TEXT, 0);
 				return TRUE;
 			}
@@ -535,7 +535,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
 				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
-				SendMessage(hwnd, EM_SCROLLCARET, 0,0);
+				SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 				SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
 				SendMessage(hwnd, EM_SETSEL, iLen, iLen);
@@ -583,18 +583,18 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			CHARRANGE sel, all = { 0, -1 };
 			HMENU hSubMenu = GetSubMenu(g_hMenu, 4);
 			TranslateMenu(hSubMenu);
-			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM) & sel);
+			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 
-			EnableMenuItem(hSubMenu, ID_MESSAGE_UNDO, SendMessage(hwnd, EM_CANUNDO, 0,0)?MF_ENABLED:MF_GRAYED);
-			EnableMenuItem(hSubMenu, ID_MESSAGE_REDO, SendMessage(hwnd, EM_CANREDO, 0,0)?MF_ENABLED:MF_GRAYED);
-			EnableMenuItem(hSubMenu, ID_MESSAGE_COPY, sel.cpMax!=sel.cpMin?MF_ENABLED:MF_GRAYED);
-			EnableMenuItem(hSubMenu, ID_MESSAGE_CUT, sel.cpMax!=sel.cpMin?MF_ENABLED:MF_GRAYED);
+			EnableMenuItem(hSubMenu, ID_MESSAGE_UNDO, SendMessage(hwnd, EM_CANUNDO, 0, 0) ? MF_ENABLED : MF_GRAYED);
+			EnableMenuItem(hSubMenu, ID_MESSAGE_REDO, SendMessage(hwnd, EM_CANREDO, 0, 0) ? MF_ENABLED : MF_GRAYED);
+			EnableMenuItem(hSubMenu, ID_MESSAGE_COPY, sel.cpMax != sel.cpMin ? MF_ENABLED : MF_GRAYED);
+			EnableMenuItem(hSubMenu, ID_MESSAGE_CUT, sel.cpMax != sel.cpMin ? MF_ENABLED : MF_GRAYED);
 
 			dat->lastEnterTime = 0;
 
 			POINT pt;
 			pt.x = (short)LOWORD(lParam);
-			pt.y = (short) HIWORD(lParam);
+			pt.y = (short)HIWORD(lParam);
 			ClientToScreen(hwnd, &pt);
 
 			UINT uID = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
@@ -623,14 +623,14 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				break;
 
 			case ID_MESSAGE_SELECTALL:
-				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM) & all);
+				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& all);
 				break;
 
 			case ID_MESSAGE_CLEAR:
-				SetWindowText(hwnd, _T( "" ));
+				SetWindowText(hwnd, _T(""));
 				break;
 			}
-			PostMessage(hwnd, WM_KEYUP, 0, 0 );
+			PostMessage(hwnd, WM_KEYUP, 0, 0);
 		}
 		break;
 
@@ -644,7 +644,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 			CHARFORMAT2 cf;
 			cf.cbSize = sizeof(CHARFORMAT2);
-			cf.dwMask = CFM_BOLD|CFM_ITALIC|CFM_UNDERLINE|CFM_BACKCOLOR|CFM_COLOR;
+			cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR;
 			SendMessage(hwnd, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
 			if (pci->MM_FindModule(Parentsi->pszModule) && pci->MM_FindModule(Parentsi->pszModule)->bColor) {
@@ -811,11 +811,11 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case WM_LBUTTONUP:
 		{
 			CHARRANGE sel;
-			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM) &sel);
+			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 			if (sel.cpMin != sel.cpMax) {
 				SendMessage(hwnd, WM_COPY, 0, 0);
-				sel.cpMin = sel.cpMax ;
-				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM) & sel);
+				sel.cpMin = sel.cpMax;
+				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&sel);
 			}
 			SetFocus(GetDlgItem(GetParent(hwnd), IDC_MESSAGE));
 		}
@@ -830,10 +830,10 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) == WA_INACTIVE) {
 			CHARRANGE sel;
-			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM) &sel);
+			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 			if (sel.cpMin != sel.cpMax) {
-				sel.cpMin = sel.cpMax ;
-				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM) & sel);
+				sel.cpMin = sel.cpMax;
+				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&sel);
 			}
 		}
 		break;
@@ -922,8 +922,8 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case WM_LBUTTONDBLCLK:
 		{
 			TCHITTESTINFO tci = {0};
-			tci.pt.x=(short)LOWORD(GetMessagePos());
-			tci.pt.y=(short)HIWORD(GetMessagePos());
+			tci.pt.x = (short)LOWORD(GetMessagePos());
+			tci.pt.y = (short)HIWORD(GetMessagePos());
 			tci.flags = TCHT_ONITEM;
 
 			ScreenToClient(hwnd, &tci.pt);
@@ -1983,7 +1983,7 @@ LABEL_SHOWWINDOW:
 				si.nPos = si.nMax - si.nPage + 1;
 				SetScrollInfo(GetDlgItem(hwndDlg, IDC_LOG), SB_VERT, &si, TRUE);
 				sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG));
-				SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_EXSETSEL, 0, (LPARAM) & sel);
+				SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_EXSETSEL, 0, (LPARAM) &sel);
 				PostMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 		}	}
 		break;
@@ -2164,10 +2164,10 @@ LABEL_SHOWWINDOW:
 						break;
 
 					case ID_COPYALL:
-						SendMessage(pNmhdr->hwndFrom, EM_EXGETSEL, 0, (LPARAM) & sel);
+						SendMessage(pNmhdr->hwndFrom, EM_EXGETSEL, 0, (LPARAM) &sel);
 						SendMessage(pNmhdr->hwndFrom, EM_EXSETSEL, 0, (LPARAM) & all);
 						SendMessage(pNmhdr->hwndFrom, WM_COPY, 0, 0);
-						SendMessage(pNmhdr->hwndFrom, EM_EXSETSEL, 0, (LPARAM) & sel);
+						SendMessage(pNmhdr->hwndFrom, EM_EXSETSEL, 0, (LPARAM) &sel);
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0 );
 						break;
 
@@ -2226,7 +2226,7 @@ LABEL_SHOWWINDOW:
 							TEXTRANGE tr;
 							CHARRANGE sel;
 
-							SendMessage(pNmhdr->hwndFrom, EM_EXGETSEL, 0, (LPARAM) & sel);
+							SendMessage(pNmhdr->hwndFrom, EM_EXGETSEL, 0, (LPARAM) &sel);
 							if (sel.cpMin != sel.cpMax)
 								break;
 							tr.chrg = ((ENLINK *) lParam)->chrg;

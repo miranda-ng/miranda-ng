@@ -397,12 +397,12 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	case GC_EVENT_TOPIC:
 		if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 			if (gce->ptszText) {
-				replaceStrT(si->ptszTopic, gce->ptszText);
-				db_set_ts(si->hContact, si->pszModule, "Topic", RemoveFormatting(si->ptszTopic));
+				replaceStrT(si->ptszTopic, RemoveFormatting(gce->ptszText));
+				db_set_ts(si->hContact, si->pszModule, "Topic", si->ptszTopic);
 				if (ci.OnSetTopic)
 					ci.OnSetTopic(si);
 				if (db_get_b(NULL, "Chat", "TopicOnClist", 0))
-					db_set_ts(si->hContact, "CList", "StatusMsg", RemoveFormatting(si->ptszTopic));
+					db_set_ts(si->hContact, "CList", "StatusMsg", si->ptszTopic);
 			}
 		}
 		break;

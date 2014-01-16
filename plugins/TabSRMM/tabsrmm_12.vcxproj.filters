@@ -16,14 +16,8 @@
       <UniqueIdentifier>{c6aa9273-8563-4007-afa1-63e8d2164122}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Header Files\Chat">
-      <UniqueIdentifier>{2ea6d9e6-399a-44c2-a431-9560e18f31fc}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\chat\clist.cpp">
-      <Filter>Source Files\Chat</Filter>
-    </ClCompile>
     <ClCompile Include="src\chat\colorchooser.cpp">
       <Filter>Source Files\Chat</Filter>
     </ClCompile>
@@ -237,16 +231,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\chat\chat.h">
-      <Filter>Header Files\Chat</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chat\chat_resource.h">
-      <Filter>Header Files\Chat</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chat\chatprototypes.h">
-      <Filter>Header Files\Chat</Filter>
+      <Filter>Source Files\Chat</Filter>
     </ClInclude>
     <ClInclude Include="src\chat\muchighlight.h">
-      <Filter>Header Files\Chat</Filter>
+      <Filter>Source Files\Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chat\chat_resource.h">
+      <Filter>Source Files\Chat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

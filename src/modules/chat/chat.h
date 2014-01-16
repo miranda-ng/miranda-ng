@@ -87,6 +87,8 @@ BOOL   DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, in
 BOOL   DoEventHook(const TCHAR *pszID, const char *pszModule, int iType, const TCHAR *pszUID, const TCHAR* pszText, DWORD dwItem);
 BOOL   IsEventSupported(int eventType);
 BOOL   LogToFile(SESSION_INFO *si, GCEVENT *gce);
+BOOL   DoPopup(SESSION_INFO *si, GCEVENT *gce);
+int    ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
 
 const TCHAR*  my_strstri(const TCHAR* s1, const TCHAR* s2);
 

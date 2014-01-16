@@ -36,61 +36,6 @@
 #define _CHAT_H_
 
 //defines
-#define OPTIONS_FONTCOUNT 20
-#define GC_UPDATETITLE			(WM_USER+100)
-#define GC_CLOSEWINDOW			(WM_USER+103)
-#define GC_GETITEMDATA			(WM_USER+104)
-#define GC_SETITEMDATA			(WM_USER+105)
-#define GC_UPDATESTATUSBAR		(WM_USER+106)
-#define GC_SETVISIBILITY		(WM_USER+107)
-#define GC_SETWNDPROPS			(WM_USER+108)
-#define GC_REDRAWLOG			(WM_USER+109)
-#define GC_FIREHOOK				(WM_USER+110)
-#define GC_FILTERFIX			(WM_USER+111)
-#define GC_CHANGEFILTERFLAG		(WM_USER+112)
-#define GC_SHOWFILTERMENU		(WM_USER+113)
-//#define	GC_NICKLISTCLEAR		(WM_USER+117)
-#define GC_REDRAWWINDOW			(WM_USER+118)
-#define GC_SHOWCOLORCHOOSER		(WM_USER+119)
-#define GC_ADDLOG				(WM_USER+120)
-#define GC_ACKMESSAGE			(WM_USER+121)
-//#define GC_ADDUSER				(WM_USER+122)
-//#define GC_REMOVEUSER			(WM_USER+123)
-//#define GC_NICKCHANGE			(WM_USER+124)
-#define GC_UPDATENICKLIST		(WM_USER+125)
-//#define GC_MODECHANGE			(WM_USER+126)
-#define GC_SCROLLTOBOTTOM		(WM_USER+129)
-#define GC_SESSIONNAMECHANGE	(WM_USER+131)
-#define GC_SETMESSAGEHIGHLIGHT	(WM_USER+139)
-#define GC_REDRAWLOG2			(WM_USER+140)
-#define GC_REDRAWLOG3			(WM_USER+141)
-
-#define EM_ACTIVATE				(WM_USER+202)
-
-#define GC_EVENT_HIGHLIGHT		0x1000
-#define STATE_TALK				0x0001
-
-#define ICON_ACTION				0
-#define ICON_ADDSTATUS			1
-#define ICON_HIGHLIGHT			2
-#define ICON_INFO				3
-#define ICON_JOIN				4
-#define ICON_KICK				5
-#define ICON_MESSAGE			6
-#define ICON_MESSAGEOUT			7
-#define ICON_NICK				8
-#define ICON_NOTICE				9
-#define ICON_PART				10
-#define ICON_QUIT				11
-#define ICON_REMSTATUS			12
-#define ICON_TOPIC				13
-
-#define ICON_STATUS1			14
-#define ICON_STATUS2			15
-#define ICON_STATUS3			16
-#define ICON_STATUS4			17
-#define ICON_STATUS0			18
-#define ICON_STATUS5			19
 
 enum TChatStatusEx
 {
@@ -111,16 +56,8 @@ class CMUCHighlight;
 
 //structs
 
-struct MODULEINFO
+struct MODULEINFO : public GCModuleInfoBase
 {
-	char          *pszModule;
-	TCHAR         *ptszModDispName;
-	char          *pszHeader;
-	bool           bBold, bUnderline, bItalics, bColor, bBkgColor, bChanMgr, bAckMsg;
-	int            nColorCount;
-	COLORREF      *crColors;
-				      
-	int            iMaxText;
 	DWORD          idleTimeStamp;
 	DWORD          lastIdleCheck;
 	TCHAR          tszIdleMsg[60];
@@ -128,148 +65,40 @@ struct MODULEINFO
 	MODULEINFO *   next;
 };
 
-struct COMMAND_INFO
+struct SESSION_INFO : public GCSessionInfoBase
 {
-	char*  lpCommand;
-	COMMAND_INFO *last, *next;
-};
-
-struct FONTINFO
-{
-	LOGFONT  lf;
-	COLORREF color;
-};
-
-struct LOGINFO
-{
-	TCHAR   *ptszText, *ptszNick, *ptszUID, *ptszStatus, *ptszUserInfo;
-	bool     bIsMe, bIsHighlighted;
-	time_t   time;
-	int      iType;
-	DWORD    dwFlags;
-	LOGINFO *next, *prev;
-};
-
-struct STATUSINFO
-{
-	TCHAR      *pszGroup;
-	HICON       hIcon;
-	WORD        Status;
-	STATUSINFO *next;
-};
-
-struct USERINFO
-{
-	TCHAR        *pszNick, *pszUID;
-	WORD          Status;
-	WORD          ContactStatus;
-	TChatStatusEx iStatusEx;
-	USERINFO     *next;
-};
-
-struct SESSION_INFO
-{
-	HWND            hWnd;
-				       
-	bool            bFGSet, bBGSet, bFilterEnabled, bNicklistEnabled, bInitDone;
-				       
-	char           *pszModule;
-	TCHAR          *ptszID;
-	TCHAR          *ptszName;
-	TCHAR          *ptszStatusbarText;
-	TCHAR          *ptszTopic;
 	TCHAR           pszLogFileName[MAX_PATH + 50];
-				       
-	char           *pszID;      // ugly fix for returning static ANSI strings in GC_INFO
-	char           *pszName;   // just to fix a bug quickly, should die after porting IRC to Unicode
-				       
-	int             iType;
-	int             iFG;
-	int             iBG;
-	int             iSplitterY;
-	int             iSplitterX;
-	int             iLogFilterFlags;
-	int             iLogPopupFlags;
-	int             iLogTrayFlags;
-	int             iDiskLogFlags;
-	int             nUsersInNicklist;
-	int             iEventCount;
-	int             iStatusCount;
-				       
-	WORD            wStatus;
-	WORD            wState;
-	WORD            wCommandsNum;
-	DWORD           dwItemData;
-	DWORD           dwFlags;
-	HANDLE          hContact;
-	HWND            hwndFilter;
-	time_t          LastTime;
+
+	int             iLogTrayFlags, iLogPopupFlags;
+
 	int             iSearchItem;
 	TCHAR           szSearch[255];
 	CMUCHighlight  *Highlight;
-	COMMAND_INFO   *lpCommands;
-	COMMAND_INFO   *lpCurrentCommand;
-	LOGINFO        *pLog;
-	LOGINFO        *pLogEnd;
-	USERINFO       *pUsers;
-	USERINFO       *pMe;
-	STATUSINFO     *pStatuses;
+
 	TContainerData *pContainer;
 	TWindowData    *dat;
-	int             wasTrimmed;
 	SESSION_INFO   *next;
 };
 
-struct LOGSTREAMDATA
+struct LOGSTREAMDATA : public GCLogStreamDataBase
 {
-	char         *buffer;
-	int           bufferOffset, bufferLen;
-	HWND          hwnd;
-	LOGINFO      *lin;
-	bool          bStripFormat, bRedraw;
-	SESSION_INFO *si;
 	int           crCount;
 	TWindowData  *dat;
 };
 
-struct TMUCSettings
+struct TMUCSettings : public GlobalLogSettingsBase
 {
 	HICON       hIconOverlay;
-	bool        bShowTime, bShowTimeIfChanged, bLoggingEnabled;
-	bool        bFlashWindow, bFlashWindowHightlight;
-	bool        bOpenInDefault;
-	bool        bLogIndentEnabled;
-	bool        bStripFormat;
-	bool        bBBCodeInPopups;
-	bool        bTrayIconInactiveOnly;
-	bool        bAddColonToAutoComplete;
-	bool        bLogLimitNames;
-	bool        bTimeStampEventColour;
 	DWORD       dwIconFlags;
-	int         LogTextIndent;
-	long        LoggingLimit;
-	int         iEventLimit;
-	int         iEventLimitThreshold;
-	int         iPopupStyle;
-	int         iPopupTimeout;
-	int         iSplitterX;
-	int         iSplitterY;
-	TCHAR      *pszTimeStamp;
-	TCHAR      *pszTimeStampLog;
-	TCHAR      *pszIncomingNick;
-	TCHAR      *pszOutgoingNick;
-	TCHAR       pszLogDir[MAX_PATH + 20];
 	LONG        iNickListFontHeight;
-	HFONT       NameFont;
-	COLORREF    crUserListBGColor;
-	COLORREF    crPUTextColour;
-	COLORREF    crPUBkgColour;
+	int         iEventLimitThreshold;
 
 	HFONT       UserListFonts[CHAT_STATUS_MAX];
 	COLORREF    UserListColors[CHAT_STATUS_MAX];
 
 	COLORREF    nickColors[8];
 	HBRUSH      SelectionBGBrush;
+	bool        bOpenInDefault, bFlashWindowHightlight, bBBCodeInPopups;
 	bool        bDoubleClick4Privat, bShowContactStatus, bContactStatusFirst;
 
 	bool        bLogClassicIndicators, bAlternativeSorting, bAnnoyingHighlight, bCreateWindowOnHighlight;
@@ -305,7 +134,58 @@ struct COLORCHOOSER
 
 //////////////////////////////////////////////////////////////////////////////////
 
-#include "chatprototypes.h"
+// colorchooser.c
+INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
+// log.c
+void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedraw, bool bPhaseTwo);
+TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime);
+char*  Log_CreateRtfHeader(MODULEINFO * mi);
+void   Log_SetStyles();
+
+// window.c
+INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+int GetTextPixelSize(TCHAR* pszText, HFONT hFont, bool bWidth);
+
+// options.c
+enum { FONTSECTION_AUTO, FONTSECTION_CHAT, FONTSECTION_IM, FONTSECTION_IP };
+int   OptionsInit(void);
+int   OptionsUnInit(void);
+void  LoadMsgDlgFont(int section, int i, LOGFONT * lf, COLORREF * colour, char* szMod);
+void  AddIcons(void);
+HICON LoadIconEx(int iIndex, char * pszIcoLibName, int iX, int iY);
+
+// services.c
+void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
+
+HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup);
+
+// manager.c
+SESSION_INFO* SM_FindSessionByHWND(HWND h);
+SESSION_INFO* SM_FindSessionByHCONTACT(HANDLE h);
+SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent);
+
+void SM_RemoveContainer(TContainerData *pContainer);
+BOOL SM_ReconfigureFilters();
+BOOL SM_InvalidateLogDirectories();
+
+//clist.c
+
+//tools.c
+BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
+int           Chat_GetColorIndex(const char* pszModule, COLORREF cr);
+TCHAR*        my_strstri(const TCHAR* s1, const TCHAR* s2);
+int           GetRichTextLength(HWND hwnd);
+BOOL          IsHighlighted(SESSION_INFO *si, const TCHAR* pszText);
+UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
+void          DestroyGCMenu(HMENU *hMenu, int iIndex);
+BOOL          DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
+void          Chat_SetFilters(SESSION_INFO *si);
+void TSAPI    DoFlashAndSoundWorker(FLASH_PARAMS* p);
+// message.c
+char*         Chat_Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
+TCHAR*        Chat_DoRtfToTags(char* pszRtfText, SESSION_INFO *si);
+
 #include "chat_resource.h"
 
 extern char *szChatIconString;

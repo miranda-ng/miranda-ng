@@ -194,9 +194,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\buttonsbar.cpp" />
-    <ClCompile Include="src\chat\clist.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="src\chat\colorchooser.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -269,7 +266,6 @@
     <ClInclude Include="src\buttonbar.h" />
     <ClInclude Include="src\chat\chat.h" />
     <ClInclude Include="src\chat\chat_resource.h" />
-    <ClInclude Include="src\chat\chatprototypes.h" />
     <ClInclude Include="src\chat\muchighlight.h" />
     <ClInclude Include="src\commonheaders.h" />
     <ClInclude Include="src\contactcache.h" />

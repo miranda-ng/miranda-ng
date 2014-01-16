@@ -220,7 +220,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					HICON hIcon;
 
 					if (dis->itemData > 0)
-						hIcon = dis->itemData & 0x10000000 ? hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
+						hIcon = dis->itemData & 0x10000000 ? pci->hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
 					else if (dat != NULL) {
 						hIcon = MY_GetContactIcon(dat);
 						idle = dat->idle;
