@@ -95,7 +95,6 @@ extern GlobalLogSettings g_Settings;
 extern SESSION_INFO g_TabSession;
 extern TABLIST *g_TabList;
 extern HMENU g_hMenu;
-extern HBRUSH hListBkgBrush, hListSelectedBkgBrush;
 
 extern HINSTANCE g_hInst;
 extern BOOL SmileyAddInstalled, PopupInstalled;
@@ -154,8 +153,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth);
 
 // options.c
-int OptionsInit(void);
-int OptionsUnInit(void);
+int OptionsInitialize(WPARAM wParam, LPARAM lParam);
 void AddIcons(void);
 HICON LoadIconEx(char* pszIcoLibName, BOOL big);
 

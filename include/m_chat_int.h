@@ -361,10 +361,10 @@ struct CHAT_MANAGER
 	BOOL          (*SetAllOffline)(BOOL bHide, const char *pszModule);
 	BOOL          (*AddEvent)(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
 	HANDLE        (*FindRoom)(const char *pszModule, const TCHAR *pszRoom);
-	void          (*ShowRoom)(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
 
 	char*         (*Log_CreateRTF)(LOGSTREAMDATA *streamData);
 	void          (*LoadMsgDlgFont)(int i, LOGFONT *lf, COLORREF *color);
+	TCHAR*        (*MakeTimeStamp)(TCHAR *pszStamp, time_t time);
 
 	void (*OnSessionDblClick)(SESSION_INFO*);
 	void (*OnSessionOffline)(SESSION_INFO*);
@@ -372,7 +372,8 @@ struct CHAT_MANAGER
 	void (*OnSessionRename)(SESSION_INFO*);
 	void (*OnSessionReplace)(SESSION_INFO*);
 
-	void (*OnAddLog)(SESSION_INFO*, int);
+	void(*ShowRoom)(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
+	void(*OnAddLog)(SESSION_INFO*, int);
 	void (*OnClearLog)(SESSION_INFO*);
 	void (*OnEventBroadcast)(SESSION_INFO *si, GCEVENT *gce);
 	
@@ -394,6 +395,7 @@ struct CHAT_MANAGER
 
 	HIMAGELIST hImageList, hIconsList;
 	HANDLE     hBuildMenuEvent, hSendEvent;
+	HBRUSH     hListBkgBrush, hListSelectedBkgBrush;
 	HICON      hIcons[30];
 	FONTINFO   aFonts[OPTIONS_FONTCOUNT];
 	TCHAR     *szActiveWndID;

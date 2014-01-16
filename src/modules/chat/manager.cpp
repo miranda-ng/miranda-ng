@@ -1473,14 +1473,16 @@ CHAT_MANAGER ci =
 	SetAllOffline,
 	AddEvent,
 	FindRoom,
-	NULL, // must be implemented in a plugin
 	Log_CreateRTF,
-	LoadMsgDlgFont
+	LoadMsgDlgFont,
+	MakeTimeStamp
 };
 
 INT_PTR SvcGetChatManager(WPARAM, LPARAM lParam)
 {
 	LoadChatModule();
+
+	memset(PBYTE(&ci) + offsetof(CHAT_MANAGER, OnSessionDblClick), 0, sizeof(CHAT_MANAGER) - offsetof(CHAT_MANAGER, OnSessionDblClick));
 	ci.pSettings = (GlobalLogSettingsBase*)lParam;
 	OptionsInit();
 	return (INT_PTR)&ci;

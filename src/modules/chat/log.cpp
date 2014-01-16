@@ -312,10 +312,10 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 			break;
 }	}	}
 
-TCHAR* MakeTimeStamp(TCHAR* pszStamp, time_t time)
+TCHAR* MakeTimeStamp(TCHAR *pszStamp, time_t time)
 {
 	static TCHAR szTime[30];
-	if (!_tcsftime(szTime, SIZEOF(szTime) - 1, pszStamp, localtime(&time)))
+	if (!_tcsftime(szTime, SIZEOF(szTime)-1, pszStamp, localtime(&time)))
 		_tcsncpy(szTime, TranslateT("<invalid>"), SIZEOF(szTime));
 	return szTime;
 }

@@ -27,9 +27,6 @@ void RegisterChatFonts( void );
 CHAT_MANAGER *pci;
 HMENU g_hMenu = NULL;
 
-HBRUSH hListBkgBrush = NULL;
-HBRUSH hListSelectedBkgBrush = NULL;
-
 GlobalLogSettings g_Settings;
 
 static void OnAddLog(SESSION_INFO *si, int isOk)
@@ -88,17 +85,6 @@ static void OnSetStatus(SESSION_INFO *si, int wStatus)
 	PostMessage(si->hWnd, GC_FIXTABICONS, 0, 0);
 }
 
-static void OnLoadSettings()
-{
-	if (hListBkgBrush != NULL)
-		DeleteObject(hListBkgBrush);
-	hListBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorNicklistBG", GetSysColor(COLOR_WINDOW)));
-
-	if (hListSelectedBkgBrush != NULL)
-		DeleteObject(hListSelectedBkgBrush);
-	hListSelectedBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT)));
-}
-
 static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 {
 	if (bInactive && si->hWnd && db_get_b(NULL, "Chat", "FlashWindowHighlight", 0) != 0)
@@ -117,7 +103,6 @@ int Chat_Load()
 	pci->OnSetStatus = OnSetStatus;
 
 	pci->OnAddLog = OnAddLog;
-	pci->OnLoadSettings = OnLoadSettings;
 
 	pci->OnSessionRemove = OnSessionRemove;
 	pci->OnSessionRename = OnSessionRename;
@@ -139,7 +124,6 @@ int Chat_Unload(void)
 	db_set_w(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
 
 	DestroyMenu(g_hMenu);
-	OptionsUnInit();
 	return 0;
 }
 

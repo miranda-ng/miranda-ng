@@ -101,11 +101,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth);
 
 //options.c
-int    OptionsInit(void);
-int    OptionsUnInit(void);
+int OptionsInit(void);
 
 // services.c
-void   ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
+void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
 
 // manager.c
 HWND          SM_FindWindowByContact(HANDLE hContact);

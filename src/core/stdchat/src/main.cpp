@@ -31,7 +31,6 @@ HINSTANCE g_hInst;
 int hLangpack;
 
 BOOL SmileyAddInstalled = FALSE, PopupInstalled = FALSE;
-HBRUSH hListBkgBrush = NULL, hListSelectedBkgBrush = NULL;
 
 GlobalLogSettings g_Settings;
 
@@ -230,14 +229,6 @@ static void OnLoadSettings()
 	g_Settings.TabsAtBottom = db_get_b(NULL, "Chat", "TabBottom", 0);
 	g_Settings.TabCloseOnDblClick = db_get_b(NULL, "Chat", "TabCloseOnDblClick", 0);
 
-	if (hListBkgBrush != NULL)
-		DeleteObject(hListBkgBrush);
-	hListBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorNicklistBG", GetSysColor(COLOR_WINDOW)));
-
-	if (hListSelectedBkgBrush != NULL)
-		DeleteObject(hListSelectedBkgBrush);
-	hListSelectedBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT)));
-
 	ZeroMemory(&g_TabSession, sizeof(SESSION_INFO));
 	g_TabSession.iType = GCW_TABROOM;
 	g_TabSession.iSplitterX = g_Settings.iSplitterX;
@@ -287,8 +278,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	LoadIcons();
 
 	OnLoadSettings();
-	OptionsInit();
-
+	
+	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	return 0;
 }
@@ -303,7 +294,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 	db_set_dw(NULL, "Chat", "roomheight", g_Settings.iHeight);
 
 	DestroyMenu(g_hMenu);
-	OptionsUnInit();
 	return 0;
 }
 

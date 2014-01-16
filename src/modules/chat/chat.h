@@ -66,6 +66,7 @@ void   LoadMsgDlgFont(int i, LOGFONT * lf, COLORREF * colour);
 void   LoadGlobalSettings(void);
 HICON  LoadIconEx(char* pszIcoLibName, BOOL big);
 void   LoadLogFonts(void);
+void   SetIndentSize();
 
 // services.c
 void   InitChatModule(void);

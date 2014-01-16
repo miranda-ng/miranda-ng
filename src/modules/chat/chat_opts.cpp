@@ -73,6 +73,14 @@ void LoadLogFonts(void)
 {
 	for (int i=0; i < OPTIONS_FONTCOUNT; i++)
 		LoadMsgDlgFont(i, &ci.aFonts[i].lf, &ci.aFonts[i].color);
+
+	if (ci.hListBkgBrush != NULL)
+		DeleteObject(ci.hListBkgBrush);
+	ci.hListBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorNicklistBG", GetSysColor(COLOR_WINDOW)));
+
+	if (ci.hListSelectedBkgBrush != NULL)
+		DeleteObject(ci.hListSelectedBkgBrush);
+	ci.hListSelectedBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT)));
 }
 
 void LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF* colour)

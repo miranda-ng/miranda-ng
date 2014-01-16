@@ -137,7 +137,6 @@ static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 {
 	int  logBottom, toolbarTopY;
-	HDWP hdwp;
 	BOOL bNick = si->iType != GCW_SERVER && si->bNicklistEnabled;
 	BOOL bToolbar = SendMessage(GetParent(hwndDlg), CM_GETTOOLBARSTATUS, 0, 0);
 	int  buttonVisibility = bToolbar ? g_dat.chatBbuttonVisibility : 0;
@@ -170,7 +169,7 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_CHANMGR), pci->MM_FindModule(si->pszModule)->bChanMgr);
 	}
 
-	hdwp = BeginDeferWindowPos(20);
+	HDWP hdwp = BeginDeferWindowPos(20);
 	toolbarTopY = bToolbar ? h - si->iSplitterY - toolbarHeight : h - si->iSplitterY;
 	if (si->windowData.hwndLog != NULL)
 		logBottom = toolbarTopY / 2;
@@ -266,9 +265,8 @@ LBL_SkipEnd:
 		pszName = si->ptszTopic;
 	else if (isRoom) {
 		dat->lastSession = SM_FindSessionAutoComplete(si->pszModule, si, dat->lastSession, dat->szSearchQuery, dat->szSearchResult);
-		if (dat->lastSession != NULL) {
+		if (dat->lastSession != NULL)
 			pszName = dat->lastSession->ptszName;
-		}
 	}
 	else pszName = pci->UM_FindUserAutoComplete(si->pUsers, dat->szSearchQuery, dat->szSearchResult);
 
@@ -853,7 +851,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 					if (rc.bottom - rc.top > items * height) {
 						rc.top = items*height;
-						FillRect(dc, &rc, hListBkgBrush);
+						FillRect(dc, &rc, pci->hListBkgBrush);
 					}
 				}
 			}
@@ -1389,7 +1387,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case WM_CTLCOLORLISTBOX:
 		SetBkColor((HDC)wParam, g_Settings.crUserListBGColor);
-		return (INT_PTR)hListBkgBrush;
+		return (INT_PTR)pci->hListBkgBrush;
 
 	case WM_MEASUREITEM:
 		if (!MeasureMenuItem(wParam, lParam)) {
@@ -1438,9 +1436,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					SetBkMode(dis->hDC, TRANSPARENT);
 
 					if (dis->itemAction == ODA_FOCUS && dis->itemState & ODS_SELECTED)
-						FillRect(dis->hDC, &dis->rcItem, hListSelectedBkgBrush);
+						FillRect(dis->hDC, &dis->rcItem, pci->hListSelectedBkgBrush);
 					else //if (dis->itemState & ODS_INACTIVE)
-						FillRect(dis->hDC, &dis->rcItem, hListBkgBrush);
+						FillRect(dis->hDC, &dis->rcItem, pci->hListBkgBrush);
 
 					if (g_Settings.ShowContactStatus && g_Settings.ContactStatusFirst && ui->ContactStatus) {
 						HICON hIcon = LoadSkinnedProtoIcon(si->pszModule, ui->ContactStatus);

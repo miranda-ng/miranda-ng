@@ -725,7 +725,7 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wPar
 	return FALSE;
 }
 
-static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
+int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 910000000;
@@ -753,18 +753,5 @@ static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 		odp.pfnDlgProc = DlgProcOptionsPopup;
 		Options_AddPage(wParam, &odp);
 	}
-	return 0;
-}
-
-int OptionsInit(void)
-{
-	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
-	return 0;
-}
-
-int OptionsUnInit(void)
-{
-	DeleteObject(hListBkgBrush);
-	DeleteObject(hListSelectedBkgBrush);
 	return 0;
 }

@@ -50,16 +50,7 @@ static int FontsChanged(WPARAM wParam, LPARAM lParam)
 {
 	LoadLogFonts();
 
-	LOGFONT lf;
-	HFONT hFont;
-	int iText;
-
-	LoadMsgDlgFont(0, &lf, NULL);
-	hFont = CreateFontIndirect(&lf);
-	iText = GetTextPixelSize(MakeTimeStamp(ci.pSettings->pszTimeStamp, time(NULL)), hFont, TRUE);
-	DeleteObject(hFont);
-	ci.pSettings->LogTextIndent = iText;
-	ci.pSettings->LogTextIndent = ci.pSettings->LogTextIndent * 12 / 10;
+	SetIndentSize();
 	ci.pSettings->LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
 	ci.MM_FontsChanged();
@@ -71,8 +62,8 @@ static int FontsChanged(WPARAM wParam, LPARAM lParam)
 static int IconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	FreeMsgLogBitmaps();
-
 	LoadMsgLogBitmaps();
+
 	ci.MM_IconsChanged();
 	ci.SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, FALSE);
 	return 0;
@@ -84,6 +75,9 @@ static int PreShutdown(WPARAM wParam, LPARAM lParam)
 
 	ci.SM_RemoveAll();
 	ci.MM_RemoveAll();
+
+	DeleteObject(ci.hListBkgBrush);
+	DeleteObject(ci.hListSelectedBkgBrush);
 	return 0;
 }
 

@@ -977,7 +977,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 					if (rc.bottom-rc.top > items * height) {
 						rc.top = items*height;
-						FillRect(dc, &rc, hListBkgBrush);
+						FillRect(dc, &rc, pci->hListBkgBrush);
 		}	}	}	}
 		return 1;
 
@@ -1735,7 +1735,7 @@ END_REMOVETAB:
 
 	case WM_CTLCOLORLISTBOX:
 		SetBkColor((HDC) wParam, g_Settings.crUserListBGColor);
-		return (INT_PTR) hListBkgBrush;
+		return (INT_PTR)pci->hListBkgBrush;
 
 	case WM_MEASUREITEM:
 		{
@@ -1779,9 +1779,9 @@ END_REMOVETAB:
 					SetBkMode(dis->hDC, TRANSPARENT);
 
 					if (dis->itemAction == ODA_FOCUS && dis->itemState & ODS_SELECTED)
-						FillRect(dis->hDC, &dis->rcItem, hListSelectedBkgBrush);
+						FillRect(dis->hDC, &dis->rcItem, pci->hListSelectedBkgBrush);
 					else //if (dis->itemState & ODS_INACTIVE)
-						FillRect(dis->hDC, &dis->rcItem, hListBkgBrush);
+						FillRect(dis->hDC, &dis->rcItem, pci->hListBkgBrush);
 
 					if (g_Settings.ShowContactStatus && g_Settings.ContactStatusFirst && ui->ContactStatus) {
 						HICON hIcon = LoadSkinnedProtoIcon(si->pszModule, ui->ContactStatus);
