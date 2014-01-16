@@ -385,7 +385,6 @@ static USERINFO* SM_GetUserFromIndex(const TCHAR *pszID, const char *pszModule, 
 	return NULL;
 }
 
-
 STATUSINFO* SM_AddStatus(const TCHAR *pszID, const char *pszModule, const TCHAR *pszStatus)
 {
 	if (!pszID || !pszModule)
@@ -847,55 +846,40 @@ static char* SM_GetUsers(SESSION_INFO *si)
 
 static MODULEINFO* MM_AddModule(const char *pszModule)
 {
-	if (!pszModule)
+	if (pszModule == NULL)
 		return NULL;
-	if (!ci.MM_FindModule(pszModule)) {
-		MODULEINFO *node = (MODULEINFO*)mir_alloc(sizeof(MODULEINFO));
-		ZeroMemory(node, sizeof(MODULEINFO));
 
-		node->pszModule = (char*)mir_alloc(lstrlenA(pszModule) + 1);
-		lstrcpyA(node->pszModule, pszModule);
+	if (ci.MM_FindModule(pszModule))
+		return NULL;
 
-		if (m_ModList == NULL) // list is empty
-		{
-			m_ModList = node;
-			node->next = NULL;
-		}
-		else {
-			node->next = m_ModList;
-			m_ModList = node;
-		}
-		return node;
+	MODULEINFO *node = (MODULEINFO*)mir_calloc(ci.cbModuleInfo);
+	replaceStr(node->pszModule, pszModule);
+	if (ci.OnCreateModule)
+		ci.OnCreateModule(node);
+
+	if (m_ModList == NULL) { // list is empty
+		m_ModList = node;
+		node->next = NULL;
 	}
-	return FALSE;
+	else {
+		node->next = m_ModList;
+		m_ModList = node;
+	}
+	return node;
 }
 
 static void MM_IconsChanged(void)
 {
-	ImageList_ReplaceIcon(ci.hIconsList, 0, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
-	ImageList_ReplaceIcon(ci.hIconsList, 1, LoadIconEx("overlay", FALSE));
-
 	MODULEINFO *pTemp = m_ModList;
 	while (pTemp != NULL) {
-		pTemp->OnlineIconIndex = ImageList_ReplaceIcon(ci.hIconsList, pTemp->OnlineIconIndex, LoadSkinnedProtoIcon(pTemp->pszModule, ID_STATUS_ONLINE));
-		pTemp->OfflineIconIndex = ImageList_ReplaceIcon(ci.hIconsList, pTemp->OfflineIconIndex, LoadSkinnedProtoIcon(pTemp->pszModule, ID_STATUS_OFFLINE));
+		Safe_DestroyIcon(pTemp->hOnlineIcon);
+		Safe_DestroyIcon(pTemp->hOfflineIcon);
+		Safe_DestroyIcon(pTemp->hOnlineTalkIcon);
+		Safe_DestroyIcon(pTemp->hOfflineTalkIcon);
 
-		if (pTemp->hOfflineIcon)
-			DestroyIcon(pTemp->hOfflineIcon);
-		if (pTemp->hOnlineIcon)
-			DestroyIcon(pTemp->hOnlineIcon);
-		if (pTemp->hOnlineTalkIcon)
-			DestroyIcon(pTemp->hOnlineTalkIcon);
-		if (pTemp->hOfflineTalkIcon)
-			DestroyIcon(pTemp->hOfflineTalkIcon);
-		pTemp->hOfflineIcon = ImageList_GetIcon(ci.hIconsList, pTemp->OfflineIconIndex, ILD_TRANSPARENT);
-		pTemp->hOnlineIcon = ImageList_GetIcon(ci.hIconsList, pTemp->OnlineIconIndex, ILD_TRANSPARENT);
-
-		pTemp->hOnlineTalkIcon = ImageList_GetIcon(ci.hIconsList, pTemp->OnlineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
-		ImageList_ReplaceIcon(ci.hIconsList, pTemp->OnlineIconIndex + 1, pTemp->hOnlineTalkIcon);
-
-		pTemp->hOfflineTalkIcon = ImageList_GetIcon(ci.hIconsList, pTemp->OfflineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
-		ImageList_ReplaceIcon(ci.hIconsList, pTemp->OfflineIconIndex + 1, pTemp->hOfflineTalkIcon);
+		if (ci.OnCreateModule) // recreate icons
+			ci.OnCreateModule(pTemp);
+		
 		pTemp = pTemp->next;
 	}
 }
@@ -945,14 +929,10 @@ static BOOL MM_RemoveAll(void)
 		mir_free(m_ModList->pszHeader);
 		mir_free(m_ModList->crColors);
 
-		if (m_ModList->hOfflineIcon)
-			DestroyIcon(m_ModList->hOfflineIcon);
-		if (m_ModList->hOnlineIcon)
-			DestroyIcon(m_ModList->hOnlineIcon);
-		if (m_ModList->hOnlineTalkIcon)
-			DestroyIcon(m_ModList->hOnlineTalkIcon);
-		if (m_ModList->hOfflineTalkIcon)
-			DestroyIcon(m_ModList->hOfflineTalkIcon);
+		Safe_DestroyIcon(m_ModList->hOnlineIcon);
+		Safe_DestroyIcon(m_ModList->hOfflineIcon);
+		Safe_DestroyIcon(m_ModList->hOnlineTalkIcon);
+		Safe_DestroyIcon(m_ModList->hOfflineTalkIcon);
 
 		mir_free(m_ModList);
 		m_ModList = pLast;
@@ -1482,7 +1462,7 @@ INT_PTR SvcGetChatManager(WPARAM, LPARAM lParam)
 {
 	LoadChatModule();
 
-	memset(PBYTE(&ci) + offsetof(CHAT_MANAGER, OnSessionDblClick), 0, sizeof(CHAT_MANAGER) - offsetof(CHAT_MANAGER, OnSessionDblClick));
+	memset(PBYTE(&ci) + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER)-offsetof(CHAT_MANAGER, OnCreateModule));
 	ci.pSettings = (GlobalLogSettingsBase*)lParam;
 	OptionsInit();
 	return (INT_PTR)&ci;

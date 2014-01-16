@@ -24,14 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef EM_GETSCROLLPOS
 #define EM_GETSCROLLPOS	(WM_USER+221)
 #endif
-TCHAR* MakeTimeStamp( TCHAR* pszStamp, time_t time)
-{
-	static TCHAR szTime[30];
-	if ( !_tcsftime(szTime, SIZEOF(szTime)-1, pszStamp, localtime(&time)))
-		_tcsncpy(szTime, TranslateT("<invalid>"), SIZEOF(szTime));
-	return szTime;
-}
-
 
 static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {

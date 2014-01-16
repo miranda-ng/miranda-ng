@@ -164,34 +164,34 @@ TCHAR* GetChatLogsFilename(HANDLE  hContact, time_t tTime)
 
 	// day 1-31
 	rva[0].lptzKey = _T("d");
-	rva[0].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%#d"), tTime));
+	rva[0].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%#d"), tTime));
 	// day 01-31
 	rva[1].lptzKey = _T("dd");
-	rva[1].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%d"), tTime));
+	rva[1].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%d"), tTime));
 	// month 1-12
 	rva[2].lptzKey = _T("m");
-	rva[2].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%#m"), tTime));
+	rva[2].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%#m"), tTime));
 	// month 01-12
 	rva[3].lptzKey = _T("mm");
-	rva[3].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%m"), tTime));
+	rva[3].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%m"), tTime));
 	// month text short
 	rva[4].lptzKey = _T("mon");
-	rva[4].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%b"), tTime));
+	rva[4].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%b"), tTime));
 	// month text
 	rva[5].lptzKey = _T("month");
-	rva[5].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%B"), tTime));
+	rva[5].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%B"), tTime));
 	// year 01-99
 	rva[6].lptzKey = _T("yy");
-	rva[6].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%y"), tTime));
+	rva[6].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%y"), tTime));
 	// year 1901-9999
 	rva[7].lptzKey = _T("yyyy");
-	rva[7].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%Y"), tTime));
+	rva[7].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%Y"), tTime));
 	// weekday short
 	rva[8].lptzKey = _T("wday");
-	rva[8].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%a"), tTime));
+	rva[8].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%a"), tTime));
 	// weekday
 	rva[9].lptzKey = _T("weekday");
-	rva[9].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%A"), tTime));
+	rva[9].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%A"), tTime));
 	// end of array
 	rva[10].lptzKey = NULL;
 	rva[10].lptzValue = NULL;

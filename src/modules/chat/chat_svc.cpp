@@ -153,18 +153,6 @@ static INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
 		memcpy(mi->crColors, gcr->pColors, sizeof(COLORREF)* gcr->nColors);
 	}
 
-	mi->OnlineIconIndex = ImageList_AddIcon(ci.hIconsList, LoadSkinnedProtoIcon(gcr->pszModule, ID_STATUS_ONLINE));
-	mi->hOnlineIcon = ImageList_GetIcon(ci.hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT);
-
-	mi->hOnlineTalkIcon = ImageList_GetIcon(ci.hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
-	ImageList_AddIcon(ci.hIconsList, mi->hOnlineTalkIcon);
-
-	mi->OfflineIconIndex = ImageList_AddIcon(ci.hIconsList, LoadSkinnedProtoIcon(gcr->pszModule, ID_STATUS_OFFLINE));
-	mi->hOfflineIcon = ImageList_GetIcon(ci.hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT);
-
-	mi->hOfflineTalkIcon = ImageList_GetIcon(ci.hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
-	ImageList_AddIcon(ci.hIconsList, mi->hOfflineTalkIcon);
-
 	mi->pszHeader = Log_CreateRtfHeader(mi);
 
 	CheckColorsInModule((char*)gcr->pszModule);

@@ -23,14 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // The code for streaming the text is to a large extent copied from
 // the srmm module and then modified to fit the chat module.
 
-TCHAR* MakeTimeStamp( TCHAR* pszStamp, time_t time)
-{
-	static TCHAR szTime[30];
-	if ( !_tcsftime(szTime, SIZEOF(szTime)-1, pszStamp, localtime(&time)))
-		_tcsncpy(szTime, TranslateT("<invalid>"), SIZEOF(szTime));
-	return szTime;
-}
-
 static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
 	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA *) dwCookie;

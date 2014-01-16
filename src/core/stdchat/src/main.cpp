@@ -31,6 +31,7 @@ HINSTANCE g_hInst;
 int hLangpack;
 
 BOOL SmileyAddInstalled = FALSE, PopupInstalled = FALSE;
+HIMAGELIST hIconsList;
 
 GlobalLogSettings g_Settings;
 
@@ -69,7 +70,21 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CHAT, M
 int OnShutdown(WPARAM, LPARAM)
 {
 	TabM_RemoveAll();
+	ImageList_Destroy(hIconsList);
 	return 0;
+}
+
+static void OnCreateModule(MODULEINFO *mi)
+{
+	mi->OnlineIconIndex = ImageList_AddIcon(hIconsList, LoadSkinnedProtoIcon(mi->pszModule, ID_STATUS_ONLINE));
+	mi->hOnlineIcon = ImageList_GetIcon(hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT);
+	mi->hOnlineTalkIcon = ImageList_GetIcon(hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
+	ImageList_AddIcon(hIconsList, mi->hOnlineTalkIcon);
+
+	mi->OfflineIconIndex = ImageList_AddIcon(hIconsList, LoadSkinnedProtoIcon(mi->pszModule, ID_STATUS_OFFLINE));
+	mi->hOfflineIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT);
+	mi->hOfflineTalkIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
+	ImageList_AddIcon(hIconsList, mi->hOfflineTalkIcon);
 }
 
 static void OnAddLog(SESSION_INFO *si, int isOk)
@@ -327,13 +342,10 @@ void LoadIcons(void)
 
 	LoadLogIcons();
 
-	pci->hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 3);
-	pci->hIconsList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 100);
-	ImageList_AddIcon(pci->hIconsList, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
-	ImageList_AddIcon(pci->hIconsList, LoadIconEx("overlay", FALSE));
-	ImageList_SetOverlayImage(pci->hIconsList, 1, 1);
-	ImageList_AddIcon(pci->hImageList, (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0));
-	ImageList_AddIcon(pci->hImageList, (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0));
+	hIconsList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 100);
+	ImageList_AddIcon(hIconsList, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
+	ImageList_AddIcon(hIconsList, LoadIconEx("overlay", FALSE));
+	ImageList_SetOverlayImage(hIconsList, 1, 1);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

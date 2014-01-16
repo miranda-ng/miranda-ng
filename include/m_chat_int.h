@@ -121,8 +121,6 @@ struct GCModuleInfoBase
 	HICON     hOfflineIcon;
 	HICON     hOnlineTalkIcon;
 	HICON     hOfflineTalkIcon;
-	int       OnlineIconIndex;
-	int       OfflineIconIndex;
 	int       iMaxText;
 	MODULEINFO* next;
 };
@@ -366,14 +364,26 @@ struct CHAT_MANAGER
 	void          (*LoadMsgDlgFont)(int i, LOGFONT *lf, COLORREF *color);
 	TCHAR*        (*MakeTimeStamp)(TCHAR *pszStamp, time_t time);
 
+	int logPixelSY, logPixelSX;
+	char *szActiveWndModule;
+	TCHAR *szActiveWndID;
+	HICON  hIcons[30];
+	HBRUSH hListBkgBrush, hListSelectedBkgBrush;
+	HANDLE hBuildMenuEvent, hSendEvent;
+	FONTINFO aFonts[OPTIONS_FONTCOUNT];
+	SESSION_INFO *wndList;
+
+	// user-defined custom callbacks
+	void (*OnCreateModule)(MODULEINFO*);
+
 	void (*OnSessionDblClick)(SESSION_INFO*);
 	void (*OnSessionOffline)(SESSION_INFO*);
 	void (*OnSessionRemove)(SESSION_INFO*);
 	void (*OnSessionRename)(SESSION_INFO*);
 	void (*OnSessionReplace)(SESSION_INFO*);
 
-	void(*ShowRoom)(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
-	void(*OnAddLog)(SESSION_INFO*, int);
+	void (*ShowRoom)(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
+	void (*OnAddLog)(SESSION_INFO*, int);
 	void (*OnClearLog)(SESSION_INFO*);
 	void (*OnEventBroadcast)(SESSION_INFO *si, GCEVENT *gce);
 	
@@ -392,18 +402,7 @@ struct CHAT_MANAGER
 
 	// data
 	GlobalLogSettingsBase *pSettings;
-
-	HIMAGELIST hImageList, hIconsList;
-	HANDLE     hBuildMenuEvent, hSendEvent;
-	HBRUSH     hListBkgBrush, hListSelectedBkgBrush;
-	HICON      hIcons[30];
-	FONTINFO   aFonts[OPTIONS_FONTCOUNT];
-	TCHAR     *szActiveWndID;
-	char      *szActiveWndModule;
-	int        logPixelSY, logPixelSX;
-	int        cbModuleInfo, cbSession;
-	
-	SESSION_INFO *wndList;
+	int cbModuleInfo, cbSession;
 };
 
 extern CHAT_MANAGER ci, *pci;

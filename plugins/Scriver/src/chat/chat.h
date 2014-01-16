@@ -93,7 +93,6 @@ void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRed
 void   LoadMsgLogBitmaps(void);
 void   FreeMsgLogBitmaps(void);
 TCHAR* GetChatLogsFilename (HANDLE  hContact, time_t tTime);
-TCHAR* MakeTimeStamp(TCHAR* pszStamp, time_t time);
 char*  Log_CreateRtfHeader(MODULEINFO * mi, SESSION_INFO *si);
 
 //window.c

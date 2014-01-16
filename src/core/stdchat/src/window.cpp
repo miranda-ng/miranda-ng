@@ -872,9 +872,10 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 					s = (SESSION_INFO*)tc.lParam;
 					if (s) {
 						BOOL bOnline = db_get_w(s->hContact, s->pszModule, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONLINE ? TRUE : FALSE;
+						MODULEINFO *mi = pci->MM_FindModule(s->pszModule);
 						bDragging = TRUE;
 						iBeginIndex = i;
-						ImageList_BeginDrag(pci->hIconsList, bOnline ? (pci->MM_FindModule(s->pszModule))->OnlineIconIndex : (pci->MM_FindModule(s->pszModule))->OfflineIconIndex, 8, 8);
+						ImageList_BeginDrag(hIconsList, bOnline ? mi->OnlineIconIndex : mi->OfflineIconIndex, 8, 8);
 						ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
 						SetCapture(hwnd);
 					}
@@ -1150,13 +1151,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_LIMITTEXT, (WPARAM)sizeof(TCHAR)* 0x7FFFFFFF, 0);
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)& reOleCallback);
 
-			//			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_MESSAGE));
-			//			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_LOG));
-
 			si->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP | SBT_TOOLTIPS, 0, 0, 0, 0, hwndDlg, NULL, g_hInst, NULL);
 			SendMessage(si->hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
 			TabCtrl_SetMinTabWidth(GetDlgItem(hwndDlg, IDC_TAB), 80);
-			TabCtrl_SetImageList(GetDlgItem(hwndDlg, IDC_TAB), pci->hIconsList);
+			TabCtrl_SetImageList(GetDlgItem(hwndDlg, IDC_TAB), hIconsList);
 
 			// enable tooltips
 			si->iOldItemID = -1;

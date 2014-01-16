@@ -23,13 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 {
-	HWND hParent = NULL;
 	if (!si)
 		return;
 
 	//Do we need to create a window?
 	if (si->hWnd == NULL) {
-		hParent = GetParentWindow(si->windowData.hContact, TRUE);
+		HWND hParent = GetParentWindow(si->windowData.hContact, TRUE);
 		si->hWnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHANNEL), hParent, RoomWndProc, (LPARAM)si);
 	}
 	SendMessage(si->hWnd, DM_UPDATETABCONTROL, -1, (LPARAM)si);
@@ -37,24 +36,4 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 	SendMessage(GetParent(si->hWnd), CM_POPUPWINDOW, 0, (LPARAM)si->hWnd);
 	SendMessage(si->hWnd, WM_MOUSEACTIVATE, 0, 0);
 	SetFocus(GetDlgItem(si->hWnd, IDC_CHAT_MESSAGE));
-}
-
-void LoadModuleIcons(MODULEINFO *mi)
-{
-	HIMAGELIST hList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
-
-	int overlayIcon = ImageList_AddIcon(hList, GetCachedIcon("chat_overlay"));
-	ImageList_SetOverlayImage(hList, overlayIcon, 1);
-	
-	mi->hOnlineIconBig = LoadSkinnedProtoIconBig(mi->pszModule, ID_STATUS_ONLINE);
-	mi->hOnlineIcon = LoadSkinnedProtoIcon(mi->pszModule, ID_STATUS_ONLINE);
-	int index = ImageList_AddIcon(hList, mi->hOnlineIcon); 
-	mi->hOnlineTalkIcon = ImageList_GetIcon(hList, index, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
-
-	mi->hOfflineIconBig = LoadSkinnedProtoIconBig(mi->pszModule, ID_STATUS_OFFLINE);
-	mi->hOfflineIcon = LoadSkinnedProtoIcon(mi->pszModule, ID_STATUS_OFFLINE);
-	index = ImageList_AddIcon(hList, mi->hOfflineIcon); 
-	mi->hOfflineTalkIcon = ImageList_GetIcon(hList, index, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
-
-	ImageList_Destroy(hList);
 }

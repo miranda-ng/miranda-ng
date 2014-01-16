@@ -79,7 +79,12 @@ struct TABLIST
 	TABLIST *next;
 };
 
-struct MODULEINFO : public GCModuleInfoBase {};
+struct MODULEINFO : public GCModuleInfoBase
+{
+	int OnlineIconIndex;
+	int OfflineIconIndex;
+};
+
 struct SESSION_INFO : public GCSessionInfoBase {};
 struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 
@@ -95,6 +100,7 @@ extern GlobalLogSettings g_Settings;
 extern SESSION_INFO g_TabSession;
 extern TABLIST *g_TabList;
 extern HMENU g_hMenu;
+extern HIMAGELIST hIconsList;
 
 extern HINSTANCE g_hInst;
 extern BOOL SmileyAddInstalled, PopupInstalled;
@@ -145,7 +151,6 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 // log.c
 void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw, BOOL bPhaseTwo);
 void ValidateFilename (TCHAR * filename);
-TCHAR* MakeTimeStamp(TCHAR* pszStamp, time_t time);
 char* Log_CreateRtfHeader(MODULEINFO * mi);
 
 // window.c
