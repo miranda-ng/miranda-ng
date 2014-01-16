@@ -555,17 +555,17 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		si = (SESSION_INFO *)lParam;
-		CheckDlgButton(hwndDlg, IDC_CHAT_1, si->iLogFilterFlags&GC_EVENT_ACTION);
-		CheckDlgButton(hwndDlg, IDC_CHAT_2, si->iLogFilterFlags&GC_EVENT_MESSAGE);
-		CheckDlgButton(hwndDlg, IDC_CHAT_3, si->iLogFilterFlags&GC_EVENT_NICK);
-		CheckDlgButton(hwndDlg, IDC_CHAT_4, si->iLogFilterFlags&GC_EVENT_JOIN);
-		CheckDlgButton(hwndDlg, IDC_CHAT_5, si->iLogFilterFlags&GC_EVENT_PART);
-		CheckDlgButton(hwndDlg, IDC_CHAT_6, si->iLogFilterFlags&GC_EVENT_TOPIC);
-		CheckDlgButton(hwndDlg, IDC_CHAT_7, si->iLogFilterFlags&GC_EVENT_ADDSTATUS);
-		CheckDlgButton(hwndDlg, IDC_CHAT_8, si->iLogFilterFlags&GC_EVENT_INFORMATION);
-		CheckDlgButton(hwndDlg, IDC_CHAT_9, si->iLogFilterFlags&GC_EVENT_QUIT);
-		CheckDlgButton(hwndDlg, IDC_CHAT_10, si->iLogFilterFlags&GC_EVENT_KICK);
-		CheckDlgButton(hwndDlg, IDC_CHAT_11, si->iLogFilterFlags&GC_EVENT_NOTICE);
+		CheckDlgButton(hwndDlg, IDC_CHAT_1, si->iLogFilterFlags & GC_EVENT_ACTION);
+		CheckDlgButton(hwndDlg, IDC_CHAT_2, si->iLogFilterFlags & GC_EVENT_MESSAGE);
+		CheckDlgButton(hwndDlg, IDC_CHAT_3, si->iLogFilterFlags & GC_EVENT_NICK);
+		CheckDlgButton(hwndDlg, IDC_CHAT_4, si->iLogFilterFlags & GC_EVENT_JOIN);
+		CheckDlgButton(hwndDlg, IDC_CHAT_5, si->iLogFilterFlags & GC_EVENT_PART);
+		CheckDlgButton(hwndDlg, IDC_CHAT_6, si->iLogFilterFlags & GC_EVENT_TOPIC);
+		CheckDlgButton(hwndDlg, IDC_CHAT_7, si->iLogFilterFlags & GC_EVENT_ADDSTATUS);
+		CheckDlgButton(hwndDlg, IDC_CHAT_8, si->iLogFilterFlags & GC_EVENT_INFORMATION);
+		CheckDlgButton(hwndDlg, IDC_CHAT_9, si->iLogFilterFlags & GC_EVENT_QUIT);
+		CheckDlgButton(hwndDlg, IDC_CHAT_10, si->iLogFilterFlags & GC_EVENT_KICK);
+		CheckDlgButton(hwndDlg, IDC_CHAT_11, si->iLogFilterFlags & GC_EVENT_NOTICE);
 		break;
 
 	case WM_CTLCOLOREDIT:
@@ -601,7 +601,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_11) == BST_CHECKED)
 				iFlags |= GC_EVENT_NOTICE;
 
-			if (iFlags&GC_EVENT_ADDSTATUS)
+			if (iFlags & GC_EVENT_ADDSTATUS)
 				iFlags |= GC_EVENT_REMOVESTATUS;
 
 			SendMessage(si->hWnd, GC_CHANGEFILTERFLAG, 0, (LPARAM)iFlags);
@@ -623,16 +623,12 @@ static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 {
 	switch (msg) {
 	case WM_RBUTTONUP:
-		HWND hFilter = GetDlgItem(GetParent(hwnd), IDC_CHAT_FILTER);
-		HWND hColor = GetDlgItem(GetParent(hwnd), IDC_CHAT_COLOR);
-		HWND hBGColor = GetDlgItem(GetParent(hwnd), IDC_CHAT_BKGCOLOR);
-
 		if (db_get_b(NULL, "Chat", "RightClickFilter", 0) != 0) {
-			if (hFilter == hwnd)
+			if (GetDlgItem(GetParent(hwnd), IDC_CHAT_FILTER) == hwnd)
 				SendMessage(GetParent(hwnd), GC_SHOWFILTERMENU, 0, 0);
-			if (hColor == hwnd)
+			if (GetDlgItem(GetParent(hwnd), IDC_CHAT_COLOR) == hwnd)
 				SendMessage(GetParent(hwnd), GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_CHAT_COLOR);
-			if (hBGColor == hwnd)
+			if (GetDlgItem(GetParent(hwnd), IDC_CHAT_BKGCOLOR) == hwnd)
 				SendMessage(GetParent(hwnd), GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_CHAT_BKGCOLOR);
 		}
 		break;
@@ -1463,11 +1459,11 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case GC_UPDATENICKLIST:
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, WM_SETREDRAW, FALSE, 0);
 		SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LIST), LB_RESETCONTENT, 0, 0);
-		for (int index = 0; index<si->nUsersInNicklist; index++) {
+		for (int index = 0; index < si->nUsersInNicklist; index++) {
 			USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, index);
 			if (ui) {
 				char szIndicator = SM_GetStatusIndicator(si, ui);
-				if (szIndicator>'\0') {
+				if (szIndicator > '\0') {
 					static TCHAR ptszBuf[128];
 					mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("%c%s"), szIndicator, ui->pszNick);
 					SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LIST), LB_ADDSTRING, 0, (LPARAM)ptszBuf);

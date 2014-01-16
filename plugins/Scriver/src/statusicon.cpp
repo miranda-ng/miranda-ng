@@ -71,6 +71,8 @@ static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
 		if (hwnd != NULL)
 			PostMessage(GetParent(hwnd), DM_STATUSICONCHANGE, 0, 0);
 	}
+
+	LoadChatIcons();
 	return 0;
 }
 

@@ -452,9 +452,6 @@ static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	ReloadGlobals();
-	RegisterIcons();
-	RegisterFontServiceFonts();
-	RegisterKeyBindings();
 	LoadGlobalIcons();
 	LoadMsgLogIcons();
 	ModuleLoad(0, 0);
@@ -525,6 +522,9 @@ int OnLoadModule(void)
 	RichUtil_Load();
 	OleInitialize(NULL);
 	InitStatusIcons();
+	RegisterIcons();
+	RegisterFontServiceFonts();
+	RegisterKeyBindings();
 
 	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 	HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);
