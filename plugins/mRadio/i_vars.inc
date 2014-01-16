@@ -47,29 +47,9 @@ const
 
 var
   hhRadioStatus,
-  // service handles
-  hsPlayStop,
-  hsRecord,
-  hsSettings,
-  hsSetVol,
-  hsGetVol,
-  hsMute,
-  hsCommand,
-  hsExport,
-  hsImport,
-  hsTrayMenu,
-  hsEqOnOff,
-
-  hNetLib,
-  hDblClick,
-  hHookShutdown,
   hCMenuItemRec,
   hCMenuItemPlay,
-  contexthook,
-  opthook,
-  onsetting,
-  ondelete,
-  onloadhook:THANDLE;
+  hNetLib:THANDLE;
   hiddenwindow:HWND;
 var
   plist:tPlaylist;

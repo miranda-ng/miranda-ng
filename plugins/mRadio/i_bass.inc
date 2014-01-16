@@ -123,7 +123,7 @@ begin
       pc := nil;
       if SelectDirectory(TranslateW('Choose BASS.dll path'),pc,0) then
       begin
-        CallService(MS_UTILS_PATHTORELATIVEW,wparam(pc),lparam(@buf));
+        PathToRelativeW(pc,buf);
         pc:=StrCopyEW(basspath,buf);
         if (pc-1)^<>'\' then
         begin

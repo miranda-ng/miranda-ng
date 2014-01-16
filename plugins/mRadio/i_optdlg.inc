@@ -334,7 +334,7 @@ begin
               dst:=nil;
               if SelectDirectory(pWideChar(nil),dst,Dialog) then
               begin
-                CallService(MS_UTILS_PATHTORELATIVEW,twparam(dst),tlparam(@buf));
+                PathToRelativeW(dst,buf);
                 SetDlgItemTextW(Dialog,IDC_ED_RECPATH,pWideChar(@buf));
                 mFreeMem(dst);
               end;
@@ -468,8 +468,10 @@ begin
         begin
           mGetMem(recpath,MAX_PATH*SizeOf(WideChar));
           recpath^:=#0;
-          CallService(MS_UTILS_PATHTORELATIVEW,twparam(@buf),tlparam(recpath));
-        end;
+          PathToRelativeW(buf,recpath);
+        end
+        else
+          recpath:=GetDefaultRecPath;
         DBWriteUnicode(0,PluginName,optRecPath,recpath);
       end;
     end;
@@ -713,7 +715,7 @@ begin
               dst:=nil;
               if SelectDirectory(pWideChar(nil),dst,Dialog) then
               begin
-                CallService(MS_UTILS_PATHTORELATIVEW,twparam(dst),tlparam(@buf));
+                PathToRelativeW(dst,buf);
                 SetDlgItemTextW(Dialog,IDC_BASSPATH,pWideChar(@buf));
                 mFreeMem(dst);
               end;
