@@ -8,7 +8,7 @@ uses windows;
 procedure SendRTF(wnd:hwnd;txt:PWideChar;isUnicode:Boolean;CP:integer=CP_ACP);
 
 implementation
-uses richedit,common,messages,m_api;
+uses richedit,common,messages{,m_api};
 
 const
   RTFBufferSize = 16384;

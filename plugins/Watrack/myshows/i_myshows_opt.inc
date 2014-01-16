@@ -8,8 +8,6 @@ const
   optScrobble:pAnsiChar='myshows/scrobble';
 
 procedure SaveOpt;
-var
-  tmppass:array [0..255] of AnsiChar;
 begin
   DBWriteString(0,PluginShort,optPassword,msh_password);
   DBWriteString(0,PluginShort,optLogin   ,msh_login);

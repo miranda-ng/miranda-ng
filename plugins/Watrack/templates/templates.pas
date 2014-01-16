@@ -104,8 +104,9 @@ begin
   Tmpl.Init      :=@InitProc;
   Tmpl.DeInit    :=@DeInitProc;
   Tmpl.AddOption :=@AddOptionsPage;
+  Tmpl.Check     :=nil;
   Tmpl.ModuleName:=nil;
-  ModuleLink     :=@Tmpl;
+  ModuleLink    :=@Tmpl;
 end;
 
 begin

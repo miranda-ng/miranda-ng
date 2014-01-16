@@ -34,7 +34,7 @@ function GetMD5(const data;datalen:integer;var digest:TMD5Hash):TMD5Hash;
 begin
   FillChar(digest,16,0);
 
-  mir_md5_hash(pmir_md5_byte_t(data),datalen,digest);
+  mir_md5_hash(pbyte(data),datalen,digest);
 
   result:=digest;
 end;

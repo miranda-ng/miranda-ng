@@ -16,4 +16,6 @@ var
   hPackLog,
   hMakeReport,
   hAddToLog,
+  plStatusHook,
+  sic,
   hMenuReport:THANDLE;

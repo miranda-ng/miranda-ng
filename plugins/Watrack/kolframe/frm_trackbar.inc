@@ -160,7 +160,7 @@ var
   rc, rc1:TRECT;
   w:integer;
 begin
-  SendMessage(Sender.Handle,TBM_GETTHUMBRECT,0,dword(@rc));
+  SendMessage(Sender.Handle,TBM_GETTHUMBRECT,0,tlparam(@rc));
 
   w:=rc.right-rc.left;
   if w<>16 then

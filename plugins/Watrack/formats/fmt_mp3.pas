@@ -161,8 +161,11 @@ begin
   ReadID3v2(f,Info);
   BlockRead(f,l,4);
 //  if l[0]<>$FF then
-    if not SearchStart(f,l) then
-      Exit;
+  if not SearchStart(f,l) then
+  begin
+    CloseHandle(f);
+    Exit;
+  end;
   TranslateFrameHdr(l,hdr);
   CheckVBR(f,hdr);
   Info.kbps :=hdr.Bitrate;

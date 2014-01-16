@@ -7,8 +7,6 @@ const
   optLanguage:pAnsiChar='lfm/language';
 
 procedure SaveOpt;
-var
-  tmppass:array [0..255] of AnsiChar;
 begin
   DBWriteString(0,PluginShort,optPassword,lfm_password);
   DBWriteString(0,PluginShort,optLogin   ,lfm_login);

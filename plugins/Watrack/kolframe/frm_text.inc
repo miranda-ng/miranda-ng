@@ -41,7 +41,7 @@ begin
        (StrPosW(D.Template,'%time%'   )=nil) then // need to |remake
       exit;
   end;
-  tmp:=pWideChar(CallService(MS_WAT_REPLACETEXT,0,dword(D.Template)));
+  tmp:=pWideChar(CallService(MS_WAT_REPLACETEXT,0,tlparam(D.Template)));
   D.TextBlock.BlockText:=tmp;
   mFreeMem(tmp);
 end;

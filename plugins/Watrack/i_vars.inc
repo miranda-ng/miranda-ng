@@ -5,16 +5,7 @@ var
   WorkSI   :tSongInfo;
 var
   hEvent:THANDLE;
-  hGFI,
-  hWI,
-  hGMI,
-  hPS,
-  hPB,
-  hWATI,
-  hWC,
-  hFMT,
-  hPLR,
-  hRGS,
+  hHookWATStatus,
   hHookWATLoaded:THANDLE;
   inshotkey:cardinal;
   globhotkey:cardinal;

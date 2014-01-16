@@ -63,7 +63,7 @@ begin
 
   if D.Trackbar<>nil then
   begin
-    if (CallService(MS_WAT_GETMUSICINFO,WAT_INF_CHANGES,dword(@psi))<>WAT_PLS_NOTFOUND) then
+    if (CallService(MS_WAT_GETMUSICINFO,WAT_INF_CHANGES,tlparam(@psi))<>WAT_PLS_NOTFOUND) then
     begin
       SetTrackBarPosition(D.Trackbar,(psi^.time*1000) div D.UpdInterval)
     end;
@@ -265,7 +265,7 @@ begin
       if D.BkBitmap=0 then
       begin
         if (D.BkFile<>nil) and (D.BkFile^<>#0) then
-          D.BkBitmap:=CallService(MS_UTILS_LOADBITMAP,0,dword(D.BkFile));
+          D.BkBitmap:=CallService(MS_UTILS_LOADBITMAP,0,tlparam(D.BkFile));
       end;
 
       if D.BkBitmap<>0 then
@@ -309,7 +309,7 @@ begin
       Exit;
     end;
 
-    result:=CallService(MS_UTILS_LOADBITMAP,0,dword(CoverFName));
+    result:=CallService(MS_UTILS_LOADBITMAP,0,tlparam(CoverFName));
     if result<>0 then
     begin
       mFreeMem(D.BkFile);
@@ -325,7 +325,7 @@ begin
     begin
       if (not check) or (StrCmp(tmpstr,D.BkFile)<>0) then
       begin
-        result:=CallService(MS_UTILS_LOADBITMAP,0,dword(tmpstr));
+        result:=CallService(MS_UTILS_LOADBITMAP,0,tlparam(tmpstr));
         if result<>0 then
         begin
           mFreeMem(D.BkFile);
@@ -412,7 +412,7 @@ begin
       RegisterButtonIcons;
       D.Trackbar:=MakeNewTrackbar(@self);
       // for case when TB creating after track start (fastest way)
-      // can use (CallService(MS_WAT_GETMUSICINFO,WAT_INF_CHANGES,dword(@psi))<>WAT_PLS_NOTFOUND)
+      // can use (CallService(MS_WAT_GETMUSICINFO,WAT_INF_CHANGES,tlparam(@psi))<>WAT_PLS_NOTFOUND)
       psi:=pointer(CallService(MS_WAT_RETURNGLOBAL,WAT_INF_UNICODE,1));
       TrackbarSetRange(D.Trackbar,D.UpdInterval,psi^.total);
     end;

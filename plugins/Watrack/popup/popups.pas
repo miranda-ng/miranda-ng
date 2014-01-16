@@ -385,7 +385,7 @@ var
   odp:TOPTIONSDIALOGPAGE;
 begin
   FillChar(odp,SizeOf(odp),0);
-  odp.cbSize     :=sizeof(odp);
+  odp.cbSize     :=SizeOf(odp);
   odp.flags      :=ODPF_BOLDGROUPS;
   odp.Position   :=900003000;
   odp.hInstance  :=hInstance;
@@ -403,6 +403,8 @@ var
   ttb:TTBButton;
 begin
   result:=0;
+  if onttbhook<>0 then
+    UnhookEvent(onttbhook);
   // get info button
   FillChar(ttb,SizeOf(ttb),0);
   ttb.cbSize    :=SizeOf(ttb);
@@ -412,9 +414,66 @@ begin
   ttb.pszService:=MS_WAT_SHOWMUSICINFO;
   ttb.name      :='Music Info';
   ttbInfo:=TopToolbar_AddButton(@ttb);
+  if ttbInfo=THANDLE(-1) then
+    ttbInfo:=0;
 end;
 
 // ------------ base interface functions -------------
+
+function CheckProc(load:boolean):boolean;
+var
+  newstate:boolean;
+begin
+  result:=true;
+  // Popups
+  newstate:=ServiceExists(MS_POPUP_ADDPOPUPW)<>0;
+  if newstate=PopupPresent then
+    exit;
+
+  PopupPresent:=newstate;
+  if PopupPresent then
+  begin
+    IsFreeImagePresent:=ServiceExists(MS_IMG_LOAD       )<>0;
+    IsPopup2Present   :=ServiceExists(MS_POPUP_ADDPOPUP2)<>0;
+    opthook:=HookEvent(ME_OPT_INITIALISE,@OnOptInitialise);
+
+    if ServiceExists(MS_POPUP_REGISTERACTIONS)<>0 then
+    begin
+      if RegisterButtonIcons then
+      begin
+        ActionList:=MakeActions;
+        if ActionList<>nil then
+          CallService(MS_POPUP_REGISTERACTIONS,wparam(ActionList),7);
+      end;
+    end;
+  end
+  else
+  begin
+    UnhookEvent(opthook);
+    mFreeMem(ActionList);
+  end;
+
+  // TTB
+  newstate:=ServiceExists(MS_TTB_ADDBUTTON)<>0;
+  if newstate=(ttbInfo<>0) then
+    exit;
+
+  if ttbInfo=0 then
+  begin
+    onttbhook:=0;
+    OnTTBLoaded(0,0);
+    if ttbInfo=0 then
+      onttbhook:=HookEvent(ME_TTB_MODULELOADED,@OnTTBLoaded);
+  end
+  else
+  begin
+    if ServiceExists(MS_TTB_REMOVEBUTTON)>0 then
+      CallService(MS_TTB_REMOVEBUTTON,WPARAM(ttbInfo),0);
+    ttbInfo:=0;
+  end;
+
+  // Variables ?
+end;
 
 function InitProc(aGetStatus:boolean=false):integer;
 var
@@ -433,7 +492,7 @@ begin
     SetModStatus(1);
   result:=1;
 
-  CreateServiceFunction(MS_WAT_SHOWMUSICINFO,@OpenPopup);
+  ssmi:=CreateServiceFunction(MS_WAT_SHOWMUSICINFO,@OpenPopup);
 
   FillChar(sid,SizeOf(TSKINICONDESC),0);
   sid.cbSize:=SizeOf(TSKINICONDESC);
@@ -445,7 +504,7 @@ begin
   sid.szDescription.a:='Music Info';
   Skin_AddIcon(@sid);
   DestroyIcon(sid.hDefaultIcon);
-  HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+  sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 
   FillChar(mi,SizeOf(mi),0);
   mi.cbSize       :=SizeOf(mi);
@@ -456,16 +515,15 @@ begin
   mi.popupPosition:=MenuInfoPos;
   hMenuInfo       :=Menu_AddMainMenuItem(@mi);
 
+  ActionList:=nil;
   if ServiceExists(MS_POPUP_ADDPOPUPW)<>0 then
   begin
     IsFreeImagePresent:=ServiceExists(MS_IMG_LOAD       )<>0;
     IsPopup2Present   :=ServiceExists(MS_POPUP_ADDPOPUP2)<>0;
     PopupPresent:=true;
-    HookEvent(ME_OPT_INITIALISE,@OnOptInitialise);
+    opthook:=HookEvent(ME_OPT_INITIALISE,@OnOptInitialise);
     loadpopup;
-    regpophotkey;
 
-    ActionList:=nil;
     if ServiceExists(MS_POPUP_REGISTERACTIONS)<>0 then
     begin
       if RegisterButtonIcons then
@@ -479,10 +537,21 @@ begin
   else
   begin
     PopupPresent:=false;
+    opthook:=0;
   end;
+  regpophotkey;
 
-  HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
-  HookEvent(ME_TTB_MODULELOADED,@OnTTBLoaded);
+  plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
+
+  if ServiceExists(MS_TTB_ADDBUTTON)>0 then
+  begin
+    onttbhook:=0;
+    OnTTBLoaded(0,0);
+    if ttbInfo=0 then
+      onttbhook:=HookEvent(ME_TTB_MODULELOADED,@OnTTBLoaded);
+  end
+  else
+    ttbInfo:=0;
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
@@ -491,17 +560,22 @@ begin
     SetModStatus(0);
 
   CallService(MS_CLIST_REMOVEMAINMENUITEM,hMenuInfo,0);
+  UnhookEvent(plStatusHook);
+  DestroyServiceFunction(ssmi);
+  UnhookEvent(sic);
 
   freepopup;
 
   if ttbInfo<>0 then
   begin
-    CallService(MS_TTB_REMOVEBUTTON,WPARAM(ttbInfo),0);
+    if ServiceExists(MS_TTB_REMOVEBUTTON)>0 then
+      CallService(MS_TTB_REMOVEBUTTON,WPARAM(ttbInfo),0);
     ttbInfo:=0;
   end;
 
   if PopupPresent then
   begin
+    UnhookEvent(opthook);
     mFreeMem(ActionList);
   end;
 end;
@@ -515,6 +589,7 @@ begin
   Popup.Init      :=@InitProc;
   Popup.DeInit    :=@DeInitProc;
   Popup.AddOption :=nil;
+  Popup.Check     :=@CheckProc;
   Popup.ModuleName:='Popups';
   ModuleLink      :=@Popup;
 end;

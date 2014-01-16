@@ -365,9 +365,8 @@ begin
         begin
           p:=PlyNum;
           result:=WAT_RES_OK;
-          inc(PlyNum);
 
-          if PlyNum>PlyMax then // expand array when append
+          if PlyNum=PlyMax then // expand array when append
           begin
             if PlyMax=0 then
               PlyMax:=StartSize
@@ -412,6 +411,7 @@ begin
           else
             plyLink^[p].URL:=nil;
 
+          inc(PlyNum);
         end
         else // existing player
         begin

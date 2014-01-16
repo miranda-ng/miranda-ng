@@ -31,7 +31,7 @@ var
 begin
   D:=FrameCtrl.CustomData;
   CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,
-      (D.FrameId shl 16)+FO_TBNAME+addflag,dword(title));
+      (D.FrameId shl 16)+FO_TBNAME+addflag,tlparam(title));
   CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,(D.FrameId shl 16)+FO_ICON,icon);
   CallService(MS_CLIST_FRAMES_UPDATEFRAME,D.FrameId,FU_TBREDRAW);
 end;
@@ -220,10 +220,10 @@ begin
     end;
     FrameHeight:=CLFrame.height;
 
-    PWATFrameData(FrameCtrl.CustomData).FrameId:=CallService(MS_CLIST_FRAMES_ADDFRAME,dword(@CLFrame),0);
+    PWATFrameData(FrameCtrl.CustomData).FrameId:=CallService(MS_CLIST_FRAMES_ADDFRAME,twparam(@CLFrame),0);
     if PWATFrameData(FrameCtrl.CustomData).FrameId>=0 then
     begin
-      HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
+      plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
     end;
   end;
   result:=FrameWnd<>0;
@@ -235,6 +235,8 @@ var
 begin
   if (FrameCtrl<>nil) and (PWATFrameData(FrameCtrl.CustomData).FrameId>=0) then
   begin
+    UnhookEvent(plStatusHook);
+
     id:=PWATFrameData(FrameCtrl.CustomData).FrameId;
     FrameCtrl.Free;
     FrameCtrl:=nil;
@@ -271,7 +273,7 @@ begin
 
   result:=ord(CreateFrame(0));
   if result<>0 then
-    HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+    sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
@@ -279,6 +281,11 @@ begin
   if aSetDisable then
     SetModStatus(0);
 
+  if sic<>0 then
+  begin
+    UnhookEvent(sic);
+    sic:=0;
+  end;
   DestroyFrame;
 end;
 
@@ -314,6 +321,7 @@ begin
   Frame.Init      :=@InitProc;
   Frame.DeInit    :=@DeInitProc;
   Frame.AddOption :=@AddOptionsPage;
+  Frame.Check     :=nil;
   Frame.ModuleName:='Frame';
   ModuleLink      :=@Frame;
 end;

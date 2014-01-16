@@ -200,7 +200,7 @@ begin
         mGetMem(buf1,1024{*SizeOf(WideChar)});
         buf1^:=#0;
         buf:=GetDlgText(Dialog,IDC_FRMBKPIC,true);
-        CallService(MS_UTILS_PATHTORELATIVE,wparam(buf),lparam(buf1));
+        PathToRelative(buf,buf1);
         if StrCmp(buf1,D.BkDefFile)<>0 then
         begin
           mFreeMem(D.BkDefFile);

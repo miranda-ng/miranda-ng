@@ -531,9 +531,26 @@ begin
   result:=0;
 end;
 
+type
+  tdbetd = record
+    flags:dword;
+    event:int;
+    descr:pAnsiChar;
+  end;
+
+const
+  cdbetd: array [0..3] of tdbetd = (
+    (flags:DETF_HISTORY or DETF_MSGWINDOW; event:EVENTTYPE_WAT_REQUEST; descr:'WATrack: information request'),
+    (flags:DETF_HISTORY or DETF_MSGWINDOW; event:EVENTTYPE_WAT_ANSWER ; descr:nil),
+    (flags:DETF_HISTORY or DETF_MSGWINDOW; event:EVENTTYPE_WAT_ERROR  ; descr:'WATrack: request denied'),
+    (flags:DETF_HISTORY or DETF_NONOTIFY ; event:EVENTTYPE_WAT_MESSAGE; descr:nil)
+  );
+
 function OnModulesLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   p:PAnsiChar;
+  dbetd:TDBEVENTTYPEDESCR;
+  i:integer;
 begin
   hTimer:=0;
 
@@ -567,11 +584,27 @@ begin
 
   IsMultiThread:=true;
 
+  // Register WATrack events
+  dbetd.cbSize     :=DBEVENTTYPEDESCR_SIZE;
+  dbetd.module     :=PluginShort;
+  dbetd.textService:=nil;
+  dbetd.iconService:=nil;
+  dbetd.eventIcon  :=0;
+
+  for i:=0 to HIGH(cdbetd) do
+  begin
+    dbetd.flags      :=cdbetd[i].flags;
+    dbetd.eventType  :=cdbetd[i].event;
+    dbetd.descr      :=cdbetd[i].descr;
+    CallService(MS_DB_EVENT_REGISTERTYPE,0,TLPARAM(@dbetd));
+  end;
+
+  // Load WATrack modules
   hEvent:=CreateEvent(nil,true,true,nil);
   if hEvent<>0 then
   begin
     p:='WAT_INIT';
-    hWATI:=CreateServiceFunction(p,@WaitAllModules);
+    CreateServiceFunction(p,@WaitAllModules);
     CallService(MS_SYSTEM_WAITONHANDLE,hEvent,tlparam(p));
   end;
 
@@ -595,22 +628,6 @@ begin
   mFreeMem(CoverPaths);
   ClearFormats;
   ClearPlayers;
-end;
-
-procedure FreeServices;
-begin
-  DestroyServiceFunction(hGFI);
-  DestroyServiceFunction(hRGS);
-
-  DestroyServiceFunction(hWI);
-  DestroyServiceFunction(hGMI);
-  DestroyServiceFunction(hPS);
-  DestroyServiceFunction(hPB);
-  DestroyServiceFunction(hWATI);
-  DestroyServiceFunction(hWC);
-
-  DestroyServiceFunction(hFMT);
-  DestroyServiceFunction(hPLR);
 end;
 
 function PreShutdown(wParam:WPARAM;lParam:LPARAM):int;cdecl;
@@ -644,7 +661,6 @@ begin
     ptr:=ptr^.Next;
   end;
 
-  FreeServices;
   FreeVariables;
 
   DestroyHookableEvent(hHookWATLoaded);
@@ -684,17 +700,17 @@ begin
   HookEvent(ME_SYSTEM_OKTOEXIT,@PreShutdown);
   HookEvent(ME_OPT_INITIALISE ,@OnOptInitialise);
 
-  hGFI:=CreateServiceFunction(MS_WAT_GETFILEINFO  ,@WATGetFileInfo);
-  hRGS:=CreateServiceFunction(MS_WAT_RETURNGLOBAL ,@WATReturnGlobal);
+  CreateServiceFunction(MS_WAT_GETFILEINFO  ,@WATGetFileInfo);
+  CreateServiceFunction(MS_WAT_RETURNGLOBAL ,@WATReturnGlobal);
 
-  hGMI:=CreateServiceFunction(MS_WAT_GETMUSICINFO ,@WATGetMusicInfo);
-  hPS :=CreateServiceFunction(MS_WAT_PLUGINSTATUS ,@WATPluginStatus);
-  hPB :=CreateServiceFunction(MS_WAT_PRESSBUTTON  ,@PressButton);
-  hWI :=CreateServiceFunction(MS_WAT_WINAMPINFO   ,@WinampGetInfo);
-  hWC :=CreateServiceFunction(MS_WAT_WINAMPCOMMAND,@WinampCommand);
+  CreateServiceFunction(MS_WAT_GETMUSICINFO ,@WATGetMusicInfo);
+  CreateServiceFunction(MS_WAT_PLUGINSTATUS ,@WATPluginStatus);
+  CreateServiceFunction(MS_WAT_PRESSBUTTON  ,@PressButton);
+  CreateServiceFunction(MS_WAT_WINAMPINFO   ,@WinampGetInfo);
+  CreateServiceFunction(MS_WAT_WINAMPCOMMAND,@WinampCommand);
 
-  hFMT:=CreateServiceFunction(MS_WAT_FORMAT,@ServiceFormat);
-  hPLR:=CreateServiceFunction(MS_WAT_PLAYER,@ServicePlayer);
+  CreateServiceFunction(MS_WAT_FORMAT,@ServiceFormat);
+  CreateServiceFunction(MS_WAT_PLAYER,@ServicePlayer);
 
   FillChar(SongInfoA,SizeOf(SongInfoA),0);
   FillChar(SongInfo ,SizeOf(SongInfo ),0);
@@ -711,7 +727,7 @@ exports
   Load, Unload,
   MirandaPluginInfoEx;
 
-initialization
+begin
   DisableThreadLibraryCalls(hInstance);
 
 end.

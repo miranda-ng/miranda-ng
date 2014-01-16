@@ -28,6 +28,7 @@ type
 var
   msh_tries,
   msh_scrobpos:integer;
+  sic:THANDLE;
   slast:THANDLE;
   MSData:tMyShowsData;
 const
@@ -108,7 +109,6 @@ begin
       begin
         if pSongInfo(lParam).width>0 then // for video only
         begin
-          if ServiceExists(MS_JSON_GETINTERFACE)<>0 then
           begin
             timervalue:=integer(pSongInfo(lParam).total)*10*msh_scrobpos; // 1000(msec) div 100(%)
             if timervalue=0 then
@@ -252,6 +252,8 @@ begin
   result:=0;
 end;
 
+var
+  plStatusHook:THANDLE;
 function InitProc(aGetStatus:boolean=false):integer;
 begin
 //  slastinf:=CreateServiceFunction(MS_WAT_MYSHOWSINFO,@SrvMyShowsInfo);
@@ -275,9 +277,9 @@ begin
   slast:=CreateServiceFunction(MS_WAT_MYSHOWS,@SrvMyShows);
   if hMenuMyShows=0 then
     CreateMenus;
-  HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+  sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
   if (msh_on and 4)=0 then
-    HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
+    plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
@@ -286,6 +288,8 @@ begin
     SetModStatus(0);
 
   DestroyServiceFunction(slast);
+  UnhookEvent(plStatusHook);
+  UnhookEvent(sic);
 
   if hTimer<>0 then
   begin
@@ -313,6 +317,7 @@ begin
   mmyshows.Init      :=@InitProc;
   mmyshows.DeInit    :=@DeInitProc;
   mmyshows.AddOption :=@AddOptionsPage;
+  mmyshows.Check     :=nil;
   mmyshows.ModuleName:='MyShows.ru';
   ModuleLink         :=@mmyshows;
 
