@@ -1010,21 +1010,18 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_MOUSEMOVE:
-		POINT pt;
+		POINT pt = { LOWORD(lParam), HIWORD(lParam) };
 		RECT clientRect;
-		BOOL bInClient;
-		pt.x = LOWORD(lParam);
-		pt.y = HIWORD(lParam);
 		GetClientRect(hwnd, &clientRect);
-		bInClient = PtInRect(&clientRect, pt);
-		//Mouse capturing/releasing
+		BOOL bInClient = PtInRect(&clientRect, pt);
+		// Mouse capturing/releasing
 		if (bInClient && GetCapture() != hwnd)
 			SetCapture(hwnd);
 		else if (!bInClient)
 			ReleaseCapture();
 
 		if (bInClient) {
-			//hit test item under mouse
+			// hit test item under mouse
 			DWORD nItemUnderMouse = (DWORD)SendMessage(hwnd, LB_ITEMFROMPOINT, 0, lParam);
 			if (HIWORD(nItemUnderMouse) == 1)
 				nItemUnderMouse = (DWORD)(-1);
@@ -1038,7 +1035,6 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 	return mir_callNextSubclass(hwnd, NicklistSubclassProc, msg, wParam, lParam);
 }
-
 
 int GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth)
 {
@@ -1148,10 +1144,11 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 		SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
 		{
-			//messagebox
-			COLORREF   crFore;
-			CHARFORMAT2 cf;
+			// messagebox
+			COLORREF crFore;
 			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, NULL, &crFore, FALSE);
+
+			CHARFORMAT2 cf;
 			cf.cbSize = sizeof(CHARFORMAT2);
 			cf.dwMask = CFM_COLOR | CFM_BOLD | CFM_UNDERLINE | CFM_BACKCOLOR;
 			cf.dwEffects = 0;

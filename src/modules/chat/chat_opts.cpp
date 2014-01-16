@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern SESSION_INFO g_TabSession;
 
-HANDLE g_hOptions = NULL;
-
 #define FONTF_BOLD   1
 #define FONTF_ITALIC 2
 struct FontOptionsList
@@ -67,23 +65,29 @@ static const fontOptionsList[] = {
 	{ LPGENT("User list members (away)"),     RGB(170, 170, 170), _T("Verdana"), DEFAULT_CHARSET, 0, -12},
 };
 
-const int msgDlgFontCount = SIZEOF(fontOptionsList);
+static void LoadColors()
+{
+	ci.pSettings->crLogBackground = db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW));
+	ci.pSettings->crUserListBGColor = db_get_dw(NULL, "Chat", "ColorNicklistBG", GetSysColor(COLOR_WINDOW));
+	ci.pSettings->crUserListSelectedBGColor = db_get_dw(NULL, "Chat", "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT));
+}
 
 void LoadLogFonts(void)
 {
 	for (int i=0; i < OPTIONS_FONTCOUNT; i++)
 		LoadMsgDlgFont(i, &ci.aFonts[i].lf, &ci.aFonts[i].color);
+	LoadColors();
 
 	if (ci.hListBkgBrush != NULL)
 		DeleteObject(ci.hListBkgBrush);
-	ci.hListBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorNicklistBG", GetSysColor(COLOR_WINDOW)));
+	ci.hListBkgBrush = CreateSolidBrush(ci.pSettings->crUserListBGColor);
 
 	if (ci.hListSelectedBkgBrush != NULL)
 		DeleteObject(ci.hListSelectedBkgBrush);
-	ci.hListSelectedBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT)));
+	ci.hListSelectedBkgBrush = CreateSolidBrush(ci.pSettings->crUserListSelectedBGColor);
 }
 
-void LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF* colour)
+void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 {
 	char str[32];
 	int style;
@@ -127,7 +131,7 @@ void RegisterFonts(void)
 
 	FontIDT fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_NEEDRESTART;
-	for (int i=0; i < msgDlgFontCount; i++, index++) {
+	for (int i = 0; i < SIZEOF(fontOptionsList); i++, index++) {
 		strncpy(fontid.dbSettingsGroup, "ChatFonts", sizeof(fontid.dbSettingsGroup));
 		_tcsncpy(fontid.group, _T("Chat module"), SIZEOF(fontid.group));
 		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
@@ -160,7 +164,6 @@ void RegisterFonts(void)
 
 	ColourIDT colourid = { sizeof(colourid) };
 	strncpy(colourid.dbSettingsGroup, "Chat", sizeof(colourid.dbSettingsGroup));
-
 	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
 	_tcsncpy(colourid.group, LPGENT("Chat module"), SIZEOF(colourid.group));
@@ -225,10 +228,7 @@ void LoadGlobalSettings(void)
 	ci.pSettings->FlashWindow = (BOOL)db_get_b(NULL, "Chat", "FlashWindow", 0);
 	ci.pSettings->HighlightEnabled = (BOOL)db_get_b(NULL, "Chat", "HighlightEnabled", 1);
 	ci.pSettings->crUserListColor = db_get_dw(NULL, "ChatFonts", "Font18Col", RGB(0, 0, 0));
-	ci.pSettings->crUserListBGColor = db_get_dw(NULL, "Chat", "ColorNicklistBG", GetSysColor(COLOR_WINDOW));
-	ci.pSettings->crUserListSelectedBGColor = db_get_dw(NULL, "Chat", "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT));
 	ci.pSettings->crUserListHeadingsColor = db_get_dw(NULL, "ChatFonts", "Font19Col", RGB(170, 170, 170));
-	ci.pSettings->crLogBackground = db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW));
 	ci.pSettings->StripFormat = (BOOL)db_get_b(NULL, "Chat", "StripFormatting", 0);
 	ci.pSettings->TrayIconInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "TrayIconInactiveOnly", 1);
 	ci.pSettings->PopupInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopupInactiveOnly", 1);
@@ -239,6 +239,8 @@ void LoadGlobalSettings(void)
 	ci.pSettings->crPUTextColour = db_get_dw(NULL, "Chat", "PopupColorText", 0);
 	ci.pSettings->ShowContactStatus = db_get_b(NULL, "Chat", "ShowContactStatus", 0);
 	ci.pSettings->ContactStatusFirst = db_get_b(NULL, "Chat", "ContactStatusFirst", 0);
+
+	LoadColors();
 
 	if (ci.OnLoadSettings)
 		ci.OnLoadSettings();
@@ -377,7 +379,6 @@ int OptionsInit(void)
 int OptionsUnInit(void)
 {
 	FreeGlobalSettings();
-	UnhookEvent(g_hOptions);
 	DeleteObject(ci.pSettings->NameFont);
 	return 0;
 }
