@@ -876,6 +876,8 @@ static MODULEINFO* MM_AddModule(const char *pszModule)
 
 static void MM_IconsChanged(void)
 {
+	LoadChatIcons();
+
 	MODULEINFO *pTemp = m_ModList;
 	while (pTemp != NULL) {
 		Safe_DestroyIcon(pTemp->hOnlineIcon);

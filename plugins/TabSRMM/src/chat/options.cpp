@@ -399,6 +399,7 @@ void Chat_AddIcons(void)
 {
 	Icon_Register(g_hIconDLL, LPGEN("Message Sessions")"/"LPGEN("Group chat windows"), _icons, SIZEOF(_icons));
 	Icon_Register(g_hIconDLL, LPGEN("Message Sessions")"/"LPGEN("Group chat log"), _logicons, SIZEOF(_logicons));
+	pci->MM_IconsChanged();
 }
 
 /*

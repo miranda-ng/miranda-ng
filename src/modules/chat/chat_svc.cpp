@@ -83,8 +83,6 @@ static int FontsChanged(WPARAM wParam, LPARAM lParam)
 
 static int IconsChanged(WPARAM wParam, LPARAM lParam)
 {
-	LoadChatIcons();
-
 	FreeMsgLogBitmaps();
 	LoadMsgLogBitmaps();
 
