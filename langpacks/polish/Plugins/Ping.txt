@@ -137,16 +137,16 @@ MAX %hd ms
 [MIN %hd ms]
 MIN %hd ms
 [Ping Graph]
-
+Wykres pingu
 ;file \plugins\Ping\src\pingthread.cpp
 [%s - setting status of protocol '%S' (%d)]
 %s - ustawianie statusu protokołu "%S" (%d)
 [Ping Reply]
-
+Odpowiedź Ping
 [%s - reply, %d]
 %s - odpowiedź, %d
 [Ping Timeout]
-
+Czas oczekiwania Ping
 [%s - timeout]
 %s - czas oczekiwania
 [Disable]
