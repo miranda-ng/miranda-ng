@@ -219,7 +219,7 @@ static BOOL CALLBACK LangAddCallback(CHAR * str)
 void LoadInfobarFonts()
 {
 	LOGFONT lf;
-	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, NULL, FALSE);
+	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, NULL);
 	g_dat.minInputAreaHeight = db_get_dw(NULL, SRMMMOD, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES) * abs(lf.lfHeight) * g_dat.logPixelSY / 72;
 	if (g_dat.hInfobarBrush != NULL)
 		DeleteObject(g_dat.hInfobarBrush);

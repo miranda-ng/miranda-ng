@@ -2443,7 +2443,7 @@ LABEL_SHOWWINDOW:
 				CSkin::UpdateToolbarBG(dat, RDW_ALLCHILDREN);
 				SendMessage(dat->hwnd, WM_SIZE, 0, 0);
 			}
-			else if ((HWND) lParam == GetDlgItem(hwndDlg, IDC_PANELSPLITTER)) {
+			else if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_PANELSPLITTER)) {
 				POINT pt = { 0, wParam };
 				ScreenToClient(hwndDlg, &pt);
 				GetClientRect(GetDlgItem(hwndDlg, IDC_CHAT_LOG), &rc);
@@ -2456,12 +2456,12 @@ LABEL_SHOWWINDOW:
 				SendMessage(hwndDlg, WM_SIZE, DM_SPLITTERMOVED, 0);
 				break;
 			}
-		}
+	}
 		break;
 
 	case GC_FIREHOOK:
 		if (lParam) {
-			GCHOOK* gch = (GCHOOK*) lParam;
+			GCHOOK *gch = (GCHOOK*)lParam;
 			NotifyEventHooks(pci->hSendEvent, 0, (WPARAM)gch);
 			if (gch->pDest) {
 				mir_free((void*)gch->pDest->ptszID);
@@ -2483,7 +2483,7 @@ LABEL_SHOWWINDOW:
 		si->hwndStatus = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), dat->pContainer->hwnd, FilterWndProc, (LPARAM)si);
 		TranslateDialogDefault(si->hwndStatus);
 		{
-			RECT  rcFilter, rcLog;
+			RECT rcFilter, rcLog;
 			GetClientRect(si->hwndStatus, &rcFilter);
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_CHAT_LOG), &rcLog);
 			POINT pt = { rcLog.right, rcLog.bottom };
@@ -2570,9 +2570,9 @@ LABEL_SHOWWINDOW:
 				if (msg == WM_KEYDOWN) {
 					if ((wp == VK_INSERT && isShift && !isCtrl && !isMenu) || (wp == 'V' && !isShift && !isMenu && isCtrl)) {
 						SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_PASTESPECIAL, CF_UNICODETEXT, 0);
-						((MSGFILTER *) lParam)->msg = WM_NULL;
-						((MSGFILTER *) lParam)->wParam = 0;
-						((MSGFILTER *) lParam)->lParam = 0;
+						((MSGFILTER*)lParam)->msg = WM_NULL;
+						((MSGFILTER*)lParam)->wParam = 0;
+						((MSGFILTER*)lParam)->lParam = 0;
 						return(_dlgReturn(hwndDlg, 1));
 					}
 				}

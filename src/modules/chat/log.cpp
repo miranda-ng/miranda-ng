@@ -146,7 +146,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 
 			case 'c':
 			case 'f':
-				if (ci.pSettings->StripFormat || streamData->bStripFormat)
+				if (g_Settings->StripFormat || streamData->bStripFormat)
 					line += 2;
 
 				else if ( line[1] != '\0' && line[2] != '\0') {
@@ -164,7 +164,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 				break;
 			case 'C':
 			case 'F':
-				if ( !ci.pSettings->StripFormat && !streamData->bStripFormat) {
+				if ( !g_Settings->StripFormat && !streamData->bStripFormat) {
 					int j = streamData->lin->bIsHighlighted ? 16 : EventToIndex(streamData->lin);
 					if ( *line == 'C' )
 						mir_snprintf(szTemp, SIZEOF(szTemp), "\\cf%u ", j+1);
@@ -225,7 +225,7 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 	TCHAR szTemp[512], szTemp2[512];
 	TCHAR* pszNick = NULL;
 	if (streamData->lin->ptszNick) {
-		if (ci.pSettings->LogLimitNames && lstrlen(streamData->lin->ptszNick) > 20) {
+		if (g_Settings->LogLimitNames && lstrlen(streamData->lin->ptszNick) > 20) {
 			lstrcpyn(szTemp2, streamData->lin->ptszNick, 20);
 			lstrcpyn(szTemp2 + 20, _T("..."), 4);
 		}
@@ -346,8 +346,8 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\par%s ", Log_SetStyle(0, 0));
 
 			// Insert icon
-			if (lin->iType & ci.pSettings->dwIconFlags || lin->bIsHighlighted&&ci.pSettings->dwIconFlags & GC_EVENT_HIGHLIGHT) {
-				int iIndex = (lin->bIsHighlighted && ci.pSettings->dwIconFlags & GC_EVENT_HIGHLIGHT) ? ICON_HIGHLIGHT : EventToIcon(lin);
+			if (lin->iType & g_Settings->dwIconFlags || lin->bIsHighlighted&&g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT) {
+				int iIndex = (lin->bIsHighlighted && g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT) ? ICON_HIGHLIGHT : EventToIcon(lin);
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
 				while (bufferAlloced - bufferEnd < logIconBmpSize[0])
 					bufferAlloced += 4096;
@@ -356,7 +356,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				bufferEnd += logIconBmpSize[iIndex];
 			}
 
-			if (ci.pSettings->TimeStampEventColour) {
+			if (g_Settings->TimeStampEventColour) {
 				LOGFONT &lf = ci.aFonts[0].lf;
 
 				// colored timestamps
@@ -376,16 +376,16 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			else Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(0, 0));
 
 			// insert a TAB if necessary to put the timestamp in the right position
-			if (ci.pSettings->dwIconFlags)
+			if (g_Settings->dwIconFlags)
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tab ");
 
 			//insert timestamp
-			if (ci.pSettings->ShowTime) {
+			if (g_Settings->ShowTime) {
 				TCHAR szTimeStamp[30], szOldTimeStamp[30];
 
-				lstrcpyn(szTimeStamp, MakeTimeStamp(ci.pSettings->pszTimeStamp, lin->time), 30);
-				lstrcpyn(szOldTimeStamp, MakeTimeStamp(ci.pSettings->pszTimeStamp, streamData->si->LastTime), 30);
-				if (!ci.pSettings->ShowTimeIfChanged || streamData->si->LastTime == 0 || lstrcmp(szTimeStamp, szOldTimeStamp)) {
+				lstrcpyn(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin->time), 30);
+				lstrcpyn(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, streamData->si->LastTime), 30);
+				if (!g_Settings->ShowTimeIfChanged || streamData->si->LastTime == 0 || lstrcmp(szTimeStamp, szOldTimeStamp)) {
 					streamData->si->LastTime = lin->time;
 					Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, _T("%s"), szTimeStamp);
 				}
@@ -397,7 +397,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				TCHAR pszTemp[300], *p1;
 
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1, lin->bIsMe ? 2 : 1));
-				lstrcpyn(pszTemp, lin->bIsMe ? ci.pSettings->pszOutgoingNick : ci.pSettings->pszIncomingNick, 299);
+				lstrcpyn(pszTemp, lin->bIsMe ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick, 299);
 				p1 = _tcsstr(pszTemp, _T("%n"));
 				if (p1)
 					p1[1] = 's';
@@ -458,14 +458,14 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 	// set tabs and indents
 	int iIndent = 0;
 
-	if (ci.pSettings->dwIconFlags) {
+	if (g_Settings->dwIconFlags) {
 		iIndent += (14 * 1440) / ci.logPixelSX;
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
 	}
-	if (ci.pSettings->ShowTime) {
-		int iSize = (ci.pSettings->LogTextIndent * 1440) / ci.logPixelSX;
+	if (g_Settings->ShowTime) {
+		int iSize = (g_Settings->LogTextIndent * 1440) / ci.logPixelSX;
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize);
-		if (ci.pSettings->LogIndentEnabled)
+		if (g_Settings->LogIndentEnabled)
 			iIndent += iSize;
 	}
 

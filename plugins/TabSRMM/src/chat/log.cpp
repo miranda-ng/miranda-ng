@@ -755,7 +755,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	// ### RTF HEADER
 
 	if (0 == mi->pszHeader)
-		mi->pszHeader = Log_CreateRtfHeader(mi);
+		mi->pszHeader = pci->Log_CreateRtfHeader(mi);
 
 	header = mi->pszHeader;
 	streamData->crCount = mi->nColorCount;
@@ -1123,82 +1123,6 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 			InvalidateRect(hwndRich, NULL, TRUE);
 		}
 	}
-}
-
-char * Log_CreateRtfHeader(MODULEINFO * mi)
-{
-	char *buffer;
-	int bufferAlloced, bufferEnd, i = 0;
-
-	// guesstimate amount of memory for the RTF header
-	bufferEnd = 0;
-	bufferAlloced = 4096;
-	buffer = (char *) mir_realloc(mi->pszHeader, bufferAlloced);
-	buffer[0] = '\0';
-
-
-	//get the number of pixels per logical inch
-	if (logPixelSY == 0) {
-		HDC hdc;
-		hdc = GetDC(NULL);
-		logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-		logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
-		ReleaseDC(NULL, hdc);
-	}
-
-	// ### RTF HEADER
-
-	// font table
-	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
-	for (i=0; i < OPTIONS_FONTCOUNT ; i++)
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "{\\f%u\\fnil\\fcharset%u%S;}", i, pci->aFonts[i].lf.lfCharSet, pci->aFonts[i].lf.lfFaceName);
-
-	// colour table
-	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "}{\\colortbl ;");
-
-	for (i=0; i < OPTIONS_FONTCOUNT; i++)
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(pci->aFonts[i].color), GetGValue(pci->aFonts[i].color), GetBValue(pci->aFonts[i].color));
-
-	for (i=0; i < mi->nColorCount; i++)
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
-
-	for (i=0; i < 5; i++)
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(g_Settings.nickColors[i]), GetGValue(g_Settings.nickColors[i]), GetBValue(g_Settings.nickColors[i]));
-
-	// new paragraph
-	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "}\\pard\\sl%d", 1000);
-
-	// set tabs and indents
-	{
-		int iIndent = 0;
-
-		if (g_Settings.bLogSymbols) {
-			TCHAR szString[2];
-			LOGFONT lf;
-			HFONT hFont;
-			int iText;
-
-			szString[1] = 0;
-			szString[0] = 0x28;
-			LoadMsgDlgFont(FONTSECTION_CHAT, 17, &lf, NULL, CHAT_FONTMODULE);
-			hFont = CreateFontIndirect(&lf);
-			iText = GetTextPixelSize(szString, hFont, true) + 3;
-			DeleteObject(hFont);
-			iIndent += (iText * 1440) / logPixelSX;
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
-		} else if (g_Settings.dwIconFlags) {
-			iIndent += ((g_Settings.bScaleIcons ? 14 : 20) * 1440) / logPixelSX;
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
-		}
-		if (g_Settings.ShowTime) {
-			int iSize = (g_Settings.LogTextIndent * 1440) / logPixelSX;
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize);
-			if (g_Settings.LogIndentEnabled)
-				iIndent += iSize;
-		}
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\fi-%u\\li%u", iIndent, iIndent);
-	}
-	return buffer;
 }
 
 void Log_SetStyles()

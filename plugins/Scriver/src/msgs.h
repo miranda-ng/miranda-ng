@@ -250,7 +250,7 @@ int IsAutoPopup(HANDLE hContact);
 #define MSGFONTID_INFOBAR_NAME   12
 #define MSGFONTID_INFOBAR_STATUS 13
 
-void LoadMsgDlgFont(int i, LOGFONT * lf, COLORREF * colour, BOOL chatMode);
+void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour);
 extern int fontOptionsListSize;
 
 #define LOADHISTORY_UNREAD    0

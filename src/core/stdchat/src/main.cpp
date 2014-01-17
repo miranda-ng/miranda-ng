@@ -262,9 +262,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 	
-	mir_getCI(&g_Settings);
-	pci->cbModuleInfo = sizeof(MODULEINFO);
-	pci->cbSession = sizeof(SESSION_INFO);
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Chat module") };
+	mir_getCI(&data);
 	pci->OnAddUser = OnAddUser;
 	pci->OnNewUser = OnNewUser;
 	pci->OnRemoveUser = OnRemoveUser;

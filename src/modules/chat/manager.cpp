@@ -66,7 +66,7 @@ static SESSION_INFO* SM_AddSession(const TCHAR *pszID, const char *pszModule)
 	if (ci.SM_FindSession(pszID, pszModule))
 		return NULL;
 
-	SESSION_INFO *node = (SESSION_INFO*)mir_calloc(ci.cbSession);
+	SESSION_INFO *node = (SESSION_INFO*)mir_calloc(g_cbSession);
 	node->ptszID = mir_tstrdup(pszID);
 	node->pszModule = mir_strdup(pszModule);
 
@@ -257,10 +257,10 @@ static BOOL SM_AddEventToAllMatchingUID(GCEVENT *gce)
 						ci.OnEventBroadcast(pTemp, gce);
 
 					if (!(gce->dwFlags & GCEF_NOTNOTIFY))
-						DoSoundsFlashPopupTrayStuff(pTemp, gce, FALSE, bManyFix);
+						ci.DoSoundsFlashPopupTrayStuff(pTemp, gce, FALSE, bManyFix);
 
 					bManyFix++;
-					if ((gce->dwFlags & GCEF_ADDTOLOG) && ci.pSettings->LoggingEnabled)
+					if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->LoggingEnabled)
 						LogToFile(pTemp, gce);
 				}
 			}
@@ -293,10 +293,10 @@ static BOOL SM_AddEvent(const TCHAR *pszID, const char *pszModule, GCEVENT *gce,
 			li->time = gce->time;
 			li->bIsHighlighted = bIsHighlighted;
 
-			if (ci.pSettings->iEventLimit > 0 && pTemp->iEventCount > ci.pSettings->iEventLimit + 20) {
-				ci.LM_TrimLog(&pTemp->pLog, &pTemp->pLogEnd, pTemp->iEventCount - ci.pSettings->iEventLimit);
+			if (g_Settings->iEventLimit > 0 && pTemp->iEventCount > g_Settings->iEventLimit + 20) {
+				ci.LM_TrimLog(&pTemp->pLog, &pTemp->pLogEnd, pTemp->iEventCount - g_Settings->iEventLimit);
 				pTemp->bTrimmed = true;
-				pTemp->iEventCount = ci.pSettings->iEventLimit;
+				pTemp->iEventCount = g_Settings->iEventLimit;
 				return FALSE;
 			}
 			return TRUE;
@@ -858,7 +858,7 @@ static MODULEINFO* MM_AddModule(const char *pszModule)
 	if (ci.MM_FindModule(pszModule))
 		return NULL;
 
-	MODULEINFO *node = (MODULEINFO*)mir_calloc(ci.cbModuleInfo);
+	MODULEINFO *node = (MODULEINFO*)mir_calloc(g_cbModuleInfo);
 	replaceStr(node->pszModule, pszModule);
 	if (ci.OnCreateModule)
 		ci.OnCreateModule(node);
@@ -1459,20 +1459,35 @@ CHAT_MANAGER ci =
 	SetAllOffline,
 	AddEvent,
 	FindRoom,
+	
 	Log_CreateRTF,
+	Log_CreateRtfHeader,
 	LoadMsgDlgFont,
 	MakeTimeStamp,
+	
+	DoEventHook,
+	DoEventHookAsync,
+
+	DoSoundsFlashPopupTrayStuff,
 	DoPopup,
 	ShowPopup,
-	RemoveFormatting
+	LogToFile,
+
+	RemoveFormatting,
+	LoadGlobalSettings
 };
 
 INT_PTR SvcGetChatManager(WPARAM, LPARAM lParam)
 {
-	LoadChatModule();
-
+	// wipe out old junk
 	memset(PBYTE(&ci) + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER)-offsetof(CHAT_MANAGER, OnCreateModule));
-	ci.pSettings = (GlobalLogSettingsBase*)lParam;
+
+	CHAT_MANAGER_INITDATA *pInit = (CHAT_MANAGER_INITDATA*)lParam;
+	g_Settings = pInit->pSettings;
+	g_szFontGroup = pInit->szFontGroup;
+	g_cbSession = pInit->cbSession;
+	g_cbModuleInfo = pInit->cbModuleInfo;
+	RegisterFonts();
 	OptionsInit();
 	return (INT_PTR)&ci;
 }

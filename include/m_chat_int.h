@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_chat.h>
 
-#define OPTIONS_FONTCOUNT 17
+#define OPTIONS_FONTCOUNT 20
 #define STATUSICONCOUNT 6
 
 #define GC_UPDATETITLE         (WM_USER+100)
@@ -288,6 +288,13 @@ struct GlobalLogSettingsBase
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+struct CHAT_MANAGER_INITDATA
+{
+	GlobalLogSettingsBase *pSettings;
+	int cbModuleInfo, cbSession;
+	TCHAR *szFontGroup;
+};
+
 struct CHAT_MANAGER
 {
 	void          (*SetActiveSession)(const TCHAR *pszID, const char *pszModule);
@@ -363,12 +370,20 @@ struct CHAT_MANAGER
 	HANDLE        (*FindRoom)(const char *pszModule, const TCHAR *pszRoom);
 
 	char*         (*Log_CreateRTF)(LOGSTREAMDATA *streamData);
+	char*         (*Log_CreateRtfHeader)(MODULEINFO *mi);
 	void          (*LoadMsgDlgFont)(int i, LOGFONT *lf, COLORREF *color);
 	TCHAR*        (*MakeTimeStamp)(TCHAR *pszStamp, time_t time);
+
+	BOOL          (*DoEventHook)(const TCHAR *pszID, const char *pszModule, int iType, const TCHAR *pszUID, const TCHAR* pszText, INT_PTR dwItem);
+	BOOL          (*DoEventHookAsync)(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, INT_PTR dwItem);
+
+	BOOL          (*DoSoundsFlashPopupTrayStuff)(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
 	BOOL          (*DoPopup)(SESSION_INFO *si, GCEVENT *gce);
 	int           (*ShowPopup)(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
+	BOOL          (*LogToFile)(SESSION_INFO *si, GCEVENT *gce);
+
 	TCHAR*        (*RemoveFormatting)(const TCHAR *pszText);
-	BOOL          (*DoSoundsFlashPopupTrayStuff)(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
+	void          (*ReloadSettings)(void);
 
 	int logPixelSY, logPixelSX;
 	char *szActiveWndModule;
@@ -407,17 +422,13 @@ struct CHAT_MANAGER
 
 	void (*OnLoadSettings)(void);
 	void (*OnFlashWindow)(SESSION_INFO *si, int);
-
-	// data
-	GlobalLogSettingsBase *pSettings;
-	int cbModuleInfo, cbSession;
 };
 
 extern CHAT_MANAGER ci, *pci;
 
-__forceinline void mir_getCI(GlobalLogSettingsBase *pSettings)
+__forceinline void mir_getCI(CHAT_MANAGER_INITDATA *pData)
 {
-	pci = (CHAT_MANAGER*)CallService("GChat/GetInterface", 0, (LPARAM)pSettings);
+	pci = (CHAT_MANAGER*)CallService("GChat/GetInterface", 0, (LPARAM)pData);
 }
 
 #endif // M_CHAT_INT_H__

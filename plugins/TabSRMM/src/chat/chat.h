@@ -140,7 +140,6 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 // log.c
 void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedraw, bool bPhaseTwo);
 TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime);
-char*  Log_CreateRtfHeader(MODULEINFO * mi);
 void   Log_SetStyles();
 
 // window.c
@@ -148,9 +147,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 int GetTextPixelSize(TCHAR* pszText, HFONT hFont, bool bWidth);
 
 // options.c
-enum { FONTSECTION_AUTO, FONTSECTION_CHAT, FONTSECTION_IM, FONTSECTION_IP };
+enum { FONTSECTION_AUTO, FONTSECTION_IM, FONTSECTION_IP };
 int   OptionsInit(void);
-int   OptionsUnInit(void);
 void  LoadMsgDlgFont(int section, int i, LOGFONT * lf, COLORREF * colour, char* szMod);
 void  AddIcons(void);
 HICON LoadIconEx(int iIndex, char * pszIcoLibName, int iX, int iY);

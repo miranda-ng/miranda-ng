@@ -171,13 +171,13 @@ static void OnLoadSettings()
 		DeleteObject(g_Settings.UserListFonts[CHAT_STATUS_OFFLINE]);
 	}
 
-	LoadMsgDlgFont(FONTSECTION_CHAT, 18, &lf, NULL, CHAT_FONTMODULE);
+	pci->LoadMsgDlgFont(18, &lf, NULL);
 	g_Settings.UserListFonts[CHAT_STATUS_NORMAL] = CreateFontIndirect(&lf);
 
-	LoadMsgDlgFont(FONTSECTION_CHAT, 19, &lf, NULL, CHAT_FONTMODULE);
+	pci->LoadMsgDlgFont(19, &lf, NULL);
 	g_Settings.UserListFonts[CHAT_STATUS_AWAY] = CreateFontIndirect(&lf);
 
-	LoadMsgDlgFont(FONTSECTION_CHAT, 5, &lf, NULL, CHAT_FONTMODULE);
+	pci->LoadMsgDlgFont(5, &lf, NULL);
 	g_Settings.UserListFonts[CHAT_STATUS_OFFLINE] = CreateFontIndirect(&lf);
 
 	int ih = GetTextPixelSize(_T("AQGglo"), g_Settings.UserListFonts[CHAT_STATUS_NORMAL], false);
@@ -232,12 +232,47 @@ void Chat_ModulesLoaded()
 
 static CHAT_MANAGER saveCI;
 
+static int CopyChatSetting(const char *szSetting, LPARAM param)
+{
+	LIST<char> *szSettings = (LIST<char>*)param;
+	szSettings->insert(mir_strdup(szSetting));
+	return 0;
+}
+
+static void CheckUpdate()
+{
+	// already converted?
+	if (db_get_b(NULL, "Compatibility", "TabChatFonts", false))
+		return;
+
+	LIST<char> szSettings(120);
+
+	DBCONTACTENUMSETTINGS dbces = { 0 };
+	dbces.szModule = CHAT_OLDFONTMODULE;
+	dbces.pfnEnumProc = CopyChatSetting;
+	dbces.lParam = (LPARAM)&szSettings;
+	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
+
+	DBVARIANT dbv;
+	for (int i = szSettings.getCount() - 1; i >= 0; i--) {
+		char *p = szSettings[i];
+		db_get(NULL, CHAT_OLDFONTMODULE, p, &dbv);
+		db_set(NULL, CHAT_FONTMODULE, p, &dbv);
+		db_free(&dbv);
+		mir_free(p);
+	}
+
+	CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)CHAT_OLDFONTMODULE);
+	db_set_b(NULL, "Compatibility", "TabChatFonts", true);
+}
+
 int Chat_Load()
 {
-	mir_getCI(&g_Settings);
+	CheckUpdate();
+
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Message Sessions")_T("/")LPGENT("Group chats") };
+	mir_getCI(&data);
 	saveCI = *pci;
-	pci->cbModuleInfo = sizeof(MODULEINFO);
-	pci->cbSession = sizeof(SESSION_INFO);
 	pci->OnCreateModule = OnCreateModule;
 	pci->OnNewUser = OnNewUser;
 
@@ -263,7 +298,6 @@ int Chat_Load()
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
 
-	OnLoadSettings();
 	OptionsInit();
 	return 0;
 }
@@ -276,6 +310,5 @@ int Chat_Unload(void)
 {
 	*pci = saveCI;
 	DestroyMenu(g_hMenu);
-	OptionsUnInit();
 	return 0;
 }

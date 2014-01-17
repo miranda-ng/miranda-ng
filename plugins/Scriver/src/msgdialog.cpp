@@ -1154,7 +1154,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			colour = db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETBKGNDCOLOR, 0, colour);
 			InvalidateRect(GetDlgItem(hwndDlg, IDC_MESSAGE), NULL, FALSE);
-			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &colour, FALSE);
+			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &colour);
 			cf2.cbSize = sizeof(cf2);
 			cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
 			cf2.crTextColor = colour;

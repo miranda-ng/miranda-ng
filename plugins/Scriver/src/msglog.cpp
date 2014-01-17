@@ -363,13 +363,13 @@ static char *CreateRTFHeader(struct SrmmWindowData *dat, struct GlobalMessageDat
 	buffer[0] = '\0';
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced,"{\\rtf1\\ansi\\deff0{\\fonttbl");
 	for (i = 0; i < fontOptionsListSize; i++) {
-		LoadMsgDlgFont(i, &lf, NULL, FALSE);
+		LoadMsgDlgFont(i, &lf, NULL);
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "{\\f%u\\fnil\\fcharset%u %S;}", i,
 			(!forceCharset) ? lf.lfCharSet : charset, lf.lfFaceName);
 	}
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}{\\colortbl ");
 	for (i = 0; i < fontOptionsListSize; i++) {
-		LoadMsgDlgFont(i, NULL, &colour, FALSE);
+		LoadMsgDlgFont(i, NULL, &colour);
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	}
 	if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL)
@@ -404,7 +404,7 @@ static char* SetToStyle(int style)
 {
 	static char szStyle[128];
 	LOGFONT lf;
-	LoadMsgDlgFont(style, &lf, NULL, FALSE);
+	LoadMsgDlgFont(style, &lf, NULL);
 	mir_snprintf(szStyle, SIZEOF(szStyle), "\\f%u\\cf%u\\b%d\\i%d\\fs%u", style, style, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / logPixelSY);
 	return szStyle;
 }

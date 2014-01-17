@@ -21,9 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../commonheaders.h"
 
-void RegisterChatFonts( void );
-
-//globals
+// globals
 CHAT_MANAGER *pci;
 HMENU g_hMenu = NULL;
 
@@ -144,9 +142,8 @@ void LoadChatIcons(void)
 
 int Chat_Load()
 {
-	mir_getCI(&g_Settings);
-	pci->cbModuleInfo = sizeof(MODULEINFO);
-	pci->cbSession = sizeof(SESSION_INFO);
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Messaging")_T("/")LPGENT("Group chats") };
+	mir_getCI(&data);
 	pci->OnCreateModule = OnCreateModule;
 	pci->OnNewUser = OnNewUser;
 

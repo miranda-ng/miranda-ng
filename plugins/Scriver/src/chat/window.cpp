@@ -470,7 +470,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			UINT u2 = 0;
 			COLORREF cr;
 
-			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, NULL, &cr, FALSE);
+			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, NULL, &cr);
 
 			CHARFORMAT2 cf;
 			cf.cbSize = sizeof(CHARFORMAT2);
@@ -1142,7 +1142,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		{
 			// messagebox
 			COLORREF crFore;
-			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, NULL, &crFore, FALSE);
+			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, NULL, &crFore);
 
 			CHARFORMAT2 cf;
 			cf.cbSize = sizeof(CHARFORMAT2);
@@ -1893,7 +1893,7 @@ LABEL_SHOWWINDOW:
 				}
 				else {
 					COLORREF cr;
-					LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, NULL, &cr, FALSE);
+					LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, NULL, &cr);
 					cf.dwMask = CFM_COLOR;
 					cf.crTextColor = cr;
 					if (pInfo->bSingleFormat)

@@ -26,6 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern SESSION_INFO g_TabSession;
 
+GlobalLogSettingsBase *g_Settings;
+int g_cbSession, g_cbModuleInfo;
+TCHAR *g_szFontGroup;
+
 #define FONTF_BOLD   1
 #define FONTF_ITALIC 2
 struct FontOptionsList
@@ -67,9 +71,9 @@ static const fontOptionsList[] = {
 
 static void LoadColors()
 {
-	ci.pSettings->crLogBackground = db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW));
-	ci.pSettings->crUserListBGColor = db_get_dw(NULL, "Chat", "ColorNicklistBG", GetSysColor(COLOR_WINDOW));
-	ci.pSettings->crUserListSelectedBGColor = db_get_dw(NULL, "Chat", "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT));
+	g_Settings->crLogBackground = db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW));
+	g_Settings->crUserListBGColor = db_get_dw(NULL, "Chat", "ColorNicklistBG", GetSysColor(COLOR_WINDOW));
+	g_Settings->crUserListSelectedBGColor = db_get_dw(NULL, "Chat", "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT));
 }
 
 void LoadLogFonts(void)
@@ -80,18 +84,17 @@ void LoadLogFonts(void)
 
 	if (ci.hListBkgBrush != NULL)
 		DeleteObject(ci.hListBkgBrush);
-	ci.hListBkgBrush = CreateSolidBrush(ci.pSettings->crUserListBGColor);
+	ci.hListBkgBrush = CreateSolidBrush(g_Settings->crUserListBGColor);
 
 	if (ci.hListSelectedBkgBrush != NULL)
 		DeleteObject(ci.hListSelectedBkgBrush);
-	ci.hListSelectedBkgBrush = CreateSolidBrush(ci.pSettings->crUserListSelectedBGColor);
+	ci.hListSelectedBkgBrush = CreateSolidBrush(g_Settings->crUserListSelectedBGColor);
 }
 
 void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 {
 	char str[32];
 	int style;
-	DBVARIANT dbv;
 
 	if (colour) {
 		mir_snprintf(str, SIZEOF(str), "Font%dCol", i);
@@ -116,12 +119,12 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, SIZEOF(str), "Font%d", i);
-		if (db_get_ts(NULL, "ChatFonts", str, &dbv))
+
+		ptrT tszFace(db_get_tsa(NULL, "ChatFonts", str));
+		if (tszFace == NULL)
 			lstrcpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
-		else {
-			lstrcpyn(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
-			db_free(&dbv);
-		}
+		else
+			_tcsncpy_s(lf->lfFaceName, SIZEOF(lf->lfFaceName), tszFace, _TRUNCATE);
 	}
 }
 
@@ -133,7 +136,7 @@ void RegisterFonts(void)
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_NEEDRESTART;
 	for (int i = 0; i < SIZEOF(fontOptionsList); i++, index++) {
 		strncpy(fontid.dbSettingsGroup, "ChatFonts", sizeof(fontid.dbSettingsGroup));
-		_tcsncpy(fontid.group, _T("Chat module"), SIZEOF(fontid.group));
+		_tcsncpy(fontid.group, g_szFontGroup, SIZEOF(fontid.group));
 		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
 
 		char idstr[10];
@@ -146,7 +149,7 @@ void RegisterFonts(void)
 		fontid.deffontsettings.size = fontOptionsList[i].defSize;
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		_tcsncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fontid.deffontsettings.szFace));
-		_tcsncpy(fontid.backgroundGroup, _T("Chat module"), SIZEOF(fontid.backgroundGroup));
+		_tcsncpy(fontid.backgroundGroup, g_szFontGroup, SIZEOF(fontid.backgroundGroup));
 		switch (i) {
 		case 17:
 			_tcsncpy(fontid.backgroundName, _T("Message background"), SIZEOF(fontid.backgroundName));
@@ -164,9 +167,10 @@ void RegisterFonts(void)
 
 	ColourIDT colourid = { sizeof(colourid) };
 	strncpy(colourid.dbSettingsGroup, "Chat", sizeof(colourid.dbSettingsGroup));
+	_tcsncpy(colourid.group, g_szFontGroup, SIZEOF(colourid.group));
+
 	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
-	_tcsncpy(colourid.group, LPGENT("Chat module"), SIZEOF(colourid.group));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 
@@ -214,46 +218,46 @@ static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)
 
 void LoadGlobalSettings(void)
 {
-	ci.pSettings->LogLimitNames = db_get_b(NULL, "Chat", "LogLimitNames", 1);
-	ci.pSettings->ShowTime = db_get_b(NULL, "Chat", "ShowTimeStamp", 1);
-	ci.pSettings->SoundsFocus = db_get_b(NULL, "Chat", "SoundsFocus", 0);
-	ci.pSettings->ShowTimeIfChanged = (BOOL)db_get_b(NULL, "Chat", "ShowTimeStampIfChanged", 0);
-	ci.pSettings->TimeStampEventColour = (BOOL)db_get_b(NULL, "Chat", "TimeStampEventColour", 0);
-	ci.pSettings->iEventLimit = db_get_w(NULL, "Chat", "LogLimit", 100);
-	ci.pSettings->dwIconFlags = db_get_dw(NULL, "Chat", "IconFlags", 0x0000);
-	ci.pSettings->dwTrayIconFlags = db_get_dw(NULL, "Chat", "TrayIconFlags", 0x1000);
-	ci.pSettings->dwPopupFlags = db_get_dw(NULL, "Chat", "PopupFlags", 0x0000);
-	ci.pSettings->LoggingLimit = db_get_w(NULL, "Chat", "LoggingLimit", 100);
-	ci.pSettings->LoggingEnabled = (BOOL)db_get_b(NULL, "Chat", "LoggingEnabled", 0);
-	ci.pSettings->FlashWindow = (BOOL)db_get_b(NULL, "Chat", "FlashWindow", 0);
-	ci.pSettings->HighlightEnabled = (BOOL)db_get_b(NULL, "Chat", "HighlightEnabled", 1);
-	ci.pSettings->crUserListColor = db_get_dw(NULL, "ChatFonts", "Font18Col", RGB(0, 0, 0));
-	ci.pSettings->crUserListHeadingsColor = db_get_dw(NULL, "ChatFonts", "Font19Col", RGB(170, 170, 170));
-	ci.pSettings->StripFormat = (BOOL)db_get_b(NULL, "Chat", "StripFormatting", 0);
-	ci.pSettings->TrayIconInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "TrayIconInactiveOnly", 1);
-	ci.pSettings->PopupInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopupInactiveOnly", 1);
-	ci.pSettings->AddColonToAutoComplete = (BOOL)db_get_b(NULL, "Chat", "AddColonToAutoComplete", 1);
-	ci.pSettings->iPopupStyle = db_get_b(NULL, "Chat", "PopupStyle", 1);
-	ci.pSettings->iPopupTimeout = db_get_w(NULL, "Chat", "PopupTimeout", 3);
-	ci.pSettings->crPUBkgColour = db_get_dw(NULL, "Chat", "PopupColorBG", GetSysColor(COLOR_WINDOW));
-	ci.pSettings->crPUTextColour = db_get_dw(NULL, "Chat", "PopupColorText", 0);
-	ci.pSettings->ShowContactStatus = db_get_b(NULL, "Chat", "ShowContactStatus", 0);
-	ci.pSettings->ContactStatusFirst = db_get_b(NULL, "Chat", "ContactStatusFirst", 0);
+	g_Settings->LogLimitNames = db_get_b(NULL, "Chat", "LogLimitNames", 1);
+	g_Settings->ShowTime = db_get_b(NULL, "Chat", "ShowTimeStamp", 1);
+	g_Settings->SoundsFocus = db_get_b(NULL, "Chat", "SoundsFocus", 0);
+	g_Settings->ShowTimeIfChanged = (BOOL)db_get_b(NULL, "Chat", "ShowTimeStampIfChanged", 0);
+	g_Settings->TimeStampEventColour = (BOOL)db_get_b(NULL, "Chat", "TimeStampEventColour", 0);
+	g_Settings->iEventLimit = db_get_w(NULL, "Chat", "LogLimit", 100);
+	g_Settings->dwIconFlags = db_get_dw(NULL, "Chat", "IconFlags", 0x0000);
+	g_Settings->dwTrayIconFlags = db_get_dw(NULL, "Chat", "TrayIconFlags", 0x1000);
+	g_Settings->dwPopupFlags = db_get_dw(NULL, "Chat", "PopupFlags", 0x0000);
+	g_Settings->LoggingLimit = db_get_w(NULL, "Chat", "LoggingLimit", 100);
+	g_Settings->LoggingEnabled = (BOOL)db_get_b(NULL, "Chat", "LoggingEnabled", 0);
+	g_Settings->FlashWindow = (BOOL)db_get_b(NULL, "Chat", "FlashWindow", 0);
+	g_Settings->HighlightEnabled = (BOOL)db_get_b(NULL, "Chat", "HighlightEnabled", 1);
+	g_Settings->crUserListColor = db_get_dw(NULL, "ChatFonts", "Font18Col", RGB(0, 0, 0));
+	g_Settings->crUserListHeadingsColor = db_get_dw(NULL, "ChatFonts", "Font19Col", RGB(170, 170, 170));
+	g_Settings->StripFormat = (BOOL)db_get_b(NULL, "Chat", "StripFormatting", 0);
+	g_Settings->TrayIconInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "TrayIconInactiveOnly", 1);
+	g_Settings->PopupInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopupInactiveOnly", 1);
+	g_Settings->AddColonToAutoComplete = (BOOL)db_get_b(NULL, "Chat", "AddColonToAutoComplete", 1);
+	g_Settings->iPopupStyle = db_get_b(NULL, "Chat", "PopupStyle", 1);
+	g_Settings->iPopupTimeout = db_get_w(NULL, "Chat", "PopupTimeout", 3);
+	g_Settings->crPUBkgColour = db_get_dw(NULL, "Chat", "PopupColorBG", GetSysColor(COLOR_WINDOW));
+	g_Settings->crPUTextColour = db_get_dw(NULL, "Chat", "PopupColorText", 0);
+	g_Settings->ShowContactStatus = db_get_b(NULL, "Chat", "ShowContactStatus", 0);
+	g_Settings->ContactStatusFirst = db_get_b(NULL, "Chat", "ContactStatusFirst", 0);
 
 	LoadColors();
 
 	if (ci.OnLoadSettings)
 		ci.OnLoadSettings();
 
-	InitSetting(&ci.pSettings->pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
-	InitSetting(&ci.pSettings->pszTimeStampLog, "LogTimestamp", _T("[%d %b %y %H:%M]"));
-	InitSetting(&ci.pSettings->pszIncomingNick, "HeaderIncoming", _T("%n:"));
-	InitSetting(&ci.pSettings->pszOutgoingNick, "HeaderOutgoing", _T("%n:"));
-	InitSetting(&ci.pSettings->pszHighlightWords, "HighlightWords", _T("%m"));
+	InitSetting(&g_Settings->pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
+	InitSetting(&g_Settings->pszTimeStampLog, "LogTimestamp", _T("[%d %b %y %H:%M]"));
+	InitSetting(&g_Settings->pszIncomingNick, "HeaderIncoming", _T("%n:"));
+	InitSetting(&g_Settings->pszOutgoingNick, "HeaderOutgoing", _T("%n:"));
+	InitSetting(&g_Settings->pszHighlightWords, "HighlightWords", _T("%m"));
 
 	TCHAR pszTemp[MAX_PATH];
 	DBVARIANT dbv;
-	ci.pSettings->pszLogDir = (TCHAR *)mir_realloc(ci.pSettings->pszLogDir, MAX_PATH*sizeof(TCHAR));
+	g_Settings->pszLogDir = (TCHAR *)mir_realloc(g_Settings->pszLogDir, MAX_PATH*sizeof(TCHAR));
 	if (!db_get_ts(NULL, "Chat", "LogDirectory", &dbv)) {
 		lstrcpyn(pszTemp, dbv.ptszVal, MAX_PATH);
 		db_free(&dbv);
@@ -264,54 +268,56 @@ void LoadGlobalSettings(void)
 		mir_free(tmpPath);
 	}
 
-	PathToAbsoluteT(pszTemp, ci.pSettings->pszLogDir);
+	PathToAbsoluteT(pszTemp, g_Settings->pszLogDir);
 
-	ci.pSettings->LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
+	g_Settings->LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
 	LOGFONT lf;
-	if (ci.pSettings->MessageBoxFont)
-		DeleteObject(ci.pSettings->MessageBoxFont);
+	if (g_Settings->MessageBoxFont)
+		DeleteObject(g_Settings->MessageBoxFont);
 	LoadMsgDlgFont(17, &lf, NULL);
-	ci.pSettings->MessageBoxFont = CreateFontIndirect(&lf);
+	g_Settings->MessageBoxFont = CreateFontIndirect(&lf);
 
-	if (ci.pSettings->UserListFont)
-		DeleteObject(ci.pSettings->UserListFont);
+	if (g_Settings->UserListFont)
+		DeleteObject(g_Settings->UserListFont);
 	LoadMsgDlgFont(18, &lf, NULL);
-	ci.pSettings->UserListFont = CreateFontIndirect(&lf);
+	g_Settings->UserListFont = CreateFontIndirect(&lf);
 
-	if (ci.pSettings->UserListHeadingsFont)
-		DeleteObject(ci.pSettings->UserListHeadingsFont);
+	if (g_Settings->UserListHeadingsFont)
+		DeleteObject(g_Settings->UserListHeadingsFont);
 	LoadMsgDlgFont(19, &lf, NULL);
-	ci.pSettings->UserListHeadingsFont = CreateFontIndirect(&lf);
+	g_Settings->UserListHeadingsFont = CreateFontIndirect(&lf);
+
+	SetIndentSize();
 }
 
 static void FreeGlobalSettings(void)
 {
-	mir_free(ci.pSettings->pszTimeStamp);
-	mir_free(ci.pSettings->pszTimeStampLog);
-	mir_free(ci.pSettings->pszIncomingNick);
-	mir_free(ci.pSettings->pszOutgoingNick);
-	mir_free(ci.pSettings->pszHighlightWords);
-	mir_free(ci.pSettings->pszLogDir);
-	if (ci.pSettings->MessageBoxFont)
-		DeleteObject(ci.pSettings->MessageBoxFont);
-	if (ci.pSettings->UserListFont)
-		DeleteObject(ci.pSettings->UserListFont);
-	if (ci.pSettings->UserListHeadingsFont)
-		DeleteObject(ci.pSettings->UserListHeadingsFont);
+	mir_free(g_Settings->pszTimeStamp);
+	mir_free(g_Settings->pszTimeStampLog);
+	mir_free(g_Settings->pszIncomingNick);
+	mir_free(g_Settings->pszOutgoingNick);
+	mir_free(g_Settings->pszHighlightWords);
+	mir_free(g_Settings->pszLogDir);
+	if (g_Settings->MessageBoxFont)
+		DeleteObject(g_Settings->MessageBoxFont);
+	if (g_Settings->UserListFont)
+		DeleteObject(g_Settings->UserListFont);
+	if (g_Settings->UserListHeadingsFont)
+		DeleteObject(g_Settings->UserListHeadingsFont);
 }
 
 void SetIndentSize()
 {
-	if (ci.pSettings->ShowTime) {
+	if (g_Settings->ShowTime) {
 		LOGFONT lf;
 		LoadMsgDlgFont(0, &lf, NULL);
 		HFONT hFont = CreateFontIndirect(&lf);
-		int iText = GetTextPixelSize(MakeTimeStamp(ci.pSettings->pszTimeStamp, time(NULL)), hFont, TRUE);
+		int iText = GetTextPixelSize(MakeTimeStamp(g_Settings->pszTimeStamp, time(NULL)), hFont, TRUE);
 		DeleteObject(hFont);
-		ci.pSettings->LogTextIndent = iText * 12 / 10;
+		g_Settings->LogTextIndent = iText * 12 / 10;
 	}
-	else ci.pSettings->LogTextIndent = 0;
+	else g_Settings->LogTextIndent = 0;
 }
 
 int GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth)
@@ -339,21 +345,21 @@ int OptionsInit(void)
 	lf.lfUnderline = lf.lfItalic = lf.lfStrikeOut = 0;
 	lf.lfHeight = -17;
 	lf.lfWeight = FW_BOLD;
-	ci.pSettings->NameFont = CreateFontIndirect(&lf);
-	ci.pSettings->UserListFont = NULL;
-	ci.pSettings->UserListHeadingsFont = NULL;
-	ci.pSettings->MessageBoxFont = NULL;
-	ci.pSettings->iX = db_get_dw(NULL, "Chat", "roomx", -1);
-	ci.pSettings->iY = db_get_dw(NULL, "Chat", "roomy", -1);
-	ci.pSettings->iWidth = db_get_dw(NULL, "Chat", "roomwidth", -1);
-	ci.pSettings->iHeight = db_get_dw(NULL, "Chat", "roomheight", -1);
+	g_Settings->NameFont = CreateFontIndirect(&lf);
+	g_Settings->UserListFont = NULL;
+	g_Settings->UserListHeadingsFont = NULL;
+	g_Settings->MessageBoxFont = NULL;
+	g_Settings->iX = db_get_dw(NULL, "Chat", "roomx", -1);
+	g_Settings->iY = db_get_dw(NULL, "Chat", "roomy", -1);
+	g_Settings->iWidth = db_get_dw(NULL, "Chat", "roomwidth", -1);
+	g_Settings->iHeight = db_get_dw(NULL, "Chat", "roomheight", -1);
 
-	ci.pSettings->iSplitterX = db_get_w(NULL, "Chat", "SplitterX", 105);
-	if (ci.pSettings->iSplitterX <= 50)
-		ci.pSettings->iSplitterX = 105;
-	ci.pSettings->iSplitterY = db_get_w(NULL, "Chat", "SplitterY", 90);
-	if (ci.pSettings->iSplitterY <= 65)
-		ci.pSettings->iSplitterY = 90;
+	g_Settings->iSplitterX = db_get_w(NULL, "Chat", "SplitterX", 105);
+	if (g_Settings->iSplitterX <= 50)
+		g_Settings->iSplitterX = 105;
+	g_Settings->iSplitterY = db_get_w(NULL, "Chat", "SplitterY", 90);
+	if (g_Settings->iSplitterY <= 65)
+		g_Settings->iSplitterY = 90;
 
 	LoadGlobalSettings();
 
@@ -369,16 +375,14 @@ int OptionsInit(void)
 	SkinAddNewSoundEx("ChatQuit", LPGEN("Group chats"), LPGEN("User has disconnected"));
 	SkinAddNewSoundEx("ChatTopic", LPGEN("Group chats"), LPGEN("The topic has been changed"));
 
-	if (ci.pSettings->LoggingEnabled)
-		CreateDirectoryTreeT(ci.pSettings->pszLogDir);
-
-	SetIndentSize();
+	if (g_Settings->LoggingEnabled)
+		CreateDirectoryTreeT(g_Settings->pszLogDir);
 	return 0;
 }
 
 int OptionsUnInit(void)
 {
 	FreeGlobalSettings();
-	DeleteObject(ci.pSettings->NameFont);
+	DeleteObject(g_Settings->NameFont);
 	return 0;
 }

@@ -36,6 +36,9 @@ struct GCPTRS
 };
 
 extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
+extern GlobalLogSettingsBase *g_Settings;
+extern int g_cbSession, g_cbModuleInfo;
+extern TCHAR *g_szFontGroup;
 
 // log.c
 void   LoadMsgLogBitmaps(void);
@@ -66,11 +69,11 @@ void   LoadMsgDlgFont(int i, LOGFONT * lf, COLORREF * colour);
 void   LoadGlobalSettings(void);
 HICON  LoadIconEx(char* pszIcoLibName, BOOL big);
 void   LoadLogFonts(void);
-void   SetIndentSize();
+void   SetIndentSize(void);
+void   RegisterFonts(void);
 
 // services.c
-void   InitChatModule(void);
-void   LoadChatModule(void);
+int    LoadChatModule(void);
 void   UnloadChatModule(void);
 
 // tools.c
@@ -83,8 +86,8 @@ int    GetRichTextLength(HWND hwnd);
 BOOL   IsHighlighted(SESSION_INFO *si, const TCHAR* pszText);
 UINT   CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void   DestroyGCMenu(HMENU *hMenu, int iIndex);
-BOOL   DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
-BOOL   DoEventHook(const TCHAR *pszID, const char *pszModule, int iType, const TCHAR *pszUID, const TCHAR* pszText, DWORD dwItem);
+BOOL   DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, INT_PTR dwItem);
+BOOL   DoEventHook(const TCHAR *pszID, const char *pszModule, int iType, const TCHAR *pszUID, const TCHAR* pszText, INT_PTR dwItem);
 BOOL   IsEventSupported(int eventType);
 BOOL   LogToFile(SESSION_INFO *si, GCEVENT *gce);
 BOOL   DoPopup(SESSION_INFO *si, GCEVENT *gce);

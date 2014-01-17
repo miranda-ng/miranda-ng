@@ -142,18 +142,18 @@ int ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName
 		cli.pfnGetContactDisplayName(hContact, 0));
 
 	lstrcpyn(pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE);
-	pd.iSeconds = ci.pSettings->iPopupTimeout;
+	pd.iSeconds = g_Settings->iPopupTimeout;
 
-	if (ci.pSettings->iPopupStyle == 2) {
+	if (g_Settings->iPopupStyle == 2) {
 		pd.colorBack = 0;
 		pd.colorText = 0;
 	}
-	else if (ci.pSettings->iPopupStyle == 3) {
-		pd.colorBack = ci.pSettings->crPUBkgColour;
-		pd.colorText = ci.pSettings->crPUTextColour;
+	else if (g_Settings->iPopupStyle == 3) {
+		pd.colorBack = g_Settings->crPUBkgColour;
+		pd.colorText = g_Settings->crPUTextColour;
 	}
 	else {
-		pd.colorBack = ci.pSettings->crLogBackground;
+		pd.colorBack = g_Settings->crLogBackground;
 		pd.colorText = crBkg;
 	}
 
@@ -166,7 +166,7 @@ static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
 	int iEvent = gce->pDest->iType;
 
-	if (iEvent&ci.pSettings->dwTrayIconFlags) {
+	if (iEvent&g_Settings->dwTrayIconFlags) {
 		switch (iEvent) {
 		case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 		case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
@@ -218,7 +218,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
 	int iEvent = gce->pDest->iType;
 
-	if (iEvent & ci.pSettings->dwPopupFlags) {
+	if (iEvent & g_Settings->dwPopupFlags) {
 		switch (iEvent) {
 		case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 			ShowPopup(si->hContact, si, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, ci.aFonts[16].color, TranslateT("%s says: %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
@@ -291,13 +291,13 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 	if (bHighlight) {
 		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;
-		if (bInactive || !ci.pSettings->SoundsFocus)
+		if (bInactive || !g_Settings->SoundsFocus)
 			SkinPlaySound("ChatHighlight");
 		if (db_get_b(si->hContact, "CList", "Hidden", 0) != 0)
 			db_unset(si->hContact, "CList", "Hidden");
 		if (bInactive)
 			DoTrayIcon(si, gce);
-		if (bInactive || !ci.pSettings->PopupInactiveOnly)
+		if (bInactive || !g_Settings->PopupInactiveOnly)
 			DoPopup(si, gce);
 		if (ci.OnFlashWindow)
 			ci.OnFlashWindow(si, bInactive);
@@ -305,40 +305,40 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	}
 
 	// do blinking icons in tray
-	if (bInactive || !ci.pSettings->TrayIconInactiveOnly)
+	if (bInactive || !g_Settings->TrayIconInactiveOnly)
 		DoTrayIcon(si, gce);
 
 	// stupid thing to not create multiple popups for a QUIT event for instance
 	if (bManyFix == 0) {
 		// do popups
-		if (bInactive || !ci.pSettings->PopupInactiveOnly)
+		if (bInactive || !g_Settings->PopupInactiveOnly)
 			DoPopup(si, gce);
 
 		// do sounds and flashing
 		switch (iEvent) {
 		case GC_EVENT_JOIN:
-			if (bInactive || !ci.pSettings->SoundsFocus)
+			if (bInactive || !g_Settings->SoundsFocus)
 				SkinPlaySound("ChatJoin");
 			break;
 		case GC_EVENT_PART:
-			if (bInactive || !ci.pSettings->SoundsFocus)
+			if (bInactive || !g_Settings->SoundsFocus)
 				SkinPlaySound("ChatPart");
 			break;
 		case GC_EVENT_QUIT:
-			if (bInactive || !ci.pSettings->SoundsFocus)
+			if (bInactive || !g_Settings->SoundsFocus)
 				SkinPlaySound("ChatQuit");
 			break;
 		case GC_EVENT_ADDSTATUS:
 		case GC_EVENT_REMOVESTATUS:
-			if (bInactive || !ci.pSettings->SoundsFocus)
+			if (bInactive || !g_Settings->SoundsFocus)
 				SkinPlaySound("ChatMode");
 			break;
 		case GC_EVENT_KICK:
-			if (bInactive || !ci.pSettings->SoundsFocus)
+			if (bInactive || !g_Settings->SoundsFocus)
 				SkinPlaySound("ChatKick");
 			break;
 		case GC_EVENT_MESSAGE:
-			if (bInactive || !ci.pSettings->SoundsFocus)
+			if (bInactive || !g_Settings->SoundsFocus)
 				SkinPlaySound("ChatMessage");
 
 			if (bInactive && !(si->wState & STATE_TALK)) {
@@ -349,19 +349,19 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 				ci.OnFlashWindow(si, bInactive);
 			break;
 		case GC_EVENT_ACTION:
-			if (bInactive || !ci.pSettings->SoundsFocus)
+			if (bInactive || !g_Settings->SoundsFocus)
 				SkinPlaySound("ChatAction");
 			break;
 		case GC_EVENT_NICK:
-			if (bInactive || !ci.pSettings->SoundsFocus)
+			if (bInactive || !g_Settings->SoundsFocus)
 				SkinPlaySound("ChatNick");
 			break;
 		case GC_EVENT_NOTICE:
-			if (bInactive || !ci.pSettings->SoundsFocus)
+			if (bInactive || !g_Settings->SoundsFocus)
 				SkinPlaySound("ChatNotice");
 			break;
 		case GC_EVENT_TOPIC:
-			if (bInactive || !ci.pSettings->SoundsFocus)
+			if (bInactive || !g_Settings->SoundsFocus)
 				SkinPlaySound("ChatTopic");
 			break;
 		}
@@ -425,8 +425,8 @@ const TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 
 BOOL IsHighlighted(SESSION_INFO *si, const TCHAR* pszText)
 {
-	if (ci.pSettings->HighlightEnabled && ci.pSettings->pszHighlightWords && pszText && si->pMe) {
-		TCHAR* p1 = ci.pSettings->pszHighlightWords;
+	if (g_Settings->HighlightEnabled && g_Settings->pszHighlightWords && pszText && si->pMe) {
+		TCHAR* p1 = g_Settings->pszHighlightWords;
 		TCHAR* p2 = NULL;
 		const TCHAR* p3 = pszText;
 		static TCHAR szWord1[1000];
@@ -521,7 +521,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	mir_sntprintf(szName, MAX_PATH, _T("%s"), mi->ptszModDispName ? mi->ptszModDispName : (szModName = mir_a2t(si->pszModule)));
 	mir_free(szModName);
 	ValidateFilename(szName);
-	mir_sntprintf(szFolder, MAX_PATH, _T("%s\\%s"), ci.pSettings->pszLogDir, szName );
+	mir_sntprintf(szFolder, MAX_PATH, _T("%s\\%s"), g_Settings->pszLogDir, szName );
 
 	CreateDirectoryTreeT(szFolder);
 
@@ -529,14 +529,14 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	ValidateFilename(szName);
 
 	mir_sntprintf(szFile, MAX_PATH, _T("%s\\%s"), szFolder, szName );
-	lstrcpyn(szTime, MakeTimeStamp(ci.pSettings->pszTimeStampLog, gce->time), 99);
+	lstrcpyn(szTime, MakeTimeStamp(g_Settings->pszTimeStampLog, gce->time), 99);
 
 	FILE *hFile = _tfopen(szFile, _T("at+"));
 	if (hFile) {
 		TCHAR szTemp[512], szTemp2[512];
 		TCHAR* pszNick = NULL;
 		if ( gce->ptszNick ) {
-			if ( ci.pSettings->LogLimitNames && lstrlen(gce->ptszNick) > 20 ) {
+			if ( g_Settings->LogLimitNames && lstrlen(gce->ptszNick) > 20 ) {
 				lstrcpyn(szTemp2, gce->ptszNick, 20);
 				lstrcpyn(szTemp2+20, _T("..."), 4);
 			}
@@ -622,23 +622,23 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 			fputs(p, hFile);
 			mir_free(p);
 
-			if (ci.pSettings->LoggingLimit > 0) {
+			if (g_Settings->LoggingLimit > 0) {
 				DWORD dwSize;
 				DWORD trimlimit;
 
 				fseek(hFile, 0, SEEK_END);
 				dwSize = ftell(hFile);
 				rewind(hFile);
-				trimlimit = ci.pSettings->LoggingLimit * 1024 + 1024 * 10;
+				trimlimit = g_Settings->LoggingLimit * 1024 + 1024 * 10;
 				if (dwSize > trimlimit) {
 					BYTE * pBuffer = 0;
 					BYTE * pBufferTemp = 0;
 					int read = 0;
 
-					pBuffer = (BYTE *)mir_alloc(ci.pSettings->LoggingLimit * 1024 + 1);
-					pBuffer[ci.pSettings->LoggingLimit * 1024] = '\0';
-					fseek(hFile, -ci.pSettings->LoggingLimit * 1024, SEEK_END);
-					read = (int)fread(pBuffer, 1, ci.pSettings->LoggingLimit * 1024, hFile);
+					pBuffer = (BYTE *)mir_alloc(g_Settings->LoggingLimit * 1024 + 1);
+					pBuffer[g_Settings->LoggingLimit * 1024] = '\0';
+					fseek(hFile, -g_Settings->LoggingLimit * 1024, SEEK_END);
+					read = (int)fread(pBuffer, 1, g_Settings->LoggingLimit * 1024, hFile);
 					fclose(hFile);
 					hFile = NULL;
 
@@ -671,7 +671,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	return FALSE;
 }
 
-BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem)
+BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, INT_PTR dwItem)
 {
 	SESSION_INFO *si = ci.SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -691,7 +691,7 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int 
 	return TRUE;
 }
 
-BOOL DoEventHook(const TCHAR *pszID, const char *pszModule, int iType, const TCHAR *pszUID, const TCHAR* pszText, DWORD dwItem)
+BOOL DoEventHook(const TCHAR *pszID, const char *pszModule, int iType, const TCHAR *pszUID, const TCHAR* pszText, INT_PTR dwItem)
 {
 	SESSION_INFO *si = ci.SM_FindSession(pszID, pszModule);
 	if (si == NULL)

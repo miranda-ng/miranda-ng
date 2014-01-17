@@ -33,9 +33,7 @@
 #ifndef __COMMONHEADERS_H
 #define __COMMONHEADERS_H
 
-#if !defined __DELAYED_FOR_3_1
-	#define __FEAT_EXP_AUTOSPLITTER 1
-#endif
+#define __FEAT_EXP_AUTOSPLITTER 1
 
 #define WINVER 0x0600
 #define _WIN32_WINNT 0x0600

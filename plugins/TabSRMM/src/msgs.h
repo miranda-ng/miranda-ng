@@ -692,8 +692,6 @@ private:
 #define IPFONTID_PROTO 3
 #define IPFONTID_TIME 4
 
-extern const int msgDlgFontCount;
-
 #define LOADHISTORY_UNREAD    0
 #define LOADHISTORY_COUNT     1
 #define LOADHISTORY_TIME      2
@@ -744,7 +742,7 @@ extern const int msgDlgFontCount;
 #define SRMSGDEFSET_SHOWTYPINGCLIST 1
 
 // rtl support
-#define SRMSGDEFSET_MOD_RTL                      0
+#define SRMSGDEFSET_MOD_RTL  0
 
 #define TIMEOUT_FLASHWND     900
 #define TIMERID_HEARTBEAT    2
@@ -755,7 +753,8 @@ extern const int msgDlgFontCount;
 #define SRMSGMOD "SRMsg"
 #define SRMSGMOD_T "Tab_SRMsg"
 #define FONTMODULE "TabSRMM_Fonts"
-#define CHAT_FONTMODULE "TabSRMM_chat_Fonts"
+#define CHAT_OLDFONTMODULE "TabSRMM_chat_Fonts"
+#define CHAT_FONTMODULE "ChatFonts"
 
 #define IDM_STAYONTOP (WM_USER + 1)
 #define IDM_NOTITLE (WM_USER + 2)

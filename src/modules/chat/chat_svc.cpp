@@ -29,8 +29,6 @@ INT_PTR SvcGetChatManager(WPARAM, LPARAM);
 HGENMENU hJoinMenuItem, hLeaveMenuItem;
 CRITICAL_SECTION	cs;
 
-void RegisterFonts(void);
-
 static HANDLE
    hServiceRegister = NULL,
    hServiceNewChat = NULL,
@@ -51,7 +49,7 @@ static int FontsChanged(WPARAM wParam, LPARAM lParam)
 	LoadLogFonts();
 
 	SetIndentSize();
-	ci.pSettings->LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
+	g_Settings->LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
 	ci.MM_FontsChanged();
 	ci.MM_FixColors();
@@ -184,8 +182,8 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 		si->dwFlags = gcw->dwFlags;
 		si->ptszName = mir_tstrdup(gcw->ptszName);
 		si->ptszStatusbarText = mir_tstrdup(gcw->ptszStatusbarText);
-		si->iSplitterX = ci.pSettings->iSplitterX;
-		si->iSplitterY = ci.pSettings->iSplitterY;
+		si->iSplitterX = g_Settings->iSplitterX;
+		si->iSplitterY = g_Settings->iSplitterY;
 		si->iLogFilterFlags = (int)db_get_dw(NULL, "Chat", "FilterFlags", 0x03E0);
 		si->bFilterEnabled = db_get_b(NULL, "Chat", "FilterEnabled", 0);
 		si->bNicklistEnabled = db_get_b(NULL, "Chat", "ShowNicklist", 1);
@@ -477,8 +475,8 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 			if (ci.OnAddLog)
 				ci.OnAddLog(si, isOk);
 			if (!(gce->dwFlags & GCEF_NOTNOTIFY))
-				DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
-			if ((gce->dwFlags & GCEF_ADDTOLOG) && ci.pSettings->LoggingEnabled)
+				ci.DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
+			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->LoggingEnabled)
 				LogToFile(si, gce);
 		}
 
@@ -503,51 +501,11 @@ static INT_PTR Service_GetAddEventPtr(WPARAM wParam, LPARAM lParam)
 
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
+	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
+
 	char* mods[3] = { "Chat", "ChatFonts" };
 	CallService("DBEditorpp/RegisterModule", (WPARAM)mods, 2);
-
-	ci.SetAllOffline(TRUE, NULL);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Service creation
-
-static bool bInited = false;
-
-void InitChatModule(void)
-{
-	CreateServiceFunction("GChat/GetInterface", SvcGetChatManager);
-}
-
-void LoadChatModule(void)
-{
-	if (bInited)
-		return;
-
-	InitializeCriticalSection(&cs);
-
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
-
-	CreateServiceFunction(MS_GC_REGISTER, Service_Register);
-	CreateServiceFunction(MS_GC_NEWSESSION, Service_NewChat);
-	CreateServiceFunction(MS_GC_EVENT, Service_AddEvent);
-	CreateServiceFunction(MS_GC_GETEVENTPTR, Service_GetAddEventPtr);
-	CreateServiceFunction(MS_GC_GETINFO, Service_GetInfo);
-	CreateServiceFunction(MS_GC_GETSESSIONCOUNT, Service_GetCount);
-
-	CreateServiceFunction("GChat/DblClickEvent", EventDoubleclicked);
-	CreateServiceFunction("GChat/PrebuildMenuEvent", PrebuildContactMenuSvc);
-	CreateServiceFunction("GChat/JoinChat", JoinChat);
-	CreateServiceFunction("GChat/LeaveChat", LeaveChat);
-
-	ci.hSendEvent = CreateHookableEvent(ME_GC_EVENT);
-	ci.hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
-
-	RegisterFonts();
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090001;
@@ -564,18 +522,44 @@ void LoadChatModule(void)
 	mi.pszService = "GChat/LeaveChat";
 	hLeaveMenuItem = Menu_AddContactMenuItem(&mi);
 
+	ci.SetAllOffline(TRUE, NULL);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Service creation
+
+int LoadChatModule(void)
+{
+	InitializeCriticalSection(&cs);
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
+
+	CreateServiceFunction(MS_GC_REGISTER, Service_Register);
+	CreateServiceFunction(MS_GC_NEWSESSION, Service_NewChat);
+	CreateServiceFunction(MS_GC_EVENT, Service_AddEvent);
+	CreateServiceFunction(MS_GC_GETEVENTPTR, Service_GetAddEventPtr);
+	CreateServiceFunction(MS_GC_GETINFO, Service_GetInfo);
+	CreateServiceFunction(MS_GC_GETSESSIONCOUNT, Service_GetCount);
+
+	CreateServiceFunction("GChat/DblClickEvent", EventDoubleclicked);
+	CreateServiceFunction("GChat/PrebuildMenuEvent", PrebuildContactMenuSvc);
+	CreateServiceFunction("GChat/JoinChat", JoinChat);
+	CreateServiceFunction("GChat/LeaveChat", LeaveChat);
+	CreateServiceFunction("GChat/GetInterface", SvcGetChatManager);
+
+	ci.hSendEvent = CreateHookableEvent(ME_GC_EVENT);
+	ci.hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
+
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
-	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
-
-	bInited = true;
+	return 0;
 }
 
 void UnloadChatModule(void)
 {
-	if (!bInited)
-		return;
-
 	OptionsUnInit();
 	DeleteCriticalSection(&cs);
 

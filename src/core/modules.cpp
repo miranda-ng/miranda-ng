@@ -137,8 +137,7 @@ int LoadDefaultModules(void)
 	if (LoadSkinHotkeys()) return 1;
 	if (LoadFontserviceModule()) return 1;
 	if (LoadSrmmModule()) return 1;
-	InitChatModule();
-
+	if (LoadChatModule()) return 1;
 	if (LoadDescButtonModule()) return 1;
 	if (LoadOptionsModule()) return 1;
 	if (LoadNetlibModule()) return 1;
@@ -148,7 +147,6 @@ int LoadDefaultModules(void)
 	LoadDbAccounts();                    // retrieves the account array from a database
 	if (LoadContactsModule()) return 1;
 	if (LoadContactListModule()) return 1;   // prepare contact list interface
-	// LoadChatModule();
 	if (LoadAddContactModule()) return 1;
 	if (LoadNewPluginsModule()) return 1;    // will call Load(void) on everything, clist will load first
 

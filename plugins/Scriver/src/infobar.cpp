@@ -31,7 +31,7 @@ void SetupInfobar(InfobarWindowData* idat) {
     DWORD colour = db_get_dw(NULL, SRMMMOD, SRMSGSET_INFOBARBKGCOLOUR, SRMSGDEFSET_INFOBARBKGCOLOUR);
     SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETBKGNDCOLOR, 0, colour);
     SendDlgItemMessage(hwnd, IDC_INFOBAR_STATUS, EM_SETBKGNDCOLOR, 0, colour);
-    LoadMsgDlgFont(MSGFONTID_INFOBAR_NAME, &lf, &colour, FALSE);
+    LoadMsgDlgFont(MSGFONTID_INFOBAR_NAME, &lf, &colour);
     cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
     cf2.cbSize = sizeof(cf2);
     cf2.crTextColor = colour;
@@ -43,7 +43,7 @@ void SetupInfobar(InfobarWindowData* idat) {
 	cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
     SendDlgItemMessageA(hwnd, IDC_INFOBAR_NAME, EM_SETCHARFORMAT, 0, (LPARAM)&cf2);
 
-    LoadMsgDlgFont(MSGFONTID_INFOBAR_STATUS, &lf, &colour, FALSE);
+    LoadMsgDlgFont(MSGFONTID_INFOBAR_STATUS, &lf, &colour);
     cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
     cf2.cbSize = sizeof(cf2);
     cf2.crTextColor = colour;
