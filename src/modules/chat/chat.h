@@ -84,7 +84,7 @@ BOOL   DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlig
 int    GetColorIndex(const char *pszModule, COLORREF cr);
 void   CheckColorsInModule(const char *pszModule);
 int    GetRichTextLength(HWND hwnd);
-BOOL   IsHighlighted(SESSION_INFO *si, const TCHAR* pszText);
+BOOL   IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 UINT   CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void   DestroyGCMenu(HMENU *hMenu, int iIndex);
 BOOL   DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, INT_PTR dwItem);

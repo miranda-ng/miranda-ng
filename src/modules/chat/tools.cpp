@@ -423,77 +423,81 @@ const TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 	return NULL;
 }
 
-BOOL IsHighlighted(SESSION_INFO *si, const TCHAR* pszText)
+BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 {
-	if (g_Settings->HighlightEnabled && g_Settings->pszHighlightWords && pszText && si->pMe) {
-		TCHAR* p1 = g_Settings->pszHighlightWords;
-		TCHAR* p2 = NULL;
-		const TCHAR* p3 = pszText;
-		static TCHAR szWord1[1000];
-		static TCHAR szWord2[1000];
-		static TCHAR szTrimString[] = _T(":,.!?;\'>)");
+	if (!g_Settings->HighlightEnabled || !g_Settings->pszHighlightWords || !gce || !si || !si->pMe)
+		return FALSE;
 
-		// compare word for word
-		while (*p1 != '\0') {
-			// find the next/first word in the highlight word string
+	TCHAR *p1 = g_Settings->pszHighlightWords;
+	TCHAR *p2 = NULL;
+	const TCHAR* p3 = gce->ptszText;
+	if (p3 == NULL)
+		return FALSE;
+
+	static TCHAR szWord1[1000];
+	static TCHAR szWord2[1000];
+	static TCHAR szTrimString[] = _T(":,.!?;\'>)");
+
+	// compare word for word
+	while (*p1 != '\0') {
+		// find the next/first word in the highlight word string
+		// skip 'spaces' be4 the word
+		while (*p1 == ' ' && *p1 != '\0')
+			p1 += 1;
+
+		//find the end of the word
+		p2 = _tcschr(p1, ' ');
+		if (!p2)
+			p2 = _tcschr(p1, '\0');
+		if (p1 == p2)
+			return FALSE;
+
+		// copy the word into szWord1
+		lstrcpyn(szWord1, p1, p2 - p1 > 998 ? 999 : p2 - p1 + 1);
+		p1 = p2;
+
+		// replace %m with the users nickname
+		p2 = _tcschr(szWord1, '%');
+		if (p2 && p2[1] == 'm') {
+			TCHAR szTemp[50];
+
+			p2[1] = 's';
+			lstrcpyn(szTemp, szWord1, 999);
+			mir_sntprintf(szWord1, SIZEOF(szWord1), szTemp, si->pMe->pszNick);
+		}
+
+		// time to get the next/first word in the incoming text string
+		while (*p3 != '\0') {
 			// skip 'spaces' be4 the word
-			while (*p1 == ' ' && *p1 != '\0')
-				p1 += 1;
+			while (*p3 == ' ' && *p3 != '\0')
+				p3 += 1;
 
 			//find the end of the word
-			p2 = _tcschr(p1, ' ');
+			p2 = (TCHAR *)_tcschr(p3, ' ');
 			if (!p2)
-				p2 = _tcschr(p1, '\0');
-			if (p1 == p2)
-				return FALSE;
+				p2 = (TCHAR *)_tcschr(p3, '\0');
 
-			// copy the word into szWord1
-			lstrcpyn(szWord1, p1, p2 - p1 > 998 ? 999 : p2 - p1 + 1);
-			p1 = p2;
 
-			// replace %m with the users nickname
-			p2 = _tcschr(szWord1, '%');
-			if (p2 && p2[1] == 'm') {
-				TCHAR szTemp[50];
+			if (p3 != p2) {
+				// eliminate ending character if needed
+				if (p2 - p3 > 1 && _tcschr(szTrimString, p2[-1]))
+					p2 -= 1;
 
-				p2[1] = 's';
-				lstrcpyn(szTemp, szWord1, 999);
-				mir_sntprintf(szWord1, SIZEOF(szWord1), szTemp, si->pMe->pszNick);
+				// copy the word into szWord2 and remove formatting
+				lstrcpyn(szWord2, p3, p2 - p3 > 998 ? 999 : p2 - p3 + 1);
+
+				// reset the pointer if it was touched because of an ending character
+				if (*p2 != '\0' && *p2 != ' ')
+					p2 += 1;
+				p3 = p2;
+
+				// compare the words, using wildcards
+				if (wildcmpit(szWord1, RemoveFormatting(szWord2)))
+					return TRUE;
 			}
-
-			// time to get the next/first word in the incoming text string
-			while (*p3 != '\0') {
-				// skip 'spaces' be4 the word
-				while (*p3 == ' ' && *p3 != '\0')
-					p3 += 1;
-
-				//find the end of the word
-				p2 = (TCHAR *)_tcschr(p3, ' ');
-				if (!p2)
-					p2 = (TCHAR *)_tcschr(p3, '\0');
-
-
-				if (p3 != p2) {
-					// eliminate ending character if needed
-					if (p2 - p3 > 1 && _tcschr(szTrimString, p2[-1]))
-						p2 -= 1;
-
-					// copy the word into szWord2 and remove formatting
-					lstrcpyn(szWord2, p3, p2 - p3 > 998 ? 999 : p2 - p3 + 1);
-
-					// reset the pointer if it was touched because of an ending character
-					if (*p2 != '\0' && *p2 != ' ')
-						p2 += 1;
-					p3 = p2;
-
-					// compare the words, using wildcards
-					if (wildcmpit(szWord1, RemoveFormatting(szWord2)))
-						return TRUE;
-				}
-			}
-
-			p3 = pszText;
 		}
+
+		p3 = gce->ptszText;
 	}
 
 	return FALSE;

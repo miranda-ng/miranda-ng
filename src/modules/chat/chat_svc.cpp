@@ -431,33 +431,37 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	
 	case GC_EVENT_ADDSTATUS:
 		ci.SM_GiveStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszStatus);
+		bIsHighlighted = ci.IsHighlighted(NULL, gce);
 		break;
 
 	case GC_EVENT_REMOVESTATUS:
 		ci.SM_TakeStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszStatus);
+		bIsHighlighted = ci.IsHighlighted(NULL, gce);
 		break;
 
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_ACTION:
 		if (!gce->bIsMe && gce->pDest->ptszID && gce->ptszText) {
 			si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
-			if (si && IsHighlighted(si, gce->ptszText))
-				bIsHighlighted = TRUE;
+			bIsHighlighted = ci.IsHighlighted(si, gce);
 		}
 		break;
 
 	case GC_EVENT_NICK:
 		ci.SM_ChangeNick(gce->pDest->ptszID, gce->pDest->pszModule, gce);
+		bIsHighlighted = ci.IsHighlighted(NULL, gce);
 		break;
 
 	case GC_EVENT_JOIN:
 		AddUser(gce);
+		bIsHighlighted = ci.IsHighlighted(NULL, gce);
 		break;
 
 	case GC_EVENT_PART:
 	case GC_EVENT_QUIT:
 	case GC_EVENT_KICK:
 		bRemoveFlag = TRUE;
+		bIsHighlighted = ci.IsHighlighted(NULL, gce);
 		break;
 	}
 

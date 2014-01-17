@@ -382,6 +382,7 @@ struct CHAT_MANAGER
 	int           (*ShowPopup)(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
 	BOOL          (*LogToFile)(SESSION_INFO *si, GCEVENT *gce);
 
+	BOOL          (*IsHighlighted)(SESSION_INFO *si, GCEVENT *pszText);
 	TCHAR*        (*RemoveFormatting)(const TCHAR *pszText);
 	void          (*ReloadSettings)(void);
 

@@ -1475,6 +1475,7 @@ CHAT_MANAGER ci =
 	ShowPopup,
 	LogToFile,
 
+	IsHighlighted,
 	RemoveFormatting,
 	LoadGlobalSettings
 };
