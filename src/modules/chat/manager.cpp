@@ -1487,6 +1487,8 @@ INT_PTR SvcGetChatManager(WPARAM, LPARAM lParam)
 	g_szFontGroup = pInit->szFontGroup;
 	g_cbSession = pInit->cbSession;
 	g_cbModuleInfo = pInit->cbModuleInfo;
+
+	LoadChatIcons();
 	RegisterFonts();
 	OptionsInit();
 	return (INT_PTR)&ci;

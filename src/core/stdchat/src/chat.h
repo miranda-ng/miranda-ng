@@ -143,7 +143,6 @@ struct COLORCHOOSER
 //main.c
 
 void LoadIcons(void);
-void LoadLogIcons(void);
 
 //colorchooser.c
 INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

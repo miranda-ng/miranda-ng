@@ -82,7 +82,6 @@ typedef struct{
 	COLORCHOOSER;
 
 //main.c
-void LoadChatIcons(void);
 void UpgradeCheck(void);
 
 //colorchooser.c

@@ -288,6 +288,9 @@ void LoadGlobalSettings(void)
 	LoadMsgDlgFont(19, &lf, NULL);
 	g_Settings->UserListHeadingsFont = CreateFontIndirect(&lf);
 
+	if (g_Settings->LoggingEnabled)
+		CreateDirectoryTreeT(g_Settings->pszLogDir);
+
 	SetIndentSize();
 }
 
@@ -361,8 +364,6 @@ int OptionsInit(void)
 	if (g_Settings->iSplitterY <= 65)
 		g_Settings->iSplitterY = 90;
 
-	LoadGlobalSettings();
-
 	SkinAddNewSoundEx("ChatMessage", LPGEN("Group chats"), LPGEN("Incoming message"));
 	SkinAddNewSoundEx("ChatHighlight", LPGEN("Group chats"), LPGEN("Message is highlighted"));
 	SkinAddNewSoundEx("ChatAction", LPGEN("Group chats"), LPGEN("User has performed an action"));
@@ -374,9 +375,6 @@ int OptionsInit(void)
 	SkinAddNewSoundEx("ChatNotice", LPGEN("Group chats"), LPGEN("User has sent a notice"));
 	SkinAddNewSoundEx("ChatQuit", LPGEN("Group chats"), LPGEN("User has disconnected"));
 	SkinAddNewSoundEx("ChatTopic", LPGEN("Group chats"), LPGEN("The topic has been changed"));
-
-	if (g_Settings->LoggingEnabled)
-		CreateDirectoryTreeT(g_Settings->pszLogDir);
 	return 0;
 }
 

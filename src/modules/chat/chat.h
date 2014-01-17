@@ -73,6 +73,7 @@ void   SetIndentSize(void);
 void   RegisterFonts(void);
 
 // services.c
+void   LoadChatIcons(void);
 int    LoadChatModule(void);
 void   UnloadChatModule(void);
 

@@ -44,6 +44,30 @@ static HANDLE
 /////////////////////////////////////////////////////////////////////////////////////////
 // Post-load event hooks
 
+void LoadChatIcons(void)
+{
+	ci.hIcons[ICON_ACTION]     = LoadIconEx("log_action", FALSE);
+	ci.hIcons[ICON_ADDSTATUS]  = LoadIconEx("log_addstatus", FALSE);
+	ci.hIcons[ICON_HIGHLIGHT]  = LoadIconEx("log_highlight", FALSE);
+	ci.hIcons[ICON_INFO]       = LoadIconEx("log_info", FALSE);
+	ci.hIcons[ICON_JOIN]       = LoadIconEx("log_join", FALSE);
+	ci.hIcons[ICON_KICK]       = LoadIconEx("log_kick", FALSE);
+	ci.hIcons[ICON_MESSAGE]    = LoadIconEx("log_message_in", FALSE);
+	ci.hIcons[ICON_MESSAGEOUT] = LoadIconEx("log_message_out", FALSE);
+	ci.hIcons[ICON_NICK]       = LoadIconEx("log_nick", FALSE);
+	ci.hIcons[ICON_NOTICE]     = LoadIconEx("log_notice", FALSE);
+	ci.hIcons[ICON_PART]       = LoadIconEx("log_part", FALSE);
+	ci.hIcons[ICON_QUIT]       = LoadIconEx("log_quit", FALSE);
+	ci.hIcons[ICON_REMSTATUS]  = LoadIconEx("log_removestatus", FALSE);
+	ci.hIcons[ICON_TOPIC]      = LoadIconEx("log_topic", FALSE);
+	ci.hIcons[ICON_STATUS0]    = LoadIconEx("status0", FALSE);
+	ci.hIcons[ICON_STATUS1]    = LoadIconEx("status1", FALSE);
+	ci.hIcons[ICON_STATUS2]    = LoadIconEx("status2", FALSE);
+	ci.hIcons[ICON_STATUS3]    = LoadIconEx("status3", FALSE);
+	ci.hIcons[ICON_STATUS4]    = LoadIconEx("status4", FALSE);
+	ci.hIcons[ICON_STATUS5]    = LoadIconEx("status5", FALSE);
+}
+
 static int FontsChanged(WPARAM wParam, LPARAM lParam)
 {
 	LoadLogFonts();
@@ -59,6 +83,8 @@ static int FontsChanged(WPARAM wParam, LPARAM lParam)
 
 static int IconsChanged(WPARAM wParam, LPARAM lParam)
 {
+	LoadChatIcons();
+
 	FreeMsgLogBitmaps();
 	LoadMsgLogBitmaps();
 

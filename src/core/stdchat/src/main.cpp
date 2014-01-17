@@ -261,7 +261,9 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
-	
+
+	AddIcons();
+
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Chat module") };
 	mir_getCI(&data);
 	pci->OnAddUser = OnAddUser;
@@ -286,13 +288,11 @@ extern "C" __declspec(dllexport) int Load(void)
 	pci->OnSetStatusBar = OnSetStatusBar;
 	pci->OnFlashWindow = OnFlashWindow;
 	pci->ShowRoom = ShowRoom;
+	pci->ReloadSettings();
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
-	AddIcons();
 	LoadIcons();
 
-	OnLoadSettings();
-	
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	return 0;
@@ -311,36 +311,8 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
-void LoadLogIcons(void)
-{
-	pci->hIcons[ICON_ACTION]     = LoadIconEx("log_action", FALSE);
-	pci->hIcons[ICON_ADDSTATUS]  = LoadIconEx("log_addstatus", FALSE);
-	pci->hIcons[ICON_HIGHLIGHT]  = LoadIconEx("log_highlight", FALSE);
-	pci->hIcons[ICON_INFO]       = LoadIconEx("log_info", FALSE);
-	pci->hIcons[ICON_JOIN]       = LoadIconEx("log_join", FALSE);
-	pci->hIcons[ICON_KICK]       = LoadIconEx("log_kick", FALSE);
-	pci->hIcons[ICON_MESSAGE]    = LoadIconEx("log_message_in", FALSE);
-	pci->hIcons[ICON_MESSAGEOUT] = LoadIconEx("log_message_out", FALSE);
-	pci->hIcons[ICON_NICK]       = LoadIconEx("log_nick", FALSE);
-	pci->hIcons[ICON_NOTICE]     = LoadIconEx("log_notice", FALSE);
-	pci->hIcons[ICON_PART]       = LoadIconEx("log_part", FALSE);
-	pci->hIcons[ICON_QUIT]       = LoadIconEx("log_quit", FALSE);
-	pci->hIcons[ICON_REMSTATUS]  = LoadIconEx("log_removestatus", FALSE);
-	pci->hIcons[ICON_TOPIC]      = LoadIconEx("log_topic", FALSE);
-	pci->hIcons[ICON_STATUS1]    = LoadIconEx("status1", FALSE);
-	pci->hIcons[ICON_STATUS2]    = LoadIconEx("status2", FALSE);
-	pci->hIcons[ICON_STATUS3]    = LoadIconEx("status3", FALSE);
-	pci->hIcons[ICON_STATUS4]    = LoadIconEx("status4", FALSE);
-	pci->hIcons[ICON_STATUS0]    = LoadIconEx("status0", FALSE);
-	pci->hIcons[ICON_STATUS5]    = LoadIconEx("status5", FALSE);
-}
-
 void LoadIcons(void)
 {
-	memset(pci->hIcons, 0, sizeof(pci->hIcons));
-
-	LoadLogIcons();
-
 	hIconsList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 100);
 	ImageList_AddIcon(hIconsList, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
 	ImageList_AddIcon(hIconsList, LoadIconEx("overlay", FALSE));

@@ -116,30 +116,6 @@ static void OnCreateModule(MODULEINFO *mi)
 	mi->hOfflineIconBig = LoadSkinnedProtoIconBig(mi->pszModule, ID_STATUS_OFFLINE);
 }
 
-void LoadChatIcons(void)
-{
-	pci->hIcons[ICON_ACTION]     = GetCachedIcon("chat_log_action");
-	pci->hIcons[ICON_ADDSTATUS]  = GetCachedIcon("chat_log_addstatus");
-	pci->hIcons[ICON_HIGHLIGHT]  = GetCachedIcon("chat_log_highlight");
-	pci->hIcons[ICON_INFO]       = GetCachedIcon("chat_log_info");
-	pci->hIcons[ICON_JOIN]       = GetCachedIcon("chat_log_join");
-	pci->hIcons[ICON_KICK]       = GetCachedIcon("chat_log_kick");
-	pci->hIcons[ICON_MESSAGE]    = GetCachedIcon("chat_log_message_in");
-	pci->hIcons[ICON_MESSAGEOUT] = GetCachedIcon("chat_log_message_out");
-	pci->hIcons[ICON_NICK]       = GetCachedIcon("chat_log_nick");
-	pci->hIcons[ICON_NOTICE]     = GetCachedIcon("chat_log_notice");
-	pci->hIcons[ICON_PART]       = GetCachedIcon("chat_log_part");
-	pci->hIcons[ICON_QUIT]       = GetCachedIcon("chat_log_quit");
-	pci->hIcons[ICON_REMSTATUS]  = GetCachedIcon("chat_log_removestatus");
-	pci->hIcons[ICON_TOPIC]      = GetCachedIcon("chat_log_topic");
-	pci->hIcons[ICON_STATUS1]    = GetCachedIcon("chat_status1");
-	pci->hIcons[ICON_STATUS2]    = GetCachedIcon("chat_status2");
-	pci->hIcons[ICON_STATUS3]    = GetCachedIcon("chat_status3");
-	pci->hIcons[ICON_STATUS4]    = GetCachedIcon("chat_status4");
-	pci->hIcons[ICON_STATUS0]    = GetCachedIcon("chat_status0");
-	pci->hIcons[ICON_STATUS5]    = GetCachedIcon("chat_status5");
-}
-
 int Chat_Load()
 {
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Messaging")_T("/")LPGENT("Group chats") };
@@ -160,8 +136,7 @@ int Chat_Load()
 	pci->OnSetStatusBar = OnSetStatusBar;
 	pci->OnFlashWindow = OnFlashWindow;
 	pci->ShowRoom = ShowRoom;
-
-	LoadChatIcons();
+	pci->ReloadSettings();
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
 	TranslateMenu(g_hMenu);
