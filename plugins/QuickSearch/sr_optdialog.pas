@@ -461,37 +461,37 @@ end;
 
 procedure adddbsettypes(list:hwnd);
 begin
-  CB_AddStrDataW(list,stByte     ,QSTS_BYTE);
-  CB_AddStrDataW(list,stWord     ,QSTS_WORD);
-  CB_AddStrDataW(list,stDword    ,QSTS_DWORD);
-  CB_AddStrDataW(list,stSigned   ,QSTS_SIGNED);
-  CB_AddStrDataW(list,stHexnum   ,QSTS_HEXNUM);
-  CB_AddStrDataW(list,stString   ,QSTS_STRING);
-  CB_AddStrDataW(list,stIP       ,QSTS_IP);
-  CB_AddStrDataW(list,stTimeStamp,QSTS_TIMESTAMP);
+  CB_AddStrDataW(list,TranslateW(stByte)     ,QSTS_BYTE);
+  CB_AddStrDataW(list,TranslateW(stWord)     ,QSTS_WORD);
+  CB_AddStrDataW(list,TranslateW(stDword)    ,QSTS_DWORD);
+  CB_AddStrDataW(list,TranslateW(stSigned)   ,QSTS_SIGNED);
+  CB_AddStrDataW(list,TranslateW(stHexnum)   ,QSTS_HEXNUM);
+  CB_AddStrDataW(list,TranslateW(stString)   ,QSTS_STRING);
+  CB_AddStrDataW(list,TranslateW(stIP)       ,QSTS_IP);
+  CB_AddStrDataW(list,TranslateW(stTimeStamp),QSTS_TIMESTAMP);
 
   SendMessage(list,CB_SETCURSEL,0,0);
 end;
 
 procedure addothertypes(list:hwnd);
 begin
-  CB_AddStrDataW(list,stLastSeen   ,QSTO_LASTSEEN);
-  CB_AddStrDataW(list,stLastEvent  ,QSTO_LASTEVENT);
-  CB_AddStrDataW(list,stMetacontact,QSTO_METACONTACT);
-  CB_AddStrDataW(list,stEventCount ,QSTO_EVENTCOUNT);
+  CB_AddStrDataW(list,TranslateW(stLastSeen)   ,QSTO_LASTSEEN);
+  CB_AddStrDataW(list,TranslateW(stLastEvent)  ,QSTO_LASTEVENT);
+  CB_AddStrDataW(list,TranslateW(stMetacontact),QSTO_METACONTACT);
+  CB_AddStrDataW(list,TranslateW(stEventCount) ,QSTO_EVENTCOUNT);
 
   SendMessage(list,CB_SETCURSEL,0,0);
 end;
 
 procedure addsettypes(list:hwnd);
 begin
-  CB_AddStrDataW(list,stSetting,QST_SETTING);
+  CB_AddStrDataW(list,TranslateW(stSetting),QST_SETTING);
 
-  CB_AddStrDataW(list,stScript     ,QST_SCRIPT);
-  CB_AddStrDataW(list,stService    ,QST_SERVICE);
-  CB_AddStrDataW(list,stContactInfo,QST_CONTACTINFO);
+  CB_AddStrDataW(list,TranslateW(stScript)     ,QST_SCRIPT);
+  CB_AddStrDataW(list,TranslateW(stService)    ,QST_SERVICE);
+  CB_AddStrDataW(list,TranslateW(stContactInfo),QST_CONTACTINFO);
 
-  CB_AddStrDataW(list,stOther,QST_OTHER);
+  CB_AddStrDataW(list,TranslateW(stOther),QST_OTHER);
 
   SendMessage(list,CB_SETCURSEL,0,0);
 end;
