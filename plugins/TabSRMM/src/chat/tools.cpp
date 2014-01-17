@@ -757,3 +757,14 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 
 	return si->pszLogFileName;
 }
+
+BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
+{
+	if (!g_Settings.HighlightEnabled || !g_Settings.pszHighlightWords || !gce)
+		return FALSE;
+
+	int dwMask = 0;
+	if (gce->ptszText != NULL) dwMask |= CMUCHighlight::MATCH_TEXT;
+	if (gce->ptszNick != NULL) dwMask |= CMUCHighlight::MATCH_NICKNAME;
+	return g_Settings.Highlight->match(gce, si, dwMask);
+}

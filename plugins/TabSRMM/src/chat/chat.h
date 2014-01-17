@@ -61,7 +61,6 @@ struct MODULEINFO : public GCModuleInfoBase
 	DWORD          idleTimeStamp;
 	DWORD          lastIdleCheck;
 	TCHAR          tszIdleMsg[60];
-	CMUCHighlight* Highlight;
 	MODULEINFO *   next;
 };
 
@@ -70,7 +69,6 @@ struct SESSION_INFO : public GCSessionInfoBase
 	TWindowData    *dat;
 	TContainerData *pContainer;
 	int             iLogTrayFlags, iLogPopupFlags, iSearchItem;
-	CMUCHighlight  *Highlight;
 
 	TCHAR           szSearch[255];
 	TCHAR           pszLogFileName[MAX_PATH + 50];
@@ -101,7 +99,6 @@ struct TMUCSettings : public GlobalLogSettingsBase
 	bool        bLogSymbols, bClassicIndicators, bClickableNicks, bColorizeNicks, bColorizeNicksInLog;
 	bool        bScaleIcons, bUseDividers, bDividersUsePopupConfig;
 
-	HANDLE      hGroup;
 	CMUCHighlight* Highlight;
 };
 
@@ -170,7 +167,7 @@ BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL b
 int           Chat_GetColorIndex(const char* pszModule, COLORREF cr);
 TCHAR*        my_strstri(const TCHAR* s1, const TCHAR* s2);
 int           GetRichTextLength(HWND hwnd);
-BOOL          IsHighlighted(SESSION_INFO *si, const TCHAR* pszText);
+BOOL          IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 BOOL          DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);

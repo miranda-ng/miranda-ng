@@ -49,7 +49,6 @@ static void OnAddLog(SESSION_INFO *si, int isOk)
 
 static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
 {
-	si->Highlight = g_Settings.Highlight;
 	if (mi) {
 		mi->idleTimeStamp = time(0);
 		pci->SM_BroadcastMessage(mi->pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);
@@ -273,6 +272,7 @@ int Chat_Load()
 
 	// this operation is unsafe, that's why we restore the old pci state on exit
 	pci->DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
+	pci->IsHighlighted = IsHighlighted;
 	pci->ReloadSettings();
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));

@@ -166,7 +166,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 
 void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 {
-	if (!si)
+	if (si == NULL)
 		return;
 
 	if (si->hWnd != NULL) {
@@ -174,10 +174,8 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 		return;
 	}
 		
-	TCHAR szName[CONTAINER_NAMELEN + 2];
+	TCHAR szName[CONTAINER_NAMELEN + 2]; szName[0] = 0;
 	TContainerData *pContainer = si->pContainer;
-
-	szName[0] = 0;
 	if (pContainer == NULL) {
 		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
 		if (!g_Settings.bOpenInDefault && !_tcscmp(szName, _T("default")))
