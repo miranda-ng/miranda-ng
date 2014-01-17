@@ -389,7 +389,7 @@ begin
   // account
   with columns[i] do
   begin
-    StrDupW(title,'Account');
+    StrDupW(title,TranslateW('Account'));
     width          :=82;
     flags          :=COL_ON;
     setting_type   :=QST_SERVICE;
@@ -404,7 +404,7 @@ begin
   // gender
   with columns[i] do
   begin
-    StrDupW(title,'Gender');
+    StrDupW(title,TranslateW('Gender'));
     width          :=20;
     flags          :=COL_ON;
     setting_type   :=QST_CONTACTINFO;
@@ -415,7 +415,7 @@ begin
   // uin
   with columns[i] do
   begin
-    StrDupW(title,'UserID');
+    StrDupW(title,TranslateW('UserID'));
     width          :=80;
     flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_CONTACTINFO;
@@ -426,7 +426,7 @@ begin
   // username(displayname)
   with columns[i] do
   begin
-    StrDupW(title,'Nickname');
+    StrDupW(title,TranslateW('Nickname'));
     width          :=76;
     flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_SERVICE;
@@ -441,7 +441,7 @@ begin
   // firstname
   with columns[i] do
   begin
-    StrDupW(title,'First name');
+    StrDupW(title,TranslateW('First name'));
     width          :=68;
     flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_CONTACTINFO;
@@ -452,7 +452,7 @@ begin
   // lastname
   with columns[i] do
   begin
-    StrDupW(title,'Last name');
+    StrDupW(title,TranslateW('Last name'));
     width          :=66;
     flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_CONTACTINFO;
@@ -463,7 +463,7 @@ begin
   // group
   with columns[i] do
   begin
-    StrDupW(title,'Group');
+    StrDupW(title,TranslateW('Group'));
     width          :=80;
     flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_SETTING;
@@ -476,7 +476,7 @@ begin
   // TabSRMM container
   with columns[i] do
   begin
-    StrDupW(title,'Container');
+    StrDupW(title,TranslateW('Container'));
     width          :=80;
     flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_SETTING;
@@ -489,7 +489,7 @@ begin
   // email
   with columns[i] do
   begin
-    StrDupW(title,'E-mail');
+    StrDupW(title,TranslateW('E-mail'));
     width          :=116;
     flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_CONTACTINFO;
@@ -500,7 +500,7 @@ begin
  // miranda version
   with columns[i] do
   begin
-    StrDupW(title,'Client ID');
+    StrDupW(title,TranslateW('Client ID'));
     width       :=60;
     flags       :=COL_ON;
     setting_type:=QST_SETTING;
@@ -512,7 +512,7 @@ begin
  // IP version
   with columns[i] do
   begin
-    StrDupW(title,'Ext IP');
+    StrDupW(title,TranslateW('Ext IP'));
     width       :=100;
     flags       :=0;
     setting_type:=QST_SETTING;
@@ -525,7 +525,7 @@ begin
  // LastSeen
   with columns[i] do
   begin
-    StrDupW(title,'LastSeen');
+    StrDupW(title,TranslateW('LastSeen'));
     width       :=116;
     flags       :=0;
     setting_type:=QST_OTHER;
@@ -536,7 +536,7 @@ begin
  // last event
   with columns[i] do
   begin
-    StrDupW(title,'Last Event');
+    StrDupW(title,TranslateW('Last Event'));
     width       :=100;
     flags       :=0;
     setting_type:=QST_OTHER;
@@ -547,7 +547,7 @@ begin
  // online since
   with columns[i] do
   begin
-    StrDupW(title,'Online since');
+    StrDupW(title,TranslateW('Online since'));
     width       :=100;
     flags       :=0;
     setting_type:=QST_SETTING;
@@ -560,7 +560,7 @@ begin
  // metacontacts
   with columns[i] do
   begin
-    StrDupW(title,'Metacontact');
+    StrDupW(title,TranslateW('Metacontact'));
     width       :=50;
     flags       :=0;
     setting_type:=QST_OTHER;
@@ -571,11 +571,24 @@ begin
   // events
   with columns[i] do
   begin
-    StrDupW(title,'Event count');
+    StrDupW(title,TranslateW('Event count'));
     width       :=50;
     flags       :=0;
     setting_type:=QST_OTHER;
     other       :=QSTO_EVENTCOUNT;
+  end;
+  inc(i);
+
+  // Contact add time
+  with columns[i] do
+  begin
+    StrDupW(title,TranslateW('Contact add time'));
+    width          :=80;
+    flags          :=COL_ON;
+    setting_type   :=QST_SETTING;
+    datatype       :=QSTS_TIMESTAMP;
+    StrDup(module ,'UserInfo');
+    StrDup(setting,'ContactAddTime');
   end;
   inc(i);
 
