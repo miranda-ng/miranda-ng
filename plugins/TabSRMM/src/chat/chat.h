@@ -67,17 +67,13 @@ struct MODULEINFO : public GCModuleInfoBase
 
 struct SESSION_INFO : public GCSessionInfoBase
 {
-	TCHAR           pszLogFileName[MAX_PATH + 50];
-
-	int             iLogTrayFlags, iLogPopupFlags;
-
-	int             iSearchItem;
-	TCHAR           szSearch[255];
+	TWindowData    *dat;
+	TContainerData *pContainer;
+	int             iLogTrayFlags, iLogPopupFlags, iSearchItem;
 	CMUCHighlight  *Highlight;
 
-	TContainerData *pContainer;
-	TWindowData    *dat;
-	SESSION_INFO   *next;
+	TCHAR           szSearch[255];
+	TCHAR           pszLogFileName[MAX_PATH + 50];
 };
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase
