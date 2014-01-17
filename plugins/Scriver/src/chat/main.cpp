@@ -116,6 +116,34 @@ static void OnCreateModule(MODULEINFO *mi)
 	mi->hOfflineIconBig = LoadSkinnedProtoIconBig(mi->pszModule, ID_STATUS_OFFLINE);
 }
 
+static void RegisterFonts()
+{
+	ColourIDT colourid = { sizeof(colourid) };
+	strncpy(colourid.dbSettingsGroup, "Chat", sizeof(colourid.dbSettingsGroup));
+	_tcsncpy(colourid.group, LPGENT("Messaging")_T("/")LPGENT("Group chats"), SIZEOF(colourid.group));
+
+	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
+	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
+	mir_sntprintf(colourid.group, SIZEOF(colourid.group), _T("%s/%s"), LPGENT("Messaging"), LPGENT("Group chats"));
+	colourid.defcolour = GetSysColor(COLOR_WINDOW);
+	ColourRegisterT(&colourid);
+
+	strncpy(colourid.setting, "ColorNicklistBG", SIZEOF(colourid.setting));
+	_tcsncpy(colourid.name, LPGENT("User list background"), SIZEOF(colourid.name));
+	colourid.defcolour = GetSysColor(COLOR_WINDOW);
+	ColourRegisterT(&colourid);
+
+	strncpy(colourid.setting, "ColorNicklistLines", SIZEOF(colourid.setting));
+	_tcsncpy(colourid.name, LPGENT("User list lines"), SIZEOF(colourid.name));
+	colourid.defcolour = GetSysColor(COLOR_INACTIVEBORDER);
+	ColourRegisterT(&colourid);
+
+	strncpy(colourid.setting, "ColorNicklistSelectedBG", SIZEOF(colourid.setting));
+	_tcsncpy(colourid.name, LPGENT("User list background (selected)"), SIZEOF(colourid.name));
+	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
+	ColourRegisterT(&colourid);
+}
+
 int Chat_Load()
 {
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Messaging")_T("/")LPGENT("Group chats") };

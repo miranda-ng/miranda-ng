@@ -60,6 +60,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_chat_int.h>
 #include <m_core.h>
 #include <m_string.h>
+#include <m_fontservice.h>
 
 #include "m_ieview.h"
 #include "m_smileyadd.h"

@@ -45,6 +45,7 @@ extern HMENU g_hMenu;
 
 static HKL hkl = NULL;
 static HCURSOR hCurHyperlinkHand;
+static char szIndicators[] = { '+', '%', '@', '!', 0, '*' };
 
 struct MESSAGESUBDATA
 {
@@ -2252,7 +2253,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (dis->CtlID == IDC_LIST) {
 				int x_offset = 0;
 				int index = dis->itemID;
-				char szIndicator = 0;
 
 				USERINFO *ui = pci->UM_FindUserFromIndex(si->pUsers, index);
 				if (ui == NULL)
@@ -2268,21 +2268,24 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				HFONT hOldFont = (HFONT) SelectObject(dis->hDC, hFont);
 				SetBkMode(dis->hDC, TRANSPARENT);
 
+				int nickIndex = -1;
+				for (int i = 0; i < 6; i++) {
+					if (hIcon == pci->hIcons[ICON_STATUS1 + i]) {
+						nickIndex = i;
+						break;
+					}
+				}
+
 				if (dis->itemState & ODS_SELECTED) {
 					FillRect(dis->hDC, &dis->rcItem, g_Settings.SelectionBGBrush);
 					SetTextColor(dis->hDC, g_Settings.nickColors[6]);
 				}
 				else {
 					FillRect(dis->hDC, &dis->rcItem, pci->hListBkgBrush);
-					if (g_Settings.bColorizeNicks && szIndicator != 0) {
-						for (int i = 0; i < 6; i++) {
-							if (hIcon == pci->hIcons[ICON_STATUS0 + i]) {
-								SetTextColor(dis->hDC, g_Settings.nickColors[i]);
-								break;
-							}
-						}
-					}
-					else SetTextColor(dis->hDC, g_Settings.UserListColors[ui->iStatusEx]);
+					if (g_Settings.bColorizeNicks && nickIndex != -1)
+						SetTextColor(dis->hDC, g_Settings.nickColors[nickIndex]);
+					else
+						SetTextColor(dis->hDC, g_Settings.UserListColors[ui->iStatusEx]);
 				}
 				x_offset = 2;
 
@@ -2296,7 +2299,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				if (g_Settings.bClassicIndicators) {
 					char szTemp[3];
 					szTemp[1] = 0;
-					szTemp[0] = szIndicator;
+					szTemp[0] = szIndicators[nickIndex];
 					if (szTemp[0]) {
 						SIZE szUmode;
 						GetTextExtentPoint32A(dis->hDC, szTemp, 1, &szUmode);
