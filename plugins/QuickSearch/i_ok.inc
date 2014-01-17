@@ -267,7 +267,6 @@ var
   dbei:TDBEVENTINFO;
   b:bool;
 begin
-  FillChar(res,SizeOf(tQSRec),0);
   res.data:=uint_ptr(-1);
   mFreeMem(res.text);
   with column^ do
@@ -494,7 +493,7 @@ begin
   SetLength(MainBuf,cnt,qsopt.numcolumns);
   SetLength(FlagBuf,cnt);
 
-  for i:=0 to cnt1-1 do
+  for i:=0 to cnt-1 do
     FillChar(MainBuf[i][0],qsopt.numcolumns*SizeOf(tQSRec),0);
 
   for i:=0 to qsopt.numcolumns-1 do
