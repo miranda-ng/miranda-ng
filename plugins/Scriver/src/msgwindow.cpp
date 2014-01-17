@@ -30,20 +30,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TIMEOUT_FLASHWND     900
 
 static  void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lParam);
-LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern TCHAR *GetNickname(HANDLE hContact, const char* szProto);
-
-void SubclassTabCtrl(HWND hwnd)
-{
-	mir_subclassWindow(hwnd, TabCtrlProc);
-	SendMessage(hwnd, EM_SUBCLASSED, 0, 0);
-}
-
-void UnsubclassTabCtrl(HWND hwnd)
-{
-	SendMessage(hwnd, EM_UNSUBCLASSED, 0, 0);
-}
 
 static const TCHAR *titleTokenNames[] = {_T("%name%"), _T("%status%"), _T("%statusmsg%"), _T("%account%")};
 
@@ -440,6 +430,304 @@ static void SetContainerWindowStyle(ParentWindowData *dat)
 	SetWindowPos(dat->hwnd, 0, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
 		SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOSENDCHANGING);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	TabCtrlData *dat = (TabCtrlData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+
+	TCHITTESTINFO thinfo;
+	int tabId;
+
+	switch (msg) {
+	case EM_SUBCLASSED:
+		dat = (TabCtrlData*)mir_alloc(sizeof(TabCtrlData));
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)dat);
+		dat->bDragging = FALSE;
+		dat->bDragged = FALSE;
+		dat->srcTab = -1;
+		dat->destTab = -1;
+		return 0;
+
+	case WM_MBUTTONDOWN:
+		thinfo.pt.x = LOWORD(lParam);
+		thinfo.pt.y = HIWORD(lParam);
+		tabId = TabCtrl_HitTest(hwnd, &thinfo);
+		if (tabId >= 0) {
+			TCITEM tci;
+			tci.mask = TCIF_PARAM;
+			TabCtrl_GetItem(hwnd, tabId, &tci);
+			MessageWindowTabData *mwtd = (MessageWindowTabData *)tci.lParam;
+			if (mwtd != NULL) {
+				SendMessage(mwtd->hwnd, WM_CLOSE, 0, 0);
+				dat->srcTab = -1;
+			}
+		}
+		return 0;
+
+	case WM_LBUTTONDBLCLK:
+		thinfo.pt.x = LOWORD(lParam);
+		thinfo.pt.y = HIWORD(lParam);
+		tabId = TabCtrl_HitTest(hwnd, &thinfo);
+		if (tabId >= 0 && tabId == dat->srcTab) {
+			SendMessage(GetChildFromTab(hwnd, tabId)->hwnd, WM_CLOSE, 0, 0);
+			dat->srcTab = -1;
+		}
+		dat->destTab = -1;
+		break;
+
+	case WM_LBUTTONDOWN:
+		if (!dat->bDragging) {
+			thinfo.pt.x = LOWORD(lParam);
+			thinfo.pt.y = HIWORD(lParam);
+			dat->srcTab = TabCtrl_HitTest(hwnd, &thinfo);
+
+			FILETIME ft;
+			GetSystemTimeAsFileTime(&ft);
+			if (dat->srcTab >= 0) {
+				dat->bDragging = TRUE;
+				dat->bDragged = FALSE;
+				dat->clickLParam = lParam;
+				dat->clickWParam = wParam;
+				dat->lastClickTime = ft.dwLowDateTime;
+				dat->mouseLBDownPos.x = thinfo.pt.x;
+				dat->mouseLBDownPos.y = thinfo.pt.y;
+				SetCapture(hwnd);
+			}
+			return 0;
+		}
+		break;
+
+	case WM_CAPTURECHANGED:
+	case WM_LBUTTONUP:
+		if (dat->bDragging) {
+			thinfo.pt.x = LOWORD(lParam);
+			thinfo.pt.y = HIWORD(lParam);
+			if (dat->bDragged) {
+				ImageList_DragLeave(GetDesktopWindow());
+				ImageList_EndDrag();
+				ImageList_Destroy(dat->hDragImageList);
+				SetCursor(LoadCursor(NULL, IDC_ARROW));
+				dat->destTab = TabCtrl_HitTest(hwnd, &thinfo);
+				if (thinfo.flags != TCHT_NOWHERE && dat->destTab != dat->srcTab) {
+					NMHDR nmh;
+					TCHAR  sBuffer[501];
+					TCITEM item;
+					int curSel;
+					curSel = TabCtrl_GetCurSel(hwnd);
+					item.mask = TCIF_IMAGE | TCIF_PARAM | TCIF_TEXT;
+					item.pszText = sBuffer;
+					item.cchTextMax = SIZEOF(sBuffer);
+					TabCtrl_GetItem(hwnd, dat->srcTab, &item);
+					sBuffer[SIZEOF(sBuffer) - 1] = '\0';
+
+					if (curSel == dat->srcTab)
+						curSel = dat->destTab;
+					else if (curSel > dat->srcTab && curSel <= dat->destTab)
+						curSel--;
+					else if (curSel < dat->srcTab && curSel >= dat->destTab)
+						curSel++;
+
+					TabCtrl_DeleteItem(hwnd, dat->srcTab);
+					TabCtrl_InsertItem(hwnd, dat->destTab, &item);
+					TabCtrl_SetCurSel(hwnd, curSel);
+					dat->destTab = -1;
+					nmh.hwndFrom = hwnd;
+					nmh.idFrom = GetDlgCtrlID(hwnd);
+					nmh.code = TCN_SELCHANGE;
+					SendMessage(GetParent(hwnd), WM_NOTIFY, nmh.idFrom, (LPARAM)&nmh);
+					UpdateWindow(hwnd);
+				}
+				else if (thinfo.flags == TCHT_NOWHERE) {
+					TCITEM tci;
+					POINT pt;
+					NewMessageWindowLParam newData = { 0 };
+					dat->destTab = -1;
+					tci.mask = TCIF_PARAM;
+					TabCtrl_GetItem(hwnd, dat->srcTab, &tci);
+					MessageWindowTabData *mwtd = (MessageWindowTabData *)tci.lParam;
+					if (mwtd != NULL) {
+						HWND hChild = mwtd->hwnd;
+						HANDLE hContact = mwtd->hContact;
+						GetCursorPos(&pt);
+						HWND hParent = WindowFromPoint(pt);
+						while (GetParent(hParent) != NULL)
+							hParent = GetParent(hParent);
+
+						hParent = WindowList_Find(g_dat.hParentWindowList, hParent);
+						if ((hParent != NULL && hParent != GetParent(hwnd)) || (hParent == NULL && mwtd->parent->childrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
+							if (hParent == NULL) {
+								RECT rc, rcDesktop;
+								newData.hContact = hContact;
+								hParent = (HWND)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGWIN), NULL, DlgProcParentWindow, (LPARAM)& newData);
+								GetWindowRect(hParent, &rc);
+								rc.right = (rc.right - rc.left);
+								rc.bottom = (rc.bottom - rc.top);
+								rc.left = pt.x - rc.right / 2;
+								rc.top = pt.y - rc.bottom / 2;
+								HMONITOR hMonitor = MonitorFromRect(&rc, MONITOR_DEFAULTTONEAREST);
+								MONITORINFO mi;
+								mi.cbSize = sizeof(mi);
+								GetMonitorInfo(hMonitor, &mi);
+								rcDesktop = mi.rcWork;
+								if (rc.left < rcDesktop.left)
+									rc.left = rcDesktop.left;
+								if (rc.top < rcDesktop.top)
+									rc.top = rcDesktop.top;
+								MoveWindow(hParent, rc.left, rc.top, rc.right, rc.bottom, FALSE);
+							}
+							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_CLOSING);
+							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_CLOSE);
+							SetParent(hChild, hParent);
+							SendMessage(GetParent(hwnd), CM_REMOVECHILD, 0, (LPARAM)hChild);
+							SendMessage(hChild, DM_SETPARENT, 0, (LPARAM)hParent);
+							SendMessage(hParent, CM_ADDCHILD, (WPARAM)hChild, (LPARAM)hContact);
+							SendMessage(hChild, DM_UPDATETABCONTROL, 0, 0);
+							SendMessage(hParent, CM_ACTIVATECHILD, 0, (LPARAM)hChild);
+							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_OPENING);
+							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_OPEN);
+							ShowWindow(hParent, SW_SHOWNA);
+							EnableWindow(hParent, TRUE);
+						}
+					}
+				}
+				else {
+					dat->destTab = -1;
+					RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+				}
+			}
+			else if (dat->srcTab >= 0 && g_dat.flags2 & SMF2_TABCLOSEBUTTON) {
+				IMAGEINFO info;
+				POINT pt;
+				RECT rect;
+				int atTop = (GetWindowLongPtr(hwnd, GWL_STYLE) & TCS_BOTTOM) == 0;
+				TabCtrl_GetItemRect(hwnd, dat->srcTab, &rect);
+				pt.x = LOWORD(lParam);
+				pt.y = HIWORD(lParam);
+				ImageList_GetImageInfo(g_dat.hButtonIconList, 0, &info);
+				rect.left = rect.right - (info.rcImage.right - info.rcImage.left) - 6;
+				if (!atTop)
+					rect.top = rect.bottom - (info.rcImage.bottom - info.rcImage.top);
+
+				if (pt.x >= rect.left && pt.x < rect.left + (info.rcImage.right - info.rcImage.left) && pt.y >= rect.top && pt.y < rect.top + (info.rcImage.bottom - info.rcImage.top)) {
+					HBITMAP hOldBitmap, hBmp;
+					HDC hdc = GetDC(NULL);
+					HDC hdcMem = CreateCompatibleDC(hdc);
+					pt.x -= rect.left;
+					pt.y -= rect.top;
+					hBmp = CreateCompatibleBitmap(hdc, info.rcImage.right - info.rcImage.left + 1, info.rcImage.bottom - info.rcImage.top + 1);
+					hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBmp);
+					SetPixel(hdcMem, pt.x, pt.y, 0x000000);
+					ImageList_DrawEx(g_dat.hButtonIconList, 0, hdcMem, 0, 0, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
+					COLORREF color1 = GetPixel(hdcMem, pt.x, pt.y);
+					SetPixel(hdcMem, pt.x, pt.y, 0xFFFFFF);
+					ImageList_DrawEx(g_dat.hButtonIconList, 0, hdcMem, 0, 0, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
+					COLORREF color2 = GetPixel(hdcMem, pt.x, pt.y);
+					SelectObject(hdcMem, hOldBitmap);
+					DeleteDC(hdcMem);
+					DeleteObject(hBmp);
+					ReleaseDC(NULL, hdc);
+					if (color1 != 0x000000 || color2 != 0xFFFFFF) {
+						SendMessage(GetChildFromTab(hwnd, dat->srcTab)->hwnd, WM_CLOSE, 0, 0);
+						dat->srcTab = -1;
+					}
+				}
+				else SendMessage(hwnd, WM_LBUTTONDOWN, dat->clickWParam, dat->clickLParam);
+			}
+			else SendMessage(hwnd, WM_LBUTTONDOWN, dat->clickWParam, dat->clickLParam);
+
+			dat->bDragged = FALSE;
+			dat->bDragging = FALSE;
+			dat->destTab = -1;
+			ReleaseCapture();
+		}
+		break;
+
+	case WM_MOUSEMOVE:
+		if (wParam & MK_LBUTTON) {
+			if (dat->bDragging) {
+				FILETIME ft;
+				GetSystemTimeAsFileTime(&ft);
+				thinfo.pt.x = LOWORD(lParam);
+				thinfo.pt.y = HIWORD(lParam);
+				if (!dat->bDragged) {
+					if ((abs(thinfo.pt.x - dat->mouseLBDownPos.x) < 3 && abs(thinfo.pt.y - dat->mouseLBDownPos.y) < 3)
+						|| (ft.dwLowDateTime - dat->lastClickTime) < 10 * 1000 * 150)
+						break;
+				}
+				if (!dat->bDragged) {
+					POINT pt;
+					RECT rect;
+					RECT rect2;
+					HBRUSH hBrush = CreateSolidBrush(RGB(255, 0, 254));
+					GetCursorPos(&pt);
+					TabCtrl_GetItemRect(hwnd, dat->srcTab, &rect);
+					rect.right -= rect.left - 1;
+					rect.bottom -= rect.top - 1;
+					rect2.left = 0; rect2.right = rect.right; rect2.top = 0; rect2.bottom = rect.bottom;
+					dat->hDragImageList = ImageList_Create(rect.right, rect.bottom, ILC_COLOR | ILC_MASK, 0, 1);
+					HDC hDC = GetDC(hwnd);
+					HDC hMemDC = CreateCompatibleDC(hDC);
+					HBITMAP hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
+					HBITMAP hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
+					FillRect(hMemDC, &rect2, hBrush);
+					SetWindowOrgEx(hMemDC, rect.left, rect.top, NULL);
+					SendMessage(hwnd, WM_PRINTCLIENT, (WPARAM)hMemDC, PRF_CLIENT);
+					SelectObject(hMemDC, hOldBitmap);
+					ImageList_AddMasked(dat->hDragImageList, hBitmap, RGB(255, 0, 254));
+					DeleteObject(hBitmap);
+					DeleteObject(hBrush);
+					ReleaseDC(hwnd, hDC);
+					DeleteDC(hMemDC);
+					ImageList_BeginDrag(dat->hDragImageList, 0, dat->mouseLBDownPos.x - rect.left, dat->mouseLBDownPos.y - rect.top);
+					ImageList_DragEnter(GetDesktopWindow(), pt.x, pt.y);
+					SetCursor(hDragCursor);
+					dat->mouseLBDownPos.x = thinfo.pt.x;
+					dat->mouseLBDownPos.y = thinfo.pt.y;
+				}
+				else {
+					POINT pt;
+					GetCursorPos(&pt);
+					thinfo.pt = pt;
+					ScreenToClient(hwnd, &thinfo.pt);
+					int newDest = TabCtrl_HitTest(hwnd, &thinfo);
+					if (thinfo.flags == TCHT_NOWHERE)
+						newDest = -1;
+
+					if (newDest != dat->destTab) {
+						dat->destTab = newDest;
+						ImageList_DragLeave(GetDesktopWindow());
+						RedrawWindow(hwnd, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW);
+						ImageList_DragEnter(GetDesktopWindow(), pt.x, pt.y);
+					}
+					else ImageList_DragMove(pt.x, pt.y);
+				}
+				dat->bDragged = TRUE;
+				return 0;
+			}
+		}
+		break;
+
+	case EM_UNSUBCLASSED:
+		mir_free(dat);
+		return 0;
+	}
+	return mir_callNextSubclass(hwnd, TabCtrlProc, msg, wParam, lParam);
+}
+
+__forceinline void SubclassTabCtrl(HWND hwnd)
+{
+	mir_subclassWindow(hwnd, TabCtrlProc);
+	SendMessage(hwnd, EM_SUBCLASSED, 0, 0);
+}
+
+__forceinline void UnsubclassTabCtrl(HWND hwnd)
+{
+	SendMessage(hwnd, EM_UNSUBCLASSED, 0, 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1217,289 +1505,6 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 		if (hTheme)
 			CloseThemeData(hTheme);
 	}
-}
-
-LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	TabCtrlData *dat = (TabCtrlData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	
-	TCHITTESTINFO thinfo;
-	int tabId;
-
-	switch(msg) {
-	case EM_SUBCLASSED:
-		dat = (TabCtrlData*)mir_alloc(sizeof(TabCtrlData));
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)dat);
-		dat->bDragging = FALSE;
-		dat->bDragged = FALSE;
-		dat->srcTab = -1;
-		dat->destTab = -1;
-		return 0;
-
-	case WM_MBUTTONDOWN:
-		thinfo.pt.x = LOWORD(lParam);
-		thinfo.pt.y = HIWORD(lParam);
-		tabId = TabCtrl_HitTest(hwnd, &thinfo);
-		if (tabId >= 0) {
-			TCITEM tci;
-			tci.mask = TCIF_PARAM;
-			TabCtrl_GetItem(hwnd, tabId, &tci);
-			MessageWindowTabData *mwtd = (MessageWindowTabData *)tci.lParam;
-			if (mwtd != NULL) {
-				SendMessage(mwtd->hwnd, WM_CLOSE, 0, 0);
-				dat->srcTab = -1;
-			}
-		}
-		return 0;
-
-	case WM_LBUTTONDBLCLK:
-		thinfo.pt.x = LOWORD(lParam);
-		thinfo.pt.y = HIWORD(lParam);
-		tabId = TabCtrl_HitTest(hwnd, &thinfo);
-		if (tabId >= 0 && tabId == dat->srcTab) {
-			SendMessage(GetChildFromTab(hwnd, tabId)->hwnd, WM_CLOSE, 0, 0);
-			dat->srcTab = -1;
-		}
-		dat->destTab = -1;
-		break;
-
-	case WM_LBUTTONDOWN:
-		if (!dat->bDragging) {
-			thinfo.pt.x = LOWORD(lParam);
-			thinfo.pt.y = HIWORD(lParam);
-			dat->srcTab = TabCtrl_HitTest(hwnd, &thinfo);
-
-			FILETIME ft;
-			GetSystemTimeAsFileTime(&ft);
-			if (dat->srcTab >= 0) {
-				dat->bDragging = TRUE;
-				dat->bDragged = FALSE;
-				dat->clickLParam = lParam;
-				dat->clickWParam = wParam;
-				dat->lastClickTime = ft.dwLowDateTime;
-				dat->mouseLBDownPos.x = thinfo.pt.x;
-				dat->mouseLBDownPos.y = thinfo.pt.y;
-				SetCapture(hwnd);
-			}
-			return 0;
-		}
-		break;
-
-	case WM_CAPTURECHANGED:
-	case WM_LBUTTONUP:
-		if (dat->bDragging) {
-			thinfo.pt.x = LOWORD(lParam);
-			thinfo.pt.y = HIWORD(lParam);
-			if (dat->bDragged) {
-				ImageList_DragLeave(GetDesktopWindow());
-				ImageList_EndDrag();
-				ImageList_Destroy(dat->hDragImageList);
-				SetCursor(LoadCursor(NULL, IDC_ARROW));
-				dat->destTab = TabCtrl_HitTest(hwnd, &thinfo);
-				if (thinfo.flags != TCHT_NOWHERE && dat->destTab != dat->srcTab) {
-					NMHDR nmh;
-					TCHAR  sBuffer[501];
-					TCITEM item;
-					int curSel;
-					curSel = TabCtrl_GetCurSel(hwnd);
-					item.mask = TCIF_IMAGE | TCIF_PARAM | TCIF_TEXT;
-					item.pszText = sBuffer;
-					item.cchTextMax = SIZEOF(sBuffer);
-					TabCtrl_GetItem(hwnd, dat->srcTab, &item);
-					sBuffer[SIZEOF(sBuffer) - 1] = '\0';
-
-					if (curSel == dat->srcTab)
-						curSel = dat->destTab;
-					else if (curSel > dat->srcTab && curSel <= dat->destTab)
-						curSel--;
-					else if (curSel < dat->srcTab && curSel >= dat->destTab)
-						curSel++;
-
-					TabCtrl_DeleteItem(hwnd, dat->srcTab);
-					TabCtrl_InsertItem(hwnd, dat->destTab, &item);
-					TabCtrl_SetCurSel(hwnd, curSel);
-					dat->destTab = -1;
-					nmh.hwndFrom = hwnd;
-					nmh.idFrom = GetDlgCtrlID(hwnd);
-					nmh.code = TCN_SELCHANGE;
-					SendMessage(GetParent(hwnd), WM_NOTIFY, nmh.idFrom, (LPARAM)&nmh);
-					UpdateWindow(hwnd);
-				}
-				else if (thinfo.flags == TCHT_NOWHERE) {
-					TCITEM tci;
-					POINT pt;
-					NewMessageWindowLParam newData = { 0 };
-					dat->destTab = -1;
-					tci.mask = TCIF_PARAM;
-					TabCtrl_GetItem(hwnd, dat->srcTab, &tci);
-					MessageWindowTabData *mwtd = (MessageWindowTabData *)tci.lParam;
-					if (mwtd != NULL) {
-						HWND hChild = mwtd->hwnd;
-						HANDLE hContact = mwtd->hContact;
-						GetCursorPos(&pt);
-						HWND hParent = WindowFromPoint(pt);
-						while (GetParent(hParent) != NULL)
-							hParent = GetParent(hParent);
-
-						hParent = WindowList_Find(g_dat.hParentWindowList, hParent);
-						if ((hParent != NULL && hParent != GetParent(hwnd)) || (hParent == NULL && mwtd->parent->childrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
-							if (hParent == NULL) {
-								RECT rc, rcDesktop;
-								newData.hContact = hContact;
-								hParent = (HWND)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGWIN), NULL, DlgProcParentWindow, (LPARAM)& newData);
-								GetWindowRect(hParent, &rc);
-								rc.right = (rc.right - rc.left);
-								rc.bottom = (rc.bottom - rc.top);
-								rc.left = pt.x - rc.right / 2;
-								rc.top = pt.y - rc.bottom / 2;
-								HMONITOR hMonitor = MonitorFromRect(&rc, MONITOR_DEFAULTTONEAREST);
-								MONITORINFO mi;
-								mi.cbSize = sizeof(mi);
-								GetMonitorInfo(hMonitor, &mi);
-								rcDesktop = mi.rcWork;
-								if (rc.left < rcDesktop.left)
-									rc.left = rcDesktop.left;
-								if (rc.top < rcDesktop.top)
-									rc.top = rcDesktop.top;
-								MoveWindow(hParent, rc.left, rc.top, rc.right, rc.bottom, FALSE);
-							}
-							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_CLOSING);
-							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_CLOSE);
-							SetParent(hChild, hParent);
-							SendMessage(GetParent(hwnd), CM_REMOVECHILD, 0, (LPARAM)hChild);
-							SendMessage(hChild, DM_SETPARENT, 0, (LPARAM)hParent);
-							SendMessage(hParent, CM_ADDCHILD, (WPARAM)hChild, (LPARAM)hContact);
-							SendMessage(hChild, DM_UPDATETABCONTROL, 0, 0);
-							SendMessage(hParent, CM_ACTIVATECHILD, 0, (LPARAM)hChild);
-							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_OPENING);
-							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_OPEN);
-							ShowWindow(hParent, SW_SHOWNA);
-							EnableWindow(hParent, TRUE);
-						}
-					}
-				}
-				else {
-					dat->destTab = -1;
-					RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
-				}
-			}
-			else if (dat->srcTab >= 0 && g_dat.flags2 & SMF2_TABCLOSEBUTTON) {
-				IMAGEINFO info;
-				POINT pt;
-				RECT rect;
-				int atTop = (GetWindowLongPtr(hwnd, GWL_STYLE) & TCS_BOTTOM) == 0;
-				TabCtrl_GetItemRect(hwnd, dat->srcTab, &rect);
-				pt.x = LOWORD(lParam);
-				pt.y = HIWORD(lParam);
-				ImageList_GetImageInfo(g_dat.hButtonIconList, 0, &info);
-				rect.left = rect.right - (info.rcImage.right - info.rcImage.left) - 6;
-				if (!atTop)
-					rect.top = rect.bottom - (info.rcImage.bottom - info.rcImage.top);
-
-				if (pt.x >= rect.left && pt.x < rect.left + (info.rcImage.right - info.rcImage.left) && pt.y >= rect.top && pt.y < rect.top + (info.rcImage.bottom - info.rcImage.top)) {
-					HBITMAP hOldBitmap, hBmp;
-					HDC hdc = GetDC(NULL);
-					HDC hdcMem = CreateCompatibleDC(hdc);
-					pt.x -= rect.left;
-					pt.y -= rect.top;
-					hBmp = CreateCompatibleBitmap(hdc, info.rcImage.right - info.rcImage.left + 1, info.rcImage.bottom - info.rcImage.top + 1);
-					hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBmp);
-					SetPixel(hdcMem, pt.x, pt.y, 0x000000);
-					ImageList_DrawEx(g_dat.hButtonIconList, 0, hdcMem, 0, 0, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
-					COLORREF color1 = GetPixel(hdcMem, pt.x, pt.y);
-					SetPixel(hdcMem, pt.x, pt.y, 0xFFFFFF);
-					ImageList_DrawEx(g_dat.hButtonIconList, 0, hdcMem, 0, 0, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
-					COLORREF color2 = GetPixel(hdcMem, pt.x, pt.y);
-					SelectObject(hdcMem, hOldBitmap);
-					DeleteDC(hdcMem);
-					DeleteObject(hBmp);
-					ReleaseDC(NULL, hdc);
-					if (color1 != 0x000000 || color2 != 0xFFFFFF) {
-						SendMessage(GetChildFromTab(hwnd, dat->srcTab)->hwnd, WM_CLOSE, 0, 0);
-						dat->srcTab = -1;
-					}
-				}
-				else SendMessage(hwnd, WM_LBUTTONDOWN, dat->clickWParam, dat->clickLParam);
-			}
-			else SendMessage(hwnd, WM_LBUTTONDOWN, dat->clickWParam, dat->clickLParam);
-
-			dat->bDragged = FALSE;
-			dat->bDragging = FALSE;
-			dat->destTab = -1;
-			ReleaseCapture();
-		}
-		break;
-
-	case WM_MOUSEMOVE:
-		if (wParam & MK_LBUTTON) {
-			if (dat->bDragging) {
-				FILETIME ft;
-				GetSystemTimeAsFileTime(&ft);
-				thinfo.pt.x = LOWORD(lParam);
-				thinfo.pt.y = HIWORD(lParam);
-				if (!dat->bDragged) {
-					if ((abs(thinfo.pt.x - dat->mouseLBDownPos.x) < 3 && abs(thinfo.pt.y - dat->mouseLBDownPos.y) < 3)
-						|| (ft.dwLowDateTime - dat->lastClickTime) < 10 * 1000 * 150)
-						break;
-				}
-				if (!dat->bDragged) {
-					POINT pt;
-					RECT rect;
-					RECT rect2;
-					HBRUSH hBrush = CreateSolidBrush(RGB(255, 0, 254));
-					GetCursorPos(&pt);
-					TabCtrl_GetItemRect(hwnd, dat->srcTab, &rect);
-					rect.right -= rect.left - 1;
-					rect.bottom -= rect.top - 1;
-					rect2.left = 0; rect2.right = rect.right; rect2.top = 0; rect2.bottom = rect.bottom;
-					dat->hDragImageList = ImageList_Create(rect.right, rect.bottom, ILC_COLOR | ILC_MASK, 0, 1);
-					HDC hDC = GetDC(hwnd);
-					HDC hMemDC = CreateCompatibleDC(hDC);
-					HBITMAP hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
-					HBITMAP hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
-					FillRect(hMemDC, &rect2, hBrush);
-					SetWindowOrgEx(hMemDC, rect.left, rect.top, NULL);
-					SendMessage(hwnd, WM_PRINTCLIENT, (WPARAM)hMemDC, PRF_CLIENT);
-					SelectObject(hMemDC, hOldBitmap);
-					ImageList_AddMasked(dat->hDragImageList, hBitmap, RGB(255, 0, 254));
-					DeleteObject(hBitmap);
-					DeleteObject(hBrush);
-					ReleaseDC(hwnd, hDC);
-					DeleteDC(hMemDC);
-					ImageList_BeginDrag(dat->hDragImageList, 0, dat->mouseLBDownPos.x - rect.left, dat->mouseLBDownPos.y - rect.top);
-					ImageList_DragEnter(GetDesktopWindow(), pt.x, pt.y);
-					SetCursor(hDragCursor);
-					dat->mouseLBDownPos.x = thinfo.pt.x;
-					dat->mouseLBDownPos.y = thinfo.pt.y;
-				}
-				else {
-					POINT pt;
-					GetCursorPos(&pt);
-					thinfo.pt = pt;
-					ScreenToClient(hwnd, &thinfo.pt);
-					int newDest = TabCtrl_HitTest(hwnd, &thinfo);
-					if (thinfo.flags == TCHT_NOWHERE)
-						newDest = -1;
-
-					if (newDest != dat->destTab) {
-						dat->destTab = newDest;
-						ImageList_DragLeave(GetDesktopWindow());
-						RedrawWindow(hwnd, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW);
-						ImageList_DragEnter(GetDesktopWindow(), pt.x, pt.y);
-					}
-					else ImageList_DragMove(pt.x, pt.y);
-				}
-				dat->bDragged = TRUE;
-				return 0;
-			}
-		}
-		break;
-
-	case EM_UNSUBCLASSED:
-		mir_free(dat);
-		return 0;
-	}
-	return mir_callNextSubclass(hwnd, TabCtrlProc, msg, wParam, lParam);
 }
 
 int ScriverRestoreWindowPosition(HWND hwnd, HANDLE hContact, const char *szModule,const char *szNamePrefix, int flags, int showCmd)

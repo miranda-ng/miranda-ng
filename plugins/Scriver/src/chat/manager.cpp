@@ -26,7 +26,7 @@ HWND SM_FindWindowByContact(HANDLE hContact)
 	SESSION_INFO *pTemp = pci->wndList;
 
 	while (pTemp != NULL) {
-		if (pTemp->windowData.hContact == hContact)
+		if (pTemp->hContact == hContact)
 			return pTemp->hWnd;
 
 		pTemp = pTemp->next;

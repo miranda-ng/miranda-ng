@@ -143,16 +143,16 @@ static void saveDraftMessage(HWND hwnd, HANDLE hContact, int codepage)
 
 void NotifyLocalWinEvent(HANDLE hContact, HWND hwnd, unsigned int type)
 {
-	MessageWindowEventData mwe = { 0 };
-	BOOL bChat = FALSE;
-	if (hContact==NULL || hwnd==NULL) return;
-	mwe.cbSize = sizeof(mwe);
+	if (hContact == NULL || hwnd == NULL)
+		return;
+
+	MessageWindowEventData mwe = { sizeof(mwe) };
 	mwe.hContact = hContact;
 	mwe.hwndWindow = hwnd;
 	mwe.szModule = SRMMMOD;
 	mwe.uType = type;
 	mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-	bChat = (WindowList_Find(g_dat.hMessageWindowList, hContact) == NULL);
+	BOOL bChat = (WindowList_Find(g_dat.hMessageWindowList, hContact) == NULL);
 	mwe.hwndInput = GetDlgItem(hwnd, bChat ? IDC_CHAT_MESSAGE : IDC_MESSAGE);
 	mwe.hwndLog = GetDlgItem(hwnd, bChat ? IDC_CHAT_LOG : IDC_LOG);
 	NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);

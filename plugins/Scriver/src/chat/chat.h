@@ -61,7 +61,6 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase
 
 struct SESSION_INFO : public GCSessionInfoBase
 {
-	char* pszHeader;
 	TCHAR szSearch[255];
 	int   desiredInputAreaHeight;
 
@@ -81,24 +80,22 @@ typedef struct{
 }
 	COLORCHOOSER;
 
-//main.c
+// main.c
 void UpgradeCheck(void);
 
-//colorchooser.c
+// colorchooser.c
 INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-//log.c
+// log.c
 void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw);
 void   LoadMsgLogBitmaps(void);
 void   FreeMsgLogBitmaps(void);
 TCHAR* GetChatLogsFilename (HANDLE  hContact, time_t tTime);
-char*  Log_CreateRtfHeader(MODULEINFO * mi, SESSION_INFO *si);
 
-//window.c
-INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam);
+// window.c
 int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth);
 
-//options.c
+// options.c
 int OptionsInit(void);
 
 // services.c

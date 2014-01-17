@@ -127,7 +127,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 		sm.rangeToReplace = bRedraw ? NULL : &newsel;
 		sm.flags = 0;
 		sm.disableRedraw = TRUE;
-		sm.hContact = si->windowData.hContact;
+		sm.hContact = si->hContact;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
 	}
 
@@ -151,53 +151,4 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
 		InvalidateRect(hwndRich, NULL, TRUE);
 	}
-}
-
-char* Log_CreateRtfHeader(MODULEINFO *mi, SESSION_INFO *si)
-{
-	int bufferAlloced, bufferEnd, i = 0;
-	int charset = 0;
-	BOOL forceCharset = FALSE;
-
-	// guesstimate amount of memory for the RTF header
-	bufferEnd = 0;
-	bufferAlloced = 4096;
-	char *buffer = (char*)mir_realloc(si->pszHeader, bufferAlloced);
-	buffer[0] = '\0';
-
-	// ### RTF HEADER
-
-	// font table
-	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
-	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "{\\f%u\\fnil\\fcharset%u%S;}", i, (!forceCharset) ? pci->aFonts[i].lf.lfCharSet : charset, pci->aFonts[i].lf.lfFaceName);
-
-	// colour table
-	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}{\\colortbl ;");
-
-	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(pci->aFonts[i].color), GetGValue(pci->aFonts[i].color), GetBValue(pci->aFonts[i].color));
-
-	for (i = 0; i < mi->nColorCount; i++)
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
-
-	// new paragraph
-	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}\\pard");
-
-	// set tabs and indents
-	int iIndent = 0;
-
-	if (g_Settings.dwIconFlags) {
-		iIndent += (14 * 1440) / g_dat.logPixelSX;
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
-	}
-	if (g_Settings.ShowTime) {
-		int iSize = (g_Settings.LogTextIndent * 1440) / g_dat.logPixelSX;
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize);
-		if (g_Settings.LogIndentEnabled)
-			iIndent += iSize;
-	}
-	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\fi-%u\\li%u", iIndent, iIndent);
-
-	return buffer;
 }

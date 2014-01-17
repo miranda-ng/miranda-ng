@@ -58,40 +58,39 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SBDF_TEXT  1
 #define SBDF_ICON  2
 
-typedef struct StatusBarDataStruct
+struct StatusBarData
 {
 	int iItem;
 	int iFlags;
 	TCHAR *pszText;
 	HICON hIcon;
-} StatusBarData;
+};
 
 #define TBDF_TEXT 1
 #define TBDF_ICON 2
 
-typedef struct TitleBarDataStruct
+struct TitleBarData
 {
 	int iFlags;
 	TCHAR *pszText;
 	HICON hIcon;
 	HICON hIconBig;
 	HICON hIconNot;
-} TitleBarData;
+};
 
 #define TCDF_TEXT 1
 #define TCDF_ICON 2
 
-typedef struct TabControlDataStruct
+struct TabControlData
 {
 	int iFlags;
 	TCHAR *pszText;
-//	int iconIdx;
 	HICON hIcon;
-} TabControlData;
+};
 
-extern TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto);
-extern TCHAR* GetTabName(HANDLE *hContact);
-extern HWND GetParentWindow(HANDLE hContact, BOOL bChat);
-extern void NotifyLocalWinEvent(HANDLE hContact, HWND hwnd, unsigned int type);
+TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto);
+TCHAR* GetTabName(HANDLE *hContact);
+HWND   GetParentWindow(HANDLE hContact, BOOL bChat);
+void   NotifyLocalWinEvent(HANDLE hContact, HWND hwnd, unsigned int type);
 
 #endif

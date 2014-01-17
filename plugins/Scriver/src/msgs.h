@@ -27,25 +27,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MSGERROR_RETRY	1
 #define MSGERROR_DONE	2
 
-typedef struct ToolbarButtonStruct
+struct ToolbarButton
 {
 	TCHAR *name;
 	UINT controlId;
 	int alignment;
 	int spacing;
 	int width;
-}ToolbarButton;
+};
 
-typedef struct ErrorWindowDataStruct
+struct ErrorWindowData
 {
 	TCHAR*	szName;
 	TCHAR*	szDescription;
 	TCHAR*	szText;
 	MessageSendQueueItem* queueItem;
 	HWND	hwndParent;
-} ErrorWindowData;
+};
 
-typedef struct TabCtrlDataStruct
+struct TabCtrlData
 {
 	int		lastClickTime;
 	WPARAM  clickWParam;
@@ -56,14 +56,12 @@ typedef struct TabCtrlDataStruct
 	int		bDragged;
 	int		destTab;
 	int		srcTab;
-} TabCtrlData;
+};
 
-typedef struct ParentWindowDataStruct
+struct ParentWindowData
 {
 	HWND	hwnd;
 	HANDLE	hContact;
-	struct ParentWindowDataStruct 	*prev;
-	struct ParentWindowDataStruct 	*next;
 	int	    childrenCount;
 	HWND	hwndActive;
 	HWND	hwndStatus;
@@ -80,40 +78,40 @@ typedef struct ParentWindowDataStruct
 	int		windowWasCascaded;
 	TabCtrlData *tabCtrlDat;
 	BOOL	isChat;
-}ParentWindowData;
+	ParentWindowData *prev, *next;
+};
 
-typedef struct MessageWindowTabDataStruct
+struct MessageWindowTabData
 {
-	HWND	hwnd;
-	HANDLE	hContact;
-	char *szProto;
+	HWND   hwnd;
+	HANDLE hContact;
+	char  *szProto;
 	ParentWindowData *parent;
 	HICON	hIcon;
-}MessageWindowTabData;
+};
 
 #define NMWLP_INCOMING 1
 
-typedef struct NewMessageWindowLParamStruct
+struct NewMessageWindowLParam
 {
-	HANDLE	hContact;
-	BOOL	isChat;
-	int		isWchar;
-	const char *szInitialText;
-	int		flags;
-} NewMessageWindowLParam;
+	HANDLE hContact;
+	BOOL isChat;
+	int isWchar;
+	LPCSTR szInitialText;
+	int flags;
+};
 
 #define CWDF_RTF_INPUT 1
 
-typedef struct CommonWindowDataStruct {
+struct CommonWindowData
+{
 	HANDLE hContact;
-	TCmdList *cmdList;
-	TCmdList *cmdListCurrent;
-	int	  codePage;
-	DWORD	  flags;
-	HWND 	  hwndLog;
-	int	minLogBoxHeight;
-	int	minEditBoxHeight;
-}CommonWindowData;
+	int    codePage;
+	DWORD  flags;
+	HWND   hwndLog;
+	int    minLogBoxHeight, minEditBoxHeight;
+	TCmdList *cmdList, *cmdListCurrent;
+};
 
 struct SrmmWindowData
 {
