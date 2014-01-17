@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1775,10 +1775,6 @@ tabSRMM: %s
 Загрузка схемы|Загрузка цветов и шрифтов может изменить настройки, установленные Вашим скином.\n\nВы хотите продолжить?
 [TabSRMM warning message]
 Предупреждение
-[Join chat]
-Войти в чат
-[Open chat window]
-Открыть окно чата
 [Text color]
 Цвет текста
 [%s has joined]
@@ -1807,8 +1803,6 @@ tabSRMM: %s
 %s включает статус '%s' для %s
 [%s disables '%s' status for %s]
 %s выключает статус '%s' для %s
-[<invalid>]
-<неверно>
 [Add user to highlight list]
 Добавить пользователя в список подсветки
 [Input area background]
@@ -1865,42 +1859,6 @@ tabSRMM: %s
 Фон подсвеченной вкладки
 [Unread background]
 Фон непрочитанной вкладки
-[Timestamp]
-Время
-[Others nicknames]
-Другие псевдонимы
-[Your nickname]
-Ваш псевдоним
-[User has joined]
-Пользователь присоединился
-[User has left]
-Пользователь ушёл
-[User has disconnected]
-Пользователь отключился
-[User kicked ...]
-Пинок
-[User is now known as ...]
-Смена псевдонима
-[Notice from user]
-Уведомление
-[The topic is ...]
-Смена темы
-[Information messages]
-Информационные сообщения
-[User enables status for ...]
-Установка статуса
-[User disables status for ...]
-Снятие статуса
-[Action message]
-Действие
-[Highlighted message]
-Подсвеченное сообщение
-[Chat log symbols (Webdings)]
-Символы в чате (шрифт Webdings)
-[User list members (Online)]
-Пользователи (в сети)
-[User list members (away)]
-Пользователи (отсутствуют)
 [>> Outgoing messages]
 Исходящее сообщение
 [>> Outgoing misc events]
@@ -2141,24 +2099,6 @@ ID текущего контакта (если определен). Наприм
 Иконки
 [Show as text symbols]
 Текстовые символы
-[Message is highlighted]
-Сообщение выделено
-[User has performed an action]
-Пользователь совершил действие
-[User has kicked some other user]
-Пользователь выгнал другого
-[User's status was changed]
-Статус пользователя изменился
-[User has changed name]
-Пользователь сменил имя
-[User has sent a notice]
-Пользователь отправил уведомление
-[The topic has been changed]
-Тема изменилась
-[&Join]
-&Зайти
-[&Leave]
-&Покинуть чат
 [%s wants your attention in %s]
 %s требует вашего внимания в %s
 [%s speaks in %s]
@@ -2181,18 +2121,6 @@ ID текущего контакта (если определен). Наприм
 %s выключает статус '%s' для %s в %s
 [%s%s says:%s %s]
 %s%s пишет:%s %s
-[%s has left (%s)]
-%s вышел (%s)
-[%s has disconnected (%s)]
-%s отключился (%s)
-[%s kicked %s (%s)]
-%s выкинул %s (%s)
-[Notice from %s: %s]
-Уведомление от %s: %s
-[The topic is '%s']
-Тема '%s'
-[The topic is '%s' (set by %s)]
-Тема '%s' (установлена %s)
 [Look up '%s':]
 Искать '%s':
 [No word to look up]

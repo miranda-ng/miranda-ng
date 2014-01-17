@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -561,52 +561,6 @@ Yahoo
 Фон инфо-панели
 [Info bar status message]
 Инфо-панель: cтатусное сообщение
-[Others nicknames]
-Другие псевдонимы
-[Your nickname]
-Ваш псевдоним
-[User has joined]
-Пользователь присоединился
-[User has left]
-Пользователь ушёл
-[User has disconnected]
-Пользователь отключился
-[User kicked ...]
-Пинок
-[User is now known as ...]
-Смена псевдонима
-[Notice from user]
-Уведомление
-[Incoming message]
-Входящее сообщение
-[Outgoing message]
-Исходящее сообщение
-[The topic is ...]
-Смена темы
-[Information messages]
-Информационные сообщения
-[User enables status for ...]
-Установка статуса
-[User disables status for ...]
-Снятие статуса
-[Action message]
-Действие
-[Highlighted message]
-Подсвеченное сообщение
-[Message typing area]
-Поле набора текста
-[Message background]
-Фон поля ввода
-[User list members (online)]
-Члены списка (в сети)
-[User list background]
-Фон списка
-[User list members (away)]
-Пользователи (отсутствуют)
-[User list lines]
-Линии списка
-[User list background (selected)]
-Фон списка (выбрано)
 [Offline]
 Не в сети
 [Online]
@@ -665,42 +619,12 @@ Miranda не смогла загрузить встроенную систему
 Поверх всех окон
 [The message send timed out.]
 Таймаут отправки сообщения
-[Join chat]
-Войти в чат
-[Open chat window]
-Открыть окно чата
-[%s has joined]
-%s вошёл
-[You have joined %s]
-Вы пришли на '%s'
-[%s has left]
-%s вышел
-[%s has disconnected]
-%s отключился
-[%s is now known as %s]
-%s сменил имя на %s
-[You are now known as %s]
-Вы сменили имя на %s
-[%s kicked %s]
-%s выкинул %s
-[Notice from %s]
-Уведомление от %s
-[The topic is '%s%s']
-Тема '%s%s'
-[ (set by %s on %s)]
- (установлена %s %s)
-[ (set by %s)]
- (установлена %s)
-[%s enables '%s' status for %s]
-%s включает статус '%s' для %s
-[%s disables '%s' status for %s]
-%s выключает статус '%s' для %s
-[<invalid>]
-<неверно>
-[&Join]
-&Зайти
-[&Leave]
-&Оставить
+[User list background]
+Фон списка
+[User list lines]
+Линии списка
+[User list background (selected)]
+Фон списка (выбрано)
 [Flash when someone speaks]
 Мигать, когда кто-то говорит
 [Flash when a word is highlighted]
@@ -867,54 +791,6 @@ ID текущего контакта (если определен). Наприм
 Выбрать папку
 [Popups]
 Всплывающие окна
-[Message is highlighted]
-Сообщение выделено
-[User has performed an action]
-Пользователь совершил действие
-[User has kicked some other user]
-Пользователь выгнал другого
-[User's status was changed]
-Статус пользователя изменился
-[User has changed name]
-Пользователь сменил имя
-[User has sent a notice]
-Пользователь отправил уведомление
-[The topic has been changed]
-Тема изменилась
-[Server: %s]
-Сервер: %s
-[%s wants your attention in %s]
-%s требует вашего внимания в %s
-[%s speaks in %s]
-%s говорит в %s
-[%s has joined %s]
-%s вошёл в %s
-[%s has left %s]
-%s вышел из %s
-[%s kicked %s from %s]
-%s выкинул %s из %s
-[Topic change in %s]
-Смена темы в %s
-[Information in %s]
-Информация в %s
-[%s enables '%s' status for %s in %s]
-%s включает статус '%s' для %s в %s
-[%s disables '%s' status for %s in %s]
-%s выключает статус '%s' для %s в %s
-[%s says: %s]
-%s говорит: %s
-[%s has left (%s)]
-%s вышел (%s)
-[%s has disconnected (%s)]
-%s отключился (%s)
-[%s kicked %s (%s)]
-%s выкинул %s (%s)
-[Notice from %s: %s]
-Уведомление от %s: %s
-[The topic is '%s']
-Тема '%s'
-[The topic is '%s' (set by %s)]
-Тема '%s' (установлена %s)
 [&Message %s]
 &Сообщение %s
 [Italic]

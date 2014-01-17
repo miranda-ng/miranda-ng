@@ -21,10 +21,10 @@
 Отключить все контакты не в списке контактов
 [Manage server groups]
 Управлять группами на сервере
-[Run the following application when new Hotmail arrives]
-Запустить приложение при появлении новой почты
 [Allow people on my contact list send messages to mobile device]
 Разрешить контактам из списка отправлять сообщения на мобильник
+[Run the following application when new Hotmail arrives]
+Запустить приложение при появлении новой почты
 [Connection settings]
 Настройки подключения
 [Direct:]

@@ -99,10 +99,6 @@ TCP соединение
 Хосты...
 [PING]
 Пинг
-[Enable All Pings]
-Включить все пинги
-[Disable All Pings]
-Выключить все пинги
 [Open log file]
 Открыть журнал
 [<none>]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -303,29 +303,6 @@
 [Info bar contact name]
 [Info bar background]
 [Info bar status message]
-[Others nicknames]
-[Your nickname]
-[User has joined]
-[User has left]
-[User has disconnected]
-[User kicked ...]
-[User is now known as ...]
-[Notice from user]
-[Incoming message]
-[Outgoing message]
-[The topic is ...]
-[Information messages]
-[User enables status for ...]
-[User disables status for ...]
-[Action message]
-[Highlighted message]
-[Message typing area]
-[Message background]
-[User list members (online)]
-[User list background]
-[User list members (away)]
-[User list lines]
-[User list background (selected)]
 [Offline]
 [Online]
 [Away]
@@ -359,28 +336,11 @@
 [Always On Top]
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
-;file \plugins\Scriver\src\chat\clist.cpp
-[Join chat]
-[Open chat window]
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
-[%s has joined]
-[You have joined %s]
-[%s has left]
-[%s has disconnected]
-[%s is now known as %s]
-[You are now known as %s]
-[%s kicked %s]
-[Notice from %s]
-[The topic is '%s%s']
-[ (set by %s on %s)]
-[ (set by %s)]
-[%s enables '%s' status for %s]
-[%s disables '%s' status for %s]
-[<invalid>]
 ;file \plugins\Scriver\src\chat\main.cpp
-[&Join]
-[&Leave]
+[User list background]
+[User list lines]
+[User list background (selected)]
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 [Flash when a word is highlighted]
@@ -467,32 +427,7 @@
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 [Select Folder]
 [Popups]
-[Message is highlighted]
-[User has performed an action]
-[User has kicked some other user]
-[User's status was changed]
-[User has changed name]
-[User has sent a notice]
-[The topic has been changed]
-;file \plugins\Scriver\src\chat\services.cpp
-[Server: %s]
 ;file \plugins\Scriver\src\chat\tools.cpp
-[%s wants your attention in %s]
-[%s speaks in %s]
-[%s has joined %s]
-[%s has left %s]
-[%s kicked %s from %s]
-[Topic change in %s]
-[Information in %s]
-[%s enables '%s' status for %s in %s]
-[%s disables '%s' status for %s in %s]
-[%s says: %s]
-[%s has left (%s)]
-[%s has disconnected (%s)]
-[%s kicked %s (%s)]
-[Notice from %s: %s]
-[The topic is '%s']
-[The topic is '%s' (set by %s)]
 [&Message %s]
 ;file \plugins\Scriver\src\chat\window.cpp
 [Italic]

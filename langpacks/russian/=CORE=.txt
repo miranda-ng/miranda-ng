@@ -1269,72 +1269,16 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Войти в чат
 [Open chat window]
 Открыть окно чата
-[%s has joined]
-%s вошёл
-[You have joined %s]
-Вы пришли на '%s'
-[%s has left]
-%s вышел
-[%s has disconnected]
-%s отключился
-[%s is now known as %s]
-%s сменил имя на %s
-[You are now known as %s]
-Вы сменили имя на %s
-[%s kicked %s]
-%s выкинул %s
-[Notice from %s: ]
-Уведомление от %s:\s
-[The topic is '%s%s']
-Тема '%s%s'
-[ (set by %s on %s)]
- (установлена %s %s)
-[ (set by %s)]
- (установлена %s)
-[%s enables '%s' status for %s]
-%s включает статус '%s' для %s
-[%s disables '%s' status for %s]
-%s выключает статус '%s' для %s
-[<invalid>]
-<неверно>
-[Others nicknames]
-Другие псевдонимы
-[Your nickname]
-Ваш псевдоним
-[User has joined]
-Пользователь присоединился
-[User has left]
-Пользователь ушёл
-[User has disconnected]
-Пользователь отключился
-[User kicked ...]
-Пинок
-[User is now known as ...]
-Смена псевдонима
-[Notice from user]
-Уведомление
-[Incoming message]
-Входящее сообщение
-[Outgoing message]
-Исходящее сообщение
-[The topic is ...]
-Смена темы
-[Information messages]
-Информационные сообщения
-[User enables status for ...]
-Установка статуса
-[User disables status for ...]
-Снятие статуса
-[Action message]
-Действие
-[Highlighted message]
-Подсвеченное сообщение
-[Message typing area]
-Поле набора текста
-[User list members (online)]
-Пользователи (в сети)
-[User list members (away)]
-Пользователи (отсутствуют)
+[Chat module]
+Модуль чата
+[Message background]
+Фон поля ввода
+[User list background]
+Фон списка
+[User list lines]
+Цвета линий в списке
+[User list background (selected)]
+Заливка списка (выбрано)
 [Use a tabbed interface]
 Использовать вкладки
 [Close tab on double click]
@@ -1491,16 +1435,6 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Информационные сообщения
 [Show popup for status changes]
 Смены статусов
-[Chat module]
-Модуль чата
-[Message background]
-Фон поля ввода
-[User list background]
-Фон списка
-[User list lines]
-Цвета линий в списке
-[User list background (selected)]
-Заливка списка (выбрано)
 [Window icon]
 Значок окна
 [Bold]
@@ -1597,56 +1531,6 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Чат
 [Popups]
 Всплывающие окна
-[Message is highlighted]
-Сообщение выделено
-[User has performed an action]
-Пользователь совершил действие
-[User has kicked some other user]
-Пользователь выгнал другого
-[User's status was changed]
-Статус пользователя изменился
-[User has changed name]
-Пользователь сменил имя
-[User has sent a notice]
-Пользователь отправил уведомление
-[The topic has been changed]
-Тема изменилась
-[&Join]
-&Зайти
-[%s wants your attention in %s]
-%s требует вашего внимания в %s
-[%s speaks in %s]
-%s говорит в %s
-[%s has joined %s]
-%s вошёл в %s
-[%s has left %s]
-%s вышел из %s
-[%s kicked %s from %s]
-%s выкинул %s из %s
-[Notice from %s]
-Уведомление от %s
-[Topic change in %s]
-Смена темы в %s
-[Information in %s]
-Информация в %s
-[%s enables '%s' status for %s in %s]
-%s включает статус '%s' для %s в %s
-[%s disables '%s' status for %s in %s]
-%s выключает статус '%s' для %s в %s
-[%s says: %s]
-%s говорит: %s
-[%s has left (%s)]
-%s вышел (%s)
-[%s has disconnected (%s)]
-%s отключился (%s)
-[%s kicked %s (%s)]
-%s выкинул %s (%s)
-[Notice from %s: %s]
-Уведомление от %s: %s
-[The topic is '%s']
-Тема '%s'
-[The topic is '%s' (set by %s)]
-Тема '%s' (установлена %s)
 [Look up '%s':]
 Искать '%s':
 [No word to look up]
@@ -1909,6 +1793,10 @@ Miranda не смогла загрузить встроенную систему
 Неизвестная ошибка.
 [Invalid message]
 Сообщение повреждено
+[Outgoing message]
+Исходящее сообщение
+[Incoming message]
+Входящее сообщение
 [Outgoing URL]
 Исходящий URL
 [Incoming URL]
@@ -1983,6 +1871,118 @@ URL от %s
 Добавить контакт
 [Please authorize my request and add me to your contact list.]
 Пожалуйста, разрешите добавить вас в мой список контактов.
+[Others nicknames]
+Другие псевдонимы
+[Your nickname]
+Ваш псевдоним
+[User has joined]
+Пользователь присоединился
+[User has left]
+Пользователь ушёл
+[User has disconnected]
+Пользователь отключился
+[User kicked ...]
+Пинок
+[User is now known as ...]
+Смена псевдонима
+[Notice from user]
+Уведомление
+[The topic is ...]
+Смена темы
+[Information messages]
+Информационные сообщения
+[User enables status for ...]
+Установка статуса
+[User disables status for ...]
+Снятие статуса
+[Action message]
+Действие
+[Highlighted message]
+Подсвеченное сообщение
+[Message typing area]
+Поле набора текста
+[User list members (online)]
+Пользователи (в сети)
+[User list members (away)]
+Пользователи (отсутствуют)
+[Message is highlighted]
+Сообщение выделено
+[User has performed an action]
+Пользователь совершил действие
+[User has kicked some other user]
+Пользователь выгнал другого
+[User's status was changed]
+Статус пользователя изменился
+[User has changed name]
+Пользователь сменил имя
+[User has sent a notice]
+Пользователь отправил уведомление
+[The topic has been changed]
+Тема изменилась
+[&Join]
+&Зайти
+[%s has joined]
+%s вошёл
+[You have joined %s]
+Вы пришли на '%s'
+[%s has left]
+%s вышел
+[%s has disconnected]
+%s отключился
+[%s is now known as %s]
+%s сменил имя на %s
+[You are now known as %s]
+Вы сменили имя на %s
+[%s kicked %s]
+%s выкинул %s
+[Notice from %s: ]
+Уведомление от %s:\s
+[The topic is '%s%s']
+Тема '%s%s'
+[ (set by %s on %s)]
+ (установлена %s %s)
+[ (set by %s)]
+ (установлена %s)
+[%s enables '%s' status for %s]
+%s включает статус '%s' для %s
+[%s disables '%s' status for %s]
+%s выключает статус '%s' для %s
+[<invalid>]
+<неверно>
+[%s wants your attention in %s]
+%s требует вашего внимания в %s
+[%s speaks in %s]
+%s говорит в %s
+[%s has joined %s]
+%s вошёл в %s
+[%s has left %s]
+%s вышел из %s
+[%s kicked %s from %s]
+%s выкинул %s из %s
+[Notice from %s]
+Уведомление от %s
+[Topic change in %s]
+Смена темы в %s
+[Information in %s]
+Информация в %s
+[%s enables '%s' status for %s in %s]
+%s включает статус '%s' для %s в %s
+[%s disables '%s' status for %s in %s]
+%s выключает статус '%s' для %s в %s
+[%s says: %s]
+%s говорит: %s
+[%s has left (%s)]
+%s вышел (%s)
+[%s has disconnected (%s)]
+%s отключился (%s)
+[%s kicked %s (%s)]
+%s выкинул %s (%s)
+[Notice from %s: %s]
+Уведомление от %s: %s
+[The topic is '%s']
+Тема '%s'
+[The topic is '%s' (set by %s)]
+Тема '%s' (установлена %s)
 [Custom status]
 хСтатус
 [%s (locked)]

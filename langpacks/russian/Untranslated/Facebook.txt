@@ -1,5 +1,4 @@
-﻿[Login error: %s]
-[Login error: Invalid request.]
+﻿[Login error: Invalid request.]
 [Login error: Some Facebook things are required.]
 [Login error: Captcha code is required. Bad login credentials?]
 [Login error, probably bad login credentials.]
@@ -17,5 +16,4 @@
 [%s and more (%d)]
 [Contact is back on server-list.]
 [Contact is no longer on server-list.]
-[Unable to get Netlib connection for Facebook]
 [Facebook ID must be numeric value.]
