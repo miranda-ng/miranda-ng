@@ -109,7 +109,7 @@ Włącz wszystkie pingi
 Wyłącz wszystkie pingi
 ;file \plugins\Ping\src\options.cpp
 [Open log file]
-
+Otwórz raport pliku
 [All\0*.*\0Text\0*.TXT\0]
 Wszystkie\0*.*\0Tekst\0*.TXT\0
 [<none>]
@@ -160,7 +160,7 @@ Ping
 [Show/Hide &Ping Window]
 Pokaż/Ukryj okno Pingu
 [List]
-
+Lista
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Host %s prosi o zredukowanie produkowanego przez ciebie ruchu.
