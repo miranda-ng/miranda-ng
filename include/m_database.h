@@ -454,9 +454,6 @@ Writing to the database while module names are being enumerated will cause
 unpredictable results in the enumeration, but the write will work.
 szModuleName is only guaranteed to be valid for the duration of the callback.
 If you want to keep it for longer you must allocation your own storage.
-**BUG**: Prior to 0.1.2.0 dbmep was called as (lParam)(szMod, ofsMod, lParam).
-  This means that the lParam parameter to dbmep was useless, and explains the
-  slightly odd 'wParam = lParam' in the definition.
 */
 typedef int (*DBMODULEENUMPROC)(const char *szModuleName, DWORD ofsModuleName, LPARAM lParam);
 #define MS_DB_MODULES_ENUM    "DB/Modules/Enum"
