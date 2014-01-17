@@ -46,6 +46,7 @@ extern HMENU g_hMenu;
 static HKL hkl = NULL;
 static HCURSOR hCurHyperlinkHand;
 static char szIndicators[] = { '+', '%', '@', '!', 0, '*' };
+static int nickOrders[] = { 2, 1, 0, 3, 5, 4 };
 
 struct MESSAGESUBDATA
 {
@@ -2269,9 +2270,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				SetBkMode(dis->hDC, TRANSPARENT);
 
 				int nickIndex = -1;
-				for (int i = 0; i < 6; i++) {
+				for (int i = 0; i < STATUSICONCOUNT; i++) {
 					if (hIcon == pci->hIcons[ICON_STATUS1 + i]) {
-						nickIndex = i;
+						nickIndex = nickOrders[i];
 						break;
 					}
 				}
