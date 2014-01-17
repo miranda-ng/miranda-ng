@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by msn.rc
+// Used by ..\res\msn.rc
 //
 #define IDD_CHATROOM_INVITE             40
 #define IDI_MSN                         101
