@@ -447,8 +447,7 @@ begin
   // get cell text
   if text=pWideChar(-1) then
   begin
-    if (qsopt.columns[column].flags or COL_INIT)<>0 then //??
-      mFreeMem(MainBuf[row,column].text);
+    mFreeMem(MainBuf[row,column].text);
     LoadOneItem(contact,@qsopt.columns[column],0,MainBuf[row,column]);
     text:=MainBuf[row,column].text;
   end;
@@ -502,7 +501,7 @@ begin
         row:=FindBufNumber(contact);
 
         mFreeMem(MainBuf[row,grcol].text);
-        StrDupW(MainBuf[row,grcol].text,group);
+        StrDupW (MainBuf[row,grcol].text,group);
 
 //        LoadOneItem(contact,qsopt.columns[grcol],0,MainBuf[row,grcol]);
         UpdateLVCell(i,grcol);
@@ -548,7 +547,7 @@ begin
         row:=FindBufNumber(contact);
 
         mFreeMem(MainBuf[row,grcol].text);
-        StrDupW(MainBuf[row,grcol].text,container);
+        StrDupW (MainBuf[row,grcol].text,container);
 
 //        LoadOneItem(contact,qsopt.columns[grcol],0,MainBuf[row,grcol]);
         UpdateLVCell(i,grcol);
@@ -1760,6 +1759,7 @@ begin
   i:=Length(MainBuf);
   SetLength(MainBuf,i+1);
   SetLength(MainBuf[i],qsopt.numcolumns);
+  FillChar(MainBuf[i][0],qsopt.numcolumns*SizeOf(tQSRec),0);
   SetLength(FlagBuf,i+1);
 
   AddContact(i,wParam);

@@ -417,7 +417,7 @@ begin
   begin
     StrDupW(title,'UserID');
     width          :=80;
-    flags          :=COL_ON;
+    flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_CONTACTINFO;
     cnftype        :=CNF_UNIQUEID;
   end;
@@ -428,7 +428,7 @@ begin
   begin
     StrDupW(title,'Nickname');
     width          :=76;
-    flags          :=COL_ON;
+    flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_SERVICE;
     StrDup(service,MS_CLIST_GETCONTACTDISPLAYNAME);
     restype        :=ACF_RUNICODE;
@@ -443,7 +443,7 @@ begin
   begin
     StrDupW(title,'First name');
     width          :=68;
-    flags          :=COL_ON;
+    flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_CONTACTINFO;
     cnftype        :=CNF_FIRSTNAME;
   end;
@@ -454,7 +454,7 @@ begin
   begin
     StrDupW(title,'Last name');
     width          :=66;
-    flags          :=COL_ON;
+    flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_CONTACTINFO;
     cnftype        :=CNF_LASTNAME;
   end;
@@ -465,7 +465,7 @@ begin
   begin
     StrDupW(title,'Group');
     width          :=80;
-    flags          :=COL_ON;
+    flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_SETTING;
     datatype       :=QSTS_STRING;
     StrDup(module ,'CList');
@@ -478,7 +478,7 @@ begin
   begin
     StrDupW(title,'Container');
     width          :=80;
-    flags          :=COL_ON;
+    flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_SETTING;
     datatype       :=QSTS_STRING;
     StrDup(module ,'Tab_SRMsg');
@@ -491,7 +491,7 @@ begin
   begin
     StrDupW(title,'E-mail');
     width          :=116;
-    flags          :=COL_ON;
+    flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_CONTACTINFO;
     cnftype        :=CNF_EMAIL;
   end;

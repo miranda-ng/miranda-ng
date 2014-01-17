@@ -260,7 +260,7 @@ end;
 
 procedure LoadOneItem(hContact:THANDLE;column:pcolumnitem;proto:integer; var res:tQSRec);
 var
-  tmp:uint_ptr;
+  tmp:int_ptr;
   lmodule,srv:PAnsiChar;
   DbEvent:HDBEVENT;
   cni:TCONTACTINFO;
@@ -269,7 +269,7 @@ var
 begin
   FillChar(res,SizeOf(tQSRec),0);
   res.data:=uint_ptr(-1);
-  res.text:=nil;
+  mFreeMem(res.text);
   with column^ do
   begin
 
@@ -286,7 +286,7 @@ begin
           srv:=ParseVarString(service,hContact,nil)
         else
           srv:=service;
-        tmp:=uint_ptr(CallService(srv,TWPARAM(wparam.value),TLPARAM(lparam.value)));
+        tmp:=int_ptr(CallService(srv,TWPARAM(wparam.value),TLPARAM(lparam.value)));
         if (restype and ACF_SCRIPT_SERVICE)<>0 then
           mFreeMem(srv);
 
@@ -494,6 +494,9 @@ begin
   SetLength(MainBuf,cnt,qsopt.numcolumns);
   SetLength(FlagBuf,cnt);
 
+  for i:=0 to cnt1-1 do
+    FillChar(MainBuf[i][0],qsopt.numcolumns*SizeOf(tQSRec),0);
+
   for i:=0 to qsopt.numcolumns-1 do
   begin
     with qsopt.columns[i] do
@@ -515,11 +518,7 @@ begin
     if cnt1=cnt then break; // additional checking
     hContact:=db_find_next(hContact);
   end;
-  if cnt1<>cnt then
-  begin
-    SetLength(MainBuf,cnt1);
-    SetLength(FlagBuf,cnt1);
-  end;
+
 end;
 
 //----- Status bar -----

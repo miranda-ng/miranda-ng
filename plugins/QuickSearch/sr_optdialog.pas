@@ -341,7 +341,7 @@ begin
     flags:=0;
 
     if ListView_GetCheckState(list,i)=BST_CHECKED then
-      flags:=flags or COL_ON;
+      flags:=flags or COL_ON or COL_FILTER;
 
     setting_type:=CB_GetData(GetDlgItem(Dialog,IDC_C_VARTYPE));
     
@@ -797,7 +797,7 @@ begin
               if ListView_GetCheckSTate(listhwnd,i)=0 then
                 flags:=flags and not COL_ON
               else
-                flags:=flags or COL_ON;
+                flags:=flags or COL_ON or COL_FILTER;
             end;
             CloneColumn(qsopt.columns[i],editcolumns[idx]);
           end;
