@@ -1299,74 +1299,18 @@ Dołącz do pokoju
 [Open chat window]
 Otwórz okno czatu
 ;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
-[%s has joined]
-%s dołączył(a)
-[You have joined %s]
-Dołączyłeś do %s
-[%s has left]
-%s opuścił(a) czat
-[%s has disconnected]
-%s został rozłączony
-[%s is now known as %s]
-%s jest obecnie znany jako %s
-[You are now known as %s]
-Jesteś teraz znany jako %s
-[%s kicked %s]
-%s wyrzucił uczestnika %s
-[Notice from %s: ]
-Powiadomienie od %s:
-[The topic is '%s%s']
-Temat to '%s%s'
-[ (set by %s on %s)]
- (wybrany przez %s na %s)
-[ (set by %s)]
- (wybrany przez %s)
-[%s enables '%s' status for %s]
-%s włącza status "%s" dla %s
-[%s disables '%s' status for %s]
-%s wyłącza status "%s" dla %s
-[<invalid>]
-<niepoprawny>
+;file \src\core\stdchat\src\main.cpp
+[Chat module]
+Moduł czatu
+[Message background]
+Tło wiadomości
+[User list background]
+Tło listy użytkowników
+[User list lines]
+Linie listy użytkowników
+[User list background (selected)]
+Tło listy użytkowników (zaznaczenie)
 ;file \src\core\stdchat\src\options.cpp
-[Others nicknames]
-Pozostałe nazwy
-[Your nickname]
-Twoja nazwa
-[User has joined]
-Użytkownik dołączył
-[User has left]
-Użytkownik wyszedł
-[User has disconnected]
-Użytkownik rozłączył się
-[User kicked ...]
-Wykopany użytkownik...
-[User is now known as ...]
-Użytkownik jest obecnie znany jako...
-[Notice from user]
-Powiadomienie od użytkownika
-[Incoming message]
-Przychodząca wiadomość
-[Outgoing message]
-Wychodząca wiadomość
-[The topic is ...]
-Temat to...
-[Information messages]
-Wiadomości informacyjne
-[User enables status for ...]
-Użytkownik włącza status dla...
-[User disables status for ...]
-Użytkownik wyłącza status dla...
-[Action message]
-Wiadomość akcji
-[Highlighted message]
-Podświetlona wiadomość
-[Message typing area]
-Obszar pisania wiadomości
-[User list members (online)]
-Członkowie listy użytkowników (Dostępni)
-[User list members (away)]
-Członkowie listy użytkowników (Zaraz wracam)
 [Use a tabbed interface]
 Użyj kart
 [Close tab on double click]
@@ -1523,16 +1467,6 @@ Pokaż popup zmian nicków
 Pokaż popup wiadomości informacyjnych
 [Show popup for status changes]
 Pokaż popup zmian statusu
-[Chat module]
-Moduł czatu
-[Message background]
-Tło wiadomości
-[User list background]
-Tło listy użytkowników
-[User list lines]
-Linie listy użytkowników
-[User list background (selected)]
-Tło listy użytkowników (zaznaczenie)
 [Window icon]
 Ikona okna
 [Bold]
@@ -1629,58 +1563,7 @@ Dziennik czatu
 Czat
 [Popups]
 Popupy
-[Message is highlighted]
-Podświetlona wiadomość
-[User has performed an action]
-Użytkownik wykonał akcję
-[User has kicked some other user]
-Użytkownik wykopał innego użytkownika
-[User's status was changed]
-Użytkownik zmienił status
-[User has changed name]
-Użytkownik zmienił nick
-[User has sent a notice]
-Użytkownik wysłał powiadomienie
-[The topic has been changed]
-Temat został zmieniony
-;file \src\core\stdchat\src\services.cpp
-[&Join]
-Dołącz
 ;file \src\core\stdchat\src\tools.cpp
-[%s wants your attention in %s]
-%s chce Twojej uwagi w pokoju: %s
-[%s speaks in %s]
-%s mówi w %s
-[%s has joined %s]
-%s dołączył(a) %s
-[%s has left %s]
-%s opuścił(a) %s
-[%s kicked %s from %s]
-%s wykopany %s przez %s
-[Notice from %s]
-Powiadomienie od %s
-[Topic change in %s]
-Zmieniony temat w %s
-[Information in %s]
-Informacja w %s
-[%s enables '%s' status for %s in %s]
-%s włącza status "%s" dla %s w %s
-[%s disables '%s' status for %s in %s]
-%s wyłącza status "%s" dla %s w %s
-[%s says: %s]
-%s mówi: %s
-[%s has left (%s)]
-%s wyszedł (%s)
-[%s has disconnected (%s)]
-%s rozłączył się (%s)
-[%s kicked %s (%s)]
-%s wykopał %s z powodu (%s)
-[Notice from %s: %s]
-Powiadomienie od %s: %s
-[The topic is '%s']
-Temat to "%s"
-[The topic is '%s' (set by %s)]
-Temat to "%s" (ustawiony przez %s)
 [Look up '%s':]
 Zobacz '%s':
 [No word to look up]
@@ -1968,6 +1851,10 @@ Nieznany błąd.
 ;file \src\core\stduihist\history.cpp
 [Invalid message]
 Nieprawidłowa wiadomość
+[Outgoing message]
+Wychodząca wiadomość
+[Incoming message]
+Przychodząca wiadomość
 [Outgoing URL]
 Wychodzący link
 [Incoming URL]
@@ -2050,10 +1937,122 @@ Dodaj kontakt
 [Please authorize my request and add me to your contact list.]
 Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
 ;file \src\modules\chat\chat_opts.cpp
+[Others nicknames]
+Pozostałe nazwy
+[Your nickname]
+Twoja nazwa
+[User has joined]
+Użytkownik dołączył
+[User has left]
+Użytkownik wyszedł
+[User has disconnected]
+Użytkownik rozłączył się
+[User kicked ...]
+Wykopany użytkownik...
+[User is now known as ...]
+Użytkownik jest obecnie znany jako...
+[Notice from user]
+Powiadomienie od użytkownika
+[The topic is ...]
+Temat to...
+[Information messages]
+Wiadomości informacyjne
+[User enables status for ...]
+Użytkownik włącza status dla...
+[User disables status for ...]
+Użytkownik wyłącza status dla...
+[Action message]
+Wiadomość akcji
+[Highlighted message]
+Podświetlona wiadomość
+[Message typing area]
+Obszar pisania wiadomości
+[User list members (online)]
+Członkowie listy użytkowników (Dostępni)
+[User list members (away)]
+Członkowie listy użytkowników (Zaraz wracam)
+[Message is highlighted]
+Podświetlona wiadomość
+[User has performed an action]
+Użytkownik wykonał akcję
+[User has kicked some other user]
+Użytkownik wykopał innego użytkownika
+[User's status was changed]
+Użytkownik zmienił status
+[User has changed name]
+Użytkownik zmienił nick
+[User has sent a notice]
+Użytkownik wysłał powiadomienie
+[The topic has been changed]
+Temat został zmieniony
 ;file \src\modules\chat\chat_svc.cpp
+[&Join]
+Dołącz
 ;file \src\modules\chat\clist.cpp
 ;file \src\modules\chat\log.cpp
+[%s has joined]
+%s dołączył(a)
+[You have joined %s]
+Dołączyłeś do %s
+[%s has left]
+%s opuścił(a) czat
+[%s has disconnected]
+%s został rozłączony
+[%s is now known as %s]
+%s jest obecnie znany jako %s
+[You are now known as %s]
+Jesteś teraz znany jako %s
+[%s kicked %s]
+%s wyrzucił uczestnika %s
+[Notice from %s: ]
+Powiadomienie od %s:
+[The topic is '%s%s']
+Temat to '%s%s'
+[ (set by %s on %s)]
+ (wybrany przez %s na %s)
+[ (set by %s)]
+ (wybrany przez %s)
+[%s enables '%s' status for %s]
+%s włącza status "%s" dla %s
+[%s disables '%s' status for %s]
+%s wyłącza status "%s" dla %s
+[<invalid>]
+<niepoprawny>
 ;file \src\modules\chat\tools.cpp
+[%s wants your attention in %s]
+%s chce Twojej uwagi w pokoju: %s
+[%s speaks in %s]
+%s mówi w %s
+[%s has joined %s]
+%s dołączył(a) %s
+[%s has left %s]
+%s opuścił(a) %s
+[%s kicked %s from %s]
+%s wykopany %s przez %s
+[Notice from %s]
+Powiadomienie od %s
+[Topic change in %s]
+Zmieniony temat w %s
+[Information in %s]
+Informacja w %s
+[%s enables '%s' status for %s in %s]
+%s włącza status "%s" dla %s w %s
+[%s disables '%s' status for %s in %s]
+%s wyłącza status "%s" dla %s w %s
+[%s says: %s]
+%s mówi: %s
+[%s has left (%s)]
+%s wyszedł (%s)
+[%s has disconnected (%s)]
+%s rozłączył się (%s)
+[%s kicked %s (%s)]
+%s wykopał %s z powodu (%s)
+[Notice from %s: %s]
+Powiadomienie od %s: %s
+[The topic is '%s']
+Temat to "%s"
+[The topic is '%s' (set by %s)]
+Temat to "%s" (ustawiony przez %s)
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]

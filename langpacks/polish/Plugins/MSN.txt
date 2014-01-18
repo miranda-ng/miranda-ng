@@ -26,10 +26,10 @@ Wyślij informacje o kolorze/rozmiarze czcionki w wiadomościach
 Wyłącz wszystkie kontakty nieznajdujące się na mojej liście
 [Manage server groups]
 Zarządzaj grupami serwera
-[Run the following application when new Hotmail arrives]
-Uruchom następującą aplikację po otrzymaniu Hotmaila
 [Allow people on my contact list send messages to mobile device]
 Zezwalaj osobom z mojej listy na wysyłanie wiadomości na urządzenie mobilne
+[Run the following application when new Hotmail arrives]
+Uruchom następującą aplikację po otrzymaniu Hotmaila
 [Connection settings]
 Ustawienia połączenia
 [Direct:]
