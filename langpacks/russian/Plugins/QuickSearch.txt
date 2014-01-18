@@ -73,6 +73,8 @@ ID клиента
 В сети с
 [Metacontact]
 Метаконтакт
+[Event count]
+Количество событий
 [Type:]
 Тип:
 [DB setting]
@@ -227,6 +229,8 @@ ID клиента
 Добавить цвет
 [QuickSearch window hotkey]
 Открыть окно быстрого поиска
+[Change setting through QS]
+Изменить с помощью QuickSearch
 [default]
 по умолчанию
 [Unknown]

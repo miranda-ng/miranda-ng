@@ -1,5 +1,4 @@
 ﻿[E-mail]
-[Event count]
 [Contact add time]
 [IP]
 [Attach to &Tab container]
@@ -11,6 +10,5 @@
 [Content is metacontact info.]
 [Content is count of ALL contact events (not messages only)]
 [Other info]
-[Change setting through QS]
 [Selected]
 [contacts]
