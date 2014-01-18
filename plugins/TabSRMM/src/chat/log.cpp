@@ -943,11 +943,11 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 						_tcsnrplc(pszTemp, 300, _T("%s"), _T("~~++#%s#++~~"));
 						pszTemp[299] = 0;
 					}
+
+					if (g_Settings.bColorizeNicksInLog && pszIndicator[0])
+						Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\cf%u ", OPTIONS_FONTCOUNT + streamData->crCount + crNickIndex);
 				}
-
-				if (g_Settings.bColorizeNicksInLog && pszIndicator[0])
-					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\cf%u ", OPTIONS_FONTCOUNT + streamData->crCount + crNickIndex);
-
+				
 				Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, pszTemp, lin->ptszNick);
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, " ");
 			}
