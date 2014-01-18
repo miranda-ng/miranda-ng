@@ -157,9 +157,6 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce)
 		return true;
 
 	TWindowData *dat = si->dat;
-	if (dat == NULL)
-		return true;
-
 	TContainerData *pContainer = dat ? dat->pContainer : NULL;
 
 	TCHAR *bbStart, *bbEnd;
