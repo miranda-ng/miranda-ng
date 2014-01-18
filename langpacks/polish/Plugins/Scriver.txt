@@ -659,6 +659,8 @@ Zawsze na wierzchu
 Przekroczono czas wysyłania wiadomości.
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
+[Group chat log background]
+
 [User list background]
 Tło listy czcionek
 [User list lines]

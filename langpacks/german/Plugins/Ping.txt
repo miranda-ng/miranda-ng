@@ -103,10 +103,6 @@ Hosts...
 ;file \plugins\Ping\src\menu.cpp
 [PING]
 Ping
-[Enable All Pings]
-Alle Pings aktivieren
-[Disable All Pings]
-Alle Pings deaktivieren
 ;file \plugins\Ping\src\options.cpp
 [Open log file]
 

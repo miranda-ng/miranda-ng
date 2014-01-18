@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Automatically pop up the window when]
@@ -433,52 +433,6 @@ Unicode オフ
 情報バーの背景
 [Info bar status message]
 情報バーのステータスメッセージ
-[Others nicknames]
-その他のニックネーム
-[Your nickname]
-ニックネーム
-[User has joined]
-ユーザーは参加しました
-[User has left]
-ユーザーは離席しました
-[User has disconnected]
-ユーザーは切断しました
-[User kicked ...]
-ユーザーは排除されました ...
-[User is now known as ...]
-ユーザーの現在の名称は次の通りです ...
-[Notice from user]
-ユーザーからの通知
-[Incoming message]
-着信メッセージ
-[Outgoing message]
-発信メッセージ
-[The topic is ...]
-トピックは ...
-[Information messages]
-メッセージ情報
-[User enables status for ...]
-ユーザーは次のステータスを有効にしました ...
-[User disables status for ...]
-ユーザーは次のステータスを無効にしました ...
-[Action message]
-アクションメッセージ
-[Highlighted message]
-強調表示されたメッセージ
-[Message typing area]
-メッセージ入力エリア
-[Message background]
-メッセージの背景
-[User list members (online)]
-ユーザーリストのメンバー ( オンライン )
-[User list background]
-ユーザーリストの背景
-[User list members (away)]
-ユーザーリストメンバー ( 離席中 )
-[User list lines]
-ユーザーリストの線
-[User list background (selected)]
-ユーザーリストの背景 ( 選択済 )
 [Offline]
 オフライン
 [Online]
@@ -533,36 +487,12 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 常に前面
 [The message send timed out.]
 メッセージの送信はタイムアウトしました
-[Join chat]
-チャットに参加
-[Open chat window]
-チャットウィンドウを開く
-[%s has joined]
-%s は参加しました
-[You have joined %s]
-あなたは %s に参加しました
-[%s has left]
-%s は離席しました
-[%s has disconnected]
-%s は切断しました
-[%s is now known as %s]
-%s は現在 %s です
-[You are now known as %s]
-あなたは現在 %s です
-[%s kicked %s]
-%s は %s を排除しました
-[Notice from %s]
-%s からの通知
-[ (set by %s on %s)]
-( %s を %s に設定)
-[ (set by %s)]
-( %s に設定)
-[<invalid>]
-< 不正 >
-[&Join]
-参加する (&J)
-[&Leave]
-終了する (&L)
+[User list background]
+ユーザーリストの背景
+[User list lines]
+ユーザーリストの線
+[User list background (selected)]
+ユーザーリストの背景 ( 選択済 )
 [Flash when someone speaks]
 誰かが話したらフラッシュ
 [Flash when a word is highlighted]
@@ -653,44 +583,6 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 フォルダーを選択
 [Popups]
 ポップアップ
-[Message is highlighted]
-メッセージを強調表示
-[User has performed an action]
-ユーザーはアクションを実行しました
-[User has kicked some other user]
-ユーザーは他のユーザーを排除しました
-[User's status was changed]
-ユーザーステータスは変更されました
-[User has changed name]
-ユーザーは名前を変更しました
-[User has sent a notice]
-ユーザーは通知を送信しました
-[The topic has been changed]
-トピックは変更されています
-[%s wants your attention in %s]
-%s はあなたに %s について注意を求めています
-[%s speaks in %s]
-%s は %s で話します
-[%s has joined %s]
-%s は %s に参加しました
-[%s has left %s]
-%s は %s を離席しました
-[%s kicked %s from %s]
-%s は %s を %s から排除しました
-[Topic change in %s]
-%s のトピック変更
-[Information in %s]
-%s についての情報
-[%s says: %s]
-%s の発言: %s
-[%s has left (%s)]
-%s は離席しました ( %s )
-[%s has disconnected (%s)]
-%s は切断しました ( %s )
-[%s kicked %s (%s)]
-%s は %s を排除しました ( %s )
-[Notice from %s: %s]
-%s からの通知:%s
 [Insert a smiley]
 顔文字を挿入
 [Make the text bold (CTRL+B)]

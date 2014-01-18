@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -175,24 +175,6 @@ Chiudi la finestra del messaggio all'invio
 Colore del testo
 [%s is now known as %s]
 %s è ora conosciuto come %s
-[Others nicknames]
-Altri nickname
-[Your nickname]
-Il tuo nickname
-[User has joined]
-L'utente ha fatto ingresso
-[User has left]
-L'utente è uscito
-[User has disconnected]
-Utente scollegato
-[User is now known as ...]
-L'utente è ora conosciuto come ...
-[Information messages]
-Messaggi informativi
-[User enables status for ...]
-Abilitare stato dell'utente per ...
-[User disables status for ...]
-Disabilitare stato dell'utente per ...
 [Protocol]
 Protocollo
 [Flash window when someone speaks]
@@ -213,16 +195,6 @@ Aspetto e funzionalità delle finestre chat room
 Tutti i file
 [Select Folder]
 Seleziona cartella
-[&Join]
-&Unisciti
-[&Leave]
-&Lascia
-[%s speaks in %s]
-%s discute in %s
-[%s kicked %s from %s]
-%s ha espulso %s da %s
-[Notice from %s]
-Notifica da %s
 [Nick]
 Nick
 [hour]

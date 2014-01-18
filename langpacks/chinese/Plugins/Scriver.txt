@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Behavior]
@@ -459,52 +459,6 @@ Unicode 已关闭
 信息栏背景
 [Info bar status message]
 信息栏 状态消息
-[Others nicknames]
-其它昵称
-[Your nickname]
-您的昵称
-[User has joined]
-用户已加入
-[User has left]
-用户已离开
-[User has disconnected]
-用户已断线
-[User kicked ...]
-用户已被踢走 ...
-[User is now known as ...]
-用户现在改名为 ...
-[Notice from user]
-用户公告
-[Incoming message]
-传入消息
-[Outgoing message]
-发送消息
-[The topic is ...]
-主题是 ...
-[Information messages]
-信息消息
-[User enables status for ...]
-用户启用状态为 ...
-[User disables status for ...]
-用户禁用状态为 ...
-[Action message]
-操作消息
-[Highlighted message]
-突出显示消息
-[Message typing area]
-消息键入区域
-[Message background]
-消息背景
-[User list members (online)]
-用户列表成员 (在线)
-[User list background]
-用户列表背景
-[User list members (away)]
-用户列表成员 (外出)
-[User list lines]
-用户列表线条
-[User list background (selected)]
-用户列表背景 (已选择)
 [Offline]
 离线
 [Online]
@@ -563,42 +517,12 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 永远置顶
 [The message send timed out.]
 发送消息已超时. 
-[Join chat]
-加入聊天
-[Open chat window]
-打开聊天窗口
-[%s has joined]
-%s 已加入
-[You have joined %s]
-您已加入 %s
-[%s has left]
-%s 已离开
-[%s has disconnected]
-%s 已断开连接
-[%s is now known as %s]
-%s 现在改名为 %s
-[You are now known as %s]
-您现在被称为 %s
-[%s kicked %s]
-%s 已被踢走 %s
-[Notice from %s]
-%s 发出公告
-[The topic is '%s%s']
-主题为 '%s%s'
-[ (set by %s on %s)]
- (由 %s 设置于 %s)
-[ (set by %s)]
- (由 %s 设置)
-[%s enables '%s' status for %s]
-%s 启用 '%s' 状态于 %s
-[%s disables '%s' status for %s]
-%s 禁用 '%s' 状态于 %s
-[<invalid>]
-<无效>
-[&Join]
-加入(&J)
-[&Leave]
-离开(&L)
+[User list background]
+用户列表背景
+[User list lines]
+用户列表线条
+[User list background (selected)]
+用户列表背景 (已选择)
 [Flash when someone speaks]
 有人发言时闪动
 [Flash when a word is highlighted]
@@ -695,54 +619,6 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 选择文件夹
 [Popups]
 弹出窗口
-[Message is highlighted]
-突出显示消息
-[User has performed an action]
-用户已运行一个操作
-[User has kicked some other user]
-用户已踢走其他用户
-[User's status was changed]
-用户状态已变更
-[User has changed name]
-用户已改名
-[User has sent a notice]
-用户已发送公告
-[The topic has been changed]
-主题已变更
-[Server: %s]
-服务器: %s
-[%s wants your attention in %s]
-%s 需要您注意 %s
-[%s speaks in %s]
-%s 在 %s 说话
-[%s has joined %s]
-%s 已加入 %s
-[%s has left %s]
-%s 已离开 %s
-[%s kicked %s from %s]
-%s 已踢走 %s 从 %s
-[Topic change in %s]
-%s 主题变更
-[Information in %s]
-%s 的信息
-[%s enables '%s' status for %s in %s]
-%s 启用 '%s' 状态于 %s 在 %s
-[%s disables '%s' status for %s in %s]
-%s 禁用 '%s' 状态于 %s 在 %s
-[%s says: %s]
-%s 说: %s
-[%s has left (%s)]
-%s 已离开 (%s)
-[%s has disconnected (%s)]
-%s 已断开连接 (%s)
-[%s kicked %s (%s)]
-%s 已踢走 %s (%s)
-[Notice from %s: %s]
-%s 公告: %s
-[The topic is '%s']
-主题为 '%s'
-[The topic is '%s' (set by %s)]
-主题为 '%s' (%s 设置)
 [Manager]
 经理
 [Insert a smiley]

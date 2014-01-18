@@ -1271,8 +1271,16 @@ Cповіщати про друк, коли вікно повідомлень з
 Увійти до чату
 [Open chat window]
 Відкрити вікно чату
-[<invalid>]
-<неправильно>
+[Chat module]
+Чати
+[Message background]
+Фон повідомлення
+[User list background]
+Фон списку користувачів
+[User list lines]
+Лінії списку користувачів
+[User list background (selected)]
+Фон списку користувачів (вибране)
 [Use a tabbed interface]
 Ввімкнути вкладки
 [Close tab on double click]
@@ -1899,16 +1907,6 @@ URL від %s
 Користувачі (онлайн)
 [User list members (away)]
 Користувачі (відсутні)
-[Chat module]
-Чати
-[Message background]
-Фон повідомлення
-[User list background]
-Фон списку користувачів
-[User list lines]
-Лінії списку користувачів
-[User list background (selected)]
-Фон списку користувачів (вибране)
 [Message is highlighted]
 Підсвічені повідомлення
 [User has performed an action]
@@ -1951,6 +1949,8 @@ URL від %s
 %s вмикає статус '%s' для %s
 [%s disables '%s' status for %s]
 %s вимикає статус "%s" для %s
+[<invalid>]
+<неправильно>
 [%s wants your attention in %s]
 %s потребує вашої уваги в %s
 [%s speaks in %s]

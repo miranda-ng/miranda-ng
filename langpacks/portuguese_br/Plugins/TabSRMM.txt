@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -995,8 +995,6 @@ Forçar Histórico++
 Forçar IEView
 [Set messaging options for %s]
 Defina as opções de mensagens para %s
-[Join chat]
-Entrar no chat
 [Text color]
 Cor do Texto
 [%s has joined]
@@ -1023,42 +1021,6 @@ Notificação de %s:
 Linhas de grelha verticais:
 [Info Panel]
 Painel de informações
-[Timestamp]
-Número
-[Others nicknames]
-Outros apelidos
-[Your nickname]
-Seu apelido
-[User has joined]
-O usuário entrou
-[User has left]
-O usuário saíu
-[User has disconnected]
-Usuário desconectado
-[User kicked ...]
-Usuário ignorado ...
-[User is now known as ...]
-O Usuário agora é conhecido como ...
-[Notice from user]
-Notificação do usuário
-[The topic is ...]
-O tópico está ...
-[Information messages]
-Mensagens de informação
-[User enables status for ...]
-O usuário ativa o status para ...
-[User disables status for ...]
-o usuário desativa o status para ...
-[Action message]
-Mensagem de ação
-[Highlighted message]
-Mensagem destacada
-[Chat log symbols (Webdings)]
-Reg. de símbolos do bate-papo (Webdings)
-[User list members (Online)]
-Membros da lista (Online)
-[User list members (away)]
-Membros da lista (Desligados)
 [>> Outgoing misc events]
 >> Saida de eventos variados
 [<< Incoming misc events]
@@ -1201,50 +1163,8 @@ ano sem o século, 01-99
 Todos os Arquivos
 [Select Folder]
 Selecionar Pasta
-[Message is highlighted]
-A mensagem está destacada
-[User has performed an action]
-O usuário executou uma ação
-[User has kicked some other user]
-O usuário ignorou um outro usuário
-[User's status was changed]
-O status do usuário foi alterado
-[User has changed name]
-O usuário mudou o nome
-[User has sent a notice]
-Usuário enviou uma notícia
-[The topic has been changed]
-O tópico foi mudado
-[&Join]
-&Agrupar
-[&Leave]
-&Deixar
-[%s wants your attention in %s]
-%s pede sua atenção em %s
-[%s speaks in %s]
-%s fala em %s
-[%s has joined %s]
-%s acabou de entrar %s
-[%s has left %s]
-%s deixou o canal %s
-[%s kicked %s from %s]
-%s é agora conhecido como %s para %s
-[Notice from %s]
-Notificação de %s
-[Topic change in %s]
-O tópico mudou em %s
-[Information in %s]
-Informação in %s
 [%s%s says:%s %s]
 %s %s diz: %s %s
-[%s has left (%s)]
-%s saiu (%s)
-[%s has disconnected (%s)]
-% desconectado (%s)
-[%s kicked %s (%s)]
-%s agora é conhecido como %s (%s)
-[Notice from %s: %s]
-Notificação de %s: %s
 [No word to look up]
 Sem palavras para procurar
 [Unique ID]

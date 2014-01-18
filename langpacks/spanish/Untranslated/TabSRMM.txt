@@ -791,7 +791,6 @@
 [Active background]
 [Hovered background]
 [Unread background]
-[Chat log symbols (Webdings)]
 [>> Outgoing messages]
 [>> Outgoing misc events]
 [<< Incoming messages]

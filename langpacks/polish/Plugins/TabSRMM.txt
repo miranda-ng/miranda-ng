@@ -2165,26 +2165,6 @@ Pokaż ikony
 [Show as text symbols]
 Pokaż symbole tekstowe
 ;file \plugins\TabSRMM\src\chat\tools.cpp
-[%s wants your attention in %s]
-%s chce Twojej uwagi w pokoju: %s
-[%s speaks in %s]
-%s mówi w %s
-[%s has joined %s]
-%s dołączył %s
-[%s has left %s]
-%s opuścił %s
-[%s kicked %s from %s]
-%s wykopany %s przez %s
-[Notice from %s]
-Powiadomienie od %s
-[Topic change in %s]
-Zmieniony temat w %s
-[Information in %s]
-Informacja w %s
-[%s enables '%s' status for %s in %s]
-%s włącza status "%s" dla %s w %s
-[%s disables '%s' status for %s in %s]
-%s wyłącza status "%s" dla %s w %s
 [%s%s says:%s %s]
 %s%s mówi: %s %s
 [Look up '%s':]

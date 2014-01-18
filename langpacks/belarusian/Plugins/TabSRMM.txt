@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1823,11 +1823,6 @@ tabSRMM: %s
 Загрузка схемы|Загрузка колераў і шрыфтоў можа змяніць налады, усталяваныя Вашым скінам.\n\nВы жадаеце працягнуць?
 [TabSRMM warning message]
 Заўвага TabSRMM
-;file \plugins\TabSRMM\src\chat\clist.cpp
-[Join chat]
-Увайсці ў чат
-[Open chat window]
-Адчыніць вакно чата
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Колер тэксту
@@ -1858,8 +1853,7 @@ tabSRMM: %s
 %s уключае статус '%s' для %s
 [%s disables '%s' status for %s]
 %s выключае статус '%s' для %s
-[<invalid>]
-<няверна>
+;file \plugins\TabSRMM\src\chat\main.cpp
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 Дадаць карыстача ў спіс падсветкі
@@ -1918,42 +1912,6 @@ tabSRMM: %s
 Фон падсветленай укладкі
 [Unread background]
 Фон непрачытанай укладкі
-[Timestamp]
-Час
-[Others nicknames]
-Іншыя мянушкі
-[Your nickname]
-Ваша мянушка
-[User has joined]
-Удзельнік далучыўся
-[User has left]
-Удзельнік сышоў
-[User has disconnected]
-Удзельнік адключыўся
-[User kicked ...]
-Выспятак
-[User is now known as ...]
-Змена мянушкі
-[Notice from user]
-Абвестка
-[The topic is ...]
-Змена тэмы
-[Information messages]
-Інфармацыйныя паведамленні
-[User enables status for ...]
-Устаноўка статусу
-[User disables status for ...]
-Здыманне статусу
-[Action message]
-Дзеянне
-[Highlighted message]
-Падсветленае паведамленне
-[Chat log symbols (Webdings)]
-Знакі ў чаце (шрыфт Webdings)
-[User list members (Online)]
-Карыстачы (далучаны)
-[User list members (away)]
-Карыстачы (адсутнічаюць)
 [>> Outgoing messages]
 Выходнае паведамленне
 [>> Outgoing misc events]
@@ -2194,60 +2152,9 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Абразкі
 [Show as text symbols]
 Тэкставыя знакі
-[Message is highlighted]
-Паведамленне вылучана
-[User has performed an action]
-Карыстач здзейсніў дзеянне
-[User has kicked some other user]
-Карыстач штурхнуў іншага
-[User's status was changed]
-Статус карыстача змяніўся
-[User has changed name]
-Карыстач змяніў імя
-[User has sent a notice]
-Карыстач адправіў абвестку
-[The topic has been changed]
-Тэма змянілася
-;file \plugins\TabSRMM\src\chat\services.cpp
-[&Join]
-Зайсці
-[&Leave]
-&Пакінуць
 ;file \plugins\TabSRMM\src\chat\tools.cpp
-[%s wants your attention in %s]
-%s патрабуе Вашай увагі ў %s
-[%s speaks in %s]
-%s кажа ў %s
-[%s has joined %s]
-%s увайшоў у %s
-[%s has left %s]
-%s выйшаў з %s
-[%s kicked %s from %s]
-%s выкінуў %s з %s
-[Notice from %s]
-Абвестка ад %s
-[Topic change in %s]
-Змена тэмы ў %s
-[Information in %s]
-Інфармацыя ў %s
-[%s enables '%s' status for %s in %s]
-%s уключае статус '%s' для %s у %s
-[%s disables '%s' status for %s in %s]
-%s выключае статус '%s' для %s у %s
 [%s%s says:%s %s]
 %s%s піша:%s %s
-[%s has left (%s)]
-%s выйшаў (%s)
-[%s has disconnected (%s)]
-%s адключыўся (%s)
-[%s kicked %s (%s)]
-%s выкінуў %s (%s)
-[Notice from %s: %s]
-Абвестка ад %s: %s
-[The topic is '%s']
-Тэма '%s'
-[The topic is '%s' (set by %s)]
-Тэма '%s' (усталявана %s)
 [Look up '%s':]
 Шукаць '%s':
 [No word to look up]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Automatically pop up the window when]
@@ -341,48 +341,6 @@
 קישור יוצא
 [Incoming URL]
 קישור נכנס
-[Others nicknames]
-כינויים של אחרים
-[Your nickname]
-הכינוי שלך
-[User has joined]
-משתמש הצטרף
-[User has left]
-משתמש עזב
-[User has disconnected]
-משתמש התנתק
-[User kicked ...]
-...משתמש הועף
-[User is now known as ...]
-...המשתמש ידוע כעת כ
-[Notice from user]
-הערה ממשתמש
-[Incoming message]
-הודעה נכנסת
-[Outgoing message]
-הודעה יוצאת
-[The topic is ...]
-...הנושא הוא
-[Information messages]
-הודעות מידע
-[User enables status for ...]
-משתמש אפשר מצב בשביל ...
-[User disables status for ...]
-משתמש ביטל מצב בשביל ...
-[Action message]
-הודעת פעולה
-[Highlighted message]
-הודעה מודגשת
-[Message typing area]
-אזור כתיבת ההודעה
-[Message background]
-רקע הודעה
-[User list members (online)]
-רשימת חברים של המשתמש (שמחוברים)
-[User list members (away)]
-רשימת חברים של המשתמש (במצב לא נמצא)
-[User list lines]
-קווי רשימת משתמשים
 [Offline]
 לא מחובר
 [Online]
@@ -433,12 +391,8 @@
 תמיד עליון
 [The message send timed out.]
 שליחת ההודעה התארכה יותר מהצפוי.
-[%s is now known as %s]
-%s ידוע כ %s
-[&Join]
-הצטרף
-[&Leave]
-&עזוב
+[User list lines]
+קווי רשימת משתמשים
 [Flash when someone speaks]
 הבהב בזמן שמישהו מדבר
 [Flash when a word is highlighted]
@@ -533,19 +487,5 @@
 בחר תיקייה
 [Popups]
 פופ אפ
-[Message is highlighted]
-הודעה מודגשת
-[User has performed an action]
-משתמש ביצע פעולה
-[User has kicked some other user]
-משתמש העיף משתמש אחר
-[User has changed name]
-משתמש החליף שם
-[User has sent a notice]
-משתמש שלח הערה
-[The topic has been changed]
-נושא השתנה
-[%s kicked %s from %s]
-%s מ %s נבעט %s
 [Status]
 מצב

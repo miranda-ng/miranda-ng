@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Automatically pop up the window when]
@@ -349,52 +349,6 @@ Bejövõ kettõspont
 Kimenõ URL
 [Incoming URL]
 Bejövõ URL
-[Others nicknames]
-Többiek becenevei
-[Your nickname]
-Beceneve
-[User has joined]
-Felhasználó csatlakozott
-[User has left]
-Felhasználó lecsatlakozott
-[User has disconnected]
-Felhasználó kilépett
-[User kicked ...]
-Felhasználó kirúgta ...
-[User is now known as ...]
-A felhasználó új neve ...
-[Notice from user]
-Megjegyzés a felhasználótól
-[Incoming message]
-Bejövõ üzenet
-[Outgoing message]
-Kimenõ üzenet
-[The topic is ...]
-A téma ...
-[Information messages]
-Információs üzenetek
-[User enables status for ...]
-Felhasználó bekapcsolja az állapotot ...
-[User disables status for ...]
-Felhasználó kikapcsolja az állapotot ...
-[Action message]
-Akció üzenet
-[Highlighted message]
-Kiemelt üzenet
-[Message typing area]
-Üzenet beviteli terület
-[Message background]
-Üzenet háttér
-[User list members (online)]
-Felhasználó lista tagok (elérhetõ)
-[User list background]
-Felhasználólista háttér
-[User list members (away)]
-Felhasználó-listatagok (távol)
-[User list lines]
-Felhasználó lista vonalak
-[User list background (selected)]
-Felhasználólista háttér (kijelölt)
 [Offline]
 Kilépett
 [Online]
@@ -447,34 +401,12 @@ Ismeretlen hiba történt.
 Mindig felül
 [The message send timed out.]
 Az üzenetküldés idõtúlépés miatt meghiúsult.
-[Join chat]
-Csatlakozás csevegéshez
-[%s has joined]
-%s csatlakozott
-[You have joined %s]
-Csatlakozott ehhez: %s
-[%s has left]
-%s elment
-[%s has disconnected]
-%s kilépett
-[%s is now known as %s]
-%s új neve: %s
-[You are now known as %s]
-Az új beceneve: %s
-[%s kicked %s]
-%s kirúgta õt: %s
-[Notice from %s]
-Megjegyzés tõle: %s
-[ (set by %s on %s)]
- (beállította: %s, ekkor: %s)
-[ (set by %s)]
- (beállította: %s)
-[<invalid>]
-<érvénytelen>
-[&Join]
-&Csatlakozás
-[&Leave]
-&Kilépés
+[User list background]
+Felhasználólista háttér
+[User list lines]
+Felhasználó lista vonalak
+[User list background (selected)]
+Felhasználólista háttér (kijelölt)
 [Prefix all events with a timestamp]
 Minden esemény elõtt legyen idõbélyeg
 [Only prefix with timestamp if it has changed]
@@ -535,44 +467,6 @@ Tálcán megjelenítendõ ikonok
 Mappa kijelölése
 [Popups]
 Felugrók
-[Message is highlighted]
-Üzenet kiemelve
-[User has performed an action]
-Felhasználó végrehajtott egy akciót
-[User has kicked some other user]
-Felhasználó kirúgott egy másik felhasználót
-[User's status was changed]
-A felhasználó állapota megváltozott
-[User has changed name]
-Felhasználó nevet változtatott
-[User has sent a notice]
-Felhasználó megjegyzést küldött
-[The topic has been changed]
-A téma megváltozott
-[%s wants your attention in %s]
-%s szertné a figyelmedet itt: %s
-[%s speaks in %s]
-%s beszél %s
-[%s has joined %s]
-%s csatlakozott %s
-[%s has left %s]
-%s elment %s
-[%s kicked %s from %s]
-%s kirúgta õt: %s (innen: %s)
-[Topic change in %s]
-Táma változás %s
-[Information in %s]
-Információ %s
-[%s says: %s]
-%s azt mondja, hogy: %s
-[%s has left (%s)]
-%s elment (%s)
-[%s has disconnected (%s)]
-%s kilépett (%s)
-[%s kicked %s (%s)]
-%s kirúgta õt: %s (%s)
-[Notice from %s: %s]
-Megjegyzés %s feladótól: %s
 [Insert a smiley]
 Emotikon beszúrása
 [Make the text bold (CTRL+B)]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -827,8 +827,6 @@ Alapértelmezett üzenetnapló kényszerítése
 Elõzmény++ kényszerítése
 [Force IEView]
 IEView kényszerítése
-[Join chat]
-Csatlakozás csevegéshez
 [Text color]
 Szövegszín
 [%s has joined]
@@ -851,44 +849,6 @@ Megjegyzés %s feladótól:
  (beállította: %s, ekkor: %s)
 [ (set by %s)]
  (beállította: %s)
-[<invalid>]
-<érvénytelen>
-[Timestamp]
-Idõbélyeg
-[Others nicknames]
-Többiek becenevei
-[Your nickname]
-Beceneve
-[User has joined]
-Felhasználó csatlakozott
-[User has left]
-Felhasználó lecsatlakozott
-[User has disconnected]
-Felhasználó kilépett
-[User kicked ...]
-Felhasználó kirúgta ...
-[User is now known as ...]
-A felhasználó új neve ...
-[Notice from user]
-Megjegyzés a felhasználótól
-[The topic is ...]
-A téma ...
-[Information messages]
-Információs üzenetek
-[User enables status for ...]
-Felhasználó bekapcsolja az állapotot ...
-[User disables status for ...]
-Felhasználó kikapcsolja az állapotot ...
-[Action message]
-Akció üzenet
-[Highlighted message]
-Kiemelt üzenet
-[Chat log symbols (Webdings)]
-Csevegés napló szimbólumok (Webdings)
-[User list members (Online)]
-Felhasználó-listatagok (elérhetõ)
-[User list members (away)]
-Felhasználó-listatagok (távol)
 [>> Outgoing misc events]
 >> Kimenõ egyéb esemény
 [<< Incoming misc events]
@@ -1029,48 +989,6 @@ Folytatólagos keresés kiemelés
 Minden fájl
 [Select Folder]
 Mappa kijelölése
-[Message is highlighted]
-Üzenet kiemelve
-[User has performed an action]
-Felhasználó végrehajtott egy akciót
-[User has kicked some other user]
-Felhasználó kirúgott egy másik felhasználót
-[User's status was changed]
-A felhasználó állapota megváltozott
-[User has changed name]
-Felhasználó nevet változtatott
-[User has sent a notice]
-Felhasználó megjegyzést küldött
-[The topic has been changed]
-A téma megváltozott
-[&Join]
-&Csatlakozás
-[&Leave]
-&Kilépés
-[%s wants your attention in %s]
-%s szertné a figyelmedet itt: %s
-[%s speaks in %s]
-%s beszél %s
-[%s has joined %s]
-%s csatlakozott %s
-[%s has left %s]
-%s elment %s
-[%s kicked %s from %s]
-%s kirúgta õt: %s (innen: %s)
-[Notice from %s]
-Megjegyzés tõle: %s
-[Topic change in %s]
-Táma változás %s
-[Information in %s]
-Információ %s
-[%s has left (%s)]
-%s elment (%s)
-[%s has disconnected (%s)]
-%s kilépett (%s)
-[%s kicked %s (%s)]
-%s kirúgta õt: %s (%s)
-[Notice from %s: %s]
-Megjegyzés %s feladótól: %s
 [No word to look up]
 Nincs feloldandó szó
 [Unique ID]

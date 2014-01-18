@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -829,8 +829,6 @@ Varsayılan İleti Günlüğünü Dayat
 History++ Dayat
 [Force IEView]
 IEGörünüm Dayat
-[Join chat]
-Sohbete katıl
 [Text color]
 Yazı Rengi
 [%s has joined]
@@ -853,44 +851,6 @@ Artık %s olarak biliniyorsunuz
 %s tarafından %s saatinde ayarlandı
 [ (set by %s)]
 %s tarafından ayarlandı
-[<invalid>]
-<geçersiz>
-[Timestamp]
-Zaman Damgası
-[Others nicknames]
-Diğerlerinin kısa adları
-[Your nickname]
-Kısa adınız
-[User has joined]
-Kişi katıldı
-[User has left]
-Kişi ayrıldı
-[User has disconnected]
-Kişinin bağlantısı kesildi
-[User kicked ...]
-Kişi tekmelendi ...
-[User is now known as ...]
-Kişi şu şekilde biliniyor ...
-[Notice from user]
-Kullanıcı dikkat çekti
-[The topic is ...]
-Başlık şudur ...
-[Information messages]
-Bilgi iletileri
-[User enables status for ...]
-Kişinin şu durumları etkin ...
-[User disables status for ...]
-Kişinin şu durumları devre dışı ... 
-[Action message]
-Eylem iletisi
-[Highlighted message]
-Vurgulanan ileti
-[Chat log symbols (Webdings)]
-Sohbet günlüğü simgeleri (Webdings)
-[User list members (Online)]
-Kişi listesi üyeleri (Çevrimiçi)
-[User list members (away)]
-Kişi listesi üyeleri (Uzakta)
 [>> Outgoing misc events]
 >> Gönderilen etkinlikler
 [<< Incoming misc events]
@@ -1031,48 +991,6 @@ Artımlı arama vurgusu
 Tüm Dosyalar
 [Select Folder]
 Klasör Seç
-[Message is highlighted]
-İleti vurgulandı
-[User has performed an action]
-Kişi bir eylem yaptı
-[User has kicked some other user]
-Kişi başka birini tekmeledi
-[User's status was changed]
-Kişinin durumu değişti
-[User has changed name]
-Kişi adını değiştirdi
-[User has sent a notice]
-Kişi bir uyarı gönderdi
-[The topic has been changed]
-Başlık değiştirildi
-[&Join]
-&Katıl
-[&Leave]
-Ayrı&l
-[%s wants your attention in %s]
-%s %s içine dikkatinizi çekiyor
-[%s speaks in %s]
-%s %s içinde konuşuyor
-[%s has joined %s]
-%s katıldı %s
-[%s has left %s]
-%s ayrıldı %s
-[%s kicked %s from %s]
-%s tekmelendi %s şuradan %s
-[Notice from %s]
-%s dikkat çekti
-[Topic change in %s]
-Başlık değişti %s
-[Information in %s]
-%s için bilgi
-[%s has left (%s)]
-%s ayrıldı (%s)
-[%s has disconnected (%s)]
-%s bağlantısı kesildi (%s)
-[%s kicked %s (%s)]
-%s tekmelendi %s (%s)
-[Notice from %s: %s]
-%s dikkat çekti: %s
 [No word to look up]
 Aranacak kelime yok
 [Unique ID]

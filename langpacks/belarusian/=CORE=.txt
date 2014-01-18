@@ -1293,74 +1293,18 @@ Miranda
 [Open chat window]
 Адчыніць вакно чата
 ;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
-[%s has joined]
-%s увайшоў
-[You have joined %s]
-Вы прыйшлі на '%s'
-[%s has left]
-%s выйшаў
-[%s has disconnected]
-%s адключыўся
-[%s is now known as %s]
-%s змяніў імя на %s
-[You are now known as %s]
-Зараз вы вядомыя як %s
-[%s kicked %s]
-%s выкінуў %s
-[Notice from %s: ]
-Абвестка ад %s: 
-[The topic is '%s%s']
-Тэма '%s%s'
-[ (set by %s on %s)]
- (усталявана %s %s)
-[ (set by %s)]
- (пастаўлена %s)
-[%s enables '%s' status for %s]
-%s уключае статус '%s' для %s
-[%s disables '%s' status for %s]
-%s выключае статус '%s' для %s
-[<invalid>]
-<няверна>
+;file \src\core\stdchat\src\main.cpp
+[Chat module]
+Плагін чата
+[Message background]
+Фон паведамлення
+[User list background]
+Фон спісу
+[User list lines]
+Колер ліній спісу
+[User list background (selected)]
+Заліванне спісу (абрана)
 ;file \src\core\stdchat\src\options.cpp
-[Others nicknames]
-Іншыя мянушкі
-[Your nickname]
-Ваша мянушка
-[User has joined]
-Кантакт далучыўся
-[User has left]
-Кантакт сышоў
-[User has disconnected]
-Кантакт адключыўся
-[User kicked ...]
-Выспятак
-[User is now known as ...]
-Змена мянушкі
-[Notice from user]
-Абвестка
-[Incoming message]
-Уваходнае паведамленне
-[Outgoing message]
-Выходнае паведамленне
-[The topic is ...]
-Змена тэмы
-[Information messages]
-Інфармацыйныя паведамленні
-[User enables status for ...]
-Устаноўка статусу
-[User disables status for ...]
-Здыманне статусу
-[Action message]
-Дзеянне
-[Highlighted message]
-Падсветленае паведамленне
-[Message typing area]
-Поле набору тэксту
-[User list members (online)]
-Кантакты (далучаны)
-[User list members (away)]
-Кантакты (адсутнічаюць)
 [Use a tabbed interface]
 Выкарыстоўваць укладкі
 [Close tab on double click]
@@ -1517,16 +1461,6 @@ Miranda
 Інфармацыйныя паведамленні
 [Show popup for status changes]
 Змены статусаў
-[Chat module]
-Плагін чата
-[Message background]
-Фон паведамлення
-[User list background]
-Фон спісу
-[User list lines]
-Колер ліній спісу
-[User list background (selected)]
-Заліванне спісу (абрана)
 [Window icon]
 Абразок вакна
 [Bold]
@@ -1623,58 +1557,7 @@ Miranda
 Чат
 [Popups]
 Усплывальныя вокны
-[Message is highlighted]
-Паведамленне вылучана
-[User has performed an action]
-Кантакт здзейсніў дзеянне
-[User has kicked some other user]
-Кантакт штурхнуў іншага
-[User's status was changed]
-Статус кантакта змяніўся
-[User has changed name]
-Кантакт змяніў імя
-[User has sent a notice]
-Кантакт адправіў абвестку
-[The topic has been changed]
-Тэма змянілася
-;file \src\core\stdchat\src\services.cpp
-[&Join]
-Зайсці
 ;file \src\core\stdchat\src\tools.cpp
-[%s wants your attention in %s]
-%s патрабуе Вашай увагі ў %s
-[%s speaks in %s]
-%s кажа ў %s
-[%s has joined %s]
-%s увайшоў у %s
-[%s has left %s]
-%s выйшаў з %s
-[%s kicked %s from %s]
-%s выкінуў %s з %s
-[Notice from %s]
-Абвестка ад %s
-[Topic change in %s]
-Змена тэмы ў %s
-[Information in %s]
-Інфармацыя ў %s
-[%s enables '%s' status for %s in %s]
-%s уключае статус '%s' для %s у %s
-[%s disables '%s' status for %s in %s]
-%s выключае статус '%s' для %s у %s
-[%s says: %s]
-%s кажа: %s
-[%s has left (%s)]
-%s выйшаў (%s)
-[%s has disconnected (%s)]
-%s адключыўся (%s)
-[%s kicked %s (%s)]
-%s выкінуў %s (%s)
-[Notice from %s: %s]
-Абвестка ад %s: %s
-[The topic is '%s']
-Тэма '%s'
-[The topic is '%s' (set by %s)]
-Тэма '%s' (усталявана %s)
 [Look up '%s':]
 Шукаць '%s':
 [No word to look up]
@@ -1962,6 +1845,10 @@ Miranda не здолела загрузіць убудаваную сістэм
 ;file \src\core\stduihist\history.cpp
 [Invalid message]
 Паведамленне пашкоджана
+[Outgoing message]
+Выходнае паведамленне
+[Incoming message]
+Уваходнае паведамленне
 [Outgoing URL]
 Выходныя URL
 [Incoming URL]
@@ -2044,10 +1931,122 @@ URL ад %s
 [Please authorize my request and add me to your contact list.]
 Калі ласка, дазвольце дадаць Вас у мой спіс кантактаў.
 ;file \src\modules\chat\chat_opts.cpp
+[Others nicknames]
+Іншыя мянушкі
+[Your nickname]
+Ваша мянушка
+[User has joined]
+Кантакт далучыўся
+[User has left]
+Кантакт сышоў
+[User has disconnected]
+Кантакт адключыўся
+[User kicked ...]
+Выспятак
+[User is now known as ...]
+Змена мянушкі
+[Notice from user]
+Абвестка
+[The topic is ...]
+Змена тэмы
+[Information messages]
+Інфармацыйныя паведамленні
+[User enables status for ...]
+Устаноўка статусу
+[User disables status for ...]
+Здыманне статусу
+[Action message]
+Дзеянне
+[Highlighted message]
+Падсветленае паведамленне
+[Message typing area]
+Поле набору тэксту
+[User list members (online)]
+Кантакты (далучаны)
+[User list members (away)]
+Кантакты (адсутнічаюць)
+[Message is highlighted]
+Паведамленне вылучана
+[User has performed an action]
+Кантакт здзейсніў дзеянне
+[User has kicked some other user]
+Кантакт штурхнуў іншага
+[User's status was changed]
+Статус кантакта змяніўся
+[User has changed name]
+Кантакт змяніў імя
+[User has sent a notice]
+Кантакт адправіў абвестку
+[The topic has been changed]
+Тэма змянілася
 ;file \src\modules\chat\chat_svc.cpp
+[&Join]
+Зайсці
 ;file \src\modules\chat\clist.cpp
 ;file \src\modules\chat\log.cpp
+[%s has joined]
+%s увайшоў
+[You have joined %s]
+Вы прыйшлі на '%s'
+[%s has left]
+%s выйшаў
+[%s has disconnected]
+%s адключыўся
+[%s is now known as %s]
+%s змяніў імя на %s
+[You are now known as %s]
+Зараз вы вядомыя як %s
+[%s kicked %s]
+%s выкінуў %s
+[Notice from %s: ]
+Абвестка ад %s: 
+[The topic is '%s%s']
+Тэма '%s%s'
+[ (set by %s on %s)]
+ (усталявана %s %s)
+[ (set by %s)]
+ (пастаўлена %s)
+[%s enables '%s' status for %s]
+%s уключае статус '%s' для %s
+[%s disables '%s' status for %s]
+%s выключае статус '%s' для %s
+[<invalid>]
+<няверна>
 ;file \src\modules\chat\tools.cpp
+[%s wants your attention in %s]
+%s патрабуе Вашай увагі ў %s
+[%s speaks in %s]
+%s кажа ў %s
+[%s has joined %s]
+%s увайшоў у %s
+[%s has left %s]
+%s выйшаў з %s
+[%s kicked %s from %s]
+%s выкінуў %s з %s
+[Notice from %s]
+Абвестка ад %s
+[Topic change in %s]
+Змена тэмы ў %s
+[Information in %s]
+Інфармацыя ў %s
+[%s enables '%s' status for %s in %s]
+%s уключае статус '%s' для %s у %s
+[%s disables '%s' status for %s in %s]
+%s выключае статус '%s' для %s у %s
+[%s says: %s]
+%s кажа: %s
+[%s has left (%s)]
+%s выйшаў (%s)
+[%s has disconnected (%s)]
+%s адключыўся (%s)
+[%s kicked %s (%s)]
+%s выкінуў %s (%s)
+[Notice from %s: %s]
+Абвестка ад %s: %s
+[The topic is '%s']
+Тэма '%s'
+[The topic is '%s' (set by %s)]
+Тэма '%s' (усталявана %s)
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]

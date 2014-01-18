@@ -17,10 +17,10 @@ Send informasjon om meldingers font farge/størrelse i meldingene
 Deaktiver alle kontakter som ikke er inkludert i min kontaktliste.
 [Manage server groups]
 Behandle servergrupper
-[Run the following application when new Hotmail arrives]
-Kjør følgende program når det kommer ny Hotmail
 [Allow people on my contact list send messages to mobile device]
 Tillat mine kontakter å sende meldinger til min mobile enhet
+[Run the following application when new Hotmail arrives]
+Kjør følgende program når det kommer ny Hotmail
 [Reset]
 Nullstill
 [Server List Manager]

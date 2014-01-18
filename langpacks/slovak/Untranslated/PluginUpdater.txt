@@ -48,6 +48,7 @@
 [List is empty.]
 [List loading already started!]
 [Will be deleted!]
+[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 [<< Details]
 [No updates found.]

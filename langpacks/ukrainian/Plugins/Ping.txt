@@ -99,10 +99,6 @@ TCP з'єднання
 Хости...
 [PING]
 Пінг
-[Enable All Pings]
-Включити всі пінги
-[Disable All Pings]
-Вимкнути всі пінги
 [All\0*.*\0Text\0*.TXT\0]
 Всі\0*.*\0Текст\0*.TXT\0
 [<none>]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -595,52 +595,6 @@ Statusleisten Kontaktname
 Infoleiste Hintergrund
 [Info bar status message]
 Infoleiste Statusnachricht
-[Others nicknames]
-Andere Nicks
-[Your nickname]
-Ihr Nick
-[User has joined]
-Benutzer ist beigetreten
-[User has left]
-Benutzer hat verlassen
-[User has disconnected]
-Benutzer hat Verbindung getrennt
-[User kicked ...]
-Benutzer kickt ...
-[User is now known as ...]
-Benutzer ist nun bekannt als ...
-[Notice from user]
-Notiz von Benutzer
-[Incoming message]
-Eingehende Nachricht
-[Outgoing message]
-Ausgehende Nachricht
-[The topic is ...]
-Das Thema ist ...
-[Information messages]
-Informationsnachricht
-[User enables status for ...]
-Benutzer aktiviert Status für ...
-[User disables status for ...]
-Benutzer deaktiviert Status für ...
-[Action message]
-Aktionsnachricht
-[Highlighted message]
-Hervorgehobene Nachricht
-[Message typing area]
-Eingabefeld Nachrichten
-[Message background]
-Nachricht Hintergrund
-[User list members (online)]
-Benutzerliste (online)
-[User list background]
-Benutzerliste Hintergrund
-[User list members (away)]
-Benutzerliste (abwesend)
-[User list lines]
-Benutzerliste, Linie
-[User list background (selected)]
-Benutzerliste Hintergrund (ausgewählt)
 [Offline]
 Offline
 [Online]
@@ -703,46 +657,16 @@ Immer im Vordergrund
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Timeout beim Nachrichtenversand
-;file \plugins\Scriver\src\chat\clist.cpp
-[Join chat]
-Chat betreten
-[Open chat window]
-Chatfenster öffnen
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
-[%s has joined]
-%s ist beigetreten
-[You have joined %s]
-Sie haben %s betreten
-[%s has left]
-%s ist gegangen
-[%s has disconnected]
-%s wurde getrennt
-[%s is now known as %s]
-%s ist nun bekannt als %s
-[You are now known as %s]
-Sie sind nun bekannt als %s
-[%s kicked %s]
-%s hat %s gekickt
-[Notice from %s]
-Notiz von %s
-[The topic is '%s%s']
-Das Thema ist '%s%s'
-[ (set by %s on %s)]
- (gesetzt von %s am %s)
-[ (set by %s)]
- (gesetzt von %s)
-[%s enables '%s' status for %s]
-%s aktiviert '%s' Status für %s
-[%s disables '%s' status for %s]
-%s deaktiviert '%s' Status für %s
-[<invalid>]
-<ungültig>
 ;file \plugins\Scriver\src\chat\main.cpp
-[&Join]
-Betreten
-[&Leave]
-Ver&lassen
+[Group chat log background]
+
+[User list background]
+Benutzerliste Hintergrund
+[User list lines]
+Benutzerliste, Linie
+[User list background (selected)]
+Benutzerliste Hintergrund (ausgewählt)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Blinken, wenn jemand schreibt
@@ -914,56 +838,7 @@ Standard-Ereignisse in neuen Chaträumen wenn Ereignisfilter aktiviert ist
 Ordner wählen
 [Popups]
 Popups
-[Message is highlighted]
-Nachricht ist hervorgehoben
-[User has performed an action]
-Benutzer hat eine Aktion ausgeführt
-[User has kicked some other user]
-Benutzer hat einen anderen gekickt
-[User's status was changed]
-Benutzer hat Status gewechselt
-[User has changed name]
-Benutzer hat Nickname gewechselt
-[User has sent a notice]
-Benutzer hat eine Notiz geschickt
-[The topic has been changed]
-Das Thema wurde geändert
-;file \plugins\Scriver\src\chat\services.cpp
-[Server: %s]
-Server: %s
 ;file \plugins\Scriver\src\chat\tools.cpp
-[%s wants your attention in %s]
-%s benötigt Ihre Aufmerksamkeit in %s
-[%s speaks in %s]
-%s spricht in %s
-[%s has joined %s]
-%s hat %s betreien
-[%s has left %s]
-%s hat %s verlassen
-[%s kicked %s from %s]
-%s kickt %s aus %s
-[Topic change in %s]
-Themenänderung in %s
-[Information in %s]
-Informationen in %s
-[%s enables '%s' status for %s in %s]
-%s aktiviert '%s' Status für %s in %s
-[%s disables '%s' status for %s in %s]
-%s deaktiviert '%s' Status für %s in %s
-[%s says: %s]
-%s sagt: %s
-[%s has left (%s)]
-%s verlässt (%s)
-[%s has disconnected (%s)]
-%s wurde getrennt (%s)
-[%s kicked %s (%s)]
-%s kickt %s (%s)
-[Notice from %s: %s]
-Notiz von %s: %s
-[The topic is '%s']
-Das Thema ist '%s'
-[The topic is '%s' (set by %s)]
-Das Thema ist '%s' (gesetzt von %s)
 [&Message %s]
 &Nachricht an %s
 ;file \plugins\Scriver\src\chat\window.cpp

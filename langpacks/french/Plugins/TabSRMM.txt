@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1829,11 +1829,6 @@ Utiliser IEView
 
 [TabSRMM warning message]
 
-;file \plugins\TabSRMM\src\chat\clist.cpp
-[Join chat]
-Joindre un salon
-[Open chat window]
-
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Couleur du texte
@@ -1864,8 +1859,7 @@ Notice de %s:
 
 [%s disables '%s' status for %s]
 
-[<invalid>]
-<invalide>
+;file \plugins\TabSRMM\src\chat\main.cpp
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 
@@ -1928,42 +1922,6 @@ Fond du journal
 
 [Unread background]
 
-[Timestamp]
-Heure
-[Others nicknames]
-Autres pseudos
-[Your nickname]
-Mon pseudo
-[User has joined]
-Usager est entré
-[User has left]
-Usager sortant
-[User has disconnected]
-Usager s'est déconnecté
-[User kicked ...]
-Usager exclu ...
-[User is now known as ...]
-L'usager est devenu ...
-[Notice from user]
-Notice de l'usager
-[The topic is ...]
-Le sujet est ...
-[Information messages]
-Messages d'info
-[User enables status for ...]
-L'usager active l'état pour ...
-[User disables status for ...]
-L'usager désactive l'état pour ...
-[Action message]
-Message d'action
-[Highlighted message]
-Message surligné
-[Chat log symbols (Webdings)]
-
-[User list members (Online)]
-Liste des usagers (en ligne)
-[User list members (away)]
-Liste des usagers (absents)
 [>> Outgoing messages]
 
 [>> Outgoing misc events]
@@ -2206,59 +2164,8 @@ Sélectionnez un répertoire
 
 [Show as text symbols]
 
-[Message is highlighted]
-Message surligné
-[User has performed an action]
-L'usager a effectué une action
-[User has kicked some other user]
-Usager a exclu un autre usager
-[User's status was changed]
-L'état du contact a changé
-[User has changed name]
-Usagé a changé de nom
-[User has sent a notice]
-Usager a envoyé une notice
-[The topic has been changed]
-Le sujet a été changé
-;file \plugins\TabSRMM\src\chat\services.cpp
-[&Join]
-Re&joindre
-[&Leave]
-&Quitter
 ;file \plugins\TabSRMM\src\chat\tools.cpp
-[%s wants your attention in %s]
-%s demande votre attention dans %s
-[%s speaks in %s]
-% cause dans %s
-[%s has joined %s]
-%s a rejoint %s
-[%s has left %s]
-%s est parti de %s
-[%s kicked %s from %s]
-%s a été kické de %s
-[Notice from %s]
-Note de %s
-[Topic change in %s]
-Changement de sujet dans %s
-[Information in %s]
-Informations dans %s
-[%s enables '%s' status for %s in %s]
-
-[%s disables '%s' status for %s in %s]
-
 [%s%s says:%s %s]
-
-[%s has left (%s)]
-%s est parti (%s)
-[%s has disconnected (%s)]
-%s s'est déconnecté (%s)
-[%s kicked %s (%s)]
-%s a kické %s (%s)
-[Notice from %s: %s]
-Notice de %s: %s
-[The topic is '%s']
-
-[The topic is '%s' (set by %s)]
 
 [Look up '%s':]
 

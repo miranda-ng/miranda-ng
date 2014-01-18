@@ -101,10 +101,6 @@ TCP злучэнне
 ;file \plugins\Ping\src\menu.cpp
 [PING]
 Пінг
-[Enable All Pings]
-Уключыць усе пінгі
-[Disable All Pings]
-Выключыць усе пінгі
 ;file \plugins\Ping\src\options.cpp
 [<none>]
 <не>

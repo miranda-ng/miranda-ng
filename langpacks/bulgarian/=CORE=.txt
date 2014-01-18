@@ -1273,74 +1273,20 @@ Miranda
 [Open chat window]
 Отваряне на чат прозорец
 ;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
-[%s has joined]
-%s влезе
-[You have joined %s]
-Вие влязохте в %s
-[%s has left]
-%s излезе
-[%s has disconnected]
-%s излезе от мрежата
-[%s is now known as %s]
-%s смени името си на %s
-[You are now known as %s]
-Сменихте името си на %s
-[%s kicked %s]
-%s изгони %s
-[Notice from %s: ]
-Известие от %s:\s
-[The topic is '%s%s']
-Темата е "%s%s"
-[ (set by %s on %s)]
- (зададена от %s на %s)
-[ (set by %s)]
- (зададена от %s)
-[%s enables '%s' status for %s]
-%s даде статут "%s" на "%s"
-[%s disables '%s' status for %s]
-%s отне статута "%s" на "%s"
-[<invalid>]
-<невалидно>
+;file \src\core\stdchat\src\main.cpp
+[Chat module]
+Чат модул
+[Group chat log background]
+
+[Message background]
+Фон на съобщенията
+[User list background]
+Фон на списъка с прякори
+[User list lines]
+
+[User list background (selected)]
+Фон на списъка с прякори (маркирано)
 ;file \src\core\stdchat\src\options.cpp
-[Others nicknames]
-Други прякори
-[Your nickname]
-Вашият прякор
-[User has joined]
-Влизане на потребител
-[User has left]
-Излизане на потребител
-[User has disconnected]
-Излизане на потребител от мрежата
-[User kicked ...]
-Изгонване на потребител ...
-[User is now known as ...]
-Смяна на потребителско име
-[Notice from user]
-Получаване на известие
-[Incoming message]
-Входящо съобщение
-[Outgoing message]
-Изходящо съобщение
-[The topic is ...]
-Темата е ...
-[Information messages]
-Информационни съобщения
-[User enables status for ...]
-Даване на статут на ...
-[User disables status for ...]
-Отнемане на статута на ...
-[Action message]
-Съобщение за действие
-[Highlighted message]
-Отличено съобщение
-[Message typing area]
-Поле за въвеждане на съобщения
-[User list members (online)]
-Списък с прякори (На линия)
-[User list members (away)]
-Списък с прякори (Отсъстващ)
 [Use a tabbed interface]
 Ползване на табове
 [Close tab on double click]
@@ -1497,16 +1443,6 @@ Miranda
 Показване на popups за информационни съобщения
 [Show popup for status changes]
 Показване на popups при промяна на състояние
-[Chat module]
-Чат модул
-[Message background]
-Фон на съобщенията
-[User list background]
-Фон на списъка с прякори
-[User list lines]
-
-[User list background (selected)]
-Фон на списъка с прякори (маркирано)
 [Window icon]
 Икона на прозореца
 [Bold]
@@ -1603,58 +1539,7 @@ Popups за изобразяване
 
 [Popups]
 РopUps
-[Message is highlighted]
-Отличаване на съобщение
-[User has performed an action]
-Изпълнение на действие
-[User has kicked some other user]
-Изгонване на потребител
-[User's status was changed]
-Промяна на потребителско състояние
-[User has changed name]
-Промяна на потребителски прякор
-[User has sent a notice]
-Получаване на известие
-[The topic has been changed]
-Промяна на тема
-;file \src\core\stdchat\src\services.cpp
-[&Join]
-Влизане
 ;file \src\core\stdchat\src\tools.cpp
-[%s wants your attention in %s]
-%s изисква вниманието ви в %s
-[%s speaks in %s]
-%s говори в %s
-[%s has joined %s]
-%s влезе %s
-[%s has left %s]
-%s излезе %s
-[%s kicked %s from %s]
-%s изгони %s от %s
-[Notice from %s]
-Известие от %s
-[Topic change in %s]
-Промяна на темата в %s
-[Information in %s]
-Информация в %s
-[%s enables '%s' status for %s in %s]
-%s даде статут "%s" на %s в %s
-[%s disables '%s' status for %s in %s]
-%s отне статута "%s" на %s в %s
-[%s says: %s]
-%s каза: %s
-[%s has left (%s)]
-%s излезе (%s)
-[%s has disconnected (%s)]
-%s излезе от мрежата (%s)
-[%s kicked %s (%s)]
-%s изгони %s (%s)
-[Notice from %s: %s]
-Известие от %s: %s
-[The topic is '%s']
-Темата е "%s"
-[The topic is '%s' (set by %s)]
-Темата е "%s" (зададена от %s)
 [Look up '%s':]
 Търсене за "%s":
 [No word to look up]
@@ -1937,6 +1822,10 @@ Popups за изобразяване
 ;file \src\core\stduihist\history.cpp
 [Invalid message]
 Невалидно съобщение
+[Outgoing message]
+Изходящо съобщение
+[Incoming message]
+Входящо съобщение
 [Outgoing URL]
 Изходящ URL адрес
 [Incoming URL]
@@ -2019,10 +1908,122 @@ URL
 [Please authorize my request and add me to your contact list.]
 Моля, приемете моята молба за упълномощаване и ме добавете в списъка си с контакти.
 ;file \src\modules\chat\chat_opts.cpp
+[Others nicknames]
+Други прякори
+[Your nickname]
+Вашият прякор
+[User has joined]
+Влизане на потребител
+[User has left]
+Излизане на потребител
+[User has disconnected]
+Излизане на потребител от мрежата
+[User kicked ...]
+Изгонване на потребител ...
+[User is now known as ...]
+Смяна на потребителско име
+[Notice from user]
+Получаване на известие
+[The topic is ...]
+Темата е ...
+[Information messages]
+Информационни съобщения
+[User enables status for ...]
+Даване на статут на ...
+[User disables status for ...]
+Отнемане на статута на ...
+[Action message]
+Съобщение за действие
+[Highlighted message]
+Отличено съобщение
+[Message typing area]
+Поле за въвеждане на съобщения
+[User list members (online)]
+Списък с прякори (На линия)
+[User list members (away)]
+Списък с прякори (Отсъстващ)
+[Message is highlighted]
+Отличаване на съобщение
+[User has performed an action]
+Изпълнение на действие
+[User has kicked some other user]
+Изгонване на потребител
+[User's status was changed]
+Промяна на потребителско състояние
+[User has changed name]
+Промяна на потребителски прякор
+[User has sent a notice]
+Получаване на известие
+[The topic has been changed]
+Промяна на тема
 ;file \src\modules\chat\chat_svc.cpp
+[&Join]
+Влизане
 ;file \src\modules\chat\clist.cpp
 ;file \src\modules\chat\log.cpp
+[%s has joined]
+%s влезе
+[You have joined %s]
+Вие влязохте в %s
+[%s has left]
+%s излезе
+[%s has disconnected]
+%s излезе от мрежата
+[%s is now known as %s]
+%s смени името си на %s
+[You are now known as %s]
+Сменихте името си на %s
+[%s kicked %s]
+%s изгони %s
+[Notice from %s: ]
+Известие от %s:\s
+[The topic is '%s%s']
+Темата е "%s%s"
+[ (set by %s on %s)]
+ (зададена от %s на %s)
+[ (set by %s)]
+ (зададена от %s)
+[%s enables '%s' status for %s]
+%s даде статут "%s" на "%s"
+[%s disables '%s' status for %s]
+%s отне статута "%s" на "%s"
+[<invalid>]
+<невалидно>
 ;file \src\modules\chat\tools.cpp
+[%s wants your attention in %s]
+%s изисква вниманието ви в %s
+[%s speaks in %s]
+%s говори в %s
+[%s has joined %s]
+%s влезе %s
+[%s has left %s]
+%s излезе %s
+[%s kicked %s from %s]
+%s изгони %s от %s
+[Notice from %s]
+Известие от %s
+[Topic change in %s]
+Промяна на темата в %s
+[Information in %s]
+Информация в %s
+[%s enables '%s' status for %s in %s]
+%s даде статут "%s" на %s в %s
+[%s disables '%s' status for %s in %s]
+%s отне статута "%s" на %s в %s
+[%s says: %s]
+%s каза: %s
+[%s has left (%s)]
+%s излезе (%s)
+[%s has disconnected (%s)]
+%s излезе от мрежата (%s)
+[%s kicked %s (%s)]
+%s изгони %s (%s)
+[Notice from %s: %s]
+Известие от %s: %s
+[The topic is '%s']
+Темата е "%s"
+[The topic is '%s' (set by %s)]
+Темата е "%s" (зададена от %s)
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]

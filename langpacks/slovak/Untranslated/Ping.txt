@@ -39,8 +39,6 @@
 [Options...]
 [Hosts...]
 [PING]
-[Enable All Pings]
-[Disable All Pings]
 [Open log file]
 [All\0*.*\0Text\0*.TXT\0]
 [<all>]

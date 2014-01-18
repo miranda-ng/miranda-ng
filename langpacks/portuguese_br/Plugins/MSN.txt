@@ -17,10 +17,10 @@ Enviar mensagem de informação sobre cor da fonte/tamanho dentro de mensagens
 Desative todos os contatos não incluídos na minha lista de contatos
 [Manage server groups]
 Gerir grupos de servidor
-[Run the following application when new Hotmail arrives]
-Execute o aplicativo quando um novo Hotmail chegar
 [Allow people on my contact list send messages to mobile device]
 Permitir que as pessoas na minha lista de contatos enviem mensagens para o dispositivo móvel
+[Run the following application when new Hotmail arrives]
+Execute o aplicativo quando um novo Hotmail chegar
 [Reset]
 Limpar
 [Server List Manager]

@@ -75,10 +75,6 @@ TCP 连接
 启用所有 pings
 [Hosts...]
 主机...
-[Enable All Pings]
-启用所有 Pings
-[Disable All Pings]
-禁用所有 Pings
 [<none>]
 <无>
 [<all>]

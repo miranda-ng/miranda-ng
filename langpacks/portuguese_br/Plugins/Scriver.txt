@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Automatically pop up the window when]
@@ -339,52 +339,6 @@ Pontos de entrada
 Enviando URL
 [Incoming URL]
 Recebendo URL
-[Others nicknames]
-Outros apelidos
-[Your nickname]
-Seu apelido
-[User has joined]
-O usuário entrou
-[User has left]
-O usuário saíu
-[User has disconnected]
-Usuário desconectado
-[User kicked ...]
-Usuário ignorado ...
-[User is now known as ...]
-O Usuário agora é conhecido como ...
-[Notice from user]
-Notificação do usuário
-[Incoming message]
-Mensagem recebida
-[Outgoing message]
-Enviando mensagem
-[The topic is ...]
-O tópico está ...
-[Information messages]
-Mensagens de informação
-[User enables status for ...]
-O usuário ativa o status para ...
-[User disables status for ...]
-o usuário desativa o status para ...
-[Action message]
-Mensagem de ação
-[Highlighted message]
-Mensagem destacada
-[Message typing area]
-Área de redação da mensagem
-[Message background]
-Mensagem de fundo
-[User list members (online)]
-Membros da lista de usuários (online)
-[User list background]
-Fundo da lista de usuários
-[User list members (away)]
-Membros da lista (Desligados)
-[User list lines]
-Linhas da lista de usuário
-[User list background (selected)]
-Fundo da lista de usuário (selecionada)
 [Online]
 Online
 [Away]
@@ -433,32 +387,12 @@ Ocorreu um erro desconhecido.
 Sempre No Topo
 [The message send timed out.]
 Esgotado o tempo para enviar a mensagem.
-[Join chat]
-Entrar no chat
-[%s has joined]
-%s acabou de entrar
-[You have joined %s]
-Entrou em %s
-[%s has left]
-%s saiu
-[%s has disconnected]
-% desconectado
-[%s is now known as %s]
-%s é agora conhecido como %s
-[You are now known as %s]
-Vocês está conhecido agora com %s
-[%s kicked %s]
-%s agora é conhecido como %s
-[Notice from %s]
-Notificação de %s
-[ (set by %s on %s)]
-(definido por %s sobre %s)
-[ (set by %s)]
-(definido por %s)
-[&Join]
-&Agrupar
-[&Leave]
-&Deixar
+[User list background]
+Fundo da lista de usuários
+[User list lines]
+Linhas da lista de usuário
+[User list background (selected)]
+Fundo da lista de usuário (selecionada)
 [Prefix all events with a timestamp]
 Usar 'timestamp' antecedendo todos os eventos
 [Only prefix with timestamp if it has changed]
@@ -519,44 +453,6 @@ Mostrar ícone na barra de tarefas para mudanças de status
 Eventos padrão para mostrar em novas salas de chat, se o 'filtro de evento' está habilitado
 [Select Folder]
 Selecionar Pasta
-[Message is highlighted]
-A mensagem está destacada
-[User has performed an action]
-O usuário executou uma ação
-[User has kicked some other user]
-O usuário ignorou um outro usuário
-[User's status was changed]
-O status do usuário foi alterado
-[User has changed name]
-O usuário mudou o nome
-[User has sent a notice]
-Usuário enviou uma notícia
-[The topic has been changed]
-O tópico foi mudado
-[%s wants your attention in %s]
-%s pede sua atenção em %s
-[%s speaks in %s]
-%s fala em %s
-[%s has joined %s]
-%s acabou de entrar %s
-[%s has left %s]
-%s deixou o canal %s
-[%s kicked %s from %s]
-%s é agora conhecido como %s para %s
-[Topic change in %s]
-O tópico mudou em %s
-[Information in %s]
-Informação in %s
-[%s says: %s]
-%s diz: %s
-[%s has left (%s)]
-%s saiu (%s)
-[%s has disconnected (%s)]
-% desconectado (%s)
-[%s kicked %s (%s)]
-%s agora é conhecido como %s (%s)
-[Notice from %s: %s]
-Notificação de %s: %s
 [Insert a smiley]
 Inserir smiley
 [Make the text bold (CTRL+B)]

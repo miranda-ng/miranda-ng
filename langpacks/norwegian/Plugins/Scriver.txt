@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Automatically pop up the window when]
@@ -343,50 +343,6 @@ Samtaleområde
 Utgående URL
 [Incoming URL]
 Innkommende URL
-[Others nicknames]
-Andres kallenavn
-[Your nickname]
-Ditt kallenavn
-[User has joined]
-Bruker har joinet
-[User has left]
-Bruker har forlatt
-[User has disconnected]
-Bruker har koblet fra
-[User kicked ...]
-Bruker kicket ...
-[User is now known as ...]
-Bruker er nå kjent som ...
-[Notice from user]
-Varsel fra bruker
-[Incoming message]
-Innkommende melding
-[Outgoing message]
-Utgående melding
-[The topic is ...]
-Overskriften er ...
-[Information messages]
-Informasjonsmeldinger
-[User enables status for ...]
-Bruker aktiverer status for ...
-[User disables status for ...]
-Bruker deaktiverer status for ...
-[Action message]
-Handlingsmelding
-[Highlighted message]
-Markert melding
-[Message typing area]
-Skriveområde for meldinger
-[Message background]
-Meldingsbakgrunn
-[User list members (online)]
-Brukerliste medlemmer (online)
-[User list background]
-Brukerliste Bakgrunn
-[User list members (away)]
-Brukerliste medlemmer (borte)
-[User list lines]
-Brukerliste Linjer
 [Offline]
 Frakoblet
 [Online]
@@ -439,28 +395,10 @@ En ukjent feil har inntruffet
 Alltid På Topp
 [The message send timed out.]
 Meldingssendingen timet ut.
-[%s has joined]
-%s har joinet kanalen
-[You have joined %s]
-Du har joinet %s
-[%s has left]
-%s har forlatt kanalen
-[%s has disconnected]
-%s har koblet fra
-[%s is now known as %s]
-%s er nå kjent som %s
-[You are now known as %s]
-Du er nå kjent som %s
-[%s kicked %s]
-%s kicket %s
-[Notice from %s]
-Varsel fra %s
-[ (set by %s)]
- (satt av %s)
-[&Join]
-&Join
-[&Leave]
-&Forlat
+[User list background]
+Brukerliste Bakgrunn
+[User list lines]
+Brukerliste Linjer
 [Prefix all events with a timestamp]
 Vis tidspunkt foran alle hendelser
 [Only prefix with timestamp if it has changed]
@@ -521,44 +459,6 @@ Ikoner å vise i oppgavelinjen
 Velg Mapper
 [Popups]
 Popups
-[Message is highlighted]
-Melding er markert
-[User has performed an action]
-Bruker har utført en handling
-[User has kicked some other user]
-Bruker har kicket en annen bruker
-[User's status was changed]
-Brukerens status ble endret
-[User has changed name]
-Bruker har endret navn
-[User has sent a notice]
-Bruker har sendt et varsel
-[The topic has been changed]
-Overskriften har blitt forandret
-[%s wants your attention in %s]
-%s ønsker din oppmerksomhet i %s
-[%s speaks in %s]
-%s snakker i %s
-[%s has joined %s]
-%s har joinet %s
-[%s has left %s]
-%s har forlatt %s
-[%s kicked %s from %s]
-%s kicket %s fra %s
-[Topic change in %s]
-Overskriftsendring om %s
-[Information in %s]
-Informasjon i %s
-[%s says: %s]
-%s sier: %s
-[%s has left (%s)]
-%s har forlatt (%s)
-[%s has disconnected (%s)]
-%s har koblet fra (%s)
-[%s kicked %s (%s)]
-%s kicket %s (%s)
-[Notice from %s: %s]
-Varsel fra %s: %s
 [Insert a smiley]
 Sett inn en smiley
 [Make the text bold (CTRL+B)]

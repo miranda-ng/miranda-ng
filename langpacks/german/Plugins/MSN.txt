@@ -26,10 +26,10 @@ Farbe und Größe der Nachrichtenschrift senden
 Alle Kontakte deaktivieren, die nicht in meiner Kontaktliste sind
 [Manage server groups]
 Serverseitige Gruppen verwalten
-[Run the following application when new Hotmail arrives]
-Führe folgendes Programm aus, sobald eine neue Hotmail eintrifft:
 [Allow people on my contact list send messages to mobile device]
 Kontakte auf meiner Kontaktliste dürfen Nachrichten auf mein mobiles Gerät senden
+[Run the following application when new Hotmail arrives]
+Führe folgendes Programm aus, sobald eine neue Hotmail eintrifft:
 [Connection settings]
 Verbindungseinstellungen
 [Direct:]

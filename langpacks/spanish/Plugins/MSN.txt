@@ -26,9 +26,9 @@ Experto
 
 [Manage server groups]
 
-[Run the following application when new Hotmail arrives]
-
 [Allow people on my contact list send messages to mobile device]
+
+[Run the following application when new Hotmail arrives]
 
 [Connection settings]
 

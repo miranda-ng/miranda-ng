@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -595,52 +595,6 @@ Lien reçu
 
 [Info bar status message]
 
-[Others nicknames]
-Autres pseudos
-[Your nickname]
-Mon pseudo
-[User has joined]
-Usager est entré
-[User has left]
-Usager sortant
-[User has disconnected]
-Usager s'est déconnecté
-[User kicked ...]
-Usager exclu ...
-[User is now known as ...]
-L'usager est devenu ...
-[Notice from user]
-Notice de l'usager
-[Incoming message]
-Message reçu
-[Outgoing message]
-Message envoyé
-[The topic is ...]
-Le sujet est ...
-[Information messages]
-Messages d'info
-[User enables status for ...]
-L'usager active l'état pour ...
-[User disables status for ...]
-L'usager désactive l'état pour ...
-[Action message]
-Message d'action
-[Highlighted message]
-Message surligné
-[Message typing area]
-Zone de saisie des messages
-[Message background]
-Fond des messages
-[User list members (online)]
-Liste des usagers (en ligne)
-[User list background]
-Fond de la liste
-[User list members (away)]
-Liste des usagers (absents)
-[User list lines]
-Lignes de la liste
-[User list background (selected)]
-
 [Offline]
 Hors ligne
 [Online]
@@ -703,46 +657,16 @@ Toujours visible
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Délai d'envoi du message expiré
-;file \plugins\Scriver\src\chat\clist.cpp
-[Join chat]
-Joindre un salon
-[Open chat window]
-
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
-[%s has joined]
-%s est arrivé
-[You have joined %s]
-Vous avez rejoint %s
-[%s has left]
-%s est sorti
-[%s has disconnected]
-%s s'est déconnecté
-[%s is now known as %s]
-%s est devenu %s
-[You are now known as %s]
-Vous êtes connu en tant que %s
-[%s kicked %s]
-%s a exclu %s
-[Notice from %s]
-Note de %s
-[The topic is '%s%s']
-
-[ (set by %s on %s)]
-
-[ (set by %s)]
- (réglé par %s)
-[%s enables '%s' status for %s]
-
-[%s disables '%s' status for %s]
-
-[<invalid>]
-<invalide>
 ;file \plugins\Scriver\src\chat\main.cpp
-[&Join]
-Re&joindre
-[&Leave]
-&Quitter
+[Group chat log background]
+
+[User list background]
+Fond de la liste
+[User list lines]
+Lignes de la liste
+[User list background (selected)]
+
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 
@@ -914,56 +838,7 @@ Apparence
 Sélectionnez un répertoire
 [Popups]
 Popups
-[Message is highlighted]
-Message surligné
-[User has performed an action]
-L'usager a effectué une action
-[User has kicked some other user]
-Usager a exclu un autre usager
-[User's status was changed]
-L'état du contact a changé
-[User has changed name]
-Usagé a changé de nom
-[User has sent a notice]
-Usager a envoyé une notice
-[The topic has been changed]
-Le sujet a été changé
-;file \plugins\Scriver\src\chat\services.cpp
-[Server: %s]
-Serveur: %s
 ;file \plugins\Scriver\src\chat\tools.cpp
-[%s wants your attention in %s]
-%s demande votre attention dans %s
-[%s speaks in %s]
-% cause dans %s
-[%s has joined %s]
-%s a rejoint %s
-[%s has left %s]
-%s est parti de %s
-[%s kicked %s from %s]
-%s a été kické de %s
-[Topic change in %s]
-Changement de sujet dans %s
-[Information in %s]
-Informations dans %s
-[%s enables '%s' status for %s in %s]
-
-[%s disables '%s' status for %s in %s]
-
-[%s says: %s]
-%s dit: %s
-[%s has left (%s)]
-%s est parti (%s)
-[%s has disconnected (%s)]
-%s s'est déconnecté (%s)
-[%s kicked %s (%s)]
-%s a kické %s (%s)
-[Notice from %s: %s]
-Notice de %s: %s
-[The topic is '%s']
-
-[The topic is '%s' (set by %s)]
-
 [&Message %s]
 
 ;file \plugins\Scriver\src\chat\window.cpp

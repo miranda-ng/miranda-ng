@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Send message on 'Enter']
@@ -171,20 +171,6 @@ Sisendteate koolon
 Teate ala
 [Incoming URL]
 Sisendteate URL
-[Your nickname]
-Sinu hüüdnimi
-[User has joined]
-Kasutas ühines
-[User has left]
-Kasutaja lahkus
-[Incoming message]
-Sisenev teade
-[Outgoing message]
-Väljundteade
-[Message background]
-Teate taust
-[User list background]
-Kasutajanimekirja taust
 [Offline]
 Väljas
 [Online]
@@ -217,10 +203,8 @@ Trükkimisest teavitamine
 Väljuv
 [Always On Top]
 Alati pealmine
-[&Join]
-&Ühine
-[&Leave]
-Lahku
+[User list background]
+Kasutajanimekirja taust
 [Show users joining]
 Kuva kasutajate ühinemised
 [Show messages]
@@ -233,8 +217,6 @@ Kuva kasutajate lahkumised
 Kuva kasutajate olekute muutused
 [Select Folder]
 Vali kaust
-[%s says: %s]
-%s ütles: %s
 [Make the text bold (CTRL+B)]
 Tee tekst rasvaseks (CTRL+B)
 [Make the text italicized (CTRL+I)]

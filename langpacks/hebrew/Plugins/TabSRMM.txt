@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -537,40 +537,6 @@ IEView כפה
 %s ידוע כ %s
 [Log background]
 רקע יומן
-[Timestamp]
-חותמת זמן
-[Others nicknames]
-כינויים של אחרים
-[Your nickname]
-הכינוי שלך
-[User has joined]
-משתמש הצטרף
-[User has left]
-משתמש עזב
-[User has disconnected]
-משתמש התנתק
-[User kicked ...]
-...משתמש הועף
-[User is now known as ...]
-...המשתמש ידוע כעת כ
-[Notice from user]
-הערה ממשתמש
-[The topic is ...]
-...הנושא הוא
-[Information messages]
-הודעות מידע
-[User enables status for ...]
-משתמש אפשר מצב בשביל ...
-[User disables status for ...]
-משתמש ביטל מצב בשביל ...
-[Action message]
-הודעת פעולה
-[Highlighted message]
-הודעה מודגשת
-[User list members (Online)]
-רשימת חברים של המשתמש (שמחוברים)
-[User list members (away)]
-רשימת חברים של המשתמש (במצב לא נמצא)
 [>> Outgoing misc events]
 << אירועים יוצאים
 [<< Incoming misc events]
@@ -661,24 +627,6 @@ IEView כפה
 כל הקבצים
 [Select Folder]
 בחר תיקייה
-[Message is highlighted]
-הודעה מודגשת
-[User has performed an action]
-משתמש ביצע פעולה
-[User has kicked some other user]
-משתמש העיף משתמש אחר
-[User has changed name]
-משתמש החליף שם
-[User has sent a notice]
-משתמש שלח הערה
-[The topic has been changed]
-נושא השתנה
-[&Join]
-הצטרף
-[&Leave]
-&עזוב
-[%s kicked %s from %s]
-%s מ %s נבעט %s
 [Nick]
 כינוי
 [minutes]

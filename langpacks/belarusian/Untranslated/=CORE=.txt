@@ -1,1 +1,2 @@
-﻿[OK (%d)]
+﻿[Group chat log background]
+[OK (%d)]

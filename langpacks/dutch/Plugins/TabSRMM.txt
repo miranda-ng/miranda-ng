@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -209,40 +209,6 @@ Tekst kleur
  (ingesteld door %s)
 [Log background]
 Log achtergrond
-[Timestamp]
-Tijdstempel
-[Others nicknames]
-Bijnamen van anderen
-[Your nickname]
-Uw bijnaam
-[User has joined]
-Gebruiker komt binnen
-[User has left]
-Gebruiker is weg gegaan
-[User has disconnected]
-Gebruiker heeft de verbinding verbroken
-[User kicked ...]
-Gebruiker weggetrapt ...
-[User is now known as ...]
-Gebruiker is nu bekend als ...
-[Notice from user]
-Melding van gebruiker
-[The topic is ...]
-Het onderwerp is ...
-[Information messages]
-Informatie berichten
-[User enables status for ...]
-Gebruiker schakeld status in voor ...
-[User disables status for ...]
-Gebruiker schakeld status uit voor ...
-[Action message]
-Actie bericht
-[Highlighted message]
-Opgelichte berichten
-[User list members (Online)]
-Gebruikerlijst leden (Online)
-[User list members (away)]
-Gebruikerlijst leden (afwezig)
 [Protocol]
 Protocol
 [Flash window when someone speaks]
@@ -275,44 +241,6 @@ Gebruikerslijst achtergrond
 Alle bestanden
 [Select Folder]
 Folder selecteren
-[Message is highlighted]
-Bericht is opgelicht
-[User has performed an action]
-Gebruiker heeft een actie gedaan
-[User has kicked some other user]
-Gebruiker heeft een andere gebruiker weggetrapt
-[User has changed name]
-Gebruiker heeft naam gewijzigd
-[User has sent a notice]
-Gebruiker heeft een melding gestuurd
-[The topic has been changed]
-Het onderwerp is veranderd
-[&Join]
-Binnengaan
-[&Leave]
-&Laten staan
-[%s wants your attention in %s]
-%s heeft uw aandacht nodig in %s
-[%s speaks in %s]
-%s spreekt in %s
-[%s has joined %s]
-%s komt binnen in %s
-[%s has left %s]
-%s is weggegaan uit %s
-[%s kicked %s from %s]
-%s heeft %s weggetrapt van %s
-[Notice from %s]
-Melding van %s
-[Topic change in %s]
-Onderwerp wijziging in %s
-[Information in %s]
-Informatie in %s
-[%s has disconnected (%s)]
-%s heeft de verbinding verbroken (%s)
-[%s kicked %s (%s)]
-%s heeft %s weggetrapt (%s)
-[Notice from %s: %s]
-Melding van %s: %s
 [No word to look up]
 Geen woord om op te zoeken
 [Nick]

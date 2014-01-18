@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -567,52 +567,6 @@ URL атрыманы
 Фон інфопанэлі
 [Info bar status message]
 Інфа-Панэль: статуснае паведамленне
-[Others nicknames]
-Іншыя мянушкі
-[Your nickname]
-Ваша мянушка
-[User has joined]
-Кантакт далучыўся
-[User has left]
-Кантакт сышоў
-[User has disconnected]
-Кантакт адключыўся
-[User kicked ...]
-Выспятак
-[User is now known as ...]
-Змена мянушкі
-[Notice from user]
-Абвестка
-[Incoming message]
-Уваходнае паведамленне
-[Outgoing message]
-Выходнае паведамленне
-[The topic is ...]
-Змена тэмы
-[Information messages]
-Інфармацыйныя паведамленні
-[User enables status for ...]
-Устаноўка статусу
-[User disables status for ...]
-Здыманне статусу
-[Action message]
-Дзеянне
-[Highlighted message]
-Падсветленае паведамленне
-[Message typing area]
-Поле набору тэксту
-[Message background]
-Фон поля ўводу
-[User list members (online)]
-Удзельнікі спісу (далучаныя)
-[User list background]
-Фон спісу кантактаў
-[User list members (away)]
-Кантакты (адсутнічаюць)
-[User list lines]
-Лініі спісу
-[User list background (selected)]
-Фон спісу (абрана)
 [Offline]
 Адключаны
 [Online]
@@ -675,46 +629,14 @@ Miranda не змагла загрузіць убудаваную сістэму
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Затрымка адпраўкі паведамлення
-;file \plugins\Scriver\src\chat\clist.cpp
-[Join chat]
-Увайсці ў чат
-[Open chat window]
-Адчыніць вакно чата
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
-[%s has joined]
-%s увайшоў
-[You have joined %s]
-Вы прыйшлі на '%s'
-[%s has left]
-%s выйшаў
-[%s has disconnected]
-%s адключыўся
-[%s is now known as %s]
-%s змяніў імя на %s
-[You are now known as %s]
-Зараз вы вядомыя як %s
-[%s kicked %s]
-%s выкінуў %s
-[Notice from %s]
-Абвестка ад %s
-[The topic is '%s%s']
-Тэма '%s%s'
-[ (set by %s on %s)]
- (усталявана %s %s)
-[ (set by %s)]
- (пастаўлена %s)
-[%s enables '%s' status for %s]
-%s уключае статус '%s' для %s
-[%s disables '%s' status for %s]
-%s выключае статус '%s' для %s
-[<invalid>]
-<няверна>
 ;file \plugins\Scriver\src\chat\main.cpp
-[&Join]
-Зайсці
-[&Leave]
-&Пакінуць
+[User list background]
+Фон спісу кантактаў
+[User list lines]
+Лініі спісу
+[User list background (selected)]
+Фон спісу (абрана)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Міргаць, калі хтосьці кажа
@@ -884,56 +806,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Абраць тэчку
 [Popups]
 Усплывальныя вокны
-[Message is highlighted]
-Паведамленне вылучана
-[User has performed an action]
-Кантакт здзейсніў дзеянне
-[User has kicked some other user]
-Кантакт штурхнуў іншага
-[User's status was changed]
-Статус карыстача змяніўся
-[User has changed name]
-Кантакт змяніў імя
-[User has sent a notice]
-Кантакт адправіў абвестку
-[The topic has been changed]
-Тэма змянілася
-;file \plugins\Scriver\src\chat\services.cpp
-[Server: %s]
-Сервер: %s
 ;file \plugins\Scriver\src\chat\tools.cpp
-[%s wants your attention in %s]
-%s патрабуе Вашай увагі ў %s
-[%s speaks in %s]
-%s кажа ў %s
-[%s has joined %s]
-%s увайшоў у %s
-[%s has left %s]
-%s выйшаў з %s
-[%s kicked %s from %s]
-%s выкінуў %s з %s
-[Topic change in %s]
-Змена тэмы ў %s
-[Information in %s]
-Інфармацыя ў %s
-[%s enables '%s' status for %s in %s]
-%s уключае статус '%s' для %s у %s
-[%s disables '%s' status for %s in %s]
-%s выключае статус '%s' для %s у %s
-[%s says: %s]
-%s кажа: %s
-[%s has left (%s)]
-%s выйшаў (%s)
-[%s has disconnected (%s)]
-%s адключыўся (%s)
-[%s kicked %s (%s)]
-%s выкінуў %s (%s)
-[Notice from %s: %s]
-Абвестка ад %s: %s
-[The topic is '%s']
-Тэма '%s'
-[The topic is '%s' (set by %s)]
-Тэма '%s' (усталявана %s)
 [&Message %s]
 Паведамленне %s
 ;file \plugins\Scriver\src\chat\window.cpp

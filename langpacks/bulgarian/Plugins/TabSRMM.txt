@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1818,11 +1818,6 @@ TabSRMM съобщение (%s)
 
 [TabSRMM warning message]
 TabSRMM предупреждение
-;file \plugins\TabSRMM\src\chat\clist.cpp
-[Join chat]
-Влизане в чата
-[Open chat window]
-Отваряне на чат прозорец
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Цвят на текста
@@ -1853,8 +1848,7 @@ TabSRMM предупреждение
 %s даде статут "%s" на "%s"
 [%s disables '%s' status for %s]
 %s отне статута "%s" на "%s"
-[<invalid>]
-<невалидно>
+;file \plugins\TabSRMM\src\chat\main.cpp
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 Добавяне в списъка за отличаване
@@ -1917,42 +1911,6 @@ TabSRMM предупреждение
 Фон на посочения таб
 [Unread background]
 Фон на таб с непрочетени събития
-[Timestamp]
-Времева марка
-[Others nicknames]
-Други прякори
-[Your nickname]
-Вашият прякор
-[User has joined]
-Влизане на потребител
-[User has left]
-Излизане на потребител
-[User has disconnected]
-Излизане на потребител от мрежата
-[User kicked ...]
-Изгонване на потребител ...
-[User is now known as ...]
-Смяна на потребителско име
-[Notice from user]
-Получаване на известие
-[The topic is ...]
-Темата е ...
-[Information messages]
-Информационни съобщения
-[User enables status for ...]
-Даване на статут на ...
-[User disables status for ...]
-Отнемане на статута на ...
-[Action message]
-Съобщение за действие
-[Highlighted message]
-Отличено съобщение
-[Chat log symbols (Webdings)]
-
-[User list members (Online)]
-Списък с прякори (На линия)
-[User list members (away)]
-Списък с прякори (Отсъстващ)
 [>> Outgoing messages]
 >> Изходящи съобщения
 [>> Outgoing misc events]
@@ -2195,60 +2153,9 @@ TabSRMM предупреждение
 Икона
 [Show as text symbols]
 Текстови символ
-[Message is highlighted]
-Отличаване на съобщение
-[User has performed an action]
-Изпълнение на действие
-[User has kicked some other user]
-Изгонване на потребител
-[User's status was changed]
-Промяна на потребителско състояние
-[User has changed name]
-Промяна на потребителски прякор
-[User has sent a notice]
-Получаване на известие
-[The topic has been changed]
-Промяна на тема
-;file \plugins\TabSRMM\src\chat\services.cpp
-[&Join]
-Влизане
-[&Leave]
-Излизане
 ;file \plugins\TabSRMM\src\chat\tools.cpp
-[%s wants your attention in %s]
-%s изисква вниманието ви в %s
-[%s speaks in %s]
-%s говори в %s
-[%s has joined %s]
-%s влезе %s
-[%s has left %s]
-%s излезе %s
-[%s kicked %s from %s]
-%s изгони %s от %s
-[Notice from %s]
-Известие от %s
-[Topic change in %s]
-Промяна на темата в %s
-[Information in %s]
-Информация в %s
-[%s enables '%s' status for %s in %s]
-%s даде статут "%s" на %s в %s
-[%s disables '%s' status for %s in %s]
-%s отне статута "%s" на %s в %s
 [%s%s says:%s %s]
 %s%s каза:%s %s
-[%s has left (%s)]
-%s излезе (%s)
-[%s has disconnected (%s)]
-%s излезе от мрежата (%s)
-[%s kicked %s (%s)]
-%s изгони %s (%s)
-[Notice from %s: %s]
-Известие от %s: %s
-[The topic is '%s']
-Темата е "%s"
-[The topic is '%s' (set by %s)]
-Темата е "%s" (зададена от %s)
 [Look up '%s':]
 Търсене за "%s":
 [No word to look up]

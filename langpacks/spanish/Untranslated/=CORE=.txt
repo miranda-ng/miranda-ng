@@ -1,4 +1,5 @@
-﻿[Authorization request from %s%s: %s]
+﻿[Group chat log background]
+[Authorization request from %s%s: %s]
 [You were added by %s%s]
 [Contacts: ]
 [Status menu]

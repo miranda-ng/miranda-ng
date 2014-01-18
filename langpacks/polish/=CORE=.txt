@@ -1302,6 +1302,8 @@ Otwórz okno czatu
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
 Moduł czatu
+[Group chat log background]
+
 [Message background]
 Tło wiadomości
 [User list background]

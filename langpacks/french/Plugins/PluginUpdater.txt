@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.6
+;  Version: 0.1.1.7
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -128,6 +128,8 @@ Liste vide.
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Sera effacé!
+[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
+
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Mise à jour accomplie. Appuyer sur Oui pour redémarrer Miranda maintenant.
 [<< Details]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -121,7 +121,5 @@
 모든 파일
 [Select Folder]
 폴더 지정
-[&Leave]
-&L 남겨두기
 [Nick]
 대화명

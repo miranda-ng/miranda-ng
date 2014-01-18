@@ -791,8 +791,6 @@ TabSRMM: Набирає
 * Символи (вихідні)
 [Horizontal Grid Lines]
 Горизонтальні лінії сітки журналу
-[Chat log symbols (Webdings)]
-Символи в чаті (шрифт Webdings)
 [Channel operators]
 Адміністратори
 [Half operators]
@@ -823,8 +821,6 @@ TabSRMM: Набирає
 Закрити контейнер\tAlt+F4
 [&View]
 &Вигляд
-[&Leave]
-&Вийти
 [Show Menu Bar]
 Показувати меню
 [Show Status Bar]

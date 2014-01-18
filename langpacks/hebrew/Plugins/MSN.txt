@@ -21,10 +21,10 @@
 בטל כל המשתמשים שלא כלום ברשימת המשתמשים שלי
 [Manage server groups]
 נהל קבוצות שרת
-[Run the following application when new Hotmail arrives]
-הרץ את התוכנה הבאה כאשר דואר חדש מגיע
 [Allow people on my contact list send messages to mobile device]
 אפשר לאנשים ברשימת המשתמשים שלי לשלוח הודעות למכשיר נייד
+[Run the following application when new Hotmail arrives]
+הרץ את התוכנה הבאה כאשר דואר חדש מגיע
 [Connection settings]
 הגדרות חיבור
 [Reset]

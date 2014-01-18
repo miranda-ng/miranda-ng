@@ -26,10 +26,10 @@
 Изключване на контактите, които не са в списъка с контакти
 [Manage server groups]
 Управление групите на сървъра
-[Run the following application when new Hotmail arrives]
-Изпълнение на следната програма при пристигане на ново писмо в Hotmail
 [Allow people on my contact list send messages to mobile device]
 Изпращане на съобщ. до мобилното ми устройство от хора в списъка с контакти
+[Run the following application when new Hotmail arrives]
+Изпълнение на следната програма при пристигане на ново писмо в Hotmail
 [Connection settings]
 Настройки за свързване
 [Direct:]

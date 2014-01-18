@@ -17,10 +17,10 @@ Becenév
 Összes partner tiltása, aki nem szerepel a kapcsolati listámon
 [Manage server groups]
 Szerver csoportok kezelése
-[Run the following application when new Hotmail arrives]
-A következõ alkalmazást futtassa új Hotmail érkezésekor
 [Allow people on my contact list send messages to mobile device]
 A kapcsolati listámon szereplõ emberek küldhetnek üzenetet mobil eszközre
+[Run the following application when new Hotmail arrives]
+A következõ alkalmazást futtassa új Hotmail érkezésekor
 [Reset]
 Alapraállítás
 [Server List Manager]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Send message on 'Enter']
@@ -95,8 +95,6 @@ Prijať súbor
 Zaznamenať udalosti
 [Incoming URL]
 Prichádzajúca URL
-[Incoming message]
-Prichádzajúca správa
 [Offline]
 Odpojený
 [Online]
@@ -123,8 +121,6 @@ Telefonuje
 Správa od %s
 [Always On Top]
 Vždy navrchu
-[&Leave]
-Opustiť
 [Select Folder]
 Vyber zložku
 [Italic]

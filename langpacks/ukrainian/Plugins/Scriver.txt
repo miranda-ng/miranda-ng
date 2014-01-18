@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -567,50 +567,6 @@ Unicode вимкнено
 Фон інфо-панелі
 [Info bar status message]
 Інфо-Панель: статусне повідомлення
-[Others nicknames]
-Інші псевдоніми
-[Your nickname]
-Ваш псевдонім
-[User has joined]
-Користувач приєднався
-[User has left]
-Користувач пішов
-[User has disconnected]
-Користувач відключився
-[User kicked ...]
-Стусан
-[User is now known as ...]
-Зміна псевдоніма
-[Notice from user]
-Повідомлення
-[Incoming message]
-Вхідне повідомлення
-[Outgoing message]
-Вихідне повідомлення
-[The topic is ...]
-Зміна теми
-[Information messages]
-Інформаційні повідомлення
-[User enables status for ...]
-Встановлення статусу
-[User disables status for ...]
-Зняття статусу
-[Action message]
-Дія
-[Highlighted message]
-Підсвічене повідомлення
-[Message typing area]
-Поле набору тексту
-[Message background]
-Фон поля введення
-[User list members (online)]
-Члени списку (в мережі)
-[User list members (away)]
-Користувачі (відсутні)
-[User list lines]
-Лінії списку
-[User list background (selected)]
-Фон списку (вибране)
 [Offline]
 Не в мережі
 [Online]
@@ -669,42 +625,10 @@ Miranda не змогла завантажити вбудовану систем
 Поверх всіх вікон
 [The message send timed out.]
 Таймаут відправлення повідомлення
-[Join chat]
-Увійти в чат
-[Open chat window]
-Відкрити вікно чату
-[%s has joined]
-%s увійшов
-[You have joined %s]
-Ви прийшли на '%s'
-[%s has left]
-%s вийшов
-[%s has disconnected]
-%s відключився
-[%s is now known as %s]
-%s змінив ім'я на %s
-[You are now known as %s]
-Тепер ви відомі як %s
-[%s kicked %s]
-%s викинув %s
-[Notice from %s]
-Повідомлення від %s
-[The topic is '%s%s']
-Тема '%s%s'
-[ (set by %s on %s)]
-(встановлена %s на %s)
-[ (set by %s)]
-(поставлена %s)
-[%s enables '%s' status for %s]
-%s включає статус '%s' для %s
-[%s disables '%s' status for %s]
-%s вимикає статус '%s' для %s
-[<invalid>]
-<недійсне>
-[&Join]
-Зайти
-[&Leave]
-&Залишити
+[User list lines]
+Лінії списку
+[User list background (selected)]
+Фон списку (вибране)
 [Flash when someone speaks]
 Блимати, коли хтось говорить
 [Flash when a word is highlighted]
@@ -875,54 +799,6 @@ ID поточного контакту (якщо він визначений). �
 Вибрати папку
 [Popups]
 Спливаючі вікна
-[Message is highlighted]
-Повідомлення виділено
-[User has an action performed]
-Користувач здійснив дію
-[User has kicked some other user]
-Користувач вигнав іншого
-[User's status was changed]
-Статус користувача змінився
-[User has changed name]
-Користувач змінив ім'я
-[User has sent a notice]
-Відправив користувач повідомлення
-[The topic has been changed]
-Тема змінилася
-[Server: %s]
-Сервер: %s
-[%s wants your attention in %s]
-%s вимагає Вашої уваги %s
-[%s speaks in %s]
-%s говорить %s
-[%s has joined %s]
-%s увійшов у %s
-[%s has left %s]
-%s вийшов з %s
-[%s kicked %s from %s]
-%s викинув %s з %s
-[Topic change in %s]
-Зміна теми у %s
-[Information in %s]
-Інформація в %s
-[%s enables '%s' status for %s in %s]
-%s включає статус '%s' для %s у %s
-[%s disables '%s' status for %s in %s]
-%s вимикає статус '%s' для %s у %s
-[%s says: %s]
-%s каже: %s
-[%s has left (%s)]
-%s вийшов (%s)
-[%s has disconnected (%s)]
-%s відключився (%s)
-[%s kicked %s (%s)]
-%s викинув %s (%s)
-[Notice from %s: %s]
-Повідомлення від %s: %s
-[The topic is '%s']
-Тема '%s'
-[The topic is '%s' (set by %s)]
-Тема '%s' (встановлена %s)
 [&Message %s]
 &Повідомлення %s
 [Italic]

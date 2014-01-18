@@ -21,10 +21,10 @@ Yeni bir Windows Live hesabı oluşturun
 Kişi listemde bulunmayan tüm kişileri devre dışı bırak
 [Manage server groups]
 Sunucu gruplarını yönet
-[Run the following application when new Hotmail arrives]
-Yeni Hotmail geldiğinde şu uygulamayı çalıştır
 [Allow people on my contact list send messages to mobile device]
 Kişi listemdekilerin cep telefonuma ileti göndermelerine izin ver
+[Run the following application when new Hotmail arrives]
+Yeni Hotmail geldiğinde şu uygulamayı çalıştır
 [Reset]
 Sıfırla
 [Server List Manager]

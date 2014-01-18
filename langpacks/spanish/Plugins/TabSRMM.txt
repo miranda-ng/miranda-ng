@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1831,11 +1831,6 @@ El contacto dejó de escribir
 
 [TabSRMM warning message]
 
-;file \plugins\TabSRMM\src\chat\clist.cpp
-[Join chat]
-Entrar al chat
-[Open chat window]
-Abrir ventana de chat
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Color de texto
@@ -1866,8 +1861,7 @@ El tema es '%s%s'
 %s habilitar '%s' de estado para %s
 [%s disables '%s' status for %s]
 %s deshabilitar '%s' de estado para %s
-[<invalid>]
-<inválido>
+;file \plugins\TabSRMM\src\chat\main.cpp
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 
@@ -1930,42 +1924,6 @@ El tema es '%s%s'
 
 [Unread background]
 
-[Timestamp]
-Marca de tiempo
-[Others nicknames]
-Otros apodos
-[Your nickname]
-Su apodo
-[User has joined]
-El usuario se ha unido
-[User has left]
-El usuario se ha salido
-[User has disconnected]
-El usuario se ha desconectado
-[User kicked ...]
-usuario sacado...
-[User is now known as ...]
-El usuario está ahora conocido como...
-[Notice from user]
-Aviso del usuario
-[The topic is ...]
-El tema es...
-[Information messages]
-Mensajes de información
-[User enables status for ...]
-El usuario permite el estado de...
-[User disables status for ...]
-El usuario desactiva el estado de...
-[Action message]
-Mensaje de acción
-[Highlighted message]
-Mensaje seleccionado
-[Chat log symbols (Webdings)]
-
-[User list members (Online)]
-Miembros de la lista de usuarios (En línea)
-[User list members (away)]
-Miembros de la lista de usuarios (fuera)
 [>> Outgoing messages]
 
 [>> Outgoing misc events]
@@ -2208,60 +2166,9 @@ Seleccionar carpeta
 
 [Show as text symbols]
 
-[Message is highlighted]
-El mensaje esta resaltado
-[User has performed an action]
-El usuario ha realizado una acción
-[User has kicked some other user]
-El usuario ha echado algún otro usuario
-[User's status was changed]
-Se ha cambiado el estado del usuario
-[User has changed name]
-El usuario ha cambiado de nombre
-[User has sent a notice]
-El usuario ha enviado una notificación
-[The topic has been changed]
-El tema ha sido cambiado
-;file \plugins\TabSRMM\src\chat\services.cpp
-[&Join]
-&Entrar
-[&Leave]
-&Dejar
 ;file \plugins\TabSRMM\src\chat\tools.cpp
-[%s wants your attention in %s]
-%s quiere su atención en %s
-[%s speaks in %s]
-%s habla en %s
-[%s has joined %s]
-%s se ha unido %s
-[%s has left %s]
-%s ha dejado %s
-[%s kicked %s from %s]
-%s echado %s de %s
-[Notice from %s]
-Aviso de %s
-[Topic change in %s]
-Tema cambiado en %s
-[Information in %s]
-Información en %s
-[%s enables '%s' status for %s in %s]
-%s habilita '%s' de estado para %s en %s
-[%s disables '%s' status for %s in %s]
-%s deshabilita '%s' de estado para %s en %s
 [%s%s says:%s %s]
 
-[%s has left (%s)]
-%s ha dejado (%s)
-[%s has disconnected (%s)]
-%s se ha desconectado (%s)
-[%s kicked %s (%s)]
-%s echado %s (%s)
-[Notice from %s: %s]
-Aviso de %s: %s
-[The topic is '%s']
-El tema es '%s'
-[The topic is '%s' (set by %s)]
-El tema es '%s' (establecido por %s)
 [Look up '%s':]
 Buscar '%s':
 [No word to look up]

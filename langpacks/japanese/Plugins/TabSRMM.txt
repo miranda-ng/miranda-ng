@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
@@ -1417,10 +1417,6 @@ Aero プレビュー警告 | あなたは Aero プレビュー機能が有効な
 テーマの読み込み中 | 読み込み中の色とフォントテーマはあなたのスキンで定義されている設定を上書きします\n\n続行しますか ?
 [TabSRMM warning message]
 TabSRMM 警告メッセージ
-[Join chat]
-チャットに参加
-[Open chat window]
-チャットウィンドウを開く
 [Text color]
 テキスト色
 [%s has joined]
@@ -1443,8 +1439,6 @@ TabSRMM 警告メッセージ
 ( %s を %s に設定)
 [ (set by %s)]
 ( %s に設定)
-[<invalid>]
-< 不正 >
 [Add user to highlight list]
 強調表示リストにユーザーを追加
 [Edit user highlight list]
@@ -1493,42 +1487,6 @@ Aero 光彩効果
 ホバー背景
 [Unread background]
 未読背景
-[Timestamp]
-タイムスタンプ
-[Others nicknames]
-その他のニックネーム
-[Your nickname]
-ニックネーム
-[User has joined]
-ユーザーは参加しました
-[User has left]
-ユーザーは離席しました
-[User has disconnected]
-ユーザーは切断しました
-[User kicked ...]
-ユーザーは排除されました ...
-[User is now known as ...]
-ユーザーの現在の名称は次の通りです ...
-[Notice from user]
-ユーザーからの通知
-[The topic is ...]
-トピックは ...
-[Information messages]
-メッセージ情報
-[User enables status for ...]
-ユーザーは次のステータスを有効にしました ...
-[User disables status for ...]
-ユーザーは次のステータスを無効にしました ...
-[Action message]
-アクションメッセージ
-[Highlighted message]
-強調表示されたメッセージ
-[Chat log symbols (Webdings)]
-チャットログの記号 ( Webdings )
-[User list members (Online)]
-ユーザーリストメンバー ( オンライン )
-[User list members (away)]
-ユーザーリストメンバー ( 離席中 )
 [>> Outgoing misc events]
 >> 発信したその他のイベント
 [<< Incoming misc events]
@@ -1705,50 +1663,8 @@ Voiced
 アイコンとして表示
 [Show as text symbols]
 テキスト記号として表示
-[Message is highlighted]
-メッセージを強調表示
-[User has performed an action]
-ユーザーはアクションを実行しました
-[User has kicked some other user]
-ユーザーは他のユーザーを排除しました
-[User's status was changed]
-ユーザーステータスは変更されました
-[User has changed name]
-ユーザーは名前を変更しました
-[User has sent a notice]
-ユーザーは通知を送信しました
-[The topic has been changed]
-トピックは変更されています
-[&Join]
-参加する (&J)
-[&Leave]
-終了する (&L)
-[%s wants your attention in %s]
-%s はあなたに %s について注意を求めています
-[%s speaks in %s]
-%s は %s で話します
-[%s has joined %s]
-%s は %s に参加しました
-[%s has left %s]
-%s は %s を離席しました
-[%s kicked %s from %s]
-%s は %s を %s から排除しました
-[Notice from %s]
-%s からの通知
-[Topic change in %s]
-%s のトピック変更
-[Information in %s]
-%s についての情報
 [%s%s says:%s %s]
 %s%s の発言: %s %s
-[%s has left (%s)]
-%s は離席しました ( %s )
-[%s has disconnected (%s)]
-%s は切断しました ( %s )
-[%s kicked %s (%s)]
-%s は %s を排除しました ( %s )
-[Notice from %s: %s]
-%s からの通知:%s
 [No word to look up]
 検索語なし
 [Highlight User...]

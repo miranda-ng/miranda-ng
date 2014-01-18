@@ -17,10 +17,10 @@
 禁用所有不在我方联系人列表中的联系人
 [Manage server groups]
 管理服务器群组
-[Run the following application when new Hotmail arrives]
-新 Hotmail 到达时运行下列程序
 [Allow people on my contact list send messages to mobile device]
 允许我方联系人列表里中的联系人发送消息到移动设备
+[Run the following application when new Hotmail arrives]
+新 Hotmail 到达时运行下列程序
 [Connection settings]
 连接设置
 [Direct:]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
@@ -1495,10 +1495,6 @@ Aero peek 警告|您已启用 Aero Peek 功能并加载了自定义容器窗口�
 加载主题|加载颜色和字体主题会覆盖现有皮肤设定.\n\n您是否想继续?
 [TabSRMM warning message]
 TabSRMM 警告信息
-[Join chat]
-加入聊天
-[Open chat window]
-打开聊天窗口
 [Text color]
 文本颜色
 [%s has joined]
@@ -1527,8 +1523,6 @@ TabSRMM 警告信息
 %s 启用 '%s' 状态于 %s
 [%s disables '%s' status for %s]
 %s 禁用 '%s' 状态于 %s
-[<invalid>]
-<无效>
 [Add user to highlight list]
 添加用户至突出显示列表
 [Edit user highlight list]
@@ -1581,42 +1575,6 @@ Aero 发光效果
 悬停背景
 [Unread background]
 未读背景
-[Timestamp]
-时间戳
-[Others nicknames]
-其它昵称
-[Your nickname]
-您的昵称
-[User has joined]
-用户已加入
-[User has left]
-用户已离开
-[User has disconnected]
-用户已断线
-[User kicked ...]
-用户已被踢走 ...
-[User is now known as ...]
-用户现在改名为 ...
-[Notice from user]
-用户公告
-[The topic is ...]
-主题是 ...
-[Information messages]
-信息消息
-[User enables status for ...]
-用户启用状态为 ...
-[User disables status for ...]
-用户禁用状态为 ...
-[Action message]
-操作消息
-[Highlighted message]
-突出显示消息
-[Chat log symbols (Webdings)]
-聊天记录符号 (Webdings)
-[User list members (Online)]
-用户列表成员 (在线)
-[User list members (away)]
-用户列表成员 (外出)
 [>> Outgoing misc events]
 >> 发送杂项事件
 [<< Incoming misc events]
@@ -1797,56 +1755,6 @@ Aero 发光效果
 显示为图标
 [Show as text symbols]
 显示为文本符号
-[Message is highlighted]
-突出显示消息
-[User has performed an action]
-用户已运行一个操作
-[User has kicked some other user]
-用户已踢走其他用户
-[User's status was changed]
-用户状态已变更
-[User has changed name]
-用户已改名
-[User has sent a notice]
-用户已发送公告
-[The topic has been changed]
-主题已变更
-[&Join]
-加入(&J)
-[&Leave]
-离开(&L)
-[%s wants your attention in %s]
-%s 需要您注意 %s
-[%s speaks in %s]
-%s 在 %s 说话
-[%s has joined %s]
-%s 已加入 %s
-[%s has left %s]
-%s 已离开 %s
-[%s kicked %s from %s]
-%s 已踢走 %s 从 %s
-[Notice from %s]
-%s 发出公告
-[Topic change in %s]
-%s 主题变更
-[Information in %s]
-%s 的信息
-[%s enables '%s' status for %s in %s]
-%s 启用 '%s' 状态于 %s 在 %s
-[%s disables '%s' status for %s in %s]
-%s 禁用 '%s' 状态于 %s 在 %s
-[%s has left (%s)]
-%s 已离开 (%s)
-[%s has disconnected (%s)]
-%s 已断开连接 (%s)
-[%s kicked %s (%s)]
-%s 已踢走 %s (%s)
-[Notice from %s: %s]
-%s 公告: %s
-[The topic is '%s']
-主题为 '%s'
-[The topic is '%s' (set by %s)]
-主题为 '%s' (%s 设置)
 [Look up '%s':]
 查看 '%s':
 [No word to look up]

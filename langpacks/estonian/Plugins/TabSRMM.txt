@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -239,14 +239,6 @@ Alati sees
 Alati väljas
 [Text color]
 Teksti värv
-[Timestamp]
-Ajatempel
-[Your nickname]
-Sinu hüüdnimi
-[User has joined]
-Kasutas ühines
-[User has left]
-Kasutaja lahkus
 [* Error and warning Messages]
 * Vea- ja hoiatusteated
 [Nickname]
@@ -261,9 +253,5 @@ Teadete logi välisilme
 Kõik failid
 [Select Folder]
 Vali kaust
-[&Join]
-&Ühine
-[&Leave]
-Lahku
 [Unique ID]
 Unikaalne ID

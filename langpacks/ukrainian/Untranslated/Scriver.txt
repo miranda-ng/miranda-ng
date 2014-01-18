@@ -10,6 +10,7 @@
 [to tiny bits, in Thy mercy]
 [Lorem ipsum dolor sit amet,]
 [consectetur adipisicing elit]
+[Group chat log background]
 [Show and hide by double clicking in the contact list]
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 [username for currently logged-on Windows user]

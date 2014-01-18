@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1829,11 +1829,6 @@ Optionsdialog schließen|Um die Änderungen, die durch den Import eines Themes i
 Skin laden|Das Laden von Farben und Schriftarten kann Einstellungen Ihres Skins überschreiben.\n\nWollen Sie fortfahren?
 [TabSRMM warning message]
 TabSRMM-Warnmeldung
-;file \plugins\TabSRMM\src\chat\clist.cpp
-[Join chat]
-Chat betreten
-[Open chat window]
-Chatfenster öffnen
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Textfarbe
@@ -1864,8 +1859,7 @@ Das Thema ist '%s%s'
 %s aktiviert '%s' Status für %s
 [%s disables '%s' status for %s]
 %s deaktiviert '%s' Status für %s
-[<invalid>]
-<ungültig>
+;file \plugins\TabSRMM\src\chat\main.cpp
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 Füge Benutzer zur "Highlight"-Liste hinzu
@@ -1928,42 +1922,6 @@ Aktiver Hintergrund
 Schwebender Hintergrund
 [Unread background]
 Ungelesener Hintergrund
-[Timestamp]
-Zeitanzeige
-[Others nicknames]
-Andere Nicks
-[Your nickname]
-Ihr Nick
-[User has joined]
-Benutzer ist beigetreten
-[User has left]
-Benutzer ist gegangen
-[User has disconnected]
-Benutzer hat Verbindung getrennt
-[User kicked ...]
-Benutzer hat gekickt ...
-[User is now known as ...]
-Benutzer ändert Nick
-[Notice from user]
-Notiz von Benutzer
-[The topic is ...]
-Das Thema ist ...
-[Information messages]
-Informationsnachricht
-[User enables status for ...]
-Benutzer aktiviert Status für ...
-[User disables status for ...]
-Benutzer deaktiviert Status für ...
-[Action message]
-Aktionsnachricht
-[Highlighted message]
-Hervorgehobene Nachricht
-[Chat log symbols (Webdings)]
-Chatverlaufssymbole (Webdings)
-[User list members (Online)]
-Benutzerliste (online)
-[User list members (away)]
-Benutzerliste (abwesend)
 [>> Outgoing messages]
 >> Ausgehende Nachrichten
 [>> Outgoing misc events]
@@ -2206,60 +2164,9 @@ Keine Markierungen
 Zeige als Icons
 [Show as text symbols]
 Zeige als Textsymbole
-[Message is highlighted]
-Nachricht ist hervorgehoben
-[User has performed an action]
-Benutzer hat eine Aktion ausgeführt
-[User has kicked some other user]
-Benutzer hat einen anderen gekickt
-[User's status was changed]
-Benutzer hat Status gewechselt
-[User has changed name]
-Benutzer hat Nickname gewechselt
-[User has sent a notice]
-Benutzer hat eine Notiz geschickt
-[The topic has been changed]
-Das Thema wurde geändert
-;file \plugins\TabSRMM\src\chat\services.cpp
-[&Join]
-Betreten
-[&Leave]
-Ver&lassen
 ;file \plugins\TabSRMM\src\chat\tools.cpp
-[%s wants your attention in %s]
-%s benötigt Ihre Aufmerksamkeit in %s
-[%s speaks in %s]
-%s spricht in %s
-[%s has joined %s]
-%s hat %s betreten
-[%s has left %s]
-%s hat %s verlassen
-[%s kicked %s from %s]
-%s kickt %s aus %s
-[Notice from %s]
-Notiz von %s
-[Topic change in %s]
-Themenänderung in %s
-[Information in %s]
-Informationen in %s
-[%s enables '%s' status for %s in %s]
-%s aktiviert '%s' Status für %s in %s
-[%s disables '%s' status for %s in %s]
-%s deaktiviert '%s' Status für %s in %s
 [%s%s says:%s %s]
 %s%s sagt:%s %s
-[%s has left (%s)]
-%s verlässt (%s)
-[%s has disconnected (%s)]
-%s wurde getrennt (%s)
-[%s kicked %s (%s)]
-%s kickt %s (%s)
-[Notice from %s: %s]
-Notiz von %s: %s
-[The topic is '%s']
-Das Thema ist '%s'
-[The topic is '%s' (set by %s)]
-Das Thema ist '%s' (gesetzt von %s)
 [Look up '%s':]
 Suche nach '%s'
 [No word to look up]

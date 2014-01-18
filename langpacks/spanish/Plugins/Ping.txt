@@ -103,10 +103,6 @@ Habilitar
 ;file \plugins\Ping\src\menu.cpp
 [PING]
 
-[Enable All Pings]
-
-[Disable All Pings]
-
 ;file \plugins\Ping\src\options.cpp
 [Open log file]
 

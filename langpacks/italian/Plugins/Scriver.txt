@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Cascade new windows]
@@ -157,30 +157,6 @@ Colonna in entrata
 URL in uscita
 [Incoming URL]
 URL in entrata
-[Others nicknames]
-Altri nickname
-[Your nickname]
-Il tuo nickname
-[User has joined]
-L'utente ha fatto ingresso
-[User has left]
-L'utente è uscito
-[User has disconnected]
-Utente scollegato
-[User is now known as ...]
-L'utente è ora conosciuto come ...
-[Incoming message]
-Messaggio in arrivo
-[Outgoing message]
-Messaggio in uscita
-[Information messages]
-Messaggi informativi
-[User enables status for ...]
-Abilitare stato dell'utente per ...
-[User disables status for ...]
-Disabilitare stato dell'utente per ...
-[User list background]
-Sfondo lista utenti
 [Offline]
 Offline
 [Online]
@@ -223,14 +199,8 @@ In uscita
 Sempre in primo piano
 [The message send timed out.]
 Il tempo per l'invio del messaggio è scaduto.
-[%s is now known as %s]
-%s è ora conosciuto come %s
-[Notice from %s]
-Notifica da %s
-[&Join]
-&Unisciti
-[&Leave]
-&Lascia
+[User list background]
+Sfondo lista utenti
 [Prefix all events with a timestamp]
 Anteponi a tutti gli eventi data ed ora
 [Only prefix with timestamp if it has changed]
@@ -241,9 +211,5 @@ Indenta la seconda linea di un messaggio
 Seleziona cartella
 [Popups]
 Popup
-[%s speaks in %s]
-%s discute in %s
-[%s kicked %s from %s]
-%s ha espulso %s da %s
 [Status]
 Stato

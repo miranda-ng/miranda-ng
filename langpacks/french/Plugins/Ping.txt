@@ -103,10 +103,6 @@ Désactiver tous les pings
 ;file \plugins\Ping\src\menu.cpp
 [PING]
 Ping
-[Enable All Pings]
-Activer tous les pings
-[Disable All Pings]
-Désactiver tous les pings
 ;file \plugins\Ping\src\options.cpp
 [Open log file]
 
