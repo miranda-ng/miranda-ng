@@ -164,35 +164,6 @@ void RegisterFonts(void)
 		}
 		FontRegisterT(&fontid);
 	}
-
-	ColourIDT colourid = { sizeof(colourid) };
-	strncpy(colourid.dbSettingsGroup, "Chat", sizeof(colourid.dbSettingsGroup));
-	_tcsncpy(colourid.group, g_szFontGroup, SIZEOF(colourid.group));
-
-	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
-	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegisterT(&colourid);
-
-	strncpy(colourid.setting, "ColorMessageBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Message background"), SIZEOF(colourid.name));
-	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegisterT(&colourid);
-
-	strncpy(colourid.setting, "ColorNicklistBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("User list background"), SIZEOF(colourid.name));
-	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegisterT(&colourid);
-
-	strncpy(colourid.setting, "ColorNicklistLines", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("User list lines"), SIZEOF(colourid.name));
-	colourid.defcolour = GetSysColor(COLOR_INACTIVEBORDER);
-	ColourRegisterT(&colourid);
-
-	strncpy(colourid.setting, "ColorNicklistSelectedBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("User list background (selected)"), SIZEOF(colourid.name));
-	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
-	ColourRegisterT(&colourid);
 }
 
 // load icons from the skinning module if available
