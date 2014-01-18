@@ -264,6 +264,9 @@
     <ClInclude Include="modules\chat\chat.h">
       <Filter>Modules\chat</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\m_string.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\commonheaders.cpp">

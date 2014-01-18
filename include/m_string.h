@@ -23,6 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
+#ifndef M_STRING_H__
+
+#include <stdio.h>
 #include <string.h>
 #include <mbstring.h>
 #include <wchar.h>
@@ -2220,3 +2223,5 @@ __forceinline int ChTraitsCRT<char>::Format(LPSTR pszBuffer, size_t nlength, LPC
 {
 	return vsprintf_s(pszBuffer, nlength, pszFormat, args);
 }
+
+#endif // M_STRING_H__
