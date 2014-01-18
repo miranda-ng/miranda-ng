@@ -110,6 +110,8 @@ struct PlugOptions
 #define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x%platform%"
 #define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.now.im/pdb_x%platform%/"
 
+#define MAX_RETRIES			2
+
 #define IDINFO				3
 #define IDDOWNLOAD			4
 #define IDDOWNLOADALL		5

@@ -290,45 +290,50 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum, HANDLE &nlc)
 	nlhr.headers[3].szValue = "no-cache";
 
 	bool ret = false;
-	NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
-	if (pReply) {
-		nlc = pReply->nlc;
-		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
-			HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-			if (hFile != INVALID_HANDLE_VALUE) {
-				// write the downloaded file firectly
-				WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
-				CloseHandle(hFile);
-				if (CRCsum) {
-					InitCrcTable();
-					int crc = Get_CRC((unsigned char*)pReply->pData, (long)dwBytes);
-					if (crc == CRCsum)
-						ret = true;
-				} else
-					ret = true;
-			}
-			else {
-				// try to write it via PU stub
-				TCHAR tszTempFile[MAX_PATH];
-				mir_sntprintf(tszTempFile, SIZEOF(tszTempFile), _T("%s\\pulocal.tmp"), tszTempPath);
-				hFile = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	for (int i = 0; !ret && i < MAX_RETRIES; i++) {
+		NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
+		if (pReply) {
+			nlc = pReply->nlc;
+			if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
+				HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 				if (hFile != INVALID_HANDLE_VALUE) {
+					// write the downloaded file directly
 					WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
 					CloseHandle(hFile);
-					SafeMoveFile(tszTempFile, tszLocal);
 					if (CRCsum) {
 						InitCrcTable();
 						int crc = Get_CRC((unsigned char*)pReply->pData, (long)dwBytes);
 						if (crc == CRCsum)
 							ret = true;
-					} else
+					}
+					else
 						ret = true;
 				}
+				else {
+					// try to write it via PU stub
+					TCHAR tszTempFile[MAX_PATH];
+					mir_sntprintf(tszTempFile, SIZEOF(tszTempFile), _T("%s\\pulocal.tmp"), tszTempPath);
+					hFile = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+					if (hFile != INVALID_HANDLE_VALUE) {
+						WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
+						CloseHandle(hFile);
+						SafeMoveFile(tszTempFile, tszLocal);
+						if (CRCsum) {
+							InitCrcTable();
+							int crc = Get_CRC((unsigned char*)pReply->pData, (long)dwBytes);
+							if (crc == CRCsum)
+								ret = true;
+						}
+						else
+							ret = true;
+					}
+				}
 			}
+			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
 		}
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
-	} else {
-		nlc = NULL;
+		else {
+			nlc = NULL;
+		}
 	}
 
 	mir_free(szUrl);
