@@ -104,10 +104,60 @@ BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
-static BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce, TWindowData *dat)
+int ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
+{
+	POPUPDATAT pd = { 0 };
+	va_list marker;
+	static TCHAR szBuf[4 * 1024];
+
+	if (!fmt || lstrlen(fmt) == 0 || lstrlen(fmt) > 2000)
+		return 0;
+
+	va_start(marker, fmt);
+	mir_vsntprintf(szBuf, SIZEOF(szBuf), fmt, marker);
+	va_end(marker);
+
+	pd.lchContact = hContact;
+
+	if (hIcon)
+		pd.lchIcon = hIcon;
+	else
+		pd.lchIcon = LoadIconEx(IDI_CHANMGR, "window", 0, 0);
+
+	PROTOACCOUNT *pa = ProtoGetAccount(pszProtoName);
+	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME - 1, _T("%s - %s"),
+		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
+		pcli->pfnGetContactDisplayName(hContact, 0));
+
+	lstrcpyn(pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE);
+	pd.iSeconds = g_Settings.iPopupTimeout;
+
+	if (g_Settings.iPopupStyle == 2) {
+		pd.colorBack = 0;
+		pd.colorText = 0;
+	}
+	else if (g_Settings.iPopupStyle == 3) {
+		pd.colorBack = g_Settings.crPUBkgColour;
+		pd.colorText = g_Settings.crPUTextColour;
+	}
+	else {
+		pd.colorBack = M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR);
+		pd.colorText = crBkg;
+	}
+
+	pd.PluginWindowProc = PopupDlgProc;
+	pd.PluginData = si;
+	return PUAddPopupT(&pd);
+}
+
+BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce)
 {
 	int iEvent = gce->pDest->iType;
 	if (si == NULL || !(iEvent & si->iLogPopupFlags))
+		return true;
+
+	TWindowData *dat = si->dat;
+	if (dat == NULL)
 		return true;
 
 	TContainerData *pContainer = dat ? dat->pContainer : NULL;
@@ -169,7 +219,7 @@ passed:
 	}
 
 	if (iNewEvent == GC_EVENT_MESSAGE) {
-		pci->ShowPopup(si->hContact, si, pci->hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, clr ? clr : pci->aFonts[9].color,
+		ShowPopup(si->hContact, si, pci->hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, clr ? clr : pci->aFonts[9].color,
 			TranslateT("%s%s says:%s %s"), bbStart, gce->ptszNick, bbEnd, pci->RemoveFormatting(gce->ptszText));
 	}
 	else pci->DoPopup(si, gce);
@@ -304,7 +354,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		}
 #endif
 		if (dat || !nen_options.iMUCDisable)
-			DoPopup(si, gce, dat);
+			DoPopup(si, gce);
 		if (params->bInactive && si && si->hWnd)
 			SendMessage(si->hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
 		if (g_Settings.bFlashWindowHightlight && params->bInactive)
@@ -323,7 +373,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		if (bManyFix == 0) {
 			// do popups
 			if (dat || !nen_options.iMUCDisable)
-				DoPopup(si, gce, dat);
+				DoPopup(si, gce);
 
 			// do sounds and flashing
 			switch (params->iEvent) {

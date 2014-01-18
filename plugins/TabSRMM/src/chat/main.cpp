@@ -275,6 +275,8 @@ int Chat_Load()
 	pci->DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
 	pci->IsHighlighted = IsHighlighted;
 	pci->LogToFile = LogToFile;
+	pci->DoPopup = DoPopup;
+	pci->ShowPopup = ShowPopup;
 	pci->Log_CreateRtfHeader = Log_CreateRtfHeader;
 	pci->ReloadSettings();
 

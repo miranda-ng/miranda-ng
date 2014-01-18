@@ -168,6 +168,8 @@ UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SES
 void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 void          Chat_SetFilters(SESSION_INFO *si);
 void TSAPI    DoFlashAndSoundWorker(FLASH_PARAMS* p);
+BOOL          DoPopup(SESSION_INFO *si, GCEVENT* gce);
+int           ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
 BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
 
 // message.c
