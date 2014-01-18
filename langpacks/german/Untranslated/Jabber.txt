@@ -4,7 +4,7 @@
 [Can negotiate options for specific features]
 [Can request advanced processing of message stanzas]
 [Supports generic publish-subscribe functionality]
-[Can block communications from particular other users using Privacy lists]
+[Blocks packets from another users/groupchats using Privacy lists]
 [Supports direct chat invitations (XEP-0249)]
 [One or more addresses for communication related to abusive traffic]
 [One or more addresses for customer feedback]

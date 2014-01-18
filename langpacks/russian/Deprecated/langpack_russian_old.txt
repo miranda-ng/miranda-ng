@@ -16562,7 +16562,7 @@ Jabber vCard: редактирование телефона
 Отправка мелодий (слушаю музыку)
 [Supports Message Receipts]
 Прием сообщений
-[Can block communications from particular other users using Privacy lists]
+[Blocks packets from another users/groupchats using Privacy lists]
 Блокировка пользователей с использованием листов приватности
 [Supports SecureIM plugin for Miranda NG]
 Поддержка плагина SecureIM для Miranda NG

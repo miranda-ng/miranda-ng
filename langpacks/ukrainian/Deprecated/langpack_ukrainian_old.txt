@@ -14951,7 +14951,7 @@ vCard (візитні картки)
 Основна функціональність підписок
 [Supports SecureIM plugin for Miranda NG]
 Підтримка плагіна SecureIM для Miranda NG
-[Can block communications from particular other users using Privacy lists]
+[Blocks packets from another users/groupchats using Privacy lists]
 Блокування користувачів з використанням аркушів приватності
 [Supports Message Receipts]
 Прийом повідомлень

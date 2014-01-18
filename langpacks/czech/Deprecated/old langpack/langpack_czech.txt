@@ -18362,7 +18362,7 @@ Pøijímá informace o náladì
 ;[Supports generic publish-subscribe functionality]
 [Supports SecureIM plugin for Miranda IM]
 Podporuje doplnìk SecureIM pro Mirandu
-[Can block communications from particular other users using Privacy lists]
+[Blocks packets from another users/groupchats using Privacy lists]
 Umožòuje blokovat komunikaci na základì definovaných filtrù
 [Supports Message Receipts]
 Podporuje potvrzenky o doruèení

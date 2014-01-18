@@ -503,7 +503,7 @@ xHTML формат чат сообщений
 Поддержка плагина SecureIM для Miranda NG
 [Supports OTR (Off-the-Record Messaging)]
 Поддержка OTR (Off-the-Record Messaging)
-[Can block communications from particular other users using Privacy lists]
+[Blocks packets from another users/groupchats using Privacy lists]
 Блокировка пользователей с использованием списков приватности
 [Supports Message Receipts]
 Прием сообщений

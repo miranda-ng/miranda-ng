@@ -540,7 +540,7 @@ Jabber vCard: редагування телефону
 Відправка мелодій (слухаю музику)
 [Supports Message Receipts]
 Прийом повідомлень
-[Can block communications from particular other users using Privacy lists]
+[Blocks packets from another users/groupchats using Privacy lists]
 Блокування користувачів з використанням аркушів приватності
 [Supports SecureIM plugin for Miranda NG]
 Підтримка плагіна SecureIM для Miranda NG
