@@ -557,8 +557,19 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Service creation
 
+static bool bInited = false;
+
 int LoadChatModule(void)
 {
+	CreateServiceFunction("GChat/GetInterface", SvcGetChatManager);
+	return 0;
+}
+
+void InitChatModule(void)
+{
+	if (bInited)
+		return;
+
 	InitializeCriticalSection(&cs);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
@@ -576,18 +587,20 @@ int LoadChatModule(void)
 	CreateServiceFunction("GChat/PrebuildMenuEvent", PrebuildContactMenuSvc);
 	CreateServiceFunction("GChat/JoinChat", JoinChat);
 	CreateServiceFunction("GChat/LeaveChat", LeaveChat);
-	CreateServiceFunction("GChat/GetInterface", SvcGetChatManager);
 
 	ci.hSendEvent = CreateHookableEvent(ME_GC_EVENT);
 	ci.hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
 
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
-	return 0;
+	bInited = true;
 }
 
 void UnloadChatModule(void)
 {
+	if (!bInited)
+		return;
+
 	OptionsUnInit();
 	DeleteCriticalSection(&cs);
 

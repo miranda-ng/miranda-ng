@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 
+void InitChatModule(void);
+
 #define WINDOWS_COMMANDS_MAX 30
 
 MODULEINFO *m_ModList = 0;
@@ -1482,6 +1484,8 @@ CHAT_MANAGER ci =
 
 INT_PTR SvcGetChatManager(WPARAM, LPARAM lParam)
 {
+	InitChatModule();
+
 	// wipe out old junk
 	memset(PBYTE(&ci) + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER)-offsetof(CHAT_MANAGER, OnCreateModule));
 
