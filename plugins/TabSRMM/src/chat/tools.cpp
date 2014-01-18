@@ -219,7 +219,7 @@ passed:
 		ShowPopup(si->hContact, si, pci->hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, clr ? clr : pci->aFonts[9].color,
 			TranslateT("%s%s says:%s %s"), bbStart, gce->ptszNick, bbEnd, pci->RemoveFormatting(gce->ptszText));
 	}
-	else pci->DoPopup(si, gce);
+	else saveCI.DoPopup(si, gce);
 
 	return TRUE;
 }
