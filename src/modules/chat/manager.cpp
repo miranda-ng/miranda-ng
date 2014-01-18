@@ -1050,7 +1050,7 @@ static USERINFO* UM_SortUser(USERINFO** ppUserList, const TCHAR *pszUID)
 
 		pLast = NULL;
 
-		while (pTemp && UM_CompareItem(pTemp, node->pszNick, node->Status) <= 0) {
+		while (pTemp && ci.UM_CompareItem(pTemp, node->pszNick, node->Status) <= 0) {
 			pLast = pTemp;
 			pTemp = pTemp->next;
 		}
@@ -1081,7 +1081,7 @@ USERINFO* UM_AddUser(STATUSINFO* pStatusList, USERINFO** ppUserList, const TCHAR
 		return NULL;
 
 	USERINFO *pTemp = *ppUserList, *pLast = NULL;
-	while (pTemp && UM_CompareItem(pTemp, pszNick, wStatus) <= 0) {
+	while (pTemp && ci.UM_CompareItem(pTemp, pszNick, wStatus) <= 0) {
 		pLast = pTemp;
 		pTemp = pTemp->next;
 	}
