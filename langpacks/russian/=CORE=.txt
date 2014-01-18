@@ -309,8 +309,8 @@
 Сброс
 [Export...]
 Экспорт...
-[(Background) Color]
-Цвет (фоновый)
+[Color/background]
+Цвет/фон
 [Text effect]
 Эффект
 [Text color]
