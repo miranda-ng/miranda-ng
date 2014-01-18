@@ -51,8 +51,6 @@ typedef struct
 	DWORD dwFlags;
 } HOTKEYDESC;
 
-#define HOTKEYDESC_SIZE_V1 (offsetof(HOTKEYDESC, dwFlags))
-
 #define HKF_MIRANDA_LOCAL		0x8000
 
 extern int hLangpack;

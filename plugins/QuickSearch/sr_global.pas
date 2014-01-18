@@ -121,7 +121,7 @@ type
     flags     :dword;        // QSO_* options
   end;
 
-  
+
 procedure reghotkeys;
 procedure unreghotkeys;
 
@@ -198,7 +198,7 @@ begin
   FillChar(hkrec,SizeOf(hkrec),0);
   with hkrec do
   begin
-    cbSize          :=HOTKEYDESC_SIZE_V1;
+    cbSize          :=SizeOf(hkrec);
     pszName         :=HKN_GLOBAL;
     pszDescription.a:='QuickSearch window hotkey';
     pszSection.a    :=qs_name;

@@ -319,7 +319,7 @@ begin
   FillChar(hkrec,SizeOf(hkrec),0);
   with hkrec do
   begin
-    cbSize          :=HOTKEYDESC_SIZE_V1;
+    cbSize          :=SizeOf(hkrec);
     pszName         :=HKN_POPUP;
     pszDescription.a:='WATrack popup hotkey';
     pszSection.a    :=PluginName;

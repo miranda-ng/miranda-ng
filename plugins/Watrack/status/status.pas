@@ -22,7 +22,7 @@ begin
   FillChar(hkrec,SizeOf(hkrec),0);
   with hkrec do
   begin
-    cbSize          :=HOTKEYDESC_SIZE_V1;
+    cbSize          :=SizeOf(hkrec);
     pszName         :=HKN_INSERT;
     pszDescription.a:='Global WATrack hotkey';
     pszSection.a    :=PluginName;

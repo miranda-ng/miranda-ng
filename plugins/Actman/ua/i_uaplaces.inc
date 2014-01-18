@@ -224,8 +224,8 @@ begin
   if (ActionItem.flags and UAF_HKREGGED)=0 then
   begin
     FillChar(hkd,SizeOf(hkd),0);
-    hkd.cbSize          := SizeOf(hkd); // HOTKEYDESC_SIZE_V1 for pre-0.9
-    hkd.dwFlags         := HKD_UNICODE; // since 0.9 only
+    hkd.cbSize          := SizeOf(hkd);
+    hkd.dwFlags         := HKD_UNICODE;
     hkd.pszName         := ActionItem.szNameID;
     hkd.pszDescription.w:= ActionItem.szActDescr;
     hkd.pszSection    .w:= MODULE_NAME;

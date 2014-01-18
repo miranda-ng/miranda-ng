@@ -129,7 +129,7 @@ static INT_PTR svcHotkeyUnsubclass(WPARAM wParam, LPARAM)
 static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 {
 	HOTKEYDESC *desc = (HOTKEYDESC *)lParam;
-	if (desc->cbSize != sizeof(HOTKEYDESC) && desc->cbSize != HOTKEYDESC_SIZE_V1)
+	if (desc->cbSize != sizeof(HOTKEYDESC))
 		return 0;
 
 	THotkeyItem *item = (THotkeyItem*)mir_alloc(sizeof(THotkeyItem));

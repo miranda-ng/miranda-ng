@@ -1,8 +1,8 @@
 {
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2007 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2007 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -38,13 +38,6 @@ type
   end;
   THOTKEYDESC = HOTKEYDESC;
   PHOTKEYDESC = ^THOTKEYDESC;
-
-const
-  {$IFNDEF Win64}
-  HOTKEYDESC_SIZE_V1 = 7*SizeOf(dword); //(offsetof(HOTKEYDESC, dwFlags))
-  {$ELSE}
-  HOTKEYDESC_SIZE_V1 = SizeOf(HOTKEYDESC);
-  {$ENDIF}
 
 const
   HKF_MIRANDA_LOCAL = $8000;
