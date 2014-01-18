@@ -338,6 +338,7 @@
 [The message send timed out.]
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
+[Group chat log background]
 [User list background]
 [User list lines]
 [User list background (selected)]

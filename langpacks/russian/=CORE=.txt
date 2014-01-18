@@ -1271,6 +1271,8 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Открыть окно чата
 [Chat module]
 Модуль чата
+[Group chat log background]
+Фон журнала чата
 [Message background]
 Фон поля ввода
 [User list background]

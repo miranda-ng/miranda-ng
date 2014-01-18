@@ -83,7 +83,7 @@ static void ApplyUpdates(void *param)
 			SetStringText(hwndList, i, TranslateT("Failed!"));
 
 			// interrupt update as we require all components to be updated
-			MessageBox(hDlg, TranslateT("Update failed! Some component wasn't downloaded correctly. Try it again later."), TranslateT("Plugin Updater"), MB_OK | MB_ICONERROR);
+			MessageBox(hDlg, TranslateT("Update failed! One of the components wasn't downloaded correctly. Try it again later."), TranslateT("Plugin Updater"), MB_OK | MB_ICONERROR);
 			error = true;
 			break;
 		} else

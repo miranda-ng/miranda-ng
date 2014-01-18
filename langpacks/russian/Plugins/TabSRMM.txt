@@ -1805,6 +1805,8 @@ tabSRMM: %s
 %s выключает статус '%s' для %s
 [Add user to highlight list]
 Добавить пользователя в список подсветки
+[Group chat log background]
+Фон журнала чата
 [Input area background]
 Окна ввода текста
 [Log background]
@@ -2099,26 +2101,6 @@ ID текущего контакта (если определен). Наприм
 Иконки
 [Show as text symbols]
 Текстовые символы
-[%s wants your attention in %s]
-%s требует вашего внимания в %s
-[%s speaks in %s]
-%s говорит в %s
-[%s has joined %s]
-%s вошёл в %s
-[%s has left %s]
-%s вышел из %s
-[%s kicked %s from %s]
-%s выкинул %s из %s
-[Notice from %s]
-Уведомление от %s
-[Topic change in %s]
-Смена темы в %s
-[Information in %s]
-Информация в %s
-[%s enables '%s' status for %s in %s]
-%s включает статус '%s' для %s в %s
-[%s disables '%s' status for %s in %s]
-%s выключает статус '%s' для %s в %s
 [%s%s says:%s %s]
 %s%s пишет:%s %s
 [Look up '%s':]

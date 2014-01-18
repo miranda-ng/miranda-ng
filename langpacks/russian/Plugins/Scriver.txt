@@ -619,6 +619,8 @@ Miranda не смогла загрузить встроенную систему
 Поверх всех окон
 [The message send timed out.]
 Таймаут отправки сообщения
+[Group chat log background]
+Фон журнала чата
 [User list background]
 Фон списка
 [User list lines]

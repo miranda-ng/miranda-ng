@@ -659,6 +659,7 @@
 ;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
+[Group chat log background]
 [Message background]
 [User list background]
 [User list lines]

@@ -9,5 +9,4 @@
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 [Important release notes|A test warning message]
 [Edit user highlight list]
-[Group chat log background]
 [will return parsed string %miranda_userdata%\\Logs]
