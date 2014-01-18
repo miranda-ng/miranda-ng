@@ -547,7 +547,9 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch1, SIZEOF(branch1));
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch2, SIZEOF(branch2));
 
+				pci->ReloadSettings();
 				pci->MM_FontsChanged();
+				Log_SetStyles();
 				pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 				SM_ReconfigureFilters();
 				return TRUE;
@@ -734,6 +736,7 @@ void RegisterFontServiceFonts() {
 
 int FontServiceFontsChanged(WPARAM,LPARAM)
 {
+	Log_SetStyles();
 	PluginConfig.reloadSettings();
 	CSkin::initAeroEffect();
 	CacheMsgLogIcons();
@@ -981,6 +984,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 			pci->ReloadSettings();
 			pci->MM_FontsChanged();
+			Log_SetStyles();
 			pci->MM_FixColors();
 			pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 
@@ -1099,7 +1103,9 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				db_set_b(0, "Chat", "SkipWhenNoWindow", IsDlgButtonChecked(hwndDlg, IDC_NOPOPUPSFORCLOSEDWINDOWS) ? 1 : 0);
 				db_set_b(0, "Chat", "TrayIconInactiveOnly", IsDlgButtonChecked(hwndDlg, IDC_TRAYONLYFORINACTIVE) ? 1 : 0);
 
+				pci->ReloadSettings();
 				pci->MM_FontsChanged();
+				Log_SetStyles();
 				pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 				SM_ReconfigureFilters();
 				return TRUE;
