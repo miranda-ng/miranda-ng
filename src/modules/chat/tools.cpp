@@ -83,6 +83,56 @@ TCHAR* RemoveFormatting(const TCHAR* pszWord)
 	return (TCHAR*)&szTemp;
 }
 
+BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
+{
+	switch (gce->pDest->iType) {
+	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
+	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
+		ci.AddEvent(si->hContact, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE), GC_FAKE_EVENT, 0, TranslateT("%s wants your attention in %s"), gce->ptszNick, si->ptszName);
+		break;
+	case GC_EVENT_MESSAGE:
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_MESSAGE], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
+		break;
+	case GC_EVENT_ACTION:
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_ACTION], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
+		break;
+	case GC_EVENT_JOIN:
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_JOIN], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s has joined %s"), gce->ptszNick, si->ptszName);
+		break;
+	case GC_EVENT_PART:
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_PART], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s has left %s"), gce->ptszNick, si->ptszName);
+		break;
+	case GC_EVENT_QUIT:
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_QUIT], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s has disconnected"), gce->ptszNick);
+		break;
+	case GC_EVENT_NICK:
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_NICK], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
+		break;
+	case GC_EVENT_KICK:
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_KICK], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s kicked %s from %s"), gce->ptszStatus, gce->ptszNick, si->ptszName);
+		break;
+	case GC_EVENT_NOTICE:
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_NOTICE], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("Notice from %s"), gce->ptszNick);
+		break;
+	case GC_EVENT_TOPIC:
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_TOPIC], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("Topic change in %s"), si->ptszName);
+		break;
+	case GC_EVENT_INFORMATION:
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_INFO], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("Information in %s"), si->ptszName);
+		break;
+	case GC_EVENT_ADDSTATUS:
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_ADDSTATUS], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s enables \'%s\' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
+		break;
+	case GC_EVENT_REMOVESTATUS:
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_REMSTATUS], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s disables \'%s\' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
+		break;
+	}
+
+	return TRUE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static void __stdcall ShowRoomFromPopup(void * pi)
 {
 	SESSION_INFO *si = (SESSION_INFO*)pi;
@@ -104,8 +154,8 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case WM_CONTEXTMENU:
 		SESSION_INFO *si = (SESSION_INFO*)PUGetPluginData(hWnd);
 		if (si->hContact)
-		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)"chaticon");
+			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
+				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
 
 		if (si->hWnd && KillTimer(si->hWnd, TIMERID_FLASHWND))
 			FlashWindow(si->hWnd, FALSE);
@@ -115,56 +165,6 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
-
-BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
-{
-	switch (gce->pDest->iType) {
-	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
-	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
-		ci.AddEvent(si->hContact, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE), "chaticon", 0, TranslateT("%s wants your attention in %s"), gce->ptszNick, si->ptszName);
-		break;
-	case GC_EVENT_MESSAGE:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_MESSAGE], "chaticon", CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
-		break;
-	case GC_EVENT_ACTION:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_ACTION], "chaticon", CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
-		break;
-	case GC_EVENT_JOIN:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_JOIN], "chaticon", CLEF_ONLYAFEW, TranslateT("%s has joined %s"), gce->ptszNick, si->ptszName);
-		break;
-	case GC_EVENT_PART:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_PART], "chaticon", CLEF_ONLYAFEW, TranslateT("%s has left %s"), gce->ptszNick, si->ptszName);
-		break;
-	case GC_EVENT_QUIT:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_QUIT], "chaticon", CLEF_ONLYAFEW, TranslateT("%s has disconnected"), gce->ptszNick);
-		break;
-	case GC_EVENT_NICK:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_NICK], "chaticon", CLEF_ONLYAFEW, TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
-		break;
-	case GC_EVENT_KICK:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_KICK], "chaticon", CLEF_ONLYAFEW, TranslateT("%s kicked %s from %s"), gce->ptszStatus, gce->ptszNick, si->ptszName);
-		break;
-	case GC_EVENT_NOTICE:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_NOTICE], "chaticon", CLEF_ONLYAFEW, TranslateT("Notice from %s"), gce->ptszNick);
-		break;
-	case GC_EVENT_TOPIC:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_TOPIC], "chaticon", CLEF_ONLYAFEW, TranslateT("Topic change in %s"), si->ptszName);
-		break;
-	case GC_EVENT_INFORMATION:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_INFO], "chaticon", CLEF_ONLYAFEW, TranslateT("Information in %s"), si->ptszName);
-		break;
-	case GC_EVENT_ADDSTATUS:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_ADDSTATUS], "chaticon", CLEF_ONLYAFEW, TranslateT("%s enables \'%s\' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
-		break;
-	case GC_EVENT_REMOVESTATUS:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_REMSTATUS], "chaticon", CLEF_ONLYAFEW, TranslateT("%s disables \'%s\' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
-		break;
-	}
-
-	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 int ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
 {

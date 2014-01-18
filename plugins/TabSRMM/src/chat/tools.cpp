@@ -33,8 +33,6 @@
 
 #include "..\commonheaders.h"
 
-char *szChatIconString = "chaticon";
-
 int GetRichTextLength(HWND hwnd)
 {
 	GETTEXTLENGTHEX gtl;
@@ -59,7 +57,7 @@ static void TSAPI Chat_DismissPopup(const SESSION_INFO *si, HWND hwndPopup)
 {
 	if (si->hContact)
 		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)szChatIconString);
+			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
 
 	if (si->hWnd && KillTimer(si->hWnd, TIMERID_FLASHWND))
 		FlashWindow(si->hWnd, FALSE);

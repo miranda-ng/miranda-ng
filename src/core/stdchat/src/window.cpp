@@ -1673,7 +1673,7 @@ END_REMOVETAB:
 						s->wState &= ~GC_EVENT_HIGHLIGHT;
 
 						if (CallService(MS_CLIST_GETEVENT, (WPARAM)s->hContact, 0))
-							CallService(MS_CLIST_REMOVEEVENT, (WPARAM)s->hContact, (LPARAM)"chaticon");
+							CallService(MS_CLIST_REMOVEEVENT, (WPARAM)s->hContact, (LPARAM)GC_FAKE_EVENT);
 					}
 
 					SendMessage(hwndDlg, GC_FIXTABICONS, 0, (LPARAM)s);
@@ -1845,7 +1845,7 @@ END_REMOVETAB:
 				db_set_dw(si->hContact, "Chat", "roomheight", si->iHeight);
 			}
 			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
-				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)"chaticon");
+				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
 			si->wState &= ~STATE_TALK;
 			db_set_w(si->hContact, si->pszModule, "ApparentMode", (LPARAM)0);
 			SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
@@ -2034,7 +2034,7 @@ LABEL_SHOWWINDOW:
 			if (db_get_w(si->hContact, si->pszModule ,"ApparentMode", 0) != 0)
 				db_set_w(si->hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
 			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
-				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)"chaticon");
+				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
 		}
 		break;
 

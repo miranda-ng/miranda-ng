@@ -227,7 +227,7 @@ BOOL AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt,
 	}
 	else {
 		if (CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hEvent);
+			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)GC_FAKE_EVENT);
 		CallService(MS_CLIST_ADDEVENT, (WPARAM)hContact, (LPARAM)&cle);
 	}
 	return TRUE;

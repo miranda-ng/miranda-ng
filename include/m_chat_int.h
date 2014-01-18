@@ -29,6 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define OPTIONS_FONTCOUNT 20
 #define STATUSICONCOUNT 6
 
+#define GC_FAKE_EVENT HANDLE(0xBABABEDA)
+
 #define GC_UPDATETITLE         (WM_USER+100)
 #define GC_SPLITTERMOVED       (WM_USER+101)
 #define GC_CLOSEWINDOW         (WM_USER+103)

@@ -178,7 +178,6 @@ TCHAR*        Chat_DoRtfToTags(char* pszRtfText, SESSION_INFO *si);
 
 #include "chat_resource.h"
 
-extern char *szChatIconString;
 extern char szIndicators[];
 
 #define DEFLOGFILENAME _T("%miranda_logpath%\\%proto%\\%userid%.log")
