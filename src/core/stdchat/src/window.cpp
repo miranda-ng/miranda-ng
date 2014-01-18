@@ -30,6 +30,8 @@ struct MESSAGESUBDATA
 	TCHAR  szTabSave[20];
 };
 
+static TCHAR szTrimString[] = _T(":;,.!?\'\"><()[]- \r\n");
+
 static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	RECT rc;
@@ -647,7 +649,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR;
 			SendMessage(hwnd, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
-			if (pci->MM_FindModule(Parentsi->pszModule) && pci->MM_FindModule(Parentsi->pszModule)->bColor) {
+			MODULEINFO *pmi = pci->MM_FindModule(Parentsi->pszModule);
+			if (pmi && pmi->bColor) {
 				int index = GetColorIndex(Parentsi->pszModule, cf.crTextColor);
 				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_COLOR);
 
@@ -662,7 +665,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					CheckDlgButton(GetParent(hwnd), IDC_COLOR, BST_UNCHECKED);
 			}
 
-			if (pci->MM_FindModule(Parentsi->pszModule) && pci->MM_FindModule(Parentsi->pszModule)->bBkgColor) {
+			if (pmi && pmi->bBkgColor) {
 				int index = GetColorIndex(Parentsi->pszModule, cf.crBackColor);
 				COLORREF crB = (COLORREF)db_get_dw(NULL, "Chat", "ColorMessageBG", GetSysColor(COLOR_WINDOW));
 				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_BKGCOLOR);
@@ -677,7 +680,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					CheckDlgButton(GetParent(hwnd), IDC_BKGCOLOR, BST_UNCHECKED);
 			}
 
-			if (pci->MM_FindModule(Parentsi->pszModule) && pci->MM_FindModule(Parentsi->pszModule)->bBold) {
+			if (pmi && pmi->bBold) {
 				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_BOLD);
 				UINT u2 = cf.dwEffects;
 				u2 &= CFE_BOLD;
@@ -687,7 +690,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					CheckDlgButton(GetParent(hwnd), IDC_BOLD, BST_UNCHECKED);
 			}
 
-			if (pci->MM_FindModule(Parentsi->pszModule) && pci->MM_FindModule(Parentsi->pszModule)->bItalics) {
+			if (pmi && pmi->bItalics) {
 				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_ITALICS);
 				UINT u2 = cf.dwEffects;
 				u2 &= CFE_ITALIC;
@@ -697,7 +700,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					CheckDlgButton(GetParent(hwnd), IDC_ITALICS, BST_UNCHECKED);
 			}
 
-			if (pci->MM_FindModule(Parentsi->pszModule) && pci->MM_FindModule(Parentsi->pszModule)->bUnderline) {
+			if (pmi && pmi->bUnderline) {
 				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_UNDERLINE);
 				UINT u2 = cf.dwEffects;
 				u2 &= CFE_UNDERLINE;
@@ -865,7 +868,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				i = TabCtrl_HitTest(hwnd, &tci);
 				if (i != -1) {
 					TCITEM tc;
-					SESSION_INFO* s = NULL;
+					SESSION_INFO *s = NULL;
 
 					tc.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, i, &tc);
@@ -1177,7 +1180,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			if (g_Settings.TabsEnable && db_get_b(NULL, "Chat", "TabRestore", 0)) {
 				TABLIST *node = g_TabList;
 				while (node) {
-					SESSION_INFO* s = pci->SM_FindSession(node->pszID, node->pszModule);
+					SESSION_INFO *s = pci->SM_FindSession(node->pszID, node->pszModule);
 					if (s)
 						SendMessage(hwndDlg, GC_ADDTAB, -1, (LPARAM)s);
 
@@ -1204,10 +1207,11 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			InitButtons(hwndDlg, si);
 
 			// stupid hack to make icons show. I dunno why this is needed currently
-			HICON hIcon = si->wStatus == ID_STATUS_ONLINE ? pci->MM_FindModule(si->pszModule)->hOnlineIcon : pci->MM_FindModule(si->pszModule)->hOfflineIcon;
+			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+			HICON hIcon = si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
 			if (!hIcon) {
 				pci->MM_IconsChanged();
-				hIcon = (si->wStatus == ID_STATUS_ONLINE) ? pci->MM_FindModule(si->pszModule)->hOnlineIcon : pci->MM_FindModule(si->pszModule)->hOfflineIcon;
+				hIcon = (si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;
 			}
 
 			SendMessage(hwndDlg, GC_FIXTABICONS, 0, 0);
@@ -1282,19 +1286,19 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 	case GC_UPDATESTATUSBAR:
 		{
-			int iStatusbarParts[2];
-			TCHAR* ptszDispName = pci->MM_FindModule(si->pszModule)->ptszModDispName;
+			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+			TCHAR* ptszDispName = mi->ptszModDispName;
 			int x = 12;
 			x += GetTextPixelSize(ptszDispName, (HFONT)SendMessage(si->hwndStatus,WM_GETFONT,0,0), TRUE);
 			x += GetSystemMetrics(SM_CXSMICON);
-			iStatusbarParts[0] = x; iStatusbarParts[1] = -1;
+			int iStatusbarParts[2] = { x, -1 };
 			SendMessage(si->hwndStatus,SB_SETPARTS,2 ,(LPARAM)&iStatusbarParts);
 
 			// stupid hack to make icons show. I dunno why this is needed currently
-			HICON hIcon = si->wStatus == ID_STATUS_ONLINE ? pci->MM_FindModule(si->pszModule)->hOnlineIcon : pci->MM_FindModule(si->pszModule)->hOfflineIcon;
+			HICON hIcon = si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
 			if (!hIcon) {
 				pci->MM_IconsChanged();
-				hIcon = si->wStatus==ID_STATUS_ONLINE?pci->MM_FindModule(si->pszModule)->hOnlineIcon:pci->MM_FindModule(si->pszModule)->hOfflineIcon;
+				hIcon = si->wStatus==ID_STATUS_ONLINE?mi->hOnlineIcon:mi->hOfflineIcon;
 			}
 
 			SendMessage(si->hwndStatus, SB_SETICON, 0,(LPARAM)hIcon);
@@ -1497,7 +1501,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 END_REMOVETAB:
 			if (i != -1 && i < tabId) {
 				TCITEM id = {0};
-				SESSION_INFO* s;
+				SESSION_INFO *s;
 				TabCtrl_DeleteItem(GetDlgItem(hwndDlg, IDC_TAB), i);
 				id.mask = TCIF_PARAM;
 				if (!TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &id)) {
@@ -1578,7 +1582,7 @@ END_REMOVETAB:
 
 	case GC_FIXTABICONS:
 		{
-			SESSION_INFO* s = (SESSION_INFO*) lParam;
+			SESSION_INFO *s = (SESSION_INFO*) lParam;
 			if (s) {
 				int tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB));
 				for (int i = 0; i < tabId; i++) {
@@ -1588,14 +1592,15 @@ END_REMOVETAB:
 					SESSION_INFO *s2 = (SESSION_INFO*)tci.lParam;
 					if (s2 && s == s2) {
 						int image = 0;
-						if (!(s2->wState&GC_EVENT_HIGHLIGHT)) {
-							image = s2->wStatus==ID_STATUS_ONLINE?pci->MM_FindModule(s2->pszModule)->OnlineIconIndex:pci->MM_FindModule(s2->pszModule)->OfflineIconIndex;
-							if (s2->wState&STATE_TALK)
+						if (!(s2->wState & GC_EVENT_HIGHLIGHT)) {
+							MODULEINFO *mi = pci->MM_FindModule(s2->pszModule);
+							image = (s2->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
+							if (s2->wState & STATE_TALK)
 								image++;
 						}
 
 						if (tci.iImage != image) {
-							tci.mask = TCIF_IMAGE ;
+							tci.mask = TCIF_IMAGE;
 							tci.iImage = image;
 							TabCtrl_SetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
 				}	}	}
@@ -1664,12 +1669,12 @@ END_REMOVETAB:
 				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &id);
 				SESSION_INFO *s = (SESSION_INFO*)id.lParam;
 				if (s) {
-					if (s->wState&STATE_TALK) {
+					if (s->wState & STATE_TALK) {
 						s->wState &= ~STATE_TALK;
 						db_set_w(s->hContact, s->pszModule ,"ApparentMode",(LPARAM) 0);
 					}
 
-					if (s->wState&GC_EVENT_HIGHLIGHT) {
+					if (s->wState & GC_EVENT_HIGHLIGHT) {
 						s->wState &= ~GC_EVENT_HIGHLIGHT;
 
 						if (CallService(MS_CLIST_GETEVENT, (WPARAM)s->hContact, 0))
@@ -1887,37 +1892,37 @@ LABEL_SHOWWINDOW:
 
 			static int x = 0;
 
-			GetWindowRect(GetDlgItem(hwndDlg,IDC_LOG),&rcLog);
-			if ((HWND)lParam==GetDlgItem(hwndDlg,IDC_SPLITTERX)) {
+			GetWindowRect(GetDlgItem(hwndDlg, IDC_LOG), &rcLog);
+			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SPLITTERX)) {
 				int oldSplitterX;
-				GetClientRect(hwndDlg,&rc);
-				pt.x=wParam; pt.y=0;
-				ScreenToClient(hwndDlg,&pt);
+				GetClientRect(hwndDlg, &rc);
+				pt.x = wParam; pt.y = 0;
+				ScreenToClient(hwndDlg, &pt);
 
-				oldSplitterX=si->iSplitterX;
-				si->iSplitterX=rc.right-pt.x+1;
+				oldSplitterX = si->iSplitterX;
+				si->iSplitterX = rc.right - pt.x + 1;
 				if (si->iSplitterX < 35)
-					si->iSplitterX=35;
-				if (si->iSplitterX > rc.right-rc.left-35)
-					si->iSplitterX = rc.right-rc.left-35;
+					si->iSplitterX = 35;
+				if (si->iSplitterX > rc.right - rc.left - 35)
+					si->iSplitterX = rc.right - rc.left - 35;
 				g_Settings.iSplitterX = si->iSplitterX;
 			}
-			else if ((HWND)lParam==GetDlgItem(hwndDlg,IDC_SPLITTERY)) {
+			else if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SPLITTERY)) {
 				int oldSplitterY;
-				GetClientRect(hwndDlg,&rc);
-				pt.x=0; pt.y=wParam;
-				ScreenToClient(hwndDlg,&pt);
+				GetClientRect(hwndDlg, &rc);
+				pt.x = 0; pt.y = wParam;
+				ScreenToClient(hwndDlg, &pt);
 
-				oldSplitterY=si->iSplitterY;
-				si->iSplitterY=bFormat?rc.bottom-pt.y+1:rc.bottom-pt.y+20;
+				oldSplitterY = si->iSplitterY;
+				si->iSplitterY = bFormat ? rc.bottom - pt.y + 1 : rc.bottom - pt.y + 20;
 				if (si->iSplitterY<63)
-					si->iSplitterY=63;
-				if (si->iSplitterY>rc.bottom-rc.top-40)
-					si->iSplitterY = rc.bottom-rc.top-40;
+					si->iSplitterY = 63;
+				if (si->iSplitterY>rc.bottom - rc.top - 40)
+					si->iSplitterY = rc.bottom - rc.top - 40;
 				g_Settings.iSplitterY = si->iSplitterY;
 			}
-			if (x==2) {
-				PostMessage(hwndDlg,WM_SIZE,0,0);
+			if (x == 2) {
+				PostMessage(hwndDlg, WM_SIZE, 0, 0);
 				x = 0;
 			}
 			else x++;
@@ -2001,7 +2006,6 @@ LABEL_SHOWWINDOW:
 	case WM_MOUSEACTIVATE:
 		{
 			WINDOWPLACEMENT wp = { 0 };
-
 			wp.length = sizeof(wp);
 			GetWindowPlacement(hwndDlg, &wp);
 			g_Settings.iX = wp.rcNormalPosition.left;
@@ -2012,12 +2016,10 @@ LABEL_SHOWWINDOW:
 			if (g_Settings.TabsEnable) {
 				int i = TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_TAB));
 				if (i != -1) {
-					SESSION_INFO* s;
 					TCITEM tci;
-
 					tci.mask = TCIF_PARAM;
 					TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
-					s = (SESSION_INFO*) tci.lParam;
+					SESSION_INFO *s = (SESSION_INFO*)tci.lParam;
 					if (s) {
 						s->wState &= ~GC_EVENT_HIGHLIGHT;
 						s->wState &= ~STATE_TALK;
@@ -2039,263 +2041,253 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case WM_NOTIFY:
-		{
-			LPNMHDR pNmhdr = (LPNMHDR)lParam;
-			switch (pNmhdr->code) {
-			case NM_RCLICK:
-				if (pNmhdr->idFrom == IDC_TAB  ) {
-					int i = TabCtrl_GetCurSel(pNmhdr->hwndFrom);
-					if (i != -1) {
-						SESSION_INFO* s;
-						HMENU hSubMenu;
-						TCHITTESTINFO tci = {0};
-						TCITEM id = {0};
-						int i = 0;
-						id.mask = TCIF_PARAM;
+		switch (((LPNMHDR)lParam)->code) {
+		case NM_RCLICK:
+			if (((LPNMHDR)lParam)->idFrom == IDC_TAB) {
+				int i = TabCtrl_GetCurSel(((LPNMHDR)lParam)->hwndFrom);
+				if (i == -1)
+					break;
 
-						tci.pt.x=(short)LOWORD(GetMessagePos());
-						tci.pt.y=(short)HIWORD(GetMessagePos());
-						tci.flags = TCHT_ONITEM;
+				TCHITTESTINFO tci = { 0 };
+				tci.pt.x = (short)LOWORD(GetMessagePos());
+				tci.pt.y = (short)HIWORD(GetMessagePos());
+				tci.flags = TCHT_ONITEM;
+				ScreenToClient(GetDlgItem(hwndDlg, IDC_TAB), &tci.pt);
+				if ((i = TabCtrl_HitTest(((LPNMHDR)lParam)->hwndFrom, &tci)) == -1)
+					break;
 
-						ScreenToClient(GetDlgItem(hwndDlg, IDC_TAB), &tci.pt);
-						i = TabCtrl_HitTest(pNmhdr->hwndFrom, &tci);
-						if (i != -1) {
-							TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &id);
-							s = (SESSION_INFO*)id.lParam;
+				TCITEM id = { 0 };
+				id.mask = TCIF_PARAM;
+				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &id);
+				SESSION_INFO *s = (SESSION_INFO*)id.lParam;
 
-							ClientToScreen(GetDlgItem(hwndDlg, IDC_TAB), &tci.pt);
-							hSubMenu = GetSubMenu(g_hMenu, 5);
-							TranslateMenu(hSubMenu);
-							if (s) {
-								WORD w = db_get_w(s->hContact, s->pszModule, "TabPosition", 0);
-								if ( w == 0)
-									CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND|MF_UNCHECKED);
-								else
-									CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND|MF_CHECKED);
-							}
-							else CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND|MF_UNCHECKED);
+				ClientToScreen(GetDlgItem(hwndDlg, IDC_TAB), &tci.pt);
+				HMENU hSubMenu = GetSubMenu(g_hMenu, 5);
+				TranslateMenu(hSubMenu);
+				if (s) {
+					WORD w = db_get_w(s->hContact, s->pszModule, "TabPosition", 0);
+					if (w == 0)
+						CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_UNCHECKED);
+					else
+						CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_CHECKED);
+				}
+				else CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_UNCHECKED);
 
-							switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, tci.pt.x, tci.pt.y, 0, hwndDlg, NULL)) {
-							case ID_CLOSE:
-								if (TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_TAB)) == i)
-									PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_CLOSE, BN_CLICKED), 0);
-								else
-									TabCtrl_DeleteItem(GetDlgItem(hwndDlg, IDC_TAB), i);
-								break;
+				switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, tci.pt.x, tci.pt.y, 0, hwndDlg, NULL)) {
+				case ID_CLOSE:
+					if (TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_TAB)) == i)
+						PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_CLOSE, BN_CLICKED), 0);
+					else
+						TabCtrl_DeleteItem(GetDlgItem(hwndDlg, IDC_TAB), i);
+					break;
 
-							case ID_CLOSEOTHER:
-								{
-									int tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB)) - 1;
-									if (tabId > 0) {
-										if (TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_TAB)) != i)
-											if (s)
-												pci->ShowRoom(s, WINDOW_VISIBLE, TRUE);
+				case ID_CLOSEOTHER:
+					{
+						int tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB)) - 1;
+						if (tabId > 0) {
+							if (TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_TAB)) != i)
+								if (s)
+									pci->ShowRoom(s, WINDOW_VISIBLE, TRUE);
 
-										for(tabId; tabId >= 0; tabId --) {
-											if (tabId == i)
-												continue;
+							for(tabId; tabId >= 0; tabId --) {
+								if (tabId == i)
+									continue;
 
-											TabCtrl_DeleteItem(GetDlgItem(hwndDlg, IDC_TAB), tabId);
-								}	}	}
-								break;
+								TabCtrl_DeleteItem(GetDlgItem(hwndDlg, IDC_TAB), tabId);
+					}	}	}
+					break;
 
-							case ID_LOCKPOSITION:
-								TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &id);
-								if (!(GetMenuState(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND)&MF_CHECKED)) {
-									if (s->hContact)
-										db_set_w(s->hContact, s->pszModule, "TabPosition", (WORD)(i + 1));
-								}
-								else db_unset(s->hContact, s->pszModule, "TabPosition");
-								break;
-				}	}	}	}
-				break;
+				case ID_LOCKPOSITION:
+					TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &id);
+					if (!(GetMenuState(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND)&MF_CHECKED)) {
+						if (s->hContact)
+							db_set_w(s->hContact, s->pszModule, "TabPosition", (WORD)(i + 1));
+					}
+					else db_unset(s->hContact, s->pszModule, "TabPosition");
+					break;
+				}
+			}
+			break;
 
-			case EN_MSGFILTER:
-				if (pNmhdr->idFrom == IDC_LOG && ((MSGFILTER *) lParam)->msg == WM_RBUTTONUP) {
-					CHARRANGE sel, all = { 0, -1 };
-					POINT pt;
-					UINT uID = 0;
-					HMENU hMenu = 0;
-					TCHAR pszWord[4096];
+		case EN_MSGFILTER:
+			if (((LPNMHDR)lParam)->idFrom == IDC_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
+				CHARRANGE sel, all = { 0, -1 };
+				POINT pt;
+				UINT uID = 0;
+				HMENU hMenu = 0;
+				TCHAR pszWord[4096];
 
-					pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
-					pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
-					ClientToScreen(pNmhdr->hwndFrom, &pt);
+				pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
+				pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
+				ClientToScreen(((LPNMHDR)lParam)->hwndFrom, &pt);
 
-					{ // fixing stuff for searches
-						long iCharIndex, iLineIndex, iChars, start, end, iRes;
-						POINTL ptl;
+				// fixing stuff for searches
+				pszWord[0] = '\0';
 
-						pszWord[0] = '\0';
-						ptl.x = (LONG)pt.x;
-						ptl.y = (LONG)pt.y;
-						ScreenToClient(GetDlgItem(hwndDlg, IDC_LOG), (LPPOINT)&ptl);
-						iCharIndex = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_CHARFROMPOS, 0, (LPARAM)&ptl);
-						if (iCharIndex < 0)
-							break;
-						iLineIndex = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_EXLINEFROMCHAR, 0, (LPARAM)iCharIndex);
-						iChars = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_LINEINDEX, (WPARAM)iLineIndex, 0 );
-						start = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_FINDWORDBREAK, WB_LEFT, iCharIndex);//-iChars;
-						end = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);//-iChars;
+				POINTL ptl = { (LONG)pt.x, (LONG)pt.y };
+				ScreenToClient(GetDlgItem(hwndDlg, IDC_LOG), (LPPOINT)&ptl);
+				long iCharIndex = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_CHARFROMPOS, 0, (LPARAM)&ptl);
+				if (iCharIndex < 0)
+					break;
+					
+				long iLineIndex = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_EXLINEFROMCHAR, 0, (LPARAM)iCharIndex);
+				long iChars = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_LINEINDEX, (WPARAM)iLineIndex, 0);
+				long start = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_FINDWORDBREAK, WB_LEFT, iCharIndex);//-iChars;
+				long end = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);//-iChars;
 
-						if (end - start > 0) {
-							TEXTRANGE tr;
-							CHARRANGE cr;
-							static TCHAR szTrimString[] = _T(":;,.!?\'\"><()[]- \r\n");
-							ZeroMemory(&tr, sizeof(TEXTRANGE));
+				if (end - start > 0) {
+					TEXTRANGE tr;
+					ZeroMemory(&tr, sizeof(TEXTRANGE));
 
-							cr.cpMin = start;
-							cr.cpMax = end;
-							tr.chrg = cr;
-							tr.lpstrText = pszWord;
-							iRes = SendMessage( GetDlgItem(hwndDlg, IDC_LOG), EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+					CHARRANGE cr;
+					cr.cpMin = start;
+					cr.cpMax = end;
+					tr.chrg = cr;
+					tr.lpstrText = pszWord;
+					long iRes = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+					if (iRes > 0) {
+						int iLen = lstrlen(pszWord) - 1;
+						while (iLen >= 0 && _tcschr(szTrimString, pszWord[iLen])) {
+							pszWord[iLen] = _T('\0');
+							iLen--;
+				}	}	}
 
-							if (iRes > 0) {
-								int iLen = lstrlen(pszWord)-1;
-								while(iLen >= 0 && _tcschr(szTrimString, pszWord[iLen])) {
-									pszWord[iLen] = _T('\0');
-									iLen--;
-					}	}	}	}
+				uID = CreateGCMenu(hwndDlg, &hMenu, 1, pt, si, NULL, pszWord);
+				switch (uID) {
+				case 0:
+					PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0 );
+					break;
 
-					uID = CreateGCMenu(hwndDlg, &hMenu, 1, pt, si, NULL, pszWord);
-					switch (uID) {
-					case 0:
-						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0 );
-						break;
+				case ID_COPYALL:
+					SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXGETSEL, 0, (LPARAM) &sel);
+					SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM) & all);
+					SendMessage(((LPNMHDR)lParam)->hwndFrom, WM_COPY, 0, 0);
+					SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM) &sel);
+					PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0 );
+					break;
 
-					case ID_COPYALL:
-						SendMessage(pNmhdr->hwndFrom, EM_EXGETSEL, 0, (LPARAM) &sel);
-						SendMessage(pNmhdr->hwndFrom, EM_EXSETSEL, 0, (LPARAM) & all);
-						SendMessage(pNmhdr->hwndFrom, WM_COPY, 0, 0);
-						SendMessage(pNmhdr->hwndFrom, EM_EXSETSEL, 0, (LPARAM) &sel);
-						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0 );
-						break;
-
-					case ID_CLEARLOG:
-						{
-							SESSION_INFO* s = pci->SM_FindSession(si->ptszID, si->pszModule);
-							if (s) {
-								SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
-								pci->LM_RemoveAll(&s->pLog, &s->pLogEnd);
-								s->iEventCount = 0;
-								s->LastTime = 0;
-								si->iEventCount = 0;
-								si->LastTime = 0;
-								si->pLog = s->pLog;
-								si->pLogEnd = s->pLogEnd;
-								PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0 );
-							}
-						}
-						break;
-
-					case ID_SEARCH_GOOGLE:
-						if (pszWord[0])
-							CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, 
-								(LPARAM)CMString(FORMAT, _T("http://www.google.com/search?q=%s"), pszWord).GetString());
-
-						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
-						break;
-
-					case ID_SEARCH_WIKIPEDIA:
-						{
-							TCHAR szURL[4096];
-							if (pszWord[0]) {
-								mir_sntprintf( szURL, SIZEOF( szURL ), _T("http://en.wikipedia.org/wiki/%s"), pszWord );
-								CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) szURL);
-							}
+				case ID_CLEARLOG:
+					{
+						SESSION_INFO *s = pci->SM_FindSession(si->ptszID, si->pszModule);
+						if (s) {
+							SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
+							pci->LM_RemoveAll(&s->pLog, &s->pLogEnd);
+							s->iEventCount = 0;
+							s->LastTime = 0;
+							si->iEventCount = 0;
+							si->LastTime = 0;
+							si->pLog = s->pLog;
+							si->pLogEnd = s->pLogEnd;
 							PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0 );
 						}
-						break;
-
-					default:
-						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0 );
-						pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_LOGMENU, NULL, NULL, (LPARAM)uID);
-						break;
 					}
-					DestroyGCMenu(&hMenu, 5);
+					break;
+
+				case ID_SEARCH_GOOGLE:
+					if (pszWord[0])
+						CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, 
+							(LPARAM)CMString(FORMAT, _T("http://www.google.com/search?q=%s"), pszWord).GetString());
+
+					PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
+					break;
+
+				case ID_SEARCH_WIKIPEDIA:
+					if (pszWord[0]) {
+						TCHAR szURL[1024];
+						mir_sntprintf(szURL, SIZEOF(szURL), _T("http://en.wikipedia.org/wiki/%s"), pszWord);
+						CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)szURL);
+					}
+					PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
+					break;
+
+				default:
+					PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0 );
+					pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_LOGMENU, NULL, NULL, (LPARAM)uID);
+					break;
 				}
-				break;
+				DestroyGCMenu(&hMenu, 5);
+			}
+			break;
 
-			case EN_LINK:
-				if (pNmhdr->idFrom == IDC_LOG) {
-					switch (((ENLINK *) lParam)->msg) {
-					case WM_RBUTTONDOWN:
-					case WM_LBUTTONUP:
-					case WM_LBUTTONDBLCLK:
-						{
-							TEXTRANGE tr;
-							CHARRANGE sel;
-
-							SendMessage(pNmhdr->hwndFrom, EM_EXGETSEL, 0, (LPARAM) &sel);
-							if (sel.cpMin != sel.cpMax)
-								break;
-							tr.chrg = ((ENLINK *) lParam)->chrg;
-							tr.lpstrText = (LPTSTR)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
-							SendMessage(pNmhdr->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
-
-							if (((ENLINK *) lParam)->msg == WM_RBUTTONDOWN) {
-								HMENU hSubMenu;
-								POINT pt;
-
-								hSubMenu = GetSubMenu(g_hMenu, 2);
-								TranslateMenu(hSubMenu);
-								pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
-								pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
-								ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
-								switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
-								case ID_NEW:
-									CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) tr.lpstrText);
-									break;
-
-								case ID_CURR:
-									CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM) tr.lpstrText);
-									break;
-
-								case ID_COPY:
-									{
-										HGLOBAL hData;
-										if (!OpenClipboard(hwndDlg))
-											break;
-										EmptyClipboard();
-										hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(tr.lpstrText) + 1));
-										lstrcpy(( TCHAR* )GlobalLock(hData), tr.lpstrText);
-										GlobalUnlock(hData);
-										SetClipboardData(CF_UNICODETEXT, hData);
-										CloseClipboard();
-										SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-										break;
-								}	}
-								mir_free(tr.lpstrText);
-								return TRUE;
-							}
-
-							CallService(MS_UTILS_OPENURL, OUF_TCHAR|OUF_NEWWINDOW, (LPARAM) tr.lpstrText);
-							SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-							mir_free(tr.lpstrText);
+		case EN_LINK:
+			if (((LPNMHDR)lParam)->idFrom == IDC_LOG) {
+				switch (((ENLINK *) lParam)->msg) {
+				case WM_RBUTTONDOWN:
+				case WM_LBUTTONUP:
+				case WM_LBUTTONDBLCLK:
+					{
+						CHARRANGE sel;
+						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXGETSEL, 0, (LPARAM) &sel);
+						if (sel.cpMin != sel.cpMax)
 							break;
-				}	}	}
-				break;
 
-			case TTN_NEEDTEXT:
-				if (pNmhdr->idFrom == (UINT_PTR)GetDlgItem(hwndDlg, IDC_LIST)) {
-					LPNMTTDISPINFO lpttd = (LPNMTTDISPINFO)lParam;
-					SESSION_INFO* parentdat = (SESSION_INFO*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					POINT p;
-					GetCursorPos(&p);
-					ScreenToClient(GetDlgItem(hwndDlg, IDC_LIST), &p);
-					int item = LOWORD(SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
-					USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
-					if (ui != NULL) {
-						static TCHAR ptszBuf[1024];
-						mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
-							TranslateT("Nickname"), ui->pszNick,
-							TranslateT("Unique ID"), ui->pszUID,
-							TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
-						lpttd->lpszText = ptszBuf;
-					}
+						TEXTRANGE tr;
+						tr.chrg = ((ENLINK *)lParam)->chrg;
+						tr.lpstrText = (LPTSTR)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
+						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+
+						if (((ENLINK *)lParam)->msg == WM_RBUTTONDOWN) {
+							HMENU hSubMenu;
+							POINT pt;
+
+							hSubMenu = GetSubMenu(g_hMenu, 2);
+							TranslateMenu(hSubMenu);
+							pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
+							pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
+							ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
+							switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
+							case ID_NEW:
+								CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) tr.lpstrText);
+								break;
+
+							case ID_CURR:
+								CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM) tr.lpstrText);
+								break;
+
+							case ID_COPY:
+								{
+									HGLOBAL hData;
+									if (!OpenClipboard(hwndDlg))
+										break;
+									EmptyClipboard();
+									hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(tr.lpstrText) + 1));
+									lstrcpy(( TCHAR* )GlobalLock(hData), tr.lpstrText);
+									GlobalUnlock(hData);
+									SetClipboardData(CF_UNICODETEXT, hData);
+									CloseClipboard();
+									SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
+									break;
+							}	}
+							mir_free(tr.lpstrText);
+							return TRUE;
+						}
+
+						CallService(MS_UTILS_OPENURL, OUF_TCHAR|OUF_NEWWINDOW, (LPARAM) tr.lpstrText);
+						SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
+						mir_free(tr.lpstrText);
+						break;
+			}	}	}
+			break;
+
+		case TTN_NEEDTEXT:
+			if (((LPNMHDR)lParam)->idFrom == (UINT_PTR)GetDlgItem(hwndDlg, IDC_LIST)) {
+				LPNMTTDISPINFO lpttd = (LPNMTTDISPINFO)lParam;
+				SESSION_INFO* parentdat = (SESSION_INFO*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				POINT p;
+				GetCursorPos(&p);
+				ScreenToClient(GetDlgItem(hwndDlg, IDC_LIST), &p);
+				int item = LOWORD(SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
+				USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
+				if (ui != NULL) {
+					static TCHAR ptszBuf[1024];
+					mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+						TranslateT("Nickname"), ui->pszNick,
+						TranslateT("Unique ID"), ui->pszUID,
+						TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
+					lpttd->lpszText = ptszBuf;
 				}
-				break;
-		}	}
+			}
+		}
 		break;
 
 	case WM_COMMAND:
@@ -2328,7 +2320,7 @@ LABEL_SHOWWINDOW:
 				return TRUE;
 			}
 
-			if ( HIWORD(wParam) == LBN_KILLFOCUS )
+			if (HIWORD(wParam) == LBN_KILLFOCUS)
 				RedrawWindow(GetDlgItem(hwndDlg, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
 			break;
 
@@ -2379,12 +2371,10 @@ LABEL_SHOWWINDOW:
 
 		case IDC_SMILEY:
 			{
-				SMADD_SHOWSEL3 smaddInfo;
 				RECT rc;
-
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEY), &rc);
 
-				smaddInfo.cbSize = sizeof(SMADD_SHOWSEL3);
+				SMADD_SHOWSEL3 smaddInfo = { sizeof(smaddInfo) };
 				smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_MESSAGE);
 				smaddInfo.targetMessage = EM_REPLACESEL;
 				smaddInfo.targetWParam = TRUE;
@@ -2401,26 +2391,21 @@ LABEL_SHOWWINDOW:
 			break;
 
 		case IDC_HISTORY:
-			{
-				TCHAR szFile[MAX_PATH];
-				TCHAR szName[MAX_PATH];
-				TCHAR szFolder[MAX_PATH];
-				MODULEINFO * pInfo = pci->MM_FindModule(si->pszModule);
-
-				if (!IsWindowEnabled(GetDlgItem(hwndDlg,IDC_HISTORY)))
-					break;
-
-				if ( pInfo ) {
-					TCHAR *szModName = NULL;
-					mir_sntprintf(szName, MAX_PATH, _T("%s"), pInfo->ptszModDispName ? pInfo->ptszModDispName : (szModName = mir_a2t(si->pszModule)));
-					mir_free(szModName);
+			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_HISTORY))) {
+				MODULEINFO *pInfo = pci->MM_FindModule(si->pszModule);
+				if (pInfo) {
+					TCHAR szFile[MAX_PATH], szName[MAX_PATH], szFolder[MAX_PATH];
+					mir_sntprintf(szName, MAX_PATH, _T("%s"), pInfo->ptszModDispName ? pInfo->ptszModDispName : _A2T(si->pszModule));
 					ValidateFilename(szName);
+
 					mir_sntprintf(szFolder, MAX_PATH, _T("%s\\%s"), g_Settings.pszLogDir, szName);
-                    mir_sntprintf(szName, MAX_PATH, _T("%s.log"), si->ptszID);
+					mir_sntprintf(szName, MAX_PATH, _T("%s.log"), si->ptszID);
 					ValidateFilename(szName);
+
 					mir_sntprintf(szFile, MAX_PATH, _T("%s\\%s"), szFolder, szName);
 					ShellExecute(hwndDlg, _T("open"), szFile, NULL, NULL, SW_SHOW);
-			}	}
+				}
+			}
 			break;
 
 		case IDC_CLOSE:
@@ -2447,54 +2432,51 @@ LABEL_SHOWWINDOW:
 			break;
 
 		case IDC_BKGCOLOR:
-			{
+			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BKGCOLOR))) {
 				CHARFORMAT2 cf;
-
 				cf.cbSize = sizeof(CHARFORMAT2);
 				cf.dwEffects = 0;
 
-				if (!IsWindowEnabled(GetDlgItem(hwndDlg,IDC_BKGCOLOR)))
-					break;
-
-				if (IsDlgButtonChecked(hwndDlg, IDC_BKGCOLOR )) {
+				if (IsDlgButtonChecked(hwndDlg, IDC_BKGCOLOR)) {
 					if (db_get_b(NULL, "Chat", "RightClickFilter", 0) == 0)
 						SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_BKGCOLOR);
 					else if (si->bBGSet) {
 						cf.dwMask = CFM_BACKCOLOR;
 						cf.crBackColor = pci->MM_FindModule(si->pszModule)->crColors[si->iBG];
 						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-				}	}
+					}
+				}
 				else {
 					cf.dwMask = CFM_BACKCOLOR;
 					cf.crBackColor = (COLORREF)db_get_dw(NULL, "Chat", "ColorMessageBG", GetSysColor(COLOR_WINDOW));
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-			}	}
+				}
+			}
 			break;
 
 		case IDC_COLOR:
-			{
+			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_COLOR))) {
 				CHARFORMAT2 cf;
 				cf.cbSize = sizeof(CHARFORMAT2);
 				cf.dwEffects = 0;
 
-				if (!IsWindowEnabled(GetDlgItem(hwndDlg,IDC_COLOR)))
-					break;
-
-				if (IsDlgButtonChecked(hwndDlg, IDC_COLOR )) {
+				if (IsDlgButtonChecked(hwndDlg, IDC_COLOR)) {
 					if (db_get_b(NULL, "Chat", "RightClickFilter", 0) == 0)
 						SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_COLOR);
 					else if (si->bFGSet) {
 						cf.dwMask = CFM_COLOR;
 						cf.crTextColor = pci->MM_FindModule(si->pszModule)->crColors[si->iFG];
 						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-				}	}
+					}
+				}
 				else {
 					COLORREF cr;
 					pci->LoadMsgDlgFont(17, NULL, &cr);
 					cf.dwMask = CFM_COLOR;
 					cf.crTextColor = cr;
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-			}	}
+				}
+			}
 			break;
 
 		case IDC_BOLD:
@@ -2549,16 +2531,16 @@ LABEL_SHOWWINDOW:
 
 	case WM_CLOSE:
 		if (g_Settings.TabsEnable && g_Settings.TabRestore && lParam != 1) {
-			SESSION_INFO* s;
-			TCITEM id = {0};
+			TCITEM id = { 0 };
 			int j = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB)) - 1;
 			id.mask = TCIF_PARAM;
-			for(j; j >= 0; j--) {
+			for (j; j >= 0; j--) {
 				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), j, &id);
-				s = (SESSION_INFO*)id.lParam;
+				SESSION_INFO *s = (SESSION_INFO*)id.lParam;
 				if (s)
 					TabM_AddTab(s->ptszID, s->pszModule);
-		}	}
+			}
+		}
 
 		SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
 		break;

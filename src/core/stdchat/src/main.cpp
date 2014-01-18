@@ -326,6 +326,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	pci->OnAddLog = OnAddLog;
 	pci->OnClearLog = OnClearLog;
 	
+	pci->OnCreateModule = OnCreateModule;
 	pci->OnSessionOffline = OnSessionOffline;
 	pci->OnSessionRemove = OnSessionRemove;
 	pci->OnSessionRename = OnSessionRename;
