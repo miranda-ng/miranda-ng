@@ -278,6 +278,7 @@ int Chat_Load()
 	pci->DoPopup = DoPopup;
 	pci->ShowPopup = ShowPopup;
 	pci->Log_CreateRtfHeader = Log_CreateRtfHeader;
+	pci->UM_CompareItem = UM_CompareItem;
 	pci->ReloadSettings();
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));

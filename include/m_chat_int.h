@@ -359,6 +359,7 @@ struct CHAT_MANAGER
 	TCHAR*        (*UM_FindUserAutoComplete)(USERINFO* pUserList, const TCHAR* pszOriginal, const TCHAR* pszCurrent);
 	BOOL          (*UM_RemoveUser)(USERINFO** pUserList, const TCHAR *pszUID);
 	BOOL          (*UM_RemoveAll)(USERINFO** ppUserList);
+	int           (*UM_CompareItem)(USERINFO * u1, const TCHAR *pszNick, WORD wStatus);
 
 	LOGINFO*      (*LM_AddEvent)(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd);
 	BOOL          (*LM_TrimLog)(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd, int iCount);

@@ -1399,6 +1399,7 @@ CHAT_MANAGER ci =
 	UM_FindUserAutoComplete,
 	UM_RemoveUser,
 	UM_RemoveAll,
+	UM_CompareItem,
 
 	LM_AddEvent,
 	LM_TrimLog,

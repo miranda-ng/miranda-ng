@@ -156,6 +156,8 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* cu
 void SM_RemoveContainer(TContainerData *pContainer);
 BOOL SM_ReconfigureFilters();
 
+int UM_CompareItem(USERINFO *u1, const TCHAR* pszNick, WORD wStatus);
+
 //clist.c
 
 //tools.c

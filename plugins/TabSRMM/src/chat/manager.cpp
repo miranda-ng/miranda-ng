@@ -23,6 +23,46 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\commonheaders.h"
 
+static int sttCompareNicknames(const TCHAR *s1, const TCHAR *s2)
+{
+	// skip rubbish
+	while (*s1 && !_istalpha(*s1)) ++s1;
+	while (*s2 && !_istalpha(*s2)) ++s2;
+
+	// are there ~0veRy^kEwL_n1kz?
+	if (!*s1 && !*s2) return 0;
+	if (!*s1 && *s2) return +1;
+	if (*s1 && !*s2) return -1;
+
+	// compare tails
+	return lstrcmpi(s1, s2);
+}
+
+int UM_CompareItem(USERINFO *u1, const TCHAR* pszNick, WORD wStatus)
+{
+	WORD dw1 = u1->Status;
+	WORD dw2 = wStatus;
+
+	for (int i = 0; i < 8; i++) {
+		if ((dw1 & 1) && !(dw2 & 1))
+			return -1;
+		if ((dw2 & 1) && !(dw1 & 1))
+			return 1;
+		if ((dw1 & 1) && (dw2 & 1)) {
+			if (g_Settings.bAlternativeSorting)
+				return sttCompareNicknames(u1->pszNick, pszNick);
+			else
+				return lstrcmp(u1->pszNick, pszNick);
+		}
+		dw1 = dw1 >> 1;
+		dw2 = dw2 >> 1;
+	}
+	
+	if (g_Settings.bAlternativeSorting)
+		return sttCompareNicknames(u1->pszNick, pszNick);
+	return lstrcmp(u1->pszNick, pszNick);
+}
+
 //---------------------------------------------------
 //		Session Manager functions
 //
