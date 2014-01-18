@@ -21,18 +21,18 @@
     <CustomBuild Include="RemovePersonalSettings.ini">
       <Filter>Docs</Filter>
     </CustomBuild>
-    <CustomBuild Include="Docs\rps_changelog.txt">
+    <CustomBuild Include="docs\rps_changelog.txt">
       <Filter>Docs</Filter>
     </CustomBuild>
-    <CustomBuild Include="Docs\rps_readme.txt">
+    <CustomBuild Include="docs\rps_readme.txt">
       <Filter>Docs</Filter>
     </CustomBuild>
-    <CustomBuild Include="Docs\rps_version.txt">
+    <CustomBuild Include="docs\rps_version.txt">
       <Filter>Docs</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="rps.cpp">
+    <ClCompile Include="src\rps.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

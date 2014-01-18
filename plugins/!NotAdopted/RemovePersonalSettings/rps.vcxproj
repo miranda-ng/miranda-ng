@@ -255,15 +255,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="rps.cpp" />
+    <ClCompile Include="src\rps.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="RemovePersonalSettings.ini">
       <FileType>Document</FileType>
     </CustomBuild>
-    <CustomBuild Include="Docs\rps_changelog.txt" />
-    <CustomBuild Include="Docs\rps_readme.txt" />
-    <CustomBuild Include="Docs\rps_version.txt" />
+    <CustomBuild Include="docs\rps_changelog.txt" />
+    <CustomBuild Include="docs\rps_readme.txt" />
+    <CustomBuild Include="docs\rps_version.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
