@@ -932,7 +932,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				db_unset(NULL, "Chat", "LogDirectory");
 				db_set_b(0, "Chat", "LoggingEnabled", 0);
 			}
-			SM_InvalidateLogDirectories();
+			pci->SM_InvalidateLogDirectories();
 
 			iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_GETPOS, 0, 0);
 			db_set_w(NULL, "Chat", "LoggingLimit", (WORD)iLen);

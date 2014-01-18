@@ -579,8 +579,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 				db_set_ts(NULL, "Chat", "LogDirectory", pszText);
 			}
 			else db_unset(NULL, "Chat", "LogDirectory");
-
-			PathToAbsoluteT(pszText, g_Settings.pszLogDir);
+			pci->SM_InvalidateLogDirectories();
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGTIMESTAMP));
 			if (iLen > 0) {
@@ -619,8 +618,6 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 
 			g_Settings.LoggingEnabled = IsDlgButtonChecked(hwndDlg, IDC_LOGGING) == BST_CHECKED ? TRUE : FALSE;
 			db_set_b(NULL, "Chat", "LoggingEnabled", (BYTE)g_Settings.LoggingEnabled);
-			if (g_Settings.LoggingEnabled)
-				CreateDirectoryTreeT(g_Settings.pszLogDir);
 
 			iLen = SendDlgItemMessage(hwndDlg, IDC_SPIN2, UDM_GETPOS, 0, 0);
 			db_set_w(NULL, "Chat", "LogLimit", (WORD)iLen);
@@ -642,8 +639,6 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 			else
 				db_unset(NULL, "Chat", "NicklistRowDist");
 
-			// FreeMsgLogBitmaps(); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			// LoadMsgLogBitmaps();	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 			return TRUE;
 		}

@@ -331,6 +331,7 @@ struct CHAT_MANAGER
 	SESSION_INFO* (*SM_FindSessionByIndex)(const char *pszModule, int iItem);
 	char*         (*SM_GetUsers)(SESSION_INFO *si);
 	USERINFO*     (*SM_GetUserFromIndex)(const TCHAR *pszID, const char *pszModule, int index);
+	void          (*SM_InvalidateLogDirectories)(void);
 
 	MODULEINFO*   (*MM_AddModule)(const char *pszModule);
 	MODULEINFO*   (*MM_FindModule)(const char *pszModule);

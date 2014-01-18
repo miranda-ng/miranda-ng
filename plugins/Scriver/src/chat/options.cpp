@@ -539,13 +539,13 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				TCHAR *pszText1 = (TCHAR *)malloc(iLen*sizeof(TCHAR)+2);
 				GetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, pszText1, iLen + 1);
 				db_set_ts(NULL, "Chat", "LogDirectory", pszText1);
-				PathToAbsoluteT(pszText1, g_Settings.pszLogDir);
 				free(pszText1);
 			}
 			else {
 				lstrcpyn(g_Settings.pszLogDir, DEFLOGFILENAME, MAX_PATH);
 				db_unset(NULL, "Chat", "LogDirectory");
 			}
+			pci->SM_InvalidateLogDirectories();
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOGTIMESTAMP));
 			if (iLen > 0) {

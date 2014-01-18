@@ -771,7 +771,7 @@ static char* SM_GetUsers(SESSION_INFO *si)
 	do {
 		int pLen = lstrlenA(p), nameLen = lstrlen(utemp->pszUID);
 		if (pLen + nameLen + 2 > alloced)
-			p = (char *)mir_realloc(p, alloced += 4096);
+			p = (char*)mir_realloc(p, alloced += 4096);
 
 		WideCharToMultiByte(CP_ACP, 0, utemp->pszUID, -1, p + pLen, nameLen + 1, 0, 0);
 		lstrcpyA(p + pLen + nameLen, " ");
@@ -779,6 +779,12 @@ static char* SM_GetUsers(SESSION_INFO *si)
 	}
 	while (utemp != NULL);
 	return p;
+}
+
+static void SM_InvalidateLogDirectories()
+{
+	for (SESSION_INFO *si = ci.wndList; si; si = si->next)
+		si->pszLogFileName[0] = si->pszLogFileName[1] = 0;
 }
 
 
@@ -1367,6 +1373,7 @@ CHAT_MANAGER ci =
 	SM_FindSessionByIndex,
 	SM_GetUsers,
 	SM_GetUserFromIndex,
+	SM_InvalidateLogDirectories,
 
 	MM_AddModule,
 	MM_FindModule,

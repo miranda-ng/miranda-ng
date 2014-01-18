@@ -44,14 +44,6 @@ BOOL SM_ReconfigureFilters()
 	return TRUE;
 }
 
-BOOL SM_InvalidateLogDirectories()
-{
-	for (SESSION_INFO *si = pci->wndList; si; si = si->next)
-		si->pszLogFileName[0] = si->pszLogFileName[1] = 0;
-
-	return TRUE;
-}
-
 SESSION_INFO* SM_FindSessionByHWND(HWND hWnd)
 {
 	for (SESSION_INFO *si = pci->wndList; si; si = si->next)
