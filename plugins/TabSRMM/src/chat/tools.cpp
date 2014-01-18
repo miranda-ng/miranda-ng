@@ -96,67 +96,11 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
+BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
 	int iEvent = gce->pDest->iType;
-
-	if (si && (iEvent & si->iLogTrayFlags)) {
-		switch (iEvent) {
-		case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT :
-		case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT :
-			pci->AddEvent(si->hContact, PluginConfig.g_IconMsgEvent, szChatIconString, 0,
-				TranslateT("%s wants your attention in %s"), gce->ptszNick, si->ptszName);
-			break;
-		case GC_EVENT_MESSAGE :
-			pci->AddEvent(si->hContact, pci->hIcons[ICON_MESSAGE], szChatIconString, CLEF_ONLYAFEW,
-				TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
-			break;
-		case GC_EVENT_ACTION:
-			pci->AddEvent(si->hContact, pci->hIcons[ICON_ACTION], szChatIconString, CLEF_ONLYAFEW,
-				TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
-			break;
-		case GC_EVENT_JOIN:
-			pci->AddEvent(si->hContact, pci->hIcons[ICON_JOIN], szChatIconString, CLEF_ONLYAFEW,
-				TranslateT("%s has joined %s"), gce->ptszNick, si->ptszName);
-			break;
-		case GC_EVENT_PART:
-			pci->AddEvent(si->hContact, pci->hIcons[ICON_PART], szChatIconString, CLEF_ONLYAFEW,
-				TranslateT("%s has left %s"), gce->ptszNick, si->ptszName);
-			break;
-		case GC_EVENT_QUIT:
-			pci->AddEvent(si->hContact, pci->hIcons[ICON_QUIT], szChatIconString, CLEF_ONLYAFEW,
-				TranslateT("%s has disconnected"), gce->ptszNick);
-			break;
-		case GC_EVENT_NICK:
-			pci->AddEvent(si->hContact, pci->hIcons[ICON_NICK], szChatIconString, CLEF_ONLYAFEW,
-				TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
-			break;
-		case GC_EVENT_KICK:
-			pci->AddEvent(si->hContact, pci->hIcons[ICON_KICK], szChatIconString, CLEF_ONLYAFEW,
-				TranslateT("%s kicked %s from %s"), gce->ptszStatus, gce->ptszNick, si->ptszName);
-			break;
-		case GC_EVENT_NOTICE:
-			pci->AddEvent(si->hContact, pci->hIcons[ICON_NOTICE], szChatIconString, CLEF_ONLYAFEW,
-				TranslateT("Notice from %s"), gce->ptszNick);
-			break;
-		case GC_EVENT_TOPIC:
-			pci->AddEvent(si->hContact, pci->hIcons[ICON_TOPIC], szChatIconString, CLEF_ONLYAFEW,
-				TranslateT("Topic change in %s"), si->ptszName);
-			break;
-		case GC_EVENT_INFORMATION:
-			pci->AddEvent(si->hContact, pci->hIcons[ICON_INFO], szChatIconString, CLEF_ONLYAFEW,
-				TranslateT("Information in %s"), si->ptszName);
-			break;
-		case GC_EVENT_ADDSTATUS:
-			pci->AddEvent(si->hContact, pci->hIcons[ICON_ADDSTATUS], szChatIconString, CLEF_ONLYAFEW,
-				TranslateT("%s enables \'%s\' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
-			break;
-		case GC_EVENT_REMOVESTATUS:
-			pci->AddEvent(si->hContact, pci->hIcons[ICON_REMSTATUS], szChatIconString, CLEF_ONLYAFEW,
-				TranslateT("%s disables \'%s\' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
-			break;
-		}
-	}
+	if (si && (iEvent & si->iLogTrayFlags))
+		return saveCI.DoTrayIcon(si, gce);
 	return TRUE;
 }
 
@@ -515,6 +459,25 @@ TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 	return NULL;
 }
 
+/*
+* log the event to the log file
+* allows selective logging of wanted events
+*/
+
+BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
+{
+	if (!si || !gce)
+		return FALSE;
+
+	/*
+	* check whether we have to log this event
+	*/
+	if (!(gce->pDest->iType & si->iDiskLogFlags))
+		return FALSE;
+
+	return saveCI.LogToFile(si, gce); // call kernel method
+}
+
 UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText)
 {
 	HMENU hSubMenu = 0;
@@ -615,25 +578,6 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
 	}
 }
 
-BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem)
-{
-	SESSION_INFO *si = pci->SM_FindSession(pszID, pszModule);
-	if (si == NULL)
-		return FALSE;
-
-	GCHOOK *gch = (GCHOOK*)mir_calloc(sizeof(GCHOOK));
-	GCDEST *gcd = (GCDEST*)mir_calloc(sizeof(GCDEST));
-	gcd->pszModule = mir_strdup(pszModule);
-	gcd->ptszID = mir_tstrdup(pszID);
-	gch->ptszUID = mir_tstrdup(pszUID);
-	gch->ptszText = mir_tstrdup(pszText);
-	gcd->iType = iType;
-	gch->dwData = dwItem;
-	gch->pDest = gcd;
-	PostMessage(hwnd, GC_FIREHOOK, 0, (LPARAM)gch);
-	return TRUE;
-}
-
 /*
  * set all filters and notification config for a session
  * uses per channel mask + filterbits, default config as backup
@@ -666,6 +610,8 @@ void Chat_SetFilters(SESSION_INFO *si)
 	dwFlags_local = db_get_dw(si->hContact, "Chat", "TrayIconFlags", 0x03E0);
 	dwMask = db_get_dw(si->hContact, "Chat", "TrayIconMask", 0);
 
+	si->iDiskLogFlags = M.GetDword("Chat", "DiskLogFlags", 0xFFFF);
+
 	si->iLogTrayFlags = dwFlags_default;
 	for (int i=0; i < 32; i++)
 		if (dwMask & (1 << i))
@@ -673,89 +619,6 @@ void Chat_SetFilters(SESSION_INFO *si)
 
 	if (si->iLogFilterFlags == 0)
 		si->bFilterEnabled = 0;
-}
-
-static TCHAR tszOldTimeStamp[30];
-
-TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
-{
-	if (!tTime)
-		time(&tTime);
-
-	/*
-	 * check whether relevant parts of the timestamp have changed and
-	 * we have to reparse the filename
-	 */
-
-	TCHAR *tszNow = pci->MakeTimeStamp(_T("%a%d%m%Y"), tTime);
-
-	bool fReparse = false;
-	if (_tcscmp(tszOldTimeStamp, tszNow)) {
-		_tcsncpy(tszOldTimeStamp, tszNow, 30);
-		tszOldTimeStamp[29] = 0;
-		fReparse = true;
-	}
-
-	if (fReparse || 0 == si->pszLogFileName[0]) {
-		REPLACEVARSARRAY rva[11];
-		rva[0].lptzKey = _T("d");
-		rva[0].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%#d"), tTime));
-		// day 01-31
-		rva[1].lptzKey = _T("dd");
-		rva[1].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%d"), tTime));
-		// month 1-12
-		rva[2].lptzKey = _T("m");
-		rva[2].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%#m"), tTime));
-		// month 01-12
-		rva[3].lptzKey = _T("mm");
-		rva[3].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%m"), tTime));
-		// month text short
-		rva[4].lptzKey = _T("mon");
-		rva[4].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%b"), tTime));
-		// month text
-		rva[5].lptzKey = _T("month");
-		rva[5].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%B"), tTime));
-		// year 01-99
-		rva[6].lptzKey = _T("yy");
-		rva[6].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%y"), tTime));
-		// year 1901-9999
-		rva[7].lptzKey = _T("yyyy");
-		rva[7].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%Y"), tTime));
-		// weekday short
-		rva[8].lptzKey = _T("wday");
-		rva[8].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%a"), tTime));
-		// weekday
-		rva[9].lptzKey = _T("weekday");
-		rva[9].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%A"), tTime));
-		// end of array
-		rva[10].lptzKey = NULL;
-		rva[10].lptzValue = NULL;
-
-		if (g_Settings.pszLogDir[lstrlen(g_Settings.pszLogDir)-1] == '\\')
-			_tcscat(g_Settings.pszLogDir, _T("%userid%.log"));
-
-		REPLACEVARSDATA dat = { sizeof(dat) };
-		dat.dwFlags = RVF_TCHAR;
-		dat.hContact = si->hContact;
-		dat.variables = rva;
-		TCHAR *tszParsedName = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)g_Settings.pszLogDir, (LPARAM)&dat);
-
-		if (!M.pathIsAbsolute(tszParsedName))
-			mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s%s"), M.getChatLogPath(), tszParsedName);
-		else
-			mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s"), tszParsedName);
-
-		mir_free(tszParsedName);
-
-		for (int i=0; i < SIZEOF(rva);i++)
-			mir_free(rva[i].lptzValue);
-
-		for (TCHAR *p = si->pszLogFileName + 2; *p; ++p)
-			if (*p == ':' || *p == '*' || *p == '?' || *p == '"' || *p == '<' || *p == '>' || *p == '|' )
-				*p = _T('_');
-	}
-
-	return si->pszLogFileName;
 }
 
 BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)

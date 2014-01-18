@@ -162,26 +162,6 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
 	}
 }
 
-BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem)
-{
-	SESSION_INFO *si = pci->SM_FindSession(pszID, pszModule);
-	if (si == NULL)
-		return FALSE;
-
-	GCDEST *gcd = (GCDEST*)mir_calloc(sizeof(GCDEST));
-	gcd->pszModule = mir_strdup(pszModule);
-	gcd->ptszID = mir_tstrdup(pszID);
-	gcd->iType = iType;
-
-	GCHOOK *gch = (GCHOOK*)mir_calloc(sizeof(GCHOOK));
-	gch->ptszUID = mir_tstrdup(pszUID);
-	gch->ptszText = mir_tstrdup(pszText);
-	gch->dwData = dwItem;
-	gch->pDest = gcd;
-	PostMessage(hwnd, GC_FIREHOOK, 0, (LPARAM)gch);
-	return TRUE;
-}
-
 void ValidateFilename(TCHAR *filename)
 {
 	TCHAR *p1 = filename;

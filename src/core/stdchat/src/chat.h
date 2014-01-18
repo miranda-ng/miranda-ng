@@ -86,7 +86,11 @@ struct MODULEINFO : public GCModuleInfoBase
 	int OfflineIconIndex;
 };
 
-struct SESSION_INFO : public GCSessionInfoBase {};
+struct SESSION_INFO : public GCSessionInfoBase
+{
+	IAccPropServices* pAccPropServicesForNickList;
+};
+
 struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 
 struct GlobalLogSettings : public GlobalLogSettingsBase
@@ -99,6 +103,7 @@ struct GlobalLogSettings : public GlobalLogSettingsBase
 
 extern GlobalLogSettings g_Settings;
 extern SESSION_INFO g_TabSession;
+extern CHAT_MANAGER saveCI;
 extern TABLIST *g_TabList;
 extern HMENU g_hMenu;
 extern HIMAGELIST hIconsList;
@@ -157,6 +162,9 @@ char* Log_CreateRtfHeader(MODULEINFO * mi);
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam);
 int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth);
 
+SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si);
+SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si);
+
 // options.c
 int OptionsInitialize(WPARAM wParam, LPARAM lParam);
 void AddIcons(void);
@@ -171,7 +179,6 @@ void CheckColorsInModule(const char* pszModule);
 int  GetRichTextLength(HWND hwnd);
 UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void DestroyGCMenu(HMENU *hMenu, int iIndex);
-BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
 
 // message.c
 char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);

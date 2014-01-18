@@ -741,7 +741,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 			default:
 				PostMessage(GetParent(hwnd), WM_MOUSEACTIVATE, 0, 0);
-				DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_LOGMENU, NULL, NULL, (LPARAM)uID);
+				pci->DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_LOGMENU, NULL, NULL, (LPARAM)uID);
 				break;
 			}
 			DestroyGCMenu(&hMenu, 5);
@@ -916,11 +916,11 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					break;
 
 				case ID_MESS:
-					DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
+					pci->DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 					break;
 
 				default:
-					DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui->pszUID, NULL, (LPARAM)uID);
+					pci->DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui->pszUID, NULL, (LPARAM)uID);
 					break;
 				}
 				DestroyGCMenu(&hMenu, 1);
@@ -948,7 +948,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			int index = SendMessage(hwnd, LB_GETCURSEL, 0, 0);
 			if (index != LB_ERR) {
 				USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, index);
-				DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
+				pci->DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 			}
 			break;
 		}
@@ -1724,7 +1724,7 @@ LABEL_SHOWWINDOW:
 						SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM)pszName);
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 					}
-					else DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
+					else pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 				}
 
 				return TRUE;
@@ -1756,7 +1756,7 @@ LABEL_SHOWWINDOW:
 
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 
-				DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
+				pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
 				mir_free(pszRtf);
 				mir_free(ptszText);
 				SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
@@ -1815,7 +1815,7 @@ LABEL_SHOWWINDOW:
 		case IDC_CHAT_CHANMGR:
 			if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHAT_CHANMGR)))
 				break;
-			DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_CHANMGR, NULL, NULL, 0);
+			pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_CHANMGR, NULL, NULL, 0);
 			break;
 
 		case IDC_CHAT_FILTER:

@@ -61,17 +61,14 @@ struct MODULEINFO : public GCModuleInfoBase
 	DWORD          idleTimeStamp;
 	DWORD          lastIdleCheck;
 	TCHAR          tszIdleMsg[60];
-	MODULEINFO *   next;
 };
 
 struct SESSION_INFO : public GCSessionInfoBase
 {
 	TWindowData    *dat;
 	TContainerData *pContainer;
-	int             iLogTrayFlags, iLogPopupFlags, iSearchItem;
-
+	int             iLogTrayFlags, iLogPopupFlags, iDiskLogFlags, iSearchItem;
 	TCHAR           szSearch[255];
-	TCHAR           pszLogFileName[MAX_PATH + 50];
 };
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase
@@ -113,6 +110,7 @@ struct FLASH_PARAMS
 };
 
 extern TMUCSettings g_Settings;
+extern CHAT_MANAGER saveCI;
 
 struct COLORCHOOSER
 {
@@ -133,7 +131,6 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 // log.c
 void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedraw, bool bPhaseTwo);
 char*  Log_CreateRtfHeader(MODULEINFO *mi);
-TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime);
 void   Log_SetStyles();
 
 // window.c
@@ -142,7 +139,6 @@ int GetTextPixelSize(TCHAR* pszText, HFONT hFont, bool bWidth);
 
 // options.c
 enum { FONTSECTION_AUTO, FONTSECTION_IM, FONTSECTION_IP };
-int   OptionsInit(void);
 void  LoadMsgDlgFont(int section, int i, LOGFONT * lf, COLORREF * colour, char* szMod);
 void  AddIcons(void);
 HICON LoadIconEx(int iIndex, char * pszIcoLibName, int iX, int iY);
@@ -171,9 +167,10 @@ int           GetRichTextLength(HWND hwnd);
 BOOL          IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void          DestroyGCMenu(HMENU *hMenu, int iIndex);
-BOOL          DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem);
 void          Chat_SetFilters(SESSION_INFO *si);
 void TSAPI    DoFlashAndSoundWorker(FLASH_PARAMS* p);
+BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
+
 // message.c
 char*         Chat_Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
 TCHAR*        Chat_DoRtfToTags(char* pszRtfText, SESSION_INFO *si);

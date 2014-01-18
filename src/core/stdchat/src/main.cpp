@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // globals
 CLIST_INTERFACE *pcli;
-CHAT_MANAGER *pci;
+CHAT_MANAGER *pci, saveCI;
 
 SESSION_INFO g_TabSession;
 HMENU g_hMenu = NULL;
@@ -237,6 +237,20 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 		SendMessage(g_TabSession.hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
 }
 
+static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
+{
+	if (gce->pDest->iType & g_Settings.dwTrayIconFlags)
+		return saveCI.DoTrayIcon(si, gce);
+	return TRUE;
+}
+
+static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
+{
+	if (gce->pDest->iType & g_Settings.dwPopupFlags)
+		return saveCI.DoPopup(si, gce);
+	return TRUE;
+}
+
 static void OnLoadSettings()
 {
 	g_Settings.TabsEnable = db_get_b(NULL, "Chat", "Tabs", 1);
@@ -299,6 +313,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Chat module") };
 	mir_getCI(&data);
+	saveCI = *pci;
+
 	pci->OnAddUser = OnAddUser;
 	pci->OnNewUser = OnNewUser;
 	pci->OnRemoveUser = OnRemoveUser;
@@ -321,6 +337,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	pci->OnSetStatusBar = OnSetStatusBar;
 	pci->OnFlashWindow = OnFlashWindow;
 	pci->ShowRoom = ShowRoom;
+
+	pci->DoPopup = DoPopup;
+	pci->DoTrayIcon = DoTrayIcon;
 	pci->ReloadSettings();
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
@@ -341,6 +360,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	db_set_dw(NULL, "Chat", "roomheight", g_Settings.iHeight);
 
 	DestroyMenu(g_hMenu);
+	*pci = saveCI;
 	return 0;
 }
 

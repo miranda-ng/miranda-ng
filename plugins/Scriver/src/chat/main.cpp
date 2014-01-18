@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../commonheaders.h"
 
 // globals
-CHAT_MANAGER *pci;
+CHAT_MANAGER *pci, saveCI;
 HMENU g_hMenu = NULL;
 
 GlobalLogSettings g_Settings;
@@ -116,6 +116,20 @@ static void OnCreateModule(MODULEINFO *mi)
 	mi->hOfflineIconBig = LoadSkinnedProtoIconBig(mi->pszModule, ID_STATUS_OFFLINE);
 }
 
+static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
+{
+	if (gce->pDest->iType & g_Settings.dwTrayIconFlags)
+		return saveCI.DoTrayIcon(si, gce);
+	return TRUE;
+}
+
+static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
+{
+	if (gce->pDest->iType & g_Settings.dwPopupFlags)
+		return saveCI.DoPopup(si, gce);
+	return TRUE;
+}
+
 static void RegisterFonts()
 {
 	ColourIDT colourid = { sizeof(colourid) };
@@ -148,6 +162,8 @@ int Chat_Load()
 {
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Messaging")_T("/")LPGENT("Group chats") };
 	mir_getCI(&data);
+	saveCI = *pci;
+
 	pci->OnCreateModule = OnCreateModule;
 	pci->OnNewUser = OnNewUser;
 
@@ -164,6 +180,9 @@ int Chat_Load()
 	pci->OnSetStatusBar = OnSetStatusBar;
 	pci->OnFlashWindow = OnFlashWindow;
 	pci->ShowRoom = ShowRoom;
+
+	pci->DoPopup = DoPopup;
+	pci->DoTrayIcon = DoTrayIcon;
 	pci->ReloadSettings();
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
@@ -176,6 +195,7 @@ int Chat_Unload(void)
 	db_set_w(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
 
 	DestroyMenu(g_hMenu);
+	*pci = saveCI;
 	return 0;
 }
 

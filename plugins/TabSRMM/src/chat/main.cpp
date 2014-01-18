@@ -49,6 +49,7 @@ static void OnAddLog(SESSION_INFO *si, int isOk)
 
 static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
 {
+	Chat_SetFilters(si);
 	if (mi) {
 		mi->idleTimeStamp = time(0);
 		pci->SM_BroadcastMessage(mi->pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);
@@ -207,7 +208,7 @@ void Chat_ModulesLoaded()
 /////////////////////////////////////////////////////////////////////////////////////////
 // load the group chat module
 
-static CHAT_MANAGER saveCI;
+CHAT_MANAGER saveCI;
 
 static int CopyChatSetting(const char *szSetting, LPARAM param)
 {
@@ -273,12 +274,13 @@ int Chat_Load()
 	// this operation is unsafe, that's why we restore the old pci state on exit
 	pci->DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
 	pci->IsHighlighted = IsHighlighted;
+	pci->LogToFile = LogToFile;
 	pci->Log_CreateRtfHeader = Log_CreateRtfHeader;
 	pci->ReloadSettings();
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
 
-	OptionsInit();
+	g_Settings.Highlight = new CMUCHighlight();
 	return 0;
 }
 

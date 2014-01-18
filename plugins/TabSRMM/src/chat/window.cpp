@@ -1665,7 +1665,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					break;
 
 				case ID_MESS:
-					DoEventHookAsync(GetParent(hwnd), parentdat->ptszID, parentdat->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
+					pci->DoEventHookAsync(GetParent(hwnd), parentdat->ptszID, parentdat->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 					break;
 
 				default:
@@ -1679,7 +1679,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 									for (int i=0; i < iSelectedItems; i++) {
 										USERINFO *ui1 = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, pItems[i]);
 										if (ui1)
-											DoEventHookAsync(hwndParent, parentdat->ptszID, parentdat->pszModule, GC_USER_NICKLISTMENU, ui1->pszUID, NULL, (LPARAM)uID);
+											pci->DoEventHookAsync(hwndParent, parentdat->ptszID, parentdat->pszModule, GC_USER_NICKLISTMENU, ui1->pszUID, NULL, (LPARAM)uID);
 									}
 								}
 								mir_free(pItems);
@@ -2605,7 +2605,7 @@ LABEL_SHOWWINDOW:
 						return(_dlgReturn(hwndDlg, 1));
 					case TABSRMM_HK_MUC_SHOWSERVER:
 						if (si->iType != GCW_SERVER)
-							DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, L"/servershow", 0);
+							pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, L"/servershow", 0);
 						return(_dlgReturn(hwndDlg, 1));
 					}
 				}
@@ -2705,7 +2705,7 @@ LABEL_SHOWWINDOW:
 
 					default:
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
-						DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_LOGMENU, NULL, NULL, (LPARAM)uID);
+						pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_LOGMENU, NULL, NULL, (LPARAM)uID);
 						break;
 					}
 
@@ -2812,11 +2812,11 @@ LABEL_SHOWWINDOW:
 										break;
 
 									case ID_MESS:
-										DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
+										pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 										break;
 
 									default:
-										DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui->pszUID, NULL, (LPARAM)uID);
+										pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui->pszUID, NULL, (LPARAM)uID);
 										break;
 									}
 									DestroyGCMenu(&hMenu, 1);
@@ -2939,7 +2939,7 @@ LABEL_SHOWWINDOW:
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 					}
-					else DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
+					else pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 				}
 				return TRUE;
 			}
@@ -2979,7 +2979,7 @@ LABEL_SHOWWINDOW:
 				bool fSound = true;
 				if (ptszText[0] == '/' || si->iType == GCW_SERVER)
 					fSound = false;
-				DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
+				pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
 				mi->idleTimeStamp = time(0);
 				mi->lastIdleCheck = 0;
 				pci->SM_BroadcastMessage(si->pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);
@@ -3050,7 +3050,7 @@ LABEL_SHOWWINDOW:
 					CallService("MSP/HTMLlog/ViewLog", (WPARAM)si->pszModule, (LPARAM)szName);
 				}
 				else if (pInfo)
-					ShellExecute(hwndDlg, NULL, GetChatLogsFilename(si, 0), NULL, NULL, SW_SHOW);
+					ShellExecute(hwndDlg, NULL, pci->GetChatLogsFilename(si, 0), NULL, NULL, SW_SHOW);
 			}
 			break;
 
@@ -3061,7 +3061,7 @@ LABEL_SHOWWINDOW:
 		case IDC_CHANMGR:
 			if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHANMGR)))
 				break;
-			DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_CHANMGR, NULL, NULL, 0);
+			pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_CHANMGR, NULL, NULL, 0);
 			break;
 
 		case IDC_FILTER:

@@ -221,7 +221,7 @@ struct GCSessionInfoBase
    HWND        hwndTooltip;
    int         iOldItemID;
 
-   interface IAccPropServices* pAccPropServicesForNickList;
+	TCHAR       pszLogFileName[MAX_PATH];
 	SESSION_INFO *next;
 };
 
@@ -314,8 +314,6 @@ struct CHAT_MANAGER
 	BOOL          (*SM_SetStatusEx)(const TCHAR *pszID, const char *pszModule, const TCHAR* pszText, int flags);
 	BOOL          (*SM_SendUserMessage)(const TCHAR *pszID, const char *pszModule, const TCHAR* pszText);
 	STATUSINFO*   (*SM_AddStatus)(const TCHAR *pszID, const char *pszModule, const TCHAR *pszStatus);
-	SESSION_INFO* (*SM_GetNextWindow)(SESSION_INFO *si);
-	SESSION_INFO* (*SM_GetPrevWindow)(SESSION_INFO *si);
 	BOOL          (*SM_AddEventToAllMatchingUID)(GCEVENT *gce);
 	BOOL          (*SM_AddEvent)(const TCHAR *pszID, const char *pszModule, GCEVENT *gce, BOOL bIsHighlighted);
 	LRESULT       (*SM_SendMessage)(const TCHAR *pszID, const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -378,9 +376,11 @@ struct CHAT_MANAGER
 	BOOL          (*DoEventHookAsync)(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, INT_PTR dwItem);
 
 	BOOL          (*DoSoundsFlashPopupTrayStuff)(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
+	BOOL          (*DoTrayIcon)(SESSION_INFO *si, GCEVENT *gce);
 	BOOL          (*DoPopup)(SESSION_INFO *si, GCEVENT *gce);
 	int           (*ShowPopup)(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
 	BOOL          (*LogToFile)(SESSION_INFO *si, GCEVENT *gce);
+	TCHAR*        (*GetChatLogsFilename)(SESSION_INFO *si, time_t tTime);
 
 	BOOL          (*IsHighlighted)(SESSION_INFO *si, GCEVENT *pszText);
 	TCHAR*        (*RemoveFormatting)(const TCHAR *pszText);

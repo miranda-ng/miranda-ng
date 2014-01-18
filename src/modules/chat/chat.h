@@ -45,6 +45,7 @@ void   LoadMsgLogBitmaps(void);
 void   FreeMsgLogBitmaps(void);
 void   ValidateFilename (TCHAR *filename);
 TCHAR* MakeTimeStamp(TCHAR *pszStamp, time_t time);
+TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime);
 char*  Log_CreateRtfHeader(MODULEINFO *mi);
 char*  Log_CreateRTF(LOGSTREAMDATA *streamData);
 
@@ -91,6 +92,7 @@ BOOL   DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, in
 BOOL   DoEventHook(const TCHAR *pszID, const char *pszModule, int iType, const TCHAR *pszUID, const TCHAR* pszText, INT_PTR dwItem);
 BOOL   IsEventSupported(int eventType);
 BOOL   LogToFile(SESSION_INFO *si, GCEVENT *gce);
+BOOL   DoTrayIcon(SESSION_INFO *si, GCEVENT *gce);
 BOOL   DoPopup(SESSION_INFO *si, GCEVENT *gce);
 int    ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
 

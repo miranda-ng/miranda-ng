@@ -34,7 +34,7 @@
 
 #define RTF_DEFAULT_HEADER _T("{\\rtf1\\ansi\\deff0\\pard\\li%u\\fi-%u\\ri%u\\tx%u")
 
-#define	CNT_KEYNAME "CNTW_Def"
+#define CNT_KEYNAME "CNTW_Def"
 #define CNT_BASEKEYNAME "CNTW_"
 
 struct TRTFColorTable

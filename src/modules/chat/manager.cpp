@@ -251,7 +251,7 @@ static BOOL SM_AddEventToAllMatchingUID(GCEVENT *gce)
 
 					bManyFix++;
 					if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->LoggingEnabled)
-						LogToFile(pTemp, gce);
+						ci.LogToFile(pTemp, gce);
 				}
 			}
 		}
@@ -563,53 +563,6 @@ static BOOL SM_SendUserMessage(const TCHAR *pszID, const char *pszModule, const 
 		pTemp = pTemp->next;
 	}
 	return TRUE;
-}
-
-static SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si)
-{
-	if (!si)
-		return NULL;
-
-	BOOL bFound = FALSE;
-	SESSION_INFO *pTemp = ci.wndList;
-	while (pTemp != NULL) {
-		if (si == pTemp) {
-			if (bFound)
-				return NULL;
-			else
-				bFound = TRUE;
-		}
-		else if (bFound == TRUE && pTemp->hWnd)
-			return pTemp;
-		pTemp = pTemp->next;
-		if (pTemp == NULL && bFound)
-			pTemp = ci.wndList;
-	}
-	return NULL;
-}
-
-SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si)
-{
-	if (!si)
-		return NULL;
-
-	SESSION_INFO *pTemp = ci.wndList, *pLast = NULL;
-	while (pTemp != NULL) {
-		if (si == pTemp) {
-			if (pLast) {
-				if (pLast != pTemp)
-					return pLast;
-				else
-					return NULL;
-			}
-		}
-		if (pTemp->hWnd)
-			pLast = pTemp;
-		pTemp = pTemp->next;
-		if (pTemp == NULL)
-			pTemp = ci.wndList;
-	}
-	return NULL;
 }
 
 static BOOL SM_ChangeUID(const TCHAR *pszID, const char *pszModule, const TCHAR *pszUID, const TCHAR* pszNewUID)
@@ -1397,8 +1350,6 @@ CHAT_MANAGER ci =
 	SM_SetStatusEx,
 	SM_SendUserMessage,
 	SM_AddStatus,
-	SM_GetNextWindow,
-	SM_GetPrevWindow,
 	SM_AddEventToAllMatchingUID,
 	SM_AddEvent,
 	SM_SendMessage,
@@ -1461,9 +1412,11 @@ CHAT_MANAGER ci =
 	DoEventHookAsync,
 
 	DoSoundsFlashPopupTrayStuff,
+	DoTrayIcon,
 	DoPopup,
 	ShowPopup,
 	LogToFile,
+	GetChatLogsFilename,
 
 	IsHighlighted,
 	RemoveFormatting,

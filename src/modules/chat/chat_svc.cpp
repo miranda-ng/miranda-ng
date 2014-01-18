@@ -516,7 +516,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 			if (!(gce->dwFlags & GCEF_NOTNOTIFY))
 				ci.DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
 			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->LoggingEnabled)
-				LogToFile(si, gce);
+				ci.LogToFile(si, gce);
 		}
 
 		if (!bRemoveFlag)

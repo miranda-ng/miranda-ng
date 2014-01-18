@@ -1109,9 +1109,3 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 	}
 	return FALSE;
 }
-
-int OptionsInit(void)
-{
-	g_Settings.Highlight = new CMUCHighlight();
-	return 0;
-}

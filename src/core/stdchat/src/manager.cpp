@@ -24,6 +24,53 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 TABLIST *g_TabList = 0;
 
+SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si)
+{
+	if (!si)
+		return NULL;
+
+	BOOL bFound = FALSE;
+	SESSION_INFO *pTemp = pci->wndList;
+	while (pTemp != NULL) {
+		if (si == pTemp) {
+			if (bFound)
+				return NULL;
+			else
+				bFound = TRUE;
+		}
+		else if (bFound == TRUE && pTemp->hWnd)
+			return pTemp;
+		pTemp = pTemp->next;
+		if (pTemp == NULL && bFound)
+			pTemp = pci->wndList;
+	}
+	return NULL;
+}
+
+SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si)
+{
+	if (!si)
+		return NULL;
+
+	SESSION_INFO *pTemp = pci->wndList, *pLast = NULL;
+	while (pTemp != NULL) {
+		if (si == pTemp) {
+			if (pLast) {
+				if (pLast != pTemp)
+					return pLast;
+				else
+					return NULL;
+			}
+		}
+		if (pTemp->hWnd)
+			pLast = pTemp;
+		pTemp = pTemp->next;
+		if (pTemp == NULL)
+			pTemp = pci->wndList;
+	}
+	return NULL;
+}
+
 //---------------------------------------------------
 //		Tab list manager functions
 //

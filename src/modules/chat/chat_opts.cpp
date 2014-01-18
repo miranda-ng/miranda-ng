@@ -255,21 +255,7 @@ void LoadGlobalSettings(void)
 	InitSetting(&g_Settings->pszOutgoingNick, "HeaderOutgoing", _T("%n:"));
 	InitSetting(&g_Settings->pszHighlightWords, "HighlightWords", _T("%m"));
 
-	TCHAR pszTemp[MAX_PATH];
-	DBVARIANT dbv;
-	g_Settings->pszLogDir = (TCHAR *)mir_realloc(g_Settings->pszLogDir, MAX_PATH*sizeof(TCHAR));
-	if (!db_get_ts(NULL, "Chat", "LogDirectory", &dbv)) {
-		lstrcpyn(pszTemp, dbv.ptszVal, MAX_PATH);
-		db_free(&dbv);
-	}
-	else {
-		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_logpath%\\Chat"));
-		lstrcpyn(pszTemp, tmpPath, SIZEOF(pszTemp) - 1);
-		mir_free(tmpPath);
-	}
-
-	PathToAbsoluteT(pszTemp, g_Settings->pszLogDir);
-
+	InitSetting(&g_Settings->pszLogDir, "LogDirectory", _T("%miranda_logpath%\\Chat"));
 	g_Settings->LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
 	LOGFONT lf;
@@ -287,9 +273,6 @@ void LoadGlobalSettings(void)
 		DeleteObject(g_Settings->UserListHeadingsFont);
 	LoadMsgDlgFont(19, &lf, NULL);
 	g_Settings->UserListHeadingsFont = CreateFontIndirect(&lf);
-
-	if (g_Settings->LoggingEnabled)
-		CreateDirectoryTreeT(g_Settings->pszLogDir);
 
 	SetIndentSize();
 }
