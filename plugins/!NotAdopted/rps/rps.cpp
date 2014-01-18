@@ -61,9 +61,10 @@ PLUGININFOEX pluginInfo={
 	"Ricardo Pescuma Domenecci",
 	"",
 	"© 2007-2009 Ricardo Pescuma Domenecci",
-	"http://pescuma.org/miranda/rps",
-	0,		//not transient
-	{ 0x60e94b84, 0xa799, 0x4021, { 0x94, 0x49, 0x5b, 0x83, 0x8f, 0xc0, 0x6a, 0x7c } } // {60E94B84-A799-4021-9449-5B838FC06A7C}
+	"http://miranda-ng.org/p/RPS/",
+	UNICODE_AWARE,
+	// {60E94B84-A799-4021-9449-5B838FC06A7C}
+	{ 0x60e94b84, 0xa799, 0x4021, { 0x94, 0x49, 0x5b, 0x83, 0x8f, 0xc0, 0x6a, 0x7c } }
 };
 
 
@@ -95,21 +96,19 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 }
 
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-    // Are we running under Unicode Windows version ?
-    if ((GetVersion() & 0x80000000) == 0)
-		pluginInfo.flags = 1; // UNICODE_AWARE
-
-	pluginInfo.cbSize = sizeof(PLUGININFOEX);
 	return &pluginInfo;
 }
 
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_REMOVEPERSONALSETTINGS, MIID_LAST };
 
-int __declspec(dllexport) Load()
+
+extern "C" int __declspec(dllexport) Load()
 {
+	mir_getLP(&pluginInfo);
+
 	CLISTMENUITEM mi;
 	char *strTmp;
 
@@ -158,7 +157,7 @@ int __declspec(dllexport) Load()
 }
 
 
-int __declspec(dllexport) Unload(void)
+extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
