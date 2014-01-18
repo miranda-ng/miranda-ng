@@ -742,8 +742,6 @@ begin
         SendMessageW(listhwnd,LVM_GETEXTENDEDLISTVIEWSTYLE,0,0) or
           LVS_EX_FULLROWSELECT or LVS_EX_CHECKBOXES);
 
-      TranslateDialogDefault(Dialog);
-
       addcolumn(listhwnd,DBReadWord(0,qs_module,'col3',95) ,'Setting');
       addcolumn(listhwnd,DBReadWord(0,qs_module,'col2',105),'Module/InfoType');
       addcolumn(listhwnd,DBReadWord(0,qs_module,'col1',85) ,'Title');
@@ -764,6 +762,8 @@ begin
       SetButtons(Dialog);
 
       AddControls(Dialog);
+
+      TranslateDialogDefault(Dialog);
 
       CloneColumns(editcolumns,qsopt.columns);
 
