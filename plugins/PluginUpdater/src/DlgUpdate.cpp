@@ -62,7 +62,8 @@ static void ApplyUpdates(void *param)
 	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
-	HANDLE nlc = NULL;
+	bool error = false;
+	HANDLE nlc = NULL;	
 	for (int i=0; i < todo.getCount(); ++i) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
 		if ( !todo[i].bEnabled) {
@@ -78,14 +79,19 @@ static void ApplyUpdates(void *param)
 		SetStringText(hwndList, i, TranslateT("Downloading..."));
 
 		FILEURL *pFileUrl = &todo[i].File;
-		if ( !DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum, nlc))
+		if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum, nlc)) {
 			SetStringText(hwndList, i, TranslateT("Failed!"));
-		else
+
+			// interrupt update as we require all components to be updated
+			MessageBox(hDlg, TranslateT("Update failed! Some component wasn't downloaded correctly. Try it again later."), TranslateT("Plugin Updater"), MB_OK | MB_ICONERROR);
+			error = true;
+			break;
+		} else
 			SetStringText(hwndList, i, TranslateT("Succeeded."));
 	}
 	Netlib_CloseHandle(nlc);
 
-	if (todo.getCount() > 0) {
+	if (!error && todo.getCount() > 0) {
 		TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
 
 		for (int i = 0; i < todo.getCount(); i++) {
