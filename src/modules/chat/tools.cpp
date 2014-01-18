@@ -787,11 +787,18 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 		rva[10].lptzKey = NULL;
 		rva[10].lptzValue = NULL;
 
+		TCHAR tszTemp[MAX_PATH], *ptszVarPath;
+		if (g_Settings->pszLogDir[lstrlen(g_Settings->pszLogDir) - 1] == '\\') {
+			mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%s%s"), g_Settings->pszLogDir, _T("%userid%.log"));
+			ptszVarPath = tszTemp;
+		}
+		else ptszVarPath = g_Settings->pszLogDir;
+
 		REPLACEVARSDATA dat = { sizeof(dat) };
 		dat.dwFlags = RVF_TCHAR;
 		dat.hContact = si->hContact;
 		dat.variables = rva;
-		TCHAR *tszParsedName = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)g_Settings->pszLogDir, (LPARAM)&dat);
+		TCHAR *tszParsedName = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)ptszVarPath, (LPARAM)&dat);
 		PathToAbsoluteT(tszParsedName, si->pszLogFileName);
 		mir_free(tszParsedName);
 

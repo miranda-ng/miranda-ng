@@ -255,7 +255,7 @@ void LoadGlobalSettings(void)
 	InitSetting(&g_Settings->pszOutgoingNick, "HeaderOutgoing", _T("%n:"));
 	InitSetting(&g_Settings->pszHighlightWords, "HighlightWords", _T("%m"));
 
-	InitSetting(&g_Settings->pszLogDir, "LogDirectory", _T("%miranda_logpath%\\Chat"));
+	InitSetting(&g_Settings->pszLogDir, "LogDirectory", _T("%miranda_logpath%\\%proto%\\%userid%.log"));
 	g_Settings->LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
 	LOGFONT lf;
