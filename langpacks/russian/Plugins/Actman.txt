@@ -353,7 +353,7 @@
 [Result]
 Результат
 [Result type]
-Результат вызова
+Тип результата
 [Function name]
 Имя функции
 [DLL name]
