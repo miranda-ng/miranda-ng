@@ -137,7 +137,7 @@ static void RegisterFonts()
 	_tcsncpy(colourid.group, LPGENT("Messaging")_T("/")LPGENT("Group chats"), SIZEOF(colourid.group));
 
 	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Group chat log background"), SIZEOF(colourid.name));
 	mir_sntprintf(colourid.group, SIZEOF(colourid.group), _T("%s/%s"), LPGENT("Messaging"), LPGENT("Group chats"));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
