@@ -126,6 +126,7 @@ public:
 	// Chat handling
  	void AddChat(const TCHAR *id,const TCHAR *name);
 	void UpdateChat(const TCHAR *name, const TCHAR *message, bool addtochat = true);
+	void SendChatMessage(std::string message);
 	void AddChatContact(const TCHAR *nick);
 	void DeleteChatContact(const TCHAR *name);
 	void SetChatStatus(int);

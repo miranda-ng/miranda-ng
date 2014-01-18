@@ -133,6 +133,8 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 				if ( !getU8String( OMEGLE_KEY_ASL,&dbv )) {
 					text = dbv.pszVal;
 					db_free(&dbv);
+
+					SendChatMessage(text);
 				} else {
 					UpdateChat(NULL, TranslateT("Your '/asl' setting is empty."), false);
 					break;
@@ -165,26 +167,9 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 				break;
 			}
 
-		} else switch (facy.state_) {
+		} else {
 			// Outgoing message
-
-			case STATE_ACTIVE:
-				debugLogA("**Chat - Outgoing message: %s", text.c_str());
-				ForkThread(&OmegleProto::SendMsgWorker, new std::string(text));
-				break;
-
-			case STATE_INACTIVE:
-				UpdateChat(NULL, TranslateT("You aren't connected to any stranger. Send '/help' or '/commands' for help."), false);
-				break;
-
-			case STATE_SPY:
-				UpdateChat(NULL, TranslateT("You can't send messages in question mode."), false);
-				break;
-
-			//case STATE_WAITING:
-			//case STATE_DISCONNECTING:
-			default:
-				break;
+			SendChatMessage(text);
 		}
 	
 		break;
@@ -203,6 +188,29 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 	}
 
 	return 0;
+}
+
+void OmegleProto::SendChatMessage(std::string text)
+{
+	switch (facy.state_) {
+	case STATE_ACTIVE:
+		debugLogA("**Chat - Outgoing message: %s", text.c_str());
+		ForkThread(&OmegleProto::SendMsgWorker, new std::string(text));
+		break;
+
+	case STATE_INACTIVE:
+		UpdateChat(NULL, TranslateT("You aren't connected to any stranger. Send '/help' or '/commands' for help."), false);
+		break;
+
+	case STATE_SPY:
+		UpdateChat(NULL, TranslateT("You can't send messages in question mode."), false);
+		break;
+
+	//case STATE_WAITING:
+	//case STATE_DISCONNECTING:
+	default:
+		break;
+	}
 }
 
 /*void OmegleProto::SendChatEvent(int type)
