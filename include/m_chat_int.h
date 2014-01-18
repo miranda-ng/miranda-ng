@@ -67,7 +67,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_REDRAWLOG2          (WM_USER+140)
 #define GC_REDRAWLOG3          (WM_USER+141)
 
-#define TIMERID_FLASHWND       205
+#define TIMERID_FLASHWND       1
 
 #define GCW_TABROOM            10
 #define GCW_TABPRIVMSG         11
