@@ -45,8 +45,7 @@ extern HMENU g_hMenu;
 
 static HKL hkl = NULL;
 static HCURSOR hCurHyperlinkHand;
-static char szIndicators[] = { '+', '%', '@', '!', 0, '*' };
-static int nickOrders[] = { 2, 1, 0, 3, 5, 4 };
+char szIndicators[] = { '@', '%', '+', '!', '*', 0 };
 
 struct MESSAGESUBDATA
 {
@@ -2271,8 +2270,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				int nickIndex = -1;
 				for (int i = 0; i < STATUSICONCOUNT; i++) {
-					if (hIcon == pci->hIcons[ICON_STATUS1 + i]) {
-						nickIndex = nickOrders[i];
+					if (hIcon == pci->hIcons[ICON_STATUS0 + i]) {
+						nickIndex = i;
 						break;
 					}
 				}
@@ -2284,7 +2283,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				else {
 					FillRect(dis->hDC, &dis->rcItem, pci->hListBkgBrush);
 					if (g_Settings.bColorizeNicks && nickIndex != -1)
-						SetTextColor(dis->hDC, g_Settings.nickColors[nickIndex]);
+						SetTextColor(dis->hDC, g_Settings.nickColors[si->iStatusCount - nickIndex - 1]);
 					else
 						SetTextColor(dis->hDC, g_Settings.UserListColors[ui->iStatusEx]);
 				}

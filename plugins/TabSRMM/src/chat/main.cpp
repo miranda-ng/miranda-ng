@@ -273,6 +273,7 @@ int Chat_Load()
 	// this operation is unsafe, that's why we restore the old pci state on exit
 	pci->DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
 	pci->IsHighlighted = IsHighlighted;
+	pci->Log_CreateRtfHeader = Log_CreateRtfHeader;
 	pci->ReloadSettings();
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));

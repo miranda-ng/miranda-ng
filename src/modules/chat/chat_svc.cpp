@@ -175,7 +175,7 @@ static INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
 		memcpy(mi->crColors, gcr->pColors, sizeof(COLORREF)* gcr->nColors);
 	}
 
-	mi->pszHeader = Log_CreateRtfHeader(mi);
+	mi->pszHeader = ci.Log_CreateRtfHeader(mi);
 
 	CheckColorsInModule((char*)gcr->pszModule);
 	ci.SetAllOffline(TRUE, gcr->pszModule);
@@ -248,6 +248,17 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static void SetInitDone(SESSION_INFO *si)
+{
+	if (si->bInitDone)
+		return;
+	
+	si->bInitDone = true;
+	for (STATUSINFO *p = si->pStatuses; p; p = p->next)
+		if ((UINT_PTR)p->hIcon < STATUSICONCOUNT)
+			p->hIcon = HICON(si->iStatusCount - (int)p->hIcon - 1);
+}
+
 static int DoControl(GCEVENT *gce, WPARAM wp)
 {
 	SESSION_INFO *si;
@@ -256,7 +267,7 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 		switch (wp) {
 		case WINDOW_HIDDEN:
 			if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
-				si->bInitDone = TRUE;
+				SetInitDone(si);
 				ci.SetActiveSession(si->ptszID, si->pszModule);
 				if (si->hWnd)
 					ci.ShowRoom(si, wp, FALSE);
@@ -268,7 +279,7 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 		case WINDOW_VISIBLE:
 		case SESSION_INITDONE:
 			if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
-				si->bInitDone = TRUE;
+				SetInitDone(si);
 				if (wp != SESSION_INITDONE || db_get_b(NULL, "Chat", "PopupOnJoin", 0) == 0)
 					ci.ShowRoom(si, wp, TRUE);
 				return 0;

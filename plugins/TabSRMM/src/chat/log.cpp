@@ -739,6 +739,79 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 	}
 }
 
+char* Log_CreateRtfHeader(MODULEINFO *mi)
+{
+	int bufferAlloced, bufferEnd, i = 0;
+
+	// guesstimate amount of memory for the RTF header
+	bufferEnd = 0;
+	bufferAlloced = 4096;
+	char *buffer = (char *)mir_realloc(mi->pszHeader, bufferAlloced);
+	buffer[0] = '\0';
+
+
+	//get the number of pixels per logical inch
+	if (logPixelSY == 0) {
+		HDC hdc;
+		hdc = GetDC(NULL);
+		logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+		logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
+		ReleaseDC(NULL, hdc);
+	}
+
+	// ### RTF HEADER
+
+	// font table
+	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
+	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "{\\f%u\\fnil\\fcharset%u%S;}", i, pci->aFonts[i].lf.lfCharSet, pci->aFonts[i].lf.lfFaceName);
+
+	// colour table
+	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "}{\\colortbl ;");
+
+	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(pci->aFonts[i].color), GetGValue(pci->aFonts[i].color), GetBValue(pci->aFonts[i].color));
+
+	for (i = 0; i < mi->nColorCount; i++)
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
+
+	for (i = 0; i < STATUSICONCOUNT; i++)
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(g_Settings.nickColors[i]), GetGValue(g_Settings.nickColors[i]), GetBValue(g_Settings.nickColors[i]));
+
+	// new paragraph
+	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "}\\pard\\sl%d", 1000);
+
+	// set tabs and indents
+	int iIndent = 0;
+
+	if (g_Settings.bLogSymbols) {
+		TCHAR szString[2];
+		LOGFONT lf;
+
+		szString[1] = 0;
+		szString[0] = 0x28;
+		pci->LoadMsgDlgFont(17, &lf, NULL);
+		HFONT hFont = CreateFontIndirect(&lf);
+		int iText = GetTextPixelSize(szString, hFont, true) + 3;
+		DeleteObject(hFont);
+		iIndent += (iText * 1440) / logPixelSX;
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
+	}
+	else if (g_Settings.dwIconFlags) {
+		iIndent += ((g_Settings.bScaleIcons ? 14 : 20) * 1440) / logPixelSX;
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
+	}
+	if (g_Settings.ShowTime) {
+		int iSize = (g_Settings.LogTextIndent * 1440) / logPixelSX;
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize);
+		if (g_Settings.LogIndentEnabled)
+			iIndent += iSize;
+	}
+	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\fi-%u\\li%u", iIndent, iIndent);
+
+	return buffer;
+}
+
 static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 {
 	char *buffer, *header;
@@ -755,7 +828,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	// ### RTF HEADER
 
 	if (0 == mi->pszHeader)
-		mi->pszHeader = pci->Log_CreateRtfHeader(mi);
+		mi->pszHeader = Log_CreateRtfHeader(mi);
 
 	header = mi->pszHeader;
 	streamData->crCount = mi->nColorCount;
@@ -838,39 +911,17 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				TCHAR pszTemp[300], *p1;
 				char pszIndicator[3] = "\0\0";
 				int  crNickIndex = 0;
-													//mad
+
 				if (g_Settings.bLogClassicIndicators || g_Settings.bColorizeNicksInLog) {
 					USERINFO *ui = streamData->si->pUsers;
 					while (ui) {
 						if (!lstrcmp(ui->pszNick, lin->ptszNick)) {
 							STATUSINFO *ti = pci->TM_FindStatus(streamData->si->pStatuses, pci->TM_WordToString(streamData->si->pStatuses, ui->Status));
-							if (ti && (int)ti->hIcon < streamData->si->iStatusCount) {
-								int id = streamData->si->iStatusCount - (int)ti->hIcon - 1;
-								switch (id) {
-								case 1:
-									pszIndicator[0] = '+';
-									crNickIndex = 2;
-									break;
-								case 2:
-									pszIndicator[0] = '%';
-									crNickIndex = 1;
-									break;
-								case 3:
-									pszIndicator[0] = '@';
-									crNickIndex = 0;
-									break;
-								case 4:
-									pszIndicator[0] = '!';
-									crNickIndex = 3;
-									break;
-								case 5:
-									pszIndicator[0] = '*';
-									crNickIndex = 4;
-									break;
-								default:
-									pszIndicator[0] = 0;
-								}
+							if (ti && (UINT_PTR)ti->hIcon < streamData->si->iStatusCount) {
+								pszIndicator[0] = szIndicators[(int)ti->hIcon];
+								crNickIndex = streamData->si->iStatusCount - (int)ti->hIcon; // color table's index is not zero-based
 							}
+							else pszIndicator[0] = 0;
 							break;
 						}
 						ui = ui->next;
@@ -892,10 +943,10 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 						_tcsnrplc(pszTemp, 300, _T("%s"), _T("~~++#%s#++~~"));
 						pszTemp[299] = 0;
 					}
-
-					if (g_Settings.bColorizeNicksInLog && pszIndicator[0])
-						Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\cf%u ", OPTIONS_FONTCOUNT + streamData->crCount + crNickIndex + 1);
 				}
+
+				if (g_Settings.bColorizeNicksInLog && pszIndicator[0])
+					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\cf%u ", OPTIONS_FONTCOUNT + streamData->crCount + crNickIndex);
 
 				Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, pszTemp, lin->ptszNick);
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, " ");

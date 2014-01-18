@@ -226,22 +226,10 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui)
 
 	STATUSINFO *ti = ci.TM_FindStatus(si->pStatuses, ci.TM_WordToString(si->pStatuses, ui->Status));
 	if (ti != NULL) {
-		if ((INT_PTR)ti->hIcon >= STATUSICONCOUNT)
+		if ((UINT_PTR)ti->hIcon >= STATUSICONCOUNT)
 			return ti->hIcon;
 
-		int id = si->iStatusCount - (int)ti->hIcon - 1;
-		if (id == 0)
-			return ci.hIcons[ICON_STATUS0];
-		if (id == 1)
-			return ci.hIcons[ICON_STATUS1];
-		if (id == 2)
-			return ci.hIcons[ICON_STATUS2];
-		if (id == 3)
-			return ci.hIcons[ICON_STATUS3];
-		if (id == 4)
-			return ci.hIcons[ICON_STATUS4];
-		if (id == 5)
-			return ci.hIcons[ICON_STATUS5];
+		return ci.hIcons[ICON_STATUS0 + (int)ti->hIcon];
 	}
 	return ci.hIcons[ICON_STATUS0];
 }
@@ -898,7 +886,7 @@ static void MM_FontsChanged(void)
 {
 	MODULEINFO *pTemp = m_ModList;
 	while (pTemp != NULL) {
-		pTemp->pszHeader = Log_CreateRtfHeader(pTemp);
+		pTemp->pszHeader = ci.Log_CreateRtfHeader(pTemp);
 		pTemp = pTemp->next;
 	}
 	return;

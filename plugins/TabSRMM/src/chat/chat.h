@@ -132,6 +132,7 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 // log.c
 void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedraw, bool bPhaseTwo);
+char*  Log_CreateRtfHeader(MODULEINFO *mi);
 TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime);
 void   Log_SetStyles();
 
@@ -180,6 +181,7 @@ TCHAR*        Chat_DoRtfToTags(char* pszRtfText, SESSION_INFO *si);
 #include "chat_resource.h"
 
 extern char *szChatIconString;
+extern char szIndicators[];
 
 #define DEFLOGFILENAME _T("%miranda_logpath%\\%proto%\\%userid%.log")
 

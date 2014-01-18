@@ -88,11 +88,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ICON_REMSTATUS        12
 #define ICON_TOPIC            13
 
-#define ICON_STATUS1          14
-#define ICON_STATUS2          15
-#define ICON_STATUS3          16
-#define ICON_STATUS4          17
-#define ICON_STATUS0          18
+#define ICON_STATUS0          14
+#define ICON_STATUS1          15
+#define ICON_STATUS2          16
+#define ICON_STATUS3          17
+#define ICON_STATUS4          18
 #define ICON_STATUS5          19
 
 //structs
