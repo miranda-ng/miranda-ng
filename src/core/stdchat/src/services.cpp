@@ -27,7 +27,7 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 	if (!si)
 		return;
 
-	if (g_Settings.TabsEnable) {
+	if (g_Settings.bTabsEnable) {
 		// the session is not the current tab, so we copy the necessary
 		// details into the SESSION_INFO for the tabbed window
 		if (!si->hWnd) {

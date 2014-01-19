@@ -97,7 +97,7 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 struct GlobalLogSettings : public GlobalLogSettingsBase
 {
 	int  iX, iY;
-	bool TabsEnable, TabsAtBottom, TabCloseOnDblClick, TabRestore;
+	bool bTabsEnable, TabsAtBottom, TabCloseOnDblClick, TabRestore;
 };
 
 extern GlobalLogSettings g_Settings;

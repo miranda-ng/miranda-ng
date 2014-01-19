@@ -250,7 +250,7 @@ static BOOL SM_AddEventToAllMatchingUID(GCEVENT *gce)
 						ci.DoSoundsFlashPopupTrayStuff(pTemp, gce, FALSE, bManyFix);
 
 					bManyFix++;
-					if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->LoggingEnabled)
+					if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
 						ci.LogToFile(pTemp, gce);
 				}
 			}

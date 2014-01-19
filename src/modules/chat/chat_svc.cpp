@@ -76,7 +76,7 @@ static int FontsChanged(WPARAM wParam, LPARAM lParam)
 	LoadLogFonts();
 
 	SetIndentSize();
-	g_Settings->LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
+	g_Settings->bLogIndentEnabled = (db_get_b(NULL, "Chat", "bLogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
 	ci.MM_FontsChanged();
 	ci.MM_FixColors();
@@ -518,7 +518,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 				ci.OnAddLog(si, isOk);
 			if (!(gce->dwFlags & GCEF_NOTNOTIFY))
 				ci.DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
-			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->LoggingEnabled)
+			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
 				ci.LogToFile(si, gce);
 		}
 

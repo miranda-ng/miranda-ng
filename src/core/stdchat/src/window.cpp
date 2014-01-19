@@ -128,7 +128,7 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 	BOOL bToolbar = bFormat || bControl;
 	BOOL bSend = (BOOL)db_get_b(NULL, "Chat", "ShowSend", 0);
 	BOOL bNick = si->iType != GCW_SERVER && si->bNicklistEnabled;
-	BOOL bTabs = g_Settings.TabsEnable;
+	BOOL bTabs = g_Settings.bTabsEnable;
 	BOOL bTabBottom = g_Settings.TabsAtBottom;
 
 	RECT rc, rcTabs;
@@ -148,8 +148,8 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 	ShowWindow(GetDlgItem(hwndDlg, IDC_CHANMGR), bControl ? SW_SHOW : SW_HIDE);
 	ShowWindow(GetDlgItem(hwndDlg, IDOK), bSend ? SW_SHOW : SW_HIDE);
 	ShowWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), bNick ? SW_SHOW : SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_CLOSE), g_Settings.TabsEnable ? SW_SHOW : SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_TAB), g_Settings.TabsEnable ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_CLOSE), g_Settings.bTabsEnable ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_TAB), g_Settings.bTabsEnable ? SW_SHOW : SW_HIDE);
 	if (si->iType != GCW_SERVER)
 		ShowWindow(GetDlgItem(hwndDlg, IDC_LIST), si->bNicklistEnabled ? SW_SHOW : SW_HIDE);
 	else
@@ -340,7 +340,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (wParam == VK_TAB && isCtrl && !isShift) { // CTRL-TAB (switch tab/window)
-				if (g_Settings.TabsEnable)
+				if (g_Settings.bTabsEnable)
 					SendMessage(GetParent(hwnd), GC_SWITCHNEXTTAB, 0, 0);
 				else
 					pci->ShowRoom(SM_GetNextWindow(Parentsi), WINDOW_VISIBLE, TRUE);
@@ -348,7 +348,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (wParam == VK_TAB && isCtrl && isShift) { // CTRL_SHIFT-TAB (switch tab/window)
-				if (g_Settings.TabsEnable)
+				if (g_Settings.bTabsEnable)
 					SendMessage(GetParent(hwnd), GC_SWITCHPREVTAB, 0, 0);
 				else
 					pci->ShowRoom(SM_GetPrevWindow(Parentsi), WINDOW_VISIBLE, TRUE);
@@ -356,11 +356,11 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (wParam <= '9' && wParam >= '1' && isCtrl && !isAlt) // CTRL + 1 -> 9 (switch tab)
-				if (g_Settings.TabsEnable)
+				if (g_Settings.bTabsEnable)
 					SendMessage(GetParent(hwnd), GC_SWITCHTAB, 0, (LPARAM)((int)wParam - (int)'1'));
 
 			if (wParam <= VK_NUMPAD9 && wParam >= VK_NUMPAD1 && isCtrl && !isAlt) // CTRL + 1 -> 9 (switch tab)
-				if (g_Settings.TabsEnable)
+				if (g_Settings.bTabsEnable)
 					SendMessage(GetParent(hwnd), GC_SWITCHTAB, 0, (LPARAM)((int)wParam - (int)VK_NUMPAD1));
 
 			if (wParam == VK_TAB && !isCtrl && !isShift) {    //tab-autocomplete
@@ -422,7 +422,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			if (dat->szTabSave[0] != '\0' && wParam != VK_RIGHT && wParam != VK_LEFT &&
 				 wParam != VK_SPACE && wParam != VK_RETURN && wParam != VK_BACK && wParam != VK_DELETE)
 			{
-				if (g_Settings.AddColonToAutoComplete && start == 0)
+				if (g_Settings.bAddColonToAutoComplete && start == 0)
 					SendMessageA(hwnd, EM_REPLACESEL, FALSE, (LPARAM) ": ");
 
 				dat->szTabSave[0] = '\0';
@@ -1177,7 +1177,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			}
 
 			// restore previous tabs
-			if (g_Settings.TabsEnable && g_Settings.TabRestore) {
+			if (g_Settings.bTabsEnable && g_Settings.TabRestore) {
 				TABLIST *node = g_TabList;
 				while (node) {
 					SESSION_INFO *s = pci->SM_FindSession(node->pszID, node->pszModule);
@@ -1221,7 +1221,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 			SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_SETBKGNDCOLOR , 0, g_Settings.crLogBackground);
 
-			if (g_Settings.TabsEnable) {
+			if (g_Settings.bTabsEnable) {
 				int mask = (int)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TAB), GWL_STYLE);
 				if (g_Settings.TabsAtBottom)
 					mask |= TCS_BOTTOM;
@@ -1251,7 +1251,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				int font = ih > ih2 ? ih : ih2;
 
 				// make sure we have space for icon!
-				if (g_Settings.ShowContactStatus)
+				if (g_Settings.bShowContactStatus)
 					font = font > 16 ? font : 16;
 
 				SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_SETITEMHEIGHT, 0, (LPARAM)height > font ? height : font);
@@ -1332,13 +1332,13 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				break;
 			}
 			if (savePerContact) {
-				if (RestoreWindowPosition(hwndDlg, g_Settings.TabsEnable?NULL:si->hContact, "Chat", "room", SW_HIDE))
+				if (RestoreWindowPosition(hwndDlg, g_Settings.bTabsEnable?NULL:si->hContact, "Chat", "room", SW_HIDE))
 					break;
 				SetWindowPos(hwndDlg, 0, (screen.right-screen.left)/2- (550)/2,(screen.bottom-screen.top)/2- (400)/2, (550), (400), SWP_NOZORDER |SWP_HIDEWINDOW|SWP_NOACTIVATE);
 			}
 			else SetWindowPos(hwndDlg, 0, (screen.right-screen.left)/2- (550)/2,(screen.bottom-screen.top)/2- (400)/2, (550), (400), SWP_NOZORDER |SWP_HIDEWINDOW|SWP_NOACTIVATE);
 
-			if (!g_Settings.TabsEnable && pActive && pActive->hWnd && db_get_b(NULL, "Chat", "CascadeWindows", 1)) {
+			if (!g_Settings.bTabsEnable && pActive && pActive->hWnd && db_get_b(NULL, "Chat", "CascadeWindows", 1)) {
 				RECT rcThis, rcNew;
 				int dwFlag = SWP_NOZORDER | SWP_NOACTIVATE;
 				if (!IsWindowVisible((HWND)wParam))
@@ -1624,7 +1624,7 @@ END_REMOVETAB:
 						if (pci->SM_FindSession(si->ptszID, si->pszModule) == s2)
 							si->wState = s2->wState;
 						SendMessage(hwndDlg, GC_FIXTABICONS, 0, (LPARAM)s2);
-						if (db_get_b(NULL, "Chat", "FlashWindowHighlight", 0) != 0 && GetActiveWindow() != hwndDlg && GetForegroundWindow() != hwndDlg)
+						if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != hwndDlg && GetForegroundWindow() != hwndDlg)
 							SetTimer(hwndDlg, TIMERID_FLASHWND, 900, NULL);
 						break;
 				}	}
@@ -1645,7 +1645,7 @@ END_REMOVETAB:
 					SESSION_INFO *s2 = (SESSION_INFO*)tci.lParam;
 					if (s2 && s == s2) { // highlight
 						SendMessage(hwndDlg, GC_FIXTABICONS, 0, (LPARAM)s2);
-						if (g_Settings.FlashWindow && GetActiveWindow() != hwndDlg && GetForegroundWindow() != hwndDlg)
+						if (g_Settings.bFlashWindow && GetActiveWindow() != hwndDlg && GetForegroundWindow() != hwndDlg)
 							SetTimer(hwndDlg, TIMERID_FLASHWND, 900, NULL);
 						break;
 					}
@@ -1752,7 +1752,7 @@ END_REMOVETAB:
 			int height = db_get_b(NULL, "Chat", "NicklistRowDist", 12);
 
 			// make sure we have space for icon!
-			if (g_Settings.ShowContactStatus)
+			if (g_Settings.bShowContactStatus)
 				font = font > 16 ? font : 16;
 
 			mis->itemHeight = height > font?height:font;
@@ -1786,14 +1786,14 @@ END_REMOVETAB:
 					else //if (dis->itemState & ODS_INACTIVE)
 						FillRect(dis->hDC, &dis->rcItem, pci->hListBkgBrush);
 
-					if (g_Settings.ShowContactStatus && g_Settings.ContactStatusFirst && ui->ContactStatus) {
+					if (g_Settings.bShowContactStatus && g_Settings.bContactStatusFirst && ui->ContactStatus) {
 						HICON hIcon = LoadSkinnedProtoIcon(si->pszModule, ui->ContactStatus);
 						DrawIconEx(dis->hDC, x_offset, dis->rcItem.top+offset-3,hIcon,16,16,0,NULL, DI_NORMAL);
 						x_offset += 18;
 					}
 					DrawIconEx(dis->hDC,x_offset, dis->rcItem.top + offset,hIcon,10,10,0,NULL, DI_NORMAL);
 					x_offset += 12;
-					if (g_Settings.ShowContactStatus && !g_Settings.ContactStatusFirst && ui->ContactStatus) {
+					if (g_Settings.bShowContactStatus && !g_Settings.bContactStatusFirst && ui->ContactStatus) {
 						HICON hIcon = LoadSkinnedProtoIcon(si->pszModule, ui->ContactStatus);
 						DrawIconEx(dis->hDC, x_offset, dis->rcItem.top+offset-3,hIcon,16,16,0,NULL, DI_NORMAL);
 						x_offset += 18;
@@ -2013,7 +2013,7 @@ LABEL_SHOWWINDOW:
 			g_Settings.iWidth = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
 			g_Settings.iHeight = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
 
-			if (g_Settings.TabsEnable) {
+			if (g_Settings.bTabsEnable) {
 				int i = TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_TAB));
 				if (i != -1) {
 					TCITEM tci;
@@ -2530,7 +2530,7 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case WM_CLOSE:
-		if (g_Settings.TabsEnable && g_Settings.TabRestore && lParam != 1) {
+		if (g_Settings.bTabsEnable && g_Settings.TabRestore && lParam != 1) {
 			TCITEM id = { 0 };
 			int j = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB)) - 1;
 			id.mask = TCIF_PARAM;
@@ -2546,7 +2546,7 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case GC_CLOSEWINDOW:
-		if (g_Settings.TabsEnable)
+		if (g_Settings.bTabsEnable)
 			pci->SM_SetTabbedWindowHwnd(0, 0);
 		DestroyWindow(hwndDlg);
 		break;

@@ -108,7 +108,7 @@ static void OnSetStatus(SESSION_INFO *si, int wStatus)
 
 static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 {
-	if (bInactive && si->hWnd && db_get_b(NULL, "Chat", "FlashWindowHighlight", 0) != 0)
+	if (bInactive && si->hWnd && g_Settings.bFlashWindowHighlight)
 		SendMessage(GetParent(si->hWnd), CM_STARTFLASHING, 0, 0);
 	if (bInactive && si->hWnd)
 		SendMessage(si->hWnd, GC_SETMESSAGEHIGHLIGHT, 0, 0);

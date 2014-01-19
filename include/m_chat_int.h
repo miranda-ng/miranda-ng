@@ -238,19 +238,21 @@ struct GCLogStreamDataBase
 
 struct GlobalLogSettingsBase
 {
-	BOOL     ShowTime;
-	BOOL     ShowTimeIfChanged;
-	BOOL     LoggingEnabled;
-	BOOL     FlashWindow;
-	BOOL     HighlightEnabled;
-	BOOL     LogIndentEnabled;
-	BOOL     StripFormat;
-	BOOL     SoundsFocus;
-	BOOL     PopupInactiveOnly;
-	BOOL     TrayIconInactiveOnly;
-	BOOL     AddColonToAutoComplete;
-	BOOL     LogLimitNames;
-	BOOL     TimeStampEventColour;
+	bool     bShowTime;
+	bool     bShowTimeIfChanged;
+	bool     bLoggingEnabled;
+	bool     bFlashWindow, bFlashWindowHighlight;
+	bool     bHighlightEnabled;
+	bool     bLogIndentEnabled;
+	bool     bStripFormat;
+	bool     bSoundsFocus;
+	bool     bPopupInactiveOnly;
+	bool     bTrayIconInactiveOnly;
+	bool     bAddColonToAutoComplete;
+	bool     bLogLimitNames;
+	bool     bTimeStampEventColour;
+	bool		bShowContactStatus;
+	bool		bContactStatusFirst;
 	DWORD    dwIconFlags;
 	DWORD    dwTrayIconFlags;
 	DWORD    dwPopupFlags;
@@ -280,8 +282,6 @@ struct GlobalLogSettingsBase
 	COLORREF crUserListHeadingsColor;
 	COLORREF crPUTextColour;
 	COLORREF crPUBkgColour;
-	BOOL		ShowContactStatus;
-	BOOL		ContactStatusFirst;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

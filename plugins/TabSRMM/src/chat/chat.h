@@ -89,7 +89,7 @@ struct TMUCSettings : public GlobalLogSettingsBase
 
 	COLORREF    nickColors[8];
 	HBRUSH      SelectionBGBrush;
-	bool        bOpenInDefault, bFlashWindowHightlight, bBBCodeInPopups;
+	bool        bOpenInDefault, bBBCodeInPopups;
 	bool        bDoubleClick4Privat, bShowContactStatus, bContactStatusFirst;
 
 	bool        bLogClassicIndicators, bAlternativeSorting, bAnnoyingHighlight, bCreateWindowOnHighlight;

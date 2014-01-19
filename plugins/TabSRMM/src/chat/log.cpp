@@ -556,7 +556,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 
 			case 'c':
 			case 'f':
-				if (g_Settings.StripFormat || streamData->bStripFormat)
+				if (g_Settings.bStripFormat || streamData->bStripFormat)
 					line += 2;
 				else if (line[1] != '\0' && line[2] != '\0') {
 					TCHAR szTemp3[3], c = *line;
@@ -573,7 +573,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 				break;
 			case 'C':
 			case 'F':
-				if (!g_Settings.StripFormat && !streamData->bStripFormat) {
+				if (!g_Settings.bStripFormat && !streamData->bStripFormat) {
 					int j = streamData->lin->bIsHighlighted ? 16 : EventToIndex(streamData->lin);
 					if (*line == 'C')
 						mir_snprintf(szTemp, SIZEOF(szTemp), "\\cf%u ", j + 1);
@@ -638,7 +638,7 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 		return;
 
 	if (streamData->lin->ptszNick) {
-		if (g_Settings.LogLimitNames && lstrlen(streamData->lin->ptszNick) > 20) {
+		if (g_Settings.bLogLimitNames && lstrlen(streamData->lin->ptszNick) > 20) {
 			lstrcpyn(szTemp, streamData->lin->ptszNick, 20);
 			lstrcpyn(szTemp + 20, _T("..."), 4);
 		}
@@ -801,10 +801,10 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 		iIndent += ((g_Settings.bScaleIcons ? 14 : 20) * 1440) / logPixelSX;
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
 	}
-	if (g_Settings.ShowTime) {
+	if (g_Settings.bShowTime) {
 		int iSize = (g_Settings.LogTextIndent * 1440) / logPixelSX;
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize);
-		if (g_Settings.LogIndentEnabled)
+		if (g_Settings.bLogIndentEnabled)
 			iIndent += iSize;
 	}
 	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\fi-%u\\li%u", iIndent, iIndent);
@@ -871,7 +871,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				bufferEnd += logIconBmpSize[iIndex];
 			}
 
-			if (g_Settings.TimeStampEventColour) {
+			if (g_Settings.bTimeStampEventColour) {
 				// colored timestamps
 				static char szStyle[256];
 				LOGFONT &F = pci->aFonts[0].lf;
@@ -894,12 +894,12 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tab ");
 
 			//insert timestamp
-			if (g_Settings.ShowTime) {
+			if (g_Settings.bShowTime) {
 				TCHAR szTimeStamp[30], szOldTimeStamp[30];
 
 				lstrcpyn(szTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, lin->time), 30);
 				lstrcpyn(szOldTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, streamData->si->LastTime), 30);
-				if (!g_Settings.ShowTimeIfChanged || streamData->si->LastTime == 0 || lstrcmp(szTimeStamp, szOldTimeStamp)) {
+				if (!g_Settings.bShowTimeIfChanged || streamData->si->LastTime == 0 || lstrcmp(szTimeStamp, szOldTimeStamp)) {
 					streamData->si->LastTime = lin->time;
 					Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, _T("%s"), szTimeStamp);
 				}

@@ -576,7 +576,7 @@ LBL_SkipEnd:
 		dat->szSearchResult = mir_tstrdup(pszName);
 		if (end != start) {
 			ptrT szReplace;
-			if (!isRoom && !isTopic && g_Settings.AddColonToAutoComplete && start == 0) {
+			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
 				szReplace = (TCHAR*)Utils::safeMirAlloc((wcslen(pszName) + 4) * sizeof(TCHAR));
 				wcscpy(szReplace, pszName);
 				wcscat(szReplace, L": ");

@@ -114,7 +114,7 @@ static void OnClearLog(SESSION_INFO *si)
 
 static void OnSessionDblClick(SESSION_INFO *si)
 {
-	if (g_Settings.TabsEnable)
+	if (g_Settings.bTabsEnable)
 		SendMessage(si->hWnd, GC_REMOVETAB, 1, (LPARAM)si);
 	else
 		PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
@@ -122,7 +122,7 @@ static void OnSessionDblClick(SESSION_INFO *si)
 
 static void OnSessionRemove(SESSION_INFO *si)
 {
-	if (!g_Settings.TabsEnable) {
+	if (!g_Settings.bTabsEnable) {
 		if (si->hWnd)
 			SendMessage(si->hWnd, GC_EVENT_CONTROL + WM_USER + 500, SESSION_TERMINATE, 0);
 	}
@@ -135,7 +135,7 @@ static void OnSessionRemove(SESSION_INFO *si)
 
 static void OnSessionRename(SESSION_INFO *si)
 {
-	if (g_TabSession.hWnd && g_Settings.TabsEnable) {
+	if (g_TabSession.hWnd && g_Settings.bTabsEnable) {
 		g_TabSession.ptszName = si->ptszName;
 		SendMessage(g_TabSession.hWnd, GC_SESSIONNAMECHANGE, 0, (LPARAM)si);
 	}
@@ -146,7 +146,7 @@ static void OnSessionReplace(SESSION_INFO *si)
 	if (si->hWnd)
 		g_TabSession.nUsersInNicklist = 0;
 
-	if (!g_Settings.TabsEnable) {
+	if (!g_Settings.bTabsEnable) {
 		if (si->hWnd)
 			RedrawWindow(GetDlgItem(si->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
 	}
@@ -158,7 +158,7 @@ static void OnSessionOffline(SESSION_INFO *si)
 {
 	if (si->hWnd) {
 		g_TabSession.nUsersInNicklist = 0;
-		if (g_Settings.TabsEnable)
+		if (g_Settings.bTabsEnable)
 			g_TabSession.pUsers = 0;
 	}
 }
@@ -209,13 +209,13 @@ static void OnRemoveUser(SESSION_INFO *si, USERINFO*)
 
 static void OnAddStatus(SESSION_INFO *si, STATUSINFO*)
 {
-	if (g_Settings.TabsEnable && si->hWnd)
+	if (g_Settings.bTabsEnable && si->hWnd)
 		g_TabSession.pStatuses = si->pStatuses;
 }
 
 static void OnSetStatus(SESSION_INFO *si, int wStatus)
 {
-	if (g_Settings.TabsEnable) {
+	if (g_Settings.bTabsEnable) {
 		if (si->hWnd)
 			g_TabSession.wStatus = wStatus;
 		if (g_TabSession.hWnd)
@@ -234,9 +234,9 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 	if (!bInactive)
 		return;
 	
-	if (!g_Settings.TabsEnable && si->hWnd && db_get_b(NULL, "Chat", "FlashWindowHighlight", 0) != 0)
+	if (!g_Settings.bTabsEnable && si->hWnd && g_Settings.bFlashWindowHighlight)
 		SetTimer(si->hWnd, TIMERID_FLASHWND, 900, NULL);
-	if (g_Settings.TabsEnable && g_TabSession.hWnd)
+	if (g_Settings.bTabsEnable && g_TabSession.hWnd)
 		SendMessage(g_TabSession.hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
 }
 
@@ -259,7 +259,7 @@ static void OnLoadSettings()
 	g_Settings.iX = db_get_dw(NULL, "Chat", "roomx", -1);
 	g_Settings.iY = db_get_dw(NULL, "Chat", "roomy", -1);
 
-	g_Settings.TabsEnable = db_get_b(NULL, "Chat", "Tabs", 1) != 0;
+	g_Settings.bTabsEnable = db_get_b(NULL, "Chat", "Tabs", 1) != 0;
 	g_Settings.TabRestore = db_get_b(NULL, "Chat", "TabRestore", 0) != 0;
 	g_Settings.TabsAtBottom = db_get_b(NULL, "Chat", "TabBottom", 0) != 0;
 	g_Settings.TabCloseOnDblClick = db_get_b(NULL, "Chat", "TabCloseOnDblClick", 0) != 0;

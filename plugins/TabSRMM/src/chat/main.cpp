@@ -137,7 +137,6 @@ static void OnLoadSettings()
 	g_Settings.iEventLimitThreshold = db_get_w(NULL, "Chat", "LogLimitThreshold", 20);
 	g_Settings.dwIconFlags = M.GetDword("Chat", "IconFlags", 0x0000);
 	g_Settings.bOpenInDefault = M.GetBool("Chat", "DefaultContainer", true);
-	g_Settings.bFlashWindowHightlight = M.GetBool("Chat", "FlashWindowHighlight", false);
 	g_Settings.UserListColors[CHAT_STATUS_NORMAL] = M.GetDword(CHAT_FONTMODULE, "Font18Col", RGB(0, 0, 0));
 	g_Settings.UserListColors[CHAT_STATUS_AWAY] = M.GetDword(CHAT_FONTMODULE, "Font19Col", RGB(170, 170, 170));
 	g_Settings.UserListColors[CHAT_STATUS_OFFLINE] = M.GetDword(CHAT_FONTMODULE, "Font5Col", RGB(160, 90, 90));

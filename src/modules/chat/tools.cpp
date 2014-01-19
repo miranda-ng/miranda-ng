@@ -285,13 +285,13 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 	if (bHighlight) {
 		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;
-		if (bInactive || !g_Settings->SoundsFocus)
+		if (bInactive || !g_Settings->bSoundsFocus)
 			SkinPlaySound("ChatHighlight");
 		if (db_get_b(si->hContact, "CList", "Hidden", 0) != 0)
 			db_unset(si->hContact, "CList", "Hidden");
 		if (bInactive)
 			ci.DoTrayIcon(si, gce);
-		if (bInactive || !g_Settings->PopupInactiveOnly)
+		if (bInactive || !g_Settings->bPopupInactiveOnly)
 			ci.DoPopup(si, gce);
 		if (ci.OnFlashWindow)
 			ci.OnFlashWindow(si, bInactive);
@@ -299,40 +299,40 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	}
 
 	// do blinking icons in tray
-	if (bInactive || !g_Settings->TrayIconInactiveOnly)
+	if (bInactive || !g_Settings->bTrayIconInactiveOnly)
 		ci.DoTrayIcon(si, gce);
 
 	// stupid thing to not create multiple popups for a QUIT event for instance
 	if (bManyFix == 0) {
 		// do popups
-		if (bInactive || !g_Settings->PopupInactiveOnly)
+		if (bInactive || !g_Settings->bPopupInactiveOnly)
 			ci.DoPopup(si, gce);
 
 		// do sounds and flashing
 		switch (iEvent) {
 		case GC_EVENT_JOIN:
-			if (bInactive || !g_Settings->SoundsFocus)
+			if (bInactive || !g_Settings->bSoundsFocus)
 				SkinPlaySound("ChatJoin");
 			break;
 		case GC_EVENT_PART:
-			if (bInactive || !g_Settings->SoundsFocus)
+			if (bInactive || !g_Settings->bSoundsFocus)
 				SkinPlaySound("ChatPart");
 			break;
 		case GC_EVENT_QUIT:
-			if (bInactive || !g_Settings->SoundsFocus)
+			if (bInactive || !g_Settings->bSoundsFocus)
 				SkinPlaySound("ChatQuit");
 			break;
 		case GC_EVENT_ADDSTATUS:
 		case GC_EVENT_REMOVESTATUS:
-			if (bInactive || !g_Settings->SoundsFocus)
+			if (bInactive || !g_Settings->bSoundsFocus)
 				SkinPlaySound("ChatMode");
 			break;
 		case GC_EVENT_KICK:
-			if (bInactive || !g_Settings->SoundsFocus)
+			if (bInactive || !g_Settings->bSoundsFocus)
 				SkinPlaySound("ChatKick");
 			break;
 		case GC_EVENT_MESSAGE:
-			if (bInactive || !g_Settings->SoundsFocus)
+			if (bInactive || !g_Settings->bSoundsFocus)
 				SkinPlaySound("ChatMessage");
 
 			if (bInactive && !(si->wState & STATE_TALK)) {
@@ -343,19 +343,19 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 				ci.OnFlashWindow(si, bInactive);
 			break;
 		case GC_EVENT_ACTION:
-			if (bInactive || !g_Settings->SoundsFocus)
+			if (bInactive || !g_Settings->bSoundsFocus)
 				SkinPlaySound("ChatAction");
 			break;
 		case GC_EVENT_NICK:
-			if (bInactive || !g_Settings->SoundsFocus)
+			if (bInactive || !g_Settings->bSoundsFocus)
 				SkinPlaySound("ChatNick");
 			break;
 		case GC_EVENT_NOTICE:
-			if (bInactive || !g_Settings->SoundsFocus)
+			if (bInactive || !g_Settings->bSoundsFocus)
 				SkinPlaySound("ChatNotice");
 			break;
 		case GC_EVENT_TOPIC:
-			if (bInactive || !g_Settings->SoundsFocus)
+			if (bInactive || !g_Settings->bSoundsFocus)
 				SkinPlaySound("ChatTopic");
 			break;
 		}
@@ -419,7 +419,7 @@ const TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 
 BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 {
-	if (!g_Settings->HighlightEnabled || !g_Settings->pszHighlightWords || !gce || !si || !si->pMe)
+	if (!g_Settings->bHighlightEnabled || !g_Settings->pszHighlightWords || !gce || !si || !si->pMe)
 		return FALSE;
 
 	TCHAR *p1 = g_Settings->pszHighlightWords;
@@ -523,7 +523,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		if (bFileJustCreated)
 			fputws((const wchar_t*)"\377\376", hFile);		//UTF-16 LE BOM == FF FE
 		if (gce->ptszNick) {
-			if (g_Settings->LogLimitNames && lstrlen(gce->ptszNick) > 20) {
+			if (g_Settings->bLogLimitNames && lstrlen(gce->ptszNick) > 20) {
 				lstrcpyn(szTemp2, gce->ptszNick, 20);
 				lstrcpyn(szTemp2 + 20, _T("..."), 4);
 			}

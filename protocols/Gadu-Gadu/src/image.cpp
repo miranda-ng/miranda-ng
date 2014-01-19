@@ -929,14 +929,9 @@ int GGPROTO::img_display(HANDLE hContact, void *img)
 	gg_LeaveCriticalSection(&img_mutex, "img_display", 60, 1, "img_mutex", 1);
 
 	SendMessage(dat->hWnd, WM_ADDIMAGE, 0, (LPARAM)img);
-	if (/*db_get_b(NULL, "Chat", "FlashWindowHighlight", 0) != 0 && */
+	if (/*db_get_b(NULL, "Chat", "bFlashWindowHighlight", 0) != 0 && */
 		GetActiveWindow() != dat->hWnd && GetForegroundWindow() != dat->hWnd)
 		SetTimer(dat->hWnd, TIMERID_FLASHWND, 900, NULL);
-
-	/* DEPRECATED: No more grabbing the focus... just flashing
-	SetForegroundWindow(dat->hWnd);
-	SetFocus(dat->hWnd);
-	*/
 
 	return TRUE;
 }

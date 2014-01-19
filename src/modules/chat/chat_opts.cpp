@@ -189,31 +189,32 @@ static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)
 
 void LoadGlobalSettings(void)
 {
-	g_Settings->LogLimitNames = db_get_b(NULL, "Chat", "LogLimitNames", 1);
-	g_Settings->ShowTime = db_get_b(NULL, "Chat", "ShowTimeStamp", 1);
-	g_Settings->SoundsFocus = db_get_b(NULL, "Chat", "SoundsFocus", 0);
-	g_Settings->ShowTimeIfChanged = (BOOL)db_get_b(NULL, "Chat", "ShowTimeStampIfChanged", 0);
-	g_Settings->TimeStampEventColour = (BOOL)db_get_b(NULL, "Chat", "TimeStampEventColour", 0);
+	g_Settings->bLogLimitNames = db_get_b(NULL, "Chat", "bLogLimitNames", 1) != 0;
+	g_Settings->bShowTime = db_get_b(NULL, "Chat", "ShowTimeStamp", 1) != 0;
+	g_Settings->bSoundsFocus = db_get_b(NULL, "Chat", "bSoundsFocus", 0) != 0;
+	g_Settings->bShowTimeIfChanged = (BOOL)db_get_b(NULL, "Chat", "ShowTimeStampIfChanged", 0) != 0;
+	g_Settings->bTimeStampEventColour = (BOOL)db_get_b(NULL, "Chat", "bTimeStampEventColour", 0) != 0;
 	g_Settings->iEventLimit = db_get_w(NULL, "Chat", "LogLimit", 100);
 	g_Settings->dwIconFlags = db_get_dw(NULL, "Chat", "IconFlags", 0x0000);
 	g_Settings->dwTrayIconFlags = db_get_dw(NULL, "Chat", "TrayIconFlags", 0x1000);
 	g_Settings->dwPopupFlags = db_get_dw(NULL, "Chat", "PopupFlags", 0x0000);
 	g_Settings->LoggingLimit = db_get_w(NULL, "Chat", "LoggingLimit", 100);
-	g_Settings->LoggingEnabled = (BOOL)db_get_b(NULL, "Chat", "LoggingEnabled", 0);
-	g_Settings->FlashWindow = (BOOL)db_get_b(NULL, "Chat", "FlashWindow", 0);
-	g_Settings->HighlightEnabled = (BOOL)db_get_b(NULL, "Chat", "HighlightEnabled", 1);
+	g_Settings->bLoggingEnabled = (BOOL)db_get_b(NULL, "Chat", "bLoggingEnabled", 0) != 0;
+	g_Settings->bFlashWindow = (BOOL)db_get_b(NULL, "Chat", "FlashWindow", 0) != 0;
+	g_Settings->bFlashWindowHighlight = (BOOL)db_get_b(NULL, "Chat", "bFlashWindowHighlight", false) != 0;
+	g_Settings->bHighlightEnabled = (BOOL)db_get_b(NULL, "Chat", "bHighlightEnabled", 1) != 0;
 	g_Settings->crUserListColor = db_get_dw(NULL, "ChatFonts", "Font18Col", RGB(0, 0, 0));
 	g_Settings->crUserListHeadingsColor = db_get_dw(NULL, "ChatFonts", "Font19Col", RGB(170, 170, 170));
-	g_Settings->StripFormat = (BOOL)db_get_b(NULL, "Chat", "StripFormatting", 0);
-	g_Settings->TrayIconInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "TrayIconInactiveOnly", 1);
-	g_Settings->PopupInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopupInactiveOnly", 1);
-	g_Settings->AddColonToAutoComplete = (BOOL)db_get_b(NULL, "Chat", "AddColonToAutoComplete", 1);
+	g_Settings->bStripFormat = (BOOL)db_get_b(NULL, "Chat", "StripFormatting", 0) != 0;
+	g_Settings->bTrayIconInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "bTrayIconInactiveOnly", 1) != 0;
+	g_Settings->bPopupInactiveOnly = (BOOL)db_get_b(NULL, "Chat", "PopupInactiveOnly", 1) != 0;
+	g_Settings->bAddColonToAutoComplete = (BOOL)db_get_b(NULL, "Chat", "AddColonToAutoComplete", 1) != 0;
 	g_Settings->iPopupStyle = db_get_b(NULL, "Chat", "PopupStyle", 1);
 	g_Settings->iPopupTimeout = db_get_w(NULL, "Chat", "PopupTimeout", 3);
 	g_Settings->crPUBkgColour = db_get_dw(NULL, "Chat", "PopupColorBG", GetSysColor(COLOR_WINDOW));
 	g_Settings->crPUTextColour = db_get_dw(NULL, "Chat", "PopupColorText", 0);
-	g_Settings->ShowContactStatus = db_get_b(NULL, "Chat", "ShowContactStatus", 0);
-	g_Settings->ContactStatusFirst = db_get_b(NULL, "Chat", "ContactStatusFirst", 0);
+	g_Settings->bShowContactStatus = db_get_b(NULL, "Chat", "ShowContactStatus", 0) != 0;
+	g_Settings->bContactStatusFirst = db_get_b(NULL, "Chat", "ContactStatusFirst", 0) != 0;
 
 	LoadColors();
 
@@ -227,7 +228,7 @@ void LoadGlobalSettings(void)
 	InitSetting(&g_Settings->pszHighlightWords, "HighlightWords", _T("%m"));
 
 	InitSetting(&g_Settings->pszLogDir, "LogDirectory", _T("%miranda_logpath%\\%proto%\\%userid%.log"));
-	g_Settings->LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
+	g_Settings->bLogIndentEnabled = db_get_b(NULL, "Chat", "bLogIndentEnabled", 1) != 0;
 
 	LOGFONT lf;
 	if (g_Settings->MessageBoxFont)
@@ -266,7 +267,7 @@ static void FreeGlobalSettings(void)
 
 void SetIndentSize()
 {
-	if (g_Settings->ShowTime) {
+	if (g_Settings->bShowTime) {
 		LOGFONT lf;
 		LoadMsgDlgFont(0, &lf, NULL);
 		HFONT hFont = CreateFontIndirect(&lf);

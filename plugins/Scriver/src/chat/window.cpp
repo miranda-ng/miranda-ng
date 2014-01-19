@@ -284,7 +284,7 @@ LBL_SkipEnd:
 		dat->szSearchResult = mir_tstrdup(pszName);
 		if (end != start) {
 			ptrT szReplace;
-			if (!isRoom && !isTopic && g_Settings.AddColonToAutoComplete && start == 0) {
+			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
 				szReplace = (TCHAR *)mir_alloc((_tcslen(pszName) + 4) * sizeof(TCHAR));
 				_tcscpy(szReplace, pszName);
 				_tcscat(szReplace, _T(": "));
@@ -1341,14 +1341,14 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		si->wState |= GC_EVENT_HIGHLIGHT;
 		SendMessage(si->hWnd, GC_FIXTABICONS, 0, 0);
 		SendMessage(hwndDlg, DM_UPDATETITLEBAR, 0, 0);
-		if (db_get_b(NULL, "Chat", "FlashWindowHighlight", 0) != 0 && GetActiveWindow() != hwndDlg && GetForegroundWindow() != GetParent(hwndDlg))
+		if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != hwndDlg && GetForegroundWindow() != GetParent(hwndDlg))
 			SendMessage(GetParent(si->hWnd), CM_STARTFLASHING, 0, 0);
 		break;
 
 	case GC_SETTABHIGHLIGHT:
 		SendMessage(si->hWnd, GC_FIXTABICONS, 0, 0);
 		SendMessage(hwndDlg, DM_UPDATETITLEBAR, 0, 0);
-		if (g_Settings.FlashWindow && GetActiveWindow() != GetParent(hwndDlg) && GetForegroundWindow() != GetParent(hwndDlg))
+		if (g_Settings.bFlashWindow && GetActiveWindow() != GetParent(hwndDlg) && GetForegroundWindow() != GetParent(hwndDlg))
 			SendMessage(GetParent(si->hWnd), CM_STARTFLASHING, 0, 0);
 		break;
 
@@ -1425,7 +1425,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					else //if (dis->itemState & ODS_INACTIVE)
 						FillRect(dis->hDC, &dis->rcItem, pci->hListBkgBrush);
 
-					if (g_Settings.ShowContactStatus && g_Settings.ContactStatusFirst && ui->ContactStatus) {
+					if (g_Settings.bShowContactStatus && g_Settings.bContactStatusFirst && ui->ContactStatus) {
 						HICON hIcon = LoadSkinnedProtoIcon(si->pszModule, ui->ContactStatus);
 						DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 3, hIcon, 16, 16, 0, NULL, DI_NORMAL);
 						Skin_ReleaseIcon(hIcon);
@@ -1433,7 +1433,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					}
 					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset, hIcon, 10, 10, 0, NULL, DI_NORMAL);
 					x_offset += 12;
-					if (g_Settings.ShowContactStatus && !g_Settings.ContactStatusFirst && ui->ContactStatus) {
+					if (g_Settings.bShowContactStatus && !g_Settings.bContactStatusFirst && ui->ContactStatus) {
 						HICON hIcon = LoadSkinnedProtoIcon(si->pszModule, ui->ContactStatus);
 						DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 3, hIcon, 16, 16, 0, NULL, DI_NORMAL);
 						Skin_ReleaseIcon(hIcon);

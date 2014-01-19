@@ -352,14 +352,14 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			DoPopup(si, gce);
 		if (params->bInactive && si && si->hWnd)
 			SendMessage(si->hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
-		if (g_Settings.bFlashWindowHightlight && params->bInactive)
+		if (g_Settings.bFlashWindowHighlight && params->bInactive)
 			params->bMustFlash = TRUE;
 		params->bMustAutoswitch = TRUE;
 		params->hNotifyIcon = pci->hIcons[ICON_HIGHLIGHT];
 	}
 	else {
 		// do blinking icons in tray
-		if (params->bInactive || !g_Settings.TrayIconInactiveOnly) {
+		if (params->bInactive || !g_Settings.bTrayIconInactiveOnly) {
 			DoTrayIcon(si, gce);
 			if (params->iEvent == GC_EVENT_MESSAGE)
 				bFlagUnread = true;
@@ -464,7 +464,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 		if (params->iEvent == GC_EVENT_MESSAGE) {
 			params->bMustAutoswitch = TRUE;
-			if (g_Settings.FlashWindow)
+			if (g_Settings.bFlashWindow)
 				params->bMustFlash = TRUE;
 			params->hNotifyIcon = pci->hIcons[ICON_MESSAGE];
 		}
@@ -668,7 +668,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 
 BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 {
-	if (!g_Settings.HighlightEnabled || !g_Settings.pszHighlightWords || !gce)
+	if (!g_Settings.bHighlightEnabled || !g_Settings.pszHighlightWords || !gce)
 		return FALSE;
 
 	int dwMask = 0;
