@@ -309,7 +309,7 @@ Zpět
 Reset
 [Export...]
 Exportovat...
-[(Background) Color]
+[Color/background]
 Barva pozadí
 [Text effect]
 Efekt textu
@@ -1299,74 +1299,20 @@ Přidat se do diskuse
 [Open chat window]
 Otevřít komunikační okno
 ;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
-[%s has joined]
-Příchod: %s
-[You have joined %s]
-Příchod na %s
-[%s has left]
-Odchod: %s
-[%s has disconnected]
-Odpojení: %s
-[%s is now known as %s]
-Změna přezdívky: %s -> %s
-[You are now known as %s]
-Změna vlastní přezdívky: %s
-[%s kicked %s]
-Vykopnutí: %s -> %s
-[Notice from %s: ]
-Poznámka od %s:\s
-[The topic is '%s%s']
-Aktuální téma: '%s%s'
-[ (set by %s on %s)]
- (nastavil %s na %s)
-[ (set by %s)]
- (nastavil %s)
-[%s enables '%s' status for %s]
-%s aktivuje stav '%s' pro %s
-[%s disables '%s' status for %s]
-%s deaktivuje stav '%s' pro %s
-[<invalid>]
-<neplatný>
+;file \src\core\stdchat\src\main.cpp
+[Chat module]
+Skupinový rozhovor
+[Group chat log background]
+Pozadí skupinového rozhovoru
+[Message background]
+Pozadí konverzace
+[User list background]
+Pozadí seznamu uživatelů
+[User list lines]
+Linky v seznamu uživatelů
+[User list background (selected)]
+Pozadí seznamu uživatelů (vybraný)
 ;file \src\core\stdchat\src\options.cpp
-[Others nicknames]
-Ostatní přezdívky
-[Your nickname]
-Vaše přezdívka
-[User has joined]
-Příchod na kanál
-[User has left]
-Odchod z kanálu
-[User has disconnected]
-Odpojení uživatele
-[User kicked ...]
-Vykopnutí
-[User is now known as ...]
-Změna přezdívky
-[Notice from user]
-Poznámka
-[Incoming message]
-Příchozí zpráva
-[Outgoing message]
-Odchozí zpráva
-[The topic is ...]
-Zobrazení tématu
-[Information messages]
-Informace
-[User enables status for ...]
-Aktivace stavu pro ...
-[User disables status for ...]
-Deaktivace stavu pro ...
-[Action message]
-Upozornění
-[Highlighted message]
-Zvýrazněná zpráva
-[Message typing area]
-Oblast se zprávou
-[User list members (online)]
-Seznam účastníků (online)
-[User list members (away)]
-Seznam účastníků (pryč)
 [Use a tabbed interface]
 Použít systém záložek
 [Close tab on double click]
@@ -1523,16 +1469,6 @@ Zobrazit oznámení při změně jména
 Zobrazit oznámení při přijetí informativní zprávy
 [Show popup for status changes]
 Zobrazit oznámení při změně stavu
-[Chat module]
-Skupinový rozhovor
-[Message background]
-Pozadí konverzace
-[User list background]
-Pozadí seznamu uživatelů
-[User list lines]
-Linky v seznamu uživatelů
-[User list background (selected)]
-Pozadí seznamu uživatelů (vybraný)
 [Window icon]
 Ikona okna
 [Bold]
@@ -1629,58 +1565,7 @@ Záznam diskuse
 Diskuse
 [Popups]
 Oznámení
-[Message is highlighted]
-Zvýraznění zprávy
-[User has performed an action]
-Provedení akce
-[User has kicked some other user]
-Vykopnutí z kanálu
-[User's status was changed]
-Změna stavu uživatele
-[User has changed name]
-Změna přezdívky
-[User has sent a notice]
-Odeslání poznámky
-[The topic has been changed]
-Změna tématu diskuse
-;file \src\core\stdchat\src\services.cpp
-[&Join]
-Při&jít
 ;file \src\core\stdchat\src\tools.cpp
-[%s wants your attention in %s]
-%s žádá o pozornost na kanále %s
-[%s speaks in %s]
-%s píše (na %s)
-[%s has joined %s]
-%s přišel (na %s)
-[%s has left %s]
-%s odešel (z %s)
-[%s kicked %s from %s]
-%s vykopnul %s (z %s)
-[Notice from %s]
-Poznámka (napsal: %s)
-[Topic change in %s]
-Změna tématu na %s
-[Information in %s]
-Informace (na %s)
-[%s enables '%s' status for %s in %s]
-%s aktivuje stav '%s' pro %s v %s
-[%s disables '%s' status for %s in %s]
-%s aktivuje stav '%s' pro %s v %s
-[%s says: %s]
-%s píše: %s
-[%s has left (%s)]
-%s odešel (%s)
-[%s has disconnected (%s)]
-%s se odpojil (%s)
-[%s kicked %s (%s)]
-%s vykopnul %s (%s)
-[Notice from %s: %s]
-Poznámka od %s: %s
-[The topic is '%s']
-Aktuální téma: %s
-[The topic is '%s' (set by %s)]
-Aktuální téma: %s (nastavil %s)
 [Look up '%s':]
 Vyhledat '%s':
 [No word to look up]
@@ -1968,6 +1853,10 @@ Neznámá chyba.
 ;file \src\core\stduihist\history.cpp
 [Invalid message]
 Neplatná zpráva
+[Outgoing message]
+Odchozí zpráva
+[Incoming message]
+Příchozí zpráva
 [Outgoing URL]
 Odchozí odkaz
 [Incoming URL]
@@ -2050,10 +1939,122 @@ Přidat kontakt
 [Please authorize my request and add me to your contact list.]
 Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
 ;file \src\modules\chat\chat_opts.cpp
+[Others nicknames]
+Ostatní přezdívky
+[Your nickname]
+Vaše přezdívka
+[User has joined]
+Příchod na kanál
+[User has left]
+Odchod z kanálu
+[User has disconnected]
+Odpojení uživatele
+[User kicked ...]
+Vykopnutí
+[User is now known as ...]
+Změna přezdívky
+[Notice from user]
+Poznámka
+[The topic is ...]
+Zobrazení tématu
+[Information messages]
+Informace
+[User enables status for ...]
+Aktivace stavu pro ...
+[User disables status for ...]
+Deaktivace stavu pro ...
+[Action message]
+Upozornění
+[Highlighted message]
+Zvýrazněná zpráva
+[Message typing area]
+Oblast se zprávou
+[User list members (online)]
+Seznam účastníků (online)
+[User list members (away)]
+Seznam účastníků (pryč)
+[Message is highlighted]
+Zvýraznění zprávy
+[User has performed an action]
+Provedení akce
+[User has kicked some other user]
+Vykopnutí z kanálu
+[User's status was changed]
+Změna stavu uživatele
+[User has changed name]
+Změna přezdívky
+[User has sent a notice]
+Odeslání poznámky
+[The topic has been changed]
+Změna tématu diskuse
 ;file \src\modules\chat\chat_svc.cpp
+[&Join]
+Při&jít
 ;file \src\modules\chat\clist.cpp
 ;file \src\modules\chat\log.cpp
+[%s has joined]
+Příchod: %s
+[You have joined %s]
+Příchod na %s
+[%s has left]
+Odchod: %s
+[%s has disconnected]
+Odpojení: %s
+[%s is now known as %s]
+Změna přezdívky: %s -> %s
+[You are now known as %s]
+Změna vlastní přezdívky: %s
+[%s kicked %s]
+Vykopnutí: %s -> %s
+[Notice from %s: ]
+Poznámka od %s:\s
+[The topic is '%s%s']
+Aktuální téma: '%s%s'
+[ (set by %s on %s)]
+ (nastavil %s na %s)
+[ (set by %s)]
+ (nastavil %s)
+[%s enables '%s' status for %s]
+%s aktivuje stav '%s' pro %s
+[%s disables '%s' status for %s]
+%s deaktivuje stav '%s' pro %s
+[<invalid>]
+<neplatný>
 ;file \src\modules\chat\tools.cpp
+[%s wants your attention in %s]
+%s žádá o pozornost na kanále %s
+[%s speaks in %s]
+%s píše (na %s)
+[%s has joined %s]
+%s přišel (na %s)
+[%s has left %s]
+%s odešel (z %s)
+[%s kicked %s from %s]
+%s vykopnul %s (z %s)
+[Notice from %s]
+Poznámka (napsal: %s)
+[Topic change in %s]
+Změna tématu na %s
+[Information in %s]
+Informace (na %s)
+[%s enables '%s' status for %s in %s]
+%s aktivuje stav '%s' pro %s v %s
+[%s disables '%s' status for %s in %s]
+%s aktivuje stav '%s' pro %s v %s
+[%s says: %s]
+%s píše: %s
+[%s has left (%s)]
+%s odešel (%s)
+[%s has disconnected (%s)]
+%s se odpojil (%s)
+[%s kicked %s (%s)]
+%s vykopnul %s (%s)
+[Notice from %s: %s]
+Poznámka od %s: %s
+[The topic is '%s']
+Aktuální téma: %s
+[The topic is '%s' (set by %s)]
+Aktuální téma: %s (nastavil %s)
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]

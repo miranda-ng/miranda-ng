@@ -26,10 +26,10 @@ Ke zprávě přidat informaci o barvě a velikosti písma
 Vypnout všechny kontakty neuvedené v aktuálním seznamu
 [Manage server groups]
 Zapnout správu skupin na serveru
-[Run the following application when new Hotmail arrives]
-Spustit vybranou aplikaci (po příchodu nové pošty)
 [Allow people on my contact list send messages to mobile device]
 Lidem ze seznamu kontaktů povolit posílání zpráv na mobil
+[Run the following application when new Hotmail arrives]
+Spustit vybranou aplikaci (po příchodu nové pošty)
 [Connection settings]
 Možnosti připojení
 [Direct:]

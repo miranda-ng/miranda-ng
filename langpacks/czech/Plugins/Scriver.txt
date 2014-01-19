@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.10.1.0
+;  Version: 2.11.0.0
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -595,52 +595,6 @@ Jméno v informační liště
 Pozadí informační lišty
 [Info bar status message]
 Stav v informační liště
-[Others nicknames]
-Ostatní přezdívky
-[Your nickname]
-Vaše přezdívka
-[User has joined]
-Příchod na kanál
-[User has left]
-Odchod z kanálu
-[User has disconnected]
-Odpojení uživatele
-[User kicked ...]
-Vykopnutí
-[User is now known as ...]
-Změna přezdívky
-[Notice from user]
-Poznámka
-[Incoming message]
-Příchozí zpráva
-[Outgoing message]
-Odchozí zpráva
-[The topic is ...]
-Zobrazení tématu
-[Information messages]
-Informace
-[User enables status for ...]
-Aktivace stavu pro ...
-[User disables status for ...]
-Deaktivace stavu pro ...
-[Action message]
-Upozornění
-[Highlighted message]
-Zvýrazněná zpráva
-[Message typing area]
-Oblast se zprávou
-[Message background]
-Pozadí konverzace
-[User list members (online)]
-Seznam účastníků (online)
-[User list background]
-Pozadí seznamu kontaktů
-[User list members (away)]
-Seznam účastníků (pryč)
-[User list lines]
-Linky v seznamu kontaktů
-[User list background (selected)]
-Pozadí seznamu kontaktů (vybraný)
 [Offline]
 Offline
 [Online]
@@ -703,46 +657,16 @@ Vždy navrchu
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
-;file \plugins\Scriver\src\chat\clist.cpp
-[Join chat]
-Přidat se do diskuse
-[Open chat window]
-Otevřít komunikační okno
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
-[%s has joined]
-Příchod: %s
-[You have joined %s]
-Příchod na %s
-[%s has left]
-Odchod: %s
-[%s has disconnected]
-Odpojení: %s
-[%s is now known as %s]
-Změna přezdívky: %s -> %s
-[You are now known as %s]
-Změna vlastní přezdívky: %s
-[%s kicked %s]
-Vykopnutí: %s -> %s
-[Notice from %s]
-Poznámka (napsal: %s)
-[The topic is '%s%s']
-Aktuální téma: '%s%s'
-[ (set by %s on %s)]
- (nastavil %s na %s)
-[ (set by %s)]
- (nastavil %s)
-[%s enables '%s' status for %s]
-%s aktivuje stav '%s' pro %s
-[%s disables '%s' status for %s]
-%s deaktivuje stav '%s' pro %s
-[<invalid>]
-<neplatný>
 ;file \plugins\Scriver\src\chat\main.cpp
-[&Join]
-Při&jít
-[&Leave]
-Ode&jít
+[Group chat log background]
+Pozadí skupinového rozhovoru
+[User list background]
+Pozadí seznamu kontaktů
+[User list lines]
+Linky v seznamu kontaktů
+[User list background (selected)]
+Pozadí seznamu kontaktů (vybraný)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Zablikat oknem při napsání zprávy
@@ -914,56 +838,7 @@ Výchozí události, které se mají zobrazit, pokud je filtr událostí aktivn�
 Vyberte požadovanou složku
 [Popups]
 Oznámení
-[Message is highlighted]
-Zvýraznění zprávy
-[User has performed an action]
-Provedení akce
-[User has kicked some other user]
-Vykopnutí z kanálu
-[User's status was changed]
-Změna stavu uživatele
-[User has changed name]
-Změna přezdívky
-[User has sent a notice]
-Odeslání poznámky
-[The topic has been changed]
-Změna tématu diskuse
-;file \plugins\Scriver\src\chat\services.cpp
-[Server: %s]
-Server: %s
 ;file \plugins\Scriver\src\chat\tools.cpp
-[%s wants your attention in %s]
-%s žádá o pozornost na kanále %s
-[%s speaks in %s]
-%s píše (na %s)
-[%s has joined %s]
-%s přišel (na %s)
-[%s has left %s]
-%s odešel (z %s)
-[%s kicked %s from %s]
-%s vykopnul %s (z %s)
-[Topic change in %s]
-Změna tématu na %s
-[Information in %s]
-Informace (na %s)
-[%s enables '%s' status for %s in %s]
-%s aktivuje stav '%s' pro %s v %s
-[%s disables '%s' status for %s in %s]
-%s aktivuje stav '%s' pro %s v %s
-[%s says: %s]
-%s píše: %s
-[%s has left (%s)]
-%s odešel (%s)
-[%s has disconnected (%s)]
-%s se odpojil (%s)
-[%s kicked %s (%s)]
-%s vykopnul %s (%s)
-[Notice from %s: %s]
-Poznámka od %s: %s
-[The topic is '%s']
-Aktuální téma: %s
-[The topic is '%s' (set by %s)]
-Aktuální téma: %s (nastavil %s)
 [&Message %s]
 &Zpráva pro '%s'
 ;file \plugins\Scriver\src\chat\window.cpp

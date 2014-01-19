@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.2.0.1
+;  Version: 3.3.0.0
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1829,11 +1829,6 @@ Zavření okna|Pro projevení změn nahraného tématu v okně možností, musí
 Nahrání tématu|Nahrání barev a písma tématu může přepsat nastavení definované vaším skinem.\n\nPřejete si pokračovat?
 [TabSRMM warning message]
 TabSRMM varování
-;file \plugins\TabSRMM\src\chat\clist.cpp
-[Join chat]
-Přidat se do diskuse
-[Open chat window]
-Otevřít komunikační okno
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Barva textu
@@ -1864,8 +1859,7 @@ Aktuální téma: '%s%s'
 %s aktivuje stav '%s' pro %s
 [%s disables '%s' status for %s]
 %s deaktivuje stav '%s' pro %s
-[<invalid>]
-<neplatný>
+;file \plugins\TabSRMM\src\chat\main.cpp
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 Přidat uživatele do do seznamu označených
@@ -1928,42 +1922,6 @@ Pozadí aktivního textu
 Pozadí označeného textu
 [Unread background]
 Pozadí nepřečteného textu
-[Timestamp]
-Časový údaj
-[Others nicknames]
-Ostatní přezdívky
-[Your nickname]
-Vaše přezdívka
-[User has joined]
-Příchod na kanál
-[User has left]
-Odchod z kanálu
-[User has disconnected]
-Odpojení uživatele
-[User kicked ...]
-Vykopnutí
-[User is now known as ...]
-Změna přezdívky
-[Notice from user]
-Poznámka
-[The topic is ...]
-Zobrazení tématu
-[Information messages]
-Informace
-[User enables status for ...]
-Aktivace stavu pro ...
-[User disables status for ...]
-Deaktivace stavu pro ...
-[Action message]
-Upozornění
-[Highlighted message]
-Zvýrazněná zpráva
-[Chat log symbols (Webdings)]
-Symboly v záznamu chatu (Webdings)
-[User list members (Online)]
-Seznam účastníků (online)
-[User list members (away)]
-Seznam účastníků (pryč)
 [>> Outgoing messages]
 >> Odchozí zprávy
 [>> Outgoing misc events]
@@ -2206,60 +2164,9 @@ Bez oddělovačů
 Zobrazit jako ikony
 [Show as text symbols]
 Zobrazit jako textové symboly
-[Message is highlighted]
-Zvýraznění zprávy
-[User has performed an action]
-Provedení akce
-[User has kicked some other user]
-Vykopnutí z kanálu
-[User's status was changed]
-Změna stavu uživatele
-[User has changed name]
-Změna přezdívky
-[User has sent a notice]
-Odeslání poznámky
-[The topic has been changed]
-Změna tématu diskuse
-;file \plugins\TabSRMM\src\chat\services.cpp
-[&Join]
-Při&jít
-[&Leave]
-Ode&jít
 ;file \plugins\TabSRMM\src\chat\tools.cpp
-[%s wants your attention in %s]
-%s žádá o pozornost na kanále %s
-[%s speaks in %s]
-%s píše (na %s)
-[%s has joined %s]
-%s přišel (na %s)
-[%s has left %s]
-%s odešel (z %s)
-[%s kicked %s from %s]
-%s vykopnul %s (z %s)
-[Notice from %s]
-Poznámka (napsal: %s)
-[Topic change in %s]
-Změna tématu na %s
-[Information in %s]
-Informace (na %s)
-[%s enables '%s' status for %s in %s]
-%s aktivuje stav '%s' pro %s v %s
-[%s disables '%s' status for %s in %s]
-%s aktivuje stav '%s' pro %s v %s
 [%s%s says:%s %s]
 %s%s říká:%s %s
-[%s has left (%s)]
-%s odešel (%s)
-[%s has disconnected (%s)]
-%s se odpojil (%s)
-[%s kicked %s (%s)]
-%s vykopnul %s (%s)
-[Notice from %s: %s]
-Poznámka od %s: %s
-[The topic is '%s']
-Aktuální téma: %s
-[The topic is '%s' (set by %s)]
-Aktuální téma: %s (nastavil %s)
 [Look up '%s':]
 Vyhledat '%s':
 [No word to look up]

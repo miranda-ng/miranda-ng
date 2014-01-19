@@ -2,218 +2,269 @@
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Module: Quick Search
-;  Version: 1.4.0.20
+;  Version: 1.4.2.0
 ;  Authors: Awkward
 ;============================================================
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
+
+[Quick Search]
+Rychlé hledání
+[Title]
+Název
+[Module/InfoType]
+Modul/Typ inf.
+[Setting]
+Nastavení
+[Reload]
+Načíst znovu
+[New]
+Nový
+[Up]
+Nahoru
+[Down]
+Dolů
+[Delete]
+Smazat
+[Default]
+Výchozí
+[Additional Options]
+Ostatní možnosti
+[Tool Window Style]
+Tool styl okna
+[Draw Grid]
+Vykreslit mřížku
+[Save search pattern]
+Zapamatovat hledaný řetězec
+[Auto Close mode]
+Automaticky zavřít
+[Sort by Status]
+Seřadit podle stavu
+[Show Client Icons]
+Zobrazit ikony klientů
+[Settings]
+Nastavení
+[Title:]
+Název:
+[Account]
+Účet
+[Gender]
+Pohlaví
+[UserID]
+
+[Nickname]
+Přezdívka
+[First name]
+Jméno
+[Last name]
+Příjmení
+[Group]
+Skupina
+[Container]
+Kontejner
+[E-mail]
+E-mail
+[Client ID]
+Identifikace klienta
+[Ext IP]
+Externí IP
+[LastSeen]
+Naposledy spatřen
+[Last Event]
+Poslední událost
+[Online since]
+Online od
+[Metacontact]
+Metakontakt
+[Event count]
+Počet událostí
+[Contact add time]
+Kontakt přidán
+[Type:]
+Typ:
+[DB setting]
+DB nastavení
+[Script]
+Skript
+[Service]
+Služba
+[Contact info]
+Info o kontaktu
+[Other]
+Ostatní
+[Data type:]
+Typ dat:
+[Byte]
+Byte
+[Word]
+Word
+[DWord]
+Dword
+[Signed]
+Znaménkové
+[As hex]
+Hexadecimální
+[String]
+String
+[IP]
+IP
+[TimeStamp]
+Časový údaj
+[Module:]
+Modul:
+[Setting:]
+Nastavení:
+[Service:]
+Služba:
+[Param]
+Parametr
+[number value]
+číselná hodnota
+[ANSI string]
+ANSI řetězec
+[Unicode string]
+Unicode řetězec
+[current contact]
+současný kontakt
+[last result]
+poslední výsledek
+[parameter]
+parametr
+[Result]
+VÝSLEDEK
+[Save]
+Uložit
+[All]
+všechno
+[Close]
+Zavřít
+[Refresh]
+Aktualizovat
 [QuickSearch]
 Rychlé hledání
-[Global QuickSearch hotkey]
-
-[Local QuickSearch hotkey]
-
 [Show Offline contacts]
 Zobrazit offline kontakty
 [New column]
 Nový sloupec
-[Set Item]
-
-[wParam type:]
-wParam typ:
-[lParam type:]
-lParam typ:
-[Sort by Status]
-Seřadit podle stavu
-[Don't Use Tool Window Style]
-
-[Draw Grid]
-Vykreslit mřížku
-[integer value]
-integer hodnota
 [Save Item]
 Uložit položku
-[Client ID]
-Identifikace klienta
-[Quick Search]
-Rychlé hledání
-[Quick search]
-Rychlé hledání
-[Search on:]
-Vyhledat:
-[Quick Search:]
-
-[UID:]
-
-[E-mail Address:]
-E-mail:
-[MirandaV]
-
-[Ext IP]
-
-[Last Event]
-
-[Online Since]
-
-[Quick Search Options]
-Možnosti rychlého hledání
-[&New]
-&Nový
-[D&n]
-\\&/
-[Setting:]
-Nastavení:
-[De&fault]
-&Výchozí
-[&Set Item]
-Nas&tavit
-[At Start Sort by Status]
-Při spuštění seřadit dle stavu
-[Global scope hotkey:]
-Klávesová zkratka (globální):
-[Miranda scope hotkey:]
-Klávesová zkratka (Miranda):
-[Add Item to Main Menu]
-Přidat položku do menu
-[Show Only Users in List]
-Zobrazit pouze uživ. v seznamu
-[Add Button to TopToolBar]
-Přidat tlačítko do horní lišty
-[Additional Options]
-Ostatní možnosti
-[Columns && Data]
-Definice sloupců
-[Auto Close mode]
-Automaticky zavřít
 [InfoType:]
 Typ inf.:
-[Module/InfoType]
-Modul/Typ inf.
-[Not Selected]
-Nevybráno
-[FIRSTNAME]
-JMÉNO
-[LASTNAME]
-PŘÍJMENÍ
-[CUSTOMNICK]
-VLASTNÍ PŘEZDÍVKA
-[EMAIL]
-E-MAIL
-[CITY]
-MĚSTO
-[STATE]
-STÁT
-[COUNTRY]
-ZEMĚ
-[PHONE]
-TELEFON
-[HOMEPAGE]
-DOM. STRÁNKA
-[ABOUT]
-INFORMACE
-[GENDER]
-POHLAVÍ
-[AGE]
-VĚK
-[FIRSTLAST]
-JMÉNO PŘÍJMENÍ
-[UNIQUEID]
-IDENTIFIKÁTOR
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-
 [New Column]
 Nový sloupec
-[Save Column]
-Uložit sloupec
 [Column Up]
 Posunout nahoru
 [Column Down]
 Posunout dolů
 [Delete Column]
 Smazat sloupec
-[Only Users in List]
-Pouze kontakty v seznamu
-[Show Client Icons]
-Zobrazit ikony klientů
-[Item in Main Menu]
-Přidat položku do menu
-[Button on TopToolBar]
-Tlačítko do horní lišty
-[Tool Window Style]
-Tool styl okna
-[Global scope hotkey]
-Klávesová zkratka (globální):
-[Miranda scope hotkey]
-Klávesová zkratka (Miranda):
-[CSV with headers]
-CSV s hlavičkou
-[Skip minimized columns]
-Ignorovat skryté sloupce
-[Copy line to CSV]
-Zkopírovat řádek do CSV
-[Save search pattern]
-Zapamatovat hledaný řetězec
-[QuickSearch error]
-
-[Quick Search Mod]
-
-[Script]
-
-[Int]
-
+[Male]
+muž
+[Female]
+žena
+[Contacts]
+Kontakty
 [ContactInfo]
-
+Informace o kontaktu
 [LastEvent]
-
-[TimeStamp]
-Časový údaj
+Poslední událost
+[EventCount]
+Počet událostí
 [Script Editor]
-
+Úprava skriptu
+[Normal background]
+Pozadí běžného textu
 [Normal foreground]
-
+Popředí běžného textu
 [Odd background]
-
+Sudé pozadí
 [Odd foreground]
-
+Sudé popředí
 [Disabled account background]
-
+Pozadí deaktivovaného účtu
 [Disabled account foreground]
-
+Popředí deaktivovaného účtu
 [Deleted account background]
-
+Pozadí smazaného účtu
 [Deleted account foreground]
-
-[Not-in-list contact background]
-
-[Not-in-list contact foreground]
-
+Popředí smazaného účtu
+[Hidden contact background]
+Pozadí skrytého kontaktu
+[Hidden contact foreground]
+Popředí skrytého kontaktu
+[Metacontact background]
+Pozadí metakontaktů
+[Metacontact foreground]
+Popředí metakontaktů
+[SubMetacontact background]
+Pozadí pod-metakontaktů
+[SubMetacontact foreground]
+Popředí pod-metakontaktů
+[&Delete]
+&Smazat
+[&Copy]
+Z&kopírovat
 [C&onvert to Meta]
+&Převést na metakontakt
+[Attach to &Tab container]
 
+[&Move to Group]
+Přesunout do s&kupiny
 [Some of selected contacts in different metacontacts already]
 
 [Do you really want to delete selected contacts?]
-
+Opravdu si přejete smazat zvolené kontakty?
+[Warning]
+Upozornění
 [One or more contacts in same Meta already. Try to convert anyway?]
 
-[Metacontact background]
-
-[Metacontact foreground]
-
-[SubMetacontact background]
-
-[SubMetacontact foreground]
-
-[%u users found (%u) Online: %u]
-%u kontaktů nalezeno (%u) Online: %u
+[Editing of column ]
+Úprava sloupce\s
+[%i users found (%i) Online: %i]
+%i uživatelů nalezeno (%i) Online: %i
 [ users found (]
-
+ uživatelů nalezeno (
 [) Online: ]
-
+) Online:\s
+[Online]
+Online
+[deleted]
+smazáno
+[off]
+vyp
+[active]
+Aktivní
 [Colorize]
 Obarvit
-[Metacontact]
-Metakontakt
-[Hidden contact background]
-
-[Hidden contact foreground]
-
 [QuickSearch window hotkey]
 
+[Column content is simple database setting.]
+
+[Column content is script result.\r\nMore help from "Help" button in script dialog.]
+
+[Column content is contact property (see list). Can be empty.]
+
+[Content is last online time.]
+
+[Content is time of last contact event.]
+
+[Content is metacontact info.]
+
+[Content is count of ALL contact events (not messages only)]
+
+[Other info]
+
+[Change setting through QS]
+
+[default]
+výchozí
+[Selected]
+Vybráno
+[contacts]
+kontakty
+[Unknown]
+neznámý
+[Stay on Top]
+Vždy navrchu
+; this line is not present in the sources, but it present in compiled plugin
+[Text Editor]
+Úprava textu

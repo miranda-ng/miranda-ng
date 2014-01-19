@@ -103,10 +103,6 @@ Možnosti...
 ;file \plugins\Ping\src\menu.cpp
 [PING]
 Ping
-[Enable All Pings]
-Aktivovat všechny pingy
-[Disable All Pings]
-Deaktivovat všechny pingy
 ;file \plugins\Ping\src\options.cpp
 [Open log file]
 Zobrazit záznam
