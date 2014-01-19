@@ -271,7 +271,7 @@ Omgjør
 Nullstill
 [Export...]
 Eksporter..
-[(Background) Color]
+[Color/background]
 Farge/Bakgrunn
 [Text color]
 TekstFarge
@@ -1075,12 +1075,14 @@ Bruker deaktiverer status for ...
 Handlingsmelding
 [Highlighted message]
 Markert melding
-[Message typing area]
-Skriveområde for meldinger
 [User list members (online)]
 Brukerliste medlemmer (online)
 [User list members (away)]
 Brukerliste medlemmer (borte)
+[Message typing area]
+Skriveområde for meldinger
+[Chat log symbols (Webdings)]
+Samtalelogg symboler (Webdings)
 [Use a tabbed interface]
 Bruk grensesnitt med faner
 [Close tab on double click]

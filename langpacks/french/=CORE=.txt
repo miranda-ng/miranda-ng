@@ -309,7 +309,7 @@ Annuler
 RAZ
 [Export...]
 Exportation...
-[(Background) Color]
+[Color/background]
 Couleur du fond
 [Text effect]
 Effet du texte
@@ -1967,12 +1967,14 @@ L'usager désactive l'état pour ...
 Message d'action
 [Highlighted message]
 Message surligné
-[Message typing area]
-Zone de saisie des messages
 [User list members (online)]
 Liste des usagers (en ligne)
 [User list members (away)]
 Liste des usagers (absents)
+[Message typing area]
+Zone de saisie des messages
+[Chat log symbols (Webdings)]
+
 [Message is highlighted]
 Message surligné
 [User has performed an action]

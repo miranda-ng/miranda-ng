@@ -274,7 +274,7 @@ Visszavonás
 Alapraállítás
 [Export...]
 Exportálás...
-[(Background) Color]
+[Color/background]
 Szín/Háttér
 [Text color]
 Szövegszín
@@ -1122,12 +1122,14 @@ Felhasználó kikapcsolja az állapotot ...
 Akció üzenet
 [Highlighted message]
 Kiemelt üzenet
-[Message typing area]
-Üzenet beviteli terület
 [User list members (online)]
 Felhasználó-listatagok (elérhetõ)
 [User list members (away)]
 Felhasználó-listatagok (távol)
+[Message typing area]
+Üzenet beviteli terület
+[Chat log symbols (Webdings)]
+Csevegés napló szimbólumok (Webdings)
 [Use a tabbed interface]
 Füles kezelõfelület használata
 [Close tab on double click]

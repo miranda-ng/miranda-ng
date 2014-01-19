@@ -292,7 +292,7 @@ Homepage:
 リセット
 [Export...]
 エクスポート...
-[(Background) Color]
+[Color/background]
 色 / 背景
 [Text effect]
 テキスト効果
@@ -1272,12 +1272,14 @@ SMS テキストメッセージを受信できる電話
 アクションメッセージ
 [Highlighted message]
 強調表示されたメッセージ
-[Message typing area]
-メッセージ入力エリア
 [User list members (online)]
 ユーザーリストメンバー ( オンライン )
 [User list members (away)]
 ユーザーリストメンバー ( 離席中 )
+[Message typing area]
+メッセージ入力エリア
+[Chat log symbols (Webdings)]
+チャットログの記号 ( Webdings )
 [Use a tabbed interface]
 タブインターフェースを使用
 [Close tab on double click]

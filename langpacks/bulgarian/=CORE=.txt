@@ -309,7 +309,7 @@ Copyright:
 Анулиране
 [Export...]
 Износ...
-[(Background) Color]
+[Color/background]
 Фонов цвят
 [Text effect]
 Ефекти
@@ -1936,12 +1936,14 @@ URL
 Съобщение за действие
 [Highlighted message]
 Отличено съобщение
-[Message typing area]
-Поле за въвеждане на съобщения
 [User list members (online)]
 Списък с прякори (На линия)
 [User list members (away)]
 Списък с прякори (Отсъстващ)
+[Message typing area]
+Поле за въвеждане на съобщения
+[Chat log symbols (Webdings)]
+
 [Message is highlighted]
 Отличаване на съобщение
 [User has performed an action]

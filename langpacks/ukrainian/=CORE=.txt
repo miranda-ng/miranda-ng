@@ -309,7 +309,7 @@
 Скинути
 [Export...]
 Експорт...
-[(Background) Color]
+[Color/background]
 Колір фону
 [Text effect]
 Ефект тексту
@@ -1901,12 +1901,14 @@ URL від %s
 Дії
 [Highlighted message]
 Підсвічені повідомлення
-[Message typing area]
-Поле вводу повідомлення
 [User list members (online)]
 Користувачі (онлайн)
 [User list members (away)]
 Користувачі (відсутні)
+[Message typing area]
+Поле вводу повідомлення
+[Chat log symbols (Webdings)]
+Символи в чаті (шрифт Webdings)
 [Message is highlighted]
 Підсвічені повідомлення
 [User has performed an action]

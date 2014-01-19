@@ -307,7 +307,7 @@
 Скід
 [Export...]
 Экспарт...
-[(Background) Color]
+[Color/background]
 Колер фону
 [Text effect]
 Эфект
@@ -1959,12 +1959,14 @@ URL ад %s
 Дзеянне
 [Highlighted message]
 Падсветленае паведамленне
-[Message typing area]
-Поле набору тэксту
 [User list members (online)]
 Кантакты (далучаны)
 [User list members (away)]
 Кантакты (адсутнічаюць)
+[Message typing area]
+Поле набору тэксту
+[Chat log symbols (Webdings)]
+Знакі ў чаце (шрыфт Webdings)
 [Message is highlighted]
 Паведамленне вылучана
 [User has performed an action]

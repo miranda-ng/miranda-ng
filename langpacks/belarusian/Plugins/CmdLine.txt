@@ -130,8 +130,8 @@ Miranda была зачынена ці адбылася памылка пры ч
 Няма непрачытаных паведамленняў.
 [%s:%s - %d unread events.]
 %s:%s - %d непрачытаныя паведамленні.
-[Contact '%s' has '%d' events in history.]
-Кантакт '%s' мае '%d' падзей у гісторыі.
+[Contact '%s' has %d events in history.]
+Кантакт '%s' мае %d падзей у гісторыі.
 [Error setting nickname to '%s' for protocol '%s']
 Памылка ўстаноўкі мянушкі '%s' для пратакола '%s' 
 ;file \plugins\CmdLine\src\services.cpp

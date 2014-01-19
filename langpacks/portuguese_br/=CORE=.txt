@@ -276,7 +276,7 @@ Desfazer
 Limpar
 [Export...]
 Exportar...
-[(Background) Color]
+[Color/background]
 Cor/Fundo
 [Text effect]
 Efeito de texto
@@ -1166,12 +1166,14 @@ o usuário desativa o status para ...
 Mensagem de ação
 [Highlighted message]
 Mensagem destacada
-[Message typing area]
-Área de redação da mensagem
 [User list members (online)]
 Membros da lista (online)
 [User list members (away)]
 Membros da lista (desligados)
+[Message typing area]
+Área de redação da mensagem
+[Chat log symbols (Webdings)]
+Reg. de símbolos do bate-papo (Webdings)
 [Use a tabbed interface]
 Usar um 'interface' em abas'
 [Close tab on double click]

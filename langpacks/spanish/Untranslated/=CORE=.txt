@@ -1,4 +1,5 @@
 ﻿[Group chat log background]
+[Chat log symbols (Webdings)]
 [Authorization request from %s%s: %s]
 [You were added by %s%s]
 [Contacts: ]

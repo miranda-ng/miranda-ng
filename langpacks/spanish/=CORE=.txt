@@ -309,8 +309,8 @@ Deshacer
 Reiniciar
 [Export...]
 Exportar...
-[(Background) Color]
-(Fondo) Color
+[Color/background]
+Color/fondo
 [Text effect]
 Efecto de texto
 [Text color]
@@ -1967,12 +1967,14 @@ El usuario desactiva el estado de...
 Mensaje de acción
 [Highlighted message]
 Mensaje seleccionado
-[Message typing area]
-Área de escritura de mensaje
 [User list members (online)]
 Miembros de la lista de usuarios (en línea)
 [User list members (away)]
 Miembros de la lista de usuarios (fuera)
+[Message typing area]
+Área de escritura de mensaje
+[Chat log symbols (Webdings)]
+
 [Message is highlighted]
 El mensaje esta resaltado
 [User has performed an action]

@@ -141,8 +141,8 @@ Miranda була закрита або сталася помилка при оч
 Немає непрочитаних повідомлень.
 [%s:%s - %d unread events.]
 %s:%s - %d непрочитаних повідомлень.
-[Contact '%s' has '%d' events in history.]
-Контакт '%s' має '%d' подій в історії.
+[Contact '%s' has %d events in history.]
+Контакт '%s' має %d подій в історії.
 [Error setting nickname to '%s' for protocol '%s']
 Помилка зміни ніку на '%s' для протоколу '%s'.
 [Could not create CommandLine listening server!]

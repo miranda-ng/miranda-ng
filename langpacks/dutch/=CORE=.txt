@@ -907,12 +907,12 @@ Gebruiker schakeld status uit voor ...
 Actie bericht
 [Highlighted message]
 Opgelichte berichten
-[Message typing area]
-Bericht typen gebied
 [User list members (online)]
 Gebruikerlijst leden (Online)
 [User list members (away)]
 Gebruikerlijst leden (afwezig)
+[Message typing area]
+Bericht typen gebied
 [Use a tabbed interface]
 Een tabbed interface gebruiken
 [Close tab on double click]

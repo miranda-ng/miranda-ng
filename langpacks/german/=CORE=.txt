@@ -309,7 +309,7 @@ Rückgängig
 Standard
 [Export...]
 Exportieren...
-[(Background) Color]
+[Color/background]
 (Hintergrund)farbe
 [Text effect]
 Texteffekt
@@ -1967,12 +1967,14 @@ Benutzer deaktiviert Status für ...
 Aktionsnachricht
 [Highlighted message]
 Hervorgehobene Nachricht
-[Message typing area]
-Nachrichteneingabefeld
 [User list members (online)]
 Benutzerliste (online)
 [User list members (away)]
 Benutzerliste (abwesend)
+[Message typing area]
+Nachrichteneingabefeld
+[Chat log symbols (Webdings)]
+Chatverlaufssymbole (Webdings)
 [Message is highlighted]
 Nachricht ist hervorgehoben
 [User has performed an action]

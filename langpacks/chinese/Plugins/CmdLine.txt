@@ -81,8 +81,8 @@ YAMN 插件未运行.
 无未读消息.
 [%s:%s - %d unread events.]
 %s:%s - %d 未读事件.
-[Contact '%s' has '%d' events in history.]
-联系人 '%s' 有 '%d' 个事件在历史中.
+[Contact '%s' has %d events in history.]
+联系人 '%s' 有 %d 个事件在历史中.
 [Could not create CommandLine listening server!]
 无法创建命令行监听服务器!
 [You can only run one instance of CmdLine plugin.]

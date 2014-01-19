@@ -284,7 +284,7 @@ Geri Al
 Sıfırla
 [Export...]
 Ver...
-[(Background) Color]
+[Color/background]
 Renk/Art Alan
 [Text color]
 Yazı Rengi
@@ -1144,12 +1144,14 @@ Kişinin şu durumları devre dışı ...
 Eylem iletisi
 [Highlighted message]
 Vurgulanan ileti
-[Message typing area]
-İleti yazma alanı
 [User list members (online)]
 Kişi listesi üyeleri (çevrimiçi)
 [User list members (away)]
 Kişi listesi üyeleri (Uzakta)
+[Message typing area]
+İleti yazma alanı
+[Chat log symbols (Webdings)]
+Sohbet günlüğü simgeleri (Webdings)
 [Use a tabbed interface]
 Sekmeli arayüzü kullan
 [Close tab on double click]

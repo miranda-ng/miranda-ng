@@ -8,8 +8,8 @@ e.g. Workplace
 e.g. Miranda Database
 [Fonts and colors]
 Fonts and colours
-[(Background) Color]
-(Background) Colour
+[Color/background]
+Colour/background
 [Text color]
 Text colour
 [&Color:]

@@ -176,7 +176,7 @@ Ennista
 Algväärtusta
 [Export...]
 Eksport...
-[(Background) Color]
+[Color/background]
 Värv/Taust
 [Text color]
 Teksti värv

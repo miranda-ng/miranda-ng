@@ -148,8 +148,8 @@ Einstellung '%s/%s' wurde nicht gefunden.
 Keine ungelesenen Nachrichten gefunden.
 [%s:%s - %d unread events.]
 %s:%s - %d ungelesene Ereignisse.
-[Contact '%s' has '%d' events in history.]
-Kontakt '%s' hat '%d' Ereignisse im Verlauf.
+[Contact '%s' has %d events in history.]
+Kontakt '%s' hat %d Ereignisse im Verlauf.
 [Error setting nickname to '%s' for protocol '%s']
 Fehler beim Setzen des Nicknamens auf '%s' für Protokoll '%s'.
 ;file \plugins\CmdLine\src\services.cpp

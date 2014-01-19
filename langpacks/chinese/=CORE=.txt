@@ -288,7 +288,7 @@ Miranda NG 启动时显示此对话框
 重置
 [Export...]
 导出...
-[(Background) Color]
+[Color/background]
 颜色/背景
 [Text effect]
 文本特效
@@ -1270,12 +1270,14 @@ Miranda NG 正准备重启. \n请稍候...
 操作消息
 [Highlighted message]
 突出显示消息
-[Message typing area]
-消息键入区域
 [User list members (online)]
 用户列表成员 (在线)
 [User list members (away)]
 用户列表成员 (外出)
+[Message typing area]
+消息键入区域
+[Chat log symbols (Webdings)]
+聊天记录符号 (Webdings)
 [Use a tabbed interface]
 使用标签界面
 [Close tab on double click]

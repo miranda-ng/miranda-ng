@@ -897,12 +897,12 @@ OutputDebugString()
 הודעת פעולה
 [Highlighted message]
 הודעה מודגשת
-[Message typing area]
-אזור כתיבת ההודעה
 [User list members (online)]
 רשימת חברים של המשתמש (שמחוברים)
 [User list members (away)]
 רשימת חברים של המשתמש (במצב לא נמצא)
+[Message typing area]
+אזור כתיבת ההודעה
 [Use a tabbed interface]
 השתמש בממשק טאבים
 [Close tab on double click]
