@@ -60,8 +60,6 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	m_iXStatus = getByte(DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
 	if ( !IsXStatusValid(m_iXStatus))
 		m_iXStatus = MRA_MIR_XSTATUS_NONE;
-
-	bChatExists = MraChatRegister();
 }
 
 CMraProto::~CMraProto()
@@ -115,9 +113,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 	db_set_resident(m_szModuleName, DBSETTING_BLOGSTATUSMUSIC);
 
 	// destroy all chat sessions
-	if (bChatExists)
-		MraChatSessionDestroy(NULL);
-
+	bChatExists = MraChatRegister();
 	return 0;
 }
 

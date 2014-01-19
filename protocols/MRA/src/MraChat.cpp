@@ -65,17 +65,15 @@ INT_PTR CMraProto::MraChatSessionNew(HANDLE hContact)
 
 void CMraProto::MraChatSessionDestroy(HANDLE hContact)
 {
-	if ( !bChatExists)
+	if (!bChatExists || hContact == NULL)
 		return;
 
 	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 
 	CMStringW wszEMail;
-	if (hContact) {
-		mraGetStringW(hContact, "e-mail", wszEMail);
-		gcd.ptszID = (LPWSTR)wszEMail.c_str();
-	}
+	mraGetStringW(hContact, "e-mail", wszEMail);
+	gcd.ptszID = (LPWSTR)wszEMail.c_str();
 
 	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, (LPARAM)&gce);

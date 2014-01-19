@@ -55,6 +55,18 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bServerDelivery = getBool("ServerDelivery", true);
 	m_bHideChats = getBool("HideChats", true);
 
+	// Set all contacts offline -- in case we crashed
+	SetAllContactStatuses(ID_STATUS_OFFLINE);
+}
+
+CVkProto::~CVkProto()
+{
+	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
+	UninitQueue();
+}
+
+int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+{
 	// Chats
 	GCREGISTER gcr = { sizeof(gcr) };
 	gcr.ptszDispName = m_tszUserName;
@@ -68,18 +80,6 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
 	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
 
-	// Set all contacts offline -- in case we crashed
-	SetAllContactStatuses(ID_STATUS_OFFLINE);
-}
-
-CVkProto::~CVkProto()
-{
-	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
-	UninitQueue();
-}
-
-int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
-{
 	char szService[100];
 	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_CREATECHAT);
 
