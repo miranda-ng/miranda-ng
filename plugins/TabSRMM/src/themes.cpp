@@ -1088,9 +1088,7 @@ bool CSkin::warnToClose() const
 			TranslateT("Change skin"), MB_YESNO | MB_ICONQUESTION) != IDYES)
 		return false;
 
-	TContainerData *pContainer = ::pFirstContainer;
-	while (pFirstContainer)
-		SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
+	CloseAllContainers();
 	return true;
 }
 

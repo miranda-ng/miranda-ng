@@ -2473,3 +2473,19 @@ void TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WP
 		}
 	}
 }
+
+void TSAPI CloseAllContainers()
+{
+	BOOL fOldHideSetting = PluginConfig.m_HideOnClose;
+
+	while (pFirstContainer != NULL) {
+		if (!IsWindow(pFirstContainer->hwnd))
+			pFirstContainer = pFirstContainer->pNext;
+		else {
+			PluginConfig.m_HideOnClose = FALSE;
+			::SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
+		}
+	}
+
+	PluginConfig.m_HideOnClose = fOldHideSetting;
+}

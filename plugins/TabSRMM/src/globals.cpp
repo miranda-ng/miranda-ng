@@ -540,12 +540,7 @@ int CGlobals::MetaContactEvent(WPARAM wParam, LPARAM lParam)
 int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 {
 	::TN_ModuleDeInit();
-
-	while(pFirstContainer){
-		if (PluginConfig.m_HideOnClose)
-			PluginConfig.m_HideOnClose = FALSE;
-		::SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
-	}
+	::CloseAllContainers();
 
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		db_set_dw(hContact, SRMSGMOD_T, "messagecount", 0);

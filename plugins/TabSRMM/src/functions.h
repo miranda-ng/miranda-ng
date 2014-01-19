@@ -97,6 +97,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg);
 TContainerData* TSAPI AppendToContainerList(TContainerData *pContainer);
 TContainerData* TSAPI RemoveContainerFromList(TContainerData *pContainer);
 
+void  TSAPI CloseAllContainers();
 void  TSAPI DeleteContainer(int iIndex);
 void  TSAPI RenameContainer(int iIndex, const TCHAR *newName);
 int   TSAPI GetContainerNameForContact(HANDLE hContact, TCHAR *szName, int iNameLen);

@@ -354,18 +354,10 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/UsingSkins");
 					break;
 
-				case IDC_SKIN_CLOSENOW: {
-					BOOL fOldHideSetting = PluginConfig.m_HideOnClose;
-
-					PluginConfig.m_HideOnClose = FALSE;
-
-					while(pFirstContainer)
-						if (pFirstContainer->hwnd)
-							SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
-
-					PluginConfig.m_HideOnClose = fOldHideSetting;
+				case IDC_SKIN_CLOSENOW:
+					CloseAllContainers();
 					break;
-				}
+
 				case IDC_SKINNAME: {
 					if (HIWORD(wParam) == CBN_SELCHANGE) {
 						LRESULT lr = SendDlgItemMessage(hwndDlg, IDC_SKINNAME, CB_GETCURSEL, 0 ,0);
@@ -385,8 +377,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					break;
 				}
 			}
-			if ((LOWORD(wParam) == IDC_SKINNAME)
-					&& (HIWORD(wParam) != CBN_SELCHANGE || (HWND) lParam != GetFocus()))
+			if ((LOWORD(wParam) == IDC_SKINNAME) && (HIWORD(wParam) != CBN_SELCHANGE || (HWND) lParam != GetFocus()))
 				return 0;
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
