@@ -75,6 +75,9 @@ static int FontsChanged(WPARAM wParam, LPARAM lParam)
 	LoadGlobalSettings();
 	LoadLogFonts();
 
+	FreeMsgLogBitmaps();
+	LoadMsgLogBitmaps();
+
 	SetIndentSize();
 	g_Settings->bLogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
