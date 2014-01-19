@@ -668,7 +668,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 
 BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 {
-	if (!g_Settings.bHighlightEnabled || !g_Settings.pszHighlightWords || !gce)
+	if (!g_Settings.bHighlightEnabled || !gce || gce->bIsMe)
 		return FALSE;
 
 	int dwMask = 0;
