@@ -159,6 +159,8 @@ static void OnLoadSettings()
 	g_Settings.bShowContactStatus = M.GetBool("Chat", "ShowContactStatus", true);
 	g_Settings.bContactStatusFirst = M.GetBool("Chat", "ContactStatusFirst", false);
 
+	replaceStrT(g_Settings.pszLogDir, M.getChatLogPath());
+
 	g_Settings.iSplitterY = db_get_w(NULL, "Chat", "splitY", 50);
 	if (g_Settings.iSplitterY <= 20)
 		g_Settings.iSplitterY = 50;
