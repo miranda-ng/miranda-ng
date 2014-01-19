@@ -207,12 +207,6 @@ INT_PTR CMimAPI::foldersPathChanged()
 
 		FoldersGetCustomPathT(m_hSkinsPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getSkinPath()));
 		mir_sntprintf(m_szSkinsPath, MAX_PATH - 1, _T("%s"), szTemp);
-
-		/*
-		 * make sure skins root path always ends with a '\' - this is assumed by the skin
-		 * selection code.
-		 */
-
 		Utils::ensureTralingBackslash(m_szSkinsPath);
 
 		FoldersGetCustomPathT(m_hAvatarsPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getSavedAvatarPath()));
@@ -220,22 +214,13 @@ INT_PTR CMimAPI::foldersPathChanged()
 
 		FoldersGetCustomPathT(m_hChatLogsPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getChatLogPath()));
 		mir_sntprintf(m_szChatLogsPath, MAX_PATH, _T("%s"), szTemp);
-
 		Utils::ensureTralingBackslash(m_szChatLogsPath);
+		replaceStrT(g_Settings.pszLogDir, m_szChatLogsPath);
 	}
 	CreateDirectoryTreeT(m_szProfilePath);
 	CreateDirectoryTreeT(m_szSkinsPath);
 	CreateDirectoryTreeT(m_szSavedAvatarsPath);
 	CreateDirectoryTreeT(m_szChatLogsPath);
-
-#if defined(_FOLDER_LOCKING)
-	mir_sntprintf(szTemp, MAX_PATH, L"%sfolder.lck", m_szChatLogsPath);
-
-	if (m_hChatLogLock != INVALID_HANDLE_VALUE)
-		CloseHandle(m_hChatLogLock);
-
-	m_hChatLogLock = CreateFile(szTemp, GENERIC_WRITE, 0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_HIDDEN, 0);
-#endif
 
 	Skin->extractSkinsAndLogo(true);
 	Skin->setupAeroSkins();
@@ -274,6 +259,8 @@ void CMimAPI::InitPaths()
 	}
 
 	Utils::ensureTralingBackslash(m_szChatLogsPath);
+	replaceStrT(g_Settings.pszLogDir, m_szChatLogsPath);
+
 	Utils::ensureTralingBackslash(m_szSkinsPath);
 
 	mir_sntprintf(m_szSavedAvatarsPath, MAX_PATH, _T("%s\\Saved Contact Pictures"), m_szProfilePath);
