@@ -310,7 +310,7 @@ Standard
 [Export...]
 Exportieren...
 [Color/background]
-(Hintergrund)farbe
+Farbe/Hintergrund
 [Text effect]
 Texteffekt
 [Text color]
