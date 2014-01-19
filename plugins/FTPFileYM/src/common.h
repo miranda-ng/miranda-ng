@@ -92,7 +92,6 @@ using namespace std;
 #define DEBUG_CLIENTBLOCK
 #endif
 
-#define MS_FTPFILE_SHAREFILE	"FTPFile/ShareFiles"
 #define MS_FTPFILE_CONTACTMENU	"FTPFile/ContactMenu"
 #define MS_FTPFILE_MAINMENU		"FTPFile/MainMenu"
 

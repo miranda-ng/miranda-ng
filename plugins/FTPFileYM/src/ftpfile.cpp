@@ -22,7 +22,7 @@ HINSTANCE hInst;
 int hLangpack;
 
 HANDLE hModulesLoaded, hEventPreShutdown, hOptionsInit, hPrebuildContactMenu, hTabsrmmButtonPressed;
-HANDLE hServiceUpload, hServiceShowManager, hServiceContactMenu, hServiceMainMenu, hServiceShareFile;
+HANDLE hServiceUpload, hServiceShowManager, hServiceContactMenu, hServiceMainMenu;
 HGENMENU hMenu, hMainMenu, hSubMenu[ServerList::FTP_COUNT], hMainSubMenu[ServerList::FTP_COUNT];
 
 extern UploadDialog *uDlg;
@@ -133,7 +133,7 @@ void InitMenuItems()
 		mi2.hParentMenu = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
 		mi2.popupPosition = mi2.position = i + UploadJob::FTP_RAWFILE;
-		mi2.ptszName = TranslateT("Upload file(s)");		
+		mi2.ptszName = LPGENT("Upload file(s)");		
 		Menu_AddContactMenuItem(&mi2);
 
 		mi2.pszService = MS_FTPFILE_MAINMENU;
@@ -143,7 +143,7 @@ void InitMenuItems()
 		mi2.hParentMenu = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
 		mi2.popupPosition = i + UploadJob::FTP_ZIPFILE;
-		mi2.ptszName = TranslateT("Zip and upload file(s)");
+		mi2.ptszName = LPGENT("Zip and upload file(s)");
 		Menu_AddContactMenuItem(&mi2);
 
 		mi2.pszService = MS_FTPFILE_MAINMENU;
@@ -153,7 +153,7 @@ void InitMenuItems()
 		mi2.hParentMenu = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
 		mi2.popupPosition = i + UploadJob::FTP_ZIPFOLDER;
-		mi2.ptszName = TranslateT("Zip and upload folder");
+		mi2.ptszName = LPGENT("Zip and upload folder");
 		Menu_AddContactMenuItem(&mi2);
 
 		mi2.pszService = MS_FTPFILE_MAINMENU;
@@ -181,7 +181,7 @@ void InitHotkeys()
 	HOTKEYDESC hk = {0};
 	hk.cbSize = sizeof(hk);
 	hk.pszDescription = LPGEN("Show FTPFile manager");
-	hk.pszName = LPGEN("FTP_ShowManager");
+	hk.pszName = "FTP_ShowManager";
 	hk.pszSection = MODULE;
 	hk.pszService = MS_FTPFILE_SHOWMANAGER;
 	Hotkey_Register(&hk);
@@ -354,51 +354,6 @@ INT_PTR UploadService(WPARAM wParam, LPARAM lParam)
 	return 0; 
 }
 
-INT_PTR ShareFileService(WPARAM wParam, LPARAM lParam) 
-{
-	if (!wParam || !lParam) 
-		return 1;
-
-	FTPUPLOAD ftpu = {0};
-	ftpu.cbSize = sizeof(ftpu);
-	ftpu.ftpNum = FNUM_DEFAULT;
-	ftpu.mode = FMODE_RAWFILE;
-	ftpu.hContact = (HANDLE)wParam;
-
-	char *szFile = (char *)mir_alloc(1024 * sizeof(char));
-	ZeroMemory(szFile, 1024);
-	strcpy(szFile, (char *)lParam);
-
-	char *ptr, buff[256];
-	if (szFile[strlen(szFile) + 1]) 
-	{
-		ptr = szFile + strlen(szFile) + 1;
-		while (ptr[0]) 
-		{
-			ftpu.pszObjects = (char **)mir_realloc(ftpu.pszObjects, (ftpu.objectCount + 1) * sizeof(char *));
-			mir_snprintf(buff, MAX_PATH, "%s\\%s", szFile, ptr);
-			ftpu.pszObjects[ftpu.objectCount++] = mir_strdup(buff);
-			ptr += strlen(ptr) + 1;
-		}
-	} 
-	else
-	{
-		ftpu.pszObjects = (char **)mir_alloc(sizeof(char *));
-		ftpu.pszObjects[0] = mir_strdup(szFile);
-		ftpu.objectCount = 1;	
-	}
-
-	CallService(MS_FTPFILE_UPLOAD, 0, (LPARAM)&ftpu);
-
-	for (int i = 0; i < ftpu.objectCount; i++)
-		FREE(ftpu.pszObjects[i]);
-
-	FREE(ftpu.pszObjects);
-	FREE(szFile);
-
-	return 0;
-}
-
 INT_PTR ShowManagerService(WPARAM wParam, LPARAM lParam) 
 {
 	manDlg = Manager::getInstance();
@@ -423,15 +378,15 @@ INT_PTR MainMenuService(WPARAM wParam, LPARAM lParam)
 
 //------------ START & EXIT STUFF ------------//
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	InitIcolib();
 	InitMenuItems();
 	InitHotkeys();
 	InitTabsrmmButton();
 
-	SkinAddNewSoundEx(SOUND_UPCOMPLETE, Translate("FTP File"), Translate("File upload complete"));
-	SkinAddNewSoundEx(SOUND_CANCEL, Translate("FTP File"), Translate("Upload canceled"));
+	SkinAddNewSoundEx(SOUND_UPCOMPLETE, LPGEN("FTP File"), LPGEN("File upload complete"));
+	SkinAddNewSoundEx(SOUND_CANCEL, LPGEN("FTP File"), LPGEN("Upload canceled"));
 
 	curl_global_init(CURL_GLOBAL_ALL);
 
@@ -475,7 +430,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	hServiceShowManager = CreateServiceFunction(MS_FTPFILE_SHOWMANAGER, ShowManagerService);
 	hServiceContactMenu = CreateServiceFunction(MS_FTPFILE_CONTACTMENU, ContactMenuService);
 	hServiceMainMenu = CreateServiceFunction(MS_FTPFILE_MAINMENU, MainMenuService);
-	hServiceShareFile = CreateServiceFunction(MS_FTPFILE_SHAREFILE, ShareFileService);
 
 	opt.loadOptions();
 	deleteTimer.init();
@@ -496,7 +450,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	DestroyServiceFunction(hServiceShowManager);
 	DestroyServiceFunction(hServiceContactMenu);
 	DestroyServiceFunction(hServiceMainMenu);
-	DestroyServiceFunction(hServiceShareFile);
 
 	return 0;
 }

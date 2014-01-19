@@ -71,7 +71,7 @@ void	CSendFTPFile::Send() {
 void CSendFTPFile::SendThread() {
 	mir_freeAndNil(m_URL);
 
-	INT_PTR ret = CallService(MS_FTPFILE_SHAREFILE, (WPARAM)m_hContact, (LPARAM)m_pszFileName);
+	INT_PTR ret = FTPFileUploadA(m_hContact, FNUM_DEFAULT, FMODE_RAWFILE, &m_pszFileName,1);
 	if (ret != 0) {
 		Error(TranslateT("%s (%i):\nCould not add a share to the FTP File plugin."),TranslateTS(m_pszSendTyp),ret);
 		Exit(ret);
@@ -82,7 +82,6 @@ void CSendFTPFile::SendThread() {
 
 	if (m_URL && m_URL[0]!= NULL) {
 		m_ChatRoom ? svcSendChat(m_URL) : svcSendMsg(m_URL);
-		return;
 	}
 }
 

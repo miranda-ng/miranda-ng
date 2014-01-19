@@ -287,7 +287,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 						if (hMenu) 
 						{
 							HMENU hPopupMenu = GetSubMenu(hMenu, 0); 
-							CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hPopupMenu, 0);
+							TranslateMenu(hPopupMenu);
 							CheckMenuItem(hPopupMenu, IDM_CLOSEDLG, MF_BYCOMMAND | tab->bOptCloseDlg ? MF_CHECKED : 0);
 							CheckMenuItem(hPopupMenu, IDM_COPYLINK, MF_BYCOMMAND | tab->bOptCopyLink ? MF_CHECKED : 0);
 							CheckMenuItem(hPopupMenu, IDM_AUTOSEND, MF_BYCOMMAND | tab->bOptAutosend ? MF_CHECKED : 0);

@@ -371,7 +371,7 @@ INT_PTR CALLBACK Manager::ManagerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 								if (hMenu) 
 								{
 									HMENU hPopupMenu = GetSubMenu(hMenu, 0); 
-									CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hPopupMenu, 0);
+									TranslateMenu(hPopupMenu);
 									int command = TrackPopupMenu(hPopupMenu, TPM_LEFTALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 									switch (command) 
 									{
