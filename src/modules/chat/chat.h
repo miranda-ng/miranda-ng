@@ -39,6 +39,7 @@ extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
 extern GlobalLogSettingsBase *g_Settings;
 extern int g_cbSession, g_cbModuleInfo;
 extern TCHAR *g_szFontGroup;
+extern CRITICAL_SECTION cs;
 
 // log.c
 void   LoadMsgLogBitmaps(void);

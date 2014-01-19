@@ -24,9 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 
-void InitChatModule(void);
-
 #define WINDOWS_COMMANDS_MAX 30
+
+CHAT_MANAGER ci;
 
 MODULEINFO *m_ModList = 0;
 
@@ -1337,112 +1337,139 @@ static BOOL LM_RemoveAll(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd)
 	return TRUE;
 }
 
-CHAT_MANAGER ci =
-{
-	SetActiveSession,
-	SetActiveSessionEx,
-	GetActiveSession,
-	SM_AddSession,
-	SM_RemoveSession,
-	SM_FindSession,
-	SM_AddUser,
-	SM_ChangeUID,
-	SM_ChangeNick,
-	SM_RemoveUser,
-	SM_SetOffline,
-	SM_SetTabbedWindowHwnd,
-	SM_GetStatusIcon,
-	SM_SetStatus,
-	SM_SetStatusEx,
-	SM_SendUserMessage,
-	SM_AddStatus,
-	SM_AddEventToAllMatchingUID,
-	SM_AddEvent,
-	SM_SendMessage,
-	SM_PostMessage,
-	SM_BroadcastMessage,
-	SM_RemoveAll,
-	SM_GiveStatus,
-	SM_SetContactStatus,
-	SM_TakeStatus,
-	SM_MoveUser,
-	SM_AddCommand,
-	SM_GetPrevCommand,
-	SM_GetNextCommand,
-	SM_GetCount,
-	SM_FindSessionByIndex,
-	SM_GetUsers,
-	SM_GetUserFromIndex,
-	SM_InvalidateLogDirectories,
-
-	MM_AddModule,
-	MM_FindModule,
-	MM_FixColors,
-	MM_FontsChanged,
-	MM_IconsChanged,
-	MM_RemoveAll,
-
-	TM_AddStatus,
-	TM_FindStatus,
-	TM_StringToWord,
-	TM_WordToString,
-	TM_RemoveAll,
-
-	UM_SetStatusEx,
-	UM_AddUser,
-	UM_SortUser,
-	UM_FindUser,
-	UM_FindUserFromIndex,
-	UM_GiveStatus,
-	UM_SetContactStatus,
-	UM_TakeStatus,
-	UM_FindUserAutoComplete,
-	UM_RemoveUser,
-	UM_RemoveAll,
-	UM_CompareItem,
-
-	LM_AddEvent,
-	LM_TrimLog,
-	LM_RemoveAll,
-
-	AddRoom,
-	SetOffline,
-	SetAllOffline,
-	AddEvent,
-	FindRoom,
-	
-	Log_CreateRTF,
-	Log_CreateRtfHeader,
-	LoadMsgDlgFont,
-	MakeTimeStamp,
-	
-	DoEventHook,
-	DoEventHookAsync,
-
-	DoSoundsFlashPopupTrayStuff,
-	DoTrayIcon,
-	DoPopup,
-	ShowPopup,
-	LogToFile,
-	GetChatLogsFilename,
-
-	IsHighlighted,
-	RemoveFormatting,
-	LoadGlobalSettings
-};
-
 INT_PTR SvcGetChatManager(WPARAM, LPARAM lParam)
 {
-	InitChatModule();
-
 	// wipe out old junk
 	memset(PBYTE(&ci) + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER)-offsetof(CHAT_MANAGER, OnCreateModule));
 
 	CHAT_MANAGER_INITDATA *pInit = (CHAT_MANAGER_INITDATA*)lParam;
+	if (g_cbSession) { // reallocate old sessions
+		mir_cslock lck(cs);
+		SESSION_INFO *pPrev = NULL;
+		for (SESSION_INFO *p = ci.wndList; p; p = p->next) {
+			SESSION_INFO *p1 = (SESSION_INFO*)mir_realloc(p, pInit->cbSession);
+			memset(PBYTE(p1) + sizeof(GCSessionInfoBase), 0, pInit->cbSession - sizeof(GCSessionInfoBase));
+			if (p1 != p) { // realloc could change a pointer, reinsert a structure
+				if (ci.wndList == p)
+					ci.wndList = p1;
+				if (pPrev != NULL)
+					pPrev->next = p1;
+				p = p1;
+			}
+			pPrev = p;
+		}
+	}
+	if (g_cbModuleInfo) { // reallocate old modules
+		mir_cslock lck(cs);
+		MODULEINFO *pPrev = NULL;
+		for (MODULEINFO *p = m_ModList; p; p = p->next) {
+			MODULEINFO *p1 = (MODULEINFO*)mir_realloc(p, pInit->cbModuleInfo);
+			memset(PBYTE(p1) + sizeof(GCModuleInfoBase), 0, pInit->cbModuleInfo - sizeof(GCModuleInfoBase));
+			if (p1 != p) { // realloc could change a pointer, reinsert a structure
+				if (m_ModList == p)
+					m_ModList = p1;
+				if (pPrev != NULL)
+					pPrev->next = p1;
+				p = p1;
+			}
+			pPrev = p;
+		}
+	}
 	g_Settings = pInit->pSettings;
 	g_szFontGroup = pInit->szFontGroup;
 	g_cbSession = pInit->cbSession;
 	g_cbModuleInfo = pInit->cbModuleInfo;
+
+	ci.SetActiveSession = SetActiveSession;
+	ci.SetActiveSessionEx = SetActiveSessionEx;
+	ci.GetActiveSession = GetActiveSession;
+	ci.SM_AddSession = SM_AddSession;
+	ci.SM_RemoveSession = SM_RemoveSession;
+	ci.SM_FindSession = SM_FindSession;
+	ci.SM_AddUser = SM_AddUser;
+	ci.SM_ChangeUID = SM_ChangeUID;
+	ci.SM_ChangeNick = SM_ChangeNick;
+	ci.SM_RemoveUser = SM_RemoveUser;
+	ci.SM_SetOffline = SM_SetOffline;
+	ci.SM_SetTabbedWindowHwnd = SM_SetTabbedWindowHwnd;
+	ci.SM_GetStatusIcon = SM_GetStatusIcon;
+	ci.SM_SetStatus = SM_SetStatus;
+	ci.SM_SetStatusEx = SM_SetStatusEx;
+	ci.SM_SendUserMessage = SM_SendUserMessage;
+	ci.SM_AddStatus = SM_AddStatus;
+	ci.SM_AddEventToAllMatchingUID = SM_AddEventToAllMatchingUID;
+	ci.SM_AddEvent = SM_AddEvent;
+	ci.SM_SendMessage = SM_SendMessage;
+	ci.SM_PostMessage = SM_PostMessage;
+	ci.SM_BroadcastMessage = SM_BroadcastMessage;
+	ci.SM_RemoveAll = SM_RemoveAll;
+	ci.SM_GiveStatus = SM_GiveStatus;
+	ci.SM_SetContactStatus = SM_SetContactStatus;
+	ci.SM_TakeStatus = SM_TakeStatus;
+	ci.SM_MoveUser = SM_MoveUser;
+	ci.SM_AddCommand = SM_AddCommand;
+	ci.SM_GetPrevCommand = SM_GetPrevCommand;
+	ci.SM_GetNextCommand = SM_GetNextCommand;
+	ci.SM_GetCount = SM_GetCount;
+	ci.SM_FindSessionByIndex = SM_FindSessionByIndex;
+	ci.SM_GetUsers = SM_GetUsers;
+	ci.SM_GetUserFromIndex = SM_GetUserFromIndex;
+	ci.SM_InvalidateLogDirectories = SM_InvalidateLogDirectories;
+	
+	ci.MM_AddModule = MM_AddModule;
+	ci.MM_FindModule = MM_FindModule;
+	ci.MM_FixColors = MM_FixColors;
+	ci.MM_FontsChanged = MM_FontsChanged;
+	ci.MM_IconsChanged = MM_IconsChanged;
+	ci.MM_RemoveAll = MM_RemoveAll;
+	
+	ci.TM_AddStatus = TM_AddStatus;
+	ci.TM_FindStatus = TM_FindStatus;
+	ci.TM_StringToWord = TM_StringToWord;
+	ci.TM_WordToString = TM_WordToString;
+	ci.TM_RemoveAll = TM_RemoveAll;
+
+	ci.UM_SetStatusEx = UM_SetStatusEx;
+	ci.UM_AddUser = UM_AddUser;
+	ci.UM_SortUser = UM_SortUser;
+	ci.UM_FindUser = UM_FindUser;
+	ci.UM_FindUserFromIndex = UM_FindUserFromIndex;
+	ci.UM_GiveStatus = UM_GiveStatus;
+	ci.UM_SetContactStatus = UM_SetContactStatus;
+	ci.UM_TakeStatus = UM_TakeStatus;
+	ci.UM_FindUserAutoComplete = UM_FindUserAutoComplete;
+	ci.UM_RemoveUser = UM_RemoveUser;
+	ci.UM_RemoveAll = UM_RemoveAll;
+	ci.UM_CompareItem = UM_CompareItem;
+	
+	ci.LM_AddEvent = LM_AddEvent;
+	ci.LM_TrimLog = LM_TrimLog;
+	ci.LM_RemoveAll = LM_RemoveAll;
+
+	ci.AddRoom = AddRoom;
+	ci.SetOffline = SetOffline;
+	ci.SetAllOffline = SetAllOffline;
+	ci.AddEvent = AddEvent;
+	ci.FindRoom = FindRoom;
+	
+	ci.Log_CreateRTF = Log_CreateRTF;
+	ci.Log_CreateRtfHeader = Log_CreateRtfHeader;
+	ci.LoadMsgDlgFont = LoadMsgDlgFont;
+	ci.MakeTimeStamp = MakeTimeStamp;
+	
+	ci.DoEventHook = DoEventHook;
+	ci.DoEventHookAsync = DoEventHookAsync;
+	
+	ci.DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
+	ci.DoTrayIcon = DoTrayIcon;
+	ci.DoPopup = DoPopup;
+	ci.ShowPopup = ShowPopup;
+	ci.LogToFile = LogToFile;
+	ci.GetChatLogsFilename = GetChatLogsFilename;
+
+	ci.IsHighlighted = IsHighlighted;
+	ci.RemoveFormatting = RemoveFormatting;
+	ci.ReloadSettings = LoadGlobalSettings;
 
 	LoadChatIcons();
 	RegisterFonts();

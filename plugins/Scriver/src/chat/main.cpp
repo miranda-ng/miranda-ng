@@ -201,7 +201,6 @@ int Chat_Unload(void)
 	db_set_w(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
 
 	DestroyMenu(g_hMenu);
-	*pci = saveCI;
 	return 0;
 }
 

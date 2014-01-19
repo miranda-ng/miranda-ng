@@ -364,7 +364,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 	db_set_dw(NULL, "Chat", "roomheight", g_Settings.iHeight);
 
 	DestroyMenu(g_hMenu);
-	*pci = saveCI;
 	return 0;
 }
 

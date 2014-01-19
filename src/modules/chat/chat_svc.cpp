@@ -27,7 +27,7 @@ INT_PTR SvcGetChatManager(WPARAM, LPARAM);
 #include "chat.h"
 
 HGENMENU hJoinMenuItem, hLeaveMenuItem;
-CRITICAL_SECTION	cs;
+CRITICAL_SECTION cs;
 
 static HANDLE
    hServiceRegister = NULL,
@@ -571,19 +571,8 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Service creation
 
-static bool bInited = false;
-
 int LoadChatModule(void)
 {
-	CreateServiceFunction("GChat/GetInterface", SvcGetChatManager);
-	return 0;
-}
-
-void InitChatModule(void)
-{
-	if (bInited)
-		return;
-
 	InitializeCriticalSection(&cs);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
@@ -601,20 +590,18 @@ void InitChatModule(void)
 	CreateServiceFunction("GChat/PrebuildMenuEvent", PrebuildContactMenuSvc);
 	CreateServiceFunction("GChat/JoinChat", JoinChat);
 	CreateServiceFunction("GChat/LeaveChat", LeaveChat);
+	CreateServiceFunction("GChat/GetInterface", SvcGetChatManager);
 
 	ci.hSendEvent = CreateHookableEvent(ME_GC_EVENT);
 	ci.hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
 
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
-	bInited = true;
+	return 0;
 }
 
 void UnloadChatModule(void)
 {
-	if (!bInited)
-		return;
-
 	OptionsUnInit();
 	DeleteCriticalSection(&cs);
 

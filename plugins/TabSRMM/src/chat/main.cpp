@@ -293,7 +293,6 @@ int Chat_Load()
 
 int Chat_Unload(void)
 {
-	*pci = saveCI;
 	DestroyMenu(g_hMenu);
 	return 0;
 }
