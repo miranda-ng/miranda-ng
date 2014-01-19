@@ -36,7 +36,7 @@ struct branch_t
 
 static struct branch_t branch1[] = {
 	{ LPGENT("Flash when someone speaks"), "FlashWindow", 0, 0, NULL },
-	{ LPGENT("Flash when a word is highlighted"), "bFlashWindowHighlight", 0, 1, NULL },
+	{ LPGENT("Flash when a word is highlighted"), "FlashWindowHighlight", 0, 1, NULL },
 	{ LPGENT("Show chat user list"), "ShowNicklist", 0, 1, NULL },
 	{ LPGENT("Enable button context menus"), "RightClickFilter", 0, 0, NULL },
 	{ LPGENT("Show topic on your contact list (if supported)"), "TopicOnClist", 0, 0, NULL },
@@ -54,9 +54,9 @@ static struct branch_t branch2[] = {
 		GC_EVENT_KICK | GC_EVENT_NOTICE | GC_EVENT_NICK | GC_EVENT_INFORMATION | GC_EVENT_ADDSTATUS, 0, NULL },
 	{ LPGENT("Prefix all events with a timestamp"), "ShowTimeStamp", 0, 1, NULL },
 	{ LPGENT("Only prefix with timestamp if it has changed"), "ShowTimeStampIfChanged", 0, 0, NULL },
-	{ LPGENT("Timestamp has same color as event"), "bTimeStampEventColour", 0, 0, NULL },
-	{ LPGENT("Indent the second line of a message"), "bLogIndentEnabled", 0, 1, NULL },
-	{ LPGENT("Limit user names to 20 characters"), "bLogLimitNames", 0, 1, NULL },
+	{ LPGENT("Timestamp has same color as event"), "TimeStampEventColour", 0, 0, NULL },
+	{ LPGENT("Indent the second line of a message"), "LogIndentEnabled", 0, 1, NULL },
+	{ LPGENT("Limit user names to 20 characters"), "LogLimitNames", 0, 1, NULL },
 	{ LPGENT("Strip colors from messages"), "StripFormatting", 0, 0, NULL },
 	{ LPGENT("Enable \'event filter\' for new rooms"), "FilterEnabled", 0, 0, NULL }
 };
@@ -76,7 +76,7 @@ static struct branch_t branch3[] = {
 };
 
 static struct branch_t branch4[] = {
-	{ LPGENT("Show icons in tray only when the chat room is not active"), "bTrayIconInactiveOnly", 0, 1, NULL },
+	{ LPGENT("Show icons in tray only when the chat room is not active"), "TrayIconInactiveOnly", 0, 1, NULL },
 	{ LPGENT("Show icon in tray for topic changes"), "TrayIconFlags", GC_EVENT_TOPIC, 0, NULL },
 	{ LPGENT("Show icon in tray for users joining"), "TrayIconFlags", GC_EVENT_JOIN, 0, NULL },
 	{ LPGENT("Show icon in tray for users disconnecting"), "TrayIconFlags", GC_EVENT_QUIT, 0, NULL },
@@ -365,7 +365,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 			TCHAR tszTooltipText[2048];
 			RECT rect;
 
-			mir_sntprintf(tszTooltipText, SIZEOF(tszTooltipText), 
+			mir_sntprintf(tszTooltipText, SIZEOF(tszTooltipText),
 				_T("%s - %s\n%s - %s\n%s - %s\n\n")
 				_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n")
 				_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
@@ -581,10 +581,10 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 			else db_unset(NULL, "Chat", "HeaderOutgoing");
 
 			g_Settings.bHighlightEnabled = IsDlgButtonChecked(hwndDlg, IDC_CHAT_HIGHLIGHT) == BST_CHECKED ? TRUE : FALSE;
-			db_set_b(NULL, "Chat", "bHighlightEnabled", (BYTE)g_Settings.bHighlightEnabled);
+			db_set_b(NULL, "Chat", "HighlightEnabled", (BYTE)g_Settings.bHighlightEnabled);
 
 			g_Settings.bLoggingEnabled = IsDlgButtonChecked(hwndDlg, IDC_CHAT_LOGGING) == BST_CHECKED ? TRUE : FALSE;
-			db_set_b(NULL, "Chat", "bLoggingEnabled", (BYTE)g_Settings.bLoggingEnabled);
+			db_set_b(NULL, "Chat", "LoggingEnabled", (BYTE)g_Settings.bLoggingEnabled);
 
 			iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_GETPOS, 0, 0);
 			db_set_w(NULL, "Chat", "LogLimit", (WORD)iLen);
@@ -600,9 +600,9 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 			g_Settings.dwTrayIconFlags = db_get_dw(NULL, "Chat", "TrayIconFlags", 0x1000);
 			g_Settings.dwPopupFlags = db_get_dw(NULL, "Chat", "PopupFlags", 0x0000);
 			g_Settings.bStripFormat = db_get_b(NULL, "Chat", "TrimFormatting", 0) != 0;
-			g_Settings.bTrayIconInactiveOnly = db_get_b(NULL, "Chat", "bTrayIconInactiveOnly", 1) != 0;
+			g_Settings.bTrayIconInactiveOnly = db_get_b(NULL, "Chat", "TrayIconInactiveOnly", 1) != 0;
 			g_Settings.bPopupInactiveOnly = db_get_b(NULL, "Chat", "PopUpInactiveOnly", 1) != 0;
-			g_Settings.bLogIndentEnabled = (db_get_b(NULL, "Chat", "bLogIndentEnabled", 1) != 0) ? TRUE : FALSE;
+			g_Settings.bLogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
 			pci->MM_FontsChanged();
 			pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
@@ -621,7 +621,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 			DestroyWindow(hPathTip);
 			hPathTip = 0;
 		}
-		
+
 		BYTE b = TreeView_GetItemState(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), hListHeading2, TVIS_EXPANDED)&TVIS_EXPANDED?1:0;
 		db_set_b(NULL, "Chat", "Branch2Exp", b);
 		b = TreeView_GetItemState(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), hListHeading3, TVIS_EXPANDED)&TVIS_EXPANDED?1:0;

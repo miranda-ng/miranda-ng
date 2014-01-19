@@ -1950,7 +1950,7 @@ void CSkin::SkinDrawBGFromDC(HWND hwndClient, HWND hwnd, RECT *rcClient, HDC hdc
 }
 
 /**
- * draw an icon "bDimmed" (small amount of transparency applied)
+ * draw an icon "Dimmed" (small amount of transparency applied)
 */
 
 void CSkin::DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON hIcon, BYTE alpha)

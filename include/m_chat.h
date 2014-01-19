@@ -232,7 +232,7 @@ struct GCSESSION
 	and what session it is related to. The GCDEST structure and its members are ALWAYS
 	used (but the members can be NULL in some occasions). Depending on what type of event
 	you are sending, the members of GCEVENT have different usage. Each event and how to
-	use the members are discussed below. The "bAddToLog" and "time" members are always valid
+	use the members are discussed below. The "AddToLog" and "time" members are always valid
 	and always mean the same. bAddToLog = TRUE means that the event is added to the disk log
 	(at least when this makes sense). This can be used by Jabber for instance, when
 	it needs to add channel history to the window, but without logging to disk.

@@ -76,7 +76,7 @@ static int FontsChanged(WPARAM wParam, LPARAM lParam)
 	LoadLogFonts();
 
 	SetIndentSize();
-	g_Settings->bLogIndentEnabled = (db_get_b(NULL, "Chat", "bLogIndentEnabled", 1) != 0) ? TRUE : FALSE;
+	g_Settings->bLogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
 	ci.MM_FontsChanged();
 	ci.MM_FixColors();

@@ -42,14 +42,11 @@
  * the srmm module and then modified to fit the chat module.
  */
 
-static PBYTE	pLogIconBmpBits[14];
-static int		logIconBmpSize[ SIZEOF(pLogIconBmpBits)];
-
-static int		logPixelSY = 0;
-static int		logPixelSX = 0;
-static char		*szDivider = "\\strike----------------------------------------------------------------------------\\strike0";
-static char		CHAT_rtfFontsGlobal[OPTIONS_FONTCOUNT + 2][RTFCACHELINESIZE];
-static char		*CHAT_rtffonts = 0;
+static int logPixelSY = 0;
+static int logPixelSX = 0;
+static char *szDivider = "\\strike----------------------------------------------------------------------------\\strike0";
+static char	CHAT_rtfFontsGlobal[OPTIONS_FONTCOUNT + 2][RTFCACHELINESIZE];
+static char	*CHAT_rtffonts = 0;
 
 /*
  * ieview MUC support - mostly from scriver
@@ -864,11 +861,11 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			else if (g_Settings.dwIconFlags) {
 				int iIndex = lin->bIsHighlighted ? ICON_HIGHLIGHT : EventToIcon(lin);
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
-				while (bufferAlloced - bufferEnd < (logIconBmpSize[0] + 20))
+				while (bufferAlloced - bufferEnd < (pci->logIconBmpSize[0] + 20))
 					bufferAlloced += 4096;
 				buffer = (char *) mir_realloc(buffer, bufferAlloced);
-				CopyMemory(buffer + bufferEnd, pLogIconBmpBits[iIndex], logIconBmpSize[iIndex]);
-				bufferEnd += logIconBmpSize[iIndex];
+				CopyMemory(buffer + bufferEnd, pci->pLogIconBmpBits[iIndex], pci->logIconBmpSize[iIndex]);
+				bufferEnd += pci->logIconBmpSize[iIndex];
 			}
 
 			if (g_Settings.bTimeStampEventColour) {
@@ -917,7 +914,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 					while (ui) {
 						if (!lstrcmp(ui->pszNick, lin->ptszNick)) {
 							STATUSINFO *ti = pci->TM_FindStatus(streamData->si->pStatuses, pci->TM_WordToString(streamData->si->pStatuses, ui->Status));
-							if (ti && (UINT_PTR)ti->hIcon < streamData->si->iStatusCount) {
+							if (ti && (int)ti->hIcon < streamData->si->iStatusCount) {
 								pszIndicator[0] = szIndicators[(int)ti->hIcon];
 								crNickIndex = streamData->si->iStatusCount - (int)ti->hIcon; // color table's index is not zero-based
 							}

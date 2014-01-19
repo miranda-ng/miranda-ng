@@ -41,6 +41,9 @@ extern int g_cbSession, g_cbModuleInfo, g_iFontMode, g_iChatLang;
 extern TCHAR *g_szFontGroup;
 extern CRITICAL_SECTION cs;
 
+extern PBYTE pLogIconBmpBits[14];
+extern int logIconBmpSize[14];
+
 // log.c
 void   LoadMsgLogBitmaps(void);
 void   FreeMsgLogBitmaps(void);

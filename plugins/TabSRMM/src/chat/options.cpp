@@ -143,7 +143,7 @@ struct branch_t {
 static branch_t branch1[] = {
 	{ LPGENT("Open new chat rooms in the default container"), "DefaultContainer", 0, 1, NULL },
 	{ LPGENT("Flash window when someone speaks"), "FlashWindow", 0, 0, NULL },
-	{ LPGENT("Flash window when a word is highlighted"), "bFlashWindowHighlight", 0, 1, NULL },
+	{ LPGENT("Flash window when a word is highlighted"), "FlashWindowHighlight", 0, 1, NULL },
 	{ LPGENT("Create tabs or windows for highlight events"), "CreateWindowOnHighlight", 0, 0, NULL },
 	{ LPGENT("Activate chat window on highlight"), "AnnoyingHighlight", 0, 0, NULL },
 	{ LPGENT("Show list of users in the chat room"), "ShowNicklist", 0, 1, NULL },
@@ -162,9 +162,9 @@ static branch_t branch1[] = {
 static branch_t branch2[] = {
 	{ LPGENT("Prefix all events with a timestamp"), "ShowTimeStamp", 0, 1, NULL },
 	{ LPGENT("Timestamp only when event time differs"), "ShowTimeStampIfChanged", 0, 0, NULL },
-	{ LPGENT("Timestamp has same color as the event"), "bTimeStampEventColour", 0, 0, NULL },
-	{ LPGENT("Indent the second line of a message"), "bLogIndentEnabled", 0, 1, NULL },
-	{ LPGENT("Limit user names in the message log to 20 characters"), "bLogLimitNames", 0, 1, NULL },
+	{ LPGENT("Timestamp has same color as the event"), "TimeStampEventColour", 0, 0, NULL },
+	{ LPGENT("Indent the second line of a message"), "LogIndentEnabled", 0, 1, NULL },
+	{ LPGENT("Limit user names in the message log to 20 characters"), "LogLimitNames", 0, 1, NULL },
 	{ LPGENT("Add a colon (:) to auto-completed user names"), "AddColonToAutoComplete", 0, 1, NULL },
 	{ LPGENT("Start private conversation on doubleclick in nick list (insert nick if unchecked)"), "DoubleClick4Privat", 0, 0, NULL },
 	{ LPGENT("Strip colors from messages in the log"), "StripFormatting", 0, 0, NULL },
@@ -926,11 +926,11 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				db_set_ts(NULL, "Chat", "LogDirectory", pszText1);
 				mir_free(pszText1);
 				g_Settings.bLoggingEnabled = IsDlgButtonChecked(hwndDlg, IDC_LOGGING) == BST_CHECKED;
-				db_set_b(0, "Chat", "bLoggingEnabled", g_Settings.bLoggingEnabled);
+				db_set_b(0, "Chat", "LoggingEnabled", g_Settings.bLoggingEnabled);
 			}
 			else {
 				db_unset(NULL, "Chat", "LogDirectory");
-				db_set_b(0, "Chat", "bLoggingEnabled", 0);
+				db_set_b(0, "Chat", "LoggingEnabled", 0);
 			}
 			pci->SM_InvalidateLogDirectories();
 
@@ -1063,7 +1063,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_SETCURSEL, (g_Settings.bLogSymbols ? 2 : (g_Settings.dwIconFlags ? 1 : 0)), 0);
 
 		CheckDlgButton(hwndDlg, IDC_NOPOPUPSFORCLOSEDWINDOWS, M.GetByte("Chat", "SkipWhenNoWindow", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TRAYONLYFORINACTIVE, M.GetByte("Chat", "bTrayIconInactiveOnly", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TRAYONLYFORINACTIVE, M.GetByte("Chat", "TrayIconInactiveOnly", 0) ? BST_CHECKED : BST_UNCHECKED);
 		break;
 
 	case WM_COMMAND:
@@ -1098,7 +1098,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				db_set_b(0, "Chat", "LogSymbols", lr == 2 ? 1 : 0);
 
 				db_set_b(0, "Chat", "SkipWhenNoWindow", IsDlgButtonChecked(hwndDlg, IDC_NOPOPUPSFORCLOSEDWINDOWS) ? 1 : 0);
-				db_set_b(0, "Chat", "bTrayIconInactiveOnly", IsDlgButtonChecked(hwndDlg, IDC_TRAYONLYFORINACTIVE) ? 1 : 0);
+				db_set_b(0, "Chat", "TrayIconInactiveOnly", IsDlgButtonChecked(hwndDlg, IDC_TRAYONLYFORINACTIVE) ? 1 : 0);
 
 				pci->ReloadSettings();
 				pci->MM_FontsChanged();

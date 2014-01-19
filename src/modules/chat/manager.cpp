@@ -1473,6 +1473,9 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 	ci.RemoveFormatting = RemoveFormatting;
 	ci.ReloadSettings = LoadGlobalSettings;
 
+	ci.pLogIconBmpBits = pLogIconBmpBits;
+	ci.logIconBmpSize = logIconBmpSize;
+
 	LoadChatIcons();
 	RegisterFonts();
 	OptionsInit();

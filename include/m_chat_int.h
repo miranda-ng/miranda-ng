@@ -399,6 +399,8 @@ struct CHAT_MANAGER
 	HANDLE hBuildMenuEvent, hSendEvent;
 	FONTINFO aFonts[OPTIONS_FONTCOUNT];
 	SESSION_INFO *wndList;
+	int *logIconBmpSize;
+	PBYTE *pLogIconBmpBits;
 
 	// user-defined custom callbacks
 	void (*OnCreateModule)(MODULEINFO*);

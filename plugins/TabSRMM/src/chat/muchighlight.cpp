@@ -62,7 +62,7 @@ void CMUCHighlight::init()
 	if (0 == db_get_ts(0, "Chat", "HighlightNames", &dbv))
 		m_NickPatternString = dbv.ptszVal;
 
-	m_dwFlags = M.GetByte("Chat", "bHighlightEnabled", MATCH_TEXT);
+	m_dwFlags = M.GetByte("Chat", "HighlightEnabled", MATCH_TEXT);
 	m_fHighlightMe = (M.GetByte("Chat", "HighlightMe", 1) ? true : false);
 
 	__try {
@@ -270,7 +270,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				::db_free(&dbv);
 			}
 
-			DWORD dwFlags = M.GetByte("Chat", "bHighlightEnabled", MATCH_TEXT);
+			DWORD dwFlags = M.GetByte("Chat", "HighlightEnabled", MATCH_TEXT);
 
 			::CheckDlgButton(hwndDlg, IDC_HIGHLIGHTNICKENABLE, dwFlags & MATCH_NICKNAME ? BST_CHECKED : BST_UNCHECKED);
 			::CheckDlgButton(hwndDlg, IDC_HIGHLIGHTNICKUID, dwFlags & MATCH_UIN ? BST_CHECKED : BST_UNCHECKED);
@@ -335,7 +335,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					if (dwFlags & MATCH_NICKNAME)
 						dwFlags |= (::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTNICKUID) ? MATCH_UIN : 0);
 
-					db_set_b(0, "Chat", "bHighlightEnabled", dwFlags);
+					db_set_b(0, "Chat", "HighlightEnabled", dwFlags);
 					db_set_b(0, "Chat", "HighlightMe", ::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTME) ? 1 : 0);
 					g_Settings.Highlight->init();
 				}

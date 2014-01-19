@@ -25,8 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // The code for streaming the text is to a large extent copied from
 // the srmm module and then modified to fit the chat module.
 
-static PBYTE pLogIconBmpBits[14];
-static int logIconBmpSize[ SIZEOF(pLogIconBmpBits) ];
+PBYTE pLogIconBmpBits[14];
+int logIconBmpSize[ SIZEOF(pLogIconBmpBits) ];
 
 static int EventToIndex(LOGINFO * lin)
 {
