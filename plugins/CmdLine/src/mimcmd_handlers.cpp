@@ -1978,7 +1978,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 					}
 					else if (_stricmp(cmd, "show") == 0) {						
 						reply->code = MIMRES_SUCCESS;
-						mir_snprintf(reply->message, reply->cMessage, Translate("Contact '%s' has '%d' events in history."), contact, db_event_count(hContact));
+						mir_snprintf(reply->message, reply->cMessage, Translate("Contact '%s' has %d events in history."), contact, db_event_count(hContact));
 					}
 					else HandleUnknownParameter(command, cmd, reply);
 				}
