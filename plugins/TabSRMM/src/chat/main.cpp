@@ -158,7 +158,7 @@ static void OnLoadSettings()
 
 	replaceStrT(g_Settings.pszLogDir, M.getChatLogPath());
 
-	g_Settings.LogIconSize = (g_Settings.bScaleIcons) ? 10 : 16;
+	g_Settings.LogIconSize = (g_Settings.bScaleIcons) ? 12 : 16;
 
 	g_Settings.iSplitterY = db_get_w(NULL, "Chat", "splitY", 50);
 	if (g_Settings.iSplitterY <= 20)

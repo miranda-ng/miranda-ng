@@ -1476,7 +1476,6 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 	ci.pLogIconBmpBits = pLogIconBmpBits;
 	ci.logIconBmpSize = logIconBmpSize;
 
-	LoadChatIcons();
 	RegisterFonts();
 	OptionsInit();
 	return (INT_PTR)&ci;
