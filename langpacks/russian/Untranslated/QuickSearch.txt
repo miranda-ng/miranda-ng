@@ -11,4 +11,3 @@
 [Content is count of ALL contact events (not messages only)]
 [Other info]
 [Selected]
-[contacts]

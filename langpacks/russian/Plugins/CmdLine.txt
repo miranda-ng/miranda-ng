@@ -123,8 +123,8 @@ Miranda была закрыта или произошла ошибка при о
 Нет непрочитанных сообщений.
 [%s:%s - %d unread events.]
 %s:%s - %d непрочитанные сообщения.
-[Contact '%s' has '%d' events in history.]
-Контакт '%s' имеет '%d' событий в истории.
+[Contact '%s' has %d events in history.]
+Контакт '%s' имеет %d событий в истории.
 [Could not create CommandLine listening server!]
 Невозможно создать сервер CommandLine!
 [You can only run one instance of CmdLine plugin.]

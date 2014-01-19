@@ -233,9 +233,12 @@ ID клиента
 Изменить с помощью QuickSearch
 [default]
 по умолчанию
+[contacts]
+Контакты
 [Unknown]
 Неизвестный
 [Stay on Top]
 Поверх всех окон
+; this line is not present in the sources, but it present in compiled plugin
 [Text Editor]
 Текстовый редактор

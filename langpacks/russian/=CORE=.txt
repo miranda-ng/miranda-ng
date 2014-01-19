@@ -1901,12 +1901,16 @@ URL от %s
 Действие
 [Highlighted message]
 Подсвеченное сообщение
-[Message typing area]
-Поле набора текста
 [User list members (online)]
 Пользователи (в сети)
 [User list members (away)]
 Пользователи (отсутствуют)
+[Userlist background]
+Фон списка пользователей
+[Message typing area]
+Поле набора текста
+[Chat log symbols (Webdings)]
+Символы в чате (шрифт Webdings)
 [Message is highlighted]
 Сообщение выделено
 [User has performed an action]
