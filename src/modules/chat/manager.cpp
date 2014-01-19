@@ -1337,7 +1337,7 @@ static BOOL LM_RemoveAll(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd)
 	return TRUE;
 }
 
-INT_PTR SvcGetChatManager(WPARAM, LPARAM lParam)
+INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 {
 	// wipe out old junk
 	memset(PBYTE(&ci) + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER)-offsetof(CHAT_MANAGER, OnCreateModule));
@@ -1379,6 +1379,8 @@ INT_PTR SvcGetChatManager(WPARAM, LPARAM lParam)
 	g_szFontGroup = pInit->szFontGroup;
 	g_cbSession = pInit->cbSession;
 	g_cbModuleInfo = pInit->cbModuleInfo;
+	g_iFontMode = pInit->iFontMode;
+	g_iChatLang = (int)wParam;
 
 	ci.SetActiveSession = SetActiveSession;
 	ci.SetActiveSessionEx = SetActiveSessionEx;

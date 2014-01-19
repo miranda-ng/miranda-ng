@@ -286,11 +286,16 @@ struct GlobalLogSettingsBase
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#define FONTMODE_USE   1
+#define FONTMODE_SKIP  2
+#define FONTMODE_ALTER 3
+
 struct CHAT_MANAGER_INITDATA
 {
 	GlobalLogSettingsBase *pSettings;
 	int cbModuleInfo, cbSession;
 	TCHAR *szFontGroup;
+	int iFontMode;
 };
 
 struct CHAT_MANAGER
@@ -426,10 +431,11 @@ struct CHAT_MANAGER
 };
 
 extern CHAT_MANAGER ci, *pci;
+extern int hLangpack;
 
 __forceinline void mir_getCI(CHAT_MANAGER_INITDATA *pData)
 {
-	pci = (CHAT_MANAGER*)CallService("GChat/GetInterface", 0, (LPARAM)pData);
+	pci = (CHAT_MANAGER*)CallService("GChat/GetInterface", hLangpack, (LPARAM)pData);
 }
 
 #endif // M_CHAT_INT_H__

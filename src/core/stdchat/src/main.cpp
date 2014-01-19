@@ -317,7 +317,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	AddIcons();
 	RegisterFonts();
 
-	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Chat module") };
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Chat module"), FONTMODE_USE };
 	mir_getCI(&data);
 	saveCI = *pci;
 

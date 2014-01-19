@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern SESSION_INFO g_TabSession;
 
 GlobalLogSettingsBase *g_Settings;
-int g_cbSession, g_cbModuleInfo;
+int g_cbSession, g_cbModuleInfo, g_iFontMode, g_iChatLang;
 TCHAR *g_szFontGroup;
 
 #define FONTF_BOLD   1
@@ -39,10 +39,6 @@ struct FontOptionsList
 	LPCTSTR  szDefFace;
 	BYTE     defCharset, defStyle; 
 	char     defSize;
-	COLORREF colour;
-	LPCTSTR  szFace;
-	BYTE     charset, style;
-	char     size;
 }
 
 //remeber to put these in the Translate( ) template file too
@@ -64,7 +60,7 @@ static const fontOptionsList[] = {
 	{ LPGENT("User disables status for ..."), RGB(150, 70, 70),   _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
 	{ LPGENT("Action message"),               RGB(160, 90, 160),  _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
 	{ LPGENT("Highlighted message"),          RGB(180, 150, 80),  _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Message typing area"),          RGB(0, 0, 40),      _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
+	{ _T(""),                                 0,                  _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
 	{ LPGENT("User list members (online)"),   RGB(0, 0, 0),       _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
 	{ LPGENT("User list members (away)"),     RGB(170, 170, 170), _T("Verdana"), DEFAULT_CHARSET, 0, -12 }
 };
@@ -151,18 +147,28 @@ void RegisterFonts(void)
 		_tcsncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fontid.deffontsettings.szFace));
 		_tcsncpy(fontid.backgroundGroup, g_szFontGroup, SIZEOF(fontid.backgroundGroup));
 		switch (i) {
-		case 17:
-			_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), _T("Message background"), _TRUNCATE);
-			break;
 		case 18:
 		case 19:
-			_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), _T("Userlist background"), _TRUNCATE);
+			_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), LPGENT("Userlist background"), _TRUNCATE);
 			break;
+		case 17:
+			if (g_iFontMode == FONTMODE_SKIP)
+				continue;
+			if (g_iFontMode == FONTMODE_USE) {
+				_tcsncpy_s(fontid.name, SIZEOF(fontid.name), LPGENT("Message typing area"), _TRUNCATE);
+				_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), LPGENT("Message background"), _TRUNCATE);
+				fontid.deffontsettings.colour = RGB(0, 0, 40);
+				break;
+			}
+
+			_tcsncpy_s(fontid.name, SIZEOF(fontid.name), LPGENT("Chat log symbols (Webdings)"), _TRUNCATE);
+			fontid.deffontsettings.colour = RGB(170, 170, 170);
+			// fall through
 		default:
-			_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), _T("Group chat log background"), _TRUNCATE);
+			_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), LPGENT("Group chat log background"), _TRUNCATE);
 			break;
 		}
-		FontRegisterT(&fontid);
+		CallService("Font/RegisterW", (WPARAM)&fontid, g_iChatLang);
 	}
 }
 
