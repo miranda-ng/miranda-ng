@@ -623,7 +623,7 @@ static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 {
 	switch (msg) {
 	case WM_RBUTTONUP:
-		if (db_get_b(NULL, "Chat", "RightClickFilter", 0) != 0) {
+		if (db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) != 0) {
 			if (GetDlgItem(GetParent(hwnd), IDC_CHAT_FILTER) == hwnd)
 				SendMessage(GetParent(hwnd), GC_SHOWFILTERMENU, 0, 0);
 			if (GetDlgItem(GetParent(hwnd), IDC_CHAT_COLOR) == hwnd)
@@ -1097,7 +1097,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_LIMITTEXT, (WPARAM)sizeof(TCHAR)* 0x7FFFFFFF, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETOLECALLBACK, 0, (LPARAM)& reOleCallback);
 
-			if (db_get_b(NULL, "Chat", "UseIEView", 0)) {
+			if (db_get_b(NULL, CHAT_MODULE, "UseIEView", 0)) {
 				IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
 				ieWindow.iType = IEW_CREATE;
 				ieWindow.dwMode = IEWM_CHAT;
@@ -1158,10 +1158,10 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			// nicklist
 			int ih = GetTextPixelSize(_T("AQG_glo'"), g_Settings.UserListFont, FALSE);
 			int ih2 = GetTextPixelSize(_T("AQG_glo'"), g_Settings.UserListHeadingsFont, FALSE);
-			int height = db_get_b(NULL, "Chat", "NicklistRowDist", 12);
+			int height = db_get_b(NULL, CHAT_MODULE, "NicklistRowDist", 12);
 			int font = ih > ih2 ? ih : ih2;
 			// make sure we have space for icon!
-			if (db_get_b(NULL, "Chat", "ShowContactStatus", 0))
+			if (db_get_b(NULL, CHAT_MODULE, "ShowContactStatus", 0))
 				font = font > 16 ? font : 16;
 
 			SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LIST), LB_SETITEMHEIGHT, 0, (LPARAM)height > font ? height : font);
@@ -1390,9 +1390,9 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			int ih = GetTextPixelSize(_T("AQGgl'"), g_Settings.UserListFont, FALSE);
 			int ih2 = GetTextPixelSize(_T("AQGg'"), g_Settings.UserListHeadingsFont, FALSE);
 			int font = ih > ih2 ? ih : ih2;
-			int height = db_get_b(NULL, "Chat", "NicklistRowDist", 12);
+			int height = db_get_b(NULL, CHAT_MODULE, "NicklistRowDist", 12);
 			// make sure we have space for icon!
-			if (db_get_b(NULL, "Chat", "ShowContactStatus", 0))
+			if (db_get_b(NULL, CHAT_MODULE, "ShowContactStatus", 0))
 				font = font > 16 ? font : 16;
 			mis->itemHeight = height > font ? height : font;
 		}
@@ -1505,7 +1505,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			goto LABEL_SHOWWINDOW;
 
 		case SESSION_INITDONE:
-			if (db_get_b(NULL, "Chat", "PopupOnJoin", 0) != 0)
+			if (db_get_b(NULL, CHAT_MODULE, "PopupOnJoin", 0) != 0)
 				return TRUE;
 			// fall through
 		case WINDOW_VISIBLE:
@@ -1824,7 +1824,7 @@ LABEL_SHOWWINDOW:
 
 			si->bFilterEnabled = !si->bFilterEnabled;
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(si->bFilterEnabled ? "chat_filter" : "chat_filter2"));
-			if (si->bFilterEnabled && db_get_b(NULL, "Chat", "RightClickFilter", 0) == 0) {
+			if (si->bFilterEnabled && db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) == 0) {
 				SendMessage(hwndDlg, GC_SHOWFILTERMENU, 0, 0);
 				break;
 			}
@@ -1839,7 +1839,7 @@ LABEL_SHOWWINDOW:
 				cf.dwEffects = 0;
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_BKGCOLOR)) {
-					if (db_get_b(NULL, "Chat", "RightClickFilter", 0) == 0)
+					if (db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) == 0)
 						SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_CHAT_BKGCOLOR);
 					else if (si->bBGSet) {
 						cf.dwMask = CFM_BACKCOLOR;
@@ -1872,7 +1872,7 @@ LABEL_SHOWWINDOW:
 					break;
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_COLOR)) {
-					if (db_get_b(NULL, "Chat", "RightClickFilter", 0) == 0)
+					if (db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) == 0)
 						SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_CHAT_COLOR);
 					else if (si->bFGSet) {
 						cf.dwMask = CFM_COLOR;

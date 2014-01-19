@@ -714,7 +714,6 @@ private:
 #define SRMSGDEFSET_LOADTIME       10
 
 #define SRMSGSET_BKGCOLOUR         "BkgColour"
-#define SRMSGSET_BKGCOLOUR_MUC     "BkgColourMUC"
 
 #define SRMSGDEFSET_BKGCOLOUR      RGB(250,250,250)
 //#define SRMSGDEFSET_BKGCOLOUR      GetSysColor(COLOR_WINDOW)
@@ -754,7 +753,6 @@ private:
 #define SRMSGMOD_T "Tab_SRMsg"
 #define FONTMODULE "TabSRMM_Fonts"
 #define CHAT_OLDFONTMODULE "TabSRMM_chat_Fonts"
-#define CHAT_FONTMODULE "ChatFonts"
 
 #define IDM_STAYONTOP (WM_USER + 1)
 #define IDM_NOTITLE (WM_USER + 2)

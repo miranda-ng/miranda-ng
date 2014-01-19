@@ -131,36 +131,36 @@ static void OnCreateModule(MODULEINFO *mi)
 
 static void OnLoadSettings()
 {
-	g_Settings.iEventLimitThreshold = db_get_w(NULL, "Chat", "LogLimitThreshold", 20);
-	g_Settings.dwIconFlags = M.GetDword("Chat", "IconFlags", 0x0000);
-	g_Settings.bOpenInDefault = M.GetBool("Chat", "DefaultContainer", true);
-	g_Settings.UserListColors[CHAT_STATUS_NORMAL] = M.GetDword(CHAT_FONTMODULE, "Font18Col", RGB(0, 0, 0));
-	g_Settings.UserListColors[CHAT_STATUS_AWAY] = M.GetDword(CHAT_FONTMODULE, "Font19Col", RGB(170, 170, 170));
-	g_Settings.UserListColors[CHAT_STATUS_OFFLINE] = M.GetDword(CHAT_FONTMODULE, "Font5Col", RGB(160, 90, 90));
-	g_Settings.bBBCodeInPopups = M.GetByte("Chat", "BBCodeInPopups", 0) != 0;
-	g_Settings.bClassicIndicators = M.GetBool("Chat", "ClassicIndicators", false);
-	g_Settings.bLogClassicIndicators = M.GetBool("Chat", "LogClassicIndicators", false);
-	g_Settings.bAlternativeSorting = M.GetBool("Chat", "AlternativeSorting", true);
-	g_Settings.bAnnoyingHighlight = M.GetBool("Chat", "AnnoyingHighlight", false);
-	g_Settings.bCreateWindowOnHighlight = M.GetBool("Chat", "CreateWindowOnHighlight", true);
+	g_Settings.iEventLimitThreshold = db_get_w(NULL, CHAT_MODULE, "LogLimitThreshold", 20);
+	g_Settings.dwIconFlags = M.GetDword(CHAT_MODULE, "IconFlags", 0x0000);
+	g_Settings.bOpenInDefault = M.GetBool(CHAT_MODULE, "DefaultContainer", true);
+	g_Settings.UserListColors[CHAT_STATUS_NORMAL] = M.GetDword(CHATFONT_MODULE, "Font18Col", RGB(0, 0, 0));
+	g_Settings.UserListColors[CHAT_STATUS_AWAY] = M.GetDword(CHATFONT_MODULE, "Font19Col", RGB(170, 170, 170));
+	g_Settings.UserListColors[CHAT_STATUS_OFFLINE] = M.GetDword(CHATFONT_MODULE, "Font5Col", RGB(160, 90, 90));
+	g_Settings.bBBCodeInPopups = M.GetByte(CHAT_MODULE, "BBCodeInPopups", 0) != 0;
+	g_Settings.bClassicIndicators = M.GetBool(CHAT_MODULE, "ClassicIndicators", false);
+	g_Settings.bLogClassicIndicators = M.GetBool(CHAT_MODULE, "LogClassicIndicators", false);
+	g_Settings.bAlternativeSorting = M.GetBool(CHAT_MODULE, "AlternativeSorting", true);
+	g_Settings.bAnnoyingHighlight = M.GetBool(CHAT_MODULE, "AnnoyingHighlight", false);
+	g_Settings.bCreateWindowOnHighlight = M.GetBool(CHAT_MODULE, "CreateWindowOnHighlight", true);
 
-	g_Settings.bLogSymbols = M.GetBool("Chat", "LogSymbols", true);
-	g_Settings.bClickableNicks = M.GetBool("Chat", "ClickableNicks", true);
-	g_Settings.bColorizeNicks = M.GetBool("Chat", "ColorizeNicks", true);
-	g_Settings.bColorizeNicksInLog = M.GetBool("Chat", "ColorizeNicksInLog", true);
-	g_Settings.bScaleIcons = M.GetBool("Chat", "ScaleIcons", true);
-	g_Settings.bUseDividers = M.GetBool("Chat", "UseDividers", true);
-	g_Settings.bDividersUsePopupConfig = M.GetBool("Chat", "DividersUsePopupConfig", true);
+	g_Settings.bLogSymbols = M.GetBool(CHAT_MODULE, "LogSymbols", true);
+	g_Settings.bClickableNicks = M.GetBool(CHAT_MODULE, "ClickableNicks", true);
+	g_Settings.bColorizeNicks = M.GetBool(CHAT_MODULE, "ColorizeNicks", true);
+	g_Settings.bColorizeNicksInLog = M.GetBool(CHAT_MODULE, "ColorizeNicksInLog", true);
+	g_Settings.bScaleIcons = M.GetBool(CHAT_MODULE, "ScaleIcons", true);
+	g_Settings.bUseDividers = M.GetBool(CHAT_MODULE, "UseDividers", true);
+	g_Settings.bDividersUsePopupConfig = M.GetBool(CHAT_MODULE, "DividersUsePopupConfig", true);
 
-	g_Settings.bDoubleClick4Privat = M.GetBool("Chat", "DoubleClick4Privat", false);
-	g_Settings.bShowContactStatus = M.GetBool("Chat", "ShowContactStatus", true);
-	g_Settings.bContactStatusFirst = M.GetBool("Chat", "ContactStatusFirst", false);
+	g_Settings.bDoubleClick4Privat = M.GetBool(CHAT_MODULE, "DoubleClick4Privat", false);
+	g_Settings.bShowContactStatus = M.GetBool(CHAT_MODULE, "ShowContactStatus", true);
+	g_Settings.bContactStatusFirst = M.GetBool(CHAT_MODULE, "ContactStatusFirst", false);
 
 	replaceStrT(g_Settings.pszLogDir, M.getChatLogPath());
 
 	g_Settings.LogIconSize = (g_Settings.bScaleIcons) ? 12 : 16;
 
-	g_Settings.iSplitterY = db_get_w(NULL, "Chat", "splitY", 50);
+	g_Settings.iSplitterY = db_get_w(NULL, CHAT_MODULE, "splitY", 50);
 	if (g_Settings.iSplitterY <= 20)
 		g_Settings.iSplitterY = 50;
 
@@ -183,17 +183,15 @@ static void OnLoadSettings()
 
 	int ih = GetTextPixelSize(_T("AQGglo"), g_Settings.UserListFonts[CHAT_STATUS_NORMAL], false);
 	int ih2 = GetTextPixelSize(_T("AQGglo"), g_Settings.UserListFonts[CHAT_STATUS_AWAY], false);
-	g_Settings.iNickListFontHeight = max(M.GetByte("Chat", "NicklistRowDist", 12), (ih > ih2 ? ih : ih2));
+	g_Settings.iNickListFontHeight = max(M.GetByte(CHAT_MODULE, "NicklistRowDist", 12), (ih > ih2 ? ih : ih2));
 
 	for (int i = 0; i < 7; i++) {
 		char szBuf[40];
 		mir_snprintf(szBuf, 20, "NickColor%d", i);
-		g_Settings.nickColors[i] = M.GetDword("Chat", szBuf, g_Settings.UserListColors[0]);
+		g_Settings.nickColors[i] = M.GetDword(CHAT_MODULE, szBuf, g_Settings.UserListColors[0]);
 	}
-	g_Settings.nickColors[5] = M.GetDword("Chat", "NickColor5", GetSysColor(COLOR_HIGHLIGHT));
-	g_Settings.nickColors[6] = M.GetDword("Chat", "NickColor6", GetSysColor(COLOR_HIGHLIGHTTEXT));
-
-	g_Settings.crLogBackground = M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR);
+	g_Settings.nickColors[5] = M.GetDword(CHAT_MODULE, "NickColor5", GetSysColor(COLOR_HIGHLIGHT));
+	g_Settings.nickColors[6] = M.GetDword(CHAT_MODULE, "NickColor6", GetSysColor(COLOR_HIGHLIGHTTEXT));
 
 	if (g_Settings.SelectionBGBrush)
 		DeleteObject(g_Settings.SelectionBGBrush);
@@ -224,28 +222,36 @@ static int CopyChatSetting(const char *szSetting, LPARAM param)
 static void CheckUpdate()
 {
 	// already converted?
-	if (db_get_b(NULL, "Compatibility", "TabChatFonts", false))
+	int compat = db_get_b(NULL, "Compatibility", "TabChatFonts", 0);
+	if (compat >= 2)
 		return;
 
-	LIST<char> szSettings(120);
+	if (compat == 0) {
+		LIST<char> szSettings(120);
 
-	DBCONTACTENUMSETTINGS dbces = { 0 };
-	dbces.szModule = CHAT_OLDFONTMODULE;
-	dbces.pfnEnumProc = CopyChatSetting;
-	dbces.lParam = (LPARAM)&szSettings;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
+		DBCONTACTENUMSETTINGS dbces = { 0 };
+		dbces.szModule = CHAT_OLDFONTMODULE;
+		dbces.pfnEnumProc = CopyChatSetting;
+		dbces.lParam = (LPARAM)&szSettings;
+		CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 
-	DBVARIANT dbv;
-	for (int i = szSettings.getCount() - 1; i >= 0; i--) {
-		char *p = szSettings[i];
-		db_get(NULL, CHAT_OLDFONTMODULE, p, &dbv);
-		db_set(NULL, CHAT_FONTMODULE, p, &dbv);
-		db_free(&dbv);
-		mir_free(p);
+		DBVARIANT dbv;
+		for (int i = szSettings.getCount() - 1; i >= 0; i--) {
+			char *p = szSettings[i];
+			db_get(NULL, CHAT_OLDFONTMODULE, p, &dbv);
+			db_set(NULL, CHATFONT_MODULE, p, &dbv);
+			db_free(&dbv);
+			mir_free(p);
+		}
+
+		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)CHAT_OLDFONTMODULE);
 	}
 
-	CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)CHAT_OLDFONTMODULE);
-	db_set_b(NULL, "Compatibility", "TabChatFonts", true);
+	DWORD oldBackColor = db_get_dw(0, FONTMODULE, "BkgColourMUC", SRMSGDEFSET_BKGCOLOUR);
+	db_set_dw(NULL, CHAT_MODULE, "ColorLogBG", oldBackColor);
+	db_unset(0, FONTMODULE, "BkgColourMUC");
+
+	db_set_b(NULL, "Compatibility", "TabChatFonts", 2);
 }
 
 int Chat_Load()

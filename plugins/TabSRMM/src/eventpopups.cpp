@@ -374,13 +374,13 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				}
 			}
 
-			db_set_b(0, "Chat", "PopupStyle", (BYTE)g_Settings.iPopupStyle);
-			db_set_w(NULL, "Chat", "PopupTimeout", g_Settings.iPopupTimeout);
+			db_set_b(0, CHAT_MODULE, "PopupStyle", (BYTE)g_Settings.iPopupStyle);
+			db_set_w(NULL, CHAT_MODULE, "PopupTimeout", g_Settings.iPopupTimeout);
 
 			g_Settings.crPUBkgColour = SendDlgItemMessage(hWnd, IDC_COLBACK_MUC, CPM_GETCOLOUR, 0, 0);
-			db_set_dw(0, "Chat", "PopupColorBG", (DWORD)g_Settings.crPUBkgColour);
+			db_set_dw(0, CHAT_MODULE, "PopupColorBG", (DWORD)g_Settings.crPUBkgColour);
 			g_Settings.crPUTextColour = SendDlgItemMessage(hWnd, IDC_COLTEXT_MUC, CPM_GETCOLOUR, 0, 0);
-			db_set_dw(0, "Chat", "PopupColorText", (DWORD)g_Settings.crPUTextColour);
+			db_set_dw(0, CHAT_MODULE, "PopupColorText", (DWORD)g_Settings.crPUTextColour);
 
 			NEN_WriteOptions(&nen_options);
 			CheckForRemoveMask();

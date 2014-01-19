@@ -54,7 +54,7 @@ void CheckColorsInModule(const char* pszModule)
 {
 	MODULEINFO *pMod = pci->MM_FindModule(pszModule);
 	int i = 0;
-	COLORREF crBG = (COLORREF)db_get_dw(NULL, "Chat", "ColorMessageBG", GetSysColor(COLOR_WINDOW));
+	COLORREF crBG = (COLORREF)db_get_dw(NULL, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
 
 	COLORREF crFG;
 	pci->LoadMsgDlgFont(17, NULL, &crFG);

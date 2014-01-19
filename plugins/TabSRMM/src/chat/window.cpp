@@ -60,7 +60,7 @@ static const CLSID IID_ITextDocument= { 0x8CC497C0,0xA1DF,0x11CE, { 0x80,0x98, 0
 
 static void Chat_SetMessageLog(TWindowData *dat)
 {
-	unsigned int iLogMode = M.GetByte("Chat", "useIEView", 0);
+	unsigned int iLogMode = M.GetByte(CHAT_MODULE, "useIEView", 0);
 
 	if (iLogMode == WANT_IEVIEW_LOG && dat->hwndIEView == 0) {
 		IEVIEWWINDOW ieWindow;
@@ -1100,14 +1100,14 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		{
 			si = (SESSION_INFO*)lParam;
-			DWORD dwMask = db_get_dw(si->hContact, "Chat", "FilterMask", 0);
-			DWORD dwFlags = db_get_dw(si->hContact, "Chat", "FilterFlags", 0);
+			DWORD dwMask = db_get_dw(si->hContact, CHAT_MODULE, "FilterMask", 0);
+			DWORD dwFlags = db_get_dw(si->hContact, CHAT_MODULE, "FilterFlags", 0);
 
-			DWORD dwPopupMask = db_get_dw(si->hContact, "Chat", "PopupMask", 0);
-			DWORD dwPopupFlags = db_get_dw(si->hContact, "Chat", "PopupFlags", 0);
+			DWORD dwPopupMask = db_get_dw(si->hContact, CHAT_MODULE, "PopupMask", 0);
+			DWORD dwPopupFlags = db_get_dw(si->hContact, CHAT_MODULE, "PopupFlags", 0);
 
-			DWORD dwTrayMask = db_get_dw(si->hContact, "Chat", "TrayIconMask", 0);
-			DWORD dwTrayFlags = db_get_dw(si->hContact, "Chat", "TrayIconFlags", 0);
+			DWORD dwTrayMask = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconMask", 0);
+			DWORD dwTrayFlags = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconFlags", 0);
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)si);
 
@@ -1141,12 +1141,12 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			if (si) {
 				if (dwMask == 0) {
-					db_unset(si->hContact, "Chat", "FilterFlags");
-					db_unset(si->hContact, "Chat", "FilterMask");
+					db_unset(si->hContact, CHAT_MODULE, "FilterFlags");
+					db_unset(si->hContact, CHAT_MODULE, "FilterMask");
 				}
 				else {
-					db_set_dw(si->hContact, "Chat", "FilterFlags", iFlags);
-					db_set_dw(si->hContact, "Chat", "FilterMask", dwMask);
+					db_set_dw(si->hContact, CHAT_MODULE, "FilterFlags", iFlags);
+					db_set_dw(si->hContact, CHAT_MODULE, "FilterMask", dwMask);
 				}
 			}
 
@@ -1163,12 +1163,12 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			if (si) {
 				if (dwMask == 0) {
-					db_unset(si->hContact, "Chat", "PopupFlags");
-					db_unset(si->hContact, "Chat", "PopupMask");
+					db_unset(si->hContact, CHAT_MODULE, "PopupFlags");
+					db_unset(si->hContact, CHAT_MODULE, "PopupMask");
 				}
 				else {
-					db_set_dw(si->hContact, "Chat", "PopupFlags", iFlags);
-					db_set_dw(si->hContact, "Chat", "PopupMask", dwMask);
+					db_set_dw(si->hContact, CHAT_MODULE, "PopupFlags", iFlags);
+					db_set_dw(si->hContact, CHAT_MODULE, "PopupMask", dwMask);
 				}
 			}
 
@@ -1184,12 +1184,12 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			if (si) {
 				if (dwMask == 0) {
-					db_unset(si->hContact, "Chat", "TrayIconFlags");
-					db_unset(si->hContact, "Chat", "TrayIconMask");
+					db_unset(si->hContact, CHAT_MODULE, "TrayIconFlags");
+					db_unset(si->hContact, CHAT_MODULE, "TrayIconMask");
 				}
 				else {
-					db_set_dw(si->hContact, "Chat", "TrayIconFlags", iFlags);
-					db_set_dw(si->hContact, "Chat", "TrayIconMask", dwMask);
+					db_set_dw(si->hContact, CHAT_MODULE, "TrayIconFlags", iFlags);
+					db_set_dw(si->hContact, CHAT_MODULE, "TrayIconMask", dwMask);
 				}
 				Chat_SetFilters(si);
 				SendMessage(si->hWnd, GC_CHANGEFILTERFLAG, 0, (LPARAM)iFlags);
@@ -1221,7 +1221,7 @@ static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		HWND hColor = GetDlgItem(hwndParent, IDC_COLOR);
 		HWND hBGColor = GetDlgItem(hwndParent, IDC_BKGCOLOR);
 
-		if (M.GetByte("Chat", "RightClickFilter", 0) != 0) {
+		if (M.GetByte(CHAT_MODULE, "RightClickFilter", 0) != 0) {
 			if (hFilter == hwnd)
 				SendMessage(hwndParent, GC_SHOWFILTERMENU, 0, 0);
 			if (hColor == hwnd)
@@ -1865,7 +1865,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (!dat->pContainer->settings->fPrivate)
 				si->iSplitterY = g_Settings.iSplitterY;
 			else {
-				if (M.GetByte("Chat", "SyncSplitter", 0))
+				if (M.GetByte(CHAT_MODULE, "SyncSplitter", 0))
 					si->iSplitterY = dat->pContainer->settings->splitterPos - DPISCALEY_S(23);
 				else
 					si->iSplitterY = g_Settings.iSplitterY;
@@ -2395,7 +2395,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			goto LABEL_SHOWWINDOW;
 
 		case SESSION_INITDONE:
-			if (M.GetByte("Chat", "PopupOnJoin", 0) != 0)
+			if (M.GetByte(CHAT_MODULE, "PopupOnJoin", 0) != 0)
 				return TRUE;
 			// fall through
 		case WINDOW_VISIBLE:
@@ -3077,13 +3077,13 @@ LABEL_SHOWWINDOW:
 			SendDlgItemMessage(hwndDlg, IDC_FILTER, BUTTONSETOVERLAYICON,
 				(LPARAM)(si->bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 
-			if (si->bFilterEnabled && M.GetByte("Chat", "RightClickFilter", 0) == 0) {
+			if (si->bFilterEnabled && M.GetByte(CHAT_MODULE, "RightClickFilter", 0) == 0) {
 				SendMessage(hwndDlg, GC_SHOWFILTERMENU, 0, 0);
 				break;
 			}
 			SendMessage(hwndDlg, GC_REDRAWLOG, 0, 0);
 			SendMessage(hwndDlg, GC_UPDATETITLE, 0, 0);
-			db_set_b(si->hContact, "Chat", "FilterEnabled", (BYTE)si->bFilterEnabled);
+			db_set_b(si->hContact, CHAT_MODULE, "FilterEnabled", (BYTE)si->bFilterEnabled);
 			break;
 
 		case IDC_BKGCOLOR:
@@ -3094,7 +3094,7 @@ LABEL_SHOWWINDOW:
 				break;
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_BKGCOLOR)) {
-				if (M.GetByte("Chat", "RightClickFilter", 0) == 0)
+				if (M.GetByte(CHAT_MODULE, "RightClickFilter", 0) == 0)
 					SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_BKGCOLOR);
 				else if (si->bBGSet) {
 					cf.dwMask = CFM_BACKCOLOR;
@@ -3117,7 +3117,7 @@ LABEL_SHOWWINDOW:
 				break;
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_COLOR)) {
-				if (M.GetByte("Chat", "RightClickFilter", 0) == 0)
+				if (M.GetByte(CHAT_MODULE, "RightClickFilter", 0) == 0)
 					SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_COLOR);
 				else if (si->bFGSet) {
 					cf.dwMask = CFM_COLOR;
@@ -3546,10 +3546,10 @@ LABEL_SHOWWINDOW:
 		TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_CLOSING, 0);
 
 		if (!dat->bIsAutosizingInput)
-			db_set_w(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
+			db_set_w(NULL, CHAT_MODULE, "SplitterX", (WORD)g_Settings.iSplitterX);
 
 		if (dat->pContainer->settings->fPrivate && !IsAutoSplitEnabled(dat))
-			db_set_w(NULL, "Chat", "splitY", (WORD)g_Settings.iSplitterY);
+			db_set_w(NULL, CHAT_MODULE, "splitY", (WORD)g_Settings.iSplitterY);
 
 		DM_FreeTheme(dat);
 

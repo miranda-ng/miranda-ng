@@ -633,29 +633,29 @@ void Chat_SetFilters(SESSION_INFO *si)
 	if (si == NULL)
 		return;
 
-	DWORD dwFlags_default = M.GetDword("Chat", "FilterFlags", 0x03E0);
-	DWORD dwFlags_local = db_get_dw(si->hContact, "Chat", "FilterFlags", 0x03E0);
-	DWORD dwMask = db_get_dw(si->hContact, "Chat", "FilterMask", 0);
+	DWORD dwFlags_default = M.GetDword(CHAT_MODULE, "FilterFlags", 0x03E0);
+	DWORD dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "FilterFlags", 0x03E0);
+	DWORD dwMask = db_get_dw(si->hContact, CHAT_MODULE, "FilterMask", 0);
 
 	si->iLogFilterFlags = dwFlags_default;
 	for (int i=0; i < 32; i++)
 		if (dwMask & (1 << i))
 			si->iLogFilterFlags = (dwFlags_local & (1 << i) ? si->iLogFilterFlags | (1 << i) : si->iLogFilterFlags & ~(1 << i));
 
-	dwFlags_default = M.GetDword("Chat", "PopupFlags", 0x03E0);
-	dwFlags_local = db_get_dw(si->hContact, "Chat", "PopupFlags", 0x03E0);
-	dwMask = db_get_dw(si->hContact, "Chat", "PopupMask", 0);
+	dwFlags_default = M.GetDword(CHAT_MODULE, "PopupFlags", 0x03E0);
+	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "PopupFlags", 0x03E0);
+	dwMask = db_get_dw(si->hContact, CHAT_MODULE, "PopupMask", 0);
 
 	si->iLogPopupFlags = dwFlags_default;
 	for (int i=0; i < 32; i++)
 		if (dwMask & (1 << i))
 			si->iLogPopupFlags = (dwFlags_local & (1 << i) ? si->iLogPopupFlags | (1 << i) : si->iLogPopupFlags & ~(1 << i));
 
-	dwFlags_default = M.GetDword("Chat", "TrayIconFlags", 0x03E0);
-	dwFlags_local = db_get_dw(si->hContact, "Chat", "TrayIconFlags", 0x03E0);
-	dwMask = db_get_dw(si->hContact, "Chat", "TrayIconMask", 0);
+	dwFlags_default = M.GetDword(CHAT_MODULE, "TrayIconFlags", 0x03E0);
+	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconFlags", 0x03E0);
+	dwMask = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconMask", 0);
 
-	si->iDiskLogFlags = M.GetDword("Chat", "DiskLogFlags", 0xFFFF);
+	si->iDiskLogFlags = M.GetDword(CHAT_MODULE, "DiskLogFlags", 0xFFFF);
 
 	si->iLogTrayFlags = dwFlags_default;
 	for (int i=0; i < 32; i++)

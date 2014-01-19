@@ -256,21 +256,21 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 
 static void OnLoadSettings()
 {
-	g_Settings.iX = db_get_dw(NULL, "Chat", "roomx", -1);
-	g_Settings.iY = db_get_dw(NULL, "Chat", "roomy", -1);
+	g_Settings.iX = db_get_dw(NULL, CHAT_MODULE, "roomx", -1);
+	g_Settings.iY = db_get_dw(NULL, CHAT_MODULE, "roomy", -1);
 
-	g_Settings.bTabsEnable = db_get_b(NULL, "Chat", "Tabs", 1) != 0;
-	g_Settings.TabRestore = db_get_b(NULL, "Chat", "TabRestore", 0) != 0;
-	g_Settings.TabsAtBottom = db_get_b(NULL, "Chat", "TabBottom", 0) != 0;
-	g_Settings.TabCloseOnDblClick = db_get_b(NULL, "Chat", "TabCloseOnDblClick", 0) != 0;
+	g_Settings.bTabsEnable = db_get_b(NULL, CHAT_MODULE, "Tabs", 1) != 0;
+	g_Settings.TabRestore = db_get_b(NULL, CHAT_MODULE, "TabRestore", 0) != 0;
+	g_Settings.TabsAtBottom = db_get_b(NULL, CHAT_MODULE, "TabBottom", 0) != 0;
+	g_Settings.TabCloseOnDblClick = db_get_b(NULL, CHAT_MODULE, "TabCloseOnDblClick", 0) != 0;
 
 	ZeroMemory(&g_TabSession, sizeof(SESSION_INFO));
 	g_TabSession.iType = GCW_TABROOM;
 	g_TabSession.iSplitterX = g_Settings.iSplitterX;
 	g_TabSession.iSplitterY = g_Settings.iSplitterY;
-	g_TabSession.iLogFilterFlags = (int)db_get_dw(NULL, "Chat", "FilterFlags", 0x03E0);
-	g_TabSession.bFilterEnabled = db_get_b(NULL, "Chat", "FilterEnabled", 0);
-	g_TabSession.bNicklistEnabled = db_get_b(NULL, "Chat", "ShowNicklist", 1);
+	g_TabSession.iLogFilterFlags = (int)db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
+	g_TabSession.bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0);
+	g_TabSession.bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1);
 	g_TabSession.iFG = 4;
 	g_TabSession.bFGSet = TRUE;
 	g_TabSession.iBG = 2;
@@ -280,7 +280,7 @@ static void OnLoadSettings()
 static void RegisterFonts()
 {
 	ColourIDT colourid = { sizeof(colourid) };
-	strncpy(colourid.dbSettingsGroup, "Chat", sizeof(colourid.dbSettingsGroup));
+	strncpy(colourid.dbSettingsGroup, CHAT_MODULE, sizeof(colourid.dbSettingsGroup));
 	_tcsncpy(colourid.group, LPGENT("Chat module"), SIZEOF(colourid.group));
 
 	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
@@ -359,12 +359,12 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	db_set_w(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
-	db_set_w(NULL, "Chat", "SplitterY", (WORD)g_Settings.iSplitterY);
-	db_set_dw(NULL, "Chat", "roomx", g_Settings.iX);
-	db_set_dw(NULL, "Chat", "roomy", g_Settings.iY);
-	db_set_dw(NULL, "Chat", "roomwidth" , g_Settings.iWidth);
-	db_set_dw(NULL, "Chat", "roomheight", g_Settings.iHeight);
+	db_set_w(NULL, CHAT_MODULE, "SplitterX", (WORD)g_Settings.iSplitterX);
+	db_set_w(NULL, CHAT_MODULE, "SplitterY", (WORD)g_Settings.iSplitterY);
+	db_set_dw(NULL, CHAT_MODULE, "roomx", g_Settings.iX);
+	db_set_dw(NULL, CHAT_MODULE, "roomy", g_Settings.iY);
+	db_set_dw(NULL, CHAT_MODULE, "roomwidth" , g_Settings.iWidth);
+	db_set_dw(NULL, CHAT_MODULE, "roomheight", g_Settings.iHeight);
 
 	DestroyMenu(g_hMenu);
 	return 0;

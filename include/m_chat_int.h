@@ -29,6 +29,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define OPTIONS_FONTCOUNT 20
 #define STATUSICONCOUNT 6
 
+#define CHAT_MODULE "Chat"
+#define CHATFONT_MODULE "ChatFonts"
+
 #define GC_FAKE_EVENT HANDLE(0xBABABEDA)
 
 #define GC_UPDATETITLE         (WM_USER+100)

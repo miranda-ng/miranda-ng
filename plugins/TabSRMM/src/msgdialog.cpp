@@ -976,7 +976,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			case ID_SPLITTERCONTEXT_SAVEGLOBALFORALLSESSIONS:
 				{
 					RECT rcWin;
-					BYTE bSync = M.GetByte("Chat", "SyncSplitter", 0);
+					BYTE bSync = M.GetByte(CHAT_MODULE, "SyncSplitter", 0);
 					DWORD dwOff_IM = 0, dwOff_CHAT = 0;
 
 					dwOff_CHAT = -(2 + (PluginConfig.g_DPIscaleY > 1.0 ? 1 : 0));

@@ -79,7 +79,7 @@ static int FontsChanged(WPARAM wParam, LPARAM lParam)
 	LoadMsgLogBitmaps();
 
 	SetIndentSize();
-	g_Settings->bLogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
+	g_Settings->bLogIndentEnabled = (db_get_b(NULL, CHAT_MODULE, "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
 	ci.MM_FontsChanged();
 	ci.MM_FixColors();
@@ -214,9 +214,9 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 		si->ptszStatusbarText = mir_tstrdup(gcw->ptszStatusbarText);
 		si->iSplitterX = g_Settings->iSplitterX;
 		si->iSplitterY = g_Settings->iSplitterY;
-		si->iLogFilterFlags = (int)db_get_dw(NULL, "Chat", "FilterFlags", 0x03E0);
-		si->bFilterEnabled = db_get_b(NULL, "Chat", "FilterEnabled", 0);
-		si->bNicklistEnabled = db_get_b(NULL, "Chat", "ShowNicklist", 1);
+		si->iLogFilterFlags = (int)db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
+		si->bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0);
+		si->bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1);
 
 		if (mi->bColor) {
 			si->iFG = 4;
@@ -286,7 +286,7 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 		case SESSION_INITDONE:
 			if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 				SetInitDone(si);
-				if (wp != SESSION_INITDONE || db_get_b(NULL, "Chat", "PopupOnJoin", 0) == 0)
+				if (wp != SESSION_INITDONE || db_get_b(NULL, CHAT_MODULE, "PopupOnJoin", 0) == 0)
 					ci.ShowRoom(si, wp, TRUE);
 				return 0;
 			}
@@ -440,7 +440,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 				db_set_ts(si->hContact, si->pszModule, "Topic", si->ptszTopic);
 				if (ci.OnSetTopic)
 					ci.OnSetTopic(si);
-				if (db_get_b(NULL, "Chat", "TopicOnClist", 0))
+				if (db_get_b(NULL, CHAT_MODULE, "TopicOnClist", 0))
 					db_set_ts(si->hContact, "CList", "StatusMsg", si->ptszTopic);
 			}
 		}
@@ -551,7 +551,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	char* mods[3] = { "Chat", "ChatFonts" };
+	char* mods[3] = { CHAT_MODULE, CHATFONT_MODULE };
 	CallService("DBEditorpp/RegisterModule", (WPARAM)mods, 2);
 
 	CLISTMENUITEM mi = { sizeof(mi) };

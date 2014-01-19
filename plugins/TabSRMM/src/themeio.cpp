@@ -48,7 +48,7 @@ static struct _tagExtSettings {
 	"Message Log", "InputBG", FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR,
 	"Message Log", "HgridColor", FONTMODULE, "hgrid", SRMSGDEFSET_BKGCOLOUR,
 	"Message Log", "DWFlags", SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT,
-	"Chat", "UserListBG", "Chat", "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR,
+	CHAT_MODULE, "UserListBG", CHAT_MODULE, "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR,
 	"Message Log", "LeftIndent", SRMSGMOD_T, "IndentAmount", 20,
 	"Message Log", "RightIndent", SRMSGMOD_T, "RightIndent", 20,
 };
@@ -57,33 +57,36 @@ static struct _tagExtSettings {
  * new in TabSRMM3 / theme version 5
  * don't read these values from themes with version < 5
  */
-static struct _tagExtSettings_v5 {
+struct
+{
 	char*	szIniSection;
 	char*	szIniName;
 	char*	szDbModule;
 	char*	szDbSetting;
 	DWORD	dwDef;
-} _extSettings_v5[18] = {
-		"CommonClrs", "IP_High", FONTMODULE, "ipfieldsbgHigh", 0xf0f0f0,
-		"CommonClrs", "IP_Low", FONTMODULE, "ipfieldsbg", 0x62caff,
-		"CommonClrs", "TB_High", FONTMODULE, "tbBgHigh", 0,
-		"CommonClrs", "TB_Low", FONTMODULE, "tbBgLow", 0,
-		"CommonClrs", "FillColor", FONTMODULE, "fillColor", 0,
-		"CommonClrs", "RichBorders", FONTMODULE, "cRichBorders", 0,
-		"CommonClrs", "GenericTxt", FONTMODULE, "genericTxtClr", RGB(20, 20, 20),
-		"AeroMode", "Style", SRMSGMOD_T, "aerostyle", CSkin::AERO_EFFECT_MILK,
-		"AeroMode", "AeroGlowColor", FONTMODULE, "aeroGlow", RGB(40, 40, 255),
+}
+static _extSettings_v5[18] =
+{
+	{ "CommonClrs", "IP_High", FONTMODULE, "ipfieldsbgHigh", 0xf0f0f0 },
+	{ "CommonClrs", "IP_Low", FONTMODULE, "ipfieldsbg", 0x62caff },
+	{ "CommonClrs", "TB_High", FONTMODULE, "tbBgHigh", 0 },
+	{ "CommonClrs", "TB_Low", FONTMODULE, "tbBgLow", 0 },
+	{ "CommonClrs", "FillColor", FONTMODULE, "fillColor", 0 },
+	{ "CommonClrs", "RichBorders", FONTMODULE, "cRichBorders", 0 },
+	{ "CommonClrs", "GenericTxt", FONTMODULE, "genericTxtClr", RGB(20, 20, 20) },
+	{ "AeroMode", "Style", SRMSGMOD_T, "aerostyle", CSkin::AERO_EFFECT_MILK },
+	{ "AeroMode", "AeroGlowColor", FONTMODULE, "aeroGlow", RGB(40, 40, 255) },
 
-		"Colored Tabs", "NormalText", SRMSGMOD_T, "tab_txt_normal", RGB(1, 1, 1),
-		"Colored Tabs", "ActiveText", SRMSGMOD_T, "tab_txt_active", RGB(1, 1, 1),
-		"Colored Tabs", "HottrackText", SRMSGMOD_T, "tab_txt_hottrack", RGB(1, 1, 1),
-		"Colored Tabs", "UnreadText", SRMSGMOD_T, "tab_txt_unread", RGB(1, 1, 1),
+	{ "Colored Tabs", "NormalText", SRMSGMOD_T, "tab_txt_normal", RGB(1, 1, 1) },
+	{ "Colored Tabs", "ActiveText", SRMSGMOD_T, "tab_txt_active", RGB(1, 1, 1) },
+	{ "Colored Tabs", "HottrackText", SRMSGMOD_T, "tab_txt_hottrack", RGB(1, 1, 1) },
+	{ "Colored Tabs", "UnreadText", SRMSGMOD_T, "tab_txt_unread", RGB(1, 1, 1) },
 
-		"Colored Tabs", "NormalBG", SRMSGMOD_T, "tab_bg_normal", 0xf0f0f0,
-		"Colored Tabs", "ActiveBG", SRMSGMOD_T, "tab_bg_active", 0xf0f0f0,
-		"Colored Tabs", "HottrackBG", SRMSGMOD_T, "tab_bg_hottrack", 0xf0f0f0,
-		"Colored Tabs", "UnreadBG", SRMSGMOD_T, "tab_bg_unread", 0xf0f0f0,
-		"Chat", "Background", FONTMODULE, SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR
+	{ "Colored Tabs", "NormalBG", SRMSGMOD_T, "tab_bg_normal", 0xf0f0f0 },
+	{ "Colored Tabs", "ActiveBG", SRMSGMOD_T, "tab_bg_active", 0xf0f0f0 },
+	{ "Colored Tabs", "HottrackBG", SRMSGMOD_T, "tab_bg_hottrack", 0xf0f0f0 },
+	{ "Colored Tabs", "UnreadBG", SRMSGMOD_T, "tab_bg_unread", 0xf0f0f0 },
+	{ CHAT_MODULE, "Background", CHAT_MODULE, "ColorLogBG", SRMSGDEFSET_BKGCOLOUR }
 };
 
 /*
@@ -159,7 +162,7 @@ static struct _tagFontBlocks {
 } fontBlocks[] = {
 	FONTMODULE, 0, MSGDLGFONTCOUNT, "Font%d", "StdFonts",
 	FONTMODULE, 100, IPFONTCOUNT, "IPFont%d", "MiscFonts",
-	CHAT_FONTMODULE, 0, CHATFONTCOUNT, "ChatFont%d", "ChatFonts",
+	CHATFONT_MODULE, 0, CHATFONTCOUNT, "ChatFont%d", CHATFONT_MODULE,
 	NULL, 0, 0, NULL
 };
 
@@ -345,7 +348,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 					defclr = g_Settings.UserListColors[CHAT_STATUS_NORMAL];
 				g_Settings.nickColors[i] = GetPrivateProfileIntA("Nick Colors", _itoa(i, szTemp, 10), defclr, szIniFilename);
 				mir_snprintf(szTemp, SIZEOF(szTemp), "NickColor%d", i);
-				db_set_dw(0, "Chat", szTemp, g_Settings.nickColors[i]);
+				db_set_dw(0, CHAT_MODULE, szTemp, g_Settings.nickColors[i]);
 			}
 		}
 	} else {

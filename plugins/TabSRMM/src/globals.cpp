@@ -210,7 +210,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_RTLDefault = M.GetByte("rtldefault", 0);
 	m_TabAppearance = M.GetDword("tabconfig", TCF_FLASHICON | TCF_SINGLEROWTABCONTROL);
 	m_panelHeight = (DWORD)M.GetDword("panelheight", CInfoPanel::DEGRADE_THRESHOLD);
-	m_MUCpanelHeight = M.GetDword("Chat", "panelheight", CInfoPanel::DEGRADE_THRESHOLD);
+	m_MUCpanelHeight = M.GetDword(CHAT_MODULE, "panelheight", CInfoPanel::DEGRADE_THRESHOLD);
 	m_IdleDetect = M.GetByte("dimIconsForIdleContacts", 1);
 	m_smcxicon = 16;
 	m_smcyicon = 16;

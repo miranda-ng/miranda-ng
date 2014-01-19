@@ -138,7 +138,7 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 static void RegisterFonts()
 {
 	ColourIDT colourid = { sizeof(colourid) };
-	strncpy(colourid.dbSettingsGroup, "Chat", sizeof(colourid.dbSettingsGroup));
+	strncpy(colourid.dbSettingsGroup, CHAT_MODULE, sizeof(colourid.dbSettingsGroup));
 	_tcsncpy(colourid.group, LPGENT("Messaging")_T("/")LPGENT("Group chats"), SIZEOF(colourid.group));
 
 	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
@@ -198,7 +198,7 @@ int Chat_Load()
 
 int Chat_Unload(void)
 {
-	db_set_w(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
+	db_set_w(NULL, CHAT_MODULE, "SplitterX", (WORD)g_Settings.iSplitterX);
 
 	DestroyMenu(g_hMenu);
 	return 0;

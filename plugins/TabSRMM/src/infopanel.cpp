@@ -127,7 +127,7 @@ void CInfoPanel::saveHeight(bool fFlush)
 					PluginConfig.m_MUCpanelHeight = m_height;
 					m_defaultMUCHeight = m_height;
 					if (fFlush)
-						db_set_dw(0, "Chat", "panelheight", m_height);
+						db_set_dw(0, CHAT_MODULE, "panelheight", m_height);
 				}
 			}
 		}

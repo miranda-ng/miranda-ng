@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HANDLE AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType)
 {
 	TCHAR pszGroup[50]; *pszGroup = '\0';
-	ptrT groupName(db_get_tsa(NULL, "Chat", "AddToGroup"));
+	ptrT groupName(db_get_tsa(NULL, CHAT_MODULE, "AddToGroup"));
 	if (groupName)
 		_tcsncpy_s(pszGroup, SIZEOF(pszGroup), groupName, _TRUNCATE);
 	else
@@ -121,7 +121,7 @@ int RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 	if (si) {
 		// is the "toggle visibility option set, so we need to close the window?
 		if (si->hWnd != NULL &&
-			 db_get_b(NULL, "Chat", "ToggleVisibility", 0) == 1 &&
+			 db_get_b(NULL, CHAT_MODULE, "ToggleVisibility", 0) == 1 &&
 			 !CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0) &&
 			 IsWindowVisible(si->hWnd) && !IsIconic(si->hWnd))
 		{
