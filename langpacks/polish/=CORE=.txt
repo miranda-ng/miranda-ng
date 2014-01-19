@@ -309,8 +309,8 @@ Przywróć
 Domyślne
 [Export...]
 Eksportuj...
-[(Background) Color]
-(Tło) Kolor
+[Color/background]
+Kolor/tło
 [Text effect]
 Efekt tekstu
 [Text color]
@@ -1967,12 +1967,16 @@ Użytkownik wyłącza status dla...
 Wiadomość akcji
 [Highlighted message]
 Podświetlona wiadomość
-[Message typing area]
-Obszar pisania wiadomości
 [User list members (online)]
 Członkowie listy użytkowników (Dostępni)
 [User list members (away)]
 Członkowie listy użytkowników (Zaraz wracam)
+[Userlist background]
+Kolor listy uczestników
+[Message typing area]
+Obszar pisania wiadomości
+[Chat log symbols (Webdings)]
+Symbole dziennika czatowego
 [Message is highlighted]
 Podświetlona wiadomość
 [User has performed an action]

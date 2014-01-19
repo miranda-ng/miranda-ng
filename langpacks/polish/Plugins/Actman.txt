@@ -166,7 +166,7 @@ Zastosuj
 [Apply format]
 Zatwierdź format
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
-Użyj Bajt array/pointer dla stringów ANSI\n\Użyj tablicy/wskaźnika Word dla stringów Unicode\n\n\$## zastąpione przez bajt z wartością szesnastkową ##\n\$#### zastąpione przez bajt z wartością szesnastkową #### (tylko dla stringów Unicode)\n\n\Wszystkie obliczenia długości danych w bajtach
+Użyj Bajt tablicy/wskaźnika dla stringów ANSI\n\Użyj tablicy/wskaźnika Word dla stringów Unicode\n\n\$## zastąpione przez bajt z wartością szesnastkową ##\n\$#### zastąpione przez word z wartością szesnastkową #### (tylko dla stringów Unicode)\n\n\Wszystkie obliczenia długości danych w bajtach
 [New]
 Nowy
 [Hooks]
@@ -303,31 +303,31 @@ Efekt
 [Contact deleting]
 Usuwanie kontaktu
 [Parameter]
-
+Parametr
 [Manual]
-
+Ręcznie
 [Byte]
-
+Bajt
 [Word]
-
+Word
 [MessageBox]
-
+Okno komunikatu
 [Start minimized]
-
+Uruchom zminimalizowane
 [Hexadecimal]
-
+Szesnastkowy
 [String]
-
+String
 [Program path]
 
 [Program args]
 
 [Clipboard]
-
+Schowek
 [Text to insert]
 
 [Value]
-
+Wartość
 [Save value]
 
 [Read]
@@ -335,13 +335,13 @@ Usuwanie kontaktu
 [Write]
 
 [Unicode]
-
+Unicode
 [Function call]
 
 [Chain]
 
 [Program]
-
+Program
 [Service]
 
 [In/Out]
@@ -351,7 +351,7 @@ Usuwanie kontaktu
 [Jump]
 
 [Result]
-
+Wynik
 [Result type]
 
 [Function name]
@@ -361,9 +361,9 @@ Usuwanie kontaktu
 [Call type]
 
 [Arguments]
-
+Argumenty
 [Number of arguments]
-
+Liczba argumentów
 [DLL Handle Cache]
 
 [Keep to end]
@@ -413,9 +413,9 @@ Usuwanie kontaktu
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 
 [value]
-
+wartość
 [name]
-
+nazwa
 [value (name)]
 
 [name 'value']
