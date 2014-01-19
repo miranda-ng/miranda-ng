@@ -67,7 +67,6 @@ static const fontOptionsList[] = {
 
 static void LoadColors()
 {
-	g_Settings->crLogBackground = db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW));
 	g_Settings->crUserListBGColor = db_get_dw(NULL, "Chat", "ColorNicklistBG", GetSysColor(COLOR_WINDOW));
 	g_Settings->crUserListSelectedBGColor = db_get_dw(NULL, "Chat", "ColorNicklistSelectedBG", GetSysColor(COLOR_HIGHLIGHT));
 }
@@ -210,6 +209,7 @@ void LoadGlobalSettings(void)
 	g_Settings->bFlashWindow = (BOOL)db_get_b(NULL, "Chat", "FlashWindow", 0) != 0;
 	g_Settings->bFlashWindowHighlight = (BOOL)db_get_b(NULL, "Chat", "FlashWindowHighlight", false) != 0;
 	g_Settings->bHighlightEnabled = (BOOL)db_get_b(NULL, "Chat", "HighlightEnabled", 1) != 0;
+	g_Settings->crLogBackground = db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW));
 	g_Settings->crUserListColor = db_get_dw(NULL, "ChatFonts", "Font18Col", RGB(0, 0, 0));
 	g_Settings->crUserListHeadingsColor = db_get_dw(NULL, "ChatFonts", "Font19Col", RGB(170, 170, 170));
 	g_Settings->bStripFormat = (BOOL)db_get_b(NULL, "Chat", "StripFormatting", 0) != 0;
