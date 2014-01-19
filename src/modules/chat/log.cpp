@@ -477,7 +477,7 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 
 void LoadMsgLogBitmaps(void)
 {
-	HBRUSH hBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW)));
+	HBRUSH hBkgBrush = CreateSolidBrush(g_Settings->crLogBackground);
 
 	BITMAPINFOHEADER bih = { 0 };
 	bih.biSize = sizeof(bih);
