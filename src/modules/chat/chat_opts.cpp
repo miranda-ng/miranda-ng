@@ -195,6 +195,7 @@ static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)
 
 void LoadGlobalSettings(void)
 {
+	g_Settings->LogIconSize = 10;
 	g_Settings->bLogLimitNames = db_get_b(NULL, "Chat", "LogLimitNames", 1) != 0;
 	g_Settings->bShowTime = db_get_b(NULL, "Chat", "ShowTimeStamp", 1) != 0;
 	g_Settings->bSoundsFocus = db_get_b(NULL, "Chat", "SoundsFocus", 0) != 0;

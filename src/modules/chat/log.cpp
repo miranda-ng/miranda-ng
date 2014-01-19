@@ -483,9 +483,8 @@ void LoadMsgLogBitmaps(void)
 	bih.biSize = sizeof(bih);
 	bih.biBitCount = 24;
 	bih.biCompression = BI_RGB;
-	bih.biHeight = 10; //GetSystemMetrics(SM_CYSMICON);
+	bih.biHeight = bih.biWidth = g_Settings->LogIconSize;
 	bih.biPlanes = 1;
-	bih.biWidth = 10; //GetSystemMetrics(SM_CXSMICON);
 	int widthBytes = ((bih.biWidth * bih.biBitCount + 31) >> 5) * 4;
 
 	RECT rc;

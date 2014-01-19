@@ -545,6 +545,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch2, SIZEOF(branch2));
 
 				pci->ReloadSettings();
+				pci->MM_IconsChanged();
 				pci->MM_FontsChanged();
 				Log_SetStyles();
 				pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);

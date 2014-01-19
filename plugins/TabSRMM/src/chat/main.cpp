@@ -131,9 +131,6 @@ static void OnCreateModule(MODULEINFO *mi)
 
 static void OnLoadSettings()
 {
-	LOGFONT lf;
-	char szBuf[40];
-
 	g_Settings.iEventLimitThreshold = db_get_w(NULL, "Chat", "LogLimitThreshold", 20);
 	g_Settings.dwIconFlags = M.GetDword("Chat", "IconFlags", 0x0000);
 	g_Settings.bOpenInDefault = M.GetBool("Chat", "DefaultContainer", true);
@@ -161,6 +158,8 @@ static void OnLoadSettings()
 
 	replaceStrT(g_Settings.pszLogDir, M.getChatLogPath());
 
+	g_Settings.LogIconSize = (g_Settings.bScaleIcons) ? 10 : 16;
+
 	g_Settings.iSplitterY = db_get_w(NULL, "Chat", "splitY", 50);
 	if (g_Settings.iSplitterY <= 20)
 		g_Settings.iSplitterY = 50;
@@ -172,6 +171,7 @@ static void OnLoadSettings()
 		DeleteObject(g_Settings.UserListFonts[CHAT_STATUS_OFFLINE]);
 	}
 
+	LOGFONT lf;
 	pci->LoadMsgDlgFont(18, &lf, NULL);
 	g_Settings.UserListFonts[CHAT_STATUS_NORMAL] = CreateFontIndirect(&lf);
 
@@ -186,6 +186,7 @@ static void OnLoadSettings()
 	g_Settings.iNickListFontHeight = max(M.GetByte("Chat", "NicklistRowDist", 12), (ih > ih2 ? ih : ih2));
 
 	for (int i = 0; i < 7; i++) {
+		char szBuf[40];
 		mir_snprintf(szBuf, 20, "NickColor%d", i);
 		g_Settings.nickColors[i] = M.GetDword("Chat", szBuf, g_Settings.UserListColors[0]);
 	}

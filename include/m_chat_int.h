@@ -256,6 +256,7 @@ struct GlobalLogSettingsBase
 	DWORD    dwIconFlags;
 	DWORD    dwTrayIconFlags;
 	DWORD    dwPopupFlags;
+	int      LogIconSize;
 	int      LogTextIndent;
 	int      LoggingLimit;
 	int      iEventLimit;
