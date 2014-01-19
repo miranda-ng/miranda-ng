@@ -148,7 +148,7 @@ void RegisterFonts(void)
 		switch (i) {
 		case 18:
 		case 19:
-			_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), LPGENT("Userlist background"), _TRUNCATE);
+			_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), LPGENT("User list background"), _TRUNCATE);
 			break;
 		case 17:
 			if (g_iFontMode == FONTMODE_SKIP)
