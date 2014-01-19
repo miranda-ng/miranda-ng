@@ -765,7 +765,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	HWND  hwndDlg = dat->hwnd;
 
 	dat->inputbg = fIsChat ? M.GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR) : dat->pContainer->theme.inputbg;
-	COLORREF colour = fIsChat ? M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR) : dat->pContainer->theme.bg;
+	COLORREF colour = fIsChat ? g_Settings.crLogBackground : dat->pContainer->theme.bg;
 	COLORREF inputcharcolor;
 
 	if (!fIsChat && GetWindowTextLengthA(hwndEdit) > 0)

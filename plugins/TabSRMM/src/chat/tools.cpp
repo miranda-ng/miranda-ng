@@ -139,7 +139,7 @@ int ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName
 		pd.colorText = g_Settings.crPUTextColour;
 	}
 	else {
-		pd.colorBack = M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR);
+		pd.colorBack = g_Settings.crLogBackground;
 		pd.colorText = crBkg;
 	}
 
