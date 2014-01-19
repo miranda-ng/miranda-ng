@@ -45,7 +45,7 @@ extern HMENU g_hMenu;
 
 static HKL hkl = NULL;
 static HCURSOR hCurHyperlinkHand;
-char szIndicators[] = { '+', '%', '@', '!', '*', 0 };
+char szIndicators[] = { 0, '+', '%', '@', '!', '*' };
 
 struct MESSAGESUBDATA
 {
