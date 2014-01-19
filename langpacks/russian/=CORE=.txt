@@ -1905,7 +1905,7 @@ URL от %s
 Пользователи (в сети)
 [User list members (away)]
 Пользователи (отсутствуют)
-[Userlist background]
+[User list background]
 Фон списка пользователей
 [Message typing area]
 Поле набора текста
