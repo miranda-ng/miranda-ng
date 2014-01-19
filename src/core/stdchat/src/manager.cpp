@@ -103,7 +103,7 @@ BOOL TabM_AddTab(const TCHAR *pszID, const char* pszModule)
 BOOL TabM_RemoveAll(void)
 {
 	while (g_TabList != NULL) {
-		TABLIST * pLast = g_TabList->next;
+		TABLIST *pLast = g_TabList->next;
 		mir_free(g_TabList->pszModule);
 		mir_free(g_TabList->pszID);
 		mir_free(g_TabList);

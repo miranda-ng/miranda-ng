@@ -69,6 +69,9 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CHAT, M
 
 int OnShutdown(WPARAM, LPARAM)
 {
+	for (SESSION_INFO *si = pci->wndList; si; si = si->next)
+		SendMessage(si->hWnd, WM_CLOSE, 0, 0);
+
 	TabM_RemoveAll();
 	ImageList_Destroy(hIconsList);
 	return 0;
