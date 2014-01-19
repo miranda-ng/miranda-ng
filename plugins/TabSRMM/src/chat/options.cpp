@@ -183,7 +183,6 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 {
 	char str[32];
 	int style;
-	DBVARIANT dbv;
 	int j = (i >= 100 ? i - 100 : i);
 
 	FontOptionsList *fol = fontOptionsList;
@@ -229,12 +228,11 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 			lstrcpyn(lf->lfFaceName, _T("Webdings"), SIZEOF(lf->lfFaceName));
 		}
 		else {
-			if (db_get_ts(NULL, szMod, str, &dbv))
+			ptrT tszDefFace(db_get_tsa(NULL, szMod, str));
+			if (tszDefFace == NULL)
 				lstrcpy(lf->lfFaceName, fol[j].szDefFace);
-			else {
-				lstrcpyn(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
-				db_free(&dbv);
-			}
+			else
+				lstrcpyn(lf->lfFaceName, tszDefFace, SIZEOF(lf->lfFaceName));
 		}
 	}
 }
@@ -242,7 +240,6 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 static HTREEITEM InsertBranch(HWND hwndTree, TCHAR* pszDescr, BOOL bExpanded)
 {
 	TVINSERTSTRUCT tvis;
-
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_TEXT | TVIF_STATE;

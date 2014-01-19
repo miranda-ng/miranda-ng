@@ -72,6 +72,7 @@ void LoadChatIcons(void)
 
 static int FontsChanged(WPARAM wParam, LPARAM lParam)
 {
+	LoadGlobalSettings();
 	LoadLogFonts();
 
 	SetIndentSize();
