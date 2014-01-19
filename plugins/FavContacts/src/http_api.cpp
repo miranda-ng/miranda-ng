@@ -154,7 +154,8 @@ void LoadHttpApi()
 	g_httpServer.Start(60888, &g_httpProcessorFactory, true);
 }
 
-void UnloadHttpApi()
+int UnloadHttpApi(WPARAM, LPARAM)
 {
 	g_httpServer.Stop();
+	return 0;
 }

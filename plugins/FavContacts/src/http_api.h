@@ -2,6 +2,6 @@
 #define http_api_h__
 
 void LoadHttpApi();
-void UnloadHttpApi();
+int  UnloadHttpApi(WPARAM, LPARAM);
 
 #endif // http_api_h__

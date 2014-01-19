@@ -5,12 +5,11 @@ void CServer::Start(int port, IConnectionProcessorFactory *connectionProcessorFa
 	m_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if (m_socket == INVALID_SOCKET) return;
 
-    sockaddr_in addr = {0};
+	sockaddr_in addr = { 0 };
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
 	addr.sin_port = htons((WORD)port);
-	if (bind(m_socket, (sockaddr *)&addr, sizeof(addr)) == SOCKET_ERROR)
-	{
+	if (bind(m_socket, (sockaddr *)&addr, sizeof(addr)) == SOCKET_ERROR) {
 		closesocket(m_socket);
 		m_socket = INVALID_SOCKET;
 		return;
@@ -21,15 +20,9 @@ void CServer::Start(int port, IConnectionProcessorFactory *connectionProcessorFa
 	m_connectionProcessorFactory = connectionProcessorFactory;
 
 	if (background)
-	{
-		CreateThread(NULL, 0,
-			GlobalConnectionAcceptThread,
-			this,
-			0, NULL);
-	} else
-	{
+		mir_forkthread(GlobalConnectionAcceptThread, this);
+	else
 		ConnectionAcceptThread();
-	}
 }
 
 void CServer::Stop()
@@ -40,15 +33,11 @@ void CServer::Stop()
 
 DWORD CServer::ConnectionAcceptThread()
 {
-	while (1)
-	{
+	while (1) {
 		SOCKET s = accept(m_socket, NULL, NULL);
 		if (s == INVALID_SOCKET) break;
 
-		CreateThread(NULL, 0,
-			GlobalConnectionProcessThread,
-			new GlobalConnectionProcessThreadArgs(this, s),
-			0, NULL);
+		mir_forkthread(GlobalConnectionProcessThread, new GlobalConnectionProcessThreadArgs(this, s));
 	}
 	return 0;
 }
@@ -62,16 +51,15 @@ DWORD CServer::ConnectionProcessThread(SOCKET s)
 	return 0;
 }
 
-DWORD WINAPI CServer::GlobalConnectionAcceptThread(void *arg)
+void CServer::GlobalConnectionAcceptThread(void *arg)
 {
 	CServer *server = (CServer *)arg;
-	return server->ConnectionAcceptThread();
+	server->ConnectionAcceptThread();
 }
 
-DWORD WINAPI CServer::GlobalConnectionProcessThread(void *arg)
+void CServer::GlobalConnectionProcessThread(void *arg)
 {
 	GlobalConnectionProcessThreadArgs *args = (GlobalConnectionProcessThreadArgs *)arg;
-	DWORD result = args->m_server->ConnectionProcessThread(args->m_socket);
+	args->m_server->ConnectionProcessThread(args->m_socket);
 	delete args;
-	return result;
 }

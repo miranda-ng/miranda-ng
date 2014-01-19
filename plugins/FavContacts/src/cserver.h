@@ -23,7 +23,7 @@ private:
 	DWORD ConnectionAcceptThread();
 	DWORD ConnectionProcessThread(SOCKET s);
 
-	static DWORD WINAPI GlobalConnectionAcceptThread(void *arg);
+	static void GlobalConnectionAcceptThread(void *arg);
 
 	struct GlobalConnectionProcessThreadArgs
 	{
@@ -32,7 +32,7 @@ private:
 
 		GlobalConnectionProcessThreadArgs(CServer *server, SOCKET s): m_server(server), m_socket(s) {}
 	};
-	static DWORD WINAPI GlobalConnectionProcessThread(void *arg);
+	static void GlobalConnectionProcessThread(void *arg);
 
 public:
 	void Start(int port, IConnectionProcessorFactory *connectionProcessorFactory, bool background);

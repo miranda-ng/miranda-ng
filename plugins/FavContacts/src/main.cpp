@@ -296,6 +296,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	HookEvent(ME_OPT_INITIALISE, ProcessOptInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ProcessModulesLoaded);
+	HookEvent(ME_SYSTEM_SHUTDOWN, UnloadHttpApi);
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
@@ -317,7 +318,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	UnloadHttpApi();
 	if (g_hwndMenuHost) DestroyWindow(g_hwndMenuHost);
 	if (g_Options.hfntName) DeleteObject(g_Options.hfntName);
 	if (g_Options.hfntSecond) DeleteObject(g_Options.hfntSecond);
