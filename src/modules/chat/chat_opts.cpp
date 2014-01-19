@@ -306,8 +306,6 @@ int OptionsInit(void)
 	g_Settings->UserListFont = NULL;
 	g_Settings->UserListHeadingsFont = NULL;
 	g_Settings->MessageBoxFont = NULL;
-	g_Settings->iX = db_get_dw(NULL, "Chat", "roomx", -1);
-	g_Settings->iY = db_get_dw(NULL, "Chat", "roomy", -1);
 	g_Settings->iWidth = db_get_dw(NULL, "Chat", "roomwidth", -1);
 	g_Settings->iHeight = db_get_dw(NULL, "Chat", "roomheight", -1);
 

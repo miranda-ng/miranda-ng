@@ -346,7 +346,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\par%s ", Log_SetStyle(0, 0));
 
 			// Insert icon
-			if (lin->iType & g_Settings->dwIconFlags || lin->bIsHighlighted&&g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT) {
+			if ((lin->iType & g_Settings->dwIconFlags) || lin->bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) {
 				int iIndex = (lin->bIsHighlighted && g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT) ? ICON_HIGHLIGHT : EventToIcon(lin);
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
 				while (bufferAlloced - bufferEnd < logIconBmpSize[0])

@@ -430,7 +430,7 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 
 				if (b != db_get_b(NULL, "Chat", "Tabs", 1)) {
 					pci->SM_BroadcastMessage(NULL, GC_CLOSEWINDOW, 0, 1, FALSE);
-					g_Settings.TabsEnable = db_get_b(NULL, "Chat", "Tabs", 1);
+					g_Settings.TabsEnable = db_get_b(NULL, "Chat", "Tabs", 1) != 0;
 				}
 				else pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 

@@ -253,10 +253,13 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 
 static void OnLoadSettings()
 {
-	g_Settings.TabsEnable = db_get_b(NULL, "Chat", "Tabs", 1);
-	g_Settings.TabRestore = db_get_b(NULL, "Chat", "TabRestore", 0);
-	g_Settings.TabsAtBottom = db_get_b(NULL, "Chat", "TabBottom", 0);
-	g_Settings.TabCloseOnDblClick = db_get_b(NULL, "Chat", "TabCloseOnDblClick", 0);
+	g_Settings.iX = db_get_dw(NULL, "Chat", "roomx", -1);
+	g_Settings.iY = db_get_dw(NULL, "Chat", "roomy", -1);
+
+	g_Settings.TabsEnable = db_get_b(NULL, "Chat", "Tabs", 1) != 0;
+	g_Settings.TabRestore = db_get_b(NULL, "Chat", "TabRestore", 0) != 0;
+	g_Settings.TabsAtBottom = db_get_b(NULL, "Chat", "TabBottom", 0) != 0;
+	g_Settings.TabCloseOnDblClick = db_get_b(NULL, "Chat", "TabCloseOnDblClick", 0) != 0;
 
 	ZeroMemory(&g_TabSession, sizeof(SESSION_INFO));
 	g_TabSession.iType = GCW_TABROOM;

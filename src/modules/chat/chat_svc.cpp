@@ -66,6 +66,8 @@ void LoadChatIcons(void)
 	ci.hIcons[ICON_STATUS3]    = LoadIconEx("status3", FALSE);
 	ci.hIcons[ICON_STATUS4]    = LoadIconEx("status4", FALSE);
 	ci.hIcons[ICON_STATUS5]    = LoadIconEx("status5", FALSE);
+
+	LoadMsgLogBitmaps();
 }
 
 static int FontsChanged(WPARAM wParam, LPARAM lParam)

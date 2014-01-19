@@ -197,8 +197,6 @@ struct GCSessionInfoBase
    int         iLogFilterFlags;
    int         nUsersInNicklist;
    int         iEventCount;
-   int         iX;
-   int         iY;
    int         iWidth;
    int         iHeight;
    int         iStatusCount;
@@ -263,8 +261,6 @@ struct GlobalLogSettingsBase
 	int      iPopupTimeout;
 	int      iSplitterX;
 	int      iSplitterY;
-	int      iX;
-	int      iY;
 	int      iWidth;
 	int      iHeight;
 	TCHAR*   pszTimeStamp;

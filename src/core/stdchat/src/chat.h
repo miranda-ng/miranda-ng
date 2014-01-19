@@ -88,6 +88,7 @@ struct MODULEINFO : public GCModuleInfoBase
 
 struct SESSION_INFO : public GCSessionInfoBase
 {
+	int iX, iY;
 	IAccPropServices* pAccPropServicesForNickList;
 };
 
@@ -95,10 +96,8 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 
 struct GlobalLogSettings : public GlobalLogSettingsBase
 {
-	BOOL TabsEnable;
-	BOOL TabsAtBottom;
-	BOOL TabCloseOnDblClick;
-	BOOL TabRestore;
+	int  iX, iY;
+	bool TabsEnable, TabsAtBottom, TabCloseOnDblClick, TabRestore;
 };
 
 extern GlobalLogSettings g_Settings;

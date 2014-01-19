@@ -1177,7 +1177,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			}
 
 			// restore previous tabs
-			if (g_Settings.TabsEnable && db_get_b(NULL, "Chat", "TabRestore", 0)) {
+			if (g_Settings.TabsEnable && g_Settings.TabRestore) {
 				TABLIST *node = g_TabList;
 				while (node) {
 					SESSION_INFO *s = pci->SM_FindSession(node->pszID, node->pszModule);
