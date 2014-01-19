@@ -1303,7 +1303,7 @@ Otwórz okno czatu
 [Chat module]
 Moduł czatu
 [Group chat log background]
-
+Tło dziennika czatu grupowego
 [Message background]
 Tło wiadomości
 [User list background]

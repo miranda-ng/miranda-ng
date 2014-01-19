@@ -129,7 +129,7 @@ Wczytywanie listy już rozpoczęte!
 [Will be deleted!]
 Zostanie usunięty!
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
-
+Aktualizacja nie powiodła się! Jeden z komponentów nie został prawidłowo pobrany. Spróbuj ponownie później.
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualizacja zakończona. Wciśnij "Tak", aby zrestartować Mirandę teraz lub "Nie", żeby zrobić to później.
 [<< Details]
