@@ -941,7 +941,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, TCHAR *path, TCHAR *user_pa
 						TCHAR *pos;
 						if (pos = _tcsrchr(key, _T('\\')))
 						{
-							if (lstrcmpi(&pos[1], otherHunspellApps[i].key) == 0)
+							if (!lstrcmpi(&pos[1], otherHunspellApps[i].key))
 							{
 								pos[0] = 0;
 								lResult = ERROR_SUCCESS;
