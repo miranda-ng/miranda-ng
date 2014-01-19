@@ -857,7 +857,7 @@ INT_PTR UrlCall(WPARAM wparam,LPARAM lparam) {
 
 							mir_snprintf(temp, SIZEOF(temp), Translate("Do you really want to add %s to your friend list?"),g);
 							//Nutzer vorher fragen, ob er wirklich user xyz adden möchte
-							if (MessageBoxA(NULL,temp,"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
+							if (MessageBoxA(NULL,temp,Translate("Miranda XFire Protocol Plugin"),MB_YESNO|MB_ICONQUESTION)==IDYES)
 							{
 								if (myClient!=NULL)
 								{
@@ -1045,7 +1045,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 		db_set_b(NULL,protocolname,"xfiresitegameico",1);
 		db_set_b(NULL,protocolname,"recprotoverchg",1);
 
-		if (MessageBoxA(NULL,Translate("It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer."),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
+		if (MessageBox(NULL,TranslateT("It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer."),TranslateT("Miranda XFire Protocol Plugin"),MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
 			db_set_b(NULL,protocolname,"autoiniupdate",1);
 			db_set_b(NULL,protocolname,"autoicodllupdate",1);
@@ -1273,7 +1273,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 		XFireLog("Wasn't able to get GetExtendedUdpTable function");
 	}
 
-	Icon_Register(hinstance, LPGEN("Protocols/XFire"), &icon, 1);
+	Icon_Register(hinstance, LPGEN("Protocols")"/"LPGEN("XFire"), &icon, 1);
 
 	hExtraIcon1 = ExtraIcon_Register("xfire_game", LPGEN("XFire game icon"), "", NULL, ExtraImageApply1);
 	hExtraIcon2 = ExtraIcon_Register("xfire_voice", LPGEN("XFire voice icon"), "", NULL, ExtraImageApply2);
@@ -1366,7 +1366,6 @@ INT_PTR SendMessage(WPARAM wParam, LPARAM lParam)
 {
     CCSDATA *ccs = (CCSDATA *) lParam;
 	PROTORECVEVENT* pre = (PROTORECVEVENT*)ccs->lParam;
-	ACKDATA * ack = (ACKDATA*) lParam;
     DBVARIANT dbv;
 	int sended=0;
 
@@ -3334,7 +3333,7 @@ INT_PTR BlockFriend(WPARAM wParam,LPARAM lParam)
 
 	if (!db_get_s((HANDLE)wParam, protocolname, "Username",&dbv))
 	{
-		if (MessageBoxA(NULL,Translate("Block this user from ever contacting you again?"),Translate("Block Confirmation"),MB_YESNO|MB_ICONQUESTION)==IDYES)
+		if (MessageBox(NULL,TranslateT("Block this user from ever contacting you again?"),TranslateT("Block Confirmation"),MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
 			if (myClient!=NULL)
 			{

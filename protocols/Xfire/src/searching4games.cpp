@@ -258,7 +258,7 @@ void Scan4Games( LPVOID lparam  )
 		else
 			mir_snprintf(temp, SIZEOF(temp), "%i", i);
 
-		//MessageBoxA(0,temp,temp,0);
+		//MessageBox(0,temp,temp,0);
 
 		//letztes ergeniss sichern
 		last_gpps=gpps;
@@ -711,7 +711,7 @@ void Scan4Games( LPVOID lparam  )
 		}
 	}
 
-	if (hwnd)SetDlgItemTextA(hwnd,IDC_CURRENTGAME,Translate("Write to database..."));
+	if (hwnd)SetDlgItemText(hwnd,IDC_CURRENTGAME,TranslateT("Write to database..."));
 	
 	//gefundene games in db eintragen
 	xgamelist.writeDatabase();

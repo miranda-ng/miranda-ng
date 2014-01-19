@@ -322,7 +322,7 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 			{
 				//nicht schlieﬂen, wenn noch der thread l‰uft
 				if (dontClose) {
-					MessageBoxA(hwndDlg, Translate("Please wait, game.ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+					MessageBox(hwndDlg, TranslateT("Please wait, game.ini will be currently parsed..."), TranslateT("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					return FALSE;
 				}
 				return SendMessage(GetParent(hwndDlg),WM_CLOSE,0,0);
@@ -332,7 +332,7 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 				int idx=SendDlgItemMessage(hwndDlg, IDC_GAMELIST, LB_GETCURSEL, 0, 0);
 				//es wurde was ausgew‰hlt?
 				if (idx==LB_ERR) {
-					MessageBoxA(hwndDlg,Translate("Please choose one game in the list!"),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
+					MessageBox(hwndDlg,TranslateT("Please choose one game in the list!"),TranslateT("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
 				}
 				else
 				{
@@ -355,11 +355,11 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 
 						//einige felder vorbelegen
 						SetDlgItemTextA(hPage,IDC_ADD_NAME,ret);
-						SetDlgItemTextA(hPage,IDC_ADD_DETECTEXE,"");
-						SetDlgItemTextA(hPage,IDC_ADD_LAUNCHEREXE,"");
+						SetDlgItemText(hPage,IDC_ADD_DETECTEXE,_T(""));
+						SetDlgItemText(hPage,IDC_ADD_LAUNCHEREXE,_T(""));
 						SetDlgItemTextA(hPage,IDC_ADD_ID,gameidtemp);
-						SetDlgItemTextA(hPage,IDC_ADD_STATUSMSG,"");
-						SetDlgItemTextA(hPage,IDC_ADD_CUSTOMPARAMS,"");
+						SetDlgItemText(hPage,IDC_ADD_STATUSMSG,_T(""));
+						SetDlgItemText(hPage,IDC_ADD_CUSTOMPARAMS,_T(""));
 						SetDlgItemTextA(hPage,IDC_ADD_SENDID,gameidtemp);
 
 						//auf customeintrag edit tab wechseln
@@ -374,7 +374,7 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 				int idx=SendDlgItemMessage(hwndDlg, IDC_GAMELIST, LB_GETCURSEL, 0, 0);
 				//es wurde was ausgew‰hlt?
 				if (idx==LB_ERR) {
-					MessageBoxA(hwndDlg,Translate("Please choose one game in the list!"),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
+					MessageBox(hwndDlg,TranslateT("Please choose one game in the list!"),TranslateT("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
 				}
 				else
 				{
@@ -509,7 +509,7 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 		case WM_CLOSE:
 			//nicht schlieﬂen, wenn noch der thread l‰uft
 			if (dontClose) {
-				MessageBoxA(hwndDlg, Translate("Please wait, game.ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+				MessageBox(hwndDlg, TranslateT("Please wait, game.ini will be currently parsed..."), TranslateT("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 				return FALSE;
 			}
 			//hauptfenster schlieﬂen
@@ -520,11 +520,7 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 }
 
 
-INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
-    UINT uMsg,
-    WPARAM wParam,
-    LPARAM lParam
-)
+INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
@@ -532,7 +528,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 			//ein spiel wurde zum editieren geˆffnet, felder alle vorbelegen
 			if (editgame) {
 				//add augf ¸bernehmen umstellen
-				SetDlgItemTextA(hwndDlg,IDOK,Translate("Apply"));
+				SetDlgItemText(hwndDlg,IDOK,TranslateT("Apply"));
 
 				//namen vorbelegen
 				if (editgame->customgamename)
@@ -582,11 +578,11 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 		{
 			if (LOWORD(wParam) == IDC_SENDIDHELP)
 			{
-				MessageBoxA(hwndDlg, Translate("If you add a mod of an Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked."), Translate("XFire Options"), MB_OK|MB_ICONASTERISK);
+				MessageBox(hwndDlg, TranslateT("If you add a mod of an Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked."), TranslateT("XFire Options"), MB_OK|MB_ICONASTERISK);
 			}
 			else if (LOWORD(wParam) == IDC_GAMEIDHELP)
 			{
-				MessageBoxA(hwndDlg, Translate("Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game."), Translate("XFire Options"), MB_OK|MB_ICONASTERISK);
+				MessageBox(hwndDlg, TranslateT("Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game."), TranslateT("XFire Options"), MB_OK|MB_ICONASTERISK);
 			}
 			else if (LOWORD(wParam) == IDC_ADD_BROWSEDETECT) 
 			{
@@ -608,7 +604,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 			{
 				//nicht schlieﬂen, wenn noch der thread l‰uft
 				if (dontClose) {
-					MessageBoxA(hwndDlg, Translate("Please wait, game.ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+					MessageBox(hwndDlg, TranslateT("Please wait, game.ini will be currently parsed..."), TranslateT("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					return FALSE;
 				}
 				return SendMessage(GetParent(hwndDlg),WM_CLOSE,0,0);
@@ -619,7 +615,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 
 				//fillgames sucht noch
 				if (dontClose) {
-					MessageBoxA(hwndDlg, Translate("Please wait, game.ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+					MessageBox(hwndDlg, TranslateT("Please wait, game.ini will be currently parsed..."), TranslateT("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					return FALSE;
 				}
 				
@@ -636,7 +632,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 				if (!strlen(temp))
 				{
 					if (!editgame) delete newgame;
-					return MessageBoxA(hwndDlg, Translate("Please enter a game name."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+					return MessageBox(hwndDlg, TranslateT("Please enter a game name."), TranslateT("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 				}
 				else
 				{
@@ -651,7 +647,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 					if (!strlen(temp))
 					{
 						if (!editgame) delete newgame;
-						return MessageBoxA(hwndDlg, Translate("Please enter a game ID."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+						return MessageBox(hwndDlg, TranslateT("Please enter a game ID."), TranslateT("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					}
 					else
 					{
@@ -660,13 +656,13 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 						if (gameid<1)
 						{
 							if (!editgame) delete newgame;
-							return MessageBoxA(hwndDlg, Translate("Please enter a game ID above 1."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+							return MessageBox(hwndDlg, TranslateT("Please enter a game ID above 1."), TranslateT("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 						}
 						//gameid auf uniq pr¸fen
 						else if (xgamelist.getGamebyGameid(gameid))
 						{
 							if (!editgame) delete newgame;
-							return MessageBoxA(hwndDlg, Translate("This game ID is already in use."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+							return MessageBox(hwndDlg, TranslateT("This game ID is already in use."), TranslateT("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 						}
 						//gameid zuordnen
 						newgame->id=gameid;
@@ -698,7 +694,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 				if (!strlen(temp))
 				{
 					if (!editgame) delete newgame;
-					return MessageBoxA(hwndDlg, Translate("Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+					return MessageBox(hwndDlg, TranslateT("Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu."), TranslateT("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 				}
 				else
 				{

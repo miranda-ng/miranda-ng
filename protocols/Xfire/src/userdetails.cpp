@@ -80,7 +80,7 @@ void SetItemTxt(HWND hwndDlg,int feldid,char*feld,HANDLE hcontact,int type)
 	}
 	else
 	{
-		SetDlgItemTextA(hwndDlg,feldid,Translate("<not specified>"));
+		SetDlgItemText(hwndDlg,feldid,TranslateT("<not specified>"));
 		EnableDlgItem(hwndDlg,feldid,FALSE);
 	}
 }
@@ -437,7 +437,7 @@ int OnDetailsInit(WPARAM wParam,LPARAM lParam)
 	odp.pfnDlgProc = DlgProcUserDetails;
 	odp.position = -1900000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_UD);
-	odp.pszTitle = Translate("XFire");
+	odp.pszTitle = LPGEN("XFire");
 	UserInfo_AddPage(wParam, &odp);
 	return 0;
 }

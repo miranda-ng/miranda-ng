@@ -170,7 +170,6 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			if (!db_get(NULL,protocolname,"login",&dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_LOGIN,dbv.pszVal);
-
 				db_free(&dbv);
 			}
 			if (!db_get(NULL,protocolname,"Nick",&dbv)) {
@@ -279,7 +278,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						login[i]=tolower(login[i]);
 					}
 					if (mustlowercase) {
-						MessageBoxA(NULL,Translate("The username must be lowercase, so it will be lowercased saved."),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
+						MessageBox(NULL,TranslateT("The username must be lowercase, so it will be lowercased saved."),TranslateT("XFire Options"),MB_OK|MB_ICONINFORMATION);
 						SetDlgItemTextA(hwndDlg,IDC_LOGIN,login);
 					}
 
@@ -332,7 +331,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					//GetDlgItemTextA(hwndDlg,IDC_PVER,str,sizeof(str));
 					//db_set_b(NULL,protocolname,"protover",(char)atoi(str));
 
-					if (reconnectRequired) MessageBoxA(hwndDlg,Translate("The changes you have made require you to reconnect to the XFire network before they take effect"),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
+					if (reconnectRequired) MessageBox(hwndDlg,TranslateT("The changes you have made require you to reconnect to the XFire network before they take effect"),TranslateT("XFire Options"),MB_OK|MB_ICONINFORMATION);
 					return TRUE;
 				}
 
@@ -558,7 +557,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					//GetDlgItemTextA(hwndDlg,IDC_PVER,str,sizeof(str));
 					//db_set_b(NULL,protocolname,"protover",(char)atoi(str));
 
-					if (reconnectRequired) MessageBoxA(hwndDlg,Translate("The changes you have made require you to reconnect to the XFire network before they take effect"),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
+					if (reconnectRequired) MessageBox(hwndDlg,TranslateT("The changes you have made require you to reconnect to the XFire network before they take effect"),TranslateT("XFire Options"),MB_OK|MB_ICONINFORMATION);
 					return TRUE;
 				}
 
@@ -808,7 +807,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				//was ausgewählt in der liste?
 				if (idx!=LB_ERR) {
 					//user fragen ob er das game wirklich löschen will
-					if (MessageBoxA(hwndDlg,Translate("Are you sure you want to remove this game?"),Translate("XFire Options"),MB_YESNO|MB_ICONQUESTION)==IDYES) {
+					if (MessageBox(hwndDlg,TranslateT("Are you sure you want to remove this game?"),TranslateT("XFire Options"),MB_YESNO|MB_ICONQUESTION)==IDYES) {
 						//gameliste blocken
 						xgamelist.Block(TRUE);
 						//spielid auslesen
@@ -834,7 +833,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					}
 				}
 				else
-					MessageBoxA(hwndDlg,Translate("Please select a game."),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
+					MessageBox(hwndDlg,TranslateT("Please select a game."),TranslateT("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
 
 			}
 			else
@@ -939,14 +938,14 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						ShowWindow(GetDlgItem(hwndDlg, IDC_EDITGAME), SW_HIDE);
 					}
 					else
-						MessageBoxA(hwndDlg,Translate("Error: unknown game ID."),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
+						MessageBox(hwndDlg,TranslateT("Error: unknown game ID."),TranslateT("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
 					//gameliste unblocken
 					xgamelist.Block(FALSE);
 					//gamelist neu füllen
 					SendMessage(hwndDlg,WM_FILLGAMELIST,0,0);
 				}
 				else
-					MessageBoxA(hwndDlg,Translate("Please select a game."),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
+					MessageBox(hwndDlg,TranslateT("Please select a game."),TranslateT("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
 			}else //wurde ein spiel aus der liste gewählt?
 			if (HIWORD(wParam)==LBN_SELCHANGE && LOWORD(wParam)==IDC_LGAMELIST)
 			{
@@ -1016,12 +1015,12 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							db_free(&dbv);
 						}
 						else
-							SetDlgItemTextA(hwndDlg,IDC_EXTRAPARAMS,"");	
+							SetDlgItemText(hwndDlg,IDC_EXTRAPARAMS,_T(""));	
 					}
 					else
 					{
 						EnableDlgItem(hwndDlg, IDC_EXTRAPARAMS, FALSE);
-						SetDlgItemTextA(hwndDlg,IDC_EXTRAPARAMS,Translate("Not supported"));	
+						SetDlgItemText(hwndDlg,IDC_EXTRAPARAMS,TranslateT("Not supported"));	
 					}
 				}
 			}
@@ -1069,16 +1068,16 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							game->refreshMenuitem();
 							game->writeToDB(dbid);
 
-							SetDlgItemTextA(hwndDlg,IDC_TEXTSTATUS,Translate("Configuration saved!"));
+							SetDlgItemText(hwndDlg,IDC_TEXTSTATUS,TranslateT("Configuration saved!"));
 						}
 						else
 						{
-							SetDlgItemTextA(hwndDlg,IDC_TEXTSTATUS,Translate("Game not found?!"));
+							SetDlgItemText(hwndDlg,IDC_TEXTSTATUS,TranslateT("Game not found?!"));
 						}
 					}
 					else
 					{
-						SetDlgItemTextA(hwndDlg,IDC_TEXTSTATUS,Translate("Game not found?!"));
+						SetDlgItemText(hwndDlg,IDC_TEXTSTATUS,TranslateT("Game not found?!"));
 					}
 
 					//gamelist unblocken

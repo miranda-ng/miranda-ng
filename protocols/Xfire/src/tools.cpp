@@ -896,13 +896,13 @@ BOOL CheckWWWContent(char*address) {
 	Netlib_Logf(hNetlib,"Check Url %s ...",address);
 
 	//netlib request
-	NETLIBHTTPREQUEST nlhr={0},*nlhrReply;
+	NETLIBHTTPREQUEST nlhr={0};
 	nlhr.cbSize		= sizeof(nlhr);
 	nlhr.requestType= REQUEST_HEAD;
 	nlhr.flags		= NLHRF_NODUMP|NLHRF_GENERATEHOST|NLHRF_SMARTAUTHHEADER;
 	nlhr.szUrl		= address;
 
-	nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlib,(LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlib,(LPARAM)&nlhr);
 
 	if (nlhrReply) {
 		//nicht auf dem server
@@ -932,13 +932,13 @@ BOOL GetWWWContent2(char*address,char*filename,BOOL dontoverwrite,char**tobuf,un
 	Netlib_Logf(hNetlib,"Download Url %s ...",address);
 
 	//netlib request
-	NETLIBHTTPREQUEST nlhr={0},*nlhrReply;
+	NETLIBHTTPREQUEST nlhr={0};
 	nlhr.cbSize		= sizeof(nlhr);
 	nlhr.requestType= REQUEST_GET;
 	nlhr.flags		= NLHRF_NODUMP|NLHRF_GENERATEHOST|NLHRF_SMARTAUTHHEADER;
 	nlhr.szUrl		= address;
 
-	nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlib,(LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlib,(LPARAM)&nlhr);
 
 	if (nlhrReply) {
 		//nicht auf dem server
@@ -1002,8 +1002,7 @@ BOOL GetWWWContent(char*host,char* request,char*filename,BOOL dontoverwrite) {
 
 unsigned int getfilesize(char*path)
 {
-	FILE * f = NULL;
-	f=fopen(path,"rb");
+	FILE *f=fopen(path,"rb");
 	if (f==NULL)
 		return 0;
 	fseek (f, 0, SEEK_END);
