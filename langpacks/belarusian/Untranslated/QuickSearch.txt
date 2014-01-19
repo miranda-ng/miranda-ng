@@ -1,4 +1,4 @@
-﻿[Title]
+[Title]
 [Setting]
 [Reload]
 [New]

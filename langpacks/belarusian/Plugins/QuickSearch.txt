@@ -2,167 +2,67 @@
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Module: Quick Search
-;  Version: 1.4.0.18
+;  Version: 1.4.2.0
 ;  Authors: Awkward
 ;============================================================
-[QuickSearch]
-Хуткі Пошук
-[Global QuickSearch hotkey]
-Глабальная камбінацыя
-[Local QuickSearch hotkey]
-Лакальная камбінацыя
-[Show Offline contacts]
-Паказваць адключаных
-[New column]
-Новы
-[Set Item]
-Усталяваць
-[wParam type:]
-wParam тып:
-[lParam type:]
-lParam тып:
-[Sort by Status]
-Сартаваць па статусу
-[Don't Use Tool Window Style]
-Выкарыстоўваць тэмы Windows
-[Draw Grid]
-Маляваць сетку
-[integer value]
-цэлае значэнне
-[Save Item]
-Захаваць значэнне
-[Client ID]
-Кліент
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
+Плагін дазволіць вам хутка знайсці мянушку, імя, прозвішча, e-mail, uin у вашым спісе кантактаў. Зараз вы можаце дадаць любы радок, каб адлюстроўваць, напрыклад, версіі Miranda, гурты ці гарады.
 [Quick Search]
 Пошук па спісе
-[Quick search]
-Пошук па спісе
-[Search on:]
-Шукаць у  
-[Quick Search:]
-Хуткі пошук:
-[UID:]
-Карыстач:
-[E-mail Address:]
-Пошта:
-[MirandaV]
-Версія Miranda
+[Module/InfoType]
+Плагін/Тып
+[Additional Options]
+Дадатковыя параметры
+[Tool Window Style]
+Акно ў стылі панэлі
+[Draw Grid]
+Маляваць сетку
+[Save search pattern]
+Захаваць маску пошуку
+[Auto Close mode]
+Зачыняць аўтаматычна
+[Sort by Status]
+Сартаваць па статусу
+[Show Client Icons]
+Значкі кліентаў
+[Client ID]
+Кліент
 [Ext IP]
 Вонкавы IP
 [Last Event]
 З'яўленні
-[Online Since]
-Далучаны:
-[Quick Search Options]
-Налады хуткага пошуку
-[&New]
-Новае
+[Online since]
+Далучаны
+[Metacontact]
+Метакантакт
+[Script]
+Скрыпт
+[TimeStamp]
+Час
 [Setting:]
 Парам.:
-[De&fault]
-Змаўчанні
-[&Set Item]
-Дадаць
-[At Start Sort by Status]
-Сартаваць па стане
-[Global scope hotkey:]
-Гарачая клавіша:
-[Miranda scope hotkey:]
-... у Miranda:
-[Add Item to Main Menu]
-Дадаць пункт у меню
-[Show Only Users in List]
-Толькі кантакты са спісу
-[Add Button to TopToolBar]
-Кнопка на Панэлі кнопак
-[Additional Options]
-Дадатковыя параметры
-[Columns && Data]
-Калонкі і дадзеныя
-[Auto Close mode]
-Зачыняць аўтаматычна
+[QuickSearch]
+Пошук па спісе
+[Show Offline contacts]
+Паказваць адключаных
+[New column]
+Новы
+[Save Item]
+Захаваць значэнне
 [InfoType:]
 Тып пёр.:
-[Module/InfoType]
-Плагін/Тып
-[Not Selected]
-Не абрана
-[FIRSTNAME]
-Імя
-[LASTNAME]
-Прозвішча
-[CUSTOMNICK]
-Свая "назва"
-[EMAIL]
-Пошта
-[CITY]
-Горад
-[STATE]
-Штат
-[COUNTRY]
-Краіна
-[PHONE]
-Тэлефон
-[HOMEPAGE]
-Сайт
-[ABOUT]
-Пра сябе
-[GENDER]
-ПОЛ
-[AGE]
-Узрост
-[FIRSTLAST]
-Імя Прозвішча
-[UNIQUEID]
-Ідэнтыфікатар
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-Плагін дазволіць вам хутка знайсці мянушку, імя, прозвішча, e-mail, uin у вашым спісе кантактаў. Зараз вы можаце дадаць любы радок, каб адлюстроўваць, напрыклад, версіі Miranda, гурты ці гарады.
 [New Column]
-Дадаць
-[Save Column]
-Захаваць
+Дадаць калонку
 [Column Up]
 Вышэй
 [Column Down]
 Ніжэй
 [Delete Column]
 Выдаліць калонку
-[Only Users in List]
-Толькі ў спісе
-[Show Client Icons]
-Значкі кліентаў
-[Item in Main Menu]
-Пункт у галоўным меню
-[Button on TopToolBar]
-Кнопка ў  Панэлі кнопак
-[Tool Window Style]
-Акно ў стылі панэлі
-[Global scope hotkey]
-Глабальнае спалучэнне
-[Miranda scope hotkey]
-Спалучэнне ў Miranda
-[CSV with headers]
-CSV з загалоўкамі
-[Skip minimized columns]
-Ігнор утоеных калонак
-[Copy line to CSV]
-Капіяваць у CSV
-[Save search pattern]
-Захаваць маску пошуку
-[QuickSearch error]
-Памылка хуткага пошуку
-[Quick Search Mod]
-Хуткі пошук (мод)
-[Script]
-Скрыпт
-[Int]
-Цэлае
 [ContactInfo]
 Дадзеныя кантакту
 [LastEvent]
 Апошняя падзея
-[TimeStamp]
-Час
 [Script Editor]
 Рэдактар скрыптоў
 [Normal foreground]
@@ -179,18 +79,10 @@ CSV з загалоўкамі
 Фон выдаленых контаў
 [Deleted account foreground]
 Тэкст выдаленых контаў
-[Not-in-list contact background]
-Фон кантактаў не ў спісе
-[Not-in-list contact foreground]
-Тэкст кантактаў не ў спісе
-[C&onvert to Meta]
-Пераўтварыць у метакантакт
-[Some of selected contacts in different metacontacts already]
-Некаторыя з вылучаных кантактаў ужо знаходзяцца ў іншых метакантактах
-[Do you really want to delete selected contacts?]
-Вы жадаеце выдаліць вылучаныя кантакты?
-[One or more contacts in same Meta already. Try to convert anyway?]
-Адзін ці некалькі кантактаў у падобным метакантакце. Усё адно пераўтварыць?
+[Hidden contact background]
+Фон утоеных кантактаў
+[Hidden contact foreground]
+Тэкст утоеных кантактаў
 [Metacontact background]
 Фон метакантактаў
 [Metacontact foreground]
@@ -199,19 +91,21 @@ CSV з загалоўкамі
 Фон субкантактаў
 [SubMetacontact foreground]
 Тэкст субкантактаў
-[%u users found (%u) Online: %u]
-%u кантактаў знойдзена (з %u) Далучаны: %u
+[C&onvert to Meta]
+Пераўтварыць у метакантакт
+[Some of selected contacts in different metacontacts already]
+Некаторыя з вылучаных кантактаў ужо знаходзяцца ў іншых метакантактах
+[Do you really want to delete selected contacts?]
+Вы жадаеце выдаліць вылучаныя кантакты?
+[One or more contacts in same Meta already. Try to convert anyway?]
+Адзін ці некалькі кантактаў у падобным метакантакце. Усё адно пераўтварыць?
+[%i users found (%i) Online: %i]
+%i кантактаў знойдзена (з %i) Далучаны: %i
 [ users found (]
 кантактаў знойдзена (
 [) Online: ]
-) далучаны:
+) далучаны:\s
 [Colorize]
 Дадаць колер
-[Metacontact]
-Метакантакт
-[Hidden contact background]
-Фон утоеных кантактаў
-[Hidden contact foreground]
-Тэкст утоеных кантактаў
 [QuickSearch window hotkey]
 Адчыніць хуткі пошук

@@ -2,126 +2,52 @@
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Module: Quick Search
-;  Version: 1.4.0.20
+;  Version: 1.4.2.0
 ;  Authors: Awkward
 ;============================================================
+[Quick Search]
+חיפוש מהיר
+[Module/InfoType]
+מודול/סוג מידע
+[Additional Options]
+אפשרויות נוספות
+[Tool Window Style]
+סגנון כלי חלון
+[Draw Grid]
+ צייר רשת
+[Save search pattern]
+ שמור תבנית חיפוש
+[Auto Close mode]
+מצב סגירה אוטומטי
+[Sort by Status]
+סדר על פי מצב
+[Show Client Icons]
+הראה אייקוני קליינט
+[Script]
+סקריפט
+[TimeStamp]
+חותמת זמן
+[Setting:]
+קבוצות:
 [QuickSearch]
 חיפוש מהיר
 [Show Offline contacts]
 הראה מנותקים
 [New column]
 טור חדש
-[Set Item]
-הוסף פריט
-[wParam type:]
-wParam סוג:
-[lParam type:]
-lParam סוג:
-[Sort by Status]
-סדר על פי מצב
-[Draw Grid]
- צייר רשת
-[integer value]
-ערך משתנה
 [Save Item]
 שמור פריט
-[Quick Search]
-חיפוש מהיר
-[Quick search]
-חיפוש מהיר
-[Setting:]
-קבוצות:
-[At Start Sort by Status]
-מיין לפי מצב
-[Global scope hotkey:]
-מקש קיצור מרחב כללי:
-[Miranda scope hotkey:]
-מקשר קיצור מרחב מירנדה:
-[Add Item to Main Menu]
-הוסף פריט לתפריט הראשי
-[Show Only Users in List]
-הראה רק אנשי קשר מהרשימה
-[Add Button to TopToolBar]
-הוסף כפתור לסרגל הכלים
-[Additional Options]
-אפשרויות נוספות
-[Auto Close mode]
-מצב סגירה אוטומטי
 [InfoType:]
 סוג מידע:
-[Module/InfoType]
-מודול/סוג מידע
-[Not Selected]
-לא נבחר
-[FIRSTNAME]
-שם ראשון
-[LASTNAME]
-שם אחרון
-[CUSTOMNICK]
-כינוי מותאם אישית
-[EMAIL]
- אימייל
-[CITY]
-עיר
-[STATE]
- מצב
-[COUNTRY]
-מדינה
-[PHONE]
- טלפון
-[HOMEPAGE]
-דף הבית
-[ABOUT]
- אודות
-[GENDER]
-מין
-[AGE]
- גיל
-[FIRSTLAST]
-ראשוןאחרון
-[UNIQUEID]
-ת.ז. יחודית
 [New Column]
 טור חדש
-[Save Column]
-שמור עמודה
 [Column Up]
 טור עליון
 [Column Down]
 טור למטה
 [Delete Column]
 מחק טור
-[Only Users in List]
-רק משתמשים ברשימה
-[Show Client Icons]
-הראה אייקוני קליינט
-[Item in Main Menu]
-פריט בתפריט ראשי
-[Button on TopToolBar]
-כפתור על סרגל כלים עליון
-[Tool Window Style]
-סגנון כלי חלון
-[Global scope hotkey]
-מקש חם מבט גלובלי
-[Miranda scope hotkey]
-מירנדה הקף מקש חם
-[CSV with headers]
-CSV עם כותרת עליונה
-[Skip minimized columns]
-דלג עמודות ממוזערות
-[Copy line to CSV]
-העתק שורה ל CSV
-[Save search pattern]
- שמור תבנית חיפוש
-[Quick Search Mod]
-מצב חיפוש מהיר
-[Script]
-סקריפט
-[Int]
-פנימי
 [ContactInfo]
 מידע משתמש
 [LastEvent]
 אירוע אחרון
-[TimeStamp]
-חותמת זמן

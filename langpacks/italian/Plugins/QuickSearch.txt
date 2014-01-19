@@ -2,88 +2,28 @@
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Module: Quick Search
-;  Version: 1.4.0.20
+;  Version: 1.4.2.0
 ;  Authors: Awkward
 ;============================================================
-[QuickSearch]
-Ricerca rapida
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
+Questo plugin ti permette di cercare rapidamente nick, nomi, cognomi, email, UIN nella tua lista dei contatti. E ora puoi anche aggiungere qualsiasi impostazioni da visualizzare - ad esempio le versioni di Miranda utilizzate, il gruppo o la città.
 [Quick Search]
 Ricerca rapida
-[Quick search]
-Ricerca rapida
-[Search on:]
-Cerca in:
-[Quick Search:]
-Ricerca rapida:
-[E-mail Address:]
-Indirizzo email:
-[MirandaV]
-VersioneMiranda
+[Module/InfoType]
+Modulo/TipoInfo
+[Additional Options]
+Altre opzioni
+[Auto Close mode]
+Chiusura automatica
 [Ext IP]
 IP Esterno
 [Last Event]
 Ultimo evento
-[Online Since]
+[Online since]
 Online da
-[Quick Search Options]
-Opzioni della Ricerca Rapida
-[&New]
-&Nuovo
-[D&n]
-&Giù
 [Setting:]
 Settaggio:
-[De&fault]
-Prede&finito
-[&Set Item]
-&Imposta elemento
-[At Start Sort by Status]
-All'avvio ordina per stato
-[Global scope hotkey:]
-Scorciatoia generale:
-[Miranda scope hotkey:]
-Scorciatoia in Miranda:
-[Add Item to Main Menu]
-Voce nel menu principale
-[Show Only Users in List]
-Mostra solo utenti nella lista
-[Add Button to TopToolBar]
-Pulsante in TopToolBar
-[Additional Options]
-Altre opzioni
-[Columns && Data]
-Colonne e dati
-[Auto Close mode]
-Chiusura automatica
+[QuickSearch]
+Ricerca rapida
 [InfoType:]
 TipoInfo:
-[Module/InfoType]
-Modulo/TipoInfo
-[Not Selected]
-Non selezionato
-[FIRSTNAME]
-NOME
-[LASTNAME]
-COGNOME
-[CUSTOMNICK]
-NICK PERSONALIZZATO
-[CITY]
-CITTA'
-[STATE]
-REGIONE
-[COUNTRY]
-NAZIONE
-[PHONE]
-TELEFONO
-[ABOUT]
-INFORMAZIONI
-[GENDER]
-SESSO
-[AGE]
-ETA'
-[FIRSTLAST]
-NOMECOGNOME
-[UNIQUEID]
-ID UNICO
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-Questo plugin ti permette di cercare rapidamente nick, nomi, cognomi, email, UIN nella tua lista dei contatti. E ora puoi anche aggiungere qualsiasi impostazioni da visualizzare - ad esempio le versioni di Miranda utilizzate, il gruppo o la città.

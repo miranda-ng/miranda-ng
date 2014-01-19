@@ -2,10 +2,8 @@
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Module: Quick Search
-;  Version: 1.4.0.20
+;  Version: 1.4.2.0
 ;  Authors: Awkward
 ;============================================================
-[Skip minimized columns]
-Skip minimised columns
 [Colorize]
 Colourise

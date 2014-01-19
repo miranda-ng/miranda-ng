@@ -2,159 +2,67 @@
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Module: Quick Search
-;  Version: 1.4.0.20
+;  Version: 1.4.2.0
 ;  Authors: Awkward
 ;============================================================
-[QuickSearch]
-快速搜索
-[Global QuickSearch hotkey]
-全局快速搜索热键
-[Local QuickSearch hotkey]
-本地快速搜索热键
-[Show Offline contacts]
-显示离线联系人
-[New column]
-新增栏位
-[Set Item]
-设置项目
-[wParam type:]
-wParam 类型:
-[lParam type:]
-lParam 类型:
-[Sort by Status]
-按状态排序
-[Don't Use Tool Window Style]
-不要使用工具窗口样式
-[Draw Grid]
-绘制格线
-[integer value]
-整形数值
-[Save Item]
-保存项目
-[Client ID]
-客户端 ID
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
+此插件可在您的联系人列表中快速搜索昵称,名字,姓氏,电子邮件,Uin.现在您可为测试版 Miranda 添加显示任何设置项 - 团体或城市.
 [Quick Search]
 快速搜索
-[Quick search]
-快速搜索
-[Search on:]
-搜索:
-[Quick Search:]
-快速搜索:
-[E-mail Address:]
-邮箱地址:
+[Module/InfoType]
+模块/信息类型
+[Additional Options]
+附加选项
+[Tool Window Style]
+工具窗口样式
+[Draw Grid]
+绘制格线
+[Save search pattern]
+保存搜索模式
+[Auto Close mode]
+自动关闭模式
+[Sort by Status]
+按状态排序
+[Show Client Icons]
+显示客户端图标
+[Client ID]
+客户端 ID
 [Ext IP]
 外部 IP
 [Last Event]
 最后事件
-[Online Since]
+[Online since]
 在线从
-[Quick Search Options]
-快速搜索选项
-[&New]
-新建(&N)
+[Metacontact]
+中继联系人
+[Script]
+脚本
+[TimeStamp]
+时间戳
 [Setting:]
 设置:
-[De&fault]
-默认(&F)
-[&Set Item]
-设置项(&S)
-[At Start Sort by Status]
-启动时按状态排序
-[Global scope hotkey:]
-全局范围热键: 
-[Miranda scope hotkey:]
-Miranda 范围热键: 
-[Add Item to Main Menu]
-添加按钮至主菜单
-[Show Only Users in List]
-仅显示列表中用户
-[Add Button to TopToolBar]
-添加按钮至 TopToolBar
-[Additional Options]
-附加选项
-[Columns && Data]
-标题及数据
-[Auto Close mode]
-自动关闭模式
+[QuickSearch]
+快速搜索
+[Show Offline contacts]
+显示离线联系人
+[New column]
+新增栏位
+[Save Item]
+保存项目
 [InfoType:]
 信息类型
-[Module/InfoType]
-模块/信息类型
-[Not Selected]
-未选定
-[FIRSTNAME]
-名字
-[LASTNAME]
-姓氏
-[CUSTOMNICK]
-自定义呢称
-[EMAIL]
-邮箱
-[CITY]
-城市
-[STATE]
-州
-[COUNTRY]
-国家
-[PHONE]
-电话
-[HOMEPAGE]
-主页
-[ABOUT]
-关于
-[GENDER]
-性别
-[AGE]
-年龄
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-此插件可在您的联系人列表中快速搜索昵称,名字,姓氏,电子邮件,Uin.现在您可为测试版 Miranda 添加显示任何设置项 - 团体或城市.
 [New Column]
 新增栏位
-[Save Column]
-保存栏位
 [Column Up]
 栏位上移
 [Column Down]
 栏位下移
 [Delete Column]
 删除栏位
-[Only Users in List]
-仅列表中用户
-[Show Client Icons]
-显示客户端图标
-[Item in Main Menu]
-主菜单项
-[Button on TopToolBar]
-TopToolBar 按钮
-[Tool Window Style]
-工具窗口样式
-[Global scope hotkey]
-全域热键
-[Miranda scope hotkey]
-Miranda 范围热键
-[CSV with headers]
-CSV 标题
-[Skip minimized columns]
-跳过最小列
-[Copy line to CSV]
-复制行至 CSV
-[Save search pattern]
-保存搜索模式
-[QuickSearch error]
-快速搜索错误
-[Quick Search Mod]
-快速搜索
-[Script]
-脚本
-[Int]
-整型
 [ContactInfo]
 联系人信息
 [LastEvent]
 最后事件
-[TimeStamp]
-时间戳
 [Script Editor]
 脚本编辑器
 [Normal foreground]
@@ -171,18 +79,10 @@ CSV 标题
 删除帐号背景
 [Deleted account foreground]
 删除帐号前景
-[Not-in-list contact background]
-非列表联系人背景
-[Not-in-list contact foreground]
-非列表联系人前景
-[C&onvert to Meta]
-转换为中继(&O)
-[Some of selected contacts in different metacontacts already]
-一些选定联系人已在其它中继联系人中
-[Do you really want to delete selected contacts?]
-您真的想删除选定联系人?
-[One or more contacts in same Meta already. Try to convert anyway?]
-一个或多个联系人已在相同中继中. 尝试转换吗?
+[Hidden contact background]
+隐藏联系人背景
+[Hidden contact foreground]
+隐藏联系人前景
 [Metacontact background]
 中继联系人背景
 [Metacontact foreground]
@@ -191,15 +91,17 @@ CSV 标题
 子中继联系人背景
 [SubMetacontact foreground]
 子中继联系人前景
-[%u users found (%u) Online: %u]
-找到 %u 用户 (%u) 在线: %u
+[C&onvert to Meta]
+转换为中继(&O)
+[Some of selected contacts in different metacontacts already]
+一些选定联系人已在其它中继联系人中
+[Do you really want to delete selected contacts?]
+您真的想删除选定联系人?
+[One or more contacts in same Meta already. Try to convert anyway?]
+一个或多个联系人已在相同中继中. 尝试转换吗?
+[%i users found (%i) Online: %i]
+找到 %i 用户 (%i) 在线: %i
 [Colorize]
 着色
-[Metacontact]
-中继联系人
-[Hidden contact background]
-隐藏联系人背景
-[Hidden contact foreground]
-隐藏联系人前景
 [QuickSearch window hotkey]
 快速搜索窗口热键

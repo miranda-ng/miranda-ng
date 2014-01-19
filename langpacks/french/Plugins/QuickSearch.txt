@@ -2,170 +2,176 @@
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Module: Quick Search
-;  Version: 1.4.0.20
+;  Version: 1.4.2.0
 ;  Authors: Awkward
 ;============================================================
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
+
+[Quick Search]
+Recherche rapide
+[Title]
+
+[Module/InfoType]
+
+[Setting]
+
+[Reload]
+
+[New]
+
+[Up]
+
+[Down]
+
+[Delete]
+
+[Default]
+
+[Additional Options]
+Options supplémentaires
+[Tool Window Style]
+
+[Draw Grid]
+Afficher la grille
+[Save search pattern]
+
+[Auto Close mode]
+
+[Sort by Status]
+Trier par état
+[Show Client Icons]
+Voir l'icône du client
+[Settings]
+
+[Title:]
+
+[Account]
+
+[Gender]
+
+[UserID]
+
+[Nickname]
+
+[First name]
+
+[Last name]
+
+[Group]
+
+[Container]
+
+[E-mail]
+
+[Client ID]
+
+[Ext IP]
+
+[LastSeen]
+
+[Last Event]
+
+[Online since]
+
+[Metacontact]
+
+[Event count]
+
+[Contact add time]
+
+[Type:]
+
+[DB setting]
+
+[Script]
+
+[Service]
+
+[Contact info]
+
+[Other]
+
+[Data type:]
+
+[Byte]
+
+[Word]
+
+[DWord]
+
+[Signed]
+
+[As hex]
+
+[String]
+
+[IP]
+
+[TimeStamp]
+Horodateur
+[Module:]
+
+[Setting:]
+Paramètre:
+[Service:]
+
+[Param]
+
+[number value]
+
+[ANSI string]
+
+[Unicode string]
+
+[current contact]
+
+[last result]
+
+[parameter]
+
+[Result]
+
+[Save]
+
+[All]
+
+[Close]
+
+[Refresh]
+
 [QuickSearch]
-
-[Global QuickSearch hotkey]
-
-[Local QuickSearch hotkey]
-
+Recherche rapide
 [Show Offline contacts]
 Montrer les contacts hors ligne
 [New column]
 Nouvelle colonne
-[Set Item]
-
-[wParam type:]
-wParam type:
-[lParam type:]
-lParam type:
-[Sort by Status]
-Trier par état
-[Don't Use Tool Window Style]
-
-[Draw Grid]
-Afficher la grille
-[integer value]
-Valeur intégrée
 [Save Item]
 Sauver
-[Client ID]
-
-[Quick Search]
-Recherche rapide
-[Quick search]
-Recherche rapide
-[Search on:]
-
-[Quick Search:]
-
-[UID:]
-
-[E-mail Address:]
-
-[MirandaV]
-
-[Ext IP]
-
-[Last Event]
-
-[Online Since]
-
-[Quick Search Options]
-
-[&New]
-
-[D&n]
-
-[Setting:]
-Paramètre:
-[De&fault]
-
-[&Set Item]
-
-[At Start Sort by Status]
-
-[Global scope hotkey:]
-
-[Miranda scope hotkey:]
-
-[Add Item to Main Menu]
-
-[Show Only Users in List]
-
-[Add Button to TopToolBar]
-
-[Additional Options]
-Options supplémentaires
-[Columns && Data]
-
-[Auto Close mode]
-
 [InfoType:]
 InfoType:
-[Module/InfoType]
-
-[Not Selected]
-
-[FIRSTNAME]
-Prénom
-[LASTNAME]
-Nom
-[CUSTOMNICK]
-
-[EMAIL]
-
-[CITY]
-Ville
-[STATE]
-État
-[COUNTRY]
-Pays
-[PHONE]
-Téléphone
-[HOMEPAGE]
-
-[ABOUT]
-
-[GENDER]
-
-[AGE]
-
-[FIRSTLAST]
-
-[UNIQUEID]
-
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-
 [New Column]
 Nouvelle colonne
-[Save Column]
-Sauver la colonne
 [Column Up]
 Monter la colonne
 [Column Down]
 Descendre la colonne
 [Delete Column]
 Effacer la colonne
-[Only Users in List]
-Seulement contacts de la liste
-[Show Client Icons]
-Voir l'icône du client
-[Item in Main Menu]
-Entrée dans le menu principal
-[Button on TopToolBar]
-Bouton dans la barre d'outils
-[Tool Window Style]
+[Male]
 
-[Global scope hotkey]
-Raccourci principal
-[Miranda scope hotkey]
-Raccourci Miranda
-[CSV with headers]
+[Female]
 
-[Skip minimized columns]
-
-[Copy line to CSV]
-
-[Save search pattern]
-
-[QuickSearch error]
-
-[Quick Search Mod]
-
-[Script]
-
-[Int]
+[Contacts]
 
 [ContactInfo]
 
 [LastEvent]
 
-[TimeStamp]
-Horodateur
+[EventCount]
+
 [Script Editor]
+
+[Normal background]
 
 [Normal foreground]
 
@@ -181,17 +187,9 @@ Horodateur
 
 [Deleted account foreground]
 
-[Not-in-list contact background]
+[Hidden contact background]
 
-[Not-in-list contact foreground]
-
-[C&onvert to Meta]
-
-[Some of selected contacts in different metacontacts already]
-
-[Do you really want to delete selected contacts?]
-
-[One or more contacts in same Meta already. Try to convert anyway?]
+[Hidden contact foreground]
 
 [Metacontact background]
 
@@ -201,19 +199,71 @@ Horodateur
 
 [SubMetacontact foreground]
 
-[%u users found (%u) Online: %u]
+[&Delete]
+
+[&Copy]
+
+[C&onvert to Meta]
+
+[Attach to &Tab container]
+
+[&Move to Group]
+
+[Some of selected contacts in different metacontacts already]
+
+[Do you really want to delete selected contacts?]
+
+[Warning]
+
+[One or more contacts in same Meta already. Try to convert anyway?]
+
+[Editing of column ]
+
+[%i users found (%i) Online: %i]
 
 [ users found (]
 
 [) Online: ]
 
+[Online]
+
+[deleted]
+
+[off]
+
+[active]
+
 [Colorize]
 
-[Metacontact]
-
-[Hidden contact background]
-
-[Hidden contact foreground]
-
 [QuickSearch window hotkey]
+
+[Column content is simple database setting.]
+
+[Column content is script result.\r\nMore help from "Help" button in script dialog.]
+
+[Column content is contact property (see list). Can be empty.]
+
+[Content is last online time.]
+
+[Content is time of last contact event.]
+
+[Content is metacontact info.]
+
+[Content is count of ALL contact events (not messages only)]
+
+[Other info]
+
+[Change setting through QS]
+
+[default]
+
+[Selected]
+
+[contacts]
+
+[Unknown]
+
+[Stay on Top]
+
+[Text Editor]
 
