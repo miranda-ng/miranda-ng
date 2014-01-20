@@ -93,8 +93,6 @@
 [Skype ID]
 [&H]
 [%d/160]
-[tl_PH]
-[de_frami_neu]
 [spin1]
 [spin2]
 [x]

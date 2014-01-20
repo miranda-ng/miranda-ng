@@ -170,8 +170,6 @@ Verzeichnis zippen und hochladen
 FTP-Dateimanager
 [Show FTPFile manager]
 FTP-File-Dialog anzeigen
-[FTP_ShowManager]
-
 [Upload file]
 Datei hochladen
 [Zip and upload file]

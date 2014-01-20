@@ -706,8 +706,6 @@ Vali kaust
 Üldine
 [Chat log]
 Vestluse logi
-[Chat]
-Vestlus
 [&Join]
 &Ühine
 [%s says: %s]

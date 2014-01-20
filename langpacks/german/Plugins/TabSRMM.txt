@@ -1866,8 +1866,6 @@ Füge Benutzer zur "Highlight"-Liste hinzu
 [Edit user highlight list]
 Editiere Benutzer-"Highlight"-Liste
 ;file \plugins\TabSRMM\src\chat\options.cpp
-[Group chat log background]
-Gruppenchat-Verlaufshintergrund
 [Input area background]
 Nachrichteneingabefeld Hintergrund
 [Log background]
@@ -2106,6 +2104,8 @@ Inkrementelle Suche
 Felder-Hintergrund
 [Userlist background]
 Hintergrund Benutzerliste
+[Group chat log background]
+Gruppenchat-Verlaufshintergrund
 [nick of current contact (if defined)]
 Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]

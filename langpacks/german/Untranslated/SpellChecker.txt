@@ -1,4 +1,2 @@
-﻿[tl_PH]
-[Tagalog (Philippines)]
-[de_frami_neu]
+﻿[Tagalog (Philippines)]
 [German (Germany)]

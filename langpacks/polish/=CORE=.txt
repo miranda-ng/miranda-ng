@@ -1561,8 +1561,6 @@ Okno rozmowy
 Ogólne
 [Chat log]
 Dziennik czatu
-[Chat]
-Czat
 [Popups]
 Popupy
 ;file \src\core\stdchat\src\tools.cpp
@@ -1971,8 +1969,6 @@ Podświetlona wiadomość
 Członkowie listy użytkowników (Dostępni)
 [User list members (away)]
 Członkowie listy użytkowników (Zaraz wracam)
-[Userlist background]
-Kolor listy uczestników
 [Message typing area]
 Obszar pisania wiadomości
 [Chat log symbols (Webdings)]

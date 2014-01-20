@@ -1866,8 +1866,6 @@ Notice de %s:
 [Edit user highlight list]
 
 ;file \plugins\TabSRMM\src\chat\options.cpp
-[Group chat log background]
-
 [Input area background]
 
 [Log background]
@@ -2106,6 +2104,8 @@ Texte sélectionné
 
 [Userlist background]
 Fond de la liste
+[Group chat log background]
+
 [nick of current contact (if defined)]
 
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]

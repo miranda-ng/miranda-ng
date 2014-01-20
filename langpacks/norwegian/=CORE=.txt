@@ -1303,8 +1303,6 @@ Meldingsøkter
 Generelt
 [Chat log]
 Samtalelogg
-[Chat]
-Chat
 [Popups]
 Popups
 [Message is highlighted]

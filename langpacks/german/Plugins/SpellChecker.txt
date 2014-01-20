@@ -76,11 +76,7 @@ Die Korrektur darf nicht leer sein!
 [The correction can't be equal to the wrong word!]
 Die Korrektur kann nicht identisch mit dem falschen Wort sein.
 ;file \plugins\SpellChecker\src\dictionary.cpp
-[tl_PH]
-
 [Tagalog (Philippines)]
-
-[de_frami_neu]
 
 [German (Germany)]
 

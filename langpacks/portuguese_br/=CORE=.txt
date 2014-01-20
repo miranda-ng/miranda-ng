@@ -1392,8 +1392,6 @@ Sessões de mensagem
 Geral
 [Chat log]
 Reg. Chat
-[Chat]
-Conversa
 [Message is highlighted]
 A mensagem está destacada
 [User has performed an action]

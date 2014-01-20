@@ -1866,8 +1866,6 @@ Dodaj do listy podświetleń
 [Edit user highlight list]
 Edytuj listę wyróżnień użytkownika
 ;file \plugins\TabSRMM\src\chat\options.cpp
-[Group chat log background]
-Tło dziennika wiadomości w czacie grupowym
 [Input area background]
 Tło obszaru pisania wiadomości
 [Log background]
@@ -2106,6 +2104,8 @@ Podświetlanie wyszukiwania
 Tło pola
 [Userlist background]
 Kolor listy uczestników
+[Group chat log background]
+Tło dziennika wiadomości w czacie grupowym
 [nick of current contact (if defined)]
 Nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]

@@ -216,6 +216,9 @@
 Това май е телефона.
 [Mmm... food.]
 Ммм... храна.
+;file \protocols\Xfire\src\baseProtocol.h
+[XFire Protocol]
+
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 
@@ -296,7 +299,7 @@
 
 [Set &Nickname]
 
-[Protocols/XFire]
+[Protocols]
 
 [XFire game icon]
 

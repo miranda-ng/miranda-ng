@@ -170,8 +170,6 @@ FTP сървър %d
 FTP file диспечер
 [Show FTPFile manager]
 Показване на FTPFile диспечера
-[FTP_ShowManager]
-FTP_Показване_на_диспечера
 [Upload file]
 Качване на файл(ове)
 [Zip and upload file]

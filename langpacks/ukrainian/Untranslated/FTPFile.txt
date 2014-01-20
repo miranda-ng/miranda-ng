@@ -1,7 +1,6 @@
 ﻿[URL]
 [OK]
 [How to proceed?]
-[FTP_ShowManager]
 [%0.1f kB/s]
 [%0.1f%% (%d kB/%d kB)]
 [%s (%d kB/%d kB)]

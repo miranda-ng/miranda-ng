@@ -1,4 +1,5 @@
-﻿[My Current Voice]
+﻿[XFire Protocol]
+[My Current Voice]
 [Voice ServerIP]
 [My Voice ServerIP]
-[Protocols/XFire]
+[Protocols]

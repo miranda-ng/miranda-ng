@@ -1508,8 +1508,6 @@ Miranda NG 正准备重启. \n请稍候...
 常规
 [Chat log]
 聊天记录
-[Chat]
-聊天
 [Popups]
 弹出窗口
 [Message is highlighted]

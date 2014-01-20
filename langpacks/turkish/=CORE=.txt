@@ -1374,8 +1374,6 @@ Klasör Seç
 Genel
 [Chat log]
 Sohbet Günlüğü
-[Chat]
-Sohbet
 [Popups]
 Açılır Pencereler
 [Message is highlighted]

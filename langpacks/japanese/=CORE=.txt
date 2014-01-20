@@ -1504,8 +1504,6 @@ SMS テキストメッセージを受信できる電話
 全般
 [Chat log]
 チャットログ
-[Chat]
-チャット
 [Popups]
 ポップアップ
 [Message is highlighted]

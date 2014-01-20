@@ -1561,8 +1561,6 @@ Sesiones de mensaje
 General
 [Chat log]
 Registro de chat
-[Chat]
-Chat
 [Popups]
 Ventanas emergentes
 ;file \src\core\stdchat\src\tools.cpp

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FavContacts.dll
 ;  Plugin: Favorite contacts
-;  Version: 0.0.0.6
+;  Version: 0.0.0.7
 ;  Authors: Victor Pavlychko
 ;============================================================
 [Show]

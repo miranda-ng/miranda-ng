@@ -1561,8 +1561,6 @@ Sessions de message
 Général
 [Chat log]
 Fenêtre de chat
-[Chat]
-
 [Popups]
 Popups
 ;file \src\core\stdchat\src\tools.cpp

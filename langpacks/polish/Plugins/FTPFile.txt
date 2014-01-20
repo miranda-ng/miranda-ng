@@ -170,8 +170,6 @@ Spakuj i wyślij folder
 Menedżer FTP
 [Show FTPFile manager]
 Pokaż menedżera FTP
-[FTP_ShowManager]
-FTP_ShowManager
 [Upload file]
 Wysyłanie pliku
 [Zip and upload file]

@@ -216,6 +216,9 @@ Ich würde mit Ihnen reden, wenn Miranda ICQ das unterstützen würde.
 Bin gerade am Telefon
 [Mmm... food.]
 Hmmh... lecker
+;file \protocols\Xfire\src\baseProtocol.h
+[XFire Protocol]
+
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 Die Datei xfire_games.ini wurde aktualisiert.
@@ -296,7 +299,7 @@ Ben&utzer blockieren...
 E&rneute Suche nach Spielen...
 [Set &Nickname]
 &Nickname setzen
-[Protocols/XFire]
+[Protocols]
 
 [XFire game icon]
 XFire Spiel Icon

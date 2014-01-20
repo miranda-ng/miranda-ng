@@ -1855,8 +1855,6 @@ TabSRMM предупреждение
 [Edit user highlight list]
 Редактиране списъка за отличаване
 ;file \plugins\TabSRMM\src\chat\options.cpp
-[Group chat log background]
-
 [Input area background]
 Фон на полето за въвеждане
 [Log background]
@@ -2095,6 +2093,8 @@ TabSRMM предупреждение
 Фон на полетата
 [Userlist background]
 Фон на списъка с прякори
+[Group chat log background]
+
 [nick of current contact (if defined)]
 прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]

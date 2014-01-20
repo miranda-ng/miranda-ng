@@ -1352,8 +1352,6 @@ Mappa kijelölése
 Általános
 [Chat log]
 Csevegés napló
-[Chat]
-Csevegés
 [Popups]
 Felugrók
 [Message is highlighted]

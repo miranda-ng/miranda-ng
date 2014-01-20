@@ -216,6 +216,9 @@ Hmm, chętnie bym z Tobą porozmawiał, gdyby Miranda ICQ wspierała czat.
 Muszę odebrać telefon.
 [Mmm... food.]
 Mmm... jedzenie.
+;file \protocols\Xfire\src\baseProtocol.h
+[XFire Protocol]
+
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 Plik xfire_games.ini został zaktualizowany.
@@ -296,8 +299,8 @@ Raporty aktywności
 Przeskanuj ponownie moje Gry
 [Set &Nickname]
 Edytuj &nick
-[Protocols/XFire]
-Protokoły/XFire
+[Protocols]
+Protokoły
 [XFire game icon]
 Ikona gry xFire
 [XFire voice icon]

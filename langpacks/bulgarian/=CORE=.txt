@@ -1535,8 +1535,6 @@ Popups за изобразяване
 Основни
 [Chat log]
 Чат дневник
-[Chat]
-
 [Popups]
 РopUps
 ;file \src\core\stdchat\src\tools.cpp

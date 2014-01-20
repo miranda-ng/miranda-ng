@@ -1561,8 +1561,6 @@ Nachrichtensitzungen
 Allgemein
 [Chat log]
 Chatverlauf
-[Chat]
-Chat
 [Popups]
 Popups
 ;file \src\core\stdchat\src\tools.cpp

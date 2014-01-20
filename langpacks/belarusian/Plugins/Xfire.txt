@@ -206,8 +206,8 @@ ID гульні:
 Перасканіраваць гульні...
 [Set &Nickname]
 Мянушка...
-[Protocols/XFire]
-Пратаколы/XFire
+[Protocols]
+Пратаколы
 [XFire game icon]
 Абразок гульні XFire
 [XFire voice icon]

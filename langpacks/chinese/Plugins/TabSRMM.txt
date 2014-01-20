@@ -1527,8 +1527,6 @@ TabSRMM 警告信息
 添加用户至突出显示列表
 [Edit user highlight list]
 编辑用户突出显示列表
-[Group chat log background]
-群组聊天记录背景
 [Log background]
 记录背景
 [Status background]
@@ -1743,6 +1741,8 @@ Aero 发光效果
 栏位背景
 [Userlist background]
 用户列表背景
+[Group chat log background]
+群组聊天记录背景
 [year without century, 01-99]
 2 位年份, 01-99
 [All Files]

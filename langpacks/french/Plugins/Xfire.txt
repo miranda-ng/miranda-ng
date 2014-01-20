@@ -216,6 +216,9 @@ Tu veux bien me laisser en paix ?
 Ce sera le téléphone.
 [Mmm... food.]
 Mmm... Manger.
+;file \protocols\Xfire\src\baseProtocol.h
+[XFire Protocol]
+
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 
@@ -296,7 +299,7 @@ Mmm... Manger.
 
 [Set &Nickname]
 
-[Protocols/XFire]
+[Protocols]
 
 [XFire game icon]
 

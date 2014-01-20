@@ -1443,8 +1443,6 @@ TabSRMM 警告メッセージ
 強調表示リストにユーザーを追加
 [Edit user highlight list]
 ユーザー強調表示リストを編集
-[Group chat log background]
-グループチャットログの背景
 [Log background]
 ログの背景
 [Status background]
@@ -1651,6 +1649,8 @@ Voiced
 逐次検索を強調表示
 [Userlist background]
 ユーザーリストの背景
+[Group chat log background]
+グループチャットログの背景
 [year without century, 01-99]
 年 , 01-99
 [All Files]

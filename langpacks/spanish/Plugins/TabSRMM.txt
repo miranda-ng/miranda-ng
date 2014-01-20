@@ -1868,8 +1868,6 @@ El tema es '%s%s'
 [Edit user highlight list]
 
 ;file \plugins\TabSRMM\src\chat\options.cpp
-[Group chat log background]
-
 [Input area background]
 
 [Log background]
@@ -2107,6 +2105,8 @@ Texto seleccionado
 [Fields background]
 
 [Userlist background]
+
+[Group chat log background]
 
 [nick of current contact (if defined)]
 

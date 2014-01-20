@@ -1059,8 +1059,6 @@ Folder selecteren
 Algemeen
 [Chat log]
 Gesprek log
-[Chat]
-Gesprek
 [Popups]
 Popups
 [Message is highlighted]

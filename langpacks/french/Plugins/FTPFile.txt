@@ -170,8 +170,6 @@ Compresser et envoyer un dossier
 Gestionnaire de fichiers FTP
 [Show FTPFile manager]
 Afficher le Gestionnaire de fichiers FTP
-[FTP_ShowManager]
-
 [Upload file]
 Envoyer un(des) fichier(s)
 [Zip and upload file]

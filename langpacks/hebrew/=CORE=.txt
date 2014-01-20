@@ -1105,8 +1105,6 @@ OutputDebugString()
 כללי
 [Chat log]
 יומן צ'אט
-[Chat]
-צ'אט
 [Popups]
 פופ אפ
 [Message is highlighted]

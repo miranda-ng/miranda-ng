@@ -216,6 +216,9 @@ Dale un poco de paz, ¿quieres?
 Estoy al teléfono.
 [Mmm... food.]
 Mmm... comida.
+;file \protocols\Xfire\src\baseProtocol.h
+[XFire Protocol]
+
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 
@@ -296,7 +299,7 @@ Voz
 
 [Set &Nickname]
 
-[Protocols/XFire]
+[Protocols]
 
 [XFire game icon]
 

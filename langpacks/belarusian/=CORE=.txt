@@ -1553,8 +1553,6 @@ Miranda
 Агульнае
 [Chat log]
 Лог чата
-[Chat]
-Чат
 [Popups]
 Усплывальныя вокны
 ;file \src\core\stdchat\src\tools.cpp
