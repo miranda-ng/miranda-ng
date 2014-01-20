@@ -56,6 +56,8 @@ Running this will erase files/folders under Miranda main folder.\n\n\
 Are you sure you want to remove all your personal settings?\n\n\
 (You cannot say that I don't told you about the risks :P)")
 
+#define MSGBOX_TITLE LPGEN("Remove Personal Settings")
+
 HINSTANCE hInst;
 char gIniFile[MAX_PATH];
 char gMirandaDir[MAX_PATH];
@@ -65,13 +67,13 @@ int hLangpack;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"Remove Personal Settings",
-	PLUGIN_MAKE_VERSION(0,1,0,4),
-	"Remove personal settings to allow to send a profile to other user(s) without sending personal data.",
-	"Ricardo Pescuma Domenecci",
-	"",
-	"© 2007-2009 Ricardo Pescuma Domenecci",
-	"http://miranda-ng.org/p/RPS/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {60E94B84-A799-4021-9449-5B838FC06A7C}
 	{ 0x60e94b84, 0xa799, 0x4021, { 0x94, 0x49, 0x5b, 0x83, 0x8f, 0xc0, 0x6a, 0x7c } }
@@ -177,12 +179,11 @@ INT_PTR RemoveAllService(WPARAM wParam,LPARAM lParam)
 {
 	if (gIniFile[0] == '\0')
 	{
-		MessageBox(NULL, Translate("Configuration file could not be found!"), Translate("Remove Personal Settings"), MB_OK | MB_ICONERROR);
+		MessageBox(NULL, Translate("Configuration file could not be found!"), Translate(MSGBOX_TITLE), MB_OK | MB_ICONERROR);
 		return -1;
 	}
 
-	if (MessageBox(NULL, Translate(NOTICE_TEXT), Translate("Remove Personal Settings"),MB_YESNO)
-		== IDYES)
+	if (MessageBox(NULL, Translate(NOTICE_TEXT), Translate(MSGBOX_TITLE), MB_YESNO) == IDYES)
 	{
 		SetProtocolsOffline();
 		RemoveUsers();
@@ -191,7 +192,7 @@ INT_PTR RemoveAllService(WPARAM wParam,LPARAM lParam)
 		RemoveDirectories();
 		DisablePlugins();
 
-		MessageBox(NULL,Translate("Settings are deleted now."), Translate("Remove Personal Settings"),MB_OK | MB_ICONINFORMATION);
+		MessageBox(NULL, Translate("Settings are deleted now."), Translate(MSGBOX_TITLE), MB_OK | MB_ICONINFORMATION);
 	}
 
 	return 0;
