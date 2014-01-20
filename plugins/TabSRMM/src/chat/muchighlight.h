@@ -67,7 +67,7 @@ public:
 
 private:
 	void    tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr);
-	int     wildmatch	(const TCHAR *pattern, const TCHAR *tszString);
+
 	DWORD   m_dwFlags;
 	bool    m_fInitialized;
 	TCHAR** m_NickPatterns;

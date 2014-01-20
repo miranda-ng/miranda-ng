@@ -121,75 +121,54 @@ void CMUCHighlight::tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr)
 
 int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwFlags)
 {
-	int 	result = 0, nResult = 0;
+	int result = 0, nResult = 0;
 
 	if (pgce == 0 || m_Valid == false)
 		return 0;
 
 	__try {
 		if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != 0) {
-	#ifdef __HLT_PERFSTATS
-			int		words = 0;
-			M.startTimer();
-	#endif
-			TCHAR	*tszCleaned = pci->RemoveFormatting(pgce->ptszText);
-			TCHAR	*p = tszCleaned;
-			TCHAR  	*p1;
-			UINT	i = 0;
+			TCHAR	*p = NEWTSTR_ALLOCA(pci->RemoveFormatting(pgce->ptszText));
+			CharLower(p);
 
-			TCHAR	*tszMe = ((psi && psi->pMe) ? mir_tstrdup(psi->pMe->pszNick) : 0);
-			if (tszMe) {
-				_wsetlocale(LC_ALL, L"");
-				wcslwr(tszMe);
-			}
+			TCHAR	*tszMe = ((psi && psi->pMe) ? NEWTSTR_ALLOCA(psi->pMe->pszNick) : 0);
+			if (tszMe)
+				CharLower(tszMe);
 
 			if (m_fHighlightMe && tszMe) {
 				result = wcsstr(p, tszMe) ? MATCH_TEXT : 0;
 				if (0 == m_iTextPatterns)
 					goto skip_textpatterns;
 			}
-			while(p && !result) {
-				while(*p && (*p == ' ' || *p == ',' || *p == '.' || *p == ':' || *p == ';' || *p == '?' || *p == '!'))
+
+			while (p && !result) {
+				while (*p && (*p == ' ' || *p == ',' || *p == '.' || *p == ':' || *p == ';' || *p == '?' || *p == '!'))
 					p++;
 
-				if (*p) {
-					p1 = p;
-					while(*p1 && *p1 != ' ' && *p1 != ',' && *p1 != '.' && *p1 != ':' && *p1 != ';' && *p1 != '?' && *p1 != '!')
-						p1++;
-
-					if (*p1)
-						*p1 = 0;
-					else
-						p1 = 0;
-
-					for (i=0; i < m_iTextPatterns && !result; i++)
-						result = wildmatch(m_TextPatterns[i], p) ? MATCH_TEXT : 0;
-
-					if (p1) {
-						*p1 = ' ';
-						p = p1 + 1;
-					}
-					else
-						p = 0;
-	#ifdef __HLT_PERFSTATS
-					words++;
-	#endif
-				}
-				else
+				if (*p == 0)
 					break;
-			}
-skip_textpatterns:
 
-	#ifdef __HLT_PERFSTATS
-			M.stopTimer(0);
-			if (psi && psi->dat) {
-				mir_sntprintf(psi->dat->szStatusBar, 100, _T("PERF text match: %d ticks = %f msec (%d words, %d patterns)"), (int)M.getTicks(), M.getMsec(), words, m_iTextPatterns);
-				if (psi->dat->pContainer->hwndStatus)
-					::SendMessage(psi->dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)psi->dat->szStatusBar);
+				TCHAR *p1 = p;
+				while (*p1 && *p1 != ' ' && *p1 != ',' && *p1 != '.' && *p1 != ':' && *p1 != ';' && *p1 != '?' && *p1 != '!')
+					p1++;
+
+				if (*p1)
+					*p1 = 0;
+				else
+					p1 = 0;
+
+				for (UINT i = 0; i < m_iTextPatterns && !result; i++)
+					result = wildcmpt(m_TextPatterns[i], p) ? MATCH_TEXT : 0;
+
+				if (p1) {
+					*p1 = ' ';
+					p = p1 + 1;
+				}
+				else p = 0;
 			}
-	#endif
-			mir_free(tszMe);
 		}
+
+skip_textpatterns:
 
 		/*
 		 * optinally, match the nickname against the list of nicks to highlight
@@ -197,54 +176,20 @@ skip_textpatterns:
 		if ((m_dwFlags & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->ptszNick && m_iNickPatterns > 0) {
 			for (UINT i = 0; i < m_iNickPatterns && !nResult; i++) {
 				if (pgce->ptszNick)
-					nResult = wildmatch(m_NickPatterns[i], pgce->ptszNick) ? MATCH_NICKNAME : 0;
+					nResult = wildcmpt(m_NickPatterns[i], pgce->ptszNick) ? MATCH_NICKNAME : 0;
 				if ((m_dwFlags & MATCH_UIN) && pgce->ptszUserInfo)
-					nResult = wildmatch(m_NickPatterns[i], pgce->ptszUserInfo) ? MATCH_NICKNAME : 0;
+					nResult = wildcmpt(m_NickPatterns[i], pgce->ptszUserInfo) ? MATCH_NICKNAME : 0;
 			}
 		}
 
 		return(result | nResult);
 	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MUC_HIGHLIGHT_EXCEPTION", false)) {
+	__except (CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MUC_HIGHLIGHT_EXCEPTION", false))
+	{
 		m_Valid = false;
 		return 0;
 	}
 	return 0;
-}
-
-int CMUCHighlight::wildmatch(const TCHAR *pattern, const TCHAR *tszString) {
-
-	const TCHAR *cp = 0, *mp = 0;
-
-	while ((*tszString) && (*pattern != '*')) {
-		if ((*pattern != *tszString) && (*pattern != '?')) {
-			return 0;
-		}
-		pattern++;
-		tszString++;
-	}
-
-	while (*tszString) {
-		if (*pattern == '*') {
-			if (!*++pattern)
-				return 1;
-		  mp = pattern;
-		  cp = tszString + 1;
-		}
-		else if ((*pattern == *tszString) || (*pattern == '?')) {
-			pattern++;
-			tszString++;
-		}
-		else {
-			pattern = mp;
-			tszString = cp++;
-		}
-	}
-
-	while (*pattern == '*')
-		pattern++;
-
-	return(!*pattern);
 }
 
 /**
