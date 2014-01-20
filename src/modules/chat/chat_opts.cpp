@@ -258,6 +258,9 @@ void LoadGlobalSettings(void)
 
 static void FreeGlobalSettings(void)
 {
+	if (g_Settings == NULL)
+		return;
+
 	mir_free(g_Settings->pszTimeStamp);
 	mir_free(g_Settings->pszTimeStampLog);
 	mir_free(g_Settings->pszIncomingNick);
@@ -270,6 +273,8 @@ static void FreeGlobalSettings(void)
 		DeleteObject(g_Settings->UserListFont);
 	if (g_Settings->UserListHeadingsFont)
 		DeleteObject(g_Settings->UserListHeadingsFont);
+	if (g_Settings->NameFont)
+		DeleteObject(g_Settings->NameFont);
 }
 
 void SetIndentSize()
@@ -341,6 +346,5 @@ int OptionsInit(void)
 int OptionsUnInit(void)
 {
 	FreeGlobalSettings();
-	DeleteObject(g_Settings->NameFont);
 	return 0;
 }
