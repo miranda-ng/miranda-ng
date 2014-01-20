@@ -260,6 +260,12 @@
   <ItemGroup>
     <None Include="docs\RemovePersonalSettings.ini" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

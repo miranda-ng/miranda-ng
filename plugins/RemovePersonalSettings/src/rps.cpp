@@ -40,6 +40,8 @@ Based on work by nullbie
 #include <m_utils.h>
 #include <m_database.h>
 
+#include "version.h"
+
 #define MIID_REMOVEPERSONALSETTINGS { 0x5eaec989, 0x8ff, 0x4820, { 0xb8, 0x6c, 0x2b, 0x6e, 0xf0, 0x8e, 0x33, 0x73 } }
 
 #define INI_FILE_NAME  "RemovePersonalSettings.ini"
