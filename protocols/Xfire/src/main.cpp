@@ -332,7 +332,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 
 	  SendStatusMessagePacket *packet = new SendStatusMessagePacket();
 
-	  packet->awaymsg = s.c_str();
+	  packet->awaymsg = ptrA( mir_utf8encode(s.c_str()));
 	  client->send( packet );
 	  delete packet;
   }
@@ -1373,7 +1373,7 @@ INT_PTR SendMessage(WPARAM wParam, LPARAM lParam)
 	if (myClient!=NULL)
 		if (myClient->client->connected&&db_get_w(ccs->hContact, protocolname, "Status", -1)!=ID_STATUS_OFFLINE)
 		{
-			myClient->sendmsg(dbv.pszVal, ( char* )ccs->lParam);
+			myClient->sendmsg(dbv.pszVal, ptrA( mir_utf8encode((char*)ccs->lParam)));
 			mir_forkthread(SendAck,ccs->hContact);
 			sended=1;
 		}
@@ -2638,9 +2638,6 @@ void setBuddyStatusMsg(BuddyListEntry *entry)
 		db_unset(entry->hcontact, protocolname, "XStatusName");
 		db_unset(entry->hcontact, protocolname, "XStatusMsg");
 	}
-
-	//statusmsg umwandeln
-	entry->statusmsg = ptrA(mir_utf8decode((char*)entry->statusmsg.c_str(), NULL));
 
 	string afk = entry->statusmsg.substr(0, 5);
 	int status_id = (afk == "(AFK)" || afk == "(ABS)") ? ID_STATUS_AWAY : ID_STATUS_ONLINE;
