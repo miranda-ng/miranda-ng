@@ -86,7 +86,7 @@
 //	Definitions
 //=======================================================
 #define protocolname		"XFire" //no spaces here :)
-#define PLUGIN_TITLE		"XFire Protocol"
+#define PLUGIN_TITLE		LPGEN("XFire Protocol")
 
 //=======================================================
 //	Defines
