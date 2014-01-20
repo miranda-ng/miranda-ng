@@ -45,11 +45,11 @@ struct FontOptionsList
 
 static LOGFONT lfDefault;
 
-static FontOptionsList const fontOptionsList[] =
+static FontOptionsList fontOptionsList[] =
 {
-	{ LPGENT("Timestamp"),                    RGB(50, 50, 240),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -8 },
-	{ LPGENT("Others nicknames"),             RGB(0, 0, 0),       lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT("Your nickname"),                RGB(0, 0, 0),       lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENT("Timestamp"),                    RGB(50, 50, 240),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("Others nicknames"),             RGB(0, 0, 192),     lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENT("Your nickname"),                RGB(0, 0, 192),     lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
 	{ LPGENT("User has joined"),              RGB(90, 160, 90),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENT("User has left"),                RGB(160, 160, 90),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENT("User has disconnected"),        RGB(160, 90, 90),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
@@ -94,25 +94,26 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 {
 	char str[32];
 	int style;
+	FontOptionsList &FO = fontOptionsList[i];
 
 	if (colour) {
 		mir_snprintf(str, SIZEOF(str), "Font%dCol", i);
-		*colour = db_get_dw(NULL, CHATFONT_MODULE, str, fontOptionsList[i].defColour);
+		*colour = db_get_dw(NULL, CHATFONT_MODULE, str, FO.defColour);
 	}
 	if (lf) {
 		mir_snprintf(str, SIZEOF(str), "Font%dSize", i);
-		lf->lfHeight = (char)db_get_b(NULL, CHATFONT_MODULE, str, fontOptionsList[i].defSize);
+		lf->lfHeight = (char)db_get_b(NULL, CHATFONT_MODULE, str, FO.defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
 		mir_snprintf(str, SIZEOF(str), "Font%dSty", i);
-		style = db_get_b(NULL, CHATFONT_MODULE, str, fontOptionsList[i].defStyle);
+		style = db_get_b(NULL, CHATFONT_MODULE, str, FO.defStyle);
 		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
 		lf->lfUnderline = 0;
 		lf->lfStrikeOut = 0;
 		mir_snprintf(str, SIZEOF(str), "Font%dSet", i);
-		lf->lfCharSet = db_get_b(NULL, CHATFONT_MODULE, str, fontOptionsList[i].defCharset);
+		lf->lfCharSet = db_get_b(NULL, CHATFONT_MODULE, str, FO.defCharset);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
@@ -121,7 +122,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 
 		ptrT tszFace(db_get_tsa(NULL, CHATFONT_MODULE, str));
 		if (tszFace == NULL)
-			lstrcpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
+			lstrcpy(lf->lfFaceName, FO.szDefFace);
 		else
 			_tcsncpy_s(lf->lfFaceName, SIZEOF(lf->lfFaceName), tszFace, _TRUNCATE);
 	}
@@ -135,22 +136,19 @@ void RegisterFonts(void)
 
 	FontIDT fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_NEEDRESTART;
+	_tcsncpy_s(fontid.backgroundGroup, SIZEOF(fontid.backgroundGroup), g_szFontGroup, _TRUNCATE);
+	_tcsncpy_s(fontid.group, SIZEOF(fontid.group), g_szFontGroup, _TRUNCATE);
+
 	for (int i = 0; i < SIZEOF(fontOptionsList); i++, index++) {
+		FontOptionsList &FO = fontOptionsList[i];
 		strncpy(fontid.dbSettingsGroup, CHATFONT_MODULE, sizeof(fontid.dbSettingsGroup));
-		_tcsncpy(fontid.group, g_szFontGroup, SIZEOF(fontid.group));
-		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
+		_tcsncpy_s(fontid.name, SIZEOF(fontid.name), FO.szDescr, _TRUNCATE);
 
 		char idstr[10];
 		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", index);
 		strncpy(fontid.prefix, idstr, sizeof(fontid.prefix));
 		fontid.order = index;
 
-		fontid.deffontsettings.charset = fontOptionsList[i].defCharset;
-		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
-		fontid.deffontsettings.size = fontOptionsList[i].defSize;
-		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
-		_tcsncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fontid.deffontsettings.szFace));
-		_tcsncpy(fontid.backgroundGroup, g_szFontGroup, SIZEOF(fontid.backgroundGroup));
 		switch (i) {
 		case 18:
 		case 19:
@@ -162,18 +160,24 @@ void RegisterFonts(void)
 			if (g_iFontMode == FONTMODE_USE) {
 				_tcsncpy_s(fontid.name, SIZEOF(fontid.name), LPGENT("Message typing area"), _TRUNCATE);
 				_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), LPGENT("Message background"), _TRUNCATE);
-				fontid.deffontsettings.colour = RGB(0, 0, 40);
+				FO.defColour = RGB(0, 0, 40);
 				break;
 			}
 
 			_tcsncpy_s(fontid.name, SIZEOF(fontid.name), LPGENT("Chat log symbols (Webdings)"), _TRUNCATE);
-			_tcsncpy_s(fontid.deffontsettings.szFace, SIZEOF(fontid.deffontsettings.szFace), _T("Webdings"), _TRUNCATE);
-			fontid.deffontsettings.colour = RGB(170, 170, 170);
+			FO.szDefFace = _T("Webdings");
+			FO.defColour = RGB(170, 170, 170);
+			FO.defCharset = SYMBOL_CHARSET;
 			// fall through
 		default:
 			_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), LPGENT("Group chat log background"), _TRUNCATE);
 			break;
 		}
+		_tcsncpy(fontid.deffontsettings.szFace, FO.szDefFace, SIZEOF(fontid.deffontsettings.szFace));
+		fontid.deffontsettings.charset = FO.defCharset;
+		fontid.deffontsettings.colour = FO.defColour;
+		fontid.deffontsettings.size = FO.defSize;
+		fontid.deffontsettings.style = FO.defStyle;
 		CallService("Font/RegisterW", (WPARAM)&fontid, g_iChatLang);
 	}
 }
@@ -245,11 +249,6 @@ void LoadGlobalSettings(void)
 	g_Settings->bLogIndentEnabled = db_get_b(NULL, CHAT_MODULE, "LogIndentEnabled", 1) != 0;
 
 	LOGFONT lf;
-	if (g_Settings->MessageBoxFont)
-		DeleteObject(g_Settings->MessageBoxFont);
-	LoadMsgDlgFont(17, &lf, NULL);
-	g_Settings->MessageBoxFont = CreateFontIndirect(&lf);
-
 	if (g_Settings->UserListFont)
 		DeleteObject(g_Settings->UserListFont);
 	LoadMsgDlgFont(18, &lf, NULL);
@@ -274,8 +273,6 @@ static void FreeGlobalSettings(void)
 	mir_free(g_Settings->pszOutgoingNick);
 	mir_free(g_Settings->pszHighlightWords);
 	mir_free(g_Settings->pszLogDir);
-	if (g_Settings->MessageBoxFont)
-		DeleteObject(g_Settings->MessageBoxFont);
 	if (g_Settings->UserListFont)
 		DeleteObject(g_Settings->UserListFont);
 	if (g_Settings->UserListHeadingsFont)
@@ -325,7 +322,6 @@ int OptionsInit(void)
 	g_Settings->NameFont = CreateFontIndirect(&lf);
 	g_Settings->UserListFont = NULL;
 	g_Settings->UserListHeadingsFont = NULL;
-	g_Settings->MessageBoxFont = NULL;
 	g_Settings->iWidth = db_get_dw(NULL, CHAT_MODULE, "roomwidth", -1);
 	g_Settings->iHeight = db_get_dw(NULL, CHAT_MODULE, "roomheight", -1);
 

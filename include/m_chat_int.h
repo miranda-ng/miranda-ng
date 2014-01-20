@@ -277,7 +277,6 @@ struct GlobalLogSettingsBase
 	TCHAR*   pszLogDir;
 	HFONT    UserListFont;
 	HFONT    UserListHeadingsFont;
-	HFONT    MessageBoxFont;
 	HFONT    NameFont;
 	COLORREF crLogBackground;
 	COLORREF crUserListColor;

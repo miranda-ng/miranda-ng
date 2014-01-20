@@ -256,6 +256,12 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 
 static void OnLoadSettings()
 {
+	LOGFONT lf;
+	if (g_Settings.MessageBoxFont)
+		DeleteObject(g_Settings.MessageBoxFont);
+	pci->LoadMsgDlgFont(17, &lf, NULL);
+	g_Settings.MessageBoxFont = CreateFontIndirect(&lf);
+
 	g_Settings.iX = db_get_dw(NULL, CHAT_MODULE, "roomx", -1);
 	g_Settings.iY = db_get_dw(NULL, CHAT_MODULE, "roomy", -1);
 
@@ -366,6 +372,8 @@ extern "C" __declspec(dllexport) int Unload(void)
 	db_set_dw(NULL, CHAT_MODULE, "roomwidth" , g_Settings.iWidth);
 	db_set_dw(NULL, CHAT_MODULE, "roomheight", g_Settings.iHeight);
 
+	if (g_Settings.MessageBoxFont)
+		DeleteObject(g_Settings.MessageBoxFont);
 	DestroyMenu(g_hMenu);
 	return 0;
 }

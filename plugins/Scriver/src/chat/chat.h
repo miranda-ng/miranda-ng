@@ -67,7 +67,10 @@ struct SESSION_INFO : public GCSessionInfoBase
 	CommonWindowData windowData;
 };
 
-struct GlobalLogSettings : public GlobalLogSettingsBase {};
+struct GlobalLogSettings : public GlobalLogSettingsBase
+{
+	HFONT MessageBoxFont;
+};
 extern GlobalLogSettings g_Settings;
 
 typedef struct{

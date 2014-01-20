@@ -135,6 +135,15 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
+static void OnLoadSettings()
+{
+	LOGFONT lf;
+	if (g_Settings.MessageBoxFont)
+		DeleteObject(g_Settings.MessageBoxFont);
+	pci->LoadMsgDlgFont(17, &lf, NULL);
+	g_Settings.MessageBoxFont = CreateFontIndirect(&lf);
+}
+
 static void RegisterFonts()
 {
 	ColourIDT colourid = { sizeof(colourid) };
@@ -171,6 +180,7 @@ int Chat_Load()
 
 	pci->OnCreateModule = OnCreateModule;
 	pci->OnNewUser = OnNewUser;
+	pci->OnLoadSettings = OnLoadSettings;
 
 	pci->OnSetStatus = OnSetStatus;
 
