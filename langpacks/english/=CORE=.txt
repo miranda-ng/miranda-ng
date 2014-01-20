@@ -789,7 +789,6 @@
 [Message sessions]
 [General]
 [Chat log]
-[Chat]
 [Popups]
 ;file \src\core\stdchat\src\tools.cpp
 [Look up '%s':]
@@ -1011,7 +1010,6 @@
 [Highlighted message]
 [User list members (online)]
 [User list members (away)]
-[Userlist background]
 [Message typing area]
 [Chat log symbols (Webdings)]
 [Message is highlighted]

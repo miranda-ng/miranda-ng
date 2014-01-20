@@ -1805,8 +1805,6 @@ tabSRMM: %s
 %s выключает статус '%s' для %s
 [Add user to highlight list]
 Добавить пользователя в список подсветки
-[Group chat log background]
-Фон журнала чата
 [Input area background]
 Окна ввода текста
 [Log background]
@@ -2045,6 +2043,8 @@ IRC-стиль (текстовый) индикаторов ролей в жур�
 Фон полей
 [Userlist background]
 Фон списка пользователей
+[Group chat log background]
+Фон журнала чата
 [nick of current contact (if defined)]
 ник текущего контакта (если определен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]

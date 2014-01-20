@@ -89,7 +89,6 @@
 [Zip and upload folder]
 [FTP File manager]
 [Show FTPFile manager]
-[FTP_ShowManager]
 [Upload file]
 [Zip and upload file]
 [You have to fill FTP server setting before upload a file.]

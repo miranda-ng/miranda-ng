@@ -112,6 +112,8 @@
 [Well, I would talk to you if Miranda ICQ supported chat]
 [That'll be the phone.]
 [Mmm... food.]
+;file \protocols\Xfire\src\baseProtocol.h
+[XFire Protocol]
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 [Error during xfire_games.ini update.]
@@ -153,7 +155,7 @@
 [&Activity Report]
 [&Rescan my games...]
 [Set &Nickname]
-[Protocols/XFire]
+[Protocols]
 [XFire game icon]
 [XFire voice icon]
 [XFire does not support offline messaging!]

@@ -5,7 +5,6 @@
 [File with the same name already exists on the server.]
 [How to proceed?]
 [Copy URL]
-[FTP_ShowManager]
 [You have to fill FTP server setting before upload a file.]
 [Error has occurred while trying to create a dialog!]
 [FTP File - Select a folder]

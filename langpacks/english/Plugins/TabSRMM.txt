@@ -955,7 +955,6 @@
 [Add user to highlight list]
 [Edit user highlight list]
 ;file \plugins\TabSRMM\src\chat\options.cpp
-[Group chat log background]
 [Input area background]
 [Log background]
 [Single Messaging]
@@ -1075,6 +1074,7 @@
 [Incremental search highlight]
 [Fields background]
 [Userlist background]
+[Group chat log background]
 [nick of current contact (if defined)]
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 [User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
