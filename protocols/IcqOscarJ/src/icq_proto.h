@@ -922,7 +922,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	char** MirandaStatusToAwayMsg(int nStatus);
 
-	BOOL   validateStatusMessageRequest(HANDLE hContact, WORD byMessageType);
+	bool   validateStatusMessageRequest(HANDLE hContact, WORD byMessageType);
 };
 
 #endif

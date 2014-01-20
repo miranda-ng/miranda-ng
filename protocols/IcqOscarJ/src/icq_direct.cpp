@@ -824,23 +824,15 @@ void EncryptDirectPacket(directconnect* dc, icq_packet* p)
 	unsigned long hex;
 	unsigned long size = p->wLen - 1;
 
-
 	if (dc->wVersion < 4)
 		return;  // no encryption necessary.
 
-
-	switch (dc->wVersion)
-	{
+	switch (dc->wVersion) {
 	case 4:
 	case 5:
 		offset = 6;
 		break;
 
-	case 6:
-	case 7:
-	case 8:
-	case 9:
-	case 10:
 	default:
 		offset = 0;
 	}

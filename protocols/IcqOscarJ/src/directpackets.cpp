@@ -81,7 +81,7 @@ DWORD CIcqProto::icq_sendGetAwayMsgDirect(HANDLE hContact, int type)
 	DWORD dwCookie;
 	cookie_message_data *pCookieData;
 
-	if (getWord(hContact, "Version", 0) == 9)
+	if (getWord(hContact, "Version", 0) >= 9)
 		return 0; // v9 DC protocol does not support this message
 
 	pCookieData = CreateMessageCookie(MTYPE_AUTOAWAY, (BYTE)type);

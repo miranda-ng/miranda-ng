@@ -91,11 +91,9 @@ char *ApplyEncoding(const char *string, const char *pszEncoding);
 
 int RandRange(int nLow, int nHigh);
 
-BOOL IsStringUIN(const char *pszString);
+bool IsStringUIN(const char *pszString);
 
 char* time2text(time_t time);
-
-BOOL validateStatusMessageRequest(HANDLE hContact, WORD byMessageType);
 
 void __fastcall SAFE_FREE(void** p);
 void* __fastcall SAFE_MALLOC(size_t size);

@@ -41,10 +41,8 @@ void CIcqProto::handleCloseChannel(BYTE *buf, WORD datalen, serverthread_info *i
 	if (info->isMigrating)
 		handleMigration(info);
 
-	if ((!info->bLoggedIn || info->isMigrating) && info->newServerReady)
-	{
-		if (!connectNewServer(info))
-		{ // Connecting failed
+	if ((!info->bLoggedIn || info->isMigrating) && info->newServerReady) {
+		if (!connectNewServer(info)) { // Connecting failed
 			if (info->isMigrating)
 				icq_LogUsingErrorCode(LOG_ERROR, GetLastError(), LPGEN("Unable to connect to migrated ICQ communication server"));
 			else
@@ -59,12 +57,10 @@ void CIcqProto::handleCloseChannel(BYTE *buf, WORD datalen, serverthread_info *i
 		return;
 	}
 
-	if (chain = readIntoTLVChain(&buf, datalen, 0))
-	{
+	if (chain = readIntoTLVChain(&buf, datalen, 0)) {
 		// TLV 9 errors (runtime errors?)
 		WORD wError = chain->getWord(0x09, 1);
-		if (wError)
-		{
+		if (wError) {
 			SetCurrentStatus(ID_STATUS_OFFLINE);
 
 			handleRuntimeError(wError);
@@ -83,8 +79,7 @@ void CIcqProto::handleLoginReply(BYTE *buf, WORD datalen, serverthread_info *inf
 
 	icq_sendCloseConnection(); // imitate icq5 behaviour
 
-	if (!(chain = readIntoTLVChain(&buf, datalen, 0)))
-	{
+	if (!(chain = readIntoTLVChain(&buf, datalen, 0))) {
 		debugLogA("Error: Missing chain on close channel");
 		NetLib_CloseConnection(&hServerConn, TRUE);
 		return; // Invalid data
@@ -92,13 +87,11 @@ void CIcqProto::handleLoginReply(BYTE *buf, WORD datalen, serverthread_info *inf
 
 	// TLV 8 errors (signon errors?)
 	WORD wError = chain->getWord(0x08, 1);
-	if (wError)
-	{
+	if (wError) {
 		handleSignonError(wError);
 
 		// we return only if the server did not gave us cookie (possible to connect with soft error)
-		if (!chain->getLength(0x06, 1))
-		{
+		if (!chain->getLength(0x06, 1)) {
 			disposeChain(&chain);
 			SetCurrentStatus(ID_STATUS_OFFLINE);
 			icq_serverDisconnect(FALSE);
@@ -116,8 +109,7 @@ void CIcqProto::handleLoginReply(BYTE *buf, WORD datalen, serverthread_info *inf
 	// We dont need this anymore
 	disposeChain(&chain);
 
-	if (!info->newServer || !info->cookieData)
-	{
+	if (!info->newServer || !info->cookieData) {
 		icq_LogMessage(LOG_FATAL, LPGEN("You could not sign on because the server returned invalid data. Try again."));
 
 		SAFE_FREE(&info->newServer);
@@ -144,42 +136,34 @@ int CIcqProto::connectNewServer(serverthread_info *info)
 	WORD wServerPort = info->wServerPort; // prepare default port
 	parseServerAddress(info->newServer, &wServerPort);
 
-	NETLIBOPENCONNECTION nloc = {0};
+	NETLIBOPENCONNECTION nloc = { 0 };
 	nloc.flags = 0;
 	nloc.szHost = info->newServer;
 	nloc.wPort = wServerPort;
 
-	if (!m_bGatewayMode)
-	{
+	if (!m_bGatewayMode) {
 		NetLib_SafeCloseHandle(&info->hPacketRecver);
 		NetLib_CloseConnection(&hServerConn, TRUE);
 
 		debugLogA("Closed connection to login server");
 
 		hServerConn = NetLib_OpenConnection(m_hNetlibUser, NULL, &nloc);
-		if (hServerConn && info->newServerSSL)
-		{ /* Start SSL session if requested */
+		if (hServerConn && info->newServerSSL) /* Start SSL session if requested */
 			if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)hServerConn, 0))
 				NetLib_CloseConnection(&hServerConn, FALSE);
-		}
 
-		if (hServerConn)
-		{
+		if (hServerConn) {
 			/* Time to recreate the packet receiver */
 			info->hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hServerConn, 0x2400);
 			if (!info->hPacketRecver)
-			{
 				debugLogA("Error: Failed to create packet receiver.");
-			}
-			else // we need to reset receiving structs
-			{
+			else { // we need to reset receiving structs
 				info->bReinitRecver = 1;
 				res = 1;
 			}
 		}
 	}
-	else
-	{ // TODO: We should really do some checks here
+	else { // TODO: We should really do some checks here
 		debugLogA("Walking in Gateway to %s", info->newServer);
 		// TODO: This REQUIRES more work (most probably some kind of mid-netlib module)
 		icq_httpGatewayWalkTo(hServerConn, &nloc);
@@ -199,8 +183,7 @@ void CIcqProto::handleMigration(serverthread_info *info)
 {
 	// Check the data that was saved when the migration was announced
 	debugLogA("Migrating to %s", info->newServer);
-	if (!info->newServer || !info->cookieData)
-	{
+	if (!info->newServer || !info->cookieData) {
 		icq_LogMessage(LOG_FATAL, LPGEN("You have been disconnected from the ICQ network because the current server shut down."));
 
 		SAFE_FREE(&info->newServer);
@@ -297,15 +280,11 @@ void CIcqProto::handleSignonError(WORD wError)
 
 void CIcqProto::handleRuntimeError(WORD wError)
 {
-	switch (wError)
-	{
-
+	switch (wError) {
 	case 0x01:
-		{
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
-			icq_LogMessage(LOG_FATAL, LPGEN("You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number."));
-			break;
-		}
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
+		icq_LogMessage(LOG_FATAL, LPGEN("You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number."));
+		break;
 
 	default:
 		icq_LogFatalParam(LPGEN("Unknown runtime error: 0x%02x"), wError);

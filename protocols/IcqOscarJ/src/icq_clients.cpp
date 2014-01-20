@@ -681,7 +681,7 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 		else if (szClient == NULL) {
 			// ZA mangled the version, OMG!
 			if (wVersion == 8 && CheckContactCapabilities(hContact, CAPF_XTRAZ) && (MatchCapability(caps, wLen, &capIMSecKey1, 6) || MatchCapability(caps, wLen, &capIMSecKey2, 6)))
-				wVersion = 9;
+				wVersion = ICQ_VERSION;
 
 			// try to determine 2001-2003 versions
 			if (wVersion == 8 && (MatchCapability(caps, wLen, &capComm20012) || CheckContactCapabilities(hContact, CAPF_SRV_RELAY))) {
@@ -733,7 +733,7 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 					szClient = "imo.im"; //https://imo.im/ - Web IM
 			}
 			// try to determine lite versions
-			else if (wVersion == 9) {
+			else if (wVersion >= 9) {
 				if (CheckContactCapabilities(hContact, CAPF_XTRAZ)) {
 					*bClientId = CLID_GENERIC;
 					if (CheckContactCapabilities(hContact, CAPF_OSCAR_FILE)) {

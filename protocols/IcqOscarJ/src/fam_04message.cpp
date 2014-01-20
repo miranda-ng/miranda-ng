@@ -1637,7 +1637,7 @@ void CIcqProto::handleStatusMsgReply(const char *szPrefix, HANDLE hContact, DWOR
 
 	// it is probably UTF-8 status reply
 	PROTORECVEVENT pre = {0};
-	if (wVersion == 9 || (nMsgFlags & MTF_PLUGIN) && wVersion == 10)
+	if (wVersion >= 9)
 		if (UTF8_IsValid(szMsg))
 			pre.flags |= PREF_UTF;
 
