@@ -162,7 +162,7 @@ void Message(LPVOID msg)
 	case 1:
 		return;
 	case 2:
-		displayPopup(NULL,(LPCSTR)msg,"Miranda XFire Protocol Plugin",MB_OK);
+		displayPopup(NULL, (LPCSTR)msg, PLUGIN_TITLE, MB_OK);
 		return;
 	}
 
@@ -171,14 +171,14 @@ void Message(LPVOID msg)
 	mbp.hwndOwner=NULL;
 	mbp.hInstance=hinstance;
 	mbp.lpszText=(char*)msg;
-	mbp.lpszCaption="Miranda XFire Protocol Plugin";
+	mbp.lpszCaption = PLUGIN_TITLE;
 	mbp.dwStyle=MB_USERICON;
 	mbp.lpszIcon=MAKEINTRESOURCEA(IDI_TM);
 	mbp.dwContextHelpId=NULL;
 	mbp.lpfnMsgBoxCallback=NULL;
 	mbp.dwLanguageId=LANG_ENGLISH;
 	MessageBoxIndirectA(&mbp);
-	//MessageBoxA(0,(char*)msg,"Miranda XFire Protocol Plugin",MB_OK|MB_ICONINFORMATION);
+	//MessageBoxA(0,(char*)msg,PLUGIN_TITLE,MB_OK|MB_ICONINFORMATION);
 }
 
 void MessageE(LPVOID msg)
@@ -195,7 +195,7 @@ void MessageE(LPVOID msg)
 		}
 		break;
 	case 2:
-		displayPopup(NULL,(LPCSTR)msg,"Miranda XFire Protocol Plugin",MB_OK|MB_ICONSTOP);
+		displayPopup(NULL, (LPCSTR)msg, PLUGIN_TITLE, MB_OK | MB_ICONSTOP);
 		break;
 	}
 }

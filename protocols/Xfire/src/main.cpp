@@ -857,7 +857,7 @@ INT_PTR UrlCall(WPARAM wparam,LPARAM lparam) {
 
 							mir_snprintf(temp, SIZEOF(temp), Translate("Do you really want to add %s to your friend list?"),g);
 							//Nutzer vorher fragen, ob er wirklich user xyz adden möchte
-							if (MessageBoxA(NULL,temp,Translate("Miranda XFire Protocol Plugin"),MB_YESNO|MB_ICONQUESTION)==IDYES)
+							if (MessageBoxA(NULL, temp, Translate(PLUGIN_TITLE), MB_YESNO | MB_ICONQUESTION) == IDYES)
 							{
 								if (myClient!=NULL)
 								{
@@ -1045,7 +1045,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 		db_set_b(NULL,protocolname,"xfiresitegameico",1);
 		db_set_b(NULL,protocolname,"recprotoverchg",1);
 
-		if (MessageBox(NULL,TranslateT("It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer."),TranslateT("Miranda XFire Protocol Plugin"),MB_YESNO|MB_ICONQUESTION)==IDYES)
+		if (MessageBox(NULL, TranslateT("It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer."), TranslateT(PLUGIN_TITLE), MB_YESNO | MB_ICONQUESTION) == IDYES)
 		{
 			db_set_b(NULL,protocolname,"autoiniupdate",1);
 			db_set_b(NULL,protocolname,"autoicodllupdate",1);
@@ -1268,7 +1268,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	if (db_get_b(NULL,protocolname,"ipportdetec",0))
 	{
-		//MessageBoxA(0,"GetExtendedUdpTable not found. ServerIP/Port detection feature will be disabled.","Miranda XFire Protocol Plugin",MB_OK|MB_ICONINFORMATION);
+		//MessageBoxA(0,"GetExtendedUdpTable not found. ServerIP/Port detection feature will be disabled.",PLUGIN_TITLE,MB_OK|MB_ICONINFORMATION);
 		db_set_b(NULL,protocolname,"ipportdetec",0);
 		XFireLog("Wasn't able to get GetExtendedUdpTable function");
 	}
@@ -2639,10 +2639,8 @@ void setBuddyStatusMsg(BuddyListEntry *entry)
 		db_unset(entry->hcontact, protocolname, "XStatusMsg");
 	}
 
-	/*//statusmsg umwandeln
-	char *statusmsg = mir_utf8decode((char*)entry->statusmsg.c_str(),NULL);
-	if (statusmsg == NULL)
-		statusmsg = (char*)entry->statusmsg.c_str();*/		
+	//statusmsg umwandeln
+	entry->statusmsg = ptrA(mir_utf8decode((char*)entry->statusmsg.c_str(), NULL));
 
 	string afk = entry->statusmsg.substr(0, 5);
 	int status_id = (afk == "(AFK)" || afk == "(ABS)") ? ID_STATUS_AWAY : ID_STATUS_ONLINE;
@@ -2850,7 +2848,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 							//größe des popupstrings
 							int size=strlen(temp)+1;
 							//popup darstellen
-							displayPopup(NULL,temp,"Miranda XFire Protocol Plugin",0,hicongame);
+							displayPopup(NULL, temp, PLUGIN_TITLE, 0, hicongame);
 							//letzten popup definieren
 							entry->lastpopup=new char[size];
 							//string kopieren
@@ -2866,7 +2864,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 								//größe des popupstrings
 								int size=strlen(temp)+1;
 								//popup darstellen
-								displayPopup(NULL,temp,"Miranda XFire Protocol Plugin",0,hicongame);
+								displayPopup(NULL, temp, PLUGIN_TITLE, 0, hicongame);
 								//letzten popup definieren
 								entry->lastpopup=new char[size];
 								//string kopieren

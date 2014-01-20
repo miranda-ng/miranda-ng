@@ -105,7 +105,7 @@ void UpdateMyIcons(LPVOID dummy) {
 
 	if (CheckWWWContent(request))
 	{
-		if (db_get_b(NULL,protocolname,"dontaskforupdate",0)==1||MessageBox(NULL,TranslateT("There is a new Icons.dll online, do you want to update now?"),TranslateT("Miranda XFire Protocol Plugin"),MB_YESNO|MB_ICONQUESTION)==IDYES)
+		if (db_get_b(NULL,protocolname,"dontaskforupdate",0)==1||MessageBox(NULL,TranslateT("There is a new Icons.dll online, do you want to update now?"),TranslateT(PLUGIN_TITLE),MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
 			if (GetWWWContent2(request,file,FALSE)) {
 				//altes backup löschen

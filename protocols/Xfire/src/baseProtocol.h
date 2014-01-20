@@ -86,6 +86,7 @@
 //	Definitions
 //=======================================================
 #define protocolname		"XFire" //no spaces here :)
+#define PLUGIN_TITLE		"XFire Protocol"
 
 //=======================================================
 //	Defines
