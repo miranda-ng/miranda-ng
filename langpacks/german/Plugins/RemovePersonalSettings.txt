@@ -6,10 +6,11 @@
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Remove personal settings to allow to send a profile to other user(s) without sending personal data.]
-Удаление личных настроек для возможности отправки профиля другим пользователям без личных данных.
+
+;file \plugins\RemovePersonalSettings\src\rps.cpp
 [Configuration file could not be found!]
-Файл конфигурации не найден!
+
 [Remove Personal Settings]
-Удаление личных настроек
+
 [Settings are deleted now.]
-Настройки были удалены
+
