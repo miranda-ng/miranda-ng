@@ -130,7 +130,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.position=-0x7FFFFFFF;
 	mi.flags=0;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	mi.pszName=LPGEN("Remove Personal Settings...");
+	mi.pszName = LPGEN("Remove Personal Settings...");
 	mi.pszService="RemovePersonalSettings/RemoveAll";
 	Menu_AddMainMenuItem(&mi);
 
@@ -153,13 +153,11 @@ extern "C" int __declspec(dllexport) Load()
 	// Lets try fist name
 	strcpy(strTmp, INI_FILE_NAME);
 
-	if (_access(gIniFile, 4) != 0)
-	{
+	if (_access(gIniFile, 4) != 0) {
 		// Not found, lets try the other aproach
 		strcpy(strTmp, "plugins\\" INI_FILE_NAME);
 
-		if (_access(gIniFile, 4) != 0)
-		{
+		if (_access(gIniFile, 4) != 0) {
 			// Not found :(
 			gIniFile[0] = '\0';
 		}
@@ -177,14 +175,12 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 INT_PTR RemoveAllService(WPARAM wParam,LPARAM lParam)
 {
-	if (gIniFile[0] == '\0')
-	{
+	if (gIniFile[0] == '\0') {
 		MessageBox(NULL, Translate("Configuration file could not be found!"), Translate(MSGBOX_TITLE), MB_OK | MB_ICONERROR);
 		return -1;
 	}
 
-	if (MessageBox(NULL, Translate(NOTICE_TEXT), Translate(MSGBOX_TITLE), MB_YESNO) == IDYES)
-	{
+	if (MessageBox(NULL, Translate(NOTICE_TEXT), Translate(MSGBOX_TITLE), MB_YESNO) == IDYES) {
 		SetProtocolsOffline();
 		RemoveUsers();
 		RemoveSettings();
@@ -200,15 +196,13 @@ INT_PTR RemoveAllService(WPARAM wParam,LPARAM lParam)
 
 void SetProtocolsOffline()
 {
-	if ( GetSettingBool("GlobalSettings", "SetProtocolsOffline", TRUE) )
-	{
+	if ( GetSettingBool("GlobalSettings", "SetProtocolsOffline", TRUE) ) {
 		PROTOACCOUNT **accounts;
 		int i,count;
 
 		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accounts);
 
-		for (i = 0; i < count; i++)
-		{
+		for (i = 0; i < count; i++) {
 			/*if (protos[i]->type != PROTOTYPE_PROTOCOL)
 				continue;*/
 			if (!accounts[i]->bIsEnabled)
@@ -227,16 +221,14 @@ void SetProtocolsOffline()
 
 void RemoveUsers()
 {
-	if ( GetSettingBool("GlobalSettings", "RemoveAllUsers", TRUE) )
-	{
+	if ( GetSettingBool("GlobalSettings", "RemoveAllUsers", TRUE) ) {
 		HANDLE hContact;
 		HANDLE hDbEvent;
 		HANDLE hContactOld;
 
 		// To be faster, remove first all metacontacts (because it syncs histories)
 		hContact = db_find_first();
-		while(hContact != NULL)
-		{
+		while(hContact != NULL) {
 			hContactOld = hContact;
 			hContact = db_find_next(hContact);
 
@@ -246,8 +238,7 @@ void RemoveUsers()
 
 		// Now delete all left-overs
 		hContact = db_find_first();
-		while(hContact != NULL)
-		{
+		while(hContact != NULL) {
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
 
 			hContact = db_find_first();
@@ -256,8 +247,7 @@ void RemoveUsers()
 		// Delete events for contacts not in list
 		hDbEvent = db_event_first(0);
 
-		while(hDbEvent != NULL)
-		{
+		while(hDbEvent != NULL) {
 			int ret = db_event_delete(0, hDbEvent);
 
 			hDbEvent = db_event_first(0);
@@ -273,25 +263,21 @@ void RemoveProtocolSettings(const char * protocolName)
 	char buffer[10000];
 
 	// Remove protocol module settings
-	if ( GetSettingBool("GlobalSettings", "RemoveWholeProtocolModule", FALSE) )
-	{
+	if ( GetSettingBool("GlobalSettings", "RemoveWholeProtocolModule", FALSE) ) {
 		DeleteSettingEx(protocolName, NULL);
 	}
-	else if ( GetSettings("ProtocolSettings", buffer, sizeof(buffer)) )
-	{
+	else if ( GetSettings("ProtocolSettings", buffer, sizeof(buffer)) ) {
 		char *name;
 		char *value;
 
 		name = buffer;
-		while(name[0] != '\0')
-		{
+		while(name[0] != '\0') {
 			value = strchr(name, '=');
 			if (value == NULL)
 				value = &name[strlen(name)];
 
 			// Has " ?
-			if (*name == '"' && *(value-1) == '"')
-			{
+			if (*name == '"' && *(value-1) == '"') {
 				name++;
 				*(value-1) = '\0';
 			}
@@ -306,29 +292,25 @@ void RemoveProtocolSettings(const char * protocolName)
 	}
 
 	// Remove modules by protocol sufixes
-	if ( GetSettings("ProtocolModuleSufixes", buffer, sizeof(buffer)) )
-	{
+	if ( GetSettings("ProtocolModuleSufixes", buffer, sizeof(buffer)) ) {
 		char *name;
 		char *value;
 		char moduleName[256];
 
 		name = buffer;
-		while(name[0] != '\0')
-		{
+		while(name[0] != '\0') {
 			value = strchr(name, '=');
 			if (value == NULL)
 				value = &name[strlen(name)];
 
 			// Has " ?
-			if (*name == '"' && *(value-1) == '"')
-			{
+			if (*name == '"' && *(value-1) == '"') {
 				name++;
 				*(value-1) = '\0';
 			}
 
 			// Delete it
-			if (name[0] != '\0')
-			{
+			if (name[0] != '\0') {
 				mir_snprintf(moduleName, sizeof(moduleName), "%s%s", protocolName, name);
 				DeleteSettingEx(moduleName, NULL);
 			}
@@ -344,16 +326,14 @@ void RemoveSettings()
 	char buffer[10000];
 
 	// Delete protocol settings
-	if ( GetSettingBool("GlobalSettings", "RemoveProtocolSettings", TRUE) )
-	{
+	if ( GetSettingBool("GlobalSettings", "RemoveProtocolSettings", TRUE) ) {
 		PROTOACCOUNT **accounts;
 		int i,count;
 
 		// TODO MS_PROTO_ENUMACCOUNTS
 		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accounts);
 
-		for (i = 0; i < count; i++)
-		{
+		for (i = 0; i < count; i++) {
 			/*if (protos[i]->type != PROTOTYPE_PROTOCOL)
 				continue;*/
 			if (!accounts[i]->bIsEnabled)
@@ -366,21 +346,18 @@ void RemoveSettings()
 		}
 
 		// Get disabled protocols
-		if ( GetSettings("DisabledProtocols", buffer, sizeof(buffer)) )
-		{
+		if ( GetSettings("DisabledProtocols", buffer, sizeof(buffer)) ) {
 			char *name;
 			char *value;
 
 			name = buffer;
-			while(name[0] != '\0')
-			{
+			while(name[0] != '\0') {
 				value = strchr(name, '=');
 				if (value == NULL)
 					value = &name[strlen(name)];
 
 				// Has " ?
-				if (*name == '"' && *(value-1) == '"')
-				{
+				if (*name == '"' && *(value-1) == '"') {
 					name++;
 					*(value-1) = '\0';
 				}
@@ -397,21 +374,18 @@ void RemoveSettings()
 
 
 	// Delete other settings
-	if ( GetSettings("RemoveSettings", buffer, sizeof(buffer)) )
-	{
+	if (GetSettings("RemoveSettings", buffer, sizeof(buffer))) {
 		char *name;
 		char *value;
 
 		name = buffer;
-		while(name[0] != '\0')
-		{
+		while(name[0] != '\0') {
 			value = strchr(name, '=');
 			if (value == NULL)
 				value = &name[strlen(name)];
 
 			// Has " ?
-			if (*name == '"' && *(value-1) == '"')
-			{
+			if (*name == '"' && *(value-1) == '"') {
 				name++;
 				*(value-1) = '\0';
 			}
@@ -430,21 +404,18 @@ void ExecuteServices()
 {
 	char buffer[10000];
 
-	if ( GetSettings("ExecuteServices", buffer, sizeof(buffer)) )
-	{
+	if ( GetSettings("ExecuteServices", buffer, sizeof(buffer)) ) {
 		char *name;
 		char *value;
 
 		name = buffer;
-		while(name[0] != '\0')
-		{
+		while(name[0] != '\0') {
 			value = strchr(name, '=');
 			if (value == NULL)
 				value = &name[strlen(name)];
 
 			// Has " ?
-			if (*name == '"' && *(value-1) == '"')
-			{
+			if (*name == '"' && *(value-1) == '"') {
 				name++;
 				*(value-1) = '\0';
 			}
@@ -466,15 +437,13 @@ void RemoveDirectories()
 	char dir[MAX_PATH];
 
 	// Remove protocol folders
-	if (GetSettingBool("GlobalSettings", "RemoveProtocolFolders", TRUE))
-	{
+	if (GetSettingBool("GlobalSettings", "RemoveProtocolFolders", TRUE)) {
 		PROTOACCOUNT **accounts;
 		int i,count;
 
 		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accounts);
 
-		for (i = 0; i < count; i++)
-		{
+		for (i = 0; i < count; i++) {
 			/*if (protos[i]->type != PROTOTYPE_PROTOCOL)
 				continue;*/
 			if (!accounts[i]->bIsEnabled)
@@ -489,28 +458,24 @@ void RemoveDirectories()
 	}
 
 	// Remove other folders
-	if ( GetSettings("RemoveFilesOrFolders", buffer, sizeof(buffer)) )
-	{
+	if ( GetSettings("RemoveFilesOrFolders", buffer, sizeof(buffer)) ) {
 		char *name;
 		char *value;
 
 		name = buffer;
-		while(name[0] != '\0')
-		{
+		while(name[0] != '\0') {
 			value = strchr(name, '=');
 			if (value == NULL)
 				value = &name[strlen(name)];
 
 			// Has " ?
-			if (*name == '"' && *(value-1) == '"')
-			{
+			if (*name == '"' && *(value-1) == '"') {
 				name++;
 				*(value-1) = '\0';
 			}
 
 			// Delete it
-			if (name[0] != '\0')
-			{
+			if (name[0] != '\0') {
 				mir_snprintf(dir, sizeof(dir), "%s%s", gMirandaDir, name);
 				DeleteFileOrFolder(dir);
 			}
@@ -525,28 +490,24 @@ void DisablePlugins()
 {
 	char buffer[10000];
 
-	if ( GetSettings("DisablePlugins", buffer, sizeof(buffer)) )
-	{
+	if ( GetSettings("DisablePlugins", buffer, sizeof(buffer)) ) {
 		char *name;
 		char *value;
 
 		name = buffer;
-		while(name[0] != '\0')
-		{
+		while(name[0] != '\0') {
 			value = strchr(name, '=');
 			if (value == NULL)
 				value = &name[strlen(name)];
 
 			// Has " ?
-			if (*name == '"' && *(value-1) == '"')
-			{
+			if (*name == '"' && *(value-1) == '"') {
 				name++;
 				*(value-1) = '\0';
 			}
 
 			// Disable it
-			if (name[0] != '\0')
-			{
+			if (name[0] != '\0') {
 				CharLower(name);
 				if (db_get_b(NULL, PLUGINDISABLELIST, name, 0) != 1)
 				{
@@ -568,12 +529,10 @@ BOOL GetSettingBool(const char *section, const char *key, BOOL defaultValue)
 {
 	char tmp[16];
 
-	if ( GetPrivateProfileString(section, key, defaultValue ? "true" : "false", tmp, sizeof(tmp), gIniFile) == 0 )
-	{
+	if ( GetPrivateProfileString(section, key, defaultValue ? "true" : "false", tmp, sizeof(tmp), gIniFile) == 0 ) {
 		return defaultValue;
 	}
-	else
-	{
+	else {
 		return stricmp(tmp, "true") == 0;
 	}
 }
@@ -594,9 +553,8 @@ void DeleteFileOrFolder(const char *name)
 {
 	int attibs = GetFileAttributes(name);
 
-	if (attibs == 0xFFFFFFFF) // Not exists
-	{
-		// Try to find it
+	if (attibs == 0xFFFFFFFF) { // Not exists
+								// Try to find it
 		WIN32_FIND_DATA findData;
 		HANDLE hwnd;
 		char tmp[MAX_PATH];
@@ -604,25 +562,21 @@ void DeleteFileOrFolder(const char *name)
 
 		// Delete files
 		hwnd = FindFirstFile(name, &findData);
-		if (hwnd != INVALID_HANDLE_VALUE)
-		{
+		if (hwnd != INVALID_HANDLE_VALUE) {
 			strcpy(tmp, name);
 			strTmp = strrchr(tmp,'\\');
-			if(strTmp != NULL)
-			{
+
+			if(strTmp != NULL) {
 				strTmp++;
 				*strTmp = '\0';
 			}
-			else
-			{
+			else {
 				strcat(tmp, "\\");
 				strTmp = &tmp[strlen(tmp)];
 			}
 
-			do
-			{
-				if (strcmp(findData.cFileName, ".") && strcmp(findData.cFileName, ".."))
-				{
+			do {
+				if (strcmp(findData.cFileName, ".") && strcmp(findData.cFileName, "..")) {
 					strcpy(strTmp, findData.cFileName);
 					DeleteFileOrFolder(tmp);
 				}
@@ -632,9 +586,8 @@ void DeleteFileOrFolder(const char *name)
 			FindClose(hwnd);
 		}
 	}
-	else if (attibs & FILE_ATTRIBUTE_DIRECTORY)	// Is a directory
-	{
-		// Get all files and delete then
+	else if (attibs & FILE_ATTRIBUTE_DIRECTORY)	{ // Is a directory
+												  // Get all files and delete then
 		WIN32_FIND_DATA findData;
 		HANDLE hwnd;
 		char tmp[MAX_PATH];
@@ -643,12 +596,9 @@ void DeleteFileOrFolder(const char *name)
 
 		// Delete files
 		hwnd = FindFirstFile(tmp, &findData);
-		if (hwnd != INVALID_HANDLE_VALUE)
-		{
-			do
-			{
-				if (strcmp(findData.cFileName, ".") && strcmp(findData.cFileName, ".."))
-				{
+		if (hwnd != INVALID_HANDLE_VALUE) {
+			do {
+				if (strcmp(findData.cFileName, ".") && strcmp(findData.cFileName, "..")) {
 					mir_snprintf(tmp, sizeof(tmp), "%s\\%s", name, findData.cFileName);
 					DeleteFileOrFolder(tmp);
 				}
@@ -661,8 +611,7 @@ void DeleteFileOrFolder(const char *name)
 		// Delete directory
 		RemoveDirectory(name);
 	}
-	else // Is a File
-	{
+	else { // Is a File
 		SetFileAttributes(name, FILE_ATTRIBUTE_ARCHIVE);
 		DeleteFile(name);
 	}
@@ -703,17 +652,13 @@ int EnumProc(const char *szName, LPARAM lParam)
 	DeleteModuleStruct *dms = (DeleteModuleStruct *) lParam;
 	size_t len = strlen(szName);
 
-	if (dms->filter != NULL && dms->lenFilterMinusOne > 0)
-	{
-		if (len >= dms->lenFilterMinusOne)
-		{
-			if (dms->filter[0] == '*')
-			{
+	if (dms->filter != NULL && dms->lenFilterMinusOne > 0) {
+		if (len >= dms->lenFilterMinusOne) {
+			if (dms->filter[0] == '*') {
 				if (strcmp(&dms->filter[1], &szName[len - dms->lenFilterMinusOne]) != 0)
 					return 0;
 			}
-			else // if (dms->filter[dms->lenFilterMinusOne] == '*')
-			{
+			else { // if (dms->filter[dms->lenFilterMinusOne] == '*')
 				if (strncmp(dms->filter, szName, dms->lenFilterMinusOne) != 0)
 					return 0;
 			}
@@ -721,8 +666,7 @@ int EnumProc(const char *szName, LPARAM lParam)
 	}
 
 	// Add to the struct
-	if (len > 0 && len < sizeof(dms->buffer) - dms->pos - 2)
-	{
+	if (len > 0 && len < sizeof(dms->buffer) - dms->pos - 2) {
 		strcpy(&dms->buffer[dms->pos], szName);
 		dms->pos += len + 1;
 	}
@@ -743,8 +687,7 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 		return;
 
 	lenModule = strlen(szModule);
-	if (szModule[0] == '*' || szModule[lenModule-1] == '*')
-	{
+	if (szModule[0] == '*' || szModule[lenModule-1] == '*') {
 		DeleteModuleStruct dms;
 		ZeroMemory(&dms, sizeof(dms));
 
@@ -755,19 +698,16 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 
 		// Delete then
 		szModule = dms.buffer;
-		while(szModule[0] != '\0')
-		{
+		while(szModule[0] != '\0') {
 			DeleteSettingEx(szModule, szSetting);
 
 			// Get next one
 			szModule += strlen(szModule) + 1;
 		}
 	}
-	else
-	{
+	else {
 		size_t lenSetting = szSetting == NULL ? 0 : strlen(szSetting);
-		if (szSetting == NULL || szSetting[0] == '*' || szSetting[lenSetting-1] == '*')
-		{
+		if (szSetting == NULL || szSetting[0] == '*' || szSetting[lenSetting-1] == '*') {
 			DeleteModuleStruct dms;
 			DBCONTACTENUMSETTINGS dbces;
 
@@ -785,16 +725,14 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 
 			// Delete then
 			szSetting = dms.buffer;
-			while(szSetting[0] != '\0')
-			{
+			while(szSetting[0] != '\0') {
 				db_unset(NULL, szModule, szSetting);
 
 				// Get next one
 				szSetting += strlen(szSetting) + 1;
 			}
 		}
-		else
-		{
+		else {
 			db_unset(NULL, szModule, szSetting);
 		}
 	}
@@ -805,16 +743,14 @@ void DeleteSetting(const char *setting)
 	char *szModule;
 	char *szSetting;
 
-	if (setting == NULL || setting[0] == '\0')
-	{
+	if (setting == NULL || setting[0] == '\0') {
 		return;
 	}
 
 	// Split setting
 	szModule = strdup(setting);
 	szSetting = strrchr(szModule, '/');
-	if (szSetting != NULL)
-	{
+	if (szSetting != NULL) {
 		*szSetting = '\0';
 		szSetting ++;
 	}
