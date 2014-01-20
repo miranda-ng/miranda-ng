@@ -18,9 +18,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="RemovePersonalSettings.ini">
-      <Filter>Docs</Filter>
-    </CustomBuild>
     <CustomBuild Include="docs\rps_changelog.txt">
       <Filter>Docs</Filter>
     </CustomBuild>
@@ -35,5 +32,10 @@
     <ClCompile Include="src\rps.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="docs\RemovePersonalSettings.ini">
+      <Filter>Docs</Filter>
+    </None>
   </ItemGroup>
 </Project>
