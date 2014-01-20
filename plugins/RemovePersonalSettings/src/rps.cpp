@@ -25,6 +25,9 @@ Created by Pescuma
 Based on work by nullbie
 
 */
+#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_NONSTDC_NO_DEPRECATE
+
 #include <windows.h>
 #include <io.h>
 #include <stdio.h>
