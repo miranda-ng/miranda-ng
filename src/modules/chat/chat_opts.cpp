@@ -39,30 +39,34 @@ struct FontOptionsList
 	LPCTSTR  szDefFace;
 	BYTE     defCharset, defStyle; 
 	char     defSize;
-}
+};
 
 //remeber to put these in the Translate( ) template file too
-static const fontOptionsList[] = {
-	{ LPGENT("Timestamp"),                    RGB(50, 50, 240),   _T("Terminal"), DEFAULT_CHARSET, 0, -8 },
-	{ LPGENT("Others nicknames"),             RGB(0, 0, 0),       _T("Verdana"), DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT("Your nickname"),                RGB(0, 0, 0),       _T("Verdana"), DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT("User has joined"),              RGB(90, 160, 90),   _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User has left"),                RGB(160, 160, 90),  _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User has disconnected"),        RGB(160, 90, 90),   _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User kicked ..."),              RGB(100, 100, 100), _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User is now known as ..."),     RGB(90, 90, 160),   _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Notice from user"),             RGB(160, 130, 60),  _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Incoming message"),             RGB(90, 90, 90),    _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Outgoing message"),             RGB(90, 90, 90),    _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("The topic is ..."),             RGB(70, 70, 160),   _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Information messages"),         RGB(130, 130, 195), _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User enables status for ..."),  RGB(70, 150, 70),   _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User disables status for ..."), RGB(150, 70, 70),   _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Action message"),               RGB(160, 90, 160),  _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Highlighted message"),          RGB(180, 150, 80),  _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ _T(""),                                 0,                  _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User list members (online)"),   RGB(0, 0, 0),       _T("Verdana"), DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User list members (away)"),     RGB(170, 170, 170), _T("Verdana"), DEFAULT_CHARSET, 0, -12 }
+
+static LOGFONT lfDefault;
+
+static FontOptionsList const fontOptionsList[] =
+{
+	{ LPGENT("Timestamp"),                    RGB(50, 50, 240),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -8 },
+	{ LPGENT("Others nicknames"),             RGB(0, 0, 0),       lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENT("Your nickname"),                RGB(0, 0, 0),       lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENT("User has joined"),              RGB(90, 160, 90),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("User has left"),                RGB(160, 160, 90),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("User has disconnected"),        RGB(160, 90, 90),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("User kicked ..."),              RGB(100, 100, 100), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("User is now known as ..."),     RGB(90, 90, 160),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("Notice from user"),             RGB(160, 130, 60),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("Incoming message"),             RGB(90, 90, 90),    lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("Outgoing message"),             RGB(90, 90, 90),    lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("The topic is ..."),             RGB(70, 70, 160),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("Information messages"),         RGB(130, 130, 195), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("User enables status for ..."),  RGB(70, 150, 70),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("User disables status for ..."), RGB(150, 70, 70),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("Action message"),               RGB(160, 90, 160),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("Highlighted message"),          RGB(180, 150, 80),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ _T(""),                                 0,                  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("User list members (online)"),   RGB(0, 0, 0),       lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("User list members (away)"),     RGB(170, 170, 170), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 }
 };
 
 static void LoadColors()
@@ -127,6 +131,8 @@ void RegisterFonts(void)
 {
 	int index = 0;
 
+	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
+
 	FontIDT fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_NEEDRESTART;
 	for (int i = 0; i < SIZEOF(fontOptionsList); i++, index++) {
@@ -161,6 +167,7 @@ void RegisterFonts(void)
 			}
 
 			_tcsncpy_s(fontid.name, SIZEOF(fontid.name), LPGENT("Chat log symbols (Webdings)"), _TRUNCATE);
+			_tcsncpy_s(fontid.deffontsettings.szFace, SIZEOF(fontid.deffontsettings.szFace), _T("Webdings"), _TRUNCATE);
 			fontid.deffontsettings.colour = RGB(170, 170, 170);
 			// fall through
 		default:
