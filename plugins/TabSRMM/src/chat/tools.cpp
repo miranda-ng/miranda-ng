@@ -666,13 +666,45 @@ void Chat_SetFilters(SESSION_INFO *si)
 		si->bFilterEnabled = 0;
 }
 
+char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)
+{
+	if (iNickIndex)
+		*iNickIndex = 0;
+
+	for (USERINFO *ui = si->pUsers; ui; ui = ui->next) {
+		if (!lstrcmp(ui->pszNick, ptszNick)) {
+			STATUSINFO *ti = pci->TM_FindStatus(si->pStatuses, pci->TM_WordToString(si->pStatuses, ui->Status));
+			if (ti && (int)ti->hIcon < si->iStatusCount) {
+				if (iNickIndex)
+					*iNickIndex = si->iStatusCount - (int)ti->hIcon; // color table's index is not zero-based
+				return szIndicators[(int)ti->hIcon];
+			}
+			break;
+		}
+	}
+	return 0;
+}
+
 BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 {
 	if (!g_Settings.bHighlightEnabled || !gce || gce->bIsMe)
 		return FALSE;
 
+	GCEVENT evTmp = *gce;
+
 	int dwMask = 0;
-	if (gce->ptszText != NULL) dwMask |= CMUCHighlight::MATCH_TEXT;
-	if (gce->ptszNick != NULL) dwMask |= CMUCHighlight::MATCH_NICKNAME;
-	return g_Settings.Highlight->match(gce, si, dwMask);
+	if (gce->ptszText != NULL)
+		dwMask |= CMUCHighlight::MATCH_TEXT;
+	
+	if (gce->ptszNick != NULL) {
+		dwMask |= CMUCHighlight::MATCH_NICKNAME;
+		if (si && g_Settings.bLogClassicIndicators) {
+			size_t len = _tcslen(gce->ptszNick) + 1;
+			TCHAR *tmp = (TCHAR*)_alloca(sizeof(TCHAR)*(len + 1));
+			*tmp = GetIndicator(si, gce->ptszNick, 0);
+			_tcscpy(tmp + 1, gce->ptszNick);
+			evTmp.ptszNick = tmp;
+		}
+	}		
+	return g_Settings.Highlight->match(&evTmp, si, dwMask);
 }

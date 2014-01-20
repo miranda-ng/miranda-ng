@@ -461,40 +461,35 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 
 void TSAPI UpdateReadChars(const TWindowData *dat)
 {
-
 	if (dat && (dat->pContainer->hwndStatus && dat->pContainer->hwndActive == dat->hwnd)) {
 		TCHAR 	buf[128];
 		int 	len;
-		TCHAR 	szIndicators[20];
-		BOOL 	fCaps, fNum;
-
-		szIndicators[0] = 0;
+		
 		if (dat->bType == SESSIONTYPE_CHAT)
 			len = GetWindowTextLength(GetDlgItem(dat->hwnd, IDC_CHAT_MESSAGE));
 		else {
-			/*
-			 * retrieve text length in UTF8 bytes, because this is the relevant length for most protocols
-			 */
-			GETTEXTLENGTHEX gtxl = {0};
+			// retrieve text length in UTF8 bytes, because this is the relevant length for most protocols
+			GETTEXTLENGTHEX gtxl = { 0 };
 			gtxl.codepage = CP_UTF8;
 			gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
 
-			len = SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)& gtxl, 0);
+			len = SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 		}
 
-		fCaps = (GetKeyState(VK_CAPITAL) & 1);
-		fNum = (GetKeyState(VK_NUMLOCK) & 1);
+		BOOL fCaps = (GetKeyState(VK_CAPITAL) & 1);
+		BOOL fNum = (GetKeyState(VK_NUMLOCK) & 1);
 
+		TCHAR szBuf[20]; szBuf[0] = 0;
 		if (dat->fInsertMode)
-			lstrcat(szIndicators, _T("O"));
+			lstrcat(szBuf, _T("O"));
 		if (fCaps)
-			lstrcat(szIndicators, _T("C"));
+			lstrcat(szBuf, _T("C"));
 		if (fNum)
-			lstrcat(szIndicators, _T("N"));
+			lstrcat(szBuf, _T("N"));
 		if (dat->fInsertMode || fCaps || fNum)
-			lstrcat(szIndicators, _T(" | "));
+			lstrcat(szBuf, _T(" | "));
 
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s%s %d/%d"), szIndicators, dat->lcID, dat->iOpenJobs, len);
+		mir_sntprintf(buf, SIZEOF(buf), _T("%s%s %d/%d"), szBuf, dat->lcID, dat->iOpenJobs, len);
 		SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
 		if (PluginConfig.m_visualMessageSizeIndicator)
 			InvalidateRect(dat->pContainer->hwndStatus, NULL, FALSE);

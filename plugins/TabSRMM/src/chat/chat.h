@@ -166,6 +166,7 @@ int           Chat_GetColorIndex(const char* pszModule, COLORREF cr);
 TCHAR*        my_strstri(const TCHAR* s1, const TCHAR* s2);
 int           GetRichTextLength(HWND hwnd);
 BOOL          IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
+char          GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex);
 UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 void          Chat_SetFilters(SESSION_INFO *si);

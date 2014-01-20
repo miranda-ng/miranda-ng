@@ -76,7 +76,7 @@ static int EventToIcon(LOGINFO * lin)
 	return 0;
 }
 
-static char *Log_SetStyle(int style, int fontindex)
+static char* Log_SetStyle(int style, int fontindex)
 {
 	LOGFONT &lf = ci.aFonts[fontindex].lf;
 

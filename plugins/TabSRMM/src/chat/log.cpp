@@ -909,21 +909,8 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				char pszIndicator[3] = "\0\0";
 				int  crNickIndex = 0;
 
-				if (g_Settings.bLogClassicIndicators || g_Settings.bColorizeNicksInLog) {
-					USERINFO *ui = streamData->si->pUsers;
-					while (ui) {
-						if (!lstrcmp(ui->pszNick, lin->ptszNick)) {
-							STATUSINFO *ti = pci->TM_FindStatus(streamData->si->pStatuses, pci->TM_WordToString(streamData->si->pStatuses, ui->Status));
-							if (ti && (int)ti->hIcon < streamData->si->iStatusCount) {
-								pszIndicator[0] = szIndicators[(int)ti->hIcon];
-								crNickIndex = streamData->si->iStatusCount - (int)ti->hIcon; // color table's index is not zero-based
-							}
-							else pszIndicator[0] = 0;
-							break;
-						}
-						ui = ui->next;
-					}
-				}
+				if (g_Settings.bLogClassicIndicators || g_Settings.bColorizeNicksInLog)
+					pszIndicator[0] = GetIndicator(streamData->si, lin->ptszNick, &crNickIndex);
 
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1, lin->bIsMe ? 2 : 1));
 

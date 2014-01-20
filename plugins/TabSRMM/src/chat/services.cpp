@@ -39,7 +39,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	if (M.FindWindow(hContact) != 0)
 		return 0;
 
-	if (hContact != 0 && M.GetByte("limittabs", 0) &&  !_tcsncmp(pContainer->szName, _T("default"), 6)) {
+	if (hContact != 0 && M.GetByte("limittabs", 0) && !_tcsncmp(pContainer->szName, _T("default"), 6)) {
 		if ((pContainer = FindMatchingContainer(_T("default"), hContact)) == NULL) {
 			TCHAR szName[CONTAINER_NAMELEN + 1];
 
@@ -57,12 +57,9 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 
 	TCHAR *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);
 
-	/*
-	 * cut nickname if larger than x chars...
-	 */
-
+	// cut nickname if larger than x chars...
 	TCHAR newcontactname[128];
-	if ( lstrlen(contactName) > 0) {
+	if (lstrlen(contactName) > 0) {
 		if (M.GetByte("cuttitle", 0))
 			CutContactName(contactName, newcontactname, SIZEOF(newcontactname));
 		else {
@@ -87,7 +84,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 
 	pContainer->iTabIndex = iCount;
 	if (iCount > 0) {
-		TCITEM item = {0};
+		TCITEM item = { 0 };
 		for (int i = iCount - 1; i >= 0; i--) {
 			item.mask = TCIF_PARAM;
 			TabCtrl_GetItem(hwndTab, i, &item);
@@ -134,7 +131,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	}
 	if (bActivateTab) {
 		if (PluginConfig.m_HideOnClose && !IsWindowVisible(pContainer->hwnd)) {
-			WINDOWPLACEMENT wp={0};
+			WINDOWPLACEMENT wp = { 0 };
 			wp.length = sizeof(wp);
 			GetWindowPlacement(pContainer->hwnd, &wp);
 
@@ -158,9 +155,9 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 				SetForegroundWindow(pContainer->hwnd);
 		}
 	}
-	
+
 	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled && !M.GetByte("forceAeroPeek", 0))
-		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING|MB_OK);
+		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING | MB_OK);
 	return hwndNew;		// return handle of the new dialog
 }
 
@@ -173,7 +170,7 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 		ActivateExistingTab(si->pContainer, si->hWnd);
 		return;
 	}
-		
+
 	TCHAR szName[CONTAINER_NAMELEN + 2]; szName[0] = 0;
 	TContainerData *pContainer = si->pContainer;
 	if (pContainer == NULL) {
