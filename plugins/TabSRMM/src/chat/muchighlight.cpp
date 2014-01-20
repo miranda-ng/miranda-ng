@@ -158,7 +158,7 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 					p1 = 0;
 
 				for (UINT i = 0; i < m_iTextPatterns && !result; i++)
-					result = wildcmpt(m_TextPatterns[i], p) ? MATCH_TEXT : 0;
+					result = wildcmpt(p, m_TextPatterns[i]) ? MATCH_TEXT : 0;
 
 				if (p1) {
 					*p1 = ' ';
@@ -176,9 +176,9 @@ skip_textpatterns:
 		if ((m_dwFlags & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->ptszNick && m_iNickPatterns > 0) {
 			for (UINT i = 0; i < m_iNickPatterns && !nResult; i++) {
 				if (pgce->ptszNick)
-					nResult = wildcmpt(m_NickPatterns[i], pgce->ptszNick) ? MATCH_NICKNAME : 0;
+					nResult = wildcmpt(pgce->ptszNick, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
 				if ((m_dwFlags & MATCH_UIN) && pgce->ptszUserInfo)
-					nResult = wildcmpt(m_NickPatterns[i], pgce->ptszUserInfo) ? MATCH_NICKNAME : 0;
+					nResult = wildcmpt(pgce->ptszUserInfo, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
 			}
 		}
 
