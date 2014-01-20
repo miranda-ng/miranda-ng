@@ -50,6 +50,11 @@ Based on work by nullbie
 
 #define METACONTACTS_PROTOCOL_NAME "MetaContacts"
 
+#define NOTICE_TEXT LPGEN("All your personal settings will be erased!\n\
+Make sure you are running this from a copy of your profile (and not over the original one).\n\
+Running this will erase files/folders under Miranda main folder.\n\n\
+Are you sure you want to remove all your personal settings?\n\n\
+(You cannot say that I don't told you about the risks :P)")
 
 HINSTANCE hInst;
 char gIniFile[MAX_PATH];
@@ -123,7 +128,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.position=-0x7FFFFFFF;
 	mi.flags=0;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	mi.pszName="Remove Personal Settings...";
+	mi.pszName=LPGEN("Remove Personal Settings...");
 	mi.pszService="RemovePersonalSettings/RemoveAll";
 	Menu_AddMainMenuItem(&mi);
 
@@ -176,13 +181,7 @@ INT_PTR RemoveAllService(WPARAM wParam,LPARAM lParam)
 		return -1;
 	}
 
-	if (MessageBox(NULL,Translate("All your personal settings will be erased!\n"
-					"Make sure you are running this from a copy of your profile (and not over the original one).\n"
-					"Running this will erase files/folders under Miranda main folder.\n"
-					"\n"
-					"Are you sure you want to remove all your personal settings?\n"
-					"\n"
-					"(You cannot say that I don't told you about the risks :P )"), Translate("Remove Personal Settings"),MB_YESNO)
+	if (MessageBox(NULL, Translate(NOTICE_TEXT), Translate("Remove Personal Settings"),MB_YESNO)
 		== IDYES)
 	{
 		SetProtocolsOffline();
