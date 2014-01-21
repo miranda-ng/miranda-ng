@@ -545,7 +545,6 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				pci->ReloadSettings();
 				pci->MM_IconsChanged();
 				pci->MM_FontsChanged();
-				Log_SetStyles();
 				pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 				SM_ReconfigureFilters();
 				return TRUE;
@@ -736,7 +735,6 @@ void RegisterFontServiceFonts() {
 
 int FontServiceFontsChanged(WPARAM,LPARAM)
 {
-	Log_SetStyles();
 	PluginConfig.reloadSettings();
 	CSkin::initAeroEffect();
 	CacheMsgLogIcons();
@@ -984,7 +982,6 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 			pci->ReloadSettings();
 			pci->MM_FontsChanged();
-			Log_SetStyles();
 			pci->MM_FixColors();
 			pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 
@@ -1105,7 +1102,6 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 				pci->ReloadSettings();
 				pci->MM_FontsChanged();
-				Log_SetStyles();
 				pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 				SM_ReconfigureFilters();
 				return TRUE;

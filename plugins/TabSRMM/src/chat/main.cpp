@@ -196,8 +196,6 @@ static void OnLoadSettings()
 	if (g_Settings.SelectionBGBrush)
 		DeleteObject(g_Settings.SelectionBGBrush);
 	g_Settings.SelectionBGBrush = CreateSolidBrush(g_Settings.nickColors[5]);
-
-	Log_SetStyles();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

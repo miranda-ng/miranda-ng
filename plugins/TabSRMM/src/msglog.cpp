@@ -156,7 +156,6 @@ void TSAPI CacheLogFonts()
 		if (CInfoPanel::m_ipConfig.hFonts[i])
 			DeleteObject(CInfoPanel::m_ipConfig.hFonts[i]);
 		LoadLogfont(i + 100, &lf, &clr, FONTMODULE);
-		//lf.lfHeight =-MulDiv(lf.lfHeight, logPixelSY, 72);
 		lf.lfUnderline = 0;
 		CInfoPanel::m_ipConfig.hFonts[i] = CreateFontIndirectA(&lf);
 		CInfoPanel::m_ipConfig.clrs[i] = clr;
@@ -164,9 +163,9 @@ void TSAPI CacheLogFonts()
 
 	hdc = GetDC(PluginConfig.g_hwndHotkeyHandler);
 
-	HFONT 	hOldFont = (HFONT)SelectObject(hdc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_NICK]);
-	SIZE  	sz;
+	HFONT hOldFont = (HFONT)SelectObject(hdc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_NICK]);
 
+	SIZE sz;
 	GetTextExtentPoint32(hdc, _T("WMA"), 3, &sz);
 	CInfoPanel::m_ipConfig.height1 = sz.cy;
 	SelectObject(hdc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_UIN]);

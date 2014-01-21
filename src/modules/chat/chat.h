@@ -52,6 +52,7 @@ TCHAR* MakeTimeStamp(TCHAR *pszStamp, time_t time);
 TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime);
 char*  Log_CreateRtfHeader(MODULEINFO *mi);
 char*  Log_CreateRTF(LOGSTREAMDATA *streamData);
+char*  Log_SetStyle(int style);
 
 // clist.c
 BOOL    AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);

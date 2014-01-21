@@ -42,11 +42,7 @@
  * the srmm module and then modified to fit the chat module.
  */
 
-static int logPixelSY = 0;
-static int logPixelSX = 0;
 static char *szDivider = "\\strike----------------------------------------------------------------------------\\strike0";
-static char	CHAT_rtfFontsGlobal[OPTIONS_FONTCOUNT + 2][RTFCACHELINESIZE];
-static char	*CHAT_rtffonts = 0;
 
 /*
  * ieview MUC support - mostly from scriver
@@ -486,14 +482,6 @@ static TCHAR * _tcsnrplc(TCHAR *src, size_t n, const TCHAR *ptrn, const TCHAR *r
 	return src;
 }
 
-static char *Log_SetStyle(int style, int fontindex)
-{
-	if (style < OPTIONS_FONTCOUNT)
-		return CHAT_rtffonts + (style * RTFCACHELINESIZE);
-
-	return "";
-}
-
 static void Log_Append(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const char *fmt, ...)
 {
 	va_list va;
@@ -597,7 +585,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 			case 'r':
 				if (!streamData->bStripFormat) {
 					int index = EventToIndex(streamData->lin);
-					mir_snprintf(szTemp, SIZEOF(szTemp), "%s ", Log_SetStyle(index, index));
+					mir_snprintf(szTemp, SIZEOF(szTemp), "%s ", pci->Log_SetStyle(index));
 				}
 				break;
 			}
@@ -748,11 +736,10 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 
 
 	//get the number of pixels per logical inch
-	if (logPixelSY == 0) {
-		HDC hdc;
-		hdc = GetDC(NULL);
-		logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-		logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
+	if (pci->logPixelSY == 0) {
+		HDC hdc = GetDC(NULL);
+		pci->logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+		pci->logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 		ReleaseDC(NULL, hdc);
 	}
 
@@ -791,15 +778,15 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 		HFONT hFont = CreateFontIndirect(&lf);
 		int iText = GetTextPixelSize(szString, hFont, true) + 3;
 		DeleteObject(hFont);
-		iIndent += (iText * 1440) / logPixelSX;
+		iIndent += (iText * 1440) / pci->logPixelSX;
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
 	}
 	else if (g_Settings.dwIconFlags) {
-		iIndent += ((g_Settings.bScaleIcons ? 14 : 20) * 1440) / logPixelSX;
+		iIndent += ((g_Settings.bScaleIcons ? 14 : 20) * 1440) / pci->logPixelSX;
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
 	}
 	if (g_Settings.bShowTime) {
-		int iSize = (g_Settings.LogTextIndent * 1440) / logPixelSX;
+		int iSize = (g_Settings.LogTextIndent * 1440) / pci->logPixelSX;
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize);
 		if (g_Settings.bLogIndentEnabled)
 			iIndent += iSize;
@@ -812,7 +799,7 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 {
 	char *buffer, *header;
-	int bufferAlloced, bufferEnd, i, me = 0;
+	int bufferAlloced, bufferEnd, me = 0;
 	LOGINFO * lin = streamData->lin;
 	MODULEINFO *mi = pci->MM_FindModule(streamData->si->pszModule);
 
@@ -852,12 +839,12 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				streamData->dat->dwFlags &= ~MWF_DIVIDERWANTED;
 			}
 			// create new line, and set font and color
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\ql\\sl0%s ", Log_SetStyle(0, 0));
+			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\ql\\sl0%s ", pci->Log_SetStyle(0));
 			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\v~-+%d+-~\\v0 ", lin);
 
 			// Insert icon
 			if (g_Settings.bLogSymbols)                // use symbols
-				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s %c", Log_SetStyle(17, 17), EventToSymbol(lin));
+				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s %c", pci->Log_SetStyle(17), EventToSymbol(lin));
 			else if (g_Settings.dwIconFlags) {
 				int iIndex = lin->bIsHighlighted ? ICON_HIGHLIGHT : EventToIcon(lin);
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
@@ -875,16 +862,18 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				int iii;
 				if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
 					iii = lin->bIsHighlighted ? 16 : (lin->bIsMe ? 2 : 1);
-					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u", iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0,F.lfItalic,F.lfUnderline, 2 * abs(F.lfHeight) * 74 / logPixelSY);
+					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u",
+						iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0,F.lfItalic,F.lfUnderline, 2 * abs(F.lfHeight) * 74 / pci->logPixelSY);
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
 				}
 				else {
 					iii = lin->bIsHighlighted ? 16 : EventToIndex(lin);
-					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u", iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic,F.lfUnderline ,2 * abs(F.lfHeight) * 74 / logPixelSY);
+					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u",
+						iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic,F.lfUnderline ,2 * abs(F.lfHeight) * 74 / pci->logPixelSY);
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
 				}
 			}
-			else Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(0, 0));
+			else Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", pci->Log_SetStyle(0));
 
 			// insert a TAB if necessary to put the timestamp in the right position
 			if (g_Settings.dwIconFlags)
@@ -912,7 +901,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				if (g_Settings.bLogClassicIndicators || g_Settings.bColorizeNicksInLog)
 					pszIndicator[0] = GetIndicator(streamData->si, lin->ptszNick, &crNickIndex);
 
-				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1, lin->bIsMe ? 2 : 1));
+				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", pci->Log_SetStyle(lin->bIsMe ? 2 : 1));
 
 				if (g_Settings.bLogClassicIndicators)
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s", pszIndicator);
@@ -937,8 +926,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			}
 
 			// Insert the message
-			i = lin->bIsHighlighted ? 16 : EventToIndex(lin);
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(i, i));
+			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", pci->Log_SetStyle(lin->bIsHighlighted ? 16 : EventToIndex(lin)));
 			streamData->lin = lin;
 			AddEventToBuffer(&buffer, &bufferEnd, &bufferAlloced, streamData);
 		}
@@ -1032,10 +1020,9 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 
 	//get the number of pixels per logical inch
 	if (bRedraw) {
-		HDC hdc;
-		hdc = GetDC(NULL);
-		logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-		logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
+		HDC hdc = GetDC(NULL);
+		pci->logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+		pci->logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 		ReleaseDC(NULL, hdc);
 		SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
 		bFlag = true;
@@ -1145,23 +1132,4 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
 		InvalidateRect(hwndRich, NULL, TRUE);
 	}
-}
-
-void Log_SetStyles()
-{
-	if (logPixelSY == 0) {
-		HDC hdc;
-		hdc = GetDC(NULL);
-		logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-		logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
-		ReleaseDC(NULL, hdc);
-	}
-
-	for (int i = 0; i < OPTIONS_FONTCOUNT; i++) {
-		LOGFONT &F = pci->aFonts[i].lf;
-		mir_snprintf(CHAT_rtfFontsGlobal[i], RTFCACHELINESIZE, 
-			"\\f%u\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u", i, i + 1, 
-			F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / logPixelSY);
-	}
-	CHAT_rtffonts = &(CHAT_rtfFontsGlobal[0][0]);
 }

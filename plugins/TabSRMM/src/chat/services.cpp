@@ -166,7 +166,6 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 	if (si == NULL)
 		return;
 
-	Chat_SetFilters(si);
 	if (si->hWnd != NULL) {
 		ActivateExistingTab(si->pContainer, si->hWnd);
 		return;
