@@ -58,24 +58,24 @@ static void OnCreateSession(SESSION_INFO *si, MODULEINFO*)
 	si->windowData.flags = CWDF_RTF_INPUT;
 }
 
-static void OnSessionDblClick(SESSION_INFO *si)
+static void OnDblClickSession(SESSION_INFO *si)
 {
 	PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
 }
 
-static void OnSessionRemove(SESSION_INFO *si)
+static void OnRemoveSession(SESSION_INFO *si)
 {
 	if (si->hWnd)
 		SendMessage(si->hWnd, GC_EVENT_CONTROL + WM_USER + 500, SESSION_TERMINATE, 0);
 }
 
-static void OnSessionRename(SESSION_INFO *si)
+static void OnRenameSession(SESSION_INFO *si)
 {
 	if (si->hWnd)
 		SendMessage(si->hWnd, DM_UPDATETITLEBAR, 0, 0);
 }
 
-static void OnSessionReplace(SESSION_INFO *si)
+static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->hWnd)
 		RedrawWindow(GetDlgItem(si->hWnd, IDC_CHAT_LIST), NULL, NULL, RDW_INVALIDATE);
@@ -199,10 +199,10 @@ int Chat_Load()
 	pci->OnAddLog = OnAddLog;
 
 	pci->OnCreateSession = OnCreateSession;
-	pci->OnSessionRemove = OnSessionRemove;
-	pci->OnSessionRename = OnSessionRename;
-	pci->OnSessionReplace = OnSessionReplace;
-	pci->OnSessionDblClick = OnSessionDblClick;
+	pci->OnRemoveSession = OnRemoveSession;
+	pci->OnRenameSession = OnRenameSession;
+	pci->OnReplaceSession = OnReplaceSession;
+	pci->OnDblClickSession = OnDblClickSession;
 
 	pci->OnEventBroadcast = OnEventBroadcast;
 	pci->OnSetStatusBar = OnSetStatusBar;

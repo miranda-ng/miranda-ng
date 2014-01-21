@@ -409,13 +409,13 @@ struct CHAT_MANAGER
 	void (*OnCreateModule)(MODULEINFO*);
 
 	void (*OnCreateSession)(SESSION_INFO*, MODULEINFO*);
-	void (*OnSessionDblClick)(SESSION_INFO*);
-	void (*OnSessionOffline)(SESSION_INFO*);
-	void (*OnSessionRemove)(SESSION_INFO*);
-	void (*OnSessionRename)(SESSION_INFO*);
-	void (*OnSessionReplace)(SESSION_INFO*);
+	void (*OnDblClickSession)(SESSION_INFO*);
+	void (*OnOfflineSession)(SESSION_INFO*);
+	void (*OnRemoveSession)(SESSION_INFO*);
+	void (*OnRenameSession)(SESSION_INFO*);
+	void (*OnReplaceSession)(SESSION_INFO*);
 
-	void (*ShowRoom)(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
+	void (*ShowRoom)(SESSION_INFO*, WPARAM wp, BOOL bSetForeground);
 	void (*OnAddLog)(SESSION_INFO*, int);
 	void (*OnClearLog)(SESSION_INFO*);
 	void (*OnEventBroadcast)(SESSION_INFO *si, GCEVENT *gce);
@@ -425,15 +425,15 @@ struct CHAT_MANAGER
 
 	void (*OnAddUser)(SESSION_INFO*, USERINFO*);
 	void (*OnNewUser)(SESSION_INFO*, USERINFO*);
-	void (*OnRemoveUser)(SESSION_INFO *si, USERINFO*);
-	void (*OnChangeNick)(SESSION_INFO *si);
+	void (*OnRemoveUser)(SESSION_INFO*, USERINFO*);
+	void (*OnChangeNick)(SESSION_INFO*);
 
-	void (*OnAddStatus)(SESSION_INFO *si, STATUSINFO*);
-	void (*OnSetStatus)(SESSION_INFO *si, int);
+	void (*OnAddStatus)(SESSION_INFO*, STATUSINFO*);
+	void (*OnSetStatus)(SESSION_INFO*, int);
 
 	void (*OnLoadSettings)(void);
-	void (*OnFlashWindow)(SESSION_INFO *si, int);
-	void (*OnFlashHighlight)(SESSION_INFO *si, int);
+	void (*OnFlashWindow)(SESSION_INFO*, int bInactive);
+	void (*OnFlashHighlight)(SESSION_INFO*, int bInactive);
 };
 
 extern CHAT_MANAGER ci, *pci;

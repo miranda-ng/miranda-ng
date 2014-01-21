@@ -837,7 +837,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	// ### RTF BODY (one iteration per event that should be streamed in)
 	while (lin) {
 		// filter
-		if (streamData->si->iType != GCW_CHATROOM || !streamData->si->bFilterEnabled || (streamData->si->iLogFilterFlags&lin->iType) != 0) {
+		if (streamData->si->iType != GCW_CHATROOM || !streamData->si->bFilterEnabled || (streamData->si->iLogFilterFlags & lin->iType) != 0) {
 			if (lin->next != NULL)
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\par ");
 
@@ -999,164 +999,151 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 	streamData.bStripFormat = FALSE;
 	streamData.dat = dat;
 
-	//	bPhaseTwo = bRedraw && bPhaseTwo;
+	if (!bRedraw && si->iType == GCW_CHATROOM && si->bFilterEnabled && (si->iLogFilterFlags & lin->iType) == 0)
+		return;
 
-	if (bRedraw || si->iType != GCW_CHATROOM || !si->bFilterEnabled || (si->iLogFilterFlags&lin->iType) != 0) {
-		bool bFlag = false, fDoReplace;
+	bool bFlag = false, fDoReplace;
 
-		EDITSTREAM stream = { 0 };
-		stream.pfnCallback = Log_StreamCallback;
-		stream.dwCookie = (DWORD_PTR) & streamData;
+	EDITSTREAM stream = { 0 };
+	stream.pfnCallback = Log_StreamCallback;
+	stream.dwCookie = (DWORD_PTR) & streamData;
 
-		SCROLLINFO scroll = { 0 };
-		scroll.cbSize = sizeof(SCROLLINFO);
-		scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
-		GetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &scroll);
-		SendMessage(hwndRich, EM_GETSCROLLPOS, 0, (LPARAM)&point);
+	SCROLLINFO scroll = { 0 };
+	scroll.cbSize = sizeof(SCROLLINFO);
+	scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
+	GetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &scroll);
+	SendMessage(hwndRich, EM_GETSCROLLPOS, 0, (LPARAM)&point);
 
-		// do not scroll to bottom if there is a selection
-		SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&oldsel);
-		if (oldsel.cpMax != oldsel.cpMin)
-			SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
+	// do not scroll to bottom if there is a selection
+	SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&oldsel);
+	if (oldsel.cpMax != oldsel.cpMin)
+		SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
 
-		//set the insertion point at the bottom
+	//set the insertion point at the bottom
+	sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
+	SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
+
+	// fix for the indent... must be a M$ bug
+	if (sel.cpMax == 0)
+		bRedraw = TRUE;
+
+	// should the event(s) be appended to the current log
+	WPARAM wp = bRedraw ? SF_RTF : SFF_SELECTION | SF_RTF;
+
+	//get the number of pixels per logical inch
+	if (bRedraw) {
+		HDC hdc;
+		hdc = GetDC(NULL);
+		logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+		logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
+		ReleaseDC(NULL, hdc);
+		SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
+		bFlag = true;
+		//			SetCursor(LoadCursor(NULL, IDC_ARROW));
+	}
+
+	// stream in the event(s)
+	streamData.lin = lin;
+	streamData.bRedraw = bRedraw;
+	SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM)&stream);
+
+	// for new added events, only replace in message or action events.
+	// no need to replace smileys or math formulas elsewhere
+	fDoReplace = (bRedraw || (lin->ptszText && (lin->iType == GC_EVENT_MESSAGE || lin->iType == GC_EVENT_ACTION)));
+
+	// replace marked nicknames with hyperlinks to make the nicks clickable
+	if (g_Settings.bClickableNicks) {
+		FINDTEXTEX fi, fi2;
+
+		CHARFORMAT2 cf2;
+		ZeroMemory(&cf2, sizeof(CHARFORMAT2));
+		cf2.cbSize = sizeof(cf2);
+
+		fi2.lpstrText = _T("#++~~");
+		fi.chrg.cpMin = bRedraw ? 0 : sel.cpMin;
+		fi.chrg.cpMax = -1;
+		fi.lpstrText = _T("~~++#");
+
+		while (SendMessage(hwndRich, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
+			fi2.chrg.cpMin = fi.chrgText.cpMin;
+			fi2.chrg.cpMax = -1;
+
+			if (SendMessage(hwndRich, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi2) > -1) {
+
+				SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&fi.chrgText);
+				SendMessage(hwndRich, EM_REPLACESEL, TRUE, (LPARAM)_T(""));
+				fi2.chrgText.cpMin -= fi.chrgText.cpMax - fi.chrgText.cpMin;
+				fi2.chrgText.cpMax -= fi.chrgText.cpMax - fi.chrgText.cpMin;
+				SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&fi2.chrgText);
+				SendMessage(hwndRich, EM_REPLACESEL, TRUE, (LPARAM)_T(""));
+				fi2.chrgText.cpMax = fi2.chrgText.cpMin;
+
+				fi2.chrgText.cpMin = fi.chrgText.cpMin;
+				SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&fi2.chrgText);
+				cf2.dwMask = CFM_PROTECTED;
+				cf2.dwEffects = CFE_PROTECTED;
+				SendMessage(hwndRich, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
+			}
+			fi.chrg.cpMin = fi.chrgText.cpMax;
+		}
+		SendMessage(hwndRich, EM_SETSEL, -1, -1);
+	}
+
+	// run smileyadd
+	if (PluginConfig.g_SmileyAddAvail && fDoReplace) {
+		newsel.cpMax = -1;
+		newsel.cpMin = sel.cpMin;
+		if (newsel.cpMin < 0)
+			newsel.cpMin = 0;
+
+		SMADD_RICHEDIT3 sm = { sizeof(sm) };
+		sm.hwndRichEditControl = hwndRich;
+		sm.Protocolname = si->pszModule;
+		sm.rangeToReplace = bRedraw ? NULL : &newsel;
+		sm.disableRedraw = TRUE;
+		sm.hContact = si->hContact;
+		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
+	}
+
+	// trim the message log to the number of most recent events
+	// this uses hidden marks in the rich text to find the events which should be deleted
+	if (si->bTrimmed) {
+		TCHAR szPattern[50];
+		FINDTEXTEX fi;
+
+		mir_sntprintf(szPattern, SIZEOF(szPattern), _T("~-+%d+-~"), si->pLogEnd);
+		fi.lpstrText = szPattern;
+		fi.chrg.cpMin = 0;
+		fi.chrg.cpMax = -1;
+		if (SendMessage(hwndRich, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) != 0) {
+			CHARRANGE sel;
+			sel.cpMin = 0;
+			sel.cpMax = 20;
+			SendMessage(hwndRich, EM_SETSEL, 0, fi.chrgText.cpMax + 1);
+			SendMessage(hwndRich, EM_REPLACESEL, TRUE, (LPARAM)_T(""));
+		}
+		si->bTrimmed = FALSE;
+	}
+
+	// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
+	if ((bRedraw || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50))
+		SendMessage(GetParent(hwndRich), GC_SCROLLTOBOTTOM, 0, 0);
+	else
+		SendMessage(hwndRich, EM_SETSCROLLPOS, 0, (LPARAM)&point);
+
+	// do we need to restore the selection
+	if (oldsel.cpMax != oldsel.cpMin) {
+		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&oldsel);
+		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
+		InvalidateRect(hwndRich, NULL, TRUE);
+	}
+
+	// need to invalidate the window
+	if (bFlag) {
 		sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
 		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
-
-		// fix for the indent... must be a M$ bug
-		if (sel.cpMax == 0)
-			bRedraw = TRUE;
-
-		// should the event(s) be appended to the current log
-		WPARAM wp = bRedraw ? SF_RTF : SFF_SELECTION | SF_RTF;
-
-		//get the number of pixels per logical inch
-		if (bRedraw) {
-			HDC hdc;
-			hdc = GetDC(NULL);
-			logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-			logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
-			ReleaseDC(NULL, hdc);
-			SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
-			bFlag = true;
-			//			SetCursor(LoadCursor(NULL, IDC_ARROW));
-		}
-
-		// stream in the event(s)
-		streamData.lin = lin;
-		streamData.bRedraw = bRedraw;
-		SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM)&stream);
-
-
-		//SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&newsel);
-		/*
-		 * for new added events, only replace in message or action events.
-		 * no need to replace smileys or math formulas elsewhere
-		 */
-		fDoReplace = (bRedraw || (lin->ptszText
-								  && (lin->iType == GC_EVENT_MESSAGE || lin->iType == GC_EVENT_ACTION)));
-
-		/*
-		 * replace marked nicknames with hyperlinks to make the nicks
-		 * clickable
-		 */
-		if (g_Settings.bClickableNicks) {
-			FINDTEXTEX fi, fi2;
-
-			CHARFORMAT2 cf2;
-			ZeroMemory(&cf2, sizeof(CHARFORMAT2));
-			cf2.cbSize = sizeof(cf2);
-
-			fi2.lpstrText = _T("#++~~");
-			fi.chrg.cpMin = bRedraw ? 0 : sel.cpMin;
-			fi.chrg.cpMax = -1;
-			fi.lpstrText = _T("~~++#");
-
-			while (SendMessage(hwndRich, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
-				fi2.chrg.cpMin = fi.chrgText.cpMin;
-				fi2.chrg.cpMax = -1;
-
-				if (SendMessage(hwndRich, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi2) > -1) {
-
-					SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&fi.chrgText);
-					SendMessage(hwndRich, EM_REPLACESEL, TRUE, (LPARAM)_T(""));
-					fi2.chrgText.cpMin -= fi.chrgText.cpMax - fi.chrgText.cpMin;
-					fi2.chrgText.cpMax -= fi.chrgText.cpMax - fi.chrgText.cpMin;
-					SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&fi2.chrgText);
-					SendMessage(hwndRich, EM_REPLACESEL, TRUE, (LPARAM)_T(""));
-					fi2.chrgText.cpMax = fi2.chrgText.cpMin;
-
-					fi2.chrgText.cpMin = fi.chrgText.cpMin;
-					SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&fi2.chrgText);
-					cf2.dwMask = CFM_PROTECTED;
-					cf2.dwEffects = CFE_PROTECTED;
-					SendMessage(hwndRich, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
-				}
-				fi.chrg.cpMin = fi.chrgText.cpMax;
-			}
-			SendMessage(hwndRich, EM_SETSEL, -1, -1);
-		}
-
-		/*
-		 * run smileyadd
-		 */
-		if (PluginConfig.g_SmileyAddAvail && fDoReplace) {
-			newsel.cpMax = -1;
-			newsel.cpMin = sel.cpMin;
-			if (newsel.cpMin < 0)
-				newsel.cpMin = 0;
-
-			SMADD_RICHEDIT3 sm = { sizeof(sm) };
-			sm.hwndRichEditControl = hwndRich;
-			sm.Protocolname = si->pszModule;
-			sm.rangeToReplace = bRedraw ? NULL : &newsel;
-			sm.disableRedraw = TRUE;
-			sm.hContact = si->hContact;
-			CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
-		}
-
-		/*
-		 * trim the message log to the number of most recent events
-		 * this uses hidden marks in the rich text to find the events which should be deleted
-		 */
-		if (si->bTrimmed) {
-			TCHAR szPattern[50];
-			FINDTEXTEX fi;
-
-			mir_sntprintf(szPattern, SIZEOF(szPattern), _T("~-+%d+-~"), si->pLogEnd);
-			fi.lpstrText = szPattern;
-			fi.chrg.cpMin = 0;
-			fi.chrg.cpMax = -1;
-			if (SendMessage(hwndRich, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) != 0) {
-				CHARRANGE sel;
-				sel.cpMin = 0;
-				sel.cpMax = 20;
-				SendMessage(hwndRich, EM_SETSEL, 0, fi.chrgText.cpMax + 1);
-				SendMessage(hwndRich, EM_REPLACESEL, TRUE, (LPARAM)_T(""));
-			}
-			si->bTrimmed = FALSE;
-		}
-
-		// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
-		if ((bRedraw || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50))
-			SendMessage(GetParent(hwndRich), GC_SCROLLTOBOTTOM, 0, 0);
-		else
-			SendMessage(hwndRich, EM_SETSCROLLPOS, 0, (LPARAM)&point);
-
-		// do we need to restore the selection
-		if (oldsel.cpMax != oldsel.cpMin) {
-			SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&oldsel);
-			SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
-			InvalidateRect(hwndRich, NULL, TRUE);
-		}
-
-		// need to invalidate the window
-		if (bFlag) {
-			sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
-			SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
-			SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
-			InvalidateRect(hwndRich, NULL, TRUE);
-		}
+		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
+		InvalidateRect(hwndRich, NULL, TRUE);
 	}
 }
 

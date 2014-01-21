@@ -72,9 +72,6 @@ static SESSION_INFO* SM_AddSession(const TCHAR *pszID, const char *pszModule)
 	node->ptszID = mir_tstrdup(pszID);
 	node->pszModule = mir_strdup(pszModule);
 
-	if (ci.OnCreateSession)
-		ci.OnCreateSession(node, ci.MM_FindModule(pszModule));
-
 	if (ci.wndList == NULL) { // list is empty
 		ci.wndList = node;
 		node->next = NULL;
@@ -131,8 +128,8 @@ static int SM_RemoveSession(const TCHAR *pszID, const char *pszModule, BOOL remo
 		if ((!pszID && pTemp->iType != GCW_SERVER || !lstrcmpi(pTemp->ptszID, pszID)) && !lstrcmpiA(pTemp->pszModule, pszModule)) {
 			DWORD dw = pTemp->dwItemData;
 
-			if (ci.OnSessionRemove)
-				ci.OnSessionRemove(pTemp);
+			if (ci.OnRemoveSession)
+				ci.OnRemoveSession(pTemp);
 			DoEventHook(pTemp->ptszID, pTemp->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (DWORD)pTemp->dwItemData);
 
 			if (pLast == NULL)
@@ -189,8 +186,8 @@ static BOOL SM_SetOffline(const TCHAR *pszID, const char *pszModule)
 			pTemp->nUsersInNicklist = 0;
 			if (pTemp->iType != GCW_SERVER)
 				pTemp->bInitDone = FALSE;
-			if (ci.OnSessionOffline)
-				ci.OnSessionOffline(pTemp);
+			if (ci.OnOfflineSession)
+				ci.OnOfflineSession(pTemp);
 			if (pszID)
 				return TRUE;
 		}

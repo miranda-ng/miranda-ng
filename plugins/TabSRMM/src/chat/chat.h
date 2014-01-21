@@ -67,7 +67,9 @@ struct SESSION_INFO : public GCSessionInfoBase
 {
 	TWindowData    *dat;
 	TContainerData *pContainer;
-	int             iLogTrayFlags, iLogPopupFlags, iDiskLogFlags, iSearchItem;
+	int             iLogTrayFlags, iLogPopupFlags, iDiskLogFlags;
+	
+	int             iSearchItem;
 	TCHAR           szSearch[255];
 };
 

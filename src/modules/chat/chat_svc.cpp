@@ -214,7 +214,7 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 		si->ptszStatusbarText = mir_tstrdup(gcw->ptszStatusbarText);
 		si->iSplitterX = g_Settings->iSplitterX;
 		si->iSplitterY = g_Settings->iSplitterY;
-		si->iLogFilterFlags = (int)db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
+		si->iLogFilterFlags = db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
 		si->bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0);
 		si->bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1);
 
@@ -239,6 +239,9 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 			db_set_ts(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 		else
 			db_set_s(si->hContact, si->pszModule, "StatusBar", "");
+
+		if (ci.OnCreateSession)
+			ci.OnCreateSession(si, mi);
 	}
 	else if (si = ci.SM_FindSession(gcw->ptszID, gcw->pszModule)) {
 		ci.UM_RemoveAll(&si->pUsers);
@@ -247,8 +250,8 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 		si->iStatusCount = 0;
 		si->nUsersInNicklist = 0;
 
-		if (ci.OnSessionReplace)
-			ci.OnSessionReplace(si);
+		if (ci.OnReplaceSession)
+			ci.OnReplaceSession(si);
 	}
 
 	return 0;
@@ -325,8 +328,8 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 			replaceStrT(si->ptszName, gce->ptszText);
 			if (si->hWnd)
 				SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
-			if (ci.OnSessionRename)
-				ci.OnSessionRename(si);
+			if (ci.OnRenameSession)
+				ci.OnRenameSession(si);
 		}
 	}
 

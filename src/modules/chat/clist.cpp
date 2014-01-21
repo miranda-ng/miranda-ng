@@ -125,8 +125,8 @@ int RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 			 !CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0) &&
 			 IsWindowVisible(si->hWnd) && !IsIconic(si->hWnd))
 		{
-			if (ci.OnSessionDblClick)
-				ci.OnSessionDblClick(si);
+			if (ci.OnDblClickSession)
+				ci.OnDblClickSession(si);
 			return 1;
 		}
 		ci.ShowRoom(si, WINDOW_VISIBLE, TRUE);

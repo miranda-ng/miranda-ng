@@ -112,7 +112,7 @@ static void OnClearLog(SESSION_INFO *si)
 	}
 }
 
-static void OnSessionDblClick(SESSION_INFO *si)
+static void OnDblClickSession(SESSION_INFO *si)
 {
 	if (g_Settings.bTabsEnable)
 		SendMessage(si->hWnd, GC_REMOVETAB, 1, (LPARAM)si);
@@ -120,7 +120,7 @@ static void OnSessionDblClick(SESSION_INFO *si)
 		PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
 }
 
-static void OnSessionRemove(SESSION_INFO *si)
+static void OnRemoveSession(SESSION_INFO *si)
 {
 	if (!g_Settings.bTabsEnable) {
 		if (si->hWnd)
@@ -133,7 +133,7 @@ static void OnSessionRemove(SESSION_INFO *si)
 		g_TabSession.nUsersInNicklist = 0;
 }
 
-static void OnSessionRename(SESSION_INFO *si)
+static void OnRenameSession(SESSION_INFO *si)
 {
 	if (g_TabSession.hWnd && g_Settings.bTabsEnable) {
 		g_TabSession.ptszName = si->ptszName;
@@ -141,7 +141,7 @@ static void OnSessionRename(SESSION_INFO *si)
 	}
 }
 
-static void OnSessionReplace(SESSION_INFO *si)
+static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->hWnd)
 		g_TabSession.nUsersInNicklist = 0;
@@ -154,7 +154,7 @@ static void OnSessionReplace(SESSION_INFO *si)
 		RedrawWindow(GetDlgItem(g_TabSession.hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
 }
 
-static void OnSessionOffline(SESSION_INFO *si)
+static void OnOfflineSession(SESSION_INFO *si)
 {
 	if (si->hWnd) {
 		g_TabSession.nUsersInNicklist = 0;
@@ -350,11 +350,11 @@ extern "C" __declspec(dllexport) int Load(void)
 	pci->OnClearLog = OnClearLog;
 	
 	pci->OnCreateModule = OnCreateModule;
-	pci->OnSessionOffline = OnSessionOffline;
-	pci->OnSessionRemove = OnSessionRemove;
-	pci->OnSessionRename = OnSessionRename;
-	pci->OnSessionReplace = OnSessionReplace;
-	pci->OnSessionDblClick = OnSessionDblClick;
+	pci->OnOfflineSession = OnOfflineSession;
+	pci->OnRemoveSession = OnRemoveSession;
+	pci->OnRenameSession = OnRenameSession;
+	pci->OnReplaceSession = OnReplaceSession;
+	pci->OnDblClickSession = OnDblClickSession;
 	
 	pci->OnEventBroadcast = OnEventBroadcast;
 	pci->OnLoadSettings = OnLoadSettings;
