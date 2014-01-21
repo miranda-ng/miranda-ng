@@ -270,8 +270,8 @@ static IconItem iconList[] =
 	{ LPGEN("Room settings"),         "chat_settings",         IDI_TOPICBUT,    0 },
 	{ LPGEN("Event filter disabled"), "chat_filter",           IDI_FILTER,      0 },
 	{ LPGEN("Event filter enabled"),  "chat_filter2",          IDI_FILTER2,     0 },
-	{ LPGEN("Hide nick list"),         "chat_nicklist",         IDI_NICKLIST,    0 },
-	{ LPGEN("Show nick list"),         "chat_nicklist2",        IDI_NICKLIST2,   0 },
+	{ LPGEN("Hide nick list"),        "chat_nicklist",         IDI_NICKLIST,    0 },
+	{ LPGEN("Show nick list"),        "chat_nicklist2",        IDI_NICKLIST2,   0 },
 	{ LPGEN("Icon overlay"),          "chat_overlay",          IDI_OVERLAY,     0 },
 	{ LPGEN("Close"),                 "chat_close",            IDI_CLOSE,       0 },
 
