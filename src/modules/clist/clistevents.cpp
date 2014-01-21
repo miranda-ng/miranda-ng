@@ -92,7 +92,7 @@ static void ShowEventsInTray()
 	char ** pTrayProtos;
 	char nTrayProtoCnt;
 	int nTrayCnt = cli.trayIconCount;
-	if ( !cli.events.count || !nTrayCnt)  return;
+	if (!cli.events.count || !nTrayCnt)  return;
 	if (cli.events.count == 1 || nTrayCnt == 1)
 	{
 		ShowOneEventInTray(0); //for only one icon in tray show topmost event
@@ -161,7 +161,7 @@ struct CListEvent* fnAddEvent(CLISTEVENT *cle)
 
 	if (cle->flags & CLEF_URGENT) {
 		for (i=0; i < cli.events.count; i++)
-			if ( !(cli.events.items[i]->cle.flags & CLEF_URGENT))
+			if (!(cli.events.items[i]->cle.flags & CLEF_URGENT))
 				break;
 	}
 	else i = cli.events.count;
@@ -307,10 +307,10 @@ int fnEventsProcessTrayDoubleClick(int index)
 					char * eventProto = NULL;
 					if (cli.events.items[i]->cle.hContact)
 						eventProto = GetContactProto(cli.events.items[i]->cle.hContact);
-					if ( !eventProto)
+					if (!eventProto)
 						eventProto = cli.events.items[i]->cle.lpszProtocol;
 
-					if ( !eventProto || !_strcmpi(eventProto, szProto)) {
+					if (!eventProto || !_strcmpi(eventProto, szProto)) {
 						eventIndex = i;
 						break;
 					}
@@ -324,7 +324,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 							char * eventProto = NULL;
 							if (cli.events.items[i]->cle.hContact)
 								eventProto = GetContactProto(cli.events.items[i]->cle.hContact);
-							if ( !eventProto)
+							if (!eventProto)
 								eventProto = cli.events.items[i]->cle.lpszProtocol;
 							if (eventProto) {
 								for (j = 0; j<cli.trayIconCount; j++)

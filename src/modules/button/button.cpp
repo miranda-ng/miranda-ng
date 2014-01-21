@@ -94,7 +94,7 @@ static int TBStateConvert2Flat(int state)
 
 static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 {
-	if ( !hdcPaint)
+	if (!hdcPaint)
 		return;
 
 	RECT rcClient;
@@ -222,7 +222,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			sz.cx -= szHot.cx;
 		}
 		if (ctl->arrow)
-			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->arrow, 0, rcClient.right-rcClient.left-5-GetSystemMetrics(SM_CXSMICON)+( !ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), (rcClient.bottom-rcClient.top)/2-GetSystemMetrics(SM_CYSMICON)/2+(!ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWindowEnabled(ctl->hwnd)?DST_ICON:DST_ICON|DSS_DISABLED);
+			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->arrow, 0, rcClient.right-rcClient.left-5-GetSystemMetrics(SM_CXSMICON)+(!ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), (rcClient.bottom-rcClient.top)/2-GetSystemMetrics(SM_CYSMICON)/2+(!ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWindowEnabled(ctl->hwnd)?DST_ICON:DST_ICON|DSS_DISABLED);
 
 		SelectObject(hdcMem, ctl->hFont);
 		DrawState(hdcMem, NULL, NULL, (LPARAM)szText, 0,
@@ -406,7 +406,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 		else return 0;
 
 	case BM_SETCHECK:
-		if ( !bct->bIsPushBtn) break;
+		if (!bct->bIsPushBtn) break;
 		if (wParam == BST_CHECKED) {
 			bct->bIsPushed = 1;
 			bct->stateId = PBS_PRESSED;
@@ -425,7 +425,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 
 	case BUTTONSETARROW: // turn arrow on/off
 		if (wParam) {
-			if ( !bct->arrow) {
+			if (!bct->arrow) {
 				bct->arrow = LoadSkinIcon(SKINICON_OTHER_DOWNARROW);
 				SetHwndPropInt(bct, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_ROLE, ROLE_SYSTEM_BUTTONDROPDOWN);
 			}
@@ -463,7 +463,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 
 	case BUTTONADDTOOLTIP:
 		if (wParam) {
-			if ( !bct->hwndToolTips) {
+			if (!bct->hwndToolTips) {
 				TTooltips tt;
 				tt.ThreadId = GetCurrentThreadId();
 
@@ -588,7 +588,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 
 			POINT pt;
 			GetCursorPos(&pt);
-			if ( !PtInRect(&rc, pt)) { // mouse must be gone, trigger mouse leave
+			if (!PtInRect(&rc, pt)) { // mouse must be gone, trigger mouse leave
 				PostMessage(hwnd, WM_MOUSELEAVE, 0, 0L);
 				KillTimer(hwnd, BUTTON_POLLID);
 		}	}

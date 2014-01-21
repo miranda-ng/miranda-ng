@@ -53,7 +53,7 @@ static int GroupNameExists(const TCHAR *name, int skipGroup)
 		if (grpName == NULL)
 			break;
 
-		if ( !_tcscmp((TCHAR*)grpName+1, name))
+		if (!_tcscmp((TCHAR*)grpName+1, name))
 			return i+1;
 	}
 	return 0;
@@ -250,7 +250,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 			_itoa(i, str, 10);
 			if (db_get_ts(NULL, "CListGroups", str, &dbv))
 				break;
-			if ( !_tcsncmp(dbv.ptszVal + 1, name, len) && dbv.pszVal[len + 1] == '\\' && _tcschr(dbv.ptszVal + len + 2, '\\') == NULL) {
+			if (!_tcsncmp(dbv.ptszVal + 1, name, len) && dbv.pszVal[len + 1] == '\\' && _tcschr(dbv.ptszVal + len + 2, '\\') == NULL) {
 				if (szNewParent[0])
 					mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s\\%s"), szNewParent, dbv.ptszVal + len + 2);
 				else
@@ -294,7 +294,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	//must rename setting in all child contacts too
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *cache = cli.pfnGetCacheEntry(hContact);
-		if ( !lstrcmp(cache->tszGroup, oldName)) {
+		if (!lstrcmp(cache->tszGroup, oldName)) {
 			db_set_ts(hContact, "CList", "Group", szName);
 			mir_free(cache->tszGroup);
 			cache->tszGroup = 0;
@@ -314,7 +314,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 			_itoa(i, idstr, 10);
 			if (db_get_ts(NULL, "CListGroups", idstr, &dbv))
 				break;
-			if ( !_tcsncmp(dbv.ptszVal + 1, oldName, len) && dbv.ptszVal[len + 1] == '\\' && _tcschr(dbv.ptszVal + len + 2, '\\') == NULL) {
+			if (!_tcsncmp(dbv.ptszVal + 1, oldName, len) && dbv.ptszVal[len + 1] == '\\' && _tcschr(dbv.ptszVal + len + 2, '\\') == NULL) {
 				mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s\\%s"), szName, dbv.ptszVal + len + 2);
 				RenameGroupWithMove(i, szNewName, 0);   //luckily, child groups will never need reordering
 			}
@@ -335,7 +335,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 				_itoa(i, idstr, 10);
 				if (db_get_ts(NULL, "CListGroups", idstr, &dbv))
 					break;
-				if ( !lstrcmp(dbv.ptszVal + 1, str)) {
+				if (!lstrcmp(dbv.ptszVal + 1, str)) {
 					if (i < groupId)
 						break;      //is OK
 					MoveGroupBefore(groupId + 1, i + 2);

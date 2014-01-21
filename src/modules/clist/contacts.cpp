@@ -59,12 +59,12 @@ static int GetDatabaseString(CONTACTINFO *ci, const char* setting, DBVARIANT* db
 static int ProcessDatabaseValueDefault(CONTACTINFO *ci, const char* setting)
 {
 	DBVARIANT dbv;
-	if ( !GetDatabaseString(ci, setting, &dbv)) {
+	if (!GetDatabaseString(ci, setting, &dbv)) {
 		switch (dbv.type) {
 		case DBVT_ASCIIZ:
-			if ( !dbv.pszVal[0]) break;
+			if (!dbv.pszVal[0]) break;
 		case DBVT_WCHAR:
-			if ( !dbv.pwszVal[0]) break;
+			if (!dbv.pwszVal[0]) break;
 			ci->type = CNFT_ASCIIZ;
 			ci->pszVal = dbv.ptszVal;
 			return 0;
@@ -145,10 +145,10 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 		}
 		case CNF_COUNTRY:
 		case CNF_COCOUNTRY:
-			if ( !GetDatabaseString(ci, (ci->dwFlag & 0x7F) == CNF_COUNTRY ? "CountryName" : "CompanyCountryName", &dbv))
+			if (!GetDatabaseString(ci, (ci->dwFlag & 0x7F) == CNF_COUNTRY ? "CountryName" : "CompanyCountryName", &dbv))
 				return 0;
 
-			if ( !db_get(ci->hContact, ci->szProto, (ci->dwFlag & 0x7F) == CNF_COUNTRY ? "Country" : "CompanyCountry", &dbv)) {
+			if (!db_get(ci->hContact, ci->szProto, (ci->dwFlag & 0x7F) == CNF_COUNTRY ? "Country" : "CompanyCountry", &dbv)) {
 				if (dbv.type == DBVT_WORD) {
 					int i, countryCount;
 					struct CountryListEntry *countries;
@@ -176,9 +176,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 			break;
 
 		case CNF_FIRSTLAST:
-			if ( !GetDatabaseString(ci, "FirstName", &dbv)) {
+			if (!GetDatabaseString(ci, "FirstName", &dbv)) {
 				DBVARIANT dbv2;
-				if ( !GetDatabaseString(ci, "LastName", &dbv2)) {
+				if (!GetDatabaseString(ci, "LastName", &dbv2)) {
 					ci->type = CNFT_ASCIIZ;
 					if (ci->dwFlag & CNF_UNICODE) {
 						size_t len = wcslen(dbv.pwszVal) + wcslen(dbv2.pwszVal) + 2;
@@ -206,18 +206,18 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 		{
 			char *uid = (char*)CallProtoService(ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid)
-				if ( !ProcessDatabaseValueDefault(ci, uid))
+				if (!ProcessDatabaseValueDefault(ci, uid))
 					return 0;
 
 			break;
 		}
 		case CNF_DISPLAYUID:
 		{
-			if ( !ProcessDatabaseValueDefault(ci, "display_uid"))
+			if (!ProcessDatabaseValueDefault(ci, "display_uid"))
 				return 0;
 			char *uid = (char*)CallProtoService(ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid)
-				if ( !ProcessDatabaseValueDefault(ci, uid))
+				if (!ProcessDatabaseValueDefault(ci, uid))
 					return 0;
 
 			break;
@@ -241,19 +241,19 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 						break;
 					}
 					case 1:
-						if ( !ProcessDatabaseValueDefault(ci, "Nick")) // nick
+						if (!ProcessDatabaseValueDefault(ci, "Nick")) // nick
 							return 0;
 						break;
 					case 2:
-						if ( !ProcessDatabaseValueDefault(ci, "FirstName")) // First Name
+						if (!ProcessDatabaseValueDefault(ci, "FirstName")) // First Name
 							return 0;
 						break;
 					case 3:
-						if ( !ProcessDatabaseValueDefault(ci, "e-mail")) // E-mail
+						if (!ProcessDatabaseValueDefault(ci, "e-mail")) // E-mail
 							return 0;
 						break;
 					case 4:
-						if ( !ProcessDatabaseValueDefault(ci, "LastName")) // Last Name
+						if (!ProcessDatabaseValueDefault(ci, "LastName")) // Last Name
 							return 0;
 						break;
 					case 5: // Unique id
@@ -261,7 +261,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 						// protocol must define a PFLAG_UNIQUEIDSETTING
 						char *uid = (char*)CallProtoService(ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 						if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
-							if ( !GetDatabaseString(ci, uid, &dbv)) {
+							if (!GetDatabaseString(ci, uid, &dbv)) {
 								if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD) {
 									long value = (dbv.type == DBVT_BYTE) ? dbv.bVal:(dbv.type == DBVT_WORD ? dbv.wVal : dbv.dVal);
 									if (ci->dwFlag & CNF_UNICODE) {
@@ -293,9 +293,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 					}
 					case 6: // first + last name
 					case 7: // last + first name
-						if ( !GetDatabaseString(ci, nameOrder[i] == 6 ? "FirstName" : "LastName", &dbv)) {
+						if (!GetDatabaseString(ci, nameOrder[i] == 6 ? "FirstName" : "LastName", &dbv)) {
 							DBVARIANT dbv2;
-							if ( !GetDatabaseString(ci, nameOrder[i] == 6 ? "LastName" : "FirstName", &dbv2)) {
+							if (!GetDatabaseString(ci, nameOrder[i] == 6 ? "LastName" : "FirstName", &dbv2)) {
 								ci->type = CNFT_ASCIIZ;
 
 								if (ci->dwFlag & CNF_UNICODE) {
@@ -350,7 +350,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 		}
 		case CNF_MYNOTES: {
 			char* saveProto = ci->szProto; ci->szProto = "UserInfo";
-			if ( !ProcessDatabaseValueDefault(ci, "MyNotes")) {
+			if (!ProcessDatabaseValueDefault(ci, "MyNotes")) {
 				ci->szProto = saveProto;
 				return 0;
 			}
@@ -506,7 +506,7 @@ int LoadContactsModule(void)
 		nameOrder[i] = i;
 
 	DBVARIANT dbv;
-	if ( !db_get(NULL, "Contact", "NameOrder", &dbv)) {
+	if (!db_get(NULL, "Contact", "NameOrder", &dbv)) {
 		CopyMemory(nameOrder, dbv.pbVal, dbv.cpbVal);
 		db_free(&dbv);
 	}

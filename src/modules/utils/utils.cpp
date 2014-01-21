@@ -410,7 +410,7 @@ static INT_PTR RestoreWindowPosition(WPARAM wParam, LPARAM lParam)
 	if (wParam & RWPF_NOACTIVATE)
 		wp.showCmd = SW_SHOWNOACTIVATE;
 
-	if ( !(wParam & RWPF_NOMOVE))
+	if (!(wParam & RWPF_NOMOVE))
 		AssertInsideScreen((WPARAM) &wp.rcNormalPosition, 0);
 
 	SetWindowPlacement(swp->hwnd, &wp);
@@ -451,7 +451,7 @@ static INT_PTR GenerateRandom(WPARAM wParam, LPARAM lParam)
 		pfnRtlGenRandom = (PGENRANDOM)GetProcAddress(hModule, "SystemFunction036");
 		if (pfnRtlGenRandom)
 		{
-			if ( !pfnRtlGenRandom((PVOID)lParam, wParam))
+			if (!pfnRtlGenRandom((PVOID)lParam, wParam))
 				pfnRtlGenRandom = NULL;
 		}
 	}
@@ -489,7 +489,7 @@ int LoadUtilsModule(void)
 
 void UnloadUtilsModule(void)
 {
-	if ( !bModuleInitialized)
+	if (!bModuleInitialized)
 		return;
 
 	UninitCrypt();

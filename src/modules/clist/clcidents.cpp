@@ -87,7 +87,7 @@ int fnFindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contac
 				break;
 			nowVisible = 1;
 			for (tgroup = group; tgroup; tgroup = tgroup->parent)
-				if ( !group->expanded) {
+				if (!group->expanded) {
 					nowVisible = 0;
 					break;
 				}
@@ -104,7 +104,7 @@ int fnFindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contac
 			&& group->cl.items[group->scanIndex]->hContact == (HANDLE) ((UINT_PTR)hItem & ~HCONTACT_ISINFO)))
 		{
 			if (isVisible) {
-				if ( !nowVisible)
+				if (!nowVisible)
 					*isVisible = 0;
 				else {
 					int posY = cli.pfnGetRowTopY(dat, index+1);

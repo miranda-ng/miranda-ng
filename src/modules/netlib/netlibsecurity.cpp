@@ -183,7 +183,7 @@ void NetlibDestroySecurityProvider(HANDLE hSecurity)
 
 char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chlsz)
 {
-	if ( !szChallenge || !szChallenge[0]) return NULL;
+	if (!szChallenge || !szChallenge[0]) return NULL;
 
 	NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
 	unsigned char inDataBuffer[1024];
@@ -283,7 +283,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 			if (login != NULL && login[0] != '\0' && !hNtlm->hasDomain)
 			{
 				NtlmType2packet* pkt = (NtlmType2packet*)token;
-				if ( !strncmp(pkt->sign, "NTLMSSP", 8) && pkt->type == 2)
+				if (!strncmp(pkt->sign, "NTLMSSP", 8) && pkt->type == 2)
 				{
 
 					wchar_t* domainName = (wchar_t*)&token[pkt->targetName.offset];
@@ -393,7 +393,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		szOutputToken = mir_base64_encode((PBYTE)outputSecurityToken.pvBuffer, outputSecurityToken.cbBuffer);
 	}
 	else {
-		if ( !login || !psw) return NULL;
+		if (!login || !psw) return NULL;
 
 		char *szLogin = mir_t2a(login);
 		char *szPassw = mir_t2a(psw);

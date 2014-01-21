@@ -191,7 +191,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					TreeView_SetItem(hwndTree, &tvis.item);
 				}
 				tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-				tvis.item.state = INDEXTOSTATEIMAGEMASK( !db_get_b(NULL, "SkinSoundsOff", arSounds[i].name, 0)?2:1);
+				tvis.item.state = INDEXTOSTATEIMAGEMASK(!db_get_b(NULL, "SkinSoundsOff", arSounds[i].name, 0)?2:1);
 				tvis.item.lParam = i;
 				tvis.item.pszText = arSounds[i].getDescr();
 				TreeView_InsertItem(hwndTree, &tvis);
@@ -235,7 +235,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case DM_CHECKENABLED:
 		EnableWindow( GetDlgItem(hwndDlg, IDC_SOUNDTREE), IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS));
-		if ( !IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS))
+		if (!IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS))
 			SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 		else if (TreeView_GetSelection(hwndTree) && TreeView_GetParent(hwndTree, TreeView_GetSelection(hwndTree)))
 			SendMessage(hwndDlg, DM_SHOWPANE, 0, 0);
@@ -262,7 +262,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				NotifyEventHooks(hPlayEvent, 1, (LPARAM)arSounds[tvi.lParam].ptszTempFile);
 			else {
 				DBVARIANT dbv;
-				if ( !db_get_ts(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
+				if (!db_get_ts(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
 					TCHAR szPathFull[MAX_PATH];
 					PathToAbsoluteT(dbv.ptszVal, szPathFull);
 					NotifyEventHooks(hPlayEvent, 1, (LPARAM)szPathFull);
@@ -324,7 +324,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			ofn.nMaxFile = SIZEOF(str);
 			ofn.nMaxFileTitle = MAX_PATH;
 			ofn.lpstrDefExt = _T("wav");
-			if ( !GetOpenFileName(&ofn))
+			if (!GetOpenFileName(&ofn))
 				break;
 
 			PathToRelativeT(str, strFull);
@@ -392,7 +392,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							SetDlgItemText(hwndDlg, IDC_LOCATION, arSounds[tvi.lParam].ptszTempFile);
 						else {
 							DBVARIANT dbv;
-							if ( !db_get_ts(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
+							if (!db_get_ts(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
 								SetDlgItemText(hwndDlg, IDC_LOCATION, dbv.ptszVal);
 								db_free(&dbv);
 							}

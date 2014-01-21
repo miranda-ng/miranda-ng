@@ -350,10 +350,10 @@ static INT_PTR NetlibLogW(WPARAM wParam, LPARAM lParam)
 void NetlibLogf(NetlibUser* nlu, const char *fmt, ...)
 {
 	if (nlu == NULL) {
-		if ( !logOptions.toLog)
+		if (!logOptions.toLog)
 			return;
 	}
-	else if ( !nlu->toLog)
+	else if (!nlu->toLog)
 		return;
 
 	va_list va;

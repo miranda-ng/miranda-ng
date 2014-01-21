@@ -180,7 +180,7 @@ static void SetAllContactIcons(HWND hwndList)
 			}
 			else proto1Caps = proto4Caps = 0;
 			InitialiseItem(hwndList, hContact, hItem, proto1Caps, proto4Caps);
-			if ( !db_get_b(hContact, "CList", "Hidden", 0))
+			if (!db_get_b(hContact, "CList", "Hidden", 0))
 				SendMessage(hwndList, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 		}
 	}

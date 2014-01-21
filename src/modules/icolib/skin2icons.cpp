@@ -115,7 +115,7 @@ IconSourceFile* IconSourceFile_Get(const TCHAR* file, bool isPath)
 {
 	TCHAR fileFull[ MAX_PATH ];
 
-	if ( !file)
+	if (!file)
 		return NULL;
 
 	if (isPath)
@@ -185,7 +185,7 @@ static int InitializeBitmapInfoHeader(HBITMAP bitmap, BITMAPINFOHEADER* bi)
 	bi->biPlanes = 1;
 	if (bi->biClrImportant > bi->biClrUsed)
 		bi->biClrImportant = bi->biClrUsed;
-	if ( !bi->biSizeImage)
+	if (!bi->biSizeImage)
 		bi->biSizeImage = BytesPerScanLine(bi->biWidth, bi->biBitCount, 32) * abs(bi->biHeight);
 	return 0; // Success
 }
@@ -236,9 +236,9 @@ static int GetIconData(HICON icon, BYTE** data, int* size)
 	int MonoInfoSize, ColorInfoSize;
 	int MonoBitsSize, ColorBitsSize;
 
-	if ( !data || !size) return 1; // Failure
+	if (!data || !size) return 1; // Failure
 
-	if ( !GetIconInfo(icon, &iconInfo)) return 1; // Failure
+	if (!GetIconInfo(icon, &iconInfo)) return 1; // Failure
 
 	if (InternalGetDIBSizes(iconInfo.hbmMask, &MonoInfoSize, &MonoBitsSize) ||
 		InternalGetDIBSizes(iconInfo.hbmColor, &ColorInfoSize, &ColorBitsSize)) {
@@ -311,8 +311,8 @@ int IconSourceItem_ReleaseIcon(IconSourceItem* item)
 {
 	if (item && item->icon_ref_count) {
 		item->icon_ref_count--;
-		if ( !item->icon_ref_count) {
-			if ( !item->icon_size)
+		if (!item->icon_ref_count) {
+			if (!item->icon_size)
 				if (GetIconData(item->icon, &item->icon_data, &item->icon_size))
 					item->icon_size = 0; // Failure
 			SafeDestroyIcon(&item->icon);
@@ -324,7 +324,7 @@ int IconSourceItem_ReleaseIcon(IconSourceItem* item)
 
 IconSourceItem* GetIconSourceItem(const TCHAR* file, int indx, int cxIcon, int cyIcon)
 {
-	if ( !file)
+	if (!file)
 		return NULL;
 
 	IconSourceFile* r_file = IconSourceFile_Get(file, true);
@@ -349,7 +349,7 @@ IconSourceItem* GetIconSourceItem(const TCHAR* file, int indx, int cxIcon, int c
 
 IconSourceItem* GetIconSourceItemFromPath(const TCHAR* path, int cxIcon, int cyIcon)
 {
-	if ( !path)
+	if (!path)
 		return NULL;
 
 	TCHAR file[ MAX_PATH ];
@@ -357,7 +357,7 @@ IconSourceItem* GetIconSourceItemFromPath(const TCHAR* path, int cxIcon, int cyI
 	TCHAR *comma = _tcsrchr(file, ',');
 
 	int n;
-	if ( !comma)
+	if (!comma)
 		n = 0;
 	else {
 		n = _ttoi(comma+1);
@@ -393,7 +393,7 @@ int IconSourceItem_Release(IconSourceItem** pitem)
 	if (pitem && *pitem && (*pitem)->ref_count) {
 		IconSourceItem* item = *pitem;
 		item->ref_count--;
-		if ( !item->ref_count) {
+		if (!item->ref_count) {
 			int indx;
 			if ((indx = iconSourceList.getIndex(item)) != -1) {
 				IconSourceFile_Release(&item->file);
@@ -414,7 +414,7 @@ int IconSourceItem_Release(IconSourceItem** pitem)
 
 static SectionItem* IcoLib_AddSection(TCHAR *sectionName, BOOL create_new)
 {
-	if ( !sectionName)
+	if (!sectionName)
 		return NULL;
 
 	int indx;
@@ -436,7 +436,7 @@ static SectionItem* IcoLib_AddSection(TCHAR *sectionName, BOOL create_new)
 
 static void IcoLib_RemoveSection(SectionItem* section)
 {
-	if ( !section)
+	if (!section)
 		return;
 
 	int indx;
@@ -480,14 +480,14 @@ IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
 
 static void IcoLib_FreeIcon(IcolibItem* icon)
 {
-	if ( !icon) return;
+	if (!icon) return;
 
 	SAFE_FREE((void**)&icon->name);
 	SAFE_FREE((void**)&icon->description);
 	SAFE_FREE((void**)&icon->default_file);
 	SAFE_FREE((void**)&icon->temp_file);
 	if (icon->section) {
-		if ( !--icon->section->ref_count)
+		if (!--icon->section->ref_count)
 			IcoLib_RemoveSection(icon->section);
 		icon->section = NULL;
 	}
@@ -606,7 +606,7 @@ static INT_PTR IcoLib_RemoveIcon(WPARAM wParam, LPARAM lParam)
 
 void KillModuleIcons(int hLangpack)
 {
-	if ( !bModuleInitialized)
+	if (!bModuleInitialized)
 		return;
 
 	mir_cslock lck(csIconList);
@@ -634,7 +634,7 @@ HICON IconItem_GetDefaultIcon(IcolibItem* item, bool big)
 		hIcon = IconSourceItem_GetIcon(item->source_small);
 	}
 
-	if ( !hIcon && item->default_file) {
+	if (!hIcon && item->default_file) {
 		int cx = item->cx ? item->cx : GetSystemMetrics(big ? SM_CXICON : SM_CXSMICON);
 		int cy = item->cy ? item->cy : GetSystemMetrics(big ? SM_CYICON : SM_CYSMICON);
 		IconSourceItem* def_icon = GetIconSourceItem(item->default_file, item->default_indx, cx, cy);
@@ -679,7 +679,7 @@ HICON IconItem_GetIcon(IcolibItem* item, bool big)
 	big = big && !item->cx;
 	IconSourceItem* &source = big ? item->source_big : item->source_small;
 
-	if ( !source && !db_get_ts(NULL, "SkinIcons", item->name, &dbv)) {
+	if (!source && !db_get_ts(NULL, "SkinIcons", item->name, &dbv)) {
 		TCHAR tszFullPath[MAX_PATH];
 		PathToAbsoluteT(dbv.ptszVal, tszFullPath);
 		int cx = item->cx ? item->cx : GetSystemMetrics(big ? SM_CXICON : SM_CXSMICON);
@@ -691,10 +691,10 @@ HICON IconItem_GetIcon(IcolibItem* item, bool big)
 	if (source)
 		hIcon = IconSourceItem_GetIcon(source);
 
-	if ( !hIcon)
+	if (!hIcon)
 		hIcon = IconItem_GetDefaultIcon(item, big);
 
-	if ( !hIcon)
+	if (!hIcon)
 		return hIconBlank;
 
 	return hIcon;
@@ -711,7 +711,7 @@ HICON IconItem_GetIcon(IcolibItem* item, bool big)
 
 HICON IcoLib_GetIcon(const char* pszIconName, bool big)
 {
-	if ( !pszIconName)
+	if (!pszIconName)
 		return hIconBlank;
 
 	mir_cslock lck(csIconList);
@@ -725,7 +725,7 @@ HICON IcoLib_GetIcon(const char* pszIconName, bool big)
 
 HANDLE IcoLib_GetIconHandle(const char* pszIconName)
 {
-	if ( !pszIconName)
+	if (!pszIconName)
 		return NULL;
 
 	mir_cslock lck(csIconList);
@@ -860,7 +860,7 @@ void UnloadIcoLibModule(void)
 {
 	int i;
 
-	if ( !bModuleInitialized) return;
+	if (!bModuleInitialized) return;
 
 	DestroyHookableEvent(hIconsChangedEvent);
 	DestroyHookableEvent(hIcons2ChangedEvent);

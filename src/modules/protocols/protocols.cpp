@@ -102,7 +102,7 @@ static INT_PTR Proto_RegisterModule(WPARAM, LPARAM lParam)
 		return 1;
 
 	p = (PROTOCOLDESCRIPTOR*)mir_alloc(sizeof(PROTOCOLDESCRIPTOR));
-	if ( !p)
+	if (!p)
 		return 2;
 
 	if (pd->cbSize == PROTOCOLDESCRIPTOR_V3_SIZE) {
@@ -205,7 +205,7 @@ static INT_PTR Proto_AuthRecv(WPARAM wParam, LPARAM lParam)
 
 static int Proto_ValidTypingContact(HANDLE hContact, char *szProto)
 {
-	if ( !hContact || !szProto)
+	if (!hContact || !szProto)
 		return 0;
 
 	return (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SUPPORTTYPING) ? 1 : 0;
@@ -215,7 +215,7 @@ static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam == PROTOTYPE_SELFTYPING_OFF || lParam == PROTOTYPE_SELFTYPING_ON) {
 		char *szProto = GetContactProto((HANDLE)wParam);
-		if ( !szProto)
+		if (!szProto)
 			return 0;
 
 		if (Proto_ValidTypingContact((HANDLE)wParam, szProto))
@@ -229,7 +229,7 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	int type = (int)lParam;
 	char *szProto = GetContactProto((HANDLE)wParam);
-	if ( !szProto)
+	if (!szProto)
 		return 0;
 
 	if (CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_TYPINGNOTIFY))
@@ -566,9 +566,9 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 		}
 	}
 
-	if ( !strcmp(szService, PS_ADDTOLIST)) {
+	if (!strcmp(szService, PS_ADDTOLIST)) {
 		PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
-		if ( !(psr->flags & PSR_UNICODE)) {
+		if (!(psr->flags & PSR_UNICODE)) {
 			PROTOSEARCHRESULT *psra = (PROTOSEARCHRESULT*)mir_alloc(psr->cbSize);
 			memcpy(psra, psr, psr->cbSize);
 			psra->nick = (PROTOCHAR*)mir_u2a(psr->nick);
@@ -591,7 +591,7 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 
 	if (res == CALLSERVICE_NOTFOUND && pa && pa->bOldProto && pa->ppro && strchr(szService, 'W')) {
 		TServiceListItem *item = serviceItems.find((TServiceListItem*)&szService);
-		if ( !item) return res;
+		if (!item) return res;
 
 		switch(item->id) {
 			case 100:
@@ -721,7 +721,7 @@ int LoadProtocolsModule(void)
 
 void UnloadProtocolsModule()
 {
-	if ( !bModuleInitialized) return;
+	if (!bModuleInitialized) return;
 
 	if (hAccListChanged) {
 		DestroyHookableEvent(hAccListChanged);

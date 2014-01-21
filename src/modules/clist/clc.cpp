@@ -71,35 +71,35 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 	if ((HANDLE)wParam == NULL) {
-		if ( !strcmp(cws->szModule, "CListGroups"))
+		if (!strcmp(cws->szModule, "CListGroups"))
 			cli.pfnClcBroadcast(INTM_GROUPSCHANGED, wParam, lParam);
 		return 0;
 	}
 
-	if ( !strcmp(cws->szModule, "CList")) {
-		if ( !strcmp(cws->szSetting, "MyHandle")) {
+	if (!strcmp(cws->szModule, "CList")) {
+		if (!strcmp(cws->szSetting, "MyHandle")) {
 			cli.pfnInvalidateDisplayNameCacheEntry((HANDLE)wParam);
 			cli.pfnClcBroadcast(INTM_NAMECHANGED, wParam, lParam);
 		}
-		else if ( !strcmp(cws->szSetting, "Group"))
+		else if (!strcmp(cws->szSetting, "Group"))
 			cli.pfnClcBroadcast(INTM_GROUPCHANGED, wParam, lParam);
-		else if ( !strcmp(cws->szSetting, "Hidden"))
+		else if (!strcmp(cws->szSetting, "Hidden"))
 			cli.pfnClcBroadcast(INTM_HIDDENCHANGED, wParam, lParam);
-		else if ( !strcmp(cws->szSetting, "NotOnList"))
+		else if (!strcmp(cws->szSetting, "NotOnList"))
 			cli.pfnClcBroadcast(INTM_NOTONLISTCHANGED, wParam, lParam);
-		else if ( !strcmp(cws->szSetting, "Status"))
+		else if (!strcmp(cws->szSetting, "Status"))
 			cli.pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
-		else if ( !strcmp(cws->szSetting, "NameOrder"))
+		else if (!strcmp(cws->szSetting, "NameOrder"))
 			cli.pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
 	}
 	else {
 		char *szProto = GetContactProto((HANDLE)wParam);
 		if (szProto != NULL) {
-			if ( !strcmp(cws->szModule, "Protocol") && !strcmp(cws->szSetting, "p"))
+			if (!strcmp(cws->szModule, "Protocol") && !strcmp(cws->szSetting, "p"))
 				cli.pfnClcBroadcast(INTM_PROTOCHANGED, wParam, lParam);
 
 			// something is being written to a protocol module
-			if ( !strcmp(szProto, cws->szModule)) {
+			if (!strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
 				char *id = (char *) CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 				if ((INT_PTR)id != CALLSERVICE_NOTFOUND && id != NULL && !strcmp(id, cws->szSetting))
@@ -108,12 +108,12 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 		}
 		if (szProto == NULL || strcmp(szProto, cws->szModule))
 			return 0;
-		if ( !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName") || !strcmp(cws->szSetting, "e-mail")
+		if (!strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName") || !strcmp(cws->szSetting, "e-mail")
 			 ||  !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "UIN"))
 			cli.pfnClcBroadcast(INTM_NAMECHANGED, wParam, lParam);
-		else if ( !strcmp(cws->szSetting, "ApparentMode"))
+		else if (!strcmp(cws->szSetting, "ApparentMode"))
 			cli.pfnClcBroadcast(INTM_APPARENTMODECHANGED, wParam, lParam);
-		else if ( !strcmp(cws->szSetting, "IdleTS"))
+		else if (!strcmp(cws->szSetting, "IdleTS"))
 			cli.pfnClcBroadcast(INTM_IDLECHANGED, wParam, lParam);
 	}
 	return 0;
@@ -153,7 +153,7 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 		WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
 		if (ack->result == ACKRESULT_SUCCESS) {
 			for (int i=0; i < cli.hClcProtoCount; i++) {
-				if ( !lstrcmpA(cli.clcProto[i].szProto, ack->szModule)) {
+				if (!lstrcmpA(cli.clcProto[i].szProto, ack->szModule)) {
 					cli.clcProto[i].dwStatus = (WORD) ack->lParam;
 					break;
 				}
@@ -235,7 +235,7 @@ int LoadCLCModule(void)
 
 void UnloadClcModule()
 {
-	if ( !bModuleInitialized) return;
+	if (!bModuleInitialized) return;
 
 	mir_free(cli.clcProto);
 
@@ -285,7 +285,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		dat->list.cl.increment = 30;
 		dat->needsResort = 1;
 		cli.pfnLoadClcOptions(hwnd, dat);
-		if ( !IsWindowVisible(hwnd))
+		if (!IsWindowVisible(hwnd))
 			SetTimer(hwnd, TIMERID_REBUILDAFTER, 10, NULL);
 		else {
 			cli.pfnRebuildEntireList(hwnd, dat);
@@ -474,7 +474,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		{
 			WORD iExtraImage[EXTRA_ICON_COUNT];
 			BYTE flags = 0;
-			if ( !cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+			if (!cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 				memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 			else {
 				memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
@@ -517,11 +517,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			// this means an offline msg is flashing, so the contact should be shown
 			DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 			shouldShow = (style & CLS_SHOWHIDDEN || !db_get_b((HANDLE)wParam, "CList", "Hidden", 0))
-				&& ( !cli.pfnIsHiddenMode(dat, status) || CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam);
+				&& (!cli.pfnIsHiddenMode(dat, status) || CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam);
 
 			contact = NULL;
 			group = NULL;
-			if ( !cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {
+			if (!cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {
 				if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 					if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 						hSelItem = cli.pfnContactToHItem(selcontact);
@@ -538,7 +538,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			else { // item in list already
 				if (contact->iImage == (WORD) lParam)
 					break;
-				if ( !shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
+				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 						hSelItem = cli.pfnContactToHItem(selcontact);
 					cli.pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
@@ -546,7 +546,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				}
 				else {
 					contact->iImage = (WORD) lParam;
-					if ( !cli.pfnIsHiddenMode(dat, status))
+					if (!cli.pfnIsHiddenMode(dat, status))
 						contact->flags |= CONTACTF_ONLINE;
 					else
 						contact->flags &= ~CONTACTF_ONLINE;
@@ -565,7 +565,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case INTM_NAMECHANGED:
-		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+		if (!cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 
 		lstrcpyn(contact->szText, cli.pfnGetContactDisplayName((HANDLE)wParam, 0), SIZEOF(contact->szText));
@@ -574,7 +574,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case INTM_PROTOCHANGED:
-		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+		if (!cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 
 		contact->proto = GetContactProto((HANDLE)wParam);
@@ -584,7 +584,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case INTM_NOTONLISTCHANGED:
-		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+		if (!cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 
 		if (contact->type == CLCIT_CONTACT) {
@@ -698,7 +698,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		KillTimer(hwnd, TIMERID_RENAME);
 		{
 			UINT scrollLines;
-			if ( !SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &scrollLines, FALSE))
+			if (!SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &scrollLines, FALSE))
 				scrollLines = 3;
 			cli.pfnScrollTo(hwnd, dat, dat->yScroll - (short) HIWORD(wParam) * dat->rowHeight * (signed) scrollLines / WHEEL_DELTA, 0);
 		}
@@ -769,7 +769,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 					return 0;
 			}
 			if (selMoved) {
-				if ( !dat->filterSearch)
+				if (!dat->filterSearch)
 					dat->szQuickSearch[0] = 0;
 				if (dat->selection >= cli.pfnGetGroupContentsCount(&dat->list, 1))
 					dat->selection = cli.pfnGetGroupContentsCount(&dat->list, 1) - 1;
@@ -921,7 +921,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnEndRename(hwnd, dat, 1);
 		dat->ptDragStart.x = (short) LOWORD(lParam);
 		dat->ptDragStart.y = (short) HIWORD(lParam);
-		if ( !dat->filterSearch)
+		if (!dat->filterSearch)
 			dat->szQuickSearch[0] = 0;
 
 		hit = cli.pfnHitTest(hwnd, dat, (short) LOWORD(lParam), (short) HIWORD(lParam), &contact, &group, &hitFlags);
@@ -966,7 +966,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
 		}
-		if ( !(hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL | CLCHT_ONITEMCHECK))) {
+		if (!(hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL | CLCHT_ONITEMCHECK))) {
 			NMCLISTCONTROL nm;
 			nm.hdr.code = NM_CLICK;
 			nm.hdr.hwndFrom = hwnd;
@@ -1073,7 +1073,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 					if (pt.x >= 0 && pt.x < clRect.right
 						&& ((pt.y < 0 && pt.y > -dat->dragAutoScrollHeight)
 						||  (pt.y >= clRect.bottom && pt.y < clRect.bottom + dat->dragAutoScrollHeight))) {
-							if ( !dat->dragAutoScrolling) {
+							if (!dat->dragAutoScrolling) {
 								if (pt.y < 0)
 									dat->dragAutoScrolling = -1;
 								else
@@ -1204,7 +1204,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		if (dat->selection != -1)
 			cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
-		if ( !(hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL)))
+		if (!(hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL)))
 			break;
 
 		UpdateWindow(hwnd);
@@ -1310,14 +1310,14 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnHideInfoTip(hwnd, dat);
 		{
 			for (int i=0; i <= FONTID_MAX; i++)
-				if ( !dat->fontInfo[i].changed)
+				if (!dat->fontInfo[i].changed)
 					DeleteObject(dat->fontInfo[i].hFont);
 		}
 		if (dat->himlHighlight)
 			ImageList_Destroy(dat->himlHighlight);
 		if (dat->hwndRenameEdit)
 			DestroyWindow(dat->hwndRenameEdit);
-		if ( !dat->bkChanged && dat->hBmpBackground)
+		if (!dat->bkChanged && dat->hBmpBackground)
 			DeleteObject(dat->hBmpBackground);
 		cli.pfnFreeGroup(&dat->list);
 		mir_free(dat);

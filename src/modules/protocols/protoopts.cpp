@@ -184,7 +184,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 					}
 					pa->szModuleName = mir_strdup(buf);
 
-					if ( !pa->tszAccountName[0]) {
+					if (!pa->tszAccountName[0]) {
 						mir_free(pa->tszAccountName);
 						pa->tszAccountName = mir_a2t(buf);
 					}
@@ -194,7 +194,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 
 					if ( ActivateAccount(pa)) {
 						pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
-						if ( !db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
+						if (!db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
 							pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
 					}
 				}
@@ -278,7 +278,7 @@ static LRESULT CALLBACK sttEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 static LRESULT CALLBACK AccListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	struct TAccListData *dat = (struct TAccListData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if ( !dat)
+	if (!dat)
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	switch (msg) {
@@ -329,7 +329,7 @@ static LRESULT CALLBACK AccListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			RECT rc;
 			struct TAccMgrData *parentDat = (struct TAccMgrData *)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 			PROTOACCOUNT *pa = (PROTOACCOUNT *)ListBox_GetItemData(hwnd, ListBox_GetCurSel(hwnd));
-			if ( !pa || pa->bOldProto || pa->bDynDisabled)
+			if (!pa || pa->bOldProto || pa->bDynDisabled)
 				return 0;
 
 			ListBox_GetItemRect(hwnd, ListBox_GetCurSel(hwnd), &rc);
@@ -423,7 +423,7 @@ static void sttUpdateAccountInfo(HWND hwndDlg, struct TAccMgrData *dat)
 				ShowWindow( GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_HIDE);
 				ShowWindow(pa->hwndAccMgrUI, SW_SHOW);
 			}
-			else if ( !pa->ppro) {
+			else if (!pa->ppro) {
 				ShowWindow( GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_SHOW);
 				SetWindowText( GetDlgItem(hwndDlg, IDC_TXT_INFO), TranslateT("Account is disabled. Please activate it to access options."));
 			}
@@ -625,7 +625,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 					ci.hContact = NULL;
 					ci.szProto = acc->szModuleName;
 					ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
-					if ( !CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+					if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 						switch (ci.type) {
 						case CNFT_ASCIIZ:
 							mir_sntprintf(text, size, _T("%s: %s"), tszIdName, ci.pszVal);
@@ -711,7 +711,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			if (iItem != LB_ERR) {
 				PROTOACCOUNT* pa = (PROTOACCOUNT*)ListBox_GetItemData(hwndList, iItem);
 				HMENU hMenu = CreatePopupMenu();
-				if ( !pa->bOldProto && !pa->bDynDisabled)
+				if (!pa->bOldProto && !pa->bDynDisabled)
 					AppendMenu(hMenu, MF_STRING, 1, TranslateT("Rename"));
 
 				AppendMenu(hMenu, MF_STRING, 3, TranslateT("Delete"));
@@ -775,7 +775,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 							if (pa->bIsEnabled) {
 								if (ActivateAccount(pa)) {
 									pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
-									if ( !db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
+									if (!db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
 										pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
 								}
 							}
@@ -791,7 +791,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 									}
 								}
 
-								if ( !pa->bIsEnabled)
+								if (!pa->bIsEnabled)
 									DeactivateAccount(pa, true, false);
 							}
 
@@ -1034,7 +1034,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 static INT_PTR OptProtosShow(WPARAM, LPARAM)
 {
-	if ( !hAccMgr)
+	if (!hAccMgr)
 		hAccMgr = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ACCMGR), NULL, AccMgrDlgProc, 0);
 
 	ShowWindow(hAccMgr, SW_RESTORE);

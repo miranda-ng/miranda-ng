@@ -329,7 +329,7 @@ static HTREEITEM sttFindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TC
 	else
 		tvi.hItem = TreeView_GetRoot(hwndTree);
 
-	if ( !name)
+	if (!name)
 		return tvi.hItem;
 
 	tvi.mask = TVIF_TEXT;
@@ -340,7 +340,7 @@ static HTREEITEM sttFindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TC
 	{
 		TreeView_GetItem(hwndTree, &tvi);
 
-		if ( !lstrcmp(tvi.pszText, name))
+		if (!lstrcmp(tvi.pszText, name))
 			return tvi.hItem;
 
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
@@ -370,8 +370,8 @@ static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const TCHAR *groupName,
 		pItemName = TranslateTH(hLangpack, pItemName);
 
 		hItem = sttFindNamedTreeItemAt(hwndTree, hSection, pItemName);
-		if ( !sectionName || !hItem) {
-			if ( !hItem) {
+		if (!sectionName || !hItem) {
+			if (!hItem) {
 				TVINSERTSTRUCT tvis = {0};
 				TreeItem *treeItem = (TreeItem *)mir_alloc(sizeof(TreeItem));
 				treeItem->groupName = sectionName ? NULL : mir_tstrdup(groupName);
@@ -675,7 +675,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (first_colour_index == -1)
 						first_colour_index = colourId;
 
-					if ( !sttFsuiBindColourIdToFonts( GetDlgItem(hwndDlg, IDC_FONTLIST), C.name, C.group, C.name, colourId)) {
+					if (!sttFsuiBindColourIdToFonts( GetDlgItem(hwndDlg, IDC_FONTLIST), C.name, C.group, C.name, colourId)) {
 						itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
 						itemData->colour_id = colourId;
 						itemData->font_id = -1;
@@ -689,7 +689,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				}
 			}
 
-			if ( !hBkgColourBrush)
+			if (!hBkgColourBrush)
 				hBkgColourBrush = CreateSolidBrush(GetSysColor(COLOR_WINDOW));
 
 			for (effectId = 0; effectId < effect_id_list_w2.getCount(); effectId++) {
@@ -699,7 +699,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (first_effect_index == -1)
 						first_effect_index = effectId;
 
-					if ( !sttFsuiBindEffectIdToFonts( GetDlgItem(hwndDlg, IDC_FONTLIST), E.name, effectId)) {
+					if (!sttFsuiBindEffectIdToFonts( GetDlgItem(hwndDlg, IDC_FONTLIST), E.name, effectId)) {
 						itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
 						itemData->effect_id = effectId;
 						itemData->font_id = -1;
@@ -749,7 +749,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			if (itemData->colour_id >= 0) {
 				int iItem = itemData->colour_id;
-				if ( !itemName)
+				if (!itemName)
 					itemName = colour_id_list_w2[iItem].getName();
 			}
 
@@ -786,7 +786,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (dis->CtlID != IDC_FONTLIST)
 				break;
 
-			if ( !itemData) return FALSE;
+			if (!itemData) return FALSE;
 
 			if (itemData->font_id >= 0) {
 				int iItem = itemData->font_id;
@@ -936,7 +936,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 							bEnableEffect = 0;
 						if (bEnableFont && (itemData->font_id < 0))
 							bEnableFont = 0;
-						if ( !bEnableFont || bEnableClText && (itemData->font_id < 0))
+						if (!bEnableFont || bEnableClText && (itemData->font_id < 0))
 							bEnableClText = 0;
 						if (bEnableReset && (itemData->font_id >= 0) && !(font_id_list_w2[itemData->font_id].flags&FIDF_DEFAULTVALID))
 							bEnableReset = 0;
@@ -1156,7 +1156,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				ofn.lpstrDefExt = _T("ini");
 
 				if (GetSaveFileName(&ofn) == TRUE)
-					if ( !ExportSettings(hwndDlg, ofn.lpstrFile, font_id_list, colour_id_list, effect_id_list))
+					if (!ExportSettings(hwndDlg, ofn.lpstrFile, font_id_list, colour_id_list, effect_id_list))
 						MessageBox(hwndDlg, TranslateT("Error writing file"), TranslateT("Error"), MB_ICONWARNING | MB_OK);
 			}
 			return TRUE;
@@ -1275,7 +1275,7 @@ static FontInternal *sttFindFont(OBJLIST<FontInternal> &fonts, char *module, cha
 	for (int i=0; i < fonts.getCount(); i++)
 	{
 		FontInternal& F = fonts[i];
-		if ( !lstrcmpA(F.dbSettingsGroup, module) && !lstrcmpA(F.prefix, prefix))
+		if (!lstrcmpA(F.dbSettingsGroup, module) && !lstrcmpA(F.prefix, prefix))
 			return &F;
 	}
 
@@ -1318,7 +1318,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 				break;
 			}
 
-			if ( !pf)
+			if (!pf)
 				break;
 
 			HFONT hFont = NULL, hoFont = NULL;

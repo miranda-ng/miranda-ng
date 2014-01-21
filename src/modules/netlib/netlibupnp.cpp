@@ -236,7 +236,7 @@ static void validateSocket(void)
 		break;
 	}
 
-	if ( !opened)
+	if (!opened)
 		closeRouterConnection();
 }
 
@@ -350,7 +350,7 @@ retrycon:
 						NetlibLogf(NULL, "UPnP connect timeout");
 						break;
 					}
-					else if ( !FD_ISSET(sock, &wfd))
+					else if (!FD_ISSET(sock, &wfd))
 					{
 						closeRouterConnection();
 						NetlibLogf(NULL, "UPnP connect failed");
@@ -807,7 +807,7 @@ void NetlibUPnPCleanup(void*)
 				break;
 			}
 
-		if ( !incoming)
+		if (!incoming)
 			return;
 	}
 
@@ -837,10 +837,10 @@ void NetlibUPnPCleanup(void*)
 			if (httpTransact(szCtlUrl, szData, 4096, "GetGenericPortMappingEntry", ControlAction) != 200)
 				break;
 
-			if ( !txtParseParam(szData, "<NewPortMappingDescription", ">", "<", buf, sizeof(buf)) || strcmp(buf, "Miranda") != 0)
+			if (!txtParseParam(szData, "<NewPortMappingDescription", ">", "<", buf, sizeof(buf)) || strcmp(buf, "Miranda") != 0)
 				continue;
 
-			if ( !txtParseParam(szData, "<NewInternalClient", ">", "<", buf, sizeof(buf)) || strcmp(buf, lip) != 0)
+			if (!txtParseParam(szData, "<NewInternalClient", ">", "<", buf, sizeof(buf)) || strcmp(buf, lip) != 0)
 				continue;
 
 			if (txtParseParam(szData, "<NewExternalPort", ">", "<", buf, sizeof(buf)))

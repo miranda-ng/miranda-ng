@@ -65,7 +65,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 							isSet = 1;
 						}
 					}
-					if ( !isSet) {
+					if (!isSet) {
 						szName = (acs->handleType == HANDLE_EVENT) ? (tmpStr = mir_a2t(szUin)) :
 							(acs->psr->id ? acs->psr->id : acs->psr->nick);
 					}

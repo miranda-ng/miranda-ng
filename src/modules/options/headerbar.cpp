@@ -95,7 +95,7 @@ static void MHeaderbar_SetupColors(MHeaderbarCtrl *dat)
 
 	dat->clText			 = GetSysColor(COLOR_WINDOWTEXT);
 
-	if ( !dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+	if (!dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 }
 
 static void MHeaderbar_FillRect(HDC hdc, int x, int y, int width, int height, COLORREF cl)
@@ -308,7 +308,7 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 					RECT rcChild; GetWindowRect(hChild, &rcChild);
 					RECT rc;
 					IntersectRect(&rc, &rcChild, &rcWnd);
-					if ( !IsRectEmpty(&rc))
+					if (!IsRectEmpty(&rc))
 					{
 						++itc->nControlsToRedraw;
 						itc->controlsToRedraw = (HWND *)mir_realloc(itc->controlsToRedraw, sizeof(HWND) * itc->nControlsToRedraw);

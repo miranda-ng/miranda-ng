@@ -117,7 +117,7 @@ static INT_PTR GetStatusModeDescription(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR* buf1 = cli.pfnGetStatusModeDescription(wParam, lParam);
 
-	if ( !(lParam & GSMDF_TCHAR)) {
+	if (!(lParam & GSMDF_TCHAR)) {
 		static char szMode[64];
 		char *buf2 = mir_u2a(buf1);
 		mir_snprintf(szMode, SIZEOF(szMode), "%s", buf2);
@@ -366,7 +366,7 @@ int fnShowHide(WPARAM, LPARAM)
 	switch (iVisibleState) {
 	case GWVS_PARTIALLY_COVERED:
 		//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
-		if ( !db_get_b(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
+		if (!db_get_b(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
 			break;
 	case GWVS_COVERED:     //Fall through (and we're already falling)
 	case GWVS_HIDDEN:
@@ -383,7 +383,7 @@ int fnShowHide(WPARAM, LPARAM)
 		RECT rcWindow;
 
 		ShowWindow(cli.hwndContactList, SW_RESTORE);
-		if ( !db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
+		if (!db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
 			SetWindowPos(cli.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 		else
 			SetWindowPos(cli.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);

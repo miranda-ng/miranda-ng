@@ -49,12 +49,12 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 			SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat); /* always succeeds */
 			/* fall thru */
 		case WM_SYSCOLORCHANGE:
-			if ( !(dat->flags&HLKF_HASENABLECOLOR)) {
+			if (!(dat->flags&HLKF_HASENABLECOLOR)) {
 				if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL) dat->enableColor = RGB(0, 0, 255);
 				else dat->enableColor = GetSysColor(COLOR_HOTLIGHT);
 				dat->focusColor = RGB(GetRValue(dat->enableColor) / 2, GetGValue(dat->enableColor) / 2, GetBValue(dat->enableColor) / 2);
 			}
-			if ( !(dat->flags&HLKF_HASDISABLECOLOR))
+			if (!(dat->flags&HLKF_HASDISABLECOLOR))
 				dat->disableColor = GetSysColor(COLOR_GRAYTEXT);
 			break;
 
@@ -103,7 +103,7 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		case WM_LBUTTONDOWN:
 		{	POINT pt;
 			POINTSTOPOINT(pt, MAKEPOINTS(lParam));
-			if ( !PtInRect(&dat->rcText, pt)) break;
+			if (!PtInRect(&dat->rcText, pt)) break;
 			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), STN_CLICKED), (LPARAM)hwnd);
 			return 0;
 		}
@@ -133,12 +133,12 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		{	RECT rcWnd;
 			POINT pt;
 			HWND hwndParent;
-			if ( !GetWindowRect(hwnd, &rcWnd)) break;
+			if (!GetWindowRect(hwnd, &rcWnd)) break;
 			pt.x = rcWnd.left;
 			pt.y = rcWnd.top;
 			hwndParent = GetParent(hwnd);
 			if (hwndParent == NULL) hwndParent = hwnd;
-			if ( !ScreenToClient(hwndParent, &pt)) break;
+			if (!ScreenToClient(hwndParent, &pt)) break;
 			rcWnd.right = pt.x+(rcWnd.right-rcWnd.left);
 			rcWnd.bottom = pt.y+(rcWnd.bottom-rcWnd.top);
 			rcWnd.left = pt.x;
@@ -151,7 +151,7 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		case WM_CREATE:
 		case HLK_MEASURETEXT:
 		{	TCHAR szText[256];
-			if ( !GetWindowText(hwnd, szText, SIZEOF(szText))) return 0;
+			if (!GetWindowText(hwnd, szText, SIZEOF(szText))) return 0;
 			lParam = (LPARAM)szText;
 			/* fall thru */
 		case WM_SETTEXT:
@@ -178,15 +178,15 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 					}
 			if (dat->hEnableFont != NULL && hPrevFont != NULL) SelectObject(hdc, hPrevFont);
 			ReleaseDC(hwnd, hdc);
-			if ( !fMeasured) return 0; /* text change failed */
+			if (!fMeasured) return 0; /* text change failed */
 			SendMessage(hwnd, HLK_INVALIDATE, 0, 0);
 			break;
 		}}
 		case WM_SETCURSOR:
 		{	POINT pt;
 			HCURSOR hCursor;
-			if ( !GetCursorPos(&pt)) return FALSE;
-			if ( !ScreenToClient(hwnd, &pt)) return FALSE;
+			if (!GetCursorPos(&pt)) return FALSE;
+			if (!ScreenToClient(hwnd, &pt)) return FALSE;
 			if (PtInRect(&dat->rcText, pt)) {
 				hCursor = (HCURSOR)GetClassLongPtr(hwnd, GCLP_HCURSOR);
 				if (hCursor == NULL) hCursor = LoadCursor(NULL, IDC_HAND); /* Win2000+ */

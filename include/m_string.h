@@ -582,7 +582,7 @@ private:
 	{
 		CMStringData* pNewData = NULL;
 
-		if ( !pData->IsLocked()) {
+		if (!pData->IsLocked()) {
 			pNewData = pData;
 			pNewData->AddRef();
 		}

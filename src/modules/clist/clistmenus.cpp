@@ -208,7 +208,7 @@ static INT_PTR AddMainMenuItem(WPARAM, LPARAM lParam)
 {
 	TMO_MenuItem tmi;
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
-	if ( !cli.pfnConvertMenu(mi, &tmi))
+	if (!cli.pfnConvertMenu(mi, &tmi))
 		return 0;
 
 	lpMainMenuExecParam mmep = (lpMainMenuExecParam)mir_alloc(sizeof(MainMenuExecParam));
@@ -253,7 +253,7 @@ INT_PTR MainMenuExecService(WPARAM wParam, LPARAM lParam)
 	lpMainMenuExecParam mmep = (lpMainMenuExecParam)wParam;
 	if (mmep != NULL) {
 		// bug in help.c, it used wparam as parent window handle without reason.
-		if ( !lstrcmpA(mmep->szServiceName, "Help/AboutCommand"))
+		if (!lstrcmpA(mmep->szServiceName, "Help/AboutCommand"))
 			mmep->Param1 = 0;
 
 		CallService(mmep->szServiceName, mmep->Param1, lParam);
@@ -284,10 +284,10 @@ static INT_PTR AddContactMenuItem(WPARAM, LPARAM lParam)
 {
 	TMO_MenuItem tmi;
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
-	if ( !cli.pfnConvertMenu(mi, &tmi))
+	if (!cli.pfnConvertMenu(mi, &tmi))
 		return 0;
 
-	if ( !(mi->flags & CMIF_ROOTHANDLE)) {
+	if (!(mi->flags & CMIF_ROOTHANDLE)) {
 		//old system
 		tmi.flags |= CMIF_ROOTHANDLE;
 		tmi.root = NULL;
@@ -400,7 +400,7 @@ INT_PTR FreeOwnerDataContactMenu (WPARAM, LPARAM lParam)
 
 BOOL FindMenuHandleByGlobalID(HMENU hMenu, PMO_IntMenuItem id, MenuItemData* itdat)
 {
-	if ( !itdat)
+	if (!itdat)
 		return FALSE;
 
 	MENUITEMINFO mii = { sizeof(mii) };
@@ -432,11 +432,11 @@ BOOL FindMenuHandleByGlobalID(HMENU hMenu, PMO_IntMenuItem id, MenuItemData* itd
 INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 {
 	PCheckProcParam pcpp = (PCheckProcParam)wParam;
-	if ( !pcpp)
+	if (!pcpp)
 		return TRUE;
 
 	PMO_IntMenuItem timi = MO_GetIntMenuItem(pcpp->MenuItemHandle);
-	if ( !timi)
+	if (!timi)
 		return TRUE;
 
 	StatusMenuExecParam *smep = (StatusMenuExecParam*)pcpp->MenuItemOwnerData;
@@ -508,7 +508,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 		else
 			timi->mi.flags &= ~CMIF_CHECKED;
 	}
-	else if (( !smep || smep->proto) && timi->mi.pszName) {
+	else if ((!smep || smep->proto) && timi->mi.pszName) {
 		int curProtoStatus = 0;
 		BOOL IconNeedDestroy = FALSE;
 		char* prot;
@@ -608,7 +608,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 
 				for (int j=0; j < accounts.getCount(); j++) {
 					PROTOACCOUNT* pa = accounts[j];
-					if ( !Proto_IsAccountEnabled(pa))
+					if (!Proto_IsAccountEnabled(pa))
 						continue;
 					if (MenusProtoCount > 1 && Proto_IsAccountLocked(pa))
 						continue;
@@ -661,7 +661,7 @@ static INT_PTR ModifyCustomMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	TMO_MenuItem tmi;
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
-	if ( !cli.pfnConvertMenu(mi, &tmi))
+	if (!cli.pfnConvertMenu(mi, &tmi))
 		return 0;
 
 	return MO_ModifyMenuItem((PMO_IntMenuItem)wParam, &tmi);
@@ -680,7 +680,7 @@ INT_PTR MenuProcessCommand(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	if ( !(cmd >= CLISTMENUIDMIN && cmd <= CLISTMENUIDMAX))
+	if (!(cmd >= CLISTMENUIDMIN && cmd <= CLISTMENUIDMAX))
 		return 0; // DO NOT process ids outside from clist menu id range		v0.7.0.27+
 
 	//process old menu sys
@@ -693,7 +693,7 @@ INT_PTR MenuProcessCommand(WPARAM wParam, LPARAM lParam)
 
 BOOL FindMenuHanleByGlobalID(HMENU hMenu, PMO_IntMenuItem id, MenuItemData* itdat)
 {
-	if ( !itdat)
+	if (!itdat)
 		return FALSE;
 
 	BOOL inSub = FALSE;
@@ -812,7 +812,7 @@ int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos)
 	_itoa(Pos, buf, 10);
 
 	DBVARIANT dbv;
-	if ( !db_get_s(NULL, "Protocols", buf, &dbv)) {
+	if (!db_get_s(NULL, "Protocols", buf, &dbv)) {
 		for (int p=0; p < protoCnt; p++) {
 			if (lstrcmpA(proto[p]->szName, dbv.pszVal) == 0) {
 				db_free(&dbv);
@@ -869,7 +869,7 @@ void RebuildMenuOrder(void)
 
 		PROTOACCOUNT* pa = accounts[i];
 		int pos = 0;
-		if ( !bHideStatusMenu && !cli.pfnGetProtocolVisibility(pa->szModuleName))
+		if (!bHideStatusMenu && !cli.pfnGetProtocolVisibility(pa->szModuleName))
 			continue;
 
 		DWORD flags = pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0);
@@ -936,7 +936,7 @@ void RebuildMenuOrder(void)
 		pos += 500000;
 
 		for (int j = 0; j < SIZEOF(statusModeList); j++) {
-			if ( !(flags & statusModePf2List[j]))
+			if (!(flags & statusModePf2List[j]))
 				continue;
 
 			//adding
@@ -977,11 +977,11 @@ void RebuildMenuOrder(void)
 	for (j = 0; j < SIZEOF(statusModeList); j++) {
 		for (i=0; i < accounts.getCount(); i++) {
 			PROTOACCOUNT* pa = accounts[i];
-			if ( !bHideStatusMenu && !cli.pfnGetProtocolVisibility(pa->szModuleName))
+			if (!bHideStatusMenu && !cli.pfnGetProtocolVisibility(pa->szModuleName))
 				continue;
 
 			DWORD flags = pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0);
-			if ( !(flags & statusModePf2List[j]))
+			if (!(flags & statusModePf2List[j]))
 				continue;
 
 			TMO_MenuItem tmi = { sizeof(tmi) };
@@ -1096,7 +1096,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 	}
 
 	for (int i=0; i < accounts.getCount(); i++) {
-		if ( !lstrcmpA(accounts[i]->szModuleName, ack->szModule)) {
+		if (!lstrcmpA(accounts[i]->szModuleName, ack->szModule)) {
 			if (((int)ack->hProcess >= ID_STATUS_OFFLINE || (int)ack->hProcess == 0) && (int)ack->hProcess < ID_STATUS_OFFLINE + SIZEOF(statusModeList)) {
 				int pos = statustopos((int)ack->hProcess);
 				if (pos == -1)
@@ -1153,7 +1153,7 @@ static MenuProto* FindProtocolMenu(const char* proto)
 			return &cli.menuProtos[i];
 
 	if (cli.menuProtoCount == 1)
-		if ( !lstrcmpiA(cli.menuProtos[0].szProto, proto))
+		if (!lstrcmpiA(cli.menuProtos[0].szProto, proto))
 			return &cli.menuProtos[0];
 
 	return NULL;
@@ -1175,7 +1175,7 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
 
 	TMO_MenuItem tmi;
-	if ( !cli.pfnConvertMenu(mi, &tmi))
+	if (!cli.pfnConvertMenu(mi, &tmi))
 		return 0;
 
 	// for new style menus the pszPopupName contains the root menu handle

@@ -137,11 +137,11 @@ int getDefaultPluginIdx(const MUUID& muuid)
 
 int LoadStdPlugins()
 {
-	for (int i=0; i < SIZEOF(pluginDefault); i++) {
-		if ( pluginDefault[i].pImpl )
+	for (int i = 0; i < SIZEOF(pluginDefault); i++) {
+		if (pluginDefault[i].pImpl)
 			continue;
 
-		if ( !LoadCorePlugin(pluginDefault[i])) {
+		if (!LoadCorePlugin(pluginDefault[i])) {
 			TCHAR tszBuf[512];
 			mir_sntprintf(tszBuf, SIZEOF(tszBuf), TranslateT("Core plugin '%s' cannot be loaded or missing. Miranda will exit now"), pluginDefault[i].stdplugname);
 			MessageBox(NULL, tszBuf, TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
@@ -188,7 +188,7 @@ int GetPluginFakeId(const MUUID &uuid, int hLangpack)
 {
 	for (int i=0; i < pluginList.getCount(); i++) {
 		pluginEntry *p = pluginList[i];
-		if ( !p->bpi.hInst)
+		if (!p->bpi.hInst)
 			continue;
 
 		if ( equalUUID(p->bpi.pluginInfo->uuid, uuid))
@@ -226,7 +226,7 @@ static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 	if (bpi->InfoEx == NULL || pi->cbSize != sizeof(PLUGININFOEX))
 		return FALSE;
 
-	if ( !validInterfaceList(bpi->Interfaces) || isPluginBanned(pi->uuid))
+	if (!validInterfaceList(bpi->Interfaces) || isPluginBanned(pi->uuid))
 		return FALSE;
 
 	if (pi->shortName == NULL || pi->description == NULL || pi->author == NULL ||
@@ -250,22 +250,16 @@ int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int ch
 	bpi->InfoEx = (Miranda_Plugin_InfoEx) GetProcAddress(h, "MirandaPluginInfoEx");
 
 	// if they were present
-	if ( !bpi->Load || !bpi->Unload || !bpi->InfoEx) {
+	if (!bpi->Load || !bpi->Unload || !bpi->InfoEx) {
 LBL_Error:
 		FreeLibrary(h);
 		return 0;
 	}
 
 	bpi->Interfaces = (MUUID*) GetProcAddress(h, "MirandaInterfaces");
-	if ( !bpi->Interfaces) {
-		typedef MUUID * (__cdecl * Miranda_Plugin_Interfaces) (void);
-		Miranda_Plugin_Interfaces pFunc = (Miranda_Plugin_Interfaces) GetProcAddress(h, "MirandaPluginInterfaces");
-		if (pFunc)
-			bpi->Interfaces = pFunc();
-	}
 
 	PLUGININFOEX* pi = bpi->InfoEx(mirandaVersion);
-	if ( !checkPI(bpi, pi))
+	if (!checkPI(bpi, pi))
 		goto LBL_Error;
 
 	bpi->pluginInfo = pi;
@@ -344,11 +338,11 @@ int Plugin_UnloadDyn(pluginEntry *p)
 
 	Plugin_Uninit(p);
 
-	// load default plugins instead of the unloaded one
-	if ( !(p->pclass & PCLASS_CORE))
+	// mark default plugins to be loaded
+	if (!(p->pclass & PCLASS_CORE))
 		for (int i=0; i < SIZEOF(pluginDefault); i++)
 			if (pluginDefault[i].pImpl == p)
-				LoadCorePlugin( pluginDefault[i] );
+				pluginDefault[i].pImpl = NULL;
 
 	return TRUE;
 }
@@ -380,7 +374,7 @@ void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
 		HANDLE hFind = FindFirstFile(search, &ffd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				if ( !(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && valid_library_name(ffd.cFileName))
+				if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && valid_library_name(ffd.cFileName))
 					cb(&ffd, exe, wParam, lParam);
 			}
 				while (FindNextFile(hFind, &ffd));
@@ -403,7 +397,7 @@ pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 	// map dll into the memory and check its exports
 	bool bIsPlugin = false;
 	mir_ptr<MUUID> pIds( GetPluginInterfaces(tszFullPath, bIsPlugin));
-	if ( !bIsPlugin) {
+	if (!bIsPlugin) {
 		p->pclass |= PCLASS_FAILED;  // piece of shit
 		return p;
 	}
@@ -486,14 +480,14 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 		*slice = 0;
 
 	CharLower(p->pluginname);
-	if ( !(p->pclass & (PCLASS_LOADED | PCLASS_DB | PCLASS_CLIST))) {
-		if ( !bDynamic && !isPluginOnWhiteList(p->pluginname))
+	if (!(p->pclass & (PCLASS_LOADED | PCLASS_DB | PCLASS_CLIST))) {
+		if (!bDynamic && !isPluginOnWhiteList(p->pluginname))
 			return false;
 
-		if ( !(p->pclass & PCLASS_BASICAPI)) {
+		if (!(p->pclass & PCLASS_BASICAPI)) {
 			BASIC_PLUGIN_INFO bpi;
 			mir_sntprintf(slice, &exe[SIZEOF(exe)] - slice, _T("\\%s\\%s"), (p->pclass & PCLASS_CORE) ? _T("Core") : _T("Plugins"), p->pluginname);
-			if ( !checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_NONE)) {
+			if (!checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 				p->pclass |= PCLASS_FAILED;
 				return false;
 			}
@@ -513,10 +507,8 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 					}
 
 					// we're loading new implementation dynamically, let the old one die
-					if ( !(p->pclass & PCLASS_CORE)) {
+					if (!(p->pclass & PCLASS_CORE))
 						Plugin_UnloadDyn(pluginDefault[idx].pImpl);
-						pluginDefault[idx].pImpl = NULL;
-					}
 				}
 			}
 		}
@@ -529,7 +521,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 		if (p->bpi.Interfaces) {
 			MUUID *piface = p->bpi.Interfaces;
 			for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
-				int idx = getDefaultPluginIdx( piface[i] );
+				int idx = getDefaultPluginIdx(piface[i]);
 				if (idx != -1)
 					pluginDefault[idx].pImpl = p;
 			}
@@ -559,7 +551,7 @@ LBL_Error:
 
 	pPlug->pclass |= PCLASS_CORE;
 
-	if ( !TryLoadPlugin(pPlug, true))
+	if (!TryLoadPlugin(pPlug, true))
 		goto LBL_Error;
 
 	if (bModulesLoadedFired) {
@@ -601,7 +593,7 @@ static pluginEntry* getCListModule(TCHAR *exe, TCHAR *slice)
 		pluginEntry *p = clistPlugins[i];
 		mir_sntprintf(slice, &exe[MAX_PATH] - slice, _T("\\Plugins\\%s"), p->pluginname);
 		CharLower(p->pluginname);
-		if ( !isPluginOnWhiteList(p->pluginname))
+		if (!isPluginOnWhiteList(p->pluginname))
 			continue;
 
 		if ( loadClistModule(exe, p))
@@ -622,7 +614,7 @@ int UnloadPlugin(TCHAR* buf, int bufLen)
 {
 	for (int i = pluginList.getCount()-1; i >= 0; i--) {
 		pluginEntry *p = pluginList[i];
-		if ( !_tcsicmp(p->pluginname, buf)) {
+		if (!_tcsicmp(p->pluginname, buf)) {
 			GetModuleFileName(p->bpi.hInst, buf, bufLen);
 			Plugin_Uninit(p);
 			return TRUE;
@@ -643,7 +635,7 @@ void SetServiceModePlugin(pluginEntry *p)
 static int LaunchServicePlugin(pluginEntry *p)
 {
 	// plugin load failed - terminating Miranda
-	if ( !( p->pclass & PCLASS_LOADED)) {
+	if (!(p->pclass & PCLASS_LOADED)) {
 		if (p->bpi.Load() != ERROR_SUCCESS) {
 			Plugin_Uninit(p);
 			return SERVICE_FAILED;
@@ -669,7 +661,7 @@ int LoadDefaultServiceModePlugin()
 	size_t cbLen = _tcslen(param);
 	for (int i=0; i < servicePlugins.getCount(); i++) {
 		pluginEntry *p = servicePlugins[i];
-		if ( !_tcsnicmp(p->pluginname, param, cbLen)) {
+		if (!_tcsnicmp(p->pluginname, param, cbLen)) {
 			int res = LaunchServicePlugin(p);
 			if (res == SERVICE_ONLYDB) // load it later
 				serviceModePlugin = p;
@@ -687,13 +679,13 @@ int LoadServiceModePlugin()
 
 void EnsureCheckerLoaded(bool bEnable)
 {
-	for (int i=0; i < pluginList.getCount(); i++) {
+	for (int i = 0; i < pluginList.getCount(); i++) {
 		pluginEntry *p = pluginList[i];
-		if ( _tcsicmp(p->pluginname, _T("dbchecker.dll")))
+		if (_tcsicmp(p->pluginname, _T("dbchecker.dll")))
 			continue;
 
 		if (bEnable) {
-			if ( !(p->pclass & PCLASS_LOADED)) {
+			if (!(p->pclass & PCLASS_LOADED)) {
 				if (p->bpi.Load() != ERROR_SUCCESS)
 					Plugin_Uninit(p);
 				else {
@@ -714,9 +706,9 @@ void EnsureCheckerLoaded(bool bEnable)
 void UnloadNewPlugins(void)
 {
 	// unload everything but the special db/clist plugins
-	for (int i = pluginList.getCount()-1; i >= 0; i--) {
+	for (int i = pluginList.getCount() - 1; i >= 0; i--) {
 		pluginEntry *p = pluginList[i];
-		if ( !(p->pclass & PCLASS_LAST) && (p->pclass & PCLASS_OK))
+		if (!(p->pclass & PCLASS_LAST) && (p->pclass & PCLASS_OK))
 			Plugin_Uninit(p);
 	}
 }
@@ -735,11 +727,11 @@ int LoadNewPluginsModule(void)
 	if (slice) *slice = 0;
 
 	// remember some useful options
-	askAboutIgnoredPlugins = (UINT) GetPrivateProfileInt(_T("PluginLoader"), _T("AskAboutIgnoredPlugins"), 0, mirandabootini);
+	askAboutIgnoredPlugins = (UINT)GetPrivateProfileInt(_T("PluginLoader"), _T("AskAboutIgnoredPlugins"), 0, mirandabootini);
 
 	// if Crash Dumper is present, load it to provide Crash Reports
 	if (pluginList_crshdmp != NULL && isPluginOnWhiteList(pluginList_crshdmp->pluginname))
-		if ( !TryLoadPlugin(pluginList_crshdmp, false))
+		if (!TryLoadPlugin(pluginList_crshdmp, false))
 			Plugin_Uninit(pluginList_crshdmp);
 
 	// if freeimage is present, load it to provide the basic core functions
@@ -770,13 +762,13 @@ int LoadNewPluginsModule(void)
 	}
 
 	/* enable and disable as needed  */
-	for (i=0; i < clistPlugins.getCount(); i++)
+	for (i = 0; i < clistPlugins.getCount(); i++)
 		SetPluginOnWhiteList(clistPlugins[i]->pluginname, clist != clistPlugins[i] ? 0 : 1);
 
 	/* now loop thru and load all the other plugins, do this in one pass */
-	for (i=0; i < pluginList.getCount(); i++) {
+	for (i = 0; i < pluginList.getCount(); i++) {
 		pluginEntry *p = pluginList[i];
-		if ( !TryLoadPlugin(p, false)) {
+		if (!TryLoadPlugin(p, false)) {
 			Plugin_Uninit(p);
 			i--;
 		}
@@ -793,7 +785,7 @@ int LoadNewPluginsModule(void)
 static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM)
 {
 	pluginEntry *p = OpenPlugin(fd->cFileName, _T("Plugins"), path);
-	if ( !(p->pclass & PCLASS_FAILED)) {
+	if (!(p->pclass & PCLASS_FAILED)) {
 		if (pluginList_freeimg == NULL && lstrcmpi(fd->cFileName, _T("advaimg.dll")) == 0)
 			pluginList_freeimg = p;
 
@@ -842,7 +834,7 @@ void UnloadDatabase(void)
 
 void UnloadNewPluginsModule(void)
 {
-	if ( !bModuleInitialized)
+	if (!bModuleInitialized)
 		return;
 
 	UnloadPluginOptions();

@@ -70,7 +70,7 @@ static BOOL GetCurrentMenuObjectID(HWND hwndDlg, int* result)
 static int SaveTree(HWND hwndDlg)
 {
 	int MenuObjectId;
-	if ( !GetCurrentMenuObjectID(hwndDlg, &MenuObjectId))
+	if (!GetCurrentMenuObjectID(hwndDlg, &MenuObjectId))
 		return 0;
 
 	HWND hTree = GetDlgItem(hwndDlg, IDC_MENUITEMS);
@@ -255,7 +255,7 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 				DBVARIANT dbv;
 				mir_snprintf(buf, SIZEOF(buf), "%s_name", menuItemName);
 
-				if ( !db_get_ts(NULL, MenuNameItems, buf, &dbv)) {
+				if (!db_get_ts(NULL, MenuNameItems, buf, &dbv)) {
 					PD->name = mir_tstrdup(dbv.ptszVal);
 					db_free(&dbv);
 				}
@@ -348,7 +348,7 @@ static HTREEITEM MoveItemAbove(HWND hTreeWnd, HTREEITEM hItem, HTREEITEM hInsert
 	TVITEM tvi = { 0 };
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 	tvi.hItem = hItem;
-	if ( !SendMessage(hTreeWnd, TVM_GETITEM, 0, (LPARAM)&tvi))
+	if (!SendMessage(hTreeWnd, TVM_GETITEM, 0, (LPARAM)&tvi))
 		return NULL;
 	if (hItem && hInsertAfter) {
 		TVINSERTSTRUCT tvis;
@@ -362,9 +362,9 @@ static HTREEITEM MoveItemAbove(HWND hTreeWnd, HTREEITEM hItem, HTREEITEM hInsert
 		tvis.item.cchTextMax = sizeof(name);
 		tvis.item.hItem = hItem;
 		tvis.item.iImage = tvis.item.iSelectedImage = ((MenuItemOptData*)tvi.lParam)->bShow;
-		if ( !SendMessage(hTreeWnd, TVM_GETITEM, 0, (LPARAM)&tvis.item))
+		if (!SendMessage(hTreeWnd, TVM_GETITEM, 0, (LPARAM)&tvis.item))
 			return NULL;
-		if ( !TreeView_DeleteItem(hTreeWnd, hItem))
+		if (!TreeView_DeleteItem(hTreeWnd, hItem))
 			return NULL;
 		tvis.hParent = NULL;
 		tvis.hInsertAfter = hInsertAfter;
@@ -391,7 +391,7 @@ LRESULT CALLBACK LBTNDOWNProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			tvi.hItem = hti.hItem;
 			TreeView_GetItem(tvw, &tvi);
 
-			if ( !((MenuItemOptData *)tvi.lParam)->bIsSelected) { /* is not Selected*/
+			if (!((MenuItemOptData *)tvi.lParam)->bIsSelected) { /* is not Selected*/
 				// reset all selection except current
 				HTREEITEM hit;
 				hit = TreeView_GetRoot(tvw);
@@ -738,7 +738,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_MOUSEMOVE:
-		if ( !dat || !dat->dragging) break;
+		if (!dat || !dat->dragging) break;
 		{
 			TVHITTESTINFO hti;
 
@@ -751,7 +751,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				HTREEITEM it = hti.hItem;
 				hti.pt.y -= TreeView_GetItemHeight( GetDlgItem(hwndDlg, IDC_MENUITEMS))/2;
 				TreeView_HitTest( GetDlgItem(hwndDlg, IDC_MENUITEMS), &hti);
-				if ( !(hti.flags&TVHT_ABOVE))
+				if (!(hti.flags&TVHT_ABOVE))
 					TreeView_SetInsertMark( GetDlgItem(hwndDlg, IDC_MENUITEMS), hti.hItem, 1);
 				else
 					TreeView_SetInsertMark( GetDlgItem(hwndDlg, IDC_MENUITEMS), it, 0);
@@ -765,7 +765,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_LBUTTONUP:
-		if ( !dat->dragging)
+		if (!dat->dragging)
 			break;
 
 		TreeView_SetInsertMark( GetDlgItem(hwndDlg, IDC_MENUITEMS), NULL, 0);
@@ -814,7 +814,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							for (i=0; i<uSic; i++) {
 								if (insertAfter) insertAfter = MoveItemAbove(tvw, pSIT[i], insertAfter);
 								else break;
-								if ( !i) FirstItem = insertAfter;
+								if (!i) FirstItem = insertAfter;
 							}
 						}
 						// free pointers...

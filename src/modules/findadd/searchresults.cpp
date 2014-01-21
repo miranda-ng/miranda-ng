@@ -138,7 +138,7 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 
 	sortMultiplier = dat->bSortAscending?1:-1;
 	sortCol = dat->iLastColumnSortIndex;
-	if ( !dat->bFlexSearchResult)
+	if (!dat->bFlexSearchResult)
 	{
 		lsr1 = (struct ListSearchResult*)ListView_GetItemLParam(hList, (int)lParam1);
 		lsr2 = (struct ListSearchResult*)ListView_GetItemLParam(hList, (int)lParam2);
@@ -214,9 +214,9 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		dat->search = (struct ProtoSearchInfo*)mir_calloc(sizeof(struct ProtoSearchInfo) * accounts.getCount());
 		for (int i=0; i < accounts.getCount();i++) {
 			PROTOACCOUNT* pa = accounts[i];
-			if ( !Proto_IsAccountEnabled(pa)) continue;
+			if (!Proto_IsAccountEnabled(pa)) continue;
 			DWORD caps = (DWORD)CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
-			if ( !(caps&requiredCapability)) continue;
+			if (!(caps&requiredCapability)) continue;
 			dat->search[dat->searchCount].hProcess = (HANDLE)CallProtoServiceInt(NULL,pa->szModuleName, szSearchService, 0, (LPARAM)pvSearchParams);
 			dat->search[dat->searchCount].szProto = pa->szModuleName;
 			if (dat->search[dat->searchCount].hProcess == NULL) failures++;
@@ -261,7 +261,7 @@ void SetStatusBarSearchInfo(HWND hwndStatus, struct FindAddDlgData *dat)
 		lstrcpy(str, TranslateT("Searching"));
 		for (i=0; i < dat->searchCount; i++) {
 			PROTOACCOUNT* pa = Proto_GetAccount(dat->search[i].szProto);
-			if ( !pa)
+			if (!pa)
 				continue;
 
 			lstrcat(str, i ? _T(", ") : _T(" "));

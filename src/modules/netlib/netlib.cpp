@@ -180,7 +180,7 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 	thisUser->settings.proxyType = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLProxyType", PROXYTYPE_SOCKS5);
 	if (thisUser->user.flags&NUF_NOHTTPSOPTION && thisUser->settings.proxyType == PROXYTYPE_HTTPS)
 		thisUser->settings.proxyType = PROXYTYPE_HTTP;
-	if ( !(thisUser->user.flags&(NUF_HTTPCONNS|NUF_HTTPGATEWAY)) && thisUser->settings.proxyType == PROXYTYPE_HTTP) {
+	if (!(thisUser->user.flags&(NUF_HTTPCONNS|NUF_HTTPGATEWAY)) && thisUser->settings.proxyType == PROXYTYPE_HTTP) {
 		thisUser->settings.useProxy = 0;
 		thisUser->settings.proxyType = PROXYTYPE_SOCKS5;
 	}
@@ -236,7 +236,7 @@ void NetlibDoClose(NetlibConnection *nlc, bool noShutdown)
 
 	NetlibLogf(nlc->nlu, "(%p:%u) Connection closed internal", nlc, nlc->s);
 	if (nlc->hSsl) {
-		if ( !noShutdown) si.shutdown(nlc->hSsl);
+		if (!noShutdown) si.shutdown(nlc->hSsl);
 		si.sfree(nlc->hSsl);
 		nlc->hSsl = NULL;
 	}

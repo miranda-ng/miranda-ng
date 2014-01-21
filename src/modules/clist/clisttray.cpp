@@ -39,7 +39,7 @@ static CRITICAL_SECTION trayLockCS;
 #define NIF_STATE       0x00000008
 #define NIF_INFO        0x00000010
 
-#define initcheck if ( !fTrayInited) return
+#define initcheck if (!fTrayInited) return
 
 #define SIZEOFNID ((cli.shellVersion >= 5) ? NOTIFYICONDATA_V2_SIZE : NOTIFYICONDATA_V1_SIZE)
 
@@ -90,7 +90,7 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 
 		if (szPrefix && szPrefix[0]) {
 			lstrcpyn(cli.szTip, szPrefix, MAX_TIP_SIZE);
-			if ( !db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT))
+			if (!db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT))
 				return cli.szTip;
 		}
 		else cli.szTip[0] = '\0';
@@ -102,11 +102,11 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 				continue;
 
 			PROTOACCOUNT *pa = accounts[i];
-			if ( !cli.pfnGetProtocolVisibility(pa->szModuleName))
+			if (!cli.pfnGetProtocolVisibility(pa->szModuleName))
 				continue;
 
 			szStatus = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0), 0);
-			if ( !szStatus)
+			if (!szStatus)
 				continue;
 
 			if (mToolTipTrayTips) {
@@ -191,7 +191,7 @@ int fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int s
 		nid.uFlags |= NIF_INFO;
 
 	cli.pfnTrayIconMakeTooltip(NULL, cli.trayIcon[i].szProto);
-	if ( !mToolTipTrayTips)
+	if (!mToolTipTrayTips)
 		lstrcpyn(nid.szTip, cli.szTip, SIZEOF(nid.szTip));
 	cli.trayIcon[i].ptszToolTip = mir_tstrdup(cli.szTip);
 
@@ -251,7 +251,7 @@ int fnTrayIconInit(HWND hwnd)
 		if (trayIconSetting == SETTING_TRAYICON_SINGLE) {
 			DBVARIANT dbv = { DBVT_DELETED };
 			char *szProto;
-			if ( !db_get_s(NULL, "CList", "PrimaryStatus", &dbv)
+			if (!db_get_s(NULL, "CList", "PrimaryStatus", &dbv)
 				&& (averageMode < 0 || db_get_b(NULL, "CList", "AlwaysPrimary", 0)))
 				szProto = dbv.pszVal;
 			else
@@ -338,7 +338,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 	nid.hWnd = cli.hwndContactList;
 	nid.uFlags = NIF_ICON | NIF_TIP;
 	nid.hIcon = hNewIcon;
-	if ( !hNewIcon)
+	if (!hNewIcon)
 		return -1;
 
 	int i;
@@ -352,7 +352,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 		cli.pfnTrayIconMakeTooltip(szNewTip, cli.trayIcon[i].szProto);
 		mir_free(cli.trayIcon[i].ptszToolTip);
 		cli.trayIcon[i].ptszToolTip = mir_tstrdup(cli.szTip);
-		if ( !mToolTipTrayTips)
+		if (!mToolTipTrayTips)
 			lstrcpyn(nid.szTip, cli.szTip, SIZEOF(nid.szTip));
 		Shell_NotifyIcon(NIM_MODIFY, &nid);
 
@@ -374,7 +374,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 		cli.pfnTrayIconMakeTooltip(szNewTip, cli.trayIcon[i].szProto);
 		mir_free(cli.trayIcon[i].ptszToolTip);
 		cli.trayIcon[i].ptszToolTip = mir_tstrdup(cli.szTip);
-		if ( !mToolTipTrayTips)
+		if (!mToolTipTrayTips)
 			lstrcpyn(nid.szTip, cli.szTip, SIZEOF(nid.szTip));
 		Shell_NotifyIcon(NIM_MODIFY, &nid);
 
@@ -399,7 +399,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 
 int fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto)
 {
-	if ( !fTrayInited) {
+	if (!fTrayInited) {
 LBL_Error:
 		DestroyIcon(hIcon);
 		return -1;
@@ -470,7 +470,7 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 {
 	initcheck;
 	if (szChangedProto == NULL) return;
-	if ( !cli.pfnGetProtocolVisibility(szChangedProto)) return;
+	if (!cli.pfnGetProtocolVisibility(szChangedProto)) return;
 
 	int netProtoCount;
 	mir_cslock lck(trayLockCS);
@@ -482,7 +482,7 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 	}
 
 	for (int i=0; i < accounts.getCount(); i++)
-		if ( !lstrcmpA(szChangedProto, accounts[i]->szModuleName))
+		if (!lstrcmpA(szChangedProto, accounts[i]->szModuleName))
 			cli.cycleStep = i;
 
 	int changed = cli.pfnTrayCalcChanged(szChangedProto, averageMode, netProtoCount);
@@ -519,7 +519,7 @@ int fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoC
 				ILD_NORMAL), NULL);
 
 		case SETTING_TRAYICON_MULTI:
-			if ( !cli.trayIcon)
+			if (!cli.trayIcon)
 				cli.pfnTrayIconRemove(NULL, NULL);
 			else if ((cli.trayIconCount > 1 || netProtoCount == 1) || db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
 				return cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0)), (char*)szChangedProto);
@@ -624,7 +624,7 @@ static void CALLBACK TrayHideToolTipTimerProc(HWND hwnd, UINT, UINT_PTR, DWORD)
 
 static void CALLBACK TrayToolTipTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 {
-	if ( !g_trayTooltipActive && !cli.bTrayMenuOnScreen) {
+	if (!g_trayTooltipActive && !cli.bTrayMenuOnScreen) {
 		POINT pt;
 		GetCursorPos(&pt);
 		if (abs(pt.x - tray_hover_pos.x) <= TOOLTIP_TOLERANCE && abs(pt.y - tray_hover_pos.y) <= TOOLTIP_TOLERANCE) {
@@ -698,7 +698,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 				{
 					if ((unsigned)cli.trayIcon[i].id == msg->wParam)
 					{
-						if ( !cli.trayIcon[i].szProto) break;
+						if (!cli.trayIcon[i].szProto) break;
 
 						int ind = 0;
 						for (int j = 0; j < accounts.getCount(); j++)
@@ -706,7 +706,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 							int k = cli.pfnGetAccountIndexByPos(j);
 							if (k >= 0)
 							{
-								if ( !strcmp(cli.trayIcon[i].szProto, accounts[k]->szModuleName))
+								if (!strcmp(cli.trayIcon[i].szProto, accounts[k]->szModuleName))
 								{
 									HMENU hm = GetSubMenu(hMenu, ind);
 									if (hm) hMenu = hm;
@@ -811,7 +811,7 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 	if (msn->szProto) {
 		for (int j = 0; j < cli.trayIconCount; j++) {
 			if (cli.trayIcon[j].szProto != NULL) {
-				if ( !strcmp(msn->szProto, cli.trayIcon[j].szProto)) {
+				if (!strcmp(msn->szProto, cli.trayIcon[j].szProto)) {
 					iconId = cli.trayIcon[j].id;
 					break;
 				}

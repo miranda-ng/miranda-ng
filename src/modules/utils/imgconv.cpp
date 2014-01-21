@@ -87,7 +87,7 @@ void ConvertBufferToPARGB32(HANDLE hPaintBuffer, HDC hdc, HICON hIcon, SIZE& siz
 	HRESULT hr = getBufferedPaintBits(hPaintBuffer, &prgbQuad, &cxRow);
 	if (SUCCEEDED(hr)) {
 		ARGB *pargb = (ARGB *)prgbQuad;
-		if ( !HasAlpha(pargb, sizIcon, cxRow)) {
+		if (!HasAlpha(pargb, sizIcon, cxRow)) {
 			ICONINFO info;
 			if (GetIconInfo(hIcon, &info)) {
 				if (info.hbmMask)

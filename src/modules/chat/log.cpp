@@ -165,7 +165,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 				break;
 			case 'C':
 			case 'F':
-				if ( !g_Settings->bStripFormat && !streamData->bStripFormat) {
+				if (!g_Settings->bStripFormat && !streamData->bStripFormat) {
 					int j = streamData->lin->bIsHighlighted ? 16 : EventToIndex(streamData->lin);
 					if ( *line == 'C' )
 						mir_snprintf(szTemp, SIZEOF(szTemp), "\\cf%u ", j+1);
@@ -176,21 +176,21 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 			case 'b':
 			case 'u':
 			case 'i':
-				if ( !streamData->bStripFormat )
+				if (!streamData->bStripFormat )
 					mir_snprintf(szTemp, SIZEOF(szTemp), (*line == 'u') ? "\\%cl " : "\\%c ", *line );
 				break;
 
 			case 'B':
 			case 'U':
 			case 'I':
-				if ( !streamData->bStripFormat ) {
+				if (!streamData->bStripFormat ) {
 					mir_snprintf( szTemp, SIZEOF(szTemp), (*line == 'U') ? "\\%cl0 " : "\\%c0 ", *line );
 					CharLowerA( szTemp );
 				}
 				break;
 
 			case 'r':
-				if ( !streamData->bStripFormat ) {
+				if (!streamData->bStripFormat ) {
 					int index = EventToIndex(streamData->lin);
 					mir_snprintf(szTemp, SIZEOF(szTemp), "%s ", Log_SetStyle(index));
 				}

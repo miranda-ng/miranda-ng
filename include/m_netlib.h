@@ -175,7 +175,7 @@ should use the MSG_DUMPPROXY flag so that the logging is neat.
 //Gets the user-configured settings for a netlib user
 //wParam = (WPARAM)(HANDLE)hUser
 //lParam = (LPARAM)(NETLIBUSERSETTINGS*)&nlus
-//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
 //The pointers referred to in the returned struct will remain valid until
 //the hUser handle is closed, or until the user changes the settings in the
 //options page, so it's best not to rely on them for too long.
@@ -208,7 +208,7 @@ typedef struct {
 //Changes the user-configurable settings for a netlib user
 //wParam = (WPARAM)(HANDLE)hUser
 //lParam = (LPARAM)(NETLIBUSERSETTINGS*)&nlus
-//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
 //This function is only really useful for people that specify NUF_NOOPTIONS
 //and want to create their own options.
 //Even if a setting is not active (eg szProxyAuthPassword when useProxyAuth is
@@ -219,7 +219,7 @@ typedef struct {
 //Closes a netlib handle
 //wParam = (WPARAM)(HANDLE)hNetlibHandle
 //lParam = 0
-//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
 //This function should be called on all handles returned by netlib functions
 //once you are done with them. If it's called on a socket-type handle, the
 //socket will be closed.
@@ -341,7 +341,7 @@ struct NETLIBOPENCONNECTION_tag {
 //Sets the required information for an HTTP proxy connection
 //wParam = (WPARAM)(HANDLE)hConnection
 //lParam = (LPARAM)(NETLIBHTTPPROXYINFO*)&nlhpi
-//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
 //This function is designed to be called from within pfnHttpGatewayInit
 //See notes below MS_NETLIB_REGISTERUSER.
 //Errors: ERROR_INVALID_PARAMETER
@@ -495,7 +495,7 @@ struct NETLIBHTTPREQUEST_tag {
 //Free the memory used by a NETLIBHTTPREQUEST structure
 //wParam = 0
 //lParam = (LPARAM)(NETLIBHTTPREQUEST*)pnlhr
-//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
 //This should only be called on structures returned by
 //MS_NETLIB_RECVHTTPHEADERS or MS_NETLIB_HTTPTRANSACTION. Calling it on an
 //arbitrary structure will have disastrous results.
@@ -670,7 +670,7 @@ typedef struct {
 //Add a message to the log (if it's running)
 //wParam = (WPARAM)(HANDLE)hUser
 //lParam = (LPARAM)(const char *)szMessage
-//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
 //Do not include a final line ending in szMessage.
 //Errors: ERROR_INVALID_PARAMETER
 #define MS_NETLIB_LOG       "Netlib/Log"
@@ -700,7 +700,7 @@ typedef struct
 //here's a handy piece of code to let you log using printf-style specifiers:
 //#include <stdarg.h> and <stdio.h> before including this header in order to
 //use it.
-#if defined va_start && (defined _STDIO_DEFINED || defined _STDIO_H_) && ( !defined NETLIB_NOLOGGING)
+#if defined va_start && (defined _STDIO_DEFINED || defined _STDIO_H_) && (!defined NETLIB_NOLOGGING)
 static INT_PTR Netlib_Logf(HANDLE hUser, const char *fmt, ...)
 {
 	va_list va;

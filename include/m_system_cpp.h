@@ -148,7 +148,7 @@ template<class T> struct LIST
 
 	__inline int getIndex(T *p) const
 	{	int idx;
-		return ( !List_GetIndex((SortedList*)this, p, &idx)) ? -1 : idx;
+		return (!List_GetIndex((SortedList*)this, p, &idx)) ? -1 : idx;
 	}
 
 	__inline void destroy(void)        { List_Destroy((SortedList*)this); }

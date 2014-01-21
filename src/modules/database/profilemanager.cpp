@@ -101,7 +101,7 @@ static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARA
 			mir_sntprintf(buf, SIZEOF(buf), _T("%s\\%s\\%s.dat"), szProfileDir, ffd.cFileName, ffd.cFileName);
 			if (_taccess(buf, 0) == 0) {
 				mir_sntprintf(profile, SIZEOF(profile), _T("%s.dat"), ffd.cFileName);
-				if ( !callback(buf, profile, lParam))
+				if (!callback(buf, profile, lParam))
 					break;
 			}
 		}

@@ -87,7 +87,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 	int i;
 	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);
 
-	if ( !hMoveToGroupItem) {
+	if (!hMoveToGroupItem) {
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 100000;
 		mi.pszName = LPGEN("&Move to group");

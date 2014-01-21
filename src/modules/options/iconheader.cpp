@@ -140,7 +140,7 @@ static void MIcoTab_SetupColors(MIcoTabCtrl *dat)
 	dat->clSelBorder	 = RGB(dat->rgbSelTop.rgbRed, dat->rgbSelTop.rgbGreen, dat->rgbSelTop.rgbBlue);
 	dat->clHotBorder	 = RGB(dat->rgbHotTop.rgbRed, dat->rgbHotTop.rgbGreen, dat->rgbHotTop.rgbBlue);
 
-	if ( !dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+	if (!dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 }
 
 static void MIcoTab_FillRect(HDC hdc, int x, int y, int width, int height, COLORREF cl)
@@ -360,7 +360,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 		return TRUE;
 
 	case WM_MOUSEMOVE:
-		if ( !itc->bMouseInside) {
+		if (!itc->bMouseInside) {
 			TRACKMOUSEEVENT tme = {0};
 			tme.cbSize = sizeof(tme);
 			tme.dwFlags = TME_LEAVE;
@@ -464,7 +464,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 
 	case ITCM_SETBACKGROUND:
 		itc->hBkgBmp = (HBITMAP)lParam;
-		if ( !itc->hBkgDC)
+		if (!itc->hBkgDC)
 			itc->hBkgDC = CreateCompatibleDC(NULL);
 		itc->hBkgOldBmp = (HBITMAP)SelectObject(itc->hBkgDC, itc->hBkgBmp);
 		{
@@ -478,7 +478,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 	case ITCM_ADDITEM:
 	{
 		MIcoTab* pMit = (MIcoTab *)wParam;
-		if ( !pMit)
+		if (!pMit)
 			return FALSE;
 
 		MIcoTab* pListMit = (MIcoTab *)mir_calloc(sizeof(MIcoTab));

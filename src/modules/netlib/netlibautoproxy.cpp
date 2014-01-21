@@ -238,9 +238,9 @@ static void NetlibInitAutoProxy(void)
 {
 	if (bAutoProxyInit) return;
 
-	if ( !hModJS)
+	if (!hModJS)
 	{
-		if ( !(hModJS = LoadLibraryA("jsproxy.dll")))
+		if (!(hModJS = LoadLibraryA("jsproxy.dll")))
 			return;
 
 		pInternetInitializeAutoProxyDll = (pfnInternetInitializeAutoProxyDll)
@@ -273,7 +273,7 @@ static void NetlibIeProxyThread(void *arg)
 	IeProxyParam *param = (IeProxyParam*)arg;
 	param->szProxy = NULL;
 
-	if ( !bAutoProxyInit) {
+	if (!bAutoProxyInit) {
 		WaitForSingleObject(hIeProxyMutex, INFINITE);
 		NetlibInitAutoProxy();
 		ReleaseMutex(hIeProxyMutex);

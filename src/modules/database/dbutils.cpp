@@ -55,12 +55,12 @@ static INT_PTR DbEventTypeRegister(WPARAM, LPARAM lParam)
 			p->eventIcon = et->eventIcon;
 			p->flags = et->flags;
 		}
-		if ( !p->textService) {
+		if (!p->textService) {
 			char szServiceName[100];
 			mir_snprintf(szServiceName, sizeof(szServiceName), "%s/GetEventText%d", p->module, p->eventType);
 			p->textService = mir_strdup(szServiceName);
 		}
-		if ( !p->iconService) {
+		if (!p->iconService) {
 			char szServiceName[100];
 			mir_snprintf(szServiceName, sizeof(szServiceName), "%s/GetEventIcon%d", p->module, p->eventType);
 			p->iconService = mir_strdup(szServiceName);
@@ -78,7 +78,7 @@ static INT_PTR DbEventTypeGet(WPARAM wParam, LPARAM lParam)
 
 	tmp.module = (char*)wParam;
 	tmp.eventType = lParam;
-	if ( !List_GetIndex((SortedList*)&eventTypes, &tmp, &idx))
+	if (!List_GetIndex((SortedList*)&eventTypes, &tmp, &idx))
 		return 0;
 
 	return (INT_PTR)eventTypes[idx];
@@ -215,13 +215,13 @@ static INT_PTR DbEventGetIcon(WPARAM wParam, LPARAM lParam)
 	}
 	if (et && et->eventIcon)
 		icon = Skin_GetIconByHandle(et->eventIcon);
-	if ( !icon) {
+	if (!icon) {
 		char szName[100];
 		mir_snprintf(szName, sizeof(szName), "eventicon_%s%d", dbei->szModule, dbei->eventType);
 		icon = Skin_GetIcon(szName);
 	}
 
-	if ( !icon) {
+	if (!icon) {
 		switch(dbei->eventType) {
 		case EVENTTYPE_URL:
 			icon = LoadSkinIcon(SKINICON_EVENT_URL);
@@ -279,7 +279,7 @@ static INT_PTR DbDeleteModule(WPARAM, LPARAM lParam)
 
 static INT_PTR GetProfilePath(WPARAM wParam, LPARAM lParam)
 {
-	if ( !wParam || !lParam)
+	if (!wParam || !lParam)
 		return 1;
 
 	char *dst = (char*)lParam;
@@ -290,7 +290,7 @@ static INT_PTR GetProfilePath(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 {
-	if ( !wParam || !lParam)
+	if (!wParam || !lParam)
 		return 1;
 
 	char *dst = (char*)lParam;
@@ -305,7 +305,7 @@ static INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR GetProfilePathW(WPARAM wParam, LPARAM lParam)
 {
-	if ( !wParam || !lParam)
+	if (!wParam || !lParam)
 		return 1;
 
 	wchar_t *dst = (wchar_t*)lParam;
@@ -354,7 +354,7 @@ int LoadEventsModule()
 
 void UnloadEventsModule()
 {
-	if ( !bModuleInitialized)
+	if (!bModuleInitialized)
 		return;
 
 	for (int i=0; i < eventTypes.getCount(); i++) {

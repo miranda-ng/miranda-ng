@@ -34,7 +34,7 @@ typedef struct {
 static void OpenURLThread(void *arg)
 {
 	TOpenUrlInfo *hUrlInfo = (TOpenUrlInfo*)arg;
-	if ( !hUrlInfo->szUrl)
+	if (!hUrlInfo->szUrl)
 		return;
 
 	//wack a protocol on it
@@ -49,7 +49,7 @@ static void OpenURLThread(void *arg)
 		if (hUrlInfo->szUrl[i] == ':')
 			szResult = mir_tstrdup(hUrlInfo->szUrl);
 		else {
-			if ( !_tcsnicmp(hUrlInfo->szUrl, _T("ftp."), 4))
+			if (!_tcsnicmp(hUrlInfo->szUrl, _T("ftp."), 4))
 				mir_sntprintf(szResult, size, _T("ftp://%s"), hUrlInfo->szUrl);
 			else
 				mir_sntprintf(szResult, size, _T("http://%s"), hUrlInfo->szUrl);

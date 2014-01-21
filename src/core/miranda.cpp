@@ -83,7 +83,7 @@ static void __cdecl compactHeapsThread(void*)
 {
 	Thread_SetName("compactHeapsThread");
 
-	while ( !Miranda_Terminated()) {
+	while (!Miranda_Terminated()) {
 		HANDLE hHeaps[256];
 		DWORD hc;
 		SleepEx((1000*60)*5, TRUE); // every 5 minutes
@@ -273,7 +273,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 				if (SetIdleCallback != NULL)
 					SetIdleCallback();
 			}
-			else if ( !dying) {
+			else if (!dying) {
 				dying++;
 				SetEvent(hMirandaShutdown);
 				NotifyEventHooks(hPreShutdownEvent, 0, 0);

@@ -79,6 +79,7 @@ extern HANDLE hOkToExitEvent, hModulesLoadedEvent, hevLoadModule, hevUnloadModul
 
 char* GetPluginNameByInstance(HINSTANCE hInstance);
 int   GetPluginFakeId(const MUUID &uuid, int hLangpack);
+int   LoadStdPlugins(void);
 
 /**** path.cpp *************************************************************************/
 

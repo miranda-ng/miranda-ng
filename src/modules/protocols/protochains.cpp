@@ -197,12 +197,12 @@ static INT_PTR Proto_IsProtoOnContact(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	char szContactProto[40];
-	if ( !GetProtocolP((HANDLE)wParam, szContactProto, sizeof(szContactProto)))
-		if ( !_stricmp(szProto, szContactProto))
+	if (!GetProtocolP((HANDLE)wParam, szContactProto, sizeof(szContactProto)))
+		if (!_stricmp(szProto, szContactProto))
 			return -1;
 
 	for (int i=0; i < filters.getCount(); i++)
-		if ( !strcmp(szProto, filters[i]->szName))
+		if (!strcmp(szProto, filters[i]->szName))
 			return i+1;
 
 	return 0;
@@ -241,7 +241,7 @@ static INT_PTR Proto_RemoveFromContact(WPARAM wParam, LPARAM lParam)
 
 int LoadProtoChains(void)
 {
-	if ( !db_get_b(NULL, "Compatibility", "Filters", 0)) {
+	if (!db_get_b(NULL, "Compatibility", "Filters", 0)) {
 		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"_Filters");
 		db_set_b(NULL, "Compatibility", "Filters", 1);
 	}

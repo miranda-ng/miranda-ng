@@ -137,12 +137,12 @@ static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cc
 	_tcsncpy(buf, src, SIZEOF(buf));
 
 	TCHAR *p = _tcsrchr(buf, '\\'); if (p) ++p; else p = buf;
-	if ( !isValidProfileName(buf) && *p)
+	if (!isValidProfileName(buf) && *p)
 		_tcscat(buf, _T(".dat"));
 
 	TCHAR profileName[MAX_PATH], newProfileDir[MAX_PATH];
 	_tcscpy(profileName, p);
-	if ( !isValidProfileName(profileName) && *p)
+	if (!isValidProfileName(profileName) && *p)
 		_tcscat(profileName, _T(".dat"));
 
 	_tcscpy(profileName, p);
@@ -329,7 +329,7 @@ char* makeFileName(const TCHAR* tszOriginalName)
 			szResult = mir_t2a(tszProfile);
 	}
 
-	if ( !szResult)
+	if (!szResult)
 		szResult = szFileName;
 	else
 		mir_free(szFileName);
@@ -438,7 +438,7 @@ int LoadDatabaseModule(void)
 	szProfile[0] = 0;
 
 	// find out which profile to load
-	if ( !getProfile(szProfile, SIZEOF(szProfile)))
+	if (!getProfile(szProfile, SIZEOF(szProfile)))
 		return 1;
 
 	EnsureCheckerLoaded(false); // unload dbchecker

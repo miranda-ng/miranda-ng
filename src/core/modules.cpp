@@ -62,7 +62,6 @@ int LoadIcoLibModule(void);   // ui: icons manager
 int LoadServiceModePlugin(void);
 int LoadDefaultServiceModePlugin(void);
 int LoadErrorsModule(void);
-int LoadStdPlugins(void);
 
 void UnloadAccountsModule(void);
 void UnloadButtonModule(void);

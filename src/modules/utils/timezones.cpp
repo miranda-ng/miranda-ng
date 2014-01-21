@@ -125,7 +125,7 @@ static void CalcTsOffset(MIM_TIMEZONE *tz)
 	SystemTimeToFileTime(&st, &ft);
 	mir_time ts1 = FileTimeToUnixTime(&ft);
 
-	if ( !fnSystemTimeToTzSpecificLocalTime(&tz->tzi, &st, &stl))
+	if (!fnSystemTimeToTzSpecificLocalTime(&tz->tzi, &st, &stl))
 		return;
 
 	SystemTimeToFileTime(&stl, &ft);
@@ -174,7 +174,7 @@ static HANDLE timeapiGetInfoByContact(HANDLE hContact, DWORD dwFlags)
 		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
 
 	DBVARIANT dbv;
-	if ( !db_get_ts(hContact, "UserInfo", "TzName", &dbv))
+	if (!db_get_ts(hContact, "UserInfo", "TzName", &dbv))
 	{
 		HANDLE res = timeapiGetInfoByName(dbv.ptszVal, dwFlags);
 		db_free(&dbv);
@@ -185,7 +185,7 @@ static HANDLE timeapiGetInfoByContact(HANDLE hContact, DWORD dwFlags)
 	if (timezone == -1)
 	{
 		char *szProto = GetContactProto(hContact);
-		if ( !db_get_ts(hContact, szProto, "TzName", &dbv))
+		if (!db_get_ts(hContact, szProto, "TzName", &dbv))
 		{
 			HANDLE res = timeapiGetInfoByName(dbv.ptszVal, dwFlags);
 			db_free(&dbv);
@@ -336,13 +336,13 @@ static const ListMessages cbMessages =
 
 static const ListMessages *GetListMessages(HWND hWnd, DWORD dwFlags)
 {
-	if ( !(dwFlags & (TZF_PLF_CB | TZF_PLF_LB)))
+	if (!(dwFlags & (TZF_PLF_CB | TZF_PLF_LB)))
 	{
 		TCHAR	tszClassName[128];
 		GetClassName(hWnd, tszClassName, SIZEOF(tszClassName));
-		if ( !_tcsicmp(tszClassName, _T("COMBOBOX")))
+		if (!_tcsicmp(tszClassName, _T("COMBOBOX")))
 			dwFlags |= TZF_PLF_CB;
-		else if ( !_tcsicmp(tszClassName, _T("LISTBOX")))
+		else if (!_tcsicmp(tszClassName, _T("LISTBOX")))
 			dwFlags |= TZF_PLF_LB;
 	}
 	if (dwFlags & TZF_PLF_CB)
@@ -366,7 +366,7 @@ static int timeapiSelectListItem(HANDLE hContact, HWND hWnd, DWORD dwFlags)
 	if (hContact)
 	{
 		DBVARIANT dbv;
-		if ( !db_get_ts(hContact, "UserInfo", "TzName", &dbv))
+		if (!db_get_ts(hContact, "UserInfo", "TzName", &dbv))
 		{
 			unsigned hash = mir_hashstrT(dbv.ptszVal);
 			for (int i=0; i < g_timezonesBias.getCount(); i++)
@@ -508,9 +508,9 @@ extern "C" __declspec(dllexport) void RecalculateTime(void)
 		MIM_TIMEZONE &tz = g_timezones[i];
 		if (tz.offset != INT_MIN) tz.offset = INT_MIN;
 
-		if ( !found)
+		if (!found)
 		{
-			if ( !wcscmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName)  ||
+			if (!wcscmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName)  ||
 				!wcscmp(tz.tzi.DaylightName, myInfo.myTZ.tzi.DaylightName))
 			{
 				_tcscpy(myInfo.myTZ.tszName, tz.tszName);

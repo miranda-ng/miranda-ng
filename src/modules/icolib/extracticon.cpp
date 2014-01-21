@@ -185,19 +185,19 @@ UINT _ExtractFromExe(HANDLE hFile, int iconIndex, int cxIconSize, int cyIconSize
 	if ((DWORD)(pDosHeader->e_lfanew) >= fileLen) goto cleanup;
 
 	pRes = _GetResourceTable(pDosHeader);
-	if ( !pRes) goto cleanup;
-	if ( !phicon) {
+	if (!pRes) goto cleanup;
+	if (!phicon) {
 		retval = _FindResourceCount(pRes, (int)RT_GROUP_ICON);
 		goto cleanup;
 	}
 
 	pIconDir = (NEWHEADER*)_FindResource(pDosHeader, pRes, iconIndex, (int)RT_GROUP_ICON, &cbSize);
-	if ( !pIconDir) goto cleanup;
+	if (!pIconDir) goto cleanup;
 	if (pIconDir->Reserved || pIconDir->ResType != RES_ICON) goto cleanup;
 
 	idIcon = LookupIconIdFromDirectoryEx((LPBYTE)pIconDir, TRUE, cxIconSize, cyIconSize, flags);
 	pIcon = (LPBITMAPINFOHEADER)_FindResource(pDosHeader, pRes, -idIcon, (int)RT_ICON, &cbSize);
-	if ( !pIcon) goto cleanup;
+	if (!pIcon) goto cleanup;
 
 	if (pIcon->biSize != sizeof(BITMAPINFOHEADER) && pIcon->biSize != sizeof(BITMAPCOREHEADER)) {
 		_ASSERT(0);
@@ -222,12 +222,12 @@ UINT _ExtractFromICO(LPCTSTR pFileName, int iconIndex, int cxIcon, int cyIcon, H
 		return 0;
 
 	//  do we just want a count?
-	if ( !phicon)
+	if (!phicon)
 		return 1;
 
 	flags |= LR_LOADFROMFILE;
 	hicon = (HICON)LoadImage(NULL, pFileName, IMAGE_ICON, cxIcon, cyIcon, flags);
-	if ( !hicon)
+	if (!hicon)
 		return 0;
 
 	*phicon = hicon;
@@ -255,7 +255,7 @@ UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HIC
 		return 0;
 
 	// failed to read file signature
-	if ( !ReadFile(hFile, &magic, sizeof(magic), &read, NULL) || (read != sizeof(magic))) {
+	if (!ReadFile(hFile, &magic, sizeof(magic), &read, NULL) || (read != sizeof(magic))) {
 		CloseHandle(hFile);
 		return 0;
 	}

@@ -347,7 +347,7 @@ typedef struct {
 
 HANDLE __forceinline Popup_RegisterClass(POPUPCLASS *pc)
 {
-	if ( !ServiceExists(MS_POPUP_REGISTERCLASS))
+	if (!ServiceExists(MS_POPUP_REGISTERCLASS))
 		return NULL;
 	return (HANDLE)CallService(MS_POPUP_REGISTERCLASS, 0, LPARAM(pc));
 }

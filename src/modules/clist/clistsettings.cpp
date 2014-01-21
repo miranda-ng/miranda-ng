@@ -68,7 +68,7 @@ void fnCheckCacheItem(ClcCacheEntry *p)
 {
 	DBVARIANT dbv;
 	if (p->tszGroup == NULL) {
-		if ( !db_get_ts(p->hContact, "CList", "Group", &dbv)) {
+		if (!db_get_ts(p->hContact, "CList", "Group", &dbv)) {
 			p->tszGroup = mir_tstrdup(dbv.ptszVal);
 			mir_free(dbv.ptszVal);
 		}
@@ -90,7 +90,7 @@ ClcCacheEntry* fnGetCacheEntry(HANDLE hContact)
 {
 	ClcCacheEntry *p;
 	int idx;
-	if ( !List_GetIndex(clistCache, &hContact, &idx)) {
+	if (!List_GetIndex(clistCache, &hContact, &idx)) {
 		if ((p = cli.pfnCreateCacheItem(hContact)) != NULL) {
 			List_Insert(clistCache, p, idx);
 			cli.pfnInvalidateDisplayNameCacheEntry(p);
@@ -135,7 +135,7 @@ TCHAR* fnGetContactDisplayName(HANDLE hContact, int mode)
 	if (ci.hContact == NULL)
 		ci.szProto = "ICQ";
 	ci.dwFlag = ((mode == GCDNF_NOMYHANDLE) ? CNF_DISPLAYNC : CNF_DISPLAY) | CNF_TCHAR;
-	if ( !CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (cacheEntry != NULL)
 				cacheEntry->tszName = ci.pszVal;
@@ -181,7 +181,7 @@ INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
 	if (ci.hContact == NULL) // killme !!!!!!!!!!
 		ci.szProto = "ICQ";
 	ci.dwFlag = ((lParam == GCDNF_NOMYHANDLE) ? CNF_DISPLAYNC : CNF_DISPLAY) | CNF_TCHAR;
-	if ( !CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			strncpy(retVal, _T2A(ci.pszVal), SIZEOF(retVal));
 			if (cacheEntry == NULL) {
@@ -237,15 +237,15 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	dbv.pszVal = NULL;
-	if ( !db_get(hContact, "Protocol", "p", &dbv)) {
-		if ( !strcmp(cws->szModule, dbv.pszVal)) {
+	if (!db_get(hContact, "Protocol", "p", &dbv)) {
+		if (!strcmp(cws->szModule, dbv.pszVal)) {
 			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
-			if ( !strcmp(cws->szSetting, "UIN") || !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName")
+			if (!strcmp(cws->szSetting, "UIN") || !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName")
 				 ||  !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "e-mail")) {
 					CallService(MS_CLUI_CONTACTRENAMED, wParam, 0);
 				}
-			else if ( !strcmp(cws->szSetting, "Status")) {
-				if ( !db_get_b(hContact, "CList", "Hidden", 0)) {
+			else if (!strcmp(cws->szSetting, "Status")) {
+				if (!db_get_b(hContact, "CList", "Hidden", 0)) {
 					if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)) {
 						// User's state is changing, and we are hideOffline-ing
 						if (cws->value.wVal == ID_STATUS_OFFLINE) {
@@ -267,8 +267,8 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	if ( !strcmp(cws->szModule, "CList")) {
-		if ( !strcmp(cws->szSetting, "Hidden")) {
+	if (!strcmp(cws->szModule, "CList")) {
+		if (!strcmp(cws->szSetting, "Hidden")) {
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
 				char *szProto = GetContactProto((HANDLE)wParam);
 				cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(szProto, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact), 1);
@@ -276,12 +276,12 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 			else
 				CallService(MS_CLUI_CONTACTDELETED, wParam, 0);
 		}
-		if ( !strcmp(cws->szSetting, "MyHandle"))
+		if (!strcmp(cws->szSetting, "MyHandle"))
 			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
 	}
 
-	if ( !strcmp(cws->szModule, "Protocol")) {
-		if ( !strcmp(cws->szSetting, "p")) {
+	if (!strcmp(cws->szModule, "Protocol")) {
+		if (!strcmp(cws->szSetting, "p")) {
 			char *szProto;
 			if (cws->value.type == DBVT_DELETED)
 				szProto = NULL;

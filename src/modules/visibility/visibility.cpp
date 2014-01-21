@@ -201,7 +201,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 						break;
 
 					// It was not a visbility icon
-					if ( !(hitFlags & CLCHT_ONITEMEXTRA))
+					if (!(hitFlags & CLCHT_ONITEMEXTRA))
 						break;
 
 					// Get image in clicked column (0 = none, 1 = visible, 2 = invisible)
@@ -258,7 +258,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 							break;
 						}
 					}
-					if ( !set)
+					if (!set)
 						CallContactService(hContact, PSS_SETAPPARENTMODE, 0, 0);
 				}
 				return TRUE;

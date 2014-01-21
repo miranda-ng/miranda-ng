@@ -358,14 +358,14 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			TCHAR *szProto = NULL;
 			DBVARIANT dbv;
-			if ( !db_get_ts(NULL, "FindAdd", "LastSearched", &dbv)){
+			if (!db_get_ts(NULL, "FindAdd", "LastSearched", &dbv)){
 				szProto = NEWTSTR_ALLOCA(dbv.ptszVal);
 				db_free(&dbv); /* free string szProto was fetched with */
 			}
 
 			int i, index = 0, cbwidth = 0, netProtoCount = 0;
 			for (i=0; i < accounts.getCount(); i++) {
-				if ( !Proto_IsAccountEnabled(accounts[i]))
+				if (!Proto_IsAccountEnabled(accounts[i]))
 					continue;
 
 				DWORD caps = (DWORD)CallProtoServiceInt(NULL,accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -393,11 +393,11 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			for (i=0; i < accounts.getCount(); i++) {
 				PROTOACCOUNT* pa = accounts[i];
-				if ( !Proto_IsAccountEnabled(pa))
+				if (!Proto_IsAccountEnabled(pa))
 					continue;
 
 				DWORD caps = (DWORD)CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
-				if ( !(caps&PF1_BASICSEARCH) && !(caps&PF1_EXTSEARCH) && !(caps&PF1_SEARCHBYEMAIL) && !(caps&PF1_SEARCHBYNAME))
+				if (!(caps&PF1_BASICSEARCH) && !(caps&PF1_EXTSEARCH) && !(caps&PF1_SEARCHBYEMAIL) && !(caps&PF1_SEARCHBYNAME))
 					continue;
 
 				cbei.pszText = pa->tszAccountName;
@@ -536,7 +536,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				(dat->showTiny && IsDlgButtonChecked(hwndDlg, IDC_BYCUSTOM)) ||
 				(dat->showName && IsDlgButtonChecked(hwndDlg, IDC_BYNAME)) ||
 				(dat->showProtoId && IsDlgButtonChecked(hwndDlg, IDC_BYPROTOID));
-			if ( !checkmarkVisible) {
+			if (!checkmarkVisible) {
 				if (dat->showProtoId) CheckSearchTypeRadioButton(hwndDlg, IDC_BYPROTOID);
 				else if (dat->showEmail) CheckSearchTypeRadioButton(hwndDlg, IDC_BYEMAIL);
 				else if (dat->showName) CheckSearchTypeRadioButton(hwndDlg, IDC_BYNAME);
@@ -875,7 +875,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					bool isUnicode = (psr->flags & PSR_UNICODE) != 0;
 					if (psr->id) {
 						BOOL validPtr = isUnicode ? IsBadStringPtrW((wchar_t*)psr->id, 25) : IsBadStringPtrA((char*)psr->id, 25);
-						if ( !validPtr) {
+						if (!validPtr) {
 							isUnicode = false;
 							lsr->psr.id = NULL;
 						}
@@ -1006,7 +1006,7 @@ static INT_PTR FindAddCommand(WPARAM, LPARAM)
 		// that is not good either...
 		for (int i=0; i < accounts.getCount(); i++) {
 			PROTOACCOUNT* pa = accounts[i];
-			if ( !Proto_IsAccountEnabled(pa))
+			if (!Proto_IsAccountEnabled(pa))
 				continue;
 
 			int protoCaps = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);

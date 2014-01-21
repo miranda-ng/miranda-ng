@@ -45,8 +45,8 @@ LIST<PROTOACCOUNT> accounts(10, CompareAccounts);
 static int EnumDbModules(const char *szModuleName, DWORD ofsModuleName, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	if ( !db_get_s(NULL, szModuleName, "AM_BaseProto", &dbv)) {
-		if ( !Proto_GetAccount(szModuleName)) {
+	if (!db_get_s(NULL, szModuleName, "AM_BaseProto", &dbv)) {
+		if (!Proto_GetAccount(szModuleName)) {
 			PROTOACCOUNT* pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 			pa->cbSize = sizeof(*pa);
 			pa->szModuleName = mir_strdup(szModuleName);
@@ -92,7 +92,7 @@ void LoadDbAccounts(void)
 		if (ver >= 4) {
 			db_free(&dbv);
 			_itoa(OFFSET_NAME+i, buf, 10);
-			if ( !db_get_ts(NULL, "Protocols", buf, &dbv)) {
+			if (!db_get_ts(NULL, "Protocols", buf, &dbv)) {
 				pa->tszAccountName = mir_tstrdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -100,19 +100,19 @@ void LoadDbAccounts(void)
 			_itoa(OFFSET_ENABLED+i, buf, 10);
 			pa->bIsEnabled = db_get_dw(NULL, "Protocols", buf, 1);
 
-			if ( !db_get_s(NULL, pa->szModuleName, "AM_BaseProto", &dbv)) {
+			if (!db_get_s(NULL, pa->szModuleName, "AM_BaseProto", &dbv)) {
 				pa->szProtoName = mir_strdup(dbv.pszVal);
 				db_free(&dbv);
 			}
 		}
 		else pa->bIsEnabled = TRUE;
 
-		if ( !pa->szProtoName) {
+		if (!pa->szProtoName) {
 			pa->szProtoName = mir_strdup(pa->szModuleName);
 			db_set_s(NULL, pa->szModuleName, "AM_BaseProto", pa->szProtoName);
 		}
 
-		if ( !pa->tszAccountName)
+		if (!pa->tszAccountName)
 			pa->tszAccountName = mir_a2t(pa->szModuleName);
 
 		accounts.insert(pa);
@@ -225,12 +225,12 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 
 	for (int i=0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT* pa = accounts[i];
-		if ( !pa->ppro || !Proto_IsAccountEnabled(pa))
+		if (!pa->ppro || !Proto_IsAccountEnabled(pa))
 			continue;
 
 		pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
 
-		if ( !pa->bOldProto)
+		if (!pa->bOldProto)
 			count++;
 	}
 
@@ -247,7 +247,7 @@ static int UninitializeStaticAccounts(WPARAM, LPARAM)
 {
 	for (int i=0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT* pa = accounts[i];
-		if ( !pa->ppro || !Proto_IsAccountEnabled(pa))
+		if (!pa->ppro || !Proto_IsAccountEnabled(pa))
 			continue;
 
 		pa->ppro->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0);
@@ -268,10 +268,10 @@ int LoadAccountsModule(void)
 		if (pa->ppro)
 			continue;
 
-		if ( !Proto_IsAccountEnabled(pa))
+		if (!Proto_IsAccountEnabled(pa))
 			continue;
 
-		if ( !ActivateAccount(pa))
+		if (!ActivateAccount(pa))
 			pa->bDynDisabled = TRUE;
 	}
 
@@ -462,15 +462,15 @@ BOOL ActivateAccount(PROTOACCOUNT* pa)
 	CreateProtoServiceEx(pa->szModuleName, PS_GETNAME, (MIRANDASERVICEOBJ)stub41, pa->ppro);
 	CreateProtoServiceEx(pa->szModuleName, PS_GETSTATUS, (MIRANDASERVICEOBJ)stub42, pa->ppro);
 
-	if ( !ProtoServiceExists(pa->szModuleName, PS_GETAVATARINFO))
+	if (!ProtoServiceExists(pa->szModuleName, PS_GETAVATARINFO))
 		if ( ProtoServiceExists(pa->szModuleName, PS_GETAVATARINFOW))
 			CreateProtoServiceEx(pa->szModuleName, PS_GETAVATARINFO, (MIRANDASERVICEOBJ)stub43, pa->ppro);
 
-	if ( !ProtoServiceExists(pa->szModuleName, PS_GETMYAVATAR))
+	if (!ProtoServiceExists(pa->szModuleName, PS_GETMYAVATAR))
 		if ( ProtoServiceExists(pa->szModuleName, PS_GETMYAVATARW))
 			CreateProtoServiceEx(pa->szModuleName, PS_GETMYAVATAR, (MIRANDASERVICEOBJ)stub44, pa->ppro);
 
-	if ( !ProtoServiceExists(pa->szModuleName, PS_SETMYAVATAR))
+	if (!ProtoServiceExists(pa->szModuleName, PS_SETMYAVATAR))
 		if ( ProtoServiceExists(pa->szModuleName, PS_SETMYAVATARW))
 			CreateProtoServiceEx(pa->szModuleName, PS_SETMYAVATAR, (MIRANDASERVICEOBJ)stub45, pa->ppro);
 
@@ -570,7 +570,7 @@ void EraseAccount(const char* pszModuleName)
 		if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC, (WPARAM)h1, (LPARAM)&dbcgs))
 			continue;
 
-		if ( !lstrcmpA(szProtoName, pszModuleName))
+		if (!lstrcmpA(szProtoName, pszModuleName))
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM)h1, 0);
 	}
 
@@ -589,7 +589,7 @@ void UnloadAccount(PROTOACCOUNT* pa, bool bIsDynamic, bool bErase)
 	// szModuleName should be freed only on a program's exit.
 	// otherwise many plugins dependand on static protocol names will crash!
 	// do NOT fix this 'leak', please
-	if ( !bIsDynamic) {
+	if (!bIsDynamic) {
 		mir_free(pa->szModuleName);
 		mir_free(pa);
 	}
@@ -597,7 +597,7 @@ void UnloadAccount(PROTOACCOUNT* pa, bool bIsDynamic, bool bErase)
 
 void UnloadAccountsModule()
 {
-	if ( !bModuleInitialized) return;
+	if (!bModuleInitialized) return;
 
 	for (int i = accounts.getCount()-1; i >= 0; i--) {
 		PROTOACCOUNT* pa = accounts[ i ];

@@ -107,7 +107,7 @@ static void MDescButton_SetupColors(MDescButtonCtrl *dat)
 	dat->clSelBorder	 = RGB(dat->rgbSelTop.rgbRed, dat->rgbSelTop.rgbGreen, dat->rgbSelTop.rgbBlue);
 	dat->clHotBorder	 = RGB(dat->rgbHotTop.rgbRed, dat->rgbHotTop.rgbGreen, dat->rgbHotTop.rgbBlue);
 
-	if ( !dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+	if (!dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 }
 
 static void MDescButton_FillRect(HDC hdc, int x, int y, int width, int height, COLORREF cl)
@@ -251,7 +251,7 @@ static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 		return TRUE;
 
 	case WM_MOUSEMOVE:
-		if ( !dat->bMouseInside) {
+		if (!dat->bMouseInside) {
 			TRACKMOUSEEVENT tme = {0};
 			tme.cbSize = sizeof(tme);
 			tme.dwFlags = TME_LEAVE;

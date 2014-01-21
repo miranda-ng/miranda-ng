@@ -136,7 +136,7 @@ static HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName)
 HICON LoadIconEx(HINSTANCE hInstance, LPCTSTR lpIconName, BOOL bShared)
 {
 	HICON hResIcon = bShared ? LoadSmallIcon(hInstance, lpIconName) : LoadSmallIconShared(hInstance, lpIconName);
-	if ( !hResIcon) { //Icon not found in hInstance lets try to load it from core
+	if (!hResIcon) { //Icon not found in hInstance lets try to load it from core
 		HINSTANCE hCoreInstance = hInst;
 		if (hCoreInstance != hInstance)
 			hResIcon = bShared ? LoadSmallIcon(hCoreInstance, lpIconName) : LoadSmallIconShared(hCoreInstance, lpIconName);
@@ -243,7 +243,7 @@ HICON LoadSkinProtoIcon(const char *szProto, int status, bool big)
 	if (statusIndx == -1)
 		return NULL;
 
-	if ( !szProto) {
+	if (!szProto) {
 		// Only return a protocol specific icon if there is only one protocol
 		// Otherwise return the global icon. This affects the global status menu mainly.
 		if (accounts.getCount() == 1) {
@@ -385,7 +385,7 @@ static void convertOneProtocol(char *moduleName, char *iconName)
 		_itoa(statusIcons[i].id, pm, 10);
 
 		DBVARIANT dbv;
-		if ( !db_get_ts(NULL, "Icons", moduleName, &dbv)) {
+		if (!db_get_ts(NULL, "Icons", moduleName, &dbv)) {
 			_itoa(i, pi, 10);
 
 			db_set_ts(NULL, "SkinIcons", iconName, dbv.ptszVal);

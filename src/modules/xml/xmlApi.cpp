@@ -257,7 +257,7 @@ static int xmlapiGetElement(HXML _n, XML_ELEMENT_POS pos, XML_ELEMENT_TYPE *type
 	if (closeTag)
 		*closeTag = NULL;
 
-	if ( !type || pos >= XMLNode(_n).nElement())
+	if (!type || pos >= XMLNode(_n).nElement())
 		return false;
 	XMLNodeContents c(XMLNode(_n).enumContents((XMLElementPosition)pos));
 	switch (c.etype) {

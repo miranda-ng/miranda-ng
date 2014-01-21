@@ -291,7 +291,7 @@ File created by Christian Kostner, and tweaked a bit by Richard Hughes*/
 	#define NIN_BALLOONTIMEOUT	(WM_USER + 4)
 	#define NIN_BALLOONUSERCLICK (WM_USER + 5)
 // SDK isn't present or some older VC compiler was used, include missing things.
-#elif !defined(NOWIN2K) && ( !defined WS_EX_LAYERED || !defined IDC_HAND)
+#elif !defined(NOWIN2K) && (!defined WS_EX_LAYERED || !defined IDC_HAND)
 
 	#pragma message("win2k.h")
 

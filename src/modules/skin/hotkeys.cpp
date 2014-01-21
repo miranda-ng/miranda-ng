@@ -33,7 +33,7 @@ static int sttCompareHotkeys(const THotkeyItem *p1, const THotkeyItem *p2)
 		return res;
 	if (res = lstrcmp(p1->ptszDescription, p2->ptszDescription))
 		return res;
-	if ( !p1->rootHotkey && p2->rootHotkey)
+	if (!p1->rootHotkey && p2->rootHotkey)
 		return -1;
 	if (p1->rootHotkey && !p2->rootHotkey)
 		return 1;
@@ -189,14 +189,14 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 
 	hotkeys.insert(item);
 
-	if ( !item->rootHotkey) {
+	if (!item->rootHotkey) {
 		/* try to load alternatives from db */
 		int count, i;
 		mir_snprintf(buf, SIZEOF(buf), "%s$count", item->pszName);
 		count = (int)db_get_dw(NULL, DBMODULENAME, buf, -1);
 		for (i=0; i < count; i++) {
 			mir_snprintf(buf, SIZEOF(buf), "%s$%d", item->pszName, i);
-			if ( !db_get_w(NULL, DBMODULENAME, buf, 0))
+			if (!db_get_w(NULL, DBMODULENAME, buf, 0))
 				continue;
 
 			svcHotkeyRegister(wParam, lParam);
@@ -225,7 +225,7 @@ static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 		char *pszCurrentName = hotkeys[i]->rootHotkey ?
 			hotkeys[i]->rootHotkey->pszName :
 			hotkeys[i]->pszName;
-		if ( !pszCurrentName) continue;
+		if (!pszCurrentName) continue;
 
 		hotkeys[i]->UnregisterHotkey =
 			!lstrcmpA(pszCurrentName, pszName)  ||
@@ -265,8 +265,8 @@ static INT_PTR svcHotkeyCheck(WPARAM wParam, LPARAM lParam)
 				BYTE hkMod, hkVk;
 				if ((item->type != HKT_MANUAL) || lstrcmp(pszSection, item->ptszSection)) continue;
 				sttWordToModAndVk(item->Hotkey, &hkMod, &hkVk);
-				if ( !hkVk) continue;
-				if ( !item->Enabled) continue;
+				if (!hkVk) continue;
+				if (!item->Enabled) continue;
 				if ((vk == hkVk) && (mod == hkMod)) {
 					mir_free(pszSection);
 					return item->lParam;
@@ -391,7 +391,7 @@ int LoadSkinHotkeys(void)
 
 void UnloadSkinHotkeys(void)
 {
-	if ( !bModuleInitialized)
+	if (!bModuleInitialized)
 		return;
 
 	DestroyHookableEvent(hEvChanged);

@@ -48,11 +48,11 @@ MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin)
 
 	__try {
 		__try {
-			if ( !hMap )
+			if (!hMap )
 				__leave;
 
 			DWORD dwHSize = 0, filesize = GetFileSize( hFile, &dwHSize );
-			if ( !filesize || filesize == INVALID_FILE_SIZE || dwHSize)
+			if (!filesize || filesize == INVALID_FILE_SIZE || dwHSize)
 				__leave;
 
 			if ( filesize < sizeof(IMAGE_DOS_HEADER) + sizeof(IMAGE_NT_HEADERS) )
@@ -75,7 +75,7 @@ MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin)
 				__leave;
 
 			int nSections = pINTH->FileHeader.NumberOfSections;
-			if ( !nSections )
+			if (!nSections )
 				__leave;
 
 			INT_PTR base;
@@ -103,7 +103,7 @@ MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin)
 
 			BYTE* pImage = ptr + pIDH->e_lfanew + pINTH->FileHeader.SizeOfOptionalHeader + sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_OPTIONAL_HEADER);
 			IMAGE_SECTION_HEADER *pExp = getSectionByRVA((IMAGE_SECTION_HEADER *)pImage, nSections, pIDD);
-			if ( !pExp) __leave;
+			if (!pExp) __leave;
 
 			BYTE *pSecStart = ptr + pExp->PointerToRawData - pExp->VirtualAddress;
 			IMAGE_EXPORT_DIRECTORY *pED = (PIMAGE_EXPORT_DIRECTORY)&pSecStart[expvaddr];
@@ -115,18 +115,18 @@ MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin)
 			bool bHasLoad = false, bHasUnload = false, bHasInfo = false, bHasMuuids = false;
 			for (size_t i=0; i < pED->NumberOfNames; i++, ptrRVA++, ptrOrdRVA++) {
 				char *szName = (char*)&pSecStart[*ptrRVA];
-				if ( !lstrcmpA(szName, "Load"))
+				if (!lstrcmpA(szName, "Load"))
 					bHasLoad = true;
-				if ( !lstrcmpA(szName, "MirandaPluginInfoEx"))
+				if (!lstrcmpA(szName, "MirandaPluginInfoEx"))
 					bHasInfo = true;
-				else if ( !lstrcmpA(szName, "Unload"))
+				else if (!lstrcmpA(szName, "Unload"))
 					bHasUnload = true;
-				else if ( !lstrcmpA(szName, "MirandaInterfaces")) {
+				else if (!lstrcmpA(szName, "MirandaInterfaces")) {
 					bHasMuuids = true;
 					pIds = (MUUID*)&pSecStart[ ptrFuncList[*ptrOrdRVA]];
 				}
 				// old plugin, skip it
-				else if ( !lstrcmpA(szName, "MirandaPluginInterfaces"))
+				else if (!lstrcmpA(szName, "MirandaPluginInterfaces"))
 					__leave;
 			}
 

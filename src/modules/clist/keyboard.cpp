@@ -35,7 +35,7 @@ static INT_PTR hkHideShow(WPARAM, LPARAM)
 INT_PTR hkSearch(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv = {0};
-	if ( !db_get_s(NULL, "CList", "SearchUrl", &dbv)) {
+	if (!db_get_s(NULL, "CList", "SearchUrl", &dbv)) {
 		CallService(MS_UTILS_OPENURL, db_get_b(NULL, "CList", "HKSearchNewWnd", 0), (LPARAM)dbv.pszVal);
 		db_free(&dbv);
 	}

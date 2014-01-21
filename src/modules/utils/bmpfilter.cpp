@@ -38,7 +38,7 @@ static INT_PTR sttBitmapLoader(const TCHAR* ptszFileName)
 	short picType;
 
 	TCHAR szFilename[MAX_PATH];
-	if ( !PathToAbsoluteT(ptszFileName, szFilename))
+	if (!PathToAbsoluteT(ptszFileName, szFilename))
 		mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s"), ptszFileName);
 
 	int filenameLen = lstrlen(szFilename);
@@ -48,19 +48,19 @@ static INT_PTR sttBitmapLoader(const TCHAR* ptszFileName)
 		if (ServiceExists(MS_IMG_LOAD))
 			return CallService(MS_IMG_LOAD, (WPARAM)szFilename, IMGL_TCHAR);
 
-		if ( !lstrcmpi(pszExt, _T(".bmp")) || !lstrcmpi(pszExt, _T(".rle"))) {
+		if (!lstrcmpi(pszExt, _T(".bmp")) || !lstrcmpi(pszExt, _T(".rle"))) {
 			//LoadImage can do this much faster
 			return (INT_PTR)LoadImage(hInst, szFilename, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 		}
 
-		if ( !lstrcmpi(pszExt, _T(".png"))) {
+		if (!lstrcmpi(pszExt, _T(".png"))) {
 			HANDLE hFile, hMap = NULL;
 			BYTE* ppMap = NULL;
 			INT_PTR  cbFileSize = 0;
 			BITMAPINFOHEADER* pDib;
 			BYTE* pDibBits;
 
-			if ( !ServiceExists(MS_PNG2DIB)) {
+			if (!ServiceExists(MS_PNG2DIB)) {
 				MessageBox(NULL, TranslateT("You need an image services plugin to process PNG images."), TranslateT("Error"), MB_OK);
 				return 0;
 			}
