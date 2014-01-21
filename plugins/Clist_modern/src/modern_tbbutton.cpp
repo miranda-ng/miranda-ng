@@ -478,8 +478,13 @@ int Buttons_OnSkinModeSettingsChanged(WPARAM wParam, LPARAM lParam)
 
 HRESULT ToolbarButtonLoadModule()
 {
-	hButtonWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hButtonWindowList = WindowList_Create();
 	hIconChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED,OnIconLibIconChanged);
 	hBkgChangedHook = HookEvent(ME_BACKGROUNDCONFIG_CHANGED,Buttons_OnSkinModeSettingsChanged);
 	return S_OK;
+}
+
+void ToolbarButtonUnloadModule()
+{
+	WindowList_Destroy(hButtonWindowList);
 }

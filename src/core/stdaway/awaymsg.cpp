@@ -158,13 +158,16 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 
 static int AwayMsgPreShutdown(WPARAM, LPARAM)
 {
-	if (hWindowList) WindowList_BroadcastAsync(hWindowList, WM_CLOSE, 0, 0);
+	if (hWindowList) {
+		WindowList_BroadcastAsync(hWindowList, WM_CLOSE, 0, 0);
+		WindowList_Destroy(hWindowList);
+	}
 	return 0;
 }
 
 int LoadAwayMsgModule(void)
 {
-	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hWindowList = WindowList_Create();
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
 
 	CLISTMENUITEM mi = { sizeof(mi) };

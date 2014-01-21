@@ -232,8 +232,8 @@ void InitGlobals()
 	HDC hdc = GetDC(NULL);
 
 	ZeroMemory(&g_dat, sizeof(struct GlobalMessageData));
-	g_dat.hMessageWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-	g_dat.hParentWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	g_dat.hMessageWindowList = WindowList_Create();
+	g_dat.hParentWindowList = WindowList_Create();
 
 	HookEvent(ME_PROTO_ACK, ackevent);
 	ReloadGlobals();
@@ -273,6 +273,9 @@ void FreeGlobals()
 	if (g_dat.hMenuANSIEncoding)
 		DestroyMenu(g_dat.hMenuANSIEncoding);
 	mir_free(g_dat.tabIconListUsage);
+	
+	WindowList_Destroy(g_dat.hMessageWindowList);
+	WindowList_Destroy(g_dat.hParentWindowList);
 
 	ZeroMemory(&g_dat, sizeof(g_dat));
 }

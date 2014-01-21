@@ -403,7 +403,7 @@ int AlarmWinModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 void InitAlarmWin()
 {
-	hAlarmWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hAlarmWindowList = WindowList_Create();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, AlarmWinModulesLoaded);
 }
@@ -411,6 +411,7 @@ void InitAlarmWin()
 void DeinitAlarmWin()
 {	
 	WindowList_Broadcast(hAlarmWindowList, WM_COMMAND, IDC_SNOOZE, 0);
+	WindowList_Destroy(hAlarmWindowList);
 
 	if (hBackgroundBrush) DeleteObject(hBackgroundBrush);
 	if (hTitleFont) DeleteObject(hTitleFont);

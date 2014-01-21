@@ -262,7 +262,7 @@ STDMETHODIMP_(BOOL) CDb3Base::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 				return 1;
 
 			memcpy(dbei->pBlob, pBlob, bytesToCopy);
-			if (bytesToCopy > len)
+			if (bytesToCopy > (int)len)
 				memset(dbei->pBlob + len, 0, bytesToCopy - len);
 			mir_free(pBlob);
 		}

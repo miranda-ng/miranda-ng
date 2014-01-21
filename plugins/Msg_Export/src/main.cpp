@@ -220,7 +220,7 @@ extern "C" __declspec(dllexport) int Load()
 	if ( !hServiceFunñ)
 		hServiceFunñ = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY, ShowExportHistory);
 
-	hInternalWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hInternalWindowList = WindowList_Create();
 	return 0;
 }
 
@@ -239,6 +239,7 @@ extern "C" __declspec(dllexport) int Load()
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
+	WindowList_Destroy(hInternalWindowList);
 	Uninitilize();
 	bUseInternalViewer(false);
 	return 0;

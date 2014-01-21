@@ -212,7 +212,7 @@ int LoadCLCModule(void)
 	g_IconWidth = GetSystemMetrics(SM_CXSMICON);
 	g_IconHeight = GetSystemMetrics(SM_CYSMICON);
 
-	hClcWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hClcWindowList = WindowList_Create();
 	hShowInfoTipEvent = CreateHookableEvent(ME_CLC_SHOWINFOTIP);
 	hHideInfoTipEvent = CreateHookableEvent(ME_CLC_HIDEINFOTIP);
 	CreateServiceFunction(MS_CLC_SETINFOTIPHOVERTIME, SetInfoTipHoverTime);
@@ -238,6 +238,7 @@ void UnloadClcModule()
 	if (!bModuleInitialized) return;
 
 	mir_free(cli.clcProto);
+	WindowList_Destroy(hClcWindowList);
 
 	FreeDisplayNameCache();
 

@@ -365,7 +365,7 @@ static INT_PTR SetContactIgnore(WPARAM wParam, LPARAM lParam)
 	HWND hWnd = 0;
 
 	if (hWindowListIGN == 0)
-		hWindowListIGN = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+		hWindowListIGN = WindowList_Create();
 
 	hWnd = WindowList_Find(hWindowListIGN, (HANDLE)wParam);
 	if ( wParam ) {
@@ -411,4 +411,5 @@ int InitCustomMenus(void)
 
 void UninitCustomMenus(void)
 {
+	WindowList_Destroy(hWindowListIGN);
 }

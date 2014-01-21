@@ -532,7 +532,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP( &pluginInfo );
 
 	CoInitialize(NULL);
-	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hWindowList = WindowList_Create();
 
 	Icon_Register(hInst, msLastUC_ShowListName, &icon, 1);
 
@@ -552,6 +552,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
+	WindowList_Destroy(hWindowList);
 	CoUninitialize();
 	return 0;
 }

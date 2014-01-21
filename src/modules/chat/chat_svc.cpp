@@ -610,6 +610,7 @@ int LoadChatModule(void)
 
 void UnloadChatModule(void)
 {
+	FreeMsgLogBitmaps();
 	OptionsUnInit();
 	DeleteCriticalSection(&cs);
 

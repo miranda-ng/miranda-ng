@@ -357,7 +357,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	SkinAddNewSoundExT("avatar_changed",LPGENT("Avatar History"),LPGENT("Contact changed avatar"));
 	SkinAddNewSoundExT("avatar_removed",LPGENT("Avatar History"),LPGENT("Contact removed avatar"));
 
-	hAvatarWindowsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hAvatarWindowsList = WindowList_Create();
 
 	SetupIcoLib();
 	InitMenuItem();
@@ -366,5 +366,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
+	WindowList_Destroy(hAvatarWindowsList);
 	return 0;
 }

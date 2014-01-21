@@ -405,16 +405,21 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 
 int AwayMsgPreShutdown(void)
 {
-	if (hWindowList) WindowList_BroadcastAsync(hWindowList, WM_CLOSE, 0, 0);
-	if (hWindowList2) WindowList_BroadcastAsync(hWindowList2, WM_CLOSE, 0, 0);
-
+	if (hWindowList) {
+		WindowList_Broadcast(hWindowList, WM_CLOSE, 0, 0);
+		WindowList_Destroy(hWindowList);
+	}
+	if (hWindowList2) {
+		WindowList_Broadcast(hWindowList2, WM_CLOSE, 0, 0);
+		WindowList_Destroy(hWindowList2);
+	}
 	return 0;
 }
 
 int LoadAwayMsgModule(void)
 {
-	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-	hWindowList2 = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hWindowList = WindowList_Create();
+	hWindowList2 = WindowList_Create();
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;

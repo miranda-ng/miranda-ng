@@ -65,7 +65,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, NewsAggrPreShutdown);
 
 	hUpdateMutex = CreateMutex(NULL, FALSE, NULL);
-	hChangeFeedDlgList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
+	hChangeFeedDlgList = WindowList_Create();
 
 	// register weather protocol
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
@@ -94,6 +94,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
+	WindowList_Destroy(hChangeFeedDlgList);
 	DestroyUpdateList();
 	CloseHandle(hUpdateMutex);
 	return 0;

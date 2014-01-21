@@ -144,6 +144,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 		DeleteObject(h_font);
 	if (hMenu)
 		DestroyMenu(hMenu);    
+	WindowList_Destroy(hWindowList);
 	return 0;
 }
 
@@ -152,7 +153,6 @@ extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
 	mir_getCLI();
-
 
 	HookEvent(ME_CLIST_DOUBLECLICKED, Doubleclick);
    
@@ -313,7 +313,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.ptszName = LPGENT("Stop data processing");
 	Menu_AddContactMenuItem(&mi);
 
-	hWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hWindowList = WindowList_Create();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);

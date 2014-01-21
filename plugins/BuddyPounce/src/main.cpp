@@ -242,7 +242,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_OPT_INITIALISE, BuddyPounceOptInit);
 	HookEvent(ME_PROTO_ACK, MsgAck);
 	CreateServiceFunction("BuddyPounce/MenuCommand", BuddyPounceMenuCommand);
-	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hWindowList = WindowList_Create();
 
 	/*     service funcitons for other devs...					*/
 	CreateServiceFunction("BuddyPounce/AddSimplePounce", AddSimpleMessage); // add a simple pounce to a contact
@@ -255,5 +255,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
+	WindowList_Destroy(hWindowList);
 	return 0;
 }

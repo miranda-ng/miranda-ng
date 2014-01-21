@@ -136,15 +136,27 @@ struct CountryListEntry {
 
 /******************************* Window lists *******************************/
 
-//allocate a window list   v0.1.0.1+
-//wParam = lParam = 0
-//returns a handle to the new window list
+// allocates a window list
+// wParam = lParam = 0 (unused)
+// returns a handle to the new window list
 #define MS_UTILS_ALLOCWINDOWLIST "Utils/AllocWindowList"
+__forceinline HANDLE WindowList_Create(void)
+{	return (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+}
 
-//adds a window to the specified window list   v0.1.0.1+
-//wParam = 0
-//lParam = (LPARAM)(WINDOWLISTENTRY*)&wle
-//returns 0 on success, nonzero on failure
+// destroys a window list
+// wParam = (HANDLE) window list handle
+// lParam = 0 (unused)
+// returns a handle to the new window list
+#define MS_UTILS_DESTROYWINDOWLIST "Utils/DestroyWindowList"
+__forceinline HANDLE WindowList_Destroy(HANDLE hList)
+{	return (HANDLE)CallService(MS_UTILS_DESTROYWINDOWLIST, (WPARAM)hList, 0);
+}
+
+// adds a window to the specified window list
+// wParam = 0
+// lParam = (LPARAM)(WINDOWLISTENTRY*)&wle
+// returns 0 on success, nonzero on failure
 typedef struct {
 	HANDLE hList;
 	HWND hwnd;
@@ -156,29 +168,30 @@ __forceinline INT_PTR WindowList_Add(HANDLE hList, HWND hwnd, HANDLE hContact) {
 	wle.hList = hList; wle.hwnd = hwnd; wle.hContact = hContact;
 	return CallService(MS_UTILS_ADDTOWINDOWLIST, 0, (LPARAM)&wle);
 }
-//removes a window from the specified window list  v0.1.0.1+
-//wParam = (WPARAM)(HANDLE)hList
-//lParam = (LPARAM)(HWND)hwnd
-//returns 0 on success, nonzero on failure
+
+// removes a window from the specified window list
+// wParam = (WPARAM)(HANDLE)hList
+// lParam = (LPARAM)(HWND)hwnd
+// returns 0 on success, nonzero on failure
 #define MS_UTILS_REMOVEFROMWINDOWLIST "Utils/RemoveFromWindowList"
 __forceinline INT_PTR WindowList_Remove(HANDLE hList, HWND hwnd) {
 	return CallService(MS_UTILS_REMOVEFROMWINDOWLIST, (WPARAM)hList, (LPARAM)hwnd);
 }
 
-//finds a window given the hContact  v0.1.0.1+
-//wParam = (WPARAM)(HANDLE)hList
-//lParam = (WPARAM)(HANDLE)hContact
-//returns the window handle on success, or NULL on failure
+// finds a window given the hContact
+// wParam = (WPARAM)(HANDLE)hList
+// lParam = (WPARAM)(HANDLE)hContact
+// returns the window handle on success, or NULL on failure
 #define MS_UTILS_FINDWINDOWINLIST "Utils/FindWindowInList"
 __forceinline HWND WindowList_Find(HANDLE hList, HANDLE hContact) {
 	return (HWND)CallService(MS_UTILS_FINDWINDOWINLIST, (WPARAM)hList, (LPARAM)hContact);
 }
 
-//broadcasts a message to all windows in a list  v0.1.0.1+
-//wParam = (WPARAM)(HANDLE)hList
-//lParam = (LPARAM)(MSG*)&msg
-//returns 0 on success, nonzero on failure
-//Only msg.message, msg.wParam and msg.lParam are used
+// sends a message to all windows in a list using SendMessage
+// wParam = (WPARAM)(HANDLE)hList
+// lParam = (LPARAM)(MSG*)&msg
+// returns 0 on success, nonzero on failure
+// Only msg.message, msg.wParam and msg.lParam are used
 #define MS_UTILS_BROADCASTTOWINDOWLIST "Utils/BroadcastToWindowList"
 __forceinline INT_PTR WindowList_Broadcast(HANDLE hList, UINT message, WPARAM wParam, LPARAM lParam) {
 	MSG msg;
@@ -186,17 +199,11 @@ __forceinline INT_PTR WindowList_Broadcast(HANDLE hList, UINT message, WPARAM wP
 	return CallService(MS_UTILS_BROADCASTTOWINDOWLIST, (WPARAM)hList, (LPARAM)&msg);
 }
 
-/*
-	Description: Broadcast a message to all windows in the given list using PostMessage()
-	Version: 0.3.0.0+
-	Inline helper: WindowList_BroadcastAsync
-
-	wParam = (WPARAM)(HANDLE)hList
-	lParam = (LPARAM)(MSG*)&msg
-
-	Returns 0 on success, nonzero on failure, this service does not fail, even if PostMessage() fails for whatever reason
-
-*/
+// sends a message to all windows in a list using PostMessage
+// wParam = (WPARAM)(HANDLE)hList
+// lParam = (LPARAM)(MSG*)&msg
+// returns 0 on success, nonzero on failure
+// Only msg.message, msg.wParam and msg.lParam are used
 #define MS_UTILS_BROADCASTTOWINDOWLIST_ASYNC "Utils/BroadcastToWindowListAsync"
 
 __forceinline INT_PTR WindowList_BroadcastAsync(HANDLE hList, UINT message, WPARAM wParam, LPARAM lParam) {

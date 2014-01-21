@@ -298,6 +298,7 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 int PreshutdownSendRecv(WPARAM, LPARAM)
 {
 	WindowList_Broadcast(g_dat.hMessageWindowList, WM_CLOSE, 0, 0);
+
 	DeinitStatusIcons();
 	return 0;
 }

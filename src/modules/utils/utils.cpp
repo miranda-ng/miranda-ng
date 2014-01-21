@@ -28,8 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR ResizeDialog(WPARAM wParam, LPARAM lParam);
 
-void FreeWindowList(void);
-
 int  InitOpenUrl(void);
 int  InitWindowList(void);
 int  InitPathUtils(void);
@@ -493,5 +491,4 @@ void UnloadUtilsModule(void)
 		return;
 
 	UninitCrypt();
-	FreeWindowList();
 }

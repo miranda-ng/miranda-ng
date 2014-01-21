@@ -33,6 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MENUITEM_SERVER		2
 #define MENUITEM_RESOURCES	10
 
+static HANDLE hDialogsList = NULL;
 static HANDLE hChooserMenu, hStatusMenuInit;
 static int iChooserMenuPos = 30000;
 
@@ -337,6 +338,8 @@ void g_MenuUninit(void)
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuLogin, 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuRefresh, 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuAddBookmark, 0);
+
+	WindowList_Destroy(hDialogsList);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -966,8 +969,6 @@ void CJabberProto::CheckMenuItems()
 //////////////////////////////////////////////////////////////////////////
 // resource menu
 
-static HANDLE hDialogsList = NULL;
-
 void CJabberProto::MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item)
 {
 	if (item->list != LIST_ROSTER)
@@ -989,7 +990,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN) {
 		if (!hDialogsList)
-			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+			hDialogsList = WindowList_Create();
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
 		ptrT jid(getTStringA(event->hContact, "jid"));

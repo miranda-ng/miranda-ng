@@ -619,6 +619,7 @@ void DlgContactInfoInitTreeIcons()
 **/
 void DlgContactInfoUnLoadModule()
 {
+	WindowList_Destroy(ghWindowList);
 	DestroyHookableEvent(ghDetailsInitEvent);
 }
 
@@ -638,7 +639,7 @@ void DlgContactInfoLoadModule()
 	HookEvent(ME_DB_CONTACT_DELETED, OnDeleteContact);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 	HookEvent(ME_USERINFO_INITIALISE, InitDetails);
-	ghWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	ghWindowList = WindowList_Create();
 
 	// check whether changing my details via UserInfoEx is basically possible
 	{

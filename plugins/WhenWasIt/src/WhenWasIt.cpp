@@ -67,7 +67,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Log("%s", "Hooking events ...");	
 	HookEvents();
 	
-	hAddBirthdayWndsList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hAddBirthdayWndsList = WindowList_Create();
 	
 	Log("%s", "Leaving function " __FUNCTION__);
 	
@@ -85,6 +85,7 @@ extern "C" int __declspec(dllexport) Unload()
 		SendMessage(hUpcomingDlg, WM_CLOSE, 0, 0);
 	
 	WindowList_Broadcast(hAddBirthdayWndsList, WM_CLOSE, 0, 0);
+	WindowList_Destroy(hAddBirthdayWndsList);
 
 	Log("%s", "Killing timers ...");
 	KillTimers();

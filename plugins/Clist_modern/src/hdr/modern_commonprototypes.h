@@ -267,6 +267,7 @@ HRESULT PreLoadContactListModule();
 HRESULT ClcLoadModule();
 HRESULT ToolbarLoadModule();
 HRESULT ToolbarButtonLoadModule();
+void    ToolbarButtonUnloadModule();
 
 // INTERFACES
 

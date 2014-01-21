@@ -65,6 +65,7 @@ HANDLE hExtraMood = NULL;
 HANDLE hExtListInit, hDiscoInfoResult;
 
 void JabberUserInfoInit(void);
+void JabberUserInfoUninit(void);
 
 int bSecureIM, bMirOTR, bNewGPG, bPlatform;
 
@@ -227,6 +228,8 @@ extern "C" int __declspec(dllexport) Load()
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	JabberUserInfoUninit();
+
 	DestroyHookableEvent(hExtListInit);
 	DestroyHookableEvent(hDiscoInfoResult);
 

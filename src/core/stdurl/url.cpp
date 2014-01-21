@@ -138,9 +138,10 @@ static int SRUrlShutdown(WPARAM, LPARAM)
 	if (hContactDeleted)
 		UnhookEvent(hContactDeleted);
 
-	if (hUrlWindowList)
-		WindowList_BroadcastAsync(hUrlWindowList, WM_CLOSE, 0, 0);
-
+	if (hUrlWindowList) {
+		WindowList_Broadcast(hUrlWindowList, WM_CLOSE, 0, 0);
+		WindowList_Destroy(hUrlWindowList);
+	}
 	return 0;
 }
 
@@ -155,7 +156,7 @@ int UrlContactDeleted(WPARAM wParam, LPARAM)
 
 int LoadSendRecvUrlModule(void)
 {
-	hUrlWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hUrlWindowList = WindowList_Create();
 	HookEvent(ME_SYSTEM_MODULESLOADED, SRUrlModulesLoaded);
 	HookEvent(ME_DB_EVENT_ADDED, UrlEventAdded);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRUrlPreBuildMenu);

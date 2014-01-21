@@ -175,7 +175,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	CreateServiceFunction("XSoundNotify/ContactMenuCommand", ShowDialog);
 
-	hChangeSoundDlgList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hChangeSoundDlgList = WindowList_Create();
 
 	HookEvent(ME_PROTO_ACK, ProtoAck);
 	HookEvent(ME_OPT_INITIALISE, OptInit);
@@ -189,5 +189,6 @@ extern "C" int __declspec(dllexport) Load()
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	WindowList_Destroy(hChangeSoundDlgList);
 	return 0;
 }

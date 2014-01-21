@@ -136,8 +136,8 @@ int WeatherInit(WPARAM wParam,LPARAM lParam)
 
 	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
 
-	hDataWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
-	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
+	hDataWindowList = WindowList_Create();
+	hWindowList = WindowList_Create();
 
 	return 0;
 }
@@ -172,6 +172,9 @@ extern "C" int __declspec(dllexport) Unload(void)
 	DestroyUpdateList();
 	DestroyOptions();
 	DestroyWIList();				// unload all ini data from memory
+
+	WindowList_Destroy(hDataWindowList);
+	WindowList_Destroy(hWindowList);
 
 	CloseHandle(hUpdateMutex);
 	return 0;

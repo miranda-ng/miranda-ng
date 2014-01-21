@@ -79,7 +79,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
 
 	// Jabber dialog list
-	m_windowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	m_windowList = WindowList_Create();
 
 	// Protocol services and events...
 	m_hEventNudge = CreateProtoEvent(PE_NUDGE);
@@ -169,6 +169,8 @@ CJabberProto::~CJabberProto()
 		Popup_UnregisterClass(m_hPopupClass);
 
 	delete m_pInfoFrame;
+
+	WindowList_Destroy(m_windowList);
 
 	DestroyHookableEvent(m_hEventNudge);
 	DestroyHookableEvent(m_hEventXStatusIconChanged);

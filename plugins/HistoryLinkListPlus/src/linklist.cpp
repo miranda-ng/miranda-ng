@@ -76,7 +76,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.pszService = "Linklist/MenuCommand";
 	Menu_AddContactMenuItem(&mi);
 	
-	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hWindowList = WindowList_Create();
 
 	WNDCLASS wndclass = { 0 };
 	wndclass.style = CS_HREDRAW | CS_VREDRAW;
@@ -103,6 +103,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
+	WindowList_Destroy(hWindowList);
 	DestroyCursor(splitCursor);
 	return 0;
 }

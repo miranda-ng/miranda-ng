@@ -48,13 +48,13 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 
 static int OnShutdown(WPARAM, LPARAM)
 {
-	WindowList_Broadcast(g_dat.hMessageWindowList, WM_CLOSE, 0, 0);
+	WindowList_Destroy(g_dat.hMessageWindowList);
 	return 0;
 }
 
 void InitGlobals()
 {
-	g_dat.hMessageWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	g_dat.hMessageWindowList = WindowList_Create();
 	
 	HookEvent(ME_DB_EVENT_ADDED, dbaddedevent);
 	HookEvent(ME_PROTO_ACK, ackevent);

@@ -520,7 +520,7 @@ int TN_OptionsInitialize(WPARAM wParam, LPARAM lParam)
 
 int TN_ModuleInit()
 {
-	hPopupsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hPopupsList = WindowList_Create();
 
 	OnePopup = M.GetByte(Module, SET_ONEPOPUP, DEF_ONEPOPUP);
 	ShowMenu = M.GetByte(Module, SET_SHOWDISABLEMENU, DEF_SHOWDISABLEMENU);
@@ -567,6 +567,7 @@ int TN_ModuleInit()
 
 int TN_ModuleDeInit()
 {
+	WindowList_Destroy(hPopupsList);
 	db_set_b(0, Module, SET_DISABLED, (BYTE) (Disabled | StartDisabled | StopDisabled));
 	return 0;
 }

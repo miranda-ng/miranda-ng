@@ -446,6 +446,7 @@ MIRAPI int Unload(void)
 	UnloadPopupThread();
 	UnloadPopupWnd2();
 	PopupHistoryUnload();
+	SrmmMenu_Unload();
 
 	UnregisterClass (MAKEINTATOM(g_wndClass.cPopupWnd2),hInst);
 	UnregisterClassW(L"PopupEditBox",hInst);

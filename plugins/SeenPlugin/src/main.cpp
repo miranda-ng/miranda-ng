@@ -50,6 +50,7 @@ BOOL includeIdle;
 LIST<logthread_info> arContacts(16, HandleKeySortT);
 CRITICAL_SECTION csContacts;
 
+void UninitHistoryDialog(void);
 
 int MainInit(WPARAM,LPARAM)
 {
@@ -113,6 +114,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	DeleteCriticalSection(&csContacts);
 	CloseHandle(g_hShutdownEvent);
+	UninitHistoryDialog();
 	return 0;
 }
 

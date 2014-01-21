@@ -833,7 +833,12 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 void JabberUserInfoInit()
 {
-	hUserInfoList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hUserInfoList = WindowList_Create();
+}
+
+void JabberUserInfoUninit()
+{
+	WindowList_Destroy(hUserInfoList);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -54,7 +54,7 @@ static int SrmmMenu_ProcessEvent(WPARAM, LPARAM lParam)
 
 	if (mwevent->uType == MSG_WINDOW_EVT_OPEN) {
 		if (!hDialogsList)
-			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+			hDialogsList = WindowList_Create();
 
 		WindowList_Add(hDialogsList, mwevent->hwndWindow, mwevent->hContact);
 		SrmmMenu_UpdateIcon(mwevent->hContact);
@@ -130,4 +130,9 @@ void SrmmMenu_Load()
 	
 	HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);
 	HookEvent(ME_MSG_WINDOWEVENT, SrmmMenu_ProcessEvent);
+}
+
+void SrmmMenu_Unload()
+{
+	WindowList_Destroy(hDialogsList);
 }

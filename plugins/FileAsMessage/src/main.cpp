@@ -196,7 +196,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	Icon_Register(hInst, "fileAsMessage", iconList, SIZEOF(iconList));
 
-	hFileList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hFileList = WindowList_Create();
 
 	CreateServiceFunction(SERVICE_NAME PSR_MESSAGE, OnRecvMessage);
 	CreateServiceFunction(SERVICE_NAME "/FESendFile", OnSendFile);
@@ -221,8 +221,7 @@ extern "C" __declspec(dllexport) int Load(void)
 //
 extern "C" __declspec(dllexport) int Unload(void)
 {
-//	if(hFileList)
-//		WindowList_Broadcast(hFileList, WM_CLOSE, 0,0);
+	WindowList_Destroy(hFileList);
 	if(hHookSkinIconsChanged != NULL)
 		UnhookEvent(hHookSkinIconsChanged);
 	UnhookEvent(hHookDbSettingChange);

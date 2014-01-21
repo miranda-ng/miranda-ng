@@ -149,9 +149,6 @@ static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, HookPreBuildContactMenu);
 
-	ghSendWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this
-	ghRecvWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this
-
 	ProcessUnreadEvents();
 	return 0;
 }
@@ -215,6 +212,9 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	InitCommonControls();
 
+	ghSendWindowList = WindowList_Create();
+	ghRecvWindowList = WindowList_Create();
+
 	//init hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, HookModulesLoaded);
 	HookEvent(ME_DB_EVENT_ADDED, HookDBEventAdded);
@@ -233,5 +233,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
+	WindowList_Destroy(ghSendWindowList);
+	WindowList_Destroy(ghRecvWindowList);
 	return 0;
 }

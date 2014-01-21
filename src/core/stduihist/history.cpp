@@ -398,8 +398,10 @@ static int HistoryContactDelete(WPARAM wParam, LPARAM)
 
 int PreShutdownHistoryModule(WPARAM, LPARAM)
 {
-	if (hWindowList)
-		WindowList_BroadcastAsync(hWindowList, WM_DESTROY, 0, 0);
+	if (hWindowList) {
+		WindowList_Broadcast(hWindowList, WM_DESTROY, 0, 0);
+		WindowList_Destroy(hWindowList);
+	}
 	return 0;
 }
 
@@ -413,7 +415,7 @@ int LoadHistoryModule(void)
 	Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, UserHistoryCommand);
-	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hWindowList = WindowList_Create();
 	HookEvent(ME_DB_CONTACT_DELETED, HistoryContactDelete);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdownHistoryModule);
 	return 0;

@@ -110,6 +110,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	if (IsWindow(pcli->hwndContactList)) DestroyWindow(pcli->hwndContactList);
 	pcli->hwndContactList = NULL;
 
+	ToolbarButtonUnloadModule();
 	BackgroundsUnloadModule();
 	SkinEngineUnloadModule();
 	XPThemesUnloadModule();

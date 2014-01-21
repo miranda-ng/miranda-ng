@@ -1221,7 +1221,7 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 	wchar_t*	_s = 0;
 
 	if (0 == hWindowList)
-		hWindowList = reinterpret_cast<HANDLE>(::CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0));
+		hWindowList = WindowList_Create();
 
 	/*
 	* don't open new warnings when shutdown was initiated (modal ones will otherwise

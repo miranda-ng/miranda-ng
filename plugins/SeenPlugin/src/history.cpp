@@ -298,5 +298,10 @@ void ShowHistory(HANDLE hContact, BYTE isAlert)
 
 void InitHistoryDialog(void)
 {
-	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
+	hWindowList = WindowList_Create();
+}
+
+void UninitHistoryDialog(void)
+{
+	WindowList_Destroy(hWindowList);
 }

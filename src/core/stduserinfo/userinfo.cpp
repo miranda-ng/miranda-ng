@@ -621,6 +621,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 static int ShutdownUserInfo(WPARAM, LPARAM)
 {
 	WindowList_BroadcastAsync(hWindowList, WM_DESTROY, 0, 0);
+	WindowList_Destroy(hWindowList);
 	return 0;
 }
 
@@ -646,6 +647,6 @@ int LoadUserInfoModule(void)
 	mi.pszName = LPGEN("View/change my &details...");
 	Menu_AddMainMenuItem(&mi);
 
-	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hWindowList = WindowList_Create();
 	return 0;
 }

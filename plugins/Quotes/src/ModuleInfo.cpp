@@ -32,11 +32,9 @@ HANDLE CModuleInfo::GetWindowList(const std::string& rsKey,bool bAllocateIfNonEx
 	}
 	else if(bAllocateIfNonExist)
 	{
-		hResult = reinterpret_cast<HANDLE>(CallService(MS_UTILS_ALLOCWINDOWLIST,0,0));
+		hResult = WindowList_Create();
 		if(hResult)
-		{
 			m_ahWindowLists.insert(std::make_pair(rsKey,hResult));
-		}
 	}
 
 	return hResult;

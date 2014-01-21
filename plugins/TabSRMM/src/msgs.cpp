@@ -417,6 +417,9 @@ static INT_PTR TypingMessageCommand(WPARAM wParam, LPARAM lParam)
 
 int SplitmsgShutdown(void)
 {
+	WindowList_Destroy(M.m_hMessageWindowList);
+	WindowList_Destroy(PluginConfig.hUserPrefsWindowList);
+
 	DestroyCursor(PluginConfig.hCurSplitNS);
 	DestroyCursor(PluginConfig.hCurHyperlinkHand);
 	DestroyCursor(PluginConfig.hCurSplitWE);
@@ -563,8 +566,8 @@ int LoadSendRecvMessageModule(void)
 	Win7Taskbar->updateMetrics();
 
 	ZeroMemory(&nen_options, sizeof(nen_options));
-	M.m_hMessageWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-	PluginConfig.hUserPrefsWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	M.m_hMessageWindowList = WindowList_Create();
+	PluginConfig.hUserPrefsWindowList = WindowList_Create();
 	sendQueue = new SendQueue;
 	Skin = new CSkin;
 	sendLater = new CSendLater;

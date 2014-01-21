@@ -74,6 +74,9 @@ TCHAR g_filter[1024] = {0};
 
 Options g_Options = {0};
 
+static HANDLE hDialogsList = NULL;
+static HANDLE hContactToActivate = NULL;
+
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	g_hInst = hinstDLL;
@@ -318,9 +321,12 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
+	WindowList_Destroy(hDialogsList);
+
 	if (g_hwndMenuHost) DestroyWindow(g_hwndMenuHost);
 	if (g_Options.hfntName) DeleteObject(g_Options.hfntName);
 	if (g_Options.hfntSecond) DeleteObject(g_Options.hfntSecond);
+
 	delete g_contactCache;
 	return 0;
 }
@@ -884,9 +890,6 @@ INT_PTR svcShowMenuCentered(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static HANDLE hDialogsList = NULL;
-static HANDLE hContactToActivate = NULL;
-
 INT_PTR svcOpenContact(WPARAM wParam, LPARAM lParam)
 {
 	hContactToActivate = (HANDLE)wParam;
@@ -900,7 +903,7 @@ int ProcessSrmmEvent( WPARAM wParam, LPARAM lParam )
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN) {
 		if ( !hDialogsList )
-			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+			hDialogsList = WindowList_Create();
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
 		BYTE fav = db_get_b(event->hContact, "FavContacts", "IsFavourite", 0);

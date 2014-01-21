@@ -313,8 +313,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	optDateTime = db_get_b(NULL, YAMN_DBMODULE, YAMN_DBTIMEOPTIONS, optDateTime);
 
 	// Create new window queues for broadcast messages
-	YAMNVar.MessageWnds = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-	YAMNVar.NewMailAccountWnd = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	YAMNVar.MessageWnds = WindowList_Create();
+	YAMNVar.NewMailAccountWnd = WindowList_Create();
 	YAMNVar.Shutdown = FALSE;
 
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
@@ -371,6 +371,10 @@ extern "C" int __declspec(dllexport) Unload(void)
 #ifdef _DEBUG
 	UnInitDebug();
 #endif
+
+	WindowList_Destroy(YAMNVar.MessageWnds);
+	WindowList_Destroy(YAMNVar.NewMailAccountWnd);
+
 	DestroyCursor(hCurSplitNS);
 	DestroyCursor(hCurSplitWE);
 
