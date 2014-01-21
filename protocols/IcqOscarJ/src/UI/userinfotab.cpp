@@ -252,7 +252,7 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						char str[MAX_PATH];
 						WORD v[4];
 						CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)&v);
-						mir_snprintf(str, SIZEOF(str), "Miranda NG %d.%d.%d.%d (ICQ %s)", v[0], v[1], v[2], v[3], __VERSION_STRING);
+						mir_snprintf(str, SIZEOF(str), "Miranda NG %d.%d.%d.%d (ICQ %d.%d.%d.%d)", v[0], v[1], v[2], v[3], __FILEVERSION_STRING);
 
 						SetValue(ppro, hwndDlg, IDC_PORT, hContact, (char*)DBVT_WORD, (char*)ppro->wListenPort, SVS_ZEROISUNSPEC);
 						SetValue(ppro, hwndDlg, IDC_VERSION, hContact, (char*)DBVT_WORD, (char*)ICQ_VERSION, SVS_ICQVERSION);
