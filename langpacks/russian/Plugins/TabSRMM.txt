@@ -65,7 +65,7 @@
 Время (файл)
 [Maximum number of events in the message window]
 Максимальное количество событий в окне чатов
-[Group chat userlist row height (pixels)]
+[Group chat nick list row height (pixels)]
 Высота пунктов списка пользователей (пикс.)
 [Open log file base folder]
 Открыть папку с журналами чатов
@@ -1941,7 +1941,7 @@ tabSRMM: %s
 Показывать значки статусов, если поддерживается протоколом
 [Display contact's status icon before user role icon]
 Показывать значок статуса перед значком роли
-[Use IRC style status indicators in the user list]
+[Use IRC style status indicators in the nick list]
 IRC-стиль (текстовый) индикаторов ролей участников в списке
 [Use alternative sorting method in member list]
 Альтернативная сортировка ников в списке
@@ -2041,7 +2041,7 @@ IRC-стиль (текстовый) индикаторов ролей в жур�
 Подсветка поиска
 [Fields background]
 Фон полей
-[Userlist background]
+[Nick list background]
 Фон списка пользователей
 [Group chat log background]
 Фон журнала чата

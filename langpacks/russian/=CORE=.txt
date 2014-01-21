@@ -563,7 +563,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 &Фильтр
 [&Room settings]
 &Настройки
-[&Show/Hide nicklist]
+[&Show/Hide nick list]
 &Показать/Скрыть список ников
 [Show these events only:]
 Показывать только:
@@ -613,7 +613,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Другое
 [Add new rooms to group:]
 Добавлять комнаты чата в группу:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 Расстояние между строками (пикс.):
 [Use same style as in the message log]
 Тот же стиль, что и в журнале
@@ -1275,11 +1275,11 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Фон журнала чата
 [Message background]
 Фон поля ввода
-[User list background]
+[Nick list background]
 Фон списка
-[User list lines]
+[Nick list lines]
 Цвета линий в списке
-[User list background (selected)]
+[Nick list background (selected)]
 Заливка списка (выбрано)
 [Use a tabbed interface]
 Использовать вкладки
@@ -1455,9 +1455,9 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Фильтр событий выключен
 [Event filter enabled]
 Фильтр событий включён
-[Hide userlist]
+[Hide nick list]
 Скрыть список пользователей
-[Show userlist]
+[Show nick list]
 Показать список пользователей
 [Icon overlay]
 Значок поверх
@@ -1551,7 +1551,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Выбрать цвет текста (CTRL+K)
 [Show the history (CTRL+H)]
 Показать историю (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Показать/скрыть список пользователей (CTRL+N)
 [Control this room (CTRL+O)]
 Управление комнатой чата (CTRL+O)
@@ -1899,9 +1899,9 @@ URL от %s
 Действие
 [Highlighted message]
 Подсвеченное сообщение
-[User list members (online)]
+[Nick list members (online)]
 Пользователи (в сети)
-[User list members (away)]
+[Nick list members (away)]
 Пользователи (отсутствуют)
 [Message typing area]
 Поле набора текста

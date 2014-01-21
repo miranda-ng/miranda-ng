@@ -187,7 +187,7 @@
 &Фильтр
 [&Room Settings]
 &Настройки
-[&Show/hide nicklist]
+[&Show/hide nick list]
 &Показать/Скрыть список ников
 [Show these events only:]
 Показывать только:
@@ -219,7 +219,7 @@
 Другое
 [Add new rooms to group:]
 Добавлять комнаты чата в группу:
-[User list row height]
+[Nick list row height]
 Высота списка пользователей
 [pixels]
 пикселей
@@ -363,9 +363,9 @@ Yahoo
 Фильтр событий выключен
 [Event filter enabled]
 Фильтр событий включён
-[Hide userlist]
+[Hide nick list]
 Скрыть список пользователей
-[Show userlist]
+[Show nick list]
 Показать список пользователей
 [Status 1 (10x10)]
 Статус 1 (10x10)
@@ -621,17 +621,17 @@ Miranda не смогла загрузить встроенную систему
 Таймаут отправки сообщения
 [Group chat log background]
 Фон журнала чата
-[User list background]
+[Nick list background]
 Фон списка
-[User list lines]
+[Nick list lines]
 Линии списка
-[User list background (selected)]
+[Nick list background (selected)]
 Фон списка (выбрано)
 [Flash when someone speaks]
 Мигать, когда кто-то говорит
 [Flash when a word is highlighted]
 Мигать окном, если есть подсвеченные сообщения
-[Show chat user list]
+[Show chat nick list]
 Показывать пользователей в списке
 [Enable button context menus]
 Включить кнопки в контекстном меню
@@ -819,7 +819,7 @@ ID текущего контакта (если определен). Наприм
 Выбрать цвет текста (CTRL+K)
 [Show the history (CTRL+H)]
 Показать историю (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Показать/скрыть список пользователей (CTRL+N)
 [Control this room (CTRL+O)]
 Управление комнатой чата (CTRL+O)
