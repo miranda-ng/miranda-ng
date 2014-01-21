@@ -311,17 +311,17 @@ static void RegisterFonts()
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("User list background"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Nick list background"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistLines", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("User list lines"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Nick list lines"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_INACTIVEBORDER);
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistSelectedBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("User list background (selected)"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Nick list background (selected)"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
 	ColourRegisterT(&colourid);
 }

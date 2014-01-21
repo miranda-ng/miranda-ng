@@ -111,7 +111,7 @@ static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_BKGCOLOR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a background color for the text (CTRL+L)"), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_COLOR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a foreground color for the text (CTRL+K)"), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_HISTORY, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show the history (CTRL+H)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_SHOWNICKLIST, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show/hide the nicklist (CTRL+N)"), 0);
+	SendDlgItemMessage(hwndDlg, IDC_CHAT_SHOWNICKLIST, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show/hide the nick list (CTRL+N)"), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_CHANMGR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Control this room (CTRL+O)"), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_FILTER, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Enable/disable the event filter (CTRL+F)"), 0);
 	SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Send Message"), 0);

@@ -37,7 +37,7 @@ struct branch_t
 static struct branch_t branch1[] = {
 	{ LPGENT("Flash when someone speaks"), "FlashWindow", 0, 0, NULL },
 	{ LPGENT("Flash when a word is highlighted"), "FlashWindowHighlight", 0, 1, NULL },
-	{ LPGENT("Show chat user list"), "ShowNicklist", 0, 1, NULL },
+	{ LPGENT("Show chat nick list"), "ShowNicklist", 0, 1, NULL },
 	{ LPGENT("Enable button context menus"), "RightClickFilter", 0, 0, NULL },
 	{ LPGENT("Show topic on your contact list (if supported)"), "TopicOnClist", 0, 0, NULL },
 	{ LPGENT("Do not play sounds when focused"), "SoundsFocus", 0, 0, NULL },

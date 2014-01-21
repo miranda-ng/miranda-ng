@@ -65,8 +65,8 @@ static FontOptionsList fontOptionsList[] =
 	{ LPGENT("Action message"),               RGB(160, 90, 160),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENT("Highlighted message"),          RGB(180, 150, 80),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ _T(""),                                 0,                  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User list members (online)"),   RGB(0, 0, 0),       lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User list members (away)"),     RGB(170, 170, 170), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 }
+	{ LPGENT("Nick list members (online)"),   RGB(0, 0, 0),       lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENT("Nick list members (away)"),     RGB(170, 170, 170), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 }
 };
 
 static void LoadColors()
@@ -152,7 +152,7 @@ void RegisterFonts(void)
 		switch (i) {
 		case 18:
 		case 19:
-			_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), LPGENT("User list background"), _TRUNCATE);
+			_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), LPGENT("Nick list background"), _TRUNCATE);
 			break;
 		case 17:
 			if (g_iFontMode == FONTMODE_SKIP)

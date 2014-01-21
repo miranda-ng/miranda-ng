@@ -154,7 +154,7 @@ static branch_t branch1[] = {
 	{ LPGENT("Sync splitter position with standard IM sessions"), "SyncSplitter", 0, 0, NULL },
 	{ LPGENT("Show contact's status modes if supported by the protocol"), "ShowContactStatus", 0, 1, NULL },
 	{ LPGENT("Display contact's status icon before user role icon"), "ContactStatusFirst", 0, 0, NULL },
-	{ LPGENT("Use IRC style status indicators in the user list"), "ClassicIndicators", 0, 0, NULL },
+	{ LPGENT("Use IRC style status indicators in the nick list"), "ClassicIndicators", 0, 0, NULL },
 	{ LPGENT("Use alternative sorting method in member list"), "AlternativeSorting", 0, 1, NULL },
 
 };
@@ -691,7 +691,7 @@ void RegisterFontServiceFonts() {
 		ColourRegisterT(&cid);
 	}
 	cid.order++;
-	_tcsncpy_s(cid.name, SIZEOF(cid.name), LPGENT("Userlist background"), _TRUNCATE);
+	_tcsncpy_s(cid.name, SIZEOF(cid.name), LPGENT("Nick list background"), _TRUNCATE);
 	strncpy_s(cid.setting, SIZEOF(cid.setting), "ColorNicklistBG", _TRUNCATE);
 	cid.defcolour = SRMSGDEFSET_BKGCOLOUR;
 	ColourRegisterT(&cid);
