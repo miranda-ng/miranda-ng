@@ -338,16 +338,14 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			DoTrayIcon(si, gce);
 		}
 
-		/* TODO fix for 3.0 final !!! */
-#if !defined(__DELAYED_FOR_3_1)
-		if (g_Settings.bCreateWindowOnHighlight && 0 == dat)
+		if (g_Settings.bCreateWindowOnHighlight && dat == NULL)
 			wParamForHighLight = 1;
 
 		if (dat && g_Settings.bAnnoyingHighlight && params->bInactive && dat->pContainer->hwnd != GetForegroundWindow()) {
 			wParamForHighLight = 2;
 			params->hWnd = dat->hwnd;
 		}
-#endif
+
 		if (dat || !nen_options.iMUCDisable)
 			DoPopup(si, gce);
 		if (params->bInactive && si && si->hWnd)
@@ -600,14 +598,12 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 			AppendMenu(*hMenu, dwState | MF_CHECKED | MF_STRING, gcmi.Item[i].dwID, ptszText);
 	}
 
-#if !defined(__DELAYED_FOR_3_1)
 	if (iIndex == 0) {
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 		int pos = GetMenuItemCount(*hMenu);
 		InsertMenu(*hMenu, pos, MF_BYPOSITION, (UINT_PTR)20020, TranslateT("Highlight User..."));
 		InsertMenu(*hMenu, pos, MF_BYPOSITION, (UINT_PTR)20021, TranslateT("Edit Highlight List..."));
 	}
-#endif
 
 	return TrackPopupMenu(*hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 }

@@ -293,8 +293,8 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			ci.DoTrayIcon(si, gce);
 		if (bInactive || !g_Settings->bPopupInactiveOnly)
 			ci.DoPopup(si, gce);
-		if (ci.OnFlashWindow)
-			ci.OnFlashWindow(si, bInactive);
+		if (ci.OnFlashHighlight)
+			ci.OnFlashHighlight(si, bInactive);
 		return TRUE;
 	}
 

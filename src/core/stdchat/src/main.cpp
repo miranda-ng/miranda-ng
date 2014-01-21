@@ -229,15 +229,26 @@ static void OnSetTopic(SESSION_INFO *si)
 		g_TabSession.ptszTopic = si->ptszTopic;
 }	
 
-static void OnFlashWindow(SESSION_INFO *si, int bInactive)
+static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
 {
 	if (!bInactive)
 		return;
-	
+
 	if (!g_Settings.bTabsEnable && si->hWnd && g_Settings.bFlashWindowHighlight)
 		SetTimer(si->hWnd, TIMERID_FLASHWND, 900, NULL);
 	if (g_Settings.bTabsEnable && g_TabSession.hWnd)
 		SendMessage(g_TabSession.hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
+}
+
+static void OnFlashWindow(SESSION_INFO *si, int bInactive)
+{
+	if (!bInactive)
+		return;
+
+	if (!g_Settings.bTabsEnable && si->hWnd && g_Settings.bFlashWindow)
+		SetTimer(si->hWnd, TIMERID_FLASHWND, 900, NULL);
+	if (g_Settings.bTabsEnable && g_TabSession.hWnd)
+		SendMessage(g_TabSession.hWnd, GC_SETTABHIGHLIGHT, 0, (LPARAM)si);
 }
 
 static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
@@ -349,6 +360,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	pci->OnLoadSettings = OnLoadSettings;
 	pci->OnSetStatusBar = OnSetStatusBar;
 	pci->OnFlashWindow = OnFlashWindow;
+	pci->OnFlashHighlight = OnFlashHighlight;
 	pci->ShowRoom = ShowRoom;
 
 	pci->DoPopup = DoPopup;

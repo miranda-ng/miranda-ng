@@ -106,12 +106,24 @@ static void OnSetStatus(SESSION_INFO *si, int wStatus)
 	PostMessage(si->hWnd, GC_FIXTABICONS, 0, 0);
 }
 
+static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
+{
+	if (!bInactive || !si->hWnd)
+		return;
+
+	if (g_Settings.bFlashWindowHighlight)
+		SendMessage(GetParent(si->hWnd), CM_STARTFLASHING, 0, 0);
+	SendMessage(si->hWnd, GC_SETMESSAGEHIGHLIGHT, 0, 0);
+}
+
 static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 {
-	if (bInactive && si->hWnd && g_Settings.bFlashWindowHighlight)
+	if (!bInactive || !si->hWnd)
+		return;
+
+	if (g_Settings.bFlashWindow)
 		SendMessage(GetParent(si->hWnd), CM_STARTFLASHING, 0, 0);
-	if (bInactive && si->hWnd)
-		SendMessage(si->hWnd, GC_SETMESSAGEHIGHLIGHT, 0, 0);
+	SendMessage(si->hWnd, GC_SETTABHIGHLIGHT, 0, 0);
 }
 
 static void OnCreateModule(MODULEINFO *mi)
@@ -195,6 +207,7 @@ int Chat_Load()
 	pci->OnEventBroadcast = OnEventBroadcast;
 	pci->OnSetStatusBar = OnSetStatusBar;
 	pci->OnFlashWindow = OnFlashWindow;
+	pci->OnFlashHighlight = OnFlashHighlight;
 	pci->ShowRoom = ShowRoom;
 
 	pci->DoPopup = DoPopup;

@@ -433,6 +433,7 @@ struct CHAT_MANAGER
 
 	void (*OnLoadSettings)(void);
 	void (*OnFlashWindow)(SESSION_INFO *si, int);
+	void (*OnFlashHighlight)(SESSION_INFO *si, int);
 };
 
 extern CHAT_MANAGER ci, *pci;
