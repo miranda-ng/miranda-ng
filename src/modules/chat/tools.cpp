@@ -486,7 +486,7 @@ BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 				p3 = p2;
 
 				// compare the words, using wildcards
-				if (wildcmpit(szWord1, RemoveFormatting(szWord2)))
+				if (wildcmpit(RemoveFormatting(szWord2), szWord1))
 					return TRUE;
 			}
 		}
