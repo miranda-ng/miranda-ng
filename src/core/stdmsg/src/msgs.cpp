@@ -79,12 +79,11 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	SkinPlaySound("AlertMsg");
 
 	char *szProto = GetContactProto((HANDLE)wParam);
-	if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
-	{
+	if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0)))) {
 		NewMessageWindowLParam newData = { 0 };
 		newData.hContact = (HANDLE)wParam;
 		newData.noActivate = db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM) & newData);
+		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)&newData);
 		return 0;
 	}
 
@@ -98,7 +97,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	contactName = pcli->pfnGetContactDisplayName((HANDLE)wParam, 0);
 	mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);
 	cle.ptszTooltip = toolTip;
-	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
+	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 	return 0;
 }
 
@@ -298,7 +297,7 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 
 int PreshutdownSendRecv(WPARAM, LPARAM)
 {
-	WindowList_BroadcastAsync(g_dat.hMessageWindowList, WM_CLOSE, 0, 0);
+	WindowList_Broadcast(g_dat.hMessageWindowList, WM_CLOSE, 0, 0);
 	DeinitStatusIcons();
 	return 0;
 }

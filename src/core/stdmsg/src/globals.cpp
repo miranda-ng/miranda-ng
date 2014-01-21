@@ -43,7 +43,6 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	FreeMsgLogIcons();
 	LoadMsgLogIcons();
-
 	return 0;
 }
 
