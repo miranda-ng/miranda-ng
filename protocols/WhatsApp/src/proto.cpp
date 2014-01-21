@@ -14,9 +14,9 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 	CreateProtoService(PS_JOINCHAT, &WhatsAppProto::OnJoinChat);
 	CreateProtoService(PS_LEAVECHAT, &WhatsAppProto::OnLeaveChat);
 
-	HookProtoEvent(ME_GC_EVENT, &WhatsAppProto::OnChatOutgoing);
-	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &WhatsAppProto::OnBuildStatusMenu);
 	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
+	HookProtoEvent(ME_SYSTEM_MODULESLOADED, &WhatsAppProto::OnModulesLoaded);
+	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &WhatsAppProto::OnBuildStatusMenu);
 
 	this->InitContactMenus();
 
@@ -37,16 +37,6 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 
 	def_avatar_folder_ = std::tstring( VARST( _T("%miranda_avatarcache%"))) + _T("\\") + m_tszUserName;
 
-	// Register group chat
-	GCREGISTER gcr = { sizeof(gcr) };
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
-	gcr.ptszDispName = m_tszUserName;
-	gcr.pszModule = m_szModuleName;
-	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
-
-	//HookProtoEvent(ME_GC_EVENT, &CMsnProto::MSN_GCEventHook);
-	//HookProtoEvent(ME_GC_BUILDMENU, &CMsnProto::MSN_GCMenuHook);
-
 	SetAllContactStatuses(ID_STATUS_OFFLINE, true);
 }
 
@@ -56,6 +46,19 @@ WhatsAppProto::~WhatsAppProto()
 
 	if (this->challenge != NULL)
 		delete this->challenge;
+}
+
+int WhatsAppProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+{
+	// Register group chat
+	GCREGISTER gcr = { sizeof(gcr) };
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
+
+	HookProtoEvent(ME_GC_EVENT, &WhatsAppProto::OnChatOutgoing);
+	return 0;
 }
 
 DWORD_PTR WhatsAppProto::GetCaps( int type, HANDLE hContact )
