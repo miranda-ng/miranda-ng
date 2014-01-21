@@ -132,6 +132,20 @@ extern HWND hwndDialog;
 void DoCheck(int iFlag);
 void DoGetList(int iFlag);
 
+struct AutoHandle
+{
+	HANDLE &m_handle;
+
+	AutoHandle(HANDLE &_handle) : m_handle(_handle) {}
+	~AutoHandle()
+	{
+		if (m_handle) {
+			::CloseHandle(m_handle);
+			m_handle = 0;
+		}
+	}
+};
+
 ///////////////////////////////////////////////////////////////////////////////
 
 struct ServListEntry

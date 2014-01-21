@@ -81,7 +81,7 @@ int CalculateModuleHash(const TCHAR *filename, char *szDest)
 	// check minimum and maximum size
 	DWORD hsize = 0, filesize = GetFileSize(map.hFile, &hsize );
 
-	if ( !filesize || filesize == INVALID_FILE_SIZE || hsize)
+	if (!filesize || filesize == INVALID_FILE_SIZE || hsize)
 		return RESULT_INVALID;
 
 	if (filesize < sizeof(IMAGE_DOS_HEADER) + sizeof(IMAGE_NT_HEADERS))

@@ -19,6 +19,8 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
+#define UM_ERROR (WM_USER+1)
+
 static bool bShowDetails;
 
 static void SelectAll(HWND hDlg, bool bEnable)
@@ -44,14 +46,15 @@ static void ApplyUpdates(void *param)
 	//////////////////////////////////////////////////////////////////////////////////////
 	// if we need to escalate priviledges, launch a atub
 
-	if ( !PrepareEscalation()) {
-		EndDialog(hDlg, 0);
+	if (!PrepareEscalation()) {
+		DestroyWindow(hDlg);
 		return;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// ok, let's unpack all zips
 
+	AutoHandle pipe(hPipe);
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	TCHAR tszBuff[2048], tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
@@ -63,10 +66,10 @@ static void ApplyUpdates(void *param)
 	SafeCreateDirectory(tszFileTemp);
 
 	bool error = false;
-	HANDLE nlc = NULL;	
-	for (int i=0; i < todo.getCount(); ++i) {
+	HANDLE nlc = NULL;
+	for (int i=0; i < todo.getCount(); i++) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
-		if ( !todo[i].bEnabled) {
+		if (!todo[i].bEnabled) {
 			SetStringText(hwndList, i, TranslateT("Skipped."));
 			continue;
 		}
@@ -83,19 +86,22 @@ static void ApplyUpdates(void *param)
 			SetStringText(hwndList, i, TranslateT("Failed!"));
 
 			// interrupt update as we require all components to be updated
-			MessageBox(hDlg, TranslateT("Update failed! One of the components wasn't downloaded correctly. Try it again later."), TranslateT("Plugin Updater"), MB_OK | MB_ICONERROR);
 			error = true;
 			break;
-		} else
-			SetStringText(hwndList, i, TranslateT("Succeeded."));
+		}
+		SetStringText(hwndList, i, TranslateT("Succeeded."));
 	}
 	Netlib_CloseHandle(nlc);
 
-	if (!error && todo.getCount() > 0) {
+	if (error) {
+		PostMessage(hDlg, UM_ERROR, 0, 0);
+		return;
+	}
+	if (todo.getCount() > 0) {
 		TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
 
 		for (int i = 0; i < todo.getCount(); i++) {
-			if ( !todo[i].bEnabled)
+			if (!todo[i].bEnabled)
 				continue;
 
 			TCHAR tszBackFile[MAX_PATH];
@@ -140,9 +146,7 @@ static void ApplyUpdates(void *param)
 		if (rc == IDYES)
 			CallFunctionAsync(RestartMe, 0);
 	}
-	if (hPipe)
-		CloseHandle(hPipe);
-	EndDialog(hDlg, 0);
+	DestroyWindow(hDlg);
 }
 
 static void ResizeVert(HWND hDlg, int yy)
@@ -307,6 +311,11 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		}
 		break;
 
+	case UM_ERROR:
+		MessageBox(hDlg, TranslateT("Update failed! One of the components wasn't downloaded correctly. Try it again later."), TranslateT("Plugin Updater"), MB_OK | MB_ICONERROR);
+		DestroyWindow(hDlg);
+		break;
+
 	case WM_DESTROY:
 		Skin_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_SMALL, 0));
 		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
@@ -396,7 +405,7 @@ static renameTable[] =
 static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
 {
 	for (int i=0; i < SIZEOF(renameTable); i++)
-		if ( !_tcsicmp(ptszOldName, renameTable[i].oldName)) {
+		if (!_tcsicmp(ptszOldName, renameTable[i].oldName)) {
 			_tcscpy(pNewName, renameTable[i].newName);
 			return true;
 		}
@@ -418,7 +427,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 	int count = 0;
 
 	// skip updater's own folder
-	if ( !_tcsicmp(tszFolder, tszRoot))
+	if (!_tcsicmp(tszFolder, tszRoot))
 		return count;
 
 	TCHAR tszBuf[MAX_PATH];
@@ -431,7 +440,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 
 	do {
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-			if ( !_tcscmp(ffd.cFileName, _T(".")) || !_tcscmp(ffd.cFileName, _T("..")))
+			if (!_tcscmp(ffd.cFileName, _T(".")) || !_tcscmp(ffd.cFileName, _T("..")))
 				continue;
 
 			// we need to skip profile folder
@@ -444,12 +453,12 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 			continue;
 		}
 
-		if ( !isValidExtension(ffd.cFileName))
+		if (!isValidExtension(ffd.cFileName))
 			continue;
 
 		// calculate the current file's relative name and store it into tszNewName
 		TCHAR tszNewName[MAX_PATH];
-		if ( !CheckFileRename(ffd.cFileName, tszNewName)) {
+		if (!CheckFileRename(ffd.cFileName, tszNewName)) {
 			if (level == 0)
 				_tcscpy(tszNewName, ffd.cFileName);
 			else
@@ -555,7 +564,7 @@ static void CheckUpdates(void *)
 
 		// Show dialog
 		if (count == 0) {
-			if ( !opts.bSilent)
+			if (!opts.bSilent)
 				ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("No updates found."), 2, 0);
 			delete UpdateFiles;
 		}

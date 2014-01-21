@@ -64,11 +64,11 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		}
 		else {
 			SetDlgItemTextA(hwndDlg, IDC_CUSTOMURL, dbv.pszVal);
-			if ( !strcmp(dbv.pszVal, DEFAULT_UPDATE_URL))
+			if (!strcmp(dbv.pszVal, DEFAULT_UPDATE_URL))
 				CheckDlgButton(hwndDlg, IDC_STABLE, TRUE);
-			else if ( !strcmp(dbv.pszVal, DEFAULT_UPDATE_URL_TRUNK))
+			else if (!strcmp(dbv.pszVal, DEFAULT_UPDATE_URL_TRUNK))
 				CheckDlgButton(hwndDlg, IDC_TRUNK, TRUE);
-			else if ( !strcmp(dbv.pszVal, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS))
+			else if (!strcmp(dbv.pszVal, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS))
 				CheckDlgButton(hwndDlg, IDC_TRUNK_SYMBOLS, TRUE);
 			else {
 				CheckDlgButton(hwndDlg, IDC_CUSTOM, TRUE);

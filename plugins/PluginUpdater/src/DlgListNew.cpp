@@ -37,14 +37,15 @@ static void ApplyDownloads(void *param)
 	//////////////////////////////////////////////////////////////////////////////////////
 	// if we need to escalate priviledges, launch a atub
 
-	if ( !PrepareEscalation()) {
-		EndDialog(hDlg, 0);
+	if (!PrepareEscalation()) {
+		DestroyWindow(hDlg);
 		return;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// ok, let's unpack all zips
 
+	AutoHandle pipe(hPipe);
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	TCHAR tszBuff[2048], tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
@@ -58,7 +59,7 @@ static void ApplyDownloads(void *param)
 	HANDLE nlc = NULL;
 	for (int i=0; i < todo.getCount(); ++i) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
-		if ( !todo[i].bEnabled) {
+		if (!todo[i].bEnabled) {
 			ListView_SetItemText(hwndList, i, 2, TranslateT("Skipped."));
 			continue;
 		}
@@ -67,7 +68,7 @@ static void ApplyDownloads(void *param)
 		ListView_SetItemText(hwndList, i, 2, TranslateT("Downloading..."));
 
 		FILEURL *pFileUrl = &todo[i].File;
-		if ( !DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum, nlc)) {
+		if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum, nlc)) {
 			ListView_SetItemText(hwndList, i, 2, TranslateT("Failed!"));
 		}
 		else
@@ -81,7 +82,7 @@ static void ApplyDownloads(void *param)
 		TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
 
 		for (int i = 0; i < todo.getCount(); i++) {
-			if ( !todo[i].bEnabled)
+			if (!todo[i].bEnabled)
 				continue;
 
 			TCHAR tszBackFile[MAX_PATH];
@@ -115,10 +116,8 @@ static void ApplyDownloads(void *param)
 	if (rc == IDYES)
 		CallFunctionAsync(OpenPluginOptions, 0);
 
-	if (hPipe)
-		CloseHandle(hPipe);
 	CloseWindow(hDlg);
-	EndDialog(hDlg, 0);
+	DestroyWindow(hDlg);
 	hwndDialog = NULL;
 	return;
 }
@@ -337,7 +336,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_SIZE: // make the dlg resizeable
-		if ( !IsIconic(hDlg)) {
+		if (!IsIconic(hDlg)) {
 			UTILRESIZEDIALOG urd = { sizeof(urd) };
 			urd.hInstance = hInst;
 			urd.hwndDlg = hDlg;
@@ -390,7 +389,7 @@ static void GetList(void *)
 
 	ptrT updateUrl( GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
-	if ( !ParseHashes(updateUrl, baseUrl, hashes)) {
+	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
 		hListThread = NULL;
 		return;
 	}
@@ -434,7 +433,7 @@ static void GetList(void *)
 
 	// Show dialog
 	if (UpdateFiles->getCount() == 0) {
-		if ( !opts.bSilent)
+		if (!opts.bSilent)
 			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("List is empty."), 2, 0);
 		delete UpdateFiles;
 	}

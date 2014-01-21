@@ -65,7 +65,7 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bo
 	if (ptszNewName == NULL)
 		ptszNewName = mir_a2t(filename);
 
-	if ( !(file_info.external_fa & FILE_ATTRIBUTE_DIRECTORY)) {
+	if (!(file_info.external_fa & FILE_ATTRIBUTE_DIRECTORY)) {
 		err = unzOpenCurrentFile(uf);
 		if (err != UNZ_OK)
 			return false;
@@ -131,7 +131,7 @@ bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath,bo
 	unzFile uf = unzOpen2_64(ptszZipFile, &ffunc);
 	if (uf) {
 		do {
-			if ( !extractCurrentFile(uf, ptszDestPath, ptszBackPath,ch))
+			if (!extractCurrentFile(uf, ptszDestPath, ptszBackPath,ch))
 				bResult = false;
 		}
 			while (unzGoToNextFile(uf) == UNZ_OK);
