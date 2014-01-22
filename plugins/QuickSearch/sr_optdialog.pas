@@ -718,6 +718,7 @@ var
   i,idx:integer;
   itemsel:integer;
   listhwnd:hwnd;
+  tmpbool:bool;
 begin
   result:=0;
 
@@ -785,23 +786,6 @@ begin
 
         PSN_APPLY: begin
           // checkboxes
-          listhwnd:=GetDlgItem(Dialog,IDC_LIST);
-
-          clear_columns(qsopt.columns);
-          qsopt.numcolumns:=SendMessage(listhwnd,LVM_GETITEMCOUNT,0,0);
-          for i:=0 to qsopt.numcolumns-1 do
-          begin
-            idx:=LV_GetLParam(listhwnd,i);
-            with editcolumns[idx] do
-            begin
-              if ListView_GetCheckSTate(listhwnd,i)=0 then
-                flags:=flags and not COL_ON
-              else
-                flags:=flags or COL_ON or COL_FILTER;
-            end;
-            CloneColumn(qsopt.columns[i],editcolumns[idx]);
-          end;
-
           qsopt.flags:=qsopt.flags and not QSO_MAINOPTIONS;
 
           if IsDlgButtonChecked(Dialog,IDC_CH_SORTSTATUS)<>BST_UNCHECKED then
@@ -821,40 +805,28 @@ begin
 
           if IsDlgButtonChecked(Dialog,IDC_CH_SAVEPATTERN)<>BST_UNCHECKED then
             qsopt.flags:=qsopt.flags or QSO_SAVEPATTERN;
-{
-          if IsDlgButtonChecked(Dialog,IDC_CH_SORTSTATUS)<>BST_UNCHECKED then
-            qsopt.flags:=qsopt.flags or QSO_SORTBYSTATUS
-          else
-            qsopt.flags:=qsopt.flags and not QSO_SORTBYSTATUS;
 
-          if IsDlgButtonChecked(Dialog,IDC_CH_AUTOCLOSE)<>BST_UNCHECKED then
-            qsopt.flags:=qsopt.flags or QSO_AUTOCLOSE
-          else
-            qsopt.flags:=qsopt.flags and not QSO_AUTOCLOSE;
+          tmpbool:=CloseSrWindow(false);
 
-          if IsDlgButtonChecked(Dialog,IDC_CH_USETOOLSTYLE)<>BST_UNCHECKED then
-            qsopt.flags:=qsopt.flags or QSO_TOOLSTYLE
-          else
-            qsopt.flags:=qsopt.flags and not QSO_TOOLSTYLE;
+          listhwnd:=GetDlgItem(Dialog,IDC_LIST);
+          clear_columns(qsopt.columns);
+          qsopt.numcolumns:=SendMessage(listhwnd,LVM_GETITEMCOUNT,0,0);
+          for i:=0 to qsopt.numcolumns-1 do
+          begin
+            idx:=LV_GetLParam(listhwnd,i);
+            with editcolumns[idx] do
+            begin
+              if ListView_GetCheckSTate(listhwnd,i)=0 then
+                flags:=flags and not COL_ON
+              else
+                flags:=flags or COL_ON or COL_FILTER;
+            end;
+            CloneColumn(qsopt.columns[i],editcolumns[idx]);
+          end;
 
-          if IsDlgButtonChecked(Dialog,IDC_CH_DRAWGRID)<>BST_UNCHECKED then
-            qsopt.flags:=qsopt.flags or QSO_DRAWGRID
-          else
-            qsopt.flags:=qsopt.flags and not QSO_DRAWGRID;
-
-          if IsDlgButtonChecked(Dialog,IDC_CH_CLIENTICONS)<>BST_UNCHECKED then
-            qsopt.flags:=qsopt.flags or QSO_CLIENTICONS
-          else
-            qsopt.flags:=qsopt.flags and not QSO_CLIENTICONS;
-
-          if IsDlgButtonChecked(Dialog,IDC_CH_SAVEPATTERN)<>BST_UNCHECKED then
-            qsopt.flags:=qsopt.flags or QSO_SAVEPATTERN
-          else
-            qsopt.flags:=qsopt.flags and not QSO_SAVEPATTERN;
-}
           saveopt_db;
-          //?? refresh QS window if it was opened
-          if CloseSrWindow then
+
+          if tmpbool then
             OpenSrWindow(nil,qsopt.flags);
           result:=1;
         end;

@@ -5,7 +5,7 @@ interface
 uses windows,m_api;
 
 function OpenSrWindow(apattern:PWideChar;flags:LPARAM):boolean;
-function CloseSrWindow:boolean;
+function CloseSrWindow(save:boolean=true):boolean;
 
 procedure RegisterColors;
 
@@ -1906,7 +1906,7 @@ begin
     WM_DESTROY: begin
       if srvhandle<>0 then DestroyServiceFunction(srvhandle);
       if mnuhandle<>0 then CallService(MO_REMOVEMENUITEM,mnuhandle,0);
-      
+
       UnhookEvent(hAdd);
       UnhookEvent(hDelete);
       UnhookEvent(hChange);
@@ -1922,19 +1922,14 @@ begin
       CopyRect(qsopt.grrect,rc);
 
       // save column width/order
-      SaveColumnOrder;
+      if grid<>0 then
+        SaveColumnOrder
+      else
+        grid:=0;
 
       saveopt_wnd;
 
       ListView_SetImageList(grid,0,LVSIL_SMALL);
-
-      tmp:=GetDC(grid);
-      h:=GetCurrentObject(tmp,OBJ_FONT);
-      SendMessage(grid,WM_SETFONT,0,1);
-      DeleteObject(h);
-      ReleaseDC(grid,tmp);
-
-      grid:=0;
 
       if (qsopt.flags and QSO_SAVEPATTERN)<>0 then
       begin
@@ -2237,14 +2232,17 @@ end;
 
 //----- base QS window functions -----
 
-function CloseSrWindow:boolean;
+function CloseSrWindow(save:boolean=true):boolean;
 begin
   if mainwnd<>0 then
   begin
     result:=true;
+    //!! cheat
+    if not save then
+      grid:=0;
+
     DestroyWindow(mainwnd);
 
-    mainwnd:=0;
     FreeProtoList;
   end
   else
