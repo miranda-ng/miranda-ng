@@ -46,15 +46,15 @@ const //types
 
 const
   COL_ON      = $0001; // Show column
-  COL_INIT    = $0002; // No need to update
   COL_FILTER  = $0004; // Filter column by pattern
   // QS window runtime flags
+  COL_INIT    = $0002; // No need to update
   COL_XSTATUS = $0100;
   COL_GENDER  = $0200;
   COL_CLIENT  = $0400;
   COL_GROUP   = $0800;
   COL_CNTNR   = $1000;
-  COL_REFRESH = $FF00; // mask
+  COL_REFRESH = $FF02; // mask
 
 const
   QSO_SORTBYSTATUS = $00000001; // Sort by status
@@ -84,13 +84,13 @@ type
   pcolumnitem = ^tcolumnitem;
   tcolumnitem = record
     title          :PWideChar;
-    setting_type   :dword;     // QST_* constants
+    setting_type   :word;      // QST_* constants
     flags          :word;      // COL_* constants
     width          :word;
     case integer of
       // db setting
       0: (
-        datatype:integer;      // QSTS_* constants
+        datatype:word;         // QSTS_* constants
         module  :pAnsiChar;
         setting :pAnsiChar;
       );
@@ -104,9 +104,9 @@ type
         restype:dword;
       );
       // contact info
-      3: (cnftype:dword);      // CNF_* constants
+      3: (cnftype:word);      // CNF_* constants
       // other
-      4: (other:integer);      // QSTO_* constants
+      4: (other:word);        // QSTO_* constants
   end;
   tcolumnarray = array of tcolumnitem;
 
@@ -641,15 +641,15 @@ begin
   p:=StrEnd(IntToStr(pp,num));
   with column do
   begin
-    StrCopy(p,so__setting_type); WriteWord(buf,setting_type);
     StrCopy(p,so__title); WriteUnicode(buf,title);
-    StrCopy(p,so__flags); WriteWord(buf,flags);
+    StrCopy(p,so__setting_type); WriteWord(buf,setting_type);
+    StrCopy(p,so__flags); WriteWord(buf,flags and not COL_REFRESH);
     StrCopy(p,so__width); WriteWord(buf,width);
     case setting_type of
       QST_SETTING: begin
-        StrCopy(p,so__datatype); WriteInt(buf,datatype);
-        StrCopy(p,so__module  ); WriteStr(buf,module);
-        StrCopy(p,so__setting ); WriteStr(buf,setting);
+        StrCopy(p,so__datatype); WriteWord(buf,datatype);
+        StrCopy(p,so__module  ); WriteStr (buf,module);
+        StrCopy(p,so__setting ); WriteStr (buf,setting);
       end;
 
       QST_SCRIPT: begin
@@ -680,7 +680,7 @@ begin
       end;
 
       QST_OTHER: begin
-        StrCopy(p,so__other); WriteInt(buf,other);
+        StrCopy(p,so__other); WriteWord(buf,other);
       end;
     end;
   end;
@@ -779,12 +779,12 @@ begin
         StrCopy(p,so__setting_type); setting_type:=GetWord(buf,0);
         StrCopy(p,so__title); title:=GetUnicode(buf);
         StrCopy(p,so__width); width:=GetWord(buf,20);
-        StrCopy(p,so__flags); flags:=GetWord(buf,COL_ON);
+        StrCopy(p,so__flags); flags:=GetWord(buf,COL_ON) and not COL_REFRESH;
         case setting_type of
           QST_SETTING: begin
-            StrCopy(p,so__datatype); datatype:=GetInt(buf,0);
-            StrCopy(p,so__module  ); module  :=GetStr(buf);
-            StrCopy(p,so__setting ); setting :=GetStr(buf);
+            StrCopy(p,so__datatype); datatype:=GetWord(buf,0);
+            StrCopy(p,so__module  ); module  :=GetStr (buf);
+            StrCopy(p,so__setting ); setting :=GetStr (buf);
           end;
 
           QST_SCRIPT: begin
@@ -815,7 +815,7 @@ begin
           end;
 
           QST_OTHER: begin
-            StrCopy(p,so__other); other:=GetInt(buf,0);
+            StrCopy(p,so__other); other:=GetWord(buf,0);
           end;
         end;
       end;

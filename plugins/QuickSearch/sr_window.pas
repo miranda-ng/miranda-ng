@@ -1010,11 +1010,30 @@ begin
   end;
 end;
 
+procedure addcolumn(num:integer;column:pcolumnitem);
+var
+  lvcol:LV_COLUMNW;
+  hdi:THDITEM;
+begin
+  zeromemory(@lvcol,sizeof(lvcol));
+  lvcol.mask      :=LVCF_TEXT or LVCF_WIDTH;
+  lvcol.pszText   :=TranslateW(column.title);
+  lvcol.cx        :=column.width;
+  SendMessageW(grid,LVM_INSERTCOLUMNW,num,lparam(@lvcol));
+
+  // set checkbox in column header
+  hdi.mask:=HDI_FORMAT;
+  if (column.flags and COL_FILTER)<>0 then
+    hdi.fmt:=HDF_LEFT or HDF_STRING or HDF_CHECKBOX or HDF_CHECKED
+  else
+    hdi.fmt:=HDF_LEFT or HDF_STRING or HDF_CHECKBOX;
+  SendMessage(ListView_GetHeader(grid),HDM_SETITEM,num,tlparam(@hdi));
+end;
+
 procedure MakeColumnMenu;
 var
   column:pcolumnitem;
   menu:HMENU;
-  lvcol:LV_COLUMNW;
   pt:TPOINT;
   flag,id,i,j:integer;
 begin
@@ -1031,13 +1050,14 @@ begin
     end;
     GetCursorPos(pt);
     id:=integer(TrackPopupMenu(menu,TPM_RETURNCMD+TPM_NONOTIFY,pt.x,pt.y,0,mainwnd,nil));
-    if id>100 then
+    if id>=100 then
     begin
       dec(id,100);
       column:=@qsopt.columns[id];
-      column.flags:=column.flags xor COL_ON;
-      if (column.flags and COL_ON)<>0 then
+      // show column
+      if (column.flags and COL_ON)=0 then
       begin
+        column.flags:=column.flags or COL_ON;
         // memory
         if (column.flags and COL_INIT)=0 then
         begin
@@ -1049,29 +1069,27 @@ begin
         end;
         // screen
         i:=ColumnToListView(id);
-        zeromemory(@lvcol,sizeof(lvcol));
-        lvcol.mask      :=LVCF_TEXT or LVCF_WIDTH;
-        lvcol.pszText   :=TranslateW(column.title);
-        lvcol.cx        :=column.width;
-        //!!
-        SendMessageW(grid,LVM_INSERTCOLUMNW,i,tlparam(@lvcol));
+        addcolumn(i,column);
 
         // fill new column
         FillLVColumn(id,i);
       end
       else
+      // hide column
       begin
         j:=0;
+
         for i:=0 to qsopt.numcolumns-1 do
         begin
           if (qsopt.columns[i].flags and COL_ON)<>0 then
             inc(j);
         end;
-        // keep at least one visible column
-        if j>1 then
-          SendMessage(grid,LVM_DELETECOLUMN,ColumnToListView(id),0)
-        else
-          column.flags:=column.flags or COL_ON;
+        // keep at least one visible column (1 + this)
+        if j>2 then
+        begin
+          SendMessage(grid,LVM_DELETECOLUMN,ColumnToListView(id),0);
+          column.flags:=column.flags and not COL_ON;
+        end;
       end;
     end;
     DestroyMenu(menu);
@@ -1625,29 +1643,16 @@ begin
     qsopt.columns[num].flags:=flags;
   end;
 end;
-{
-procedure addcolumn(handle:hwnd;num,width:integer;title:PWideChar);
-var
-  lvcol:LV_COLUMNW;
-begin
-  zeromemory(@lvcol,sizeof(lvcol));
-  lvcol.mask      :=LVCF_TEXT or LVCF_WIDTH;
-  lvcol.pszText   :=title;
-  lvcol.cx        :=width;
-  SendMessageW(handle,LVM_INSERTCOLUMNW,num,lparam(@lvcol));
-end;
-}
+
 // Set columns and clear listview
 procedure PrepareTable(reset:boolean=false);
 var
   lvcol:LV_COLUMNW;
   hdi:THDITEM;
-  header:HWND;
   i:integer;
   old:integer;
 begin
   SendMessage(grid,LVM_DELETEALLITEMS,0,0);
-  header:=ListView_GetHeader(grid);
 
   zeromemory(@hdi,sizeof(hdi));
   hdi.mask:=HDI_FORMAT;
@@ -1662,18 +1667,7 @@ begin
     begin
       if (flags and COL_ON)<>0 then
       begin
-        lvcol.pszText:=TranslateW(title);
-        lvcol.cx     :=width;
-        SendMessageW(grid,LVM_INSERTCOLUMNW,tablecolumns,tlparam(@lvcol));
-//        addcolumn(grid,tablecolumns,width,TranslateW(title));
-
-        // set checkbox in column header
-        if (flags and COL_FILTER)<>0 then
-          hdi.fmt:=HDF_LEFT or HDF_STRING or HDF_CHECKBOX or HDF_CHECKED
-        else
-          hdi.fmt:=HDF_LEFT or HDF_STRING or HDF_CHECKBOX;
-        SendMessage(header,HDM_SETITEM,tablecolumns,tlparam(@hdi));
-
+        addcolumn(tablecolumns,@qsopt.columns[i]);
         inc(tablecolumns);
       end;
 
