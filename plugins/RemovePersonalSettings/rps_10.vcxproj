@@ -19,10 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
+    <ProjectGuid>{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}</ProjectGuid>
     <ProjectName>RemovePersonalSettings</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

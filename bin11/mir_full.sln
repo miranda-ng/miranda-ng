@@ -408,7 +408,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeClassic", "..\protocol
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirandaG15", "..\plugins\MirandaG15\MirandaG15_11.vcxproj", "{8ACA3C8B-BDFA-47B2-8578-069555BA05B3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemovePersonalSettings", "..\plugins\RemovePersonalSettings\rps_11.vcxproj", "{B9D41271-241D-4DB1-B714-91D825F5A7FA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemovePersonalSettings", "..\plugins\RemovePersonalSettings\rps_11.vcxproj", "{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1818,14 +1818,14 @@ Global
 		{8ACA3C8B-BDFA-47B2-8578-069555BA05B3}.Release|Win32.Build.0 = Release|Win32
 		{8ACA3C8B-BDFA-47B2-8578-069555BA05B3}.Release|x64.ActiveCfg = Release|x64
 		{8ACA3C8B-BDFA-47B2-8578-069555BA05B3}.Release|x64.Build.0 = Release|x64
-		{B9D41271-241D-4DB1-B714-91D825F5A7FA}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B9D41271-241D-4DB1-B714-91D825F5A7FA}.Debug|Win32.Build.0 = Debug|Win32
-		{B9D41271-241D-4DB1-B714-91D825F5A7FA}.Debug|x64.ActiveCfg = Debug|x64
-		{B9D41271-241D-4DB1-B714-91D825F5A7FA}.Debug|x64.Build.0 = Debug|x64
-		{B9D41271-241D-4DB1-B714-91D825F5A7FA}.Release|Win32.ActiveCfg = Release|Win32
-		{B9D41271-241D-4DB1-B714-91D825F5A7FA}.Release|Win32.Build.0 = Release|Win32
-		{B9D41271-241D-4DB1-B714-91D825F5A7FA}.Release|x64.ActiveCfg = Release|x64
-		{B9D41271-241D-4DB1-B714-91D825F5A7FA}.Release|x64.Build.0 = Release|x64
+		{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}.Debug|Win32.Build.0 = Debug|Win32
+		{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}.Debug|x64.ActiveCfg = Debug|x64
+		{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}.Debug|x64.Build.0 = Debug|x64
+		{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}.Release|Win32.ActiveCfg = Release|Win32
+		{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}.Release|Win32.Build.0 = Release|Win32
+		{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}.Release|x64.ActiveCfg = Release|x64
+		{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
