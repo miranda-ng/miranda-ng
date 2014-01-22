@@ -50,6 +50,7 @@ static INT_PTR DestroyWindowList(WPARAM wParam, LPARAM)
 
 static INT_PTR AddToWindowList(WPARAM, LPARAM lParam)
 {
+	if (lParam == 0) return 1;
 	WINDOWLISTENTRY *pEntry = (WINDOWLISTENTRY*)lParam;
 	TWindowList *pList = (TWindowList*)pEntry->hList;
 	pList->insert(new TWindowListItem(pEntry->hContact, pEntry->hwnd));
@@ -58,6 +59,7 @@ static INT_PTR AddToWindowList(WPARAM, LPARAM lParam)
 
 static INT_PTR RemoveFromWindowList(WPARAM wParam, LPARAM lParam)
 {
+	if (wParam == 0) return 1;
 	TWindowList &pList = *(TWindowList*)wParam;
 	for (int i = 0; i < pList.getCount(); i++) {
 		if (pList[i].hWnd == (HWND)lParam) {
@@ -70,15 +72,17 @@ static INT_PTR RemoveFromWindowList(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR FindInWindowList(WPARAM wParam, LPARAM lParam)
 {
+	if (wParam == 0) return NULL;
 	TWindowList &pList = *(TWindowList*)wParam;
 	TWindowListItem *p = pList.find((TWindowListItem*)&lParam);
-	return (p == NULL) ? 0 : (INT_PTR)p->hWnd;
+	return (p == NULL) ? NULL : (INT_PTR)p->hWnd;
 }
 
 static INT_PTR BroadcastToWindowList(WPARAM wParam, LPARAM lParam)
 {
-	MSG *msg = (MSG*)lParam;
+	if (wParam == 0 || lParam == 0) return NULL;
 	TWindowList &pList = *(TWindowList*)wParam;
+	MSG *msg = (MSG*)lParam;
 	for (int i = pList.getCount()-1; i >= 0; i--)
 		SendMessage(pList[i].hWnd, msg->message, msg->wParam, msg->lParam);
 	return 0;
@@ -86,8 +90,9 @@ static INT_PTR BroadcastToWindowList(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR BroadcastToWindowListAsync(WPARAM wParam, LPARAM lParam)
 {
-	MSG *msg = (MSG*)lParam;
+	if (wParam == 0 || lParam == 0) return NULL;
 	TWindowList &pList = *(TWindowList*)wParam;
+	MSG *msg = (MSG*)lParam;
 	for (int i = pList.getCount()-1; i >= 0; i--)
 		PostMessage(pList[i].hWnd, msg->message, msg->wParam, msg->lParam);
 	return 0;
