@@ -58,7 +58,7 @@ int UpdateWeather(HANDLE hContact)
 		// error occurs if the return value is not equals to 0
 		if (opt.ShowWarnings) {
 			// show warnings by popup
-			mir_sntprintf(str, SIZEOF(str) - 105, 
+			mir_sntprintf(str, SIZEOF(str) - 105,
 				TranslateT("Unable to retrieve weather information for %s"), dbv.ptszVal);
 			_tcscat(str, _T("\n"));
 			_tcscat(str, GetError(code));
@@ -80,19 +80,19 @@ int UpdateWeather(HANDLE hContact)
 
 	// compare the old condition and determine if the weather had changed
 	if (opt.UpdateOnlyConditionChanged) {	// consider condition change
-		if ( !db_get_ts(hContact, WEATHERPROTONAME, "LastCondition", &dbv)) {
+		if (!db_get_ts(hContact, WEATHERPROTONAME, "LastCondition", &dbv)) {
 			if (_tcsicmp(winfo.cond, dbv.ptszVal))  Ch = TRUE;		// the weather condition is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
-		if ( !db_get_ts(hContact, WEATHERPROTONAME, "LastTemperature", &dbv)) {
+		if (!db_get_ts(hContact, WEATHERPROTONAME, "LastTemperature", &dbv)) {
 			if (_tcsicmp(winfo.temp, dbv.ptszVal))  Ch = TRUE;		// the temperature is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
 	}
 	else {	// consider update time change
-		if ( !db_get_ts(hContact, WEATHERPROTONAME, "LastUpdate", &dbv)) {
+		if (!db_get_ts(hContact, WEATHERPROTONAME, "LastUpdate", &dbv)) {
 			if (_tcsicmp(winfo.update, dbv.ptszVal))  Ch = TRUE;		// the update time is changed
 			db_free(&dbv);
 		}
@@ -101,7 +101,7 @@ int UpdateWeather(HANDLE hContact)
 
 	// have weather alert issued?
 	dbres = db_get_ts(hContact, WEATHERCONDITION, "Alert", &dbv);
-	if ( !dbres && dbv.ptszVal[0] != 0) {
+	if (!dbres && dbv.ptszVal[0] != 0) {
 		if (opt.AlertPopup && !db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
 			// display alert popup
 			mir_sntprintf(str, SIZEOF(str), _T("Alert for %s%c%s"), winfo.city, 255, dbv.ptszVal);
@@ -113,8 +113,8 @@ int UpdateWeather(HANDLE hContact)
 		SkinPlaySound("weatheralert");
 	}
 	// alert dropped, set the display back to normal
-	else	db_unset(hContact, WEATHERPROTONAME, "ApparentMode");
-	if ( !dbres) db_free(&dbv);
+	else db_unset(hContact, WEATHERPROTONAME, "ApparentMode");
+	if (!dbres) db_free(&dbv);
 
 	// backup current condition for checking if the weather is changed or not
 	db_set_ts(hContact, WEATHERPROTONAME, "LastLog", winfo.update);
@@ -209,7 +209,8 @@ int UpdateWeather(HANDLE hContact)
 
 	// update brief info if its opened
 	HWND hMoreDataDlg = WindowList_Find(hDataWindowList, hContact);
-	if (hMoreDataDlg != NULL) PostMessage(hMoreDataDlg, WM_UPDATEDATA, 0, 0);
+	if (hMoreDataDlg != NULL)
+		PostMessage(hMoreDataDlg, WM_UPDATEDATA, 0, 0);
 	return 0;
 }
 

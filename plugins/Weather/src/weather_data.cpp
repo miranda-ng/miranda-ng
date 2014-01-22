@@ -30,10 +30,10 @@ saving individual weather data for a weather contact.
 // hContact = the current contact handle
 // return value = the string for station ID
 
-void GetStationID(HANDLE hContact, TCHAR* id, size_t idlen) 
+void GetStationID(HANDLE hContact, TCHAR* id, size_t idlen)
 {
 	// accessing the database
-	if ( DBGetStaticString(hContact, WEATHERPROTONAME, "ID", id, idlen))
+	if (DBGetStaticString(hContact, WEATHERPROTONAME, "ID", id, idlen))
 		id[0] = 0;
 }
 
@@ -49,35 +49,35 @@ WEATHERINFO LoadWeatherInfo(HANDLE hContact)
 	winfo.hContact = hContact;
 	GetStationID(hContact, winfo.id, SIZEOF(winfo.id));
 
-	if ( DBGetStaticString(hContact, WEATHERPROTONAME, "Nick", winfo.city, SIZEOF(winfo.city)))
+	if (DBGetStaticString(hContact, WEATHERPROTONAME, "Nick", winfo.city, SIZEOF(winfo.city)))
 		_tcscpy(winfo.city, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Update", winfo.update, SIZEOF(winfo.update)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Update", winfo.update, SIZEOF(winfo.update)))
 		_tcscpy(winfo.update, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Condition", winfo.cond, SIZEOF(winfo.cond)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Condition", winfo.cond, SIZEOF(winfo.cond)))
 		_tcscpy(winfo.cond, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Temperature", winfo.temp, SIZEOF(winfo.temp)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Temperature", winfo.temp, SIZEOF(winfo.temp)))
 		_tcscpy(winfo.temp, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "High", winfo.high, SIZEOF(winfo.high)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "High", winfo.high, SIZEOF(winfo.high)))
 		_tcscpy(winfo.high, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Low", winfo.low, SIZEOF(winfo.low)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Low", winfo.low, SIZEOF(winfo.low)))
 		_tcscpy(winfo.low, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Sunset", winfo.sunset, SIZEOF(winfo.sunset)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Sunset", winfo.sunset, SIZEOF(winfo.sunset)))
 		_tcscpy(winfo.sunset, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Sunrise", winfo.sunrise, SIZEOF(winfo.sunrise)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Sunrise", winfo.sunrise, SIZEOF(winfo.sunrise)))
 		_tcscpy(winfo.sunrise, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Wind Speed", winfo.wind, SIZEOF(winfo.wind)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Wind Speed", winfo.wind, SIZEOF(winfo.wind)))
 		_tcscpy(winfo.wind, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Wind Direction", winfo.winddir, SIZEOF(winfo.winddir)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Wind Direction", winfo.winddir, SIZEOF(winfo.winddir)))
 		_tcscpy(winfo.winddir, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Dewpoint", winfo.dewpoint, SIZEOF(winfo.dewpoint)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Dewpoint", winfo.dewpoint, SIZEOF(winfo.dewpoint)))
 		_tcscpy(winfo.dewpoint, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Pressure", winfo.pressure, SIZEOF(winfo.pressure)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Pressure", winfo.pressure, SIZEOF(winfo.pressure)))
 		_tcscpy(winfo.pressure, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Visibility", winfo.vis, SIZEOF(winfo.vis)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Visibility", winfo.vis, SIZEOF(winfo.vis)))
 		_tcscpy(winfo.vis, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Humidity", winfo.humid, SIZEOF(winfo.humid)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Humidity", winfo.humid, SIZEOF(winfo.humid)))
 		_tcscpy(winfo.humid, NODATA);
-	if ( DBGetStaticString(hContact, WEATHERCONDITION, "Feel", winfo.feel, SIZEOF(winfo.feel)))
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Feel", winfo.feel, SIZEOF(winfo.feel)))
 		_tcscpy(winfo.feel, NODATA);
 
 	winfo.status = (WORD)db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", ID_STATUS_OFFLINE);
@@ -284,6 +284,7 @@ void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szData)
 			szInfo = start;
 		}
 	}
+
 	// the end string must be found too
 	if (UpdateData->End[0] != 0)
 		end = _tcsstr(szInfo, UpdateData->End);
@@ -297,14 +298,13 @@ void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szData)
 		end += _tcslen(UpdateData->End);
 		last = '\n';
 	}
+	
 	// ignore if not both of the string found - this prevent crashes
-	if (start != NULL && end != NULL) 
-	{
+	if (start != NULL && end != NULL) {
 		// begin reading the data from start location to end location
 		// remove all HTML tag in between, as well as leading space, ending space,
 		// multiple spaces, tabs, and return key
-		while (startloc < endloc) 
-		{
+		while (startloc < endloc) {
 			if (szInfo[startloc] == '<')	tag = TRUE;
 			else if (szInfo[startloc] == '&' &&
 				(szInfo[startloc+1] == ';' || szInfo[startloc+2] == ';' || szInfo[startloc+3] == ';' || 
@@ -368,41 +368,38 @@ void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szData)
 // copy a string into a new memory location
 // Data = the field the data is copied to
 // Value = the original string, the string where data is copied from
-void wSetData(char **Data, const char *Value) 
+void wSetData(char **Data, const char *Value)
 {
-	if (Value[0] != 0)
-	{
-		char *newData = (char*)mir_alloc(strlen(Value)+3);
+	if (Value[0] != 0) {
+		char *newData = (char*)mir_alloc(strlen(Value) + 3);
 		strcpy(newData, Value);
 		*Data = newData;
 	}
-	else
-		*Data = "";
+	else *Data = "";
 }
 
 void wSetData(WCHAR **Data, const char *Value) 
 {
 	if (Value[0] != 0)
-		*Data = mir_a2u( Value );
+		*Data = mir_a2u(Value);
 	else
 		*Data = L"";
 }
 
 void wSetData(WCHAR **Data, const WCHAR *Value) 
 {
-	if (Value[0] != 0) {
-		WCHAR *newData = (WCHAR*)mir_alloc( sizeof(WCHAR)*(wcslen(Value)+3));
-		wcscpy(newData, Value);
-		*Data = newData;
-	}
-	else *Data = L"";
+	if (Value[0] != 0)
+		*Data = mir_wstrdup(Value);
+	else
+		*Data = L"";
 }
 
 // A safer free function that free memory for a string
 // Data = the string occuping the data to be freed
 void wfree(char **Data) 
 {
-	if (*Data && strlen(*Data) > 0)	mir_free(*Data);
+	if (*Data && strlen(*Data) > 0)
+		mir_free(*Data);
 	*Data = NULL;
 }
 
@@ -417,17 +414,17 @@ void wfree(WCHAR **Data)
 // get single setting that is found
 // szSetting = the setting name
 // lparam = the counter
-int GetWeatherDataFromDB(const char *szSetting, LPARAM lparam) 
+int GetWeatherDataFromDB(const char *szSetting, LPARAM lparam)
 {
 	LIST<char> *pList = (LIST<char>*)lparam;
-	pList->insert( mir_strdup(szSetting));
+	pList->insert(mir_strdup(szSetting));
 	return 0;
 }
 
 // remove or display the weather information for a contact
 // hContact - the contact in which the info is going to be removed
 
-void DBDataManage(HANDLE hContact, WORD Mode, WPARAM wParam, LPARAM lParam) 
+void DBDataManage(HANDLE hContact, WORD Mode, WPARAM wParam, LPARAM lParam)
 {
 	LIST<char> arSettings(10);
 
@@ -439,35 +436,33 @@ void DBDataManage(HANDLE hContact, WORD Mode, WPARAM wParam, LPARAM lParam)
 	CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&dbces);
 
 	// begin deleting settings
-	for (int i=arSettings.getCount()-1; i >= 0; i--) {
+	for (int i = arSettings.getCount() - 1; i >= 0; i--) {
 		char *szSetting = arSettings[i];
-	
+
 		DBVARIANT dbv;
-		if ( !db_get_ts(hContact, WEATHERCONDITION, szSetting, &dbv)) {
+		if (!db_get_ts(hContact, WEATHERCONDITION, szSetting, &dbv)) {
 			switch (Mode) {
 			case WDBM_REMOVE:
 				db_unset(hContact, WEATHERCONDITION, szSetting);
 				break;
 
-			case WDBM_DETAILDISPLAY: 
+			case WDBM_DETAILDISPLAY:
 				// skip the "WeatherInfo" variable
-				if ( !strcmp(szSetting, "WeatherInfo") || !strcmp(szSetting, "Ignore") || szSetting[0] == '#')
+				if (!strcmp(szSetting, "WeatherInfo") || !strcmp(szSetting, "Ignore") || szSetting[0] == '#')
 					continue;
-				else {
-					HWND hList = GetDlgItem((HWND)wParam, IDC_DATALIST);
-					LV_ITEM lvi = { 0 };
-					lvi.mask = LVIF_TEXT | LVIF_PARAM;
-					lvi.lParam = i;
-					lvi.pszText = TranslateTS( _A2T(szSetting ));
-					lvi.iItem = ListView_InsertItem(hList, &lvi);
-					lvi.pszText = dbv.ptszVal;
-					ListView_SetItemText(hList, lvi.iItem, 1, dbv.ptszVal );
-					break;
-				}
+
+				HWND hList = GetDlgItem((HWND)wParam, IDC_DATALIST);
+				LV_ITEM lvi = { 0 };
+				lvi.mask = LVIF_TEXT | LVIF_PARAM;
+				lvi.lParam = i;
+				lvi.pszText = TranslateTS(_A2T(szSetting));
+				lvi.iItem = ListView_InsertItem(hList, &lvi);
+				lvi.pszText = dbv.ptszVal;
+				ListView_SetItemText(hList, lvi.iItem, 1, dbv.ptszVal);
+				break;
 			}
 			db_free(&dbv);
 		}
 		mir_free(szSetting);
 	}
-	arSettings.destroy();
 }
