@@ -8,9 +8,25 @@
 [This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
 Плагін дозволяє вам швидко знайти нік, ім'я, прізвище, E-mail, UIN у вашому списку контактів. Тепер ви можете додати будь-які налаштування для відображення. Наприклад, версії Miranda, групи або міста.
 [Quick Search]
-Пошук за списком
+Пошук у списку
+[Title]
+Заголовок
 [Module/InfoType]
-Модуль/Тип пер.
+Модуль/Тип зм.
+[Setting]
+Параметр
+[Reload]
+Оновити
+[New]
+Додати
+[Up]
+Вище
+[Down]
+Нижче
+[Delete]
+Видалити
+[Default]
+За замовчуванням
 [Additional Options]
 Додаткові параметри
 [Tool Window Style]
@@ -22,27 +38,107 @@
 [Auto Close mode]
 Закривати автоматично
 [Sort by Status]
-Сортувати по статусу
+Впорядкувати за статусом
 [Show Client Icons]
 Значки клієнтів
+[Settings]
+Налаштування
+[Title:]
+Заголовок:
+[Account]
+Обліковий запис
+[Gender]
+Стать
+[UserID]
+ID користувача
+[Nickname]
+Нік:
+[First name]
+Ім'я
+[Last name]
+Прізвище
+[Group]
+Група
+[Container]
+Контейнер
+[E-mail]
+Пошта
 [Client ID]
 Клієнт
 [Ext IP]
 Зовнішній IP
+[LastSeen]
+Остання поява
 [Last Event]
-Появи
+Остання подія
 [Online since]
 В мережі:
 [Metacontact]
 Метаконтакт
+[Event count]
+Кількість подій
+[Contact add time]
+Час додавання
+[Type:]
+Тип:
+[DB setting]
+Налаштування бази
 [Script]
 Скрипт
+[Service]
+Виклик служби
+[Contact info]
+Дані контакта
+[Other]
+Інше
+[Data type:]
+Тип даних:
+[Byte]
+Байт
+[Word]
+Слово
+[DWord]
+Дв.слово
+[Signed]
+Зі знаком
+[As hex]
+Шістнадцяткове
+[String]
+Рядок
 [TimeStamp]
 Час
+[Module:]
+Модуль:
 [Setting:]
-Парам.:
+Параметр:
+[Service:]
+Служба:
+[Param]
+Параметр
+[number value]
+число
+[ANSI string]
+рядок ANSI
+[Unicode string]
+рядок Unicode
+[current contact]
+поточний контакт
+[last result]
+останній результат
+[parameter]
+параметр
+[Result]
+Результат
+[Save]
+Зберегти
+[All]
+Все
+[Close]
+Закрити
+[Refresh]
+Оновити
 [QuickSearch]
-Швидкий Пошук
+Швидкий пошук
 [Show Offline contacts]
 Показувати відключених
 [New column]
@@ -50,7 +146,7 @@
 [Save Item]
 Зберегти значення
 [InfoType:]
-Тип пер.:
+Тип змінної:
 [New Column]
 Додати колонку
 [Column Up]
@@ -59,12 +155,22 @@
 Нижче
 [Delete Column]
 Видалити колонку
+[Male]
+Чоловіча
+[Female]
+Жіноча
+[Contacts]
+Контакти
 [ContactInfo]
 Дані контакту
 [LastEvent]
 Остання подія
+[EventCount]
+Лічильник подій
 [Script Editor]
 Редактор скриптів
+[Normal background]
+Звичайний фон
 [Normal foreground]
 Звичайний текст
 [Odd background]
@@ -76,9 +182,9 @@
 [Disabled account foreground]
 Текст відключених облікових записів
 [Deleted account background]
-Фон віддалених облікових записів
+Фон видалених облікових записів
 [Deleted account foreground]
-Текст віддалених облікових записів
+Текст видалених облікових записів
 [Hidden contact background]
 Фон прихованих контактів
 [Hidden contact foreground]
@@ -91,21 +197,69 @@
 Фон субконтактів
 [SubMetacontact foreground]
 Текст субконтактів
+[&Delete]
+&Видалити
+[&Copy]
+&Копіювати
 [C&onvert to Meta]
 &Конвертувати у метаконтакт
+[Attach to &Tab container]
+Приєднати до контейнера
+[&Move to Group]
+&Перемістити до групи
 [Some of selected contacts in different metacontacts already]
 Деякі з виділених контактів вже знаходяться в інших метаконтактах
 [Do you really want to delete selected contacts?]
 Ви хочете видалити виділені контакти?
+[Warning]
+Попередження
 [One or more contacts in same Meta already. Try to convert anyway?]
-Один або кілька контактів в схожому метаконтакте. Все одно перетворити?
+Один або кілька контактів у схожому метаконтакті. Все одно конвертувати?
+[Editing of column ]
+Редагування колонки\s
 [%i users found (%i) Online: %i]
-%i користувачів знайдено (% i) В мережі: %i
+%i користувачів знайдено (%i) В мережі: %i
 [ users found (]
  користувачів знайдено (
 [) Online: ]
 ) В мережі:\s
+[Online]
+В мережі
+[deleted]
+видалено
+[off]
+вимк.
+[active]
+активн.
 [Colorize]
 Додати колір
 [QuickSearch window hotkey]
 Відкрити вікно швидкого пошуку
+[Column content is simple database setting.]
+Вміст - налаштування в базі
+[Column content is script result.\r\nMore help from "Help" button in script dialog.]
+Вміст - результат скрипта.\r\nНатисність "Довідка" у діалозі скрипта для докладної інформації.
+[Content is last online time.]
+Вміст - час останньої появи контакта
+[Content is time of last contact event.]
+Вміст - час останньої події контакта
+[Content is metacontact info.]
+Вміст - інформація метаконтактів
+[Content is count of ALL contact events (not messages only)]
+Вміст - кількість усіх подій контактів (не лише повідомлень)
+[Other info]
+Інше
+[Change setting through QS]
+Змінити за допомогою QuickSearch
+[default]
+за замовчуванням
+[Selected]
+Вибране
+[contacts]
+Контакти
+[Unknown]
+Невідомий
+[Stay on Top]
+Поверх усіх вікон
+[Text Editor]
+Текстовий редактор

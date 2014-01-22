@@ -129,6 +129,8 @@
 Оновлення завершено. Натисніть "Так" для негайного перезапуску програми\nабо "Ні", щоб відкласти застосування оновлень до виходу.
 [<< Details]
 << Деталі
+[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
+Помилка оновлення! Архів одного з компонентів пошкоджений. Спробуйте ще раз пізніше.
 [No updates found.]
 Оновлень немає.
 [Update checking already started!]

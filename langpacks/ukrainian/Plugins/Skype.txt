@@ -246,9 +246,9 @@ Skype протокол для Miranda NG.
 [<not specified>]
 <не вказано>
 [Male]
-Чоловічий
+Чоловіча
 [Female]
-Жіночий
+Жіноча
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
 Ви не підключені в даний час. Ви повинні бути онлайн, щоб оновити інформацію на сервері.
 [Spawn conference]

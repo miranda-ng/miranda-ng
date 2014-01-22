@@ -41,6 +41,10 @@
 Показувати ніки, якщо доступно
 [Show friends of my friends]
 Показувати друзів моїх друзів
+[Options]
+Налаштування
+[More options]
+Додатково
 [Display Error and Infomessage:]
 Помилка та інформація:
 [Main group for clan groups:]
@@ -95,6 +99,8 @@
 Видалити
 [Don't show in start menu]
 Вимкнути пункт у головному меню
+[Username:]
+Користувач:
 [Game]
 Гра
 [Voicechat]
@@ -105,6 +111,14 @@
 Порт:
 [User details]
 Про користувача
+[Copy]
+Копіювати
+[Enter Password]
+Введіть пароль
+[Join]
+Приєднатися
+[Set Nickname]
+Введіть нік
 [Cancel]
 Скасувати
 [New xfire_games.ini]
@@ -113,8 +127,14 @@
 Оновити
 [Add game]
 Додати
+[Search:]
+Знайти:
+[Custom...]
+Змінити...
 [Game name:]
 Назва:
+[Game exe:]
+EXE гри:
 [Browse...]
 Огляд...
 [Game ID:]
@@ -155,6 +175,8 @@ ID гри має бути більше 1.
 Ммм... поїсти б...
 [The xfire_games.ini was updated.]
 Xfire_games.ini оновлено.
+[Protocol icon]
+Значок протоколу
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
 Стара версія протоколу. Змініть поточну версію %d на %d. Ви повинні перепідключитися.
 [Current Game]
@@ -187,6 +209,10 @@ IP сервера
 Звіт активності
 [&Rescan my games...]
 &Пересканувати мої ігри...
+[Set &Nickname]
+&Псевдонім...
+[Protocols]
+Протоколи
 [XFire game icon]
 Значок гри XFire
 [XFire voice icon]
@@ -205,8 +231,12 @@ XFire не підтримує надсилання офлайнових пові
 %s грає в %s.
 [%s is playing %s on server %d.%d.%d.%d:%d.]
 %s грає в %s на сервері %d.%d.%d.%d:%d.
+[Playing]
+Грає
 [Do you really want to delete your friend %s?]
 Ви дійсно хочете видалити %s?
+[Confirm Delete]
+Підтвердіть видалення
 [Block this user from ever contacting you again?]
 Заблокувати цього користувача?
 [Block Confirmation]
@@ -217,6 +247,8 @@ XFire не підтримує надсилання офлайнових пові
 Вимкнути аватари
 [Use alternate way for Avatar download]
 Використовувати альтернативний шлях скачування аватарів
+[General]
+Загальне
 [Automatically reconnect on protocol version changes]
 Автоматично перепідключатися при зміні версії протоколу
 [No IP/Port in StatusMsg]
@@ -267,6 +299,8 @@ XFire не підтримує надсилання офлайнових пові
 Ім'я користувача буде збережено в нижньому регістрі.
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 Необхідно перепідключились до мережі XFire, щоб зроблені вами зміни вступили в силу.
+[Hidden]
+Прихований
 [Messagebox]
 Діалогове вікно
 [Popup]
@@ -291,12 +325,16 @@ XFire не підтримує надсилання офлайнових пові
 Мережа
 [Account]
 Обліковий запис
+[Features]
+Можливості
 [Blocklist / Games]
 Блоковані / Ігри
 [StatusMsg]
 Статусні повідомлення
 [Please enter server password...]
 Введіть пароль сервера...
+[Write to database...]
+Записати в базу...
 [Games found:%s%s]
 Знайдені ігри:%s%s
 [<not specified>]

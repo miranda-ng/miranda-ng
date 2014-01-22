@@ -1,91 +1,129 @@
 ﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;============================================================
-;  File: ieview.dll
-;  Module: IEview provides IE engine to display message log.
-;  Versions: 1.3.0.3
-;  Authors: the_leech
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.0
+;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
-[IEView]
-Журнал IEView
 [IE Based Chat Log.]
 Журнал на движку IE.
-[Currently the following BBCodes are supported: [b][i][u][img][size][color]]
-Підтримуються ВВкоди: [b][i][u][img][size][color]
-[Currently the following BBCodes are supported: [b][i][u][s][img][size][color]]
-Підтримуються ВВкоди: [b][i][u][s][img][size][color]
+[Copy]
+Копіювати
+[Copy Link]
+Копіювати посилання
+[Select All]
+Вибрати все
+[Save Image As...]
+Зберегти зображення...
+[Print]
+Друк
+[Clear Log]
+Очистити журнал
+[Show source]
+Джерело шаблону
+[Options]
+Налаштування
+[Enable BBCodes]
+Підтримка ВВкодів
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
 Підтримуються ВВкоди: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
 Підтримка flash-файлів (*.swf) в смайлах і ВВкодах
 [Enable workaround for PNG transparency]
 Ввімкнути прозорість для PNG
+[Enable MathModule support]
+Підтримка MathModule
 [Replace smileys in user names]
 Смайли в іменах
 [Hide window border]
-Приховати межі вікна
+Сховати межі вікна
+[Embed YouTube videos]
+Вставляти відео з YouTube
+[Size:]
+Розмір:
+[Mode]
+Режим
 [Compatibility Mode]
 Режим сумісності
 [Use External CSS]
-Зовнішній CSS файл
+Зовнішній файл CSS
 [Use Templates]
 Шаблон
+[Background image]
+Фоновое зображення
+[Scroll with text]
+Прокручувати з текстом
 [Template Options]
 Налаштування шаблону
-[Grouping]
-Групування
+[Use message grouping]
+Групувати повідомлення
 [Show nicknames]
 Показувати ніки
-[RTL]
-RTL
-[Copy Link]
-Скопіювати посилання
-[Save Image As...]
-Зберегти зображення...
-[Print]
-Друк
-[Show source]
-Джерело шаблону
-[External CSS file]
-Зовнішній CSS файл
-[Events To Show]
-Відображаються подій
-[Animated Smiley Libraries]
-Бібліотеки анімованих смайлів
-[Enable smiley replacement]
-Включити заміну смайлів
-[Specify library for each protocol]
-Протоколи з різними смайлами
-[Only replace isolated smileys]
-Заміна тільки ізольованих
-[Surround smileys with spaces]
-Вставляти смайли з пробілами
-[Emotikons]
-Смайлики
+[Show time]
+Показувати час
+[Show seconds]
+Секунди
+[Show date]
+Дата
+[Use long date format]
+Літерний формат дати
+[Use relative timestamp]
+Відносна дата
+[Outgoing File Transfer]
+Вихідний файл
+[Incoming File Transfer]
+Вхідний файл
+[URL sent]
+Надіслано URL
+[URL received]
+Отримано URL
+[(Unknown Contact)]
+(Невідомий контакт)
+[ requested authorization]
+ запитав(ла) авторизацію
+[ was added.]
+ додано до списку.
+[RESULT]
+Результат
+[ERROR]
+Помилка
 [%s has joined.]
 %s увійшов.
 [%s has left.]
 %s вийшов.
-[Message Log Background]
-Фон повідомлень журналу
-[RTL CSS file]
-RTL CSS файл
-[RTL templates]
-RTL шаблони
-[Template Library]
-Бібліотека шаблонів
 [The topic is %s.]
 Тема %s
-[Use external CSS file]
-Використовувати зовнішній CSS файл
-[Use template-based HTML builder]
-Використовувати компонування по HTML шаблону
-[HTML Log Options]
-Налаштування журналу HTML
-[RTL template file]
-RTL шаблон
+[Error]
+Помилка
+[General]
+Загальне
+[Message Log]
+Журнал
+[Group chats]
+Чати
+[History]
+Історія
+[Default]
+За замовчуванням
+[Message Sessions]
+Бесіди
+[IEView]
+Журнал IEView
+[Skins]
+Скіни
+[Template]
+Шаблон
+[All Files]
+Усі файли
 [All Images]
-Всі зображення
+Усі зображення
 [Style Sheet]
 Таблиця стилів
-[Embed YouTube videos]
-Вставити відео з YouTube
+[Today]
+Сьогодні
+[Yesterday]
+Вчора
+[File sent]
+Надіслано файл
+[File received]
+Отримано файл

@@ -565,7 +565,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Фільтр
 [&Room settings]
 &Налаштування кімнати
-[&Show/Hide nicklist]
+[&Show/Hide nick list]
 &Показати/сховати список
 [Show these events only:]
 Показувати лише:
@@ -615,7 +615,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Інше
 [Add new rooms to group:]
 Додавати кімнати до групи:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 Відстань між рядками (пікселі):
 [Use same style as in the message log]
 Використ. стиль журналу повідомлень
@@ -1273,13 +1273,15 @@ Cповіщати про друк, коли вікно повідомлень з
 Відкрити вікно чату
 [Chat module]
 Чати
+[Group chat log background]
+Фон журналу чатів
 [Message background]
 Фон повідомлення
-[User list background]
+[Nick list background]
 Фон списку користувачів
-[User list lines]
+[Nick list lines]
 Лінії списку користувачів
-[User list background (selected)]
+[Nick list background (selected)]
 Фон списку користувачів (вибране)
 [Use a tabbed interface]
 Ввімкнути вкладки
@@ -1455,9 +1457,9 @@ Cповіщати про друк, коли вікно повідомлень з
 Ввімкнути фільтр
 [Event filter enabled]
 Вимкнути фільтр
-[Hide userlist]
+[Hide nick list]
 Сховати список користувачів
-[Show userlist]
+[Show nick list]
 Показати список користувачів
 [Icon overlay]
 Значок зверху
@@ -1551,7 +1553,7 @@ Cповіщати про друк, коли вікно повідомлень з
 Вибрати колір тексту (Ctrl+K)
 [Show the history (CTRL+H)]
 Показати історію (Ctrl+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Показати/сховати список користувачів (Ctrl+N)
 [Control this room (CTRL+O)]
 Налаштування кімнати (Ctrl+O)
@@ -1899,9 +1901,9 @@ URL від %s
 Дії
 [Highlighted message]
 Підсвічені повідомлення
-[User list members (online)]
+[Nick list members (online)]
 Користувачі (онлайн)
-[User list members (away)]
+[Nick list members (away)]
 Користувачі (відсутні)
 [Message typing area]
 Поле вводу повідомлення
