@@ -50,10 +50,10 @@ static INT_PTR DestroyWindowList(WPARAM wParam, LPARAM)
 
 static INT_PTR AddToWindowList(WPARAM, LPARAM lParam)
 {
-	if (lParam == 0) return 1;
 	WINDOWLISTENTRY *pEntry = (WINDOWLISTENTRY*)lParam;
 	TWindowList *pList = (TWindowList*)pEntry->hList;
-	pList->insert(new TWindowListItem(pEntry->hContact, pEntry->hwnd));
+	if (pList != NULL)
+		pList->insert(new TWindowListItem(pEntry->hContact, pEntry->hwnd));
 	return 0;
 }
 
