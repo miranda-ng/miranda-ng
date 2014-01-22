@@ -312,35 +312,39 @@ LBL_Def:
 	case INTM_ICONCHANGED:
 		{
 			int recalcScrollBar = 0;
+			HANDLE hContact = (HANDLE)wParam;
 			WORD status = ID_STATUS_OFFLINE;
 			int  contactRemoved = 0;
 			HANDLE hSelItem = NULL;
 			ClcContact *selcontact = NULL;
 
-			char *szProto = GetContactProto((HANDLE)wParam);
+			char *szProto = GetContactProto(hContact);
 			if (szProto == NULL)
 				status = ID_STATUS_OFFLINE;
 			else
-				status = cfg::getWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
+				status = cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
-			int shouldShow = (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus((HANDLE)wParam, szProto, dat)) && ((cfg::dat.bFilterEffective ? TRUE : !pcli->pfnIsHiddenMode(dat, status)) || CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam);// XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
+			int shouldShow = (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || 
+				!CLVM_GetContactHiddenStatus(hContact, szProto, dat)) && ((cfg::dat.bFilterEffective ? TRUE : !pcli->pfnIsHiddenMode(dat, status)) || 
+				pcli->pfnGetContactIcon(hContact) != lParam); // XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
 
-			if ( !FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {
+			if (!FindItem(hwnd, dat, hContact, &contact, &group, NULL)) {
 				if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 					if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 						hSelItem = pcli->pfnContactToHItem(selcontact);
-					pcli->pfnAddContactToTree(hwnd, dat, (HANDLE)wParam, 0, 0);
+					pcli->pfnAddContactToTree(hwnd, dat, hContact, 0, 0);
 					recalcScrollBar = 1;
-					FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL);
+					FindItem(hwnd, dat, hContact, &contact, NULL, NULL);
 					if (contact) {
-						contact->iImage = (WORD) lParam;
-						pcli->pfnNotifyNewContact(hwnd, (HANDLE)wParam);
+						contact->iImage = (WORD)lParam;
+						pcli->pfnNotifyNewContact(hwnd, hContact);
 					}
 				}
-			} else {
+			}
+			else {
 				//item in list already
 				DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-				if (contact->iImage == (WORD) lParam)
+				if (contact->iImage == (WORD)lParam)
 					break;
 				if ( !shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed
 					if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
@@ -348,8 +352,9 @@ LBL_Def:
 					pcli->pfnRemoveItemFromGroup(hwnd, group, contact, 0);
 					contactRemoved = TRUE;
 					recalcScrollBar = 1;
-				} else {
-					contact->iImage = (WORD) lParam;
+				}
+				else {
+					contact->iImage = (WORD)lParam;
 					if ( !pcli->pfnIsHiddenMode(dat, status))
 						contact->flags |= CONTACTF_ONLINE;
 					else
@@ -378,7 +383,7 @@ LBL_Def:
 		if (contact->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 			contact->hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) contact->hContact, 0);
 			contact->metaProto = GetContactProto(contact->hSubContact);
-			contact->iImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) contact->hSubContact, 0);
+			contact->iImage = pcli->pfnGetContactIcon(contact->hSubContact);
 			if (contact->pExtra) {
 				TExtraCache *pSub = cfg::getCache(contact->hSubContact, contact->metaProto);
 				ClcContact *subContact;
@@ -552,25 +557,36 @@ LBL_Def:
 		{
 			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 			char *szProto = (char *)cws->szModule;
+			HANDLE hContact = (HANDLE)wParam;
 			TExtraCache *p;
 
-			if ( !FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
-				p = cfg::getCache((HANDLE)wParam, szProto);
-				if ( !dat->bisEmbedded && cfg::dat.bMetaAvail && szProto) {				// may be a subcontact, forward the xstatus
-					if (cfg::getByte((HANDLE)wParam, cfg::dat.szMetaName, "IsSubcontact", 0)) {
-						HANDLE hMasterContact = (HANDLE)cfg::getDword((HANDLE)wParam, cfg::dat.szMetaName, "Handle", 0);
-						if (hMasterContact && hMasterContact != (HANDLE)wParam)				// avoid recursive call of settings handler
+			if (!FindItem(hwnd, dat, hContact, &contact, NULL, NULL)) {
+				p = cfg::getCache(hContact, szProto);
+				if (!dat->bisEmbedded && cfg::dat.bMetaAvail && szProto) {				// may be a subcontact, forward the xstatus
+					if (cfg::getByte(hContact, cfg::dat.szMetaName, "IsSubcontact", 0)) {
+						HANDLE hMasterContact = (HANDLE)cfg::getDword(hContact, cfg::dat.szMetaName, "Handle", 0);
+						if (hMasterContact && hMasterContact != hContact)				// avoid recursive call of settings handler
 							cfg::writeByte(hMasterContact, cfg::dat.szMetaName, "XStatusId",
-							(BYTE)cfg::getByte((HANDLE)wParam, szProto, "XStatusId", 0));
+							(BYTE)cfg::getByte(hContact, szProto, "XStatusId", 0));
 						break;
 					}
 				}
-			} else {
-				contact->xStatus = cfg::getByte((HANDLE)wParam, szProto, "XStatusId", 0);
+			}
+			else {
+				contact->xStatus = cfg::getByte(hContact, szProto, "XStatusId", 0);
 				p = contact->pExtra;
 			}
+
 			if (szProto == NULL)
 				break;
+
+			if (contact) {
+				if (ProtoServiceExists(szProto, PS_GETADVANCEDSTATUSICON)) {
+					int iconId = ProtoCallService(szProto, PS_GETADVANCEDSTATUSICON, (WPARAM)hContact, 0);
+					if (iconId != -1)
+						contact->xStatusIcon = iconId >> 16;
+				}
+			}
 
 			GetCachedStatusMsg(p, szProto);
 			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contact ? contact->hContact : 0));

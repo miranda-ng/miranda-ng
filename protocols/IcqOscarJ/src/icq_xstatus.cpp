@@ -1106,7 +1106,6 @@ INT_PTR CIcqProto::RequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	BYTE bXStatus = getContactXStatus((HANDLE)wParam);
-
 	if (bXStatus) {
 		if (!bXStatusCListIconsValid[bXStatus-1]) { // adding icon
 			int idx = hXStatusCListIcons[bXStatus-1]; 

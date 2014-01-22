@@ -38,7 +38,7 @@ ClcContact* CreateClcContact( void )
 	ClcContact* p = (ClcContact*)mir_alloc( sizeof( ClcContact ));
 	if ( p != NULL ) {
 		ZeroMemory(p, sizeof(ClcContact));
-		p->avatarLeft = p->extraIconRightBegin = -1;
+		p->avatarLeft = p->extraIconRightBegin = p->xStatusIcon = -1;
 	}
 	return p;
 }
@@ -107,10 +107,10 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 	if (p->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 		p->hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
 		p->metaProto = GetContactProto(p->hSubContact);
-		p->iImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) p->hSubContact, 0);
+		p->iImage = pcli->pfnGetContactIcon(p->hSubContact);
 	}
 	else {
-		p->iImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) hContact, 0);
+		p->iImage = pcli->pfnGetContactIcon(hContact);
 		p->metaProto = NULL;
 	}
 

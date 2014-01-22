@@ -118,18 +118,20 @@ struct TExtraCache
 
 struct ClcContact : public ClcContactBase
 {
-	BOOL bIsMeta;
+	BOOL   bIsMeta;
+	BYTE   xStatus;
+	int    xStatusIcon;
 	HANDLE hSubContact;
-	BYTE xStatus;
-	char *metaProto;
-	DWORD codePage;
+	char  *metaProto;
+	DWORD  codePage;
+	WORD   wStatus;
+	int    avatarLeft, extraIconRightBegin;
+	int    isRtl;
+	DWORD  cFlags;
+	BYTE   bSecondLine;
+
 	avatarCacheEntry *ace;
-	WORD wStatus;
 	TExtraCache* pExtra;
-	int avatarLeft, extraIconRightBegin;
-	int isRtl;
-	DWORD cFlags;
-	BYTE  bSecondLine;
 };
 
 #define DRAGSTAGE_NOTMOVED  0
