@@ -58,7 +58,7 @@ void AddSubcontacts(struct ClcContact * cont)
 			cacheEntry->status != ID_STATUS_OFFLINE )
 		{
 			cont->subcontacts[i].hContact = cacheEntry->hContact;
-			cont->subcontacts[i].iImage = CallService(MS_CLIST_GETCONTACTICON,(WPARAM)cacheEntry->hContact,0);
+			cont->subcontacts[i].iImage = pcli->pfnGetContactIcon(cacheEntry->hContact);
 			memset(cont->subcontacts[i].iExtraImage, 0xFF, sizeof(cont->subcontacts[i].iExtraImage));
 			cont->subcontacts[i].proto = cacheEntry->szProto;
 			lstrcpyn(cont->subcontacts[i].szText,cacheEntry->tszName,SIZEOF(cont->subcontacts[i].szText));
@@ -110,7 +110,7 @@ int AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText)
 	return i;
 }
 
-static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group,ClcCacheEntry *cacheEntry)
+static struct ClcContact* AddContactToGroup(struct ClcData *dat,ClcGroup *group,ClcCacheEntry *cacheEntry)
 {
 	char *szProto;
 	WORD apparentMode;
@@ -135,11 +135,11 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group
 	group->cl.items[i]->isSubcontact = 0;
 	group->cl.items[i]->subcontacts = NULL;
 
-	if ( ProtoServiceExists(cacheEntry->szProto, PS_GETADVANCEDSTATUSICON))
+	if (ProtoServiceExists(cacheEntry->szProto, PS_GETADVANCEDSTATUSICON))
 		img = ProtoCallService(cacheEntry->szProto, PS_GETADVANCEDSTATUSICON, (WPARAM)hContact, 0);
 
 	if (img == -1 || !(LOWORD(img)))
-		img = CallService(MS_CLIST_GETCONTACTICON,(WPARAM)hContact,0);
+		img = pcli->pfnGetContactIcon(hContact);
 
 	group->cl.items[i]->iImage = img;
 
@@ -150,7 +150,7 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group
 	//SetClcContactCacheItem(dat,hContact,&(group->cl.items[i]));
 
 	szProto = cacheEntry->szProto;
-	if (szProto != NULL&&!pcli->pfnIsHiddenMode(dat,cacheEntry->status))
+	if (szProto != NULL && !pcli->pfnIsHiddenMode(dat,cacheEntry->status))
 		group->cl.items[i]->flags |= CONTACTF_ONLINE;
 	apparentMode = szProto != NULL?cacheEntry->ApparentMode:0;
 	if (apparentMode == ID_STATUS_OFFLINE)	group->cl.items[i]->flags |= CONTACTF_INVISTO;

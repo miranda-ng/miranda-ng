@@ -63,11 +63,11 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 			}
 		}
 
-		if ( ProtoServiceExists(szActProto, PS_GETADVANCEDSTATUSICON))
+		if (ProtoServiceExists(szActProto, PS_GETADVANCEDSTATUSICON))
 			result = ProtoCallService(szActProto, PS_GETADVANCEDSTATUSICON, (WPARAM)hActContact, 0);
 
+		// result == -1 means no Advanced icon. LOWORD(result) == 0 happens when Advanced icon returned by ICQ (i.e. no transpot)
 		if (result == -1 || !(LOWORD(result)))
-			// result == -1 means no Advanced icon. LOWORD(result) == 0 happens when Advanced icon returned by ICQ (i.e. no transpot)
 			result = saveIconFromStatusMode(szActProto,nActStatus,NULL);
 	}
 	else result = saveIconFromStatusMode(szProto,nStatus,NULL);

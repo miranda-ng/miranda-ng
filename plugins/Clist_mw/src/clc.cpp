@@ -156,7 +156,9 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		else
 			status = cacheEntry->status;
 
-		shouldShow = (GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_SHOWHIDDEN || !cacheEntry->bIsHidden) && (!pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline || CallService(MS_CLIST_GETCONTACTICON,wParam,0) != LOWORD(lParam));	//this means an offline msg is flashing, so the contact should be shown
+		// this means an offline msg is flashing, so the contact should be shown
+		shouldShow = (GetWindowLongPtr(hwnd,GWL_STYLE) & CLS_SHOWHIDDEN || !cacheEntry->bIsHidden) &&
+			(!pcli->pfnIsHiddenMode(dat,status) || cacheEntry->noHiddenOffline || pcli->pfnGetContactIcon((HANDLE)wParam) != LOWORD(lParam));
 
 		ClcContact *contact;
 		ClcGroup *group;
