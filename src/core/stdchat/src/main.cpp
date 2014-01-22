@@ -280,18 +280,6 @@ static void OnLoadSettings()
 	g_Settings.TabRestore = db_get_b(NULL, CHAT_MODULE, "TabRestore", 0) != 0;
 	g_Settings.TabsAtBottom = db_get_b(NULL, CHAT_MODULE, "TabBottom", 0) != 0;
 	g_Settings.TabCloseOnDblClick = db_get_b(NULL, CHAT_MODULE, "TabCloseOnDblClick", 0) != 0;
-
-	ZeroMemory(&g_TabSession, sizeof(SESSION_INFO));
-	g_TabSession.iType = GCW_TABROOM;
-	g_TabSession.iSplitterX = g_Settings.iSplitterX;
-	g_TabSession.iSplitterY = g_Settings.iSplitterY;
-	g_TabSession.iLogFilterFlags = (int)db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
-	g_TabSession.bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0);
-	g_TabSession.bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1);
-	g_TabSession.iFG = 4;
-	g_TabSession.bFGSet = TRUE;
-	g_TabSession.iBG = 2;
-	g_TabSession.bBGSet = TRUE;
 }
 
 static void RegisterFonts()
@@ -324,6 +312,21 @@ static void RegisterFonts()
 	_tcsncpy(colourid.name, LPGENT("Nick list background (selected)"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
 	ColourRegisterT(&colourid);
+}
+
+static void TabsInit()
+{
+	ZeroMemory(&g_TabSession, sizeof(SESSION_INFO));
+	g_TabSession.iType = GCW_TABROOM;
+	g_TabSession.iSplitterX = g_Settings.iSplitterX;
+	g_TabSession.iSplitterY = g_Settings.iSplitterY;
+	g_TabSession.iLogFilterFlags = (int)db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
+	g_TabSession.bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0);
+	g_TabSession.bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1);
+	g_TabSession.iFG = 4;
+	g_TabSession.bFGSet = TRUE;
+	g_TabSession.iBG = 2;
+	g_TabSession.bBGSet = TRUE;
 }
 
 extern "C" __declspec(dllexport) int Load(void)
@@ -369,6 +372,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
 	LoadIcons();
+	TabsInit();
 
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
