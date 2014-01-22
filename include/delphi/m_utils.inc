@@ -159,14 +159,14 @@ const
   }
   MS_UTILS_GETCOUNTRYLIST:PAnsiChar = 'Utils/GetCountryList';
 
-  // see WindowList_* functions below
+
+//******************************* Window lists *******************************
 
   {
     wParam : 0
     lParam : 0
     Affect : Allocate a window list
     Returns: A handle to the new window list
-    Version: v0.1.0.1+
   }
   MS_UTILS_ALLOCWINDOWLIST:PAnsiChar = 'Utils/AllocWindowList';
 
@@ -175,7 +175,6 @@ const
     lParam : Pointer to an initalised TWINDOWLISTENTRY structure
     Affect : Add a window to a given window list handle
     Returns: 0 on success, [non zero] on failure
-    Version: v0.1.0.1+
   }
   MS_UTILS_ADDTOWINDOWLIST:PAnsiChar = 'Utils/AddToWindowList';
 
@@ -184,7 +183,6 @@ const
     lParam : Window handle to remove
     Affect : Remove a window from the specified window list
     Returns: 0 on success, [non zero] on failure
-    Version: v0.1.0.1+
   }
   MS_UTILS_REMOVEFROMWINDOWLIST:PAnsiChar = 'Utils/RemoveFromWindowList';
 
@@ -193,26 +191,23 @@ const
     lParam : Handle to a HCONTACT to find in the window list
     Affect : Find a window handle given the hContact
     Returns: The found window handle or NULL(0) on failure
-    Version: v0.1.0.1+
   }
   MS_UTILS_FINDWINDOWINLIST:PAnsiChar = 'Utils/FindWindowInList';
 
   {
     wParam : Handle to window list
     lParam : Pointer to TMSG (initalised with what to broadcast)
-    Affect : Broadcast a message to all windows in a list, see notes
+    Affect : sends a message to all windows in a list using SendMessage
     Returns: 0 on success, [non zero] on failure
     Notes  : only TMSG.Message, .wParam, .lParam are used
-    Version: v0.1.0.1+
   }
   MS_UTILS_BROADCASTTOWINDOWLIST:PAnsiChar = 'Utils/BroadcastToWindowList';
 
   {
-  Version: 0.3.0.0+
   Inline helper: WindowList_BroadcastAsync
   wParam : Handle to window list
   lParam : Pointer to TMSG (initalised with what to broadcast)
-  Affect : Broadcast a message to all windows in the given list using PostMessage()
+  Affect : Sends a message to all windows in a list using PostMessage
   Returns: 0 on success, nonzero on failure, this service does not fail,
            even if PostMessage() fails for whatever reason
   }

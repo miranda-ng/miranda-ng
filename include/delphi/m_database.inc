@@ -341,9 +341,6 @@ const
              the database module uses wParam as the lParam cookie value and the lParam
              value given here is the function pointer -- this is not safe
              to use before v0.1.2.1 because I don't know if this was done in v0.1.2.1-
-
-             prior to v0.1.2.1 you can not pass a value to the enumeration because
-             of a bug -- which is fixed, but hey :) -- [sam]
   }
 type
   TDBMODULEENUMPROC = function(const szModule: PAnsiChar; ofsModuleName: DWORD; lParam: LPARAM): int; cdecl;
