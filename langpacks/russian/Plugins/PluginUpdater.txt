@@ -125,12 +125,12 @@
 Список загружается!
 [Will be deleted!]
 Удалено!
-[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
-Ошибка обновления! Архив одного из закачанных компонентов поврежден. Попробуйте повторить попытку позже.
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Обновление завершено. Нажмите "Да" для немедленной перезагрузки программы или "Нет", чтобы отложить обновление до выхода.
 [<< Details]
 << Детали
+[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
+Ошибка обновления! Архив одного из закачанных компонентов поврежден. Попробуйте повторить попытку позже.
 [No updates found.]
 Обновлений нет.
 [Update checking already started!]
