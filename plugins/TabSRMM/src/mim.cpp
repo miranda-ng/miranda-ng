@@ -220,7 +220,6 @@ INT_PTR CMimAPI::foldersPathChanged()
 	CreateDirectoryTreeT(m_szProfilePath);
 	CreateDirectoryTreeT(m_szSkinsPath);
 	CreateDirectoryTreeT(m_szSavedAvatarsPath);
-	CreateDirectoryTreeT(m_szChatLogsPath);
 
 	Skin->extractSkinsAndLogo(true);
 	Skin->setupAeroSkins();
