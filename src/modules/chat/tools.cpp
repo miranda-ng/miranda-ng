@@ -801,7 +801,10 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 		dat.hContact = si->hContact;
 		dat.variables = rva;
 		TCHAR *tszParsedName = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)ptszVarPath, (LPARAM)&dat);
-		PathToAbsoluteT(tszParsedName, si->pszLogFileName);
+		if (ci.OnGetLogName)
+			ci.OnGetLogName(si, tszParsedName);
+		else
+			PathToAbsoluteT(tszParsedName, si->pszLogFileName);
 		mir_free(tszParsedName);
 
 		for (int i = 0; i < SIZEOF(rva); i++)

@@ -419,6 +419,7 @@ struct CHAT_MANAGER
 	void (*ShowRoom)(SESSION_INFO*, WPARAM wp, BOOL bSetForeground);
 	void (*OnAddLog)(SESSION_INFO*, int);
 	void (*OnClearLog)(SESSION_INFO*);
+	void (*OnGetLogName)(SESSION_INFO*, const TCHAR*);
 	void (*OnEventBroadcast)(SESSION_INFO *si, GCEVENT *gce);
 	
 	void (*OnSetStatusBar)(SESSION_INFO*);

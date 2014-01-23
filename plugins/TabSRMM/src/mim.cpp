@@ -215,8 +215,8 @@ INT_PTR CMimAPI::foldersPathChanged()
 		FoldersGetCustomPathT(m_hChatLogsPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getChatLogPath()));
 		mir_sntprintf(m_szChatLogsPath, MAX_PATH, _T("%s"), szTemp);
 		Utils::ensureTralingBackslash(m_szChatLogsPath);
-		replaceStrT(g_Settings.pszLogDir, m_szChatLogsPath);
 	}
+
 	CreateDirectoryTreeT(m_szProfilePath);
 	CreateDirectoryTreeT(m_szSkinsPath);
 	CreateDirectoryTreeT(m_szSavedAvatarsPath);

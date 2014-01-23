@@ -47,6 +47,14 @@ static void OnAddLog(SESSION_INFO *si, int isOk)
 		SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
 }
 
+static void OnGetLogName(SESSION_INFO *si, LPCTSTR ptszParsedName)
+{
+	if (!M.pathIsAbsolute(ptszParsedName))
+		mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s%s"), M.getChatLogPath(), ptszParsedName);
+	else
+		mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s"), ptszParsedName);
+}
+
 static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
 {
 	Chat_SetFilters(si);
