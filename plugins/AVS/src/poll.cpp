@@ -48,7 +48,8 @@ extern HANDLE hShutdownEvent;
 extern int DeleteAvatar(HANDLE hContact);
 extern void MakePathRelative(HANDLE hContact, TCHAR *path);
 int Proto_GetDelayAfterFail(const char *proto);
-BOOL Proto_IsFetchingAlwaysAllowed(const char *proto);
+BOOL Proto_IsFetchingWhenProtoNotVisibleAllowed(const char *proto);
+BOOL Proto_IsFetchingWhenContactOfflineAllowed(const char *proto);
 
 #ifdef _DEBUG
 int _DebugTrace(const char *fmt, ...);
@@ -89,7 +90,7 @@ static BOOL PollProtocolCanHaveAvatar(const char *szProto)
 	int status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 	return (pCaps & PF4_AVATARS)
 		&& (g_szMetaName == NULL || strcmp(g_szMetaName, szProto))
-		&& ((status > ID_STATUS_OFFLINE && status != ID_STATUS_INVISIBLE) || Proto_IsFetchingAlwaysAllowed(szProto));
+		&& ((status > ID_STATUS_OFFLINE && status != ID_STATUS_INVISIBLE) || Proto_IsFetchingWhenProtoNotVisibleAllowed(szProto));
 }
 
 // Return true if this protocol has to be checked
@@ -102,7 +103,7 @@ static BOOL PollCheckProtocol(const char *szProto)
 static BOOL PollContactCanHaveAvatar(HANDLE hContact, const char *szProto)
 {
 	int status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-	return (Proto_IsFetchingAlwaysAllowed(szProto) || status != ID_STATUS_OFFLINE)
+	return (Proto_IsFetchingWhenContactOfflineAllowed(szProto) || status != ID_STATUS_OFFLINE)
 		&& !db_get_b(hContact, "CList", "NotOnList", 0) && db_get_b(hContact, "CList", "ApparentMode", 0) != ID_STATUS_OFFLINE;
 }
 

@@ -162,7 +162,8 @@ INT_PTR GGPROTO::getavatarcaps(WPARAM wParam, LPARAM lParam)
 		return 1;
 	case AF_MAXFILESIZE:
 		return 307200;
-	case AF_FETCHALWAYS:
+	case AF_FETCHIFPROTONOTVISIBLE:
+	case AF_FETCHIFCONTACTOFFLINE:
 		return 1;
 	}
 	return 0;

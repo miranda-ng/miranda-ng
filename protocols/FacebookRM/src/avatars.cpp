@@ -165,7 +165,8 @@ INT_PTR FacebookProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 	case AF_ENABLED:
 	case AF_DONTNEEDDELAYS:
-	case AF_FETCHALWAYS:
+	case AF_FETCHIFPROTONOTVISIBLE:
+	case AF_FETCHIFCONTACTOFFLINE:
 		res = 1;
 		break;
 	}

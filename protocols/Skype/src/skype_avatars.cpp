@@ -98,7 +98,8 @@ INT_PTR __cdecl CSkypeProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		// do not request avatar again if server gave an error
 		return 1;// * 60 * 60 * 1000; // one hour
 	
-	case AF_FETCHALWAYS:
+	case AF_FETCHIFPROTONOTVISIBLE:
+	case AF_FETCHIFCONTACTOFFLINE:
 		// avatars can be fetched all the time (server only operation)
 		return 1;
 	}

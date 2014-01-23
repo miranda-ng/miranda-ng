@@ -475,10 +475,18 @@ int Proto_GetDelayAfterFail(const char *proto)
 	return 0;
 }
 
-BOOL Proto_IsFetchingAlwaysAllowed(const char *proto)
+BOOL Proto_IsFetchingWhenProtoNotVisibleAllowed(const char *proto)
 {
 	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
-		return CallProtoService(proto, PS_GETAVATARCAPS, AF_FETCHALWAYS, 0);
+		return CallProtoService(proto, PS_GETAVATARCAPS, AF_FETCHIFPROTONOTVISIBLE, 0);
+
+	return FALSE;
+}
+
+BOOL Proto_IsFetchingWhenContactOfflineAllowed(const char *proto)
+{
+	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
+		return CallProtoService(proto, PS_GETAVATARCAPS, AF_FETCHIFCONTACTOFFLINE, 0);
 
 	return FALSE;
 }

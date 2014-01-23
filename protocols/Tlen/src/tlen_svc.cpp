@@ -688,7 +688,7 @@ INT_PTR TlenProtocol::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	if ((avatarHash == NULL || avatarHash[0] == '\0') && !downloadingAvatar)
 		return GAIR_NOAVATAR;
-	
+
 	if (avatarHash != NULL && !downloadingAvatar) {
 		TlenGetAvatarFileName(this, item, AI->filename, sizeof(AI->filename));
 		AI->format = ( AI->hContact == NULL ) ? threadData->avatarFormat : item->avatarFormat;
@@ -1156,8 +1156,8 @@ INT_PTR TlenProtocol::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		return 1;
 	case AF_MAXFILESIZE:
 		return 10 * 1024;
-	case AF_DELAYAFTERFAIL:
-		return 0;
+	case AF_FETCHIFCONTACTOFFLINE:
+		return 1;
 	}
 	return 0;
 }

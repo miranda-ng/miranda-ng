@@ -41,7 +41,7 @@
   have been disabled in the option dialog). It also does not actively fetch avatars for
   protocols which are in invisible status mode (may cause privacy issues and some protocols
   like MSN don't allow any outbound client communication when in invisible status mode)
-  unless AF_FETCHALWAYS is set.
+  unless AF_FETCHIFPROTONOTVISIBLE is set.
 
   - TODO
   - maintain recent avatars (store the last hashes to avoid re-fetching)
@@ -379,11 +379,16 @@ const
 // return = the time, in ms
   AF_DELAYAFTERFAIL = 7;
 
-// Fetching avatars is always possible and allowed
+// Fetching avatars is allowed when protocol's status is invisible
 // lParam = 0
-// return = 1 (always) or 0 (depending on our or contacts status mode)
-  AF_FETCHALWAYS = 8;
+// return = 1 (allowed) or 0 (depending on our protocol status mode)
+  AF_FETCHIFPROTONOTVISIBLE = 8;
 
+// Fetching avatars is allowed when contact is in offline status
+// lParam = 0
+// return = 1 (allowed) or 0 (depending on remote contact status mode)
+  AF_FETCHIFCONTACTOFFLINE = 9;
+ 
 {
   Query avatar caps for a protocol
   wParam = One of AF_*

@@ -43,7 +43,7 @@ protocols which do not report avatar capabilities via PF4_AVATARS or for protoco
 have been disabled in the option dialog). It also does not actively fetch avatars for
 protocols which are in invisible status mode (may cause privacy issues and some protocols
 like MSN don't allow any outbound client communication when in invisible status mode)
-unless AF_FETCHALWAYS is set.
+unless AF_FETCHIFPROTONOTVISIBLE is set.
 
 - TODO
 - maintain recent avatars (store the last hashes to avoid re-fetching)
@@ -218,7 +218,7 @@ typedef struct _contactAvatarChangedNotification {
 
 // fired when the contacts avatar is changed by the contact
 // wParam = hContact
-// lParam = struct CONTACTAVATARCHANGENOTIFICATION *cacn
+// lParam = struct CONTACTAVATARCHANGEDNOTIFICATION *cacn
 // the event CAN pass a NULL pointer in lParam which means that the contact deleted its avatar
 
 #define ME_AV_CONTACTAVATARCHANGED "SV_Avatars/ContactAvatarChanged"
@@ -350,10 +350,15 @@ return=0 for sucess
 // return = the time, in ms
 #define AF_DELAYAFTERFAIL 7
 
-// Fetching avatars is always possible and allowed
+// Fetching avatars is allowed when protocol's status is invisible
 // lParam = 0
-// return = 1 (always) or 0 (depending on our or contacts status mode)
-#define AF_FETCHALWAYS 8
+// return = 1 (allowed) or 0 (depending on our protocol status mode)
+#define AF_FETCHIFPROTONOTVISIBLE 8
+
+// Fetching avatars is allowed when contact is in offline status
+// lParam = 0
+// return = 1 (allowed) or 0 (depending on remote contact status mode)
+#define AF_FETCHIFCONTACTOFFLINE 9
 
 
 /*
