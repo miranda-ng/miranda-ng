@@ -35,7 +35,7 @@ BOOL GDIPlus_IsAnimatedGif (TCHAR * szName);
 
 /* Next is module */
 #define ANIAVAWINDOWCLASS _T("MirandaModernAniAvatar")
-#define aacheck if ( !s_bModuleStarted) return
+#define aacheck if (!s_bModuleStarted) return
 
 #define AAO_HAS_BORDER	  0x01
 #define AAO_ROUND_CORNERS 0x02
@@ -205,7 +205,7 @@ static void _AniAva_AnimationTreadProc(void*)
 // Init AniAva module
 int AniAva_InitModule()
 {
-	if ( !(db_get_b(NULL, "CList", "AvatarsAnimated", ServiceExists(MS_AV_GETAVATARBITMAP)) &&
+	if (!(db_get_b(NULL, "CList", "AvatarsAnimated", ServiceExists(MS_AV_GETAVATARBITMAP)) &&
 		    db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT)))
 		 return 0;
 
@@ -264,7 +264,7 @@ int AniAva_UpdateOptions()
 		AniAva_InitModule();
 		bReloadAvatars = TRUE;
 	}
-	else if ( !bBeEnabled && s_bModuleStarted) {
+	else if (!bBeEnabled && s_bModuleStarted) {
 		AniAva_UnloadModule();
 		bReloadAvatars = TRUE;
 	}
@@ -287,7 +287,7 @@ int AniAva_UpdateOptions()
 int AniAva_AddAvatar(HANDLE hContact, TCHAR * szFilename, int width, int heigth)
 {
 	aacheck 0;
-	if ( !GDIPlus_IsAnimatedGif (szFilename))
+	if (!GDIPlus_IsAnimatedGif (szFilename))
 		return 0;
 
 	mir_cslock lck(s_CS);
@@ -375,7 +375,7 @@ int AniAva_SetAvatarPos(HANDLE hContact, RECT *rc, int overlayIdx, BYTE bAlpha)
 	ANIAVA_OBJECT *pai = FindAvatarByContact( hContact );
 	if (pai) {
 		ANIAVA_POSINFO * api = (ANIAVA_POSINFO *)malloc(sizeof(ANIAVA_POSINFO));
-		if ( !pai->hWindow) {
+		if (!pai->hWindow) {
 			HWND hwnd;
 			HWND parent;
 			ANIAVATARIMAGEINFO avii = {0};
@@ -721,7 +721,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 			hBmp = ske_CreateDIB32( szWnd.cx, szWnd.cy );
 			hOldBmp = (HBITMAP)SelectObject(tempDC,hBmp);
 			if (s_bFlags & AAO_ROUND_CORNERS)
-				if ( !cornerRadius)  //auto radius
+				if (!cornerRadius)  //auto radius
 					cornerRadius = min(szWnd.cx, szWnd.cy )/5;
 
 			if (s_bFlags & AAO_HAS_BORDER) {
@@ -755,7 +755,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 				ske_SetRgnOpaque( tempDC, hRgn, TRUE );
 			}
 			// draw avatar
-			if ( !(s_bFlags & AAO_OPAQUE))
+			if (!(s_bFlags & AAO_OPAQUE))
 				BitBlt(tempDC, 0, 0, szWnd.cx, szWnd.cy , s_hAniAvaDC , dat->ptFromPoint.x+dat->sizeAvatar.cx*dat->currentFrame, dat->ptFromPoint.y, SRCCOPY);
 			else {
 				BLENDFUNCTION abf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
@@ -802,12 +802,12 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 					ske_AlphaBlend( hdcParent, rcInParent->left, rcInParent->top, szWnd.cx, szWnd.cy, copyFromDC, pt_from.x, pt_from.y, szWnd.cx, szWnd.cy, abf);
 				}
 			}
-			else if ( !UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0, 0, 0), &bf, ULW_ALPHA )) {
+			else if (!UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0, 0, 0), &bf, ULW_ALPHA )) {
 				LONG exStyle;
 				exStyle = GetWindowLongPtr(dat->hWindow,GWL_EXSTYLE);
 				exStyle |= WS_EX_LAYERED;
 				SetWindowLongPtr(dat->hWindow,GWL_EXSTYLE,exStyle);
-				if ( !IMMEDIATE_DRAW )
+				if (!IMMEDIATE_DRAW )
 					SetWindowPos( pcli->hwndContactTree, dat->hWindow, 0, 0, 0, 0, SWP_ASYNCWINDOWPOS | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOSENDCHANGING );
 				UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0, 0, 0), &bf, ULW_ALPHA );
 			}
@@ -824,7 +824,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 			DeleteDC(tempDC);
 		}
 	}
-	if ( !dat->bPlaying) {
+	if (!dat->bPlaying) {
 		ShowWindow(dat->hWindow, SW_HIDE);
 		KillTimer(dat->hWindow,2);  //stop animation till set pos will be called
 	}
@@ -911,7 +911,7 @@ static int	_AniAva_SortAvatarInfo(const ANIAVA_INFO *aai1, const ANIAVA_INFO *aa
 
 void _AniAva_InvalidateParent(ANIAVA_WINDOWINFO * dat)
 {
-	if ( !IMMEDIATE_DRAW ) return;
+	if (!IMMEDIATE_DRAW ) return;
 	HWND hwndParent = pcli->hwndContactTree;
 	RECT rcPos = dat->rcPos;
 	pcli->pfnInvalidateRect( hwndParent, &rcPos, FALSE );
@@ -937,7 +937,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		dat->bPaused--;
 		if (dat->bPaused) return 0;
 		if (dat->bPended)
-			if ( !IMMEDIATE_DRAW )
+			if (!IMMEDIATE_DRAW )
 				_AniAva_RenderAvatar(dat);
 		dat->bPended = FALSE;
 		return 0;
@@ -966,20 +966,20 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case AAM_SETPOSITION:
 		{
 			ANIAVA_POSINFO * papi = (ANIAVA_POSINFO *)lParam;
-			if ( !dat->delaysInterval) return 0;
-			if ( !papi) return 0;
+			if (!dat->delaysInterval) return 0;
+			if (!papi) return 0;
 			dat->rcPos = papi->rcPos;
 			dat->overlayIconIdx = papi->idxOverlay;
 			dat->bAlpha = papi->bAlpha;
 			free(papi);
-			if ( !dat->bPlaying) {
+			if (!dat->bPlaying) {
 				dat->bPlaying = TRUE;
 				ShowWindow(hwnd,SW_SHOWNA);
 				dat->currentFrame = 0;
 				KillTimer(hwnd,2);
 				SetTimer(hwnd,2,dat->delaysInterval[0],NULL);
 			}
-			if ( !IMMEDIATE_DRAW )
+			if (!IMMEDIATE_DRAW )
 				_AniAva_RenderAvatar(dat);
 		}
 		return 0;
@@ -993,7 +993,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		else {
 			LONG exStyle = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
 			SetWindowPos(pcli->hwndContactList,hwnd, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);
-			if ( !(exStyle & WS_EX_TOPMOST))
+			if (!(exStyle & WS_EX_TOPMOST))
 				SetWindowPos(pcli->hwndContactList,HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);
 		}
 		return 0;
@@ -1008,7 +1008,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			else {
 				LONG exStyle = GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE);
 				SetWindowPos(pcli->hwndContactList,hwnd, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);
-				if ( !(exStyle&WS_EX_TOPMOST))
+				if (!(exStyle&WS_EX_TOPMOST))
 					SetWindowPos(pcli->hwndContactList,HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);
 			}
 		}
@@ -1040,7 +1040,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_TIMER:
-		if ( !IsWindowVisible(hwnd)) {
+		if (!IsWindowVisible(hwnd)) {
 			DestroyWindow(hwnd);
 			return 0;
 		}
@@ -1048,7 +1048,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		if (dat->currentFrame >= dat->nFramesCount)
 			dat->currentFrame = 0;
 
-		if ( !IMMEDIATE_DRAW)
+		if (!IMMEDIATE_DRAW)
 			_AniAva_RenderAvatar(dat);
 		else
 			_AniAva_InvalidateParent(dat);

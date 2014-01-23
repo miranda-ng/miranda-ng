@@ -56,7 +56,7 @@ static HANDLE hgtaWakeupEvent = NULL;
 static BOOL gtaGetItem(GTACHAINITEM * mpChain)
 {
 	gtalock;
-	if ( !gtaFirstItem)
+	if (!gtaFirstItem)
 	{
 		gtaunlock;
 		return FALSE;
@@ -67,7 +67,7 @@ static BOOL gtaGetItem(GTACHAINITEM * mpChain)
 		ch = gtaFirstItem;
 		*mpChain = *ch;
 		gtaFirstItem = (GTACHAINITEM *)ch->Next;
-		if ( !gtaFirstItem) gtaLastItem = NULL;
+		if (!gtaFirstItem) gtaLastItem = NULL;
 		free(ch);
 		gtaunlock;
 		return TRUE;
@@ -92,7 +92,7 @@ static void gtaThreadProc(void *lpParam)
 
 			GTACHAINITEM mpChain = {0};
 			struct SHORTDATA dat2 = {0};
-			if ( !gtaGetItem(&mpChain))
+			if (!gtaGetItem(&mpChain))
 				break;
 
 			SHORTDATA *dat;
@@ -108,7 +108,7 @@ static void gtaThreadProc(void *lpParam)
 			ClcCacheEntry cacheEntry;
 			memset(&cacheEntry, 0, sizeof(cacheEntry));
 			cacheEntry.hContact = mpChain.hContact;
-			if ( !Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&cacheEntry)) {
+			if (!Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&cacheEntry)) {
 				Cache_GetSecondLineText(dat, &cacheEntry);
 				Cache_GetThirdLineText(dat, &cacheEntry);
 				Sync(CLUI_SyncSetPDNCE, (WPARAM) CCI_LINES,(LPARAM)&cacheEntry);

@@ -52,7 +52,7 @@ NodeList * RootNode = NULL;
 NodeList * AddNode(NodeList * Parent)
 {
 	NodeList * res;
-	if ( !Parent)
+	if (!Parent)
 	{
 		res = (NodeList *)mir_alloc(sizeof(NodeList));
 		memset(res, 0, sizeof(NodeList));
@@ -68,7 +68,7 @@ NodeList * AddNode(NodeList * Parent)
 
 BOOL RemoveChildNode(NodeList * FromList, DWORD index)
 {
-	if ( !FromList) return FALSE;
+	if (!FromList) return FALSE;
 	if (FromList->AllocatedChilds <= index) return FALSE;
 	NodeList *work = &(FromList->childNodes[index]);
 	for (size_t i=0; i < work->AllocatedChilds; i++)
@@ -86,7 +86,7 @@ BOOL RemoveChildNode(NodeList * FromList, DWORD index)
 
 BOOL RemoveNode(NodeList * FromList)
 {
-	if ( !FromList)  return FALSE;
+	if (!FromList)  return FALSE;
 	if (FromList->itemParent)
 	{
 		DWORD k;
@@ -117,7 +117,7 @@ void PrintIdent()
 void TraceTreeLevel(NodeList * node)
 {
 	DWORD i;
-	if ( !node) return;
+	if (!node) return;
 	PrintIdent();
 	{
 		char buf[255];

@@ -5,7 +5,7 @@ BYTE gl_TrimText = 1;
 char * __cdecl strstri( char *a, const char *b)
 {
     char * x, *y;
-    if ( !a || !b) return FALSE;
+    if (!a || !b) return FALSE;
     x = _strdup(a);
     y = _strdup(b);
     x = _strupr(x);
@@ -56,7 +56,7 @@ BOOL __cdecl mir_bool_tstrcmpi(const TCHAR *a, const TCHAR *b)
 
 int __cdecl mir_strcmp (const char *a, const char *b)
 {
-	if ( !(a && b)) return a != b;
+	if (!(a && b)) return a != b;
 	return (strcmp(a,b));
 };
 
@@ -75,7 +75,7 @@ char * strdupn(const char * src, int len)
     char * p;
     if (src == NULL) return NULL;
     p = (char*)malloc(len+1);
-    if ( !p) return 0;
+    if (!p) return 0;
     memcpy(p,src,len);
     p[len] = '\0';
     return p;
@@ -102,7 +102,7 @@ void TRACE_ERROR()
 {
 	DWORD t = GetLastError();
 	LPVOID lpMsgBuf;
-	if ( !FormatMessage(
+	if (!FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
 		FORMAT_MESSAGE_FROM_SYSTEM |
 		FORMAT_MESSAGE_IGNORE_INSERTS,
@@ -126,7 +126,7 @@ void TRACE_ERROR()
 BOOL DebugDeleteObject(HGDIOBJ a)
 {
 	BOOL res = DeleteObject(a);
-	if ( !res) TRACE_ERROR();
+	if (!res) TRACE_ERROR();
 	return res;
 }
 

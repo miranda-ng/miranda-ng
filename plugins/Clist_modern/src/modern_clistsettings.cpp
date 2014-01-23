@@ -88,11 +88,11 @@ void FreeDisplayNameCache()
 
 ClcCacheEntry* cliGetCacheEntry(HANDLE hContact)
 {
-	if ( !clistCache) return NULL;
+	if (!clistCache) return NULL;
 
 	int idx;
 	ClcCacheEntry *p;
-	if ( !List_GetIndex( clistCache, &hContact, &idx )) {
+	if (!List_GetIndex( clistCache, &hContact, &idx )) {
 		if (( p = pcli->pfnCreateCacheItem( hContact )) != NULL ) {
 			List_Insert( clistCache, p, idx );
 			pcli->pfnInvalidateDisplayNameCacheEntry( hContact );
@@ -110,7 +110,7 @@ void CListSettings_FreeCacheItemData(ClcCacheEntry *pDst)
 
 void CListSettings_FreeCacheItemDataOption( ClcCacheEntry *pDst, DWORD flag )
 {
-	if ( !pDst)
+	if (!pDst)
 		return;
 
 	if ( flag & CCI_NAME)
@@ -133,7 +133,7 @@ int CListSettings_SetToCache(ClcCacheEntry *pSrc, DWORD flag);
 
 void CListSettings_CopyCacheItems(ClcCacheEntry *pDst, ClcCacheEntry *pSrc, DWORD flag)
 {
-	if ( !pDst || !pSrc) return;
+	if (!pDst || !pSrc) return;
 	CListSettings_FreeCacheItemDataOption(pDst, flag);
 
 	if ( flag & CCI_NAME ) {
@@ -179,11 +179,11 @@ void CListSettings_CopyCacheItems(ClcCacheEntry *pDst, ClcCacheEntry *pSrc, DWOR
 
 int CListSettings_GetCopyFromCache(ClcCacheEntry *pDest, DWORD flag)
 {
-	if ( !pDest || !pDest->hContact)
+	if (!pDest || !pDest->hContact)
 		return -1;
 
 	ClcCacheEntry *pSource = pcli->pfnGetCacheEntry(pDest->hContact);
-	if ( !pSource)
+	if (!pSource)
 		return -1;
 
 	CListSettings_CopyCacheItems(pDest, pSource, flag);
@@ -192,11 +192,11 @@ int CListSettings_GetCopyFromCache(ClcCacheEntry *pDest, DWORD flag)
 
 int CListSettings_SetToCache(ClcCacheEntry *pSrc, DWORD flag)
 {
-	if ( !pSrc || !pSrc->hContact)
+	if (!pSrc || !pSrc->hContact)
 		return -1;
 
 	ClcCacheEntry *pDst = pcli->pfnGetCacheEntry(pSrc->hContact);
-	if ( !pDst)
+	if (!pDst)
 		return -1;
 
 	CListSettings_CopyCacheItems(pDst, pSrc, flag);
@@ -221,7 +221,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 		return;
 
 	if (pdnce->hContact == NULL) { //selfcontact
-		if ( !pdnce->tszName)
+		if (!pdnce->tszName)
 			pdnce->getName();
 		return;
 	}
@@ -249,7 +249,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 
 	if (pdnce->tszGroup == NULL) {
 		DBVARIANT dbv = {0};
-		if ( !db_get_ts(pdnce->hContact,"CList","Group",&dbv)) {
+		if (!db_get_ts(pdnce->hContact,"CList","Group",&dbv)) {
 			pdnce->tszGroup = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -366,7 +366,7 @@ int GetStatusForContact(HANDLE hContact,char *szProto)
 
 void ClcCacheEntry::freeName()
 {
-	if ( !isUnknown)
+	if (!isUnknown)
 		mir_free(tszName);
 	else
 		isUnknown = false;
@@ -385,7 +385,7 @@ LBL_Unknown:
 	}
 
 	tszName = pcli->pfnGetContactDisplayName(hContact, GCDNF_NOCACHE);
-	if ( !lstrcmp(tszName, UnknownConctactTranslatedName)) {
+	if (!lstrcmp(tszName, UnknownConctactTranslatedName)) {
 		mir_free(tszName);
 		goto LBL_Unknown;
 	}
@@ -416,7 +416,7 @@ int GetContactCachedStatus(HANDLE hContact)
 
 int ContactAdded(WPARAM wParam,LPARAM lParam)
 {
-	if ( !MirandaExiting()) {
+	if (!MirandaExiting()) {
 		HANDLE hContact = (HANDLE)wParam;
 		cli_ChangeContactIcon(hContact,pcli->pfnIconFromStatusMode((char*)GetContactCachedProtocol(hContact),ID_STATUS_OFFLINE,hContact),1); ///by FYR
 		pcli->pfnSortContacts();
@@ -440,13 +440,13 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if ( !strcmp(cws->szModule, pdnce->m_cache_cszProto)) {
+	if (!strcmp(cws->szModule, pdnce->m_cache_cszProto)) {
 		InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 
-		if ( !strcmp(cws->szSetting,"IsSubcontact"))
+		if (!strcmp(cws->szSetting,"IsSubcontact"))
 			PostMessage(pcli->hwndContactTree,CLM_AUTOREBUILD, 0, 0);
 
-		if ( !mir_strcmp(cws->szSetting, "Status") || wildcmp(cws->szSetting, "Status?")) {
+		if (!mir_strcmp(cws->szSetting, "Status") || wildcmp(cws->szSetting, "Status?")) {
 			if (g_szMetaModuleName && !mir_strcmp(cws->szModule,g_szMetaModuleName) && mir_strcmp(cws->szSetting, "Status")) {
 				int res = 0;
 				if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
@@ -472,7 +472,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 				pcli->pfnSortContacts();
 			}
 			else {
-				if ( !(!mir_strcmp(cws->szSetting, "LogonTS") || !mir_strcmp(cws->szSetting, "TickTS") || !mir_strcmp(cws->szSetting, "InfoTS")))
+				if (!(!mir_strcmp(cws->szSetting, "LogonTS") || !mir_strcmp(cws->szSetting, "TickTS") || !mir_strcmp(cws->szSetting, "InfoTS")))
 					pcli->pfnSortContacts();
 
 				return 0;
@@ -480,18 +480,18 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 		}
 	}
 
-	if ( !strcmp(cws->szModule,"CList")) {
+	if (!strcmp(cws->szModule,"CList")) {
 		//name is null or (setting is myhandle)
-		if ( !strcmp(cws->szSetting,"Rate"))
+		if (!strcmp(cws->szSetting,"Rate"))
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 
 		else if (pdnce->tszName == NULL || !strcmp(cws->szSetting,"MyHandle"))
 			InvalidateDNCEbyPointer(hContact,pdnce,cws->value.type);
 
-		else if ( !strcmp(cws->szSetting,"Group"))
+		else if (!strcmp(cws->szSetting,"Group"))
 			InvalidateDNCEbyPointer(hContact,pdnce,cws->value.type);
 
-		else if ( !strcmp(cws->szSetting,"Hidden")) {
+		else if (!strcmp(cws->szSetting,"Hidden")) {
 			InvalidateDNCEbyPointer(hContact,pdnce,cws->value.type);
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
 				char *szProto = GetContactProto((HANDLE)wParam);
@@ -500,13 +500,13 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 			}
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
-		else if ( !strcmp(cws->szSetting,"noOffline")) {
+		else if (!strcmp(cws->szSetting,"noOffline")) {
 			InvalidateDNCEbyPointer(hContact,pdnce,cws->value.type);
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 	}
-	else if ( !strcmp(cws->szModule,"Protocol")) {
-		if ( !strcmp(cws->szSetting,"p")) {
+	else if (!strcmp(cws->szModule,"Protocol")) {
+		if (!strcmp(cws->szSetting,"p")) {
 			InvalidateDNCEbyPointer(hContact,pdnce,cws->value.type);
 			char *szProto = (cws->value.type == DBVT_DELETED) ? NULL : cws->value.pszVal;
 			cli_ChangeContactIcon(hContact,pcli->pfnIconFromStatusMode(szProto,
@@ -519,7 +519,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 
 int PostAutoRebuidMessage(HWND hwnd)
 {
-	if ( !CLM_AUTOREBUILD_WAS_POSTED)
+	if (!CLM_AUTOREBUILD_WAS_POSTED)
 		CLM_AUTOREBUILD_WAS_POSTED = PostMessage(hwnd,CLM_AUTOREBUILD, 0, 0);
 	return CLM_AUTOREBUILD_WAS_POSTED;
 }

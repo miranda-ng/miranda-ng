@@ -100,7 +100,7 @@ static void amThreadProc(void *)
 			HANDLE ACK = 0;
 			if (dnce.ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
 				ACK = (HANDLE)CallContactService(hContact,PSS_GETAWAYMSG, 0, 0);
-			if ( !ACK) {
+			if (!ACK) {
 				ACKDATA ack;
 				ack.hContact = hContact;
 				ack.type = ACKTYPE_AWAYMSG;
@@ -148,7 +148,7 @@ BOOL amWakeThread()
 */
 void amRequestAwayMsg(HANDLE hContact)
 {
-	if ( !g_CluiData.bInternalAwayMsgDiscovery || !hContact)
+	if (!g_CluiData.bInternalAwayMsgDiscovery || !hContact)
 		return;
 
 	//Do not re-ask for chat rooms

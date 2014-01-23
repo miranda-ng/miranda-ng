@@ -146,7 +146,7 @@ static BOOL sttDrawToolBarBackground(HWND hwnd, HDC hdc, RECT *rect, ModernToolb
 		else
 			GetClientRect(hwnd,&rc);
 
-		if ( !(tbdat.mtb_backgroundBmpUse && tbdat.mtb_hBmpBackground) && tbdat.mtb_useWinColors) {
+		if (!(tbdat.mtb_backgroundBmpUse && tbdat.mtb_hBmpBackground) && tbdat.mtb_useWinColors) {
 			if (xpt_IsThemed(pMTBInfo->mtbXPTheme))
 				xpt_DrawTheme(pMTBInfo->mtbXPTheme, pMTBInfo->hWnd, hdc, 0, 0, &rc, &rc);
 			else {
@@ -296,7 +296,7 @@ void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam);
 static int Toolbar_ModuleReloaded(WPARAM wParam, LPARAM lParam)
 {
 	PLUGININFOEX *pInfo = (PLUGININFOEX*)wParam;
-	if ( !_stricmp(pInfo->shortName, "TopToolBar"))
+	if (!_stricmp(pInfo->shortName, "TopToolBar"))
 		TopToolbar_SetCustomProc(CustomizeButton, 0);
 
 	return 0;
@@ -311,7 +311,7 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 	TopToolbar_SetCustomProc(CustomizeButton, 0);
 
 	BYTE bOldSetting = 0;
-	if ( !db_get_b(NULL, "Compatibility", "TTB_Upgrade", 0)) {
+	if (!db_get_b(NULL, "Compatibility", "TTB_Upgrade", 0)) {
 		if (bOldSetting = db_get_b(NULL, "CLUI", "ShowButtonBar", 1)) {
 			CopySettings("BUTTWIDTH",    "option_Bar0_BtnWidth",  20);
 			CopySettings("BUTTHEIGHT",   "option_Bar0_BtnHeight", 20);
@@ -326,7 +326,7 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 		db_set_b(NULL, "Compatibility", "TTB_Upgrade", 1);
 	}
 
-	if ( !ServiceExists( MS_TTB_REMOVEBUTTON) && bOldSetting == 1)
+	if (!ServiceExists( MS_TTB_REMOVEBUTTON) && bOldSetting == 1)
 		if (IDYES == MessageBox(NULL, TranslateTS(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
 			CallService(MS_UTILS_OPENURL, 0, (LPARAM)szUrl);
 

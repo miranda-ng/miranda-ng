@@ -66,7 +66,7 @@ ROWCELL *cppInitModernRow(ROWCELL	** tabAccess)
 	ROWCELL * RowRoot = NULL;
 	FILE * hFile;
 	int i=0;
-	if ( !db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT)) return NULL;
+	if (!db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT)) return NULL;
 	tmplbuf = NULL;
 	if ( db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT) == 1)
 		tmplbuf = db_get_sa(NULL,"ModernData","RowTemplate");
@@ -137,7 +137,7 @@ const ROWCELL * rowAddCell(ROWCELL* &link, int cont)
 //
 void rowDeleteTree(ROWCELL* cell)
 {
-	if ( !cell) return;
+	if (!cell) return;
 	if (cell->child)
 		rowDeleteTree((ROWCELL*)(cell->child));
 	if (cell->next)
@@ -179,7 +179,7 @@ char * rowParserGetNextWord(char *tbuf, int &hbuf)
 		}
 
 		// Tag-bracers found
-		if ( !(ch == '>' && j < 0)) //not single '>' found
+		if (!(ch == '>' && j < 0)) //not single '>' found
 		{
 			if ((ch == '<' || ch == '>') && j >= 0)
 			{
@@ -221,36 +221,36 @@ void rowParserGetParam(ROWCELL* &cell, char *tbuf, int &hbuf)
 	char * word = rowParserGetNextWord(tbuf, hbuf);
 	int param = 0;
 
-	if ( !_strnicmp(word, "avatar",     strlen(word))) param = TC_AVATAR;
-	else if ( !_strnicmp(word, "text1",      strlen(word))) param = TC_TEXT1;
-	else if ( !_strnicmp(word, "text2",      strlen(word))) param = TC_TEXT2;
-	else if ( !_strnicmp(word, "text3",      strlen(word))) param = TC_TEXT3;
-	else if ( !_strnicmp(word, "status",     strlen(word))) param = TC_STATUS;
-	else if ( !_strnicmp(word, "extra",      strlen(word))) param = TC_EXTRA;
-	else if ( !_strnicmp(word, "extra1",     strlen(word))) param = TC_EXTRA1;
-	else if ( !_strnicmp(word, "extra2",     strlen(word))) param = TC_EXTRA2;
-	else if ( !_strnicmp(word, "extra3",     strlen(word))) param = TC_EXTRA3;
-	else if ( !_strnicmp(word, "extra4",     strlen(word))) param = TC_EXTRA4;
-	else if ( !_strnicmp(word, "extra5",     strlen(word))) param = TC_EXTRA5;
-	else if ( !_strnicmp(word, "extra6",     strlen(word))) param = TC_EXTRA6;
-	else if ( !_strnicmp(word, "extra7",     strlen(word))) param = TC_EXTRA7;
-	else if ( !_strnicmp(word, "extra8",     strlen(word))) param = TC_EXTRA8;
-	else if ( !_strnicmp(word, "extra9",     strlen(word))) param = TC_EXTRA9;
-	else if ( !_strnicmp(word, "time",       strlen(word))) param = TC_TIME;
-	else if ( !_strnicmp(word, "space",      strlen(word))) param = TC_SPACE;
-	else if ( !_strnicmp(word, "fspace",      strlen(word))) param = TC_FIXED;
+	if (!_strnicmp(word, "avatar",     strlen(word))) param = TC_AVATAR;
+	else if (!_strnicmp(word, "text1",      strlen(word))) param = TC_TEXT1;
+	else if (!_strnicmp(word, "text2",      strlen(word))) param = TC_TEXT2;
+	else if (!_strnicmp(word, "text3",      strlen(word))) param = TC_TEXT3;
+	else if (!_strnicmp(word, "status",     strlen(word))) param = TC_STATUS;
+	else if (!_strnicmp(word, "extra",      strlen(word))) param = TC_EXTRA;
+	else if (!_strnicmp(word, "extra1",     strlen(word))) param = TC_EXTRA1;
+	else if (!_strnicmp(word, "extra2",     strlen(word))) param = TC_EXTRA2;
+	else if (!_strnicmp(word, "extra3",     strlen(word))) param = TC_EXTRA3;
+	else if (!_strnicmp(word, "extra4",     strlen(word))) param = TC_EXTRA4;
+	else if (!_strnicmp(word, "extra5",     strlen(word))) param = TC_EXTRA5;
+	else if (!_strnicmp(word, "extra6",     strlen(word))) param = TC_EXTRA6;
+	else if (!_strnicmp(word, "extra7",     strlen(word))) param = TC_EXTRA7;
+	else if (!_strnicmp(word, "extra8",     strlen(word))) param = TC_EXTRA8;
+	else if (!_strnicmp(word, "extra9",     strlen(word))) param = TC_EXTRA9;
+	else if (!_strnicmp(word, "time",       strlen(word))) param = TC_TIME;
+	else if (!_strnicmp(word, "space",      strlen(word))) param = TC_SPACE;
+	else if (!_strnicmp(word, "fspace",      strlen(word))) param = TC_FIXED;
 
-	else if ( !_strnicmp(word, "left",       strlen(word))) param = TC_LEFT;
-	else if ( !_strnicmp(word, "top",        strlen(word))) param = TC_TOP;
-	else if ( !_strnicmp(word, "vcenter",    strlen(word))) param = TC_VCENTER;
-	else if ( !_strnicmp(word, "hcenter",    strlen(word))) param = TC_HCENTER;
-	else if ( !_strnicmp(word, "right",      strlen(word))) param = TC_RIGHT;
-	else if ( !_strnicmp(word, "bottom",     strlen(word))) param = TC_BOTTOM;
+	else if (!_strnicmp(word, "left",       strlen(word))) param = TC_LEFT;
+	else if (!_strnicmp(word, "top",        strlen(word))) param = TC_TOP;
+	else if (!_strnicmp(word, "vcenter",    strlen(word))) param = TC_VCENTER;
+	else if (!_strnicmp(word, "hcenter",    strlen(word))) param = TC_HCENTER;
+	else if (!_strnicmp(word, "right",      strlen(word))) param = TC_RIGHT;
+	else if (!_strnicmp(word, "bottom",     strlen(word))) param = TC_BOTTOM;
 
-	else if ( !_strnicmp(word, "layer",      strlen(word))) cell->layer = TRUE;
+	else if (!_strnicmp(word, "layer",      strlen(word))) cell->layer = TRUE;
 
-	else if ( !_strnicmp(word, "width",      strlen(word))) param = TC_WIDTH;
-	else if ( !_strnicmp(word, "height",     strlen(word))) param = TC_HEIGHT;
+	else if (!_strnicmp(word, "width",      strlen(word))) param = TC_WIDTH;
+	else if (!_strnicmp(word, "height",     strlen(word))) param = TC_HEIGHT;
 
 	else
 	{
@@ -326,8 +326,8 @@ BOOL rowParse(ROWCELL* &cell, ROWCELL* parent, char *tbuf, int &hbuf, int &seque
 	int cont;
 
 	if      (!_strnicmp(word, "<tr",   strlen(word))  || !_strnicmp(word, "<tr>",   strlen(word))) cont = TC_ROW;
-	else if ( !_strnicmp(word, "<tc",   strlen(word))  || !_strnicmp(word, "<tc>",   strlen(word))) cont = TC_COL;
-	else if ( !_strnicmp(word, "/>",     strlen(word)) ||
+	else if (!_strnicmp(word, "<tc",   strlen(word))  || !_strnicmp(word, "<tc>",   strlen(word))) cont = TC_COL;
+	else if (!_strnicmp(word, "/>",     strlen(word)) ||
 		!_strnicmp(word, "</tr>",  strlen(word)) ||
 		!_strnicmp(word, "</tc>",  strlen(word))) return TRUE;
 	else return FALSE;
@@ -337,16 +337,16 @@ BOOL rowParse(ROWCELL* &cell, ROWCELL* parent, char *tbuf, int &hbuf, int &seque
 	if (cell->type != 0 && cell->type != TC_SPACE && cell->type != TC_FIXED)
 		RowTabAccess[sequence++] = cell;
 
-	if ( !rowParse(cell->child, cell, tbuf, hbuf, sequence,RowTabAccess))
+	if (!rowParse(cell->child, cell, tbuf, hbuf, sequence,RowTabAccess))
 		return FALSE;
 
-	if ( !parent)
+	if (!parent)
 	{
 		RowTabAccess[sequence] = NULL;
 		return TRUE;
 	}
 
-	if ( !rowParse(cell->next, parent, tbuf, hbuf, sequence,RowTabAccess))
+	if (!rowParse(cell->next, parent, tbuf, hbuf, sequence,RowTabAccess))
 		return FALSE;
 
 	parent->sizing |= cell->sizing;
@@ -356,7 +356,7 @@ BOOL rowParse(ROWCELL* &cell, ROWCELL* parent, char *tbuf, int &hbuf, int &seque
 
 void rowResetEmptyRects(ROWCELL* cell)
 {
-	if ( !cell) return;
+	if (!cell) return;
 	if (cell->type == 0)
 	{
 		SetRect(&(cell->r), 0, 0, 0, 0);
@@ -379,7 +379,7 @@ void rowCalculateMinSize(ROWCELL* cell)
 	int w = 0, h = 0;
 	int wl = 0, hl = 0;
 	int fullWidth = 0;
-	if ( !cell) return;
+	if (!cell) return;
 
 	cell->r.left	 = 0;
 	cell->r.top		 = 0;
@@ -394,7 +394,7 @@ void rowCalculateMinSize(ROWCELL* cell)
 	rowCalculateMinSize(cell->child);
 	rowCalculateMinSize(cell->next);
 
-	if ( !(curchild = cell->child)) return;
+	if (!(curchild = cell->child)) return;
 
 	if (cell->cont == TC_ROW)
 	{
@@ -451,11 +451,11 @@ void rowCalculateMinSize(ROWCELL* cell)
 void rowEqualize(ROWCELL* cell)
 {
 	ROWCELL* curchild = NULL;
-	if ( !cell) return;
+	if (!cell) return;
 	rowEqualize(cell->child);
 	rowEqualize(cell->next);
 
-	if ( !(curchild = cell->child)) return;
+	if (!(curchild = cell->child)) return;
 
 	if (cell->cont == TC_ROW)
 	{
@@ -599,7 +599,7 @@ void rowPositioning(pROWCELL cell, int &dist)
 
 	cell->r.right = dist;
 	dummy = dist;
-	if ( !(curchild = cell->child))
+	if (!(curchild = cell->child))
 	{
 		rowPlacing(cell);
 		return;
@@ -677,7 +677,7 @@ void rowPositioning(pROWCELL cell, int &dist)
 				rowPositioning(curchild, size);
 				x += size;
 
-				if ( !curchild->sizing)
+				if (!curchild->sizing)
 					size = 0;
 			}
 

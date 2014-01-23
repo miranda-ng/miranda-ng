@@ -47,7 +47,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 int SkinOptInit(WPARAM wParam, LPARAM lParam)
 {
-	if ( !g_CluiData.fDisableSkinEngine) {
+	if (!g_CluiData.fDisableSkinEngine) {
 		//Tabbed settings
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.position = -200000000;
@@ -127,7 +127,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						TreeView_GetItem( GetDlgItem( hwndDlg, IDC_TREE1 ), &tvi );
 						sd = ( SkinListData* )( tvi.lParam);
 					}
-					if ( !sd ) return 0;
+					if (!sd ) return 0;
 					if ( sd->File && !_tcschr( sd->File, _T('%')))
 					{
 						GetPrivateProfileString( _T("Skin_Description_Section"), _T("Author"), 	TranslateT("( unknown )"), 	Author, 		SIZEOF( Author ), 		sd->File );
@@ -163,7 +163,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						TreeView_GetItem( GetDlgItem( hwndDlg, IDC_TREE1 ), &tvi );
 						sd = ( SkinListData* )( tvi.lParam);
 					}
-					if ( !sd ) return 0;
+					if (!sd ) return 0;
 					if ( glSkinWasModified>0 )
 					{
 						int res = 0;
@@ -295,7 +295,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 								TreeView_GetItem( GetDlgItem( hwndDlg, IDC_TREE1 ), &tvi );
 								sd = ( SkinListData* )( tvi.lParam);
 							}
-							if ( !sd ) return 0;
+							if (!sd ) return 0;
 
 							if ( sd->File && !_tcschr( sd->File, _T('%')))
 							{
@@ -365,7 +365,7 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 		do {
 			AddSkinToList( hwndDlg, Folder, fd.name );
 		}
-			while ( !_tfindnext( hFile, &fd ));
+			while (!_tfindnext( hFile, &fd ));
 		_findclose( hFile );
 	}
 	mir_sntprintf(mask, SIZEOF(mask), _T("%s\\*"), Folder);
@@ -378,7 +378,7 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 				mir_sntprintf(path, SIZEOF(path), _T("%s\\%s"), Folder, fd.name);
 				SearchSkinFiles( hwndDlg, path );
 			}
-		}while ( !_tfindnext( hFile, &fd ));
+		}while (!_tfindnext( hFile, &fd ));
 		_findclose( hFile );
 	}
 	return 0;
@@ -431,14 +431,14 @@ HTREEITEM AddSkinToListFullName( HWND hwndDlg, TCHAR * fullName )
 HTREEITEM AddSkinToList( HWND hwndDlg, TCHAR * path, TCHAR* file )
 {
 	SkinListData *sd = ( SkinListData * )mir_alloc( sizeof( SkinListData ));
-	if ( !sd )
+	if (!sd )
 		return 0;
 
 	TCHAR fullName[MAX_PATH], defskinname[MAX_PATH];
 	mir_sntprintf(fullName, SIZEOF(fullName), _T("%s\\%s"), path, file);
 	memmove(defskinname, file, (_tcslen( file )-4) * sizeof(TCHAR));
 	defskinname[_tcslen( file )+1] = _T('\0');
-	if ( !file || _tcschr( file, _T('%'))) {
+	if (!file || _tcschr( file, _T('%'))) {
 		mir_sntprintf(sd->File, MAX_PATH, _T("%%Default Skin%%"));
 		mir_sntprintf(sd->Name, 100, TranslateT("%Default Skin%"));
 		_tcsncpy(fullName, TranslateT("Default Skin"), SIZEOF(fullName));
@@ -476,7 +476,7 @@ HTREEITEM FindChild( HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data 
 			TreeView_GetItem(hTree, &tvi);
 			SkinListData *sd = (SkinListData*)tvi.lParam;
 			if (sd)
-				if ( !_tcsicmp(sd->File, (( SkinListData* )data )->File))
+				if (!_tcsicmp(sd->File, (( SkinListData* )data )->File))
 					return tmp;
 		}
 		tmp = TreeView_GetNextSibling(hTree, tmp);

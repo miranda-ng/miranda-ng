@@ -42,7 +42,7 @@ RECT da = {205,58,440, 130}; // Draw area
 
 void rowOptBuildTA(pROWCELL cell, pROWCELL* TA, int* i)
 {
-	if ( !cell) return;
+	if (!cell) return;
 	TA[(*i)++] = cell;
 	rowOptBuildTA(cell->child,TA, i);
 	rowOptBuildTA(cell->next, TA, i);
@@ -61,7 +61,7 @@ void rowOptShowSettings(HWND hwnd)
 	TreeView_GetItem(GetDlgItem(hwnd, IDC_ROWTREE), &tvi);
 	cell = (pROWCELL)tvi.lParam;
 
-	if ( !tvi.hItem)  {
+	if (!tvi.hItem)  {
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTTYPE) ,0);
 		EnableWindow(GetDlgItem(hwnd,IDC_VALIGN),0);
 		EnableWindow(GetDlgItem(hwnd,IDC_HALIGN) ,0);
@@ -128,7 +128,7 @@ void rowOptShowSettings(HWND hwnd)
 
 void rowOptGenerateTreeView(pROWCELL cell, HTREEITEM node, HWND hwnd)
 {
-	if ( !cell) return;
+	if (!cell) return;
 
 	TVINSERTSTRUCT tvis;
 	tvis.hParent = node;
@@ -167,7 +167,7 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 	TVITEM tviparent;
 	ROWCELL *cell = NULL;
 
-	if ( !hti) {
+	if (!hti) {
 		if (TreeView_GetRoot(htree))
 			return;
 
@@ -235,7 +235,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 	HTREEITEM prnt = TreeView_GetParent(htree, hti);
 	TVITEM	  tvi, tvpi;
 
-	if ( !hti) return;
+	if (!hti) return;
 
 	// Get current tree item
 	tvi.hItem = hti;
@@ -281,7 +281,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 
 
 	// Change icon at parent item
-	if ( !prnt || (prnt != prev)) return;
+	if (!prnt || (prnt != prev)) return;
 
 	if ( TreeView_GetChild(htree, prnt))
 	{
@@ -312,7 +312,7 @@ void RefreshTree(HWND hwndDlg,HTREEITEM hti)
 		if (cell)
 		{
 			TCHAR buf[200] = {0};
-			if ( !cell->child)
+			if (!cell->child)
 			{
 				if (cell->type == 0)
 					mir_sntprintf(buf, SIZEOF(buf), TranslateT("Empty %s cell"), cell->cont == TC_COL?TranslateT("column"):TranslateT("line"));
@@ -351,7 +351,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			TranslateDialogDefault(hwndDlg);
 			rowOptTmplStr = db_get_sa(NULL, "ModernData", "RowTemplate");
-			if ( !rowOptTmplStr)
+			if (!rowOptTmplStr)
 				rowOptTmplStr = mir_strdup("<TR />");
 
 			SendDlgItemMessage(hwndDlg,IDC_SPINCONTWIDTH, UDM_SETRANGE, 0, MAKELONG(999,0));

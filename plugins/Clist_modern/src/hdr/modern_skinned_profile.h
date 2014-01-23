@@ -32,7 +32,7 @@ public:
 #ifdef _UNICODE
 	MString( const char * str) 
 	{	
-		if ( !str ) 
+		if (!str ) 
 			_buffer = NULL;
 		else
 		{
@@ -83,7 +83,7 @@ public:
 	}		
 	void Unlock()	// Leave Section
 	{
-		if ( !_ifLocked ) return;
+		if (!_ifLocked ) return;
 		if ( _ifCSOwner ) LeaveCriticalSection( &_CS );			
 		else  			 _pLinkedCS->Unlock();
 		_ifLocked = false;

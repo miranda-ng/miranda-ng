@@ -28,7 +28,7 @@ static INT_PTR AddContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
 
 	TMO_MenuItem tmi;
-	if ( !pcli->pfnConvertMenu(mi, &tmi))
+	if (!pcli->pfnConvertMenu(mi, &tmi))
 		return NULL;
 
 	tmi.root = (mi->flags & CMIF_ROOTHANDLE) ? mi->hParentMenu : NULL;

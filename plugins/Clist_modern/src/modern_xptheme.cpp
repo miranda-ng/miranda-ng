@@ -48,7 +48,7 @@ void XPThemesUnloadModule()
 BOOL xpt_IsThemed(XPTHANDLE xptHandle)
 {
 	BOOL res = FALSE;
-	if ( !xptHandle) return FALSE;
+	if (!xptHandle) return FALSE;
 	xptlock();
 	{
 		if (xpt_IsValidHandle(xptHandle) && ((XPTObject*) xptHandle)->hThemeHandle)
@@ -61,7 +61,7 @@ BOOL xpt_IsThemed(XPTHANDLE xptHandle)
 BOOL xpt_IsValidHandle(XPTHANDLE xptHandle)
 {
 	BOOL res = FALSE;
-	if ( !xptHandle) return FALSE;
+	if (!xptHandle) return FALSE;
 	xptlock();
 	{
 		if (xptObjectList.indexOf((XPTObject*)xptHandle) != -1) 

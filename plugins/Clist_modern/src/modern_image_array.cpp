@@ -214,7 +214,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	}
 
 	// Get bounds
-	if ( !GetObject(hBmp,sizeof(BITMAP),&bm))
+	if (!GetObject(hBmp,sizeof(BITMAP),&bm))
 	{
 		LeaveCriticalSection(&iad->cs);
 		return -1;
@@ -240,7 +240,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	}
 
 	// Alloc array
-	if ( !ImageArray_Alloc(iad, iad->nodes_size + 1))
+	if (!ImageArray_Alloc(iad, iad->nodes_size + 1))
 	{
 		DeleteObject(hNewBmp);
 		LeaveCriticalSection(&iad->cs);
@@ -306,7 +306,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 		BitBlt(iad->hdc, x, y, bm.bmWidth, bm.bmHeight, hdc_old, 0, 0, SRCCOPY);
 
 		// 3- old data
-		if ( !last_one)
+		if (!last_one)
 		{
 			int ox, oy;
 
@@ -345,7 +345,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	iad->img = hNewBmp;
 
 	// Move array
-	if ( !last_one && iad->nodes_size > 1)
+	if (!last_one && iad->nodes_size > 1)
 	{
 		memmove(&iad->nodes[pos+1], &iad->nodes[pos], (iad->nodes_size - pos) * sizeof(IMAGE_ARRAY_DATA_NODE));
 	}
@@ -384,7 +384,7 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	EnterCriticalSection(&iad->cs);
 
 	// Get bounds
-	if ( !GetObject(hBmp,sizeof(BITMAP),&bm))
+	if (!GetObject(hBmp,sizeof(BITMAP),&bm))
 	{
 		LeaveCriticalSection(&iad->cs);
 		return FALSE;

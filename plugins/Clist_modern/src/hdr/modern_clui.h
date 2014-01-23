@@ -62,7 +62,7 @@ public:
 	static LRESULT CALLBACK cli_ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		CLUI * This = m_pCLUI;
-		if ( !m_hWnd ) m_hWnd = hwnd;
+		if (!m_hWnd ) m_hWnd = hwnd;
 
 		BOOL bHandled = FALSE;
 		LRESULT lRes= This->PreProcessWndProc( msg, wParam, lParam, bHandled );

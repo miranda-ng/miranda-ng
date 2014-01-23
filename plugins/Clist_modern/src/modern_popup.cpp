@@ -50,7 +50,7 @@ void ShowTracePopup(const char *text)
 // Show an popup
 void ShowPopup(const char *title, const char *description, int type)
 {
-	if ( !ServiceExists(MS_POPUP_ADDPOPUP) || !EnablePopups) 
+	if (!ServiceExists(MS_POPUP_ADDPOPUP) || !EnablePopups) 
 		return;
 
 	// Make popup

@@ -87,7 +87,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 		char *szActProto = (char*)szProto;
 		int nActStatus = nStatus;
 		HANDLE hActContact = hContact;
-		if ( !db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) && g_szMetaModuleName && !mir_strcmp(szActProto,g_szMetaModuleName)) {
+		if (!db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) && g_szMetaModuleName && !mir_strcmp(szActProto,g_szMetaModuleName)) {
 			// substitute params by mostonline contact datas
 			HANDLE hMostOnlineContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hActContact,0);
 			if (hMostOnlineContact) {
@@ -313,7 +313,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 					{
 						TCHAR buf[255];
 						GetClassName(hAux,buf,SIZEOF(buf));
-						if ( !lstrcmp(buf,CLUIFrameSubContainerClassName))
+						if (!lstrcmp(buf,CLUIFrameSubContainerClassName))
 						{
 							hWndFound = TRUE;
 							break;
@@ -358,7 +358,7 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 		iVisibleState = GWVS_HIDDEN;
 	}
 
-	if ( !method && db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) > 0) {
+	if (!method && db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) > 0) {
 		g_CluiData.bBehindEdgeSettings = db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT);
 		CLUI_ShowFromBehindEdge();
 		g_CluiData.bBehindEdgeSettings = 0;
@@ -384,11 +384,11 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 		Sync( CLUIFrames_ActivateSubContainers, TRUE );
 		CLUI_ShowWindowMod(pcli->hwndContactList, SW_RESTORE);
 
-		if ( !db_get_b(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT)) {
+		if (!db_get_b(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT)) {
 			Sync(CLUIFrames_OnShowHide, pcli->hwndContactList,1);	//TO BE PROXIED
 			SetWindowPos(pcli->hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE |SWP_NOACTIVATE);
 			g_bCalledFromShowHide = 1;
-			if ( !db_get_b(NULL,"CList","OnTop",SETTING_ONTOP_DEFAULT))
+			if (!db_get_b(NULL,"CList","OnTop",SETTING_ONTOP_DEFAULT))
 				SetWindowPos(pcli->hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 			g_bCalledFromShowHide = 0;
 		}
@@ -429,6 +429,6 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 int CListMod_HideWindow(HWND hwndContactList, int mode)
 {
 	KillTimer(pcli->hwndContactList,1/*TM_AUTOALPHA*/);
-	if ( !CLUI_HideBehindEdge())  return CLUI_SmoothAlphaTransition(pcli->hwndContactList, 0, 1);
+	if (!CLUI_HideBehindEdge())  return CLUI_SmoothAlphaTransition(pcli->hwndContactList, 0, 1);
 	return 0;
 }

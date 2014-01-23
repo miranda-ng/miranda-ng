@@ -101,7 +101,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM wparam,LPARAM lparam)
 	int connectingCount = 0;
 	for (i=0; i < pcli->hClcProtoCount; i++)
 	{
-		if ( !pcli->pfnGetProtocolVisibility(pcli->clcProto[i].szProto)) continue;
+		if (!pcli->pfnGetProtocolVisibility(pcli->clcProto[i].szProto)) continue;
 		if (pcli->clcProto[i].dwStatus >= ID_STATUS_CONNECTING  &&
 			pcli->clcProto[i].dwStatus < ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES)
 		{
@@ -222,10 +222,10 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 				break;
 
 			case SETTING_TRAYICON_MULTI:
-				if ( !pcli->trayIcon)
+				if (!pcli->trayIcon)
 					pcli->pfnTrayIconRemove(NULL,NULL);
 				else if ( db_get_b(NULL,"CList","AlwaysMulti",SETTING_ALWAYSMULTI_DEFAULT )) {
-					if ( !pcli->pfnGetProtocolVisibility(szChangedProto))
+					if (!pcli->pfnGetProtocolVisibility(szChangedProto))
 						return -1;
 
 					status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
@@ -425,7 +425,7 @@ static INT_PTR AddTrayMenuItem(WPARAM wParam,LPARAM lParam)
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
 
 	TMO_MenuItem tmi;
-	if ( !pcli->pfnConvertMenu(mi, &tmi))
+	if (!pcli->pfnConvertMenu(mi, &tmi))
 		return NULL;
 
 	lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)mir_alloc(sizeof(TrayMenuExecParam));
@@ -478,7 +478,7 @@ INT_PTR TrayMenuExecService(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam != 0) {
 		lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)wParam;
-		if ( !mir_strcmp(mmep->szServiceName,"Help/AboutCommand")) {
+		if (!mir_strcmp(mmep->szServiceName,"Help/AboutCommand")) {
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;
 		}

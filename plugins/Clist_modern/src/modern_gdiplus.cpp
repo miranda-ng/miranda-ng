@@ -76,13 +76,13 @@ void DrawAvatarImageWithGDIp(HDC hDestDC,int x, int y, DWORD width, DWORD height
 	Graphics g(hDestDC);
 	if (bmp.bmBitsPixel == 32 && (flag&AVS_PREMULTIPLIED)) {
 		bmbits = (BYTE*)bmp.bmBits;
-		if ( !bmbits) {
+		if (!bmbits) {
 			bmbits = (BYTE*)malloc(bmp.bmHeight*bmp.bmWidthBytes);
 			GetBitmapBits(hbmp,bmp.bmHeight*bmp.bmWidthBytes,bmbits);
 		}
 		bm = new Bitmap(bmp.bmWidth,bmp.bmHeight,bmp.bmWidthBytes,PixelFormat32bppPARGB,bmbits);
 		bm->RotateFlip(RotateNoneFlipY);
-		if ( !bmp.bmBits) {
+		if (!bmp.bmBits) {
 			bm->RotateFlip(RotateNoneFlipY);
 			free(bmbits);
 		}

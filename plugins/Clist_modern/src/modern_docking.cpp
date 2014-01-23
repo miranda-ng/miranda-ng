@@ -108,7 +108,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 	if (msg->message == WM_DESTROY)
 		db_set_b(NULL,"CList","Docked",(BYTE)g_CluiData.fDocked);
 
-	if ( !g_CluiData.fDocked && msg->message != WM_CREATE && msg->message != WM_MOVING && msg->message != WM_CREATEDOCKED && msg->message != WM_MOVE && msg->message != WM_SIZE) return 0;
+	if (!g_CluiData.fDocked && msg->message != WM_CREATE && msg->message != WM_MOVING && msg->message != WM_CREATEDOCKED && msg->message != WM_MOVE && msg->message != WM_SIZE) return 0;
 	switch(msg->message) {
 		case WM_CREATE:
 			//if (GetSystemMetrics(SM_CMONITORS)>1) return 0;
@@ -298,7 +298,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 			return TRUE;
 		case WM_MOUSEMOVE:
 
-			if ( !draggingTitle) return 0;
+			if (!draggingTitle) return 0;
 			{	RECT rc;
 			POINT pt;
 			GetClientRect(msg->hwnd,&rc);

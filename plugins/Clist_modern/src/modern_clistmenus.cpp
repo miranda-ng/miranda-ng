@@ -104,7 +104,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 	mi.icolibItem = iconList[bContactRate].hIcolib;
 	mi.pszPopupName = (char *)-1;
 	mi.position = 0;
-	if ( !bContactRate)
+	if (!bContactRate)
 		mi.ptszName = FAVMENUROOTNAME;
 	else {
 		int bufsize = (lstrlen(FAVMENUROOTNAME)+lstrlen(rates[bContactRate])+15)*sizeof(TCHAR);
@@ -113,7 +113,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 		mi.ptszName = name;
 	}
 	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
-	if ( !hFavoriteContactMenu)
+	if (!hFavoriteContactMenu)
 		hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
 	else {
 		mi.flags |= CMIM_FLAGS | CMIM_NAME;
@@ -128,7 +128,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 	CallService(MO_SETOPTIONSMENUITEM, 0, (LPARAM)&op);
 
 	mi.hParentMenu = hFavoriteContactMenu;
-	if ( !hFavoriteContactMenuItems) {
+	if (!hFavoriteContactMenuItems) {
 		hFavoriteContactMenuItems = (HGENMENU*)malloc(sizeof(HANDLE)*SIZEOF(rates));
 		memset(hFavoriteContactMenuItems, 0, sizeof(HANDLE)*SIZEOF(rates));
 	}

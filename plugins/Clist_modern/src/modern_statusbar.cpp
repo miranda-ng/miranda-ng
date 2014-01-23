@@ -113,7 +113,7 @@ int LoadStatusBarData()
 		DBVARIANT dbv;
 		g_StatusBarData.bkColour = sttGetColor("StatusBar","BkColour",CLCDEFAULT_BKCOLOUR);
 		if ( db_get_b(NULL,"StatusBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if ( !db_get_s(NULL,"StatusBar","BkBitmap",&dbv)) {
+			if (!db_get_s(NULL,"StatusBar","BkBitmap",&dbv)) {
 				g_StatusBarData.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -574,21 +574,21 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 static BOOL _ModernStatus_OnExtraIconClick(int protoIndex)
 {
 	ProtoItemData &p = ProtosData[protoIndex];
-	if ( !mir_strcmpi(p.ProtoName, "ICQ")) {
+	if (!mir_strcmpi(p.ProtoName, "ICQ")) {
 		if (p.ProtoStatus < ID_STATUS_ONLINE)
 			return FALSE;
 
 		HMENU hMainStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
-		if ( !hMainStatusMenu)
+		if (!hMainStatusMenu)
 			return FALSE;
 
 		HMENU hProtoStatusMenu = GetSubMenu( hMainStatusMenu, protoIndex );
-		if ( !hProtoStatusMenu)
+		if (!hProtoStatusMenu)
 			return FALSE;
 
 		int extraStatusMenuIndex = 1;
 		HMENU hExtraStatusMenu = GetSubMenu( hProtoStatusMenu, extraStatusMenuIndex );
-		if ( !hExtraStatusMenu)
+		if (!hExtraStatusMenu)
 			return FALSE;
 
 		POINT pt; GetCursorPos( &pt );
@@ -597,7 +597,7 @@ static BOOL _ModernStatus_OnExtraIconClick(int protoIndex)
 		return TRUE;
 	} 
 	
-	if ( !mir_strcmpi(p.ProtoName, "JABBER")) {
+	if (!mir_strcmpi(p.ProtoName, "JABBER")) {
 		if (p.ProtoStatus < ID_STATUS_ONLINE)
 			return FALSE;
 
@@ -626,7 +626,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 		break;
 
 	case WM_SIZE:
-		if ( !g_CluiData.fLayered || GetParent(hwnd) != pcli->hwndContactList)
+		if (!g_CluiData.fLayered || GetParent(hwnd) != pcli->hwndContactList)
 			InvalidateRect(hwnd, NULL, FALSE);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
@@ -853,7 +853,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 								mir_snprintf( protoF, SIZEOF(protoF), "%s|", accs[i]->szModuleName );
 								if ( strstri(g_CluiData.protoFilter, protoF)) {
 									char * temp = mir_utf8encodeT( accs[i]->tszAccountName );
-									if ( !first )
+									if (!first )
 										strncat( filterName, "; ", SIZEOF(filterName) - strlen(filterName));
 									strncat( filterName, temp, SIZEOF(filterName) - strlen(filterName));
 									first = false;
@@ -871,7 +871,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 						return 0;
 					}
 
-					if ( !hMenu) {
+					if (!hMenu) {
 						if (msg == WM_RBUTTONDOWN) {
 							BOOL a = ((g_StatusBarData.perProtoConfig && p.SBarRightClk) || g_StatusBarData.SBarRightClk );
 							if ( a ^ bShift )

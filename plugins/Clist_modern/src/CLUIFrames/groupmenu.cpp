@@ -86,7 +86,7 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam,LPARAM lParam)
 {
 	TMO_MenuItem tmi;
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
-	if ( !pcli->pfnConvertMenu(mi, &tmi))
+	if (!pcli->pfnConvertMenu(mi, &tmi))
 		return NULL;
 
 	lpGroupMenuExecParam mmep = (lpGroupMenuExecParam)mir_calloc(sizeof(GroupMenuExecParam));
@@ -150,7 +150,7 @@ INT_PTR GroupMenuExecService(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam != 0) {
 		lpGroupMenuExecParam mmep = (lpGroupMenuExecParam)wParam;
-		if ( !mir_strcmp(mmep->szServiceName,"Help/AboutCommand")) {
+		if (!mir_strcmp(mmep->szServiceName,"Help/AboutCommand")) {
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;
 			CallService(mmep->szServiceName,mmep->Param1,lParam);
@@ -434,7 +434,7 @@ static INT_PTR AddSubGroupMenuItem(WPARAM wParam,LPARAM lParam)
 {
 	TMO_MenuItem tmi;
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
-	if ( !pcli->pfnConvertMenu(mi, &tmi))
+	if (!pcli->pfnConvertMenu(mi, &tmi))
 		return NULL;
 
 	lpSubGroupMenuExecParam mmep = (lpSubGroupMenuExecParam)mir_calloc(sizeof(SubGroupMenuExecParam));
@@ -489,7 +489,7 @@ INT_PTR SubGroupMenuExecService(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam != 0) {
 		lpSubGroupMenuExecParam mmep = (lpSubGroupMenuExecParam)wParam;
-		if ( !mir_strcmp(mmep->szServiceName, "Help/AboutCommand")) {
+		if (!mir_strcmp(mmep->szServiceName, "Help/AboutCommand")) {
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;
 			CallService(mmep->szServiceName,mmep->Param1,lParam);

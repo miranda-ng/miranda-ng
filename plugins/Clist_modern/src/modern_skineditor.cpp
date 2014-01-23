@@ -73,7 +73,7 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 	TCHAR *ptr, *ptrE;
 	BOOL ext = FALSE;
 	TCHAR *path = data->szPath ? mir_tstrdup(data->szPath):(data->szName[1] == '$') ? mir_a2t(data->szName+2):NULL;
-	if ( !path) {
+	if (!path) {
 		TCHAR buf[255];
 		mir_sntprintf(buf, SIZEOF(buf), _T("$(other)/%S"), data->szName+1);
 		path = mir_tstrdup(buf);
@@ -91,7 +91,7 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 			// find item if not - create;
 			{
 				cItem = FindChild(GetDlgItem(hwndDlg,ID), rootItem, ptr);
-				if ( !cItem) // not found - create node
+				if (!cItem) // not found - create node
 				{
 					TVINSERTSTRUCT tvis;
 					tvis.hParent = rootItem;
@@ -227,7 +227,7 @@ void SetAppropriateGroups(HWND hwndDlg, int Type)
 
 void SetControls(HWND hwndDlg, TCHAR *str)
 {
-	if ( !str)
+	if (!str)
 	{
 		SetAppropriateGroups(hwndDlg,-1);
 		return;
@@ -329,7 +329,7 @@ int GetShortFileName(TCHAR *FullFile)
 	TCHAR buf[MAX_PATH] = {0};
 	TCHAR *f = _tcsrchr(FullFile,'\\');
 	TCHAR *file = f ? mir_tstrdup(f+1) : 0;
-	if ( !file)
+	if (!file)
 		return 0;
 
 	ske_GetFullFilename(buf, file, 0, TRUE);
@@ -694,7 +694,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDC_OBJECT_TREE:
 			{
 				NMTREEVIEWA * nmtv = (NMTREEVIEWA *) lParam;
-				if ( !nmtv) return 0;
+				if (!nmtv) return 0;
 				if (nmtv->hdr.code == TVN_SELCHANGEDA || nmtv->hdr.code == TVN_SELCHANGEDW)
 				{
 					if (nmtv->itemOld.lParam)
@@ -742,7 +742,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			switch (((LPNMHDR)lParam)->code)
 			{
 			case PSN_APPLY:
-				if ( !glOtherSkinWasLoaded) //store only if skin is same
+				if (!glOtherSkinWasLoaded) //store only if skin is same
 				{
 					StoreTreeToDB(GetDlgItem(hwndDlg,IDC_OBJECT_TREE),SKIN);
 					//ReloadSkin
@@ -777,12 +777,12 @@ int EnableGroup(HWND hwndDlg, HWND first, BOOL bEnable)
 {
 	HWND hwnd = first;
 	BOOL exit = FALSE;
-	if ( !hwnd) return 0;
+	if (!hwnd) return 0;
 	do
 	{
 		EnableWindow(hwnd,bEnable);
 		hwnd = GetWindow(hwnd,GW_HWNDNEXT);
-		if ( !hwnd || GetWindowLongPtr(hwnd,GWL_STYLE)&WS_GROUP) exit = TRUE;
+		if (!hwnd || GetWindowLongPtr(hwnd,GWL_STYLE)&WS_GROUP) exit = TRUE;
 	}
 		while (!exit);
 	return 0;
@@ -792,12 +792,12 @@ int ShowGroup(HWND hwndDlg, HWND first, BOOL bEnable)
 {
 	HWND hwnd = first;
 	BOOL exit = FALSE;
-	if ( !hwnd) return 0;
+	if (!hwnd) return 0;
 	do
 	{
 		ShowWindow(hwnd,bEnable?SW_SHOW:SW_HIDE);
 		hwnd = GetWindow(hwnd,GW_HWNDNEXT);
-		if ( !hwnd || GetWindowLongPtr(hwnd,GWL_STYLE)&WS_GROUP) exit = TRUE;
+		if (!hwnd || GetWindowLongPtr(hwnd,GWL_STYLE)&WS_GROUP) exit = TRUE;
 	}
 		while (!exit);
 	return 0;

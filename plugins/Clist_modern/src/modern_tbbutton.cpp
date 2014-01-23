@@ -75,7 +75,7 @@ static int TBStateConvert2Flat(int state)
 
 static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 {
-	if ( !hdcPaint)
+	if (!hdcPaint)
 		return;  //early exit
 
 	POINT offset;
@@ -93,13 +93,13 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 	HBITMAP hbmOld = NULL;
 	HDC hdcMem = pOffset ? hdcPaint : CreateCompatibleDC(hdcPaint);
 	HFONT hOldFont = (HFONT)SelectObject(hdcMem, bct->hFont);
-	if ( !pOffset) {
+	if (!pOffset) {
 		hbmMem = ske_CreateDIB32(width, height);
 		hbmOld = (HBITMAP)SelectObject(hdcMem, hbmMem);		
 	}
 	else OffsetRect(&rcClient,offset.x,offset.y);
 
-	if ( !g_CluiData.fDisableSkinEngine) {
+	if (!g_CluiData.fDisableSkinEngine) {
 		char szRequest[128];
 		/* painting */
 		mir_snprintf(szRequest,SIZEOF(szRequest),"Button,ID=%s,Hovered=%s,Pressed=%s,Focused=%s",
@@ -139,7 +139,7 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 			oldBM = (HBITMAP)SelectObject ( dc, oldBM );
 			DeleteObject(memBM);
 			DeleteDC(dc);
-			if ( !ret) { //WM_ERASEBKG return false need to paint
+			if (!ret) { //WM_ERASEBKG return false need to paint
 				HDC pdc = GetDC(hwndParent);
 				HBRUSH oldBrush = (HBRUSH)GetCurrentObject( pdc, OBJ_BRUSH );
 				hbr = (HBRUSH)SendMessage(hwndParent, WM_CTLCOLORDLG, (WPARAM)pdc, (LPARAM)hwndParent);
@@ -166,7 +166,7 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 	bool  bHasText = (bct->szText[0] != '\0');
 
 	/* formatter */
-	if ( !g_CluiData.fDisableSkinEngine) {
+	if (!g_CluiData.fDisableSkinEngine) {
 		/* correct rect according to rcMargins */
 
 		rcTemp.left	 += bct->rcMargins.left;
@@ -217,12 +217,12 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 		ske_DrawText(hdcMem, bct->szText, -1, &rcText, (bCentered ? DT_CENTER: 0) | DT_VCENTER | DT_SINGLELINE);
 		ske_ResetTextEffect(hdcMem);
 	}
-	if ( !pOffset)
+	if (!pOffset)
 		BitBlt(hdcPaint, 0, 0, width,height,hdcMem, 0, 0, SRCCOPY);
 
 	// better to use try/finally but looks like last one is Microsoft specific
 	SelectObject(hdcMem, hOldFont);
-	if ( !pOffset) {
+	if (!pOffset) {
 		SelectObject(hdcMem, hbmOld);
 		DeleteObject(hbmMem);
 		DeleteDC(hdcMem);
@@ -262,8 +262,10 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		break;
 
 	case BUTTONDRAWINPARENT:
-		if (IsWindowVisible(hwndDlg))
+		if (IsWindowVisible(hwndDlg)) {
 			PaintWorker(bct, (HDC)wParam, (POINT*)lParam);
+			return 0;
+		}
 		break;
 
 	case WM_NCPAINT:
@@ -293,7 +295,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 			RECT rcClient;
 			GetClientRect(bct->hwnd, &rcClient);
-			if ( !PtInRect(&rcClient, ptMouse)) {
+			if (!PtInRect(&rcClient, ptMouse)) {
 				bct->bHotMark = false;
 				ReleaseCapture();
 			}
@@ -303,7 +305,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 					bct->bHotMark = true;
 					InvalidateParentRect(bct->hwnd, NULL, TRUE);
 					if (bct->bSendOnDown) {
-						SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
+						SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM)hwndDlg);
 						bct->stateId = PBS_NORMAL;
 						InvalidateParentRect(bct->hwnd, NULL, TRUE);
 					}
@@ -320,10 +322,10 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			RECT rcClient;
 			GetClientRect(bct->hwnd, &rcClient);
 			
-			if ( !PtInRect(&rcClient, ptMouse)) {
+			if (!PtInRect(&rcClient, ptMouse)) {
 				bct->bHotMark = false;
 				ReleaseCapture();
-				break;
+				return 0;
 			}
 
 			if (bct->bIsPushBtn)
@@ -334,12 +336,15 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 				bct->stateId = PBS_HOT;
 				InvalidateParentRect(bct->hwnd, NULL, TRUE);
 			}
-			if ( !bct->bSendOnDown) {
+			if (!bct->bSendOnDown) {
 				bct->bHotMark = false;
 				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM)hwndDlg);
 			}
 		}
-		else bct->bHotMark = false;
+		else {
+			bct->bHotMark = false;
+			InvalidateParentRect(bct->hwnd, NULL, TRUE);
+		}
 		return 0;
 		
 	case WM_MOUSEMOVE:
@@ -371,7 +376,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 					InvalidateParentRect(bct->hwnd, NULL, TRUE);
 				}
 			}
-			else if ( !inClient && !bPressed) {
+			else if (!inClient && !bPressed) {
 				bct->bHotMark = false;
 				ReleaseCapture();
 			}
@@ -387,7 +392,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		break;
 
 	case BM_SETCHECK:
-		if ( !bct->bIsPushBtn) break;
+		if (!bct->bIsPushBtn) break;
 		if (wParam == BST_CHECKED)
 			bct->bIsPushed = 1;
 		else if (wParam == BST_UNCHECKED)

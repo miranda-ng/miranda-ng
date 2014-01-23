@@ -86,7 +86,7 @@ int GetProtoIndex(char * szName)
 		ProtoEnumAccounts( &accCount, &accs );
 
 		for (int i=0; i < accCount; i++)
-			if ( !mir_strcmpi(szName, accs[i]->szModuleName))
+			if (!mir_strcmpi(szName, accs[i]->szModuleName))
 				return accs[i]->iOrder;
 	}
 
@@ -187,7 +187,7 @@ INT_PTR SetUseGroups(WPARAM wParam, LPARAM lParam)
 	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS);
 	if ( wParam != -1 )
 	{
-		if ( !newVal == wParam ) return 0;
+		if (!newVal == wParam ) return 0;
 		newVal = wParam;
 	}
 	db_set_b(NULL,"CList","UseGroups",(BYTE)newVal);

@@ -114,7 +114,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg,IDC_OFFSETSPIN_RIGHT,UDM_SETRANGE, 0, MAKELONG(50, 0));
 	SendDlgItemMessage(hwndDlg,IDC_OFFSETSPIN_RIGHT,UDM_SETPOS, 0, MAKELONG(sbpo.PaddingRight,2));
 
-	if ( !sbpo.AccountIsCustomized)
+	if (!sbpo.AccountIsCustomized)
 		UpdateXStatusIconOptions(hwndDlg, perProto, dat, curSelProto);
 
 	{
@@ -125,7 +125,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWXSTATUSNAME), enableOptions);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWXSTATUS), enableOptions && enableIcons);
 
-		if ( !enableOptions) {
+		if (!enableOptions) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWNORMAL), enableOptions && enableIcons);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWBOTH), enableOptions && enableIcons );
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENTOVERLAY), enableOptions && enableIcons);
@@ -143,7 +143,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_OFFSETSPIN_RIGHT), enableOptions);
 	}
 
-	if ( !perProto || sbpo.AccountIsCustomized)
+	if (!perProto || sbpo.AccountIsCustomized)
 		UpdateXStatusIconOptions(hwndDlg, perProto, dat, curSelProto);
 }
 

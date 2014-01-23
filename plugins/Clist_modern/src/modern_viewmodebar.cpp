@@ -650,7 +650,7 @@ void DeleteViewMode( char * szName )
 	db_unset(NULL, CLVM_MODULE, szSetting);
 	db_unset(NULL, CLVM_MODULE, szName);
 
-	if ( !strcmp(g_CluiData.current_viewmode, szName) && lstrlenA(szName) == lstrlenA(g_CluiData.current_viewmode)) {
+	if (!strcmp(g_CluiData.current_viewmode, szName) && lstrlenA(szName) == lstrlenA(g_CluiData.current_viewmode)) {
 		g_CluiData.bFilterEffective = 0;
 		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		SetWindowText(hwndSelector, TranslateT("All contacts"));
@@ -894,7 +894,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (hItem == NULL)
 					break;
 
-				if ( !(hitFlags & CLCHT_ONITEMEXTRA))
+				if (!(hitFlags & CLCHT_ONITEMEXTRA))
 					break;
 
 				int iImage = SendDlgItemMessage(hwndDlg,IDC_CLIST,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(nm->iColumn,0));
@@ -1118,7 +1118,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				break;
 
 			KillTimer(hwnd, wParam);
-			if ( !g_CluiData.old_viewmode[0])
+			if (!g_CluiData.old_viewmode[0])
 				SendMessage(hwnd, WM_COMMAND, IDC_RESETMODES, 0);
 			else
 				ApplyViewMode((const char *)g_CluiData.old_viewmode);
@@ -1169,7 +1169,7 @@ clvm_reset_command:
 
 		case IDC_CONFIGUREMODES:
 clvm_config_command:
-			if ( !g_ViewModeOptDlg)
+			if (!g_ViewModeOptDlg)
 				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPT_VIEWMODES), 0, DlgProcViewModesSetup, 0);
 			break;
 		}
@@ -1210,7 +1210,7 @@ static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect)
 		if (rect) rc = *rect;
 		else	  GetClientRect(hwnd,&rc);
 
-		if ( !view_mode.hBmpBackground && !view_mode.useWinColors)
+		if (!view_mode.hBmpBackground && !view_mode.useWinColors)
 		{
 			HBRUSH hbr = CreateSolidBrush(view_mode.bkColour);
 			FillRect(hdc, &rc, hbr);
@@ -1238,7 +1238,7 @@ static int  ehhViewModeBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 		DBVARIANT dbv;
 		view_mode.bkColour = sttGetColor("ViewMode","BkColour",CLCDEFAULT_BKCOLOUR);
 		if ( db_get_b(NULL,"ViewMode","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if ( !db_get_s(NULL,"ViewMode","BkBitmap",&dbv)) {
+			if (!db_get_s(NULL,"ViewMode","BkBitmap",&dbv)) {
 				view_mode.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -1302,9 +1302,9 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 
 	mir_snprintf(szSetting, 256, "%c_LastMode", 246);
 
-	if ( !name)  // Name is null - apply last stored view mode
+	if (!name)  // Name is null - apply last stored view mode
 	{
-		if ( !db_get_s(NULL, CLVM_MODULE, szSetting, &dbv))
+		if (!db_get_s(NULL, CLVM_MODULE, szSetting, &dbv))
 		{
 			name = (char*)_alloca(strlen(dbv.pszVal)+1);
 			strcpy(name,dbv.pszVal);
@@ -1338,10 +1338,10 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 		return;
 	}
 
-	if ( !onlySelector )
+	if (!onlySelector )
 	{
 		mir_snprintf(szSetting, 256, "%c%s_PF", 246, name);
-		if ( !db_get_s(NULL, CLVM_MODULE, szSetting, &dbv)) {
+		if (!db_get_s(NULL, CLVM_MODULE, szSetting, &dbv)) {
 			if (lstrlenA(dbv.pszVal) >= 2)
 			{
 				strncpy(g_CluiData.protoFilter, dbv.pszVal, SIZEOF(g_CluiData.protoFilter));
@@ -1351,7 +1351,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 			mir_free(dbv.pszVal);
 		}
 		mir_snprintf(szSetting, 256, "%c%s_GF", 246, name);
-		if ( !db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv))
+		if (!db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv))
 		{
 			if (lstrlen(dbv.ptszVal) >= 2)
 			{

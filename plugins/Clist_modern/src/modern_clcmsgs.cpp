@@ -108,7 +108,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 		{
 			int i;
 			if (wParam != CLGN_ROOT) {
-				if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE) lParam, &contact, &group, NULL))
+				if (!pcli->pfnFindItem(hwnd, dat, (HANDLE) lParam, &contact, &group, NULL))
 					return (LRESULT) (HANDLE) NULL;
 				i = List_IndexOf((SortedList*)&group->cl,contact);
 				if (i < 0) return 0;
@@ -183,12 +183,12 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 			ClcGroup *tgroup;
 			int index = -1;
 			int mainindex = -1;
-			if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL))
+			if (!pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL))
 				break;
 			for (tgroup = group; tgroup; tgroup = tgroup->parent)
 				pcli->pfnSetGroupExpand(hwnd, dat, tgroup, 1);
 
-			if ( !contact->isSubcontact) {
+			if (!contact->isSubcontact) {
 				index = List_IndexOf((SortedList*)&group->cl,contact);
 				mainindex = index;
 			}
@@ -217,7 +217,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 		if (LOWORD(lParam) >= dat->extraColumnsCount)
 			return 0;
 
-		if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
+		if (!pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 			return 0;
 
 		contact->iExtraImage[LOWORD(lParam)] = HIWORD(lParam);

@@ -128,7 +128,7 @@ int FindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup *
 			nowVisible = 1;
 			for (tgroup = group;tgroup;tgroup = tgroup->parent)
 			{
-				if ( !tgroup->expanded)
+				if (!tgroup->expanded)
 				{
 					nowVisible = 0;
 					break;
@@ -143,7 +143,7 @@ int FindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup *
 			(IsHContactInfo(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_INFO && group->cl.items[group->scanIndex]->hContact == (HANDLE)((UINT_PTR)hItem&~HCONTACT_ISINFO)))
 		{
 			if (isVisible) {
-				if ( !nowVisible) *isVisible = 0;
+				if (!nowVisible) *isVisible = 0;
 				else {
 					int posy = cliGetRowTopY(dat,index+1);
 					if (posy < dat->yScroll)
@@ -161,7 +161,7 @@ int FindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup *
 
 			return 1;
 		}
-		if ( !isIgnoreSubcontacts &&
+		if (!isIgnoreSubcontacts &&
 			IsHContactContact(hItem)  &&
 			group->cl.items[group->scanIndex]->type == CLCIT_CONTACT  &&
 			group->cl.items[group->scanIndex]->SubAllocated > 0)
@@ -204,7 +204,7 @@ int FindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup *
 
 void ClearRowByIndexCache()
 {
-	if ( !CacheIndexClear)
+	if (!CacheIndexClear)
 	{
 		memset(CacheIndex, 0, sizeof(CacheIndex));
 		CacheIndexClear = TRUE;

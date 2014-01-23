@@ -88,10 +88,10 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 	DWORD style;
 	style = GetWindowLongPtr(hwnd,GWL_STYLE);
 	pdnce = pcli->pfnGetCacheEntry(contact->hContact);
-	if ( !RowHeights_Alloc(dat, item + 1))
+	if (!RowHeights_Alloc(dat, item + 1))
 		return -1;
 
-	if ( !pcli->hwndContactTree)
+	if (!pcli->hwndContactTree)
 		return 0;
 
 	if (dat->hWnd != pcli->hwndContactTree || !gl_RowRoot || contact->type == CLCIT_GROUP) {
@@ -298,7 +298,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 					if (item == -1) {
 						TCHAR szResult[80];
 
-						if ( !tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
+						if (!tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
 							SIZE text_size = {0};
 							RECT rc = {0};
 							// Select font
@@ -408,7 +408,7 @@ int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 	int max_height = 0, i, tmp;
 	DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);
 
-	if ( !dat->text_ignore_size_for_row_height) {
+	if (!dat->text_ignore_size_for_row_height) {
 		// Get contact font size
 		tmp = 0;
 		for (i = 0; i < SIZEOF(contact_fonts); i++)
@@ -449,7 +449,7 @@ int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 		max_height = max(max_height, dat->checkboxSize);
 
 	// Icon size
-	if ( !dat->icon_ignore_size_for_row_height)
+	if (!dat->icon_ignore_size_for_row_height)
 		max_height = max(max_height, ICON_HEIGHT);
 
 	max_height += 2 * dat->row_border;
@@ -507,7 +507,7 @@ void RowHeights_CalcRowHeights_Worker(ClcData *dat, HWND hwnd)
 		line_num++;
 
 		// Calc row height
-		if ( !gl_RowRoot)
+		if (!gl_RowRoot)
 			RowHeights_GetRowHeight(dat, hwnd, Drawing, line_num);
 		else
 			RowHeight_CalcRowHeight(dat, hwnd, Drawing, line_num);
@@ -556,28 +556,28 @@ int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact,
 	BOOL selected = ((item == dat->selection) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type != CLCIT_DIVIDER);
 	BOOL hottrack = ((item == dat->iHotTrack) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type != CLCIT_DIVIDER);
 	BOOL minimalistic = (g_clcPainter.CheckMiniMode(dat,selected,hottrack));
-	if ( !RowHeights_Alloc(dat, item + 1))
+	if (!RowHeights_Alloc(dat, item + 1))
 		return -1;
 
 	int height = 0;
 	ClcCacheEntry *pdnce = (contact->type == CLCIT_CONTACT) ? pcli->pfnGetCacheEntry(contact->hContact) : NULL;
 
 	if (dat->row_variable_height) {
-		if ( !dat->text_ignore_size_for_row_height) {
+		if (!dat->text_ignore_size_for_row_height) {
 			tmp = dat->fontModernInfo[g_clcPainter.GetBasicFontID(contact)].fontHeight;
 			if (dat->text_replace_smileys && dat->first_line_draw_smileys && !dat->text_resize_smileys)
 				tmp = max(tmp, contact->ssText.iMaxSmileyHeight);
 			height += tmp;
 
 			if (pdnce) {
-				if ( !minimalistic && dat->second_line_show && pdnce->szSecondLineText && pdnce->szSecondLineText[0]) {
+				if (!minimalistic && dat->second_line_show && pdnce->szSecondLineText && pdnce->szSecondLineText[0]) {
 					tmp = dat->fontModernInfo[FONTID_SECONDLINE].fontHeight;
 					if (dat->text_replace_smileys && dat->second_line_draw_smileys && !dat->text_resize_smileys)
 						tmp = max(tmp, pdnce->ssSecondLine.iMaxSmileyHeight);
 					height += dat->second_line_top_space + tmp;
 				}
 
-				if ( !minimalistic && dat->third_line_show && pdnce->szThirdLineText && pdnce->szThirdLineText[0]) {
+				if (!minimalistic && dat->third_line_show && pdnce->szThirdLineText && pdnce->szThirdLineText[0]) {
 					tmp = dat->fontModernInfo[FONTID_THIRDLINE].fontHeight;
 					if (dat->text_replace_smileys && dat->third_line_draw_smileys && !dat->text_resize_smileys)
 						tmp = max(tmp, pdnce->ssThirdLine.iMaxSmileyHeight);
@@ -603,7 +603,7 @@ int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact,
 		}
 
 		// Icon size
-		if ( !dat->icon_ignore_size_for_row_height) {
+		if (!dat->icon_ignore_size_for_row_height) {
 			if (contact->type == CLCIT_GROUP
 				|| (contact->type == CLCIT_CONTACT && contact->iImage != -1
 				&& !(dat->icon_hide_on_avatar && dat->avatars_show
