@@ -89,8 +89,8 @@ static int UnloadDatabase(MIDatabase* db)
 
 MIDatabaseChecker* CheckDb(const TCHAR* profile, int *error)
 {
-	std::auto_ptr<CDb3Mmap> db( new CDb3Mmap(profile));
-	if (db->Load(true) != ERROR_SUCCESS) {
+	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile));
+	if (db->Load(false) != ERROR_SUCCESS) {
 		*error = EGROKPRF_CANTREAD;
 		return NULL;
 	}

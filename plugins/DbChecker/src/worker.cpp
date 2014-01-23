@@ -64,11 +64,11 @@ static void Finalize(time_t& ts)
 			AddToStatus(STATUS_WARNING,TranslateT("Unable to rename original file"));
 	}
 	else if (!opts.bCheckOnly)
-		if ( !DeleteFile(opts.filename))
+		if (!DeleteFile(opts.filename))
 			AddToStatus(STATUS_WARNING,TranslateT("Unable to delete original file"));
 
 	if (!opts.bCheckOnly)
-		if ( !MoveFile(opts.outputFilename,opts.filename))
+		if (!MoveFile(opts.outputFilename, opts.filename))
 			AddToStatus(STATUS_WARNING,TranslateT("Unable to rename output file"));
 }
 

@@ -145,8 +145,6 @@ static INT_PTR srvDestroyInstance(WPARAM wParam,LPARAM lParam)
 
 int LoadDbintfModule()
 {
-	CreateServiceFunction(MS_DB_SETSAFETYMODE, srvSetSafetyMode);
-
 	CreateServiceFunction(MS_DB_CONTACT_GETCOUNT, srvGetContactCount);
 	CreateServiceFunction(MS_DB_CONTACT_DELETE, srvDeleteContact);
 	CreateServiceFunction(MS_DB_CONTACT_ADD, srvAddContact);
@@ -165,4 +163,9 @@ int LoadDbintfModule()
 	CreateServiceFunction(MS_DB_INIT_INSTANCE, srvInitInstance);
 	CreateServiceFunction(MS_DB_DESTROY_INSTANCE, srvDestroyInstance);
 	return 0;
+}
+
+void LoadDatabaseServices()
+{
+	CreateServiceFunction(MS_DB_SETSAFETYMODE, srvSetSafetyMode);
 }

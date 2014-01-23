@@ -27,17 +27,5 @@ int CDb3Base::WorkFinalTasks(int firstTime)
 	if (WriteSegment(0, &m_dbHeader, sizeof(m_dbHeader)) == WS_ERROR)
 		return ERROR_WRITE_FAULT;
 
-	if (m_hDbFile) {
-		CloseHandle(m_hDbFile);
-		m_hDbFile = NULL;
-	}
-	if (m_pDbCache) {
-		UnmapViewOfFile(m_pDbCache);
-		m_pDbCache = NULL;
-	}
-	if (m_hMap) {
-		CloseHandle(m_hMap);
-		m_hMap = NULL;
-	}
 	return ERROR_NO_MORE_ITEMS;
 }

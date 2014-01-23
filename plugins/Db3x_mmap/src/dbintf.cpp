@@ -127,13 +127,16 @@ int CDb3Base::Load(bool bSkipInit)
 
 		m_bReadOnly = false;
 
-		hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
-		hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
-		hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
+		// we don't need events in the service mode
+		if (ServiceExists(MS_DB_SETSAFETYMODE)) {
+			hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
+			hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
+			hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
 
-		hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
-		hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
-		hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
+			hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
+			hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
+			hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
+		}
 	}
 	return 0;
 }

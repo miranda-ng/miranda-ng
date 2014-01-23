@@ -32,6 +32,8 @@ TCHAR g_profileDir[MAX_PATH], g_profileName[MAX_PATH], g_shortProfileName[MAX_PA
 TCHAR* g_defaultProfile;
 void EnsureCheckerLoaded(bool);
 
+void LoadDatabaseServices();
+
 bool fileExist(TCHAR* fname)
 {
 	if (*fname == 0)
@@ -436,6 +438,8 @@ int LoadDatabaseModule(void)
 	PathToAbsoluteT(_T("."), szProfile);
 	_tchdir(szProfile);
 	szProfile[0] = 0;
+
+	LoadDatabaseServices();
 
 	// find out which profile to load
 	if (!getProfile(szProfile, SIZEOF(szProfile)))

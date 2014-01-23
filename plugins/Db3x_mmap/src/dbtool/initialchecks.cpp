@@ -48,14 +48,6 @@ int CDb3Base::WorkInitialChecks(int firstTime)
 	if (res)
 		return res;
 
-	m_hMap = CreateFileMapping(m_hDbFile, NULL, cb->bAggressive ? PAGE_WRITECOPY : PAGE_READONLY, 0, 0, NULL);
-	if (m_hMap)
-		m_pDbCache = (BYTE*)MapViewOfFile(m_hMap, cb->bAggressive ? FILE_MAP_COPY : FILE_MAP_READ, 0, 0, 0);
-	else {
-		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Can't create file mapping (%u)"), GetLastError());
-		return ERROR_ACCESS_DENIED;
-	}
-
 	if (!m_pDbCache) {
 		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Can't create map view of file (%u)"), GetLastError());
 		return ERROR_ACCESS_DENIED;

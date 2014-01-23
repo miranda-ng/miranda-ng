@@ -39,10 +39,8 @@ CDb3Mmap::~CDb3Mmap()
 int CDb3Mmap::Load(bool bSkipInit)
 {
 	int res = CDb3Base::Load(bSkipInit);
-	if (!res) {
-		if (!bSkipInit)
-			if (InitCrypt()) return 1;
-	}
+	if (!res && !bSkipInit)
+		if (InitCrypt()) return 1;
 
 	return res;
 }
