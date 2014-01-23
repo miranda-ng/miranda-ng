@@ -54,6 +54,10 @@ int CDbxMmapSA::Load(bool bSkipInit)
 			DecodeAll();
 			m_bEncoding = false;
 			WritePlainHeader();
+
+			MessageBox(NULL,
+				TranslateT("Your profile was decrypted to convert it into dbx_mmap format. When Miranda starts, you'll need to reenter a password"),
+				TranslateT("Password warning"), MB_OK | MB_ICONWARNING);
 		}
 
 		// write back mmap's signature not to open this profile again
