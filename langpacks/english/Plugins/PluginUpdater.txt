@@ -68,9 +68,9 @@
 [List loading already started!]
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
-[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 [<< Details]
+[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 [No updates found.]
 [Update checking already started!]
 ;file \plugins\PluginUpdater\src\Options.cpp

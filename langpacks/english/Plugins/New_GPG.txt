@@ -66,7 +66,7 @@
 [Change private key password]
 [Current password:]
 [New password twice:]
-[Userlist:]
+[User list:]
 [Export PubKey]
 [Turn on debug log]
 [Use Jabber API on Miranda NG (recommended)]
