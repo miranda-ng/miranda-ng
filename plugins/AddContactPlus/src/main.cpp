@@ -62,7 +62,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 static INT_PTR AddContactPlusDialog(WPARAM, LPARAM)
 {
-	if(hAddDlg) {
+	if (hAddDlg) {
 		SetForegroundWindow(hAddDlg);
 		SetFocus(hAddDlg);
 	}
@@ -78,7 +78,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 
 	ProtoEnumAccounts(&iRealAccCount, &pAccounts);
 	for (int i = 0; i < iRealAccCount; i++) {
-		if ( !IsAccountEnabled(pAccounts[i]))
+		if (!IsAccountEnabled(pAccounts[i]))
 			continue;
 
 		DWORD dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);

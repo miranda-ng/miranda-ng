@@ -21,54 +21,32 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "addcontactplus.h"
 #include <limits.h>
 
-// Function from miranda\src\modules\utils\utils.cpp
-TCHAR* __fastcall rtrim(TCHAR* str)
+struct AddDialogParam : public MZeroedObject
 {
-	if (str == NULL) return NULL;
-	TCHAR* p = _tcschr(str, 0);
-	while (--p >= str)
-	{
-		switch (*p)
-		{
-		case ' ': case '\t': case '\n': case '\r':
-			*p = 0; break;
-		default:
-			return str;
-		}
-	}
-	return str;
-}
+	AddDialogParam() {}
 
-typedef struct				// mNetSend protocol
-{
-	PROTOSEARCHRESULT hdr;
-	DWORD dwIP;
-} NETSENDSEARCHRESULT;
+	int handleType;
+	HANDLE handle;
+	CMStringA proto;
+	PROTOSEARCHRESULT *psr;
+};
 
-typedef struct				// Myspace protocol
+// Tlen protocol
+struct TLEN_SEARCH_RESULT : public PROTOSEARCHRESULT
 {
-	PROTOSEARCHRESULT psr;
-	int uid;
-} MYPROTOSEARCHRESULT;
-
-typedef struct				// Tlen protocol
-{
-	PROTOSEARCHRESULT hdr;
 	char jid[256];
-} TLEN_SEARCH_RESULT;
+};
 
 void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALSE)
 {
 	DWORD flags = (szProto) ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
-	if (IsDlgButtonChecked(hdlg, IDC_ADDTEMP))
-	{
+	if (IsDlgButtonChecked(hdlg, IDC_ADDTEMP)) {
 		EnableWindow(GetDlgItem(hdlg, IDC_ADDED), FALSE);
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTH), FALSE);
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTHREQ), FALSE);
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTHGB), FALSE);
 	}
-	else
-	{
+	else {
 		EnableWindow(GetDlgItem(hdlg, IDC_ADDED), !(flags & PF4_FORCEADDED));
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTH), !(flags & PF4_FORCEAUTH));
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTHREQ), (flags & PF4_NOCUSTOMAUTH) ? FALSE : IsDlgButtonChecked(hdlg, IDC_AUTH));
@@ -81,100 +59,94 @@ void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALS
 	SetDlgItemText(hdlg, IDC_AUTHREQ, (flags & PF4_NOCUSTOMAUTH) ? _T("") : TranslateT("Please authorize my request and add me to your contact list."));
 
 	char* szUniqueId = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
-	if (szUniqueId)
-	{
+	if (szUniqueId) {
 		size_t cbLen = strlen(szUniqueId) + 2;
 		TCHAR* pszUniqueId = (TCHAR*)mir_alloc(cbLen * sizeof(TCHAR));
 		mir_sntprintf(pszUniqueId, cbLen, _T("%S:"), szUniqueId);
 		SetDlgItemText(hdlg, IDC_IDLABEL, pszUniqueId);
 		mir_free(pszUniqueId);
 	}
-	else
-		SetDlgItemText(hdlg, IDC_IDLABEL, TranslateT("Contact ID:"));
+	else SetDlgItemText(hdlg, IDC_IDLABEL, TranslateT("Contact ID:"));
 
 	flags = (szProto) ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : 0;
-	if (flags & PF1_NUMERICUSERID)
-	{
+	if (flags & PF1_NUMERICUSERID) {
 		char buffer[65];
 		SetWindowLongPtr(GetDlgItem(hdlg, IDC_USERID), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_USERID), GWL_STYLE) | ES_NUMBER);
-		if (strstr(szProto, "GG") || strstr(szProto, "MYSPACE"))
+		if (strstr(szProto, "GG"))
 			_ultoa(INT_MAX, buffer, 10);
 		else
 			_ultoa(ULONG_MAX, buffer, 10);
 		SendDlgItemMessage(hdlg, IDC_USERID, EM_LIMITTEXT, (WPARAM)strlen(buffer), 0);
 	}
-	else
-	{
-		SetWindowLongPtr(GetDlgItem(hdlg, IDC_USERID), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_USERID), GWL_STYLE) &~ES_NUMBER);
+	else {
+		SetWindowLongPtr(GetDlgItem(hdlg, IDC_USERID), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_USERID), GWL_STYLE) & ~ES_NUMBER);
 		SendDlgItemMessage(hdlg, IDC_USERID, EM_LIMITTEXT, 255, 0);
 	}
 }
 
-bool AddContactDlgAccounts(HWND hdlg, ADDCONTACTSTRUCT* acs)
+bool AddContactDlgAccounts(HWND hdlg, AddDialogParam *acs)
 {
-		PROTOACCOUNT** pAccounts;
-		int iRealAccCount, iAccCount = 0, i;
-		DWORD dwCaps;
+	PROTOACCOUNT** pAccounts;
+	int iRealAccCount, iAccCount = 0;
 
-		ProtoEnumAccounts(&iRealAccCount, &pAccounts);
-		for (i = 0; i < iRealAccCount; i++)
-		{
-			if (!IsAccountEnabled(pAccounts[i])) continue;
-			dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS,PFLAGNUM_1, 0);
-			if (dwCaps & PF1_BASICSEARCH || dwCaps & PF1_EXTSEARCH || dwCaps & PF1_SEARCHBYEMAIL || dwCaps & PF1_SEARCHBYNAME)
-				iAccCount++;
-		}
+	ProtoEnumAccounts(&iRealAccCount, &pAccounts);
+	for (int i = 0; i < iRealAccCount; i++) {
+		if (!IsAccountEnabled(pAccounts[i]))
+			continue;
+		
+		DWORD dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+		if (dwCaps & PF1_BASICSEARCH || dwCaps & PF1_EXTSEARCH || dwCaps & PF1_SEARCHBYEMAIL || dwCaps & PF1_SEARCHBYNAME)
+			iAccCount++;
+	}
 
-		if (iAccCount == 0)
-		{
-			if (GetParent(hdlg) == NULL)
-				DestroyWindow(hdlg);
-			else
-				EndDialog(hdlg, 0);
-			return false;
-		}
+	if (iAccCount == 0) {
+		if (GetParent(hdlg) == NULL)
+			DestroyWindow(hdlg);
+		else
+			EndDialog(hdlg, 0);
+		return false;
+	}
 
-		SIZE textSize;
-		RECT rc;
-		int iIndex = 0, cbWidth = 0;
+	SIZE textSize;
+	RECT rc;
+	int iIndex = 0, cbWidth = 0;
 
-		HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, iAccCount, 0);
-		ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_SETIMAGELIST, 0, (LPARAM)hIml));
-		SendDlgItemMessage(hdlg, IDC_PROTO, CB_RESETCONTENT, 0, 0);
+	HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, iAccCount, 0);
+	ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_SETIMAGELIST, 0, (LPARAM)hIml));
+	SendDlgItemMessage(hdlg, IDC_PROTO, CB_RESETCONTENT, 0, 0);
 
-		COMBOBOXEXITEM cbei = {0};
-		cbei.mask = CBEIF_IMAGE | CBEIF_SELECTEDIMAGE | CBEIF_TEXT | CBEIF_LPARAM;
-		HDC hdc = GetDC(hdlg);
-		SelectObject(hdc, (HFONT)SendDlgItemMessage(hdlg, IDC_PROTO, WM_GETFONT, 0, 0));
-		for (i = 0; i < iRealAccCount; i++)
-		{
-			if (!IsAccountEnabled(pAccounts[i])) continue;
-			dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS,PFLAGNUM_1, 0);
-			if (!(dwCaps & PF1_BASICSEARCH) && !(dwCaps & PF1_EXTSEARCH) && !(dwCaps & PF1_SEARCHBYEMAIL) && !(dwCaps & PF1_SEARCHBYNAME))
-				continue;
+	COMBOBOXEXITEM cbei = { 0 };
+	cbei.mask = CBEIF_IMAGE | CBEIF_SELECTEDIMAGE | CBEIF_TEXT | CBEIF_LPARAM;
+	HDC hdc = GetDC(hdlg);
+	SelectObject(hdc, (HFONT)SendDlgItemMessage(hdlg, IDC_PROTO, WM_GETFONT, 0, 0));
+	for (int i = 0; i < iRealAccCount; i++) {
+		if (!IsAccountEnabled(pAccounts[i])) continue;
+		DWORD dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+		if (!(dwCaps & PF1_BASICSEARCH) && !(dwCaps & PF1_EXTSEARCH) && !(dwCaps & PF1_SEARCHBYEMAIL) && !(dwCaps & PF1_SEARCHBYNAME))
+			continue;
 
-			cbei.pszText = pAccounts[i]->tszAccountName;
-			GetTextExtentPoint32(hdc, cbei.pszText, lstrlen(cbei.pszText), &textSize);
-			if (textSize.cx > cbWidth) cbWidth = textSize.cx;
-			HICON hIcon = (HICON)CallProtoService(pAccounts[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
-			cbei.iImage = cbei.iSelectedImage = ImageList_AddIcon(hIml, hIcon);
-			DestroyIcon(hIcon);
-			cbei.lParam = (LPARAM)pAccounts[i]->szModuleName;
-			SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_INSERTITEM, 0, (LPARAM)&cbei);
-			if (acs->szProto && cbei.lParam && !strcmp(acs->szProto, pAccounts[i]->szModuleName))
-				iIndex = cbei.iItem;
-			cbei.iItem++;
-		}
-		cbWidth += 32;
-		SendDlgItemMessage(hdlg, IDC_PROTO, CB_GETDROPPEDCONTROLRECT, 0, (LPARAM)&rc);
-		if ((rc.right - rc.left) < cbWidth)
-			SendDlgItemMessage(hdlg, IDC_PROTO, CB_SETDROPPEDWIDTH, cbWidth, 0);
-		SendDlgItemMessage(hdlg, IDC_PROTO, CB_SETCURSEL, iIndex, 0);
-		SendMessage(hdlg, WM_COMMAND, MAKEWPARAM(IDC_PROTO, CBN_SELCHANGE), (LPARAM)GetDlgItem(hdlg, IDC_PROTO));
-		if (iAccCount == 1)
-			SetFocus(GetDlgItem(hdlg, IDC_USERID));
+		cbei.pszText = pAccounts[i]->tszAccountName;
+		GetTextExtentPoint32(hdc, cbei.pszText, lstrlen(cbei.pszText), &textSize);
+		if (textSize.cx > cbWidth) cbWidth = textSize.cx;
+		HICON hIcon = (HICON)CallProtoService(pAccounts[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
+		cbei.iImage = cbei.iSelectedImage = ImageList_AddIcon(hIml, hIcon);
+		DestroyIcon(hIcon);
+		cbei.lParam = (LPARAM)pAccounts[i]->szModuleName;
+		SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_INSERTITEM, 0, (LPARAM)&cbei);
+		if (cbei.lParam && !strcmp(acs->proto, pAccounts[i]->szModuleName))
+			iIndex = cbei.iItem;
+		cbei.iItem++;
+	}
+	cbWidth += 32;
+	SendDlgItemMessage(hdlg, IDC_PROTO, CB_GETDROPPEDCONTROLRECT, 0, (LPARAM)&rc);
+	if ((rc.right - rc.left) < cbWidth)
+		SendDlgItemMessage(hdlg, IDC_PROTO, CB_SETDROPPEDWIDTH, cbWidth, 0);
+	SendDlgItemMessage(hdlg, IDC_PROTO, CB_SETCURSEL, iIndex, 0);
+	SendMessage(hdlg, WM_COMMAND, MAKEWPARAM(IDC_PROTO, CBN_SELCHANGE), (LPARAM)GetDlgItem(hdlg, IDC_PROTO));
+	if (iAccCount == 1)
+		SetFocus(GetDlgItem(hdlg, IDC_USERID));
 
-		return true;
+	return true;
 }
 
 #define DM_ADDCONTACT_CHANGEICONS WM_USER + 11
@@ -182,10 +154,11 @@ bool AddContactDlgAccounts(HWND hdlg, ADDCONTACTSTRUCT* acs)
 
 INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	ADDCONTACTSTRUCT* acs;
+	AddDialogParam *acs = (AddDialogParam*)GetWindowLongPtr(hdlg, GWLP_USERDATA);
+
 	switch (msg) {
 	case WM_INITDIALOG:
-		acs = (ADDCONTACTSTRUCT*)mir_calloc(sizeof(ADDCONTACTSTRUCT));
+		acs = new AddDialogParam();
 		acs->handleType = HANDLE_SEARCHRESULT;
 		SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)acs);
 
@@ -195,35 +168,30 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 		SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(ICON_ADD));
 		HookEventMessage(ME_SKIN2_ICONSCHANGED, hdlg, DM_ADDCONTACT_CHANGEICONS);
 		HookEventMessage(ME_PROTO_ACCLISTCHANGED, hdlg, DM_ADDCONTACT_CHANGEACCLIST);
-
 		{
 			TCHAR *szGroup;
-			for (int i=1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++) {
+			for (int i = 1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++) {
 				int id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)szGroup);
-				SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA, (WPARAM)id, (LPARAM)i+1);
+				SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA, (WPARAM)id, (LPARAM)i);
 			}
 		}
 		SendDlgItemMessage(hdlg, IDC_GROUP, CB_INSERTSTRING, 0, (LPARAM)TranslateT("None"));
 		SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETCURSEL, 0, 0);
-
 		{
-			DBVARIANT dbv = {0};
-			if(!db_get_s(NULL,"AddContact","LastProto",&dbv)) {
-				acs->szProto = dbv.pszVal;
-				db_free(&dbv);
-			}
+			ptrA szProto(db_get_sa(NULL, "AddContact", "LastProto"));
+			if (szProto)
+				acs->proto = szProto;
 		}
-		if(AddContactDlgAccounts(hdlg, acs)) {
+		if (AddContactDlgAccounts(hdlg, acs)) {
 			// By default check these checkboxes
 			CheckDlgButton(hdlg, IDC_ADDED, BST_CHECKED);
 			CheckDlgButton(hdlg, IDC_AUTH, BST_CHECKED);
-			AddContactDlgOpts(hdlg, acs->szProto);
+			AddContactDlgOpts(hdlg, acs->proto);
 			EnableWindow(GetDlgItem(hdlg, IDOK), FALSE);
 		}
 		break;
 
 	case WM_COMMAND:
-		acs = (ADDCONTACTSTRUCT*)GetWindowLongPtr(hdlg, GWLP_USERDATA);
 		switch (LOWORD(wparam)) {
 		case IDC_USERID:
 			if (HIWORD(wparam) == EN_CHANGE) {
@@ -239,19 +207,19 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 		case IDC_PROTO:
 			if (HIWORD(wparam) == CBN_SELCHANGE || HIWORD(wparam) == CBN_SELENDOK) {
-				acs->szProto = (char*)SendDlgItemMessage(hdlg, IDC_PROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hdlg, IDC_PROTO, CB_GETCURSEL, 0, 0), 0);
+				acs->proto = (char*)SendDlgItemMessage(hdlg, IDC_PROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hdlg, IDC_PROTO, CB_GETCURSEL, 0, 0), 0);
 				// TODO remember last setting for each proto?
-				AddContactDlgOpts(hdlg, acs->szProto);
+				AddContactDlgOpts(hdlg, acs->proto);
 			}
 			break;
 
 		case IDC_ADDTEMP:
-			AddContactDlgOpts(hdlg, acs->szProto, TRUE);
+			AddContactDlgOpts(hdlg, acs->proto, TRUE);
 			break;
 
 		case IDC_AUTH:
 			{
-				DWORD flags = CallProtoService(acs->szProto, PS_GETCAPS, PFLAGNUM_4,0);
+				DWORD flags = CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_4, 0);
 				if (flags & PF4_NOCUSTOMAUTH) {
 					EnableWindow(GetDlgItem(hdlg, IDC_AUTHREQ), FALSE);
 					EnableWindow(GetDlgItem(hdlg, IDC_AUTHGB), FALSE);
@@ -265,15 +233,12 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 		case IDOK:
 			{
-				HANDLE hContact = INVALID_HANDLE_VALUE;
-				PROTOSEARCHRESULT* psr;
-
 				TCHAR szUserId[256];
 				GetDlgItemText(hdlg, IDC_USERID, szUserId, SIZEOF(szUserId));
 
-				if (*rtrim(szUserId) == 0 ||
-					(strstr(acs->szProto, "GG") && _tcstoul(szUserId, NULL, 10) > INT_MAX) || // Gadu-Gadu protocol
-					((CallProtoService(acs->szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_NUMERICUSERID) && !_tcstoul(szUserId, NULL, 10)))
+				if (*rtrimt(szUserId) == 0 ||
+					(strstr(acs->proto, "GG") && _tcstoul(szUserId, NULL, 10) > INT_MAX) || // Gadu-Gadu protocol
+					((CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_NUMERICUSERID) && !_tcstoul(szUserId, NULL, 10)))
 				{
 					MessageBox(NULL,
 						TranslateT("The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly."),
@@ -281,22 +246,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					break;
 				}
 
-				if (strstr(acs->szProto, "MNETSEND")) { // mNetSend protocol
-					psr = (PROTOSEARCHRESULT*)mir_calloc(sizeof(NETSENDSEARCHRESULT));
-					psr->cbSize = sizeof(NETSENDSEARCHRESULT);
-				}
-				else if (strstr(acs->szProto, "MYSPACE")) { // Myspace protocol
-					if (_tcstoul(szUserId, NULL, 10) > INT_MAX) {
-						MessageBox(NULL,
-							TranslateT("The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly."),
-							TranslateT("Add contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
-						break;
-					}
-					psr = (PROTOSEARCHRESULT*)mir_calloc(sizeof(MYPROTOSEARCHRESULT));
-					psr->cbSize = sizeof(MYPROTOSEARCHRESULT);
-					((MYPROTOSEARCHRESULT*)psr)->uid = _tcstoul(szUserId, NULL, 10);
-				}
-				else if (strstr(acs->szProto, "TLEN")) { // Tlen protocol
+				PROTOSEARCHRESULT *psr;
+				if (strstr(acs->proto, "TLEN")) { // Tlen protocol
 					if (_tcschr(szUserId, '@') == NULL) {
 						MessageBox(NULL,
 							TranslateT("The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly."),
@@ -316,8 +267,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				psr->id = mir_tstrdup(szUserId);
 				acs->psr = psr;
 
-				hContact = (HANDLE)CallProtoService(acs->szProto, PS_ADDTOLIST, IsDlgButtonChecked(hdlg, IDC_ADDTEMP) ? PALF_TEMPORARY : 0, (LPARAM)acs->psr);
-
+				HANDLE hContact = (HANDLE)CallProtoService(acs->proto, PS_ADDTOLIST, IsDlgButtonChecked(hdlg, IDC_ADDTEMP) ? PALF_TEMPORARY : 0, (LPARAM)acs->psr);
 				if (hContact == NULL) {
 					MessageBox(NULL,
 						TranslateT("The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly."),
@@ -341,13 +291,11 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					if (IsDlgButtonChecked(hdlg, IDC_ADDED))
 						CallContactService(hContact, PSS_ADDED, 0, 0);
 
-					if (IsDlgButtonChecked(hdlg, IDC_AUTH))
-					{
-						DWORD flags = CallProtoService(acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+					if (IsDlgButtonChecked(hdlg, IDC_AUTH)) {
+						DWORD flags = CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_4, 0);
 						if (flags & PF4_NOCUSTOMAUTH)
 							CallContactService(hContact, PSS_AUTHREQUESTT, 0, 0);
-						else
-						{
+						else {
 							TCHAR szReason[512];
 							GetDlgItemText(hdlg, IDC_AUTHREQ, szReason, SIZEOF(szReason));
 							CallContactService(hContact, PSS_AUTHREQUESTT, 0, (LPARAM)szReason);
@@ -364,7 +312,6 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				DestroyWindow(hdlg);
 			else
 				EndDialog(hdlg, 0);
-			break;
 		}
 		break;
 
@@ -382,7 +329,6 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 		break;
 
 	case DM_ADDCONTACT_CHANGEACCLIST:
-		acs = (ADDCONTACTSTRUCT*)GetWindowLongPtr(hdlg, GWLP_USERDATA);
 		AddContactDlgAccounts(hdlg, acs);
 		break;
 
@@ -391,20 +337,16 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 		Skin_ReleaseIcon((HICON)SendMessage(hdlg, WM_SETICON, ICON_BIG, 0));
 		Skin_ReleaseIcon((HICON)SendMessage(hdlg, WM_SETICON, ICON_SMALL, 0));
 		ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_GETIMAGELIST, 0, 0));
-		acs = (ADDCONTACTSTRUCT*)GetWindowLongPtr(hdlg, GWLP_USERDATA);
-		if (acs)
-		{
-			if(acs->szProto)
-				db_set_s(NULL,"AddContact","LastProto",acs->szProto);
-			if (acs->psr)
-			{
+		if (acs) {
+			db_set_s(NULL, "AddContact", "LastProto", acs->proto);
+			if (acs->psr) {
 				mir_free(acs->psr->nick);
 				mir_free(acs->psr->firstName);
 				mir_free(acs->psr->lastName);
 				mir_free(acs->psr->email);
 				mir_free(acs->psr);
 			}
-			mir_free(acs);
+			delete acs;
 		}
 		Utils_SaveWindowPosition(hdlg, NULL, "AddContact", "");
 		break;
