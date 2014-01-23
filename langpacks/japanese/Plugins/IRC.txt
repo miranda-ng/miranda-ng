@@ -33,7 +33,7 @@
 ' 旧スタイル 'モードを変更
 [Update online statuses for users]
 ユーザーのオンラインステータスを更新
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 チャンネルニックリストステータス更新
 [Internet address]
 インターネットアドレス

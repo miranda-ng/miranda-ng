@@ -568,7 +568,7 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 фільтр
 [&Room settings]
 Налады чата
-[&Show/Hide nicklist]
+[&Show/Hide nick list]
 Паказаць/Схаваць спіс
 [Show these events only:]
 Паказваць толькі:
@@ -618,7 +618,7 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Іншае
 [Add new rooms to group:]
 Дадаваць чаты ў гурт:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 Адлегласць паміж радкамі (пікс.):
 [Use same style as in the message log]
 Той жа стыль, што і ў логе
@@ -1298,11 +1298,11 @@ Miranda
 Плагін чата
 [Message background]
 Фон паведамлення
-[User list background]
+[Nick list background]
 Фон спісу
-[User list lines]
+[Nick list lines]
 Колер ліній спісу
-[User list background (selected)]
+[Nick list background (selected)]
 Заліванне спісу (абрана)
 ;file \src\core\stdchat\src\options.cpp
 [Use a tabbed interface]
@@ -1479,9 +1479,9 @@ Miranda
 Фільтр падзей выключаны
 [Event filter enabled]
 Фільтр падзей уключаны
-[Hide userlist]
+[Hide nick list]
 Схаваць спіс
-[Show userlist]
+[Show nick list]
 Паказаць спіс
 [Icon overlay]
 Абразок па-над
@@ -1577,7 +1577,7 @@ Miranda
 Абраць колер тэксту (CTRL+K)
 [Show the history (CTRL+H)]
 Паказаць гісторыю (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Паказаць/схаваць спіс кантактаў (CTRL+N)
 [Control this room (CTRL+O)]
 Кантраляваць гэты чат(CTRL+O)
@@ -1957,9 +1957,9 @@ URL ад %s
 Дзеянне
 [Highlighted message]
 Падсветленае паведамленне
-[User list members (online)]
+[Nick list members (online)]
 Кантакты (далучаны)
-[User list members (away)]
+[Nick list members (away)]
 Кантакты (адсутнічаюць)
 [Message typing area]
 Поле набору тэксту

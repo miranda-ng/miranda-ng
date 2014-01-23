@@ -570,7 +570,7 @@ Historia
 Filtr
 [&Room settings]
 Ustawienia pokoju
-[&Show/Hide nicklist]
+[&Show/Hide nick list]
 Pokaż/Ukryj listę nicków
 [Show these events only:]
 Pokaż tylko te zdarzenia:
@@ -620,7 +620,7 @@ Folder dziennika
 Inne
 [Add new rooms to group:]
 Dodaj nowe pokoje do grupy:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 Odstęp między wierszami (px): 
 [Use same style as in the message log]
 Użyj takiego samego stylu, jak w dzienniku
@@ -1306,11 +1306,11 @@ Moduł czatu
 Tło dziennika czatu grupowego
 [Message background]
 Tło wiadomości
-[User list background]
+[Nick list background]
 Tło listy użytkowników
-[User list lines]
+[Nick list lines]
 Linie listy użytkowników
-[User list background (selected)]
+[Nick list background (selected)]
 Tło listy użytkowników (zaznaczenie)
 ;file \src\core\stdchat\src\options.cpp
 [Use a tabbed interface]
@@ -1487,9 +1487,9 @@ Ustawienia pokoju
 Filtr zdarzeń wyłączony
 [Event filter enabled]
 Filtr zdarzeń włączony
-[Hide userlist]
+[Hide nick list]
 Ukryj listę użytkowników
-[Show userlist]
+[Show nick list]
 Pokaż listę użytkowników
 [Icon overlay]
 Pokrywanie ikony
@@ -1585,7 +1585,7 @@ Wybierz kolor tła dla tekstu (Ctrl+L)
 Wybierz kolor dla tekstu (Ctrl+K)
 [Show the history (CTRL+H)]
 Pokaż historię (Ctrl+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Pokaż/ukryj listę nazw (Ctrl+N)
 [Control this room (CTRL+O)]
 Kontroluj ten pokój (Ctrl + O)
@@ -1965,9 +1965,9 @@ Użytkownik wyłącza status dla...
 Wiadomość akcji
 [Highlighted message]
 Podświetlona wiadomość
-[User list members (online)]
+[Nick list members (online)]
 Członkowie listy użytkowników (Dostępni)
-[User list members (away)]
+[Nick list members (away)]
 Członkowie listy użytkowników (Zaraz wracam)
 [Message typing area]
 Obszar pisania wiadomości

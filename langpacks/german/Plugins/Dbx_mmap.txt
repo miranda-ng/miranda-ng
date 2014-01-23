@@ -139,8 +139,6 @@ Datenbank gehört zu einer unbekannten Mirandaversion
 Datenbank wurde neu erstellt und hat keine Daten zum Verarbeiten
 [Processing completed successfully]
 Verarbeitung wurde erfolgreich beendet
-[Can't create file mapping (%u)]
-Kann Datei-Mapping nicht erstellen (%u)
 [Can't create map view of file (%u)]
 Kann Map-File-View der Datei nicht erstellen (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp

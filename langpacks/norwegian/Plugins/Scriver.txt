@@ -243,9 +243,9 @@ Rominnstillinger
 Hendelsesfilter deaktivert
 [Event filter enabled]
 Hendelsesfilter aktivert
-[Hide userlist]
+[Hide nick list]
 Skjul brukerliste
-[Show userlist]
+[Show nick list]
 Vis brukerliste
 [Status 1 (10x10)]
 Status 1 (10x10)
@@ -395,9 +395,9 @@ En ukjent feil har inntruffet
 Alltid På Topp
 [The message send timed out.]
 Meldingssendingen timet ut.
-[User list background]
+[Nick list background]
 Brukerliste Bakgrunn
-[User list lines]
+[Nick list lines]
 Brukerliste Linjer
 [Prefix all events with a timestamp]
 Vis tidspunkt foran alle hendelser
@@ -473,7 +473,7 @@ Velg en bakgrunnsfarge for teksten (CTRL+L)
 Velg en forgrunnsfarge for teksten (CTRL+K)
 [Show the history (CTRL+H)]
 Vis historikken (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Vis/skjul kallenavnlisten (CTRL+N)
 [Control this room (CTRL+O)]
 Kontroller dette rommet (CTRL+O)

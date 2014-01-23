@@ -54,7 +54,6 @@
 [Database is marked as belonging to an unknown version of Miranda]
 [Database is newly created and has no data to process]
 [Processing completed successfully]
-[Can't create file mapping (%u)]
 [Can't create map view of file (%u)]
 [Processing module name chain]
 [Module chain corrupted, further entries ignored]

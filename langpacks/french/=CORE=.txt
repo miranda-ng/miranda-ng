@@ -570,7 +570,7 @@ Fermeture dans %d
 
 [&Room settings]
 
-[&Show/Hide nicklist]
+[&Show/Hide nick list]
 
 [Show these events only:]
 Voir ces évènements si:
@@ -620,7 +620,7 @@ Répertoire:
 Autre
 [Add new rooms to group:]
 Ajouter salons au groupe:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 Écart entre rangs (pixels):
 [Use same style as in the message log]
 Utiliser même style que la fenêtre
@@ -1306,11 +1306,11 @@ Chat
 
 [Message background]
 Fond des messages
-[User list background]
+[Nick list background]
 Fond de la liste
-[User list lines]
+[Nick list lines]
 Lignes de la liste
-[User list background (selected)]
+[Nick list background (selected)]
 
 ;file \src\core\stdchat\src\options.cpp
 [Use a tabbed interface]
@@ -1487,9 +1487,9 @@ Paramètres du salon
 Filtre d'évènement désactivé
 [Event filter enabled]
 Filtre d'évènement activé
-[Hide userlist]
+[Hide nick list]
 Masquer la liste des usagers
-[Show userlist]
+[Show nick list]
 Afficher la liste des usagers
 [Icon overlay]
 Surimpression d'icône
@@ -1585,7 +1585,7 @@ Couleur de fond du texte (CTRL+L)
 Couleur du texte (CTRL+K)
 [Show the history (CTRL+H)]
 Afficher l'historique (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Afficher/cacher la liste des pseudos (CTRL+N)
 [Control this room (CTRL+O)]
 Contrôler ce salon (CTRL+O)
@@ -1965,9 +1965,9 @@ L'usager désactive l'état pour ...
 Message d'action
 [Highlighted message]
 Message surligné
-[User list members (online)]
+[Nick list members (online)]
 Liste des usagers (en ligne)
-[User list members (away)]
+[Nick list members (away)]
 Liste des usagers (absents)
 [Message typing area]
 Zone de saisie des messages

@@ -68,7 +68,7 @@ Zeitstempel (Fenster)
 Zeitstem. (Verlaufsdatei)
 [Maximum number of events in the message window]
 Maximale Anzahl der Ereignisse im Nachrichtenfenster
-[Group chat userlist row height (pixels)]
+[Group chat nick list row height (pixels)]
 Zeilenhöhe der Benutzerliste in Gruppenchats (in Pixel):
 [Open log file base folder]
 Basisverzeichnis der Verlaufsdateien öffnen
@@ -2002,7 +2002,7 @@ Splitterposition mit Standard-Nachrichtensitzungen synchronisieren
 Kontaktstatus anzeigen, falls das Protokoll dies unterstützt
 [Display contact's status icon before user role icon]
 Statusicon vor dem Rollen-/Rangicon des Kontakts anzeigen
-[Use IRC style status indicators in the user list]
+[Use IRC style status indicators in the nick list]
 IRC-ähnliche Statusanzeigen in der Nickliste verwenden
 [Use alternative sorting method in member list]
 Alternative Sortierung in der Nickliste verwenden
@@ -2102,7 +2102,7 @@ Markierter Text
 Inkrementelle Suche
 [Fields background]
 Felder-Hintergrund
-[Userlist background]
+[Nick list background]
 Hintergrund Benutzerliste
 [Group chat log background]
 Gruppenchat-Verlaufshintergrund

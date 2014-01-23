@@ -357,7 +357,7 @@ Log directory
 Ander
 [Add new rooms to group:]
 Nieuwe ruimtes toevoegen aan groep:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 Gebruikerslijst rij afstand (pixels):
 [Use same style as in the message log]
 Dezelfde stijl als in het bericht log gebruiken
@@ -907,9 +907,9 @@ Gebruiker schakeld status uit voor ...
 Actie bericht
 [Highlighted message]
 Opgelichte berichten
-[User list members (online)]
+[Nick list members (online)]
 Gebruikerlijst leden (Online)
-[User list members (away)]
+[Nick list members (away)]
 Gebruikerlijst leden (afwezig)
 [Message typing area]
 Bericht typen gebied
@@ -1115,7 +1115,7 @@ Een achtergrond kleur voor de tekst selecteren (CTRL+L)
 Een voorgrond kleur voor de tekst selecteren (CTRL+K)
 [Show the history (CTRL+H)]
 De geschiedenis weergeven (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 De bijnaamlijst weergeven/verbergen
 [Control this room (CTRL+O)]
 Deze ruimte controleren (CTRL+O)

@@ -126,7 +126,7 @@ Contraseña:
 
 [New password twice:]
 
-[Userlist:]
+[User list:]
 
 [Export PubKey]
 

@@ -173,7 +173,7 @@ Cancel
 その他
 [Add new rooms to group:]
 新しいルームをグループに追加:
-[User list row height]
+[Nick list row height]
 ユーザーリストの行の高さ
 [pixels]
 ピクセル
@@ -323,9 +323,9 @@ Unicode オフ
 イベントフィルターを無効化
 [Event filter enabled]
 イベントフィルターを有効化
-[Hide userlist]
+[Hide nick list]
 ユーザーリストを非表示
-[Show userlist]
+[Show nick list]
 ユーザーリストを表示
 [Status 1 (10x10)]
 ステータス 1(10x10)
@@ -487,17 +487,17 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 常に前面
 [The message send timed out.]
 メッセージの送信はタイムアウトしました
-[User list background]
+[Nick list background]
 ユーザーリストの背景
-[User list lines]
+[Nick list lines]
 ユーザーリストの線
-[User list background (selected)]
+[Nick list background (selected)]
 ユーザーリストの背景 ( 選択済 )
 [Flash when someone speaks]
 誰かが話したらフラッシュ
 [Flash when a word is highlighted]
 単語が強調表示されたらフラッシュ
-[Show chat user list]
+[Show chat nick list]
 チャットユーザーリストを表示
 [Enable button context menus]
 コンテキストメニューにボタンを有効
@@ -597,7 +597,7 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 テキストの文字色を選択 (CTRL+K)
 [Show the history (CTRL+H)]
 履歴を表示 (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 ニックリストを表示 / 非表示 (CTRL+N)
 [Control this room (CTRL+O)]
 このルームを管理する (CTRL+O)

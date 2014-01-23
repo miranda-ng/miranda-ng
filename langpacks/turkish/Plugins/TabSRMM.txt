@@ -61,7 +61,7 @@ Zaman damgası (pencere)
 Zaman damgası (günlük)
 [Maximum number of events in the message window]
 İleti penceresindeki en çok etkinlik sayısı
-[Group chat userlist row height (pixels)]
+[Group chat nick list row height (pixels)]
 Grup sohbeti kişi listesi satır yüksekliği (piksel)
 [List]
 Liste

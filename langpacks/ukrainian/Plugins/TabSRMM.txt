@@ -469,7 +469,7 @@ RTL шаблони
 Показувати значки статусів, якщо підтримується протоколом
 [Display contact's status icon before user role icon]
 Показувати піктограму статусу перед значком ролі
-[Use IRC style status indicators in the user list]
+[Use IRC style status indicators in the nick list]
 IRC-стиль (текстовий) індикаторів ролей учасників у списку
 [Use alternative sorting method in member list]
 Альтернативна сортування ників у списку
@@ -506,7 +506,7 @@ IRC-стиль(текстовий) індикаторів ролей в журн
 Час (файл)
 [Maximum number of events in the message window]
 Максимальну кількість подій у вікні чатів
-[Group chat userlist row height (pixels)]
+[Group chat nick list row height (pixels)]
 Висота пунктів списку користувачів (пікс.)
 [nick of current contact (if defined)]
 нік поточного контакту (якщо він визначений)

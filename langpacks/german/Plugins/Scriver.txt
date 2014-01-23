@@ -190,7 +190,7 @@ Nein
 &Filter
 [&Room Settings]
 &Raumeinstellungen
-[&Show/hide nicklist]
+[&Show/hide nick list]
 Nickliste &anzeigen/verbergen
 [Show these events only:]
 Nur folgende Ereignisse anzeigen:
@@ -222,7 +222,7 @@ Einstellungen
 Sonstige
 [Add new rooms to group:]
 Gruppe für neue Räume:
-[User list row height]
+[Nick list row height]
 Höhe einer Benutzerzeile
 [pixels]
 Pixel
@@ -383,9 +383,9 @@ Raumeinstellungen
 Ereignisfilter deaktiviert
 [Event filter enabled]
 Ereignisfilter aktiviert
-[Hide userlist]
+[Hide nick list]
 Benutzerliste ausblenden
-[Show userlist]
+[Show nick list]
 Benutzerliste einblenden
 [Status 1 (10x10)]
 Status 1 (10x10)
@@ -661,18 +661,18 @@ Timeout beim Nachrichtenversand
 ;file \plugins\Scriver\src\chat\main.cpp
 [Group chat log background]
 
-[User list background]
+[Nick list background]
 Benutzerliste Hintergrund
-[User list lines]
+[Nick list lines]
 Benutzerliste, Linie
-[User list background (selected)]
+[Nick list background (selected)]
 Benutzerliste Hintergrund (ausgewählt)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Blinken, wenn jemand schreibt
 [Flash when a word is highlighted]
 Blinken, wenn ein Wort hervorgehoben wird
-[Show chat user list]
+[Show chat nick list]
 Chatbenutzerliste zeigen
 [Enable button context menus]
 Buttonkontextmenüs nutzen
@@ -866,7 +866,7 @@ Schrifthintergrundfarbe wählen (Strg+L)
 Schriftfarbe wählen (Strg+K)
 [Show the history (CTRL+H)]
 Logdatei öffnen (Strg+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Benutzerliste anzeigen/verstecken (Strg+N)
 [Control this room (CTRL+O)]
 Raumeinstellungen (Strg+O)

@@ -147,7 +147,7 @@
 אחר
 [Add new rooms to group:]
 הוסף חדרים לקבוצה:
-[User list row height]
+[Nick list row height]
 גובה שורת רשימת משתמש\n
 [pixels]
 פיקסלים
@@ -263,9 +263,9 @@
 הגדרות חדר
 [Event filter enabled]
 חוסם אירועים הופעל
-[Hide userlist]
+[Hide nick list]
 החבא רשימת משתמשים
-[Show userlist]
+[Show nick list]
 הראה רשימת משתמשים
 [Status 1 (10x10)]
 מצב 1 (10x10)
@@ -391,13 +391,13 @@
 תמיד עליון
 [The message send timed out.]
 שליחת ההודעה התארכה יותר מהצפוי.
-[User list lines]
+[Nick list lines]
 קווי רשימת משתמשים
 [Flash when someone speaks]
 הבהב בזמן שמישהו מדבר
 [Flash when a word is highlighted]
 הבהב בזמן שמילה מודגשת
-[Show chat user list]
+[Show chat nick list]
 הראה רשימת משתמשים ב'צאט
 [Enable button context menus]
 אפשר כפתור בתפריט משתמש

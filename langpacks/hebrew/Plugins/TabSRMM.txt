@@ -621,7 +621,7 @@ IEView כפה
 מראה ותפקוד של חלונות חדרי הצ'אט
 [Appearance of the message log]
 מראה של יומן ההודעות
-[Userlist background]
+[Nick list background]
 רקע רשימה
 [All Files]
 כל הקבצים

@@ -40,7 +40,7 @@ Mantener viva la conexión
 
 [Update online statuses for users]
 
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 
 [Internet address]
 

@@ -11,7 +11,7 @@
 [Automatically join on invite]
 ['Old style' mode changes]
 [Update online statuses for users]
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 [Internet address]
 [Port range]
 [User ID (Ident)]

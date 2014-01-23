@@ -126,7 +126,7 @@ Passwort des privaten Schlüssels ändern
 Aktuelles Passwort:
 [New password twice:]
 Neues Passwort (zweimal):
-[Userlist:]
+[User list:]
 Benutzerliste:
 [Export PubKey]
 Exportiere Schlüssel

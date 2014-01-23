@@ -133,8 +133,6 @@
 База дадзеных новая, і ў ёй няма дадзеных для апрацоўкі
 [Processing completed successfully]
 Апрацоўка завершана паспяхова
-[Can't create file mapping (%u)]
-Не магу стварыць файл карты (%u)
 [Can't create map view of file (%u)]
 Не магу стварыць карту файла  (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp

@@ -190,7 +190,7 @@ Kolor tła
 Filtr
 [&Room Settings]
 Ustawienia pokoju
-[&Show/hide nicklist]
+[&Show/hide nick list]
 Pokaż/Ukryj listę nicków
 [Show these events only:]
 Pokaż tylko te zdarzenia:
@@ -222,7 +222,7 @@ Opcje
 Inne
 [Add new rooms to group:]
 Dodaj nowe pokoje do grupy:
-[User list row height]
+[Nick list row height]
 Wysokość linii listy użytkowników
 [pixels]
 px
@@ -383,9 +383,9 @@ Ustawienia pokoju
 Filtr zdarzeń wyłączony
 [Event filter enabled]
 Filtr zdarzeń włączony
-[Hide userlist]
+[Hide nick list]
 Ukryj listę użytkowników
-[Show userlist]
+[Show nick list]
 Pokaż listę użytkowników
 [Status 1 (10x10)]
 Status 1 (10x10)
@@ -661,18 +661,18 @@ Przekroczono czas wysyłania wiadomości.
 ;file \plugins\Scriver\src\chat\main.cpp
 [Group chat log background]
 Tło dziennika czatu grupowego
-[User list background]
+[Nick list background]
 Tło listy czcionek
-[User list lines]
+[Nick list lines]
 Linie listy członków
-[User list background (selected)]
+[Nick list background (selected)]
 Kolor listy członków (zaznaczony)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Migaj, kiedy ktoś pisze
 [Flash when a word is highlighted]
 Migaj, kiedy słowo jest podkreślone
-[Show chat user list]
+[Show chat nick list]
 Pokaż listę rozmówców
 [Enable button context menus]
 Włącz menu kontekstowe przycisku
@@ -866,7 +866,7 @@ Wybierz kolor tła dla tekstu (Ctrl+L)
 Wybierz kolor dla tekstu (Ctrl+K)
 [Show the history (CTRL+H)]
 Pokaż historię (Ctrl+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Pokaż/ukryj listę nazw (Ctrl+N)
 [Control this room (CTRL+O)]
 Kontroluj ten pokój (Ctrl + O)

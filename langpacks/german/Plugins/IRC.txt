@@ -40,7 +40,7 @@ Bei Einladung automatisch beitreten
 'Alter Stil' Statusänderungen
 [Update online statuses for users]
 Status für Kontakte aktualisieren
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 Status für Benutzerliste aktualisieren
 [Internet address]
 Internetadresse

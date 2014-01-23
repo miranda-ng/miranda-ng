@@ -520,7 +520,7 @@ Diretório de registro
 Outros
 [Add new rooms to group:]
 Adicionar novas salas ao grupo:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 Espaçamento da lista de usuários (pixels):
 [Use same style as in the message log]
 Usar estilo igual ao do registro de mensagens
@@ -1166,9 +1166,9 @@ o usuário desativa o status para ...
 Mensagem de ação
 [Highlighted message]
 Mensagem destacada
-[User list members (online)]
+[Nick list members (online)]
 Membros da lista (online)
-[User list members (away)]
+[Nick list members (away)]
 Membros da lista (desligados)
 [Message typing area]
 Área de redação da mensagem
@@ -1308,11 +1308,11 @@ Mostrar ícone na barra de tarefas para mudanças de status
 Módulo de Mensagem
 [Message background]
 Fundo da Mensagem
-[User list background]
+[Nick list background]
 Fundo da Lista de Usuários
-[User list lines]
+[Nick list lines]
 Linhas da Lista de usuário
-[User list background (selected)]
+[Nick list background (selected)]
 Fundo da Lista de usuários (selecionado)
 [Window icon]
 Janela do Ícone
@@ -1332,9 +1332,9 @@ Histórico de configurações
 Filtro de eventos desabilitado
 [Event filter enabled]
 Filtro de eventos ativado
-[Hide userlist]
+[Hide nick list]
 Ocultar lista
-[Show userlist]
+[Show nick list]
 Mostrar lista de usuários
 [Icon overlay]
 Sobreposição do ícone
@@ -1450,7 +1450,7 @@ Selecionar uma cor de fundo para o texto (CTRL+L)
 Selecionar uma cor para o texto (CTRL+L)
 [Show the history (CTRL+H)]
 Mostrar histórico (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Mostrar/ocultar a lista de apelidos (CTRL+N)
 [Control this room (CTRL+O)]
 Controlar esta sala (CTRL+O)

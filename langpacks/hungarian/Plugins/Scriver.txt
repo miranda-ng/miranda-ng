@@ -249,9 +249,9 @@ Szoba beállítások
 Esemény szûrõ kikapcsolva
 [Event filter enabled]
 Esemény szûrõ bekapcsolva
-[Hide userlist]
+[Hide nick list]
 Felhasználólist elrejtése
-[Show userlist]
+[Show nick list]
 Felhasználólista mutatása
 [Status 1 (10x10)]
 Állapot 1 (10x10)
@@ -401,11 +401,11 @@ Ismeretlen hiba történt.
 Mindig felül
 [The message send timed out.]
 Az üzenetküldés idõtúlépés miatt meghiúsult.
-[User list background]
+[Nick list background]
 Felhasználólista háttér
-[User list lines]
+[Nick list lines]
 Felhasználó lista vonalak
-[User list background (selected)]
+[Nick list background (selected)]
 Felhasználólista háttér (kijelölt)
 [Prefix all events with a timestamp]
 Minden esemény elõtt legyen idõbélyeg
@@ -481,7 +481,7 @@ Válasszon háttérszínt a szövegnek (CTRL+L)
 Válasszon színt a szövegnek (CTRL+K)
 [Show the history (CTRL+H)]
 Elõzmények mutatása (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Becenévlista mutatása/elrejtése (CTRL+N)
 [Control this room (CTRL+O)]
 Szoba vezérlése (CTRL+O)

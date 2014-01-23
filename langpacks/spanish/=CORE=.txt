@@ -570,7 +570,7 @@ Color &de fondo
 &Filtro
 [&Room settings]
 Configu&ración de espacio
-[&Show/Hide nicklist]
+[&Show/Hide nick list]
 &Mostrar/ocultar lista de nicks
 [Show these events only:]
 Mostrar sólo estos eventos:
@@ -620,7 +620,7 @@ Directorio de registro
 Otro
 [Add new rooms to group:]
 Añadir nuevas salas de grupo:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 Lista de usuarios distancia entre hileras (píxeles):
 [Use same style as in the message log]
 Usar mismo estilo que en el registro de mensajes
@@ -1306,11 +1306,11 @@ Módulo de chat
 
 [Message background]
 Fondo de mensajes
-[User list background]
+[Nick list background]
 Fondo de lista de usuarios
-[User list lines]
+[Nick list lines]
 Líneas de lista de usuarios
-[User list background (selected)]
+[Nick list background (selected)]
 Fondo de lista de usuarios (seleccionado)
 ;file \src\core\stdchat\src\options.cpp
 [Use a tabbed interface]
@@ -1487,9 +1487,9 @@ Configuración de la Sala
 Filtro de eventos desactivado
 [Event filter enabled]
 Filtro de eventos activado
-[Hide userlist]
+[Hide nick list]
 Ocultar lista de usuarios
-[Show userlist]
+[Show nick list]
 Mostrar lista de usuarios
 [Icon overlay]
 Icono de superposición
@@ -1585,7 +1585,7 @@ Seleccione un color de fondo para el texto (CTRL+L)
 Seleccione un color de primer plano para el texto (CTRL+K)
 [Show the history (CTRL+H)]
 Mostrar el historial (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Mostrar/ocultar la lista de apodos (CTRL+N)
 [Control this room (CTRL+O)]
 Controlar esta sala (CTRL+O)
@@ -1965,9 +1965,9 @@ El usuario desactiva el estado de...
 Mensaje de acción
 [Highlighted message]
 Mensaje seleccionado
-[User list members (online)]
+[Nick list members (online)]
 Miembros de la lista de usuarios (en línea)
-[User list members (away)]
+[Nick list members (away)]
 Miembros de la lista de usuarios (fuera)
 [Message typing area]
 Área de escritura de mensaje

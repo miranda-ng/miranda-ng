@@ -40,7 +40,7 @@ Rejoindre auto. si invité
 Changer mode "à l'ancienne"
 [Update online statuses for users]
 Mise à jour de l'état des contacts
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 Mise à jour de l'état dans la nicklist
 [Internet address]
 Adresse Internet

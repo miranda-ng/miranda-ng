@@ -33,7 +33,7 @@ Davetlere kendiliğinden katıl
 'Eski tarz' kip değişimi
 [Update online statuses for users]
 Kişilerin çevrim içi durumlarını güncelle
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 Kanal kısa ad listesindeki durumları güncelle
 [Internet address]
 Internet adresi

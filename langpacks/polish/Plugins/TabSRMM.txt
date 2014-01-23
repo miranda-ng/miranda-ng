@@ -68,7 +68,7 @@ Czas (okno)
 Czas (plik dziennika)
 [Maximum number of events in the message window]
 Maksymalna liczba zdarzeń w oknie rozmowy
-[Group chat userlist row height (pixels)]
+[Group chat nick list row height (pixels)]
 Wysokość wiersza nicków na czacie (px)
 [Open log file base folder]
 Otwórz folder dziennika
@@ -2002,7 +2002,7 @@ Synchronizuj pozycję separatorów ze standardowymi sesjami rozmowy
 Pokaż statusy kontaktu, jeśli są wspierane przez protokół
 [Display contact's status icon before user role icon]
 Wyświetl ikonę statusu kontaktu przed ikoną roli użytkownika
-[Use IRC style status indicators in the user list]
+[Use IRC style status indicators in the nick list]
 Używaj ircowych wskaźników na liście nicków
 [Use alternative sorting method in member list]
 Używaj alternatywnej metody sortowania listy nicków
@@ -2102,7 +2102,7 @@ Zaznaczony tekst
 Podświetlanie wyszukiwania
 [Fields background]
 Tło pola
-[Userlist background]
+[Nick list background]
 Kolor listy uczestników
 [Group chat log background]
 Tło dziennika wiadomości w czacie grupowym

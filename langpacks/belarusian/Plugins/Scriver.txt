@@ -188,7 +188,7 @@
 фільтр
 [&Room Settings]
 Налады
-[&Show/hide nicklist]
+[&Show/hide nick list]
 Паказаць/Схаваць спіс мянушак
 [Show these events only:]
 Паказваць толькі:
@@ -220,7 +220,7 @@
 Іншае
 [Add new rooms to group:]
 Дадаваць чаты ў гурт:
-[User list row height]
+[Nick list row height]
 Вышыня спісу кантактаў
 [pixels]
 пікс.
@@ -365,9 +365,9 @@ KB
 Фільтр падзей выключаны
 [Event filter enabled]
 Фільтр падзей уключаны
-[Hide userlist]
+[Hide nick list]
 Схаваць спіс
-[Show userlist]
+[Show nick list]
 Паказаць спіс
 [Status 1 (10x10)]
 Статус 1 (10x10)
@@ -631,18 +631,18 @@ Miranda не змагла загрузіць убудаваную сістэму
 Затрымка адпраўкі паведамлення
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
-[User list background]
+[Nick list background]
 Фон спісу кантактаў
-[User list lines]
+[Nick list lines]
 Лініі спісу
-[User list background (selected)]
+[Nick list background (selected)]
 Фон спісу (абрана)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Міргаць, калі хтосьці кажа
 [Flash when a word is highlighted]
 Мігаць вакном, калі ёсць падсветленыя паведамленні
-[Show chat user list]
+[Show chat nick list]
 Паказваць кантакты ў спісе
 [Enable button context menus]
 Уключыць кнопкі ў кантэкстным меню
@@ -834,7 +834,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Абраць колер тэксту (CTRL+K)
 [Show the history (CTRL+H)]
 Паказаць гісторыю (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Паказаць/схаваць спіс кантактаў (CTRL+N)
 [Control this room (CTRL+O)]
 Кантраляваць гэты чат (CTRL+O)

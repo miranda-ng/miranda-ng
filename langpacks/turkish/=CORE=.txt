@@ -506,7 +506,7 @@ Günlük klasörü
 Diğer
 [Add new rooms to group:]
 Gruba yeni odalar ekle:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 Kişi listesi satır aralığı (piksel):
 [Use same style as in the message log]
 Aynı stili ileti günlüğünde kullan
@@ -1144,9 +1144,9 @@ Kişinin şu durumları devre dışı ...
 Eylem iletisi
 [Highlighted message]
 Vurgulanan ileti
-[User list members (online)]
+[Nick list members (online)]
 Kişi listesi üyeleri (çevrimiçi)
-[User list members (away)]
+[Nick list members (away)]
 Kişi listesi üyeleri (Uzakta)
 [Message typing area]
 İleti yazma alanı
@@ -1282,11 +1282,11 @@ Durum değişiklikleri için sistem tepsisinde simge göster
 Sohbet Modülü
 [Message background]
 İleti Art Alanı
-[User list background]
+[Nick list background]
 Kişi Listesi Art Alanı
-[User list lines]
+[Nick list lines]
 Kişi Listesi Satırları
-[User list background (selected)]
+[Nick list background (selected)]
 Kişi Listesi Art Alanı (seçili)
 [Window icon]
 Pencere Simgesi
@@ -1306,9 +1306,9 @@ Oda ayarları
 Etkinlik süzgeci devre dışı
 [Event filter enabled]
 Etkinlik süzgeci devrede
-[Hide userlist]
+[Hide nick list]
 Kişi listesini gizle
-[Show userlist]
+[Show nick list]
 Kişi listesini göster
 [Icon overlay]
 Simge üstüste
@@ -1434,7 +1434,7 @@ Yazı için art alan rengi seçin (CTRL+L)
 Yazı rengini seçin (CTRL+K)
 [Show the history (CTRL+H)]
 Geçmişi göster (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Kısa adları göster/gizle (CTRL+N)
 [Control this room (CTRL+O)]
 Bu odayı denetle (CTRL+O)

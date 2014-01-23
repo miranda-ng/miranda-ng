@@ -682,7 +682,7 @@ Kuva kasutajate olekute muutused
 Vestluse moodul
 [Message background]
 Teate taust
-[User list background]
+[Nick list background]
 Kasutajanimekirja taust
 [Bold]
 Rasvane

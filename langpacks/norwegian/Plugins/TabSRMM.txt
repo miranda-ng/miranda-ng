@@ -49,7 +49,7 @@ Gruppechat logg formatering
 Ditt navn
 [Other name]
 Annet navn
-[Group chat userlist row height (pixels)]
+[Group chat nick list row height (pixels)]
 Gruppechat brukerlistens radhøyde (piksler)
 [List]
 Liste
@@ -903,7 +903,7 @@ Utvidet modus 2
 Utvalgsbakgrunn
 [Selected text]
 Valgt Tekst
-[Userlist background]
+[Nick list background]
 Brukerlistebakgrunn
 [All Files]
 Alle Filer

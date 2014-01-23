@@ -63,7 +63,7 @@
 时间戳 (日志文件)
 [Maximum number of events in the message window]
 消息窗口最大事件数量
-[Group chat userlist row height (pixels)]
+[Group chat nick list row height (pixels)]
 群组聊天用户列表列高 (像素)
 [Open log file base folder]
 打开日志文件夹
@@ -1641,7 +1641,7 @@ Aero 发光效果
 如协议支持则显示联系人状态模式
 [Display contact's status icon before user role icon]
 在用户角色图片前显示联系人状态图标
-[Use IRC style status indicators in the user list]
+[Use IRC style status indicators in the nick list]
 用户列表中使用 IRC 风格状态指示器
 [Use alternative sorting method in member list]
 在成员列表中使用交替排序法
@@ -1739,7 +1739,7 @@ Aero 发光效果
 增量搜索突出显示
 [Fields background]
 栏位背景
-[Userlist background]
+[Nick list background]
 用户列表背景
 [Group chat log background]
 群组聊天记录背景

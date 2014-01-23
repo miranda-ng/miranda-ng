@@ -602,7 +602,7 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Друго
 [Add new rooms to group:]
 Добавяне на новите стаи към група:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 Височина на ред в списъка с прякори (пиксела):
 [Use same style as in the message log]
 Ползване на същия стил както в дневника за съобщения
@@ -1280,11 +1280,11 @@ Miranda
 
 [Message background]
 Фон на съобщенията
-[User list background]
+[Nick list background]
 Фон на списъка с прякори
-[User list lines]
+[Nick list lines]
 
-[User list background (selected)]
+[Nick list background (selected)]
 Фон на списъка с прякори (маркирано)
 ;file \src\core\stdchat\src\options.cpp
 [Use a tabbed interface]
@@ -1461,9 +1461,9 @@ Miranda
 Филтъра за събития е изключен
 [Event filter enabled]
 Филтъра за събития е включен
-[Hide userlist]
+[Hide nick list]
 Скриване на списъка с прякори
-[Show userlist]
+[Show nick list]
 Показване на списъка с прякори
 [Icon overlay]
 Насложена икона
@@ -1559,7 +1559,7 @@ Popups за изобразяване
 Цвят на текста (CTRL+K)
 [Show the history (CTRL+H)]
 Показване на историята (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Показване/Скриване на списъка с прякори (CTRL+N)
 [Control this room (CTRL+O)]
 Управление на стаята (CTRL+O)
@@ -1934,9 +1934,9 @@ URL
 Съобщение за действие
 [Highlighted message]
 Отличено съобщение
-[User list members (online)]
+[Nick list members (online)]
 Списък с прякори (На линия)
-[User list members (away)]
+[Nick list members (away)]
 Списък с прякори (Отсъстващ)
 [Message typing area]
 Поле за въвеждане на съобщения

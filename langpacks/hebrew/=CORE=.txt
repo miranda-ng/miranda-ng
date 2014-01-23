@@ -371,7 +371,7 @@ OutputDebugString()
 אחר
 [Add new rooms to group:]
 הוסף חדרים לקבוצה:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 רשימת משתמשים מרחק גולמי (פיקסלים):
 [Use same style as in the message log]
 עיצוב דומה כמו ביומן ההודעות
@@ -897,9 +897,9 @@ OutputDebugString()
 הודעת פעולה
 [Highlighted message]
 הודעה מודגשת
-[User list members (online)]
+[Nick list members (online)]
 רשימת חברים של המשתמש (שמחוברים)
-[User list members (away)]
+[Nick list members (away)]
 רשימת חברים של המשתמש (במצב לא נמצא)
 [Message typing area]
 אזור כתיבת ההודעה
@@ -1037,7 +1037,7 @@ OutputDebugString()
 מצב צאט
 [Message background]
 רקע הודעה
-[User list lines]
+[Nick list lines]
 קווי רשימת משתמשים
 [Bold]
 בולט
@@ -1051,9 +1051,9 @@ OutputDebugString()
 הגדרות חדר
 [Event filter enabled]
 חוסם אירועים הופעל
-[Hide userlist]
+[Hide nick list]
 החבא רשימת משתמשים
-[Show userlist]
+[Show nick list]
 הראה רשימת משתמשים
 [Icon overlay]
 מעל אייקון

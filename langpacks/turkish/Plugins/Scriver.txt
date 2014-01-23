@@ -249,9 +249,9 @@ Oda ayarları
 Etkinlik süzgeci devre dışı
 [Event filter enabled]
 Etkinlik süzgeci devrede
-[Hide userlist]
+[Hide nick list]
 Kişi listesini gizle
-[Show userlist]
+[Show nick list]
 Kişi listesini göster
 [Status 1 (10x10)]
 Durum 1 (10x10)
@@ -401,11 +401,11 @@ Bilinmeyen bir hata oldu.
 Her zaman üstte
 [The message send timed out.]
 İleti zaman aşımına uğradığından gönderilemedi.
-[User list background]
+[Nick list background]
 Kişi listesi art alanı
-[User list lines]
+[Nick list lines]
 Kişi listesi satırları
-[User list background (selected)]
+[Nick list background (selected)]
 Kişi listesi art alanı (seçili)
 [Prefix all events with a timestamp]
 Tüm etkinliklerin önüne zaman damgası ekle
@@ -481,7 +481,7 @@ Yazı için art alan rengi seçin (CTRL+L)
 Yazı rengini seçin (CTRL+K)
 [Show the history (CTRL+H)]
 Geçmişi göster (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Kısa adları göster/gizle (CTRL+N)
 [Control this room (CTRL+O)]
 Bu odayı denetle (CTRL+O)

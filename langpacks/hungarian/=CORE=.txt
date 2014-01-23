@@ -488,7 +488,7 @@ Napló könyvtár
 Egyéb
 [Add new rooms to group:]
 Új szobák hozzáadása a csoporthoz:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 Felhasználó-lista sor távolság (képpont):
 [Use same style as in the message log]
 Azonos stílus, mint az üzenet naplóban
@@ -1122,9 +1122,9 @@ Felhasználó kikapcsolja az állapotot ...
 Akció üzenet
 [Highlighted message]
 Kiemelt üzenet
-[User list members (online)]
+[Nick list members (online)]
 Felhasználó-listatagok (elérhetõ)
-[User list members (away)]
+[Nick list members (away)]
 Felhasználó-listatagok (távol)
 [Message typing area]
 Üzenet beviteli terület
@@ -1260,11 +1260,11 @@ Ikon megjelenítse a tálcán állapotváltozásokhoz
 Csevegés modul
 [Message background]
 Üzenet háttér
-[User list background]
+[Nick list background]
 Partnerlista hátér
-[User list lines]
+[Nick list lines]
 Partnerlist vonalak
-[User list background (selected)]
+[Nick list background (selected)]
 Partnerlista hátér (kijelölt)
 [Window icon]
 Ablak ikon
@@ -1284,9 +1284,9 @@ Szoba beállítások
 Esemény szûrõ kikapcsolva
 [Event filter enabled]
 Esemény szûrõ bekapcsolva
-[Hide userlist]
+[Hide nick list]
 Felhasználólist elrejtése
-[Show userlist]
+[Show nick list]
 Felhasználólista mutatása
 [Icon overlay]
 Ikon felület
@@ -1412,7 +1412,7 @@ Válasszon háttérszínt a szövegnek (CTRL+L)
 Válasszon színt a szövegnek (CTRL+K)
 [Show the history (CTRL+H)]
 Elõzmények mutatása (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Becenévlista mutatása/elrejtése (CTRL+N)
 [Control this room (CTRL+O)]
 Szoba vezérlése (CTRL+O)

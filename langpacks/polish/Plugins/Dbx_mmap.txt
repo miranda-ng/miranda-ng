@@ -139,8 +139,6 @@ Profil należy do nieznanej wersji Mirandy
 Profil nie zawiera żadnych danych
 [Processing completed successfully]
 Przetwarzanie zakończone sukcesem
-[Can't create file mapping (%u)]
-Nie udało się stworzyć mapowania pliku (%u)
 [Can't create map view of file (%u)]
 Nie udało się stworzyć widoku mapy pliku (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp

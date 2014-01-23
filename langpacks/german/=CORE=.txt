@@ -570,7 +570,7 @@ Smil&eys
 &Filter
 [&Room settings]
 &Raumeinstellungen
-[&Show/Hide nicklist]
+[&Show/Hide nick list]
 Nickliste &anzeigen/verbergen
 [Show these events only:]
 Nur folgende Ereignisse anzeigen:
@@ -620,7 +620,7 @@ Verzeichnis für Logdateien
 Sonstige
 [Add new rooms to group:]
 Gruppe für neue Räume:
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 Vertikaler Abstand Benutzerliste:
 [Use same style as in the message log]
 Selben Stil wie im Verlaufsfenster verwenden
@@ -1306,11 +1306,11 @@ Chatfenster
 
 [Message background]
 Nachrichten-Hintergrund
-[User list background]
+[Nick list background]
 Benutzerliste Hintergrund
-[User list lines]
+[Nick list lines]
 Benutzerliste Linien
-[User list background (selected)]
+[Nick list background (selected)]
 Benutzerliste Hintergrund (ausgewählt)
 ;file \src\core\stdchat\src\options.cpp
 [Use a tabbed interface]
@@ -1487,9 +1487,9 @@ Raumeinstellungen
 Ereignisfilter deaktiviert
 [Event filter enabled]
 Ereignisfilter aktiviert
-[Hide userlist]
+[Hide nick list]
 Benutzerliste ausblenden
-[Show userlist]
+[Show nick list]
 Benutzerliste einblenden
 [Icon overlay]
 Neue Nachricht Tab
@@ -1585,7 +1585,7 @@ Schrifthintergrundfarbe wählen (Strg+L)
 Schriftfarbe wählen (Strg+K)
 [Show the history (CTRL+H)]
 Logdatei öffnen (Strg+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Benutzerliste anzeigen/verstecken (Strg+N)
 [Control this room (CTRL+O)]
 Diesen Raum kontrollieren (Strg+O)
@@ -1965,9 +1965,9 @@ Benutzer deaktiviert Status für ...
 Aktionsnachricht
 [Highlighted message]
 Hervorgehobene Nachricht
-[User list members (online)]
+[Nick list members (online)]
 Benutzerliste (online)
-[User list members (away)]
+[Nick list members (away)]
 Benutzerliste (abwesend)
 [Message typing area]
 Nachrichteneingabefeld

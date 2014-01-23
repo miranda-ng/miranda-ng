@@ -203,7 +203,7 @@ Trükkimisest teavitamine
 Väljuv
 [Always On Top]
 Alati pealmine
-[User list background]
+[Nick list background]
 Kasutajanimekirja taust
 [Show users joining]
 Kuva kasutajate ühinemised

@@ -33,7 +33,7 @@ Automatisk join ved invitasjon
 'Eldre stiltype' modusforandringer
 [Update online statuses for users]
 Oppdater online statusene for brukere
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 Oppdater statuser i kanalens kallenavnliste
 [Internet address]
 Internettadresse

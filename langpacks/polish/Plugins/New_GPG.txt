@@ -126,7 +126,7 @@ Zmień hasło klucza prywatnego
 Aktualne hasło:
 [New password twice:]
 Nowe hasło dwukrotnie:
-[Userlist:]
+[User list:]
 Lista użytkowników:
 [Export PubKey]
 Eksportuj klucz publiczny

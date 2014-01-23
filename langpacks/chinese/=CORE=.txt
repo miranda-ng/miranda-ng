@@ -562,7 +562,7 @@ Miranda NG 正准备重启. \n请稍候...
 其它
 [Add new rooms to group:]
 添加新房间到群组: 
-[Userlist row distance (pixels):]
+[Nick list row distance (pixels):]
 用户列表列间距 (像素): 
 [Use same style as in the message log]
 消息记录使用相同的样式
@@ -1270,9 +1270,9 @@ Miranda NG 正准备重启. \n请稍候...
 操作消息
 [Highlighted message]
 突出显示消息
-[User list members (online)]
+[Nick list members (online)]
 用户列表成员 (在线)
-[User list members (away)]
+[Nick list members (away)]
 用户列表成员 (外出)
 [Message typing area]
 消息键入区域
@@ -1412,11 +1412,11 @@ Miranda NG 正准备重启. \n请稍候...
 聊天模块
 [Message background]
 消息背景
-[User list background]
+[Nick list background]
 用户列表背景
-[User list lines]
+[Nick list lines]
 用户列表线条
-[User list background (selected)]
+[Nick list background (selected)]
 用户列表背景 (已选定)
 [Window icon]
 窗口图标
@@ -1436,9 +1436,9 @@ Miranda NG 正准备重启. \n请稍候...
 事件过滤器已禁用
 [Event filter enabled]
 事件过滤器已启用
-[Hide userlist]
+[Hide nick list]
 隐藏用户列表
-[Show userlist]
+[Show nick list]
 显示用户列表
 [Icon overlay]
 图标重叠
@@ -1578,7 +1578,7 @@ Miranda NG 正准备重启. \n请稍候...
 为文本选择前景颜色 (CTRL+K)
 [Show the history (CTRL+H)]
 显示历史 (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 显示/隐藏昵称列表 (CTRL+N)
 [Control this room (CTRL+O)]
 控制此房间 (CTRL+O)

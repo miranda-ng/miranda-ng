@@ -33,7 +33,7 @@
 '旧式' 模式变更
 [Update online statuses for users]
 更新用户在线状态
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 更新频道昵称列表的状态
 [Internet address]
 互联网地址

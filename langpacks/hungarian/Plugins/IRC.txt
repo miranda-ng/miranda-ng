@@ -33,7 +33,7 @@ Automatikus részvétel meghíváskor
 'Régi stílusú' mód váltás
 [Update online statuses for users]
 Elérhetõ állapotok frissítése felhasználóknak
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 Állapotok frissítése csatorna becenévlistában
 [Internet address]
 Internet cím

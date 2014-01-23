@@ -190,7 +190,7 @@ Non
 
 [&Room Settings]
 
-[&Show/hide nicklist]
+[&Show/hide nick list]
 
 [Show these events only:]
 Voir ces évènements si:
@@ -222,7 +222,7 @@ Paramètres
 Autre
 [Add new rooms to group:]
 Ajouter salons au groupe:
-[User list row height]
+[Nick list row height]
 
 [pixels]
 pixels
@@ -383,9 +383,9 @@ Paramètres du salon
 Filtre d'évènement désactivé
 [Event filter enabled]
 Filtre d'évènement activé
-[Hide userlist]
+[Hide nick list]
 Masquer la liste des usagers
-[Show userlist]
+[Show nick list]
 Afficher la liste des usagers
 [Status 1 (10x10)]
 État 1 (10x10)
@@ -661,18 +661,18 @@ Délai d'envoi du message expiré
 ;file \plugins\Scriver\src\chat\main.cpp
 [Group chat log background]
 
-[User list background]
+[Nick list background]
 Fond de la liste
-[User list lines]
+[Nick list lines]
 Lignes de la liste
-[User list background (selected)]
+[Nick list background (selected)]
 
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 
 [Flash when a word is highlighted]
 
-[Show chat user list]
+[Show chat nick list]
 
 [Enable button context menus]
 
@@ -866,7 +866,7 @@ Couleur de fond du texte (CTRL+L)
 Couleur du texte (CTRL+K)
 [Show the history (CTRL+H)]
 Afficher l'historique (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Afficher/cacher la liste des pseudos (CTRL+N)
 [Control this room (CTRL+O)]
 Contrôler ce salon (CTRL+O)

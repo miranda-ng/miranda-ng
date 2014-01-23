@@ -766,9 +766,9 @@ Copyright:
 Отличено съобщение
 [Message typing area]
 Поле за въвеждане на съобщения
-[User list members (Online)]
+[Nick list members (Online)]
 Списък с прякори (На линия)
-[User list members (away)]
+[Nick list members (away)]
 Списък с прякори (Отсъстващ)
 [Flash window when someone speaks]
 Мигане на прозореца при ново съобщение
@@ -882,9 +882,9 @@ Copyright:
 Филтъра за събития е изключен
 [Event filter enabled]
 Филтъра за събития е включен
-[Hide userlist]
+[Hide nick list]
 Скриване на списъка с прякори
-[Show userlist]
+[Show nick list]
 Показване на списъка с прякори
 [Icon overlay]
 Насложена икона
@@ -1006,7 +1006,7 @@ Copyright:
 Цвят на текста (CTRL+K)
 [Show the history (CTRL+H)]
 Показване на историята (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Показване/Скриване на списъка с прякори (CTRL+N)
 [Control this room (CTRL+O)]
 Управление на стаята (CTRL+O)

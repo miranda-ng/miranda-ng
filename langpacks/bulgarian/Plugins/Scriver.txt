@@ -190,7 +190,7 @@ Scriver - за изпращане и получаване на съобщени�
 
 [&Room Settings]
 
-[&Show/hide nicklist]
+[&Show/hide nick list]
 
 [Show these events only:]
 Показване само на следните събития:
@@ -222,7 +222,7 @@ Scriver - за изпращане и получаване на съобщени�
 Друго
 [Add new rooms to group:]
 Добавяне на новите стаи към група:
-[User list row height]
+[Nick list row height]
 Височина на редовете в списъка с прякори
 [pixels]
 пиксела
@@ -383,9 +383,9 @@ Unicode е изключен
 Филтъра за събития е изключен
 [Event filter enabled]
 Филтъра за събития е включен
-[Hide userlist]
+[Hide nick list]
 Скриване на списъка с прякори
-[Show userlist]
+[Show nick list]
 Показване на списъка с прякори
 [Status 1 (10x10)]
 Състояние 1 (10x10)
@@ -661,18 +661,18 @@ Latin I
 ;file \plugins\Scriver\src\chat\main.cpp
 [Group chat log background]
 
-[User list background]
+[Nick list background]
 Фон на списъка с прякори
-[User list lines]
+[Nick list lines]
 Редове на списък с прякори
-[User list background (selected)]
+[Nick list background (selected)]
 Фон на списъка с прякори (маркирано)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Мигане, когато някой говори
 [Flash when a word is highlighted]
 Мигане при отличаване на дума
-[Show chat user list]
+[Show chat nick list]
 Показване на чат списъка с прякори
 [Enable button context menus]
 Включване на контекстното меню на контактите
@@ -866,7 +866,7 @@ Popups
 Цвят на текста (CTRL+K)
 [Show the history (CTRL+H)]
 Показване на историята (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Показване/Скриване на списъка с прякори (CTRL+N)
 [Control this room (CTRL+O)]
 Управление на стаята (CTRL+O)

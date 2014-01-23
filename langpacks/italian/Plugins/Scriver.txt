@@ -199,7 +199,7 @@ In uscita
 Sempre in primo piano
 [The message send timed out.]
 Il tempo per l'invio del messaggio è scaduto.
-[User list background]
+[Nick list background]
 Sfondo lista utenti
 [Prefix all events with a timestamp]
 Anteponi a tutti gli eventi data ed ora

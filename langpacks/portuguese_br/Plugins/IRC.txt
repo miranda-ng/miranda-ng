@@ -33,7 +33,7 @@ Automaticamente juntar após convite
 Muda o estilo 'antigo'
 [Update online statuses for users]
 Status de atualização on-line para usuários
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 Atualização de status no canal lista de apelidos
 [Internet address]
 Endereço da Internet

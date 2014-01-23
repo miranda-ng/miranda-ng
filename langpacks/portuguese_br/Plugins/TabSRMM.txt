@@ -61,7 +61,7 @@ Fuso Horário (janela)
 Fuso Horário (Registro)
 [Maximum number of events in the message window]
 Número máximo de eventos na janela de mensagem
-[Group chat userlist row height (pixels)]
+[Group chat nick list row height (pixels)]
 Altura da linha de usários do grupo de bate-papo (pixels)
 [List]
 Lista
@@ -1155,7 +1155,7 @@ Fundo da seleção
 Texto Selecionado
 [Incremental search highlight]
 Destacar pesquisa incrementada
-[Userlist background]
+[Nick list background]
 Fundo da lista de usuários
 [year without century, 01-99]
 ano sem o século, 01-99

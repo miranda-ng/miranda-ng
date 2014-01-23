@@ -128,12 +128,12 @@ Laden der Liste hat bereits begonnen!
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Wird gelöscht!
-[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
-
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualisierung abgeschlossen. Klicken Sie Ja um Miranda neu zu starten oder Nein um einen Neustart nach dem Beenden zu machen.
 [<< Details]
 << Details
+[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
+
 [No updates found.]
 Keine Aktualisierungen gefunden.
 [Update checking already started!]

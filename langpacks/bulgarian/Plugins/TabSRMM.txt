@@ -68,7 +68,7 @@
 В дневника
 [Maximum number of events in the message window]
 Максимален брой събития в прозореца за съобщения
-[Group chat userlist row height (pixels)]
+[Group chat nick list row height (pixels)]
 Височина на редовете в списъка с прякори (пиксела)
 [Open log file base folder]
 Отваряне папката на дневниците
@@ -1991,7 +1991,7 @@ TabSRMM предупреждение
 Показване състоянието на потребителите (ако се поддържа от протокола)
 [Display contact's status icon before user role icon]
 Иконата за състояние на потребителя пред иконата на протокола
-[Use IRC style status indicators in the user list]
+[Use IRC style status indicators in the nick list]
 Ползване на индикатори в стил IRC в списъка с прякори (@, %, + и т.н.)
 [Use alternative sorting method in member list]
 Алтернативно сортиране на списъка с прякори
@@ -2091,7 +2091,7 @@ TabSRMM предупреждение
 
 [Fields background]
 Фон на полетата
-[Userlist background]
+[Nick list background]
 Фон на списъка с прякори
 [Group chat log background]
 

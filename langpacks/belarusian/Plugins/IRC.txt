@@ -40,7 +40,7 @@
 "Стары" стыль рэжымаў
 [Update online statuses for users]
 Абнаўляць статусы для карысцяў.
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 Абнаўл. статусы ў спісе удзельнікаў
 [Internet address]
 Сеткавы адрас

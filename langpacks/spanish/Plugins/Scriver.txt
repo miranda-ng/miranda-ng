@@ -190,7 +190,7 @@ Color &de fondo
 &Filtro
 [&Room Settings]
 Configu&ración de espacio
-[&Show/hide nicklist]
+[&Show/hide nick list]
 &Mostrar/ocultar lista de nicks
 [Show these events only:]
 Mostrar sólo estos eventos:
@@ -222,7 +222,7 @@ Opciones
 Otro
 [Add new rooms to group:]
 Añadir nuevas salas de grupo:
-[User list row height]
+[Nick list row height]
 
 [pixels]
 píxeles
@@ -383,9 +383,9 @@ Configuración de la Sala
 Filtro de eventos desactivado
 [Event filter enabled]
 Filtro de eventos activado
-[Hide userlist]
+[Hide nick list]
 Ocultar lista de usuarios
-[Show userlist]
+[Show nick list]
 Mostrar lista de usuarios
 [Status 1 (10x10)]
 Estado 1 (10x10)
@@ -661,18 +661,18 @@ El mensaje envia el tiempo de espera.
 ;file \plugins\Scriver\src\chat\main.cpp
 [Group chat log background]
 
-[User list background]
+[Nick list background]
 Fondo de lista de usuarios
-[User list lines]
+[Nick list lines]
 Líneas de lista de usuarios
-[User list background (selected)]
+[Nick list background (selected)]
 Fondo de lista de usuarios (seleccionado)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 
 [Flash when a word is highlighted]
 
-[Show chat user list]
+[Show chat nick list]
 
 [Enable button context menus]
 
@@ -866,7 +866,7 @@ Seleccione un color de fondo para el texto (CTRL+L)
 Seleccione un color de primer plano para el texto (CTRL+K)
 [Show the history (CTRL+H)]
 Mostrar el historial (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Mostrar/ocultar la lista de apodos (CTRL+N)
 [Control this room (CTRL+O)]
 Controlar esta sala (CTRL+O)

@@ -40,7 +40,7 @@ Automatycznie dołącz po zaproszeniu
 'Stary styl' zmiany trybów
 [Update online statuses for users]
 Aktualizuj statusy połączonych kontaktów
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 Aktualizuj statusy na liście użytkowników kanału
 [Internet address]
 Adres internetowy

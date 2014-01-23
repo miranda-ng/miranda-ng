@@ -91,8 +91,6 @@
 数据库是新建的, 没有需处理资料
 [Processing completed successfully]
 处理已成功完成
-[Can't create file mapping (%u)]
-无法建立文件映射 (%u)
 [Can't create map view of file (%u)]
 无法建立文件映像查看 (%u)
 [Processing module name chain]

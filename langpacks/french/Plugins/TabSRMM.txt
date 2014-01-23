@@ -68,7 +68,7 @@ Horodatage (fenêtre)
 Horodatage (journal)
 [Maximum number of events in the message window]
 Nombre maxi d'évènements dans la fenêtre de message
-[Group chat userlist row height (pixels)]
+[Group chat nick list row height (pixels)]
 
 [Open log file base folder]
 
@@ -2002,7 +2002,7 @@ Synchroniser la position du séparateur avec les fenêtres standards
 
 [Display contact's status icon before user role icon]
 
-[Use IRC style status indicators in the user list]
+[Use IRC style status indicators in the nick list]
 
 [Use alternative sorting method in member list]
 
@@ -2102,7 +2102,7 @@ Texte sélectionné
 
 [Fields background]
 
-[Userlist background]
+[Nick list background]
 Fond de la liste
 [Group chat log background]
 

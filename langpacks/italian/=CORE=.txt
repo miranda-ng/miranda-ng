@@ -851,7 +851,7 @@ Anteponi a tutti gli eventi data ed ora
 Anteponi data ed ora solo se queste sono cambiate
 [Indent the second line of a message]
 Indenta la seconda linea di un messaggio
-[User list background]
+[Nick list background]
 Sfondo lista utenti
 [Bold]
 Grassetto

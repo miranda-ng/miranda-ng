@@ -63,7 +63,7 @@ Cancel
 タイムスタンプ(ログファイル)
 [Maximum number of events in the message window]
 メッセージウィンドウ内のイベントの最大値
-[Group chat userlist row height (pixels)]
+[Group chat nick list row height (pixels)]
 グループチャットユーザーリストの行の高さ(ピクセル)
 [Open log file base folder]
 ログファイルベースフォルダーを開く
@@ -1553,7 +1553,7 @@ Aero 光彩効果
 プロトコルにサポートされている時コンタクトのステータスモードを表示
 [Display contact's status icon before user role icon]
 ユーザー役割アイコンの前にコンタクトステータスアイコンを表示
-[Use IRC style status indicators in the user list]
+[Use IRC style status indicators in the nick list]
 IRC スタイルのステータス表記をユーザーリストに使用
 [Use alternative sorting method in member list]
 メンバーリストで代替的なソート方式を使用
@@ -1647,7 +1647,7 @@ Voiced
 選択されたテキスト
 [Incremental search highlight]
 逐次検索を強調表示
-[Userlist background]
+[Nick list background]
 ユーザーリストの背景
 [Group chat log background]
 グループチャットログの背景

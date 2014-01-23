@@ -123,8 +123,6 @@
 База даних нова, і не має даних для обробки
 [Processing completed successfully]
 Обробка завершена успішно
-[Can't create file mapping (%u)]
-Неможливо створити файл карти (%u)
 [Can't create map view of file (%u)]
 Неможливо створити карту файлу (%u)
 [Processing module name chain]

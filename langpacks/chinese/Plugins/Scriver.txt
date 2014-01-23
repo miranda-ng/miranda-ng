@@ -181,7 +181,7 @@
 其它
 [Add new rooms to group:]
 添加新房间到群组: 
-[User list row height]
+[Nick list row height]
 用户列表行高
 [pixels]
 像素
@@ -319,9 +319,9 @@ Unicode 已关闭
 事件过滤器已禁用
 [Event filter enabled]
 事件过滤器已启用
-[Hide userlist]
+[Hide nick list]
 隐藏用户列表
-[Show userlist]
+[Show nick list]
 显示用户列表
 [Status 1 (10x10)]
 状态 1 (10x10)
@@ -517,17 +517,17 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 永远置顶
 [The message send timed out.]
 发送消息已超时. 
-[User list background]
+[Nick list background]
 用户列表背景
-[User list lines]
+[Nick list lines]
 用户列表线条
-[User list background (selected)]
+[Nick list background (selected)]
 用户列表背景 (已选择)
 [Flash when someone speaks]
 有人发言时闪动
 [Flash when a word is highlighted]
 出现突出显示词汇时闪动
-[Show chat user list]
+[Show chat nick list]
 显示群组聊天用户列表
 [Enable button context menus]
 启用按钮环境菜单
@@ -635,7 +635,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 为文本选择前景颜色 (CTRL+K)
 [Show the history (CTRL+H)]
 显示历史 (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 显示/隐藏昵称列表 (CTRL+N)
 [Control this room (CTRL+O)]
 控制此房间 (CTRL+O)

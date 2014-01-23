@@ -40,7 +40,7 @@
 
 [Update online statuses for users]
 Обновяване на потреб. състояние
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 Обновяване в списъка с прякори
 [Internet address]
 Интернет адрес

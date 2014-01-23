@@ -235,7 +235,7 @@ De kleuren uit berichten in de log halen
 Uiterlijk en functionaliteit van schermen van Gespreksruimte
 [Appearance of the message log]
 Uiterlijk van het bericht log
-[Userlist background]
+[Nick list background]
 Gebruikerslijst achtergrond
 [All Files]
 Alle bestanden

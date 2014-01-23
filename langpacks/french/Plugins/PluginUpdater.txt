@@ -128,12 +128,12 @@ Liste vide.
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Sera effacé!
-[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
-
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Mise à jour accomplie. Appuyer sur Oui pour redémarrer Miranda maintenant.
 [<< Details]
 <<Détails
+[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
+
 [No updates found.]
 Aucune mises à jour trouvée.
 [Update checking already started!]

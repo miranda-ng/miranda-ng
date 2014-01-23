@@ -39,7 +39,7 @@
 "Старий" стиль режимів
 [Update online statuses for users]
 Оновлювати статуси для корист.
-[Update statuses in channel nicklist]
+[Update statuses in channel nick list]
 Оновл. статуси в списку чат-кімнати
 [Internet address]
 Адреса у мережі
