@@ -418,26 +418,28 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			bct->hIcon = Skin_GetIconByHandle(bct->hIcolibHandle);
 		else		
 			bct->hIcon = NULL;
-		InvalidateRect(hwndDlg,NULL,TRUE);
-		pcli->pfnInvalidateRect(GetParent(GetParent(hwndDlg)),NULL,TRUE);
+		InvalidateRect(hwndDlg, NULL, TRUE);
+		pcli->pfnInvalidateRect(GetParent(GetParent(hwndDlg)), NULL, TRUE);
 		return 1;
 
 	case MBM_UPDATETRANSPARENTFLAG:
-		{
-			LONG flag = GetWindowLongPtr(hwndDlg,GWL_EXSTYLE);
-			LONG oldFlag = flag;
-			if (lParam == 2) 
-				lParam = (g_CluiData.fDisableSkinEngine)?0:1;
-			flag &= ~WS_EX_TRANSPARENT;
-			if (lParam) flag |= WS_EX_TRANSPARENT;
-			if (flag != oldFlag) {
-				SetWindowLongPtr(hwndDlg,GWL_EXSTYLE,flag);
-				RedrawWindow(hwndDlg,NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW);
-			}
+		LONG flag = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE);
+		LONG oldFlag = flag;
+		if (lParam == 2)
+			lParam = (g_CluiData.fDisableSkinEngine) ? 0 : 1;
+		flag &= ~WS_EX_TRANSPARENT;
+		if (lParam) flag |= WS_EX_TRANSPARENT;
+		if (flag != oldFlag) {
+			SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, flag);
+			RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 		}
 		return 1;
 	}
-	return mir_callNextSubclass(hwndDlg, ToolbarButtonProc, msg, wParam, lParam);
+
+	LRESULT res = mir_callNextSubclass(hwndDlg, ToolbarButtonProc, msg, wParam, lParam);
+	if (msg == BM_SETIMAGE)
+		InvalidateParentRect(hwndDlg, NULL, TRUE);
+	return res;
 }
 
 void MakeButtonSkinned(HWND hWnd)
