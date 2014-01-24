@@ -24,7 +24,7 @@ Dies sagt Miranda, dass es den angegebenen Befehl ausführen soll. Die Befehle h
 [No command can have more than %d parameters.\n]
 Kein Befehl kann mehr als %d Parameter haben.\n
 [%s version %s]
-%s version %s
+%s Version %s
 [Unknown command '%s'.\n]
 Unbekannter Befehl '%s'.\n
 ;file \plugins\CmdLine\src\CmdLine.cpp
@@ -85,7 +85,7 @@ Globaler Status zu '%s' geändert (vorheriger Status war '%s').
 [Changed '%s' status to '%s' (previous status was '%s').]
 '%s' Status zu '%s' geändert (vorheriger Status war '%s').
 ['%s' doesn't seem to be a valid account.]
-'%S' scheint kein gültiges Konto zu sein.
+'%s' scheint kein gültiges Konto zu sein.
 [Failed to change status for account '%s' to '%s'.]
 Konnte Status von Konto '%s' nicht auf '%s' ändern.
 [Failed to set '%S' status message to '%s' (status is '%s').]
@@ -143,7 +143,7 @@ Einstellung '%s/%s' wurde nicht gefunden.
 [%s The port or the proxy type parameter is invalid.]
 %s Der Port- oder Proxy-Typ-Parameter ist ungültig.
 [[me]]
-
+\[ich]
 [No unread messages found.]
 Keine ungelesenen Nachrichten gefunden.
 [%s:%s - %d unread events.]

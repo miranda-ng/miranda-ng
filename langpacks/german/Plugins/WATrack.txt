@@ -74,7 +74,7 @@ Abstand zwischen Knöpfen einfügen
 [Frame template]
 Framevorlage
 [Text effect]
-Texteffekte
+Texteffekt
 [Text movement]
 Textbewegung
 [Text rotation speed (1-20)]
@@ -94,35 +94,35 @@ Pingpongeffekt
 [Hide frame when player not found]
 Frame ausblenden, wenn kein Player gefunden wurde
 [Pause Hovered]
-
+Pause überfahren
 [Prev Hovered]
-
+Vorheriges überfahren
 [Play Hovered]
-
+Play überfahren
 [Stop Hovered]
-
+Stop überfahren
 [Next Hovered]
-
+Nächstes überfahren
 [Prev Pushed]
-
+Vorheriges gedrückt
 [Play Pushed]
-
+Spielen gedrückt
 [Stop Pushed]
-
+Stop gedrückt
 [Next Pushed]
-
+Nächstes gedrückt
 [Volume Down]
 Leiser
 [Volume Up]
 Lauter
 [Volume Down Hovered]
-
+Leiser überfahren
 [Volume Up Hovered]
-
+Lauter überfahren
 [Volume Down Pushed]
-
+Leiser gedrückt
 [Volume Up Pushed]
-
+Lauter gedrückt
 [song year (date)]
 Aufnahmejahr
 [player window title]
@@ -444,19 +444,19 @@ xStatus-Titel
 [- bitrate]
 - Bitrate
 [- current song position (sec)]
-
+- aktuelle Liedposition (Sek.)
 [- player version]
-
+- Playerversion
 [- player]
-
+- Player
 [- song title]
-
+- Liedtitel
 [- total song length (sec)]
-
+- Gesamte Liedlänge (Sek.)
 [- track number]
-
+- Tracknummer
 [  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
-
+  Aktualisierungszeit (Sek.) ist die Zeit, in der Musikinfo und Statusnachricht aktualisiert werden. Bei Null ist automatische Aktualisierung deaktiviert.\nNur wenn 'Musik'-Status gesetzt war - ändert Ihren Status nur, wenn Musik XStatus bereits gesetzt ist.\n'Musik'-XStatus beibehalten - wenn Player gestoppt oder beendet wird wird XStatus 'Musik' beibehalten.\nWenn der Text nach der Verarbeitung leer ist dann ändert sich die Statusnachricht nicht.\Wenn die Einstellungen in der INI-Datei gespeichert sind, dann wird die Einstellung aus der Miranda-Datenbank gelöscht. Sonst wird die INI-Datei gelöscht.
 ["Variables" module use]
 "Variablen"-Modul verwenden
 [Acoustic]
@@ -522,7 +522,7 @@ Scrobbeln aktivieren
 [no language]
 Keine Sprache
 [Content language]
-Sprache des Inhalts:
+Sprache des Inhalts
 [Artist]
 Künstler
 [Album]
@@ -616,19 +616,19 @@ Schriftart wählen
 [Genres]
 Genres
 [[X]Status Title / Text]
-[X]Status Title / Text
+\[X]Status Titel / Text
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 Scrobbeln bei
 [Timeout, ms]
 Zeitüberschreitung, ms
 [Get Series Info]
-
+Serieninfos abrufen
 [Episode]
 Episode
 ;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
-Last.fm-Fehler: 
+Last.fm-Fehler:\s
 [Client is banned]
 Client wurde verbannt
 [Bad Auth. Check login and password]
@@ -640,15 +640,15 @@ Falscher Zeitstempel
 Ähnliche Künstler
 ;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
-Musikinfo von
+Musikinfo von\s
 [You Get Error]
 Uuups, ein Fehler trat auf!
 ;other strings
 [Slider]
-
+Slider
 [Slider Hovered]
-
+Slider überfahren
 [Slider Pushed]
-
+Slider gedrückt
 [WATrack status]
 WATrack-Status

@@ -77,9 +77,9 @@ Die Korrektur darf nicht leer sein!
 Die Korrektur kann nicht identisch mit dem falschen Wort sein.
 ;file \plugins\SpellChecker\src\dictionary.cpp
 [Tagalog (Philippines)]
-
+Tagalog (Philippinen)
 [German (Germany)]
-
+Deutsch (Deutschland)
 ;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 Nachrichtensitzungen

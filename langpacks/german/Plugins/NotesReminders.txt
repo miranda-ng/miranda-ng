@@ -40,8 +40,8 @@ Erinnerungs-Einstellungen
 Hinzufügen einer Erinnerung schließt Dialog
 [Use MCI to play alert sounds]
 Verwende MCI um Sounds zu spielen
-[Note Transparency (Minimum Win 2k/XP)]
-Notiz-Transparenz (Minimum Windows 2000/XP)
+[Note transparency]
+Notiz-Transparenz
 [Send Reminders through E-mail/SMS:]
 Erinnerungen durch E-Mail/SMS senden:
 [Open links with this program instead:]
@@ -133,7 +133,7 @@ Titel zurücksetzen
 [Undo]
 Rückgängig
 [&Copy]
-Kopieren
+&Kopieren
 [&Paste]
 Einfügen
 [C&ut]

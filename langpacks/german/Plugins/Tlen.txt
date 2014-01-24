@@ -211,15 +211,15 @@ Autorisierung anfragen
 Autorisierung gewähren
 ;file \protocols\Tlen\src\tlen_avatar.cpp
 [Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-
+Kann Avatar-Cache-Verzeichnis nicht erstellen. FEHLER: %d: %s\n%s
 [Can not save new avatar file "%s" Error:\n\t%s (Error: %d)]
-
+Kann Avatardatei "%s" nicht speichern. Fehler:\n\t%s (Fehler: %d)
 [Error while setting avatar on Tlen account (no response)]
-
+Fehler beim Setzen eines Avatars in Tlen (keine Antwort).
 [Error while setting avatar on Tlen account (invalid response)]
-
+Fehler beim Setzen eines Avatars in Tlen (ungültige Antwort).
 [Error while setting avatar on Tlen account]
-
+Fehler beim Setzen eines Avatars in Tlen.
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 1 Datei
@@ -227,7 +227,7 @@ Autorisierung gewähren
 %d Dateien
 ;file \protocols\Tlen\src\tlen_iqid.cpp
 [Authentication failed for %s@%s.]
-Authentifizierung fehlgeschlagen für %s@%s.
+Authentifizierung für %s@%s fehlgeschlagen.
 [Tlen Authentication]
 Tlen-Authentifizierung
 ;file \protocols\Tlen\src\tlen_muc.cpp
@@ -311,10 +311,10 @@ Empfangene Bilddatei://%s
 [Tlen login]
 Tlen-Anmeldung
 [You need to be connected to Tlen account to set avatar.]
-
+Sie müssen mit Tlen verbunden sein um Ihr Avatar zu setzen.
 ;file \protocols\Tlen\src\tlen_thread.cpp
-[Enter password for %s@%s.]
-Passwort eingeben für %s@%s.
+[Enter password for %s]
+Passwort für %s eingeben
 [Tlen Connection Error]
 Tlen-Verbindungsfehler
 [Windows Server 2003]

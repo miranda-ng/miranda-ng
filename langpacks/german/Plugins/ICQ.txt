@@ -1403,7 +1403,7 @@ Ihre Verbindung mit dem ICQ-Server wurde vorzeitig abgebrochen.
 [The contact's information was too big and was truncated.]
 Die Kontaktinformationen sind zu groß und werden abgekürzt.
 [Failed to create the correct sub-group, the using closest parent group.]
-Konnte niicht die richtige Untergruppe erstellen, die die nächste Elterngruppe verwendet.
+Konnte nicht die richtige Untergruppe erstellen, die die nächste Elterngruppe verwendet.
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
 Nicht gefunden

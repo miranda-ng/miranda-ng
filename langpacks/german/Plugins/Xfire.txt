@@ -69,7 +69,7 @@ Die Liste enthält all Ihre blockierten XFire-Nutzer. Sie können einen entferne
 [You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
 Sie können einen Nutzer zu der Liste hinzufügen, indem Sie in Ihrer Kontaktliste einen Rechtsklick auf ihn machen und "Benutzer ignorieren" auswählen.
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
-Diese Datei ist für die Spielsuche, Spielerkennung und Spiel-ID-Auflösung zuständig. Sie beinhaltet alle Spiele, die von XFire unterstützt werden.
+Diese Datei ist für die Spielsuche, Spielerkennung und Spiel-ID-Auflösung zuständig. Sie beinhaltet alle von XFire unterstützten Spiele.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Diese Datei beinhaltet alle Spielicons. Man kann die Einstellung aktivieren, dass die Icons heruntergeladen werden, wenn sie nicht vorhanden sind.
 [Be sure you put these files in following folder:]
@@ -117,7 +117,7 @@ Benutzername:
 [Game]
 Spiel
 [Voicechat]
-Sprachkonferenzsoftware
+Sprachchat
 [Name:]
 Name:
 [IP:]
@@ -125,7 +125,7 @@ IP:
 [Port:]
 Port:
 [User details]
-Benutzerdetails
+Kontaktprofil
 [Copy]
 Kopieren
 [Enter Password]
@@ -151,13 +151,13 @@ Spiel hinzufügen
 [Search:]
 Suche:
 [Custom...]
-Eigenes...
+Benutzerdefiniert...
 [Game name:]
 Spielname:
 [Game exe:]
 Spiel-exe:
 [Browse...]
-Suchen...
+Durchsuchen...
 [Launcher exe (optional):]
 Launcher-exe (optional):
 [Game ID:]
@@ -209,16 +209,16 @@ Gib's auf! Ich bin nicht da!
 [Not right now.]
 Im Moment nicht!
 [Give a guy some peace, would ya?]
-Lass mich im Moment mal in Ruhe!
+Lass' mich im Moment mal in Ruhe!
 [Well, I would talk to you if Miranda ICQ supported chat]
 Ich würde mit Ihnen reden, wenn Miranda ICQ das unterstützen würde.
 [That'll be the phone.]
 Bin gerade am Telefon
 [Mmm... food.]
-Hmmh... lecker
+Hmm... Essen.
 ;file \protocols\Xfire\src\baseProtocol.h
 [XFire Protocol]
-
+XFire-Protokoll
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 Die Datei xfire_games.ini wurde aktualisiert.
@@ -256,33 +256,33 @@ Aktuelles Spiel
 [My Current Game]
 Mein aktuelles Spiel
 [ServerIP]
-ServerIP
+Server-IP
 [My Current ServerIP]
-Meine aktuelle ServerIP
+Meine aktuelle Server-IP
 [Voice]
 Stimme
 [My Current Voice]
-
+Mein aktueller Sprachserver
 [Voice ServerIP]
-
+Sprach-Server-IP
 [My Voice ServerIP]
-
+Meine Sprach-IP
 [Xfire Link Protocol]
 XFire-Link-Protokoll
 [Buddy start a game]
 Ein Freund startet ein Spiel
 [It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer.]
-Es scheint, dass Sie das XFire Plugin zum ersten Mal nutzen. Wollen Sie automatisch due neuste xfire_games.ini herunterladen?\r\nOhne diese ini kann XFire keine Spiele auf Ihrem Computer erkennen.
+Es scheint, dass Sie das XFire Plugin zum ersten Mal nutzen. Wollen Sie automatisch die neuste xfire_games.ini und icons.dll herunterladen?\r\nOhne die xfire_games.ini kann XFire keine Spiele auf Ihrem Computer erkennen.
 [Away from Keyboard]
 Nicht an der Tastatur
 [&XFire Online Profile]
-&XFire Online Profile
+&XFire Online-Profil
 [XFire &Clan Site]
-XFire &Clan Seite
+XFire &Clan-Seite
 [C&opy Server Address and Port]
-Spielserver-IP und -Port k&opieren
+Server-Adresse und -Port k&opieren
 [Cop&y Voice Server Address and Port]
-Sprachserver-IP und -Port kopieren
+Sprachserver-Adresse und -Port kop&ieren
 [Join &Game...]
 Dem Spiel beitreten...
 [Play this game...]
@@ -300,7 +300,7 @@ E&rneute Suche nach Spielen...
 [Set &Nickname]
 &Nickname setzen
 [Protocols]
-
+Protokolle
 [XFire game icon]
 XFire Spiel Icon
 [XFire voice icon]
@@ -347,7 +347,7 @@ Automatisch nach Protokoll-Versionsänderungen neu verbinden
 [No IP/Port in StatusMsg]
 Keine IP/Port in Statusnachricht
 [Use Online status for unsupported global statuses]
-Wechsle auf Online statt Abwesend bei nicht unterstütztem Status
+Online statt Abwesend bei nicht unterstütztem globalem Status verwenden
 [Don't move friends to clan groups]
 Meinen Freunden keine Clangruppen zuordnen
 [GameServerQuery support]
@@ -379,9 +379,9 @@ Popups im Spiel deaktivieren
 [Disable sound events when ingame]
 Akustische Hinweise im Spiel deaktivieren
 [Automatically update xfire_games.ini (pro-laming.de)]
-Automatisch xfire_games.ini aktualisieren (pro-laming.de)
+xfire_games.ini automatisch aktualisieren (pro-laming.de)
 [Automatically update icons.dll (pro-laming.de)]
-Automatisch icons.dll aktualisieren (pro-laming.de)
+icons.dll automatisch aktualisieren (pro-laming.de)
 [Download missing game icons from Xfire website]
 Fehlende Spielicons von der XFire-Homepage laden
 [No backup on update]

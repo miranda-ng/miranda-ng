@@ -133,7 +133,7 @@ Aktualisierung abgeschlossen. Klicken Sie Ja um Miranda neu zu starten oder Nein
 [<< Details]
 << Details
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
-
+Aktualisierung fehlgeschlagen! Eine der Komponenten wurde nicht richtig heruntergeladen. Versuchen Sie es später noch einmal.
 [No updates found.]
 Keine Aktualisierungen gefunden.
 [Update checking already started!]
@@ -149,9 +149,9 @@ Testen
 Dienste
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for updates]
-Auf Plugin-Aktualisierungen prüfen
+Auf Aktualisierungen prüfen
 [Available components list]
-Vollständige Pluginliste anzeigen
+Liste verfügbarer Komponenten
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
 'Ja'-Schaltfläche

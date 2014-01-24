@@ -1303,7 +1303,7 @@ Chatfenster öffnen
 [Chat module]
 Chatfenster
 [Group chat log background]
-
+Gruppenchat-Verlaufshintergrund
 [Message background]
 Nachrichten-Hintergrund
 [Nick list background]

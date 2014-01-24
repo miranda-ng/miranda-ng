@@ -49,9 +49,9 @@ Jeden ignorieren, der nicht in der Server-Kontaktliste steht.
 [Ignore only the people below:]
 Ignoriere nur folgende Nutzer:
 [&Add]
-Hzfg.
+&Hinzufügen
 [&Remove]
-Entf.
+Entfe&rnen
 [Set Custom Status]
 Setze benutzerdef. Status
 [Show as busy]
@@ -69,7 +69,7 @@ Einladung in einen Chatraum
 [&Join]
 Betreten
 [&Deny]
-Ablehnen
+&Ablehnen
 [Denial Message]
 Ablehnungsnachricht
 [Invitation Message]
@@ -90,7 +90,7 @@ Grund der Einlad.
 Hinzufügen
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
-[Miranda] Chateinladung in Raum: %s mit Nachricht: %s
+\[Miranda] Chateinladung in Raum: %s mit Nachricht: %s
 [%s denied invitation with message: %s]
 %s hat die Einladung mit folgender Nachricht abgelehnt: %s
 [Me]
@@ -102,7 +102,7 @@ Kontakt e&inladen
 [&Leave chat session]
 Chat ver&lassen
 [User &details]
-Kontaktprofil
+Kontakt&profil
 [User &history]
 Verlauf des Kontakts
 [Join My Conference...]
@@ -198,7 +198,7 @@ Konferenz erstellen
 Profil zeigen
 ;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
-[Miranda] Webcameinladung. Diese wird nicht unterstützt.
+\[Miranda] Webcameinladung. Diese wird nicht unterstützt.
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Kalendererinnerung

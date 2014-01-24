@@ -17,7 +17,7 @@ Ereignismeldungen deaktivieren
 [Show preview of event in popup]
 Vorschau des Ereignisses im Popup
 [Popup options]
-Einstellungen für Popups
+Popup-Einstellungen
 [Message]
 Nachricht
 [URL]
@@ -31,7 +31,7 @@ Text
 [Background]
 Hintergrund
 [Timeout]
-Anzeigedauer
+Timeout
 [Notify me of...]
 Diese Ereignisse zeigen...
 [Left click actions]
@@ -107,7 +107,7 @@ Ereignismeldungen
 [ added you to the contact list]
  hat Sie zu Ihrer Kontaktliste hinzugefügt
 [ requested authorization]
- fragt nach Autorisierung
+ fragte Autorisierung an
 [This is a sample message event :-)]
 Dieses ist ein Beispiel-Popup für Nachrichten
 [This is a sample URL event ;-)]
@@ -119,4 +119,4 @@ Dieses ist ein Beispiel-Popup für ein anderes Ereignis
 [Plugin Test]
 Plugin Test
 [[b]Number of new message(s): %d[/b]\n]
-[b]Anzahl neuer Nachrichten: %d[/b]\n
+\[b]Anzahl neuer Nachrichten: %d[/b]\n

@@ -46,23 +46,23 @@ Kann Datei nicht öffnen
 [Size: %d bytes]
 Größe: %d Bytes
 [Request sent. Awaiting of acceptance..]
-Angrage gesendet. Warte auf Annahme.
+Anfrage gesendet. Warte auf Annahme.
 [Sending...]
 Sende...
 [Received successfully]
 Erfolgreich empfangen.
 [Requesting of missing chunks]
-
+Frage fehlende Teile an
 [Receiving...]
 Empfange...
 [Sent successfully]
 Erfolgreich gesendet
 [Unknown command for "File As Message" was received]
-Unbekannten Befehl für "File As Message" wurde empfangen.
+Unbekannter Befehl für "File As Message" wurde empfangen.
 [Incoming file request. Do you want to proceed?]
 Eingehende Dateianfrage. Wollen Sie fortfahren?
 [Canceled by remote user]
-
+Vom entfernten Benutzer abgebrochen
 [New incoming file request. Do you want to proceed?]
 Neue eingehende Dateianfrage. Wollen Sie fortfahren?
 [File transfer is paused because of dropped connection]

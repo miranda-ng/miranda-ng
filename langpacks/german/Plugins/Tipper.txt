@@ -321,7 +321,7 @@ Alle Einträge kopieren
 [Copy avatar]
 Avatar kopieren
 [<No Label>: ]
-<kein Label>: 
+<kein Label>:\s
 [<No Value>]
 <kein Wert>
 [Fav. contacts]
@@ -386,7 +386,7 @@ Kontaktzeit
 [Time:]
 Zeit:
 [XStatus title]
-XStatustitel
+xStatus-Titel
 [XStatus title:]
 XStatustitel:
 [XStatus text]
@@ -394,67 +394,67 @@ XStatusnachricht
 [XStatus text:]
 XStatusnachricht:
 [[jabber.dll] Activity title]
-[jabber.dll] Aktivitätstitel
+\[jabber.dll] Aktivitätstitel
 [Activity title:]
 Aktivitätstitel:
 [[jabber.dll] Activity text]
-[jabber.dll] Aktivitätstext
+\[jabber.dll] Aktivitätstext
 [Activity text:]
 Aktivitätstext:
 [[seenplugin.dll] Last seen time]
-[seenplugin.dll] Zuletzt-Gesehen-Zeit
+\[seenplugin.dll] Zuletzt-Gesehen-Zeit
 [Last seen time:]
 Zuletzt gesehen:
 [[seenplugin.dll] Last seen status]
-[seenplugin.dll] Zuletzt-Gesehen-Status
+\[seenplugin.dll] Zuletzt-Gesehen-Status
 [Last seen status:]
 Letzter Status:
 [[weather.dll] Condition]
-[weather.dll] Wetterlage
+\[weather.dll] Wetterlage
 [Condition:]
 Wetterlage:
 [[weather.dll] Humidity]
-[weather.dll] Luftfeuchtigkeit
+\[weather.dll] Luftfeuchtigkeit
 [Humidity:]
 Luftfeuchtigkeit:
 [[weather.dll] Max/Min temperature]
-[weather.dll] Max/Min Temperatur
+\[weather.dll] Max/Min Temperatur
 [Max/Min:]
 Max./min.:
 [[weather.dll] Moon]
-[weather.dll] Mond
+\[weather.dll] Mond
 [Moon:]
 Mond:
 [[weather.dll] Pressure]
-[weather.dll] Druck
+\[weather.dll] Druck
 [Pressure:]
 Luftdruck:
 [[weather.dll] Sunrise]
-[weather.dll] Sonnenaufgang
+\[weather.dll] Sonnenaufgang
 [Sunrise:]
 Sonnenaufgang:
 [[weather.dll] Sunset]
-[weather.dll] Sonnenuntergang
+\[weather.dll] Sonnenuntergang
 [Sunset:]
 Sonnenuntergang:
 [[weather.dll] Temperature]
-[weather.dll] Temperatur
+\[weather.dll] Temperatur
 [Temperature:]
 Temperatur:
 [[weather.dll] Update time]
-[weather.dll] Aktualisierungszeitpunkt
+\[weather.dll] Aktualisierungszeitpunkt
 [Update time:]
 Aktualisierungszeitpunkt:
 [[weather.dll] UV Index]
-[weather.dll] UV-Index
+\[weather.dll] UV-Index
 [UV Index:]
 UV-Index:
 [[weather.dll] Visibility]
-[weather.dll] Sichtweite
+\[weather.dll] Sichtweite
 [Visibility:]
-Sichtweite:
+Sichtbarkeit:
 [[weather.dll] Wind]
-[weather.dll] Wind
+\[weather.dll] Wind
 [Wind:]
 Wind:
 ;file \plugins\TipperYM\src\skin_parser.cpp
@@ -483,7 +483,7 @@ weiblich
 [Male]
 männlich
 [[No translation]]
-<Keine Umwandung>
+\[Keine Umwandung]
 [WORD to status description]
 WORD in Statusbeschreibung
 [DWORD timestamp to time]

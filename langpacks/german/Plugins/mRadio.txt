@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: mRadio.dll
 ;  Module: mRadio
-;  Version: 0.0.2.1
+;  Version: 0.0.2.3
 ;  Authors: Awkward
 ;============================================================
 [This plugin plays and records Internet radio streams. Also local media files can be played.]
@@ -114,21 +114,21 @@ Aufnahme starten
 [Stop record]
 Aufnahme anhalten
 [Currently played URL]
-
+Aktuell gespielte URL
 [Current stream title]
-
+Aktueller Streamtitel
 [Station/playlist URL]
-
+Station/Playlist URL
 [Currently used decoder]
-
+Aktuell verwendeter Decoder
 [connecting]
 verbinde
 [aborting]
 breche ab
 [Can't initialize device]
-
+Kann Gerät nicht initialisieren
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
-
+Kann nicht mit dem Internet verbinden. Bitte überprüfen Sie die Einstellung "Offline arbeiten" in Ihren Interneteinstellungen.
 [Start broadcasting]
 Übertragung beginnen
 [Stop broadcasting]
@@ -146,15 +146,15 @@ Equalizer Voreinstellung
 [Export All]
 Exportiere alle
 [Current status]
-
+Aktueller Status
 [Broadcast ON]
-
+Broadcast EIN
 [Broadcast OFF]
-
+Broadcast AUS
 [Add EQ preset]
-
+EQ-Preset hinzufügen
 [Delete EQ preset]
-
+EQ-Preset löschen
 [BASS library path (empty for default)]
 Bass.dll-Bibliothekverzeichnis (Standard leer)
 [Tries to connect]
@@ -162,17 +162,17 @@ Versuche zu verbinden
 [Mute]
 stumm
 [mRadio volume control]
-
+mRadio-Lautstärkenkontrolle
 [Import File]
 Datei importieren
 [Play Station]
-
+Station abspielen
 [Forced Mono]
 Mono fokusieren
 [Play/Pause]
 Play/Pause
 [Oops! BASS error]
-
+Uups! BASS-Fehler
 [Mute with Miranda]
 Mit Miranda stummschalten
 [Advanced]
@@ -188,7 +188,7 @@ Aus
 [Volume]
 Lautstärke
 [Device list]
-
+Geräteliste
 [Equalizer]
 Equalizer
 [New]

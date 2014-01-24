@@ -1,6 +1,0 @@
-﻿[Events]
-[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
-[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
-[SMS]
-[Send &SMS...]
-[&SMS Message]

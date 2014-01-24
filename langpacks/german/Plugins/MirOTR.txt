@@ -130,7 +130,7 @@ OTR konnte nicht verschlüsseln, als eine Nachricht gesendet wurde
 [OTR Information]
 OTR-Informationen
 [[OTR INFO] ]
-
+\[OTR-INFO]\s
 [Authentication from %s]
 Authentifizierung von %s
 [Authenticae %s]

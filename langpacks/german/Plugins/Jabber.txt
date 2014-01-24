@@ -85,7 +85,7 @@ Benutzerverzeichnis:
 [Language for human-readable resources:]
 Sprache für menschenlesbare Dialoge:
 [File Transfer]
-Dateitransfer
+Dateiübertragungen
 [Allow file sending through direct peer-to-peer connection]
 Dateitransfer durch Direktverbindung der Clients aktivieren
 [Specify external address:]
@@ -445,9 +445,9 @@ Jabber-Ad-Hoc-Befehl an %s
 Jabber-Ad-Hoc-Befehl an %s senden
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
-Keine Nachr.
+Keine Nachricht
 [Jabber Agent Registration]
-Anmeldung an Jabberagenten
+Registrierung an Jabberagenten
 [Register]
 Registrieren
 [Please wait...]
@@ -468,9 +468,9 @@ Links
 Bytestream-Proxy nicht verfügbar
 ;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
-
+Unterstützt Diensterkennung Info
 [Supports Service Discovery items list]
-
+Unterstützt Diensterkennung Liste der Einträge
 [Can inform about its Jabber capabilities]
 Kann über seine Jabberfähigkeiten informieren
 [Supports stream initiation (for filetransfers for ex.)]
@@ -502,7 +502,7 @@ Kann Pinganfragen senden und empfangen
 [Supports data forms]
 Unterstützt Datenformulare
 [Can request and respond to events relating to the delivery, display, and composition of messages]
-
+Kann Ereignisse bezogen zur Zustellung, Anzeige und Verfassung von Nachrichten anfordern und beantworten
 [Supports vCard]
 Unterstützt vCard
 [Supports iq-based avatars]
@@ -512,7 +512,7 @@ Unterstützt XHTML-Formatierung von Chatnachrichten
 [Supports Jabber Browsing]
 Unterstützt Jabberbrowsen
 [Can negotiate options for specific features]
-
+Kann Optionen für bestimmte Funktionen aushandeln
 [Can request advanced processing of message stanzas]
 
 [Can report information about user moods]
@@ -528,7 +528,7 @@ Unterstützt OTR (Off-the-Record Messaging)
 [Supports New_GPG plugin for Miranda NG]
 Unterstützt New_GPG-Plugin für Miranda NG
 [Blocks packets from another users/groupchats using Privacy lists]
-
+Blockiert Pakete von anderen Benutzern/Gruppenchats anhand der Privatsphärelisten
 [Supports Message Receipts]
 Unterstützt Lesebestätigungen
 [Can report information about the music to which a user is listening]
@@ -554,7 +554,7 @@ Unterstützt Jingle
 [Supports Roster Exchange]
 Unterstützt Kontaktlistenaustausch
 [Supports direct chat invitations (XEP-0249)]
-
+Unterstützt direkte Chateinladungen (XEP-0249)
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -656,7 +656,7 @@ Ben&utzerdetails
 [Member &info]
 Mitglieder&infos
 [User &details]
-Benutzer&details
+Kontakt&profil
 [&Add to roster]
 Zu Server-Kont&aktliste hinzufügen
 [&Copy to clipboard]
@@ -762,7 +762,7 @@ Suchverzeichnis hinzufügen
 [Use this proxy]
 Diesen Proxyserver benutzen
 [Commands...]
-Befehle ausführen...
+Befehle...
 [Logon]
 Anmelden
 [Logoff]
@@ -810,27 +810,27 @@ Elementanfragefehler
 [The number of online entities that are active]
 
 [A list of entities with administrative privileges]
-
+Eine Liste an Benutzern mit administrativen Befugnissen
 [The text of an announcement to be sent to active users or all users]
-
+Der Text einer Ankündigung, die an aktive oder alle Benutzer gesendet wird
 [A list of entities with whom communication is blocked]
-
+Eine Liste der Benutzer, mit denen Kommunikation blockiert ist
 [The number of seconds to delay before applying a change]
-
+Die Anzahl an Sekunden der Verzögerung vor Anwendung einer Änderung
 [The Jabber IDs that have been disabled]
-
+Die deaktivierten Jabber-IDs
 [The number of disabled entities]
-
+Die Anzahl deaktivierter Benutzer
 [The email address for a user]
 Die E-Mail-Adresse eines Benutzers
 [The given (first) name of a user]
-
+Der Vorname eines Benutzers
 [The number of online entities that are idle]
 
 [The IP addresses of an account's online sessions]
 
 [The last login time (per XEP-0082) of a user]
-
+Die letzte Anmeldezeit (gemäß XEP-0082) eines benutzers
 [The number of logins per minute for an account]
 
 [The maximum number of items associated with a search or list]
@@ -838,7 +838,7 @@ Die E-Mail-Adresse eines Benutzers
 [The text of a message of the day]
 Der Text einer Nachricht des Tages
 [The names of an account's online sessions]
-
+Die Namen der Onlinesitzungen eines Kontos
 [The Jabber IDs associated with online users]
 
 [The number of online entities]
@@ -948,11 +948,11 @@ Das Passwort für den Raum
 [The child nodes (leaf or collection) associated with a collection]
 
 [The maximum number of child nodes that can be associated with a collection]
-
+Die Höchstzahl an Kindknoten, die mit einer Sammlung verknüpft werden können
 [The maximum number of items to persist]
-
+Die Höchstzahl an zu behaltenden Elementen
 [The maximum payload size in bytes]
-
+Die maximale Nutzlastgröße in Byte
 [Whether the node is a leaf (default) or a collection]
 
 [Whether to notify subscribers when the node configuration changes]
@@ -1000,15 +1000,15 @@ Die Standardsprache des Knotens
 [The name of the node]
 Der Name des Knotens
 [Payload type]
-
+Nutzlasttyp
 [Whether to automatically authorize subscription requests]
-
+Ob Autorisierungsanfragen automatisch angenommen werden
 [Whether to automatically accept file transfers]
-
+Ob Dateiübertragungen automatisch angenommen werden
 [Whether to automatically open new messages]
-
+Ob neue nachrichten automatisch geöffnet werden
 [Whether to automatically go offline when idle]
-
+Ob bei Untätigkeit automatisch offline gegangen wird
 [Whether to play sounds]
 Ob Klänge abgespielt werden sollen
 [A list of pending file transfers]
@@ -1026,13 +1026,13 @@ Mit dem Benutzer verknüpfter Kontoname
 [Familiar name of the user]
 Bekannter Name des Benutzers
 [Password or secret for the user]
-
+Passwort oder geheime Phrase für den Benutzer
 [Full name of the user]
 Voller Name des Benutzers
 [First name or given name of the user]
-
+Vor- oder Rufname des Benutzers
 [Last name, surname, or family name of the user]
-
+Nachname des Benutzers
 [Email address of the user]
 E-Mail-Adresse des Benutzers
 [Street portion of a physical or mailing address]
@@ -1044,17 +1044,17 @@ E-Mail-Adresse des Benutzers
 [Postal code portion of a physical or mailing address]
 
 [Family Name]
-
+Familienname
 [Whether to accept the invitation]
-
+Ob die Einladung angenommen werden soll
 [Another resource with which to continue the session]
 
 [Disclosure of content, decryption keys or identities]
 
 [Whether may send Chat State Notifications per XEP-0085]
-
+Ob Chatstatusbenachrichtigungen gemäß XEP-0085 gesendet werden dürfen
 [Whether allowed to use XHTML-IM formatting per XEP-0071]
-
+Ob XHTML-Nachrichtenformatierungen gemäß XEP-0071 erlaubt sind
 [Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
 
 [Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
@@ -1066,7 +1066,7 @@ Mindestsicherheitsstufe
 [Whether to terminate the session]
 Ob die Sitzung terminiert werden soll
 [Whether to enable Message Receipts per XEP-0184]
-
+Ob Nachrichtenbestätigungen gemäß XEP-0184 aktiviert sind
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Fehler beim abrufen der Raumliste vom Server.
@@ -1522,7 +1522,7 @@ Moldawien
 [Mongolian]
 Mongolisch
 [Nauru]
-Nauruisch
+Nauru
 [Navajo; Navaho]
 Navajo, Navaho
 [Ndebele, South; South Ndebele]
@@ -1674,7 +1674,7 @@ Zulu
 [These changes will take effect the next time you connect to the Jabber network.]
 Die Änderungen werden erst nach einer Neueinwahl ins Jabbernetzwerk aktiv.
 [Jabber Protocol Option]
-Jabber-Protokolloption
+Jabber-Protokolleinstellungen
 [Confirm password]
 Passwort bestätigen
 [Passwords do not match.]
@@ -2192,10 +2192,10 @@ Jabber-vCard: Telefonnummer bearbeiten
 [Contacts]
 Kontakte
 [Note]
-Anmerkung
+Hinweis
 ;file \protocols\JabberG\src\jabber_ws.cpp
 [%s connection]
-%s Verbindung
+%s-Verbindung
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [OK (%d)]
 OK (%d)

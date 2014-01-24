@@ -1,5 +1,0 @@
-[Open log file]
-[Ping Graph]
-[Ping Reply]
-[Ping Timeout]
-[List]

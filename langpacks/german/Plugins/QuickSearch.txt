@@ -10,23 +10,23 @@ Dieses Plugin ermöglicht es Ihnen, in Ihrer Kontaktliste nach Nicknamen, Namen,
 [Quick Search]
 Schnellsuche
 [Title]
-
+Titel
 [Module/InfoType]
 Modul/Infotyp
 [Setting]
-
+Einstellung
 [Reload]
-
+Neu laden
 [New]
-
+Neu
 [Up]
-
+Auf
 [Down]
-
+Ab
 [Delete]
-
+Löschen
 [Default]
-
+Standard
 [Additional Options]
 Zusätzliche Einstellungen
 [Tool Window Style]
@@ -42,33 +42,33 @@ Nach Status sortieren
 [Show Client Icons]
 Clienticons anzeigen
 [Settings]
-
+Einstellungen
 [Title:]
-
+Titel:
 [Account]
-
+Konto
 [Gender]
-
+Geschlecht
 [UserID]
-
+Benutzer-ID
 [Nickname]
-
+Nickname
 [First name]
-
+Vorname
 [Last name]
-
+Nachname
 [Group]
-
+Gruppe
 [Container]
-
+Container
 [E-mail]
-
+E-Mail
 [Client ID]
 Client-ID
 [Ext IP]
 Externe IP
 [LastSeen]
-
+Zuletzt gesehen
 [Last Event]
 Letztes Ereignis
 [Online since]
@@ -76,69 +76,69 @@ Online seit
 [Metacontact]
 Metakontakt
 [Event count]
-
+Ereigniszähler
 [Contact add time]
-
+Kontakt hinzugefügt am
 [Type:]
-
+Typ:
 [DB setting]
-
+Datenbank-Einstellung
 [Script]
 Skript
 [Service]
-
+Dienst
 [Contact info]
-
+Kontaktinfo
 [Other]
-
+Sonstige
 [Data type:]
-
+Datentyp:
 [Byte]
-
+Byte
 [Word]
-
+Word
 [DWord]
-
+DWord
 [Signed]
-
+Mit Vorzeichen
 [As hex]
-
+Als Hex
 [String]
-
+String
 [IP]
-
+IP
 [TimeStamp]
 Zeitstempel
 [Module:]
-
+Modul:
 [Setting:]
 Einstellung:
 [Service:]
-
+Dienst:
 [Param]
-
+Param
 [number value]
-
+Nummernwert
 [ANSI string]
-
+ANSI-String
 [Unicode string]
-
+Unicodestring
 [current contact]
-
+Aktueller Kontakt
 [last result]
-
+Letzes Ergebnis
 [parameter]
-
+Parameter
 [Result]
-
+Ergebnis
 [Save]
-
+Speichern
 [All]
-
+Alle
 [Close]
-
+Schließen
 [Refresh]
-
+Aktualisieren
 [QuickSearch]
 Schnellsuche
 [Show Offline contacts]
@@ -158,21 +158,21 @@ Spalte ab bewegen
 [Delete Column]
 Spalte löschen
 [Male]
-
+männlich
 [Female]
-
+weiblich
 [Contacts]
-
+Kontakte
 [ContactInfo]
 Kontaktinfo
 [LastEvent]
 Letztes Ereignis
 [EventCount]
-
+Ereigniszähler
 [Script Editor]
 Skripteditor
 [Normal background]
-
+Normaler Hintergrund
 [Normal foreground]
 Normaler Vordergrund
 [Odd background]
@@ -200,25 +200,25 @@ Sub-Metakontakt-Hintergrund
 [SubMetacontact foreground]
 Sub-Metakontakt-Vordergrund
 [&Delete]
-
+&Löschen
 [&Copy]
-
+&Kopieren
 [C&onvert to Meta]
 In Metak&ontakt umwandeln
 [Attach to &Tab container]
-
+Zu &Tab-Container anheften
 [&Move to Group]
-
+In Gruppe verschieben
 [Some of selected contacts in different metacontacts already]
 Einige der ausgewählten Kontakte gehören bereits zu anderen Metakontakten
 [Do you really want to delete selected contacts?]
 Möchten Sie die ausgewählten Kontakte wirklich löschen?
 [Warning]
-
+Warnung
 [One or more contacts in same Meta already. Try to convert anyway?]
 Ein oder mehrere Kontakte gehören bereits zum selben Metakontakt. Trotzdem versuchen umzuwandeln?
 [Editing of column ]
-
+Bearbeite Spalte\s
 [%i users found (%i) Online: %i]
 %i Benutzer gefunden (%i) Online: %i
 [ users found (]
@@ -226,44 +226,45 @@ Ein oder mehrere Kontakte gehören bereits zum selben Metakontakt. Trotzdem vers
 [) Online: ]
 ) online:\s
 [Online]
-
+Online
 [deleted]
-
+Gelöscht
 [off]
-
+aus
 [active]
-
+aktiv
 [Colorize]
 Einfärben
 [QuickSearch window hotkey]
 Schnellsuchfensterhotkey
 [Column content is simple database setting.]
-
+Diese Spalte ist eine einfache Datenbankeinstellung.
 [Column content is script result.\r\nMore help from "Help" button in script dialog.]
-
+Inhalt der Spalte ist das Ergebnis des Skriptes.\r\nWeitere Hilfe über den "Hilfe"-Button im Skriptdialog.
 [Column content is contact property (see list). Can be empty.]
-
+Inhalt der Spalte ist die Eigenschaft des Kontaktes (siehe Liste). Kann leer sein.
 [Content is last online time.]
-
+Inhalt ist die letzte Onlinezeit.
 [Content is time of last contact event.]
-
+Inhalt ist die Zeit des letzten Ereignisses dieses Kontaktes.
 [Content is metacontact info.]
-
+Inhalt ist die Info des Metakontaktes.
 [Content is count of ALL contact events (not messages only)]
-
+Inhalt ist die Anzahl ALLER Eregnisse (nicht nur Nachrichten) dieses Kontaktes.
 [Other info]
-
+Andere Info
 [Change setting through QS]
-
+Einstellung durch QS ändern
 [default]
-
+Standard
 [Selected]
-
+Aktiv
 [contacts]
-
+Kontakte
 [Unknown]
-
+Unbekannt
 [Stay on Top]
-
+Immer im Vordergrund
+; this line is not present in the sources, but it present in compiled plugin
 [Text Editor]
-
+Texteditor

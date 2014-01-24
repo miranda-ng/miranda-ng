@@ -267,7 +267,7 @@ Abbrechen
 [Popup Group]
 Popupgruppe
 [Favorite Contact]
-Favoristerter Kontakt
+Favorisierter Kontakt
 [Show in Fullscreen]
 Im Vollbild anzeigen
 [Blocked Contact]

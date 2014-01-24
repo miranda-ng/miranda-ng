@@ -660,7 +660,7 @@ Timeout beim Nachrichtenversand
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
 [Group chat log background]
-
+Gruppenchat-Verlaufshintergrund
 [Nick list background]
 Benutzerliste Hintergrund
 [Nick list lines]

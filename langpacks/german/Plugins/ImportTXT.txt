@@ -8,7 +8,7 @@
 [Imports history saved in TXT files from other clients.]
 Inportiert den Verlauf von anderen Clients aus Textdateien.
 [Import history to ]
-Verlaufen importieren zu
+Verlaufen importieren zu\s
 [Import history]
 Verlauf importieren
 [Choose a file...]
@@ -22,7 +22,7 @@ Textdateien (*.txt)
 [All files (*.*)]
 Alle Dateien (*.*)
 [Error in cfg file: ]
-Fehler in Konfigurationsdatei: 
+Fehler in Konfigurationsdatei:\s
 [No Files Patterns Found]
 Keine Dateimuster gefunden
 [No messages in this file]
