@@ -257,6 +257,12 @@ LBL_Error:
 	}
 
 	bpi->Interfaces = (MUUID*) GetProcAddress(h, "MirandaInterfaces");
+	if (bpi->Interfaces == NULL) {
+		typedef MUUID * (__cdecl * Miranda_Plugin_Interfaces) (void);
+		Miranda_Plugin_Interfaces pFunc = (Miranda_Plugin_Interfaces)GetProcAddress(h, "MirandaPluginInterfaces");
+		if (pFunc)
+			bpi->Interfaces = pFunc();
+	}
 
 	PLUGININFOEX* pi = bpi->InfoEx(mirandaVersion);
 	if (!checkPI(bpi, pi))
