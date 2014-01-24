@@ -108,7 +108,7 @@
 [Plugin Updater]
 Абнаўленне плагінаў
 [Download complete]
-Загрузка завершана
+Загрузка скончана
 [Download complete. Do you want to go to plugins option page?]
 Загрузка завершана. Адчыніць старонку налад?
 [Component Name]
@@ -132,6 +132,8 @@
 Абнаўленне скончана. Націсніце "Так" для перазагрузкі праграмы ці "Не", каб зрабіць гэта пазней.
 [<< Details]
 << Дэталі
+[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
+Не атрымалася выканаць абнаўленне! Адзін з кампанентаў быў запампаваны з памылкай. Паспрабуйце паўтарыць пазней.
 [No updates found.]
 Абнаўленняў няма.
 [Update checking already started!]

@@ -84,10 +84,22 @@ Miranda была зачынена ці адбылася памылка пры ч
 Зменены глабальны статус на '%s' (папярэдні быў '%s').
 [Changed '%s' status to '%s' (previous status was '%s').]
 Зменены '%s' статус на '%s' (папярэдні быў '%s').
+['%s' doesn't seem to be a valid account.]
+'%s' не мае быць дапушчальным контам.
+[Failed to change status for account '%s' to '%s'.]
+Не атрымалася змяніць статус конту  '%s' на '%s'.
+[Failed to set '%S' status message to '%s' (status is '%s').]
+Не атрымалася ўсталяваць паведамленне статусу '% S' для '% S' (статус '% S').
 [Successfully set '%S' status message to '%s' (status is '%s').]
 Папяхова ўсталявана '%s' паведамленне статуса для '%s' (статус '%s').
+[Account '%S' does not support away messages, skipping.]
+Конт '% S' не падтрымлівае паведамленні адсутнасці, пропуск.
 [Changed '%s' status message to '%s' (status is '%s').]
 Зменена '%s' паведамленне статусу на '%s' (статус '%s').
+[Account '%s' does not support away messages, skipping.]
+Конт '% S' не падтрымлівае паведамленні адсутнасці, пропуск.
+[Failed to change status message for account '%s' to '%s' (status is '%s').]
+Не атрымалася змяніць паведамленне статуса для конту '% S' у '% S' (статус '% S').
 [Issued check email command to Exchange plugin.]
 Адпраўлена каманда праверкі пошты для плагіна Exchange.
 [Exchange plugin is not running.]
@@ -96,6 +108,8 @@ Miranda была зачынена ці адбылася памылка пры ч
 Адпраўлена каманда праверкі пошты для плагіна YAMN.
 [YAMN plugin is not running.]
 Плагін YAMN не запушчаны.
+[CallService call successful: service '%s' returned %p.]
+CallService выклік паспяховы: служба '% S' вярнула % р.
 [Invalid parameter '%s' passed to CallService command.]
 Няслушны аргумент '%s' адпраўлены камандзе CallService.
 [Service '%s' does not exist.]

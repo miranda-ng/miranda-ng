@@ -24,12 +24,18 @@
 Закрыць пасля:
 [sec (0 default,\n -1 disabled)]
 с (0 змаўчанне,\n -1 выключана)
+[...but only if popup not clicked]
+... Але толькі калі не націснута вакно 
 [Left button click cmd:]
 Каманда па левай пстрычцы мышы:
 [Command parameters:]
 Параметры каманды:
+[Remember newest message ID\n and don't show older]
+Запамінаць найноўшы ID паведамлення \n  і не паказваюць старэй
 [version:]
 версія:
+[Clear popups history]
+Выдаліць гісторыю усплывальных вокнаў
 [Filter messages contain below strings in:]
 Фільтраваць паведамленні, што ўтрымоўваюць:
 [Sender]

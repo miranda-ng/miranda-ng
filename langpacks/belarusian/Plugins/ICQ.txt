@@ -518,6 +518,8 @@ ICQ
 Чэхія
 [Denmark]
 Данія
+[Diego Garcia]
+Дыега Гарсія
 [Djibouti]
 Джыбуці
 [Dominica]
@@ -550,6 +552,8 @@ ICQ
 Фінляндыя
 [France]
 Францыя
+[French Antilles]
+Французскія Антылы
 [French Guiana]
 Французская Гвіяна
 [French Polynesia]
@@ -698,8 +702,18 @@ ICQ
 Непал
 [Netherlands]
 Нідэрланды
+[Netherlands Antilles]
+Нідэрландскія Антылы
+[St. Maarten]
+Санкт-Маартен
 [Curacao]
 Кюрасао
+[Netherlands (Bonaire Island)]
+Нідэрланды (в. Бонайрэ)
+[Netherlands (Saba Island)]
+Нідэрланды (в. Саба)
+[Netherlands (St. Eustatius Island)]
+Нідэрланды (в. Сінт-Эстаціус)
 [New Caledonia]
 Новая Каледонія
 [New Zealand]
@@ -748,6 +762,12 @@ ICQ
 Расія
 [Rwanda]
 Руанда
+[Samoa (USA)]
+Самоа (ЗША)
+[Samoa, Western]
+Самоа, Заходняя
+[Saint Helena]
+в. Святой Алены
 [Saint Kitts and Nevis]
 Сэнт-Кітс і Нэвіс
 [Saint Lucia]
@@ -762,6 +782,8 @@ ICQ
 Сан-Томе і Прынсэп
 [Saudi Arabia]
 Саудаўская Аравія
+[Scotland]
+Шатландыя
 [Senegal]
 Сенегал
 [Seychelles]
@@ -782,6 +804,8 @@ ICQ
 ПАР
 [Spain]
 Іспанія
+[Spain, Canary Islands]
+Гішпанія, Канары
 [Sri Lanka]
 Шры Ланка
 [Sudan]
@@ -804,6 +828,8 @@ ICQ
 Танзанія
 [Thailand]
 Тайланд
+[Timor, East]
+Усходні Тымор,
 [Togo]
 Того
 [Tokelau]
@@ -815,6 +841,8 @@ ICQ
 [Tunisia]
 Туніс
 [Turkey]
+Турцыя
+[Turkey, Republic of Northern Cyprus]
 Турцыя
 [Turkmenistan]
 Туркменістан
@@ -844,12 +872,22 @@ ICQ
 Венесуэла
 [Vietnam]
 В'етнам
+[Virgin Islands (UK)]
+Віргінскія астравы (Вялікабрытанія)
+[Virgin Islands (USA)]
+Віргінскія астравы (ЗША)
+[Wales]
+Уэльс
 [Wallis and Futuna]
 Уоліс і Футуна
 [Yemen]
 Емен
+[Yugoslavia]
+Югаславія
 [Serbia]
 Сербія
+[Kosovo, Republic of]
+Косава
 [Montenegro]
 Чарнагорыя
 [Zambia]

@@ -86,6 +86,8 @@
 Наладзіць
 [Permanent]
 Пастаянна
+[Do not add to popup's history]
+Не запісваць у гісторыю вакон
 [Preview]
 Прагляд
 [&Choose Quotes to watch in contact list:]
@@ -126,6 +128,7 @@
 &Адсочваныя каціроўкі:
 [Status &Message:]
 Паведамленне статусу:
+;file \plugins\Quotes\src\Chart.h
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 Секунд

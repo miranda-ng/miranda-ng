@@ -278,8 +278,6 @@ Wikipedia
 Толькі актуальная гісторыя
 [Always trim message log to]
 Заўсёды абмяжоўваць лог да
-[Events]
-Падзеі
 [Only show tab bar when it's needed]
 Панэль укладак толькі калі патрабуецца
 [Container stays on top]
@@ -2096,6 +2094,8 @@ IRC-стыль(тэкставы) індыкатараў роляў у логе �
 Фон палёў
 [Nick list background]
 Фон спісу карыстачоў
+[Group chat log background]
+Фон журнала чата
 [nick of current contact (if defined)]
 мянушка бягучага кантакту (калі вызначаны)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]

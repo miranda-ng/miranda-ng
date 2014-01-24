@@ -16,10 +16,16 @@
 Адкрыць старонку ВКонтакте
 [Login settings]
 Налады уваходу
+[Local settings]
+Лакальныя налады
+[Contact list group:]
+Гурт у спісе кантактаў
 [Advanced]
 Дадаткова
 [Server-side delivery confirmation]
 Падцверджанне дастаўкі з боку сервера
+[Hide chats on startup]
+Не адчыняць вокны пакояў пры далучэнні
 [Bots challenge test]
 Абарона ад ботаў
 [Instruction:]
@@ -28,6 +34,16 @@
 Прыняць
 [Cancel]
 Скасаваць
+[Invite user to chat]
+Запрасіць у чат
+[Choose one of your contacts to be invited:]
+Абярыце кантакт для запрашэння ў чат:
+[Create group chat]
+Стварыць чат
+[Mark users you want to invite to a new chat]
+Вылучыць карыстальнікаў для запрашэння ў чат
+[New chat's title:]
+Загаловак новага пакою:
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 Абразок формы 
@@ -38,6 +54,29 @@
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
+;file \protocols\VKontakte\src\vk_chats.cpp
+[Participants]
+Удзельнікі
+[Owners]
+Уладары
+[Unknown]
+Невядомы
+[Enter new chat title]
+Увядзіце новы загаловак чата
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Гэты чат будзе знішчаны з усімі кантактамі. Гэта дзеянне нельга адкаціць. Вы ўпэўнены?
+[Warning]
+Папярэджанне
+[&Invite a user]
+Запрасіць кантакт
+[View/change &title]
+Прагляд/змена загалоўка
+[&Destroy room]
+Выдаліць чат
+[&User details]
+Пра кантакт
+[&Kick]
+Выкінуць
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Сеціва
@@ -46,8 +85,18 @@
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
+[Create new chat]
+Стварыць чат
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Attachments:]
 Укладанні:
 [Photo]
 Фота
+[Audio]
+Аўдыё
+[Video]
+Відэё
+[Document]
+Дакумент
+[Unsupported or unknown attachment type: %s]
+Непадтрымліваемы ці невядомы тып укладання: %s

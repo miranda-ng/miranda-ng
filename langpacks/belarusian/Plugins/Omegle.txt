@@ -14,6 +14,20 @@
 Мова:
 [Visible name:]
 Бачнае імя:
+[Meet strangers with common interests (separated by commas):]
+Шукаць незнаёмцаў з агульнымі інтарэсамі (падзельнік коска):
+[Automatically send this message to stranger after connection:]
+Аўтаматычна адпраўляць гэта паведамленне незнаёмцам пасля далучэння:
+[This text will be sent when you use "/asl" message:]
+Гэты тэкст будзе адпраўлены, калі вы напішаце  "/asl":
+[Last used question (Question mode):]
+Апошняе ўжытае пытанне (рэжым Пытанне):
+[Automatically connect to stranger when protocol is turned online]
+Аўтаматычнае злучэнне з незнаёмцам пры далучэнні конта
+[Automatically connect to another stranger when current disconnects]
+Аўтаматычнае злучэнне з іншым незнаёмым калі папярэдні выйшаў
+[Meet strangers with common interests]
+Сустрэчы незнаёмцаў з агульнымі інтарэсамі
 [Your interests (separated by commas):]
 Вашыя інтарэсы (падзяляйце коскамі):
 ;file \protocols\Omegle\src\chat.cpp
@@ -29,6 +43,8 @@
 Існуюць тры розных рэжыму у чаце:\n1) Стандартны рэжым\t - Вы прама з выпадковы незнаёмец прыватнай\n2) Рэжым запросу\t - спытаеце вы двух незнаёмцаў пытанне і паглядзець, як яны абмяркоўваюць яго (вы не можаце далучыцца да іх размову, толькі глядзець)\n3) Шпіёнскі рэжым\t - Вы і незнаёмы атрымаў пытанне абмеркаваць з трэцяга незнаёмца (ён не можа далучыцца да размовы, толькі глядзець)\n\nАдпраўце '/commands' для спіска каманд.
 [You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
 Вы можаце выкарыстоўваць розныя каманды:\n/help\t - паказаць інфармацыю пра рэжымы чат\n/new\t - пачаць стандартным рэжыме\n/ask <question> - пачаць рэжым запроса з вашым пытаннем\n/ask\t - пачатак рэжыма запроса з вашага апошняга задаюць пытанне\n/spy\t - пачаць Шпіёнскі рэжым\n/quit\t - адключыцца ад незнаёмца ці спыніць далучэнне\n/asl\t - адправіць наканаванага паведамлення ASL\n\nЗаўвага: Вы можаце далучыцца да іншага незнаёмца без адключэння ад цяперашняга.
+[Unknown command. Send '/commands' for list.]
+Невядомая каманда. Адпраўце '/commands'  для спісу.
 [You aren't connected to any stranger. Send '/help' or '/commands' for help.]
 Вы не злучаны з незнаёмцам. Адпраўце '/help' ці ''/commands' для даведкі.
 [You can't send messages in question mode.]

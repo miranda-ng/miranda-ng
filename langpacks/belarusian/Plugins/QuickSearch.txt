@@ -9,8 +9,24 @@
 Плагін дазволіць вам хутка знайсці мянушку, імя, прозвішча, e-mail, uin у вашым спісе кантактаў. Зараз вы можаце дадаць любы радок, каб адлюстроўваць, напрыклад, версіі Miranda, гурты ці гарады.
 [Quick Search]
 Пошук па спісе
+[Title]
+Загаловак
 [Module/InfoType]
 Плагін/Тып
+[Setting]
+Параметр
+[Reload]
+Абнавіць
+[New]
+Дадаць
+[Up]
+Уверх
+[Down]
+Уніз
+[Delete]
+Выдаліць
+[Default]
+Змаўчанне
 [Additional Options]
 Дадатковыя параметры
 [Tool Window Style]
@@ -25,22 +41,102 @@
 Сартаваць па статусу
 [Show Client Icons]
 Значкі кліентаў
+[Settings]
+Налады
+[Title:]
+Загаловак:
+[Account]
+Конт
+[Gender]
+Род
+[UserID]
+Нумар кантакта
+[Nickname]
+Мянушка
+[First name]
+Імя
+[Last name]
+Фамілія
+[Group]
+Гурт
+[Container]
+Кантэйнер
+[E-mail]
+Пошта
 [Client ID]
 Кліент
 [Ext IP]
 Вонкавы IP
+[LastSeen]
+Быў далучаны
 [Last Event]
 З'яўленні
 [Online since]
 Далучаны
 [Metacontact]
 Метакантакт
+[Event count]
+Колькасць з'яў
+[Contact add time]
+Дададзены
+[Type:]
+Тып:
+[DB setting]
+Налада базы
 [Script]
 Скрыпт
+[Service]
+Выклік службы
+[Contact info]
+Пра кантакт
+[Other]
+Іншае
+[Data type:]
+Тып дадзеных:
+[Byte]
+Байт
+[Word]
+Слова
+[DWord]
+Дв.слова
+[Signed]
+З абразком
+[As hex]
+Шаснадцаткавы
+[String]
+Радок
 [TimeStamp]
 Час
+[Module:]
+Модуль:
 [Setting:]
 Парам.:
+[Service:]
+Служба:
+[Param]
+Параметр
+[number value]
+колькасць
+[ANSI string]
+ANSI радок
+[Unicode string]
+Unicode радок
+[current contact]
+гэты кантакт
+[last result]
+апошні вынік
+[parameter]
+параметр
+[Result]
+Вынік
+[Save]
+Захаваць
+[All]
+Усе
+[Close]
+Зачыніць
+[Refresh]
+Аднавіць
 [QuickSearch]
 Пошук па спісе
 [Show Offline contacts]
@@ -59,12 +155,22 @@
 Ніжэй
 [Delete Column]
 Выдаліць калонку
+[Male]
+Мужчынскі
+[Female]
+Жаночы
+[Contacts]
+Кантакты
 [ContactInfo]
 Дадзеныя кантакту
 [LastEvent]
 Апошняя падзея
+[EventCount]
+Лічыльнік падзей
 [Script Editor]
 Рэдактар скрыптоў
+[Normal background]
+Звычайны фон
 [Normal foreground]
 Звычайны тэкст
 [Odd background]
@@ -91,21 +197,58 @@
 Фон субкантактаў
 [SubMetacontact foreground]
 Тэкст субкантактаў
+[&Delete]
+Выдаліць
+[&Copy]
+Капіяваць
 [C&onvert to Meta]
 Пераўтварыць у метакантакт
+[Attach to &Tab container]
+Далучыць да кантэйнера
+[&Move to Group]
+У гурт
 [Some of selected contacts in different metacontacts already]
 Некаторыя з вылучаных кантактаў ужо знаходзяцца ў іншых метакантактах
 [Do you really want to delete selected contacts?]
 Вы жадаеце выдаліць вылучаныя кантакты?
+[Warning]
+Заўвага
 [One or more contacts in same Meta already. Try to convert anyway?]
 Адзін ці некалькі кантактаў у падобным метакантакце. Усё адно пераўтварыць?
+[Editing of column ]
+Змена слупка\s
 [%i users found (%i) Online: %i]
 %i кантактаў знойдзена (з %i) Далучаны: %i
 [ users found (]
 кантактаў знойдзена (
 [) Online: ]
 ) далучаны:\s
+[Online]
+Далучаны
+[deleted]
+выдалена
+[off]
+выкл.
+[active]
+актыўн.
 [Colorize]
 Дадаць колер
 [QuickSearch window hotkey]
 Адчыніць хуткі пошук
+[Other info]
+Іншае
+[Change setting through QS]
+Змяніць з дапамогай QuickSearch
+[default]
+змўчанні
+[Selected]
+Вылучана
+[contacts]
+кантакты
+[Unknown]
+Невядомы
+[Stay on Top]
+Паверх усіх вакон
+; this line is not present in the sources, but it present in compiled plugin
+[Text Editor]
+Тэкставы рэдактар

@@ -83,6 +83,10 @@
 [Unique ID:]
 Унік. ID:
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
+[Your profile was decrypted to convert it into dbx_mmap format. When Miranda starts, you'll need to reenter a password]
+Ваш профіль быў расшыфраваны для канвертавання ў фармат dbx_mmap. Пры наступным запуску праграмы вам спатрэбіцца зноўку ўвесці пароль праз пункт ў галоўным меню
+[Password warning]
+Папярэджанне пра пароль
 [Database is Secured MMAP database]
 БД: база дадзеных з шыфраваннем
 [You are not authorized for access to Database]

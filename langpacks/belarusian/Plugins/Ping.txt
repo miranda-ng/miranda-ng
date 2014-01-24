@@ -102,6 +102,8 @@ TCP злучэнне
 [PING]
 Пінг
 ;file \plugins\Ping\src\options.cpp
+[Open log file]
+Глядзець гістроыю
 [<none>]
 <не>
 [<all>]
@@ -143,6 +145,8 @@ TCP злучэнне
 Пінг
 [Show/Hide &Ping Window]
 Паказаць/схаваць вакно
+[List]
+Спіс
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Хост %s патрабуе паменшыць колькасць пасыланага вамі трафіку.

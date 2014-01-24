@@ -332,6 +332,8 @@ HANDLE
 Тып
 [Size]
 Памер
+[*** encrypted ***]
+*** зашыфравана ***
 [UNICODE]
 юнікод
 [BLOB]

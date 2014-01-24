@@ -448,6 +448,8 @@ KB
 Навігацыя: Папярэдняя ўкладка
 [Navigate: Next Tab]
 Навігацыя: Наступная ўкладка
+[Navigate: Tab %d]
+Навігацыя: Укладка% d
 [Window: Toggle status bar]
 Вакно: укл/выкл панэль статусу
 [Window: Toggle title bar]
@@ -631,6 +633,8 @@ Miranda не змагла загрузіць убудаваную сістэму
 Затрымка адпраўкі паведамлення
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
+[Group chat log background]
+Фон для чатаў
 [Nick list background]
 Фон спісу кантактаў
 [Nick list lines]

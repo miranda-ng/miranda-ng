@@ -16,6 +16,8 @@
 Замяніць гісторыю
 [Use UTF8 in new files]
 UTF8 у новых файлах
+[Append extra new line]
+Дад. пераклад радка
 [Use << and >>]
 Знакі << і >>
 [Auto filename]
@@ -75,6 +77,8 @@ UTF8 у новых файлах
 Не атрымалася запісаць у RichEdit.
 [Search string was not found!]
 Радок не знойдзена!
+[Save as RTF]
+Захаваць у  RTF
 [Color...]
 Колер...
 [Font...]
@@ -84,6 +88,8 @@ UTF8 у новых файлах
 [Failed to create file]
 Памылка стварэння файла
 ;file \plugins\Msg_Export\src\Glob.h
+[Miranda NG (Message Export Plugin)]
+Miranda NG (Плагін экспарту паведамленняў)
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Экспартаваная гісторыя
@@ -127,14 +133,52 @@ UTF8 у новых файлах
 [Additional]
 Дадаткова
 ;file \plugins\Msg_Export\src\utils.cpp
+[No_Nick]
+Без_Мянушкі
+[No_Group]
+Без_Гурта
 [(Unknown Contact)]
 (Невядомы кантакт)
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Не атрымалася пераназваць файл\n\n старое імя:\t%s\n новае імя:\t%s\n\n Памылка: %s
+[\nError: ]
+\nПамылка: 
+[\nMessage has not been saved!\n]
+\nПаведамленне не захаванае!\n
 [Failed to open or create file :\n]
 Не атрымалася адкрыць ці стварыць файл :\n
 [Failed to move to the end of the file :\n]
 Не атрымалася перайсці да канца файла:\n
+[      History for\r\n]
+     Гісторыя для\r\n
+[User      : %User%\r\n]
+Кантакт  : %User%\r\n
+[Protocol  : %Proto%\r\n]
+Пратакол    : %Proto%\r\n
+[UIN       : %UIN%\r\n]
+Нумар    : %UIN%\r\n
+[FirstName : %FirstName%\r\n]
+Імя         : %FirstName%\r\n
+[LastName  : %LastName%\r\n]
+Прозвішча: %LastName%\r\n
+[Age       : %Age%\r\n]
+Узрост   : %Age%\r\n
+[Gender    : %Gender%\r\n]
+Род   : %Gender%\r\n
+[e-mail    : %e-mail%\r\n]
+пошта   : %e-mail%\r\n
+[Nick      : %Nick%\r\n]
+Мянушка : %Nick%\r\n
+[City      : %City%\r\n]
+Горад      : %City%\r\n
+[Phone     : %Phone%\r\n]
+Тэлефон  : %Phone%\r\n
+[Homepage  : %Homepage%\r\n]
+Сайт : %Homepage%\r\n
+[Failed to write user details to file :\n]
+Не атрымалася запісаць дадзеныя кантакта ў файл:
+[Failed to write timestamp and username to file :\n]
+Не атрымалася запісаць час і імя кантакта ў файл:
 [Failed to write message to the file :\n]
 Не атрымалася запісаць паведамленне ў файл:\n
 [URL: ]
@@ -155,10 +199,18 @@ URL:
 e-mail    :
 [Reason    :]
 Чыннік   :
+[Invalid Database event received. Type %d, size %d]
+Няслушная падзея базы. Тып %d, памер %d
+[Failed to write Invalid Database event the file :\n]
+Не атрымалася запісаць няслушную падзею з базы ў файл:
 [The following user made an authorization request:]
 Наступны кантакт запытаў аўтарызацыю:
 [The following user added you to their contact list:]
 Кантакт дадаў вас у свой спіс кантактаў:
+[UIN       :]
+Імя       :
+[Failed to write AUTHREQUEST or ADDED to the file :\n]
+Не атрымалася запісаць запрос аўтарызацыі ці даданне у файл:
 [EmailExpress from:]
 EmailExpress ад:
 [WebPager from:]
@@ -169,6 +221,10 @@ WebPager ад:
 Не атрымалася запісаць EmailExpress у файл:\n
 [Failed to write SMS to the file :\n]
 Не атрымалася запісаць SMS у файл:\n
+[Unknown event type %d, size %d]
+Невядомы тып падзеі %d, памер %d
+[Failed to write Unknown event to the file :\n]
+Не атрымалася запісаць невядомую падзею ў файл:
 [User has been deleted. Do you want to delete the file?]
 Кантакт выдалены. Хочаце выдаліць файл?
 [Failed to delete the file]
