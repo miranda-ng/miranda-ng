@@ -191,6 +191,8 @@ Tlen чаты
 Авторизовать
 [%d Files]
 %d файлов
+[Authentication failed for %s@%s.]
+Аутентификация не пройдена для %s@%s
 [Tlen Authentication]
 Аутентификация Tlen
 [You have been kicked. Reason: %s ]
@@ -251,6 +253,8 @@ Tlen чаты
 (Последнее сообщение)
 [Forwarding]
 Перенаправление
+[Enter password for %s]
+Введите пароль для %s
 [Windows]
 Windows
 [%s Web Messages]
