@@ -43,6 +43,7 @@
 [Network:]
 ;file \plugins\SMS\src\options.cpp
 [From %s:\r\n\r\n]
+[Events]
 ;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
 [SMS Message from %s]
@@ -56,15 +57,19 @@
 [Show/Hide Multiple List]
 [Shows How Much Chars You've Typed]
 [The SMS message send to %s timed out.]
-[The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 [Invalid Phone Number]
 [Message is too long, press OK to continue.]
 [Error - Message too long]
 [There must be numbers in the list first.]
 [No Numbers]
-[Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
 [Invalid phone number]
 [<< Single]
+;file \plugins\SMS\src\SMSConstans.h
+[SMS]
+[Send &SMS...]
+[&SMS Message]
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 [Incoming SMS Confirmation]

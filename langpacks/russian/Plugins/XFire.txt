@@ -153,6 +153,8 @@ exe игры:
 Дайте же человеку поговорить по телефону.
 [Mmm... food.]
 Ммм... поесть бы.
+[XFire Protocol]
+Протокол XFire
 [Protocol icon]
 Значок протокола
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
@@ -183,6 +185,8 @@ exe игры:
 &Пересканировать мои игры...
 [Set &Nickname]
 &Псевдоним...
+[Protocols]
+Протоколы
 [XFire game icon]
 Значок игры XFire
 [XFire voice icon]
