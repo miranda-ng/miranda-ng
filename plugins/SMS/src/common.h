@@ -78,30 +78,11 @@ extern SMS_SETTINGS ssSMSSettings;
 #define MEMREALLOC(Mem,Size)	HeapReAlloc(ssSMSSettings.hHeap,(HEAP_ZERO_MEMORY),(LPVOID)Mem,(Size+sizeof(SIZE_T)))
 #define MEMFREE(Mem)			if (Mem) {HeapFree(ssSMSSettings.hHeap,0,(LPVOID)Mem);Mem=NULL;}
 
-#define SEND_DLG_ITEM_MESSAGEW(hDlg,nIDDlgItem,Msg,wParam,lParam)	SendMessageW(GetDlgItem(hDlg,nIDDlgItem),Msg,wParam,lParam)
-#define SEND_DLG_ITEM_MESSAGEA(hDlg,nIDDlgItem,Msg,wParam,lParam)	SendMessageA(GetDlgItem(hDlg,nIDDlgItem),Msg,wParam,lParam)
-#define SEND_DLG_ITEM_MESSAGE(hDlg,nIDDlgItem,Msg,wParam,lParam)	SendMessage(GetDlgItem(hDlg,nIDDlgItem),Msg,wParam,lParam)
 
-#define IS_DLG_BUTTON_CHECKED(hDlg,nIDDlgItem)						SEND_DLG_ITEM_MESSAGE(hDlg,nIDDlgItem,BM_GETCHECK,NULL,NULL)
-#define CHECK_DLG_BUTTON(hDlg,nIDDlgItem,uCheck)					SEND_DLG_ITEM_MESSAGE(hDlg,nIDDlgItem,BM_SETCHECK,(WPARAM)uCheck,NULL)
-
-#define SET_DLG_ITEM_TEXTW(hDlg,nIDDlgItem,lpString)				SEND_DLG_ITEM_MESSAGEW(hDlg,nIDDlgItem,WM_SETTEXT,0,(LPARAM)lpString)
-#define SET_DLG_ITEM_TEXTA(hDlg,nIDDlgItem,lpString)				SEND_DLG_ITEM_MESSAGEA(hDlg,nIDDlgItem,WM_SETTEXT,0,(LPARAM)lpString)
-#define SET_DLG_ITEM_TEXT(hDlg,nIDDlgItem,lpString)					SEND_DLG_ITEM_MESSAGE(hDlg,nIDDlgItem,WM_SETTEXT,0,(LPARAM)lpString)
-
-#define GET_DLG_ITEM_TEXTW(hDlg,nIDDlgItem,lpString,nMaxCount)		SEND_DLG_ITEM_MESSAGEW(hDlg,nIDDlgItem,WM_GETTEXT,(WPARAM)nMaxCount,(LPARAM)lpString)
-#define GET_DLG_ITEM_TEXTA(hDlg,nIDDlgItem,lpString,nMaxCount)		SEND_DLG_ITEM_MESSAGEA(hDlg,nIDDlgItem,WM_GETTEXT,(WPARAM)nMaxCount,(LPARAM)lpString)
-#define GET_DLG_ITEM_TEXT(hDlg,nIDDlgItem,lpString,nMaxCount)		SEND_DLG_ITEM_MESSAGE(hDlg,nIDDlgItem,WM_GETTEXT,(WPARAM)nMaxCount,(LPARAM)lpString)
-
-#define GET_DLG_ITEM_TEXT_LENGTH(hDlg,nIDDlgItem)					SEND_DLG_ITEM_MESSAGE(hDlg,nIDDlgItem,WM_GETTEXTLENGTH,NULL,NULL)
-#define GET_WINDOW_TEXT_LENGTH(hDlg)								SendMessage(hDlg,WM_GETTEXTLENGTH,NULL,NULL)
-
-#define GET_CURRENT_COMBO_DATA(hWndDlg,ControlID)					SEND_DLG_ITEM_MESSAGE(hWndDlg,ControlID,CB_GETITEMDATA,SEND_DLG_ITEM_MESSAGE(hWndDlg,ControlID,CB_GETCURSEL,0,0),0)
+#define GET_DLG_ITEM_TEXT_LENGTH(hDlg,nIDDlgItem) SendDlgItemMessage(hDlg,nIDDlgItem,WM_GETTEXTLENGTH,NULL,NULL)
+#define GET_CURRENT_COMBO_DATA(hWndDlg,ControlID) SendDlgItemMessage(hWndDlg,ControlID,CB_GETITEMDATA,SendDlgItemMessage(hWndDlg,ControlID,CB_GETCURSEL,0,0),0)
 
 
-
-
-#define GetContactNameA(Contact) (LPSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)Contact,0)
 #define GetContactNameW(Contact) (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)Contact,GCDNF_UNICODE)
 
 #define DB_SMS_DeleteValue(Contact,valueName) db_unset(Contact,PROTOCOL_NAMEA,valueName)

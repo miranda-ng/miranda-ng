@@ -34,7 +34,7 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 	if (((ACKDATA*)lParam)->type==ICQACKTYPE_SMS)
 	{
 		char szPhone[MAX_PHONE_LEN]={0};
-		WCHAR wszPhone[MAX_PHONE_LEN]={0};
+		TCHAR tszPhone[MAX_PHONE_LEN]={0};
 		LPSTR lpszXML=(LPSTR)((ACKDATA*)lParam)->lParam,lpszData,lpszPhone;
 		SIZE_T dwXMLSize=lstrlenA(lpszXML),dwDataSize,dwPhoneSize;
 		ACKDATA *ack=((ACKDATA*)lParam);
@@ -44,15 +44,14 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 			if (GetXMLFieldEx(lpszXML,dwXMLSize,&lpszPhone,&dwPhoneSize,"sms_message","sender",NULL))
 			{
 				LPSTR lpszMessageUTF;
-				LPWSTR lpwszMessageXMLEncoded,lpwszMessageXMLDecoded;
 				SIZE_T dwBuffLen,dwMessageXMLEncodedSize,dwMessageXMLDecodedSize;
 				HANDLE hContact;
 				DBEVENTINFO dbei = { sizeof(dbei) };
 
 				dwBuffLen=(dwDataSize+MAX_PATH);
 				dbei.pBlob=(LPBYTE)MEMALLOC((dwBuffLen+dwPhoneSize));
-				lpwszMessageXMLEncoded=(LPWSTR)MEMALLOC((dwBuffLen*sizeof(WCHAR)));
-				lpwszMessageXMLDecoded=(LPWSTR)MEMALLOC((dwBuffLen*sizeof(WCHAR)));
+				LPWSTR lpwszMessageXMLEncoded=(LPWSTR)MEMALLOC((dwBuffLen*sizeof(WCHAR)));
+				LPWSTR lpwszMessageXMLDecoded=(LPWSTR)MEMALLOC((dwBuffLen*sizeof(WCHAR)));
 				if (dbei.pBlob && lpwszMessageXMLEncoded && lpwszMessageXMLDecoded)
 				{
 					dwMessageXMLEncodedSize=MultiByteToWideChar(CP_UTF8,0,lpszData,dwDataSize,lpwszMessageXMLEncoded,dwBuffLen);
@@ -61,8 +60,8 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 					WideCharToMultiByte(CP_UTF8,0,lpwszMessageXMLDecoded,dwMessageXMLDecodedSize,lpszMessageUTF,dwBuffLen,NULL,NULL);
 
 					dwPhoneSize=CopyNumberA(szPhone,lpszPhone,dwPhoneSize);
-					dwPhoneSize=MultiByteToWideChar(CP_UTF8,0,szPhone,dwPhoneSize,wszPhone,MAX_PHONE_LEN);
-					hContact=HContactFromPhone(wszPhone,dwPhoneSize);
+					dwPhoneSize=MultiByteToWideChar(CP_UTF8,0,szPhone,dwPhoneSize,tszPhone,MAX_PHONE_LEN);
+					hContact=HContactFromPhone(tszPhone,dwPhoneSize);
 
 					dbei.szModule=GetModuleName(hContact);
 					dbei.timestamp=time(NULL);
@@ -73,7 +72,7 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 					(*((DWORD*)(dbei.pBlob+(dbei.cbBlob-sizeof(DWORD)))))=0;
 					HANDLE hResult = db_event_add(hContact, &dbei);
 					if (hContact==NULL) {	
-						if ( RecvSMSWindowAdd(NULL,ICQEVENTTYPE_SMS,wszPhone,dwPhoneSize,(LPSTR)dbei.pBlob,dbei.cbBlob)) {
+						if ( RecvSMSWindowAdd(NULL,ICQEVENTTYPE_SMS,tszPhone,dwPhoneSize,(LPSTR)dbei.pBlob,dbei.cbBlob)) {
 							db_event_markRead(hContact, hResult);
 							SkinPlaySound("RecvSMSMsg");
 						}
@@ -88,13 +87,11 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 		{
 			if (GetXMLFieldEx(lpszXML,dwXMLSize,&lpszPhone,&dwPhoneSize,"sms_delivery_receipt","destination",NULL))
 			{
-				HANDLE hContact;
-				DBEVENTINFO dbei={0};
-
 				dwPhoneSize=CopyNumberA(szPhone,lpszPhone,dwPhoneSize);
-				dwPhoneSize=MultiByteToWideChar(CP_UTF8,0,szPhone,dwPhoneSize,wszPhone,MAX_PHONE_LEN);
-				hContact=HContactFromPhone(wszPhone,dwPhoneSize);
+				dwPhoneSize=MultiByteToWideChar(CP_UTF8,0,szPhone,dwPhoneSize,tszPhone,MAX_PHONE_LEN);
+				HANDLE hContact=HContactFromPhone(tszPhone,dwPhoneSize);
 
+				DBEVENTINFO dbei={0};
 				dbei.cbSize=sizeof(dbei);
 				dbei.szModule=GetModuleName(hContact);
 				dbei.timestamp=time(NULL);
@@ -125,7 +122,7 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 					if (hContact)
 						db_event_add(hContact, &dbei);
 					else
-						RecvSMSWindowAdd(NULL,ICQEVENTTYPE_SMSCONFIRMATION,wszPhone,dwPhoneSize,(LPSTR)dbei.pBlob,dbei.cbBlob);
+						RecvSMSWindowAdd(NULL,ICQEVENTTYPE_SMSCONFIRMATION,tszPhone,dwPhoneSize,(LPSTR)dbei.pBlob,dbei.cbBlob);
 
 					MEMFREE(dbei.pBlob);
 				}
@@ -141,20 +138,19 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 				GetXMLFieldExBuff(lpszXML,dwXMLSize,szNetwork,sizeof(szNetwork),NULL,"sms_response","network",NULL);
 
 				if (ack->result==ACKRESULT_FAILED || CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszData,dwDataSize,"no",2)==CSTR_EQUAL) {	
-					HWND hwndTimeOut;
 					char szBuff[1024];
-					WCHAR wszErrorMessage[1028];
+					TCHAR tszErrorMessage[1028];
 					LPSTR lpszErrorDescription;
 
 					if (SendSMSWindowMultipleGet(hWndDlg)) {
 						TVITEM tvi;
 						tvi.mask=TVIF_TEXT;
 						tvi.hItem=SendSMSWindowHItemSendGet(hWndDlg);
-						tvi.pszText=wszPhone;
-						tvi.cchTextMax=SIZEOF(wszPhone);
+						tvi.pszText=tszPhone;
+						tvi.cchTextMax=SIZEOF(tszPhone);
 						TreeView_GetItem(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),&tvi);
 					}
-					else GET_DLG_ITEM_TEXTW(hWndDlg,IDC_ADDRESS,wszPhone,SIZEOF(szPhone));
+					else GetDlgItemText(hWndDlg,IDC_ADDRESS,tszPhone,SIZEOF(szPhone));
 
 					if (ack->result == ACKRESULT_FAILED)
 						lpszErrorDescription=lpszXML;
@@ -163,11 +159,11 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 						GetXMLFieldExBuff(lpszXML,dwXMLSize,szBuff,sizeof(szBuff),NULL,"sms_response","error","params","param",NULL);
 					}
 
-					mir_sntprintf(wszErrorMessage,SIZEOF(wszErrorMessage),TranslateT("SMS message didn't send by %S to %s because: %S"),szNetwork,wszPhone,lpszErrorDescription);
+					mir_sntprintf(tszErrorMessage,SIZEOF(tszErrorMessage),TranslateT("SMS message didn't send by %S to %s because: %S"),szNetwork,tszPhone,lpszErrorDescription);
 					ShowWindow(hWndDlg,SW_SHOWNORMAL);
 					EnableWindow(hWndDlg,FALSE);
-					hwndTimeOut=CreateDialog(ssSMSSettings.hInstance,MAKEINTRESOURCE(IDD_SENDSMSTIMEDOUT),hWndDlg,SMSTimedOutDlgProc);
-					SET_DLG_ITEM_TEXTW(hwndTimeOut,IDC_STATUS,wszErrorMessage);
+					HWND hwndTimeOut=CreateDialog(ssSMSSettings.hInstance,MAKEINTRESOURCE(IDD_SENDSMSTIMEDOUT),hWndDlg,SMSTimedOutDlgProc);
+					SetDlgItemText(hwndTimeOut,IDC_STATUS,tszErrorMessage);
 				}
 				else {
 					SendSMSWindowDBAdd(hWndDlg);
@@ -191,14 +187,14 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 									GetXMLFieldExBuff(lpszXML,dwXMLSize,szMessageID,sizeof(szMessageID),NULL,"sms_response","message_id",NULL);
 								}
 								else {
-									SET_DLG_ITEM_TEXTW(hwndAccepted,IDC_ST_SOURCE,TranslateT("From:"));
-									SET_DLG_ITEM_TEXTW(hwndAccepted,IDC_ST_MESSAGEID,TranslateT("To:"));
+									SetDlgItemText(hwndAccepted,IDC_ST_SOURCE,TranslateT("From:"));
+									SetDlgItemText(hwndAccepted,IDC_ST_MESSAGEID,TranslateT("To:"));
 									GetXMLFieldExBuff(lpszXML,dwXMLSize,szSource,sizeof(szSource),NULL,"sms_response","from",NULL);
 									GetXMLFieldExBuff(lpszXML,dwXMLSize,szMessageID,sizeof(szMessageID),NULL,"sms_response","to",NULL);
 								}
-								SET_DLG_ITEM_TEXTA(hwndAccepted,IDC_NETWORK,szNetwork);
-								SET_DLG_ITEM_TEXTA(hwndAccepted,IDC_SOURCE,szSource);
-								SET_DLG_ITEM_TEXTA(hwndAccepted,IDC_MESSAGEID,szMessageID);
+								SetDlgItemTextA(hwndAccepted,IDC_NETWORK,szNetwork);
+								SetDlgItemTextA(hwndAccepted,IDC_SOURCE,szSource);
+								SetDlgItemTextA(hwndAccepted,IDC_MESSAGEID,szMessageID);
 							}
 							else SendSMSWindowRemove(hWndDlg);
 						}
@@ -214,8 +210,8 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 //Handles new SMS messages added to the database
 int handleNewMessage(WPARAM wParam, LPARAM lParam)
 {
-	CHAR szServiceFunction[MAX_PATH], *pszServiceFunctionName;
-	WCHAR szToolTip[MAX_PATH];
+	char szServiceFunction[MAX_PATH], *pszServiceFunctionName;
+	TCHAR szToolTip[MAX_PATH];
 	HANDLE hContact = (HANDLE)wParam, hDbEvent = (HANDLE)lParam;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };

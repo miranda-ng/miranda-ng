@@ -2,7 +2,7 @@
 
 int LoadServices(void)
 {
-	CHAR szServiceFunction[MAX_PATH],*pszServiceFunctionName;
+	char szServiceFunction[MAX_PATH],*pszServiceFunctionName;
 
 	CopyMemory(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
 	pszServiceFunctionName=szServiceFunction+PROTOCOL_NAME_LEN;
@@ -25,7 +25,7 @@ int LoadModules(void)
 	HookEvent(ME_DB_EVENT_ADDED,handleNewMessage);
 	HookEvent(ME_PROTO_ACCLISTCHANGED,RefreshAccountList);
 
-	CHAR szServiceFunction[MAX_PATH];
+	char szServiceFunction[MAX_PATH];
 	mir_snprintf(szServiceFunction,sizeof(szServiceFunction),"%s%s",PROTOCOL_NAMEA,SMS_SEND);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -79,7 +79,7 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam)
 
 		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			if (GetContactPhonesCount(hContact)) {
-				SEND_DLG_ITEM_MESSAGEW(hwndSendSms,IDC_NAME,CB_ADDSTRING,0,(LPARAM)GetContactNameW(hContact));
+				SendDlgItemMessage(hwndSendSms,IDC_NAME,CB_ADDSTRING,0,(LPARAM)GetContactNameW(hContact));
 				SendSMSWindowSMSContactAdd(hwndSendSms,hContact);
 			}
 		}
@@ -151,19 +151,3 @@ void RestoreUnreadMessageAlerts(void)
 			handleNewMessage(NULL, (LPARAM)hDbEvent);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

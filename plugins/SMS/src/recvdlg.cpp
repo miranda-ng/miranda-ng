@@ -75,13 +75,12 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 
 		mir_subclassWindow(GetDlgItem(hWndDlg,IDC_MESSAGE), MessageSubclassProc);
 		{
-			HFONT hFont;
 			LOGFONT lf;
-			hFont=(HFONT)SEND_DLG_ITEM_MESSAGE(hWndDlg,IDC_MESSAGE,WM_GETFONT,0,0);
-			if (hFont && hFont!=(HFONT)SEND_DLG_ITEM_MESSAGE(hWndDlg,IDOK,WM_GETFONT,0,0)) DeleteObject(hFont);
+			HFONT hFont=(HFONT)SendDlgItemMessage(hWndDlg,IDC_MESSAGE,WM_GETFONT,0,0);
+			if (hFont && hFont!=(HFONT)SendDlgItemMessage(hWndDlg,IDOK,WM_GETFONT,0,0)) DeleteObject(hFont);
 			LoadMsgDlgFont(MSGFONTID_YOURMSG,&lf,NULL);
 			hFont=CreateFontIndirect(&lf);
-			SEND_DLG_ITEM_MESSAGE(hWndDlg,IDC_MESSAGE,WM_SETFONT,(WPARAM)hFont,MAKELPARAM(TRUE,0));
+			SendDlgItemMessage(hWndDlg,IDC_MESSAGE,WM_SETFONT,(WPARAM)hFont,MAKELPARAM(TRUE,0));
 
 			COLORREF colour=db_get_dw(NULL,SRMMMOD,SRMSGSET_BKGCOLOUR,SRMSGDEFSET_BKGCOLOUR);
 			prswdWindowData->hBkgBrush=CreateSolidBrush(colour);
@@ -137,13 +136,13 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 				HWND hwndSendSms;
 				HANDLE hContact;
 
-				hContact=HContactFromPhone(wszPhone,GET_DLG_ITEM_TEXTW(hWndDlg,IDC_NUMBER,wszPhone,SIZEOF(wszPhone)));
+				hContact=HContactFromPhone(wszPhone,GetDlgItemText(hWndDlg,IDC_NUMBER,wszPhone,SIZEOF(wszPhone)));
 				hwndSendSms=SendSMSWindowIsOtherInstanceHContact(hContact);
 				if (hwndSendSms)
 					SetFocus(hwndSendSms);
 				else {
 					hwndSendSms=SendSMSWindowAdd(prswdWindowData->hContact);
-					SET_DLG_ITEM_TEXTW(hwndSendSms,IDC_ADDRESS,wszPhone);
+					SetDlgItemText(hwndSendSms,IDC_ADDRESS,wszPhone);
 				}
 			}
 		case IDCANCEL:
@@ -222,9 +221,9 @@ HWND RecvSMSWindowAdd(HANDLE hContact,DWORD dwEventType,LPWSTR lpwszPhone,SIZE_T
 					MultiByteToWideChar(CP_UTF8,0,lpszMessage,dwMessageSize,lpwszMessage,(dwMessageSize+MAX_PATH));
 
 					SendMessageW(prswdWindowData->hWnd,WM_SETTEXT,NULL,(LPARAM)wszTitle);
-					SET_DLG_ITEM_TEXTW(prswdWindowData->hWnd,IDC_NAME,lpwszContactDisplayName);
-					SET_DLG_ITEM_TEXTW(prswdWindowData->hWnd,IDC_NUMBER,wszPhoneLocal);
-					SET_DLG_ITEM_TEXTW(prswdWindowData->hWnd,IDC_MESSAGE,lpwszMessage);
+					SetDlgItemText(prswdWindowData->hWnd,IDC_NAME,lpwszContactDisplayName);
+					SetDlgItemText(prswdWindowData->hWnd,IDC_NUMBER,wszPhoneLocal);
+					SetDlgItemText(prswdWindowData->hWnd,IDC_MESSAGE,lpwszMessage);
 					SendMessage(prswdWindowData->hWnd,WM_SETICON,ICON_BIG,(LPARAM)hIcon);
 
 					SetFocus(GetDlgItem(prswdWindowData->hWnd,IDC_MESSAGE));

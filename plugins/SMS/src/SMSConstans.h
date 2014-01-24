@@ -4,7 +4,7 @@
 #define PROTOCOL_NAMEA						"SMSPlugin"
 #define PROTOCOL_NAME_LEN					(sizeof(PROTOCOL_NAMEA)-1)
 #define PROTOCOL_NAME_SIZE					sizeof(PROTOCOL_NAMEA)
-#define PROTOCOL_DISPLAY_NAME_ORIG			"SMS"
+#define PROTOCOL_DISPLAY_NAME_ORIG			LPGEN("SMS")
 
 #define TIMEOUT_MSGSEND						60000			// send sms timeout
 #define MIN_SMS_DBEVENT_LEN					4				// для фильтрации событий авторизации от джабер плагина
@@ -66,8 +66,8 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam);
 #define SMS_READ					"/ReadSms"
 #define SMS_READ_ACK				"/ReadSmsAck"
 #define SMS_SEND					"/SendSMS"
-#define SMS_SEND_STR				L"Send &SMS..."
-#define SMS_SEND_CM_STR				L"&SMS Message"
+#define SMS_SEND_STR				LPGENT("Send &SMS...")
+#define SMS_SEND_CM_STR				LPGENT("&SMS Message")
 
 // структура содержащая информацию о сервисах/функциях
 struct SERVICE_ITEM

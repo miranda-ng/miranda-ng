@@ -96,7 +96,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
+int OnModulesLoaded(WPARAM,LPARAM)
 {
 	VersionConversions();
 
@@ -105,7 +105,7 @@ int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int OnPreShutdown(WPARAM wParam,LPARAM lParam)
+int OnPreShutdown(WPARAM,LPARAM)
 {
 	RecvSMSWindowDestroy();
 	SendSMSWindowDestroy();
