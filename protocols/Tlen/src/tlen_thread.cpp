@@ -415,6 +415,7 @@ static void TlenSendAuth(TlenProtocol *proto) {
 	mir_free(str);
 }
 
+/* processing <s ... > tag sent from server on session opening */
 static void TlenProcessStreamOpening(XmlNode *node, ThreadData *info)
 {
 	char *sid, *s;
@@ -470,13 +471,20 @@ static void TlenProcessStreamOpening(XmlNode *node, ThreadData *info)
 	}
 }
 
+/* processing </s> tag sent from server on session close */
 static void TlenProcessStreamClosing(XmlNode *node, ThreadData *info)
 {
 	Netlib_CloseHandle(info->proto);
-	if (node->name && !strcmp(node->name, "stream:error") && node->text)
-		MessageBoxA(NULL, Translate(node->text), Translate("Tlen Connection Error"), MB_OK|MB_ICONERROR|MB_SETFOREGROUND);
+	if (node->name && !strcmp(node->name, "stream:error") && node->text){
+		char buffer[1024];
+		mir_snprintf(buffer, SIZEOF(buffer), "%s\n%s", Translate("Tlen Connection Error"), Translate(node->text));
+		PUShowMessage(buffer, SM_WARNING);
+	} else if (!strcmp(node->name, "s")){
+		info->proto->debugLogA("Disconnected server message");
+	}
 }
 
+/* processing session tags sent from server */
 static void TlenProcessProtocol(XmlNode *node, ThreadData *info)
 {
 	if (!strcmp(node->name, "message"))

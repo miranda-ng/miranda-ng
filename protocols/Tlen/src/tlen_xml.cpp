@@ -349,11 +349,12 @@ static BOOL TlenXmlProcessElem(XmlState *xmlState, XmlElemType elemType, char *e
 	case ELEM_CLOSE:
 		if (node->name != NULL && !strcmp(node->name, text)) {
 			node->state = NODE_CLOSE;
-			if (node->depth == 1 && xmlState->callback1_close != NULL) {
+			int nodeDepth = node->depth;
+			if (nodeDepth == 1 && xmlState->callback1_close != NULL) {
 				(*(xmlState->callback1_close))(node, xmlState->userdata1_close);
 				TlenXmlRemoveChild(parentNode, node);
 			}
-			if (node->depth == 2 && xmlState->callback2_close != NULL) {
+			if (nodeDepth == 2 && xmlState->callback2_close != NULL) {
 				(*xmlState->callback2_close)(node, xmlState->userdata2_close);
 				TlenXmlRemoveChild(parentNode, node);
 			}

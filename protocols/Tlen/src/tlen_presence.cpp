@@ -72,8 +72,10 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 					else
 						p = NULL;
 					TlenListAddResource(proto, LIST_ROSTER, from, status, statusNode?p:NULL);
-					if (p) {
-						db_set_s(hContact, "CList", "StatusMsg", p);
+					if (p != NULL && *p) {
+						char* statusMsg_utf8 = mir_utf8encode(p);
+						db_set_utf(hContact, "CList", "StatusMsg", statusMsg_utf8);
+						mir_free(statusMsg_utf8);
 						mir_free(p);
 					} else {
 						db_unset(hContact, "CList", "StatusMsg");
@@ -121,8 +123,10 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 					p = TlenTextDecode(statusNode->text);
 					TlenListAddResource(proto, LIST_ROSTER, from, status, p);
 					if ((hContact=TlenHContactFromJID(proto, from)) != NULL) {
-						if (p) {
-							db_set_s(hContact, "CList", "StatusMsg", p);
+						if (p != NULL && *p) {
+							char* statusMsg_utf8 = mir_utf8encode(p);
+							db_set_utf(hContact, "CList", "StatusMsg", statusMsg_utf8);
+							mir_free(statusMsg_utf8);
 						} else {
 							db_unset(hContact, "CList", "StatusMsg");
 						}
@@ -166,6 +170,24 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 					}
 				}
 			}
+		}
+	}
+}
+
+/* change status and status msg on own contact on contact list (if present) */
+void setOwnStatusOnCList(TlenProtocol *proto, int status, char *statusMsg)
+{
+	ptrA ownJid(db_get_sa(NULL, proto->m_szModuleName, "jid"));
+	HANDLE hContact = TlenHContactFromJID(proto, ownJid);
+	if(hContact){
+		if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != status)
+			db_set_w(hContact, proto->m_szModuleName, "Status", (WORD)status);
+		if (statusMsg != NULL && *statusMsg) {
+			char* statusMsg_utf8 = mir_utf8encode(statusMsg);
+			db_set_utf(hContact, "CList", "StatusMsg", statusMsg_utf8);
+			mir_free(statusMsg_utf8);
+		} else {
+			db_unset(hContact, "CList", "StatusMsg");
 		}
 	}
 }
@@ -264,6 +286,7 @@ static void TlenSendPresenceTo(TlenProtocol *proto, int status, char *to)
 				}
 			}
 		}
+		mir_free(statusMsg);
 		statusMsg = ptr;
 		break;
 	default:
@@ -272,19 +295,19 @@ static void TlenSendPresenceTo(TlenProtocol *proto, int status, char *to)
 	}
 	proto->m_iStatus = status;
 	if (presenceType) {
-		if (statusMsg)
-			TlenSend(proto, "<presence type='%s'><status>%s</status></presence>", presenceType, statusMsg);
+		if (statusMsg != NULL && *statusMsg)
+			TlenSend(proto, "<presence type='%s'><status>%s</status></presence>", presenceType, ptrA(TlenTextEncode(statusMsg)));
 		else
 			TlenSend(proto, "<presence type='%s'></presence>", presenceType);
 	} else {
-		if (statusMsg)
-			TlenSend(proto, "<presence><show>%s</show><status>%s</status></presence>", showBody, statusMsg);
+		if (statusMsg != NULL && *statusMsg)
+			TlenSend(proto, "<presence><show>%s</show><status>%s</status></presence>", showBody, ptrA(TlenTextEncode(statusMsg)));
 		else
 			TlenSend(proto, "<presence><show>%s</show></presence>", showBody);
 	}
-	if (ptr) {
-		mir_free(ptr);
-	}
+
+	setOwnStatusOnCList(proto, proto->m_iStatus, statusMsg);
+
 	LeaveCriticalSection(&proto->modeMsgMutex);
 }
 

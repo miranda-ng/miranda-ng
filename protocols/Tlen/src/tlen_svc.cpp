@@ -398,14 +398,14 @@ int TlenProtocol::SetStatus(int iNewStatus)
 		}
 	}
 	else if (iNewStatus != m_iStatus) {
-		if (!isConnected)
+		if (!isConnected){
 			TlenConnect(this, iNewStatus);
-		else {
+		} else {
 			// change status
 			oldStatus = m_iStatus;
 			// send presence update
 			TlenSendPresence(this, iNewStatus);
-			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, m_iStatus);
+			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 		}
 	}
 	return 0;
@@ -421,9 +421,9 @@ int TlenProtocol::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
 	char **szMsg;
 	char *newModeMsg;
 
-	debugLogA("SetAwayMsg called, wParam=%d lParam=%s", iStatus, msg);
+	newModeMsg = mir_t2a(msg);
 
-	newModeMsg = TlenTextEncode(mir_t2a(msg)); //TODO TCHAR
+	debugLogA("SetAwayMsg called, wParam=%d lParam=%s", iStatus, newModeMsg);
 
 	EnterCriticalSection(&modeMsgMutex);
 
@@ -567,18 +567,33 @@ static void __cdecl TlenSendMessageFailedThread(void *ptr)
 static void __cdecl TlenGetAwayMsgThread(void *ptr)
 {
 	DBVARIANT dbv;
-	TLEN_LIST_ITEM *item;
 	SENDACKTHREADDATA *data = (SENDACKTHREADDATA *)ptr;
+	TLEN_LIST_ITEM *item;
+
+	Sleep(50);
+
 	if (!db_get(data->hContact, data->proto->m_szModuleName, "jid", &dbv)) {
 		if ((item=TlenListGetItemPtr(data->proto, LIST_ROSTER, dbv.pszVal)) != NULL) {
 			db_free(&dbv);
 			ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1,
 				item->statusMessage==NULL ? (LPARAM)NULL : (LPARAM)(TCHAR*)_A2T(item->statusMessage));
-			return;
+		} else {
+			ptrA ownJid(db_get_sa(NULL, data->proto->m_szModuleName, "jid"));
+			if (!strcmp(ownJid, dbv.pszVal)){
+				DBVARIANT dbv2;
+				if (!db_get_s(data->hContact, "CList", "StatusMsg", &dbv2, DBVT_TCHAR)){
+					data->proto->ProtoBroadcastAck(data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv2.ptszVal);
+					db_free(&dbv2);
+				} else {
+					data->proto->ProtoBroadcastAck(data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)NULL);
+				}
+			}
+			db_free(&dbv);
 		}
-		else db_free(&dbv);
+	} else {
+		data->proto->ProtoBroadcastAck(data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)NULL);
 	}
-	ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)(TCHAR*)TEXT(""));
+
 	delete data;
 }
 
@@ -1107,9 +1122,12 @@ static INT_PTR CALLBACK TlenChangeAvatarDlgProc( HWND hwndDlg, UINT msg, WPARAM 
 
 INT_PTR TlenProtocol::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
+	if (!isOnline){
+		PUShowMessageT(TranslateT("You need to be connected to Tlen account to set avatar."), SM_WARNING);
+		return 1;
+	}
 	TCHAR* szFileName = ( TCHAR* )lParam;
 	TCHAR tFileName[ MAX_PATH ];
-	if (!isOnline) return 1;
 	if (szFileName != NULL) {
 		int result = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_USER_CHANGEAVATAR), NULL, TlenChangeAvatarDlgProc, (LPARAM) NULL);
 		TlenGetAvatarFileName(this, NULL, tFileName, MAX_PATH);
@@ -1127,7 +1145,7 @@ INT_PTR TlenProtocol::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 				TlenUploadAvatar(this, pResult, dwPngSize, (result & 0x10000) != 0);
 				mir_free(pResult);
 			}
-		}
+		} else debugLogA("SetMyAvatar open error");
 		mir_free(tFileName);
 		mir_free(tFileNameA);
 	}
@@ -1151,7 +1169,7 @@ INT_PTR TlenProtocol::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	case AF_FORMATSUPPORTED:
 		return (lParam == PA_FORMAT_PNG) ? 1 : 0;
 	case AF_ENABLED:
-		return (tlenOptions.enableAvatars && isOnline) ? 1 : 0;
+		return tlenOptions.enableAvatars;
 	case AF_DONTNEEDDELAYS:
 		return 1;
 	case AF_MAXFILESIZE:
@@ -1214,7 +1232,7 @@ INT_PTR TlenProtocol::AccMgrUI(WPARAM wParam, LPARAM lParam)
 void TlenInitServicesVTbl(TlenProtocol *proto)
 {
 	proto->CreateProtoService(PS_GETNAME,        &TlenProtocol::GetName);
-	proto->CreateProtoService(PS_GETAVATARINFO,  &TlenProtocol::GetAvatarInfo);
+	proto->CreateProtoService(PS_GETAVATARINFOT, &TlenProtocol::GetAvatarInfo);
 	proto->CreateProtoService(PS_SEND_NUDGE,     &TlenProtocol::SendAlert);
 	proto->CreateProtoService(PS_GETAVATARCAPS,  &TlenProtocol::GetAvatarCaps);
 	proto->CreateProtoService(PS_SETMYAVATART,   &TlenProtocol::SetMyAvatar);

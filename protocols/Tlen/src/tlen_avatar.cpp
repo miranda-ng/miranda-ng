@@ -33,11 +33,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, TCHAR* ptszDest, int cbLen)
 {
+	
+	int tPathLen = mir_sntprintf(ptszDest, cbLen, TEXT("%s\\%S"), VARST( TEXT("%miranda_avatarcache%")), proto->m_szModuleName);
+	if (_taccess(ptszDest, 0)) {
+		int ret = CreateDirectoryTreeT(ptszDest);
+		if (ret == 0)
+			proto->debugLog(_T("getAvatarFilename(): Created new directory for avatar cache: %s."), ptszDest);
+		else {
+			proto->debugLog(_T("getAvatarFilename(): Can not create directory for avatar cache: %s. errno=%d: %s"), ptszDest, errno, strerror(errno));
+			TCHAR buffer[512];
+			mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), ptszDest);
+			PUShowMessageT(buffer, SM_WARNING);
+		}
+	}
+
 	int format = PA_FORMAT_PNG;
-	int tPathLen = mir_sntprintf(ptszDest, cbLen, TEXT("%s\\Tlen"), VARST( TEXT("%miranda_avatarcache%")));
-	DWORD dwAttributes = GetFileAttributes( ptszDest );
-	if (dwAttributes == 0xffffffff || ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ) == 0)
-		CreateDirectoryTreeT(ptszDest);
 
 	ptszDest[ tPathLen++ ] = '\\';
 	if (item != NULL)
@@ -92,13 +102,19 @@ static void SetAvatar(TlenProtocol *proto, HANDLE hContact, TLEN_LIST_ITEM *item
 	}
 	TlenGetAvatarFileName(proto, item, filename, sizeof filename );
 	DeleteFile(filename);
-	FILE *out = _tfopen( filename, TEXT("wb") );
+	FILE *out = _tfopen(filename, TEXT("wb") );
 	if (out != NULL) {
 		fwrite(data, len, 1, out);
 		fclose(out);
 		db_set_ts(hContact, "ContactPhoto", "File", filename );
 		db_set_s(hContact, proto->m_szModuleName, "AvatarHash",  md5);
 		db_set_dw(hContact, proto->m_szModuleName, "AvatarFormat",  format);
+	} else {
+		TCHAR buffer[128];
+		mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Can not save new avatar file \"%s\" Error:\n\t%s (Error: %d)"), filename, _tcserror(errno), errno);
+		PUShowMessageT(buffer, SM_WARNING);
+		proto->debugLog(buffer);
+		return;
 	}
 	ProtoBroadcastAck( proto->m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL , 0);
 }
@@ -303,7 +319,7 @@ void TlenGetAvatar(TlenProtocol *proto, HANDLE hContact) {
 typedef struct {
 	TlenProtocol *proto;
 	NETLIBHTTPREQUEST *req;
-}TLENREMOVEAVATARTHREADDATA;
+} TLENREMOVEAVATARTHREADDATA;
 
 static void TlenRemoveAvatarRequestThread(void *ptr) {
 	NETLIBHTTPREQUEST *resp;
@@ -327,14 +343,33 @@ typedef struct {
 	NETLIBHTTPREQUEST *req;
 	char *data;
 	int  length;
-}TLENUPLOADAVATARTHREADDATA;
+} TLENUPLOADAVATARTHREADDATA;
+
+boolean checkUploadAvatarResponse(TlenProtocol *proto, NETLIBHTTPREQUEST *resp){
+	if (resp == NULL){
+		proto->debugLogA("Error while setting popup on Tlen account (no response)");
+		PUShowMessageT(TranslateT("Error while setting popup on Tlen account (no response)"), SM_WARNING);
+		return false;
+	}
+	if (resp->resultCode != 200 || !resp->dataLength || !resp->pData) {
+		proto->debugLogA("Error while setting popup on Tlen account (invalid response) resultCode=%d, dataLength=%d", resp->resultCode, resp->dataLength);
+		PUShowMessageT(TranslateT("Error while setting popup on Tlen account (invalid response)"), SM_WARNING);
+		return false;
+	}
+	if (strncmp(resp->pData, "<ok", 3)){
+		proto->debugLogA("Error while setting popup on Tlen account: %s", resp->pData);
+		PUShowMessageT(TranslateT("Error while setting popup on Tlen account"), SM_WARNING);
+		return false;
+	}
+	return true;
+}
 
 static void TlenUploadAvatarRequestThread(void *ptr) {
 	NETLIBHTTPREQUEST *resp;
 	TLENUPLOADAVATARTHREADDATA * data = (TLENUPLOADAVATARTHREADDATA *) ptr;
 	NETLIBHTTPREQUEST *req = data->req;
 	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)data->proto->m_hNetlibUser, (LPARAM)req);
-	if (resp != NULL) {
+	if (checkUploadAvatarResponse(data->proto, resp)) {
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 		SetAvatar(data->proto, NULL, NULL, data->data, data->length, PA_FORMAT_PNG);
 	}
