@@ -311,7 +311,7 @@ Otrzymany obrazek://%s
 [Tlen login]
 Logowanie Tlen
 [You need to be connected to Tlen account to set avatar.]
-
+Musisz być połączony z kontem Tlen aby móc ustawić awatar.
 ;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for]
 Wprowadź hasło dla

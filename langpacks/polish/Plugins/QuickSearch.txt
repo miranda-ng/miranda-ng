@@ -50,7 +50,7 @@ Konto
 [Gender]
 Płeć
 [UserID]
-
+UserID
 [Nickname]
 Nick
 [First name]
@@ -60,7 +60,7 @@ Nazwisko
 [Group]
 Grupa
 [Container]
-
+Kontener
 [E-mail]
 E-mail
 [Client ID]
@@ -76,23 +76,23 @@ Dostępny Od
 [Metacontact]
 Metakontakt
 [Event count]
-
+Liczba zdarzeń
 [Contact add time]
-
+Czas dodania kontaktu
 [Type:]
 Typ:
 [DB setting]
-
+Ustawienie bazy danych
 [Script]
 Skrypt
 [Service]
-
+Usługa
 [Contact info]
-
+Dane użytkownika
 [Other]
 Inne
 [Data type:]
-
+Typ danych:
 [Byte]
 BYTE
 [Word]
@@ -100,9 +100,9 @@ WORD
 [DWord]
 DWord
 [Signed]
-
+Podpisane
 [As hex]
-
+jako hex
 [String]
 STRING
 [IP]
@@ -116,7 +116,7 @@ Ustawienia:
 [Service:]
 Usługa:
 [Param]
-
+Param
 [number value]
 wartość
 [ANSI string]
@@ -168,7 +168,7 @@ O kontakcie
 [LastEvent]
 Ostatnie zdarzenie
 [EventCount]
-
+EventCount
 [Script Editor]
 Edytor Skryptów
 [Normal background]
@@ -206,7 +206,7 @@ Kopiuj
 [C&onvert to Meta]
 Konwertuj do Meta
 [Attach to &Tab container]
-
+Dołącz do kontenera zakładki
 [&Move to Group]
 Przenieś do grupy
 [Some of selected contacts in different metacontacts already]
@@ -218,9 +218,9 @@ Ostrzeżenie
 [One or more contacts in same Meta already. Try to convert anyway?]
 Jeden lub więcej kontaktów jest już w tym samym metakontakcie. Konwertować mimo to?
 [Editing of column ]
-
+Edycja kolumny
 [%i users found (%i) Online: %i]
-
+Znaleziono %i kontaktów (%i) Dostępnych: %i
 [ users found (]
  znalezionych (
 [) Online: ]
@@ -238,27 +238,27 @@ Koloruj
 [QuickSearch window hotkey]
 Otwórz okno szybkiego szukania
 [Column content is simple database setting.]
-
+Zawartość kolumny jest prostym ustawieniem bazy danych
 [Column content is script result.\r\nMore help from "Help" button in script dialog.]
-
+Zawartość kolumny jest wynikiem skryptut.\r\nWięcej informacji pod przyciskiem "Pomoc" w oknie skryptu.
 [Column content is contact property (see list). Can be empty.]
-
+Zawartość kolumny jest właściwością kontaktu (zobacz listę). Może być pusta.
 [Content is last online time.]
-
+Zawartość to ostatni czas dostępności.
 [Content is time of last contact event.]
-
+Zawartość to czas ostatniego zdarzenia.
 [Content is metacontact info.]
-
+Zawartość to informacje o metakontakcie.
 [Content is count of ALL contact events (not messages only)]
-
+Zawartość to liczba wszystkich zdarzeń kontaktu (nietylko wiadomości)
 [Other info]
-
+Inne informacje
 [Change setting through QS]
-
+Zmień ustawienie przez QS
 [default]
 domyślny
 [Selected]
-
+Wybrano
 [contacts]
 kontakty
 [Unknown]
@@ -267,4 +267,4 @@ Nieznany
 Zawsze na wierzchu
 ; this line is not present in the sources, but it present in compiled plugin
 [Text Editor]
-
+Edytor tekstu
