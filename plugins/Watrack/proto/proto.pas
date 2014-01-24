@@ -300,7 +300,7 @@ begin
             data:=PByte(s);
             dataSize:=(StrLenW(textpos)+3+1)*SizeOf(PWideChar);
           end;
-          encodedStr:=mir_base64_encode(pAnsiChar(data),dataSize);
+          encodedStr:=mir_base64_encode(data,dataSize);
           mGetMem(encbuf,Length(encodedStr)+1+Length(wpAnswer));
           StrCopy(PAnsiChar(encbuf),wpAnswer);
           StrCopy(PAnsiChar(encbuf)+Length(wpAnswer),encodedStr);

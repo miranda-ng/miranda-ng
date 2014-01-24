@@ -815,7 +815,7 @@ begin
             end;
             DBVT_WCHAR : AddAttr(node,ioCUID,cws.szVal.W);
             DBVT_BLOB  : begin
-              p1:=mir_base64_encode(pAnsiChar(cws.pbVal),cws.cpbVal);
+              p1:=mir_base64_encode(cws.pbVal,cws.cpbVal);
               AddAttr(node,ioCUID,FastAnsiToWide(p1,p));
               mFreeMem(p1);
               mFreeMem(p);

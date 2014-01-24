@@ -742,7 +742,7 @@ procedure mir_hmac_sha1(hashout:SHA1Hash; const key:pbyte; keyLen:size_t;
 
 function mir_base64_decode(str:pAnsiChar; var resultSize:int):pByte; stdcall;
                external CoreDLL name 'mir_base64_decode';
-function mir_base64_encode(str:pAnsiChar; dataSize:int):pAnsiChar; stdcall;
+function mir_base64_encode(data:PByte; dataSize:int):pAnsiChar; stdcall;
                external CoreDLL name 'mir_base64_encode';
 function mir_base64_encodebuf(data:PByte; dataSize:int; output:pAnsiChar; outputLen:int):pAnsiChar; stdcall;
                external CoreDLL name 'mir_base64_encodebuf';
