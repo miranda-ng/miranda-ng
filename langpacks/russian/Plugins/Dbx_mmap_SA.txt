@@ -82,7 +82,7 @@
 [Your profile was decrypted to convert it into dbx_mmap format. When Miranda starts, you'll need to reenter a password]
 Ваш профиль был расшифрован для конвертации в формат dbx_mmap. При следующем запуске программы вам потребуется заново ввести пароль из пункта в главном меню
 [Password warning]
-Предупреждение по паролю
+Предупреждение о пароле
 [Database is Secured MMAP database]
 БД: база данных с шифрованием
 [You are not authorized for access to Database]
