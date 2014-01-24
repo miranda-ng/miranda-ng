@@ -597,6 +597,7 @@ void UnloadLangPackModule()
 	int i;
 	for (i=0; i < lMuuids.getCount(); i++)
 		mir_free(lMuuids[i]);
+	lMuuids.destroy();
 
 	LangPackEntry *p = langPack.entry;
 	for (i=0; i < langPack.entryCount; i++, p++) {
