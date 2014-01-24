@@ -216,6 +216,9 @@ Mluvil bych s vámi, kdyby Miranda ICQ podporovala chat
 Právě telefonuji
 [Mmm... food.]
 Mňam... jídlo
+;file \protocols\Xfire\src\baseProtocol.h
+[XFire Protocol]
+XFire protokol
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 Soubor xfire_games.ini byl aktualizován.
@@ -296,8 +299,8 @@ Za&blokovat uživatele...
 &Znovu vyhledat mé hry...
 [Set &Nickname]
 &Nastavit přezdívku...
-[Protocols/XFire]
-Protokoly/XFire
+[Protocols]
+Protokoly
 [XFire game icon]
 XFire - Ikona hry
 [XFire voice icon]

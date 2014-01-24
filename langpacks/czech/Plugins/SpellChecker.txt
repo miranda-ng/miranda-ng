@@ -76,12 +76,8 @@ Použít slovníky jiných programů
 [The correction can't be equal to the wrong word!]
 
 ;file \plugins\SpellChecker\src\dictionary.cpp
-[tl_PH]
-
 [Tagalog (Philippines)]
 Tagalog (Filipíny)
-[de_frami_neu]
-
 [German (Germany)]
 Němčina (Německo)
 ;file \plugins\SpellChecker\src\options.cpp

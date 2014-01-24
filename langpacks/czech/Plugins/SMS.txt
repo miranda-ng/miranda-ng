@@ -79,6 +79,8 @@ Sítě:
 ;file \plugins\SMS\src\options.cpp
 [From %s:\r\n\r\n]
 Od %s:\r\n\r\n
+[Events]
+Události
 ;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
 Zpráva SMS nebyla odeslána %S pro %s z důvodu: %S
@@ -102,8 +104,8 @@ Zobrazit/Skrýt hromadný seznam
 Zobrazit počet napsaných znaků
 [The SMS message send to %s timed out.]
 Vypršela platnost zprávy SMS pro %s.
-[The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
-Telefonní číslo musí začínat + a obsahovat pouze čísla, mezery, závorky a pomlčky.
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Telefonní číslo by mělo začínat znakem + a obsahovat pouze čísla, mezery, závorky a pomlčky.
 [Invalid Phone Number]
 Neplatné tel. číslo
 [Message is too long, press OK to continue.]
@@ -114,12 +116,19 @@ Chyba - zpráva je příliš dlouhá
 V seznamu musí být nejprve čísla.
 [No Numbers]
 Žádné čísla
-[Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
 Správný tvar celého čísla je '+(kód země)(telefonní číslo)'. Zápis samotného telefonního čísla se liší podle zemí, ale často se udává bez počáteční nuly.
 [Invalid phone number]
 Neplatné telefonní číslo
 [<< Single]
 << Jednotlivě
+;file \plugins\SMS\src\SMSConstans.h
+[SMS]
+SMS
+[Send &SMS...]
+Poslat &SMS
+[&SMS Message]
+Zpráva &SMS
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 Příchozí SMS

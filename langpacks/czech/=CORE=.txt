@@ -570,8 +570,8 @@ Barva &pozadí
 &Filtr
 [&Room settings]
 &Správa místnosti
-[&Show/Hide nicklist]
-&Přepnout seznam uživatelů
+[&Show/Hide nick list]
+&Přepnout seznam účastníků
 [Show these events only:]
 Zobrazit pouze tyto události:
 [Actions]
@@ -620,8 +620,8 @@ Složka pro záznam
 Ostatní
 [Add new rooms to group:]
 Nové místnosti do skupiny:
-[Userlist row distance (pixels):]
-Odstup uživatelů v seznamu (v pix.):
+[Nick list row distance (pixels):]
+Odstup účastníků v seznamu (v pix.):
 [Use same style as in the message log]
 Použít nastavení pro záznam komunikace
 [Use default colors]
@@ -1306,12 +1306,12 @@ Skupinový rozhovor
 Pozadí skupinového rozhovoru
 [Message background]
 Pozadí konverzace
-[User list background]
-Pozadí seznamu uživatelů
-[User list lines]
-Linky v seznamu uživatelů
-[User list background (selected)]
-Pozadí seznamu uživatelů (vybraný)
+[Nick list background]
+Pozadí seznamu účastníků
+[Nick list lines]
+Linky v seznamu účastníků
+[Nick list background (selected)]
+Pozadí seznamu účastníků (vybraný)
 ;file \src\core\stdchat\src\options.cpp
 [Use a tabbed interface]
 Použít systém záložek
@@ -1487,9 +1487,9 @@ Nastavení místnosti
 Filtrování událostí deaktivováno
 [Event filter enabled]
 Filtrování událostí aktivováno
-[Hide userlist]
+[Hide nick list]
 Skrýt seznam účastníků 
-[Show userlist]
+[Show nick list]
 Zobrazit seznam účastníků 
 [Icon overlay]
 Překryvná ikona
@@ -1561,8 +1561,6 @@ Komunikace
 Obecné
 [Chat log]
 Záznam diskuse
-[Chat]
-Diskuse
 [Popups]
 Oznámení
 ;file \src\core\stdchat\src\tools.cpp
@@ -1587,7 +1585,7 @@ Změní barvu pozadí textu (CTRL+L)
 Změní barvu textu (CTRL+K)
 [Show the history (CTRL+H)]
 Zobrazí historii (CTRL+H)
-[Show/hide the nicklist (CTRL+N)]
+[Show/hide the nick list (CTRL+N)]
 Zobrazí/skryje seznam účastníků (CTRL+N)
 [Control this room (CTRL+O)]
 Možnosti řízení kanálu (CTRL+O)
@@ -1967,12 +1965,14 @@ Deaktivace stavu pro ...
 Upozornění
 [Highlighted message]
 Zvýrazněná zpráva
+[Nick list members (online)]
+Seznam účastníků (online)
+[Nick list members (away)]
+Seznam účastníků (pryč)
 [Message typing area]
 Oblast se zprávou
-[User list members (online)]
-Seznam účastníků (online)
-[User list members (away)]
-Seznam účastníků (pryč)
+[Chat log symbols (Webdings)]
+Symboly v záznamu chatu (Webdings)
 [Message is highlighted]
 Zvýraznění zprávy
 [User has performed an action]

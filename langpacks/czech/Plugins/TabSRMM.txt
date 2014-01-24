@@ -68,8 +68,8 @@ Ost. jména
 Časový údaj (záznam)
 [Maximum number of events in the message window]
 Maximální počet událostí v záznamu komunikačního okna
-[Group chat userlist row height (pixels)]
-Výška seznamu uživatelů skupinového rozhovoru (px)
+[Group chat nick list row height (pixels)]
+Výška seznamu účastníků skupinového rozhovoru (px)
 [Open log file base folder]
 Otevřít kořenovou složku záznamů
 [Default settings for known event types]
@@ -1866,8 +1866,6 @@ Přidat uživatele do do seznamu označených
 [Edit user highlight list]
 Upravit seznam označených uživatelů
 ;file \plugins\TabSRMM\src\chat\options.cpp
-[Group chat log background]
-Pozadí skupinového rozhovoru
 [Input area background]
 Pozadí psaní zprávy
 [Log background]
@@ -2004,8 +2002,8 @@ Sdílet pozici oddělovače se standardními rozhovory
 Zobrazit stav kontaktu, pokud je protokol podporuje
 [Display contact's status icon before user role icon]
 Zobrazit ikonu stavu kontaktu před ikonou jeho role
-[Use IRC style status indicators in the user list]
-Použít IRC indikátory stavu v seznamu uživatelů
+[Use IRC style status indicators in the nick list]
+Použít IRC indikátory stavu v seznamu účastníků
 [Use alternative sorting method in member list]
 Použít alternativní metodu třídění v seznamu uživatelů
 [Prefix all events with a timestamp]
@@ -2104,8 +2102,10 @@ Vybraný text
 Zvýraznění při vyhledávání
 [Fields background]
 Pozadí polí
-[Userlist background]
-Pozadí seznamu kontaktů
+[Nick list background]
+Pozadí seznamu účastníků
+[Group chat log background]
+Pozadí skupinového rozhovoru
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]

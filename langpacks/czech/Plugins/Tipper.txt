@@ -23,7 +23,7 @@ Max. výška:
 [Avatar size:]
 Velikost avataru:
 [Show if list not focused]
-I neaktivní seznam
+I při neaktivním seznamu
 [General padding:]
 Obecné odsazení
 [Hover time:]

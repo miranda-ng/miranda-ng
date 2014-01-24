@@ -209,14 +209,25 @@ Hovor
 Požádat o autorizaci
 [Grant authorization]
 Udělit autorizaci
+;file \protocols\Tlen\src\tlen_avatar.cpp
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
+Nelze vytvořit složku pro cache avatarů. CHYBA: %d: %s\n%s
+[Can not save new avatar file "%s" Error:\n\t%s (Error: %d)]
+
+[Error while setting avatar on Tlen account (no response)]
+
+[Error while setting avatar on Tlen account (invalid response)]
+
+[Error while setting avatar on Tlen account]
+
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 1 soubor
 [%d Files]
 %d soubory
 ;file \protocols\Tlen\src\tlen_iqid.cpp
-[Authentication failed for]
-Chyba při ověřování:
+[Authentication failed for %s@%s.]
+
 [Tlen Authentication]
 
 ;file \protocols\Tlen\src\tlen_muc.cpp
@@ -299,9 +310,11 @@ Přeposílání
 ;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
 
+[You need to be connected to Tlen account to set avatar.]
+
 ;file \protocols\Tlen\src\tlen_thread.cpp
-[Enter password for]
-Zadejte heslo pro
+[Enter password for %s]
+Zadejte heslo pro %s
 [Tlen Connection Error]
 Tlen :: Chyba spojení
 [Windows Server 2003]

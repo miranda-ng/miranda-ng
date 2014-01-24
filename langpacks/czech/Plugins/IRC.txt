@@ -40,8 +40,8 @@ Autom. se přidat po pozvání
 Měnit mód 'postaru'
 [Update online statuses for users]
 Aktualizovat stav lidí v seznamu
-[Update statuses in channel nicklist]
-Aktualizovat stav lidí na kanále
+[Update statuses in channel nick list]
+Aktualizovat stav účastníků na kanále
 [Internet address]
 Adresa
 [Port range]

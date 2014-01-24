@@ -128,12 +128,12 @@ Načítání seznamu již probíhá!
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Bude smazán!
-[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
-Aktualizace se nezdařila! Některá z komponent nebyla správně stažena. Zkuste to znovu později.
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualizace dokončena. Přejete si nyní restartovat Mirandu?
 [<< Details]
 << Detaily
+[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
+Aktualizace se nezdařila! Některá z komponent nebyla správně stažena. Zkuste to znovu později.
 [No updates found.]
 Žádné aktualizace nenalezeny.
 [Update checking already started!]

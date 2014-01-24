@@ -139,8 +139,6 @@ Vybraná databáze není kompatibilní s vaší verzí Mirandy
 Vybrali jste nově vytvořenou databázi, která neobsahuje žádná data.
 [Processing completed successfully]
 Databáze byla úspěšně zkon
-[Can't create file mapping (%u)]
-Nelze vytvořit mapování souboru (%u)
 [Can't create map view of file (%u)]
 Nelze vytvořit mapa přehledu souboru (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp

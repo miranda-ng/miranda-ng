@@ -9,8 +9,6 @@
 [The wrong word can't be empty!]
 [The correction can't be empty!]
 [The correction can't be equal to the wrong word!]
-[tl_PH]
-[de_frami_neu]
 [Auto-replacements]
 [Wrong word]
 [Correction]
