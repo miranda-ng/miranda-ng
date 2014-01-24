@@ -80,7 +80,7 @@ Protokół:
 [From %s:\r\n\r\n]
 Od %s:\r\n\r\n
 [Events]
-
+Zdarzenia
 ;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
 Wiadomość SMS nie została wysłana przez %S do %s, ponieważ: %S
@@ -124,11 +124,11 @@ Nieprawidłowy numer telefonu
 << Pojedynczy
 ;file \plugins\SMS\src\SMSConstans.h
 [SMS]
-
+SMS
 [Send &SMS...]
-
+Wyślij &SMS...
 [&SMS Message]
-
+&Wiadomość SMS
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 Przychodząca wiadomość SMS
