@@ -209,6 +209,17 @@ Rozmowa głosowa
 Poproś o autoryzację
 [Grant authorization]
 Udziel autoryzacji
+;file \protocols\Tlen\src\tlen_avatar.cpp
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
+Nie można utworzyć folderu cache awatarów. BŁĄD: %d: %s\n%s
+[Can not save new avatar file "%s" Error:\n\t%s (Error: %d)]
+Nie można zapisać pliku nowego awataru "%s". Błąd:\n\t%s (Błąd: %d)
+[Error while setting popup on Tlen account (no response)]
+Błąd podczas ustawiania  popupu na koncie Tlen (brak odpowiedzi)
+[Error while setting popup on Tlen account (invalid response)]
+Błąd podczas ustawiania  popupu na koncie Tlen (nieprawidłowa odpowiedź)
+[Error while setting popup on Tlen account]
+Błąd podczas ustawiania  popupu na koncie Tlen
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 1 Plik
@@ -299,6 +310,8 @@ Otrzymany obrazek://%s
 ;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
 Logowanie Tlen
+[You need to be connected to Tlen account to set avatar.]
+
 ;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for]
 Wprowadź hasło dla

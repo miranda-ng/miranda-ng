@@ -236,10 +236,10 @@ Nie można utworzyć zrzutu ekranu
 [Select a target window.]
 Wybierz okno.
 [Screenshot ]
-Zrzut ekranu
+Zrzut ekranu\s
 [for Client area ]
-dla pola Klienta
+dla pola Klienta\s
 [of "]
-z "
+z okna "
 [" Window]
-" Okna
+"
