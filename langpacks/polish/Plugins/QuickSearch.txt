@@ -218,7 +218,7 @@ Ostrzeżenie
 [One or more contacts in same Meta already. Try to convert anyway?]
 Jeden lub więcej kontaktów jest już w tym samym metakontakcie. Konwertować mimo to?
 [Editing of column ]
-Edycja kolumny
+Edycja kolumny\s
 [%i users found (%i) Online: %i]
 Znaleziono %i kontaktów (%i) Dostępnych: %i
 [ users found (]
