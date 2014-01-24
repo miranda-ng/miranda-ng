@@ -87,6 +87,10 @@ E-Mail:
 [Unique ID:]
 Unique ID:
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
+[Your profile was decrypted to convert it into dbx_mmap format. When Miranda starts, you'll need to reenter a password]
+
+[Password warning]
+
 [Database is Secured MMAP database]
 Datenbank ist gesicherte MMAP-Datenbank
 [You are not authorized for access to Database]

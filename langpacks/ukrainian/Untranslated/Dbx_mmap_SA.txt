@@ -1,0 +1,2 @@
+﻿[Your profile was decrypted to convert it into dbx_mmap format. When Miranda starts, you'll need to reenter a password]
+[Password warning]
