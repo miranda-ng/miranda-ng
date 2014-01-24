@@ -527,11 +527,9 @@ function DlgProcOpt2(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lres
         CallService(MS_VARS_SHOWHELPEX,Dialog,tlparam(@vhi));
       end;
       hlpContact: begin
-{
         MessageBoxW(0,
           TranslateW('Select contact to open it''s window'),
           TranslateW('Contacts'),0);
-}
       end;
       hlpService: begin
         buf:=GetDlgText(Dialog,IDC_EDIT_SERVICE,true);
@@ -567,13 +565,11 @@ function DlgProcOpt2(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lres
       hlpAdvance: begin
       end;
       hlpChain: begin
-{
         MessageBoxW(0,
           TranslateW('You can select another group from combobox, '+
                      'then it will be executed, after that current '+
                      'action group will be continued.'),
           TranslateW('Macros'),0);
-}
       end;
       hlpDBRW: begin
       end;
