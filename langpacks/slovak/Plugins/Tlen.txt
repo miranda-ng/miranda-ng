@@ -69,8 +69,8 @@ Od:
 Podrobne
 [Network]
 Sieť
-[Enter password for]
-Zadať heslo pre
+[Enter password for %s@%s.]
+Zadať heslo pre %s@%s.
 [Tlen Connection Error]
 Tlen pripájacia chyba
 [From]

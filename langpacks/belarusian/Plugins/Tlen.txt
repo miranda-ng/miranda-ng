@@ -205,8 +205,8 @@ Tlen пошта
 [%d Files]
 %d файлаў
 ;file \protocols\Tlen\src\tlen_iqid.cpp
-[Authentication failed for]
-Аутэнтыфікацыя не пройдзена для
+[Authentication failed for %s@%s.]
+Аутэнтыфікацыя не пройдзена для %s@%s.
 [Tlen Authentication]
 Аўтэнтыфікацыя Tlen
 ;file \protocols\Tlen\src\tlen_muc.cpp
@@ -282,8 +282,8 @@ Tlen пошта
 [Tlen login]
 Tlen уваход
 ;file \protocols\Tlen\src\tlen_thread.cpp
-[Enter password for]
-Увядзіце пароль для
+[Enter password for %s@%s.]
+Увядзіце пароль для %s@%s.
 [Tlen Connection Error]
 Tlen памылка далучэння
 [Windows Server 2003]

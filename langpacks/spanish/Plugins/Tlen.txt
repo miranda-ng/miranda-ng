@@ -214,11 +214,11 @@ Conceder autorización
 
 [Can not save new avatar file "%s" Error:\n\t%s (Error: %d)]
 
-[Error while setting popup on Tlen account (no response)]
+[Error while setting avatar on Tlen account (no response)]
 
-[Error while setting popup on Tlen account (invalid response)]
+[Error while setting avatar on Tlen account (invalid response)]
 
-[Error while setting popup on Tlen account]
+[Error while setting avatar on Tlen account]
 
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
@@ -226,7 +226,7 @@ Conceder autorización
 [%d Files]
 
 ;file \protocols\Tlen\src\tlen_iqid.cpp
-[Authentication failed for]
+[Authentication failed for %s@%s.]
 
 [Tlen Authentication]
 
@@ -313,7 +313,7 @@ Red
 [You need to be connected to Tlen account to set avatar.]
 
 ;file \protocols\Tlen\src\tlen_thread.cpp
-[Enter password for]
+[Enter password for %s@%s.]
 
 [Tlen Connection Error]
 

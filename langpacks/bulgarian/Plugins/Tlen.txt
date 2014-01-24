@@ -212,11 +212,11 @@
 
 [Can not save new avatar file "%s" Error:\n\t%s (Error: %d)]
 
-[Error while setting popup on Tlen account (no response)]
+[Error while setting avatar on Tlen account (no response)]
 
-[Error while setting popup on Tlen account (invalid response)]
+[Error while setting avatar on Tlen account (invalid response)]
 
-[Error while setting popup on Tlen account]
+[Error while setting avatar on Tlen account]
 
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
@@ -224,8 +224,8 @@
 [%d Files]
 %d файла
 ;file \protocols\Tlen\src\tlen_iqid.cpp
-[Authentication failed for]
-Неуспешно удостоверяване за
+[Authentication failed for %s@%s.]
+Неуспешно удостоверяване за %s@%s.
 [Tlen Authentication]
 
 ;file \protocols\Tlen\src\tlen_muc.cpp
@@ -311,8 +311,8 @@
 [You need to be connected to Tlen account to set avatar.]
 
 ;file \protocols\Tlen\src\tlen_thread.cpp
-[Enter password for]
-Въведете парола за
+[Enter password for %s@%s.]
+Въведете парола за %s@%s.
 [Tlen Connection Error]
 
 [Windows Server 2003]

@@ -1,0 +1,4 @@
+[Events]
+[SMS]
+[Send &SMS...]
+[&SMS Message]

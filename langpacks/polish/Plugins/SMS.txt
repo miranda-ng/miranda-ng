@@ -79,6 +79,8 @@ Protokół:
 ;file \plugins\SMS\src\options.cpp
 [From %s:\r\n\r\n]
 Od %s:\r\n\r\n
+[Events]
+
 ;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
 Wiadomość SMS nie została wysłana przez %S do %s, ponieważ: %S
@@ -102,7 +104,7 @@ Pokaż/Ukryj listę wielokrotnego wyboru
 Pokaż, ile znaków napisałeś
 [The SMS message send to %s timed out.]
 Przekroczono czas wysyłania wiadomości do %s.
-[The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Numer telefonu powinien zaczynać się od znaku + oraz składać się tylko i wyłącznie z cyfr, spacji, nawiasów kwadratowych oraz myślników.
 [Invalid Phone Number]
 Nieprawidłowy numer telefonu 
@@ -114,12 +116,19 @@ Błąd - wiadomość zbyt długa
 Najpierw na liście muszą znajdować się numery.
 [No Numbers]
 Brak numerów
-[Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
 Poprawne numery telefonu zapisujemy w formacie "+(kod kraju)(numer telefonu)". Część poświęcona na numer telefonu zależy od formatu numeru telefonu w danym kraju, ale często pomija wiodące 0.
 [Invalid phone number]
 Nieprawidłowy numer telefonu
 [<< Single]
 << Pojedynczy
+;file \plugins\SMS\src\SMSConstans.h
+[SMS]
+
+[Send &SMS...]
+
+[&SMS Message]
+
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 Przychodząca wiadomość SMS

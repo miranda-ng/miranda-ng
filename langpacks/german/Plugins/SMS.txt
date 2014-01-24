@@ -79,6 +79,8 @@ Netzwerk:
 ;file \plugins\SMS\src\options.cpp
 [From %s:\r\n\r\n]
 Von %s:\r\n\r\n
+[Events]
+
 ;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
 SMS-Nachricht wurde nicht von %S an %s gesandt. Grund: %S
@@ -102,7 +104,7 @@ Mehrfache Liste aus/einblenden
 Anzahl der geschriebenen Zeichen anzeigen
 [The SMS message send to %s timed out.]
 Die SMS-Nachricht zu %s konnte nicht zugestellt werden.
-[The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 
 [Invalid Phone Number]
 Ungültige Telefonnummer
@@ -114,12 +116,19 @@ Fehler - Nachricht zu lang
 Zunächst müssen Nummern in der Liste sein.
 [No Numbers]
 Keine Nummern
-[Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
 
 [Invalid phone number]
 Ungültige Telefonnummer
 [<< Single]
 << Weniger
+;file \plugins\SMS\src\SMSConstans.h
+[SMS]
+
+[Send &SMS...]
+
+[&SMS Message]
+
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 Eingehende SMS-Nachricht
