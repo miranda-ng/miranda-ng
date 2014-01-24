@@ -100,5 +100,4 @@
 [all private keys]
 [Keys export result]
 [Keys import result]
-[New passwords do not match]
 [Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
