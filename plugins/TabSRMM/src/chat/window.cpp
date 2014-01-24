@@ -144,13 +144,13 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT* ptClient, UINT uMsg, WPARAM wPa
 	POINT pt = *ptClient;
 	ClientToScreen(hwndDlg, &pt);
 
-	do  {
+	do {
 		if (!SendMessage(hwndDlg, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle)) break;
 		if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK) break;
 		if (TextDocument->RangeFromPoint(pt.x, pt.y, &TextRange) != S_OK) break;
 
 		TextRange->GetStart(&cpMin);
-		cpMax = cpMin+1;
+		cpMax = cpMin + 1;
 		TextRange->SetEnd(cpMax);
 
 		if (TextRange->GetFont(&TextFont) != S_OK)
@@ -160,7 +160,7 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT* ptClient, UINT uMsg, WPARAM wPa
 		if (res != tomTrue)
 			break;
 
-		TextRange->GetPoint(tomEnd+TA_BOTTOM+TA_RIGHT, &ptEnd.x, &ptEnd.y);
+		TextRange->GetPoint(tomEnd + TA_BOTTOM + TA_RIGHT, &ptEnd.x, &ptEnd.y);
 		if (pt.x > ptEnd.x || pt.y > ptEnd.y)
 			break;
 
@@ -168,13 +168,13 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT* ptClient, UINT uMsg, WPARAM wPa
 			TextRange->GetStoryLength(&cnt);
 			for (; cpMin > 0; cpMin--) {
 				res = tomTrue;
-				TextRange->SetIndex(tomCharacter, cpMin+1, tomTrue);
+				TextRange->SetIndex(tomCharacter, cpMin + 1, tomTrue);
 				TextFont->GetProtected(&res);
 				if (res != tomTrue) { cpMin++; break; }
 			}
 			for (cpMax--; cpMax < cnt; cpMax++) {
 				res = tomTrue;
-				TextRange->SetIndex(tomCharacter, cpMax+1, tomTrue);
+				TextRange->SetIndex(tomCharacter, cpMax + 1, tomTrue);
 				TextFont->GetProtected(&res);
 				if (res != tomTrue)
 					break;
@@ -182,7 +182,8 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT* ptClient, UINT uMsg, WPARAM wPa
 		}
 
 		bIsCustomLink = (cpMin < cpMax);
-		} while(FALSE);
+	}
+		while (FALSE);
 
 	if (TextFont) TextFont->Release();
 	if (TextRange) TextRange->Release();
@@ -190,7 +191,7 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT* ptClient, UINT uMsg, WPARAM wPa
 	if (RichEditOle) RichEditOle->Release();
 
 	if (bIsCustomLink) {
-		ENLINK enlink = {0};
+		ENLINK enlink = { 0 };
 		enlink.nmhdr.hwndFrom = hwndDlg;
 		enlink.nmhdr.idFrom = IDC_CHAT_LOG;
 		enlink.nmhdr.code = EN_LINK;
@@ -275,8 +276,8 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 	dat->hTabIcon = dat->hTabStatusIcon;
 
 	if (dat->iTabID >= 0) {
-		if (db_get_w(si->hContact, si->pszModule , "ApparentMode", 0) != 0)
-			db_set_w(si->hContact, si->pszModule , "ApparentMode", 0);
+		if (db_get_w(si->hContact, si->pszModule, "ApparentMode", 0) != 0)
+			db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);
 		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
 
@@ -400,7 +401,7 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 
 		Utils::enableDlgControl(hwndDlg, IDC_SHOWNICKLIST, TRUE);
 		Utils::enableDlgControl(hwndDlg, IDC_FILTER, TRUE);
-		if (si->iType == GCW_CHATROOM)	{
+		if (si->iType == GCW_CHATROOM) {
 			MODULEINFO* tmp = pci->MM_FindModule(si->pszModule);
 			if (tmp)
 				Utils::enableDlgControl(hwndDlg, IDC_CHANMGR, tmp->bChanMgr);
@@ -443,7 +444,7 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 
 	case IDC_LIST:
 		urc->rcItem.top = 0;
-		urc->rcItem.right = urc->dlgNewSize.cx ;
+		urc->rcItem.right = urc->dlgNewSize.cx;
 		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX + 2;
 		urc->rcItem.bottom = (bToolbar && !bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(23)) : (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(2));
 		if (bInfoPanel)
@@ -478,7 +479,7 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_CHAT_MESSAGE:
-		urc->rcItem.right = urc->dlgNewSize.cx ;
+		urc->rcItem.right = urc->dlgNewSize.cx;
 		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 3;
 		urc->rcItem.bottom = urc->dlgNewSize.cy; // - 1 ;
 

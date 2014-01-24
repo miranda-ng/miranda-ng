@@ -167,17 +167,14 @@ int CLCPaint::GetBasicFontID(ClcContact *contact)
 		return FONTID_DIVIDERS;
 
 	case CLCIT_CONTACT:
-		if ( contact->flags & CONTACTF_NOTONLIST )
+		if (contact->flags & CONTACTF_NOTONLIST)
 			return FONTID_NOTONLIST;
-		if (( contact->flags&CONTACTF_INVISTO
-			&&  _GetRealStatus( contact, ID_STATUS_OFFLINE ) != ID_STATUS_INVISIBLE )
-			||
-			( contact->flags&CONTACTF_VISTO
-			&&  _GetRealStatus( contact, ID_STATUS_OFFLINE ) == ID_STATUS_INVISIBLE ))
+		if (((contact->flags & CONTACTF_INVISTO) && _GetRealStatus(contact, ID_STATUS_OFFLINE) != ID_STATUS_INVISIBLE) ||
+			((contact->flags & CONTACTF_VISTO && _GetRealStatus(contact, ID_STATUS_OFFLINE) == ID_STATUS_INVISIBLE)))
 		{
 			// the contact is in the always visible list and the proto is invisible
 			// the contact is in the always invisible and the proto is in any other mode
-			return contact->flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS;
+			return (contact->flags & CONTACTF_ONLINE) ? FONTID_INVIS : FONTID_OFFINVIS;
 		}
 
 		switch( pdnce___GetStatus( pdnce )) {

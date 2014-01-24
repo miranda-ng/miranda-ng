@@ -706,7 +706,7 @@ static DBVTranslation internalTranslations[] =
 	{	WordToCountry,                 LPGENT("WORD to country name")                                            },
 	{	DwordToIp,                     LPGENT("DWORD to ip address")                                             },
 	{	DayMonthYearToDate,            LPGENT("<prefix>Day|Month|Year to date")                                  },
-	{  	DayMonthYearToAge,             LPGENT("<prefix>Day|Month|Year to age")                                   },
+	{  DayMonthYearToAge,             LPGENT("<prefix>Day|Month|Year to age")                                   },
 	{	HoursMinutesSecondsToTime,     LPGENT("<prefix>Hours|Minutes|Seconds to time")                           },
 	{	DmyToTimeDifference,           LPGENT("<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference") },
 	{	DayMonthToDaysToNextBirthday,  LPGENT("<prefix>Day|Month to days to next birthday")                      },
@@ -725,13 +725,13 @@ static DBVTranslation internalTranslations[] =
 void InitTranslations() 
 {
 	dwNextFuncId = db_get_dw(0, MODULE_ITEMS, "NextFuncId", 1);
-	for (int i = 0; i < SIZEOF(internalTranslations); i++) 
-		AddTranslation( &internalTranslations[i] );
+	for (int i = 0; i < SIZEOF(internalTranslations); i++)
+		AddTranslation(&internalTranslations[i]);
 
 	hServiceAdd = CreateServiceFunction(MS_TIPPER_ADDTRANSLATION, ServiceAddTranslation);
 }
 
-void DeinitTranslations() 
+void DeinitTranslations()
 {
 	DestroyServiceFunction(hServiceAdd);
 	mir_free(translations);
