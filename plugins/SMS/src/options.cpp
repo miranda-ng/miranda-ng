@@ -70,8 +70,8 @@ INT_PTR CALLBACK DlgProcEditorOptions(HWND hWndDlg, UINT msg, WPARAM wParam, LPA
 		case 0:
 			switch (((LPNMHDR)lParam)->code){
 			case PSN_APPLY:
-				GetDlgItemText(hWndDlg,IDC_SIGNATURE,wszSign,SIZEOF(wszSign));
-				DB_SMS_SetStringW(NULL,"Signature",wszSign);
+				GetDlgItemText(hWndDlg,IDC_SIGNATURE,tszSign,SIZEOF(tszSign));
+				DB_SMS_SetStringW(NULL,"Signature",tszSign);
 
 				DB_SMS_SetByte(NULL,"UseSignature",IsDlgButtonChecked(hWndDlg,IDC_USESIGNATURE));
 				DB_SMS_SetByte(NULL,"SignaturePos",IsDlgButtonChecked(hWndDlg,IDC_BEGIN));
