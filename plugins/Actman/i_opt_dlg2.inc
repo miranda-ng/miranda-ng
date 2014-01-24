@@ -528,7 +528,7 @@ function DlgProcOpt2(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lres
       end;
       hlpContact: begin
         MessageBoxW(0,
-          TranslateW('Select contact to open it''s window'),
+          TranslateW('Select contact to open its window'),
           TranslateW('Contacts'),0);
       end;
       hlpService: begin
