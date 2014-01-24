@@ -424,13 +424,13 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		// VK documentation lies: even if you specified preview_length=0, 
 		// long messages get cut out. So we need to retrieve them from scratch
 		ptrT ptszBody(json_as_string(json_get(pMsg, "body")));
-		/*		if (_tcslen(ptszBody) > 100) {
-					if (!lmids.IsEmpty())
-					lmids.AppendChar(',');
-					lmids.Append(szMid);
-					continue;
-					}
-					*/
+		if (_tcslen(ptszBody) > 100) {
+			if (!lmids.IsEmpty())
+				lmids.AppendChar(',');
+			lmids.Append(szMid);
+			continue;
+		}
+
 		int datetime = json_as_int(json_get(pMsg, "date"));
 		int isOut = json_as_int(json_get(pMsg, "out"));
 		int uid = json_as_int(json_get(pMsg, "uid"));
