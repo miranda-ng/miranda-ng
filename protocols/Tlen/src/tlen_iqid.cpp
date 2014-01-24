@@ -54,7 +54,7 @@ void TlenIqResultAuth(TlenProtocol *proto, XmlNode *iqNode)
 		char text[128];
 
 		TlenSend(proto, "</s>");
-		mir_snprintf(text, sizeof(text), "%s %s@%s.", TranslateT("Authentication failed for"), proto->threadData->username, proto->threadData->server);
+		mir_snprintf(text, sizeof(text), Translate("Authentication failed for %s@%s."), proto->threadData->username, proto->threadData->server);
 		MessageBoxA(NULL, text, Translate("Tlen Authentication"), MB_OK|MB_ICONSTOP|MB_SETFOREGROUND);
 		ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 		proto->threadData = NULL;	// To disallow auto reconnect

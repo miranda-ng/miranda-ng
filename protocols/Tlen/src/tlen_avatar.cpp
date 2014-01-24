@@ -347,18 +347,18 @@ typedef struct {
 
 boolean checkUploadAvatarResponse(TlenProtocol *proto, NETLIBHTTPREQUEST *resp){
 	if (resp == NULL){
-		proto->debugLogA("Error while setting popup on Tlen account (no response)");
-		PUShowMessageT(TranslateT("Error while setting popup on Tlen account (no response)"), SM_WARNING);
+		proto->debugLogA("Error while setting avatar on Tlen account (no response)");
+		PUShowMessageT(TranslateT("Error while setting avatar on Tlen account (no response)"), SM_WARNING);
 		return false;
 	}
 	if (resp->resultCode != 200 || !resp->dataLength || !resp->pData) {
-		proto->debugLogA("Error while setting popup on Tlen account (invalid response) resultCode=%d, dataLength=%d", resp->resultCode, resp->dataLength);
-		PUShowMessageT(TranslateT("Error while setting popup on Tlen account (invalid response)"), SM_WARNING);
+		proto->debugLogA("Error while setting avatar on Tlen account (invalid response) resultCode=%d, dataLength=%d", resp->resultCode, resp->dataLength);
+		PUShowMessageT(TranslateT("Error while setting avatar on Tlen account (invalid response)"), SM_WARNING);
 		return false;
 	}
 	if (strncmp(resp->pData, "<ok", 3)){
-		proto->debugLogA("Error while setting popup on Tlen account: %s", resp->pData);
-		PUShowMessageT(TranslateT("Error while setting popup on Tlen account"), SM_WARNING);
+		proto->debugLogA("Error while setting avatar on Tlen account: %s", resp->pData);
+		PUShowMessageT(TranslateT("Error while setting avatar on Tlen account"), SM_WARNING);
 		return false;
 	}
 	return true;

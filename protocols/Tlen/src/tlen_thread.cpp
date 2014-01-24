@@ -72,7 +72,7 @@ static INT_PTR CALLBACK TlenPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		mir_snprintf(text, SIZEOF(text), "%s %s", Translate("Enter password for"), (char *) lParam);
+		mir_snprintf(text, SIZEOF(text), Translate("Enter password for %s"), (char *) lParam);
 		SetDlgItemTextA(hwndDlg, IDC_JID, text);
 		return TRUE;
 	case WM_COMMAND:
