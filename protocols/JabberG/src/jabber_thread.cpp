@@ -121,14 +121,6 @@ static VOID CALLBACK JabberPasswordCreateDialogApcProc(void* param)
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_PASSWORD), NULL, JabberPasswordDlgProc, (LPARAM)param);
 }
 
-static VOID CALLBACK JabberOfflineChatWindows(void* param)
-{
-	CJabberProto *ppro = (CJabberProto*)param;
-	GCDEST gcd = { ppro->m_szModuleName, NULL, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	CallService(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Jabber keep-alive thread
 
@@ -548,8 +540,6 @@ recvRest:
 				// Since this is a different thread, simulate the click on the cancel button instead
 				SendMessage(m_hwndJabberChangePassword, WM_COMMAND, MAKEWORD(IDCANCEL, 0), 0);
 			}
-
-			CallFunctionAsync(JabberOfflineChatWindows, this);
 
 			ListRemoveList(LIST_CHATROOM);
 			ListRemoveList(LIST_BOOKMARK);

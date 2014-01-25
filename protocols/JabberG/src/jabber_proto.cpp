@@ -1196,13 +1196,6 @@ int __cdecl CJabberProto::SetStatus(int iNewStatus)
 
  	if (iNewStatus == ID_STATUS_OFFLINE) {
 		if (m_ThreadInfo) {
-			if (m_bJabberOnline) {
-				// Quit all chatrooms (will send quit message)
-				LISTFOREACH(i, this, LIST_CHATROOM)
-					if (JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i))
-						GcQuit(item, 0, NULL);
-			}
-
 			m_ThreadInfo->send("</stream:stream>");
 			m_ThreadInfo->shutdown();
 			RebuildInfoFrame();
