@@ -74,7 +74,6 @@
 
 #define MODULENAME "SecureIM"
 
-extern LPCSTR szVersionStr;
 extern char TEMP[MAX_PATH];
 extern int  TEMP_SIZE;
 

@@ -487,7 +487,7 @@ void ThreadData::sendCaps(void)
 	mir_snprintf(capMsg, sizeof(capMsg),
 		"Content-Type: text/x-clientcaps\r\n\r\n"
 		"Client-Name: Miranda NG %s (MSN v.%s)\r\n",
-		mversion, __VERSION_STRING);
+		mversion, __VERSION_STRING_DOTS);
 
 	sendMessage('U', NULL, 1, capMsg, MSG_DISABLE_HDR);
 }

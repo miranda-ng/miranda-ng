@@ -67,7 +67,7 @@ void FacebookProto::ChangeStatus(void*)
 	{ // Login
 		SYSTEMTIME t;
 		GetLocalTime(&t);
-		debugLogA("[%d.%d.%d] Using Facebook Protocol RM %s", t.wDay, t.wMonth, t.wYear, __VERSION_STRING);
+		debugLogA("[%d.%d.%d] Using Facebook Protocol RM %s", t.wDay, t.wMonth, t.wYear, __VERSION_STRING_DOTS);
 		
 		debugLogA("***** Beginning SignOn process");
 

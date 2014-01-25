@@ -97,7 +97,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	LPTSTR pszTitle = NULL;
 	// Headerbar
 	LPTSTR pszPlug = mir_a2t(__PLUGIN_NAME);
-	LPTSTR pszVer  = mir_a2t(__VERSION_STRING);
+	LPTSTR pszVer  = mir_a2t(__VERSION_STRING_DOTS);
 	GetDlgItemText( m_hWnd, IDC_HEADERBAR, oldTitle, SIZEOF( oldTitle ));
 	mir_sntprintf( newTitle, SIZEOF(newTitle), oldTitle, pszPlug, pszVer );
 	mir_freeAndNil(pszPlug);

@@ -69,7 +69,7 @@ void ShowVersion()
 	char name[128];
 	char message[1024];
 	GetProgramName(name, sizeof(name));
-	mir_snprintf(message, sizeof(message), Translate("%s version %s"), name, __FILEVERSION_STRING);
+	mir_snprintf(message, sizeof(message), Translate("%s version %s"), name, __VERSION_STRING_DOTS);
 
 	lpprintf("%s\n", message);
 }

@@ -2,7 +2,6 @@
 
 HINSTANCE g_hInst, g_hIconInst;
 
-LPCSTR szVersionStr = MODULENAME" DLL ("__VERSION_STRING")";
 char TEMP[MAX_PATH];
 int  TEMP_SIZE = 0;
 

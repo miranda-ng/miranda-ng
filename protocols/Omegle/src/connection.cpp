@@ -26,7 +26,7 @@ void OmegleProto::SignOn(void*)
 {
 	SYSTEMTIME t;
 	GetLocalTime( &t );
-	debugLogA("[%d.%d.%d] Using Omegle Protocol %s", t.wDay, t.wMonth, t.wYear, __VERSION_STRING);
+	debugLogA("[%d.%d.%d] Using Omegle Protocol %s", t.wDay, t.wMonth, t.wYear, __VERSION_STRING_DOTS);
 	
 	ScopedLock s(signon_lock_);
 

@@ -178,7 +178,7 @@ CMString CIrcProto::DoIdentifiers( CMString text, const TCHAR* )
 	CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(mirver), LPARAM(mirver));
 	ReplaceString(text, _T("%mirver"), _A2T(mirver));
 
-	ReplaceString(text, _T("%version"), _T(__VERSION_STRING));
+	ReplaceString(text, _T("%version"), _T(__VERSION_STRING_DOTS));
 
 	str[0] = 3; str[1] = '\0';
 	ReplaceString(text, _T("%color"), str);

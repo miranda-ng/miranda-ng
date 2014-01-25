@@ -114,7 +114,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	#else
 		agent << " Facebook Protocol RM/";
 	#endif
-	agent << __VERSION_STRING;
+	agent << __VERSION_STRING_DOTS;
 	g_strUserAgent = agent.str();
 
 	return 0;
