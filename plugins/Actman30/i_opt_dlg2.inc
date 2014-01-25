@@ -996,7 +996,7 @@ begin
                 end;
                 i:=ACIO_EXPORT or ACIO_SELECTED;
                 if GetFSize(xmlfilename)>0 then
-                  if MessageBoxW(Dialog,TranslateW('Append data to file'),
+                  if MessageBoxW(Dialog,TranslateW('Append data to file?'),
                      PluginName,MB_YESNO+MB_ICONWARNING)=IDYES then
                     i:=i or ACIO_APPEND;
 //!!!!!!!!!!!!!!!
