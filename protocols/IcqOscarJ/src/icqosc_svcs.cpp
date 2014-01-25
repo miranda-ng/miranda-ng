@@ -361,8 +361,7 @@ INT_PTR CIcqProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		return 1 * 60 * 60 * 1000; // one hour
 
 	// avatars can be fetched all the time (server only operation)
-	if (wParam == AF_FETCHIFPROTONOTVISIBLE)
-	if (wParam == AF_FETCHIFCONTACTOFFLINE)
+	if (wParam == AF_FETCHIFPROTONOTVISIBLE || wParam == AF_FETCHIFCONTACTOFFLINE)
 		return 1;
 
 	return 0;
