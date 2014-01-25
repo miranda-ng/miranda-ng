@@ -10,7 +10,7 @@
 [Author(s):]
 Автор(и):
 [E-mail:]
-Ел. пошта
+Пошта:
 [Last modified using:]
 Перевірено на версії:
 [Date:]

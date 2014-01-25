@@ -132,7 +132,7 @@
 [Message:]
 Діалог:
 [Cancel]
-Скасування
+Скасувати
 [Notify]
 Повідомлення
 [Select e-mail]

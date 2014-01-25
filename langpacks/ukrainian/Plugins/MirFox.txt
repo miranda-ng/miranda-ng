@@ -6,6 +6,72 @@
 ;  Authors: Szymon Tokarz
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
-MirFox - частина интеграції Miranda NG до Firefox
+MirFox (Miranda NG) - частина интеграції Miranda NG до Firefox.
+[Send to contact action]
+Дія при надсиланні контактові
+[on left mouse button click]
+по клацанню лівою кнопкою миші
+[on right mouse button click]
+по клацанню правою кнопкою миші
+[on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
+по клацанню середньою кнопкою миші\n(Примітка: користуйтеся середньою кнопкою миші, щоб надсилати кілька повідомлень з Firefox)
+[Firefox profiles]
+Профілі Firefox
+[Show Miranda menu only in these Firefox profiles (comma delimited)]
+Показувати меню Miranda тільки для вказаних профілів (розділяти комою)
+[Show these contacts in 'Send ... to' option in Firefox]
+Показувати ці контакти в меню Firefox "Надіслати..."
+[Show these accounts in 'Set status message' option in Firefox]
+Показувати ці облікові записи в опції Firefox "Встановити статусне повідомлення"
+[MirFox/Notification]
+MirFox/Сповіщення
+[MirFox/Error]
+MirFox/Помилка
+[just send message]
+просто надіслати повідомлення
+[send message and open message window]
+надіслати і відкрити вікно повідомлень
+[show message window with pasted message]
+показати вікно з вставленим повідомленням
+[** All contacts **]
+** Усі контакти **
+[Protocol]
+Протокол
 [Services]
 Служби
+[Options]
+Налаштування
+[Contacts]
+Контакти
+[Accounts]
+Облікові записи
+[MirFox log]
+Лог MirFox
+[Message sent to %s (%s)]
+Повідомлення для %s (%s) надіслано
+[Message sent]
+Повідомлення надіслано
+[Cannot send message to %s (%s) - %S]
+Не вдалося надіслати повідомлення для %s (%s) - %S
+[Cannot send message - %S]
+Не вдалося надіслати повідомлення - %S
+[Cannot send message to %s (%s)]
+Не вдалося надіслати повідомлення для %s (%s)
+[Cannot send message]
+Не вдалося надіслати повідомлення
+[MirFox error]
+Помилка MirFox
+[Status message set on %s]
+Статусне повідомлення встановлено для %s
+[Status message set]
+Статусне повідомлення встановлено
+[Cannot set status message on %s]
+Не вдалося встановити статусне повідомлення для %s
+[Cannot set status message]
+Не вдалося встановити статусне повідомлення
+[This MirFox (Miranda) plugin is too old. Please update it.]
+Плагін MirFox (Miranda) застарів. Будь ласка, оновіть його.
+[MirFox (Miranda) - Error]
+MirFox (Miranda) - Помилка
+[This MirFox (Miranda) plugin cannot start because some other MirFox component is too old. Please, check and update your MirFox components.]
+Плагін MirFox (Miranda) не працює, оскільки інші компоненти MirFox застаріли. Будь ласка, перевірте та оновіть інші компоненти MirFox.

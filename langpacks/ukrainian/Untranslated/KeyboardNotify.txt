@@ -1,7 +1,6 @@
 ﻿[Num Lock]
 [Caps Lock]
 [Scroll Lock]
-[In sequence]
 [OK]
 [Num]
 [Caps]

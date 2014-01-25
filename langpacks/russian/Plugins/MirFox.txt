@@ -6,7 +6,7 @@
 ;  Authors: Szymon Tokarz
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
-MirFox (Миранда NG) - часть интеграции Миранда-Firefox - http://wsx22.3.xpdev-hosted.com
+MirFox (Miranda NG) - часть интеграции Miranda-Firefox - http://wsx22.3.xpdev-hosted.com
 [Send to contact action]
 Действие при отправке контакту
 [on left mouse button click]
@@ -18,7 +18,7 @@ MirFox (Миранда NG) - часть интеграции Миранда-Fire
 [Firefox profiles]
 Профили Firefox
 [Show Miranda menu only in these Firefox profiles (comma delimited)]
-Отображать меню Миранды только для указанных профилей (разделение запятой)
+Отображать меню Miranda только для указанных профилей (разделение запятой)
 [Show these contacts in 'Send ... to' option in Firefox]
 Эти контакты будут отображаться в меню Firefox "Отправить..."
 [Show these accounts in 'Set status message' option in Firefox]
@@ -72,8 +72,8 @@ MirFox
 [Cannot set status message]
 Не удалось установить сообщение статуса
 [This MirFox (Miranda) plugin is too old. Please update it.]
-Дополнение MirFox (Firefox) устарело. Пожалуйста, обновите его.
+Плагин MirFox (Miranda) устарел. Пожалуйста, обновите его.
 [MirFox (Miranda) - Error]
-MirFox (Миранда) - Ошибка
+MirFox (Miranda) - Ошибка
 [This MirFox (Miranda) plugin cannot start because some other MirFox component is too old. Please, check and update your MirFox components.]
-Плагин MirFox (Миранда) не работает - устарели другие компоненты MirFox. Пожалуйста, проверьте и обновите ваше дополнение MirFox.
+Плагин MirFox (Miranda) не работает - устарели другие компоненты MirFox. Пожалуйста, проверьте и обновите ваше дополнение MirFox.

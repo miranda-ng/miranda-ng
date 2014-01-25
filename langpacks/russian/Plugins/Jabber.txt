@@ -1548,9 +1548,9 @@ XML для MS Excel (кодировка UTF-8)
 [List has no rules, empty lists will be deleted then changes applied]
 В списке нет правил, пустые списки будут удалены, когда изменения вступят в силу
 [allow ]
-разрешить
+разрешить\s
 [deny ]
-запретить
+запретить\s
 [all.]
 всё.
 [messages]
@@ -1564,7 +1564,7 @@ XML для MS Excel (кодировка UTF-8)
 [queries]
 запросы
 [Else ]
-Иначе
+Иначе\s
 [If Jabber ID is ']
 Если JID '
 [ (nickname: ]
@@ -1574,7 +1574,7 @@ XML для MS Excel (кодировка UTF-8)
 [If subscription is ']
 Если подписка '
 [then ]
-то
+то\s
 [ (act., def.)]
  (активн., основн.)
 [ (active)]

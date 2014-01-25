@@ -10,7 +10,7 @@
 [Login to Miranda NG]
 Вхід в Miranda NG
 [Cancel]
-Скасування
+Скасувати
 [New password]
 Новий пароль
 [Change password]
@@ -77,8 +77,14 @@
 Автор:
 [Site:]
 Сайт:
+[Email:]
+Пошта:
 [Unique ID:]
 Унік. ID:
+[Your profile was decrypted to convert it into dbx_mmap format. When Miranda starts, you'll need to reenter a password]
+Ваш профіль розшифровано для конвертації в формат dbx_mmap. При наступному запуску програми вам доведеться заново ввести пароль из пункта в главном меню
+[Password warning]
+Попередження щодо паролю
 [Database is Secured MMAP database]
 БД: база даних з шифрованням
 [You are not authorized for access to Database]

@@ -14,7 +14,7 @@
 [&Del]
 &Видалити
 [Enable]
-Включено
+Увімкнено
 [only while connecting]
 Тільки на час з'єднання
 [Force visible (-i)]
@@ -210,7 +210,7 @@ Wildcard пошук по мережі
 [everyone]
 всі
 [Disconnect DCC chats when disconnecting from server]
-Відключати DCC-чати при вихід з сервера
+Відключати DCC-чати при виході з сервера
 [Manually set external IP:]
 Ручна настройка зовнішнього IP:
 [Client-to-Client File Transfers]
@@ -256,7 +256,7 @@ Wildcard пошук по мережі
 [Notices]
 Повідомлення
 [Ignore mask ( nick!user@host )]
-Маска ігнорування( nick!user@host )
+Маска ігнорування (nick!user@host)
 [Network (*)]
 Мережа (*)
 [Ignore events]
@@ -272,11 +272,11 @@ Wildcard пошук по мережі
 [CTCP chat request from %s]
 Запит СТСР-чату від %s
 [%s sets mode %s]
-%s ставить режим %s
+%s встановлює режим %s
 [%s sets mode %s%s]
-%s встановив режим %s%s
+%s встановлює режим %s%s
 [CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered]
-ПОМИЛКА CTCP: Неприпустима команда CTCP отримана від %s!%s@%s. Можлива спроба отримати контроль над вашим клієнтом IRC.
+Помилка CTCP: Неприпустима команда CTCP отримана від %s!%s@%s. Можлива спроба отримати контроль над вашим клієнтом IRC.
 [CTCP FINGER requested by %s]
 Запит CTCP FINGER від %s
 [CTCP VERSION requested by %s]
@@ -296,7 +296,7 @@ DCC: Запит передачі файлу від %s відхилено
 [DCC: Reverse file transfer request from %s denied [No local IP]]
 DCC: Запит на реверсну передачу файлу від %s відхилений. (Не знайдено локальний IP)
 [DCC ERROR: Malformed CTCP request from %s [%s]]
-Помилка DCC: Невірний СТСР-запит від %s [%s]
+Помилка DCC: Неправильний СТСР-запит від %s [%s]
 [DCC: File transfer resume request from %s denied]
 DCC: Запит на продовження закачування файлу від %s відхилено
 [CTCP %s requested by %s]
@@ -310,7 +310,7 @@ DCC: Запит на продовження закачування файлу в
 [Downloading list - %u channels]
 Завантажується список - %u чат-кімнат
 [Done: %u channels]
-Готове: %u чат-кімнат
+Готово: %u чат-кімнат
 [(probably truncated by server)]
 (можливо обмежена сервером)
 [Change nickname]
@@ -320,7 +320,7 @@ DCC: Запит на продовження закачування файлу в
 [Unknown]
 Невідомо
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
-Введіть маску (nick!user@host)\nУВАГА! Контакти у вашому списку не будуть ігноруватися
+Введіть маску (nick!user@host)\nУвага! Контакти у вашому списку не будуть ігноруватися
 [Ignore]
 Ігнорувати
 [Please enter the reason]
@@ -330,7 +330,7 @@ DCC: Запит на продовження закачування файлу в
 [*Disconnected*]
 *Відключений*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
-Використання /AWAY в буфері виконання обмежене,\n оскільки IRC автоматично посилає цю команду.
+Використання /AWAY в буфері виконання обмежене,\n оскільки IRC автоматично надсилає цю команду.
 [IRC Error]
 Помилка IRC
 [The buddy check function is enabled]
@@ -350,7 +350,7 @@ DCC: Запит на продовження закачування файлу в
 [%s was not ignored]
 %s не ігнорується
 [Outgoing commands are shown]
-Вихідні команди показано
+Вихідні команди показані
 [Outgoing commands are not shown]
 Вихідні команди не показані
 [The time interval for the buddy check function is now at default setting]
@@ -364,11 +364,11 @@ DCC: Запит на продовження закачування файлу в
 [Aborted]
 Скасовано
 [CTCP %s request sent to %s]
-СТСР %s запит посланий для %s
+СТСР %s запит надісланий для %s
 [DCC ERROR: Unable to automatically resolve external IP]
 Помилка DCC: Неможливо автоматично визначити зовнішній IP
 [DCC CHAT request sent to %s]
-Запит на DCC-чат відправлений для %s
+Запит на DCC-чат надісланий для %s
 [DCC ERROR: Unable to bind port]
 Помилка DCC: Неможливо визначити порт
 [Input command]
@@ -392,19 +392,19 @@ DCC: Запит на продовження закачування файлу в
 [DCC ERROR: No valid files specified]
 Помилка DCC: Немає доступних файлів
 [DCC reversed file transfer request sent to %s [%s]]
-DCC-запит на реверсивну передачу посланий %s [%s]
+DCC-запит на реверсивну передачу надісланий %s [%s]
 [DCC file transfer request sent to %s [%s]]
-DCC-запит на передачу файлу посланий %s [%s]
+DCC-запит на передачу файлу надісланий %s [%s]
 [DCC ERROR: Unable to bind local port]
 Помилка DCC: Неможливо отримати порт
 [The protocol is not online]
 Протокол не в мережі
 [The dcc chat connection is not active]
-З'єднання DCC-чату неактивно
+З'єднання DCC-чату неактивне
 [Please choose an IRC-network to go online. This network will be the default.]
 Виберіть мережу IRC. Ця мережа буде встановлена за замовчуванням.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Неможливо встановити підключення. Ви не ввели всі необхідні дані (нік, User ID та ім'я)
+Неможливо встановити підключення. Ви не ввели всі необхідні дані (нік, ID користувача та ім'я)
 [Main]
 Головний
 [Add]
@@ -416,7 +416,7 @@ DCC-запит на передачу файлу посланий %s [%s]
 [Edit]
 Змінити
 [Cancel]
-Скасування
+Скасувати
 [Channel list]
 Список каналів
 [Quick connect]
@@ -426,7 +426,7 @@ DCC-запит на передачу файлу посланий %s [%s]
 [Show channel]
 Показати чат-кімнату
 [WhoIs]
-Хто цє?
+Інформація
 [Incoming DCC Chat]
 Вхідний DCC-чат
 [Logo (48x48)]
@@ -484,9 +484,9 @@ DCC-запит на передачу файлу посланий %s [%s]
 [<Local IP: ]
 <Локальний IP:\s
 [Click to set commands that will be performed for this event]
-Клікніть, щоб встановити команди для обробки цієї події
+Клацніть, щоб встановити команди для обробки цієї події
 [Click to delete the commands for this event]
-Клікніть для видалення команд цієї події
+Клацніть для видалення команд цієї події
 [Default ANSI codepage]
 Сторінка ANSI за замовчуванням
 [Add new ignore]
@@ -516,7 +516,7 @@ WallOps від %s:
 [These are online: ]
 В мережі:
 [CTCP %s reply sent to %s]
-СТСР %s відповідь послана для %s
+СТСР %s відповідь надіслана для %s
 [CTCP %s reply sent to %s: %s]
 СТСР %s відповідь послана для %s: %s
 [Notice to %s: ]
@@ -542,7 +542,7 @@ WallOps від %s:
 [%s (%s) is requesting a client-to-client chat connection.]
 %s [%s] запитує з'єднання на СТСР-чат
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Введіть маску (nick!user@host) \nУВАГА! Користувачі зі списку контактів не будуть ігноруватися!
+Введіть маску (nick!user@host)\nУвага! Користувачі зі списку контактів не будуть ігноруватися!
 [Join channel]
 Зайти в чат-кімнату
 [Please enter a channel to join]
@@ -596,7 +596,7 @@ WallOps від %s:
 [Set main nick]
 Встановити головний нік
 [Kick]
-Викинути
+Вигнати
 [Please enter the notice text]
 Будь ласка, введіть текст повідомлення
 [Please enter the channel name to invite to]
@@ -640,7 +640,7 @@ Cховати E-mail
 [Kill unauthorized: quick]
 Вбити заборонених: швидко
 [Hide nick from list]
-Приховати нік у списку
+Cховати нік у списку
 [Show nick to list]
 Показати у списку
 [Show the server &window]
@@ -652,7 +652,7 @@ Cховати E-mail
 [Send &notice]
 &Надіслати повідомлення
 [&Slap]
-&Ляпанець
+&Ляпас
 [Nickserv info]
 Nickserv інфо
 [Nickserv kill ghost]
@@ -680,7 +680,7 @@ Nickserv вбити фантома
 [Take V&oice]
 Режим -v
 [&Kick]
-Викинути
+Вигнати
 [Ki&ck (reason)]
 &Вигнати (з причиною)
 [&Ban]

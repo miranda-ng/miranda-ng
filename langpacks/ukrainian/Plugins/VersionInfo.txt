@@ -10,7 +10,7 @@
 [Output to:]
 Вивести в:
 [Cancel]
-Скасування
+Скасувати
 [Text file]
 Текстовий файл
 [MessageBox]

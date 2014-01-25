@@ -5,6 +5,8 @@
 ;  Version: 0.1.0.5
 ;  Authors: MaKaR
 ;============================================================
+[Notify with popup if some connection established]
+Всплывающие сообщения при установке сетевых соединений.
 [Popup options]
 Всплывающие окна
 [Background]

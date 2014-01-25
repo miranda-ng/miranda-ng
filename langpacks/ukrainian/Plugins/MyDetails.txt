@@ -12,7 +12,7 @@
 [Nickname:]
 Нік:
 [Cancel]
-Скасування
+Скасувати
 [General]
 Загальні
 [...avatar]

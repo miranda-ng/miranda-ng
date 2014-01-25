@@ -12,7 +12,7 @@
 [Miranda NG Options]
 Установки Miranda NG
 [Cancel]
-Скасування
+Скасувати
 [Apply]
 Застосувати
 [Switch to classic options]

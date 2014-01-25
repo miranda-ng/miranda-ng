@@ -56,7 +56,7 @@
 [&Action:]
 Дія:
 [Cancel]
-Скасування
+Скасувати
 [Unsaved data in open applications except Miranda NG might get lost.]
 Всі незбережені дані в інших програмах можуть бути втрачені.
 [Please click "Cancel" if you would like to abort the process.]

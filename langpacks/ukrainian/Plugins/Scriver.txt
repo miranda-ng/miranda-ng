@@ -148,7 +148,7 @@
 [Try again]
 Ще раз
 [Cancel]
-Скасування
+Скасувати
 [Message Session]
 Бесіда
 [&User menu]

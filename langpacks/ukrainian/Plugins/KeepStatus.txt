@@ -136,7 +136,7 @@ Dial-up (експериментальна)
 [Close popup]
 Закрити вікно
 [Cancel reconnecting]
-Скасування підключення
+Скасувати підключення
 [Colors]
 Кольори
 [Preview]

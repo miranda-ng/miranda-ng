@@ -998,7 +998,7 @@ Web-дизайн
 [Bhojpuri]
 Бходжпурі
 [Bosnian]
-Боснийська
+Боснійська
 [Bulgarian]
 Болгарська
 [Burmese]
@@ -1142,9 +1142,9 @@ Web-дизайн
 [Past Organization]
 Минула організація
 [Female]
-Жінка
+Жіноча
 [Male]
-Чоловік
+Чоловіча
 [Associated degree]
 Середньоспеціальна
 [Bachelor's degree]
@@ -1286,7 +1286,7 @@ Web-служби
 [Divorced]
 Розлучений(а)
 [Separated]
-Розлучений(а)
+Проживаємо окремо
 [Widowed]
 Вдівець/Вдова
 [Open relationship]

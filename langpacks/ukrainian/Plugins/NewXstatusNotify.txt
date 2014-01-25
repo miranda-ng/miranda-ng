@@ -6,7 +6,7 @@
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)or status status message.]
-Повідомляє вас про зміни статусів, хСтатусов або статусних повідомлень контактів.
+Повідомляє вас про зміни статусів, хСтатусів або статусних повідомлень контактів.
 [Notify when a contact changes to one of these statuses]
 Повідомляти, коли статус контакту змінюється на:
 [Online]
@@ -78,7 +78,7 @@
 [Extra status notify]
 хСтатус
 [Extra status logging]
-Запис хСтатусов
+Запис хСтатусів
 [Disable all]
 Вимкнути всі
 [Enable all]
@@ -158,11 +158,11 @@
 [Disable only if I global change status]
 Відключати, тільки при зміні глобального статусу
 [Disable when my status is:]
-Відключати, коли мій статсус:
+Відключати, коли мій статус:
 [Extra status log]
-Запис хСтатусов
+Запис хСтатусів
 [Enable logging extra status to message window]
-Включити запис хСтатусов у вікно повідомлень
+Включити запис хСтатусів у вікно повідомлень
 [Keep events in history]
 Зберігати події в історію
 [Prevent identical logs]

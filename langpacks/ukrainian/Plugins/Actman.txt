@@ -92,15 +92,15 @@
 [Message title]
 Заголовок вікна
 [OK, Cancel]
-ОК, Скасування
+ОК, Скасувати
 [Abort, Retry, Ignore]
 Перервати, Повтор, Пропустити
 [Yes, No, Cancel]
-Так, Ні, Скасування
+Так, Ні, Скасувати
 [Yes, No]
 Так, Ні
 [Retry, Cancel]
-Повтор, Скасування
+Повтор, Скасувати
 [not defined]
 не визначена
 [Result as integer]

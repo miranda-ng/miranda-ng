@@ -265,7 +265,7 @@ kontakty
 Nieznany
 [Stay on Top]
 Zawsze na wierzchu
-; this lines is not present in the sources, but it present in compiled plugin
+; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Edytor tekstu
 [Wrap Text]

@@ -40,7 +40,7 @@ Skype протокол для Miranda NG.
 [Remember this session password]
 Запам'ятати пароль сесії
 [Cancel]
-Скасування
+Скасувати
 [Status text:]
 Текст статусу:
 [Online since:]

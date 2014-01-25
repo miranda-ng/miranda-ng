@@ -36,7 +36,7 @@
 [Cancel]
 Скасувати
 [Workstation is Locked]
-Робоча станція заблокована
+Комп'ютер заблоковано
 [Screen Saver is running]
 Запущена заставка
 [Windows is inactive]

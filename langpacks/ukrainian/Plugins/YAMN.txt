@@ -70,7 +70,7 @@ SSL
 [Tray icon notification if failed]
 Повідомлення в треї про помилку
 [Reset counter]
-Скасування лічильника
+Скинути лічильник
 [Default]
 За замовчанням
 [Status:]

@@ -1284,9 +1284,9 @@ Web-службы
 [Married]
 В браке
 [Divorced]
-В разводе
-[Separated]
 Разведён(а)
+[Separated]
+Проживаем раздельно
 [Widowed]
 Вдовец/Вдова
 [Open relationship]

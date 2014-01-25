@@ -5,6 +5,8 @@
 ;  Version: 0.1.21.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
+[Notify about new mail in Lotus Database]
+Уведомляет о появлении новых писем в базе Lotus Notes.
 [Show error messages]
 Показывать ошибки
 [Popup options]

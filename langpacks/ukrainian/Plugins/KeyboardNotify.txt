@@ -6,9 +6,9 @@
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
-Додає мигання світлодіодів клавіатури при отриманні повідомлень.
+Додає блимання світлодіодів клавіатури при отриманні повідомлень.
 [Accounts to check]
-Обліковий запис для перевірки
+Перевіряти облікові записи
 [Events to react on]
 Події
 [Incoming messages]
@@ -18,21 +18,21 @@
 [Incoming URLs]
 Вхідні URL
 [Everything else]
-Всі інші
+Інші події
 [Message-Event only]
 Тільки для повідомлень
 [Blink if message window is open]
-Мигати, якщо діал. вікно відкрито
+Блимати, якщо вікно відкрите
 [and not in foreground]
-і не поміщено на передній план
+і не поміщене на передній план
 [Only if last is]
-Якщо посл.
+Якщо остан.
 [sec. old]
 с. тому
 [Flash until]
 Блимати:
 [seconds]
-секунд(и)
+секунд
 [is re-attended]
 звернення
 [Events are opened]
@@ -44,13 +44,15 @@
 [Full Screen mode]
 Повноекранний режим
 [Screen Saver is running]
-З'являється заставка
+Запущена заставка
+[Workstation is Locked]
+Комп'ютер заблоковано
 [Defined programs are running]
 Запущена вказ. програма
 [All other situations]
-Всі інші ситуації
+В іншому випадку
 [Only notify if status is]
-Показувати, якщо статус
+Сповіщати, якщо статус
 [Online]
 В мережі
 [Away]
@@ -66,15 +68,15 @@
 [Invisible]
 Невидимий
 [On the phone]
-На телефон
+Телефоную
 [Out to lunch]
 Обідаю
 [Pending Events]
 Очікувані події
 [Remind me every]
-Напом. кожні
+Нагадув. кожні
 [minutes]
-хвилин(и)
+хвилин
 [Offline]
 Не в мережі
 [xStatuses]
@@ -84,17 +86,17 @@
 [Flashing effects]
 Блимати
 [All at the same time]
-Всі одночасно
+Одночасно
 [In turn]
-По черзі
-[Sequence In]
-По порядку
+Через один
+[In sequence]
+Послідовно
 [Custom theme]
 Своя тема
 [Accordingly to events' count]
 За кількістю подій
 [Wait before starting flashing]
-Пауза перед початком мигання
+Пауза перед початком блимання
 [Flash speed]
 Швидкість спалахів
 [Fast]
@@ -132,11 +134,11 @@
 [Cancel]
 Скасувати
 [Set LEDs for events]
-Встановити для новини
+Встановити для подій
 [Message events]
 Повідомлення
 [File events]
-Файл
+Файли
 [URL events]
 Посилання (URL)
 [Other events]
@@ -144,27 +146,27 @@
 [Consider event opened after]
 Діяти через
 [Use custom theme]
-Вик. свою тему
+Своя тема
 [The following events are being ignored:]
-Наступні події будуть проігноровані:
+Ці події ігноруватимуться:
 [Ignore messages]
 Повідомлення
 [Ignore URLs]
-Ігнорувати (URL)
+Посилання (URL)
 [Ignore files]
-Передачі файлів
+Файли
 [Ignore others]
-Туристичні новини
+Інші події
 [Ignore all]
-Ігнорувати все
+Усі події
 [Ignore none]
-Ніякі події
+Жодна з подій
 [Ignore]
 Ігнорувати
 [Set xStatus list]
-Список хСтатусов
+Список хСтатусів
 [** All contacts **]
-** Контакти **
+** Усі контакти **
 [** Unknown contacts **]
 ** Невідомі контакти **
 [left->right]
@@ -174,7 +176,7 @@
 [left<->right]
 ліво<->право
 [Keyboard Flash]
-Блимати клавіатури
+Блимання клавіатури
 [Events]
 Події
 [Accounts]
@@ -188,12 +190,12 @@
 [Protocol]
 Протокол
 [Keyboard Notify Theme]
-Тема
+Тема сповіщення
 [All Files]
 Всі файли
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-\n; Автоматично сберігати тему Keyboard Notify у файл\n\n\n
+\n; Файл теми для Keyboard Notify\n\n\n
 [\n; End of automatically generated Keyboard Notify Theme file\n]
-\n; Закінчити автоматично сберігати тему Keyboard Notify у файл\n
+\n; Кінець файлу теми для Keyboard Notify\n
 [None]
 Немає

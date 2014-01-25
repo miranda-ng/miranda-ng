@@ -6,11 +6,11 @@
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Handles listening information to/for contacts.]
-Відправляє інформацію про прослуховується музики Вашим контактам.
+Повідомляє вашим контактам яку музику ви слухаєте.
 [Listening to information]
 Слухаю
 [Enable sending listening information to contacts:]
-Включити відправку інформації контактів
+Ввімкнути відправку інформації контактам
 [Music]
 Музика
 [Radio]
@@ -20,11 +20,11 @@
 [Others]
 Інше
 [You also have to enable it per protocol in the main menu]
-Попротокольная налаштування знаходиться в головному меню
+Налаштування для кожного протоколу знаходиться в головному меню
 [XStatus]
 хСтатус
-[Protocols For that don't support listening to but support XStatus:]
-При відсутності прямої підтримки протоколом, але підтримки хСтатусов:
+[For protocols that don't support listening to but support XStatus:]
+Для протоколів без підтримки ListeningTo але з хСтатусами:
 [Set XStatus to Music and show listening info]
 Встановити хСтатус "Музика" і показувати інформацію про музику
 [If other XStatus is not set, set XStatus to Music and show listening info]
@@ -50,9 +50,9 @@ foobar2000 (встановіть плагін вручну)
 [Ask for new info every]
 Оновлення раз на
 [seconds]
-секунд(и)
+секунд
 [Allow auto-loading plugins into players (affect players with *)]
-Автозагружать плагіни в плеєри (тільки для позначено *)
+Автозавантаження плагінів у плеєри (тільки для позначених *)
 [Listening to]
 Слухаю
 [Template:]
@@ -62,7 +62,7 @@ foobar2000 (встановіть плагін вручну)
 [%artist% - Artist name]
 %artist% - ім'я артиста
 [%album% - Album name]
-%album% - ім'я альбому
+%album% - назва альбому
 [%title% - Song title]
 %title% назва пісні
 [%track% - Track number]
@@ -75,24 +75,24 @@ foobar2000 (встановіть плагін вручну)
 %length% - довжина пісні
 [%player% - Player name]
 %player% - назва плеєра
-[%type% - Media type (Music Radio, Video, etc)]
-%type% - тип відтвореного (музика, відео, радіо тощо)
+[%type% - Media type (Music, Radio, Video, etc.)]
+%type% - тип (музика, відео, радіо тощо)
 [When variable not found, use:]
-Якщо змінна невідома, відсилати:
+Якщо змінна невідома, надсилати:
 [Title:]
 Заголовок:
 [Message:]
 Діалог:
 [Other Variables:]
 Інші змінні:
-[%listening% - Listening to info (set as above)]
-%listening% - преднастроенная вище інформація
+[%listening% - Listening to info (as set above)]
+%listening% - вказана вище інформація
 [When nothing is playing, replace %listening% with:]
 Коли нічого не грає, писати:
 [Send to %s]
 Відправляти в %s
 [Listening to (enabled)]
-Музика (включено)
+Музика (ввімкнено)
 [Listening to (disabled)]
 Музика (вимкнено)
 [ListeningTo]
@@ -100,41 +100,47 @@ foobar2000 (встановіть плагін вручну)
 [Listening to music]
 Слухаю музику
 [Send to all protocols]
-Відправляти всіх протоколів
+Відправляти всім протоколам
 [Listening info]
 Музика в статусі
-[Media type: Music, Video, etc]
-Тип: Музика, Відео, інше
+[Listening info as set in the options]
+Інформація про музику, вказана в налаштуваннях
+[Media type: Music, Video, etc.]
+Тип: музика, відео тощо
 [Artist name]
 Артист
 [Album name]
 Альбом
 [Song name]
-Композиція
+Пісня
 [Track number]
 Номер
 [Song year]
 Рік
+[Song genre]
+Жанр
+[Song length]
+Тривалість
 [Player name]
 Назва плеєру
 [Don't send to any protocols]
-Не відправляти всіх протоколів
+Не відправляти всім протоколам
 [Toggle send to all protocols]
-Вкл./викл. відправляти всіх протоколів
+Ввімк./Вимк. відправляти всім протоколам
 [Enable/Disable sending Listening To info (to all protocols)]
-Вкл/Викл відправку інформації про музику (всі протоколи)
+Ввімк./Вимк. відправку інформації про музику (всі протоколи)
 [Disable ListeningTo (to all protocols)]
 Вимкнути "Слухаю" (для всіх протоколів)
 [Enable ListeningTo (to all protocols)]
 Ввімкнути "Слухаю" (для всіх протоколів)
 [<Unknown>]
 <Невідомо>
-[<Nothing is now playing>]
-<Нічого не програється>
+[<Nothing is playing now>]
+<Нічого не грає>
 [Status]
 Статус
 [General]
-Загальна
+Загальне
 [Format]
 Формат
 [Players]

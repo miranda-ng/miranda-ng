@@ -5,6 +5,8 @@
 ;  Version: 0.1.3.0
 ;  Authors: Vincent Joyce
 ;============================================================
+[Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
+Позволяет добавить веб-страницы в качестве контактов в список контактов, показывает текст и/или изменения этих страниц.
 [minutes]
 минут(ы)
 [seconds]

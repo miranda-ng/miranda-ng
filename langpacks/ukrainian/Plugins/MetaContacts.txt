@@ -40,15 +40,15 @@
 [Set default contact on receipt of message]
 Робити основним контактом по прибутті повідомлення
 [Always send to default contact if not offline]
-Завжди слати субконтакту за замовчанням, якщо не оффлайн
+Завжди надсилати субконтакту за замовчанням, якщо не оффлайн
 [Options]
 Налаштування
 [Suppress status notification for subcontacts]
-Заборонити повідомлення про зміну статусу субконтактів
+Заборонити сповіщення про зміну статусу субконтактів
 [Context Menu]
 Контекстне меню
 [Use contact's unique ID]
-UIN, E-mail і т.д.
+UIN, E-mail тощо
 [Use contact's display name]
 Використовувати ім'я
 [Contact Labels]
@@ -56,11 +56,11 @@ UIN, E-mail і т.д.
 [Function]
 Функція
 [Set default and open message window]
-Відкрити вікно повідомлення
+Відкрити вікно повідомлень
 [Show subcontact context menu]
 Показувати контекстне меню
 [Show user information]
-Показувати інфо користувача
+Показувати дані користувача
 [Contact List]
 Список контактів
 [Display subcontact nickname]
@@ -78,11 +78,11 @@ UIN, E-mail і т.д.
 [History Copy]
 Копіювання історії
 [Please wait while the contact's history is copied.]
-Будь ласка, почекайте, поки історія скопіюється
+Будь ласка, зачекайте, поки історія скопіюється
 [History Remove]
 Видалення історії
 [Please wait while the contact's history is removed.]
-Будь ласка, почекайте, поки історія віддалиться
+Будь ласка, зачекайте, поки історія видалиться
 [Subcontact Priorities]
 Пріоритети субконтактів
 [Rank:]
@@ -92,13 +92,13 @@ UIN, E-mail і т.д.
 [Protocol:]
 Протокол:
 [Reset All]
-Скидання
+Скинути
 [Default]
 За замовчанням
 [(Lower ranks are preferred)]
 (Переважні більш низькі ранги)
 [Copy subcontact history to MetaContact when creating or adding]
-Копіювати історію Суб у МетаКонтакт при створенні і додавання
+Копіювати історію суб- у метаконтакт при створенні і додаванні
 [Number of days to copy (0=all):]
 Кількість днів (0=всі)
 [Keep MetaContact history synchronized with subcontacts]
@@ -107,14 +107,14 @@ UIN, E-mail і т.д.
 Історія субконтакта, синхронізована з метаконтактом
 [History (** beware - change at your own risk **)]
 Історія (**ОБЕРЕЖНО - ЗМІНЮВАТИ НА СВІЙ РИЗИК")
-[Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none host that can this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
-Немає ще жодного метаконтакту в базі (в цьому випадку потрібно спочатку конвертувати один простий контакт в метаконтакт).\nКак варіант перетворіть цей контакт в новий метаконтакт.\n\nПреобразовать цей контакт в метаконтакт?
+[Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
+У базі ще немає жодного метаконтакту (потрібно спочатку зробити простий контакт метаконтактом).\nЦей контакт також можна конвертувати у новий метаконтакт.\n\nКонвертувати цей контакт у новий метаконтакт?
 [This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
-Цей контакт - Метаконтакт.\nВи не можете додати Метаконтакт, у ще один Метаконтакт.\n\nБудь ласка, вибрати інший.
+Це метаконтакт.\nНе можна додати метаконтакт у ще один метаконтакт.\n\nБудь ласка, виберіть інший.
 [MetaContact Conflict]
 Конфлікт метаконтактів
 [This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
-Цей контакт пов'язаний з Метаконтактои.\nВи не можу додати контакт в декілька Метаконтактів.
+Цей контакт пов'язаний з метаконтактои.\nНе можна додати контакт в декілька метаконтактів.
 [Multiple MetaContacts]
 Безліч метаконтактів
 [No suitable MetaContact found]
@@ -148,7 +148,7 @@ UIN, E-mail і т.д.
 [Toggle Off]
 Вимкнути
 [Toggle On]
-Включити
+Ввімкнути
 [Convert to MetaContact]
 Зробити метаконтактом
 [Add to Existing]
@@ -194,25 +194,27 @@ UIN, E-mail і т.д.
 [Context]
 Контекст
 [Toggle MetaContacts On]
-Включити метаконтакти
+Ввімкнути метаконтакти
 [General]
-Загальна
+Загальне
 [Priorities]
 Пріоритети
 [History]
 Історія
+[Sender]
+Відправник
 [Could not get MetaContact ID]
 Не можу отримати ID метаконтакту
 [Assignment error]
 Помилка призначення
 [Could not retreive MetaContact contact count]
-Не можу запросити кількість субконтактів метаконтакту
+Не можу запросити кількість субконтактів у метаконтакті
 [Could not retreive contact protocol]
 Не можу запросити протокол контакту
 [Could not get unique ID of contact]
 Не можу отримати унікальний ID контакту
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]
-Контакт не в списку. Будь ласка, додайте контакт у списку перед призначенням.
+Контакт поза списком. Будь ласка, додайте контакт до списку перед призначенням.
 [MetaContact is full]
 Метаконтакт повний
 [Could not write contact protocol to MetaContact]
@@ -231,11 +233,9 @@ UIN, E-mail і т.д.
 Кількість контактів в метаконтакті < 0 - метаконтакт буде видалено
 [MetaContact default contact number out of range - deleting MetaContact]
 Номер контакту за замовчуванням за межами метаконтакту - метаконтакт буде видалено
-[Meta ID: ]
-Meta ID:\s
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 Метаконтакт пошкоджений - неправильна кількість субконтактів.\nВидаляю метаконтакт.
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
-Група 'MetaContacts Hidden Group' додано в ваш список\nЦе через список контактів на сервері. Для виправлення,\nщоб метаконтакти продовжили нормальну роботу, ви повинні:\n - вимкнути метаконтакти використовуючи пункт у головному меню\n - перемістити всі контакти з цієї групи\n - синхронізувати свої контакти з сервером\n - знову включити метаконтакти
+До вашого списку додано групу MetaContacts Hidden Group.\nЦе через список контактів на сервері. Для правильної роботи\nметаконтактів у майбутньому необхідно виконати такі дії:\n - вимкнути метаконтакти, використовуючи пункт у головному меню\n - перемістити всі контакти з цієї групи\n - синхронізувати свої контакти з сервером\n - знову ввімкнути метаконтакти
 [MetaContacts Warning]
 Попередження метаконтактів

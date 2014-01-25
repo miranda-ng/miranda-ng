@@ -126,7 +126,7 @@ Skype аватари контактів
 [Do a SkypeOut-call]
 Зателефонувати через SkypeOut
 [FEMALE]
-Жінка
+Жіноча
 [Hang up call (Skype)]
 Відбити дзвінок (Skype)
 [Hang up SkypeOut call]
@@ -140,7 +140,7 @@ Skype аватари контактів
 [Join conference with %s]
 Підключитися до розмови з %s
 [MALE]
-Чоловік
+Чоловіча
 [Name:]
 Ім'я:
 [No Topic]
