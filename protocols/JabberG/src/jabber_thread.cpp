@@ -541,6 +541,11 @@ recvRest:
 				SendMessage(m_hwndJabberChangePassword, WM_COMMAND, MAKEWORD(IDCANCEL, 0), 0);
 			}
 
+			// Quit all chatrooms (will send quit message)
+			LISTFOREACH(i, this, LIST_CHATROOM)
+				if (JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i))
+					GcQuit(item, 0, NULL);
+
 			ListRemoveList(LIST_CHATROOM);
 			ListRemoveList(LIST_BOOKMARK);
 			//UI_SAFE_NOTIFY(m_pDlgJabberJoinGroupchat, WM_JABBER_CHECK_ONLINE);

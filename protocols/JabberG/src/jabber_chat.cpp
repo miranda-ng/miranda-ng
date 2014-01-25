@@ -333,15 +333,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 {
 	TCHAR *szMessage = NULL;
 
-	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.ptszUID = item->jid;
-	gce.ptszText = xmlGetText(reason);
-
 	if (code != 307 && code != 301) {
-		CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
-		CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, (LPARAM)&gce);
-
 		ptrT tszMessage(getTStringA("GcMsgQuit"));
 		if (tszMessage != NULL)
 			szMessage = NEWTSTR_ALLOCA(tszMessage);
@@ -351,8 +343,13 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 	else {
 		ptrT myNick(JabberNickFromJID(m_szJabberJID));
 		GcLogUpdateMemberStatus(item, myNick, myNick, NULL, GC_EVENT_KICK, reason);
-		CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 	}
+
+	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.ptszUID = item->jid;
+	gce.ptszText = xmlGetText(reason);
+	CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 
 	db_unset(HContactFromJID(item->jid), "CList", "Hidden");
 	item->bChatActive = FALSE;
