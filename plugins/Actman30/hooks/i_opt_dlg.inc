@@ -152,7 +152,6 @@ begin
   li.pszText   :=FastAnsitoWideBuf(p,buf);
   //GetDlgText(Dialog,IDC_EVENTLIST);
   SendMessageW(wnd,LVM_SETITEMW,0,LPARAM(@li));
-  mFreeMem(li.pszText);
 end;
 
 function NewHook(Dialog:HWND;item:integer=-1):integer;
