@@ -1648,7 +1648,7 @@ Neviditelný
 [Out to lunch]
 Jsem na obědě
 [On the phone]
-Mám telefon
+Na telefonu
 [List background]
 Pozadí seznamu
 ;file \src\core\stdclist\src\clistopts.cpp
