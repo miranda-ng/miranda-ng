@@ -17,12 +17,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#define __MAJOR_VERSION				0
-#define __MINOR_VERSION				1
-#define __RELEASE_NUM				0
-#define __BUILD_NUM					0
+#define __MAJOR_VERSION            0
+#define __MINOR_VERSION            1
+#define __RELEASE_NUM            0
+#define __BUILD_NUM               0
 
-#define __FILEVERSION_STRING      __MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+#include <stdver.h>
 
 #define __PLUGIN_NAME             "Fingerprint NG"
 #define __FILENAME                "Fingerprint.dll"

@@ -1,7 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "..\src\resource.h"
-#include "..\src\version.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -134,57 +133,6 @@ END
 
 #endif    // Neutral (Default) resources
 /////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// German (Germany) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
-LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,5,0,0
- PRODUCTVERSION 0,5,0,0
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004b0"
-        BEGIN
-            VALUE "FileDescription", __DESCRIPTION
-            VALUE "ProductName", __PLUGIN_NAME
-            VALUE "FileVersion", __VERSION_STRING
-            VALUE "ProductVersion", __VERSION_STRING
-            VALUE "InternalName", __PLUGIN_NAME
-            VALUE "OriginalFilename", __FILENAME
-            VALUE "Author", __AUTHOR
-            VALUE "LegalCopyright", __COPYRIGHT
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1200
-    END
-END
-
-#endif    // German (Germany) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

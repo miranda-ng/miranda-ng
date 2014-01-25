@@ -19,17 +19,17 @@ along with this program (AssocMgr-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define __MAJOR_VERSION				0
-#define __MINOR_VERSION				1
-#define __RELEASE_NUM				1
-#define __BUILD_NUM					0
+#define __MAJOR_VERSION            0
+#define __MINOR_VERSION            1
+#define __RELEASE_NUM            1
+#define __BUILD_NUM               0
 
-#define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+#include <stdver.h>
 
-#define __PLUGIN_NAME				"File association manager"
-#define __FILENAME					"AssocMgr.dll"
-#define __DESCRIPTION 				"Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen."
-#define __AUTHOR					"H. Herkenrath"
-#define __AUTHOREMAIL				"hrathh@users.sourceforge.net"
-#define __AUTHORWEB					"http://miranda-ng.org/p/AssocMgr/"
-#define __COPYRIGHT					"© 2005-2007 H. Herkenrath"
+#define __PLUGIN_NAME            "File association manager"
+#define __FILENAME               "AssocMgr.dll"
+#define __DESCRIPTION             "Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen."
+#define __AUTHOR               "H. Herkenrath"
+#define __AUTHOREMAIL            "hrathh@users.sourceforge.net"
+#define __AUTHORWEB               "http://miranda-ng.org/p/AssocMgr/"
+#define __COPYRIGHT               "© 2005-2007 H. Herkenrath"

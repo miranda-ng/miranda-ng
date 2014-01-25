@@ -19,17 +19,17 @@ along with this program (AssocMgr-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define __MAJOR_VERSION				0
-#define __MINOR_VERSION				2
-#define __RELEASE_NUM				1
-#define __BUILD_NUM					0
+#define __MAJOR_VERSION            0
+#define __MINOR_VERSION            2
+#define __RELEASE_NUM            1
+#define __BUILD_NUM               0
 
-#define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+#include <stdver.h>
 
-#define __PLUGIN_NAME				"WannaBe OSD"
-#define __FILENAME					"wbOSD.dll"
-#define __DESCRIPTION 				"Shows new message/status change info using on-screen display."
-#define __AUTHOR					"Andrej Krutak"
-#define __AUTHOREMAIL				"andree182@gmail.com"
-#define __AUTHORWEB					"http://miranda-ng.org/p/wbOSD/"
-#define __COPYRIGHT					"©2005 Andrej Krutak"
+#define __PLUGIN_NAME            "WannaBe OSD"
+#define __FILENAME               "wbOSD.dll"
+#define __DESCRIPTION             "Shows new message/status change info using on-screen display."
+#define __AUTHOR               "Andrej Krutak"
+#define __AUTHOREMAIL            "andree182@gmail.com"
+#define __AUTHORWEB               "http://miranda-ng.org/p/wbOSD/"
+#define __COPYRIGHT               "©2005 Andrej Krutak"

@@ -26,20 +26,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __RELEASE_NUM     0
 #define __BUILD_NUM       5
 
-#define VERSION PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM)
-
-#define __PLUGINVERSION_STRING      __MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
-#define __PLUGINVERSION_STRING_DOTS	__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
-#define __STRINGIFY_(x) #x
-#define __STRINGIFY(x) __STRINGIFY_(x)
-#define __VERSION_STRING            __STRINGIFY(__PLUGINVERSION_STRING_DOTS)
+#include <stdver.h>
 
 #define __DESCRIPTION           "Notify with popup if some connection established"
 #define __AUTHOR                "MaKaR"
 #define __AUTHOREMAIL           "makar@poczta.of.pl"
 #define __COPYRIGHT             "© 2011-2013 MaKaRSoFT"
 #define __AUTHORWEB             "http://miranda-ng.org/p/ConnectionNotify/"
-
 #define __PLUGIN_DISPLAY_NAME   "ConnectionNotify"
 
 #endif //M_EXCHANGE_VERSION_H

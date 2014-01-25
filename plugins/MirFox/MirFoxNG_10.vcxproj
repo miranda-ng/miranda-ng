@@ -197,6 +197,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\src\lib\</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\src\lib\</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h" />

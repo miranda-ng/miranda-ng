@@ -21,19 +21,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CMDLINE_VERSION_H
 #define M_CMDLINE_VERSION_H
 
-#define __MAJOR_VERSION				0
-#define __MINOR_VERSION				0
-#define __RELEASE_NUM				1
-#define __BUILD_NUM					1
+#define __MAJOR_VERSION            0
+#define __MINOR_VERSION            0
+#define __RELEASE_NUM            1
+#define __BUILD_NUM               1
 
-#define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+#include <stdver.h>
 
-#define __PLUGIN_NAME				"Yahoo groups"
-#define __FILENAME					"YahooGroups.dll"
-#define __DESCRIPTION 				"This plugin imports and creates the Yahoo groups defined in Yahoo Messenger."
-#define __AUTHOR					"Cristian Libotean"
-#define __AUTHOREMAIL				"eblis102@yahoo.com"
-#define __AUTHORWEB					"http://miranda-ng.org/p/YahooGroups/"
-#define __COPYRIGHT					"© 2007 Cristian Libotean"
+#define __PLUGIN_NAME            "Yahoo groups"
+#define __FILENAME               "YahooGroups.dll"
+#define __DESCRIPTION             "This plugin imports and creates the Yahoo groups defined in Yahoo Messenger."
+#define __AUTHOR               "Cristian Libotean"
+#define __AUTHOREMAIL            "eblis102@yahoo.com"
+#define __AUTHORWEB               "http://miranda-ng.org/p/YahooGroups/"
+#define __COPYRIGHT               "© 2007 Cristian Libotean"
 
 #endif //M_CMDLINE_VERSION_H

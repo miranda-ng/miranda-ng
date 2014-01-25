@@ -33,7 +33,7 @@ CExchangeServer &exchangeServer = CExchangeServer();
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_DISPLAY_NAME,
-	VERSION,
+	__VERSION_DWORD,
 	__DESC,
 	__AUTHOR,
 	__AUTHOREMAIL,

@@ -1,14 +1,14 @@
-#define __MAJOR_VERSION				0
-#define __MINOR_VERSION				2
-#define __RELEASE_NUM				3
-#define __BUILD_NUM					17
+#define __MAJOR_VERSION            0
+#define __MINOR_VERSION            2
+#define __RELEASE_NUM            3
+#define __BUILD_NUM               17
 
-#define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+#include <stdver.h>
 
-#define __PLUGIN_NAME				"SmileyAdd"
-#define __FILENAME					"SmileyAdd.dll"
-#define __DESCRIPTION 				"Smiley support for Miranda NG."
-#define __AUTHOR					"Peacow, nightwish, bid, borkra"
-#define __AUTHOREMAIL				"borkra@miranda-im.org"
-#define __AUTHORWEB					"http://miranda-ng.org/p/SmileyAdd/"
-#define __COPYRIGHT					"© 2004 - 2012 Boris Krasnovskiy, portions by Rein-Peter de Boer"
+#define __PLUGIN_NAME            "SmileyAdd"
+#define __FILENAME               "SmileyAdd.dll"
+#define __DESCRIPTION             "Smiley support for Miranda NG."
+#define __AUTHOR               "Peacow, nightwish, bid, borkra"
+#define __AUTHOREMAIL            "borkra@miranda-im.org"
+#define __AUTHORWEB               "http://miranda-ng.org/p/SmileyAdd/"
+#define __COPYRIGHT               "© 2004 - 2012 Boris Krasnovskiy, portions by Rein-Peter de Boer"

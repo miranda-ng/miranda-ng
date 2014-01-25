@@ -26,13 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __RELEASE_NUM     3
 #define __BUILD_NUM       4
 
-#define VERSION PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM)
-
-#define __PLUGINVERSION_STRING      __MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
-#define __PLUGINVERSION_STRING_DOTS	__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
-#define __STRINGIFY_(x) #x
-#define __STRINGIFY(x) __STRINGIFY_(x)
-#define __VERSION_STRING            __STRINGIFY(__PLUGINVERSION_STRING_DOTS)
+#include <stdver.h>
 
 #define __DESC                  "Notifies you if you have unread email on an exchange server."
 #define __AUTHOR                "Cristian Libotean, Attila Vajda, MaKaR (NG)"

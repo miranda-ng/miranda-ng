@@ -528,21 +528,17 @@ void DisablePlugins()
 BOOL GetSettingBool(const char *section, const char *key, BOOL defaultValue)
 {
 	char tmp[16];
-
-	if ( GetPrivateProfileString(section, key, defaultValue ? "true" : "false", tmp, sizeof(tmp), gIniFile) == 0 ) {
+	if (GetPrivateProfileString(section, key, defaultValue ? "true" : "false", tmp, sizeof(tmp), gIniFile) == 0)
 		return defaultValue;
-	}
-	else {
-		return stricmp(tmp, "true") == 0;
-	}
+
+	return stricmp(tmp, "true") == 0;
 }
 
 
 BOOL GetSettings(const char *section, char *buffer, size_t bufferSize)
 {
 	buffer[0] = '\0\0';
-
-	return GetPrivateProfileSection(section, buffer, bufferSize, gIniFile) != 0;
+	return (BOOL)GetPrivateProfileSection(section, buffer, bufferSize, gIniFile) != 0;
 }
 
 
