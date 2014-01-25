@@ -218,7 +218,7 @@ Muszę odebrać telefon.
 Mmm... jedzenie.
 ;file \protocols\Xfire\src\baseProtocol.h
 [XFire Protocol]
-Protokół XFire
+Protokół xFire
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 Plik xfire_games.ini został zaktualizowany.

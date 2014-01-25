@@ -215,11 +215,11 @@ Nie można utworzyć folderu cache awatarów. BŁĄD: %d: %s\n%s
 [Can not save new avatar file "%s" Error:\n\t%s (Error: %d)]
 Nie można zapisać pliku nowego awataru "%s". Błąd:\n\t%s (Błąd: %d)
 [Error while setting avatar on Tlen account (no response)]
-Błąd podczas ustawiania  popupu na koncie Tlen (brak odpowiedzi)
+Błąd podczas ustawiania awatara na koncie Tlen (brak odpowiedzi)
 [Error while setting avatar on Tlen account (invalid response)]
-Błąd podczas ustawiania  popupu na koncie Tlen (nieprawidłowa odpowiedź)
+Błąd podczas ustawiania awatara na koncie Tlen (nieprawidłowa odpowiedź)
 [Error while setting avatar on Tlen account]
-Błąd podczas ustawiania  popupu na koncie Tlen
+Błąd podczas ustawiania awatara na koncie Tlen
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 1 Plik
@@ -313,8 +313,8 @@ Logowanie Tlen
 [You need to be connected to Tlen account to set avatar.]
 Musisz być połączony z kontem Tlen aby móc ustawić awatar.
 ;file \protocols\Tlen\src\tlen_thread.cpp
-[Enter password for %s@%s.]
-Wprowadź hasło dla %s@%s.
+[Enter password for %s]
+Wprowadź hasło dla %s
 [Tlen Connection Error]
 Błąd połączenia Tlen
 [Windows Server 2003]

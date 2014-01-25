@@ -102,7 +102,7 @@ DWord
 [Signed]
 Podpisane
 [As hex]
-jako hex
+Jako hex
 [String]
 STRING
 [IP]
@@ -238,9 +238,9 @@ Koloruj
 [QuickSearch window hotkey]
 Otwórz okno szybkiego szukania
 [Column content is simple database setting.]
-Zawartość kolumny jest prostym ustawieniem bazy danych
+Zawartość kolumny jest prostym ustawieniem bazy danych.
 [Column content is script result.\r\nMore help from "Help" button in script dialog.]
-Zawartość kolumny jest wynikiem skryptut.\r\nWięcej informacji pod przyciskiem "Pomoc" w oknie skryptu.
+Zawartość kolumny jest wynikiem skryptu.\r\nWięcej informacji pod przyciskiem "Pomoc" w oknie skryptu.
 [Column content is contact property (see list). Can be empty.]
 Zawartość kolumny jest właściwością kontaktu (zobacz listę). Może być pusta.
 [Content is last online time.]
@@ -250,7 +250,7 @@ Zawartość to czas ostatniego zdarzenia.
 [Content is metacontact info.]
 Zawartość to informacje o metakontakcie.
 [Content is count of ALL contact events (not messages only)]
-Zawartość to liczba wszystkich zdarzeń kontaktu (nietylko wiadomości)
+Zawartość to liczba wszystkich zdarzeń kontaktu (nie tylko wiadomości)
 [Other info]
 Inne informacje
 [Change setting through QS]
@@ -269,4 +269,4 @@ Zawsze na wierzchu
 [Text Editor]
 Edytor tekstu
 [Wrap Text]
-
+Zawijaj tekst

@@ -343,7 +343,7 @@ Unicode
 [Program]
 Program
 [Service]
-
+Usługa
 [In/Out]
 
 [Storage]
@@ -391,7 +391,7 @@ Liczba argumentów
 [Process script after]
 
 [Wrap Text]
-
+Zawijaj tekst
 [Autosend]
 
 [Opposite order]
