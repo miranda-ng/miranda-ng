@@ -265,5 +265,8 @@
 
 [Stay on Top]
 
+; this lines is not present in the sources, but it present in compiled plugin
 [Text Editor]
+
+[Wrap Text]
 

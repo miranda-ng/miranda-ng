@@ -239,6 +239,7 @@ ID клиента
 Неизвестный
 [Stay on Top]
 Поверх всех окон
-; this line is not present in the sources, but it present in compiled plugin
 [Text Editor]
 Текстовый редактор
+[Wrap Text]
+Перенос строк

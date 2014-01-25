@@ -129,3 +129,4 @@
 [Unknown]
 [Stay on Top]
 [Text Editor]
+[Wrap Text]

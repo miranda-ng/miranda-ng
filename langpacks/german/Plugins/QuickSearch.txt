@@ -265,6 +265,8 @@ Kontakte
 Unbekannt
 [Stay on Top]
 Immer im Vordergrund
-; this line is not present in the sources, but it present in compiled plugin
+; this lines is not present in the sources, but it present in compiled plugin
 [Text Editor]
 Texteditor
+[Wrap Text]
+

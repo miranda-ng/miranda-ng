@@ -249,6 +249,6 @@ Unicode радок
 Невядомы
 [Stay on Top]
 Паверх усіх вакон
-; this line is not present in the sources, but it present in compiled plugin
+; this lines is not present in the sources, but it present in compiled plugin
 [Text Editor]
 Тэкставы рэдактар
