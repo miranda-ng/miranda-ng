@@ -2269,7 +2269,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				HFONT hOldFont = (HFONT) SelectObject(dis->hDC, hFont);
 				SetBkMode(dis->hDC, TRANSPARENT);
 
-				int nickIndex = -1;
+				int nickIndex = 0;
 				for (int i = 0; i < STATUSICONCOUNT; i++) {
 					if (hIcon == pci->hIcons[ICON_STATUS0 + i]) {
 						nickIndex = i;
@@ -2283,7 +2283,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				}
 				else {
 					FillRect(dis->hDC, &dis->rcItem, pci->hListBkgBrush);
-					if (g_Settings.bColorizeNicks && nickIndex != -1)
+					if (g_Settings.bColorizeNicks && nickIndex != 0)
 						SetTextColor(dis->hDC, g_Settings.nickColors[si->iStatusCount - nickIndex - 1]);
 					else
 						SetTextColor(dis->hDC, g_Settings.UserListColors[ui->iStatusEx]);
