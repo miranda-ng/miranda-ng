@@ -65,6 +65,7 @@ void CVkProto::OnLoggedOut()
 
 	KillTimer(NULL, m_timer);
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
+	m_chats.destroy();
 }
 
 void CVkProto::SetServerStatus(int iNewStatus)

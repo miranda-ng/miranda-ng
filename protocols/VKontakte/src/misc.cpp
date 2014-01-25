@@ -27,9 +27,8 @@ void CVkProto::SetAllContactStatuses(int iStatus)
 {
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact))
-			continue;
-
-		if (getWord(hContact, "Status", 0) != iStatus)
+			SetChatStatus(hContact, iStatus);
+		else if (getWord(hContact, "Status", 0) != iStatus)
 			setWord(hContact, "Status", iStatus);
 	}
 }

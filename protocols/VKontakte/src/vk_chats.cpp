@@ -287,6 +287,23 @@ CVkChatUser* CVkChatInfo::GetUserById(LPCTSTR ptszId)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CVkProto::SetChatStatus(HANDLE hContact, int iStatus)
+{
+	ptrT tszChatID(getTStringA(hContact, "ChatRoomID"));
+	if (tszChatID == NULL)
+		return;
+
+	CVkChatInfo *cc = GetChatById(tszChatID);
+	if (cc == NULL)
+		return;
+
+	GCDEST gcd = { m_szModuleName, tszChatID, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	CallServiceSync(MS_GC_EVENT, (iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE, (LPARAM)&gce);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 TCHAR* UnEscapeChatTags(TCHAR* str_in)
 {
 	TCHAR *s = str_in, *d = str_in;

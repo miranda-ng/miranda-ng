@@ -296,6 +296,7 @@ private:
 	void LogMenuHook(CVkChatInfo*, GCHOOK*);
 	void NickMenuHook(CVkChatInfo*, GCHOOK*);
 	LPTSTR ChangeChatTopic(CVkChatInfo*);
+	void SetChatStatus(HANDLE hContact, int iStatus);
 	CVkChatInfo* GetChatById(LPCTSTR ptszId);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 
