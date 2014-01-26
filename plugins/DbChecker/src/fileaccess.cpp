@@ -37,7 +37,7 @@ INT_PTR CALLBACK FileAccessDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 
 	case WZN_PAGECHANGING:
 		opts.bCheckOnly = IsDlgButtonChecked(hdlg, IDC_CHECKONLY);
-		opts.bAggressive = !opts.bCheckOnly && IsDlgButtonChecked(hdlg, IDC_AGGRESSIVE);
+		opts.bAggressive = IsDlgButtonChecked(hdlg, IDC_AGGRESSIVE);
 		if (opts.bCheckOnly) opts.bBackup = 0;
 		else opts.bBackup = IsDlgButtonChecked(hdlg, IDC_BACKUP);
 		break;
@@ -56,12 +56,8 @@ INT_PTR CALLBACK FileAccessDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			break;
 
 		case IDC_CHECKONLY:
-			BOOL bChecked = IsDlgButtonChecked(hdlg, IDC_CHECKONLY);
-			EnableWindow(GetDlgItem(hdlg, IDC_BACKUP), !bChecked);
-			EnableWindow(GetDlgItem(hdlg, IDC_STBACKUP), !bChecked);
-			EnableWindow(GetDlgItem(hdlg, IDC_AGGRESSIVE), !bChecked);
-			if (bChecked)
-				CheckDlgButton(hdlg, IDC_AGGRESSIVE, FALSE);
+			EnableWindow(GetDlgItem(hdlg, IDC_BACKUP), !IsDlgButtonChecked(hdlg, IDC_CHECKONLY));
+			EnableWindow(GetDlgItem(hdlg, IDC_STBACKUP), !IsDlgButtonChecked(hdlg, IDC_CHECKONLY));
 			break;
 		}
 		break;
