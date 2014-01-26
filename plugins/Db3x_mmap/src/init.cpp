@@ -49,7 +49,7 @@ LIST<CDb3Mmap> g_Dbs(1, HandleKeySortT);
 // returns 0 if the profile is created, EMKPRF*
 static int makeDatabase(const TCHAR *profile)
 {
-	std::auto_ptr<CDb3Mmap> db( new CDb3Mmap(profile));
+	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile));
 	if (db->Create() != ERROR_SUCCESS)
 		return EMKPRF_CREATEFAILED;
 
@@ -59,7 +59,7 @@ static int makeDatabase(const TCHAR *profile)
 // returns 0 if the given profile has a valid header
 static int grokHeader(const TCHAR *profile)
 {
-	std::auto_ptr<CDb3Mmap> db( new CDb3Mmap(profile));
+	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile));
 	if (db->Load(true) != ERROR_SUCCESS)
 		return EGROKPRF_CANTREAD;
 
@@ -70,7 +70,7 @@ static int grokHeader(const TCHAR *profile)
 static MIDatabase* LoadDatabase(const TCHAR *profile)
 {
 	// set the memory, lists & UTF8 manager
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
 
 	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile));
 	if (db->Load(false) != ERROR_SUCCESS)
@@ -120,7 +120,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_DATABASE, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_DATABASE, MIID_LAST };
 
 extern "C" __declspec(dllexport) int Load(void)
 {

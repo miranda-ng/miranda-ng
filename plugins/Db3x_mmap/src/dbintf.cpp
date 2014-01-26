@@ -122,10 +122,10 @@ int CDb3Base::Load(bool bSkipInit)
 	}
 
 	if (!bSkipInit) {
-		if (InitCache())       return 1;
-		if (InitModuleNames()) return 1;
-
 		m_bReadOnly = false;
+
+		if (InitCache()) return 1;
+		if (InitModuleNames()) return 1;
 
 		// we don't need events in the service mode
 		if (ServiceExists(MS_DB_SETSAFETYMODE)) {
@@ -207,6 +207,7 @@ int CDb3Mmap::PrepareCheck()
 int CDb3Base::Start(DBCHeckCallback *callback)
 {
 	cb = callback;
+	ReMap(0);
 	return ERROR_SUCCESS;
 }
 

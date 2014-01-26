@@ -25,9 +25,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CDb3Base::Map()
 {
-	m_hMap = CreateFileMapping(m_hDbFile, NULL, (m_bReadOnly) ? PAGE_WRITECOPY : PAGE_READWRITE, 0, m_dwFileSize, NULL);
+	DWORD dwProtectMode, dwAccess;
+	if (cb && cb->bAggressive)
+		dwProtectMode = PAGE_WRITECOPY, dwAccess = FILE_MAP_COPY;
+	else if (m_bReadOnly)
+		dwProtectMode = PAGE_READONLY, dwAccess = FILE_MAP_READ;
+	else
+		dwProtectMode = PAGE_READWRITE, dwAccess = FILE_MAP_ALL_ACCESS;
+
+	m_hMap = CreateFileMapping(m_hDbFile, NULL, dwProtectMode, 0, m_dwFileSize, NULL);
 	if (m_hMap)	{
-		m_pDbCache = (PBYTE)MapViewOfFile(m_hMap, (m_bReadOnly) ? FILE_MAP_COPY : FILE_MAP_ALL_ACCESS, 0, 0, 0);
+		m_pDbCache = (PBYTE)MapViewOfFile(m_hMap, dwAccess, 0, 0, 0);
 		if (!m_pDbCache)
 			DatabaseCorruption( _T("%s (MapViewOfFile failed. Code: %d)"));
 	}
@@ -40,17 +48,18 @@ void CDb3Base::ReMap(DWORD needed)
 
 	log3("remapping %d + %d (file end: %d)",m_dwFileSize,needed,m_dbHeader.ofsFileEnd);
 
-	if (needed > m_ChunkSize) {
-		if (needed + m_dwFileSize > m_dbHeader.ofsFileEnd + m_ChunkSize)
-			DatabaseCorruption( _T("%s (Too large increment)"));
-		else {
-			DWORD x = m_dbHeader.ofsFileEnd/m_ChunkSize;
-			m_dwFileSize = (x+1)*m_ChunkSize;
+	if (needed > 0) {
+		if (needed > m_ChunkSize) {
+			if (needed + m_dwFileSize > m_dbHeader.ofsFileEnd + m_ChunkSize)
+				DatabaseCorruption(_T("%s (Too large increment)"));
+			else {
+				DWORD x = m_dbHeader.ofsFileEnd/m_ChunkSize;
+				m_dwFileSize = (x+1)*m_ChunkSize;
+			}
 		}
+		else m_dwFileSize += m_ChunkSize;
 	}
-	else m_dwFileSize += m_ChunkSize;
 
-//	FlushViewOfFile(m_pDbCache, 0);
 	UnmapViewOfFile(m_pDbCache);
 	m_pDbCache = NULL;
 	CloseHandle(m_hMap);
