@@ -35,20 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_system_cpp.h>
 #include <m_database.h>
 #include <m_langpack.h>
+#include <m_db_int.h>
 
 #include "version.h"
-#include "dbintf3x.h"
 #include "resource.h"
-
-#ifdef __GNUC__
-#define mir_i64(x) (x##LL)
-#else
-#define mir_i64(x) (x##i64)
-#endif
-
-#ifndef MODULAR
-void Encrypt(char*msg,BOOL up);
-#endif
-
-extern LIST<CDb3x> g_Dbs;
-extern DBSignature dbSignature;

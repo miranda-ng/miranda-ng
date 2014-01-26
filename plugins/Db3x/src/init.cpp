@@ -42,67 +42,35 @@ static PLUGININFOEX pluginInfo =
 
 HINSTANCE g_hInst = NULL;
 
-LIST<CDb3x> g_Dbs(1, HandleKeySortT);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // returns 0 if the profile is created, EMKPRF*
 static int makeDatabase(const TCHAR *profile)
 {
-	std::auto_ptr<CDb3x> db(new CDb3x(profile));
-	if (db->Create() != ERROR_SUCCESS)
-		return EMKPRF_CREATEFAILED;
-
-	return db->CreateDbHeaders(dbSignature);
+	return EMKPRF_CREATEFAILED;
 }
 
 // returns 0 if the given profile has a valid header
 static int grokHeader(const TCHAR *profile)
 {
-	std::auto_ptr<CDb3x> db(new CDb3x(profile));
-	if (db->Load(true) != ERROR_SUCCESS)
-		return EGROKPRF_CANTREAD;
-
-	return db->CheckDbHeaders();
+	return EGROKPRF_CANTREAD;
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
 static MIDatabase* LoadDatabase(const TCHAR *profile)
 {
-	// set the memory, lists & UTF8 manager
-	mir_getLP( &pluginInfo );
-
-	std::auto_ptr<CDb3x> db(new CDb3x(profile));
-	if (db->Load(false) != ERROR_SUCCESS)
-		return NULL;
-
-	g_Dbs.insert(db.get());
-	return db.release();
+	return NULL;
 }
 
 static int UnloadDatabase(MIDatabase* db)
 {
-	g_Dbs.remove((CDb3x*)db);
-	delete (CDb3x*)db;
 	return 0;
 }
 
 MIDatabaseChecker* CheckDb(const TCHAR* profile, int *error)
 {
-	std::auto_ptr<CDb3x> db(new CDb3x(profile));
-	if (db->Load(true) != ERROR_SUCCESS) {
-		if (error != NULL) *error = EGROKPRF_CANTREAD;
-		return NULL;
-	}
-
-	int chk = db->CheckDbHeaders();
-	if (chk != ERROR_SUCCESS) {
-		*error = chk;
-		return NULL;
-	}
-
-	*error = 0;
-	return db.release();
+	if (error != NULL) *error = EGROKPRF_CANTREAD;
+	return NULL;
 }
 
 static DATABASELINK dblink =
@@ -134,7 +102,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	g_Dbs.destroy();
 	return 0;
 }
 
