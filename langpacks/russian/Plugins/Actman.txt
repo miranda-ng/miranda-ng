@@ -146,11 +146,11 @@
 [Away]
 Отсутствую
 [DND]
-Недоступен
-[NA]
-Занят
-[Occupied]
 Не беспокоить
+[NA]
+Недоступен
+[Occupied]
+Занят
 [Free for Chat]
 Готов болтать
 [Invisible]
@@ -678,7 +678,7 @@ UTF16+сигнатура
 [value (name)]
 значение (имя)
 [name 'value']
-'имя 'значение'
+имя 'значение'
 [Current Macro]
 Текущий макрос
 [Select for FirstRun]

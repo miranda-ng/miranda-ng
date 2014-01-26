@@ -360,7 +360,7 @@ MRIM_CS_SMS_ACK: не знайдений в черзі
 [Duck]
 У ванній
 [Playing]
-Грає
+Граю
 [Smoking]
 Курю
 [Office]

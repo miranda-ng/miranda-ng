@@ -1462,7 +1462,7 @@ ID користувача
 [Studying]
 Навчаюсь
 [Shopping]
-По магазинах
+Роблю покупки
 [Feeling sick]
 Хворію
 [Sleeping]

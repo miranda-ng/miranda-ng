@@ -5,236 +5,284 @@
 ;  Version: 0.2.0.1
 ;  Authors: Awkward
 ;============================================================
-[Contact window]
-Вікно контакту
-[vars]
-змін.
-[DWord]
-Дв.слово
-[You can use %name%, %uid%, %account% and %group% macros]
-Ви можете використовувати змінні %name%, %uid%, %account% та %group%
-[You can use %name%, %uid%, %account% and %group% substitutes]
-Ви можете використовувати змінні %name%, %uid%, %account% та %group%
-[wParam type]
-Тип wParam
-[lParam type]
-Тип lParam
-[Service name]
-Ім'я служби
-[Result action]
-Результат дії
-[Window option]
-Налаштування вікна
-[Show in popup]
-Показувати у спливаючому вікні
-[Start hidden]
-Запускати прихованим
-[Show in messagebox]
-Показувати у звичайному вікні
-[Start maximized]
-Запуск розгорнутим
-[Continued]
-Продовжений
-[Parallel]
-Паралельний
-[Condition]
-Умови
-[Insert into message]
-Вставити в повідомлення
-[parameter]
-параметр
-[Process time, ms]
-Час процесу, мс
-[No description]
-Немає опису
-[Signed value]
-Значення зі знаком
-[Process options]
-Налаштування процесу
-[Do not show]
-Не показувати
-[Current path]
-Поточний шлях
-[Start normal]
-Звичайний запуск
-[last result]
-останній результат
-[structure]
-структура
-[Structure]
-Структура
-[Link to action]
-Посилання на дію
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Плагін для управління "гарячими клавішами" і діями, такими як відкриття вікна контакту, вставка тексту, запуск інших програм та виклик сервісів.
-[Action manager]
-Менеджер дій
-[Copy to]
-Копіювати в
-[Paste from as]
-Вставити як
-[Math]
-Матем.
-[Variables (below)]
-Змінні (нижче)
-[Variables script]
-Скрипт змінних
-[Other Action groups]
-Інші групи дій
-[Operation]
-Операція
-[Last result]
-Останній результат
-[Own settings]
-Свої налаштування
-[Array]
-Масив
-[Message title]
-Заголовок вікна
-[OK, Cancel]
-ОК, Скасувати
-[Abort, Retry, Ignore]
-Перервати, Повтор, Пропустити
-[Yes, No, Cancel]
-Так, Ні, Скасувати
-[Yes, No]
-Так, Ні
-[Retry, Cancel]
-Повтор, Скасувати
-[not defined]
-не визначена
-[Result as integer]
-Результат як ціле
-[Keep last result]
-Зберігати останній результат
+[Actions]
+Дії
+[No description]
+Немає опису
+[New]
+Новий
+[Up]
+Вище
+[Down]
+Нижче
+[Reload]
+Оновити
+[Delete]
+Видалити
+[Test]
+Тест
+[Export]
+Експортувати
+[Append data to file?]
+Дописати дані у файл?
+[Import]
+Імпортувати
+[Help]
+Довідка
+[Action]
+Дія
+[Open contact window]
+Відкрити вікно контакту
+[Contact]
+Відкрити вікно контакту
+[Call service]
+Виклик служби
+[Service]
+Виклик служби
+[Execute program]
+Виконати
+[Program]
+Виконати
+[Insert text]
+Вставити текст
+[Text]
+Вставити текст
+[Advanced]
+Розширене
+[Link to action]
+Посилання на дію
+[Profile]
+Профіль
+[MessageBox]
+Вікно сповіщення
+[Message]
+Вікно сповіщення
+[Choose contact]
+Вибрати контакт
 [Keep handle only]
 Зберігати handle, не відкриваючи вікна
-[Variables mark]
-Змінні
-[C&ancel]
-С&касувати
-[Structure editor]
-Редактор структур
-[Result as structure]
-Результат як структура
-[Byte Array]
-Масив байтів
-[Word Array]
-Масив слів
-[Pointer to bytes]
-Вказівник на байти
-[Pointer to words]
-Вказівник на слова
-[Data length]
-Довжина
-['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
-'<proto>' в назві служби буде замінятися ім'ям протоколу з параметрів контакту
-[Paste from]
-Вставити з
-[Service result]
-Результат виклику служби
-[Free memory]
-Очищати пам'ять
-[Integer]
-Ціле
-[Append]
-Додати
-[Append data to file]
-Додати вміст у файл
-[Choose action]
-Виберіть операцію
-[A&ppend]
-Д&одати
-[Action "$" exists, do you want to rewrite it?]
-Дія "$" вже існує, бажаєте її переписати?
-[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
-Текст <last> замінюється\r\nостаннім результатом\r\n\r\nТекст <param> замінюється\r\nпараметром
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^a - в кінці: автовідправка\r\n^f(name\[,str\])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
-[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
-Текст <last> замінюється\r\nостаннім результатом\r\n\r\nПовернуте:\r\n--------\r\nOK\t\t= 1\r\nСкасувати\t\t= 2\r\nПерервати\t= 3\r\nПовтор\t\t= 4\r\nПропустити\t= 5\r\nТак\t\t= 6\r\nНі\t\t= 7\r\nЗакрити\t\t= 8
-[Don't use Variables]
-Вимкнути змінні
-[Contact list format]
-Формат списку контактів
 [Active accounts only]
 Тільки діючі облікові записи
 [Dropdown list format]
 Вигляд списку
-[Apply]
-Застосувати
 [Apply format]
 Застосувати формат
-[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
-Використовуйте масив байтів/вказівник на байти для рядків у ANSI\nВикористовуйте масив слів/вказівник на слова для рядків у Unicode\n\$## замінюється байтом з шістнадцятковим значенням ##\n\$#### замінюється словом з шістнадцятковим значенням #### (тільки для рядків у Unicode)\nВся довжина даних обчислюється в байтах
-[New]
-Новий
-[Hooks]
-Хуки
-[Event]
-Подія
-[hook sample]
-приклад хуку
-[QWord]
-Четв.слово
-[Packed structure]
-Упакована структура
-[NativeInt]
-Системне ціле
-[Starting from]
-Почати з
-[Starting after]
-Почати після
-[Start immediately]
-Почати негайно
-[Since/after]
-з/після
-[Repeat, times]
-К-ть повторів
-[Interval]
-Інтервал
-[Break on non-zero result]
-Зупинити при ненульовому результаті
-[Task sample]
-Приклад завдання
-[Send event on start time]
-Відсилати подію при старті завдання
-[Send event just once]
-Відсилати тільки при першому запуску
-[Use Actions]
-Використання дій
-[Action list]
-Список дій
-[Where to use]
-Місце використання
-[TabSRMM toolbar]
-Панель кнопок вікна повідомлень TabSRMM
-[Core Hotkey]
-Гаряча клавіша
-[Tray menu]
-Меню трею
-[2 state button/item]
-2 положення кнопки/пункту
-[Save button/item state]
-Зберігати положення кнопки/пункту
-[Normal button tooltip]
-Підказка до кнопки в нормальному положенні
-[Pressed button tooltip]
-Підказка до кнопки в натиснутому положенні
-[Separated]
-Роздільник
-[Root popup:]
-Корінь підменю:
-[Menu item name:]
-Назва пункту меню:
-[Show only if variables return 1]
-Показувати тільки при поверненні 1
-[Contact related]
-Поконтактно
-[Registered actions]
-Зареєстровані дії
-[Menu icons]
-Значки меню
+[You can use %name%, %uid%, %account% and %group% macros]
+Ви можете використовувати змінні %name%, %uid%, %account% та %group%
+[Contacts]
+Відкрити вікно контакту
+[Select contact to open its window]
+Виберіть контакт, для якого відкрити вікно повідомлень
+[Result action]
+Результат дії
+[Show in popup]
+Показувати у спливаючому вікні
+[Show in messagebox]
+Показувати у звичайному вікні
+[Insert into message]
+Вставити в повідомлення
+[Service result]
+Результат виклику служби
+[Integer]
+Ціле
+[Hexadecimal]
+Шістнадцяткове
+[String]
+Рядок
+[Structure]
+Структура
+[Free memory]
+Очищати пам'ять
+[Signed value]
+Значення зі знаком
+[wParam type]
+Тип wParam
+[lParam type]
+Тип lParam
+[number value]
+число
+[ANSI string]
+рядок ANSI
+[Unicode string]
+рядок Unicode
+[current contact]
+поточний контакт
+[last result]
+останній результат
+[parameter]
+параметр
+[structure]
+структура
+[Service name]
+Ім'я служби
+[Use Variables]
+Включити змінні
+[Don't use Variables]
+Вимкнути змінні
+[Miranda service help]
+Допомога по сервісам
+[Name]
+Ім'я
+[Plugin]
+Плагін
+[Return]
+Повернуте
+[Effect]
+Ефект
+['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
+'<proto>' в назві служби буде замінятися ім'ям протоколу з параметрів контакту
+[Undefined]
+Не визначено
+[Away]
+Відсутній
+[DND]
+Не турбувати
+[NA]
+Недоступний
+[Occupied]
+Зайнятий
+[Free for Chat]
+Готовий до чату
+[Invisible]
+Невидимий
+[On the Phone]
+Телефоную
+[Out to Lunch]
+Обідаю
+[text]
+текст
+[int 0, if successful]
+0 якщо успішно
+[Set status message]
+Встановлює статусне повідомлення
+[Set protocol status]
+Встановлює статус протоколу
+[None]
+Немає
+[Angry]
+Сердитий
+[Taking a bath]
+У ванній
+[Tired]
+Втомлений
+[Birthday]
+День народження
+[Drinking beer]
+П'ю пиво
+[Thinking]
+Думаю
+[Eating]
+Їм
+[Watching TV]
+Дивлюся телевізор
+[Meeting]
+На нараді
+[Coffee]
+П'ю каву
+[Listening to music]
+Слухаю музику
+[Business]
+Справи
+[Shooting]
+Фотографую
+[Having fun]
+Веселюся
+[On the phone]
+Телефоную
+[Gaming]
+Граю
+[Studying]
+Навчаюсь
+[Shopping]
+Роблю покупки
+[Feeling sick]
+Хворію
+[Sleeping]
+Сплю
+[Surfing]
+Серфінг
+[Working]
+Працюю
+[Typing]
+Набираю текст
+[Picnic]
+Пікнік
+[Cooking]
+Готую їжу
+[Smoking]
+Курю
+[I'm high]
+Дмухаю
+[On WC]
+У туалеті
+[To be or not to be]
+Бути чи не бути?
+[Watching pro7 on TV]
+Дивлюся pro7
+[Love]
+Любов
+[Sets owner current custom status]
+Встановлює xСтатус
+[Show All Users]
+Показувати всіх користувачів
+[Show only Online Users]
+Сховати від'єднаних
+[Change 'hide offline contacts' option value]
+Змінює значення "Сховати від'єднаних"
+[Set global status]
+Встановлює глобальний статус
+[Switch contact list status]
+Перемикає статус списку контактів
+[Hide All Titlebars]
+Ховає назви
+[Show All Frames]
+Показує всі фрейми
+[Show All Titlebars]
+Показує назви
+[Closes Miranda]
+Завершує роботу програми
+[Show or hide netlog console window]
+Показує або ховає мережеву консоль
+[Returns contact amount, excluding user account]
+Повертає к-ть контактів (без облікового запису користувача)
+[Ansi Text]
+Текст Ansi
+[Removes all settings for the specified module]
+Видаляє всі налаштування вказаного модуля
+[System]
+Система
+[All protocols]
+Усі протоколи
+[Protocol]
+Протокол
+[YAPP or Popup]
+YAPP або Popup
+[Warning]
+Попередження
+[Notify]
+Сповіщення
+[Error]
+Помилка
+[YAPP only]
+Тільки YAPP
+[Unicode Text]
+Текст Unicode
+[Avatar service (AVS.dll)]
+Служба аватарів (AVS.dll)
+[int 0, if unsuccessful]
+0 якщо невдало
+[Structure editor]
+Редактор структур
+[alias]
+ім'я
+[type]
+тип
+[length]
+довжина
+[data]
+дані
 [Data align]
 Вирівнювання даних
 [Native]
@@ -247,110 +295,260 @@
 4 байти
 [8 bytes]
 8 байтів
-[alias]
-ім'я
-[type]
-тип
-[length]
-довжина
-[data]
-дані
-[Structure help]
-Допомога по структурі
-[Descr]
-Опис
-[Open contact window]
-Відкрити вікно контакту
-[Call service]
-Виклик служби
-[Execute program]
-Виконати
-[Insert text]
-Вставити текст
-[Use Variables]
-Включити змінні
-[number value]
-число
-[ANSI string]
-рядок ANSI
-[Unicode string]
-рядок Unicode
-[current contact]
-поточний контакт
-[Choose contact]
-Вибрати контакт
-[Miranda service help]
-Допомога по сервісам
-[Return]
-Повернуте
-[Scheduler]
-Планувальник
-[TopToolbar]
-Панель кнопок
-[Effect]
-Ефект
-[Start]
-Почати
-[Action group list was changed: some was added or deleted]
-Список груп подій змінився: є додані або видалені події
-[The context menu for a contact is about to be built]
-Побудова контекстного меню для контакту
-[Double click on the contact list]
-Подвійний клік у КЛ
-[New contact added to database]
-Новий контакт додано до бази
-[Contact deleting]
-Контакт видалено
-[Parameter]
-Параметр
-[Manual]
-Вручну
 [Byte]
 Байт
 [Word]
 Слово
-[MessageBox]
-Вікно сповіщення
+[DWord]
+Дв.слово
+[QWord]
+Четв.слово
+[NativeInt]
+Системне ціле
+[Byte Array]
+Масив байтів
+[Word Array]
+Масив слів
+[Pointer to bytes]
+Вказівник на байти
+[Pointer to words]
+Вказівник на слова
+[Last result]
+Останній результат
+[Parameter]
+Параметр
+[Data length]
+Довжина
+[Structure help]
+Допомога по структурі
+[Descr]
+Опис
+[&Change]
+&Змінити
+[C&ancel]
+С&касувати
+[Process options]
+Налаштування процесу
+[Parallel]
+Паралельний
+[Continued]
+Продовжений
+[Process time, ms]
+Час процесу, мс
+[Current path]
+Поточний шлях
+[Window option]
+Налаштування вікна
+[Start normal]
+Звичайний запуск
+[Start hidden]
+Запускати прихованим
 [Start minimized]
 Запуск згорнутим
-[Hexadecimal]
-Шістнадцяткове
-[String]
-Рядок
+[Start maximized]
+Запуск розгорнутим
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
+Текст <last> замінюється\r\nостаннім результатом\r\n\r\nТекст <param> замінюється\r\nпараметром
 [Program path]
 Шлях
 [Program args]
 Аргументи
 [Clipboard]
 Буфер обміну
-[Text to insert]
-Текст для вставки
-[Value]
-Значення
-[Save value]
-Збер. значення
+[Copy to]
+Копіювати в
+[Paste from]
+Вставити з
+[File]
+Файл
 [Read]
 Читати
 [Write]
 Записати
+[Append]
+Додати
+[UTF8+sign]
+UTF8+сигнатури
+[UTF16+sign]
+UTF16+сигнатури
+[Message window]
+Вікно повідомлень
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^a - в кінці: автовідправка\r\n^f(name\[,str\])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
+[Text to insert]
+Текст для вставки
+[Condition]
+Умови
+[NOT]
+НЕ
+[Value]
+Значення
+[Math]
+Матем.
+[Variables]
+Змінні
+[Result as integer]
+Результат як ціле
+[Operation]
+Операція
+[Other Action groups]
+Інші групи дій
+[not defined]
+не визначена
+[You can select another group from combobox, then it will be executed, after that current action group will be continued.]
+У випадаючому списку можна вибрати іншу групу дій, яку буде виконано, після чого продовжиться виконання поточної групи дій.
+[Macros]
+Посилання на дію
+[Own settings]
+Свої налаштування
+[Manual]
+Вручну
+[Module]
+Модуль
+[Setting]
+Налаштування
+[Message title]
+Заголовок вікна
+[Message text]
+Текст повідомлення
+[Keep last result]
+Зберігати останній результат
+[Icons]
+Значки
+[Question]
+Запитання
+[Info]
+Інформація
+[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
+Текст <last> замінюється\r\nостаннім результатом\r\n\r\nПовернуте:\r\n--------\r\nOK\t\t= 1\r\nСкасувати\t\t= 2\r\nПерервати\t= 3\r\nПовтор\t\t= 4\r\nПропустити\t= 5\r\nТак\t\t= 6\r\nНі\t\t= 7\r\nЗакрити\t\t= 8
+[Buttons]
+Кнопки
+[OK, Cancel]
+ОК, Скасувати
+[Abort, Retry, Ignore]
+Перервати, Повтор, Пропустити
+[Yes, No, Cancel]
+Так, Ні, Скасувати
+[Yes, No]
+Так, Ні
+[Retry, Cancel]
+Повтор, Скасувати
+[Scheduler]
+Планувальник
+[Task sample]
+Приклад завдання
+[Start]
+Почати
+[Starting after]
+Почати після
+[Starting from]
+Почати з
+[Start immediately]
+Почати негайно
+[Days]
+Днів
+[Time]
+Час
+[Date]
+Дата
+[Repeat]
+Повтор
+[Repeat, times]
+К-ть повторів
+[Interval]
+Інтервал
+[Break on non-zero result]
+Зупинити при ненульовому результаті
+[Send event on start time]
+Відсилати подію при старті завдання
+[Send event just once]
+Відсилати тільки при першому запуску
+[Hooks]
+Хуки
+[Description]
+Опис
+[hook sample]
+приклад хуку
+[Apply]
+Застосувати
+[Event]
+Подія
+[Action group list was changed: some was added or deleted]
+Список груп подій змінився: є додані або видалені події
+[Double click on the contact list]
+Подвійний клік у КЛ
+[The context menu for a contact is about to be built]
+Побудова контекстного меню для контакту
+[New contact added to database]
+Новий контакт додано до бази
+[Contact deleting]
+Контакт видалено
+[Use Actions]
+Використання дій
+[Action list]
+Список дій
+[Where to use]
+Місце використання
+[TopToolbar]
+Панель кнопок
+[TabSRMM toolbar]
+Панель кнопок вікна повідомлень TabSRMM
+[Core Hotkey]
+Гаряча клавіша
+[Main menu]
+Головне меню
+[Contact menu]
+Меню контакта
+[Tray menu]
+Меню трею
+[Protocol menus]
+Меню протоколів
+[Status menu]
+Меню статусів
+[Common]
+Загальний
+[2 state button/item]
+2 положення кнопки/пункту
+[Save button/item state]
+Зберігати положення кнопки/пункту
+[Contact related]
+Поконтактно
+[Normal button tooltip]
+Підказка до кнопки в нормальному положенні
+[Pressed button tooltip]
+Підказка до кнопки в натиснутому положенні
+[Separated]
+Роздільник
+[Root popup:]
+Корінь підменю:
+[Menu item name:]
+Назва пункту меню:
+[Show only if variables return 1]
+Показувати тільки при поверненні 1
+[Choose action]
+Виберіть операцію
+[&Yes]
+&Так
+[&No]
+&Ні
+[A&ppend]
+Д&одати
+[Yes to &All]
+Так &усім
+[N&o to All]
+Ні у&сім
+[Action "$" exists, do you want to rewrite it?]
+Дія "$" вже існує, бажаєте її переписати?
+[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
+Використовуйте масив байтів/вказівник на байти для рядків у ANSI\nВикористовуйте масив слів/вказівник на слова для рядків у Unicode\n\$## замінюється байтом з шістнадцятковим значенням ##\n\$#### замінюється словом з шістнадцятковим значенням #### (тільки для рядків у Unicode)\nВся довжина даних обчислюється в байтах
+[Packed structure]
+Упакована структура
+[Registered actions]
+Зареєстровані дії
+[No Description]
+Без опису
 [Function call]
 Виклик функції
-[Chain]
-Посилання
-[Program]
-Виконати
-[Service]
-Виклик служби
-[In/Out]
-Ввід/Вивід
-[Storage]
-Сховище
-[Jump]
-Перейти
-[Result]
-Результат
-[Result type]
-Результат виклику служби
 [Function name]
 Ім'я функції
 [DLL name]
@@ -361,6 +559,10 @@
 Аргументи
 [Number of arguments]
 Кількість аргументів
+[Result]
+Результат
+[Wide String]
+Рядок Unicode
 [DLL Handle Cache]
 Кеш дескрипторів DLL
 [Keep to end]
@@ -369,68 +571,64 @@
 Закрити негайно
 [Close for macro]
 Закрити для макроса
-[Wide String]
-Рядок Unicode
+[Choose Contact]
+Виберіть контакт
+[Refresh]
+Оновити
 [Get from active window]
 З активного вікна
+[Chain]
+Посилання
 [Keep old result]
 Зберегти попередній результат
 [Same thread]
 У тому ж потоці
 [Do not wait until the end of execution]
 Не чекати до закінчення виконання
-[Structure size]
-Розмір структури
-[LastResult to ]
-Останній результат в\s
-[LastResult from]
-Останній результат із
-[Process script after]
-Скрипт після макроса
-[Wrap Text]
-Перенос рядків
+[Result type]
+Результат виклику служби
+[In/Out]
+Ввід/Вивід
 [Autosend]
 Надсилати автоматично
+[Jump]
+Перейти
+[> greater]
+> більше
+[< lesser]
+< меньше
+[= equ]
+= дорівнює
+[& and]
+& і
+[Case sensitive]
+Врахов. регістр
 [Opposite order]
 Зворотний порядок
-[Service list format]
-Формат списку служб
-[Current Macro]
-Поточний макрос
-[Select for FirstRun]
-Вибрати для першого запуску
-[Right justified text]
-Вирівнювання праворуч
-[Use MMI]
-Використ. MMI
-[UTF8+sign]
-UTF8+сигнатури
-[UTF16+sign]
-UTF16+сигнатури
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^f(имя[,str])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
-[value]
-значення
-[name]
-ім'я
-[value (name)]
-значення (ім'я)
-[name 'value']
-"ім'я" значення
+[empty]
+порожній
 [contains]
 містить
 [starts with]
 починається з
 [ends with]
 закінчується на
-[= equ]
-= дорівнює
-[> greater]
-> більше
-[< lesser]
-< меньше
-[& and]
-& і
+[Process script after]
+Скрипт після макроса
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^f(имя[,str])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
+[Right justified text]
+Вирівнювання праворуч
+[Database]
+Профіль
+[Save value]
+Збер. значення
+[Storage]
+Сховище
+[LastResult to ]
+Останній результат в\s
+[LastResult from]
+Останній результат із
 [Slot 0]
 Слот 0
 [Slot 1]
@@ -451,3 +649,33 @@ UTF16+сигнатури
 Слот 8
 [Slot 9]
 Слот 9
+[Settings]
+Налаштування
+[Contact list]
+Список контактів
+[Contact list format]
+Формат списку контактів
+[You can use %name%, %uid%, %account% and %group% substitutes]
+Ви можете використовувати змінні %name%, %uid%, %account% та %group%
+[Service list format]
+Формат списку служб
+[value]
+значення
+[name]
+ім'я
+[value (name)]
+значення (ім'я)
+[name 'value']
+ім'я 'значення'
+[Current Macro]
+Поточний макрос
+[Select for FirstRun]
+Вибрати для першого запуску
+[Double click on the CList]
+Подвійне клацання у списку контактів
+[Text Editor]
+Текстовый редактор
+[Script]
+Скрипт
+[Wrap Text]
+Перенос рядків

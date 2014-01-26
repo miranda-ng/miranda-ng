@@ -6,4 +6,4 @@
 ;  Authors: Merlin_de, Victor Pavlychko
 ;============================================================
 [Provides text render API for different plugins.]
-API обробки тексту для різних модулів.
+API обробки тексту для різних плагінів.

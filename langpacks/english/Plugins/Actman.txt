@@ -431,7 +431,7 @@
 [Current Macro]
 [Select for FirstRun]
 [Double click on the CList]
-; this lines is not present in the sources, but it present in compiled plugin
+; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 [Script]
 [Wrap Text]
