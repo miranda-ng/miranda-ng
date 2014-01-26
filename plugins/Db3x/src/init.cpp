@@ -44,60 +44,14 @@ HINSTANCE g_hInst = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-// returns 0 if the profile is created, EMKPRF*
-static int makeDatabase(const TCHAR *profile)
-{
-	return EMKPRF_CREATEFAILED;
-}
-
-// returns 0 if the given profile has a valid header
-static int grokHeader(const TCHAR *profile)
-{
-	return EGROKPRF_CANTREAD;
-}
-
-// returns 0 if all the APIs are injected otherwise, 1
-static MIDatabase* LoadDatabase(const TCHAR *profile)
-{
-	return NULL;
-}
-
-static int UnloadDatabase(MIDatabase* db)
-{
-	return 0;
-}
-
-MIDatabaseChecker* CheckDb(const TCHAR* profile, int *error)
-{
-	if (error != NULL) *error = EGROKPRF_CANTREAD;
-	return NULL;
-}
-
-static DATABASELINK dblink =
-{
-	sizeof(DATABASELINK),
-	"db3x",
-	_T("db3x driver"),
-	makeDatabase,
-	grokHeader,
-	LoadDatabase,
-	UnloadDatabase,
-	CheckDb
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_DATABASE, MIID_LAST};
-
 extern "C" __declspec(dllexport) int Load(void)
 {
-	RegisterDatabasePlugin(&dblink);
-	return 0;
+	return 1;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
