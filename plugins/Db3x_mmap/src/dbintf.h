@@ -333,6 +333,8 @@ struct CDb3Mmap : public CDb3Base
 	void SetPassword(const TCHAR *ptszPassword);
 	void UpdateMenuItem(void);
 
+	int  PrepareCheck(void);
+
 	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? LPGEN("Change/remove password") : LPGEN("Set password"); }
 
 protected:

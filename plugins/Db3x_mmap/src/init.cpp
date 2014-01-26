@@ -72,7 +72,7 @@ static MIDatabase* LoadDatabase(const TCHAR *profile)
 	// set the memory, lists & UTF8 manager
 	mir_getLP( &pluginInfo );
 
-	std::auto_ptr<CDb3Mmap> db( new CDb3Mmap(profile));
+	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile));
 	if (db->Load(false) != ERROR_SUCCESS)
 		return NULL;
 
@@ -90,18 +90,14 @@ static int UnloadDatabase(MIDatabase* db)
 MIDatabaseChecker* CheckDb(const TCHAR* profile, int *error)
 {
 	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile));
-	if (db->Load(false) != ERROR_SUCCESS) {
+	if (db->Load(true) != ERROR_SUCCESS) {
 		*error = EGROKPRF_CANTREAD;
 		return NULL;
 	}
 
-	int chk = db->CheckDbHeaders();
-	if (chk != ERROR_SUCCESS) {
-		*error = chk;
+	if (*error = db->PrepareCheck())
 		return NULL;
-	}
 
-	*error = 0;
 	return db.release();
 }
 

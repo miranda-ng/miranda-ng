@@ -25,9 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CDb3Base::Map()
 {
-	m_hMap = CreateFileMapping(m_hDbFile, NULL, PAGE_READWRITE, 0, m_dwFileSize, NULL);
+	m_hMap = CreateFileMapping(m_hDbFile, NULL, (m_bReadOnly) ? PAGE_WRITECOPY : PAGE_READWRITE, 0, m_dwFileSize, NULL);
 	if (m_hMap)	{
-		m_pDbCache = (PBYTE)MapViewOfFile(m_hMap, FILE_MAP_ALL_ACCESS/*FILE_MAP_WRITE*/, 0, 0 ,0);
+		m_pDbCache = (PBYTE)MapViewOfFile(m_hMap, (m_bReadOnly) ? FILE_MAP_COPY : FILE_MAP_ALL_ACCESS, 0, 0, 0);
 		if (!m_pDbCache)
 			DatabaseCorruption( _T("%s (MapViewOfFile failed. Code: %d)"));
 	}
@@ -156,9 +156,11 @@ int CDb3Base::InitCache(void)
 	m_dwFileSize = GetFileSize(m_hDbFile,  NULL);
 
 	// Align to chunk
-	DWORD x = m_dwFileSize % m_ChunkSize;
-	if (x)
-		m_dwFileSize += m_ChunkSize - x;
+	if (!m_bReadOnly) {
+		DWORD x = m_dwFileSize % m_ChunkSize;
+		if (x)
+			m_dwFileSize += m_ChunkSize - x;
+	}
 
 	Map();
 
