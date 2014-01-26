@@ -156,7 +156,7 @@ Ping
 [Show/Hide &Ping Window]
 Voir/Cacher la fenêtre de &Ping
 [List]
-
+Liste
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Le serveur %s, demande à ce que vous réduisez vos demandes de ping.

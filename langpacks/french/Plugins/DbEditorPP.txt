@@ -336,7 +336,6 @@ Données
 
 [Size]
 Taille
-
 [*** encrypted ***]
 
 [UNICODE]

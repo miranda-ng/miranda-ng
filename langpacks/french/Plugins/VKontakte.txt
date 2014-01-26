@@ -37,7 +37,7 @@ Annuler
 [Invite user to chat]
 
 [OK]
-
+OK
 [Choose one of your contacts to be invited:]
 
 [Create group chat]
@@ -62,13 +62,13 @@ Annuler
 [Owners]
 
 [Unknown]
-
+Inconnu
 [Enter new chat title]
 
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 
 [Warning]
-
+Avertissement
 [&Invite a user]
 
 [View/change &title]
@@ -76,7 +76,7 @@ Annuler
 [&Destroy room]
 
 [&User details]
-
+&Détails contact
 [&Kick]
 
 ;file \protocols\VKontakte\src\vk_options.cpp

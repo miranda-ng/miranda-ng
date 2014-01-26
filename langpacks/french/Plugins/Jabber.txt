@@ -1251,6 +1251,10 @@ Dernière activité
 
 [Resource priority]
 
+[Increase priority by %d]
+
+[Decrease priority by %d]
+
 [Resource priority [%d]]
 
 [Join conference]
@@ -1832,7 +1836,7 @@ Le passe actuel est incorrect.
 [Error occurred while setting default list]
 
 [Allow]
-
+Autoriser
 [Simple mode]
 
 [Advanced mode]
@@ -2036,7 +2040,7 @@ session chat fermée
 [sent unknown presence type]
 
 [Nick:]
-
+Pseudo :
 [Status:]
 
 [Status text:]

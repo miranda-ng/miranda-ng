@@ -80,7 +80,7 @@ Réseau:
 [From %s:\r\n\r\n]
 
 [Events]
-
+Évènements
 ;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
 
@@ -105,7 +105,7 @@ Voir combien de lettres ont été tapées
 [The SMS message send to %s timed out.]
 Échec de l'envoi du SMS à %s.
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
-
+Le numéro de téléphone doit commencer par un + et être composé uniquement de chiffres, d'espaces, de crochets et de tirets.
 [Invalid Phone Number]
 Numéro de téléphone invalide
 [Message is too long, press OK to continue.]

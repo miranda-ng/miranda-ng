@@ -63,7 +63,7 @@ Afficher la barre de titre
 [Show status bar]
 Afficher la barre d'état
 [Show toolbar]
-
+Voir barre d'outils
 [Show info bar]
 
 [Show avatars]

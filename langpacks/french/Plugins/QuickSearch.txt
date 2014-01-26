@@ -16,17 +16,17 @@ Recherche rapide
 [Setting]
 
 [Reload]
-
+Recharger
 [New]
-
+Nouveau
 [Up]
 
 [Down]
 
 [Delete]
-
+Effacer
 [Default]
-
+Défaut
 [Additional Options]
 Options supplémentaires
 [Tool Window Style]
@@ -46,23 +46,23 @@ Voir l'icône du client
 [Title:]
 
 [Account]
-
+Compte
 [Gender]
 
 [UserID]
 
 [Nickname]
-
+Pseudo
 [First name]
-
+Prénom
 [Last name]
-
+Nom
 [Group]
-
+Groupe
 [Container]
 
 [E-mail]
-
+e-mail
 [Client ID]
 
 [Ext IP]
@@ -80,7 +80,7 @@ Voir l'icône du client
 [Contact add time]
 
 [Type:]
-
+Type :
 [DB setting]
 
 [Script]
@@ -90,7 +90,7 @@ Voir l'icône du client
 [Contact info]
 
 [Other]
-
+Autre
 [Data type:]
 
 [Byte]
@@ -110,21 +110,21 @@ Voir l'icône du client
 [TimeStamp]
 Horodateur
 [Module:]
-
+Module :
 [Setting:]
 Paramètre:
 [Service:]
-
+Service :
 [Param]
 
 [number value]
-
+Valeur numérique
 [ANSI string]
-
+Chaine ANSI
 [Unicode string]
-
+Chaine unicode
 [current contact]
-
+contact actuel
 [last result]
 
 [parameter]
@@ -136,7 +136,7 @@ Paramètre:
 [All]
 
 [Close]
-
+Fermer
 [Refresh]
 
 [QuickSearch]
@@ -158,11 +158,11 @@ Descendre la colonne
 [Delete Column]
 Effacer la colonne
 [Male]
-
+Homme
 [Female]
-
+Femme
 [Contacts]
-
+Contacts
 [ContactInfo]
 
 [LastEvent]
@@ -200,9 +200,9 @@ Effacer la colonne
 [SubMetacontact foreground]
 
 [&Delete]
-
+&Effacer
 [&Copy]
-
+&Copier
 [C&onvert to Meta]
 
 [Attach to &Tab container]
@@ -214,7 +214,7 @@ Effacer la colonne
 [Do you really want to delete selected contacts?]
 
 [Warning]
-
+Avertissement
 [One or more contacts in same Meta already. Try to convert anyway?]
 
 [Editing of column ]
@@ -226,9 +226,9 @@ Effacer la colonne
 [) Online: ]
 
 [Online]
-
+En ligne
 [deleted]
-
+Effacé
 [off]
 
 [active]
@@ -256,16 +256,17 @@ Effacer la colonne
 [Change setting through QS]
 
 [default]
-
+Défaut
 [Selected]
 
 [contacts]
-
+Contacts
 [Unknown]
-
+Inconnu
 [Stay on Top]
-
+Toujours visible
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 
 [Wrap Text]
+

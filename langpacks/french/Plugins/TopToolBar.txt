@@ -49,4 +49,4 @@ Défaut
 [Contact List]
 Liste de contacts
 [Toolbar]
-
+Barre d'outils

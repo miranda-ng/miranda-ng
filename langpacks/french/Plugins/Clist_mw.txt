@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: Bethoven 
+;  Authors: Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 
@@ -430,9 +430,9 @@ Fermer Miranda
 Cadres
 [Show All Frames]
 Montrer tous les cadres
-[Show all titlebars]
+[Show all title bars]
 Montrer toutes les barres de titres
-[Hide all titlebars]
+[Hide all title bars]
 Cacher toutes les barres de titres
 [Lock Frame]
 Cadre vérouillé

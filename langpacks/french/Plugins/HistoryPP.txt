@@ -446,7 +446,7 @@ Voir les infos du destinataire
 [Toggle &Processing]
 
 [Toolbar]
-
+Barre d'outils
 [Incoming SMS Message]
 
 [Link URLs]

@@ -313,7 +313,7 @@ login Tlen
 [You need to be connected to Tlen account to set avatar.]
 
 ;file \protocols\Tlen\src\tlen_thread.cpp
-[Enter password for %s@%s.]
+[Enter password for %s]
 
 [Tlen Connection Error]
 Erreur lors de la connexion à Tlen
