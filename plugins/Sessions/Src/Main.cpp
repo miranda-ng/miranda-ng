@@ -861,25 +861,24 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 
 	// Hotkeys
 	HOTKEYDESC hkd = { sizeof(hkd) };
-	hkd.dwFlags = HKD_TCHAR;
-	hkd.ptszSection = LPGENT("Sessions");
+	hkd.pszSection = LPGEN("Sessions");
 	hkd.pszName = "OpenSessionsManager";
-	hkd.ptszDescription = LPGENT("Open Sessions Manager");
+	hkd.pszDescription = LPGEN("Open Sessions Manager");
 	hkd.pszService = MS_SESSIONS_OPENMANAGER;
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "RestoreLastSession";
-	hkd.ptszDescription = LPGENT("Restore last Session");
+	hkd.pszDescription = LPGEN("Restore last Session");
 	hkd.pszService = MS_SESSIONS_RESTORELASTSESSION;
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "SaveSession";
-	hkd.ptszDescription = LPGENT("Save Session");
+	hkd.pszDescription = LPGEN("Save Session");
 	hkd.pszService = MS_SESSIONS_SAVEUSERSESSION;
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "CloseSession";
-	hkd.ptszDescription = LPGENT("Close Session");
+	hkd.pszDescription = LPGEN("Close Session");
 	hkd.pszService = MS_SESSIONS_CLOSESESSION;
 	Hotkey_Register(&hkd);
 
@@ -889,25 +888,25 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	// Main menu
 	CLISTMENUITEM cl = { sizeof(cl) };
 	cl.position = 1000000000;
-	cl.flags = CMIM_ALL | CMIF_TCHAR;
+	cl.flags = CMIM_ALL;
 
-	cl.ptszName = LPGENT("Save session...");
-	cl.ptszPopupName = LPGENT("Sessions Manager");
+	cl.pszName = LPGEN("Save session...");
+	cl.pszPopupName = LPGEN("Sessions Manager");
 	cl.icolibItem = iconList[0].hIcolib;
 	cl.pszService = MS_SESSIONS_SAVEUSERSESSION;
 	hmSaveCurrentSession = Menu_AddMainMenuItem(&cl);
 
-	cl.ptszName = LPGENT("Load session...");
+	cl.pszName = LPGEN("Load session...");
 	cl.pszService = MS_SESSIONS_OPENMANAGER;
 	cl.icolibItem = iconList[3].hIcolib;
 	hmLoadLastSession = Menu_AddMainMenuItem(&cl);
 
-	cl.ptszName = LPGENT("Close session");
+	cl.pszName = LPGEN("Close session");
 	cl.pszService = MS_SESSIONS_CLOSESESSION;
 	cl.icolibItem = 0;
 	hmLoadSession = Menu_AddMainMenuItem(&cl);
 
-	cl.ptszName = LPGENT("Load last session");
+	cl.pszName = LPGEN("Load last session");
 	cl.pszService = MS_SESSIONS_RESTORELASTSESSION;
 	cl.icolibItem = iconList[5].hIcolib;
 	cl.position = 10100000;

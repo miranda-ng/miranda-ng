@@ -85,54 +85,52 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	CLISTMENUITEM cl = { sizeof(cl) };
 	cl.position = 10000000;
-	cl.flags = CMIF_TCHAR;
-	cl.ptszPopupName = LPGENT("Birthdays (When Was It)");
+	cl.pszPopupName = LPGEN("Birthdays (When Was It)");
 
 	cl.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	cl.icolibItem = hCheckMenu;
-	cl.ptszName = LPGENT("Check for birthdays");
+	cl.pszName = LPGEN("Check for birthdays");
 	hmCheckBirthdays = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_LIST_SHOW;
-	cl.ptszName = LPGENT("Birthday list");
+	cl.pszName = LPGEN("Birthday list");
 	cl.icolibItem = hListMenu;
 	hmBirthdayList = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_REFRESH_USERDETAILS;
 	cl.position = 10100000;
-	cl.ptszName = LPGENT("Refresh user details");
+	cl.pszName = LPGEN("Refresh user details");
 	cl.icolibItem = hRefreshUserDetails;
 	hmRefreshDetails = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_IMPORT_BIRTHDAYS;
 	cl.position = 10200000;
-	cl.ptszName = LPGENT("Import birthdays");
+	cl.pszName = LPGEN("Import birthdays");
 	cl.icolibItem = hImportBirthdays;
 	hmImportBirthdays = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_EXPORT_BIRTHDAYS;
-	cl.ptszName = LPGENT("Export birthdays");
+	cl.pszName = LPGEN("Export birthdays");
 	cl.icolibItem = hExportBirthdays;
 	hmExportBirthdays = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_ADD_BIRTHDAY;
 	cl.position = 10000000;
 	cl.icolibItem = hAddBirthdayContact;
-	cl.ptszName = LPGENT("Add/change user &birthday");
+	cl.pszName = LPGEN("Add/change user &birthday");
 	hmAddChangeBirthday = Menu_AddContactMenuItem(&cl);
 
 	// Register hotkeys
 	HOTKEYDESC hotkey = { sizeof(hotkey) };
-	hotkey.ptszSection = LPGENT("Birthdays");
-	hotkey.dwFlags = HKD_TCHAR;
+	hotkey.pszSection = LPGEN("Birthdays");
 
 	hotkey.pszName = "wwi_birthday_list";
-	hotkey.ptszDescription = LPGENT("Birthday list");
+	hotkey.pszDescription = LPGEN("Birthday list");
 	hotkey.pszService = MS_WWI_LIST_SHOW;
 	Hotkey_Register(&hotkey);
 		
 	hotkey.pszName = "wwi_check_birthdays";
-	hotkey.ptszDescription = LPGENT("Check for birthdays");
+	hotkey.pszDescription = LPGEN("Check for birthdays");
 	hotkey.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	Hotkey_Register(&hotkey);
 	
