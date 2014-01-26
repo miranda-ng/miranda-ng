@@ -132,7 +132,7 @@ int CDb3Mmap::InitCrypt()
 	CRYPTO_PROVIDER *pProvider;
 
 	DBVARIANT dbv = { 0 };
-	dbv.type = DBVT_ASCIIZ;
+	dbv.type = DBVT_BLOB;
 	DBCONTACTGETSETTING dbcgs = { "CryptoEngine", "Provider", &dbv };
 	if (GetContactSettingStr(NULL, &dbcgs)) {
 LBL_CreateProvider:
@@ -145,12 +145,13 @@ LBL_CreateProvider:
 		pProvider = ppProvs[0];  //!!!!!!!!!!!!!!!!!!
 
 		DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "Provider" };
-		dbcws.value.type = DBVT_ASCIIZ;
-		dbcws.value.pszVal = pProvider->pszName;
+		dbcws.value.type = DBVT_BLOB;
+		dbcws.value.pbVal = (PBYTE)pProvider->pszName;
+		dbcws.value.cpbVal = (int)strlen(pProvider->pszName)+1;
 		WriteContactSetting(NULL, &dbcws);
 	}
 	else {
-		pProvider = Crypto_GetProvider(dbv.pszVal);
+		pProvider = Crypto_GetProvider(LPCSTR(dbv.pbVal));
 		FreeVariant(&dbv);
 		if (pProvider == NULL)
 			goto LBL_CreateProvider;

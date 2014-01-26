@@ -357,7 +357,7 @@ STDMETHODIMP_(BOOL) CDb3Base::SetSettingResident(BOOL bIsResident, const char *p
 
 STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRITESETTING *dbcws)
 {
-	if (dbcws == NULL || dbcws->szSetting == NULL || dbcws->szModule == NULL)
+	if (dbcws == NULL || dbcws->szSetting == NULL || dbcws->szModule == NULL || m_bReadOnly)
 		return 1;
 
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
