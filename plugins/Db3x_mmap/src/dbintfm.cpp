@@ -44,3 +44,17 @@ int CDb3Mmap::Load(bool bSkipInit)
 
 	return res;
 }
+
+int CDb3Mmap::PrepareCheck()
+{
+	int ret = CheckDbHeaders();
+	if (ret != ERROR_SUCCESS)
+		return ret;
+
+	InitCache();
+	InitModuleNames();
+	if ((ret = InitCrypt()) != ERROR_SUCCESS)
+		return ret;
+
+	return ERROR_SUCCESS;
+}
