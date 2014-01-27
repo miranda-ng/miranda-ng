@@ -1,4 +1,4 @@
-﻿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
@@ -477,7 +477,7 @@ Panely by měly být použity následujícím způsobem
 [Use contact list groups for organizing tabs (one window per group)]
 Použít skupiny kontaktů pro organizaci záložek (jedno okno pro každou skupinu)
 [Tabbed interface, limit the maximum number of tabs per window to:]
-Rozhraní se panely, maximální počet panelů v okně:
+Rozhraní s panely, maximální počet panelů v okně:
 [No tabs at all, each session has its own top level window]
 Žádné panely, každý rozhovor má své vlastní okno
 [Default mode (tabbed interface, manual assignments)]
@@ -499,7 +499,7 @@ Nastavení Windows Aero
 [Use Aero UI elements(only when not using a custom skin)]
 Použít Aero UI elementy (pouze pokud není použito vlastní téma)
 [Use Windows 7 task bar enhancements (restart required)]
-Použít Windows 7 vylepšení lišty úloh (vyžadován restart)
+Použít vylepšení lišty úloh z Windows 7 (vyžadován restart)
 [Popups]
 Oznámení
 [...is &typing]

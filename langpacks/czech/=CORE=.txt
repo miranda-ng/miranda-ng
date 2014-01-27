@@ -1,4 +1,4 @@
-﻿;file \src\resource.rc
+;file \src\resource.rc
 [Enter account name (for example, My Google)]
 Zadejte název účtu (např. Google)
 [Choose the protocol type]
@@ -270,7 +270,7 @@ Příchozí spojení
 [Enable UPnP port mapping]
 Povolit mapování portů dle UPnP
 [You will need to reconnect for the changes you have made on this page to take effect.]
-Poznámka: Provedené změny se projeví až při dalším připojení do sítě.
+Poznámka: Provedené změny se projeví až po opětovném připojení.
 [Please complete the following form to create a new user profile]
 Po vyplnění následujících položek bude vytvořen nový profil
 [Profile]
@@ -336,7 +336,7 @@ Pod&tržené
 [&Color:]
 &Barva:
 [Sample]
-Příkladový text
+Ukázkový text
 [AaBbYyZz]
 AaBbYyZz
 [Sc&ript:]
@@ -412,7 +412,7 @@ Odst&ranit...
 [Miranda NG]
 Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
-Restart programu Miranda.\nPočkejte prosím...
+Restart programu Miranda NG.\nPočkejte prosím...
 [Error console]
 Chybová konzole
 [Error notifications]
@@ -619,7 +619,7 @@ Složka pro záznam
 [Other]
 Ostatní
 [Add new rooms to group:]
-Nové místnosti do skupiny:
+Nové místnosti přidat do skupiny:
 [Nick list row distance (pixels):]
 Odstup účastníků v seznamu (v pix.):
 [Use same style as in the message log]
@@ -899,7 +899,7 @@ Poslat soubory
 [To:]
 Pro:
 [File(s):]
-Soubory:
+Soubor(y):
 [&Choose again...]
 Vyberte &další...
 [Total size:]
@@ -983,7 +983,7 @@ Zavřít okno po dokončení přenosu
 [Clear completed transfers on window closing]
 Smazat dokončené přenosy po zavření okna
 [Virus scanner]
-Antivirová ochrana
+Antivirová kontrola
 [Scan files:]
 Kontrolovat:
 [Never, do not use virus scanning]
@@ -1023,7 +1023,7 @@ Miranda
 [Become idle if the screen saver is active]
 Přejít do stavu nečinnosti pokud běží spořič obrazovky
 [Become idle if the computer is locked]
-Přejít do stavu nečinnosti pokud je počítač zamčen
+Přejít do stavu nečinnosti pokud je počítač uzamčen
 [Become idle if a terminal session is disconnected]
 Přejít do stavu nečinnosti po odpojení vzdáleného uživatele
 [Do not let protocols report any idle information]
@@ -1164,7 +1164,7 @@ Zadejte kód země, oblasti a samotné číslo:
 [Or enter a full international number:]
 Nebo číslo zadejte v mezinárodním formátu:
 [Phone can receive SMS text messages]
-Telefon umožňuje příjem textovek (SMS)
+Telefon umožňuje příjem SMS zpráv
 [Add e-mail address]
 Přidat e-mail
 [%s: user details]
@@ -1326,7 +1326,7 @@ Odeslat zprávu klávesou ENTER
 [Send message by pressing the 'Enter' key twice]
 Odeslat zprávu dvojitým ENTER
 [Flash window when someone speaks]
-Zablikat oknem při napsání zprávy
+Zablikat oknem při přijetí zprávy
 [Flash window when a word is highlighted]
 Zablikat oknem při zvýraznění slova
 [Show list of users in the chat room]
@@ -1368,7 +1368,7 @@ Omezit délku jmen v záznamu na 20 znaků
 [Add ':' to auto-completed user names]
 Přidávat ':' k automaticky doplněným jménům
 [Strip colors from messages in the log]
-Záznam ukládat bez kódů definující barvy
+Záznam ukládat bez kódů definujících barvy
 [Enable the 'event filter' for new rooms]
 Aktivovat filtr událostí pro nové místnosti
 [Show topic changes]
@@ -1516,7 +1516,7 @@ Přidat stav (10x10)
 [Remove status (10x10)]
 Odebrat stav (10x10)
 [Join (10x10)]
-Přidat (10x10)
+Přidat se (10x10)
 [Leave (10x10)]
 Opustit (10x10)
 [Quit (10x10)]
@@ -1572,7 +1572,7 @@ Není co vyhledat
 &Zpráva pro '%s'
 ;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
-Vloží vybraný smajlík
+Vložit smajlík
 [Make the text bold (CTRL+B)]
 Změní styl písma na tučné (CTRL+B)
 [Make the text italicized (CTRL+I)]
