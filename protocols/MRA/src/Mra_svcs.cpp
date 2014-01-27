@@ -116,6 +116,7 @@ const LPWSTR lpcszXStatusNameDef[] =
 	LPGENT("Star"),
 	LPGENT("Music"),
 	LPGENT("Dating"),
+	LPGENT("Mobile"),
 	NULL
 };
 
@@ -124,7 +125,7 @@ const LPWSTR lpcszXStatusNameDef[] =
 void CMraProto::SetExtraIcons(HANDLE hContact)
 {
 	DWORD dwID, dwGroupID, dwContactSeverFlags;
-	if ( GetContactBasicInfoW(hContact, &dwID, &dwGroupID, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL))
+	if (GetContactBasicInfoW(hContact, &dwID, &dwGroupID, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL))
 		return;
 
 	DWORD dwIconID = -1;
@@ -161,7 +162,7 @@ void CMraProto::SetExtraIcons(HANDLE hContact)
 
 INT_PTR CMraProto::MraXStatusMenu(WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	if ( MraRequestXStatusDetails(param) == FALSE)
+	if (MraRequestXStatusDetails(param) == FALSE)
 		MraSetXStatusInternal(param);
 	return 0;
 }
@@ -174,12 +175,12 @@ int CMraProto::MraContactDeleted(WPARAM wParam, LPARAM lParam)
 	if (!m_bLoggedIn || !hContact)
 		return 0;
 
-	if ( IsContactMra(hContact)) {
+	if (IsContactMra(hContact)) {
 		DWORD dwID, dwGroupID;
 		GetContactBasicInfoW(hContact, &dwID, &dwGroupID, NULL, NULL, NULL, NULL, NULL, NULL);
 
 		MraSetContactStatus(hContact, ID_STATUS_OFFLINE);
-		if ( !db_get_b(hContact, "CList", "NotOnList", 0) || dwID != -1) {
+		if (!db_get_b(hContact, "CList", "NotOnList", 0) || dwID != -1) {
 			DWORD dwFlags = CONTACT_FLAG_REMOVED;
 			MraModifyContact(hContact, &dwID, &dwFlags);
 		}
@@ -200,10 +201,10 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
 	// это наш контакт, он не временный (есть в списке на сервере) и его обновление разрешено
-	if ( IsContactMra(hContact) && !db_get_b(hContact, "CList", "NotOnList", 0) && getDword(hContact, "HooksLocked", FALSE) == FALSE) {
-		if ( !strcmp(cws->szModule, "CList")) {
+	if (IsContactMra(hContact) && !db_get_b(hContact, "CList", "NotOnList", 0) && getDword(hContact, "HooksLocked", FALSE) == FALSE) {
+		if (!strcmp(cws->szModule, "CList")) {
 			// MyHandle setting
-			if ( !strcmp(cws->szSetting, "MyHandle")) {
+			if (!strcmp(cws->szSetting, "MyHandle")) {
 				// always store custom nick
 				CMStringW wszNick;
 				if (cws->value.type == DBVT_DELETED) {
@@ -216,10 +217,10 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 						wszNick = cws->value.pwszVal;
 						break;
 					case DBVT_UTF8:
-						wszNick = ptrW( mir_utf8decodeW(cws->value.pszVal));
+						wszNick = ptrW(mir_utf8decodeW(cws->value.pszVal));
 						break;
 					case DBVT_ASCIIZ:
-						wszNick = ptrW( mir_a2u_cp(cws->value.pszVal, MRA_CODE_PAGE));
+						wszNick = ptrW(mir_a2u_cp(cws->value.pszVal, MRA_CODE_PAGE));
 						break;
 					}
 					if (wszNick.GetLength())
@@ -227,7 +228,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 				}
 			}
 			// Group setting
-			else if ( !strcmp(cws->szSetting, "Group")) {
+			else if (!strcmp(cws->szSetting, "Group")) {
 				CMStringW wszGroup;
 				// manage group on server
 				switch (cws->value.type) {
@@ -235,10 +236,10 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 					wszGroup = cws->value.pwszVal;
 					break;
 				case DBVT_UTF8:
-					wszGroup = ptrW( mir_utf8decodeW(cws->value.pszVal));
+					wszGroup = ptrW(mir_utf8decodeW(cws->value.pszVal));
 					break;
 				case DBVT_ASCIIZ:
-					wszGroup = ptrW( mir_a2u_cp(cws->value.pszVal, MRA_CODE_PAGE));
+					wszGroup = ptrW(mir_a2u_cp(cws->value.pszVal, MRA_CODE_PAGE));
 					break;
 				}
 				if (wszGroup.GetLength()) {
@@ -248,10 +249,10 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 				}
 			}
 			// NotOnList setting. Has a temporary contact just been added permanently?
-			else if ( !strcmp(cws->szSetting, "NotOnList")) {
+			else if (!strcmp(cws->szSetting, "NotOnList")) {
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0)) {
 					CMStringW wszAuthMessage;
-					if ( !mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
+					if (!mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
 						wszAuthMessage = TranslateT(MRA_DEFAULT_AUTH_MESSAGE);
 
 					db_unset(hContact, "CList", "Hidden");
@@ -264,7 +265,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 				}
 			}
 			// Hidden setting
-			else if ( !strcmp(cws->szSetting, "Hidden")) {
+			else if (!strcmp(cws->szSetting, "Hidden")) {
 				DWORD dwContactFlag = GetContactFlags(hContact);
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
 					dwContactFlag &= ~CONTACT_FLAG_SHADOW;
@@ -275,8 +276,8 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 		}
 		// Ignore section
-		else if ( !strcmp(cws->szModule, "Ignore")) {
-			if ( !strcmp(cws->szSetting, "Mask1")) {
+		else if (!strcmp(cws->szModule, "Ignore")) {
+			if (!strcmp(cws->szSetting, "Mask1")) {
 				DWORD dwContactFlag = GetContactFlags(hContact);
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_DWORD && cws->value.dVal&IGNOREEVENT_MESSAGE) == 0)
 					dwContactFlag &= ~CONTACT_FLAG_IGNORE;
@@ -287,8 +288,8 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 		}
 		// User info section
-		else if ( !strcmp(cws->szModule, "UserInfo")) {
-			if ( !strcmp(cws->szSetting, "MyPhone0") || !strcmp(cws->szSetting, "MyPhone1") || !strcmp(cws->szSetting, "MyPhone2"))
+		else if (!strcmp(cws->szModule, "UserInfo")) {
+			if (!strcmp(cws->szSetting, "MyPhone0") || !strcmp(cws->szSetting, "MyPhone1") || !strcmp(cws->szSetting, "MyPhone2"))
 				MraModifyContact(hContact);
 		}
 	}
@@ -308,14 +309,12 @@ INT_PTR CMraProto::MraSetListeningTo(WPARAM wParam, LPARAM lParam)
 {
 	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;
 
-	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO))
-	{
+	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO)) {
 		MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, _T(""), 0);
 		delSetting(DBSETTING_BLOGSTATUSMUSIC);
 	}
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
 		CMStringW wszListeningTo;
-
 		if ( ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
 			wszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%track%. %title% - %artist% - %player%", (LPARAM)pliInfo));
 		else
@@ -357,13 +356,13 @@ int CMraProto::MraMusicChanged(WPARAM wParam, LPARAM lParam)
 
 DWORD CMraProto::MraSetXStatusInternal(DWORD dwXStatus)
 {
-	if ( IsXStatusValid(dwXStatus)) {
+	if (IsXStatusValid(dwXStatus)) {
 		CMStringW szBuff;
 
 		// obsolete (TODO: remove in next version)
 		char szValueName[MAX_PATH];
 		mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatus);
-		if ( !mraGetStringW(NULL, szValueName, szBuff))
+		if (!mraGetStringW(NULL, szValueName, szBuff))
 			szBuff = lpcszXStatusNameDef[dwXStatus];
 		mraSetStringExW(NULL, DBSETTING_XSTATUSNAME, szBuff);
 
@@ -469,24 +468,25 @@ INT_PTR CMraProto::MraGetXStatusEx(WPARAM wParam, LPARAM lParam)
 	if (pData->flags & CSSF_MASK_NAME) {
 		if (pData->flags & CSSF_DEFAULT_NAME) {
 			DWORD dwXStatus = (pData->wParam == NULL) ? m_iXStatus : *pData->wParam;
-			if ( !IsXStatusValid(dwXStatus))
+			if (!IsXStatusValid(dwXStatus))
 				return 1;
 
 			if (pData->flags & CSSF_UNICODE)
-				lstrcpyn(pData->ptszName, lpcszXStatusNameDef[dwXStatus], (STATUS_TITLE_MAX+1));
+				lstrcpyn(pData->ptszName, lpcszXStatusNameDef[dwXStatus], (STATUS_TITLE_MAX + 1));
 			else {
-				size_t dwStatusTitleSize = lstrlen( lpcszXStatusNameDef[dwXStatus] );
-				if (dwStatusTitleSize>STATUS_TITLE_MAX) dwStatusTitleSize = STATUS_TITLE_MAX;
+				size_t dwStatusTitleSize = lstrlen(lpcszXStatusNameDef[dwXStatus]);
+				if (dwStatusTitleSize > STATUS_TITLE_MAX)
+					dwStatusTitleSize = STATUS_TITLE_MAX;
 
-				WideCharToMultiByte(MRA_CODE_PAGE, 0, lpcszXStatusNameDef[dwXStatus], (DWORD)dwStatusTitleSize, pData->pszName, MAX_PATH, NULL, NULL );
-				(*((CHAR*)(pData->pszName+dwStatusTitleSize))) = 0;
+				WideCharToMultiByte(MRA_CODE_PAGE, 0, lpcszXStatusNameDef[dwXStatus], (DWORD)dwStatusTitleSize, pData->pszName, MAX_PATH, NULL, NULL);
+				(*((CHAR*)(pData->pszName + dwStatusTitleSize))) = 0;
 			}
 		}
 		else {
 			if (pData->flags & CSSF_UNICODE)
-				mraGetStaticStringW(hContact, DBSETTING_XSTATUSNAME, pData->pwszName, (STATUS_TITLE_MAX+1), NULL);
+				mraGetStaticStringW(hContact, DBSETTING_XSTATUSNAME, pData->pwszName, (STATUS_TITLE_MAX + 1), NULL);
 			else
-				mraGetStaticStringA(hContact, DBSETTING_XSTATUSNAME, pData->pszName, (STATUS_TITLE_MAX+1), NULL);
+				mraGetStaticStringA(hContact, DBSETTING_XSTATUSNAME, pData->pszName, (STATUS_TITLE_MAX + 1), NULL);
 		}
 	}
 
@@ -495,18 +495,16 @@ INT_PTR CMraProto::MraGetXStatusEx(WPARAM wParam, LPARAM lParam)
 		char szSetting[100];
 		mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dMsg", m_iXStatus);
 		if (pData->flags & CSSF_UNICODE)
-			mraGetStaticStringW(hContact, szSetting, pData->pwszMessage, (STATUS_DESC_MAX+1), NULL);
+			mraGetStaticStringW(hContact, szSetting, pData->pwszMessage, (STATUS_DESC_MAX + 1), NULL);
 		else
-			mraGetStaticStringA(hContact, szSetting, pData->pszMessage, (STATUS_DESC_MAX+1), NULL);
+			mraGetStaticStringA(hContact, szSetting, pData->pszMessage, (STATUS_DESC_MAX + 1), NULL);
 	}
 
-	if (pData->flags & CSSF_DISABLE_UI)
-		if (pData->wParam)
-			*pData->wParam = bHideXStatusUI;
+	if ((pData->flags & CSSF_DISABLE_UI) && pData->wParam)
+		*pData->wParam = bHideXStatusUI;
 
-	if (pData->flags & CSSF_STATUSES_COUNT)
-		if (pData->wParam)
-			*pData->wParam = MRA_XSTATUS_COUNT-1;
+	if ((pData->flags & CSSF_STATUSES_COUNT) && pData->wParam)
+		*pData->wParam = MRA_XSTATUS_COUNT - 1;
 
 	//**deb можно оптимизировать, данный параметр возможно уже был вычислен при получении самих текстов
 	if (pData->flags & CSSF_STR_SIZES) {
@@ -531,12 +529,12 @@ DWORD CMraProto::MraSendNewStatus(DWORD dwStatusMir, DWORD dwXStatusMir, const C
 
 	CMStringW wszStatusTitle, wszStatusDesc;
 	DWORD dwXStatus, dwStatus = GetMraStatusFromMiradaStatus(dwStatusMir, dwXStatusMir, &dwXStatus);
-	if ( IsXStatusValid(dwXStatusMir)) {
+	if (IsXStatusValid(dwXStatusMir)) {
 		char szValueName[MAX_PATH];
 		if (pwszStatusTitle.IsEmpty()) {
 			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatusMir);
 			// custom xstatus name
-			if ( !mraGetStringW(NULL, szValueName, wszStatusTitle))
+			if (!mraGetStringW(NULL, szValueName, wszStatusTitle))
 				wszStatusTitle = TranslateTS(lpcszXStatusNameDef[dwXStatusMir]);
 		}
 		else wszStatusTitle = pwszStatusTitle;
@@ -551,7 +549,7 @@ DWORD CMraProto::MraSendNewStatus(DWORD dwStatusMir, DWORD dwXStatusMir, const C
 	else if (pwszStatusTitle.IsEmpty())
 		wszStatusTitle = pcli->pfnGetStatusModeDescription(dwStatusMir, 0);
 
-	MraChangeStatus(dwStatus, lpcszStatusUri[dwXStatus], wszStatusTitle, wszStatusDesc, ((getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS));
+	MraChangeStatus(dwStatus, lpcszStatusUri[dwXStatus], wszStatusTitle, wszStatusDesc, ((getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE) ? FEATURE_FLAG_RTF_MESSAGE : 0) | MRA_FEATURE_FLAGS));
 	return 0;
 }
 
@@ -563,7 +561,7 @@ INT_PTR CMraProto::MraSendNudge(WPARAM wParam, LPARAM lParam)
 
 		CMStringA szEmail;
 		if (mraGetStringA(hContact, "e-mail", szEmail))
-			if (MraMessage(FALSE, hContact, 0, (MESSAGE_FLAG_RTF|MESSAGE_FLAG_ALARM), szEmail, lpwszAlarmMessage, NULL, 0))
+			if (MraMessage(FALSE, hContact, 0, (MESSAGE_FLAG_RTF | MESSAGE_FLAG_ALARM), szEmail, lpwszAlarmMessage, NULL, 0))
 				return 0;
 	}
 	return 1;
@@ -614,7 +612,7 @@ INT_PTR CMraProto::MraGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 INT_PTR CMraProto::MraGetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	CMStringW wszFileName;
-	if ( MraAvatarsGetFileName(hAvatarsQueueHandle, NULL, GetContactAvatarFormat(NULL, PA_FORMAT_DEFAULT), wszFileName) == NO_ERROR) {
+	if (MraAvatarsGetFileName(hAvatarsQueueHandle, NULL, GetContactAvatarFormat(NULL, PA_FORMAT_DEFAULT), wszFileName) == NO_ERROR) {
 		lstrcpyn((LPTSTR)wParam, wszFileName, (size_t)lParam);
 		return 0;
 	}
@@ -633,9 +631,9 @@ int CMraProto::OnGroupChanged(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		MraGroupItem *pGrp = NULL;
-		for (int i=0; i < m_groups.getCount(); i++) {
+		for (int i = 0; i < m_groups.getCount(); i++) {
 			MraGroupItem &p = m_groups[i];
-			if ( !_tcscmp(p.m_name, cgc->pszOldName)) {
+			if (!_tcscmp(p.m_name, cgc->pszOldName)) {
 				pGrp = &p;
 				break;
 			}

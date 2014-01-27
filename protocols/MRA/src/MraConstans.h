@@ -232,7 +232,7 @@ extern const LPSTR  lpcszStatusUri[];
 extern const LPWSTR lpcszXStatusNameDef[];
 
 #define MRA_XSTATUS_MENU        "/menuXStatus"
-#define MRA_XSTATUS_COUNT       50
+#define MRA_XSTATUS_COUNT       51
 #define MRA_MIR_XSTATUS_NONE    0
 #define MRA_MIR_XSTATUS_UNKNOWN MRA_XSTATUS_COUNT
 

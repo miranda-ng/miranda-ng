@@ -52,11 +52,12 @@
 #define IDI_XSTATUS47                   247
 #define IDI_XSTATUS48                   248
 #define IDI_XSTATUS49                   249
-#define IDI_XSTATUS_UNKNOWN             250
+#define IDI_XSTATUS50                   250
+#define IDI_XSTATUS_UNKNOWN             251
 
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        253

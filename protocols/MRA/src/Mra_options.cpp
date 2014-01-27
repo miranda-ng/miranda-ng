@@ -11,7 +11,7 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		ppro = (CMraProto*)lParam;
 
-		if ( ppro->mraGetStringW(NULL, "e-mail", szBuff))
+		if (ppro->mraGetStringW(NULL, "e-mail", szBuff))
 			SetDlgItemText(hWndDlg, IDC_LOGIN, szBuff.c_str());
 
 		SetDlgItemText(hWndDlg, IDC_PASSWORD, _T(""));
@@ -20,11 +20,11 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_NEW_ACCOUNT_LINK:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM) MRA_REGISTER_URL);
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)MRA_REGISTER_URL);
 			return TRUE;
 
 		case IDC_LOOKUPLINK:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM) MRA_FORGOT_PASSWORD_URL);
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)MRA_FORGOT_PASSWORD_URL);
 			return TRUE;
 		}
 		if ((LOWORD(wParam) == IDC_LOGIN || LOWORD(wParam) == IDC_PASSWORD) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
@@ -62,7 +62,7 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		ppro = (CMraProto*)lParam;
 
-		if ( ppro->mraGetStringW(NULL, "e-mail", szBuff))
+		if (ppro->mraGetStringW(NULL, "e-mail", szBuff))
 			SetDlgItemText(hWndDlg, IDC_LOGIN, szBuff.c_str());
 
 		SetDlgItemText(hWndDlg, IDC_PASSWORD, _T(""));
@@ -74,10 +74,8 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)MRA_REGISTER_URL);
 			return TRUE;
 		}
-		if ( HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
-		{
-			switch(LOWORD(wParam))
-			{
+		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
+			switch (LOWORD(wParam)) {
 			case IDC_LOGIN:
 			case IDC_PASSWORD:
 				SendMessage(GetParent(hWndDlg), PSM_CHANGED, 0, 0);
@@ -158,26 +156,24 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 			EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_BGCOLOUR), IsDlgButtonChecked(hWndDlg, IDC_RTF_SEND_ENABLE));
 			break;
 		case IDC_BUTTON_FONT:
-			{
-				LOGFONT lf = {0};
-				CHOOSEFONT cf = {0};
+			LOGFONT lf = { 0 };
+			CHOOSEFONT cf = { 0 };
 
-				cf.lStructSize = sizeof(cf);
-				cf.lpLogFont = &lf;
-				cf.rgbColors = ppro->getDword("RTFFontColour", MRA_DEFAULT_RTF_FONT_COLOUR);
-				cf.Flags = (CF_SCREENFONTS|CF_EFFECTS|CF_FORCEFONTEXIST|CF_INITTOLOGFONTSTRUCT);
-				if (ppro->mraGetContactSettingBlob(NULL, "RTFFont", &lf, sizeof(LOGFONT), NULL) == FALSE) {
-					HDC hDC = GetDC(NULL);// kegl
-					lf.lfCharSet = MRA_DEFAULT_RTF_FONT_CHARSET;
-					lf.lfHeight = -MulDiv(MRA_DEFAULT_RTF_FONT_SIZE, GetDeviceCaps(hDC, LOGPIXELSY), 72);
-					lstrcpyn(lf.lfFaceName, MRA_DEFAULT_RTF_FONT_NAME, LF_FACESIZE);
-					ReleaseDC(NULL, hDC);
-				}
+			cf.lStructSize = sizeof(cf);
+			cf.lpLogFont = &lf;
+			cf.rgbColors = ppro->getDword("RTFFontColour", MRA_DEFAULT_RTF_FONT_COLOUR);
+			cf.Flags = (CF_SCREENFONTS | CF_EFFECTS | CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT);
+			if (ppro->mraGetContactSettingBlob(NULL, "RTFFont", &lf, sizeof(LOGFONT), NULL) == FALSE) {
+				HDC hDC = GetDC(NULL);// kegl
+				lf.lfCharSet = MRA_DEFAULT_RTF_FONT_CHARSET;
+				lf.lfHeight = -MulDiv(MRA_DEFAULT_RTF_FONT_SIZE, GetDeviceCaps(hDC, LOGPIXELSY), 72);
+				lstrcpyn(lf.lfFaceName, MRA_DEFAULT_RTF_FONT_NAME, LF_FACESIZE);
+				ReleaseDC(NULL, hDC);
+			}
 
-				if (ChooseFont(&cf)) {
-					ppro->mraWriteContactSettingBlob(NULL, "RTFFont", &lf, sizeof(LOGFONT));
-					ppro->setDword("RTFFontColour", cf.rgbColors);
-				}
+			if (ChooseFont(&cf)) {
+				ppro->mraWriteContactSettingBlob(NULL, "RTFFont", &lf, sizeof(LOGFONT));
+				ppro->setDword("RTFFontColour", cf.rgbColors);
 			}
 			break;
 		}
