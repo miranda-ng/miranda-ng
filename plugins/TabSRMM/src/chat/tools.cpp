@@ -672,7 +672,7 @@ char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)
 			STATUSINFO *ti = pci->TM_FindStatus(si->pStatuses, pci->TM_WordToString(si->pStatuses, ui->Status));
 			if (ti && (int)ti->hIcon < si->iStatusCount) {
 				if (iNickIndex)
-					*iNickIndex = si->iStatusCount - (int)ti->hIcon; // color table's index is not zero-based
+					*iNickIndex = (int)ti->hIcon; // color table's index is not zero-based
 				return szIndicators[(int)ti->hIcon];
 			}
 			break;

@@ -563,9 +563,9 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 static TCHAR* chatcolorsnames[] =
 {
-	LPGENT("Channel operators"),
-	LPGENT("Half operators"),
 	LPGENT("Voiced"),
+	LPGENT("Half operators"),
+	LPGENT("Channel operators"),
 	LPGENT("Extended mode 1"),
 	LPGENT("Extended mode 2"),
 	LPGENT("Selection background"),

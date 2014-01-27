@@ -193,7 +193,7 @@ static void OnLoadSettings()
 	int ih2 = GetTextPixelSize(_T("AQGglo"), g_Settings.UserListFonts[CHAT_STATUS_AWAY], false);
 	g_Settings.iNickListFontHeight = max(M.GetByte(CHAT_MODULE, "NicklistRowDist", 12), (ih > ih2 ? ih : ih2));
 
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 5; i++) {
 		char szBuf[40];
 		mir_snprintf(szBuf, 20, "NickColor%d", i);
 		g_Settings.nickColors[i] = M.GetDword(CHAT_MODULE, szBuf, g_Settings.UserListColors[0]);
@@ -229,7 +229,7 @@ static void CheckUpdate()
 {
 	// already converted?
 	int compat = db_get_b(NULL, "Compatibility", "TabChatFonts", 0);
-	if (compat >= 2)
+	if (compat >= 3)
 		return;
 
 	if (compat == 0) {
@@ -251,13 +251,25 @@ static void CheckUpdate()
 		}
 
 		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)CHAT_OLDFONTMODULE);
+		compat++;
 	}
 
-	DWORD oldBackColor = db_get_dw(0, FONTMODULE, "BkgColourMUC", SRMSGDEFSET_BKGCOLOUR);
-	db_set_dw(NULL, CHAT_MODULE, "ColorLogBG", oldBackColor);
-	db_unset(0, FONTMODULE, "BkgColourMUC");
+	if (compat == 1) {
+		DWORD oldBackColor = db_get_dw(0, FONTMODULE, "BkgColourMUC", SRMSGDEFSET_BKGCOLOUR);
+		db_set_dw(NULL, CHAT_MODULE, "ColorLogBG", oldBackColor);
+		db_unset(0, FONTMODULE, "BkgColourMUC");
+		compat++;
+	}
 
-	db_set_b(NULL, "Compatibility", "TabChatFonts", 2);
+	if (compat == 2) {
+		COLORREF color0 = M.GetDword(CHAT_MODULE, "NickColor2", 0);
+		COLORREF color2 = M.GetDword(CHAT_MODULE, "NickColor0", 0);
+		db_set_dw(NULL, CHAT_MODULE, "NickColor0", color0);
+		db_set_dw(NULL, CHAT_MODULE, "NickColor2", color2);
+		compat++;
+	}
+
+	db_set_b(NULL, "Compatibility", "TabChatFonts", 3);
 }
 
 int Chat_Load()

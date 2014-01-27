@@ -2284,7 +2284,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				else {
 					FillRect(dis->hDC, &dis->rcItem, pci->hListBkgBrush);
 					if (g_Settings.bColorizeNicks && nickIndex != 0)
-						SetTextColor(dis->hDC, g_Settings.nickColors[si->iStatusCount - nickIndex - 1]);
+						SetTextColor(dis->hDC, g_Settings.nickColors[nickIndex-1]);
 					else
 						SetTextColor(dis->hDC, g_Settings.UserListColors[ui->iStatusEx]);
 				}
