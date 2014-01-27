@@ -828,7 +828,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 }
 
 	/////////////////////////////////////////////////////////////////////
-	// Member Function : MirandaPluginInfoEx & MirandaPluginInterfaces
+	// Member Function : MirandaPluginInfoEx
 	// Type            : Global
 	// Parameters      : mirandaVersion - ?
 	// Returns         :
