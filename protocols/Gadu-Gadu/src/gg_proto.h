@@ -198,7 +198,6 @@ struct GGPROTO : public PROTO<GGPROTO>
 	void links_instance_init();
 
 	/* OAuth functions */
-	char *oauth_header(const char *httpmethod, const char *url);
 	int oauth_checktoken(int force);
 	int oauth_receivetoken();
 

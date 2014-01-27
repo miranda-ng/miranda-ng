@@ -357,18 +357,12 @@ void GGPROTO::getOwnAvatar()
 
 void __cdecl GGPROTO::setavatarthread(void *param)
 {
-	NETLIBHTTPHEADER httpHeaders[4];
-	NETLIBHTTPREQUEST req = {0};
-	NETLIBHTTPREQUEST *resp;
-	TCHAR *szFilename = (TCHAR*)param;
-	const char *contentend = "\r\n--AaB03x--\r\n";
-	char szUrl[128], uin[32], *authHeader, *data, *avatardata, content[256], image_ext[4], image_type[11];
-	int file_fd, avatardatalen, datalen, contentlen, contentendlen, res = 0, repeat = 0;
 
 	debugLogA("setavatarthread(): started. Trying to set user avatar.");
-	UIN2IDA(getDword(GG_KEY_UIN, 0), uin);
 
-	file_fd = _topen(szFilename, _O_RDONLY | _O_BINARY, _S_IREAD);
+	//read file
+	TCHAR *szFilename = (TCHAR*)param;
+	int file_fd = _topen(szFilename, _O_RDONLY | _O_BINARY, _S_IREAD);
 	if (file_fd == -1) {
 		debugLogA("setavatarthread(): Failed to open avatar file errno=%d: %s.", errno, strerror(errno));
 		TCHAR error[512];
@@ -380,113 +374,125 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 			setByte(GG_KEY_AVATARTYPE, prevType);
 		delSetting(GG_KEY_AVATARTYPEPREV);
 		getOwnAvatar();
-#ifdef DEBUGMODE
+		#ifdef DEBUGMODE
 		debugLogA("setavatarthread(): end. err1");
-#endif
+		#endif
 		return;
 	}
-	avatardatalen = _filelength(file_fd);
-	avatardata = (char *)mir_alloc(avatardatalen);
 
-	_read(file_fd, avatardata, avatardatalen);
+	size_t avatarFileLen = (size_t)_filelength(file_fd);
+	char* avatarFile = (char*)mir_alloc(avatarFileLen);
+	_read(file_fd, avatarFile, avatarFileLen);
 	_close(file_fd);
 
-	TCHAR *fileext = _tcsrchr(szFilename, '.');
-	fileext++;
-	if (!_tcsicmp(fileext, _T("jpg"))) {
-		strcpy(image_ext, "jpg");
-		strcpy(image_type, "image/jpeg");
-	}
-	else if (!_tcsicmp(fileext, _T("gif"))) {
-		strcpy(image_ext, "gif");
-		strcpy(image_type, "image/gif");
-	}
-	else {
-		strcpy(image_ext, "png");
-		strcpy(image_type, "image/png");
-	}
+	ptrA avatarFileB64(mir_base64_encode((PBYTE)avatarFile, (unsigned)avatarFileLen));
+	mir_free(avatarFile);
 
-	mir_snprintf(content, 256, "--AaB03x\r\nContent-Disposition: form-data; name=\"_method\"\r\n\r\nPUT\r\n--AaB03x\r\nContent-Disposition: form-data; name=\"avatar\"; filename=\"%s.%s\"\r\nContent-Type: %s\r\n\r\n",
-		uin, image_ext, image_type);
-	contentlen = (int)strlen(content);
-	contentendlen = (int)strlen(contentend);
+	ptrA avatarFileB64Enc(mir_urlEncode(avatarFileB64));
+	size_t avatarFileB64EncLen = strlen(avatarFileB64Enc);
 
-	datalen = contentlen + avatardatalen + contentendlen;
-	data = (char *)mir_alloc(datalen);
-	memcpy(data, content, contentlen);
-	memcpy(data + contentlen, avatardata, avatardatalen);
-	memcpy(data + contentlen + avatardatalen, contentend, contentendlen);
+	char dataPrefix[64];
+	mir_snprintf(dataPrefix, 64, "uin=%d&photo=", getDword(GG_KEY_UIN, 0));
+	size_t dataPrefixLen = strlen(dataPrefix);
 
-	mir_snprintf(szUrl, 128, "http://api.gadu-gadu.pl/avatars/%s/0.xml", uin);
+	size_t dataLen = dataPrefixLen + avatarFileB64EncLen;
+	char* data = (char*)mir_alloc(dataLen);
+	memcpy(data, dataPrefix, dataPrefixLen);
+	memcpy(data + dataPrefixLen, avatarFileB64Enc, avatarFileB64EncLen);
+
+	//check if we have token, if no - receive new one
 	oauth_checktoken(0);
-	authHeader = oauth_header("PUT", szUrl);
+	char* token = getStringA(GG_KEY_TOKEN);
 
+	//construct request
+	NETLIBHTTPREQUEST req = {0};
 	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_POST;
-	req.szUrl = szUrl;
+	req.szUrl = "http://avatars.nowe.gg/upload";
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
-	req.headersCount = 4;
-	req.headers = httpHeaders;
-	httpHeaders[0].szName   = "User-Agent";
-	httpHeaders[0].szValue = GG8_VERSION;
+	req.headersCount = 10;
+	NETLIBHTTPHEADER httpHeaders[10];
+	httpHeaders[0].szName  = "X-Request";
+	httpHeaders[0].szValue = "JSON";
 	httpHeaders[1].szName  = "Authorization";
-	httpHeaders[1].szValue = authHeader;
-	httpHeaders[2].szName  = "Accept";
-	httpHeaders[2].szValue = "*/*";
-	httpHeaders[3].szName  = "Content-Type";
-	httpHeaders[3].szValue = "multipart/form-data; boundary=AaB03x";
+	httpHeaders[1].szValue = token;
+	httpHeaders[2].szName  = "X-Requested-With";
+	httpHeaders[2].szValue = "XMLHttpRequest";
+	httpHeaders[3].szName  = "From";
+	httpHeaders[3].szValue = "avatars to avatars";
+	httpHeaders[4].szName  = "X-IM-Web-App-Version";
+	httpHeaders[4].szValue = "10,5,2,13164";
+	httpHeaders[5].szName  = "User-Agent";
+	httpHeaders[5].szValue = "avatars to avatars";
+	httpHeaders[6].szName  = "From";
+	httpHeaders[6].szValue = "Mozilla/5.0 (Windows; U; Windows NT 5.1; pl-PL) AppleWebKit/533.3 (KHTML, like Gecko) Qt/4.7.1 Safari/533.3";
+	httpHeaders[7].szName  = "Content-type";
+	httpHeaders[7].szValue = "application/x-www-form-urlencoded; charset=utf-8";
+	httpHeaders[8].szName  = "Accept";
+	httpHeaders[8].szValue = "application/json";
+	httpHeaders[9].szName  = "Referer";
+	httpHeaders[9].szValue = "http://avatars.nowe.gg/.static/index_new_22.0.2_595nwh.html";
+	req.headers = httpHeaders;
 	req.pData = data;
-	req.dataLength = datalen;
+	req.dataLength = dataLen;
 
-	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	//send request
+	int resultSuccess = 0;
+	int needRepeat = 0;
+	NETLIBHTTPREQUEST* resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-#ifdef DEBUGMODE
 			debugLogA("setavatarthread(): 1 resp.data= %s", resp->pData);
-#endif
-			res = 1;
+			resultSuccess = 1;
+		} else {
+			debugLogA("setavatarthread() Invalid response code from HTTP request [%d]", resp->resultCode);
+			if (resp->resultCode == 399 || resp->resultCode == 403 || resp->resultCode == 401){
+				needRepeat = 1;
+			}
 		}
-		else debugLogA("setavatarthread() Invalid response code from HTTP request");
-		if (resp->resultCode == 403 || resp->resultCode == 401)
-			repeat = 1;
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+	} else {
+		debugLogA("setavatarthread(): No response from HTTP request");
 	}
-	else debugLogA("setavatarthread(): No response from HTTP request");
 
-	if (repeat) { // Access Token expired - we need to obtain new
-		mir_free(authHeader);
+	//check if we should repeat request
+	if (needRepeat) { 
+		// Access Token expired - force obtain new
 		oauth_checktoken(1);
-		authHeader = oauth_header("PUT", szUrl);
+		mir_free(token);
+		token = getStringA(GG_KEY_TOKEN);
+		httpHeaders[1].szValue = token;
 
+		//construct 2nd request
 		ZeroMemory(&req, sizeof(req));
 		req.cbSize = sizeof(req);
 		req.requestType = REQUEST_POST;
-		req.szUrl = szUrl;
+		req.szUrl = "http://avatars.nowe.gg/upload";
 		req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
-		req.headersCount = 4;
+		req.headersCount = 10;
 		req.headers = httpHeaders;
 		req.pData = data;
-		req.dataLength = datalen;
+		req.dataLength = dataLen;
 
 		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 		if (resp) {
 			if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-#ifdef DEBUGMODE
 				debugLogA("setavatarthread(): 2 resp.data= %s", resp->pData);
-#endif
-				res = 1;
+				resultSuccess = 1;
+			} else {
+				debugLogA("setavatarthread(): Invalid response code from HTTP request [%d]", resp->resultCode);
 			}
-			else debugLogA("setavatarthread(): Invalid response code from HTTP request");
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		} else {
+			debugLogA("setavatarthread(): No response from HTTP request");
 		}
-		else debugLogA("setavatarthread(): No response from HTTP request");
 	}
 
-	mir_free(authHeader);
-	mir_free(avatardata);
+	//clean and end thread
+	mir_free(token);
 	mir_free(data);
 
-	if (res) {
+	if (resultSuccess) {
 		debugLogA("setavatarthread(): User avatar set successfully.");
 	} else {
 		int prevType = getByte(GG_KEY_AVATARTYPEPREV, -1);
@@ -498,9 +504,10 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 
 	mir_free(szFilename);
 	getOwnAvatar();
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	debugLogA("setavatarthread(): end.");
-#endif
+	#endif
+
 }
 
 void GGPROTO::setAvatar(const TCHAR *szFilename)

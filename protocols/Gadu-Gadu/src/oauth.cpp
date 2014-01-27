@@ -200,7 +200,7 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 		strcat(key, tsenc);
 
 		BYTE digest[MIR_SHA1_HASH_SIZE];
-		mir_hmac_sha1(digest, (BYTE*)(char*)text, strlen(text), (BYTE*)(char*)key, strlen(key));
+		mir_hmac_sha1(digest, (BYTE*)(char*)key, strlen(key), (BYTE*)(char*)text, strlen(text));
 		sign = mir_base64_encode(digest, MIR_SHA1_HASH_SIZE);
 	}
 	else { // PLAINTEXT
@@ -225,12 +225,13 @@ char *oauth_generate_nonce()
 	mir_snprintf(timestamp, sizeof(timestamp), "%ld", time(NULL)); 
 	CallService(MS_UTILS_GETRANDOM, (WPARAM)sizeof(randnum), (LPARAM)randnum);
 
-	ptrA str((char *)mir_alloc(strlen(timestamp) + strlen(randnum) + 1));
+	int strSizeB = strlen(timestamp) + sizeof(randnum);
+	ptrA str((char *)mir_calloc(strSizeB + 1));
 	strcpy(str, timestamp);
-	strcat(str, randnum);
+	strncat(str, randnum, sizeof(randnum));
 
 	BYTE digest[16];
-	mir_md5_hash((BYTE*)(char*)str, (int)strlen(str), digest);
+	mir_md5_hash((BYTE*)(char*)str, strSizeB, digest);
 	return bin2hex(digest, sizeof(digest), (char *)mir_alloc(32 + 1));
 }
 
@@ -285,16 +286,6 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 
 	oauth_freeparams(oauth_parameters);
 	return res;
-}
-
-char* GGPROTO::oauth_header(const char *httpmethod, const char *url)
-{
-	char uin[32];
-	UIN2IDA( getDword(GG_KEY_UIN, 0), uin);
-	ptrA token( getStringA(GG_KEY_TOKEN));
-	ptrA password( getStringA(GG_KEY_PASSWORD));
-	ptrA token_secret( getStringA(GG_KEY_TOKENSECRET));
-	return oauth_auth_header(httpmethod, url, HMACSHA1, uin, password, token, token_secret);
 }
 
 int GGPROTO::oauth_receivetoken()
