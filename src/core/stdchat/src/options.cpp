@@ -52,8 +52,8 @@ static const struct branch_t branch1[] = {
 	{ LPGENT("Do not play sounds when the chat room is focused"), "SoundsFocus", 0, 0},
 	{ LPGENT("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0,0},
 	{ LPGENT("Toggle the visible state when double clicking in the contact list"), "ToggleVisibility", 0,0},
-    {LPGENT("Show contact statuses if protocol supports them"), "ShowContactStatus", 0,0},
-    {LPGENT("Display contact status icon before user role icon"), "ContactStatusFirst", 0,0},
+	{ LPGENT("Show contact statuses if protocol supports them"), "ShowContactStatus", 0, 0 },
+	{ LPGENT("Display contact status icon before user role icon"), "ContactStatusFirst", 0, 0 },
 };
 
 static const struct branch_t branch2[] = {
@@ -174,10 +174,10 @@ static void FillBranch(HWND hwndTree, HTREEITEM hParent, const struct branch_t *
 
 static void SaveBranch(HWND hwndTree, const struct branch_t *branch, HTREEITEM *hItemB, int nValues)
 {
-	TVITEM tvi;
 	int iState = 0;
 
-	tvi.mask=TVIF_HANDLE|TVIF_STATE;
+	TVITEM tvi;
+	tvi.mask = TVIF_HANDLE | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
 		tvi.hItem = hItemB[i];
 		TreeView_GetItem(hwndTree,&tvi);
