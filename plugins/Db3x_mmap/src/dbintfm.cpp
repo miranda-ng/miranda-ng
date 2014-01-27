@@ -39,10 +39,17 @@ CDb3Mmap::~CDb3Mmap()
 int CDb3Mmap::Load(bool bSkipInit)
 {
 	int res = CDb3Base::Load(bSkipInit);
-	if (!res && !bSkipInit)
-		if (InitCrypt()) return 1;
+	if (res)
+		return res;
+	
+	if (!memcmp(&m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)))
+		memcpy(&m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature));
 
-	return res;
+	if (!bSkipInit)
+		if (InitCrypt())
+			return EGROKPRF_CANTREAD;
+
+	return ERROR_SUCCESS;
 }
 
 int CDb3Mmap::PrepareCheck()
