@@ -26,88 +26,88 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static const CIrcProto* pZero = NULL;
 
-void CIrcProto::ReadSettings( TDbSetting* sets, int count )
+void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 {
-	BYTE* base = ( BYTE* )this;
+	BYTE* base = (BYTE*)this;
 
 	DBVARIANT dbv;
-	for ( int i=0; i < count; i++ ) {
+	for (int i = 0; i < count; i++) {
 		TDbSetting* p = &sets[i];
 		BYTE* ptr = base + p->offset;
-		switch( p->type ) {
+		switch (p->type) {
 		case DBVT_BYTE:
-			*( BYTE* )ptr = getByte( p->name, p->defValue );
+			*(BYTE*)ptr = getByte(p->name, p->defValue);
 			break;
 		case DBVT_WORD:
-			*( WORD* )ptr = getWord( p->name, p->defValue );
+			*(WORD*)ptr = getWord(p->name, p->defValue);
 			break;
 		case DBVT_DWORD:
-			*( DWORD* )ptr = getDword( p->name, p->defValue );
+			*(DWORD*)ptr = getDword(p->name, p->defValue);
 			break;
 		case DBVT_ASCIIZ:
-			if ( !getString( p->name, &dbv )) {
-				if ( p->size != -1 ) {
-					size_t len = min( p->size-1, strlen( dbv.pszVal ));
-					memcpy( ptr, dbv.pszVal, len );
+			if (!getString(p->name, &dbv)) {
+				if (p->size != -1) {
+					size_t len = min(p->size - 1, strlen(dbv.pszVal));
+					memcpy(ptr, dbv.pszVal, len);
 					ptr[len] = 0;
 				}
-				else *( char** )ptr = mir_strdup( dbv.pszVal );
-				db_free( &dbv );
+				else *(char**)ptr = mir_strdup(dbv.pszVal);
+				db_free(&dbv);
 			}
 			else {
-				if ( p->size != -1 )
+				if (p->size != -1)
 					*ptr = 0;
-				else 
-					*( char** )ptr = NULL;
+				else
+					*(char**)ptr = NULL;
 			}
 			break;
-			case DBVT_TCHAR:
-				if ( !getTString( p->name, &dbv )) {
-					if ( p->size != -1 ) {
-						size_t len = min( p->size-1, _tcslen( dbv.ptszVal ));
-						memcpy( ptr, dbv.pszVal, len*sizeof(TCHAR));
-						*( TCHAR* )&ptr[len*sizeof(TCHAR)] = 0;
-					}
-					else *( TCHAR** )ptr = mir_tstrdup( dbv.ptszVal );
-					db_free( &dbv );
+		case DBVT_TCHAR:
+			if (!getTString(p->name, &dbv)) {
+				if (p->size != -1) {
+					size_t len = min(p->size - 1, _tcslen(dbv.ptszVal));
+					memcpy(ptr, dbv.pszVal, len*sizeof(TCHAR));
+					*(TCHAR*)&ptr[len*sizeof(TCHAR)] = 0;
 				}
-				else {
-					if ( p->size != -1 ) {
-						if ( p->defStr == NULL )
-							*ptr = 0;
-						else 
-							lstrcpyn(( TCHAR* )ptr, p->defStr, (int)p->size );
-					}
-					else *( TCHAR** )ptr = mir_tstrdup( p->defStr );
+				else *(TCHAR**)ptr = mir_tstrdup(dbv.ptszVal);
+				db_free(&dbv);
+			}
+			else {
+				if (p->size != -1) {
+					if (p->defStr == NULL)
+						*ptr = 0;
+					else
+						lstrcpyn((TCHAR*)ptr, p->defStr, (int)p->size);
 				}
-				break;
+				else *(TCHAR**)ptr = mir_tstrdup(p->defStr);
+			}
+			break;
 }	}	}
 
 void CIrcProto::WriteSettings( TDbSetting* sets, int count )
 {
-	BYTE* base = ( BYTE* )this;
+	BYTE* base = (BYTE*)this;
 
-	for ( int i=0; i < count; i++ ) {
+	for (int i = 0; i < count; i++) {
 		TDbSetting* p = &sets[i];
 		BYTE* ptr = base + p->offset;
-		switch( p->type ) {
-			case DBVT_BYTE:   setByte( p->name, *( BYTE* )ptr );       break;
-			case DBVT_WORD:   setWord( p->name, *( WORD* )ptr );       break;
-			case DBVT_DWORD:  setDword( p->name, *( DWORD* )ptr );     break;
+		switch (p->type) {
+		case DBVT_BYTE:   setByte(p->name, *(BYTE*)ptr);       break;
+		case DBVT_WORD:   setWord(p->name, *(WORD*)ptr);       break;
+		case DBVT_DWORD:  setDword(p->name, *(DWORD*)ptr);     break;
 
-			case DBVT_ASCIIZ:
-				if ( p->size == -1 )
-					setString( p->name, *(char**)ptr );
-				else
-					setString( p->name, (char*)ptr );
-				break;
+		case DBVT_ASCIIZ:
+			if (p->size == -1)
+				setString(p->name, *(char**)ptr);
+			else
+				setString(p->name, (char*)ptr);
+			break;
 
-			case DBVT_TCHAR:
-				if ( p->size == -1 )
-					setTString( p->name, *(TCHAR**)ptr );
-				else
-					setTString( p->name, (TCHAR*)ptr );
-				break;
+		case DBVT_TCHAR:
+			if (p->size == -1)
+				setTString(p->name, *(TCHAR**)ptr);
+			else
+				setTString(p->name, (TCHAR*)ptr);
+			break;
 }	}	}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -115,51 +115,51 @@ void CIrcProto::WriteSettings( TDbSetting* sets, int count )
 static int sttServerEnum( const char* szSetting, LPARAM )
 {
 	DBVARIANT dbv;
-	if ( db_get_s( NULL, SERVERSMODULE, szSetting, &dbv ))
+	if (db_get_s(NULL, SERVERSMODULE, szSetting, &dbv))
 		return 0;
 
 	SERVER_INFO* pData = new SERVER_INFO;
-	pData->m_name = mir_strdup( szSetting );
+	pData->m_name = mir_strdup(szSetting);
 
-	char* p1 = strchr( dbv.pszVal, ':' )+1;
+	char* p1 = strchr(dbv.pszVal, ':') + 1;
 	pData->m_iSSL = 0;
-	if ( !_strnicmp( p1, "SSL", 3 )) {
-		p1 +=3;
-		if ( *p1 == '1' )
+	if (!_strnicmp(p1, "SSL", 3)) {
+		p1 += 3;
+		if (*p1 == '1')
 			pData->m_iSSL = 1;
-		else if ( *p1 == '2' )
+		else if (*p1 == '2')
 			pData->m_iSSL = 2;
 		p1++;
 	}
 	char* p2 = strchr(p1, ':');
-	pData->m_address = ( char* )mir_alloc( p2-p1+1 );
-	lstrcpynA( pData->m_address, p1, p2-p1+1 );
+	pData->m_address = (char*)mir_alloc(p2 - p1 + 1);
+	lstrcpynA(pData->m_address, p1, p2 - p1 + 1);
 
-	p1 = p2+1;
-	while (*p2 !='G' && *p2 != '-')
+	p1 = p2 + 1;
+	while (*p2 != 'G' && *p2 != '-')
 		p2++;
 
-	char* buf = ( char* )alloca( p2-p1+1 );
-	lstrcpynA( buf, p1, p2-p1+1 );
-	pData->m_portStart = atoi( buf );
+	char* buf = (char*)alloca(p2 - p1 + 1);
+	lstrcpynA(buf, p1, p2 - p1 + 1);
+	pData->m_portStart = atoi(buf);
 
-	if ( *p2 == 'G' )
+	if (*p2 == 'G')
 		pData->m_portEnd = pData->m_portStart;
 	else {
-		p1 = p2+1;
+		p1 = p2 + 1;
 		p2 = strchr(p1, 'G');
-		buf = ( char* )alloca( p2-p1+1 );
-		lstrcpynA( buf, p1, p2-p1+1 );
-		pData->m_portEnd = atoi( buf );
+		buf = (char*)alloca(p2 - p1 + 1);
+		lstrcpynA(buf, p1, p2 - p1 + 1);
+		pData->m_portEnd = atoi(buf);
 	}
 
-   p1 = strchr(p2, ':')+1;
+	p1 = strchr(p2, ':') + 1;
 	p2 = strchr(p1, '\0');
-	pData->m_group = ( char* )mir_alloc( p2-p1+1 );
-	lstrcpynA( pData->m_group, p1, p2-p1+1 );
+	pData->m_group = (char*)mir_alloc(p2 - p1 + 1);
+	lstrcpynA(pData->m_group, p1, p2 - p1 + 1);
 
-	g_servers.insert( pData );
-	db_free( &dbv );
+	g_servers.insert(pData);
+	db_free(&dbv);
 	return 0;
 }
 
@@ -175,13 +175,14 @@ void RereadServers()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void removeSpaces( TCHAR* p )
+static void removeSpaces(TCHAR* p)
 {
-	while ( *p ) {
-		if ( *p == ' ' )
-			memmove( p, p+1, sizeof(TCHAR)*lstrlen(p));
+	while (*p) {
+		if (*p == ' ')
+			memmove(p, p + 1, sizeof(TCHAR)*lstrlen(p));
 		p++;
-}	}
+	}
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // add icons to the skinning module
@@ -211,42 +212,41 @@ void InitIcons(void)
 	Icon_Register(hInst, "Protocols/IRC", iconList, SIZEOF(iconList), "IRC");
 }
 
-HICON LoadIconEx( int iconId, bool big )
+HICON LoadIconEx(int iconId, bool big)
 {
-	for ( int i=0; i < SIZEOF(iconList); i++ )
-		if ( iconList[i].defIconID == iconId )
+	for (int i = 0; i < SIZEOF(iconList); i++)
+		if (iconList[i].defIconID == iconId)
 			return Skin_GetIconByHandle(iconList[i].hIcolib, big);
 
 	return NULL;
 }
 
-HANDLE GetIconHandle( int iconId )
+HANDLE GetIconHandle(int iconId)
 {
-	for ( int i=0; i < SIZEOF(iconList); i++ )
-		if ( iconList[i].defIconID == iconId )
+	for (int i = 0; i < SIZEOF(iconList); i++)
+		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 
 	return NULL;
 }
 
-void ReleaseIconEx( HICON hIcon )
+void ReleaseIconEx(HICON hIcon)
 {
 	if (hIcon)
 		Skin_ReleaseIcon(hIcon);
 }
 
-void WindowSetIcon( HWND hWnd, int iconId )
+void WindowSetIcon(HWND hWnd, int iconId)
 {
-	SendMessage(hWnd, WM_SETICON, ICON_BIG, ( LPARAM )LoadIconEx( iconId, true ));
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, ( LPARAM )LoadIconEx( iconId ));
+	SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(iconId, true));
+	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx(iconId));
 }
 
-void WindowFreeIcon( HWND hWnd )
+void WindowFreeIcon(HWND hWnd)
 {
-	ReleaseIconEx(( HICON )SendMessage(hWnd, WM_SETICON, ICON_BIG, 0));
-	ReleaseIconEx(( HICON )SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0));
+	ReleaseIconEx((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0));
+	ReleaseIconEx((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0));
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // code page handler
@@ -278,16 +278,16 @@ static BOOL CALLBACK sttLangAddCallback(CHAR *str)
 	UINT cp = atoi(str);
 	CPINFOEX cpinfo;
 	if (GetCPInfoEx(cp, 0, &cpinfo)) {
-		TCHAR* b = _tcschr( cpinfo.CodePageName, '(' );
-		if ( b ) {
-			TCHAR* e = _tcsrchr( cpinfo.CodePageName, ')' );
-			if ( e ) {
+		TCHAR* b = _tcschr(cpinfo.CodePageName, '(');
+		if (b) {
+			TCHAR* e = _tcsrchr(cpinfo.CodePageName, ')');
+			if (e) {
 				*e = 0;
-				sttCombo->AddString( b+1, cp );
+				sttCombo->AddString(b + 1, cp);
 			}
-			else sttCombo->AddString( cpinfo.CodePageName, cp );
+			else sttCombo->AddString(cpinfo.CodePageName, cp);
 		}
-		else sttCombo->AddString( cpinfo.CodePageName, cp );
+		else sttCombo->AddString(cpinfo.CodePageName, cp);
 	}
 
 	return TRUE;
@@ -325,23 +325,23 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 	virtual void OnInitDialog()
 	{
 		int i = m_owner->m_serverCombo.GetCount();
-		for ( int index = 0; index < i; index++ ) {
-			SERVER_INFO* pData = ( SERVER_INFO* )m_owner->m_serverCombo.GetItemData( index );
-			if ( m_groupCombo.FindStringA( pData->m_group, -1, true ) == CB_ERR )
-				m_groupCombo.AddStringA( pData->m_group );
+		for (int index = 0; index < i; index++) {
+			SERVER_INFO* pData = (SERVER_INFO*)m_owner->m_serverCombo.GetItemData(index);
+			if (m_groupCombo.FindStringA(pData->m_group, -1, true) == CB_ERR)
+				m_groupCombo.AddStringA(pData->m_group);
 		}
 
 		if (m_action == 2) {
 			int j = m_owner->m_serverCombo.GetCurSel();
-			SERVER_INFO* pData = ( SERVER_INFO* )m_owner->m_serverCombo.GetItemData( j );
-			m_address.SetTextA( pData->m_address );
-			m_groupCombo.SetTextA( pData->m_group );
-			m_port.SetInt( pData->m_portStart );
-			m_port2.SetInt( pData->m_portEnd );
+			SERVER_INFO* pData = (SERVER_INFO*)m_owner->m_serverCombo.GetItemData(j);
+			m_address.SetTextA(pData->m_address);
+			m_groupCombo.SetTextA(pData->m_group);
+			m_port.SetInt(pData->m_portStart);
+			m_port2.SetInt(pData->m_portEnd);
 
 			char *p = strstr(pData->m_name, ": ");
 			if (p)
-				m_server.SetTextA( p+2 );
+				m_server.SetTextA(p + 2);
 
 			if (pData->m_iSSL == 0)
 				CheckDlgButton(m_hwnd, IDC_OFF, BST_CHECKED);
@@ -387,9 +387,9 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 
 		SERVER_INFO *pData = new SERVER_INFO;
 		pData->m_iSSL = 0;
-		if(IsDlgButtonChecked( m_hwnd, IDC_ON))
+		if (IsDlgButtonChecked(m_hwnd, IDC_ON))
 			pData->m_iSSL = 2;
-		if(IsDlgButtonChecked( m_hwnd, IDC_AUTO))
+		if (IsDlgButtonChecked(m_hwnd, IDC_AUTO))
 			pData->m_iSSL = 1;
 
 		pData->m_portStart = m_port.GetInt();
@@ -399,13 +399,13 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 		pData->m_name = m_server.GetTextA();
 
 		char temp[255];
-		mir_snprintf( temp, sizeof(temp), "%s: %s", pData->m_group, pData->m_name );
-		mir_free( pData->m_name );
-		pData->m_name = mir_strdup( temp );
+		mir_snprintf(temp, sizeof(temp), "%s: %s", pData->m_group, pData->m_name);
+		mir_free(pData->m_name);
+		pData->m_name = mir_strdup(temp);
 
-		int iItem = m_owner->m_serverCombo.AddStringA( pData->m_name, ( LPARAM )pData );
-		m_owner->m_serverCombo.SetCurSel( iItem );
-		m_owner->OnServerCombo( NULL );
+		int iItem = m_owner->m_serverCombo.AddStringA(pData->m_name, (LPARAM)pData);
+		m_owner->m_serverCombo.SetCurSel(iItem);
+		m_owner->OnServerCombo(NULL);
 
 		m_owner->m_serverlistModified = true;
 		Close();
@@ -507,7 +507,7 @@ void CConnectPrefsDlg::OnInitDialog()
 	//	Fill the servers combo box and create SERVER_INFO structures
 	for (int i = 0; i < g_servers.getCount(); i++) {
 		SERVER_INFO &si = g_servers[i];
-		m_serverCombo.AddStringA( si.m_name, LPARAM( &si ));
+		m_serverCombo.AddStringA(si.m_name, LPARAM(&si));
 	}
 
 	m_serverCombo.SetCurSel(m_proto->m_serverComboSelection);
@@ -608,7 +608,7 @@ void CConnectPrefsDlg::OnAddServer(CCtrlButton*)
 	dlg->Show();
 }
 
-void CConnectPrefsDlg::OnDeleteServer( CCtrlButton* )
+void CConnectPrefsDlg::OnDeleteServer(CCtrlButton*)
 {
 	int i = m_serverCombo.GetCurSel();
 	if (i == CB_ERR)
@@ -801,19 +801,19 @@ void CConnectPrefsDlg::OnApply()
 
 static TDbSetting CtcpSettings[] =
 {
-	{	FIELD_OFFSET(CIrcProto, m_userInfo ), "UserInfo", DBVT_TCHAR, SIZEOF(pZero->m_userInfo) },
-	{	FIELD_OFFSET(CIrcProto, m_DCCPacketSize ), "DccPacketSize", DBVT_WORD, 0, 4096 },
-	{	FIELD_OFFSET(CIrcProto, m_DCCPassive ), "DccPassive", DBVT_BYTE },
-	{	FIELD_OFFSET(CIrcProto, m_DCCMode ), "DCCMode", DBVT_BYTE },
-	{	FIELD_OFFSET(CIrcProto, m_manualHost ), "ManualHost", DBVT_BYTE },
-	{	FIELD_OFFSET(CIrcProto, m_IPFromServer ), "IPFromServer", DBVT_BYTE, 0, 1 },
-	{	FIELD_OFFSET(CIrcProto, m_disconnectDCCChats ), "DisconnectDCCChats", DBVT_BYTE },
-	{	FIELD_OFFSET(CIrcProto, m_mySpecifiedHost ), "SpecHost", DBVT_ASCIIZ, SIZEOF(pZero->m_mySpecifiedHost) },
-	{	FIELD_OFFSET(CIrcProto, m_DCCChatAccept ), "CtcpChatAccept", DBVT_BYTE, 0, 1 },
-	{	FIELD_OFFSET(CIrcProto, m_sendNotice ), "SendNotice", DBVT_BYTE, 0, 1 }
+	{ FIELD_OFFSET(CIrcProto, m_userInfo), "UserInfo", DBVT_TCHAR, SIZEOF(pZero->m_userInfo) },
+	{ FIELD_OFFSET(CIrcProto, m_DCCPacketSize), "DccPacketSize", DBVT_WORD, 0, 4096 },
+	{ FIELD_OFFSET(CIrcProto, m_DCCPassive), "DccPassive", DBVT_BYTE },
+	{ FIELD_OFFSET(CIrcProto, m_DCCMode), "DCCMode", DBVT_BYTE },
+	{ FIELD_OFFSET(CIrcProto, m_manualHost), "ManualHost", DBVT_BYTE },
+	{ FIELD_OFFSET(CIrcProto, m_IPFromServer), "IPFromServer", DBVT_BYTE, 0, 1 },
+	{ FIELD_OFFSET(CIrcProto, m_disconnectDCCChats), "DisconnectDCCChats", DBVT_BYTE },
+	{ FIELD_OFFSET(CIrcProto, m_mySpecifiedHost), "SpecHost", DBVT_ASCIIZ, SIZEOF(pZero->m_mySpecifiedHost) },
+	{ FIELD_OFFSET(CIrcProto, m_DCCChatAccept), "CtcpChatAccept", DBVT_BYTE, 0, 1 },
+	{ FIELD_OFFSET(CIrcProto, m_sendNotice), "SendNotice", DBVT_BYTE, 0, 1 }
 };
 
-CCtcpPrefsDlg::CCtcpPrefsDlg( CIrcProto* _pro ) :
+CCtcpPrefsDlg::CCtcpPrefsDlg(CIrcProto* _pro) :
 	CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CTCP, NULL),
 	m_enableIP(this, IDC_ENABLEIP),
 	m_fromServer(this, IDC_FROMSERVER),
@@ -948,12 +948,12 @@ void CCtcpPrefsDlg::OnApply()
 
 static TDbSetting OtherSettings[] =
 {
-	{	FIELD_OFFSET(CIrcProto, m_quitMessage ), "QuitMessage", DBVT_TCHAR, SIZEOF(pZero->m_quitMessage) },
-	{	FIELD_OFFSET(CIrcProto, m_alias ), "Alias", DBVT_TCHAR, -1 },
-	{	FIELD_OFFSET(CIrcProto, m_codepage ), "Codepage", DBVT_DWORD, 0, CP_ACP },
-	{	FIELD_OFFSET(CIrcProto, m_utfAutodetect ), "UtfAutodetect", DBVT_BYTE },
-	{	FIELD_OFFSET(CIrcProto, m_perform ), "Perform", DBVT_BYTE },
-	{	FIELD_OFFSET(CIrcProto, m_scriptingEnabled ), "ScriptingEnabled", DBVT_BYTE }
+	{ FIELD_OFFSET(CIrcProto, m_quitMessage), "QuitMessage", DBVT_TCHAR, SIZEOF(pZero->m_quitMessage) },
+	{ FIELD_OFFSET(CIrcProto, m_alias), "Alias", DBVT_TCHAR, -1 },
+	{ FIELD_OFFSET(CIrcProto, m_codepage), "Codepage", DBVT_DWORD, 0, CP_ACP },
+	{ FIELD_OFFSET(CIrcProto, m_utfAutodetect), "UtfAutodetect", DBVT_BYTE },
+	{ FIELD_OFFSET(CIrcProto, m_perform), "Perform", DBVT_BYTE },
+	{ FIELD_OFFSET(CIrcProto, m_scriptingEnabled), "ScriptingEnabled", DBVT_BYTE }
 };
 
 static char* sttPerformEvents[] = {

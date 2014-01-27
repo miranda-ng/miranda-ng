@@ -69,27 +69,27 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static CIrcProto* ircProtoInit( const char* pszProtoName, const TCHAR* tszUserName )
+static CIrcProto* ircProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
 {
-	CIrcProto *ppro = new CIrcProto( pszProtoName, tszUserName );
-	g_Instances.insert( ppro );
+	CIrcProto *ppro = new CIrcProto(pszProtoName, tszUserName);
+	g_Instances.insert(ppro);
 	return ppro;
 }
 
-static int ircProtoUninit( CIrcProto *ppro )
+static int ircProtoUninit(CIrcProto *ppro)
 {
-	g_Instances.remove(( CIrcProto* )ppro);
+	g_Instances.remove((CIrcProto*)ppro);
 	delete ppro;
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(  )
+extern "C" int __declspec(dllexport) Load()
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
 
 	InitIcons();
 	InitTimers();
@@ -100,8 +100,8 @@ extern "C" int __declspec(dllexport) Load(  )
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "IRC";
 	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = ( pfnInitProto )ircProtoInit;
-	pd.fnUninit = ( pfnUninitProto )ircProtoUninit;
+	pd.fnInit = (pfnInitProto)ircProtoInit;
+	pd.fnUninit = (pfnUninitProto)ircProtoUninit;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 	return 0;
 }

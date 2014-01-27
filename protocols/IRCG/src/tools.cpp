@@ -497,10 +497,9 @@ CMString CIrcProto::PrefixToStatus(int cPrefix)
 struct TimerPair
 {
 	TimerPair(CIrcProto* _pro, UINT_PTR _id) :
-	ppro(_pro),
-	idEvent(_id)
-	{
-	}
+		ppro(_pro),
+		idEvent(_id)
+		{}
 
 	UINT_PTR idEvent;
 	CIrcProto *ppro;

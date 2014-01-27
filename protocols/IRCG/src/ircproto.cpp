@@ -41,30 +41,30 @@ CIrcProto::CIrcProto(const char* szModuleName, const TCHAR* tszUserName) :
 {
 	InitializeCriticalSection(&cs);
 	InitializeCriticalSection(&m_gchook);
-	m_evWndCreate = ::CreateEvent( NULL, FALSE, FALSE, NULL );
+	m_evWndCreate = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 
-	CreateProtoService( PS_GETMYAWAYMSG,   &CIrcProto::GetMyAwayMsg );
+	CreateProtoService(PS_GETMYAWAYMSG, &CIrcProto::GetMyAwayMsg);
 
-	CreateProtoService( PS_CREATEACCMGRUI, &CIrcProto::SvcCreateAccMgrUI );
-	CreateProtoService( PS_JOINCHAT,       &CIrcProto::OnJoinChat );
-	CreateProtoService( PS_LEAVECHAT,      &CIrcProto::OnLeaveChat );
+	CreateProtoService(PS_CREATEACCMGRUI, &CIrcProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_JOINCHAT, &CIrcProto::OnJoinChat);
+	CreateProtoService(PS_LEAVECHAT, &CIrcProto::OnLeaveChat);
 
-	CreateProtoService( IRC_JOINCHANNEL,   &CIrcProto::OnJoinMenuCommand );
-	CreateProtoService( IRC_QUICKCONNECT,  &CIrcProto::OnQuickConnectMenuCommand);
-	CreateProtoService( IRC_CHANGENICK,    &CIrcProto::OnChangeNickMenuCommand );
-	CreateProtoService( IRC_SHOWLIST,      &CIrcProto::OnShowListMenuCommand );
-	CreateProtoService( IRC_SHOWSERVER,    &CIrcProto::OnShowServerMenuCommand );
-	CreateProtoService( IRC_UM_CHANSETTINGS, &CIrcProto::OnMenuChanSettings );
-	CreateProtoService( IRC_UM_WHOIS,      &CIrcProto::OnMenuWhois );
-	CreateProtoService( IRC_UM_DISCONNECT, &CIrcProto::OnMenuDisconnect );
-	CreateProtoService( IRC_UM_IGNORE,     &CIrcProto::OnMenuIgnore );
+	CreateProtoService(IRC_JOINCHANNEL, &CIrcProto::OnJoinMenuCommand);
+	CreateProtoService(IRC_QUICKCONNECT, &CIrcProto::OnQuickConnectMenuCommand);
+	CreateProtoService(IRC_CHANGENICK, &CIrcProto::OnChangeNickMenuCommand);
+	CreateProtoService(IRC_SHOWLIST, &CIrcProto::OnShowListMenuCommand);
+	CreateProtoService(IRC_SHOWSERVER, &CIrcProto::OnShowServerMenuCommand);
+	CreateProtoService(IRC_UM_CHANSETTINGS, &CIrcProto::OnMenuChanSettings);
+	CreateProtoService(IRC_UM_WHOIS, &CIrcProto::OnMenuWhois);
+	CreateProtoService(IRC_UM_DISCONNECT, &CIrcProto::OnMenuDisconnect);
+	CreateProtoService(IRC_UM_IGNORE, &CIrcProto::OnMenuIgnore);
 
-	CreateProtoService( "/DblClickEvent",  &CIrcProto::OnDoubleclicked );
-	CreateProtoService( "/InsertRawIn",    &CIrcProto::Scripting_InsertRawIn );
-	CreateProtoService( "/InsertRawOut",   &CIrcProto::Scripting_InsertRawOut );
-	CreateProtoService( "/InsertGuiIn",    &CIrcProto::Scripting_InsertGuiIn );
-	CreateProtoService( "/InsertGuiOut",   &CIrcProto::Scripting_InsertGuiOut);
-	CreateProtoService( "/GetIrcData",     &CIrcProto::Scripting_GetIrcData);
+	CreateProtoService("/DblClickEvent", &CIrcProto::OnDoubleclicked);
+	CreateProtoService("/InsertRawIn", &CIrcProto::Scripting_InsertRawIn);
+	CreateProtoService("/InsertRawOut", &CIrcProto::Scripting_InsertRawOut);
+	CreateProtoService("/InsertGuiIn", &CIrcProto::Scripting_InsertGuiIn);
+	CreateProtoService("/InsertGuiOut", &CIrcProto::Scripting_InsertGuiOut);
+	CreateProtoService("/GetIrcData", &CIrcProto::Scripting_GetIrcData);
 
 	codepage = CP_ACP;
 	InitializeCriticalSection(&m_resolve);
@@ -144,23 +144,23 @@ CIrcProto::CIrcProto(const char* szModuleName, const TCHAR* tszUserName) :
 
 CIrcProto::~CIrcProto()
 {
-	if ( con ) {
-		Netlib_CloseHandle( con );
+	if (con) {
+		Netlib_CloseHandle(con);
 		con = NULL;
 	}
 
 	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
 	Netlib_CloseHandle(hNetlibDCC); hNetlibDCC = NULL;
 
-	DeleteCriticalSection( &cs );
-	DeleteCriticalSection( &m_gchook );
+	DeleteCriticalSection(&cs);
+	DeleteCriticalSection(&m_gchook);
 
 	if (hMenuRoot)
 		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hMenuRoot, 0);
 
-	mir_free( m_alias );
+	mir_free(m_alias);
 
-	CloseHandle( m_evWndCreate );
+	CloseHandle(m_evWndCreate);
 	DeleteCriticalSection(&m_resolve);
 	DeleteCriticalSection(&m_dcc);
 	KillChatTimer(OnlineNotifTimer);
@@ -172,47 +172,47 @@ CIrcProto::~CIrcProto()
 
 static COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 
-static int sttCheckPerform( const char *szSetting, LPARAM lParam )
+static int sttCheckPerform(const char *szSetting, LPARAM lParam)
 {
-	if ( !_strnicmp( szSetting, "PERFORM:", 8 )) {
+	if (!_strnicmp(szSetting, "PERFORM:", 8)) {
 		String s = szSetting;
 		s.MakeUpper();
-		if ( s != szSetting ) {
-			OBJLIST<String>* p = ( OBJLIST<String>* )lParam;
-			p->insert( new String( szSetting ));
+		if (s != szSetting) {
+			OBJLIST<String>* p = (OBJLIST<String>*)lParam;
+			p->insert(new String(szSetting));
 		}
 	}
 	return 0;
 }
 
-int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
+int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	NETLIBUSER nlu = {0};
+	NETLIBUSER nlu = { 0 };
 	TCHAR name[128];
 
-	db_unset( NULL, m_szModuleName, "JTemp" );
+	db_unset(NULL, m_szModuleName, "JTemp");
 
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING|NUF_INCOMING|NUF_HTTPCONNS|NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
-	mir_sntprintf( name, SIZEOF(name), TranslateT("%s server connection"), m_tszUserName);
+	mir_sntprintf(name, SIZEOF(name), TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
-	nlu.flags = NUF_OUTGOING|NUF_INCOMING|NUF_HTTPCONNS|NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;
 	char szTemp2[256];
 	mir_snprintf(szTemp2, sizeof(szTemp2), "%s DCC", m_szModuleName);
 	nlu.szSettingsModule = szTemp2;
-	mir_sntprintf( name, SIZEOF(name), TranslateT("%s client-to-client connections"), m_tszUserName);
+	mir_sntprintf(name, SIZEOF(name), TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
 	hNetlibDCC = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
-	if ( ServiceExists("MBot/GetFcnTable")) {
+	if (ServiceExists("MBot/GetFcnTable")) {
 		CallService(MS_MBOT_REGISTERIRC, 0, (LPARAM)m_szModuleName);
 		m_bMbotInstalled = TRUE;
 	}
 
-	if ( ServiceExists( MS_GC_REGISTER )) {
+	if (ServiceExists(MS_GC_REGISTER)) {
 		GCREGISTER gcr = { sizeof(GCREGISTER) };
 		gcr.dwFlags = GC_CHANMGR | GC_BOLD | GC_ITALICS | GC_UNDERLINE | GC_COLOR | GC_BKGCOLOR;
 		gcr.nColors = 16;
@@ -228,49 +228,49 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 		gcw.iType = GCW_SERVER;
 		gcw.ptszID = SERVERWINDOW;
 		gcw.pszModule = m_szModuleName;
-		gcw.ptszName = NEWTSTR_ALLOCA(( TCHAR* )_A2T( m_network ));
+		gcw.ptszName = NEWTSTR_ALLOCA((TCHAR*)_A2T(m_network));
 		CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
 		GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
-		if ( m_useServer && !m_hideServerWindow )
+		if (m_useServer && !m_hideServerWindow)
 			CallChatEvent(WINDOW_VISIBLE, (LPARAM)&gce);
 		else
 			CallChatEvent(WINDOW_HIDDEN, (LPARAM)&gce);
 		bChatInstalled = TRUE;
 	}
 	else {
-		if ( IDYES == MessageBox(0,TranslateT("The IRC protocol depends on another plugin called \'Chat\'\n\nDo you want to download it from the Miranda NG web site now?"),TranslateT("Information"),MB_YESNO|MB_ICONINFORMATION ))
+		if (IDYES == MessageBox(0, TranslateT("The IRC protocol depends on another plugin called \'Chat\'\n\nDo you want to download it from the Miranda NG web site now?"), TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
 			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-ng.org/");
 	}
 
 	TCHAR szTemp[MAX_PATH];
 	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%miranda_path%%\\Plugins\\%S_perform.ini"), m_szModuleName);
-	TCHAR *szLoadFileName = Utils_ReplaceVarsT( szTemp );
-	char* pszPerformData = IrcLoadFile( szLoadFileName );
-	if ( pszPerformData != NULL ) {
+	TCHAR *szLoadFileName = Utils_ReplaceVarsT(szTemp);
+	char* pszPerformData = IrcLoadFile(szLoadFileName);
+	if (pszPerformData != NULL) {
 		char *p1 = pszPerformData, *p2 = pszPerformData;
-		while (( p1 = strstr( p2, "NETWORK: " )) != NULL ) {
+		while ((p1 = strstr(p2, "NETWORK: ")) != NULL) {
 			p1 += 9;
 			p2 = strchr(p1, '\n');
-			String sNetwork( p1, int( p2-p1-1 ));
+			String sNetwork(p1, int(p2 - p1 - 1));
 			sNetwork.MakeUpper();
 			p1 = p2;
-			p2 = strstr( ++p1, "\nNETWORK: " );
-			if ( !p2 )
-				p2 = p1 + lstrlenA( p1 )-1;
-			if ( p1 == p2 )
+			p2 = strstr(++p1, "\nNETWORK: ");
+			if (!p2)
+				p2 = p1 + lstrlenA(p1) - 1;
+			if (p1 == p2)
 				break;
 
 			*p2++ = 0;
-			setString(("PERFORM:" + sNetwork).c_str(), rtrim( p1 ));
+			setString(("PERFORM:" + sNetwork).c_str(), rtrim(p1));
 		}
 		delete[] pszPerformData;
-		::_tremove( szLoadFileName );
+		::_tremove(szLoadFileName);
 	}
-	mir_free( szLoadFileName );
+	mir_free(szLoadFileName);
 
-	if ( !getByte( "PerformConversionDone", 0 )) {
+	if (!getByte("PerformConversionDone", 0)) {
 		OBJLIST<String> performToConvert(10);
 		DBCONTACTENUMSETTINGS dbces = { 0 };
 		dbces.pfnEnumProc = sttCheckPerform;
@@ -281,34 +281,36 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 		for (int i = 0; i < performToConvert.getCount(); i++) {
 			String s = performToConvert[i];
 			DBVARIANT dbv;
-			if ( !getTString( s, &dbv )) {
-				db_unset( NULL, m_szModuleName, s );
+			if (!getTString(s, &dbv)) {
+				db_unset(NULL, m_szModuleName, s);
 				s.MakeUpper();
-				setTString( s, dbv.ptszVal );
-				db_free( &dbv );
-		}	}
+				setTString(s, dbv.ptszVal);
+				db_free(&dbv);
+			}
+		}
 
-		setByte( "PerformConversionDone", 1 );
+		setByte("PerformConversionDone", 1);
 	}
 
 	InitIgnore();
 
-	HookProtoEvent( ME_USERINFO_INITIALISE, &CIrcProto::OnInitUserInfo );
-	HookProtoEvent( ME_OPT_INITIALISE, &CIrcProto::OnInitOptionsPages );
+	HookProtoEvent(ME_USERINFO_INITIALISE, &CIrcProto::OnInitUserInfo);
+	HookProtoEvent(ME_OPT_INITIALISE, &CIrcProto::OnInitOptionsPages);
 
 	if (m_nick[0]) {
-		TCHAR szBuf[ 40 ];
-		if ( lstrlen( m_alternativeNick ) == 0 ) {
-			mir_sntprintf( szBuf, SIZEOF(szBuf), _T("%s%u"), m_nick, rand()%9999);
+		TCHAR szBuf[40];
+		if (lstrlen(m_alternativeNick) == 0) {
+			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("%s%u"), m_nick, rand() % 9999);
 			setTString("AlernativeNick", szBuf);
 			lstrcpyn(m_alternativeNick, szBuf, 30);
 		}
 
-		if ( lstrlen( m_name ) == 0 ) {
-			mir_sntprintf( szBuf, SIZEOF(szBuf), _T("Miranda%u"), rand()%9999);
+		if (lstrlen(m_name) == 0) {
+			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("Miranda%u"), rand() % 9999);
 			setTString("Name", szBuf);
-			lstrcpyn( m_name, szBuf, 200 );
-	}	}
+			lstrcpyn(m_name, szBuf, 200);
+		}
+	}
 
 	return 0;
 }
@@ -316,38 +318,38 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 ////////////////////////////////////////////////////////////////////////////////////////
 // AddToList - adds a contact to the contact list
 
-HANDLE __cdecl CIrcProto::AddToList( int, PROTOSEARCHRESULT* psr )
+HANDLE __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 {
-	if ( m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING )
+	if (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)
 		return 0;
 
 	TCHAR *id = psr->id ? psr->id : psr->nick;
 	id = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)id) : mir_a2t((char*)id);
 
 	CONTACT user = { id, NULL, NULL, true, false, false };
-	HANDLE hContact = CList_AddContact( &user, true, false );
+	HANDLE hContact = CList_AddContact(&user, true, false);
 
-	if ( hContact ) {
+	if (hContact) {
 		DBVARIANT dbv1;
 		CMString S = _T("S");
 
-		if ( getByte( hContact, "AdvancedMode", 0 ) == 0 ) {
+		if (getByte(hContact, "AdvancedMode", 0) == 0) {
 			S += user.name;
-			DoUserhostWithReason( 1, S, true, user.name );
+			DoUserhostWithReason(1, S, true, user.name);
 		}
 		else {
-			if ( !getTString(hContact, "UWildcard", &dbv1 )) {
+			if (!getTString(hContact, "UWildcard", &dbv1)) {
 				S += dbv1.ptszVal;
 				DoUserhostWithReason(2, S, true, dbv1.ptszVal);
-				db_free( &dbv1 );
+				db_free(&dbv1);
 			}
 			else {
 				S += user.name;
-				DoUserhostWithReason( 2, S, true, user.name );
+				DoUserhostWithReason(2, S, true, user.name);
 			}
 		}
-		if (getByte( "MirVerAutoRequest", 1))
-			PostIrcMessage( _T("/PRIVMSG %s \001VERSION\001"), user.name);
+		if (getByte("MirVerAutoRequest", 1))
+			PostIrcMessage(_T("/PRIVMSG %s \001VERSION\001"), user.name);
 	}
 
 	mir_free(id);
@@ -357,7 +359,7 @@ HANDLE __cdecl CIrcProto::AddToList( int, PROTOSEARCHRESULT* psr )
 ////////////////////////////////////////////////////////////////////////////////////////
 // AddToList - adds a contact to the contact list
 
-HANDLE __cdecl CIrcProto::AddToListByEvent( int, int, HANDLE )
+HANDLE __cdecl CIrcProto::AddToListByEvent(int, int, HANDLE)
 {
 	return NULL;
 }
@@ -365,7 +367,7 @@ HANDLE __cdecl CIrcProto::AddToListByEvent( int, int, HANDLE )
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthAllow - processes the successful authorization
 
-int __cdecl CIrcProto::Authorize( HANDLE )
+int __cdecl CIrcProto::Authorize(HANDLE)
 {
 	return 0;
 }
@@ -373,7 +375,7 @@ int __cdecl CIrcProto::Authorize( HANDLE )
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthDeny - handles the unsuccessful authorization
 
-int __cdecl CIrcProto::AuthDeny( HANDLE, const TCHAR* )
+int __cdecl CIrcProto::AuthDeny(HANDLE, const TCHAR*)
 {
 	return 0;
 }
@@ -381,7 +383,7 @@ int __cdecl CIrcProto::AuthDeny( HANDLE, const TCHAR* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AUTH
 
-int __cdecl CIrcProto::AuthRecv( HANDLE, PROTORECVEVENT* )
+int __cdecl CIrcProto::AuthRecv(HANDLE, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -389,7 +391,7 @@ int __cdecl CIrcProto::AuthRecv( HANDLE, PROTORECVEVENT* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CIrcProto::AuthRequest( HANDLE, const TCHAR* )
+int __cdecl CIrcProto::AuthRequest(HANDLE, const TCHAR*)
 {
 	return 1;
 }
@@ -397,7 +399,7 @@ int __cdecl CIrcProto::AuthRequest( HANDLE, const TCHAR* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // ChangeInfo
 
-HANDLE __cdecl CIrcProto::ChangeInfo( int, void* )
+HANDLE __cdecl CIrcProto::ChangeInfo(int, void*)
 {
 	return NULL;
 }
@@ -405,11 +407,11 @@ HANDLE __cdecl CIrcProto::ChangeInfo( int, void* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
-HANDLE __cdecl CIrcProto::FileAllow( HANDLE, HANDLE hTransfer, const TCHAR* szPath )
+HANDLE __cdecl CIrcProto::FileAllow(HANDLE, HANDLE hTransfer, const TCHAR* szPath)
 {
-	DCCINFO* di = ( DCCINFO* )hTransfer;
+	DCCINFO* di = (DCCINFO*)hTransfer;
 
-	if ( !IsConnected()) {
+	if (!IsConnected()) {
 		delete di;
 		return (HANDLE)szPath;
 	}
@@ -417,8 +419,8 @@ HANDLE __cdecl CIrcProto::FileAllow( HANDLE, HANDLE hTransfer, const TCHAR* szPa
 	di->sPath = szPath;
 	di->sFileAndPath = di->sPath + di->sFile;
 
-	CDccSession* dcc = new CDccSession( this, di );
-	AddDCCSession( di, dcc );
+	CDccSession* dcc = new CDccSession(this, di);
+	AddDCCSession(di, dcc);
 	dcc->Connect();
 	return di;
 }
@@ -426,9 +428,9 @@ HANDLE __cdecl CIrcProto::FileAllow( HANDLE, HANDLE hTransfer, const TCHAR* szPa
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileCancel - cancels a file transfer
 
-int __cdecl CIrcProto::FileCancel( HANDLE, HANDLE hTransfer )
+int __cdecl CIrcProto::FileCancel(HANDLE, HANDLE hTransfer)
 {
-	DCCINFO* di = ( DCCINFO* )hTransfer;
+	DCCINFO* di = (DCCINFO*)hTransfer;
 
 	CDccSession* dcc = FindDCCSession(di);
 	if (dcc) {
@@ -442,9 +444,9 @@ int __cdecl CIrcProto::FileCancel( HANDLE, HANDLE hTransfer )
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileDeny - denies a file transfer
 
-int __cdecl CIrcProto::FileDeny( HANDLE, HANDLE hTransfer, const TCHAR* )
+int __cdecl CIrcProto::FileDeny(HANDLE, HANDLE hTransfer, const TCHAR*)
 {
-	DCCINFO* di = ( DCCINFO* )hTransfer;
+	DCCINFO* di = (DCCINFO*)hTransfer;
 	delete di;
 	return 0;
 }
@@ -452,9 +454,9 @@ int __cdecl CIrcProto::FileDeny( HANDLE, HANDLE hTransfer, const TCHAR* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileResume - processes file renaming etc
 
-int __cdecl CIrcProto::FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename )
+int __cdecl CIrcProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
 {
-	DCCINFO* di = ( DCCINFO* )hTransfer;
+	DCCINFO* di = (DCCINFO*)hTransfer;
 
 	long i = (long)*action;
 
@@ -476,15 +478,15 @@ int __cdecl CIrcProto::FileResume( HANDLE hTransfer, int* action, const TCHAR** 
 			CMString sFileWithQuotes = di->sFile;
 
 			// if spaces in the filename surround witrh quotes
-			if (sFileWithQuotes.Find( ' ', 0 ) != -1 ) {
-				sFileWithQuotes.Insert( 0, _T("\""));
-				sFileWithQuotes.Insert( sFileWithQuotes.GetLength(), _T("\""));
+			if (sFileWithQuotes.Find(' ', 0) != -1) {
+				sFileWithQuotes.Insert(0, _T("\""));
+				sFileWithQuotes.Insert(sFileWithQuotes.GetLength(), _T("\""));
 			}
 
 			if (di->bReverse)
-				PostIrcMessage( _T("/PRIVMSG %s \001DCC RESUME %s 0 %I64u %s\001"), di->sContactName.c_str(), sFileWithQuotes.c_str(), dwPos, dcc->di->sToken.c_str());
+				PostIrcMessage(_T("/PRIVMSG %s \001DCC RESUME %s 0 %I64u %s\001"), di->sContactName.c_str(), sFileWithQuotes.c_str(), dwPos, dcc->di->sToken.c_str());
 			else
-				PostIrcMessage( _T("/PRIVMSG %s \001DCC RESUME %s %u %I64u\001"), di->sContactName.c_str(), sFileWithQuotes.c_str(), di->iPort, dwPos);
+				PostIrcMessage(_T("/PRIVMSG %s \001DCC RESUME %s %u %I64u\001"), di->sContactName.c_str(), sFileWithQuotes.c_str(), di->iPort, dwPos);
 
 			return 0;
 		}
@@ -498,9 +500,9 @@ int __cdecl CIrcProto::FileResume( HANDLE hTransfer, int* action, const TCHAR** 
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 
-DWORD_PTR __cdecl CIrcProto::GetCaps( int type, HANDLE )
+DWORD_PTR __cdecl CIrcProto::GetCaps(int type, HANDLE)
 {
-	switch( type ) {
+	switch (type) {
 	case PFLAGNUM_1:
 		return PF1_BASICSEARCH | PF1_MODEMSG | PF1_FILE | PF1_CHAT | PF1_CANRENAMEFILE | PF1_PEER2PEER | PF1_IM;
 
@@ -514,7 +516,7 @@ DWORD_PTR __cdecl CIrcProto::GetCaps( int type, HANDLE )
 		return PF4_NOAUTHDENYREASON | PF4_NOCUSTOMAUTH | PF4_IMSENDUTF;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR) Translate("Nickname");
+		return (DWORD_PTR)Translate("Nickname");
 
 	case PFLAG_MAXLENOFMESSAGE:
 		return 400;
@@ -529,7 +531,7 @@ DWORD_PTR __cdecl CIrcProto::GetCaps( int type, HANDLE )
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetInfo - retrieves a contact info
 
-int __cdecl CIrcProto::GetInfo( HANDLE, int )
+int __cdecl CIrcProto::GetInfo(HANDLE, int)
 {
 	return 1;
 }
@@ -539,30 +541,31 @@ int __cdecl CIrcProto::GetInfo( HANDLE, int )
 
 struct AckBasicSearchParam
 {
-	PROTOCHAR buf[ 50 ];
+	PROTOCHAR buf[50];
 };
 
-void __cdecl CIrcProto::AckBasicSearch( void* param )
+void __cdecl CIrcProto::AckBasicSearch(void* param)
 {
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_TCHAR;
-	psr.id = (( AckBasicSearchParam* )param )->buf;
-	psr.nick = (( AckBasicSearchParam* )param )->buf;
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	psr.id = ((AckBasicSearchParam*)param)->buf;
+	psr.nick = ((AckBasicSearchParam*)param)->buf;
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)& psr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 	delete param;
 }
 
-HANDLE __cdecl CIrcProto::SearchBasic( const PROTOCHAR* szId )
+HANDLE __cdecl CIrcProto::SearchBasic(const PROTOCHAR* szId)
 {
-	if ( szId ) {
+	if (szId) {
 		if (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING &&
 			szId && szId[0] && !IsChannel(szId)) {
 			AckBasicSearchParam* param = new AckBasicSearchParam;
-			lstrcpyn( param->buf, szId, 50 );
-			ForkThread( &CIrcProto::AckBasicSearch, param );
-			return ( HANDLE )1;
-	}	}
+			lstrcpyn(param->buf, szId, 50);
+			ForkThread(&CIrcProto::AckBasicSearch, param);
+			return (HANDLE)1;
+		}
+	}
 
 	return 0;
 }
@@ -570,7 +573,7 @@ HANDLE __cdecl CIrcProto::SearchBasic( const PROTOCHAR* szId )
 ////////////////////////////////////////////////////////////////////////////////////////
 // SearchByEmail - searches the contact by its e-mail
 
-HANDLE __cdecl CIrcProto::SearchByEmail( const PROTOCHAR* )
+HANDLE __cdecl CIrcProto::SearchByEmail(const PROTOCHAR*)
 {
 	return NULL;
 }
@@ -578,17 +581,17 @@ HANDLE __cdecl CIrcProto::SearchByEmail( const PROTOCHAR* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // upsupported search functions
 
-HANDLE __cdecl CIrcProto::SearchByName( const PROTOCHAR*, const PROTOCHAR*, const PROTOCHAR* )
+HANDLE __cdecl CIrcProto::SearchByName(const PROTOCHAR*, const PROTOCHAR*, const PROTOCHAR*)
 {
 	return NULL;
 }
 
-HWND __cdecl CIrcProto::CreateExtendedSearchUI( HWND )
+HWND __cdecl CIrcProto::CreateExtendedSearchUI(HWND)
 {
 	return NULL;
 }
 
-HWND __cdecl CIrcProto::SearchAdvanced( HWND )
+HWND __cdecl CIrcProto::SearchAdvanced(HWND)
 {
 	return NULL;
 }
@@ -596,7 +599,7 @@ HWND __cdecl CIrcProto::SearchAdvanced( HWND )
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvContacts
 
-int __cdecl CIrcProto::RecvContacts( HANDLE, PROTORECVEVENT* )
+int __cdecl CIrcProto::RecvContacts(HANDLE, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -604,7 +607,7 @@ int __cdecl CIrcProto::RecvContacts( HANDLE, PROTORECVEVENT* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvFile
 
-int __cdecl CIrcProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt )
+int __cdecl CIrcProto::RecvFile(HANDLE hContact, PROTORECVFILET* evt)
 {
 	return Proto_RecvFile(hContact, evt);
 }
@@ -612,7 +615,7 @@ int __cdecl CIrcProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt )
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
-int __cdecl CIrcProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* evt )
+int __cdecl CIrcProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* evt)
 {
 	return Proto_RecvMessage(hContact, evt);
 }
@@ -620,7 +623,7 @@ int __cdecl CIrcProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* evt )
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvUrl
 
-int __cdecl CIrcProto::RecvUrl( HANDLE, PROTORECVEVENT* )
+int __cdecl CIrcProto::RecvUrl(HANDLE, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -628,7 +631,7 @@ int __cdecl CIrcProto::RecvUrl( HANDLE, PROTORECVEVENT* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
-int __cdecl CIrcProto::SendContacts( HANDLE, int, int, HANDLE* )
+int __cdecl CIrcProto::SendContacts(HANDLE, int, int, HANDLE*)
 {
 	return 1;
 }
@@ -636,15 +639,15 @@ int __cdecl CIrcProto::SendContacts( HANDLE, int, int, HANDLE* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CIrcProto::SendFile( HANDLE hContact, const TCHAR*, TCHAR** ppszFiles )
+HANDLE __cdecl CIrcProto::SendFile(HANDLE hContact, const TCHAR*, TCHAR** ppszFiles)
 {
 	DCCINFO* dci = NULL;
 	int iPort = 0;
-	int index= 0;
+	int index = 0;
 	unsigned __int64 size = 0;
 
 	// do not send to channels :-P
-	if ( isChatRoom(hContact))
+	if (isChatRoom(hContact))
 		return 0;
 
 	// stop if it is an active type filetransfer and the user's IP is not known
@@ -652,14 +655,14 @@ HANDLE __cdecl CIrcProto::SendFile( HANDLE hContact, const TCHAR*, TCHAR** ppszF
 	if (m_manualHost)
 		ulAdr = ConvertIPToInteger(m_mySpecifiedHostIP);
 	else
-		ulAdr = ConvertIPToInteger(m_IPFromServer?m_myHost:m_myLocalHost);
+		ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
 
 	if (!m_DCCPassive && !ulAdr) {
 		DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), TranslateT("DCC ERROR: Unable to automatically resolve external IP"), NULL, NULL, NULL, true, false);
 		return 0;
 	}
 
-	if ( ppszFiles[index] ) {
+	if (ppszFiles[index]) {
 
 		//get file size
 		while (ppszFiles[index]) {
@@ -677,34 +680,34 @@ HANDLE __cdecl CIrcProto::SendFile( HANDLE hContact, const TCHAR*, TCHAR** ppszF
 		}
 
 		DBVARIANT dbv;
-		if ( !getTString( hContact, "Nick", &dbv )) {
+		if (!getTString(hContact, "Nick", &dbv)) {
 			// set up a basic DCCINFO struct and pass it to a DCC object
 			dci = new DCCINFO;
 			dci->sFileAndPath = ppszFiles[index];
 
-			int i = dci->sFileAndPath.ReverseFind( '\\' );
+			int i = dci->sFileAndPath.ReverseFind('\\');
 			if (i != -1) {
-				dci->sPath = dci->sFileAndPath.Mid(0, i+1);
-				dci->sFile = dci->sFileAndPath.Mid(i+1, dci->sFileAndPath.GetLength());
+				dci->sPath = dci->sFileAndPath.Mid(0, i + 1);
+				dci->sFile = dci->sFileAndPath.Mid(i + 1, dci->sFileAndPath.GetLength());
 			}
 
 			CMString sFileWithQuotes = dci->sFile;
 
 			// if spaces in the filename surround witrh quotes
-			if ( sFileWithQuotes.Find( ' ', 0 ) != -1) {
-				sFileWithQuotes.Insert( 0, _T("\""));
-				sFileWithQuotes.Insert( sFileWithQuotes.GetLength(), _T("\""));
+			if (sFileWithQuotes.Find(' ', 0) != -1) {
+				sFileWithQuotes.Insert(0, _T("\""));
+				sFileWithQuotes.Insert(sFileWithQuotes.GetLength(), _T("\""));
 			}
 
 			dci->hContact = hContact;
 			dci->sContactName = dbv.ptszVal;
 			dci->iType = DCC_SEND;
-			dci->bReverse = m_DCCPassive?true:false;
+			dci->bReverse = m_DCCPassive ? true : false;
 			dci->bSender = true;
 			dci->dwSize = size;
 
 			// create new dcc object
-			CDccSession* dcc = new CDccSession(this,dci);
+			CDccSession* dcc = new CDccSession(this, dci);
 
 			// keep track of all objects created
 			AddDCCSession(dci, dcc);
@@ -716,7 +719,7 @@ HANDLE __cdecl CIrcProto::SendFile( HANDLE hContact, const TCHAR*, TCHAR** ppszF
 			// is it an reverse filetransfer (receiver acts as server)
 			if (dci->bReverse) {
 				TCHAR szTemp[256];
-				PostIrcMessage( _T("/CTCP %s DCC SEND %s 200 0 %I64u %u"),
+				PostIrcMessage(_T("/CTCP %s DCC SEND %s 200 0 %I64u %u"),
 					dci->sContactName.c_str(), sFileWithQuotes.c_str(), dci->dwSize, dcc->iToken);
 
 				mir_sntprintf(szTemp, SIZEOF(szTemp),
@@ -727,15 +730,15 @@ HANDLE __cdecl CIrcProto::SendFile( HANDLE hContact, const TCHAR*, TCHAR** ppszF
 				if (m_sendNotice) {
 					mir_sntprintf(szTemp, SIZEOF(szTemp),
 						_T("/NOTICE %s I am sending the file \'\002%s\002\' (%I64u kB) to you, please accept it. [Reverse transfer]"),
-						dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize/1024);
+						dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize / 1024);
 					PostIrcMessage(szTemp);
 				}
 			}
 			else { // ... normal filetransfer.
 				iPort = dcc->Connect();
-				if ( iPort ) {
+				if (iPort) {
 					TCHAR szTemp[256];
-					PostIrcMessage( _T("/CTCP %s DCC SEND %s %u %u %I64u"),
+					PostIrcMessage(_T("/CTCP %s DCC SEND %s %u %u %I64u"),
 						dci->sContactName.c_str(), sFileWithQuotes.c_str(), ulAdr, iPort, dci->dwSize);
 
 					mir_sntprintf(szTemp, SIZEOF(szTemp),
@@ -743,10 +746,10 @@ HANDLE __cdecl CIrcProto::SendFile( HANDLE hContact, const TCHAR*, TCHAR** ppszF
 						dci->sContactName.c_str(), sFileCorrect.c_str());
 					DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
 
-					if ( m_sendNotice ) {
+					if (m_sendNotice) {
 						mir_sntprintf(szTemp, SIZEOF(szTemp),
 							_T("/NOTICE %s I am sending the file \'\002%s\002\' (%I64u kB) to you, please accept it. [IP: %s]"),
-							dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize/1024, (TCHAR*)_A2T(ConvertIntegerToIP(ulAdr)));
+							dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize / 1024, (TCHAR*)_A2T(ConvertIntegerToIP(ulAdr)));
 						PostIrcMessage(szTemp);
 					}
 				}
@@ -756,15 +759,16 @@ HANDLE __cdecl CIrcProto::SendFile( HANDLE hContact, const TCHAR*, TCHAR** ppszF
 
 			// fix for sending multiple files
 			index++;
-			while( ppszFiles[index] ) {
-				if ( _taccess(ppszFiles[index], 0) == 0 ) {
-					PostIrcMessage( _T("/DCC SEND %s %S"), dci->sContactName.c_str(), ppszFiles[index]);
+			while (ppszFiles[index]) {
+				if (_taccess(ppszFiles[index], 0) == 0) {
+					PostIrcMessage(_T("/DCC SEND %s %S"), dci->sContactName.c_str(), ppszFiles[index]);
 				}
 				index++;
 			}
 
-			db_free( &dbv );
-	}	}
+			db_free(&dbv);
+		}
+	}
 
 	if (dci)
 		return dci;
@@ -786,18 +790,18 @@ struct TFakeAckParam
 
 void __cdecl CIrcProto::AckMessageFail(void *info)
 {
-	ProtoBroadcastAck( info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The protocol is not online"));
+	ProtoBroadcastAck(info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The protocol is not online"));
 }
 
 void __cdecl CIrcProto::AckMessageFailDcc(void *info)
 {
-	ProtoBroadcastAck( info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The dcc chat connection is not active"));
+	ProtoBroadcastAck(info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The dcc chat connection is not active"));
 }
 
 void __cdecl CIrcProto::AckMessageSuccess(void *info)
 {
 	TFakeAckParam *param = (TFakeAckParam*)info;
-	ProtoBroadcastAck( param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)param->msgid, 0);
+	ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)param->msgid, 0);
 	delete param;
 }
 
@@ -817,19 +821,19 @@ int __cdecl CIrcProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 	int codepage = getCodepage();
 
 	TCHAR *result;
-	if ( flags & PREF_UNICODE ) {
-		const char* p = strchr( pszSrc, '\0' );
-		if ( p != pszSrc ) {
-			while ( *(++p) == '\0' )
+	if (flags & PREF_UNICODE) {
+		const char* p = strchr(pszSrc, '\0');
+		if (p != pszSrc) {
+			while (*(++p) == '\0')
 				;
-			result = mir_u2t_cp((wchar_t*)p, codepage );
+			result = mir_u2t_cp((wchar_t*)p, codepage);
 		}
-		else result = mir_a2t_cp( pszSrc, codepage );
+		else result = mir_a2t_cp(pszSrc, codepage);
 	}
 	else if (flags & PREF_UTF)
 		mir_utf8decode(NEWSTR_ALLOCA(pszSrc), &result);
 	else
-		result = mir_a2t_cp( pszSrc, codepage );
+		result = mir_a2t_cp(pszSrc, codepage);
 
 	PostIrcMessageWnd(NULL, hContact, result);
 	mir_free(result);
@@ -842,7 +846,7 @@ int __cdecl CIrcProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendUrl
 
-int __cdecl CIrcProto::SendUrl( HANDLE, int, const char* )
+int __cdecl CIrcProto::SendUrl(HANDLE, int, const char*)
 {
 	return 1;
 }
@@ -850,7 +854,7 @@ int __cdecl CIrcProto::SendUrl( HANDLE, int, const char* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetApparentMode - sets the visibility status
 
-int __cdecl CIrcProto::SetApparentMode( HANDLE, int )
+int __cdecl CIrcProto::SetApparentMode(HANDLE, int)
 {
 	return 0;
 }
@@ -858,19 +862,19 @@ int __cdecl CIrcProto::SetApparentMode( HANDLE, int )
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetStatus - sets the protocol status
 
-int __cdecl CIrcProto::SetStatus( int iNewStatus )
+int __cdecl CIrcProto::SetStatus(int iNewStatus)
 {
-	return SetStatusInternal( iNewStatus, false );
+	return SetStatusInternal(iNewStatus, false);
 }
 
-int CIrcProto::SetStatusInternal( int iNewStatus, bool bIsInternal )
+int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 {
-	if ( !bChatInstalled )
+	if (!bChatInstalled)
 		return 0;
 
-	if ( iNewStatus != ID_STATUS_OFFLINE && !m_network[0] ) {
+	if (iNewStatus != ID_STATUS_OFFLINE && !m_network[0]) {
 		if (m_nick[0] && !m_disableDefaultServer) {
-			CQuickDlg* dlg = new CQuickDlg( this );
+			CQuickDlg* dlg = new CQuickDlg(this);
 			dlg->GetProto()->m_quickComboSelection = dlg->GetProto()->m_serverComboSelection + 1;
 			dlg->Show();
 			HWND hwnd = dlg->GetHwnd();
@@ -884,44 +888,44 @@ int CIrcProto::SetStatusInternal( int iNewStatus, bool bIsInternal )
 		return 0;
 	}
 
-	if ( iNewStatus != ID_STATUS_OFFLINE && !m_nick[0] || !m_userID[0] || !m_name[0]) {
+	if (iNewStatus != ID_STATUS_OFFLINE && !m_nick[0] || !m_userID[0] || !m_name[0]) {
 		MIRANDASYSTRAYNOTIFY msn;
-		msn.cbSize = sizeof( MIRANDASYSTRAYNOTIFY );
+		msn.cbSize = sizeof(MIRANDASYSTRAYNOTIFY);
 		msn.szProto = m_szModuleName;
-		msn.tszInfoTitle = TranslateT( "IRC error" );
-		msn.tszInfo = TranslateT( "Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name)." );
+		msn.tszInfoTitle = TranslateT("IRC error");
+		msn.tszInfo = TranslateT("Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).");
 		msn.dwInfoFlags = NIIF_ERROR | NIIF_INTERN_UNICODE;
 		msn.uTimeout = 15000;
 		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&msn);
 		return 0;
 	}
 
-	if ( !bIsInternal )
+	if (!bIsInternal)
 		m_iDesiredStatus = iNewStatus;
 
-	if (( iNewStatus == ID_STATUS_ONLINE || iNewStatus == ID_STATUS_AWAY || iNewStatus == ID_STATUS_FREECHAT) && !IsConnected()) //go from offline to online
+	if ((iNewStatus == ID_STATUS_ONLINE || iNewStatus == ID_STATUS_AWAY || iNewStatus == ID_STATUS_FREECHAT) && !IsConnected()) //go from offline to online
 	{
 		if (!m_bConnectThreadRunning)
 			ConnectToServer();
 	}
-	else if (( iNewStatus == ID_STATUS_ONLINE || iNewStatus == ID_STATUS_FREECHAT) && IsConnected() && m_iStatus == ID_STATUS_AWAY) //go to online while connected
+	else if ((iNewStatus == ID_STATUS_ONLINE || iNewStatus == ID_STATUS_FREECHAT) && IsConnected() && m_iStatus == ID_STATUS_AWAY) //go to online while connected
 	{
 		m_statusMessage = _T("");
-		PostIrcMessage( _T("/AWAY"));
+		PostIrcMessage(_T("/AWAY"));
 		return 0;
 	}
-	else if ( iNewStatus == ID_STATUS_OFFLINE && IsConnected()) //go from online/away to offline
+	else if (iNewStatus == ID_STATUS_OFFLINE && IsConnected()) //go from online/away to offline
 		DisconnectFromServer();
-	else if ( iNewStatus == ID_STATUS_OFFLINE && !IsConnected()) //offline to offline
+	else if (iNewStatus == ID_STATUS_OFFLINE && !IsConnected()) //offline to offline
 	{
 		return 0;
 	}
-	else if ( iNewStatus == ID_STATUS_AWAY && IsConnected()) //go to away while connected
+	else if (iNewStatus == ID_STATUS_AWAY && IsConnected()) //go to away while connected
 	{
-		PostIrcMessage( _T("/AWAY %s"), m_statusMessage.Mid(0,450).c_str());
+		PostIrcMessage(_T("/AWAY %s"), m_statusMessage.Mid(0, 450).c_str());
 		return 0;
 	}
-	else if ( iNewStatus == ID_STATUS_ONLINE && IsConnected()) //already online
+	else if (iNewStatus == ID_STATUS_ONLINE && IsConnected()) //already online
 		return 0;
 	else
 		SetStatusInternal(ID_STATUS_AWAY, true);
@@ -932,25 +936,26 @@ int CIrcProto::SetStatusInternal( int iNewStatus, bool bIsInternal )
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetAwayMsg - returns a contact's away message
 
-HANDLE __cdecl CIrcProto::GetAwayMsg( HANDLE hContact )
+HANDLE __cdecl CIrcProto::GetAwayMsg(HANDLE hContact)
 {
 	WhoisAwayReply = _T("");
 	DBVARIANT dbv;
 
 	// bypass chat contacts.
-	if ( !isChatRoom(hContact)) {
-		if ( hContact && !getTString( hContact, "Nick", &dbv)) {
-			int i = getWord( hContact, "Status", ID_STATUS_OFFLINE );
-			if ( i != ID_STATUS_AWAY) {
-				db_free( &dbv);
+	if (!isChatRoom(hContact)) {
+		if (hContact && !getTString(hContact, "Nick", &dbv)) {
+			int i = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+			if (i != ID_STATUS_AWAY) {
+				db_free(&dbv);
 				return 0;
 			}
 			CMString S = _T("WHOIS ");
 			S += dbv.ptszVal;
 			if (IsConnected())
-				SendIrcMessage( S.c_str(), false);
-			db_free( &dbv);
-	}	}
+				SendIrcMessage(S.c_str(), false);
+			db_free(&dbv);
+		}
+	}
 
 	return (HANDLE)1;
 }
@@ -958,7 +963,7 @@ HANDLE __cdecl CIrcProto::GetAwayMsg( HANDLE hContact )
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AWAYMSG
 
-int __cdecl CIrcProto::RecvAwayMsg( HANDLE, int, PROTORECVEVENT* )
+int __cdecl CIrcProto::RecvAwayMsg(HANDLE, int, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -966,25 +971,26 @@ int __cdecl CIrcProto::RecvAwayMsg( HANDLE, int, PROTORECVEVENT* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetAwayMsg - sets the away status message
 
-int __cdecl CIrcProto::SetAwayMsg( int status, const TCHAR* msg )
+int __cdecl CIrcProto::SetAwayMsg(int status, const TCHAR* msg)
 {
-	switch( status ) {
+	switch (status) {
 	case ID_STATUS_ONLINE:     case ID_STATUS_INVISIBLE:   case ID_STATUS_FREECHAT:
 	case ID_STATUS_CONNECTING: case ID_STATUS_OFFLINE:
 		break;
 
 	default:
 		CMString newStatus = msg;
-		ReplaceString( newStatus, _T("\r\n"), _T(" "));
-		if ( m_statusMessage.IsEmpty() || msg == NULL || m_statusMessage != newStatus ) {
-			if ( msg == NULL || *msg == 0 )
+		ReplaceString(newStatus, _T("\r\n"), _T(" "));
+		if (m_statusMessage.IsEmpty() || msg == NULL || m_statusMessage != newStatus) {
+			if (msg == NULL || *msg == 0)
 				m_statusMessage = _T(STR_AWAYMESSAGE);
 			else
 				m_statusMessage = newStatus;
 
-			if ( m_iStatus == ID_STATUS_AWAY )
-				PostIrcMessage( _T("/AWAY %s"), m_statusMessage.Mid(0,450).c_str());
-	}	}
+			if (m_iStatus == ID_STATUS_AWAY)
+				PostIrcMessage(_T("/AWAY %s"), m_statusMessage.Mid(0, 450).c_str());
+		}
+	}
 
 	return 0;
 }
@@ -992,7 +998,7 @@ int __cdecl CIrcProto::SetAwayMsg( int status, const TCHAR* msg )
 /////////////////////////////////////////////////////////////////////////////////////////
 // UserIsTyping - sends a UTN notification
 
-int __cdecl CIrcProto::UserIsTyping( HANDLE, int )
+int __cdecl CIrcProto::UserIsTyping(HANDLE, int)
 {
 	return 0;
 }
@@ -1000,19 +1006,19 @@ int __cdecl CIrcProto::UserIsTyping( HANDLE, int )
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnEvent - maintain protocol events
 
-int __cdecl CIrcProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam )
+int __cdecl CIrcProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
-	switch( eventType ) {
-	case EV_PROTO_ONLOAD:    return OnModulesLoaded( 0, 0 );
-	case EV_PROTO_ONEXIT:    return OnPreShutdown( 0, 0 );
-	case EV_PROTO_ONOPTIONS: return OnInitOptionsPages( wParam, lParam );
+	switch (eventType) {
+	case EV_PROTO_ONLOAD:    return OnModulesLoaded(0, 0);
+	case EV_PROTO_ONEXIT:    return OnPreShutdown(0, 0);
+	case EV_PROTO_ONOPTIONS: return OnInitOptionsPages(wParam, lParam);
 
 	case EV_PROTO_ONMENU:
 		InitMainMenus();
 		break;
 
 	case EV_PROTO_ONRENAME:
-		if ( hMenuRoot ) {
+		if (hMenuRoot) {
 			CLISTMENUITEM mi = { sizeof(mi) };
 			mi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.ptszName = m_tszUserName;

@@ -23,12 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR __cdecl CIrcProto::Scripting_InsertRawIn(WPARAM, LPARAM lParam)
 {
-	char* pszRaw = ( char* ) lParam;
+	char* pszRaw = (char*)lParam;
 
-	if ( m_bMbotInstalled && m_scriptingEnabled && pszRaw && IsConnected()) {
-		TCHAR* p = mir_a2t( pszRaw );
-		InsertIncomingEvent( p );
-		mir_free( p );
+	if (m_bMbotInstalled && m_scriptingEnabled && pszRaw && IsConnected()) {
+		TCHAR* p = mir_a2t(pszRaw);
+		InsertIncomingEvent(p);
+		mir_free(p);
 		return 0;
 	}
 
@@ -37,10 +37,10 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertRawIn(WPARAM, LPARAM lParam)
  
 INT_PTR __cdecl CIrcProto::Scripting_InsertRawOut( WPARAM, LPARAM lParam )
 {
-	char* pszRaw = ( char* ) lParam;
-	if ( m_bMbotInstalled && m_scriptingEnabled && pszRaw && IsConnected()) {	
+	char* pszRaw = (char*)lParam;
+	if (m_bMbotInstalled && m_scriptingEnabled && pszRaw && IsConnected()) {
 		String S = pszRaw;
-		ReplaceString( S, "%", "%%%%");
+		ReplaceString(S, "%", "%%%%");
 		NLSendNoScript((const unsigned char *)S.c_str(), lstrlenA(S.c_str()));
 		return 0;
 	}
@@ -56,7 +56,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertGuiIn(WPARAM wParam,LPARAM lParam)
 //helper functions
 static void __stdcall OnHook(void * pi)
 {
-	GCHOOK* gch = ( GCHOOK* )pi;
+	GCHOOK* gch = (GCHOOK*)pi;
 	free(gch->ptszUID);
 	free(gch->ptszText);
 	free((void*)gch->pDest->ptszID);
@@ -66,51 +66,51 @@ static void __stdcall OnHook(void * pi)
 }
 
 static void __cdecl GuiOutThread(LPVOID di)
-{	
-	GCHOOK* gch = ( GCHOOK* )di;
-	CallFunctionAsync( OnHook, ( void* )gch );
+{
+	GCHOOK* gch = (GCHOOK*)di;
+	CallFunctionAsync(OnHook, (void*)gch);
 }
 
-INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut( WPARAM, LPARAM lParam )
+INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut(WPARAM, LPARAM lParam)
 {
-	GCHOOK* gch = ( GCHOOK* )lParam;
+	GCHOOK* gch = (GCHOOK*)lParam;
 
-	if ( m_bMbotInstalled && m_scriptingEnabled && gch ) {	
+	if (m_bMbotInstalled && m_scriptingEnabled && gch) {
 		GCHOOK* gchook = new GCHOOK;
 		gchook->pDest = new GCDEST;
 
 		gchook->dwData = gch->dwData;
 		gchook->pDest->iType = gch->pDest->iType;
-		if ( gch->ptszText )
-			gchook->ptszText = _tcsdup( gch->ptszText );
+		if (gch->ptszText)
+			gchook->ptszText = _tcsdup(gch->ptszText);
 		else gchook->ptszText = NULL;
 
-		if ( gch->ptszUID )
-			gchook->ptszUID = _tcsdup( gch->ptszUID );
+		if (gch->ptszUID)
+			gchook->ptszUID = _tcsdup(gch->ptszUID);
 		else
 			gchook->ptszUID = NULL;
 
-		if ( gch->pDest->ptszID ) {
-			CMString S = MakeWndID( gch->pDest->ptszID );
-			gchook->pDest->ptszID = _tcsdup( S.c_str());
+		if (gch->pDest->ptszID) {
+			CMString S = MakeWndID(gch->pDest->ptszID);
+			gchook->pDest->ptszID = _tcsdup(S.c_str());
 		}
 		else gchook->pDest->ptszID = NULL;
 
-		if ( gch->pDest->pszModule )
+		if (gch->pDest->pszModule)
 			gchook->pDest->pszModule = _strdup(gch->pDest->pszModule);
 		else gchook->pDest->pszModule = NULL;
 
-		mir_forkthread( GuiOutThread, gchook );
+		mir_forkthread(GuiOutThread, gchook);
 		return 0;
 	}
 
 	return 1;
 }
 
-BOOL CIrcProto::Scripting_TriggerMSPRawIn( char** pszRaw )
+BOOL CIrcProto::Scripting_TriggerMSPRawIn(char** pszRaw)
 {
 	int iVal = CallService(MS_MBOT_IRC_RAW_IN, (WPARAM)m_szModuleName, (LPARAM)pszRaw);
-	if ( iVal == 0 )
+	if (iVal == 0)
 		return TRUE;
 
 	return iVal > 0 ? FALSE : TRUE;
@@ -119,7 +119,7 @@ BOOL CIrcProto::Scripting_TriggerMSPRawIn( char** pszRaw )
 BOOL CIrcProto::Scripting_TriggerMSPRawOut(char ** pszRaw)
 {
 	int iVal = CallService(MS_MBOT_IRC_RAW_OUT, (WPARAM)m_szModuleName, (LPARAM)pszRaw);
-	if ( iVal == 0 )
+	if (iVal == 0)
 		return TRUE;
 
 	return iVal > 0 ? FALSE : TRUE;
@@ -127,7 +127,7 @@ BOOL CIrcProto::Scripting_TriggerMSPRawOut(char ** pszRaw)
 
 BOOL CIrcProto::Scripting_TriggerMSPGuiIn(WPARAM * wparam, GCEVENT *gce)
 {
-	WPARAM_GUI_IN wgi = {0};
+	WPARAM_GUI_IN wgi = { 0 };
 
 	wgi.pszModule = m_szModuleName;
 	wgi.wParam = *wparam;
@@ -135,7 +135,7 @@ BOOL CIrcProto::Scripting_TriggerMSPGuiIn(WPARAM * wparam, GCEVENT *gce)
 		gce->time = time(0);
 
 	int iVal = CallService(MS_MBOT_IRC_GUI_IN, (WPARAM)&wgi, (LPARAM)gce);
-	if ( iVal == 0 ) {
+	if (iVal == 0) {
 		*wparam = wgi.wParam;
 		return TRUE;
 	}
@@ -146,7 +146,7 @@ BOOL CIrcProto::Scripting_TriggerMSPGuiIn(WPARAM * wparam, GCEVENT *gce)
 BOOL CIrcProto::Scripting_TriggerMSPGuiOut(GCHOOK* gch)
 {
 	int iVal = CallService(MS_MBOT_IRC_GUI_OUT, (WPARAM)m_szModuleName, (LPARAM)gch);
-	if ( iVal == 0 )
+	if (iVal == 0)
 		return TRUE;
 
 	return iVal > 0 ? FALSE : TRUE;
@@ -154,16 +154,16 @@ BOOL CIrcProto::Scripting_TriggerMSPGuiOut(GCHOOK* gch)
 
 INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 {
-	if ( m_bMbotInstalled && m_scriptingEnabled && lparam ) {
-		String sString = ( char* ) lparam, sRequest;
-		CMString sOutput, sChannel; 
+	if (m_bMbotInstalled && m_scriptingEnabled && lparam) {
+		String sString = (char*)lparam, sRequest;
+		CMString sOutput, sChannel;
 
 		int i = sString.Find("|");
-		if ( i != -1 ) {
+		if (i != -1) {
 			sRequest = sString.Mid(0, i);
-			TCHAR* p = mir_a2t(( char* )sString.Mid(i+1, sString.GetLength()).c_str());
+			TCHAR* p = mir_a2t((char*)sString.Mid(i + 1, sString.GetLength()).c_str());
 			sChannel = p;
-			mir_free( p );
+			mir_free(p);
 		}
 		else sRequest = sString;
 
@@ -182,16 +182,16 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			sOutput = m_alternativeNick;
 
 		else if (sRequest == "myip")
-			return ( INT_PTR )mir_strdup( m_manualHost ? m_mySpecifiedHostIP : 
-										( m_IPFromServer ) ? m_myHost : m_myLocalHost);
+			return (INT_PTR)mir_strdup(m_manualHost ? m_mySpecifiedHostIP :
+			(m_IPFromServer) ? m_myHost : m_myLocalHost);
 
 		else if (sRequest == "usercount" && !sChannel.IsEmpty()) {
 			CMString S = MakeWndID(sChannel.c_str());
-			GC_INFO gci = {0};
+			GC_INFO gci = { 0 };
 			gci.Flags = BYID | COUNT;
 			gci.pszModule = m_szModuleName;
 			gci.pszID = S.c_str();
-			if ( !CallServiceSync( MS_GC_GETINFO, 0, (LPARAM)&gci )) {
+			if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci)) {
 				TCHAR szTemp[40];
 				mir_sntprintf(szTemp, 35, _T("%u"), gci.iCount);
 				sOutput = szTemp;
@@ -199,40 +199,42 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 		}
 		else if (sRequest == "userlist" && !sChannel.IsEmpty()) {
 			CMString S = MakeWndID(sChannel.c_str());
-			GC_INFO gci = {0};
-			gci.Flags = BYID|USERS;
+			GC_INFO gci = { 0 };
+			gci.Flags = BYID | USERS;
 			gci.pszModule = m_szModuleName;
 			gci.pszID = S.c_str();
-			if ( !CallServiceSync( MS_GC_GETINFO, 0, (LPARAM)&gci ))
-				return (INT_PTR)mir_strdup( gci.pszUsers );
+			if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
+				return (INT_PTR)mir_strdup(gci.pszUsers);
 		}
 		else if (sRequest == "channellist") {
 			CMString S = _T("");
-			int i = CallServiceSync( MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_szModuleName);
-			if ( i >= 0 ) {
+			int i = CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_szModuleName);
+			if (i >= 0) {
 				int j = 0;
 				while (j < i) {
 					GC_INFO gci = { 0 };
 					gci.Flags = BYINDEX | ID;
 					gci.pszModule = m_szModuleName;
 					gci.iItem = j;
-					if ( !CallServiceSync( MS_GC_GETINFO, 0, ( LPARAM )&gci )) {
-						if ( lstrcmpi( gci.pszID, SERVERWINDOW)) {
+					if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci)) {
+						if (lstrcmpi(gci.pszID, SERVERWINDOW)) {
 							CMString S1 = gci.pszID;
 							int k = S1.Find(_T(" "));
-							if ( k != -1 )
+							if (k != -1)
 								S1 = S1.Mid(0, k);
 							S += S1 + _T(" ");
-					}	}
+						}
+					}
 					j++;
-			}	}
-			
-			if ( !S.IsEmpty())
-				sOutput = ( TCHAR* )S.c_str();
+				}
+			}
+
+			if (!S.IsEmpty())
+				sOutput = (TCHAR*)S.c_str();
 		}
 		// send it to mbot
-		if ( !sOutput.IsEmpty())
-			return ( INT_PTR )mir_t2a( sOutput.c_str());
+		if (!sOutput.IsEmpty())
+			return (INT_PTR)mir_t2a(sOutput.c_str());
 	}
 	return 0;
 }
