@@ -523,105 +523,103 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_MRA_official",     _T("|magent*|Mail.ru Agent*official*")
                                 _T("|Mail.ru Agent*PC*")
                                 _T("|*agent.mail.ru*"),                    LPGENT("Mail.Ru Agent (official)"),      IDI_MAIL_RU_OFFICIAL,    MRA_CASE,           TRUE    },
-	{"client_MRA_Mobile",       _T("|wmagent*|MobileAgent*")
-                                _T("|sagent*|Mail.ru Agent*Symbian*")
-                                _T("|jagent*|iphoneagent*"),                    _T("Mail.Ru Mobile Agent"),         IDI_MAIL_RU_MOBILE,      MRA_CASE,           TRUE    },
-	{"client_MRA_web",          _T("|webagent*|*Web Agent*"),                   _T("Mail.Ru Web Agent"),            IDI_MAIL_RU_WEBAGENT,    MRA_CASE,           TRUE    },
-	{"client_MRA_unknown",      _T("Mail.ru Agent*"),                       LPGENT("Mail.Ru (unknown client)"),     IDI_MAIL_RU_UNKNOWN,     MRA_CASE,           TRUE    },
+	{"client_MRA_Mobile",       _T("|MobileAgent*|Mail.ru Agent*Symbian*"),     _T("Mail.Ru Mobile Agent"),          IDI_MAIL_RU_MOBILE,      MRA_CASE,           TRUE    },
+	{"client_MRA_web",          _T("|webagent*|*Web Agent*"),                   _T("Mail.Ru Web Agent"),             IDI_MAIL_RU_WEBAGENT,    MRA_CASE,           TRUE    },
+	{"client_MRA_unknown",      _T("Mail.ru Agent*"),                       LPGENT("Mail.Ru (unknown client)"),      IDI_MAIL_RU_UNKNOWN,     MRA_CASE,           TRUE    },
 
 //#########################################################################################################################################################################
 //#################################   YAHOO   #############################################################################################################################
 //#########################################################################################################################################################################
-	{"client_YahGoMobile",      _T("|Yahoo*Go*|Yahoo*Mobile*"),                 _T("Yahoo! Go Mobile"),             IDI_YAHOO_GO_MOBILE,     YAHOO_CASE,         TRUE    },
-	{"client_PingBox",          _T("*Yahoo*PingBox*"),                          _T("Yahoo PingBox"),                IDI_YAHOO_PINGBOX,       YAHOO_CASE,         TRUE    },
-	{"client_YahooWeb",         _T("*Yahoo*Web*Messenger"),                     _T("Yahoo Web Messenger"),          IDI_YAHOO_WEB,           YAHOO_CASE,         TRUE    },
-	{"client_libyahoo2",        _T("*libyahoo*"),                               _T("libyahoo2"),                    IDI_LIBYAHOO2,           YAHOO_CASE,         TRUE    },
-	{"client_Yahoo",            _T("*Yahoo*"),                                  _T("Yahoo Messenger"),              IDI_YAHOO,               YAHOO_CASE                  },
+	{"client_YahGoMobile",      _T("|Yahoo*Go*|Yahoo*Mobile*"),                 _T("Yahoo! Go Mobile"),              IDI_YAHOO_GO_MOBILE,     YAHOO_CASE,         TRUE    },
+	{"client_PingBox",          _T("*Yahoo*PingBox*"),                          _T("Yahoo PingBox"),                 IDI_YAHOO_PINGBOX,       YAHOO_CASE,         TRUE    },
+	{"client_YahooWeb",         _T("*Yahoo*Web*Messenger"),                     _T("Yahoo Web Messenger"),           IDI_YAHOO_WEB,           YAHOO_CASE,         TRUE    },
+	{"client_libyahoo2",        _T("*libyahoo*"),                               _T("libyahoo2"),                     IDI_LIBYAHOO2,           YAHOO_CASE,         TRUE    },
+	{"client_Yahoo",            _T("*Yahoo*"),                                  _T("Yahoo Messenger"),               IDI_YAHOO,               YAHOO_CASE                  },
 
 //#########################################################################################################################################################################
 //#################################   WEATHER   ###########################################################################################################################
 //#########################################################################################################################################################################
-	{"client_accu",             _T("*accuweather*"),                            _T("AccuWeather"),                  IDI_ACCU,                WEATHER_CASE,       TRUE    },
-	{"client_gismeteo",         _T("*gismeteo*"),                               _T("GisMeteo"),                     IDI_GISMETEO,            WEATHER_CASE,       TRUE    },
-	{"client_intelli",          _T("*intellicast*"),                            _T("Intellicast"),                  IDI_INTELLI,             WEATHER_CASE,       TRUE    },
-	{"client_meteogid",         _T("|*meteo-gid*|*meteogid*"),                  _T("Meteo-Gid"),                    IDI_METEOGID,            WEATHER_CASE,       TRUE    },
-	{"client_meteonovosti",     _T("*meteonovosti*"),                           _T("Meteonovosti"),                 IDI_METEONOVOSTI,        WEATHER_CASE,       TRUE    },
-	{"client_noaa",             _T("*noaa*"),                                   _T("NOAA Weather"),                 IDI_NOAA,                WEATHER_CASE,       TRUE    },
-	{"client_real",             _T("*realmeteo*"),                              _T("RealMeteo"),                    IDI_REALMETEO,           WEATHER_CASE,       TRUE    },
-	{"client_under",            _T("Weather Underground*"),                     _T("Weather Underground"),          IDI_UNDERGROUND,         WEATHER_CASE,       TRUE    },
-	{"client_weatherxml",       _T("*WeatherXML*"),                             _T("WeatherXML"),                   IDI_WEATHERXML,          WEATHER_CASE,       TRUE    },
-	{"client_wetter",           _T("*wetter*"),                                 _T("Wetter"),                       IDI_WETTER,              WEATHER_CASE,       TRUE    },
-	{"client_yweather",         _T("*Yahoo Weather*"),                          _T("Yahoo Weather"),                IDI_YWEATHER,            WEATHER_CASE,       TRUE    },
-	{"client_weather_cn",       _T("*weather.com.cn*"),                         _T("Weather CN"),                   IDI_WEATHER_CN,          WEATHER_CASE,       TRUE    },
-	{"client_weather",          _T("*weather*"),                                _T("Weather"),                      IDI_WEATHER,             WEATHER_CASE,       TRUE    },
+	{"client_accu",             _T("*accuweather*"),                            _T("AccuWeather"),                   IDI_ACCU,                WEATHER_CASE,       TRUE    },
+	{"client_gismeteo",         _T("*gismeteo*"),                               _T("GisMeteo"),                      IDI_GISMETEO,            WEATHER_CASE,       TRUE    },
+	{"client_intelli",          _T("*intellicast*"),                            _T("Intellicast"),                   IDI_INTELLI,             WEATHER_CASE,       TRUE    },
+	{"client_meteogid",         _T("|*meteo-gid*|*meteogid*"),                  _T("Meteo-Gid"),                     IDI_METEOGID,            WEATHER_CASE,       TRUE    },
+	{"client_meteonovosti",     _T("*meteonovosti*"),                           _T("Meteonovosti"),                  IDI_METEONOVOSTI,        WEATHER_CASE,       TRUE    },
+	{"client_noaa",             _T("*noaa*"),                                   _T("NOAA Weather"),                  IDI_NOAA,                WEATHER_CASE,       TRUE    },
+	{"client_real",             _T("*realmeteo*"),                              _T("RealMeteo"),                     IDI_REALMETEO,           WEATHER_CASE,       TRUE    },
+	{"client_under",            _T("Weather Underground*"),                     _T("Weather Underground"),           IDI_UNDERGROUND,         WEATHER_CASE,       TRUE    },
+	{"client_weatherxml",       _T("*WeatherXML*"),                             _T("WeatherXML"),                    IDI_WEATHERXML,          WEATHER_CASE,       TRUE    },
+	{"client_wetter",           _T("*wetter*"),                                 _T("Wetter"),                        IDI_WETTER,              WEATHER_CASE,       TRUE    },
+	{"client_yweather",         _T("*Yahoo Weather*"),                          _T("Yahoo Weather"),                 IDI_YWEATHER,            WEATHER_CASE,       TRUE    },
+	{"client_weather_cn",       _T("*weather.com.cn*"),                         _T("Weather CN"),                    IDI_WEATHER_CN,          WEATHER_CASE,       TRUE    },
+	{"client_weather",          _T("*weather*"),                                _T("Weather"),                       IDI_WEATHER,             WEATHER_CASE,       TRUE    },
 
 //#########################################################################################################################################################################
 //#################################   RSS   ###############################################################################################################################
 //#########################################################################################################################################################################
-	{"client_rss09x",           _T("*RSS*0.9*"),                                _T("RSS 0.9x"),                     IDI_RSS09,               RSS_CASE,           TRUE    },
-	{"client_rss2",             _T("*RSS*2.*"),                                 _T("RSS 2"),                        IDI_RSS2,                RSS_CASE,           TRUE    },
-	{"client_rss1",             _T("*RSS*1.*"),                                 _T("RSS 1"),                        IDI_RSS1,                RSS_CASE,           TRUE    },
-	{"client_atom3",            _T("*Atom*3.*"),                                _T("Atom 3"),                       IDI_ATOM3,               RSS_CASE,           TRUE    },
-	{"client_atom1",            _T("*Atom*1.*"),                                _T("Atom 1"),                       IDI_ATOM1,               RSS_CASE,           TRUE    },
+	{"client_rss09x",           _T("*RSS*0.9*"),                                _T("RSS 0.9x"),                      IDI_RSS09,               RSS_CASE,           TRUE    },
+	{"client_rss2",             _T("*RSS*2.*"),                                 _T("RSS 2"),                         IDI_RSS2,                RSS_CASE,           TRUE    },
+	{"client_rss1",             _T("*RSS*1.*"),                                 _T("RSS 1"),                         IDI_RSS1,                RSS_CASE,           TRUE    },
+	{"client_atom3",            _T("*Atom*3.*"),                                _T("Atom 3"),                        IDI_ATOM3,               RSS_CASE,           TRUE    },
+	{"client_atom1",            _T("*Atom*1.*"),                                _T("Atom 1"),                        IDI_ATOM1,               RSS_CASE,           TRUE    },
 
 //#########################################################################################################################################################################
 //#################################    QQ   ###############################################################################################################################
 //#########################################################################################################################################################################
-	{"client_MobileQQ",         _T("|Mobile*QQ*|iPhone*QQ*|QQ WAP*"),           _T("Mobile QQ"),                    IDI_MOBILEQQ,            QQ_CASE,            TRUE    },
-	{"client_QQConcept",        _T("QQ*Concept*"),                              _T("QQ Concept"),                   IDI_QQCONCEPT,           QQ_CASE,            TRUE    },
-	{"client_QQCRM",            _T("QQ*CRM*"),                                  _T("QQ CRM"),                       IDI_QQCRM,               QQ_CASE,            TRUE    },
-	{"client_QQSilver",         _T("QQ*Silverlight*"),                          _T("QQ Silverlight"),               IDI_QQSILVER,            QQ_CASE,            TRUE    },
-	{"client_TM2008",           _T("|TM2008*|TM2009*|TM2010*"),             LPGENT("TM 2008 and >"),                IDI_TM2008,              QQ_CASE                     },
-	{"client_TM",               _T("TM*"),                                      _T("TM"),                           IDI_TM,                  QQ_CASE                     },
-	{"client_QQInt",            _T("QQ*International*"),                        _T("QQ International"),             IDI_QQINT,               QQ_CASE                     },
-	{"client_YamQQ",            _T("YamQQ*"),                                   _T("Yam QQ"),                       IDI_YAMQQ,               QQ_CASE                     },
-	{"client_WebQQ",            _T("WebQQ*"),                                   _T("WebQQ"),                        IDI_WEBQQ,               QQ_CASE                     },
-	{"client_QQ",               _T("QQ*"),                                      _T("QQ"),                           IDI_QQ,                  QQ_CASE                     },
+	{"client_MobileQQ",         _T("|Mobile*QQ*|iPhone*QQ*|QQ WAP*"),           _T("Mobile QQ"),                     IDI_MOBILEQQ,            QQ_CASE,            TRUE    },
+	{"client_QQConcept",        _T("QQ*Concept*"),                              _T("QQ Concept"),                    IDI_QQCONCEPT,           QQ_CASE,            TRUE    },
+	{"client_QQCRM",            _T("QQ*CRM*"),                                  _T("QQ CRM"),                        IDI_QQCRM,               QQ_CASE,            TRUE    },
+	{"client_QQSilver",         _T("QQ*Silverlight*"),                          _T("QQ Silverlight"),                IDI_QQSILVER,            QQ_CASE,            TRUE    },
+	{"client_TM2008",           _T("|TM2008*|TM2009*|TM2010*"),             LPGENT("TM 2008 and >"),                 IDI_TM2008,              QQ_CASE                     },
+	{"client_TM",               _T("TM*"),                                      _T("TM"),                            IDI_TM,                  QQ_CASE                     },
+	{"client_QQInt",            _T("QQ*International*"),                        _T("QQ International"),              IDI_QQINT,               QQ_CASE                     },
+	{"client_YamQQ",            _T("YamQQ*"),                                   _T("Yam QQ"),                        IDI_YAMQQ,               QQ_CASE                     },
+	{"client_WebQQ",            _T("WebQQ*"),                                   _T("WebQQ"),                         IDI_WEBQQ,               QQ_CASE                     },
+	{"client_QQ",               _T("QQ*"),                                      _T("QQ"),                            IDI_QQ,                  QQ_CASE                     },
 
 //#########################################################################################################################################################################
 //#################################   GADU-GADU   #########################################################################################################################
 //#########################################################################################################################################################################
-	{"client_GG",               _T("|Gadu-Gadu*|GG*"),                      LPGENT("Gadu-Gadu client"),             IDI_GG,                  GG_CASE                     },
+	{"client_GG",               _T("|Gadu-Gadu*|GG*"),                      LPGENT("Gadu-Gadu client"),              IDI_GG,                  GG_CASE                     },
 
 //#########################################################################################################################################################################
 //#################################   TLEN   ##############################################################################################################################
 //#########################################################################################################################################################################
-	{"client_Tlen",             _T("*Tlen*"),                               LPGENT("Tlen.pl client"),               IDI_TLEN,                TLEN_CASE                   },
+	{"client_Tlen",             _T("*Tlen*"),                               LPGENT("Tlen.pl client"),                IDI_TLEN,                TLEN_CASE                   },
 
 //#########################################################################################################################################################################
 //#################################   OTHER CLIENTS   #####################################################################################################################
 //#########################################################################################################################################################################
-	{"client_Android",          _T("*Android*"),                                _T("Android"),                      IDI_ANDROID,             MULTI_CASE,         TRUE    },
+	{"client_Android",          _T("*Android*"),                                _T("Android"),                       IDI_ANDROID,             MULTI_CASE,         TRUE    },
 
-	{"client_Facebook",         _T("*Facebook*"),                               _T("Facebook"),                     IDI_FACEBOOK,            OTHER_PROTOS_CASE,  TRUE    },
+	{"client_Facebook",         _T("*Facebook*"),                               _T("Facebook"),                      IDI_FACEBOOK,            OTHER_PROTOS_CASE,  TRUE    },
 
-	{"client_Pidgin",           _T("|*Pidgin*|*libpurple*|Purple*"),            _T("Pidgin (libpurple)"),           IDI_PIDGIN,              MULTI_CASE                  },
+	{"client_Pidgin",           _T("|*Pidgin*|*libpurple*|Purple*"),            _T("Pidgin (libpurple)"),            IDI_PIDGIN,              MULTI_CASE                  },
 
-	{"client_Python",           _T("|*Python*|Py*|*ταλιςμαη*"),             LPGENT("Python-based clients"),         IDI_PYTHON,              MULTI_CASE                  },
+	{"client_Python",           _T("|*Python*|Py*|*ταλιςμαη*"),             LPGENT("Python-based clients"),          IDI_PYTHON,              MULTI_CASE                  },
 
-	{"client_Jabber",           _T("*Jabber*client*"),                      LPGENT("Jabber client"),                IDI_JABBER,              JABBER_CASE,        TRUE    },
+	{"client_Jabber",           _T("*Jabber*client*"),                      LPGENT("Jabber client"),                 IDI_JABBER,              JABBER_CASE,        TRUE    },
 
-	{"client_XMPP",             _T("|*XMPP*|Mrim*|*DRQZ00fz5WPn1gH+*"),     LPGENT("XMPP client"),                  IDI_XMPP,                JABBER_CASE                 },
+	{"client_XMPP",             _T("|*XMPP*|Mrim*|*DRQZ00fz5WPn1gH+*"),     LPGENT("XMPP client"),                   IDI_XMPP,                JABBER_CASE                 },
 
-	{"client_Hangouts",         _T("messaging-*"),                              _T("Google+ Hangouts"),             IDI_HANGOUTS,            OTHER_PROTOS_CASE,  TRUE    },
-	
-	{"client_WhatsApp",         _T("*WhatsApp*"),                               _T("WhatsApp"),                     IDI_WHATSAPP,            OTHER_PROTOS_CASE,  TRUE    },
-	
-	{"client_Twitter",          _T("*Twitter*"),                                _T("Twitter"),                      IDI_TWITTER,             OTHER_PROTOS_CASE,  TRUE    },
+	{"client_Hangouts",         _T("messaging-*"),                              _T("Google+ Hangouts"),              IDI_HANGOUTS,            OTHER_PROTOS_CASE,  TRUE    },
 
-	{"client_Skype",            _T("*Skype**"),                                 _T("Skype"),                        IDI_SKYPE,               OTHER_PROTOS_CASE,  TRUE    },
+	{"client_WhatsApp",         _T("*WhatsApp*"),                               _T("WhatsApp"),                      IDI_WHATSAPP,            OTHER_PROTOS_CASE,  TRUE    },
 
-	{"client_VK",               _T("|*VKontakte*|*vk.com*"),                    _T("VKontakte"),                    IDI_VK,                  OTHER_PROTOS_CASE,  TRUE    },
+	{"client_Twitter",          _T("*Twitter*"),                                _T("Twitter"),                       IDI_TWITTER,             OTHER_PROTOS_CASE,  TRUE    },
 
-	{"client_Xfire",            _T("*Xfire*"),                                  _T("Xfire"),                        IDI_XFIRE,               OTHER_PROTOS_CASE,  TRUE    },
+	{"client_Skype",            _T("*Skype**"),                                 _T("Skype"),                         IDI_SKYPE,               OTHER_PROTOS_CASE,  TRUE    },
+
+	{"client_VK",               _T("|*VKontakte*|*vk.com*"),                    _T("VKontakte"),                     IDI_VK,                  OTHER_PROTOS_CASE,  TRUE    },
+
+	{"client_Xfire",            _T("*Xfire*"),                                  _T("Xfire"),                         IDI_XFIRE,               OTHER_PROTOS_CASE,  TRUE    },
 
 //#########################################################################################################################################################################
 //#################################   UNDEFINED CLIENTS   #################################################################################################################
 //#########################################################################################################################################################################
 
-	{"client_Notfound",         _T("Notfound"),                             LPGENT("Client not found"),             IDI_NOTFOUND,            OTHERS_CASE,        TRUE    },
-	{"client_Unknown",          _T("|*Unknown*|..."),                       LPGENT("Unknown client"),               IDI_UNKNOWN,             OTHERS_CASE,        TRUE    },
-	{"client_Undetected",       _T("?*"),                                   LPGENT("Undetected client"),            IDI_UNDETECTED,          OTHERS_CASE,        TRUE    },
+	{"client_Notfound",         _T("Notfound"),                             LPGENT("Client not found"),              IDI_NOTFOUND,            OTHERS_CASE,        TRUE    },
+	{"client_Unknown",          _T("|*Unknown*|..."),                       LPGENT("Unknown client"),                IDI_UNKNOWN,             OTHERS_CASE,        TRUE    },
+	{"client_Undetected",       _T("?*"),                                   LPGENT("Undetected client"),             IDI_UNDETECTED,          OTHERS_CASE,        TRUE    },
 
 };
 
@@ -636,61 +634,61 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 //#########################################################################################################################################################################
 //#################################   MIRANDA PACKS OVERLAYS   ############################################################################################################
 //#########################################################################################################################################################################
-	{"client_AF_pack",          _T("*AF*Pack*"),                                _T("AF"),                           IDI_MIRANDA_AF,          MIRANDA_PACKS_CASE          },
-	{"client_AlfaMaR_pack",     _T("*AlfaMaR*"),                                _T("AlfaMaR"),                      IDI_MIRANDA_ALFAMAR,     MIRANDA_PACKS_CASE          },
-	{"client_Amatory_pack",     _T("*Amatory*"),                                _T("Amatory"),                      IDI_MIRANDA_AMATORY,     MIRANDA_PACKS_CASE          },
-	{"client_BRI_pack",         _T("*bri*edition*"),                            _T("Bri edition"),                  IDI_MIRANDA_BRI,         MIRANDA_PACKS_CASE          },
-	{"client_Devil_pack",       _T("*6.6.6*"),                                  _T("Devil Suite"),                  IDI_MIRANDA_DEVIL,       MIRANDA_PACKS_CASE          },
-	{"client_E33_pack",         _T("*[E33*]*"),                                 _T("E33"),                          IDI_MIRANDA_E33,         MIRANDA_PACKS_CASE          },
-	{"client_FR_pack",          _T("*FR*Pack*"),                                _T("Miranda FR"),                   IDI_MIRANDA_FR,          MIRANDA_PACKS_CASE          },
-	{"client_Faith_pack",       _T("*Faith*Pack*"),                             _T("FaithPack"),                    IDI_MIRANDA_FAITH,       MIRANDA_PACKS_CASE          },
-	{"client_Final_pack",       _T("*[Final*Pack]*"),                           _T("Final pack"),                   IDI_MIRANDA_FINAL,       MIRANDA_PACKS_CASE          },
-	{"client_Freize_pack",      _T("*Freize*"),                                 _T("Freize"),                       IDI_MIRANDA_FREIZE,      MIRANDA_PACKS_CASE          },
-	{"client_Ghost_pack",       _T("*Ghost's*"),                                _T("Ghost's pack"),                 IDI_MIRANDA_GHOST,       MIRANDA_PACKS_CASE          },
-	{"client_HCoffee_pack",     _T("*[HotCoffee]*"),                            _T("HotCoffee"),                    IDI_MIRANDA_CAPPUCCINO,  MIRANDA_PACKS_CASE          },
-	{"client_HierOS_pack",      _T("*HierOS*"),                                 _T("HierOS"),                       IDI_MIRANDA_HIEROS,      MIRANDA_PACKS_CASE          },
-	{"client_ICE_pack",         _T("|*miranda*[ice*]|*induction*"),             _T("iCE / Induction"),              IDI_MIRANDA_INDUCTION,   MIRANDA_PACKS_CASE          },
-	{"client_KDL_pack",         _T("|*KDL*|*КДЛ*"),                             _T("KDL"),                          IDI_MIRANDA_KDL,         MIRANDA_PACKS_CASE          },
-	{"client_Kolich_pack",      _T("*Kolich*"),                                 _T("Kolich"),                       IDI_MIRANDA_KOLICH,      MIRANDA_PACKS_CASE          },
-	{"client_Kuzzman_pack",     _T("*kuzzman*"),                                _T("Kuzzman"),                      IDI_MIRANDA_KUZZMAN,     MIRANDA_PACKS_CASE          },
-	{"client_Lenin_pack",       _T("*[Lenin*]*"),                               _T("Lenin pack"),                   IDI_MIRANDA_LENINPACK,   MIRANDA_PACKS_CASE          },
-	{"client_Lestat_pack",      _T("*[Lpack*]*"),                               _T("Lestat pack"),                  IDI_MIRANDA_LESTAT,      MIRANDA_PACKS_CASE          },
-	{"client_LexSys_pack",      _T("|*Miranda*LS*|*LexSys*"),                   _T("LexSys"),                       IDI_MIRANDA_LEXSYS,      MIRANDA_PACKS_CASE          },
-	{"client_MD_pack",          _T("*MDpack*"),                                 _T("MDpack"),                       IDI_MIRANDA_MD,          MIRANDA_PACKS_CASE          },
-	{"client_Mataes_pack",      _T("*Mataes*"),                                 _T("Mataes pack"),                  IDI_MIRANDA_MATAES,      MIRANDA_PACKS_CASE          },
-	{"client_Mir_ME_pack",      _T("*[Miranda*ME]*"),                           _T("Miranda ME"),                   IDI_MIRANDA_ME,          MIRANDA_PACKS_CASE          },
-	{"client_Native_pack",      _T("*Native*"),                                 _T("Native"),                       IDI_MIRANDA_NATIVE,      MIRANDA_PACKS_CASE          },
-	{"client_New_Style_pack",   _T("*New*Style*"),                              _T("New Style"),                    IDI_MIRANDA_NEW_STYLE,   MIRANDA_PACKS_CASE          },
-	{"client_Pilot_pack",       _T("*Pilot*"),                                  _T("Pilot"),                        IDI_MIRANDA_PILOT,       MIRANDA_PACKS_CASE          },
-	{"client_Razunter_pack",    _T("*Razunter*"),                               _T("Razunter's Pk"),                IDI_MIRANDA_RAZUNTER,    MIRANDA_PACKS_CASE          },
-	{"client_Robyer_pack",      _T("*Robyer*Pack*"),                            _T("Robyer pack"),                  IDI_MIRANDA_ROBYER,      MIRANDA_PACKS_CASE          },
-	{"client_SSS_pack",         _T("*sss*pack*"),                               _T("SSS build"),                    IDI_MIRANDA_SSS_MOD,     MIRANDA_PACKS_CASE          },
-	{"client_Se7ven_pack",      _T("|^*sss*|*[S7*pack]*|*[*S7*]*"),             _T("Se7ven"),                       IDI_MIRANDA_SE7VEN,      MIRANDA_PACKS_CASE          },
-	{"client_SpellhowleR_pack", _T("*Spellhowler*"),                            _T("xSpellhowleRx pack"),           IDI_MIRANDA_SPELLHOWLER, MIRANDA_PACKS_CASE          },
-	{"client_Stalker_pack",     _T("*Stalker*"),                                _T("Stalker"),                      IDI_MIRANDA_STALKER,     MIRANDA_PACKS_CASE          },
-	{"client_Tweety_pack",      _T("*tweety*"),                                 _T("Tweety"),                       IDI_MIRANDA_TWEETY,      MIRANDA_PACKS_CASE          },
-	{"client_Umedon_pack",      _T("*Miranda*Umedon*"),                         _T("Umedon"),                       IDI_MIRANDA_UMEDON,      MIRANDA_PACKS_CASE          },
-	{"client_ValeraVi_pack",    _T("*Valera*Vi*"),                              _T("ValeraVi"),                     IDI_MIRANDA_VALERAVI,    MIRANDA_PACKS_CASE          },
-	{"client_Watcher_pack",     _T("*Watcher*"),                                _T("Watcher pack"),                 IDI_MIRANDA_WATCHER,     MIRANDA_PACKS_CASE          },
-	{"client_YAOL_pack",        _T("*yaol*"),                                   _T("YAOL"),                         IDI_MIRANDA_YAOL,        MIRANDA_PACKS_CASE          },
-	{"client_dar_veter_pack",   _T("*Dar*veter*"),                              _T("Dar_veter pack"),               IDI_MIRANDA_DAR,         MIRANDA_PACKS_CASE          },
-	{"client_dmikos_pack",      _T("*dmikos*"),                                 _T("Dmikos"),                       IDI_MIRANDA_DMIKOS,      MIRANDA_PACKS_CASE          },
-	{"client_zeleboba_pack",    _T("*zeleboba*"),                               _T("zeleboba's"),                   IDI_MIRANDA_ZELEBOBA,    MIRANDA_PACKS_CASE          },
+	{"client_AF_pack",          _T("*AF*Pack*"),                                _T("AF"),                            IDI_MIRANDA_AF,          MIRANDA_PACKS_CASE          },
+	{"client_AlfaMaR_pack",     _T("*AlfaMaR*"),                                _T("AlfaMaR"),                       IDI_MIRANDA_ALFAMAR,     MIRANDA_PACKS_CASE          },
+	{"client_Amatory_pack",     _T("*Amatory*"),                                _T("Amatory"),                       IDI_MIRANDA_AMATORY,     MIRANDA_PACKS_CASE          },
+	{"client_BRI_pack",         _T("*bri*edition*"),                            _T("Bri edition"),                   IDI_MIRANDA_BRI,         MIRANDA_PACKS_CASE          },
+	{"client_Devil_pack",       _T("*6.6.6*"),                                  _T("Devil Suite"),                   IDI_MIRANDA_DEVIL,       MIRANDA_PACKS_CASE          },
+	{"client_E33_pack",         _T("*[E33*]*"),                                 _T("E33"),                           IDI_MIRANDA_E33,         MIRANDA_PACKS_CASE          },
+	{"client_FR_pack",          _T("*FR*Pack*"),                                _T("Miranda FR"),                    IDI_MIRANDA_FR,          MIRANDA_PACKS_CASE          },
+	{"client_Faith_pack",       _T("*Faith*Pack*"),                             _T("FaithPack"),                     IDI_MIRANDA_FAITH,       MIRANDA_PACKS_CASE          },
+	{"client_Final_pack",       _T("*[Final*Pack]*"),                           _T("Final pack"),                    IDI_MIRANDA_FINAL,       MIRANDA_PACKS_CASE          },
+	{"client_Freize_pack",      _T("*Freize*"),                                 _T("Freize"),                        IDI_MIRANDA_FREIZE,      MIRANDA_PACKS_CASE          },
+	{"client_Ghost_pack",       _T("*Ghost's*"),                                _T("Ghost's pack"),                  IDI_MIRANDA_GHOST,       MIRANDA_PACKS_CASE          },
+	{"client_HCoffee_pack",     _T("*[HotCoffee]*"),                            _T("HotCoffee"),                     IDI_MIRANDA_CAPPUCCINO,  MIRANDA_PACKS_CASE          },
+	{"client_HierOS_pack",      _T("*HierOS*"),                                 _T("HierOS"),                        IDI_MIRANDA_HIEROS,      MIRANDA_PACKS_CASE          },
+	{"client_ICE_pack",         _T("|*miranda*[ice*]|*induction*"),             _T("iCE / Induction"),               IDI_MIRANDA_INDUCTION,   MIRANDA_PACKS_CASE          },
+	{"client_KDL_pack",         _T("|*KDL*|*КДЛ*"),                             _T("KDL"),                           IDI_MIRANDA_KDL,         MIRANDA_PACKS_CASE          },
+	{"client_Kolich_pack",      _T("*Kolich*"),                                 _T("Kolich"),                        IDI_MIRANDA_KOLICH,      MIRANDA_PACKS_CASE          },
+	{"client_Kuzzman_pack",     _T("*kuzzman*"),                                _T("Kuzzman"),                       IDI_MIRANDA_KUZZMAN,     MIRANDA_PACKS_CASE          },
+	{"client_Lenin_pack",       _T("*[Lenin*]*"),                               _T("Lenin pack"),                    IDI_MIRANDA_LENINPACK,   MIRANDA_PACKS_CASE          },
+	{"client_Lestat_pack",      _T("*[Lpack*]*"),                               _T("Lestat pack"),                   IDI_MIRANDA_LESTAT,      MIRANDA_PACKS_CASE          },
+	{"client_LexSys_pack",      _T("|*Miranda*LS*|*LexSys*"),                   _T("LexSys"),                        IDI_MIRANDA_LEXSYS,      MIRANDA_PACKS_CASE          },
+	{"client_MD_pack",          _T("*MDpack*"),                                 _T("MDpack"),                        IDI_MIRANDA_MD,          MIRANDA_PACKS_CASE          },
+	{"client_Mataes_pack",      _T("*Mataes*"),                                 _T("Mataes pack"),                   IDI_MIRANDA_MATAES,      MIRANDA_PACKS_CASE          },
+	{"client_Mir_ME_pack",      _T("*[Miranda*ME]*"),                           _T("Miranda ME"),                    IDI_MIRANDA_ME,          MIRANDA_PACKS_CASE          },
+	{"client_Native_pack",      _T("*Native*"),                                 _T("Native"),                        IDI_MIRANDA_NATIVE,      MIRANDA_PACKS_CASE          },
+	{"client_New_Style_pack",   _T("*New*Style*"),                              _T("New Style"),                     IDI_MIRANDA_NEW_STYLE,   MIRANDA_PACKS_CASE          },
+	{"client_Pilot_pack",       _T("*Pilot*"),                                  _T("Pilot"),                         IDI_MIRANDA_PILOT,       MIRANDA_PACKS_CASE          },
+	{"client_Razunter_pack",    _T("*Razunter*"),                               _T("Razunter's Pk"),                 IDI_MIRANDA_RAZUNTER,    MIRANDA_PACKS_CASE          },
+	{"client_Robyer_pack",      _T("*Robyer*Pack*"),                            _T("Robyer pack"),                   IDI_MIRANDA_ROBYER,      MIRANDA_PACKS_CASE          },
+	{"client_SSS_pack",         _T("*sss*pack*"),                               _T("SSS build"),                     IDI_MIRANDA_SSS_MOD,     MIRANDA_PACKS_CASE          },
+	{"client_Se7ven_pack",      _T("|^*sss*|*[S7*pack]*|*[*S7*]*"),             _T("Se7ven"),                        IDI_MIRANDA_SE7VEN,      MIRANDA_PACKS_CASE          },
+	{"client_SpellhowleR_pack", _T("*Spellhowler*"),                            _T("xSpellhowleRx pack"),            IDI_MIRANDA_SPELLHOWLER, MIRANDA_PACKS_CASE          },
+	{"client_Stalker_pack",     _T("*Stalker*"),                                _T("Stalker"),                       IDI_MIRANDA_STALKER,     MIRANDA_PACKS_CASE          },
+	{"client_Tweety_pack",      _T("*tweety*"),                                 _T("Tweety"),                        IDI_MIRANDA_TWEETY,      MIRANDA_PACKS_CASE          },
+	{"client_Umedon_pack",      _T("*Miranda*Umedon*"),                         _T("Umedon"),                        IDI_MIRANDA_UMEDON,      MIRANDA_PACKS_CASE          },
+	{"client_ValeraVi_pack",    _T("*Valera*Vi*"),                              _T("ValeraVi"),                      IDI_MIRANDA_VALERAVI,    MIRANDA_PACKS_CASE          },
+	{"client_Watcher_pack",     _T("*Watcher*"),                                _T("Watcher pack"),                  IDI_MIRANDA_WATCHER,     MIRANDA_PACKS_CASE          },
+	{"client_YAOL_pack",        _T("*yaol*"),                                   _T("YAOL"),                          IDI_MIRANDA_YAOL,        MIRANDA_PACKS_CASE          },
+	{"client_dar_veter_pack",   _T("*Dar*veter*"),                              _T("Dar_veter pack"),                IDI_MIRANDA_DAR,         MIRANDA_PACKS_CASE          },
+	{"client_dmikos_pack",      _T("*dmikos*"),                                 _T("Dmikos"),                        IDI_MIRANDA_DMIKOS,      MIRANDA_PACKS_CASE          },
+	{"client_zeleboba_pack",    _T("*zeleboba*"),                               _T("zeleboba's"),                    IDI_MIRANDA_ZELEBOBA,    MIRANDA_PACKS_CASE          },
 
 //#########################################################################################################################################################################
 //#################################   PROTO OVERLAYS   ####################################################################################################################
 //#########################################################################################################################################################################
-	{"client_AIM_overlay",      _T("|^AIM*|*AIM*"),                         LPGENT("AIM overlay"),                  IDI_AIM_OVERLAY,         OVERLAYS_PROTO_CASE         },
-	{"client_ICQJ_Plus_over",   _T("|^ICQ|^ICQ*|*ICQ*Plus*"),               LPGENT("ICQJ Plus Mod overlay"),        IDI_ICQJ_PLUS_OVERLAY,   OVERLAYS_PROTO_CASE         },
-	{"client_ICQJ_overlay",     _T("|^ICQ|^ICQ*|*ICQ*"),                    LPGENT("ICQJ overlay"),                 IDI_ICQJ_OVERLAY,        OVERLAYS_PROTO_CASE         },
-	{"client_IRC_overlay",      _T("|^IRC*|Miranda*IRC*"),                  LPGENT("IRC overlay"),                  IDI_IRC_OVERLAY,         OVERLAYS_PROTO_CASE         },
-	{"client_JGmail_overlay",   _T("*JGmail*"),                             LPGENT("JGmail overlay"),               IDI_GMAIL_OVERLAY,       OVERLAYS_PROTO_CASE         },
-	{"client_JGTalk_overlay",   _T("*JGTalk*"),                             LPGENT("JGTalk overlay"),               IDI_JGTALK_OVERLAY,      OVERLAYS_PROTO_CASE         },
-	{"client_Jabber_overlay",   _T("|^jabber*|Miranda*Jabber*|py*jabb*"),   LPGENT("Jabber overlay"),               IDI_JABBER_OVERLAY,      OVERLAYS_PROTO_CASE         },
-	{"client_MSN_overlay",      _T("|^MSN*|*Miranda*MSN*"),                 LPGENT("MSN overlay"),                  IDI_MSN_OVERLAY,         OVERLAYS_PROTO_CASE         },
-	{"client_QQ_overlay",       _T("|Miranda*QQ*|MIM*QQ*"),                 LPGENT("QQ overlay"),                   IDI_QQ_OVERLAY,          OVERLAYS_PROTO_CASE         },
-	{"client_Tlen_overlay",     _T("|^tlen*|*tlen*"),                       LPGENT("Tlen.pl overlay"),              IDI_TLEN_OVERLAY,        OVERLAYS_PROTO_CASE         },
-	{"client_Yahoo_overlay",    _T("|^Yahoo*|*yahoo*"),                     LPGENT("Yahoo overlay"),                IDI_YAHOO_OVERLAY,       OVERLAYS_PROTO_CASE         },
+	{"client_AIM_overlay",      _T("|^AIM*|*AIM*"),                         LPGENT("AIM overlay"),                   IDI_AIM_OVERLAY,         OVERLAYS_PROTO_CASE         },
+	{"client_ICQJ_Plus_over",   _T("|^ICQ|^ICQ*|*ICQ*Plus*"),               LPGENT("ICQJ Plus Mod overlay"),         IDI_ICQJ_PLUS_OVERLAY,   OVERLAYS_PROTO_CASE         },
+	{"client_ICQJ_overlay",     _T("|^ICQ|^ICQ*|*ICQ*"),                    LPGENT("ICQJ overlay"),                  IDI_ICQJ_OVERLAY,        OVERLAYS_PROTO_CASE         },
+	{"client_IRC_overlay",      _T("|^IRC*|Miranda*IRC*"),                  LPGENT("IRC overlay"),                   IDI_IRC_OVERLAY,         OVERLAYS_PROTO_CASE         },
+	{"client_JGmail_overlay",   _T("*JGmail*"),                             LPGENT("JGmail overlay"),                IDI_GMAIL_OVERLAY,       OVERLAYS_PROTO_CASE         },
+	{"client_JGTalk_overlay",   _T("*JGTalk*"),                             LPGENT("JGTalk overlay"),                IDI_JGTALK_OVERLAY,      OVERLAYS_PROTO_CASE         },
+	{"client_Jabber_overlay",   _T("|^jabber*|Miranda*Jabber*|py*jabb*"),   LPGENT("Jabber overlay"),                IDI_JABBER_OVERLAY,      OVERLAYS_PROTO_CASE         },
+	{"client_MSN_overlay",      _T("|^MSN*|*Miranda*MSN*"),                 LPGENT("MSN overlay"),                   IDI_MSN_OVERLAY,         OVERLAYS_PROTO_CASE         },
+	{"client_QQ_overlay",       _T("|Miranda*QQ*|MIM*QQ*"),                 LPGENT("QQ overlay"),                    IDI_QQ_OVERLAY,          OVERLAYS_PROTO_CASE         },
+	{"client_Tlen_overlay",     _T("|^tlen*|*tlen*"),                       LPGENT("Tlen.pl overlay"),               IDI_TLEN_OVERLAY,        OVERLAYS_PROTO_CASE         },
+	{"client_Yahoo_overlay",    _T("|^Yahoo*|*yahoo*"),                     LPGENT("Yahoo overlay"),                 IDI_YAHOO_OVERLAY,       OVERLAYS_PROTO_CASE         },
 	{"client_MRA_overlay",      _T("|^MRA*|^Mail.ru*")
                                 _T("|*MRA*|*Mail.ru*IM*|Mrim*")
                                 _T("|*DRQZ00fz5WPn1gH+*|*nxthUwJANorB6+*"), LPGENT("Mail.Ru Agent overlay"),        IDI_MAILRU_OVERLAY,      OVERLAYS_PROTO_CASE         },
@@ -698,53 +696,53 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 //#########################################################################################################################################################################
 //#################################   CLIENT VERSION OVERLAYS   ###########################################################################################################
 //#########################################################################################################################################################################
-	{"client_ICQ3_over",        _T("ICQ*2003*"),                            LPGENT("ICQ 2003 overlay"),             IDI_ICQ3_OVERLAY,        ICQ_CASE                    },
-	{"client_ICQ4_over",        _T("|ICQ*4*|ICQ*lite*4*"),                  LPGENT("ICQ Lite 4 overlay"),           IDI_ICQ4_OVERLAY,        ICQ_CASE                    },
-	{"client_ICQ5_over",        _T("|ICQ*5*|ICQ*lite*5*|icq5*"),            LPGENT("ICQ v5.x overlay"),             IDI_ICQ5_OVERLAY,        ICQ_CASE                    },
-	{"client_ICQ6_over",        _T("ICQ*6*"),                               LPGENT("ICQ v6.x overlay"),             IDI_ICQ6_OVERLAY,        ICQ_CASE                    },
-	{"client_ICQ7_over",        _T("ICQ*7*"),                               LPGENT("ICQ v7.x overlay"),             IDI_ICQ7_OVERLAY,        ICQ_CASE                    },
-	{"client_ICQ8_over",        _T("ICQ*8*"),                               LPGENT("ICQ v8.x overlay"),             IDI_ICQ8_OVERLAY,        ICQ_CASE                    },
+	{"client_ICQ3_over",        _T("ICQ*2003*"),                            LPGENT("ICQ 2003 overlay"),              IDI_ICQ3_OVERLAY,        ICQ_CASE                    },
+	{"client_ICQ4_over",        _T("|ICQ*4*|ICQ*lite*4*"),                  LPGENT("ICQ Lite 4 overlay"),            IDI_ICQ4_OVERLAY,        ICQ_CASE                    },
+	{"client_ICQ5_over",        _T("|ICQ*5*|ICQ*lite*5*|icq5*"),            LPGENT("ICQ v5.x overlay"),              IDI_ICQ5_OVERLAY,        ICQ_CASE                    },
+	{"client_ICQ6_over",        _T("ICQ*6*"),                               LPGENT("ICQ v6.x overlay"),              IDI_ICQ6_OVERLAY,        ICQ_CASE                    },
+	{"client_ICQ7_over",        _T("ICQ*7*"),                               LPGENT("ICQ v7.x overlay"),              IDI_ICQ7_OVERLAY,        ICQ_CASE                    },
+	{"client_ICQ8_over",        _T("ICQ*8*"),                               LPGENT("ICQ v8.x overlay"),              IDI_ICQ8_OVERLAY,        ICQ_CASE                    },
 
-	{"client_Yahoo_11",         _T("*Yahoo 11*"),                           LPGENT("Yahoo v11.x overlay"),          IDI_YAHOO11_OVERLAY,     YAHOO_CASE                  },
-	{"client_Yahoo_10",         _T("*Yahoo 10*"),                           LPGENT("Yahoo v10.x overlay"),          IDI_YAHOO10_OVERLAY,     YAHOO_CASE                  },
-	{"client_Yahoo_9",          _T("*Yahoo 9*"),                            LPGENT("Yahoo v9.x overlay"),           IDI_YAHOO9_OVERLAY,      YAHOO_CASE                  },
+	{"client_Yahoo_11",         _T("*Yahoo 11*"),                           LPGENT("Yahoo v11.x overlay"),           IDI_YAHOO11_OVERLAY,     YAHOO_CASE                  },
+	{"client_Yahoo_10",         _T("*Yahoo 10*"),                           LPGENT("Yahoo v10.x overlay"),           IDI_YAHOO10_OVERLAY,     YAHOO_CASE                  },
+	{"client_Yahoo_9",          _T("*Yahoo 9*"),                            LPGENT("Yahoo v9.x overlay"),            IDI_YAHOO9_OVERLAY,      YAHOO_CASE                  },
 
-	{"client_GG_11",            _T("|Gadu-Gadu*11*|GG*11*"),                LPGENT("Gadu-Gadu v11 client"),         IDI_GG11_OVERLAY,        GG_CASE                     },
-	{"client_GG_10",            _T("|Gadu-Gadu*10*|GG*10"),                 LPGENT("Gadu-Gadu v10 client"),         IDI_GG10_OVERLAY,        GG_CASE                     },
-	{"client_GG_9",             _T("|Gadu-Gadu*9*|GG*9*"),                  LPGENT("Gadu-Gadu v9 client"),          IDI_GG9_OVERLAY,         GG_CASE                     },
-	{"client_GG_8",             _T("|Gadu-Gadu*8*|GG*8*"),                  LPGENT("Gadu-Gadu v8 client"),          IDI_GG8_OVERLAY,         GG_CASE                     },
+	{"client_GG_11",            _T("|Gadu-Gadu*11*|GG*11*"),                LPGENT("Gadu-Gadu v11 client"),          IDI_GG11_OVERLAY,        GG_CASE                     },
+	{"client_GG_10",            _T("|Gadu-Gadu*10*|GG*10"),                 LPGENT("Gadu-Gadu v10 client"),          IDI_GG10_OVERLAY,        GG_CASE                     },
+	{"client_GG_9",             _T("|Gadu-Gadu*9*|GG*9*"),                  LPGENT("Gadu-Gadu v9 client"),           IDI_GG9_OVERLAY,         GG_CASE                     },
+	{"client_GG_8",             _T("|Gadu-Gadu*8*|GG*8*"),                  LPGENT("Gadu-Gadu v8 client"),           IDI_GG8_OVERLAY,         GG_CASE                     },
 
-//  {"client_Tlen_8",           _T("Tlen Protocol 1?"),                     LPGENT("Tlen 8.x overlay"),             IDI_TLEN8_OVERLAY,       TLEN_CASE                   },
-	{"client_Tlen_7",           _T("Tlen Protocol 16"),                     LPGENT("Tlen 7.x overlay"),             IDI_TLEN7_OVERLAY,       TLEN_CASE                   },
-	{"client_Tlen_6",           _T("Tlen Protocol 10"),                     LPGENT("Tlen 6.x overlay"),             IDI_TLEN6_OVERLAY,       TLEN_CASE                   },
-	{"client_Tlen_5",           _T("Tlen Protocol 7"),                      LPGENT("Tlen 5.x overlay"),             IDI_TLEN5_OVERLAY,       TLEN_CASE                   },
+// {"client_Tlen_8",           _T("Tlen Protocol 1?"),                     LPGENT("Tlen 8.x overlay"),              IDI_TLEN8_OVERLAY,       TLEN_CASE                   },
+	{"client_Tlen_7",           _T("Tlen Protocol 16"),                     LPGENT("Tlen 7.x overlay"),              IDI_TLEN7_OVERLAY,       TLEN_CASE                   },
+	{"client_Tlen_6",           _T("Tlen Protocol 10"),                     LPGENT("Tlen 6.x overlay"),              IDI_TLEN6_OVERLAY,       TLEN_CASE                   },
+	{"client_Tlen_5",           _T("Tlen Protocol 7"),                      LPGENT("Tlen 5.x overlay"),              IDI_TLEN5_OVERLAY,       TLEN_CASE                   },
 
-	{"client_QQ_2012",          _T("|QQ2012*|TM2012*"),                     LPGENT("TM/QQ 2012 overlay"),           IDI_QQ_2012_OVERLAY,     QQ_CASE                     },
-	{"client_QQ_2011",          _T("|QQ2011*|TM2011*"),                     LPGENT("TM/QQ 2011 overlay"),           IDI_QQ_2011_OVERLAY,     QQ_CASE                     },
-	{"client_QQ_2010",          _T("|QQ2010*|TM2010*"),                     LPGENT("TM/QQ 2010 overlay"),           IDI_QQ_2010_OVERLAY,     QQ_CASE                     },
-	{"client_QQ_2009",          _T("|QQ2009*|TM2009*"),                     LPGENT("TM/QQ 2009 overlay"),           IDI_QQ_2009_OVERLAY,     QQ_CASE                     },
-	{"client_QQ_2008",          _T("|QQ2008*|TM2008*"),                     LPGENT("TM/QQ 2008 overlay"),           IDI_QQ_2008_OVERLAY,     QQ_CASE                     },
-	{"client_QQ_2007",          _T("|QQ2007*|TM2007*"),                     LPGENT("TM/QQ 2007 overlay"),           IDI_QQ_2007_OVERLAY,     QQ_CASE                     },
-	{"client_QQ_2006",          _T("|QQ2006*|TM2006*"),                     LPGENT("TM/QQ 2006 overlay"),           IDI_QQ_2006_OVERLAY,     QQ_CASE                     },
-	{"client_QQ_2005",          _T("|QQ2005*|TM2005*"),                     LPGENT("TM/QQ 2005 overlay"),           IDI_QQ_2005_OVERLAY,     QQ_CASE                     },
-	{"client_QQ_2004",          _T("QQ2004*"),                              LPGENT("QQ 2004 overlay"),              IDI_QQ_2004_OVERLAY,     QQ_CASE                     },
-	{"client_QQ_2003",          _T("|QQ2003*|TM 3.*"),                      LPGENT("TM 3.x / QQ 2003 overlay"),     IDI_QQ_2003_OVERLAY,     QQ_CASE                     },
-	{"client_TM_2002",          _T("TM 2.*"),                               LPGENT("TM 2.x overlay"),               IDI_QQ_2002_OVERLAY,     QQ_CASE                     },
-	{"client_TM_2001",          _T("TM 1.*"),                               LPGENT("TM 1.x overlay"),               IDI_QQ_2001_OVERLAY,     QQ_CASE                     },
-	{"client_QQ_2000",          _T("QQ2000*"),                              LPGENT("QQ 2000 overlay"),              IDI_QQ_2000_OVERLAY,     QQ_CASE                     },
+	{"client_QQ_2012",          _T("|QQ2012*|TM2012*"),                     LPGENT("TM/QQ 2012 overlay"),            IDI_QQ_2012_OVERLAY,     QQ_CASE                     },
+	{"client_QQ_2011",          _T("|QQ2011*|TM2011*"),                     LPGENT("TM/QQ 2011 overlay"),            IDI_QQ_2011_OVERLAY,     QQ_CASE                     },
+	{"client_QQ_2010",          _T("|QQ2010*|TM2010*"),                     LPGENT("TM/QQ 2010 overlay"),            IDI_QQ_2010_OVERLAY,     QQ_CASE                     },
+	{"client_QQ_2009",          _T("|QQ2009*|TM2009*"),                     LPGENT("TM/QQ 2009 overlay"),            IDI_QQ_2009_OVERLAY,     QQ_CASE                     },
+	{"client_QQ_2008",          _T("|QQ2008*|TM2008*"),                     LPGENT("TM/QQ 2008 overlay"),            IDI_QQ_2008_OVERLAY,     QQ_CASE                     },
+	{"client_QQ_2007",          _T("|QQ2007*|TM2007*"),                     LPGENT("TM/QQ 2007 overlay"),            IDI_QQ_2007_OVERLAY,     QQ_CASE                     },
+	{"client_QQ_2006",          _T("|QQ2006*|TM2006*"),                     LPGENT("TM/QQ 2006 overlay"),            IDI_QQ_2006_OVERLAY,     QQ_CASE                     },
+	{"client_QQ_2005",          _T("|QQ2005*|TM2005*"),                     LPGENT("TM/QQ 2005 overlay"),            IDI_QQ_2005_OVERLAY,     QQ_CASE                     },
+	{"client_QQ_2004",          _T("QQ2004*"),                              LPGENT("QQ 2004 overlay"),               IDI_QQ_2004_OVERLAY,     QQ_CASE                     },
+	{"client_QQ_2003",          _T("|QQ2003*|TM 3.*"),                      LPGENT("TM 3.x / QQ 2003 overlay"),      IDI_QQ_2003_OVERLAY,     QQ_CASE                     },
+	{"client_TM_2002",          _T("TM 2.*"),                               LPGENT("TM 2.x overlay"),                IDI_QQ_2002_OVERLAY,     QQ_CASE                     },
+	{"client_TM_2001",          _T("TM 1.*"),                               LPGENT("TM 1.x overlay"),                IDI_QQ_2001_OVERLAY,     QQ_CASE                     },
+	{"client_QQ_2000",          _T("QQ2000*"),                              LPGENT("QQ 2000 overlay"),               IDI_QQ_2000_OVERLAY,     QQ_CASE                     },
 
 //#########################################################################################################################################################################
 //#################################   PLATFORM OVERLAYS   #################################################################################################################
 //#########################################################################################################################################################################
-	{"client_on_Win32",         _T("|*Win*|* WM *|wmagent*|*Vista*"),       LPGENT("Windows overlay"),              IDI_PLATFORM_WIN,        OVERLAYS_PLATFORM_CASE      },
-	{"client_on_iOS",           _T("|*ipad*|*iphone*"),                     LPGENT("iOS overlay (iPhone/iPad)"),    IDI_PLATFORM_IOS,        OVERLAYS_PLATFORM_CASE      },
-	{"client_on_Mac",           _T("|^*smack*|* Mac *|*mac*"),              LPGENT("MacOS overlay"),                IDI_PLATFORM_MAC,        OVERLAYS_PLATFORM_CASE      },
-	{"client_on_Linux",         _T("*Linux*"),                              LPGENT("Linux overlay"),                IDI_PLATFORM_LINUX,      OVERLAYS_PLATFORM_CASE      },
-	{"client_on_Flash",         _T("|*Flash*|*Web*ICQ*"),                   LPGENT("Flash overlay"),                IDI_PLATFORM_FLASH,      OVERLAYS_PLATFORM_CASE      },
-	{"client_on_Java",          _T("|*Java*|jagent*|ICQ2Go!*"),             LPGENT("Java overlay"),                 IDI_PLATFORM_JAVA,       OVERLAYS_PLATFORM_CASE      },
-	{"client_on_Symbian",       _T("|*Symbian*|sagent*"),                   LPGENT("Symbian overlay"),              IDI_PLATFORM_SYMBIAN,    OVERLAYS_PLATFORM_CASE      },
-	{"client_on_Amiga",         _T("*Amiga*"),                              LPGENT("Amiga overlay"),                IDI_PLATFORM_AMIGA,      OVERLAYS_PLATFORM_CASE      },
-	{"client_on_Android",       _T("*Android*"),                            LPGENT("Android overlay"),              IDI_PLATFORM_ANDROID,    OVERLAYS_PLATFORM_CASE      },
+	{"client_on_Win32",         _T("|*Win*|* WM *|wmagent*|*Vista*"),       LPGENT("Windows overlay"),               IDI_PLATFORM_WIN,        OVERLAYS_PLATFORM_CASE      },
+	{"client_on_iOS",           _T("|*ipad*|*iphone*"),                     LPGENT("iOS overlay (iPhone/iPad)"),     IDI_PLATFORM_IOS,        OVERLAYS_PLATFORM_CASE      },
+	{"client_on_Mac",           _T("|^*smack*|* Mac *|*mac*"),              LPGENT("MacOS overlay"),                 IDI_PLATFORM_MAC,        OVERLAYS_PLATFORM_CASE      },
+	{"client_on_Linux",         _T("*Linux*"),                              LPGENT("Linux overlay"),                 IDI_PLATFORM_LINUX,      OVERLAYS_PLATFORM_CASE      },
+	{"client_on_Flash",         _T("|*Flash*|*Web*ICQ*"),                   LPGENT("Flash overlay"),                 IDI_PLATFORM_FLASH,      OVERLAYS_PLATFORM_CASE      },
+	{"client_on_Java",          _T("|*Java*|jagent*|ICQ2Go!*"),             LPGENT("Java overlay"),                  IDI_PLATFORM_JAVA,       OVERLAYS_PLATFORM_CASE      },
+	{"client_on_Symbian",       _T("|*Symbian*|sagent*"),                   LPGENT("Symbian overlay"),               IDI_PLATFORM_SYMBIAN,    OVERLAYS_PLATFORM_CASE      },
+	{"client_on_Amiga",         _T("*Amiga*"),                              LPGENT("Amiga overlay"),                 IDI_PLATFORM_AMIGA,      OVERLAYS_PLATFORM_CASE      },
+	{"client_on_Android",       _T("*Android*"),                            LPGENT("Android overlay"),               IDI_PLATFORM_ANDROID,    OVERLAYS_PLATFORM_CASE      },
 
 };
 

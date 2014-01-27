@@ -66,14 +66,25 @@ CMStringA MraGetVersionStringFromFormatted(const CMStringA &szUserAgentFormatted
 
 	CMStringA res, tmp;
 
-	if ( !GetParamValue(szUserAgentFormatted, "name", 4, tmp))
+	if (!GetParamValue(szUserAgentFormatted, "name", 4, tmp))
 		if (tmp == "Miranda IM" || tmp == "Miranda NG") {
 			GetParamValue(szUserAgentFormatted, "title", 5, res);
 			return res;
 		}
 
-	if ( !GetParamValue(szUserAgentFormatted, "client", 6, tmp))
+	if (!GetParamValue(szUserAgentFormatted, "client", 6, tmp)) {
+		if (tmp == "wmagent")
+			tmp = "MobileAgent for WM";
+		else if (tmp == "jagent")
+			tmp = "MobileAgent for Java";
+		else if (tmp == "android")
+			tmp = "MobileAgent for Android";
+		else if (tmp == "iphoneagent")
+			tmp = "MobileAgent for Iphone";
+		else if (tmp == "sagent")
+			tmp = "MobileAgent for Symbian";
 		res += tmp + " ";
+	}
 
 	if ( !GetParamValue(szUserAgentFormatted, "name", 4, tmp))
 		res += tmp + " ";
@@ -537,13 +548,13 @@ HANDLE CMraProto::MraHContactFromEmail(const CMStringA& szEmail, BOOL bAddIfNeed
 		}
 
 		if (hContact) {
-			if ( IsEMailChatAgent(szEmail))
-				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_ONLINE, &szEmail, 0, 0);
+			if (IsEMailChatAgent(szEmail))
+				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS | SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_ONLINE, &szEmail, 0, 0);
 			else {
 				if (bTemporary)
 					db_set_b(hContact, "CList", "NotOnList", 1);
 				mraSetStringExA(hContact, "MirVer", MIRVER_UNKNOWN);
-				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_OFFLINE, &szEmail, 0, 0);
+				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS | SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_OFFLINE, &szEmail, 0, 0);
 			}
 		}
 	}
