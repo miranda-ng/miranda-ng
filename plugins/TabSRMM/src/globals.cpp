@@ -659,7 +659,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	dbei.pBlob = (PBYTE)(char*)szMsg;
 	dbei.cbBlob = lstrlenA(szMsg) + 1;
 	dbei.flags = DBEF_UTF | DBEF_READ;
-	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.timestamp = time(NULL);
 	dbei.szModule = const_cast<char *>(c->getProto());
 	StreamInEvents(dat->hwnd, NULL, 1, 1, &dbei);

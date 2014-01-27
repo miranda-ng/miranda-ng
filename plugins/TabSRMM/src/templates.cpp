@@ -352,7 +352,8 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		dbei.szModule = dat->szProto;
 		dbei.timestamp = time(NULL);
-		dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : EVENTTYPE_MESSAGE;
+		dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
+		dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
 		if (dbei.eventType == EVENTTYPE_ERRMSG)
 			dbei.szModule = "Sample error message";
 		dbei.cbSize = sizeof(dbei);
