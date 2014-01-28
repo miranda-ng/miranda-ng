@@ -117,10 +117,9 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 
 static LONG CalcMinRowHeight()
 {
-	int i;
 	LONG minHeight = 16;
 	HDC hdc = GetDC(NULL);
-	for (i = 0; i < FONTID_LAST; i++) {
+	for (int i = 0; i < FONTID_LAST; i++) {
 		HFONT hFont;
 		LOGFONT lf;
 		COLORREF color;

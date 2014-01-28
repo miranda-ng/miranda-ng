@@ -685,27 +685,28 @@ void fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 
 void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 {
-	DBVARIANT dbv;
-	char idstr[20];
-	BYTE style;
-
 	cli.pfnGetDefaultFontSetting(i, lf, colour);
+
+	char idstr[20];
 	mir_snprintf(idstr, SIZEOF(idstr), "Font%dName", i);
-	if (!db_get_ts(NULL, "CLC", idstr, &dbv)) {
-		lstrcpy(lf->lfFaceName, dbv.ptszVal);
-		mir_free(dbv.pszVal);
-	}
+	ptrT tszFace(db_get_tsa(NULL, "CLC", idstr));
+	if (tszFace)
+		lstrcpy(lf->lfFaceName, tszFace);
+
 	mir_snprintf(idstr, SIZEOF(idstr), "Font%dCol", i);
 	*colour = db_get_dw(NULL, "CLC", idstr, *colour);
+	
 	mir_snprintf(idstr, SIZEOF(idstr), "Font%dSize", i);
 	lf->lfHeight = (char) db_get_b(NULL, "CLC", idstr, lf->lfHeight);
+	
 	mir_snprintf(idstr, SIZEOF(idstr), "Font%dSty", i);
-	style = (BYTE) db_get_b(NULL, "CLC", idstr, (lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0));
+	BYTE style = (BYTE)db_get_b(NULL, "CLC", idstr, (lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0));
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
 	lf->lfWeight = style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
 	lf->lfItalic = (style & DBFONTF_ITALIC) != 0;
 	lf->lfUnderline = (style & DBFONTF_UNDERLINE) != 0;
 	lf->lfStrikeOut = 0;
+	
 	mir_snprintf(idstr, SIZEOF(idstr), "Font%dSet", i);
 	lf->lfCharSet = db_get_b(NULL, "CLC", idstr, lf->lfCharSet);
 	lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
