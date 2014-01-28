@@ -24,35 +24,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-
-static const TCHAR *szClistFontIdDescr[FONTID_MAX+1] =
+struct
 {
-	LPGENT( "Standard contacts"),
-	LPGENT( "Online contacts to whom you have a different visibility"),
-	LPGENT( "Offline contacts"),
-	LPGENT( "Contacts which are 'not on list'"),
-	LPGENT( "Groups"),
-	LPGENT( "Group member counts"),
-	LPGENT( "Dividers"),
-	LPGENT( "Offline contacts to whom you have a different visibility"),
-	LPGENT( "Status messages"),
-	LPGENT( "Group Closed"),
-	LPGENT( "Hover Contacts")
-};
-
-static int fontListOrder[FONTID_MAX + 1]  =
+	const TCHAR *tszName;
+	int iMask;
+}
+static clistFontDescr[] =
 {
-	FONTID_CONTACTS,
-	FONTID_INVIS,
-	FONTID_OFFLINE,
-	FONTID_NOTONLIST,
-	FONTID_GROUPS,
-	FONTID_GROUPCOUNTS,
-	FONTID_DIVIDERS,
-	FONTID_OFFINVIS,
-	FONTID_STATUSMSG,
-	FONTID_GROUPSCLOSED,
-	FONTID_CONTACTSHOVER
+	{ LPGENT("Standard contacts"),                                        FIDF_CLASSGENERAL },
+	{ LPGENT("Online contacts to whom you have a different visibility"),  FIDF_CLASSGENERAL },
+	{ LPGENT("Offline contacts"),                                         FIDF_CLASSGENERAL },
+	{ LPGENT("Contacts which are 'not on list'"),                         FIDF_CLASSGENERAL },
+	{ LPGENT("Groups"),                                                   FIDF_CLASSHEADER  },
+	{ LPGENT("Group member counts"),                                      FIDF_CLASSHEADER  },
+	{ LPGENT("Dividers"),                                                 FIDF_CLASSSMALL   },
+	{ LPGENT("Offline contacts to whom you have a different visibility"), FIDF_CLASSGENERAL },
+	{ LPGENT("Status messages"),                                          FIDF_CLASSGENERAL },
+	{ LPGENT("Group Closed"),                                             FIDF_CLASSGENERAL },
+	{ LPGENT("Hover Contacts"),                                           FIDF_CLASSGENERAL }
 };
 
 #define CLCDEFAULT_BKCOLOUR      GetSysColor(COLOR_3DFACE)
@@ -66,52 +55,43 @@ static int FS_FontsChanged(WPARAM wParam, LPARAM lParam)
 
 void RegisterCListFonts()
 {
-	FontIDT fontid = {0};
-	ColourIDT colourid = {0};
-	char idstr[10];
-	int i;
+	FontIDT fontid = { sizeof(fontid) };
+	fontid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWREREGISTER | FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS;
+	strncpy(fontid.dbSettingsGroup, "CLC", sizeof(fontid.dbSettingsGroup));
+	_tcsncpy(fontid.group, _T("Contact list"), SIZEOF(fontid.group));
 
-	fontid.cbSize = sizeof(FontIDT);
-	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS;
+	HDC hdc = GetDC(NULL);
+	for (int i = 0; i < SIZEOF(clistFontDescr); i++) {
+		LOGFONT lf;
+		pcli->pfnGetFontSetting(i, &lf, &fontid.deffontsettings.colour);
+		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 
-	for (i = 0; i <= FONTID_MAX; i++) {
-		switch (fontListOrder[i]) {
-		case FONTID_GROUPS:
-		case FONTID_GROUPCOUNTS:
-			fontid.flags  &=  ~FIDF_CLASSMASK;
-			fontid.flags |= FIDF_CLASSHEADER;
-			break;
+		_tcsncpy_s(fontid.deffontsettings.szFace, SIZEOF(fontid.deffontsettings.szFace), lf.lfFaceName, _TRUNCATE);
+		fontid.deffontsettings.charset = lf.lfCharSet;
+		fontid.deffontsettings.size = (char)lf.lfHeight;
+		fontid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0);
 
-		case FONTID_DIVIDERS:
-			fontid.flags  &=  ~FIDF_CLASSMASK;
-			fontid.flags |= FIDF_CLASSSMALL;
-			break;
+		fontid.flags &= ~FIDF_CLASSMASK;
+		fontid.flags |= clistFontDescr[i].iMask;
 
-		default:
-			fontid.flags  &=  ~FIDF_CLASSMASK;
-			fontid.flags |= FIDF_CLASSGENERAL;
-			break;
-		}
+		_tcsncpy(fontid.name, clistFontDescr[i].tszName, SIZEOF(fontid.name));
 
-		if (fontListOrder[i] != 0 || i == 0) {
-			strncpy(fontid.dbSettingsGroup, "CLC", sizeof(fontid.dbSettingsGroup));
-			_tcsncpy(fontid.group, _T("Contact List"), SIZEOF(fontid.group));
-			_tcsncpy(fontid.name, szClistFontIdDescr[fontListOrder[i]], SIZEOF(fontid.name));
-			mir_snprintf(idstr, SIZEOF(idstr), "Font%d", fontListOrder[i]);
-			strncpy(fontid.prefix, idstr, SIZEOF(fontid.prefix));
-			fontid.order = fontListOrder[i];
-			FontRegisterT(&fontid);
-		}
+		char idstr[10];
+		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", i);
+		strncpy(fontid.prefix, idstr, SIZEOF(fontid.prefix));
+		fontid.order = i;
+		FontRegisterT(&fontid);
 	}
+	ReleaseDC(NULL, hdc);
 
 	// and colours
-	colourid.cbSize = sizeof(ColourIDT);
+	ColourIDT colourid = { sizeof(colourid) };
 	colourid.order = 0;
 	strncpy(colourid.dbSettingsGroup, "CLC", sizeof(colourid.dbSettingsGroup));
 
 	strncpy(colourid.setting, "BkColour", sizeof(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
-	_tcsncpy(colourid.group, LPGENT("Contact List"), SIZEOF(colourid.group));
+	_tcsncpy(colourid.group, LPGENT("Contact list"), SIZEOF(colourid.group));
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
 	ColourRegisterT(&colourid);
 

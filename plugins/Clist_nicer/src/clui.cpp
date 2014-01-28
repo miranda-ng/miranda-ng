@@ -1987,63 +1987,58 @@ void OnCreateClc()
 	PreCreateCLC(pcli->hwndContactList);
 }
 
-static struct {
-	UINT id;
-	TCHAR *name;
-} _tagFSINFO[] = {
-	FONTID_CONTACTS, LPGENT( "Standard contacts"),
-	FONTID_INVIS, LPGENT( "Online contacts to whom you have a different visibility"),
-	FONTID_OFFLINE, LPGENT( "Offline contacts"),
-	FONTID_OFFINVIS, LPGENT( "Offline contacts to whom you have a different visibility" ),
-	FONTID_NOTONLIST, LPGENT( "Contacts which are 'not on list'"),
-	FONTID_GROUPS, LPGENT( "Groups"),
-	FONTID_GROUPCOUNTS, LPGENT( "Group member counts"),
-	FONTID_DIVIDERS, LPGENT( "Dividers"),
-	FONTID_STATUS, LPGENT("Status mode"),
-	FONTID_FRAMETITLE, LPGENT("Frame titles"),
-	FONTID_EVENTAREA, LPGENT("Event area"),
-	FONTID_TIMESTAMP, LPGENT("Contact list local time"),
-	0, NULL
+struct
+{
+	const TCHAR *tszName;
+	int iMask;
+}
+static clistFontDescr[] =
+{
+	{ LPGENT("Standard contacts"),                                        FIDF_CLASSGENERAL },
+	{ LPGENT("Online contacts to whom you have a different visibility"),  FIDF_CLASSGENERAL },
+	{ LPGENT("Offline contacts"),                                         FIDF_CLASSGENERAL },
+	{ LPGENT("Contacts which are 'not on list'"),                         FIDF_CLASSGENERAL },
+	{ LPGENT("Groups"),                                                   FIDF_CLASSHEADER  },
+	{ LPGENT("Group member counts"),                                      FIDF_CLASSHEADER  },
+	{ LPGENT("Dividers"),                                                 FIDF_CLASSSMALL   },
+	{ LPGENT("Offline contacts to whom you have a different visibility"), FIDF_CLASSGENERAL },
+	{ LPGENT("Status mode"),                                              FIDF_CLASSGENERAL },
+	{ LPGENT("Frame titles"),                                             FIDF_CLASSGENERAL },
+	{ LPGENT("Event area"),                                               FIDF_CLASSGENERAL },
+	{ LPGENT("Contact list local time"),                                  FIDF_CLASSGENERAL }
 };
 
 void FS_RegisterFonts()
 {
-	FontIDT fid = {0};
-	char szTemp[50];
-	DBVARIANT dbv;
-	int j = 0;
-
-	fid.cbSize = sizeof(fid);
-	_tcsncpy(fid.group, LPGENT("Contact List"), SIZEOF(fid.group));
+	FontIDT fid = { sizeof(fid) };
+	_tcsncpy(fid.group, LPGENT("Contact list"), SIZEOF(fid.group));
 	strncpy(fid.dbSettingsGroup, "CLC", 5);
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS | FIDF_APPENDNAME | FIDF_SAVEPOINTSIZE;
-	while (_tagFSINFO[j].name != 0) {
-		mir_snprintf(szTemp, sizeof(szTemp), "Font%d", _tagFSINFO[j].id);
-		strncpy(fid.prefix, szTemp, sizeof(fid.prefix));
-		fid.order = _tagFSINFO[j].id;
-		_tcsncpy(fid.backgroundGroup, LPGENT("Contact List"), SIZEOF(fid.backgroundGroup));
-		_tcsncpy(fid.backgroundName, LPGENT("Background"), SIZEOF(fid.backgroundName));
-		_tcsncpy(fid.name, _tagFSINFO[j].name, SIZEOF(fid.name));
-		mir_snprintf(szTemp, sizeof(szTemp), "Font%dCol", _tagFSINFO[j].id);
-		fid.deffontsettings.colour = (COLORREF)cfg::getDword("CLC", szTemp, GetSysColor(COLOR_WINDOWTEXT));
 
-		mir_snprintf(szTemp, sizeof(szTemp), "Font%dSize", _tagFSINFO[j].id);
-		fid.deffontsettings.size = (BYTE)cfg::getByte("CLC", szTemp, 8);
+	HDC hdc = GetDC(NULL);
+	for (int i = 0; i < SIZEOF(clistFontDescr); i++) {
+		LOGFONT lf;
+		pcli->pfnGetFontSetting(i, &lf, &fid.deffontsettings.colour);
+		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 
-		mir_snprintf(szTemp, sizeof(szTemp), "Font%dSty", _tagFSINFO[j].id);
-		fid.deffontsettings.style = cfg::getByte("CLC", szTemp, 0);
-		mir_snprintf(szTemp, sizeof(szTemp), "Font%dSet", _tagFSINFO[j].id);
-		fid.deffontsettings.charset = cfg::getByte("CLC", szTemp, DEFAULT_CHARSET);
-		mir_snprintf(szTemp, sizeof(szTemp), "Font%dName", _tagFSINFO[j].id);
-		if (cfg::getTString(NULL, "CLC", szTemp, &dbv))
-			lstrcpyn(fid.deffontsettings.szFace, _T("Arial"), LF_FACESIZE);
-		else {
-			lstrcpyn(fid.deffontsettings.szFace, dbv.ptszVal, LF_FACESIZE);
-			db_free(&dbv);
-		}
+		_tcsncpy_s(fid.deffontsettings.szFace, SIZEOF(fid.deffontsettings.szFace), lf.lfFaceName, _TRUNCATE);
+		fid.deffontsettings.charset = lf.lfCharSet;
+		fid.deffontsettings.size = (char)lf.lfHeight;
+		fid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0);
+
+		fid.flags &= ~FIDF_CLASSMASK;
+		fid.flags |= clistFontDescr[i].iMask;
+
+		_tcsncpy(fid.name, clistFontDescr[i].tszName, SIZEOF(fid.name));
+		
+		char idstr[10];
+		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", i);
+		strncpy(fid.prefix, idstr, SIZEOF(fid.prefix));
+		fid.order = i;
 		FontRegisterT(&fid);
-		j++;
 	}
+	ReleaseDC(NULL, hdc);
+
 	// and colours
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
@@ -2052,7 +2047,7 @@ void FS_RegisterFonts()
 
 	strncpy(colourid.setting, "BkColour", sizeof(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
-	_tcsncpy(colourid.group, LPGENT("Contact List"), SIZEOF(colourid.group));
+	_tcsncpy(colourid.group, LPGENT("Contact list"), SIZEOF(colourid.group));
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
 	ColourRegisterT(&colourid);
 

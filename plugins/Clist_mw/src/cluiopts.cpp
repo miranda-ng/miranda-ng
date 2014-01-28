@@ -39,7 +39,7 @@ int CluiOptInit(WPARAM wParam,LPARAM lParam)
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
 	odp.pszTitle = LPGEN("Window");
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszGroup = LPGEN("Contact list");
 	odp.pfnDlgProc = DlgProcCluiOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

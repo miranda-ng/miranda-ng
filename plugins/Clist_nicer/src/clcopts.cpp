@@ -531,7 +531,7 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 
 	odp.position = -1000000000;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszTitle = LPGEN("Contact List");
+	odp.pszTitle = LPGEN("Contact list");
 	odp.pszTab = LPGEN("General");
 	odp.pfnDlgProc = DlgProcGenOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLIST);
@@ -561,7 +561,7 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	// Contact rows tabs
 
 	odp.position = 0;
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszGroup = LPGEN("Contact list");
 	odp.pszTitle = LPGEN("Contact rows");
 	odp.pszTab = LPGEN("Contacts");
 	odp.pfnDlgProc = DlgProcDspItems;

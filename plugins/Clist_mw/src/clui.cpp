@@ -209,7 +209,7 @@ void RegisterProtoIcons (char *protoname)
 		for (i = 0;i<8;i++)
 		{
 			mir_snprintf(buf, SIZEOF(buf), "%s #%d", protoname, i);
-			mir_snprintf(buf2, SIZEOF(buf2), "Contact List/Connection Icons %s", protoname);
+			mir_snprintf(buf2, SIZEOF(buf2), "Contact list/Connection Icons %s", protoname);
 
 			LoadIconFromExternalFile(NULL,i,TRUE,TRUE,buf,buf2,buf,0,GetConnectingIconForProto_DLL(protoname,i));
 		}
@@ -269,7 +269,7 @@ HICON GetConnectingIconForProto(char *szProto,int b)
 		char buf[256];
 		mir_snprintf(buf, SIZEOF(buf), "%s #%d", szProto, b);
 
-		hIcon = LoadIconFromExternalFile(NULL,b,TRUE,FALSE,buf,"Contact List/Connection Icons",buf,0,NULL);
+		hIcon = LoadIconFromExternalFile(NULL,b,TRUE,FALSE,buf,"Contact list/Connection icons",buf,0,NULL);
 		if (hIcon == NULL) return (GetConnectingIconForProto_DLL(szProto,b));
 		return (CopyIcon(hIcon));
 	}

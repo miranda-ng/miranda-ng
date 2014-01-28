@@ -222,7 +222,7 @@ static int OnBuildGroupMenu(WPARAM wParam,LPARAM lParam)
 
 int static OnIconLibIconChanged(WPARAM wParam,LPARAM lParam)
 {
-	HICON hicon = LoadIconFromExternalFile("clisticons.dll",2,TRUE,FALSE,"NewGroup","Contact List","New Group",-IDI_NEWGROUP,0);
+	HICON hicon = LoadIconFromExternalFile("clisticons.dll",2,TRUE,FALSE,"NewGroup","Contact list","New Group",-IDI_NEWGROUP,0);
 	NewGroupIconidx = ImageList_ReplaceIcon(hCListImages,NewGroupIconidx,hicon);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -235,7 +235,7 @@ int static OnIconLibIconChanged(WPARAM wParam,LPARAM lParam)
 
 void InitGroupMenus(void)
 {
-	HICON hicon = LoadIconFromExternalFile("clisticons.dll",2,TRUE,TRUE,"NewGroup","Contact List","New Group",-IDI_NEWGROUP2,0);
+	HICON hicon = LoadIconFromExternalFile("clisticons.dll",2,TRUE,TRUE,"NewGroup","Contact list","New Group",-IDI_NEWGROUP2,0);
 	NewGroupIconidx = ImageList_AddIcon(hCListImages,hicon );
 
 	CreateServiceFunction("CLISTMENUSGroup/ExecService",GroupMenuExecService);
