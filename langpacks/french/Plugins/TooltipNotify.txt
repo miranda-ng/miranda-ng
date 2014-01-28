@@ -51,7 +51,7 @@ Voir/Cacher la liste de contacts
 [Opens message dialog]
 Afficher le message
 [Behavior]
-
+Comportement
 [Misc]
 
 [Obey 'Suppress online notification' settings]

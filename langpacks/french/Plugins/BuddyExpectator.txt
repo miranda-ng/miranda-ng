@@ -76,7 +76,7 @@ Toujours notifier
 [Disabled]
 Désactivé
 [Hide]
-
+Cacher
 [Never hide]
 
 [Hiding %s (%S)]

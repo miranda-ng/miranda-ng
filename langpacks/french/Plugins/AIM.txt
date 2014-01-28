@@ -140,7 +140,7 @@ Message
 [Me]
 
 [Others]
-
+Autres
 [&Invite user...]
 
 [&Leave chat session]

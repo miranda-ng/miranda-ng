@@ -31,7 +31,7 @@ Paramètres
 [Strings for keyboard layouts]
 
 [EN]
-
+EN
 [Default]
 Défaut
 [Invert current state]

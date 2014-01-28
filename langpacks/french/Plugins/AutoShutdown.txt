@@ -91,9 +91,9 @@ Progression
 [Header]
 
 [Active]
-
+Active
 [Inactive]
-
+Inactive
 ;file \plugins\AutoShutdown\src\options.cpp
 [Events]
 Évènements

@@ -9,9 +9,9 @@
 
 ;file \plugins\XSoundNotify\res\XSoundNotify.rc
 [Account:]
-
+Compte :
 [Nick:]
-Pseudo:
+Pseudo :
 [Sound:]
 
 [Not set]

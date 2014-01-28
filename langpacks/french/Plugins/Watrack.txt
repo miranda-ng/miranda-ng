@@ -600,11 +600,11 @@ Précision
 [none]
 Aucun
 [kb]
-
+kb
 [Kb]
-
+Kb
 [KB]
-
+KB
 [Color]
 Couleur
 [Output]

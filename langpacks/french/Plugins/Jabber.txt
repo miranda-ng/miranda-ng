@@ -2446,7 +2446,7 @@ Inquiet
 [Having appointment]
 
 [Inactive]
-
+Inactive
 [day off]
 
 [hanging out]

@@ -60,7 +60,7 @@ Annuler
 [Show]
 Afficher
 [Hide]
-
+Cacher
 [Always show popup]
 
 [Never show popup]

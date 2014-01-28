@@ -1,0 +1,1 @@
+﻿[This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]

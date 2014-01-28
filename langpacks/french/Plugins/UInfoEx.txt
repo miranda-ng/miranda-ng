@@ -317,7 +317,7 @@ Non trouvé
 [Preparing...]
 
 [Hide]
-
+Cacher
 [What do you want to export?]
 Que voulez-vous exporter ?
 [Contact Information]

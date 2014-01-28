@@ -69,7 +69,7 @@ secondes
 [Exclude %date% token from parsing (restart required)]
 
 [Layout]
-
+Disposition
 [Show status list]
 Afficher les états
 [Show status profiles in status list]
@@ -227,7 +227,7 @@ Fermeture dans %d
 [Open String Formatting Help]
 
 [Hide]
-
+Cacher
 [Show next to cancel button]
 
 [Flat, next to cancel button]

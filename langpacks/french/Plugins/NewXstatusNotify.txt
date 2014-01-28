@@ -135,7 +135,7 @@ Clic droit
 [Truncate message length to:]
 
 [characters]
-
+caractères
 [Templates]
 
 [Title - text delimiter:]

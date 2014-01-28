@@ -35,7 +35,7 @@ OK
 [Generate and use random key]
 
 [Account:]
-
+Compte:
 [Key ID:]
 
 [Copy public key]

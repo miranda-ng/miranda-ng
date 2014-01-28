@@ -211,7 +211,7 @@ Effacer
 [Show confirm dialog when loading]
 
 [Create a main menu item]
-
+Créer un élément de menu principal
 [Status profiles]
 
 [Hotkey]

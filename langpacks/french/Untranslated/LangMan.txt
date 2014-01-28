@@ -1,0 +1,4 @@
+﻿[Version:]
+[Reload langpack]
+[(incompatible)]
+[built-in]

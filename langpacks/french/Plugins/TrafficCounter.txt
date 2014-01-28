@@ -101,7 +101,7 @@ Popups
 [Bytes]
 octets
 [KB]
-
+KB
 [MB]
 Mo
 [Adaptive]

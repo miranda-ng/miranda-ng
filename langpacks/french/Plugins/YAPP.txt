@@ -19,11 +19,11 @@ Respecter la casse
 [Never timeout]
 Sans durée
 [Set timeout:]
-Délai:
+Délai :
 [Width:]
-Largeur:
+Largeur :
 [Maximum height:]
-Hauteur maximum:
+Hauteur maximum :
 [Options]
 Paramètres
 [Opacity (%):]
@@ -37,7 +37,7 @@ Aperçu
 [Transparent background]
 Arrière-plan transparent
 [Layout]
-
+Disposition
 [Avatar size:]
 
 [Disable when]
@@ -55,11 +55,11 @@ Désactivé si
 [Text color:]
 
 [Background color:]
-Couleur d'arrière-plan:
+Couleur d'arrière-plan :
 [Set timeout]
 
 [Timeout value (0 = default):]
-Délai (0 = par défaut):
+Délai (0 = par défaut) :
 ;file \plugins\YAPP\src\icons.cpp
 [Popups are enabled]
 

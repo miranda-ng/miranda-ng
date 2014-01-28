@@ -45,9 +45,9 @@ Notifier si
 [Full Screen mode]
 Mode plein écran
 [Screen Saver is running]
-
+Économiseur d'écran est en cours d'exécution
 [Workstation is Locked]
-
+Poste de travail est verrouillé
 [Defined programs are running]
 Programmes définis en route
 [All other situations]

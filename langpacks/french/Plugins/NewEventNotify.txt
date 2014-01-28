@@ -25,7 +25,7 @@ Lien
 [File]
 Fichier
 [Others]
-
+Autres
 [Text]
 Texte
 [Background]

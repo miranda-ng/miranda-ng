@@ -275,7 +275,7 @@ maximum
 [Size upwards]
 Agrandir vers le haut
 [Behavior]
-
+Comportement
 [Lock manual resize]
 Verrouiller le redimensionnement manuel
 [Drag to]
@@ -907,7 +907,7 @@ ligne
 [columns]
 colonnes
 [lines]
-
+lignes
 [%s, contain %s]
 /s, contient /s
 [ layered]

@@ -1,0 +1,3 @@
+﻿[Show the Tray Icon]
+[Restore hiding on startup after failure]
+[get the BossKey name]

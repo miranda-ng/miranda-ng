@@ -6,14 +6,14 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
-
+Scriver - envoyer et recevoir des messages instantanés.
 ;file \plugins\Scriver\res\resource.rc
 [Behavior]
-
+Comportement
 [Automatically pop up the window when]
 Ouvrir la fenêtre si vous êtes
 [and stay minimized]
-
+et rester minimisé
 [Cascade new windows]
 Voir les nouvelles fenêtres en cascade
 [Save size and location for each contact]
@@ -21,15 +21,15 @@ Sauver taille/position pour chaque contact
 [Minimize on send]
 Minimiser à l'envoi
 [Hide windows on close]
-
+Cacher les fenêtres à la fermeture
 [Send message on 'Enter']
 Taper 1 fois "Entrée" pour envoyer
 [Send message on double 'Enter']
 Taper 2 fois "Entrée" pour envoyer
 [Remember unsent messages]
-
+Se rappeler des messages non envoyés
 [Delete temporary contacts on closing]
-
+Supprimer les contacts temporaires à la fermeture
 [Show warning when message has not been received after]
 M'alerter quand le message n'a pas été reçu après
 [seconds]
@@ -37,27 +37,27 @@ secondes
 [Tabs]
 Onglets
 [Enable tabs]
-
+Activer les onglets
 [Always show tab bar]
-
+Toujours afficher la barre d'onglets
 [Tabs at the bottom]
 Onglets en bas
 [Limit names on tabs to]
 Taille maxi des noms des onglets à
 [characters]
-
+caractères
 [Show close button on each tab]
 Afficher le bouton Fermer sur chaque onglet
 [Switch to active tab]
-
+Passez à l'onglet actif
 [Limit number of tabs per window to]
-
+Limiter le nombre d'onglets par fenêtre à
 [Use separate windows for group chats]
-
+Utilisez des fenêtres séparées pour les discussions de groupe
 [Limit number of group chats tabs per window to]
-
+Limiter le nombre d'onglets de discussions de groupe par fenêtre à
 [Layout]
-
+Disposition
 [Show title bar]
 Afficher la barre de titre
 [Show status bar]
@@ -65,23 +65,23 @@ Afficher la barre d'état
 [Show toolbar]
 Voir barre d'outils
 [Show info bar]
-
+Afficher la barre d'information
 [Show avatars]
 Montrer les avatars
 [Use the contact's status icon as the window icon]
 Utiliser l'icône d'état du contact comme icône de fenêtre
 [Show progress indicator]
-
+Afficher la barre de progression
 [Enable transparency]
-
+Activer la transparence
 [active]
-
+active
 [inactive]
-
+inactive
 [Min input area size]
-
+Taille min de la zone d'entrée
 [lines]
-
+lignes
 [Message Window Event Log]
 Zone de texte de la Fenêtre
 [Enable IEView]
@@ -95,31 +95,31 @@ Voir les secondes
 [Show date]
 Voir la date
 [Long date format]
-
+Format de date long
 [Relative date]
-
+Date relative
 [Show names]
 Voir les noms
 [Enable message grouping]
-
+Activer le groupement de message
 [Mark follow-up msgs with timestamp]
 Marquer l'heure des messages suivants
 [Start message text on a new line]
 Nouveau message sur une nouvelle ligne
 [Show lines between messages]
-
+Afficher des lignes entre les messages
 [Indent text]
 Décalage du texte
 [Customize fonts and colors]
-
+Personnaliser les polices et les couleurs
 [Preload]
-
+Historique
 [Unread events only]
-
+Événements non lus seulement
 [Last]
-
+Derniers
 [Events in the last]
-
+Événements dans les dernières
 [events]
 Évènements
 [minutes]
@@ -129,7 +129,7 @@ Options de notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
 Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné:
 [Show typing notification switch in the status bar]
-
+Afficher le commutateur de notification de  frappe dans la barre d'état
 [Show typing notifications when a user is typing a message]
 Afficher des notifications quand un contact tape un message
 [Update message window icons when a user is typing]
@@ -223,7 +223,7 @@ Autre
 [Add new rooms to group:]
 Ajouter salons au groupe:
 [Nick list row height]
-
+Hauteur de ligne de la liste de contact
 [pixels]
 pixels
 [Log Options]
@@ -249,9 +249,9 @@ Lieu
 [Trim to]
 
 [KB]
-
+KB
 [Group Chat]
-
+Discussion de groupe
 [Use same style as in the message log]
 Utiliser même style que la fenêtre
 [Use default colors]
@@ -281,19 +281,19 @@ Consultation de mot
 [Google]
 Google
 [Bing]
-
+Bing
 [Yandex]
-
+Yandex
 [Wikipedia (en)]
-
+Wikipedia (en)
 [Google Maps]
-
+Google Maps
 [Google Translate]
-
+Google Translate
 [Yahoo]
-
+Yahoo
 [Foodnetwork]
-
+Foodnetwork
 [C&lear Log]
 Effacer le journal
 [&Open link]

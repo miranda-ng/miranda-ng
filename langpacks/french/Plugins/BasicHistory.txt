@@ -101,7 +101,7 @@ Fichier CSS externe
 [Name]
 Nom
 [Active]
-
+Active
 [Action type]
 
 [Filter]

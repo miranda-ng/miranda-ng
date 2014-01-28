@@ -9,13 +9,13 @@
 
 ;file \protocols\Yahoo\res\Yahoo.rc
 [Yahoo]
-
+Yahoo
 [ID:]
-ID:
+ID :
 [Password:]
-Passe:
+Passe :
 [Nick:]
-Pseudo:
+Pseudo :
 [Create a new Yahoo account using the Yahoo website]
 Créer un nouveau compte depuis le site de Yahoo
 [Expert]
@@ -39,7 +39,7 @@ Yahoo Japon
 [Login server:]
 
 [Port:]
-Port:
+Port :
 [Reset]
 RAZ
 [Yahoo Ignore List]
@@ -96,7 +96,7 @@ Ajouter
 [Me]
 
 [Others]
-
+Autres
 [&Invite user...]
 
 [&Leave chat session]
@@ -217,7 +217,7 @@ Vous avez %i msg non lus
 [New Mail (%i msgs)]
 Nouveau e-mail (%i msgs)
 [From: %s\nSubject: %s]
-De: %s\nsujet: %s
+De : %s\nSujet : %s
 [Yahoo System Message]
 
 [Yahoo Ping Error]
@@ -247,7 +247,7 @@ Erreur connue %s
 [%s is in buddy list - cannot ignore]
 %s est dans votre liste - il ne peut être ignoré
 [System Error: %s]
-Erreur Sytème: %s
+Erreur Sytème : %s
 [Server Connection Error: %s]
 Erreur de connexion au serveur %s
 [Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]

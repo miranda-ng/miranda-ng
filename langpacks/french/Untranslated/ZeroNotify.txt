@@ -1,0 +1,2 @@
+﻿[Adds options to automatically disable notifications when a protocol is in a certain status.]
+[Zero Notifications]

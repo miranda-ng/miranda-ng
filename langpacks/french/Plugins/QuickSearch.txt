@@ -232,7 +232,7 @@ Effacé
 [off]
 
 [active]
-
+active
 [Colorize]
 
 [QuickSearch window hotkey]

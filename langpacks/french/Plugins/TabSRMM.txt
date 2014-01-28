@@ -221,7 +221,7 @@ Options de notification d'évènement
 [Limit message preview to]
 Aperçu des messages limité à
 [characters]
-
+caractères
 [Only show event notifications when my status is...]
 
 [Popup Options]
@@ -235,7 +235,7 @@ Délai (en secondes, 0=par défaut, -1=permanent)
 [Default colors]
 
 [Others]
-
+Autres
 [Preview]
 Aperçu
 [Group chats]
@@ -333,11 +333,11 @@ Taille/position générale des conteneurs
 [Save current as global]
 Sauver en 'Paramètres généraux'
 [Enable transparency]
-
+Activer la transparence
 [active]
-
+active
 [inactive]
-
+inactive
 [When checked, this container will use private settings, otherwise settings are shared among containers.]
 
 [Apply]
