@@ -102,8 +102,8 @@ static struct FontOptionsList fontOptionsList[] = {
 
 struct ColourOptionsList
 {
-	char *   chGroup;
-	char *   chName;
+	char*    chGroup;
+	char*    chName;
 	TCHAR*   szGroup;
 	TCHAR*   szDescr;
 	COLORREF defColour;

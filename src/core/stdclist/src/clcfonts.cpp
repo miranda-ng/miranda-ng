@@ -96,7 +96,7 @@ void RegisterCListFonts()
 		}
 
 		strncpy(fontid.dbSettingsGroup, "CLC", sizeof(fontid.dbSettingsGroup));
-		_tcsncpy(fontid.group, _T("Contact List"), SIZEOF(fontid.group));
+		_tcsncpy(fontid.group, LPGENT("Contact list"), SIZEOF(fontid.group));
 		_tcsncpy(fontid.name, szClistFontIdDescr[fontListOrder[i]], SIZEOF(fontid.name));
 		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", fontListOrder[i]);
 		strncpy(fontid.prefix, idstr, SIZEOF(fontid.prefix));
