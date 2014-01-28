@@ -87,7 +87,7 @@
 [Nickname:]
 Мянушка:
 [Gender:]
-Пол:
+Род:
 [City:]
 Горад:
 [Origin city:]

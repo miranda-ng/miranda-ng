@@ -112,8 +112,6 @@ SSL
 Інфармацыя CTCP
 [Question]
 Пытанне
-[&OK]
-&OK
 [&Cancel]
 С&касаваць
 [Perform]
@@ -727,7 +725,7 @@ Nickserv забіць фантому
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
 Марудней! Шукае ў сетцы для мянушак адпаведныя падстаноўкі. Маска хаста з'яўляецца абавязковай і не менш за 4 знакаў
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-Налады не захаваны.\n\n Поле "Мянушка" павінна ўтрымоўваць прынамсі чатыры знака (уключаючы маскі), і супадаць з мянушкай па змаўчанні для гэтага кантакту.
+Налады не захаваны.\n\nПоле "Мянушка" павінна ўтрымоўваць прынамсі чатыры знака (уключаючы маскі), і супадаць з мянушкай па змаўчанні для гэтага кантакту.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 Налады не захаваны!\n\nДля гэтага рэжыма павінна быць пазначана поўная маска хаста.
 ;file \protocols\IRCG\src\windows.cpp

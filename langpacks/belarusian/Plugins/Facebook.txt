@@ -201,6 +201,10 @@ URL:
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.
 ;file \protocols\FacebookRM\src\process.cpp
+[Contact is back on server-list.]
+Кантакт даданы ў спіс на серверы.
+[Contact is no longer on server-list.]
+Кантакт выдалены з спісу сервера.
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s

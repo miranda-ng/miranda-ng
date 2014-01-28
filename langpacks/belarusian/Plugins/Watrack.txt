@@ -486,7 +486,7 @@ VBR ці няма
 [Use listening info]
 Выкарыстоўваць "Listening To"
 [If this option is "ON", "Listening To" protocol property will be filled by music info.]
-Калі опцыя ўключана, тое поле "Listening To" будзе запоўнена інфармацыяй пра музыку.
+Калі опцыя ўключана, поле "Listening To" будзе запоўнена інфармацыяй пра музыку.
 [Enable Status message]
 Уключыць паведамленне статусу
 [Enable XStatus message]

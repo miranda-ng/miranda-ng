@@ -286,7 +286,7 @@
 [Jabber activity]
 Занятак Jabber
 [Gender]
-Пол
+Род
 [Country flag]
 Сцяг краіны
 [Client]
@@ -344,7 +344,7 @@ Email
 [Email:]
 Пошта:
 [Gender:]
-Пол:
+Род:
 [Homepage]
 Сайт
 [Homepage:]

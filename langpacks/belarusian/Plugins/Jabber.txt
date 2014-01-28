@@ -141,7 +141,7 @@ Jabber Пароль
 [YYYY-MM-DD]
 ГГГГ-ММ-ДД
 [Gender:]
-Пол:
+Род:
 [Occupation:]
 Занятак:
 [Homepage:]

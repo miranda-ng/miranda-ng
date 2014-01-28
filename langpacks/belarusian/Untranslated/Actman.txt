@@ -1,0 +1,7 @@
+﻿[Actions]
+[Up]
+[Down]
+[Reload]
+[Delete]
+[Test]
+[Export]

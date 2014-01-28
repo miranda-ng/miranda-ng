@@ -1174,7 +1174,7 @@ Miranda
 [First name:]
 Імя:
 [Gender:]
-Пол:
+Род:
 [Last name:]
 Прозвішча:
 [Age:]
@@ -1296,6 +1296,8 @@ Miranda
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
 Плагін чата
+[Group chat log background]
+Фон лога для чатаў
 [Message background]
 Фон паведамлення
 [Nick list background]
@@ -2518,12 +2520,15 @@ ANSI плагін
 Вам патрэбны плагін службы малюнкаў для падтрымкі PNG.
 [All bitmaps]
 Усе выявы
+[Windows bitmaps]
+BMP
 [JPEG bitmaps]
 Выявы JPEG
 [GIF bitmaps]
 Выявы GIF
 [PNG bitmaps]
 Выявы PNG
+;file \src\modules\utils\enterstring.cpp
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Аватары

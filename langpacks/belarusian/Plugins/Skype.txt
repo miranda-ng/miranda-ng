@@ -61,7 +61,7 @@ Skype пратакол для Miranda NG.
 [Date of birth:]
 Дата нараджэння:
 [Gender:]
-Пол:
+Род:
 [Homepage:]
 Сайт:
 [Language:]

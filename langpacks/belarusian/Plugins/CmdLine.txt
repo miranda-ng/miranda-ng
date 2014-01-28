@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
-Плагін дазваляе кіраваць Miranda праз камандны радок.
+Гэты плвгін дазваляе кіраваць Мірандай праз камандны радок.
 ;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
 Няма дапамогі для '%s'.
@@ -89,15 +89,15 @@ Miranda была зачынена ці адбылася памылка пры ч
 [Failed to change status for account '%s' to '%s'.]
 Не атрымалася змяніць статус конту  '%s' на '%s'.
 [Failed to set '%S' status message to '%s' (status is '%s').]
-Не атрымалася ўсталяваць паведамленне статусу '% S' для '% S' (статус '% S').
+Не атрымалася ўсталяваць паведамленне статусу '%S' для '%S' (статус '%S').
 [Successfully set '%S' status message to '%s' (status is '%s').]
 Папяхова ўсталявана '%s' паведамленне статуса для '%s' (статус '%s').
 [Account '%S' does not support away messages, skipping.]
-Конт '% S' не падтрымлівае паведамленні адсутнасці, пропуск.
+Конт '%S' не падтрымлівае паведамленні адсутнасці, пропуск.
 [Changed '%s' status message to '%s' (status is '%s').]
 Зменена '%s' паведамленне статусу на '%s' (статус '%s').
 [Account '%s' does not support away messages, skipping.]
-Конт '% S' не падтрымлівае паведамленні адсутнасці, пропуск.
+Конт '%S' не падтрымлівае паведамленні адсутнасці, пропуск.
 [Failed to change status message for account '%s' to '%s' (status is '%s').]
 Не атрымалася змяніць паведамленне статуса для конту '% S' у '% S' (статус '% S').
 [Issued check email command to Exchange plugin.]
@@ -109,13 +109,15 @@ Miranda была зачынена ці адбылася памылка пры ч
 [YAMN plugin is not running.]
 Плагін YAMN не запушчаны.
 [CallService call successful: service '%s' returned %p.]
-CallService выклік паспяховы: служба '% S' вярнула % р.
+CallService выклік паспяховы: служба '%S' вярнула %р.
 [Invalid parameter '%s' passed to CallService command.]
 Няслушны аргумент '%s' адпраўлены камандзе CallService.
 [Service '%s' does not exist.]
 Служба '%s' не існуе.
 [Message sent to '%s'.]
 Паведамленне адпраўлена для '%s'.
+[Message to '%s' was marked as sent but the account seems to be offline]
+Паведамленне для '%s' пазначана як адасланае, але конт, здаецца, быў адключаны.
 [Could not send message to '%s'.]
 Немагчыма адправіць паведамленне для '%s'.
 [Timed out while waiting for acknowledgement for contact '%s'.]

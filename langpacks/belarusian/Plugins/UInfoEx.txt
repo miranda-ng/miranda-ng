@@ -283,7 +283,7 @@
 [E-Mail]
 E-Mail
 [Gender]
-Пол
+Род
 [Misc]
 Іншае
 [Show 'Restart' menu item]
@@ -1071,7 +1071,7 @@ Web Дызайн
 Памылка выдзялення памяці!
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (uinfoex)]
-Пол (uinfoex)
+Род (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 У кантакта няма хатняй старонкі

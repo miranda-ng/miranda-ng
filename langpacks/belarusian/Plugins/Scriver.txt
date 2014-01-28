@@ -264,8 +264,6 @@ KB
 Працягласць (з)
 [(0 means default setting, -1 means indefinite time)]
 0 = стандартныя значэнні, -1 = бясконцы час
-[OK]
-ОК
 [Log]
 Лог
 [&Copy]
@@ -449,7 +447,7 @@ KB
 [Navigate: Next Tab]
 Навігацыя: Наступная ўкладка
 [Navigate: Tab %d]
-Навігацыя: Укладка% d
+Навігацыя: Укладка %d
 [Window: Toggle status bar]
 Вакно: укл/выкл панэль статусу
 [Window: Toggle title bar]

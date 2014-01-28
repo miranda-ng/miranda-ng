@@ -190,6 +190,10 @@ AIM Усталяваць Instant Idle
 Недастаткова правоў.
 [Recipient blocked.]
 Атрымальнік блакаваны.
+[Sender too evil.]
+Кепскі адпраўшчык.
+[Receiver too evil.]
+Кепскі атрымальнік.
 [User temporarily unavailable.]
 Адмовіўся ад кліента.
 [No Match.]
@@ -268,6 +272,8 @@ AIM Усталяваць Instant Idle
 Дасягнуты парог.
 [Email Host Fail.]
 Памылка Email.
+[DNS Fail.]
+Памылка DNS.
 ;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
 Не атрымалася адкрыць файл: %s : %s

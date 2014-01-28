@@ -235,6 +235,10 @@ Unicode радок
 Дадаць колер
 [QuickSearch window hotkey]
 Адчыніць хуткі пошук
+[Column content is simple database setting.]
+Утрымлівае наладу базы
+[Column content is script result.\r\nMore help from "Help" button in script dialog.]
+Утрымлівае вынік скрыпта.\r\nНацісніце "Даведка" у дыялозе скрыпта для дакладнай інфармацыі.
 [Other info]
 Іншае
 [Change setting through QS]
@@ -252,3 +256,5 @@ Unicode радок
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Тэкставы рэдактар
+[Wrap Text]
+Перанос радка

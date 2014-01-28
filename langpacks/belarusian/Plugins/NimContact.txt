@@ -80,8 +80,6 @@
 Зварот...
 [Help]
 Даведка
-[OK]
-ОК
 [&Export Non-IM Contact]
 Экспарт не-IM кантакту
 [Co&py Non-IM Contact]
