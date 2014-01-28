@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.0
+;  Version: 3.3.0.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -45,7 +45,7 @@ Tray
 [Options]
 Paramètres
 [Add new rooms to group:]
-Ajouter salons au groupe:
+Ajouter salons au groupe :
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 L'intégration du Chat est désactivée. Vous pouvez l'activer d'ici, ensuite vous DEVREZ RELANCER MIRANDA pour valider ce changement.\n\nVous DEVEZ également désactiver le plugin standard de Chat. Sinon, aucuns Chat ne fonctionnera.
 [Log files]
@@ -53,7 +53,7 @@ L'intégration du Chat est désactivée. Vous pouvez l'activer d'ici, ensuite vo
 [Enable logging to disk]
 Sauvegarde du journal
 [Log directory]
-Répertoire:
+Répertoire
 [Maximum size for log files (in KB)]
 Taille maxi du journal (en KB)
 [Group chat log formatting]
@@ -419,7 +419,7 @@ Plugin pour l'historique
 [Typing Notification]
 Notification de frappe
 [Send typing notifications to the following users when you are typing a message to the them:]
-Envoyez la notification de frappe aux contacts suivants quand vous leur écrivez un message:
+Envoyez la notification de frappe aux contacts suivants quand vous leur écrivez un message :
 [        Show typing notifications in the message window]
           Afficher la notification de frappe dans la fenêtre de message
 [Flash window once on typing events (only if flashing enabled)]
@@ -471,7 +471,7 @@ RAZ
 [Insert Separator]
 Insérer un séparateur
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
-Pour régler les options d'un conteneur, veuillez faire comme suit:\n1. Choisissez "Options du Conteneur" depuis le menu du conteneur.\n2. En cliquant droit sur l'onglet ou barre d'outils d'une fenêtre de message.
+Pour régler les options d'un conteneur, veuillez faire comme suit :\n1. Choisissez "Options du Conteneur" depuis le menu du conteneur.\n2. En cliquant droit sur l'onglet ou barre d'outils d'une fenêtre de message.
 [Tabs should be used in the following way]
 
 [Use contact list groups for organizing tabs (one window per group)]
@@ -565,7 +565,7 @@ entrant
 [outer]
 sortant
 [Bottom tabs vertical adjustment:]
-Ajustement vertical du bas de l'onglet:
+Ajustement vertical du bas de l'onglet :
 [NOTE: some settings will not affect open containers.]
 Note: certains paramètres n'affecteront pas les conteneurs ouverts.
 [Tab layout tweaks]
@@ -663,7 +663,7 @@ Non
 [Message sending:]
 
 [Window:]
-Fenètre:
+Fenètre :
 [Esc closes sessions (minimizes window, if disabled)]
 
 [Always pop up and activate new windows]
@@ -691,7 +691,7 @@ Réduire la fenêtre à l'envoi
 [History:]
 
 [Notifications:]
-Notifications:
+Notifications :
 [Don't announce when dialog is open]
 
 [Message events]
@@ -1062,7 +1062,7 @@ Fichier reçu
 [Unknown event]
 Évènement inconnu
 [New messages: ]
-Nouveaux messages: 
+Nouveaux messages : 
 [Unknown module or contact]
 
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
@@ -1075,7 +1075,7 @@ Nouveaux messages:
 [%s is typing a message.]
 
 [Last received: %s at %s]
-Dernière réception: le %s à %s
+Dernière réception : le %s à %s
 [%s has entered text.]
 
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
@@ -1118,7 +1118,7 @@ Message de %s
 [signed off.]
 déconnecté.
 [signed on and is now %s.]
-connecté. État: "%s"
+connecté. État : "%s"
 [changed status from %s to %s.]
 est %s (était %s)
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
@@ -1251,7 +1251,7 @@ Page de code
 [A message failed to send successfully.]
 Un message n'a pas été envoyé avec succès.
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
-ATTENTION: Votre message exède le nombre miximum de caractères du protocole. Il sera envoyé en morceaux de %d caractères.
+ATTENTION : Votre message exède le nombre miximum de caractères du protocole. Il sera envoyé en morceaux de %d caractères.
 [The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent.]
 Votre message exède le nombre miximum de caractères du protocole. Seul les %d premiers caractères seront envoyés.
 [Save and close session]
@@ -1267,7 +1267,7 @@ Différer l'envoi
 [Selection copied to clipboard]
 Sélection mise dans le presse-papier
 [Delivery failure: %s]
-Échec d'envoi: %s
+Échec d'envoi : %s
 [The message send timed out]
 Délai d'envoi du message expiré
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
@@ -1277,7 +1277,7 @@ Délai d'envoi du message expiré
 [The selected protocol cannot be forced at this time]
 Le protocole sélectionné ne peut pas être forcé pour le moment
 [Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Attention: vous avez choisi un sous-protocole actuellement hors ligne pour envoyer les messages suivants
+Attention : vous avez choisi un sous-protocole actuellement hors ligne pour envoyer les messages suivants
 [Contact is offline and this protocol does not support sending files to offline users.]
 Contact non connecté. Ce protocole ne supporte pas les envois hors-ligne.
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp
@@ -1380,7 +1380,7 @@ Coréen (Johab)
 [<no skin>]
 
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
-Voulez-vous également lire les modèles de message du thème ?\nAttention: Ceci recouvrira le modèle stocké et peut affecter l'apparence de votre fenêtre de message de manière significative.\nAnnuler pour ne pas charger n'importe quoi.
+Voulez-vous également lire les modèles de message du thème ?\nAttention : Ceci recouvrira le modèle stocké et peut affecter l'apparence de votre fenêtre de message de manière significative.\nAnnuler pour ne pas charger n'importe quoi.
 [Load theme]
 Charger un thème
 [Internal message log]
@@ -1848,7 +1848,7 @@ Vous êtes connu en tant que %s
 [%s kicked %s]
 %s a exclu %s
 [Notice from %s: ]
-Notice de %s: 
+Notice de %s : 
 [The topic is '%s%s']
 Le sujet est '%s%s'
 [ (set by %s on %s)]
@@ -2084,12 +2084,12 @@ Information (10x10)
 Apparence et fonctionnalités des fenêtres de salon
 [Appearance of the message log]
 Apparence du journal des messages
-[Channel operators]
-OP du salon
-[Half operators]
-demi OP
 [Voiced]
 
+[Half operators]
+demi OP
+[Channel operators]
+OP du salon
 [Extended mode 1]
 Mode étendu 1
 [Extended mode 2]
@@ -2183,15 +2183,15 @@ ID unique
 [Nick]
 Pseudo
 [%s: Chat Room (%u user%s)]
-%s: Salon de Chat (%u contact%s)
+%s : Salon de Chat (%u contact%s)
 [%s: Chat Room (%u users%s)]
-%s: Salon de Chat (%u contact%s)
+%s : Salon de Chat (%u contact%s)
 [, event filter active]
 , filtre d'évènement actif
 [%s: Message Session]
-%s: Session de message
+%s : Session de message
 [%s: Message Session (%u users)]
-%s: Session de message (%u usagers)
+%s : Session de message (%u usagers)
 [, %d %s, %d %s idle]
 
 [hours]

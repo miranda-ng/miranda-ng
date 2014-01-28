@@ -2,16 +2,16 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.1.0.6
+;  Version: 2.1.0.7
 ;  Authors: Ivan Rozhuk
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
 
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
-e-mail:
+Courriel :
 [Password:]
-Passe:
+Passe :
 [Create a new Mail.ru account]
 
 [Configuration]
@@ -19,7 +19,7 @@ Configuration
 [Login Server:]
 
 [Port:]
-Port:
+Port :
 [Default]
 Défaut
 [Automatically request authorization on logon]
@@ -49,19 +49,19 @@ Police
 [Summary]
 Résumé
 [Nickname:]
-Pseudo:
+Pseudo :
 [First name:]
-Prénom:
+Prénom :
 [Last name:]
-Nom:
+Nom :
 [Gender:]
-Sexe:
+Sexe :
 [Age:]
-Age:
+Age :
 [from:]
-De:
+De :
 [to:]
-À:
+À :
 [Birthday:]
 
 [Zodiak:]
@@ -69,19 +69,19 @@ De:
 [Location]
 Lieu
 [Country:]
-Pays:
+Pays :
 [State:]
-État:
+État :
 [Search online users only]
 Chercher les utilisateurs en ligne seulement
 [City:]
-Ville:
+Ville :
 [Remember]
 
 [Enable avatars support (loading)]
 
 [Server:]
-Serveur:
+Serveur :
 [Updates check interval, min]
 
 [Return absolute path]
@@ -115,7 +115,7 @@ Serveur:
 [Mail.ru Agent]
 
 [Full e-mail:]
-e-mail:
+Courriel complet :
 [Example: Petrov_Ivan@mail.ru]
 
 [Create a new Mail.ru account using the Mail.ru website]
@@ -499,3 +499,5 @@ Au téléphone
 
 [Dating]
 
+[Mobile]
+Portable

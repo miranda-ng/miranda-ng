@@ -2,14 +2,14 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.0.11
+;  Version: 0.9.0.12
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
 
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
-
+Transparence
 [Window behavior:]
 
 [List sorting:]
@@ -23,11 +23,11 @@ Afficher le nombre de contacts dans un groupe
 [Hide group counts when there are none online]
 Cacher le nombre de contacts quand aucun n'est en ligne
 [1st:]
-1ier:
+1er :
 [2nd:]
-2nd:
+2nd :
 [3rd:]
-3ème:
+3ème :
 [Always on top]
 Toujours visible
 [Hide contact list after]
@@ -39,9 +39,9 @@ Fondu de la liste de contacts
 [Transparent contact list]
 Liste de contact transparente
 [Inactive opacity:]
-Opacité si inactive:
+Opacité si inactive :
 [Active opacity:]
-Opacité si active:
+Opacité si active :
 [Show Avatars]
 Montrer les avatars
 [Animate Avatars]
@@ -57,7 +57,7 @@ Afficher l'état du protocole
 [Settings]
 
 [Background color:]
-Couleur d'arrière-plan:
+Couleur d'arrière-plan :
 [Selection color:]
 
 [Use background bitmap]
@@ -119,13 +119,13 @@ Position
 [Fragment location]
 Position
 [Position:]
-Position:
+Position :
 [Left]
 
 [Top]
 
 [Size:]
-Taille:
+Taille :
 [Width]
 
 [Height]
@@ -213,7 +213,7 @@ Icônes d'état en surimpression
 [Status overlay opacity is 75%]
 Opacité icônes d'état à 75%
 [Show unread emails (if supported)]
-Voir les e-mails non lus (si supporté)
+Voir les courriels non lus (si supporté)
 [Right click opens status menu]
 Le clic droit ouvre le menu "État"
 [Right click opens Miranda menu]
@@ -327,7 +327,7 @@ Activer la sélection translucide
 [Dim idle contacts]
 Estomper les contacts inactifs
 ['Hide Offline' means to hide:]
-"Cacher les Hors ligne" masque:
+"Cacher les Hors ligne" masque :
 [Groups]
 Groupes
 [Draw a line alongside group names]
@@ -337,7 +337,7 @@ Classer les groupes par ordre alphabétique
 [Quicksearch in open groups only]
 Recherche rapide uniquement sur les groupes ouverts
 [Indent groups by:]
-Décaler les contacts de:
+Décaler les contacts de :
 [Visual]
 Visuel
 [Scroll list smoothly]
@@ -349,7 +349,7 @@ millisecondes
 [Hide vertical scrollbar]
 
 [Fade out entire list when:]
-Assombrir complètement la liste si:
+Assombrir complètement la liste si :
 [Single click interface]
 Clic simple
 [Always show status in tooltip]
@@ -419,7 +419,7 @@ Afficher la barre de menu
 [Show title bar]
 Afficher la barre de titre
 [Title bar text:]
-Texte du titre:
+Texte du titre :
 [Tool style main window]
 Fenêtre principale style 'Outil'
 [Minimize to tray]
@@ -431,9 +431,9 @@ Options de transparence
 [Frames]
 Cadres
 [Between frames:]
-Entre les cadres:
+Entre les cadres :
 [After captions:]
-Après les légendes:
+Après les légendes :
 [Gaps]
 transparence
 [Use Non-Layered mode]
@@ -447,11 +447,11 @@ Désactiver les skins
 [Enable Aero Glass (Vista+)]
 Activer Aero Glass (Vista+)
 [Order of items:]
-Ordre des éléments:
+Ordre des éléments :
 [Min row height:]
-Taille mini rangée:
+Taille mini rangée :
 [Row border:]
-Bord rangée:
+Bord rangée :
 [Variable row height]
 Rangées à taille variable
 [Align left items to left]
@@ -463,9 +463,9 @@ Aligner les éléments à droite
 [Down]
 
 [Left margin:]
-Marge gauche:
+Marge gauche :
 [Right margin:]
-Marge droite:
+Marge droite :
 [Compact mode\n(Show avatars and additional text on selected contacts only)]
 
 [Draw border on avatar]
@@ -477,7 +477,7 @@ Arrondir les coins des avatars
 [Ignore size for row height calcs]
 Ignorer cette dimension pour la hauteur des lignes
 [Border color:]
-Coul. bordures:
+Couleur bordures :
 [Custom corner size:]
 
 [Normal overlay icon]
@@ -585,15 +585,15 @@ Ajouter conteneur
 [Remove container]
 Retirer conteneur
 [Vertical align:]
-Align. vertical:
+Align. vertical :
 [Horizontal align:]
-Align. horizontal:
+Align. horizontal :
 [Container type:]
-Type:
+Type :
 [Container width:]
-Largeur:
+Largeur :
 [Container height:]
-Hauteur:
+Hauteur :
 [Layered]
 Surcouchage
 [Move up]
