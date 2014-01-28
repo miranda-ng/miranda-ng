@@ -60,7 +60,7 @@ Chercher/Ajouter des contacts
 [Search:]
 Chercher :
 [E-mail address]
-Adresse éléctronique
+Adresse électronique
 [Name]
 Nom
 [Nick:]
@@ -1166,7 +1166,7 @@ Ou entrer un numéro international entier :
 [Phone can receive SMS text messages]
 Ce téléphone peut recevoir des SMS
 [Add e-mail address]
-Ajouter l'adresse electonique
+Ajouter l'adresse électronique
 [%s: user details]
 %s : Détails du contact
 [%s\nView personal user details and more]
@@ -1660,7 +1660,7 @@ Général
 
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
-Ce contact n'a pas d'adresse éléctronique.
+Ce contact n'a pas d'adresse électronique.
 [Send e-mail]
 Envoyer un courriel
 [&E-mail]
@@ -1885,7 +1885,7 @@ Envoi le lien à
 Délai d'envoi expiré
 ;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail address]
-Éditer l'adresse éléctronique
+Éditer l'adresse électronique
 [Edit phone number]
 Éditer le numéro de téléphone
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
