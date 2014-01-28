@@ -111,9 +111,9 @@ struct ColourOptionsList
 
 static struct ColourOptionsList colourOptionsList[] =
 {
-	{ "CLC",            "BkColour",          CLCGROUP,         LPGENT("Background"),                              DEFAULT_BACKCOLOUR },
-	{ "CLC",            "Rows_BkColour",     CLCLINESGROUP,    LPGENT("Background"),                              DEFAULT_BACKCOLOUR },
-	{ "CLC",            "Frames_BkColour",   CLCFRAMESGROUP,   LPGENT("Background"),                              DEFAULT_BACKCOLOUR },
+	{ "CLC",            "BkColour",          CLCGROUP,         LPGENT("Background"),                              CLCDEFAULT_BKCOLOUR },
+	{ "CLC",            "Rows_BkColour",     CLCLINESGROUP,    LPGENT("Background"),                              CLCDEFAULT_BKCOLOUR },
+	{ "CLC",            "Frames_BkColour",   CLCFRAMESGROUP,   LPGENT("Background"),                              CLCDEFAULT_BKCOLOUR },
 
 	{ "CLC",            "HotTextColour",     CLCCOLOURSGROUP,  LPGENT("Hot text"),                                CLCDEFAULT_MODERN_HOTTEXTCOLOUR },
 	{ "CLC",            "SelTextColour",     CLCCOLOURSGROUP,  LPGENT("Selected text"),                           CLCDEFAULT_MODERN_SELTEXTCOLOUR },
