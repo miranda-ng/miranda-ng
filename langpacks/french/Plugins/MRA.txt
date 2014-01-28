@@ -145,9 +145,9 @@ Délai du popup
 [Closing in %d]
 Fermeture dans %d
 [Title:]
-
+Titre :
 [Message:]
-
+Message :
 [OK]
 OK
 [Cancel]
@@ -303,7 +303,7 @@ Accorder l'autorisation
 
 ;file \protocols\MRA\src\MraIcons.cpp
 [Protocols]
-
+Protocoles
 [MRA]
 
 [Main Menu]

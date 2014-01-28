@@ -160,7 +160,7 @@ Inconnu
 [General]
 Général
 [Protocols]
-
+Protocoles
 [Contacts]
 Contacts
 [Fingerprints]

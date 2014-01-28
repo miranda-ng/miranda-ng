@@ -16,7 +16,6 @@
 [afterwards]
 [Show all contacts]
 [Set birthday:]
-[Title:]
 [Save]
 [Upcoming birthdays]
 [Upcoming age]

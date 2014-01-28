@@ -29,7 +29,7 @@ Pseudo:
 [Display Name:]
 
 [Title:]
-
+Titre :
 [First name:]
 Prénom:
 [Second name:]
@@ -93,13 +93,13 @@ Ou entrer un numéro international entier:
 [Phone can receive SMS text messages]
 Ce téléphone peut recevoir des SMS
 [Add E-Mail]
-Ajouter un e-mail
+Ajouter un courriel
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 
 [Enter a representitive name for the e-mail address here.]
-Indiquez ici un nom représentatif pour l'e-amail.
+Indiquez ici un nom représentatif pour l'adresse électronique.
 [Enter the e-mail address here.]
-Entrez l'adresse e-mail ici.
+Entrez l'adresse électronique ici.
 [Show menu items]
 Afficher le menu
 [Remind me]
@@ -117,9 +117,9 @@ Faire clignoter l'icône
 [Perform check on each startup]
 Lancer la vérification à chaque démarrage
 [Time of last check:]
-Dernière vérif:
+Dernière vérification :
 [Birthday compatibility mode:]
-Compatibilité des anniversaires:
+Compatibilité des anniversaires :
 [Automatically backup and keep protocol based birthdays up to date]
 
 [Play sound]
@@ -157,7 +157,7 @@ Couleurs des popup d'anniversaire
 [Preview]
 Aperçu
 [Homepage:]
-Page web:
+Page web :
 [Add Affiliation]
 Ajouter organisation
 [Add Past]
@@ -177,17 +177,17 @@ Liste des anniv.
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
 
 [Statistics:]
-Statistiques:
+Statistiques :
 [with birthday:]
 
 [female:]
-femme:
+femme :
 [male:]
-homme:
+homme :
 [number of contacts:]
-nombre de contacts:
+nombre de contacts :
 [average age:]
-moyenne d'age:
+moyenne d'age :
 [View]
 
 [Show &during the next]
@@ -279,13 +279,13 @@ Menu du contact
 [Extra Icons]
 Icônes d'accès rapide
 [Replace the following default icons:]
-Remplacer les icônes par défaut suivants:
+Remplacer les icônes par défaut suivants :
 [Homepage]
 
 [Phone]
 Téléphone
 [E-Mail]
-e-mail
+Courriel
 [Gender]
 
 [Misc]
@@ -303,9 +303,9 @@ Ajouter 'Relancer' dans le menu
 [Birthday]
 
 [Age:]
-Age:
+Age :
 [Zodiac:]
-Zodiaque:
+Zodiaque :
 [not found]
 Non trouvé
 [Use global reminder settings.]
@@ -375,7 +375,7 @@ Renommer l'élément
 [Hide Item]
 Cacher  l'élément
 [Show Items:]
-Voir les éléments:
+Voir les éléments :
 [Reset to defaults]
 
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
@@ -394,7 +394,7 @@ Effacer un anniversaire existant
 Non spécifié
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit E-Mail]
-Éditer l'e-mail
+Éditer l'adresse électronique
 [Edit Phone Number]
 Éditer le numéro de téléphone
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
@@ -415,7 +415,7 @@ Voulez-vous vraiment effacer les réglages sélectionnés ?\n\t%s\n\t%s
 Autre
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 [<Unspecified>]
-
+<non spécifié>
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 
@@ -486,7 +486,7 @@ Contact (professionnel)
 [Profile]
 Profil
 [Notes]
-
+Notes
 [Export to file]
 
 [Import from file]
@@ -538,13 +538,13 @@ Mise à jour
 [Goto]
 
 [Fax]
-
+Fax
 [Cellular]
 
 [Custom Phone]
 Téléphone
 [e-mail]
-e-mail
+courriel
 [Down arrow]
 Flèche bas
 [Add]
@@ -641,9 +641,9 @@ Informations avancées
 
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
-Mes notes:
+Mes notes :
 [About:]
-À propos:
+À propos :
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid Description first!]
 Veuillez commencer par entrer une description valide !
@@ -1084,7 +1084,7 @@ Maison automatisée
 '(Contacts Inconnus)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
-Envoyer un e-mail
+Envoyer un courriel
 [Memory allocation error!]
 Erreur d'allocution de mémoire !
 [E-mail (uinfoex)]

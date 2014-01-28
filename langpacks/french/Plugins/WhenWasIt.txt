@@ -75,7 +75,7 @@ OK
 [Manage anniversaries]
 Gestion des fêtes
 [Title:]
-
+Titre :
 [Description:]
 Description:
 [Date:]

@@ -50,7 +50,7 @@ OK
 [Captcha form icon]
 
 [Protocols]
-
+Protocoles
 [VKontakte]
 
 ;file \protocols\VKontakte\src\vk_captcha.cpp

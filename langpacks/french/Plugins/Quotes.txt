@@ -105,7 +105,7 @@ Aperçu
 [&Advanced Settings...]
 
 [Static]
-
+Statique
 [<a>SysLink1</a>]
 
 [Current Rate:]

@@ -1,6 +1,5 @@
 ﻿[Shows a small tooltip above system tray area when a contact status is changed.]
 [Select protocols]
-[Protocols]
 [Prefix protocol name]
 [Misc]
 [Tooltip Notify]

@@ -83,7 +83,7 @@ Exécuter les commandes suivantes suite à un double-clique:
 [Contact]
 
 [Protocols]
-
+Protocoles
 [(Optional) Command Parameters:]
 Lignes de commandes (facultatif):
 [Menu]

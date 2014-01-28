@@ -8,7 +8,6 @@
 [Save search pattern]
 [Auto Close mode]
 [Settings]
-[Title:]
 [Gender]
 [UserID]
 [Container]

@@ -7,7 +7,6 @@
 [Change]
 [Global avatar for %s accounts]
 [Avatar Service]
-[Protocols]
 [Contact Avatars]
 [Own Avatars]
 [No avatar]

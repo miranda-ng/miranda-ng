@@ -10,7 +10,6 @@
 [Edit Host]
 [Label:]
 [Contact]
-[Protocols]
 [Options...]
 [Hosts...]
 [Open log file]

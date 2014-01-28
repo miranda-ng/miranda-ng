@@ -11,7 +11,7 @@
 [Server:]
 Serveur:
 [Language:]
-
+Langage :
 [Visible name:]
 
 [Meet strangers with common interests (separated by commas):]

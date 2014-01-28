@@ -15,7 +15,7 @@
 [Display hidden, ignored or temporary contacts]
 
 [Menus]
-
+Menus
 [Shell Status]
 
 [Shell context menus]

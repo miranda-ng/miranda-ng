@@ -22,8 +22,6 @@
 [%length% - Song length]
 [%player% - Player name]
 [%type% - Media type (Music, Radio, Video, etc.)]
-[Title:]
-[Message:]
 [Other Variables:]
 [Listening to (enabled)]
 [Listening to (disabled)]

@@ -343,7 +343,7 @@ inactive
 [Apply]
 Appliquer
 [Static]
-
+Statique
 [Tab location]
 
 [When using the switch bar, use the following layout]
@@ -1125,7 +1125,7 @@ est %s (était %s)
 [Most recent unread session]
 
 [Paste and send]
-
+Coller et envoyer
 [Contact's messaging prefs]
 
 [Send nudge]
@@ -1850,7 +1850,7 @@ Vous êtes connu en tant que %s
 [Notice from %s: ]
 Notice de %s: 
 [The topic is '%s%s']
-
+Le sujet est '%s%s'
 [ (set by %s on %s)]
 
 [ (set by %s)]
@@ -2075,7 +2075,7 @@ Sujet (10x10)
 [Highlight (10x10)]
 Surligner (10x10)
 [Information (10x10)]
-
+Information (10x10)
 [Group chat windows]
 
 [Group chat log]

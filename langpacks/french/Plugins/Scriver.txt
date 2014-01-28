@@ -177,7 +177,7 @@ Oui
 [No]
 Non
 [&Bold]
-
+&Gras
 [&Italic]
 
 [&Underline]
@@ -297,7 +297,7 @@ Foodnetwork
 [C&lear Log]
 Effacer le journal
 [&Open link]
-
+&Ouvrir le lien
 [&Copy link]
 &Copier le lien
 [Message]
@@ -358,9 +358,9 @@ Bouton de citation
 [Icon overlay]
 Surimpression d'icône
 [Incoming message (10x10)]
-
+Message entrant (10x10)
 [Outgoing message (10x10)]
-
+Message sortant (10x10)
 [Notice (10x10)]
 Note (10x10)
 [Window Icon]
@@ -424,7 +424,7 @@ Sujet (10x10)
 [Highlight (10x10)]
 Surligner (10x10)
 [Information (10x10)]
-
+Information (10x10)
 [Single Messaging]
 
 [Group chats]

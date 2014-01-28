@@ -87,9 +87,9 @@ Modèle:
 [When variable not found, use:]
 Si la variable est vide, utiliser:
 [Title:]
-
+Titre :
 [Message:]
-
+Message :
 [Other Variables:]
 
 [%listening% - Listening to info (as set above)]

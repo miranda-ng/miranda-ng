@@ -1,7 +1,6 @@
 ﻿[Spell checker for the message windows. Uses Hunspell to do the checking.]
 [Replacements]
 [Enable auto-replacements]
-[Language:]
 [Add...]
 [Add auto-replace word]
 [Wrong word:]

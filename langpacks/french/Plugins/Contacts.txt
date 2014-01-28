@@ -31,7 +31,7 @@ Réception de contacts
 [Add to &group:]
 Ajouter au &groupe:
 [&Details]
-
+&Détails
 [Close]
 Fermer
 [Contacts send error]

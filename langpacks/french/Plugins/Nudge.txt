@@ -75,7 +75,7 @@ Tremblement de la liste de contacts
 [Width of move]
 Force du mouvement
 [Static]
-
+Statique
 [Shaking Message Window Options]
 Tremblement de la fenêtre de message
 ;file \plugins\Nudge\src\main.cpp

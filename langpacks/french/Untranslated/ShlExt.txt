@@ -2,7 +2,6 @@
 [Display contacts in their assigned groups (if any)]
 [Only if/when the contact list is using them]
 [Display hidden, ignored or temporary contacts]
-[Menus]
 [Shell Status]
 [Shell context menus]
 [Do not display the profile name in use]

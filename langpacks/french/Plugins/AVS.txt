@@ -108,7 +108,7 @@ Contact sans avatar
 [Contacts]
 Contacts
 [Protocols]
-
+Protocoles
 [Contact Avatars]
 
 [Own Avatars]

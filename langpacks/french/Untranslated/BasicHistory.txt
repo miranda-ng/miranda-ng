@@ -59,7 +59,6 @@
 [Minus in export]
 [Default history events]
 [Me]
-[Invalid Message]
 [%s Files (*.%s)]
 [Import]
 [Export]

@@ -9,9 +9,9 @@
 
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
-Identifiant:
+Identifiant :
 [Password:]
-Passe:
+Passe :
 [Create a new ICQ account]
 
 [Enter an authorization request]
@@ -23,7 +23,7 @@ Passe:
 [Enter ICQ Password]
 Entrer le passe ICQ
 [Enter a password for UIN %d:]
-Entrez un mot de passe pour l'UIN %d:
+Entrez un mot de passe pour l'UIN %d :
 [Remember this session password]
 
 [OK]
@@ -45,11 +45,11 @@ Créer un nouveau compte ICQ sur le site web ICQ
 [Login Server:]
 
 [Port:]
-Port:
+Port :
 [Default]
 Défaut
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
-Note: Saisir 0 pour utiliser un port aléatoire. Mettez 80 ou 433 si vous avez des problèmes pour vous connecter au travers d'un serveur Proxy.
+Note : Saisir 0 pour utiliser un port aléatoire. Mettez 80 ou 433 si vous avez des problèmes pour vous connecter au travers d'un serveur Proxy.
 [Secure Connection (SSL)]
 
 [Secure (MD5) login]
@@ -143,7 +143,7 @@ Autres réglages
 [Allow others to view my Online / Offline status from the web (Web Aware)]
 Permettre que l'on voit mon état En ligne / Hors ligne depuis le Web
 [Allow others to view my primary e-mail address]
-Permettre que l'on voit mon adresse e-mail primaire
+Permettre que l'on voit mon adresse électronique primaire
 [Only reply to status message requests from users on my contact list]
 Répondre aux demandes de message d'état seulement à ma liste de contacts
 [Only reply to status message request from visible contacts]
@@ -185,69 +185,69 @@ Utiliser les icônes du système
 [Use default colors]
 Couleurs par défaut
 [UIN:]
-UIN:
+UIN :
 [External IP:]
-IP externe:
+IP externe :
 [Internal IP:]
-IP interne:
+IP interne :
 [Protocol Version:]
-Protocole version:
+Protocole version :
 [User Client:]
-Client:
+Client :
 [Online since:]
 
 [System up since:]
-Démarré depuis:
+Démarré depuis :
 [Idle since:]
-Inactif depuis:
+Inactif depuis :
 [Status:]
 
 [Summary]
 Résumé
 [Nickname:]
-Pseudo:
+Pseudo :
 [First name:]
-Prénom:
+Prénom :
 [Last name:]
-Nom:
+Nom :
 [E-mail:]
-e-mail:
+Courriel :
 [Gender:]
-Sexe:
+Sexe :
 [Age:]
-Age:
+Age :
 [Marital status:]
-Situation:
+Situation :
 [Keywords:]
-Mots-clés:
+Mots-clés :
 [Work]
 Travail
 [Occupation:]
 
 [Company:]
-Entreprise:
+Entreprise :
 [Department:]
-Département:
+Département :
 [Position:]
-Position:
+Position :
 [Organization:]
-Organisation:
+Organisation :
 [Location]
 Lieu
 [Language:]
-
+Langage :
 [Country:]
-Pays:
+Pays :
 [State:]
-État:
+État :
 [City:]
-Ville:
+Ville :
 [Background info]
 Informations
 [Interests]
 Intérêts
 [Category:]
-Catégorie:
+Catégorie :
 [Past]
 
 [Homepage]
@@ -259,7 +259,7 @@ Chercher les utilisateurs en ligne seulement
 [Manage ICQ Server Contacts]
 Gestion des contacts du serveur ICQ
 [Select contacts to store:]
-Contacts à sauvegarder:
+Contacts à sauvegarder :
 [Synchronize]
 Synchroniser
 [Custom Status "%s" Details]
@@ -267,9 +267,9 @@ Synchroniser
 [Closing in %d]
 Fermeture dans %d
 [Title:]
-
+Titre :
 [Message:]
-
+Message :
 [Retrieving custom status details...]
 Récupération de l'état personnalisé...
 [&Save changes]
@@ -279,7 +279,7 @@ Confirmer le mot de passe
 [Please re-type your new password:]
 Veuillez retaper votre mot de passe:
 [Enter your current password:]
-Entrez le mot de passe actuel:
+Entrez le mot de passe actuel :
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 
@@ -306,11 +306,11 @@ Connexion échouée.\nVous avez été rejeté du serveur pour une raison inconnu
 [Connection failed.\nSecure (MD5) login is not supported on this account.]
 
 [Connection failed.\nUnknown error during sign on: 0x%02x]
-Connexion échouée.\nErreur inconnue lors de l'authentification: 0x%02x
+Connexion échouée.\nErreur inconnue lors de l'authentification : 0x%02x
 [You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
 Vous avez été déconnecté du réseau ICQ parce que vous vous êtes authentifié avec un autre client et le même numéro ICQ.
 [Unknown runtime error: 0x%02x]
-Erreur d'exécution inconnue: 0x%02x
+Erreur d'exécution inconnue : 0x%02x
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Une migration de serveur a échoué car le serveur a envoyé des données invalides. Vous devez vous reconnecter manuellement.
@@ -483,7 +483,7 @@ Cambodge
 [Cameroon]
 Cameroun
 [Canada]
-
+Canada
 [Canary Islands]
 Îles Canaries
 [Cape Verde]
@@ -687,7 +687,7 @@ Micronésie, États Fédérés de
 [Moldova]
 Moldavie
 [Monaco]
-
+Monaco
 [Mongolia]
 Mongolie
 [Montserrat]
@@ -793,7 +793,7 @@ Sénégal
 [Seychelles]
 Seychelles
 [Sierra Leone]
-
+Sierra Leone
 [Singapore]
 Singapour
 [Slovakia]
@@ -889,7 +889,7 @@ Yémen
 [Yugoslavia]
 Yougoslavie
 [Serbia]
-
+Serbie
 [Kosovo, Republic of]
 
 [Montenegro]
@@ -1946,15 +1946,15 @@ Vous n'êtes plus connecté au réseau ICQ. Vous devez être en ligne afin de me
 
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
-Entrez un mot de passe pour UIN %u:
+Entrez un mot de passe pour UIN %u :
 ;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [ (DC Established)]
 
 [ScreenName:]
-Nom affiché:
+Nom affiché :
 [<not specified>]
 <non spécifié>
 [Member since:]
-Inscrit depuis:
+Inscrit depuis :
 [%s Details]
 %s détails

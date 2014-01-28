@@ -29,7 +29,7 @@ Les autres
 [Typing]
 Écrit
 [Protocols]
-
+Protocoles
 [Suppress notifications upon connection for]
 Ne pas notifier à la connexion pendant:
 [sec]

@@ -43,7 +43,7 @@ Ajouter au menu de la liste de contacts
 [Note transparency]
 
 [Send Reminders through E-mail/SMS:]
-Envoyer les Rappels par e-mail/SMS:
+Envoyer les Rappels par Courriel/SMS:
 [Open links with this program instead:]
 
 [Reset to defaults]
@@ -53,13 +53,13 @@ Envoyer les Rappels par e-mail/SMS:
 [Add Reminder]
 Ajout d'un Rappel
 [Trigger On Time && Date:]
-Heure && Date d'alerte:
+Heure && Date d'alerte :
 [Date]
 
 [Time]
 Heure
 [Reminder Note:]
-Note de Rappel:
+Note de Rappel :
 [None]
 Aucun
 [Daily]
@@ -261,7 +261,7 @@ Eau
 [Are you sure you want to delete this note?]
 
 [Notes]
-
+Notes
 [Note text]
 Note/Info
 [Date/Title]

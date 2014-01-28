@@ -33,7 +33,7 @@ Sens du messsage
 [Deep search]
 
 [Static]
-
+Statique
 [Color Select]
 
 [Incoming messages]

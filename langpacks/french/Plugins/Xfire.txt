@@ -300,7 +300,7 @@ Mmm... Manger.
 [Set &Nickname]
 
 [Protocols]
-
+Protocoles
 [XFire game icon]
 
 [XFire voice icon]

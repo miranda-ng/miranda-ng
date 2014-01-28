@@ -65,7 +65,7 @@ Page web:
 [Ignore]
 Ignorer
 [Static]
-
+Statique
 [Key Generation dialog]
 
 [Cancel]

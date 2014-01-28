@@ -6,7 +6,6 @@
 [PGP]
 [GPG]
 [Reset All]
-[Protocols]
 [Split Messages]
 [Online:]
 [Offline:]

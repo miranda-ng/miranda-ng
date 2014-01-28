@@ -13,7 +13,6 @@
 [Mark users you want to invite to a new chat]
 [New chat's title:]
 [Captcha form icon]
-[Protocols]
 [VKontakte]
 [Enter the text you see]
 [Participants]

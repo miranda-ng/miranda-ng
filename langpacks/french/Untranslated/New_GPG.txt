@@ -21,7 +21,6 @@
 [The new public key was received]
 [Import key]
 [Accept and enable encryption]
-[Static]
 [Key Generation dialog]
 [Key type:]
 [Key length:]

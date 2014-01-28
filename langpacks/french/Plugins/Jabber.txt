@@ -17,17 +17,17 @@ OK
 [Cancel]
 Annuler
 [Type:]
-Type:
+Type :
 [User:]
-Contact:
+Contact :
 [Domain/Server:]
 
 [Password:]
-Passe:
+Passe :
 [Save password]
 
 [Resource:]
-Ressource:
+Ressource :
 [Register new user]
 Créer ce compte
 [Use custom connection host and port:]
@@ -53,17 +53,17 @@ Téléchargement
 [Jabber]
 
 [Username:]
-Identifiant:
+Identifiant :
 [Change password]
 Changer le mot de passe
 [Priority:]
-Priorité:
+Priorité :
 [Use hostname as resource]
 
 [List of public servers]
 Liste des serveurs publics
 [Port:]
-Port:
+Port :
 [Use SSL]
 Connexion SSL
 [Use TLS]
@@ -75,13 +75,13 @@ Désenregistrer
 [Manually specify connection host]
 Indiquer l'hôte manuellement
 [Host:]
-Hôte:
+Hôte :
 [Keep connection alive]
 Garder la connection active
 [Automatically delete contacts not in my roster]
 
 [User directory:]
-Adresse utilisateur:
+Adresse utilisateur :
 [Language for human-readable resources:]
 
 [File Transfer]
@@ -95,7 +95,7 @@ Définir une adresse externe
 [Miscellaneous]
 Divers
 [Hint:]
-Info:
+Info :
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Essayer de tout décocher ci-dessous si vous rencontrez des problèmes avec l'envoi de fichier (surtout dans le cas de gros fichiers).
 [Jabber Account Registration]
@@ -103,7 +103,7 @@ Enregistrement d'un compte Jabber
 [Jabber Form]
 
 [Instruction:]
-Instruction:
+Instruction :
 [Submit]
 Soumettre
 [Next]
@@ -119,51 +119,51 @@ Terminé
 [Save password permanently]
 
 [Address1:]
-Adresse1:
+Adresse1 :
 [Address2:]
-Adresse2:
+Adresse2 :
 [City:]
-Ville:
+Ville :
 [State:]
-État:
+État :
 [ZIP:]
-Code postal:
+Code postal :
 [Country:]
-Pays:
+Pays :
 [Full name:]
 
 [Nickname:]
-Pseudo:
+Pseudo :
 [First name:]
-Prénom:
+Prénom :
 [Middle:]
-Altern:
+Altern :
 [Last name:]
-Nom:
+Nom :
 [Date of birth:]
-Anniversaire:
+Anniversaire :
 [YYYY-MM-DD]
 AAAA-MM-DD
 [Gender:]
-Sexe:
+Sexe :
 [Occupation:]
 
 [Homepage:]
-Page web:
+Page web :
 [Company:]
-Entreprise:
+Entreprise :
 [Department:]
-Département:
+Département :
 [Title:]
-
+Titre :
 [E-mail:]
-e-mail:
+Courriel :
 [Phone:]
-Téléphone:
+Téléphone :
 [Jabber vCard: Add Email Address]
-Détails Jabber: Ajout d'un e-mail
+Détails Jabber : Ajout d'un courriel
 [Email address:]
-e-mail:
+Courriel :
 [Home]
 
 [Work]
@@ -175,11 +175,11 @@ Travail
 [Jabber vCard: Add Phone Number]
 Détails Jabber: Ajout d'un téléphone
 [Phone number:]
-Téléphone:
+Téléphone :
 [Voice]
 
 [Fax]
-
+Fax
 [Pager]
 
 [Text/Messaging]
@@ -203,23 +203,23 @@ Charger
 [Delete]
 Effacer
 [Description:]
-Description:
+Description :
 [Change Password]
 Changer le mot de passe
 [Current Password:]
-Passe actuel:
+Passe actuel :
 [New Password:]
-Nouveau passe:
+Nouveau passe :
 [Confirm New Password:]
-Vérifier le passe:
+Vérifier le passe :
 [Create or Join group chat]
 
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 
 [Conference server:]
-Serveur du chat:
+Serveur du chat :
 [Room:]
-Salon:
+Salon :
 [Recently visited chatrooms:]
 
 [Bookmarks]
@@ -235,7 +235,7 @@ Liste des JID
 [<room jid>\nSend group chat invitation.]
 
 [Other JID:]
-Autre ID:
+Autre ID :
 [Add]
 Ajouter
 [Invitation reason:]
@@ -275,9 +275,9 @@ Lien
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
 
 [Room JID/ URL:]
-Salon/URL:
+Salon/URL :
 [Bookmark Name:]
-Nom du favori:
+Nom du favori :
 [Privacy Lists]
 
 [Privacy Lists\nFlexible way to configure visibility and more.]
@@ -311,9 +311,9 @@ Nom du favori:
 [Privacy rule]
 Règle
 [If:]
-Si:
+Si :
 [Then:]
-et:
+et :
 [following stanza types:]
 
 [Messages]
@@ -325,9 +325,9 @@ Messages
 [Outgoing presence]
 
 [New privacy list name:]
-Nom de la nouvelle liste:
+Nom de la nouvelle liste :
 [Enter the name of the new list:]
-Nom de la nouvelle liste:
+Nom de la nouvelle liste :
 [Service Discovery]
 
 [View as tree]
@@ -339,11 +339,11 @@ Favoris
 [Refresh]
 
 [JID:]
-JID:
+JID :
 [Node:]
 
 [Account type:]
-Type de compte:
+Type de compte :
 [Login server:]
 
 [Register account now]
@@ -363,7 +363,7 @@ Enregistrer le compte
 [Set affiliation]
 
 [Status message:]
-Message d'état:
+Message d'état :
 [Chat options]
 
 [Alternate nick:]
@@ -1094,7 +1094,7 @@ Chargement...
 [transport]
 
 [Notes]
-
+Notes
 [Multi-User Conference]
 
 [Agents list]
@@ -1166,7 +1166,7 @@ Serveur
 [Deny Queries]
 
 [Protocols]
-
+Protocoles
 [Dialogs]
 
 [Discovery]
@@ -1772,7 +1772,7 @@ Changements d'état
 [Don't notify history messages]
 
 [JID]
-JID 
+JID
 [Group]
 Groupe
 [Subscription]
@@ -2186,9 +2186,9 @@ Seules les images JPG, GIF, et BMP de moins de 40ko sont supportées.
 [Jabber vCard]
 Détails Jabber
 [Jabber vCard: Edit Email Address]
-Détails Jabber: Éditer l'e-mail
+Détails Jabber : Éditer l'adresse électronique
 [Jabber vCard: Edit Phone Number]
-Détails Jabber: Éditer téléphone
+Détails Jabber : Éditer le numéro de téléphone
 [Contacts]
 Contacts
 [Note]

@@ -167,7 +167,7 @@ Défaut
 [Help]
 Aide
 [Open Folder]
-
+Ouvrir dossier
 [Description off]
 
 [Description on]
@@ -195,7 +195,7 @@ Flèche bas
 [Credits]
 
 [< Copyright]
-
+< Crédits
 [Copyright]
 
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
@@ -218,7 +218,7 @@ Fenêtre
 [File Transfer]
 Transfert de fichiers
 [E-mail]
-e-mail
+Courriel
 [FTP File]
 
 [ImageShack]

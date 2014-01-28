@@ -22,9 +22,9 @@ Demande d'autorisation
 [Open contact's chat window]
 Ouvrir la fenêtre de discussion du contact
 [Custom name:]
-Nom à afficher:
+Nom à afficher :
 [Group:]
-Groupe:
+Groupe :
 [Options]
 Paramètres
 [Authorization request]
@@ -58,9 +58,9 @@ Démarrer en mode service avec
 [Find/Add contacts]
 Chercher/Ajouter des contacts
 [Search:]
-Chercher:
+Chercher :
 [E-mail address]
-Email 
+Adresse éléctronique
 [Name]
 Nom
 [Nick:]
@@ -292,7 +292,7 @@ Description :
 [Author(s):]
 Auteur(s) :
 [E-mail:]
-Email :
+Courriel :
 [Homepage:]
 Page web :
 [Unique ID:]
@@ -557,7 +557,7 @@ Fermeture dans %d
 [&Emoticons]
 
 [&Bold]
-
+&Gras
 [&Italic]
 
 [&Color]
@@ -864,11 +864,11 @@ Poignée de redimension
 [Contact list:]
 Liste de contacts :
 [If window is partially covered, bring it to front]
-
+Si la fenêtre est partiellement couverte, l'amener au premier plan
 [Window:]
 Fenètre :
 [Contact list background:]
-Arrière-plan de la liste de contacts
+Arrière-plan de la liste de contacts :
 [&Main menu]
 &Menu principal
 [&Status]
@@ -941,7 +941,7 @@ Reprendre tous
 [Save as...]
 Enregistrer sous...
 [Auto rename]
-
+Renommage automatique
 [Skip]
 Passer
 [Cancel transfer]
@@ -973,7 +973,7 @@ Réception des fichiers
 [Received files folder:]
 Dossier de réception :
 [Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
-
+Variables autorisées : %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
 [Auto-accept incoming files from people on my contact list]
 Accepter automatiquement les fichiers provenant de la liste de contacts
 [Minimize the file transfer window]
@@ -1096,7 +1096,7 @@ Réessayer
 [Message session]
 Session message
 [&Details]
-
+&Détails
 [Message window event log]
 Zone de texte de la Fenêtre
 [Show names]
@@ -1122,7 +1122,7 @@ Derniers échanges
 [Show formatting]
 
 [Send typing notifications to the following users when you are typing a message to them:]
-Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné:
+Envoyer des notifications aux usagers suivants quand vous tapez un message qui leur est destiné :
 [Show typing notifications when a user is typing a message]
 Afficher des notifications quand un contact tape un message
 [Update inactive message window icons when a user is typing]
@@ -1134,15 +1134,15 @@ Signaler dans le systray et dans la liste de contacts
 [Show balloon popup]
 Afficher un popup
 [Save the window position for each contact]
-
+Sauvegarder la position de la fenêtre pour chaque contact
 [Message window behavior:]
 
 [Messaging:]
 
 [&Open link]
-
+&Ouvrir le lien
 [Paste and send]
-
+Coller et envoyer
 [Delete]
 Effacer
 ;file \src\core\stduihist\resource.rc
@@ -1166,7 +1166,7 @@ Ou entrer un numéro international entier :
 [Phone can receive SMS text messages]
 Ce téléphone peut recevoir des SMS
 [Add e-mail address]
-Ajouter l'email
+Ajouter l'adresse electonique
 [%s: user details]
 %s : Détails du contact
 [%s\nView personal user details and more]
@@ -1218,7 +1218,7 @@ Fuseau horaire :
 [Local time:]
 Heure locale :
 [Set custom time zone]
-
+Personnalisez le fuseau horaire
 [Company:]
 Entreprise :
 [Department:]
@@ -1262,7 +1262,7 @@ Ajouter le contact à la liste
 [%s requested authorization\n%s on %s]
 
 [Feature is not supported by protocol]
-
+Cette fonctionnalité n'est pas supportée par le protocole
 ;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s message]
 &Message d'état de "%s"
@@ -1297,7 +1297,7 @@ Occupééééé
 [Join chat]
 Joindre un salon
 [Open chat window]
-
+Ouvrir la fenêtre de discussion
 ;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
@@ -1532,7 +1532,7 @@ Sujet (10x10)
 [Highlight (10x10)]
 Surligner (10x10)
 [Information (10x10)]
-
+Information (10x10)
 [Messaging]
 Envoi de message
 [Group chats]
@@ -1660,11 +1660,11 @@ Général
 
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
-Ce contact n'a pas d'adresse email.
+Ce contact n'a pas d'adresse éléctronique.
 [Send e-mail]
-Envoyer un email
+Envoyer un courriel
 [&E-mail]
-
+&Courriel
 ;file \src\core\stdfile\file.cpp
 [File from %s]
 Fichier de %s
@@ -1712,7 +1712,7 @@ Ce fichier n'a pas subi d'analyse anti-virus. Êtes-vous certain(e) de vouloir l
 [File received]
 Fichier reçu
 [of]
-
+de
 [Request sent, waiting for acceptance...]
 Demande envoyée, attente d'une réponse...
 [Waiting for connection...]
@@ -1762,7 +1762,7 @@ Transfert et analyse de virus achevés
 Sortant
 ;file \src\core\stdhelp\about.cpp
 [< Copyright]
-
+< Crédits
 ;file \src\core\stdhelp\help.cpp
 [&About...]
 À &propos...
@@ -1780,9 +1780,9 @@ Inactif
 Délai d'envoi du message expiré
 ;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
-
+Message entrant (10x10)
 [Outgoing message (10x10)]
-
+Message sortant (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Dernier message reçu le %s à %s
@@ -1885,7 +1885,7 @@ Envoi le lien à
 Délai d'envoi expiré
 ;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail address]
-Éditer l'adresse email
+Éditer l'adresse éléctronique
 [Edit phone number]
 Éditer le numéro de téléphone
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -1897,7 +1897,7 @@ Principal
 [Custom %d]
 %d personnalisé
 [Fax]
-
+Fax
 [Mobile]
 Portable
 [Work phone]
@@ -1922,7 +1922,7 @@ Travail
 [Background info]
 Informations
 [Notes]
-
+Notes
 ;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Propriétaire
@@ -2009,7 +2009,7 @@ Vous êtes connu en tant que %s
 [Notice from %s: ]
 Notice de %s :\s
 [The topic is '%s%s']
-
+Le sujet est '%s%s'
 [ (set by %s on %s)]
 
 [ (set by %s)]
@@ -2052,9 +2052,9 @@ Informations dans %s
 [Notice from %s: %s]
 Notice de %s: %s
 [The topic is '%s']
-
+Le sujet est '%s'
 [The topic is '%s' (set by %s)]
-
+Le sujet est '%s' (defini par %s)
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]
@@ -2086,7 +2086,7 @@ Pseudo
 [FirstName]
 Prénom
 [E-mail]
-Email
+Courriel
 [LastName]
 Nom
 [Username]
@@ -2106,27 +2106,27 @@ Nom Prénom
 Menus
 ;file \src\modules\clist\genmenuopt.cpp
 [Menus]
-
+Menus
 [Customize]
 Apparence
 ;file \src\modules\clist\groups.cpp
 [New group]
-
+Nouveau groupe
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
-
+Etes-vous sûr de vouloir supprimer le groupe '% s'? Cette opération ne peut être annulée.
 [Delete group]
 Effacer un groupe
 [You already have a group with that name. Please enter a unique name for the group.]
 Nom de groupe déjà existant, veuillez en choisir un autre.
 [Rename group]
-
+Renommer un groupe
 [This group]
 Ce groupe
 ;file \src\modules\clist\keyboard.cpp
 [Show/Hide contact list]
 
 [Read message]
-
+Lire le message
 [Open Options page]
 
 [Open logging options]
@@ -2146,7 +2146,7 @@ Ce groupe
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
-
+Miranda est incapable d'ouvrir '% s' parce que vous n'avez pas de plugins de profil installés.\nVous devez installer dbx_mmap.dll
 [No profile support installed!]
 Pas de support de profil installé !
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
@@ -2165,7 +2165,7 @@ Miranda ne comprend pas ce profil !
 [Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
 
 [This change is known to be safe.]
-
+Ce changement est connu pour être sûr.
 [This change is known to be potentially hazardous.]
 
 [This change is not known to be safe.]
@@ -2179,7 +2179,6 @@ Miranda ne comprend pas ce profil !
 
 [Contacts: ]
 Contacts :
-
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 
@@ -2210,11 +2209,11 @@ Créée
 [Modified]
 
 [Manage your Miranda NG profile]
-
+Gérez votre profil Miranda NG
 [My profiles]
 
 [New profile]
-
+Nouveau profil
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
 [Chat activity]
 
@@ -2342,7 +2341,7 @@ Options de Miranda NG
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 
 [Fatal error]
-
+Erreur fatale
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 
 ['%s' is disabled, re-enable?]
@@ -2361,9 +2360,9 @@ Impossible de lancer aucune des listes de contacts installées. Vos préférence
 [Version]
 Version
 [Miranda NG must be restarted to apply changes for these plugins:]
-
+Miranda NG doit être redémarré pour appliquer les modifications de ces plugins :
 [Do you want to restart it now?]
-
+Voulez-vous redémarrer maintenant?
 [Plugins]
 Plugins
 ;file \src\modules\protocols\protoopts.cpp
@@ -2408,7 +2407,7 @@ Renommer
 [Configure]
 Configurer
 [Upgrade]
-
+Mise à jour
 [Account %s is being disabled]
 
 [Account is online. Disable account?]
@@ -2416,7 +2415,7 @@ Configurer
 [Account %s is being deleted]
 Le compte %s est supprimé.
 [You need to disable plugin to delete this account]
-
+Vous devez désactiver le plugin pour supprimer ce compte
 [&Accounts...]
 &Comptes...
 ;file \src\modules\skin\hotkey_opts.cpp
@@ -2490,7 +2489,7 @@ Plugin actif
 [Unloaded plugin]
 Plugin non chargé
 [Show/Hide]
-
+Afficher/Masquer
 [Exit]
 Quitter
 [Leave chat]
@@ -2553,7 +2552,7 @@ Avatars
 
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
-
+<non spécifié>
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
 Non spécifié
@@ -2614,7 +2613,7 @@ Bhoutan
 [Bolivia]
 Bolivie
 [Bonaire, Sint Eustatius and Saba]
-
+Bonaire, Saint-Eustache et Saba
 [Bosnia and Herzegovina]
 Bosnie et Herzégovine
 [Botswana]
@@ -2624,7 +2623,7 @@ Botswana
 [Brazil]
 Brésil
 [British Indian Ocean Territory]
-
+Territoire britannique de l'océan Indien
 [Brunei]
 Brunei
 [Bulgaria]
@@ -2638,7 +2637,7 @@ Cambodge
 [Cameroon]
 Cameroun
 [Canada]
-
+Canada
 [Cape Verde]
 Îles du Cap-Vert
 [Cayman Islands]
@@ -2688,7 +2687,7 @@ Dominique
 [Dominican Republic]
 République Dominicaine
 [East Timor]
-
+Timor oriental
 [Ecuador]
 Équateur
 [Egypt]
@@ -2718,7 +2717,7 @@ Guyane Française
 [French Polynesia]
 Polynésie Française
 [French Southern and Antarctic Lands]
-
+Terres Australes et Antarctiques françaises
 [Gabon]
 Gabon
 [Gambia]
@@ -2744,7 +2743,7 @@ Guadeloupe
 [Guatemala]
 Guatemala
 [Guernsey]
-
+Guernesey
 [Guinea]
 Guinée
 [Guinea-Bissau]
@@ -2774,7 +2773,7 @@ Irak
 [Ireland]
 Irlande
 [Isle of Man]
-
+Ile de Man
 [Israel]
 Israël
 [Italy]
@@ -2784,7 +2783,7 @@ Jamaïque
 [Japan]
 Japon
 [Jersey]
-
+Jersey
 [Jordan]
 Jordanie
 [Kazakhstan]
@@ -2794,9 +2793,9 @@ Kenya
 [Kiribati]
 Kiribati
 [North Korea]
-
+Corée du Nord
 [South Korea]
-
+Corée du Sud
 [Kuwait]
 Koweït
 [Kyrgyzstan]
@@ -2822,7 +2821,7 @@ Luxembourg
 [Macau]
 Macao
 [Macedonia]
-
+Macédoine
 [Madagascar]
 Madagascar
 [Malawi]
@@ -2852,7 +2851,7 @@ Micronésie, États Fédérés de
 [Moldova]
 Moldavie
 [Monaco]
-
+Monaco
 [Mongolia]
 Mongolie
 [Montenegro]
@@ -2888,7 +2887,7 @@ Nigéria
 [Norfolk Island]
 Île Norfolk
 [Northern Mariana Islands]
-
+Îles Mariannes du Nord
 [Norway]
 Norvège
 [Oman]
@@ -2928,9 +2927,9 @@ Russie
 [Rwanda]
 Rwanda
 [Saint Barthelemy]
-
+Saint-Barthélemy
 [Saint Helena, Ascension and Tristan da Cunha]
-
+Sainte-Hélène, Ascension et Tristan da Cunha
 [Saint Kitts and Nevis]
 Saint Kitts and Nevis
 [Saint Lucia]
@@ -2942,7 +2941,7 @@ Saint Pierre et Miquelon
 [Saint Vincent and the Grenadines]
 Saint Vincent et les Grenadines
 [Samoa]
-
+Samoa
 [San Marino]
 Saint Marin
 [Sao Tome and Principe]
@@ -2952,11 +2951,11 @@ Arabie Saoudite
 [Senegal]
 Sénégal
 [Serbia]
-
+Serbie
 [Seychelles]
 Seychelles
 [Sierra Leone]
-
+Sierra Leone
 [Singapore]
 Singapour
 [Sint Maarten (Dutch part)]
@@ -2974,7 +2973,7 @@ Afrique du Sud
 [South Georgia and the South Sandwich Islands]
 
 [South Sudan]
-
+Sud-Soudan
 [Spain]
 Espagne
 [Sri Lanka]
@@ -2984,7 +2983,7 @@ Soudan
 [Suriname]
 Surinam
 [Svalbard and Jan Mayen]
-
+Svalbard et Jan Mayen
 [Swaziland]
 Swaziland
 [Sweden]
@@ -3044,9 +3043,9 @@ Venezuela
 [Vietnam]
 Viêt Nam
 [Virgin Islands (British)]
-
+Îles Vierges (britanniques)
 [Virgin Islands (United States)]
-
+Îles Vierges (États-Unis)
 [Wallis and Futuna]
 Wallis et Futuna
 [Western Sahara]

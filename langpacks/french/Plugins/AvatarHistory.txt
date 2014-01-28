@@ -19,9 +19,9 @@ Effacer cette entrée et l'image
 [Avatar History]
 Historique des avatars
 [Static]
-
+Statique
 [Open Folder]
-
+Ouvrir dossier
 [Store this user's old avatars in disk]
 Sauver sur le disque (pour ce contact)
 [Log this user's avatars changes to history]
@@ -31,7 +31,7 @@ Popup pour ce contact
 [OK]
 OK
 [Protocols]
-
+Protocoles
 [Enable tracking for these protocols:]
 Surveiller les protocoles suivants:
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]

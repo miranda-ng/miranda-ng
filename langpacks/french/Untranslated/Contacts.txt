@@ -2,7 +2,6 @@
 [&User menu]
 [&History]
 [&Select All]
-[&Details]
 [Popup]
 [Send Message]
 [Contacts received from]

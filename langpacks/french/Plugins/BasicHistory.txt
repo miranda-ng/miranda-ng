@@ -181,7 +181,7 @@ Système
 [Me]
 
 [Invalid Message]
-
+Message invalide
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
 

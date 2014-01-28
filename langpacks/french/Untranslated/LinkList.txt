@@ -8,7 +8,6 @@
 [Mail addresses only]
 [Web addresses only]
 [Deep search]
-[Static]
 [Color Select]
 [Plugin Default]
 [Use Miranda Settings]
