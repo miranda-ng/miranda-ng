@@ -1617,6 +1617,8 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Фон списка
 [Global]
 Глобальные
+[Contact List]
+Список контактов
 [Standard crypto provider]
 Поставщик шифрования по умолчанию
 [User has not registered an e-mail address]

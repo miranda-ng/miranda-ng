@@ -265,6 +265,8 @@
 Удаляет все настройки, относящиеся к указанному модулю
 [int 0]
 целочисленный 0
+[System]
+Система
 [All protocols]
 Все протоколы
 [Protocol]
@@ -557,6 +559,7 @@ UTF16+сигнатура
 Упакованная структура
 [Registered actions]
 Зарегистрированные действия
+; Actman30
 [No Description]
 Нет описания
 [Function call]
@@ -685,6 +688,7 @@ UTF16+сигнатура
 Выбрать для первого запуска
 [Double click on the CList]
 Двойной щелчок по списку контактов
+; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Текстовый редактор
 [Script]

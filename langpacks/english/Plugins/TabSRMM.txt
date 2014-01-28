@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.0
+;  Version: 3.3.0.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1064,9 +1064,9 @@
 [Group chat log]
 [Appearance and functionality of chat room windows]
 [Appearance of the message log]
-[Channel operators]
-[Half operators]
 [Voiced]
+[Half operators]
+[Channel operators]
 [Extended mode 1]
 [Extended mode 2]
 [Selection background]

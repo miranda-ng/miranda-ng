@@ -1,5 +1,4 @@
-﻿[Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
-[Webview]
+﻿[Webview]
 [Update data every]
 [Delay update on start]
 [Hide icon on status bar]

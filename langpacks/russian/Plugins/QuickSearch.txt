@@ -239,6 +239,7 @@ ID клиента
 Неизвестный
 [Stay on Top]
 Поверх всех окон
+; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Текстовый редактор
 [Wrap Text]

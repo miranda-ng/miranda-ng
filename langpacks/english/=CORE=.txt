@@ -839,6 +839,7 @@
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 ;file \src\core\stdclist\src\cluiopts.cpp
+[Contact List]
 ;file \src\core\stdcrypt\encrypt.cpp
 [Standard crypto provider]
 ;file \src\core\stdemail\email.cpp

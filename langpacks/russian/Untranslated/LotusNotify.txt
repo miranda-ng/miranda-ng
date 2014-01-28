@@ -1,5 +1,4 @@
-﻿[Notify about new mail in Lotus Database]
-[Show again if still unread]
+﻿[Show again if still unread]
 [Set popup colors]
 [Close after:]
 [sec (0 default,\n -1 disabled)]
