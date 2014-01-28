@@ -17,7 +17,6 @@
 #define IDI_MRA_WEB_SEARCH              112
 #define IDI_MRA_BLOGS                   113
 #define IDI_MRA_POSTCARD                114
-#define IDI_MRA_ZHUKI                   115
 #define IDI_MRA_PHOTO                   117
 #define IDI_DELETED                     118
 #define IDI_MRA_CHAT                    120

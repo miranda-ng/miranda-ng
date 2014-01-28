@@ -55,8 +55,6 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_MY_VIDEO_STR                     LPGEN("My Video")
 #define MRA_MY_ANSWERS_STR                   LPGEN("My Answers")
 #define MRA_MY_WORLD_STR                     LPGEN("My World")
-#define MRA_ZHUKI                            "/Zhuki"
-#define MRA_ZHUKI_STR                        LPGEN("Zhuki")
 #define MRA_WEB_SEARCH                       "/WebSearch"
 #define MRA_WEB_SEARCH_STR                   LPGEN("Web search")
 #define MRA_UPD_ALL_USERS_INFO               "/UpdateAllUsersInfo"
@@ -72,7 +70,6 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_PDA_INBOX_URL                    "http://pda.mail.ru/cgi-bin/start"
 #define MRA_EDIT_PROFILE_URL                 "http://win.mail.ru/cgi-bin/userinfo?mra=1"
 #define MRA_CHAT_URL                         "http://chat.mail.ru"
-#define MRA_ZHUKI_URL                        "http://zhuki.mail.ru"
 #define MRA_SEARCH_URL                       _T("http://go.mail.ru")
 
 // used spesialy! added: /domain/user

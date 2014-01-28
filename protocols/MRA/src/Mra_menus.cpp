@@ -34,12 +34,6 @@ INT_PTR CMraProto::MraEditProfile(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraZhuki(WPARAM wParam, LPARAM lParam)
-{
-	MraMPopSessionQueueAddUrl(hMPopSessionQueue, MRA_ZHUKI_URL);
-	return 0;
-}
-
 INT_PTR CMraProto::MraWebSearch(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)MRA_SEARCH_URL);
@@ -404,7 +398,6 @@ void CMraProto::InitMenus()
 	CreateProtoService(MRA_VIEW_VIDEO,         &CMraProto::MraViewVideo);
 	CreateProtoService(MRA_ANSWERS,            &CMraProto::MraAnswers);
 	CreateProtoService(MRA_WORLD,              &CMraProto::MraWorld);
-	CreateProtoService(MRA_ZHUKI,              &CMraProto::MraZhuki);
 	CreateProtoService(MRA_WEB_SEARCH,         &CMraProto::MraWebSearch);
 	CreateProtoService(MRA_UPD_ALL_USERS_INFO, &CMraProto::MraUpdateAllUsersInfo);
 	CreateProtoService(MRA_CHK_USERS_AVATARS,  &CMraProto::MraCheckUpdatesUsersAvt);

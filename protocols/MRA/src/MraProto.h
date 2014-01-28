@@ -133,7 +133,6 @@ struct CMraProto : public PROTO<CMraProto>
 	INT_PTR __cdecl MraGotoInbox(WPARAM, LPARAM);
 	INT_PTR __cdecl MraShowInboxStatus(WPARAM, LPARAM);
 	INT_PTR __cdecl MraEditProfile(WPARAM, LPARAM);
-	INT_PTR __cdecl MraZhuki(WPARAM, LPARAM);
 	INT_PTR __cdecl MraWebSearch(WPARAM, LPARAM);
 	INT_PTR __cdecl MraUpdateAllUsersInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl MraCheckUpdatesUsersAvt(WPARAM, LPARAM);

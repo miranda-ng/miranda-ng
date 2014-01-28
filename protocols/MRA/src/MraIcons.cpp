@@ -14,7 +14,6 @@ IconItem gdiMenuItems[MAIN_MENU_ITEMS_COUNT] =
 	{ MRA_MY_VIDEO_STR,           MRA_VIEW_VIDEO,         IDI_MRA_VIDEO         },
 	{ MRA_MY_ANSWERS_STR,         MRA_ANSWERS,            IDI_MRA_ANSWERS       },
 	{ MRA_MY_WORLD_STR,           MRA_WORLD,              IDI_MRA_WORLD         },
-	{ MRA_ZHUKI_STR,              MRA_ZHUKI,              IDI_MRA_ZHUKI         },
 	{ MRA_WEB_SEARCH_STR,         MRA_WEB_SEARCH,         IDI_MRA_WEB_SEARCH    },
 	{ MRA_UPD_ALL_USERS_INFO_STR, MRA_UPD_ALL_USERS_INFO, IDI_PROFILE           },
 	{ MRA_CHK_USERS_AVATARS_STR,  MRA_CHK_USERS_AVATARS,  IDI_PROFILE           },
