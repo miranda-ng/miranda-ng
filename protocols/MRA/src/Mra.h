@@ -230,7 +230,7 @@ bool      IsHTTPSProxyUsed(HANDLE m_hNetlibUser);
 bool      IsContactMraProto(HANDLE hContact);
 bool      IsEMailMR(const CMStringA& szEmail);
 bool      GetEMailFromString(const CMStringA& szBuff, CMStringA& szEmail);
-		    
+
 bool      IsPhone(LPSTR lpszString, size_t dwStringSize);
 bool      IsContactPhone(HANDLE hContact, LPSTR lpszPhone, size_t dwPhoneSize);
 HANDLE    MraHContactFromPhone(LPSTR lpszPhone, size_t dwPhoneSize, BOOL bAddIfNeeded, BOOL bTemporary, BOOL *pbAdded);
@@ -240,7 +240,7 @@ bool      MraSendReplyBlogStatus(HANDLE hContact);
 DWORD     GetYears(CONST PSYSTEMTIME pcstSystemTime);
 DWORD     FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD dwFileNameLen, LPWSTR lpszRetFilePathName, DWORD dwRetFilePathLen, DWORD *pdwRetFilePathLen);
 DWORD     MemFillRandom(LPVOID lpBuff, size_t dwBuffSize);
-		    
+
 DWORD     GetMraStatusFromMiradaStatus(DWORD dwMirandaStatus, DWORD dwXStatusMir, DWORD *pdwXStatusMra);
 DWORD     GetMirandaStatusFromMraStatus(DWORD dwMraStatus, DWORD dwXStatusMra, DWORD *pdwXStatusMir);
 DWORD     GetMraXStatusIDFromMraUriStatus(const char *lpszStatusUri);

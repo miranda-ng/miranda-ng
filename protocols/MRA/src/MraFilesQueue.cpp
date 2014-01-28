@@ -114,20 +114,18 @@ INT_PTR CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam,
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			{
-				WCHAR szBuff[MAX_PATH];
+			ppro->setByte("FileSendEnableDirectConn", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN));
+			ppro->setByte("FileSendNoOutConnOnRcv", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE));
+			ppro->setByte("FileSendNoOutConnOnSend", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONSEND));
+			ppro->setByte("FileSendIgnoryAdditionalPorts", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_IGNORYADDITIONALPORTS));
+			ppro->setByte("FileSendHideMyAddresses", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_HIDE_MY_ADDRESSES));
+			ppro->setByte("FileSendAddExtraAddresses", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS));
 
-				ppro->setByte("FileSendEnableDirectConn", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN));
-				ppro->setByte("FileSendNoOutConnOnRcv", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE));
-				ppro->setByte("FileSendNoOutConnOnSend", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONSEND));
-				ppro->setByte("FileSendIgnoryAdditionalPorts", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_IGNORYADDITIONALPORTS));
-				ppro->setByte("FileSendHideMyAddresses", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_HIDE_MY_ADDRESSES));
-				ppro->setByte("FileSendAddExtraAddresses", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS));
-				GetDlgItemText(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS, szBuff, SIZEOF(szBuff));
-				ppro->mraSetStringW(NULL, "FileSendExtraAddresses", szBuff);
-				ppro->setDword("FileSendBlockSize", (DWORD)GetDlgItemInt(hWndDlg, IDC_FILE_SEND_BLOCK_SIZE, NULL, FALSE));
-				ppro->setByte("FileSendEnableMRIMProxyCons", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS));
-			}
+			WCHAR szBuff[MAX_PATH];
+			GetDlgItemText(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS, szBuff, SIZEOF(szBuff));
+			ppro->mraSetStringW(NULL, "FileSendExtraAddresses", szBuff);
+			ppro->setDword("FileSendBlockSize", (DWORD)GetDlgItemInt(hWndDlg, IDC_FILE_SEND_BLOCK_SIZE, NULL, FALSE));
+			ppro->setByte("FileSendEnableMRIMProxyCons", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS));
 			return TRUE;
 		}
 		break;
@@ -159,14 +157,14 @@ DWORD MraFilesQueueInitialize(DWORD dwSendTimeOutInterval, HANDLE *phFilesQueueH
 
 void MraFilesQueueDestroy(HANDLE hFilesQueueHandle)
 {
-	if ( !hFilesQueueHandle)
+	if (!hFilesQueueHandle)
 		return;
 
 	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
 	MRA_FILES_QUEUE_ITEM *dat;
 	{
 		mt_lock l(pmrafqFilesQueue);
-		while ( ListMTItemGetFirst(pmrafqFilesQueue, NULL, (LPVOID*)&dat) == NO_ERROR)
+		while (ListMTItemGetFirst(pmrafqFilesQueue, NULL, (LPVOID*)&dat) == NO_ERROR)
 			MraFilesQueueItemFree(dat);
 	}
 	ListMTDestroy(pmrafqFilesQueue);
@@ -192,7 +190,7 @@ DWORD MraFilesQueueItemFindByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest, MRA
 			return 0;
 		}
 	}
-		while (ListMTIteratorMoveNext(&lmtiIterator));
+	while (ListMTIteratorMoveNext(&lmtiIterator));
 
 	return ERROR_NOT_FOUND;
 }
@@ -200,7 +198,7 @@ DWORD MraFilesQueueItemFindByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest, MRA
 HANDLE MraFilesQueueItemProxyByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
 {
 	MRA_FILES_QUEUE_ITEM *dat;
-	if ( !MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat))
+	if (!MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat))
 		return dat->hMraMrimProxyData;
 
 	return NULL;
@@ -208,9 +206,9 @@ HANDLE MraFilesQueueItemProxyByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
 
 void MraFilesQueueItemFree(MRA_FILES_QUEUE_ITEM *dat)
 {
- 	LIST_MT *plmtListMT = (LIST_MT*)dat->lpListMT;
+	LIST_MT *plmtListMT = (LIST_MT*)dat->lpListMT;
 
-	for (size_t i = 0;i<dat->dwFilesCount;i++)
+	for (size_t i = 0; i < dat->dwFilesCount; i++)
 		mir_free(dat->pmfqfFiles[i].lpwszName);
 
 	mir_free(dat->pmfqfFiles);
@@ -230,11 +228,9 @@ size_t CMraProto::MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBu
 {
 	LPSTR lpszCurPos = lpszBuff;
 
-	if (getByte("FileSendHideMyAddresses", MRA_DEF_FS_HIDE_MY_ADDRESSES))
-	{// не выдаём врагу наш IP адрес!!! :)
-		if (getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES) == FALSE)
-		{// только если не добавляем адрес роутера
-			lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize-((size_t)lpszCurPos-(size_t)lpszBuff)), MRA_FILES_NULL_ADDRR);
+	if (getByte("FileSendHideMyAddresses", MRA_DEF_FS_HIDE_MY_ADDRESSES)) {// не выдаём врагу наш IP адрес!!! :)
+		if (getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES) == FALSE) {// только если не добавляем адрес роутера
+			lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize - ((size_t)lpszCurPos - (size_t)lpszBuff)), MRA_FILES_NULL_ADDRR);
 		}
 	}
 	else {// создаём список наших IP адресов
@@ -246,14 +242,14 @@ size_t CMraProto::MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBu
 		dwSelfExternalIP = ntohl(getDword("IP", 0));
 		if (dwSelfExternalIP) {
 			memmove(&btAddress, &dwSelfExternalIP, sizeof(DWORD));
-			lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize-((size_t)lpszCurPos-(size_t)lpszBuff)), "%lu.%lu.%lu.%lu:%lu;", btAddress[0], btAddress[1], btAddress[2], btAddress[3], dwPort);
+			lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize - ((size_t)lpszCurPos - (size_t)lpszBuff)), "%lu.%lu.%lu.%lu:%lu;", btAddress[0], btAddress[1], btAddress[2], btAddress[3], dwPort);
 		}
 
-		CHAR szHostName[MAX_PATH] = {0};
+		CHAR szHostName[MAX_PATH] = { 0 };
 		if (gethostname(szHostName, SIZEOF(szHostName)) == 0)
 		if ((sh = gethostbyname((LPSTR)&szHostName))) {
 			while (sh->h_addr_list[dwAdapter]) {
-				lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize-((size_t)lpszCurPos-(size_t)lpszBuff)), "%s:%lu;", inet_ntoa(*((struct in_addr*)sh->h_addr_list[dwAdapter])), dwPort);
+				lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize - ((size_t)lpszCurPos - (size_t)lpszBuff)), "%s:%lu;", inet_ntoa(*((struct in_addr*)sh->h_addr_list[dwAdapter])), dwPort);
 				dwAdapter++;
 			}
 		}
@@ -262,14 +258,14 @@ size_t CMraProto::MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBu
 	CMStringA szHostName;
 	if (getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES))// добавляем произвольный адрес
 	if (mraGetStringA(NULL, "FileSendExtraAddresses", szHostName))
-		lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize-((size_t)lpszCurPos-(size_t)lpszBuff)), "%s:%lu;", szHostName.c_str(), dwPort);
+		lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize - ((size_t)lpszCurPos - (size_t)lpszBuff)), "%s:%lu;", szHostName.c_str(), dwPort);
 
 	return lpszCurPos - lpszBuff;
 }
 
 DWORD CMraProto::MraFilesQueueAccept(HANDLE hFilesQueueHandle, DWORD dwIDRequest, LPCWSTR lpwszPath, size_t dwPathSize)
 {
-	if ( !hFilesQueueHandle || !lpwszPath || !dwPathSize)
+	if (!hFilesQueueHandle || !lpwszPath || !dwPathSize)
 		return ERROR_INVALID_HANDLE;
 
 	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
@@ -283,11 +279,10 @@ DWORD CMraProto::MraFilesQueueAccept(HANDLE hFilesQueueHandle, DWORD dwIDRequest
 		dat->dwPathSize = dwPathSize;
 		memmove(dat->lpwszPath, lpwszPath, (dwPathSize*sizeof(WCHAR)));
 
-		if ( (*(WCHAR*)(dat->lpwszPath+(dat->dwPathSize-1))) != '\\')
-		{// add slash at the end if needed
-			(*(WCHAR*)(dat->lpwszPath+dat->dwPathSize)) = '\\';
+		if ((*(WCHAR*)(dat->lpwszPath + (dat->dwPathSize - 1))) != '\\') {// add slash at the end if needed
+			(*(WCHAR*)(dat->lpwszPath + dat->dwPathSize)) = '\\';
 			dat->dwPathSize++;
-			(*(WCHAR*)(dat->lpwszPath+dat->dwPathSize)) = 0;
+			(*(WCHAR*)(dat->lpwszPath + dat->dwPathSize)) = 0;
 		}
 
 		pmftpp->hFilesQueueHandle = hFilesQueueHandle;
@@ -342,9 +337,9 @@ DWORD CMraProto::MraFilesQueueStartMrimProxy(HANDLE hFilesQueueHandle, DWORD dwI
 	MRA_FILES_QUEUE_ITEM *dat;
 
 	mt_lock l(pmrafqFilesQueue);
-	if ( !MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat))
-		if (dat->bSending == FALSE)
-			SetEvent(dat->hWaitHandle);// cancel wait incomming connection
+	if (!MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat))
+	if (dat->bSending == FALSE)
+		SetEvent(dat->hWaitHandle);// cancel wait incomming connection
 
 	return 0;
 }
@@ -367,7 +362,7 @@ DWORD MraFilesQueueFree(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
 			return 0;
 		}
 	}
-		while (ListMTIteratorMoveNext(&lmtiIterator));
+	while (ListMTIteratorMoveNext(&lmtiIterator));
 
 	return ERROR_NOT_FOUND;
 }
@@ -395,7 +390,7 @@ DWORD CMraProto::MraFilesQueueSendMirror(HANDLE hFilesQueueHandle, DWORD dwIDReq
 bool CMraProto::MraFilesQueueHandCheck(HANDLE m_hConnection, MRA_FILES_QUEUE_ITEM *dat)
 {
 	if (m_hConnection && dat) {
-		BYTE btBuff[((MAX_EMAIL_LEN*2)+(sizeof(MRA_FT_HELLO)*2)+8)] = {0};
+		BYTE btBuff[((MAX_EMAIL_LEN * 2) + (sizeof(MRA_FT_HELLO)* 2) + 8)] = { 0 };
 		size_t dwBuffSize;
 
 		CMStringA szEmail, szEmailMy;
@@ -404,28 +399,28 @@ bool CMraProto::MraFilesQueueHandCheck(HANDLE m_hConnection, MRA_FILES_QUEUE_ITE
 
 		if (dat->bSending == FALSE) {
 			// receiving
-			dwBuffSize = mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %s", MRA_FT_HELLO, szEmailMy.c_str())+1;
+			dwBuffSize = mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %s", MRA_FT_HELLO, szEmailMy.c_str()) + 1;
 			if (dwBuffSize == Netlib_Send(m_hConnection, (LPSTR)btBuff, (int)dwBuffSize, 0)) {
 				// my email sended
 				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)dat->dwIDRequest, 0);
 				dwBuffSize = Netlib_Recv(m_hConnection, (LPSTR)btBuff, sizeof(btBuff), 0);
-				if ((szEmail.GetLength()+sizeof(MRA_FT_HELLO)+1) == dwBuffSize) {
+				if ((szEmail.GetLength() + sizeof(MRA_FT_HELLO)+1) == dwBuffSize) {
 					// email received
-					mir_snprintf(((LPSTR)btBuff+dwBuffSize), (SIZEOF(btBuff)-dwBuffSize), "%s %s", MRA_FT_HELLO, szEmail);
-					if ( !_memicmp(btBuff, btBuff+dwBuffSize, dwBuffSize))
+					mir_snprintf(((LPSTR)btBuff + dwBuffSize), (SIZEOF(btBuff) - dwBuffSize), "%s %s", MRA_FT_HELLO, szEmail);
+					if (!_memicmp(btBuff, btBuff + dwBuffSize, dwBuffSize))
 						return true;
 				}
 			}
 		}
 		else {// sending
 			dwBuffSize = Netlib_Recv(m_hConnection, (LPSTR)btBuff, sizeof(btBuff), 0);
-			if ((szEmail.GetLength()+sizeof(MRA_FT_HELLO)+1) == dwBuffSize) {
+			if ((szEmail.GetLength() + sizeof(MRA_FT_HELLO)+1) == dwBuffSize) {
 				// email received
 				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)dat->dwIDRequest, 0);
-				mir_snprintf(((LPSTR)btBuff+dwBuffSize), (SIZEOF(btBuff)-dwBuffSize), "%s %s", MRA_FT_HELLO, szEmail);
-				if ( !_memicmp(btBuff, btBuff+dwBuffSize, dwBuffSize)) {
+				mir_snprintf(((LPSTR)btBuff + dwBuffSize), (SIZEOF(btBuff) - dwBuffSize), "%s %s", MRA_FT_HELLO, szEmail);
+				if (!_memicmp(btBuff, btBuff + dwBuffSize, dwBuffSize)) {
 					// email verified
-					dwBuffSize = (mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %s", MRA_FT_HELLO, szEmailMy.c_str())+1);
+					dwBuffSize = (mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %s", MRA_FT_HELLO, szEmailMy.c_str()) + 1);
 					if (dwBuffSize == Netlib_Send(m_hConnection, (LPSTR)btBuff, dwBuffSize, 0))
 						return true;
 				}
@@ -444,10 +439,9 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 		BOOL bFiltering = FALSE, bIsHTTPSProxyUsed = IsHTTPSProxyUsed(m_hNetlibUser);
 		DWORD dwLocalPort = 0, dwConnectReTryCount, dwCurConnectReTryCount;
 		size_t dwAddrCount;
-		NETLIBOPENCONNECTION nloc = {0};
+		NETLIBOPENCONNECTION nloc = { 0 };
 
-		if (getByte("FileSendIgnoryAdditionalPorts", MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS) || bIsHTTPSProxyUsed)
-		{// фильтруем порты для одного IP, вместо 3 будем коннектится только к одному
+		if (getByte("FileSendIgnoryAdditionalPorts", MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS) || bIsHTTPSProxyUsed) {// фильтруем порты для одного IP, вместо 3 будем коннектится только к одному
 			if (bIsHTTPSProxyUsed)
 				dwLocalPort = MRA_SERVER_PORT_HTTPS;
 			else if ((dwLocalPort = getWord("ServerPort", MRA_DEFAULT_SERVER_PORT)) == MRA_SERVER_PORT_STANDART_NLB)
@@ -470,12 +464,12 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 			dwConnectReTryCount = getDword("ConnectReTryCountFileSend", MRA_DEFAULT_CONN_RETRY_COUNT_FILES);
 			nloc.cbSize = sizeof(nloc);
 			nloc.flags = NLOCF_V2;
-			nloc.timeout = getDword("TimeOutConnectFileSend", ((MRA_TIMEOUT_DIRECT_CONN-1)/(dwAddrCount*dwConnectReTryCount)));// -1 сек чтобы был запас
+			nloc.timeout = getDword("TimeOutConnectFileSend", ((MRA_TIMEOUT_DIRECT_CONN - 1) / (dwAddrCount*dwConnectReTryCount)));// -1 сек чтобы был запас
 			if (nloc.timeout < MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
 			if (nloc.timeout > MRA_TIMEOUT_CONN_MAX) nloc.timeout = MRA_TIMEOUT_CONN_MAX;
 
 			// Set up the sockaddr structure
-			for (size_t i = 0;i<dat->malAddrList.dwAddrCount;i++) {
+			for (size_t i = 0; i < dat->malAddrList.dwAddrCount; i++) {
 				if (dwLocalPort == dat->malAddrList.pMailAddress[i].dwPort || bFiltering == FALSE) {
 					ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)dat->dwIDRequest, 0);
 
@@ -486,7 +480,7 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 					do {
 						dat->m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 					}
-						while (--dwCurConnectReTryCount && dat->m_hConnection == NULL);
+					while (--dwCurConnectReTryCount && dat->m_hConnection == NULL);
 
 					if (dat->m_hConnection) {
 						ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
@@ -513,10 +507,10 @@ LPWSTR GetFileNameFromFullPathW(LPWSTR lpwszFullPath, size_t dwFullPathSize)
 {
 	LPWSTR lpwszFileName = lpwszFullPath, lpwszCurPos;
 
-	lpwszCurPos = (lpwszFullPath+dwFullPathSize);
-	for (; lpwszCurPos>lpwszFullPath; lpwszCurPos--) {
+	lpwszCurPos = (lpwszFullPath + dwFullPathSize);
+	for (; lpwszCurPos > lpwszFullPath; lpwszCurPos--) {
 		if ((*lpwszCurPos) == '\\') {
-			lpwszFileName = (lpwszCurPos+1);
+			lpwszFileName = (lpwszCurPos + 1);
 			break;
 		}
 	}
@@ -527,17 +521,17 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 {
 	if (!dat)
 		return NULL;
-	if ( !InterlockedExchangeAdd((volatile LONG*)&dat->bIsWorking, 0))
+	if (!InterlockedExchangeAdd((volatile LONG*)&dat->bIsWorking, 0))
 		return NULL;
 
 	CMStringA szEmail;
 	if (mraGetStringA(dat->hContact, "e-mail", szEmail)) {
-		CHAR szAddrList[2048] = {0};
+		CHAR szAddrList[2048] = { 0 };
 		size_t dwAddrListSize;
 
 		// копируем адреса в соответствии с правилами и начинаем слушать порт
 		if (getByte("FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN)) {
-			NETLIBBIND nlbBind = {0};
+			NETLIBBIND nlbBind = { 0 };
 
 			nlbBind.cbSize = sizeof(nlbBind);
 			nlbBind.pfnNewConnectionV2 = MraFilesQueueConnectionReceived;
@@ -573,16 +567,16 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 				LPWSTR lpwszFiles, lpwszCurPos;
 				size_t dwFilesSize;
 
-				dwFilesSize = ((MAX_PATH*2)*dat->dwFilesCount);
+				dwFilesSize = ((MAX_PATH * 2)*dat->dwFilesCount);
 				lpwszFiles = (LPWSTR)mir_calloc((dwFilesSize*sizeof(WCHAR)));
 				if (lpwszFiles) {
 					lpwszCurPos = lpwszFiles;
-					for (size_t i = 0;i < dat->dwFilesCount;i++) {
+					for (size_t i = 0; i < dat->dwFilesCount; i++) {
 						MRA_FILES_QUEUE_FILE &p = dat->pmfqfFiles[i];
-						lpwszCurPos += mir_sntprintf(lpwszCurPos, (dwFilesSize-((size_t)lpwszCurPos-(size_t)lpwszFiles)), L"%s;%I64u;",
+						lpwszCurPos += mir_sntprintf(lpwszCurPos, (dwFilesSize - ((size_t)lpwszCurPos - (size_t)lpwszFiles)), L"%s;%I64u;",
 							GetFileNameFromFullPathW(p.lpwszName, p.dwNameLen), p.dwSize);
 					}
-					dwFilesSize = (lpwszCurPos-lpwszFiles);// size in WCHARs
+					dwFilesSize = (lpwszCurPos - lpwszFiles);// size in WCHARs
 
 					if (dat->hMraMrimProxyData) {
 						// устанавливаем данные для майловской прокси, если она разрешена
@@ -610,13 +604,14 @@ void MraFilesQueueConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, vo
 		MRA_FILES_QUEUE_ITEM *dat = (MRA_FILES_QUEUE_ITEM*)pExtra;
 
 		ProtoBroadcastAck(dat->ppro->m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
-		if ( dat->ppro->MraFilesQueueHandCheck(hNewConnection, dat)) { // связь установленная с тем кем нужно
+		if (dat->ppro->MraFilesQueueHandCheck(hNewConnection, dat)) { // связь установленная с тем кем нужно
 			dat->m_hConnection = hNewConnection;
 			ProtoBroadcastAck(dat->ppro->m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 			dat->ppro->setDword(dat->hContact, "OldIP", dat->ppro->getDword(dat->hContact, "IP", 0));
 			dat->ppro->setDword(dat->hContact, "IP", dwRemoteIP);
 			SetEvent(dat->hWaitHandle);
-		}else {// кажется кто то не туда подключилися :)
+		}
+		else {// кажется кто то не туда подключилися :)
 			ProtoBroadcastAck(dat->ppro->m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_LISTENING, (HANDLE)dat->dwIDRequest, 0);
 			Netlib_CloseHandle(hNewConnection);
 		}
@@ -634,7 +629,7 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags
 
 	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
 	MRA_FILES_QUEUE_ITEM *dat = (MRA_FILES_QUEUE_ITEM*)mir_calloc(sizeof(MRA_FILES_QUEUE_ITEM)+sizeof(LPSTR)+64);
-	if ( !dat)
+	if (!dat)
 		return GetLastError();
 
 	WCHAR szBuff[MAX_PATH];
@@ -680,25 +675,25 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags
 
 		dat->dwFilesCount++;
 	}
-	dat->pmfqfFiles = (MRA_FILES_QUEUE_FILE*)mir_realloc(dat->pmfqfFiles, (sizeof(MRA_FILES_QUEUE_FILE)*(dat->dwFilesCount+4)));
+	dat->pmfqfFiles = (MRA_FILES_QUEUE_FILE*)mir_realloc(dat->pmfqfFiles, (sizeof(MRA_FILES_QUEUE_FILE)*(dat->dwFilesCount + 4)));
 
-	dwMemSize = (((dat->dwFilesCount+4)*64)+(dwFileNameTotalSize*sizeof(WCHAR))+(szAddresses.GetLength()*sizeof(WCHAR))+128);
+	dwMemSize = (((dat->dwFilesCount + 4) * 64) + (dwFileNameTotalSize*sizeof(WCHAR)) + (szAddresses.GetLength()*sizeof(WCHAR)) + 128);
 	dat->pwszFilesList = (LPWSTR)mir_calloc(dwMemSize);
 	dat->pwszDescription = (LPWSTR)mir_calloc(dwMemSize);
 
 	LPWSTR lpwszDelimiter = dat->pwszFilesList;
 	LPWSTR lpwszCurrentItem = dat->pwszDescription;
 	StrFormatByteSizeW(dat->dwFilesTotalSize, szBuff, SIZEOF(szBuff));
-	lpwszCurrentItem += mir_sntprintf(lpwszCurrentItem, ((dwMemSize-((size_t)lpwszCurrentItem-(size_t)dat->pwszDescription))/sizeof(WCHAR)), L"%I64u Files (%s)\r\n", dat->dwFilesCount, szBuff);
+	lpwszCurrentItem += mir_sntprintf(lpwszCurrentItem, ((dwMemSize - ((size_t)lpwszCurrentItem - (size_t)dat->pwszDescription)) / sizeof(WCHAR)), L"%I64u Files (%s)\r\n", dat->dwFilesCount, szBuff);
 
 	// description + filesnames
 	for (size_t i = 0; i < dat->dwFilesCount; i++) {
-		lpwszDelimiter += mir_sntprintf(lpwszDelimiter, ((dwMemSize-((size_t)lpwszDelimiter-(size_t)dat->pwszFilesList))/sizeof(WCHAR)), L"%s", dat->pmfqfFiles[i].lpwszName);
+		lpwszDelimiter += mir_sntprintf(lpwszDelimiter, ((dwMemSize - ((size_t)lpwszDelimiter - (size_t)dat->pwszFilesList)) / sizeof(WCHAR)), L"%s", dat->pmfqfFiles[i].lpwszName);
 		StrFormatByteSizeW(dat->pmfqfFiles[i].dwSize, szBuff, SIZEOF(szBuff));
-		lpwszCurrentItem += mir_sntprintf(lpwszCurrentItem, ((dwMemSize-((size_t)lpwszCurrentItem-(size_t)dat->pwszDescription))/sizeof(WCHAR)), L"%s - %s\r\n", dat->pmfqfFiles[i].lpwszName, szBuff);
+		lpwszCurrentItem += mir_sntprintf(lpwszCurrentItem, ((dwMemSize - ((size_t)lpwszCurrentItem - (size_t)dat->pwszDescription)) / sizeof(WCHAR)), L"%s - %s\r\n", dat->pmfqfFiles[i].lpwszName, szBuff);
 	}
 
-	lpwszCurrentItem += MultiByteToWideChar(MRA_CODE_PAGE, 0, szAddresses, szAddresses.GetLength(), lpwszCurrentItem, ((dwMemSize-((size_t)lpwszCurrentItem-(size_t)dat->pwszDescription))/sizeof(WCHAR)));
+	lpwszCurrentItem += MultiByteToWideChar(MRA_CODE_PAGE, 0, szAddresses, szAddresses.GetLength(), lpwszCurrentItem, ((dwMemSize - ((size_t)lpwszCurrentItem - (size_t)dat->pwszDescription)) / sizeof(WCHAR)));
 	*lpwszCurrentItem = 0;
 
 	MraAddrListGetFromBuff(szAddresses, &dat->malAddrList);
@@ -724,12 +719,11 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 {
 	DWORD dwRetErrorCode = NO_ERROR;
 
-	if (lpParameter)
-	{
+	if (lpParameter) {
 		MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->hFilesQueueHandle;
 		MRA_FILES_QUEUE_ITEM *dat = ((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->dat;
 
-		WCHAR wszFileName[MAX_FILEPATH] = {0};
+		WCHAR wszFileName[MAX_FILEPATH] = { 0 };
 		WCHAR szErrorText[2048];
 		BYTE btBuff[BUFF_SIZE_RCV];
 		BOOL bContinue, bFailed, bOK, bConnected;
@@ -737,8 +731,8 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 		HANDLE hFile;
 		size_t i, dwBuffSizeUsed;
 		LARGE_INTEGER liFileSize;
-		NETLIBSELECT nls = {0};
-		PROTOFILETRANSFERSTATUS pfts = {0};
+		NETLIBSELECT nls = { 0 };
+		PROTOFILETRANSFERSTATUS pfts = { 0 };
 
 		mir_free(lpParameter);
 
@@ -747,7 +741,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 		nls.cbSize = sizeof(nls);
 		pfts.cbSize = sizeof(pfts);
 		pfts.hContact = dat->hContact;
-		pfts.flags = (PFTS_RECEIVING|PFTS_UNICODE);//		pfts.sending = dat->bSending;	//true if sending, false if receiving
+		pfts.flags = (PFTS_RECEIVING | PFTS_UNICODE);//		pfts.sending = dat->bSending;	//true if sending, false if receiving
 		//pfts.files;
 		pfts.totalFiles = dat->dwFilesCount;
 		//pfts.currentFileNumber = 0;
@@ -759,21 +753,18 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 		//pfts.currentFileProgress;
 		//pfts.currentFileTime;  //as seconds since 1970
 
-		if (MraFilesQueueConnectOut(dat))
-		{
+		if (MraFilesQueueConnectOut(dat)) {
 			bConnected = TRUE;
-		}else {
-			if (MraFilesQueueConnectIn(dat))
-			{
+		}
+		else {
+			if (MraFilesQueueConnectIn(dat)) {
 				bConnected = TRUE;
-			}else {
-				if (InterlockedExchangeAdd((volatile LONG*)&dat->bIsWorking, 0))
-				{
+			}
+			else {
+				if (InterlockedExchangeAdd((volatile LONG*)&dat->bIsWorking, 0)) {
 					ProtoBroadcastAck(dat->hContact, ACKRESULT_CONNECTPROXY, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
-					if (MraMrimProxyConnect(dat->hMraMrimProxyData, &dat->m_hConnection) == NO_ERROR)
-					{// подключились к прокси, проверяем та ли сессия (ещё раз, на этот раз сами)
-						if (MraFilesQueueHandCheck(dat->m_hConnection, dat))
-						{// связь установленная с тем кем нужно// dat->bSending
+					if (MraMrimProxyConnect(dat->hMraMrimProxyData, &dat->m_hConnection) == NO_ERROR) {// подключились к прокси, проверяем та ли сессия (ещё раз, на этот раз сами)
+						if (MraFilesQueueHandCheck(dat->m_hConnection, dat)) {// связь установленная с тем кем нужно// dat->bSending
 							ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 							bConnected = TRUE;
 						}
@@ -782,23 +773,21 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 			}
 		}
 
-		if (bConnected)
-		{// email verified
+		if (bConnected) {// email verified
 			bFailed = FALSE;
-			for (i = 0;i<dat->dwFilesCount;i++)
-			{// receiving files
+			for (i = 0; i < dat->dwFilesCount; i++) {// receiving files
 				pfts.currentFileNumber = i;
 				pfts.wszCurrentFile = wszFileName;
 				pfts.currentFileSize = dat->pmfqfFiles[i].dwSize;
 				pfts.currentFileProgress = 0;
 				//pfts.currentFileTime;  //as seconds since 1970
 
-				if ((dat->dwPathSize+dat->pmfqfFiles[i].dwNameLen)<SIZEOF(wszFileName))
-				{
+				if ((dat->dwPathSize + dat->pmfqfFiles[i].dwNameLen) < SIZEOF(wszFileName)) {
 					memmove(wszFileName, dat->lpwszPath, (dat->dwPathSize*sizeof(WCHAR)));
-					memmove((wszFileName+dat->dwPathSize), dat->pmfqfFiles[i].lpwszName, ((dat->pmfqfFiles[i].dwNameLen+1)*sizeof(WCHAR)));
-					wszFileName[dat->dwPathSize+dat->pmfqfFiles[i].dwNameLen] = 0;
-				}else {
+					memmove((wszFileName + dat->dwPathSize), dat->pmfqfFiles[i].lpwszName, ((dat->pmfqfFiles[i].dwNameLen + 1)*sizeof(WCHAR)));
+					wszFileName[dat->dwPathSize + dat->pmfqfFiles[i].dwNameLen] = 0;
+				}
+				else {
 					dwRetErrorCode = ERROR_BAD_PATHNAME;
 					ShowFormattedErrorMessage(L"Receive files: error", dwRetErrorCode);
 					bFailed = TRUE;
@@ -813,36 +802,31 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 				//dwBuffSizeUsed = (mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %S", MRA_FT_GET_FILE, dat->pmfqfFiles[i].lpwszName)+1);
 				memmove(btBuff, MRA_FT_GET_FILE, sizeof(MRA_FT_GET_FILE));
 				btBuff[(sizeof(MRA_FT_GET_FILE)-1)] = ' ';
-				dwBuffSizeUsed = sizeof(MRA_FT_GET_FILE)+WideCharToMultiByte(MRA_CODE_PAGE, 0, dat->pmfqfFiles[i].lpwszName, dat->pmfqfFiles[i].dwNameLen, (LPSTR)(btBuff+sizeof(MRA_FT_GET_FILE)), (SIZEOF(btBuff)-sizeof(MRA_FT_GET_FILE)), NULL, NULL);
+				dwBuffSizeUsed = sizeof(MRA_FT_GET_FILE)+WideCharToMultiByte(MRA_CODE_PAGE, 0, dat->pmfqfFiles[i].lpwszName, dat->pmfqfFiles[i].dwNameLen, (LPSTR)(btBuff + sizeof(MRA_FT_GET_FILE)), (SIZEOF(btBuff) - sizeof(MRA_FT_GET_FILE)), NULL, NULL);
 				btBuff[dwBuffSizeUsed] = 0;
 				dwBuffSizeUsed++;
 
-				if (dwBuffSizeUsed == Netlib_Send(dat->m_hConnection, (LPSTR)btBuff, dwBuffSizeUsed, 0))
-				{// file request sended
+				if (dwBuffSizeUsed == Netlib_Send(dat->m_hConnection, (LPSTR)btBuff, dwBuffSizeUsed, 0)) {// file request sended
 					hFile = CreateFileW(wszFileName, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-					if (hFile != INVALID_HANDLE_VALUE)
-					{// file opened/created, pre allocating disk space, for best perfomance
+					if (hFile != INVALID_HANDLE_VALUE) {// file opened/created, pre allocating disk space, for best perfomance
 						bOK = FALSE;
 
 						liFileSize.QuadPart = (LONGLONG)dat->pmfqfFiles[i].dwSize;
 						if (SetFilePointerEx(hFile, liFileSize, NULL, FILE_BEGIN))
-						if (SetEndOfFile(hFile))
-						{
+						if (SetEndOfFile(hFile)) {
 							liFileSize.QuadPart = 0;
 							bOK = SetFilePointerEx(hFile, liFileSize, NULL, FILE_BEGIN);
 						}
 
-						if (bOK)
-						{// disk space pre allocated
+						if (bOK) {// disk space pre allocated
 							bOK = FALSE;
 							bContinue = TRUE;
 							dwUpdateTimeNext = GetTickCount();
-							nls.dwTimeout = (1000*getDword("TimeOutReceiveFileData", MRA_DEF_FS_TIMEOUT_RECV));
+							nls.dwTimeout = (1000 * getDword("TimeOutReceiveFileData", MRA_DEF_FS_TIMEOUT_RECV));
 							nls.hReadConns[0] = dat->m_hConnection;
 							ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
-							while (bContinue)
-							{
+							while (bContinue) {
 								switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
 								case SOCKET_ERROR:
 								case 0:// Time out
@@ -852,31 +836,29 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 									break;
 								case 1:
 									dwReceived = Netlib_Recv(dat->m_hConnection, (LPSTR)&btBuff, SIZEOF(btBuff), 0);
-									if (dwReceived == 0 || dwReceived == SOCKET_ERROR)
-									{
+									if (dwReceived == 0 || dwReceived == SOCKET_ERROR) {
 										dwRetErrorCode = GetLastError();
 										ShowFormattedErrorMessage(L"Receive files: error on receive file data", dwRetErrorCode);
 										bContinue = FALSE;
-									}else {
-										if (WriteFile(hFile, (LPVOID)&btBuff, dwReceived, &dwReceived, NULL))
-										{
+									}
+									else {
+										if (WriteFile(hFile, (LPVOID)&btBuff, dwReceived, &dwReceived, NULL)) {
 											pfts.currentFileProgress += dwReceived;
 											pfts.totalProgress += dwReceived;
 
 											// progress updates
 											dwUpdateTimeCur = GetTickCount();
-											if (dwUpdateTimeNext <= dwUpdateTimeCur || pfts.currentFileProgress >= dat->pmfqfFiles[i].dwSize)
-											{// we update it
-												dwUpdateTimeNext = dwUpdateTimeCur+MRA_FILES_QUEUE_PROGRESS_INTERVAL;
+											if (dwUpdateTimeNext <= dwUpdateTimeCur || pfts.currentFileProgress >= dat->pmfqfFiles[i].dwSize) {// we update it
+												dwUpdateTimeNext = dwUpdateTimeCur + MRA_FILES_QUEUE_PROGRESS_INTERVAL;
 												ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
-												if (pfts.currentFileProgress >= dat->pmfqfFiles[i].dwSize)
-												{// file received
+												if (pfts.currentFileProgress >= dat->pmfqfFiles[i].dwSize) {// file received
 													bOK = TRUE;
 													bContinue = FALSE;
 												}
 											}
-										}else {// err on write file
+										}
+										else {// err on write file
 											dwRetErrorCode = GetLastError();
 											ShowFormattedErrorMessage(L"Receive files: cant write file data, error", dwRetErrorCode);
 											bContinue = FALSE;
@@ -885,27 +867,29 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 									break;
 								}
 							}// end while
-						}else {// err allocating file disk space
+						}
+						else {// err allocating file disk space
 							dwRetErrorCode = GetLastError();
 							mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Receive files: can't allocate disk space for file, size %lu bytes, error"), dat->pmfqfFiles[i].dwSize);
 							ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 						}
 						CloseHandle(hFile);
 
-						if (bOK == FALSE)
-						{// file recv failed
+						if (bOK == FALSE) {// file recv failed
 							DeleteFileW(wszFileName);
 							bFailed = TRUE;
 							break;
 						}
-					}else {// err on open file
+					}
+					else {// err on open file
 						dwRetErrorCode = GetLastError();
 						mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Receive files: can't open file %s, error"), wszFileName);
 						ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 						bFailed = TRUE;
 						break;
 					}
-				}else {// err on send request for file
+				}
+				else {// err on send request for file
 					dwRetErrorCode = GetLastError();
 					mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Receive files: request for file %s not sent, error"), dat->pmfqfFiles[i].lpwszName);
 					ShowFormattedErrorMessage(szErrorText, NO_ERROR);
@@ -937,12 +921,12 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 
 DWORD CMraProto::MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, HANDLE hContact, LPWSTR *plpwszFiles, size_t dwFilesCount, DWORD *pdwIDRequest)
 {
-	if ( !hFilesQueueHandle)
+	if (!hFilesQueueHandle)
 		return ERROR_INVALID_HANDLE;
 
 	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
 	MRA_FILES_QUEUE_ITEM *dat = (MRA_FILES_QUEUE_ITEM*)mir_calloc(sizeof(MRA_FILES_QUEUE_ITEM)+sizeof(LPSTR)+64);
-	if ( !dat)
+	if (!dat)
 		return GetLastError();
 
 	ULARGE_INTEGER uliFileSize;
@@ -956,7 +940,7 @@ DWORD CMraProto::MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, H
 	dat->hContact = hContact;
 	if (getByte("FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS)) dat->hMraMrimProxyData = MraMrimProxyCreate();
 	dat->dwFilesCount = dwFilesCount;
-	dat->pmfqfFiles = (MRA_FILES_QUEUE_FILE*)mir_calloc((sizeof(MRA_FILES_QUEUE_FILE)*(dat->dwFilesCount+1)));
+	dat->pmfqfFiles = (MRA_FILES_QUEUE_FILE*)mir_calloc((sizeof(MRA_FILES_QUEUE_FILE)*(dat->dwFilesCount + 1)));
 	dat->dwFilesTotalSize = 0;
 
 	for (size_t i = 0; i < dat->dwFilesCount; i++) {
@@ -992,14 +976,14 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 {
 	DWORD dwRetErrorCode = NO_ERROR;
 
-	if ( !lpParameter)
+	if (!lpParameter)
 		return;
 
 	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->hFilesQueueHandle;
 	MRA_FILES_QUEUE_ITEM *dat = ((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->dat;
 	mir_free(lpParameter);
 
-	CHAR szFileName[MAX_FILEPATH] = {0};
+	CHAR szFileName[MAX_FILEPATH] = { 0 };
 	WCHAR szErrorText[2048];
 	BYTE btBuff[BUFF_SIZE_RCV];
 	BOOL bFailed = TRUE, bOK, bConnected = FALSE;
@@ -1007,17 +991,17 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 	size_t i, j, dwBuffSizeUsed = 0;
 	LPWSTR lpwszFileName;
 
-	PROTOFILETRANSFERSTATUS pfts = {0};
+	PROTOFILETRANSFERSTATUS pfts = { 0 };
 	pfts.cbSize = sizeof(pfts);
 	pfts.hContact = dat->hContact;
-	pfts.flags = (PFTS_SENDING|PFTS_UNICODE);// pfts.sending = dat->bSending;	//true if sending, false if receiving
+	pfts.flags = (PFTS_SENDING | PFTS_UNICODE);// pfts.sending = dat->bSending;	//true if sending, false if receiving
 	pfts.totalFiles = dat->dwFilesCount;
 	pfts.totalBytes = dat->dwFilesTotalSize;
 	pfts.wszWorkingDir = dat->lpwszPath;
 
 	dwSendBlockSize = getDword("FileSendBlockSize", MRA_DEFAULT_FILE_SEND_BLOCK_SIZE);
-	if (dwSendBlockSize>SIZEOF(btBuff)) dwSendBlockSize = SIZEOF(btBuff);
-	if (dwSendBlockSize<512) dwSendBlockSize = MRA_DEFAULT_FILE_SEND_BLOCK_SIZE;
+	if (dwSendBlockSize > SIZEOF(btBuff)) dwSendBlockSize = SIZEOF(btBuff);
+	if (dwSendBlockSize < 512) dwSendBlockSize = MRA_DEFAULT_FILE_SEND_BLOCK_SIZE;
 
 	if (MraFilesQueueConnectIn(dat))
 		bConnected = TRUE;
@@ -1044,7 +1028,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 
 			dwBuffSizeUsed = 0;
 			while (TRUE) {
-				dwReceived = Netlib_Recv(dat->m_hConnection, ((LPSTR)btBuff+dwBuffSizeUsed), (SIZEOF(btBuff)-dwBuffSizeUsed), 0);
+				dwReceived = Netlib_Recv(dat->m_hConnection, ((LPSTR)btBuff + dwBuffSizeUsed), (SIZEOF(btBuff) - dwBuffSizeUsed), 0);
 				if (dwReceived == 0 || dwReceived == SOCKET_ERROR) { // err on receive file name to send
 					dwRetErrorCode = GetLastError();
 					ShowFormattedErrorMessage(L"Send files: file send request not received, error", dwRetErrorCode);
@@ -1053,7 +1037,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 				}
 				else {
 					dwBuffSizeUsed += dwReceived;
-					if (MemoryFindByte((dwBuffSizeUsed-dwReceived), btBuff, dwBuffSizeUsed, 0))
+					if (MemoryFindByte((dwBuffSizeUsed - dwReceived), btBuff, dwBuffSizeUsed, 0))
 						break;
 				}
 			}// end while (file name passible received)*/
@@ -1063,21 +1047,21 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 
 			// ...received
 			if (dwBuffSizeUsed > (sizeof(MRA_FT_GET_FILE)+1)) {// file name received
-				if ( !_memicmp(btBuff, MRA_FT_GET_FILE, sizeof(MRA_FT_GET_FILE)-1)) {
+				if (!_memicmp(btBuff, MRA_FT_GET_FILE, sizeof(MRA_FT_GET_FILE)-1)) {
 					// MRA_FT_GET_FILE verified
 					bFailed = TRUE;
-					for (j = 0;j<dat->dwFilesCount;j++) {
+					for (j = 0; j < dat->dwFilesCount; j++) {
 						lpwszFileName = GetFileNameFromFullPathW(dat->pmfqfFiles[j].lpwszName, dat->pmfqfFiles[j].dwNameLen);
-						szFileName[WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszFileName, (dat->pmfqfFiles[j].dwNameLen-(lpwszFileName-dat->pmfqfFiles[j].lpwszName)), szFileName, SIZEOF(szFileName), NULL, NULL)] = 0;
+						szFileName[WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszFileName, (dat->pmfqfFiles[j].dwNameLen - (lpwszFileName - dat->pmfqfFiles[j].lpwszName)), szFileName, SIZEOF(szFileName), NULL, NULL)] = 0;
 
-						if ( !_memicmp(btBuff+sizeof(MRA_FT_GET_FILE), szFileName, dwBuffSizeUsed-(sizeof(MRA_FT_GET_FILE)+1))) {
+						if (!_memicmp(btBuff + sizeof(MRA_FT_GET_FILE), szFileName, dwBuffSizeUsed - (sizeof(MRA_FT_GET_FILE)+1))) {
 							bFailed = FALSE;
 							break;
 						}
 					}
 
 					if (bFailed == FALSE) {
-						HANDLE hFile = CreateFileW(dat->pmfqfFiles[j].lpwszName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, (FILE_ATTRIBUTE_NORMAL|FILE_FLAG_SEQUENTIAL_SCAN), NULL);
+						HANDLE hFile = CreateFileW(dat->pmfqfFiles[j].lpwszName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, (FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN), NULL);
 						if (hFile != INVALID_HANDLE_VALUE) {
 							bOK = FALSE;
 							dwUpdateTimeNext = GetTickCount();
@@ -1100,7 +1084,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 										// progress updates
 										dwUpdateTimeCur = GetTickCount();
 										if (dwUpdateTimeNext <= dwUpdateTimeCur || pfts.currentFileProgress >= dat->pmfqfFiles[j].dwSize) { // we update it
-											dwUpdateTimeNext = dwUpdateTimeCur+MRA_FILES_QUEUE_PROGRESS_INTERVAL;
+											dwUpdateTimeNext = dwUpdateTimeCur + MRA_FILES_QUEUE_PROGRESS_INTERVAL;
 
 											ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
@@ -1129,7 +1113,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 								break;
 							}
 						}
-						else {// err on open file
+						else { // err on open file
 							dwRetErrorCode = GetLastError();
 							mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Send files: can't open file %s, error"), dat->pmfqfFiles[j].lpwszName);
 							ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
@@ -1138,19 +1122,19 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 						}
 					}
 					else {
-						mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Send files: requested file: %S - not found in send files list."), (((LPSTR)btBuff)+sizeof(MRA_FT_GET_FILE)));
+						mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Send files: requested file: %S - not found in send files list."), (((LPSTR)btBuff) + sizeof(MRA_FT_GET_FILE)));
 						ShowFormattedErrorMessage(szErrorText, NO_ERROR);
 						bFailed = TRUE;
 						break;
 					}
 				}
-				else {// err on receive, trash
+				else { // err on receive, trash
 					ShowFormattedErrorMessage(L"Send files: bad file send request - invalid header", NO_ERROR);
 					bFailed = TRUE;
 					break;
 				}
 			}
-			else {// bad file name or trash
+			else { // bad file name or trash
 				ShowFormattedErrorMessage(L"Send files: bad file send request - to small packet", NO_ERROR);
 				bFailed = TRUE;
 				break;

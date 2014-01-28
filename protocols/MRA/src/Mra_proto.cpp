@@ -34,7 +34,7 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 	BOOL bConnected = FALSE;
 	CMStringA szHost;
 	DWORD dwConnectReTryCount, dwCurConnectReTryCount;
-	NETLIBOPENCONNECTION nloc = {0};
+	NETLIBOPENCONNECTION nloc = { 0 };
 
 	SleepEx(100, FALSE);// to prevent high CPU load by some status plugins like allwaysonline
 
@@ -54,7 +54,7 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 			InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 			m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 		}
-			while (--dwCurConnectReTryCount && m_hConnection == NULL);
+		while (--dwCurConnectReTryCount && m_hConnection == NULL);
 
 		if (m_hConnection)
 			bConnected = TRUE;
@@ -69,7 +69,7 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 			if (nloc.wPort == MRA_SERVER_PORT_STANDART_NLB) nloc.wPort = MRA_SERVER_PORT_STANDART;
 		}
 
-		for (DWORD i = 1;(i<MRA_MAX_MRIM_SERVER && m_iStatus != ID_STATUS_OFFLINE); i++) {
+		for (DWORD i = 1; (i < MRA_MAX_MRIM_SERVER && m_iStatus != ID_STATUS_OFFLINE); i++) {
 			szHost.Format("mrim%lu.mail.ru", i);
 
 			dwCurConnectReTryCount = dwConnectReTryCount;
@@ -77,7 +77,7 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 				InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 				m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 			}
-				while (--dwCurConnectReTryCount && m_hConnection == NULL);
+			while (--dwCurConnectReTryCount && m_hConnection == NULL);
 
 			if (m_hConnection) {
 				bConnected = TRUE;
@@ -113,8 +113,8 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 	DWORD dwConnectReTryCount, dwCurConnectReTryCount;
 	LPSTR lpszPort;
 	size_t dwBytesReceived, dwRcvBuffSizeUsed = 0;
-	NETLIBSELECT nls = {0};
-	NETLIBOPENCONNECTION nloc = {0};
+	NETLIBSELECT nls = { 0 };
+	NETLIBOPENCONNECTION nloc = { 0 };
 
 	dwConnectReTryCount = getDword("ConnectReTryCountNLB", MRA_DEFAULT_CONN_RETRY_COUNT_NLB);
 
@@ -125,7 +125,7 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 	else
 		nloc.szHost = MRA_DEFAULT_SERVER;
 
-	if ( IsHTTPSProxyUsed(m_hNetlibUser))
+	if (IsHTTPSProxyUsed(m_hNetlibUser))
 		nloc.wPort = MRA_SERVER_PORT_HTTPS;
 	else
 		nloc.wPort = getWord("ServerPort", MRA_DEFAULT_SERVER_PORT);
@@ -139,7 +139,7 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 		nls.hReadConns[0] = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 	}
-		while (--dwCurConnectReTryCount && nls.hReadConns[0] == NULL);
+	while (--dwCurConnectReTryCount && nls.hReadConns[0] == NULL);
 
 	if (nls.hReadConns[0]) {
 		nls.cbSize = sizeof(nls);
@@ -153,7 +153,7 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 				bContinue = FALSE;
 				break;
 			case 1:
-				dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(btBuff+dwRcvBuffSizeUsed), (SIZEOF(btBuff)-dwRcvBuffSizeUsed), 0);
+				dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(btBuff + dwRcvBuffSizeUsed), (SIZEOF(btBuff) - dwRcvBuffSizeUsed), 0);
 				if (dwBytesReceived && dwBytesReceived != SOCKET_ERROR)
 					dwRcvBuffSizeUsed += dwBytesReceived;
 				else
@@ -171,7 +171,7 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 				lpszPort++;
 
 				szHost = (LPSTR)btBuff;
-				if (pwPort) (*pwPort) = (WORD)StrToUNum32(lpszPort, (dwRcvBuffSizeUsed-(lpszPort-(LPSTR)btBuff)));
+				if (pwPort) (*pwPort) = (WORD)StrToUNum32(lpszPort, (dwRcvBuffSizeUsed - (lpszPort - (LPSTR)btBuff)));
 				dwRetErrorCode = NO_ERROR;
 			}
 			else {
@@ -228,7 +228,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 			m_dwThreadWorkerLastPingTime = GetTickCount();
 			// server ping
 			if (m_dwNextPingSendTickTime <= m_dwThreadWorkerLastPingTime) {
-				m_dwNextPingSendTickTime = (m_dwThreadWorkerLastPingTime+(m_dwPingPeriod*1000));
+				m_dwNextPingSendTickTime = (m_dwThreadWorkerLastPingTime + (m_dwPingPeriod * 1000));
 				MraSendCMD(MRIM_CS_PING, NULL, 0);
 			}
 			{
@@ -236,7 +236,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 				HANDLE hContact;
 				LPBYTE lpbData;
 				size_t dwDataSize;
-				while ( !MraSendQueueFindOlderThan(hSendQueueHandle, SEND_QUEUE_TIMEOUT, &dwCMDNum, &dwFlags, &hContact, &dwAckType, &lpbData, &dwDataSize)) {
+				while (!MraSendQueueFindOlderThan(hSendQueueHandle, SEND_QUEUE_TIMEOUT, &dwCMDNum, &dwFlags, &hContact, &dwAckType, &lpbData, &dwDataSize)) {
 					switch (dwAckType) {
 					case ACKTYPE_ADDED:
 					case ACKTYPE_AUTHREQ:
@@ -269,27 +269,27 @@ DWORD CMraProto::MraNetworkDispatcher()
 				lpbBufferRcv = (LPBYTE)mir_realloc(lpbBufferRcv, dwRcvBuffSize);
 			}
 
-			DWORD dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(lpbBufferRcv+dwRcvBuffSizeUsed), (dwRcvBuffSize-dwRcvBuffSizeUsed), 0);
+			DWORD dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(lpbBufferRcv + dwRcvBuffSizeUsed), (dwRcvBuffSize - dwRcvBuffSizeUsed), 0);
 			if (dwBytesReceived && dwBytesReceived != SOCKET_ERROR) {
 				dwRcvBuffSizeUsed += dwBytesReceived;
 
 				while (TRUE) {
-					dwDataCurrentBuffSize = (dwRcvBuffSize-dwDataCurrentBuffOffset);
-					dwDataCurrentBuffSizeUsed = (dwRcvBuffSizeUsed-dwDataCurrentBuffOffset);
-					pmaHeader = (mrim_packet_header_t*)(lpbBufferRcv+dwDataCurrentBuffOffset);
+					dwDataCurrentBuffSize = (dwRcvBuffSize - dwDataCurrentBuffOffset);
+					dwDataCurrentBuffSizeUsed = (dwRcvBuffSizeUsed - dwDataCurrentBuffOffset);
+					pmaHeader = (mrim_packet_header_t*)(lpbBufferRcv + dwDataCurrentBuffOffset);
 
 					// packet header received
 					if (dwDataCurrentBuffSizeUsed >= sizeof(mrim_packet_header_t)) {
 						// packet OK
 						if (pmaHeader->magic == CS_MAGIC) {
 							// full packet received, may be more than one
-							if ((dwDataCurrentBuffSizeUsed-sizeof(mrim_packet_header_t)) >= pmaHeader->dlen) {
+							if ((dwDataCurrentBuffSizeUsed - sizeof(mrim_packet_header_t)) >= pmaHeader->dlen) {
 
 								bContinue = MraCommandDispatcher(pmaHeader);
 
 								// move pointer to next packet in buffer
 								if (dwDataCurrentBuffSizeUsed - sizeof(mrim_packet_header_t) > pmaHeader->dlen)
-									dwDataCurrentBuffOffset += sizeof(mrim_packet_header_t) + pmaHeader->dlen;
+									dwDataCurrentBuffOffset += sizeof(mrim_packet_header_t)+pmaHeader->dlen;
 								// move pointer to begin of buffer
 								else {
 									// динамическое уменьшение буффера приёма
@@ -305,7 +305,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 							// not all packet received, continue receiving
 							else {
 								if (dwDataCurrentBuffOffset) {
-									memmove(lpbBufferRcv, (lpbBufferRcv+dwDataCurrentBuffOffset), dwDataCurrentBuffSizeUsed);
+									memmove(lpbBufferRcv, (lpbBufferRcv + dwDataCurrentBuffOffset), dwDataCurrentBuffSizeUsed);
 									dwRcvBuffSizeUsed = dwDataCurrentBuffSizeUsed;
 									dwDataCurrentBuffOffset = 0;
 								}
@@ -324,7 +324,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 					// packet to small, continue receiving
 					else {
 						debugLogW(L"Packet to small, continue receiving\n");
-						memmove(lpbBufferRcv, (lpbBufferRcv+dwDataCurrentBuffOffset), dwDataCurrentBuffSizeUsed);
+						memmove(lpbBufferRcv, (lpbBufferRcv + dwDataCurrentBuffOffset), dwDataCurrentBuffSizeUsed);
 						dwRcvBuffSizeUsed = dwDataCurrentBuffSizeUsed;
 						dwDataCurrentBuffOffset = 0;
 						break;
@@ -353,7 +353,7 @@ bool CMraProto::CmdHelloAck(BinBuffer &buf)
 	buf >> m_dwPingPeriod;
 
 	CMStringA szPass;
-	if ( !GetPassDB(szPass))
+	if (!GetPassDB(szPass))
 		return false;
 
 	char szValueName[MAX_PATH];
@@ -362,9 +362,9 @@ bool CMraProto::CmdHelloAck(BinBuffer &buf)
 
 	DWORD dwXStatusMir = m_iXStatus, dwXStatus;
 	DWORD dwStatus = GetMraStatusFromMiradaStatus(m_iDesiredStatus, dwXStatusMir, &dwXStatus);
-	if ( IsXStatusValid(dwXStatusMir)) {// xstatuses
+	if (IsXStatusValid(dwXStatusMir)) {// xstatuses
 		mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatusMir);
-		if ( !mraGetStringW(NULL, szValueName, wszStatusTitle))
+		if (!mraGetStringW(NULL, szValueName, wszStatusTitle))
 			wszStatusTitle = TranslateTS(lpcszXStatusNameDef[dwXStatusMir]);
 
 		mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldMsg", dwXStatusMir);
@@ -373,14 +373,14 @@ bool CMraProto::CmdHelloAck(BinBuffer &buf)
 	else wszStatusTitle = pcli->pfnGetStatusModeDescription(m_iDesiredStatus, 0);
 
 	CMStringA szSelfVersionString = MraGetSelfVersionString();
-	if ( !mraGetStringA(NULL, "MirVerCustom", szUserAgentFormatted))
+	if (!mraGetStringA(NULL, "MirVerCustom", szUserAgentFormatted))
 		szUserAgentFormatted.Format(
-			"client=\"magent\" name=\"Miranda NG\" title=\"%s\" version=\"777.%lu.%lu.%lu\" build=\"%lu\" protocol=\"%lu.%lu\"",
-			szSelfVersionString, __FILEVERSION_STRING, PROTO_VERSION_MAJOR, PROTO_VERSION_MINOR);
+		"client=\"magent\" name=\"Miranda NG\" title=\"%s\" version=\"777.%lu.%lu.%lu\" build=\"%lu\" protocol=\"%lu.%lu\"",
+		szSelfVersionString, __FILEVERSION_STRING, PROTO_VERSION_MAJOR, PROTO_VERSION_MINOR);
 
 	DWORD dwFutureFlags = (getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE) ? FEATURE_FLAG_RTF_MESSAGE : 0) | MRA_FEATURE_FLAGS;
 
-	if ( !mraGetStringA(NULL, "e-mail", szEmail))
+	if (!mraGetStringA(NULL, "e-mail", szEmail))
 		return false;
 
 	MraLogin2W(szEmail, szPass, dwStatus, CMStringA(lpcszStatusUri[dwXStatus]), wszStatusTitle, wszStatusDesc, dwFutureFlags, szUserAgentFormatted, szSelfVersionString);
@@ -421,9 +421,9 @@ bool CMraProto::CmdMessageAck(BinBuffer &buf)
 		buf >> szMultiChatData; // LPS multichat_data
 
 	// подтверждаем получение, только если удалось его обработать
-	if ( MraRecvCommand_Message((DWORD)_time32(NULL), dwFlags, szEmail, szText, szRTFText, szMultiChatData) == NO_ERROR)
-		if ((dwFlags & MESSAGE_FLAG_NORECV) == 0)
-			MraMessageRecv(szEmail, dwMsgID);
+	if (MraRecvCommand_Message((DWORD)_time32(NULL), dwFlags, szEmail, szText, szRTFText, szMultiChatData) == NO_ERROR)
+	if ((dwFlags & MESSAGE_FLAG_NORECV) == 0)
+		MraMessageRecv(szEmail, dwMsgID);
 	return true;
 }
 
@@ -431,7 +431,7 @@ bool CMraProto::CmdMessageStatus(ULONG seq, BinBuffer &buf)
 {
 	DWORD dwAckType, dwTemp = buf.getDword();
 	HANDLE hContact;
-	if ( !MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, NULL, NULL)) {
+	if (!MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, NULL, NULL)) {
 		switch (dwTemp) {
 		case MESSAGE_DELIVERED:// Message delivered directly to user
 			ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)seq, 0);
@@ -517,9 +517,8 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 			mraSetStringW(NULL, DBSETTING_BLOGSTATUS, szStringW);
 		}
 		else if (szString == "HAS_MYMAIL" || szString == "mrim.status.open_search" || szString == "rb.target.cookie" ||
-					szString == "show_web_history_link" || szString == "friends_suggest" || szString == "timestamp" ||
-					szString == "trusted_update" || szString == "mrim.wp.dating")
-		{
+			szString == "show_web_history_link" || szString == "friends_suggest" || szString == "timestamp" ||
+			szString == "trusted_update" || szString == "mrim.wp.dating") {
 			buf >> szString;
 		}
 		else _CrtDbgBreak();
@@ -618,10 +617,10 @@ bool CMraProto::CmdFileTransfer(BinBuffer &buf)
 	if (bAdded)
 		MraUpdateContactInfo(hContact);
 
-	if ( wszFilesW.IsEmpty())
+	if (wszFilesW.IsEmpty())
 		wszFilesW = szFiles;
 
-	if ( !wszFilesW.IsEmpty())
+	if (!wszFilesW.IsEmpty())
 		MraFilesQueueAddReceive(hFilesQueueHandle, 0, hContact, dwIDRequest, wszFilesW, szAddresses);
 	return true;
 }
@@ -707,13 +706,13 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 {
 	DWORD dwAckType; HANDLE hContact; LPBYTE pData; size_t dataLen;
-	if ( !MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, &pData, &dataLen)) {
+	if (!MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, &pData, &dataLen)) {
 		DWORD dwTemp = buf.getDword();
 		switch (dwTemp) {
 		case CONTACT_OPER_SUCCESS:// ## добавление произведено успешно
 			if (cmd == MRIM_CS_ADD_CONTACT_ACK) {
 				DWORD dwFlags = SCBIF_ID | SCBIF_SERVER_FLAG, dwGroupID = 0;
-				ptrT grpName( db_get_tsa(hContact, "CList", "Group"));
+				ptrT grpName(db_get_tsa(hContact, "CList", "Group"));
 				if (grpName) {
 					dwFlags |= SCBIF_GROUP_ID;
 					dwGroupID = MraMoveContactToGroup(hContact, -1, grpName);
@@ -755,12 +754,12 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 {
 	DWORD dwAckType, dwFlags; HANDLE hContact; LPBYTE pData; size_t dataLen;
-	if ( MraSendQueueFind(hSendQueueHandle, seq, &dwFlags, &hContact, &dwAckType, &pData, &dataLen)) {
+	if (MraSendQueueFind(hSendQueueHandle, seq, &dwFlags, &hContact, &dwAckType, &pData, &dataLen)) {
 		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateT("MRIM_ANKETA_INFO: not found in queue"));
 		return true;
 	}
 
-	switch(buf.getDword()) {
+	switch (buf.getDword()) {
 	case MRIM_ANKETA_INFO_STATUS_NOUSER:// не найдено ни одной подходящей записи
 		SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, 0, 0, 0);
 	case MRIM_ANKETA_INFO_STATUS_DBERR:// ошибка базы данных
@@ -826,10 +825,10 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 					else if (fld == "Birthday") {
 						buf >> val;
 						if (val.GetLength() > 9) {// calc "Age"
-							SYSTEMTIME stTime = {0};
-							stTime.wYear  = (WORD)StrToUNum32(val.c_str(), 4);
-							stTime.wMonth = (WORD)StrToUNum32(val.c_str()+5, 2);
-							stTime.wDay   = (WORD)StrToUNum32(val.c_str()+8, 2);
+							SYSTEMTIME stTime = { 0 };
+							stTime.wYear = (WORD)StrToUNum32(val.c_str(), 4);
+							stTime.wMonth = (WORD)StrToUNum32(val.c_str() + 5, 2);
+							stTime.wDay = (WORD)StrToUNum32(val.c_str() + 8, 2);
 							setWord(hContact, "BirthYear", stTime.wYear);
 							setByte(hContact, "BirthMonth", (BYTE)stTime.wMonth);
 							setByte(hContact, "BirthDay", (BYTE)stTime.wDay);
@@ -941,12 +940,12 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 				}
 			}
 			else if (dwAckType == ACKTYPE_SEARCH) {
-				TCHAR szNick[MAX_EMAIL_LEN] = {0},
-					szFirstName[MAX_EMAIL_LEN] = {0},
-					szLastName[MAX_EMAIL_LEN] = {0},
-					szEmail[MAX_EMAIL_LEN] = {0};
+				TCHAR szNick[MAX_EMAIL_LEN] = { 0 },
+					szFirstName[MAX_EMAIL_LEN] = { 0 },
+					szLastName[MAX_EMAIL_LEN] = { 0 },
+					szEmail[MAX_EMAIL_LEN] = { 0 };
 				CMStringA mralpsUsernameValue;
-				PROTOSEARCHRESULT psr = {0};
+				PROTOSEARCHRESULT psr = { 0 };
 
 				psr.cbSize = sizeof(psr);
 				psr.flags = PSR_UNICODE;
@@ -1092,8 +1091,8 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 
 			// add/modify group
 			if (dwControlParam > 1) { // все параметры правильно инициализированны!
-				if ( !(dwGroupFlags & CONTACT_FLAG_REMOVED)) {
-					m_groups.insert( new MraGroupItem(dwID, dwGroupFlags, wszGroupName));
+				if (!(dwGroupFlags & CONTACT_FLAG_REMOVED)) {
+					m_groups.insert(new MraGroupItem(dwID, dwGroupFlags, wszGroupName));
 					Clist_CreateGroup(0, wszGroupName);
 				}
 
@@ -1220,26 +1219,26 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			}
 
 			debugLogA("ID: %lu, Group id: %lu, %s: flags: %lu (", dwID, dwGroupID, szEmail, dwContactFlag);
-				if (dwContactFlag & CONTACT_FLAG_REMOVED)      debugLogA("CONTACT_FLAG_REMOVED, ");
-				if (dwContactFlag & CONTACT_FLAG_GROUP)        debugLogA("CONTACT_FLAG_GROUP, ");
-				if (dwContactFlag & CONTACT_FLAG_INVISIBLE)    debugLogA("CONTACT_FLAG_INVISIBLE, ");
-				if (dwContactFlag & CONTACT_FLAG_VISIBLE)      debugLogA("CONTACT_FLAG_VISIBLE, ");
-				if (dwContactFlag & CONTACT_FLAG_IGNORE)       debugLogA("CONTACT_FLAG_IGNORE, ");
-				if (dwContactFlag & CONTACT_FLAG_SHADOW)       debugLogA("CONTACT_FLAG_SHADOW, ");
-				if (dwContactFlag & CONTACT_FLAG_AUTHORIZED)   debugLogA("CONTACT_FLAG_AUTHORIZED, ");
-				if (dwContactFlag & CONTACT_FLAG_MULTICHAT)    debugLogA("CONTACT_FLAG_MULTICHAT, ");
-				if (dwContactFlag & CONTACT_FLAG_UNICODE_NAME) debugLogA("CONTACT_FLAG_UNICODE_NAME, ");
-				if (dwContactFlag & CONTACT_FLAG_PHONE)        debugLogA("CONTACT_FLAG_PHONE, ");
+			if (dwContactFlag & CONTACT_FLAG_REMOVED)      debugLogA("CONTACT_FLAG_REMOVED, ");
+			if (dwContactFlag & CONTACT_FLAG_GROUP)        debugLogA("CONTACT_FLAG_GROUP, ");
+			if (dwContactFlag & CONTACT_FLAG_INVISIBLE)    debugLogA("CONTACT_FLAG_INVISIBLE, ");
+			if (dwContactFlag & CONTACT_FLAG_VISIBLE)      debugLogA("CONTACT_FLAG_VISIBLE, ");
+			if (dwContactFlag & CONTACT_FLAG_IGNORE)       debugLogA("CONTACT_FLAG_IGNORE, ");
+			if (dwContactFlag & CONTACT_FLAG_SHADOW)       debugLogA("CONTACT_FLAG_SHADOW, ");
+			if (dwContactFlag & CONTACT_FLAG_AUTHORIZED)   debugLogA("CONTACT_FLAG_AUTHORIZED, ");
+			if (dwContactFlag & CONTACT_FLAG_MULTICHAT)    debugLogA("CONTACT_FLAG_MULTICHAT, ");
+			if (dwContactFlag & CONTACT_FLAG_UNICODE_NAME) debugLogA("CONTACT_FLAG_UNICODE_NAME, ");
+			if (dwContactFlag & CONTACT_FLAG_PHONE)        debugLogA("CONTACT_FLAG_PHONE, ");
 			debugLogA(")");
 
 			debugLogA(": server flags: %lu (", dwContactSeverFlags);
-				if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED) debugLogA("CONTACT_INTFLAG_NOT_AUTHORIZED, ");
+			if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED) debugLogA("CONTACT_INTFLAG_NOT_AUTHORIZED, ");
 			debugLogA(")");
 
 			// add/modify contact
 			if (dwGroupID != 103)//***deb filtering phone/sms contats
-			if ( _strnicmp(szEmail, "phone", 5))
-			if (dwControlParam>5)// все параметры правильно инициализированны!
+			if (_strnicmp(szEmail, "phone", 5))
+			if (dwControlParam > 5)// все параметры правильно инициализированны!
 			if ((dwContactFlag & (CONTACT_FLAG_GROUP | CONTACT_FLAG_REMOVED)) == 0) {
 				BOOL bAdded;
 				HANDLE hContact = MraHContactFromEmail(szEmail, TRUE, FALSE, &bAdded);
@@ -1253,19 +1252,19 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						dwTemp = GetMirandaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(szSpecStatusUri), &dwXStatus);
 
 						if (bAdded) { // update user info
-							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_FLAG|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_NICK|SCBIF_PHONES),
+							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_FLAG | SCBIF_SERVER_FLAG | SCBIF_STATUS | SCBIF_NICK | SCBIF_PHONES),
 								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, NULL, &wszNick, &szCustomPhones);
 							// request user info from server
 							MraUpdateContactInfo(hContact);
 						}
 						else {
 							if (iGroupMode == 100) { // first start
-								ptrT tszGroup( db_get_tsa(hContact, "CList", "Group"));
+								ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
 								if (tszGroup)
 									dwGroupID = MraMoveContactToGroup(hContact, dwGroupID, tszGroup);
 							}
 
-							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS),
+							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS),
 								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, NULL, &wszNick, &szCustomPhones);
 							if (wszNick.IsEmpty()) { // set the server-side nick
 								wszNick = GetContactNameW(hContact);
@@ -1281,11 +1280,11 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						mraWriteContactSettingBlob(hContact, DBSETTING_BLOGSTATUSID, &dwBlogStatusID.QuadPart, sizeof(DWORDLONG));
 						mraSetStringW(hContact, DBSETTING_BLOGSTATUS, wszBlogStatus);
 						mraSetStringW(hContact, DBSETTING_BLOGSTATUSMUSIC, wszBlogStatusMusic);
-						if ( IsXStatusValid(dwXStatus))
+						if (IsXStatusValid(dwXStatus))
 							SetExtraIcons(hContact);
 
 						if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
-							if ( !szUserAgentFormatted.IsEmpty()) {
+							if (!szUserAgentFormatted.IsEmpty()) {
 								if (getByte("MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE)
 									szUserAgentFormatted = MraGetVersionStringFromFormatted(szUserAgentFormatted);
 							}
@@ -1320,14 +1319,14 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						MraSetContactStatus(hContact, ID_STATUS_ONLINE);
 
 						CMStringW wszCustomName = GetContactNameW(hContact);
-						MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT), -1, szEmail, wszCustomName);
+						MraAddContact(hContact, (CONTACT_FLAG_VISIBLE | CONTACT_FLAG_MULTICHAT), -1, szEmail, wszCustomName);
 					}
 					else {
 						if (db_get_b(hContact, "CList", "NotOnList", 0) == 0) { // set extra icons and upload contact
 							SetExtraIcons(hContact);
 							if (getByte("AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER)) { //add all contacts to server
 								GetContactBasicInfoW(hContact, NULL, &dwGroupID, NULL, NULL, NULL, NULL, &wszNick, &szPhones);
-								MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_UNICODE_NAME), dwGroupID, szEmail, wszNick, &szPhones, &wszAuthMessage);
+								MraAddContact(hContact, (CONTACT_FLAG_VISIBLE | CONTACT_FLAG_UNICODE_NAME), dwGroupID, szEmail, wszNick, &szPhones, &wszAuthMessage);
 							}
 						}
 					}
@@ -1340,7 +1339,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 	else { // контакт лист почемуто не получили
 		// всех в offline и id в нестандарт
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-			SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS),
+			SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS),
 				-1, -2, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
 			// request user info from server
 			MraUpdateContactInfo(hContact);
@@ -1368,7 +1367,7 @@ bool CMraProto::CmdProxy(BinBuffer &buf)
 	buf >> szEmail >> dwIDRequest >> dwAckType >> szString >> szAddresses >> mguidSessionID;
 	if (dwAckType == MRIM_PROXY_TYPE_FILES) { // файлы, on file recv
 		// set proxy info to file transfer context
-		if ( !MraMrimProxySetData(MraFilesQueueItemProxyByID(hFilesQueueHandle, dwIDRequest), szEmail, dwIDRequest, dwAckType, szString, szAddresses, &mguidSessionID))
+		if (!MraMrimProxySetData(MraFilesQueueItemProxyByID(hFilesQueueHandle, dwIDRequest), szEmail, dwIDRequest, dwAckType, szString, szAddresses, &mguidSessionID))
 			MraFilesQueueStartMrimProxy(hFilesQueueHandle, dwIDRequest);
 		else { // empty/invalid session
 			MraProxyAck(PROXY_STATUS_ERROR, szEmail, dwIDRequest, dwAckType, szString, szAddresses, mguidSessionID);
@@ -1394,7 +1393,7 @@ bool CMraProto::CmdProxyAck(BinBuffer &buf)
 				break;
 			case PROXY_STATUS_OK:
 				// set proxy info to file transfer context
-				if ( !MraMrimProxySetData(hMraMrimProxyData, szEmail, dwIDRequest, dwAckType, szString, szAddresses, &mguidSessionID))
+				if (!MraMrimProxySetData(hMraMrimProxyData, szEmail, dwIDRequest, dwAckType, szString, szAddresses, &mguidSessionID))
 					MraFilesQueueStartMrimProxy(hFilesQueueHandle, dwIDRequest);
 				break;
 			case PROXY_STATUS_ERROR:
@@ -1457,7 +1456,7 @@ bool CMraProto::CmdBlogStatus(BinBuffer &buf)
 
 bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 {
-	WCHAR szBuff[4096] = {0};
+	WCHAR szBuff[4096] = { 0 };
 	DWORD dwTemp, dwAckType;
 	size_t dwSize;
 	HANDLE hContact = NULL;
@@ -1509,17 +1508,17 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 
 		dwAckType = m_dwEmailMessagesUnread;// save old value
 		m_dwEmailMessagesUnread = dwTemp;// store new value
-		if (getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwAckType<dwTemp || dwTemp == 0)
+		if (getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwAckType < dwTemp || dwTemp == 0)
 			MraUpdateEmailStatus("", "", 0, 0);
 		break;
 
 	case MRIM_CS_SMS_ACK:
 		buf >> dwTemp;
-		if ( MraSendQueueFind(hSendQueueHandle, pmaHeader->seq, NULL, &hContact, &dwAckType, &pByte, &dwSize) == NO_ERROR) {
+		if (MraSendQueueFind(hSendQueueHandle, pmaHeader->seq, NULL, &hContact, &dwAckType, &pByte, &dwSize) == NO_ERROR) {
 			CMStringA szEmail;
 			if (mraGetStringA(NULL, "e-mail", szEmail)) {
 				DWORD dwPhoneSize = *(DWORD*)pByte;
-				DWORD dwMessageSize = dwSize-(dwPhoneSize+sizeof(DWORD)+2);
+				DWORD dwMessageSize = dwSize - (dwPhoneSize + sizeof(DWORD)+2);
 				LPSTR lpszPhone = (LPSTR)pByte + sizeof(DWORD);
 				LPWSTR lpwszMessage = (LPWSTR)(lpszPhone + dwPhoneSize + 1);
 
@@ -1562,7 +1561,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 	CMStringA lpszMessageExt;
 	CMStringW wszMessage;
 
-	PROTORECVEVENT pre = {0};
+	PROTORECVEVENT pre = { 0 };
 	pre.timestamp = dwTime;
 
 	// check flags and datas
@@ -1590,31 +1589,31 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 			else { // преобразуем в юникод текст только если он в АНСИ и если это не Флэш мультик и будильник тоже не нуждается в этом
 				CMStringA lpsAuthMessage;
 				buf >> lpsAuthMessage;
-				wszMessage = ptrW( mir_a2u_cp(lpsAuthMessage, MRA_CODE_PAGE));
+				wszMessage = ptrW(mir_a2u_cp(lpsAuthMessage, MRA_CODE_PAGE));
 			}
 			mir_free(lpbAuthData);
 		}
 	}
 	else {
 		// unicode text
-		if ((dwFlags & (MESSAGE_FLAG_ALARM|MESSAGE_FLAG_FLASH|MESSAGE_FLAG_v1p16)) && (dwFlags & MESSAGE_FLAG_CP1251) == 0) {
+		if ((dwFlags & (MESSAGE_FLAG_ALARM | MESSAGE_FLAG_FLASH | MESSAGE_FLAG_v1p16)) && (dwFlags & MESSAGE_FLAG_CP1251) == 0) {
 			plpsText.AppendChar(0);  // compensate difference between ASCIIZ & WCHARZ
 			wszMessage = (WCHAR*)plpsText.GetString();
 		}
 		else wszMessage = plpsText;
 
-		if (dwFlags & (MESSAGE_FLAG_CONTACT|MESSAGE_FLAG_NOTIFY|MESSAGE_FLAG_SMS|MESSAGE_SMS_DELIVERY_REPORT|MESSAGE_FLAG_ALARM))
+		if (dwFlags & (MESSAGE_FLAG_CONTACT | MESSAGE_FLAG_NOTIFY | MESSAGE_FLAG_SMS | MESSAGE_SMS_DELIVERY_REPORT | MESSAGE_FLAG_ALARM))
 			; // do nothing; there's no extra part in a message
 		else {
 			if ((dwFlags & MESSAGE_FLAG_RTF) && !plpsRFTText.IsEmpty()) { //MESSAGE_FLAG_FLASH there
-				size_t dwRFTBuffSize = ((plpsRFTText.GetLength()*16)+8192);
+				size_t dwRFTBuffSize = ((plpsRFTText.GetLength() * 16) + 8192);
 
 				mir_ptr<BYTE> lpbRTFData((LPBYTE)mir_calloc(dwRFTBuffSize));
 				if (lpbRTFData) {
 					unsigned dwCompressedSize;
 					mir_ptr<BYTE> lpbCompressed((LPBYTE)mir_base64_decode(plpsRFTText, &dwCompressedSize));
 					DWORD dwRTFDataSize = dwRFTBuffSize;
-					if ( uncompress(lpbRTFData, &dwRTFDataSize, lpbCompressed, dwCompressedSize) == Z_OK) {
+					if (uncompress(lpbRTFData, &dwRTFDataSize, lpbCompressed, dwCompressedSize) == Z_OK) {
 						BinBuffer buf(lpbRTFData, dwRTFDataSize);
 
 						CMStringA lpsRTFString, lpsBackColour, szString;
@@ -1659,7 +1658,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 		mraGetStringA(NULL, "e-mail", szEmail);
 
 		CMStringW wszMessageXMLEncoded = EncodeXML(wszMessage);
-		ptrA lpszMessageUTF( mir_utf8encodeW(wszMessageXMLEncoded));
+		ptrA lpszMessageUTF(mir_utf8encodeW(wszMessageXMLEncoded));
 
 		CMStringA szText;
 		if (dwFlags & MESSAGE_SMS_DELIVERY_REPORT) {
@@ -1725,7 +1724,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					break;
 				case MULTICHAT_INVITE:
 					MraChatSessionInvite(hContact, lpsEMailInMultiChat, dwTime);// LPS sender
-					MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME), -1, plpsFrom, lpsMultichatName);
+					MraAddContact(hContact, (CONTACT_FLAG_VISIBLE | CONTACT_FLAG_MULTICHAT | CONTACT_FLAG_UNICODE_NAME), -1, plpsFrom, lpsMultichatName);
 					break;
 				default:
 					_CrtDbgBreak();
@@ -1735,7 +1734,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 			else if (dwFlags & MESSAGE_FLAG_AUTHORIZE) { // auth request
 				BOOL bAutoGrantAuth = FALSE;
 
-				if ( IsEMailChatAgent(plpsFrom))
+				if (IsEMailChatAgent(plpsFrom))
 					bAutoGrantAuth = FALSE;
 				else {
 					// temporary contact
@@ -1769,14 +1768,14 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 				db_unset(hContact, "CList", "Hidden");
 
 				if (dwFlags & MESSAGE_FLAG_CONTACT) { // contacts received
-					ptrA lpbBuffer( mir_u2a_cp(wszMessage, MRA_CODE_PAGE));
+					ptrA lpbBuffer(mir_u2a_cp(wszMessage, MRA_CODE_PAGE));
 					pre.flags = 0;
 					pre.szMessage = (LPSTR)lpbBuffer;
 					pre.lParam = strlen(lpbBuffer);
 
 					LPSTR lpbBufferCurPos = lpbBuffer;
 					while (TRUE) { // цикл замены ; на 0
-						lpbBufferCurPos = (LPSTR)MemoryFindByte((lpbBufferCurPos-(LPSTR)lpbBuffer), lpbBuffer, pre.lParam, ';');
+						lpbBufferCurPos = (LPSTR)MemoryFindByte((lpbBufferCurPos - (LPSTR)lpbBuffer), lpbBuffer, pre.lParam, ';');
 						if (!lpbBufferCurPos)
 							break;
 
@@ -1804,7 +1803,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					}
 					else {
 						// some plugins can change pre.szMessage pointer and we failed to free it
-						ptrA lpszMessageUTF( mir_utf8encodeW(wszMessage));
+						ptrA lpszMessageUTF(mir_utf8encodeW(wszMessage));
 						pre.szMessage = lpszMessageUTF;
 						pre.flags = PREF_UTF;
 						ProtoChainRecvMsg(hContact, &pre);
@@ -1824,7 +1823,7 @@ DWORD GetMraXStatusIDFromMraUriStatus(const char *szStatusUri)
 {
 	if (szStatusUri)
 		for (size_t i = 0; lpcszStatusUri[i]; i++)
-			if ( !_stricmp(lpcszStatusUri[i], szStatusUri))
+			if (!_stricmp(lpcszStatusUri[i], szStatusUri))
 				return i;
 
 	return MRA_XSTATUS_UNKNOWN;
@@ -1832,9 +1831,9 @@ DWORD GetMraXStatusIDFromMraUriStatus(const char *szStatusUri)
 
 DWORD GetMraStatusFromMiradaStatus(DWORD dwMirandaStatus, DWORD dwXStatusMir, DWORD *pdwXStatusMra)
 {
-	if ( IsXStatusValid(dwXStatusMir)) {
+	if (IsXStatusValid(dwXStatusMir)) {
 		if (pdwXStatusMra)
-			*pdwXStatusMra = (dwXStatusMir+MRA_XSTATUS_INDEX_OFFSET-1);
+			*pdwXStatusMra = (dwXStatusMir + MRA_XSTATUS_INDEX_OFFSET - 1);
 		return STATUS_USER_DEFINED;
 	}
 
@@ -1865,7 +1864,7 @@ DWORD GetMraStatusFromMiradaStatus(DWORD dwMirandaStatus, DWORD dwXStatusMir, DW
 
 	case ID_STATUS_INVISIBLE:
 		if (pdwXStatusMra) *pdwXStatusMra = MRA_XSTATUS_INVISIBLE;
-		return (STATUS_ONLINE|STATUS_FLAG_INVISIBLE);
+		return (STATUS_ONLINE | STATUS_FLAG_INVISIBLE);
 	}
 
 	if (pdwXStatusMra) *pdwXStatusMra = MRA_XSTATUS_OFFLINE;
@@ -1889,7 +1888,7 @@ DWORD GetMirandaStatusFromMraStatus(DWORD dwMraStatus, DWORD dwXStatusMra, DWORD
 			if (pdwXStatusMir) *pdwXStatusMir = MRA_MIR_XSTATUS_UNKNOWN;
 			return ID_STATUS_ONLINE;
 		}
-		if (pdwXStatusMir) *pdwXStatusMir = dwXStatusMra-MRA_XSTATUS_INDEX_OFFSET+1;
+		if (pdwXStatusMir) *pdwXStatusMir = dwXStatusMra - MRA_XSTATUS_INDEX_OFFSET + 1;
 		return ID_STATUS_ONLINE;
 	}
 
@@ -1959,7 +1958,7 @@ void BinBuffer::getStringW(CMStringW& ret)
 		m_data += sizeof(DWORD);
 		m_len -= sizeof(DWORD);
 		if (m_len >= dwLen) {
-			ret = CMStringW((LPWSTR)m_data, dwLen/2);
+			ret = CMStringW((LPWSTR)m_data, dwLen / 2);
 			m_data += dwLen;
 			m_len -= dwLen;
 			return;

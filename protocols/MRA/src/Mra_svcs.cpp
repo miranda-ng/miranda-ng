@@ -315,10 +315,10 @@ INT_PTR CMraProto::MraSetListeningTo(WPARAM wParam, LPARAM lParam)
 	}
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
 		CMStringW wszListeningTo;
-		if ( ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
+		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
 			wszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%track%. %title% - %artist% - %player%", (LPARAM)pliInfo));
 		else
-			wszListeningTo.Format(L"%s. %s - %s - %s", pliInfo->ptszTrack?pliInfo->ptszTrack:_T(""), pliInfo->ptszTitle?pliInfo->ptszTitle:_T(""), pliInfo->ptszArtist?pliInfo->ptszArtist:_T(""), pliInfo->ptszPlayer?pliInfo->ptszPlayer:_T(""));
+			wszListeningTo.Format(L"%s. %s - %s - %s", pliInfo->ptszTrack ? pliInfo->ptszTrack : _T(""), pliInfo->ptszTitle ? pliInfo->ptszTitle : _T(""), pliInfo->ptszArtist ? pliInfo->ptszArtist : _T(""), pliInfo->ptszPlayer ? pliInfo->ptszPlayer : _T(""));
 
 		mraSetStringExW(NULL, DBSETTING_BLOGSTATUSMUSIC, wszListeningTo);
 		MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, wszListeningTo, 0);
@@ -339,14 +339,12 @@ int CMraProto::MraMusicChanged(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WAT_EVENT_NEWTRACK:
-		{
-			SONGINFO *psiSongInfo;
-			if (WAT_RES_OK == CallService(MS_WAT_GETMUSICINFO, WAT_INF_UNICODE, (LPARAM)&psiSongInfo)) {
-				CMStringW wszMusic;
-				wszMusic.Format(_T("%ld. %s - %s - %s"), psiSongInfo->track, psiSongInfo->artist, psiSongInfo->title, psiSongInfo->player);
-				mraSetStringExW(NULL, DBSETTING_BLOGSTATUSMUSIC, wszMusic);
-				MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, wszMusic, 0);
-			}
+		SONGINFO *psiSongInfo;
+		if (WAT_RES_OK == CallService(MS_WAT_GETMUSICINFO, WAT_INF_UNICODE, (LPARAM)&psiSongInfo)) {
+			CMStringW wszMusic;
+			wszMusic.Format(_T("%ld. %s - %s - %s"), psiSongInfo->track, psiSongInfo->artist, psiSongInfo->title, psiSongInfo->player);
+			mraSetStringExW(NULL, DBSETTING_BLOGSTATUSMUSIC, wszMusic);
+			MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, wszMusic, 0);
 		}
 		break;
 	}
@@ -398,13 +396,13 @@ INT_PTR CMraProto::MraSetXStatusEx(WPARAM wParam, LPARAM lParam)
 
 		if (pData->flags & CSSF_MASK_STATUS) {
 			dwXStatus = *pData->status;
-			if ( IsXStatusValid(dwXStatus) == FALSE && dwXStatus != MRA_MIR_XSTATUS_NONE)
+			if (IsXStatusValid(dwXStatus) == FALSE && dwXStatus != MRA_MIR_XSTATUS_NONE)
 				iRet = 1;
 		}
 		else dwXStatus = m_iXStatus;
 
-		if (pData->flags & (CSSF_MASK_NAME|CSSF_MASK_MESSAGE) && iRet == 0) {
-			if ( IsXStatusValid(dwXStatus) || dwXStatus == MRA_MIR_XSTATUS_NONE) {
+		if (pData->flags & (CSSF_MASK_NAME | CSSF_MASK_MESSAGE) && iRet == 0) {
+			if (IsXStatusValid(dwXStatus) || dwXStatus == MRA_MIR_XSTATUS_NONE) {
 				CHAR szValueName[MAX_PATH];
 
 				// set custom status name
@@ -434,17 +432,17 @@ INT_PTR CMraProto::MraSetXStatusEx(WPARAM wParam, LPARAM lParam)
 				}
 			}
 			// неудача только если мы не ставили ’статус и попытались записать сообщени€ дл€ "нет" статуса
-			else if ( !(pData->flags & CSSF_MASK_STATUS))
+			else if (!(pData->flags & CSSF_MASK_STATUS))
 				iRet = 1;
 		}
 
 		// set/update xstatus code and/or message
-		if (pData->flags & (CSSF_MASK_STATUS|CSSF_MASK_NAME|CSSF_MASK_MESSAGE) && iRet == 0)
+		if (pData->flags & (CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE) && iRet == 0)
 			MraSetXStatusInternal(dwXStatus);
 
 		// hide menu items
 		if (pData->flags & CSSF_DISABLE_UI) {
-			bHideXStatusUI = (*pData->wParam)? FALSE:TRUE;
+			bHideXStatusUI = (*pData->wParam) ? FALSE : TRUE;
 			for (DWORD i = 0; i < MRA_XSTATUS_COUNT; i++)
 				Menu_ShowItem(hXStatusMenuItems[i], !bHideXStatusUI);
 		}
@@ -561,8 +559,8 @@ INT_PTR CMraProto::MraSendNudge(WPARAM wParam, LPARAM lParam)
 
 		CMStringA szEmail;
 		if (mraGetStringA(hContact, "e-mail", szEmail))
-			if (MraMessage(FALSE, hContact, 0, (MESSAGE_FLAG_RTF | MESSAGE_FLAG_ALARM), szEmail, lpwszAlarmMessage, NULL, 0))
-				return 0;
+		if (MraMessage(FALSE, hContact, 0, (MESSAGE_FLAG_RTF | MESSAGE_FLAG_ALARM), szEmail, lpwszAlarmMessage, NULL, 0))
+			return 0;
 	}
 	return 1;
 }

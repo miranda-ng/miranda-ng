@@ -60,7 +60,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 static CMraProto* mraProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
 {
-	CMraProto *ppro = new CMraProto( pszProtoName, tszUserName );
+	CMraProto *ppro = new CMraProto(pszProtoName, tszUserName);
 	g_Instances.insert(ppro);
 	return ppro;
 }

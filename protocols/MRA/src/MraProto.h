@@ -10,7 +10,7 @@
 #define SCBIF_NICK			64
 #define SCBIF_PHONES		128
 
-#define MAIN_MENU_ITEMS_COUNT		14
+#define MAIN_MENU_ITEMS_COUNT		13
 #define CONTACT_MENU_ITEMS_COUNT	10
 #define ADV_ICON_MAX             5
 

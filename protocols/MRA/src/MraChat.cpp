@@ -8,12 +8,12 @@ static LPWSTR lpwszStatuses[] = { L"Owners", L"Inviter", L"Visitors" };
 
 void CMraProto::MraChatDllError()
 {
-	MessageBox(NULL, TranslateT("CHAT plugin is required for conferences. Install it before chatting"), m_tszUserName, (MB_OK|MB_ICONWARNING));
+	MessageBox(NULL, TranslateT("CHAT plugin is required for conferences. Install it before chatting"), m_tszUserName, (MB_OK | MB_ICONWARNING));
 }
 
 bool CMraProto::MraChatRegister()
 {
-	if ( !ServiceExists(MS_GC_REGISTER))
+	if (!ServiceExists(MS_GC_REGISTER))
 		return FALSE;
 
 	GCREGISTER gcr = { sizeof(gcr) };
@@ -41,7 +41,7 @@ INT_PTR CMraProto::MraChatSessionNew(HANDLE hContact)
 		gcw.ptszID = wszEMail;
 		gcw.ptszStatusbarText = _T("status bar");
 		gcw.dwItemData = (DWORD)hContact;
-		if ( !CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw)) {
+		if (!CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw)) {
 			GCDEST gcd = { m_szModuleName, wszEMail.c_str(), GC_EVENT_ADDGROUP };
 			GCEVENT gce = { sizeof(gce), &gcd };
 			for (int i = 0; i < SIZEOF(lpwszStatuses); i++) {
@@ -189,7 +189,7 @@ int CMraProto::MraChatGcEventHook(WPARAM, LPARAM lParam)
 	if (bChatExists) {
 		GCHOOK* gch = (GCHOOK*)lParam;
 
-		if ( !_stricmp(gch->pDest->pszModule, m_szModuleName)) {
+		if (!_stricmp(gch->pDest->pszModule, m_szModuleName)) {
 			switch (gch->pDest->iType) {
 			case GC_USER_MESSAGE:
 				if (gch->ptszText && lstrlen(gch->ptszText)) {
@@ -211,7 +211,7 @@ int CMraProto::MraChatGcEventHook(WPARAM, LPARAM lParam)
 				break;
 
 			case GC_USER_PRIVMESS:
-				MraChatSendPrivateMessage( _T2A(gch->ptszUID));
+				MraChatSendPrivateMessage(_T2A(gch->ptszUID));
 				break;
 
 			case GC_USER_LOGMENU:

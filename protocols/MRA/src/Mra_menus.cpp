@@ -18,9 +18,9 @@ INT_PTR CMraProto::MraSendSMS(WPARAM wParam, LPARAM lParam)
 	if (!m_bLoggedIn || !wParam || !lParam)
 		return 0;
 
-	ptrW lpwszMessageXMLEncoded( mir_utf8decodeW((LPSTR)lParam));
+	ptrW lpwszMessageXMLEncoded(mir_utf8decodeW((LPSTR)lParam));
 	if (lpwszMessageXMLEncoded) {
-		CMStringW decoded = DecodeXML( CMStringW(lpwszMessageXMLEncoded));
+		CMStringW decoded = DecodeXML(CMStringW(lpwszMessageXMLEncoded));
 		if (decoded.GetLength())
 			MraSMSW(NULL, CMStringA((LPSTR)wParam), decoded);
 	}
@@ -42,10 +42,10 @@ INT_PTR CMraProto::MraWebSearch(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 {
-	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES ) {
+	if (MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			CMStringA szEmail;
-			if ( mraGetStringA(hContact, "e-mail", szEmail))
+			if (mraGetStringA(hContact, "e-mail", szEmail))
 				MraWPRequestByEMail(hContact, ACKTYPE_GETINFO, szEmail);
 		}
 	}
@@ -54,12 +54,12 @@ INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
 {
-	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+	if (MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			CMStringA szEmail;
 			if (mraGetStringA(hContact, "e-mail", szEmail))
-				if ( !IsEMailChatAgent(szEmail))
-					MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, 0, hContact, 0);
+			if (!IsEMailChatAgent(szEmail))
+				MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, 0, hContact, 0);
 		}
 	}
 	return 0;
@@ -67,7 +67,7 @@ INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 {
-	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_REQ_AUTH_FOR_ALL_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+	if (MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_REQ_AUTH_FOR_ALL_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			DWORD dwContactSeverFlags;
 			if (GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL) == NO_ERROR)
@@ -85,12 +85,12 @@ INT_PTR CMraProto::MraRequestAuthorization(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	CMStringW wszAuthMessage;
-	if ( !mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
+	if (!mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
 		wszAuthMessage = TranslateT(MRA_DEFAULT_AUTH_MESSAGE);
 
-	if ( !wszAuthMessage.IsEmpty()) {
+	if (!wszAuthMessage.IsEmpty()) {
 		CMStringA szEmail;
-		if ( mraGetStringA(hContact, "e-mail", szEmail)) {
+		if (mraGetStringA(hContact, "e-mail", szEmail)) {
 			BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
 			int iRet = MraMessage(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEmail, wszAuthMessage, NULL, 0);
 			if (bSlowSend == FALSE)
@@ -125,7 +125,7 @@ INT_PTR CMraProto::MraSendPostcard(WPARAM wParam, LPARAM lParam)
 	if (dwContactEMailCount) {
 		if (dwContactEMailCount == 1) {
 			CMStringA szUrl, szEmail;
-			if ( GetContactFirstEMail((HANDLE)wParam, FALSE, szEmail)) {
+			if (GetContactFirstEMail((HANDLE)wParam, FALSE, szEmail)) {
 				szEmail.MakeLower();
 				szUrl.Format("http://cards.mail.ru/event.html?rcptname=%s&rcptemail=%s", GetContactNameA((HANDLE)wParam), szEmail);
 				MraMPopSessionQueueAddUrl(hMPopSessionQueue, szUrl);
@@ -145,7 +145,7 @@ INT_PTR CMraProto::MraViewAlbum(WPARAM wParam, LPARAM lParam)
 	if (dwContactEMailMRCount) {
 		if (dwContactEMailMRCount == 1) {
 			CMStringA szEmail;
-			if ( GetContactFirstEMail((HANDLE)wParam, TRUE, szEmail))
+			if (GetContactFirstEMail((HANDLE)wParam, TRUE, szEmail))
 				MraMPopSessionQueueAddUrlAndEMail(hMPopSessionQueue, MRA_FOTO_URL, szEmail);
 		}
 		else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_VIEW_ALBUM);
@@ -177,7 +177,7 @@ INT_PTR CMraProto::MraReplyBlogStatus(WPARAM wParam, LPARAM lParam)
 
 	CMStringW blogStatusMsg;
 	mraGetStringW((HANDLE)wParam, DBSETTING_BLOGSTATUS, blogStatusMsg);
-	if (!blogStatusMsg.IsEmpty()|| wParam == 0)
+	if (!blogStatusMsg.IsEmpty() || wParam == 0)
 		MraSendReplyBlogStatus((HANDLE)wParam);
 
 	return 0;
@@ -294,11 +294,11 @@ int CMraProto::MraRebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 int CMraProto::MraRebuildStatusMenu(WPARAM wParam, LPARAM lParam)
 {
-	CHAR szServiceFunction[MAX_PATH*2], *pszServiceFunctionName, szValueName[MAX_PATH];
+	CHAR szServiceFunction[MAX_PATH * 2], *pszServiceFunctionName, szValueName[MAX_PATH];
 	strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
 	pszServiceFunctionName = szServiceFunction + strlen(m_szModuleName);
 
-	TCHAR szItem[MAX_PATH+64];
+	TCHAR szItem[MAX_PATH + 64];
 	mir_sntprintf(szItem, SIZEOF(szItem), _T("%s Custom Status"), m_tszUserName);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -310,12 +310,12 @@ int CMraProto::MraRebuildStatusMenu(WPARAM wParam, LPARAM lParam)
 	mi.pszContactOwner = m_szModuleName;
 
 	CMStringW szStatusTitle;
-	for (size_t i = 0; i < MRA_XSTATUS_COUNT; i++)  {
+	for (size_t i = 0; i < MRA_XSTATUS_COUNT; i++) {
 		mir_snprintf(pszServiceFunctionName, 100, "/menuXStatus%ld", i);
 		mi.position++;
 		if (i) {
 			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", i);
-			if ( mraGetStringW(NULL, szValueName, szStatusTitle))
+			if (mraGetStringW(NULL, szValueName, szStatusTitle))
 				mi.ptszName = (TCHAR*)szStatusTitle.c_str();
 			else
 				mi.ptszName = lpcszXStatusNameDef[i];
@@ -389,19 +389,19 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 
 void CMraProto::InitMenus()
 {
-	CreateProtoService(MRA_GOTO_INBOX,         &CMraProto::MraGotoInbox);
-	CreateProtoService(MRA_SHOW_INBOX_STATUS,  &CMraProto::MraShowInboxStatus);
-	CreateProtoService(MRA_EDIT_PROFILE,       &CMraProto::MraEditProfile);
-	CreateProtoService(MRA_VIEW_ALBUM,         &CMraProto::MraViewAlbum);
-	CreateProtoService(MRA_READ_BLOG,          &CMraProto::MraReadBlog);
-	CreateProtoService(MRA_REPLY_BLOG_STATUS,  &CMraProto::MraReplyBlogStatus);
-	CreateProtoService(MRA_VIEW_VIDEO,         &CMraProto::MraViewVideo);
-	CreateProtoService(MRA_ANSWERS,            &CMraProto::MraAnswers);
-	CreateProtoService(MRA_WORLD,              &CMraProto::MraWorld);
-	CreateProtoService(MRA_WEB_SEARCH,         &CMraProto::MraWebSearch);
+	CreateProtoService(MRA_GOTO_INBOX, &CMraProto::MraGotoInbox);
+	CreateProtoService(MRA_SHOW_INBOX_STATUS, &CMraProto::MraShowInboxStatus);
+	CreateProtoService(MRA_EDIT_PROFILE, &CMraProto::MraEditProfile);
+	CreateProtoService(MRA_VIEW_ALBUM, &CMraProto::MraViewAlbum);
+	CreateProtoService(MRA_READ_BLOG, &CMraProto::MraReadBlog);
+	CreateProtoService(MRA_REPLY_BLOG_STATUS, &CMraProto::MraReplyBlogStatus);
+	CreateProtoService(MRA_VIEW_VIDEO, &CMraProto::MraViewVideo);
+	CreateProtoService(MRA_ANSWERS, &CMraProto::MraAnswers);
+	CreateProtoService(MRA_WORLD, &CMraProto::MraWorld);
+	CreateProtoService(MRA_WEB_SEARCH, &CMraProto::MraWebSearch);
 	CreateProtoService(MRA_UPD_ALL_USERS_INFO, &CMraProto::MraUpdateAllUsersInfo);
-	CreateProtoService(MRA_CHK_USERS_AVATARS,  &CMraProto::MraCheckUpdatesUsersAvt);
-	CreateProtoService(MRA_REQ_AUTH_FOR_ALL,   &CMraProto::MraRequestAuthForAll);
+	CreateProtoService(MRA_CHK_USERS_AVATARS, &CMraProto::MraCheckUpdatesUsersAvt);
+	CreateProtoService(MRA_REQ_AUTH_FOR_ALL, &CMraProto::MraRequestAuthForAll);
 
 	hContactMenuRoot = CListCreateMenu(-2000001001, -500050000, FALSE, gdiContactMenuItems, CONTACT_MENU_ITEMS_COUNT, hContactMenuItems);
 

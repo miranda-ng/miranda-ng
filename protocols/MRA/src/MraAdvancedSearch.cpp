@@ -54,10 +54,6 @@ static const FieldNames ZodiakField[] =
 };
 
 
-
-
-
-
 void ResetComboBox(HWND hWndCombo)
 {
 	SendMessage(hWndCombo, CB_RESETCONTENT, 0, 0);
@@ -71,8 +67,7 @@ void InitComboBox(HWND hWndCombo, FieldNames *lpNames)
 {
 	ResetComboBox(hWndCombo);
 
-	for (size_t i = 0;lpNames[i].lpszText;i++)
-	{
+	for (size_t i = 0; lpNames[i].lpszText; i++) {
 		DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(lpNames[i].lpszText));
 		SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, lpNames[i].dwCode);
 	}
@@ -83,8 +78,7 @@ void InitComboBoxNumders(HWND hWndCombo, DWORD dwStart, DWORD dwEnd)
 {
 	ResetComboBox(hWndCombo);
 
-	for (DWORD i = dwStart;i <= dwEnd;i++)
-	{
+	for (DWORD i = dwStart; i <= dwEnd; i++) {
 		TCHAR szBuff[MAX_PATH];
 		mir_sntprintf(szBuff, SIZEOF(szBuff), _T("%lu"), i);
 		DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)szBuff);
@@ -99,24 +93,23 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 
 	switch (message) {
 	case WM_INITDIALOG:
+		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		{
 			DWORD dwItem;
 			WCHAR wszBuff[MAX_PATH];
 			SYSTEMTIME stTime;
 			GetLocalTime(&stTime);
 
-			SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 			ppro = (CMraProto*)lParam;
 			//InitComboBox(GetDlgItem(hWndDlg, IDC_EMAIL_DOMAIN), (FieldNames*)DomainField);
-			{
-				HWND hWndCombo = GetDlgItem(hWndDlg, IDC_EMAIL_DOMAIN);
-				ResetComboBox(hWndCombo);
-				for (size_t i = 0;lpcszMailRuDomains[i];i++)
-				{
-					MultiByteToWideChar(MRA_CODE_PAGE, 0, lpcszMailRuDomains[i], -1, wszBuff, SIZEOF(wszBuff));
-					SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)wszBuff);
-				}
+
+			HWND hWndCombo = GetDlgItem(hWndDlg, IDC_EMAIL_DOMAIN);
+			ResetComboBox(hWndCombo);
+			for (size_t i = 0; lpcszMailRuDomains[i]; i++) {
+				MultiByteToWideChar(MRA_CODE_PAGE, 0, lpcszMailRuDomains[i], -1, wszBuff, SIZEOF(wszBuff));
+				SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)wszBuff);
 			}
+
 			InitComboBox(GetDlgItem(hWndDlg, IDC_GENDER), (FieldNames*)GenderField);
 			InitComboBoxNumders(GetDlgItem(hWndDlg, IDC_AGERANGE_FROM), 1, 100);
 			InitComboBoxNumders(GetDlgItem(hWndDlg, IDC_AGERANGE_TO), 1, 100);
@@ -125,21 +118,18 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 			InitComboBoxNumders(GetDlgItem(hWndDlg, IDC_BIRTHDAY_YEAR), 1900, (DWORD)stTime.wYear);
 			InitComboBox(GetDlgItem(hWndDlg, IDC_ZODIAK), (FieldNames*)ZodiakField);
 
-			HWND hWndCombo = GetDlgItem(hWndDlg, IDC_COUNTRY);
+			hWndCombo = GetDlgItem(hWndDlg, IDC_COUNTRY);
 			ResetComboBox(hWndCombo);
-			for (size_t i = 0;mrapPlaces[i].lpszData;i++)
-			{
-				if (mrapPlaces[i].dwCityID == 0 && mrapPlaces[i].dwPlaceID == 0)
-				{
+			for (size_t i = 0; mrapPlaces[i].lpszData; i++) {
+				if (mrapPlaces[i].dwCityID == 0 && mrapPlaces[i].dwPlaceID == 0) {
 					dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)mrapPlaces[i].lpszData);
 					SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, mrapPlaces[i].dwCountryID);
 				}
 			}
 
-
 			ResetComboBox(GetDlgItem(hWndDlg, IDC_CITY));
 
-			if ( ppro->getByte("AdvancedSearchRemember", MRA_DEFAULT_SEARCH_REMEMBER)) {
+			if (ppro->getByte("AdvancedSearchRemember", MRA_DEFAULT_SEARCH_REMEMBER)) {
 				SendDlgItemMessage(hWndDlg, IDC_GENDER, CB_SETCURSEL, ppro->getWord("AdvancedSearchGender", 0), 0);
 				SendDlgItemMessage(hWndDlg, IDC_AGERANGE_FROM, CB_SETCURSEL, ppro->getWord("AdvancedSearchAgeFrom", 0), 0);
 				SendDlgItemMessage(hWndDlg, IDC_AGERANGE_TO, CB_SETCURSEL, ppro->getWord("AdvancedSearchAgeTo", 0), 0);
@@ -186,25 +176,23 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 		switch (LOWORD(wParam)) {
 		case IDC_AGERANGE_FROM:
 		case IDC_AGERANGE_TO:
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-			{
-				if (LOWORD(wParam) == IDC_AGERANGE_FROM)
-				{
+			if (HIWORD(wParam) == CBN_SELCHANGE) {
+				if (LOWORD(wParam) == IDC_AGERANGE_FROM) {
 					DWORD dwAgeFrom = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_AGERANGE_FROM);
 					DWORD dwAgeTo = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_AGERANGE_TO);
 					if (dwAgeFrom == 0) dwAgeFrom++;
 					InitComboBoxNumders(GetDlgItem(hWndDlg, IDC_AGERANGE_TO), dwAgeFrom, 100);
-					SendMessage(GetDlgItem(hWndDlg, IDC_AGERANGE_TO), CB_SETCURSEL, ((dwAgeTo-dwAgeFrom)+1), 0);
+					SendMessage(GetDlgItem(hWndDlg, IDC_AGERANGE_TO), CB_SETCURSEL, ((dwAgeTo - dwAgeFrom) + 1), 0);
 				}
 				SendMessage(GetDlgItem(hWndDlg, IDC_BIRTHDAY_YEAR), CB_SETCURSEL, 0, 0);
 			}
 			break;
+
 		case IDC_BIRTHDAY_DAY:
 		case IDC_BIRTHDAY_MONTH:
 		case IDC_BIRTHDAY_YEAR:
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-			{
-				SYSTEMTIME stTime = {0};
+			if (HIWORD(wParam) == CBN_SELCHANGE) {
+				SYSTEMTIME stTime = { 0 };
 
 				stTime.wYear = (WORD)GET_CURRENT_COMBO_DATA(hWndDlg, IDC_BIRTHDAY_YEAR);
 				stTime.wMonth = (WORD)GET_CURRENT_COMBO_DATA(hWndDlg, IDC_BIRTHDAY_MONTH);
@@ -216,17 +204,17 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 				SendMessage(GetDlgItem(hWndDlg, IDC_ZODIAK), CB_SETCURSEL, 0, 0);
 			}
 			break;
+
 		case IDC_ZODIAK:
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-			{
+			if (HIWORD(wParam) == CBN_SELCHANGE) {
 				SendDlgItemMessage(hWndDlg, IDC_BIRTHDAY_DAY, CB_SETCURSEL, 0, 0);
 				SendDlgItemMessage(hWndDlg, IDC_BIRTHDAY_MONTH, CB_SETCURSEL, 0, 0);
 				//SendDlgItemMessage(hWndDlg, IDC_BIRTHDAY_YEAR, CB_SETCURSEL, 0, 0);
 			}
 			break;
+
 		case IDC_COUNTRY:
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-			{
+			if (HIWORD(wParam) == CBN_SELCHANGE) {
 				DWORD dwCountryID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_COUNTRY);
 				HWND hWndCombo = GetDlgItem(hWndDlg, IDC_STATE);
 				SendMessage(hWndCombo, CB_RESETCONTENT, 0, 0);
@@ -235,19 +223,17 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 				SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, 0);
 				SendMessage(hWndCombo, CB_SETCURSEL, dwItem, 0);
 
-				for (size_t i = 0;mrapPlaces[i].lpszData;i++)
-				{
-					if (mrapPlaces[i].dwCountryID == dwCountryID && mrapPlaces[i].dwCityID && mrapPlaces[i].dwPlaceID == 0)
-					{
+				for (size_t i = 0; mrapPlaces[i].lpszData; i++) {
+					if (mrapPlaces[i].dwCountryID == dwCountryID && mrapPlaces[i].dwCityID && mrapPlaces[i].dwPlaceID == 0) {
 						dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)mrapPlaces[i].lpszData);
 						SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, mrapPlaces[i].dwCityID);
 					}
 				}
 			}
 			break;
+
 		case IDC_STATE:
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-			{
+			if (HIWORD(wParam) == CBN_SELCHANGE) {
 				DWORD dwCountryID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_COUNTRY);
 				DWORD dwStateID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_STATE);
 				HWND hWndCombo = GetDlgItem(hWndDlg, IDC_CITY);
@@ -256,24 +242,16 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 				SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, 0);
 				SendMessage(hWndCombo, CB_SETCURSEL, dwItem, 0);
 
-				for (size_t i = 0;mrapPlaces[i].lpszData;i++)
-				{
-					if (mrapPlaces[i].dwCountryID == dwCountryID && mrapPlaces[i].dwCityID == dwStateID && mrapPlaces[i].dwPlaceID)
-					{
+				for (size_t i = 0; mrapPlaces[i].lpszData; i++) {
+					if (mrapPlaces[i].dwCountryID == dwCountryID && mrapPlaces[i].dwCityID == dwStateID && mrapPlaces[i].dwPlaceID) {
 						dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)mrapPlaces[i].lpszData);
 						SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, mrapPlaces[i].dwPlaceID);
 					}
 				}
 			}
-			break;
-		default:
-			break;
 		}
-		break;
-	default:
-		break;
 	}
-return FALSE;
+	return FALSE;
 }
 
 HWND CMraProto::SearchAdvanced(HWND hWndDlg)
@@ -284,8 +262,7 @@ HWND CMraProto::SearchAdvanced(HWND hWndDlg)
 
 	size_t dwUserSize = GetDlgItemTextA(hWndDlg, IDC_EMAIL_USER, szUser, SIZEOF(szUser));
 	size_t dwDomainSize = GetDlgItemTextA(hWndDlg, IDC_EMAIL_DOMAIN, szDomain, SIZEOF(szDomain));
-	if (dwUserSize && dwDomainSize)
-	{
+	if (dwUserSize && dwDomainSize) {
 		SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER);
 		SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DOMAIN);
 	}
