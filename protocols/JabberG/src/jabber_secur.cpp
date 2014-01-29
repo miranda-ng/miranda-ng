@@ -231,7 +231,7 @@ TScramAuth::~TScramAuth()
 
 void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t saltLen, int ind)
 {
-	BYTE u[MIR_SHA1_HASH_SIZE];
+	BYTE *u = (BYTE*)_alloca(saltLen + sizeof(unsigned));
 	memcpy(u, salt, saltLen); *(unsigned*)(u + saltLen) = htonl(1); saltLen += 4;
 	memset(res, 0, MIR_SHA1_HASH_SIZE);
 
