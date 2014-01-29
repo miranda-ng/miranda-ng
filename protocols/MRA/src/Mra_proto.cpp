@@ -1884,6 +1884,9 @@ DWORD GetMirandaStatusFromMraStatus(DWORD dwMraStatus, DWORD dwXStatusMra, DWORD
 		switch (dwXStatusMra) {
 		case MRA_XSTATUS_DND:     return ID_STATUS_DND;
 		case MRA_XSTATUS_CHAT:    return ID_STATUS_FREECHAT;
+		case MRA_XSTATUS_MOBILE:
+			if (pdwXStatusMir) *pdwXStatusMir = MRA_MIR_XSTATUS_MOBILE;
+			return ID_STATUS_ONLINE;
 		case MRA_XSTATUS_UNKNOWN:
 			if (pdwXStatusMir) *pdwXStatusMir = MRA_MIR_XSTATUS_UNKNOWN;
 			return ID_STATUS_ONLINE;
