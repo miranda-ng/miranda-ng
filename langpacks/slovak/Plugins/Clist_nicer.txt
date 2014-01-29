@@ -223,14 +223,14 @@ Meno
 Stav
 [Never]
 nikdy
+[Contact list]
+Zoznam kontaktov
 [Background]
 Pozadie
 [Contacts]
 Kontakty
 [Advanced]
 Podrobne
-[Contact list]
-Zoznam kontaktov
 [Warning]
 Varovanie
 [Standard contacts]
@@ -239,14 +239,14 @@ Varovanie
 Pripojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
 [Offline contacts]
 Odpojený užívatelia
-[Offline contacts to whom you have a different visibility]
-Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
 [Contacts which are 'not on list']
 Užívatelia ktorí niesu v zozname
 [Group member counts]
 Počet členov skupiny
 [Dividers]
 Oddelovače
+[Offline contacts to whom you have a different visibility]
+Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
 [&Find/Add Contacts...]
 Nájsť/Pridať kontakty...
 [&Options...]

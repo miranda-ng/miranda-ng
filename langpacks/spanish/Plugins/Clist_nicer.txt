@@ -648,6 +648,8 @@ Estado
 
 [With Nickname - right]
 
+[Contact list]
+Lista de contactos
 [List layout]
 
 [Background]
@@ -662,8 +664,6 @@ Contactos
 Avanzado
 [Skins]
 Pieles
-[Contact list]
-Lista de contactos
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 
@@ -735,14 +735,14 @@ Contactos estándar
 Contactos en línea a los que usted tiene una visibilidad diferente
 [Offline contacts]
 Contactos fuera de línea
-[Offline contacts to whom you have a different visibility]
-Contactos desconectados a los que usted tiene una visibilidad diferente
 [Contacts which are 'not on list']
 Contactos que son 'no está en la lista'
 [Group member counts]
 Recuentos miembros del grupo
 [Dividers]
 Divisores
+[Offline contacts to whom you have a different visibility]
+Contactos desconectados a los que usted tiene una visibilidad diferente
 [Frame titles]
 
 [Contact list local time]

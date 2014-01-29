@@ -72,7 +72,6 @@
 [My Video]
 [My Answers]
 [My World]
-[Zhuki]
 [Web search]
 [Update all users info]
 [Check users avatars updates]

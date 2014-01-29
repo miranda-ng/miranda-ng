@@ -329,6 +329,8 @@ Mensajes de estado
 
 [Background]
 Fondo
+[Contact list]
+Lista de contactos
 [Selected Text]
 Texto seleccionado
 [Hottrack Text]
@@ -336,8 +338,6 @@ Texto rondado
 [Quicksearch Text]
 Búsqueda rápida de texto
 ;file \plugins\Clist_mw\src\clcopts.cpp
-[Contact list]
-Lista de contactos
 [List]
 Lista
 [List MetaContacts]

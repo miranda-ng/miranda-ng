@@ -327,6 +327,8 @@ ms между две мигания
 Контакт под курсора
 [Background]
 Фон
+[Contact list]
+Списък с контакти
 [Selected Text]
 Маркиран текст
 [Hottrack Text]
@@ -334,8 +336,6 @@ ms между две мигания
 [Quicksearch Text]
 Бързо търсен текст
 ;file \plugins\Clist_mw\src\clcopts.cpp
-[Contact list]
-Списък с контакти
 [List]
 Списък
 [List MetaContacts]

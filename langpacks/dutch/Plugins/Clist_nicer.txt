@@ -261,12 +261,12 @@ Standaard personen
 Online personen met een andere zichtbaarheid
 [Offline contacts]
 Offline personen
-[Offline contacts to whom you have a different visibility]
-Offline personen met een andere zichtbaarheid
 [Contacts which are 'not on list']
 Personen die 'niet op de lijst' staan
 [Dividers]
 Verdelers
+[Offline contacts to whom you have a different visibility]
+Offline personen met een andere zichtbaarheid
 [&Find/Add Contacts...]
 Personen zoeken/toevoegen...
 [&Options...]

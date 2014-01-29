@@ -503,6 +503,8 @@ Messze balra
 Messze jobbra
 [With Nickname - right]
 Becenévvel - jobb
+[Contact list]
+Kapcsolati lista
 [List layout]
 Lista nézet
 [Background]
@@ -513,8 +515,6 @@ Partnerek
 Csoportok és nézet
 [Advanced]
 Haladó
-[Contact list]
-Kapcsolati lista
 [Add permanently]
 Végleges hozzáadás
 [Revert to default]
@@ -561,14 +561,14 @@ Alapvetõ partnerek
 Elérhetõ partnerek, akik eltérõen láthatnak
 [Offline contacts]
 Kilépett partnerek
-[Offline contacts to whom you have a different visibility]
-Kilépett partnerek, akik eltérõen láthatnak
 [Contacts which are 'not on list']
 Partnerek, akik 'nincsenek a listán'
 [Group member counts]
 Csoport tagszámok
 [Dividers]
 Meghajtók
+[Offline contacts to whom you have a different visibility]
+Kilépett partnerek, akik eltérõen láthatnak
 [Frame titles]
 Keret címek
 [Contact list local time]

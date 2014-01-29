@@ -307,14 +307,14 @@
 Контакти під вказівником
 [Background]
 Фон
+[Contact list]
+Список контактів
 [Selected Text]
 Виділений текст
 [Hottrack Text]
 Під курсором
 [Quicksearch Text]
 Швидкий пошук
-[Contact list]
-Список контактів
 [List]
 Список
 [List MetaContacts]

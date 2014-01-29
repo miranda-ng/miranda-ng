@@ -329,6 +329,8 @@ Groupe fermé
 Contacts survolés
 [Background]
 Arrière-plan
+[Contact list]
+Liste de contacts
 [Selected Text]
 Texte sélectionné
 [Hottrack Text]
@@ -336,8 +338,6 @@ Texte sous souris
 [Quicksearch Text]
 Texte en recherche rapide
 ;file \plugins\Clist_mw\src\clcopts.cpp
-[Contact list]
-Liste de contacts
 [List]
 Liste
 [List MetaContacts]

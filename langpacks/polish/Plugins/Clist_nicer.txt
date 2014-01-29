@@ -648,6 +648,8 @@ Daleko w lewo
 Daleko w prawo
 [With Nickname - right]
 Na prawo od nazwy kontaktu
+[Contact list]
+Lista kontaktów
 [List layout]
 Układ listy
 [Background]
@@ -662,8 +664,6 @@ Układ grup
 Zaawansowane
 [Skins]
 Skórki
-[Contact list]
-Lista kontaktów
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Dodaj na stałe
@@ -735,14 +735,14 @@ Standardowe kontakty
 Połączone kontakty, dla których mam różną widoczność
 [Offline contacts]
 Kontakty "Rozłączone"
-[Offline contacts to whom you have a different visibility]
-Rozłączone kontakty, dla których mam różną widoczność
 [Contacts which are 'not on list']
 Kontakty spoza listy
 [Group member counts]
 Liczba członków grupy
 [Dividers]
 Separatory
+[Offline contacts to whom you have a different visibility]
+Rozłączone kontakty, dla których mam różną widoczność
 [Frame titles]
 Tytuły ramek
 [Contact list local time]

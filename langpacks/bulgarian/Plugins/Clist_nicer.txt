@@ -646,6 +646,8 @@ URL събития
 Далеч вдясно
 [With Nickname - right]
 С прякора вдясно
+[Contact list]
+Списък с контакти
 [List layout]
 Изглед на списъка
 [Background]
@@ -660,8 +662,6 @@ URL събития
 Разширени
 [Skins]
 Облици
-[Contact list]
-Списък с контакти
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Добавяне за постоянно
@@ -733,14 +733,14 @@ URL събития
 Контакти, към които имате различна видимост
 [Offline contacts]
 Контакти "Извън линия"
-[Offline contacts to whom you have a different visibility]
-Контакти "Извън линия", към които имате различна видимост
 [Contacts which are 'not on list']
 Контакти, които не са в списъка
 [Group member counts]
 Брой контакти в групата
 [Dividers]
 Разделители
+[Offline contacts to whom you have a different visibility]
+Контакти "Извън линия", към които имате различна видимост
 [Frame titles]
 Заглавие на рамките
 [Contact list local time]

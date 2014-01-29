@@ -505,6 +505,8 @@ Uzak solda
 Uzak sağda
 [With Nickname - right]
 Kısa adla - sağda
+[Contact list]
+Kişi Listesi
 [List layout]
 Liste yerleşimi
 [Background]
@@ -515,8 +517,6 @@ Kişiler
 Gruplar ve yerleşim
 [Advanced]
 Gelişmiş
-[Contact list]
-Kişi Listesi
 [Add permanently]
 Kalıcı olarak ekle
 [Revert to default]
@@ -563,14 +563,14 @@ Standart kişiler
 Farklı görünürlüğe sahip olduğunuz çevrimiçi kişiler
 [Offline contacts]
 Çevrimdışı kişiler
-[Offline contacts to whom you have a different visibility]
-Farklı görünürlükte olduğunuz çevrimdışı kişiler 
 [Contacts which are 'not on list']
 'listede olmayan' kişiler
 [Group member counts]
 Grup üyelerinin sayısı
 [Dividers]
 Ayıraçlar
+[Offline contacts to whom you have a different visibility]
+Farklı görünürlükte olduğunuz çevrimdışı kişiler 
 [Frame titles]
 Başlıkları çerçevele
 [Contact list local time]

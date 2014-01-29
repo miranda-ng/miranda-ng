@@ -642,6 +642,8 @@
 Па правым краі
 [With Nickname - right]
 Справа ад мянушкі
+[Contact list]
+Спіс кантактаў
 [List layout]
 Размяшчэнне спісу
 [Background]
@@ -656,8 +658,6 @@
 Дадаткова
 [Skins]
 Скіны
-[Contact list]
-Спіс кантактаў
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Дадаць у спіс
@@ -729,14 +729,14 @@
 Са змененай бачнасцю (далучаны)
 [Offline contacts]
 Адключаныя кантакты
-[Offline contacts to whom you have a different visibility]
-Са змененай бачнасцю (адключаныя)
 [Contacts which are 'not on list']
 Кантакты 'не ў спісе'
 [Group member counts]
 Лічыльнікі гуртоў
 [Dividers]
 Падзельнікі
+[Offline contacts to whom you have a different visibility]
+Са змененай бачнасцю (адключаныя)
 [Frame titles]
 Загалоўкі фрэймаў
 [Contact list local time]

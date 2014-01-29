@@ -509,6 +509,8 @@ RTL テキストのみ
 右端
 [With Nickname - right]
 ニックネーム付 - 右
+[Contact list]
+コンタクトリスト
 [List layout]
 リストのレイアウト
 [Background]
@@ -521,8 +523,6 @@ RTL テキストのみ
 グループとレイアウト
 [Advanced]
 詳細
-[Contact list]
-コンタクトリスト
 [Add permanently]
 完全に追加
 [Revert to default]
@@ -571,14 +571,14 @@ TabSRMM メニューを表示
 異なる可視設定のユーザーに対するオンラインコンタクト
 [Offline contacts]
 オフラインコンタクト
-[Offline contacts to whom you have a different visibility]
-異なる可視設定のユーザーに対するオフラインコンタクト
 [Contacts which are 'not on list']
 ' リストにない ' コンタクト
 [Group member counts]
 グループメンバー数
 [Dividers]
 境界線
+[Offline contacts to whom you have a different visibility]
+異なる可視設定のユーザーに対するオフラインコンタクト
 [Frame titles]
 フレームタイトル
 [Contact list local time]

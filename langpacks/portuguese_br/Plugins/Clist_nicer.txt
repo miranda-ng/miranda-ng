@@ -491,6 +491,8 @@ Extrema esquerda
 Extrema direita
 [With Nickname - right]
 Com Apelido - à direita
+[Contact list]
+Lista de Contatos
 [List layout]
 Lista de distribuição
 [Background]
@@ -501,8 +503,6 @@ Contatos
 Grupos e layout
 [Advanced]
 Avançado
-[Contact list]
-Lista de Contatos
 [Add permanently]
 Adicionar permanente
 [Revert to default]
@@ -549,14 +549,14 @@ Contatos padrão
 Contatos Online para quem a visibilidade é diferenciada
 [Offline contacts]
 Contatos offline
-[Offline contacts to whom you have a different visibility]
-Contatos Offline para quem a visibilidade é diferenciada
 [Contacts which are 'not on list']
 Contatos que estão 'sem lista'
 [Group member counts]
 Contagem de membros do grupo
 [Dividers]
 Divisórias
+[Offline contacts to whom you have a different visibility]
+Contatos Offline para quem a visibilidade é diferenciada
 [Frame titles]
 Títulos das janelas
 [Contact list local time]

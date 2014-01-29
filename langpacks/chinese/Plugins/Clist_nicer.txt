@@ -511,6 +511,8 @@
 最右侧
 [With Nickname - right]
 含昵称 - 右
+[Contact list]
+联系人列表
 [List layout]
 列表布局
 [Background]
@@ -523,8 +525,6 @@
 群组及布局
 [Advanced]
 高级
-[Contact list]
-联系人列表
 [Add permanently]
 永久添加
 [Revert to default]
@@ -577,14 +577,14 @@
 与您有不同可见度的在线联系人
 [Offline contacts]
 离线联系人
-[Offline contacts to whom you have a different visibility]
-与您有不同可见度的离线联系人
 [Contacts which are 'not on list']
- "不在列表" 中的联系人
+"不在列表" 中的联系人
 [Group member counts]
 群组成员数量
 [Dividers]
 分隔器
+[Offline contacts to whom you have a different visibility]
+与您有不同可见度的离线联系人
 [Frame titles]
 框架标题
 [Contact list local time]

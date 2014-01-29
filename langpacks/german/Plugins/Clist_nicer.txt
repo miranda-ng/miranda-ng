@@ -648,6 +648,8 @@ Ganz links
 Ganz rechts
 [With Nickname - right]
 Mit Nickname rechts
+[Contact list]
+Kontaktliste
 [List layout]
 Kontaktlistenaussehen
 [Background]
@@ -662,8 +664,6 @@ Gruppen und Aussehen
 Erweitert
 [Skins]
 Skins
-[Contact list]
-Kontaktliste
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Dauerhaft hinzufügen
@@ -735,14 +735,14 @@ Standardkontakte
 Online-Kontakte mit anderer Sichtbarkeit
 [Offline contacts]
 Offline-Kontakte
-[Offline contacts to whom you have a different visibility]
-Offline-Kontakte mit anderer Sichtbarkeit
 [Contacts which are 'not on list']
 Temporäre Kontakte
 [Group member counts]
 Kontaktzähler einer Gruppe
 [Dividers]
 Trennlinien
+[Offline contacts to whom you have a different visibility]
+Offline-Kontakte mit anderer Sichtbarkeit
 [Frame titles]
 Frame Titel
 [Contact list local time]

@@ -267,14 +267,14 @@ Contatti standard
 Contatti online per cui hai una visibilità differente
 [Offline contacts]
 Contatti non connessi
-[Offline contacts to whom you have a different visibility]
-Contatti offline per cui hai una visibilità differente
 [Contacts which are 'not on list']
 Contatto 'non in lista'
 [Group member counts]
 Conto dei membri di un gruppo
 [Dividers]
 Divisori
+[Offline contacts to whom you have a different visibility]
+Contatti offline per cui hai una visibilità differente
 [Minutes]
 minuti
 [Frames]

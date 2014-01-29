@@ -329,6 +329,8 @@ Gruppe geschlossen
 Schwebende Kontakte
 [Background]
 Hintergrund
+[Contact list]
+Kontaktliste
 [Selected Text]
 Markierter Text
 [Hottrack Text]
@@ -336,8 +338,6 @@ Hottracktext
 [Quicksearch Text]
 Schnellsuche-Text
 ;file \plugins\Clist_mw\src\clcopts.cpp
-[Contact list]
-Kontaktliste
 [List]
 Liste
 [List MetaContacts]

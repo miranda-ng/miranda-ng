@@ -495,6 +495,8 @@ Lengst venstre
 Lengst høyre
 [With Nickname - right]
 Med Kallenavn - høyre
+[Contact list]
+Kontaktliste
 [List layout]
 Liste layout
 [Background]
@@ -505,8 +507,6 @@ Kontakter
 Grupper og layout
 [Advanced]
 Avansert
-[Contact list]
-Kontaktliste
 [Add permanently]
 Legg til permanent
 [Revert to default]
@@ -551,14 +551,14 @@ Standard kontakter
 Påloggede kontakter du har en annen synlighet ovenfor 
 [Offline contacts]
 Frakoblede kontakter
-[Offline contacts to whom you have a different visibility]
-Frakoblede brukere du har annen synlighet ovenfor
 [Contacts which are 'not on list']
 Kontakter som 'ikke er på liste'
 [Group member counts]
 Antall gruppemedlemmer
 [Dividers]
 Delere
+[Offline contacts to whom you have a different visibility]
+Frakoblede brukere du har annen synlighet ovenfor
 [Frame titles]
 Rammetitler
 [Contact list local time]

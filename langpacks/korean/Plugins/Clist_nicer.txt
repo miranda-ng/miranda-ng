@@ -255,14 +255,14 @@
 다른 가시성을 지니고 있는 온라인 대화 상대
 [Offline contacts]
 오프라인 대화 상대
-[Offline contacts to whom you have a different visibility]
-다른 가시성을 지니고 있는 오프라인 대화 상대
 [Contacts which are 'not on list']
 '목록에 없는' 대화 상대
 [Group member counts]
 그룹 멤버 숫자
 [Dividers]
 분리자
+[Offline contacts to whom you have a different visibility]
+다른 가시성을 지니고 있는 오프라인 대화 상대
 [&Find/Add Contacts...]
 &F 찾기/대화 상대 추가...
 [&Options...]

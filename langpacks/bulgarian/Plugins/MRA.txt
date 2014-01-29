@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.1.0.7
+;  Version: 2.1.0.8
 ;  Authors: Ivan Rozhuk
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
@@ -192,8 +192,6 @@ E-поща:
 [My Answers]
 
 [My World]
-
-[Zhuki]
 
 [Web search]
 

@@ -375,14 +375,14 @@
 בקצה הימני
 [With Nickname - right]
 עם הכינוי - ימינה
+[Contact list]
+רשימת אנשי קשר
 [Background]
 רקע
 [Contacts]
 אנשי קשר
 [Advanced]
 מתקדם
-[Contact list]
-רשימת אנשי קשר
 [Add permanently]
 הוסף לנצח
 [Revert to default]
@@ -403,14 +403,14 @@
 אנשי קשר מחוברים שלהם יש לך הגדרות ראות אחרות.
 [Offline contacts]
 אנשי קשר לא מחוברים
-[Offline contacts to whom you have a different visibility]
-אנשי קשר לא מחוברים שלהם יש לך הגדרות ראות אחרות.
 [Contacts which are 'not on list']
 אנשי קשר שלא נמצאים ברשימה
 [Group member counts]
 מספר חבריי קבוצה
 [Dividers]
 חוצצים
+[Offline contacts to whom you have a different visibility]
+אנשי קשר לא מחוברים שלהם יש לך הגדרות ראות אחרות.
 [Frame titles]
 כותרות מסגרת
 [Title bar]

@@ -329,6 +329,8 @@ Cлужба:
 Кантакты пад паказальнікам
 [Background]
 Фон
+[Contact list]
+Спіс кантактаў
 [Selected Text]
 Вылучаны тэкст
 [Hottrack Text]
@@ -336,8 +338,6 @@ Cлужба:
 [Quicksearch Text]
 Хуткі пошук
 ;file \plugins\Clist_mw\src\clcopts.cpp
-[Contact list]
-Спіс кантактаў
 [List]
 Спіс
 [List MetaContacts]

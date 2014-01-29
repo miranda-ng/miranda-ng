@@ -329,6 +329,8 @@ Grupy zamknięte
 Kontakty po najechaniu
 [Background]
 Tło
+[Contact list]
+Lista kontaktów
 [Selected Text]
 Wybrany tekst
 [Hottrack Text]
@@ -336,8 +338,6 @@ Tekst pod kursorem
 [Quicksearch Text]
 Tekst szybkiego wyszukiwania
 ;file \plugins\Clist_mw\src\clcopts.cpp
-[Contact list]
-Lista kontaktów
 [List]
 Lista
 [List MetaContacts]

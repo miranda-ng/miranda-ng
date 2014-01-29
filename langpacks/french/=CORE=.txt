@@ -1655,8 +1655,6 @@ Arrière-plan
 [Global]
 Général
 ;file \src\core\stdclist\src\cluiopts.cpp
-[Contact List]
-Liste de contacts
 ;file \src\core\stdcrypt\encrypt.cpp
 [Standard crypto provider]
 
