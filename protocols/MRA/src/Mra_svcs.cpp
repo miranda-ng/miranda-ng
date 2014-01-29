@@ -60,7 +60,7 @@ const LPSTR lpcszStatusUri[] =
 	"status_52",
 	"status_53",
 	"status_dating",
-	"status_55",
+	"status_mobile",
 	NULL
 };
 
