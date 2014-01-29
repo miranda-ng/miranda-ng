@@ -1390,7 +1390,7 @@ Kişi adını değiştirdi
 Kişi bir uyarı gönderdi
 [The topic has been changed]
 Başlık değiştirildi
-[&Join]
+[&Join chat]
 &Katıl
 [%s wants your attention in %s]
 %s %s içine dikkatinizi çekiyor

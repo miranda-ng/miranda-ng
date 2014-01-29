@@ -1368,7 +1368,7 @@ Felhasználó nevet változtatott
 Felhasználó megjegyzést küldött
 [The topic has been changed]
 A téma megváltozott
-[&Join]
+[&Join chat]
 &Csatlakozás
 [%s wants your attention in %s]
 %s szertné a figyelmedet itt: %s

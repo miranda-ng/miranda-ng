@@ -1957,8 +1957,10 @@ URL
 [The topic has been changed]
 Промяна на тема
 ;file \src\modules\chat\chat_svc.cpp
-[&Join]
+[&Join chat]
 Влизане
+[&Leave chat]
+
 ;file \src\modules\chat\clist.cpp
 ;file \src\modules\chat\log.cpp
 [%s has joined]

@@ -865,7 +865,7 @@ Seleziona cartella
 Generale
 [Popups]
 Popups
-[&Join]
+[&Join chat]
 &Unisciti
 [%s speaks in %s]
 %s discute in %s

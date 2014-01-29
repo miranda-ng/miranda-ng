@@ -1319,7 +1319,7 @@ Bruker har endret navn
 Bruker har sendt et varsel
 [The topic has been changed]
 Overskriften har blitt forandret
-[&Join]
+[&Join chat]
 &Join
 [%s wants your attention in %s]
 %s ønsker din oppmerksomhet i %s

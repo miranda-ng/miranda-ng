@@ -1923,7 +1923,7 @@ URL від %s
 Приватні повідомлення
 [The topic has been changed]
 Зміни теми
-[&Join]
+[&Join chat]
 Увійти до чату
 [%s has joined]
 %s увійшов

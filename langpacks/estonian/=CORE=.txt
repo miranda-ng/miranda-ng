@@ -706,7 +706,7 @@ Vali kaust
 Üldine
 [Chat log]
 Vestluse logi
-[&Join]
+[&Join chat]
 &Ühine
 [%s says: %s]
 %s ütles: %s

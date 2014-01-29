@@ -73,6 +73,7 @@
 [Contact stopped typing]
 [Contact]
 [Chat log symbols (Webdings)]
+[&Leave chat]
 [ (set by %s on %s)]
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]

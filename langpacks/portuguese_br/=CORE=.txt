@@ -1406,7 +1406,7 @@ O usuário mudou o nome
 Usuário enviou uma notícia
 [The topic has been changed]
 O tópico foi mudado
-[&Join]
+[&Join chat]
 &Agrupar
 [%s wants your attention in %s]
 %s pede sua atenção em %s

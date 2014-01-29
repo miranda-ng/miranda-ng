@@ -1524,7 +1524,7 @@ Miranda NG 正准备重启. \n请稍候...
 用户已发送公告
 [The topic has been changed]
 主题已变更
-[&Join]
+[&Join chat]
 加入(&J)
 [%s wants your attention in %s]
 %s 需要您注意 %s

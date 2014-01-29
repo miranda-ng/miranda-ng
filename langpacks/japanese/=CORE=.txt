@@ -1520,7 +1520,7 @@ SMS テキストメッセージを受信できる電話
 ユーザーは通知を送信しました
 [The topic has been changed]
 トピックは変更されています
-[&Join]
+[&Join chat]
 参加する (&J)
 [%s wants your attention in %s]
 %s はあなたに %s について注意を求めています

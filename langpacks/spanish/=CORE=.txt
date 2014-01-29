@@ -1988,8 +1988,10 @@ El usuario ha enviado una notificación
 [The topic has been changed]
 El tema ha sido cambiado
 ;file \src\modules\chat\chat_svc.cpp
-[&Join]
+[&Join chat]
 &Entrar
+[&Leave chat]
+
 ;file \src\modules\chat\clist.cpp
 ;file \src\modules\chat\log.cpp
 [%s has joined]

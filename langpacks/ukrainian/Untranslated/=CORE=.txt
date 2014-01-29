@@ -1,1 +1,2 @@
 ﻿[Group chat log background]
+[&Leave chat]

@@ -1119,7 +1119,7 @@ OutputDebugString()
 משתמש שלח הערה
 [The topic has been changed]
 נושא השתנה
-[&Join]
+[&Join chat]
 הצטרף
 [%s kicked %s from %s]
 %s מ %s נבעט %s

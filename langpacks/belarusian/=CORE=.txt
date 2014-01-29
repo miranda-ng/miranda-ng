@@ -1982,7 +1982,7 @@ URL ад %s
 [The topic has been changed]
 Тэма змянілася
 ;file \src\modules\chat\chat_svc.cpp
-[&Join]
+[&Join chat]
 Зайсці
 ;file \src\modules\chat\clist.cpp
 ;file \src\modules\chat\log.cpp

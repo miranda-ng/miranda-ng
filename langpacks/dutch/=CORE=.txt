@@ -1073,7 +1073,7 @@ Gebruiker heeft naam gewijzigd
 Gebruiker heeft een melding gestuurd
 [The topic has been changed]
 Het onderwerp is veranderd
-[&Join]
+[&Join chat]
 Binnengaan
 [%s wants your attention in %s]
 %s heeft uw aandacht nodig in %s
