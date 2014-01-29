@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.0
+;  Version: 3.3.0.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -969,12 +969,12 @@ Információ (10x10)
 Csevegõablakok megjelenése és mûködése
 [Appearance of the message log]
 Napló üzenet megjelenése
-[Channel operators]
-Csatorna operátorok
-[Half operators]
-Fél operátorok
 [Voiced]
 Hangok
+[Half operators]
+Fél operátorok
+[Channel operators]
+Csatorna operátorok
 [Extended mode 1]
 Kiterjesztett mód 1
 [Extended mode 2]

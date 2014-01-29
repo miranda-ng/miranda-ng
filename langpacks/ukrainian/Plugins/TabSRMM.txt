@@ -791,12 +791,12 @@ TabSRMM: Набирає
 * Символи (вихідні)
 [Horizontal Grid Lines]
 Горизонтальні лінії сітки журналу
-[Channel operators]
-Адміністратори
-[Half operators]
-Модератори
 [Voiced]
 Користувачі з правом голосу
+[Half operators]
+Модератори
+[Channel operators]
+Адміністратори
 [Extended mode 1]
 Розширений режим 1
 [Extended mode 2]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.0
+;  Version: 3.3.0.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -889,12 +889,12 @@ Informasjon (10x10)
 Utseende og funksjonalitet til chat-rom vinduene
 [Appearance of the message log]
 Utseendet til samtaleloggen
-[Channel operators]
-Kanaloperatører
-[Half operators]
-Halvoperatører
 [Voiced]
 Voicet
+[Half operators]
+Halvoperatører
+[Channel operators]
+Kanaloperatører
 [Extended mode 1]
 Utvidet modus 1
 [Extended mode 2]

@@ -20,3 +20,4 @@
 [Reply to %s blog status]
 [Set my blog status]
 [Written]
+[Mobile]

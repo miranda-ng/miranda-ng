@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.0
+;  Version: 3.3.0.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -2073,12 +2073,12 @@ TabSRMM предупреждение
 Външен вид и функционалност на чат стаите
 [Appearance of the message log]
 Външен вид на дневника за съобщения
-[Channel operators]
-(Op) Оператор на канала
-[Half operators]
-(Halfop) Полуоператор
 [Voiced]
 (Voice) Можещ да говори
+[Half operators]
+(Halfop) Полуоператор
+[Channel operators]
+(Op) Оператор на канала
 [Extended mode 1]
 Разширен режим1
 [Extended mode 2]

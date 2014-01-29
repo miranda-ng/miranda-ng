@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.0
+;  Version: 3.3.0.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -1139,12 +1139,12 @@ Registro de grupo de bate-papo
 Aspecto e funcionalidade das janelas de conversa
 [Appearance of the message log]
 Aspecto do registro de mensagens
-[Channel operators]
-Operadores do canal
-[Half operators]
-Semi Operadores
 [Voiced]
 Expressas
+[Half operators]
+Semi Operadores
+[Channel operators]
+Operadores do canal
 [Extended mode 1]
 Modo Avançado 1
 [Extended mode 2]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.1.0.6
+;  Version: 2.1.0.7
 ;  Authors: Ivan Rozhuk
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
@@ -298,6 +298,11 @@ Popups
 
 [Written]
 
+;file \protocols\MRA\src\Mra_menus.cpp
+[Are you sure?]
+Сигурни ли сте?
+[Services...]
+
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Мрежа
@@ -435,5 +440,5 @@ Popups
 Музика
 [Dating]
 
-[Are you sure?]
-Сигурни ли сте?
+[Mobile]
+

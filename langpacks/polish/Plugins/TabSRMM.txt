@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.0
+;  Version: 3.3.0.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -2084,12 +2084,12 @@ Dziennik czatu
 Wygląd i funkcjonalność okna czatu
 [Appearance of the message log]
 Wygląd dziennika wiadomości
-[Channel operators]
-Głos właścicieli
-[Half operators]
-Głos moderatorów
 [Voiced]
 Głos członków
+[Half operators]
+Głos moderatorów
+[Channel operators]
+Głos właścicieli
 [Extended mode 1]
 Tryb rozszerzony 1
 [Extended mode 2]

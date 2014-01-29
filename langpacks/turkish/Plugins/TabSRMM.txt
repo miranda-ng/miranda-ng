@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.0
+;  Version: 3.3.0.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [OK]
@@ -971,12 +971,12 @@ Bilgi (10x10)
 Sohbet odası pencerelerinin görünümü ve işlevleri
 [Appearance of the message log]
 İleti günlüğünün görünümü
-[Channel operators]
-Kanal operatörleri
-[Half operators]
-Yarım operatörler
 [Voiced]
 Seslendirildi
+[Half operators]
+Yarım operatörler
+[Channel operators]
+Kanal operatörleri
 [Extended mode 1]
 Genişletilmiş kip 1
 [Extended mode 2]
