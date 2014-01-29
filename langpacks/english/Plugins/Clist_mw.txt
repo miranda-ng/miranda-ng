@@ -169,11 +169,11 @@
 [Group Closed]
 [Hover Contacts]
 [Background]
+[Contact list]
 [Selected Text]
 [Hottrack Text]
 [Quicksearch Text]
 ;file \plugins\Clist_mw\src\clcopts.cpp
-[Contact list]
 [List]
 [List MetaContacts]
 [Not focused]

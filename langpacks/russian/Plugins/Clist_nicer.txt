@@ -631,6 +631,8 @@
 По правому краю
 [With Nickname - right]
 Справа от ника
+[Contact list]
+Список контактов
 [List layout]
 Расположение списка
 [Background]
@@ -645,8 +647,6 @@
 Дополнительно
 [Skins]
 Скины
-[Contact list]
-Список контактов
 [Add permanently]
 Добавить в список
 [Revert to default]
@@ -707,14 +707,14 @@
 Контакты с изменённой видимостью (в сети)
 [Offline contacts]
 Отключённые контакты
-[Offline contacts to whom you have a different visibility]
-Контакты с изменённой видимостью (отключённые)
 [Contacts which are 'not on list']
 Контакты 'не в списке'
 [Group member counts]
 Счётчики групп
 [Dividers]
 Разделители
+[Offline contacts to whom you have a different visibility]
+Контакты с изменённой видимостью (отключённые)
 [Frame titles]
 Заголовки фреймов
 [Contact list local time]

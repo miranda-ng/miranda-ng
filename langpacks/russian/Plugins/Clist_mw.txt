@@ -325,14 +325,14 @@ Cлужба:
 Контакты под указателем
 [Background]
 Фон
+[Contact list]
+Список контактов
 [Selected Text]
 Выделенный текст
 [Hottrack Text]
 Под курсором
 [Quicksearch Text]
 Быстрый поиск
-[Contact list]
-Список контактов
 [List]
 Список
 [List MetaContacts]
