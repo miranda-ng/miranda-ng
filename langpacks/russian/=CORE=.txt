@@ -1921,8 +1921,10 @@ URL от %s
 Пользователь отправил уведомление
 [The topic has been changed]
 Тема изменилась
-[&Join]
-&Зайти
+[&Join chat]
+Войти в чат
+[&Leave chat]
+Покинуть чат
 [%s has joined]
 %s вошёл
 [You have joined %s]

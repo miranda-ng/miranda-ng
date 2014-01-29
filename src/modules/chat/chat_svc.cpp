@@ -561,14 +561,14 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.position = -2000090001;
 	mi.flags = CMIF_DEFAULT;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);
-	mi.pszName = LPGEN("&Join");
+	mi.pszName = LPGEN("&Join chat");
 	mi.pszService = "GChat/JoinChat";
 	hJoinMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000090000;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_LEAVE);
 	mi.flags = CMIF_NOTOFFLINE;
-	mi.pszName = LPGEN("&Leave");
+	mi.pszName = LPGEN("&Leave chat");
 	mi.pszService = "GChat/LeaveChat";
 	hLeaveMenuItem = Menu_AddContactMenuItem(&mi);
 
