@@ -355,7 +355,7 @@ int CluiModernOptInit(WPARAM wParam, LPARAM lParam)
 	obj.iSection = MODERNOPT_PAGE_CLIST;
 	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
 	obj.iBoldControls = iBoldControls;
-	obj.lpzClassicGroup = LPGEN("Contact List");
+	obj.lpzClassicGroup = LPGEN("Contact list");
 	obj.lpzClassicPage = "List";
 	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
 
