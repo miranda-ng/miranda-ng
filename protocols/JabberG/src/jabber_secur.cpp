@@ -231,15 +231,17 @@ TScramAuth::~TScramAuth()
 
 void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t saltLen, int ind)
 {
-	BYTE *u = (BYTE*)_alloca(saltLen + sizeof(unsigned));
-	memcpy(u, salt, saltLen); *(unsigned*)(u + saltLen) = htonl(1); saltLen += 4;
+	size_t bufLen = saltLen + sizeof(UINT32);
+	BYTE *u = (BYTE*)_alloca(max(bufLen, MIR_SHA1_HASH_SIZE));
+	memcpy(u, salt, saltLen); *(UINT32*)(u + saltLen) = htonl(1);
+	
 	memset(res, 0, MIR_SHA1_HASH_SIZE);
 
 	for (int i = 0; i < ind; i++) {
-		mir_hmac_sha1(u, (BYTE*)passw, passwLen, u, saltLen);
-		saltLen = sizeof(u);
+		mir_hmac_sha1(u, (BYTE*)passw, passwLen, u, bufLen);
+		bufLen = MIR_SHA1_HASH_SIZE;
 
-		for (unsigned j = 0; j < sizeof(u); j++)
+		for (unsigned j = 0; j < MIR_SHA1_HASH_SIZE; j++)
 			res[j] ^= u[j];
 	}
 }
@@ -252,7 +254,7 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 
 	ptrA chl((char*)mir_base64_decode(_T2A(challenge), &chlLen));
 
-	for (char *p = strtok(chl, ","); p != NULL; p = strtok(NULL, ",")) {
+	for (char *p = strtok(NEWSTR_ALLOCA(chl), ","); p != NULL; p = strtok(NULL, ",")) {
 		if (*p == 'r' && p[1] == '=') { // snonce
 			if (strncmp(cnonce, p + 2, strlen(cnonce)))
 				return NULL;
