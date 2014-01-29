@@ -246,40 +246,26 @@ void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t 
 
 char* TScramAuth::getChallenge(const TCHAR *challenge)
 {
-	unsigned chlLen;
+	unsigned chlLen, saltLen;
+	ptrA snonce, salt;
+	int ind = -1;
+
 	ptrA chl((char*)mir_base64_decode(_T2A(challenge), &chlLen));
 
-	char *r = strstr(chl, "r=");
-	if (!r)
+	for (char *p = strtok(chl, ","); p != NULL; p = strtok(NULL, ",")) {
+		if (*p == 'r' && p[1] == '=') { // snonce
+			if (strncmp(cnonce, p + 2, strlen(cnonce)))
+				return NULL;
+			snonce = mir_strdup(p + 2);
+		}
+		else if (*p == 's' && p[1] == '=') // salt
+			salt = (char*)mir_base64_decode(p + 2, &saltLen);
+		else if (*p == 'i' && p[1] == '=')
+			ind = atoi(p + 2);
+	}
+
+	if (snonce == NULL || salt == NULL || ind == -1)
 		return NULL;
-
-	char *e = strchr(r, ','); if (e) *e = 0;
-	ptrA snonce(mir_strdup(r + 2));
-	if (e) *e = ',';
-
-	size_t cnlen = strlen(cnonce);
-	if (strncmp(cnonce, snonce, cnlen))
-		return NULL;
-
-	char *s = strstr(chl, "s=");
-	if (!s)
-		return NULL;
-	e = strchr(s, ','); if (e) *e = 0;
-
-	unsigned saltLen;
-	ptrA salt((char*)mir_base64_decode(s + 2, &saltLen));
-	if (e) *e = ',';
-	if (saltLen > 16)
-		return NULL;
-
-	char *in = strstr(chl, "i=");
-	if (!in)
-		return NULL;
-
-	e = strchr(in, ','); if (e) *e = 0;
-	int ind = atoi(in + 2);
-	if (e)
-		*e = ',';
 
 	ptrA passw(mir_utf8encodeT(info->password));
 	size_t passwLen = strlen(passw);
