@@ -17,6 +17,7 @@ type
     button4: tbutton;
     Button5: TButton;
     Button6: TButton;
+    Button7: TButton;
     CheckListBox1: TCheckListBox;
     Edit1: TEdit;
     Edit2: TEdit;
@@ -33,6 +34,7 @@ type
     procedure Button4Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
     procedure Button6Click(Sender: TObject);
+    procedure Button7Click(Sender: TObject);
     procedure combobox1change(sender: tobject);
     procedure ComboBox2Change(Sender: TObject);
     procedure formcreate(sender: tobject);
@@ -106,6 +108,7 @@ begin
          button2.visible:=false;
          button3.visible:=false;
          button4.visible:=false;
+         button7.visible:=false;
          label1.visible:=false;
          radiogroup1.visible:=false;
          edit1.visible:=true;
@@ -119,7 +122,7 @@ end;
 procedure tform1.FormResize(Sender: TObject);
 begin
   combobox2.Left:=form1.Width-78;
-  label1.left:=form1.Width-140;
+  label1.left:=form1.Width-150;
   button1.Left:=form1.width-48;
   memo1.Width:=form1.Width-140;
   memo2.Width:=form1.Width-140;
@@ -128,6 +131,7 @@ begin
   button2.top:=form1.Height-25;
   button3.top:=form1.Height-25;
   button4.top:=form1.Height-25;
+  button7.top:=form1.Height-25;
   listbox.height:=form1.Height-42;
 
   memo1.Height:=Trunc((form1.Height-80)/2);
@@ -419,6 +423,49 @@ begin
     trline.SaveToFile(extractfilepath(application.exename)
       +'/'+CheckListBox1.Items[i]);
  end;
+end;
+
+procedure tform1.Button7Click(Sender: TObject);
+  var search:TStringList; r:integer;
+begin
+if (form1.caption<>'Miranda NG Langpack Tools: Editor')
+then
+   begin
+if listbox.itemindex<listbox.items.Count-1 then listbox.itemindex:=listbox.ItemIndex+1;
+ savestring;
+               search:=tstringlist.Create;
+               combobox2.items.clear;
+               trline.Clear;
+               combobox2.items.add('english');
+               trline.add(copy(s[0,u[listbox.itemindex]],2,
+               length(s[0,u[listbox.itemindex]])-2));
+               for i:=0 to trlang.count-1 do
+               begin
+               if (fileexists(extractfilepath(application.exename)+
+                    '/'+trlang[i]+'/'+filename+'.txt'))
+               and(trlang[i]<>locale) then
+                  begin
+                    search.LoadFromFile(extractfilepath(application.exename)+
+                    '/'+trlang[i]+'/'+filename+'.txt');
+                   for r:=1 to search.Count-2 do
+                    if (search[r]=s[0,u[listbox.itemindex]])
+                    and (search[r+1]<>'')
+                    and (search[r+1]<>'[')
+                    and (search[r+1]<>';')
+                    then begin
+                    combobox2.items.add(trlang[i]);
+                    trline.add(search[r+1]);
+                    break;
+                    end;
+                  end;
+               end;
+               search.free;
+               combobox2.itemindex:=0;
+        memo1.lines.clear;
+        memo2.lines.clear;
+        stringview;
+        memo2.setFocus();
+   end;
 end;
 
 procedure tform1.ListBox1Click(sender: tobject);

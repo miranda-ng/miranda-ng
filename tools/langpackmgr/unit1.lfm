@@ -2,16 +2,16 @@ object Form1: TForm1
   Left = 291
   Height = 340
   Top = 170
-  Width = 505
+  Width = 500
   HorzScrollBar.Page = 532
   HorzScrollBar.Range = 528
   VertScrollBar.Page = 296
   VertScrollBar.Range = 283
   Caption = 'Miranda NG Langpack Tools: Editor'
   ClientHeight = 340
-  ClientWidth = 505
+  ClientWidth = 500
   Constraints.MinHeight = 340
-  Constraints.MinWidth = 450
+  Constraints.MinWidth = 460
   OnCreate = FormCreate
   OnResize = FormResize
   LCLVersion = '1.0.14.0'
@@ -45,20 +45,20 @@ object Form1: TForm1
   end
   object ComboBox1: TComboBox
     Left = 8
-    Height = 21
+    Height = 23
     Top = 8
     Width = 120
-    ItemHeight = 13
+    ItemHeight = 15
     OnChange = ComboBox1Change
     Style = csDropDownList
     TabOrder = 3
   end
   object ComboBox2: TComboBox
     Left = 427
-    Height = 21
+    Height = 23
     Top = 8
     Width = 72
-    ItemHeight = 13
+    ItemHeight = 15
     ItemIndex = 0
     Items.Strings = (
       'english'
@@ -131,16 +131,16 @@ object Form1: TForm1
     TabOrder = 9
   end
   object Label1: TLabel
-    Left = 363
-    Height = 14
+    Left = 344
+    Height = 16
     Top = 15
-    Width = 61
+    Width = 65
     Caption = 'Other langs:'
     ParentColor = False
   end
   object Edit1: TEdit
     Left = 8
-    Height = 21
+    Height = 23
     Top = 8
     Width = 400
     TabOrder = 10
@@ -148,7 +148,7 @@ object Form1: TForm1
   end
   object Edit2: TEdit
     Left = 8
-    Height = 21
+    Height = 23
     Top = 36
     Width = 400
     TabOrder = 11
@@ -173,6 +173,15 @@ object Form1: TForm1
     OnClick = Button6Click
     TabOrder = 13
     Visible = False
+  end
+  object Button7: TButton
+    Left = 328
+    Height = 21
+    Top = 315
+    Width = 56
+    Caption = 'Next'
+    OnClick = Button7Click
+    TabOrder = 15
   end
   object CheckListBox1: TCheckListBox
     Left = 8
