@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.1.0.7
+;  Version: 2.1.0.8
 ;  Authors: Ivan Rozhuk
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
@@ -246,8 +246,6 @@ Moje wideo
 Moje odpowiedzi
 [My World]
 Mój świat
-[Zhuki]
-Zhuki
 [Web search]
 Szukaj w internecie
 [Update all users info]
@@ -500,4 +498,4 @@ Muzyka
 [Dating]
 Randkowanie
 [Mobile]
-
+Pod telefonem
