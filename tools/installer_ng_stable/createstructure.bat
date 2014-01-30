@@ -28,6 +28,10 @@ Tools\wget.exe -O tmp\miranda-ng-v%MirVer%_x64.7z http://miranda-ng.org/distr/st
 Tools\wget.exe -O tmp\MNG_Sounds.7z http://miranda-ng.org/distr/addons/Sounds/MNG_Sounds.7z
 Tools\wget.exe -O tmp\clist_blind_x32.zip http://miranda-ng.org/distr/stable/x32/Plugins/clist_blind.zip
 Tools\wget.exe -O tmp\clist_blind_x64.zip http://miranda-ng.org/distr/stable/x64/Plugins/clist_blind.zip
+Tools\wget.exe -O tmp\clist_nicer_x32.zip http://miranda-ng.org/distr/stable/x32/Plugins/clist_nicer.zip
+Tools\wget.exe -O tmp\clist_nicer_x64.zip http://miranda-ng.org/distr/stable/x64/Plugins/clist_nicer.zip
+Tools\wget.exe -O tmp\cln_skinedit_x32.zip http://miranda-ng.org/distr/stable/x32/Plugins/cln_skinedit.zip
+Tools\wget.exe -O tmp\cln_skinedit_x64.zip http://miranda-ng.org/distr/stable/x64/Plugins/cln_skinedit.zip
 Tools\wget.exe -O tmp\scriver_x32.zip http://miranda-ng.org/distr/stable/x32/Plugins/scriver.zip
 Tools\wget.exe -O tmp\scriver_x64.zip http://miranda-ng.org/distr/stable/x64/Plugins/scriver.zip
 Tools\wget.exe -O tmp\langpack_czech.zip http://miranda-ng.org/distr/stable/x32/langpack_czech.zip
@@ -42,9 +46,13 @@ rem Extract
 ..\7-zip\7z.exe x tmp\InnoSetup5.7z -y -oTools
 ..\7-zip\7z.exe x tmp\miranda-ng-v%MirVer%.7z -y -oInnoNG_32\Files
 ..\7-zip\7z.exe x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
+..\7-zip\7z.exe x tmp\clist_nicer_x32.zip -y -oInnoNG_32\Files
+..\7-zip\7z.exe x tmp\cln_skinedit_x32.zip -y -oInnoNG_32\Files
 ..\7-zip\7z.exe x tmp\scriver_x32.zip -y -oInnoNG_32\Files
 ..\7-zip\7z.exe x tmp\miranda-ng-v%MirVer%_x64.7z -y -oInnoNG_64\Files
 ..\7-zip\7z.exe x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
+..\7-zip\7z.exe x tmp\clist_nicer_x64.zip -y -oInnoNG_64\Files
+..\7-zip\7z.exe x tmp\cln_skinedit_x64.zip -y -oInnoNG_64\Files
 ..\7-zip\7z.exe x tmp\scriver_x64.zip -y -oInnoNG_64\Files
 ..\7-zip\7z.exe x tmp\MNG_Sounds.7z -y -oInnoNG_32\Files
 ..\7-zip\7z.exe x tmp\MNG_Sounds.7z -y -oInnoNG_64\Files
