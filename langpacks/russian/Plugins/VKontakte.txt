@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.9
+;  Version: 0.1.0.10
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -25,6 +25,8 @@ E-mail или номер телефона:
 Подтверждение доставки со стороны сервера
 [Hide chats on startup]
 Не открывать окна комнат чата при входе
+[Automatically wipe local contacts missing in your Friends list]
+Автоматически очищать локальные контакты, которых нет в списке друзей
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
