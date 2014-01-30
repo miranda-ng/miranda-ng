@@ -120,6 +120,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		}
 		CheckDlgButton(hwndDlg, IDC_DELIVERY, ppro->m_bServerDelivery);
 		CheckDlgButton(hwndDlg, IDC_HIDECHATS, ppro->m_bHideChats);
+		CheckDlgButton(hwndDlg, IDC_AUTOCLEAN, ppro->getByte("AutoClean", 0));
 		return TRUE;
 
 	case WM_COMMAND:
@@ -137,6 +138,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 		case IDC_DELIVERY:
 		case IDC_HIDECHATS:
+		case IDC_AUTOCLEAN:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -165,6 +167,8 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 			ppro->m_bHideChats = IsDlgButtonChecked(hwndDlg, IDC_HIDECHATS) == BST_CHECKED;
 			ppro->setByte("HideChats", ppro->m_bHideChats);
+
+			ppro->setByte("AutoClean", IsDlgButtonChecked(hwndDlg, IDC_AUTOCLEAN) == BST_CHECKED);
 		}
 		break;
 

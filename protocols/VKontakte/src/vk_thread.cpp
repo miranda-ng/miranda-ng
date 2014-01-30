@@ -296,6 +296,13 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	if (pResponse == NULL)
 		return;
 
+	bool bCleanContacts = getByte("AutoClean", 0) != 0;
+	LIST<void> arContacts(10, PtrKeySortT);
+	if (bCleanContacts)
+		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+			if (!isChatRoom(hContact))
+				arContacts.insert(hContact);
+
 	for (int i = 0; (pInfo = json_at(pResponse, i)) != NULL; i++) {
 		ptrT szValue(json_as_string(json_get(pInfo, "uid")));
 		if (szValue == NULL)
@@ -303,6 +310,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 
 		CMString tszNick;
 		HANDLE hContact = FindUser(_ttoi(szValue), true);
+		arContacts.remove(hContact);
 		szValue = json_as_string(json_get(pInfo, "first_name"));
 		if (szValue) {
 			setTString(hContact, "FirstName", szValue);
@@ -338,6 +346,10 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		if (szValue && *szValue)
 			setTString(hContact, "Phone", szValue);
 	}
+
+	if (bCleanContacts)
+		for (int i = 0; i < arContacts.getCount(); i++)
+			CallService(MS_DB_CONTACT_DELETE, (WPARAM)arContacts[i], 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
