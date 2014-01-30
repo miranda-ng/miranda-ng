@@ -3,7 +3,6 @@
 [Popup options]
 [Close after:]
 [sec (0 default, -1 disabled)]
-[Settings]
 [try resolve addresses]
 [Version:]
 [Show notification if no filter defined]

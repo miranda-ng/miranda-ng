@@ -1,5 +1,4 @@
 ﻿[History viewer for Miranda NG.]
-[Settings]
 [Always show contact list]
 [Show groups in contact list]
 [Do not show Find control border]

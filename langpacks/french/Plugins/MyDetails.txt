@@ -59,7 +59,7 @@ Afficher les bordures
 [Round corners]
 Coins arrondis
 [Custom corner size:]
-
+Personnaliser la taille des angles :
 [Use free space (under avatar) to other texts]
 Utiliser l'espace libre sous l'avatar pour d'autres textes
 [Global On...]

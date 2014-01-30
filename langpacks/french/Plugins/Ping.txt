@@ -113,7 +113,7 @@ Ping
 [<all>]
 <tout>
 [Settings]
-
+Paramètres
 [Hosts]
 
 ;file \plugins\Ping\src\ping.cpp

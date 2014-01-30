@@ -19,7 +19,7 @@ Pseudo :
 [Create a new Yahoo account using the Yahoo website]
 Créer un nouveau compte depuis le site de Yahoo
 [Expert]
-
+Expert
 [Use Yahoo Address Book (YAB)]
 Utiliser le carnet d'adresses Yahoo (YAB)
 [Show Avatars]

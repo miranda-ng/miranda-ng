@@ -15,31 +15,31 @@ Plugins installés
 [Version:]
 
 [Description:]
-Description:
+Description :
 [Copyright:]
-Copyright:
+Copyright :
 [Contact:]
-
+Contact :
 [WWW:]
 
 [Account]
 Compte
 [Name:]
-Nom:
+Nom :
 [Server:]
-Serveur:
+Serveur :
 [Port:]
-Port:
+Port :
 [SSL]
 SSL
 [APOP]
 
 [User Name:]
-Votre nom:
+Votre nom :
 [Password:]
-Passe:
+Passe :
 [Codepage:]
-Codepage:
+Codepage :
 [Default]
 Défaut
 [Disable STLS]
@@ -53,7 +53,7 @@ Vérifier ce compte
 [Startup check]
 Vérif. au lancement
 [Check interval [min]:]
-Intervalle de vérification [min]:
+Intervalle de vérification [min] :
 [Only check when...]
 
 [Auto retrieve body]
@@ -321,7 +321,7 @@ Le serveur rejette la connexion SSL.
 [Cannot read SSL data.]
 Lecture de données SSL impossible.
 [Error %d-%d-%d-%d:]
-Erreur %d-%d-%d-%d:
+Erreur %d-%d-%d-%d :
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Réseau

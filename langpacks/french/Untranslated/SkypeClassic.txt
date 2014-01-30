@@ -26,7 +26,6 @@
 [Province:]
 [Home phone:]
 [Office phone:]
-[Save]
 [Enable Skype menu options (currently: Find/Add user)]
 [Use popup plugin for displaying messages]
 [Suppress all error messages (not recommended, but if it annoys you... ;)]

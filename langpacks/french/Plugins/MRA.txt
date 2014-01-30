@@ -402,7 +402,7 @@ Avatars
 [Sick]
 
 [Home]
-
+Domicile
 [Eating]
 
 [Compass]
@@ -494,7 +494,7 @@ Au téléphone
 [Star]
 
 [Music]
-
+Musique
 [Dating]
 
 [Mobile]

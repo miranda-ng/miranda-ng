@@ -11,7 +11,7 @@
 [Message History]
 Historique des messages
 [Settings]
-
+Paramètres
 [Always show contact list]
 
 [Show groups in contact list]

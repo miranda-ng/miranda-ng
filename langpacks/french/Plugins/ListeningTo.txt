@@ -13,11 +13,11 @@
 [Enable sending listening information to contacts:]
 
 [Music]
-
+Musique
 [Radio]
-
+Radio
 [Video]
-
+Video
 [Others]
 Autres
 [You also have to enable it per protocol in the main menu]

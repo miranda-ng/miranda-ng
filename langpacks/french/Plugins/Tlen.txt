@@ -13,7 +13,7 @@ Identifiant:
 [Password:]
 Passe:
 [Save password]
-
+Enregistrer le mot de passe
 [Create new account]
 Créer un compte
 [Tlen]
@@ -27,7 +27,7 @@ Garder message d'état après déconnexion
 [Ignore advertisements]
 Ignorer les avertissements
 [Automatically delete contacts not in my roster]
-
+Supprimer automatiquement les contacts non dans ma liste
 [Show offline users with status messages as invisible in contact list]
 Afficher contacts hors ligne avec le motif d'invisibilité dans la liste
 [Enable avatars]
@@ -119,7 +119,7 @@ Ville:
 [School:]
 École:
 [Occupation:]
-
+Profession :
 [Looking for:]
 Recherche:
 [Voice chats]

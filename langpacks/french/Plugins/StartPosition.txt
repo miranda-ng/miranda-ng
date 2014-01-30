@@ -11,9 +11,9 @@
 [Contact List Window Start Position]
 Définir la position de la liste de contact au démarrage
 [Left]
-
+Gauche
 [Right]
-
+Droite
 [Pixels from Top]
 Pixels du haut
 [Pixels from Bottom]
@@ -21,7 +21,7 @@ Pixels du bas
 [Pixels from Side]
 Pixels du bord
 [Width]
-
+Largeur
 [Always start...]
 Toujours lancer...
 [Minimized to System Tray]

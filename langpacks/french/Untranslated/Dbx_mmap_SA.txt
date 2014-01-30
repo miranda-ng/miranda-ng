@@ -4,7 +4,6 @@
 [Change]
 [Old password]
 [Database encryption]
-[Info:]
 [Author:]
 [Site:]
 [Email:]

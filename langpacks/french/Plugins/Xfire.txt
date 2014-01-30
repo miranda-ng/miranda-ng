@@ -91,7 +91,7 @@ Message d'état:
 [Prefer dnd when it is available]
 
 [Games]
-
+Jeux
 [Game:]
 
 [Don't detect this game as running]
@@ -260,7 +260,7 @@ Mmm... Manger.
 [My Current ServerIP]
 
 [Voice]
-
+Voix
 [My Current Voice]
 
 [Voice ServerIP]

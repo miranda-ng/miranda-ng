@@ -4,7 +4,6 @@
 [...status]
 [...status message]
 [Avatar]
-[Custom corner size:]
 [Global On...]
 [Frame Options]
 [Cycle through accounts every:]

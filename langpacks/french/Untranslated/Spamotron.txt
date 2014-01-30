@@ -16,7 +16,6 @@
 [Spam]
 [Ham]
 [Analyze]
-[Settings]
 [Enabled accounts:]
 [Auto approve on:]
 [Incoming message with any word from list:]

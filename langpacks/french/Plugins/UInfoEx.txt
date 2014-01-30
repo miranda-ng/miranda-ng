@@ -75,7 +75,7 @@ Bureau:
 [Position:]
 Position:
 [Occupation:]
-
+Profession :
 [Superior:]
 Supérieur:
 [Assistant:]
@@ -488,9 +488,9 @@ Profil
 [Notes]
 Notes
 [Export to file]
-
+Exporter vers un fichier
 [Import from file]
-
+Importer d'un fichier
 [Owner]
 Propriétaire
 [Upload ICQ Details]
@@ -653,7 +653,7 @@ Veuillez commencer par entrer une description valide !
 Voulez-vous vraiment effacer l'entrée \"%s\" ?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 [Home]
-
+Domicile
 [Open in Browser]
 Ouvrir dans le navigateur
 [Primary e-mail]
@@ -908,7 +908,7 @@ Vietnamien
 [Science & Research]
 
 [Sports]
-
+Sports
 [Technical]
 
 [University Student]
@@ -918,9 +918,9 @@ Vietnamien
 [Other Services]
 
 [Art]
-
+Art
 [Cars]
-
+Voitures
 [Celebrity Fans]
 
 [Collections]
@@ -930,17 +930,17 @@ Culture & Littérature
 [Fitness]
 
 [Games]
-
+Jeux
 [Hobbies]
 
 [Internet]
-
+Internet
 [Lifestyle]
 
 [Movies/TV]
 Films/TV
 [Music]
-
+Musique
 [Outdoor Activities]
 Activités extérieures
 [Parenting]

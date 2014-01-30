@@ -42,7 +42,7 @@ Trier par état
 [Show Client Icons]
 Voir l'icône du client
 [Settings]
-
+Paramètres
 [Title:]
 Titre :
 [Account]
@@ -132,7 +132,7 @@ contact actuel
 [Result]
 
 [Save]
-
+Sauver
 [All]
 
 [Close]

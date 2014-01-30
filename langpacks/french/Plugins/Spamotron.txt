@@ -43,7 +43,7 @@
 [Analyze]
 
 [Settings]
-
+Paramètres
 [Enabled accounts:]
 
 [Auto approve on:]

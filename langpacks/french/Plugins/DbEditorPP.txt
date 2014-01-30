@@ -237,7 +237,7 @@ Nouvelle valeur Unicode
 Impossible d'allouer assez de mémoire !
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Settings]
-
+Paramètres
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Voulez-vous vraiment supprimer le module "%s" ?
@@ -253,7 +253,7 @@ Supprime le module de la base de données... Mise à jour
 [All Files]
 Tous les fichiers
 [Export to file]
-
+Exporter vers un fichier
 [Error Loading Module List]
 Erreur de chargement liste de modules
 [Couldn't open file for writing]

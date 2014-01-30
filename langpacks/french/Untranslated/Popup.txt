@@ -59,7 +59,6 @@
 [Fade in/out]
 [CLASS Plugins]
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
-[Width]
 [horizontal]
 [vertical]
 [Global Status]

@@ -137,7 +137,7 @@ Clic droit
 [characters]
 caractères
 [Templates]
-
+Modèles
 [Title - text delimiter:]
 
 [Remove:]

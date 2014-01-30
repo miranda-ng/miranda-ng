@@ -47,7 +47,6 @@
 [Description on]
 [Delete off]
 [Delete on]
-[Next]
 [Buttons]
 [Overlays]
 [Credits]

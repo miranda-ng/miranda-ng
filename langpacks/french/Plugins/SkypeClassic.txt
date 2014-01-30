@@ -89,7 +89,7 @@ Pays :
 [Homepage:]
 Page web:
 [Save]
-
+Sauver
 [Enable Skype menu options (currently: Find/Add user)]
 
 [Use popup plugin for displaying messages]

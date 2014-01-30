@@ -31,7 +31,7 @@ Paramètres par défaut
 [Setting text...........]
 Paramétrages du texte.....
 [Settings]
-
+Paramètres
 [Contact To Send Pounce To]
 Envoyer Pounce au contact:
 [<< Simple]

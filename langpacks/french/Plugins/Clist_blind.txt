@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
-
+Une liste de contacts pour les personnes aveugles.
 ;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Supprimer un contact
@@ -137,15 +137,15 @@ Classer les groupes par ordre alphabétique
 [Quicksearch in open groups only]
 Recherche rapide uniquement sur les groupes ouverts
 [Templates]
-
+Modèles
 [Contact:]
-
+Contact :
 [Group:]
 Groupe:
 [Divider:]
 
 [Info:]
-
+Info :
 [Status Bar]
 Barre d'état
 [Show status bar]
@@ -244,11 +244,11 @@ Parti manger
 [On the phone]
 Au téléphone
 [Group: %name% %count% [%mode%]]
-
+Groupe : %name% %count% [%mode%]
 [Divider: %s]
 
 [Info: %s]
-
+Info : %s
 [List]
 Liste
 ;file \plugins\Clist_blind\src\clistopts.cpp
@@ -257,8 +257,8 @@ Général
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
 [Unknown Protocol]
-
+Protocole inconnu
 [Expanded]
-
+Étendu
 [Colapsed]
-
+Réduit

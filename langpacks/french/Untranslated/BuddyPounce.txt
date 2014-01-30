@@ -2,7 +2,6 @@
 [Send]
 [Buddy Pounce]
 [Setting Value]
-[Settings]
 [<< Simple]
 [Dialog]
 [Default Settings]

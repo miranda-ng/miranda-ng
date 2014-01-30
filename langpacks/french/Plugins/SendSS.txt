@@ -179,7 +179,7 @@ Ouvrir dossier
 [Prev]
 Préc
 [Next]
-
+Suivant
 [Update]
 Mise à jour
 [Apply]

@@ -65,7 +65,7 @@ Annuler
 [Last profile change:]
 
 [Full name:]
-
+Nom complet :
 [Date of birth:]
 Anniversaire:
 [Gender:]
@@ -331,7 +331,7 @@ Réseau
 [Contacts]
 Contacts
 [Home]
-
+Domicile
 [General]
 Général
 [Skype account]

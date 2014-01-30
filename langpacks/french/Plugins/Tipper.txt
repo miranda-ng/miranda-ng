@@ -223,15 +223,15 @@ Sans titre
 [Top left]
 
 [Top]
-
+Haut
 [Center]
 Centré
 [Bottom]
-
+Bas
 [Left]
-
+Gauche
 [Right]
-
+Droite
 [No avatar]
 
 [Left avatar]

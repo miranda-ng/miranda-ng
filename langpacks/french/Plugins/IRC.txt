@@ -255,7 +255,7 @@ Ignorer les usagers
 [(*) Queries from users on your contact list are never ignored]
 (*) Ne jamais ignorer les messages privés d'utilisateurs de la liste de contacts
 [Queries]
-
+Recherches
 [Messages]
 Messages
 [Notices]

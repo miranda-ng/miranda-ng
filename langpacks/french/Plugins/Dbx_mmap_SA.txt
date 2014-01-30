@@ -77,7 +77,7 @@ Que voulez-vous désormais faire avec le fichier ?
 [Database encryption]
 
 [Info:]
-
+Info :
 [Author:]
 
 [Site:]

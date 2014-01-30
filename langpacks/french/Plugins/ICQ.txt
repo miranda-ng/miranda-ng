@@ -223,7 +223,7 @@ Mots-clés :
 [Work]
 Travail
 [Occupation:]
-
+Profession :
 [Company:]
 Entreprise :
 [Department:]
@@ -907,7 +907,7 @@ Zimbabwe
 [80's]
 
 [Art]
-
+Art
 [Astronomy]
 
 [Audio and Visual]
@@ -917,7 +917,7 @@ Collègues
 [Business Services]
 Services d'affaire
 [Cars]
-
+Voitures
 [Celebrity Fans]
 
 [Clothing]
@@ -945,13 +945,13 @@ Maison automatisée
 [Household Products]
 Produits domestiques
 [Games]
-
+Jeux
 [Government]
 
 [ICQ - Help]
 
 [Internet]
-
+Internet
 [Lifestyle]
 
 [Mail Order Catalog]
@@ -961,7 +961,7 @@ Catalogue par correspondance
 [Movies and TV]
 
 [Music]
-
+Musique
 [Mystics]
 
 [News and Media]
@@ -991,7 +991,7 @@ Magasins
 [Sporting and Athletic]
 Sport & Athlétisme
 [Sports]
-
+Sports
 [Travel]
 
 [Web Design]
@@ -1223,7 +1223,7 @@ Homme
 [High School Student]
 
 [Home]
-
+Domicile
 [ICQ - Providing Help]
 
 [Law]

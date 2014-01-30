@@ -2,7 +2,6 @@
 [MSN]
 [Live ID:]
 [Create a new Windows Live account]
-[Expert]
 [Connection settings]
 [Direct:]
 [Notify me when a message delivery has failed]

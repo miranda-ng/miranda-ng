@@ -81,9 +81,9 @@ Apparence
 [Off]
 
 [Top]
-
+Haut
 [Bottom]
-
+Bas
 [Smiley packs]
 Pack de Smiley
 [All files]

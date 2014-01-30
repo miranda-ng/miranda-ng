@@ -9,7 +9,7 @@
 
 ;file \plugins\PasteIt\res\PasteIt.rc
 [Settings]
-
+Paramètres
 [Default web page]
 
 [Default file encoding]

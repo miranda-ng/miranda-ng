@@ -13,8 +13,6 @@
 [Smiley cache]
 [Smileys]
 [Off]
-[Top]
-[Bottom]
 [Protocol specific]
 [Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 [Standard]

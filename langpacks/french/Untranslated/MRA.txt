@@ -127,7 +127,6 @@
 [MRIM_CS_SMS_ACK: not found in queue]
 [Mail.ru System notify]
 [Sick]
-[Home]
 [Eating]
 [Compass]
 [On WC]
@@ -168,5 +167,4 @@
 [Things look bad]
 [Squirrel]
 [Star]
-[Music]
 [Dating]

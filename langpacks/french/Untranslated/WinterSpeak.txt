@@ -1,7 +1,6 @@
 ﻿[Miranda interface to the Microsoft Speech API.]
 [Engine Settings]
 [Engine]
-[Voice]
 [Volume]
 [Pitch]
 [Lexicon]

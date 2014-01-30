@@ -1,5 +1,4 @@
 ﻿[Uploads the text to web page and sends the URL to your friends.]
-[Settings]
 [Default web page]
 [Default file encoding]
 [Auto-detect UTF-8]

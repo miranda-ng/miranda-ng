@@ -3,7 +3,6 @@
 [Sample page]
 [Use arrow keys to choose category]
 [Switch to classic options]
-[Home]
 [Miranda NG configuration center]
 [Setup your account information to start messaging.]
 [Style]

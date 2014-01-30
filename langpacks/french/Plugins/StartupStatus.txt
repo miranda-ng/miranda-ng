@@ -274,9 +274,9 @@ secondes
 [<unknown>]
 <inconnu>
 [Left]
-
+Gauche
 [Right]
-
+Droite
 [None]
 Aucun
 [size: %d x %d]

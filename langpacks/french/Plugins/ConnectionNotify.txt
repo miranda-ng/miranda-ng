@@ -21,7 +21,7 @@ Texte
 [sec (0 default, -1 disabled)]
 
 [Settings]
-
+Paramètres
 [try resolve addresses]
 
 [Version:]

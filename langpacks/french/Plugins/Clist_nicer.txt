@@ -339,7 +339,7 @@ Appliquer
 [Clear all]
 Tout effacer
 [Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-
+Utilisation de la liste de contacts sur le côté gauche, vous pouvez sélectionner les contacts qui seront "collant" pour ce mode d'affichage. Ces contacts vont ignorer les règles de filtrage standard et utiliser uniquement le filtre de mode d'état ci-dessous.
 [Protocol]
 Protocole
 [Group]

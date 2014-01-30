@@ -6,10 +6,10 @@
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber protocol support for Miranda NG.]
-
+Support du protocole Jabber  pour Miranda NG.
 ;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
-
+Modifier la note
 [Tags:]
 
 [OK]
@@ -21,17 +21,17 @@ Type :
 [User:]
 Contact :
 [Domain/Server:]
-
+Domaine/serveur :
 [Password:]
 Passe :
 [Save password]
-
+Enregistrer le mot de passe
 [Resource:]
 Ressource :
 [Register new user]
 Créer ce compte
 [Use custom connection host and port:]
-
+Utilisez un hôte et un port de connexion personnalisés :
 [Use Domain Login]
 
 [Go]
@@ -47,11 +47,11 @@ Téléchargement
 [Upload]
 
 [Import from file]
-
+Importer d'un fichier
 [Export to file]
-
+Exporter vers un fichier
 [Jabber]
-
+Jabber
 [Username:]
 Identifiant :
 [Change password]
@@ -59,7 +59,7 @@ Changer le mot de passe
 [Priority:]
 Priorité :
 [Use hostname as resource]
-
+Utilisez le nom d'hôte en tant que ressource
 [List of public servers]
 Liste des serveurs publics
 [Port:]
@@ -71,7 +71,7 @@ Connexion TLS
 [Unregister]
 Désenregistrer
 [Expert]
-
+Expert
 [Manually specify connection host]
 Indiquer l'hôte manuellement
 [Host:]
@@ -79,7 +79,7 @@ Hôte :
 [Keep connection alive]
 Garder la connection active
 [Automatically delete contacts not in my roster]
-
+Supprimer automatiquement les contacts non dans ma liste
 [User directory:]
 Adresse utilisateur :
 [Language for human-readable resources:]
@@ -101,23 +101,23 @@ Essayer de tout décocher ci-dessous si vous rencontrez des problèmes avec l'en
 [Jabber Account Registration]
 Enregistrement d'un compte Jabber
 [Jabber Form]
-
+Formulaire Jabber
 [Instruction:]
 Instruction :
 [Submit]
 Soumettre
 [Next]
-
+Suivant
 [Back]
 Fond
 [Complete]
 Terminé
 [Jabber Password]
-
+Mot de passe Jabber
 [Remember password for this session]
-
+Rappeler mot de passe pour cette session
 [Save password permanently]
-
+Enregistrer le mot de passe de façon permanente
 [Address1:]
 Adresse1 :
 [Address2:]
@@ -131,7 +131,7 @@ Code postal :
 [Country:]
 Pays :
 [Full name:]
-
+Nom complet :
 [Nickname:]
 Pseudo :
 [First name:]
@@ -147,7 +147,7 @@ AAAA-MM-DD
 [Gender:]
 Sexe :
 [Occupation:]
-
+Profession :
 [Homepage:]
 Page web :
 [Company:]
@@ -165,41 +165,41 @@ Détails Jabber : Ajout d'un courriel
 [Email address:]
 Courriel :
 [Home]
-
+Domicile
 [Work]
 Travail
 [Internet]
-
+Internet
 [X400]
-
+X400
 [Jabber vCard: Add Phone Number]
 Détails Jabber: Ajout d'un téléphone
 [Phone number:]
 Téléphone :
 [Voice]
-
+Voix
 [Fax]
 Fax
 [Pager]
 
 [Text/Messaging]
-
+Texte/Messagerie
 [Cellular]
 
 [Video]
-
+Video
 [BBS]
-
+BBS
 [Modem]
-
+Modem
 [ISDN]
-
+ISDN
 [PCS]
-
+PCS
 [Load]
 Charger
 [Save]
-
+Sauver
 [Delete]
 Effacer
 [Description:]
@@ -213,49 +213,49 @@ Nouveau passe :
 [Confirm New Password:]
 Vérifier le passe :
 [Create or Join group chat]
-
+Créer ou rejoindre une salle de conférence
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
-
+Conférence Jabber multi-utilisateur\nCréer ou rejoindre une salle de conférence existante.
 [Conference server:]
 Serveur du chat :
 [Room:]
 Salon :
 [Recently visited chatrooms:]
-
+Salle de conférence visitées récemment :
 [Bookmarks]
 Favoris
 [JID List]
 Liste des JID
 [Apply Filter]
-
+Appliquer le filtre
 [Reset Filter]
-
+Réinitialiser le filtre
 [Invite Users]
-
+Inviter des utilisateurs
 [<room jid>\nSend group chat invitation.]
-
+<room jid>\nEnvoyer des invitations de groupe de chat.
 [Other JID:]
 Autre ID :
 [Add]
 Ajouter
 [Invitation reason:]
-
+Raison d'invitation :
 [&Invite]
 &Inviter
 [Group chat invitation]
-
+Invitation à une discussion de groupe
 [<room jid>\nIncoming group chat invitation.]
-
+<room jid>\nInvitation à un groupe de discussion.
 [You are invited to conference room by]
-
+Vous êtes invités à la salle de conférence par
 [with following reason:]
-
+avec la raison suivante :
 [&Accept]
 &Accepter
 [Jabber Bookmarks]
 Favoris Jabber
 [Server side bookmarks\nStore conference rooms and web links on server.]
-
+Favoris côté serveur\nConserver les salles de conférence et les liens Web sur le serveur.
 [Remove]
 Retirer
 [Edit]
@@ -273,41 +273,41 @@ Chat
 [URL]
 Lien
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
-
+Auto-join (joindre automatiquement les favoris doit être activée dans les options de Miranda)
 [Room JID/ URL:]
 Salon/URL :
 [Bookmark Name:]
 Nom du favori :
 [Privacy Lists]
-
+Listes confidentielle
 [Privacy Lists\nFlexible way to configure visibility and more.]
-
+Listes confidentielle\nManière flexible de configurer la visibilité et plus.
 [Lists:]
-
+Listes :
 [Rules:]
-
+Règles :
 [Simple Mode]
-
+Mode simple
 [Advanced Mode]
-
+Mode avancé
 [Add list... (Ins)]
-
+Ajouter la liste... (Ins)
 [Activate (Space)]
-
+Activer (Space)
 [Set as default (Ctrl+Space)]
 
 [Remove list (Del)]
-
+Supprimer la liste (Del)
 [Add rule (Ins)]
-
+Ajouter une règle (Ins)
 [Edit rule... (F2)]
-
+Modifier la règle... (F2)
 [Move rule up (Alt+Up)]
 
 [Move rule down (Alt+Down)]
 
 [Remove rule (Del)]
-
+Supprimer la règle (Del)
 [Privacy rule]
 Règle
 [If:]
@@ -319,7 +319,7 @@ et :
 [Messages]
 Messages
 [Queries]
-
+Recherches
 [Incoming presence]
 
 [Outgoing presence]
@@ -1122,9 +1122,9 @@ Détails personnels
 [Discovery in progress]
 
 [Apply filter]
-
+Appliquer le filtre
 [Reset filter]
-
+Réinitialiser le filtre
 [Navigate home]
 
 [Refresh node]
@@ -1262,7 +1262,7 @@ Dernière activité
 [Open bookmarks]
 
 [Privacy lists]
-
+Listes confidentielle
 [Service discovery]
 
 [Last active (%s)]
@@ -1838,9 +1838,9 @@ Le passe actuel est incorrect.
 [Allow]
 Autoriser
 [Simple mode]
-
+Mode simple
 [Advanced mode]
-
+Mode avancé
 [Add JID]
 
 [Activate]
@@ -1898,7 +1898,7 @@ Messages
 [outgoing presences]
 
 [queries]
-
+recherches
 [Else ]
 Sinon 
 [If Jabber ID is ']
@@ -2130,7 +2130,7 @@ Format inconnu
 [<No photo>]
 <pas de photo>
 [Photo]
-
+Photo
 ;file \protocols\JabberG\src\jabber_util.cpp
 [Redirect]
 Redirection

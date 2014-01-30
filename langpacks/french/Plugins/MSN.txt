@@ -19,7 +19,7 @@ Pseudo:
 [Create a new Windows Live account]
 
 [Expert]
-
+Expert
 [Send message font color/size info inside messages]
 Envoyer les infos de couleur/taille dans les messages
 [Disable all contacts not included into my contact list]

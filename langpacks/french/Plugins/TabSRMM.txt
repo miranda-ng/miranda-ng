@@ -531,7 +531,7 @@ Défini
 [Popups timeout]
 
 [Templates]
-
+Modèles
 [Edit template]
 Éditer le modèle
 [Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
@@ -1430,7 +1430,7 @@ Charger et appliquer
 [Window layout tweaks]
 
 [Settings]
-
+Paramètres
 [Log formatting]
 
 [Events and filters]

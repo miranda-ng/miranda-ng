@@ -28,7 +28,7 @@ Appliquer
 Avancé
 ;file \plugins\ModernOpt\src\modernopt.cpp
 [Home]
-
+Domicile
 [Miranda NG configuration center]
 
 [Accounts]

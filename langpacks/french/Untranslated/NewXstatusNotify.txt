@@ -25,7 +25,6 @@
 [Notification]
 [Disable for extra status 'Music']
 [Truncate message length to:]
-[Templates]
 [Title - text delimiter:]
 [Remove:]
 [New message:]

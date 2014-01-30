@@ -340,7 +340,7 @@ Parti manger
 [On the phone]
 Au téléphone
 [Width]
-
+Largeur
 [upper left corner]
 Angle haut gauche
 [lower left corner]

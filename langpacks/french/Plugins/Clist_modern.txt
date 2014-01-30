@@ -6,18 +6,18 @@
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
-
+Affiche les contacts, les notifications d'événements, l'état des protocoles avec des modifications visuelles avancées. Modifications MW prise en charge, support des metacontacts amélioré.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Transparence
 [Window behavior:]
-
+Comportement des fenêtres :
 [List sorting:]
-
+Tri de la liste :
 [Status bar:]
-
+Barre d'état :
 [List content:]
-
+Contenu de la liste :
 [Show counts of number of contacts in a group]
 Afficher le nombre de contacts dans un groupe
 [Hide group counts when there are none online]
@@ -47,19 +47,19 @@ Montrer les avatars
 [Animate Avatars]
 Avatars animés
 [Show contact time in list]
-
+Afficher l'heure du contact dans la liste
 [Compact mode]
-
+Mode compacte
 [Show protocol names]
 Afficher le nom des protocoles
 [Show status text]
 Afficher l'état du protocole
 [Settings]
-
+Paramètres
 [Background color:]
 Couleur d'arrière-plan :
 [Selection color:]
-
+Couleur de sélection :
 [Use background bitmap]
 Utiliser une image d'arrière-plan
 [Stretch to width]
@@ -85,7 +85,7 @@ Skins disponibles
 [Apply]
 Appliquer
 [Info]
-
+Info
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nVeuillez sélectionner un des skins disponibles. \n\nOu cliquez sur 'Localiser'
 [Skin Preview]
@@ -121,13 +121,13 @@ Position
 [Position:]
 Position :
 [Left]
-
+Gauche
 [Top]
-
+Haut
 [Size:]
 Taille :
 [Width]
-
+Largeur
 [Height]
 hauteur
 [W x H: 0 x 0 pixels]
@@ -141,7 +141,7 @@ Nouveau
 [Include groups]
 Groupes inclus
 [Show contacts in groups]
-
+Afficher les contacts dans des groupes
 [Include status modes]
 Inclure les états
 [OK]
@@ -153,7 +153,7 @@ Annuler
 [Clear all]
 Tout effacer
 [Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-
+Utilisation de la liste de contacts sur le côté gauche, vous pouvez sélectionner les contacts qui seront "collant" pour ce mode d'affichage. Ces contacts vont ignorer les règles de filtrage standard et utiliser uniquement le filtre de mode d'état ci-dessous.
 [Protocol]
 Protocole
 [Group]
@@ -187,7 +187,7 @@ Comptes par ligne
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 Pour réduire la barre des états:\nMenu Principal => Cadres => Barre d'état => Afficher la barre de titre. Puis tirez dessus.
 [Hold [Shift] to inverse [Right Click] behavior]
-
+Maintenez la touche [Maj] pour inverser le comportement [clic droit]
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 
 [Set options per account]
@@ -245,7 +245,7 @@ Désactiver les groupes
 [Ask before deleting contacts]
 Demander avant de supprimer
 [Don't move offline user to bottom]
-
+Ne pas déplacez les utilisateur déconnecté en bas
 [Contact List]
 Liste de contacts
 [Contact List Sorting]
@@ -285,7 +285,7 @@ Défilement fluide
 [Easy move]
 Déplacement facile
 [x100 ms]
-
+x100 ms
 [show delay]
 Afficher après
 [hide delay]
@@ -307,9 +307,9 @@ Afficher automatiquement
 [Always Visible]
 Toujours visible
 [Dock to sides]
-
+Ancrer sur les côtés
 [and minimum]
-
+et minimum
 [Items]
 Objets
 [Show divider between online and offline contacts]
@@ -347,7 +347,7 @@ Durée:
 [milliseconds]
 millisecondes
 [Hide vertical scrollbar]
-
+Masquer la barre de défilement vertical
 [Fade out entire list when:]
 Assombrir complètement la liste si :
 [Single click interface]
@@ -357,7 +357,7 @@ Afficher l'état dans la bulle
 [Disable icon blinking]
 Sans clignotement
 [ms, delay between icon blinking]
-
+ms, délai entre les clignotement des icônes
 [Show]
 Afficher
 [Cycle icons every]
@@ -377,15 +377,15 @@ Utiliser l'icône xStatus
 [Ignore Empty Extra icons places (arrange to right).]
 
 [Use 'Meta' protocol icons for Metacontacts]
-
+Utilisez les 'Meta' icônes pour les protocoles des Metacontacts
 [Expand metacontacts]
 Développer les MetaContacts
 [Avoid doubleclick expand]
 
 [Hide all 'Extra icons' for subcontacts]
-
+Cachez tous les 'icônes supplémentaires' pour les sous contacts
 [Hide offline subcontacts.]
-
+Cachez les sous contacts hors ligne.
 [MetaContacts stuff]
 Paramètres pour les MetaContacts
 [Additional stuff]
@@ -393,13 +393,13 @@ Paramètres avancés
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
 
 [Allow internal requesting of status message text]
-
+Autoriser la demande interne du texte de message d'état
 [Subcontacts indent:]
 Décalage des sous-contacts:
 [Remove status message if contact became offline]
 
 [Use improved search method in contact list]
-
+Utilisez une meilleure méthode de recherche dans la liste de contacts
 [Show time only if it is different from current time]
 Afficher l'heure uniquement si elle diffère de la mienne
 [Show contact time as row item]
@@ -427,7 +427,7 @@ Minimiser dans barre système
 [Translucency options]
 Options de transparence
 [Enable drop shadow (restart required)]
-
+Activer l'ombre portée (redémarrage requis)
 [Frames]
 Cadres
 [Between frames:]
@@ -467,7 +467,7 @@ Marge gauche :
 [Right margin:]
 Marge droite :
 [Compact mode\n(Show avatars and additional text on selected contacts only)]
-
+Mode compact\n(Voir les avatars et texte complémentaire sur les contacts sélectionnés seulement)
 [Draw border on avatar]
 Cadre sur les avatars
 [Draw overlay icons]
@@ -479,7 +479,7 @@ Ignorer cette dimension pour la hauteur des lignes
 [Border color:]
 Couleur bordures :
 [Custom corner size:]
-
+Personnaliser la taille des angles :
 [Normal overlay icon]
 Icône normal overlay
 [Protocol status icon]
@@ -984,7 +984,7 @@ Skin par défaut
 [Center]
 Centre
 [Right]
-
+Droite
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Menu principal

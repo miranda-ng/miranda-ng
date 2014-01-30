@@ -3,7 +3,6 @@
 [Inner Row vertical padding]
 [Client margins]
 [Sticky contacts]
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
 [Editing view mode]
 [Dialog]
 [Draw sunken Frame]

@@ -600,7 +600,7 @@ Icônes
 [Question]
 Question
 [Info]
-
+Info
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
 
 [Buttons]
@@ -833,7 +833,7 @@ Respecter la casse
 [Slot 9]
 
 [Settings]
-
+Paramètres
 [Contact list]
 Liste de contacts
 [Contact list format]

@@ -124,7 +124,7 @@ Erreur
 [Popups]
 Popups
 [Settings]
-
+Paramètres
 [Classes]
 
 ;file \plugins\YAPP\src\services.cpp

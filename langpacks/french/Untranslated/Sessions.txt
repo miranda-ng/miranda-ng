@@ -6,7 +6,6 @@
 [Only if last session present]
 [Startup delay]
 [User Sessions Management]
-[Save]
 [Action on Exit]
 [Save Current Session]
 [Save only last]

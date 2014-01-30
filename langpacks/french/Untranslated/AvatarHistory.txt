@@ -20,7 +20,6 @@
 [Do nothing]
 [Close popup]
 [Avatar]
-[Unknown Protocol]
 [AVH Debug: GetOldStyleAvatarName]
 [Avatar History: Unable to create shortcut]
 [AVH Debug: Shortcut created successfully]

@@ -23,9 +23,9 @@ Pas de popups pour les sous-contacts
 [Popup mouse click]
 Action de la souris
 [Left]
-
+Gauche
 [Right]
-
+Droite
 [Sounds]
 Sons
 [Play sounds when there are]
@@ -81,7 +81,7 @@ Description:
 [Date:]
 Date:
 [Save]
-
+Sauver
 [Delete]
 Effacer
 [Upcoming birthdays]

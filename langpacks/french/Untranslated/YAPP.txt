@@ -25,7 +25,6 @@
 [No animate]
 [Horizontal animate]
 [Vertical animate]
-[Settings]
 [Classes]
 [Disable Popups]
 [Enable Popups]

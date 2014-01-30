@@ -13,7 +13,7 @@
 [Engine]
 
 [Voice]
-
+Voix
 [Volume]
 
 [Rate]

@@ -9,11 +9,11 @@
 
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
-
+Paramètres
 [Background color:]
 Couleur d'arrière-plan:
 [Selection color:]
-
+Couleur de sélection :
 [Use background bitmap]
 Utiliser une image d'arrière-plan
 [Stretch to width]
@@ -87,7 +87,7 @@ Afficher l'état dans la bulle
 [Disable icon blinking]
 Sans clignotement
 [ms, delay between icon blinking]
-
+ms, délai entre les clignotement des icônes
 [Show]
 Afficher
 [icon when statuses differ]
@@ -109,7 +109,7 @@ Icône de la barre des tâches quand plusieurs protocoles sont utilisés
 [Contact List Sorting]
 Tri des contacts dans la liste
 [Don't move offline user to bottom]
-
+Ne pas déplacez les utilisateur déconnecté en bas
 [Pin to desktop]
 Épingler au bureau
 [Rows]
@@ -155,7 +155,7 @@ Afficher la barre de titre
 [If window is partially covered, bring to front instead of hiding]
 Si la fenêtre est partiellement couverte, mettre en avant-plan plutôt que de cacher
 [Enable drop shadow (restart required)]
-
+Activer l'ombre portée (redémarrage requis)
 [Items]
 Objets
 [Show divider between online and offline contacts]
@@ -201,21 +201,21 @@ Griser toute la liste quand:
 [Dim idle contacts]
 Estomper les contacts inactifs
 [Hide vertical scrollbar]
-
+Masquer la barre de défilement vertical
 [Contact list background]
 Arrière-plan de la liste
 [Use 'Meta' protocol icons for Metacontacts]
-
+Utilisez les 'Meta' icônes pour les protocoles des Metacontacts
 [Avoid doubleclick expand]
 
 [Hide all 'Extra icons' for subcontacts]
-
+Cachez tous les 'icônes supplémentaires' pour les sous contacts
 [MetaContacts supporting]
 Options pour les MetaContacts
 [Ignore Empty Extra icons places (arrange to right).]
 
 [Hide offline subcontacts.]
-
+Cachez les sous contacts hors ligne.
 [Status Bar]
 Barre d'état
 [Show status bar]
