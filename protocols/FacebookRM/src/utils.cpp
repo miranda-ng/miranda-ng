@@ -182,7 +182,6 @@ std::string utils::text::special_expressions_decode(std::string data)
 	{
 		if (data.at(i) == '&' && (i+1) < data.length() && data.at(i+1) == '#')
 		{
-			unsigned int udn;
 			std::string::size_type comma = data.find(";", i);
 			if (comma != std::string::npos) {
 				bool hexa = false;
@@ -192,30 +191,16 @@ std::string utils::text::special_expressions_decode(std::string data)
 				} else {
 					i += 2;
 				}
-				udn = strtol(data.substr(i, comma-i).c_str(), NULL, hexa ? 16 : 10);
+
+				std::string num = data.substr(i, comma - i);
+				if (!num.empty()) {
+					unsigned int udn = strtol(num.c_str(), NULL, hexa ? 16 : 10);
+					utils::text::append_ordinal(udn, &new_string);
+				}
+				
 				i = comma;
+				continue;
 			}
-			
-			utils::text::append_ordinal(udn, &new_string);
-			continue;
-		}
-
-		if (data.at(i) == -19 && (i+2) < data.length()) {
-			std::string chs = data.substr(i, i+2).c_str();
-			unsigned char a[4] = {0};
-			memcpy(&a[1], chs.c_str(), 3);
-			
-			new_string += "\\u";
-			utils::text::append_ordinal((unsigned long)a, &new_string);
-			
-			/*u = reinterpret_cast<unsigned char&>(data.at(i+1));
-			utils::text::append_ordinal(u, &new_string);
-
-			u = reinterpret_cast<unsigned char&>(data.at(i+2));
-			utils::text::append_ordinal(u, &new_string);*/
-
-			i += 2;
-			continue;
 		}
 
 		new_string += data.at(i);
@@ -380,7 +365,7 @@ void utils::text::explode(std::string str, std::string separator, std::vector<st
 std::string utils::text::source_get_value(std::string* data, unsigned int argument_count, ...)
 {
 	va_list arg;
-	std::string ret;
+	std::string ret = "";
 	std::string::size_type start = 0, end = 0;
 	
 	va_start(arg, argument_count);
@@ -409,7 +394,7 @@ std::string utils::text::source_get_value(std::string* data, unsigned int argume
 std::string utils::text::source_get_value2(std::string* data, const char *term, const char *endings, bool wholeString)
 {
 	std::string::size_type start = 0, end = 0;
-	std::string ret;
+	std::string ret = "";
 
 	start = data->find(term);
 	if (start != std::string::npos) {
