@@ -115,9 +115,9 @@ bool TwitterProto::NegotiateConnection()
 		if (!dbName) {
 			screenName = dbv.pszVal;
 			db_set_s(0,m_szModuleName,TWITTER_KEY_NICK,dbv.pszVal);
+			db_free(&dbv);
 			//debugLogW("**NegotiateConnection - we have a username already in the db - %s", screenName);
 		}
-		db_free(&dbv);
 	}
 
  	// twitter changed the base URL in v1.1 of the API, I don't think users will need to modify it, so

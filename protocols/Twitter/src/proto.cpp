@@ -63,8 +63,6 @@ TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username) :
 	avatar_lock_  = CreateMutex(0,false,0);
 	twitter_lock_ = CreateMutex(0,false,0);
 
-	SetAllContactStatuses(ID_STATUS_OFFLINE); // In case we crashed last time
-
 	// set Tokens and stuff
 
 	//mirandas keys
@@ -386,6 +384,8 @@ int TwitterProto::OnModulesLoaded(WPARAM,LPARAM)
 	evt.descr = "Tweet";
 	evt.flags = DETF_HISTORY | DETF_MSGWINDOW;
 	CallService(MS_DB_EVENT_REGISTERTYPE,0,reinterpret_cast<LPARAM>(&evt));
+
+	SetAllContactStatuses(ID_STATUS_OFFLINE); // In case we crashed last time
 	return 0;
 }
 
