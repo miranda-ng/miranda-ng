@@ -136,12 +136,12 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,121,272,8
 END
 
-IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 305, 155
+IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 305, 203
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Advanced Settings",IDC_STATIC,7,7,291,137
+    GROUPBOX        "Advanced Settings",IDC_STATIC,7,7,291,111
     CONTROL         "Force secure (HTTPS) connection",IDC_SECURE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,22,267,10
     CONTROL         "Post Miranda statuses to Wall",IDC_SET_STATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,17,46,267,10
     CONTROL         "Use secure connection also for channel requests",IDC_SECURE_CHANNEL,
@@ -150,14 +150,19 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,58,267,10
     CONTROL         "Map non-standard statuses to Invisible (instead of Online)",IDC_MAP_STATUSES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,71,267,10
-    CONTROL         "Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)",IDC_CUSTOM_SMILEYS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,84,267,10
-    CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,98,267,10
-    COMBOBOX        IDC_URL_SERVER,156,124,96,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Use this server for opening links:",IDC_STATIC,17,127,135,8
     CONTROL         "Allow posting statuses to my pages (may slow down login)",IDC_LOAD_PAGES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,111,267,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,84,267,10
+    LTEXT           "Use this server for opening links:",IDC_STATIC,17,100,135,8
+    COMBOBOX        IDC_URL_SERVER,156,97,96,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)",IDC_CUSTOM_SMILEYS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,136,267,10
+    CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,150,267,10
+    GROUPBOX        "Message sessions",IDC_STATIC,7,121,291,72
+    CONTROL         "Keep messages as unread on server (don't send ""seen"" info)",IDC_KEEP_UNREAD,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,164,267,10
+    CONTROL         "Receive messages from ""inbox"" folder only",IDC_INBOX_ONLY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,178,267,10
 END
 
 
@@ -226,7 +231,7 @@ BEGIN
         VERTGUIDE, 156
         VERTGUIDE, 284
         TOPMARGIN, 7
-        BOTTOMMARGIN, 148
+        BOTTOMMARGIN, 196
     END
 END
 #endif    // APSTUDIO_INVOKED
