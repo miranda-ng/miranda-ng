@@ -71,14 +71,20 @@ URL:
 Отключать чат на сайте при уходе в оффлайн
 [Map non-standard statuses to Invisible (instead of Online)]
 Нестандартные статусы, как Невидимый (вместо 'В сети')
+[Allow posting statuses to my pages (may slow down login)]
+Разрешить публиковать статусы на своих страницах (замедляет вход)
+[Use this server for opening links:]
+Тип сайта для открытия ссылок:
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 Поддержка пользовательских смайлов (Экспериментально!)
 [Use local time for received messages]
 Локальное время для принятых сообщений
-[Use this server for opening links:]
-Тип сайта для открытия ссылок:
-[Allow posting statuses to my pages (may slow down login)]
-Разрешить публиковать статусы на своих страницах (замедляет вход)
+[Message sessions]
+Беседы
+[Keep messages as unread on server (don't send "seen" info)]
+Не помечать сообщения на сервере как прочитанные
+[Receive messages from "inbox" folder only]
+Принимать сообщения только из папки "входящие"
 [&Invite user...]
 &Пригласить пользователя...
 [&Leave chat session]

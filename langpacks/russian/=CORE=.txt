@@ -1925,6 +1925,8 @@ URL от %s
 Войти в чат
 [&Leave chat]
 Покинуть чат
+[&Open chat window]
+&Открыть окно чата
 [%s has joined]
 %s вошёл
 [You have joined %s]
