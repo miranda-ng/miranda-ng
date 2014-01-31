@@ -251,7 +251,7 @@ int facebook_json_parser::parse_notifications(void *data, std::vector< facebook_
 
 		notification->id = id;
 		notification->link = utils::text::source_get_value(&text, 3, "<a ", "href=\"", "\"");
-		notification->text = utils::text::remove_html(utils::text::source_get_value(&text, 1, "<abbr"));		
+		notification->text = utils::text::remove_html(utils::text::source_get_value(&text, 1, "<abbr"));
 
 		notifications->push_back(notification);
 	}
@@ -349,7 +349,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 	}
 }
 
-int facebook_json_parser::parse_messages(void* data, std::vector< facebook_message* >* messages, std::vector< facebook_notification* >* notifications)
+int facebook_json_parser::parse_messages(void* data, std::vector< facebook_message* >* messages, std::vector< facebook_notification* >* notifications, bool inboxOnly)
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 
@@ -451,6 +451,10 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				// inbox message (multiuser or direct)
 
 				JSONNODE *msg = json_get(it, "message");
+				JSONNODE *folder = json_get(it, "folder");
+
+				if (inboxOnly && json_as_pstring(folder) != "inbox")
+					continue;
 
 				JSONNODE *sender_fbid = json_get(msg, "sender_fbid");
 				JSONNODE *sender_name = json_get(msg, "sender_name");
@@ -729,7 +733,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::string >* threads)
+int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::string >* threads, bool inboxOnly)
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 	
@@ -755,6 +759,9 @@ int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::str
 		JSONNODE *folder = json_get(it, "folder");
 		JSONNODE *thread_ids = json_get(it, "thread_ids");
 
+		if (inboxOnly && json_as_pstring(folder) != "inbox")
+			continue;
+
 		for (unsigned int j = 0; j < json_size(thread_ids); j++) {
 			JSONNODE *id = json_at(thread_ids, j);
 			threads->push_back(json_as_pstring(id));
@@ -765,7 +772,7 @@ int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::str
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_thread_messages(void* data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_chatroom* >* chatrooms, bool unreadOnly, int limit)
+int facebook_json_parser::parse_thread_messages(void* data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_chatroom* >* chatrooms, bool unreadOnly, bool inboxOnly, int limit)
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 
@@ -811,6 +818,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		JSONNODE *thread_id = json_get(it, "thread_id");
 		JSONNODE *name = json_get(it, "name");
 		JSONNODE *unread_count = json_get(it, "unread_count"); // TODO: use it to check against number of loaded messages... but how?
+		JSONNODE *folder = json_get(it, "folder");
 		
 		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(json_as_pstring(thread_id));
 		if (iter != chatrooms->end()) {
@@ -818,6 +826,9 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		}
 
 		if (canonical == NULL || thread_id == NULL)
+			continue;
+
+		if (inboxOnly && json_as_pstring(folder) != "inbox")
 			continue;
 
 		std::string id = json_as_pstring(canonical);
@@ -838,15 +849,19 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		JSONNODE *mid = json_get(it, "message_id");
 		JSONNODE *timestamp = json_get(it, "timestamp");
 		JSONNODE *filtered = json_get(it, "is_filtered_content");
+		JSONNODE *folder = json_get(it, "folder");
 
 		if (author == NULL || body == NULL || mid == NULL || tid == NULL || timestamp == NULL)
 			continue;
 
+		if (inboxOnly && json_as_pstring(folder) != "inbox")
+			continue;
+
 		std::string thread_id = json_as_pstring(tid);
-		std::string message_id = json_as_pstring(mid);		
+		std::string message_id = json_as_pstring(mid);
 		std::string message_text = json_as_pstring(body);
 		std::string author_id = json_as_pstring(author);
-		std::string::size_type pos = author_id.find(":");		
+		std::string::size_type pos = author_id.find(":");
 		if (pos != std::string::npos)
 			author_id = author_id.substr(pos+1);
 

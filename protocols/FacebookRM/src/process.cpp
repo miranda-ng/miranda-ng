@@ -265,10 +265,11 @@ void FacebookProto::ProcessUnreadMessages(void*)
 {
 	facy.handle_entry("ProcessUnreadMessages");
 
-	bool loadOther = true; // TODO: db setting? or use everytime?
+	// receive messages from all folders by default, use hidden setting to receive only inbox messages
+	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
 
 	std::string data = "folders[0]=inbox";
-	if (loadOther)
+	if (!inboxOnly)
 		data += "&folders[1]=other";
 	data += "&client=mercury";
 	data += "__user=" + facy.self_.user_id;
@@ -284,7 +285,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 		std::vector<std::string> threads;
 
 		facebook_json_parser* p = new facebook_json_parser(this);
-		p->parse_unread_threads(&resp.data, &threads);
+		p->parse_unread_threads(&resp.data, &threads, inboxOnly);
 		delete p;
 
 		ForkThread(&FacebookProto::ProcessUnreadMessage, new std::vector<std::string>(threads));
@@ -319,6 +320,9 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 	// don't use local_timestamp for unread messages by default, use hidden setting to enable it
 	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
 
+	// receive messages from all folders by default, use hidden setting to receive only inbox messages
+	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
+
 	http::response resp;
 
 	while (!threads.empty()) {
@@ -351,7 +355,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 			std::map<std::string, facebook_chatroom*> chatrooms;
 
 			facebook_json_parser* p = new facebook_json_parser(this);
-			p->parse_thread_messages(&resp.data, &messages, &chatrooms, true, limit);
+			p->parse_thread_messages(&resp.data, &messages, &chatrooms, true, inboxOnly, limit);
 			delete p;	
 
 			for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end(); ) {
@@ -456,6 +460,9 @@ void FacebookProto::ProcessMessages(void* data)
 
 	std::string* resp = (std::string*)data;
 
+	// receive messages from all folders by default, use hidden setting to receive only inbox messages
+	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
+
 	if (isOffline())
 		goto exit;
 
@@ -467,7 +474,7 @@ void FacebookProto::ProcessMessages(void* data)
 	std::vector< facebook_notification* > notifications;
 
 	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_messages(data, &messages, &notifications);
+	p->parse_messages(data, &messages, &notifications, inboxOnly);
 	delete p;
 
 	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0);

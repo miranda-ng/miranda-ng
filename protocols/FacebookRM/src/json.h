@@ -33,9 +33,9 @@ public:
 	int parse_buddy_list(void*, List::List< facebook_user >*);
 	int parse_friends(void*, std::map< std::string, facebook_user* >*);
 	int parse_notifications(void*, std::vector< facebook_notification* >*);
-	int parse_messages(void*, std::vector< facebook_message* >*, std::vector< facebook_notification* >*);
-	int parse_unread_threads(void*, std::vector< std::string >*);
-	int parse_thread_messages(void*, std::vector< facebook_message* >*, std::map< std::string, facebook_chatroom* >*, bool unreadOnly, int limit);
+	int parse_messages(void*, std::vector< facebook_message* >*, std::vector< facebook_notification* >*, bool inboxOnly);
+	int parse_unread_threads(void*, std::vector< std::string >*, bool inboxOnly);
+	int parse_thread_messages(void*, std::vector< facebook_message* >*, std::map< std::string, facebook_chatroom* >*, bool unreadOnly, bool inboxOnly, int limit);
 	int parse_thread_info(void* data, std::string* user_id);
 
 	facebook_json_parser(FacebookProto* proto)
