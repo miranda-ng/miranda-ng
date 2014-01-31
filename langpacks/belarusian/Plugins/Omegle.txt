@@ -22,10 +22,16 @@
 Гэты тэкст будзе адпраўлены, калі вы напішаце  "/asl":
 [Last used question (Question mode):]
 Апошняе ўжытае пытанне (рэжым Пытанне):
+[I want Omegle to reuse my questions if they are good enough (Question mode)]
+Я хачу паўторна скарыстаць свае пытанні, калі яны досыць добрыя (рэжым Пытанне)
 [Automatically connect to stranger when protocol is turned online]
 Аўтаматычнае злучэнне з незнаёмцам пры далучэнні конта
 [Automatically connect to another stranger when current disconnects]
 Аўтаматычнае злучэнне з іншым незнаёмым калі папярэдні выйшаў
+[Don't clear chat before connecting to new stranger]
+Не выдаляць чат перад далучэннем да новага незнаёмца
+[Load count of users on actual server after connection]
+Загрузка колькасці карыстальнікаў на серверах пры далучэнні
 [Meet strangers with common interests]
 Сустрэчы незнаёмцаў з агульнымі інтарэсамі
 [Your interests (separated by commas):]

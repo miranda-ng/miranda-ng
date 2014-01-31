@@ -751,7 +751,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Show popup for status changes]
 Змены статусаў
 [Appearance and functionality of chat windows]
-Інтэрфейс і функцыянальнасць вокнаў чата
+Выгляд і функцыянальнасць вокнаў чата
 [Icons to display in the tray]
 Абразкі ў сістэмным латку
 [nick of current contact (if defined)]

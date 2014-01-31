@@ -28,6 +28,8 @@
 Адладка паведамленняў
 [Port:]
 Порт:
+[(Default is 12001)]
+(Па змаўчанні 12001)
 [Allow actions to execute programs]
 Дазволіць выкананне праграм
 [Password:]
@@ -47,6 +49,8 @@ N/A: Памылка фармату паведамлення, код памылк
 Службы
 [LogService]
 Служба логаў
+[Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
+Лог (*.log)\0*.log\0Тэкст (*.txt)\0*.txt\0Усе фарматы (*.*)\0*.*\0
 [Invalid port number]
 Няслушны нумар порта
 [Plugins]

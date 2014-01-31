@@ -362,9 +362,9 @@ Jerk
 [Outgoing commands are not shown]
 Выходныя каманды не паказаны
 [The time interval for the buddy check function is now at default setting]
-Інтэрвал праверкі прыяцеляў усталяваны па змаўчанні
+Затрымка праверкі сяброў усталяваны па змаўчанні
 [The time interval for the buddy check function is now %u seconds]
-Інтэрвал праверкі прыяцеляў роўны %u секунд(ам)
+Інтэрвал праверкі сяброў роўны %u секунд(ам)
 [This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
 Гэта каманда не рэкамендавана для сеткі такога памеру!\r\nГэта можа заняць рэсурсы сістэмы прыкладна ад %u да %u хвілін.\r\n Жадаеце працягнуць?
 [IRC warning]

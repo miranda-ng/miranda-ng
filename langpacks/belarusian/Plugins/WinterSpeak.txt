@@ -6,7 +6,7 @@
 ;  Authors: Ryan Winter, BlubbFish
 ;============================================================
 [Miranda interface to the Microsoft Speech API.]
-Інтэрфейс распазнання гаворкі Microsoft.
+Распазнанне гаворкі Microsoft.
 ;file \plugins\WinterSpeak\res\Speak.rc
 [Engine Settings]
 Налады рухавіка

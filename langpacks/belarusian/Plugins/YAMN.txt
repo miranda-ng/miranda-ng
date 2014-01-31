@@ -23,7 +23,7 @@
 [Check this account]
 Правяраць гэты конт
 [Check interval [min]:]
-Інтэрвал праверкі (мін):
+Правяраць праз (хв):
 [Notifications]
 Абвесткі
 [Sound]

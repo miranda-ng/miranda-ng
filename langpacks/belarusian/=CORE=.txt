@@ -1536,7 +1536,7 @@ Miranda
 [Options for using a tabbed interface]
 Налады ўкладак
 [Appearance and functionality of chat room windows]
-Інтэрфейс і функцыянальнасць вокнаў чата
+Выгляд і функцыянальнасць вокнаў чата
 [Appearance of the message log]
 Вонкавы выгляд лога паведамленняў
 [Default events to show in new chat rooms if the 'event filter' is enabled]
@@ -1984,6 +1984,8 @@ URL ад %s
 ;file \src\modules\chat\chat_svc.cpp
 [&Join chat]
 Зайсці
+[&Leave chat]
+Пакінуць чат
 ;file \src\modules\chat\clist.cpp
 ;file \src\modules\chat\log.cpp
 [%s has joined]

@@ -503,7 +503,7 @@ IP:
 [<prefix>Hours|Minutes|Seconds to time]
 <прэфікс>гадзіны|хвіліны|секунды - падчас
 [<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-<прэфікс>дзень|месяц|год|гадзіны|мін|сек - у розніцу часу
+<прэфікс>дзень|месяц|год|гадзіны|хв|сек - у розніцу часу
 [<prefix>Day|Month to days to next birthday]
 <прэфікс>дзень|месяц - у днях да наступнага дня нараджэння
 [DWORD timestamp to time (no seconds)]

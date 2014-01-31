@@ -118,6 +118,8 @@ Miranda NG HTTP-сервер
 Немагчыма зачыніць буфер абмену
 [Failed to set clipboard data]
 Немагчыма ўсталяваць дадзеныя буфера абмену
+[ListView_GetItem failed]
+Памылка ListView_GetItem
 [No share selected]
 Тэчка не абрана
 [Current IP Address: ]

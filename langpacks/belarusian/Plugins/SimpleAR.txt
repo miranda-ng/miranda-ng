@@ -17,7 +17,7 @@
 [No-repeat Interval:]
 Не паўтараць:
 [mins]
-мін.
+хв.
 [&Default]
 Па змаўчанні
 ;file \plugins\SimpleAR\src\Main.cpp

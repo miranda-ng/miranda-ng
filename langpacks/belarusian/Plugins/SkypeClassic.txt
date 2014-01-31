@@ -95,7 +95,7 @@
 [Suppress all error messages (not recommended, but if it annoys you... ;)]
 Выключыць усе паведамленні пра памылкі
 [Use group chat interface for conversations (requires group chat module)]
-Карыстаць інтэрфейс чата
+Карыстаць выгляд чата
 [Mark group chat message as read to avoid notification]
 Пазначаць гуртавыя паведамленні як прачытанныя без звестак
 [Keep requested online status on startup under every circumstance]

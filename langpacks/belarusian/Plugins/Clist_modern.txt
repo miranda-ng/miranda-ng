@@ -433,7 +433,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [After captions:]
 Пасля загалоўка
 [Gaps]
-Інтэрвалы
+Падзельнікі
 [Use Non-Layered mode]
 Рэжым без скіна
 [Round corners]

@@ -58,6 +58,8 @@
 Правая пстрычка:
 [On left click:]
 Левая пстрычка:
+[Track]
+Сачыць
 [Avatar change:]
 Змена аватара:
 [Avatar removal:]
@@ -116,6 +118,12 @@
 [Save Avatar]
 Захаваць аватар
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
+[Removed avatar, no avatar before...skipping]
+Аватара няма ці ён быў выдалены раней. Пропуск
+[Hashes are the same... skipping]
+Хэшы аднолькавыя. Пропуск
+[Avatar History: Unable to save avatar]
+Гісторыяя аватараў: Не атрымалася захаваць аватар
 [Avatars]
 Аватары
 [Contact changed avatar]
@@ -156,3 +164,5 @@
 Невядомы нумар
 [Unknown Protocol]
 Невядомы пратакол
+[Avatar History: Unable to create shortcut]
+Гісторыя аватараў: Нельга стварыць цэтлік

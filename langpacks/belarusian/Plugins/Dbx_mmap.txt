@@ -53,6 +53,8 @@
 [Set password]
 Усталяваць пароль
 ;file \plugins\Db3x_mmap\src\ui.cpp
+[Logo]
+Меню
 [Password]
 Пароль
 [Too many errors!]

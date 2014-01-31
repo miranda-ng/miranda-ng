@@ -26,7 +26,7 @@
 [Report on some errors.]
 Паказваць інфармацыю пра памылкі.
 [Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
-Спрабаваць выкарыстоўваць OLE інтэрфейс, каб атрымаць больш інфармацыі з прайгравальніка. Калі гэта опцыя выключана, WATrack павінен працаваць хутчэй.
+Спрабаваць выкарыстоўваць OLE, каб атрымаць больш інфармацыі з прайгравальніка. Калі гэта опцыя выключана, WATrack павінен працаваць хутчэй.
 [Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
 Час абнаўлення інфармацыі пра музыку, статыстыкі, і паведамленняў статусу ў секундах. Калі роўна 0, аўтаматычнае абнаўленне выключана. Калі значэнне > 499, час будзе лічыцца ў мс.
 [Text insertion to other Apps]
@@ -550,7 +550,7 @@ VBR ці няма
 [any XStatus is set]
 усталяваны любы хстатус
 [Players list\n(F1 for note)]
-Спіс плэераў\n(Націсніце F1 для инфармацыі)
+Спіс плэераў\n(Націсніце F1 для спраўкі)
 [Chat Template]
 Шаблон для чатаў
 [This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]

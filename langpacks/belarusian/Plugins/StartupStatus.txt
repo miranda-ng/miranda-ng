@@ -173,7 +173,7 @@ Dial-up (эксперыментальна)
 [Ignore Caps Lock, Num Lock and Scroll Lock keys]
 Ігнараваць клавішы Caps Lock, Num Lock і Scroll Lock
 [Check interval (secs)]
-Інтэрвал праверкі (сек):
+Правяраць праз (сек):
 [Confirm dialog timeout (secs)]
 Інтэрвал пацверджання (сек)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]

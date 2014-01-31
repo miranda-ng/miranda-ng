@@ -29,7 +29,7 @@
 [Show notification if no filter defined]
 Абвяшчаць, калі ні адзін фільтр не вызначаны
 [Attempt interval (ms)]
-Інтэрвал спроб (ms.)
+Спрабаваць кожныя (ms.):
 ['Online' means:]
 "Далучаны" азначае:
 [Filters]

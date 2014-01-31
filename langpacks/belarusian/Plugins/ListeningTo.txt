@@ -155,4 +155,8 @@ mRadio
 [Players]
 Плэеры
 ;file \plugins\ListeningTo\src\players\generic.cpp
+[Miranda ListeningTo receiver]
+Прымаць у 'Слухаю'
 ;file \plugins\ListeningTo\src\players\wmp.cpp
+[Miranda ListeningTo WMP receiver]
+Прымаць у 'Слухаю' з WMP 

@@ -30,6 +30,8 @@
 Адлюстроўванае імя
 [Contacts Tooltip]
 Падказка
+[other settings]
+іншыя налады
 [Link]
 Спасылка
 [Program parameters:]
@@ -56,6 +58,8 @@
 Кантакт заўсёды бачны
 [Unless Non-IM Contacts protocol is OFFLINE]
 схаваць, калі не-IM пратакол не ў сеткі
+[Timer Intervals.  ]
+Час затрымкі.
 [Dialog]
 Гутарка
 [Away as another status]
@@ -63,7 +67,7 @@
 [Disable timer]
 Адключыць таймер
 [Timer interval (in seconds)]
-Інтэрвал (у секундах)
+Затрымка (у секундах)
 [This will take affect after Non-IM Contacts' status is changed]
 Змены адбудуцца пасля змены статусу кантактаў
 [Timer Options]
@@ -80,6 +84,8 @@
 Зварот...
 [Help]
 Даведка
+[Copy / Export contact]
+Капіяваць / Экспартаваць кантакт
 [&Export Non-IM Contact]
 Экспарт не-IM кантакту
 [Co&py Non-IM Contact]
@@ -98,6 +104,8 @@
 ;file \plugins\Non-IM Contact\src\dialog.cpp
 [Link and Contact list Settings]
 Спасылкі і налады спісу
+[Copy Contact]
+Капіяваць кантакт
 [Files]
 Файлы
 ;file \plugins\Non-IM Contact\src\files.cpp

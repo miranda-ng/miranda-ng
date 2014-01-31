@@ -104,6 +104,8 @@
 &Выдаліць напамінак
 [D&elete All Reminders]
 Выдаліць усе напамінкі
+[Context Menu Note Popup]
+Кантэкстнае меню абвестак
 [&Hide Note]
 &Схаваць нататкі
 [&Always On Top]
@@ -249,6 +251,8 @@
 Колер фону нататкі
 [Sticky Note Body]
 Акно
+[Executable Files\0*.exe\0All Files\0*.*\0\0]
+Файлы выканання\0*.exe\0All Files\0*.*\0\0
 [Select Executable]
 Абраць праграму…
 ;file \plugins\NotesAndReminders\src\reminders.cpp

@@ -33,6 +33,8 @@
 Памылка віртуальнай абароны. Код %d\nЗьвяжыцеся з аўтарам
 [Error]
 Памылка
+[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
+Хм. Нешта ідзе не так. Я не магу пісаць у памяць. \nІ як вы можаце бачыць не генеруецца ніякіх выключэнняў. \nПаспрабуйце звязацца з аўтарам.
 [MessagePopup]
 Увага
 [Popups]

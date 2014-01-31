@@ -672,7 +672,7 @@ Wiki-старонка дадатковых параметраў
 [%0.1n h]
 %0.1n г
 [%d min]
-%d мін
+%d хв
 [&Reset to Default]
 Змаўчанні
 [Contact history]

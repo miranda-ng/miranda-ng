@@ -83,7 +83,7 @@
 [Server:]
 Сервер:
 [Updates check interval, min]
-Інтэрвал праверкі абнаўленняў, хвілін
+Затрымка праверкі абнаўленняў, хвілін
 [Return absolute path]
 Вяртаць абсалютны шлях
 [Delete avatar file with contact]

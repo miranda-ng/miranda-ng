@@ -211,6 +211,8 @@
 Сплю
 [Surfing]
 Серфінг
+[Browsing]
+Прагляд
 [Working]
 Працую
 [Typing]
@@ -241,6 +243,14 @@
 Схаваць адключаных
 [Show All Frames]
 Паказаць усе
+[Ansi Text]
+Тэкст Ansi
+[Removes all settings for the specified module]
+Выдаляе ўсе налады пазначанага модуля
+[int 0]
+цэлая частка 0
+[Import settings/contacts from file]
+Імпарт налад/кантактаў у файл
 [System]
 Сістэма
 [Ignore all]
@@ -269,6 +279,10 @@
 Служба аватараў (AVS.dll)
 [Filename]
 Імя файла
+[WhenWasIt Birthday Reminder (whenwasit.dll)]
+Абвестка пра дні нараджэння (whenwasit.dll)
+[display birthdays window]
+паказвае вакно дзён нараджэння
 [Structure editor]
 Рэдактар структур
 [alias]
@@ -452,7 +466,7 @@ UTF16+сігнатура
 [Repeat, times]
 Кольк. паўтораў
 [Interval]
-Інтэрвал
+Затрымка
 [Break on non-zero result]
 Спыніць пры ненулявым выніку
 [Send event on start time]
