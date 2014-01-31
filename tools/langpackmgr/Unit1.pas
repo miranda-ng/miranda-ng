@@ -236,6 +236,7 @@ var sa:integer;
 procedure tform1.combobox1change(sender: tobject);
   var f:textfile;
 begin
+l:=2000;
   if not FileExists(extractfilePath(application.exename)
       +'/'+locale+'/'+combobox1.items[combobox1.itemindex]+'.txt')
   then
