@@ -10,18 +10,13 @@
 static DWORD MraOfflineMessageConvertTime(INTERNET_TIME *pitTime)
 {
 	SYSTEMTIME stTime, stUniversalTime;
-	TIME_ZONE_INFORMATION tziTimeZoneMailRu = {0}, tziTimeZoneLocal;
-
-	GetTimeZoneInformation(&tziTimeZoneLocal);
-	if (GetTimeZoneInformation(&tziTimeZoneMailRu) == TIME_ZONE_ID_DAYLIGHT)
-		tziTimeZoneMailRu.DaylightBias *= 2;
-
-	tziTimeZoneMailRu.Bias = -MAILRU_SERVER_TIME_ZONE;
-	tziTimeZoneMailRu.DaylightBias = -tziTimeZoneMailRu.DaylightBias;
+	TIME_ZONE_INFORMATION tziTimeZoneMailRu = {0};
+	tziTimeZoneMailRu.Bias = pitTime->lTimeZone/100*60;
+	tziTimeZoneMailRu.DaylightBias = pitTime->lTimeZone%100;
 	SystemTimeToTzSpecificLocalTime(&tziTimeZoneMailRu, &pitTime->stTime, &stUniversalTime);
-	SystemTimeToTzSpecificLocalTime(&tziTimeZoneLocal, &stUniversalTime, &stTime);
+	SystemTimeToTzSpecificLocalTime(NULL, &stUniversalTime, &stTime);
 
-	return((DWORD)MakeTime32FromLocalSystemTime(&stTime));
+	return (DWORD)MakeTime32FromLocalSystemTime(&stTime);
 }
 
 static DWORD MraOfflineMessageGetHeaderValueLow(LPSTR lpszHeaderLow, size_t dwHeaderSize, LPSTR lpszValueName, size_t dwValueNameSize, LPSTR *plpszValue, size_t *pdwValueSize)
