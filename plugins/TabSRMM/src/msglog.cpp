@@ -1024,6 +1024,9 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 					break;
 
 				default:
+					if (!skipFont)
+						AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
+					
 					ptrT tszText(DbGetEventTextT(&dbei, CP_ACP));
 					AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, tszText, 0);
 				}
