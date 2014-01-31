@@ -1,4 +1,0 @@
-Upload Archives Success! 
-Upload Plugin Updater x32 Success! 
-Upload Plugin Updater x64 Success! 
-Upload Installers Success! 
