@@ -166,7 +166,7 @@ INT_PTR LeaveChat(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int PrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact == NULL)
@@ -182,9 +182,9 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 				CLISTMENUITEM mi = { sizeof(mi) };
 				mi.flags = CMIM_NAME;
 				if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE)
-					mi.pszName = (char*)LPGEN("Join chat");
+					mi.pszName = LPGEN("&Join chat");
 				else
-					mi.pszName = (char*)LPGEN("Open chat window");
+					mi.pszName = LPGEN("&Open chat window");
 				Menu_ModifyItem(hJoinMenuItem, &mi);
 				bEnabled = true;
 			}
