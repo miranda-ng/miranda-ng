@@ -6,6 +6,7 @@
 [Contact list group:]
 [Server-side delivery confirmation]
 [Hide chats on startup]
+[Automatically wipe local contacts missing in your Friends list]
 [Bots challenge test]
 [Submit]
 [Invite user to chat]
