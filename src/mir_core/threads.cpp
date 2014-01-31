@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
+#include <m_netlib.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // APC and mutex functions
 
@@ -227,6 +229,9 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 			for (int j = threads.getCount()-1; j >= 0; j--) {
 				THREAD_WAIT_ENTRY* p = threads[j];
 				if (p->pObject == owner) {
+					char szModuleName[MAX_PATH];
+					GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
+					Netlib_Logf(0, "Killing objec thread %s:%p", szModuleName, p->dwThreadId);
 					TerminateThread(p->hThread, 9999);
 					CloseHandle(p->hThread);
 					threads.remove(j);
@@ -247,6 +252,7 @@ static void CALLBACK KillAllThreads(HWND, UINT, UINT_PTR, DWORD)
 			THREAD_WAIT_ENTRY *p = threads[j];
 			char szModuleName[ MAX_PATH ];
 			GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
+			Netlib_Logf(0, "Killing thread %s:%p", szModuleName, p->dwThreadId);
 			TerminateThread(p->hThread, 9999);
 			CloseHandle(p->hThread);
 			mir_free(p);
