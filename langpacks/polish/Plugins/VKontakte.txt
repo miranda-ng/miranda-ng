@@ -27,7 +27,7 @@ Potwierdzenie dostarczenia ze strony serwera
 [Hide chats on startup]
 Ukryj czaty podczas startu
 [Automatically wipe local contacts missing in your Friends list]
-
+Automatycznie czyść lokalne kontakty, których brak na twojej liście znajomych
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]
