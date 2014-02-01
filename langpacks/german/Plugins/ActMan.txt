@@ -74,7 +74,7 @@ Sie können die Makros %name%, %uid%, %account% und %group% verwenden
 [Contacts]
 Kontakte
 [Select contact to open its window]
-
+Kontakte auswählen um deren Fenster zu öffnen
 [Result action]
 Ergebnisaktion
 [Show in popup]
@@ -124,7 +124,7 @@ Variablen nicht verwenden
 [Miranda service help]
 Mirandadiensthilfe
 [Name]
-
+Name
 [Alias]
 Alias
 [Plugin]
@@ -136,9 +136,9 @@ Effekt
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
 '<proto>' im Dienstnamen wird durch den Namen des aktuellen Protokolls eines Kontakts abhängig vom Kontext ersetzt.
 [Undefined]
-
+Undefiniert
 [Manage Jabber Bookmarks]
-
+Jabber-Lesezeichen verwalten
 [Offline]
 Offline
 [Online]
@@ -160,13 +160,13 @@ Am Telefon
 [Out to Lunch]
 Zum Essen
 [text]
-
+Text
 [int 0, if successful]
-
+int 0, falls erfolgreich
 [Set status message]
-
+Statusnachricht setzen
 [Set protocol status]
-
+Protokollstatus setzen
 [None]
 Keine
 [Angry]
@@ -212,7 +212,7 @@ Schlafen
 [Surfing]
 Sport
 [Browsing]
-
+Browsen
 [Working]
 Arbeiten
 [Typing]
@@ -234,223 +234,223 @@ Pro7
 [Love]
 Liebe
 [Sets owner current custom status]
-
+Aktuellen eigenen Custom Status setzen
 [Display XStatus detail]
-
+XStatus-Detail anzeigen
 [int hMenu handle]
-
+int hMenu handle
 [Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
-
+Errichtet das Kontextmenü für einen bestimmten Kontakt. Menü sollte danach mit DestroyMenu() zerstört werden.
 [Show All Users]
-
+Alle Kontakte anzeigen
 [Show only Online Users]
-
+Nur Online-Kontakte anzeigen
 [Toggle status]
-
+Status umschalten
 [Change 'hide offline contacts' option value]
-
+"Offline Kontakte ausblenden"-Einstellung ändern
 [Set global status]
-
+Globalen Status setzen
 [Switch contact list status]
-
+Kontaktlistenstatus umschalten
 [Hide All Titlebars]
-
+Alle Titelleisten verstecken
 [Show All Frames]
-
+Alle Frames anzeigen
 [Show All Titlebars]
-
+Alle Titelleisten anzeigen
 [Closes Miranda]
-
+Schließt Miranda
 [Show or hide netlog console window]
-
+Zeigt oder versteckt Netlib-Konsolenfenster
 [int Value]
-
+int Wert
 [Returns contact amount, excluding user account]
-
+Gibt Anzahl Kontakte, ohne Benutzerkonto, zurück
 [Ansi Text]
-
+Ansi-Text
 [Removes all settings for the specified module]
-
+Entfernt alle Einstellungen im angegebenen Modul
 [int 0]
-
+int 0
 [Import settings/contacts from file]
-
+Einstellungen/Kontakte aus Datei importieren
 [Opens or activate database editor]
-
+Öffnet oder aktiviert den Datenbankeditor
 [Opens or activate user search dialog]
-
+Öffnet oder aktiviert die Suche nach Benutzern
 [displays File Transfer window]
-
+Zeigt Dateiübertragungsfenster an
 [on Desktop]
-
+auf dem Desktop
 [parent window handle]
-
+Elternfensterhandle
 [Show "About..." window]
-
+Zeigt "Über..." Fenster
 [Open bug report page]
-
+Öffnet Bug-Report-Seite
 [Open support (originaly - Miranda wiki) page]
-
+Öffnet Support (ursprünglich Miranda Wiki) Seite
 [Go to Miranda Homepage]
-
+Geht zu Miranda-Webseite
 [System]
-
+System
 [Shows contact history or (wParam=0) system history]
-
+Zeigt Verlauf des Kontaktes oder (wParam=0) Systemverlauf
 [Erases contact's history. hContact can be NULL(0) to empty system history]
-
+Löscht den Verlauf eines Kontaktes. hContact kann NULL(0) sein um Systemverlauf zu löschen
 [Show Global history search window. If already opened, bring it to front.]
-
+Zeigt Suchfenster für globalen Verlauf. Wenn schon geöffnet wird er nach vorne gebracht.
 [Ignore all]
-
+Alles ignorieren
 [Ignore messages]
-
+Nachrichten ignorieren
 [Ignore URLs]
-
+URLs ignorieren
 [Ignore files]
-
+Dateien ignorieren
 [Ignore User Online]
-
+Statusbenachrichtigungen ignorieren
 [Ignore requests]
-
+Anfragen ignorieren
 [Ignore 'You were added']
-
+'Sie wurden hinzugefügt' ignorieren
 [Ignore Contact]
-
+Kontakt ignorieren
 [Unignore Contact]
-
+Kontakt nicht mehr ignorieren
 [restart in default profile or profile manager]
-
+Neustart mit Standardprofil oder Profilmanager
 [restart with current profile]
-
+Neustart mit aktuellem Profil
 [Restarts Miranda]
-
+Startet Miranda neu
 [Station name]
-
+Stationsname
 [wParam is Handle]
-
+wParam ist Handle
 [wParam is Ansi station name]
-
+wParam ist Stationsname (Ansi)
 [wParam is Unicode station name]
-
+wParam ist Stationsname (Unicode)
 [Starting or stopping radio station]
-
+Startet oder stoppt Radiostation
 [Stop cycle]
-
+Wechseln stoppen
 [Start cycle]
-
+Wechseln starten
 [Start/stops the cycling throught protocols]
-
+Startet/Stoppt das Wechseln der Protokolle
 [All protocols]
-
+Alle Protokolle
 [Protocol]
-
+Protokoll
 [signed -2 if proto can't set this, -1 on protocol not found, else 0]
-
+Mit Vorzeichen, -2 falls das Protokoll dies nicht machen kann, -1 falls Protokoll nicht gefunden, sonst 0
 [Shows a dialog to set the avatar for all possible protocols]
-
+Zeigt den Dialog um Ihr Avatar für alle möglichen Konten zu setzen.
 [Shows the next protocol in the frame]
-
+Zeigt das nächste Protokoll im Frame
 [Shows the previous protocol in the frame]
-
+Zeigt das vorherige Protokoll im Frame
 [Opens the options dialog, optionally at the specified page]
-
+Öffnet den Einstellungsdialog, optional an der angegebenen Seite
 [Open Options dialog]
-
+Einstellungsdialog öffnen
 [Check for updates]
-
+Auf Updates prüfen
 [with confirmation]
-
+mit Bestätigung
 [without confirmation]
-
+ohne Bestätigung
 [Empty updater download folder]
-
+Updater-Downloadverzeichnis leeren
 [Enables or disables Popup windows]
-
+Aktiviert oder deaktiviert Popupfenster
 [YAPP or Popup]
-
+YAPP oder Popup
 [Warning]
-
+Warnung
 [Notify]
-
+Benachrichtigung
 [Error]
-
+Fehler
 [Popup window]
-
+Popupfenster
 [YAPP only]
-
+Nur YAPP
 [Unicode Text]
-
+Unicode-Text
 [result of protocol service call]
-
+Ergebnis des Protokollserviceaufrufes
 [send a general request through the protocol chain for a contact]
-
+Stellt eine generelle Anfrage durch die Protokollkette für einen Kontakt
 [displays the Account Manager]
-
+Zeigt den Kontenmanager an
 [Show the dialog to select the contact]
-
+Zeigt den Dialog um einen Kontakt auszuwählen
 [filter text]
-
+Text filtern
 [wParam is unicode]
-
+wParam ist Unicode
 [wParam is Ansi]
-
+wParam ist Ansi
 [Reserved]
-
+Reserviert
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
-
+Spielt Sound durch Skin/Sounds/AddNew. Wenn Sound nicht gefunden wird wird Standard-Windows-Sound gespielt.
 [Send Email to contact]
-
+E-Mail an Kontakt senden
 [struct]
-
+Struktur
 [Returns the received files folder for a contact]
-
+Gibt den Pfad für empfangene Dateien von einem Kontakt zurück.
 [Open contact received file directory]
-
+Öffnet das Verzeichnis für empfangene Dateien von einem Kontakt.
 [Send file to contact.]
-
+Datei an Kontakt senden.
 [hContact;parameter]
-
+hContact;Parameter
 [Opens message window for contact with handle in wparam]
-
+Öffnet das nachrichtenfenster für den Kontakt mit Handle im wParam
 [remove all temporary contacts from db]
-
+Entfernt alle temporären Kontakte aus der Datenbank
 [Call avatar option dialog for contact]
-
+Ruft Avatareinstellungen für einen Kontakt auf.
 [Avatar service (AVS.dll)]
-
+Avatar Service (AVS.dll)
 [Filename]
-
+Dateiname
 [Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
-
+Setzt (und beschützt optional) ein lokales Bild für den gegebenen hContact. Falls hContact = NULL öffnet der Dienst einen Dateiauswahldialog.
 [Shows contact property window.]
-
+Zeigt Eigenschaftsfenster des Kontaktes.
 [Open URL in current window]
-
+Öffnet URL in aktuellem Fenster
 [Open URL in default browser]
-
+Öffnet URL im Standardbrowser
 [With formating]
-
+Mit Formatierung
 [Don't use formating]
-
+Keine Formatierung verwenden
 [Returns a string containing the versioninfo post]
-
+Gibt einen String zum Versionsinfobericht zurück
 [Show or save (call default action) Modules version Info]
-
+Zeigt oder speichert (Standardaktion bei Aufruf) Versionsinfo des Moduls
 [log filename]
-
+Log Dateiname
 [report filename]
-
+Report Dateiname
 [int 0, if unsuccessful]
-
+int 0, falls erfolglos
 [Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
-
+Erstellt Report aus Log und führt es aus (falls Einstellung gesetzt). Falls wParam oder lParam leer ist dann werden die Dateinamen aus den Einstellungen verwendet.
 [Show popup or Info window with current music information.]
-
+Zeigt Popup oder Info mir aktueller Musikinformation.
 [WhenWasIt Birthday Reminder (whenwasit.dll)]
-
+WhenWasIt Birthday Reminder (whenwasit.dll)
 [display birthdays window]
-
+Zeigt Geburtstagsfenster
 [Structure editor]
 Struktureditor
 [alias]
@@ -502,7 +502,7 @@ Strukturhilfe
 [Descr]
 Beschr.
 [&Change]
-
+Ändern
 [&OK]
 &OK
 [C&ancel]
@@ -560,7 +560,7 @@ Text, der eingefügt werden soll
 [Condition]
 Bedingung
 [NOT]
-
+Nicht
 [Value]
 Wert
 [Math]
@@ -576,9 +576,9 @@ Andere Aktionsgruppen
 [not defined]
 Nicht definiert
 [You can select another group from combobox, then it will be executed, after that current action group will be continued.]
-
+Sie können eine andere Gruppe aus der Combobox auswählen, dann wird diese ausgeführt, danach wird die aktuelle Gruppe fortgesetzt.
 [Macros]
-
+Makros
 [Own settings]
 Eigene Einstellungen
 [Manual]
@@ -628,13 +628,13 @@ Starte am
 [Start immediately]
 Starte sofort
 [Days]
-
+Tage
 [Time]
-
+Zeit
 [Date]
-
+Datum
 [Repeat]
-
+Wiederholen
 [Repeat, times]
 Anz. Wiederh.
 [Interval]
@@ -688,7 +688,7 @@ Protokollmenüs
 [Status menu]
 Statusmenü
 [Common]
-
+Allgemein
 [2 state button/item]
 Zwei-Zustand-Schaltfläche/Element
 [Save button/item state]
@@ -710,15 +710,15 @@ Zeige nur, falls Variable 1 zurückgibt
 [Choose action]
 Aktion auswählen
 [&Yes]
-
+&Ja
 [&No]
-
+&Nein
 [A&ppend]
 Anf&ügen
 [Yes to &All]
-
+Ja zu &Allem
 [N&o to All]
-
+N&ein zu allem
 [Action "$" exists, do you want to rewrite it?]
 Aktion "$" existiert, möchten Sie sie neu erstellen?
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
@@ -755,7 +755,7 @@ Sofort schließen
 [Close for macro]
 Für Makro schließen
 [Choose Contact]
-
+Kontakt wählen
 [Refresh]
 Aktualisieren
 [Get from active window]
@@ -785,11 +785,11 @@ Sprung
 [& and]
 & und
 [Case sensitive]
-
+Groß-/Kleinschreibung beachten
 [Opposite order]
 Umgekehrte Reihenfolge
 [empty]
-
+leer
 [contains]
 beinhaltet
 [starts with]
@@ -803,7 +803,7 @@ Skript ausführen nach
 [Right justified text]
 Rechts ausgerichteter Text
 [Database]
-
+Datenbank
 [Save value]
 Wert speichern
 [Storage]
@@ -855,7 +855,7 @@ Ausgewähltes Makro
 [Select for FirstRun]
 Für FirstRun auswählen
 [Double click on the CList]
-
+Doppelklick auf Kontaktliste
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Texteditor

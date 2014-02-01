@@ -1297,7 +1297,7 @@ Status
 [Join chat]
 Chat betreten
 [Open chat window]
-Chatfenster öffnen
+-Chatfenster öffnen
 ;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
@@ -1989,12 +1989,12 @@ Benutzer hat eine Notiz geschickt
 Das Thema wurde geändert
 ;file \src\modules\chat\chat_svc.cpp
 [&Join chat]
-Betreten
+Chat &betreten
 [&Leave chat]
-
+Chat ver&lassen
 ;file \src\modules\chat\clist.cpp
 [&Open chat window]
-
+Chatfenster &öffnen
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 %s ist beigetreten

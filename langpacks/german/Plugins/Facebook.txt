@@ -81,11 +81,11 @@ Unterstützung für Custom Smileys aktivieren (EXPERIMENTELL + VERBUGGT!)
 [Use local time for received messages]
 Lokale Zeit für empfangene Nachrichten verwenden
 [Message sessions]
-
+Nachrichtensitzungen
 [Keep messages as unread on server (don't send "seen" info)]
-
+Nachrichten auf dem Server als ungelesen belassen ("Gesehen"-Info nicht senden)
 [Receive messages from "inbox" folder only]
-
+Nur Nachrichten aus "Postfach"-Verzeichnis abrufen
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
 Kontakt e&inladen

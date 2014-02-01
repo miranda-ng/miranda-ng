@@ -27,7 +27,7 @@ Serverseitige Empfangsbestätigungen
 [Hide chats on startup]
 Chats beim Start verbergen
 [Automatically wipe local contacts missing in your Friends list]
-
+Lokale Kontakte, die nicht in Ihrer Freundesliste sind, automatisch löschen
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
