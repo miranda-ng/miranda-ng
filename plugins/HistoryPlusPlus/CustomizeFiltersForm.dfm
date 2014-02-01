@@ -49,7 +49,7 @@ object fmCustomizeFilters: TfmCustomizeFilters
       Width = 75
       Height = 25
       Anchors = [akLeft, akBottom]
-      Caption = 'OK'
+      Caption = '&OK'
       Default = True
       TabOrder = 2
       OnClick = bnOKClick
