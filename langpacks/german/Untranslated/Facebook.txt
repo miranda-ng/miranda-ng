@@ -1,0 +1,3 @@
+﻿[Message sessions]
+[Keep messages as unread on server (don't send "seen" info)]
+[Receive messages from "inbox" folder only]

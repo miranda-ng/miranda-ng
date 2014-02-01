@@ -1962,6 +1962,8 @@ URL
 [&Leave chat]
 
 ;file \src\modules\chat\clist.cpp
+[&Open chat window]
+
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 %s влезе

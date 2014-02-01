@@ -1,1 +1,2 @@
 ﻿[&Leave chat]
+[&Open chat window]

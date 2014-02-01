@@ -1,5 +1,4 @@
-﻿
-[OK]
+﻿[OK]
 OK
 [Cancel]
 Storno

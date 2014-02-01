@@ -72,13 +72,19 @@ URL:
 Изключване на чат функционалността при "Извън линия"
 [Map non-standard statuses to Invisible (instead of Online)]
 Ползване на състояние Невидим вместо "На линия" при нестандартно за Facebook състояние
+[Allow posting statuses to my pages (may slow down login)]
+
+[Use this server for opening links:]
+
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 
 [Use local time for received messages]
 
-[Use this server for opening links:]
+[Message sessions]
 
-[Allow posting statuses to my pages (may slow down login)]
+[Keep messages as unread on server (don't send "seen" info)]
+
+[Receive messages from "inbox" folder only]
 
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]

@@ -72,14 +72,20 @@ Również dla kanału próśb o dodanie do znajomych
 Rozłączaj również 'Czat' przechodząc w status rozłączony
 [Map non-standard statuses to Invisible (instead of Online)]
 Niestandardowy status jako Niewidoczny (zamiast Dostępnego)
+[Allow posting statuses to my pages (may slow down login)]
+Zezwól na publikowanie postów na moich stronach (może spowolnić logowanie)
+[Use this server for opening links:]
+Użyj tego serwera do otwierania linków:
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 Wsparcie dla niestandardowych emotikon (EKSPERYMENTALNY)
 [Use local time for received messages]
 Użyj czasu lokalnego dla odebranych wiadomości
-[Use this server for opening links:]
-Użyj tego serwera do otwierania linków:
-[Allow posting statuses to my pages (may slow down login)]
-Zezwól na publikowanie postów na moich stronach (może spowolnić logowanie)
+[Message sessions]
+
+[Keep messages as unread on server (don't send "seen" info)]
+
+[Receive messages from "inbox" folder only]
+
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
 Zaproś użytkownika

@@ -72,14 +72,14 @@ URL:
 Адключаць чат на сайце пры адключэнні
 [Map non-standard statuses to Invisible (instead of Online)]
 Нестандартныя статусы, як Нябачны (замест 'Далучаны')
+[Allow posting statuses to my pages (may slow down login)]
+Дазволіць публікаваць статусы на сваіх старонках (замаруджвае уваход)
+[Use this server for opening links:]
+Выкарыстоўваць гэты сервер для адкрыцця спасылкі:
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 Падтрымка карыстацкіх смайлаў (Эксперыментальна!)
 [Use local time for received messages]
 Выкарыстоўваць мясцовы час для прынятых паведамленняў
-[Use this server for opening links:]
-Выкарыстоўваць гэты сервер для адкрыцця спасылкі:
-[Allow posting statuses to my pages (may slow down login)]
-Дазволіць публікаваць статусы на сваіх старонках (замаруджвае уваход)
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
 &Запрасіць кантакт...

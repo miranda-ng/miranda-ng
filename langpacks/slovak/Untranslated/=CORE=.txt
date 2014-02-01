@@ -562,6 +562,7 @@
 [The topic has been changed]
 [&Join chat]
 [&Leave chat]
+[&Open chat window]
 [%s has joined]
 [You have joined %s]
 [%s has left]
