@@ -1991,10 +1991,10 @@ Temat został zmieniony
 [&Join chat]
 Dołącz
 [&Leave chat]
-
+Opuść czat
 ;file \src\modules\chat\clist.cpp
 [&Open chat window]
-
+Otwórz okno czatu
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 %s dołączył(a)
