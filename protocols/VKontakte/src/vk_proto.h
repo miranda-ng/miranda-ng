@@ -214,6 +214,8 @@ struct CVkProto : public PROTO<CVkProto>
 	__forceinline LPCTSTR getGroup() const { return m_defaultGroup; }
 	__forceinline void setGroup(LPCTSTR grp) { m_defaultGroup = mir_tstrdup(grp); }
 
+	UINT_PTR m_timer;
+
 private:
 	friend struct AsyncHttpRequest;
 
@@ -271,7 +273,6 @@ private:
 	LONG   m_myUserId;
 	ptrA   m_szAccessToken;
 	ptrT   m_defaultGroup;
-	UINT_PTR m_timer;
 
 	ptrA   m_pollingServer, m_pollingKey, m_pollingTs;
 	HANDLE m_pollingConn, m_hPollingThread;

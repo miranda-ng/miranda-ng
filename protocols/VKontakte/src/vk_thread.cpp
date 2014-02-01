@@ -44,13 +44,25 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR pObject, DWORD)
 	ppro->SetServerStatus(ppro->m_iStatus);
 }
 
+static void CALLBACK VKSetTimer(void *pObject)
+{
+	CVkProto *ppro = (CVkProto*)pObject;
+	ppro->m_timer = SetTimer(NULL, (UINT_PTR)ppro, 870000, TimerProc);
+}
+
+static void CALLBACK VKUnsetTimer(void *pObject)
+{
+	CVkProto *ppro = (CVkProto*)pObject;
+	KillTimer(NULL, ppro->m_timer);
+}
+
 void CVkProto::OnLoggedIn()
 {
 	m_bOnline = true;
 	SetServerStatus(m_iDesiredStatus);
 
 	// initialize online timer
-	m_timer = SetTimer(NULL, (UINT_PTR)this, 870000, TimerProc);
+	CallFunctionAsync(VKSetTimer, this);
 }
 
 void CVkProto::OnLoggedOut()
@@ -63,7 +75,7 @@ void CVkProto::OnLoggedOut()
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
-	KillTimer(NULL, m_timer);
+	CallFunctionAsync(VKUnsetTimer, this);
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 	m_chats.destroy();
 }
