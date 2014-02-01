@@ -349,7 +349,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszUID = item->jid;
 	gce.ptszText = xmlGetText(reason);
-	CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
+	CallServiceSync(MS_GC_EVENT, (code == 200) ? SESSION_TERMINATE : SESSION_OFFLINE, (LPARAM)&gce);
 
 	db_unset(HContactFromJID(item->jid), "CList", "Hidden");
 	item->bChatActive = FALSE;
@@ -1320,7 +1320,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 					<< XCHILD(_T("destroy")) << XCHILD(_T("reason"), szBuffer));
 
 	case IDM_LEAVE:
-		ppro->GcQuit(item, 0, NULL);
+		ppro->GcQuit(item, 200, NULL);
 		break;
 
 	case IDM_PRESENCE_ONLINE:

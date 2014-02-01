@@ -216,7 +216,7 @@ INT_PTR __cdecl CJabberProto::OnLeaveChat(WPARAM wParam, LPARAM)
 		if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid);
 			if (item != NULL)
-				GcQuit(item, 0, NULL);
+				GcQuit(item, 200, NULL);
 		}
 	}
 	return 0;
