@@ -368,10 +368,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->bIsMe = FALSE;
 		}
 		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL || dbei.eventType == EVENTTYPE_JABBER_CHATSTATES) {
-			DBEVENTGETTEXT temp = { &dbei, DBVT_WCHAR, newEvent.codepage  };
-			WCHAR* pwszEventText = (WCHAR*)CallService(MS_DB_EVENT_GETTEXT,0,(LPARAM)&temp);
-			eventData->pszTextW = mir_tstrdup(pwszEventText);
-			mir_free(pwszEventText);
+			eventData->pszTextW = DbGetEventTextW(&dbei, newEvent.codepage);
 			if (dbei.eventType == EVENTTYPE_MESSAGE)
 				eventData->iType = IEED_EVENT_MESSAGE;
 			else if (dbei.eventType == EVENTTYPE_URL)
@@ -399,6 +396,10 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->ptszText = mir_tstrdup(TranslateT(" was added."));
 			eventData->ptszNick = DbGetEventStringT(&dbei, (char *)dbei.pBlob + 8);
 			eventData->iType = IEED_EVENT_SYSTEM;
+		}
+		else { // custom event
+			eventData->pszTextW = DbGetEventTextW(&dbei, newEvent.codepage);
+			eventData->iType = IEED_EVENT_MESSAGE;
 		}
 		free(dbei.pBlob);
 		eventData->next = NULL;

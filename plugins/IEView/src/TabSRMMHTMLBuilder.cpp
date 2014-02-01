@@ -84,19 +84,24 @@ TabSRMMHTMLBuilder::TabSRMMHTMLBuilder() {
 	startedTime = time(NULL);
 }
 
-bool TabSRMMHTMLBuilder::isDbEventShown(DWORD dwFlags, DBEVENTINFO * dbei)
+bool TabSRMMHTMLBuilder::isDbEventShown(DWORD dwFlags, DBEVENTINFO *dbei)
 {
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
 		return 1;
 	case EVENTTYPE_URL:
-		if(dwFlags & MWF_SHOW_URLEVENTS) return 1;
+		if (dwFlags & MWF_SHOW_URLEVENTS) return 1;
 		break;
 	case EVENTTYPE_FILE:
-		if(dwFlags & MWF_SHOW_FILEEVENTS) return 1;
+		if (dwFlags & MWF_SHOW_FILEEVENTS) return 1;
 		break;
+
+	case EVENTTYPE_CONTACTS:
+	case EVENTTYPE_ADDED:
+	case EVENTTYPE_AUTHREQUEST:
+		return 0;
 	}
-	return 0;
+	return 1;
 }
 
 bool TabSRMMHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
@@ -106,7 +111,8 @@ bool TabSRMMHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
 	return isDbEventShown(dwFlags2, dbei);
 }
 
-void TabSRMMHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour) {
+void TabSRMMHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
+{
 	char str[32];
 	int style;
 	DBVARIANT dbv;
@@ -117,13 +123,9 @@ void TabSRMMHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	if (lf) {
 		HDC hdc = GetDC(NULL);
 		mir_snprintf(str, SIZEOF(str), "Font%dSize", i);
-//		if(i == H_MSGFONTID_DIVIDERS)
-  //		  lf->lfHeight = 5;
-	 //   else {
-			lf->lfHeight = (char) db_get_b(NULL, TABSRMM_FONTMODULE, str, 10);
-//			lf->lfHeight= MulDiv(lf->lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 74);
-	   // }
-		ReleaseDC(NULL,hdc);
+		lf->lfHeight = (char)db_get_b(NULL, TABSRMM_FONTMODULE, str, 10);
+		ReleaseDC(NULL, hdc);
+
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
@@ -149,7 +151,7 @@ void TabSRMMHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	}
 }
 
-char *TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isGroupBreak)
+char* TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isGroupBreak)
 {
 	static char szResult[512];
 	char str[80];
@@ -173,25 +175,25 @@ char *TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isG
 		tm_today.tm_hour = tm_today.tm_min = tm_today.tm_sec = 0;
 		today = mktime(&tm_today);
 
-		if(dwFlags & MWF_LOG_USERELATIVEDATES && check >= today) {
+		if (dwFlags & MWF_LOG_USERELATIVEDATES && check >= today) {
 			dbtts.szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? (char *)"s" : (char *)"t";
 			strcpy(szResult, Translate("Today"));
 			strcat(szResult, ", ");
 		}
-		else if(dwFlags & MWF_LOG_USERELATIVEDATES && check > (today - 86400)) {
+		else if (dwFlags & MWF_LOG_USERELATIVEDATES && check > (today - 86400)) {
 			dbtts.szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? (char *)"s" : (char *)"t";
 			strcpy(szResult, Translate("Yesterday"));
 			strcat(szResult, ", ");
 		}
 		else {
-			if(dwFlags & MWF_LOG_LONGDATES)
+			if (dwFlags & MWF_LOG_LONGDATES)
 				dbtts.szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? (char *)"D s" : (char *)"D t";
 			else
 				dbtts.szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? (char *)"d s" : (char *)"d t";
 			szResult[0] = '\0';
 		}
 	}
-	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM) & dbtts);
+	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
 	strncat(szResult, str, 500);
 	lstrcpynA(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;
@@ -203,22 +205,23 @@ void TabSRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	COLORREF color;
 	char *output = NULL;
 	int outputSize;
+
 	ProtocolSettings *protoSettings = getSRMMProtocolSettings(event->hContact);
-	if (protoSettings == NULL) {
+	if (protoSettings == NULL)
 		return;
-	}
+
  	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE) {
 		buildHeadTemplate(view, event, protoSettings);
 		return;
 	}
  	if (protoSettings->getSRMMMode() == Options::MODE_CSS) {
 	 	const char *externalCSS = protoSettings->getSRMMCssFilename();
-		if (strncmp(externalCSS, "http://", 7)) {
+		if (strncmp(externalCSS, "http://", 7))
 			Utils::appendText(&output, &outputSize, "<html><head><link rel=\"stylesheet\" href=\"file://%s\"/></head><body class=\"body\">\n", externalCSS);
-		} else {
+		else
 			Utils::appendText(&output, &outputSize, "<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
-		}
-	} else {
+	}
+	else {
 		HDC hdc = GetDC(NULL);
 		int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		ReleaseDC(NULL, hdc);
@@ -234,16 +237,15 @@ void TabSRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 			outColor = db_get_dw(NULL, TABSRMM_FONTMODULE, "outbg", RGB(224,224,224));
 			inColor= (((inColor & 0xFF) << 16) | (inColor & 0xFF00) | ((inColor & 0xFF0000) >> 16));
 			outColor= (((outColor & 0xFF) << 16) | (outColor & 0xFF00) | ((outColor & 0xFF0000) >> 16));
-		} else {
-			inColor = outColor = bkgColor;
 		}
+		else inColor = outColor = bkgColor;
+
 		if (protoSettings->getSRMMFlags() & Options::LOG_IMAGE_ENABLED) {
 			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
 			protoSettings->getSRMMFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int) bkgColor, protoSettings->getSRMMBackgroundFilename());
-		} else {
-			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n",
-				 		 (int) bkgColor);
 		}
+		else Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n", (int)bkgColor);
+
 		Utils::appendText(&output, &outputSize, ".link {color: #0000FF; text-decoration: underline;}\n");
 		Utils::appendText(&output, &outputSize, ".img {vertical-align: middle;}\n");
 		if (protoSettings->getSRMMFlags() & Options::LOG_IMAGE_ENABLED) {
@@ -255,8 +257,9 @@ void TabSRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 			Utils::appendText(&output, &outputSize, ".divOutRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
 			Utils::appendText(&output, &outputSize, ".divInGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int) gridColor);
 			Utils::appendText(&output, &outputSize, ".divOutGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int) gridColor);
-		} else {
-			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) inColor);
+		}
+		else {
+			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
 			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) outColor);
 			Utils::appendText(&output, &outputSize, ".divInGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X;}\n",
 				(int) gridColor, (int) inColor);
@@ -269,15 +272,16 @@ void TabSRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 			Utils::appendText(&output, &outputSize, ".divOutGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X;}\n",
 				(int) gridColor, (int) outColor);
 		}
-	 	for(int i = 0; i < FONT_NUM; i++) {
+
+		for (int i = 0; i < FONT_NUM; i++) {
 			loadMsgDlgFont(i, &lf, &color);
 			Utils::appendText(&output, &outputSize, "%s {font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
-			classNames[i],
-			lf.lfFaceName,
-			abs((signed char)lf.lfHeight) *  74 /logPixelSY ,
-			lf.lfWeight >= FW_BOLD ? "bold" : "normal",
-			(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
-			lf.lfItalic ? "font-style: italic;" : "");
+				classNames[i],
+				lf.lfFaceName,
+				abs((signed char)lf.lfHeight) * 74 / logPixelSY,
+				lf.lfWeight >= FW_BOLD ? "bold" : "normal",
+				(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
+				lf.lfItalic ? "font-style: italic;" : "");
 		}
 		Utils::appendText(&output, &outputSize, "</style></head><body class=\"body\">\n");
 	}
@@ -288,16 +292,16 @@ void TabSRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	setLastEventType(-1);
 }
 
-time_t TabSRMMHTMLBuilder::getStartedTime() {
+time_t TabSRMMHTMLBuilder::getStartedTime()
+{
 	return startedTime;
 }
 
-void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event) {
-//	int	  indentLeft = db_get_dw(NULL, SRMSGMOD_T, "IndentAmount", 0);
-//	int	  indentRight = db_get_dw(NULL, SRMSGMOD_T, "RightIndent", 0);
+void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
+{
 	DWORD today = (DWORD)time(NULL);
 	today = today - today % 86400;
- 	DWORD dwFlags = db_get_dw(NULL, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
+	DWORD dwFlags = db_get_dw(NULL, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
 	DWORD dwFlags2 = db_get_b(NULL, SRMSGMOD_T, SRMSGSET_SHOWURLS, 0) ? MWF_SHOW_URLEVENTS : 0;
 	dwFlags2 |= db_get_b(NULL, SRMSGMOD_T, SRMSGSET_SHOWFILES, 0) ? MWF_SHOW_FILEEVENTS : 0;
 	dwFlags2 |= db_get_b(NULL, SRMSGMOD_T, "in_out_icons", 0) ? MWF_SHOW_INOUTICONS : 0;
@@ -307,7 +311,7 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 
 	char *szRealProto = getRealProto(event->hContact);
 	IEVIEWEVENTDATA* eventData = event->eventData;
-	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
+	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		int outputSize;
 		char *output = NULL;
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_FILE || eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_STATUSCHANGE) {
@@ -315,10 +319,10 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 			bool isRTL = (eventData->dwFlags & IEEDF_RTL) != 0;
 			int isHistory = (eventData->time < (DWORD)getStartedTime() && (eventData->dwFlags & IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
-		  	if (dwFlags & MWF_LOG_GROUPMODE && eventData->dwFlags == LOWORD(getLastEventType()) &&
-					eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE &&
-					((eventData->time < today) == (getLastEventTime() < today)) &&
-					(((eventData->time < (DWORD)startedTime) == (getLastEventTime() < (DWORD)startedTime)) || !(eventData->dwFlags & IEEDF_READ)))
+			if (dwFlags & MWF_LOG_GROUPMODE && eventData->dwFlags == LOWORD(getLastEventType()) &&
+				eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE &&
+				((eventData->time < today) == (getLastEventTime() < today)) &&
+				(((eventData->time < (DWORD)startedTime) == (getLastEventTime() < (DWORD)startedTime)) || !(eventData->dwFlags & IEEDF_READ)))
 			{
 				isGroupBreak = FALSE;
 			}
@@ -326,7 +330,7 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			ptrA szName, szText;
 			if (eventData->dwFlags & IEEDF_UNICODE_NICK)
 				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNickW, ENF_NAMESMILEYS, true);
-  			else
+			else
 				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNick, ENF_NAMESMILEYS, true);
 
 			if (eventData->dwFlags & IEEDF_UNICODE_TEXT)
@@ -345,13 +349,14 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				if (eventData->iType == IEED_EVENT_MESSAGE) {
 					if (dwFlags2 & MWF_SHOW_INOUTICONS) iconFile = isSent ? "message_out.gif" : "message_in.gif";
 					else iconFile = "message.gif";
-				} else if (eventData->iType == IEED_EVENT_FILE) {
-					iconFile = "file.gif";
-				} else if (eventData->iType == IEED_EVENT_URL) {
-					iconFile = "url.gif";
-				} else if (eventData->iType == IEED_EVENT_STATUSCHANGE) {
-					iconFile = "status.gif";
 				}
+				else if (eventData->iType == IEED_EVENT_FILE)
+					iconFile = "file.gif";
+				else if (eventData->iType == IEED_EVENT_URL)
+					iconFile = "url.gif";
+				else if (eventData->iType == IEED_EVENT_STATUSCHANGE)
+					iconFile = "status.gif";
+
 				Utils::appendIcon(&output, &outputSize, iconFile);
 			}
 			if ((dwFlags & MWF_LOG_SWAPNICK) && (dwFlags & MWF_LOG_SHOWNICK) && isGroupBreak && (eventData->iType != IEED_EVENT_STATUSCHANGE)) {
@@ -360,10 +365,10 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				else className = isSent ? "hNameOut" : "hNameIn";
 				if (dwFlags & MWF_LOG_UNDERLINE)
 					Utils::appendText(&output, &outputSize, "<span class=\"%s\"><u>%s%s</span>",
-								className, szName, (dwFlags & MWF_LOG_SHOWTIME) ? " </u>" :"</u>: ");
-				else 
+					className, szName, (dwFlags & MWF_LOG_SHOWTIME) ? " </u>" : "</u>: ");
+				else
 					Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s%s</span>",
-								className, szName, (dwFlags & MWF_LOG_SHOWTIME) ? " " :": ");
+					className, szName, (dwFlags & MWF_LOG_SHOWTIME) ? " " : ": ");
 			}
 			if (dwFlags & MWF_LOG_SHOWTIME && (isGroupBreak || dwFlags2 & MWF_SHOW_MARKFOLLOWUPTS)) {
 				const char *className = "";
@@ -371,12 +376,12 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				else className = isSent ? "hTimeOut" : "hTimeIn";
 				if (dwFlags & MWF_LOG_UNDERLINE)
 					Utils::appendText(&output, &outputSize, "<span class=\"%s\"><u>%s%s</span>",
-								className, timestampToString(dwFlags, eventData->time, isGroupBreak),
-								(!isGroupBreak || (eventData->iType == IEED_EVENT_STATUSCHANGE) || (dwFlags & MWF_LOG_SWAPNICK) || !(dwFlags & MWF_LOG_SHOWNICK)) ? "</u>: " : " </u>");
-				else 
+					className, timestampToString(dwFlags, eventData->time, isGroupBreak),
+					(!isGroupBreak || (eventData->iType == IEED_EVENT_STATUSCHANGE) || (dwFlags & MWF_LOG_SWAPNICK) || !(dwFlags & MWF_LOG_SHOWNICK)) ? "</u>: " : " </u>");
+				else
 					Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s%s</span>",
-								className, timestampToString(dwFlags, eventData->time, isGroupBreak),
-								(!isGroupBreak || (eventData->iType == IEED_EVENT_STATUSCHANGE) || (dwFlags & MWF_LOG_SWAPNICK) || !(dwFlags & MWF_LOG_SHOWNICK)) ? ": " : " ");
+					className, timestampToString(dwFlags, eventData->time, isGroupBreak),
+					(!isGroupBreak || (eventData->iType == IEED_EVENT_STATUSCHANGE) || (dwFlags & MWF_LOG_SWAPNICK) || !(dwFlags & MWF_LOG_SHOWNICK)) ? ": " : " ");
 			}
 			if ((eventData->iType == IEED_EVENT_STATUSCHANGE) || ((dwFlags & MWF_LOG_SHOWNICK) && !(dwFlags & MWF_LOG_SWAPNICK) && isGroupBreak)) {
 				if (eventData->iType == IEED_EVENT_STATUSCHANGE)
@@ -405,7 +410,7 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				className = isHistory ? "hMiscIn" : "miscIn";
 			else if (eventData->iType == IEED_EVENT_STATUSCHANGE)
 				className = "statusChange";
-			
+
 			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span>", className, szText);
 			Utils::appendText(&output, &outputSize, "</div>\n");
 			setLastEventType(MAKELONG(eventData->dwFlags, eventData->iType));
@@ -416,7 +421,7 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			free(output);
 		}
 	}
-	
+
 	mir_free(szRealProto);
 	view->documentClose();
 }
@@ -427,7 +432,7 @@ void TabSRMMHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 	if (protoSettings == NULL)
 		return;
 
- 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE)
+	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE)
 		appendEventTemplate(view, event, protoSettings);
 	else
 		appendEventNonTemplate(view, event);
