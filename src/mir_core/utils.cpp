@@ -144,7 +144,10 @@ MIR_CORE_DLL(WCHAR*) ltrimpw(WCHAR *str)
 
 MIR_CORE_DLL(int) wildcmp(const char *name, const char *mask)
 {
-	const char *last='\0';
+	if (name == NULL || mask == NULL)
+		return false;
+
+	const char *last = '\0';
 	for (;; mask++, name++) {
 		if (*mask != '?' && *mask != *name) break;
 		if (*name == '\0') return ((BOOL)!*mask);
@@ -162,6 +165,9 @@ MIR_CORE_DLL(int) wildcmp(const char *name, const char *mask)
 
 MIR_CORE_DLL(int) wildcmpw(const WCHAR *name, const WCHAR *mask)
 {
+	if (name == NULL || mask == NULL)
+		return false;
+
 	const WCHAR* last = '\0';
 	for (;; mask++, name++) {
 		if (*mask != '?' && *mask != *name) break;
@@ -182,6 +188,9 @@ MIR_CORE_DLL(int) wildcmpw(const WCHAR *name, const WCHAR *mask)
 
 MIR_CORE_DLL(int) wildcmpi(const char *name, const char *mask)
 {
+	if (name == NULL || mask == NULL)
+		return false;
+
 	const char *last = NULL;
 	for (;; mask++, name++) {
 		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
@@ -200,6 +209,9 @@ MIR_CORE_DLL(int) wildcmpi(const char *name, const char *mask)
 
 MIR_CORE_DLL(int) wildcmpiw(const WCHAR *name, const WCHAR *mask)
 {
+	if (name == NULL || mask == NULL)
+		return false;
+
 	const WCHAR* last = NULL;
 	for (;; mask++, name++) {
 		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
