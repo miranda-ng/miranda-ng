@@ -1,32 +1,31 @@
 /*
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * Plugin configuration variables and functions. Implemented as a class
- * though there will always be only a single instance.
- *
- */
+* Miranda NG: the free IM client for Microsoft* Windows*
+*
+* Copyright (c) 2000-09 Miranda ICQ/IM project,
+* all portions of this codebase are copyrighted to the people
+* listed in contributors.txt.
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* you should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*
+* part of tabSRMM messaging plugin for Miranda.
+*
+* (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+*
+* Plugin configuration variables and functions. Implemented as a class
+* though there will always be only a single instance.
+*/
 
 #include "commonheaders.h"
 
@@ -108,31 +107,24 @@ void CGlobals::reloadSystemStartup()
 	hookSystemEvents();
 }
 
-/**
- * this runs ONCE at startup when the Modules Loaded event is fired
- * by the core. all plugins are loaded and ready to use.
- * 
- * any initialation for 3rd party plugins must go here.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// this runs ONCE at startup when the Modules Loaded event is fired
+// by the core. all plugins are loaded and ready to use.
+//
+// any initialation for 3rd party plugins must go here.
+
 void CGlobals::reloadSystemModulesChanged()
 {
-	/*
-	 * smiley add
-	 */
+	// smiley add
 	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
 		PluginConfig.g_SmileyAddAvail = 1;
 		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, ::SmileyAddOptionsChanged);
 	}
 
-	/*
-	 * Flashavatars
-	 */
+	// Flashavatars
 	g_FlashAvatarAvail = (ServiceExists(MS_FAVATAR_GETINFO) ? 1 : 0);
 
-	/*
-	 * ieView
-	 */
-
+	// ieView
 	BOOL bIEView = ServiceExists(MS_IEVIEW_WINDOW);
 	if (bIEView) {
 		BOOL bOldIEView = M.GetByte("ieview_installed", 0);
@@ -170,10 +162,10 @@ void CGlobals::reloadSystemModulesChanged()
 	m_useAeroPeek = M.GetByte("useAeroPeek", 1);
 }
 
-/**
- * reload plugin settings on startup and runtime. Most of these setttings can be
- * changed while plugin is running.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// reload plugin settings on startup and runtime.Most of these setttings can be
+// changed while plugin is running.
+
 void CGlobals::reloadSettings(bool fReloadSkins)
 {
 	m_ncm.cbSize = sizeof(NONCLIENTMETRICS);
@@ -250,9 +242,9 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 		Skin->setupAeroSkins();
 }
 
-/**
- * reload "advanced tweaks" that can be applied w/o a restart
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// reload "advanced tweaks" that can be applied w / o a restart
+
 void CGlobals::reloadAdv()
 {
 	g_bDisableAniAvatars = M.GetByte("adv_DisableAniAvatars", 0);
@@ -275,10 +267,10 @@ const HMENU CGlobals::getMenuBar()
 	return(m_MenuBar);
 }
 
-/**
- * hook core events. This runs in LoadModule()
- * only core events and services are guaranteed to exist at this time
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// hook core events.This runs in LoadModule()
+// only core events and services are guaranteed to exist at this time
+
 void CGlobals::hookSystemEvents()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
@@ -396,11 +388,10 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/**
- * watches various important database settings and reacts accordingly
- * needed to catch status, nickname and other changes in order to update open message
- * sessions.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// watches various important database settings and reacts accordingly
+// needed to catch status, nickname and other changes in order to update open message
+// sessions.
 
 int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 {
@@ -503,9 +494,8 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/**
- * event fired when a contact has been deleted. Make sure to close its message session
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// event fired when a contact has been deleted. Make sure to close its message session
 
 int CGlobals::DBContactDeleted(WPARAM wParam, LPARAM lParam)
 {
@@ -517,11 +507,11 @@ int CGlobals::DBContactDeleted(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/**
- * Handle events from metacontacts protocol. Basically, just update
- * our contact cache and, if a message window exists, tell it to update
- * relevant information.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Handle events from metacontacts protocol.Basically, just update
+// our contact cache and, if a message window exists, tell it to update
+// relevant information.
+
 int CGlobals::MetaContactEvent(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam) {
@@ -665,12 +655,12 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	StreamInEvents(dat->hwnd, NULL, 1, 1, &dbei);
 }
 
-/**
- * on Windows 7, when using new task bar features (grouping mode and per tab
- * previews), autoswitching does not work relieably, so it is disabled.
- *
- * @return: true if configuration dictates autoswitch
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// on Windows 7, when using new task bar features (grouping mode and per tab
+// previews), autoswitching does not work relieably, so it is disabled.
+//
+// @return: true if configuration dictates autoswitch
+ 
 bool CGlobals::haveAutoSwitch()
 {
 	if (m_bIsWin7) {
@@ -678,83 +668,4 @@ bool CGlobals::haveAutoSwitch()
 			return false;
 	}
 	return(m_AutoSwitchTabs ? true : false);
-}
-/**
- * exception handling - copy error message to clip board
- * @param hWnd: 	window handle of the edit control containing the error message
- */
-void CGlobals::Ex_CopyEditToClipboard(HWND hWnd)
-{
-	SendMessage(hWnd, EM_SETSEL, 0, 65535L);
-	SendMessage(hWnd, WM_COPY, 0 , 0);
-	SendMessage(hWnd, EM_SETSEL, 0, 0);
-}
-
-INT_PTR CALLBACK CGlobals::Ex_DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	WORD wNotifyCode, wID;
-
-	switch(uMsg) {
-		case WM_INITDIALOG: {
-				char szBuffer[2048];
-#ifdef _WIN64
-				mir_snprintf(szBuffer, SIZEOF(szBuffer),
-						"Exception %16.16X at address %16.16X occured in %s at line %d.\r\n\r\nEAX=%16.16X EBX=%16.16X ECX=%16.16X\r\nEDX=%16.16X ESI=%16.16X EDI=%16.16X\r\nEBP=%16.16X ESP=%16.16X EIP=%16.16X",
-						m_exRecord.ExceptionCode, m_exRecord.ExceptionAddress, m_exSzFile, m_exLine,
-						m_exCtx.Rax,m_exCtx.Rbx, m_exCtx.Rcx, m_exCtx.Rdx,
-						m_exCtx.Rsi, m_exCtx.Rdi, m_exCtx.Rbp, m_exCtx.Rsp, m_exCtx.Rip);
-#else
-				mir_snprintf(szBuffer, SIZEOF(szBuffer),
-						"Exception %8.8X at address %8.8X occured in %s at line %d.\r\n\r\nEAX=%8.8X EBX=%8.8X ECX=%8.8X\r\nEDX=%8.8X ESI=%8.8X EDI=%8.8X\r\nEBP=%8.8X ESP=%8.8X EIP=%8.8X",
-						m_exRecord.ExceptionCode, m_exRecord.ExceptionAddress, m_exSzFile, m_exLine,
-						m_exCtx.Eax,m_exCtx.Ebx, m_exCtx.Ecx, m_exCtx.Edx,
-						m_exCtx.Esi, m_exCtx.Edi, m_exCtx.Ebp, m_exCtx.Esp, m_exCtx.Eip);
-#endif
-				SetDlgItemTextA(hwndDlg, IDC_EXCEPTION_DETAILS, szBuffer);
-				SetFocus(GetDlgItem(hwndDlg, IDC_EXCEPTION_DETAILS));
-				SendDlgItemMessage(hwndDlg, IDC_EXCEPTION_DETAILS, WM_SETFONT, (WPARAM)GetStockObject(OEM_FIXED_FONT), 0);
-				SetDlgItemTextW(hwndDlg, IDC_EX_REASON, m_exReason);
-				Utils::enableDlgControl(hwndDlg, IDOK, m_exAllowContinue ? TRUE : FALSE);
-			}
-			break;
-
-		case WM_COMMAND:
-			wNotifyCode = HIWORD(wParam);
-			wID = LOWORD(wParam);
-			if (wNotifyCode == BN_CLICKED)
-			{
-				if (wID == IDOK || wID == IDCANCEL)
-					EndDialog(hwndDlg, wID);
-
-				if (wID == IDC_COPY_EXCEPTION)
-					Ex_CopyEditToClipboard(GetDlgItem(hwndDlg, IDC_EXCEPTION_DETAILS));
-			}
-
-			break;
-	}
-	return FALSE;
-}
-
-void CGlobals::Ex_Handler()
-{
-	if (m_exLastResult == IDCANCEL)
-		ExitProcess(1);
-}
-
-int CGlobals::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, wchar_t* szReason, bool fAllowContinue)
-{
-	char	szDrive[MAX_PATH], szDir[MAX_PATH], szName[MAX_PATH], szExt[MAX_PATH];
-
-	_splitpath(szFile, szDrive, szDir, szName, szExt);
-	memcpy(&m_exRecord, ep->ExceptionRecord, sizeof(EXCEPTION_RECORD));
-	memcpy(&m_exCtx, ep->ContextRecord, sizeof(CONTEXT));
-
-	mir_snprintf(m_exSzFile, MAX_PATH, "%s%s", szName, szExt);
-	mir_sntprintf(m_exReason, 256, L"An application error has occured: %s", szReason);
-	m_exLine = line;
-	m_exLastResult = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EXCEPTION), 0, CGlobals::Ex_DlgProc, 0);
-	m_exAllowContinue = fAllowContinue;
-	if (IDCANCEL == m_exLastResult)
-		ExitProcess(1);
-	return 1;
 }

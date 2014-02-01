@@ -160,10 +160,6 @@ public:
 	
 	static void logStatusChange(WPARAM wParam, const CContactCache *c);
 
-	static void Ex_CopyEditToClipboard(HWND hWnd);
-	static void Ex_Handler();
-	static int  Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, wchar_t* szReason, bool fAllowContinue);
-	static INT_PTR CALLBACK Ex_DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 private:
 	bool m_TypingSoundAdded;
 

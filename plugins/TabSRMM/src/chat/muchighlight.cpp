@@ -65,13 +65,8 @@ void CMUCHighlight::init()
 	m_dwFlags = M.GetByte(CHAT_MODULE, "HighlightEnabled", MATCH_TEXT);
 	m_fHighlightMe = (M.GetByte(CHAT_MODULE, "HighlightMe", 1) ? true : false);
 
-	__try {
-		tokenize(m_TextPatternString, m_TextPatterns, m_iTextPatterns);
-		tokenize(m_NickPatternString, m_NickPatterns, m_iNickPatterns);
-	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MUC_HLT_TOKENIZER", false)) {
-		m_Valid = false;
-	}
+	tokenize(m_TextPatternString, m_TextPatterns, m_iTextPatterns);
+	tokenize(m_NickPatternString, m_NickPatterns, m_iNickPatterns);
 }
 
 void CMUCHighlight::tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr)
@@ -126,70 +121,60 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 	if (pgce == 0 || m_Valid == false)
 		return 0;
 
-	__try {
-		if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != 0) {
-			TCHAR	*p = NEWTSTR_ALLOCA(pci->RemoveFormatting(pgce->ptszText));
-			CharLower(p);
+	if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != 0) {
+		TCHAR	*p = NEWTSTR_ALLOCA(pci->RemoveFormatting(pgce->ptszText));
+		CharLower(p);
 
-			TCHAR	*tszMe = ((psi && psi->pMe) ? NEWTSTR_ALLOCA(psi->pMe->pszNick) : 0);
-			if (tszMe)
-				CharLower(tszMe);
+		TCHAR	*tszMe = ((psi && psi->pMe) ? NEWTSTR_ALLOCA(psi->pMe->pszNick) : 0);
+		if (tszMe)
+			CharLower(tszMe);
 
-			if (m_fHighlightMe && tszMe) {
-				result = wcsstr(p, tszMe) ? MATCH_TEXT : 0;
-				if (0 == m_iTextPatterns)
-					goto skip_textpatterns;
-			}
-
-			while (p && !result) {
-				while (*p && (*p == ' ' || *p == ',' || *p == '.' || *p == ':' || *p == ';' || *p == '?' || *p == '!'))
-					p++;
-
-				if (*p == 0)
-					break;
-
-				TCHAR *p1 = p;
-				while (*p1 && *p1 != ' ' && *p1 != ',' && *p1 != '.' && *p1 != ':' && *p1 != ';' && *p1 != '?' && *p1 != '!')
-					p1++;
-
-				if (*p1)
-					*p1 = 0;
-				else
-					p1 = 0;
-
-				for (UINT i = 0; i < m_iTextPatterns && !result; i++)
-					result = wildcmpt(p, m_TextPatterns[i]) ? MATCH_TEXT : 0;
-
-				if (p1) {
-					*p1 = ' ';
-					p = p1 + 1;
-				}
-				else p = 0;
-			}
+		if (m_fHighlightMe && tszMe) {
+			result = wcsstr(p, tszMe) ? MATCH_TEXT : 0;
+			if (0 == m_iTextPatterns)
+				goto skip_textpatterns;
 		}
+
+		while (p && !result) {
+			while (*p && (*p == ' ' || *p == ',' || *p == '.' || *p == ':' || *p == ';' || *p == '?' || *p == '!'))
+				p++;
+
+			if (*p == 0)
+				break;
+
+			TCHAR *p1 = p;
+			while (*p1 && *p1 != ' ' && *p1 != ',' && *p1 != '.' && *p1 != ':' && *p1 != ';' && *p1 != '?' && *p1 != '!')
+				p1++;
+
+			if (*p1)
+				*p1 = 0;
+			else
+				p1 = 0;
+
+			for (UINT i = 0; i < m_iTextPatterns && !result; i++)
+				result = wildcmpt(p, m_TextPatterns[i]) ? MATCH_TEXT : 0;
+
+			if (p1) {
+				*p1 = ' ';
+				p = p1 + 1;
+			}
+			else p = 0;
+		}
+	}
 
 skip_textpatterns:
 
-		/*
-		 * optinally, match the nickname against the list of nicks to highlight
-		 */
-		if ((m_dwFlags & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->ptszNick && m_iNickPatterns > 0) {
-			for (UINT i = 0; i < m_iNickPatterns && !nResult; i++) {
-				if (pgce->ptszNick)
-					nResult = wildcmpt(pgce->ptszNick, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
-				if ((m_dwFlags & MATCH_UIN) && pgce->ptszUserInfo)
-					nResult = wildcmpt(pgce->ptszUserInfo, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
-			}
+	// optionally, match the nickname against the list of nicks to highlight
+	if ((m_dwFlags & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->ptszNick && m_iNickPatterns > 0) {
+		for (UINT i = 0; i < m_iNickPatterns && !nResult; i++) {
+			if (pgce->ptszNick)
+				nResult = wildcmpt(pgce->ptszNick, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
+			if ((m_dwFlags & MATCH_UIN) && pgce->ptszUserInfo)
+				nResult = wildcmpt(pgce->ptszUserInfo, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
 		}
+	}
 
-		return(result | nResult);
-	}
-	__except (CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MUC_HIGHLIGHT_EXCEPTION", false))
-	{
-		m_Valid = false;
-		return 0;
-	}
-	return 0;
+	return(result | nResult);
 }
 
 /**

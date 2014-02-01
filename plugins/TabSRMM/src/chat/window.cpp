@@ -521,7 +521,7 @@ static bool TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
 
 	bool isTopic = false, isRoom = false;
 	TCHAR *pszName = NULL;
-	TCHAR *pszText = (TCHAR*)Utils::safeMirCalloc((iLen + 10) * sizeof(TCHAR));
+	TCHAR *pszText = (TCHAR*)mir_calloc((iLen + 10) * sizeof(TCHAR));
 
 	gt.flags = GT_DEFAULT;
 	gt.cb = (iLen + 9) * sizeof(TCHAR);
@@ -555,10 +555,7 @@ LBL_SkipEnd:
 			isTopic = TRUE;
 	}
 	if (dat->szSearchQuery == NULL) {
-		size_t len = (end - start) + 1;
-		dat->szSearchQuery = (TCHAR*)Utils::safeMirAlloc(sizeof(TCHAR) * len);
-		wcsncpy(dat->szSearchQuery, pszText + start, len);
-		dat->szSearchQuery[len - 1] = 0;
+		dat->szSearchQuery = mir_tstrndup(pszText + start, end - start);
 		dat->szSearchResult = mir_tstrdup(dat->szSearchQuery);
 		dat->lastSession = NULL;
 	}
@@ -578,7 +575,7 @@ LBL_SkipEnd:
 		if (end != start) {
 			ptrT szReplace;
 			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
-				szReplace = (TCHAR*)Utils::safeMirAlloc((wcslen(pszName) + 4) * sizeof(TCHAR));
+				szReplace = (TCHAR*)mir_alloc((wcslen(pszName) + 4) * sizeof(TCHAR));
 				wcscpy(szReplace, pszName);
 				wcscat(szReplace, L": ");
 				pszName = szReplace;

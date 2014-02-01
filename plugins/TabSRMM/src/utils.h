@@ -101,11 +101,6 @@ public:
 	static	void				TSAPI sanitizeFilename				(wchar_t *tszFilename);
 	static	void				TSAPI ensureTralingBackslash		(wchar_t *szPathname);
 
-	static 	void*				TSAPI safeAlloc						(const size_t size);
-	static	void*				TSAPI safeCalloc					(const size_t size);
-	static 	void*				TSAPI safeMirAlloc						(const size_t size);
-	static	void*				TSAPI safeMirCalloc					(const size_t size);
-
 	static	HMODULE				TSAPI loadSystemLibrary				(const wchar_t* szFilename);
 
 	static	INT_PTR CALLBACK		  PopupDlgProcError				(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

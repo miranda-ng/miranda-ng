@@ -52,60 +52,6 @@ LRESULT TSAPI _dlgReturn(HWND hWnd, LRESULT result)
 	return result;
 }
 
-void* Utils::safeAlloc(const size_t size)
-{
-	__try {
-		unsigned char* _p = reinterpret_cast<unsigned char*>(mir_alloc(size));
-		*_p = 0;
-
-		return(reinterpret_cast<void*>(_p));
-	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MEMORY_ALLOCATION", false))
-	{
-		return 0;
-	}
-}
-
-void* Utils::safeCalloc(const size_t size)
-{
-	__try {
-		void* _p = safeAlloc(size);
-		::ZeroMemory(_p, size);
-		return(_p);
-	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MEMORY_ALLOCATION", false))
-	{
-		return 0;
-	}
-}
-
-void* Utils::safeMirAlloc(const size_t size)
-{
-	__try {
-		unsigned char* _p = reinterpret_cast<unsigned char*>(mir_alloc(size));
-		*_p = 0;
-
-		return(reinterpret_cast<void*>(_p));
-	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MIR_MEMORY_ALLOCATION", false))
-	{
-		return 0;
-	}
-}
-
-void* Utils::safeMirCalloc(const size_t size)
-{
-	__try {
-		void* _p = safeMirAlloc(size);
-		::ZeroMemory(_p, size);
-		return(_p);
-	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MIR_MEMORY_ALLOCATION", false))
-	{
-		return 0;
-	}
-}
-
 TCHAR* Utils::FilterEventMarkers(TCHAR *wszText)
 {
 	tstring text(wszText);

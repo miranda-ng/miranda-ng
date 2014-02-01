@@ -28,19 +28,6 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Dialog
 //
 
-IDD_EXCEPTION DIALOGEX 0, 0, 370, 131
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "TabSRMM exception"
-FONT 8, "MS Shell Dlg", 0, 0, 0x0
-BEGIN
-    EDITTEXT        IDC_EXCEPTION_DETAILS,7,18,356,60,ES_MULTILINE | ES_READONLY
-    DEFPUSHBUTTON   "Copy to clipboard",IDC_COPY_EXCEPTION,108,114,80,14
-    PUSHBUTTON      "Continue",IDOK,196,114,80,14
-    PUSHBUTTON      "Exit Miranda",IDCANCEL,284,114,80,14
-    LTEXT           "",IDC_EX_REASON,7,5,354,9
-    LTEXT           "Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.",IDC_STATIC,7,83,352,26
-END
-
 IDD_INFOPANEL DIALOGEX 0, 0, 282, 176
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_BORDER
 EXSTYLE WS_EX_TOOLWINDOW | WS_EX_CONTROLPARENT
