@@ -171,8 +171,6 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			CloseHandle(jbt->hProxyEvent);
 			jbt->hProxyEvent = NULL;
 
-			mir_free(proxyJid);
-
 			if (jbt->state == JBT_ERROR && !bDirect) {
 				debugLogA("Bytestream proxy failure");
 				MsgPopup( pInfo->GetHContact(), TranslateT("Bytestream Proxy not available"), pInfo->GetReceiver());
@@ -565,7 +563,7 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 			item->jbt = jbt;
 
 			m_ThreadInfo->send(
-				XmlNodeIq( AddIQ(&CJabberProto::IqResultStreamActivate, JABBER_IQ_TYPE_SET, jbt->streamhostJID))
+				XmlNodeIq( AddIQ(&CJabberProto::IqResultStreamActivate, JABBER_IQ_TYPE_SET, jbt->streamhostJID, 0, iqId))
 					<< XQUERY(JABBER_FEAT_BYTESTREAMS) << XATTR(_T("sid"), jbt->sid) << XCHILD(_T("activate"), jbt->dstJID));
 
 			WaitForSingleObject(jbt->hProxyEvent, INFINITE);
