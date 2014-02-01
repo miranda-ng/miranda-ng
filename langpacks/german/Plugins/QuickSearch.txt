@@ -269,4 +269,4 @@ Immer im Vordergrund
 [Text Editor]
 Texteditor
 [Wrap Text]
-
+Text umbrechen
