@@ -83,7 +83,7 @@ Użyj czasu lokalnego dla odebranych wiadomości
 [Message sessions]
 Sesje rozmowy
 [Keep messages as unread on server (don't send "seen" info)]
-Utrzymuj wiadomości na serwerze jako nieprzeczytane(nie wysyłaj informacji o dostępności)
+Utrzymuj wiadomości na serwerze jako nieprzeczytane (nie wysyłaj informacji o dostępności)
 [Receive messages from "inbox" folder only]
 Odbieraj wiadomości tylko z folderu "Odebrane"
 ;file \protocols\FacebookRM\src\chat.cpp

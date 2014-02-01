@@ -1989,7 +1989,7 @@ Użytkownik wysłał powiadomienie
 Temat został zmieniony
 ;file \src\modules\chat\chat_svc.cpp
 [&Join chat]
-Dołącz
+Dołącz do czatu
 [&Leave chat]
 Opuść czat
 ;file \src\modules\chat\clist.cpp
