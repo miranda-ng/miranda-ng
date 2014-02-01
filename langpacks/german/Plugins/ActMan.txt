@@ -5,236 +5,462 @@
 ;  Version: 0.2.0.1
 ;  Authors: Awkward
 ;============================================================
-[Contact window]
-Kontaktfenster
-[vars]
-Variablen
-[DWord]
-DWord
-[You can use %name%, %uid%, %account% and %group% macros]
-Sie können die Makros %name%, %uid%, %account% und %group% verwenden
-[You can use %name%, %uid%, %account% and %group% substitutes]
-Sie können die Makros %name%, %uid%, %account% und %group% verwenden
-[wParam type]
-wParam-Typ
-[lParam type]
-lParam-Typ
-[Service name]
-Dienstname
-[Result action]
-Ergebnisaktion
-[Window option]
-Fenstereinstellungen
-[Show in popup]
-Popup zeigen
-[Start hidden]
-Versteckt starten
-[Show in messagebox]
-In Meldungsfelder anzeigen
-[Start maximized]
-Maximiert starten
-[Continued]
-Kontinuierlich
-[Parallel]
-Parallel
-[Condition]
-Bedingung
-[Insert into message]
-In Nachricht einfügen
-[parameter]
-Parameter
-[Process time, ms]
-Prozesszeit, ms
-[No description]
-Keine Beschreibung
-[Signed value]
-Positive und negative Werte
-[Process options]
-Prozesseinstellungen
-[Do not show]
-Nicht zeigen
-[Current path]
-Momentaner Pfad
-[Start normal]
-Normal starten
-[last result]
-Letztes Ergebnis
-[structure]
-Struktur
-[Structure]
-Struktur
-[Link to action]
-Verknüpfung zu Aktion
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Plugin zum Verwalten von Hotkeys, Einfügen von Texten sowie Ausführen von Programmen und Diensten
-[Action manager]
-Aktionsmanager
-[Copy to]
-Kopieren nach
-[Paste from as]
-Einfügen als
-[Math]
-Mathe
-[Variables (below)]
-Variablen (unten)
-[Variables script]
-Variablenskript
-[Other Action groups]
-Andere Aktionsgruppen
-[Operation]
-Vorgang
-[Last result]
-Letztes Ergebnis
-[Own settings]
-Eigene Einstellungen
-[Array]
-Array
-[Message title]
-Nachrichtentitel
-[OK, Cancel]
-OK, Abbrechen
-[Abort, Retry, Ignore]
-Abbrechen, Wiederholen, Ignorieren
-[Yes, No, Cancel]
-Ja, Nein, Abbrechen
-[Yes, No]
-Ja, Nein
-[Retry, Cancel]
-Wiederholen, Abbrechen
-[not defined]
-Nicht definiert
-[Result as integer]
-Ergebnis als Integer
-[Keep last result]
-Letztes Ergebnis speichern
+[Actions]
+Aktionen
+[No description]
+Keine Beschreibung
+[New]
+Neu
+[Up]
+Auf
+[Down]
+Ab
+[Reload]
+Neu laden
+[Delete]
+Löschen
+[Test]
+Testen
+[Export]
+Exportieren
+[Append data to file?]
+Daten an Datei anhängen?
+[Import]
+Importieren
+[Help]
+Hilfe
+[Action]
+Aktion
+[Open contact window]
+Kontaktfenster öffnen
+[Contact]
+Kontakt
+[Call service]
+Dienst aufrufen
+[Service]
+Dienst
+[Execute program]
+Programm ausführen
+[Program]
+Programm
+[Insert text]
+Text einfügen
+[Text]
+Text
+[Advanced]
+Erweitert
+[Link to action]
+Verknüpfung zu Aktion
+[Profile]
+Profil
+[MessageBox]
+Meldung
+[Message]
+Nachricht
+[Choose contact]
+Kontakt wählen
 [Keep handle only]
 Nur Handle speichern
-[Variables mark]
-Variablen-Markierung
-[C&ancel]
-&Abbrechen
-[Structure editor]
-Struktureditor
-[Result as structure]
-Ergebnis als Struktur
-[Byte Array]
-Byte-Array
-[Word Array]
-Word-Array
-[Pointer to bytes]
-Zeiger zu Bytes
-[Pointer to words]
-Zeiger zu Words
-[Data length]
-Datenlänge
-['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
-'<proto>' im Dienstnamen wird durch den Namen des aktuellen Protokolls eines Kontakts abhängig vom Kontext ersetzt.
-[Paste from]
-Einfügen von
-[Service result]
-Ergebnis des Dienstes
-[Free memory]
-Speicher freigeben
-[Integer]
-Integer
-[Append]
-Anhängen
-[Append data to file]
-Daten an Datei anhängen
-[Choose action]
-Aktion auswählen
-[A&ppend]
-Anf&ügen
-[Action "$" exists, do you want to rewrite it?]
-Aktion "$" existiert, möchten Sie sie neu erstellen?
-[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
-Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nText <param> wird\r\ndurch Parameter ersetzt
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - ausgewählter (und ersetzter) Teil\r\n^e - ersetzt durch leere Zeichenkette\r\n^v - Text aus Zwischenablage einfügen\r\n^t - ersetzt durch Zeilenvorschub\r\n^l - ersetzt durch letztes Ergebnis als Unicode\r\n^h - ersetzt durch letztes Ergebnis als Hex\r\n^a - am Ende: automatisch senden\r\n^f(name\[,str])\r\n     fügt Zeile aus Textdatei ein.\r\n     Klammerinhalte dürfen keine Leerzeichen enthalten
-[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
-Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nRückgabewerte:\r\n--------\r\nOK\t\t= 1\r\nAbbrechen\t= 2\r\nAbbruch\t\t= 3\r\nWiederholen\t= 4\r\nIgnorieren\t= 5\r\nJa\t\t= 6\r\nNein\t\t= 7\r\nSchließen\t\t= 8
-[Don't use Variables]
-Variablen nicht verwenden
-[Contact list format]
-Kontaktlistenformat
 [Active accounts only]
 Nur aktive Konten
 [Dropdown list format]
 Auswahllistenformat
-[Apply]
-Übernehmen
 [Apply format]
 Format anwenden
-[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
-Verwenden Sie Byte-Array/-Zeiger für ANSI-Strings\nVerwenden Sie Word-Array/-Zeiger für Unicode-Strings\n\n$## ersetzt Byte- durch Hex-Wert ##\n$#### ersetzt Word- durch Hex-Wert ### (nur für Unicode-Strings)\n\nAlle Datenlängen werden in Byte gemessen.
-[New]
-Neu
-[Hooks]
-Hooks
-[Event]
-Ereignis
-[hook sample]
-Hookbeispiel
-[QWord]
-QWord
-[Packed structure]
-Gepackte Struktur
-[NativeInt]
-Nativer Int
-[Starting from]
-Starte am
-[Starting after]
-Starte nach
-[Start immediately]
-Starte sofort
-[Since/after]
-Seit/danach
-[Repeat, times]
-Anz. Wiederh.
-[Interval]
-Intervall
-[Break on non-zero result]
-Bei Nicht-Null-Ergebnis abbrechen
-[Task sample]
-Aufgabenbeispiel
-[Send event on start time]
-Ereignis zur Startzeit senden
-[Send event just once]
-Ereignis nur einmalig senden
-[Use Actions]
-Aktionen verwenden
-[Action list]
-Aktionsliste
-[Where to use]
-Wo anzuwenden?
-[TabSRMM toolbar]
-TabSRMM-Toolbar
-[Core Hotkey]
-Core-Hotkey
-[Tray menu]
-Traymenü
-[2 state button/item]
-Zwei-Zustand-Schaltfläche/Element
-[Save button/item state]
-Schaltfläche/Elementzustand speichern
-[Normal button tooltip]
-Tooltip normale Schaltfläche
-[Pressed button tooltip]
-Tooltip gedrückte Schaltfläche
-[Separated]
-Getrennt
-[Root popup:]
-Unterpunkt:
-[Menu item name:]
-Menüpunkt Name:
-[Show only if variables return 1]
-Zeige nur, falls Variable 1 zurückgibt
-[Contact related]
-Kontaktbezogen
-[Registered actions]
-Eingetragene Aktionen
-[Menu icons]
-Menüicons
+[You can use %name%, %uid%, %account% and %group% macros]
+Sie können die Makros %name%, %uid%, %account% und %group% verwenden
+[Contacts]
+Kontakte
+[Select contact to open its window]
+
+[Result action]
+Ergebnisaktion
+[Show in popup]
+Popup zeigen
+[Show in messagebox]
+In Meldungsfelder anzeigen
+[Insert into message]
+In Nachricht einfügen
+[Service result]
+Ergebnis des Dienstes
+[Integer]
+Integer
+[Hexadecimal]
+Hexadezimal
+[String]
+String
+[Structure]
+Struktur
+[Free memory]
+Speicher freigeben
+[Signed value]
+Positive und negative Werte
+[wParam type]
+wParam-Typ
+[lParam type]
+lParam-Typ
+[number value]
+Nummernwert
+[ANSI string]
+ANSI-String
+[Unicode string]
+Unicodestring
+[current contact]
+Aktueller Kontakt
+[last result]
+Letztes Ergebnis
+[parameter]
+Parameter
+[structure]
+Struktur
+[Service name]
+Dienstname
+[Use Variables]
+Variablen verwenden
+[Don't use Variables]
+Variablen nicht verwenden
+[Miranda service help]
+Mirandadiensthilfe
+[Name]
+
+[Alias]
+Alias
+[Plugin]
+Plugin
+[Return]
+Rückgabewert
+[Effect]
+Effekt
+['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
+'<proto>' im Dienstnamen wird durch den Namen des aktuellen Protokolls eines Kontakts abhängig vom Kontext ersetzt.
+[Undefined]
+
+[Manage Jabber Bookmarks]
+
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Abwesend
+[DND]
+Bitte nicht stören
+[NA]
+Außer Haus
+[Occupied]
+Beschäftigt
+[Free for Chat]
+Für Chat bereit
+[Invisible]
+Unsichtbar
+[On the Phone]
+Am Telefon
+[Out to Lunch]
+Zum Essen
+[text]
+
+[int 0, if successful]
+
+[Set status message]
+
+[Set protocol status]
+
+[None]
+Keine
+[Angry]
+Wütend
+[Taking a bath]
+Baden
+[Tired]
+Müde
+[Birthday]
+Geburtstag
+[Drinking beer]
+Bier trinken
+[Thinking]
+Denken
+[Eating]
+Essen
+[Watching TV]
+Fernsehen
+[Meeting]
+Treffen
+[Coffee]
+Kaffee
+[Listening to music]
+Musik hören
+[Business]
+Geschäft
+[Shooting]
+Kamera
+[Having fun]
+Spaß haben
+[On the phone]
+Am Telefon
+[Gaming]
+Zocken
+[Studying]
+Lernen
+[Shopping]
+Einkaufsbummel
+[Feeling sick]
+Krank fühlen
+[Sleeping]
+Schlafen
+[Surfing]
+Sport
+[Browsing]
+
+[Working]
+Arbeiten
+[Typing]
+Tippen
+[Picnic]
+Picknick
+[Cooking]
+Kochen
+[Smoking]
+Rauchen
+[I'm high]
+Hanf
+[On WC]
+Toilette
+[To be or not to be]
+Sein oder Nichtsein
+[Watching pro7 on TV]
+Pro7
+[Love]
+Liebe
+[Sets owner current custom status]
+
+[Display XStatus detail]
+
+[int hMenu handle]
+
+[Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
+
+[Show All Users]
+
+[Show only Online Users]
+
+[Toggle status]
+
+[Change 'hide offline contacts' option value]
+
+[Set global status]
+
+[Switch contact list status]
+
+[Hide All Titlebars]
+
+[Show All Frames]
+
+[Show All Titlebars]
+
+[Closes Miranda]
+
+[Show or hide netlog console window]
+
+[int Value]
+
+[Returns contact amount, excluding user account]
+
+[Ansi Text]
+
+[Removes all settings for the specified module]
+
+[int 0]
+
+[Import settings/contacts from file]
+
+[Opens or activate database editor]
+
+[Opens or activate user search dialog]
+
+[displays File Transfer window]
+
+[on Desktop]
+
+[parent window handle]
+
+[Show "About..." window]
+
+[Open bug report page]
+
+[Open support (originaly - Miranda wiki) page]
+
+[Go to Miranda Homepage]
+
+[System]
+
+[Shows contact history or (wParam=0) system history]
+
+[Erases contact's history. hContact can be NULL(0) to empty system history]
+
+[Show Global history search window. If already opened, bring it to front.]
+
+[Ignore all]
+
+[Ignore messages]
+
+[Ignore URLs]
+
+[Ignore files]
+
+[Ignore User Online]
+
+[Ignore requests]
+
+[Ignore 'You were added']
+
+[Ignore Contact]
+
+[Unignore Contact]
+
+[restart in default profile or profile manager]
+
+[restart with current profile]
+
+[Restarts Miranda]
+
+[Station name]
+
+[wParam is Handle]
+
+[wParam is Ansi station name]
+
+[wParam is Unicode station name]
+
+[Starting or stopping radio station]
+
+[Stop cycle]
+
+[Start cycle]
+
+[Start/stops the cycling throught protocols]
+
+[All protocols]
+
+[Protocol]
+
+[signed -2 if proto can't set this, -1 on protocol not found, else 0]
+
+[Shows a dialog to set the avatar for all possible protocols]
+
+[Shows the next protocol in the frame]
+
+[Shows the previous protocol in the frame]
+
+[Opens the options dialog, optionally at the specified page]
+
+[Open Options dialog]
+
+[Check for updates]
+
+[with confirmation]
+
+[without confirmation]
+
+[Empty updater download folder]
+
+[Enables or disables Popup windows]
+
+[YAPP or Popup]
+
+[Warning]
+
+[Notify]
+
+[Error]
+
+[Popup window]
+
+[YAPP only]
+
+[Unicode Text]
+
+[result of protocol service call]
+
+[send a general request through the protocol chain for a contact]
+
+[displays the Account Manager]
+
+[Show the dialog to select the contact]
+
+[filter text]
+
+[wParam is unicode]
+
+[wParam is Ansi]
+
+[Reserved]
+
+[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
+
+[Send Email to contact]
+
+[struct]
+
+[Returns the received files folder for a contact]
+
+[Open contact received file directory]
+
+[Send file to contact.]
+
+[hContact;parameter]
+
+[Opens message window for contact with handle in wparam]
+
+[remove all temporary contacts from db]
+
+[Call avatar option dialog for contact]
+
+[Avatar service (AVS.dll)]
+
+[Filename]
+
+[Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
+
+[Shows contact property window.]
+
+[Open URL in current window]
+
+[Open URL in default browser]
+
+[With formating]
+
+[Don't use formating]
+
+[Returns a string containing the versioninfo post]
+
+[Show or save (call default action) Modules version Info]
+
+[log filename]
+
+[report filename]
+
+[int 0, if unsuccessful]
+
+[Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
+
+[Show popup or Info window with current music information.]
+
+[WhenWasIt Birthday Reminder (whenwasit.dll)]
+
+[display birthdays window]
+
+[Structure editor]
+Struktureditor
+[alias]
+Alias
+[type]
+Typ
+[length]
+Länge
+[data]
+Daten
 [Data align]
 Datenausrichtung
 [Native]
@@ -247,113 +473,265 @@ Gepackt
 4 Byte
 [8 bytes]
 8 Byte
-[alias]
-Alias
-[type]
-Typ
-[length]
-Länge
-[data]
-Daten
-[Structure help]
-Strukturhilfe
-[Descr]
-Beschr.
-;other strings
-[Open contact window]
-Kontaktfenster öffnen
-[Call service]
-Dienst aufrufen
-[Execute program]
-Programm ausführen
-[Insert text]
-Text einfügen
-[Use Variables]
-Variablen verwenden
-[number value]
-Nummernwert
-[ANSI string]
-ANSI-String
-[Unicode string]
-Unicodestring
-[current contact]
-Aktueller Kontakt
-[Choose contact]
-Kontakt wählen
-[Miranda service help]
-Mirandadiensthilfe
-[Return]
-Rückgabewert
-[Scheduler]
-Zeitplaner
-[TopToolbar]
-TopToolbar
-[Effect]
-Effekt
-[Start]
-Starten
-[Action group list was changed: some was added or deleted]
-Aktionsgruppenliste wurde geändert: Etwas wurde hinzugefügt oder gelöscht
-[The context menu for a contact is about to be built]
-Das Kontextmenu für einen Kontakt wird gerade gebaut
-[Double click on the contact list]
-Doppelklick auf die Kontaktliste
-[New contact added to database]
-Neuer Kontakt zur Datenbank hinzugefügt
-[Contact deleting]
-Kontakt löschen
-[Parameter]
-Parameter
-[Manual]
-Manuell
 [Byte]
 Byte
 [Word]
 Word
-[MessageBox]
-Meldung
+[DWord]
+DWord
+[QWord]
+QWord
+[NativeInt]
+Nativer Int
+[Byte Array]
+Byte-Array
+[Word Array]
+Word-Array
+[Pointer to bytes]
+Zeiger zu Bytes
+[Pointer to words]
+Zeiger zu Words
+[Last result]
+Letztes Ergebnis
+[Parameter]
+Parameter
+[Data length]
+Datenlänge
+[Structure help]
+Strukturhilfe
+[Descr]
+Beschr.
+[&Change]
+
+[&OK]
+&OK
+[C&ancel]
+&Abbrechen
+[Process options]
+Prozesseinstellungen
+[Parallel]
+Parallel
+[Continued]
+Kontinuierlich
+[Process time, ms]
+Prozesszeit, ms
+[Current path]
+Momentaner Pfad
+[Window option]
+Fenstereinstellungen
+[Start normal]
+Normal starten
+[Start hidden]
+Versteckt starten
 [Start minimized]
 Minimiert starten
-[Hexadecimal]
-Hexadezimal
-[String]
-String
+[Start maximized]
+Maximiert starten
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
+Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nText <param> wird\r\ndurch Parameter ersetzt
 [Program path]
 Programmpfad
 [Program args]
 Programmargumente
 [Clipboard]
 Zwischenablage
-[Text to insert]
-Text, der eingefügt werden soll
-[Value]
-Wert
-[Save value]
-Wert speichern
+[Copy to]
+Kopieren nach
+[Paste from]
+Einfügen von
+[File]
+Datei
 [Read]
 Lesen
 [Write]
 Schreiben
+[Append]
+Anhängen
+[UTF8+sign]
+UTF8+Sign.
+[UTF16+sign]
+UTF16+Sign.
+[Message window]
+Nachrichtenfenster
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - ausgewählter (und ersetzter) Teil\r\n^e - ersetzt durch leere Zeichenkette\r\n^v - Text aus Zwischenablage einfügen\r\n^t - ersetzt durch Zeilenvorschub\r\n^l - ersetzt durch letztes Ergebnis als Unicode\r\n^h - ersetzt durch letztes Ergebnis als Hex\r\n^a - am Ende: automatisch senden\r\n^f(name\[,str])\r\n     fügt Zeile aus Textdatei ein.\r\n     Klammerinhalte dürfen keine Leerzeichen enthalten
+[Text to insert]
+Text, der eingefügt werden soll
+[Condition]
+Bedingung
+[NOT]
+
+[Value]
+Wert
+[Math]
+Mathe
+[Variables]
+Variablen
+[Result as integer]
+Ergebnis als Integer
+[Operation]
+Vorgang
+[Other Action groups]
+Andere Aktionsgruppen
+[not defined]
+Nicht definiert
+[You can select another group from combobox, then it will be executed, after that current action group will be continued.]
+
+[Macros]
+
+[Own settings]
+Eigene Einstellungen
+[Manual]
+Manuell
+[Module]
+Modul
+[Setting]
+Einstellung
 [Unicode]
 Unicode
+[Message title]
+Nachrichtentitel
+[Message text]
+Nachrichtentext
+[Keep last result]
+Letztes Ergebnis speichern
+[Icons]
+Icons
+[Question]
+Frage
+[Info]
+Info
+[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
+Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nRückgabewerte:\r\n--------\r\nOK\t\t= 1\r\nAbbrechen\t= 2\r\nAbbruch\t\t= 3\r\nWiederholen\t= 4\r\nIgnorieren\t= 5\r\nJa\t\t= 6\r\nNein\t\t= 7\r\nSchließen\t\t= 8
+[Buttons]
+Schaltflächen
+[OK, Cancel]
+OK, Abbrechen
+[Abort, Retry, Ignore]
+Abbrechen, Wiederholen, Ignorieren
+[Yes, No, Cancel]
+Ja, Nein, Abbrechen
+[Yes, No]
+Ja, Nein
+[Retry, Cancel]
+Wiederholen, Abbrechen
+[Scheduler]
+Zeitplaner
+[Task sample]
+Aufgabenbeispiel
+[Start]
+Starten
+[Starting after]
+Starte nach
+[Starting from]
+Starte am
+[Start immediately]
+Starte sofort
+[Days]
+
+[Time]
+
+[Date]
+
+[Repeat]
+
+[Repeat, times]
+Anz. Wiederh.
+[Interval]
+Intervall
+[Break on non-zero result]
+Bei Nicht-Null-Ergebnis abbrechen
+[Send event on start time]
+Ereignis zur Startzeit senden
+[Send event just once]
+Ereignis nur einmalig senden
+[Hooks]
+Hooks
+[Description]
+Übersicht
+[hook sample]
+Hookbeispiel
+[Apply]
+Übernehmen
+[Event]
+Ereignis
+[Action group list was changed: some was added or deleted]
+Aktionsgruppenliste wurde geändert: Etwas wurde hinzugefügt oder gelöscht
+[Double click on the contact list]
+Doppelklick auf die Kontaktliste
+[The context menu for a contact is about to be built]
+Das Kontextmenu für einen Kontakt wird gerade gebaut
+[New contact added to database]
+Neuer Kontakt zur Datenbank hinzugefügt
+[Contact deleting]
+Kontakt löschen
+[Use Actions]
+Aktionen verwenden
+[Action list]
+Aktionsliste
+[Where to use]
+Wo anzuwenden?
+[TopToolbar]
+TopToolbar
+[TabSRMM toolbar]
+TabSRMM-Toolbar
+[Core Hotkey]
+Core-Hotkey
+[Main menu]
+Hauptmenü
+[Contact menu]
+Kontaktmenü
+[Tray menu]
+Traymenü
+[Protocol menus]
+Protokollmenüs
+[Status menu]
+Statusmenü
+[Common]
+
+[2 state button/item]
+Zwei-Zustand-Schaltfläche/Element
+[Save button/item state]
+Schaltfläche/Elementzustand speichern
+[Contact related]
+Kontaktbezogen
+[Normal button tooltip]
+Tooltip normale Schaltfläche
+[Pressed button tooltip]
+Tooltip gedrückte Schaltfläche
+[Separated]
+Getrennt
+[Root popup:]
+Unterpunkt:
+[Menu item name:]
+Menüpunkt Name:
+[Show only if variables return 1]
+Zeige nur, falls Variable 1 zurückgibt
+[Choose action]
+Aktion auswählen
+[&Yes]
+
+[&No]
+
+[A&ppend]
+Anf&ügen
+[Yes to &All]
+
+[N&o to All]
+
+[Action "$" exists, do you want to rewrite it?]
+Aktion "$" existiert, möchten Sie sie neu erstellen?
+[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
+Verwenden Sie Byte-Array/-Zeiger für ANSI-Strings\nVerwenden Sie Word-Array/-Zeiger für Unicode-Strings\n\n$## ersetzt Byte- durch Hex-Wert ##\n$#### ersetzt Word- durch Hex-Wert ### (nur für Unicode-Strings)\n\nAlle Datenlängen werden in Byte gemessen.
+[Packed structure]
+Gepackte Struktur
+[Registered actions]
+Eingetragene Aktionen
+; Actman30
+[No Description]
+Keine Beschreibung
 [Function call]
 Funktion aufrufen
-[Chain]
-Ablauf
-[Program]
-Programm
-[Service]
-Dienst
-[In/Out]
-Ein/Aus
-[Storage]
-Speicherung
-[Jump]
-Sprung
-[Result]
-Ergebnis
-[Result type]
-Ergebnistyp
 [Function name]
 Funktionsname
 [DLL name]
@@ -364,6 +742,10 @@ Aufrufart
 Argumente
 [Number of arguments]
 Anzahl Argumente
+[Result]
+Ergebnis
+[Wide String]
+Wide String
 [DLL Handle Cache]
 DLL Handle Cache
 [Keep to end]
@@ -372,68 +754,64 @@ Am Ende behalten
 Sofort schließen
 [Close for macro]
 Für Makro schließen
-[Wide String]
-Wide String
+[Choose Contact]
+
+[Refresh]
+Aktualisieren
 [Get from active window]
 Vom aktiven Fenster beziehen
+[Chain]
+Ablauf
 [Keep old result]
 Altes Ergebnis behalten
 [Same thread]
 Selber Thread
 [Do not wait until the end of execution]
 Nicht auf das Ende der Ausführung warten
-[Structure size]
-Strukturgröße
-[LastResult to ]
-Letztes Ergebnis zu
-[LastResult from]
-Letztes Ergebnis von
-[Process script after]
-Skript ausführen nach
-[Wrap Text]
-Text umbrechen
+[Result type]
+Ergebnistyp
+[In/Out]
+Ein/Aus
 [Autosend]
 Autosend
+[Jump]
+Sprung
+[> greater]
+> größer
+[< lesser]
+< kleiner
+[= equ]
+= gleich
+[& and]
+& und
+[Case sensitive]
+
 [Opposite order]
 Umgekehrte Reihenfolge
-[Service list format]
-Dienstlistenformat
-[Current Macro]
-Ausgewähltes Makro
-[Select for FirstRun]
-Für FirstRun auswählen
-[Right justified text]
-Rechts ausgerichteter Text
-[Use MMI]
-MMI verwenden
-[UTF8+sign]
-UTF8+Sign.
-[UTF16+sign]
-UTF16+Sign.
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - ausgewählter (und ersetzter) teil\r\n^e - durch leeren String ersetzt\r\n^v - Text aus zwischenablage einfügen\r\n^t - durch Tabulatoren ersetzt\r\n^l - durch letztes Ergebnis als Unicode ersetzt\r\n^h - durch letztes Ergebnis als Hex ersetzt\r\n^f(name[,str])\r\n     Zeile aus Textdatei einfügen.\r\n   Inhalt in Klammern ohne Leerzeichen.
-[value]
-Wert
-[name]
-Name
-[value (name)]
-Wert (Name)
-[name 'value']
-Name 'Wert'
+[empty]
+
 [contains]
 beinhaltet
 [starts with]
 beginnt mit
 [ends with]
 endet mit
-[= equ]
-= gleich
-[> greater]
-> größer
-[< lesser]
-< kleiner
-[& and]
-& und
+[Process script after]
+Skript ausführen nach
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - ausgewählter (und ersetzter) teil\r\n^e - durch leeren String ersetzt\r\n^v - Text aus zwischenablage einfügen\r\n^t - durch Tabulatoren ersetzt\r\n^l - durch letztes Ergebnis als Unicode ersetzt\r\n^h - durch letztes Ergebnis als Hex ersetzt\r\n^f(name[,str])\r\n     Zeile aus Textdatei einfügen.\r\n   Inhalt in Klammern ohne Leerzeichen.
+[Right justified text]
+Rechts ausgerichteter Text
+[Database]
+
+[Save value]
+Wert speichern
+[Storage]
+Speicherung
+[LastResult to ]
+Letztes Ergebnis zu\s
+[LastResult from]
+Letztes Ergebnis von\s
 [Slot 0]
 Slot 0
 [Slot 1]
@@ -454,3 +832,34 @@ Slot 7
 Slot 8
 [Slot 9]
 Slot 9
+[Settings]
+Einstellungen
+[Contact list]
+Kontaktliste
+[Contact list format]
+Kontaktlistenformat
+[You can use %name%, %uid%, %account% and %group% substitutes]
+Sie können die Makros %name%, %uid%, %account% und %group% verwenden
+[Service list format]
+Dienstlistenformat
+[value]
+Wert
+[name]
+Name
+[value (name)]
+Wert (Name)
+[name 'value']
+Name 'Wert'
+[Current Macro]
+Ausgewähltes Makro
+[Select for FirstRun]
+Für FirstRun auswählen
+[Double click on the CList]
+
+; these lines are not present in the sources, but they are present in compiled plugin
+[Text Editor]
+Texteditor
+[Script]
+Skript
+[Wrap Text]
+Text umbrechen

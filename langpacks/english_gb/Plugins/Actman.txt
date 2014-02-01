@@ -5,7 +5,7 @@
 ;  Version: 0.2.0.1
 ;  Authors: Awkward
 ;============================================================
-[Start maximized]
-Start maximised
 [Start minimized]
 Start minimised
+[Start maximized]
+Start maximised

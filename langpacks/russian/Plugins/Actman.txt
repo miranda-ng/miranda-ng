@@ -406,7 +406,7 @@ UTF16+сигнатура
 [Other Action groups]
 Другие группы действий
 [not defined]
-не определена
+<не указана>
 [You can select another group from combobox, then it will be executed, after that current action group will be continued.]
 Из выпадающего меню можно выбрать другую группу действий, которая будет выполнена, после чего продолжится выполнение текущей группы действий.
 [Macros]

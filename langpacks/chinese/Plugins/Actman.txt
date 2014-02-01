@@ -5,10 +5,6 @@
 ;  Version: 0.2.0.1
 ;  Authors: Awkward
 ;============================================================
-[Contact window]
-联系人窗口
-[vars]
-变量
 [DWord]
 双字
 [wParam type]
@@ -47,8 +43,6 @@ lParam 类型
 符号值
 [Process options]
 进程选项
-[Do not show]
-不要显示
 [Current path]
 当前路径
 [Start normal]
@@ -63,16 +57,8 @@ lParam 类型
 链接至操作
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 热键管理插件可打开联系人窗口, 插入文本, 运行程序及呼叫服务
-[Action manager]
-操作管理
 [Copy to]
 复制到
-[Paste from as]
-粘贴作为
-[Variables (below)]
-变量 (低)
-[Variables script]
-变量脚本
 [Other Action groups]
 其它操作组
 [Operation]
@@ -81,8 +67,6 @@ lParam 类型
 最后结果
 [Own settings]
 自有设定
-[Array]
-数组
 [Message title]
 消息标题
 [OK, Cancel]
@@ -103,14 +87,10 @@ lParam 类型
 保持最后结果
 [Keep handle only]
 仅保持处理
-[Variables mark]
-变量标记
 [C&ancel]
 取消(&A)
 [Structure editor]
 结构编辑器
-[Result as structure]
-结果为结构
 [Byte Array]
 字节数组
 [Word Array]
@@ -133,7 +113,7 @@ lParam 类型
 整数
 [Append]
 附加
-[Append data to file]
+[Append data to file?]
 附加数据至文件
 [Choose action]
 选择操作
@@ -163,11 +143,8 @@ lParam 类型
 根弹出窗口:
 [Registered actions]
 注册操作
-[Menu icons]
-菜单图标
 [data]
 资料
-;other strings
 [Open contact window]
 打开联系人窗口
 [Call service]
