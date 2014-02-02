@@ -8,13 +8,13 @@
 [Open contact-specific windows by hotkey.]
 Відкриває вікно з контактом з гарячої клавіші.
 [Last Sent]
-Останнє відправлене подія
+Остання відправлена подія
 [Enable last-sent-to]
-Включити останню подію
+Ввімкнути останню подію
 [recognize all messages sent]
 Визначати всі надіслані повідомлення
-[recognize messages sent with utility only]
-Визначати тільки повідомлення відправлені гор.клавишей
+[recognize messages sent with hotkey only]
+Визначати тільки повідомлення, відправлені гар. клавишею
 [Contacts]
 Контакти
 [Show offline contacts on these protocols:]
@@ -24,15 +24,15 @@
 [Append group name to contact name]
 Додавати групу для імені контакту
 [But show it as a column...]
-Але показувати її, як колонку...
+Але показувати її як колонку...
 [...on left side of name]
 ...зліва від імені
 [Hide subcontacts]
 Ховати субконтакти
-[But keep subcontacts protocols of above in list if meta is hidden]
+[But keep subcontacts of protocols in above list if meta is hidden]
 Але показувати, якщо метаконтакт захований
 [Enter username:]
-Ввести ім'я
+Ввести ім'я:
 [Show all contacts (Ctrl+A)]
 Показати всі контакти (Ctrl+A)
 [Quick Contacts]
@@ -44,7 +44,7 @@
 [Send file]
 Передати файл
 [Send URL]
-Посилання (URL)
+Надіслати URL
 [Open userinfo]
 Інформація користувача
 [Open history]
@@ -56,4 +56,4 @@
 [Quick Contacts...]
 Швидкі контакти...
 [Send message]
-Відправити
+Надіслати

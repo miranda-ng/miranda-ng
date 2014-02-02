@@ -6,7 +6,7 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-Повідомлення і перегляд нової пошти для Miranda NG. Вбудований протокол POP3.
+Сповіщення і перегляд нової пошти для Miranda NG. Вбудований протокол POP3.
 [Installed plugins]
 Встановлені додаткові плагіни
 [Version:]
@@ -19,78 +19,76 @@
 Контакт:
 [WWW:]
 Сторінка:
-[Check this account]
-Перевіряти цей обліковий запис
-[Check interval [min]:]
-Інтервал перевірки (хвил):
-[Повідомлення]
-Повідомлення
-[Sound]
-Звук
-[Message]
-Повідомлення
-[Tray Icon]
-Значок в треї
-[Keyboard Flash]
-Блимання клавіатури
-[Execute Application]
-Запуск програми
-[Use contact notification for this account]
-Нотифікація контактом
-[Replace nickname]
-Замінити псевдонім
-[Disable Events]
-Вимкнути новини
+[Account]
+Обліковий запис
+[Name:]
+Ім'я:
 [Server:]
 Сервер:
+[Port:]
+Порт:
 [User Name:]
 Логін:
 [Password:]
 Пароль:
 [Codepage:]
 Кодування:
-[Port:]
-Порт:
-[SSL]
-SSL
+[Default]
+За замовчанням
 [Disable STLS]
 Вимкнути STLS
+[Status:]
+Статус:
+[Options]
+Налаштування
+[Check this account]
+Перевіряти цей обліковий запис
 [Startup check]
 під час завантаження
+[Check interval [min]:]
+Інтервал перевірки (хв):
+[Only check when...]
+Перевіряти, якщо...
 [Auto retrieve body]
 Завантажувати тіло
 [Check from menu]
 З меню
-[Only check when...]
-Перевіряти, якщо...
-[Sound notification if failed]
-Звукове сповіщення про помилку
-[Notification Message if failed]
-Вікно з повідомленням про помилку
-[Tray icon notification if failed]
-Повідомлення в треї про помилку
-[Reset counter]
-Скинути лічильник
-[Default]
-За замовчанням
-[Status:]
-Статус:
-[Account]
-Обліковий запис
-[Name:]
-Ім'я:
-[Options]
-Налаштування
+[Use contact notification for this account]
+Нотифікація контактом
+[Replace nickname]
+Замінити псевдонім
+[Disable Events]
+Вимкнути новини
+[Notifications]
+Сповіщення
 [New Mail]
 Нова пошта
+[Sound]
+Звук
+[Message]
+Повідомлення
+[Keyboard Flash]
+Блимання клавіатури
+[Tray Icon]
+Значок у треї
+[Execute Application]
+Запуск програми
 [Errors]
 Помилки
+[Sound notification if failed]
+Звукове сповіщення про помилку
+[Message notification if failed]
+Сповіщення про помилку у вікні
+[Tray icon notification if failed]
+Сповіщення про помилку в треї
+[Reset counter]
+Скинути лічильник
 [Check while...]
 Перевіряти, якщо...
 [Cancel]
 Скасувати
 [Choose modes]
-Обрати режим
+Вибрати режим
 [Offline]
 Не в мережі
 [Online]
@@ -108,39 +106,39 @@ SSL
 [Invisible]
 Невидимий
 [On the phone]
-На телефоні
+Телефоную
 [Out to lunch]
 Обідаю
 [YAMN General Options]
 Основні налаштування
-[TopToolBar button "Check mail]
-Кнопка "Перевірити пошту" в Панелі кнопок
+[TopToolBar button "Check mail"]
+Кнопка "Перевірити пошту" на панелі кнопок
 [Enable YAMN Main Menu]
-Включити пункт YAMN у головне меню
+Пункт YAMN у головному меню
 [Show YAMN as a Protocol (Require Restart)]
 Показувати YAMN як протокол (Потрібен перезапуск)
 [MailBrowser Options]
 Налаштування перегляду листів
-[Enable Close Button on Delete]
-Закривати якщо натиснуто "Видалити"
+[Enable Close on Delete Button]
+Закривати по натисканню "Видалити"
 [Show long localised date]
 Показувати повну дату
 [Don't show today's date]
 Не показувати сьогоднішню дату
 [Date/Time Representation]
-Дата/година
+Дата/час
 [Don't show seconds]
 Не показувати секунди
 [Mail Notifications]
-Повідомлення про пошту
+Сповіщення про пошту
 [Popup]
 Спливаючі вікна
 [Single popup]
 Одне вікно
 [Multi popup]
 Багато вікон
-[Use custom colour]
-Свої кольори
+[Use custom color]
+Вказати кольори
 [No new mail notifications]
 При відсутності нової пошти
 [Popup if no mail]
@@ -155,9 +153,9 @@ SSL
 с (тривалість)
 [Preview]
 Тест
-[Background colour]
+[Background color]
 Колір фону
-[Text colour]
+[Text color]
 Колір тексту
 [Check &mail (All Account)]
 Перевірити пошту (Всі)
@@ -172,7 +170,7 @@ SSL
 [Check mail]
 Перевірити пошту
 [Connect Fail]
-Втрата з'єднання єднання
+Втрата з'єднання
 [YAMN: new mail message]
 YAMN: новий лист
 [YAMN: connect failed]
@@ -183,6 +181,8 @@ YAMN: помилка підключення
 Немає нових листів
 [%s - connection error]
 %s - помилка підключення
+[An error occurred. Error code: %d]
+Помилка. Код: %d
 [Unknown error]
 Невідома помилка
 [ - connection error]
@@ -236,19 +236,19 @@ YAMN: помилка підключення
 [Found new version of account book, not compatible with this version of YAMN.]
 Знайдена нова версія файлу з обліковими записами - вона несумісна з цією версією YAMN.
 [YAMN (internal POP3) read error]
-YAMN (внутрішній POP3) помилка зчитування
+YAMN (внутрішній POP3) помилка читання
 [Error reading account file. Account file corrupted.]
 Помилка при читанні файлу з обліковими записами. Файл з обліковими записами зіпсований.
-[Memory allocation error while reading data]
-Помилка розподілу пам'яті при зчитуванні даних.
+[Memory allocation error while data reading]
+Помилка розподілу пам'яті під час читання даних.
 [Reading file error. File already in use?]
-Помилка зчитування файлу. Файл вже використовується?
-[Error while copying data to disk occured. File in use?]
-Помилка копіювання даних на диск. Файл вже використовується?
-[POP3 plugin - write file error]
-POP3 плагін - помилка при записі у файл
+Помилка читання файлу. Файл вже використовується?
+[Error while copying data to disk occurred. Is file in use?]
+Помилка копіювання даних на диск. Файл уже використовується?
+[POP3 plugin- write file error]
+POP3 плагін - помилка запису в файл
 [Connecting to server]
-З'єднання єднання з сервером
+З'єднання з сервером
 [Entering POP3 account]
 Авторизація...
 [Searching for new mail message]
@@ -266,17 +266,17 @@ POP3 плагін - помилка при записі у файл
 [Cannot connect to POP3 server.]
 Не можу з'єднатися з поштовим сервером.
 [Cannot allocate memory for received data.]
-Не можу виділити пам'ять для отримання даних.
+Неможливо виділити пам'ять для отримання даних.
 [Cannot login to POP3 server.]
-Не можу увійти на POP3 сервер.
+Не можу увійти на сервер POP3.
 [Bad user or password.]
-Не вірні логін або пароль
+Неправильні логін або пароль
 [Server does not support APOP authorization.]
-Сервер не підтримує APOP аутентифікацію
+Сервер не підтримує APOP-аутентифікацію
 [Error while executing POP3 command.]
 Помилка виконання команди POP3
 [Cannot connect to server with NetLib.]
-Не можу підключитися до сервера з NetLib.
+Неможливо підключитися до сервера з NetLib.
 [Cannot send data.]
 Не можу відправити дані.
 [Cannot receive data.]
@@ -290,7 +290,7 @@ OpenSSL не завантажений.
 [Error while creating base socket.]
 Помилка створення основного сокета.
 [Error connecting to server with socket.]
-Помилка з'єднання єднання з сервером через сокет.
+Помилка з'єднання з сервером через сокет.
 [Error while creating SSL structure.]
 Помилка створення структури SSL.
 [Error connecting socket with SSL.]
@@ -298,9 +298,9 @@ OpenSSL не завантажений.
 [Server rejected connection with SSL.]
 Сервер відмовив у SSL-з'єднанні.
 [Cannot write SSL data.]
-Не можу записати SSL дані.
+Неможливо записати дані SSL.
 [Cannot read SSL data.]
-Не можу прочитати SSL дані.
+Неможливо прочитати дані SSL.
 [Error %d-%d-%d-%d:]
 Помилка %d-%d-%d-%d:
 [Network]
@@ -308,15 +308,15 @@ OpenSSL не завантажений.
 [Accounts]
 Облікові записи
 [General]
-Загальна
+Загальне
 [Plugins]
 Плагіни
 [Popups]
 Спливаючі вікна
 [No account selected]
-Не вибрано акаунт
+Не вибраний обліковий запис
 [Time left to next check [s]: %d]
-Годину до наступної перевірки: %d с.
+До наступної перевірки: %d с
 [New Account]
 Новий запис
 [Executables]

@@ -16,7 +16,7 @@
 [Use XStatus]
 Використовувати хСтатус
 [If this option is "ON", XStatus doesn't depend of status protocol.]
-Якщо включена ця опція, хСтатус не буде залежати від статусу протоколу.
+Якщо опція ввімкнена, хСтатус не буде залежати від статусу протоколу.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 Використовувати плагін "Variables" чи ні. Цей плагін дозволяє вам трансформувативати рядки, використовувати математичні функції і функції дати. Без цього плагіна WATrack буде працювати швидше.
 [Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
@@ -238,13 +238,13 @@ FPS (кадрів в секунду), тільки для відео
 [Message Channel]
 У чат
 [If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
-Якщо включено, хСтатус не зміниться, але повідомлення хСтатуса буде замінено за шаблоном WATrack
+Якщо опція ввімкнена, хСтатус не зміниться, але повідомлення хСтатуса буде замінено за шаблоном WATrack
 [Keep 'Music' XStatus]
 Залишати хСтатус "Музика"
 [No-music text]
 Якщо немає музики
 [No-player text]
-Якщо плеєр не включений
+Якщо плеєр не ввімкнений
 [Protocol list]
 Протоколи
 [Use Status:]
@@ -288,23 +288,23 @@ VBR або пусто
 [lowercase %type%]
 рядковий %type%
 [If this option is "ON", you can paste music info to your message window pressing hotkey.]
-Якщо опція включена, ви можете вставляти інформацію про музику у вікно повідомлень, натиснувши на гарячі клавіші.
+Якщо опція ввімкнена, ви можете вставляти інформацію про музику у вікно повідомлень, натиснувши на гарячі клавіші.
 [If this option is "ON", status text will be replaced by music info.]
-Якщо опція включена, текст статусів буде заміщений на інформацію про музику.
+Якщо опція ввімкнена, текст статусів буде заміщений на інформацію про музику.
 [If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
-Якщо опція включена, усі налаштування зберігаються в INI-файлі і зітруться з бази Miranda, інакше буде видалено INI-файл (якщо був).
+Якщо опція ввімкнена, усі налаштування зберігаються в INI-файлі і зітруться з бази Miranda, інакше буде видалено INI-файл (якщо був).
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
-Якщо опція включена, плагін спробує отримати інформацію про музику від плеєра (працює не з усіма плеєрами)
+Якщо опція ввімкнена, плагін спробує отримати інформацію про музику від плеєра (працює не з усіма плеєрами)
 [If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
-Якщо опція включена, хСтатус змінюється тільки при вже встановленому в "Музика" статус.
+Якщо опція ввімкнена, хСтатус змінюється тільки при вже встановленому в "Музика" статус.
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
-Якщо опція включена, хСтатус не залежить від статусу ICQ.
+Якщо опція ввімкнена, хСтатус не залежить від статусу ICQ.
 [If this option is "ON", XStatus not changed when player shutdowned.]
-Якщо опція включена, хСтатус не зміниться при вимкненні плеєра.
+Якщо опція ввімкнена, хСтатус не зміниться при вимкненні плеєра.
 [If this option is "ON", XStatus will be changed to "Music and status text will be replaced by music info.]
-Якщо опція включена, хСтатус для ICQ заміниться на "Музика" і його текст зміниться на інформацію про музику.
+Якщо опція ввімкнена, хСтатус для ICQ заміниться на "Музика" і його текст зміниться на інформацію про музику.
 [If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
-Якщо опція включена, то буде застосовано один шаблон для всіх протоколів, а також плеєрів і статусів. Сторінка налаштування шаблонів зміниться після перезавантаження.
+Якщо опція ввімкнена, то буде застосовано один шаблон для всіх протоколів, а також плеєрів і статусів. Сторінка налаштування шаблонів зміниться після перезавантаження.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 Вбудовуватися в процес програвача для полегшення отримання інформації. Може спровокувати тривогу фаєрволу або антивірусу.
 [Keep opened file as active, not newly founded.]
@@ -420,7 +420,7 @@ VBR чи ні
 [Frame Controls]
 Кнопки управління
 [Plugin Enabled]
-Плагін включений
+Плагін увімкнено
 [Plugin Disabled]
 Плагін вимкнено
 [Create Report]
@@ -455,8 +455,8 @@ VBR чи ні
 - довжина пісні в секундах
 [- track number]
 - номер треку
-[ Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n Only if 'Music' status was set - change your status if Music XStatus sets already.\n Keep 'Music' XStatus - if player stopped or shutdowned, or not save 'Music' XStatus (changes to empty.\n If text after processing is empty, the status message does not changes.\n If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
-Час оновлення (сек) - оновлення інформації в статусних повідомленнях. Якщо нуль, автооновлення вимкнено\n Працює, тільки якщо хСтатус "Музика".\n Якщо плеєр вимкнений або зупинений, хСтатус прибирається.\n Якщо текст порожній, статусне повідомлення не змінюється.\n Якщо налаштування зберігаються в ini-файлі, вони втечуть з бази Miranda, інакше ini файл буде видалено.
+[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
+Час оновлення (с) - оновлення інформації в статусних повідомленнях. Якщо нуль, автооновлення вимкнено\nПрацює тільки якщо хСтатус "Музика".\nЯкщо плеєр вимкнений або зупинений, хСтатус прибирається.\nЯкщо текст порожній, статусне повідомлення не змінюється.\nЯкщо налаштування зберігаються в ini-файлі, вони будуть видалені з бази Miranda, інакше буде видалено ini-файл.
 ["Variables" module use]
 Використовувати "Variables"
 [Acoustic]
@@ -486,7 +486,7 @@ VBR чи ні
 [Use listening info]
 Використовувати "Listening To"
 [If this option is "ON", "Listening To" protocol property will be filled by music info.]
-Якщо опція включена, то поле "Listening To" буде заповнене інформацією про музику.
+Якщо опція ввімкнена, то поле "Listening To" буде заповнене інформацією про музику.
 [Enable Status message]
 Додати повідомлення статусу
 [Enable XStatus message]
@@ -516,9 +516,9 @@ VBR чи ні
 [Attempts]
 спроб
 [Disable scrobbling]
-Відключити скробблінг
+Вимкнути скробблінг
 [Enable scrobbling]
-Включити скробблінг
+Увімкнути скробблінг
 [no language]
 не вибрано
 [Content-language]

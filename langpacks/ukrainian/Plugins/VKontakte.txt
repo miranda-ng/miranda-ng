@@ -25,6 +25,8 @@
 Підтвердження доставки зі сторони серверу
 [Hide chats on startup]
 Не відкривати вікна чатів при старті
+[Automatically wipe local contacts missing in your Friends list]
+Автоматично видаляти локальні контакти, яких немає в списку друзів
 [Bots challenge test]
 Захист від ботів
 [Instruction:]

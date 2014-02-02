@@ -16,15 +16,15 @@
 [Don't remind me anymore]
 Більше не нагадувати
 [Enable notification]
-Ввімкнути повідомлення
+Ввімкнути сповіщення
 [Show previous client name]
 Показувати попереднє ім'я клієнта
 [Notify also when just client version changes]
-Повідомляти, коли зміниться версія клієнта
+Сповіщати, коли зміниться версія клієнта
 [Show client version]
 Показати версію клієнта
 [Don't notify for contacts with disabled status notification]
-Не повідомляти для контактів з вимкненим повідомленням статусу
+Не сповіщати для контактів з вимкненим повідомленням статусу
 [Click action]
 Дії по кліку
 [On left click]
@@ -54,35 +54,35 @@
 [(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
 (встановіть pcre.dll або pcre3.dll щоб використовувати тут регулярні вирази)
 [changed client to %s (was %s)]
-клієнт змінився на %s (був % s)
+змінив клієнт на %s (був %s)
 [changed client to %s]
-клієнт змінився на %s
+змінив клієнт на %s
 [%s (was %s)]
 %s (був %s)
 [) changed client to ]
 ) змінив клієнт на
 [Client change notifications:]
-Повідомлення про зміну клієнта:
+Сповіщення про зміну клієнта:
 [Never, ignore client changes for this contact]
-Ніколи не ігнорувати змін клієнта, для цього контакта
+Ніколи, ігнорувати зміни клієнта для цього контакта
 [Always except when client change notifications are disabled globally]
-Завжди, крім того, коли повідомлення зміни клієнта відключені глобально
+Завжди, крім того, коли сповіщення зміни клієнта відключені глобально
 [Always, even when client change notifications are disabled globally]
-Завжди, навіть коли повідомлення зміни клієнта відключені глобально
+Завжди, навіть коли сповіщення зміни клієнта відключені глобально
 [Use global settings (default)]
 Використовувати загальні параметри (за замовчуванням)
 [Disable c&lient change notification]
-Вимкнути сповіщення про зміну клієнта
+Вимкнути сповіщення про зміну к&лієнта
 [Enable c&lient change notification]
-Ввімкнути повідомлення про зміну клієнта
+Ввімкнути сповіщення про зміну клієнта
 [Popups]
 Спливаючі вікна
 [ClientChangeNotify: Client changed]
-Повідомлення про зміну клієнта: Клієнт змінився
+Сповіщення про зміну клієнта: Клієнт змінився
 [ClientChangeNotify]
-Повідомлення про зміну клієнта
+Сповіщення про зміну клієнта
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) що змінив клієнт  %extratext%
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) змінив клієнт на %extratext%
 [Error #%d]
 Помилка #%d
 [Can't open log file ]

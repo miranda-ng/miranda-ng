@@ -24,11 +24,11 @@
 [Auto-resize frame]
 Вирівнювати фрейм
 [Use contact list smileys]
-Смайлики у списку контактів
+Смайли у списку контактів
 [...status]
 ...статус
 [Replace Smileys]
-Замінювати смайлі
+Замінювати смайли
 [Resize Smileys]
 Змінювати розмір смайлів
 [...status message]
@@ -50,19 +50,27 @@
 [Allow it to grow]
 Розтягнути аватар
 [Draw border]
-Рисувати рамку
+Малювати рамку
 [Round corners]
-Закруглені кути
+Заокруглені кути
+[Custom corner size:]
+Розмір кута:
 [Use free space (under avatar) to other texts]
-Вікор. вільне місце (під аватарами) для тексту
+Викор. вільне місце (під аватарами) для тексту
+[Global On...]
+Глобальний...
 [Frame Options]
 Опції фрейму
+[Cycle through accounts every:]
+Міняти облікові записи кожні:
 [seconds]
-секунд(и)
+секунд
 [Account]
 Обліковий запис
 [Show account name]
 Показувати ім'я облікового запису
+[Show account cycle button]
+Кнопки зміни облікових записів
 [Set My Status Message for All Status]
 Статусне повідомлення для ycix статусів
 [Status Message:]
@@ -76,7 +84,7 @@
 [&NA]
 &Недоступний
 [Occ&upied]
-Зайн&ят
+Зайн&ятий
 [&DND]
 &Не турбувати
 [&Free for chat]
@@ -84,7 +92,7 @@
 [&Invisible]
 &Невидимий
 [On the &Phone]
-На &телефоні
+&Телефоную
 [Out to &Lunch]
 &Обідаю
 [Set My Avatar...]
@@ -94,9 +102,15 @@
 [Set My Status Message...]
 Змінити статусне повідомлення...
 [Enable Listening To]
-Ввімкнути "Зараз слухаю"
+Ввімкнути "Слухаю"
 [Show next account]
 Наступний обліковий запис
+[Show previous account]
+Попередній обліковий запис
+[Cycle through accounts]
+Міняти облікові записи
+[Don't cycle through accounts]
+Не міняти облікові записи
 [<no status name>]
 <немає імені статусу>
 [Nickname]
@@ -106,7 +120,7 @@
 [Status Message]
 Статусне повідомлення
 [Listening To]
-"Зараз слухаю"
+Слухаю
 [My Details]
 Мої деталі
 [Background]
@@ -114,7 +128,7 @@
 [Show My Details]
 Показати мої деталі
 [Enable Listening To for %s]
-Ввімкнути "Зараз слухаю" для %s
+Ввімкнути "Слухаю" для %s
 [Set My Avatar for %s...]
 Змінити мій аватар для %s...
 [Set My Nickname for %s...]
@@ -122,7 +136,7 @@
 [Set My Status Message for %s...]
 Змінити статусне повідомлення для %s...
 [Hide My Details]
-Приховати мої деталі
+Сховати мої деталі
 [Listening to]
 Слухаю
 [Previous protocol]

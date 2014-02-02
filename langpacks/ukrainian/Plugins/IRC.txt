@@ -18,7 +18,7 @@
 [only while connecting]
 Тільки на час з'єднання
 [Force visible (-i)]
-Включити видимість (-i)
+Ввімкнути видимість (-i)
 [Rejoin channel if kicked]
 Перезайти при перепідключенні
 [Rejoin channels on reconnect]
@@ -330,7 +330,7 @@ DCC: Запит на продовження закачування файлу в
 [*Disconnected*]
 *Відключений*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
-Використання /AWAY в буфері виконання обмежене,\n оскільки IRC автоматично надсилає цю команду.
+Використання /AWAY в буфері виконання обмежене,\nоскільки IRC автоматично надсилає цю команду.
 [IRC Error]
 Помилка IRC
 [The buddy check function is enabled]

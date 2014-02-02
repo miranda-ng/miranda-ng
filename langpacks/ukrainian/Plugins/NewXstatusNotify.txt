@@ -5,10 +5,10 @@
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
-[Notifies you when a contact changes his/her (X)or status status message.]
-Повідомляє вас про зміни статусів, хСтатусів або статусних повідомлень контактів.
+[Notifies you when a contact changes his/her (X)status or status message.]
+Сповіщає про зміни статусів, хСтатусів та статусних повідомлень контактів.
 [Notify when a contact changes to one of these statuses]
-Повідомляти, коли статус контакту змінюється на:
+Сповіщати, коли статус контакту змінюється на:
 [Online]
 В мережі
 [Offline]
@@ -28,19 +28,19 @@
 [Out to lunch]
 Обідаю
 [On the phone]
-На телефоні
+Телефоную
 [Always when changing from offline]
 Із статусу "Відключений"
 [Plugin activation]
-Активізація модуля
+Активізація плагіна
 [Automatically turn off Popups and Sounds on status change]
 Вимикати сплив. вікна і звуки при зміні статусу
 [Configure]
 Налаштувати
 [Notify me for people not in my Contact List]
-Повідомляти мене про контакти не з списку контактів
+Сповіщати про контакти поза списком контактів
 [Blink icon in the system tray]
-Миготливий значок в сист. панелі
+Блимаючий значок у треї
 [Use status icon]
 Значок статусу
 [Use individual sounds]
@@ -48,9 +48,9 @@
 [Log to file]
 Запис у файл
 [Enable]
-Включено
+Ввімкнено
 [Go to Sound to select the sounds]
-Перейдіть у Звуки для вибору звуків
+Перейдіть у "Звуки" для вибору звуків
 [Extra status]
 хСтатус
 [Open]
@@ -64,13 +64,13 @@
 [Delete]
 Видалити
 [Enable sounds]
-Включити звуки
+Ввімкнути звуки
 [Enable popups]
 Спливаючі вікна
 [Status Notify]
 Зміна статусу
-[Individual sounds are disabled.\n\nTo enable them, go to Options - Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
-Особисті звуки вимкнені.\n\nЩоб їх включити, підіть до Параметри - Статус - Повідомлення, ввімкніть \n"Індивідуальні звуки", і знову відкрийте вікно.
+[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
+Індивідуальні звуки вимкнено.\n\nЩоб увімкнути, пройдіть у Налаштування -> Статус -> Зміна статусу, увімкніть \n"Індивідуальні звуки" і відкрийте це вікно знову.
 [Sounds]
 Звуки
 [Popups]
@@ -82,16 +82,16 @@
 [Disable all]
 Вимкнути всі
 [Enable all]
-Включити всі
+Ввімкнути всі
 [Background]
 Фон
 [Text]
 Текст
-[Colours]
+[Colors]
 Кольори
-[Use custom colours]
-Задати кольору
-[Use Windows colours]
+[Use custom colors]
+Вказати кольори
+[Use Windows colors]
 Кольори Windows
 [Use Popup colors]
 Кольори спливаючих вікон
@@ -104,21 +104,19 @@
 [Timeout]
 Таймаут
 [Popups when status changes to:]
-Сплив. вікно коли статус змінився на:
-[Connection timeout]
-Затримка на старті
+Сплив. вікно, коли статус змінився на:
 [Click action]
 Дії по кліку
 [Show contact group name]
 Показувати ім'я групи контакту
 [Use alternative descriptions]
-Використовувати альтернативне опис
+Використовувати альтернативний опис
 [0 = Default]
 0=Замовчання
 [-1 = Infinite]
 -1=Нескінченно
 [Sec]
-с.
+с
 [On left click]
 Лівий клік
 [On right click]
@@ -126,9 +124,11 @@
 [Show status description]
 Показувати опис статусу
 [Ignore empty status and xStatus messages]
-Ігнорувати пустий статус і хСтатус повідомлення
-[Messages]
-Повідомлення
+Ігнорувати порожні повідомлення
+[Connection timeout]
+Затримка на старті
+[Notification]
+Сповіщення
 [Disable for extra status 'Music']
 Вимкнути для хСтатусу "Музика"
 [Truncate message length to:]
@@ -138,7 +138,7 @@
 [Templates]
 Шаблони
 [Title - text delimiter:]
-Заголовок-текст роздільник:
+Роздільник заголовока - тексту:
 [Remove:]
 Видалення:
 [New message:]
@@ -148,39 +148,41 @@
 [Variables]
 Змінні
 [Reset]
-Скидання
+Скинути
 [Disable notifications]
-Вимкнути повідомлення
+Вимкнути сповіщення
 [Cancel]
 Скасувати
 [Disable globally]
-Відключити повністю
-[Disable only if I global change status]
-Відключати, тільки при зміні глобального статусу
+Вимкнути повністю
+[Disable only if I change global status]
+Вимикати лише при зміні глобального статусу
 [Disable when my status is:]
-Відключати, коли мій статус:
+Вимикати, коли мій статус:
 [Extra status log]
 Запис хСтатусів
 [Enable logging extra status to message window]
-Включити запис хСтатусів у вікно повідомлень
+Ввімкнути запис хСтатусів у вікно повідомлень
 [Keep events in history]
 Зберігати події в історію
 [Prevent identical logs]
-Запобігати однакових записів
+Уникати однакових записів
 [On opening ML:]
 Відкриття вікна:
 [General]
-Загальна
+Загальне
 [Show Popups when I connect]
 Показувати спливаючі вікна, коли я підключаюся
 [Accounts]
 Облікові записи
+[Enable/Disable accounts which you don't wish to be notified for:]
+Ввімкнути/Вимкнути сповіщення для облікових записів:
 [Sound files]
 Звукові файли
 [All files]
-Усіфайли
+Усі файли
 [Wave files]
-WAV файли
+Файли WAV
 [Status]
 Статус
 [Sound for the status]
@@ -188,7 +190,7 @@ WAV файли
 [From offline]
 З оффлайну
 [** All contacts **]
-** Контакти **
+** Усі контакти **
 [(default sound)]
 (за замовчанням)
 [<no status message>]
@@ -198,13 +200,13 @@ WAV файли
 [connecting]
 підключається
 [aborting]
-відміняється
+відключається
 [playing]
 грає
 [%s is now %s]
 %s зараз %s
 [%s, %s. %s changed to: %s (was: %s).\r\n]
-%s, %s. %s змінив(ла): %s (був(а): %s).\r\n
+%s, %s. %s змінив(ла): %s (був(ла): %s).\r\n
 [(M) is back online!]
 знову в мережі!
 [(F) is back online!]
@@ -221,11 +223,11 @@ WAV файли
 пішов з мережі! :(
 [User: Offline]
 Користувач: не в мережі
-[(M) hides shadows in...]
+[(M) hides in shadows...]
 сховався в тіні...
-[(F) hides shadows in...]
+[(F) hides in shadows...]
 сховалася в тіні...
-[(U) hides shadows in...]
+[(U) hides in shadows...]
 сховався в тіні...
 [User: Invisible]
 Користувач: невидимий
@@ -234,7 +236,7 @@ WAV файли
 [(F) feels talkative!]
 готова поговорити!
 [(U) feels talkative!]
-готовий побалакати!
+готовий поговорити!
 [User: Free For Chat]
 Користувач: готовий базікати
 [(M) went Away]
@@ -248,7 +250,7 @@ WAV файли
 [(M) isn't there anymore!]
 відсутній!
 [(F) isn't there anymore!]
-відсутній!
+відсутня!
 [(U) isn't there anymore!]
 відсутній!
 [User: Not Available]
@@ -284,27 +286,29 @@ WAV файли
 [(U) had to answer the phone]
 говорить по телефону
 [User: On The Phone]
-Користувач: на телефоні
+Користувач: телефонує
 [Enable status notification]
-Включити повідомлення про зміну статусу
+Ввімкнути сповіщення про зміну статусу
 [Disable status notification]
 Вимкнути сповіщення про зміну статусу
 [Notification enabled]
-Повідомлення включено
+Сповіщення ввімкнено
 [Notification disabled]
-Повідомлення вимкнено
+Сповіщення вимкнено
+[New Status Notify]
+Зміна статусу
 [User: from offline (has priority!)]
-Користувач: з оффлайна (має пріоритет!)
+Користувач: з оффлайну (має пріоритет!)
 [Extra status changed]
 хСтатус змінено
 [Extra status message changed]
-Змінено повідомлення хСтатуса
+Змінено повідомлення хСтатусу
 [Extra status removed]
-хСтатус видалений
+хСтатус видалено
 [Toggle status notification]
-Вкл/Викл повідомлення про зміну статусу
+Ввімк./Вимк. сповіщення про зміну статусу
 [All Files]
-Всі файли
+Усі файли
 [Log]
 Журнал
 [This is status message]
@@ -316,7 +320,7 @@ WAV файли
 [Show available variables]
 Доступні змінні
 [Reset all templates to default]
-Скинути все на стандартні шаблони
+Скинути всі шаблони на стандартні
 [Protocol]
 Протокол
 [Filtering]
@@ -324,7 +328,7 @@ WAV файли
 [Message log]
 Журнал
 [(was %s)]
-(був %s)
+(був(ла) %s)
 [Open message window]
 Відкрити вікно бесіди
 [Close popup]
@@ -340,9 +344,9 @@ WAV файли
 [You cannot specify a value lower than %d and higher than %d.]
 Значення менше %d або більше %d не допускається.
 [Can't open the log file!]
-Не можу відкрити файл журналу!
+Неможливо відкрити файл журналу!
 [NewXstatusNotify]
-Повідомлення про зміну статусів
+Сповіщення про зміну статусів
 [Mood]
 Настрій
 [Activity]
@@ -352,15 +356,15 @@ WAV файли
 [<unknown>]
 <невідомо>
 [%s, %s. %s removed %s.\r\n]
-%s, %s. %s видалено %s.\r\n
-[%s, %s. %s changed %s to %s.\r\n]
-%s, %s. %s змінений %s на %s.\r\n]
+%s, %s. %s видалив(ла) %s.\r\n
+[%s, %s. %s changed %s to: %s.\r\n]
+%s, %s. %s змінив(ла) %s на: %s.\r\n
 [changed %N to: %T%D%I]
 змінив(ла) %N на: %T%D%I
 [changed %N message to:%D%I]
 змінив(ла) повідомлення %N:%D%I
 [removed %N]
-видалив(а) %N
+видалив(ла) %N
 [changed his/her status message to %n]
 змінив(ла) статусне повідомлення на %n
 [changed %N @ %T%D%I]
@@ -370,6 +374,6 @@ WAV файли
 [has %N @ %T%D%I]
 %N @ %T%D%I
 [These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
-Доступні змінні:\r\n\r\n%N\textra назва статусу (хСтатус, Настрій, Активність)\r\n%T\textra статус хаголовку\r\n%I\textra статус тексту\r\n%D\tdelimiter\r\n%B\tline перерва (можна використовувати в якості роздільника)
-[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n""% c\tCustom Nickname\r\n\\n\tline break\r\n\n\t\ttab stop]
- Доступні змінні:\r\n\r\n%n\tНове статуснє повідомлення\r\n%o\tСтаре статус повідомлень\r\n""% c\tКористувальницький нік\r\n\n\tline зламати\r\n\n\t\ttab стоп
+Доступні змінні:\r\n\r\n%N\tназва xСтатусу (хСтатус, Настрій, Заняття)\r\n%T\tзаголовок xСтатусу\r\n%I\tтекст xСтатусу\r\n%D\tроздільник\r\n%B\tперенос рядка (можна використовувати в якості роздільника)
+[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+Доступні змінні:\r\n\r\n%n\tНове повідомлення статусу\r\n%o\tСтаре повідомлення статусу\r\n%c\tНік\r\n\\n\tПеренос рядка\r\n\\t\tТабуляція

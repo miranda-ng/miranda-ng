@@ -72,6 +72,6 @@
 [Plugins]
 Плагіни
 [New Connection Notification]
-Повідомлення про нове підключення
+Сповіщення про нове підключення
 [First close options window]
 Спочатку закрийте вікно налаштувань

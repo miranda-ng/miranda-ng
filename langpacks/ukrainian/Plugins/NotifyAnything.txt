@@ -34,17 +34,17 @@
 [Password:]
 Пароль:
 [No resource name given.]
-Не ім'я, дане ресурсу.
+Не вказане ім'я ресурсу.
 [Icon indices start at 1.]
 Значок індекси починаються з 1.
 [Could not find the requested icon.]
-Не міг знайти потрібний значок.
+Не вдалося знайти потрібний значок.
 [Application launching is disabled.]
-Запуск програми відключено.
+Запуск програми вимкнено.
 [Unterminated option.]
 Незавершений варіант.
 [No argument given to msg option.]
-Не аргумент, якщо прийняти параметр msg.
+Не вказано аргумент для параметру msg.
 [ID is required for replacement.]
 Ідентифікатор необхідний для заміни.
 [Invalid argument for replace option: ]

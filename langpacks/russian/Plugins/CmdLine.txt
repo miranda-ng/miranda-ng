@@ -64,7 +64,7 @@ Miranda была закрыта или произошла ошибка при о
 [Changes the user's nickname on the given protocol to the new name.\nUsage: setnickname <protocol> new_nickname.]
 Меняет ник пользователя на указанном протоколе.\nИспользование: setnickname <протокол> новый_ник.
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
-Включение и отключения флага "игнорировать" для указанных контактов.\nИспользование:\n  ignore (block | unblock) <контакт> [<контакт> [<контакт> [...]]].\nКоманда переключит (установит или удалит) игнорирование для указанных контактов.
+Включение и отключение флага "игнорировать" для указанных контактов.\nИспользование:\n  ignore (block | unblock) <контакт> [<контакт> [<контакт> [...]]].\nКоманда переключит (установит или удалит) игнорирование для указанных контактов.
 [Command '%s' is not currently supported.]
 Команда '%s' не поддерживается.
 [Wrong number of parameters for command '%s'.]

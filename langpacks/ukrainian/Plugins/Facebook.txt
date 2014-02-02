@@ -168,7 +168,7 @@
 [Sample newsfeed]
 Приклад новини
 [Sample notification]
-Приклад повідомлення
+Приклад сповіщення
 [a sticker]
 стікер
 [files]
@@ -198,7 +198,7 @@
 [%s server connection]
 %s з'єднання з сервером
 [Unable to get Netlib connection for Facebook]
-Не вдається встановити з'єднання Facebook
+Не вдається встановити з'єднання з Facebook
 [Facebook ID must be numeric value.]
 Вкажіть Facebook ID цифрами.
 [Network]

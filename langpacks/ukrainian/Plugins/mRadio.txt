@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: mRadio.dll
 ;  Module: mRadio
-;  Version: 0.0.2.1
+;  Version: 0.0.2.3
 ;  Authors: Awkward
 ;============================================================
 [This plugin plays and records Internet radio streams. Also local media files can be played.]
-Цей плагін дозволяє прослуховувати і записувати інтернет-радіо. Так само може відтворювати локальні файли.
+Дозволяє прослуховувати і записувати інтернет-радіо. Також може відтворювати локальні файли.
 [mRadio Mod]
 Протокол mRadio
 [REC]
@@ -19,7 +19,7 @@
 Жанр
 [Plain]
 Рівнина
-[Купити]
+[Alley]
 Алея
 [Dizzy]
 Запаморочення
@@ -28,7 +28,7 @@
 [Bathroom]
 Ванна
 [Parking Lot]
-Ресторан
+Стоянка
 [Stone Corridor]
 Кам'яний коридор
 [Sewer Pipe]
@@ -60,7 +60,7 @@
 [Station URL (required)]
 Посилання на станцію (потрібно)
 [To INI]
-В файл
+У файл
 [Buffer, ms (5000)]
 Буфер, мс (5000)
 [Add station]
@@ -78,11 +78,11 @@
 [Record path]
 Шлях до запису
 [Padded Cell]
-Мешкаючи камера
+Оббита камера
 [Autoconnect last station]
 Підключатися до останньої станції
 [Concert Hall]
-Концертний хол
+Концертний зал
 [Psychotic]
 Психотичний
 [Forrest]
@@ -92,7 +92,7 @@
 [Hangar]
 Ангар
 [Offline station as Offline]
-Станція "не в мережі" як "не в мережі"
+Станція "Не в мережі" як "Не в мережі"
 [Protocol depending status]
 Статус, залежний від протоколу
 [Continuous record]
@@ -105,8 +105,8 @@
 BASS.DLL не знайдено!
 [Station]
 Станція
-[Custom INI-file]
-Вибраний INI файл
+[Custom INI file]
+Користувальницький INI-файл
 [Radio station URL]
 URL-адреса радіостанції
 [Start record]
@@ -128,7 +128,7 @@ URL станції/плейлиста
 [Can't initialize device]
 Не можу ініціалізувати пристрій
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
-Не вдається підключитися до мережі. Будь ласка, зніміть галку 'Працювати автономно' в настройках браузера Internet Explorer
+Не вдається підключитися до мережі. Будь ласка, зніміть галку "Працювати автономно" в настройках Internet Explorer
 [Start broadcasting]
 Початок мовлення
 [Stop broadcasting]
@@ -148,21 +148,25 @@ URL станції/плейлиста
 [Current status]
 Поточний статус
 [Broadcast ON]
-Мовлення вкл.
+Мовлення ввімк.
 [Broadcast OFF]
-Мовлення викл.
+Мовлення вимк.
 [Add EQ preset]
 Додати налаштування еквалайзера
 [Delete EQ preset]
 Видалити налаштування еквалайзера
 [BASS library path (empty for default)]
-Шлях до бібліотеки BASS (за замовчуванням порожньо)
+Шлях до бібліотеки BASS (за замовчуванням порожній)
 [Tries to connect]
-Спроб підключень
+Спроб підключення
 [Mute]
-Вкл/викл звук
+Ввімк./Вимк. звук
 [mRadio volume control]
 Рівень гучності mRadio
+[mRadio off]
+mRadio вимк
+[mRadio on]
+mRadio ввімк
 [Import File]
 Імпортувати файл
 [Play Station]
@@ -174,7 +178,7 @@ URL станції/плейлиста
 [Oops! BASS error]
 Помилка бібліотеки BASS
 [Mute with Miranda]
-Відключати з іншими звуками Miranda NG
+Вимикати з іншими звуками Miranda NG
 [Advanced]
 Додатково
 [Stop]
@@ -187,13 +191,9 @@ URL станції/плейлиста
 вимкнено
 [Volume]
 Гучність
+[Device list]
+Список пристроїв
 [Equalizer]
 Еквалайзер
 [New]
-Нове
-[Alley]
-
-[Custom INI file]
-Користувальницькі INI-файлу
-[Device list]
-Список пристроїв
+Новий

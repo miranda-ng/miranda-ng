@@ -6,11 +6,11 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
-Надає сервіс спливаючих вікон для різних плагінів.
+Надає сервіс спливаючих вікон для інших плагінів.
 [Content && Style]
 Стиль вікон
 [Go to Customize > Fonts && Colors for fonts and colors options]
-Налаштування шрифтів і кольору: Тонкі Налаштування->Шрифти та кольори
+Налаштування шрифтів і кольорів: Тонке Налаштування -> Шрифти і кольори
 [Miscellaneous]
 Інше
 [Effects]
@@ -138,7 +138,7 @@ History++ для історії вікон
 [General options]
 Загальні параметри
 [Enable this notification]
-Включити це повідомлення
+Ввімкнути це сповіщення
 [Popup timeout:]
 Тривалість:
 [Left click action:]
@@ -150,11 +150,11 @@ History++ для історії вікон
 [Disable when relevant protocol's status is...]
 Вимкнути, коли статус соотв. протоколу...
 [Colors can be configured in\r\nCustomize > Fonts && Colors]
-Кольори налаштовуються в\r\nТонкаі налаштування > Шрифти та кольори
+Кольори налаштовуються в\r\nТонке налаштування -> Шрифти і кольори
 [Більше...]
 Ще...
 [Sec]
-с.
+с
 [0 = Default]
 0=Замовчання
 [-1 = Infinite]
@@ -224,7 +224,7 @@ History++ для історії вікон
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
 Це спеціальний попередній перегляд для налаштувань плагіна спливаючих вікон. Текст і заголовок досить довгі для того, щоб ви змогли налаштувати скін і плагін так, як вам подобається ;)
 [This is a notification message]
-Це повідомлення
+Це сповіщення
 [This is a warning message]
 Це попередження
 [This is an error message]
@@ -236,11 +236,11 @@ History++ для історії вікон
 [Clock]
 Час
 [Popup History is disabled]
-Історія спливаючих вікон відключена
+Історія спливаючих вікон вимкнена
 [Popup History message]
 Історія спливаючих вікон
 [Popups are enabled]
-Вікна включені
+Вікна ввімкнені
 [Popups are disabled]
 Вікна вимкнені
 [With "favorite" overlay]
@@ -248,7 +248,7 @@ History++ для історії вікон
 [With "fullscreen" overlay]
 З накладенням "Повний екран"
 [Refresh skin list]
-Поновити список
+Оновити список
 [Popup Placement]
 Положення
 [Cancel]
@@ -284,11 +284,11 @@ History++ для історії вікон
 [Advanced]
 Додатково
 [Toggle Popups]
-Вкл/Викл сплив. вікна
+Ввімк./Вимк. сплив. вікна
 [Enable Popups]
-Включити спливаючі вікна
+Ввімкнути спливаючі вікна
 [Disable Popups]
-Відключити спливаючі вікна
+Вимкнути спливаючі вікна
 [Popup Plus]
 Спливаючі вікна
 [No effect]
@@ -340,7 +340,7 @@ History++ для історії вікон
 [You cannot specify a value lower than %d and higher than %d.]
 Значення менше %d або більше %d не допускається.
 ['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-Налаштування 'Впорядковувати (зсувати) вікна' вимкнено.\r\nЦе може призвести до перекосу при використанні з\r\nаватарами і заміною тексту (з плагіном NewStatusNotify).\r\n\r\nВключити впорядкування (зрушення) вікон?\r\n
+Налаштування "Впорядковувати (зсувати) вікна" вимкнено.\r\nЦе може призвести до перекосу при використанні з\r\nаватарами і заміною тексту (з плагіном NewXstatusNotify).\r\n\r\nВвімкнути впорядкування (зрушення) вікон?\r\n
 [Popup Plus Warning]
 Попередження Popup Plus
 [Skin preview]
@@ -362,13 +362,13 @@ History++ для історії вікон
 [Global settings]
 Глобальні налаштування
 [Refresh List]
-Поновити список
+Оновити список
 [Error]
 Помилка
 [Warning]
 Попередження
 [Notify]
-Повідомлення
+Сповіщення
 [Popup Mode: Auto]
 Режим спливаючих вікон: за замовчуванням
 [Popup Mode: Favourite]

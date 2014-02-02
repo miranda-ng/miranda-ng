@@ -7,6 +7,8 @@
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
 Підтримка протоколу Mail.ru Агент (MRA) в Miranda NG.
+[E-mail:]
+Пошта
 [Password:]
 Пароль:
 [Create a new Mail.ru account]
@@ -28,9 +30,9 @@
 [Automatically grant authorization to new users]
 Автоматично авторизувати нових користувачів
 [Notify me when a message delivery has failed]
-Повідомити мене, якщо повідомлення не вдалося доставити
+Сповіщати про невдалу доставку повідомлень
 [Notify about new mail if increment]
-Повідомляти тільки про нову пошту
+Сповіщати тільки про нову пошту
 [Notify about new mail tray icon]
 Показувати значок в треї при приході пошти
 [Click to Inbox]
@@ -55,20 +57,28 @@
 Стать:
 [Age:]
 Вік:
+[from:]
+від:
+[to:]
+до:
 [Birthday:]
 День народження:
+[Zodiak:]
+Зодіак:
 [Location]
 Місце
 [Country:]
 Країна:
 [State:]
-Штат:
+Область:
 [Search online users only]
 Тільки підключених користувачів
 [City:]
 Місто:
+[Remember]
+Нагадування
 [Enable avatars support (loading)]
-Включити підтримку аватарів (завантажувати)
+Ввімкнути підтримку аватарів (завантажувати)
 [Server:]
 Сервер:
 [Updates check interval, min]
@@ -118,13 +128,19 @@
 [Popup settings]
 Налаштування спливаючих вікон
 [Enable]
-Включено
+Ввімкнено
+[&Use Windows colors]
+&Кольори Windows
+[Back Color]
+Колір фону
 [Text Color]
 Колір тексту
 [Timeout]
 Таймаут
 [Previe&w]
 &Тест
+[Custom Status "%s" Details]
+хСтатус "%s"
 [Closing in %d]
 Закрити (%d)
 [Title:]
@@ -134,7 +150,9 @@
 [Cancel]
 Скасувати
 [Notify]
-Повідомлення
+Сповіщення
+[Written:]
+Написав:
 [Select e-mail]
 Вибір електронної пошти
 [Male]
@@ -189,10 +207,18 @@
 Водолій
 [Pisces]
 Риби
+[Avatars' plugin connections]
+З'єднання аватарів
 [Avatars: server return HTTP code: %lu]
-Аватари: сервер повернув HTTP код: %lu
+Аватари: сервер повернув HTTP-код: %lu
 [Avatars: can't open file %s, error]
 Аватари: неможливо відкрити файл %s, помилка
+[CHAT plugin is required for conferences. Install it before chatting]
+Для конференцій потрібен модуль StdChat або TabSRMM.
+[invite sender]
+запросити відправника
+[invite new members]
+запросити нових користувачів
 [Your contact wakes you]
 Ваш співрозмовник будить вас
 [Display &Inbox]
@@ -239,6 +265,8 @@
 Відповіді
 [World]
 Світ
+[Send &Nudge]
+&Струсити
 [Mail box deleted]
 Поштова скринька видалена
 [Contact not on server]
@@ -251,10 +279,18 @@
 Повідомлення статусу в блозі
 [New E-mail available in Inbox]
 Нова пошта в папці "Вхідні"
+[Please authorize me]
+Будь ласка, авторизуйте мене
+[Receive files: can't allocate disk space for file, size %lu bytes, error]
+Передача файлів: неможливо виділити пам'ять для файлу, розмір %lu байтів, помилка
+[Receive files: can't open file %s, error]
+Передача файлів: неможливо відкрити файл %s, помилка
+[Receive files: request for file %s not sent, error]
+Передача файлів: запит для файлу %s не надіслано, помилка
 [Send files: can't open file %s, error]
 Відправка файлів: неможливо відкрити файл %s, помилка
 [Send files: requested file: %S - not found in send files list.]
-Відправка файлів: запитаний файл: %S не знайдений серед файлів, підготовлених до відправлення
+Відправка файлів: запитаний файл %S не знайдений серед файлів, підготовлених до відправлення
 [Protocols]
 Протоколи
 [Main Menu]
@@ -283,6 +319,10 @@
 Спливаючі вікна
 [%s connection]
 Підключення %s
+[Mail.ru Xstatus]
+Mail.ru хСтатус
+[Mail.ru extra info]
+Mail.ru додатково
 [E-mail address]
 Адреса E-mail
 [Unread mail is available: %lu/%lu messages]
@@ -291,6 +331,14 @@
 Від: %S\r\nТема: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
 Непрочитаної пошти немає\r\nВсього повідомлень: %lu
+[Closing in %ld]
+Закрито %ld
+[Reply to %s blog status]
+Відповісти на статус у блозі %s
+[Set my blog status]
+Статус мого блогу
+[Written]
+Написав
 [Are you sure?]
 Ви впевнені?
 [Services...]
@@ -336,7 +384,7 @@ MRIM_CS_SMS_ACK: не знайдений в черзі
 [Sick]
 Хворий
 [Home]
-Будинок
+Дім
 [Eating]
 Їм
 [Compass]
@@ -374,11 +422,11 @@ MRIM_CS_SMS_ACK: не знайдений в черзі
 [Relaxing]
 Розслабляюся
 [On the phone]
-На телефоні
+Телефоную
 [In institute]
 В інституті
 [At school]
-В школі
+У школі
 [Wrong number]
 Помилилися номером
 [Laughing]
@@ -431,3 +479,5 @@ MRIM_CS_SMS_ACK: не знайдений в черзі
 Музика
 [Dating]
 Побачення
+[Mobile]
+Мобільний

@@ -28,7 +28,7 @@
 [Backup to folder:]
 Папка для резервних копій
 [Browse...]
-Обрати...
+Огляд...
 [Go to the "Customize -> Folders" to change settings]
 Відкрийте "Тонке налаштування -> Папки" для зміни налаштувань
 [Compress backup to zip-archive]

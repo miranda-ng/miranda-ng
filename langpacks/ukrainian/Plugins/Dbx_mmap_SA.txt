@@ -112,7 +112,7 @@ Secured MMAP: авторизація успішна
 [Too many errors!]
 Забагато помилок!
 [Password is not correct!]
-Пароль неправильный!
+Пароль неправильний!
 [Please enter your new password]
 Будь ласка, введіть новий пароль
 [Password is too short!]

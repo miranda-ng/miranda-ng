@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
 ;============================================================
 [Notifies you if you have unread email on an exchange server.]
-Повідомляє вас про непрочитані повідомлення E-mail на сервері Exchange.
+Сповіщає про непрочитані повідомлення E-mail на сервері Exchange.
 [Unread emails]
 Непрочитані листи
 [Close]

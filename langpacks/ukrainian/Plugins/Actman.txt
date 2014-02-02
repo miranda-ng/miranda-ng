@@ -118,7 +118,7 @@
 [Service name]
 Ім'я служби
 [Use Variables]
-Включити змінні
+Ввімкнути змінні
 [Don't use Variables]
 Вимкнути змінні
 [Miranda service help]
@@ -674,7 +674,7 @@ UTF16+сигнатури
 [Double click on the CList]
 Подвійне клацання у списку контактів
 [Text Editor]
-Текстовый редактор
+Текстовий редактор
 [Script]
 Скрипт
 [Wrap Text]

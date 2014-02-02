@@ -14,11 +14,11 @@
 [&Countdown starts at:]
 Зворотний відлік почнеться:
 [seconds]
-секунд(и)
+секунд
 [Shutdown Events]
 Події автовимкнення
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
-Знову активувати автовиключення з тими ж налаштуваннями, якщо Miranda NG була закрита з включеним автовиключенням.
+Знову активувати автовимкнення з тими ж налаштуваннями, якщо Miranda NG була закрита з увімкненим автовимкненням
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 Ігнорувати приховані і тимчасові контакти при спостереженні за всіма контактами не в мережі
 [Critical Shutdown Events]

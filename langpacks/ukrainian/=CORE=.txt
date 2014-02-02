@@ -1924,7 +1924,11 @@ URL від %s
 [The topic has been changed]
 Зміни теми
 [&Join chat]
-Увійти до чату
+&Увійти до чату
+[&Leave chat]
+&Вийти з чату
+[&Open chat window]
+&Відкрити вікно чату
 [%s has joined]
 %s увійшов
 [You have joined %s]

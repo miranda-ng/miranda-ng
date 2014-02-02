@@ -26,7 +26,7 @@
 [s]
 с
 [Enable popup notification]
-Включити спливаючі вікна
+Ввімкнути спливаючі вікна
 [Respect ignore settings (status changes)]
 Врахувати налаштування ігнору (зміни статусів)
 [Sending text]
@@ -64,7 +64,7 @@
 [Invisible]
 Невидимий
 [On the phone]
-На телефоні
+Телефоную
 [Out to lunch]
 Обідаю
 [Shaking contact list options]
@@ -78,7 +78,7 @@
 [Shaking Message Window Options]
 Тряска вікна повідомлень
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Не можна посилати багато струсів (тільки 1 кожні %d с, %d с залишилося)
+Не можна надсилати багато струсів (тільки 1 кожні %d с, %d с залишилося)
 [Nudge]
 Тряска
 [Default Nudge]

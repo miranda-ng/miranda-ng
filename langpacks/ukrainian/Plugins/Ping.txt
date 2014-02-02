@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Ping labelled IP addresses or domain names.]
-Пінгування IP адрес та доменних імен.
+Пінгування IP-адрес та доменних імен.
 [Delay between pings (secs):]
 Затримка між пінгами (с):
 [Timeout]
@@ -17,8 +17,8 @@
 Історія
 [Log to File]
 Журнал у файл
-[Log Filename]
-Ім'я файлу журналу:
+[Log Filename:]
+Ім'я журналу
 [Network]
 Мережа
 [Popups]
@@ -35,16 +35,16 @@
 Інтерфейс
 [Do not change icon when testing]
 Не змінювати значок при тестуванні
-[Use the Customize/Fonts options to change text size and colour.]
-Налаштування шрифтів у "Тонкі налаштування->Шрифти і кольори"
+[Use the Customize/Fonts options to change text size and color.]
+Налаштуйте шрифти у "Тонке налаштування -> Шрифти і кольори"
 [Indent:]
 Відступ:
 [Row height:]
 Висота рядка:
-[Який repeats for success/failure:]
-Повторювати до результату:
+[Repeats for success/failure:]
+Повторів до результату:
 [Attach to contact list]
-Додати в список
+Додати до списку
 [Use CSV format]
 Формат CSV
 [Add]
@@ -66,7 +66,7 @@
 [Label:]
 Мітка:
 [TCP Connect]
-TCP з'єднання
+TCP-з'єднання
 [Port:]
 Порт:
 [Control Protocol:]
@@ -76,29 +76,31 @@ TCP з'єднання
 [On success, if my status is:]
 При успіху, якщо мій статус:
 [Execute the following command on double-click:]
-Виконати наступну команду подвійному кліку:
+Виконати наступну команду при подвійному кліку:
 [Contact]
 Контакт
 [Protocols]
 Протоколи
-[(Optional) Command-Parameters:]
+[(Optional) Command Parameters:]
 Параметри команди (додатково):
 [Menu]
 Меню
 [Graph]
 Граф
 [Enable]
-Включено
+Ввімкнено
 [Disable all pings]
 Вимкнути всі пінги
 [Enable all pings]
-Включити всі пінги
+Ввімкнути всі пінги
 [Options...]
 Налаштування...
 [Hosts...]
 Хости...
 [PING]
 Пінг
+[Open log file]
+Відкрити журнал
 [All\0*.*\0Text\0*.TXT\0]
 Всі\0*.*\0Текст\0*.TXT\0
 [<none>]
@@ -122,7 +124,7 @@ TCP з'єднання
 [MAX %hd ms]
 МАКС %hd мс
 [MIN %hd ms]
-ХВ %hd мс
+МІН %hd мс
 [%s - setting status of protocol '%S' (%d)]
 %d - встановлення статусу протоколу '%S' (%d)
 [%s - reply, %d]
@@ -132,17 +134,19 @@ TCP з'єднання
 [Disable]
 Вимкнути
 [enabled]
-включений
+ввімкнений
 [double clicked]
 подвійне натискання
 [Ping]
 Пінг
 [Show/Hide &Ping Window]
-Показати/приховати вікно
+Показати/сховати вікно
+[List]
+Список
 [Host %s requests that you reduce the amount of traffic you are sending.]
-Хост %s вимагає зменшити кількість посилається вами трафіку.
+Хост %s вимагає зменшити кількість трафіку, що надходить від вас.
 [Unknown Address]
-Невідомий адреса
+Невідома адреса
 [Unknown]
 Невідомо
 [Responding]

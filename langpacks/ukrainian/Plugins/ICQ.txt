@@ -94,7 +94,7 @@
 [Make me temporarily visible to contacts I send message to]
 Ставати видимим для контакту, якому надсилаєте повідомлення
 [Notify me when a message delivery has failed (recommended)]
-Сповіщати про невдалу доставки повідомлень (старий метод)
+Сповіщати про невдалу доставку повідомлень (старий метод)
 [Never use legacy messaging (server acknowledgements)]
 Ігнорувати старий метод, використовувати сповіщення сервера про доставку
 [Peer-to-peer Messaging]
@@ -190,9 +190,9 @@
 [User Client:]
 Клієнт:
 [Online since:]
-В мережі:
+В мережі з:
 [System up since:]
-Включений з:
+Ввімкнений з:
 [Idle since:]
 Простоює з:
 [Status:]

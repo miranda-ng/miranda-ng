@@ -14,7 +14,7 @@
 [Replace Miranda history]
 Замінити історію
 [Use UTF8 in new files]
-UTF8 в нових файлах
+UTF8 у нових файлах
 [Append extra new line]
 Додатковий рядок
 [Use << and >>]
@@ -73,6 +73,8 @@ UTF8 в нових файлах
 Копіювати
 [Search string was not found!]
 Рядок не знайдено!
+[Save as RTF]
+Зберегти як RTF
 [Color...]
 Колір...
 [Font...]
@@ -94,11 +96,11 @@ UTF8 в нових файлах
 [Sorting and writing database information ( Phase 2 of 2 )]
 Крок 2: Сортування і запис інформації
 [Max line width must be at least %d]
-Макс ширина рядка повинна бути не менше %d
+Макс. ширина рядка повинна бути не менше %d
 [You need to restart Miranda to change the history function]
 Зміни функції історії набудуть чинності після перезапуску Miranda
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
-Не вдалося отримати шлях до Msg_Export.dll\nБудь ласка, знайдіть Msg_Export.txt самостійно
+Не вдалося отримати шлях до Msg_Export.dll\nБудь ласка, знайдіть Msg_Export.txt самостійно.
 [File]
 Файл
 [Nick]
@@ -143,6 +145,8 @@ UTF8 в нових файлах
 Не вдалося перейти до кінця файлу:\n
 [Failed to write message to the file :\n]
 Не вдалося записати повідомлення у файл:\n
+[URL: ]
+Посилання:\s
 [File: ]
 Файл:\s
 [Description: ]
@@ -152,11 +156,13 @@ UTF8 в нових файлах
 [Nick      :]
 Псевдонім :
 [FirstName :]
-Ім'я :
+Ім'я      :
 [LastName  :]
-Прізвище :
+Прізвище  :
+[e-mail    :]
+Пошта     :
 [Reason    :]
-Причина :
+Причина   :
 [The following user made an authorization request:]
 Користувач запросив авторизацію:
 [The following user added you to their contact list:]
@@ -173,8 +179,8 @@ WebPager від:
 Не вдалося записати SMS у файл:\n
 [Unknown event type %d, size %d]
 Невідомий тип події %d, розмір %d
-[Failed to write Unknown event to the file :]
-Не вдалося записати невідому подію у файл:
+[Failed to write Unknown event to the file :\n]
+Не вдалося записати невідому подію у файл :\n
 [User has been deleted. Do you want to delete the file?]
 Контакт видалений. Видалити файл?
 [Failed to delete the file]

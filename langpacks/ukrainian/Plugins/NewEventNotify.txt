@@ -44,7 +44,7 @@
 [Right click actions]
 По правому кліку
 [Timeout actions]
-По закінченню часу
+По закінченні часу
 [Message event only]
 Тільки для повідомлень
 [Don't show popup when message dialog is already open]
@@ -90,7 +90,7 @@
 [Unknown Event]
 Невідома подія
 [Notify of new events]
-Повідомляти про нові події
+Сповіщати про нові події
 [Enable new event notification]
 Увімк. сповіщення про події
 [Disable new event notification]
@@ -100,7 +100,7 @@
 [Received %d contacts.]
 Отримано %d контактів.
 [ added you to the contact list]
- додав вас у свій список
+ додав вас до свого списку
 [ requested authorization]
  запитує авторизацію
 [This is a sample message event :-)]

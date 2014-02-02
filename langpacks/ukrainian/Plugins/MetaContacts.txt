@@ -170,7 +170,7 @@ UIN, E-mail тощо
 [Error]
 Помилка
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
-Видалення метаконтакту.\n\nПродолжить?
+Видалення метаконтакту.\n\nПродовжити?
 [Are you sure?]
 Ви впевнені?
 [Remove from MetaContact]

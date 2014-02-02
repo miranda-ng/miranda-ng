@@ -10,13 +10,13 @@
 [Sticky Notes Options]
 Налаштування
 [Default Note Size]
-Розмір нотатку
+Розмір нотатки
 [Width (Pixels)]
 Ширина
 [Height (Pixels)]
 Висота
 [Notes Appearance]
-Вид нотатоку
+Вигляд нотаток
 [Show Scrollbars]
 Прокрутка
 [Show Buttons]
@@ -28,7 +28,7 @@
 [Startup options]
 Налаштування запуску
 [Hide notes at startup]
-Приховувати нотатки на старті
+Ховати нотатки на старті
 [Add Contact list menu items]
 Пункт у меню контакту
 [(Requires Miranda restart)]
@@ -50,7 +50,7 @@
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
 Дозволяє різним звукам програватися одночасно (можливі небажані наслідки, якщо встановлений плагін користувальницьких звуків.)
 [Add Reminder]
-Додати нотаток
+Додати нагадування
 [Trigger On Time && Date:]
 Дата &і час запуску:
 [Date]
@@ -86,13 +86,15 @@
 [&Remind Again]
 &Нагадати ще раз
 [&Create Note]
-&Створити замітку
+&Створити нотатку
+[&Dismiss]
+Прибрати
 [Reminders]
 Нагадування
 [Add New]
 Додати...
 [Edi&t Reminder]
-Ред&актувати нагадування
+Ред&агувати нагадування
 [New &Reminder]
 Нове &нагадування
 [&Delete Reminder]
@@ -104,9 +106,9 @@
 [&Always On Top]
 &Завжди зверху
 [&New Note]
-Новіий нотаток
+Нова нотатка
 [&Delete Note]
-&Видалити нотаток
+&Видалити нотатку
 [Appearance]
 Зовнішній вигляд
 [Background Color]
@@ -122,7 +124,7 @@
 [Paste Title]
 Вставити заголовок
 [Reset Title]
-Скинути заготовок
+Скинути заголовок
 [Undo]
 Відкотити
 [&Copy]
@@ -146,11 +148,11 @@
 [Delete &All Notes]
 Видалити &всі нотатки
 [&Show / Hide Notes]
-&Показати / Приховати нотатки
+&Показати/Сховати нотатки
 [Notes & Reminders]
 Нотатки і нагадування
 [New Note]
-Новий нотаток
+Нова нотатка
 [Toggle Notes Visibility]
 Перемкнути видимість нотаток
 [Bring All Notes to Front]
@@ -164,9 +166,9 @@
 [Delete All Notes]
 Видалити всі нотатки
 [Show/Hide Notes]
-Показати/Приховати нотатки
+Показати/Сховати нотатки
 [On Top Caption Icon]
-Прикріпіть
+Прикріпити
 [Delete All Reminders]
 Видалити всі нагадування
 [View Reminders]
@@ -174,9 +176,9 @@
 [Not on Top Caption Icon]
 Відчепити
 [Hide Note Icon]
-Приховати замітку
+Сховати нотатку
 [Remove Note Icon]
-Видалити замітку
+Видалити нотатку
 [Reminder Icon]
 Нагадування
 [Bring All to Front]
@@ -186,7 +188,7 @@
 [View Notes]
 Переглянути нотатки
 [Sticky Notes]
-Липка нотатка
+Нотатки
 [Plugins]
 Плагіни
 [Add New Note]
@@ -206,17 +208,51 @@
 [New &Note]
 Нова &нотатка
 [Vie&w Notes]
-Про&огляд нотаток
+Пере&гляд нотаток
 [&Delete All Notes]
 &Видалити всі нотатки
 [&Bring All to Front]
 Перемістити на передній план
+[Black]
+Чорний
+[Maroon]
+Бордовий
+[Green]
+Зелений
+[Olive]
+Оливковий
+[Navy]
+Темно-синій
+[Purple]
+Пурпурний
+[Teal]
+Синьо-зелений
+[Gray]
+Сірий
+[Silver]
+Срібний
+[Red]
+Червоний
+[Orange]
+Жовтогарячий
+[Lime]
+Лайм
+[Yellow]
+Жовтий
+[Blue]
+Синій
+[Fuchsia]
+Фуксія
+[Aqua]
+Блакитний
+[White]
+Білий
 [Are you sure you want to delete this note?]
-Впевнені, що хочете видалити нотатки?
+Впевнені, що хочете видалити нотатку?
 [Notes]
 Нотатка
 [Note text]
-Замітка
+Нотатка
 [Date/Title]
 Дата/заголовок
 [Sticky Note Caption]
@@ -238,9 +274,11 @@
 [Week]
 Тиждень
 [The specified time is invalid due to begin of daylight saving (summer time).]
-Зазначений час недійсне із-за переходу на «літній час»
+Зазначений час недійсний через перехід на «літній час»
 [The specified time is invalid.]
 Зазначений час недійсний.
+[The specified time offset is invalid.]
+Вказане зміщення часу неправильне.
 [&Update Reminder]
 &Оновити нагадування
 [Every]
@@ -261,7 +299,3 @@
 Дата активації
 [Are you sure you want to delete this reminder?]
 Впевнені, що хочете видалити це нагадування?
-[Dismiss]
-Прибрати
-[&Dismiss]
-Прибрати

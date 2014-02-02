@@ -10,25 +10,25 @@
 [Settings]
 Налаштування
 [Default web page]
-Стандартна web-сторінка
+Стандартна веб-сторінка
 [Default file encoding]
-Стандартний кодування файлу
+Стандартне кодування файлу
 [Auto-detect UTF-8]
 Автовизначення UTF-8
 [Show confirmation dialog box]
 Показати діалогове вікно підтвердження
 [Autosend download link to contact]
-Відіслати посилання автоматично
+Надсилати посилання автоматично
 [Web page settings]
-Налаштування веб сторінки
+Налаштування веб-сторінки
 [Web page to configure]
-Web-сторінка для налаштування
+Веб-сторінка для налаштування
 [Configure]
 Налаштувати
 [Default formatting]
 Форматування за замовчанням
 [Auto-detect format from file extension]
-Автоматичне визначення формату з розширення файлу
+Автоматичне визначення формату за розширенням файлу
 [Public paste]
 Розмістити публічно
 [Login as guest]
@@ -68,47 +68,47 @@ Web-сторінка для налаштування
 [Use default codepage]
 Кодування за замовчанням
 [Thai]
-Тайський
+Тайська
 [Japanese]
-Японський
+Японська
 [Simplified Chinese]
-Китайський (спрощений)
+Китайська (спрощена)
 [Korean]
 Корейська
 [Traditional Chinese]
-Китайський (традиційний)
+Китайська (традиційна)
 [Central European]
-Центральноєвропейський
+Центральноєвропейська
 [Cyrillic]
 Кирилиця
 [Cyrillic KOI8-R]
 Кирилиця KOI8-R
 [Latin I]
-Західноєвропейський
+Західноєвропейська
 [Greek]
 Грецька
 [Turkish]
-Турецький
+Турецька
 [Hebrew]
 Іврит
 [Arabic]
 Арабська
 [Baltic]
-Балтійський
+Балтійська
 [Vietnamese]
-В'єтнамський
+В'єтнамська
 [Korean (Johab)]
 Корейська (Johab)
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-Ви ввели невірну кодову сторінку. Виберіть кодову сторінку з випадаючого списку або введіть правильне ім'я.
+Ви ввели неправильну кодову сторінку. Виберіть кодову сторінку з випадаючого списку або введіть правильне ім'я.
 [Invalid codepage]
-Невірна кодова сторінка
+Неправильна кодова сторінка
 [Services]
 Служби
 [Main]
 Головний
 [Web page]
-Web сторінка
+Веб-сторінка
 [All Files (*.*)]
 Усі файли (*.*)
 [Paste It - Select file]
@@ -120,7 +120,7 @@ Web сторінка
 [Paste from file]
 Розмістити з файлу
 [Paste It HTTP connections]
-HTTP підключення Paste It
+HTTP-з'єднання Paste It
 [You can only paste 1 file]
 Ви можете розмістити тільки 1 файл
 [Cannot get data from clipboard]
@@ -138,11 +138,13 @@ HTTP підключення Paste It
 [File '%s' is empty]
 Файл '%s' порожній
 [Error during sending text to web page: %s]
-Помилка при надсиланні тексту на web-сторінку: %s
+Помилка при надсиланні тексту на веб-сторінку: %s
 [Error during sending text to web page]
-Помилка при надсиланні тексту на web-сторінку
+Помилка при надсиланні тексту на веб-сторінку
 [Error during getting user key from web page: %s]
-Помилка при отриманні ключа користувача від web-сторінки: %s
+Помилка при отриманні ключа користувача від веб-сторінки: %s
+[Paste expire date]
+Вставити дату закінчення
 [Never]
 Ніколи
 [10 minutes]
@@ -153,5 +155,3 @@ HTTP підключення Paste It
 1 день
 [1 month]
 1 місяць
-[Paste expire date]
-Вставити дату закінчення

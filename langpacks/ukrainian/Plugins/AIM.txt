@@ -34,7 +34,7 @@ AIM Деталі користувача
 [Disable Extended Status Icons]
 Відключити розширені значки статусу
 [Notify about new mail]
-Повідомляти про нову пошту
+Сповіщати про нову пошту
 [Advanced Options]
 Додатково
 [Instant Idle on Login]
@@ -90,7 +90,7 @@ AIM Встановити Instant Idle
 [Idle]
 Очікування
 [Allow contacts to be notified of:]
-Повідомити про контакти:
+Сповіщати користувачів про:
 [Join Chat Room]
 Зайти у чат
 [Chat Room]
@@ -164,7 +164,7 @@ AIM Встановити Instant Idle
 [Failed to open file: %s : %s]
 Не вдалося відкрити файл: %s : %s
 [AIM Link Protocol]
-Протокол AIM Link
+Протокол AIM
 [%s Protocol]
 Протокол %s
 [%s server connection]

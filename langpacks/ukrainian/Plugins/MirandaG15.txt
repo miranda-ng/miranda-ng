@@ -6,7 +6,6 @@
 ;  Authors: Martin Kleinhans
 ;============================================================
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
-Плагин добавляет возможность использования Miranda NG на ЖК-экране различных устройств Logitech.
 Додає можливість використання Miranda NG на РК-екрані різних пристроїв Logitech.
 [Fonts]
 Шрифти
@@ -47,7 +46,7 @@
 [If the screensaver is active:]
 Якщо активна заставка:
 [Lock the screen]
-Заблокувати экран
+Заблокувати екран
 [Skip driver missing notification]
 Пропускати сповіщення про відсутність драйвера
 [Notifications]

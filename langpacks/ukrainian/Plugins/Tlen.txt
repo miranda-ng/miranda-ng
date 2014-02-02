@@ -40,7 +40,7 @@
 [Clerk]
 Клерк
 [Enable incoming mail notification]
-Ввімк. повідомлення про вхідну пошту
+Ввімк. сповіщення про вхідну пошту
 [Friendship]
 Дружба
 [Connection Host:]

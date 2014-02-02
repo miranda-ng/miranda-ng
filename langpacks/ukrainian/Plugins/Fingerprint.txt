@@ -92,7 +92,7 @@ PHP-клієнт Jabber
 [MP3 Script for mIRC]
 MP3-скрипт для mIRC
 [Mail.Ru Agent (official)]
-Mail.Ru Агент (офіційный)
+Mail.Ru Агент (офіційний)
 [Mail.Ru (unknown client)]
 Mail.Ru (невідомий клієнт)
 [TM 2008 and >]

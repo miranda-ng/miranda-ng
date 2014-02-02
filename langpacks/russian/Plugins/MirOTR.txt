@@ -9,6 +9,8 @@
 Плагин OTR (Off-the-Record) для Miranda NG (использованы код и идеи из SecureIM, Pidgin-OTR и старого плагина Miranda OTR (от SJE)).
 [OTR Generating Private Key]
 OTR Создание личного ключа
+[Generating new private key - please wait.]
+Генерация нового частного ключа - подождите.
 [Default Policy]
 Политика по умолчанию:
 [Always]
@@ -38,7 +40,7 @@ OTR Создание личного ключа
 [Show verification dialog when receiving unverified fingerprint]
 Диалог подтверждения при получении непроверенного отпечатка
 [Set OTR policy per protocol]
-Установить OTR-политику попротокольно
+Установить политику OTR попротокольно
 [Current policy:]
 Текущая политика:
 [Generate new private key]
@@ -46,7 +48,7 @@ OTR Создание личного ключа
 [Forget private key]
 Забыть частный ключ
 [Set OTR policy per contact]
-Установить OTR-политику поконтактно
+Установить политику OTR поконтактно
 [View & Modify status of known fingerprints]
 Просмотр и редактирование статусов известных отпечатков
 [Set verified]
@@ -68,7 +70,7 @@ OTR Создание личного ключа
 [&Yes]
 &Да
 [OTR status]
-OTR-статус
+Статус OTR
 [&Start OTR session]
 &Запустить OTR-сессию
 [&Refresh OTR session]
@@ -101,6 +103,10 @@ OTR-шифрование: завершено
 Шифрованная сессия с '%s' была прекращена.
 [Requesting OTR encrypted session with '%s']
 Запрос шифрованной сессии с '%s'
+[Beginning OTR encrypted session with '%s']
+Начало шифрованной сессии с '%s'
+[Beginning OTR encrypted session with '%s' (NOT VERIFIED)]
+Начало шифрованной сессии с '%s' (не проверен)
 [Trying to refresh OTR encrypted session with '%s']
 Попытка обновления шифрованной сессии с '%s'
 [OTR encrypted session was refreshed by '%s']
@@ -112,7 +118,7 @@ OTR-шифрование: завершено
 [OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
 Шифрованная сессия с '%s' успешно обновлена (не проверен).
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
-Шифрованная сессия была прекращена '%s'. Вы должны сделать тоже самое!
+Шифрованная сессия была прекращена '%s'. Вы должны сделать то же самое!
 [OTR encrypted session with '%s' could not be started]
 Шифрованная сессия с '%s' не может быть запущена.
 [OTR could not encrypt when sending message]
@@ -166,15 +172,15 @@ OTR не является безопасным
 [Default]
 По умолчанию
 [Generating new key for '%s'. Continue?]
-Генерация нового ключа для '% s'. Продолжить?
+Генерация нового ключа для '%s'. Продолжить?
 [Removing key for '%s'. Continue?]
 Удаление ключа для '%s'. Продолжить?
 [OTR Fingerprint Verification]
 Проверка OTR-отпечатка
 [OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is NOT VERIFIED.\nDo you trust it?]
-Шифрованная сессия с '%s'.\nOTR-отпечаток используемый Вашим контактов не проверен.\nВы ему доверяете?
+Шифрованная сессия с '%s'.\nOTR-отпечаток, используемый вашим контактом, не проверен.\nВы ему доверяете?
 [OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is already verified.\nDo you still trust it?]
-Шифрованная сессия с '%s'.\nOTR-отпечаток используемый Вашим контактов проверен.\nВы ему по-прежнему доверяете?
+Шифрованная сессия с '%s'.\nOTR-отпечаток, используемый вашим контактом, проверен.\nВы ему по-прежнему доверяете?
 [Your Fingerprint to tell your contact (use a trusted channel!)]
 Ваш отпечаток для отправки другим контактам (используйте надёжный канал!)
 [VERIFY: Fingerprint from contact]
@@ -208,15 +214,15 @@ OTR-Идентификация с: %s (%s)
 [Authenticating contact:\n%s (%s)]
 Идентификация контакта: \n%s (%s)
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
-Шифрованная сессия с '%s' (непроверен).\nИспользуйте вопрос на который может ответить только Ваш собеседник. 
+Шифрованная сессия с '%s' (непроверен).\nИспользуйте вопрос, на который может ответить только ваш собеседник. 
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]
-Шифрованная сессия с '%s' (проверен).\nПроверьте сессию снова, используя вопрос на который может ответить только Ваш собеседник.
+Шифрованная сессия с '%s' (проверен).\nПроверьте сессию снова, используя вопрос, на который может ответить только ваш собеседник.
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a known password.]
 Шифрованная сессия с '%s' (непроверен).\nИспользуйте известный пароль.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a known password.]
 Шифрованная сессия с '%s' (проверен).\nПроверьте сессию снова, используя известный пароль.
 [Your contact '%s' wants to verify your identity with a question only you can answer.]
-Контакт '%s' желает проверить идентификацию вопросом на который можете ответить только вы.
+Контакт '%s' желает проверить идентификацию вопросом, на который можете ответить только вы.
 [Your contact '%s' wants to verify your identity with a secret password you should know.]
 Контакт '%s' желает проверить идентификацию паролем, который вы должны знать.
 [Fingerprint '%s' still in use in conversation with '%s' (%s). You cannot delete it!]

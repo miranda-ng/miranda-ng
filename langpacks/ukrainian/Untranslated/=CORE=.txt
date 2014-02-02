@@ -1,3 +1,0 @@
-﻿[Group chat log background]
-[&Leave chat]
-[&Open chat window]

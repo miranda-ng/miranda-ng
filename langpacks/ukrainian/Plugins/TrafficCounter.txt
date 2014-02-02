@@ -7,36 +7,42 @@
 ;============================================================
 [Adding traffic and time counters.]
 Лічильник трафіку.
-[Selected підсумки]
+[Selected totals]
 Виділено всього
 [Accounts]
 Облікові записи
+[Units]
+Одиниці
 [Clear statistics]
 Очистити
-[Повідомлення]
-Повідомлення
+[Notification]
+Сповіщення
 [Notify me on every]
-Повідомляти кожні
+Сповіщати кожні
 [kilobytes]
 кілобайт
 [minutes]
-хвилин(и)
-[Background colour:]
+хвилин
+[Background color:]
 Колір фону:
-[Text colour:]
+[Text color:]
 Колір тексту:
 [Reset to default]
 Скинути
 [Popup timeout]
 Тривалість вікна
+[From Popup plugin]
+За замовчуванням
 [Custom]
 Налаштувати
 [Test]
 Тест
 [Show now]
 Показати
-[Space lines between:]
-Відстань між рядками:
+[Space between lines:]
+Між рядками:
+[Counters format string:]
+Формат рядка лічильників:
 [Tooltip format string:]
 Формат підказки:
 [Display traffic for current]
@@ -45,20 +51,32 @@
 Показувати
 [Icon]
 Значок
+[Account name]
+Обліковий запис
+[Current traffic]
+Поточний трафік
+[Total traffic]
+Загальний трафік
+[Current online]
+Поточний онлайн
+[Total online]
+Загальний онлайн
 [General]
-Загальна
+Загальне
 [Draw frame as skin element]
-Отрісовивать фрейм як елемент скіна
-[Show in tooltip traffic window]
+Малювати фрейм як елемент скіна
+[Show tooltip in traffic window]
 Показувати підказку у вікні трафіку
 ["Toggle traffic counter" in main menu]
-"Перемикач лічильника трафіку" в головному меню
+Перемикач лічильника трафіку в головному меню
+[Visible accounts]
+Видимі облікові записи
 [Summary traffic for visible accounts]
 Сумарний трафік для видимих акаунтів
 [Overall traffic]
 Загальний трафік
 [Hide now]
-Приховати
+Сховати
 [Day]
 День
 [Week]
@@ -80,9 +98,9 @@
 [Bytes]
 Байт
 [KB]
-Кб
+КБ
 [MB]
-Мб
+МБ
 [Adaptive]
 Плаваючий
 [Hourly]
@@ -105,18 +123,24 @@
 Сума
 [Online]
 В мережі
+[Now traffic statistics for selected accounts will be cleared.\nContinue?]
+Усю статистику за вибраними обліковими записами буде очищено\nПродовжити?
+[Couldn't read statistics file]
+Неможливо прочитать файл статистики
 [Traffic Counter]
 Лічильник трафіку
 [Font]
 Шрифт
 [Show/Hide frame]
-Показати/Приховати кадр
+Показати/Сховати фрейм
 [Hide traffic window]
-Приховати вікно трафіку
+Сховати вікно трафіку
 [Clear the current (Now:) value]
 Скинути поточне (Now:) значення
+[Toggle traffic counter]
+Перемкнути лічильник трафіку
 [Traffic counter notification]
-Повідомлення лічильника трафіку
+Сповіщення лічильника трафіку
 [%d kilobytes sent]
 %d Кб відправлено
 [%d kilobytes received]

@@ -3,5 +3,3 @@
 [OK]
 [Live ID]
 [%I64u bytes]
-[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-[Notifications]

@@ -32,7 +32,7 @@
 [Enable tracking for these protocols:]
 Ввімкнути відстеження для цих протоколів:
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
-Метаконтакти обробляються особливо: інформація завжди копіюється з субконтактів (повідомлення від метаконтактів ігноруються)
+Метаконтакти обробляються особливо: інформація завжди копіюється з субконтактів (сповіщення від метаконтактів ігноруються)
 [Show popup when a contact change his avatar]
 Спливаюче вікно при зміні аватару
 [Colors]
@@ -44,7 +44,7 @@
 [Use Windows colors]
 Кольори Windows
 [Use default colors]
-Викор. кольори за замовчанням
+Кольори за замовчанням
 [Delay]
 Затримка
 [From Popup plugin]

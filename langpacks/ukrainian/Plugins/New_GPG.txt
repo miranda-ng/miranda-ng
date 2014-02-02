@@ -7,86 +7,72 @@
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Плагін шифрування GPG, заснований на вихідних кодах старого GPG плагіна і SecureIM.
-[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
-Ваша версія GPG підтримується. Мовні файли знайдені.\nGPG Повинен працювати нормально.\nНатисніть ОК.
-[Please choose GPG binary location]
-Виберіть директорію c GnuPG
-[Please set keyring's home directory]
-Виберіть директорію з ключами GnuPG
-[Set GPG bin path and keyring home dir.]
-Вкажіть шлях до виконуваного файлу GnuPG і директорії з ключами
-[Copy own key]
-Копіюв. свій ключ
-[Select own key]
-Вибрати свій ключ
-[Export PubKey]
-Зберегти ключ
-[GnuPG Variables]
-Шлях до GPG
-[Turn on debug log]
-Вкл. запис налагодження
-[Accept]
-Прийняти
-[Accept and enable encryption]
-Прийняти та включити шифрування
-[Replace]
-Замінити
-[Import key]
-Імпорт ключа
 [Load from file]
 Імпорт з файлу
-[Load other]
-Завантажити
-[Delete key]
-Видалити ключ
 [Select existing]
 Вибрати існуючий
 [Turn on encryption]
-Включити шифрування
+Ввімкнути шифрування
 [Import key from keyserver]
 Імпортувати ключі з сервера ключів
-[New public key was received, do you want to import it?]
-Отримано новий відкритий ключ. Ви хочете його взяти?
-[There is existing key for contact, would you like to replace with new key ?]
-Отриманий ключ, але у контакту вже є ключ. Ви хочете його замінити новим?
-[The new public key was recieved]
-Отримано новий відкритий ключ.
-[Received key from]
-Отриманий ключ від
-[Do you want to remove key from entire metacontact (all subcontacts) ?]
-Ви хочете видалити ключ для метаконтакту (всіх субконтактів)?
-[Select existing public key from list]
-Вибрати відкритий ключ зі списку
-[Encrypt file transfers]
-Шифрована передача файлів
-[Use Jabber API on Miranda NG (recommended)]
-Використовувати Jabber api Miranda NG (Рекомендується)
-[Current private key id]
-Закритий ключ
-[This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
-Вибраний вами exe не GnuPG!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
-[Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn.]
-Ваша версія GnuPG не підтримується і може працювати не правильно!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
+[Set own key]
+Вибір власного ключа
 [Generate key]
 Згенерувати
 [Select key to use]
 Вибрати ключ
+[Key password:]
+Пароль ключа:
+[Load other]
+Завантажити
+[Delete key]
+Видалити ключ
 [Generate and use random key]
 Згенерувати і використовувати ключ
+[Account:]
+Обліковий запис:
+[Key ID:]
+ID ключа:
+[Copy public key]
+Копіювати публ. ключ
+[Export private key]
+Експорт приватного ключа
+[Change password]
+Змінити пароль
+[Set GPG bin path and keyring home dir.]
+Вкажіть шлях до виконуваного файлу GnuPG і директорії з ключами
+[Continue]
+Продовжити
+[Home directory:]
+Домашній каталог:
 [GnuPG binary:]
 Шлях до exe:
-[Home directory]
-Домашній каталог:
+[Browse]
+Огляд
 [Turn on key autoexchange]
-Включити автообмін ключами
+Ввімкнути автообмін ключами
+[The new public key was received]
+Отримано новий відкритий ключ.
+[Import key]
+Імпорт ключа
+[Accept and enable encryption]
+Прийняти та ввімкнути шифрування
+[Ignore]
+Ігнорувати
+[Static]
+Статичний
+[Key Generation dialog]
+Створення приватного ключа
+[Cancel]
+Скасувати
 [Key type:]
 Тип ключа:
 [Key length:]
 Довжина ключа
-[Key password:]
-Пароль ключа:
 [Real name:]
 Ім'я/Нік:
+[Email:]
+Пошта:
 [Comment:]
 Коментар:
 [Expire date:]
@@ -99,16 +85,42 @@
 Це може зайняти кілька хвилин.
 [0 - does not expire]
 0 - ніколи не закінчується
+[Select existing public key from list]
+Вибрати відкритий ключ зі списку
+[Enter password for your secret key]
+Введіть пароль для секретного ключа
+[Password:]
+Пароль:
 [Save password to database]
-Зберегти пароль до бази
+Зберегти пароль у базі
 [Default password]
 Пароль за замовчанням
 [Import]
 Імпортувати
 [Select keyserver for key search:]
 Вибрати сервер ключів для пошуку:
+[Received encrypted file from contact with disabled encryption.]
+Отримано зашифрований файл від контакту з обмеженими можливостями шифрування.
+[Choose which keys to export]
+Виберіть ключі для експорту
+[Current password:]
+Поточний пароль:
 [User list:]
 Список користувачів:
+[Export PubKey]
+Зберегти ключ
+[Turn on debug log]
+Ввімк. запис налагодження
+[Use Jabber API on Miranda NG (recommended)]
+Використовувати Jabber API Miranda NG (Рекомендується)
+[Encrypt file transfers]
+Шифрована передача файлів
+[Automatic key exchange]
+Автообмін ключами
+[Copy own key]
+Копіюв. свій ключ
+[Select own key]
+Вибрати свій ключ
 [Add tags to encoded and decoded messages]
 Додавати мітки повідомлень
 [Incoming message tags:]
@@ -118,42 +130,92 @@
 [Open:]
 Початок
 [Close:]
-Кінец
-[Account:]
-Обліковий запис:
-[Key ID]
-Ключ
-[Creation date]
-Дата створення
-[Key length]
-Довжина ключа
-[Own private key warning]
-Попередження! Не вибрано приватний ключ.
-[You didn't set a private key.\nWould you like to set it now?]
-Ви не вибрали приватний ключ.\nВи хочете зробити це зараз?
-[Own Set key]
-Вибір власного ключа
-[Automatic key exchange]
-Автообмін ключами
-[Default private key ID]
-Основний приватний ключ
+Кінець
 [Strip all tags in outgoing messages]
 Видаляти всі мітки з вихідних повідомлень
-[Turn on presence signing (Jabber)]
-Включити підпис повідомлень присутності (Jabber)
+[Turn on presence signing (Jabber) (required by xep 0-27)]
+Ввімкнути підпис повідомлень присутності (Jabber)
 [GPG encryption status]
 Статус шифрування GPG
-[Continue]
-Продовжити
-[Key Generation dialog]
-Створення приватного ключа
-[Copy public key]
-Копіювати публич. ключ
-[Export private key]
-Експорт приватного ключа
 [Export GPG Public keys]
 Експортувати публічні ключі GPG
 [Import GPG Public keys]
 Імпортувати публічні ключі GPG
-[Received encrypted file from contact with disabled encryption.]
-Отримано зашифрований файл від контакту з обмеженими можливостями шифрування.
+[Email]
+Пошта
+[Name]
+Ім'я
+[Creation date]
+Дата створення
+[Key length]
+Довжина ключа
+[Accounts]
+Облікові записи
+[Default]
+За замовчуванням
+[key ID]
+Ключ
+[not set]
+Не встановлено
+[Default private key ID]
+Основний приватний ключ
+[Failed to open file]
+Неможливо відкрити файл
+[Error]
+Помилка
+[Warning]
+Попередження
+[This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
+Вибраний вами exe не GnuPG!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
+Ваша версія GnuPG не підтримується і може працювати неправильно!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
+[Info]
+Інфо
+[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
+Ваша версія GPG підтримується. Мовні файли знайдені.\nGPG Повинен працювати нормально.\nНатисніть ОК.
+[Please choose GPG binary location]
+Виберіть директорію c GnuPG
+[Please set keyring's home directory]
+Виберіть директорію з ключами GnuPG
+[There is existing key for contact, would you like to replace it with new key?]
+Отримано ключ, але у контакту вже є ключ. Ви хочете його замінити новим?
+[New public key was received, do you want to import it?]
+Отримано новий відкритий ключ. Ви хочете його прийняти?
+[Replace]
+Замінити
+[Accept]
+Прийняти
+[Received key from ]
+Отримано ключ від\s
+[Key length must be of length from 1024 to 4096 bits]
+Довжина ключа має бути від 1024 до 4096 біт
+[Invalid Email]
+Неправильний E-mail
+[You didn't set a private key.\nWould you like to set it now?]
+Ви не вибрали приватний ключ.\nВи хочете зробити це зараз?
+[Own private key warning]
+Попередження! Не вибрано приватний ключ.
+[Services]
+Служби
+[Main]
+Головний
+[GnuPG Variables]
+Шлях до GPG
+[Messages]
+Повідомлення
+[Advanced]
+Додатково
+[Contact]
+Контакт
+[Key ID]
+Ключ
+[Protocol]
+Протокол
+[info]
+Інфо
+[Do you want to remove key from entire metacontact (all subcontacts)?]
+Ви хочете видалити ключ для метаконтакту (всіх субконтактів)?
+[LOG files]
+Файли журналу
+[and]
+і

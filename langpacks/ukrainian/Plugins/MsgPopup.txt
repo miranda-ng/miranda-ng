@@ -8,39 +8,39 @@
 [Plugin replaces message boxes (those having only OK button) with popups.]
 Плагін замінює діалогові вікна (у яких є тільки кнопка OK) на спливаючі вікна.
 [ASTERISK style]
-ASTERISK стиль
+З зірочкою
 [Background color]
 Колір фону
 [Text color]
 Колір тексту
 [ERROR style]
-Стиль ПОМИЛОК
+Помилки
 [EXCLAMATION style]
-Стиль ЗНАКІВ
+Зі знаком оклику
 [QUESTION style]
-Стиль ПИТАНЬ
+Запитання
 [Preview]
 Тест
 [Timeout]
 Таймаут
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
-Спеціальні значення "Тайм-аут":\n -1 - нескінченність, 0 - використовувати значення часу очікування за замовчуванням
+Спеціальні значення "Тайм-аут":\n-1 - нескінченність, 0 - значення за замовчуванням
 [Emit a sound]
 Використовувати звук
 [VirtualProtect failed. Code %d\nTry to call the author]
-VirtualProtect не вдалося. Код %d\nСпробуйте зв'язатися з автором
+Помилка VirtualProtect. Код %d\nСпробуйте зв'язатися з автором.
 [Error]
 Помилка
 [Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
-Хм. Щось не ладиться. Я не можу писати в пам'ять.\nІ, як бачите, немає ніяких винятків...\nСпробуйте зв'язатися з автором
+Щось не ладиться. Я не можу писати в пам'ять.\nІ, як бачите, немає ніяких винятків...\nСпробуйте зв'язатися з автором.
 [MessagePopup]
 Попередження
 [Popups]
 Спливаючі вікна
 [Message with question]
-Повідомлення з питанням
+Повідомлення з запитанням
 [Message with exclamation]
-Повідомлення з оклику
+Повідомлення зі знаком оклику
 [Message with error]
 Повідомлення з помилкою
 [Message with asterisk]

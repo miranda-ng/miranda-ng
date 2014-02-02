@@ -248,9 +248,9 @@ URL додаткової інформації
 [To default]
 За замовчанням
 [Enable/disable auto update]
-Вкл/Викл автооновлення
+Ввімк./Вимк. автооновлення
 [Auto Update Enabled]
-Автооновлення включено
+Автооновлення ввімкнено
 [Auto Update Disabled]
 Оновлення вимкнено
 [Weather Condition Changed]
@@ -460,7 +460,7 @@ ID міста
 [Disable &weather notification]
 Вимкнути сповіщення про зміну погоди
 [Enable &weather notification]
-Включити повідомлення про зміну погоди
+Ввімкнути сповіщення про зміну погоди
 [Update Weather]
 Оновити погоду
 [Remove Old Data then Update]
@@ -472,7 +472,7 @@ ID міста
 [Weather]
 Погода
 [Enable/Disable Weather Update]
-Вкл/Викл оновлення погоди
+Ввімк./Вимк. оновлення погоди
 [Update All Weather]
 Оновити погоду
 [Remove Old Data then Update All]

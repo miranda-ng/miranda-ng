@@ -1,5 +1,1 @@
-﻿[Sample page]
-[Use arrow keys to choose category]
-[OK]
-[Configure behavior of your contact list.]
-[Ban those users and events, you are annoyed with.]
+﻿[OK]

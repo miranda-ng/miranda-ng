@@ -7,14 +7,14 @@
 ;  Authors: vu1tur
 ;============================================================
 [Anti-spam plugin with captcha and Bayes filtering.]
-Антиспам плагін з капчі і Байєсівської фільтрації.
+Антиспам з капчею та Байєсівською фільтрацією.
 ; Settings tab
 [Settings]
 Налаштування
 [Enabled accounts:]
-Включити для:
+Ввімкнути для:
 [Auto approve on:]
-Автоподтверждение при:
+Автопідтвердження при:
 [Outgoing message]
 Вихідному повідомленні
 [Incoming message with any word from list:]
@@ -74,7 +74,7 @@
 [Bayes]
 Байєсівської
 [Enabled]
-Включений
+Ввімкнений
 [Learned spam messages:]
 Спам повідомлень у базі:
 [Learned ham messages:]
@@ -87,8 +87,8 @@
 Схвалювати контакт при спам-рейтингу нижче
 [and learn as ham]
 і вважати не спамом
-[Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and of 50 spam messages.]
-Не включайте ці опції, поки в базі не буде як мінімум 20 не спам і 50 спам повідомлень.
+[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
+Не вмикайте ці опції, поки в базі не буде як мінімум 20 не спам і 50 спам повідомлень.
 [Learning options]
 Опції навчання
 [Auto-learn messages from approved contacts as ham]
@@ -111,7 +111,7 @@
 Спам-рейтинг
 ; Popups tab
 [Enable popup notifications]
-Включити повідомлення спливаючими вікнами
+Ввімк. сповіщення у спливаючих вікнах
 [Appearance]
 Зовнішній вигляд
 [Contact blocked]

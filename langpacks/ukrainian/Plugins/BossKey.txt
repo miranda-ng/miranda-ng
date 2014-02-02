@@ -10,7 +10,7 @@
 [BossKey]
 Антибосс
 [Go to Customize -> Hotkeys to change the hotkey]
-Налаштування в Тонкі налаштування -> Гарячі клавіші
+Налаштування в Тонке налаштування -> Гарячі клавіші
 [When I press the hotkey:]
 Коли я натисну гарячу клавішу...
 [Change status to]

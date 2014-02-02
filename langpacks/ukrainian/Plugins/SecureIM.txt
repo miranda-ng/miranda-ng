@@ -10,11 +10,11 @@
 [User List]
 Список
 [Enable Secure Offline messages]
-Включити оффлайн повідомлення
+Ввімкнути оффлайн-повідомлення
 [Enable Secure File Transfer]
 Ввімкнути шифрування файлів
 [Always show status icons in contact list]
-Показувати піктограму у списку контактів
+Показувати значок статусу у списку контактів
 [Context Menu only for "Miranda" clients]
 Пункт меню для Miranda
 [Status in Context Menu]
@@ -22,7 +22,7 @@
 [Disable encryption for game plugins]
 Вимкнути шифрування для "ігрових" плагінів
 [Always secured if possible]
-По можливості включати шифрування
+По можливості вмикати шифрування
 [Not secured for NotOnList]
 Не захищати контакти з "Not-In-List"
 [Auto accept RSA key (NOT SECURED)]
@@ -134,9 +134,9 @@ GPG в SecureIM
 [Always Try to Establish Secure IM]
 Намагатися підключати Secure IM
 [Secure IM Enabled]
-Secure IM Включений
+Secure IM увімкнено
 [Secure IM Disabled]
-Secure IM Вимкнено
+Secure IM вимкнено
 [Pre-shared key]
 Налаштувати ключ
 [Set key]
@@ -188,7 +188,7 @@ SecureIM: Помилка при розшифровці повідомлення,
 [User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
 Користувач не відповів на обмін ключами!\nВаше повідомлення знаходиться в черзі SecureIM, хочете відправити його незашифрованим?
 [SecureIM not enabled! You must enable SecureIM with this user...]
-SecureIM вимкнений! Ви повинні включити його для цього користувача...
+SecureIM вимкнений! Ви повинні ввімкнути його для цього користувача...
 [Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
 Неможливо надіслати зашифроване повідомлення!\nКористувач зараз не в мережі, і ключ шифрування застарів, ви хочете відправити повідомлення?\nВоно буде відправлено незашифрованим!
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
@@ -266,7 +266,7 @@ Keyrings відключені!
 [SecureIM status (disabled)]
 SecureIM (вимкнений)
 [SecureIM status (enabled)]
-SecureIM (включений)
+SecureIM (увімкнений)
 [SecureIM status (always try)
 SecureIM (завжди намагатися)
 [SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]

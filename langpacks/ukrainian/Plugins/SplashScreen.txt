@@ -20,7 +20,7 @@
 [Show Miranda Version]
 Показувати версію Miranda NG
 [Enable]
-Включено
+Ввімкнено
 [Prefix:]
 Префікс:
 [Appearance]

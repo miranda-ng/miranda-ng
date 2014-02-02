@@ -6,7 +6,7 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 [Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
-Плагін повідомляє про повернення контакту або його тривалу відсутність.
+Сповіщає про повернення контакту або його тривалу відсутність.
 [When a contact returns after]
 При появі контакту після
 [Show a popup]
@@ -20,7 +20,7 @@
 [Open message window]
 Відкрити вікно повідомлень
 [Return notification]
-Повідомлення повернення
+Сповіщення повернення
 [When a contact is absent for]
 Коли контакт відсутній
 [Long time no see]
@@ -28,7 +28,7 @@
 [or comes online for the first time]
 чи виходить у мережу вперше
 [Enable "Miss you" feature]
-Включити функцію "Чекаю тебе"
+Ввімкнути функцію "Чекаю тебе"
 [Hide when no messages for]
 Приховати, якщо немає повідомлень
 [Colors]
@@ -62,11 +62,11 @@
 [days]
 днів
 [Never hide this contact]
-Ніколи не приховувати цей контакт
+Ніколи не ховати цей контакт
 [Enable Miss You]
-Включити "Чекаю тебе"
+Ввімкнути "Чекаю тебе"
 [Notify always]
-Notify
+Сповіщати завжди
 [Tray/popup icon]
 Значок в треї/спливаючому вікні
 [Enabled]

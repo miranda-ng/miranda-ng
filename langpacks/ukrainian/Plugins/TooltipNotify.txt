@@ -6,13 +6,13 @@
 ;  Authors: perf
 ;============================================================
 [Shows a small tooltip above system tray area when a contact status is changed.]
-Показує невелике повідомлення-підказку вище області трею при зміні статусу контакту.
+Сповіщення в треї при зміні статусу контакту.
 [Select protocols]
 Протоколи
 [Choose contacts]
 Виберіть контакти
 [Allow tooltip notifications for the following users:]
-Дозволити повідомлення-підказки для наступних категорій користувачів:
+Увімкнути сповіщення для наступних користувачів:
 [Cancel]
 Скасувати
 [Notify upon the following events]
@@ -52,7 +52,7 @@
 [Misc]
 Інше
 [Obey 'Suppress online notification' settings]
-Ввімкнути тимчасову заборону повідомлень
+Ввімкнути тимчасову заборону сповіщень
 [Auto positioning]
 Автопозиция
 [Transparent input]
@@ -68,17 +68,17 @@
 [Idle]
 Очікування
 [Tooltip Notify]
-Спливаючі повідомлення
+Спливаючі сповіщення
 [Other status]
 Інші статуси
 [Tooltip Notify: Online]
-Повідомлення: В мережі
+Сповіщення: В мережі
 [Tooltip Notify: Offline]
-Повідомлення: Не в мережі
+Сповіщення: Не в мережі
 [Tooltip Notify: Other]
-Повідомлення: Інше
+Сповіщення: Інше
 [Tooltip Notify: Typing]
-Повідомлення: Набирають
+Сповіщення: Набирають
 [Popups]
 Спливаючі вікна
 [** New contacts **]

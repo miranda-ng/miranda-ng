@@ -104,11 +104,11 @@
 [Toggle group mode]
 Показати/приховати групи
 [Toggle groups]
-Вкл/Викл групи
+Ввімк./Вимк. групи
 [Toggle show online/offline]
-Вкл/Викл користувачів не в мережі
+Ввімк./Вимк. користувачів не в мережі
 [Toggle sounds]
-Вкл/викл звуки
+Ввімк./Вимк. звуки
 [Thin border]
 Тонка рамка
 [Tool Window]
@@ -210,7 +210,7 @@
 [Hide this contact from the list]
 Сховати контакт зі списку
 [If you enable this, the background settings will affect the entire contact list frame.]
-При включенні налаштування фону будуть використані для всього фрейму списку контактів
+Якщо ввімкнено, налаштування фону будуть використані для всього фрейму списку контактів
 [Ignore selection for groups]
 Ігнорувати виділення для груп
 [Ignore these events]
@@ -344,7 +344,7 @@
 [Use these settings to skin the entire background]
 Використовувати дані налаштування для всього фону
 [When possible, draw status icons in avatar space]
-Коли можливо, малювати піктограми статусу в аватарі
+Коли можливо, малювати значки статусу в аватарі
 [xStatus]
 хСтатус
 [Current view mode: %s]
@@ -356,7 +356,7 @@
 [Copy from]
 Копіювати з
 [Enable floating contacts (required restart)]
-Включити плаваючі контакти (перезавантаження)
+Ввімкнути плаваючі контакти (перезавантаження)
 [Fill with contact list background color]
 Заповнити кольором фон списку
 [First color]

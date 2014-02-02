@@ -112,7 +112,7 @@ Cтупінь
 [Messages]
 Повідомлення
 [Online Notification]
-Повідомлення
+Сповіщення "Онлайн"
 [All Events]
 Всі події
 [None]

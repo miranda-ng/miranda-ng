@@ -9,8 +9,12 @@
 Підтримка нового дизайну вікна налаштувань Miranda NG.
 [Visit official Miranda NG website]
 Офіційний сайт Miranda NG
+[Sample page]
+Приклад сторінки
 [Miranda NG Options]
-Установки Miranda NG
+Налаштування Miranda NG
+[Use arrow keys to choose category]
+Використовуйте клавіші зі стрілками, щоб вибрати категорію
 [Cancel]
 Скасувати
 [Apply]
@@ -20,7 +24,7 @@
 [Advanced]
 Додатково
 [Home]
-Будинок
+Дім
 [Miranda NG configuration center]
 Центр налаштувань Miranda NG
 [Accounts]
@@ -33,23 +37,23 @@
 Змінюйте зовнішній вигляд програми на свій смак.
 [Contacts]
 Контакти
-[Configure behaviour of your contact list.]
-Налаштуйте поведінку вашого списку контактів.
+[Configure behavior of your contact list.]
+Налаштуйте поведінку списку контактів
 [Chats]
 Чати
 [Customize look&&feel of your chat windows here.]
-Налаштуйте зовнішній вигляд вашого вікна бесіди.
+Налаштуйте зовнішній вигляд вікна повідомлень.
 [Ignore]
 Ігнорувати
-[Ban those users and events, you are дратує with.]
-Заблокуйте користувачів і події, які вам не подобаються.
+[Ban those users and events, you are annoyed with.]
+Заблокуйте користувачів та події, які вам не подобаються.
 [Status]
 Статус
 [Set your status messages and idle reporting.]
-Встановіть статусні повідомлення відсутності.
+Встановіть статусні повідомлення та повідомлення відсутності.
 [Addons]
 Плагіни
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
-Управління вашими додатковими плагінами.
+Управління додатковими плагінами.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
-У вас є незбережені зміни.\n Чи ви хочете їх застосувати перед перемиканням?
+У вас є незбережені зміни.\nЗастосувати їх перед перемиканням?

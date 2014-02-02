@@ -32,9 +32,9 @@
 [Gateway:]
 Шлюз:
 [Reset]
-Скидання
+Скинути
 [Notify me when a message delivery has failed]
-Сповіщати про невдалу доставці повідомлень
+Сповіщати про невдалу доставку повідомлень
 [Incoming file transfers]
 Прийом файлів
 [Your host (or router):]
@@ -56,9 +56,9 @@
 [Hotmail]
 Пошта
 [Disable Popup notifications]
-Відключити повідомлення спливаючими вікнами
+Вимкнути сповіщення у спливаючих вікнах
 [Disable Tray notifications]
-Відключити повідомлення в треї
+Вимкнути повідомлення в треї
 [Ignore new messages not in Inbox folder]
 Ігнорувати нові листи не з "Вхідних"
 [Other]
@@ -66,11 +66,11 @@
 [Display errors using popups]
 Показувати помилки у вікнах
 [Enable 'Chat Session Established' popup]
-Спливаюче вікно 'Чат сесія встановлена'
+Спливаюче вікно "Чат-сесія встановлена"
 [Enable 'Contact left channel' popup]
-Спливаюче вікно 'Контакт покинув канал'
+Спливаюче вікно "Контакт покинув канал"
 [Disable Contact List notifications]
-Відключити повідомлення у списку контактів
+Вимкнути сповіщення у списку контактів
 [Set Nickname]
 Введення ніка
 [Cancel]
@@ -94,7 +94,7 @@
 [Place:]
 Місце:
 [MSN Delete Contact]
-Видалення MSN контакту
+Видалення контакту MSN
 [Remove from Hotmail Address book]
 Видалити з адресної книги Hotmail
 [Block Contact]
@@ -124,13 +124,13 @@
 [Contact tried to open an audio conference (not currently supported)]
 Контакт намагався відкрити аудіоконференцію (не підтримується)
 [Accept NetMeeting request from %s?]
-Прийнато NetMeeting запит від %s?]
+Прийняти запит NetMeeting від %s?
 [MSN Protocol]
 Протокол MSN
 [MSN Alert]
-MSN повідомлення
+Сповіщення MSN
 [Chat session established by my request]
-Сесія встановлена на мій запит
+Сесія встановлена за моїм запитом
 [Chat session established by contact request]
 Сесія встановлена за запитом контакту
 [Contact left channel]
@@ -138,19 +138,19 @@ MSN повідомлення
 [This conversation has been inactive, participants will be removed.]
 Ця бесіда неактивна, учасники будуть видалені
 [To resume the conversation, please quit this session and start a new chat session.]
-Щоб продовжити розмову, покиньте цей сеанс і почати новий сеанс.
+Щоб продовжити розмову, покиньте цей сеанс і почніть новий.
 [There is only 1 person left in the chat, do you want to switch back to standard message window?]
-В чаті залишився тільки один людина, повернутися до вікна діалогу?
+У чаті залишився тільки один користувач, повернутися до вікна діалогу?
 [MSN Chat]
-MSN Чат
+Чат MSN
 [Message delivery failed]
 Доставка повідомлення не вдалася
 [User not online]
 Користувач не в мережі
 [MSN Link Protocol]
-Посилання протоколу MSN
+Протокол MSN
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-Контакт %s був видалений з сервера.\nВи впевнені що хочете ви залишити його в вашому списку, щоб зберегти історію?
+Контакт %s був видалений з сервера.\nХочете залишити його у локальному списку, щоб зберегти історію?
 [%s protocol]
 %s протокол
 [Subject: %s]
@@ -182,13 +182,11 @@ MSN Чат
 [Setup Live &Alerts]
 Налаштування Live &Alerts
 [&Start Netmeeting]
-Запустити NetMeeting
-[Avatars]
-Аватари
+&Запустити NetMeeting
 [Custom Smileys]
 Користувацькі смайли
 [Notify]
-Повідомлення
+Сповіщення
 [Error]
 Помилка
 [Protocol icon]
@@ -217,14 +215,14 @@ MSN Чат
 Локальний список
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Імпорт груп з сервера може змінити розташування контактів після наступного входу. Завантажити групи на сервер?
-[The changes you have made you require to reconnect to the MSN Messenger network before they take effect]
-Зміни вступлять при наступному вході в мережу MSN
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+Зміни наберуть чинності при наступному вході до мережі MSN
 [MSN Options]
 Налаштування MSN
 [Automatically obtain host/port]
 Автоматично отримувати хост/порт
 [Manually specify host/port]
-Вказувати хост/порт
+Вказати хост/порт
 [Disable]
 Вимкнути
 [IP info available only after login]
@@ -239,16 +237,16 @@ MSN Чат
 Підключення
 [Server list]
 Список на сервері
-[Повідомлення]
-Повідомлення
+[Notifications]
+Сповіщення
 [Contact tried to send its webcam data (not currently supported)]
 Контакт намагався відправити дані з веб-камери (не підтримується)
 [Contact tried to view our webcam data (not currently supported)]
-Контакт намагався переглянути нашу веб-камеру (не підтримується)
+Контакт намагався переглянути вашу веб-камеру (не підтримується)
 [Live Mail]
-Live пошта
+Пошта Live
 [Live Alert]
-Live повідомлення
+Сповіщення Live
 [%s plugin HTTPS connections]
 %s підключення по HTTPS
 [%s plugin connections]
@@ -260,11 +258,11 @@ Live повідомлення
 [You cannot send message to yourself]
 Ви не можете надсилати повідомлення самому собі
 [Message is too long: SMS page limited to 133 UTF8 chars]
-Занадто велике повідомлення, максимум 133 символу UTF8
+Занадто велике повідомлення, максимум 133 символи UTF8
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
 Повідомлення MSN обмежені 1202 символами UTF-8
 [Offline messaging is not allowed for LCS contacts]
-Повідомлення відключеним LCS контактам неможливі
+Повідомлення відключеним LCS-контактам неможливі
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 Для мережі MSN таймаут відправлення повідомлення повинен бути не менш ніж 60 секунд. Будь ласка, налаштуйте ваш плагін повідомлень.
 [Convert to Chat]

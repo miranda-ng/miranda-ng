@@ -154,7 +154,7 @@ Skype аватари контактів
 [Sex:]
 Стать:
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
-Ви вперше запустили протокол Skype. Хочете включити його для цього профілю Miranda NG? Якщо ви відмовитеся, завжди можна включити його в налаштуваннях.
+Ви вперше запустили протокол Skype. Хочете ввімкнути його для цього профілю Miranda NG? Якщо ви відмовитеся, завжди можна ввімкнути його в налаштуваннях.
 [Skype protocol]
 Протокол Skype
 [Show incoming calls]

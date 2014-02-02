@@ -102,19 +102,19 @@
 [Advanced options]
 Додатково
 [Retrieve XStatus details if auto-retrieve is disabled]
-Запитувати докладний хСтатус, якщо автозапрос вимкнено
+Запитувати докладний хСтатус, якщо автозапит вимкнено
 [Extra icons]
 Екстра значки
 [Smileys support]
-Смайлики
+Смайли
 [Enable SmileyAdd support]
-Підтримка смайликів
+Підтримка смайлів
 [Resize smileys]
 Масштабувати смайли
 [Use protocol smileys]
-Смайлики протоколу
+Смайли протоколу
 [Replace only isolated smileys]
-Тільки смайли через пробіл
+Тільки смайли, оточені пробілами
 [Retrieve new status message]
 Запитувати повідомлення статусу
 [Show tooltip after all content is ready (avatar && status message)]
@@ -122,7 +122,7 @@
 [Status bar and tray tooltip]
 Панель статусу і підказка в треї
 [Limit status messages in status bar and tray tooltips to:]
-Обмежити повідомлення в панелі статусу і в підказці трея до:
+Обмежити повідомлення в панелі статусу і в підказці трею до:
 [characters]
 символів
 [Disable in invisible status]
@@ -204,7 +204,7 @@
 [Icon on right]
 Значок праворуч
 [No icon]
-Без піктограми
+Без значка
 [No title]
 Без заголовка
 [Bottom right]

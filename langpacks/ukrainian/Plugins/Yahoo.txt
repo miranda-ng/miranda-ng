@@ -114,7 +114,7 @@ Yahoo! помилка
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Повідомлення занадто довге: Yahoo! обмежено 800 UTF8 символів
 [YAHOO Link Protocol]
-Посилання протоколу Yahoo!
+Протокол Yahoo!
 [The changes you have made you to require reconnect to the Yahoo network before they take effect]
 Зміни вступлять при наступному вході в мережу Yahoo!.
 [YAHOO Options]

@@ -22,7 +22,7 @@
 [Close after:]
 Закрити після:
 [sec (0 default,\n -1 disabled)]
-с (0 замовчання,\n -1 вимкнути)
+с (0 замовчання,\n-1 вимкнути)
 [...but only if popup not clicked]
 ...але тільки якщо сплив. вікно не натиснуте
 [Left button click cmd:]
@@ -30,7 +30,7 @@
 [Command parameters:]
 Параметри команди:
 [Remember newest message ID\n and don't show older]
-Пам'ятати ID останнього повідомлення\n і не показувати старі
+Пам'ятати ID останнього повідомлення\nі не показувати старі
 [version:]
 Версія:
 [Clear popups history]

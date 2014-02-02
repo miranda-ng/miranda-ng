@@ -25,6 +25,8 @@
 Загальне
 [Title]
 Заголовок
+[URL]
+Посилання
 [Check every]
 Перев. кожні
 [minutes]
@@ -90,7 +92,7 @@
 [OPML files]
 Файли OPML
 [Not valid import file.]
-Невірний файл для імпорту
+Неправильний файл для імпорту
 [Protocol icon]
 Значок протоколу
 [Check All Feeds]
@@ -148,10 +150,8 @@ URL сторінки з коментарями до новини.
 [Avatars]
 Аватари
 [Enable/disable auto update]
-Увімк/Вимк автооновлення
+Увімк./Вимк. автооновлення
 [NewsAggregator HTTP connection]
 HTTP-з'єднання каналів новин
 [Feed]
 Канал
-[URL]
-Посилання

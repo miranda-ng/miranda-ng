@@ -46,7 +46,7 @@
 [Input area]
 Поле вводу
 [Enable smileys]
-Включити смайли
+Ввімкнути смайли
 [Don't replace at cursor]
 Не замінювати під курсором
 [Built-in message dialog support]
@@ -86,7 +86,7 @@ HTTP підключення SmileyAdd
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Проблеми з завантаженням набору смайлів (необхідно виправити).\nДля подробиць дивіться мережевий журнал.
 [Smiley #%u in file %s for smiley pack %s not found.]
-Смайл #%u у файлі %s для набору смайликів %s не знайдено.
+Смайл #%u у файлі %s для набору смайлів %s не знайдено.
 [Standard]
 Стандартні
 [Regular expression\"% s \ " in smiley pack "%s \ " could produce "empty matches".]
