@@ -59,7 +59,6 @@ const LPSTR lpcszStatusUri[] =
 	"status_51",
 	"status_52",
 	"status_53",
-	"status_dating",
 	"status_mobile",
 	NULL
 };
@@ -115,8 +114,6 @@ const LPWSTR lpcszXStatusNameDef[] =
 	LPGENT("Squirrel"),
 	LPGENT("Star"),
 	LPGENT("Music"),
-	LPGENT("Dating"),
-	LPGENT("Mobile"),
 	NULL
 };
 

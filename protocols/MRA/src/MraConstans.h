@@ -229,9 +229,8 @@ extern const LPSTR  lpcszStatusUri[];
 extern const LPWSTR lpcszXStatusNameDef[];
 
 #define MRA_XSTATUS_MENU        "/menuXStatus"
-#define MRA_XSTATUS_COUNT       51
+#define MRA_XSTATUS_COUNT       49
 #define MRA_MIR_XSTATUS_NONE    0
-#define MRA_MIR_XSTATUS_MOBILE  50
 #define MRA_MIR_XSTATUS_UNKNOWN MRA_XSTATUS_COUNT
 
 #define MRA_XSTATUS_OFFLINE     0
@@ -240,7 +239,7 @@ extern const LPWSTR lpcszXStatusNameDef[];
 #define MRA_XSTATUS_INVISIBLE   3
 #define MRA_XSTATUS_DND         4
 #define MRA_XSTATUS_CHAT        5
-#define MRA_XSTATUS_MOBILE      55
+#define MRA_XSTATUS_MOBILE      54
 #define MRA_XSTATUS_UNKNOWN     100
 
 #define MRA_XSTATUS_INDEX_OFFSET	6
