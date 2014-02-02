@@ -235,15 +235,25 @@ begin
   end;
 
   num:=GetDeviceNumber;
+  // Bass_ErrorGetCode=BASS_ERROR_NO3D
   result:=BASS_Init(num,44100,BASS_DEVICE_3D,0,nil);
-  if not result then
+  if (not result) and (Bass_ErrorGetCode()=BASS_ERROR_NO3D) then
     result:=BASS_Init(num,44100,0,0,nil);
   // not default device choosed - check default now
   if (not result) and (num>=0) then
   begin
     result:=BASS_Init(-1,44100,BASS_DEVICE_3D,0,nil);
-    if not result then
+    if (not result) and (Bass_ErrorGetCode()=BASS_ERROR_NO3D) then
       result:=BASS_Init(-1,44100,0,0,nil);
+  end;
+
+  // BASS interface compatibility
+  if not result then
+  begin
+    if BASS_ErrorGetCode()=BASS_ERROR_ALREADY then
+    begin
+      result:=true;
+    end;
   end;
 
   if not result then
