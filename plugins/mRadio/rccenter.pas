@@ -1,17 +1,25 @@
 {}
+unit rccenter;
 
-function GetStatusText(status:integer;toCList:boolean=false):PWideChar;
-begin
-  case status of
-    RD_STATUS_PAUSED : result:='paused';
-    RD_STATUS_STOPPED: if toCList then result:=nil else result:='stopped';
-    RD_STATUS_CONNECT: result:='connecting';
-    RD_STATUS_ABORT  : result:='aborting';
-    RD_STATUS_PLAYING: if toCList then result:=nil else result:='playing';
-  else
-    result:=nil;
-  end;
-end;
+interface
+
+uses
+  windows;
+
+function ControlCenter(code:WPARAM;arg:LPARAM):int_ptr; cdecl;
+
+implementation
+
+uses
+  common, m_api,
+  dbsettings, playlist, mirutils,
+  rglobal, rbass,
+  Dynamic_Bass,
+  syswin;
+
+const
+  optCurElement :PAnsiChar = 'LastPlayed';
+  optActiveURL  :PAnsiChar = 'ActiveURL'; // center
 
 procedure ConstructMsg(artist,title:PWideChar;status:integer=-1);
 var
@@ -112,21 +120,21 @@ begin
       // play new station?
       if arg<>0 then
       begin
-        ActiveURLw:=DBReadUnicode(arg,PluginName,optStationURL);
+        ActiveURL:=DBReadUnicode(arg,PluginName,optStationURL);
         // no URL for this contact
-        if (ActiveURLw=nil) or (ActiveURLw^=#0) then exit;
+        if (ActiveURL=nil) or (ActiveURL^=#0) then exit;
 
         ActiveContact:=arg;
-        RemoteSong:=StrPosW(ActiveURLw,'://')<>nil;
+        RemoteSong:=StrPosW(ActiveURL,'://')<>nil;
 
-        if isPlaylist(ActiveURLw)<>0 then
+        if isPlaylist(ActiveURL)<>0 then
         begin
 
           if RemoteSong then
           begin
             GetTempPathW(MAX_PATH,tmpbuf);
             GetTempFileNameW(tmpbuf,'mr',GetCurrentTime,buf1);
-            if not GetFile(ActiveURLw,buf1,hNetLib) then
+            if not GetFile(ActiveURL,buf1,hNetLib) then
             begin
               exit;
             end;
@@ -135,7 +143,7 @@ begin
           end
           else
           begin
-            plFile:=ActiveURLw;
+            plFile:=ActiveURL;
             plLocal:=true;
           end;
 
@@ -160,15 +168,15 @@ begin
                 plist.Track:=DBReadWord(ActiveContact,PluginName,optCurElement);
             end;
 
-            mFreeMem(ActiveURLw);
-            ActiveURLw:=plist.GetSong;
+            mFreeMem(ActiveURL);
+            ActiveURL:=plist.GetSong;
           end;
-          RemoteSong:=StrPosW(ActiveURLw,'://')<>nil; // coz activeuRLw can be changed
+          RemoteSong:=StrPosW(ActiveURL,'://')<>nil; // coz ActiveURL can be changed
         end
         else
           plist:=nil;
 
-        if (ActiveURLw<>nil) and (ActiveURLw^<>#0) then
+        if (ActiveURL<>nil) and (ActiveURL^<>#0) then
         begin
           if RemoteSong then
           begin
@@ -182,7 +190,7 @@ begin
           ControlCenter(MRC_STATUS,RD_STATUS_NEWSTATION);
           if Assigned(plist) then
             ControlCenter(MRC_STATUS,RD_STATUS_CONNECT);
-          mir_forkthread(@OpenURL,ActiveURLw);
+          {CloseHandle}(mir_forkthread(@OpenURL,ActiveURL));
         end;
       end
       // play current from start
@@ -193,9 +201,9 @@ begin
         arg :=RD_STATUS_PLAYING;
       end
       // play playlist entry?
-      else if Assigned(plist) and (ActiveURLw<>nil) and (ActiveURLw^<>#0) then
+      else if Assigned(plist) and (ActiveURL<>nil) and (ActiveURL^<>#0) then
       begin
-        mir_forkthread(@OpenURL,ActiveURLw);
+        {CloseHandle}(mir_forkthread(@OpenURL,ActiveURL));
       end;
     end;
 
@@ -280,7 +288,7 @@ begin
       if Assigned(plist) then
       begin
         StopStation;
-        ActiveURLw:=plist.Next;
+        ActiveURL:=plist.Next;
         ControlCenter(MRC_PLAY,0);
       end;
     end;
@@ -289,7 +297,7 @@ begin
       if Assigned(plist) then
       begin
         StopStation;
-        ActiveURLw:=plist.Previous;
+        ActiveURL:=plist.Previous;
         ControlCenter(MRC_PLAY,0)
       end;
     end;
@@ -378,10 +386,10 @@ begin
 
           RD_STATUS_NEWTRACK: begin
             SetStatus(ActiveContact,ID_STATUS_ONLINE);
-            DBWriteUnicode(0,PluginName,optActiveURL,ActiveURLw);
+            DBWriteUnicode(0,PluginName,optActiveURL,ActiveURL);
 
             DBWriteString(0,PluginName,optActiveCodec,GetMusicFormat);
-            arg :=lparam(ActiveURLw);
+            arg :=lparam(ActiveURL);
 
             // for case when tags was in meta
             artist:=DBReadUnicode(0,PluginName,optArtist);
@@ -408,7 +416,7 @@ begin
             if arg=0 then
             begin
               PlayStatus:=RD_STATUS_PLAYING;
-              if StrPosW(ActiveURLw,'://')=nil then //local only
+              if StrPosW(ActiveURL,'://')=nil then //local only
               begin
                 artist:=DBReadUnicode(0,PluginName,optArtist);
                 title :=DBReadUnicode(0,PluginName,optTitle);
@@ -431,3 +439,5 @@ begin
 
   end;
 end;
+
+end.

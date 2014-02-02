@@ -422,6 +422,7 @@ function CallContactService(hContact:THANDLE;const name:PAnsiChar;wParam:WPARAM;
 function CallProtoService(const szModule:PAnsiChar;const szService:PAnsiChar;wParam:WPARAM;lParam:LPARAM):int_ptr; cdecl;
                  external CoreDLL name 'CallProtoService';
 
+
 ///////////////////////////////////////////////////////////////////////////////
 // http
 
@@ -685,6 +686,22 @@ procedure ProtoConstructor(pThis:pointer{PPROTO_INTERFACE}; const pszModuleName:
 procedure ProtoDestructor(pThis:pointer{PPROTO_INTERFACE}); stdcall;
                  external CoreDLL name 'ProtoDestructor';
 
+{!!
+typedef void (__cdecl PROTO_INTERFACE::*ProtoThreadFunc)(void*);
+procedure   ProtoForkThread(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param);
+function ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param, UINT* threadID):THANDLE;
+
+typedef int (__cdecl PROTO_INTERFACE::*ProtoEventFunc)(WPARAM, LPARAM);
+procedure   ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szName, ProtoEventFunc pFunc);
+function ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char* szService):THANDLE;
+
+typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFunc)(WPARAM, LPARAM);
+procedure ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc);
+
+typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFuncParam)(WPARAM, LPARAM, LPARAM);
+procedure ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
+}
+
 procedure ProtoLogA(pThis:pointer{PPROTO_INTERFACE}; szFormat :pAnsiChar; args:va_list); stdcall;
                  external CoreDLL name 'ProtoLogA';
 procedure ProtoLogW(pThis:pointer{PPROTO_INTERFACE}; wszFormat:pWideChar; args:va_list); stdcall;
@@ -706,6 +723,7 @@ function ProtoGetAvatarFileFormat(const szFileName:PWideChar):int; stdcall;
 // ptszExtension might be NULL
 function ProtoGetBufferFormat(const buf:PByte; var ext:PWideChar):int; stdcall;
                  external CoreDLL name 'ProtoGetBufferFormat';
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // sha1 functions
@@ -737,12 +755,13 @@ procedure mir_hmac_sha1(hashout:SHA1Hash; const key:pbyte; keyLen:size_t;
                         const dataIn:pbyte; dataLen:size_t); stdcall;
                  external CoreDLL name 'mir_hmac_sha1';
 
+
 ///////////////////////////////////////////////////////////////////////////////
 // strings
 
 function mir_base64_decode(str:pAnsiChar; var resultSize:int):pByte; stdcall;
                external CoreDLL name 'mir_base64_decode';
-function mir_base64_encode(data:PByte; dataSize:int):pAnsiChar; stdcall;
+function mir_base64_encode(str:pByte; dataSize:int):pAnsiChar; stdcall;
                external CoreDLL name 'mir_base64_encode';
 function mir_base64_encodebuf(data:PByte; dataSize:int; output:pAnsiChar; outputLen:int):pAnsiChar; stdcall;
                external CoreDLL name 'mir_base64_encodebuf';
@@ -757,6 +776,7 @@ function ltrim(str:pAnsiChar):pAnsiChar; stdcall;
                external CoreDLL name 'ltrim';
 function ltrimw(str:pWideChar):pWideChar; stdcall;
                external CoreDLL name 'ltrimw';
+
 // returns pointer to the trimmed portion of string
 function ltrimp(str:pAnsiChar):pAnsiChar; stdcall;
                 external CoreDLL name 'ltrimp';
@@ -783,6 +803,7 @@ function bin2hex(data:pointer; dataLen:size_t; pDest:pAnsiChar):pAnsiChar; stdca
                  external CoreDLL name 'bin2hex';
 function bin2hexW(data:pointer; dataLen:size_t; pDest:pWideChar):pWideChar; stdcall;
                  external CoreDLL name 'bin2hexW';
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // text conversion functions

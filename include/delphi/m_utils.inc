@@ -361,6 +361,8 @@ const
 {
   variables known by the core:
   ----------------------------
+  folders comes without trailing slash
+
   %miranda_profile%     -> same as MS_DB_GETPROFILEPATH, base folder for all profiles
   %miranda_userdata%    -> the active profile folder (home of the .dat file and all
                            profile data)

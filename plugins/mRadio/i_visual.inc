@@ -1,4 +1,8 @@
 {Visual part}
+var
+  hCMenuItemRec,
+  hCMenuItemPlay:THANDLE;
+
 function OnContactMenu(hContact:WPARAM;lParam:LPARAM):int;cdecl;
 var
   mi:TCListMenuItem;

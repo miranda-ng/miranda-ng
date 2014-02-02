@@ -35,7 +35,7 @@ begin
     case i of
       0: res:=DBReadUnicode(ActiveContact,strCList  ,optMyHandle);
       1: res:=DBReadUnicode(ActiveContact,PluginName,optStationURL);
-      2: StrDupW(res,ActiveURLw);
+      2: StrDupW(res,ActiveURL);
       3: res:=DBReadUnicode(ActiveContact,PluginName,optGenre);
       4: res:=DBReadUnicode(ActiveContact,PluginName,optBitrate);
       5: res:=MakeMessage;

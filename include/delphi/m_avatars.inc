@@ -261,7 +261,7 @@ const
   {
     fired when the contacts avatar is changed by the contact
     wParam = hContact
-    lParam = struct CONTACTAVATARCHANGENOTIFICATION *cacn
+    lParam = struct CONTACTAVATARCHANGEDNOTIFICATION *cacn
     the event CAN pass a NULL pointer in lParam which means that the contact deleted its avatar
   } 
   ME_AV_CONTACTAVATARCHANGED:PAnsiChar = 'SV_Avatars/ContactAvatarChanged';

@@ -1,4 +1,26 @@
 {mRadio frame}
+unit rframeapi;
+
+interface
+
+uses
+  windows;
+
+const
+  hVolFrmCtrl:HWND=0;
+
+procedure CreateFrame(parent:HWND);
+procedure DestroyFrame;
+
+implementation
+
+uses
+  messages,commctrl,
+  m_api,common,
+  rglobal;
+
+{$include mr_rc.inc}
+
 const
   frm_back:pAnsiChar = 'Frame background';
 const
@@ -28,40 +50,44 @@ begin
     result:=CallWindowProc(OldSliderWndProc, Dialog, hMessage, wParam, lParam);
 end;
 
+procedure MakeTooltip(Dialog:HWND);
+var
+  hwndTooltip:HWND;
+  ti:TTOOLINFOW;
+begin
+  hwndTooltip:=CreateWindowW(TOOLTIPS_CLASS,nil,TTS_ALWAYSTIP,
+      integer(CW_USEDEFAULT),integer(CW_USEDEFAULT),
+      integer(CW_USEDEFAULT),integer(CW_USEDEFAULT),
+      Dialog,0,hInstance,nil);
+
+  FillChar(ti,SizeOf(ti),0);
+  ti.cbSize  :=sizeof(TOOLINFO);
+  ti.uFlags  :=TTF_IDISHWND or TTF_SUBCLASS;
+  ti.hwnd    :=Dialog;
+  ti.hinst   :=hInstance;
+  ti.uId     :=GetDlgItem(Dialog,IDC_RADIO_MUTE);
+  ti.lpszText:=pWideChar(TranslateW('Mute'));
+  SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,tlparam(@ti));
+end;
+
 function RadioFrameProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
 var
   urd:TUTILRESIZEDIALOG;
   rc:TRECT;
-  ti:TTOOLINFOW;
-  hwndTooltip:HWND;
   tmp:pAnsiChar;
 begin
   result:=0;
   case hMessage of
     WM_DESTROY: begin
       hVolFrmCtrl :=0;
-      hMuteFrmCtrl:=0;
       DeleteObject(hbr);
     end;
 
     WM_INITDIALOG: begin
-      hMuteFrmCtrl:=GetDlgItem(Dialog,IDC_RADIO_MUTE);
-      SendMessage(hMuteFrmCtrl, BUTTONSETASFLATBTN,0,0);
+      SendDlgItemMessage(Dialog,IDC_RADIO_MUTE, BUTTONSETASFLATBTN,0,0);
 //      SetButtonIcon(hMuteFrmCtrl,IcoBtnOn);
 
-      hwndTooltip:=CreateWindowW(TOOLTIPS_CLASS,nil,TTS_ALWAYSTIP,
-          integer(CW_USEDEFAULT),integer(CW_USEDEFAULT),
-          integer(CW_USEDEFAULT),integer(CW_USEDEFAULT),
-          Dialog,0,hInstance,nil);
-
-      FillChar(ti,SizeOf(ti),0);
-      ti.cbSize  :=sizeof(TOOLINFO);
-      ti.uFlags  :=TTF_IDISHWND or TTF_SUBCLASS;
-      ti.hwnd    :=Dialog;
-      ti.hinst   :=hInstance;
-      ti.uId     :=hMuteFrmCtrl;
-      ti.lpszText:=pWideChar(TranslateW('Mute'));
-      SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,tlparam(@ti));
+      MakeTooltip(Dialog);
 
       hVolFrmCtrl:=GetDlgItem(Dialog,IDC_RADIO_VOL);
       SendMessage(hVolFrmCtrl,TBM_SETRANGE,0,MAKELONG(0,100));
@@ -103,7 +129,7 @@ begin
     end;
 
     WM_CTLCOLORBTN: begin
-      if THANDLE(lParam)=hMuteFrmCtrl then
+      if THANDLE(lParam)=GetDlgItem(Dialog,IDC_RADIO_MUTE) then
       begin
         SetBkColor(wParam, frm_bkg);
         result:=hbr;
@@ -128,7 +154,7 @@ begin
         BN_CLICKED: begin
           case loword(wParam) of
             IDC_RADIO_MUTE: begin
-              Service_RadioMute(0,1);
+              CallService(MS_RADIO_MUTE,0,1);
             end;
           end;
         end;
@@ -137,7 +163,7 @@ begin
 
     WM_HSCROLL: begin
 //      gVolume:=SendMessage(lParam,TBM_GETPOS,0,0);
-      Service_RadioSetVolume(SendMessage(lParam,TBM_GETPOS,0,0){gVolume},2)
+      CallService(MS_RADIO_SETVOL,SendMessage(lParam,TBM_GETPOS,0,0){gVolume},2)
     end;
 
   else
@@ -220,7 +246,7 @@ begin
       hbr:=0;
       colorhook:=HookEvent(ME_COLOUR_RELOAD,@ColorReload);
       ColorReload(0,0);
-      Service_RadioSetVolume(gVolume,0);
+      CallService(MS_RADIO_SETVOL,gVolume,0);
     end;
   end;
 end;
@@ -236,3 +262,5 @@ begin
   DestroyWindow(FrameWnd);
   FrameWnd:=0;
 end;
+
+end.

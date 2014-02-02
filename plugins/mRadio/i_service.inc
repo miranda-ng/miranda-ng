@@ -13,8 +13,8 @@ begin
       result:=PF4_NOCUSTOMAUTH or PF4_AVATARS;
     PFLAG_UNIQUEIDTEXT:
       result:=int_ptr(Translate('Radio station URL'));
-//    PFLAG_UNIQUEIDSETTING:
-//      result:=int_ptr(optStationURL)
+    PFLAG_UNIQUEIDSETTING:
+      result:=int_ptr(optStationURL)
     else
       result:=0;
   end
@@ -53,7 +53,7 @@ begin
     end;
     if StrPosW(buf,'%radio_active%')<>nil then
     begin
-      StrReplaceW(buf,'%radio_active%',ActiveURLw);
+      StrReplaceW(buf,'%radio_active%',ActiveURL);
     end;
     if StrPosW(buf,'%radio_genre%')<>nil then // saved as String
     begin
@@ -99,7 +99,7 @@ begin
   if (ccs^.hContact<>0) and (PluginStatus=ID_STATUS_ONLINE) and
      (DBReadWord(ccs^.hContact,PluginName,optStatus,ID_STATUS_OFFLINE)=ID_STATUS_ONLINE) then
   begin
-    mir_forkthread(@GetAwayMsgProc,pointer(ccs^.hContact));
+    {CloseHandle}(mir_forkthread(@GetAwayMsgProc,pointer(ccs^.hContact)));
     result:=AckHandle;
   end
   else
@@ -134,17 +134,13 @@ begin
   if wParam=PluginStatus then
     exit;
 
-  mFreeMem(proxy);
   PluginStatus:=ID_STATUS_OFFLINE;
 
   if wParam<>ID_STATUS_OFFLINE then
   begin
-    if MyInitBASS<>0 then
+//    if MyInitBASS then
     begin
       PluginStatus:=ID_STATUS_ONLINE;
-
-      proxy:=GetProxy(hNetLib);
-      BASS_SetConfigPtr(BASS_CONFIG_NET_PROXY,proxy);
 
       if (ActiveContact<>0) and (AuConnect<>0) then
         CallService(MS_RADIO_COMMAND,MRC_PLAY,ActiveContact);
@@ -153,13 +149,13 @@ begin
   else //offline
   begin
     CallService(MS_RADIO_COMMAND,MRC_STOP,0);
-//    StopStation;
   end;
   SetStatus(0,ID_STATUS_OFFLINE);
 
   ProtoBroadcastAck(PluginName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,OldStatus,PluginStatus);
 end;
 
+// really, can be replaced by helper function. this one more effective
 function CreateProtoService(serviceName:PAnsiChar;pFunc:pointer):THANDLE;
 var
   temp:array [0..MAXMODULELABELLENGTH-1] of AnsiChar;

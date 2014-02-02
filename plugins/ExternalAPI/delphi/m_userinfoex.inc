@@ -257,52 +257,6 @@ Slightly modified version of MButtonClass, to draw both text and icon in a butto
 }
   UINFOBUTTONCLASS = 'UInfoButtonClass';
 
-(*!! DELETED
-{*************************************************************
- *  Messagebox module
-}
-
-{ UserInfo/MsgBox  v0.1.0.3+
-Some little changed message box for nicer look of miranda's messages or questions :-)
-wParam=hContact      - can be null
-lParam=(TMsgBox* )pMsg  - structure that holds information about the look of the message dialog
-uType member of TMsgBox can be a combination of the following values, where most of them are defined in winuser.h:
-MB_OK
-MB_OKCANCEL
-MB_YESALLNO
-MB_YESNO
-For valid icon values use one of the following MB_ICON_...
-Funktion returns: IDOK, IDYES, IDALL, IDNO or IDCANCEL
-}
-  MB_YESALLNO = $00000007;
-  MB_UNICODE  = $10000000;
-
-{
-valid predefined icon values
-}
-  MB_ICON_NONE     = $00000000;
-  MB_ICON_ERROR    = $00000010;
-  MB_ICON_QUESTION = $00000020;
-  MB_ICON_WARNING  = $00000030;
-  MB_ICON_INFO     = $00000040;
-  MB_ICON_OTHER    = $000000F0; // use icon TMsgBox->hiMsg
-
-type
-  PMsgBox = ^TMsgBox;
-  TMsgBox = record
-    uSize     :uint;  // size of this structure
-    uType     :uint;  // parameters
-    hiLogo    :HICON; // right upper icon of the info bar
-    hiMsg     :HICON; // icon left next to the message text
-    szTitle   :TCHAR; // dialog window title text
-    szInfoText:TCHAR; // text of the infobar on the top of the dialog
-    szMsg     :TCHAR; // the message text
-    hParent   :hwnd;  // parent window for the messagebox
-  end;
-
-const
-  MS_MSGBOX:PAnsiChar = 'UserInfo/MsgBox';
-*)
 {*************************************************************
  *  contact info module
 }

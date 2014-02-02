@@ -1,4 +1,36 @@
 {BASS dll code}
+unit rbass;
+
+interface
+
+uses
+  windows;
+
+procedure BassError(text:PWideChar);
+procedure OpenURL(url:PWideChar); cdecl;
+procedure StopStation;
+function GetMusicFormat:PAnsiChar;
+
+procedure EQ_ON;
+procedure EQ_OFF;
+procedure SetSndVol(arg:integer);
+procedure SetBassConfig;
+
+procedure MyFreeBASS;
+function MyInitBASS:bool;
+procedure MyUnloadBass;
+function MyLoadBASS:bool;
+function CheckBassStatus:bool;
+
+implementation
+
+uses
+  common, m_api, io
+  ,dbsettings, mirutils, wrapdlgs
+  ,Dynamic_Bass,dynbasswma
+  ,rglobal
+  ;
+
 const
   signMP3    = $FBFF;
   signID3    = $00334449;
@@ -7,8 +39,6 @@ const
 const
   BASSName = 'bass.dll';
   StationHeader:PByte=nil;
-const
-  basspath:PWideChar=nil;
 var
   hdrlen:integer;
   syncMETA,
@@ -18,30 +48,20 @@ var
   syncEND:HSYNC;
   SaveHeader:bool;
 
-procedure SetSndVol(arg:integer);
-begin
-  if arg<0 then
-    arg:=gVolume
-  else
-    gVolume:=arg;
-
-  if chan<>0 then
-  begin
-    if arg<0 then arg:=0;
-    BASS_ChannelSetAttribute(chan,BASS_ATTRIB_VOL,arg/100);
-  end;
-end;
+const
+  hRecord:THANDLE = 0;
 
 procedure BassError(text:PWideChar);
 begin
   MessageboxW(0,TranslateW(text),TranslateW('Sorry!'),MB_ICONERROR)
 end;
 
+// now called from BASS_Init only, so no dll load check
 procedure ErrorCustom(text:pWideChar=nil);
 var
   buf:array [0..255] of WideChar;
-  idx:integer;
   pcw:pWideChar;
+  idx:integer;
 begin
   idx:=BASS_ErrorGetCode();
   if (idx<0) or (idx>BASS_ERROR_MAXNUMBER) then
@@ -58,10 +78,37 @@ begin
       TranslateW('Oops! BASS error'),MB_ICONERROR)
 end;
 
+
+
+procedure SetBassConfig;
+begin
+  if BassStatus=rbs_null then exit;
+
+  BASS_SetConfig(BASS_CONFIG_NET_PREBUF ,sPreBuf);
+  BASS_SetConfig(BASS_CONFIG_NET_BUFFER ,sBuffer);
+  BASS_SetConfig(BASS_CONFIG_NET_TIMEOUT,sTimeout);
+end;
+
+procedure SetSndVol(arg:integer);
+begin
+  if arg<0 then
+    arg:=gVolume
+  else
+    gVolume:=arg;
+
+  // no BASS dll - no channel
+  if chan<>0 then
+  begin
+    if arg<0 then arg:=0;
+    BASS_ChannelSetAttribute(chan,BASS_ATTRIB_VOL,arg/100);
+  end;
+end;
+
 procedure EQ_OFF;
 var
-  i:dword;
+  i:cardinal;
 begin
+  // no BASS dll - no channel
   if chan<>0 then
     for i:=0 to 9 do
       BASS_ChannelRemoveFX(chan,eq[i].fx);
@@ -70,8 +117,9 @@ end;
 
 procedure EQ_ON;
 var
-  i:dword;
+  i:cardinal;
 begin
+  // no BASS dll - no channel
   if chan<>0 then
   begin
     for i:=0 to 9 do
@@ -82,86 +130,12 @@ begin
   end;
 end;
 
-function MyLoadBASS(root:PwideChar;custom:pWideChar):bool;
-var
-  pc:PWideChar;
-  buf:array [0..MAX_PATH-1] of WideChar;
-begin
-  result:=true;
-  mGetMem(basspath,1024);
-  pc:=StrCopyEW(basspath,custom);
-  if (pc-1)^<>'\' then
-  begin
-    pc^:='\';
-    inc(pc);
-  end;
-  StrCopyW(pc,BASSName);
-  if not Load_BASSDLL(basspath) then
-  begin
-    pc:=StrCopyW(StrCopyEW(basspath,root),BASSName);
-    if not Load_BASSDLL(basspath) then
-    begin
-      pc:=StrCopyW(StrCopyEW(pc,'plugins\'),BASSName);
-      if not Load_BASSDLL(basspath) then
-      begin
-        pc:=StrCopyW(StrCopyEW(pc,'bass\'),BASSName);
-        if not Load_BASSDLL(basspath) then
-        begin
-          if (custom<>nil) and (custom^<>#0) then
-            BassError('BASS.DLL not found!');
-          result:=false;
-        end;
-      end;
-    end;
-  end;
 
-  if (not result) and ((custom=nil) or (custom^=#0)) then
-  begin
-    if MessageboxA(0,Translate('BASS.DLL not found! Choose BASS.dll path manually'),
-        cPluginName,MB_YESNO)=IDYES then
-    begin
-      pc := nil;
-      if SelectDirectory(TranslateW('Choose BASS.dll path'),pc,0) then
-      begin
-        PathToRelativeW(pc,buf);
-        pc:=StrCopyEW(basspath,buf);
-        if (pc-1)^<>'\' then
-        begin
-          pc^:='\';
-          inc(pc);
-        end;
-        pc^:=#0;
-        DBWriteUnicode(0,PluginName,optBASSPath,basspath);
-        StrCopyW(pc,BASSName);
-
-        if not Load_BASSDLL(basspath) then
-          BassError('BASS.DLL not found!')
-        else
-          result:=true;
-      end;
-
-    end;
-  end;
-
-  if result then
-  begin
-    if (BASS_GetVersion shr 16)<BASSVERSION then
-    begin
-      Unload_BASSDLL;
-      result:=false;
-      BassError('Wrong version of BASS.DLL');
-    end
-    else
-    begin
-      pc^:=#0; // cut BASSName
-      exit;
-    end;
-  end;
-  mFreeMem(basspath);
-end;
 
 procedure MyStopBASS;
 begin
+  if BassStatus=rbs_null then exit;
+
   if ActiveContact<>0 then
   begin
     if syncMETA<>0 then
@@ -194,9 +168,13 @@ end;
 
 procedure MyFreeBASS;
 begin
-  MyStopBASS;
-  BASS_Free;
-  BASS_PluginFree(0);
+  if BassStatus=rbs_init then
+  begin
+    MyStopBASS;
+    BASS_Free;
+
+    BassStatus:=rbs_load;
+  end;
 end;
 
 procedure StopStation;
@@ -205,7 +183,7 @@ begin
     BASS_StreamFree(chan); // close old stream
   chan:=0;
   mFreeMem(StationHeader);
-  mFreeMem(ActiveURLw);
+  mFreeMem(ActiveURL);
   DBDeleteSetting(ActiveContact,strCList,optStatusMsg);
   MyStopBASS;
 end;
@@ -217,7 +195,7 @@ var
 begin
   // default device
   result:=-1;
-  i:=1;
+  i:=1; //  0 is always the "no sound" device
   repeat
     if not BASS_GetDeviceInfo(i,info) then
       break;
@@ -233,64 +211,213 @@ begin
   until false;
 end;
 
-function MyInitBASS:int;
+function MyInitBASS:bool;
 var
-  fd:TWin32FindDataW;
-  fh:THANDLE;
-  buf:array [0..MAX_PATH-1] of WideChar;
-//  buf1:array [0..31] of WideChar;
-  pc:PWideChar;
-  p:Bool;
   num:integer;
 begin
-  if Inited then
+  if BassSTatus=rbs_null then
   begin
-    result:=1;
+    result:=false;
+    exit;
+    // or can do this:
+    MyLoadBass;
+    if BassSTatus=rbs_null then
+    begin
+      result:=false;
+      exit;
+    end;
+  end;
+
+  if BassStatus=rbs_init then
+  begin
+    result:=true;
     exit;
   end;
 
-  Inited:=true;
-  BASS_Free;
-
   num:=GetDeviceNumber;
-  p:=BASS_Init(num,44100,BASS_DEVICE_3D,0,nil);
-  if not p then
-    p:=BASS_Init(num,44100,0,0,nil);
+  result:=BASS_Init(num,44100,BASS_DEVICE_3D,0,nil);
+  if not result then
+    result:=BASS_Init(num,44100,0,0,nil);
   // not default device choosed - check default now
-  if (not p) and (num>=0) then
+  if (not result) and (num>=0) then
   begin
-    p:=BASS_Init(-1,44100,BASS_DEVICE_3D,0,nil);
-    if not p then
-      p:=BASS_Init(-1,44100,0,0,nil);
+    result:=BASS_Init(-1,44100,BASS_DEVICE_3D,0,nil);
+    if not result then
+      result:=BASS_Init(-1,44100,0,0,nil);
   end;
 
-  if not p then
+  if not result then
   begin
     ErrorCustom('Can''t initialize device');
-    result:=0;
   end
   else
   begin
-    pc:=StrCopyW(StrCopyEW(buf,basspath),'bass*.dll');
-    fh:=FindFirstFileW(buf,fd);
-    if fh<>INVALID_HANDLE_VALUE then
-    begin
-      repeat
-        StrCopyW(pc,fd.cFileName);
-        if BASS_PluginLoad(pAnsiChar(@buf),BASS_UNICODE)=0 then
-      until not FindNextFileW(fh,fd);
-      FindClose(fh);
-    end;
-    // enable ASX processing (if WMA loaded)
-    BASS_SetConfig(BASS_CONFIG_NET_PLAYLIST, 2); // 2 - enable internet and local playlists
-
-    fh:=DBReadByte(0,PluginName,optEAXType,0);
-    if fh=0 then
+    num:=DBReadByte(0,PluginName,optEAXType,0);
+    if num=0 then
       BASS_SetEAXParameters(-1,0,-1,-1)
     else
-      BASS_SetEAXPreset(EAXItems[fh].code);
-    result:=1;
+      BASS_SetEAXPreset(EAXItems[num].code);
   end;
+
+  if result then
+    BassStatus:=rbs_init;
+end;
+
+procedure MyUnloadBass;
+begin
+  MyFreeBASS;
+  if BassStatus=rbs_load then
+  begin
+    BASS_PluginFree(0);
+    Unload_BASSDLL;
+
+    BassStatus:=rbs_null;
+  end;
+end;
+
+function MyLoadBASS:bool;
+var
+  pc,custom:PWideChar;
+  basspath:PWideChar;
+  buf:array [0..MAX_PATH-1] of WideChar;
+  fh:THANDLE;
+  fd:TWin32FindDataW;
+begin
+  if BassStatus<>rbs_null then
+  begin
+    result:=true;
+    exit;
+  end;
+
+  mGetMem(basspath,1024);
+
+  // trying to load Bass.dll from custom
+  custom:=DBReadUnicode(0,PluginName,optBASSPath,nil);
+  if custom<>nil then
+  begin
+    pc:=StrCopyEW(basspath,custom);
+    if (pc-1)^<>'\' then
+    begin
+      pc^:='\';
+      inc(pc);
+    end;
+    StrCopyW(pc,BASSName);
+
+    result:=Load_BASSDLL(basspath);
+  end
+  else
+    result:=false;
+
+  if not result then
+  begin
+    GetModuleFileNameW(0,buf,MAX_PATH-1);
+    pc:=StrEndW(buf);
+    repeat
+      dec(pc);
+    until pc^='\';
+    inc(pc);
+    pc^:=#0;
+
+    pc:=StrCopyW(StrCopyEW(basspath,buf),BASSName);    // %miranda_path%\
+    result:=Load_BASSDLL(basspath);
+    if not result then
+    begin
+      pc:=StrCopyW(StrCopyEW(pc,'plugins\'),BASSName); // %miranda_path%\plugins\
+      result:=Load_BASSDLL(basspath);
+      if not result then
+      begin
+        pc:=StrCopyW(StrCopyEW(pc,'bass\'),BASSName);  // %miranda_path%\plugins\bass\
+        result:=Load_BASSDLL(basspath);
+      end;
+    end;
+  end;
+
+  // not found but custom path is empty
+  if (not result) and (custom=nil) then
+  begin
+    if MessageboxW(0,TranslateW('BASS.DLL not found! Choose BASS.dll path manually'),
+        cPluginName,MB_YESNO)=IDYES then
+    begin
+      pc:=nil;
+      if SelectDirectory(TranslateW('Choose BASS.dll path'),pc,0) then
+      begin
+        //!! if options page opened, need to change edit field
+
+        PathToRelativeW(pc,buf);
+        pc:=StrCopyEW(basspath,buf);
+        if (pc-1)^<>'\' then
+        begin
+          pc^:='\';
+          inc(pc);
+        end;
+        pc^:=#0;
+        DBWriteUnicode(0,PluginName,optBASSPath,basspath);
+        StrCopyW(pc,BASSName);
+
+        result:=Load_BASSDLL(basspath);
+      end;
+    end;
+  end;
+
+  // check Bass.dll version
+  if result then
+  begin
+    if (BASS_GetVersion shr 16)<BASSVERSION then
+    begin
+      Unload_BASSDLL;
+      result:=false;
+      BassError('Wrong version of BASS.DLL');
+    end
+    else
+    begin
+      // load Bass plugins
+      pc:=StrCopyW(pc,'bass*.dll');
+      fh:=FindFirstFileW(basspath,fd);
+      if fh<>THANDLE(INVALID_HANDLE_VALUE) then
+      begin
+        repeat
+          StrCopyW(pc,fd.cFileName);
+          if BASS_PluginLoad(pAnsiChar(basspath),BASS_UNICODE)=0 then
+        until not FindNextFileW(fh,fd);
+        FindClose(fh);
+      end;
+
+      // enable ASX processing (if WMA loaded)
+      BASS_SetConfig(BASS_CONFIG_NET_PLAYLIST, 2); // 2 - enable internet and local playlists
+    end;
+  end
+  else
+  begin
+    BassError('BASS.DLL not found!');
+  end;
+
+  mFreeMem(custom);
+  mFreeMem(basspath);
+
+  if result then
+    BassStatus:=rbs_load;
+end;
+
+function CheckBassStatus:bool;
+var
+  proxy:pAnsiChar;
+begin
+  if BassStatus=rbs_null then
+    MyLoadBass;
+
+  if BassStatus<>rbs_null then
+  begin
+    SetBassConfig;
+
+    proxy:=GetProxy(hNetLib);
+    BASS_SetConfigPtr(BASS_CONFIG_NET_PROXY,proxy);
+    mFreeMem(proxy);
+  end;
+
+  if BassStatus=rbs_load then
+    MyInitBass;
+
+  result:=BassStatus<>rbs_null;
 end;
 
 function GetMusicFormat:PAnsiChar;
@@ -348,6 +475,9 @@ begin
   if recpath<>nil then
   begin
     ConvertFileName(recpath,buf,ActiveContact);
+//    pcw:=ParseVarString(recpath,ActiveContact);
+//    CallService(MS_UTILS_PATHTOABSOLUTEW,WPARAM(pcw),LPARAM(buf));
+//    mFreeMem(pcw);
     if not ForceDirectories(buf) then
     begin
       result:=nil;
@@ -375,6 +505,8 @@ begin
 
   result:=buf;
 end;
+
+
 
 procedure StatusProc(buffer:Pointer;len,user:DWORD); stdcall;
 var
@@ -729,7 +861,7 @@ begin
         end;
       end;
 {$IFDEF Debug}
-logmeta(tag,artist,title);
+//logmeta(tag,artist,title);
 {$ENDIF}
       mFreeMem(oldartist);
       mFreeMem(oldtitle);
@@ -826,6 +958,9 @@ var
   EAXUsed:bool;
   ansiurl:array [0..511] of AnsiChar;
 begin
+  if not CheckBassStatus then exit;
+  if BassStatus<>rbs_init then exit; //!! check for record
+
   if plist=nil then
     CallService(MS_RADIO_COMMAND,MRC_STATUS,RD_STATUS_CONNECT);
 
@@ -967,3 +1102,5 @@ begin
     BASS_ChannelPlay(chan,FALSE);
   end;
 end;
+
+end.

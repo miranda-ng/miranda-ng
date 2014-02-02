@@ -1,33 +1,35 @@
 {used variables}
+unit rglobal;
+
+interface
+
+uses
+  windows,
+  Dynamic_Bass,
+  playlist;
 
 {$include m_radio.inc}
 
 const
-  optActiveCodec:PAnsiChar = 'ActiveCodec';
-  optLastStn    :PAnsiChar = 'LastStation';
-  optConnect    :PAnsiChar = 'AutoConnect';
-  optAutoMute   :PAnsiChar = 'AutoMute';
-  optDevice     :PAnsichar = 'Device';
-  optEQ_OFF     :PAnsiChar = 'eqoff';
-  optStatusMsg  :PAnsiChar = 'StatusMsg';
-  optCurElement :PAnsiChar = 'LastPlayed';
-  optPlayFirst  :PAnsiChar = 'PlayFromFirst'; 
-  optActiveURL  :PAnsiChar = 'ActiveURL';
-  optContRec    :PAnsiChar = 'ContRec';
-  optLoop       :PAnsiChar = 'Loop';
-  optShuffle    :PAnsiChar = 'Shuffle';
-  optRecPath    :PAnsiChar = 'RecordPath';
-  optStatus     :PAnsiChar = 'Status';
+  cPluginName = 'mRadio';
+const
+  PluginName:PAnsiChar = cPluginName;
+
+const
+  BassStatus:(rbs_null,rbs_load,rbs_init) = rbs_null;
+
+const
+  chan         :HSTREAM = 0;
+  ActiveContact:THANDLE = 0;
+  ActiveURL    :PWideChar = nil;
+
+const
   optVolume     :PAnsiChar = 'Volume';
-  optBuffer     :PAnsiChar = 'Buffer';
-  optPreBuf     :PAnsiChar = 'PreBuf';
-  optTimeout    :PAnsiChar = 'Timeout';
-  optVersion    :PAnsiChar = 'version';
-  optStatusTmpl :PAnsiChar = 'StatusTmpl';
-  optNumTries   :PAnsiChar = 'NumTries';
-  optOffline    :PAnsiChar = 'asOffline';
+
+  optVersion    :PAnsiChar = 'version'; //??
+
   // mRadio compatibility
-  optStationURL :PAnsiChar = 'StationURL';
+//optStationurl <<
   optMyHandle   :PAnsiChar = 'MyHandle';
   optGenre      :PAnsiChar = 'Genre';
   optBitrate    :PAnsiChar = 'Bitrate';
@@ -36,21 +38,25 @@ const
   optNick       :PAnsiChar = 'Nick';
   optLastName   :PAnsiChar = 'LastName';
   optAge        :PAnsiChar = 'Age';
-  // 3D sound support
-  optEAXType    :PAnsiChar = 'EAXtype';
-  optForcedMono :PAnsiChar = 'ForcedMono';
 
   optGroup      :PAnsiChar = 'Group';
+
+const
+  optEAXType    :PAnsiChar = 'EAXtype';
+  optStatusMsg  :PAnsiChar = 'StatusMsg';
   optBASSPath   :PAnsiChar = 'BASSpath';
+
+  optLastStn    :PAnsiChar = 'LastStation';
+  optActiveCodec:PAnsiChar = 'ActiveCodec';
+  optStationURL :PAnsiChar = 'StationURL'; // mRadio compatibility
+const
   optTitle      :PAnsiChar = 'Title';
   optArtist     :PAnsiChar = 'Artist';
+  optStatus     :PAnsiChar = 'Status';
 
 var
   hhRadioStatus,
-  hCMenuItemRec,
-  hCMenuItemPlay,
   hNetLib:THANDLE;
-  hiddenwindow:HWND;
 var
   plist:tPlaylist;
 //  plFile:pWideChar; // playlist file name (for delete after using?)
@@ -71,20 +77,17 @@ var
   PluginStatus:integer;
   storagep,storage:PAnsiChar;
   recpath:pWideChar;
+  StatusTmpl:pWideChar;
   sBuffer,
   sTimeout,
   sPreBuf:cardinal;
   usedevice:PAnsiChar;
-const
-  hVolCtrl    :HWND=0;
-  hVolFrmCtrl :HWND=0;
-const
-  hMuteFrmCtrl:HWND=0;
-const
-  Inited:boolean=false;
-const
-  StatusTmpl:pWideChar = nil;
-  proxy:pAnsiChar = nil;
+
+const // inside INC files only
+  hVolCtrl:HWND=0;
+
+//----- Equalizer -----
+
 type
   tEQRec = record
     fx    :HFX;
@@ -104,6 +107,9 @@ var
     (fx:0;wnd:0;param:(fCenter:12000;fBandwidth:18;fGain:0);text:'12k'),
     (fx:0;wnd:0;param:(fCenter:14000;fBandwidth:18;fGain:0);text:'14k'),
     (fx:0;wnd:0;param:(fCenter:16000;fBandwidth:18;fGain:0);text:'16k'));
+
+//----- Button icons -----
+
 const
   IcoBtnSettings:PAnsiChar = 'Radio_Setting';
   IcoBtnOn      :PAnsiChar = 'Radio_On';
@@ -112,11 +118,8 @@ const
   IcoBtnRecDn   :PAnsiChar = 'Radio_RecDn';
   IcoBtnAdd     :PAnsiChar = 'Radio_Add';
   IcoBtnDel     :PAnsiChar = 'Radio_Del';
-const
-  hRecord      :THANDLE = 0;
-  chan         :HSTREAM = 0;
-  ActiveContact:THANDLE = 0;
-  ActiveURLw   :PWideChar = nil;
+
+//----- EAX -----
 
 type
   TEAXItem = record
@@ -153,10 +156,102 @@ const
     (name:'Dizzy'           ; code:EAX_ENVIRONMENT_DIZZY),
     (name:'Psychotic'       ; code:EAX_ENVIRONMENT_PSYCHOTIC));
 
-type
-  tPreset = record
-    name  :PWideChar;
-    preset:array [0..9] of shortint;
+
+function MakeMessage:pWideChar;
+procedure SetStatus(hContact:THANDLE;status:integer);
+function GetDefaultRecPath:pWideChar;
+function GetStatusText(status:integer;toCList:boolean=false):PWideChar;
+
+
+implementation
+
+uses
+  m_api, common, dbsettings;
+
+procedure SetStatus(hContact:THANDLE;status:integer);
+begin
+//  if Status=ID_STATUS_OFFLINE then
+//    MyStopBass;
+
+  if status=ID_STATUS_OFFLINE then
+  begin
+    if (AsOffline=BST_UNCHECKED) or (PluginStatus<>ID_STATUS_OFFLINE) then
+      status:=ID_STATUS_INVISIBLE;
   end;
+
+  if hContact=0 then
+  begin
+    hContact:=db_find_first(PluginName);
+    while hContact<>0 do
+    begin
+      DBWriteWord(hContact,PluginName,optStatus,status);
+      hContact:=db_find_next(hContact,PluginName);
+    end;
+  end
+  else
+    DBWriteWord(hContact,PluginName,optStatus,status);
+end;
+
+function MakeMessage:pWideChar;
 var
-  Presets: array of tPreset;
+  p,artist,title:pWideChar;
+  len:cardinal;
+begin
+  artist:=DBReadUnicode(0,PluginName,optArtist);
+  title :=DBReadUnicode(0,PluginName,optTitle);
+  len:=StrLenW(artist);
+  if (artist<>nil) and (title<>nil) then
+    inc(len,3);
+  inc(len,StrLenW(title));
+
+  if len>0 then
+  begin
+    mGetMem(result,(len+1)*SizeOf(WideChar));
+    p:=result;
+    if artist<>nil then
+    begin
+      p:=StrCopyEW(p,artist);
+      if title<>nil then
+        p:=StrCopyEW(p,' - ');
+      mFreeMem(artist);
+    end;
+    if title<>nil then
+    begin
+      StrCopyW(p,title);
+      mFreeMem(title);
+    end;
+  end
+  else
+    result:=nil;
+end;
+
+function GetDefaultRecPath:pWideChar;
+var
+  dat:TREPLACEVARSDATA;
+  mstr,szData:pWideChar;
+  buf:array [0..MAX_PATH-1] of WideChar;
+begin
+  FillChar(dat,SizeOf(dat),0);
+  dat.cbSize :=SizeOf(TREPLACEVARSDATA);
+  dat.dwFlags:=RVF_UNICODE;
+  szData:='%miranda_userdata%'+'\'+cPluginName;
+  mstr:=pWideChar(CallService(MS_UTILS_REPLACEVARS, WPARAM(szData), LPARAM(@dat)));
+  PathToRelativeW(mstr,buf);
+  StrDupW(result,buf);
+  mir_free(mstr);
+end;
+
+function GetStatusText(status:integer;toCList:boolean=false):PWideChar;
+begin
+  case status of
+    RD_STATUS_PAUSED : result:='paused';
+    RD_STATUS_STOPPED: if toCList then result:=nil else result:='stopped';
+    RD_STATUS_CONNECT: result:='connecting';
+    RD_STATUS_ABORT  : result:='aborting';
+    RD_STATUS_PLAYING: if toCList then result:=nil else result:='playing';
+  else
+    result:=nil;
+  end;
+end;
+
+end.

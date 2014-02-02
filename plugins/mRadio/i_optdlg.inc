@@ -1,142 +1,5 @@
 {Options dialog}
 
-function ImportOneStation(group:PAnsiChar;section:pointer):int;
-var
-  p:pWideChar;
-  pc:pAnsiChar;
-begin
-  result:=0;
-  pc:=GetParamSectionStr(section,'URL');
-  if pc<>nil then
-  begin
-    result:=CallService(MS_DB_CONTACT_ADD,0,0);
-    if result<>0 then
-    begin
-      CallService(MS_PROTO_ADDTOCONTACT,result,lparam(PluginName));
-      DBWriteString(result,PluginName,optStationURL,pc);
-      DBWriteString(result,PluginName,optFirstName ,pc);
-
-      pc:=GetParamSectionStr(section,optBitrate,'0');
-      DBWriteString(result,PluginName,optBitrate,pc);
-      DBWriteWord  (result,PluginName,optAge    ,StrToInt(pc));
-
-      pc:=GetParamSectionStr(section,'Name',GetSectionName(section));
-      DBWriteString(result,strCList  ,optMyHandle,pc);
-      DBWriteString(result,PluginName,optNick    ,pc);
-
-      pc:=GetParamSectionStr(section,optGenre,'unknown');
-      DBWriteString(result,PluginName,optGenre   ,pc);
-      DBWriteString(result,PluginName,optLastName,pc);
-
-      SetStatus(result,ID_STATUS_OFFLINE);
-
-      if group=nil then
-        group:=GetParamSectionStr(section,optGroup);
-
-      AnsiToWide(group,p,MirandaCP);
-      CreateGroupW(p,result);
-      mFreeMem(p);
-      CallService(MS_IGNORE_IGNORE,result,IGNOREEVENT_ALL);
-    end;
-  end;
-end;
-
-function ImportAll(wParam:WPARAM;lParam:LPARAM):int; cdecl;
-var
-  dst:array [0..MAX_PATH-1] of AnsiChar;
-  pc:pAnsiChar;
-  lstorage,section,list:pointer;
-begin
-  result:=0;
-  if lParam<>0 then
-    StrCopy(dst,PAnsiChar(lParam));
-  if (lParam<>0) or ShowDlg(dst,'radio.ini',nil,true) then
-  begin
-    lstorage:=OpenStorage(dst);
-    if lstorage<>nil then
-    begin
-      list:=GetSectionList(lstorage);
-
-      pc:=list;
-      while pc^<>#0 do
-      begin
-        section:=SearchSection(lstorage,pc);
-        if ImportOneStation(pAnsiChar(wParam),section)<>0 then inc(result);
-        while pc^<>#0 do inc(pc);
-        inc(pc);
-      end;
-
-      FreeSectionList(list);
-
-      CloseStorage(lstorage);
-    end;
-  end;
-end;
-
-procedure ExportRadioContact(num:integer;fname:PAnsiChar;hContact:THANDLE);
-var
-  pc:pAnsiChar;
-  section:array [0..15] of AnsiChar;
-begin
-  IntToStr(section,num);
-  pc:=DBReadString(hContact,strCList,optMyHandle);
-  WritePrivateProfileStringA(section,'Name',pc,fname);
-  mFreeMem(pc);
-
-  pc:=DBReadString(hContact,PluginName,optStationURL);
-  WritePrivateProfileStringA(section,'URL',pc,fname);
-  mFreeMem(pc);
-
-  pc:=DBReadString(hContact,PluginName,optGenre);
-  if pc<>nil then
-  begin
-    WritePrivateProfileStringA(section,optGenre,pc,fname);
-    mFreeMem(pc);
-  end;
-
-  pc:=DBReadString(hContact,PluginName,optBitrate);
-  if pc<>nil then
-  begin
-    WritePrivateProfileStringA(section,optBitrate,pc,fname);
-    mFreeMem(pc);
-  end;
-
-  pc:=DBReadString(hContact,strCList,optGroup);
-  if pc<>nil then
-  begin
-    WritePrivateProfileStringA(section,optGroup,pc,fname);
-    mFreeMem(pc);
-  end;
-end;
-
-function ExportAll(wParam:WPARAM;lParam:LPARAM):int; cdecl;
-var
-  dst:array [0..MAX_PATH-1] of AnsiChar;
-  hContact:THANDLE;
-begin
-  result:=0;
-  if lParam<>0 then
-    StrCopy(dst,PAnsiChar(lParam));
-  if (lParam<>0) or ShowDlg(dst,'radio.ini',nil,false) then
-  begin
-    if (wParam<>0) and (CallService(MS_DB_CONTACT_IS,wParam,0)<>0) then
-    begin
-      result:=1;
-      ExportRadioContact(result,dst,wParam)
-    end
-    else
-    begin
-      hContact:=db_find_first(PluginName);
-      while hContact<>0 do
-      begin
-        inc(result);
-        ExportRadioContact(result,dst,hContact);
-        hContact:=db_find_next(hContact,PluginName);
-      end;
-    end;
-  end;
-end;
-
 function MakeFilter(dst,descr,full,filter:PWideChar;show:bool=true):pWideChar;
 var
   p:PWideChar;
@@ -179,19 +42,25 @@ begin
   pc:=MakeFilter(pc,'Playlist files',full,'*.pls;*.m3u;*.m3u8;*.asx');
   pc:=MakeFilter(pc,'BASS built-in' ,full,'*.mp3;*.mp2;*.mp1;*.ogg;*.wav;*.aif');
 
-  ph:=pointer(BASS_PluginGetInfo(0));
-  if ph<>nil then
+  if BassStatus=rbs_null then
+    MyLoadBass;
+
+  if BassStatus<>rbs_null then
   begin
-    while ph^<>0 do
+    ph:=pointer(BASS_PluginGetInfo(0));
+    if ph<>nil then
     begin
-      Info:=BASS_PluginGetInfo(ph^);
-      for i:=0 to Info^.formatc-1 do
-//!! need to translate Ansi -> wide
-        with Info^.Formats[i] do
-        begin
-          pc:=MakeFilter(pc,FastAnsiToWideBuf(name,tmpbuf1),full,FastAnsiToWideBuf(exts,tmpbuf2));
-        end;
-      inc(ph);
+      while ph^<>0 do
+      begin
+        Info:=BASS_PluginGetInfo(ph^);
+        for i:=0 to Info^.formatc-1 do
+  //!! need to translate Ansi -> wide
+          with Info^.Formats[i] do
+          begin
+            pc:=MakeFilter(pc,FastAnsiToWideBuf(name,tmpbuf1),full,FastAnsiToWideBuf(exts,tmpbuf2));
+          end;
+        inc(ph);
+      end;
     end;
   end;
   pc:=MakeFilter(pc,'All supported formats',nil,full,false);
@@ -241,17 +110,6 @@ var
 begin
   result:=0;
   case hMessage of
-    WM_DESTROY: begin
-      DBWriteByte(0,PluginName,optLoop     ,doLoop);
-      DBWriteByte(0,PluginName,optShuffle  ,doShuffle);
-      DBWriteByte(0,PluginName,optContRec  ,doContRec);
-      DBWriteByte(0,PluginName,optPlayFirst,PlayFirst);
-      DBWriteByte(0,PluginName,optConnect  ,AuConnect);
-      DBWriteByte(0,PluginName,optAutoMute ,AuMute);
-      DBWriteByte(0,PluginName,optOffline  ,AsOffline);
-
-      DBWriteUnicode(0,PluginName,optStatusTmpl,StatusTmpl);
-    end;
 
     WM_INITDIALOG: begin
       DlgInit:=1;
@@ -383,7 +241,7 @@ begin
                       DBWriteUnicode(i,strCList,optGroup,dst)
                     else
                       DBDeleteSetting(i,strCList,optGroup);
-
+                      
                   end
                   else if loword(wParam)=IDC_ADD_INI then
                   begin
@@ -451,13 +309,6 @@ begin
         doLoop:=IsDlgButtonChecked(Dialog,IDC_LOOP);
         if chan<>0 then
         begin
-{
-          BASS_ChannelGetInfo(chan,info);
-          if doLoop<>BST_UNCHECKED then
-            info.flags:=info.flags or BASS_SAMPLE_LOOP
-          else
-            info.flags:=info.flags and not BASS_SAMPLE_LOOP;
-}
           BASS_ChannelFlags(chan,ord(doLoop<>BST_UNCHECKED),BASS_SAMPLE_LOOP);
         end;
 
@@ -472,7 +323,8 @@ begin
         end
         else
           recpath:=GetDefaultRecPath;
-        DBWriteUnicode(0,PluginName,optRecPath,recpath);
+
+        SaveCommonSettings;
       end;
     end;
 
@@ -483,171 +335,71 @@ end;
 
 //----- Tech tab -----
 
-const
-  OldEQPreset:integer=-1;
-const
-  optOldPreset:pAnsiChar='oldpreset';
-  optPresets  :pAnsiChar='numpreset';
-  optPreset   :pAnsiChar='preset_';
-  optPreDescr :pAnsiChar='predescr_';
-
-const
-  PresetMax = 17;
-
-procedure InitPresets;
-type
-  tP = array [0..9] of AnsiChar;
-begin
-  StrDupW(Presets[00].name,'Acoustic' ); tP(Presets[00].preset):=#$01#$02#$00#$00#$00#$00#$00#$01#$01#$03;
-  StrDupW(Presets[01].name,'Blues'    ); tP(Presets[01].preset):=#$01#$02#$01#$00#$00#$00#$00#$00#$00#$FE;
-  StrDupW(Presets[02].name,'Classical'); tP(Presets[02].preset):=#$01#$04#$01#$00#$00#$00#$00#$00#$01#$01;
-  StrDupW(Presets[03].name,'Country'  ); tP(Presets[03].preset):=#$00#$00#$01#$01#$00#$00#$01#$01#$01#$01;
-  StrDupW(Presets[04].name,'Dance'    ); tP(Presets[04].preset):=#$04#$03#$02#$01#$FF#$FF#$02#$04#$05#$05;
-  StrDupW(Presets[05].name,'Folk'     ); tP(Presets[05].preset):=#$FF#$00#$00#$01#$01#$00#$01#$01#$01#$00;
-  StrDupW(Presets[06].name,'Grunge'   ); tP(Presets[06].preset):=#$01#$00#$FF#$00#$00#$02#$01#$FF#$FE#$FD;
-  StrDupW(Presets[07].name,'Jazz'     ); tP(Presets[07].preset):=#$00#$01#$02#$03#$03#$01#$01#$03#$04#$05;
-  StrDupW(Presets[08].name,'Metall'   ); tP(Presets[08].preset):=#$FE#$00#$00#$00#$00#$03#$02#$04#$06#$05;
-  StrDupW(Presets[09].name,'New Age'  ); tP(Presets[09].preset):=#$03#$03#$00#$00#$00#$00#$00#$00#$02#$02;
-  StrDupW(Presets[10].name,'Opera'    ); tP(Presets[10].preset):=#$00#$01#$02#$04#$01#$02#$00#$00#$00#$00;
-  StrDupW(Presets[11].name,'Rap'      ); tP(Presets[11].preset):=#$00#$04#$04#$00#$00#$00#$01#$04#$05#$07;
-  StrDupW(Presets[12].name,'Reggae'   ); tP(Presets[12].preset):=#$03#$00#$FD#$00#$05#$00#$02#$03#$04#$05;
-  StrDupW(Presets[13].name,'Rock'     ); tP(Presets[13].preset):=#$00#$02#$04#$00#$00#$00#$02#$04#$05#$06;
-  StrDupW(Presets[14].name,'Speech'   ); tP(Presets[14].preset):=#$FE#$02#$00#$00#$00#$00#$FF#$FE#$FD#$FC;
-  StrDupW(Presets[15].name,'Swing'    ); tP(Presets[15].preset):=#$FF#$00#$00#$02#$02#$00#$02#$02#$03#$03;
-  StrDupW(Presets[16].name,'Techno'   ); tP(Presets[16].preset):=#$05#$08#$FF#$FE#$FD#$FF#$04#$06#$06#$06;
-end;
-
-procedure LoadPresets;
-var
-  num,preset,descr:array [0..63] of AnsiChar;
-  i:integer;
-  p,pd:pAnsiChar;
-begin
-  p :=StrCopyE(preset,optPreset);
-  pd:=StrCopyE(descr ,optPreDescr);
-
-  i:=DBReadByte(0,PluginName,optPresets);
-  if i=0 then
-  begin
-    SetLength(Presets,PresetMax);
-    InitPresets;
-  end
-  else
-  begin
-    OldEQPreset:=integer(DBReadByte(0,PluginName,optOldPreset,byte(-1)));
-    SetLength(Presets,i);
-    for i:=0 to HIGH(Presets) do
-    begin
-      StrCopy(p ,IntToStr(num,i));      DBReadStruct (0,PluginName,preset,@Presets[i].preset,10);
-      StrCopy(pd,num); Presets[i].name:=DBReadUnicode(0,PluginName,descr);
-    end;
-  end;
-end;
-
-procedure SavePresets;
-var
-  num,preset,descr:array [0..63] of AnsiChar;
-  i,j:integer;
-  p,pd:pAnsiChar;
-begin
-  p :=StrCopyE(preset,optPreset);
-  pd:=StrCopyE(descr ,optPreDescr);
-  j:=DBReadByte(0,PluginName,optPresets);
-  for i:=0 to HIGH(Presets) do
-  begin
-    StrCopy(p ,IntToStr(num,i)); DBWriteStruct (0,PluginName,preset,@Presets[i].preset,10);
-    StrCopy(pd,num);             DBWriteUnicode(0,PluginName,descr ,Presets[i].name);
-  end;
-  while j>Length(Presets) do
-  begin
-    dec(j);
-    StrCopy(p ,IntToStr(num,j)); DBDeleteSetting(0,PluginName,preset);
-    StrCopy(pd,num);             DBDeleteSetting(0,PluginName,descr);
-  end;
-  DBWriteByte(0,PluginName,optOldPreset,OldEQPreset);
-  DBWriteByte(0,PluginName,optPresets  ,Length(Presets));
-end;
-
-procedure FreePresets;
-var
-  i:integer;
-begin
-  for i:=0 to HIGH(Presets) do
-    mFreeMem(Presets[i].name);
-end;
-
 procedure FillDeviceCombo(wnd:HWND;choose:pAnsiChar);
 var
   i,select,def:integer;
   info:BASS_DEVICEINFO;
   buf: array [0..255] of AnsiChar;
 begin
-  SendMessage(wnd,CB_RESETCONTENT,0,0);
-  i:=0;
-  select:=-1;
   def:=0;
-  repeat
-    if not BASS_GetDeviceInfo(i+1,info) then
-      break;
-    if (info.flags and BASS_DEVICE_ENABLED)<>0 then
-    begin
-      if (info.flags and BASS_DEVICE_INIT)<>0 then
+  SendMessage(wnd,CB_RESETCONTENT,0,0);
+  if BassStatus<>rbs_null then
+  begin
+    i:=0;
+    select:=-1;
+    repeat
+      if not BASS_GetDeviceInfo(i+1,info) then
+        break;
+      if (info.flags and BASS_DEVICE_ENABLED)<>0 then
       begin
-        select:=i;
-        buf[0]:='>';
-      end
-      else if (info.flags and BASS_DEVICE_DEFAULT)<>0 then
-      begin
-        def:=i;
-        buf[0]:='*';
-      end
-      else buf[0]:=' ';
-      if select<0 then
-      begin
-        if StrCmp(info.name,choose)=0 then
+        if (info.flags and BASS_DEVICE_INIT)<>0 then
+        begin
           select:=i;
+          buf[0]:='>';
+        end
+        else if (info.flags and BASS_DEVICE_DEFAULT)<>0 then
+        begin
+          def:=i;
+          buf[0]:='*';
+        end
+        else buf[0]:=' ';
+        if select<0 then
+        begin
+          if StrCmp(info.name,choose)=0 then
+            select:=i;
+        end;
+        StrCopy(@buf[1],info.name);
+        SendMessageA(wnd,CB_ADDSTRING,0,lparam(@buf));
       end;
-      StrCopy(@buf[1],info.name);
-      SendMessageA(wnd,CB_ADDSTRING,0,lparam(@buf));
-    end;
-    inc(i);
-  until false;
-  if select>=0 then
-    def:=select;
+      inc(i);
+    until false;
+    if select>=0 then
+      def:=select;
+  end;
   SendMessage(wnd,CB_SETCURSEL,def,0);
-// not acceptable coz we added 1st char
-//  SendMessageW(wnd,CB_SELECTSTRING,twparam(-1),tlparam(choose))
 end;
 
 function DlgProcOptTech(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
 const
   DlgInit:integer=1;
 var
-  i:integer;
   hEAXCombo:THANDLE;
   ltmp:longbool;
-//  info:BASS_CHANNELINFO;
-  buf1:array [0..4] of AnsiChar;
   wnd:HWND;
   buf:array [0..MAX_PATH-1] of WideChar;
-  dst:pWideChar;
+  dst,old:pWideChar;
+  device:pAnsiChar;
+  i,level:integer;
 begin
   result:=0;
   case hMessage of
     WM_DESTROY: begin
       hVolCtrl:=0;
 
-      buf1[0]:='E';
-      buf1[1]:='Q';
-      buf1[2]:='_';
-      buf1[4]:=#0;
       for i:=0 to 9 do
       begin
-        buf1[3]:=AnsiChar(ORD('0')+i);
-        DBWriteByte(0,PluginName,buf1,trunc(eq[i].param.fGain)+15);
         eq[i].wnd:=0;
       end;
-      DBWriteByte(0,PluginName,optEQ_OFF ,isEQ_OFF);
     end;
 
     WM_INITDIALOG: begin
@@ -672,11 +424,14 @@ begin
         SendMessageW(hEAXCombo,CB_ADDSTRING,0,tlparam(TranslateW(EAXItems[i].name)));
       SendMessage(hEAXCombo,CB_SETCURSEL,DBReadByte(0,PluginName,optEAXType,0),0);
 
+      if BassStatus=rbs_null then
+        MyLoadBass;
       // Fill combo with devices
       FillDeviceCombo(GetDlgItem(Dialog,IDC_DEVICE),usedevice);
 
       // Add preset to combo
       wnd:=GetDlgItem(Dialog,IDC_PRESET);
+
       for i:=0 to HIGH(Presets) do
         SendMessageW(wnd,CB_ADDSTRING,0,tlparam(Presets[i].name));
       SendMessage(wnd,CB_SETCURSEL,OldEQPreset,0);
@@ -709,6 +464,11 @@ begin
         end;
 
         BN_CLICKED: begin
+          case loword(wParam) of
+            IDC_EQOFF, IDC_ZERO:
+              SendMessage(GetParent(Dialog),PSM_CHANGED,0,0);
+          end;
+
           case loword(wParam) of
 
             IDC_BASSPTHBTN: begin
@@ -814,6 +574,7 @@ begin
           break;
         end;
       end;
+      SendMessage(GetParent(Dialog),PSM_CHANGED,0,0);
     end;
 
     WM_HSCROLL: begin
@@ -824,58 +585,96 @@ begin
       if integer(PNMHdr(lParam)^.code)=PSN_APPLY then
       begin
         SavePresets;
+        level:=0;
 
-        mFreeMem(usedevice);
-        usedevice:=GetDlgText(Dialog,IDC_DEVICE,true);
-        StrCopy(usedevice,usedevice+1);
-        DBWriteString(0,PluginName,optDevice,usedevice);
+        device:=GetDlgText(Dialog,IDC_DEVICE,true);
+        StrCopy(device,device+1);
+        if StrCmp(usedevice,device)<>0 then
+        begin
+          level:=1;
+          mFreeMem(usedevice);
+          usedevice:=device;
+        end
+        else
+          mFreeMem(device);
 
 //!!  bass path saving here
+        old:=DBReadUnicode(0,PluginName,optBASSPath,nil);
         dst:=GetDlgText(Dialog,IDC_BASSPATH);
-        DBWriteUnicode(0,PluginName,optBASSPath,dst);
+        if lstrcmpiw(dst,old)<>0 then
+        begin
+          level:=2;
+          DBWriteUnicode(0,PluginName,optBASSPath,dst);
+        end;
         mFreeMem(dst);
-
-        ForcedMono:=IsDlgButtonChecked(Dialog,IDC_MONO);
-        DBWriteByte(0,PluginName,optForcedMono,ForcedMono);
+        mFreeMem(old);
 
         i:=SendDlgItemMessage(Dialog,IDC_EAXTYPE,CB_GETCURSEL,0,0);
         DBWriteByte(0,PluginName,optEAXType,i);
-        if i=0 then
-          BASS_SetEAXParameters(-1,0,-1,-1)
-        else
-          BASS_SetEAXPreset(EAXItems[i].code);
+
+{
+  level>0 - need to change
+  ActiveContact<>0 - need to restart
+  BassStatus<>rbs_null - need to stop (free, unload)
+  really,  if ActiveContact<>0 then BassStatus<>rbs_null
+}
+        //!!really, need to do it if only active atm
+        // need to reload dll or change outpout device
+        // don't change proxy
+        if level>0 then
+        begin
+          ltmp:=ActiveContact<>0;
+          if ltmp then
+            CallService(MS_RADIO_COMMAND,MRC_STOP,1);
+          // save current, stop, bass free
+
+          MyFreeBass;
+          if level=2 then
+          begin
+            MyUnloadBass;
+            // load dll
+            if ltmp then
+              MyLoadBass;
+          end;
+          // init device, restore current
+          if ltmp and (BassStatus=rbs_load) then
+          begin
+            MyInitBass;
+          end;
+          if ltmp and (BassStatus=rbs_init) then
+          begin
+            CallService(MS_RADIO_COMMAND,MRC_PAUSE,0);
+          end;
+        end
+        // if device re-init, EAX settings applied there
+        else if BassStatus=rbs_init then
+        begin
+          if i=0 then
+            BASS_SetEAXParameters(-1,0,-1,-1)
+          else
+            BASS_SetEAXPreset(EAXItems[i].code);
+        end;
+
+
+        ForcedMono:=IsDlgButtonChecked(Dialog,IDC_MONO);
 
         NumTries:=GetDlgItemInt(Dialog,IDC_TRIES,ltmp,false);
         if NumTries<1 then NumTries:=1;
-        DBWriteByte(0,PluginName,optNumTries,NumTries);
 
-        i:=GetDlgItemInt(Dialog,IDC_PREBUF,ltmp,false);
-        if i>100 then i:=100;
-        if cardinal(i)<>sPreBuf then
-        begin
-          sPreBuf:=i;
-          BASS_SetConfig(BASS_CONFIG_NET_PREBUF,i);
-          DBWriteWord(0,PluginName,optPreBuf,sPreBuf);
-        end;
+        // Bass config settings
 
-        i:=GetDlgItemInt(Dialog,IDC_BUFFER,ltmp,false);
-        if i>20000 then i:=20000;
-        if cardinal(i)<>sBuffer then
-        begin
-          sBuffer:=i;
-          BASS_SetConfig(BASS_CONFIG_NET_BUFFER,i);
-          DBWriteWord(0,PluginName,optBuffer,sBuffer);
-        end;
+        sPreBuf:=GetDlgItemInt(Dialog,IDC_PREBUF,ltmp,false);
+        if sPreBuf>100 then sPreBuf:=100;
 
-        i:=GetDlgItemInt(Dialog,IDC_TIMEOUT,ltmp,false);
-        if i>30000 then i:=30000;
-        if cardinal(i)<>sTimeout then
-        begin
-          sTimeout:=i;
-          BASS_SetConfig(BASS_CONFIG_NET_TIMEOUT,i);
-          DBWriteWord(0,PluginName,optTimeout,sTimeout);
-        end;
+        sBuffer:=GetDlgItemInt(Dialog,IDC_BUFFER,ltmp,false);
+        if sBuffer>20000 then sBuffer:=20000;
 
+        sTimeout:=GetDlgItemInt(Dialog,IDC_TIMEOUT,ltmp,false);
+        if sTimeout>30000 then sTimeout:=30000;
+
+        SetBassConfig;
+
+        SaveTechSettings;
       end;
     end;
 

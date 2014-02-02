@@ -52,7 +52,6 @@ begin
   hkrec.lParam          := MRC_MUTE;
   CallService(MS_HOTKEY_REGISTER,0,lparam(@hkrec));
 
-  //??
   hkrec.DefHotKey       := DefRadioKeyRecord;
   hkrec.pszName         := HKN_RECORD;
   hkrec.pszDescription.a:= 'Start/Stop Record';
