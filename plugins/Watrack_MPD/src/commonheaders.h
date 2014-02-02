@@ -22,7 +22,7 @@
 
 #include <newpluginapi.h>
 #include <m_netlib.h>
-#include <m_database.h>
+#include <m_utils.h>
 #include <m_options.h>
 #include <m_langpack.h>
 

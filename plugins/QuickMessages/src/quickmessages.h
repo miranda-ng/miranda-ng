@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_options.h>
-#include <m_database.h>
+#include <m_utils.h>
 #include <m_protomod.h>
 #include <m_langpack.h>
 #include <m_icolib.h>

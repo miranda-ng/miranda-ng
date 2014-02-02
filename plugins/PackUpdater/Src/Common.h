@@ -31,7 +31,7 @@ Boston, MA 02111-1307, USA.
 #include <m_skin.h>
 #include <m_langpack.h>
 #include <m_options.h>
-#include <m_database.h>
+#include <m_utils.h>
 #include <m_popup.h>
 #include <m_hotkeys.h>
 #include <m_netlib.h>

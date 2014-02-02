@@ -31,7 +31,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <m_options.h>
 #include <m_langpack.h>
 #include <m_protosvc.h>
-#include <m_database.h>
+#include <m_utils.h>
 #include <m_awaymsg.h>
 #include <m_idle.h>
 #include <m_icolib.h>
