@@ -26,7 +26,6 @@
 [Use this server for opening links:]
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 [Use local time for received messages]
-[Message sessions]
 [Keep messages as unread on server (don't send "seen" info)]
 [Receive messages from "inbox" folder only]
 [&Invite user...]

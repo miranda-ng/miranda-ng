@@ -47,7 +47,6 @@
 [A string that uniquely identifies the item.]
 [Specify one or more categories that the item belongs to.]
 [Feed Tag Help]
-[Are you sure?]
 [Tags Mask Reset]
 [Change Feed]
 [Contact deleting]

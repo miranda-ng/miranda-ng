@@ -136,11 +136,11 @@ Quelques texte d'exemple. Exemple, exemple, exemple.
 [30 mins]
 
 [1 hour]
-
+1 heure
 [1 day]
-
+1 jour
 [1 week]
-
+1 semaine
 [Title]
 
 [Background]

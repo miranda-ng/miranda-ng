@@ -197,7 +197,7 @@ Message invalide
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 
 [Are You sure?]
-
+Etes-vous sûr?
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 
 [Open in &new window]
@@ -350,9 +350,9 @@ Tous les fichiers (*.*)
 [Save WinSCP log file]
 
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-
+Vous avez entré une page de codes invalide. Sélectionnez la page de codes dans la liste déroulante ou saisissez le numéro correct.
 [Invalid codepage]
-
+Page de code invalide
 [Browse CSS file]
 
 [Export and Delete]

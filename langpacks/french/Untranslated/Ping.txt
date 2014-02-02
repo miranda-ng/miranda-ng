@@ -5,8 +5,6 @@
 [Browse...]
 [Interface]
 [Indent:]
-[Up]
-[Down]
 [Edit Host]
 [Label:]
 [Contact]

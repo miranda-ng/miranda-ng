@@ -2,8 +2,6 @@
 [Title]
 [Module/InfoType]
 [Setting]
-[Up]
-[Down]
 [Tool Window Style]
 [Save search pattern]
 [Auto Close mode]

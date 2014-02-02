@@ -14,9 +14,9 @@
 [New]
 Nouveau
 [Up]
-
+Haut
 [Down]
-
+Bas
 [Reload]
 Recharger
 [Delete]

@@ -18,8 +18,6 @@
 [Parse Tipper variables first]
 [Preset items:]
 [Substitutions]
-[Up]
-[Down]
 [Retrieve XStatus details if auto-retrieve is disabled]
 [Smileys support]
 [Use protocol smileys]

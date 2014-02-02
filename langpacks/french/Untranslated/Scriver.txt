@@ -18,7 +18,6 @@
 [Typing notification off]
 [Close button]
 [Single Messaging]
-[Cyrillic]
 [Navigate: Previous Tab]
 [Navigate: Next Tab]
 [Navigate: Tab %d]

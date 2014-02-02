@@ -8,7 +8,6 @@
 [Toggle On]
 [Add to Existing]
 [MetaContacts]
-[Are you sure?]
 [Meta ID]
 [Sender]
 [Subcontact contact number < 0 - deleting MetaContact]

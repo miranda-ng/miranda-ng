@@ -6,71 +6,71 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 [Uploads the text to web page and sends the URL to your friends.]
-
+Envoi le texte sur une page Web et envoie l'URL à vos amis.
 ;file \plugins\PasteIt\res\PasteIt.rc
 [Settings]
 Paramètres
 [Default web page]
-
+Page Web par défaut
 [Default file encoding]
-
+Encodage du fichier par défaut
 [Auto-detect UTF-8]
-
+Auto-detect UTF-8
 [Show confirmation dialog box]
-
+Afficher la demande  de confirmation
 [Autosend download link to contact]
 Envoyer automatiquement l'URL au contact
 [Web page settings]
-
+Paramètres de la page Web
 [Web page to configure]
-
+Page Web à configurer
 [Configure]
 Configurer
 [Default formatting]
-
+Mise en forme par défaut
 [Auto-detect format from file extension]
-
+Auto-détection du format de l'extension de fichier
 [Public paste]
-
+Copie publique
 [Login as guest]
-
+Connectez-vous en tant qu'invité
 [User key]
-
+Clé d'utilisateur
 [Get user key]
-
+Obtenir une clé d'utilisateur
 [Configure formatting]
-
+Configurez la mise en forme
 [OK]
 OK
 [Cancel]
 Annuler
 [Up]
-
+Haut
 [Down]
-
+Bas
 [Delete]
 Effacer
 [Restore defaults]
-
+Restaurer les valeurs par défaut
 [Download more]
-
+Télécharger plus
 [Login to pastebin.com]
-
+Connectez-vous pour pastebin.com
 [User name]
 Utilisateur
 [Password]
 Mot de passe
 [Paste It]
-
+Paste It
 [Format]
-
+Format
 [Encoding]
-
+Encodage
 [Recode]
 
 ;file \plugins\PasteIt\src\Options.cpp
 [Use default codepage]
-
+Utilisez la page de code par défaut
 [Thai]
 Thaïlandais
 [Japanese]
@@ -84,9 +84,9 @@ Chinois traditionnel
 [Central European]
 Europe Centrale
 [Cyrillic]
-
+Cyrillique
 [Cyrillic KOI8-R]
-
+Cyrillique KOI8-R
 [Latin I]
 Latin I
 [Greek]
@@ -104,9 +104,9 @@ Vietnamien
 [Korean (Johab)]
 Coréen (Johab)
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-
+Vous avez entré une page de codes invalide. Sélectionnez la page de codes dans la liste déroulante ou saisissez le numéro correct.
 [Invalid codepage]
-
+Page de code invalide
 [Services]
 Services
 [Main]
@@ -117,49 +117,49 @@ Page Web
 [All Files (*.*)]
 Tous les fichiers (*.*)
 [Paste It - Select file]
-
+Paste It - Sélectionnez le fichier
 [Error]
 Erreur
 [Paste from clipboard]
-
+Coller à partir du presse-papiers
 [Paste from file]
-
+Coller à partir du fichier
 [Paste It HTTP connections]
 
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
-
+Vous pouver coller 1 seul fichier
 [Cannot get data from clipboard]
-
+Ne peut pas obtenir les données du presse-papiers
 [File size is %d KB, do you realy want to paste such a large file?]
-
+La taille du fichier est %d KB, voulez-vous vraiment coller un tel fichier?
 [Are You sure?]
-
+Etes-vous sûr?
 [Cannot read file '%s']
-
+Ne peut pas lire le fichier '%s'
 [File size is larger then 10 MB, cannot be sent]
-
+La taille du fichier est plus grande que 10 Mo, ne peut pas être envoyé
 [Cannot open file '%s']
-
+Ne peut pas ouvrir le fichier '%s'
 [File '%s' is empty]
-
+Le fichier '%s' est vide
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
 [Error during sending text to web page: %s]
-
+Erreur lors de l'envoi du texte à la page Web : %s
 [Error during sending text to web page]
-
+Erreur lors de l'envoi de texte à la page Web
 [Error during getting user key from web page: %s]
-
+Erreur lors de l'obtention de la clé d'utilisateur : %s
 [Paste expire date]
-
+Date d'expiration
 [Never]
 Jamais
 [10 minutes]
-
+10 minutes
 [1 hour]
-
+1 heure
 [1 day]
-
+1 jour
 [1 month]
-
+1 mois
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp

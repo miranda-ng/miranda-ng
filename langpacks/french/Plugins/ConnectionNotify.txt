@@ -39,7 +39,7 @@ Paramètres
 [DN]
 
 [UP]
-
+Haut
 [Rule editor]
 
 [Application name]

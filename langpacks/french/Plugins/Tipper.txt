@@ -97,9 +97,9 @@ Ajouter
 [Remove]
 Retirer
 [Up]
-
+Haut
 [Down]
-
+Bas
 [Edit]
 Éditer
 [Separator]

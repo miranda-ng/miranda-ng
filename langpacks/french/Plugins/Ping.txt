@@ -55,9 +55,9 @@ Retirer
 [Edit]
 Éditer
 [Up]
-
+Haut
 [Down]
-
+Bas
 [Edit Host]
 
 [OK]

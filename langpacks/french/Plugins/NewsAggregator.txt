@@ -145,7 +145,7 @@ Erreur
 [Feed Tag Help]
 
 [Are you sure?]
-
+Etes-vous sûr?
 [Tags Mask Reset]
 
 [Wait...]

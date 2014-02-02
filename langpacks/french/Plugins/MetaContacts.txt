@@ -183,7 +183,7 @@ Erreur
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
 Ceci supprimera complètement le MetaContact, mais pas le contact en lui-même.\n\nVoulez-vous continuer ?
 [Are you sure?]
-
+Etes-vous sûr?
 [Remove from MetaContact]
 Retirer du MetaContact
 ;file \plugins\MetaContacts\src\meta_options.cpp

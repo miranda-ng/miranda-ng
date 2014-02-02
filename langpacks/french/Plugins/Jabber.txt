@@ -1297,7 +1297,7 @@ Erreurs
 [Notes are not saved, close this window without uploading data to server?]
 
 [Are you sure?]
-
+Etes-vous sûr?
 [Incoming note]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
@@ -2122,7 +2122,7 @@ Copier
 [Copy only this value]
 
 [format]
-
+Format
 [Unknown format]
 Format inconnu
 [<Photo not available while offline>]

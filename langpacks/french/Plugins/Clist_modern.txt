@@ -459,9 +459,9 @@ Aligner les éléments à gauche
 [Align right items to right]
 Aligner les éléments à droite
 [Up]
-
+Haut
 [Down]
-
+Bas
 [Left margin:]
 Marge gauche :
 [Right margin:]

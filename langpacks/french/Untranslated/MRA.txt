@@ -110,7 +110,6 @@
 [Reply to %s blog status]
 [Set my blog status]
 [Written]
-[Are you sure?]
 [Services...]
 [Please, setup e-mail in options]
 [Please, setup password in options]

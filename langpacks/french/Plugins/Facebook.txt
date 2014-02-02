@@ -81,7 +81,7 @@ Options Avancées
 [Use local time for received messages]
 
 [Message sessions]
-
+Sessions de message
 [Keep messages as unread on server (don't send "seen" info)]
 
 [Receive messages from "inbox" folder only]

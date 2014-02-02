@@ -355,7 +355,7 @@ e-mail
 
 ;file \protocols\MRA\src\Mra_menus.cpp
 [Are you sure?]
-
+Etes-vous sûr?
 [Services...]
 
 ;file \protocols\MRA\src\Mra_options.cpp

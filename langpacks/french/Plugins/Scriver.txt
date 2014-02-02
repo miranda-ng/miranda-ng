@@ -442,7 +442,7 @@ Chinois traditionnel
 [Central European]
 Europe Centrale
 [Cyrillic]
-
+Cyrillique
 [Latin I]
 Latin I
 [Greek]

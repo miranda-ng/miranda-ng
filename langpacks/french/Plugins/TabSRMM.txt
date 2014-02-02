@@ -623,7 +623,7 @@ Afficher les secondes dans l'horodatage
 [Use contacts local time]
 Utiliser l'heure locale des contacts
 [Format]
-
+Format
 [Indent message body]
 Décaler le corps du message
 [Display grid lines]
@@ -1313,9 +1313,9 @@ Chinois traditionnel
 [Central European]
 Europe Centrale
 [Cyrillic]
-
+Cyrillique
 [Cyrillic KOI8-R]
-
+Cyrillique KOI8-R
 [Latin I]
 Latin I
 [Greek]
@@ -1375,7 +1375,7 @@ Coréen (Johab)
 [Yesterday]
 
 [Use default codepage]
-
+Utilisez la page de code par défaut
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
 

@@ -74,6 +74,7 @@
 [Contact]
 [Chat log symbols (Webdings)]
 [&Leave chat]
+[&Open chat window]
 [ (set by %s on %s)]
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]

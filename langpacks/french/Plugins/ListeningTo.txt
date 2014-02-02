@@ -151,7 +151,7 @@ nom du lecteur
 [General]
 Général
 [Format]
-
+Format
 [Players]
 Lecteurs
 ;file \plugins\ListeningTo\src\players\generic.cpp

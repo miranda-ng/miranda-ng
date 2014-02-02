@@ -1,8 +1,6 @@
 ﻿[Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 [Actions]
 [No description]
-[Up]
-[Down]
 [Export]
 [Append data to file?]
 [Import]

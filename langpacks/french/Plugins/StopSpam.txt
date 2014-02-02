@@ -11,7 +11,7 @@
 [Question (Ctrl+Enter for carriage return):]
 
 [Restore defaults]
-
+Restaurer les valeurs par défaut
 [Answer (Use divider to separate answers):]
 
 [Congratulation:]

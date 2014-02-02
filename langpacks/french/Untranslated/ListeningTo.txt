@@ -37,6 +37,5 @@
 [Disable ListeningTo (to all protocols)]
 [Enable ListeningTo (to all protocols)]
 [<Nothing is playing now>]
-[Format]
 [Miranda ListeningTo receiver]
 [Miranda ListeningTo WMP receiver]

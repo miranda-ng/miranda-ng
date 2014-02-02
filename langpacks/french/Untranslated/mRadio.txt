@@ -75,6 +75,8 @@
 [Tries to connect]
 [Mute]
 [mRadio volume control]
+[mRadio off]
+[mRadio on]
 [Import File]
 [Play Station]
 [Forced Mono]

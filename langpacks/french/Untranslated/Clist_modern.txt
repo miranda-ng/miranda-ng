@@ -12,8 +12,6 @@
 [Avoid doubleclick expand]
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
 [Remove status message if contact became offline]
-[Up]
-[Down]
 [Use old render method (fast, but has artefacts)]
 [Use protocol smileys]
 [Show second line]
