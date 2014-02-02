@@ -49,6 +49,8 @@ var
   SaveHeader:bool;
 
 const
+  proxy:pAnsiChar = nil;
+const
   hRecord:THANDLE = 0;
 
 procedure BassError(text:PWideChar);
@@ -278,6 +280,8 @@ begin
   MyFreeBASS;
   if BassStatus=rbs_load then
   begin
+    mFreeMem(Proxy);
+
     BASS_PluginFree(0);
     Unload_BASSDLL;
 
@@ -409,8 +413,6 @@ begin
 end;
 
 function CheckBassStatus:bool;
-var
-  proxy:pAnsiChar;
 begin
   if BassStatus=rbs_null then
     MyLoadBass;
@@ -419,9 +421,9 @@ begin
   begin
     SetBassConfig;
 
+    mFreeMem(Proxy);
     proxy:=GetProxy(hNetLib);
     BASS_SetConfigPtr(BASS_CONFIG_NET_PROXY,proxy);
-    mFreeMem(proxy);
   end;
 
   if BassStatus=rbs_load then
