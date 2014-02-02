@@ -391,7 +391,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				_T("%mm%"),			TranslateT("month number, 01-12"),
 				_T("%mon%"),		TranslateT("abbreviated month name"),
 				_T("%month%"),		TranslateT("full month name"),
-				_T("%yy%"),			TranslateT("year without century, 01-  99"),
+				_T("%yy%"),			TranslateT("year without century, 01-99"),
 				_T("%yyyy%"),		TranslateT("year with century, 1901-9999"),
 				_T("%wday%"),		TranslateT("abbreviated weekday name"),
 				_T("%weekday%"),	TranslateT("full weekday name"));

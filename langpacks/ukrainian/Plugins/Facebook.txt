@@ -261,3 +261,9 @@
 Перевірити запити дружби
 [Check Newsfeeds]
 Перевірити новини
+[Message sessions]
+Діалоги
+[Keep messages as unread on server (don't send "seen" info)]
+Не позначати повідомлення на сервері як прочитані
+[Receive messages from "inbox" folder only]
+Приймати повідомлення тільки з папки "Вхідні"

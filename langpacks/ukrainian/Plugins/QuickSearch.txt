@@ -265,3 +265,5 @@ ID користувача
 Текстовий редактор
 [Wrap Text]
 Перенос рядків
+[Column content is contact property (see list). Can be empty.]
+Вміст стовпця власностей контакту (див. список). Може бути порожнім.
