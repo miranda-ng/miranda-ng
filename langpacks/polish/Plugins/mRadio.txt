@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: mRadio.dll
 ;  Module: mRadio
-;  Version: 0.0.2.3
+;  Version: 0.0.2.4
 ;  Authors: Awkward
 ;============================================================
 [This plugin plays and records Internet radio streams. Also local media files can be played.]
@@ -163,6 +163,10 @@ Prób łączenia
 Wycisz
 [mRadio volume control]
 Pasek głośności mRadio
+[mRadio off]
+mRadio wył.
+[mRadio on]
+mRadio wł.
 [Import File]
 Importuj z pliku
 [Play Station]

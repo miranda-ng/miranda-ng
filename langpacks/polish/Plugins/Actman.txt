@@ -160,11 +160,11 @@ Pod telefonem
 [Out to Lunch]
 Na obiedzie
 [text]
-
+tekst
 [int 0, if successful]
 
 [Set status message]
-
+Ustaw opis
 [Set protocol status]
 
 [None]
@@ -254,11 +254,11 @@ Miłość
 [Switch contact list status]
 
 [Hide All Titlebars]
-
+Ukryj wszystkie paski tytułów
 [Show All Frames]
-
+Pokaż wszystkie ramki
 [Show All Titlebars]
-
+Pokaż wszystkie paski tytułów
 [Closes Miranda]
 
 [Show or hide netlog console window]
@@ -294,7 +294,7 @@ Miłość
 [Go to Miranda Homepage]
 
 [System]
-
+System
 [Shows contact history or (wParam=0) system history]
 
 [Erases contact's history. hContact can be NULL(0) to empty system history]
@@ -302,13 +302,13 @@ Miłość
 [Show Global history search window. If already opened, bring it to front.]
 
 [Ignore all]
-
+Ignoruj wszystkie
 [Ignore messages]
-
+Ignoruj wiadomości
 [Ignore URLs]
-
+Ignoruj linki
 [Ignore files]
-
+Ignoruj pliki
 [Ignore User Online]
 
 [Ignore requests]
@@ -316,7 +316,7 @@ Miłość
 [Ignore 'You were added']
 
 [Ignore Contact]
-
+Ignoruj kontakt
 [Unignore Contact]
 
 [restart in default profile or profile manager]
@@ -326,7 +326,7 @@ Miłość
 [Restarts Miranda]
 
 [Station name]
-
+Nazwa stacji
 [wParam is Handle]
 
 [wParam is Ansi station name]
@@ -344,7 +344,7 @@ Miłość
 [All protocols]
 
 [Protocol]
-
+Protokół
 [signed -2 if proto can't set this, -1 on protocol not found, else 0]
 
 [Shows a dialog to set the avatar for all possible protocols]
@@ -358,7 +358,7 @@ Miłość
 [Open Options dialog]
 
 [Check for updates]
-
+Sprawdź aktualizacje
 [with confirmation]
 
 [without confirmation]
@@ -370,13 +370,13 @@ Miłość
 [YAPP or Popup]
 
 [Warning]
-
+Ostrzeżenie
 [Notify]
-
+Powiadomienia
 [Error]
-
+Błąd
 [Popup window]
-
+Wyskakujące okno
 [YAPP only]
 
 [Unicode Text]
@@ -504,7 +504,7 @@ Dane dotyczące długości
 [&Change]
 
 [&OK]
-
+&OK
 [C&ancel]
 A&nuluj
 [Process options]
@@ -628,13 +628,13 @@ Startuj od
 [Start immediately]
 Startuj natychmiast
 [Days]
-
+dniach
 [Time]
-
+Czas
 [Date]
-
+Data
 [Repeat]
-
+Powtórz
 [Repeat, times]
 Powtórz, razy
 [Interval]
@@ -710,9 +710,9 @@ Pokaż tylko gdy wynik wynosi 1
 [Choose action]
 Wybierz akcje
 [&Yes]
-
+Tak
 [&No]
-
+Nie
 [A&ppend]
 D&odaj
 [Yes to &All]
@@ -755,7 +755,7 @@ Wynik
 [Close for macro]
 
 [Choose Contact]
-
+Wybierz kontakt
 [Refresh]
 Odśwież
 [Get from active window]
@@ -785,11 +785,11 @@ Odśwież
 [& and]
 
 [Case sensitive]
-
+Wielkość liter ma znaczenie
 [Opposite order]
 
 [empty]
-
+pusty
 [contains]
 
 [starts with]
@@ -803,7 +803,7 @@ Odśwież
 [Right justified text]
 
 [Database]
-
+Profil
 [Save value]
 
 [Storage]
