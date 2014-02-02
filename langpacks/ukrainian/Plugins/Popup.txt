@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Popup.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.7
+;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -10,13 +10,13 @@
 [Content && Style]
 Стиль вікон
 [Go to Customize > Fonts && Colors for fonts and colors options]
-Налаштування шрифтів і кольорів: Тонке Налаштування -> Шрифти і кольори
+Налаштування шрифтів і кольорів: Тонке налаштування -> Шрифти і кольори
 [Miscellaneous]
 Інше
 [Effects]
 Ефекти
 [Live Preview]
-Попередній перегляд
+Перегляд
 [Size && Position]
 Місце і розмір
 [History]
@@ -26,7 +26,7 @@
 [Store last]
 Зберігати
 [events]
-подія(ї)
+подій
 [Use History++ to render log]
 History++ для історії вікон
 [Avatars]
@@ -36,7 +36,7 @@ History++ для історії вікон
 [Draw borders for semitransparent avatars too]
 Також для напівпрозорих аватарів
 [Round corners by]
-Округлити кути
+Заокруглити кути
 [pixels]
 пікс.
 [Avatar size:]
@@ -44,17 +44,15 @@ History++ для історії вікон
 [Enable avatar updates]
 Оновлення аватарів
 [Multimonitor]
-Декілька монеторів
+Декілька моніторів
 [Start the popups in the monitor with]
-Виринувши. вікна на моніторі, де
+Сплив. вікна на моніторі, де
 [Miranda's window]
 Вікно Miranda NG
 [the active window]
 Активне вікно
 [Transparency]
 Прозорість
-[Enable Win 9x/Me transparency]
-Прозорість в Win9x/ME
 [Use transparency]
 Використовувати прозорість
 [opacity:]
@@ -98,7 +96,7 @@ History++ для історії вікон
 [Close]
 Закрити
 [General]
-Загальна
+Загальне
 [Enable popup actions]
 Ввімкнути дії
 [Popup Actions are those tiny buttons below notification text.]
@@ -106,13 +104,13 @@ History++ для історії вікон
 [Common Actions]
 Спільні дії
 [Please choose in what cases default actions should be added:]
-Виберіть, в яких випадках додавати загальні дії:
+Виберіть, у яких випадках додавати загальні дії:
 [Add info && menu for IM contacts only]
 Меню та інфо тільки у контактів
 [Add default actions for contacts only]
 Заг. дії тільки у контактів
 [Don't close popups on default actions]
-Не закривати вікна спільних дій
+Не закривати вікна загальних дій
 [Use large icons]
 Великі значки
 [Popup actions will be displayed as:]
@@ -120,7 +118,7 @@ History++ для історії вікон
 [Icons and labels below text]
 Значки й підписи знизу
 [Icons on the left]
-Значки зліва
+Значки ліворуч
 [Icons aligned to the right]
 Значки праворуч
 [Show Actions: (requires apply)]
@@ -133,8 +131,8 @@ History++ для історії вікон
 Середня кнопка
 [Right Button]
 Права кнопка
-[Повідомлення]
-Повідомлення
+[Notifications]
+Сповіщення
 [General options]
 Загальні параметри
 [Enable this notification]
@@ -148,11 +146,13 @@ History++ для історії вікон
 [Disable when global status is...]
 Вимкнути, коли глобальний статус...
 [Disable when relevant protocol's status is...]
-Вимкнути, коли статус соотв. протоколу...
+Вимкнути, коли статус відп. протоколу...
 [Colors can be configured in\r\nCustomize > Fonts && Colors]
 Кольори налаштовуються в\r\nТонке налаштування -> Шрифти і кольори
-[Більше...]
+[More...]
 Ще...
+[Disable if message window is open]
+Вимкнути, якщо вікно повідомлень відкрите
 [Sec]
 с
 [0 = Default]
@@ -161,7 +161,7 @@ History++ для історії вікон
 -1=Нескінченно
 [Per-contact settings]
 Налаштування для кожного контакту
-[Always Show]
+[Show always]
 Завжди
 [Ignore fullscreen]
 Ігнор. повноекр.
@@ -170,13 +170,13 @@ History++ для історії вікон
 [Show default]
 За замовчанням
 [Default Timeout]
-За замовчанням тривалість
+Тривалість за замовчанням
 [Infinite popup delay]
 Не закривати вікна
 [Popup delay:]
 Затримка:
 [seconds]
-секунд(и)
+секунд
 [Do not close hovered popups]
 Не закривати вікно під курсором
 [Dynamically resize the popups]
@@ -202,11 +202,11 @@ History++ для історії вікон
 [no overwrite]
 немає дії
 [Send message]
-Відправити
+Надіслати
 [Quick reply]
-Швидкий відповідь
+Швидка відповідь
 [User details]
-Інформація про користувача
+Про користувача
 [Contact menu]
 Меню контакту
 [Dismiss popup]
@@ -218,7 +218,9 @@ History++ для історії вікон
 [Action]
 Дія
 [The Jabberwocky]
-Пустослів'я
+Бурмоковт
+[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+Варчилось... Хлив'язкі тхурки\r\nВикрули, свербчись навкрузі,\r\nЖасумновілі худоки\r\nГривіли зехряки в чузі.\r\n\t[b][i]Льюїс Керрол, 1855[/i][/b]
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 Тестовий перегляд для налаштувань плагіна спливаючих вікон. Заголовок досить довгий...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
@@ -262,13 +264,13 @@ History++ для історії вікон
 [Blocked Contact]
 Заблокований контакт
 [Quick Reply]
-Швидкий відповідь
+Швидка відповідь
 [Pin Popup]
 Закріпити
 [Pinned Popup]
 Закріплене
 [Send Message]
-Відправити
+Надіслати
 [Contact Menu]
 Меню контакту
 [Add Contact Permanently]
@@ -291,14 +293,18 @@ History++ для історії вікон
 Вимкнути спливаючі вікна
 [Popup Plus]
 Спливаючі вікна
+[Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
+Помилка: не вдалося зареєструвати клас Popup Window.\r\nПлагін не працюватиме.
+[%s (colors only)]
+%s (тільки кольори)
 [No effect]
 Без ефекту
 [Fade in/out]
 Плавний показ
 [CLASS Plugins]
 Групи плагінів
-[Ph'nglui mglw'nafh Cthulhu R lyeh wgah'nagl fhtagn!]
-У своєму будинку в р'льехе мертвий Ктулху спить, чекаючи своєї години
+[Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
+У своїй оселі в Р'льєху мертвий Ктулху спить і чекає.
 [Offline]
 Не в мережі
 [Online]
@@ -318,13 +324,13 @@ History++ для історії вікон
 [Out to lunch]
 Обідаю
 [On the phone]
-На телефоні
+Телефоную
 [Width]
 Ширина
 [upper left corner]
-зліва зверху
+ліворуч зверху
 [lower left corner]
-зліва знизу
+ліворуч знизу
 [lower right corner]
 праворуч знизу
 [upper right corner]
@@ -335,14 +341,16 @@ History++ для історії вікон
 вертикаль
 [Global Status]
 Загальний статус
-[Status Protocol]
+[Protocol Status]
 Статус протоколу
 [You cannot specify a value lower than %d and higher than %d.]
 Значення менше %d або більше %d не допускається.
 ['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-Налаштування "Впорядковувати (зсувати) вікна" вимкнено.\r\nЦе може призвести до перекосу при використанні з\r\nаватарами і заміною тексту (з плагіном NewXstatusNotify).\r\n\r\nВвімкнути впорядкування (зрушення) вікон?\r\n
+Налаштування "Впорядковувати (зсувати) вікна" вимкнено.\r\nЦе може призвести до перекосу при використанні з\r\nаватарами і заміною тексту (з плагіном NewXstatusNotify).\r\n\r\nВвімкнути впорядкування (зсув) вікон?\r\n
 [Popup Plus Warning]
 Попередження Popup Plus
+[Failed to register %s class.]
+Не вдалося зареєструвати клас %s.
 [Skin preview]
 Перегляд скіна
 [Just take a look at this skin... ;)]
@@ -355,7 +363,7 @@ History++ для історії вікон
 не прямокутні
 [Enable Aero Glass (Vista+)]
 Ефект Aero Glass (Vista+)
-[Use Windows colours]
+[Use Windows colors]
 Кольори Windows
 [Use advanced text render]
 Розширена обробка тексту
@@ -369,17 +377,17 @@ History++ для історії вікон
 Попередження
 [Notify]
 Сповіщення
-[Popup Mode: Auto]
-Режим спливаючих вікон: за замовчуванням
-[Popup Mode: Favourite]
-Режим спливаючих вікон: Обрані
-[Popup Mode: Ignore fullscreen]
-Режим спливаючих вікон: ігнорувати повноекранні додатки
-[Popup Mode: Block contact]
-Режим спливаючих вікон: блокувати
 [Auto]
 Авто
-[Favourite]
+[Favorite]
 Обране
 [Block]
 Заблокувати
+[Popup Mode: Auto]
+Режим спливаючих вікон: за замовчуванням
+[Popup Mode: Favorite]
+Режим спливаючих вікон: обране
+[Popup Mode: Ignore fullscreen]
+Режим спливаючих вікон: ігнорувати повноекранні програми
+[Popup Mode: Block contact]
+Режим спливаючих вікон: блокувати

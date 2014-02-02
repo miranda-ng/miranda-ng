@@ -71,6 +71,10 @@
 Виправлення не може бути порожнім!
 [The correction can't be equal to the wrong word!]
 Виправлення та слово з помилкою не можуть співпадати!
+[Tagalog (Philippines)]
+Тагальська (Філіппіни)
+[German (Germany)]
+Німецька (Німеччина)
 [Message Sessions]
 Бесіди
 [Auto-replacements]
@@ -127,7 +131,3 @@
 Ввімкнути перевірку орфографії
 [Wrong words]
 Слова з помилками
-[Tagalog (Philippines)]
-Тагальська (Філіппіни)
-[German (Germany)]
-Німецка (Німетчина)

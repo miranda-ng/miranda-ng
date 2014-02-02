@@ -1,2 +1,0 @@
-﻿[Column content is contact property (see list). Can be empty.]
-[Wrap Text]

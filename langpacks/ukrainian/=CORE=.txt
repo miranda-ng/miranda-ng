@@ -1267,10 +1267,6 @@ Cповіщати про друк, коли вікно повідомлень з
 очікування...
 [Status]
 Статус
-[Join chat]
-Увійти до чату
-[Open chat window]
-Відкрити вікно чату
 [Chat module]
 Чати
 [Group chat log background]
@@ -2385,6 +2381,8 @@ ANSI-плагін
 Показати/сховати
 [Exit]
 Вихід
+[Join chat]
+Увійти до чату
 [Leave chat]
 Вийти з чату
 [Move to group]
@@ -2941,7 +2939,3 @@ ANSI-плагін
 Замбія
 [Zimbabwe]
 Зімбабве
-[Group chat log background]
-Фон журналу чата
-[&Leave chat]
-&Покинути чат

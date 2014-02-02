@@ -30,12 +30,12 @@
 [You have changed the plugin settings via database.\nThis requires restart!]
 Ви змінили налаштування плагіна через базу даних.\nПотрібен перезапуск Miranda!
 [Quick Messages Help]
-Допомога по швидким повідомленнями
+Допомога по швидким повідомленням
 [- Selected text]
 - Виділений текст
 [List of variables:]
 Список змінних:
-[Text from Clipboard]
+[- Text from Clipboard]
 - Текст з буфера обміну
 [- Contacts Protocol name (upper case)]
 - Ім'я контакту (Великі літери)
@@ -46,18 +46,22 @@
 [*Rename menu item into "---" to insert separator]
 Щоб вставити роздільник, перейменуйте пункт меню у "---"
 [*Use drag'n'drop for arranging menu items]
-*Перетягніть мишкою пункти меню для сортування
+*Перетягуйте мишкою пункти меню для сортування
 [- Contact first name]
 - Ім'я контакту
 [- Contact last name]
 - Прізвище контакту
 [Quick Messages]
-Миттєві повідомлення
+Швидкі повідомлення
 [Enter Value]
 Введіть значення
+[You win!]
+Ви виграли!
 [New Button]
 Нова кнопка
 [New Menu Entry]
 Новий пункт меню
 [Message Sessions]
 Бесіди
+[Quick Messages Button %u]
+Кнопка швидких повідомлень %u

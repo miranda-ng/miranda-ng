@@ -239,6 +239,8 @@ ID користувача
 Вміст - налаштування в базі
 [Column content is script result.\r\nMore help from "Help" button in script dialog.]
 Вміст - результат скрипта.\r\nНатисність "Довідка" у діалозі скрипта для докладної інформації.
+[Column content is contact property (see list). Can be empty.]
+Вміст - властивості контакту (див. список). Може бути порожнім.
 [Content is last online time.]
 Вміст - час останньої появи контакта
 [Content is time of last contact event.]
@@ -265,5 +267,3 @@ ID користувача
 Текстовий редактор
 [Wrap Text]
 Перенос рядків
-[Column content is contact property (see list). Can be empty.]
-Вміст стовпця власностей контакту (див. список). Може бути порожнім.

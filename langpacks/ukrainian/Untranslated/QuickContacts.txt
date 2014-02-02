@@ -1,2 +1,0 @@
-﻿[recognize messages sent with hotkey only]
-[But keep subcontacts of protocols in above list if meta is hidden]

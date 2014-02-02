@@ -128,7 +128,7 @@ URL станції/плейлиста
 [Can't initialize device]
 Не можу ініціалізувати пристрій
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
-Не вдається підключитися до мережі. Будь ласка, зніміть галку "Працювати автономно" в настройках Internet Explorer
+Не вдається підключитися до мережі. Будь ласка, зніміть галку "Працювати автономно" в налаштуваннях Internet Explorer.
 [Start broadcasting]
 Початок мовлення
 [Stop broadcasting]

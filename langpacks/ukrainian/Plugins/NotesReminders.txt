@@ -144,7 +144,7 @@
 [&Visible]
 &Видимість
 [Always &On Top]
-«Завжди &зверху»
+Завжди &зверху
 [Delete &All Notes]
 Видалити &всі нотатки
 [&Show / Hide Notes]
@@ -274,7 +274,7 @@
 [Week]
 Тиждень
 [The specified time is invalid due to begin of daylight saving (summer time).]
-Зазначений час недійсний через перехід на «літній час»
+Зазначений час недійсний через перехід на літній час.
 [The specified time is invalid.]
 Зазначений час недійсний.
 [The specified time offset is invalid.]

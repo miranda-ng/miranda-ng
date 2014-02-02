@@ -15,8 +15,6 @@
 Показувати випадкову заставку
 [Play sound]
 Програвати звук
-[Loop sound]
-Повторювати звук
 [Show Miranda Version]
 Показувати версію Miranda NG
 [Enable]
@@ -36,11 +34,11 @@
 [Fade out:]
 Зникнення:
 [Advaimg library not found. Please get it from nigtlies to be able to use images.]
-Бібліотека AdvaImg не знайдена. Будь ласка, встановіть її для використання зображень.
+Бібліотека AdvaImg.dll не знайдена. Будь ласка, встановіть її для використання зображень.
 [Preview...]
 Перегляд...
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-Ваша AdvaImg.dll застаріла або пошкоджена. Встановіть альфа-версію Miranda NG.
+Ваша AdvaImg.dll застаріла або пошкоджена. Встановіть останню версію з сайту Miranda NG.
 [Error]
 Помилка
 [Call Splash Service]

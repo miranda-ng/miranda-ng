@@ -6,7 +6,7 @@
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates and economic quotes.]
-Дозволяє спостерігати за змінами курсів валют і біржових котирувань.
+Дозволяє спостерігати за змінами курсів валют і біржових котувань.
 [Variable List]
 Змінні
 [Edit Settings]
@@ -22,7 +22,7 @@
 [&Variables...]
 &Змінні...
 [&Add to History only if Value Changed]
-&Додавати в історію, тільки якщо змінилося значення
+&Додавати в історію тільки якщо змінилося значення
 [Use &External File]
 Використовувати &зовнішній файл
 [&Select File:]
@@ -36,11 +36,11 @@
 [V&ariables...]
 З&мінні...
 [Add to &Log only if Value Changed]
-Додавати файл, тільки якщо змінилося значення
+Додавати файл тільки якщо змінилося значення
 [Show &Popup Window]
 Показувати &спливаюче вікно
 [Show Popup Window Only if Value &Changed]
-Показувати спливаюче вікно тільки, якщо змінилося значення
+Показувати спливаюче вікно тільки якщо змінилося значення
 [Cancel]
 Скасувати
 [Popup settings...]
@@ -49,24 +49,32 @@
 Конвертер валют
 [&to:]
 &у:
+[&Swap]
+&Обміняти
+[Convert]
+Конвертувати
 [Close]
 Закрити
+[Chart]
+Діаграма
 [Filter:]
-Філтр:
+Фільтр:
 [Popup Window Settings]
 Налаштування спливаючих вікон
-[Colours]
+[Colors]
 Кольори
-[Use default colours]
-Кольори за замовчанням
-[Use user-defined colours]
-Налаштувати кольору
-[Background colour]
+[Use default colors]
+За замовчуванням
+[Use user-defined colors]
+Вказати кольори
+[Background color]
 Колір фону
-[Text colour]
+[Text color]
 Колір тексту
 [Delay]
 Затримка
+[From Popup plugin]
+За замовчуванням
 [Custom]
 Налаштувати
 [Permanent]
@@ -76,9 +84,9 @@
 [Preview]
 Тест
 [&Choose Quotes to watch in contact list:]
-&Виберіть котирування для спостереження в списку контактів:
+&Виберіть котування для спостереження в списку контактів:
 [&Refresh Quotes Every:]
-&Оновлювати котирування кожні:
+&Оновлювати котування кожні:
 [&Display in Contact List as:]
 &Показувати в списку як:
 [&Status Message:]
@@ -104,13 +112,13 @@
 [&Remove]
 &Очистити
 [&Refresh Rates Every:]
-&Оновлювати кожні курси:
+&Оновлювати курси кожні:
 [Quote\\Rate Info]
-Інформація про котирування\\курсі валют
+Інформація про котування\\курс валют
 [Type &Stock Name or Symbol:]
-Назва котирування:
+Назва котування:
 [&Watched Quotes:]
-&Відслідковані котирування:
+&Відслідковані котування:
 [Status &Message:]
 Повідомлення &статусу:
 [Seconds]
@@ -118,21 +126,21 @@
 [Minutes]
 хвилин
 [Hours]
-Годин
+годин
 [Info provided by]
 Інформація надана
 [Enter positive number.]
 Додатнє число.
 [Quotes]
-Котирування
+Котування
 [Refresh All Quotes\\Rates]
-Оновити всі котирування\\курси валют
+Оновити всі котування\\курси валют
 [Currency Converter...]
 Конвертер валют...
 [Export All Quotes]
-Експорт всіх котирувань
+Експорт усіх котувань
 [Import All Quotes]
-Імпорт всіх котирувань
+Імпорт усіх котувань
 [Refresh]
 Оновити
 [Open Log File...]
@@ -144,19 +152,19 @@
 [Network]
 Мережа
 [Quotes HTTP connections]
-HTTP підключення Quotes
+HTTP-з'єднання Quotes
 [Protocol icon]
 Значок протоколу
 [Quote/Rate up]
-Зросло значення
+Значення зросло
 [Quote/Rate down]
 Значення впало
 [Quote/Rate not changed]
 Значення не змінилося
 [Quote Section]
-Розділ котирувань
+Розділ котувань
 [Quote]
-Котирування
+Котування
 [Export]
 Експорт
 [Swap button]
@@ -164,9 +172,9 @@ HTTP підключення Quotes
 [Import]
 Імпорт
 [Xml File (*.xml)]
-XML файли
+Файл XML (*.xml)
 [All files (*.*)]
-Всі файли
+Усі файли (*.*)
 [Log File]
 Журнал
 [Miranda's History]
@@ -184,9 +192,9 @@ XML файли
 [Error occurred during site access.]
 Помилка при доступі до сайту.
 [Quote Symbol]
-Символ котирування
+Символ котування
 [Quote Name]
-Назва котирування
+Назва котування
 [From Currency Full Name]
 Повна назва вихідної валюти
 [From Currency Short Name]
@@ -195,14 +203,14 @@ XML файли
 Повна назва цільової валюти
 [Into Currency Short Name]
 Коротка назва цільової валюти
-[Short notation for "%f/%i]
+[Short notation for "%f/%i"]
 Коротке позначення "%f/%i"
 [Source of Information]
 Джерело інформації
 [Rate Value]
-Поточне значення котирування курсу
+Поточне значення котування/курсу
 [Previous Rate Value]
-Попереднє значення котирування курсу
+Попереднє значення котування/курсу
 [Fetch Time]
 Час оновлення
 [Fetch Date]

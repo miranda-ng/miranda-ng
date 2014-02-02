@@ -76,7 +76,7 @@
 [Save your current session?]
 Зберегти поточну сесію?
 [Favorite Session]
-Обібрана сесія
+Обрана сесія
 [Not favorite Session]
 Не обрана сесія
 [Load Session]
@@ -86,7 +86,7 @@
 [Current session is empty!]
 Поточна сесія порожня!
 [Session name is empty, enter the name and try again]
-Ім'я сесії порожньо, введіть назву та спробуйте ще раз
+Ім'я сесії порожньє, введіть назву та спробуйте ще раз
 [No sessions to open]
 Немає сесій для відкриття
 [Last Sessions is empty]

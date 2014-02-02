@@ -14,7 +14,7 @@
 [recognize all messages sent]
 Визначати всі надіслані повідомлення
 [recognize messages sent with hotkey only]
-Визначати тільки повідомлення, відправлені гар. клавишею
+Визначати тільки повідомлення, відправлені гар. клавішею
 [Contacts]
 Контакти
 [Show offline contacts on these protocols:]
@@ -26,7 +26,7 @@
 [But show it as a column...]
 Але показувати її як колонку...
 [...on left side of name]
-...зліва від імені
+...ліворуч від імені
 [Hide subcontacts]
 Ховати субконтакти
 [But keep subcontacts of protocols in above list if meta is hidden]

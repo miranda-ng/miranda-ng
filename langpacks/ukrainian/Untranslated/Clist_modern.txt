@@ -1,17 +1,6 @@
-﻿[Window behavior:]
-Поведінка вікна
-[List sorting:]
-Сортування списку:
-[Status bar:]
-Рядок статусу:
-[List content:]
-
-[Show contact time in list]
-Показувати часову зону контаку у списку
+﻿[List content:]
 [Compact mode]
-
 [Available objects]
-
 [Object properties]
 [Alpha]
 [Image file and fitting mode]

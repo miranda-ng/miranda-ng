@@ -4,8 +4,6 @@
 [Google]
 [Wikipedia]
 [&Retry]
-[Continue]
-[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 [Show picture for this contact]
 [Limit message preview to]
 [You can override the global setting for text formatting here. Use "Force Off" to never send formatting info for this contact.]

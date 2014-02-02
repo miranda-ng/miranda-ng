@@ -15,24 +15,24 @@
 Ім'я:
 [Author:]
 Автор:
-[Версія:]
+[Version:]
 Версія:
 [Preview]
 Тест
 [Display]
 Показувати
 [Replace only smileys surrounded by spaces]
-Замінювати тільки смайли оточені пробілами
+Замінювати тільки смайли, оточені пробілами
 [Scale smiley to text height]
 Масштабувати смайли під текст
 [Disable custom smileys]
-Вимкнути завантаження смайли
+Вимкнути завантажувані смайли
 [High quality smiley scaling]
 Якісне масштабування
 [Animate]
 Анімація
 [Maximum 'Custom smiley' height]
-Макс. висота загруж. смайлів
+Макс. висота завант. смайлів
 [Minimum smiley height]
 Мінімальна висота смайлів
 [Smiley selector]
@@ -40,7 +40,7 @@
 [Surround inserted smiley with spaces]
 Вставити смайл з пробілами
 [Use first smiley for selection size]
-Розмір всіх смайлів як у першого
+Розмір усіх смайлів як у першого
 [IEView style window]
 Вікно в стилі IEView
 [Input area]
@@ -55,43 +55,45 @@
 Вимкнути
 [Smiley button]
 Кнопка смайла
+[Show smiley selection window]
+Показати вікно вибору смайлів
 [SmileyAdd]
 Смайли
 [Smiley cache]
 Кеш смайлів
 [SmileyAdd HTTP connections]
-HTTP підключення SmileyAdd
+HTTP-з'єднання SmileyAdd
 [Button smiley]
 Кнопка смайла
 [Assign smiley category]
 Категорія смайлів
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
-Тільки одна копія SmileyAdd може бути запущена.\nВидаліть дублікат з папки "Plugins"
+Може бути запущена тільки одна копія SmileyAdd.\nВидаліть дублікат з папки Plugins.
 [Smileys]
 Смайли
 [Customize]
-Тонка настройка
+Тонке налаштування
 [Off]
-Вимкнено.
+Вимк.
 [Top]
 Верх
+[Bottom]
+Низ
 [Smiley packs]
 Набір смайлів
 [All files]
-Всі файли
+Усі файли
 [Protocol specific]
 Згідно з протоколом
 [Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
-Набір смайлів %s не знайдено.\nВиберіть набір смайлів: Налаштування -> Тонка настройка -> Смайли.
+Набір смайлів %s не знайдено.\nВиберіть набір смайлів: Налаштування -> Тонке налаштування -> Смайли.
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Проблеми з завантаженням набору смайлів (необхідно виправити).\nДля подробиць дивіться мережевий журнал.
 [Smiley #%u in file %s for smiley pack %s not found.]
 Смайл #%u у файлі %s для набору смайлів %s не знайдено.
 [Standard]
 Стандартні
-[Regular expression\"% s \ " in smiley pack "%s \ " could produce "empty matches".]
-Регулярний вираз "%s" в наборі смайлів "%s" не може виводити "порожні значення".
-[Regular expression\"% s \ " in smiley pack "%s" malformed.]
-Регулярний вираз "%s" в наборі смайлів "%s" пошкоджено.
-[d'oh!]
-Ох!
+[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
+Регулярний вираз "%s" у наборі смайлів "%s" може виводити "порожнє значення".
+[Regular expression "%s" in smiley pack "%s" malformed.]
+Помилковий регулярний вираз "%s" у наборі смайлів "%s".

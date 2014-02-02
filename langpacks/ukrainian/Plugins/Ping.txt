@@ -18,7 +18,7 @@
 [Log to File]
 Журнал у файл
 [Log Filename:]
-Ім'я журналу
+Ім'я журналу:
 [Network]
 Мережа
 [Popups]

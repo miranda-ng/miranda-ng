@@ -1,8 +1,10 @@
 ﻿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
 ;============================================================
-;  File: tabsrmm.dll
-;  Module: Tabbed SRMM
-;  Versions: 3.2.0.0
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.3.0.2
+;  Version: 3.3.0.3
+;  Authors: The Miranda developers team and contributors
 ;============================================================
 ;============================================================
 ;Сторінки опцій
@@ -1499,10 +1501,6 @@ ID користувача в панелі статусу
 Автовибір
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Додайте користувача по його імені або по ID. Рекомендується використовувати маски.
-[TabSRMM exception]
-Помилка TabSRMM
-[Exit Miranda]
-Вихід з Miranda
 [You have chosen to disable all event notifications for open message windows.]
 Ви вимкнули всі сповіщення про події, які відкривають вікно повідомлень.
 [Select container]
