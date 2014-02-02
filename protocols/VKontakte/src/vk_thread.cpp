@@ -422,10 +422,13 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	}
 
 	CMStringA mids, lmids;
+	bool bDirectArray = false;
 
 	JSONNODE *pMsgs = json_as_array(json_get(pResponse, "msgs"));
-	if (pMsgs == NULL)
+	if (pMsgs == NULL) {
 		pMsgs = pResponse;
+		bDirectArray = true;
+	}
 
 	int numMessages = json_as_int(json_at(pMsgs, 0));
 	for (int i = 1; i <= numMessages; i++) {
@@ -449,7 +452,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		// VK documentation lies: even if you specified preview_length=0, 
 		// long messages get cut out. So we need to retrieve them from scratch
 		ptrT ptszBody(json_as_string(json_get(pMsg, "body")));
-		if (_tcslen(ptszBody) > 100) {
+		if (!bDirectArray && _tcslen(ptszBody) > 1000) {
 			if (!lmids.IsEmpty())
 				lmids.AppendChar(',');
 			lmids.Append(szMid);
