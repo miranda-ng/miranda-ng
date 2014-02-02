@@ -90,6 +90,5 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	DestroyHookableEvent(hStateChangedEvent);
 	return 0;
 }
