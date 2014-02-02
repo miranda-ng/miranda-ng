@@ -203,18 +203,7 @@ char *GetContactCachedProtocol(HANDLE hContact)
 
 char *GetProtoForContact(HANDLE hContact)
 {
-	DBVARIANT dbv;
-	DBCONTACTGETSETTING dbcgs;
-	char name[32];
-
-	dbv.type = DBVT_ASCIIZ;
-	dbv.pszVal = name;
-	dbv.cchVal = SIZEOF(name);
-	dbcgs.pValue = &dbv;
-	dbcgs.szModule = "Protocol";
-	dbcgs.szSetting = "p";
-	if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC,(WPARAM)hContact,(LPARAM)&dbcgs)) return NULL;
-	return mir_strdup(dbcgs.pValue->pszVal);
+	return mir_strdup(GetContactProto(hContact));
 }
 
 int GetStatusForContact(HANDLE hContact,char *szProto)

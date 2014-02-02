@@ -616,21 +616,7 @@ void DeleteFileOrFolder(const char *name)
 
 BOOL isMetaContact(HANDLE hContact)
 {
-	DBVARIANT dbv;
-	DBCONTACTGETSETTING dbcgs;
-	char name[32];
-
-	dbv.type=DBVT_ASCIIZ;
-	dbv.pszVal=name;
-	dbv.cchVal=sizeof(name);
-	dbcgs.pValue=&dbv;
-	dbcgs.szModule="Protocol";
-	dbcgs.szSetting="p";
-
-	if(CallService(MS_DB_CONTACT_GETSETTINGSTATIC,(WPARAM)hContact,(LPARAM)&dbcgs))
-		return FALSE;
-
-	return strcmp(dbcgs.pValue->pszVal, METACONTACTS_PROTOCOL_NAME) == 0;
+	return lstrcmpA(GetContactProto(hContact), METACONTACTS_PROTOCOL_NAME) == 0;
 }
 
 
