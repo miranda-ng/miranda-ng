@@ -1923,7 +1923,7 @@ begin
 
       saveopt_wnd;
 
-      ListView_SetImageList(grid,0,LVSIL_SMALL);
+      ListView_SetImageList(GetDlgItem(Dialog,IDC_LIST),0,LVSIL_SMALL);
 
       if (qsopt.flags and QSO_SAVEPATTERN)<>0 then
       begin
