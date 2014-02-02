@@ -163,6 +163,10 @@ URL станции/плейлиста
 Вкл/выкл звук
 [mRadio volume control]
 Уровень громкости mRadio
+[mRadio off]
+mRadio выкл
+[mRadio on]
+mRadio вкл
 [Import File]
 Импортировать файл
 [Play Station]
