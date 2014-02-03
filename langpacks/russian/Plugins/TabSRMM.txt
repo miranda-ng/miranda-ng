@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.2
+;  Version: 3.3.0.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -159,14 +159,6 @@
 &Добавить
 [&Remove]
 &Очистить
-[TabSRMM exception]
-Ошибка TabSRMM
-[Copy to clipboard]
-Копировать в буфер обмена
-[Continue]
-Продолжить
-[Exit Miranda]
-Выход из Miranda
 [Customize the panel]
 Настроить инфо-панель
 [Scope of settings]

@@ -419,7 +419,7 @@
 [month number, 01-12]
 [abbreviated month name]
 [full month name]
-[year without century, 01-  99]
+[year without century, 01-99]
 [year with century, 1901-9999]
 [abbreviated weekday name]
 [full weekday name]

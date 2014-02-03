@@ -1265,10 +1265,6 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 ожидание...
 [Status]
 Статус
-[Join chat]
-Войти в чат
-[Open chat window]
-Открыть окно чата
 [Chat module]
 Модуль чата
 [Group chat log background]
@@ -2163,8 +2159,6 @@ Miranda NG не может открыть этот профиль
 Пользователи не найдены
 [Failed to create file]
 Ошибка создания файла
-[<mixed>]
-<смешано>
 [<none>]
 <нет>
 [Shadow at left]
@@ -2377,6 +2371,8 @@ ANSI плагин
 Скрыть/показать
 [Exit]
 Выход
+[Join chat]
+Войти в чат
 [Leave chat]
 Покинуть чат
 [Move to group]

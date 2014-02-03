@@ -241,6 +241,8 @@ BL&OB
 Удалить модуль из базы
 [Delete module from Database... Loading]
 Удаление модуля из базы... Загрузка
+[Delete module from all contacts (Includes Setting)]
+Удалить из всех контактов (с настройками)
 [INI Files]
 INI файлы
 [All Files]
