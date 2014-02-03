@@ -719,3 +719,5 @@ Zobacz historię użytkownika
 Zobacz historię użytkownika
 [View &History]
 Zobacz historię
+[User Menu]
+Menu użytkownika
