@@ -155,33 +155,6 @@ typedef struct {
 	DBVARIANT value;		// variant containing the value to set
 } DBCONTACTWRITESETTING;
 
-/* DB/Contact/GetSettingStatic service
-Look up the value of a named setting for a specific contact in the database
-  wParam = (WPARAM)(HANDLE)hContact
-  lParam = (LPARAM)(DBCONTACTGETSETTING*)&dbcgs
-hContact should have been returned by find*contact or addcontact
-This service differs from db/contact/getsetting in that it won't malloc()
-memory for the return value if it needs to do so. This introduces some extra
-constraints:
-Upon calling dbcgs.pValue->type should be initialised to the expected type of
-the setting. If the setting is of an integral type it won't matter if it's
-wrong and the service will correct it before returning, however if the setting
-is a string or a blob the service needs to know where to put the data and will
-fail if type is set wrongly.
-If dbcgs.pValue->type is DBVT_ASCIIZ or DBVT_BLOB upon calling, the
-corresponding data field (pszVal or pbVal) must point to a buffer allocated by
-the caller and the length field (cchVal or cpbVal) must contain the size of
-that buffer in bytes.
-If the setting type is variable length (DBVT_ASCIIZ or DBVT_BLOB), on exit the
-length field (cchVal or cpbVal) will be filled with the full length of the
-setting's value (excluding the terminating nul if it's DBVT_ASCIIZ).
-This service exists as well as db/contact/getsetting because malloc()/free()
-can be too slow for frequently queried settings.
-Returns 0 on success or nonzero if the setting name was not found or hContact
-was invalid.
-*/
-#define MS_DB_CONTACT_GETSETTINGSTATIC  "DB/Contact/GetSettingStatic"
-
 /* db/contact/enumsettings    v0.1.0.1+
 Lists all the settings a specific modules has stored in the database for a
 specific contact.

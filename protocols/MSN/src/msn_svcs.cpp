@@ -480,7 +480,7 @@ int CMsnProto::OnDbSettingChanged(WPARAM wParam,LPARAM lParam)
 	if (!strcmp(cws->szSetting, "ApparentMode"))
 	{
 		char tEmail[MSN_MAX_EMAIL_LEN];
-		if (!getStaticString(hContact, "e-mail", tEmail, sizeof(tEmail)))
+		if (!db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail)))
 		{
 			bool isBlocked = Lists_IsInList(LIST_BL, tEmail);
 
@@ -503,7 +503,7 @@ int CMsnProto::OnDbSettingChanged(WPARAM wParam,LPARAM lParam)
 		if (!isMe || !nickChg)
 		{
 			char szContactID[100];
-			if (!getStaticString(hContact, "ID", szContactID, sizeof(szContactID)))
+			if (!db_get_static(hContact, m_szModuleName, "ID", szContactID, sizeof(szContactID)))
 			{
 				if (cws->value.type != DBVT_DELETED)
 				{

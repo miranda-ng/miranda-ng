@@ -134,7 +134,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 	int retVal = -1;
 
 	char szPassword[100];
-	getStaticString(NULL, "Password", szPassword, sizeof(szPassword));
+	db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword));
 	szPassword[16] = 0;
 	char* szEncPassword = HtmlEncode(szPassword);
 
@@ -156,7 +156,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 	mir_free(szEncPassword);
 
 	char* szPassportHost = (char*)mir_alloc(256);
-	if (getStaticString(NULL, "MsnPassportHost", szPassportHost, 256))
+	if (db_get_static(NULL, m_szModuleName, "MsnPassportHost", szPassportHost, 256))
 		strcpy(szPassportHost, defaultPassportUrl);
 
 	bool defaultUrlAllow = strcmp(szPassportHost, defaultPassportUrl) != 0;

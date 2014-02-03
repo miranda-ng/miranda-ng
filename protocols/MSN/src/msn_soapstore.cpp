@@ -75,7 +75,7 @@ char* CMsnProto::GetStoreHost(const char* service)
 	mir_snprintf(hostname, sizeof(hostname), "StoreHost-%s", service);
 
 	char* host = (char*)mir_alloc(256);
-	if (getStaticString(NULL, hostname, host, 256))
+	if (db_get_static(NULL, m_szModuleName, hostname, host, 256))
 		strcpy(host, "https://tkrdr.storage.msn.com/storageservice/SchematizedStore.asmx");
 
 	return host;

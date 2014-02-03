@@ -47,7 +47,8 @@ static int GetDatabaseString(CONTACTINFO *ci, const char* setting, DBVARIANT* db
 		dbv->type = (ci->dwFlag & CNF_UNICODE) ? DBVT_WCHAR : DBVT_ASCIIZ;
 
 		int res = CallProtoService(ci->szProto, PS_GETINFOSETTING, (WPARAM)ci->hContact, (LPARAM)&cgs);
-		if (res != CALLSERVICE_NOTFOUND) return res;
+		if (res != CALLSERVICE_NOTFOUND)
+			return res;
 	}
 
 	if (ci->dwFlag & CNF_UNICODE)

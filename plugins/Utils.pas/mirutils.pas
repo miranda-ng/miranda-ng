@@ -691,25 +691,16 @@ end;
 function IsContactActive(hContact:THANDLE;proto:pAnsiChar=nil):integer;
 var
   p:PPROTOACCOUNT;
-  dbv  :TDBVARIANT;
-  dbcgs:TDBCONTACTGETSETTING;
   name: array [0..31] of AnsiChar;
 begin
 
-  dbv._type  :=DBVT_ASCIIZ;
-  dbv.szVal.a:=@name;
-  dbv.cchVal :=SizeOf(name);
-  dbcgs.pValue   :=@dbv;
-  dbcgs.szModule :='Protocol';
-  dbcgs.szSetting:='p';
-
-  if CallService(MS_DB_CONTACT_GETSETTINGSTATIC,hContact,lparam(@dbcgs))=0 then
+  if db_get_static(hContact,'Protocol','p',@name,SizeOf(name))=0 then
   begin
     result:=0;
 
     if ServiceExists(MS_PROTO_GETACCOUNT)<>0 then
     begin
-      p:=PPROTOACCOUNT(CallService(MS_PROTO_GETACCOUNT,0,lparam(dbv.szVal.a)));
+      p:=PPROTOACCOUNT(CallService(MS_PROTO_GETACCOUNT,0,lparam(@name)));
       if p=nil then
         result:=-2 // deleted
       else if (p^.bIsEnabled=0) or p^.bDynDisabled then
@@ -717,7 +708,7 @@ begin
     end
     else
     begin
-      if CallService(MS_PROTO_ISPROTOCOLLOADED,0,lparam(dbv.szVal.a))=0 then
+      if CallService(MS_PROTO_ISPROTOCOLLOADED,0,lparam(@name))=0 then
         result:=-1;
     end;
 
@@ -735,7 +726,7 @@ begin
       end;
     end;
     if proto<>nil then
-      StrCopy(proto,dbv.szVal.a);
+      StrCopy(proto,@name);
   end
   else
   begin

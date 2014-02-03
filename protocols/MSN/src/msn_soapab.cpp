@@ -123,7 +123,7 @@ char* CMsnProto::GetABHost(const char* service, bool isSharing)
 	mir_snprintf(hostname, sizeof(hostname), "ABHost-%s", service);
 
 	char* host = (char*)mir_alloc(256);
-	if (getStaticString(NULL, hostname, host, 256))
+	if (db_get_static(NULL, m_szModuleName, hostname, host, 256))
 	{
 		mir_snprintf(host, 256, "https://byrdr.omega.contacts.msn.com/abservice/%s.asmx",
 			isSharing ? "SharingService" : "abservice");

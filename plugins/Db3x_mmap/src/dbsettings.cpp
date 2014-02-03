@@ -45,14 +45,14 @@ BOOL CDb3Base::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcgs, int isStatic)
+int CDb3Base::GetContactSettingWorker(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
 {																											  
-	if (dbcgs->szSetting == NULL || dbcgs->szModule == NULL)
+	if (szSetting == NULL || szModule == NULL)
 		return 1;
 
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
-	int settingNameLen = (int)strlen(dbcgs->szSetting);
-	int moduleNameLen = (int)strlen(dbcgs->szModule);
+	int settingNameLen = (int)strlen(szSetting);
+	int moduleNameLen = (int)strlen(szModule);
 	if (settingNameLen > 0xFE) {
 		#ifdef _DEBUG
 			OutputDebugStringA("GetContactSettingWorker() got a > 255 setting name length. \n");
@@ -68,36 +68,36 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 
 	mir_cslock lck(m_csDbAccess);
 
-	char *szCachedSettingName = m_cache->GetCachedSetting(dbcgs->szModule, dbcgs->szSetting, moduleNameLen, settingNameLen);
+	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 	log3("get [%08p] %s (%p)", hContact, szCachedSettingName, szCachedSettingName);
 
 	DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 0);
 	if (pCachedValue != NULL) {
 		if (pCachedValue->type == DBVT_ASCIIZ || pCachedValue->type == DBVT_UTF8) {
-			int cbOrigLen = dbcgs->pValue->cchVal;
-			char *cbOrigPtr = dbcgs->pValue->pszVal;
-			memcpy(dbcgs->pValue, pCachedValue, sizeof(DBVARIANT));
+			int cbOrigLen = dbv->cchVal;
+			char *cbOrigPtr = dbv->pszVal;
+			memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
 			if (isStatic) {
 				int cbLen = 0;
 				if (pCachedValue->pszVal != NULL)
 					cbLen = (int)strlen(pCachedValue->pszVal);
 
 				cbOrigLen--;
-				dbcgs->pValue->pszVal = cbOrigPtr;
+				dbv->pszVal = cbOrigPtr;
 				if (cbLen < cbOrigLen)
 					cbOrigLen = cbLen;
-				CopyMemory(dbcgs->pValue->pszVal, pCachedValue->pszVal, cbOrigLen);
-				dbcgs->pValue->pszVal[cbOrigLen] = 0;
-				dbcgs->pValue->cchVal = cbLen;
+				CopyMemory(dbv->pszVal, pCachedValue->pszVal, cbOrigLen);
+				dbv->pszVal[cbOrigLen] = 0;
+				dbv->cchVal = cbLen;
 			}
 			else {
-				dbcgs->pValue->pszVal = (char*)mir_alloc(strlen(pCachedValue->pszVal) + 1);
-				strcpy(dbcgs->pValue->pszVal, pCachedValue->pszVal);
+				dbv->pszVal = (char*)mir_alloc(strlen(pCachedValue->pszVal) + 1);
+				strcpy(dbv->pszVal, pCachedValue->pszVal);
 			}
 		}
-		else memcpy(dbcgs->pValue, pCachedValue, sizeof(DBVARIANT));
+		else memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
 
-		log2("get cached %s (%p)", printVariant(dbcgs->pValue), pCachedValue);
+		log2("get cached %s (%p)", printVariant(dbv), pCachedValue);
 		return (pCachedValue->type == DBVT_DELETED) ? 1 : 0;
 	}
 
@@ -105,7 +105,7 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 	if (szCachedSettingName[-1] != 0)
 		return 1;
 
-	DWORD ofsModuleName = GetModuleNameOfs(dbcgs->szModule);
+	DWORD ofsModuleName = GetModuleNameOfs(szModule);
 	DWORD ofsContact = (hContact == NULL) ? m_dbHeader.ofsUser : (DWORD)hContact;
 	
 	DBContact dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
@@ -120,38 +120,38 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 		PBYTE pBlob = DBRead(ofsBlobPtr, sizeof(DBContactSettings), &bytesRemaining);
 		while (pBlob[0]) {
 			NeedBytes(1+settingNameLen);
-			if (pBlob[0] == settingNameLen && !memcmp(pBlob+1,dbcgs->szSetting,settingNameLen)) {
+			if (pBlob[0] == settingNameLen && !memcmp(pBlob+1,szSetting,settingNameLen)) {
 				MoveAlong(1 + settingNameLen);
 				NeedBytes(5);
-				if (isStatic && (pBlob[0] & DBVTF_VARIABLELENGTH) && VLT(dbcgs->pValue->type) != VLT(pBlob[0]))
+				if (isStatic && (pBlob[0] & DBVTF_VARIABLELENGTH) && VLT(dbv->type) != VLT(pBlob[0]))
 					return 1;
 
-				BYTE iType = dbcgs->pValue->type = pBlob[0];
+				BYTE iType = dbv->type = pBlob[0];
 				switch (iType) {
 				case DBVT_DELETED: /* this setting is deleted */
-					dbcgs->pValue->type = DBVT_DELETED;
+					dbv->type = DBVT_DELETED;
 					return 2;
 
-				case DBVT_BYTE:  dbcgs->pValue->bVal = pBlob[1]; break;
-				case DBVT_WORD:  DecodeCopyMemory(&(dbcgs->pValue->wVal), (PWORD)(pBlob + 1), 2); break;
-				case DBVT_DWORD: DecodeCopyMemory(&(dbcgs->pValue->dVal), (PDWORD)(pBlob + 1), 4); break;
+				case DBVT_BYTE:  dbv->bVal = pBlob[1]; break;
+				case DBVT_WORD:  DecodeCopyMemory(&(dbv->wVal), (PWORD)(pBlob + 1), 2); break;
+				case DBVT_DWORD: DecodeCopyMemory(&(dbv->dVal), (PDWORD)(pBlob + 1), 4); break;
 				
 				case DBVT_UTF8:
 				case DBVT_ASCIIZ:
 					varLen = *(PWORD)(pBlob + 1);
 					NeedBytes(int(3 + varLen));
 					if (isStatic) {
-						dbcgs->pValue->cchVal--;
-						if (varLen < dbcgs->pValue->cchVal)
-							dbcgs->pValue->cchVal = varLen;
-						DecodeCopyMemory(dbcgs->pValue->pszVal, pBlob + 3, dbcgs->pValue->cchVal); // decode
-						dbcgs->pValue->pszVal[dbcgs->pValue->cchVal] = 0;
-						dbcgs->pValue->cchVal = varLen;
+						dbv->cchVal--;
+						if (varLen < dbv->cchVal)
+							dbv->cchVal = varLen;
+						DecodeCopyMemory(dbv->pszVal, pBlob + 3, dbv->cchVal); // decode
+						dbv->pszVal[dbv->cchVal] = 0;
+						dbv->cchVal = varLen;
 					}
 					else {
-						dbcgs->pValue->pszVal = (char*)mir_alloc(1 + varLen);
-						DecodeCopyMemory(dbcgs->pValue->pszVal, pBlob + 3, varLen);
-						dbcgs->pValue->pszVal[varLen] = 0;
+						dbv->pszVal = (char*)mir_alloc(1 + varLen);
+						DecodeCopyMemory(dbv->pszVal, pBlob + 3, varLen);
+						dbv->pszVal[varLen] = 0;
 					}
 					break;
 				
@@ -159,15 +159,15 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 					varLen = *(PWORD)(pBlob + 1);
 					NeedBytes(int(3 + varLen));
 					if (isStatic) {
-						if (varLen < dbcgs->pValue->cpbVal)
-							dbcgs->pValue->cpbVal = varLen;
-						DecodeCopyMemory(dbcgs->pValue->pbVal, pBlob + 3, dbcgs->pValue->cpbVal);
+						if (varLen < dbv->cpbVal)
+							dbv->cpbVal = varLen;
+						DecodeCopyMemory(dbv->pbVal, pBlob + 3, dbv->cpbVal);
 					}
 					else {
-						dbcgs->pValue->pbVal = (BYTE *)mir_alloc(varLen);
-						DecodeCopyMemory(dbcgs->pValue->pbVal, pBlob + 3, varLen);
+						dbv->pbVal = (BYTE *)mir_alloc(varLen);
+						DecodeCopyMemory(dbv->pbVal, pBlob + 3, varLen);
 					}
-					dbcgs->pValue->cpbVal = varLen;
+					dbv->cpbVal = varLen;
 					break;
 
 				case DBVT_ENCRYPTED:
@@ -182,19 +182,19 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 							return 1;
 
 						varLen = (WORD)realLen;
-						dbcgs->pValue->type = DBVT_UTF8;
+						dbv->type = DBVT_UTF8;
 						if (isStatic) {
-							dbcgs->pValue->cchVal--;
-							if (varLen < dbcgs->pValue->cchVal)
-								dbcgs->pValue->cchVal = varLen;
-							MoveMemory(dbcgs->pValue->pszVal, decoded, dbcgs->pValue->cchVal);
-							dbcgs->pValue->pszVal[dbcgs->pValue->cchVal] = 0;
-							dbcgs->pValue->cchVal = varLen;
+							dbv->cchVal--;
+							if (varLen < dbv->cchVal)
+								dbv->cchVal = varLen;
+							MoveMemory(dbv->pszVal, decoded, dbv->cchVal);
+							dbv->pszVal[dbv->cchVal] = 0;
+							dbv->cchVal = varLen;
 						}
 						else {
-							dbcgs->pValue->pszVal = (char*)mir_alloc(1 + varLen);
-							MoveMemory(dbcgs->pValue->pszVal, decoded, varLen);
-							dbcgs->pValue->pszVal[varLen] = 0;
+							dbv->pszVal = (char*)mir_alloc(1 + varLen);
+							MoveMemory(dbv->pszVal, decoded, varLen);
+							dbv->pszVal[varLen] = 0;
 						}
 					}
 					break;
@@ -204,7 +204,7 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 				if (iType != DBVT_BLOB && iType != DBVT_ENCRYPTED) {
 					DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 1);
 					if (pCachedValue != NULL) {
-						m_cache->SetCachedVariant(dbcgs->pValue, pCachedValue);
+						m_cache->SetCachedVariant(dbv, pCachedValue);
 						log3("set cached [%08p] %s (%p)", hContact, szCachedSettingName, pCachedValue);
 					}
 				}
@@ -223,34 +223,34 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 	return 1;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::GetContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dgs)
+STDMETHODIMP_(BOOL) CDb3Base::GetContactSetting(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
-	dgs->pValue->type = 0;
-	if (GetContactSettingWorker(hContact, dgs, 0))
+	dbv->type = 0;
+	if (GetContactSettingWorker(hContact, szModule, szSetting, dbv, 0))
 		return 1;
 
-	if (dgs->pValue->type == DBVT_UTF8 ) {
+	if (dbv->type == DBVT_UTF8 ) {
 		WCHAR *tmp = NULL;
-		char *p = NEWSTR_ALLOCA(dgs->pValue->pszVal);
+		char *p = NEWSTR_ALLOCA(dbv->pszVal);
 		if (mir_utf8decode(p, &tmp) != NULL) {
 			BOOL bUsed = FALSE;
 			int  result = WideCharToMultiByte(m_codePage, WC_NO_BEST_FIT_CHARS, tmp, -1, NULL, 0, NULL, &bUsed);
 
-			mir_free(dgs->pValue->pszVal);
+			mir_free(dbv->pszVal);
 
 			if (bUsed || result == 0) {
-				dgs->pValue->type = DBVT_WCHAR;
-				dgs->pValue->pwszVal = tmp;
+				dbv->type = DBVT_WCHAR;
+				dbv->pwszVal = tmp;
 			}
 			else {
-				dgs->pValue->type = DBVT_ASCIIZ;
-				dgs->pValue->pszVal = (char *)mir_alloc(result);
-				WideCharToMultiByte(m_codePage, WC_NO_BEST_FIT_CHARS, tmp, -1, dgs->pValue->pszVal, result, NULL, NULL);
+				dbv->type = DBVT_ASCIIZ;
+				dbv->pszVal = (char *)mir_alloc(result);
+				WideCharToMultiByte(m_codePage, WC_NO_BEST_FIT_CHARS, tmp, -1, dbv->pszVal, result, NULL, NULL);
 				mir_free(tmp);
 			}
 		}
 		else {
-			dgs->pValue->type = DBVT_ASCIIZ;
+			dbv->type = DBVT_ASCIIZ;
 			mir_free(tmp);
 		}
 	}
@@ -258,61 +258,61 @@ STDMETHODIMP_(BOOL) CDb3Base::GetContactSetting(HANDLE hContact, DBCONTACTGETSET
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::GetContactSettingStr(HANDLE hContact, DBCONTACTGETSETTING *dgs)
+STDMETHODIMP_(BOOL) CDb3Base::GetContactSettingStr(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
-	int iSaveType = dgs->pValue->type;
+	int iSaveType = dbv->type;
 
-	if (GetContactSettingWorker(hContact, dgs, 0))
+	if (GetContactSettingWorker(hContact, szModule, szSetting, dbv, 0))
 		return 1;
 
-	if (iSaveType == 0 || iSaveType == dgs->pValue->type)
+	if (iSaveType == 0 || iSaveType == dbv->type)
 		return 0;
 
-	if (dgs->pValue->type != DBVT_ASCIIZ && dgs->pValue->type != DBVT_UTF8)
+	if (dbv->type != DBVT_ASCIIZ && dbv->type != DBVT_UTF8)
 		return 1;
 
 	if (iSaveType == DBVT_WCHAR) {
-		if (dgs->pValue->type != DBVT_UTF8) {
-			int len = MultiByteToWideChar(CP_ACP, 0, dgs->pValue->pszVal, -1, NULL, 0);
+		if (dbv->type != DBVT_UTF8) {
+			int len = MultiByteToWideChar(CP_ACP, 0, dbv->pszVal, -1, NULL, 0);
 			wchar_t* wszResult = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
 			if (wszResult == NULL)
 				return 1;
 
-			MultiByteToWideChar(CP_ACP, 0, dgs->pValue->pszVal, -1, wszResult, len);
+			MultiByteToWideChar(CP_ACP, 0, dbv->pszVal, -1, wszResult, len);
 			wszResult[len] = 0;
-			mir_free(dgs->pValue->pszVal);
-			dgs->pValue->pwszVal = wszResult;
+			mir_free(dbv->pszVal);
+			dbv->pwszVal = wszResult;
 		}
 		else {
-			char* savePtr = NEWSTR_ALLOCA(dgs->pValue->pszVal);
-			mir_free(dgs->pValue->pszVal);
-			if (!mir_utf8decode(savePtr, &dgs->pValue->pwszVal))
+			char* savePtr = NEWSTR_ALLOCA(dbv->pszVal);
+			mir_free(dbv->pszVal);
+			if (!mir_utf8decode(savePtr, &dbv->pwszVal))
 				return 1;
 		}
 	}
 	else if (iSaveType == DBVT_UTF8) {
-		char* tmpBuf = mir_utf8encode(dgs->pValue->pszVal);
+		char* tmpBuf = mir_utf8encode(dbv->pszVal);
 		if (tmpBuf == NULL)
 			return 1;
 
-		mir_free(dgs->pValue->pszVal);
-		dgs->pValue->pszVal = tmpBuf;
+		mir_free(dbv->pszVal);
+		dbv->pszVal = tmpBuf;
 	}
 	else if (iSaveType == DBVT_ASCIIZ)
-		mir_utf8decode(dgs->pValue->pszVal, NULL);
+		mir_utf8decode(dbv->pszVal, NULL);
 
-	dgs->pValue->type = iSaveType;
+	dbv->type = iSaveType;
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::GetContactSettingStatic(HANDLE hContact, DBCONTACTGETSETTING *dgs)
+STDMETHODIMP_(BOOL) CDb3Base::GetContactSettingStatic(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
-	if (GetContactSettingWorker(hContact, dgs, 1))
+	if (GetContactSettingWorker(hContact, szModule, szSetting, dbv, 1))
 		return 1;
 
-	if (dgs->pValue->type == DBVT_UTF8) {
-		mir_utf8decode(dgs->pValue->pszVal, NULL);
-		dgs->pValue->type = DBVT_ASCIIZ;
+	if (dbv->type == DBVT_UTF8) {
+		mir_utf8decode(dbv->pszVal, NULL);
+		dbv->type = DBVT_ASCIIZ;
 	}
 
 	return 0;
@@ -671,14 +671,14 @@ LBL_WriteString:
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::DeleteContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
+STDMETHODIMP_(BOOL) CDb3Base::DeleteContactSetting(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting)
 {
-	if (!dbcgs->szModule || !dbcgs->szSetting)
+	if (!szModule || !szSetting)
 		return 1;
 
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
-	int settingNameLen = (int)strlen(dbcgs->szSetting);
-	int moduleNameLen = (int)strlen(dbcgs->szModule);
+	int settingNameLen = (int)strlen(szSetting);
+	int moduleNameLen = (int)strlen(szModule);
 	if (settingNameLen > 0xFE) {
 #ifdef _DEBUG
 		OutputDebugStringA("DeleteContactSetting() got a > 255 setting name length. \n");
@@ -693,10 +693,10 @@ STDMETHODIMP_(BOOL) CDb3Base::DeleteContactSetting(HANDLE hContact, DBCONTACTGET
 	}
 
 	WPARAM saveWparam = (WPARAM)hContact;
-	char *szCachedSettingName = m_cache->GetCachedSetting(dbcgs->szModule, dbcgs->szSetting, moduleNameLen, settingNameLen);
+	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 	if (szCachedSettingName[-1] == 0) { // it's not a resident variable
 		mir_cslock lck(m_csDbAccess);
-		DWORD ofsModuleName = GetModuleNameOfs(dbcgs->szModule);
+		DWORD ofsModuleName = GetModuleNameOfs(szModule);
 		if (hContact == 0)
 			hContact = (HANDLE)m_dbHeader.ofsUser;
 
@@ -715,7 +715,7 @@ STDMETHODIMP_(BOOL) CDb3Base::DeleteContactSetting(HANDLE hContact, DBCONTACTGET
 		PBYTE pBlob = (PBYTE)DBRead(ofsBlobPtr, 1, &bytesRemaining);
 		while (pBlob[0]) {
 			NeedBytes(settingNameLen + 1);
-			if (pBlob[0] == settingNameLen && !memcmp(pBlob + 1, dbcgs->szSetting, settingNameLen))
+			if (pBlob[0] == settingNameLen && !memcmp(pBlob + 1, szSetting, settingNameLen))
 				break;
 			NeedBytes(1);
 			MoveAlong(pBlob[0] + 1);
@@ -748,8 +748,8 @@ STDMETHODIMP_(BOOL) CDb3Base::DeleteContactSetting(HANDLE hContact, DBCONTACTGET
 
 	// notify
 	DBCONTACTWRITESETTING dbcws = { 0 };
-	dbcws.szModule = dbcgs->szModule;
-	dbcws.szSetting = dbcgs->szSetting;
+	dbcws.szModule = szModule;
+	dbcws.szSetting = szSetting;
 	dbcws.value.type = DBVT_DELETED;
 	NotifyEventHooks(hSettingChangeEvent, saveWparam, (LPARAM)&dbcws);
 	return 0;

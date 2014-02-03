@@ -34,23 +34,6 @@ int CMsnProto::getStringUtf(const char* name, DBVARIANT* result)
 {	return db_get_utf(NULL, m_szModuleName, name, result);
 }
 
-int CMsnProto::getStaticString(HANDLE hContact, const char* valueName, char* dest, unsigned dest_len)
-{
-	DBVARIANT dbv;
-	dbv.pszVal = dest;
-	dbv.cchVal = (WORD)dest_len;
-	dbv.type = DBVT_ASCIIZ;
-
-	DBCONTACTGETSETTING sVal;
-	sVal.pValue = &dbv;
-	sVal.szModule = m_szModuleName;
-	sVal.szSetting = valueName;
-	if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC, (WPARAM)hContact, (LPARAM)&sVal) != 0)
-		return 1;
-
-	return (dbv.type != DBVT_ASCIIZ);
-}
-
 void CMsnProto::setStringUtf(HANDLE hContact, const char* name, const char* value)
 {	db_set_utf(hContact, m_szModuleName, name, value);
 }

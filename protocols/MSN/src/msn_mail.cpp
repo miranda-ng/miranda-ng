@@ -345,7 +345,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		return;
 
 	char mailerpath[MAX_PATH];
-	if (!getStaticString(NULL, "MailerPath", mailerpath, sizeof(mailerpath)))
+	if (!db_get_static(NULL, m_szModuleName, "MailerPath", mailerpath, sizeof(mailerpath)))
 	{
 		if (mailerpath[0])
 		{

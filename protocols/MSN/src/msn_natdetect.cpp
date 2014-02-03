@@ -385,7 +385,7 @@ void CMsnProto::MSNConnDetectThread( void* )
 			// User specified host by himself so check if it matches MSN information
 			// if it does, move to connection type autodetection,
 			// if it does not, guess connection type from available info
-			getStaticString(NULL, "YourHost", parBuf, sizeof(parBuf));
+			db_get_static(NULL, m_szModuleName, "YourHost", parBuf, sizeof(parBuf));
 			if (msnExternalIP == NULL || strcmp(msnExternalIP, parBuf) != 0)
 			{
 				MyConnection.extIP = inet_addr(parBuf);

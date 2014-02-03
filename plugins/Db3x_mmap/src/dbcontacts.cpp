@@ -32,12 +32,10 @@ int CDb3Base::CheckProto(HANDLE hContact, const char *proto)
 	if (cc->szProto == NULL) {
 		char protobuf[MAX_PATH] = {0};
 		DBVARIANT dbv;
-		DBCONTACTGETSETTING sVal = { "Protocol", "p", &dbv };
-
  		dbv.type = DBVT_ASCIIZ;
 		dbv.pszVal = protobuf;
 		dbv.cchVal = sizeof(protobuf);
-		if ( GetContactSettingStatic(hContact, &sVal) != 0 || (dbv.type != DBVT_ASCIIZ))
+		if (GetContactSettingStatic(hContact, "Protocol", "p", &dbv) != 0 || (dbv.type != DBVT_ASCIIZ))
 			return 0;
 
 		cc->szProto = m_cache->GetCachedSetting(NULL, protobuf, 0, (int)strlen(protobuf));

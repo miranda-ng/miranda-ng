@@ -96,8 +96,6 @@ namespace Setting {
 	static FORCEINLINE WORD	GetUStringCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv)
 	{ return GetCtrl(hContact, pszModule, szSubModule, szProto, pszSetting, dbv, DBVT_UTF8); }
 
-	BYTE GetStatic(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR szValue, int cchValue);
-
 	#define GetTString     GetWString
 	#define GetTStringEx   GetWStringEx
 	#define GetTStringCtrl GetWStringCtrl

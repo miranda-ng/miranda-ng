@@ -148,25 +148,12 @@ static void GetLastUploadLogLine(HWND hwndDlg, char *szBuf, size_t cbBuf)
 
 static int GroupEnumIdsEnumProc(const char *szSetting,LPARAM lParam)
 { 
-	if (szSetting && strlennull(szSetting)<5)
-	{ // it is probably server group
+	// it is probably server group
+	if (szSetting && strlennull(szSetting) < 5) {
 		char val[MAX_PATH+2]; // dummy
-		DBVARIANT dbv;
-		DBCONTACTGETSETTING cgs;
-
-		dbv.type = DBVT_ASCIIZ;
-		dbv.pszVal = val;
-		dbv.cchVal = MAX_PATH;
-
-		cgs.szModule=(char*)lParam;
-		cgs.szSetting=szSetting;
-		cgs.pValue=&dbv;
-		if(CallService(MS_DB_CONTACT_GETSETTINGSTATIC,0,(LPARAM)&cgs))
+		if (db_get_static(NULL, (char*)lParam, szSetting, val, MAX_PATH))
 			return 0; // this converts all string types to DBVT_ASCIIZ
-		if(dbv.type!=DBVT_ASCIIZ)
-		{ // it is not a cached server-group name
-			return 0;
-		}
+
 		pwGroupIds = (WORD*)SAFE_REALLOC(pwGroupIds, (cbGroupIds+1)*sizeof(WORD));
 		pwGroupIds[cbGroupIds] = (WORD)strtoul(szSetting, NULL, 0x10);
 		cbGroupIds++;

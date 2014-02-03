@@ -1084,7 +1084,7 @@ BYTE CVCardFileVCF::Export(BYTE bExportUtf)
 
 		uid = (LPCSTR)CallProtoService(_pszBaseProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 		if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
-			if (!DB::Setting::GetStatic(_hContact, _pszBaseProto, uid, szUID, sizeof(szUID)))
+			if (!db_get_static(_hContact, _pszBaseProto, uid, szUID, sizeof(szUID)))
 				fprintf(_pFile, "IM;%s;%s:%s\n", _pszBaseProto, uid, szUID);
 		}
 	}

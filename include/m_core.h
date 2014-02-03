@@ -284,47 +284,53 @@ MIR_CORE_DLL(HANDLE) db_event_prev(HANDLE hDbEvent);
  * DATABASE SETTINGS
  */
 
-MIR_CORE_DLL(INT_PTR) db_get(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
-MIR_CORE_DLL(int)     db_get_b(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue);
-MIR_CORE_DLL(int)     db_get_w(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue);
-MIR_CORE_DLL(DWORD)   db_get_dw(HANDLE hContact, const char *szModule, const char *szSetting, DWORD errorValue);
-MIR_CORE_DLL(char*)   db_get_sa(HANDLE hContact, const char *szModule, const char *szSetting);
-MIR_CORE_DLL(WCHAR*)  db_get_wsa(HANDLE hContact, const char *szModule, const char *szSetting);
+MIR_CORE_DLL(INT_PTR) db_get(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+MIR_CORE_DLL(int)     db_get_b(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue);
+MIR_CORE_DLL(int)     db_get_w(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue);
+MIR_CORE_DLL(DWORD)   db_get_dw(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DWORD errorValue);
+MIR_CORE_DLL(char*)   db_get_sa(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting);
+MIR_CORE_DLL(WCHAR*)  db_get_wsa(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting);
+
+MIR_CORE_DLL(int) db_get_static(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, char *pDest, int cbDest);
+MIR_CORE_DLL(int) db_get_static_utf(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, char *pDest, int cbDest);
+MIR_CORE_DLL(int) db_get_wstatic(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, WCHAR *pDest, int cbDest);
 
 #if defined(__cplusplus)
-	MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType=DBVT_ASCIIZ);
+	MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, const int nType=DBVT_ASCIIZ);
 #else
-	MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType);
+	MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, const int nType);
 #endif
 
-MIR_CORE_DLL(INT_PTR) db_set(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
-MIR_CORE_DLL(INT_PTR) db_set_b(HANDLE hContact, const char *szModule, const char *szSetting, BYTE val);
-MIR_CORE_DLL(INT_PTR) db_set_w(HANDLE hContact, const char *szModule, const char *szSetting, WORD val);
-MIR_CORE_DLL(INT_PTR) db_set_dw(HANDLE hContact, const char *szModule, const char *szSetting, DWORD val);
-MIR_CORE_DLL(INT_PTR) db_set_s(HANDLE hContact, const char *szModule, const char *szSetting, const char *val);
-MIR_CORE_DLL(INT_PTR) db_set_ws(HANDLE hContact, const char *szModule, const char *szSetting, const WCHAR *val);
-MIR_CORE_DLL(INT_PTR) db_set_utf(HANDLE hContact, const char *szModule, const char *szSetting, const char *val);
-MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const char *szSetting, void *val, unsigned len);
+MIR_CORE_DLL(INT_PTR) db_set(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+MIR_CORE_DLL(INT_PTR) db_set_b(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, BYTE val);
+MIR_CORE_DLL(INT_PTR) db_set_w(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, WORD val);
+MIR_CORE_DLL(INT_PTR) db_set_dw(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DWORD val);
+MIR_CORE_DLL(INT_PTR) db_set_s(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, LPCSTR val);
+MIR_CORE_DLL(INT_PTR) db_set_ws(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, LPCWSTR val);
+MIR_CORE_DLL(INT_PTR) db_set_utf(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, LPCSTR val);
+MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, void *val, unsigned len);
 
-MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, const char *szModule, const char *szSetting);
+MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting);
 
 #if defined(__cplusplus)
-	MIR_CORE_DLL(BOOL) db_set_resident(const char *szModule, const char *szService, BOOL bEnable=TRUE);
+	MIR_CORE_DLL(BOOL) db_set_resident(LPCSTR szModule, const char *szService, BOOL bEnable=TRUE);
 #else
-	MIR_CORE_DLL(BOOL) db_set_resident(const char *szModule, const char *szService, BOOL bEnable);
+	MIR_CORE_DLL(BOOL) db_set_resident(LPCSTR szModule, const char *szService, BOOL bEnable);
 #endif
 
-#define db_get_ws(a,b,c,d)  db_get_s(a,b,c,d,DBVT_WCHAR)
-#define db_get_utf(a,b,c,d) db_get_s(a,b,c,d,DBVT_UTF8)
+#define db_get_ws(a,b,c,d)    db_get_s(a,b,c,d,DBVT_WCHAR)
+#define db_get_utf(a,b,c,d)   db_get_s(a,b,c,d,DBVT_UTF8)
 
 #ifdef _UNICODE
-	#define db_get_ts(a,b,c,d)  db_get_s(a,b,c,d,DBVT_WCHAR)
-	#define db_get_tsa db_get_wsa
-	#define db_set_ts  db_set_ws
+	#define db_get_ts(a,b,c,d) db_get_s(a,b,c,d,DBVT_WCHAR)
+	#define db_get_tsa         db_get_wsa
+	#define db_set_ts          db_set_ws
+	#define db_get_tstatic     db_get_wstatic
 #else
-	#define db_get_ts(a,b,c,d)  db_get_s(a,b,c,d,DBVT_ASCIIZ)
-	#define db_get_tsa db_get_sa
-	#define db_set_ts  db_set_s
+	#define db_get_ts(a,b,c,d) db_get_s(a,b,c,d,DBVT_ASCIIZ)
+	#define db_get_tsa         db_get_sa
+	#define db_set_ts          db_set_s
+	#define db_get_tstatic     db_get_static
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -380,10 +386,10 @@ MIR_CORE_DLL(void)    KillObjectServices(void* pObject);
 
 #if defined(_STATIC)
 __declspec(dllexport) INT_PTR CallContactService(HANDLE, const char *, WPARAM, LPARAM);
-__declspec(dllexport) INT_PTR CallProtoService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
+__declspec(dllexport) INT_PTR CallProtoService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 #else
 MIR_C_CORE_DLL(INT_PTR) CallContactService(HANDLE, const char *, WPARAM, LPARAM);
-MIR_C_CORE_DLL(INT_PTR) CallProtoService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
+MIR_C_CORE_DLL(INT_PTR) CallProtoService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -603,9 +609,9 @@ MIR_CORE_DLL(int)    mir_vsnwprintf(WCHAR *buffer, size_t count, const WCHAR* fm
 ///////////////////////////////////////////////////////////////////////////////
 // protocol functions
 
-MIR_CORE_DLL(INT_PTR) ProtoCallService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
-MIR_CORE_DLL(int)     ProtoServiceExists(const char *szModule, const char *szService);
-MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
+MIR_CORE_DLL(INT_PTR) ProtoCallService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
+MIR_CORE_DLL(int)     ProtoServiceExists(LPCSTR szModule, const char *szService);
+MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(LPCSTR szModule, HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 
 // Call it in the very beginning of your proto's constructor
 MIR_CORE_DLL(void) ProtoConstructor(struct PROTO_INTERFACE *pThis, const char *pszModuleName, const TCHAR *ptszUserName);

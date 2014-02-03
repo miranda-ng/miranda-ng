@@ -562,7 +562,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	TCHAR* GetContactNameT(HANDLE hContact);
 
-	int    getStaticString(HANDLE hContact, const char* valueName, char* dest, unsigned dest_len);
 	int    getStringUtf(HANDLE hContact, const char* name, DBVARIANT* result);
 	int    getStringUtf(const char* name, DBVARIANT* result);
 	void   setStringUtf(HANDLE hContact, const char* name, const char* value);

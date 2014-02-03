@@ -245,3 +245,6 @@ IsWorkstationLocked           @242
 IsScreenSaverRunning          @243
 ProtoLogA                     @244
 ProtoLogW                     @245
+db_get_static                 @246
+db_get_wstatic                @247
+db_get_static_utf             @248

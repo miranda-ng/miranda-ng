@@ -158,19 +158,10 @@ void OpenUrlThread(void *param)
 int GetMailboxPwd(LPCSTR acc, LPCTSTR mailbox, LPSTR *pwd, int buffSize)
 {
 	char buff[256];
-
-	DBCONTACTGETSETTING cgs;
-	DBVARIANT dbv;
-	cgs.szModule = acc;
-	cgs.szSetting = LOGIN_PASS_SETTING_NAME;
-	cgs.pValue = &dbv;
-	dbv.type = DBVT_ASCIIZ;
-	dbv.pszVal = &buff[0];
-	dbv.cchVal = sizeof(buff);
-	if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC, 0, (LPARAM)&cgs))
+	if (db_get_static(NULL, acc, LOGIN_PASS_SETTING_NAME, buff, sizeof(buff)))
 		return 0;
 
-	int result = dbv.cchVal;
+	int result = (int)strlen(buff);
 
 	if (pwd) {
 		if (buffSize < result + 1)

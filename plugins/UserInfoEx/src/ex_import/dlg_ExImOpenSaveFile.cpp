@@ -207,8 +207,8 @@ static void GetInitialDir(LPSTR pszInitialDir)
 	ZeroMemory(szRelative, SIZEOF(szRelative));
 
 	// is some standard path defined
-	if (!DB::Setting::GetStatic(0, MODNAME, "vCardPath", szRelative, SIZEOF(szRelative))) {
-		if ( !PathToAbsolute(szRelative, pszInitialDir))
+	if (!db_get_static(0, MODNAME, "vCardPath", szRelative, SIZEOF(szRelative))) {
+		if (!PathToAbsolute(szRelative, pszInitialDir))
 			strcpy(pszInitialDir, szRelative);
 	}
 	else if (//try to use environment variables supported by pathpatch of db3xSA

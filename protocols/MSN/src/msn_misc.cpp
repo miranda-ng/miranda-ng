@@ -305,7 +305,7 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 		_close(fileId);
 
 		char szAvatarHashdOld[41] = "";
-		getStaticString(NULL, "AvatarHash", szAvatarHashdOld, sizeof(szAvatarHashdOld));
+		db_get_static(NULL, m_szModuleName, "AvatarHash", szAvatarHashdOld, sizeof(szAvatarHashdOld));
 		char *szAvatarHash = arrayToHex(sha1d, sizeof(sha1d));
 		if (strcmp(szAvatarHashdOld, szAvatarHash)) {
 			setString("PictObject", szEncodedBuffer);
@@ -786,7 +786,7 @@ void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 	const char *postdata = ismail ? postdataM : postdataS;
 
 	char passport[256];
-	if (getStaticString(NULL, "MsnPassportHost", passport, 256))
+	if (db_get_static(NULL, m_szModuleName, "MsnPassportHost", passport, 256))
 		strcpy(passport, "https://login.live.com/");
 
 	char *p = strchr(passport, '/');
@@ -1206,7 +1206,7 @@ bool CMsnProto::MSN_IsMeByContact(HANDLE hContact, char* szEmail)
 	char *emailPtr = szEmail ? szEmail : tEmail;
 
 	*emailPtr = 0;
-	if (getStaticString(hContact, "e-mail", emailPtr, sizeof(tEmail)))
+	if (db_get_static(hContact, m_szModuleName, "e-mail", emailPtr, sizeof(tEmail)))
 		return false;
 
 	return _stricmp(emailPtr, MyOptions.szEmail) == 0;

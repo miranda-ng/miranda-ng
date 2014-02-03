@@ -94,12 +94,12 @@ interface MIDatabase
 
 	STDMETHOD_(BOOL,EnumModuleNames)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
 
-	STDMETHOD_(BOOL,GetContactSetting)(HANDLE hContact, DBCONTACTGETSETTING *dbcgs) PURE;
-	STDMETHOD_(BOOL,GetContactSettingStr)(HANDLE hContact, DBCONTACTGETSETTING *dbcgs) PURE;
-	STDMETHOD_(BOOL,GetContactSettingStatic)(HANDLE hContact, DBCONTACTGETSETTING *dbcgs) PURE;
+	STDMETHOD_(BOOL,GetContactSetting)(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
+	STDMETHOD_(BOOL,GetContactSettingStr)(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
+	STDMETHOD_(BOOL,GetContactSettingStatic)(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
 	STDMETHOD_(BOOL,FreeVariant)(DBVARIANT *dbv) PURE;
 	STDMETHOD_(BOOL,WriteContactSetting)(HANDLE hContact, DBCONTACTWRITESETTING *dbcws) PURE;
-	STDMETHOD_(BOOL,DeleteContactSetting)(HANDLE hContact, DBCONTACTGETSETTING *dbcgs) PURE;
+	STDMETHOD_(BOOL,DeleteContactSetting)(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting) PURE;
 	STDMETHOD_(BOOL,EnumContactSettings)(HANDLE hContact, DBCONTACTENUMSETTINGS* dbces) PURE;
 	STDMETHOD_(BOOL,SetSettingResident)(BOOL bIsResident, const char *pszSettingName) PURE;
 	STDMETHOD_(BOOL,EnumResidentSettings)(DBMODULEENUMPROC pFunc, void *pParam) PURE;

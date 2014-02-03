@@ -46,12 +46,10 @@ int CDataBase::CheckProto(HANDLE hContact, const char *proto)
 	if (cc->szProto == NULL) {
 		char protobuf[MAX_PATH] = {0};
 		DBVARIANT dbv;
-		DBCONTACTGETSETTING sVal = { "Protocol", "p", &dbv };
-
  		dbv.type = DBVT_ASCIIZ;
 		dbv.pszVal = protobuf;
 		dbv.cchVal = sizeof(protobuf);
-		if ( GetContactSettingStatic(hContact, &sVal) != 0 || (dbv.type != DBVT_ASCIIZ))
+		if (GetContactSettingStatic(hContact, "Protocol", "p", &dbv) != 0 || (dbv.type != DBVT_ASCIIZ))
 			return 0;
 
 		cc->szProto = m_cache->GetCachedSetting(NULL, protobuf, 0, (int)strlen(protobuf));
@@ -191,21 +189,21 @@ __forceinline void DecodeString(LPSTR buf)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
+STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
-	dbcgs->pValue->type = 0;
+	dbv->type = 0;
 
 	char namebuf[512];
 	namebuf[0] = 0;
 
-	if (!(dbcgs->szModule || dbcgs->szSetting))
+	if (!(szModule || szSetting))
 		return -1;
 
-	if (dbcgs->szModule)
-		strcpy_s(namebuf, dbcgs->szModule);
+	if (szModule)
+		strcpy_s(namebuf, szModule);
 	strcat_s(namebuf, "/");
-	if (dbcgs->szSetting)
-		strcat_s(namebuf, dbcgs->szSetting);
+	if (szSetting)
+		strcat_s(namebuf, szSetting);
 
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	TDBTSetting set = {0,0,0,0};
@@ -221,55 +219,55 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(HANDLE hContact, DBCONTACTGETSE
 
 	switch (set.Type) {
 	case DBT_ST_ANSI:
-		dbcgs->pValue->type = DBVT_ASCIIZ;
-		dbcgs->pValue->pszVal = set.Value.pAnsi;
-		dbcgs->pValue->cchVal = set.Value.Length - 1;
-		if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
-			DecodeString(dbcgs->pValue->pszVal);
+		dbv->type = DBVT_ASCIIZ;
+		dbv->pszVal = set.Value.pAnsi;
+		dbv->cchVal = set.Value.Length - 1;
+		if (isEncrypted(szModule, szSetting))
+			DecodeString(dbv->pszVal);
 		break;
 	case DBT_ST_UTF8:
-		if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
+		if (isEncrypted(szModule, szSetting))
 			DecodeString(set.Value.pUTF8);
-		dbcgs->pValue->type = DBVT_WCHAR;
-		dbcgs->pValue->pwszVal = mir_utf8decodeW(set.Value.pUTF8);
-		if (dbcgs->pValue->pwszVal)
-			dbcgs->pValue->cchVal = static_cast<uint32_t>(wcslen(dbcgs->pValue->pwszVal));
+		dbv->type = DBVT_WCHAR;
+		dbv->pwszVal = mir_utf8decodeW(set.Value.pUTF8);
+		if (dbv->pwszVal)
+			dbv->cchVal = static_cast<uint32_t>(wcslen(dbv->pwszVal));
 		else
-			dbcgs->pValue->cchVal = 0;
+			dbv->cchVal = 0;
 		mir_free(set.Value.pUTF8);
 		break;
 	case DBT_ST_WCHAR:
-		dbcgs->pValue->type = DBVT_WCHAR;
-		dbcgs->pValue->pwszVal = set.Value.pWide;
-		dbcgs->pValue->cchVal = set.Value.Length - 1;
+		dbv->type = DBVT_WCHAR;
+		dbv->pwszVal = set.Value.pWide;
+		dbv->cchVal = set.Value.Length - 1;
 		break;
 	case DBT_ST_BLOB:
-		dbcgs->pValue->type = DBVT_BLOB;
-		dbcgs->pValue->pbVal = set.Value.pBlob;
-		dbcgs->pValue->cpbVal = set.Value.Length;
+		dbv->type = DBVT_BLOB;
+		dbv->pbVal = set.Value.pBlob;
+		dbv->cpbVal = set.Value.Length;
 		break;
 	case DBT_ST_BOOL:
-		dbcgs->pValue->type = DBVT_BYTE;
-		dbcgs->pValue->bVal = (uint8_t)set.Value.Bool;
+		dbv->type = DBVT_BYTE;
+		dbv->bVal = (uint8_t)set.Value.Bool;
 		break;
 	case DBT_ST_BYTE: case DBT_ST_CHAR:
-		dbcgs->pValue->type = DBVT_BYTE;
-		dbcgs->pValue->bVal = set.Value.Byte;
+		dbv->type = DBVT_BYTE;
+		dbv->bVal = set.Value.Byte;
 		break;
 	case DBT_ST_SHORT: case DBT_ST_WORD:
-		dbcgs->pValue->type = DBVT_WORD;
-		dbcgs->pValue->wVal = set.Value.Word;
+		dbv->type = DBVT_WORD;
+		dbv->wVal = set.Value.Word;
 		break;
 	case DBT_ST_INT: case DBT_ST_DWORD:
-		dbcgs->pValue->type = DBVT_DWORD;
-		dbcgs->pValue->dVal = set.Value.DWord;
+		dbv->type = DBVT_DWORD;
+		dbv->dVal = set.Value.DWord;
 		break;
 	case DBT_ST_INT64: case DBT_ST_QWORD:
 	case DBT_ST_DOUBLE: case DBT_ST_FLOAT:
-		dbcgs->pValue->type = DBVT_BLOB;
-		dbcgs->pValue->cpbVal = sizeof(set.Value);
-		dbcgs->pValue->pbVal = reinterpret_cast<BYTE*>(mir_alloc(sizeof(set.Value)));
-		memcpy(dbcgs->pValue->pbVal, &set.Value, sizeof(set.Value));
+		dbv->type = DBVT_BLOB;
+		dbv->cpbVal = sizeof(set.Value);
+		dbv->pbVal = reinterpret_cast<BYTE*>(mir_alloc(sizeof(set.Value)));
+		memcpy(dbv->pbVal, &set.Value, sizeof(set.Value));
 		break;
 
 	default:
@@ -279,21 +277,21 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(HANDLE hContact, DBCONTACTGETSE
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStr(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
+STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStr(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
-	if ((dbcgs->pValue->type & DBVTF_VARIABLELENGTH) == 0)
+	if ((dbv->type & DBVTF_VARIABLELENGTH) == 0)
 	{
-		FreeVariant(dbcgs->pValue);
-		dbcgs->pValue->type = 0;
+		FreeVariant(dbv);
+		dbv->type = 0;
 	}
 
 	char namebuf[512];
 	namebuf[0] = 0;
-	if (dbcgs->szModule)
-		strcpy_s(namebuf, dbcgs->szModule);
+	if (szModule)
+		strcpy_s(namebuf, szModule);
 	strcat_s(namebuf, "/");
-	if (dbcgs->szSetting)
-		strcat_s(namebuf, dbcgs->szSetting);
+	if (szSetting)
+		strcat_s(namebuf, szSetting);
 
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	TDBTSetting set = {0,0,0,0};
@@ -304,7 +302,7 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStr(HANDLE hContact, DBCONTACTGE
 	set.cbSize = sizeof(set);
 	set.Descriptor = &desc;
 
-	switch (dbcgs->pValue->type) {
+	switch (dbv->type) {
 		case DBVT_ASCIIZ: set.Type = DBT_ST_ANSI; break;
 		case DBVT_BLOB:   set.Type = DBT_ST_BLOB; break;
 		case DBVT_UTF8:   set.Type = DBT_ST_UTF8; break;
@@ -316,60 +314,60 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStr(HANDLE hContact, DBCONTACTGE
 
 	switch (set.Type) {
 	case DBT_ST_ANSI:
-		dbcgs->pValue->type = DBVT_ASCIIZ;
-		dbcgs->pValue->pszVal = set.Value.pAnsi;
-		dbcgs->pValue->cchVal = set.Value.Length - 1;
-		if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
-			DecodeString(dbcgs->pValue->pszVal);
+		dbv->type = DBVT_ASCIIZ;
+		dbv->pszVal = set.Value.pAnsi;
+		dbv->cchVal = set.Value.Length - 1;
+		if (isEncrypted(szModule, szSetting))
+			DecodeString(dbv->pszVal);
 		break;
 	case DBT_ST_UTF8:
-		dbcgs->pValue->type = DBVT_UTF8;
-		dbcgs->pValue->pszVal = set.Value.pUTF8;
-		dbcgs->pValue->cchVal = set.Value.Length - 1;
-		if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
-			DecodeString(dbcgs->pValue->pszVal);
+		dbv->type = DBVT_UTF8;
+		dbv->pszVal = set.Value.pUTF8;
+		dbv->cchVal = set.Value.Length - 1;
+		if (isEncrypted(szModule, szSetting))
+			DecodeString(dbv->pszVal);
 		break;
 	case DBT_ST_WCHAR:
-		if (dbcgs->pValue->type == DBVT_WCHAR) {
-			dbcgs->pValue->pwszVal = set.Value.pWide;
-			dbcgs->pValue->cchVal = set.Value.Length - 1;
+		if (dbv->type == DBVT_WCHAR) {
+			dbv->pwszVal = set.Value.pWide;
+			dbv->cchVal = set.Value.Length - 1;
 		}
 		else {
-			dbcgs->pValue->type = DBVT_UTF8;
-			dbcgs->pValue->pszVal = mir_utf8encodeW(set.Value.pWide);
-			dbcgs->pValue->cchVal = static_cast<uint32_t>(strlen(dbcgs->pValue->pszVal));
-			if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
-				DecodeString(dbcgs->pValue->pszVal);
+			dbv->type = DBVT_UTF8;
+			dbv->pszVal = mir_utf8encodeW(set.Value.pWide);
+			dbv->cchVal = static_cast<uint32_t>(strlen(dbv->pszVal));
+			if (isEncrypted(szModule, szSetting))
+				DecodeString(dbv->pszVal);
 			mir_free(set.Value.pWide);
 		}
 		break;
 	case DBT_ST_BLOB:
-		dbcgs->pValue->type = DBVT_BLOB;
-		dbcgs->pValue->pbVal = set.Value.pBlob;
-		dbcgs->pValue->cpbVal = set.Value.Length;
+		dbv->type = DBVT_BLOB;
+		dbv->pbVal = set.Value.pBlob;
+		dbv->cpbVal = set.Value.Length;
 		break;
 	case DBT_ST_BOOL:
-		dbcgs->pValue->type = DBVT_BYTE;
-		dbcgs->pValue->bVal = (uint8_t)set.Value.Bool;
+		dbv->type = DBVT_BYTE;
+		dbv->bVal = (uint8_t)set.Value.Bool;
 		break;
 	case DBT_ST_BYTE: case DBT_ST_CHAR:
-		dbcgs->pValue->type = DBVT_BYTE;
-		dbcgs->pValue->bVal = set.Value.Byte;
+		dbv->type = DBVT_BYTE;
+		dbv->bVal = set.Value.Byte;
 		break;
 	case DBT_ST_SHORT: case DBT_ST_WORD:
-		dbcgs->pValue->type = DBVT_WORD;
-		dbcgs->pValue->wVal = set.Value.Word;
+		dbv->type = DBVT_WORD;
+		dbv->wVal = set.Value.Word;
 		break;
 	case DBT_ST_INT: case DBT_ST_DWORD:
-		dbcgs->pValue->type = DBVT_DWORD;
-		dbcgs->pValue->dVal = set.Value.DWord;
+		dbv->type = DBVT_DWORD;
+		dbv->dVal = set.Value.DWord;
 		break;
 	case DBT_ST_INT64: case DBT_ST_QWORD:
 	case DBT_ST_DOUBLE: case DBT_ST_FLOAT:
-		dbcgs->pValue->type = DBVT_BLOB;
-		dbcgs->pValue->cpbVal = sizeof(set.Value);
-		dbcgs->pValue->pbVal = reinterpret_cast<BYTE*>(mir_alloc(sizeof(set.Value)));
-		memcpy(dbcgs->pValue->pbVal, &set.Value, sizeof(set.Value));
+		dbv->type = DBVT_BLOB;
+		dbv->cpbVal = sizeof(set.Value);
+		dbv->pbVal = reinterpret_cast<BYTE*>(mir_alloc(sizeof(set.Value)));
+		memcpy(dbv->pbVal, &set.Value, sizeof(set.Value));
 		break;
 	default:
 		return -1;
@@ -378,15 +376,15 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStr(HANDLE hContact, DBCONTACTGE
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStatic(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
+STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStatic(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
 	char namebuf[512];
 	namebuf[0] = 0;
-	if (dbcgs->szModule)
-		strcpy_s(namebuf, dbcgs->szModule);
+	if (szModule)
+		strcpy_s(namebuf, szModule);
 	strcat_s(namebuf, "/");
-	if (dbcgs->szSetting)
-		strcat_s(namebuf, dbcgs->szSetting);
+	if (szSetting)
+		strcat_s(namebuf, szSetting);
 
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	TDBTSetting set = {0,0,0,0};
@@ -400,7 +398,7 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStatic(HANDLE hContact, DBCONTAC
 	if (DBSettingRead(reinterpret_cast<WPARAM>(&set), 0) == DBT_INVALIDPARAM)
 		return -1;
 
-	if ((set.Type & DBT_STF_VariableLength) ^ (dbcgs->pValue->type & DBVTF_VARIABLELENGTH))
+	if ((set.Type & DBT_STF_VariableLength) ^ (dbv->type & DBVTF_VARIABLELENGTH))
 	{
 		if (set.Type & DBT_STF_VariableLength)
 			mir_free(set.Value.pBlob);
@@ -409,16 +407,16 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStatic(HANDLE hContact, DBCONTAC
 
 	switch (set.Type) {
 	case DBT_ST_ANSI:
-		if (dbcgs->pValue->cchVal < set.Value.Length) {
-			memcpy(dbcgs->pValue->pszVal, set.Value.pAnsi, dbcgs->pValue->cchVal);
-			dbcgs->pValue->pszVal[dbcgs->pValue->cchVal - 1] = 0;
+		if (dbv->cchVal < set.Value.Length) {
+			memcpy(dbv->pszVal, set.Value.pAnsi, dbv->cchVal);
+			dbv->pszVal[dbv->cchVal - 1] = 0;
 		}
-		else memcpy(dbcgs->pValue->pszVal, set.Value.pAnsi, set.Value.Length);
+		else memcpy(dbv->pszVal, set.Value.pAnsi, set.Value.Length);
 
-		dbcgs->pValue->type = DBVT_ASCIIZ;
-		dbcgs->pValue->cchVal = set.Value.Length - 1;
-		if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
-			DecodeString(dbcgs->pValue->pszVal);
+		dbv->type = DBVT_ASCIIZ;
+		dbv->cchVal = set.Value.Length - 1;
+		if (isEncrypted(szModule, szSetting))
+			DecodeString(dbv->pszVal);
 
 		mir_free(set.Value.pAnsi);
 		break;
@@ -426,16 +424,16 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStatic(HANDLE hContact, DBCONTAC
 		set.Value.pUTF8 = mir_utf8decode(set.Value.pUTF8, NULL);
 		set.Value.Length = static_cast<uint32_t>(strlen(set.Value.pUTF8));
 
-		if (dbcgs->pValue->cchVal < set.Value.Length) {
-			memcpy(dbcgs->pValue->pszVal, set.Value.pUTF8, dbcgs->pValue->cchVal);
-			dbcgs->pValue->pszVal[dbcgs->pValue->cchVal - 1] = 0;
+		if (dbv->cchVal < set.Value.Length) {
+			memcpy(dbv->pszVal, set.Value.pUTF8, dbv->cchVal);
+			dbv->pszVal[dbv->cchVal - 1] = 0;
 		}
-		else memcpy(dbcgs->pValue->pszVal, set.Value.pUTF8, set.Value.Length);
+		else memcpy(dbv->pszVal, set.Value.pUTF8, set.Value.Length);
 
-		dbcgs->pValue->type = DBVT_ASCIIZ;
-		dbcgs->pValue->cchVal = set.Value.Length - 1;
-		if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
-			DecodeString(dbcgs->pValue->pszVal);
+		dbv->type = DBVT_ASCIIZ;
+		dbv->cchVal = set.Value.Length - 1;
+		if (isEncrypted(szModule, szSetting))
+			DecodeString(dbv->pszVal);
 
 		mir_free(set.Value.pUTF8);
 		break;
@@ -445,45 +443,45 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStatic(HANDLE hContact, DBCONTAC
 			WORD l = static_cast<WORD>(strlen(tmp));
 			mir_free(set.Value.pWide);
 
-			if (dbcgs->pValue->cchVal < l + 1) {
-				memcpy(dbcgs->pValue->pszVal, tmp, dbcgs->pValue->cchVal);
-				dbcgs->pValue->pszVal[l] = 0;
+			if (dbv->cchVal < l + 1) {
+				memcpy(dbv->pszVal, tmp, dbv->cchVal);
+				dbv->pszVal[l] = 0;
 			}
-			else memcpy(dbcgs->pValue->pszVal, tmp, l + 1);
+			else memcpy(dbv->pszVal, tmp, l + 1);
 
-			dbcgs->pValue->type = DBVT_ASCIIZ;
-			dbcgs->pValue->cchVal = l;
-			if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
-				DecodeString(dbcgs->pValue->pszVal);
+			dbv->type = DBVT_ASCIIZ;
+			dbv->cchVal = l;
+			if (isEncrypted(szModule, szSetting))
+				DecodeString(dbv->pszVal);
 
 			mir_free(tmp);
 		}
 		break;
 	case DBT_ST_BLOB:
-		if (dbcgs->pValue->cchVal < set.Value.Length)
-			memcpy(dbcgs->pValue->pbVal, set.Value.pBlob, dbcgs->pValue->cchVal);
+		if (dbv->cchVal < set.Value.Length)
+			memcpy(dbv->pbVal, set.Value.pBlob, dbv->cchVal);
 		else
-			memcpy(dbcgs->pValue->pbVal, set.Value.pBlob, set.Value.Length);
+			memcpy(dbv->pbVal, set.Value.pBlob, set.Value.Length);
 
-		dbcgs->pValue->type = DBVT_BLOB;
-		dbcgs->pValue->cchVal = set.Value.Length;
+		dbv->type = DBVT_BLOB;
+		dbv->cchVal = set.Value.Length;
 		mir_free(set.Value.pBlob);
 		break;
 	case DBT_ST_BOOL:
-		dbcgs->pValue->type = DBVT_BYTE;
-		dbcgs->pValue->bVal = set.Value.Bool ? TRUE : FALSE;
+		dbv->type = DBVT_BYTE;
+		dbv->bVal = set.Value.Bool ? TRUE : FALSE;
 		break;
 	case DBT_ST_BYTE: case DBT_ST_CHAR:
-		dbcgs->pValue->type = DBVT_BYTE;
-		dbcgs->pValue->bVal = set.Value.Byte;
+		dbv->type = DBVT_BYTE;
+		dbv->bVal = set.Value.Byte;
 		break;
 	case DBT_ST_SHORT: case DBT_ST_WORD:
-		dbcgs->pValue->type = DBVT_WORD;
-		dbcgs->pValue->wVal = set.Value.Word;
+		dbv->type = DBVT_WORD;
+		dbv->wVal = set.Value.Word;
 		break;
 	case DBT_ST_INT: case DBT_ST_DWORD:
-		dbcgs->pValue->type = DBVT_DWORD;
-		dbcgs->pValue->dVal = set.Value.DWord;
+		dbv->type = DBVT_DWORD;
+		dbv->dVal = set.Value.DWord;
 		break;
 	default:
 		return -1;
@@ -598,15 +596,15 @@ STDMETHODIMP_(BOOL) CDataBase::WriteContactSetting(HANDLE hContact, DBCONTACTWRI
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDataBase::DeleteContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
+STDMETHODIMP_(BOOL) CDataBase::DeleteContactSetting(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting)
 {
 	char namebuf[512];
 	namebuf[0] = 0;
-	if (dbcgs->szModule)
-		strcpy_s(namebuf, dbcgs->szModule);
+	if (szModule)
+		strcpy_s(namebuf, szModule);
 	strcat_s(namebuf, "/");
-	if (dbcgs->szSetting)
-		strcat_s(namebuf, dbcgs->szSetting);
+	if (szSetting)
+		strcat_s(namebuf, szSetting);
 
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	desc.cbSize = sizeof(desc);
@@ -618,8 +616,8 @@ STDMETHODIMP_(BOOL) CDataBase::DeleteContactSetting(HANDLE hContact, DBCONTACTGE
 
 	{
 		DBCONTACTWRITESETTING tmp = {0,0,0,0};
-		tmp.szModule = dbcgs->szModule;
-		tmp.szSetting = dbcgs->szSetting;
+		tmp.szModule = szModule;
+		tmp.szSetting = szSetting;
 		tmp.value.type = 0;
 		NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp);
 	}

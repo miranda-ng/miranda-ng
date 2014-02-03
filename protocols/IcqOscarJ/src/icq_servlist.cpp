@@ -930,28 +930,10 @@ static int GroupReserveIdsEnumProc(const char *szSetting,LPARAM lParam)
 		// it is probably server group
 		GroupReserveIdsEnumParam *param = (GroupReserveIdsEnumParam*)lParam;
 		char val[MAX_PATH+2]; // dummy
-
-		DBVARIANT dbv = {DBVT_DELETED};
-		dbv.type = DBVT_ASCIIZ;
-		dbv.pszVal = val;
-		dbv.cchVal = MAX_PATH;
-
-		DBCONTACTGETSETTING cgs;
-		cgs.szModule = param->szModule;
-		cgs.szSetting = szSetting;
-		cgs.pValue = &dbv;
-		if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC,0,(LPARAM)&cgs))
-		{ // we failed to read setting, try also utf8 - DB bug
-			dbv.type = DBVT_UTF8;
-			dbv.pszVal = val;
-			dbv.cchVal = MAX_PATH;
-			if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC,0,(LPARAM)&cgs))
+		if (db_get_static(0, param->szModule, szSetting, val, MAX_PATH))
+			if (db_get_static_utf(0, param->szModule, szSetting, val, MAX_PATH))
 				return 0; // we failed also, invalid setting
-		}
-		if (dbv.type != DBVT_ASCIIZ)
-		{ // it is not a cached server-group name
-			return 0;
-		}
+
 		param->ppro->ReserveServerID((WORD)strtoul(szSetting, NULL, 0x10), SSIT_GROUP, 0);
 #ifdef _DEBUG
 		param->ppro->debugLogA("Loaded group %u:'%s'", strtoul(szSetting, NULL, 0x10), val);

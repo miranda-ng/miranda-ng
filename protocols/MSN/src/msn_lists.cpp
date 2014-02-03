@@ -242,8 +242,8 @@ void CMsnProto::Lists_Populate(void)
 	while (hContact) {
 		HANDLE hNext = db_find_next(hContact, m_szModuleName);
 		char szEmail[MSN_MAX_EMAIL_LEN] = "";
-		if (getStaticString(hContact, "wlid", szEmail, sizeof(szEmail)))
-			getStaticString(hContact, "e-mail", szEmail, sizeof(szEmail));
+		if (db_get_static(hContact, m_szModuleName, "wlid", szEmail, sizeof(szEmail)))
+			db_get_static(hContact, m_szModuleName, "e-mail", szEmail, sizeof(szEmail));
 		if (szEmail[0]) {
 			bool localList = getByte(hContact, "LocalList", 0) != 0;
 			if (localList)
@@ -447,7 +447,7 @@ static void SetContactIcons(HANDLE hItem, HWND hwndList, CMsnProto* proto)
 	}
 
 	char szEmail[MSN_MAX_EMAIL_LEN];
-	if (proto->getStaticString(hItem, "e-mail", szEmail, sizeof(szEmail))) {
+	if (db_get_static(hItem, proto->m_szModuleName, "e-mail", szEmail, sizeof(szEmail))) {
 		SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 		return;
 	}
@@ -521,7 +521,7 @@ static void SaveSettings(HANDLE hItem, HWND hwndList, CMsnProto* proto)
 
 			if (IsHContactContact(hItem))
 			{
-				if (proto->getStaticString(hItem, "e-mail", szEmail, sizeof(szEmail))) continue;
+				if (db_get_static(hItem, proto->m_szModuleName, "e-mail", szEmail, sizeof(szEmail))) continue;
 			}
 			else if (IsHContactInfo(hItem))
 			{

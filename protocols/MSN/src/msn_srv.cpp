@@ -74,7 +74,7 @@ void CMsnProto::MSN_DeleteServerGroup(LPCSTR szId)
 		if (msc == NULL) break;
 
 		char szGroupID[100];
-		if (!getStaticString(msc->hContact, "GroupID", szGroupID, sizeof(szGroupID)))
+		if (!db_get_static(msc->hContact, m_szModuleName, "GroupID", szGroupID, sizeof(szGroupID)))
 		{
 			if (strcmp(szGroupID, szId) == 0)
 				delSetting(msc->hContact, "GroupID");
@@ -139,10 +139,10 @@ void CMsnProto::MSN_MoveContactToGroup(HANDLE hContact, const char* grpName)
 
 	LPCSTR szId = NULL;
 	char szContactID[100], szGroupID[100];
-	if (getStaticString(hContact, "ID", szContactID, sizeof(szContactID)))
+	if (db_get_static(hContact, m_szModuleName, "ID", szContactID, sizeof(szContactID)))
 		return;
 
-	if (getStaticString(hContact, "GroupID", szGroupID, sizeof(szGroupID)))
+	if (db_get_static(hContact, m_szModuleName, "GroupID", szGroupID, sizeof(szGroupID)))
 		szGroupID[0] = 0;
 
 	bool bInsert = false, bDelete = szGroupID[0] != 0;
@@ -194,7 +194,7 @@ void CMsnProto::MSN_RemoveEmptyGroups(void)
 		if (msc == NULL) break;
 
 		char szGroupID[100];
-		if (!getStaticString(msc->hContact, "GroupID", szGroupID, sizeof(szGroupID)))
+		if (!db_get_static(msc->hContact, m_szModuleName, "GroupID", szGroupID, sizeof(szGroupID)))
 		{
 			const char *pId = szGroupID;
 			int i = grpList.getIndex((ServerGroupItem*)&pId);
@@ -237,7 +237,7 @@ void CMsnProto::MSN_UploadServerGroups(char* group)
 		{
 			char szGroupID[100];
 			if (group == NULL || (strcmp(group, dbv.pszVal) == 0 &&
-				getStaticString(msc->hContact, "GroupID", szGroupID, sizeof(szGroupID)) != 0))
+				db_get_static(msc->hContact, m_szModuleName, "GroupID", szGroupID, sizeof(szGroupID)) != 0))
 			{
 				MSN_MoveContactToGroup(msc->hContact, dbv.pszVal);
 			}

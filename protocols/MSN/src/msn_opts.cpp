@@ -90,7 +90,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetDlgItemTextA(hwndDlg, IDC_HANDLE, proto->MyOptions.szEmail);
 
 			char tBuffer[MAX_PATH];
-			if (!proto->getStaticString(NULL, "Password", tBuffer, sizeof(tBuffer))) {
+			if (!db_get_static(NULL, proto->m_szModuleName, "Password", tBuffer, sizeof(tBuffer))) {
 				tBuffer[16] = 0;
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, tBuffer);
 			}
@@ -115,7 +115,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MAILER_APP), tValue);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ENTER_MAILER_APP), tValue);
 
-			if (!proto->getStaticString(NULL, "MailerPath", tBuffer, sizeof(tBuffer)))
+			if (!db_get_static(NULL, proto->m_szModuleName, "MailerPath", tBuffer, sizeof(tBuffer)))
 				SetDlgItemTextA(hwndDlg, IDC_MAILER_APP, tBuffer);
 
 			if (!proto->msnLoggedIn) {
@@ -328,7 +328,7 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			char ipaddr[256] = "";
 			if (gethst == 1)
-				if (proto->getStaticString(NULL, "YourHost", ipaddr, sizeof(ipaddr)))
+				if (db_get_static(NULL, proto->m_szModuleName, "YourHost", ipaddr, sizeof(ipaddr)))
 					gethst = 0;
 
 			if (gethst == 0)
@@ -516,7 +516,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SetDlgItemTextA(hwndDlg, IDC_HANDLE, proto->MyOptions.szEmail);
 
 			char tBuffer[MAX_PATH];
-			if (!proto->getStaticString(NULL, "Password", tBuffer, sizeof(tBuffer))) {
+			if (!db_get_static(NULL, proto->m_szModuleName, "Password", tBuffer, sizeof(tBuffer))) {
 				tBuffer[16] = 0;
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, tBuffer);
 			}
@@ -601,7 +601,7 @@ INT_PTR CALLBACK DlgDeleteContactUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			DeleteParam *param = (DeleteParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 			char szEmail[MSN_MAX_EMAIL_LEN];
-			if (!param->proto->getStaticString(param->hContact, "e-mail", szEmail, sizeof(szEmail))) {
+			if (!db_get_static(param->hContact, param->proto->m_szModuleName, "e-mail", szEmail, sizeof(szEmail))) {
 				param->proto->MSN_AddUser(param->hContact, szEmail, 0, LIST_FL | (isHot ? LIST_REMOVE : LIST_REMOVENH));
 				if (isBlock) {
 					param->proto->MSN_AddUser(param->hContact, szEmail, 0, LIST_AL | LIST_REMOVE);
@@ -669,11 +669,11 @@ void CMsnProto::LoadOptions(void)
 	MyOptions.ManageServer = getByte("ManageServer", TRUE) != 0;
 	MyOptions.ShowErrorsAsPopups = getByte("ShowErrorsAsPopups", TRUE) != 0;
 	MyOptions.SlowSend = getByte("SlowSend", FALSE) != 0;
-	if (getStaticString(NULL, "e-mail", MyOptions.szEmail, sizeof(MyOptions.szEmail)))
+	if (db_get_static(NULL, m_szModuleName, "e-mail", MyOptions.szEmail, sizeof(MyOptions.szEmail)))
 		MyOptions.szEmail[0] = 0;
 	_strlwr(MyOptions.szEmail);
 
-	if (getStaticString(NULL, "MachineGuid", MyOptions.szMachineGuid, sizeof(MyOptions.szMachineGuid))) {
+	if (db_get_static(NULL, m_szModuleName, "MachineGuid", MyOptions.szMachineGuid, sizeof(MyOptions.szMachineGuid))) {
 		char* uuid = getNewUuid();
 		strcpy(MyOptions.szMachineGuid, uuid);
 		setString("MachineGuid", MyOptions.szMachineGuid);

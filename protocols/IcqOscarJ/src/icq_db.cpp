@@ -107,27 +107,10 @@ WORD CIcqProto::getContactStatus(HANDLE hContact)
 
 int CIcqProto::getSettingStringStatic(HANDLE hContact, const char *szSetting, char *dest, int dest_len)
 {
-	DBVARIANT dbv = {DBVT_DELETED};
-	DBCONTACTGETSETTING sVal = {0};
+	if (!db_get_static(hContact, m_szModuleName, szSetting, dest, dest_len))
+		return 0;
 
-	dbv.pszVal = dest;
-	dbv.cchVal = dest_len;
-	dbv.type = DBVT_ASCIIZ;
-
-	sVal.pValue = &dbv;
-	sVal.szModule = m_szModuleName;
-	sVal.szSetting = szSetting;
-
-	if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC, (WPARAM)hContact, (LPARAM)&sVal) != 0) {
-		dbv.pszVal = dest;
-		dbv.cchVal = dest_len;
-		dbv.type = DBVT_UTF8;
-
-		if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC, (WPARAM)hContact, (LPARAM)&sVal) != 0)
-			return 1; // nothing found
-	}
-
-	return (dbv.type != DBVT_ASCIIZ);
+	return db_get_static_utf(hContact, m_szModuleName, szSetting, dest, dest_len);
 }
 
 int CIcqProto::setSettingDouble(HANDLE hContact, const char *szSetting, double dValue)

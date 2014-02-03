@@ -280,6 +280,13 @@ function db_get_sa(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:p
 function db_get_wsa(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):pWideChar; stdcall;
                  external CoreDLL name 'db_get_wsa';
 
+function db_get_static(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; szDest:pAnsiChar; destLen:int):int; stdcall;
+                 external CoreDLL name 'db_get_static';
+function db_get_static_utf(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; szDest:pAnsiChar; destLen:int):int; stdcall;
+                 external CoreDLL name 'db_get_static_utf';
+function db_get_wstatic(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; szDest:pWideChar; destLen:int):int; stdcall;
+                 external CoreDLL name 'db_get_wstatic';
+
 function db_set(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall;
                  external CoreDLL name 'db_set';
 function db_set_b(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:byte):int_ptr; stdcall;

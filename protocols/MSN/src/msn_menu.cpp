@@ -37,7 +37,7 @@ INT_PTR CMsnProto::MsnBlockCommand(WPARAM wParam, LPARAM)
 		const HANDLE hContact = (HANDLE)wParam;
 
 		char tEmail[MSN_MAX_EMAIL_LEN];
-		getStaticString(hContact, "e-mail", tEmail, sizeof(tEmail));
+		db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail));
 
 		if (Lists_IsInList(LIST_BL, tEmail))
 			delSetting(hContact, "ApparentMode");
@@ -94,7 +94,7 @@ INT_PTR CMsnProto::MsnViewProfile(WPARAM wParam, LPARAM)
 	else
 	{
 		cid = buf;
-		if (getStaticString(hContact, "CID", buf, 30))
+		if (db_get_static(hContact, m_szModuleName, "CID", buf, 30))
 			return 0;
 	}
 

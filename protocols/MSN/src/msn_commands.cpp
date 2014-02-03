@@ -1250,12 +1250,12 @@ LBL_InvalidCommand:
 
 					if (hContact != NULL) {
 						char szSavedHash[64] = "";
-						getStaticString(hContact, "AvatarSavedHash", szSavedHash, sizeof(szSavedHash));
+						db_get_static(hContact, m_szModuleName, "AvatarSavedHash", szSavedHash, sizeof(szSavedHash));
 						if (stricmp(szSavedHash, pszAvatarHash))
 							pushAvatarRequest(hContact, pszUrl);
 						else {
 							char szSavedContext[64];
-							int result = getStaticString(hContact, "PictSavedContext", szSavedContext, sizeof(szSavedContext));
+							int result = db_get_static(hContact, m_szModuleName, "PictSavedContext", szSavedContext, sizeof(szSavedContext));
 							if (result || strcmp(szSavedContext, data.cmdstring))
 								pushAvatarRequest(hContact, pszUrl);
 						}

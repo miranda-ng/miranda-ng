@@ -44,12 +44,7 @@ static int GetProtocolP(HANDLE hContact, char *szBuf, int cbLen)
 	dbv.pszVal = szBuf;
 	dbv.cchVal = cbLen;
 
-	DBCONTACTGETSETTING dbcgs;
-	dbcgs.pValue = &dbv;
-	dbcgs.szModule = "Protocol";
-	dbcgs.szSetting = "p";
-
-	int res = currDb->GetContactSettingStatic(hContact, &dbcgs);
+	int res = currDb->GetContactSettingStatic(hContact, "Protocol", "p", &dbv);
 	if (res == 0) {
 		if (cc == NULL)
 			cc = currDb->m_cache->AddContactToCache(hContact);

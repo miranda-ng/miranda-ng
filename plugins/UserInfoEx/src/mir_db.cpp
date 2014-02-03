@@ -401,51 +401,6 @@ WORD GetCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR pszP
 }
 
 /**
-* This function reads a setting from database into a predefined portion of memory
-* and convert numbers into a string, too.
-* @param	hContact		- handle to the contact
-* @param	pszModule		- the module to read the setting from (e.g. USERINFO)
-* @param	pszSetting		- the setting to read
-* @param	pszValue		- buffer, that retrieves the value
-* @param	cchValue		- number of characters the buffer can take
-*
-* @retval	0 - success
-* @retval	1 - error
-**/
-
-BYTE GetStatic(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR pszValue, int cchValue)
-{
-	DBVARIANT dbv;
-	DBCONTACTGETSETTING sVal;
-
-	if (pszValue && cchValue) {
-		pszValue[0] = 0;
-		dbv.pszVal = pszValue;
-		dbv.cchVal = cchValue;
-		dbv.type = DBVT_ASCIIZ;
-
-		sVal.pValue = &dbv;
-		sVal.szModule = pszModule;
-		sVal.szSetting = pszSetting;
-
-		if (!CallService(MS_DB_CONTACT_GETSETTINGSTATIC, (WPARAM)hContact, (LPARAM)&sVal)) {
-			switch (dbv.type) {
-			case DBVT_BYTE:
-				_itoa(dbv.bVal, pszValue, 10);
-				break;
-			case DBVT_WORD:
-				_itoa(dbv.wVal, pszValue, 10);
-				break;
-			case DBVT_DWORD:
-				_itoa(dbv.dVal, pszValue, 10);
-			}
-			return (pszValue[0] == 0);
-		}
-	}
-	return 1;
-}
-
-/**
 * This function checks for the existence of the given setting in the database
 * @param	hContact		- handle to the contact
 * @param	pszModule		- the module to read the setting from (e.g. USERINFO)
@@ -459,17 +414,7 @@ BYTE Exists(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	if (pszModule && pszSetting) {
 		CHAR szDummy[1];
-		DBVARIANT dbv;
-		dbv.pszVal = szDummy;
-		dbv.cchVal = sizeof(szDummy);
-		dbv.type = 0;
-
-		DBCONTACTGETSETTING cgs;
-		cgs.pValue = &dbv;
-		cgs.szModule = pszModule;
-		cgs.szSetting = pszSetting;
-		if (!CallService(MS_DB_CONTACT_GETSETTINGSTATIC, (WPARAM) hContact, (LPARAM) &cgs))
-			return (dbv.type > DBVT_DELETED);
+		return 0 == db_get_static(hContact, pszModule, pszSetting, szDummy, 1);
 	}
 	return FALSE;
 }

@@ -74,8 +74,7 @@ int sttSettingUgrader(const char *szSetting, LPARAM lParam)
 	SettingUgraderParam *param = (SettingUgraderParam*)lParam;
 	if (param->db->IsSettingEncrypted(param->szModule, szSetting)) {
 		DBVARIANT dbv = { DBVT_UTF8 };
-		DBCONTACTGETSETTING dbcgs = { param->szModule, szSetting, &dbv };
-		if (!param->db->GetContactSettingStr(param->hContact, &dbcgs)) {
+		if (!param->db->GetContactSettingStr(param->hContact, param->szModule, szSetting, &dbv)) {
 			if (dbv.type == DBVT_UTF8) {
 				DecodeString(dbv.pszVal);
 				param->pList->insert(new VarDescr(szSetting, (LPCSTR)dbv.pszVal));
@@ -133,8 +132,7 @@ int CDb3Mmap::InitCrypt()
 
 	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_BLOB;
-	DBCONTACTGETSETTING dbcgs = { "CryptoEngine", "Provider", &dbv };
-	if (GetContactSettingStr(NULL, &dbcgs)) {
+	if (GetContactSettingStr(NULL, "CryptoEngine", "Provider", &dbv)) {
 LBL_CreateProvider:
 		CRYPTO_PROVIDER **ppProvs;
 		int iNumProvs;
@@ -161,8 +159,7 @@ LBL_CreateProvider:
 		return 3;
 
 	dbv.type = DBVT_BLOB;
-	dbcgs.szSetting = "StoredKey";
-	if (GetContactSetting(NULL, &dbcgs)) {
+	if (GetContactSetting(NULL, "CryptoEngine", "StoredKey", &dbv)) {
 LBL_SetNewKey:
 		m_crypto->generateKey(); // unencrypted key
 		StoreKey();		
@@ -202,8 +199,7 @@ LBL_SetNewKey:
 	}
 
 	dbv.type = DBVT_BYTE;
-	dbcgs.szSetting = "DatabaseEncryption";
-	if (!GetContactSetting(NULL, &dbcgs))
+	if (!GetContactSetting(NULL, "CryptoEngine", "DatabaseEncryption", &dbv))
 		m_bEncrypted = dbv.bVal != 0;
 
 	InitDialogs();

@@ -33,11 +33,7 @@ MIR_CORE_DLL(int) db_get_b(HANDLE hContact, const char *szModule, const char *sz
 {
 	if (currDb != NULL) {
 		DBVARIANT dbv;
-		DBCONTACTGETSETTING cgs;
-		cgs.szModule = szModule;
-		cgs.szSetting = szSetting;
-		cgs.pValue = &dbv;
-		if ( !currDb->GetContactSetting(hContact, &cgs)) {
+		if (!currDb->GetContactSetting(hContact, szModule, szSetting, &dbv)) {
 			switch(dbv.type) {
 				case DBVT_BYTE:	return dbv.bVal;
 				case DBVT_WORD:   return BYTE(dbv.wVal);
@@ -53,11 +49,7 @@ MIR_CORE_DLL(int) db_get_w(HANDLE hContact, const char *szModule, const char *sz
 {
 	if (currDb != NULL) {
 		DBVARIANT dbv;
-		DBCONTACTGETSETTING cgs;
-		cgs.szModule = szModule;
-		cgs.szSetting = szSetting;
-		cgs.pValue = &dbv;
-		if ( !currDb->GetContactSetting(hContact, &cgs)) {
+		if (!currDb->GetContactSetting(hContact, szModule, szSetting, &dbv)) {
 			switch(dbv.type) {
 				case DBVT_BYTE:	return dbv.bVal;
 				case DBVT_WORD:   return dbv.wVal;
@@ -73,11 +65,7 @@ MIR_CORE_DLL(DWORD) db_get_dw(HANDLE hContact, const char *szModule, const char 
 {
 	if (currDb != NULL) {
 		DBVARIANT dbv;
-		DBCONTACTGETSETTING cgs;
-		cgs.szModule = szModule;
-		cgs.szSetting = szSetting;
-		cgs.pValue = &dbv;
-		if ( !currDb->GetContactSetting(hContact, &cgs)) {
+		if (!currDb->GetContactSetting(hContact, szModule, szSetting, &dbv)) {
 			switch(dbv.type) {
 				case DBVT_BYTE:	return dbv.bVal;
 				case DBVT_WORD:   return dbv.wVal;
@@ -93,25 +81,19 @@ MIR_CORE_DLL(DWORD) db_get_dw(HANDLE hContact, const char *szModule, const char 
 
 MIR_CORE_DLL(INT_PTR) db_get(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
-	if (currDb == NULL) return 1;
+	if (currDb == NULL)
+		return 1;
 
-	DBCONTACTGETSETTING cgs;
-	cgs.szModule = szModule;
-	cgs.szSetting = szSetting;
-	cgs.pValue = dbv;
-	return currDb->GetContactSetting(hContact, &cgs);
+	return currDb->GetContactSetting(hContact, szModule, szSetting, dbv);
 }
 
 MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType)
 {
-	if (currDb == NULL) return 1;
+	if (currDb == NULL)
+		return 1;
 
-	DBCONTACTGETSETTING cgs;
-	cgs.szModule = szModule;
-	cgs.szSetting = szSetting;
-	cgs.pValue = dbv;
 	dbv->type = (BYTE)nType;
-	return currDb->GetContactSettingStr(hContact, &cgs);
+	return currDb->GetContactSettingStr(hContact, szModule, szSetting, dbv);
 }
 
 MIR_CORE_DLL(char*) db_get_sa(HANDLE hContact, const char *szModule, const char *szSetting)
@@ -134,6 +116,45 @@ MIR_CORE_DLL(wchar_t*) db_get_wsa(HANDLE hContact, const char *szModule, const c
 		str = mir_wstrdup(dbv.pwszVal);
 	db_free(&dbv);
 	return str;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// getting static data
+
+MIR_CORE_DLL(int) db_get_static(HANDLE hContact, const char *szModule, const char *szSetting, char *pDest, int cbDest)
+{
+	if (currDb == NULL)
+		return 1;
+
+	DBVARIANT dbv;
+	dbv.type = DBVT_ASCIIZ;
+	dbv.pszVal = pDest;
+	dbv.cchVal = cbDest;
+	return currDb->GetContactSettingStatic(hContact, szModule, szSetting, &dbv);
+}
+
+MIR_CORE_DLL(int) db_get_static_utf(HANDLE hContact, const char *szModule, const char *szSetting, char *pDest, int cbDest)
+{
+	if (currDb == NULL)
+		return 1;
+
+	DBVARIANT dbv;
+	dbv.type = DBVT_UTF8;
+	dbv.pszVal = pDest;
+	dbv.cchVal = cbDest;
+	return currDb->GetContactSettingStatic(hContact, szModule, szSetting, &dbv);
+}
+
+MIR_CORE_DLL(int) db_get_wstatic(HANDLE hContact, const char *szModule, const char *szSetting, WCHAR *pDest, int cbDest)
+{
+	if (currDb == NULL)
+		return 1;
+
+	DBVARIANT dbv;
+	dbv.type = DBVT_WCHAR;
+	dbv.pwszVal = pDest;
+	dbv.cchVal = cbDest;
+	return currDb->GetContactSettingStatic(hContact, szModule, szSetting, &dbv);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -308,12 +329,10 @@ MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv)
 
 MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, const char *szModule, const char *szSetting)
 {
-	if (currDb == NULL) return 1;
+	if (currDb == NULL)
+		return 1;
 
-	DBCONTACTGETSETTING cgs;
-	cgs.szModule = szModule;
-	cgs.szSetting = szSetting;
-	return currDb->DeleteContactSetting(hContact, &cgs);
+	return currDb->DeleteContactSetting(hContact, szModule, szSetting);
 }
 
 MIR_CORE_DLL(HANDLE) db_find_first(const char *szProto)

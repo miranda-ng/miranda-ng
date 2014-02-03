@@ -100,13 +100,13 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 			strcpy(info->mGatewayIP, info->mServer);
 		else
 		{
-			if (info->mGatewayIP[0] == 0 && getStaticString(NULL, "GatewayServer", info->mGatewayIP, sizeof(info->mGatewayIP)))
+			if (info->mGatewayIP[0] == 0 && db_get_static(NULL, m_szModuleName, "GatewayServer", info->mGatewayIP, sizeof(info->mGatewayIP)))
 				strcpy(info->mGatewayIP, MSN_DEFAULT_GATEWAY);
 		}
 	}
 	else
 	{
-		if (info->mServer[0] == 0 && getStaticString(NULL, "DirectServer", info->mServer, sizeof(info->mServer)))
+		if (info->mServer[0] == 0 && db_get_static(NULL, m_szModuleName, "DirectServer", info->mServer, sizeof(info->mServer)))
 			strcpy(info->mServer, MSN_DEFAULT_LOGIN_SERVER);
 	}
 

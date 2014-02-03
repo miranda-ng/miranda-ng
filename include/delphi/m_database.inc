@@ -58,44 +58,25 @@ type
     value    : TDBVARIANT; // variant containing value to set
   end;
 
-const
-
   {
-    wParam : Handle for a contact to query a setting for
-    lParam : Pointer to a TDBCONTACTGETSETTING structure
-    affects: This service is almost the same as the one above, but it does
-             not return a dynamic copy (with malloc()) -- the caller
-             must do this for datatypes which require it, e.g. a string.
-
-             This means the TDBCONTACTGETSETTING.pValue *has* to exist and be
-             allocated by the caller (doesn't have to be allocated from the heap)
-             the DBVARIANT structure has to be initalised with the type wanted
-             and enough buffer space around to return the info, do not
-             expect this service to be as fast as the one above.
-
-    returns: 0 on success, non zero on failure.
+    wParam : Handle of a contact to enum settings for
+    lParam : Pointer to a TDBCONTACTENUMSETTINGS structure, must be initalised
+    affect : Enumerates all settings for a given contact under a module,
+             TDBCONTACTENUMSETTINGS must be filled with the function pointer to call
+             the TDBCONTACTENUMSETTINGS.lParam value to pass to it each time,
+             as well as the .szModule under which the contact is valid
+    returns: returns the value of the last call to the enum function, or -1
+             if no settings could be enumerated
+    notes  : the szSetting argument passed to the enumeration function is only
+             valid for the duration of that enumeration call,
+             it must be allocated dynamically if it is required after that call frame
+             has returned.
+             Also, deleting settings as they are enumerated has unpredictable results!
+             but writing a new value for a setting is okay.
+             it is unclear how you stop the enumeration once it is started, maybe
+             possible to return -1 to stop it.
+    vesion : only valid for 0.1.0.1+
   }
-  MS_DB_CONTACT_GETSETTINGSTATIC:PAnsiChar = 'DB/Contact/GetSettingStatic';
-
-    {
-        wParam : Handle of a contact to enum settings for
-        lParam : Pointer to a TDBCONTACTENUMSETTINGS structure, must be initalised
-        affect : Enumerates all settings for a given contact under a module,
-                 TDBCONTACTENUMSETTINGS must be filled with the function pointer to call
-                 the TDBCONTACTENUMSETTINGS.lParam value to pass to it each time,
-                 as well as the .szModule under which the contact is valid
-        returns: returns the value of the last call to the enum function, or -1
-                 if no settings could be enumerated
-        notes  : the szSetting argument passed to the enumeration function is only
-                 valid for the duration of that enumeration call,
-                 it must be allocated dynamically if it is required after that call frame
-                 has returned.
-                 Also, deleting settings as they are enumerated has unpredictable results!
-                 but writing a new value for a setting is okay.
-                 it is unclear how you stop the enumeration once it is started, maybe
-                 possible to return -1 to stop it.
-        vesion : only valid for 0.1.0.1+
-    }
 
 type
   TDBSETTINGENUMPROC = function(const szSetting: PAnsiChar; lParam: LPARAM): int; cdecl;

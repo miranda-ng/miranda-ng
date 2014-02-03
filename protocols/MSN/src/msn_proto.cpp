@@ -90,7 +90,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	delSetting("MobileAllowed");
 
 	char path[MAX_PATH];
-	if (getStaticString(NULL, "LoginServer", path, sizeof(path)) == 0 &&
+	if (db_get_static(NULL, m_szModuleName, "LoginServer", path, sizeof(path)) == 0 &&
 		(strcmp(path, MSN_DEFAULT_LOGIN_SERVER) == 0 ||
 		strcmp(path, MSN_DEFAULT_GATEWAY) == 0))
 		delSetting("LoginServer");
@@ -291,7 +291,7 @@ int __cdecl CMsnProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 	if (msnLoggedIn)
 	{
 		char email[MSN_MAX_EMAIL_LEN];
-		if (getStaticString(hContact, "e-mail", email, sizeof(email)))
+		if (db_get_static(hContact, m_szModuleName, "e-mail", email, sizeof(email)))
 			return 1;
 
 		char* szMsg = mir_utf8encodeT(szMessage);
@@ -746,7 +746,7 @@ int __cdecl CMsnProto::RecvFile(HANDLE hContact, PROTOFILEEVENT* evt)
 int __cdecl CMsnProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 {
 	char tEmail[MSN_MAX_EMAIL_LEN];
-	getStaticString(hContact, "e-mail", tEmail, sizeof(tEmail));
+	db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail));
 
 	if (Lists_IsInList(LIST_FL, tEmail))
 		db_unset(hContact, "CList", "Hidden");
@@ -1025,7 +1025,7 @@ int __cdecl CMsnProto::SetStatus(int iNewStatus)
 	else if (!msnLoggedIn && m_iStatus == ID_STATUS_OFFLINE)
 	{
 		char szPassword[100];
-		int ps = getStaticString(NULL, "Password", szPassword, sizeof(szPassword));
+		int ps = db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword));
 		if (ps != 0  || *szPassword == 0)
 		{
 			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);

@@ -34,23 +34,20 @@ static MIDatabase *srcDb, *dstDb;
 static int myGet(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
 	dbv->type = 0;
-	DBCONTACTGETSETTING dgs = { szModule, szSetting, dbv };
-	return srcDb->GetContactSetting(hContact, &dgs);
+	return srcDb->GetContactSetting(hContact, szModule, szSetting, dbv);
 }
 
 static TCHAR* myGetWs(HANDLE hContact, const char *szModule, const char *szSetting)
 {
 	DBVARIANT dbv = { DBVT_TCHAR };
-	DBCONTACTGETSETTING dgs = { szModule, szSetting, &dbv };
-	return ( srcDb->GetContactSettingStr(hContact, &dgs)) ? NULL : dbv.ptszVal;
+	return srcDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv) ? NULL : dbv.ptszVal;
 }
 
 static BOOL myGetS(HANDLE hContact, const char *szModule, const char *szSetting, char* dest)
 {
 	DBVARIANT dbv = { DBVT_ASCIIZ };
 	dbv.pszVal = dest; dbv.cchVal = 100;
-	DBCONTACTGETSETTING dgs = { szModule, szSetting, &dbv };
-	return srcDb->GetContactSettingStatic(hContact, &dgs);
+	return srcDb->GetContactSettingStatic(hContact, szModule, szSetting, &dbv);
 }
 
 static void mySet(HANDLE hContact, const char *module, const char *var, DBVARIANT *dbv)

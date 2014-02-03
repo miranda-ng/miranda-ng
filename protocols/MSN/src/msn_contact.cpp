@@ -142,7 +142,7 @@ bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int f
 			}
 
 			char id[MSN_GUID_LEN];
-			if (!getStaticString(hContact, "ID", id, sizeof(id)))
+			if (!db_get_static(hContact, m_szModuleName, "ID", id, sizeof(id)))
 			{
 				int netId = Lists_GetNetId(email);
 				if (leaveHotmail)
@@ -172,7 +172,7 @@ bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int f
 			{
 				char szContactID[100];
 				hContact = MSN_HContactFromEmail(email);
-				if (getStaticString(hContact, "ID", szContactID, sizeof(szContactID)) == 0)
+				if (db_get_static(hContact, m_szModuleName, "ID", szContactID, sizeof(szContactID)) == 0)
 				{
 					MSN_ABAddRemoveContact(szContactID, netId, true);
 					res = true;
@@ -192,10 +192,8 @@ bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int f
 				}
 
 				char szContactID[100];
-				if (getStaticString(hContact, "ID", szContactID, sizeof(szContactID)) == 0)
-				{
+				if (db_get_static(hContact, m_szModuleName, "ID", szContactID, sizeof(szContactID)) == 0)
 					MSN_ABFind("ABFindByContacts", szContactID);
-				}
 
 				MSN_SharingFindMembership(true);
 				AddDelUserContList(email, flags, netId, false);
