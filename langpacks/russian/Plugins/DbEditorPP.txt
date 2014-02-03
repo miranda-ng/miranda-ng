@@ -359,3 +359,9 @@ BLOB
 Изменена настройка базы: \nмодуль: "%s" , настройка: "%s"\nновое значение: "%s"
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
 Изменена настройка БД: \nМодуль: "%s" , Настройка: "%s"\nНовое значение: (UTF8) "%s"
+[Decimal]
+Десятичная
+[Dword]
+Двойное слово
+[Delete module from all contacts (Includes Setting)]
+Удалить из всех контактов (с настройками)
