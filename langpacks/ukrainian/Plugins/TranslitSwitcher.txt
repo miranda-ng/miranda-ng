@@ -6,15 +6,15 @@
 ;  Authors: Mataes, tico-tico, Tim
 ;============================================================
 [Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
-Дозволяє змінити розкладку або транлитерировать або змінити регістр виділеного тексту у вікні повідомлень з підтримкою SmileyAdd.
+Дозволяє змінити розкладку або транслітерувати або змінити регістр виділеного тексту у вікні повідомлень з підтримкою SmileyAdd.
 [TranslitSwitcher]
 Транслітерація і зміна розкладки
 [Switch Layout and Send]
-Змінити розкладку і відправити знов
+Змінити розкладку і надіслати
 [Translit and Send]
-Змогу транслітерувати і відправити знов
+Транслітерувати і надіслати
 [Invert Case and Send]
-Інвертувати регістр і відправити знов
+Інвертувати регістр і надіслати
 [Convert All / Selected]
 Змінити розкладку всього тексту / Вибраного
 [Convert Last / Selected]

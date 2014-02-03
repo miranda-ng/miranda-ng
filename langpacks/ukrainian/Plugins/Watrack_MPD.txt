@@ -6,12 +6,16 @@
 ;  Authors: sss
 ;============================================================
 [Music Player Daemon support for Watrack.]
-Підтримка Music Player Daemon для модуля Watrack.
+Підтримка Music Player Daemon для плагіна Watrack.
+[MPD Host]
+Хост:
 [Port]
-Порт
+Порт:
 [Password]
-Пароль
+Пароль:
+[Watrack MPD connection]
+З'єднання Watrack MPD
+[Winamp Track]
+Зараз грає (WATrack)
 [Plugins]
 Плагіни
-[Watrack MPD]
-Watrack MPD

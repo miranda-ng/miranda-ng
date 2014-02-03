@@ -1,55 +1,101 @@
-﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+﻿#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
 ;============================================================
-;  File: twitter.dll
-;  Module: Provides basic support for Twitter protocol.
-;  Versions: 0.0.7.0
-;  URL: http://miranda-twitter.googlecode.com/files/twitter-0.0.7.0.zip
+;  File: Twitter.dll
+;  Plugin: Twitter
+;  Version: 1.1.0.1
+;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
 Підтримка протоколу Twitter в Miranda NG.
-[Base URL:]
-URL:
-[Once every]
-кожні
-[Enable popup notifications for tweets]
-Спливаючі вікна для tweets
-[Miscellaneous options]
-Дод. налаштування
-[Polling rate:]
-Опитувати
-[Use group chat for Twitter feed]
-Чат для відображення повідомлень
-[Twitter Plugin]
-Протокол Twitter
+[Server:]
+Сервер:
 [Create a new Twitter account]
 Створити новий обліковий запис Twitter
-[Tweet]
-Написати твіт
-[Tweet...]
-Написати твіт...
+[Default group:]
+Група:
+[Username:]
+Користувач:
+[<Sign in to link your Twitter account>]
+<Увійдіть, щоб налаштувати обліковий запис Twitter>
+[Send Tweet]
+Надіслати твіт
+[Send]
+Надіслати
+[Cancel]
+Скасувати
+[Miscellaneous options]
+Дод. налаштування
+[Use group chat for Twitter feed]
+Чат для відображення повідомлень
+[Base URL:]
+URL:
+[Polling rate:]
+Опитувати
+[Once every]
+кожні
+[sec]
+с
 [Please cycle your connection for these changes to take effect]
 Будь ласка, перепідключіться, щоб зміни набрали чинності.
-[%s avatar connection]
-%s підключення аватарів
-[Send Tweet]
-Надіслати Tweet
-[Send Tweet...]
-Надіслати твіт...
-[Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
-Введіть PIN-код, наданий Twitter, щоб завершити процес входу. Це потрібно зробити один раз, поки ви не перестворите ваш обліковий запис Miranda Twitter.
-[Treat tweets messages as]
+[Treat tweets as messages]
 Твіти як повідомлення
+[Enable popup notifications for tweets]
+Спливаючі вікна для твітів
+[Colors]
+Кольори
+[Use Windows colors]
+Кольори Windows
+[Use Popup colors]
+Кольори сплив. вікон
+[Use custom colors]
+Вказати кольори
+[Back]
+Фон
+[Text]
+Текст
+[Timeouts]
+Перериви
+[Use default]
+За замовчанням
+[Custom]
+Налаштувати
+[Permanent]
+Постійно
+[Preview]
+Тест
+[But not during sign-on]
+Але не під час входу
 [Enter Twitter PIN]
 Введіть PIN-код з Twitter-у
+[Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
+Введіть PIN-код, наданий Twitter, щоб завершити процес входу. Це потрібно зробити один раз, поки ви не перестворите ваш обліковий запис Twitter в Miranda.
 [OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
-Змінні OAuth втратили послідовність і були обнулені. Будь ласка, подсоединитесь знову і авторизуйте Miranda на Twitter.com (ще раз з PIN-кодом)
-[Reply...]
-Відповідь...
-[Visit Homepage]
-Сайт
+Змінні OAuth втратили послідовність і були обнулені. Будь ласка, з'єднайтеся знову і авторизуйте Miranda на Twitter.com (ще раз з PIN-кодом)
+[Send Tweet...]
+Надіслати твіт...
+[Network]
+Мережа
+[Basic]
+Основні
+[Popups]
+Спливаючі вікна
+[%s server connection]
+%s підключення до сервера
+[Unable to get Netlib connection for Twitter]
+Не вдається встановити з'єднання з Twitter
+[%s avatar connection]
+%s підключення аватарів
+[Unable to get avatar Netlib connection for Twitter]
+Не вдається встановити з'єднання для аватарів Twitter
+[%s Protocol]
+Протокол %s
 [Twitter Icon]
 Значок Twitter
+[Tweet]
+Написати твіт
 [Reply to Tweet]
 Відповісти на твіт
-[[Sign in to your link twitter account]]
-Увійдіть, щоб підключити обліковий запис twitter
+[Visit Homepage]
+Сайт
+[Reply...]
+Відповідь...

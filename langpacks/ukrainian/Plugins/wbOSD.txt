@@ -6,35 +6,39 @@
 ;  Authors: Andrej Krutak
 ;============================================================
 [Shows new message/status change info using on-screen display.]
-Показ нових повідомлень, змін статусу з допомогою повідомлень на екрані.
+Показ нових повідомлень, змін статусу за допомогою OSD.
 [General]
-Загальна
+Загальне
 [Align]
 Вирівнювання
 [Select font]
 Вибір шрифту
 [Shadow]
 Тінь
+[Show drop shadow]
+Малювати тінь
 [Shadow align]
-Вирівнювання тіні
+Вирівнювання
 [Shadow color]
 Колір тіні
 [Alternative shadow]
-Альтернативні тіні
+Альтернативна тінь
 [Shadow distance:]
-Тінь відстань:
+Зсув тіні:
 [Other]
 Інше
 [Background color]
 Колір фону
 [Transparent]
 Прозорість
+[Alpha:]
+Альфа:
 [Timeout (ms):]
 Тайм-аут (мс):
 [Show testing OSD]
-Показати тестове OSD
+Тест
 [Announce]
-Оголошення
+Сповіщати про
 [Status changes]
 Зміни статусу
 [Show my status changes]
@@ -46,10 +50,16 @@
 [Format:]
 Формат:
 [Show message window after click]
-Показати вікно з повідомленням по натисканню кнопки
+Вікно повідомлень за натисканням
 [Show when my status is:]
 Показувати, коли мій статус:
 [%s is %s]
 %s - %s
+[Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
+Змінні:\n  %n : Нік\n  %m : Повідомлення\n  %l : Новий рядок
+[Help]
+Довідка
+[Miranda NG is great and this is a long message.]
+Miranda NG чудова, а це - приклад довгого повідомлення.
 [Plugins]
 Плагіни

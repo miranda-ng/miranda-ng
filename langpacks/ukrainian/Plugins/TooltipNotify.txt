@@ -8,7 +8,7 @@
 [Shows a small tooltip above system tray area when a contact status is changed.]
 Сповіщення в треї при зміні статусу контакту.
 [Select protocols]
-Протоколи
+Виберіть протоколи
 [Choose contacts]
 Виберіть контакти
 [Allow tooltip notifications for the following users:]

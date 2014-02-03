@@ -6,7 +6,7 @@
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
 [Change status when you send/receive an event.]
-Зміна стану, коли ви відправити/отримуєти події.
+Змінює статус, коли ви надсилаєте/отримуєте події.
 [Offline]
 Не в мережі
 [Online]
@@ -24,21 +24,21 @@
 [Invisible]
 Невидимий
 [On the phone]
-На телефоні
+Телефоную
 [Out to lunch]
 Обідаю
 [On events...]
 На події...
 [Send]
-Відправити
+Відправка
 [Receive]
-Отримати
+Отримання
 [Message]
 Повідомлення
 [File transfer]
 Передача файлу
 [...change status to...]
-...зміни статусу...
+...змінити статус...
 [...if status is...]
 ...якщо статус...
 [Status Change]

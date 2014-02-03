@@ -1,5 +1,0 @@
-﻿[Show drop shadow]
-[Alpha:]
-[Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
-[Miranda NG is great and this is a long message.]
-[OSD]

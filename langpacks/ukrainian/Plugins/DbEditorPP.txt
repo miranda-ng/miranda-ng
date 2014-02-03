@@ -66,7 +66,7 @@
 [Value Data:]
 Значення:
 [Base]
-Підстава
+Основа
 [Save Value as:]
 Зберегти як:
 [Watched Database Variables]
@@ -239,8 +239,10 @@
 Видалити модуль з бази
 [Delete module from Database... Loading]
 Видалення модуля з бази... Завантаження
+[Delete module from all contacts (Includes Setting)]
+Видалити модуль з усіх контактів (з налаштуваннями)
 [INI Files]
-INI файли
+Файли INI
 [All Files]
 Всі файли
 [Export to file]
