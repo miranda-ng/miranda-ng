@@ -179,6 +179,8 @@ YAMN: сбой подключения
 Нет новых писем
 [%s - connection error]
 %s  - ошибка соединения
+[An error occurred. Error code: %d]
+Произошла ошибка. Код ошибки: %d
 [Unknown error]
 Неизвестная ошибка
 [ - connection error]
@@ -188,9 +190,11 @@ YAMN: сбой подключения
 [- new mail message(s)]
 - новых писем
 [%s : %d new mail message(s), %d total]
-%s : %d новых писем, %d всего
+%s : %d новых писем (%d всего)
 [%d new mail message(s), %d total]
 %d новых писем (%d всего)
+[No new mail message, %d spam(s)]
+Нет новых писем (%d спамерских)
 [Invalid]
 Неверно
 [Header]

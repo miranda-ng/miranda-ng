@@ -2,8 +2,6 @@
 [WWW:]
 [SSL]
 [APOP]
-[An error occurred. Error code: %d]
-[No new mail message, %d spam(s)]
 [Translate header error]
 [Part]
 [Reading body %s]

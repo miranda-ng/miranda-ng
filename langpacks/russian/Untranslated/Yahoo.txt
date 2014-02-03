@@ -7,5 +7,4 @@
 [%s denied invitation with message: %s]
 [Invalid Contact]
 [The ID you tried to add is invalid.]
-[Unknown Error.]
 [Yahoo System Message]

@@ -179,6 +179,8 @@ ID
 Календарь напоминаний
 [%s has rejected your request and sent the following message:]
 %s отклонил запрос и послал сообщение:
+[Unknown Error.]
+Неизвестная ошибка.
 [New Mail]
 Новая почта
 [You Have %i unread msgs]

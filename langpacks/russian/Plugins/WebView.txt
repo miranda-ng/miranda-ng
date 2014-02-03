@@ -28,7 +28,7 @@
 [Suppress error messages]
 Подавлять сообщения об ошибках
 [Expert options]
-Настройки Эксперта
+Расширенные настройки
 [(not recommended)]
 (не рекомендуется)
 [URL:]
@@ -111,6 +111,24 @@ URL:
 Выключить поверх окон
 [The server is down or lagging.]
 Сервер упал или лагает.
+[Processing data (Stage 1)]
+Обработка данных (этап 1)
+[Processing data stopped by user.]
+Обработка данных остановлена пользователем.
+[Processing data (Stage 2)]
+Обработка данных (этап 2)
+[Processing data (Stage 3)]
+Обработка данных (этап 3)
+[Processing data (Stage 4)]
+Обработка данных (этап 4)
+[Processing data (Stage 5)]
+Обработка данных (этап 5)
+[Processing data (Stage 6)]
+Обработка данных (этап 6)
+[Processing data (Stage 7)]
+Обработка данных (этап 7)
+[Processing data (Stage 8)]
+Обработка данных (этап 8)
 [Online]
 В сети
 [A site is already downloading, try again in a moment.]

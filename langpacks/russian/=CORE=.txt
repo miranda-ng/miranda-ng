@@ -2055,6 +2055,10 @@ URL от %s
 &Группа
 [<Root group>]
 <Корневая группа>
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
+Миранда пытается обновить структуру вашего профиля.\nНе удалось переместить профиль %s в новое расположение %s\nПрофиль с таким именем уже существует. Пожалуйста, решите этот вопрос вручную.
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+Миранда пытается обновить структуру вашего профиля.\nНе удалось автоматически переместить профиль %s в новое расположение %s\nВероятная причина - нехватка прав доступа.  Пожалуйста, переместите профиль вручную.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Файл профиля не должен находится в корневой папке Miranda.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
@@ -2217,8 +2221,10 @@ Miranda NG не может открыть этот профиль
 <Все подключения>
 [Network]
 Сеть
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Клиент не может расшифровать сообщение сервера. Возможные причины: сервер не поддерживает SSL, либо требует не существующий пакет безопасности
 [Host we are connecting to is not the one certificate was issued for]
-Выданный сертификат не соответсует имени сервера, к которому производится подключение
+Выданный сертификат не соответствует имени сервера, к которому производится подключение
 [<all modules>]
 <все модули>
 [<core modules>]

@@ -65,6 +65,10 @@ ID
 Для работы плагина WhoUsesMyFiles требуются права администратора.
 [Error opening file]
 Ошибка открытия файла
+[Error memory allocation]
+Ошибка выделения памяти
+[Error creating menu]
+Ошибка создания меню
 [Popup plugin not found!]
 Не установлен плагин Popup!
 [Error]
@@ -73,6 +77,8 @@ ID
 Включить WUMF окна
 [Disable WUMF popups]
 Выключить WUMF окна
+[Not implemented yet...]
+Еще не реализовано...
 [Show connections list]
 Показать список подключений
 [Services]

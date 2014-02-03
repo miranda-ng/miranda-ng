@@ -271,8 +271,16 @@ exe игры:
 Ежедневно
 [<Root Group>]
 <Корневая группа>
+[Are you sure you want to remove this game?]
+Уверены, что хотите удалить эту игру?
+[Please select a game.]
+Выберите игру.
+[Error: unknown game ID.]
+Ошибка: неизвестный ID игры.
 [Not supported]
 Не поддерживается
+[Game not found?!]
+Игра не найдена?!
 [Network]
 Сеть
 [Account]
