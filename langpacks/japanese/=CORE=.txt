@@ -1214,10 +1214,6 @@ SMS テキストメッセージを受信できる電話
 暇だよ
 [Status]
 ステータス
-[Join chat]
-チャットに参加
-[Open chat window]
-チャットウィンドウを開く
 [%s has joined]
 %s は参加しました
 [You have joined %s]
@@ -2160,6 +2156,8 @@ ANSI プラグイン
 ハイド表示
 [Exit]
 終了
+[Join chat]
+チャットに参加
 [Leave chat]
 チャットから離席
 [Move to group]

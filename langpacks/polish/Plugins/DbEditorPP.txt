@@ -247,6 +247,8 @@ Potwierdź usunięcie modułu
 Usuń moduł z profilu
 [Delete module from Database... Loading]
 Skasuj moduł z profilu... Ładowanie
+[Delete module from all contacts (Includes Setting)]
+
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 Pliki INI

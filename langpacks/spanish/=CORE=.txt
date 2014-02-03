@@ -1293,11 +1293,6 @@ Mmm... comida.
 libreeeeeeee
 [Status]
 Estado
-;file \src\core\stdchat\src\clist.cpp
-[Join chat]
-Entrar al chat
-[Open chat window]
-Abrir ventana de chat
 ;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
@@ -2496,6 +2491,8 @@ Plugin sin cargar
 Mostrar/Ocultar
 [Exit]
 Salir
+[Join chat]
+Entrar al chat
 [Leave chat]
 Dejar charla
 [Move to group]

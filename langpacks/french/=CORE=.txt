@@ -1293,11 +1293,6 @@ Mmm... Manger.
 Occupééééé
 [Status]
 État
-;file \src\core\stdchat\src\clist.cpp
-[Join chat]
-Joindre un salon
-[Open chat window]
-Ouvrir la fenêtre de discussion
 ;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
@@ -2496,6 +2491,8 @@ Plugin non chargé
 Afficher/Masquer
 [Exit]
 Quitter
+[Join chat]
+Joindre un salon
 [Leave chat]
 
 [Move to group]

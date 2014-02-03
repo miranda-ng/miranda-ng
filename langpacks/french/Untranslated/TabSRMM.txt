@@ -25,7 +25,6 @@
 [Highlight messages containing my own nickname]
 [&Retry]
 [&Remove]
-[TabSRMM exception]
 [Customize the panel]
 [Scope of settings]
 [Use global or private panel height]

@@ -1066,8 +1066,6 @@ Mmm... kaja.
 Inaktíííííív
 [Status]
 Állpot
-[Join chat]
-Csatlakozás csevegéshez
 [%s has joined]
 %s csatlakozott
 [You have joined %s]
@@ -1884,6 +1882,8 @@ Futó beépülõ
 Mutat/Rejt
 [Exit]
 Kilépés
+[Join chat]
+Csatlakozás csevegéshez
 [On]
 Be
 [Off]

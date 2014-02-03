@@ -436,7 +436,3 @@ Popups
 
 [Music]
 Музика
-[Dating]
-
-[Mobile]
-

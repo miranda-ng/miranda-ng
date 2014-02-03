@@ -106,6 +106,7 @@
 [Confirm Module Deletion]
 [Delete module from Database]
 [Delete module from Database... Loading]
+[Delete module from all contacts (Includes Setting)]
 [INI Files]
 [Error Loading Module List]
 [Couldn't open file for writing]

@@ -104,6 +104,7 @@
 [Confirm Module Deletion]
 [Delete module from Database]
 [Delete module from Database... Loading]
+[Delete module from all contacts (Includes Setting)]
 [INI Files]
 [Export to file]
 [Error Loading Module List]

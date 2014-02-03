@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.2
+;  Version: 3.3.0.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -166,16 +166,6 @@ Dodaj
 [&Remove]
 Usuń
 ;file \plugins\TabSRMM\res\resource.rc
-[TabSRMM exception]
-Wyjątek TabSRMM
-[Copy to clipboard]
-Kopiuj do schowka 
-[Continue]
-Kontynuuj
-[Exit Miranda]
-Wyłącz Mirandę
-[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-Mimo, że wyjątek został wychwycony i możesz kontynuować korzystanie z Mirandy, powinieneś uruchomić program ponownie najszybciej jak to możliwe. Wyjątek mógł uszkodzić wewnętrzne struktury danych i może mieć poważny wpływ na stabilność.
 [Customize the panel]
 Ustawienia panelu
 [Scope of settings]

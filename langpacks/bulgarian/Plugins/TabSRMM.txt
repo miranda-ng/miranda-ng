@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.2
+;  Version: 3.3.0.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -155,16 +155,6 @@ Wikipedia
 [&Open at this position]
 Отваряне на тази позиция
 ;file \plugins\TabSRMM\res\resource.rc
-[TabSRMM exception]
-TabSRMM грешка
-[Copy to clipboard]
-Копиране в клипборда
-[Continue]
-Продължение
-[Exit Miranda]
-Изход от Miranda
-[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-Въпреки проблемът виe можете да продължите работата си с Miranda, но е наложително да рестарти-\nрате програмата възможно най-скоро. Има вероятност грешката да е повредила вътрешната струк-\nтура на данните, което може да се отрази сериозно на стабилността.
 [Customize the panel]
 Персонализиране на панела
 [Scope of settings]

@@ -1112,8 +1112,6 @@ Mmm... comida.
 Ocupadoooooo
 [Status]
 Status
-[Join chat]
-Entrar no bate-papo
 [%s has joined]
 %s acabou de entrar
 [You have joined %s]
@@ -1964,6 +1962,8 @@ Plugin desativado
 Exibir/Ocultar
 [Exit]
 Sair
+[Join chat]
+Entrar no bate-papo
 [Leave chat]
 Sair do chat
 [Move to group]

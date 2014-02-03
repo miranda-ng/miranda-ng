@@ -1088,8 +1088,6 @@ Mmm... yemek.
 Boştayım
 [Status]
 Durum
-[Join chat]
-Sohbete katıl
 [%s has joined]
 %s katıldı
 [You have joined %s]
@@ -1914,6 +1912,8 @@ Kaldırılan eklenti
 Göster/Gizle
 [Exit]
 Çıkış
+[Join chat]
+Sohbete katıl
 [On]
 Açık
 [Off]

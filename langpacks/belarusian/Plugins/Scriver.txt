@@ -790,8 +790,8 @@ ID бягучага кантакту (калі вызначаны). Напрык
 скарочаная назва месяца
 [full month name]
 поўная назва месяца
-[year without century, 01-  99]
-Год без стагоддзяў, 01 - 99
+[year without century, 01-99]
+Год без стагоддзяў, 01-99
 [year with century, 1901-9999]
 год з 4-х лічбаў, 1901-9999
 [abbreviated weekday name]

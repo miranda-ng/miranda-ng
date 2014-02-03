@@ -247,6 +247,8 @@ Modullöschung bestätigen
 Modul aus der Datenbank löschen
 [Delete module from Database... Loading]
 Modul aus der Datenbank löschen... Lade
+[Delete module from all contacts (Includes Setting)]
+
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI-Dateien

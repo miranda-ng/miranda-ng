@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.2
+;  Version: 3.3.0.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
@@ -153,8 +153,6 @@ Cancel(&C)
 送信 (&S)
 [&Add]
 追加 (&A)
-[TabSRMM exception]
-TabSRMM の例外
 [Customize the panel]
 パネルのカスタマイズ
 [Scope of settings]

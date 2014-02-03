@@ -1293,11 +1293,6 @@ Mmm... jedzonko.
 Bezczynnyyyyyyy
 [Status]
 Status
-;file \src\core\stdchat\src\clist.cpp
-[Join chat]
-Dołącz do pokoju
-[Open chat window]
-Otwórz okno czatu
 ;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
@@ -2496,6 +2491,8 @@ Niezaładowane wtyczki
 Pokaż/ukryj
 [Exit]
 Wyłącz
+[Join chat]
+Dołącz do pokoju
 [Leave chat]
 Opuść czat
 [Move to group]

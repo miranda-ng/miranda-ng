@@ -577,8 +577,8 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 チャットウィンドウの外観と機能
 [Icons to display in the tray]
 トレイ表示用アイコン
-[year without century, 01-  99]
-年 , 01-  99
+[year without century, 01-99]
+年 , 01-99
 [Select Folder]
 フォルダーを選択
 [Popups]

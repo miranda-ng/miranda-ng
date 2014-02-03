@@ -820,8 +820,8 @@ numer miesiąca, 01-12
 skrócona nazwa miesiąca
 [full month name]
 pełna nazwa miesiąca
-[year without century, 01-  99]
-rok bez wieku, 01-  99
+[year without century, 01-99]
+rok bez wieku, 01-99
 [year with century, 1901-9999]
 rok ze stuleciem, 1901-9999
 [abbreviated weekday name]

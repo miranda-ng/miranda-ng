@@ -247,6 +247,8 @@ Ajustes
 
 [Delete module from Database... Loading]
 
+[Delete module from all contacts (Includes Setting)]
+
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 

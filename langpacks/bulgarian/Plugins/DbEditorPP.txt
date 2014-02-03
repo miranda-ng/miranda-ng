@@ -247,6 +247,8 @@ BLOB
 Изтриване на модул от базата от данни
 [Delete module from Database... Loading]
 Изтриване на модула от Database... Зареждане
+[Delete module from all contacts (Includes Setting)]
+
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI файлове

@@ -19,6 +19,7 @@
 [BL&OB]
 [New BLOB value]
 [Edit BLOB value]
+[Delete module from all contacts (Includes Setting)]
 [INI Files]
 [Stop]
 [Searching...]

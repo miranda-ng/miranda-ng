@@ -1267,11 +1267,6 @@ Miranda
 
 [Status]
 Състояние
-;file \src\core\stdchat\src\clist.cpp
-[Join chat]
-Влизане в чата
-[Open chat window]
-Отваряне на чат прозорец
 ;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
@@ -2465,6 +2460,8 @@ ANSI приставка
 Показване/Скриване
 [Exit]
 Изход
+[Join chat]
+Влизане в чата
 [Leave chat]
 Излизане от чата
 [Move to group]

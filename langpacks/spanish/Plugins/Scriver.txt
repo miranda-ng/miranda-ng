@@ -820,7 +820,7 @@ Iconos a mostrar en la bandeja
 
 [full month name]
 
-[year without century, 01-  99]
+[year without century, 01-99]
 
 [year with century, 1901-9999]
 

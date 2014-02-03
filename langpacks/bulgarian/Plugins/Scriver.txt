@@ -820,7 +820,7 @@ Latin I
 име на месеца (съкратено)
 [full month name]
 име на месеца
-[year without century, 01-  99]
+[year without century, 01-99]
 година без век (01-99)
 [year with century, 1901-9999]
 година (1901-9999)

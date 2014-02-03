@@ -1287,11 +1287,6 @@ Miranda
 чаканне...
 [Status]
 Статус
-;file \src\core\stdchat\src\clist.cpp
-[Join chat]
-Увайсці ў чат
-[Open chat window]
-Адчыніць вакно чата
 ;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
@@ -2480,6 +2475,8 @@ ANSI плагін
 Схаваць/паказаць
 [Exit]
 Выйсце
+[Join chat]
+Увайсці ў чат
 [Leave chat]
 Пакінуць чат
 [Move to group]
