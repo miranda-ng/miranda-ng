@@ -78,8 +78,8 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		SetWindowText(hwnd,Translate("Delete module from Database... Loading"));
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTACTS),0);
 		EnableWindow(GetDlgItem(hwnd,IDOK),0);
-		SetDlgItemText(hwnd,IDC_INFOTEXT,"Delete module from Database");
-		SetDlgItemText(hwnd,CHK_COPY2ALL,"Delete module from all contacts (Includes Setting)");
+		SetDlgItemText(hwnd,IDC_INFOTEXT, Translate("Delete module from Database"));
+		SetDlgItemText(hwnd,CHK_COPY2ALL, Translate("Delete module from all contacts (Includes Setting)"));
 		EnableWindow(GetDlgItem(hwnd,CHK_COPY2ALL),0);
 		CheckDlgButton(hwnd,CHK_COPY2ALL,1);
 		TranslateDialogDefault(hwnd);
