@@ -1197,7 +1197,7 @@ bool isGPGValid()
 	}
 	if(tmp)
 		mir_free(tmp); */
-	return is_valid && is_valid;
+	return is_valid && gpg_exists;
 }
 
 #define NEWTSTR_MALLOC(A) (A==NULL)?NULL:strcpy((char*)mir_alloc(sizeof(char)*(strlen(A)+1)),A)
