@@ -44,13 +44,6 @@ const
   MS_DB_CHECKPROFILE:PAnsiChar = 'DB/CheckProfile';
 
 type
-  PDBCONTACTGETSETTING = ^TDBCONTACTGETSETTING;
-  TDBCONTACTGETSETTING = record
-    szModule : PAnsiChar;  // name of the module that wrote the setting to get
-    szSetting: PAnsiChar;  // the name of the setting to get
-    pValue   : PDBVARIANT; // pointer to DBVARIANT to receive the value
-  end;
-
   PDBCONTACTWRITESETTING = ^TDBCONTACTWRITESETTING;
   TDBCONTACTWRITESETTING = record
     szModule : PAnsiChar;  // module sig to write this setting under

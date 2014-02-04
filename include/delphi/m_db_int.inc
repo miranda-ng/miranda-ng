@@ -90,16 +90,16 @@ type
 
     EnumModuleNames:function(pFunc:TDBMODULEENUMPROC; pParam:pointer):bool; stdcall;
 
-    GetContactSetting      :function(hContact:THANDLE; dbcgs:PDBCONTACTGETSETTING):bool; stdcall;
-    GetContactSettingStr   :function(hContact:THANDLE; dbcgs:PDBCONTACTGETSETTING):bool; stdcall;
-    GetContactSettingStatic:function(hContact:THANDLE; dbcgs:PDBCONTACTGETSETTING):bool; stdcall;
+    GetContactSetting:function(hContact:THANDLE; szModule, szSetting:pAnsiChar; dbv:PDBVARIANT):bool; stdcall;
+    GetContactSettingStr:function(hContact:THANDLE; szModule, szSetting:pAnsiChar; dbv:PDBVARIANT):bool; stdcall;
+    GetContactSettingStatic:function(hContact:THANDLE; szModule, szSetting:pAnsiChar; dbv:PDBVARIANT):bool; stdcall;
     FreeVariant:function(dbv:PDBVARIANT):bool; stdcall;
-    WriteContactSetting :function(hContact:THANDLE; dbcws:PDBCONTACTWRITESETTING):bool; stdcall;
-    DeleteContactSetting:function(hContact:THANDLE; dbcgs:PDBCONTACTGETSETTING):bool; stdcall;
-    EnumContactSettings :function(hContact:THANDLE; dbces:PDBCONTACTENUMSETTINGS):bool; stdcall;
-    SetSettingResident  :function(bIsResident:bool; const pszSettingName:PAnsiChar):bool; stdcall;
+    WriteContactSetting:function(hContact:THANDLE; dbcws:PDBCONTACTWRITESETTING):bool; stdcall;
+    DeleteContactSetting:function(hContact:THANDLE; szModule, szSetting:pAnsiChar):bool; stdcall;
+    EnumContactSettings:function(hContact:THANDLE; dbces:PDBCONTACTENUMSETTINGS):bool; stdcall;
+    SetSettingResident:function(bIsResident:bool; const pszSettingName:PAnsiChar):bool; stdcall;
     EnumResidentSettings:function(pFunc:TDBMODULEENUMPROC; pParam:pointer):bool; stdcall;
-    IsSettingEncrypted  :function(szModule:PAnsiChar; szSetting:pAnsiChar):bool; stdcall;
+    IsSettingEncrypted:function(szModule:PAnsiChar; szSetting:pAnsiChar):bool; stdcall;
   end;
 
 ///////////////////////////////////////////////////////////////////////////////
