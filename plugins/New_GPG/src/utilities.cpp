@@ -1132,7 +1132,9 @@ bool isGPGValid()
 	TCHAR *tmp = NULL;
 	bool gpg_exists = false, is_valid = true;
 	tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", _T(""));
-	if(_waccess(tmp, 0) != -1)
+	boost::filesystem::path p(tmp);
+
+	if(boost::filesystem::exists(p) && boost::filesystem::is_regular_file(p))
 		gpg_exists = true;
 	else
 	{
@@ -1150,7 +1152,8 @@ bool isGPGValid()
 		_tcscat(gpg_path, _T("\\GnuPG\\gpg.exe"));
 		mir_free(tmp);
 		tmp = NULL;
-		if(_waccess(gpg_path, 0) != -1)
+		p = boost::filesystem::path(gpg_path);
+		if(boost::filesystem::exists(p) && boost::filesystem::is_regular_file(p))
 		{
 			gpg_exists = true;
 			_tcscpy(path, _T("GnuPG\\gpg.exe"));
@@ -1194,7 +1197,7 @@ bool isGPGValid()
 	}
 	if(tmp)
 		mir_free(tmp); */
-	return is_valid;
+	return is_valid && is_valid;
 }
 
 #define NEWTSTR_MALLOC(A) (A==NULL)?NULL:strcpy((char*)mir_alloc(sizeof(char)*(strlen(A)+1)),A)
