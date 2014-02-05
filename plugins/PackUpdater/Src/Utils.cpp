@@ -177,7 +177,7 @@ INT getVer(const TCHAR* verStr)
 {
 	INT v1 = 0, v2 = 0, v3 = 0, v4 = 0;
 	_stscanf(verStr, _T("%d.%d.%d.%d"), &v1, &v2, &v3, &v4);
-	return v1*1000000 + v2*10000 + v3*1000 + v4;
+	return v1*10000000 + v2*100000 + v3*1000 + v4;
 }
 
 static void CheckUpdates(void *)
