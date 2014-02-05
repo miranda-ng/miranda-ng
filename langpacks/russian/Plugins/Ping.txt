@@ -97,7 +97,7 @@ TCP соединение
 Настройки...
 [Hosts...]
 Хосты...
-[PING]
+[Ping]
 Пинг
 [Open log file]
 Открыть журнал
@@ -135,8 +135,6 @@ TCP соединение
 включён
 [double clicked]
 двойное нажатие
-[Ping]
-Пинг
 [Show/Hide &Ping Window]
 Показать/скрыть &окно
 [List]
