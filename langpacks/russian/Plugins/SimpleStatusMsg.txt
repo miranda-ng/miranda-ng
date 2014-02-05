@@ -194,7 +194,7 @@
 [Predefined Message]
 Предустановленное сообщение
 [Go to URL in Away Message]
-Перейти по ссылки в сообщении отсутствия
+Перейти по ссылке в сообщении отсутствия
 [Simple Status Message]
 Сообщение статуса
 [I've been away since %time%.]

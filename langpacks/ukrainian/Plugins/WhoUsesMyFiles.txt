@@ -1,60 +1,89 @@
 ﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;============================================================
-;  File: wumf.dll
-;  Module: Who Uses My Files
-;  Versions: 0.1.0.2
+;  File: WhoUsesMyFiles.dll
+;  Plugin: Who Use My Files
+;  Version: 0.1.0.2
+;  Authors: Nikolay Redko
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
-Сканує мережу в пошуках користувачів, що використовують ваші файли, відкриті для доступу з мережі, і сповіщає у спливаючих вікнах.
-[WUMF: Who Use My Files?]
-Хтось використовує мої файли?
-[WUMF: Show connections]
-WUMF: Показати підключення
-[Disable WUMF popups]
-Вимкнути вікна WUMF
-[Enable WUMF popups]
-Увімкнути вікна WUMF
-[Popup color settings]
-Налаштування кольору сплив. вікон
-[Choose colors]
-Вибрати колір
-[Use default Popup colors]
-Кольори сплив. вікон
+Сканує мережу в пошуках користувачів, які використовують ваші файли, відкриті для доступу з мережі, і сповіщає у спливаючих вікнах.
+[WUMF: Current connections]
+WUMF: Поточні з'єднання
 [Popup delay settings]
-Налаштування показу сплив. вікон
-[Choose delay time]
-Налаштувати самому
+Показ спливаючих вікон
+[Popup Delay (seconds)]
+Тривалість (секунди)
+[Background color]
+Колір фону
+[Text color]
+Колір тексту
+[Previe&w]
+&Тест
 [Show infinitely]
 Постійно
 [Default Popup delay]
-Як у сплив. вікнах
+За замовчанням
+[Choose delay time]
+Вказати
+[Popup color settings]
+Кольори спливаючих вікон
+[Use windows colors]
+Кольори Windows
+[Use default Popup colors]
+За замовчанням
+[Choose colors]
+Вказати
 [File access filter && logging settings]
-Налаштування фільтрів журналу
+Фільтри журналу та сповіщень
 [Log into text file]
 Писати у файл
 [Log folders access]
-Доступ до папок
+Писати доступ до папок
+[Alerts on folders access]
+Сповіщення доступу до папок
+[Log files and folders in UNC format]
+Писати папки і файли у форматі UNC
+[Alert files && folders in UNC format]
+Спов. про папки і файли у форматі UNC
+[Log computer name with username]
+Імена комп'ютерів з іменами користувачів
+[Alert computer name with username]
+Спов. з іменами комп'ютерів та користувачів
 [Disabled options will be available in the next version]
 Будуть доступні в наступній версії
-[Alerts folders on access]
-Сповіщення доступу до папок
 [Show current connections]
 Показати з'єднання
-[Popup plugin not found!]
-Не встановлений плагін сплив. вікон!
+[User]
+Користувач
+[File]
+Файл
 [Access]
 Доступ
 [Plugin WhoUsesMyFiles requires admin privileges in order to work.]
 Для роботи плагіна WhoUsesMyFiles потрібні права адміністратора.
-[Alert computer name with username]
-Показувати імена комп'ютерів разом з іменами користувачів
-[Alert files && folders in UNC format]
-Показувати папки і файли у форматі UNC
-[Log computer name with username]
-Імена комп'ютерів разом з іменами користувачів
-[Log files and folders in UNC format]
-Папки і файли у форматі UNC
-[WUMF: Current connections]
-WUMF: Поточні з'єднання
+[Error opening file]
+Помилка читання файлу
+[Error memory allocation]
+Помилка розподілу пам'яті
+[Error creating menu]
+Помилка створення меню
+[Popup plugin not found!]
+Не встановлений плагін сплив. вікон!
+[Error]
+Помилка
+[Enable WUMF popups]
+Увімкнути вікна WUMF
+[Disable WUMF popups]
+Вимкнути вікна WUMF
+[Not implemented yet...]
+Ще не реалізовано...
 [Show connections list]
 Показати список підключень
+[Wumf]
+WUMF
+[Services]
+Служби
+[Popups]
+Спливаючі вікна
+[WUMF: Show connections]
+WUMF: Показати підключення

@@ -1,5 +1,4 @@
 ﻿[OK]
-[Behavior on status change]
 [Fortune]
 [?cinfo(contact,property)]
 [?contact(string,property)]
@@ -19,7 +18,5 @@
 [?upper(string)]
 [?scroll(string,numchars,numchars)]
 [retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
-[Miranda Related]
 [get the date (Simple Status Message compatible)]
 [OK (%d)]
-[Global status change]

@@ -8,7 +8,7 @@
 [Provides extended options for sound notifications.]
 Надає розширені функції для звукового сповіщення.
 [Account:]
-Акаунт:
+Обліковий запис:
 [Nick:]
 Нік:
 [Sound:]
@@ -18,11 +18,11 @@
 [Choose]
 Вибрати
 [Test play]
-Тестувати
+Тест
 [Reset]
-Скидання
+Скинути
 [Ignore sound for this contact]
-Ігнорувати звук для цого контакту
+Ігнорувати звук для цього контакту
 [Cancel]
 Скасувати
 [Custom sound for %s (%s)]
@@ -30,10 +30,10 @@
 [Sound files]
 Звукові файли
 [WAV files]
-WAV файли
+Файли WAV
 [Sounds]
 Звуки
 [Self status]
 Свій статус
 [Custom contact sound]
-Користувальницький звук контакту
+Звук для контакту

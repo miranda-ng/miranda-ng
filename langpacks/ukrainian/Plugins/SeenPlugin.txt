@@ -5,16 +5,16 @@
 ;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
-[Logs when a user was last seen online users and which were online while you were away.]
+[Logs when a user was last seen online and which users were online while you were away.]
 Запам'ятовує, коли користувач останній раз з'являвся в мережі і хто був в мережі, поки ви були відсутні.
 [Last seen options]
-Параметри останнього появи
+Параметри останньої появи
 [Last seen menuitem]
-Пункт меню останнього появи
+Пункт меню останньої появи
 [Show icon]
 Показати значок
 [Userinfo tab]
-Закладка в інформації про контакт
+Вкладка в інформації про контакт
 [Log to file]
 Запис у файл
 [Log to history]
@@ -26,19 +26,21 @@
 [Enable Idle support]
 Ввімк. режим очікування
 [Ignore contacts going offline]
-Ігнорувати йдуть з мережі
+Ігнорувати тих, хто йде з мережі
 [Enable 'Missed Ones' feature]
-Дозволити функцію 'Пропущені'
+Дозволити функцію "Пропущені"
 [Count times]
-Кількість входів в мережу
-[Protocols to watch:]
-Протоколи для спостереження:
+Кількість входів у мережу
+[Accounts to watch:]
+Облікові записи для спостреження:
 [Use popups]
 Сплив. вікна
 [Title]
 Заголовок
 [Text]
 Текст
+[Popup Colors]
+Кольори вікон
 [Online]
 В мережі
 [Away]
@@ -50,7 +52,7 @@
 [DND]
 Не турбувати
 [On the phone]
-На телефоні
+Телефоную
 [Out to lunch]
 Обідаю
 [Free for chat]
@@ -60,7 +62,7 @@
 [Offline]
 Не в мережі
 [Reset colors]
-Скидання кольорів
+Скинути кольори
 [Last seen plugin]
 Остання поява
 [You missed following contacts:]
@@ -69,12 +71,14 @@
 Попереджати при зміні статусу
 [last seen history]
 історія останньої зустрічі
-[View user's Details]
+[View User's Details]
 Інформація про користувача
 [User Menu]
 Меню користувача
 [Send Instant Message]
 Надіслати миттєве повідомлення
+[Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
+Дата: %d.%m.%y(%Y)\n Опис: %W - %w - %E - %e\n Час: %H:%M:%S (%h-%p)\n Користувач: %n - %u\n Статус: %s\n IP: %i - %r
 [LastSeen]
 Остання поява
 [User status change]
@@ -83,10 +87,8 @@
 Зміна: В мережі
 [User Logged Off]
 Користувач Відключений
-[Logged In User]
+[User Logged In]
 Користувач Підключений
-[Last seen]
-Остання поява
 [<unknown>]
 <невідомо>
 [<none>]
@@ -95,6 +97,8 @@
 Змінні
 [Contacts]
 Контакти
+[Last seen]
+Остання поява
 [Popups]
 Спливаючі вікна
 [%n is %s (%u)]
@@ -102,7 +106,7 @@
 [%i(%r)%bWas %o]
 %i(%r)%bбув %o
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
-Ім'я:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bЧас:%t%H:%M:%S%bПопередній статус:%t%o%b%b%P ID:%t%u%bВнешний IP:%t%i%bВнутрішній IP:%t%r%bКліент: %t%C%b%bПовідомлення статусу:%t%T
+Ім'я:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bЧас:%t%H:%M:%S%bПопередній статус:%t%o%b%b%P ID:%t%u%bЗовнішній IP:%t%i%bВнутрішній IP:%t%r%bКлієнт: %t%C%b%bПовідомлення статусу:%t%T
 [-- Date --]
 -- Дата --
 [year (4 digits)]
@@ -114,7 +118,7 @@
 [name of month]
 назва місяця
 [short name of month]
-назв. місяця (скор.)
+назва місяця (скор.)
 [day]
 день
 [weekday (full)]
@@ -124,14 +128,14 @@
 [-- Time --]
 -- Час --
 [hours (24)]
-годинник (24)
+години (24)
 [hours (12)]
-годинник (12)
+години (12)
 [minutes]
-хвилин(и)
+хвилини
 [seconds]
-секунд(и)
-[----User]
+секунди
+[-- User --]
 -- Користувач --
 [username]
 користувач
@@ -157,7 +161,7 @@
 Протокол
 [Account]
 Обліковий запис
-[----Format]
+[-- Format --]
 -- Формат --
 [tabulator]
 табуляція
@@ -183,7 +187,7 @@
 Четвер
 [Friday]
 П'ятниця
-[Субота]
+[Saturday]
 Субота
 [Sun.]
 Нд.
@@ -197,11 +201,11 @@
 Чт.
 [Fri.]
 Пт.
-[Сб.]
+[Sat.]
 Сб.
 [January]
 Січень
-[Лютий]
+[February]
 Лютий
 [March]
 Березень

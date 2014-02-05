@@ -12,7 +12,7 @@
 [Close]
 Закрити
 [Case sensitive]
-Регістр
+Враховувати регістр
 [Default Timeout]
 Тривалість за замовчанням
 [Never timeout]
@@ -26,11 +26,11 @@
 [Options]
 Налаштування
 [Opacity (%):]
-Непрозрачность (%):
+Непрозорість (%):
 [Border]
 Рамка
 [Round corners (window)]
-Закругляти кути вікна
+Заокруглені кути вікна
 [Preview]
 Тест
 [Transparent background]
@@ -40,9 +40,9 @@
 [Avatar size:]
 Аватар:
 [Disable when]
-Вимкнуті коли
+Вимкнути, коли
 [Global hover]
-Загальна наведення
+Загальне наведення
 [Sidebar width:]
 Ширина врізки:
 [Text indent:]
@@ -50,10 +50,10 @@
 [Padding:]
 Проміжок:
 [Round corners (avatar)]
-Скругляти кути аватару
-[Text colour:]
+Заокруглені кути аватару
+[Text color:]
 Колір тексту:
-[Background colour:]
+[Background color:]
 Колір фону:
 [Set timeout]
 Встановити таймаут
@@ -70,21 +70,21 @@
 [Example]
 Приклад
 [The quick brown fox jumped over the lazy dog.]
-З'їж ж ще цих м'яких французьких булок та випий йаду!
+З'їж-но ще цих м'яких французьких булок та випий йаду!
 [Example With a Long Title]
 Приклад з довгим заголовком
 [Thequickbrownfoxjumpedoverthelazydog.]
-З'їжжщецихм'якихфранцузькихбулоктавипиййаду!
+З'їжнощецихм'якихфранцузькихбулоктавипиййаду!
 [An avatar.]
 З аватаром
 [Bottom right]
 Внизу праворуч
 [Bottom left]
-Внизу зліва
+Внизу ліворуч
 [Top right]
 Вгорі праворуч
 [Top left]
-Вгорі зліва
+Вгорі ліворуч
 [Icon on left]
 Значок ліворуч
 [Icon on right]
@@ -92,15 +92,15 @@
 [No time]
 Без часу
 [Time on left]
-Годину зліву
+Час ліворуч
 [Time on right]
-Годину праворуч
+Час праворуч
 [Time above avatar]
 Час над аватаром
 [No avatar]
 Без аватару
 [Left avatar]
-Аватар зліва
+Аватар ліворуч
 [Right avatar]
 Аватар праворуч
 [Status]
@@ -110,9 +110,9 @@
 [No animate]
 Без анімації
 [Horizontal animate]
-Горизонтальні анімація
+Горизонтальна анімація
 [Vertical animate]
-Вертикальні анімація
+Вертикальна анімація
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Ви не можете встановити час очікування за замовчуванням на 0.\nЗначення скинуто.
 [Error]
@@ -127,6 +127,8 @@
 Вимкнути спливаючі вікна
 [Enable Popups]
 Ввімкнути спливаючі вікна
+[Toggle Popups]
+Ввімк./Вимк. сплив. вікна
 [First line]
 Перший рядок
 [Second line]
@@ -140,10 +142,8 @@
 [Title underline]
 Підкреслення заголовка
 [Copy title to clipboard]
-Скопіювати заголовок в буфер обміну
+Копіювати заголовок в буфер обміну
 [Copy message to clipboard]
-Скопіювати повідомлення в буфер обміну
+Копіювати повідомлення в буфер обміну
 [Copy timestamp to clipboard]
-Скопіювати штамп часу в буфер обміну
-[Toggle Popups]
-Ввімк./Вимк. сплив. вікна
+Копіювати час в буфер обміну

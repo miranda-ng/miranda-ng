@@ -5,8 +5,8 @@
 ;  Version: 1.5.0.3
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
-[Collects prints and information related to Miranda, the plugins and the OS.]
-Збирає і виводить інформацію про Miranda NG, плагінах і операційній системі.
+[Collects and prints information related to Miranda, the plugins and the OS.]
+Збирає і виводить інформацію про Miranda NG, плагіни та операційу систему.
 [Output to:]
 Вивести в:
 [Cancel]
@@ -17,7 +17,7 @@
 Вікно повідомлення
 [DialogBox]
 Діалогове вікно
-[Debug Output String]
+[Output Debug String]
 Висновок налагоджувальних рядків
 [Clipboard]
 Буфер обміну
@@ -28,7 +28,7 @@
 [Forum style formatting]
 Форматувати для форуму
 [Aditional options:]
-Додадкові налаштування:
+Додаткові налаштування:
 [Do it now]
 Зробити
 [Show window in taskbar]
@@ -36,17 +36,19 @@
 [Ask every time]
 Завжди питати
 [Also copy info to clipboard]
-Скопіювати в буфер обміну
+Копіювати в буфер обміну
 [Upload site settings]
 Налаштування сайту
 [Username]
-Ім'я користувача
+Користувач
 [Password]
 Пароль
 [Highlight version number using]
 Виділити номер версії
 [Show disabled plugins too]
 Показати відключені плагіни
+[Attempt to find unloadable plugins]
+Знайти плагіни, що не завантажуються
 [Suppress header information]
 Не включати заголовок
 [Enable debug messages]
@@ -65,17 +67,19 @@ UUID плагіна
 Завантажити
 [&Save to file]
 &Файл
-[Information successfully written to file:% s.]
-Інформація успішно записана у файл:\"% s\".
+[Information successfully written to file: "%s".]
+Інформацію успішно записано у файл: "%s".
 [Error during the creation of file "%s". Disk may be full or write protected.]
 Помилка створення файлу %s. Можливо диск повний або захищений.
-[Information successfully copied clipboard into.]
+[The clipboard is not available, retry.]
+Буфер обміну недоступний, повтор.
+[Information successfully copied into clipboard.]
 Інформацію успішно скопійовано в буфер обміну.
 [Customize using folders plugin]
 Налаштування за допомогою плагіна Folders
-[Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone you asked to do it.]
+[Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Ви впевнені, що хочете ввімкнути цю опцію?\nБудь ласка, використовуйте її лише якщо розумієте, для чого вона, або якщо хто-небудь попросив вас увімкнути її.
-[Show plugin UUIDs ?]
+[Show plugin UUIDs?]
 UUID плагінів
 [VersionInfo]
 Версії
@@ -85,3 +89,5 @@ UUID плагінів
 Версії
 [Services]
 Служби
+[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+Щось трапилося з налаштуванням "%s". Повідомте авторові такі значення:\nFacility: %X\nError code: %X\nLine number: %d

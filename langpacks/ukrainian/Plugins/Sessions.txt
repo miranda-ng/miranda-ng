@@ -45,7 +45,7 @@
 Виключити приховані контакти з сесії при виході
 [Warn, when some of LastSession contacts are hidden]
 Показати, якщо остання сесія має приховані контакти
-[Show other warnings ("session already opened" etc...)]
+[Show other warnings ("session already opened", etc.)]
 Показувати додаткові попередження
 [Crash Recovery mode]
 Відновлення після збоїв
@@ -86,7 +86,7 @@
 [Current session is empty!]
 Поточна сесія порожня!
 [Session name is empty, enter the name and try again]
-Ім'я сесії порожньє, введіть назву та спробуйте ще раз
+Ім'я сесії порожнє, введіть назву та спробуйте ще раз
 [No sessions to open]
 Немає сесій для відкриття
 [Last Sessions is empty]
@@ -95,8 +95,8 @@
 Немає контактів для відкриття
 [This Session already opened]
 Сесія вже відкрита
-[This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
-Сесія вже відкрита(але можливо прихована)\nВи хочете показати приховані контакти?
+[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
+Сесія вже відкрита (можливо прихована).\nПоказати приховані контакти?
 [Open Sessions Manager]
 Відкрити менеджер сесій
 [Show Favorite Sessions Menu]
@@ -117,5 +117,5 @@
 Вид
 [Message Sessions]
 Бесіди
-[Last Session Before Crash]
+[Session Before Last Crash]
 Сесія до останнього збою

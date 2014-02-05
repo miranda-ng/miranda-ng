@@ -14,12 +14,12 @@
 [Retrieving %s message...]
 Завантаження повідомлення "%s"...
 [Co&py to Clipboard]
-С&копіювати до буфера
+&Копіювати до буфера
 [%s Message (%s)]
 Повідомлення "%s" (%s)
 [Retrieving status message for %s...]
 Отримання повідомлення статусу для %s...
-[Behaviour on change status]
+[Behavior on status change]
 Поведінка при зміні статусу
 [Apply to all]
 Для всіх
@@ -54,7 +54,7 @@
 [Update variables in status messages every]
 Оновлювати змінні кожні:
 [seconds]
-секунд(и)
+секунд
 [Do not update variables during idle]
 Не оновлювати змінні в режимі очікування
 [Do not update variables on ICQ status message requests]
@@ -70,7 +70,7 @@
 [Show status list]
 Меню списку статусів
 [Show status profiles in status list]
-Показувати профілі статус аркуші
+Показувати профілі у списку статусів
 [Show icons in status list]
 Значки списку статусів
 [Buttons:]
@@ -90,11 +90,11 @@
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Видаляти символи повернення каретки (CR = '\\r' = #0D) з повідомлень статусу
 [Show 'Copy Away Message' item in contact menu]
-'Скопіювати повідомлення статусу' в меню контакту
+"Копіювати повідомлення статусу" в меню контакту
 [Show 'Go to URL in Away Message' item in contact menu]
-Показувати 'Відкрити посилання' в меню контакту
+Показувати "Відкрити посилання" в меню контакту
 [Show 'Status Message...' item in status menu]
-Показувати 'Повідомлення статусу' в контекстному меню
+Показувати "Повідомлення статусу" в контекстному меню
 [Clear History]
 Очистити
 [Clear Predefined]
@@ -128,19 +128,19 @@
 [Select All]
 Виділити всі
 [Failed to retrieve %s message.]
-Неможливо встановити %s повідомлення.
+Неможливо встановити повідомлення %s.
 [&Close]
 &Закрити
 [Re&ad %s Message]
 &Прочитати повідомлення %s"
 [Copy %s Message]
-Скопіювати повідомлення %s
+Копіювати повідомлення %s
 [&Go to URL in %s Message]
 &Відкрити посилання з %s
 [Re&ad Away Message]
-Пр&очитити повідомлення "Відсутні"
+Пр&очитити повідомлення "Відсутній"
 [Copy Away Message]
-Скопіювати повідомлення статусу
+Копіювати повідомлення статусу
 [&Go to URL in Away Message]
 &Відкрити посилання
 [Change Status Message]
@@ -154,7 +154,7 @@
 [%s (locked)]
 %s (заблокований)
 [External Applications]
-Зовнішня програма
+Зовнішні програми
 [<startup>]
 <стартовий>
 [<current>]
@@ -171,16 +171,16 @@
 Ви впевнені, що хочете видалити історію повідомлень статусу?
 [Confirm clearing history]
 Підтвердження видалення історії
-[Global change status]
+[Global status change]
 Глобальний статус
 [Open String Formatting Help]
 Допомога по формату рядків
 [Hide]
-Приховати
+Сховати
 [Show next to cancel button]
-Показати за кнопкою Скасувати
+Показати за кнопкою "Скасувати"
 [Flat, next to cancel button]
-Гладко, за кнопкою Скасувати
+Гладко, за кнопкою "Скасувати"
 [Show in message list]
 Показати у списку повідомлень
 [Are you sure you want to clear predefined status messages?]
@@ -192,7 +192,7 @@
 [Status]
 Статус
 [General]
-Загальна
+Загальне
 [Advanced]
 Додатково
 [Recent Message]
@@ -204,23 +204,23 @@
 [Simple Status Message]
 Повідомлення статусу
 [I've been away since %time%.]
-Відійшов у %time%. Скоро повернуся.
-[Give it up, i'm not in!]
-Мене немає
+Відійшов о %time%. Скоро повернуся.
+[Give it up, I'm not in!]
+Мене немає.
 [Not right now.]
 Не зараз.
-[Give a some guy peace, would ya?]
-Прошу не турбувати...
+[Give a guy some peace, would ya?]
+Дайте спокій, я зайнятий.
 [I'm a chatbot!]
-Вільний
-[Yep, i'm here.]
+Вільний.
+[Yep, I'm here.]
 Так, я тут.
 [Nope, not here.]
-Ні, мене тут немає.
-[I'm from the hiding mafia.]
-Я ховаюся від мафії.
+Мене немає.
+[I'm hiding from the mafia.]
+Я переховуюсь від мафії.
 [That'll be the phone.]
-Так дайте ж людині поговорити по телефону...
+Та дайте ж людині поговорити по телефону...
 [Mmm... food.]
 Ммм... поїсти б...
 [idleeeeeeee]

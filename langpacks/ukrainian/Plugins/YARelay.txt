@@ -36,7 +36,7 @@
 [Template]
 Шаблон
 [%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
-[%u - нік користувача;   %i - uin;    %t - час;   \r%d - дата;   %m - повідомлення
+%u - нік;   %i - UIN;    %t - час;   \r%d - дата;   %m - повідомлення
 [Forwarding options]
 Налаштування переадресації
 [Split message (%m)]
