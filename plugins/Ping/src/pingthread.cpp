@@ -751,7 +751,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				OPENOPTIONSDIALOG oop = {0};
 				oop.cbSize = sizeof(oop);
 				oop.pszGroup = "Network";
-				oop.pszPage = "PING";
+				oop.pszPage = "Ping";
 				oop.pszTab = "Settings";
 				Options_Open(&oop);
 			}
@@ -761,7 +761,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				OPENOPTIONSDIALOG oop = {0};
 				oop.cbSize = sizeof(oop);
 				oop.pszGroup = "Network";
-				oop.pszPage = "PING";
+				oop.pszPage = "Ping";
 				oop.pszTab = "Hosts";
 				Options_Open(&oop);
 			}

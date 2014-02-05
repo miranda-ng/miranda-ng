@@ -6,7 +6,7 @@ PingOptions options;
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch ( msg ) {
-	case WM_INITDIALOG: {
+	case WM_INITDIALOG:
 		TranslateDialogDefault( hwndDlg );
 
 		if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
@@ -43,7 +43,6 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_BLOCK), FALSE);
 		} 
 		return TRUE;
-	}
 	case WM_COMMAND:
 		if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus()) {
 			switch( LOWORD( wParam )) {
@@ -191,7 +190,7 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)TranslateT("<all>"));
 
 		{
-			int num_protocols;
+			int num_protocols = 0;
 			PROTOACCOUNT **pppDesc;
 
 			ProtoEnumAccounts(&num_protocols,&pppDesc);
@@ -502,7 +501,7 @@ int PingOptInit(WPARAM wParam,LPARAM)
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTitle = LPGENT("PING");
+	odp.ptszTitle = LPGENT("Ping");
 
 	odp.ptszTab = LPGENT("Settings");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG1);
