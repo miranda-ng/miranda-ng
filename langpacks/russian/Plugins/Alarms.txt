@@ -21,11 +21,11 @@
 Пауза по умолчанию:
 [minutes]
 минут(ы)
-[Row Height:]
+[Row height:]
 Высота строки
 [Indent:]
 Отступ:
-[Reminder Frame]
+[Reminder frame]
 Список напоминаний
 [Auto hide/show]
 Автопоказ/скрытие
@@ -39,7 +39,7 @@
 Подгонять высоту
 [Transparency (%):]
 Прозрачность (%):
-[Alert Window]
+[Alert window]
 Окно напоминания
 [Round corners]
 Закруглённые углы
@@ -89,7 +89,7 @@
 Ежегодно
 [i'm hiding]
 прячусь
-[Date and Time]
+[Date and time]
 Дата и время
 [Disable next occurrence]
 Отключить следующее напоминание
@@ -103,8 +103,6 @@
 Отложить
 [Static]
 Статический
-[Reminder Frame Context]
-Содержимое списка
 [&Suspend]
 &Отложить
 [&Edit...]
@@ -113,11 +111,11 @@
 &Удалить
 [&Options...]
 &Настройки...
-[&New Alarm...]
+[&New alarm...]
 Новое напоминание...
-[Set Alarm]
+[Set alarm]
 Дать напоминание
-[Example Alarm]
+[Example alarm]
 Пример напоминания
 [Some example text. Example, example, example.]
 Пример текста. Пример, пример, пример.
@@ -139,21 +137,21 @@
 Фон
 [Window]
 Окно
-[Hide Reminders]
+[Hide reminders]
 Скрыть напоминания
-[Show Reminders]
+[Show reminders]
 Показать напоминания
 [Frames]
 Фреймы
-[Alarm Reminders]
+[Alarm reminders]
 Напоминания
-[Menu: Set Alarm]
+[Menu: Set alarm]
 Меню: Дать напоминание
 [Reminder: Soon]
 Напоминание: скоро
-[Reminder: Very Soon]
+[Reminder: Very soon]
 Напоминание: очень скоро
-[Alarm: System Tray]
+[Alarm: System tray]
 Трей
 [Menu: Show/Hide Reminders]
 Меню: Показать/Скрыть напоминания

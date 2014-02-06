@@ -191,11 +191,11 @@ z контакт со свойством y, описанным в x, приме�
 номер контакта со свойством y, описанным x, пример: (unregistered,nick)
 [info property y of contact x]
 информационное свойство y контакта x
-[db profile name]
+[database profile name]
 имя профиля базы
-[db profile path]
+[database profile path]
 путь профиля базы
-[db setting z of module y of contact x and return w if z isn't exist (w is optional)]
+[database setting z of module y of contact x and return w if z isn't exist (w is optional)]
 получить настройку z плагина y контакта x или возвратить w, если z не существует (w не обязательно)
 [get event for contact x (optional), according to y,z,w, see documentation]
 получить событие для контакта x (необязательно), соответствующее y,z,w, см. документацию
