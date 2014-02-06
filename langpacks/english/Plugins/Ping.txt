@@ -54,7 +54,7 @@
 [Options...]
 [Hosts...]
 ;file \plugins\Ping\src\menu.cpp
-[PING]
+[Ping]
 ;file \plugins\Ping\src\options.cpp
 [Open log file]
 [All\0*.*\0Text\0*.TXT\0]
@@ -81,7 +81,6 @@
 [Disable]
 [enabled]
 [double clicked]
-[Ping]
 [Show/Hide &Ping Window]
 [List]
 ;file \plugins\Ping\src\rawping.cpp

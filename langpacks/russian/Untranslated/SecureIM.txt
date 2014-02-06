@@ -3,6 +3,5 @@
 [SHA1:]
 [Temp Dir:]
 [OK]
-[Pre-shared key]
 [Set pre-shared key]
 [Delete pre-shared key]
