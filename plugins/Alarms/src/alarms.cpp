@@ -165,7 +165,7 @@ static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam)
 	ttb.hIconDn = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBDN));
 	ttb.pszService = MODULE "/NewAlarm";
 	ttb.dwFlags = TTBBF_VISIBLE;
-	ttb.name = ttb.pszTooltipUp = LPGEN("Set Alarm");
+	ttb.name = ttb.pszTooltipUp = LPGEN("Set alarm");
 	hTopToolbarButton = TopToolbar_AddButton(&ttb);
 	return 0;
 }

@@ -5,11 +5,11 @@ HICON hIconMenuSet, hIconList1, hIconList2, hIconMenuShowHide, hIconSystray;
 
 static IconItem iconList[] = 
 {
-	{ LPGEN("Menu: Set Alarm"),     "alarms_menu_set", IDI_MAINMENU },
+	{ LPGEN("Menu: Set alarm"),     "alarms_menu_set", IDI_MAINMENU },
 	{ LPGEN("Reminder: Soon"),      "alarms_list1",    IDI_LIST1 },
-	{ LPGEN("Reminder: Very Soon"), "alarms_list2",    IDI_LIST2 },
-	{ LPGEN("Alarm: System Tray"),  "alarms_systray",  IDI_MAINMENU },
-	{ LPGEN("Menu: Show/Hide Reminders"), "alarms_menu_showhide", IDI_MAINMENU }
+	{ LPGEN("Reminder: Very soon"), "alarms_list2",    IDI_LIST2 },
+	{ LPGEN("Alarm: System tray"),  "alarms_systray",  IDI_MAINMENU },
+	{ LPGEN("Menu: Show/Hide reminders"), "alarms_menu_showhide", IDI_MAINMENU }
 };
 
 int ReloadIcons(WPARAM wParam, LPARAM lParam)

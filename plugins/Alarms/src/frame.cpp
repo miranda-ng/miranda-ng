@@ -461,9 +461,9 @@ void FixMainMenu()
 			mi.flags = CMIM_NAME | CMIM_FLAGS;
 
 			if (ReminderFrameVisible())
-				mi.pszName = Translate("Hide Reminders");
+				mi.pszName = Translate("Hide reminders");
 			else
-				mi.pszName = Translate("Show Reminders");
+				mi.pszName = Translate("Show reminders");
 		}
 	}
 	Menu_ModifyItem(hMenuShowReminders, &mi);
@@ -556,7 +556,7 @@ int CreateFrame()
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_ALL;
 		mi.hIcon = hIconMenuShowHide;
-		mi.pszName = LPGEN("Show Reminders");
+		mi.pszName = LPGEN("Show reminders");
 		mi.pszService = MODULE "/ShowHideReminders";
 		mi.pszPopupName = LPGEN("Alarms");
 		mi.position = 500010000;
@@ -587,7 +587,7 @@ int CreateFrame()
 
 	font_id.cbSize = sizeof(font_id);
 	strncpy(font_id.group, LPGEN("Frames"), sizeof(font_id.group));
-	strncpy(font_id.name, LPGEN("Alarm Reminders"), sizeof(font_id.name));
+	strncpy(font_id.name, LPGEN("Alarm reminders"), sizeof(font_id.name));
 	strncpy(font_id.dbSettingsGroup, MODULE, sizeof(font_id.dbSettingsGroup));
 	strncpy(font_id.prefix, "Font", sizeof(font_id.prefix));
 	font_id.order = 0;
@@ -596,7 +596,7 @@ int CreateFrame()
 	framebk_colour_id.cbSize = sizeof(ColourID);
 	strcpy(framebk_colour_id.dbSettingsGroup, MODULE);
 	strcpy(framebk_colour_id.group, LPGEN("Frames"));
-	strcpy(framebk_colour_id.name, LPGEN("Alarm Reminders"));
+	strcpy(framebk_colour_id.name, LPGEN("Alarm reminders"));
 	strcpy(framebk_colour_id.setting, "clFrameBack");
 	framebk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
 	framebk_colour_id.flags = 0;
