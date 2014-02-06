@@ -1,0 +1,27 @@
+#include "i_cnst_ini.inc"
+
+LANGUAGE 0,0
+
+IDD_INI DIALOGEX 0, 0, 168, 200, 0
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE  WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0
+{
+  AUTORADIOBUTTON "Read"   , IDC_INI_READ   ,   4,   2,  52, 11, WS_GROUP
+  AUTORADIOBUTTON "Write"  , IDC_INI_WRITE  ,  57,   2,  52, 11
+  AUTORADIOBUTTON "Delete" , IDC_INI_DELETE , 110,   2,  52, 11
+  LTEXT           "INI file name", -1       ,   4   15, 160, 11
+  EDITTEXT                   IDC_INI_PATH   ,   4,  26, 140, 12, ES_AUTOHSCROLL
+  PUSHBUTTON      "..."    , IDC_INI_INIBTN , 147,  26,  16, 12
+  LTEXT           "Section", -1             ,   4   40, 160, 11
+  EDITTEXT                   IDC_INI_SECTION,   4,  51, 160, 12, ES_AUTOHSCROLL
+  LTEXT           "Parameter", -1           ,   4   65, 160, 11
+  EDITTEXT                   IDC_INI_PARAM  ,   4,  76, 160, 12, ES_AUTOHSCROLL
+
+  LTEXT           "Value", -1               ,   4   90, 160, 11
+  EDITTEXT                   IDC_INI_VALUE  ,   4, 101, 160, 12, ES_AUTOHSCROLL
+  AUTOCHECKBOX "Use LastResult", IDC_INI_LR ,   4, 113, 160, 11
+  AUTOCHECKBOX "UTF8 encoding" , IDC_INI_UTF,   4, 125, 160, 11
+}
+
+IDI_INI ICON "ico\ini.ico"

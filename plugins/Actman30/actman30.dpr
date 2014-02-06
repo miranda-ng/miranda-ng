@@ -57,6 +57,7 @@ uses
   iac_chain,
   iac_contact,
   iac_call,
+  iac_ini,
   inoutxml,
   sedit,
   strans,
@@ -202,9 +203,6 @@ begin
   HookEvent(ME_OPT_INITIALISE ,@OnOptInitialise);
   HookEvent(ME_SYSTEM_SHUTDOWN{ME_SYSTEM_OKTOEXIT},@PreShutdown);
   NotifyEventHooks(hHookChanged,twparam(ACTM_LOADED),0);
-
-  //----- DBEDITOR support -----
-//  CallService(MS_DBEDIT_REGISTERSINGLEMODULE,twparam(PluginShort),0);
 
   IsMultiThread:=true;
   // Load additional modules

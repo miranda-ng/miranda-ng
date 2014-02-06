@@ -1,0 +1,13 @@
+{INI file processing}
+const
+  IDC_INI_READ    = 2701;
+  IDC_INI_WRITE   = 2702;
+  IDC_INI_DELETE  = 2703;
+  IDC_INI_PATH    = 2704;
+  IDC_INI_INIBTN  = 2705;
+  IDC_INI_SECTION = 2706;
+  IDC_INI_PARAM   = 2707;
+  IDC_INI_TYPE    = 2708;
+  IDC_INI_VALUE   = 2709;
+  IDC_INI_LR      = 2710;
+  IDC_INI_UTF     = 2711;
