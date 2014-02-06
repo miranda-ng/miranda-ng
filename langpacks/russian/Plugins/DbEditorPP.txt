@@ -61,6 +61,18 @@
 Отмена
 [Edit Setting]
 Редактировать настройку
+[Byte]
+Байт
+[Word]
+Слово
+[Dword]
+Дв.слово
+[String]
+Строка
+[Hexadecimal]
+Шестнадц.
+[Decimal]
+Десятичное
 [Value Name:]
 Имя:
 [Value Data:]
