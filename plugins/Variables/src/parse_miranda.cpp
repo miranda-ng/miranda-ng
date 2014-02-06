@@ -772,9 +772,9 @@ void registerMirandaTokens()
 	registerIntToken(CONTACT, parseContact, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y,z)\t"LPGEN("zth contact with property y described by x, example: (unregistered,nick) (z is optional)"));
 	registerIntToken(CONTACTCOUNT, parseContactCount, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("number of contacts with property y described by x, example: (unregistered,nick)"));
 	registerIntToken(MIR_CONTACTINFO, parseContactInfo, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("info property y of contact x"));
-	registerIntToken(DBPROFILENAME, parseDBProfileName, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("db profile name"));
-	registerIntToken(DBPROFILEPATH, parseDBProfilePath, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("db profile path"));
-	registerIntToken(DBSETTING, parseDBSetting, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y,z,w)\t"LPGEN("db setting z of module y of contact x and return w if z isn't exist (w is optional)"));
+	registerIntToken(DBPROFILENAME, parseDBProfileName, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("database profile name"));
+	registerIntToken(DBPROFILEPATH, parseDBProfilePath, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("database profile path"));
+	registerIntToken(DBSETTING, parseDBSetting, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y,z,w)\t"LPGEN("database setting z of module y of contact x and return w if z isn't exist (w is optional)"));
 	registerIntToken(DBEVENT, parseDbEvent, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y,z,w)\t"LPGEN("get event for contact x (optional), according to y,z,w, see documentation"));
 	registerIntToken(LSTIME, parseLastSeenTime, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("get last seen time of contact x in format y (y is optional)"));
 	registerIntToken(LSDATE, parseLastSeenDate, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("get last seen date of contact x in format y (y is optional)"));
