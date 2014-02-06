@@ -21,11 +21,11 @@
 Пауза за замовчуванням:
 [minutes]
 хвилин
-[Row Height:]
-Висота рядка
+[Row height:]
+Висота рядка:
 [Indent:]
 Відступ:
-[Reminder Frame]
+[Reminder frame]
 Список нагадувань
 [Auto hide/show]
 Автопоказ/приховання
@@ -39,7 +39,7 @@
 Підганяти висоту
 [Transparency (%):]
 Прозорість (%):
-[Alert Window]
+[Alert window]
 Вікно нагадування
 [Round corners]
 Закруглені кути
@@ -89,7 +89,7 @@
 Щорічно
 [i'm hiding]
 ховаюся
-[Date and Time]
+[Date and time]
 Дата і час
 [Disable next occurrence]
 Відключити наступне нагадування
@@ -103,8 +103,6 @@
 Відкласти
 [Static]
 Статичний
-[Reminder Frame Context]
-Вміст списку
 [&Suspend]
 Відкласти
 [&Edit...]
@@ -113,13 +111,13 @@
 &Видалити
 [&Options...]
 &Налаштування
-[&New Alarm...]
+[&New alarm...]
 &Нове нагадування...
 [Unknown command issued: "%s"]
 Невідома команда повернула: "%s"
-[Set Alarm]
+[Set alarm]
 Встановлення нагадування
-[Example Alarm]
+[Example alarm]
 Приклад нагадування
 [Some example text. Example, example, example.]
 Приклад тексту. Приклад, приклад, приклад.
@@ -141,23 +139,23 @@
 Фон
 [Window]
 Вікно
-[Hide Reminders]
+[Hide reminders]
 Приховати нагадування
-[Show Reminders]
+[Show reminders]
 Показати нагадування
 [Frames]
 Фрейми
-[Alarm Reminders]
+[Alarm reminders]
 Нагадування
-[Menu: Set Alarm]
+[Menu: Set alarm]
 Меню: Дані нагадування
 [Reminder: Soon]
 Нагадування: скоро
-[Reminder: Very Soon]
+[Reminder: Very soon]
 Нагадування: дуже скоро
-[Alarm: System Tray]
+[Alarm: System tray]
 Трей
-[Menu: Show/Hide Reminders]
+[Menu: Show/Hide reminders]
 Меню: Показати/Приховати нагадування
 [Sunday]
 Неділя

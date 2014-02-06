@@ -77,7 +77,7 @@ x - y - ...
 перший аргумент анализирован успішно
 [Boolean FALSE]
 Логічне БРЕХНЯ
-[db profile path]
+[database profile path]
 шлях профілю бази
 [inserts x tab characters (x is optional)]
 вставити x символів табуляції (x необов'язково)
@@ -153,7 +153,7 @@ x помножене на y
 z контакт з властивістю y, описаним в x, приклад (unregistered,nick) (z необов'язково)
 [x divided by y]
 х, поділена на
-[db profile name]
+[database profile name]
 ім'я профілю бази
 [replaces all end of line characters by y (y is optional)]
 замінює всі символи EOL на y (y необов'язково)
@@ -189,8 +189,6 @@ x рядок за рахунком в аргументах
 найдовша рядок в аргументах
 [get last seen date of contact x in format y (y is optional)]
 отримати дату останнього появи контакту x, у форматі y (y необов'язково)
-[db setting z of module y of contact x]
-налаштування бази z, плагіна y, контакту x
 [converts x to lowercase]
 переводить х в прописні букви
 [retrieves song name of the currently playing song in Winamp]
@@ -369,7 +367,7 @@ Y, якщо x ПРАВДА, інакше z
 ПРАВДА, якщо x = y
 [y if w = x else z]
 y, якщо w = x, інакше z
-[db setting z of module y of contact x and return w if z isn't exist (w is optional)]
+[database setting z of module y of contact x and return w if z isn't exist (w is optional)]
 отримати налаштування z плагіна y контакту x або повернути w, якщо z (w не обов'язково)
 [text from clipboard]
 текст з буфера обміну

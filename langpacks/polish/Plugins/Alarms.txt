@@ -22,11 +22,11 @@ Użyj wtyczki popup
 Domyślny czas drzemki:
 [minutes]
 minut
-[Row Height:]
+[Row height:]
 Wysokość wiersza:
 [Indent:]
 Wcięcie:
-[Reminder Frame]
+[Reminder frame]
 Ramka
 [Auto hide/show]
 Auto ukrywanie
@@ -92,7 +92,7 @@ Miesięczie
 Rocznie
 [i'm hiding]
 ukrywam się
-[Date and Time]
+[Date and time]
 Data i czas
 [Disable next occurrence]
 Wyłącz następne wystąpienie
@@ -106,8 +106,6 @@ Zamknij
 Drzemka
 [Static]
 Statyczne
-[Reminder Frame Context]
-Kontekst Ramki Przypomnienia
 [&Suspend]
 Zawieś
 [&Edit...]
@@ -116,16 +114,16 @@ Edytuj...
 Usuń
 [&Options...]
 Opcje...
-[&New Alarm...]
+[&New alarm...]
 Nowy alarm...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [Unknown command issued: "%s"]
 Wydano nieznaną komendę: "%s"
-[Set Alarm]
+[Set alarm]
 Ustaw alarm
 ;file \plugins\Alarms\src\alarm_win.cpp
-[Example Alarm]
+[Example alarm]
 Przykładowy alarm
 [Some example text. Example, example, example.]
 Jakiś przykładowy tekst. Przykład, przykład, przykład.
@@ -148,24 +146,24 @@ Tło
 [Window]
 Okno
 ;file \plugins\Alarms\src\frame.cpp
-[Hide Reminders]
+[Hide reminders]
 Ukryj Przypomnienia
-[Show Reminders]
+[Show reminders]
 Pokaż Przypomnienia
 [Frames]
 Ramki
-[Alarm Reminders]
+[Alarm reminders]
 Alarm
 ;file \plugins\Alarms\src\icons.cpp
-[Menu: Set Alarm]
+[Menu: Set alarm]
 Menu: Ustaw alarm
 [Reminder: Soon]
 Przypomnienie: Szybkie
-[Reminder: Very Soon]
+[Reminder: Very soon]
 Przypomnienie: Bardzo szybkie
-[Alarm: System Tray]
+[Alarm: System tray]
 Alarm: Zasobnik systemowy
-[Menu: Show/Hide Reminders]
+[Menu: Show/Hide reminders]
 Menu: Pokaż/ukryj przypomnienie
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]

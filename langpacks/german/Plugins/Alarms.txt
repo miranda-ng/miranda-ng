@@ -22,11 +22,11 @@ Popup-Plugin benutzen
 erneut erinnern:
 [minutes]
 Minuten
-[Row Height:]
+[Row height:]
 Zeilenhöhe:
 [Indent:]
 Einzug:
-[Reminder Frame]
+[Reminder frame]
 Alarmliste
 [Auto hide/show]
 autom. ein/ausbl.
@@ -92,7 +92,7 @@ Monatlich
 Jährlich
 [i'm hiding]
 ich verstecke mich
-[Date and Time]
+[Date and time]
 Datum und Zeit
 [Disable next occurrence]
 Nächstes Ereignis deaktivieren
@@ -106,8 +106,6 @@ Verwerfen
 Schlummern
 [Static]
 Statisch
-[Reminder Frame Context]
-Framekontext merken
 [&Suspend]
 &Verwerfen
 [&Edit...]
@@ -116,16 +114,16 @@ B&earbeiten...
 Löschen
 [&Options...]
 Einstellungen...
-[&New Alarm...]
+[&New alarm...]
 &Neuer Alarm...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [Unknown command issued: "%s"]
 Unbekannter Befehl: "%s"
-[Set Alarm]
+[Set alarm]
 Alarm stellen
 ;file \plugins\Alarms\src\alarm_win.cpp
-[Example Alarm]
+[Example alarm]
 Beispielalarm
 [Some example text. Example, example, example.]
 Ein Beispieltext. Beispiel, Beispiel, Beispiel.
@@ -148,24 +146,24 @@ Hintergrund
 [Window]
 Fenster
 ;file \plugins\Alarms\src\frame.cpp
-[Hide Reminders]
+[Hide reminders]
 Termine verstecken
-[Show Reminders]
+[Show reminders]
 Termine zeigen
 [Frames]
 Frames
-[Alarm Reminders]
+[Alarm reminders]
 Alarm-Erinnerungen
 ;file \plugins\Alarms\src\icons.cpp
-[Menu: Set Alarm]
+[Menu: Set alarm]
 Menü: Alarm setzen
 [Reminder: Soon]
 Termin: bald
-[Reminder: Very Soon]
+[Reminder: Very soon]
 Termin: nächste
-[Alarm: System Tray]
+[Alarm: System tray]
 Alarme: SystemTray
-[Menu: Show/Hide Reminders]
+[Menu: Show/Hide reminders]
 Menü: Termin zeigen/verst.
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]

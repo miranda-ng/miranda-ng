@@ -99,7 +99,7 @@ TCP злучэнне
 [Hosts...]
 Хасты...
 ;file \plugins\Ping\src\menu.cpp
-[PING]
+[Ping]
 Пінг
 ;file \plugins\Ping\src\options.cpp
 [Open log file]
@@ -143,8 +143,6 @@ TCP злучэнне
 уключаны
 [double clicked]
 падвойны націск
-[Ping]
-Пінг
 [Show/Hide &Ping Window]
 Паказаць/схаваць вакно
 [List]

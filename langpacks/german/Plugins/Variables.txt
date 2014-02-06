@@ -203,11 +203,11 @@ z-ter Kontakt mit Eigenschaft y, beschrieben von x; Beispiel: (unregistered,nick
 Anzahl der Kontakte mit Eigenschaft y, beschrieben von x; Beispiel: (unregistered,nick)
 [info property y of contact x]
 Eigenschaft Information y von Kontakt x
-[db profile name]
+[database profile name]
 DB-Profilname
-[db profile path]
+[database profile path]
 DB-Profilpfad
-[db setting z of module y of contact x and return w if z isn't exist (w is optional)]
+[database setting z of module y of contact x and return w if z isn't exist (w is optional)]
 DB-Einstellung z von Modul y von Kontakt x und gibt w zurück, wenn z nicht existiert (w ist optional)
 [get event for contact x (optional), according to y,z,w, see documentation]
 Abruf von Ereignis für Kontakt x (optional), gemäß y,z,w; siehe Dokumentation

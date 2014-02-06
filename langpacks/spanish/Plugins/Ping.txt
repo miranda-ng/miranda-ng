@@ -101,7 +101,7 @@ Habilitar
 [Hosts...]
 
 ;file \plugins\Ping\src\menu.cpp
-[PING]
+[Ping]
 
 ;file \plugins\Ping\src\options.cpp
 [Open log file]
@@ -150,8 +150,6 @@ Deshabilitar
 [enabled]
 
 [double clicked]
-
-[Ping]
 
 [Show/Hide &Ping Window]
 

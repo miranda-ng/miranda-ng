@@ -9,7 +9,7 @@
 Slett
 [Edit]
 Rediger
-[Row Height:]
+[Row height:]
 Radhøyde:
 [OK]
 OK

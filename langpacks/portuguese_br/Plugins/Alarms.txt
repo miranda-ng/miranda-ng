@@ -9,7 +9,7 @@
 Excluir
 [Edit]
 Editar
-[Row Height:]
+[Row height:]
 Altura da linha:
 [OK]
 OK
@@ -19,7 +19,7 @@ Cancelar
 Descrição
 [Actions]
 Ações
-[Date and Time]
+[Date and time]
 Data e hora
 [&Delete]
 &Excluir

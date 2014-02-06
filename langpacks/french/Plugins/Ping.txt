@@ -101,7 +101,7 @@ Désactiver tous les pings
 [Hosts...]
 
 ;file \plugins\Ping\src\menu.cpp
-[PING]
+[Ping]
 Ping
 ;file \plugins\Ping\src\options.cpp
 [Open log file]
@@ -151,8 +151,6 @@ MOY %.1lf ms
 
 [double clicked]
 double-cliqué
-[Ping]
-Ping
 [Show/Hide &Ping Window]
 Voir/Cacher la fenêtre de &Ping
 [List]

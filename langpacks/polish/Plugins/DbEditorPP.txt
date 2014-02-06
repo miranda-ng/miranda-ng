@@ -64,6 +64,18 @@ OK
 Anuluj
 [Edit Setting]
 Edytuj ustawienie
+[Byte]
+
+[Word]
+
+[Dword]
+
+[String]
+
+[Hexadecimal]
+
+[Decimal]
+
 [Value Name:]
 Nazwa wartości:
 [Value Data:]

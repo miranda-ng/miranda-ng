@@ -101,7 +101,7 @@ Einstellungen...
 [Hosts...]
 Hosts...
 ;file \plugins\Ping\src\menu.cpp
-[PING]
+[Ping]
 Ping
 ;file \plugins\Ping\src\options.cpp
 [Open log file]
@@ -151,8 +151,6 @@ Deaktivieren
 aktiviert
 [double clicked]
 bei Doppelklick
-[Ping]
-Ping
 [Show/Hide &Ping Window]
 &Pingfenster zeigen/verstecken
 [List]

@@ -7,7 +7,7 @@
 ;============================================================
 [Delete]
 Kustuta
-[Row Height:]
+[Row height:]
 Rea kõrgus:
 [OK]
 OK

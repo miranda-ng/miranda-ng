@@ -9,7 +9,7 @@
 Sil
 [Edit]
 Değiştir
-[Row Height:]
+[Row height:]
 Satır yüksekliği:
 [OK]
 Tamam
@@ -19,7 +19,7 @@ Tamam
 Açıklama:
 [Actions]
 Eylemler
-[Date and Time]
+[Date and time]
 Tarih ve saat
 [&Delete]
 &Sil

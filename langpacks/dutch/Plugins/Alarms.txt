@@ -9,7 +9,7 @@
 Verwijderen
 [Edit]
 Bewerken
-[Row Height:]
+[Row height:]
 Rij hoogte:
 [OK]
 OK

@@ -201,11 +201,11 @@ z кантакт з уласцівасцю y, апісанай у x, прыкл�
 нумар кантакту з уласцівасцю y, апісанай x, прыклад: (unregistered,nick)
 [info property y of contact x]
 інфармацыйная ўласцівасць y кантакту x
-[db profile name]
+[database profile name]
 імя профіля базы
-[db profile path]
+[database profile path]
 шлях профіля базы
-[db setting z of module y of contact x and return w if z isn't exist (w is optional)]
+[database setting z of module y of contact x and return w if z isn't exist (w is optional)]
 атрымаць наладу z плагіна y кантакту x ці вярнуць w, калі z не існуе (w не абавязкова)
 [get event for contact x (optional), according to y,z,w, see documentation]
 атрымаць падзею для кантакту x (неабавязкова), адпаведнае y,z,w, гл. дакументацыю

@@ -9,7 +9,7 @@
 Törlés
 [Edit]
 Szerkeszt
-[Row Height:]
+[Row height:]
 Sormagasság:
 [OK]
 OK
@@ -19,7 +19,7 @@ Mégsem
 Leírás:
 [Actions]
 Akciók
-[Date and Time]
+[Date and time]
 Dátum és idõ
 [&Delete]
 &Törlés

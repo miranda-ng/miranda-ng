@@ -9,7 +9,7 @@
 Elimina
 [minutes]
 minuti
-[Row Height:]
+[Row height:]
 Altezza righe:
 [OK]
 OK

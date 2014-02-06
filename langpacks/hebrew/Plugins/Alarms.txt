@@ -11,7 +11,7 @@
 ערוך
 [minutes]
 דקות
-[Row Height:]
+[Row height:]
 גודל גובה:
 [OK]
 אישור

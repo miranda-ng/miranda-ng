@@ -131,9 +131,9 @@ Miranda 相关
 属性 y 描述 x 联系人数量, 示例: (unregistered,nick)
 [info property y of contact x]
 联系人 x 信息属性 y
-[db profile name]
+[database profile name]
 数据库配置文件名称
-[db profile path]
+[database profile path]
 数据库配置文件路径
 [get event for contact x (optional), according to y,z,w, see documentation]
 根据 y,z,w 获取联系人 x 事件 (x 可选), 详见文档

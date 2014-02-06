@@ -22,11 +22,11 @@ Utiliser le plugin Popup
 Son par défaut:
 [minutes]
 minutes
-[Row Height:]
+[Row height:]
 Taille des colonnes:
 [Indent:]
 
-[Reminder Frame]
+[Reminder frame]
 
 [Auto hide/show]
 Cacher/Montrer automatiquement
@@ -92,7 +92,7 @@ En semaine
 
 [i'm hiding]
 j'me cache
-[Date and Time]
+[Date and time]
 Date et heure
 [Disable next occurrence]
 Désactiver la prochaine occurrence
@@ -106,8 +106,6 @@ Ne pas répéter
 Répéter
 [Static]
 Statique
-[Reminder Frame Context]
-
 [&Suspend]
 &Suspendre
 [&Edit...]
@@ -116,16 +114,16 @@ Statique
 &Effacer
 [&Options...]
 &Paramètres...
-[&New Alarm...]
-&Nouvelle Alarme...
+[&New alarm...]
+&Nouvelle alarme...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [Unknown command issued: "%s"]
 
-[Set Alarm]
+[Set alarm]
 Ajouter une alarme
 ;file \plugins\Alarms\src\alarm_win.cpp
-[Example Alarm]
+[Example alarm]
 Exemple
 [Some example text. Example, example, example.]
 Quelques texte d'exemple. Exemple, exemple, exemple.
@@ -148,24 +146,24 @@ Arrière-plan
 [Window]
 Fenêtre
 ;file \plugins\Alarms\src\frame.cpp
-[Hide Reminders]
+[Hide reminders]
 Cacher les rappels
-[Show Reminders]
+[Show reminders]
 Voir les rappels
 [Frames]
 Cadres
-[Alarm Reminders]
+[Alarm reminders]
 Rappels d'alarme
 ;file \plugins\Alarms\src\icons.cpp
-[Menu: Set Alarm]
+[Menu: Set alarm]
 Menu: Régler l'Alarme
 [Reminder: Soon]
 Rappel: Bientôt
-[Reminder: Very Soon]
+[Reminder: Very soon]
 Rappel: Très Bientôt
-[Alarm: System Tray]
+[Alarm: System tray]
 Alarme: Systray
-[Menu: Show/Hide Reminders]
+[Menu: Show/Hide reminders]
 Menu: Voir/Cacher les Rappels
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]

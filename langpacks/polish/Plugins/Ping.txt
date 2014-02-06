@@ -101,7 +101,7 @@ Opcje...
 [Hosts...]
 Hosty...
 ;file \plugins\Ping\src\menu.cpp
-[PING]
+[Ping]
 Ping
 ;file \plugins\Ping\src\options.cpp
 [Open log file]
@@ -151,8 +151,6 @@ Wyłącz
 włączone
 [double clicked]
 dwuklik
-[Ping]
-Ping
 [Show/Hide &Ping Window]
 Pokaż/Ukryj okno Pingu
 [List]

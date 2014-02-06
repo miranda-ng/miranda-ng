@@ -5,7 +5,7 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
-[Row Height:]
+[Row height:]
 Výška riadku:
 [OK]
 OK

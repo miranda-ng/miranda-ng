@@ -22,11 +22,11 @@
 Паўза па змаўчанні:
 [minutes]
 хвілін(ы)
-[Row Height:]
+[Row height:]
 Вышыня радка
 [Indent:]
 Водступ:
-[Reminder Frame]
+[Reminder frame]
 Спіс напамінкаў
 [Auto hide/show]
 Аўтаўтойванне
@@ -90,7 +90,7 @@
 Штогод
 [i'm hiding]
 хаваюся
-[Date and Time]
+[Date and time]
 Дата і час
 [Disable next occurrence]
 Адключыць наступны напамінак
@@ -104,8 +104,6 @@
 Адкласці
 [Static]
 Статычны
-[Reminder Frame Context]
-Змесціва спісу
 [&Suspend]
 &Адкласці
 [&Edit...]
@@ -114,16 +112,16 @@
 &Выдаліць
 [&Options...]
 &Налады
-[&New Alarm...]
+[&New alarm...]
 &Новы напамінак...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [Unknown command issued: "%s"]
 Выдадзена невядомая каманда: "%s"
-[Set Alarm]
+[Set alarm]
 Даць напамінак
 ;file \plugins\Alarms\src\alarm_win.cpp
-[Example Alarm]
+[Example alarm]
 Прыклад напамінку
 [Some example text. Example, example, example.]
 Прыклад тэксту. Прыклад, прыклад, прыклад.
@@ -146,24 +144,24 @@
 [Window]
 Акно
 ;file \plugins\Alarms\src\frame.cpp
-[Hide Reminders]
+[Hide reminders]
 Схаваць напамінкі
-[Show Reminders]
+[Show reminders]
 Паказаць напамінкі
 [Frames]
 Фрэймы
-[Alarm Reminders]
+[Alarm reminders]
 Напамінкі
 ;file \plugins\Alarms\src\icons.cpp
-[Menu: Set Alarm]
+[Menu: Set alarm]
 Меню: Даць напамінак
 [Reminder: Soon]
 Напамінак: хутка
-[Reminder: Very Soon]
+[Reminder: Very soon]
 Напамінак: вельмі хутка
-[Alarm: System Tray]
+[Alarm: System tray]
 Трэй
-[Menu: Show/Hide Reminders]
+[Menu: Show/Hide reminders]
 Меню: Паказаць/Схаваць напамінкі
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]

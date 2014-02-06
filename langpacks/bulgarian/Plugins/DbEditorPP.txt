@@ -64,6 +64,18 @@ OK
 Отказ
 [Edit Setting]
 Редактиране
+[Byte]
+
+[Word]
+
+[Dword]
+
+[String]
+
+[Hexadecimal]
+
+[Decimal]
+
 [Value Name:]
 Име на стойността:
 [Value Data:]

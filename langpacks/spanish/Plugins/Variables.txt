@@ -203,11 +203,11 @@ Variables
 
 [info property y of contact x]
 
-[db profile name]
+[database profile name]
 
-[db profile path]
+[database profile path]
 
-[db setting z of module y of contact x and return w if z isn't exist (w is optional)]
+[database setting z of module y of contact x and return w if z isn't exist (w is optional)]
 
 [get event for contact x (optional), according to y,z,w, see documentation]
 

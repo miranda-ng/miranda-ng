@@ -22,11 +22,11 @@
 
 [minutes]
 минути
-[Row Height:]
+[Row height:]
 
 [Indent:]
 Отстъп:
-[Reminder Frame]
+[Reminder frame]
 
 [Auto hide/show]
 
@@ -92,7 +92,7 @@
 Годишно
 [i'm hiding]
 
-[Date and Time]
+[Date and time]
 
 [Disable next occurrence]
 
@@ -106,8 +106,6 @@
 
 [Static]
 Статичен
-[Reminder Frame Context]
-
 [&Suspend]
 
 [&Edit...]
@@ -116,16 +114,16 @@
 Изтриване
 [&Options...]
 Настройки...
-[&New Alarm...]
+[&New alarm...]
 
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [Unknown command issued: "%s"]
 
-[Set Alarm]
+[Set alarm]
 
 ;file \plugins\Alarms\src\alarm_win.cpp
-[Example Alarm]
+[Example alarm]
 
 [Some example text. Example, example, example.]
 
@@ -148,24 +146,24 @@
 [Window]
 Прозорец
 ;file \plugins\Alarms\src\frame.cpp
-[Hide Reminders]
+[Hide reminders]
 
-[Show Reminders]
+[Show reminders]
 
 [Frames]
 Рамки
-[Alarm Reminders]
+[Alarm reminders]
 
 ;file \plugins\Alarms\src\icons.cpp
-[Menu: Set Alarm]
+[Menu: Set alarm]
 
 [Reminder: Soon]
 
-[Reminder: Very Soon]
+[Reminder: Very soon]
 
-[Alarm: System Tray]
+[Alarm: System tray]
 
-[Menu: Show/Hide Reminders]
+[Menu: Show/Hide reminders]
 
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]

@@ -17,9 +17,9 @@
 使用弹出窗口插件
 [Default snooze:]
 默认打盹: 
-[Row Height:]
+[Row height:]
 列高: 
-[Reminder Frame]
+[Reminder frame]
 提醒框架
 [Auto hide/show]
 自动隐藏/显示
@@ -65,7 +65,7 @@
 每周
 [i'm hiding]
 我正在隐藏
-[Date and Time]
+[Date and time]
 日期及时间
 [Disable next occurrence]
 禁用下次发生
@@ -75,8 +75,6 @@
 无提醒
 [Snooze]
 打盹
-[Reminder Frame Context]
-提醒框架环境
 [&Suspend]
 暂停(&S)
 [&Edit...]
@@ -85,11 +83,11 @@
 删除(&D)
 [&Options...]
 选项(&O)...
-[&New Alarm...]
+[&New alarm...]
 新增闹钟(&N)...
-[Set Alarm]
+[Set alarm]
 设置闹钟
-[Example Alarm]
+[Example alarm]
 范例闹钟
 [Some example text. Example, example, example.]
 一些范例文本. 范例, 范例, 范例. 
@@ -97,23 +95,23 @@
 背景
 [Window]
 窗口
-[Hide Reminders]
+[Hide reminders]
 隐藏提醒项目
-[Show Reminders]
+[Show reminders]
 显示提醒项目
 [Frames]
 框架
-[Alarm Reminders]
+[Alarm reminders]
 警告提醒
-[Menu: Set Alarm]
+[Menu: Set alarm]
 菜单: 设置闹钟
 [Reminder: Soon]
 提醒: 即将
-[Reminder: Very Soon]
+[Reminder: Very soon]
 提醒: 很快
-[Alarm: System Tray]
+[Alarm: System tray]
 闹钟: 系统托盘
-[Menu: Show/Hide Reminders]
+[Menu: Show/Hide reminders]
 菜单: 显示/隐藏提醒
 [Please enter a title for this alarm.]
 请输入此警告标题. 

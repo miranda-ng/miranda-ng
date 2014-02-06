@@ -203,11 +203,11 @@ tłumaczenie kodu statusu "x" do opisu statusu
 liczba kontaktów z właściwością "y" zawierającą "x", przykładowo: (unregistered,nick)
 [info property y of contact x]
 zawartość właściwości "y" kontaktu "x"
-[db profile name]
+[database profile name]
 nazwa profilu
-[db profile path]
+[database profile path]
 folder docelowy profilu
-[db setting z of module y of contact x and return w if z isn't exist (w is optional)]
+[database setting z of module y of contact x and return w if z isn't exist (w is optional)]
 w profilu, wartość ustawienia "z" modułu "y" dla kontaktu "x", zwróć "w", jeżeli nie istnieje ("w" jest opcjonalne)
 [get event for contact x (optional), according to y,z,w, see documentation]
 pobiera zdarzenia dla kontaktu "x" (opconajlnie), zgodnie z "y", "z", "w", przeczytaj dokumentację

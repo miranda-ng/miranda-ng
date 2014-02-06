@@ -64,6 +64,18 @@ Aceptar
 Cancelar
 [Edit Setting]
 
+[Byte]
+
+[Word]
+
+[Dword]
+
+[String]
+
+[Hexadecimal]
+
+[Decimal]
+
 [Value Name:]
 
 [Value Data:]
