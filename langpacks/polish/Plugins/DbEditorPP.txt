@@ -65,17 +65,17 @@ Anuluj
 [Edit Setting]
 Edytuj ustawienie
 [Byte]
-
+Byte
 [Word]
-
+Word
 [Dword]
-
+Dword
 [String]
-
+String
 [Hexadecimal]
-
+Szesnastkowy
 [Decimal]
-
+Dziesiętny
 [Value Name:]
 Nazwa wartości:
 [Value Data:]

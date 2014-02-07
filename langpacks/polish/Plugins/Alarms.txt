@@ -40,7 +40,7 @@ Pokaż/ukryj z listą kontaktów
 Rozmiar auto w pionie
 [Transparency (%):]
 Przeźroczystość (%):
-[Alert Window]
+[Alert window]
 Okno alarmu
 [Round corners]
 Zaokrąglone rogi
