@@ -122,7 +122,10 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 		return 0;
 
 	if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != 0) {
-		TCHAR	*p = NEWTSTR_ALLOCA(pci->RemoveFormatting(pgce->ptszText));
+		TCHAR	*p = pci->RemoveFormatting(pgce->ptszText);
+		p = NEWTSTR_ALLOCA(p);
+		if (p == NULL)
+			return 0;
 		CharLower(p);
 
 		TCHAR	*tszMe = ((psi && psi->pMe) ? NEWTSTR_ALLOCA(psi->pMe->pszNick) : 0);
