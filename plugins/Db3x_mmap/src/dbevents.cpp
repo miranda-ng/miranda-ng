@@ -28,7 +28,7 @@ char *GetModuleNameByOfs(DWORD ofs);
 
 static HANDLE hEventDeletedEvent, hEventAddedEvent, hEventFilterAddedEvent;
 
-STDMETHODIMP_(LONG) CDb3Base::GetEventCount(HANDLE hContact)
+STDMETHODIMP_(LONG) CDb3Mmap::GetEventCount(HANDLE hContact)
 {
 	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
@@ -38,7 +38,7 @@ STDMETHODIMP_(LONG) CDb3Base::GetEventCount(HANDLE hContact)
 	return (dbc->signature != DBCONTACT_SIGNATURE) ? -1 : dbc->eventCount;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Base::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
+STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 {
 	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 0;
 	if (dbei->timestamp == 0) return 0;
@@ -135,7 +135,7 @@ STDMETHODIMP_(HANDLE) CDb3Base::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 
 	DBWrite(ofsContact, &dbc, sizeof(DBContact));
 	DBWrite(ofsNew, &dbe, offsetof(DBEvent, blob));
-	EncodeDBWrite(ofsNew + offsetof(DBEvent, blob), pBlob, dbe.cbBlob);
+	DBWrite(ofsNew + offsetof(DBEvent, blob), pBlob, dbe.cbBlob);
 	DBFlush(0);
 	lck.unlock();
 
@@ -148,7 +148,7 @@ STDMETHODIMP_(HANDLE) CDb3Base::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 	return (HANDLE)ofsNew;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
+STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 {
 	mir_cslockfull lck(m_csDbAccess);
 
@@ -226,14 +226,14 @@ STDMETHODIMP_(BOOL) CDb3Base::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 	return 0;
 }
 
-STDMETHODIMP_(LONG) CDb3Base::GetBlobSize(HANDLE hDbEvent)
+STDMETHODIMP_(LONG) CDb3Mmap::GetBlobSize(HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent, sizeof(DBEvent), NULL);
 	return (dbe->signature != DBEVENT_SIGNATURE) ? -1 : dbe->cbBlob;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
+STDMETHODIMP_(BOOL) CDb3Mmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 {
 	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 1;
 	if (dbei->cbBlob > 0 && dbei->pBlob == NULL) {
@@ -266,12 +266,12 @@ STDMETHODIMP_(BOOL) CDb3Base::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 				memset(dbei->pBlob + len, 0, bytesToCopy - len);
 			mir_free(pBlob);
 		}
-		else DecodeCopyMemory(dbei->pBlob, pSrc, bytesToCopy);
+		else MoveMemory(dbei->pBlob, pSrc, bytesToCopy);
 	}
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
+STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
@@ -309,7 +309,7 @@ STDMETHODIMP_(BOOL) CDb3Base::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 	return ret;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Base::GetEventContact(HANDLE hDbEvent)
+STDMETHODIMP_(HANDLE) CDb3Mmap::GetEventContact(HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent, sizeof(DBEvent), NULL);
@@ -322,7 +322,7 @@ STDMETHODIMP_(HANDLE) CDb3Base::GetEventContact(HANDLE hDbEvent)
 	return (HANDLE)dbe->ofsPrev;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Base::FindFirstEvent(HANDLE hContact)
+STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstEvent(HANDLE hContact)
 {
 	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
@@ -332,7 +332,7 @@ STDMETHODIMP_(HANDLE) CDb3Base::FindFirstEvent(HANDLE hContact)
 	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsFirstEvent;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Base::FindFirstUnreadEvent(HANDLE hContact)
+STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstUnreadEvent(HANDLE hContact)
 {
 	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
@@ -342,7 +342,7 @@ STDMETHODIMP_(HANDLE) CDb3Base::FindFirstUnreadEvent(HANDLE hContact)
 	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsFirstUnreadEvent;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Base::FindLastEvent(HANDLE hContact)
+STDMETHODIMP_(HANDLE) CDb3Mmap::FindLastEvent(HANDLE hContact)
 {
 	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
@@ -352,14 +352,14 @@ STDMETHODIMP_(HANDLE) CDb3Base::FindLastEvent(HANDLE hContact)
 	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsLastEvent;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Base::FindNextEvent(HANDLE hDbEvent)
+STDMETHODIMP_(HANDLE) CDb3Mmap::FindNextEvent(HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent, sizeof(DBEvent), NULL);
 	return (dbe->signature != DBEVENT_SIGNATURE) ? 0 : (HANDLE)dbe->ofsNext;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Base::FindPrevEvent(HANDLE hDbEvent)
+STDMETHODIMP_(HANDLE) CDb3Mmap::FindPrevEvent(HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent, sizeof(DBEvent), NULL);

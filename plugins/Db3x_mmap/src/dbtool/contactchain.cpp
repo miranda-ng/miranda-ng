@@ -25,7 +25,7 @@ static DWORD ofsDestThis, ofsNextContact;
 static int phase;
 static DBContact dbc;
 
-int CDb3Base::WorkContactChain(int firstTime)
+int CDb3Mmap::WorkContactChain(int firstTime)
 {
 	int first = 0;
 	int ret;

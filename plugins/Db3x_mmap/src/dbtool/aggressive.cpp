@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define BLOCKSIZE  65536
 
-int CDb3Base::WorkAggressive(int firstTime)
+int CDb3Mmap::WorkAggressive(int firstTime)
 {
 	if (firstTime) {
 		if (!cb->bAggressive)

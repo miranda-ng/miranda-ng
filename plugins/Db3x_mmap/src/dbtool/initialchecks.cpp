@@ -19,23 +19,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\commonheaders.h"
 
-int CDb3Base::WorkInitialCheckHeaders()
+int CDb3Mmap::WorkInitialCheckHeaders()
 {
 	if (memcmp(m_dbHeader.signature, &dbSignatureU, sizeof(m_dbHeader.signature)) &&
-		 memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)) &&
-		 memcmp(m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)))
+		 memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)))
 	{
 		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Database signature is corrupted, automatic repair is impossible"));
 		return ERROR_BAD_FORMAT;
 	}
-	if (m_dbHeader.version != DB_OLD_VERSION && m_dbHeader.version != DB_THIS_VERSION) {
-		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Database is marked as belonging to an unknown version of Miranda"));
+	if (m_dbHeader.version != DB_095_VERSION) {
+		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Database version doesn't match this driver's one. Convert a database first"));
 		return ERROR_BAD_FORMAT;
 	}
 	return ERROR_SUCCESS;
 }
 
-int CDb3Base::WorkInitialChecks(int firstTime)
+int CDb3Mmap::WorkInitialChecks(int firstTime)
 {
 	sourceFileSize = GetFileSize(m_hDbFile, NULL);
 	if (sourceFileSize == 0) {

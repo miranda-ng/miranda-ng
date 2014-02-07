@@ -36,7 +36,7 @@ static DWORD memsize = 0;
 static DBEvent* memblock = NULL;
 static DBEvent* dbePrevEvent = NULL;
 
-void CDb3Base::ConvertOldEvent(DBEvent*& dbei)
+void CDb3Mmap::ConvertOldEvent(DBEvent*& dbei)
 {
 	int msglen = (int)strlen((char*)dbei->blob) + 1, msglenW = 0;
 	if (msglen != (int)dbei->cbBlob) {
@@ -71,7 +71,7 @@ void CDb3Base::ConvertOldEvent(DBEvent*& dbei)
 	}
 }
 
-void CDb3Base::WriteOfsNextToPrevious(DWORD ofsPrev, DBContact *dbc, DWORD ofsNext)
+void CDb3Mmap::WriteOfsNextToPrevious(DWORD ofsPrev, DBContact *dbc, DWORD ofsNext)
 {
 	if (ofsPrev)
 		WriteSegment(ofsPrev + offsetof(DBEvent, ofsNext), &ofsNext, sizeof(DWORD));
@@ -79,7 +79,7 @@ void CDb3Base::WriteOfsNextToPrevious(DWORD ofsPrev, DBContact *dbc, DWORD ofsNe
 		dbc->ofsFirstEvent = ofsNext;
 }
 
-void CDb3Base::FinishUp(DWORD ofsLast, DBContact *dbc)
+void CDb3Mmap::FinishUp(DWORD ofsLast, DBContact *dbc)
 {
 	WriteOfsNextToPrevious(ofsLast, dbc, 0);
 	if (eventCount != dbc->eventCount)
@@ -101,7 +101,7 @@ void CDb3Base::FinishUp(DWORD ofsLast, DBContact *dbc)
 	}
 }
 
-DWORD CDb3Base::WriteEvent(DBEvent *dbe)
+DWORD CDb3Mmap::WriteEvent(DBEvent *dbe)
 {
 	DWORD ofs = WriteSegment(WSOFS_END, dbe, offsetof(DBEvent, blob) + dbe->cbBlob);
 	if (ofs == WS_ERROR) {
@@ -113,7 +113,7 @@ DWORD CDb3Base::WriteEvent(DBEvent *dbe)
 	return ofs;
 }
 
-int CDb3Base::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
+int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 {
 	DBEvent *dbeNew, dbeOld;
 	DBEvent *dbePrev = NULL;
@@ -239,12 +239,12 @@ int CDb3Base::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		DWORD oldSize = dbeNew->cbBlob;
 		BYTE* pOldMemo = (BYTE*)_alloca(dbeNew->cbBlob);
 		memcpy(pOldMemo, dbeNew->blob, dbeNew->cbBlob);
-		DecodeCopyMemory(dbeNew->blob, pOldMemo, dbeNew->cbBlob); // decode
+		MoveMemory(dbeNew->blob, pOldMemo, dbeNew->cbBlob); // decode
 		ConvertOldEvent(dbeNew);
 		if (dbeNew->cbBlob > oldSize)
 			pOldMemo = (BYTE*)_alloca(dbeNew->cbBlob);
 		memcpy(pOldMemo, dbeNew->blob, dbeNew->cbBlob);
-		EncodeCopyMemory(dbeNew->blob, pOldMemo, dbeNew->cbBlob);   // encode
+		MoveMemory(dbeNew->blob, pOldMemo, dbeNew->cbBlob);   // encode
 	}
 
 	if (dbePrev) {

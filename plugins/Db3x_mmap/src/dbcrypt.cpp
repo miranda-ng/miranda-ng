@@ -174,7 +174,7 @@ LBL_SetNewKey:
 				goto LBL_SetNewKey;
 
 			if (!EnterPassword(dbv.pbVal, iKeyLength)) { // password protected?
-				if (m_dbHeader.version == DB_THIS_VERSION)
+				if (m_dbHeader.version >= DB_094_VERSION)
 					return 4;
 
 				// one of the early used version of mmap was replaced then by mmap_sa
@@ -191,11 +191,6 @@ LBL_SetNewKey:
 
 		// upgrade signature
 		WriteSignature(dbSignatureU);
-	}
-
-	if (m_dbHeader.version == DB_OLD_VERSION) {
-		m_dbHeader.version = DB_THIS_VERSION;
-		DBWrite(sizeof(dbSignatureU), &m_dbHeader.version, sizeof(m_dbHeader.version));
 	}
 
 	dbv.type = DBVT_BYTE;

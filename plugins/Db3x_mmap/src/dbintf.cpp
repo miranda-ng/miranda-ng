@@ -43,10 +43,11 @@ static int stringCompare2(const char *p1, const char *p2)
 	return strcmp(p1, p2);
 }
 
-CDb3Base::CDb3Base(const TCHAR *tszFileName) :
+CDb3Mmap::CDb3Mmap(const TCHAR *tszFileName) :
 	m_hDbFile(INVALID_HANDLE_VALUE),
 	m_safetyMode(true),
 	m_bReadOnly(true),
+	m_dwMaxContactId(1),
 	m_lMods(50, ModCompare),
 	m_lOfs(50, OfsCompare),
 	m_lResidentSettings(50, stringCompare2)
@@ -64,7 +65,7 @@ CDb3Base::CDb3Base(const TCHAR *tszFileName) :
 	m_hModHeap = HeapCreate(0, 0, 0);
 }
 
-CDb3Base::~CDb3Base()
+CDb3Mmap::~CDb3Mmap()
 {
 	// destroy modules
 	HeapDestroy(m_hModHeap);
@@ -102,9 +103,11 @@ CDb3Base::~CDb3Base()
 
 	DestroyDbInstance(this);
 	mir_free(m_tszProfileName);
+
+	free(m_pNull);
 }
 
-int CDb3Base::Load(bool bSkipInit)
+int CDb3Mmap::Load(bool bSkipInit)
 {
 	log0("DB logging running");
 	
@@ -121,11 +124,25 @@ int CDb3Base::Load(bool bSkipInit)
 		return EGROKPRF_CANTREAD;
 	}
 
+	if (!memcmp(&m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)))
+		memcpy(&m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature));
+
 	if (!bSkipInit) {
 		m_bReadOnly = false;
 
-		if (InitCache()) return 1;
+		if (InitMap()) return 1;
 		if (InitModuleNames()) return 1;
+		if (InitCrypt()) return EGROKPRF_CANTREAD;
+
+		// everything is ok, go on
+		if (m_dbHeader.version < DB_095_VERSION) {
+			ConvertContacts();
+
+			m_dbHeader.version = DB_095_VERSION;
+			DBWrite(sizeof(dbSignatureU), &m_dbHeader.version, sizeof(m_dbHeader.version));
+		}
+
+		FillContacts();
 
 		// we don't need events in the service mode
 		if (ServiceExists(MS_DB_SETSAFETYMODE)) {
@@ -138,16 +155,31 @@ int CDb3Base::Load(bool bSkipInit)
 			hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
 		}
 	}
-	return 0;
+
+	return ERROR_SUCCESS;
 }
 
-int CDb3Base::Create()
+int CDb3Mmap::Create()
 {
 	m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
 	return (m_hDbFile == INVALID_HANDLE_VALUE);
 }
 
-STDMETHODIMP_(void) CDb3Base::SetCacheSafetyMode(BOOL bIsSet)
+int CDb3Mmap::PrepareCheck()
+{
+	int ret = CheckDbHeaders();
+	if (ret != ERROR_SUCCESS)
+		return ret;
+
+	InitMap();
+	InitModuleNames();
+	if ((ret = InitCrypt()) != ERROR_SUCCESS)
+		return ret;
+
+	return ERROR_SUCCESS;
+}
+
+STDMETHODIMP_(void) CDb3Mmap::SetCacheSafetyMode(BOOL bIsSet)
 {
 	{	mir_cslock lck(m_csDbAccess);
 		m_safetyMode = bIsSet != 0;
@@ -155,49 +187,29 @@ STDMETHODIMP_(void) CDb3Base::SetCacheSafetyMode(BOOL bIsSet)
 	DBFlush(1);
 }
 
-void CDb3Base::EncodeCopyMemory(void *dst, void *src, size_t size)
-{
-	MoveMemory(dst, src, size);
-}
-
-void CDb3Base::DecodeCopyMemory(void *dst, void *src, size_t size)
-{
-	MoveMemory(dst, src, size);
-}
-
-void CDb3Base::EncodeDBWrite(DWORD ofs, void *src, int size)
-{
-	DBWrite(ofs, src, size);
-}
-
-void CDb3Base::DecodeDBWrite(DWORD ofs, void *src, int size)
-{
-	DBWrite(ofs, src, size);
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 // MIDatabaseChecker
 
-typedef int (CDb3Base::*CheckWorker)(int);
+typedef int (CDb3Mmap::*CheckWorker)(int);
 
 static CheckWorker Workers[6] = 
 {
-	&CDb3Base::WorkInitialChecks,
-	&CDb3Base::WorkModuleChain,
-	&CDb3Base::WorkUser,
-	&CDb3Base::WorkContactChain,
-	&CDb3Base::WorkAggressive,
-	&CDb3Base::WorkFinalTasks
+	&CDb3Mmap::WorkInitialChecks,
+	&CDb3Mmap::WorkModuleChain,
+	&CDb3Mmap::WorkUser,
+	&CDb3Mmap::WorkContactChain,
+	&CDb3Mmap::WorkAggressive,
+	&CDb3Mmap::WorkFinalTasks
 };
 
-int CDb3Base::Start(DBCHeckCallback *callback)
+int CDb3Mmap::Start(DBCHeckCallback *callback)
 {
 	cb = callback;
 	ReMap(0);
 	return ERROR_SUCCESS;
 }
 
-int CDb3Base::CheckDb(int phase, int firstTime)
+int CDb3Mmap::CheckDb(int phase, int firstTime)
 {
 	if (phase >= SIZEOF(Workers))
 		return ERROR_OUT_OF_PAPER;
@@ -205,7 +217,7 @@ int CDb3Base::CheckDb(int phase, int firstTime)
 	return (this->*Workers[phase])(firstTime);
 }
 
-void CDb3Base::Destroy()
+void CDb3Mmap::Destroy()
 {
 	delete this;
 }

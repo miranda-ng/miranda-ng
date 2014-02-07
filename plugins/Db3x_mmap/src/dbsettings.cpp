@@ -28,7 +28,7 @@ DBCachedContact* AddToCachedContactList(HANDLE hContact, int index);
 
 #define VLT(n) ((n == DBVT_UTF8 || n == DBVT_ENCRYPTED)?DBVT_ASCIIZ:n)
 
-BOOL CDb3Base::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
+BOOL CDb3Mmap::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
 {
 	if (!_strnicmp(szSetting, "password", 8))      return true;
 	if (!strcmp(szSetting, "NLProxyAuthPassword")) return true;
@@ -45,7 +45,7 @@ BOOL CDb3Base::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CDb3Base::GetContactSettingWorker(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
+int CDb3Mmap::GetContactSettingWorker(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
 {																											  
 	if (szSetting == NULL || szModule == NULL)
 		return 1;
@@ -133,8 +133,8 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, LPCSTR szModule, LPCSTR s
 					return 2;
 
 				case DBVT_BYTE:  dbv->bVal = pBlob[1]; break;
-				case DBVT_WORD:  DecodeCopyMemory(&(dbv->wVal), (PWORD)(pBlob + 1), 2); break;
-				case DBVT_DWORD: DecodeCopyMemory(&(dbv->dVal), (PDWORD)(pBlob + 1), 4); break;
+				case DBVT_WORD:  MoveMemory(&(dbv->wVal), (PWORD)(pBlob + 1), 2); break;
+				case DBVT_DWORD: MoveMemory(&(dbv->dVal), (PDWORD)(pBlob + 1), 4); break;
 				
 				case DBVT_UTF8:
 				case DBVT_ASCIIZ:
@@ -144,13 +144,13 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, LPCSTR szModule, LPCSTR s
 						dbv->cchVal--;
 						if (varLen < dbv->cchVal)
 							dbv->cchVal = varLen;
-						DecodeCopyMemory(dbv->pszVal, pBlob + 3, dbv->cchVal); // decode
+						MoveMemory(dbv->pszVal, pBlob + 3, dbv->cchVal); // decode
 						dbv->pszVal[dbv->cchVal] = 0;
 						dbv->cchVal = varLen;
 					}
 					else {
 						dbv->pszVal = (char*)mir_alloc(1 + varLen);
-						DecodeCopyMemory(dbv->pszVal, pBlob + 3, varLen);
+						MoveMemory(dbv->pszVal, pBlob + 3, varLen);
 						dbv->pszVal[varLen] = 0;
 					}
 					break;
@@ -161,11 +161,11 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, LPCSTR szModule, LPCSTR s
 					if (isStatic) {
 						if (varLen < dbv->cpbVal)
 							dbv->cpbVal = varLen;
-						DecodeCopyMemory(dbv->pbVal, pBlob + 3, dbv->cpbVal);
+						MoveMemory(dbv->pbVal, pBlob + 3, dbv->cpbVal);
 					}
 					else {
 						dbv->pbVal = (BYTE *)mir_alloc(varLen);
-						DecodeCopyMemory(dbv->pbVal, pBlob + 3, varLen);
+						MoveMemory(dbv->pbVal, pBlob + 3, varLen);
 					}
 					dbv->cpbVal = varLen;
 					break;
@@ -223,7 +223,7 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, LPCSTR szModule, LPCSTR s
 	return 1;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::GetContactSetting(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
+STDMETHODIMP_(BOOL) CDb3Mmap::GetContactSetting(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
 	dbv->type = 0;
 	if (GetContactSettingWorker(hContact, szModule, szSetting, dbv, 0))
@@ -258,7 +258,7 @@ STDMETHODIMP_(BOOL) CDb3Base::GetContactSetting(HANDLE hContact, LPCSTR szModule
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::GetContactSettingStr(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
+STDMETHODIMP_(BOOL) CDb3Mmap::GetContactSettingStr(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
 	int iSaveType = dbv->type;
 
@@ -305,7 +305,7 @@ STDMETHODIMP_(BOOL) CDb3Base::GetContactSettingStr(HANDLE hContact, LPCSTR szMod
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::GetContactSettingStatic(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
+STDMETHODIMP_(BOOL) CDb3Mmap::GetContactSettingStatic(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
 	if (GetContactSettingWorker(hContact, szModule, szSetting, dbv, 1))
 		return 1;
@@ -318,7 +318,7 @@ STDMETHODIMP_(BOOL) CDb3Base::GetContactSettingStatic(HANDLE hContact, LPCSTR sz
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::FreeVariant(DBVARIANT *dbv)
+STDMETHODIMP_(BOOL) CDb3Mmap::FreeVariant(DBVARIANT *dbv)
 {
 	if (dbv == 0) return 1;
 
@@ -338,7 +338,7 @@ STDMETHODIMP_(BOOL) CDb3Base::FreeVariant(DBVARIANT *dbv)
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
+STDMETHODIMP_(BOOL) CDb3Mmap::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
 {
 	char *szSetting = m_cache->GetCachedSetting(NULL, pszSettingName, 0, (int)strlen(pszSettingName));
 	szSetting[-1] = (char)bIsResident;
@@ -355,7 +355,7 @@ STDMETHODIMP_(BOOL) CDb3Base::SetSettingResident(BOOL bIsResident, const char *p
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRITESETTING *dbcws)
+STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRITESETTING *dbcws)
 {
 	if (dbcws == NULL || dbcws->szSetting == NULL || dbcws->szModule == NULL || m_bReadOnly)
 		return 1;
@@ -550,17 +550,17 @@ LBL_WriteString:
 				MoveAlong(1);	// skip data type
 				switch (dbcwWork.value.type) {
 				case DBVT_BYTE:  DBWrite(ofsBlobPtr, &dbcwWork.value.bVal, 1); break;
-				case DBVT_WORD:  EncodeDBWrite(ofsBlobPtr, &dbcwWork.value.wVal, 2); break;
-				case DBVT_DWORD: EncodeDBWrite(ofsBlobPtr, &dbcwWork.value.dVal, 4); break;
+				case DBVT_WORD:  DBWrite(ofsBlobPtr, &dbcwWork.value.wVal, 2); break;
+				case DBVT_DWORD: DBWrite(ofsBlobPtr, &dbcwWork.value.dVal, 4); break;
 				case DBVT_BLOB:
-					EncodeDBWrite(ofsBlobPtr + 2, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
+					DBWrite(ofsBlobPtr + 2, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
 					break;
 				case DBVT_ENCRYPTED:
 					DBWrite(ofsBlobPtr + 2, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
 					break;
 				case DBVT_UTF8:
 				case DBVT_ASCIIZ:
-					EncodeDBWrite(ofsBlobPtr + 2, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
+					DBWrite(ofsBlobPtr + 2, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
 					break;
 				}
 				// quit
@@ -637,12 +637,12 @@ LBL_WriteString:
 	MoveAlong(1);
 	switch (dbcwWork.value.type) {
 	case DBVT_BYTE: DBWrite(ofsBlobPtr, &dbcwWork.value.bVal, 1); MoveAlong(1); break;
-	case DBVT_WORD: EncodeDBWrite(ofsBlobPtr, &dbcwWork.value.wVal, 2); MoveAlong(2); break;
-	case DBVT_DWORD: EncodeDBWrite(ofsBlobPtr, &dbcwWork.value.dVal, 4); MoveAlong(4); break;
+	case DBVT_WORD: DBWrite(ofsBlobPtr, &dbcwWork.value.wVal, 2); MoveAlong(2); break;
+	case DBVT_DWORD: DBWrite(ofsBlobPtr, &dbcwWork.value.dVal, 4); MoveAlong(4); break;
 
 	case DBVT_BLOB:
 		DBWrite(ofsBlobPtr, &dbcwWork.value.cpbVal, 2);
-		EncodeDBWrite(ofsBlobPtr + 2, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
+		DBWrite(ofsBlobPtr + 2, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
 		MoveAlong(2 + dbcwWork.value.cpbVal);
 		break;
 
@@ -654,7 +654,7 @@ LBL_WriteString:
 
 	case DBVT_UTF8: case DBVT_ASCIIZ:
 		DBWrite(ofsBlobPtr, &dbcwWork.value.cchVal, 2);
-		EncodeDBWrite(ofsBlobPtr + 2, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
+		DBWrite(ofsBlobPtr + 2, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
 		MoveAlong(2 + dbcwWork.value.cchVal);
 		break;
 	}
@@ -671,7 +671,7 @@ LBL_WriteString:
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::DeleteContactSetting(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting)
+STDMETHODIMP_(BOOL) CDb3Mmap::DeleteContactSetting(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting)
 {
 	if (!szModule || !szSetting)
 		return 1;
@@ -755,7 +755,7 @@ STDMETHODIMP_(BOOL) CDb3Base::DeleteContactSetting(HANDLE hContact, LPCSTR szMod
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::EnumContactSettings(HANDLE hContact, DBCONTACTENUMSETTINGS* dbces)
+STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(HANDLE hContact, DBCONTACTENUMSETTINGS* dbces)
 {
 	if (!dbces->szModule)
 		return -1;
@@ -793,7 +793,7 @@ STDMETHODIMP_(BOOL) CDb3Base::EnumContactSettings(HANDLE hContact, DBCONTACTENUM
 	return result;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
+STDMETHODIMP_(BOOL) CDb3Mmap::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
 {
 	for (int i = 0; i < m_lResidentSettings.getCount(); i++) {
 		int ret = pFunc(m_lResidentSettings[i], 0, (LPARAM)pParam);

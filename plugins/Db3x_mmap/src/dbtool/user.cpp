@@ -23,7 +23,7 @@ static DBContact user;
 static int phase;
 static DWORD ofsUser;
 
-int CDb3Base::WorkUser(int firstTime)
+int CDb3Mmap::WorkUser(int firstTime)
 {
 	int first = 0;
 

@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static DWORD ofsThisSettings, ofsDestPrevSettings;
 
-int CDb3Base::WorkSettingsChain(DWORD ofsContact, DBContact *dbc, int firstTime)
+int CDb3Mmap::WorkSettingsChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 {
 	DWORD ofsDestThis;
 	int ret;

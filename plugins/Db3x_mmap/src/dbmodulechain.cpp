@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-void CDb3Base::AddToList(char *name, DWORD len, DWORD ofs)
+void CDb3Mmap::AddToList(char *name, DWORD len, DWORD ofs)
 {
 	ModuleName *mn = (ModuleName*)HeapAlloc(m_hModHeap,0,sizeof(ModuleName));
 	mn->name = name;
@@ -38,7 +38,7 @@ void CDb3Base::AddToList(char *name, DWORD len, DWORD ofs)
 	m_lOfs.insert(mn);
 }
 
-int CDb3Base::InitModuleNames(void)
+int CDb3Mmap::InitModuleNames(void)
 {
 	DWORD ofsThis = m_dbHeader.ofsFirstModuleName;
 	DBModuleName *dbmn = (struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
@@ -60,7 +60,7 @@ int CDb3Base::InitModuleNames(void)
 	return 0;
 }
 
-DWORD CDb3Base::FindExistingModuleNameOfs(const char *szName)
+DWORD CDb3Mmap::FindExistingModuleNameOfs(const char *szName)
 {
 	ModuleName mn = { (char*)szName, 0 };
 	if (m_lastmn && !strcmp(mn.name, m_lastmn->name))
@@ -77,7 +77,7 @@ DWORD CDb3Base::FindExistingModuleNameOfs(const char *szName)
 }
 
 //will create the offset if it needs to
-DWORD CDb3Base::GetModuleNameOfs(const char *szName)
+DWORD CDb3Mmap::GetModuleNameOfs(const char *szName)
 {
 	struct DBModuleName dbmn;
 	int nameLen;
@@ -109,7 +109,7 @@ DWORD CDb3Base::GetModuleNameOfs(const char *szName)
 	return ofsNew;
 }
 
-char* CDb3Base::GetModuleNameByOfs(DWORD ofs)
+char* CDb3Mmap::GetModuleNameByOfs(DWORD ofs)
 {
 	if (m_lastmn && m_lastmn->ofs == ofs)
 		return m_lastmn->name;
@@ -126,7 +126,7 @@ char* CDb3Base::GetModuleNameByOfs(DWORD ofs)
 	return NULL;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam)
+STDMETHODIMP_(BOOL) CDb3Mmap::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam)
 {
 	for (int i = 0; i < m_lMods.getCount(); i++) {
 		ModuleName *pmn = m_lMods[i];

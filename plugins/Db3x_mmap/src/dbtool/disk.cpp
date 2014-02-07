@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\commonheaders.h"
 
-int CDb3Base::SignatureValid(DWORD ofs, DWORD signature)
+int CDb3Mmap::SignatureValid(DWORD ofs, DWORD signature)
 {
 	if (ofs + sizeof(DWORD) >= sourceFileSize) {
 		cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Invalid offset found (database truncated?)"));
@@ -30,7 +30,7 @@ int CDb3Base::SignatureValid(DWORD ofs, DWORD signature)
 	return sig == signature;
 }
 
-int CDb3Base::PeekSegment(DWORD ofs, PVOID buf, int cbBytes)
+int CDb3Mmap::PeekSegment(DWORD ofs, PVOID buf, int cbBytes)
 {
 	if (ofs >= sourceFileSize) {
 		cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Invalid offset found"));
@@ -54,7 +54,7 @@ int CDb3Base::PeekSegment(DWORD ofs, PVOID buf, int cbBytes)
 	return ERROR_SUCCESS;
 }
 
-int CDb3Base::ReadSegment(DWORD ofs, PVOID buf, int cbBytes)
+int CDb3Mmap::ReadSegment(DWORD ofs, PVOID buf, int cbBytes)
 {
 	int ret = PeekSegment(ofs, buf, cbBytes);
 	if (ret != ERROR_SUCCESS && ret != ERROR_HANDLE_EOF) return ret;
@@ -70,7 +70,7 @@ int CDb3Base::ReadSegment(DWORD ofs, PVOID buf, int cbBytes)
 	return ERROR_SUCCESS;
 }
 
-DWORD CDb3Base::WriteSegment(DWORD ofs, PVOID buf, int cbBytes)
+DWORD CDb3Mmap::WriteSegment(DWORD ofs, PVOID buf, int cbBytes)
 {
 	DWORD bytesWritten;
 	if (cb->bCheckOnly) return 0xbfbfbfbf;
@@ -87,7 +87,7 @@ DWORD CDb3Base::WriteSegment(DWORD ofs, PVOID buf, int cbBytes)
 	return ofs;
 }
 
-int CDb3Base::ReadWrittenSegment(DWORD ofs, PVOID buf, int cbBytes)
+int CDb3Mmap::ReadWrittenSegment(DWORD ofs, PVOID buf, int cbBytes)
 {
 	DWORD bytesRead;
 	if (cb->bCheckOnly) return 0xbfbfbfbf;

@@ -30,7 +30,7 @@ static int phase,iCurrentModName;
 static DWORD ofsLast;
 static int last_mod = 0;
 
-int CDb3Base::WorkModuleChain(int firstTime)
+int CDb3Mmap::WorkModuleChain(int firstTime)
 {
 	DBModuleName moduleName, *newModName;
 
@@ -115,7 +115,7 @@ int CDb3Base::WorkModuleChain(int firstTime)
 	return ERROR_SUCCESS;
 }
 
-DWORD CDb3Base::ConvertModuleNameOfs(DWORD ofsOld)
+DWORD CDb3Mmap::ConvertModuleNameOfs(DWORD ofsOld)
 {
 	if (modChain[last_mod].ofsOld == ofsOld)
 		return modChain[last_mod].ofsNew;
@@ -130,7 +130,7 @@ DWORD CDb3Base::ConvertModuleNameOfs(DWORD ofsOld)
 	return 0;
 }
 
-void CDb3Base::FreeModuleChain()
+void CDb3Mmap::FreeModuleChain()
 {
 	if (modChain != NULL) {
 		free(modChain);

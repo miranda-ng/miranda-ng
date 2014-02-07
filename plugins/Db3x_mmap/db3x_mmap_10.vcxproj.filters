@@ -39,9 +39,6 @@
     <ClCompile Include="src\dbintf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dbintfm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\dbmodulechain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -45,7 +45,8 @@ DBHeader
 */
 
 #define DB_OLD_VERSION   0x00000700u
-#define DB_THIS_VERSION  0x00000701u
+#define DB_094_VERSION   0x00000701u
+#define DB_095_VERSION   0x00000800u
 
 #define DB_SETTINGS_RESIZE_GRANULARITY  128
 
@@ -111,6 +112,7 @@ struct DBContact
 	DWORD ofsFirstUnreadEvent; //offset to the first (chronological) unread event
 	//in the chain, 0 if all are read
 	DWORD timestampFirstUnread; //timestamp of the event at ofsFirstUnreadEvent
+	DWORD dwContactID;
 };
 
 #define DBMODULENAME_SIGNATURE  0x4DDECADEu
@@ -153,15 +155,24 @@ struct DBEvent
 
 #include <poppack.h>
 
-struct CDb3Base : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
+struct CDb3Mmap : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
-	CDb3Base(const TCHAR* tszFileName);
-	~CDb3Base();
+	CDb3Mmap(const TCHAR* tszFileName);
+	~CDb3Mmap();
 
 	int Load(bool bSkipInit);
 	int Create(void);
 	int CreateDbHeaders(const DBSignature&);
 	int CheckDbHeaders();
+
+	void ToggleEncryption(void);
+	void StoreKey(void);
+	void SetPassword(const TCHAR *ptszPassword);
+	void UpdateMenuItem(void);
+
+	int  PrepareCheck(void);
+
+	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? LPGEN("Change/remove password") : LPGEN("Set password"); }
 
 	void DatabaseCorruption(TCHAR *text);
 	void WriteSignature(DBSignature&);
@@ -212,12 +223,6 @@ protected:
 	STDMETHODIMP_(VOID)   Destroy();
 
 protected:
-	virtual	void EncodeCopyMemory(void *dst, void *src, size_t size);
-	virtual	void DecodeCopyMemory(void *dst, void *src, size_t size);
-	virtual	void EncodeDBWrite(DWORD ofs, void *src, int size);
-	virtual	void DecodeDBWrite(DWORD ofs, void *src, int size);
-
-protected:
 	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsContact, DWORD ofsModuleName);
 	void  InvalidateSettingsGroupOfsCacheEntry(DWORD ofsSettingsGroup) {}
 	int   WorkInitialCheckHeaders(void);
@@ -227,7 +232,8 @@ protected:
 	void  DBWrite(DWORD ofs, PVOID pData, int bytes);
 	void  DBFill(DWORD ofs, int bytes);
 	void  DBFlush(int setting);
-	int   InitCache(void);
+	int   InitMap(void);
+	void  FillContacts(void);
 
 	PBYTE m_pNull;
 
@@ -260,7 +266,7 @@ public:
 	MICryptoEngine *m_crypto;
 
 protected:
-	DWORD    m_dwFileSize;
+	DWORD    m_dwFileSize, m_dwMaxContactId;
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent;
 
 	CRITICAL_SECTION m_csDbAccess;
@@ -319,30 +325,15 @@ protected:
 
 	DBCHeckCallback *cb;
 	DWORD sourceFileSize, ofsAggrCur;
-};
 
-struct CDb3Mmap : public CDb3Base
-{
-	CDb3Mmap(const TCHAR* ptszFileName);
-	~CDb3Mmap();
+	////////////////////////////////////////////////////////////////////////////
+	// encryption
 
-	int  Load(bool bSkipInit);
-
-	void ToggleEncryption(void);
-	void StoreKey(void);
-	void SetPassword(const TCHAR *ptszPassword);
-	void UpdateMenuItem(void);
-
-	int  PrepareCheck(void);
-
-	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? LPGEN("Change/remove password") : LPGEN("Set password"); }
-
-protected:
-	int InitCrypt(void);
+	void ConvertContacts(void);
+	int  InitCrypt(void);
 	void ToggleEventsEncryption(HANDLE hContact);
 	void ToggleSettingsEncryption(HANDLE hContact);
 
-protected:
-	void  InitDialogs();
-	bool  EnterPassword(const BYTE *pKey, const size_t keyLen);
+	void InitDialogs();
+	bool EnterPassword(const BYTE *pKey, const size_t keyLen);
 };

@@ -201,7 +201,6 @@
     <ClCompile Include="src\dbevents.cpp" />
     <ClCompile Include="src\dbheaders.cpp" />
     <ClCompile Include="src\dbintf.cpp" />
-    <ClCompile Include="src\dbintfm.cpp" />
     <ClCompile Include="src\dbmodulechain.cpp" />
     <ClCompile Include="src\dbsettings.cpp" />
     <ClCompile Include="src\dbtool\aggressive.cpp">

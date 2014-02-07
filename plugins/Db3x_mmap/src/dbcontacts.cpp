@@ -23,16 +23,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-int CDb3Base::CheckProto(HANDLE hContact, const char *proto)
+int CDb3Mmap::CheckProto(HANDLE hContact, const char *proto)
 {
 	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
 	if (cc == NULL)
 		cc = m_cache->AddContactToCache(hContact);
 
 	if (cc->szProto == NULL) {
-		char protobuf[MAX_PATH] = {0};
+		char protobuf[MAX_PATH] = { 0 };
 		DBVARIANT dbv;
- 		dbv.type = DBVT_ASCIIZ;
+		dbv.type = DBVT_ASCIIZ;
 		dbv.pszVal = protobuf;
 		dbv.cchVal = sizeof(protobuf);
 		if (GetContactSettingStatic(hContact, "Protocol", "p", &dbv) != 0 || (dbv.type != DBVT_ASCIIZ))
@@ -44,13 +44,13 @@ int CDb3Base::CheckProto(HANDLE hContact, const char *proto)
 	return !strcmp(cc->szProto, proto);
 }
 
-STDMETHODIMP_(LONG) CDb3Base::GetContactCount(void)
+STDMETHODIMP_(LONG) CDb3Mmap::GetContactCount(void)
 {
 	mir_cslock lck(m_csDbAccess);
 	return m_dbHeader.contactCount;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Base::FindFirstContact(const char *szProto)
+STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstContact(const char *szProto)
 {
 	mir_cslock lck(m_csDbAccess);
 	HANDLE ret = (HANDLE)m_dbHeader.ofsFirstContact;
@@ -59,7 +59,7 @@ STDMETHODIMP_(HANDLE) CDb3Base::FindFirstContact(const char *szProto)
 	return ret;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Base::FindNextContact(HANDLE hContact, const char *szProto)
+STDMETHODIMP_(HANDLE) CDb3Mmap::FindNextContact(HANDLE hContact, const char *szProto)
 {
 	mir_cslock lck(m_csDbAccess);
 	while (hContact) {
@@ -90,7 +90,7 @@ STDMETHODIMP_(HANDLE) CDb3Base::FindNextContact(HANDLE hContact, const char *szP
 	return NULL;
 }
 
-STDMETHODIMP_(LONG) CDb3Base::DeleteContact(HANDLE hContact)
+STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(HANDLE hContact)
 {
 	if (hContact == NULL)
 		return 1;
@@ -119,7 +119,7 @@ STDMETHODIMP_(LONG) CDb3Base::DeleteContact(HANDLE hContact)
 		m_hLastCachedContact = NULL;
 
 	dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
-	//delete settings chain
+	// delete settings chain
 	DWORD ofsThis = dbc->ofsFirstSettings;
 	DWORD ofsFirstEvent = dbc->ofsFirstEvent;
 	while (ofsThis) {
@@ -128,7 +128,7 @@ STDMETHODIMP_(LONG) CDb3Base::DeleteContact(HANDLE hContact)
 		DeleteSpace(ofsThis,offsetof(DBContactSettings,blob)+dbcs->cbBlob);
 		ofsThis = ofsNext;
 	}
-	//delete event chain
+	// delete event chain
 	ofsThis = ofsFirstEvent;
 	while (ofsThis) {
 		DBEvent *dbe = (DBEvent*)DBRead(ofsThis,sizeof(DBEvent),NULL);
@@ -164,17 +164,18 @@ STDMETHODIMP_(LONG) CDb3Base::DeleteContact(HANDLE hContact)
 	return 0;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Base::AddContact()
+STDMETHODIMP_(HANDLE) CDb3Mmap::AddContact()
 {
 	DWORD ofsNew;
 	log0("add contact");
-   {
+	{
 		mir_cslock lck(m_csDbAccess);
 		ofsNew = CreateNewSpace(sizeof(DBContact));
 
 		DBContact dbc = { 0 };
 		dbc.signature = DBCONTACT_SIGNATURE;
 		dbc.ofsNext = m_dbHeader.ofsFirstContact;
+		dbc.dwContactID = m_dwMaxContactId++;
 		m_dbHeader.ofsFirstContact = ofsNew;
 		m_dbHeader.contactCount++;
 		DBWrite(ofsNew, &dbc, sizeof(DBContact));
@@ -183,21 +184,64 @@ STDMETHODIMP_(HANDLE) CDb3Base::AddContact()
 	}
 	m_cache->AddContactToCache((HANDLE)ofsNew);
 
-	NotifyEventHooks(hContactAddedEvent,(WPARAM)ofsNew,0);
+	NotifyEventHooks(hContactAddedEvent, (WPARAM)ofsNew, 0);
 	return (HANDLE)ofsNew;
 }
 
-STDMETHODIMP_(BOOL) CDb3Base::IsDbContact(HANDLE hContact)
+STDMETHODIMP_(BOOL) CDb3Mmap::IsDbContact(HANDLE hContact)
 {
 	if (m_cache->GetCachedContact(hContact))
 		return TRUE;
 
 	mir_cslock lck(m_csDbAccess);
-	DBContact *dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
+	DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
 	if (dbc->signature == DBCONTACT_SIGNATURE) {
 		m_cache->AddContactToCache(hContact);
 		return TRUE;
 	}
 
 	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// contacts convertor
+
+#define OLD_CONTACT_SIZE offsetof(DBContact, dwContactID)
+
+void CDb3Mmap::ConvertContacts()
+{
+	DBContact *pPrev = NULL;
+
+	m_dbHeader.ofsUser = ReallocSpace(m_dbHeader.ofsUser, OLD_CONTACT_SIZE, sizeof(DBContact));
+
+	for (DWORD dwOffset = m_dbHeader.ofsFirstContact; dwOffset != 0;) {
+		DBContact *pOld = (DBContact*)DBRead(dwOffset, sizeof(DBContact), NULL);
+		DWORD dwNew = ReallocSpace(dwOffset, OLD_CONTACT_SIZE, sizeof(DBContact));
+		DBContact *pNew = (DBContact*)DBRead(dwNew, sizeof(DBContact), NULL);
+		pNew->dwContactID = m_dwMaxContactId++;
+
+		if (pPrev == NULL)
+			m_dbHeader.ofsFirstContact = dwNew;
+		else
+			pPrev->ofsNext = dwNew;
+		pPrev = pNew;
+		dwOffset = pNew->ofsNext;
+	}
+
+	FlushViewOfFile(m_pDbCache, 0);
+}
+
+void CDb3Mmap::FillContacts()
+{
+	for (DWORD dwOffset = m_dbHeader.ofsFirstContact; dwOffset != 0;) {
+		DBContact *p = (DBContact*)DBRead(dwOffset, sizeof(DBContact), NULL);
+		if (p->signature != DBCONTACT_SIGNATURE)
+			break;
+
+		if (p->dwContactID > m_dwMaxContactId)
+			m_dwMaxContactId = p->dwContactID + 1;
+
+		CheckProto((HANDLE)dwOffset, "");
+		dwOffset = p->ofsNext;
+	}
 }

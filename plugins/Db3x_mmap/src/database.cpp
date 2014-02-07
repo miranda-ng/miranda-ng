@@ -24,11 +24,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 int InitModuleNames(void);
-int InitCache(void);
+int InitMap(void);
 int InitIni(void);
 void UninitIni(void);
 
-DWORD CDb3Base::CreateNewSpace(int bytes)
+DWORD CDb3Mmap::CreateNewSpace(int bytes)
 {
 	DWORD ofsNew = m_dbHeader.ofsFileEnd;
 	m_dbHeader.ofsFileEnd += bytes;
@@ -37,7 +37,7 @@ DWORD CDb3Base::CreateNewSpace(int bytes)
 	return ofsNew;
 }
 
-void CDb3Base::DeleteSpace(DWORD ofs, int bytes)
+void CDb3Mmap::DeleteSpace(DWORD ofs, int bytes)
 {
 	if (ofs+bytes == m_dbHeader.ofsFileEnd)	{
 		log2("freespace %d@%08x",bytes,ofs);
@@ -51,7 +51,7 @@ void CDb3Base::DeleteSpace(DWORD ofs, int bytes)
 	DBFill(ofs, bytes);
 }
 
-DWORD CDb3Base::ReallocSpace(DWORD ofs, int oldSize, int newSize)
+DWORD CDb3Mmap::ReallocSpace(DWORD ofs, int oldSize, int newSize)
 {
 	if (oldSize >= newSize)
 		return ofs;
@@ -96,7 +96,7 @@ void __cdecl dbpanic(void *arg)
 	TerminateProcess(GetCurrentProcess(),255);
 }
 
-void CDb3Base::DatabaseCorruption(TCHAR *text)
+void CDb3Mmap::DatabaseCorruption(TCHAR *text)
 {
 	int kill = 0;
 

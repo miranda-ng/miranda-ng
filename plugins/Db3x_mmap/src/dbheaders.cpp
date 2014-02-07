@@ -25,13 +25,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //the cache has not been loaded when these functions are used
 
-int CDb3Base::CreateDbHeaders(const DBSignature& _sign)
+int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 {
 	DWORD bytesWritten;
 
 	CopyMemory(m_dbHeader.signature, &_sign, sizeof(m_dbHeader.signature));
 
-	m_dbHeader.version = DB_THIS_VERSION;
+	m_dbHeader.version = DB_095_VERSION;
 	m_dbHeader.ofsFileEnd = sizeof(struct DBHeader);
 	m_dbHeader.slackSpace = 0;
 	m_dbHeader.contactCount = 0;
@@ -52,14 +52,14 @@ int CDb3Base::CreateDbHeaders(const DBSignature& _sign)
 	return 0;
 }
 
-int CDb3Base::CheckDbHeaders()
+int CDb3Mmap::CheckDbHeaders()
 {
 	if (memcmp(m_dbHeader.signature, &dbSignatureU,  sizeof(m_dbHeader.signature)) &&
 		 memcmp(m_dbHeader.signature, &dbSignatureE,  sizeof(m_dbHeader.signature)) &&
 		 memcmp(m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)))
 		return EGROKPRF_UNKHEADER;
 
-	if (m_dbHeader.version != DB_THIS_VERSION && m_dbHeader.version != DB_OLD_VERSION)
+	if (m_dbHeader.version != DB_095_VERSION && m_dbHeader.version != DB_094_VERSION && m_dbHeader.version != DB_OLD_VERSION)
 		return EGROKPRF_VERNEWER;
 	
 	if (m_dbHeader.ofsUser == 0)
@@ -68,7 +68,7 @@ int CDb3Base::CheckDbHeaders()
 	return 0;
 }
 
-void CDb3Base::WriteSignature(DBSignature &sign)
+void CDb3Mmap::WriteSignature(DBSignature &sign)
 {
 	memcpy(&m_dbHeader.signature, &sign, sizeof(DBSignature));
 	DBWrite(0, &sign, sizeof(DBSignature));
