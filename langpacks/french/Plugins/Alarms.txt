@@ -40,7 +40,7 @@ Comme les contacts
 Taille verticale auto
 [Transparency (%):]
 Transparence (%):
-[Alert Window]
+[Alert window]
 Fenêtre d'alerte
 [Round corners]
 Coins arrondis

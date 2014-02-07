@@ -17,7 +17,7 @@ Encodage du fichier par défaut
 [Auto-detect UTF-8]
 Auto-detect UTF-8
 [Show confirmation dialog box]
-Afficher la demande  de confirmation
+Afficher la demande de confirmation
 [Autosend download link to contact]
 Envoyer automatiquement l'URL au contact
 [Web page settings]

@@ -719,3 +719,5 @@ Voir l'historique
 Voir l'historique
 [View &History]
 Voir l'&historique
+[User Menu]
+Menu Contact
