@@ -51,7 +51,7 @@
 [Event position in chain is not correct: unable to fix]
 [Processing final tasks]
 [Database signature is corrupted, automatic repair is impossible]
-[Database is marked as belonging to an unknown version of Miranda]
+[Database version doesn't match this driver's one. Convert a database first]
 [Database is newly created and has no data to process]
 [Processing completed successfully]
 [Can't create map view of file (%u)]

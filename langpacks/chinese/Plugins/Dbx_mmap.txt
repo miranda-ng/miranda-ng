@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.11.0.2
+;  Version: 0.95.0.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Login to Miranda NG]

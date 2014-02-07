@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.11.0.2
+;  Version: 0.95.0.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -129,8 +129,6 @@
 ;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
 [Database signature is corrupted, automatic repair is impossible]
 Загаловак базы дадзеных пашкоджаны, аўтаматычнае выпраўленне немагчыма
-[Database is marked as belonging to an unknown version of Miranda]
-База дадзеных пазначана як прыналежная невядомай версіі Miranda NG
 [Database is newly created and has no data to process]
 База дадзеных новая, і ў ёй няма дадзеных для апрацоўкі
 [Processing completed successfully]
