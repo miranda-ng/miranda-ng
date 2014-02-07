@@ -40,7 +40,7 @@
 
 [Transparency (%):]
 
-[Alert Window]
+[Alert window]
 
 [Round corners]
 Закръглени ъгли

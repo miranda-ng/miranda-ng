@@ -40,7 +40,7 @@ Mit CList zeigen
 automatische Breite
 [Transparency (%):]
 Transparenz (%):
-[Alert Window]
+[Alert window]
 Alarmfenster
 [Round corners]
 Runde Ecken

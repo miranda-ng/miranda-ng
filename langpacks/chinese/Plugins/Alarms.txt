@@ -31,7 +31,7 @@
 自动设置垂直大小
 [Transparency (%):]
 透明度 (%): 
-[Alert Window]
+[Alert window]
 提醒窗口
 [Don't steal focus unless idle]
 除闲置外不要获取焦点

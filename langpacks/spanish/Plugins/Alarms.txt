@@ -40,7 +40,7 @@ Editar
 
 [Transparency (%):]
 
-[Alert Window]
+[Alert window]
 
 [Round corners]
 

@@ -14,7 +14,7 @@
 [Hide/show with clist]
 [Auto size vertically]
 [Transparency (%):]
-[Alert Window]
+[Alert window]
 [Round corners]
 [Don't steal focus unless idle]
 [Preview]

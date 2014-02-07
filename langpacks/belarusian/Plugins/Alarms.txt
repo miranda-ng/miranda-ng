@@ -40,7 +40,7 @@
 Падганяць вышыню
 [Transparency (%):]
 Празрыстасць (%):
-[Alert Window]
+[Alert window]
 Вакно напамінку
 [Round corners]
 Закругленыя куты
