@@ -376,10 +376,6 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 		return 1;
 	}
 
-	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
-	if (cc == NULL)
-		return 1;
-
 	// used for notifications
 	DBCONTACTWRITESETTING dbcwNotif = *dbcws;
 	if (dbcwNotif.value.type == DBVT_WCHAR) {
@@ -471,7 +467,7 @@ LBL_WriteString:
 	log1(" write database as %s", printVariant(&dbcwWork.value));
 
 	DWORD ofsModuleName = GetModuleNameOfs(dbcwWork.szModule);
-	DWORD ofsBlobPtr, ofsContact = (contactID == 0) ? m_dbHeader.ofsUser : cc->dwDriverData;
+	DWORD ofsBlobPtr, ofsContact = GetContactOffset(contactID);
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 1;
