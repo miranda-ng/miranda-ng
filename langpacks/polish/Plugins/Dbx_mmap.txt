@@ -134,7 +134,7 @@ Wykonywanie końcowych zadań
 [Database signature is corrupted, automatic repair is impossible]
 Profil jest uszkodzona, automatyczna naprawa jest niemożliwa
 [Database version doesn't match this driver's one. Convert a database first]
-
+Wersja bazy danych nie pokrywa się z wersją sterownika. Najpierw przekonwertuj bazę danych.
 [Database is newly created and has no data to process]
 Profil nie zawiera żadnych danych
 [Processing completed successfully]
