@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern LIST<PROTOCOLDESCRIPTOR> filters;
 
-static int GetProtocolP(HANDLE hContact, char *szBuf, int cbLen)
+static int GetProtocolP(MCONTACT hContact, char *szBuf, int cbLen)
 {
 	if (currDb == NULL)
 		return 1;
@@ -69,7 +69,7 @@ INT_PTR CallContactService(HANDLE hContact, const char *szProtoService, WPARAM w
 	}
 
 	char szProto[40];
-	if ( GetProtocolP(hContact, szProto, sizeof(szProto)))
+	if ( GetProtocolP((MCONTACT)hContact, szProto, sizeof(szProto)))
 		return 1;
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
@@ -104,7 +104,7 @@ INT_PTR Proto_CallContactService(WPARAM wParam, LPARAM lParam)
 	}
 
 	char szProto[40];
-	if ( GetProtocolP(ccs->hContact, szProto, sizeof(szProto)))
+	if (GetProtocolP((MCONTACT)ccs->hContact, szProto, sizeof(szProto)))
 		return 1;
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
@@ -144,7 +144,7 @@ static INT_PTR Proto_RecvChain(WPARAM wParam, LPARAM lParam)
 
 	//end of chain, call network protocol again
 	char szProto[40];
-	if ( GetProtocolP(ccs->hContact, szProto, sizeof(szProto)))
+	if (GetProtocolP((MCONTACT)ccs->hContact, szProto, sizeof(szProto)))
 		return 1;
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
@@ -167,7 +167,7 @@ PROTOACCOUNT* __fastcall Proto_GetAccount(HANDLE hContact)
 		return NULL;
 
 	char szProto[40];
-	if ( GetProtocolP(hContact, szProto, sizeof(szProto)))
+	if (GetProtocolP((MCONTACT)hContact, szProto, sizeof(szProto)))
 		return NULL;
 
 	return Proto_GetAccount(szProto);
@@ -192,7 +192,7 @@ static INT_PTR Proto_IsProtoOnContact(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	char szContactProto[40];
-	if (!GetProtocolP((HANDLE)wParam, szContactProto, sizeof(szContactProto)))
+	if (!GetProtocolP(wParam, szContactProto, sizeof(szContactProto)))
 		if (!_stricmp(szProto, szContactProto))
 			return -1;
 

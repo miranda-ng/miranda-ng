@@ -53,6 +53,7 @@ const
   DBVTF_VARIABLELENGTH = $80; // ?
 
 type
+  MCONTACT = DWORD;
   HDBEVENT = THANDLE;
   PDBVARIANT = ^TDBVARIANT;
   TDBVARIANT = record
@@ -73,6 +74,9 @@ type
       pbVal : PByte;
     );
   end;
+
+const
+  INVALID_CONTACT_ID = MCONTACT(-1);
 
 const
   DBEF_FIRST     =  1; // internally only, do not use

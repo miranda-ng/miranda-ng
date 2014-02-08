@@ -65,7 +65,7 @@ struct SettingUgraderParam
 {
 	CDb3Mmap *db;
 	LPCSTR    szModule;
-	HANDLE    hContact;
+	MCONTACT  contactID;
 	OBJLIST<VarDescr>* pList;
 };
 
@@ -74,7 +74,7 @@ int sttSettingUgrader(const char *szSetting, LPARAM lParam)
 	SettingUgraderParam *param = (SettingUgraderParam*)lParam;
 	if (param->db->IsSettingEncrypted(param->szModule, szSetting)) {
 		DBVARIANT dbv = { DBVT_UTF8 };
-		if (!param->db->GetContactSettingStr(param->hContact, param->szModule, szSetting, &dbv)) {
+		if (!param->db->GetContactSettingStr(param->contactID, param->szModule, szSetting, &dbv)) {
 			if (dbv.type == DBVT_UTF8) {
 				DecodeString(dbv.pszVal);
 				param->pList->insert(new VarDescr(szSetting, (LPCSTR)dbv.pszVal));
@@ -85,10 +85,10 @@ int sttSettingUgrader(const char *szSetting, LPARAM lParam)
 	return 0;
 }
 
-void sttContactEnum(HANDLE hContact, const char *szModule, CDb3Mmap *db)
+void sttContactEnum(MCONTACT contactID, const char *szModule, CDb3Mmap *db)
 {
 	OBJLIST<VarDescr> arSettings(1);
-	SettingUgraderParam param = { db, szModule, hContact, &arSettings };
+	SettingUgraderParam param = { db, szModule, contactID, &arSettings };
 
 	DBCONTACTENUMSETTINGS dbces = { 0 };
 	dbces.pfnEnumProc = sttSettingUgrader;
@@ -106,7 +106,7 @@ void sttContactEnum(HANDLE hContact, const char *szModule, CDb3Mmap *db)
 			dbcws.value.type = DBVT_ENCRYPTED;
 			dbcws.value.pbVal = pResult;
 			dbcws.value.cpbVal = (WORD)len;
-			db->WriteContactSetting(hContact, &dbcws);
+			db->WriteContactSetting(contactID, &dbcws);
 
 			mir_free(pResult);
 		}
@@ -118,8 +118,8 @@ int sttModuleEnum(const char *szModule, DWORD, LPARAM lParam)
 	CDb3Mmap *db = (CDb3Mmap*)lParam;
 	sttContactEnum(NULL, szModule, db);
 
-	for (HANDLE hContact = db->FindFirstContact(); hContact; hContact = db->FindNextContact(hContact))
-		sttContactEnum(hContact, szModule, db);
+	for (MCONTACT contactID = db->FindFirstContact(); contactID; contactID = db->FindNextContact(contactID))
+		sttContactEnum(contactID, szModule, db);
 
 	return 0;
 }
@@ -242,9 +242,9 @@ void CDb3Mmap::ToggleEncryption()
 	ToggleSettingsEncryption(NULL);
 	ToggleEventsEncryption(NULL);
 
-	for (HANDLE hContact = FindFirstContact(); hContact; hContact = FindNextContact(hContact)) {
-		ToggleSettingsEncryption(hContact);
-		ToggleEventsEncryption(hContact);
+	for (MCONTACT contactID = FindFirstContact(); contactID; contactID = FindNextContact(contactID)) {
+		ToggleSettingsEncryption(contactID);
+		ToggleEventsEncryption(contactID);
 	}
 
 	m_bEncrypted = !m_bEncrypted;
@@ -260,12 +260,13 @@ void CDb3Mmap::ToggleEncryption()
 	hEventFilterAddedEvent = hSave4;
 }
 
-void CDb3Mmap::ToggleSettingsEncryption(HANDLE hContact)
+void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 {
-	if (!hContact)
-		hContact = (HANDLE)m_dbHeader.ofsUser;
+	DWORD ofsContact = GetContactOffset(contactID);
+	if (ofsContact == 0)
+		return;
 
-	DBContact *contact = (DBContact*)DBRead((DWORD)hContact, sizeof(DBContact), NULL);
+	DBContact *contact = (DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	if (contact->ofsFirstSettings == 0)
 		return;
 
@@ -340,7 +341,7 @@ void CDb3Mmap::ToggleSettingsEncryption(HANDLE hContact)
 					dbcws.value.type = DBVT_ENCRYPTED;
 					dbcws.value.pbVal = pResult;
 					dbcws.value.cpbVal = (WORD)len;
-					WriteContactSetting(hContact, &dbcws);
+					WriteContactSetting(contactID, &dbcws);
 
 					mir_free(pResult);
 				}
@@ -353,7 +354,7 @@ void CDb3Mmap::ToggleSettingsEncryption(HANDLE hContact)
 					dbcws.value.type = DBVT_UNENCRYPTED;
 					dbcws.value.pszVal = decoded;
 					dbcws.value.cchVal = (WORD)realLen;
-					WriteContactSetting(hContact, &dbcws);
+					WriteContactSetting(contactID, &dbcws);
 				}
 			}
 		}
@@ -367,9 +368,11 @@ void CDb3Mmap::ToggleSettingsEncryption(HANDLE hContact)
 	}
 }
 
-void CDb3Mmap::ToggleEventsEncryption(HANDLE hContact)
+void CDb3Mmap::ToggleEventsEncryption(MCONTACT contactID)
 {
-	DWORD ofsContact = (hContact) ? (DWORD)hContact : m_dbHeader.ofsUser;
+	DWORD ofsContact = GetContactOffset(contactID);
+	if (ofsContact == 0)
+		return;
 
 	DBContact contact = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	if (contact.ofsFirstEvent == 0 || contact.signature != DBCONTACT_SIGNATURE)

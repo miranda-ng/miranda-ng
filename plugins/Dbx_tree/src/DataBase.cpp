@@ -243,6 +243,11 @@ int CDataBase::OpenDB()
 												 *m_Entities,
 												 *m_Settings);
 
+	for (MCONTACT id = m_Entities->compFirstContact(); id != 0; id = m_Entities->compNextContact(id)) {
+		DBCachedContact *cc = m_cache->AddContactToCache(id);
+		CheckProto(cc, "");
+	}
+
 	return 0;
 }
 

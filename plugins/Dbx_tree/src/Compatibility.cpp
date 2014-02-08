@@ -37,19 +37,15 @@ HANDLE hEventDeletedEvent,
 		 hContactDeletedEvent,
 		 hContactAddedEvent;
 
-int CDataBase::CheckProto(HANDLE hContact, const char *proto)
+int CDataBase::CheckProto(DBCachedContact *cc, const char *proto)
 {
-	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
-	if (cc == NULL)
-		cc = m_cache->AddContactToCache(hContact);
-
 	if (cc->szProto == NULL) {
 		char protobuf[MAX_PATH] = {0};
 		DBVARIANT dbv;
  		dbv.type = DBVT_ASCIIZ;
 		dbv.pszVal = protobuf;
 		dbv.cchVal = sizeof(protobuf);
-		if (GetContactSettingStatic(hContact, "Protocol", "p", &dbv) != 0 || (dbv.type != DBVT_ASCIIZ))
+		if (GetContactSettingStatic(cc->contactID, "Protocol", "p", &dbv) != 0 || (dbv.type != DBVT_ASCIIZ))
 			return 0;
 
 		cc->szProto = m_cache->GetCachedSetting(NULL, protobuf, 0, (int)strlen(protobuf));
@@ -68,27 +64,29 @@ STDMETHODIMP_(HANDLE) CDataBase::AddContact(void)
 	if (res == DBT_INVALIDPARAM)
 		return (HANDLE)1;
 
+	m_cache->AddContactToCache(res);
+
 	NotifyEventHooks(hContactAddedEvent, res, 0);
 	return (HANDLE)res;
 }
 
-STDMETHODIMP_(LONG) CDataBase::DeleteContact(HANDLE hContact)
+STDMETHODIMP_(LONG) CDataBase::DeleteContact(MCONTACT contactID)
 {
-	NotifyEventHooks(hContactDeletedEvent, (WPARAM)hContact, 0);
+	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
 
-	int res = DBEntityDelete((WPARAM)hContact, 0);
+	int res = DBEntityDelete(contactID, 0);
 	if (res == DBT_INVALIDPARAM)
 		return 1;
 
 	if (res == 0)
-		m_cache->FreeCachedContact(hContact);
+		m_cache->FreeCachedContact(contactID);
 
 	return res;
 }
 
-STDMETHODIMP_(BOOL) CDataBase::IsDbContact(HANDLE hContact)
+STDMETHODIMP_(BOOL) CDataBase::IsDbContact(MCONTACT contactID)
 {
-	int flags = DBEntityGetFlags((WPARAM)hContact, 0);
+	int flags = DBEntityGetFlags(contactID, 0);
 	return (flags != DBT_INVALIDPARAM) &&
 		     ((flags & DBT_NFM_SpecialEntity) == 0);
 }
@@ -118,36 +116,32 @@ STDMETHODIMP_(LONG) CDataBase::GetContactCount(void)
 	return c;
 }
 
-STDMETHODIMP_(HANDLE) CDataBase::FindFirstContact(const char* szProto)
+STDMETHODIMP_(MCONTACT) CDataBase::FindFirstContact(const char* szProto)
 {
-	HANDLE hContact = (HANDLE)getEntities().compFirstContact();
-	if (!szProto || CheckProto(hContact, szProto))
-		return hContact;
+	DBCachedContact *cc = m_cache->GetFirstContact();
+	if (cc == NULL)
+		return NULL;
 
-	return FindNextContact(hContact, szProto);
+	if (!szProto || CheckProto(cc, szProto))
+		return cc->contactID;
+
+	return FindNextContact(cc->contactID, szProto);
 }
 
-STDMETHODIMP_(HANDLE) CDataBase::FindNextContact(HANDLE hContact, const char* szProto)
+STDMETHODIMP_(MCONTACT) CDataBase::FindNextContact(MCONTACT contactID, const char* szProto)
 {
-	while (hContact) {
-		DBCachedContact *VL = m_cache->GetCachedContact(hContact);
-		if (VL == NULL)
-			VL = m_cache->AddContactToCache(hContact);
+	while (contactID) {
+		DBCachedContact *cc = m_cache->GetNextContact(contactID);
+		if (cc == NULL)
+			break;
 
-		if (VL->hNext != NULL) {
-			if (!szProto || CheckProto(VL->hNext, szProto))
-				return VL->hNext;
+		if (!szProto || CheckProto(cc, szProto))
+			return cc->contactID;
 
-			hContact = VL->hNext;
-			continue;
-		}
-
-		VL->hNext = (HANDLE)getEntities().compNextContact((WPARAM)hContact);
-		if (VL->hNext != NULL && (!szProto || CheckProto(VL->hNext, szProto)))
-			return VL->hNext;
-
-		hContact = VL->hNext;
+		contactID = cc->contactID;
+		continue;
 	}
+
 	return NULL;
 }
 
@@ -189,7 +183,7 @@ __forceinline void DecodeString(LPSTR buf)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
+STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
 	dbv->type = 0;
 
@@ -208,7 +202,7 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(HANDLE hContact, LPCSTR szModul
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	TDBTSetting set = {0,0,0,0};
 	desc.cbSize = sizeof(desc);
-	desc.Entity = (WPARAM)hContact;
+	desc.Entity = contactID;
 	desc.pszSettingName = namebuf;
 
 	set.cbSize = sizeof(set);
@@ -277,7 +271,7 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(HANDLE hContact, LPCSTR szModul
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStr(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
+STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
 	if ((dbv->type & DBVTF_VARIABLELENGTH) == 0)
 	{
@@ -296,7 +290,7 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStr(HANDLE hContact, LPCSTR szMo
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	TDBTSetting set = {0,0,0,0};
 	desc.cbSize = sizeof(desc);
-	desc.Entity = (WPARAM)hContact;
+	desc.Entity = contactID;
 	desc.pszSettingName = namebuf;
 
 	set.cbSize = sizeof(set);
@@ -376,7 +370,7 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStr(HANDLE hContact, LPCSTR szMo
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStatic(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
+STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
 	char namebuf[512];
 	namebuf[0] = 0;
@@ -389,7 +383,7 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStatic(HANDLE hContact, LPCSTR s
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	TDBTSetting set = {0,0,0,0};
 	desc.cbSize = sizeof(desc);
-	desc.Entity = (WPARAM)hContact;
+	desc.Entity = contactID;
 	desc.pszSettingName = namebuf;
 
 	set.cbSize = sizeof(set);
@@ -504,7 +498,7 @@ STDMETHODIMP_(BOOL) CDataBase::FreeVariant(DBVARIANT *dbv)
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDataBase::WriteContactSetting(HANDLE hContact, DBCONTACTWRITESETTING *dbcws)
+STDMETHODIMP_(BOOL) CDataBase::WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws)
 {
 	char namebuf[512];
 	namebuf[0] = 0;
@@ -517,7 +511,7 @@ STDMETHODIMP_(BOOL) CDataBase::WriteContactSetting(HANDLE hContact, DBCONTACTWRI
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	TDBTSetting set = {0,0,0,0};
 	desc.cbSize = sizeof(desc);
-	desc.Entity = (WPARAM)hContact;
+	desc.Entity = contactID;
 	desc.pszSettingName = namebuf;
 
 	set.cbSize = sizeof(set);
@@ -586,17 +580,17 @@ STDMETHODIMP_(BOOL) CDataBase::WriteContactSetting(HANDLE hContact, DBCONTACTWRI
 		dbcws->value.type = DBVT_UTF8;
 		wchar_t * tmp = dbcws->value.pwszVal;
 		dbcws->value.pszVal = mir_utf8encodeW(dbcws->value.pwszVal);
-		NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)dbcws);
+		NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)dbcws);
 		mir_free(dbcws->value.pszVal);
 		dbcws->value.type = DBVT_WCHAR;
 		dbcws->value.pwszVal = tmp;		
 	}
-	else NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)dbcws);
+	else NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)dbcws);
 
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDataBase::DeleteContactSetting(HANDLE hContact, LPCSTR szModule, LPCSTR szSetting)
+STDMETHODIMP_(BOOL) CDataBase::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting)
 {
 	char namebuf[512];
 	namebuf[0] = 0;
@@ -608,7 +602,7 @@ STDMETHODIMP_(BOOL) CDataBase::DeleteContactSetting(HANDLE hContact, LPCSTR szMo
 
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	desc.cbSize = sizeof(desc);
-	desc.Entity = (WPARAM)hContact;
+	desc.Entity = contactID;
 	desc.pszSettingName = namebuf;
 
 	if (DBSettingDelete(reinterpret_cast<WPARAM>(&desc), 0) == DBT_INVALIDPARAM)
@@ -619,17 +613,17 @@ STDMETHODIMP_(BOOL) CDataBase::DeleteContactSetting(HANDLE hContact, LPCSTR szMo
 		tmp.szModule = szModule;
 		tmp.szSetting = szSetting;
 		tmp.value.type = 0;
-		NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp);
+		NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&tmp);
 	}
 
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDataBase::EnumContactSettings(HANDLE hContact, DBCONTACTENUMSETTINGS* pces)
+STDMETHODIMP_(BOOL) CDataBase::EnumContactSettings(MCONTACT contactID, DBCONTACTENUMSETTINGS* pces)
 {
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	desc.cbSize = sizeof(desc);
-	desc.Entity = (WPARAM)hContact;
+	desc.Entity = contactID;
 
 	char namebuf[512];
 	namebuf[0] = 0;
@@ -640,7 +634,7 @@ STDMETHODIMP_(BOOL) CDataBase::EnumContactSettings(HANDLE hContact, DBCONTACTENU
 	TDBTSettingIterFilter filter = {0,0,0,0,0,0,0,0};
 	filter.cbSize = sizeof(filter);
 	filter.Descriptor = &desc;
-	filter.hEntity = (WPARAM)(WPARAM)hContact;
+	filter.hEntity = (WPARAM)contactID;
 	filter.NameStart = namebuf;
 
 	TDBTSettingIterationHandle hiter = DBSettingIterInit(reinterpret_cast<WPARAM>(&filter), 0);
@@ -675,26 +669,25 @@ STDMETHODIMP_(BOOL) CDataBase::EnumContactSettings(HANDLE hContact, DBCONTACTENU
 	return res;
 }
 
-STDMETHODIMP_(LONG) CDataBase::GetEventCount(HANDLE hContact)
+STDMETHODIMP_(LONG) CDataBase::GetEventCount(MCONTACT contactID)
 {
-	if (hContact == 0)
-		hContact = (HANDLE)getEntities().getRootEntity();
+	if (contactID == 0)
+		contactID = getEntities().getRootEntity();
 
-	return DBEventGetCount((WPARAM)hContact, 0);
+	return DBEventGetCount(contactID, 0);
 }
 
-STDMETHODIMP_(HANDLE) CDataBase::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
+STDMETHODIMP_(HANDLE) CDataBase::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 {
 	if (dbei->cbSize < sizeof(DBEVENTINFO))
 		return (HANDLE)-1;
 
-	int tmp = NotifyEventHooks(hEventFilterAddedEvent, (WPARAM)hContact, (LPARAM)dbei);
+	int tmp = NotifyEventHooks(hEventFilterAddedEvent, contactID, (LPARAM)dbei);
 	if (tmp != 0)
 		return (HANDLE)tmp;
 
-	if (hContact == 0)
-		hContact = (HANDLE)getEntities().getRootEntity();
-
+	if (contactID == 0)
+		contactID = getEntities().getRootEntity();
 
 	TDBTEvent ev = {0,0,0,0,0,0,0};
 	ev.cbSize = sizeof(ev);
@@ -707,21 +700,21 @@ STDMETHODIMP_(HANDLE) CDataBase::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 	ev.cbBlob = dbei->cbBlob;
 	ev.pBlob = dbei->pBlob;
 
-	int res = DBEventAdd((WPARAM)hContact, reinterpret_cast<LPARAM>(&ev));
+	int res = DBEventAdd(contactID, reinterpret_cast<LPARAM>(&ev));
 	if (res != DBT_INVALIDPARAM)
 	{
-		NotifyEventHooks(hEventAddedEvent, (WPARAM)hContact, res);
+		NotifyEventHooks(hEventAddedEvent, contactID, res);
 		return (HANDLE)res;
 	}
 	return NULL;
 }
 
-STDMETHODIMP_(BOOL) CDataBase::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
+STDMETHODIMP_(BOOL) CDataBase::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
 {
-	int res = NotifyEventHooks(hEventDeletedEvent, (WPARAM)hContact, (WPARAM)hDbEvent);
+	int res = NotifyEventHooks(hEventDeletedEvent, contactID, (WPARAM)hDbEvent);
 
-	if (hContact == 0)
-		hContact = (HANDLE)getEntities().getRootEntity();
+	if (contactID == 0)
+		contactID = getEntities().getRootEntity();
 
 	if (res == 0)
 		return DBEventDelete((WPARAM)hDbEvent, 0);
@@ -773,7 +766,7 @@ STDMETHODIMP_(BOOL) CDataBase::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 	return res;
 }
 
-STDMETHODIMP_(BOOL) CDataBase::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
+STDMETHODIMP_(BOOL) CDataBase::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent)
 {
 	int res = DBEventMarkRead((WPARAM)hDbEvent, 0);
 	if ((res != DBT_INVALIDPARAM) && (res & DBEF_SENT))
@@ -790,26 +783,26 @@ STDMETHODIMP_(HANDLE) CDataBase::GetEventContact(HANDLE hDbEvent)
 	return (HANDLE)res;
 }
 
-STDMETHODIMP_(HANDLE) CDataBase::FindFirstEvent(HANDLE hContact)
+STDMETHODIMP_(HANDLE) CDataBase::FindFirstEvent(MCONTACT contactID)
 {
-	if (hContact == 0)
-		hContact = (HANDLE)getEntities().getRootEntity();
+	if (contactID == 0)
+		contactID = getEntities().getRootEntity();
 
-	return (HANDLE)getEvents().compFirstEvent((WPARAM)hContact);
+	return (HANDLE)getEvents().compFirstEvent(contactID);
 }
 
-STDMETHODIMP_(HANDLE) CDataBase::FindFirstUnreadEvent(HANDLE hContact)
+STDMETHODIMP_(HANDLE) CDataBase::FindFirstUnreadEvent(MCONTACT contactID)
 {
-	if (hContact == 0)
-		hContact = (HANDLE)getEntities().getRootEntity();
-	return (HANDLE)getEvents().compFirstUnreadEvent((WPARAM)hContact);
+	if (contactID == 0)
+		contactID = getEntities().getRootEntity();
+	return (HANDLE)getEvents().compFirstUnreadEvent(contactID);
 }
 
-STDMETHODIMP_(HANDLE) CDataBase::FindLastEvent(HANDLE hContact)
+STDMETHODIMP_(HANDLE) CDataBase::FindLastEvent(MCONTACT contactID)
 {
-	if (hContact == 0)
-		hContact = (HANDLE)getEntities().getRootEntity();
-	return (HANDLE)getEvents().compLastEvent((WPARAM)hContact);
+	if (contactID == 0)
+		contactID = getEntities().getRootEntity();
+	return (HANDLE)getEvents().compLastEvent(contactID);
 }
 
 STDMETHODIMP_(HANDLE) CDataBase::FindNextEvent(HANDLE hDbEvent)

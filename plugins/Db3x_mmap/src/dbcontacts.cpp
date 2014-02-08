@@ -23,19 +23,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-int CDb3Mmap::CheckProto(HANDLE hContact, const char *proto)
+int CDb3Mmap::CheckProto(DBCachedContact *cc, const char *proto)
 {
-	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
-	if (cc == NULL)
-		cc = m_cache->AddContactToCache(hContact);
-
 	if (cc->szProto == NULL) {
 		char protobuf[MAX_PATH] = { 0 };
 		DBVARIANT dbv;
 		dbv.type = DBVT_ASCIIZ;
 		dbv.pszVal = protobuf;
 		dbv.cchVal = sizeof(protobuf);
-		if (GetContactSettingStatic(hContact, "Protocol", "p", &dbv) != 0 || (dbv.type != DBVT_ASCIIZ))
+		if (GetContactSettingStatic(cc->contactID, "Protocol", "p", &dbv) != 0 || (dbv.type != DBVT_ASCIIZ))
 			return 0;
 
 		cc->szProto = m_cache->GetCachedSetting(NULL, protobuf, 0, (int)strlen(protobuf));
@@ -50,57 +46,51 @@ STDMETHODIMP_(LONG) CDb3Mmap::GetContactCount(void)
 	return m_dbHeader.contactCount;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstContact(const char *szProto)
+STDMETHODIMP_(MCONTACT) CDb3Mmap::FindFirstContact(const char *szProto)
 {
 	mir_cslock lck(m_csDbAccess);
-	HANDLE ret = (HANDLE)m_dbHeader.ofsFirstContact;
-	if (szProto && !CheckProto(ret, szProto))
-		ret = FindNextContact(ret, szProto);
-	return ret;
+	DBCachedContact *cc = m_cache->GetFirstContact();
+	if (cc == NULL)
+		return NULL;
+
+	if (!szProto || CheckProto(cc, szProto))
+		return cc->contactID;
+		
+	return FindNextContact(cc->contactID, szProto);
 }
 
-STDMETHODIMP_(HANDLE) CDb3Mmap::FindNextContact(HANDLE hContact, const char *szProto)
+STDMETHODIMP_(MCONTACT) CDb3Mmap::FindNextContact(MCONTACT contactID, const char *szProto)
 {
 	mir_cslock lck(m_csDbAccess);
-	while (hContact) {
-		DBCachedContact *VL = m_cache->GetCachedContact(hContact);
-		if (VL != NULL) {
-			if (VL->hNext != NULL) {
-				if (!szProto || CheckProto(VL->hNext, szProto))
-					return VL->hNext;
-
-				hContact = VL->hNext;
-				continue;
-		}	}
-
-		DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
-		if (dbc->signature != DBCONTACT_SIGNATURE)
+	while (contactID) {
+		DBCachedContact *cc = m_cache->GetNextContact(contactID);
+		if (cc == NULL)
 			break;
 
-		if (VL == NULL)
-			VL = m_cache->AddContactToCache(hContact);
+		if (!szProto || CheckProto(cc, szProto))
+			return cc->contactID;
 
-		VL->hNext = (HANDLE)dbc->ofsNext;
-		if (VL->hNext != NULL && (!szProto || CheckProto(VL->hNext, szProto)))
-			return VL->hNext;
-
-		hContact = VL->hNext;
+		contactID = cc->contactID;
 	}
 
 	return NULL;
 }
 
-STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(HANDLE hContact)
+STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 {
-	if (hContact == NULL)
+	if (contactID == NULL)
 		return 1;
 
 	mir_cslockfull lck(m_csDbAccess);
-	DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
+	DBCachedContact *cc = m_cache->GetNextContact(contactID);
+	if (cc == NULL)
+		return 1;
+
+	DBContact *dbc = (DBContact*)DBRead(cc->dwDriverData, sizeof(DBContact), NULL);
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return 1;
 
-	if (hContact == (HANDLE)m_dbHeader.ofsUser) {
+	if (cc->dwDriverData == m_dbHeader.ofsUser) {
 		log0("FATAL: del of user chain attempted.");
 		return 1;
 	}
@@ -109,16 +99,15 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(HANDLE hContact)
 	log0("del contact");
 
 	// call notifier while outside mutex
-	NotifyEventHooks(hContactDeletedEvent, (WPARAM)hContact, 0);
+	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
 
 	// get back in
 	lck.lock();
 
-	m_cache->FreeCachedContact(hContact);
-	if (hContact == m_hLastCachedContact)
+	m_cache->FreeCachedContact(contactID);
+	if (contactID == m_hLastCachedContact)
 		m_hLastCachedContact = NULL;
 
-	dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
 	// delete settings chain
 	DWORD ofsThis = dbc->ofsFirstSettings;
 	DWORD ofsFirstEvent = dbc->ofsFirstEvent;
@@ -137,8 +126,8 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(HANDLE hContact)
 		ofsThis = ofsNext;
 	}
 	//find previous contact in chain and change ofsNext
-	dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
-	if (m_dbHeader.ofsFirstContact == (DWORD)hContact) {
+	dbc = (DBContact*)DBRead(cc->dwDriverData, sizeof(DBContact), NULL);
+	if (m_dbHeader.ofsFirstContact == cc->dwDriverData) {
 		m_dbHeader.ofsFirstContact = dbc->ofsNext;
 		DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 	}
@@ -146,7 +135,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(HANDLE hContact)
 		DWORD ofsNext = dbc->ofsNext;
 		ofsThis = m_dbHeader.ofsFirstContact;
 		DBContact *dbcPrev = (DBContact*)DBRead(ofsThis,sizeof(DBContact),NULL);
-		while (dbcPrev->ofsNext != (DWORD)hContact) {
+		while (dbcPrev->ofsNext != cc->dwDriverData) {
 			if (dbcPrev->ofsNext == 0) DatabaseCorruption(NULL);
 			ofsThis = dbcPrev->ofsNext;
 			dbcPrev = (DBContact*)DBRead(ofsThis,sizeof(DBContact),NULL);
@@ -156,7 +145,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(HANDLE hContact)
 	}
 
 	//delete contact
-	DeleteSpace((DWORD)hContact, sizeof(DBContact));
+	DeleteSpace(cc->dwDriverData, sizeof(DBContact));
 	//decrement contact count
 	m_dbHeader.contactCount--;
 	DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
@@ -168,12 +157,13 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddContact()
 {
 	DWORD ofsNew;
 	log0("add contact");
+
+	DBContact dbc = { 0 };
+	dbc.signature = DBCONTACT_SIGNATURE;
 	{
 		mir_cslock lck(m_csDbAccess);
 		ofsNew = CreateNewSpace(sizeof(DBContact));
 
-		DBContact dbc = { 0 };
-		dbc.signature = DBCONTACT_SIGNATURE;
 		dbc.ofsNext = m_dbHeader.ofsFirstContact;
 		dbc.dwContactID = m_dwMaxContactId++;
 		m_dbHeader.ofsFirstContact = ofsNew;
@@ -182,21 +172,24 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddContact()
 		DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 		DBFlush(0);
 	}
-	m_cache->AddContactToCache((HANDLE)ofsNew);
+	
+	DBCachedContact *cc = m_cache->AddContactToCache(dbc.dwContactID);
+	cc->dwDriverData = ofsNew;
 
-	NotifyEventHooks(hContactAddedEvent, (WPARAM)ofsNew, 0);
+	NotifyEventHooks(hContactAddedEvent, dbc.dwContactID, 0);
 	return (HANDLE)ofsNew;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::IsDbContact(HANDLE hContact)
+STDMETHODIMP_(BOOL) CDb3Mmap::IsDbContact(MCONTACT contactID)
 {
-	if (m_cache->GetCachedContact(hContact))
-		return TRUE;
+	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
+	if (cc == NULL)
+		return FALSE;
 
 	mir_cslock lck(m_csDbAccess);
-	DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
+	DBContact *dbc = (DBContact*)DBRead(cc->dwDriverData, sizeof(DBContact), NULL);
 	if (dbc->signature == DBCONTACT_SIGNATURE) {
-		m_cache->AddContactToCache(hContact);
+		m_cache->AddContactToCache(contactID);
 		return TRUE;
 	}
 
@@ -241,7 +234,19 @@ void CDb3Mmap::FillContacts()
 		if (p->dwContactID > m_dwMaxContactId)
 			m_dwMaxContactId = p->dwContactID + 1;
 
-		CheckProto((HANDLE)dwOffset, "");
+		DBCachedContact *cc = m_cache->AddContactToCache(p->dwContactID);
+		cc->dwDriverData = dwOffset;
+		CheckProto(cc, "");
+
 		dwOffset = p->ofsNext;
 	}
+}
+
+DWORD CDb3Mmap::GetContactOffset(MCONTACT contactID)
+{
+	if (contactID == 0)
+		return m_dbHeader.ofsUser;
+
+	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
+	return (cc == NULL) ? 0 : cc->dwDriverData;
 }

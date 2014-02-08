@@ -369,7 +369,7 @@ void CDataBase::CreateDbService(const char* szService, DbServiceFunc serviceProc
 
 bool CDataBase::RegisterServices()
 {
-	CreateDbService(MS_DBT_ENTITY_GETROOT,          &CDataBase::DBEntityGetRoot);
+	CreateDbService(MS_DBT_ENTITY_GETROOT, &CDataBase::DBEntityGetRoot);
 	CreateDbService(MS_DBT_ENTITY_CHILDCOUNT,       &CDataBase::DBEntityChildCount);
 	CreateDbService(MS_DBT_ENTITY_GETPARENT,        &CDataBase::DBEntityGetParent);
 	CreateDbService(MS_DBT_ENTITY_MOVE,             &CDataBase::DBEntityMove);

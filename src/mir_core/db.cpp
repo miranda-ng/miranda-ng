@@ -33,7 +33,8 @@ MIR_CORE_DLL(int) db_get_b(HANDLE hContact, const char *szModule, const char *sz
 {
 	if (currDb != NULL) {
 		DBVARIANT dbv;
-		if (!currDb->GetContactSetting(hContact, szModule, szSetting, &dbv)) {
+		if (!currDb->GetContactSetting((MCONTACT)hContact, szModule, szSetting, &dbv))
+		{
 			switch(dbv.type) {
 				case DBVT_BYTE:	return dbv.bVal;
 				case DBVT_WORD:   return BYTE(dbv.wVal);
@@ -49,7 +50,7 @@ MIR_CORE_DLL(int) db_get_w(HANDLE hContact, const char *szModule, const char *sz
 {
 	if (currDb != NULL) {
 		DBVARIANT dbv;
-		if (!currDb->GetContactSetting(hContact, szModule, szSetting, &dbv)) {
+		if (!currDb->GetContactSetting((MCONTACT)hContact, szModule, szSetting, &dbv)) {
 			switch(dbv.type) {
 				case DBVT_BYTE:	return dbv.bVal;
 				case DBVT_WORD:   return dbv.wVal;
@@ -65,7 +66,7 @@ MIR_CORE_DLL(DWORD) db_get_dw(HANDLE hContact, const char *szModule, const char 
 {
 	if (currDb != NULL) {
 		DBVARIANT dbv;
-		if (!currDb->GetContactSetting(hContact, szModule, szSetting, &dbv)) {
+		if (!currDb->GetContactSetting((MCONTACT)hContact, szModule, szSetting, &dbv)) {
 			switch(dbv.type) {
 				case DBVT_BYTE:	return dbv.bVal;
 				case DBVT_WORD:   return dbv.wVal;
@@ -84,7 +85,7 @@ MIR_CORE_DLL(INT_PTR) db_get(HANDLE hContact, const char *szModule, const char *
 	if (currDb == NULL)
 		return 1;
 
-	return currDb->GetContactSetting(hContact, szModule, szSetting, dbv);
+	return currDb->GetContactSetting((MCONTACT)hContact, szModule, szSetting, dbv);
 }
 
 MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType)
@@ -93,7 +94,7 @@ MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char
 		return 1;
 
 	dbv->type = (BYTE)nType;
-	return currDb->GetContactSettingStr(hContact, szModule, szSetting, dbv);
+	return currDb->GetContactSettingStr((MCONTACT)hContact, szModule, szSetting, dbv);
 }
 
 MIR_CORE_DLL(char*) db_get_sa(HANDLE hContact, const char *szModule, const char *szSetting)
@@ -130,7 +131,7 @@ MIR_CORE_DLL(int) db_get_static(HANDLE hContact, const char *szModule, const cha
 	dbv.type = DBVT_ASCIIZ;
 	dbv.pszVal = pDest;
 	dbv.cchVal = cbDest;
-	return currDb->GetContactSettingStatic(hContact, szModule, szSetting, &dbv);
+	return currDb->GetContactSettingStatic((MCONTACT)hContact, szModule, szSetting, &dbv);
 }
 
 MIR_CORE_DLL(int) db_get_static_utf(HANDLE hContact, const char *szModule, const char *szSetting, char *pDest, int cbDest)
@@ -142,7 +143,7 @@ MIR_CORE_DLL(int) db_get_static_utf(HANDLE hContact, const char *szModule, const
 	dbv.type = DBVT_UTF8;
 	dbv.pszVal = pDest;
 	dbv.cchVal = cbDest;
-	return currDb->GetContactSettingStatic(hContact, szModule, szSetting, &dbv);
+	return currDb->GetContactSettingStatic((MCONTACT)hContact, szModule, szSetting, &dbv);
 }
 
 MIR_CORE_DLL(int) db_get_wstatic(HANDLE hContact, const char *szModule, const char *szSetting, WCHAR *pDest, int cbDest)
@@ -154,7 +155,7 @@ MIR_CORE_DLL(int) db_get_wstatic(HANDLE hContact, const char *szModule, const ch
 	dbv.type = DBVT_WCHAR;
 	dbv.pwszVal = pDest;
 	dbv.cchVal = cbDest;
-	return currDb->GetContactSettingStatic(hContact, szModule, szSetting, &dbv);
+	return currDb->GetContactSettingStatic((MCONTACT)hContact, szModule, szSetting, &dbv);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -168,7 +169,7 @@ MIR_CORE_DLL(INT_PTR) db_set(HANDLE hContact, const char *szModule, const char *
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value = *dbv;
-	return currDb->WriteContactSetting(hContact, &cws);
+	return currDb->WriteContactSetting((MCONTACT)hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_b(HANDLE hContact, const char *szModule, const char *szSetting, BYTE val)
@@ -180,7 +181,7 @@ MIR_CORE_DLL(INT_PTR) db_set_b(HANDLE hContact, const char *szModule, const char
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_BYTE;
 	cws.value.bVal = val;
-	return currDb->WriteContactSetting(hContact, &cws);
+	return currDb->WriteContactSetting((MCONTACT)hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_w(HANDLE hContact, const char *szModule, const char *szSetting, WORD val)
@@ -192,7 +193,7 @@ MIR_CORE_DLL(INT_PTR) db_set_w(HANDLE hContact, const char *szModule, const char
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_WORD;
 	cws.value.wVal = val;
-	return currDb->WriteContactSetting(hContact, &cws);
+	return currDb->WriteContactSetting((MCONTACT)hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_dw(HANDLE hContact, const char *szModule, const char *szSetting, DWORD val)
@@ -204,7 +205,7 @@ MIR_CORE_DLL(INT_PTR) db_set_dw(HANDLE hContact, const char *szModule, const cha
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_DWORD;
 	cws.value.dVal = val;
-	return currDb->WriteContactSetting(hContact, &cws);
+	return currDb->WriteContactSetting((MCONTACT)hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_s(HANDLE hContact, const char *szModule, const char *szSetting, const char *val)
@@ -216,7 +217,7 @@ MIR_CORE_DLL(INT_PTR) db_set_s(HANDLE hContact, const char *szModule, const char
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_ASCIIZ;
 	cws.value.pszVal = (char*)(val == NULL ? "" : val);
-	return currDb->WriteContactSetting(hContact, &cws);
+	return currDb->WriteContactSetting((MCONTACT)hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_ws(HANDLE hContact, const char *szModule, const char *szSetting, const WCHAR *val)
@@ -228,7 +229,7 @@ MIR_CORE_DLL(INT_PTR) db_set_ws(HANDLE hContact, const char *szModule, const cha
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_WCHAR;
 	cws.value.pwszVal = (WCHAR*)(val == NULL ? L"" : val);
-	return currDb->WriteContactSetting(hContact, &cws);
+	return currDb->WriteContactSetting((MCONTACT)hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_utf(HANDLE hContact, const char *szModule, const char *szSetting, const char *val)
@@ -240,7 +241,7 @@ MIR_CORE_DLL(INT_PTR) db_set_utf(HANDLE hContact, const char *szModule, const ch
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_UTF8;
 	cws.value.pszVal = (char*)(val == NULL ? "" : val);
-	return currDb->WriteContactSetting(hContact, &cws);
+	return currDb->WriteContactSetting((MCONTACT)hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const char *szSetting, void *val, unsigned len)
@@ -253,7 +254,7 @@ MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const c
 	cws.value.type = DBVT_BLOB;
 	cws.value.cpbVal = (WORD)len;
 	cws.value.pbVal = (unsigned char*)val;
-	return currDb->WriteContactSetting(hContact, &cws);
+	return currDb->WriteContactSetting((MCONTACT)hContact, &cws);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -261,27 +262,27 @@ MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const c
 
 MIR_CORE_DLL(HANDLE) db_event_add(HANDLE hContact, DBEVENTINFO *dbei)
 {
-	return (currDb == NULL) ? 0 : currDb->AddEvent(hContact, dbei);
+	return (currDb == NULL) ? 0 : currDb->AddEvent((MCONTACT)hContact, dbei);
 }
 
 MIR_CORE_DLL(int) db_event_count(HANDLE hContact)
 {
-	return (currDb == NULL) ? 0 : currDb->GetEventCount(hContact);
+	return (currDb == NULL) ? 0 : currDb->GetEventCount((MCONTACT)hContact);
 }
 
 MIR_CORE_DLL(int) db_event_delete(HANDLE hContact, HANDLE hDbEvent)
 {
-	return (currDb == NULL) ? 0 : currDb->DeleteEvent(hContact, hDbEvent);
+	return (currDb == NULL) ? 0 : currDb->DeleteEvent((MCONTACT)hContact, hDbEvent);
 }
 
 MIR_CORE_DLL(HANDLE) db_event_first(HANDLE hContact)
 {
-	return (currDb == NULL) ? 0 : currDb->FindFirstEvent(hContact);
+	return (currDb == NULL) ? 0 : currDb->FindFirstEvent((MCONTACT)hContact);
 }
 
 MIR_CORE_DLL(HANDLE) db_event_firstUnread(HANDLE hContact)
 {
-	return (currDb == NULL) ? 0 : currDb->FindFirstUnreadEvent(hContact);
+	return (currDb == NULL) ? 0 : currDb->FindFirstUnreadEvent((MCONTACT)hContact);
 }
 
 MIR_CORE_DLL(int) db_event_get(HANDLE hDbEvent, DBEVENTINFO *dbei)
@@ -299,14 +300,14 @@ MIR_CORE_DLL(HANDLE) db_event_getContact(HANDLE hDbEvent)
 	return (currDb == NULL) ? 0 : currDb->GetEventContact(hDbEvent);
 }
 
-MIR_CORE_DLL(HANDLE) db_event_last(HANDLE hDbEvent)
+MIR_CORE_DLL(HANDLE) db_event_last(HANDLE hContact)
 {
-	return (currDb == NULL) ? 0 : currDb->FindLastEvent(hDbEvent);
+	return (currDb == NULL) ? 0 : currDb->FindLastEvent((MCONTACT)hContact);
 }
 
 MIR_CORE_DLL(int) db_event_markRead(HANDLE hContact, HANDLE hDbEvent)
 {
-	return (currDb == NULL) ? 0 : currDb->MarkEventRead(hContact, hDbEvent);
+	return (currDb == NULL) ? 0 : currDb->MarkEventRead((MCONTACT)hContact, hDbEvent);
 }
 
 MIR_CORE_DLL(HANDLE) db_event_next(HANDLE hDbEvent)
@@ -332,17 +333,17 @@ MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, const char *szModule, const char
 	if (currDb == NULL)
 		return 1;
 
-	return currDb->DeleteContactSetting(hContact, szModule, szSetting);
+	return currDb->DeleteContactSetting((MCONTACT)hContact, szModule, szSetting);
 }
 
 MIR_CORE_DLL(HANDLE) db_find_first(const char *szProto)
 {
-	return (currDb == NULL) ? NULL : currDb->FindFirstContact(szProto);
+	return (currDb == NULL) ? NULL : (HANDLE)currDb->FindFirstContact(szProto);
 }
 
 MIR_CORE_DLL(HANDLE) db_find_next(HANDLE hContact, const char *szProto)
 {
-	return (currDb == NULL) ? NULL : currDb->FindNextContact(hContact, szProto);
+	return (currDb == NULL) ? NULL : (HANDLE)currDb->FindNextContact((MCONTACT)hContact, szProto);
 }
 
 extern "C" MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db)

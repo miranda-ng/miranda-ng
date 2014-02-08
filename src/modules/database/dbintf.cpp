@@ -52,7 +52,7 @@ static INT_PTR srvDeleteContact(WPARAM wParam, LPARAM)
 		DeleteFile(dbv.ptszVal);
 		db_free(&dbv);
 	}
-	return (currDb) ? currDb->DeleteContact((HANDLE)wParam) : 0;
+	return (currDb) ? currDb->DeleteContact(wParam) : 0;
 }
 
 static INT_PTR srvAddContact(WPARAM wParam, LPARAM)
@@ -62,7 +62,7 @@ static INT_PTR srvAddContact(WPARAM wParam, LPARAM)
 
 static INT_PTR srvIsDbContact(WPARAM wParam, LPARAM)
 {
-	return (currDb) ? currDb->IsDbContact((HANDLE)wParam) : 0;
+	return (currDb) ? currDb->IsDbContact(wParam) : 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -78,7 +78,7 @@ static INT_PTR srvEnumModuleNames(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR srvEnumContactSettings(WPARAM wParam,LPARAM lParam)
 {
-	return (currDb) ? (INT_PTR)currDb->EnumContactSettings((HANDLE)wParam, (DBCONTACTENUMSETTINGS*)lParam) : 0;
+	return (currDb) ? (INT_PTR)currDb->EnumContactSettings(wParam, (DBCONTACTENUMSETTINGS*)lParam) : 0;
 }
 
 static INT_PTR srvEnumResidentSettings(WPARAM wParam,LPARAM lParam)

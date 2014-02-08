@@ -48,6 +48,9 @@ MIR_CORE_DLL(LPCTSTR) CmdLine_GetOption(LPCTSTR ptszParameter);
 ///////////////////////////////////////////////////////////////////////////////
 // database functions
 
+typedef UINT32 MCONTACT;
+#define INVALID_CONTACT_ID (MCONTACT(-1))
+
 // DBVARIANT: used by db/contact/getsetting and db/contact/writesetting
 #define DBVT_DELETED 0    //this setting just got deleted, no other values are valid
 #define DBVT_BYTE   1	  //bVal and cVal are valid

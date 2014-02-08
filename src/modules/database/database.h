@@ -39,12 +39,14 @@ public:
 	~MDatabaseCache();
 
 protected:
-	STDMETHODIMP_(DBCachedContact*) AddContactToCache(HANDLE hContact);
-	STDMETHODIMP_(DBCachedContact*) GetCachedContact(HANDLE hContact);
-	STDMETHODIMP_(void) FreeCachedContact(HANDLE hContact);
+	STDMETHODIMP_(DBCachedContact*) AddContactToCache(MCONTACT contactID);
+	STDMETHODIMP_(DBCachedContact*) GetCachedContact(MCONTACT contactID);
+	STDMETHODIMP_(DBCachedContact*) GetFirstContact(void);
+	STDMETHODIMP_(DBCachedContact*) GetNextContact(MCONTACT contactID);
+	STDMETHODIMP_(void) FreeCachedContact(MCONTACT contactID);
 
 	STDMETHODIMP_(char*) InsertCachedSetting(const char *szName, int);
 	STDMETHODIMP_(char*) GetCachedSetting(const char *szModuleName, const char *szSettingName, int, int);
 	STDMETHODIMP_(void)  SetCachedVariant(DBVARIANT *s, DBVARIANT *d);
-	STDMETHODIMP_(DBVARIANT*) GetCachedValuePtr(HANDLE hContact, char *szSetting, int bAllocate);
+	STDMETHODIMP_(DBVARIANT*) GetCachedValuePtr(MCONTACT contactID, char *szSetting, int bAllocate);
 };
