@@ -92,7 +92,7 @@
 [Date and time]
 Дата и время
 [Disable next occurrence]
-Отключить следующее напоминание
+Откл. следующее напоминание
 [Don't trigger on startup]
 Не срабатывать при загрузке
 [No reminder]
