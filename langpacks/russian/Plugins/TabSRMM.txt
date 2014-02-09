@@ -1854,11 +1854,11 @@ tabSRMM: %s
 [>> Outgoing messages]
 Исходящее сообщение
 [>> Outgoing misc events]
->> Исходящие события
+>> Прочие исходящие события
 [<< Incoming messages]
 Входящее сообщение
 [<< Incoming misc events]
-<< Входящие сообщения
+<< Прочие входящие события
 [>> Outgoing name]
 Исходящее имя
 [>> Outgoing timestamp]
