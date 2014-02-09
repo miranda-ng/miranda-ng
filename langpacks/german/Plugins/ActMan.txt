@@ -730,6 +730,16 @@ Eingetragene Aktionen
 ; Actman30
 [No Description]
 Keine Beschreibung
+[INI]
+
+[INI file name]
+
+[Section]
+
+[Use LastResult]
+
+[UTF8 encoding]
+
 [Function call]
 Funktion aufrufen
 [Function name]
@@ -800,6 +810,8 @@ endet mit
 Skript ausführen nach
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - ausgewählter (und ersetzter) teil\r\n^e - durch leeren String ersetzt\r\n^v - Text aus zwischenablage einfügen\r\n^t - durch Tabulatoren ersetzt\r\n^l - durch letztes Ergebnis als Unicode ersetzt\r\n^h - durch letztes Ergebnis als Hex ersetzt\r\n^f(name[,str])\r\n     Zeile aus Textdatei einfügen.\r\n   Inhalt in Klammern ohne Leerzeichen.
+[RTL]
+
 [Right justified text]
 Rechts ausgerichteter Text
 [Database]
@@ -854,8 +866,14 @@ Name 'Wert'
 Ausgewähltes Makro
 [Select for FirstRun]
 Für FirstRun auswählen
+[Miranda event help]
+
 [Double click on the CList]
 Doppelklick auf Kontaktliste
+[contact list]
+
+[database driver]
+
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Texteditor

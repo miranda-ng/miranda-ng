@@ -730,6 +730,16 @@ Acciones registradas
 ; Actman30
 [No Description]
 Sin descripción
+[INI]
+
+[INI file name]
+
+[Section]
+
+[Use LastResult]
+
+[UTF8 encoding]
+
 [Function call]
 
 [Function name]
@@ -800,6 +810,8 @@ Sin descripción
 
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 
+[RTL]
+
 [Right justified text]
 
 [Database]
@@ -854,7 +866,13 @@ Puede usar macros %name%, %uid%, %account% y %group%
 
 [Select for FirstRun]
 
+[Miranda event help]
+
 [Double click on the CList]
+
+[contact list]
+
+[database driver]
 
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
