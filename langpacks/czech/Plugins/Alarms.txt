@@ -22,11 +22,11 @@ Použít oznámení Mirandy
 Standardně odložit o:
 [minutes]
 min.
-[Row Height:]
+[Row height:]
 Výška řádku:
 [Indent:]
 Odstup:
-[Reminder Frame]
+[Reminder frame]
 Okno upomínky
 [Auto hide/show]
 Autom. zobrazit/skrýt
@@ -40,7 +40,7 @@ Dle okna s kontakty
 Autom. výška okna
 [Transparency (%):]
 Průhlednost (v %):
-[Alert Window]
+[Alert window]
 Další možnosti
 [Round corners]
 Zaoblit rohy
@@ -92,7 +92,7 @@ Co měsíc
 Co rok
 [i'm hiding]
 Nikdo mě nedostane
-[Date and Time]
+[Date and time]
 Datum a čas
 [Disable next occurrence]
 Vypnout příští oznámení
@@ -106,8 +106,6 @@ Vyřízeno
 Odložit
 [Static]
 Statický
-[Reminder Frame Context]
-Rámeček s uporozněním
 [&Suspend]
 &Odložit
 [&Edit...]
@@ -116,16 +114,16 @@ Up&ravit...
 &Smazat
 [&Options...]
 M&ožnosti...
-[&New Alarm...]
+[&New alarm...]
 &Nová připomínka...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [Unknown command issued: "%s"]
 Neznámý příkaz: "%s"
-[Set Alarm]
+[Set alarm]
 Nová připomínka
 ;file \plugins\Alarms\src\alarm_win.cpp
-[Example Alarm]
+[Example alarm]
 Ukázka připomínky
 [Some example text. Example, example, example.]
 Žluťoučký kůň úpěl ďábelské ódy.
@@ -148,24 +146,24 @@ Pozadí
 [Window]
 Okno
 ;file \plugins\Alarms\src\frame.cpp
-[Hide Reminders]
+[Hide reminders]
 Skrýt připomínky
-[Show Reminders]
+[Show reminders]
 Zobrazit připomínky
 [Frames]
 Rámečky
-[Alarm Reminders]
+[Alarm reminders]
 Připomínky
 ;file \plugins\Alarms\src\icons.cpp
-[Menu: Set Alarm]
+[Menu: Set alarm]
 Menu: Nová připomínka
 [Reminder: Soon]
 Připomínka: Už brzy
-[Reminder: Very Soon]
+[Reminder: Very soon]
 Připomínka: Za 5 minut a méně
-[Alarm: System Tray]
+[Alarm: System tray]
 Upozornění: Oblast pro oznámení
-[Menu: Show/Hide Reminders]
+[Menu: Show/Hide reminders]
 Menu: Zobrazit/Skrýt připomínky
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]

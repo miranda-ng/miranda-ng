@@ -203,11 +203,11 @@ převede stavový kód x na popis stavu
 počet kontaktů s vlastností y blíže určenou pomocí x; příklad: (<uživ. jméno>,<přezdívka>)
 [info property y of contact x]
 informace y kontaktu x
-[db profile name]
-název profilu (databáze)
-[db profile path]
-cesta k profilu (databázi)
-[db setting z of module y of contact x and return w if z isn't exist (w is optional)]
+[database profile name]
+
+[database profile path]
+
+[database setting z of module y of contact x and return w if z isn't exist (w is optional)]
 
 [get event for contact x (optional), according to y,z,w, see documentation]
 

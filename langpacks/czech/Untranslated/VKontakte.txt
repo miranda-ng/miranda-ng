@@ -5,6 +5,7 @@
 [Contact list group:]
 [Server-side delivery confirmation]
 [Hide chats on startup]
+[Automatically wipe local contacts missing in your Friends list]
 [Invite user to chat]
 [Choose one of your contacts to be invited:]
 [Create group chat]

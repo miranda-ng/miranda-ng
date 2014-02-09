@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.11.0.2
+;  Version: 0.95.0.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -133,8 +133,8 @@ Dokončení závěrečných úloh
 ;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
 [Database signature is corrupted, automatic repair is impossible]
 Podpis databáze je poškozen; automatickou opravu nelze provést
-[Database is marked as belonging to an unknown version of Miranda]
-Vybraná databáze není kompatibilní s vaší verzí Mirandy
+[Database version doesn't match this driver's one. Convert a database first]
+Verze databáze se neshoduje s verzí tohoto ovladače. Aktualizujte vaši databázi
 [Database is newly created and has no data to process]
 Vybrali jste nově vytvořenou databázi, která neobsahuje žádná data.
 [Processing completed successfully]

@@ -329,6 +329,8 @@ Zavřená skupina
 Kontakty po najetí myši
 [Background]
 Pozadí
+[Contact list]
+Seznam kontaktů
 [Selected Text]
 Vybraný text
 [Hottrack Text]
@@ -336,8 +338,6 @@ Zvýrazněný text
 [Quicksearch Text]
 Hledaný text
 ;file \plugins\Clist_mw\src\clcopts.cpp
-[Contact list]
-Seznam kontaktů
 [List]
 Seznam
 [List MetaContacts]

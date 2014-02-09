@@ -719,3 +719,5 @@ Zobrazit historii
 Zobrazit historii
 [View &History]
 Zobrazit &historii
+[User Menu]
+Uživatelské menu

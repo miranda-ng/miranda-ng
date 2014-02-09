@@ -1,4 +1,4 @@
-;file \src\resource.rc
+﻿;file \src\resource.rc
 [Enter account name (for example, My Google)]
 Zadejte název účtu (např. Google)
 [Choose the protocol type]
@@ -1293,11 +1293,6 @@ Mňam... jídlo
 Chrrrrrrrrrrrr
 [Status]
 Stavy
-;file \src\core\stdchat\src\clist.cpp
-[Join chat]
-Přidat se do diskuse
-[Open chat window]
-Otevřít komunikační okno
 ;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
@@ -1988,9 +1983,13 @@ Odeslání poznámky
 [The topic has been changed]
 Změna tématu diskuse
 ;file \src\modules\chat\chat_svc.cpp
-[&Join]
-Při&jít
+[&Join chat]
+&Přidat se do diskuse
+[&Leave chat]
+Op&ustit diskusi
 ;file \src\modules\chat\clist.cpp
+[&Open chat window]
+&Otevřít komunikační okno
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 Příchod: %s
@@ -2492,6 +2491,8 @@ Nespuštěný doplněk
 Zobrazit nebo skrýt
 [Exit]
 Ukončit
+[Join chat]
+Přidat se do diskuse
 [Leave chat]
 Opustit diskusi
 [Move to group]

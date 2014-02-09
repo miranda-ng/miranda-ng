@@ -22,6 +22,8 @@
 [BASS library path (empty for default)]
 [Tries to connect]
 [mRadio volume control]
+[mRadio off]
+[mRadio on]
 [Import File]
 [Play Station]
 [Forced Mono]

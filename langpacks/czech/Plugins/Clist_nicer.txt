@@ -648,6 +648,8 @@ S přezdívkou - vlevo
 Úplně vpravo
 [With Nickname - right]
 S přezdívkou - vpravo
+[Contact list]
+Seznam kontaktů
 [List layout]
 Vzhled seznamu
 [Background]
@@ -662,8 +664,6 @@ Skupiny a vzhled
 Extra
 [Skins]
 Skiny
-[Contact list]
-Seznam kontaktů
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Přidat natrvalo
@@ -735,14 +735,14 @@ Standardní kontakty
 Kontakty online, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
 [Offline contacts]
 Kontakty offline
-[Offline contacts to whom you have a different visibility]
-Kontakty offline, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
 [Contacts which are 'not on list']
 Kontakty, které "nejsou v seznamu"
 [Group member counts]
 Počet členů ve skupině
 [Dividers]
 Oddělovače
+[Offline contacts to whom you have a different visibility]
+Kontakty offline, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
 [Frame titles]
 Záhlaví rámečku
 [Contact list local time]

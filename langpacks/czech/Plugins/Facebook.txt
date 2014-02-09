@@ -72,14 +72,20 @@ Zabezpečit i servisní spojení
 Po odpojení zároveň odejít i z diskuse
 [Map non-standard statuses to Invisible (instead of Online)]
 Pro nestandardní stavy použít Neviditelný (nikoli Online)
+[Allow posting statuses to my pages (may slow down login)]
+Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
+[Use this server for opening links:]
+Pro otevírání odkazů použít tento server:
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 Aktivovat podporu pro vlastní smajlíky (EXPERIMENTÁLNÍ + CHYBOVÉ!)
 [Use local time for received messages]
 Použít lokální čas počítače pro příchozí zprávy
-[Use this server for opening links:]
-Pro otevírání odkazů použít tento server:
-[Allow posting statuses to my pages (may slow down login)]
-Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
+[Message sessions]
+Komunikace
+[Keep messages as unread on server (don't send "seen" info)]
+Ponechat zprávy na serveru jako nepřečtené (neodesílat informaci o času přečtení)
+[Receive messages from "inbox" folder only]
+Přijímat pouze zprávy ze složky "příchozí"
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
 Pozvat k d&iskusi...

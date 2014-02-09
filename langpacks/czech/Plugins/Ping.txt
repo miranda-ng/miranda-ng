@@ -101,7 +101,7 @@ Možnosti...
 [Hosts...]
 
 ;file \plugins\Ping\src\menu.cpp
-[PING]
+[Ping]
 Ping
 ;file \plugins\Ping\src\options.cpp
 [Open log file]
@@ -151,8 +151,6 @@ Vypnout
 zapnuto
 [double clicked]
 
-[Ping]
-Ping
 [Show/Hide &Ping Window]
 
 [List]

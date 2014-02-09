@@ -265,6 +265,8 @@ kontakty
 neznámý
 [Stay on Top]
 Vždy navrchu
-; this line is not present in the sources, but it present in compiled plugin
+; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Úprava textu
+[Wrap Text]
+Zalamovat text

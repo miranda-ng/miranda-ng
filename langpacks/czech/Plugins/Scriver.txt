@@ -820,7 +820,7 @@ den měsíce, 01-31
 zkrácené jméno měsíce
 [full month name]
 celé jméno mesíce
-[year without century, 01-  99]
+[year without century, 01-99]
 rok bez století, 01-99
 [year with century, 1901-9999]
 rok včetně století, 1901-9999

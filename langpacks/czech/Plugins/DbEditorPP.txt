@@ -64,6 +64,18 @@ OK
 Zrušit
 [Edit Setting]
 Upravit nastavení
+[Byte]
+Byte
+[Word]
+Word
+[Dword]
+Dword
+[String]
+String
+[Hexadecimal]
+Hexadecimální
+[Decimal]
+Decimální
 [Value Name:]
 Název hodnoty:
 [Value Data:]
@@ -247,6 +259,8 @@ Potvrzení smazání modulu
 Smazat modul z databáze
 [Delete module from Database... Loading]
 Mazání modulu z databáze... načítání
+[Delete module from all contacts (Includes Setting)]
+Smazat ode všech kontaktů (včetně nastavení)
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 Soubory INI
