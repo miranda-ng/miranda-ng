@@ -12,7 +12,7 @@
 [No description]
 Нет описания
 [New]
-Новый
+Создать
 [Up]
 Выше
 [Down]
@@ -38,9 +38,9 @@
 [Contact]
 Открыть окно контакта
 [Call service]
-Вызов службы
+Вызвать службу
 [Service]
-Вызов службы
+Вызвать службу
 [Execute program]
 Выполнить
 [Program]
@@ -122,7 +122,7 @@
 [Don't use Variables]
 Выключить переменные
 [Miranda service help]
-Помощь по сервисам
+Помощь по службам
 [Name]
 Имя
 [Alias]
@@ -168,7 +168,7 @@
 [Set protocol status]
 Устанавливает статус протокола
 [None]
-Отсутств.
+Нет
 [Angry]
 Злюсь
 [Taking a bath]
@@ -386,7 +386,7 @@ UTF16+сигнатура
 [Message window]
 Окно сообщения
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - выделяемая (и заменяемая) часть\r\n^e - заменяется пустой строкой\r\n^v - вставка текста из буфера обмена\r\n^t - заменяется на табуляцию\r\n^l - заменяется последним результатом в Юникоде\r\n^h - заменяется последним результатом в hex\r\n^a - в конце: автоотправка\r\n^f(name\[,str\])\r\n     вставка строки из текстового файла.\r\n     содержание скобок должно быть без пробелов
+^s - выделяемая (и заменяемая) часть\r\n^e - заменяется пустой строкой\r\n^v - вставка текста из буфера обмена\r\n^t - заменяется на табуляцию\r\n^l - заменяется последним результатом в Юникоде\r\n^h - заменяется последним результатом в hex\r\n^a - в конце: автоотправка\r\n^f(name\[,str\])\r\n     вставка строки из текстового файла.\r\n     содержимое скобок должно быть без пробелов
 [Text to insert]
 Текст для вставки
 [Condition]
@@ -400,7 +400,7 @@ UTF16+сигнатура
 [Variables]
 Переменные
 [Result as integer]
-Результат как целое
+Результат, как целое
 [Operation]
 Операция
 [Other Action groups]
@@ -559,9 +559,18 @@ UTF16+сигнатура
 Упакованная структура
 [Registered actions]
 Зарегистрированные действия
-; Actman30
 [No Description]
 Нет описания
+[INI]
+Файл INI
+[INI file name]
+Имя файла INI
+[Section]
+Раздел
+[Use LastResult]
+Использовать последний результат
+[UTF8 encoding]
+В кодировке UTF-8
 [Function call]
 Вызов функции
 [Function name]
@@ -603,7 +612,7 @@ UTF16+сигнатура
 [Result type]
 Тип результата
 [In/Out]
-Ввод/Вывод
+Вставить текст
 [Autosend]
 Автоматическая отправка
 [Jump]
@@ -632,6 +641,8 @@ UTF16+сигнатура
 Скрипт после макроса
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - выделенная (и заменённая) часть\r\n^e - заменено пустой строкой\r\n^v - вставить текст из буфера обмена\r\n^t - заменено табуляцией\r\n^l - заменено последним результатом, как юникод\r\n^h - заменено последним результатом, как шестнадцатеричное\r\n^f(имя[,str])\r\n     вставить строку из текстового файла.\r\n     содержимое внутри скобок обязано быть без пробелов
+[RTL]
+Справа налево
 [Right justified text]
 Выравнивание по правому краю
 [Database]
@@ -686,9 +697,14 @@ UTF16+сигнатура
 Текущий макрос
 [Select for FirstRun]
 Выбрать для первого запуска
+[Miranda event help]
+Помощь по событиям
 [Double click on the CList]
 Двойной щелчок по списку контактов
-; these lines are not present in the sources, but they are present in compiled plugin
+[contact list]
+список контактов
+[database driver]
+драйвер базы
 [Text Editor]
 Текстовый редактор
 [Script]
