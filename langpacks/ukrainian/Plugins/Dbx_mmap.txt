@@ -49,6 +49,8 @@
 Змінити/видалити пароль
 [Set password]
 Встановити пароль
+[Logo]
+Профіль
 [Password]
 Пароль
 [Too many errors!]
@@ -117,6 +119,8 @@
 Виконання завершальних робіт
 [Database signature is corrupted, automatic repair is impossible]
 Заголовок бази даних пошкоджений, автоматичне виправлення неможливе
+[Database version doesn't match this driver's one. Convert a database first]
+Версія бази даних несумісна з версією драйвера бази. Будь ласка, конвертуйте базу в новий формат.
 [Database is newly created and has no data to process]
 База даних нова, і не має даних для обробки
 [Processing completed successfully]

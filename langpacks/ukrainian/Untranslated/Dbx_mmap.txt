@@ -1,1 +1,0 @@
-﻿[Database version doesn't match this driver's one. Convert a database first]

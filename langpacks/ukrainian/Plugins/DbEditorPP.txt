@@ -61,6 +61,18 @@
 Скасувати
 [Edit Setting]
 Редагувати налаштування
+[Byte]
+Байт
+[Word]
+Слово
+[Dword]
+Подв. слово
+[String]
+Рядок
+[Hexadecimal]
+Шістнадцяткова
+[Decimal]
+Десяткова
 [Value Name:]
 Ім'я:
 [Value Data:]
