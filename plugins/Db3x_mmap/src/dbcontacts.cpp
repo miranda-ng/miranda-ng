@@ -177,7 +177,7 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddContact()
 	cc->dwDriverData = ofsNew;
 
 	NotifyEventHooks(hContactAddedEvent, dbc.dwContactID, 0);
-	return (HANDLE)ofsNew;
+	return (HANDLE)dbc.dwContactID;
 }
 
 STDMETHODIMP_(BOOL) CDb3Mmap::IsDbContact(MCONTACT contactID)
