@@ -158,7 +158,7 @@ public:
 	ChatRoom(const wchar_t *cid, const wchar_t *name, CSkypeProto *ppro);
 	~ChatRoom();
 
-	HANDLE GetContactHandle() const;
+	HCONTACT GetContactHandle() const;
 
 	void SetTopic(const wchar_t *topic);
 	wchar_t *GetUri();

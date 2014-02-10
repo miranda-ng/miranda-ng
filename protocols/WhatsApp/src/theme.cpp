@@ -56,14 +56,14 @@ static WhatsAppProto* GetInstanceByHContact(HCONTACT hContact)
 template<INT_PTR (__cdecl WhatsAppProto::*Fcn)(WPARAM,LPARAM)>
 INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
 {
-	WhatsAppProto *proto = GetInstanceByHContact(reinterpret_cast<HCONTACT>(wParam));
+	WhatsAppProto *proto = GetInstanceByHContact(HCONTACT(wParam));
 	return proto ? (proto->*Fcn)(wParam,lParam) : 0;
 }
 
 template<INT_PTR (__cdecl WhatsAppProto::*Fcn)(WPARAM,LPARAM,LPARAM)>
 INT_PTR GlobalServiceParam(WPARAM wParam,LPARAM lParam, LPARAM lParam2)
 {
-	WhatsAppProto *proto = GetInstanceByHContact(reinterpret_cast<HCONTACT>(wParam));
+	WhatsAppProto *proto = GetInstanceByHContact(HCONTACT(wParam));
 	return proto ? (proto->*Fcn)(wParam,lParam,lParam2) : 0;
 }
 
@@ -72,7 +72,7 @@ static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 	for (size_t i=0; i<SIZEOF(g_hContactMenuItems); i++)
 		Menu_ShowItem(g_hContactMenuItems[i], false);
 
-	WhatsAppProto *proto = GetInstanceByHContact(reinterpret_cast<HCONTACT>(wParam));
+	WhatsAppProto *proto = GetInstanceByHContact(HCONTACT(wParam));
 	return proto ? proto->OnPrebuildContactMenu(wParam,lParam) : 0;
 }
 
@@ -104,7 +104,7 @@ void WhatsAppProto::InitContactMenus()
 
 int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {	
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 	if (hContact)
 		debugLogA(this->GetContactDisplayName(hContact).c_str());
 	else

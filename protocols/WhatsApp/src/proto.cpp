@@ -314,7 +314,7 @@ int WhatsAppProto::RequestFriendship(WPARAM wParam, LPARAM lParam)
 	if (wParam == NULL || isOffline())
 		return 0;
 
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 
 	DBVARIANT dbv;
 	if ( !getString(hContact, WHATSAPP_KEY_ID, &dbv))

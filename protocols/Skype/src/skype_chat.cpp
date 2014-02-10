@@ -140,7 +140,7 @@ ChatRoom::~ChatRoom()
 	this->members.destroy();
 }
 
-HANDLE ChatRoom::GetContactHandle() const
+HCONTACT ChatRoom::GetContactHandle() const
 {
 	return this->hContact;
 }

@@ -593,7 +593,7 @@ void WhatsAppProto::onParticipatingGroups(const std::vector<string>& paramVector
 void WhatsAppProto::HandleReceiveGroups(const std::vector<string>& groups, bool isOwned)
 {
 	HCONTACT hContact;
-	map<HANDLE, bool> isMember; // at the moment, only members of owning groups are stored
+	map<HCONTACT, bool> isMember; // at the moment, only members of owning groups are stored
 
 	// This could take long time if there are many new groups which aren't
 	//	 yet stored to the database. But that should be a rare case
@@ -682,7 +682,7 @@ void __cdecl WhatsAppProto::SendCreateGroupWorker(void* data)
 INT_PTR __cdecl WhatsAppProto::OnChangeGroupSubject(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 	input_box* ib = new input_box;
 
 	if (getTString(hContact, WHATSAPP_KEY_PUSH_NAME, &dbv))
@@ -698,8 +698,8 @@ INT_PTR __cdecl WhatsAppProto::OnChangeGroupSubject(WPARAM wParam, LPARAM lParam
 	
 	ib->thread = &WhatsAppProto::SendSetGroupNameWorker;
 	ib->proto = this;
-	HANDLE* hContactPtr = new HANDLE(hContact);
-	ib->userData = (void*) hContactPtr;
+	HCONTACT *hContactPtr = new HCONTACT(hContact);
+	ib->userData = (void*)hContactPtr;
 	
 	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_INPUTBOX), 0, WhatsAppInputBoxProc,
 		reinterpret_cast<LPARAM>(ib));
@@ -710,7 +710,7 @@ INT_PTR __cdecl WhatsAppProto::OnChangeGroupSubject(WPARAM wParam, LPARAM lParam
 INT_PTR __cdecl WhatsAppProto::OnLeaveGroup(WPARAM wParam, LPARAM)
 {
 	DBVARIANT dbv;
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 	if (this->isOnline() && !getString(hContact, WHATSAPP_KEY_ID, &dbv))
 	{
 		setByte(hContact, "IsGroupMember", 0);

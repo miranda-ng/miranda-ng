@@ -80,7 +80,7 @@ int __cdecl CSkypeProto::Authorize(HANDLE hDbEvent)
 	if (this->IsOnline() && hDbEvent)
 	{
 		HCONTACT hContact = this->GetContactFromAuthEvent(hDbEvent);
-		if (hContact == INVALID_HANDLE_VALUE)
+		if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 			return 1;
 
 		return CSkypeProto::GrantAuth((WPARAM)hContact, NULL);
@@ -94,7 +94,7 @@ int __cdecl CSkypeProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 	if (this->IsOnline())
 	{
 		HCONTACT hContact = this->GetContactFromAuthEvent(hDbEvent);
-		if (hContact == INVALID_HANDLE_VALUE)
+		if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 			return 1;
 
 		return CSkypeProto::RevokeAuth((WPARAM)hContact, NULL);
