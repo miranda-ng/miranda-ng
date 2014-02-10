@@ -348,7 +348,7 @@ begin
 //  SendMessage(wnd,CLM_ENSUREVISIBLE,hContact,0);
 end;
 
-function GetCListSelContact:THANDLE;
+function GetCListSelContact:HCONTACT;
 begin
   result:=SendMessageW(CallService(MS_CLUI_GETHWNDTREE,0,0),CLM_GETSELECTION,0,0);
 end;
