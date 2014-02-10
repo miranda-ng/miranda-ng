@@ -398,7 +398,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 		TranslateDialogDefault(hWnd);
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, lParam);
 		{
-			MCONTACT hContact = (MCONTACT)lParam;
+			MCONTACT hContact = lParam;
 			WindowList_Add(hAddBirthdayWndsList, hWnd, hContact);
 			Utils_RestoreWindowPositionNoSize(hWnd,hContact,ModuleName,"BirthdayWnd");
 		}
@@ -746,7 +746,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WWIM_UPDATE_BIRTHDAY:
 		{//wParam = hContact
 			HWND hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
-			MCONTACT hContact = (MCONTACT)wParam;
+			MCONTACT hContact = wParam;
 			int i;
 			int count = ListView_GetItemCount(hList);
 			//int bShowCurrentAge = db_get_b(NULL, ModuleName, "ShowCurrentAge", 0);

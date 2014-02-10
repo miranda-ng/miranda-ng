@@ -185,7 +185,7 @@ int fnGetContactIcon(MCONTACT hContact)
 
 static INT_PTR GetContactIcon(WPARAM wParam, LPARAM)
 {
-	return cli.pfnGetContactIcon((MCONTACT)wParam);
+	return cli.pfnGetContactIcon(wParam);
 }
 
 static void AddProtoIconIndex(PROTOACCOUNT* pa)
@@ -245,7 +245,7 @@ static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 static INT_PTR ContactDoubleClicked(WPARAM wParam, LPARAM)
 {
 	// Try to process event myself
-	if (cli.pfnEventsProcessContactDoubleClick((MCONTACT)wParam) == 0)
+	if (cli.pfnEventsProcessContactDoubleClick(wParam) == 0)
 		return 0;
 
 	// Allow third-party plugins to process a dblclick
@@ -253,7 +253,7 @@ static INT_PTR ContactDoubleClicked(WPARAM wParam, LPARAM)
 		return 0;
 
 	// Otherwise try to execute the default action
-	TryProcessDoubleClick((MCONTACT)wParam);
+	TryProcessDoubleClick(wParam);
 	return 0;
 }
 
@@ -425,7 +425,7 @@ extern int sortByStatus, sortByProto;
 
 static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT a = (MCONTACT)wParam, b = (MCONTACT)lParam;
+	MCONTACT a = wParam, b = lParam;
 	TCHAR namea[128], *nameb;
 	int statusa, statusb;
 	char *szProto1, *szProto2;

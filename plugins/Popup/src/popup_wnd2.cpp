@@ -1078,7 +1078,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		break;
 
 	case UM_AVATARCHANGED:
-		if ((MCONTACT)wParam == m_hContact)
+		if (wParam == m_hContact)
 		{
 			m_avatar->invalidate();
 			update();
@@ -1498,7 +1498,7 @@ LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 	{
 		case UM_SHOWMENU:
 		{
-			hContact = (MCONTACT)lParam;
+			hContact = lParam;
 			POINT pt = {0};
 			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT,(WPARAM)hContact,0);
 			GetCursorPos(&pt);

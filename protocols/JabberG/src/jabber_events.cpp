@@ -36,7 +36,7 @@ int CJabberProto::OnContactDeleted(WPARAM wParam, LPARAM)
 	if (!m_bJabberOnline)	// should never happen
 		return 0;
 
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	ptrT jid(getTStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
 	if (jid == NULL)
 		return 0;
@@ -159,7 +159,7 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, MCONT
 
 int __cdecl CJabberProto::OnDbSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL || !m_bJabberOnline)
 		return 0;
 

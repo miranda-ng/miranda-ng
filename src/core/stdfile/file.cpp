@@ -62,7 +62,7 @@ TCHAR *GetContactID(MCONTACT hContact)
 static INT_PTR SendFileCommand(WPARAM wParam, LPARAM)
 {
 	struct FileSendData fsd;
-	fsd.hContact = (MCONTACT)wParam;
+	fsd.hContact = wParam;
 	fsd.ppFiles = NULL;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	return 0;
@@ -71,7 +71,7 @@ static INT_PTR SendFileCommand(WPARAM wParam, LPARAM)
 static INT_PTR SendSpecificFiles(WPARAM wParam, LPARAM lParam)
 {
 	FileSendData fsd;
-	fsd.hContact = (MCONTACT)wParam;
+	fsd.hContact = wParam;
 
 	char** ppFiles = (char**)lParam;
 	int count = 0;
@@ -92,7 +92,7 @@ static INT_PTR SendSpecificFiles(WPARAM wParam, LPARAM lParam)
 static INT_PTR SendSpecificFilesT(WPARAM wParam, LPARAM lParam)
 {
 	FileSendData fsd;
-	fsd.hContact = (MCONTACT)wParam;
+	fsd.hContact = wParam;
 	fsd.ppFiles = (const TCHAR**)lParam;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	return 0;
@@ -101,7 +101,7 @@ static INT_PTR SendSpecificFilesT(WPARAM wParam, LPARAM lParam)
 static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR buf[MAX_PATH];
-	GetContactReceivedFilesDir((MCONTACT)wParam, buf, MAX_PATH, TRUE);
+	GetContactReceivedFilesDir(wParam, buf, MAX_PATH, TRUE);
 	char* dir = mir_t2a(buf);
 	lstrcpynA((char*)lParam, dir, MAX_PATH);
 	mir_free(dir);
@@ -148,7 +148,7 @@ static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 	if (dbei.flags & (DBEF_SENT|DBEF_READ) || dbei.eventType != EVENTTYPE_FILE || dwSignature == 0)
 		return 0;
 
-	PushFileEvent((MCONTACT)wParam, (HANDLE)lParam, 0);
+	PushFileEvent(wParam, (HANDLE)lParam, 0);
 	return 0;
 }
 
@@ -303,12 +303,12 @@ static void RemoveUnreadFileEvents(void)
 static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 {
 	bool bEnabled = false;
-	char *szProto = GetContactProto((MCONTACT)wParam);
+	char *szProto = GetContactProto(wParam);
 	if (szProto != NULL) {
 		if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND) {
 			if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
 				bEnabled = true;
-			else if (db_get_w((MCONTACT)wParam, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+			else if (db_get_w(wParam, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 				bEnabled = true;
 		}
 	}

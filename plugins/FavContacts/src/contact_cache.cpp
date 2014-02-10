@@ -2,7 +2,7 @@
 
 int __cdecl CContactCache::OnDbEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	HANDLE hEvent = (HANDLE)lParam;
 
 	DBEVENTINFO dbei = {0};

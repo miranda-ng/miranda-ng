@@ -65,12 +65,12 @@ static int Service_ContactDoubleclicked(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ContactApplication(WPARAM wParam, LPARAM lParam)
 {
-	char *szProto = GetContactProto((MCONTACT)wParam);
+	char *szProto = GetContactProto(wParam);
 	if ( lstrcmpA(szProto, YAMN_DBMODULE))
 		return 0;
 
 	DBVARIANT dbv;
-	if ( db_get((MCONTACT)wParam, YAMN_DBMODULE, "Id", &dbv))
+	if ( db_get(wParam, YAMN_DBMODULE, "Id", &dbv))
 		return 0;
 
 	HACCOUNT ActualAccount = (HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
@@ -168,7 +168,7 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ContactMailCheck(WPARAM wParam, LPARAM lParam)
 {
-	char *szProto = GetContactProto((MCONTACT)wParam);
+	char *szProto = GetContactProto(wParam);
 	if ( lstrcmpA(szProto, YAMN_DBMODULE))
 		return 0;
 
@@ -227,12 +227,12 @@ void MainMenuAccountClicked(WPARAM wParam, LPARAM lParam)
 
 /*static*/ void ContactDoubleclicked(WPARAM wParam, LPARAM lParam)
 {
-	char *szProto = GetContactProto((MCONTACT)wParam);
+	char *szProto = GetContactProto(wParam);
 	if ( lstrcmpA(szProto, YAMN_DBMODULE))
 		return;
 
 	DBVARIANT dbv;
-	if ( db_get((MCONTACT)wParam, YAMN_DBMODULE, "Id", &dbv))
+	if ( db_get(wParam, YAMN_DBMODULE, "Id", &dbv))
 		return;
 
 	HACCOUNT ActualAccount = (HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);

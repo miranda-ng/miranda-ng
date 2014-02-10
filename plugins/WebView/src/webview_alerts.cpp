@@ -44,7 +44,7 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				if ( db_get_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, 0)) {
 					CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);
 					PUDeletePopup(hWnd);
-					db_set_w((MCONTACT)wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
+					db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 				}
 				// dismiss
 				if ( db_get_b(NULL, MODULENAME, LCLK_DISMISS_KEY, 1))
@@ -65,7 +65,7 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				if ( db_get_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, 1)) {
 					CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);
 					PUDeletePopup(hWnd);
-					db_set_w((MCONTACT)wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
+					db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 				}
 				// dismiss
 				if ( db_get_b(NULL, MODULENAME, RCLK_DISMISS_KEY, 0))
@@ -115,13 +115,13 @@ int WPopupAlert(WPARAM wParam, LPARAM lParam)
 
 	if( ((HANDLE)wParam) != NULL) {
 		DBVARIANT dbv;
-		db_get_ts((MCONTACT)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
+		db_get_ts(wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
 		lstrcpyn(ppd.lptzContactName, dbv.ptszVal, SIZEOF(ppd.lptzContactName));
 		db_free(&dbv);
 	}
 	else lstrcpy(ppd.lptzContactName, _A2T(MODULENAME));
 
-	ppd.lchContact = (MCONTACT)wParam;
+	ppd.lchContact = wParam;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 
 	TCHAR *displaytext = (TCHAR*)lParam;
@@ -158,7 +158,7 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 	POPUPDATA ppd = { 0 };
 	if (((HANDLE)wParam) != NULL) {
 		DBVARIANT dbv;
-		if ( !db_get_s((MCONTACT)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		if ( !db_get_s(wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			lstrcpynA(ppd.lptzContactName, dbv.pszVal, SIZEOF(ppd.lptzContactName));
 			db_free(&dbv);
 		}
@@ -166,7 +166,7 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 	if (ppd.lptzContactName[0] == 0)
 		strncpy_s(ppd.lptzContactName, SIZEOF(ppd.lptzContactName), MODULENAME, _TRUNCATE);
 
-	ppd.lchContact = (MCONTACT)wParam;
+	ppd.lchContact = wParam;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 
 	char *displaytext = (char*)lParam;
@@ -205,7 +205,7 @@ int OSDAlert(WPARAM wParam, LPARAM lParam)
 
 	if (((HANDLE)wParam) != NULL) {
 		DBVARIANT dbv;
-		if ( !db_get_s((MCONTACT)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		if ( !db_get_s(wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			strncpy_s(contactname, SIZEOF(contactname), dbv.pszVal, _TRUNCATE);
 			db_free(&dbv);
 		}
@@ -225,7 +225,7 @@ int OSDAlert(WPARAM wParam, LPARAM lParam)
 /*****************************************************************************/
 int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	TCHAR newdisplaytext[2000], *displaytext = (TCHAR*)lParam;
 
 	if ( db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0))
@@ -814,7 +814,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 /*****************************************************************************/
 int DataWndAlertCommand(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if ( WindowList_Find(hWindowList, hContact))
 		return 0;
 

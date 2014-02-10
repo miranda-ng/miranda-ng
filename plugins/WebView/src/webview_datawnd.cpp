@@ -155,7 +155,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			MCONTACT hContact2 = (MCONTACT)lParam;
+			MCONTACT hContact2 = lParam;
 
 			SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG) hContact2);
 			WindowList_Add(hWindowList, hwndDlg, hContact2);
@@ -339,7 +339,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDC_OPEN_URL:
 			GetDlgItemText(hwndDlg, IDC_OPEN_URL, url, SIZEOF(url));
 			CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);  
-			db_set_w((MCONTACT)wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
+			db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 			break;
 
 		case IDC_UPDATE_BUTTON:

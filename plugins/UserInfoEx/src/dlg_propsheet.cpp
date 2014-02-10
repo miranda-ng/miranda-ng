@@ -253,7 +253,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	myGlobals.WantAeroAdaption = db_get_b(NULL, MODNAME, SET_PROPSHEET_AEROADAPTION, TRUE);
 
 	// allow only one dialog per user
-	if (HWND hWnd = WindowList_Find(ghWindowList, (MCONTACT)wParam)) {
+	if (HWND hWnd = WindowList_Find(ghWindowList, wParam)) {
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
 		return 0;
@@ -285,7 +285,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	ImageList_AddIcon(psh._hImages, hDefIcon);
 
 	// init contact
-	psh._hContact = (MCONTACT)wParam;
+	psh._hContact = wParam;
 	if (psh._hContact == NULL) {
 		// mark owner icons as initiated
 		bInitIcons |= INIT_ICONS_OWNER;
@@ -294,7 +294,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		// get contact's protocol
-		psh._pszPrefix = psh._pszProto = DB::Contact::Proto((MCONTACT)wParam);
+		psh._pszPrefix = psh._pszProto = DB::Contact::Proto(wParam);
 		if (psh._pszProto == NULL) {
 			MsgErr(NULL, LPGENT("Could not find contact's protocol. Maybe it is not active!"));
 			return 1;
@@ -313,12 +313,12 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 
 	// metacontacts sub pages
 	if (bScanMetaSubContacts) {
-		int numSubs = DB::MetaContact::SubCount((MCONTACT)wParam);
+		int numSubs = DB::MetaContact::SubCount(wParam);
 
 		psh._dwFlags &= ~PSF_PROTOPAGESONLY_INIT;
 		psh._dwFlags |= PSF_PROTOPAGESONLY;
 		for (int i = 0; i < numSubs; i++) {
-			psh._hContact = DB::MetaContact::Sub((MCONTACT)wParam, i);
+			psh._hContact = DB::MetaContact::Sub(wParam, i);
 			psh._nSubContact = i;
 			if (psh._hContact) {
 				psh._pszProto = DB::Contact::Proto(psh._hContact);
@@ -326,7 +326,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 					NotifyEventHooks(ghDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
 			}
 		}
-		psh._hContact = (MCONTACT)wParam;
+		psh._hContact = wParam;
 	}
 
 	// sort the pages by the position read from database
@@ -409,7 +409,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 **/
 static int OnDeleteContact(WPARAM wParam, LPARAM lParam)
 {
-	HWND hWnd = WindowList_Find(ghWindowList, (MCONTACT)wParam);
+	HWND hWnd = WindowList_Find(ghWindowList, wParam);
 	if (hWnd != NULL)
 		DestroyWindow(hWnd);
 	return 0;
@@ -1356,7 +1356,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	**/
 	case HM_SETTING_CHANGED:
 		if (!(pPs->dwFlags & PSF_LOCKED)) {
-			MCONTACT hContact = (MCONTACT)wParam;
+			MCONTACT hContact = wParam;
 			DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING*)lParam;
 
 			if (hContact != pPs->hContact) {

@@ -393,7 +393,7 @@ int CJabberProto::OnReloadIcons(WPARAM, LPARAM)
 
 INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (!hContact)
 		return -1;
 

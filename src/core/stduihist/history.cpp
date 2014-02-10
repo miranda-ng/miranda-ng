@@ -206,7 +206,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-		hContact = (MCONTACT)lParam;
+		hContact = lParam;
 		WindowList_Add(hWindowList, hwndDlg, hContact);
 		Utils_RestoreWindowPosition(hwndDlg, hContact, "History", "");
 		{
@@ -376,7 +376,7 @@ static INT_PTR CALLBACK DlgProcHistoryFind(HWND hwndDlg, UINT msg, WPARAM wParam
 
 static INT_PTR UserHistoryCommand(WPARAM wParam, LPARAM)
 {
-	HWND hwnd = WindowList_Find(hWindowList, (MCONTACT)wParam);
+	HWND hwnd = WindowList_Find(hWindowList, wParam);
 	if (hwnd) {
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
@@ -388,7 +388,7 @@ static INT_PTR UserHistoryCommand(WPARAM wParam, LPARAM)
 
 static int HistoryContactDelete(WPARAM wParam, LPARAM)
 {
-	HWND hwnd = WindowList_Find(hWindowList, (MCONTACT)wParam);
+	HWND hwnd = WindowList_Find(hWindowList, wParam);
 	if (hwnd != NULL)
 		DestroyWindow(hwnd);
 	return 0;

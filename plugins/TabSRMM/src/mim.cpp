@@ -335,7 +335,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 	int    issplit = 1, foundWin = 0, preTyping = 0;
 	BOOL   fShowOnClist = TRUE;
 
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact) {
 		if ((hwnd = M.FindWindow(hContact)) && M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
 			preTyping = SendMessage(hwnd, DM_TYPING, 0, lParam);
@@ -407,7 +407,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 			}
 			if (fShowOnClist) {
 				CLISTEVENT cle = { sizeof(cle) };
-				cle.hContact = (MCONTACT)wParam;
+				cle.hContact = wParam;
 				cle.hDbEvent = (HANDLE)1;
 				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 				cle.hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
@@ -468,7 +468,7 @@ int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 
 int CMimAPI::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return NULL;
 
@@ -497,7 +497,7 @@ int CMimAPI::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 int CMimAPI::DispatchNewEvent(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam) {
-		HWND h = M.FindWindow((MCONTACT)wParam);
+		HWND h = M.FindWindow(wParam);
 		if (h)
 			PostMessage(h, HM_DBEVENTADDED, wParam, lParam);            // was SENDMESSAGE !!! XXX
 	}
@@ -522,7 +522,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get(hDbEvent, &dbei);
 
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	HWND hwnd = M.FindWindow(hContact);
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);

@@ -467,7 +467,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_LIMITTEXT, 450, 0);
 		dat = (struct UrlSendData*)mir_alloc(sizeof(struct UrlSendData));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-		dat->hContact = (MCONTACT)lParam;
+		dat->hContact = lParam;
 		dat->hAckEvent = NULL;
 		dat->hSendId = NULL;
 		dat->sendBuffer = NULL;

@@ -176,7 +176,7 @@ void InitialiseGlobals(void)
 /*****************************************************************************/
 int Doubleclick(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	char *szProto = GetContactProto(hContact);
 	if ( lstrcmpA(MODULENAME, szProto))
 		return 0;
@@ -371,7 +371,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 /*****************************************************************************/
 INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 	if (hwndDlg != NULL) {
 		DestroyWindow(hwndDlg);
@@ -455,7 +455,7 @@ int OnTopMenuCommand(WPARAM wParam, LPARAM lParam, MCONTACT singlecontact)
 /*****************************************************************************/
 INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	ptrT url( db_get_tsa(hContact, MODULENAME, "URL"));
 	if (url)
 		CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);
@@ -474,14 +474,14 @@ int UpdateMenuCommand(WPARAM wParam, LPARAM lParam, MCONTACT singlecontact)
 /*****************************************************************************/
 int ContactMenuItemUpdateData(WPARAM wParam, LPARAM lParam)
 {
-	UpdateMenuCommand(wParam, lParam, (MCONTACT)wParam);
+	UpdateMenuCommand(wParam, lParam, wParam);
 	return 0;
 }
 
 /*****************************************************************************/
 INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM)
 {
-	HWND hwndDlg = WindowList_Find(hWindowList, (MCONTACT)wParam);
+	HWND hwndDlg = WindowList_Find(hWindowList, wParam);
 	if (hwndDlg) {
 		DestroyWindow(hwndDlg);
 		return 0;

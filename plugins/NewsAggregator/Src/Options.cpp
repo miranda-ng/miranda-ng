@@ -325,7 +325,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetWindowText(hwndDlg, TranslateT("Change Feed"));
 			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, UDM_SETRANGE32, 0, 999);
 
-			MCONTACT hContact = (MCONTACT)lParam;
+			MCONTACT hContact = lParam;
 			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
 			DBVARIANT dbv;

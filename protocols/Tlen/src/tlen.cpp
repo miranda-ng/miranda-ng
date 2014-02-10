@@ -114,7 +114,7 @@ static void TlenRegisterIcons()
 
 int TlenProtocol::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact != NULL && isOnline) {
 		DBVARIANT dbv;
 		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
@@ -140,7 +140,7 @@ int TlenProtocol::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 INT_PTR TlenProtocol::ContactMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact != NULL && isOnline) {
 		DBVARIANT dbv;
 		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
@@ -153,7 +153,7 @@ INT_PTR TlenProtocol::ContactMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
 
 INT_PTR TlenProtocol::ContactMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact != NULL && isOnline) {
 		DBVARIANT dbv;
 		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
@@ -166,7 +166,7 @@ INT_PTR TlenProtocol::ContactMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam)
 
 INT_PTR TlenProtocol::ContactMenuHandleSendPicture(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact != NULL && isOnline)
 		SendPicture(this, hContact);
 

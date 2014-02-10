@@ -41,7 +41,7 @@ INT_PTR NudgeShowMenu(WPARAM wParam,LPARAM lParam)
 
 INT_PTR NudgeSend(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	char *protoName = GetContactProto(hContact);
 	int diff = time(NULL) - db_get_dw(hContact, "Nudge", "LastSent", time(NULL) - 30);
 	if (diff < GlobalNudge.sendTimeSec) {
@@ -81,7 +81,7 @@ void OpenContactList()
 
 int NudgeReceived(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	char *protoName = GetContactProto(hContact);
 
 	DWORD currentTimestamp = time(NULL);

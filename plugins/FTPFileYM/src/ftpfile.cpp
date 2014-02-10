@@ -210,7 +210,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	bool bIsContact = false;
 
-	char *szProto = GetContactProto((MCONTACT)wParam);
+	char *szProto = GetContactProto(wParam);
 	if (szProto) bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) ? true : false;
 
 	bool bHideRoot = opt.bHideInactive;
@@ -236,7 +236,7 @@ void PrebuildMainMenu()
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam) 
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact) 
 	{
@@ -363,7 +363,7 @@ INT_PTR ShowManagerService(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ContactMenuService(WPARAM wParam, LPARAM lParam) 
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	int ftpNum = lParam & (1|2|4);
 	int mode = lParam & (UploadJob::FTP_RAWFILE | UploadJob::FTP_ZIPFILE | UploadJob::FTP_ZIPFOLDER); 
 	return UploadFile(hContact, ftpNum, (UploadJob::EMode)mode);

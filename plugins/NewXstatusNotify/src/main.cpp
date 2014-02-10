@@ -543,7 +543,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -751,7 +751,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 {
 	WORD oldStatus = LOWORD(lParam);
 	WORD newStatus = HIWORD(lParam);
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	bool bEnablePopup = true, bEnableSound = true;
 
 	char *hlpProto = GetContactProto(hContact);

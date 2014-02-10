@@ -32,7 +32,7 @@ static char szInvalidChars[] = { '\\', '/', ':', '*', '?', '\"', '<', '>', '|' }
 int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	// We can't upload changes to NULL contact
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -111,7 +111,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 /*****************************************************************************/
 int SiteDeleted(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (lstrcmpA(GetContactProto(hContact), MODULENAME))
 		return 0;
 
@@ -167,7 +167,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	ptrT url( db_get_tsa((MCONTACT)wParam, MODULENAME, "URL"));
+	ptrT url( db_get_tsa(wParam, MODULENAME, "URL"));
 	if (url == NULL)
 		return 0;
 
@@ -188,7 +188,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 /*****************************************************************************/
 INT_PTR StpPrcssMenuCommand(WPARAM wParam, LPARAM)
 {
-	db_set_b((MCONTACT)wParam, MODULENAME, STOP_KEY, 1);  
+	db_set_b(wParam, MODULENAME, STOP_KEY, 1);  
 	return 0;
 }
 

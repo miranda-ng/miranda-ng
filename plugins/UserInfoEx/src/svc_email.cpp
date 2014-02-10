@@ -84,7 +84,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 
 	__try 
 	{
-		val = Get((MCONTACT)wParam);
+		val = Get(wParam);
 		if (val) {
 			LPSTR szUrl;
 			INT_PTR len;
@@ -126,8 +126,8 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 
 static int OnCListApplyIcons(WPARAM wParam, LPARAM lParam)
 {
-	LPSTR val = Get((MCONTACT)wParam);
-	ExtraIcon_SetIcon(ghExtraIconSvc, (MCONTACT)wParam, (val) ? ICO_BTN_EMAIL : 0);
+	LPSTR val = Get(wParam);
+	ExtraIcon_SetIcon(ghExtraIconSvc, wParam, (val) ? ICO_BTN_EMAIL : 0);
 	mir_free(val);
 	return 0;
 }
@@ -163,7 +163,7 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 
 static int OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
-	LPSTR val = Get((MCONTACT)wParam);
+	LPSTR val = Get(wParam);
 	Menu_ShowItem(ghMenuItem, val != NULL);
 	mir_free(val);
 	return 0;

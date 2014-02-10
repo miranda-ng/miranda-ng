@@ -538,7 +538,7 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM wParam, LPARAM)
 	if (!m_bJabberOnline)
 		return 0;
 
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	ptrT jid( getTStringA(hContact, "jid"));
 	if (jid == NULL)
 		return 0;

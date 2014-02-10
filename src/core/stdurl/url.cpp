@@ -49,11 +49,11 @@ static int UrlEventAdded(WPARAM wParam, LPARAM lParam)
 	SkinPlaySound("RecvUrl");
 
 	TCHAR szTooltip[256];
-	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName((MCONTACT)wParam, 0));
+	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName(wParam, 0));
 
 	CLISTEVENT cle = { sizeof(cle) };
 	cle.flags = CLEF_TCHAR;
-	cle.hContact = (MCONTACT)wParam;
+	cle.hContact = wParam;
 	cle.hDbEvent = (HANDLE)lParam;
 	cle.hIcon = LoadSkinIcon(SKINICON_EVENT_URL);
 	cle.pszService = "SRUrl/ReadUrl";
@@ -97,7 +97,7 @@ static void RestoreUnreadUrlAlerts(void)
 static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	char *szProto = GetContactProto((MCONTACT)wParam);
+	char *szProto = GetContactProto(wParam);
 	if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto)))
 		return 0;
 
@@ -108,7 +108,7 @@ static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 static int SRUrlPreBuildMenu(WPARAM wParam, LPARAM)
 {
 	bool bEnabled = false;
-	char *szProto = GetContactProto((MCONTACT)wParam);
+	char *szProto = GetContactProto(wParam);
 	if (szProto != NULL)
 		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_URLSEND)
 			bEnabled = true;
@@ -147,7 +147,7 @@ static int SRUrlShutdown(WPARAM, LPARAM)
 
 int UrlContactDeleted(WPARAM wParam, LPARAM)
 {
-	HWND h = WindowList_Find(hUrlWindowList, (MCONTACT)wParam);
+	HWND h = WindowList_Find(hUrlWindowList, wParam);
 	if (h)
 		SendMessage(h, WM_CLOSE, 0, 0);
 

@@ -46,7 +46,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		// check if it is a weather contact
-		if (IsMyContact((MCONTACT)lParam)) {
+		if (IsMyContact(lParam)) {
 			// register the contact info page
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 			odp.pfnDlgProc = DlgProcUIPage;
@@ -70,10 +70,10 @@ INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		TranslateDialogDefault(hwndDlg);
 		SendMessage(GetDlgItem(hwndDlg,IDC_MOREDETAIL), BUTTONSETASFLATBTN, TRUE, 0);
 		// save the contact handle for later use
-		hContact = (MCONTACT)lParam;
+		hContact = lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
 		// load weather info for the contact
-		w = LoadWeatherInfo((MCONTACT)lParam);
+		w = LoadWeatherInfo(lParam);
 		SetDlgItemText(hwndDlg, IDC_INFO1, GetDisplay(&w, TranslateT("Current condition for %n"), str));
 
 		SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON, 
@@ -163,7 +163,7 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	switch (msg) {
 	case WM_INITDIALOG:
 		// save the contact handle for later use
-		hContact = (MCONTACT)lParam;
+		hContact = lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
 
 		SendDlgItemMessage(hwndDlg, IDC_MTEXT, EM_AUTOURLDETECT, (WPARAM) TRUE, 0);
@@ -354,8 +354,8 @@ void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 int BriefInfo(WPARAM wParam, LPARAM lParam) 
 {
 	// make sure that the contact is actually a weather one
-	if (IsMyContact((MCONTACT)wParam)) {
-		HWND hMoreDataDlg = WindowList_Find(hDataWindowList, (MCONTACT)wParam);
+	if (IsMyContact(wParam)) {
+		HWND hMoreDataDlg = WindowList_Find(hDataWindowList, wParam);
 		if (hMoreDataDlg != NULL) {
 			SetForegroundWindow(hMoreDataDlg);
 			SetFocus(hMoreDataDlg);

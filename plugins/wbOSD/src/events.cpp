@@ -196,7 +196,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 
 	TCHAR buffer[512];
 	mir_sntprintf(buffer, SIZEOF(buffer), buf, c1, c2);
-	ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_msg", DEFAULT_CLRMSG), (MCONTACT)wParam);
+	ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_msg", DEFAULT_CLRMSG), wParam);
 
 	mir_free( c1 );
 	mir_free( c2 );

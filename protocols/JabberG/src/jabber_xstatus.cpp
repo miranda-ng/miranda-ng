@@ -1342,7 +1342,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 	if (pepMood == NULL)
 		return 1;
 
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	// fill status member
 	if (pData->flags & CSSF_MASK_STATUS)

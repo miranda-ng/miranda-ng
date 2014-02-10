@@ -953,7 +953,7 @@ void CAppletManager::MarkMessageAsRead(MCONTACT hContact,HANDLE hEvent)
 //************************************************************************
 bool CAppletManager::TranslateDBEvent(CEvent *pEvent,WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	HANDLE hdbevent = (HANDLE)lParam;
 
 
@@ -1582,7 +1582,7 @@ int CAppletManager::HookMessageWindowEvent(WPARAM wParam, LPARAM lParam)
 //************************************************************************
 int CAppletManager::HookContactIsTyping(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	int iState = (int)lParam;
 
 	CEvent Event;
@@ -1621,7 +1621,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 
 	// Prepare message and append to queue
 	CEvent Event;
-	Event.hContact = (MCONTACT)wParam;
+	Event.hContact = wParam;
 	int iStatus = cws->value.wVal;
 	Event.iValue = iStatus;
 
@@ -1821,7 +1821,7 @@ int CAppletManager::HookContactAdded(WPARAM wParam, LPARAM lParam)
 {
 	CEvent Event;
 	Event.eType = EVENT_CONTACT_ADDED;
-	Event.hContact = (MCONTACT)wParam;
+	Event.hContact = wParam;
 
 	CAppletManager::GetInstance()->HandleEvent(&Event);
 	return 0;
@@ -1834,7 +1834,7 @@ int CAppletManager::HookContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	CEvent Event;
 	Event.eType = EVENT_CONTACT_DELETED;
-	Event.hContact = (MCONTACT)wParam;
+	Event.hContact = wParam;
 	Event.bNotification = CConfig::GetBoolSetting(NOTIFY_CONTACTS);
 	Event.bLog = Event.bNotification;
 
@@ -1854,7 +1854,7 @@ int CAppletManager::HookSettingChanged(WPARAM wParam,LPARAM lParam)
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 	
 	CEvent Event;
-	Event.hContact = (MCONTACT)wParam;
+	Event.hContact = wParam;
 
 	if(!lstrcmpA(dbcws->szModule,"MetaContacts"))
 	{
@@ -1865,7 +1865,7 @@ int CAppletManager::HookSettingChanged(WPARAM wParam,LPARAM lParam)
 		if(!lstrcmpA(dbcws->szSetting,"IsSubcontact")) {
 			Event.eType = EVENT_CONTACT_GROUP;
 			DBVARIANT dbv;
-			int res = db_get_ts((MCONTACT)wParam, "CList", "Group",	&dbv);
+			int res = db_get_ts(wParam, "CList", "Group",	&dbv);
 			if(!res)
 					Event.strValue = dbv.ptszVal;
 			db_free(&dbv);
@@ -1910,13 +1910,13 @@ int CAppletManager::HookSettingChanged(WPARAM wParam,LPARAM lParam)
 		if(!lstrcmpA(dbcws->szSetting,"Hidden"))
 		{
 			Event.eType = EVENT_CONTACT_HIDDEN;
-			Event.iValue = db_get_b((MCONTACT)wParam,"CList","Hidden",0);
+			Event.iValue = db_get_b(wParam,"CList","Hidden",0);
 		}
 		else if(!lstrcmpA(dbcws->szSetting,"Group"))
 		{
 			Event.eType = EVENT_CONTACT_GROUP;
 			DBVARIANT dbv;
-			int res = db_get_ts((MCONTACT)wParam, "CList", "Group",	&dbv);
+			int res = db_get_ts(wParam, "CList", "Group",	&dbv);
 			if(!res)
 					Event.strValue = dbv.ptszVal;
 			db_free(&dbv);

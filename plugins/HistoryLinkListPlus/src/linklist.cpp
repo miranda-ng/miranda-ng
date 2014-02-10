@@ -123,7 +123,7 @@ int InitOptionsDlg(WPARAM wParam, LPARAM)
 
 static INT_PTR LinkList_Main(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	HWND hWnd = WindowList_Find(hWindowList, hContact);
 	if ( hWnd != NULL ) {
 		int len;

@@ -114,7 +114,7 @@ void CALLBACK TimerProc(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 
 int OnDatabaseEventAdd(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	HANDLE hDBEvent = (HANDLE)lParam;
 	
 	// history not disabled for this contact
@@ -141,7 +141,7 @@ int OnDatabaseEventAdd(WPARAM wParam, LPARAM lParam)
 INT_PTR ServiceClear(WPARAM wParam, LPARAM lParam)
 {
 	if (MessageBox(0, TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?"), TranslateT("Clear History"), MB_YESNO | MB_ICONWARNING) == IDYES) {
-		MCONTACT hContact = (MCONTACT)wParam;
+		MCONTACT hContact = wParam;
 		RemoveAllEvents(hContact);
 	}
 	
@@ -150,7 +150,7 @@ INT_PTR ServiceClear(WPARAM wParam, LPARAM lParam)
 
 int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	
 	bool remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
 	char *proto = GetContactProto(hContact);
@@ -172,7 +172,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ServiceToggle(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	int remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
 	remove = !remove;
@@ -218,7 +218,7 @@ int WindowEvent(WPARAM wParam, LPARAM lParam)
 										  
 int IconPressed(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if (sicd->cbSize < (int)sizeof(StatusIconClickData))
 		return 0;

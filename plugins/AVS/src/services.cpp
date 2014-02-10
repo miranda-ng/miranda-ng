@@ -31,7 +31,7 @@ INT_PTR GetAvatarBitmap(WPARAM wParam, LPARAM lParam)
 	if (wParam == 0 || g_shutDown || fei == NULL)
 		return 0;
 
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	hContact = GetContactThatHaveTheAvatar(hContact);
 
 	// Get the node
@@ -46,7 +46,7 @@ INT_PTR GetAvatarBitmap(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ProtectAvatar(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	BYTE was_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 	if (fei == NULL || was_locked == (BYTE)lParam)      // no need for redundant lockings...
@@ -188,12 +188,12 @@ static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath)
 
 INT_PTR SetAvatar(WPARAM wParam, LPARAM lParam)
 {
-	return avSetAvatar((MCONTACT)wParam, _A2T((const char*)lParam));
+	return avSetAvatar(wParam, _A2T((const char*)lParam));
 }
 
 INT_PTR SetAvatarW(WPARAM wParam, LPARAM lParam)
 {
-	return avSetAvatar((MCONTACT)wParam, (TCHAR*)lParam);
+	return avSetAvatar(wParam, (TCHAR*)lParam);
 }
 
 /*

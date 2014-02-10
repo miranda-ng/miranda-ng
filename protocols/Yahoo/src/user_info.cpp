@@ -118,7 +118,7 @@ int __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 	odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
-	MCONTACT hContact = (MCONTACT)lParam;
+	MCONTACT hContact = lParam;
 	if ( IsMyContact(hContact)) {
 		odp.pfnDlgProc = YahooUserInfoDlgProc;
 		odp.position = -1900000000;

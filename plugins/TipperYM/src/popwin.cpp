@@ -976,7 +976,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		break;
 
 	case PUM_SETSTATUSTEXT:
-		if (pwd && (MCONTACT)wParam == pwd->hContact) {
+		if (pwd && wParam == pwd->hContact) {
 			db_set_ts(pwd->hContact, MODULE, "TempStatusMsg", (TCHAR *)lParam);
 			pwd->bIsPainted = false;
 			pwd->bNeedRefresh = true;
@@ -988,7 +988,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return TRUE;
 
 	case PUM_SHOWXSTATUS:
-		if (pwd && (MCONTACT)wParam == pwd->hContact) {
+		if (pwd && wParam == pwd->hContact) {
 			// in case we have retrieve xstatus
 			pwd->bIsPainted = false;
 			SendMessage(hwnd, PUM_REFRESH_VALUES, TRUE, 0);
@@ -997,7 +997,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return TRUE;
 
 	case PUM_SETAVATAR:
-		if (pwd && (MCONTACT)wParam == pwd->hContact) {
+		if (pwd && wParam == pwd->hContact) {
 			pwd->bIsPainted = false;
 			SendMessage(hwnd, PUM_GETHEIGHT, 0, 0);
 			SendMessage(hwnd, PUM_CALCPOS, 0, 0);

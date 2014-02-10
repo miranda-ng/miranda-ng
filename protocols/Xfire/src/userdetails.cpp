@@ -91,14 +91,14 @@ static int GetIPPortUDetails(MCONTACT wParam,char* feld1,char* feld2)
     HGLOBAL clipbuffer;
 	char* buffer;
 
-	if (db_get_w((MCONTACT)wParam, protocolname, feld2, -1)==0)
+	if (db_get_w(wParam, protocolname, feld2, -1)==0)
 		return 0;
 
 	DBVARIANT dbv;
-	if (db_get_s((MCONTACT)wParam, protocolname, feld1,&dbv))
+	if (db_get_s(wParam, protocolname, feld1,&dbv))
 		return 0;
 
-	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w((MCONTACT)wParam, protocolname, feld2, -1));
+	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w(wParam, protocolname, feld2, -1));
 
 	db_free(&dbv);
 
@@ -429,7 +429,7 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 
 int OnDetailsInit(WPARAM wParam,LPARAM lParam)
 {
-	if (!IsXFireContact((MCONTACT)lParam))
+	if (!IsXFireContact(lParam))
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };

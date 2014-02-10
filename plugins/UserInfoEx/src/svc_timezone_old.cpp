@@ -561,7 +561,7 @@ INT_PTR GetContactTimeZoneInformation_old(WPARAM wParam,LPARAM lParam)
 	CTimeZone *pTimeZone;
 	TIME_ZONE_INFORMATION* pTimeZoneInformation = (TIME_ZONE_INFORMATION*)lParam;
 	
-	pTimeZone = GetContactTimeZone((MCONTACT)wParam);
+	pTimeZone = GetContactTimeZone(wParam);
 	if (pTimeZone && pTimeZoneInformation)
 		(*pTimeZoneInformation) = *pTimeZone;
 
@@ -580,7 +580,7 @@ INT_PTR GetContactTimeZoneInformation_old(WPARAM wParam,LPARAM lParam)
 INT_PTR GetContactLocalTime_old(WPARAM wParam, LPARAM lParam)
 {
 	MTime	now;
-	now.GetLocalTime((MCONTACT)wParam);
+	now.GetLocalTime(wParam);
 
 	LPSYSTEMTIME pSystemTime = (LPSYSTEMTIME)lParam;
 	*pSystemTime = now.SystemTime();

@@ -87,7 +87,7 @@ void ShowPopup(MCONTACT hContact, const TCHAR *msg)
 
 static int PluginSendMessage(WPARAM wParam,LPARAM lParam)
 {
-	CallContactService((MCONTACT)wParam,PSS_MESSAGE,0,lParam);
+	CallContactService(wParam,PSS_MESSAGE,0,lParam);
 	return 0;
 }
 

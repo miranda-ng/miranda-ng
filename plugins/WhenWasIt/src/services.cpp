@@ -169,7 +169,7 @@ INT_PTR ShowListService(WPARAM wParam, LPARAM lParam)
 
 INT_PTR AddBirthdayService(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	HWND hWnd = WindowList_Find(hAddBirthdayWndsList, hContact);
 	if ( !hWnd) {
 		hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ADD_BIRTHDAY), NULL, DlgProcAddBirthday, (LPARAM) hContact);

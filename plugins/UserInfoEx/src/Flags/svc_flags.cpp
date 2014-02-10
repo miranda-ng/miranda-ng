@@ -44,18 +44,18 @@ static LIST<MsgWndData> gMsgWndList(10, HandleKeySortT);
 static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 {
 	WORD countryNumber;
-	char *pszProto = GetContactProto((MCONTACT)wParam);
+	char *pszProto = GetContactProto(wParam);
 	/* UserinfoEx */
-	if (countryNumber = db_get_w((MCONTACT)wParam, USERINFO, SET_CONTACT_ORIGIN_COUNTRY, 0))
+	if (countryNumber = db_get_w(wParam, USERINFO, SET_CONTACT_ORIGIN_COUNTRY, 0))
 		return countryNumber;
-	if (countryNumber = db_get_w((MCONTACT)wParam, USERINFO, SET_CONTACT_COUNTRY, 0))
+	if (countryNumber = db_get_w(wParam, USERINFO, SET_CONTACT_COUNTRY, 0))
 		return countryNumber;
-	if (countryNumber = db_get_w((MCONTACT)wParam, USERINFO, SET_CONTACT_COMPANY_COUNTRY, 0))
+	if (countryNumber = db_get_w(wParam, USERINFO, SET_CONTACT_COMPANY_COUNTRY, 0))
 		return countryNumber;
 	/* fallback proto settings */
-	if (countryNumber = db_get_w((MCONTACT)wParam, pszProto, "Country", 0))
+	if (countryNumber = db_get_w(wParam, pszProto, "Country", 0))
 		return countryNumber;
-	if (countryNumber = db_get_w((MCONTACT)wParam, pszProto, "CompanyCountry", 0))
+	if (countryNumber = db_get_w(wParam, pszProto, "CompanyCountry", 0))
 		return countryNumber;
 
 	return (INT_PTR)0xFFFF;
@@ -69,7 +69,7 @@ static void CALLBACK SetExtraImage(LPARAM lParam)
 {
 	/* get contact's country */
 	int countryNumber = ServiceDetectContactOriginCountry(lParam, 0);
-	ExtraIcon_SetIcon(hExtraIconSvc, (MCONTACT)lParam, (countryNumber != 0xFFFF || g_bUseUnknownFlag) ? LoadFlagHandle(countryNumber) : NULL);
+	ExtraIcon_SetIcon(hExtraIconSvc, lParam, (countryNumber != 0xFFFF || g_bUseUnknownFlag) ? LoadFlagHandle(countryNumber) : NULL);
 }
 
 static int OnCListApplyIcons(WPARAM wParam, LPARAM)

@@ -484,7 +484,7 @@ static int OnPrebuildContactMenu (WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_NAME | CMIF_TCHAR;
 
-	if ( db_get_b((MCONTACT)wParam, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)
+	if ( db_get_b(wParam, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)
 		clmi.ptszName = TranslateT("Ignore Contact");
 	else
 		clmi.ptszName = TranslateT("Show Contact");
@@ -515,7 +515,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 INT_PTR ToggleIgnore (WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != NULL) {
-		MCONTACT hContact = (MCONTACT)wParam;
+		MCONTACT hContact = wParam;
 		int state = db_get_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0 ? 1 : 0 ;
 		db_set_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, state);
 		return state;

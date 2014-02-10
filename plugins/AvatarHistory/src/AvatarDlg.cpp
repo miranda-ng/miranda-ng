@@ -513,7 +513,7 @@ int CleanupAvatarPic(HWND hwnd)
 
 int PreBuildContactMenu(WPARAM wParam,LPARAM lParam) 
 {
-	char *proto = GetContactProto((MCONTACT)wParam);
+	char *proto = GetContactProto(wParam);
 	Menu_ShowItem(hMenu, ProtocolEnabled(proto));
 	return 0;
 }
@@ -534,7 +534,7 @@ void InitMenuItem()
 
 static INT_PTR ShowDialogSvc(WPARAM wParam, LPARAM lParam)
 {
-	OpenAvatarDialog((MCONTACT)wParam, (char*)lParam);
+	OpenAvatarDialog(wParam, (char*)lParam);
 	return 0;
 }
 

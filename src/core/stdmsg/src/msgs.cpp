@@ -59,7 +59,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 
 	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM) 1);
 	/* does a window for the contact exist? */
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (MCONTACT)wParam);
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
 	if (hwnd) {
 		if (!db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS)) {
 			ShowWindow(hwnd, SW_RESTORE);
@@ -78,10 +78,10 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	/* new message */
 	SkinPlaySound("AlertMsg");
 
-	char *szProto = GetContactProto((MCONTACT)wParam);
+	char *szProto = GetContactProto(wParam);
 	if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0)))) {
 		NewMessageWindowLParam newData = { 0 };
-		newData.hContact = (MCONTACT)wParam;
+		newData.hContact = wParam;
 		newData.noActivate = db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
 		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)&newData);
 		return 0;
@@ -89,12 +89,12 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 
 	TCHAR toolTip[256], *contactName;
 	CLISTEVENT cle = { sizeof(cle) };
-	cle.hContact = (MCONTACT)wParam;
+	cle.hContact = wParam;
 	cle.hDbEvent = (HANDLE)lParam;
 	cle.flags = CLEF_TCHAR;
 	cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
-	contactName = pcli->pfnGetContactDisplayName((MCONTACT)wParam, 0);
+	contactName = pcli->pfnGetContactDisplayName(wParam, 0);
 	mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);
 	cle.ptszTooltip = toolTip;
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
@@ -135,12 +135,12 @@ INT_PTR SendMessageCmd(MCONTACT hContact, char* msg, int isWchar)
 
 static INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 {
-	return SendMessageCmd((MCONTACT)wParam, (char*)lParam, TRUE);
+	return SendMessageCmd(wParam, (char*)lParam, TRUE);
 }
 
 static INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 {
-	return SendMessageCmd((MCONTACT)wParam, (char*)lParam, FALSE);
+	return SendMessageCmd(wParam, (char*)lParam, FALSE);
 }
 
 static INT_PTR ReadMessageCommand(WPARAM wParam, LPARAM lParam)
@@ -159,12 +159,12 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 
 	SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (MCONTACT)wParam);
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
 	if (hwnd)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 	else if (lParam && (g_dat.flags & SMF_SHOWTYPINGTRAY)) {
 		TCHAR szTip[256];
-		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName((MCONTACT)wParam, 0));
+		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(wParam, 0));
 
 		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags&SMF_SHOWTYPINGCLIST)) {
 			MIRANDASYSTRAYNOTIFY tn = { sizeof(tn) };
@@ -177,7 +177,7 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 		}
 		else {
 			CLISTEVENT cle = { sizeof(cle) };
-			cle.hContact = (MCONTACT)wParam;
+			cle.hContact = wParam;
 			cle.hDbEvent = (HANDLE)1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 			cle.hIcon = LoadSkinnedIcon( SKINICON_OTHER_TYPING );
@@ -194,7 +194,7 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	if (cws->szModule == NULL) return 0;
 
@@ -204,7 +204,7 @@ static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 		if (cws->szSetting && !strcmp(cws->szSetting, "Timezone"))
 			WindowList_Broadcast(g_dat.hMessageWindowList, DM_NEWTIMEZONE, (WPARAM) cws, 0);
 		else {
-			char *szProto = GetContactProto((MCONTACT)wParam);
+			char *szProto = GetContactProto(wParam);
 			if (szProto && !strcmp(cws->szModule, szProto))
 				WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM) cws, 0);
 		}
@@ -215,7 +215,7 @@ static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 static int ContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd;
-	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, (MCONTACT)wParam))
+	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam))
 		SendMessage(hwnd, WM_CLOSE, 0, 0);
 
 	return 0;
@@ -315,7 +315,7 @@ static int IconsChanged(WPARAM, LPARAM)
 
 static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact) {
 		bool bEnabled = false;
 		char *szProto = GetContactProto(hContact);
@@ -346,7 +346,7 @@ static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (MCONTACT)wParam);
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
 	if (hwnd == NULL)
 		return 1;
 

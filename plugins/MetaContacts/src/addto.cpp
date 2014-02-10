@@ -124,7 +124,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault( hwndDlg );
 
-		if ( db_get_dw((MCONTACT)lParam, META_PROTO, META_ID, (DWORD)-1) != (DWORD)-1) {
+		if ( db_get_dw(lParam, META_PROTO, META_ID, (DWORD)-1) != (DWORD)-1) {
 			MessageBox(hwndDlg,
 				TranslateT("This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another."),
 				TranslateT("MetaContact Conflict"),MB_ICONERROR);
@@ -132,7 +132,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return TRUE;
 		}
 
-		if ( db_get_dw((MCONTACT)lParam, META_PROTO, META_LINK, (DWORD)-1) != (DWORD)-1) {
+		if ( db_get_dw(lParam, META_PROTO, META_LINK, (DWORD)-1) != (DWORD)-1) {
 			MessageBox(hwndDlg,
 				TranslateT("This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts."),
 				TranslateT("Multiple MetaContacts"),MB_ICONERROR);
@@ -155,7 +155,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		else {
 			// get contact display name from clist
-			TCHAR *ptszCDN = pcli->pfnGetContactDisplayName((MCONTACT)lParam, GCDNF_TCHAR);
+			TCHAR *ptszCDN = pcli->pfnGetContactDisplayName(lParam, GCDNF_TCHAR);
 			if (!ptszCDN)
 				ptszCDN = TranslateT("a contact");
 

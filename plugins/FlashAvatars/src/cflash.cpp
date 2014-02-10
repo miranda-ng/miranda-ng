@@ -477,13 +477,13 @@ static int statusChanged(WPARAM wParam, LPARAM lParam)
 	Lock l(cs);
 	for(int i = 0; i < FlashList.getCount(); i++) {
 		flash_avatar_item *item = FlashList[i];
-		if (item->hContact == (MCONTACT)wParam) {
+		if (item->hContact == wParam) {
   		IShockwaveFlash* flash = item->pFlash;
 			if (flash) {
 				getFace();
 				flash->SetVariable(L"face.emotion", _bstr_t(face).copy());
 			}
-		} else if (item->hContact > (MCONTACT)wParam)
+		} else if (item->hContact > wParam)
 			break; // the list is sorted by hContact
 	}
 	return 0;
@@ -542,7 +542,7 @@ static int eventAdded(WPARAM wParam, LPARAM lParam)
 				face = AV_NORMAL;
 			}
 
-			MCONTACT hContact = (dbei.flags & DBEF_SENT) ? 0 : (MCONTACT)wParam;
+			MCONTACT hContact = (dbei.flags & DBEF_SENT) ? 0 : wParam;
 			for(int i=0; i<FlashList.getCount(); i++) {
 				flash_avatar_item *item = FlashList[i];
 				if (item->hContact == hContact && !strcmpnull(dbei.szModule, item->getProto())) {

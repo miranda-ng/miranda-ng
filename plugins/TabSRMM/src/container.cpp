@@ -1197,15 +1197,15 @@ panel_found:
 				dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 			}
 			else {
-				HWND hwnd = M.FindWindow((MCONTACT)wParam);
+				HWND hwnd = M.FindWindow(wParam);
 				if (hwnd == 0) {
-					SESSION_INFO *si = SM_FindSessionByHCONTACT((MCONTACT)wParam);
+					SESSION_INFO *si = SM_FindSessionByHCONTACT(wParam);
 					if (si) {
 						SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
 						return 0;
 					}
 				}
-				hContact = (MCONTACT)wParam;
+				hContact = wParam;
 				if (hwnd && hContact)
 					dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			}

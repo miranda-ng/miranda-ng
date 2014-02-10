@@ -45,7 +45,7 @@ VOID CALLBACK DeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 // add prefix to sent messages
 int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 	if (!options.prefix_messages || !lParam) return 0;
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
 	if ((dbei->eventType != EVENTTYPE_MESSAGE) || !(dbei->flags & DBEF_SENT) || (dbei->flags & DBEF_OTR_PREFIXED))
 		return 0;
@@ -191,7 +191,7 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 	info.pBlob = (PBYTE)mir_alloc(info.cbBlob);
 	if (!db_event_get((HANDLE)lParam, &info)) {
 		if(info.eventType == EVENTTYPE_MESSAGE) {
-			MCONTACT hContact = (MCONTACT)wParam, hSub;
+			MCONTACT hContact = wParam, hSub;
 			if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 				hContact = hSub;
 
@@ -296,7 +296,7 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam) {
 int OnContactSettingChanged(WPARAM wParam, LPARAM lParam) {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	if (!lParam || strcmp(cws->szSetting, "Status") != 0) return 0;
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	int status=0;
 	switch (cws->value.type){
 		case DBVT_WORD:

@@ -2547,7 +2547,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case HM_DBEVENTADDED:
 		if (!dat)
 			return 0;
-		if ((MCONTACT)wParam != dat->hContact)
+		if (wParam != dat->hContact)
 			return 0;
 		if (dat->hContact == NULL)
 			return 0;

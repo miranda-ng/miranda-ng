@@ -350,7 +350,7 @@ static INT_PTR CB_GetButtonState(WPARAM wParam, LPARAM lParam)
 
 	if (!realbutton)
 		return 1;
-	HWND hwndDlg = M.FindWindow((MCONTACT)wParam);
+	HWND hwndDlg = M.FindWindow(wParam);
 	if(!hwndDlg)
 		return 1;
 	HWND hwndBtn = GetDlgItem(hwndDlg, tempCID);
@@ -385,7 +385,7 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 	if (!realbutton)
 		return 1;
 
-	HWND hwndDlg = M.FindWindow((MCONTACT)wParam);
+	HWND hwndDlg = M.FindWindow(wParam);
 	if(!hwndDlg)
 		return 1;
 

@@ -95,7 +95,7 @@ static int PageSortProc(OPTIONSDIALOGPAGE *item1, OPTIONSDIALOGPAGE *item2)
 static INT_PTR ShowDetailsDialogCommand(WPARAM wParam, LPARAM)
 {
 	HWND hwnd;
-	if (hwnd = WindowList_Find(hWindowList, (MCONTACT)wParam)) {
+	if (hwnd = WindowList_Find(hWindowList, wParam)) {
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 		return 0;
@@ -222,7 +222,7 @@ static void CreateDetailsPageWindow(HWND hwndDlg, DetailsData *dat, DetailsPageD
 
 static int UserInfoContactDelete(WPARAM wParam, LPARAM)
 {
-	HWND hwnd = WindowList_Find(hWindowList, (MCONTACT)wParam);
+	HWND hwnd = WindowList_Find(hWindowList, wParam);
 	if (hwnd != NULL)
 		DestroyWindow(hwnd);
 	return 0;

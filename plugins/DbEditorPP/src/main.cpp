@@ -56,7 +56,7 @@ void settingChanged(HWND hwnd2Settings, MCONTACT hContact, char* module, char* s
 int DBSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	char *setting;
 	SettingListInfo* info;
 
@@ -106,7 +106,7 @@ int DBSettingChanged(WPARAM wParam,LPARAM lParam)
 INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM lParam)
 {
 	if (!hwnd2mainWindow) { // so only opens 1 at a time
-		hRestore = (MCONTACT)wParam;
+		hRestore = wParam;
 		SetCursor(LoadCursor(NULL,IDC_WAIT));
 		CreateDialog(hInst, MAKEINTRESOURCE(IDD_MAIN), 0, MainDlgProc);
 	}
@@ -114,7 +114,7 @@ INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM lParam)
 		ShowWindow(hwnd2mainWindow, SW_RESTORE);
 		SetForegroundWindow(hwnd2mainWindow);
 		if (!hRestore && wParam) {
-			hRestore = (MCONTACT)wParam;
+			hRestore = wParam;
 			refreshTree(4);
 		}
 	}
@@ -225,7 +225,7 @@ INT_PTR ServiceMode(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ImportFromFile(WPARAM wParam, LPARAM lParam)
 {
-	ImportSettingsFromFileMenuItem((MCONTACT)wParam, (char*)lParam);
+	ImportSettingsFromFileMenuItem(wParam, (char*)lParam);
 	return 0;
 }
 

@@ -78,14 +78,14 @@ static int ClcEventAdded(WPARAM wParam, LPARAM lParam)
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get((HANDLE)lParam, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
-			DWORD firstTime = cfg::getDword((MCONTACT)wParam, "CList", "mf_firstEvent", 0);
-			DWORD count = cfg::getDword((MCONTACT)wParam, "CList", "mf_count", 0);
+			DWORD firstTime = cfg::getDword(wParam, "CList", "mf_firstEvent", 0);
+			DWORD count = cfg::getDword(wParam, "CList", "mf_count", 0);
 			count++;
 			new_freq = count ? (dbei.timestamp - firstTime) / count : 0x7fffffff;
-			cfg::writeDword((MCONTACT)wParam, "CList", "mf_freq", new_freq);
-			cfg::writeDword((MCONTACT)wParam, "CList", "mf_count", count);
+			cfg::writeDword(wParam, "CList", "mf_freq", new_freq);
+			cfg::writeDword(wParam, "CList", "mf_count", count);
 
-			TExtraCache *p = cfg::getCache((MCONTACT)wParam, NULL);
+			TExtraCache *p = cfg::getCache(wParam, NULL);
 			if (p) {
 				p->dwLastMsgTime = dbei.timestamp;
 				if (new_freq)
@@ -111,9 +111,9 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 			if ( !__strcmp(cws->szSetting, "ANSIcodepage"))
 				pcli->pfnClcBroadcast(INTM_CODEPAGECHANGED, wParam, lParam);
 			else if ( !__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
-				ReloadExtraInfo((MCONTACT)wParam);
+				ReloadExtraInfo(wParam);
 		}
-		else if (wParam != 0 && (szProto = GetContactProto((MCONTACT)wParam)) != NULL) {
+		else if (wParam != 0 && (szProto = GetContactProto(wParam)) != NULL) {
 			char *id = NULL;
 			if ( !__strcmp(cws->szModule, "Protocol") && !__strcmp(cws->szSetting, "p")) {
 				char *szProto_s;
@@ -122,24 +122,24 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 					szProto_s = NULL;
 				else
 					szProto_s = cws->value.pszVal;
-				pcli->pfnChangeContactIcon((MCONTACT)wParam, IconFromStatusMode(szProto_s, szProto_s == NULL ? ID_STATUS_OFFLINE : cfg::getWord((MCONTACT)wParam, szProto_s, "Status", ID_STATUS_OFFLINE), (MCONTACT)wParam, NULL), 0);
+				pcli->pfnChangeContactIcon(wParam, IconFromStatusMode(szProto_s, szProto_s == NULL ? ID_STATUS_OFFLINE : cfg::getWord(wParam, szProto_s, "Status", ID_STATUS_OFFLINE), wParam, NULL), 0);
 			}
 			// something is being written to a protocol module
 			if ( !__strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
-				pcli->pfnInvalidateDisplayNameCacheEntry((MCONTACT)wParam);
+				pcli->pfnInvalidateDisplayNameCacheEntry(wParam);
 				if ( !__strcmp(cws->szSetting, "Status")) {
-					if (!cfg::getByte((MCONTACT)wParam, "CList", "Hidden", 0)) {
+					if (!cfg::getByte(wParam, "CList", "Hidden", 0)) {
 						if (cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)) {
 							// User's state is changing, and we are hideOffline-ing
 							if (cws->value.wVal == ID_STATUS_OFFLINE) {
-								pcli->pfnChangeContactIcon((MCONTACT)wParam, IconFromStatusMode(cws->szModule, cws->value.wVal, (MCONTACT)wParam, NULL), 0);
+								pcli->pfnChangeContactIcon(wParam, IconFromStatusMode(cws->szModule, cws->value.wVal, wParam, NULL), 0);
 								CallService(MS_CLUI_CONTACTDELETED, wParam, 0);
 								return 0;
 							}
-							pcli->pfnChangeContactIcon((MCONTACT)wParam, IconFromStatusMode(cws->szModule, cws->value.wVal, (MCONTACT)wParam, NULL), 1);
+							pcli->pfnChangeContactIcon(wParam, IconFromStatusMode(cws->szModule, cws->value.wVal, wParam, NULL), 1);
 						}
-						pcli->pfnChangeContactIcon((MCONTACT)wParam, IconFromStatusMode(cws->szModule, cws->value.wVal, (MCONTACT)wParam, NULL), 0);
+						pcli->pfnChangeContactIcon(wParam, IconFromStatusMode(cws->szModule, cws->value.wVal, wParam, NULL), 0);
 					}
 					SendMessage(pcli->hwndContactTree, INTM_STATUSCHANGED, wParam, lParam);
 					return 0;
@@ -149,7 +149,7 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 				else if (strstr(cws->szSetting, "XStatus"))
 					SendMessage(pcli->hwndContactTree, INTM_XSTATUSCHANGED, wParam, lParam);
 				else if ( !__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
-					ReloadExtraInfo((MCONTACT)wParam);
+					ReloadExtraInfo(wParam);
 
 				if (cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS) && !__strcmp(szProto, cfg::dat.szMetaName)) {
 					if ((lstrlenA(cws->szSetting) > 6 && !strncmp(cws->szSetting, "Status", 6)) || strstr("Default,ForceSend,Nick", cws->szSetting))
@@ -288,9 +288,9 @@ LBL_Def:
 			memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
 			flags = contact->flags;
 		}
-		pcli->pfnDeleteItemFromTree(hwnd, (MCONTACT)wParam);
-		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus((MCONTACT)wParam, NULL, dat)) {
-			pcli->pfnAddContactToTree(hwnd, dat, (MCONTACT)wParam, 1, 1);
+		pcli->pfnDeleteItemFromTree(hwnd, wParam);
+		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(wParam, NULL, dat)) {
+			pcli->pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
 			if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
 				memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 				if (flags & CONTACTF_CHECKED)
@@ -313,7 +313,7 @@ LBL_Def:
 	case INTM_ICONCHANGED:
 	{
 		int recalcScrollBar = 0;
-		MCONTACT hContact = (MCONTACT)wParam;
+		MCONTACT hContact = wParam;
 		WORD status = ID_STATUS_OFFLINE;
 		int  contactRemoved = 0;
 		MCONTACT hSelItem = NULL;
@@ -412,7 +412,7 @@ LBL_Def:
 		ClcContact *contact;
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
-		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((MCONTACT)wParam, 0), SIZEOF(contact->szText));
+		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), SIZEOF(contact->szText));
 
 		RTL_DetectAndSet(contact, 0);
 
@@ -423,7 +423,7 @@ LBL_Def:
 	case INTM_CODEPAGECHANGED:
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
-		contact->codePage = cfg::getDword((MCONTACT)wParam, "Tab_SRMsg", "ANSIcodepage", cfg::getDword((MCONTACT)wParam, "UserInfo", "ANSIcodepage", CP_ACP));
+		contact->codePage = cfg::getDword(wParam, "Tab_SRMsg", "ANSIcodepage", cfg::getDword(wParam, "UserInfo", "ANSIcodepage", CP_ACP));
 		PostMessage(hwnd, INTM_INVALIDATE, 0, 0);
 		goto LBL_Def;
 
@@ -467,7 +467,7 @@ LBL_Def:
 		char *szProto = NULL;
 
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
-			p = cfg::getCache((MCONTACT)wParam, NULL);
+			p = cfg::getCache(wParam, NULL);
 		else {
 			p = contact->pExtra;
 			szProto = contact->proto;
@@ -479,7 +479,7 @@ LBL_Def:
 
 	case INTM_STATUSCHANGED:
 		if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
-			WORD wStatus = cfg::getWord((MCONTACT)wParam, contact->proto, "Status", ID_STATUS_OFFLINE);
+			WORD wStatus = cfg::getWord(wParam, contact->proto, "Status", ID_STATUS_OFFLINE);
 			if (cfg::dat.bNoOfflineAvatars && wStatus != ID_STATUS_OFFLINE && contact->wStatus == ID_STATUS_OFFLINE) {
 				contact->wStatus = wStatus;
 				if (cfg::dat.bAvatarServiceAvail && contact->ace == NULL)
@@ -494,9 +494,9 @@ LBL_Def:
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 
-		contact->proto = GetContactProto((MCONTACT)wParam);
+		contact->proto = GetContactProto(wParam);
 		CallService(MS_CLIST_INVALIDATEDISPLAYNAME, wParam, 0);
-		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((MCONTACT)wParam, 0), SIZEOF(contact->szText));
+		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), SIZEOF(contact->szText));
 
 		RTL_DetectAndSet(contact, 0);
 
@@ -545,7 +545,7 @@ LBL_Def:
 				break;
 
 			contact->flags &= ~CONTACTF_IDLE;
-			if (cfg::getDword((MCONTACT)wParam, szProto, "IdleTS", 0)) {
+			if (cfg::getDword(wParam, szProto, "IdleTS", 0)) {
 				contact->flags |= CONTACTF_IDLE;
 			}
 			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)contact->hContact);
@@ -557,7 +557,7 @@ LBL_Def:
 		{
 			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 			char *szProto = (char *)cws->szModule;
-			MCONTACT hContact = (MCONTACT)wParam;
+			MCONTACT hContact = wParam;
 			TExtraCache *p;
 
 			if (!FindItem(hwnd, dat, (HANDLE)hContact, &contact, NULL, NULL)) {

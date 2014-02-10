@@ -145,7 +145,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		int recalcScrollBar = 0,shouldShow;
 		MCONTACT hSelItem = NULL;
 		struct ClcContact *selcontact = NULL;
-		ClcCacheEntry *cacheEntry = GetContactFullCacheEntry((MCONTACT)wParam);
+		ClcCacheEntry *cacheEntry = GetContactFullCacheEntry(wParam);
 
 		WORD status;
 		int needsResort = 0;
@@ -158,7 +158,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		// this means an offline msg is flashing, so the contact should be shown
 		shouldShow = (GetWindowLongPtr(hwnd,GWL_STYLE) & CLS_SHOWHIDDEN || !cacheEntry->bIsHidden) &&
-			(!pcli->pfnIsHiddenMode(dat, status) || cacheEntry->noHiddenOffline || pcli->pfnGetContactIcon((MCONTACT)wParam) != LOWORD(lParam));
+			(!pcli->pfnIsHiddenMode(dat, status) || cacheEntry->noHiddenOffline || pcli->pfnGetContactIcon(wParam) != LOWORD(lParam));
 
 		ClcContact *contact;
 		ClcGroup *group;
@@ -166,13 +166,13 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
 					hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
-				AddContactToTree(hwnd, dat, (MCONTACT)wParam, 0, 0);
+				AddContactToTree(hwnd, dat, wParam, 0, 0);
 				needsResort = 1;
 				recalcScrollBar = 1;
 				FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL);
 				if (contact) {
 					contact->iImage = (WORD)lParam;
-					pcli->pfnNotifyNewContact(hwnd, (MCONTACT)wParam);
+					pcli->pfnNotifyNewContact(hwnd, wParam);
 					dat->needsResort = 1;
 				}
 			}
@@ -222,7 +222,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		ClcGroup *group;
 		if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL) && contact != NULL) {
 			contact->flags  &=  ~CONTACTF_STATUSMSG;
-			if (!db_get_ts((MCONTACT)wParam, "CList", "StatusMsg", &dbv)) {
+			if (!db_get_ts(wParam, "CList", "StatusMsg", &dbv)) {
 				int j;
 				if (dbv.ptszVal == NULL || _tcslen(dbv.ptszVal) == 0) break;
 				lstrcpyn(contact->szStatusMsg, dbv.ptszVal, SIZEOF(contact->szStatusMsg));

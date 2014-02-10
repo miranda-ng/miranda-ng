@@ -15,7 +15,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 	case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hwndDlg);
-			MCONTACT hContact = (MCONTACT)lParam;
+			MCONTACT hContact = lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 			WindowList_Add(hChangeSoundDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, SETTINGSNAME, "ChangeSoundDlg");
@@ -204,7 +204,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 
 INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 {
-	HWND hChangeSoundDlg = WindowList_Find(hChangeSoundDlgList, (MCONTACT)wParam);
+	HWND hChangeSoundDlg = WindowList_Find(hChangeSoundDlgList, wParam);
 	if (!hChangeSoundDlg) {
 		hChangeSoundDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACTS), 0, DlgProcContactsOptions, (LPARAM)wParam);
 		ShowWindow(hChangeSoundDlg, SW_SHOW);

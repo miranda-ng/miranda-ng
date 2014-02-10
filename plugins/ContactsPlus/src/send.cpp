@@ -251,9 +251,9 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		TranslateDialogDefault(hwndDlg);
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS)));
 		ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
-		SetAllContactChecks(GetDlgItem(hwndDlg, IDC_LIST), (MCONTACT)lParam);
-		WindowList_Add(ghSendWindowList, hwndDlg, (MCONTACT)lParam);
-		wndData = new TSendContactsData((MCONTACT)lParam);
+		SetAllContactChecks(GetDlgItem(hwndDlg, IDC_LIST), lParam);
+		WindowList_Add(ghSendWindowList, hwndDlg, lParam);
+		wndData = new TSendContactsData(lParam);
 		SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG)wndData);
 		// new dlg init 
 		wndData->hIcons[0] = InitMButton(hwndDlg, IDC_ADD, MAKEINTRESOURCEA(IDI_ADDCONTACT), LPGEN("Add Contact Permanently to List"));

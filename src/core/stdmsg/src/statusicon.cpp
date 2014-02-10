@@ -26,7 +26,7 @@ HANDLE hHookIconPressedEvt;
 
 static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		WindowList_Broadcast(g_dat.hMessageWindowList, DM_STATUSICONCHANGE, 0, 0);
 	else {

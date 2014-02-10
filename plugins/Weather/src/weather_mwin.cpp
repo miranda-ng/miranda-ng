@@ -294,11 +294,11 @@ void UpdateMwinData(MCONTACT hContact)
 
 INT_PTR Mwin_MenuClicked(WPARAM wParam,LPARAM lParam)
 {
-	BOOL addwnd = WindowList_Find(hMwinWindowList, (MCONTACT)wParam) == NULL;
+	BOOL addwnd = WindowList_Find(hMwinWindowList, wParam) == NULL;
 	if (addwnd)
-		addWindow((MCONTACT)wParam);
+		addWindow(wParam);
 	else
-		removeWindow((MCONTACT)wParam);
+		removeWindow(wParam);
 	return 0;
 }
 

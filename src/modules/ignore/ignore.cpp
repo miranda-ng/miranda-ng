@@ -338,7 +338,7 @@ static int IgnoreOptInitialise(WPARAM wParam, LPARAM)
 
 static INT_PTR IsIgnored(WPARAM wParam, LPARAM lParam)
 {
-	DWORD mask = GetMask((MCONTACT)wParam);
+	DWORD mask = GetMask(wParam);
 	if (lParam < 1 || lParam > IGNOREEVENT_MAX)
 		return 1;
 	return (mask >> (lParam-1))&1;
@@ -346,20 +346,20 @@ static INT_PTR IsIgnored(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR Ignore(WPARAM wParam, LPARAM lParam)
 {
-	DWORD mask = GetMask((MCONTACT)wParam);
+	DWORD mask = GetMask(wParam);
 	if ((lParam < 1 || lParam > IGNOREEVENT_MAX) && lParam != IGNOREEVENT_ALL)
 		return 1;
 	if (lParam == IGNOREEVENT_ALL)
 		mask = (1 << IGNOREEVENT_MAX)-1;
 	else
 		mask |= 1 << (lParam-1);
-	db_set_dw((MCONTACT)wParam, "Ignore", "Mask1", mask);
+	db_set_dw(wParam, "Ignore", "Mask1", mask);
 	return 0;
 }
 
 static INT_PTR Unignore(WPARAM wParam, LPARAM lParam)
 {
-	DWORD mask = GetMask((MCONTACT)wParam);
+	DWORD mask = GetMask(wParam);
 	if ((lParam < 1 || lParam > IGNOREEVENT_MAX) && lParam != IGNOREEVENT_ALL)
 		return 1;
 
@@ -367,7 +367,7 @@ static INT_PTR Unignore(WPARAM wParam, LPARAM lParam)
 		mask = 0;
 	else
 		mask &= ~(1 << (lParam-1));
-	db_set_dw((MCONTACT)wParam, "Ignore", "Mask1", mask);
+	db_set_dw(wParam, "Ignore", "Mask1", mask);
 	return 0;
 }
 

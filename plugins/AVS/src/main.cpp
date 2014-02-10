@@ -134,7 +134,7 @@ static int MetaChanged(WPARAM wParam, LPARAM lParam)
 
 	AVATARCACHEENTRY *ace;
 
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	MCONTACT hSubContact = GetContactThatHaveTheAvatar(hContact);
 
 	// Get the node
@@ -242,7 +242,7 @@ static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 
 static int ContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	DeleteAvatarFromCache((MCONTACT)wParam, TRUE);
+	DeleteAvatarFromCache(wParam, TRUE);
 	return 0;
 }
 

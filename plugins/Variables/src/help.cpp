@@ -140,7 +140,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case VARM_SETSUBJECT: {
 		LPARAM res = 0;
-		MCONTACT hItem, hContact = (MCONTACT)wParam;
+		MCONTACT hItem, hContact = wParam;
 		log_debugA("VARM_SETSUBJECT: %u", hContact);
 		if (hContact == INVALID_CONTACT_ID) {
 			TCHAR *tszContact = db_get_tsa(NULL, MODULENAME, SETTING_SUBJECT);

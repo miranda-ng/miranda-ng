@@ -427,7 +427,7 @@ void HistoryWindow::OptionsSearchingChanged()
 
 INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	HWND hWnd = NULL;
 	int start = 0;
 	int end = 0;

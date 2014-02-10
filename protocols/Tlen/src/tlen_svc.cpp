@@ -599,7 +599,7 @@ static void __cdecl TlenGetAwayMsgThread(void *ptr)
 
 INT_PTR TlenProtocol::SendAlert(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	DBVARIANT dbv;
 	if (isOnline && !db_get(hContact, m_szModuleName, "jid", &dbv)) {
 		TlenSend(this, "<m tp='a' to='%s'/>", dbv.pszVal);
@@ -1035,12 +1035,12 @@ int TlenProtocol::TlenContactDeleted(WPARAM wParam, LPARAM lParam)
 	if (!isOnline)	// should never happen
 		return 0;
 
-	char *szProto = GetContactProto((MCONTACT)wParam);
+	char *szProto = GetContactProto(wParam);
 	if (szProto == NULL || strcmp(szProto, m_szModuleName))
 		return 0;
 
 	DBVARIANT dbv;
-	if (!db_get((MCONTACT)wParam, m_szModuleName, "jid", &dbv)) {
+	if (!db_get(wParam, m_szModuleName, "jid", &dbv)) {
 		char *jid, *p, *q;
 
 		jid = dbv.pszVal;

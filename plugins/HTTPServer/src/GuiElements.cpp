@@ -1014,7 +1014,7 @@ void SendLinkToUser(WPARAM wParam, char *pszSrvPath) {
 /////////////////////////////////////////////////////////////////////
 
 static INT_PTR nShareNewFile(WPARAM wParam, LPARAM lParam) {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	// used to be _MAX_PATH
 	// changed it since selecting multiple files requires a bigger buffer

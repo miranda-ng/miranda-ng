@@ -73,7 +73,7 @@ static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam)
 	if (lstrcmpA(sicd->szModule, MODULNAME))
 		return 0;
 
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (!hContact)
 		return 0;
 

@@ -34,7 +34,7 @@ int __cdecl onWindowEvent(WPARAM wParam, LPARAM lParam) {
 
 int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	MCONTACT hMeta = NULL;
 	if(metaIsProtoMetaContacts(hContact))
 	{

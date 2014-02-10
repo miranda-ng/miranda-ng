@@ -260,7 +260,7 @@ int GetContactCachedStatus(MCONTACT hContact)
 int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	// Early exit
 	if (hContact == NULL)
@@ -315,7 +315,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 			if ( !strcmp(cws->szSetting,"Hidden")) {
 				InvalidateDisplayNameCacheEntryByPDNE(hContact,pdnce,cws->value.type);
 				if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
-					char *szProto = GetContactProto((MCONTACT)wParam);
+					char *szProto = GetContactProto(wParam);
 					ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact, szProto, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)), 1);  //by FYR
 				}
 			}

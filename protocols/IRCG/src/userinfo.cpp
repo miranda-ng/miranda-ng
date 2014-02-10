@@ -45,7 +45,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 	UserDetailsDlgProcParam *p = (UserDetailsDlgProcParam*)GetWindowLongPtr(m_hwnd, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
-		p = new UserDetailsDlgProcParam(NULL, (MCONTACT)lParam);
+		p = new UserDetailsDlgProcParam(NULL, lParam);
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LPARAM)p);
 		break;
 
@@ -188,7 +188,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 
 int __cdecl CIrcProto::OnInitUserInfo(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)lParam;
+	MCONTACT hContact = lParam;
 	char *szProto = GetContactProto(hContact);
 	if (!hContact || !szProto || lstrcmpiA(szProto, m_szModuleName))
 		return 0;

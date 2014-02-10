@@ -1173,7 +1173,7 @@ BOOL GGPROTO::img_sendonrequest(gg_event* e)
 
 INT_PTR GGPROTO::img_sendimg(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	GGIMAGEDLGDATA *dat = NULL;
 
 	gg_EnterCriticalSection(&img_mutex, "img_sendimg", 64, "img_mutex", 1);

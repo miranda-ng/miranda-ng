@@ -248,7 +248,7 @@ void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 
 INT_PTR FacebookProto::OnJoinChat(WPARAM wParam,LPARAM suppress)
 {	
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	// TODO: load info from server + old history,...
 

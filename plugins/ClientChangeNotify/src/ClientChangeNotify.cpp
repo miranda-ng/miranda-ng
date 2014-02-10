@@ -201,7 +201,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (lstrcmpA(cws->szSetting, DB_MIRVER))
 		return 0;
 
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	SHOWPOPUP_DATA sd = {0};
 	char *szProto = GetContactProto(hContact);
 	if (g_PreviewOptPage)

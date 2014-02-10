@@ -1207,7 +1207,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		return TRUE;
 
 	case CM_ADDCHILD:
-		AddChild(dat, (HWND)wParam, (MCONTACT)lParam);
+		AddChild(dat, (HWND)wParam, lParam);
 		return TRUE;
 
 	case CM_ACTIVATECHILD:

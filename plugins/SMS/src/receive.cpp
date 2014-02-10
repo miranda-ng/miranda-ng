@@ -211,7 +211,7 @@ int handleNewMessage(WPARAM wParam, LPARAM lParam)
 {
 	char szServiceFunction[MAX_PATH], *pszServiceFunctionName;
 	TCHAR szToolTip[MAX_PATH];
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	HANDLE hDbEvent = (HANDLE)lParam;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };

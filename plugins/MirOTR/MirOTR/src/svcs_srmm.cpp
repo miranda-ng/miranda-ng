@@ -5,7 +5,7 @@ BBButton OTRButton;
 
 int SVC_IconPressed(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if(sicd->cbSize < (int)sizeof(StatusIconClickData))
 		return 0;

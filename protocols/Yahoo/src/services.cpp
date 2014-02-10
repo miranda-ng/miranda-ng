@@ -83,7 +83,7 @@ void CYahooProto::BroadcastStatus(int s)
 int __cdecl CYahooProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	debugLogA("[YahooContactDeleted]");
 
@@ -254,11 +254,11 @@ INT_PTR __cdecl CYahooProto::OnShowProfileCommand(WPARAM wParam, LPARAM lParam)
 	/**
 	 * We don't show profile for users using other IM clients through the IM server bridge
 	 */
-	if (getWord((MCONTACT)wParam, "yprotoid", 0) != 0) {
+	if (getWord(wParam, "yprotoid", 0) != 0) {
 		return 0;
 	}
 
-	if (getString((MCONTACT)wParam, YAHOO_LOGINID, &dbv))
+	if (getString(wParam, YAHOO_LOGINID, &dbv))
 		return 0;
 
 	mir_snprintf(tUrl, sizeof(tUrl), "http://profiles.yahoo.com/%s", dbv.pszVal);
@@ -497,7 +497,7 @@ void CYahooProto::MenuUninit( void )
 
 int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
-	const MCONTACT hContact = (MCONTACT)wParam;
+	const MCONTACT hContact = wParam;
 	if (!IsMyContact(hContact)) {
 		debugLogA("[OnPrebuildContactMenu] Not a Yahoo Contact!!!");
 		return 0;

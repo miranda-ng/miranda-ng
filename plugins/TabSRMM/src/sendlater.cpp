@@ -310,7 +310,7 @@ void CSendLater::processContacts()
  */
 int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 {
-	MCONTACT	hContact = (MCONTACT)lParam;
+	MCONTACT	hContact = lParam;
 	DBVARIANT dbv = {0};
 	char *szOrig_Utf = 0;
 

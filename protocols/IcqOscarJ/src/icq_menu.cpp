@@ -54,37 +54,37 @@ static CIcqProto* IcqGetInstanceByHContact(MCONTACT hContact)
 
 static INT_PTR IcqMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = IcqGetInstanceByHContact((MCONTACT)wParam);
+	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
 	return (ppro) ? ppro->RequestAuthorization(wParam, lParam) : 0;
 }
 
 static INT_PTR IcqMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = IcqGetInstanceByHContact((MCONTACT)wParam);
+	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
 	return (ppro) ? ppro->GrantAuthorization(wParam, lParam) : 0;
 }
 
 static INT_PTR IcqMenuHandleRevokeAuth(WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = IcqGetInstanceByHContact((MCONTACT)wParam);
+	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
 	return (ppro) ? ppro->RevokeAuthorization(wParam, lParam) : 0;
 }
 
 static INT_PTR IcqMenuHandleAddServContact(WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = IcqGetInstanceByHContact((MCONTACT)wParam);
+	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
 	return (ppro) ? ppro->AddServerContact(wParam, lParam) : 0;
 }
 
 static INT_PTR IcqMenuHandleXStatusDetails(WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = IcqGetInstanceByHContact((MCONTACT)wParam);
+	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
 	return (ppro) ? ppro->ShowXStatusDetails(wParam, lParam) : 0;
 }
 
 static INT_PTR IcqMenuHandleOpenProfile(WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = IcqGetInstanceByHContact((MCONTACT)wParam);
+	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
 	return (ppro) ? ppro->OpenWebProfile(wParam, lParam) : 0;
 }
 
@@ -97,7 +97,7 @@ static int IcqPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 	Menu_ShowItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], FALSE);
 	Menu_ShowItem(g_hContactMenuItems[ICMI_OPEN_PROFILE], FALSE);
 
-	CIcqProto* ppro = IcqGetInstanceByHContact((MCONTACT)wParam);
+	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
 	return (ppro) ? ppro->OnPreBuildContactMenu(wParam, lParam) : 0;
 }
 
@@ -177,7 +177,7 @@ void g_MenuUninit(void)
 
 INT_PTR CIcqProto::OpenWebProfile(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	DWORD dwUin = getContactUin(hContact);
 	char url[256];
 	mir_snprintf(url, sizeof(url), "http://www.icq.com/people/%d",dwUin);
@@ -187,7 +187,7 @@ INT_PTR CIcqProto::OpenWebProfile(WPARAM wParam, LPARAM lParam)
 
 int CIcqProto::OnPreBuildContactMenu(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 

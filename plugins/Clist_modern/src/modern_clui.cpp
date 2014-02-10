@@ -240,7 +240,7 @@ INT_PTR CLUI::Service_ShowStatusMenu(WPARAM wParam,LPARAM lParam)
 
 INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM wParam,LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	db_set_b(hContact, "CList", "HideContactAvatar", 0);
 
@@ -250,7 +250,7 @@ INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM wParam,LPARAM lParam)
 
 INT_PTR CLUI::Service_Menu_HideContactAvatar(WPARAM wParam,LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	db_set_b(hContact, "CList", "HideContactAvatar", 1);
 

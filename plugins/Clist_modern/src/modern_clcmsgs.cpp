@@ -35,7 +35,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 
 	switch(msg) {
 	case CLM_DELETEITEM:
-		pcli->pfnDeleteItemFromTree(hwnd, (MCONTACT)wParam);
+		pcli->pfnDeleteItemFromTree(hwnd, wParam);
 		clcSetDelayTimer( TIMERID_DELAYEDRESORTCLC, hwnd, 1 ); //pcli->pfnSortCLC(hwnd, dat, 1);
 		clcSetDelayTimer( TIMERID_RECALCSCROLLBAR,  hwnd, 2 ); //pcli->pfnRecalcScrollBar(hwnd, dat);
 		return 0;

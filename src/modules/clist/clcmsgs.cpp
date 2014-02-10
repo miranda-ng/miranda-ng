@@ -31,7 +31,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 {
 	switch (msg) {
 	case CLM_ADDCONTACT:
-		cli.pfnAddContactToTree(hwnd, dat, (MCONTACT)wParam, 1, 0);
+		cli.pfnAddContactToTree(hwnd, dat, wParam, 1, 0);
 		cli.pfnRecalcScrollBar(hwnd, dat);
 		cli.pfnSortCLC(hwnd, dat, 1);
 		break;
@@ -79,7 +79,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		break;
 
 	case CLM_DELETEITEM:
-		cli.pfnDeleteItemFromTree(hwnd, (MCONTACT)wParam);
+		cli.pfnDeleteItemFromTree(hwnd, wParam);
 		cli.pfnSortCLC(hwnd, dat, 1);
 		cli.pfnRecalcScrollBar(hwnd, dat);
 		break;

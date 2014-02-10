@@ -94,7 +94,7 @@ int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
 	if (wParam == NULL)
 		return 0;
 
-	int usedIcon = getIconToUse((MCONTACT)wParam, lParam);
+	int usedIcon = getIconToUse(wParam, lParam);
 
 	const char *icon;
 	switch (usedIcon) {
@@ -103,14 +103,14 @@ int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
 		case icon_auth:   icon = "auth_icon";  break;
 		default:          icon = NULL;  break;
 	}
-	ExtraIcon_SetIcon(hExtraIcon, (MCONTACT)wParam, icon);
+	ExtraIcon_SetIcon(hExtraIcon, wParam, icon);
 	return 0;
 }
 
 int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	char *proto = GetContactProto((MCONTACT)wParam);
+	char *proto = GetContactProto(wParam);
 	if (!proto) return 0;
 
 	if (!lstrcmpA(cws->szModule,proto))
@@ -123,7 +123,7 @@ int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 int onDBContactAdded(WPARAM wParam, LPARAM lParam)
 {
 	// A new contact added, mark it as recent
-	db_set_b((MCONTACT)wParam, MODULENAME, "ShowIcons", 1);
+	db_set_b(wParam, MODULENAME, "ShowIcons", 1);
 	onExtraImageApplying(wParam, 0);
 
 	return 0;
@@ -131,8 +131,8 @@ int onDBContactAdded(WPARAM wParam, LPARAM lParam)
 
 INT_PTR onAuthMenuSelected(WPARAM wParam, LPARAM lParam)
 {
-	byte enabled = db_get_b((MCONTACT)wParam,"AuthState","ShowIcons",1);
-	db_set_b((MCONTACT)wParam, MODULENAME, "ShowIcons", !enabled);
+	byte enabled = db_get_b(wParam,"AuthState","ShowIcons",1);
+	db_set_b(wParam, MODULENAME, "ShowIcons", !enabled);
 
 	onExtraImageApplying(wParam, 0);
 	return 0;
@@ -140,7 +140,7 @@ INT_PTR onAuthMenuSelected(WPARAM wParam, LPARAM lParam)
 
 int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	char *proto = GetContactProto(hContact);
 	if (!proto)
 		return 0;

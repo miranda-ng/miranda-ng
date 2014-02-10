@@ -94,7 +94,7 @@ static IconItem iconList[] =
 
 static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 {
-	BYTE bContactRate = db_get_b((MCONTACT)wParam, "CList", "Rate", 0);
+	BYTE bContactRate = db_get_b(wParam, "CList", "Rate", 0);
 	if ( bContactRate > SIZEOF(rates)-1)
 		bContactRate = SIZEOF(rates)-1;
 
@@ -149,7 +149,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 
 	mi.hIcon = NULL;
 	mi.ptszName = LPGENT("Show even if offline");
-	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | (db_get_b((MCONTACT)wParam, "CList", "noOffline", 0) ? CMIF_CHECKED : 0);
+	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | (db_get_b(wParam, "CList", "noOffline", 0) ? CMIF_CHECKED : 0);
 	mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
 	mi.popupPosition = i+100000000;
 	mi.position = -100000000;

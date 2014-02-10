@@ -162,8 +162,8 @@ int __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
 		debugLogA("DB Setting changed.  YAHOO user's visible setting changed.");
 
 		DBVARIANT dbv;
-		if (!getString((MCONTACT)wParam, YAHOO_LOGINID, &dbv)) {
-			int iAdd = (ID_STATUS_OFFLINE == getWord((MCONTACT)wParam, "ApparentMode", 0));
+		if (!getString(wParam, YAHOO_LOGINID, &dbv)) {
+			int iAdd = (ID_STATUS_OFFLINE == getWord(wParam, "ApparentMode", 0));
 			stealth(dbv.pszVal, iAdd);
 			db_free(&dbv);
 		}

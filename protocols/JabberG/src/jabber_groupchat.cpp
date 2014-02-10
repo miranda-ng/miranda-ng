@@ -185,7 +185,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleJoinGroupchat(WPARAM, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	ptrT jid( getTStringA(hContact, "ChatRoomID"));
 	if (jid == NULL)
 		return 0;
@@ -210,7 +210,7 @@ INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM wParam, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnLeaveChat(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	ptrT jid(getTStringA(hContact, "ChatRoomID"));
 	if (jid != NULL) {
 		if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {

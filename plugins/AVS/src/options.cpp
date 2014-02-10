@@ -501,10 +501,10 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			struct WindowData *dat = (struct WindowData *)malloc(sizeof(struct WindowData));
 
 			if (dat)
-				dat->hContact = (MCONTACT)lParam;
+				dat->hContact = lParam;
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			hContact = (MCONTACT)lParam;
+			hContact = lParam;
 			TranslateDialogDefault(hwndDlg);
 			if (hContact) {
 				szNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
@@ -771,7 +771,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 			dat = (struct WindowData *) malloc(sizeof(struct WindowData));
 			if (dat == NULL)
 				return FALSE;
-			dat->hContact = (MCONTACT)lParam;
+			dat->hContact = lParam;
 
 			HWND protopic = GetDlgItem(hwndDlg, IDC_PROTOPIC);
 			SendMessage(protopic, AVATAR_SETCONTACT, 0, (LPARAM) dat->hContact);
@@ -781,7 +781,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 			SendMessage(protopic, AVATAR_SETRESIZEIFSMALLER, 0, (LPARAM) FALSE);
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			hContact = (MCONTACT)lParam;
+			hContact = lParam;
 			TranslateDialogDefault(hwndDlg);
 			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
 			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
@@ -1148,7 +1148,7 @@ int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = g_hInst;
 	odp.pszTitle = LPGEN("Avatar");
 
-	MCONTACT hContact = (MCONTACT)lParam;
+	MCONTACT hContact = lParam;
 	if (hContact == NULL) {
 		// User dialog
 		odp.pfnDlgProc = DlgProcAvatarProtoInfo;

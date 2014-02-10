@@ -1337,7 +1337,7 @@ static void SendBadAck( LPVOID param )
 
 static INT_PTR UserIsTyping(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	DBVARIANT dbv;
 
 	if (lParam==PROTOTYPE_SELFTYPING_ON)
@@ -1929,14 +1929,14 @@ static INT_PTR GetIPPort(WPARAM wParam,LPARAM lParam)
     HGLOBAL clipbuffer;
 	char* buffer;
 
-	if (db_get_w((MCONTACT)wParam, protocolname, "Port", -1)==0)
+	if (db_get_w(wParam, protocolname, "Port", -1)==0)
 		return 0;
 
 	DBVARIANT dbv;
-	if (db_get_s((MCONTACT)wParam, protocolname, "ServerIP",&dbv))
+	if (db_get_s(wParam, protocolname, "ServerIP",&dbv))
 		return 0;
 
-	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w((MCONTACT)wParam, protocolname, "Port", -1));
+	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w(wParam, protocolname, "Port", -1));
 
 	db_free(&dbv);
 
@@ -1962,14 +1962,14 @@ static INT_PTR GetVIPPort(WPARAM wParam,LPARAM lParam)
     HGLOBAL clipbuffer;
 	char* buffer;
 
-	if (db_get_w((MCONTACT)wParam, protocolname, "VPort", -1)==0)
+	if (db_get_w(wParam, protocolname, "VPort", -1)==0)
 		return 0;
 
 	DBVARIANT dbv;
-	if (db_get_s((MCONTACT)wParam, protocolname, "VServerIP",&dbv))
+	if (db_get_s(wParam, protocolname, "VServerIP",&dbv))
 		return 0;
 
-	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w((MCONTACT)wParam, protocolname, "VPort", -1));
+	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w(wParam, protocolname, "VPort", -1));
 
 	db_free(&dbv);
 
@@ -1994,7 +1994,7 @@ static INT_PTR GotoProfile(WPARAM wParam,LPARAM lParam)
 	DBVARIANT dbv;
 	char temp[64]="";
 
-	if (db_get_s((MCONTACT)wParam, protocolname, "Username",&dbv))
+	if (db_get_s(wParam, protocolname, "Username",&dbv))
 		return 0;
 
 	strcpy(temp,"http://xfire.com/profile/");
@@ -2010,7 +2010,7 @@ static INT_PTR GotoXFireClanSite(WPARAM wParam,LPARAM lParam) {
 	DBVARIANT dbv;
 	char temp[64]="";
 
-	int clanid=db_get_dw((MCONTACT)wParam, protocolname, "Clan",-1);
+	int clanid=db_get_dw(wParam, protocolname, "Clan",-1);
 	mir_snprintf(temp, SIZEOF(temp), "ClanUrl_%d", clanid);
 
 	if (db_get_s(NULL, protocolname, temp,&dbv))
@@ -2071,7 +2071,7 @@ static INT_PTR GotoProfileAct(WPARAM wParam,LPARAM lParam)
 
 int RebuildContactMenu( WPARAM wParam, LPARAM lParam )
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	bool bEnabled = true, bEnabled2 = true;
 
 	DBVARIANT dbv;
@@ -3254,14 +3254,14 @@ INT_PTR SendPrefs(WPARAM wparam, LPARAM lparam)
 
 int ContactDeleted(WPARAM wParam,LPARAM lParam)
 {
-	if (!db_get_b((MCONTACT)wParam, protocolname, "DontSendDenyPacket", 0))
-	if (db_get_b((MCONTACT)wParam,"CList","NotOnList",0))
+	if (!db_get_b(wParam, protocolname, "DontSendDenyPacket", 0))
+	if (db_get_b(wParam,"CList","NotOnList",0))
 	{
 		if (myClient!=NULL)
 		if (myClient->client->connected)
 		{
 			DBVARIANT dbv2;
-			if (!db_get((MCONTACT)wParam,protocolname,"Username",&dbv2)) {
+			if (!db_get(wParam,protocolname,"Username",&dbv2)) {
 				SendDenyInvitationPacket deny;
 				deny.name = dbv2.pszVal;
 				myClient->client->send( &deny );
@@ -3294,7 +3294,7 @@ INT_PTR RemoveFriend(WPARAM wParam,LPARAM lParam)
 	char temp[256];
 	DBVARIANT dbv;
 
-	if (!db_get_s((MCONTACT)wParam, protocolname, "Username",&dbv))
+	if (!db_get_s(wParam, protocolname, "Username",&dbv))
 	{
 		mir_snprintf(temp, SIZEOF(temp), Translate("Do you really want to delete your friend %s?"), dbv.pszVal);
 		if (MessageBoxA(NULL,temp,Translate("Confirm Delete"),MB_YESNO|MB_ICONQUESTION)==IDYES)
@@ -3305,7 +3305,7 @@ INT_PTR RemoveFriend(WPARAM wParam,LPARAM lParam)
 				{
 					SendRemoveBuddyPacket removeBuddy;
 
-					removeBuddy.userid=db_get_dw((MCONTACT)wParam,protocolname,"UserId",0);
+					removeBuddy.userid=db_get_dw(wParam,protocolname,"UserId",0);
 
 					if (removeBuddy.userid!=0)
 					{
@@ -3323,7 +3323,7 @@ INT_PTR BlockFriend(WPARAM wParam,LPARAM lParam)
 {
 	DBVARIANT dbv;
 
-	if (!db_get_s((MCONTACT)wParam, protocolname, "Username",&dbv))
+	if (!db_get_s(wParam, protocolname, "Username",&dbv))
 	{
 		if (MessageBox(NULL,TranslateT("Block this user from ever contacting you again?"),TranslateT("Block Confirmation"),MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
@@ -3350,7 +3350,7 @@ INT_PTR StartThisGame(WPARAM wParam,LPARAM lParam) {
 	xgamelist.Block(TRUE);
 
 	//hole die gameid des spiels
-	int id=db_get_w((MCONTACT)wParam, protocolname, "GameId",0);
+	int id=db_get_w(wParam, protocolname, "GameId",0);
 
 	//hole passendes spielobjekt
 	Xfire_game*game=xgamelist.getGamebyGameid(id);
@@ -3370,7 +3370,7 @@ INT_PTR JoinGame(WPARAM wParam,LPARAM lParam) {
 	xgamelist.Block(TRUE);
 
 	//hole die gameid des spiels
-	int id=db_get_w((MCONTACT)wParam, protocolname, "GameId",0);
+	int id=db_get_w(wParam, protocolname, "GameId",0);
 
 	//hole passendes spielobjekt
 	Xfire_game*game=xgamelist.getGamebyGameid(id);
@@ -3379,8 +3379,8 @@ INT_PTR JoinGame(WPARAM wParam,LPARAM lParam) {
 	if (game)
 	{
 		DBVARIANT dbv; //dbv.pszVal
-		int port=db_get_w((MCONTACT)wParam, protocolname, "Port",0);
-		if (!db_get_s((MCONTACT)wParam, protocolname, "ServerIP",&dbv))
+		int port=db_get_w(wParam, protocolname, "Port",0);
+		if (!db_get_s(wParam, protocolname, "ServerIP",&dbv))
 		{
 			//starte spiel mit netzwerk parametern
 			game->start_game(dbv.pszVal,port);

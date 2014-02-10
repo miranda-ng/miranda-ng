@@ -270,17 +270,17 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UP), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), FALSE);
 
-			int nb_contacts = db_get_dw((MCONTACT)lParam, META_PROTO, "NumContacts", 0);
-			int default_contact_number = db_get_dw((MCONTACT)lParam, META_PROTO, "Default", (DWORD)-1);
-			int offline_contact_number = db_get_dw((MCONTACT)lParam, META_PROTO, "OfflineSend", (DWORD)-1);
+			int nb_contacts = db_get_dw(lParam, META_PROTO, "NumContacts", 0);
+			int default_contact_number = db_get_dw(lParam, META_PROTO, "Default", (DWORD)-1);
+			int offline_contact_number = db_get_dw(lParam, META_PROTO, "OfflineSend", (DWORD)-1);
 
-			changes.hMeta = (MCONTACT)lParam;
+			changes.hMeta = lParam;
 			changes.num_contacts = nb_contacts;
 			changes.num_deleted = 0;
-			changes.hDefaultContact = Meta_GetContactHandle((MCONTACT)lParam, default_contact_number);
-			changes.hOfflineContact = Meta_GetContactHandle((MCONTACT)lParam, offline_contact_number);
+			changes.hDefaultContact = Meta_GetContactHandle(lParam, default_contact_number);
+			changes.hOfflineContact = Meta_GetContactHandle(lParam, offline_contact_number);
 			for (i = 0; i < nb_contacts; i++)
-				changes.hContact[i] = Meta_GetContactHandle((MCONTACT)lParam, i);
+				changes.hContact[i] = Meta_GetContactHandle(lParam, i);
 			changes.force_default = MetaAPI_GetForceState((WPARAM)lParam, 0);
 
 			SendMessage(hwndDlg, WMU_SETTITLE, 0, lParam);
@@ -293,7 +293,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WMU_SETTITLE:
 		{
-			TCHAR *ptszCDN = pcli->pfnGetContactDisplayName((MCONTACT)lParam, GCDNF_TCHAR);
+			TCHAR *ptszCDN = pcli->pfnGetContactDisplayName(lParam, GCDNF_TCHAR);
 			if (ptszCDN == NULL)
 				ptszCDN = TranslateT("(Unknown Contact)");
 

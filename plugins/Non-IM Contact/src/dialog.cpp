@@ -320,7 +320,7 @@ INT_PTR addContact(WPARAM wParam,LPARAM lParam)
 
 INT_PTR editContact(WPARAM wParam,LPARAM lParam) 
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	char tmp[256];
 	if (!hContact) {
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);

@@ -105,25 +105,25 @@ static CIrcProto* IrcGetInstanceByHContact(MCONTACT hContact)
 
 static INT_PTR IrcMenuChanSettings(WPARAM wParam, LPARAM lParam)
 {
-	CIrcProto *ppro = IrcGetInstanceByHContact((MCONTACT)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact(wParam);
 	return (ppro) ? ppro->OnMenuChanSettings(wParam, lParam) : 0;
 }
 
 static INT_PTR IrcMenuWhois(WPARAM wParam, LPARAM lParam)
 {
-	CIrcProto *ppro = IrcGetInstanceByHContact((MCONTACT)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact(wParam);
 	return (ppro) ? ppro->OnMenuWhois(wParam, lParam) : 0;
 }
 
 static INT_PTR IrcMenuDisconnect(WPARAM wParam, LPARAM lParam)
 {
-	CIrcProto *ppro = IrcGetInstanceByHContact((MCONTACT)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact(wParam);
 	return (ppro) ? ppro->OnMenuDisconnect(wParam, lParam) : 0;
 }
 
 static INT_PTR IrcMenuIgnore(WPARAM wParam, LPARAM lParam)
 {
-	CIrcProto *ppro = IrcGetInstanceByHContact((MCONTACT)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact(wParam);
 	return (ppro) ? ppro->OnMenuIgnore(wParam, lParam) : 0;
 }
 
@@ -134,7 +134,7 @@ int IrcPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	Menu_ShowItem(hUMenuDisconnect, false);
 	Menu_ShowItem(hUMenuIgnore, false);
 
-	CIrcProto *ppro = IrcGetInstanceByHContact((MCONTACT)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact(wParam);
 	return (ppro) ? ppro->OnMenuPreBuild(wParam, lParam) : 0;
 }
 
@@ -934,7 +934,7 @@ int __cdecl CIrcProto::OnPreShutdown(WPARAM, LPARAM)
 int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
 {
 	DBVARIANT dbv;
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -978,7 +978,7 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
 
 int __cdecl CIrcProto::OnDbSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL || !IsConnected())
 		return 0;
 

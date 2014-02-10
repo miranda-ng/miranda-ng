@@ -90,7 +90,7 @@ static INT_PTR CALLBACK AskAuthProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 INT_PTR CIcqProto::RequestAuthorization(WPARAM wParam, LPARAM lParam)
 {
-	AskAuthParam param = { this, (MCONTACT)wParam };
+	AskAuthParam param = { this, wParam };
 	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ASKAUTH), NULL, AskAuthProc, (LPARAM)&param);
 	return 0;
 }

@@ -244,7 +244,7 @@ static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		TranslateDialogDefault(hwndDlg);
 		SetTimer(hwndDlg, 1, 1000, NULL);
 
-		tmi.prepareList((MCONTACT)lParam, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
+		tmi.prepareList(lParam, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
 		SendMessage(hwndDlg, WM_TIMER, 0, 0);
 		break;
 
@@ -522,7 +522,7 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			hFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hwndDlg, IDC_ABOUT, WM_SETFONT, (WPARAM) hFont, MAKELPARAM(TRUE, 0));
 
-			if (!db_get_s((MCONTACT)lParam, "UserInfo", "MyNotes", &dbv)) {
+			if (!db_get_s(lParam, "UserInfo", "MyNotes", &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_MYNOTES, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -579,7 +579,7 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 	if (lParam == NULL)
 		return 0;
 
-	if (GetContactProto((MCONTACT)lParam) == 0)
+	if (GetContactProto(lParam) == 0)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };

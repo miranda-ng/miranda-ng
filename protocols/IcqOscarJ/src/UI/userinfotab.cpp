@@ -284,7 +284,7 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 {
-	if ((!IsICQContact((MCONTACT)lParam)) && lParam)
+	if ((!IsICQContact(lParam)) && lParam)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };

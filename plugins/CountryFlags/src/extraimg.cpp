@@ -27,15 +27,15 @@ static HANDLE hServiceDetectContactOrigin;
 static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 {
 	int countryNumber = 0xFFFF;
-	char *pszProto = GetContactProto((MCONTACT)wParam);
+	char *pszProto = GetContactProto(wParam);
 	/* ip detect */
 	if (bUseIpToCountry)
-		countryNumber = ServiceIpToCountry(db_get_dw((MCONTACT)wParam,pszProto,"RealIP",0),0);
+		countryNumber = ServiceIpToCountry(db_get_dw(wParam,pszProto,"RealIP",0),0);
 	/* fallback */
 	if (countryNumber == 0xFFFF)
-		countryNumber = db_get_w((MCONTACT)wParam,pszProto,"Country",0);
+		countryNumber = db_get_w(wParam,pszProto,"Country",0);
 	if (countryNumber == 0 || countryNumber == 0xFFFF)
-		countryNumber = db_get_w((MCONTACT)wParam,pszProto,"CompanyCountry",0);
+		countryNumber = db_get_w(wParam,pszProto,"CompanyCountry",0);
 	return (countryNumber == 0) ? 0xFFFF : countryNumber;
 }
 
@@ -167,7 +167,7 @@ static int ExtraImgSettingChanged(WPARAM wParam,LPARAM lParam)
 		/* user details update */
 		if (!lstrcmpA(dbcws->szSetting,"RealIP") || !lstrcmpA(dbcws->szSetting,"Country") || !lstrcmpA(dbcws->szSetting,"CompanyCountry")) {
 			/* Extra Image */
-			SetExtraImage((MCONTACT)wParam);
+			SetExtraImage(wParam);
 			/* Status Icon */
 			if (ServiceExists(MS_MSG_REMOVEICON))
 				CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);

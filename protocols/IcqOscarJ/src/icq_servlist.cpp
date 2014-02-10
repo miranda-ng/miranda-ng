@@ -2593,14 +2593,14 @@ int CIcqProto::ServListDbSettingChanged(WPARAM wParam, LPARAM lParam)
 		if (!strcmpnull(cws->szSetting, "MyHandle") &&
 			getByte("StoreServerDetails", DEFAULT_SS_STORE))
 		{ // Update contact's details in server-list
-			servlistUpdateContact((MCONTACT)wParam);
+			servlistUpdateContact(wParam);
 		}
 
 		// Has contact been moved to another group?
 		if (!strcmpnull(cws->szSetting, "Group") &&
 			getByte("StoreServerDetails", DEFAULT_SS_STORE))
 		{ // Read group from DB
-			char* szNewGroup = getContactCListGroup((MCONTACT)wParam);
+			char* szNewGroup = getContactCListGroup(wParam);
 
 			SAFE_FREE(&szNewGroup);
 		}
@@ -2610,7 +2610,7 @@ int CIcqProto::ServListDbSettingChanged(WPARAM wParam, LPARAM lParam)
 		if (!strcmpnull(cws->szSetting, "MyNotes") &&
 			getByte("StoreServerDetails", DEFAULT_SS_STORE))
 		{ // Update contact's details in server-list
-			servlistUpdateContact((MCONTACT)wParam);
+			servlistUpdateContact(wParam);
 		}
 	}
 
@@ -2624,17 +2624,17 @@ int CIcqProto::ServListDbContactDeleted(WPARAM wParam, LPARAM lParam)
 	debugLogA("DB-Events: Contact %x deleted.", wParam);
 #endif
 
-	DeleteFromContactsCache((MCONTACT)wParam);
+	DeleteFromContactsCache(wParam);
 
 	if ( !icqOnline() && m_bSsiEnabled)
 	{ // contact was deleted only locally - retrieve full list on next connect
-		setWord((MCONTACT)wParam, "SrvRecordCount", 0);
+		setWord(wParam, "SrvRecordCount", 0);
 	}
 
 	if ( !icqOnline() || !m_bSsiEnabled)
 		return 0;
 
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	// we need all server contacts on local buddy list
 	DWORD dwUIN;
@@ -2674,7 +2674,7 @@ int CIcqProto::ServListDbContactDeleted(WPARAM wParam, LPARAM lParam)
 
 int CIcqProto::ServListCListGroupChange(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	CLISTGROUPCHANGE *grpchg = (CLISTGROUPCHANGE*)lParam;
 
 	if (!icqOnline() || !m_bSsiEnabled || bIsSyncingCL)

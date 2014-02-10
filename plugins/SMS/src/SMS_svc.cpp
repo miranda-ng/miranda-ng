@@ -54,7 +54,7 @@ int LoadModules(void)
 
 int SmsRebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {
-	Menu_ShowItem(ssSMSSettings.hContactMenuItems[0], GetContactPhonesCount((MCONTACT)wParam));
+	Menu_ShowItem(ssSMSSettings.hContactMenuItems[0], GetContactPhonesCount(wParam));
 	return 0;
 }
 
@@ -65,11 +65,11 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam)
 
 	// user clicked on the "SMS Message" on one of the users
 	if (wParam) {
-		hwndSendSms = SendSMSWindowIsOtherInstanceHContact((MCONTACT)wParam);
+		hwndSendSms = SendSMSWindowIsOtherInstanceHContact(wParam);
 		if (hwndSendSms)
 			SetFocus(hwndSendSms);
 		else
-			hwndSendSms = SendSMSWindowAdd((MCONTACT)wParam);
+			hwndSendSms = SendSMSWindowAdd(wParam);
 	}
 	// user clicked on the "SMS Send" in the Main Menu
 	else{

@@ -267,7 +267,7 @@ int UpdateSrmmDlg(WPARAM wParam, LPARAM /* lParam */)
 {
 	WaitForSingleObject(g_hMutex, 2000);
 	for (int i=0; i < g_MsgWndList.getCount(); ++i) {
-		if (wParam == 0 || g_MsgWndList[i]->hContact == (MCONTACT)wParam) {
+		if (wParam == 0 || g_MsgWndList[i]->hContact == wParam) {
 			SendMessage(g_MsgWndList[i]->hwnd, WM_SETREDRAW, FALSE, 0);
 			SendMessage(g_MsgWndList[i]->hwnd, DM_OPTIONSAPPLIED, 0, 0);
 			SendMessage(g_MsgWndList[i]->hwnd, WM_SETREDRAW, TRUE, 0);

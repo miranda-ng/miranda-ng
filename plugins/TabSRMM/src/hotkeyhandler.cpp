@@ -372,7 +372,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		 * if lParam == NULL, don't consider clist events, just open the message tab
 		 */
 		if (lParam == 0)
-			HandleMenuEntryFromhContact((MCONTACT)wParam);
+			HandleMenuEntryFromhContact(wParam);
 		else {
 			CLISTEVENT *cle = (CLISTEVENT *)CallService(MS_CLIST_GETEVENT, wParam, 0);
 			if (cle) {
@@ -382,13 +382,13 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 			}
 			// still, we got that message posted.. the event may be waiting in tabSRMMs tray...
-			else HandleMenuEntryFromhContact((MCONTACT)wParam);
+			else HandleMenuEntryFromhContact(wParam);
 		}
 		break;
 
 	case DM_DOCREATETAB:
 		{
-			HWND hWnd = M.FindWindow((MCONTACT)lParam);
+			HWND hWnd = M.FindWindow(lParam);
 			if (hWnd && IsWindow(hWnd)) {
 				TContainerData *pContainer = 0;
 				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
@@ -399,7 +399,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else
 						SendMessage(hWnd, WM_CLOSE, 0, 1);
 
-					CreateNewTabForContact((TContainerData*)wParam, (MCONTACT)lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
+					CreateNewTabForContact((TContainerData*)wParam, lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
 				}
 			}
 		}
@@ -441,13 +441,13 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		 */
 	case DM_REMOVECLISTEVENT:
 		CallService(MS_CLIST_REMOVEEVENT, wParam, lParam);
-		db_event_markRead((MCONTACT)wParam, (HANDLE)lParam);
+		db_event_markRead(wParam, (HANDLE)lParam);
 		return 0;
 
 	case DM_SETLOCALE:
 		{
 			HKL hkl = (HKL)lParam;
-			MCONTACT hContact = (MCONTACT)wParam;
+			MCONTACT hContact = wParam;
 
 			HWND	hWnd = M.FindWindow(hContact);
 			if (hWnd) {

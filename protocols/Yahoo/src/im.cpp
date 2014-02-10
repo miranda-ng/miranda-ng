@@ -227,7 +227,7 @@ int __cdecl CYahooProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 
 INT_PTR __cdecl CYahooProto::SendNudge(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	debugLogA("[YAHOO_SENDNUDGE]");
 

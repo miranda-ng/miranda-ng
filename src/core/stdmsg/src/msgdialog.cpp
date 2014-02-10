@@ -1308,7 +1308,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case HM_DBEVENTADDED:
-		if ((MCONTACT)wParam == dat->hContact) {
+		if (wParam == dat->hContact) {
 			HANDLE hDbEvent = (HANDLE)lParam;
 			if (dat->hDbEventFirst == NULL)
 				dat->hDbEventFirst = hDbEvent;

@@ -1093,7 +1093,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case DM_CLISTSETTINGSCHANGED:
-		if ((MCONTACT)wParam == dat->windowData.hContact) {
+		if (wParam == dat->windowData.hContact) {
 			if (dat->windowData.hContact && dat->szProto) {
 				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 				char idbuf[128];
@@ -1353,7 +1353,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case DM_REMAKELOG:
 		dat->lastEventType = -1;
-		if (wParam == 0 || (MCONTACT)wParam == dat->windowData.hContact)
+		if (wParam == 0 || wParam == dat->windowData.hContact)
 			StreamInEvents(hwndDlg, dat->hDbEventFirst, -1, 0);
 
 		InvalidateRect(GetDlgItem(hwndDlg, IDC_LOG), NULL, FALSE);
@@ -1390,7 +1390,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case HM_DBEVENTADDED:
-		if ((MCONTACT)wParam == dat->windowData.hContact) {
+		if (wParam == dat->windowData.hContact) {
 			HANDLE hDbEvent = (HANDLE)lParam;
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			db_event_get(hDbEvent, &dbei);

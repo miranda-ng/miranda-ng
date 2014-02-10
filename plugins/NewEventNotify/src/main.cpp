@@ -62,7 +62,7 @@ HANDLE hHookedDeletedEvent;
 
 int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	PLUGIN_DATA* pdata;
 
 	//are popups currently enabled?

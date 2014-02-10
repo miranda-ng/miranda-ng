@@ -33,7 +33,7 @@ HANDLE hNetMeeting, hBlockCom, hSendHotMail, hInviteChat, hViewProfile;
 INT_PTR CMsnProto::MsnBlockCommand(WPARAM wParam, LPARAM)
 {
 	if (msnLoggedIn) {
-		MCONTACT hContact = (MCONTACT)wParam;
+		MCONTACT hContact = wParam;
 
 		char tEmail[MSN_MAX_EMAIL_LEN];
 		db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail));
@@ -60,7 +60,7 @@ INT_PTR CMsnProto::MsnGotoInbox(WPARAM, LPARAM)
 
 INT_PTR CMsnProto::MsnSendHotmail(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	char szEmail[MSN_MAX_EMAIL_LEN];
 
 	if (MSN_IsMeByContact(hContact, szEmail))
@@ -85,7 +85,7 @@ INT_PTR CMsnProto::MsnSetupAlerts(WPARAM, LPARAM)
 
 INT_PTR CMsnProto::MsnViewProfile(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	char buf[64], *cid;
 
 	if (hContact == NULL)
@@ -127,7 +127,7 @@ INT_PTR CMsnProto::MsnInviteCommand(WPARAM, LPARAM)
 
 int CMsnProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	char szEmail[MSN_MAX_EMAIL_LEN];
 
 	if ( !MSN_IsMyContact(hContact))
@@ -157,7 +157,7 @@ int CMsnProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 int CMsnProto::OnContactDoubleClicked(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	if (emailEnabled && MSN_IsMeByContact(hContact)) {
 		MsnSendHotmail(wParam, 0);
@@ -374,31 +374,31 @@ static CMsnProto* GetProtoInstanceByHContact(MCONTACT hContact)
 
 static INT_PTR MsnMenuBlockCommand(WPARAM wParam, LPARAM lParam)
 {
-	CMsnProto* ppro = GetProtoInstanceByHContact((MCONTACT)wParam);
+	CMsnProto* ppro = GetProtoInstanceByHContact(wParam);
 	return (ppro) ? ppro->MsnBlockCommand(wParam, lParam) : 0;
 }
 
 static INT_PTR MsnMenuViewProfile(WPARAM wParam, LPARAM lParam)
 {
-	CMsnProto* ppro = GetProtoInstanceByHContact((MCONTACT)wParam);
+	CMsnProto* ppro = GetProtoInstanceByHContact(wParam);
 	return (ppro) ? ppro->MsnViewProfile(wParam, lParam) : 0;
 }
 
 static INT_PTR MsnMenuSendNetMeeting(WPARAM wParam, LPARAM lParam)
 {
-	CMsnProto* ppro = GetProtoInstanceByHContact((MCONTACT)wParam);
+	CMsnProto* ppro = GetProtoInstanceByHContact(wParam);
 	return (ppro) ? ppro->MsnSendNetMeeting(wParam, lParam) : 0;
 }
 
 static INT_PTR MsnMenuSendHotmail(WPARAM wParam, LPARAM lParam)
 {
-	CMsnProto* ppro = GetProtoInstanceByHContact((MCONTACT)wParam);
+	CMsnProto* ppro = GetProtoInstanceByHContact(wParam);
 	return (ppro) ? ppro->MsnSendHotmail(wParam, lParam) : 0;
 }
 
 static int MSN_OnPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	CMsnProto* ppro = GetProtoInstanceByHContact((MCONTACT)wParam);
+	CMsnProto* ppro = GetProtoInstanceByHContact(wParam);
 	if (ppro)
 		ppro->OnPrebuildContactMenu(wParam, lParam);
 	else {

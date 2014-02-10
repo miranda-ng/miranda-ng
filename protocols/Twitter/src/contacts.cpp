@@ -188,7 +188,7 @@ int TwitterProto::OnContactDeleted(WPARAM wParam,LPARAM lParam)
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
-	const MCONTACT hContact = (MCONTACT)wParam;
+	const MCONTACT hContact = wParam;
 
 	if(!IsMyContact(hContact))
 		return 0;

@@ -105,11 +105,11 @@ static INT_PTR IsEnabled(WPARAM wParam, LPARAM lParam)
 
 static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 
-	char *proto = GetContactProto((MCONTACT)wParam);
+	char *proto = GetContactProto(wParam);
 	if (proto == NULL)
 		return 0;
 

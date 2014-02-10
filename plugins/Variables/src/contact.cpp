@@ -353,7 +353,7 @@ int getContactFromString(CONTACTSINFO *ci)
 static int contactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbw = (DBCONTACTWRITESETTING*)lParam;
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	mir_cslock lck(csContactCache);
 	for (int i=0; i < cacheSize; i++) {

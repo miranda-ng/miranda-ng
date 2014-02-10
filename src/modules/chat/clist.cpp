@@ -103,7 +103,7 @@ BOOL SetAllOffline(BOOL bHide, const char *pszModule)
 
 int RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (!hContact)
 		return 0;
 
@@ -141,7 +141,7 @@ INT_PTR EventDoubleclicked(WPARAM wParam,LPARAM lParam)
 
 INT_PTR JoinChat(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto) {
@@ -157,7 +157,7 @@ INT_PTR JoinChat(WPARAM wParam, LPARAM lParam)
 
 INT_PTR LeaveChat(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto)
@@ -168,7 +168,7 @@ INT_PTR LeaveChat(WPARAM wParam, LPARAM lParam)
 
 int PrebuildContactMenu(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 

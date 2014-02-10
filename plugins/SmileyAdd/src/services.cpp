@@ -356,7 +356,7 @@ INT_PTR RegisterPack(WPARAM, LPARAM lParam)
 
 INT_PTR CustomCatMenu(WPARAM wParam, LPARAM lParam)
 {
-	const MCONTACT hContact = (MCONTACT)wParam;
+	const MCONTACT hContact = wParam;
 	if (lParam != 0) 
 	{
 		SmileyCategoryType* smct = g_SmileyCategories.GetSmileyCategory((unsigned)lParam - 3);
@@ -382,7 +382,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *g_SmileyCategories.GetSmileyCategoryList();
 
-	char* protnam = GetContactProto((MCONTACT)wParam);
+	char* protnam = GetContactProto(wParam);
 	bool haveMenu = IsSmileyProto(protnam);
 	if (haveMenu && opt.UseOneForAll) {
 		unsigned cnt = 0;
@@ -399,7 +399,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 
 	if (haveMenu) {
 		CMString cat;
-		opt.ReadContactCategory((MCONTACT)wParam, cat);
+		opt.ReadContactCategory(wParam, cat);
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.hParentMenu = hContactMenuItem;
@@ -540,7 +540,7 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam)
 
 int DbSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
 
 	if (hContact == NULL) return 0;

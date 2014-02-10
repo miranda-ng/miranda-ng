@@ -117,7 +117,7 @@ int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
 	if (wParam != NULL && !lstrcmpA(cws->szModule,"CList") && !lstrcmpA(cws->szSetting,"Rate"))
-		setExtraIcon((MCONTACT)wParam, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal);
+		setExtraIcon(wParam, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal);
 
 	return 0;
 }

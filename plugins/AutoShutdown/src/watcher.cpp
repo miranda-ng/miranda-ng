@@ -203,7 +203,7 @@ static int StatusSettingChanged(WPARAM wParam,LPARAM lParam)
 	if (currentWatcherType&SDWTF_STATUS) {
 		DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
  		if ((HANDLE)wParam != NULL && dbcws->value.wVal==ID_STATUS_OFFLINE && !lstrcmpA(dbcws->szSetting,"Status")) {
-			char *pszProto = GetContactProto((MCONTACT)wParam);
+			char *pszProto = GetContactProto(wParam);
 			if (pszProto != NULL && !lstrcmpA(dbcws->szModule,pszProto))
 				if (CheckAllContactsOffline())
 					ShutdownAndStopWatcher();
@@ -239,7 +239,7 @@ static BOOL CALLBACK CpuUsageWatcherProc(BYTE nCpuUsage,LPARAM lParam)
 
 static int WeatherUpdated(WPARAM wParam,LPARAM lParam)
 {
-	char *pszProto = GetContactProto((MCONTACT)wParam);
+	char *pszProto = GetContactProto(wParam);
 	if ((BOOL)lParam && pszProto != NULL && CallProtoService(pszProto,PS_GETSTATUS,0,0)==THUNDER)
 		if (db_get_b(NULL,"AutoShutdown","WeatherShutdown",SETTING_WEATHERSHUTDOWN_DEFAULT))
 			ServiceShutdown(SDSDT_SHUTDOWN,TRUE);

@@ -704,7 +704,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		TranslateDialogDefault(hwndDlg);
 
 		dat = (struct GGDETAILSDLGDATA *)mir_alloc(sizeof(struct GGDETAILSDLGDATA));
-		dat->hContact = (MCONTACT)lParam;
+		dat->hContact = lParam;
 		dat->disableUpdate = FALSE;
 		dat->updating = FALSE;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
@@ -902,7 +902,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 int GGPROTO::details_init(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)lParam;
+	MCONTACT hContact = lParam;
 	char* pszTemplate;
 
 	if (hContact == NULL){

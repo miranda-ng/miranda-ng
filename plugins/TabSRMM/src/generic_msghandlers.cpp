@@ -1626,7 +1626,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 					SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
 			}
 		}
-		tabSRMM_ShowPopup((MCONTACT)wParam, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto(), dat);
+		tabSRMM_ShowPopup(wParam, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto(), dat);
 		if (IsWindowVisible(m_pContainer->hwnd))
 			m_pContainer->fHidden = false;
 	}
@@ -1895,7 +1895,7 @@ static HANDLE hHookIconPressedEvt;
 
 static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		M.BroadcastMessage(DM_STATUSICONCHANGE, 0, 0);
 	else {

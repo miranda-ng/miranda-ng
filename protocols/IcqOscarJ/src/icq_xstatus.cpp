@@ -912,7 +912,7 @@ INT_PTR CIcqProto::ShowXStatusDetails(WPARAM wParam, LPARAM lParam)
 	InitXStatusData init;
 	init.ppro = this;
 	init.bAction = 1; // retrieve
-	init.hContact = (MCONTACT)wParam;
+	init.hContact = wParam;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETXSTATUS), NULL, SetXStatusDlgProc, (LPARAM)&init);
 
 	return 0;
@@ -971,7 +971,7 @@ INT_PTR CIcqProto::SetXStatusEx(WPARAM wParam, LPARAM lParam)
 INT_PTR CIcqProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
 	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	if (!m_bXStatusEnabled && !m_bMoodsEnabled) return 1;
 
@@ -1088,7 +1088,7 @@ INT_PTR CIcqProto::GetXStatusIcon(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CIcqProto::RequestXStatusDetails(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	if (!m_bXStatusEnabled)
 		return 0;
@@ -1105,7 +1105,7 @@ INT_PTR CIcqProto::RequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam)
 	if (!m_bXStatusEnabled && !m_bMoodsEnabled)
 		return -1;
 
-	BYTE bXStatus = getContactXStatus((MCONTACT)wParam);
+	BYTE bXStatus = getContactXStatus(wParam);
 	if (bXStatus) {
 		if (!bXStatusCListIconsValid[bXStatus-1]) { // adding icon
 			int idx = hXStatusCListIcons[bXStatus-1]; 

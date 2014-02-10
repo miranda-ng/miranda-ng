@@ -212,7 +212,7 @@ void PasteIt(MCONTACT hContact, int mode)
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam) 
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact) 
 	{
@@ -274,7 +274,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	bool bIsContact = false;
 	
-	char *szProto = GetContactProto((MCONTACT)wParam);
+	char *szProto = GetContactProto(wParam);
 	if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
 		bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) != 0;
 
@@ -287,7 +287,7 @@ INT_PTR ContactMenuService(WPARAM wParam, LPARAM lParam)
 	if(lParam >= DEF_PAGES_START)
 		Options::instance->SetDefWeb(lParam - DEF_PAGES_START);
 	else {
-		MCONTACT hContact = (MCONTACT)wParam;
+		MCONTACT hContact = wParam;
 		PasteIt(hContact, lParam);
 	}
 	return 0;

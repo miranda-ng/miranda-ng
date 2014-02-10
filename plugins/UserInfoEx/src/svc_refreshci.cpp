@@ -840,13 +840,13 @@ static int OnContactAdded(WPARAM wParam, LPARAM lParam)
 {
 	try
 	{
-		DWORD dwStmp = db_get_dw((MCONTACT)wParam, USERINFO, SET_CONTACT_ADDEDTIME, 0);
+		DWORD dwStmp = db_get_dw(wParam, USERINFO, SET_CONTACT_ADDEDTIME, 0);
 		if (!dwStmp)
 		{
 			MTime mt;
 			
 			mt.GetLocalTime();
-			mt.DBWriteStamp((MCONTACT)wParam, USERINFO, SET_CONTACT_ADDEDTIME);
+			mt.DBWriteStamp(wParam, USERINFO, SET_CONTACT_ADDEDTIME);
 
 			// create updater, if not yet exists
 			if (!ContactUpdater)
@@ -858,7 +858,7 @@ static int OnContactAdded(WPARAM wParam, LPARAM lParam)
 			ContactUpdater->AddIfDontHave(
 				(ContactUpdater->Size() > 0) 
 					? max(ContactUpdater->Get(ContactUpdater->Size() - 1)->check_time + 15000, 4000) 
-					: 4000, (MCONTACT)wParam);
+					: 4000, wParam);
 		}
 	}
 	catch(...)

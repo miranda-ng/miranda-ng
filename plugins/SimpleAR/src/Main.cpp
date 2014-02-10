@@ -183,7 +183,7 @@ TCHAR* StrReplace (TCHAR* Search, TCHAR* Replace, TCHAR* Resource)
 
 INT addEvent(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	HANDLE hDBEvent = (HANDLE)lParam;
 	BOOL fEnabled = db_get_b(NULL, protocolname, KEY_ENABLED, 1);
 

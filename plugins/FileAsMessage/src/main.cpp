@@ -54,7 +54,7 @@ int OnSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
-	HWND hwnd = WindowList_Find(hFileList,(MCONTACT)wParam);
+	HWND hwnd = WindowList_Find(hFileList,wParam);
 	PostMessage(hwnd, WM_FE_STATUSCHANGE, 0,0);
 	//OnSkinIconsChanged(0,0);
 	//PostMessage(hwnd, WM_FE_SKINCHANGE, 0,0);
@@ -94,7 +94,7 @@ INT_PTR OnRecvFile(WPARAM wParam, LPARAM lParam)
 
 INT_PTR OnSendFile(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd = WindowList_Find(hFileList, (MCONTACT)wParam);
+	HWND hwnd = WindowList_Find(hFileList, wParam);
 	if(IsWindow(hwnd))
 	{
 		SetForegroundWindow(hwnd);
@@ -103,7 +103,7 @@ INT_PTR OnSendFile(WPARAM wParam, LPARAM lParam)
 	else
 	{
 		if(hwnd != 0) WindowList_Remove(hFileList, hwnd);
-		FILEECHO *fe = new FILEECHO((MCONTACT)wParam);
+		FILEECHO *fe = new FILEECHO(wParam);
 		fe->inSend = TRUE;
 		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), NULL, DialogProc, (LPARAM)fe);
 		if(hwnd == NULL)

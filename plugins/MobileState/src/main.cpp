@@ -71,10 +71,10 @@ int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
 	if (wParam == NULL)
 		return 0;
 
-	if (hasMobileClient((MCONTACT)wParam, lParam))
-		ExtraIcon_SetIcon(hExtraIcon, (MCONTACT)wParam, "mobile_icon");
+	if (hasMobileClient(wParam, lParam))
+		ExtraIcon_SetIcon(hExtraIcon, wParam, "mobile_icon");
 	else
-		ExtraIcon_Clear(hExtraIcon, (MCONTACT)wParam);
+		ExtraIcon_Clear(hExtraIcon, wParam);
 
 	return 0;
 }
@@ -82,7 +82,7 @@ int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
 int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	char *proto = GetContactProto((MCONTACT)wParam);
+	char *proto = GetContactProto(wParam);
 	if (!proto)
 		return 0;
 

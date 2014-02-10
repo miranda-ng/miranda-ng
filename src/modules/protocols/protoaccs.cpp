@@ -199,7 +199,7 @@ void WriteDbAccounts()
 /////////////////////////////////////////////////////////////////////////////////////////
 static int OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact) {
 		PROTOACCOUNT* pa = Proto_GetAccount(hContact);
 		if (Proto_IsAccountEnabled(pa) && pa->ppro)
@@ -210,7 +210,7 @@ static int OnContactDeleted(WPARAM wParam, LPARAM lParam)
 
 static int OnDbSettingsChanged(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact) {
 		PROTOACCOUNT* pa = Proto_GetAccount(hContact);
 		if (Proto_IsAccountEnabled(pa) && pa->ppro)
@@ -317,7 +317,7 @@ static INT_PTR stub11(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 
 static INT_PTR stub12(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)ppi->GetCaps(wParam, (MCONTACT)lParam);
+	return (INT_PTR)ppi->GetCaps(wParam, lParam);
 }
 
 static INT_PTR stub13(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)

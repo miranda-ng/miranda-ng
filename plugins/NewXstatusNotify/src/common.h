@@ -131,7 +131,7 @@ typedef struct {
 } STATUSMSGINFO;
 
 /*
-MCONTACT hContact = (MCONTACT)wParam;
+MCONTACT hContact = wParam;
 WORD oldStatus = LOWORD(lParam);
 WORD newStatus = HIWORD(lParam);
 oldStatus is the status the contact was before the change.

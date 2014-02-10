@@ -50,7 +50,7 @@ int OnDBEventAdded(WPARAM wParam, LPARAM lParam)
 
 int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
 	char *msgblob;
 	POPUPDATA ppdp = {0};

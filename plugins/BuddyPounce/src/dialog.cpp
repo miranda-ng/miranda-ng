@@ -197,7 +197,7 @@ INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	switch(msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
-		hContact = (MCONTACT)lParam;
+		hContact = lParam;
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)lParam);
 
 		getDefaultMessage(hwnd, IDC_MESSAGE, hContact);
@@ -259,7 +259,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			msg(TranslateT("error......"), TranslateT("Buddy Pounce"));
 			DestroyWindow(hwnd);
 		}
-		wi->hContact = (MCONTACT)lParam;
+		wi->hContact = lParam;
 		wi->SendIfMy = 0;
 		wi->SendWhenThey = 0;
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)wi);
@@ -576,7 +576,7 @@ INT_PTR CALLBACK PounceSentDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_INITDIALOG:
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (WPARAM)lParam);
 		TranslateDialogDefault(hwnd);
-		hContact = (MCONTACT)lParam;
+		hContact = lParam;
 		{
 			DBVARIANT dbv;
 			if (db_get_ts(hContact, modname, "PounceMsg", &dbv))

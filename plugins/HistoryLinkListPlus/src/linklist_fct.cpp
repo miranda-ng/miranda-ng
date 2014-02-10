@@ -1202,7 +1202,7 @@ This function is derived from his Wordlookup Plugin
 int DBUpdate(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hEvent=(HANDLE)lParam;
-	HWND hDlg = WindowList_Find(hWindowList, (MCONTACT)wParam);
+	HWND hDlg = WindowList_Find(hWindowList, wParam);
 	DIALOGPARAM *DlgParam;
 	HMENU listMenu = GetMenu(hDlg);
 	int linkNum = 0;

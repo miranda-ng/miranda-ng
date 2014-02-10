@@ -285,7 +285,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_INITDIALOG:
 		test = 0;
 		TranslateDialogDefault(hwndDlg);
-		hContact = (MCONTACT)lParam;
+		hContact = lParam;
 
 		SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG) hContact);
 

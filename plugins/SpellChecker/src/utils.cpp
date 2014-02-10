@@ -1406,7 +1406,7 @@ int IconPressed(WPARAM wParam, LPARAM lParam)
 	if (sicd == NULL || strcmp(sicd->szModule, MODULE_NAME) != 0)
 		return 0;
 
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 

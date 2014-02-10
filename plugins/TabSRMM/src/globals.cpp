@@ -402,11 +402,11 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 	CContactCache* c = 0;
 	bool		fChanged = false, fNickChanged = false, fExtendedStatusChange = false;
 
-	hwnd = M.FindWindow((MCONTACT)wParam);
+	hwnd = M.FindWindow(wParam);
 
 	if (hwnd == 0 && wParam != 0) {     // we are not interested in this event if there is no open message window/tab
 		if (!strcmp(setting, "Status") || !strcmp(setting, "MyHandle") || !strcmp(setting, "Nick") || !strcmp(cws->szModule, SRMSGMOD_T)) {
-			c = CContactCache::getContactCache((MCONTACT)wParam);
+			c = CContactCache::getContactCache(wParam);
 			if (c) {
 				fChanged = c->updateStatus();
 				if (strcmp(setting, "Status"))
@@ -424,7 +424,7 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (wParam) {
-		c = CContactCache::getContactCache((MCONTACT)wParam);
+		c = CContactCache::getContactCache(wParam);
 		if (c) {
 			szProto = c->getProto();
 			if (!strcmp(cws->szModule, SRMSGMOD_T)) {					// catch own relevant settings
@@ -500,7 +500,7 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 int CGlobals::DBContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam) {
-		CContactCache *c = CContactCache::getContactCache((MCONTACT)wParam);
+		CContactCache *c = CContactCache::getContactCache(wParam);
 		if (c)
 			c->deletedHandler();
 	}
@@ -515,7 +515,7 @@ int CGlobals::DBContactDeleted(WPARAM wParam, LPARAM lParam)
 int CGlobals::MetaContactEvent(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam) {
-		CContactCache *c = CContactCache::getContactCache((MCONTACT)wParam);
+		CContactCache *c = CContactCache::getContactCache(wParam);
 		if (c) {
 			c->updateMeta(true);
 			if (c->getHwnd()) {

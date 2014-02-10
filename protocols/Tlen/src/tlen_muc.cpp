@@ -1031,7 +1031,7 @@ INT_PTR TlenProtocol::MUCContactMenuHandleMUC(WPARAM wParam, LPARAM lParam)
 	if (!isOnline)
 		return 1;
 
-	if ((hContact=(MCONTACT)wParam) != NULL && isOnline) {
+	if ((hContact=wParam) != NULL && isOnline) {
 		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 			char serialId[32];
 			mir_snprintf(serialId, SIZEOF(serialId), TLEN_IQID"%d", TlenSerialNext(this));

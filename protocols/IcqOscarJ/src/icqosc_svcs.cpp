@@ -38,12 +38,12 @@ INT_PTR CIcqProto::AddServerContact(WPARAM wParam, LPARAM lParam)
 	if (!m_bSsiEnabled) return 0;
 
 	// Does this contact have a UID?
-	if (!getContactUid((MCONTACT)wParam, &dwUin, &szUid) && !getWord((MCONTACT)wParam, DBSETTING_SERVLIST_ID, 0) && !getWord((MCONTACT)wParam, DBSETTING_SERVLIST_IGNORE, 0))
+	if (!getContactUid(wParam, &dwUin, &szUid) && !getWord(wParam, DBSETTING_SERVLIST_ID, 0) && !getWord(wParam, DBSETTING_SERVLIST_IGNORE, 0))
 	{ /// TODO: remove possible 0x6A TLV in contact server-list data!!!
 		// Read group from DB
-		char *pszGroup = getContactCListGroup((MCONTACT)wParam);
+		char *pszGroup = getContactCListGroup(wParam);
 
-		servlistAddContact((MCONTACT)wParam, pszGroup);
+		servlistAddContact(wParam, pszGroup);
 		SAFE_FREE((void**)&pszGroup);
 	}
 	return 0;
@@ -88,7 +88,7 @@ INT_PTR CIcqProto::GetInfoSetting(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTGETSETTING *cgs = (DBCONTACTGETSETTING*)lParam;
 	BYTE type = cgs->pValue->type;
-	INT_PTR rc = db_get_s((MCONTACT)wParam, cgs->szModule, cgs->szSetting, cgs->pValue, 0);
+	INT_PTR rc = db_get_s(wParam, cgs->szModule, cgs->szSetting, cgs->pValue, 0);
 	if (rc)
 		return rc;
 	
@@ -458,13 +458,13 @@ INT_PTR CIcqProto::GrantAuthorization(WPARAM wParam, LPARAM lParam)
 		DWORD dwUin;
 		uid_str szUid;
 
-		if (getContactUid((MCONTACT)wParam, &dwUin, &szUid))
+		if (getContactUid(wParam, &dwUin, &szUid))
 			return 0; // Invalid contact
 
 		// send without reason, do we need any ?
 		icq_sendGrantAuthServ(dwUin, szUid, NULL);
 		// auth granted, remove contact menu item
-		delSetting((MCONTACT)wParam, "Grant");
+		delSetting(wParam, "Grant");
 	}
 
 	return 0;
@@ -494,7 +494,7 @@ INT_PTR CIcqProto::RevokeAuthorization(WPARAM wParam, LPARAM lParam)
 		DWORD dwUin;
 		uid_str szUid;
 
-		if (getContactUid((MCONTACT)wParam, &dwUin, &szUid))
+		if (getContactUid(wParam, &dwUin, &szUid))
 			return 0; // Invalid contact
 
 		if (MessageBox(NULL, TranslateT("Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients."), TranslateT("Confirmation"), MB_ICONQUESTION | MB_YESNO) != IDYES)
@@ -714,7 +714,7 @@ INT_PTR __cdecl CIcqProto::IcqCheckCapability(WPARAM wParam, LPARAM lParam)
 {
     int res = 0;
     DBVARIANT dbvariant;
-	 MCONTACT hContact = (MCONTACT)wParam;
+	 MCONTACT hContact = wParam;
     ICQ_CUSTOMCAP *icqCustomCap = (ICQ_CUSTOMCAP *)lParam;
 
 	 db_get(hContact, m_szModuleName, "CapBuf", &dbvariant);

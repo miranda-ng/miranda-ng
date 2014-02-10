@@ -261,7 +261,7 @@ INT_PTR MetaFilter_SendMessage(WPARAM wParam,LPARAM lParam)
 
 INT_PTR Meta_SendNudge(WPARAM wParam,LPARAM lParam)
 {
-	MCONTACT hSubContact = Meta_GetMostOnline((MCONTACT)wParam);
+	MCONTACT hSubContact = Meta_GetMostOnline(wParam);
 	return ProtoCallService(GetContactProto(hSubContact), PS_SEND_NUDGE, (WPARAM)hSubContact, lParam);
 }
 
@@ -601,22 +601,22 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 	// from here on, we're just interested in contact settings
 	if (wParam == 0) return 0;
 
-	if ((hMeta=(MCONTACT)db_get_dw((MCONTACT)wParam, META_PROTO, "Handle",0))!=0 && CallService(MS_DB_CONTACT_IS, (WPARAM)hMeta, 0)) // just to be safe
+	if ((hMeta=(MCONTACT)db_get_dw(wParam, META_PROTO, "Handle",0))!=0 && CallService(MS_DB_CONTACT_IS, (WPARAM)hMeta, 0)) // just to be safe
 	{
 		// This contact is attached to a MetaContact.
 
-		contact_number = Meta_GetContactNumber((MCONTACT)wParam);
+		contact_number = Meta_GetContactNumber(wParam);
 		if (contact_number == -1) return 0; // exit - db corruption
 
 		if ( !meta_group_hack_disabled && !strcmp(dcws->szModule, "CList") && !strcmp(dcws->szSetting, "Group") &&
-			Meta_IsEnabled() && db_get_b((MCONTACT)wParam, META_PROTO, "Hidden", 0) == 0 && !Miranda_Terminated()) {
+			Meta_IsEnabled() && db_get_b(wParam, META_PROTO, "Hidden", 0) == 0 && !Miranda_Terminated()) {
 				if ((dcws->value.type == DBVT_ASCIIZ || dcws->value.type == DBVT_UTF8) && !Meta_IsHiddenGroup(dcws->value.pszVal)) {
 					// subcontact group reassigned - copy to saved group
-					db_set((MCONTACT)wParam, META_PROTO, "OldCListGroup", &dcws->value);
-					db_set_s((MCONTACT)wParam, "CList", "Group", META_HIDDEN_GROUP);
+					db_set(wParam, META_PROTO, "OldCListGroup", &dcws->value);
+					db_set_s(wParam, "CList", "Group", META_HIDDEN_GROUP);
 				} else if (dcws->value.type == DBVT_DELETED) {
-					db_unset((MCONTACT)wParam, META_PROTO, "OldCListGroup");
-					db_set_s((MCONTACT)wParam, "CList", "Group", META_HIDDEN_GROUP);
+					db_unset(wParam, META_PROTO, "OldCListGroup");
+					db_set_s(wParam, "CList", "Group", META_HIDDEN_GROUP);
 				}
 		}
 		else if ( !strcmp(dcws->szSetting, "IP")) {
@@ -655,7 +655,7 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 			db_set(hMeta, META_PROTO, buffer, &dcws->value);
 
 			DBVARIANT dbv;
-			if (Mydb_get((MCONTACT)wParam, "CList", "MyHandle", &dbv)) {
+			if (Mydb_get(wParam, "CList", "MyHandle", &dbv)) {
 				strcpy(buffer, "CListName");
 				strcat(buffer, _itoa(contact_number, szId, 10));
 				db_set(hMeta, META_PROTO, buffer, &dcws->value);
@@ -682,12 +682,12 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 		}
 		else if ( !strcmp(dcws->szModule, "CList") && !strcmp(dcws->szSetting, "MyHandle")) {
 			if (dcws->value.type == DBVT_DELETED) {
-				char *proto = GetContactProto((MCONTACT)wParam);
+				char *proto = GetContactProto(wParam);
 				strcpy(buffer, "CListName");
 				strcat(buffer, _itoa(contact_number, szId, 10));
 
 				DBVARIANT dbv;
-				if (proto && !Mydb_get((MCONTACT)wParam, proto, "Nick", &dbv)) {
+				if (proto && !Mydb_get(wParam, proto, "Nick", &dbv)) {
 					db_set(hMeta, META_PROTO, buffer, &dbv);
 					db_free(&dbv);
 				} else {
@@ -752,11 +752,11 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 			Meta_CopyData(hMeta);
 		}
 		else if ( !meta_group_hack_disabled && !strcmp(dcws->szModule, "CList") && !strcmp(dcws->szSetting, "Hidden")) {
-			if ((dcws->value.type == DBVT_DELETED || db_get_b((MCONTACT)wParam, "CList", "Hidden", 0) == 0)
-				&& db_get_b((MCONTACT)wParam, META_PROTO, "Hidden", 0) == 1)
+			if ((dcws->value.type == DBVT_DELETED || db_get_b(wParam, "CList", "Hidden", 0) == 0)
+				&& db_get_b(wParam, META_PROTO, "Hidden", 0) == 1)
 			{
 				// a subcontact we hid (e.g. jabber) has been unhidden - hide it again :(
-				db_set_b((MCONTACT)wParam, "CList", "Hidden", 1);
+				db_set_b(wParam, "CList", "Hidden", 1);
 			}
 		}
 	}
@@ -767,21 +767,21 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 int Meta_ContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	// is a subcontact - update meta contact
-	MCONTACT hMeta = (MCONTACT)db_get_dw((MCONTACT)wParam, META_PROTO, "Handle", 0);
+	MCONTACT hMeta = (MCONTACT)db_get_dw(wParam, META_PROTO, "Handle", 0);
 	if (hMeta) {
-		Meta_RemoveContactNumber(hMeta, db_get_dw((MCONTACT)wParam, META_PROTO, "ContactNumber", -1));
+		Meta_RemoveContactNumber(hMeta, db_get_dw(wParam, META_PROTO, "ContactNumber", -1));
 		NotifyEventHooks(hSubcontactsChanged, (WPARAM)hMeta, 0);
 		return 0;
 	}
 
 	// not a subcontact - is it a metacontact?
-	int num_contacts = db_get_dw((MCONTACT)wParam, META_PROTO, "NumContacts", 0);
+	int num_contacts = db_get_dw(wParam, META_PROTO, "NumContacts", 0);
 	if (num_contacts)
 		NotifyEventHooks(hSubcontactsChanged, (WPARAM)wParam, 0);
 
 	// remove & restore all subcontacts
 	for (int i = 0; i < num_contacts; i++) {
-		MCONTACT hContact = Meta_GetContactHandle((MCONTACT)wParam, i);
+		MCONTACT hContact = Meta_GetContactHandle(wParam, i);
 		if (hContact && (HANDLE)db_get_dw(hContact, META_PROTO, "Handle", 0) == (HANDLE)wParam) {
 			if (db_get_b(hContact, META_PROTO, "IsSubcontact", 0) == 1)
 				db_unset(hContact, META_PROTO, "IsSubcontact");
@@ -807,13 +807,13 @@ int Meta_ContactDeleted(WPARAM wParam, LPARAM lParam)
 INT_PTR Meta_UserIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	// This is a simple contact, let through the stack of protocols
-	if (db_get_dw((MCONTACT)wParam, META_PROTO, META_ID,(DWORD)-1) == (DWORD)-1)
+	if (db_get_dw(wParam, META_PROTO, META_ID,(DWORD)-1) == (DWORD)-1)
 		return 0;
 
 	// forward to sending protocol, if supported
 
-	MCONTACT most_online = Meta_GetMostOnline((MCONTACT)wParam);
-	Meta_CopyContactNick((MCONTACT)wParam, most_online);
+	MCONTACT most_online = Meta_GetMostOnline(wParam);
+	Meta_CopyContactNick(wParam, most_online);
 	if ( !most_online)
 		return 0;
 
@@ -833,7 +833,7 @@ INT_PTR Meta_UserIsTyping(WPARAM wParam, LPARAM lParam)
 int Meta_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hMeta;
-	if ((hMeta = (MCONTACT)db_get_dw((MCONTACT)wParam, META_PROTO, "Handle",0)) != 0 && Meta_IsEnabled()) {
+	if ((hMeta = (MCONTACT)db_get_dw(wParam, META_PROTO, "Handle",0)) != 0 && Meta_IsEnabled()) {
 		// This contact is attached to a MetaContact.
 		if ( !options.subcontact_windows) { // we don't want clicking on the clist notification icon to open the metacontact message window
 			// try to remove any clist events we added for subcontact
@@ -855,12 +855,12 @@ int Meta_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 
 int Meta_UserInfo(WPARAM wParam, LPARAM lParam)
 {
-	DWORD default_contact_number = db_get_dw((MCONTACT)lParam, META_PROTO, "Default", (DWORD)-1);
+	DWORD default_contact_number = db_get_dw(lParam, META_PROTO, "Default", (DWORD)-1);
 
 	if (default_contact_number == -1) // not a meta contact
 		return 0;
 
-	CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)Meta_GetContactHandle((MCONTACT)lParam, default_contact_number), 0);
+	CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)Meta_GetContactHandle(lParam, default_contact_number), 0);
 	return 1;
 }
 
@@ -907,11 +907,11 @@ int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam) {
 
 int Meta_ClistDoubleClicked(WPARAM wParam, LPARAM lParam)
 {
-	if (db_get_dw((MCONTACT)wParam, META_PROTO, "Default",(WORD)-1) == (WORD)-1)
+	if (db_get_dw(wParam, META_PROTO, "Default",(WORD)-1) == (WORD)-1)
 		return 0;
 
 	// -1 indicates  no specific capability but respect 'ForceDefault'
-	MCONTACT most_online = Meta_GetMostOnlineSupporting((MCONTACT)wParam, PFLAGNUM_1, -1);
+	MCONTACT most_online = Meta_GetMostOnlineSupporting(wParam, PFLAGNUM_1, -1);
 	if ( !most_online)
 		return 0;
 
@@ -1093,7 +1093,7 @@ static VOID CALLBACK sttMenuThread( PVOID param )
 
 INT_PTR Meta_ContactMenuFunc(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = Meta_GetContactHandle((MCONTACT)wParam, (int)lParam);
+	MCONTACT hContact = Meta_GetContactHandle(wParam, (int)lParam);
 
 	if (options.menu_function == FT_MSG) {
 		// open message window if protocol supports message sending or chat, else simulate double click
@@ -1112,7 +1112,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM wParam, LPARAM lParam)
 
 			if ((caps & PF1_IMSEND) || (caps & PF1_CHAT) || (proto && strcmp(proto, "IRC") == 0)) {
 				// set default contact for sending/status and open message window
-				db_set_dw((MCONTACT)wParam, META_PROTO, "Default", (DWORD)(int)lParam);
+				db_set_dw(wParam, META_PROTO, "Default", (DWORD)(int)lParam);
 				NotifyEventHooks(hEventDefaultChanged, wParam, (LPARAM)hContact);
 				CallService(MS_MSG_SENDMESSAGE, wParam, 0);
 			} else
@@ -1292,13 +1292,13 @@ int Meta_OptInit(WPARAM wParam, LPARAM lParam)
 
 int Meta_CallMostOnline(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT most_online_im = Meta_GetMostOnline((MCONTACT)wParam);
+	MCONTACT most_online_im = Meta_GetMostOnline(wParam);
 
 	// fix nick
-	Meta_CopyContactNick((MCONTACT)wParam, most_online_im);
+	Meta_CopyContactNick(wParam, most_online_im);
 
 	// fix status
-	Meta_FixStatus((MCONTACT)wParam);
+	Meta_FixStatus(wParam);
 
 	// copy all other data
 	Meta_CopyData((MCONTACT) wParam);

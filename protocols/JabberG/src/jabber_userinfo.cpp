@@ -445,7 +445,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		dat->resourcesCount = -1;
 
 		if (CallService(MS_DB_CONTACT_IS, (WPARAM)lParam, 0))
-			dat->hContact = (MCONTACT)lParam;
+			dat->hContact = lParam;
 		else if (!IsBadReadPtr((void*)lParam, sizeof(JABBER_LIST_ITEM))) {
 			dat->hContact = NULL;
 			dat->item = (JABBER_LIST_ITEM *)lParam;
@@ -605,7 +605,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		// lParam is hContact
 		TranslateDialogDefault(hwndDlg);
 		photoInfo = (USER_PHOTO_INFO *) mir_alloc(sizeof(USER_PHOTO_INFO));
-		photoInfo->hContact = (MCONTACT)lParam;
+		photoInfo->hContact = lParam;
 		photoInfo->ppro = NULL;
 		photoInfo->hBitmap = NULL;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) photoInfo);
@@ -800,7 +800,7 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName))
 		return 0;
 
-	MCONTACT hContact = (MCONTACT)lParam;
+	MCONTACT hContact = lParam;
 	if (hContact == NULL) {
 		// Show our vcard
 		OnUserInfoInit_VCard(wParam, lParam);

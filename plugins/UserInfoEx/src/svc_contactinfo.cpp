@@ -705,7 +705,7 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 static INT_PTR GetContactSettingStrExService(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTGETSETTING *cgs = (DBCONTACTGETSETTING*)lParam;
-	return DB::Setting::GetEx((MCONTACT)wParam, USERINFO,
+	return DB::Setting::GetEx(wParam, USERINFO,
 		cgs->szModule, cgs->szSetting, cgs->pValue, cgs->pValue->type);
 }
 

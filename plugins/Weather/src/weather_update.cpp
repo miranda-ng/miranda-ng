@@ -300,9 +300,9 @@ void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 // wParam = handle for the weather station that is going to be updated
 INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM lParam) 
 {
-	if (IsMyContact((MCONTACT)wParam)) {
+	if (IsMyContact(wParam)) {
 		// add the station to the end of the update queue	
-		UpdateListAdd((MCONTACT)wParam);
+		UpdateListAdd(wParam);
 
 		// if it is not updating, then start the update thread process
 		// if it is updating, the stations just added to the queue will get 
@@ -318,10 +318,10 @@ INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM lParam)
 // wParam = handle for the weather station that is going to be updated
 INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM lParam) 
 {
-	if (IsMyContact((MCONTACT)wParam)) {
+	if (IsMyContact(wParam)) {
 		// add the station to the end of the update queue, and also remove old data
-		DBDataManage((MCONTACT)wParam, WDBM_REMOVE, 0, 0);
-		UpdateListAdd((MCONTACT)wParam);
+		DBDataManage(wParam, WDBM_REMOVE, 0, 0);
+		UpdateListAdd(wParam);
 
 		// if it is not updating, then start the update thread process
 		// if it is updating, the stations just added to the queue will get updated by the already-running process

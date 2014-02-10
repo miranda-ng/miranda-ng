@@ -134,7 +134,7 @@ static INT_PTR CALLBACK AskForConfirmationDlgProc(HWND hWnd, UINT msg, WPARAM wP
 			TCHAR szFinal[256];
 
 			GetDlgItemText(hWnd, IDC_TOPLINE, szFormat, SIZEOF(szFormat));
-			mir_sntprintf(szFinal, SIZEOF(szFinal), szFormat, cli.pfnGetContactDisplayName((MCONTACT)lParam, 0));
+			mir_sntprintf(szFinal, SIZEOF(szFinal), szFormat, cli.pfnGetContactDisplayName(lParam, 0));
 			SetDlgItemText(hWnd, IDC_TOPLINE, szFinal);
 		}
 		SetFocus( GetDlgItem(hWnd, IDNO));
@@ -185,7 +185,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 	// Delete contact
 	case IDYES:
 		{
-			char *szProto = GetContactProto((MCONTACT)wParam);
+			char *szProto = GetContactProto(wParam);
 			if (szProto != NULL) {
 				// Check if protocol uses server side lists
 				DWORD caps;
@@ -197,7 +197,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 					status = CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0);
 					if (status == ID_STATUS_OFFLINE || (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 						// Set a flag so we remember to delete the contact when the protocol goes online the next time
-						db_set_b((MCONTACT)wParam, "CList", "Delete", 1);
+						db_set_b(wParam, "CList", "Delete", 1);
 						MessageBox(NULL,
 							TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
 							TranslateT("Delete contact"), MB_ICONINFORMATION | MB_OK);
@@ -212,7 +212,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 
 	// Archive contact
 	case IDC_HIDE:
-		db_set_b((MCONTACT)wParam, "CList", "Hidden", 1);
+		db_set_b(wParam, "CList", "Hidden", 1);
 		break;
 	}
 
@@ -222,7 +222,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 static INT_PTR MenuItem_AddContactToList(WPARAM wParam, LPARAM)
 {
 	ADDCONTACTSTRUCT acs = { 0 };
-	acs.hContact = (MCONTACT)wParam;
+	acs.hContact = wParam;
 	acs.handleType = HANDLE_CONTACT;
 	acs.szProto = "";
 	CallService(MS_ADDCONTACT_SHOW, NULL, (LPARAM)&acs);

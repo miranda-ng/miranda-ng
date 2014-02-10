@@ -162,7 +162,7 @@ int CTooltipNotify::ProtoContactIsTyping(WPARAM wParam, LPARAM lParam)
 	{
 		STooltipData *pTooltipData = new STooltipData;
 		pTooltipData->uiTimeout = lParam*1000;
-		pTooltipData->hContact = (MCONTACT)wParam;
+		pTooltipData->hContact = wParam;
 		pTooltipData->iStatus = ID_TTNTF_STATUS_TYPING;
 
 		EndNotifyAll();
@@ -211,7 +211,7 @@ int CTooltipNotify::ProtoAck(WPARAM wParam, LPARAM lParam)
 int CTooltipNotify::ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if(hContact==NULL) return 0;
 	
 	bool idle = false;

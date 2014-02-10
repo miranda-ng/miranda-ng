@@ -76,7 +76,7 @@ INT_PTR ExecuteTaskService(WPARAM wParam, LPARAM lParam);
 
 int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	int count = EventList::GetContactMessageNumber((MCONTACT)wParam);
+	int count = EventList::GetContactMessageNumber(wParam);
 	bool isInList = HistoryWindow::IsInList(GetForegroundWindow());
 
 	Menu_ShowItem(hContactMenu, count != 0);
@@ -196,7 +196,7 @@ HICON LoadIconEx(int iconId, int big)
 
 INT_PTR ShowContactHistory(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	HistoryWindow::Open(hContact);
 	return 0;
 }
@@ -210,7 +210,7 @@ int PreShutdownHistoryModule(WPARAM, LPARAM)
 
 int HistoryContactDelete(WPARAM wParam, LPARAM)
 {
-	HistoryWindow::Close((MCONTACT)wParam);
+	HistoryWindow::Close(wParam);
 	return 0;
 }
 

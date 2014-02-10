@@ -348,7 +348,7 @@ INT_PTR MissYouAction(WPARAM wParam, LPARAM lParam)
 		CLISTEVENT* cle = (CLISTEVENT*)lParam;
 		hContact = cle->hContact;
 	}
-	else hContact = (MCONTACT)wParam;
+	else hContact = wParam;
 
 	CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
 	return 0;
@@ -366,7 +366,7 @@ INT_PTR ContactReturnedAction(WPARAM wParam, LPARAM lParam)
 		CLISTEVENT* cle = (CLISTEVENT*)lParam;
 		hContact = cle->hContact;
 	}
-	else hContact = (MCONTACT)wParam;
+	else hContact = wParam;
 
 	if (options.iShowMessageWindow>0)
 		CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
@@ -390,7 +390,7 @@ INT_PTR ContactStillAbsentAction(WPARAM wParam, LPARAM lParam)
 		CLISTEVENT* cle = (CLISTEVENT*)lParam;
 		hContact = cle->hContact;
 	}
-	else hContact = (MCONTACT)wParam;
+	else hContact = wParam;
 
 	switch (options.action2) {
 	case GCA_DELETE:
@@ -423,15 +423,15 @@ int onIconsChanged(WPARAM wParam, LPARAM lParam)
  */
 INT_PTR MenuMissYouClick(WPARAM wParam, LPARAM lParam)
 {
-	if (db_get_b((MCONTACT)wParam, MODULE_NAME, "MissYou", 0)) {
-		db_set_b((MCONTACT)wParam, MODULE_NAME, "MissYou", 0);
+	if (db_get_b(wParam, MODULE_NAME, "MissYou", 0)) {
+		db_set_b(wParam, MODULE_NAME, "MissYou", 0);
 		if (options.MissYouIcon)
-			ExtraIcon_Clear(hExtraIcon, (MCONTACT)wParam);
+			ExtraIcon_Clear(hExtraIcon, wParam);
 	}
 	else {
-		db_set_b((MCONTACT)wParam, MODULE_NAME, "MissYou", 1);
+		db_set_b(wParam, MODULE_NAME, "MissYou", 1);
 		if (options.MissYouIcon)
-			ExtraIcon_SetIcon(hExtraIcon, (MCONTACT)wParam, "enabled_icon");
+			ExtraIcon_SetIcon(hExtraIcon, wParam, "enabled_icon");
 	}
 
 	return 0;
@@ -442,13 +442,13 @@ INT_PTR MenuMissYouClick(WPARAM wParam, LPARAM lParam)
  */
 int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-   char *proto = GetContactProto((MCONTACT)wParam);
+   char *proto = GetContactProto(wParam);
    if (!proto)
 		return 0;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
-   if (db_get_b((MCONTACT)wParam, MODULE_NAME, "MissYou", 0)) {
+   if (db_get_b(wParam, MODULE_NAME, "MissYou", 0)) {
 		mi.ptszName = LPGENT("Disable Miss You");
 		mi.icolibItem = iconList[1].hIcolib;
    }
@@ -457,14 +457,14 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 		mi.icolibItem = iconList[2].hIcolib;
    }
 	Menu_ModifyItem(hContactMenu, &mi);
-	Menu_ShowItem(hContactMenu, !db_get_b((MCONTACT)wParam, proto, "ChatRoom", 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND));
+	Menu_ShowItem(hContactMenu, !db_get_b(wParam, proto, "ChatRoom", 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND));
    return 0;
 }
 
 int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
 {
-	if ( db_get_b((MCONTACT)wParam, MODULE_NAME, "MissYou", 0))
-		ExtraIcon_SetIcon(hExtraIcon, (MCONTACT)wParam, "enabled_icon");
+	if ( db_get_b(wParam, MODULE_NAME, "MissYou", 0))
+		ExtraIcon_SetIcon(hExtraIcon, wParam, "enabled_icon");
 
    return 0;
 }
@@ -671,7 +671,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 int ContactAdded(WPARAM wParam, LPARAM lParam)
 {
-	db_set_dw((MCONTACT)wParam, MODULE_NAME, "CreationTime", (DWORD)time(0));
+	db_set_dw(wParam, MODULE_NAME, "CreationTime", (DWORD)time(0));
 	return 0;
 }
 

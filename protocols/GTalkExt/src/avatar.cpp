@@ -107,11 +107,11 @@ VOID CALLBACK CallSetAvatar(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
 
 int AvaChanged(WPARAM wParam, LPARAM lParam)
 {
-	if (!lParam && db_get_b((MCONTACT)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
+	if (!lParam && db_get_b(wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
 		BOOL enqueued = FALSE;
 		AVACHANGED *ach = (AVACHANGED*)malloc(sizeof(AVACHANGED));
 		__try {
-			ach->hContact = (MCONTACT)wParam;
+			ach->hContact = wParam;
 			enqueued = CreateTimerQueueTimer(&ach->hTimer, NULL, CallSetAvatar, ach, SET_AVATAR_INTERVAL, 0, WT_EXECUTEONLYONCE);
 		}
 		__finally {

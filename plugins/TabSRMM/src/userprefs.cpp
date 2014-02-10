@@ -63,7 +63,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		case WM_INITDIALOG: {
 			DWORD sCodePage;
 			int i;
-			hContact = (MCONTACT)lParam;
+			hContact = lParam;
 			DWORD maxhist = M.GetDword(hContact, "maxhist", 0);
 			BYTE bIEView = M.GetByte(hContact, "ieview", 0);
 			BYTE bHPP = M.GetByte(hContact, "hpplog", 0);
@@ -365,7 +365,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
-		hContact = (MCONTACT)lParam;
+		hContact = lParam;
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
 		SendMessage(hwndDlg, WM_COMMAND, WM_USER + 200, 0);
@@ -464,7 +464,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		hContact = (MCONTACT)lParam;
+		hContact = lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
 
 		WindowList_Add(PluginConfig.hUserPrefsWindowList, hwndDlg, hContact);

@@ -167,7 +167,7 @@ void SortContacts(void)
 
 INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	CallService(MS_CLUI_CONTACTDELETED,wParam,0);
 	if ((HANDLE)lParam == NULL)

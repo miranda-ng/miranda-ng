@@ -2,7 +2,7 @@
 
 INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	std::string proto = GetContactProto(hContact);
 	
 	if ( !plSets->ProtoDisabled( proto.c_str()))

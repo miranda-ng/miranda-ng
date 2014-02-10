@@ -214,11 +214,11 @@ static int Proto_ValidTypingContact(MCONTACT hContact, char *szProto)
 static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam == PROTOTYPE_SELFTYPING_OFF || lParam == PROTOTYPE_SELFTYPING_ON) {
-		char *szProto = GetContactProto((MCONTACT)wParam);
+		char *szProto = GetContactProto(wParam);
 		if (!szProto)
 			return 0;
 
-		if (Proto_ValidTypingContact((MCONTACT)wParam, szProto))
+		if (Proto_ValidTypingContact(wParam, szProto))
 			CallProtoServiceInt(NULL,szProto, PSS_USERISTYPING, wParam, lParam);
 	}
 
@@ -228,7 +228,7 @@ static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	int type = (int)lParam;
-	char *szProto = GetContactProto((MCONTACT)wParam);
+	char *szProto = GetContactProto(wParam);
 	if (!szProto)
 		return 0;
 
@@ -238,7 +238,7 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 	if (type < PROTOTYPE_CONTACTTYPING_OFF)
 		return 0;
 
-	if (Proto_ValidTypingContact((MCONTACT)wParam, szProto))
+	if (Proto_ValidTypingContact(wParam, szProto))
 		NotifyEventHooks(hTypeEvent, wParam, lParam);
 
 	return 0;
@@ -442,7 +442,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 				else
 					return (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action, (const PROTOCHAR**)&pfr->szFilename);
 			}
-			case 12: return (INT_PTR)ppi->GetCaps(wParam, (MCONTACT)lParam);
+			case 12: return (INT_PTR)ppi->GetCaps(wParam, lParam);
 			case 13: return (INT_PTR)Proto_GetIcon(ppi, wParam);
 			case 14: return (INT_PTR)ppi->GetInfo(hContact, wParam);
 			case 15:
@@ -490,7 +490,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 					return (INT_PTR)ppi->SetAwayMsg(wParam, StrConvT((char*)lParam));
 				else
 					return (INT_PTR)ppi->SetAwayMsg(wParam, (TCHAR*)lParam);
-			case 34: return (INT_PTR)ppi->UserIsTyping((MCONTACT)wParam, lParam);
+			case 34: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
 			case 35: lstrcpynA((char*)lParam, ppi->m_szModuleName, wParam); return 0;
 			case 36: return ppi->m_iStatus;
 

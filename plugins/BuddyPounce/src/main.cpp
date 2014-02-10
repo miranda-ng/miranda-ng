@@ -153,14 +153,14 @@ void SendPounce(TCHAR *text, MCONTACT hContact)
 
 int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
 	char *szProto = GetContactProto(hContact);
 	if((HANDLE)wParam == NULL || strcmp(cws->szSetting,"Status")) return 0;
 	if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) {
 		int newStatus = cws->value.wVal;
-		int oldStatus = db_get_w((MCONTACT)wParam,"UserOnline","OldStatus",ID_STATUS_OFFLINE);
+		int oldStatus = db_get_w(wParam,"UserOnline","OldStatus",ID_STATUS_OFFLINE);
 		
 		if (newStatus != oldStatus && wParam != NULL && newStatus != ID_STATUS_OFFLINE) {
 			DBVARIANT dbv;
@@ -192,7 +192,7 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 
 INT_PTR BuddyPounceMenuCommand(WPARAM wParam, LPARAM lParam)
 {
-	if (db_get_b(NULL, modname, "UseAdvanced", 0) || db_get_b((MCONTACT)wParam, modname, "UseAdvanced", 0))
+	if (db_get_b(NULL, modname, "UseAdvanced", 0) || db_get_b(wParam, modname, "UseAdvanced", 0))
 		CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_POUNCE),0,BuddyPounceDlgProc, wParam);
 	else CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_POUNCE_SIMPLE),0,BuddyPounceSimpleDlgProc, wParam);
 	return 0;
@@ -200,7 +200,7 @@ INT_PTR BuddyPounceMenuCommand(WPARAM wParam, LPARAM lParam)
 
 INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	TCHAR* message = (TCHAR*)lParam;
 	time_t today = time(NULL);
 	db_set_ws(hContact, modname, "PounceMsg", message);
@@ -214,7 +214,7 @@ INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 
 INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	TCHAR* message = (TCHAR*)lParam;
 	DBVARIANT dbv;
 	if (!db_get_ts(hContact, modname, "PounceMsg",&dbv))

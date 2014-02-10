@@ -49,7 +49,7 @@ static INT_PTR AddMirOTRMenuItem(WPARAM, LPARAM lParam)
 
 static INT_PTR BuildMirOTRMenu(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 
 	ListParam param = { 0 };
 	param.MenuObjectHandle = hMirOTRMenuObject;

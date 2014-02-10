@@ -114,7 +114,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			hContact = (MCONTACT)lParam;
+			hContact = lParam;
 			char *szProto = GetContactProto(hContact);
 
 			ListView_SetImageList(hList, GetStatusIconsImgList(szProto), LVSIL_SMALL);

@@ -88,7 +88,7 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 	if (p == NULL)
 		return 1;
 
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (hContact == NULL) {
 		mir_free(p->sid.szModule);
 		mir_free(p->sid.szTooltip);

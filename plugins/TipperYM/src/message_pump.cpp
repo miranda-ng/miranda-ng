@@ -340,7 +340,7 @@ int ProtoAck(WPARAM wParam, LPARAM lParam)
 
 int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	PostMPMessage(MUM_GOTAVATAR, (WPARAM)hContact, 0);
 	return 0;
 }

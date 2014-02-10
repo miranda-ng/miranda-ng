@@ -24,7 +24,7 @@ int StartOTR(MCONTACT hContact) {
 }
 
 INT_PTR SVC_StartOTR(WPARAM wParam, LPARAM lParam) {
-	MCONTACT hContact = (MCONTACT)wParam, hSub;
+	MCONTACT hContact = wParam, hSub;
 	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0) {
 		hContact = hSub;
 	}
@@ -47,7 +47,7 @@ INT_PTR SVC_StartOTR(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR SVC_RefreshOTR(WPARAM wParam, LPARAM lParam) {
-	MCONTACT hContact = (MCONTACT)wParam, hSub;
+	MCONTACT hContact = wParam, hSub;
 	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0) {
 		hContact = hSub;
 	}
@@ -89,7 +89,7 @@ int otr_disconnect_contact(MCONTACT hContact)
 
 INT_PTR SVC_StopOTR(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	
 	// prevent this filter from acting on injeceted messages for metas, when they are passed though the subcontact's proto send chain
 	if (otr_disconnect_contact(hContact)) return 0;
@@ -104,11 +104,11 @@ INT_PTR SVC_StopOTR(WPARAM wParam, LPARAM lParam)
 }
 
 INT_PTR SVC_VerifyOTR(WPARAM wParam, LPARAM lParam) {
-	MCONTACT hContact = (MCONTACT)wParam, hSub;
+	MCONTACT hContact = wParam, hSub;
 	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 		hContact = hSub;
 
-	ConnContext *context = otrl_context_find_miranda(otr_user_state, (MCONTACT)wParam);
+	ConnContext *context = otrl_context_find_miranda(otr_user_state, wParam);
 	if (!context) return 1;
 	//VerifyContextDialog(context);	
 	SMPInitDialog(context);
@@ -116,7 +116,7 @@ INT_PTR SVC_VerifyOTR(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR SVC_ToggleHTMLOTR(WPARAM wParam, LPARAM lParam) {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	if (db_get_b(hContact, MODULENAME, "HTMLConv", 0))
 		db_set_b(hContact, MODULENAME, "HTMLConv", 0);
 	else
@@ -154,7 +154,7 @@ void InitMenu()
 
 int SVC_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hContact = wParam;
 	
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_TCHAR;

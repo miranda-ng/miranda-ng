@@ -363,7 +363,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						}
 
 						ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
-						ppd.lchContact = (MCONTACT)wParam;
+						ppd.lchContact = wParam;
 						ppd.PluginWindowProc = NULL;
 						ppd.PluginData = NULL;
 						PUAddPopupT(&ppd);

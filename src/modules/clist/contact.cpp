@@ -144,13 +144,13 @@ INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
 
 	CallService(MS_CLUI_CONTACTDELETED, wParam, 0);
 	if ((HANDLE) lParam == NULL)
-		db_unset((MCONTACT)wParam, "CList", "Group");
+		db_unset(wParam, "CList", "Group");
 	else {
 		grpChg.pszNewName = cli.pfnGetGroupName(lParam, NULL);
-		db_set_ts((MCONTACT)wParam, "CList", "Group", grpChg.pszNewName);
+		db_set_ts(wParam, "CList", "Group", grpChg.pszNewName);
 	}
 	CallService(MS_CLUI_CONTACTADDED, wParam,
-		cli.pfnIconFromStatusMode(GetContactProto((MCONTACT)wParam), GetContactStatus((MCONTACT)wParam), (MCONTACT)wParam));
+		cli.pfnIconFromStatusMode(GetContactProto(wParam), GetContactStatus(wParam), wParam));
 
 	NotifyEventHooks(hGroupChangeEvent, wParam, (LPARAM)&grpChg);
 	return 0;

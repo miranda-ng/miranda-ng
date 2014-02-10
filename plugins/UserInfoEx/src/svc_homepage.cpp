@@ -68,7 +68,7 @@ static LPSTR Get(MCONTACT hContact)
 
 static INT_PTR MenuCommand(WPARAM wParam, LPARAM lParam)
 {
-	LPSTR szUrl = Get((MCONTACT)wParam);
+	LPSTR szUrl = Get(wParam);
 	if (szUrl) {
 		CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
 		mir_free(szUrl);
@@ -127,7 +127,7 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 
 static int OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
-	LPSTR val = Get((MCONTACT)wParam);
+	LPSTR val = Get(wParam);
 	Menu_ShowItem(ghMenuItem, val != 0);
 	mir_free(val);
 	return 0;
