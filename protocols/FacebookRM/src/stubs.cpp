@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-HANDLE FacebookProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
+HCONTACT FacebookProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 {
 	return NULL;
 }

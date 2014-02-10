@@ -134,7 +134,7 @@ int WhatsAppProto::SetStatus( int new_status )
 	return 0;
 }
 
-HANDLE WhatsAppProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
+HCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	return NULL;
 }

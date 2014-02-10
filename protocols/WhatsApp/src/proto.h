@@ -32,8 +32,8 @@ public:
 
 	//PROTO_INTERFACE
 
-	virtual	HANDLE   __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
-   virtual	HANDLE   __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent ) { return NULL; }
+	virtual	HCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
+	virtual	HCONTACT __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return NULL; }
 
    virtual	int      __cdecl Authorize( HANDLE hDbEvent );
    virtual	int      __cdecl AuthDeny( HANDLE hDbEvent, const PROTOCHAR* szReason )       { return 1; }
@@ -207,8 +207,6 @@ public:
 	// Information providing
 	void NotifyEvent(TCHAR* title, TCHAR* info, HCONTACT contact, DWORD flags, TCHAR* url = NULL);
 	void NotifyEvent(const string& title, const string& info, HCONTACT contact, DWORD flags, TCHAR* url = NULL);
-
-
 };
 
 #endif
