@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 // Standard functions
 
-int CMsnProto::getStringUtf(HANDLE hContact, const char* name, DBVARIANT* result)
+int CMsnProto::getStringUtf(HCONTACT hContact, const char* name, DBVARIANT* result)
 {	return db_get_utf(hContact, m_szModuleName, name, result);
 }
 
@@ -34,13 +34,13 @@ int CMsnProto::getStringUtf(const char* name, DBVARIANT* result)
 {	return db_get_utf(NULL, m_szModuleName, name, result);
 }
 
-void CMsnProto::setStringUtf(HANDLE hContact, const char* name, const char* value)
+void CMsnProto::setStringUtf(HCONTACT hContact, const char* name, const char* value)
 {	db_set_utf(hContact, m_szModuleName, name, value);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-TCHAR* CMsnProto::GetContactNameT(HANDLE hContact)
+TCHAR* CMsnProto::GetContactNameT(HCONTACT hContact)
 {
 	if (hContact)
 		return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), GCDNF_TCHAR);

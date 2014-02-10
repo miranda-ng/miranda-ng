@@ -34,7 +34,7 @@ UPDATELIST *UpdateListTail;
 
 // retrieve weather info and display / log them
 // hContact = current contact
-int UpdateWeather(HANDLE hContact) 
+int UpdateWeather(HCONTACT hContact) 
 {
 	TCHAR str[256], str2[MAX_TEXT_SIZE];
 	DBVARIANT dbv;
@@ -219,7 +219,7 @@ int UpdateWeather(HANDLE hContact)
 // a linked list queue for updating weather station
 // this function add a weather contact to the end of queue for update
 // hContact = current contact
-void UpdateListAdd(HANDLE hContact) 
+void UpdateListAdd(HCONTACT hContact) 
 {
 	UPDATELIST *newItem = (UPDATELIST*)mir_alloc(sizeof(UPDATELIST));
 	newItem->hContact = hContact;
@@ -236,9 +236,9 @@ void UpdateListAdd(HANDLE hContact)
 
 // get the first item from the update queue and remove it from the queue
 // return value = the contact for next update
-HANDLE UpdateGetFirst() 
+HCONTACT UpdateGetFirst()
 {
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
@@ -283,9 +283,10 @@ void DestroyUpdateList(void)
 void UpdateAll(BOOL AutoUpdate, BOOL RemoveData) 
 {
 	// add all weather contact to the update queue list
-	for (HANDLE hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME))
+	for (HCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME))
 		if ( !db_get_b(hContact,WEATHERPROTONAME, "AutoUpdate",FALSE) || !AutoUpdate) {
-			if (RemoveData)	DBDataManage((HANDLE)hContact, WDBM_REMOVE, 0, 0);
+			if (RemoveData)
+				DBDataManage((HCONTACT)hContact, WDBM_REMOVE, 0, 0);
 			UpdateListAdd(hContact);
 		}
 
@@ -299,9 +300,9 @@ void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 // wParam = handle for the weather station that is going to be updated
 INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM lParam) 
 {
-	if (IsMyContact((HANDLE)wParam)) {
+	if (IsMyContact((HCONTACT)wParam)) {
 		// add the station to the end of the update queue	
-		UpdateListAdd((HANDLE)wParam);
+		UpdateListAdd((HCONTACT)wParam);
 
 		// if it is not updating, then start the update thread process
 		// if it is updating, the stations just added to the queue will get 
@@ -317,10 +318,10 @@ INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM lParam)
 // wParam = handle for the weather station that is going to be updated
 INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM lParam) 
 {
-	if (IsMyContact((HANDLE)wParam)) {
+	if (IsMyContact((HCONTACT)wParam)) {
 		// add the station to the end of the update queue, and also remove old data
-		DBDataManage((HANDLE)wParam, WDBM_REMOVE, 0, 0);
-		UpdateListAdd((HANDLE)wParam);
+		DBDataManage((HCONTACT)wParam, WDBM_REMOVE, 0, 0);
+		UpdateListAdd((HCONTACT)wParam);
 
 		// if it is not updating, then start the update thread process
 		// if it is updating, the stations just added to the queue will get updated by the already-running process
@@ -372,7 +373,7 @@ INT_PTR UpdateAllRemove(WPARAM wParam,LPARAM lParam) {
 
 // getting weather data and save them into the database
 // hContact = the contact to get the data
-int GetWeatherData(HANDLE hContact) 
+int GetWeatherData(HCONTACT hContact) 
 {
 	// get eacnh part of the id's
 	TCHAR id[256];

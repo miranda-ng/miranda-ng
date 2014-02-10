@@ -121,9 +121,9 @@ static LRESULT CALLBACK KeyBoardHookFunction(int, WPARAM, LPARAM);
 static LRESULT CALLBACK MirandaMouseHookFunction(int, WPARAM, LPARAM);
 static LRESULT CALLBACK MirandaKeyBoardHookFunction(int, WPARAM, LPARAM);
 static LRESULT CALLBACK MirandaWndProcHookFunction(int, WPARAM, LPARAM);
-BOOL CheckMsgWnd(HANDLE, BOOL *);
+BOOL CheckMsgWnd(HCONTACT, BOOL *);
 
-BOOL isMetaContactsSubContact(HANDLE hMetaContact, HANDLE hContact)
+BOOL isMetaContactsSubContact(HCONTACT hMetaContact, HCONTACT hContact)
 {
 	char *szProto = GetContactProto(hMetaContact);
 	if (szProto && !strcmp(szMetaProto, szProto)) { // Safety check
@@ -134,7 +134,7 @@ BOOL isMetaContactsSubContact(HANDLE hMetaContact, HANDLE hContact)
 	return FALSE;
 }
 
-BOOL checkOpenWindow(HANDLE hContact)
+BOOL checkOpenWindow(HCONTACT hContact)
 {
 	BOOL found, focus;
 
@@ -143,7 +143,7 @@ BOOL checkOpenWindow(HANDLE hContact)
 
 	found = CheckMsgWnd(hContact, &focus);
 	if (!found && szMetaProto && bMetaProtoEnabled) {
-		HANDLE hMetaContact = (HANDLE)db_get_dw(hContact, szMetaProto, "Handle", 0);
+		HCONTACT hMetaContact = (HCONTACT)db_get_dw(hContact, szMetaProto, "Handle", 0);
 		if (hMetaContact && isMetaContactsSubContact(hMetaContact, hContact))
 			found = CheckMsgWnd(hMetaContact, &focus);
 	}
@@ -221,7 +221,7 @@ BOOL checkGlobalXstatus()
 	return protosSupporting == 0;
 }
 
-DBEVENTINFO createMsgEventInfo(HANDLE hContact)
+DBEVENTINFO createMsgEventInfo(HCONTACT hContact)
 {
 	DBEVENTINFO einfo = { sizeof(einfo) };
 	einfo.eventType = EVENTTYPE_MESSAGE;
@@ -229,7 +229,7 @@ DBEVENTINFO createMsgEventInfo(HANDLE hContact)
 	return einfo;
 }
 
-DBEVENTINFO readEventInfo(HANDLE hDbEvent, HANDLE hContact)
+DBEVENTINFO readEventInfo(HANDLE hDbEvent, HCONTACT hContact)
 {
 	if (hDbEvent == NCONVERS_BLINKID) // we need to handle nconvers' blink event
 		return createMsgEventInfo(hContact);
@@ -239,7 +239,7 @@ DBEVENTINFO readEventInfo(HANDLE hDbEvent, HANDLE hContact)
 	return einfo;
 }
 
-BOOL checkIgnore(HANDLE hContact, WORD eventType)
+BOOL checkIgnore(HCONTACT hContact, WORD eventType)
 {
 	return !IsIgnored(hContact, eventType);
 }
@@ -256,12 +256,12 @@ BOOL checkProtocol(char *szProto)
 	return FALSE;
 }
 
-BOOL metaCheckProtocol(char *szProto, HANDLE hContact, WORD eventType)
+BOOL metaCheckProtocol(char *szProto, HCONTACT hContact, WORD eventType)
 {
-	HANDLE hSubContact=NULL;
+	HCONTACT hSubContact=NULL;
 
 	if (szMetaProto && bMetaProtoEnabled && szProto && !strcmp(szMetaProto, szProto))
-		if (hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0))
+		if (hSubContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0))
 			szProto = GetContactProto(hSubContact);
 
 	return checkProtocol(szProto) && checkIgnore(hSubContact?hSubContact:hContact, eventType);
@@ -379,10 +379,10 @@ BOOL checkMsgTimestamp(HANDLE hEventCurrent, DWORD timestampCurrent)
 }
 
 
-BOOL contactCheckProtocol(char *szProto, HANDLE hContact, WORD eventType)
+BOOL contactCheckProtocol(char *szProto, HCONTACT hContact, WORD eventType)
 {
 	if (szMetaProto && bMetaProtoEnabled && hContact) {
-		HANDLE hMetaContact = (HANDLE)db_get_dw(hContact, szMetaProto, "Handle", 0);
+		HCONTACT hMetaContact = (HCONTACT)db_get_dw(hContact, szMetaProto, "Handle", 0);
 		if (hMetaContact && isMetaContactsSubContact(hMetaContact, hContact))
 			return FALSE;
 	}
@@ -427,7 +427,7 @@ BOOL checkXstatus(char *szProto)
 // 'Pings' the FlashThread to keep the LEDs flashing.
 static int PluginMessageEventHook(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	HANDLE hEvent = (HANDLE)lParam;
 
 	//get DBEVENTINFO without pBlob
@@ -986,7 +986,7 @@ static LRESULT CALLBACK MirandaWndProcHookFunction(int code, WPARAM wParam, LPAR
  	return CallNextHookEx(hMirandaWndProcHook, code, wParam, lParam);
 }
 
-BOOL CheckMsgWnd(HANDLE hContact, BOOL *focus)
+BOOL CheckMsgWnd(HCONTACT hContact, BOOL *focus)
 {
 	if (ServiceExists(MS_MSG_GETWINDOWDATA)) {	// use the new message API
 		MessageWindowData mwd = { sizeof(MessageWindowData) };

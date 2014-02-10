@@ -88,7 +88,7 @@ TwitterProto::~TwitterProto()
 
 // *************************
 
-DWORD_PTR TwitterProto::GetCaps(int type,HANDLE)
+DWORD_PTR TwitterProto::GetCaps(int type, HCONTACT)
 {
 	switch(type)
 	{
@@ -113,7 +113,7 @@ DWORD_PTR TwitterProto::GetCaps(int type,HANDLE)
 
 // *************************
 
-int TwitterProto::RecvMsg(HANDLE hContact,PROTORECVEVENT *pre)
+int TwitterProto::RecvMsg(HCONTACT hContact,PROTORECVEVENT *pre)
 {
 	Proto_RecvMessage(hContact, pre);
 	return 0;
@@ -123,11 +123,11 @@ int TwitterProto::RecvMsg(HANDLE hContact,PROTORECVEVENT *pre)
 
 struct send_direct
 {
-	__inline send_direct(HANDLE _hContact, const std::string &_msg, int _msgid) :
+	__inline send_direct(HCONTACT _hContact, const std::string &_msg, int _msgid) :
 		hContact(_hContact), msg(_msg), msgid(_msgid)
 		{}
 
-	HANDLE hContact;
+	HCONTACT hContact;
 	std::string msg;
 	int msgid;
 };
@@ -151,7 +151,7 @@ void TwitterProto::SendSuccess(void *p)
 	delete data;
 }
 
-int TwitterProto::SendMsg(HANDLE hContact,int flags,const char *msg)
+int TwitterProto::SendMsg(HCONTACT hContact,int flags,const char *msg)
 {
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 0;
@@ -246,7 +246,7 @@ INT_PTR TwitterProto::GetStatus(WPARAM,LPARAM)
 INT_PTR TwitterProto::ReplyToTweet(WPARAM wParam,LPARAM)
 {
 	// TODO: support replying to tweets instead of just users
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 
 	HWND hDlg = CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWEET),0,tweet_proc,reinterpret_cast<LPARAM>(this));
 
@@ -264,7 +264,7 @@ INT_PTR TwitterProto::ReplyToTweet(WPARAM wParam,LPARAM)
 
 INT_PTR TwitterProto::VisitHomepage(WPARAM wParam,LPARAM)
 {
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 
 	DBVARIANT dbv;
 	// TODO: remove this
@@ -398,7 +398,7 @@ int TwitterProto::OnPreShutdown(WPARAM,LPARAM)
 
 int TwitterProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM)
 {
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 	if(IsMyContact(hContact))
 		ShowContactMenus(true);
 
@@ -495,8 +495,8 @@ void TwitterProto::UpdateSettings()
 		if(in_chat_)
 			OnLeaveChat(0,0);
 
-		for(HANDLE hContact = db_find_first(m_szModuleName); hContact; ) {
-			HANDLE hNext = db_find_next(hContact, m_szModuleName);
+		for(HCONTACT hContact = db_find_first(m_szModuleName); hContact; ) {
+			HCONTACT hNext = db_find_next(hContact, m_szModuleName);
 			if(isChatRoom(hContact))
 				CallService(MS_DB_CONTACT_DELETE,reinterpret_cast<WPARAM>(hContact),0);
 			hContact = hNext;

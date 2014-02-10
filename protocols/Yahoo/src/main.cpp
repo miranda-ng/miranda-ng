@@ -79,7 +79,7 @@ LIST<CYahooProto> g_instances( 1, CompareProtos );
 
 static CYahooProto* yahooProtoInit( const char* pszProtoName, const TCHAR* tszUserName )
 {
-	CYahooProto* ppro = new CYahooProto( pszProtoName, tszUserName );
+	CYahooProto* ppro = new CYahooProto(pszProtoName, tszUserName);
 	
 	g_instances.insert( ppro );
 	

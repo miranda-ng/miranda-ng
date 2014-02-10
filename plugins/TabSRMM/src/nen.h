@@ -43,7 +43,7 @@
 
 #define MODULE "tabSRMM_NEN"
 
-int tabSRMM_ShowPopup(HANDLE hContact, HANDLE hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto, TWindowData *dat);
+int tabSRMM_ShowPopup(HCONTACT hContact, HANDLE hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto, TWindowData *dat);
 
 #define DEFAULT_COLBACK RGB(255,255,128)
 #define DEFAULT_COLTEXT RGB(0,0,0)

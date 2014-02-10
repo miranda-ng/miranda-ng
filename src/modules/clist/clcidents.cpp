@@ -176,20 +176,20 @@ int fnGetRowByIndex(struct ClcData *dat, int testindex, ClcContact **contact, Cl
 	return -1;
 }
 
-HANDLE fnContactToHItem(ClcContact * contact)
+HANDLE fnContactToHItem(ClcContact *contact)
 {
 	switch (contact->type) {
 	case CLCIT_CONTACT:
 		return contact->hContact;
 	case CLCIT_GROUP:
-		return (HANDLE) (contact->groupId | HCONTACT_ISGROUP);
+		return (HCONTACT)(contact->groupId | HCONTACT_ISGROUP);
 	case CLCIT_INFO:
-		return (HANDLE) ((UINT_PTR) contact->hContact | HCONTACT_ISINFO);
+		return (HCONTACT)((UINT_PTR)contact->hContact | HCONTACT_ISINFO);
 	}
 	return NULL;
 }
 
-HANDLE fnContactToItemHandle(ClcContact * contact, DWORD * nmFlags)
+HANDLE fnContactToItemHandle(ClcContact *contact, DWORD *nmFlags)
 {
 	switch (contact->type) {
 	case CLCIT_CONTACT:
@@ -197,11 +197,11 @@ HANDLE fnContactToItemHandle(ClcContact * contact, DWORD * nmFlags)
 	case CLCIT_GROUP:
 		if (nmFlags)
 			*nmFlags |= CLNF_ISGROUP;
-		return (HANDLE) contact->groupId;
+		return (HCONTACT)contact->groupId;
 	case CLCIT_INFO:
 		if (nmFlags)
 			*nmFlags |= CLNF_ISINFO;
-		return (HANDLE) ((UINT_PTR) contact->hContact | HCONTACT_ISINFO);
+		return (HCONTACT)((UINT_PTR)contact->hContact | HCONTACT_ISINFO);
 	}
 	return NULL;
 }

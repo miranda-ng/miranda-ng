@@ -12,7 +12,7 @@
 #define MAX_BUF 256    // Buffer for topic-string
 
 typedef struct {
-	HANDLE hContact;
+	HCONTACT hContact;
 	TCHAR who[33];
 	TCHAR szRole[12];
 } gchat_contact;
@@ -26,9 +26,9 @@ typedef struct {
 int ChatInit(WPARAM, LPARAM);
 int  __cdecl ChatStart(char *szChatId, BOOL bJustCreate);
 gchat_contacts *GetChat(LPCTSTR szChatId);
-HANDLE find_chat(LPCTSTR chatname);
+HCONTACT find_chat(LPCTSTR chatname);
 #ifdef _UNICODE
-HANDLE find_chatA(char *chatname);
+HCONTACT find_chatA(char *chatname);
 #else
 #define find_chatA find_chat
 #endif

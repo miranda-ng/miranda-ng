@@ -129,7 +129,7 @@ private:
 	
 	CConversation::Ref conversation;
 
-	HANDLE hContact;	
+	HCONTACT hContact;	
 
 	OBJLIST<ChatMember> members;
 

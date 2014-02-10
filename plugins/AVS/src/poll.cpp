@@ -45,15 +45,15 @@ A queue to request items. One request is done at a time, REQUEST_WAIT_TIME milis
 static void RequestThread(void *vParam);
 
 extern HANDLE hShutdownEvent;
-extern int DeleteAvatar(HANDLE hContact);
-extern void MakePathRelative(HANDLE hContact, TCHAR *path);
+extern int DeleteAvatar(HCONTACT hContact);
+extern void MakePathRelative(HCONTACT hContact, TCHAR *path);
 int Proto_GetDelayAfterFail(const char *proto);
 BOOL Proto_IsFetchingWhenProtoNotVisibleAllowed(const char *proto);
 BOOL Proto_IsFetchingWhenContactOfflineAllowed(const char *proto);
 
 #ifdef _DEBUG
 int _DebugTrace(const char *fmt, ...);
-int _DebugTrace(HANDLE hContact, const char *fmt, ...);
+int _DebugTrace(HCONTACT hContact, const char *fmt, ...);
 #endif
 
 // Functions ////////////////////////////////////////////////////////////////////////////
@@ -100,7 +100,7 @@ static BOOL PollCheckProtocol(const char *szProto)
 }
 
 // Return true if this contact can have avatar requested
-static BOOL PollContactCanHaveAvatar(HANDLE hContact, const char *szProto)
+static BOOL PollContactCanHaveAvatar(HCONTACT hContact, const char *szProto)
 {
 	int status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 	return (Proto_IsFetchingWhenContactOfflineAllowed(szProto) || status != ID_STATUS_OFFLINE)
@@ -108,12 +108,12 @@ static BOOL PollContactCanHaveAvatar(HANDLE hContact, const char *szProto)
 }
 
 // Return true if this contact has to be checked
-static BOOL PollCheckContact(HANDLE hContact, const char *szProto)
+static BOOL PollCheckContact(HCONTACT hContact, const char *szProto)
 {
 	return !db_get_b(hContact, "ContactPhoto", "Locked", 0) && FindAvatarInCache(hContact, FALSE, TRUE) != NULL;
 }
 
-static void QueueRemove(HANDLE hContact)
+static void QueueRemove(HCONTACT hContact)
 {
 	mir_cslock lck(cs);
 
@@ -124,7 +124,7 @@ static void QueueRemove(HANDLE hContact)
 	}
 }
 
-static void QueueAdd(HANDLE hContact, int waitTime)
+static void QueueAdd(HCONTACT hContact, int waitTime)
 {
 	if (fei == NULL || g_shutDown)
 		return;
@@ -143,12 +143,12 @@ static void QueueAdd(HANDLE hContact, int waitTime)
 }
 
 // Add an contact to a queue
-void QueueAdd(HANDLE hContact)
+void QueueAdd(HCONTACT hContact)
 {
 	QueueAdd(hContact, waitTime);
 }
 
-void ProcessAvatarInfo(HANDLE hContact, int type, PROTO_AVATAR_INFORMATIONT *pai, const char *szProto)
+void ProcessAvatarInfo(HCONTACT hContact, int type, PROTO_AVATAR_INFORMATIONT *pai, const char *szProto)
 {
 	QueueRemove(hContact);
 
@@ -202,7 +202,7 @@ void ProcessAvatarInfo(HANDLE hContact, int type, PROTO_AVATAR_INFORMATIONT *pai
 	}
 }
 
-int FetchAvatarFor(HANDLE hContact, char *szProto)
+int FetchAvatarFor(HCONTACT hContact, char *szProto)
 {
 	int result = GAIR_NOAVATAR;
 
@@ -258,7 +258,7 @@ static void RequestThread(void *vParam)
 		}
 
 		// Will request this item
-		HANDLE hContact = qi.hContact;
+		HCONTACT hContact = qi.hContact;
 		queue.remove( queue.getCount()-1 );
 		QueueRemove(hContact);
 		LeaveCriticalSection(&cs);

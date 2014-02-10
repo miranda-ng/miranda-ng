@@ -50,7 +50,7 @@ void CIcqProto::RemoveExpiredCookies()
 
 
 // Generate and allocate cookie
-DWORD CIcqProto::AllocateCookie(BYTE bType, WORD wIdent, HANDLE hContact, void *pvExtra)
+DWORD CIcqProto::AllocateCookie(BYTE bType, WORD wIdent, HCONTACT hContact, void *pvExtra)
 {
 	icq_lock l(cookieMutex);
 
@@ -96,13 +96,12 @@ int CIcqProto::GetCookieType(DWORD dwCookie)
 }
 
 
-int CIcqProto::FindCookie(DWORD dwCookie, HANDLE *phContact, void **ppvExtra)
+int CIcqProto::FindCookie(DWORD dwCookie, HCONTACT *phContact, void **ppvExtra)
 {
 	icq_lock l(cookieMutex);
 
-	int i = cookies.getIndex(( icq_cookie_info* )&dwCookie );
-	if (i != INVALID_COOKIE_INDEX)
-	{
+	int i = cookies.getIndex((icq_cookie_info*)&dwCookie);
+	if (i != INVALID_COOKIE_INDEX) {
 		if (phContact)
 			*phContact = cookies[i]->hContact;
 		if (ppvExtra)
@@ -116,7 +115,7 @@ int CIcqProto::FindCookie(DWORD dwCookie, HANDLE *phContact, void **ppvExtra)
 }
 
 
-int CIcqProto::FindCookieByData(void *pvExtra, DWORD *pdwCookie, HANDLE *phContact)
+int CIcqProto::FindCookieByData(void *pvExtra, DWORD *pdwCookie, HCONTACT *phContact)
 {
 	icq_lock l(cookieMutex);
 
@@ -138,7 +137,7 @@ int CIcqProto::FindCookieByData(void *pvExtra, DWORD *pdwCookie, HANDLE *phConta
 }
 
 
-int CIcqProto::FindCookieByType(BYTE bType, DWORD *pdwCookie, HANDLE *phContact, void** ppvExtra)
+int CIcqProto::FindCookieByType(BYTE bType, DWORD *pdwCookie, HCONTACT *phContact, void** ppvExtra)
 {
 	icq_lock l(cookieMutex);
 
@@ -162,7 +161,7 @@ int CIcqProto::FindCookieByType(BYTE bType, DWORD *pdwCookie, HANDLE *phContact,
 }
 
 
-int CIcqProto::FindMessageCookie(DWORD dwMsgID1, DWORD dwMsgID2, DWORD *pdwCookie, HANDLE *phContact, cookie_message_data **ppvExtra)
+int CIcqProto::FindMessageCookie(DWORD dwMsgID1, DWORD dwMsgID2, DWORD *pdwCookie, HCONTACT *phContact, cookie_message_data **ppvExtra)
 {
 	icq_lock l(cookieMutex);
 
@@ -278,7 +277,7 @@ cookie_message_data* CIcqProto::CreateMessageCookie(WORD bMsgType, BYTE bAckType
 }
 
 
-cookie_message_data* CIcqProto::CreateMessageCookieData(BYTE bMsgType, HANDLE hContact, DWORD dwUin, int bUseSrvRelay)
+cookie_message_data* CIcqProto::CreateMessageCookieData(BYTE bMsgType, HCONTACT hContact, DWORD dwUin, int bUseSrvRelay)
 {
 	BYTE bAckType;
 	WORD wStatus = getContactStatus(hContact);

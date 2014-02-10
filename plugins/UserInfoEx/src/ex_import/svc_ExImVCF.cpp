@@ -557,7 +557,7 @@ size_t CLineBuffer::GetTokenNext(const CHAR delim, CLineBuffer * pBuf)
  *
  * return:	0 if successful, 1 otherwise
  **/
-int CLineBuffer::DBWriteTokenFirst(HANDLE hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
+int CLineBuffer::DBWriteTokenFirst(HCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
 {
 	PBYTE here;
 	int iRet = 1;
@@ -594,7 +594,7 @@ int CLineBuffer::DBWriteTokenFirst(HANDLE hContact, const CHAR* pszModule, const
  *
  * return:	0 if successful, 1 otherwise
  **/
-int CLineBuffer::DBWriteTokenNext(HANDLE hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
+int CLineBuffer::DBWriteTokenNext(HCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
 {
 	PBYTE here;
 	int iRet = 1;
@@ -628,7 +628,7 @@ int CLineBuffer::DBWriteTokenNext(HANDLE hContact, const CHAR* pszModule, const 
  *
  * return:	0 if successful, 1 otherwise
  **/
-int CLineBuffer::DBWriteSettingString(HANDLE hContact, const CHAR* pszModule, const CHAR* pszSetting)
+int CLineBuffer::DBWriteSettingString(HCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting)
 {
 	if (_pVal && _cbUsed > 0)
 		return db_set_s(hContact, pszModule, pszSetting, (LPSTR)_pVal);
@@ -649,11 +649,11 @@ int CLineBuffer::DBWriteSettingString(HANDLE hContact, const CHAR* pszModule, co
  **/
 CVCardFileVCF::CVCardFileVCF()
 {
-	_pFile			= NULL;
-	_hContact		= INVALID_HANDLE_VALUE;
-	_pszBaseProto	= NULL;
-	_hasUtf8		= 0;
-	_useUtf8		= FALSE;
+	_pFile = NULL;
+	_hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	_pszBaseProto = NULL;
+	_hasUtf8 = 0;
+	_useUtf8 = FALSE;
 }
 
 /**
@@ -850,7 +850,7 @@ void CVCardFileVCF::writeLineEncoded(const CHAR *szSet, size_t *cbRew)
  *			pszMode		- the mode the file should be opened with
  * return	TRUE or FALSE
  **/
-BYTE CVCardFileVCF::Open(HANDLE hContact,	LPCSTR pszFileName, LPCSTR pszMode)
+BYTE CVCardFileVCF::Open(HCONTACT hContact,	LPCSTR pszFileName, LPCSTR pszMode)
 {
 	if (!(_pFile = fopen(pszFileName, pszMode)))
 		return FALSE;
@@ -873,9 +873,9 @@ void CVCardFileVCF::Close(void)
 {
 	if (_pFile) 
 		fclose(_pFile);
-	_pFile			= NULL;
-	_hContact		= INVALID_HANDLE_VALUE;
-	_pszBaseProto	= NULL;
+	_pFile = NULL;
+	_hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	_pszBaseProto = NULL;
 }
 
 /**

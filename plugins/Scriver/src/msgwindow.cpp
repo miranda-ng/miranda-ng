@@ -33,11 +33,11 @@ static  void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPa
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern TCHAR *GetNickname(HANDLE hContact, const char* szProto);
+extern TCHAR *GetNickname(HCONTACT hContact, const char* szProto);
 
 static const TCHAR *titleTokenNames[] = {_T("%name%"), _T("%status%"), _T("%statusmsg%"), _T("%account%")};
 
-TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto)
+TCHAR* GetWindowTitle(HCONTACT hContact, const char *szProto)
 {
 	int isTemplate;
 	int i, j, len;
@@ -135,7 +135,7 @@ TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto)
 	return title;
 }
 
-TCHAR* GetTabName(HANDLE *hContact)
+TCHAR* GetTabName(HCONTACT hContact)
 {
 	if (hContact)
 		return GetNickname(hContact, NULL);
@@ -317,7 +317,7 @@ static void ActivateChild(ParentWindowData *dat, HWND child)
 	SendMessage(dat->hwndActive, DM_ACTIVATE, WA_ACTIVE, 0);
 }
 
-static void AddChild(ParentWindowData *dat, HWND hwnd, HANDLE hContact)
+static void AddChild(ParentWindowData *dat, HWND hwnd, HCONTACT hContact)
 {
 	MessageWindowTabData *mwtd = (MessageWindowTabData *)mir_alloc(sizeof(MessageWindowTabData));
 	mwtd->hwnd = hwnd;
@@ -549,13 +549,13 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					MessageWindowTabData *mwtd = (MessageWindowTabData *)tci.lParam;
 					if (mwtd != NULL) {
 						HWND hChild = mwtd->hwnd;
-						HANDLE hContact = mwtd->hContact;
+						HCONTACT hContact = mwtd->hContact;
 						GetCursorPos(&pt);
 						HWND hParent = WindowFromPoint(pt);
 						while (GetParent(hParent) != NULL)
 							hParent = GetParent(hParent);
 
-						hParent = WindowList_Find(g_dat.hParentWindowList, hParent);
+						hParent = WindowList_Find(g_dat.hParentWindowList, (HCONTACT)hParent);
 						if ((hParent != NULL && hParent != GetParent(hwnd)) || (hParent == NULL && mwtd->parent->childrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
 							if (hParent == NULL) {
 								RECT rc, rcDesktop;
@@ -739,7 +739,6 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_INITDIALOG:
 		{
 			HMENU hMenu;
-			HANDLE hSContact;
 			int savePerContact = db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
 			NewMessageWindowLParam *newData = (NewMessageWindowLParam *) lParam;
 			dat = (ParentWindowData *) mir_alloc(sizeof(ParentWindowData));
@@ -775,12 +774,12 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			if (dat->prev != NULL)
 				dat->prev->next = dat;
 
-			WindowList_Add(g_dat.hParentWindowList, hwndDlg, hwndDlg);
+			WindowList_Add(g_dat.hParentWindowList, hwndDlg, (HCONTACT)hwndDlg);
 			SubclassTabCtrl(dat->hwndTabs);
 
 			SetContainerWindowStyle(dat);
 
-			hSContact = savePerContact ? dat->hContact : NULL;
+			HCONTACT hSContact = savePerContact ? dat->hContact : NULL;
 			dat->bTopmost = db_get_b(hSContact, SRMMMOD, SRMSGSET_TOPMOST, SRMSGDEFSET_TOPMOST);
 			if (ScriverRestoreWindowPosition(hwndDlg, hSContact, SRMMMOD, (newData->isChat && !savePerContact) ? "chat" : "", 0, SW_HIDE))
 				SetWindowPos(hwndDlg, 0, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_HIDEWINDOW);
@@ -1129,7 +1128,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			WindowList_Remove(g_dat.hParentWindowList, hwndDlg);
 
 			int savePerContact = db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
-			HANDLE hContact = (savePerContact) ? dat->hContact : NULL;
+			HCONTACT hContact = (savePerContact) ? dat->hContact : NULL;
 
 			WINDOWPLACEMENT wp = { sizeof(wp) };
 			GetWindowPlacement(hwndDlg, &wp);
@@ -1208,7 +1207,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		return TRUE;
 
 	case CM_ADDCHILD:
-		AddChild(dat, (HWND)wParam, (HANDLE)lParam);
+		AddChild(dat, (HWND)wParam, (HCONTACT)lParam);
 		return TRUE;
 
 	case CM_ACTIVATECHILD:
@@ -1507,7 +1506,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 	}
 }
 
-int ScriverRestoreWindowPosition(HWND hwnd, HANDLE hContact, const char *szModule,const char *szNamePrefix, int flags, int showCmd)
+int ScriverRestoreWindowPosition(HWND hwnd, HCONTACT hContact, const char *szModule,const char *szNamePrefix, int flags, int showCmd)
 {
 	WINDOWPLACEMENT wp;
 	wp.length = sizeof(wp);
@@ -1545,7 +1544,7 @@ int ScriverRestoreWindowPosition(HWND hwnd, HANDLE hContact, const char *szModul
 	return 0;
 }
 
-HWND GetParentWindow(HANDLE hContact, BOOL bChat)
+HWND GetParentWindow(HCONTACT hContact, BOOL bChat)
 {
 	NewMessageWindowLParam newData = { 0 };
 	newData.hContact = hContact;

@@ -40,7 +40,7 @@ void timerFunc(LPVOID di)
 	}
 
 	/* update all the contacts */
-	for (HANDLE hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact, MODNAME)) {
+	for (HCONTACT hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact, MODNAME)) {
 		int timer = db_get_w(hContact, MODNAME, "Timer", 15);
 		if (timer && !(timerCount % timer))
 			if (db_get_static(hContact, MODNAME, "Name", text))

@@ -3,7 +3,7 @@
 //=======================================================
 //db_get_static
 //=======================================================
-int db_get_static(HANDLE hContact, const char *szModule, const char *szSetting, char *value)
+int db_get_static(HCONTACT hContact, const char *szModule, const char *szSetting, char *value)
 {
 	DBVARIANT dbv;
 	if (!db_get(hContact, szModule, szSetting, &dbv))
@@ -79,7 +79,7 @@ int SetLCStatus(WPARAM wParam,LPARAM lParam)
 	else if (db_get_w(NULL, MODNAME, "Timer",1))
 		startTimer(TIMER); 
 	
-	for (HANDLE hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact); 
 		if (proto == NULL || strcmp(proto, MODNAME))
 			continue;

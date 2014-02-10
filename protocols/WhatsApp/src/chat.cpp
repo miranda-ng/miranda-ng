@@ -35,7 +35,7 @@ int WhatsAppProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
 		mir_free(id);
 	
 		if (isOnline()) {
-			HANDLE hContact = this->ContactIDToHContact(chat_id);
+			HCONTACT hContact = this->ContactIDToHContact(chat_id);
 			if (hContact)
 			{
 				debugLogA("**Chat - Outgoing message: %s", text);

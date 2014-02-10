@@ -87,18 +87,18 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	virtual	int    __cdecl Authorize(HANDLE hDbEvent);
 	virtual	int    __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR *szReason);
-	virtual	int    __cdecl AuthRecv(HANDLE hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl AuthRequest(HANDLE hContact, const TCHAR *szMessage);
+	virtual	int    __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl AuthRequest(HCONTACT hContact, const TCHAR *szMessage);
 
 	virtual	HANDLE __cdecl ChangeInfo(int iInfoType, void* pInfoData);
 
-	virtual	HANDLE __cdecl FileAllow(HANDLE hContact, HANDLE hTransfer, const TCHAR *szPath);
-	virtual	int    __cdecl FileCancel(HANDLE hContact, HANDLE hTransfer);
-	virtual	int    __cdecl FileDeny(HANDLE hContact, HANDLE hTransfer, const TCHAR *szReason);
+	virtual	HANDLE __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
+	virtual	int    __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer);
+	virtual	int    __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
 	virtual	int    __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename);
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, HANDLE hContact = NULL);
-	virtual	int    __cdecl GetInfo(HANDLE hContact, int infoType);
+	virtual	DWORD_PTR __cdecl GetCaps(int type, HCONTACT hContact = NULL);
+	virtual	int    __cdecl GetInfo(HCONTACT hContact, int infoType);
 
 	virtual	HANDLE __cdecl SearchBasic(const TCHAR *id);
 	virtual	HANDLE __cdecl SearchByEmail(const TCHAR *email);
@@ -106,24 +106,24 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	virtual	HWND   __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND   __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int    __cdecl RecvContacts(HANDLE hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl RecvFile(HANDLE hContact, PROTORECVFILET*);
-	virtual	int    __cdecl RecvMsg(HANDLE hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl RecvUrl(HANDLE hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvFile(HCONTACT hContact, PROTORECVFILET*);
+	virtual	int    __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	int    __cdecl SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList);
-	virtual	HANDLE __cdecl SendFile(HANDLE hContact, const TCHAR *szDescription, TCHAR** ppszFiles);
-	virtual	int    __cdecl SendMsg(HANDLE hContact, int flags, const char* msg);
-	virtual	int    __cdecl SendUrl(HANDLE hContact, int flags, const char* url);
+	virtual	int    __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
+	virtual	HANDLE __cdecl SendFile(HCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	int    __cdecl SendMsg(HCONTACT hContact, int flags, const char *msg);
+	virtual	int    __cdecl SendUrl(HCONTACT hContact, int flags, const char *url);
 
-	virtual	int    __cdecl SetApparentMode(HANDLE hContact, int mode);
+	virtual	int    __cdecl SetApparentMode(HCONTACT hContact, int mode);
 	virtual	int    __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE __cdecl GetAwayMsg(HANDLE hContact);
-	virtual	int    __cdecl RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT* evt);
+	virtual	HANDLE __cdecl GetAwayMsg(HCONTACT hContact);
+	virtual	int    __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT* evt);
 	virtual	int    __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
 
-	virtual	int    __cdecl UserIsTyping(HANDLE hContact, int type);
+	virtual	int    __cdecl UserIsTyping(HCONTACT hContact, int type);
 
 	virtual	int    __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
@@ -132,7 +132,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	INT_PTR  __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
 
 	//====| Events |======================================================================
-	void __cdecl OnAddContactForever(DBCONTACTWRITESETTING* cws, HANDLE hContact);
+	void __cdecl OnAddContactForever(DBCONTACTWRITESETTING* cws, HCONTACT hContact);
 	int  __cdecl OnContactDeleted(WPARAM, LPARAM);
 	int  __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 	int  __cdecl OnIdleChanged(WPARAM, LPARAM);
@@ -145,8 +145,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int  __cdecl OnProcessSrmmIconClick(WPARAM, LPARAM);
 	int  __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);
 	int  __cdecl OnReloadIcons(WPARAM, LPARAM);
-	void __cdecl OnRenameContact(DBCONTACTWRITESETTING* cws, HANDLE hContact);
-	void __cdecl OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hContact);
+	void __cdecl OnRenameContact(DBCONTACTWRITESETTING* cws, HCONTACT hContact);
+	void __cdecl OnRenameGroup(DBCONTACTWRITESETTING* cws, HCONTACT hContact);
 	int  __cdecl OnUserInfoInit(WPARAM, LPARAM);
 
 	int  __cdecl JabberGcEventHook(WPARAM, LPARAM);
@@ -294,7 +294,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_archive.c --------------------------------------------------------------
 
 	void   EnableArchive(bool bEnable);
-	void   RetrieveMessageArchive(HANDLE hContact, JABBER_LIST_ITEM *pItem);
+	void   RetrieveMessageArchive(HCONTACT hContact, JABBER_LIST_ITEM *pItem);
 
 	void   OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*);
 	void   OnIqResultGetCollectionList(HXML iqNode, CJabberIqInfo*);
@@ -451,7 +451,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int    LoadAdvancedIcons(int iID);
 	int    GetTransportProtoID(TCHAR* TransportDomain);
 	int    GetTransportStatusIconIndex(int iID, int Status);
-	BOOL   DBCheckIsTransportedContact(const TCHAR *jid, HANDLE hContact);
+	BOOL   DBCheckIsTransportedContact(const TCHAR *jid, HCONTACT hContact);
 	void   CheckAllContactsAreTransported(void);
 	INT_PTR __cdecl JGetAdvancedStatusIcon(WPARAM wParam, LPARAM lParam);
 
@@ -472,7 +472,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIqResultGetVCardAvatar(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetClientAvatar(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetServerAvatar(HXML iqNode, CJabberIqInfo *pInfo);
-	void   OnIqResultGotAvatar(HANDLE hContact, HXML n, const TCHAR *mimeType);
+	void   OnIqResultGotAvatar(HCONTACT hContact, HXML n, const TCHAR *mimeType);
 	void   OnIqResultGetMuc(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetRegister(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo);
@@ -528,7 +528,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_iqid.cpp ---------------------------------------------------------------
 
-	void   GroupchatJoinByHContact(HANDLE hContact, bool autojoin=false);
+	void   GroupchatJoinByHContact(HCONTACT hContact, bool autojoin=false);
 
 	//---- jabber_message_handlers.cpp ---------------------------------------------------
 
@@ -560,7 +560,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIqResultMucGetJidList(HXML iqNode, JABBER_MUC_JIDLIST_TYPE listType);
 
 	void   OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo *pInfo);
-	void   OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, HANDLE hContact, bool &hasPhoto);
+	void   OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, HCONTACT hContact, bool &hasPhoto);
 	void   SetBookmarkRequest (XmlNodeIq& iqId);
 
 	//---- jabber_menu.cpp ---------------------------------------------------------------
@@ -584,7 +584,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   MenuInit(void);
 	void   MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item);
 
-	void   AuthWorker(HANDLE hContact, char* authReqType);
+	void   AuthWorker(HCONTACT hContact, char* authReqType);
 
 	void   UpdatePriorityMenu(short priority);
 
@@ -599,18 +599,18 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void   AddContactToRoster(const TCHAR *jid, const TCHAR *nick, const TCHAR *grpName);
 	void   DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick);
-	BOOL   AddDbPresenceEvent(HANDLE hContact, BYTE btEventType);
-	HANDLE DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL temporary, BOOL stripResource);
-	void   GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen);
+	BOOL   AddDbPresenceEvent(HCONTACT hContact, BYTE btEventType);
+	HCONTACT DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL temporary, BOOL stripResource);
+	void   GetAvatarFileName(HCONTACT hContact, TCHAR* pszDest, size_t cbLen);
 	void   ResolveTransportNicks(const TCHAR *jid);
 	void   SetServerStatus(int iNewStatus);
 	void   FormatMirVer(pResourceStatus &resource, CMString&);
 	void   UpdateMirVer(JABBER_LIST_ITEM *item);
-	void   UpdateMirVer(HANDLE hContact, pResourceStatus &resource);
-	void   UpdateSubscriptionInfo(HANDLE hContact, JABBER_LIST_ITEM *item);
-	void   SetContactOfflineStatus(HANDLE hContact);
+	void   UpdateMirVer(HCONTACT hContact, pResourceStatus &resource);
+	void   UpdateSubscriptionInfo(HCONTACT hContact, JABBER_LIST_ITEM *item);
+	void   SetContactOfflineStatus(HCONTACT hContact);
 	void   InitPopups(void);
-	void   MsgPopup(HANDLE hContact, const TCHAR *szMsg, const TCHAR *szTitle);
+	void   MsgPopup(HCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle);
 
 	//---- jabber_opt.cpp ----------------------------------------------------------------
 
@@ -653,7 +653,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   __cdecl GetAwayMsgThread(void* hContact);
 	void   __cdecl SendMessageAckThread(void* hContact);
 
-	HANDLE AddToListByJID(const TCHAR *newJid, DWORD flags);
+	HCONTACT AddToListByJID(const TCHAR *newJid, DWORD flags);
 	void   WindowSubscribe(HWND hwnd);
 	void   WindowUnsubscribe(HWND hwnd);
 	void   WindowNotify(UINT msg, bool async = false);
@@ -739,7 +739,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnProcessProtocol(HXML node, ThreadData *info);
 
 	void   UpdateJidDbSettings(const TCHAR *jid);
-	HANDLE CreateTemporaryContact(const TCHAR *szJid, JABBER_LIST_ITEM* chatItem);
+	HCONTACT CreateTemporaryContact(const TCHAR *szJid, JABBER_LIST_ITEM* chatItem);
 
 	void   PerformRegistration(ThreadData* info);
 	void   PerformIqAuth(ThreadData* info);
@@ -759,8 +759,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_util.c -----------------------------------------------------------------
 	pResourceStatus ResourceInfoFromJID(const TCHAR *jid);
 
-	HANDLE HContactFromJID(const TCHAR *jid , BOOL bStripResource = 3);
-	HANDLE ChatRoomHContactFromJID(const TCHAR *jid);
+	HCONTACT HContactFromJID(const TCHAR *jid, BOOL bStripResource = 3);
+	HCONTACT ChatRoomHContactFromJID(const TCHAR *jid);
 	void   SendVisibleInvisiblePresence(BOOL invisible);
 	void   SendPresenceTo(int status, const TCHAR* to, HXML extra, const TCHAR *msg = NULL);
 	void   SendPresence(int m_iStatus, bool bSendToAll);
@@ -768,7 +768,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   RebuildInfoFrame(void);
 
 	// returns buf or NULL on error
-	TCHAR* GetClientJID(HANDLE hContact, TCHAR *dest, size_t destLen);
+	TCHAR* GetClientJID(HCONTACT hContact, TCHAR *dest, size_t destLen);
 	TCHAR* GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen);
 
 	void   ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *param, int recentCount=JABBER_DEFAULT_RECENT_COUNT);
@@ -819,16 +819,16 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	HICON  GetXStatusIcon(int bStatus, UINT flags);
 
 	void   RegisterAdvStatusSlot(const char *pszSlot);
-	void   ResetAdvStatus(HANDLE hContact, const char *pszSlot);
-	void   WriteAdvStatus(HANDLE hContact, const char *pszSlot, const TCHAR *pszMode, const char *pszIcon, const TCHAR *pszTitle, const TCHAR *pszText);
-	char*  ReadAdvStatusA(HANDLE hContact, const char *pszSlot, const char *pszValue);
-	TCHAR* ReadAdvStatusT(HANDLE hContact, const char *pszSlot, const char *pszValue);
+	void   ResetAdvStatus(HCONTACT hContact, const char *pszSlot);
+	void   WriteAdvStatus(HCONTACT hContact, const char *pszSlot, const TCHAR *pszMode, const char *pszIcon, const TCHAR *pszTitle, const TCHAR *pszText);
+	char*  ReadAdvStatusA(HCONTACT hContact, const char *pszSlot, const char *pszValue);
+	TCHAR* ReadAdvStatusT(HCONTACT hContact, const char *pszSlot, const char *pszValue);
 
 	BOOL   SendPepTune(TCHAR* szArtist, TCHAR* szLength, TCHAR* szSource, TCHAR* szTitle, TCHAR* szTrack, TCHAR* szUri);
 
 	void   XStatusInit(void);
 
-	void   SetContactTune(HANDLE hContact,  LPCTSTR szArtist, LPCTSTR szLength, LPCTSTR szSource, LPCTSTR szTitle, LPCTSTR szTrack);
+	void   SetContactTune(HCONTACT hContact,  LPCTSTR szArtist, LPCTSTR szLength, LPCTSTR szSource, LPCTSTR szTitle, LPCTSTR szTrack);
 
 	void   InfoFrame_OnUserMood(CJabberInfoFrame_Event *evt);
 	void   InfoFrame_OnUserActivity(CJabberInfoFrame_Event *evt);
@@ -857,8 +857,8 @@ public:
 	DWORD     STDMETHODCALLTYPE GetJabberVersion() const;            // Returns Jabber plugin version.
 			    
 	int       STDMETHODCALLTYPE CompareJIDs(LPCTSTR jid1, LPCTSTR jid2); // Strips resource names from given JIDs and returns result of comparison for these JIDs.
-	HANDLE    STDMETHODCALLTYPE ContactFromJID(LPCTSTR jid);             // Returns contact handle for given JID.
-	LPTSTR    STDMETHODCALLTYPE ContactToJID(HANDLE hContact);           // Returns JID of hContact. You must free the result using mir_free().
+	HCONTACT  STDMETHODCALLTYPE ContactFromJID(LPCTSTR jid);             // Returns contact handle for given JID.
+	LPTSTR    STDMETHODCALLTYPE ContactToJID(HCONTACT hContact);           // Returns JID of hContact. You must free the result using mir_free().
 	LPTSTR    STDMETHODCALLTYPE GetBestResourceName(LPCTSTR jid);        // Returns best resource name for given JID. You must free the result using mir_free().
 	LPTSTR    STDMETHODCALLTYPE GetResourceList(LPCTSTR jid);            // Returns all resource names for a given JID in format "resource1\0resource2\0resource3\0\0" (all resources are separated by \0 character and the whole string is terminated with two \0 characters). You must free the string using mir_free().
 	char*     STDMETHODCALLTYPE GetModuleName() const;                   // Returns Jabber module name.

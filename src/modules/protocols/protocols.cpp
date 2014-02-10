@@ -203,7 +203,7 @@ static INT_PTR Proto_AuthRecv(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // User Typing Notification services
 
-static int Proto_ValidTypingContact(HANDLE hContact, char *szProto)
+static int Proto_ValidTypingContact(HCONTACT hContact, char *szProto)
 {
 	if (!hContact || !szProto)
 		return 0;
@@ -214,11 +214,11 @@ static int Proto_ValidTypingContact(HANDLE hContact, char *szProto)
 static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam == PROTOTYPE_SELFTYPING_OFF || lParam == PROTOTYPE_SELFTYPING_ON) {
-		char *szProto = GetContactProto((HANDLE)wParam);
+		char *szProto = GetContactProto((HCONTACT)wParam);
 		if (!szProto)
 			return 0;
 
-		if (Proto_ValidTypingContact((HANDLE)wParam, szProto))
+		if (Proto_ValidTypingContact((HCONTACT)wParam, szProto))
 			CallProtoServiceInt(NULL,szProto, PSS_USERISTYPING, wParam, lParam);
 	}
 
@@ -228,7 +228,7 @@ static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	int type = (int)lParam;
-	char *szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HCONTACT)wParam);
 	if (!szProto)
 		return 0;
 
@@ -238,7 +238,7 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 	if (type < PROTOTYPE_CONTACTTYPING_OFF)
 		return 0;
 
-	if (Proto_ValidTypingContact((HANDLE)wParam, szProto))
+	if (Proto_ValidTypingContact((HCONTACT)wParam, szProto))
 		NotifyEventHooks(hTypeEvent, wParam, lParam);
 
 	return 0;
@@ -246,25 +246,21 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 
 void Proto_SetStatus(const char *szProto, unsigned status)
 {
-	if (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)
-	{
-		TCHAR* awayMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM) status, (LPARAM) szProto);
-		if ((INT_PTR)awayMsg == CALLSERVICE_NOTFOUND)
-		{
-			char* awayMsgA = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM) status, (LPARAM) szProto);
-			if ((INT_PTR)awayMsgA != CALLSERVICE_NOTFOUND)
-			{
+	if (CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
+		TCHAR* awayMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM)status, (LPARAM)szProto);
+		if ((INT_PTR)awayMsg == CALLSERVICE_NOTFOUND) {
+			char* awayMsgA = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)status, (LPARAM)szProto);
+			if ((INT_PTR)awayMsgA != CALLSERVICE_NOTFOUND) {
 				awayMsg = mir_a2t(awayMsgA);
 				mir_free(awayMsgA);
 			}
 		}
-		if ((INT_PTR)awayMsg != CALLSERVICE_NOTFOUND)
-		{
-			CallProtoServiceInt(NULL,szProto, PS_SETAWAYMSGT, status, (LPARAM) awayMsg);
+		if ((INT_PTR)awayMsg != CALLSERVICE_NOTFOUND) {
+			CallProtoServiceInt(NULL, szProto, PS_SETAWAYMSGT, status, (LPARAM)awayMsg);
 			mir_free(awayMsg);
 		}
 	}
-	CallProtoServiceInt(NULL,szProto, PS_SETSTATUS, status, 0);
+	CallProtoServiceInt(NULL, szProto, PS_SETSTATUS, status, 0);
 }
 
 char** __fastcall Proto_FilesMatrixA(wchar_t **files)
@@ -376,7 +372,7 @@ INT_PTR CallProtoService(const char* szModule, const char* szService, WPARAM wPa
 	return CallProtoServiceInt(NULL, szModule, szService, wParam, lParam);
 }
 
-INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
+INT_PTR CallProtoServiceInt(HCONTACT hContact, const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
 {
 	PROTOACCOUNT* pa = Proto_GetAccount(szModule);
 	if (pa && !pa->bOldProto) {
@@ -446,7 +442,7 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 				else
 					return (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action, (const PROTOCHAR**)&pfr->szFilename);
 			}
-			case 12: return (INT_PTR)ppi->GetCaps(wParam, (HANDLE)lParam);
+			case 12: return (INT_PTR)ppi->GetCaps(wParam, (HCONTACT)lParam);
 			case 13: return (INT_PTR)Proto_GetIcon(ppi, wParam);
 			case 14: return (INT_PTR)ppi->GetInfo(hContact, wParam);
 			case 15:
@@ -473,7 +469,7 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 			case 21: return (INT_PTR)ppi->RecvFile(hContact, (PROTOFILEEVENT*)lParam);
 			case 22: return (INT_PTR)ppi->RecvMsg(hContact, (PROTORECVEVENT*)lParam);
 			case 23: return (INT_PTR)ppi->RecvUrl(hContact, (PROTORECVEVENT*)lParam);
-			case 24: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (HANDLE*)lParam);
+			case 24: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (HCONTACT*)lParam);
 			case 25:
 				if (ppi->m_iVersion > 1) {
 					TCHAR** files = Proto_FilesMatrixU((char**)lParam);
@@ -494,7 +490,7 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 					return (INT_PTR)ppi->SetAwayMsg(wParam, StrConvT((char*)lParam));
 				else
 					return (INT_PTR)ppi->SetAwayMsg(wParam, (TCHAR*)lParam);
-			case 34: return (INT_PTR)ppi->UserIsTyping((HANDLE)wParam, lParam);
+			case 34: return (INT_PTR)ppi->UserIsTyping((HCONTACT)wParam, lParam);
 			case 35: lstrcpynA((char*)lParam, ppi->m_szModuleName, wParam); return 0;
 			case 36: return ppi->m_iStatus;
 

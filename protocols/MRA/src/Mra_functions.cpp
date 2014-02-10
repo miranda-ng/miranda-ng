@@ -13,7 +13,7 @@ struct SetXStatusData
 struct SetBlogStatusData
 {
 	CMraProto *ppro;
-	HANDLE hContact;
+	HCONTACT hContact;
 };
 
 #define RECURSION_DATA_STACK_ITEMS_MIN 128
@@ -157,7 +157,7 @@ CMStringA MraAddrListGetToBuff(MRA_ADDR_LIST *pmalAddrList)
 	return res;
 }
 
-void CMraProto::MraAddrListStoreToContact(HANDLE hContact, MRA_ADDR_LIST *pmalAddrList)
+void CMraProto::MraAddrListStoreToContact(HCONTACT hContact, MRA_ADDR_LIST *pmalAddrList)
 {
 	if (!hContact || !pmalAddrList)
 		return;
@@ -181,7 +181,7 @@ void MraAddrListFree(MRA_ADDR_LIST *pmalAddrList)
 	}
 }
 
-bool DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
+bool DB_GetStaticStringA(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
 {
 	bool bRet = false;
 	size_t dwReadedStringLen, dwRetBuffSizeLocal;
@@ -209,7 +209,7 @@ bool DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueNam
 }
 
 // sizes in wchars
-bool DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPWSTR lpwszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
+bool DB_GetStaticStringW(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPWSTR lpwszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
 {
 	bool bRet = false;
 	size_t dwReadedStringLen;
@@ -235,7 +235,7 @@ bool DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueNam
 	return bRet;
 }
 
-bool DB_GetStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringA& res)
+bool DB_GetStringA(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringA& res)
 {
 	char *szRes = db_get_sa(hContact, lpszModule, lpszValueName);
 	if (szRes) {
@@ -249,7 +249,7 @@ bool DB_GetStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMS
 }
 
 
-bool DB_GetStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringW& res)
+bool DB_GetStringW(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringW& res)
 {
 	WCHAR *szRes = db_get_wsa(hContact, lpszModule, lpszValueName);
 	if (szRes) {
@@ -262,7 +262,7 @@ bool DB_GetStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMS
 	return false;
 }
 
-bool DB_SetStringExA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringA &szValue)
+bool DB_SetStringExA(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringA &szValue)
 {
 	if (szValue.IsEmpty()) {
 		db_unset(hContact, lpszModule, lpszValueName);
@@ -272,7 +272,7 @@ bool DB_SetStringExA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, c
 	return db_set_s(hContact, lpszModule, lpszValueName, szValue) != 0;
 }
 
-bool DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringW &szValue)
+bool DB_SetStringExW(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringW &szValue)
 {
 	if (szValue.IsEmpty()) {
 		db_unset(hContact, lpszModule, lpszValueName);
@@ -282,7 +282,7 @@ bool DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, c
 	return db_set_ws(hContact, lpszModule, lpszValueName, szValue) != 0;
 }
 
-bool DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
+bool DB_GetContactSettingBlob(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
 {
 	bool bRet = false;
 	DBVARIANT dbv;
@@ -303,7 +303,7 @@ bool DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszVal
 	return bRet;
 }
 
-DWORD CMraProto::MraMoveContactToGroup(HANDLE hContact, DWORD dwGroupID, LPCTSTR ptszName)
+DWORD CMraProto::MraMoveContactToGroup(HCONTACT hContact, DWORD dwGroupID, LPCTSTR ptszName)
 {
 	MraGroupItem *p = NULL;
 
@@ -335,7 +335,7 @@ DWORD CMraProto::MraMoveContactToGroup(HANDLE hContact, DWORD dwGroupID, LPCTSTR
 	return p->m_id;
 }
 
-DWORD CMraProto::GetContactFlags(HANDLE hContact)
+DWORD CMraProto::GetContactFlags(HCONTACT hContact)
 {
 	DWORD dwRet = 0;
 
@@ -366,7 +366,7 @@ DWORD CMraProto::GetContactFlags(HANDLE hContact)
 	return(dwRet);
 }
 
-DWORD CMraProto::SetContactFlags(HANDLE hContact, DWORD dwContactFlag)
+DWORD CMraProto::SetContactFlags(HCONTACT hContact, DWORD dwContactFlag)
 {
 	if (!IsContactMra(hContact))
 		return ERROR_INVALID_HANDLE;
@@ -398,7 +398,7 @@ DWORD CMraProto::SetContactFlags(HANDLE hContact, DWORD dwContactFlag)
 	return 0;
 }
 
-DWORD CMraProto::GetContactBasicInfoW(HANDLE hContact, DWORD *pdwID, DWORD *pdwGroupID, DWORD *pdwContactFlag, DWORD *pdwContactSeverFlags, DWORD *pdwStatus, CMStringA *szEmail, CMStringW *wszNick, CMStringA *szPhones)
+DWORD CMraProto::GetContactBasicInfoW(HCONTACT hContact, DWORD *pdwID, DWORD *pdwGroupID, DWORD *pdwContactFlag, DWORD *pdwContactSeverFlags, DWORD *pdwStatus, CMStringA *szEmail, CMStringW *wszNick, CMStringA *szPhones)
 {
 	if (!IsContactMra(hContact))
 		return ERROR_INVALID_HANDLE;
@@ -434,7 +434,7 @@ DWORD CMraProto::GetContactBasicInfoW(HANDLE hContact, DWORD *pdwID, DWORD *pdwG
 	return 0;
 }
 
-DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWORD dwFlags, DWORD dwID, DWORD dwGroupID, DWORD dwContactFlag, DWORD dwContactSeverFlags, DWORD dwStatus, const CMStringA *szEmail, const CMStringW *wszNick, const CMStringA *szPhones)
+DWORD CMraProto::SetContactBasicInfoW(HCONTACT hContact, DWORD dwSetInfoFlags, DWORD dwFlags, DWORD dwID, DWORD dwGroupID, DWORD dwContactFlag, DWORD dwContactSeverFlags, DWORD dwStatus, const CMStringA *szEmail, const CMStringW *wszNick, const CMStringA *szPhones)
 {
 	if (!IsContactMra(hContact))
 		return ERROR_INVALID_HANDLE;
@@ -496,12 +496,12 @@ DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWO
 	return 0;
 }
 
-HANDLE CMraProto::MraHContactFromEmail(const CMStringA& szEmail, BOOL bAddIfNeeded, BOOL bTemporary, BOOL *pbAdded)
+HCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNeeded, BOOL bTemporary, BOOL *pbAdded)
 {
 	if (szEmail.IsEmpty())
 		return NULL;
 
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 	bool bFound = false;
 
 	//check not already on list
@@ -541,7 +541,7 @@ HANDLE CMraProto::MraHContactFromEmail(const CMStringA& szEmail, BOOL bAddIfNeed
 			}
 		}
 		else {
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+			hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
 		}
 
@@ -563,7 +563,7 @@ HANDLE CMraProto::MraHContactFromEmail(const CMStringA& szEmail, BOOL bAddIfNeed
 	return hContact;
 }
 
-bool CMraProto::MraUpdateContactInfo(HANDLE hContact)
+bool CMraProto::MraUpdateContactInfo(HCONTACT hContact)
 {
 	if (m_bLoggedIn && hContact)
 	if (IsContactMra(hContact)) {
@@ -577,22 +577,22 @@ bool CMraProto::MraUpdateContactInfo(HANDLE hContact)
 	return false;
 }
 
-DWORD CMraProto::MraContactCapabilitiesGet(HANDLE hContact)
+DWORD CMraProto::MraContactCapabilitiesGet(HCONTACT hContact)
 {
 	return getDword(hContact, DBSETTING_CAPABILITIES, 0);
 }
 
-void CMraProto::MraContactCapabilitiesSet(HANDLE hContact, DWORD dwFutureFlags)
+void CMraProto::MraContactCapabilitiesSet(HCONTACT hContact, DWORD dwFutureFlags)
 {
 	setDword(hContact, DBSETTING_CAPABILITIES, dwFutureFlags);
 }
 
-DWORD CMraProto::MraGetContactStatus(HANDLE hContact)
+DWORD CMraProto::MraGetContactStatus(HCONTACT hContact)
 {
 	return getWord(hContact, "Status", ID_STATUS_OFFLINE);
 }
 
-DWORD CMraProto::MraSetContactStatus(HANDLE hContact, DWORD dwNewStatus)
+DWORD CMraProto::MraSetContactStatus(HCONTACT hContact, DWORD dwNewStatus)
 {
 	DWORD dwOldStatus = MraGetContactStatus(hContact);
 
@@ -641,7 +641,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 
 	if (m_dwEmailMessagesUnread) {
 		CMStringA szEmail;
-		HANDLE hContact = NULL;
+		HCONTACT hContact = NULL;
 		TCHAR szMailBoxStatus[MAX_SECONDLINE];
 
 		mir_sntprintf(szMailBoxStatus, SIZEOF(szMailBoxStatus), TranslateT("Unread mail is available: %lu/%lu messages"), m_dwEmailMessagesUnread, dwEmailMessagesTotal);
@@ -709,13 +709,13 @@ bool IsHTTPSProxyUsed(HANDLE m_hNetlibUser)
 }
 
 // определяет принадлежность контакта данной копии плагина
-bool CMraProto::IsContactMra(HANDLE hContact)
+bool CMraProto::IsContactMra(HCONTACT hContact)
 {
 	return CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName) != 0;
 }
 
 // определяется является ли контакт контактом MRA протокола, не зависимо от того какому плагину он принадлежит
-bool IsContactMraProto(HANDLE hContact)
+bool IsContactMraProto(HCONTACT hContact)
 {
 	LPSTR lpszProto = GetContactProto(hContact);
 	if (lpszProto) {
@@ -751,7 +751,7 @@ bool CMraProto::IsEMailChatAgent(const CMStringA &szEmail)
 	return false;
 }
 
-bool CMraProto::IsContactChatAgent(HANDLE hContact)
+bool CMraProto::IsContactChatAgent(HCONTACT hContact)
 {
 	if (hContact == NULL)
 		return false;
@@ -791,7 +791,7 @@ bool GetEMailFromString(const CMStringA& szBuff, CMStringA& szEmail)
 	return false;
 }
 
-DWORD GetContactEMailCountParam(HANDLE hContact, BOOL bMRAOnly, LPSTR lpszModule, LPSTR lpszValueName)
+DWORD GetContactEMailCountParam(HCONTACT hContact, BOOL bMRAOnly, LPSTR lpszModule, LPSTR lpszValueName)
 {
 	DWORD dwRet = 0;
 	CMStringA szEmail;
@@ -815,7 +815,7 @@ DWORD GetContactEMailCountParam(HANDLE hContact, BOOL bMRAOnly, LPSTR lpszModule
 	return dwRet;
 }
 
-DWORD CMraProto::GetContactEMailCount(HANDLE hContact, BOOL bMRAOnly)
+DWORD CMraProto::GetContactEMailCount(HCONTACT hContact, BOOL bMRAOnly)
 {
 	LPSTR lpszProto = (hContact) ? GetContactProto(hContact) : m_szModuleName;
 
@@ -828,7 +828,7 @@ DWORD CMraProto::GetContactEMailCount(HANDLE hContact, BOOL bMRAOnly)
 	return dwRet;
 }
 
-bool GetContactFirstEMailParam(HANDLE hContact, BOOL bMRAOnly, LPSTR lpszModule, LPSTR lpszValueName, CMStringA &res)
+bool GetContactFirstEMailParam(HCONTACT hContact, BOOL bMRAOnly, LPSTR lpszModule, LPSTR lpszValueName, CMStringA &res)
 {
 	CMStringA szEmail;
 
@@ -853,7 +853,7 @@ bool GetContactFirstEMailParam(HANDLE hContact, BOOL bMRAOnly, LPSTR lpszModule,
 	return false;
 }
 
-bool CMraProto::GetContactFirstEMail(HANDLE hContact, BOOL bMRAOnly, CMStringA &res)
+bool CMraProto::GetContactFirstEMail(HCONTACT hContact, BOOL bMRAOnly, CMStringA &res)
 {
 	LPSTR lpszProto = (hContact) ? GetContactProto(hContact) : m_szModuleName;
 
@@ -891,7 +891,7 @@ static void FakeThread(void* param)
 	mir_free(param);
 }
 
-DWORD CMraProto::ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
+DWORD CMraProto::ProtoBroadcastAckAsync(HCONTACT hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)::mir_calloc(sizeof(ACKDATA));
 	ack->cbSize = sizeof(ACKDATA);
@@ -905,7 +905,7 @@ DWORD CMraProto::ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, 
 	return 0;
 }
 
-CMStringA CMraProto::CreateBlobFromContact(HANDLE hContact, const CMStringW &wszRequestReason)
+CMStringA CMraProto::CreateBlobFromContact(HCONTACT hContact, const CMStringW &wszRequestReason)
 {
 	CMStringA res('\0', 8), tmp;
 	DWORD *p = (DWORD*)res.c_str();
@@ -1206,7 +1206,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 	return iRet;
 }
 
-bool CMraProto::MraSendReplyBlogStatus(HANDLE hContact)
+bool CMraProto::MraSendReplyBlogStatus(HCONTACT hContact)
 {
 	SetBlogStatusData* dat = (SetBlogStatusData*)mir_calloc(sizeof(SetBlogStatusData));
 	dat->ppro = this;

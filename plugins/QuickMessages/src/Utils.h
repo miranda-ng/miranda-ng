@@ -75,4 +75,4 @@ void DestroyButton(int listnum);
 void SaveModuleSettings(int buttonnum,ButtonData* bd);
 void CleanSettings(int buttonnum,int from);
 DWORD BalanceButtons(int buttonsWas,int buttonsNow);
-TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValueIn,TCHAR* ptszText,TCHAR* ptszClip,int QVSize,int TextSize ,int ClipSize);
+TCHAR* ParseString(HCONTACT hContact,TCHAR* ptszQValueIn,TCHAR* ptszText,TCHAR* ptszClip,int QVSize,int TextSize ,int ClipSize);

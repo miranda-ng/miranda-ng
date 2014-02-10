@@ -18,7 +18,7 @@
 #include "commonheaders.h"
 
 
-TCHAR* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,const char* szSetting, TCHAR* szDef)
+TCHAR* __stdcall UniGetContactSettingUtf(HCONTACT hContact, const char *szModule,const char* szSetting, TCHAR* szDef)
 {
   DBVARIANT dbv = {DBVT_DELETED};
   TCHAR* szRes = NULL;
@@ -33,7 +33,7 @@ TCHAR* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,c
   return szRes;
 }
 
-char* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,const char* szSetting, char* szDef)
+char* __stdcall UniGetContactSettingUtf(HCONTACT hContact, const char *szModule,const char* szSetting, char* szDef)
 {
   DBVARIANT dbv = {DBVT_DELETED};
   char* szRes = NULL;
@@ -138,15 +138,14 @@ void GetFolderPath(TCHAR *WindowTittle, char *szSetting)
 INT_PTR LoadKey(WPARAM w, LPARAM l)
 {
 	void ShowLoadPublicKeyDialog();
-	extern map<int, HANDLE> user_data;
-	user_data[1] = (HANDLE)w;
+	user_data[1] = (HCONTACT)w;
 	ShowLoadPublicKeyDialog();
 	return 0;
 }
 
 INT_PTR SendKey(WPARAM w, LPARAM l)
 {
-	HANDLE hContact = (HANDLE)w;
+	HCONTACT hContact = (HCONTACT)w;
 	if(metaIsProtoMetaContacts(hContact))
 		hContact = metaGetMostOnline(hContact);
 	char *szMessage;
@@ -202,7 +201,7 @@ extern HGENMENU hToggleEncryption, hSendKey;
 
 INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 {
-	HANDLE hContact = (HANDLE)w;
+	HCONTACT hContact = (HCONTACT)w;
 	BYTE enc = 0;
 	if(metaIsProtoMetaContacts(hContact))
 		enc = db_get_b(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 0);
@@ -210,13 +209,12 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 		enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 	if(metaIsProtoMetaContacts(hContact))
 	{
-		HANDLE hcnt = NULL;
 		if(MessageBox(0, TranslateT("Do you want to toggle encryption for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 		{
 			int count = metaGetContactsNum(hContact);
 			for(int i = 0; i < count; i++)
 			{
-				hcnt = metaGetSubcontact(hContact, i);
+				HCONTACT hcnt = metaGetSubcontact(hContact, i);
 				if(hcnt)
 					db_set_b(hcnt, szGPGModuleName, "GPGEncryption", enc?0:1);
 			}
@@ -225,8 +223,8 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 	}
 	else
 		db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc?0:1);
-	void setSrmmIcon(HANDLE hContact);
-	void setClistIcon(HANDLE hContact);
+	void setSrmmIcon(HCONTACT hContact);
+	void setClistIcon(HCONTACT hContact);
 	setSrmmIcon(hContact);
 	setClistIcon(hContact);
 	enc = enc?0:1;
@@ -239,7 +237,7 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 
 int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 {
-	HANDLE hContact = (HANDLE)w;
+	HCONTACT hContact = (HCONTACT)w;
 	if(metaIsProtoMetaContacts(hContact))
 		hContact = metaGetMostOnline(hContact);
 	
@@ -396,9 +394,6 @@ int onProtoAck(WPARAM w, LPARAM l)
 							return 0;
 						while(out.find("public key decryption failed: bad passphrase") != string::npos)
 						{
-							extern bool _terminate;
-							extern HANDLE new_key_hcnt;
-							extern boost::mutex new_key_hcnt_mutex;
 							if(bDebugLog)
 								debuglog<<std::string(time_str()+": info: failed to decrypt messaage from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" password needed, trying to get one");
 							if(_terminate)
@@ -478,12 +473,12 @@ int onProtoAck(WPARAM w, LPARAM l)
 	return 0;
 }
 
-std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
+std::wstring encrypt_file(HCONTACT hContact, TCHAR *filename)
 {
 	string out;
 	DWORD code;
 	pxResult result;
-	HANDLE hcnt = metaIsProtoMetaContacts(hContact)?metaGetMostOnline(hContact):hContact;
+	HCONTACT hcnt = metaIsProtoMetaContacts(hContact)?metaGetMostOnline(hContact):hContact;
 	std::vector<wstring> cmd;
 	cmd.push_back(L"--batch");
 	cmd.push_back(L"--tes");
@@ -643,7 +638,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 }
 
 
-void HistoryLog(HANDLE hContact, db_event evt)
+void HistoryLog(HCONTACT hContact, db_event evt)
 {
 	DBEVENTINFO Event = { sizeof(Event) };
 	Event.szModule = szGPGModuleName;
@@ -724,7 +719,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 		LPCTSTR attr = xi.getAttrValue(local_node, _T("to"));
 		if(attr)
 		{
-			HANDLE hContact = ji->ContactFromJID(attr);
+			HCONTACT hContact = ji->ContactFromJID(attr);
 			if(hContact)
 				if(!isContactSecured(hContact))
 					return FALSE;
@@ -1014,7 +1009,7 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 								string::size_type p2 = out.find("\n", p1);
 								if(p1 != string::npos && p2 != string::npos)
 								{
-									HANDLE hContact = NULL;
+									HCONTACT hContact = NULL;
 									{
 										extern list <JabberAccount*> Accounts;
 										list <JabberAccount*>::iterator p = Accounts.begin();	
@@ -1075,7 +1070,7 @@ void AddHandlers()
 	}
 }
 
-bool isContactSecured(HANDLE hContact)
+bool isContactSecured(HCONTACT hContact)
 {
 	BYTE gpg_enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 	if(!gpg_enc)
@@ -1101,7 +1096,7 @@ bool isContactSecured(HANDLE hContact)
 	return true;
 }
 
-bool isContactHaveKey(HANDLE hContact)
+bool isContactHaveKey(HCONTACT hContact)
 {
 	TCHAR *key = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
 	if(_tcslen(key) > 0)
@@ -1220,7 +1215,7 @@ const bool StriStr(const char *str, const char *substr)
 	return i;
 }
 
-bool IsOnline(HANDLE hContact)
+bool IsOnline(HCONTACT hContact)
 {
 	if(db_get_b(hContact, szGPGModuleName, "Status", 0) == ID_STATUS_OFFLINE)
 		return false;
@@ -1231,34 +1226,34 @@ bool IsOnline(HANDLE hContact)
 #include <process.h>
 
 struct TFakeAckParams {
-	inline TFakeAckParams( HANDLE p1, HANDLE p2, LONG p3, LPCSTR p4 ) :
+	inline TFakeAckParams( HANDLE p1, HCONTACT p2, LONG p3, LPCSTR p4 ) :
 		hEvent( p1 ),
 		hContact( p2 ),
 		id( p3 ),
 		msg( p4 )
 		{}
 
-	HANDLE	hEvent;
-	HANDLE	hContact;
-	LONG	id;
-	LPCSTR	msg;
+	HANDLE hEvent;
+	HCONTACT hContact;
+	LONG id;
+	LPCSTR msg;
 };
 
-__forceinline int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
+__forceinline int SendBroadcast(HCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
 	return ProtoBroadcastAck( GetContactProto(hContact), hContact, type, result, hProcess, lParam);
 }
 
-unsigned __stdcall sttFakeAck( LPVOID param ) {
-
+unsigned __stdcall sttFakeAck( LPVOID param )
+{
 	TFakeAckParams* tParam = ( TFakeAckParams* )param;
 	WaitForSingleObject( tParam->hEvent, INFINITE );
 
 	Sleep( 100 );
 	if ( tParam->msg == NULL )
-		SendBroadcast( tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, ( HANDLE )tParam->id, 0 );
+		SendBroadcast(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tParam->id, 0 );
 	else
-		SendBroadcast( tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, ( HANDLE )tParam->id, LPARAM( tParam->msg ));
+		SendBroadcast(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tParam->id, LPARAM(tParam->msg));
 
 	CloseHandle( tParam->hEvent );
 	delete tParam;
@@ -1267,7 +1262,7 @@ unsigned __stdcall sttFakeAck( LPVOID param ) {
 }
 
 
-int returnNoError(HANDLE hContact) {
+int returnNoError(HCONTACT hContact) {
 	HANDLE hEvent = CreateEvent( NULL, TRUE, FALSE, NULL );
 	unsigned int tID;
 	CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttFakeAck, new TFakeAckParams(hEvent,hContact,777,0), 0, &tID) );
@@ -1323,8 +1318,9 @@ string get_random(int length)
 	return data;
 }
 
-void send_encrypted_msgs_thread(HANDLE hContact)
+void send_encrypted_msgs_thread(void *param)
 {
+	HCONTACT hContact = (HCONTACT)param;
 	while(true)
 	{
 		//char *key = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", "");
@@ -1398,7 +1394,7 @@ void ExportGpGKeysFunc(int type)
 	if(!file.is_open())
 		return; //TODO: handle error
 	if(!type || type == 2) {
-		for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for(HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			char *k = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", "");
 			std::string key;
 			if(!k[0])
@@ -1685,7 +1681,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 			if(acc.length())
 			{
 				const char * uid = (const char*)CallProtoService(acc.c_str(), PS_GETCAPS,  (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
-				for(HANDLE hContact = db_find_first(acc.c_str()); hContact; hContact = db_find_next(hContact, acc.c_str())) {
+				for(HCONTACT hContact = db_find_first(acc.c_str()); hContact; hContact = db_find_next(hContact, acc.c_str())) {
 					DBVARIANT dbv = {0};
 					db_get(hContact, acc.c_str(), uid, &dbv);
 					std::string id;

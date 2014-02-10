@@ -609,7 +609,7 @@ bool CMsnProto::MSN_SharingMyProfile(bool allowRecurse)
 }
 
 
-void CMsnProto::SetAbParam(HANDLE hContact, const char *name, const char *par)
+void CMsnProto::SetAbParam(HCONTACT hContact, const char *name, const char *par)
 {
 	if (*par) setStringUtf(hContact, name, (char*)par);
 //	else delSetting(hContact, "FirstName");
@@ -814,7 +814,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 	//				Depricated in WLM 8.1
 	//				const char* szNick  = ezxml_txt(ezxml_child(contInf, "displayName"));
 	//				if (*szNick == '\0') szNick = szEmail;
-					HANDLE hContact = MSN_HContactFromEmail(szEmail, szEmail, true, false);
+					HCONTACT hContact = MSN_HContactFromEmail(szEmail, szEmail, true, false);
 	//				setStringUtf(hContact, "Nick", (char*)szNick);
 
 					if (MyOptions.ManageServer)
@@ -1555,7 +1555,7 @@ unsigned CMsnProto::MSN_ABContactAdd(const char* szEmail, const char* szNick, in
 			else
 			{
 				MSN_ABAddRemoveContact(szContId, NETID_MSN, true);
-				HANDLE hContact = MSN_HContactFromEmail(szEmail, szNick ? szNick : szEmail, true, false);
+				HCONTACT hContact = MSN_HContactFromEmail(szEmail, szNick ? szNick : szEmail, true, false);
 				setString(hContact, "ID", szContId);
 			}
 			status = 0;
@@ -1590,7 +1590,7 @@ unsigned CMsnProto::MSN_ABContactAdd(const char* szEmail, const char* szNick, in
 				}
 				else
 				{
-					HANDLE hContact = MSN_HContactFromEmail(szEmail, szNick ? szNick : szEmail, true, false);
+					HCONTACT hContact = MSN_HContactFromEmail(szEmail, szNick ? szNick : szEmail, true, false);
 					setString(hContact, "ID", szContId);
 				}
 			}

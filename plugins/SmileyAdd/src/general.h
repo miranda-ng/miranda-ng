@@ -164,7 +164,7 @@ bool IsOldSrmm(void);
 int CalculateTextHeight(HDC hdc, CHARFORMAT2* chf);
 const TCHAR* GetImageExt(CMString &fname);
 
-HANDLE DecodeMetaContact(HANDLE hContact);
+HCONTACT DecodeMetaContact(HCONTACT hContact);
 bool IsSmileyProto(char* proto);
 
 HICON ImageList_GetIconFixed (HIMAGELIST himl, INT i, UINT fStyle);
@@ -180,7 +180,7 @@ HICON GetDefaultIcon(bool copy = true);
 
 void CloseRichCallback(HWND hwnd);
 void CloseRichOwnerCallback(HWND hwnd);
-bool SetRichCallback(HWND hwnd, HANDLE hContact, bool subany, bool subnew);
+bool SetRichCallback(HWND hwnd, HCONTACT hContact, bool subany, bool subnew);
 void SetRichOwnerCallback(HWND hwnd, HWND hwndInput, HWND hwndLog);
 void ProcessAllInputAreas(bool restoreText);
 void RichEditData_Destroy(void);

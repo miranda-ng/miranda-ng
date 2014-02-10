@@ -484,7 +484,7 @@ void CAimProto::shutdown_file_transfers(void)
 
 ft_list_type::ft_list_type() :  OBJLIST <file_transfer>(10) {};
 
-file_transfer* ft_list_type::find_by_cookie(char* cookie, HANDLE hContact)
+file_transfer* ft_list_type::find_by_cookie(char* cookie, HCONTACT hContact)
 {
 	for (int i = 0; i < getCount(); ++i)
 	{
@@ -528,7 +528,7 @@ void ft_list_type::remove_by_ft(file_transfer *ft)
 	}
 }
 
-file_transfer::file_transfer(HANDLE hCont, char* nick, char* cookie)  
+file_transfer::file_transfer(HCONTACT hCont, char* nick, char* cookie)
 { 
 	memset(this, 0, sizeof(*this)); 
 

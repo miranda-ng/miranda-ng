@@ -49,9 +49,7 @@ static INT_PTR AddMirOTRMenuItem(WPARAM, LPARAM lParam)
 
 static INT_PTR BuildMirOTRMenu(WPARAM wParam, LPARAM)
 {
-	HANDLE hContact = ( HANDLE )wParam;
-	//NotifyEventHooks(hPreBuildMirOTRMenuEvent,(WPARAM)hMirOTR,0);
-	
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	ListParam param = { 0 };
 	param.MenuObjectHandle = hMirOTRMenuObject;
@@ -89,10 +87,9 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam,LPARAM)
 	if ( cmep == NULL ) //this is rootsection...build it
 		return TRUE;
 
-	HANDLE hContact = (HANDLE)pcpp->wParam, hSub;
-	if(options.bHaveMetaContacts && (hSub = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0) {
+	HCONTACT hContact = (HCONTACT)pcpp->wParam, hSub;
+	if(options.bHaveMetaContacts && (hSub = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 		hContact = hSub;
-	}
 	
 	TrustLevel level = ( TrustLevel )otr_context_get_trust(otrl_context_find_miranda(otr_user_state, hContact));
 	
@@ -181,7 +178,7 @@ LRESULT CALLBACK PopupMenuWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
   return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
-void ShowOTRMenu(HANDLE hContact, POINT pt){
+void ShowOTRMenu(HCONTACT hContact, POINT pt){
 	HMENU menu = (HMENU) CallService(MS_MIROTR_MENUBUILDMIROTR, (WPARAM)hContact, 0);
 	SetWindowLongPtr(hDummyPaintWin, GWLP_USERDATA, (LONG_PTR)hContact);
 	TrackPopupMenu(menu, 0, pt.x, pt.y, 0, hDummyPaintWin, 0);

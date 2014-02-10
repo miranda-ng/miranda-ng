@@ -49,7 +49,7 @@ struct CIcqProto;
 struct icq_cookie_info
 {
   DWORD dwCookie;
-  HANDLE hContact;
+  HCONTACT hContact;
   void *pvExtra;
   time_t dwTime;
   BYTE bType;
@@ -114,7 +114,7 @@ struct cookie_search
 struct cookie_avatar
 {
   DWORD dwUin;
-  HANDLE hContact;
+  HCONTACT hContact;
   unsigned int hashlen;
   BYTE *hash;
   unsigned int cbData;
@@ -124,7 +124,7 @@ struct cookie_avatar
 
 struct cookie_reverse_connect: public cookie_message_data
 {
-  HANDLE hContact;
+  HCONTACT hContact;
   DWORD dwUin;
   int type;
   void *ft;

@@ -107,24 +107,23 @@ HIMAGELIST GetStatusIconsImgList(char *szProto)
 
 INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	static HANDLE hContact = NULL;
-	switch (msg) 
-	{
-		case WM_INITDIALOG: 
-		{		
-			TranslateDialogDefault(hwndDlg);
+	static HCONTACT hContact = NULL;
+	HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
 
-			hContact = (HANDLE)lParam;
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		{
+			hContact = (HCONTACT)lParam;
 			char *szProto = GetContactProto(hContact);
-			HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
-			
+
 			ListView_SetImageList(hList, GetStatusIconsImgList(szProto), LVSIL_SMALL);
 			ListView_SetExtendedListViewStyleEx(hList, LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP, LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP);
 
-			RECT rc = {0};
+			RECT rc = { 0 };
 			GetClientRect(hList, &rc);
 
-			LV_COLUMN lvc = {0};
+			LV_COLUMN lvc = { 0 };
 			lvc.mask = LVCF_WIDTH | LVCF_TEXT;
 			lvc.cx = STATUS_COLUMN;
 			lvc.pszText = TranslateT("Status");
@@ -134,20 +133,17 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			lvc.pszText = TranslateT("Sound for the status");
 			ListView_InsertColumn(hList, 1, &lvc);
 
-			if (szProto)
-			{
+			if (szProto) {
 				DBVARIANT dbv;
 				TCHAR buff[MAX_PATH];
 
-				for (int i = ID_STATUS_MAX; i >= ID_STATUS_MIN; i--) 
-				{   
+				for (int i = ID_STATUS_MAX; i >= ID_STATUS_MIN; i--) {
 					int flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0);
-					if (flags == 0) 
-						flags = PF2_ONLINE|PF2_INVISIBLE|PF2_SHORTAWAY|PF2_LONGAWAY|PF2_LIGHTDND|PF2_HEAVYDND|PF2_FREECHAT|PF2_OUTTOLUNCH|PF2_ONTHEPHONE;
-					
-					if ((flags & Proto_Status2Flag(i)) || i == ID_STATUS_OFFLINE)
-					{
-						LV_ITEM lvi = {0};
+					if (flags == 0)
+						flags = PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
+
+					if ((flags & Proto_Status2Flag(i)) || i == ID_STATUS_OFFLINE) {
+						LV_ITEM lvi = { 0 };
 						lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 						lvi.iItem = 0;
 						lvi.iSubItem = 0;
@@ -156,8 +152,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						lvi.pszText = TranslateTS(StatusList[Index(i)].lpzStandardText);
 						lvi.iItem = ListView_InsertItem(hList, &lvi);
 
-						if (!db_get_ts(hContact, MODULE, StatusList[Index(i)].lpzSkinSoundName, &dbv)) 
-						{
+						if (!db_get_ts(hContact, MODULE, StatusList[Index(i)].lpzSkinSoundName, &dbv)) {
 							_tcscpy(buff, dbv.ptszVal);
 							db_free(&dbv);
 						}
@@ -168,7 +163,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					}
 				}
 
-				LV_ITEM lvi = {0};
+				LV_ITEM lvi = { 0 };
 				lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 				lvi.iItem = 0;
 				lvi.iSubItem = 0;
@@ -177,148 +172,119 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				lvi.pszText = TranslateT("From offline");
 				lvi.iItem = ListView_InsertItem(hList, &lvi);
 
-				if (!db_get_ts(hContact, MODULE, "UserFromOffline", &dbv)) 
-				{
+				if (!db_get_ts(hContact, MODULE, "UserFromOffline", &dbv)) {
 					_tcscpy(buff, dbv.ptszVal);
 					db_free(&dbv);
 				}
-				else
-					_tcscpy(buff, TranslateT(DEFAULT_SOUND));
+				else _tcscpy(buff, TranslateT(DEFAULT_SOUND));
 
 				ListView_SetItemText(hList, lvi.iItem, 1, buff);
 			}
 
 			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYSOUNDS, db_get_b(hContact, MODULE, "EnableSounds", 1));
-			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYPOPUPS, db_get_b(hContact, MODULE, "EnablePopups", 1));			
-			
+			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYPOPUPS, db_get_b(hContact, MODULE, "EnablePopups", 1));
+
 			ShowWindow(GetDlgItem(hwndDlg, IDC_INDSNDLIST), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_TEXT_ENABLE_IS), opt.UseIndSnd ? SW_HIDE : SW_SHOW);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_CHANGE), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_DELETE), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
+		}
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_PREVIEW:
+			if (ListView_GetSelectionMark(hList) != -1)
+				PreviewSound(hList);
+			break;
+
+		case IDC_CHANGE:
+			{
+				int iSel = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_INDSNDLIST), -1, LVNI_SELECTED);
+				if (iSel != -1) {
+					TCHAR stzFilePath[MAX_PATH];
+					if (SelectSound(hwndDlg, stzFilePath) != NULL) {
+						iSel = -1;
+						while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
+							ListView_SetItemText(hList, iSel, 1, stzFilePath);
+
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					}
+				}
+			}
+			break;
+		case IDC_DELETE:
+			if (ListView_GetSelectionMark(hList) != -1)
+				if (RemoveSoundFromList(GetDlgItem(hwndDlg, IDC_INDSNDLIST)))
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_CHECK_NOTIFYSOUNDS:
+			db_set_b(hContact, MODULE, "EnableSounds", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYSOUNDS) ? 1 : 0);
+			break;
+
+		case IDC_CHECK_NOTIFYPOPUPS:
+			db_set_b(hContact, MODULE, "EnablePopups", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYPOPUPS) ? 1 : 0);
+			break;
+		}
+		break;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			TCHAR buff[MAX_PATH];
+			HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
+
+			LVITEM lvi = { 0 };
+			lvi.mask = LVIF_PARAM;
+			//Cycle through the list reading the text associated to each status.
+			for (lvi.iItem = ListView_GetItemCount(hList) - 1; lvi.iItem >= 0; lvi.iItem--) {
+				ListView_GetItem(hList, &lvi);
+				ListView_GetItemText(hList, lvi.iItem, 1, buff, SIZEOF(buff));
+
+				if (!_tcscmp(buff, TranslateT(DEFAULT_SOUND))) {
+					if (lvi.lParam == ID_STATUS_FROMOFFLINE)
+						db_unset(hContact, MODULE, "UserFromOffline");
+					else
+						db_unset(hContact, MODULE, StatusList[Index(lvi.lParam)].lpzSkinSoundName);
+				}
+				else {
+					TCHAR stzSoundPath[MAX_PATH] = { 0 };
+					PathToRelativeT(buff, stzSoundPath);
+					if (lvi.lParam == ID_STATUS_FROMOFFLINE)
+						db_set_ws(hContact, MODULE, "UserFromOffline", stzSoundPath);
+					else
+						db_set_ws(hContact, MODULE, StatusList[Index(lvi.lParam)].lpzSkinSoundName, stzSoundPath);
+				}
+			}
 
 			return TRUE;
 		}
-		case WM_COMMAND: 
-		{
-			switch (LOWORD(wParam)) 
-			{
-				case IDC_PREVIEW: 
-				{
+
+		int hlpControlID = (int)wParam;
+		switch (hlpControlID) {
+		case IDC_INDSNDLIST:
+			if (((LPNMHDR)lParam)->code == NM_DBLCLK) {
+				TCHAR stzFilePath[MAX_PATH];
+				if (SelectSound(hwndDlg, stzFilePath) != NULL) {
+					int iSel = -1;
 					HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
-					if (ListView_GetSelectionMark(hList) != -1) 
-						PreviewSound(hList);
-					break;
-				}
-				case IDC_CHANGE:
-				{
-					HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
-					int iSel = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_INDSNDLIST), -1, LVNI_SELECTED);
-					if (iSel != -1)
-					{
-						TCHAR stzFilePath[MAX_PATH];
-						if (SelectSound(hwndDlg, stzFilePath) != NULL)
-						{
-							iSel = -1;
-							while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
-								ListView_SetItemText(hList, iSel, 1, stzFilePath);
+					while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
+						ListView_SetItemText(hList, iSel, 1, stzFilePath);
 
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-						}
-					}
-					break;
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
-				case IDC_DELETE:
-				{
-					HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
-					if (ListView_GetSelectionMark(hList) != -1) 
-					{
-						if (RemoveSoundFromList(GetDlgItem(hwndDlg, IDC_INDSNDLIST)))
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-					break;
-				}
-				case IDC_CHECK_NOTIFYSOUNDS:
-				{
-					db_set_b(hContact, MODULE, "EnableSounds", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYSOUNDS) ? 1 : 0);
-					break;
-				}
-				case IDC_CHECK_NOTIFYPOPUPS:
-				{
-					db_set_b(hContact, MODULE, "EnablePopups", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYPOPUPS) ? 1 : 0);
-					break;
-				}
-			} 
-			break;
-		}
-		case WM_NOTIFY:
-		{
-			LPNMHDR pParam = (LPNMHDR)lParam;
-			if (pParam->code == PSN_APPLY) 
-			{
-				TCHAR buff[MAX_PATH];
-				HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
-
-				LVITEM lvi = {0};
-				lvi.mask = LVIF_PARAM;
-				//Cycle through the list reading the text associated to each status.
-				for (lvi.iItem = ListView_GetItemCount(hList) - 1; lvi.iItem >= 0; lvi.iItem--) 
-				{
-					ListView_GetItem(hList, &lvi);
-					ListView_GetItemText(hList, lvi.iItem, 1, buff, SIZEOF(buff));
-
-					if (!_tcscmp(buff, TranslateT(DEFAULT_SOUND))) 
-					{
-						if (lvi.lParam == ID_STATUS_FROMOFFLINE)
-							db_unset(hContact, MODULE, "UserFromOffline");
-						else 
-							db_unset(hContact, MODULE, StatusList[Index(lvi.lParam)].lpzSkinSoundName);
-					}
-					else 
-					{
-						TCHAR stzSoundPath[MAX_PATH] = { 0 };
-						PathToRelativeT(buff, stzSoundPath);
-						if (lvi.lParam == ID_STATUS_FROMOFFLINE)
-							db_set_ws(hContact, MODULE, "UserFromOffline", stzSoundPath);
-						else
-							db_set_ws(hContact, MODULE, StatusList[Index(lvi.lParam)].lpzSkinSoundName, stzSoundPath);
-					}
-				}
-
 				return TRUE;
 			}
-
-			int hlpControlID = (int)wParam;
-			switch (hlpControlID) 
-			{
-				case IDC_INDSNDLIST: 	
-				{
-					if (pParam->code == NM_DBLCLK) 
-					{
-						TCHAR stzFilePath[MAX_PATH];
-						if (SelectSound(hwndDlg, stzFilePath) != NULL)
-						{
-							int iSel = -1;
-							HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
-							while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
-								ListView_SetItemText(hList, iSel, 1, stzFilePath);
-
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-						}
-						return TRUE;
-					}
-					else if (pParam->code == LVN_KEYDOWN) 
-					{
-						LPNMLVKEYDOWN pnkd = (LPNMLVKEYDOWN)lParam;
-						if (pnkd->wVKey == VK_DELETE)
-							RemoveSoundFromList(GetDlgItem(hwndDlg, IDC_INDSNDLIST));
-					}
-
-					break;
-				}
+			else if (((LPNMHDR)lParam)->code == LVN_KEYDOWN) {
+				LPNMLVKEYDOWN pnkd = (LPNMLVKEYDOWN)lParam;
+				if (pnkd->wVKey == VK_DELETE)
+					RemoveSoundFromList(GetDlgItem(hwndDlg, IDC_INDSNDLIST));
 			}
+
 			break;
 		}
+		break;
 	}
 	return FALSE;
 }
@@ -365,7 +331,7 @@ void SetAllContactsIcons(HWND hwndList)
 {
 	BYTE EnableSounds, EnablePopups, EnableXStatus, EnableLogging;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem) {
 			char *szProto = GetContactProto(hContact);
@@ -604,7 +570,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			case 0:
 				switch (((LPNMHDR)lParam)->code) {
 				case PSN_APPLY: 
-					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+					for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						HANDLE hItem = (HANDLE)SendMessage(hList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 						if (hItem) {
 							if (GetExtraImage(hList, hItem, EXTRA_IMAGE_SOUND) == EXTRA_IMAGE_SOUND) 

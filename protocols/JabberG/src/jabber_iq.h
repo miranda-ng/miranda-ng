@@ -70,7 +70,7 @@ public:
 	TCHAR *m_szChildTagXmlns;
 	TCHAR *m_szChildTagName;
 	HXML   m_pChildNode;
-	HANDLE m_hContact;
+	HCONTACT m_hContact;
 	TCHAR *m_szTo;
 	TCHAR *m_szId;
 
@@ -117,7 +117,7 @@ public:
 	__forceinline TCHAR* GetIdStr()
 	{	return m_szId;
 	}
-	__forceinline HANDLE GetHContact()
+	__forceinline HCONTACT GetHContact()
 	{	return m_hContact;
 	}
 	__forceinline HXML GetChildNode()

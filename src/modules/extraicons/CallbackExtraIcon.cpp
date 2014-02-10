@@ -50,7 +50,7 @@ void CallbackExtraIcon::rebuildIcons()
 	RebuildIcons(0, 0);
 }
 
-void CallbackExtraIcon::applyIcon(HANDLE hContact)
+void CallbackExtraIcon::applyIcon(HCONTACT hContact)
 {
 	if (!isEnabled() || hContact == NULL)
 		return;
@@ -61,7 +61,7 @@ void CallbackExtraIcon::applyIcon(HANDLE hContact)
 	ApplyIcon((WPARAM)hContact, 0);
 }
 
-int CallbackExtraIcon::setIcon(int id, HANDLE hContact, HANDLE icon)
+int CallbackExtraIcon::setIcon(int id, HCONTACT hContact, HANDLE icon)
 {
 	if (!isEnabled() || hContact == NULL || id != this->id)
 		return -1;
@@ -69,7 +69,7 @@ int CallbackExtraIcon::setIcon(int id, HANDLE hContact, HANDLE icon)
 	return ClistSetExtraIcon(hContact, icon);
 }
 
-int CallbackExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
+int CallbackExtraIcon::setIconByName(int id, HCONTACT hContact, const char *icon)
 {
 	return -1;
 }

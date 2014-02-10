@@ -389,7 +389,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, 
 		break;
 
 	case BUTTONSETCONTAINER:
-		bct->pContainer = (TContainerData *)wParam;
+		bct->pContainer = (TContainerData*)wParam;
 		break;
 
 	case BUTTONSETASTITLE:

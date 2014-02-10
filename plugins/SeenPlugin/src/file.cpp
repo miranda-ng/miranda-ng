@@ -59,7 +59,7 @@ int InitFileOutput(void)
 /*
 Writes a line into the log.
 */
-void FileWrite(HANDLE hcontact)
+void FileWrite(HCONTACT hcontact)
 {
 	TCHAR szout[1024];
 

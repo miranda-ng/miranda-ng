@@ -70,7 +70,7 @@ int JabberCompareJids(const TCHAR *jid1, const TCHAR *jid2)
 
 void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 {
-	HANDLE hContact = DBCreateContact(jid, nick, TRUE, TRUE);
+	HCONTACT hContact = DBCreateContact(jid, nick, TRUE, TRUE);
 	delSetting(hContact, "Hidden");
 
 	char* szJid = mir_utf8encodeT(jid);
@@ -103,7 +103,7 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberDBCreateContact()
 
-HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL temporary, BOOL stripResource)
+HCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL temporary, BOOL stripResource)
 {
 	if (jid == NULL || jid[0]=='\0')
 		return NULL;
@@ -120,7 +120,7 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 
 	// We can't use JabberHContactFromJID() here because of the stripResource option
 	size_t len = _tcslen(s);
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		ptrT jid( getTStringA(hContact, "jid"));
 		if (jid == NULL)
 			continue;
@@ -130,7 +130,7 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 			return hContact;
 	}
 
-	HANDLE hNewContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	HCONTACT hNewContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hNewContact, (LPARAM)m_szModuleName);
 	setTString(hNewContact, "jid", s);
 	if (nick != NULL && *nick != '\0')
@@ -144,7 +144,7 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 	return hNewContact;
 }
 
-BOOL CJabberProto::AddDbPresenceEvent(HANDLE hContact, BYTE btEventType)
+BOOL CJabberProto::AddDbPresenceEvent(HCONTACT hContact, BYTE btEventType)
 {
 	if (!hContact)
 		return FALSE;
@@ -179,7 +179,7 @@ BOOL CJabberProto::AddDbPresenceEvent(HANDLE hContact, BYTE btEventType)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberGetAvatarFileName() - gets a file name for the avatar image
 
-void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen)
+void CJabberProto::GetAvatarFileName(HCONTACT hContact, TCHAR* pszDest, size_t cbLen)
 {
 	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
 
@@ -219,9 +219,9 @@ void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbL
 void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
 {
 	// Set all contacts to offline
-	HANDLE hContact = m_ThreadInfo->resolveContact;
+	HCONTACT hContact = m_ThreadInfo->resolveContact;
 	if (hContact == NULL)
-		hContact = (HANDLE)db_find_first(m_szModuleName);
+		hContact = db_find_first(m_szModuleName);
 
 	for (; hContact != NULL; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!getByte(hContact, "IsTransported", 0))
@@ -320,7 +320,7 @@ static sttCapsNodeToName_Map[] =
 
 void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 {
-	HANDLE hContact = HContactFromJID(item->jid);
+	HCONTACT hContact = HContactFromJID(item->jid);
 	if (!hContact)
 		return;
 
@@ -396,7 +396,7 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 }
 
 
-void CJabberProto::UpdateMirVer(HANDLE hContact, pResourceStatus &resource)
+void CJabberProto::UpdateMirVer(HCONTACT hContact, pResourceStatus &resource)
 {
 	CMString tszMirVer;
 	FormatMirVer(resource, tszMirVer);
@@ -415,7 +415,7 @@ void CJabberProto::UpdateMirVer(HANDLE hContact, pResourceStatus &resource)
 	setTString(hContact, DBSETTING_DISPLAY_UID, szFullJid);
 }
 
-void CJabberProto::UpdateSubscriptionInfo(HANDLE hContact, JABBER_LIST_ITEM *item)
+void CJabberProto::UpdateSubscriptionInfo(HCONTACT hContact, JABBER_LIST_ITEM *item)
 {
 	switch (item->subscription) {
 	case SUB_TO:
@@ -445,7 +445,7 @@ void CJabberProto::UpdateSubscriptionInfo(HANDLE hContact, JABBER_LIST_ITEM *ite
 	}
 }
 
-void CJabberProto::SetContactOfflineStatus(HANDLE hContact)
+void CJabberProto::SetContactOfflineStatus(HCONTACT hContact)
 {
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 		setWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -482,7 +482,7 @@ void CJabberProto::InitPopups(void)
 	Skin_ReleaseIcon(ppc.hIcon);
 }
 
-void CJabberProto::MsgPopup(HANDLE hContact, const TCHAR *szMsg, const TCHAR *szTitle)
+void CJabberProto::MsgPopup(HCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		char name[256];

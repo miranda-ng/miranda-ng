@@ -46,7 +46,7 @@ void IcolibExtraIcon::rebuildIcons()
 {
 }
 
-void IcolibExtraIcon::applyIcon(HANDLE hContact)
+void IcolibExtraIcon::applyIcon(HCONTACT hContact)
 {
 	if (!isEnabled() || hContact == NULL)
 		return;
@@ -60,7 +60,7 @@ void IcolibExtraIcon::applyIcon(HANDLE hContact)
 	ClistSetExtraIcon(hContact, hImage);
 }
 
-int IcolibExtraIcon::setIcon(int id, HANDLE hContact, HANDLE hIcoLib)
+int IcolibExtraIcon::setIcon(int id, HCONTACT hContact, HANDLE hIcoLib)
 {
 	if (hContact == NULL || id != this->id)
 		return -1;
@@ -84,7 +84,7 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, HANDLE hIcoLib)
 	return 0;
 }
 
-int IcolibExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
+int IcolibExtraIcon::setIconByName(int id, HCONTACT hContact, const char *icon)
 {
 	if (hContact == NULL || id != this->id)
 		return -1;
@@ -106,7 +106,7 @@ int IcolibExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
 	return 0;
 }
 
-void IcolibExtraIcon::storeIcon(HANDLE hContact, void *icon)
+void IcolibExtraIcon::storeIcon(HCONTACT hContact, void *icon)
 {
 	if (hContact == NULL)
 		return;

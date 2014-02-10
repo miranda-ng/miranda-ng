@@ -17,7 +17,7 @@ class SpeakAnnounce
 	//--------------------------------------------------------------------------
 	// Description : handle an event
 	//--------------------------------------------------------------------------
-	void incomingEvent(HANDLE user, HANDLE event);
+	void incomingEvent(HCONTACT user, HANDLE event);
 
 	//--------------------------------------------------------------------------
 	// Description : handle a protocol state change

@@ -42,8 +42,8 @@ extern int bBirthdayFound;
 int InitServices();
 int DestroyServices();
 
-int NotifyContactBirthday(HANDLE hContact, time_t now, int daysInAdvance);
-int NotifyMissedContactBirthday(HANDLE hContact, time_t now, int daysAfter);
+int NotifyContactBirthday(HCONTACT hContact, time_t now, int daysInAdvance);
+int NotifyMissedContactBirthday(HCONTACT hContact, time_t now, int daysAfter);
 
 int DoExport(TCHAR *fileName);
 int DoImport(TCHAR *fileName);

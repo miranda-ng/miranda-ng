@@ -62,18 +62,18 @@ void ShowErrPopup(const TCHAR *description, const TCHAR *title)
 }
 
 
-void ShowTestPopup(HANDLE hContact,const TCHAR *title, const TCHAR *description, const Options *op)
+void ShowTestPopup(HCONTACT hContact,const TCHAR *title, const TCHAR *description, const Options *op)
 {
 	ShowPopupEx(hContact, title, description, NULL, POPUP_TYPE_TEST, op);
 }
 
 
-void ShowPopup(HANDLE hContact, const TCHAR *title, const TCHAR *description)
+void ShowPopup(HCONTACT hContact, const TCHAR *title, const TCHAR *description)
 {
 	ShowPopupEx(hContact, title, description, hContact, POPUP_TYPE_NORMAL, &opts);
 }
 
-void ShowDebugPopup(HANDLE hContact, const TCHAR *title, const TCHAR *description)
+void ShowDebugPopup(HCONTACT hContact, const TCHAR *title, const TCHAR *description)
 {
 	if (db_get_b(NULL,MODULE_NAME,"Debug",0))
 	{
@@ -89,7 +89,7 @@ typedef struct
 PopupDataType;
 
 // Show an popup
-void ShowPopupEx(HANDLE hContact, const TCHAR *title, const TCHAR *description,
+void ShowPopupEx(HCONTACT hContact, const TCHAR *title, const TCHAR *description,
 			   void *plugin_data, int type, const Options *op)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))

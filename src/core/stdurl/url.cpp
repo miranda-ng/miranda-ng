@@ -49,11 +49,11 @@ static int UrlEventAdded(WPARAM wParam, LPARAM lParam)
 	SkinPlaySound("RecvUrl");
 
 	TCHAR szTooltip[256];
-	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName((HANDLE)wParam, 0));
+	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName((HCONTACT)wParam, 0));
 
 	CLISTEVENT cle = { sizeof(cle) };
 	cle.flags = CLEF_TCHAR;
-	cle.hContact = (HANDLE)wParam;
+	cle.hContact = (HCONTACT)wParam;
 	cle.hDbEvent = (HANDLE)lParam;
 	cle.hIcon = LoadSkinIcon(SKINICON_EVENT_URL);
 	cle.pszService = "SRUrl/ReadUrl";
@@ -75,7 +75,7 @@ static void RestoreUnreadUrlAlerts(void)
 	cle.pszService = "SRUrl/ReadUrl";
 	cle.flags = CLEF_TCHAR;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
@@ -97,7 +97,7 @@ static void RestoreUnreadUrlAlerts(void)
 static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	char *szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HCONTACT)wParam);
 	if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto)))
 		return 0;
 
@@ -108,7 +108,7 @@ static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 static int SRUrlPreBuildMenu(WPARAM wParam, LPARAM)
 {
 	bool bEnabled = false;
-	char *szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HCONTACT)wParam);
 	if (szProto != NULL)
 		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_URLSEND)
 			bEnabled = true;
@@ -147,7 +147,7 @@ static int SRUrlShutdown(WPARAM, LPARAM)
 
 int UrlContactDeleted(WPARAM wParam, LPARAM)
 {
-	HWND h = WindowList_Find(hUrlWindowList, (HANDLE)wParam);
+	HWND h = WindowList_Find(hUrlWindowList, (HCONTACT)wParam);
 	if (h)
 		SendMessage(h, WM_CLOSE, 0, 0);
 

@@ -37,7 +37,7 @@ protected:
 	SIZE frameSize;
 
 public:
-	GifAvatar(HANDLE hContact);
+	GifAvatar(HCONTACT hContact);
 	virtual ~GifAvatar();
 	virtual int activeFrameDelay();
 	virtual void draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *options);

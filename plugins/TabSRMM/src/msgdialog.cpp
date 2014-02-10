@@ -71,7 +71,7 @@ static void _clrMsgFilter(LPARAM lParam)
 	m->wParam = 0;
 }
 
-BOOL TSAPI IsUtfSendAvailable(HANDLE hContact)
+BOOL TSAPI IsUtfSendAvailable(HCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)

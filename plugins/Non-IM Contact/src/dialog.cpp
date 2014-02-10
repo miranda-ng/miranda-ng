@@ -239,7 +239,7 @@ static int CALLBACK PropSheetProc(HWND hwnd, UINT uMsg, LPARAM lParam)
 	return 0;
 }
 
-void DoPropertySheet(HANDLE hContact, HINSTANCE hInst)
+void DoPropertySheet(HCONTACT hContact, HINSTANCE hInst)
 {
 	char title[256], nick[256];
 	PROPSHEETPAGEA psp[4] = { 0 };
@@ -307,7 +307,7 @@ void DoPropertySheet(HANDLE hContact, HINSTANCE hInst)
 INT_PTR addContact(WPARAM wParam,LPARAM lParam) 
 {
 	char tmp[256];
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
+	HCONTACT hContact = (HCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)MODNAME);
 	CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_USERONLINE);
 	db_set_ts(hContact, MODNAME, "Nick", TranslateT("New Non-IM Contact"));
@@ -320,10 +320,10 @@ INT_PTR addContact(WPARAM wParam,LPARAM lParam)
 
 INT_PTR editContact(WPARAM wParam,LPARAM lParam) 
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	char tmp[256];
 	if (!hContact) {
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)MODNAME);
 		CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_USERONLINE);
 		db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));

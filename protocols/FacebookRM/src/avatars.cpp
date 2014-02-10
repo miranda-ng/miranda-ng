@@ -48,7 +48,7 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *
 	return false;
 }
 
-void FacebookProto::CheckAvatarChange(HANDLE hContact, std::string image_url)
+void FacebookProto::CheckAvatarChange(HCONTACT hContact, std::string image_url)
 {
 	// Facebook contacts always have some avatar - keep avatar in database even if we have loaded empty one (e.g. for 'On Mobile' contacts)
 	if (image_url.empty())

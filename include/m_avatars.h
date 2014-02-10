@@ -56,6 +56,8 @@ unless AF_FETCHIFPROTONOTVISIBLE is set.
 #ifndef _M_AVATARS_H
 #define _M_AVATARS_H
 
+#include <m_core.h>
+
 #define AVS_BITMAP_VALID 1
 #define AVS_BITMAP_EXPIRED 2        // the bitmap has been expired from the cache. (unused, currently.
 #define AVS_HIDEONCLIST 4
@@ -65,20 +67,20 @@ unless AF_FETCHIFPROTONOTVISIBLE is set.
 #define AVS_PROTOPIC 16             // picture is a protocol picture
 #define AVS_CUSTOMTRANSPBKG 32      // Bitmap was changed to set the background color transparent
 #define AVS_HASTRANSPARENCY 64      // Bitmap has at least one pixel transparent
-#define AVS_OWNAVATAR 128			// is own avatar entry
+#define AVS_OWNAVATAR 128           // is own avatar entry
 #define AVS_NOTREADY  4096
 
 typedef struct avatarCacheEntry {
-	DWORD cbSize;                   // set to sizeof(struct)
-	HANDLE hContact;                // contacts handle, 0, if it is a protocol avatar
-	HBITMAP hbmPic;                 // bitmap handle of the picutre itself
-	DWORD dwFlags;                  // see above for flag values
-	LONG bmHeight, bmWidth;         // bitmap dimensions
-	DWORD t_lastAccess;             // last access time (currently unused, but plugins should still
+	DWORD cbSize;                    // set to sizeof(struct)
+	HCONTACT hContact;               // contacts handle, 0, if it is a protocol avatar
+	HBITMAP hbmPic;                  // bitmap handle of the picutre itself
+	DWORD dwFlags;                   // see above for flag values
+	LONG bmHeight, bmWidth;          // bitmap dimensions
+	DWORD t_lastAccess;              // last access time (currently unused, but plugins should still
                                     // use it whenever they access the avatar. may be used in the future
-	                                // to implement cache expiration
-	LPVOID lpDIBSection;			// unused field
-	TCHAR szFilename[MAX_PATH];		// filename of the avatar (absolute path)
+	                                 // to implement cache expiration
+	LPVOID lpDIBSection;             // unused field
+	TCHAR szFilename[MAX_PATH];      // filename of the avatar (absolute path)
 } AVATARCACHEENTRY;
 
 #define AVDRQ_FALLBACKPROTO            0x0001        // use the protocol picture as fallback (currently not used)

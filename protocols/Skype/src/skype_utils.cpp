@@ -243,7 +243,7 @@ void CSkypeProto::InitLanguages()
 
 // ---
 
-int CSkypeProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
+int CSkypeProto::SendBroadcast(HCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
 	return ::ProtoBroadcastAck(this->m_szModuleName, hContact, type, result, hProcess, lParam);
 }
@@ -285,7 +285,7 @@ int CSkypeProto::SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason)
 	return loginError;
 }
 
-void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, HANDLE hContact)
+void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, HCONTACT hContact)
 {
 	if (::Miranda_Terminated()) return;
 
@@ -305,7 +305,7 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 	::MessageBoxW(NULL, message, caption, MB_OK | flags);
 }
 
-void CSkypeProto::ShowNotification(const wchar_t *message, int flags, HANDLE hContact)
+void CSkypeProto::ShowNotification(const wchar_t *message, int flags, HCONTACT hContact)
 {
 	CSkypeProto::ShowNotification(::TranslateT(MODULE), message, flags, hContact);
 }

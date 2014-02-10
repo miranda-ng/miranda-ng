@@ -67,7 +67,7 @@ INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam);
 INT_PTR GetOverrideContactOption(WPARAM wParam,LPARAM lParam);
 INT_PTR GetUnknownText(WPARAM wParam,LPARAM lParam);
 INT_PTR SetNewSong(WPARAM wParam,LPARAM lParam);
-void    SetExtraIcon(HANDLE hContact, BOOL set);
+void    SetExtraIcon(HCONTACT hContact, BOOL set);
 void    SetListeningInfos(LISTENINGTOINFO *lti = NULL);
 INT_PTR HotkeysEnable(WPARAM wParam,LPARAM lParam);
 INT_PTR HotkeysDisable(WPARAM wParam,LPARAM lParam);
@@ -288,7 +288,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register(MODULE_NAME, LPGEN("Listening to music"), "listening_to_icon");
 	
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
 		if (proto != NULL) {
 			DBVARIANT dbv;
@@ -947,14 +947,14 @@ void HasNewListeningInfo()
 }
 
 
-void SetExtraIcon(HANDLE hContact, BOOL set)
+void SetExtraIcon(HCONTACT hContact, BOOL set)
 {
 	ExtraIcon_SetIcon(hExtraIcon, hContact, set ? "listening_to_icon" : NULL);
 }
 
 int SettingChanged(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE) wParam;
+	HCONTACT hContact = (HCONTACT) wParam;
 	if (hContact == NULL)
 		return 0;
 

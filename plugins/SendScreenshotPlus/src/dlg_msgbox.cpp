@@ -691,7 +691,7 @@ LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 /**
  * This is the service function for external plugins to use the nice messagebox
  *
- * @param	wParam		- HANDLE hContact which can display an avatar for popups
+ * @param	wParam		- HCONTACT hContact which can display an avatar for popups
  * @param	lParam		- MSGBOX structure holding parameters
  *
  * @return	The function returns the ID of the clicked button (IDOK, IDCANCEL, ...)

@@ -54,16 +54,16 @@ void DeInitPopups();
 #define POPUP_TYPE_ERROR	2
 
 // Show an popup
-void ShowPopup(HANDLE hContact, const TCHAR *title, const TCHAR *description);
-void ShowDebugPopup(HANDLE hContact, const TCHAR *title, const TCHAR *description);
+void ShowPopup(HCONTACT hContact, const TCHAR *title, const TCHAR *description);
+void ShowDebugPopup(HCONTACT hContact, const TCHAR *title, const TCHAR *description);
 
 // Show an test
-void ShowTestPopup(HANDLE hContact,const TCHAR *title, const TCHAR *description, const Options *op);
+void ShowTestPopup(HCONTACT hContact,const TCHAR *title, const TCHAR *description, const Options *op);
 
 // Show an error popup
 void ShowErrPopup(const char *description, const char *title = NULL);
 
-void ShowPopupEx(HANDLE hContact, const TCHAR *title, const TCHAR *description, 
+void ShowPopupEx(HCONTACT hContact, const TCHAR *title, const TCHAR *description, 
 			   void *plugin_data, int type, const Options *op);
 
 

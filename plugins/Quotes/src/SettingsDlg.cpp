@@ -126,10 +126,10 @@ namespace
 
 	struct CSettingWindowParam
 	{
-		CSettingWindowParam(HANDLE hContact) : m_hContact(hContact),m_pPopupSettings(NULL){}
+		CSettingWindowParam(HCONTACT hContact) : m_hContact(hContact),m_pPopupSettings(NULL){}
 		~CSettingWindowParam(){delete m_pPopupSettings;}
 
-		HANDLE m_hContact;
+		HCONTACT m_hContact;
 		CPopupSettings* m_pPopupSettings;
 	};
 
@@ -268,7 +268,7 @@ namespace
 		{
 		case WM_INITDIALOG:
 			{
-				HANDLE hContact = reinterpret_cast<HANDLE>(lp);
+				HCONTACT hContact = reinterpret_cast<HCONTACT>(lp);
 				TranslateDialogDefault(hWnd);
 
 				HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS,false);
@@ -393,7 +393,7 @@ namespace
 			case IDOK:
 				{
 					CSettingWindowParam* pParam =  get_param(hWnd);
-					HANDLE hContact = pParam->m_hContact;
+					HCONTACT hContact = pParam->m_hContact;
 
 					bool bUseContactSpec = 1 == ::IsDlgButtonChecked(hWnd,IDC_CHECK_CONTACT_SPECIFIC);
 
@@ -507,7 +507,7 @@ namespace
 }
 
 
-void ShowSettingsDlg(HANDLE hContact)
+void ShowSettingsDlg(HCONTACT hContact)
 {
 	HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS,true);
 	assert(hWL);
@@ -933,7 +933,7 @@ COLORREF CPopupSettings::GetDefColourText()
 	return ::GetSysColor(COLOR_BTNTEXT);
 }
 
-void CPopupSettings::InitForContact(HANDLE hContact)
+void CPopupSettings::InitForContact(HCONTACT hContact)
 {
 	BYTE m = db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_MODE,static_cast<BYTE>(m_modeColour));
 	if(m >= CPopupSettings::colourDefault && m <= CPopupSettings::colourUserDefined)
@@ -953,7 +953,7 @@ void CPopupSettings::InitForContact(HANDLE hContact)
 	m_bUseHistory = 1 == db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_HISTORY_FLAG,m_bUseHistory);
 }
 
-void CPopupSettings::SaveForContact(HANDLE hContact)const
+void CPopupSettings::SaveForContact(HCONTACT hContact)const
 {
 	db_set_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_MODE,static_cast<BYTE>(m_modeColour));
 	db_set_dw(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_BK,m_rgbBkg);
@@ -1088,7 +1088,7 @@ tstring GenerateLogFileName(const tstring& rsLogFilePattern,
 	return sPath;
 }
 
-tstring GetContactLogFileName(HANDLE hContact)
+tstring GetContactLogFileName(HCONTACT hContact)
 {
 	tstring result;
 
@@ -1113,7 +1113,7 @@ tstring GetContactLogFileName(HANDLE hContact)
 	return result;
 }
 
-tstring GetContactName(HANDLE hContact)
+tstring GetContactName(HCONTACT hContact)
 {
 	tstring sDescription = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_DESCRIPTION);
 	if(sDescription.empty())

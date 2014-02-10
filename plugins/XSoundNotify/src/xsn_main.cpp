@@ -113,9 +113,9 @@ static int ProcessEvent(WPARAM wParam, LPARAM lParam)
 	if (!isReceiveMessage(HANDLE(lParam)))
 		return 0;
 
-	isIgnoreSound = db_get_b((HANDLE)wParam, SETTINGSNAME, SETTINGSIGNOREKEY, 0);
+	isIgnoreSound = db_get_b((HCONTACT)wParam, SETTINGSNAME, SETTINGSIGNOREKEY, 0);
 	DBVARIANT dbv;
-	if ( !isIgnoreSound && !db_get_ts((HANDLE)wParam, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+	if ( !isIgnoreSound && !db_get_ts((HCONTACT)wParam, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 		TCHAR PlaySoundPath[MAX_PATH] = {0};
 		PathToAbsoluteT(dbv.ptszVal, PlaySoundPath);
 		SkinPlaySoundFile(PlaySoundPath);
@@ -154,7 +154,7 @@ static int OnLoadInit(WPARAM wParam, LPARAM lParam)
 
 static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact) {
 		char* szProto = GetContactProto(hContact);
 		PROTOACCOUNT *pa = ProtoGetAccount(szProto);

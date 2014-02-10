@@ -93,7 +93,7 @@ static int CompareBookmarks( const void* p1, const void* p2 )
 	return (BYTE*)((BEventData*)p1)->hDBEvent - (BYTE*)((BEventData*)p2)->hDBEvent;
 }
 
-static void GetBookmarks(HANDLE hContact, BEventData** books, size_t* bookcnt )
+static void GetBookmarks(HCONTACT hContact, BEventData** books, size_t* bookcnt )
 {
 	*books = NULL;
 	*bookcnt = 0;
@@ -132,7 +132,7 @@ static void GetBookmarks(HANDLE hContact, BEventData** books, size_t* bookcnt )
 }
 
 //Sweep history from specified contact
-void SweepHistoryFromContact(HANDLE hContact, CriteriaStruct Criteria, BOOL keepUnread)
+void SweepHistoryFromContact(HCONTACT hContact, CriteriaStruct Criteria, BOOL keepUnread)
 {
 	int lPolicy;	
 	if (hContact == NULL)			// for system history
@@ -209,7 +209,7 @@ void ShutdownAction(void)
 
 	SweepHistoryFromContact(NULL, Criteria, FALSE);				// sweep system history, keepunread==0
 	
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		SweepHistoryFromContact(hContact, Criteria, TRUE);		// sweep contact history, keepunread==1
 }
 

@@ -4,4 +4,4 @@
 #include "getbuddyinfo.h"
 #include "buddyinfo.h"
 
-void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HANDLE hcontact,char* username);
+void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, HCONTACT hcontact,char* username);

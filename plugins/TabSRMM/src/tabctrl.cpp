@@ -972,7 +972,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	TabControlData *tabdat = (TabControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (tabdat) {
 		if (tabdat->pContainer == NULL)
-			tabdat->pContainer = (TContainerData *)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
+			tabdat->pContainer = (TContainerData*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 		tabdat->dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 	}
 

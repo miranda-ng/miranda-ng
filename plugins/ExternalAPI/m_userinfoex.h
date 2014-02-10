@@ -335,7 +335,7 @@ This service returns one of the results of MS_DB_CONTACT_GETSETTING_STR!
 
 static FORCEINLINE INT_PTR
 	DBGetContactSettingEx_Helper(
-		HANDLE hContact,
+		HCONTACT hContact,
 		const char* pszProto,
 		const char* pszSetting,
 		DBVARIANT *dbv,

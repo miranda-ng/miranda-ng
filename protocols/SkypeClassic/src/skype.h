@@ -140,7 +140,7 @@ int ShowMessageA(int iconID, char *lpzText, int mustShow);
 #define ShowMessageA ShowMessage
 #endif
 void EndCallThread(char *);
-void GetInfoThread(HANDLE);
+void GetInfoThread(void *);
 int OnDetailsInit( WPARAM, LPARAM );
 INT_PTR SkypeGetAvatarInfo(WPARAM wParam,LPARAM lParam);
 INT_PTR SkypeGetAvatarCaps(WPARAM wParam,LPARAM lParam);
@@ -172,7 +172,7 @@ int __stdcall EnterBitmapFileName( char* szDest );
 void CleanupNicknames(char *dummy);
 int InitVSApi();
 int FreeVSApi();
-HANDLE GetMetaHandle(DWORD dwId);
+HCONTACT GetMetaHandle(DWORD dwId);
 void LaunchSkypeAndSetStatusThread(void *newStatus);
 
 // Structs

@@ -79,7 +79,7 @@ static TCHAR *StrNormNewline(TCHAR *tszStr)
 
 struct AwayMsgDlgData
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	HANDLE hSeq;
 	HANDLE hAwayMsgEvent;
 };
@@ -97,7 +97,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			dat = (AwayMsgDlgData*)mir_alloc(sizeof(AwayMsgDlgData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
-			dat->hContact = (HANDLE)lParam;
+			dat->hContact = (HCONTACT)lParam;
 			dat->hSeq = (HANDLE)CallContactService(dat->hContact, PSS_GETAWAYMSG, 0, 0);
 			dat->hAwayMsgEvent = dat->hSeq ? HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_AWAYMSG) : NULL;
 			WindowList_Add(hWindowList, hwndDlg, dat->hContact);
@@ -126,7 +126,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 				SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedProtoIcon(szProto, dwStatus));
 				EnableWindow(GetDlgItem(hwndDlg, IDC_COPY), FALSE);
 			}
-			Utils_RestoreWindowPosition(hwndDlg, (HANDLE)lParam, "SRAway", "AwayMsgDlg");
+			Utils_RestoreWindowPosition(hwndDlg, (HCONTACT)lParam, "SRAway", "AwayMsgDlg");
 			return TRUE;
 
 		case HM_AWAYMSG:
@@ -203,7 +203,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 
 static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 {
-	if (HWND hwnd = WindowList_Find(hWindowList, (HANDLE)wParam))
+	if (HWND hwnd = WindowList_Find(hWindowList, (HCONTACT)wParam))
 	{
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
@@ -227,7 +227,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			dat = (AwayMsgDlgData*)mir_alloc(sizeof(AwayMsgDlgData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
-			dat->hContact = (HANDLE)lParam;
+			dat->hContact = (HCONTACT)lParam;
 			dat->hSeq = (HANDLE)CallContactService(dat->hContact, PSS_GETAWAYMSG, 0, 0);
 			dat->hAwayMsgEvent = dat->hSeq ? HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_AWAYMSG) : NULL;
 			WindowList_Add(hWindowList2, hwndDlg, dat->hContact);
@@ -301,7 +301,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 
 static INT_PTR CopyAwayMsgCommand(WPARAM wParam, LPARAM)
 {
-	if (HWND hwnd = WindowList_Find(hWindowList2, (HANDLE)wParam))
+	if (HWND hwnd = WindowList_Find(hWindowList2, (HCONTACT)wParam))
 	{
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
@@ -330,7 +330,7 @@ static char *StrFindURL(char *pszStr)
 
 static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 {
-	ptrA szMsg(db_get_sa((HANDLE)wParam, "CList", "StatusMsg"));
+	ptrA szMsg(db_get_sa((HCONTACT)wParam, "CList", "StatusMsg"));
 
 	char *szURL = StrFindURL(szMsg);
 	if (szURL != NULL)
@@ -354,8 +354,8 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR str[128];
-	char *szProto = GetContactProto((HANDLE)wParam);
-	int iHidden = szProto ? db_get_b((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
+	char *szProto = GetContactProto((HCONTACT)wParam);
+	int iHidden = szProto ? db_get_b((HCONTACT)wParam, szProto, "ChatRoom", 0) : 0;
 	int iStatus;
 
 	CLISTMENUITEM clmi = { sizeof(clmi) };
@@ -363,7 +363,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 	if (!iHidden) {
 		iHidden = 1;
-		iStatus = db_get_w((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
+		iStatus = db_get_w((HCONTACT)wParam, szProto, "Status", ID_STATUS_OFFLINE);
 		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1,0) & PF1_MODEMSGRECV) {
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3,0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus)) {
 				iHidden = 0;
@@ -377,7 +377,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 	Menu_ModifyItem(hAwayMsgMenuItem, &clmi);
 	Skin_ReleaseIcon(clmi.hIcon);
 
-	ptrA szMsg(db_get_sa((HANDLE)wParam, "CList", "StatusMsg"));
+	ptrA szMsg(db_get_sa((HCONTACT)wParam, "CList", "StatusMsg"));
 
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 	if (!iHidden && szMsg != NULL) {

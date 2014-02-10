@@ -3,7 +3,7 @@
 
 DWORD	RecvSMSWindowInitialize		();
 void	RecvSMSWindowDestroy		();
-HWND	RecvSMSWindowAdd			(HANDLE hContact,DWORD dwEventType,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,LPSTR lpszMessage,SIZE_T dwMessageSize);
+HWND	RecvSMSWindowAdd			(HCONTACT hContact,DWORD dwEventType,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,LPSTR lpszMessage,SIZE_T dwMessageSize);
 void	RecvSMSWindowRemove			(HWND hWndDlg);
 
 

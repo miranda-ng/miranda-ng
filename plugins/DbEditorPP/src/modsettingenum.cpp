@@ -56,7 +56,7 @@ int enumSettingsProc(const char *szSetting, LPARAM lParam)
 	return enumModulesSettingsProc(szSetting, 0, lParam);
 }
 
-int EnumSettings(HANDLE hContact, char* module, ModuleSettingLL *msll)
+int EnumSettings(HCONTACT hContact, char* module, ModuleSettingLL *msll)
 {
 	DBCONTACTENUMSETTINGS dbces;
 	// enum all setting the contact has for the module
@@ -73,7 +73,7 @@ int CheckIfModuleIsEmptyProc(const char *szSetting, LPARAM lParam)
 	return 1;
 }
 
-int IsModuleEmpty(HANDLE hContact, char* szModule)
+int IsModuleEmpty(HCONTACT hContact, char* szModule)
 {
 	DBCONTACTENUMSETTINGS dbces;
 	dbces.pfnEnumProc = CheckIfModuleIsEmptyProc;

@@ -633,7 +633,7 @@ void OptionsType::WriteCustomCategories(const CMString& cats)
 }
 
 
-void OptionsType::ReadContactCategory(HANDLE hContact, CMString& cats)
+void OptionsType::ReadContactCategory(HCONTACT hContact, CMString& cats)
 {
 	DBVARIANT dbv;
 	INT_PTR res = db_get_ts(hContact, "SmileyAdd", "CustomCategory", &dbv);
@@ -644,7 +644,7 @@ void OptionsType::ReadContactCategory(HANDLE hContact, CMString& cats)
 }
 
 
-void OptionsType::WriteContactCategory(HANDLE hContact, const CMString& cats)
+void OptionsType::WriteContactCategory(HCONTACT hContact, const CMString& cats)
 {
 	if (cats.IsEmpty())
 		db_unset(hContact, "SmileyAdd", "CustomCategory");

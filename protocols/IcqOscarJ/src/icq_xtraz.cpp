@@ -35,7 +35,7 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 	char *szNotify = strstrnull(szMsg, "<NOTIFY>");
 	char *szQuery = strstrnull(szMsg, "<QUERY>");
 
-	HANDLE hContact = HContactFromUIN(dwUin, NULL);
+	HCONTACT hContact = HContactFromUIN(dwUin, NULL);
 	if (hContact) // user sent us xtraz, he supports it
 		SetContactCapabilities(hContact, CAPF_XTRAZ);
 
@@ -174,7 +174,7 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 }
 
 
-void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, HANDLE hContact, WORD wCookie, char* szMsg, int nMsgLen)
+void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, HCONTACT hContact, WORD wCookie, char* szMsg, int nMsgLen)
 {
 	char *szMem, *szRes, *szEnd;
 	int nResLen;
@@ -294,7 +294,7 @@ static char* getXmlPidItem(const char* szData, int nLen)
 
 void CIcqProto::handleXtrazInvitation(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, int nMsgLen, BOOL bThruDC)
 {
-	HANDLE hContact = HContactFromUIN(dwUin, NULL);
+	HCONTACT hContact = HContactFromUIN(dwUin, NULL);
 	if (hContact) // user sent us xtraz, he supports it
 		SetContactCapabilities(hContact, CAPF_XTRAZ);
 
@@ -310,7 +310,7 @@ void CIcqProto::handleXtrazInvitation(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WO
 
 void CIcqProto::handleXtrazData(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, int nMsgLen, BOOL bThruDC)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	char* szPluginID;
 
 	hContact = HContactFromUIN(dwUin, NULL);
@@ -367,7 +367,7 @@ void CIcqProto::handleXtrazData(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCo
 
 
 // Functions really sending Xtraz stuff
-DWORD CIcqProto::SendXtrazNotifyRequest(HANDLE hContact, char* szQuery, char* szNotify, int bForced)
+DWORD CIcqProto::SendXtrazNotifyRequest(HCONTACT hContact, char* szQuery, char* szNotify, int bForced)
 {
 	char *szQueryBody;
 	char *szNotifyBody;
@@ -409,7 +409,7 @@ void CIcqProto::SendXtrazNotifyResponse(DWORD dwUin, DWORD dwMID, DWORD dwMID2, 
 	char *szResBody = MangleXml(szResponse, nResponseLen);
 	int nBodyLen = strlennull(szResBody) + 21;
 	char *szBody = (char*)_alloca(nBodyLen);
-	HANDLE hContact = HContactFromUIN(dwUin, NULL);
+	HCONTACT hContact = HContactFromUIN(dwUin, NULL);
 
 	if (hContact != INVALID_HANDLE_VALUE && !CheckContactCapabilities(hContact, CAPF_XTRAZ)) {
 		SAFE_FREE(&szResBody);

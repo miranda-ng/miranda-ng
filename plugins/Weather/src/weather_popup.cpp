@@ -36,26 +36,17 @@ int WeatherPopup(WPARAM wParam, LPARAM lParam)
 {
 	// determine if the popup should display or not
 	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) &&
-	      !db_get_b((HANDLE)wParam, WEATHERPROTONAME, "DPopUp", 0)) 
+		!db_get_b((HCONTACT)wParam, WEATHERPROTONAME, "DPopUp", 0))
 	{
-		POPUPDATAT ppd = {0};
-		WEATHERINFO winfo;
+		WEATHERINFO winfo = LoadWeatherInfo((HCONTACT)wParam);
 
-	    // setup the popup
-		ppd.lchContact = (HANDLE)wParam;
-//		if ((HANDLE)wParam != NULL) {	// for actual contact
-			winfo = LoadWeatherInfo((HANDLE)wParam);
-			ppd.PluginData = ppd.lchIcon = LoadSkinnedProtoIcon(WEATHERPROTONAME, winfo.status);
-			GetDisplay(&winfo, opt.pTitle, ppd.lptzContactName);
-			GetDisplay(&winfo, opt.pText, ppd.lptzText);
-			ppd.PluginWindowProc = PopupDlgProc;
-//		}
-//		else {	// for preview
-//			ppd.lchIcon = LoadSkinnedProtoIcon(WEATHERPROTONAME, ONLINE);
-//			strcpy(ppd.lpzContactName, Translate("This is the name of the city"));
-//			strcpy(ppd.lpzText, Translate("Here is a short weather description"));
-//			ppd.PluginWindowProc = NULL;
-//		}
+		// setup the popup
+		POPUPDATAT ppd = { 0 };
+		ppd.lchContact = (HCONTACT)wParam;
+		ppd.PluginData = ppd.lchIcon = LoadSkinnedProtoIcon(WEATHERPROTONAME, winfo.status);
+		GetDisplay(&winfo, opt.pTitle, ppd.lptzContactName);
+		GetDisplay(&winfo, opt.pText, ppd.lptzText);
+		ppd.PluginWindowProc = PopupDlgProc;
 		ppd.colorBack = (opt.UseWinColors)?GetSysColor(COLOR_BTNFACE):opt.BGColour;
 		ppd.colorText = (opt.UseWinColors)?GetSysColor(COLOR_WINDOWTEXT):opt.TextColour;
 		ppd.iSeconds = opt.pDelay;
@@ -129,7 +120,7 @@ int WPShowMessage(TCHAR* lpzText, WORD kind)
 LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 {
 	DWORD ID = 0;
-	HANDLE hContact;
+	HCONTACT hContact;
 	hContact = PUGetContact(hWnd);
 
 	switch(message) {
@@ -257,7 +248,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	HMENU hMenu, hMenu1;
 	RECT pos;
 	HWND button;
-	HANDLE hContact;
+	HCONTACT hContact;
 
 	switch (msg) {
 	case WM_INITDIALOG:

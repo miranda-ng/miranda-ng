@@ -764,7 +764,7 @@ void TfrmMain::SaveOptions(void) {
 }
 
 //---------------------------------------------------------------------------
-void TfrmMain::Init(LPTSTR DestFolder, HANDLE Contact) {
+void TfrmMain::Init(LPTSTR DestFolder, HCONTACT Contact) {
 	m_FDestFolder = mir_tstrdup(DestFolder);
 	m_hContact = Contact;
 	if(!m_hContact) m_opt_cboxSendBy = SS_JUSTSAVE;
@@ -775,7 +775,8 @@ void TfrmMain::Init(LPTSTR DestFolder, HANDLE Contact) {
 	_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
 
 	//check Contact
-	if(m_cSend) m_cSend->SetContact(Contact);
+	if(m_cSend)
+		m_cSend->SetContact(Contact);
 }
 
 //---------------------------------------------------------------------------

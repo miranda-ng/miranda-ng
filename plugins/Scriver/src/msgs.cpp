@@ -27,7 +27,7 @@ HCURSOR  hCurSplitNS, hCurSplitWE, hCurHyperlinkHand, hDragCursor;
 HANDLE   hHookWinEvt, hHookWinPopup, hHookWinWrite;
 HGENMENU hMsgMenuItem;
 
-extern HWND GetParentWindow(HANDLE hContact, BOOL bChat);
+extern HWND GetParentWindow(HCONTACT hContact, BOOL bChat);
 
 #define EVENTTYPE_SCRIVER 2010
 #define SCRIVER_DB_GETEVENTTEXT "Scriver/GetText"
@@ -59,11 +59,11 @@ static int SRMMStatusToPf2(int status)
 	return 0;
 }
 
-int IsAutoPopup(HANDLE hContact) {
+int IsAutoPopup(HCONTACT hContact) {
 	if (g_dat.flags & SMF_AUTOPOPUP) {
 		char *szProto = GetContactProto(hContact);
 		if (strcmp(szProto, "MetaContacts") == 0 ) {
-			hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hContact, 0);
+			hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 			if (hContact != NULL)
 				szProto = GetContactProto(hContact);
 		}
@@ -96,7 +96,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
 		return 0;
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam);
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HCONTACT)wParam);
 	if (hwnd)
 		SendMessage(hwnd, HM_DBEVENTADDED, wParam, lParam);
 
@@ -108,9 +108,9 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	if (hwnd == NULL) {
 		/* new message */
 		SkinPlaySound("AlertMsg");
-		if (IsAutoPopup((HANDLE)wParam)) {
+		if (IsAutoPopup((HCONTACT)wParam)) {
 			NewMessageWindowLParam newData = { 0 };
-			newData.hContact = (HANDLE)wParam;
+			newData.hContact = (HCONTACT)wParam;
 			HWND hParent = GetParentWindow(newData.hContact, FALSE);
 			newData.flags = NMWLP_INCOMING;
 			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)&newData);
@@ -123,7 +123,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 
 		CLISTEVENT cle = { sizeof(cle) };
 		cle.flags = CLEF_TCHAR;
-		cle.hContact = (HANDLE)wParam;
+		cle.hContact = (HCONTACT)wParam;
 		cle.hDbEvent = (HANDLE)lParam;
 		cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 		cle.pszService = "SRMsg/ReadMessage";
@@ -137,14 +137,14 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 static INT_PTR SendMessageCommandW(WPARAM wParam, LPARAM lParam)
 {
    /* does the HCONTACT's protocol support IM messages? */
-   char *szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HCONTACT)wParam);
    if (szProto == NULL)
       return 1; /* unknown contact */
 
 	if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 		return 1;
 
-   HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam);
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HCONTACT)wParam);
 	if (hwnd != NULL) {
 		if (lParam) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
@@ -155,7 +155,7 @@ static INT_PTR SendMessageCommandW(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		NewMessageWindowLParam newData = { 0 };
-		newData.hContact = (HANDLE)wParam;
+		newData.hContact = (HCONTACT)wParam;
 		newData.szInitialText = (const char *) lParam;
 		newData.isWchar = 1;
 		HWND hParent = GetParentWindow(newData.hContact, FALSE);
@@ -166,7 +166,7 @@ static INT_PTR SendMessageCommandW(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 {
-	char *szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HCONTACT)wParam);
 	//logInfo("Show message window for: %s (%s)", CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, 0), szProto);
 	if (szProto) {
 		/* does the HCONTACT's protocol support IM messages? */
@@ -176,7 +176,7 @@ static INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 	else /* unknown contact */
 		return 1;
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam);
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HCONTACT)wParam);
 	if (hwnd != NULL) {
 		if (lParam) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
@@ -187,7 +187,7 @@ static INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		NewMessageWindowLParam newData = { 0 };
-		newData.hContact = (HANDLE)wParam;
+		newData.hContact = (HCONTACT)wParam;
 		newData.szInitialText = (const char *)lParam;
 		HWND hParent = GetParentWindow(newData.hContact, FALSE);
 		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)& newData);
@@ -210,7 +210,7 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 
 	SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam);
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HCONTACT)wParam);
 	if (hwnd)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 	else if (lParam && (g_dat.flags2 & SMF2_SHOWTYPINGTRAY)) {
@@ -231,7 +231,7 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 			CLISTEVENT cle =  {0};
 
 			cle.cbSize = sizeof(cle);
-			cle.hContact = (HANDLE)wParam;
+			cle.hContact = (HCONTACT)wParam;
 			cle.hDbEvent = (HANDLE)1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 			cle.hIcon = GetCachedIcon("scriver_TYPING");
@@ -247,7 +247,7 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-	char *szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HCONTACT)wParam);
 	if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto)))
 		return 0;
 	WindowList_Broadcast(g_dat.hMessageWindowList, DM_CLISTSETTINGSCHANGED, wParam, lParam);
@@ -257,10 +257,8 @@ static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 static int ContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd;
-
-	if ((hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam))) {
+	if ((hwnd = WindowList_Find(g_dat.hMessageWindowList, (HCONTACT)wParam)))
 		SendMessage(hwnd, WM_CLOSE, 0, 0);
-	}
 	return 0;
 }
 
@@ -276,7 +274,7 @@ static void RestoreUnreadMessageAlerts(void)
 	cle.flags = CLEF_TCHAR;
 	cle.ptszTooltip = toolTip;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
 			dbei.cbBlob = 0;
@@ -340,9 +338,9 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam);
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HCONTACT)wParam);
 	if (hwnd == NULL)
-		hwnd = SM_FindWindowByContact((HANDLE)wParam);
+		hwnd = SM_FindWindowByContact((HCONTACT)wParam);
 	if (hwnd == NULL)
 		return 1;
 
@@ -356,7 +354,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 
 static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact == 0)
 		return 0;
 
@@ -378,7 +376,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 	if (wParam == 0)          // protocol picture has changed...
 		WindowList_Broadcast(g_dat.hMessageWindowList, DM_AVATARCHANGED, wParam, lParam);
 	else {
-		HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam);
+		HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HCONTACT)wParam);
 		SendMessage(hwnd, DM_AVATARCHANGED, wParam, lParam);
 	}
 	return 0;
@@ -409,9 +407,9 @@ void ChangeStatusIcons()
 int StatusIconPressed(WPARAM wParam, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *) lParam;
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam);
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HCONTACT)wParam);
 	if (hwnd == NULL)
-		hwnd = SM_FindWindowByContact((HANDLE)wParam);
+		hwnd = SM_FindWindowByContact((HCONTACT)wParam);
 
 	if (hwnd != NULL) {
 		if (!strcmp(SRMMMOD, sicd->szModule)) {

@@ -42,11 +42,11 @@ class CAnnivEditCtrl : public CBaseCtrl
 	BYTE ItemValid(WORD wIndex) const;
 	BYTE CurrentItemValid() const;
 
-	INT_PTR DBGetBirthDay(HANDLE hContact, LPCSTR pszProto);
-	INT_PTR DBWriteBirthDay(HANDLE hContact);
+	INT_PTR DBGetBirthDay(HCONTACT hContact, LPCSTR pszProto);
+	INT_PTR DBWriteBirthDay(HCONTACT hContact);
 
-	INT_PTR DBGetAnniversaries(HANDLE hContact);
-	INT_PTR DBWriteAnniversaries(HANDLE hContact);
+	INT_PTR DBGetAnniversaries(HCONTACT hContact);
+	INT_PTR DBWriteAnniversaries(HCONTACT hContact);
 
 	CAnnivEditCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszSetting);
 	~CAnnivEditCtrl();
@@ -87,8 +87,8 @@ public:
 	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting);
 
 	virtual void	Release();
-	virtual BOOL	OnInfoChanged(HANDLE hContact, LPCSTR pszProto);
-	virtual void	OnApply(HANDLE hContact, LPCSTR pszProto);
+	virtual BOOL	OnInfoChanged(HCONTACT hContact, LPCSTR pszProto);
+	virtual void	OnApply(HCONTACT hContact, LPCSTR pszProto);
 };
 
 #endif /* _UINFOEX_CTRLANNIVEDIT_H_ */

@@ -39,7 +39,7 @@ bool g_eiEmail = false;
 * @retval	NULL, if contact does not provide any email address
 **/
 
-static LPSTR Get(HANDLE hContact)
+static LPSTR Get(HCONTACT hContact)
 {
 	// ignore owner
 	if (hContact != NULL) {
@@ -84,7 +84,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 
 	__try 
 	{
-		val = Get((HANDLE) wParam);
+		val = Get((HCONTACT)wParam);
 		if (val) {
 			LPSTR szUrl;
 			INT_PTR len;
@@ -126,8 +126,8 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 
 static int OnCListApplyIcons(WPARAM wParam, LPARAM lParam)
 {
-	LPSTR val = Get((HANDLE)wParam);
-	ExtraIcon_SetIcon(ghExtraIconSvc, (HANDLE)wParam, (val) ? ICO_BTN_EMAIL: 0);
+	LPSTR val = Get((HCONTACT)wParam);
+	ExtraIcon_SetIcon(ghExtraIconSvc, (HCONTACT)wParam, (val) ? ICO_BTN_EMAIL : 0);
 	mir_free(val);
 	return 0;
 }
@@ -139,7 +139,7 @@ static int OnCListApplyIcons(WPARAM wParam, LPARAM lParam)
 * @param	lParam			- (DBCONTACTWRITESETTING*)pdbcws
 **/
 
-static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
+static int OnContactSettingChanged(HCONTACT hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact && pdbcws && pdbcws->szSetting && 
 			((pdbcws->value.type & DBVTF_VARIABLELENGTH) || (pdbcws->value.type == DBVT_DELETED)) &&
@@ -163,7 +163,7 @@ static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
 
 static int OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
-	LPSTR val = Get((HANDLE)wParam);
+	LPSTR val = Get((HCONTACT)wParam);
 	Menu_ShowItem(ghMenuItem, val != NULL);
 	mir_free(val);
 	return 0;

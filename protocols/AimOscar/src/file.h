@@ -23,7 +23,7 @@ struct CAimProto;
 
 struct file_transfer
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	char* sn;
 
 	char icbm_cookie[8];
@@ -56,7 +56,7 @@ struct file_transfer
 	bool requester;
 	bool success;
 
-	file_transfer(HANDLE hCont, char* nick, char* cookie);
+	file_transfer(HCONTACT hCont, char* nick, char* cookie);
 	~file_transfer();
 
 	void listen(CAimProto* ppro);
@@ -68,8 +68,8 @@ struct ft_list_type : OBJLIST <file_transfer>
 {
 	ft_list_type();
 
-	file_transfer* find_by_handle(HANDLE hContact);
-	file_transfer* find_by_cookie(char* cookie, HANDLE hContact);
+	file_transfer* find_by_handle(HCONTACT hContact);
+	file_transfer* find_by_cookie(char* cookie, HCONTACT hContact);
 	file_transfer* find_by_port(unsigned short port);
 
 	bool find_by_ft(file_transfer *ft);

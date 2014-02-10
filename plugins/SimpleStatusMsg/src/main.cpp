@@ -384,7 +384,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 	return msg;
 }
 
-TCHAR *InsertVarsIntoMsg(TCHAR *tszMsg, const char *szProto, int iStatus, HANDLE hContact)
+TCHAR *InsertVarsIntoMsg(TCHAR *tszMsg, const char *szProto, int iStatus, HCONTACT hContact)
 {
 	if (ServiceExists(MS_VARS_FORMATSTRING) && db_get_b(NULL, "SimpleStatusMsg", "EnableVariables", 1))
 	{
@@ -523,7 +523,7 @@ void SaveStatusAsCurrent(const char *szProto, int iStatus)
 	db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)iStatus);
 }
 
-static TCHAR *GetAwayMessage(int iStatus, const char *szProto, BOOL bInsertVars, HANDLE hContact)
+static TCHAR *GetAwayMessage(int iStatus, const char *szProto, BOOL bInsertVars, HCONTACT hContact)
 {
 	TCHAR *format = NULL;
 	char szSetting[80];
@@ -1775,7 +1775,7 @@ static int OnICQStatusMsgRequest(WPARAM wParam, LPARAM lParam, LPARAM lMirParam)
 
 	char *szProto = (char *)lMirParam;
 	BOOL bContactFound = FALSE;
-	HANDLE hContact;
+	HCONTACT hContact;
 
 	for (hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto)) {
 		if (db_get_dw(hContact, szProto, "UIN", 0) == (DWORD)lParam) {

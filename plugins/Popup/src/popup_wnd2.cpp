@@ -744,7 +744,7 @@ void PopupWnd2::setIcon(HICON hNewIcon)
 
 void PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 {
-	m_hContact	= ppd->lchContact;
+	m_hContact = ppd->lchContact;
 
 	m_clBack	= ppd->colorBack;
 	m_clClock	= m_clTitle = m_clText = ppd->colorText;
@@ -774,11 +774,11 @@ void PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 
 void PopupWnd2::updateData(POPUPDATA2 *ppd)
 {
-	m_hContact	= ppd->lchContact;
+	m_hContact = ppd->lchContact;
 
 	m_clBack	= ppd->colorBack;
-	m_clClock	= m_clTitle = m_clText = ppd->colorText;
-	m_iTimeout	= ppd->iSeconds;
+	m_clClock = m_clTitle = m_clText = ppd->colorText;
+	m_iTimeout = ppd->iSeconds;
 
 	mir_free(m_lpzText);  mir_free(m_lpzTitle);
 	mir_free(m_lpwzText); mir_free(m_lpwzTitle);
@@ -930,27 +930,28 @@ LRESULT CALLBACK NullWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
-struct	ReplyEditData
+struct ReplyEditData
 {
-	HWND		hwndPopup;
-	HANDLE		hContact;
-	WNDPROC		oldWndProc;
+	HWND hwndPopup;
+	HCONTACT hContact;
+	WNDPROC oldWndProc;
 };
 
-BOOL	IsUtfSendAvailable(HANDLE hContact)
+BOOL	IsUtfSendAvailable(HCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 	if (szProto == NULL) return FALSE;
 	//check for MetaContact and get szProto from subcontact
 	if (strcmp(szProto, gszMetaProto)==0) {
-		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
-		if (!hSubContact) return FALSE;
+		HCONTACT hSubContact = (HCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
+		if (!hSubContact)
+			return FALSE;
 		szProto = GetContactProto(hSubContact);
 	}
 	return(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF) ? TRUE : FALSE;
 }
 
-void	AddMessageToDB(HANDLE hContact, char *msg, int flag/*bool utf*/)
+void	AddMessageToDB(HCONTACT hContact, char *msg, int flag/*bool utf*/)
 {
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
@@ -1491,13 +1492,13 @@ void	WindowThread(void *arg)
 // Menu Host
 LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	static HANDLE hContact = NULL;
+	static HCONTACT hContact = NULL;
 
 	switch (message)
 	{
 		case UM_SHOWMENU:
 		{
-			hContact = (HANDLE)lParam;
+			hContact = (HCONTACT)lParam;
 			POINT pt = {0};
 			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT,(WPARAM)hContact,0);
 			GetCursorPos(&pt);

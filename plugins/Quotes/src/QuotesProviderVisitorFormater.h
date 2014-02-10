@@ -4,7 +4,7 @@
 class CQuotesProviderVisitorFormater : public CQuotesProviderVisitor
 {
 public:
-	CQuotesProviderVisitorFormater(HANDLE hContact,TCHAR chr,int nWidth);
+	CQuotesProviderVisitorFormater(HCONTACT hContact,TCHAR chr,int nWidth);
 	~CQuotesProviderVisitorFormater();
 
 	const tstring& GetResult()const;
@@ -21,7 +21,7 @@ private:
 // 	void FormatChangeValueHelper(bool bPercentage);
 
 private:
-	HANDLE m_hContact;
+	HCONTACT m_hContact;
 	TCHAR m_chr;
 	tstring m_sResult;
 	int m_nWidth;

@@ -18,7 +18,7 @@ typedef struct tagCLUIDATA
    DWORD  dwFlags;
    TCHAR *szNoEvents;
    int    hIconNotify;
-   HANDLE hUpdateContact;
+	HCONTACT hUpdateContact;
 
    /*         Contact List View Mode          */
    TCHAR  groupFilter[2048];

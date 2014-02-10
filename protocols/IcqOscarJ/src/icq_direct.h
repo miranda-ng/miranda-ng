@@ -39,7 +39,7 @@ struct filetransfer: public basic_filetransfer
   DWORD dwCookie;
   DWORD dwUin;
   DWORD dwRemotePort;
-  HANDLE hContact;
+  HCONTACT hContact;
   char *szFilename;
   char *szDescription;
   char *szSavePath;
@@ -68,7 +68,7 @@ struct filetransfer: public basic_filetransfer
 
 struct directconnect
 {
-  HANDLE hContact;
+  HCONTACT hContact;
   HANDLE hConnection;
   DWORD dwConnectionCookie;
   int type;

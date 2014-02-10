@@ -16,9 +16,9 @@ public:
 	bool WatchForQuote(const CQuote& rQuote,bool bWatch);
 	bool IsQuoteWatched(const CQuote& rQuote)const;
 
-	HANDLE GetContactByQuoteID(const tstring& rsQuoteID)const;
+	HCONTACT GetContactByQuoteID(const tstring& rsQuoteID)const;
 // #ifdef CHART_IMPLEMENT
-// 	bool Chart(HANDLE hContact,const tstring& url)const;
+// 	bool Chart(HCONTACT hContact,const tstring& url)const;
 // #endif
 
 private:

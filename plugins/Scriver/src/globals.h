@@ -129,7 +129,7 @@ void ReleaseIcons();
 void LoadGlobalIcons();
 HICON GetCachedIcon(const char *name);
 void RegisterFontServiceFonts();
-int ScriverRestoreWindowPosition(HWND hwnd,HANDLE hContact,const char *szModule,const char *szNamePrefix, int flags, int showCmd);
+int ScriverRestoreWindowPosition(HWND hwnd,HCONTACT hContact,const char *szModule,const char *szNamePrefix, int flags, int showCmd);
 
 int ImageList_AddIcon_Ex(HIMAGELIST hIml, int id);
 int ImageList_AddIcon_Ex2(HIMAGELIST hIml, HICON hIcon);

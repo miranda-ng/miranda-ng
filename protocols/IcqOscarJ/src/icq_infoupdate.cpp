@@ -55,7 +55,7 @@ void CIcqProto::icq_InitInfoUpdate(void)
 
 // Returns TRUE if user was queued
 // Returns FALSE if the list was full
-BOOL CIcqProto::icq_QueueUser(HANDLE hContact)
+BOOL CIcqProto::icq_QueueUser(HCONTACT hContact)
 {
 	if ( !infoUpdateMutex )
 		return FALSE;
@@ -155,7 +155,7 @@ void CIcqProto::icq_RescanInfoUpdate()
 	bInfoUpdateEnabled = 0; // freeze thread
 
 	// Queue all outdated users
-	HANDLE hContact = FindFirstContact();
+	HCONTACT hContact = FindFirstContact();
 	while (hContact != NULL)
 	{
 		if (IsMetaInfoChanged(hContact))

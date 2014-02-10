@@ -167,7 +167,7 @@ template <class chartype> void UrlDecode(chartype* str);
 void		__cdecl MSN_ConnectionProc(HANDLE hNewConnection, DWORD dwRemoteIP, void*);
 
 char*		MSN_GetAvatarHash(char* szContext, char** pszUrl = NULL);
-bool		MSN_MsgWndExist(HANDLE hContact);
+bool		MSN_MsgWndExist(HCONTACT hContact);
 
 #define		MSN_SendNickname(a) MSN_SendNicknameUtf(UTF8(a))
 
@@ -478,71 +478,71 @@ typedef void (__cdecl CMsnProto::*MsnThreadFunc)(void*);
 
 struct ThreadData
 {
-	ThreadData();
-	~ThreadData();
+   ThreadData();
+   ~ThreadData();
 
-	STRLIST			mJoinedContactsWLID;
-	STRLIST			mJoinedIdentContactsWLID;
-	char*			mInitialContactWLID;
+   STRLIST       mJoinedContactsWLID;
+   STRLIST       mJoinedIdentContactsWLID;
+   char*         mInitialContactWLID;
 
-	TInfoType		mType;            // thread type
-	MsnThreadFunc	mFunc;            // thread entry point
-	char			mServer[80];      // server name
+   TInfoType     mType;            // thread type
+   MsnThreadFunc mFunc;            // thread entry point
+   char          mServer[80];      // server name
 
-	HANDLE			s;					// NetLib connection for the thread
-	HANDLE			mIncomingBoundPort; // Netlib listen for the thread
-	HANDLE			hWaitEvent;
-	WORD			mIncomingPort;
-	TCHAR			mChatID[10];
-	bool			mIsMainThread;
-	clock_t			mWaitPeriod;
+   HANDLE        s;               // NetLib connection for the thread
+   HANDLE        mIncomingBoundPort; // Netlib listen for the thread
+   HANDLE        hWaitEvent;
+   WORD          mIncomingPort;
+   TCHAR         mChatID[10];
+   bool          mIsMainThread;
+   clock_t       mWaitPeriod;
 
-	CMsnProto*		proto;
+   CMsnProto*    proto;
 
-	//----| for gateways |----------------------------------------------------------------
-	char			mSessionID[50]; // Gateway session ID
-	char			mGatewayIP[80]; // Gateway IP address
-	int				mGatewayTimeout;
-	bool			sessionClosed;
-	bool			termPending;
-	bool			gatewayType;
+   //----| for gateways |----------------------------------------------------------------
+   char          mSessionID[50]; // Gateway session ID
+   char          mGatewayIP[80]; // Gateway IP address
+   int           mGatewayTimeout;
+   bool          sessionClosed;
+   bool          termPending;
+   bool          gatewayType;
 
-	//----| for switchboard servers only |------------------------------------------------
-	bool			firstMsgRecv;
-	int				mCaller;
-	char			mCookie[130];     // for switchboard servers only
-	LONG			mTrid;            // current message ID
-	UINT			mTimerId;         // typing notifications timer id
+   //----| for switchboard servers only |------------------------------------------------
+   bool          firstMsgRecv;
+   int           mCaller;
+   char          mCookie[130];     // for switchboard servers only
+   LONG          mTrid;            // current message ID
+   UINT          mTimerId;         // typing notifications timer id
 
-	//----| for file transfers only |-----------------------------------------------------
-	filetransfer*	mMsnFtp;          // file transfer block
-	bool            mBridgeInit;
+   //----| for file transfers only |-----------------------------------------------------
+   filetransfer* mMsnFtp;          // file transfer block
+   bool          mBridgeInit;
 
-	//----| internal data buffer |--------------------------------------------------------
-	int				mBytesInData;     // bytes available in data buffer
-	char			mData[8192];      // data buffer for connection
+   //----| internal data buffer |--------------------------------------------------------
+   int           mBytesInData;     // bytes available in data buffer
+   char          mData[8192];      // data buffer for connection
 
-	//----| methods |---------------------------------------------------------------------
-	void           applyGatewayData(HANDLE hConn, bool isPoll);
-	void           getGatewayUrl(char* dest, int destlen, bool isPoll);
-	void           processSessionData(const char* xMsgr, const char* xHost);
-	void           startThread(MsnThreadFunc , CMsnProto *prt);
+   //----| methods |---------------------------------------------------------------------
+   void          applyGatewayData(HANDLE hConn, bool isPoll);
+   void          getGatewayUrl(char* dest, int destlen, bool isPoll);
+   void          processSessionData(const char* xMsgr, const char* xHost);
+   void          startThread(MsnThreadFunc , CMsnProto *prt);
 
-	int            send(const char data[], size_t datalen);
-	int            recv(char* data, size_t datalen);
+   int           send(const char data[], size_t datalen);
+   int           recv(char* data, size_t datalen);
 
-	void           resetTimeout(bool term = false);
-	bool           isTimeout(void);
+   void          resetTimeout(bool term = false);
+   bool          isTimeout(void);
 
-	void           sendTerminate(void);
-	void           sendCaps(void);
-	int            sendMessage(int msgType, const char* email, int netId, const char* msg, int parFlags);
-	int            sendRawMessage(int msgType, const char* data, int datLen);
-	int            sendPacket(const char* cmd, const char* fmt, ...);
+   void          sendTerminate(void);
+   void          sendCaps(void);
+   int           sendMessage(int msgType, const char* email, int netId, const char* msg, int parFlags);
+   int           sendRawMessage(int msgType, const char* data, int datLen);
+   int           sendPacket(const char* cmd, const char* fmt, ...);
 
-	int            contactJoined(const char* email);
-	int            contactLeft(const char* email);
-	HANDLE         getContactHandle(void);
+   int           contactJoined(const char* email);
+   int           contactLeft(const char* email);
+   HCONTACT      getContactHandle(void);
 };
 
 
@@ -569,7 +569,7 @@ struct ThreadData
 
 
 
-inline bool IsChatHandle(HANDLE hContact) { return (INT_PTR)hContact < 0; }
+inline bool IsChatHandle(HCONTACT hContact) { return (INT_PTR)hContact < 0; }
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -596,10 +596,10 @@ struct MsgQueueEntry
 
 struct AvatarQueueEntry
 {
-	HANDLE  hContact;
-	char*   pszUrl;
+	HCONTACT hContact;
+	char *pszUrl;
 
-	__forceinline AvatarQueueEntry(HANDLE _contact, LPCSTR _url) :
+	__forceinline AvatarQueueEntry(HCONTACT _contact, LPCSTR _url) :
 		hContact(_contact),
 		pszUrl( mir_strdup(_url))
 	{}
@@ -639,7 +639,7 @@ struct MsnContact
 	char *email;
 	char *invite;
 	char *nick;
-	HANDLE hContact;
+	HCONTACT hContact;
 	int list;
 	int netId;
 	int p2pMsgId;
@@ -863,7 +863,7 @@ struct chunkedmsg
 struct DeleteParam
 {
 	CMsnProto *proto;
-	HANDLE hContact;
+	HCONTACT hContact;
 };
 
 INT_PTR CALLBACK DlgDeleteContactUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -871,10 +871,10 @@ INT_PTR CALLBACK DlgDeleteContactUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 struct InviteChatParam
 {
 	TCHAR* id;
-	HANDLE hContact;
+	HCONTACT hContact;
 	CMsnProto* ppro;
 
-	InviteChatParam(const TCHAR* id, HANDLE hContact, CMsnProto* ppro)
+	InviteChatParam(const TCHAR* id, HCONTACT hContact, CMsnProto* ppro)
 		: id(mir_tstrdup(id)), hContact(hContact), ppro(ppro) {}
 
 	~InviteChatParam()

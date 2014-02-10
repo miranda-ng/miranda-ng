@@ -64,7 +64,7 @@ void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, TCHAR* pts
 		mir_sntprintf(ptszDest + tPathLen, MAX_PATH - tPathLen, TEXT("%S_avatar%s"), proto->m_szModuleName, tszFileType);
 }
 
-static void RemoveAvatar(TlenProtocol *proto, HANDLE hContact) {
+static void RemoveAvatar(TlenProtocol *proto, HCONTACT hContact) {
 	TCHAR tFileName[ MAX_PATH ];
 	if (hContact == NULL) {
 		proto->threadData->avatarHash[0] = '\0';
@@ -77,7 +77,7 @@ static void RemoveAvatar(TlenProtocol *proto, HANDLE hContact) {
 	ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 }
 
-static void SetAvatar(TlenProtocol *proto, HANDLE hContact, TLEN_LIST_ITEM *item, char *data, int len, DWORD format) {
+static void SetAvatar(TlenProtocol *proto, HCONTACT hContact, TLEN_LIST_ITEM *item, char *data, int len, DWORD format) {
 	TCHAR filename[MAX_PATH];
 	char md5[33];
 	mir_md5_state_t ctx;
@@ -123,7 +123,7 @@ int TlenProcessAvatarNode(TlenProtocol *proto, XmlNode *avatarNode, TLEN_LIST_IT
 	XmlNode *aNode;
 	char *oldHash = NULL;
 	char *md5 = NULL, *type = NULL;
-	HANDLE hContact;
+	HCONTACT hContact;
 	hContact = NULL;
 	if (item != NULL) {
 		if ((hContact=TlenHContactFromJID(proto, item->jid)) == NULL) return 0;
@@ -165,7 +165,7 @@ int TlenProcessAvatarNode(TlenProtocol *proto, XmlNode *avatarNode, TLEN_LIST_IT
 }
 
 void TlenProcessPresenceAvatar(TlenProtocol *proto, XmlNode *node, TLEN_LIST_ITEM *item) {
-	HANDLE hContact;
+	HCONTACT hContact;
 	if ((hContact=TlenHContactFromJID(proto, item->jid)) == NULL) return;
 	TlenProcessAvatarNode(proto, TlenXmlGetChild(node, "avatar"), item);
 }
@@ -225,7 +225,7 @@ static int getAvatarMutex = 0;
 
 typedef struct {
 	TlenProtocol *proto;
-	HANDLE hContact;
+	HCONTACT hContact;
 } TLENGETAVATARTHREADDATA;
 
 static void TlenGetAvatarThread(void *ptr) {
@@ -234,7 +234,7 @@ static void TlenGetAvatarThread(void *ptr) {
 	NETLIBHTTPREQUEST req;
 	NETLIBHTTPREQUEST *resp;
 	TLENGETAVATARTHREADDATA *data = (TLENGETAVATARTHREADDATA *)ptr;
-	HANDLE hContact = data->hContact;
+	HCONTACT hContact = data->hContact;
 	char *request;
 	char *login = NULL;
 	if (hContact != NULL) {
@@ -301,7 +301,7 @@ static void TlenGetAvatarThread(void *ptr) {
 	mir_free(data);
 }
 
-void TlenGetAvatar(TlenProtocol *proto, HANDLE hContact) {
+void TlenGetAvatar(TlenProtocol *proto, HCONTACT hContact) {
 	if (hContact == NULL) {
 		if (getAvatarMutex != 0) {
 			return;

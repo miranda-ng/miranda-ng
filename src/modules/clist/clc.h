@@ -44,11 +44,11 @@ HMENU  fnBuildGroupPopupMenu(ClcGroup* group);
 LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /* clcidents.c */
-int    fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
-int    fnFindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
-int    fnGetRowByIndex(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
-HANDLE fnContactToHItem(ClcContact* contact);
-HANDLE fnContactToItemHandle(ClcContact * contact, DWORD * nmFlags);
+int       fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
+int       fnFindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
+int       fnGetRowByIndex(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
+HANDLE    fnContactToHItem(ClcContact *contact);
+HANDLE    fnContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
 
 /* clcitems.c */
 ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
@@ -58,9 +58,9 @@ void fnFreeContact(ClcContact *p);
 void fnFreeGroup(ClcGroup *group);
 int  fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
 int  fnAddItemToGroup(ClcGroup *group, int iAboveItem);
-void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HANDLE hContact, int updateTotalCount, int checkHideOffline);
-int  fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
-void fnDeleteItemFromTree(HWND hwnd, HANDLE hItem);
+void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HCONTACT hContact, int updateTotalCount, int checkHideOffline);
+int  fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, HCONTACT hContact);
+void fnDeleteItemFromTree(HWND hwnd, HCONTACT hItem);
 void fnRebuildEntireList(HWND hwnd, struct ClcData *dat);
 int  fnGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort);
@@ -86,7 +86,7 @@ int   fnGetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
 int   fnClcStatusToPf2(int status);
 int   fnIsHiddenMode(struct ClcData *dat, int status);
 void  fnHideInfoTip(HWND hwnd, struct ClcData *dat);
-void  fnNotifyNewContact(HWND hwnd, HANDLE hContact);
+void  fnNotifyNewContact(HWND hwnd, HCONTACT hContact);
 DWORD fnGetDefaultExStyle(void);
 void  fnGetSetting(int i, LOGFONT* lf, COLORREF* colour);
 void  fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF* colour);
@@ -120,12 +120,12 @@ void     RebuildMenuOrder(void);
 INT_PTR  MenuProcessCommand(WPARAM wParam, LPARAM lParam);
 
 /* clistsettings.c */
-TCHAR* fnGetContactDisplayName(HANDLE hContact, int mode);
+TCHAR* fnGetContactDisplayName(HCONTACT hContact, int mode);
 void   fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF * colour);
-void   fnInvalidateDisplayNameCacheEntry(HANDLE hContact);
+void   fnInvalidateDisplayNameCacheEntry(HCONTACT hContact);
 
-ClcCacheEntry* fnGetCacheEntry(HANDLE hContact);
-ClcCacheEntry* fnCreateCacheItem (HANDLE hContact);
+ClcCacheEntry* fnGetCacheEntry(HCONTACT hContact);
+ClcCacheEntry* fnCreateCacheItem (HCONTACT hContact);
 void fnCheckCacheItem(ClcCacheEntry *p);
 void fnFreeCacheItem(ClcCacheEntry *p);
 
@@ -137,21 +137,21 @@ void   fnUnregisterFileDropping (HWND hwnd);
 
 /* clistevents.c */
 struct CListEvent* fnAddEvent(CLISTEVENT *cle);
-CLISTEVENT* fnGetEvent(HANDLE hContact, int idx);
+CLISTEVENT* fnGetEvent(HCONTACT hContact, int idx);
 
 struct CListEvent* fnCreateEvent(void);
 void fnFreeEvent(struct CListEvent* p);
 
-int   fnEventsProcessContactDoubleClick(HANDLE hContact);
+int   fnEventsProcessContactDoubleClick(HCONTACT hContact);
 int   fnEventsProcessTrayDoubleClick(int);
 int   fnGetImlIconIndex(HICON hIcon);
-int   fnRemoveEvent(HANDLE hContact, HANDLE dbEvent);
+int   fnRemoveEvent(HCONTACT hContact, HANDLE dbEvent);
 
 /* clistmod.c */
-int    fnGetContactIcon(HANDLE hContact);
-int    fnIconFromStatusMode(const char *szProto, int status, HANDLE hContact);
+int    fnGetContactIcon(HCONTACT hContact);
+int    fnIconFromStatusMode(const char *szProto, int status, HCONTACT hContact);
 int    fnShowHide(WPARAM wParam, LPARAM lParam);
-HICON  fnGetIconFromStatusMode(HANDLE hContact, const char *szProto, int status);
+HICON  fnGetIconFromStatusMode(HCONTACT hContact, const char *szProto, int status);
 TCHAR* fnGetStatusModeDescription(int wParam, int lParam);
 int    fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
 
@@ -186,7 +186,7 @@ void fnCluiProtocolStatusChanged(int, const char*);
 void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 
 /* contact.c */
-void fnChangeContactIcon (HANDLE hContact, int iIcon, int add);
+void fnChangeContactIcon (HCONTACT hContact, int iIcon, int add);
 void fnLoadContactTree (void);
 int  fnCompareContacts (const ClcContact *contact1, const ClcContact *contact2);
 void fnSortContacts (void);

@@ -23,8 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 void LoadContactTree(void);
-int IconFromStatusMode(const char *szProto, int status, HANDLE hContact, HICON *phIcon);
-HTREEITEM GetTreeItemByHContact(HANDLE hContact);
+int IconFromStatusMode(const char *szProto, int status, HCONTACT hContact, HICON *phIcon);
+HTREEITEM GetTreeItemByHContact(HCONTACT hContact);
 void SortContacts(void);
 
 #define CLUIINTM_REDRAW (WM_USER+100)

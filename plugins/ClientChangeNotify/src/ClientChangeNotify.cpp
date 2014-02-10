@@ -83,7 +83,7 @@ static VOID NTAPI ShowContactMenu(ULONG_PTR wParam)
 
 void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA *pdata)
 {
-	HANDLE hContact = (HANDLE)CallService(MS_POPUP_GETCONTACT, (WPARAM)hWnd, 0);
+	HCONTACT hContact = (HCONTACT)CallService(MS_POPUP_GETCONTACT, (WPARAM)hWnd, 0);
 	switch (Action) {
 	case PCA_OPENMESSAGEWND: // open message window
 		if (hContact && hContact != INVALID_HANDLE_VALUE)
@@ -201,7 +201,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (lstrcmpA(cws->szSetting, DB_MIRVER))
 		return 0;
 
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	SHOWPOPUP_DATA sd = {0};
 	char *szProto = GetContactProto(hContact);
 	if (g_PreviewOptPage)
@@ -231,7 +231,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		PopupOptPage.DBToMem();
 	}
 
-	HANDLE hContactOrMeta = (hContact && bMetaContactsExists) ? (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0) : hContact;
+	HCONTACT hContactOrMeta = (hContact && bMetaContactsExists) ? (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0) : hContact;
 	if (!hContactOrMeta)
 		hContactOrMeta = hContact;
 

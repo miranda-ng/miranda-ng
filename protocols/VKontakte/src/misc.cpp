@@ -25,7 +25,7 @@ TCHAR* CVkProto::GetUserStoredPassword()
 
 void CVkProto::SetAllContactStatuses(int iStatus)
 {
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact))
 			SetChatStatus(hContact, iStatus);
 		else if (getWord(hContact, "Status", 0) != iStatus)
@@ -33,9 +33,9 @@ void CVkProto::SetAllContactStatuses(int iStatus)
 	}
 }
 
-HANDLE CVkProto::FindUser(LONG dwUserid, bool bCreate)
+HCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 {
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		LONG dbUserid = getDword(hContact, "ID", -1);
 		if (dbUserid == -1)
 			continue;
@@ -47,7 +47,7 @@ HANDLE CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	if (!bCreate)
 		return NULL;
 
-	HANDLE hNewContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	HCONTACT hNewContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hNewContact, (LPARAM)m_szModuleName);
 	setDword(hNewContact, "ID", dwUserid);
 	db_set_ts(hNewContact, "CList", "Group", m_defaultGroup);

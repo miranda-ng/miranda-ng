@@ -37,7 +37,7 @@ int _DebugTrace(const char *fmt, ...)
 	return 0;
 }
 
-int _DebugTrace(HANDLE hContact, const char *fmt, ...)
+int _DebugTrace(HCONTACT hContact, const char *fmt, ...)
 {
 	char text[1024];
 	size_t len;
@@ -119,7 +119,7 @@ size_t AVS_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
  * convert the avatar image path to a relative one...
  * given: contact handle, path to image
  */
-void MakePathRelative(HANDLE hContact, TCHAR *path)
+void MakePathRelative(HCONTACT hContact, TCHAR *path)
 {
 	TCHAR szFinalPath[MAX_PATH];
 	szFinalPath[0] = '\0';
@@ -137,7 +137,7 @@ void MakePathRelative(HANDLE hContact, TCHAR *path)
  * given: contact handle
  */
 
-void MakePathRelative(HANDLE hContact)
+void MakePathRelative(HCONTACT hContact)
 {
 	DBVARIANT dbv;
 	if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
@@ -148,7 +148,7 @@ void MakePathRelative(HANDLE hContact)
 
 // create the avatar in cache
 // returns 0 if not created (no avatar), iIndex otherwise, -2 if has to request avatar, -3 if avatar too big
-int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
+int CreateAvatarInCache(HCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 {
 	DBVARIANT dbv = {0};
 	char *szExt = NULL;
@@ -493,7 +493,7 @@ BOOL Proto_IsFetchingWhenContactOfflineAllowed(const char *proto)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-protoPicCacheEntry *GetProtoDefaultAvatar(HANDLE hContact)
+protoPicCacheEntry *GetProtoDefaultAvatar(HCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
@@ -506,7 +506,7 @@ protoPicCacheEntry *GetProtoDefaultAvatar(HANDLE hContact)
 	return NULL;
 }
 
-HANDLE GetContactThatHaveTheAvatar(HANDLE hContact, int locked)
+HCONTACT GetContactThatHaveTheAvatar(HCONTACT hContact, int locked)
 {
 	if (g_MetaAvail && db_get_b(NULL, g_szMetaName, "Enabled", 0)) {
 		if (db_get_dw(hContact, g_szMetaName, "NumContacts", 0) >= 1) {
@@ -514,13 +514,13 @@ HANDLE GetContactThatHaveTheAvatar(HANDLE hContact, int locked)
 				locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 			if (!locked)
-				hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+				hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		}
 	}
 	return hContact;
 }
 
-int ChangeAvatar(HANDLE hContact, BOOL fLoad, BOOL fNotifyHist, int pa_format)
+int ChangeAvatar(HCONTACT hContact, BOOL fLoad, BOOL fNotifyHist, int pa_format)
 {
 	if (g_shutDown)
 		return 0;

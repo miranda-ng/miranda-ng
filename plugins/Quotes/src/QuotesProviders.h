@@ -14,7 +14,7 @@ public:
 	~CQuotesProviders();
 
 	TQuotesProviderPtr FindProvider(const tstring& rsName)const;
-	TQuotesProviderPtr GetContactProviderPtr(HANDLE hContact)const;
+	TQuotesProviderPtr GetContactProviderPtr(HCONTACT hContact)const;
 	const TQuotesProviders& GetProviders()const;
 
 private:

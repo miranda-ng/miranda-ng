@@ -123,24 +123,24 @@ extern HANDLE hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
 int   GetFileHash(TCHAR* filename);
 DWORD GetFileSize(TCHAR *szFilename);
-void  MakePathRelative(HANDLE hContact);
-void  MakePathRelative(HANDLE hContact, TCHAR *dest);
+void  MakePathRelative(HCONTACT hContact);
+void  MakePathRelative(HCONTACT hContact, TCHAR *dest);
 
 HBITMAP LoadPNG(struct avatarCacheEntry *ace, char *szFilename);
 
 void InitCache(void);
 void UnloadCache(void);
-int  CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto);
-void DeleteAvatarFromCache(HANDLE, BOOL);
+int  CreateAvatarInCache(HCONTACT hContact, avatarCacheEntry *ace, char *szProto);
+void DeleteAvatarFromCache(HCONTACT hContact, BOOL);
 void PicLoader(LPVOID param);
 
 void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bmHeight, DWORD dwFlags);
 
-int ChangeAvatar(HANDLE hContact, BOOL fLoad, BOOL fNotifyHist = FALSE, int pa_format = 0);
+int ChangeAvatar(HCONTACT hContact, BOOL fLoad, BOOL fNotifyHist = FALSE, int pa_format = 0);
 void DeleteGlobalUserAvatar();
-int  FetchAvatarFor(HANDLE hContact, char *szProto = NULL);
-CacheNode* FindAvatarInCache(HANDLE hContact, BOOL add, BOOL findAny = FALSE);
-int  SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode);
+int  FetchAvatarFor(HCONTACT hContact, char *szProto = NULL);
+CacheNode* FindAvatarInCache(HCONTACT hContact, BOOL add, BOOL findAny = FALSE);
+int  SetAvatarAttribute(HCONTACT hContact, DWORD attrib, int mode);
 void SetIgnoreNotify(char *protocol, BOOL ignore);
 
 INT_PTR DrawAvatarPicture(WPARAM wParam, LPARAM lParam);
@@ -149,9 +149,9 @@ INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam);
 INT_PTR ProtectAvatar(WPARAM wParam, LPARAM lParam);
 INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM lParam);
 
-HANDLE GetContactThatHaveTheAvatar(HANDLE hContact, int locked = -1);
+HCONTACT GetContactThatHaveTheAvatar(HCONTACT hContact, int locked = -1);
 
-void ProcessAvatarInfo(HANDLE hContact, int type, PROTO_AVATAR_INFORMATIONT *pai, const char *szProto);
+void ProcessAvatarInfo(HCONTACT hContact, int type, PROTO_AVATAR_INFORMATIONT *pai, const char *szProto);
 
 int  Proto_GetDelayAfterFail(const char *proto);
 BOOL Proto_NeedDelaysForAvatars(const char *proto);
@@ -161,4 +161,4 @@ int  Proto_AvatarImageProportion(const char *proto);
 void Proto_GetAvatarMaxSize(const char *proto, int *width, int *height);
 int  Proto_GetAvatarMaxFileSize(const char *proto);
 
-protoPicCacheEntry* GetProtoDefaultAvatar(HANDLE hContact);
+protoPicCacheEntry* GetProtoDefaultAvatar(HCONTACT hContact);

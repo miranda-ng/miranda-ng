@@ -14,21 +14,21 @@ extern HGENMENU g_hMenuRefresh;
 
 namespace 
 {
-	HANDLE g_hContact;
+	HCONTACT g_hContact;
 
-	inline bool IsMyContact(HANDLE hContact)
+	inline bool IsMyContact(HCONTACT hContact)
 	{
 		CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact);
 		return (NULL != pProvider);
 	}
 
-	inline HANDLE get_contact(HWND hWnd)
+	inline HCONTACT get_contact(HWND hWnd)
 	{
-		return reinterpret_cast<HANDLE>(GetWindowLongPtr(hWnd,GWLP_USERDATA));
+		return reinterpret_cast<HCONTACT>(GetWindowLongPtr(hWnd,GWLP_USERDATA));
 	}
 
 
-	bool get_fetch_time(time_t& rTime,HANDLE hContact)
+	bool get_fetch_time(time_t& rTime,HCONTACT hContact)
 	{
 		DBVARIANT dbv;
 		if (db_get(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FETCH_TIME, &dbv) || (DBVT_DWORD != dbv.type))
@@ -38,7 +38,7 @@ namespace
 		return true;
 	}
 
-	INT_PTR CALLBACK QuoteInfoDlgProcImpl(HANDLE hContact,HWND hdlg,UINT msg,WPARAM wParam,LPARAM lParam)
+	INT_PTR CALLBACK QuoteInfoDlgProcImpl(HCONTACT hContact,HWND hdlg,UINT msg,WPARAM wParam,LPARAM lParam)
 	{
 		switch(msg)
 		{
@@ -118,7 +118,7 @@ namespace
 
 int QuotesEventFunc_OnUserInfoInit(WPARAM wp,LPARAM lp)
 {
-	HANDLE hContact = reinterpret_cast<HANDLE>(lp);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(lp);
 	if(NULL == hContact)
 		return 0;
 
@@ -141,7 +141,7 @@ int QuotesEventFunc_OnUserInfoInit(WPARAM wp,LPARAM lp)
 
 INT_PTR QuotesMenu_EditSettings(WPARAM wp,LPARAM lp)
 {
-	HANDLE hContact = reinterpret_cast<HANDLE>(wp);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wp);
 	if(NULL == hContact)
 	{
 		return 0;
@@ -154,7 +154,7 @@ INT_PTR QuotesMenu_EditSettings(WPARAM wp,LPARAM lp)
 
 namespace
 {
-	bool get_log_file(HANDLE hContact,tstring& rsLogfile)
+	bool get_log_file(HCONTACT hContact,tstring& rsLogfile)
 	{
 		rsLogfile = GetContactLogFileName(hContact);
 		return ((rsLogfile.empty()) ? false : true);
@@ -163,7 +163,7 @@ namespace
 
 INT_PTR QuotesMenu_OpenLogFile(WPARAM wp,LPARAM lp)
 {
-	HANDLE hContact = reinterpret_cast<HANDLE>(wp);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wp);
 	if(NULL == hContact)
 	{
 		return 0;
@@ -180,7 +180,7 @@ INT_PTR QuotesMenu_OpenLogFile(WPARAM wp,LPARAM lp)
 
 INT_PTR QuotesMenu_RefreshContact(WPARAM wp,LPARAM lp)
 {
-	HANDLE hContact = reinterpret_cast<HANDLE>(wp);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wp);
 	if(NULL == hContact)
 	{
 		return 0;
@@ -201,12 +201,12 @@ namespace
 {
 	INT_PTR CALLBACK QuoteInfoDlgProc1(HWND hdlg,UINT msg,WPARAM wParam,LPARAM lParam)
 	{
-		HANDLE hContact = NULL;
+		HCONTACT hContact = NULL;
 		switch(msg)
 		{
 		case WM_INITDIALOG:
 			{
-				hContact = reinterpret_cast<HANDLE>(lParam);
+				hContact = reinterpret_cast<HCONTACT>(lParam);
 				HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO,false);
 				assert(hWL);
 				WindowList_Add(hWL,hdlg,hContact);
@@ -221,7 +221,7 @@ namespace
 			return FALSE;
 		case WM_DESTROY:
 			{
-				HANDLE hContact = get_contact(hdlg);
+				HCONTACT hContact = get_contact(hdlg);
 				if(hContact)
 				{
 					SetWindowLongPtr(hdlg,GWLP_USERDATA,0);
@@ -251,7 +251,7 @@ namespace
 
 int Quotes_OnContactDoubleClick(WPARAM wp,LPARAM/* lp*/)
 {
-	HANDLE hContact = reinterpret_cast<HANDLE>(wp);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wp);
 	if(CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact))
 	{
 		HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO,true);
@@ -297,7 +297,7 @@ int Quotes_PrebuildContactMenu(WPARAM wp,LPARAM lp)
 #endif
 	enable_menu(g_hMenuRefresh,false);
 	
-	HANDLE hContact = reinterpret_cast<HANDLE>(wp);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wp);
 	if(NULL == hContact)
 	{
 		return 0;

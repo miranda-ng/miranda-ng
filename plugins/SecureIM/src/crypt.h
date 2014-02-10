@@ -39,7 +39,7 @@ typedef partitionMessage* pPM;
 // memory struct for keys
 struct UinKey
 {
-	HANDLE hContact;	// handle of contact
+	HCONTACT hContact;	// handle of contact
 	u_int header;		// HEADER
 	pSupPro proto;		// proto struct
 	BYTE mode,tmode;	// mode: Native,PGP,GPG,RSA/AES,RSA [0..4]
@@ -70,13 +70,13 @@ typedef UinKey* pUinKey;
 
 struct TFakeAckParams
 {
-	__forceinline TFakeAckParams(HANDLE p1, LONG p2, LPCSTR p3) :
+	__forceinline TFakeAckParams(HCONTACT p1, LONG p2, LPCSTR p3) :
 		hContact(p1),
 		id(p2),
 		msg(p3)
 		{}
 
-	HANDLE hContact;
+	HCONTACT hContact;
 	LONG   id;
 	LPCSTR msg;
 };
@@ -90,73 +90,73 @@ extern LIST<UinKey> arClist;
 // crypt_lists.cpp
 void loadContactList();
 void freeContactList();
-pUinKey addContact(HANDLE hContact);
-void    delContact(HANDLE hContact);
-pSupPro getSupPro(HANDLE);
-pUinKey findUinKey(HANDLE hContact);
-pUinKey getUinKey(HANDLE hContact);
+pUinKey addContact(HCONTACT hContact);
+void    delContact(HCONTACT hContact);
+pSupPro getSupPro(HCONTACT);
+pUinKey findUinKey(HCONTACT hContact);
+pUinKey getUinKey(HCONTACT hContact);
 pUinKey getUinCtx(HANDLE);
 void addMsg2Queue(pUinKey,WPARAM,LPSTR);
 
-void getContactName(HANDLE hContact, LPSTR szName);
-void getContactNameA(HANDLE hContact, LPSTR szName);
-void getContactUin(HANDLE hContact, LPSTR szUIN);
-void getContactUinA(HANDLE hContact, LPSTR szUIN);
+void getContactName(HCONTACT hContact, LPSTR szName);
+void getContactNameA(HCONTACT hContact, LPSTR szName);
+void getContactUin(HCONTACT hContact, LPSTR szUIN);
+void getContactUinA(HCONTACT hContact, LPSTR szUIN);
 
 // crypt_check.cpp
-int getContactStatus(HANDLE);
+int getContactStatus(HCONTACT);
 
-bool isSecureProtocol(HANDLE hContact);
-BYTE isContactSecured(HANDLE hContact);
+bool isSecureProtocol(HCONTACT hContact);
+BYTE isContactSecured(HCONTACT hContact);
 bool isClientMiranda(pUinKey ptr, BOOL emptyMirverAsMiranda=FALSE);
-bool isClientMiranda(HANDLE hContact, BOOL emptyMirverAsMiranda=FALSE);
-bool isProtoSmallPackets(HANDLE);
-bool isContactInvisible(HANDLE);
-bool isNotOnList(HANDLE);
-bool isContactNewPG(HANDLE);
-bool isContactPGP(HANDLE);
-bool isContactGPG(HANDLE);
-bool isContactRSAAES(HANDLE);
-bool isContactRSA(HANDLE);
-bool isChatRoom(HANDLE);
+bool isClientMiranda(HCONTACT hContact, BOOL emptyMirverAsMiranda=FALSE);
+bool isProtoSmallPackets(HCONTACT);
+bool isContactInvisible(HCONTACT);
+bool isNotOnList(HCONTACT);
+bool isContactNewPG(HCONTACT);
+bool isContactPGP(HCONTACT);
+bool isContactGPG(HCONTACT);
+bool isContactRSAAES(HCONTACT);
+bool isContactRSA(HCONTACT);
+bool isChatRoom(HCONTACT);
 bool isFileExist(LPCSTR);
 bool isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM=FALSE);
-bool isSecureIM(HANDLE hContact, BOOL emptyMirverAsSecureIM=FALSE);
+bool isSecureIM(HCONTACT hContact, BOOL emptyMirverAsSecureIM=FALSE);
 
 // crypt_icons.cpp
 HICON mode2icon(int,int);
 HANDLE mode2clicon(int mode, int type);
 void RefreshContactListIcons(void);
-void ShowStatusIcon(HANDLE,UINT);
-void ShowStatusIcon(HANDLE);
-void ShowStatusIconNotify(HANDLE);
+void ShowStatusIcon(HCONTACT, UINT);
+void ShowStatusIcon(HCONTACT);
+void ShowStatusIconNotify(HCONTACT);
 
 // crypt_popups.cpp
 //static int CALLBACK PopupDlgProc(HWND,UINT,WPARAM,LPARAM);
-void showPopup(LPCSTR,HANDLE,HICON,UINT);
-void showPopupEC(HANDLE);
-void showPopupDCmsg(HANDLE,LPCSTR);
-void showPopupDC(HANDLE);
-void showPopupKS(HANDLE);
-void showPopupKRmsg(HANDLE,LPCSTR);
-void showPopupKR(HANDLE);
-void showPopupSM(HANDLE);
-void showPopupRM(HANDLE);
+void showPopup(LPCSTR, HCONTACT, HICON, UINT);
+void showPopupEC(HCONTACT);
+void showPopupDCmsg(HCONTACT, LPCSTR);
+void showPopupDC(HCONTACT);
+void showPopupKS(HCONTACT);
+void showPopupKRmsg(HCONTACT, LPCSTR);
+void showPopupKR(HCONTACT);
+void showPopupSM(HCONTACT);
+void showPopupRM(HCONTACT);
 
 // crypt_meta.cpp
-BOOL isProtoMetaContacts(HANDLE);
-BOOL isDefaultSubContact(HANDLE);
-HANDLE getMetaContact(HANDLE);
-HANDLE getMostOnline(HANDLE);
-void DeinitMetaContact(HANDLE);
+BOOL isProtoMetaContacts(HCONTACT);
+BOOL isDefaultSubContact(HCONTACT);
+HCONTACT getMetaContact(HCONTACT);
+HCONTACT getMostOnline(HCONTACT);
+void DeinitMetaContact(HCONTACT);
 
 // crypt_dll.cpp
-LPSTR InitKeyA(pUinKey,int);
-int InitKeyB(pUinKey,LPCSTR);
-void InitKeyX(pUinKey,BYTE*);
-BOOL CalculateKeyX(pUinKey,HANDLE);
-LPSTR encodeMsg(pUinKey,LPARAM);
-LPSTR decodeMsg(pUinKey,LPARAM,LPSTR);
+LPSTR InitKeyA(pUinKey, int);
+int InitKeyB(pUinKey, LPCSTR);
+void InitKeyX(pUinKey, BYTE*);
+BOOL CalculateKeyX(pUinKey, HCONTACT);
+LPSTR encodeMsg(pUinKey, LPARAM);
+LPSTR decodeMsg(pUinKey, LPARAM, LPSTR);
 BOOL LoadKeyPGP(pUinKey);
 BOOL LoadKeyGPG(pUinKey);
 

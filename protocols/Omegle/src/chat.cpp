@@ -366,7 +366,7 @@ HANDLE OmegleProto::GetChatHandle()
 	/*if (facy.chatHandle_ != NULL)
 		return facy.chatHandle_;
 
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) > 0) {
 			ptrA id = db_get_sa(hContact, m_szModuleName, "ChatRoomId");
 			if (id != NULL && !strcmp(id, m_szModuleName))
@@ -377,7 +377,7 @@ HANDLE OmegleProto::GetChatHandle()
 	return NULL;*/
 
 	GC_INFO gci = {0};
-	gci.Flags = HCONTACT;
+	gci.Flags = GCF_HCONTACT;
 	gci.pszModule = m_szModuleName;
 	gci.pszID = m_tszUserName;
 	CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);

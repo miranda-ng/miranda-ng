@@ -93,7 +93,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 	LONG cbHeader;
 	SYSTEMTIME now;
 	DWORD result;
-	HANDLE hContact;
+	HCONTACT hContact;
 
 	result = (DWORD)DialogBox(ghInst, 
 							MAKEINTRESOURCE(IDD_EXPORT_DATAHISTORY),
@@ -346,7 +346,7 @@ DWORD CFileXml::CountContacts(TiXmlElement* xmlParent)
  *			pszFileName	- full qualified path to the xml file which is to import
  * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
  **/
-int CFileXml::Import(HANDLE hContact, LPCSTR pszFileName)
+int CFileXml::Import(HCONTACT hContact, LPCSTR pszFileName)
 {
 	TiXmlDocument doc;
 	TiXmlElement *xmlCard = NULL;

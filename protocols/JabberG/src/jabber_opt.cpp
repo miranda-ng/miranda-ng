@@ -858,7 +858,7 @@ public:
 			JABBER_LIST_ITEM *item = m_proto->ListGetItemPtrFromIndex(index);
 			if (item != NULL) {
 				if (_tcschr(item->jid, '@') == NULL) {
-					HANDLE hContact = m_proto->HContactFromJID(item->jid);
+					HCONTACT hContact = m_proto->HContactFromJID(item->jid);
 					if (hContact != NULL) {
 						if (bChecked) {
 							if (item->getTemp()->m_iStatus != m_proto->getWord(hContact, "Status", ID_STATUS_OFFLINE)) {
@@ -1039,7 +1039,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 		}
 
 		// now it is require to process whole contact list to add not in roster contacts
-		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			ptrT tszJid( getTStringA(hContact, "jid"));
 			if (tszJid == NULL)
 				continue;

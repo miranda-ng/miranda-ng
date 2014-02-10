@@ -258,7 +258,7 @@ static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 			else if (!strcmp(cws->szSetting,"ListeningTo"))
 				pcli->pfnClcBroadcast( INTM_STATUSMSGCHANGED,wParam,0);
 			else if (!strcmp(cws->szSetting,"Transport") || !strcmp(cws->szSetting,"IsTransported")) {
-				pcli->pfnInvalidateDisplayNameCacheEntry((HANDLE)wParam);
+				pcli->pfnInvalidateDisplayNameCacheEntry((HCONTACT)wParam);
 				pcli->pfnClcBroadcast( CLM_AUTOREBUILD,wParam,0);
 			}
 		}
@@ -273,8 +273,8 @@ static int clcHookDbEventAdded(WPARAM wParam,LPARAM lParam)
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get((HANDLE)lParam, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
-			ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry((HANDLE)wParam);
-			db_set_dw((HANDLE)wParam, "CList", "mf_lastmsg", dbei.timestamp);
+			ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry((HCONTACT)wParam);
+			db_set_dw((HCONTACT)wParam, "CList", "mf_lastmsg", dbei.timestamp);
 			if (pdnce)
 				pdnce->dwLastMsgTime = dbei.timestamp;
 		}
@@ -1472,17 +1472,17 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 	BYTE flags = 0;
 
 	ClcContact *contact;
-	if (!pcli->pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+	if (!pcli->pfnFindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL))
 		memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 	else {
 		memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
 		flags = contact->flags;
 	}
-	pcli->pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
-	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b((HANDLE) wParam, "CList", "Hidden", 0)) {
+	pcli->pfnDeleteItemFromTree(hwnd, (HCONTACT)wParam);
+	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b((HCONTACT)wParam, "CList", "Hidden", 0)) {
 		NMCLISTCONTROL nm;
-		pcli->pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
-		if (pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
+		pcli->pfnAddContactToTree(hwnd, dat, (HCONTACT)wParam, 1, 1);
+		if (pcli->pfnFindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL)) {
 			memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 			if (flags & CONTACTF_CHECKED)
 				contact->flags |= CONTACTF_CHECKED;
@@ -1507,41 +1507,41 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 	BOOL needRepaint = FALSE;
 	WORD status;
 	RECT iconRect = {0};
-	int contacticon = corecli.pfnGetContactIcon((HANDLE)wParam);
-	HANDLE hSelItem = NULL;
+	int contacticon = corecli.pfnGetContactIcon((HCONTACT)wParam);
+	HCONTACT hSelItem = NULL;
 	ClcContact *selcontact = NULL;
 
-	char *szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HCONTACT)wParam);
 	if (szProto == NULL)
 		status = ID_STATUS_OFFLINE;
 	else
-		status = GetContactCachedStatus((HANDLE) wParam);
+		status = GetContactCachedStatus((HCONTACT)wParam);
 	BOOL image_is_special = (LOWORD(contacticon) != (LOWORD(lParam))); //check only base icons
 
-	int nHiddenStatus = CLVM_GetContactHiddenStatus((HANDLE)wParam, szProto, dat);
+	int nHiddenStatus = CLVM_GetContactHiddenStatus((HCONTACT)wParam, szProto, dat);
 
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	bool isVisiblebyFilter  = (( ( style & CLS_SHOWHIDDEN ) && nHiddenStatus != -1 ) || !nHiddenStatus );
-	bool ifVisibleByClui    = !pcli->pfnIsHiddenMode( dat, status );
-	bool isVisible          = g_CluiData.bFilterEffective&CLVM_FILTER_STATUS ? TRUE : ifVisibleByClui;
-	bool isIconChanged      = cli_GetContactIcon((HANDLE)wParam) != LOWORD(lParam);
+	bool isVisiblebyFilter = (( ( style & CLS_SHOWHIDDEN ) && nHiddenStatus != -1 ) || !nHiddenStatus );
+	bool ifVisibleByClui = !pcli->pfnIsHiddenMode( dat, status );
+	bool isVisible = g_CluiData.bFilterEffective&CLVM_FILTER_STATUS ? TRUE : ifVisibleByClui;
+	bool isIconChanged = cli_GetContactIcon((HCONTACT)wParam) != LOWORD(lParam);
 
-	shouldShow              = isVisiblebyFilter	 &&   ( isVisible || isIconChanged ) ;
+	shouldShow = isVisiblebyFilter	 &&   ( isVisible || isIconChanged ) ;
 
 	// XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
 
-	if (!pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL)) {
+	if (!pcli->pfnFindItem(hwnd, dat, (HCONTACT)wParam, &contact, &group, NULL)) {
 		if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-				hSelItem = pcli->pfnContactToHItem(selcontact);
-			pcli->pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, (style & CLS_CONTACTLIST) == 0, 0);
+				hSelItem = (HCONTACT)pcli->pfnContactToHItem(selcontact);
+			pcli->pfnAddContactToTree(hwnd, dat, (HCONTACT)wParam, (style & CLS_CONTACTLIST) == 0, 0);
 			recalcScrollBar = 1;
 			needRepaint = TRUE;
-			pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL);
+			pcli->pfnFindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL);
 			if (contact) {
 				contact->iImage = lParam;
 				contact->image_is_special = image_is_special;
-				pcli->pfnNotifyNewContact(hwnd, (HANDLE) wParam);
+				pcli->pfnNotifyNewContact(hwnd, (HCONTACT)wParam);
 				dat->needsResort = 1;
 			}
 		}
@@ -1555,7 +1555,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 
 		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && ((style & CLS_HIDEOFFLINE) || group->hideOffline || g_CluiData.bFilterEffective)) { // CLVM changed
 			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-				hSelItem = pcli->pfnContactToHItem(selcontact);
+				hSelItem = (HCONTACT)pcli->pfnContactToHItem(selcontact);
 			pcli->pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
 			needRepaint = TRUE;
 			recalcScrollBar = 1;
@@ -1603,7 +1603,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 static LRESULT clcOnIntmAvatarChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact;
-	if ( FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,FALSE))
+	if (FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL, FALSE))
 		Cache_GetAvatar(dat, contact);
 	else if (dat->use_avatar_service && !wParam)
 		UpdateAllAvatars(dat);
@@ -1615,7 +1615,7 @@ static LRESULT clcOnIntmAvatarChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 static LRESULT clcOnIntmTimeZoneChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact;
-	if (!FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,FALSE))
+	if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL, FALSE))
 		return corecli.pfnContactListControlWndProc(hwnd,msg,wParam,lParam);
 
 	if (contact) {
@@ -1630,13 +1630,13 @@ static LRESULT clcOnIntmNameChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 {
 	int ret = corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
-	pcli->pfnInvalidateDisplayNameCacheEntry((HANDLE)wParam);
+	pcli->pfnInvalidateDisplayNameCacheEntry((HCONTACT)wParam);
 
 	ClcContact *contact;
-	if (!FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,FALSE))
+	if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL, FALSE))
 		return ret;
 
-	lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HANDLE)wParam,0),SIZEOF(contact->szText));
+	lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HCONTACT)wParam, 0), SIZEOF(contact->szText));
 	if (contact) {
 		Cache_GetText(dat,contact,1);
 		cliRecalcScrollBar(hwnd,dat);
@@ -1655,7 +1655,7 @@ static LRESULT clcOnIntmApparentModeChanged(ClcData *dat, HWND hwnd, UINT msg, W
 static LRESULT clcOnIntmStatusMsgChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact;
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact == NULL || IsHContactInfo(hContact) || IsHContactGroup(hContact))
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	if (!FindItem(hwnd,dat,hContact,&contact,NULL,NULL,FALSE))
@@ -1674,7 +1674,7 @@ static LRESULT clcOnIntmNotOnListChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 	ClcContact *contact;
 
-	if (!FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,TRUE))
+	if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL, TRUE))
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	if (contact->type != CLCIT_CONTACT)
@@ -1691,10 +1691,11 @@ static LRESULT clcOnIntmNotOnListChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 
 static LRESULT clcOnIntmScrollBarChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST)
-	{
-		if (dat->noVScrollbar) ShowScrollBar(hwnd, SB_VERT, FALSE);
-		else pcli->pfnRecalcScrollBar(hwnd, dat);
+	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
+		if (dat->noVScrollbar)
+			ShowScrollBar(hwnd, SB_VERT, FALSE);
+		else
+			pcli->pfnRecalcScrollBar(hwnd, dat);
 	}
 	return 0;
 }
@@ -1703,20 +1704,20 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 {
 	int ret = corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	if (wParam != 0) {
-		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry((HANDLE)wParam);
+		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry((HCONTACT)wParam);
 		if (pdnce && pdnce->m_cache_cszProto) {
 			pdnce___SetStatus( pdnce, GetStatusForContact(pdnce->hContact,pdnce->m_cache_cszProto));
 			if (!dat->force_in_dialog && (dat->second_line_show || dat->third_line_show))
 				gtaRenewText(pdnce->hContact);
-			SendMessage(hwnd,INTM_ICONCHANGED, wParam, corecli.pfnGetContactIcon((HANDLE)wParam));
+			SendMessage(hwnd, INTM_ICONCHANGED, wParam, corecli.pfnGetContactIcon((HCONTACT)wParam));
 
 			ClcContact *contact;
-			if ( FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,TRUE)) {
+			if (FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL, TRUE)) {
 				if (contact && contact->type == CLCIT_CONTACT) {
 					if (!contact->image_is_special && pdnce___GetStatus( pdnce ) > ID_STATUS_OFFLINE)
-						contact->iImage = corecli.pfnGetContactIcon((HANDLE)wParam);
+						contact->iImage = corecli.pfnGetContactIcon((HCONTACT)wParam);
 					if (contact->isSubcontact && contact->subcontacts && contact->subcontacts->type == CLCIT_CONTACT)
-						pcli->pfnClcBroadcast( INTM_STATUSCHANGED,(WPARAM)contact->subcontacts->hContact,0); //forward status changing to host meta contact
+						pcli->pfnClcBroadcast(INTM_STATUSCHANGED, (WPARAM)contact->subcontacts->hContact, 0); //forward status changing to host meta contact
 				}
 			}
 		}

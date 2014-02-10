@@ -33,13 +33,13 @@ void SpeakConfig::update(Subject &subject)
 }
 
 //------------------------------------------------------------------------------
-bool SpeakConfig::status(const std::wstring &sentence, HANDLE user) {
+bool SpeakConfig::status(const std::wstring &sentence, HCONTACT user) {
 	return say(sentence, user, false);
 }
-bool SpeakConfig::message(const std::wstring &sentence, HANDLE user) {
+bool SpeakConfig::message(const std::wstring &sentence, HCONTACT user) {
 	return say(sentence, user, true);
 }
-bool SpeakConfig::say(const std::wstring &sentence, HANDLE user, bool message)
+bool SpeakConfig::say(const std::wstring &sentence, HCONTACT user, bool message)
 {
 	if (!m_tts.get()){
 		return false;
@@ -89,11 +89,10 @@ bool SpeakConfig::say(const std::wstring &sentence, HANDLE user, bool message)
 		// if its a user say, then check the users status
 		if (active)
 		{
-			if(message) {
+			if(message)
 				active = m_db.getActiveUser(user).message;
-			} else {
+			else
 				active = m_db.getActiveUser(user).status;
-			}
 		}
 	}
 

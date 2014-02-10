@@ -49,7 +49,7 @@ static void ResetListOptions(HWND hwndList)
 
 static void SetAllContactIcons(HWND hwndList, int count)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		DWORD hItem = SendMessage(hwndList,CLM_FINDCONTACT,(WPARAM)hContact,0);
 		for (int i = 0; i < count; ++i)
 			SendMessage(hwndList,CLM_SETEXTRAIMAGE,hItem,MAKELPARAM(i, i+1));

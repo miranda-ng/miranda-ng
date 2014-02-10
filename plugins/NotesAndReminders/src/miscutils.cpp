@@ -27,7 +27,7 @@ void FreeSettingBlob(WORD pSize,void *pbBlob)
 	db_free(&dbv);
 }
 
-void ReadSettingBlob(HANDLE hContact, char *ModuleName, char *SettingName, WORD *pSize, void **pbBlob)
+void ReadSettingBlob(HCONTACT hContact, char *ModuleName, char *SettingName, WORD *pSize, void **pbBlob)
 {
 	DBVARIANT dbv = {0};
 	dbv.type = DBVT_BLOB;
@@ -41,12 +41,12 @@ void ReadSettingBlob(HANDLE hContact, char *ModuleName, char *SettingName, WORD 
 	}
 }
 
-void WriteSettingIntArray(HANDLE hContact,char *ModuleName,char *SettingName,const int *Value, int Size)
+void WriteSettingIntArray(HCONTACT hContact,char *ModuleName,char *SettingName,const int *Value, int Size)
 {
 	db_set_blob(hContact, ModuleName, SettingName, (void*)Value, sizeof(int)*Size);
 }
 
-bool ReadSettingIntArray(HANDLE hContact,char *ModuleName,char *SettingName,int *Value, int Size)
+bool ReadSettingIntArray(HCONTACT hContact,char *ModuleName,char *SettingName,int *Value, int Size)
 {
 	WORD sz = 4096;
 	int *pData;

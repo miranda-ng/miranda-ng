@@ -26,7 +26,7 @@ Boston, MA 02111-1307, USA.
 // translation function type
 // use hContact, module and setting to read your db value(s) and put the resulting string into buff
 // return buff if the translation was successful, or return 0 for failure
-typedef TCHAR *(TranslateFunc)(HANDLE hContact, const char *module, const char *setting_or_prefix, TCHAR *buff, int bufflen);
+typedef TCHAR *(TranslateFunc)(HCONTACT hContact, const char *module, const char *setting_or_prefix, TCHAR *buff, int bufflen);
 
 typedef struct {
 	TranslateFunc *transFunc;	// address of your translation function (see typedef above)

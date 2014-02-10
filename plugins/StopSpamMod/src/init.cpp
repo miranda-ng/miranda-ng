@@ -76,7 +76,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfoEx;
 }
 
-extern tstring DBGetContactSettingStringPAN(HANDLE hContact, char const * szModule, char const * szSetting, tstring errorValue);
+extern tstring DBGetContactSettingStringPAN(HCONTACT hContact, char const * szModule, char const * szSetting, tstring errorValue);
 
 void InitVars()
 {

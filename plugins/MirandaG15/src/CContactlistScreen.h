@@ -26,10 +26,10 @@ public:
 	void ResetPosition();
 
 	// returns the online status of the specified contact
-	int GetContactStatus(HANDLE hContact);
+	int GetContactStatus(HCONTACT hContact);
 
 	// Called when a chat session was opened
-	void OnSessionOpened(HANDLE hContact);
+	void OnSessionOpened(HCONTACT hContact);
 
 	// Called when the configuration has changed
 	void OnConfigChanged();

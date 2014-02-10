@@ -25,41 +25,41 @@ namespace DB {
 
 namespace MetaContact {
 
-INT_PTR SubCount(HANDLE hMetaContact)
+INT_PTR SubCount(HCONTACT hMetaContact)
 {
 	INT_PTR result = CallService(MS_MC_GETNUMCONTACTS, (WPARAM) hMetaContact, 0);
 	return (result == CALLSERVICE_NOTFOUND) ? -1 : result;
 }
 
-INT_PTR SubDefNum(HANDLE hMetaContact)
+INT_PTR SubDefNum(HCONTACT hMetaContact)
 {
 	INT_PTR result = CallService(MS_MC_GETDEFAULTCONTACTNUM, (WPARAM) hMetaContact, 0);
 	return (result == CALLSERVICE_NOTFOUND) ? -1 : result;
 }
 
-HANDLE Sub(HANDLE hMetaContact, int idx)
+HCONTACT Sub(HCONTACT hMetaContact, int idx)
 {
 	if (idx != -1) {
 		INT_PTR result = CallService(MS_MC_GETSUBCONTACT, (WPARAM) hMetaContact, (LPARAM) idx);
-		return (result == CALLSERVICE_NOTFOUND) ? NULL : (HANDLE) result;
+		return (result == CALLSERVICE_NOTFOUND) ? NULL : (HCONTACT)result;
 	}
 	return NULL;
 }
 
-bool IsSub(HANDLE hContact)
+bool IsSub(HCONTACT hContact)
 {
 	return myGlobals.szMetaProto &&
 			db_get_b(NULL, myGlobals.szMetaProto, "Enabled", TRUE) &&
 			db_get_b(hContact, myGlobals.szMetaProto, "IsSubcontact", FALSE);
 }
 
-HANDLE GetMeta(HANDLE hContact)
+HCONTACT GetMeta(HCONTACT hContact)
 {
 	if (!myGlobals.szMetaProto)
 		return NULL;
 
-	HANDLE result = (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
-	return (result == (HANDLE)CALLSERVICE_NOTFOUND) ? NULL : result;
+	HCONTACT result = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+	return (result == (HCONTACT)CALLSERVICE_NOTFOUND) ? NULL : result;
 }
 
 } /* namespace MetaContact */
@@ -76,7 +76,7 @@ namespace Contact {
 * @return	Returns the display name of a contact.
 **/
 
-LPTSTR DisplayName(HANDLE hContact)
+LPTSTR DisplayName(HCONTACT hContact)
 {
 	return pcli->pfnGetContactDisplayName(hContact, 0);
 }
@@ -87,7 +87,7 @@ LPTSTR DisplayName(HANDLE hContact)
 * @return	This function returns the basic protocol of a contact.
 **/
 
-LPSTR	Proto(HANDLE hContact)
+LPSTR	Proto(HCONTACT hContact)
 {
 	if (hContact) {
 		INT_PTR result;
@@ -112,16 +112,16 @@ INT_PTR GetCount()
  * Simply adds a new contact without setting up any protocol or something else
  * @return	HANDLE		The function returns the HANDLE of the new contact
  **/
-HANDLE Add()
+HCONTACT Add()
 {
-	return (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
+	return (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 }
 
 /**
  * This function deletes a contact from the database.
  * @param	hContact	- handle to the contact
  **/
-BYTE Delete(HANDLE hContact)
+BYTE Delete(HCONTACT hContact)
 {
 	return CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0) != 0;
 }
@@ -159,7 +159,7 @@ namespace Module {
 * return:	nothing
 **/
 
-void	Delete(HANDLE hContact, LPCSTR pszModule)
+void	Delete(HCONTACT hContact, LPCSTR pszModule)
 {
 	CEnumList Settings;
 	if (!Settings.EnumSettings(hContact, pszModule))
@@ -187,7 +187,7 @@ static int IsEmptyEnumProc(LPCSTR pszSetting, LPARAM lParam)
 * @retval	FALSE		- the module contains settings
 **/
 
-bool IsEmpty(HANDLE hContact, LPCSTR pszModule)
+bool IsEmpty(HCONTACT hContact, LPCSTR pszModule)
 {
 	DBCONTACTENUMSETTINGS dbces = { 0 };
 	dbces.pfnEnumProc = IsEmptyEnumProc;
@@ -236,7 +236,7 @@ namespace Setting {
 * @retval	1 - error
 **/
 
-BYTE Get(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE destType)
+BYTE Get(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE destType)
 {
 	// read value without translation to specific type
 	BYTE result = db_get_s(hContact, pszModule, pszSetting, dbv, 0) != 0;
@@ -256,7 +256,7 @@ BYTE Get(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv, c
 * @return	string value
 **/
 
-LPSTR	GetAString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
+LPSTR	GetAString(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	DBVARIANT dbv;
 	if (GetAString(hContact, pszModule, pszSetting, &dbv) == 0){
@@ -277,7 +277,7 @@ LPSTR	GetAString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 * @return	string value
 **/
 
-LPWSTR GetWString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
+LPWSTR GetWString(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	DBVARIANT dbv;
 	if (GetWString(hContact, pszModule, pszSetting, &dbv) == 0) {
@@ -302,7 +302,7 @@ LPWSTR GetWString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 * @retval	1 - error
 **/
 
-BYTE GetEx(HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE destType)
+BYTE GetEx(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE destType)
 {
 	BYTE result = !pszModule || Get(hContact, pszModule, pszSetting, dbv, destType);
 	// try to read setting from the contact's protocol module 
@@ -311,13 +311,12 @@ BYTE GetEx(HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetting
 		// try to get setting from a metasubcontact
 		if (result && DB::Module::IsMetaAndScan(pszProto)) {
 			const INT_PTR def = DB::MetaContact::SubDefNum(hContact);
-			HANDLE hSubContact;
+			HCONTACT hSubContact;
 			// try to get setting from the default subcontact first
 			if (def > -1 && def < INT_MAX) {
 				hSubContact = DB::MetaContact::Sub(hContact, def);
-				if (hSubContact != NULL) {
+				if (hSubContact != NULL)
 					result = DB::Setting::GetEx(hSubContact, pszModule, DB::Contact::Proto(hSubContact), pszSetting, dbv, destType) != 0;
-				}
 			}
 			// scan all subcontacts for the setting
 			if (result) {
@@ -348,7 +347,7 @@ BYTE GetEx(HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetting
 * @return	This function returns the WORD which contains the source of information.
 **/
 
-WORD GetCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR pszProto, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE destType)
+WORD GetCtrl(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR pszProto, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE destType)
 {
 	WORD wFlags = 0;
 
@@ -367,7 +366,7 @@ WORD GetCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR pszP
 		// try to read the setting from the sub contacts' modules
 		else if (DB::Module::IsMetaAndScan(pszProto)) {
 			const INT_PTR def = DB::MetaContact::SubDefNum(hContact);
-			HANDLE hSubContact;
+			HCONTACT hSubContact;
 			// try to get setting from the default subcontact first
 			if (def > -1 && def < INT_MAX) {
 				hSubContact = DB::MetaContact::Sub(hContact, def);
@@ -410,7 +409,7 @@ WORD GetCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR pszP
 * @retval	FALSE			- setting does not exist
 **/
 
-BYTE Exists(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
+BYTE Exists(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	if (pszModule && pszSetting) {
 		CHAR szDummy[1];
@@ -429,7 +428,7 @@ BYTE Exists(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 * @return	nothing
 **/
 
-void DeleteArray(HANDLE hContact, LPCSTR pszModule, LPCSTR pszFormat, int iStart)
+void DeleteArray(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszFormat, int iStart)
 {
 	CHAR pszSetting[MAXSETTING];
 	do {
@@ -703,7 +702,7 @@ static FORCEINLINE bool IsEqual(const DBEVENTINFO *d1, const DBEVENTINFO *d2, bo
 *
 **/
 
-bool Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
+bool Exists(HCONTACT hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 {
 	bool result = false;
 	DBEVENTINFO	edbei;
@@ -827,7 +826,7 @@ INT_PTR CEnumList::EnumModules()
 * @retval	 0	- success
 **/
 
-INT_PTR CEnumList::EnumSettings(HANDLE hContact, LPCSTR pszModule)
+INT_PTR CEnumList::EnumSettings(HCONTACT hContact, LPCSTR pszModule)
 {
 	DBCONTACTENUMSETTINGS dbces = { 0 };
 	dbces.pfnEnumProc = (DBSETTINGENUMPROC)CEnumList::EnumSettingsProc;

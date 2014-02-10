@@ -130,7 +130,7 @@ BOOL ShowListMainDlgProc_OpenContactMenu(HWND hDlg, HWND hList, int item, LASTUC
 			if (hCMenu != NULL) {
 				POINT p;
 				GetCursorPos(&p);
-				DlgDat->hContact = (HANDLE) lvi.lParam;
+				DlgDat->hContact = (HCONTACT) lvi.lParam;
 				BOOL ret = TrackPopupMenu(hCMenu, 0, p.x, p.y, 0, hDlg, NULL);
 				DestroyMenu(hCMenu);
 				if (ret)
@@ -242,7 +242,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 					if (LastUCOpt.HideOffline == 1) {
 						szProto = GetContactProto(curContact->second);
-						if (szProto != NULL && db_get_w((HANDLE)curContact->second, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+						if (szProto != NULL && db_get_w(curContact->second, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 							continue;
 					}
 
@@ -379,9 +379,8 @@ INT_PTR OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
 	BYTE buf[1];
 	dbe.pBlob = buf;
 	HANDLE curEvent;
-	HANDLE curContact = db_find_first();
-	for (; curContact != NULL; curContact = db_find_next(curContact))
-	{
+	
+	for (HCONTACT curContact = db_find_first(); curContact != NULL; curContact = db_find_next(curContact)) {
 		curTime = ((__time64_t)db_get_dw(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeLo, -1)) |
 					(((__time64_t)db_get_dw(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeHi, -1)) << 32);
 
@@ -455,7 +454,7 @@ int Create_MenuitemShowList(void)
 	return 0;
 }
 
-BOOL SaveLastUsedTimeStamp(HANDLE hContact)
+BOOL SaveLastUsedTimeStamp(HCONTACT hContact)
 {
 	__time64_t ct = _time64(NULL);
 	db_set_dw(hContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeLo, (DWORD)ct);
@@ -485,7 +484,7 @@ static int OnPrebuildContactMenu (WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_NAME | CMIF_TCHAR;
 
-	if ( db_get_b((HANDLE)wParam, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)
+	if ( db_get_b((HCONTACT)wParam, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)
 		clmi.ptszName = TranslateT("Ignore Contact");
 	else
 		clmi.ptszName = TranslateT("Show Contact");
@@ -516,7 +515,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 INT_PTR ToggleIgnore (WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != NULL) {
-		HANDLE hContact = ( HANDLE )wParam;
+		HCONTACT hContact = (HCONTACT)wParam;
 		int state = db_get_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0 ? 1 : 0 ;
 		db_set_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, state);
 		return state;

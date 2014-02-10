@@ -21,8 +21,8 @@
 #ifndef ACTIONQUEUE_H
 #define ACTIONQUEUE_H
 
-void AnswerToContact(HANDLE hContact, const TCHAR* messageToAnswer);
+void AnswerToContact(HCONTACT hContact, const TCHAR* messageToAnswer);
 
-void StartChatting(HANDLE hContact);
+void StartChatting(HCONTACT hContact);
 
 #endif /* ACTIONQUEUE_H */

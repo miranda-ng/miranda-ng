@@ -30,7 +30,7 @@ VOID CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	// only run if it is not current updating and the auto update option is enabled
 	if (!ThreadRunning && !Miranda_Terminated()) {
 		BOOL HaveUpdates = FALSE;
-		for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		for (HCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 			if (db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME)) {
 				double diff = difftime(time(NULL), db_get_dw(hContact, MODULE, "LastCheck", 0));
 				if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && diff >= db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {
@@ -58,7 +58,7 @@ VOID CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	}
 }
 
-void UpdateListAdd(HANDLE hContact)
+void UpdateListAdd(HCONTACT hContact)
 {
 	UPDATELIST *newItem = (UPDATELIST*)mir_alloc(sizeof(UPDATELIST));
 	newItem->hContact = hContact;
@@ -74,9 +74,9 @@ void UpdateListAdd(HANDLE hContact)
 	ReleaseMutex(hUpdateMutex);
 }
 
-HANDLE UpdateGetFirst()
+HCONTACT UpdateGetFirst()
 {
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
@@ -123,11 +123,12 @@ void UpdateThreadProc(LPVOID AvatarCheck)
 	ReleaseMutex(hUpdateMutex);
 
 	// update news by getting the first station from the queue until the queue is empty
-	while (UpdateListHead != NULL && !Miranda_Terminated())
+	while (UpdateListHead != NULL && !Miranda_Terminated()) {
 		if ((BOOL)AvatarCheck)
 			CheckCurrentFeedAvatar(UpdateGetFirst());
 		else
 			CheckCurrentFeed(UpdateGetFirst());
+	}
 
 	// exit the update thread
 	ThreadRunning = FALSE;

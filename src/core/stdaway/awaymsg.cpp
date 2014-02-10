@@ -30,7 +30,7 @@ static HGENMENU hAwayMsgMenuItem;
 static HANDLE hWindowList;
 
 struct AwayMsgDlgData {
-	HANDLE hContact;
+	HCONTACT hContact;
 	HANDLE hSeq;
 	HANDLE hAwayMsgEvent;
 };
@@ -46,7 +46,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			dat = (AwayMsgDlgData*)mir_alloc(sizeof(AwayMsgDlgData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
-			dat->hContact = (HANDLE)lParam;
+			dat->hContact = (HCONTACT)lParam;
 			dat->hAwayMsgEvent = HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_AWAYMSG);
 			dat->hSeq = (HANDLE)CallContactService(dat->hContact, PSS_GETAWAYMSG, 0, 0);
 			WindowList_Add(hWindowList, hwndDlg, dat->hContact);
@@ -77,7 +77,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 				ack.result = ACKRESULT_SUCCESS;
 				SendMessage(hwndDlg, HM_AWAYMSG, 0, (LPARAM)&ack);
 			}
-			Utils_RestoreWindowPosition(hwndDlg, (HANDLE)lParam, "SRAway", "AwayMsgDlg");
+			Utils_RestoreWindowPosition(hwndDlg, (HCONTACT)lParam, "SRAway", "AwayMsgDlg");
 			return TRUE;
 
 		case HM_AWAYMSG:
@@ -123,7 +123,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 {
 	HWND hwnd;
-	if (hwnd = WindowList_Find(hWindowList, (HANDLE)wParam)) {
+	if (hwnd = WindowList_Find(hWindowList, (HCONTACT)wParam)) {
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 	}
@@ -134,15 +134,15 @@ static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 {
 	TCHAR str[128];
-	char *szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HCONTACT)wParam);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN | CMIF_TCHAR;
 
 	if (szProto != NULL) {
-		int chatRoom = szProto ? db_get_b((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
+		int chatRoom = szProto ? db_get_b((HCONTACT)wParam, szProto, "ChatRoom", 0) : 0;
 		if ( !chatRoom) {
-			int status = db_get_w((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
+			int status = db_get_w((HCONTACT)wParam, szProto, "Status", ID_STATUS_OFFLINE);
 			mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(status, 0));
 			mi.ptszName = str;
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {

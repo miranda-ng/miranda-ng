@@ -400,10 +400,10 @@ void ConfigureCLUIGeometry(int mode)
  * set the states of defined database action buttons (only if button is a toggle)
 */
 
-void SetDBButtonStates(HANDLE hPassedContact)
+void SetDBButtonStates(HCONTACT hPassedContact)
 {
 	ButtonItem *buttonItem = g_ButtonItems;
-	HANDLE hContact = 0, hFinalContact = 0;
+	HCONTACT hContact = 0, hFinalContact = 0;
 	char *szModule, *szSetting;
 	int sel = cfg::clcdat ? cfg::clcdat->selection : -1;
 	ClcContact *contact = 0;
@@ -714,7 +714,7 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 
 extern LRESULT(CALLBACK *saveContactListWndProc)(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, HANDLE hContact)
+static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, HCONTACT hContact)
 {
 	if (item->dwFlags & BUTTON_PASSHCONTACTW || item->dwFlags & BUTTON_PASSHCONTACTL || item->dwFlags & BUTTON_ISCONTACTDBACTION) {
 		if (hContact == 0)
@@ -1344,7 +1344,7 @@ skipbg:
 					ButtonItem *item = g_ButtonItems;
 					WPARAM wwParam = 0;
 					LPARAM llParam = 0;
-					HANDLE hContact = 0;
+					HCONTACT hContact = 0;
 					ClcContact *contact = 0;
 					int sel = cfg::clcdat ? cfg::clcdat->selection : -1;
 					int serviceFailure = FALSE;
@@ -1378,7 +1378,7 @@ skipbg:
 								BYTE *pValue;
 								char *szModule = item->szModule;
 								char *szSetting = item->szSetting;
-								HANDLE finalhContact = 0;
+								HCONTACT finalhContact = 0;
 
 								if (item->dwFlags & BUTTON_ISCONTACTDBACTION || item->dwFlags & BUTTON_DBACTIONONCONTACT) {
 									contactOK = ServiceParamsOK(item, &wwParam, &llParam, hContact);
@@ -1400,17 +1400,15 @@ skipbg:
 									} else
 										pValue = item->bValuePush;
 
-									if (fDelete) {
-										//_DebugTraceA("delete value: %s, %s ON %d", szModule, szSetting, finalhContact);
+									if (fDelete)
 										db_unset(finalhContact, szModule, szSetting);
-									} else {
+									else {
 										switch (item->type) {
 										case DBVT_BYTE:
 											cfg::writeByte(finalhContact, szModule, szSetting, pValue[0]);
 											break;
 										case DBVT_WORD:
 											cfg::writeWord(finalhContact, szModule, szSetting, *((WORD *)&pValue[0]));
-											//_DebugTraceA("set WORD value: %s, %s, %d ON %d", szModule, item->szSetting, *((WORD *)&pValue[0]), finalhContact);
 											break;
 										case DBVT_DWORD:
 											cfg::writeDword(finalhContact, szModule, szSetting, *((DWORD *)&pValue[0]));

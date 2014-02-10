@@ -148,7 +148,7 @@ void CCombo::Release()
  *
  * @return	nothing
  **/
-BOOL CCombo::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
+BOOL CCombo::OnInfoChanged(HCONTACT hContact, LPCSTR pszProto)
 {
 	if (!_Flags.B.hasChanged && _pList != NULL)
 	{
@@ -196,7 +196,7 @@ BOOL CCombo::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
  *
  * @return	nothing
  **/
-void CCombo::OnApply(HANDLE hContact, LPCSTR pszProto)
+void CCombo::OnApply(HCONTACT hContact, LPCSTR pszProto)
 {
 	if (_Flags.B.hasChanged)
 	{

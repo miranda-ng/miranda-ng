@@ -122,7 +122,7 @@ For example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The 
 #define VARM_GETINPUTTEXT	     (WM_APP+13)
 #define VARM_GETINPUTTEXTLENGTH (WM_APP+14)
 #define VARM_SETSUBJECT         (WM_APP+15)
-#define VARM_GETSUBJECT         (WM_APP+16) // wParam=HANDLE hContact
+#define VARM_GETSUBJECT         (WM_APP+16) // wParam=HCONTACT hContact
 #define VARM_SETEXTRATEXT       (WM_APP+17)
 #define VARM_GETEXTRATEXT       (WM_APP+18)
 #define VARM_GETEXTRATEXTLENGTH (WM_APP+19)
@@ -136,7 +136,7 @@ typedef struct {
 	int cbSize;
 	char *szFormat;
 	char *szSource;
-	HANDLE hContact;
+	HCONTACT hContact;
 	int pCount;  // number of succesful parses
 	int eCount;	 // number of failures
 } FORMATINFOV1;
@@ -172,7 +172,7 @@ int  initTokenRegister();
 int  deinitTokenRegister();
 // contact.c
 BYTE getContactInfoType(TCHAR* type);
-TCHAR* getContactInfoT(BYTE type, HANDLE hContact);
+TCHAR* getContactInfoT(BYTE type, HCONTACT hContact);
 int  getContactFromString( CONTACTSINFO* );
 int  initContactModule();
 int  deinitContactModule();

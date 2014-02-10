@@ -130,7 +130,7 @@ extern const int statusModeList[ MAX_STATUS_COUNT ];
 extern const int skinIconStatusList[ MAX_STATUS_COUNT ];
 extern const int skinIconStatusFlags[ MAX_STATUS_COUNT ];
 
-int TryProcessDoubleClick(HANDLE hContact);
+int TryProcessDoubleClick(HCONTACT hContact);
 
 void KillModuleMenus(int hLangpack);
 
@@ -144,7 +144,7 @@ void KillModuleMenus(int hLangpack);
 extern LIST<PROTOACCOUNT> accounts;
 
 PROTOACCOUNT* __fastcall Proto_GetAccount(const char* accName);
-PROTOACCOUNT* __fastcall Proto_GetAccount(HANDLE hContact);
+PROTOACCOUNT* __fastcall Proto_GetAccount(HCONTACT hContact);
 PROTOCOLDESCRIPTOR* __fastcall Proto_IsProtocolLoaded(const char* szProtoName);
 
 bool __fastcall Proto_IsAccountEnabled(PROTOACCOUNT* pa);
@@ -162,7 +162,7 @@ void OpenAccountOptions(PROTOACCOUNT* pa);
 void LoadDbAccounts(void);
 void WriteDbAccounts(void);
 
-INT_PTR CallProtoServiceInt(HANDLE hContact, const char* szModule, const char* szService, WPARAM wParam, LPARAM lParam);
+INT_PTR CallProtoServiceInt(HCONTACT hContact, const char* szModule, const char* szService, WPARAM wParam, LPARAM lParam);
 
 /**** utils.cpp ************************************************************************/
 

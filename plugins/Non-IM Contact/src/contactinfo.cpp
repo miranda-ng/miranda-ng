@@ -5,7 +5,7 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	switch(msg) {
 	case WM_INITDIALOG:
 		{
-			HANDLE hContact = (HANDLE)((PROPSHEETPAGE*)lParam)->lParam;
+			HCONTACT hContact = (HCONTACT)((PROPSHEETPAGE*)lParam)->lParam;
 			char name[2048];
 			TranslateDialogDefault(hwnd);
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)(HANDLE)hContact);
@@ -26,7 +26,7 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_DISPLAY_NAME))) {
 					char text[512];
 					GetDlgItemTextA(hwnd,IDC_DISPLAY_NAME,text,sizeof(text));
@@ -112,7 +112,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	switch(msg) {
 	case WM_INITDIALOG:
 		{
-			HANDLE hContact = (HANDLE)((PROPSHEETPAGE*)lParam)->lParam;
+			HCONTACT hContact = (HCONTACT)((PROPSHEETPAGE*)lParam)->lParam;
 			TranslateDialogDefault(hwnd);
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)hContact);
 			if (!hContact)
@@ -180,7 +180,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		switch(LOWORD(wParam)) {
 		case IDC_ALWAYS_VISIBLE:
 			if (IsDlgButtonChecked(hwnd, IDC_ALWAYS_VISIBLE)) {
-				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				EnableWindow(GetDlgItem(hwnd, IDC_VISIBLE_UNLESS_OFFLINE),1);
 				CheckDlgButton(hwnd, IDC_VISIBLE_UNLESS_OFFLINE, db_get_b(hContact, MODNAME ,"VisibleUnlessOffline", 1));
 			}
@@ -189,7 +189,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 		case CHK_USE_TIMER:
 			if (IsDlgButtonChecked(hwnd, CHK_USE_TIMER)) {
-				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				char string[4];
 				EnableWindow(GetDlgItem(hwnd, IDC_TIMER), 1);
 				SetDlgItemTextA(hwnd, IDC_TIMER, _itoa(db_get_w(hContact, MODNAME ,"Timer", 15), string, 10));
@@ -223,7 +223,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				int status = GetLCStatus(0,0);
-				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_LINK))) {
 					char text[512];
@@ -304,9 +304,9 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	switch(msg) {
 	case WM_INITDIALOG:
 		{
-			HANDLE hContact = (HANDLE)((PROPSHEETPAGE*)lParam)->lParam;
+			HCONTACT hContact = (HCONTACT)((PROPSHEETPAGE*)lParam)->lParam;
 			TranslateDialogDefault(hwnd);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)(HANDLE)hContact);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)hContact);
 		}
 		return TRUE;
 
@@ -314,7 +314,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 		switch(LOWORD(wParam)) {
 		case IDC_EXPORT:
-			ExportContact((HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA));
+			ExportContact((HCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA));
 			break;
 
 		case IDC_DOIT:
@@ -324,7 +324,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				char dbVar1[2000], dbVar2[2000];
 				int i=0,j=0, k=0;
 				char *string = oldString[k];
-				HANDLE hContact1 = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA), hContact2;
+				HCONTACT hContact1 = (HCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA), hContact2;
 				GetDlgItemTextA(hwnd, IDC_STRING_REPLACE, replace, GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING_REPLACE)) +1);
 				if (db_get_static(hContact1, MODNAME, "Name", dbVar1)) {
 					// get the list of replace strings
@@ -347,7 +347,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						}
 						i++;
 					}	
-					hContact2 =(HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
+					hContact2 =(HCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
 					CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact2,(LPARAM)MODNAME);
 					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact2, IGNOREEVENT_USERONLINE);
 					db_set_s(hContact2, MODNAME, "Nick", Translate("New Non-IM Contact"));
@@ -401,9 +401,9 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else {
 				char dbVar1[2000];
-				HANDLE hContact1 = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA), hContact2;
+				HCONTACT hContact1 = (HCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA), hContact2;
 				if (db_get_static(hContact1, MODNAME, "Name", dbVar1)) {
-					if (!(hContact2 =(HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0))) {
+					if (!(hContact2 = (HCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0))) {
 						msg("contact did not get created","");
 						return 0;
 					}
@@ -452,7 +452,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-void ExportContact(HANDLE hContact)
+void ExportContact(HCONTACT hContact)
 {
 	char szFileName[MAX_PATH];
 	char DBVar[1024];
@@ -495,7 +495,7 @@ void ExportContact(HANDLE hContact)
 
 INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	char name[256] = "", program[256] = "", programparam[256] = "", group[256] = "", tooltip[3000] = "", line[2001] = "";
 	int icon = 40072, usetimer = 0, minutes = 1, timer = 0;
 	char fn[MAX_PATH];
@@ -631,7 +631,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 			}
 
 			if (MessageBoxA(0,msg,modFullname,MB_YESNO) == IDYES) {
-				if (!(hContact =(HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0))) {
+				if (!(hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0))) {
 					msg("contact did get created","");
 					continue;
 				}

@@ -205,7 +205,7 @@ BYTE* calcMD5HashOfFile(const TCHAR *tszFile)
 }
 
 
-int CIcqProto::IsAvatarChanged(HANDLE hContact, const BYTE *pHash, int nHashLen)
+int CIcqProto::IsAvatarChanged(HCONTACT hContact, const BYTE *pHash, int nHashLen)
 {
 	DBVARIANT dbvSaved = {0};
 
@@ -451,7 +451,7 @@ void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BY
 
 
 // handle Contact's avatar hash
-void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContact, BYTE *pHash, int nHashLen, WORD wOldStatus)
+void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HCONTACT hContact, BYTE *pHash, int nHashLen, WORD wOldStatus)
 {
 	int bJob = FALSE;
 	BOOL avatarInfoPresent = FALSE;
@@ -696,7 +696,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 
 
 // request avatar data from server
-int CIcqProto::GetAvatarData(HANDLE hContact, DWORD dwUin, const char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file)
+int CIcqProto::GetAvatarData(HCONTACT hContact, DWORD dwUin, const char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file)
 {
 	uid_str szUidData;
 	char *pszUid = NULL;
@@ -803,7 +803,7 @@ int CIcqProto::GetAvatarData(HANDLE hContact, DWORD dwUin, const char *szUid, co
 
 
 // upload avatar data to server
-int CIcqProto::SetAvatarData(HANDLE hContact, WORD wRef, const BYTE *data, unsigned int datalen)
+int CIcqProto::SetAvatarData(HCONTACT hContact, WORD wRef, const BYTE *data, unsigned int datalen)
 {
 	m_avatarsMutex->Enter();
 
@@ -958,7 +958,7 @@ void avatars_server_connection::shutdownConnection()
 		Netlib_Shutdown(hConnection);
 }
 
-DWORD avatars_server_connection::sendGetAvatarRequest(HANDLE hContact, DWORD dwUin, char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file)
+DWORD avatars_server_connection::sendGetAvatarRequest(HCONTACT hContact, DWORD dwUin, char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file)
 {
 	int i;
 	DWORD dwNow = GetTickCount();
@@ -1055,7 +1055,7 @@ DWORD avatars_server_connection::sendGetAvatarRequest(HANDLE hContact, DWORD dwU
 }
 
 
-DWORD avatars_server_connection::sendUploadAvatarRequest(HANDLE hContact, WORD wRef, const BYTE *data, unsigned int datalen)
+DWORD avatars_server_connection::sendUploadAvatarRequest(HCONTACT hContact, WORD wRef, const BYTE *data, unsigned int datalen)
 {
 	cookie_avatar *ack = (cookie_avatar*)SAFE_MALLOC(sizeof(cookie_avatar));
 	if (!ack) return 0; // Failure: out of memory

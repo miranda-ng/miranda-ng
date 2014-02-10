@@ -36,7 +36,7 @@ protected:
 	LPSTR		_pszUIDKey;
 	DWORD		_dbvUIDHash;
 	DBVARIANT	_dbvUID;
-	HANDLE		_hContact;
+	HCONTACT	_hContact;
 	BYTE		_isNewContact;	// is this contact a new one?
 
 	HANDLE		findHandle();
@@ -52,7 +52,7 @@ public:
 //	__inline LPCSTR ampro() const	{ return mir_strcmp(_pszAMPro,"")? _pszAMPro : NULL;	}
 //	__inline LPCSTR uidk() const	{ return mir_strcmp(_pszUIDKey,"")? _pszUIDKey : NULL;	}
 	__inline DBVARIANT& uid()		{ return _dbvUID;	}
-	__inline HANDLE handle() const	{ return _hContact;	}
+	__inline HCONTACT handle() const { return _hContact; }
 	
 	__inline void	disp(LPCSTR val)			{ _pszDisp		=	val ? mir_strdup(val): NULL; }
 	__inline void	group(LPCSTR val)			{ _pszGroup		=	val ? mir_strdup(val): NULL; }
@@ -77,16 +77,16 @@ public:
 		mir_free(temp);
 	}
 
-	BYTE			isHandle(HANDLE hContact);
-	BYTE			isMeta() const;
+	BYTE isHandle(HCONTACT hContact);
+	BYTE isMeta() const;
 
-	LPSTR			uid2String(BYTE bPrependType);
+	LPSTR uid2String(BYTE bPrependType);
 
-	BYTE			fromDB(HANDLE hContact);
-	BYTE			fromIni(LPSTR& row);
+	BYTE fromDB(HCONTACT hContact);
+	BYTE fromIni(LPSTR& row);
 
-	HANDLE			toDB();
-	void			toIni(FILE* file, int modCount);
+	HCONTACT toDB();
+	void toIni(FILE* file, int modCount);
 
-	BYTE operator = (HANDLE hContact)	{ return fromDB(hContact);	}
+	BYTE operator = (HCONTACT hContact)	{ return fromDB(hContact);	}
 };

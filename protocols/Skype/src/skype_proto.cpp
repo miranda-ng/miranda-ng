@@ -79,7 +79,7 @@ int __cdecl CSkypeProto::Authorize(HANDLE hDbEvent)
 {
 	if (this->IsOnline() && hDbEvent)
 	{
-		HANDLE hContact = this->GetContactFromAuthEvent(hDbEvent);
+		HCONTACT hContact = this->GetContactFromAuthEvent(hDbEvent);
 		if (hContact == INVALID_HANDLE_VALUE)
 			return 1;
 
@@ -93,7 +93,7 @@ int __cdecl CSkypeProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 {
 	if (this->IsOnline())
 	{
-		HANDLE hContact = this->GetContactFromAuthEvent(hDbEvent);
+		HCONTACT hContact = this->GetContactFromAuthEvent(hDbEvent);
 		if (hContact == INVALID_HANDLE_VALUE)
 			return 1;
 
@@ -103,7 +103,7 @@ int __cdecl CSkypeProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 	return 1;
 }
 
-int __cdecl CSkypeProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
+int __cdecl CSkypeProto::AuthRecv(HCONTACT hContact, PROTORECVEVENT* pre)
 {
 	DWORD flags = 0;
 
@@ -124,7 +124,7 @@ int __cdecl CSkypeProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 	return 0;
 }
 
-int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
+int __cdecl CSkypeProto::AuthRequest(HCONTACT hContact, const TCHAR* szMessage)
 {
 	if (this->IsOnline() && hContact)
 	{
@@ -144,7 +144,7 @@ int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 
 HANDLE __cdecl CSkypeProto::ChangeInfo( int iInfoType, void* pInfoData ) { return 0; }
 
-HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const TCHAR* szPath ) 
+HANDLE __cdecl CSkypeProto::FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath ) 
 { 
 	uint oid = (uint)hTransfer;
 
@@ -193,7 +193,7 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 	return hTransfer; 
 }
 
-int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer ) 
+int    __cdecl CSkypeProto::FileCancel(HCONTACT hContact, HANDLE hTransfer ) 
 {
 	uint oid = (uint)hTransfer;
 
@@ -217,7 +217,7 @@ int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer )
 	return 1; 
 }
 
-int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const TCHAR* szReason )
+int    __cdecl CSkypeProto::FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason )
 {
 	uint oid = (uint)hTransfer;
 
@@ -292,7 +292,7 @@ int    __cdecl CSkypeProto::FileResume( HANDLE hTransfer, int* action, const TCH
 	return 0;
 }
 
-DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
+DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HCONTACT hContact)
 {
 	switch(type)
 	{
@@ -318,7 +318,7 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 	}
 }
 
-int    __cdecl CSkypeProto::GetInfo( HANDLE hContact, int infoType ) { return 0; }
+int    __cdecl CSkypeProto::GetInfo(HCONTACT hContact, int infoType ) { return 0; }
 
 HANDLE __cdecl CSkypeProto::SearchBasic(const TCHAR* id)
 {
@@ -358,7 +358,7 @@ HWND   __cdecl CSkypeProto::SearchAdvanced( HWND owner ) { return 0; }
 
 HWND   __cdecl CSkypeProto::CreateExtendedSearchUI( HWND owner ){ return 0; }
 
-int    __cdecl CSkypeProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* pre) 
+int    __cdecl CSkypeProto::RecvContacts(HCONTACT hContact, PROTORECVEVENT* pre) 
 {
 	this->debugLogW(L"Incoming contacts");
 	::db_unset(hContact, "CList", "Hidden");
@@ -372,14 +372,14 @@ int    __cdecl CSkypeProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* pre)
 		(PBYTE)pre->szMessage);
 }
 
-int    __cdecl CSkypeProto::RecvFile( HANDLE hContact, PROTORECVFILET* pre) 
+int    __cdecl CSkypeProto::RecvFile(HCONTACT hContact, PROTORECVFILET* pre) 
 { 
 	this->debugLogW(L"Incoming file transfer");
 	::db_unset(hContact, "CList", "Hidden");
 	return ::Proto_RecvFile(hContact, pre);
 }
 
-int __cdecl CSkypeProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
+int __cdecl CSkypeProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT* pre)
 {
 	this->debugLogW(L"Incoming message");
 	::db_unset(hContact, "CList", "Hidden");
@@ -401,9 +401,9 @@ int __cdecl CSkypeProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 		(PBYTE)message);
 }
 
-int __cdecl CSkypeProto::RecvUrl(HANDLE hContact, PROTORECVEVENT *) { return 0; }
+int __cdecl CSkypeProto::RecvUrl(HCONTACT hContact, PROTORECVEVENT *) { return 0; }
 
-int __cdecl CSkypeProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE *hContactsList) 
+int __cdecl CSkypeProto::SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList)
 {
 	if (this->IsOnline() && hContact && hContactsList)
 	{
@@ -454,7 +454,7 @@ int __cdecl CSkypeProto::SendContacts(HANDLE hContact, int flags, int nContacts,
 	return 0; 
 }
 
-HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription, TCHAR **ppszFiles)
+HANDLE __cdecl CSkypeProto::SendFile(HCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles)
 {
 	if (this->IsOnline() && hContact && ppszFiles)
 	{
@@ -525,7 +525,7 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 	return 0; 
 }
 
-int __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char *msg)
+int __cdecl CSkypeProto::SendMsg(HCONTACT hContact, int flags, const char *msg)
 {
 	this->debugLogW(L"Outcoming message");
 	SEStringList targets;
@@ -546,9 +546,9 @@ int __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 	return 0;
 }
 
-int __cdecl CSkypeProto::SendUrl(HANDLE hContact, int flags, const char *url) { return 0; }
+int __cdecl CSkypeProto::SendUrl(HCONTACT hContact, int flags, const char *url) { return 0; }
 
-int __cdecl CSkypeProto::SetApparentMode(HANDLE hContact, int mode) { return 0; }
+int __cdecl CSkypeProto::SetApparentMode(HCONTACT hContact, int mode) { return 0; }
 
 int CSkypeProto::SetStatus(int new_status)
 {
@@ -613,11 +613,11 @@ int CSkypeProto::SetStatus(int new_status)
 	return 0;
 }
 
-HANDLE __cdecl CSkypeProto::GetAwayMsg(HANDLE hContact) { return 0; }
-int    __cdecl CSkypeProto::RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT *evt) { return 0; }
+HANDLE __cdecl CSkypeProto::GetAwayMsg(HCONTACT hContact) { return 0; }
+int    __cdecl CSkypeProto::RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT *evt) { return 0; }
 int    __cdecl CSkypeProto::SetAwayMsg(int m_iStatus, const TCHAR *msg) { return 0; }
 
-int __cdecl CSkypeProto::UserIsTyping(HANDLE hContact, int type)
+int __cdecl CSkypeProto::UserIsTyping(HCONTACT hContact, int type)
 {
 	if (hContact && this->IsOnline() && this->m_iStatus != ID_STATUS_INVISIBLE)
 	{

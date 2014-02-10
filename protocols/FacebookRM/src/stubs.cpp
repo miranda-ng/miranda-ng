@@ -27,7 +27,7 @@ HANDLE FacebookProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 	return NULL;
 }
 
-int FacebookProto::AuthRecv(HANDLE hContact,PROTORECVEVENT *)
+int FacebookProto::AuthRecv(HCONTACT hContact,PROTORECVEVENT *)
 {
 	return 1;
 }
@@ -38,17 +38,17 @@ HANDLE FacebookProto::ChangeInfo(int type,void *info_data)
 	return NULL;
 }
 
-HANDLE FacebookProto::FileAllow(HANDLE hContact,HANDLE hTransfer,const PROTOCHAR *path)
+HANDLE FacebookProto::FileAllow(HCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *path)
 {
 	return NULL;
 }
 
-int FacebookProto::FileCancel(HANDLE hContact,HANDLE hTransfer)
+int FacebookProto::FileCancel(HCONTACT hContact,HANDLE hTransfer)
 {
 	return 1;
 }
 
-int FacebookProto::FileDeny(HANDLE hContact,HANDLE hTransfer,const PROTOCHAR *reason)
+int FacebookProto::FileDeny(HCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *reason)
 {
 	return 1;
 }
@@ -58,7 +58,7 @@ int FacebookProto::FileResume(HANDLE hTransfer,int *action,const PROTOCHAR **fil
 	return 1;
 }
 
-int FacebookProto::GetInfo(HANDLE hContact, int infoType)
+int FacebookProto::GetInfo(HCONTACT hContact, int infoType)
 {
 	// TODO: Most probably some ProtoAck should be here instead
 	return 1;
@@ -74,42 +74,42 @@ HWND FacebookProto::CreateExtendedSearchUI(HWND owner)
 	return NULL;
 }
 
-int FacebookProto::RecvContacts(HANDLE hContact,PROTORECVEVENT *)
+int FacebookProto::RecvContacts(HCONTACT hContact,PROTORECVEVENT *)
 {
 	return 1;
 }
 
-int FacebookProto::RecvFile(HANDLE hContact,PROTORECVFILET *)
+int FacebookProto::RecvFile(HCONTACT hContact,PROTORECVFILET *)
 {
 	return 1;
 }
 
-int FacebookProto::RecvUrl(HANDLE hContact,PROTORECVEVENT *)
+int FacebookProto::RecvUrl(HCONTACT hContact,PROTORECVEVENT *)
 {
 	return 1;
 }
 
-int FacebookProto::SendContacts(HANDLE hContact,int flags,int nContacts,HANDLE *hContactsList)
+int FacebookProto::SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList)
 {
 	return 1;
 }
 
-HANDLE FacebookProto::SendFile(HANDLE hContact,const PROTOCHAR *desc, PROTOCHAR **files)
+HANDLE FacebookProto::SendFile(HCONTACT hContact,const PROTOCHAR *desc, PROTOCHAR **files)
 {
 	return NULL;
 }
 
-int FacebookProto::SendUrl(HANDLE hContact,int flags,const char *url)
+int FacebookProto::SendUrl(HCONTACT hContact,int flags,const char *url)
 {
 	return 1;
 }
 
-int FacebookProto::SetApparentMode(HANDLE hContact,int mode)
+int FacebookProto::SetApparentMode(HCONTACT hContact,int mode)
 {
 	return 1;
 }
 
-int FacebookProto::RecvAwayMsg(HANDLE hContact,int mode,PROTORECVEVENT *evt)
+int FacebookProto::RecvAwayMsg(HCONTACT hContact,int mode,PROTORECVEVENT *evt)
 {
 	return 1;
 }

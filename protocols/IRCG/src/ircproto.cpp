@@ -327,7 +327,7 @@ HANDLE __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 	id = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)id) : mir_a2t((char*)id);
 
 	CONTACT user = { id, NULL, NULL, true, false, false };
-	HANDLE hContact = CList_AddContact(&user, true, false);
+	HCONTACT hContact = CList_AddContact(&user, true, false);
 
 	if (hContact) {
 		DBVARIANT dbv1;
@@ -383,7 +383,7 @@ int __cdecl CIrcProto::AuthDeny(HANDLE, const TCHAR*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AUTH
 
-int __cdecl CIrcProto::AuthRecv(HANDLE, PROTORECVEVENT*)
+int __cdecl CIrcProto::AuthRecv(HCONTACT, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -391,7 +391,7 @@ int __cdecl CIrcProto::AuthRecv(HANDLE, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CIrcProto::AuthRequest(HANDLE, const TCHAR*)
+int __cdecl CIrcProto::AuthRequest(HCONTACT, const TCHAR*)
 {
 	return 1;
 }
@@ -407,7 +407,7 @@ HANDLE __cdecl CIrcProto::ChangeInfo(int, void*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
-HANDLE __cdecl CIrcProto::FileAllow(HANDLE, HANDLE hTransfer, const TCHAR* szPath)
+HANDLE __cdecl CIrcProto::FileAllow(HCONTACT, HANDLE hTransfer, const TCHAR* szPath)
 {
 	DCCINFO* di = (DCCINFO*)hTransfer;
 
@@ -428,7 +428,7 @@ HANDLE __cdecl CIrcProto::FileAllow(HANDLE, HANDLE hTransfer, const TCHAR* szPat
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileCancel - cancels a file transfer
 
-int __cdecl CIrcProto::FileCancel(HANDLE, HANDLE hTransfer)
+int __cdecl CIrcProto::FileCancel(HCONTACT, HANDLE hTransfer)
 {
 	DCCINFO* di = (DCCINFO*)hTransfer;
 
@@ -444,7 +444,7 @@ int __cdecl CIrcProto::FileCancel(HANDLE, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileDeny - denies a file transfer
 
-int __cdecl CIrcProto::FileDeny(HANDLE, HANDLE hTransfer, const TCHAR*)
+int __cdecl CIrcProto::FileDeny(HCONTACT, HANDLE hTransfer, const TCHAR*)
 {
 	DCCINFO* di = (DCCINFO*)hTransfer;
 	delete di;
@@ -500,7 +500,7 @@ int __cdecl CIrcProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** s
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 
-DWORD_PTR __cdecl CIrcProto::GetCaps(int type, HANDLE)
+DWORD_PTR __cdecl CIrcProto::GetCaps(int type, HCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -531,7 +531,7 @@ DWORD_PTR __cdecl CIrcProto::GetCaps(int type, HANDLE)
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetInfo - retrieves a contact info
 
-int __cdecl CIrcProto::GetInfo(HANDLE, int)
+int __cdecl CIrcProto::GetInfo(HCONTACT, int)
 {
 	return 1;
 }
@@ -599,7 +599,7 @@ HWND __cdecl CIrcProto::SearchAdvanced(HWND)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvContacts
 
-int __cdecl CIrcProto::RecvContacts(HANDLE, PROTORECVEVENT*)
+int __cdecl CIrcProto::RecvContacts(HCONTACT, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -607,7 +607,7 @@ int __cdecl CIrcProto::RecvContacts(HANDLE, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvFile
 
-int __cdecl CIrcProto::RecvFile(HANDLE hContact, PROTORECVFILET* evt)
+int __cdecl CIrcProto::RecvFile(HCONTACT hContact, PROTORECVFILET* evt)
 {
 	return Proto_RecvFile(hContact, evt);
 }
@@ -615,7 +615,7 @@ int __cdecl CIrcProto::RecvFile(HANDLE hContact, PROTORECVFILET* evt)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
-int __cdecl CIrcProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* evt)
+int __cdecl CIrcProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT* evt)
 {
 	return Proto_RecvMessage(hContact, evt);
 }
@@ -623,7 +623,7 @@ int __cdecl CIrcProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* evt)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvUrl
 
-int __cdecl CIrcProto::RecvUrl(HANDLE, PROTORECVEVENT*)
+int __cdecl CIrcProto::RecvUrl(HCONTACT, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -631,7 +631,7 @@ int __cdecl CIrcProto::RecvUrl(HANDLE, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
-int __cdecl CIrcProto::SendContacts(HANDLE, int, int, HANDLE*)
+int __cdecl CIrcProto::SendContacts(HCONTACT, int, int, HCONTACT*)
 {
 	return 1;
 }
@@ -639,7 +639,7 @@ int __cdecl CIrcProto::SendContacts(HANDLE, int, int, HANDLE*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CIrcProto::SendFile(HANDLE hContact, const TCHAR*, TCHAR** ppszFiles)
+HANDLE __cdecl CIrcProto::SendFile(HCONTACT hContact, const TCHAR*, TCHAR** ppszFiles)
 {
 	DCCINFO* dci = NULL;
 	int iPort = 0;
@@ -780,22 +780,22 @@ HANDLE __cdecl CIrcProto::SendFile(HANDLE hContact, const TCHAR*, TCHAR** ppszFi
 
 struct TFakeAckParam
 {
-	__inline TFakeAckParam(HANDLE _hContact, int _msgid) :
+	__inline TFakeAckParam(HCONTACT _hContact, int _msgid) :
 		hContact(_hContact), msgid(_msgid)
 		{}
 
-	HANDLE hContact;
+	HCONTACT hContact;
 	int    msgid;
 };
 
 void __cdecl CIrcProto::AckMessageFail(void *info)
 {
-	ProtoBroadcastAck(info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The protocol is not online"));
+	ProtoBroadcastAck((HCONTACT)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The protocol is not online"));
 }
 
 void __cdecl CIrcProto::AckMessageFailDcc(void *info)
 {
-	ProtoBroadcastAck(info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The dcc chat connection is not active"));
+	ProtoBroadcastAck((HCONTACT)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The dcc chat connection is not active"));
 }
 
 void __cdecl CIrcProto::AckMessageSuccess(void *info)
@@ -805,7 +805,7 @@ void __cdecl CIrcProto::AckMessageSuccess(void *info)
 	delete param;
 }
 
-int __cdecl CIrcProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
+int __cdecl CIrcProto::SendMsg(HCONTACT hContact, int flags, const char* pszSrc)
 {
 	BYTE bDcc = getByte(hContact, "DCC", 0);
 	WORD wStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -846,7 +846,7 @@ int __cdecl CIrcProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendUrl
 
-int __cdecl CIrcProto::SendUrl(HANDLE, int, const char*)
+int __cdecl CIrcProto::SendUrl(HCONTACT, int, const char*)
 {
 	return 1;
 }
@@ -854,7 +854,7 @@ int __cdecl CIrcProto::SendUrl(HANDLE, int, const char*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetApparentMode - sets the visibility status
 
-int __cdecl CIrcProto::SetApparentMode(HANDLE, int)
+int __cdecl CIrcProto::SetApparentMode(HCONTACT, int)
 {
 	return 0;
 }
@@ -936,7 +936,7 @@ int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetAwayMsg - returns a contact's away message
 
-HANDLE __cdecl CIrcProto::GetAwayMsg(HANDLE hContact)
+HANDLE __cdecl CIrcProto::GetAwayMsg(HCONTACT hContact)
 {
 	WhoisAwayReply = _T("");
 	DBVARIANT dbv;
@@ -963,7 +963,7 @@ HANDLE __cdecl CIrcProto::GetAwayMsg(HANDLE hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AWAYMSG
 
-int __cdecl CIrcProto::RecvAwayMsg(HANDLE, int, PROTORECVEVENT*)
+int __cdecl CIrcProto::RecvAwayMsg(HCONTACT, int, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -998,7 +998,7 @@ int __cdecl CIrcProto::SetAwayMsg(int status, const TCHAR* msg)
 /////////////////////////////////////////////////////////////////////////////////////////
 // UserIsTyping - sends a UTN notification
 
-int __cdecl CIrcProto::UserIsTyping(HANDLE, int)
+int __cdecl CIrcProto::UserIsTyping(HCONTACT, int)
 {
 	return 0;
 }

@@ -32,17 +32,17 @@ int __fastcall strcmpnull(const char *str1, const char *str2);
 void __fastcall strcpynull(char *str1, const char *str2);
 char* __fastcall null_strdup(const char *string);
 
-TCHAR* GetContactUID(HANDLE hContact);
+TCHAR* GetContactUID(HCONTACT hContact);
 
-void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, HANDLE hContact);
-void UpdateDialogTitle(HWND hwndDlg, HANDLE hContact, TCHAR *pszTitleStart);
-void UpdateDialogAddButton(HWND hwndDlg, HANDLE hContact);
+void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, HCONTACT hContact);
+void UpdateDialogTitle(HWND hwndDlg, HCONTACT hContact, TCHAR *pszTitleStart);
+void UpdateDialogAddButton(HWND hwndDlg, HCONTACT hContact);
 
 HICON InitMButton(HWND hDlg, int idButton, LPCSTR szIcon, char* szTip);
 
 void DialogAddContactExecute(HWND hwndDlg, HANDLE hNewContact);
 
-HICON LoadContactProtoIcon(HANDLE hContact);
+HICON LoadContactProtoIcon(HCONTACT hContact);
 
 void EnableDlgItem(HWND hwndDlg, UINT control, int state);
 

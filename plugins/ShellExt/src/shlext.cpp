@@ -702,7 +702,7 @@ HRESULT TShellExt::QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT _idCmdFirs
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HRESULT ipcGetFiles(THeaderIPC *pipch, IDataObject* pDataObject, HANDLE hContact)
+HRESULT ipcGetFiles(THeaderIPC *pipch, IDataObject* pDataObject, HCONTACT hContact)
 {
 	FORMATETC fet;
 	fet.cfFormat = CF_HDROP;

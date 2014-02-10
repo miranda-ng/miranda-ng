@@ -408,7 +408,7 @@ void	MTime::GetLocalTime()
 	::GetLocalTime(&_SysTime);
 }
 
-void	MTime::GetLocalTime(HANDLE hContact)
+void	MTime::GetLocalTime(HCONTACT hContact)
 {
 	TIME_ZONE_INFORMATION tzi;
 
@@ -423,7 +423,7 @@ void	MTime::GetLocalTime(HANDLE hContact)
  * read and write time to miranda's database
  *********************************************/
 
-int		MTime::DBGetStamp  (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
+int		MTime::DBGetStamp  (HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	DWORD dwTimeStamp;
 
@@ -446,7 +446,7 @@ int		MTime::DBGetStamp  (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 	return 0;
 }
 
-int MTime::DBWriteStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
+int MTime::DBWriteStamp(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	if (hContact == INVALID_HANDLE_VALUE ||
 			pszModule == NULL || pszModule[0] == 0 ||

@@ -78,10 +78,10 @@ struct CTimeZone : public REG_TZI_FORMAT
 
 typedef INT_PTR (*PEnumNamesProc)(CTimeZone* pTimeZone, int index, LPARAM lParam);
 
-CTimeZone*	GetContactTimeZone(HANDLE hContact);
-CTimeZone*	GetContactTimeZone(HANDLE hContact, LPCSTR pszProto);
-WORD		GetContactTimeZoneCtrl(HANDLE hContact, LPCSTR pszProto, CTimeZone** pTimeZone);
-LPCTSTR		GetContactTimeZoneDisplayName(HANDLE hContact);
+CTimeZone*	GetContactTimeZone(HCONTACT hContact);
+CTimeZone*	GetContactTimeZone(HCONTACT hContact, LPCSTR pszProto);
+WORD		GetContactTimeZoneCtrl(HCONTACT hContact, LPCSTR pszProto, CTimeZone** pTimeZone);
+LPCTSTR		GetContactTimeZoneDisplayName(HCONTACT hContact);
 INT_PTR		EnumTimeZones(PEnumNamesProc enumProc, LPARAM lParam);
 
 INT_PTR		GetContactTimeZoneInformation_old(WPARAM wParam, LPARAM lParam);

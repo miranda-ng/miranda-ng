@@ -74,7 +74,7 @@ public:
 		LEFT_BAR_WIDTH	= 20
 	};
 
-	CTip													(const HWND hwndParent, const HANDLE hContact, const TCHAR *pszText = 0, const CInfoPanel *panel = 0);
+	CTip													(const HWND hwndParent, const HCONTACT hContact, const TCHAR *pszText = 0, const CInfoPanel *panel = 0);
 	~CTip()
 	{
 		mir_free(m_pszText);
@@ -89,16 +89,16 @@ private:
 	static INT_PTR CALLBACK WndProcStub(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK RichEditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	HWND    m_hwnd;            // our window handle
-	HWND    m_hRich;           // handle of the rich edit child
-	HWND    m_hwndParent;      // parent window (used for position calculations and to send notifications)
-	HANDLE  m_hContact;        // contact handle
-	char   *m_pszText;         // the richedit text
-	SIZE    m_szRich;          // size of the richedit control (height auto-calculated to make it fit the text)
-	RECT    m_rcRich;          // adjusted rectangle for the richedit control (client coordinates)
-	HICON   m_hIcon;           // optional icon to show in the title line
-	LPCTSTR m_szTitle;         // optional text to show in the title
-	int     m_leftWidth;
+	HWND     m_hwnd;            // our window handle
+	HWND     m_hRich;           // handle of the rich edit child
+	HWND     m_hwndParent;      // parent window (used for position calculations and to send notifications)
+	HCONTACT m_hContact;        // contact handle
+	char    *m_pszText;         // the richedit text
+	SIZE     m_szRich;          // size of the richedit control (height auto-calculated to make it fit the text)
+	RECT     m_rcRich;          // adjusted rectangle for the richedit control (client coordinates)
+	HICON    m_hIcon;           // optional icon to show in the title line
+	LPCTSTR  m_szTitle;         // optional text to show in the title
+	int      m_leftWidth;
 
 	const CInfoPanel *m_panel; // the info panel parent (if any)
 };

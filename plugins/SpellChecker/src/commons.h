@@ -120,7 +120,7 @@ struct Dialog
 {
 	HWND hwnd;
 	HWND hwnd_owner;
-	HANDLE hContact;
+	HCONTACT hContact;
 	char name[64];
 	Dictionary *lang;
 	TCHAR lang_name[32];
@@ -150,7 +150,7 @@ int MsgWindowEvent(WPARAM wParam, LPARAM lParam);
 int MsgWindowPopup(WPARAM wParam, LPARAM lParam);
 int IconPressed(WPARAM wParam, LPARAM lParam);
 
-int AddContactTextBox(HANDLE hContact, HWND hwnd, char *name, BOOL srmm, HWND hwndOwner);
+int AddContactTextBox(HCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND hwndOwner);
 int RemoveContactTextBox(HWND hwnd);
 int ShowPopupMenu(HWND hwnd, HMENU hMenu, POINT pt, HWND hwndOwner);
 

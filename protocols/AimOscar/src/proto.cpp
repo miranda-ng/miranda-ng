@@ -131,7 +131,7 @@ HANDLE CAimProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	if (state != 1) return 0;
 	TCHAR *id = psr->id ? psr->id : psr->nick;
 	char *sn = psr->flags & PSR_UNICODE ? mir_u2a((wchar_t*)id) : mir_strdup((char*)id);
-	HANDLE hContact = contact_from_sn(sn, true, (flags & PALF_TEMPORARY) != 0);
+	HCONTACT hContact = contact_from_sn(sn, true, (flags & PALF_TEMPORARY) != 0);
 	mir_free(sn);
 	return hContact; //See authrequest for serverside addition
 }
@@ -160,7 +160,7 @@ int CAimProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AUTH
 
-int __cdecl CAimProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* evt)
+int __cdecl CAimProto::AuthRecv(HCONTACT hContact, PROTORECVEVENT* evt)
 {
 	return 1;
 }
@@ -168,7 +168,7 @@ int __cdecl CAimProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* evt)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CAimProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
+int __cdecl CAimProto::AuthRequest(HCONTACT hContact, const TCHAR* szMessage)
 {
 	//Not a real authrequest- only used b/c we don't know the group until now.
 	if (state != 1)
@@ -196,7 +196,7 @@ HANDLE __cdecl CAimProto::ChangeInfo(int iInfoType, void* pInfoData)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
-HANDLE __cdecl CAimProto::FileAllow(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE __cdecl CAimProto::FileAllow(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (ft && ft_list.find_by_ft(ft))
@@ -224,7 +224,7 @@ HANDLE __cdecl CAimProto::FileAllow(HANDLE hContact, HANDLE hTransfer, const PRO
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileCancel - cancels a file transfer
 
-int __cdecl CAimProto::FileCancel(HANDLE hContact, HANDLE hTransfer)
+int __cdecl CAimProto::FileCancel(HCONTACT hContact, HANDLE hTransfer)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (!ft_list.find_by_ft(ft)) return 0;
@@ -247,7 +247,7 @@ int __cdecl CAimProto::FileCancel(HANDLE hContact, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileDeny - denies a file transfer
 
-int __cdecl CAimProto::FileDeny(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* /*szReason*/)
+int __cdecl CAimProto::FileDeny(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* /*szReason*/)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (!ft_list.find_by_ft(ft)) return 0;
@@ -302,7 +302,7 @@ int __cdecl CAimProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 
-DWORD_PTR __cdecl CAimProto::GetCaps(int type, HANDLE hContact)
+DWORD_PTR __cdecl CAimProto::GetCaps(int type, HCONTACT hContact)
 {
 	switch (type)
 	{
@@ -345,7 +345,7 @@ DWORD_PTR __cdecl CAimProto::GetCaps(int type, HANDLE hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetInfo - retrieves a contact info
 
-int __cdecl CAimProto::GetInfo(HANDLE hContact, int infoType)
+int __cdecl CAimProto::GetInfo(HCONTACT hContact, int infoType)
 {
 	return 1;
 }
@@ -421,7 +421,7 @@ HWND __cdecl CAimProto::CreateExtendedSearchUI(HWND owner)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvContacts
 
-int __cdecl CAimProto::RecvContacts(HANDLE hContact, PROTORECVEVENT*)
+int __cdecl CAimProto::RecvContacts(HCONTACT hContact, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -429,7 +429,7 @@ int __cdecl CAimProto::RecvContacts(HANDLE hContact, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvFile
 
-int __cdecl CAimProto::RecvFile(HANDLE hContact, PROTOFILEEVENT* evt)
+int __cdecl CAimProto::RecvFile(HCONTACT hContact, PROTOFILEEVENT* evt)
 {
 	return Proto_RecvFile(hContact, evt);
 }
@@ -437,7 +437,7 @@ int __cdecl CAimProto::RecvFile(HANDLE hContact, PROTOFILEEVENT* evt)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
-int __cdecl CAimProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
+int __cdecl CAimProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT* pre)
 {
 	char *omsg = pre->szMessage;
 	char *bbuf = NULL;
@@ -458,7 +458,7 @@ int __cdecl CAimProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvUrl
 
-int __cdecl CAimProto::RecvUrl(HANDLE hContact, PROTORECVEVENT*)
+int __cdecl CAimProto::RecvUrl(HCONTACT hContact, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -466,7 +466,7 @@ int __cdecl CAimProto::RecvUrl(HANDLE hContact, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
-int __cdecl CAimProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList)
+int __cdecl CAimProto::SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList)
 {
 	return 1;
 }
@@ -474,7 +474,7 @@ int __cdecl CAimProto::SendContacts(HANDLE hContact, int flags, int nContacts, H
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CAimProto::SendFile(HANDLE hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
+HANDLE __cdecl CAimProto::SendFile(HCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
 {
 	if (state != 1) return 0;
 
@@ -557,7 +557,7 @@ void __cdecl CAimProto::msg_ack_success(void* param)
 }
 
 
-int __cdecl CAimProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
+int __cdecl CAimProto::SendMsg(HCONTACT hContact, int flags, const char* pszSrc)
 {
 	if (pszSrc == NULL) return 0;
 
@@ -626,7 +626,7 @@ int __cdecl CAimProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendUrl
 
-int __cdecl CAimProto::SendUrl(HANDLE hContact, int flags, const char* url)
+int __cdecl CAimProto::SendUrl(HCONTACT hContact, int flags, const char* url)
 {
 	return 1;
 }
@@ -634,7 +634,7 @@ int __cdecl CAimProto::SendUrl(HANDLE hContact, int flags, const char* url)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetApparentMode - sets the visibility m_iStatus
 
-int __cdecl CAimProto::SetApparentMode(HANDLE hContact, int mode)
+int __cdecl CAimProto::SetApparentMode(HCONTACT hContact, int mode)
 {
 	return 0;
 }
@@ -715,7 +715,7 @@ void __cdecl CAimProto::get_online_msg_thread(void* arg)
 {
 	Sleep(150);
 
-	const HANDLE hContact = arg;
+	HCONTACT hContact = (HCONTACT)arg;
 	DBVARIANT dbv;
 	if (!db_get_ts(hContact, MOD_KEY_CL, OTH_KEY_SM, &dbv)) {
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
@@ -724,7 +724,7 @@ void __cdecl CAimProto::get_online_msg_thread(void* arg)
 	else ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
-HANDLE __cdecl CAimProto::GetAwayMsg(HANDLE hContact)
+HANDLE __cdecl CAimProto::GetAwayMsg(HCONTACT hContact)
 {
 	if (state != 1)
 		return 0;
@@ -746,7 +746,7 @@ HANDLE __cdecl CAimProto::GetAwayMsg(HANDLE hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AWAYMSG
 
-int __cdecl CAimProto::RecvAwayMsg(HANDLE hContact, int statusMode, PROTORECVEVENT* pre)
+int __cdecl CAimProto::RecvAwayMsg(HCONTACT hContact, int statusMode, PROTORECVEVENT* pre)
 {
 	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)pre->szMessage);
 	return 0;
@@ -800,7 +800,7 @@ int __cdecl CAimProto::SetAwayMsg(int status, const TCHAR* msg)
 /////////////////////////////////////////////////////////////////////////////////////////
 // UserIsTyping - sends a UTN notification
 
-int __cdecl CAimProto::UserIsTyping(HANDLE hContact, int type)
+int __cdecl CAimProto::UserIsTyping(HCONTACT hContact, int type)
 {
 	if (state != 1) return 0;
 

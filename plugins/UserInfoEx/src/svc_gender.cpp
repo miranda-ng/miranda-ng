@@ -30,7 +30,7 @@ static HANDLE hApplyIconHook = NULL;
 
 bool g_eiGender = false;
 
-BYTE GenderOf(HANDLE hContact, LPCSTR pszProto)
+BYTE GenderOf(HCONTACT hContact, LPCSTR pszProto)
 {
 	DBVARIANT dbv;
 	if (DB::Setting::GetAsIsEx(hContact, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv) == 0) {
@@ -53,7 +53,7 @@ BYTE GenderOf(HANDLE hContact, LPCSTR pszProto)
 * @retval	0	- contact does not provide its gender
 **/
 
-BYTE GenderOf(HANDLE hContact)
+BYTE GenderOf(HCONTACT hContact)
 {
 	return GenderOf(hContact, DB::Contact::Proto(hContact));
 }
@@ -69,7 +69,7 @@ BYTE GenderOf(HANDLE hContact)
 * @param	lParam			- not used
 **/
 
-static int OnCListApplyIcons(HANDLE hContact, LPARAM)
+static int OnCListApplyIcons(HCONTACT hContact, LPARAM)
 {
 	if (ghExtraIconSvc != INVALID_HANDLE_VALUE) {
 		char *icoName;
@@ -90,7 +90,7 @@ static int OnCListApplyIcons(HANDLE hContact, LPARAM)
  * @param	lParam			- (DBCONTACTWRITESETTING*)pdbcws
  **/
 
-static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
+static int OnContactSettingChanged(HCONTACT hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact && pdbcws && (pdbcws->value.type <= DBVT_BYTE) && !lstrcmpA(pdbcws->szSetting, SET_CONTACT_GENDER))
 		OnCListApplyIcons(hContact, 0);

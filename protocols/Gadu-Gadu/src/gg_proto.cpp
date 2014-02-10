@@ -127,16 +127,16 @@ GGPROTO::~GGPROTO()
 HANDLE GGPROTO::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return NULL; }
 int    GGPROTO::Authorize(HANDLE hDbEvent) { return 1; }
 int    GGPROTO::AuthDeny(HANDLE hDbEvent, const TCHAR *szReason) { return 1; }
-int    GGPROTO::AuthRecv(HANDLE hContact, PROTORECVEVENT *pre) { return 1; }
-int    GGPROTO::AuthRequest(HANDLE hContact, const TCHAR *szMessage) { return 1; }
+int    GGPROTO::AuthRecv(HCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
+int    GGPROTO::AuthRequest(HCONTACT hContact, const TCHAR *szMessage) { return 1; }
 HANDLE GGPROTO::ChangeInfo(int iInfoType, void *pInfoData) { return NULL; }
 int    GGPROTO::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR** szFilename) { return 1; }
 HANDLE GGPROTO::SearchByEmail(const PROTOCHAR *email) { return NULL; }
-int    GGPROTO::RecvContacts(HANDLE hContact, PROTORECVEVENT *pre) { return 1; }
-int    GGPROTO::RecvUrl(HANDLE hContact, PROTORECVEVENT *pre) { return 1; }
-int    GGPROTO::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE *hContactsList) { return 1; }
-int    GGPROTO::SendUrl(HANDLE hContact, int flags, const char *url) { return 1; }
-int    GGPROTO::RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT *evt) { return 1; }
+int    GGPROTO::RecvContacts(HCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
+int    GGPROTO::RecvUrl(HCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
+int    GGPROTO::SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList) { return 1; }
+int    GGPROTO::SendUrl(HCONTACT hContact, int flags, const char *url) { return 1; }
+int    GGPROTO::RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT *evt) { return 1; }
 
 //////////////////////////////////////////////////////////
 // when contact is added to list
@@ -160,7 +160,7 @@ HANDLE GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *psr)
 //////////////////////////////////////////////////////////
 // checks proto capabilities
 
-DWORD_PTR GGPROTO::GetCaps(int type, HANDLE hContact)
+DWORD_PTR GGPROTO::GetCaps(int type, HCONTACT hContact)
 {
 	switch (type) {
 		case PFLAGNUM_1:
@@ -190,11 +190,11 @@ void __cdecl GGPROTO::cmdgetinfothread(void *hContact)
 {
 	debugLogA("cmdgetinfothread(): started. Failed info retreival.");
 	gg_sleep(100, FALSE, "cmdgetinfothread", 103, 1);
-	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE) 1, 0);
+	ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1, 0);
 	debugLogA("cmdgetinfothread(): end.");
 }
 
-int GGPROTO::GetInfo(HANDLE hContact, int infoType)
+int GGPROTO::GetInfo(HCONTACT hContact, int infoType)
 {
 	gg_pubdir50_t req;
 
@@ -570,7 +570,7 @@ HWND GGPROTO::CreateExtendedSearchUI(HWND owner)
 //////////////////////////////////////////////////////////
 // when messsage received
 
-int GGPROTO::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
+int GGPROTO::RecvMsg(HCONTACT hContact, PROTORECVEVENT *pre)
 {
 	return Proto_RecvMessage(hContact, pre);
 }
@@ -580,7 +580,7 @@ int GGPROTO::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
 
 typedef struct
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	int seq;
 } GG_SEQ_ACK;
 
@@ -592,7 +592,7 @@ void __cdecl GGPROTO::sendackthread(void *ack)
 	mir_free(ack);
 }
 
-int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
+int GGPROTO::SendMsg(HCONTACT hContact, int flags, const char *msg)
 {
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 	if (!isonline() || !uin)
@@ -633,7 +633,7 @@ int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 //////////////////////////////////////////////////////////
 // visible lists
 
-int GGPROTO::SetApparentMode(HANDLE hContact, int mode)
+int GGPROTO::SetApparentMode(HCONTACT hContact, int mode)
 {
 	setWord(hContact, GG_KEY_APPARENT, (WORD)mode);
 	notifyuser(hContact, 1);
@@ -670,18 +670,18 @@ void __cdecl GGPROTO::getawaymsgthread(void *hContact)
 
 	debugLogA("getawaymsgthread(): started");
 	gg_sleep(100, FALSE, "getawaymsgthread", 106, 1);
-	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR))
+	if (!db_get_s((HCONTACT)hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR))
 	{
-		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) dbv.ptszVal);
+		ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		debugLog(_T("getawaymsgthread(): Reading away msg <%s>."), dbv.ptszVal);
 		db_free(&dbv);
 	} else {
-		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) NULL);
+		ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)NULL);
 	}
 	debugLogA("getawaymsgthread(): end");
 }
 
-HANDLE GGPROTO::GetAwayMsg(HANDLE hContact)
+HANDLE GGPROTO::GetAwayMsg(HCONTACT hContact)
 {
 #ifdef DEBUGMODE
 	debugLogA("GetAwayMsg(): ForkThread 17 GGPROTO::getawaymsgthread");
@@ -757,7 +757,7 @@ int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *newMsg)
 //////////////////////////////////////////////////////////
 // sends a notification that the user is typing a message
 
-int GGPROTO::UserIsTyping(HANDLE hContact, int type)
+int GGPROTO::UserIsTyping(HCONTACT hContact, int type)
 {
 	uin_t uin = getDword(hContact, GG_KEY_UIN, 0);
 	if (!uin || !isonline())

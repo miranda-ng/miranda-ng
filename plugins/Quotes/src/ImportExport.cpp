@@ -21,7 +21,7 @@ namespace
 	{
 		CModuleInfo::TXMLEnginePtr m_pXmlEngine;
 		IXMLNode::TXMLNodePtr m_pNode;
-		HANDLE m_hContact;
+		HCONTACT m_hContact;
 		LPCSTR m_pszModule;
 	};
 
@@ -153,7 +153,7 @@ namespace
 		return 0;
 	}
 
-	IXMLNode::TXMLNodePtr export_contact(HANDLE hContact,const CModuleInfo::TXMLEnginePtr& pXmlEngine)
+	IXMLNode::TXMLNodePtr export_contact(HCONTACT hContact,const CModuleInfo::TXMLEnginePtr& pXmlEngine)
 	{
 		IXMLNode::TXMLNodePtr pNode = pXmlEngine->CreateNode(g_pszXmlContact,tstring());
 		if(pNode)
@@ -273,7 +273,7 @@ INT_PTR Quotes_Export(WPARAM wp,LPARAM lp)
 	CModuleInfo::TXMLEnginePtr pXmlEngine = CModuleInfo::GetInstance().GetXMLEnginePtr();
 	CModuleInfo::TQuotesProvidersPtr pProviders = CModuleInfo::GetInstance().GetQuoteProvidersPtr();
 	IXMLNode::TXMLNodePtr pRoot = pXmlEngine->CreateNode(g_pszXmlContacts,tstring());
-	HANDLE hContact = reinterpret_cast<HANDLE>(wp);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wp);
 	if(hContact)
 	{
 		CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
@@ -307,13 +307,13 @@ INT_PTR Quotes_Export(WPARAM wp,LPARAM lp)
 
 namespace
 {
-	bool set_contact_settings(HANDLE hContact, DBCONTACTWRITESETTING& dbs)
+	bool set_contact_settings(HCONTACT hContact, DBCONTACTWRITESETTING& dbs)
 	{
 		assert(DBVT_DELETED != dbs.value.type);
 		return (0 == db_set(hContact, dbs.szModule, dbs.szSetting, &dbs.value));
 	}
 
-	bool handle_module(HANDLE hContact,const IXMLNode::TXMLNodePtr& pXmlModule,UINT nFlags)
+	bool handle_module(HCONTACT hContact,const IXMLNode::TXMLNodePtr& pXmlModule,UINT nFlags)
 	{
 		size_t cCreatedRecords = 0;
 		tstring sModuleName = pXmlModule->GetText();
@@ -488,7 +488,7 @@ namespace
 	struct CContactState
 	{
 		CContactState() : m_hContact(NULL),m_bNewContact(false){}
-		HANDLE m_hContact;
+		HCONTACT m_hContact;
 		CQuotesProviders::TQuotesProviderPtr m_pProvider;
 		bool m_bNewContact;
 	};
@@ -568,7 +568,7 @@ namespace
 			visitor(const IXMLNode::TXMLNodePtr& pXmlQuotes) 
 				: m_hContact(NULL),m_pXmlQuotes(pXmlQuotes){}
 
-			HANDLE GetContact()const{return m_hContact;}
+			HCONTACT GetContact()const{return m_hContact;}
 
 		private:
 			virtual void Visit(const CQuotesProviderDukasCopy& rProvider)
@@ -646,7 +646,7 @@ namespace
 			}
 
 		private:
-			HANDLE m_hContact;
+			HCONTACT m_hContact;
 			IXMLNode::TXMLNodePtr m_pXmlQuotes;
 		};
 
@@ -676,7 +676,7 @@ namespace
 		{
 			if(NULL == cst.m_hContact)
 			{
-				cst.m_hContact = reinterpret_cast<HANDLE>(CallService(MS_DB_CONTACT_ADD,0,0));
+				cst.m_hContact = reinterpret_cast<HCONTACT>(CallService(MS_DB_CONTACT_ADD,0,0));
 				cst.m_bNewContact = true;
 			}
 			else if(impctx.m_nFlags&QUOTES_IMPORT_SKIP_EXISTING_CONTACTS)

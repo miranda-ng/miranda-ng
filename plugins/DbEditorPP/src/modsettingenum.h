@@ -11,8 +11,8 @@ struct ModuleSettingLL
 };
 
 int EnumModules(ModuleSettingLL *msll);
-int EnumSettings(HANDLE hContact, char *module, ModuleSettingLL *msll);
+int EnumSettings(HCONTACT hContact, char *module, ModuleSettingLL *msll);
 
 void FreeModuleSettingLL(ModuleSettingLL *msll);
 
-int IsModuleEmpty(HANDLE hContact, char *szModule);
+int IsModuleEmpty(HCONTACT hContact, char *szModule);

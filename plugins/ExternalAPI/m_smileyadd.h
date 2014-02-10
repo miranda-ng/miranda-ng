@@ -37,7 +37,7 @@ typedef struct
                                 //If not found or NULL, "Standard" will be used
     unsigned flags;             //Flags (SAFLRE_*) that define the behaivior
     BOOL disableRedraw;         //Parameter have been depricated, have no effect on operation
-    HANDLE hContact;            //Contact handle
+	 HCONTACT hContact;          //Contact handle
 } SMADD_RICHEDIT3;
 
 //Replace smileys in a rich edit control... 
@@ -65,7 +65,7 @@ typedef struct
     LPARAM targetWParam;        //Target WParam to be sent (LParam will be char* to select smiley)
                                 //see the example file.
     HWND hwndParent;            //Parent window for smiley dialog 
-    HANDLE hContact;            //Contact handle
+	 HCONTACT hContact;          //Contact handle
 } SMADD_SHOWSEL3;
 
 //Show smiley selection window 
@@ -85,7 +85,7 @@ typedef struct
                                 //NULL if the buttonicon is not defined...
     int NumberOfVisibleSmileys; //Number of visible smileys defined.
     int NumberOfSmileys;        //Number of total smileys defined
-    HANDLE hContact;            //Contact handle
+	 HCONTACT hContact;          //Contact handle
 } SMADD_INFO2;
 
 //get button smiley icon
@@ -131,7 +131,7 @@ typedef struct
     unsigned numSmileys;        //Number of Smileys found, this parameter filled by SmileyAdd
     unsigned oflag;             //One of the SAFL_ flags specifies content of the parse results
                                 //this parameter filled by SmileyAdd
-    HANDLE hContact;            //Contact handle
+	 HCONTACT hContact;          //Contact handle
 } SMADD_BATCHPARSE2;
 
 typedef struct 
@@ -237,7 +237,7 @@ typedef struct
 typedef struct 
 {
 	unsigned cbSize;            // size of the structure
-	HANDLE hContact;
+	HCONTACT hContact;
 	int type;                   // 0 - directory, 1 - file;
 	TCHAR* path;                // smiley category name for reference
 } SMADD_CONT;

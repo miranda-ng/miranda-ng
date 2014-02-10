@@ -264,8 +264,9 @@ Returns DBEVENTTYPEDESCR* or NULL, if an event isn't found.
 
 #define MS_DB_EVENT_GETTYPE "DB/EventType/Get"
 
-__forceinline HANDLE DbGetAuthEventContact(DBEVENTINFO* dbei)
-{	return (HANDLE)(*(DWORD*)&dbei->pBlob[sizeof(DWORD)]);
+__forceinline HCONTACT DbGetAuthEventContact(DBEVENTINFO* dbei)
+{
+	return (HCONTACT)(*(DWORD*)&dbei->pBlob[sizeof(DWORD)]);
 }
 
 /* DB/Event/GetText (0.7.0+)
@@ -530,19 +531,19 @@ don't change any of the members.
 
 /* inlined range tolerate versions */
 
-__inline BYTE DBGetContactSettingRangedByte(HANDLE hContact, const char *szModule, const char *szSetting, BYTE errorValue, BYTE minValue, BYTE maxValue)
+__inline BYTE DBGetContactSettingRangedByte(HCONTACT hContact, const char *szModule, const char *szSetting, BYTE errorValue, BYTE minValue, BYTE maxValue)
 {
 	BYTE bVal = db_get_b(hContact, szModule, szSetting, errorValue);
 	return (bVal < minValue || bVal > maxValue) ? errorValue : bVal;
 }
 
-__inline WORD DBGetContactSettingRangedWord(HANDLE hContact, const char *szModule, const char *szSetting, WORD errorValue, WORD minValue, WORD maxValue)
+__inline WORD DBGetContactSettingRangedWord(HCONTACT hContact, const char *szModule, const char *szSetting, WORD errorValue, WORD minValue, WORD maxValue)
 {
 	WORD wVal = db_get_w(hContact, szModule, szSetting, errorValue);
 	return (wVal < minValue || wVal > maxValue) ? errorValue : wVal;
 }
 
-__inline DWORD DBGetContactSettingRangedDword(HANDLE hContact, const char *szModule, const char *szSetting, DWORD errorValue, DWORD minValue, DWORD maxValue)
+__inline DWORD DBGetContactSettingRangedDword(HCONTACT hContact, const char *szModule, const char *szSetting, DWORD errorValue, DWORD minValue, DWORD maxValue)
 {
 	DWORD dwVal = db_get_dw(hContact, szModule, szSetting, errorValue);
 	return (dwVal < minValue || dwVal > maxValue) ? errorValue : dwVal;

@@ -510,7 +510,7 @@ int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumb
 		lfoundi=0;
 	}
 
-	NewMailPopup.lchContact=(ActualAccount->hContact != NULL) ? ActualAccount->hContact : ActualAccount;
+	NewMailPopup.lchContact=(ActualAccount->hContact != NULL) ? ActualAccount->hContact : (HCONTACT)ActualAccount;
 	NewMailPopup.lchIcon=g_LoadIconEx(2);
 	NewMailPopup.colorBack=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopupB : GetSysColor(COLOR_BTNFACE);
 	NewMailPopup.colorText=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
@@ -681,7 +681,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 	{
 		POPUPDATAT NewMailPopup ={0};
 
-		NewMailPopup.lchContact=(ActualAccount->hContact != NULL) ? ActualAccount->hContact : ActualAccount;
+		NewMailPopup.lchContact=(ActualAccount->hContact != NULL) ? ActualAccount->hContact : (HCONTACT)ActualAccount;
 		NewMailPopup.lchIcon=g_LoadIconEx(2);
 		NewMailPopup.colorBack=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopupB : GetSysColor(COLOR_BTNFACE);
 		NewMailPopup.colorText=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
@@ -784,7 +784,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 	{
 		POPUPDATAT NoNewMailPopup;
 
-		NoNewMailPopup.lchContact=(ActualAccount->hContact != NULL) ? ActualAccount->hContact : ActualAccount;
+		NoNewMailPopup.lchContact=(ActualAccount->hContact != NULL) ? ActualAccount->hContact : (HCONTACT)ActualAccount;
 		NoNewMailPopup.lchIcon=g_LoadIconEx(1);
 		NoNewMailPopup.colorBack=ActualAccount->NoNewMailN.Flags & YAMN_ACC_POPC ? ActualAccount->NoNewMailN.PopupB : GetSysColor(COLOR_BTNFACE);
 		NoNewMailPopup.colorText=ActualAccount->NoNewMailN.Flags & YAMN_ACC_POPC ? ActualAccount->NoNewMailN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
@@ -830,7 +830,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 			//if clicked and it's new mail popup window
 			if ((HIWORD(wParam)==STN_CLICKED) && (-1 != (PluginParam=CallService(MS_POPUP_GETPLUGINDATA,(WPARAM)hWnd,(LPARAM)&PluginParam))))
 			{
-				HANDLE hContact = 0;
+				HCONTACT hContact = 0;
 				HACCOUNT Account;
 				if (PluginParam) {
 					PYAMN_MAILSHOWPARAM MailParam = new YAMN_MAILSHOWPARAM;
@@ -849,15 +849,15 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 				} else {
 					DBVARIANT dbv;
 
-					hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
+					hContact=(HCONTACT)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 
-					if (!db_get((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
+					if (!db_get((HCONTACT)hContact,YAMN_DBMODULE,"Id",&dbv)) 
 					{
 						Account=(HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)dbv.pszVal);
 						db_free(&dbv);
 					}
 					else
-						Account = (HACCOUNT) hContact; //????
+						Account = (HACCOUNT)hContact; //????
 
 
 					#ifdef DEBUG_SYNCHRO
@@ -900,7 +900,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 			break;			
 		case UM_FREEPLUGINDATA:{
 				PYAMN_MAILSHOWPARAM mpd = (PYAMN_MAILSHOWPARAM)PUGetPluginData(hWnd);
-				HANDLE hContact = 0;
+				HCONTACT hContact = 0;
 				if ((mpd) && (INT_PTR)mpd != -1)free(mpd);
 				return FALSE;
 			}
@@ -914,12 +914,12 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 		case WM_YAMN_STOPACCOUNT:
 		{
 			HACCOUNT ActualAccount;
-			HANDLE hContact;
+			HCONTACT hContact;
 			DBVARIANT dbv;
 
-			hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
+			hContact=(HCONTACT)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 
-			if (!db_get((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
+			if (!db_get((HCONTACT) hContact,YAMN_DBMODULE,"Id",&dbv)) 
 			{
 				ActualAccount=(HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)dbv.pszVal);
 				db_free(&dbv);
@@ -947,12 +947,12 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPar
 			if ((HIWORD(wParam)==STN_CLICKED) && (msg==WM_COMMAND))
 			{
 				HACCOUNT ActualAccount;
-				HANDLE hContact;
+				HCONTACT hContact;
 				DBVARIANT dbv;
 
-				hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
+				hContact=(HCONTACT)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 
-				if (!db_get((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
+				if (!db_get((HCONTACT)hContact,YAMN_DBMODULE,"Id",&dbv)) 
 				{
 					ActualAccount=(HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)dbv.pszVal);
 					db_free(&dbv);
@@ -1014,12 +1014,12 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPar
 		case WM_YAMN_STOPACCOUNT:
 		{
 			HACCOUNT ActualAccount;
-			HANDLE hContact;
+			HCONTACT hContact;
 			DBVARIANT dbv;
 
-			hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
+			hContact=(HCONTACT)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 
-			if (!db_get((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
+			if (!db_get((HCONTACT) hContact,YAMN_DBMODULE,"Id",&dbv)) 
 			{
 				ActualAccount=(HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)dbv.pszVal);
 				db_free(&dbv);
@@ -1465,12 +1465,11 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 				if (MailParam->mail->Flags & YAMN_MSG_UNSEEN) {
 					MailParam->mail->Flags&=~YAMN_MSG_UNSEEN; //mark the message as seen
 					HWND hMailBrowser;
-					if (hMailBrowser=WindowList_Find(YAMNVar.NewMailAccountWnd,MailParam->account)) {
+					if (hMailBrowser=WindowList_Find(YAMNVar.NewMailAccountWnd, (HCONTACT)MailParam->account)) {
 						struct CChangeContent Params={MailParam->account->NewMailN.Flags|YAMN_ACC_MSGP,MailParam->account->NoNewMailN.Flags|YAMN_ACC_MSGP};	
 						SendMessageW(hMailBrowser,WM_YAMN_CHANGECONTENT,(WPARAM)MailParam->account,(LPARAM)&Params);
-					} else {
-						UpdateMails(NULL,MailParam->account,MailParam->account->NewMailN.Flags,MailParam->account->NoNewMailN.Flags);
 					}
+					else UpdateMails(NULL,MailParam->account,MailParam->account->NewMailN.Flags,MailParam->account->NoNewMailN.Flags);
 				}
 			}
 			ShowWindow(GetDlgItem(hDlg, IDC_SPLITTER),(MailParam->mail->Flags & YAMN_MSG_BODYRECEIVED)?SW_SHOW:SW_HIDE);
@@ -1737,7 +1736,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 			ReadDoneFcn(ActualAccount->AccountAccessSO);
 
 			WindowList_Add(YAMNVar.MessageWnds,hDlg,NULL);
-			WindowList_Add(YAMNVar.NewMailAccountWnd,hDlg,ActualAccount);
+			WindowList_Add(YAMNVar.NewMailAccountWnd,hDlg, (HCONTACT)ActualAccount);
 
 			{
 				TCHAR accstatus[512];
@@ -2510,7 +2509,7 @@ DWORD WINAPI MailBrowser(LPVOID Param)
 		#endif
 		ReadDoneFcn(ActualAccount->AccountAccessSO);
 
-		if (NULL != (hMailBrowser=WindowList_Find(YAMNVar.NewMailAccountWnd,ActualAccount)))
+		if (NULL != (hMailBrowser=WindowList_Find(YAMNVar.NewMailAccountWnd, (HCONTACT)ActualAccount)))
 			WndFound=TRUE;
 		if ((hMailBrowser==NULL) && ((MyParam.nflags & YAMN_ACC_MSG) || (MyParam.nflags & YAMN_ACC_ICO) || (MyParam.nnflags & YAMN_ACC_MSG)))
 		{

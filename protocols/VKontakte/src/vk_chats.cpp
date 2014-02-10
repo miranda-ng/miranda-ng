@@ -55,7 +55,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	GC_INFO gci = { 0 };
 	gci.pszModule = m_szModuleName;
 	gci.pszID = sid;
-	gci.Flags = BYID | HCONTACT;
+	gci.Flags = GCF_BYID | GCF_HCONTACT;
 	CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
 	c->m_hContact = gci.hContact;
 
@@ -287,7 +287,7 @@ CVkChatUser* CVkChatInfo::GetUserById(LPCTSTR ptszId)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::SetChatStatus(HANDLE hContact, int iStatus)
+void CVkProto::SetChatStatus(HCONTACT hContact, int iStatus)
 {
 	ptrT tszChatID(getTStringA(hContact, "ChatRoomID"));
 	if (tszChatID == NULL)
@@ -372,7 +372,7 @@ static INT_PTR CALLBACK InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		{
 			CVkProto *ppro = (CVkProto*)lParam;
 			HWND hwndCombo = GetDlgItem(hwndDlg, IDC_CONTACT);
-			for (HANDLE hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
+			for (HCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
 				TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 				int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, LPARAM(ptszNick));
 				SendMessage(hwndCombo, CB_SETITEMDATA, idx, (LPARAM)hContact);
@@ -413,7 +413,7 @@ LPTSTR CVkProto::ChangeChatTopic(CVkChatInfo *cc)
 
 void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 
 	switch (gch->dwData) {
 	case IDM_TOPIC:
@@ -425,7 +425,7 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		break;
 
 	case IDM_INVITE:
-		hContact = (HANDLE)DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INVITE), NULL, InviteDlgProc, (LPARAM)this);
+		hContact = (HCONTACT)DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INVITE), NULL, InviteDlgProc, (LPARAM)this);
 		if (hContact != NULL) {
 			int uid = getDword(hContact, "ID", -1);
 			if (uid != -1)
@@ -474,7 +474,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 
 	switch (gch->dwData) {
 	case IDM_INFO:
-		if (HANDLE hContact = FindUser(cu->m_uid))
+		if (HCONTACT hContact = FindUser(cu->m_uid))
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
 		break;
 		
@@ -527,7 +527,7 @@ int CVkProto::OnGcMenuHook(WPARAM, LPARAM lParam)
 static void FilterContacts(HWND hwndDlg, CVkProto *ppro)
 {
 	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
 		if (lstrcmpA(proto, ppro->m_szModuleName) || ppro->isChatRoom(hContact))
 			if (HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_FINDCONTACT, (WPARAM)hContact, 0))
@@ -585,7 +585,7 @@ static INT_PTR CALLBACK GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case IDOK:
 			HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
 			CMStringA uids;
-			for (HANDLE hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
+			for (HCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
 				if (ppro->isChatRoom(hContact))
 					continue;
 

@@ -38,7 +38,7 @@ INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam);
 int AccountListChanged(WPARAM wParam, LPARAM lParam);
 int DbSettingChanged(WPARAM wParam, LPARAM lParam);
 
-SmileyPackType* GetSmileyPack(const char* proto, HANDLE hContact = NULL, SmileyPackCType** smlc = NULL);
+SmileyPackType* GetSmileyPack(const char* proto, HCONTACT hContact = NULL, SmileyPackCType** smlc = NULL);
 
 
 #endif // SMILEYADD_SERVICES_H_

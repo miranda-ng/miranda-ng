@@ -617,7 +617,7 @@ int Utils::RTFColorToIndex(int iCol)
  */
 INT_PTR CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)PUGetPluginData(hWnd);
+	HCONTACT hContact = (HCONTACT)PUGetPluginData(hWnd);
 
 	switch (message) {
 	case WM_COMMAND:
@@ -642,7 +642,7 @@ INT_PTR CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam
  * @param cs		TContainerSettings* target structure
  * @return			0 on success, 1 failure (blob does not exist OR is not a valid private setting structure
  */
-int Utils::ReadContainerSettingsFromDB(const HANDLE hContact, TContainerSettings *cs, const char *szKey)
+int Utils::ReadContainerSettingsFromDB(const HCONTACT hContact, TContainerSettings *cs, const char *szKey)
 {
 	CopyMemory(cs, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 
@@ -664,7 +664,7 @@ int Utils::ReadContainerSettingsFromDB(const HANDLE hContact, TContainerSettings
 	return 1;
 }
 
-int Utils::WriteContainerSettingsToDB(const HANDLE hContact, TContainerSettings *cs, const char *szKey)
+int Utils::WriteContainerSettingsToDB(const HCONTACT hContact, TContainerSettings *cs, const char *szKey)
 {
 	::db_set_blob(hContact, SRMSGMOD_T, szKey ? szKey : CNT_KEYNAME, cs, sizeof(TContainerSettings));
 	return 0;
@@ -823,7 +823,7 @@ HICON Utils::iconFromAvatar(const TWindowData *dat)
 	return hIcon;
 }
 
-AVATARCACHEENTRY* Utils::loadAvatarFromAVS(const HANDLE hContact)
+AVATARCACHEENTRY* Utils::loadAvatarFromAVS(const HCONTACT hContact)
 {
 	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
 		return 0;
@@ -1336,7 +1336,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			if (!(m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL))
 				::ShowWindow(hwnd, SW_SHOWNORMAL);
 
-			WindowList_Add(hWindowList, hwnd, hwnd);
+			WindowList_Add(hWindowList, hwnd, (HCONTACT)hwnd);
 		}
 		return TRUE;
 

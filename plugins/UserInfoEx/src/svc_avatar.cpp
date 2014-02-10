@@ -50,7 +50,7 @@ namespace NServices
 		 *
 		 *
 		 **/
-		static void SetZodiacAvatar(HANDLE hContact)
+		static void SetZodiacAvatar(HCONTACT hContact)
 		{
 			MAnnivDate mtb;
 
@@ -76,7 +76,7 @@ namespace NServices
 			}
 		}
 
-		void DeleteAvatar(HANDLE hContact)
+		void DeleteAvatar(HCONTACT hContact)
 		{
 			if (hContact && db_get_b(hContact, "ContactPhoto", "IsZodiac", FALSE))
 			{
@@ -94,7 +94,7 @@ namespace NServices
 		 *
 		 *
 		 **/
-		static int OnAvatarChanged(HANDLE hContact, AVATARCACHEENTRY *ace)
+		static int OnAvatarChanged(HCONTACT hContact, AVATARCACHEENTRY *ace)
 		{
 			if (hContact)
 			{
@@ -127,7 +127,7 @@ namespace NServices
 		 **/
 		void Enable(BYTE bEnable)
 		{
-			HANDLE hContact;
+			HCONTACT hContact;
 			DBVARIANT dbv;
 
 			if (bEnable && !ghChangedHook)

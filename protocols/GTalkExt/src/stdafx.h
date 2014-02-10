@@ -72,5 +72,5 @@
 extern HINSTANCE g_hInst;
 extern LIST<GoogleTalkAcc> g_accs;
 
-void SetAvatar(HANDLE hContact);
+void SetAvatar(HCONTACT hContact);
 BOOL InitAvaUnit(BOOL init);

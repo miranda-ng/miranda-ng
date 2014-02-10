@@ -37,7 +37,7 @@ static int logIconBmpSize[ SIZEOF(pLogIconBmpBits) ];
 struct LogStreamData
 {
 	int stage;
-	HANDLE hContact;
+	HCONTACT hContact;
 	HANDLE hDbEvent, hDbEventLast;
 	char *buffer;
 	int bufferOffset, bufferLen;
@@ -263,7 +263,7 @@ int DbEventIsShown(DBEVENTINFO * dbei, SrmmWindowData *dat)
 }
 
 //mir_free() the return value
-static char *CreateRTFFromDbEvent(SrmmWindowData *dat, HANDLE hContact, HANDLE hDbEvent, struct LogStreamData *streamData)
+static char *CreateRTFFromDbEvent(SrmmWindowData *dat, HCONTACT hContact, HANDLE hDbEvent, struct LogStreamData *streamData)
 {
 	char *buffer;
 	int bufferAlloced, bufferEnd;

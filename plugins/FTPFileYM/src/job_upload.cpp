@@ -25,7 +25,7 @@ int UploadJob::iRunningJobCount = 0;
 extern UploadDialog *uDlg;
 extern ServerList &ftpList;
 
-UploadJob::UploadJob(HANDLE _hContact, int _iFtpNum, EMode _mode) :
+UploadJob::UploadJob(HCONTACT _hContact, int _iFtpNum, EMode _mode) :
 	GenericJob(_hContact, _iFtpNum, _mode),fp(NULL) 
 { 
 	this->szFileLink[0] = 0;

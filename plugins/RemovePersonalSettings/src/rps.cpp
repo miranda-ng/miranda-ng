@@ -97,7 +97,7 @@ BOOL GetSettings(const char *section, char *buffer, size_t bufferSize);
 void DeleteFileOrFolder(const char *name);
 void DeleteSetting(const char *setting);
 void DeleteSettingEx(const char *szModule, const char *szSetting);
-BOOL isMetaContact(HANDLE hContact);
+BOOL isMetaContact(HCONTACT hContact);
 
 
 
@@ -222,9 +222,8 @@ void SetProtocolsOffline()
 void RemoveUsers()
 {
 	if ( GetSettingBool("GlobalSettings", "RemoveAllUsers", TRUE) ) {
-		HANDLE hContact;
+		HCONTACT hContact, hContactOld;
 		HANDLE hDbEvent;
-		HANDLE hContactOld;
 
 		// To be faster, remove first all metacontacts (because it syncs histories)
 		hContact = db_find_first();
@@ -232,14 +231,14 @@ void RemoveUsers()
 			hContactOld = hContact;
 			hContact = db_find_next(hContact);
 
-			if ( isMetaContact(hContactOld) )
-				CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContactOld, 0);
+			if (isMetaContact(hContactOld) )
+				CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContactOld, 0);
 		}
 
 		// Now delete all left-overs
 		hContact = db_find_first();
 		while(hContact != NULL) {
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 
 			hContact = db_find_first();
 		}
@@ -614,7 +613,7 @@ void DeleteFileOrFolder(const char *name)
 }
 
 
-BOOL isMetaContact(HANDLE hContact)
+BOOL isMetaContact(HCONTACT hContact)
 {
 	return lstrcmpA(GetContactProto(hContact), METACONTACTS_PROTOCOL_NAME) == 0;
 }

@@ -64,7 +64,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-void ShowPopup(HANDLE hContact, const TCHAR *msg)
+void ShowPopup(HCONTACT hContact, const TCHAR *msg)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		TCHAR *lpzContactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
@@ -87,7 +87,7 @@ void ShowPopup(HANDLE hContact, const TCHAR *msg)
 
 static int PluginSendMessage(WPARAM wParam,LPARAM lParam)
 {
-	CallContactService((HANDLE)wParam,PSS_MESSAGE,0,lParam);
+	CallContactService((HCONTACT)wParam,PSS_MESSAGE,0,lParam);
 	return 0;
 }
 

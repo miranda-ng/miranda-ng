@@ -256,11 +256,11 @@ class MirandaContact
 {
 public:
 
-	MirandaContact(HANDLE contactHandleL);
+	MirandaContact(HCONTACT contactHandleL);
 	~MirandaContact(void);
 	MirandaContact*	getObjectPtr();
 
-	HANDLE						contactHandle;		//HANDLE to contact in miranda (unikalne)
+	HCONTACT		contactHandle;		//HANDLE to contact in miranda (unikalne)
 	std::wstring				contactNameW;		//presented name
 	MFENUM_MIRANDACONTACT_STATE contactState;		//state in options
 	MirandaAccount*				mirandaAccountPtr;	//account of hContact

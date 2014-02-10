@@ -36,18 +36,18 @@ struct GGPROTO : public PROTO<GGPROTO>
 
 	virtual	int    __cdecl Authorize( HANDLE hDbEvent );
 	virtual	int    __cdecl AuthDeny( HANDLE hDbEvent, const TCHAR* szReason );
-	virtual	int    __cdecl AuthRecv( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int    __cdecl AuthRequest( HANDLE hContact, const TCHAR* szMessage );
+	virtual	int    __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT* );
+	virtual	int    __cdecl AuthRequest(HCONTACT hContact, const TCHAR* szMessage );
 
 	virtual	HANDLE __cdecl ChangeInfo( int iInfoType, void* pInfoData );
 
-	virtual	HANDLE __cdecl FileAllow( HANDLE hContact, HANDLE hTransfer, const TCHAR* szPath );
-	virtual	int    __cdecl FileCancel( HANDLE hContact, HANDLE hTransfer );
-	virtual	int    __cdecl FileDeny( HANDLE hContact, HANDLE hTransfer, const TCHAR* szReason );
+	virtual	HANDLE __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath );
+	virtual	int    __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer );
+	virtual	int    __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason );
 	virtual	int    __cdecl FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename );
 
-	virtual	DWORD_PTR __cdecl GetCaps( int type, HANDLE hContact = NULL );
-	virtual	int    __cdecl GetInfo( HANDLE hContact, int infoType );
+	virtual	DWORD_PTR __cdecl GetCaps( int type, HCONTACT hContact = NULL );
+	virtual	int    __cdecl GetInfo(HCONTACT hContact, int infoType );
 
 	virtual	HANDLE __cdecl SearchBasic( const TCHAR* id );
 	virtual	HANDLE __cdecl SearchByEmail( const TCHAR* email );
@@ -55,24 +55,24 @@ struct GGPROTO : public PROTO<GGPROTO>
 	virtual	HWND   __cdecl SearchAdvanced( HWND owner );
 	virtual	HWND   __cdecl CreateExtendedSearchUI( HWND owner );
 
-	virtual	int    __cdecl RecvContacts( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int    __cdecl RecvFile( HANDLE hContact, PROTORECVFILET* );
-	virtual	int    __cdecl RecvMsg( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int    __cdecl RecvUrl( HANDLE hContact, PROTORECVEVENT* );
+	virtual	int    __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT* );
+	virtual	int    __cdecl RecvFile(HCONTACT hContact, PROTORECVFILET* );
+	virtual	int    __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT* );
+	virtual	int    __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT* );
 
-	virtual	int    __cdecl SendContacts( HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList );
-	virtual	HANDLE __cdecl SendFile( HANDLE hContact, const TCHAR* szDescription, TCHAR** ppszFiles );
-	virtual	int    __cdecl SendMsg( HANDLE hContact, int flags, const char* msg );
-	virtual	int    __cdecl SendUrl( HANDLE hContact, int flags, const char* url );
+	virtual	int    __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
+	virtual	HANDLE __cdecl SendFile(HCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles );
+	virtual	int    __cdecl SendMsg(HCONTACT hContact, int flags, const char* msg );
+	virtual	int    __cdecl SendUrl(HCONTACT hContact, int flags, const char* url );
 
-	virtual	int    __cdecl SetApparentMode( HANDLE hContact, int mode );
+	virtual	int    __cdecl SetApparentMode(HCONTACT hContact, int mode );
 	virtual	int    __cdecl SetStatus( int iNewStatus );
 
-	virtual	HANDLE __cdecl GetAwayMsg( HANDLE hContact );
-	virtual	int    __cdecl RecvAwayMsg( HANDLE hContact, int mode, PROTORECVEVENT* evt );
+	virtual	HANDLE __cdecl GetAwayMsg(HCONTACT hContact );
+	virtual	int    __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT* evt );
 	virtual	int    __cdecl SetAwayMsg( int m_iStatus, const TCHAR* msg );
 
-	virtual	int    __cdecl UserIsTyping( HANDLE hContact, int type );
+	virtual	int    __cdecl UserIsTyping(HCONTACT hContact, int type );
 
 	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
 
@@ -110,10 +110,10 @@ struct GGPROTO : public PROTO<GGPROTO>
 	void gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int sleepNumber, int logging);
 
 	/* Global GG functions */
-	void notifyuser(HANDLE hContact, int refresh);
+	void notifyuser(HCONTACT hContact, int refresh);
 	void setalloffline();
 	void disconnect();
-	HANDLE getcontact(uin_t uin, int create, int inlist, TCHAR *nick);
+	HCONTACT getcontact(uin_t uin, int create, int inlist, TCHAR *nick);
 	void __cdecl mainthread(void *empty);
 	int isonline();
 	int refreshstatus(int status);
@@ -133,9 +133,9 @@ struct GGPROTO : public PROTO<GGPROTO>
 	void menus_init();
 
 	/* Avatar functions */
-	void getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen);
-	void requestAvatarTransfer(HANDLE hContact, char *szAvatarURL);
-	void requestAvatarInfo(HANDLE hContact, int iWaitFor);
+	void getAvatarFilename(HCONTACT hContact, TCHAR *pszDest, int cbLen);
+	void requestAvatarTransfer(HCONTACT hContact, char *szAvatarURL);
+	void requestAvatarInfo(HCONTACT hContact, int iWaitFor);
 	void getOwnAvatar();
 	void setAvatar(const TCHAR *szFilename);
 	bool getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts);
@@ -152,11 +152,11 @@ struct GGPROTO : public PROTO<GGPROTO>
 	void     __cdecl setavatarthread(void*);
 
 	/* File transfer functions */
-	HANDLE fileallow(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath);
-	int filecancel(HANDLE hContact, HANDLE hTransfer);
-	int filedeny(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szReason);
-	int recvfile(HANDLE hContact, PROTOFILEEVENT* pre);
-	HANDLE sendfile(HANDLE hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles);
+	HANDLE fileallow(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath);
+	int filecancel(HCONTACT hContact, HANDLE hTransfer);
+	int filedeny(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason);
+	int recvfile(HCONTACT hContact, PROTOFILEEVENT* pre);
+	HANDLE sendfile(HCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles);
 
 	HANDLE dccfileallow(HANDLE hTransfer, const PROTOCHAR* szPath);
 	HANDLE dcc7fileallow(HANDLE hTransfer, const PROTOCHAR* szPath);
@@ -187,8 +187,8 @@ struct GGPROTO : public PROTO<GGPROTO>
 	int img_sendonrequest(gg_event* e);
 	BOOL img_opened(uin_t uin);
 	void *img_loadpicture(gg_event* e, TCHAR *szFileName);
-	int img_display(HANDLE hContact, void *img);
-	int img_displayasmsg(HANDLE hContact, void *img);
+	int img_display(HCONTACT hContact, void *img);
+	int img_displayasmsg(HCONTACT hContact, void *img);
 
 	void __cdecl img_dlgcallthread(void *param);
 
@@ -211,7 +211,7 @@ struct GGPROTO : public PROTO<GGPROTO>
 	int gc_destroy();
 	TCHAR * gc_getchat(uin_t sender, uin_t *recipients, int recipients_count);
 	GGGC *gc_lookup(const TCHAR *id);
-	int gc_changenick(HANDLE hContact, TCHAR *ptszNick);
+	int gc_changenick(HCONTACT hContact, TCHAR *ptszNick);
 
 	int __cdecl gc_event(WPARAM wParam, LPARAM lParam);
 

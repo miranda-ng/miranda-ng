@@ -425,7 +425,7 @@ TextToken* TextToken::tokenizeLinks(const wchar_t *text) {
 	return firstToken;
 }
 
-TextToken* TextToken::tokenizeSmileys(HANDLE hContact, const char *proto, const wchar_t *text, bool isSent) {
+TextToken* TextToken::tokenizeSmileys(HCONTACT hContact, const char *proto, const wchar_t *text, bool isSent) {
 	TextToken *firstToken = NULL, *lastToken = NULL;
 	SMADD_BATCHPARSE2 sp;
 	SMADD_BATCHPARSERES *spRes;

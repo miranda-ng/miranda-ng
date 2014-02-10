@@ -50,13 +50,13 @@ class CFileXml {
 
 	/*
 	int ExportOwner(FILE *xmlfile, BYTE bExportEvents);
-	int ExportContact(FILE *xmlfile, HANDLE hContact, BYTE bExportEvents, LPENUMLIST pModules);
-	int ExportSubContact(TiXmlElement *xContact, HANDLE hContact, BYTE bExportEvents);
+	int ExportContact(FILE *xmlfile, HCONTACT hContact, BYTE bExportEvents, LPENUMLIST pModules);
+	int ExportSubContact(TiXmlElement *xContact, HCONTACT hContact, BYTE bExportEvents);
 	*/
 
 public:
 	CFileXml();
-	int		Import(HANDLE hContact, LPCSTR pszFileName);
+	int		Import(HCONTACT hContact, LPCSTR pszFileName);
 	int		Export(lpExImParam ExImContact, LPCSTR pszFileName);
 };
 

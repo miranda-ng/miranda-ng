@@ -48,7 +48,7 @@ static int stopStatusUpdater = 0;
 void StatusUpdaterThread(void*)
 {
 	int i,curdelay,lastcheck = 0;
-	HANDLE hContact = db_find_first();
+	HCONTACT hContact = db_find_first();
 
 	SetThreadPriority(GetCurrentThread(),THREAD_PRIORITY_LOWEST);
 
@@ -62,7 +62,7 @@ void StatusUpdaterThread(void*)
 			if ( db_get_b(hContact,"CList","StatusMsgAuto",0)) {
 				for (i = 0; i<5; i++) {
 					if (hContact != NULL) {
-						ClcCacheEntry *pdnce  = (ClcCacheEntry *)pcli->pfnGetCacheEntry((HANDLE)hContact);
+						ClcCacheEntry *pdnce  = (ClcCacheEntry *)pcli->pfnGetCacheEntry(hContact);
 						if (pdnce && !pdnce->protoNotExists && pdnce->szProto)
 							CallContactService(hContact, PSS_GETAWAYMSG, 0, 0);
 
@@ -143,9 +143,9 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case INTM_ICONCHANGED:
 	{
 		int recalcScrollBar = 0,shouldShow;
-		HANDLE hSelItem = NULL;
+		HCONTACT hSelItem = NULL;
 		struct ClcContact *selcontact = NULL;
-		ClcCacheEntry *cacheEntry = GetContactFullCacheEntry((HANDLE)wParam);
+		ClcCacheEntry *cacheEntry = GetContactFullCacheEntry((HCONTACT)wParam);
 
 		WORD status;
 		int needsResort = 0;
@@ -158,21 +158,21 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		// this means an offline msg is flashing, so the contact should be shown
 		shouldShow = (GetWindowLongPtr(hwnd,GWL_STYLE) & CLS_SHOWHIDDEN || !cacheEntry->bIsHidden) &&
-			(!pcli->pfnIsHiddenMode(dat,status) || cacheEntry->noHiddenOffline || pcli->pfnGetContactIcon((HANDLE)wParam) != LOWORD(lParam));
+			(!pcli->pfnIsHiddenMode(dat, status) || cacheEntry->noHiddenOffline || pcli->pfnGetContactIcon((HCONTACT)wParam) != LOWORD(lParam));
 
 		ClcContact *contact;
 		ClcGroup *group;
-		if ( !FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {
+		if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, &group, NULL)) {
 			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
-					hSelItem = pcli->pfnContactToHItem(selcontact);
-				AddContactToTree(hwnd,dat,(HANDLE)wParam,0,0);
+					hSelItem = (HCONTACT)pcli->pfnContactToHItem(selcontact);
+				AddContactToTree(hwnd, dat, (HCONTACT)wParam, 0, 0);
 				needsResort = 1;
 				recalcScrollBar = 1;
-				FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL);
+				FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL);
 				if (contact) {
 					contact->iImage = (WORD)lParam;
-					pcli->pfnNotifyNewContact(hwnd,(HANDLE)wParam);
+					pcli->pfnNotifyNewContact(hwnd, (HCONTACT)wParam);
 					dat->needsResort = 1;
 				}
 			}
@@ -185,7 +185,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			if ( !shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
-					hSelItem = pcli->pfnContactToHItem(selcontact);
+					hSelItem = (HCONTACT)pcli->pfnContactToHItem(selcontact);
 				RemoveItemFromGroup(hwnd,group,contact,0);
 				recalcScrollBar = 1;
 				dat->needsResort = 1;
@@ -220,13 +220,13 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		ClcContact *contact;
 		ClcGroup *group;
-		if ( FindItem(hwnd,dat,(HANDLE)wParam,&contact,&group,NULL) && contact != NULL) {
+		if (FindItem(hwnd, dat, (HCONTACT)wParam, &contact, &group, NULL) && contact != NULL) {
 			contact->flags  &=  ~CONTACTF_STATUSMSG;
-			if ( !db_get_ts((HANDLE)wParam, "CList", "StatusMsg", &dbv)) {
+			if (!db_get_ts((HCONTACT)wParam, "CList", "StatusMsg", &dbv)) {
 				int j;
-				if (dbv.ptszVal == NULL||_tcslen(dbv.ptszVal) == 0) break;
+				if (dbv.ptszVal == NULL || _tcslen(dbv.ptszVal) == 0) break;
 				lstrcpyn(contact->szStatusMsg, dbv.ptszVal, SIZEOF(contact->szStatusMsg));
-				for (j = (int)_tcslen(contact->szStatusMsg)-1;j>=0;j--) {
+				for (j = (int)_tcslen(contact->szStatusMsg) - 1; j >= 0; j--) {
 					if (contact->szStatusMsg[j] == '\r' || contact->szStatusMsg[j] == '\n' || contact->szStatusMsg[j] == '\t') {
 						contact->szStatusMsg[j] = ' ';
 					}

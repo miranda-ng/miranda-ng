@@ -91,12 +91,12 @@ class CAnnivList
 
 	struct CItemData 
 	{
-		HANDLE		_hContact;
+		HCONTACT	_hContact;
 		MAnnivDate*	_pDate;
 		WORD		_wDaysBefore;
 		BYTE		_wReminderState;
 
-		CItemData(HANDLE hContact, MAnnivDate &date) 
+		CItemData(HCONTACT hContact, MAnnivDate &date) 
 		{
 			_hContact = hContact;
 			_wReminderState = date.RemindOption();
@@ -740,7 +740,7 @@ class CAnnivList
 	 * @retval	TRUE if successful
 	 * @retval	FALSE if failed
 	 **/
-	BYTE AddRow(HANDLE hContact, LPCSTR pszProto, MAnnivDate &ad, MTime &mtNow, WORD wDaysBefore) 
+	BYTE AddRow(HCONTACT hContact, LPCSTR pszProto, MAnnivDate &ad, MTime &mtNow, WORD wDaysBefore) 
 	{
 		TCHAR szText[MAX_PATH];
 		int diff, iItem = -1;
@@ -810,7 +810,6 @@ class CAnnivList
 	 **/
 	void RebuildList() 
 	{
-		HANDLE		hContact;
 		LPSTR		pszProto;
 		MTime		mtNow;
 		MAnnivDate	ad;
@@ -827,7 +826,7 @@ class CAnnivList
 		mtNow.GetLocalTime();
 
 		// insert the items into the list
-		for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		{
 			// ignore meta subcontacts here, as they are not interesting.
 			if (!DB::MetaContact::IsSub(hContact)) {
@@ -835,15 +834,13 @@ class CAnnivList
 				pszProto = DB::Contact::Proto(hContact);
 				if (pszProto) {
 					numContacts++;
-					switch (GenderOf(hContact, pszProto))
-					{
-					case 'M': {
-							numMale++;
-						} break;
+					switch (GenderOf(hContact, pszProto)) {
+					case 'M':
+						numMale++;
+						break;
 
-					case 'F': {
-							numFemale++; 
-						}
+					case 'F':
+						numFemale++;
 					}
 
 					if (!ad.DBGetBirthDate(hContact, pszProto)) {

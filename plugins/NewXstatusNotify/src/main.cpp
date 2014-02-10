@@ -60,7 +60,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_USERONLINE, MIID_LAST};
 
-BYTE GetGender(HANDLE hContact)
+BYTE GetGender(HCONTACT hContact)
 {
 	char *szProto =GetContactProto(hContact);
 	if (szProto) {
@@ -84,7 +84,7 @@ HANDLE GetIconHandle(char *szIcon)
 	return Skin_GetIconHandle(szSettingName);
 }
 
-bool IsNewExtraStatus(HANDLE hContact, char *szSetting, TCHAR *newStatusTitle)
+bool IsNewExtraStatus(HCONTACT hContact, char *szSetting, TCHAR *newStatusTitle)
 {
 	DBVARIANT dbv;
 	bool result = true;
@@ -97,7 +97,7 @@ bool IsNewExtraStatus(HANDLE hContact, char *szSetting, TCHAR *newStatusTitle)
 	return result;
 }
 
-int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
+int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, HCONTACT hContact)
 {
 	XSTATUSCHANGE *xsc;
 	char *szProto = GetContactProto(hContact);
@@ -408,12 +408,12 @@ TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
 	return str;
 }
 
-bool SkipHiddenContact(HANDLE hContact)
+bool SkipHiddenContact(HCONTACT hContact)
 {
 	return (!opt.HiddenContactsToo && (db_get_b(hContact, "CList", "Hidden", 0) == 1));
 }
 
-int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
+int ProcessStatus(DBCONTACTWRITESETTING *cws, HCONTACT hContact)
 {
 	if ( !strcmp(cws->szSetting, "Status")) {
 		WORD newStatus = cws->value.wVal;
@@ -543,7 +543,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -612,7 +612,7 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void ShowStatusChangePopup(HANDLE hContact, char *szProto, WORD oldStatus, WORD newStatus)
+void ShowStatusChangePopup(HCONTACT hContact, char *szProto, WORD oldStatus, WORD newStatus)
 {
 	TCHAR stzStatusText[MAX_SECONDLINE] = {0};
 	WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
@@ -686,7 +686,7 @@ void ShowStatusChangePopup(HANDLE hContact, char *szProto, WORD oldStatus, WORD 
 	PUAddPopupT(&ppd);
 }
 
-void BlinkIcon(HANDLE hContact, char* szProto, WORD status)
+void BlinkIcon(HCONTACT hContact, char* szProto, WORD status)
 {
 	CLISTEVENT cle = {0};
 	TCHAR stzTooltip[256];
@@ -704,7 +704,7 @@ void BlinkIcon(HANDLE hContact, char* szProto, WORD status)
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 }
 
-void PlayChangeSound(HANDLE hContact, WORD oldStatus, WORD newStatus)
+void PlayChangeSound(HCONTACT hContact, WORD oldStatus, WORD newStatus)
 {
 	DBVARIANT dbv;
 	if (opt.UseIndSnd) {
@@ -751,7 +751,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 {
 	WORD oldStatus = LOWORD(lParam);
 	WORD newStatus = HIWORD(lParam);
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	bool bEnablePopup = true, bEnableSound = true;
 
 	char *hlpProto = GetContactProto(hContact);
@@ -777,7 +777,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (strcmp(szProto, szMetaModuleName) == 0) { //this contact is Meta
-		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		HCONTACT hSubContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		hlpProto = GetContactProto(hSubContact);
 		if (hlpProto == NULL)
 			return 0;

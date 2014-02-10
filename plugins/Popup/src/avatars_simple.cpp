@@ -23,7 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
-SimpleAvatar::SimpleAvatar(HANDLE hContact, bool bUseBitmap): PopupAvatar(bUseBitmap ? 0 : hContact)
+SimpleAvatar::SimpleAvatar(HANDLE h, bool bUseBitmap) :
+	PopupAvatar((bUseBitmap) ? 0 : h)
 {
 	bIsAnimated = false;
 	bIsValid = true;
@@ -31,7 +32,7 @@ SimpleAvatar::SimpleAvatar(HANDLE hContact, bool bUseBitmap): PopupAvatar(bUseBi
 	if (bUseBitmap)
 	{
 		BITMAP bmp;
-		GetObject((HBITMAP)hContact, sizeof(bmp), &bmp);
+		GetObject((HBITMAP)h, sizeof(bmp), &bmp);
 		width = abs(bmp.bmWidth);
 		height = abs(bmp.bmHeight);
 
@@ -39,15 +40,15 @@ SimpleAvatar::SimpleAvatar(HANDLE hContact, bool bUseBitmap): PopupAvatar(bUseBi
 		av = new avatarCacheEntry;
 		av->bmHeight = abs(bmp.bmHeight);
 		av->bmWidth = abs(bmp.bmWidth);
-		av->hbmPic = (HBITMAP)hContact;
+		av->hbmPic = (HBITMAP)h;
 		av->dwFlags = AVS_BITMAP_VALID;
 		return;
 	}
 
-	if (hContact && ServiceExists(MS_AV_GETAVATARBITMAP))
+	if (h && ServiceExists(MS_AV_GETAVATARBITMAP))
 	{
 		avNeedFree = false;
-		av = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
+		av = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)h, 0);
 		if (av)
 		{
 			if (av->hbmPic && (av->dwFlags&AVS_BITMAP_VALID) && !(av->dwFlags&AVS_HIDEONCLIST) && !(av->dwFlags&AVS_NOTREADY))

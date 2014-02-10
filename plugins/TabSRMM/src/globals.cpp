@@ -402,11 +402,11 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 	CContactCache* c = 0;
 	bool		fChanged = false, fNickChanged = false, fExtendedStatusChange = false;
 
-	hwnd = M.FindWindow((HANDLE)wParam);
+	hwnd = M.FindWindow((HCONTACT)wParam);
 
 	if (hwnd == 0 && wParam != 0) {     // we are not interested in this event if there is no open message window/tab
 		if (!strcmp(setting, "Status") || !strcmp(setting, "MyHandle") || !strcmp(setting, "Nick") || !strcmp(cws->szModule, SRMSGMOD_T)) {
-			c = CContactCache::getContactCache((HANDLE)wParam);
+			c = CContactCache::getContactCache((HCONTACT)wParam);
 			if (c) {
 				fChanged = c->updateStatus();
 				if (strcmp(setting, "Status"))
@@ -424,7 +424,7 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (wParam) {
-		c = CContactCache::getContactCache((HANDLE)wParam);
+		c = CContactCache::getContactCache((HCONTACT)wParam);
 		if (c) {
 			szProto = c->getProto();
 			if (!strcmp(cws->szModule, SRMSGMOD_T)) {					// catch own relevant settings
@@ -500,7 +500,7 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 int CGlobals::DBContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam) {
-		CContactCache *c = CContactCache::getContactCache((HANDLE)wParam);
+		CContactCache *c = CContactCache::getContactCache((HCONTACT)wParam);
 		if (c)
 			c->deletedHandler();
 	}
@@ -515,7 +515,7 @@ int CGlobals::DBContactDeleted(WPARAM wParam, LPARAM lParam)
 int CGlobals::MetaContactEvent(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam) {
-		CContactCache *c = CContactCache::getContactCache((HANDLE)wParam);
+		CContactCache *c = CContactCache::getContactCache((HCONTACT)wParam);
 		if (c) {
 			c->updateMeta(true);
 			if (c->getHwnd()) {
@@ -532,7 +532,7 @@ int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 	::TN_ModuleDeInit();
 	::CloseAllContainers();
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		db_set_dw(hContact, SRMSGMOD_T, "messagecount", 0);
 
 	::SI_DeinitStatusIcons();
@@ -582,7 +582,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 	cle.pszService = "SRMsg/ReadMessage";
 	cle.flags = CLEF_TCHAR;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (db_get_dw(hContact, "SendLater", "count", 0))
 		   sendLater->addContact(hContact);
 
@@ -616,7 +616,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	if (dat == NULL || !c->isValid())
 		return;
 
-	HANDLE hContact = c->getContact();
+	HCONTACT hContact = c->getContact();
 	if (!PluginConfig.m_LogStatusChanges && !M.GetByte(hContact, "logstatuschanges", 0))
 		return;
 

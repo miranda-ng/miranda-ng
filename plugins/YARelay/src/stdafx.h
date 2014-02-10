@@ -48,7 +48,7 @@ Features:
 
 extern HINSTANCE hInst;
 
-extern HANDLE hForwardFrom, hForwardTo;
+extern HCONTACT hForwardFrom, hForwardTo;
 extern TCHAR tszForwardTemplate[MAXTEMPLATESIZE];
 extern int iSplit, iSplitMaxSize, iSendParts, iMarkRead, iSendAndHistory, iForwardOnStatus;
 

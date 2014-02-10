@@ -163,7 +163,7 @@ public:
 	 * @retval	TRUE	- the content was updated
 	 * @retval	FALSE - content not updated
 	 **/
-	virtual BOOL OnInfoChanged(HANDLE hContact, LPCSTR pszProto) { return 0; }
+	virtual BOOL OnInfoChanged(HCONTACT hContact, LPCSTR pszProto) { return 0; }
 
 	/**
 	 * This is a pure virtual method, which is the common interface 
@@ -174,7 +174,7 @@ public:
 	 *
 	 * @return	nothing
 	 **/
-	virtual void OnApply(HANDLE hContact, LPCSTR pszProto) { }
+	virtual void OnApply(HCONTACT hContact, LPCSTR pszProto) { }
 
 	/**
 	 * This is a pure virtual method, which is called to set the 
@@ -220,8 +220,8 @@ public:
 
 	void		Release();
 	void		OnReset();
-	BOOL		OnInfoChanged(HANDLE hContact, LPCSTR pszProto);
-	void		OnApply(HANDLE hContact, LPCSTR pszProto);
+	BOOL		OnInfoChanged(HCONTACT hContact, LPCSTR pszProto);
+	void		OnApply(HCONTACT hContact, LPCSTR pszProto);
 	void		OnChangedByUser(WORD idCtrl, WORD wChangedMsg);
 	INT_PTR OnSetTextColour(HWND hCtrl, HDC hdc);
 };

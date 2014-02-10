@@ -61,7 +61,7 @@ MIR_CORE_DLL(void) ProtoLogW(struct PROTO_INTERFACE *pThis, LPCWSTR wszFormat, v
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
+MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, HCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
 	if (type == ACKTYPE_AVATAR && hProcess) {
 		PROTO_AVATAR_INFORMATION* ai = (PROTO_AVATAR_INFORMATION*)hProcess;

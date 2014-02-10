@@ -91,8 +91,7 @@ INT_PTR CAimProto::GetProfile(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbv;
-	if (!getString((HANDLE)wParam, AIM_KEY_SN, &dbv))
-	{
+	if (!getString((HCONTACT)wParam, AIM_KEY_SN, &dbv)) {
 		request_HTML_profile = 1;
 		aim_query_profile(hServerConn, seqno, dbv.pszVal);
 		db_free(&dbv);
@@ -106,7 +105,7 @@ INT_PTR CAimProto::GetHTMLAwayMsg(WPARAM wParam, LPARAM /*lParam*/)
 		return 0;
 
 	DBVARIANT dbv;
-	if (!getString((HANDLE)wParam, AIM_KEY_SN, &dbv))
+	if (!getString((HCONTACT)wParam, AIM_KEY_SN, &dbv))
 	{
 		request_away_message = 1;
 		aim_query_away_message(hServerConn, seqno, dbv.pszVal);
@@ -120,7 +119,7 @@ int CAimProto::OnDbSettingChanged(WPARAM wParam,LPARAM lParam)
 
 	if (strcmp(cws->szModule, MOD_KEY_CL) == 0 && state == 1 && wParam)
 	{
-		HANDLE hContact = (HANDLE)wParam;
+		HCONTACT hContact = (HCONTACT)wParam;
 		if (strcmp(cws->szSetting, AIM_KEY_NL) == 0)
 		{
 			if (cws->value.type == DBVT_DELETED)
@@ -170,7 +169,7 @@ int CAimProto::OnContactDeleted(WPARAM wParam,LPARAM /*lParam*/)
 {
 	if (state != 1) return 0;
 
-	const HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	if (db_get_b(hContact, MOD_KEY_CL, AIM_KEY_NL, 0))
 		return 0;
@@ -204,8 +203,8 @@ int CAimProto::OnGroupChange(WPARAM wParam,LPARAM lParam)
 {
 	if (state != 1 || !getByte(AIM_KEY_MG, 1)) return 0;
 
-	const HANDLE hContact = (HANDLE)wParam;
-	const CLISTGROUPCHANGE* grpchg = (CLISTGROUPCHANGE*)lParam;
+	HCONTACT hContact = (HCONTACT)wParam;
+	CLISTGROUPCHANGE* grpchg = (CLISTGROUPCHANGE*)lParam;
 
 	if (hContact == NULL)
 	{
@@ -255,7 +254,7 @@ INT_PTR CAimProto::AddToServerList(WPARAM wParam, LPARAM /*lParam*/)
 {
 	if (state != 1) return 0;
 
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	DBVARIANT dbv;
 	if (!db_get_utf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0])
 	{
@@ -271,7 +270,7 @@ INT_PTR CAimProto::BlockBuddy(WPARAM wParam, LPARAM /*lParam*/)
 {
 	if (state != 1)	return 0;
 
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	unsigned short item_id;
 	DBVARIANT dbv;
 	if (getString(hContact, AIM_KEY_SN, &dbv)) return 0;
@@ -329,7 +328,7 @@ INT_PTR CAimProto::OnJoinChat(WPARAM wParam, LPARAM /*lParam*/)
 {
 	if (state != 1)	return 0;
 
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	DBVARIANT dbv;
 	if (!getString(hContact, "ChatRoomID", &dbv))
@@ -345,7 +344,7 @@ INT_PTR CAimProto::OnLeaveChat(WPARAM wParam, LPARAM /*lParam*/)
 {
 	if (state != 1)	return 0;
 
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	DBVARIANT dbv;
 	if (!getString(hContact, "ChatRoomID", &dbv))

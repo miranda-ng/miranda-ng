@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int InitStatusIcons();
 int DeinitStatusIcons();
 
-int  GetStatusIconsCount(HANDLE hContact);
-void DrawStatusIcons(HANDLE hContact, HDC hdc, RECT r, int gap);
-void CheckStatusIconClick(HANDLE hContact, HWND hwndFrom, POINT pt, RECT rc, int gap, int flags);
+int  GetStatusIconsCount(HCONTACT hContact);
+void DrawStatusIcons(HCONTACT hContact, HDC hdc, RECT r, int gap);
+void CheckStatusIconClick(HCONTACT hContact, HWND hwndFrom, POINT pt, RECT rc, int gap, int flags);
 #endif

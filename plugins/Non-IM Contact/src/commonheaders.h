@@ -101,13 +101,13 @@ INT_PTR exportContacts(WPARAM wParam,LPARAM lParam) ;
 INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void ExportContact(HANDLE hContact);
+void ExportContact(HCONTACT hContact);
 INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam);
 
 // stringreplacer.c
-int stringReplacer(const char* oldString, char* newString, HANDLE hContact);
-void replaceAllStrings(HANDLE hContact);
-void WriteSetting(HANDLE hContact, char* module1, char* setting1 , char* module12, char* setting2);
+int stringReplacer(const char* oldString, char* newString, HCONTACT hContact);
+void replaceAllStrings(HCONTACT hContact);
+void WriteSetting(HCONTACT hContact, char* module1, char* setting1 , char* module12, char* setting2);
 
 //timer.c
 extern UINT_PTR timerId;
@@ -122,7 +122,7 @@ extern char *szInfo;
 extern char *szData;
 extern HANDLE hNetlibUser;
 
-int db_get_static(HANDLE hContact, const char *moduleName, const char *fn, char *buf);
+int db_get_static(HCONTACT hContact, const char *moduleName, const char *fn, char *buf);
 
 #endif
 

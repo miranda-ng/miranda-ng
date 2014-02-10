@@ -2,7 +2,7 @@
 
 INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/)
 {
-	HANDLE hContact = ( HANDLE )wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	std::string proto = GetContactProto(hContact);
 	
 	if ( !plSets->ProtoDisabled( proto.c_str()))
@@ -22,8 +22,8 @@ INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/)
 
 INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 {
-	for (HANDLE hContact = db_find_first(); hContact; ) {
-		HANDLE hNext = db_find_next(hContact);
+	for (HCONTACT hContact = db_find_first(); hContact; ) {
+		HCONTACT hNext = db_find_next(hContact);
 		ptrT szGroup( db_get_tsa( hContact, "CList", "Group"));
 
 		if ( db_get_b(hContact, "CList", "NotOnList", 0) || db_get_b(hContact, "CList", "Hidden", 0 ) || (szGroup != NULL && (_tcsstr(szGroup, _T("Not In List")) || _tcsstr(szGroup, TranslateT("Not In List"))))) {

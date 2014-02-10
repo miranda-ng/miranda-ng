@@ -32,7 +32,7 @@
 struct AskAuthParam
 {
 	CIcqProto* ppro;
-	HANDLE hContact;
+	HCONTACT hContact;
 };
 
 static INT_PTR CALLBACK AskAuthProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -90,7 +90,7 @@ static INT_PTR CALLBACK AskAuthProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 INT_PTR CIcqProto::RequestAuthorization(WPARAM wParam, LPARAM lParam)
 {
-	AskAuthParam param = { this, (HANDLE)wParam };
+	AskAuthParam param = { this, (HCONTACT)wParam };
 	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ASKAUTH), NULL, AskAuthProc, (LPARAM)&param);
 	return 0;
 }

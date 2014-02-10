@@ -41,31 +41,32 @@ INT_PTR NudgeShowMenu(WPARAM wParam,LPARAM lParam)
 
 INT_PTR NudgeSend(WPARAM wParam, LPARAM lParam)
 {
-	char *protoName = GetContactProto((HANDLE)wParam);
-	int diff = time(NULL) - db_get_dw((HANDLE)wParam, "Nudge", "LastSent", time(NULL) - 30);
+	HCONTACT hContact = (HCONTACT)wParam;
+	char *protoName = GetContactProto(hContact);
+	int diff = time(NULL) - db_get_dw(hContact, "Nudge", "LastSent", time(NULL) - 30);
 	if (diff < GlobalNudge.sendTimeSec) {
 		TCHAR msg[500];
 		mir_sntprintf(msg, 500, TranslateT("You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)"), GlobalNudge.sendTimeSec, 30 - diff);
 		if (GlobalNudge.useByProtocol) {
 			for (NudgeElementList *n = NudgeList; n != NULL; n = n->next)
 				if (!strcmp(protoName, n->item.ProtocolName))
-					Nudge_ShowPopup(n->item, (HANDLE)wParam, msg);
+					Nudge_ShowPopup(n->item, hContact, msg);
 		}
-		else Nudge_ShowPopup(DefaultNudge, (HANDLE)wParam, msg);
+		else Nudge_ShowPopup(DefaultNudge, hContact, msg);
 
 		return 0;
 	}
 
-	db_set_dw((HANDLE)wParam, "Nudge", "LastSent", time(NULL));
+	db_set_dw(hContact, "Nudge", "LastSent", time(NULL));
 
 	if (GlobalNudge.useByProtocol) {
 		for (NudgeElementList *n = NudgeList; n != NULL; n = n->next)
 			if (!strcmp(protoName, n->item.ProtocolName))
 				if (n->item.showStatus)
-					Nudge_SentStatus(n->item, (HANDLE)wParam);
+					Nudge_SentStatus(n->item, hContact);
 	}
 	else if (DefaultNudge.showStatus)
-		Nudge_SentStatus(DefaultNudge, (HANDLE)wParam);
+		Nudge_SentStatus(DefaultNudge, hContact);
 
 	CallProtoService(protoName, PS_SEND_NUDGE, wParam, lParam);
 	return 0;
@@ -80,18 +81,19 @@ void OpenContactList()
 
 int NudgeReceived(WPARAM wParam, LPARAM lParam)
 {
-	char *protoName = GetContactProto((HANDLE)wParam);
+	HCONTACT hContact = (HCONTACT)wParam;
+	char *protoName = GetContactProto(hContact);
 
 	DWORD currentTimestamp = time(NULL);
 	DWORD nudgeSentTimestamp = lParam ? (DWORD)lParam : currentTimestamp;
 
-	int diff = currentTimestamp - db_get_dw((HANDLE)wParam, "Nudge", "LastReceived", currentTimestamp - 30);
-	int diff2 = nudgeSentTimestamp - db_get_dw((HANDLE)wParam, "Nudge", "LastReceived2", nudgeSentTimestamp - 30);
+	int diff = currentTimestamp - db_get_dw(hContact, "Nudge", "LastReceived", currentTimestamp - 30);
+	int diff2 = nudgeSentTimestamp - db_get_dw(hContact, "Nudge", "LastReceived2", nudgeSentTimestamp - 30);
 
 	if (diff >= GlobalNudge.recvTimeSec)
-		db_set_dw((HANDLE)wParam, "Nudge", "LastReceived", currentTimestamp);
+		db_set_dw(hContact, "Nudge", "LastReceived", currentTimestamp);
 	if (diff2 >= GlobalNudge.recvTimeSec)
-		db_set_dw((HANDLE)wParam, "Nudge", "LastReceived2", nudgeSentTimestamp);
+		db_set_dw(hContact, "Nudge", "LastReceived2", nudgeSentTimestamp);
 
 	if (GlobalNudge.useByProtocol) {
 		for (NudgeElementList *n = NudgeList; n != NULL; n = n->next) {
@@ -116,7 +118,7 @@ int NudgeReceived(WPARAM wParam, LPARAM lParam)
 					{
 						if (diff >= GlobalNudge.recvTimeSec) {
 							if (n->item.showPopup)
-								Nudge_ShowPopup(n->item, (HANDLE)wParam, n->item.recText);
+								Nudge_ShowPopup(n->item, hContact, n->item.recText);
 							if (n->item.openContactList)
 								OpenContactList();
 							if (n->item.shakeClist)
@@ -134,7 +136,7 @@ int NudgeReceived(WPARAM wParam, LPARAM lParam)
 
 					if (diff2 >= GlobalNudge.recvTimeSec)
 						if (n->item.showStatus)
-							Nudge_ShowStatus(n->item, (HANDLE)wParam, nudgeSentTimestamp);
+							Nudge_ShowStatus(n->item, hContact, nudgeSentTimestamp);
 				}
 				break;
 			}
@@ -159,7 +161,7 @@ int NudgeReceived(WPARAM wParam, LPARAM lParam)
 			{
 				if (diff >= GlobalNudge.recvTimeSec) {
 					if (DefaultNudge.showPopup)
-						Nudge_ShowPopup(DefaultNudge, (HANDLE)wParam, DefaultNudge.recText);
+						Nudge_ShowPopup(DefaultNudge, hContact, DefaultNudge.recText);
 					if (DefaultNudge.openContactList)
 						OpenContactList();
 					if (DefaultNudge.shakeClist)
@@ -177,7 +179,7 @@ int NudgeReceived(WPARAM wParam, LPARAM lParam)
 
 			if (diff2 >= GlobalNudge.recvTimeSec)
 				if (DefaultNudge.showStatus)
-					Nudge_ShowStatus(DefaultNudge, (HANDLE)wParam, nudgeSentTimestamp);
+					Nudge_ShowStatus(DefaultNudge, hContact, nudgeSentTimestamp);
 		}
 	}
 	return 0;
@@ -251,7 +253,7 @@ static int TabsrmmButtonInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void HideNudgeButton(HANDLE hContact)
+void HideNudgeButton(HCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (!ProtoServiceExists(szProto, PS_SEND_NUDGE)) {
@@ -377,7 +379,7 @@ void LoadPopupClass()
 
 int Preview()
 {
-	HANDLE hContact = db_find_first();
+	HCONTACT hContact = db_find_first();
 	if (GlobalNudge.useByProtocol) {
 		for (NudgeElementList *n = NudgeList; n != NULL; n = n->next) {
 			if (n->item.enabled) {
@@ -413,7 +415,7 @@ int Preview()
 	return 0;
 }
 
-void Nudge_ShowPopup(CNudgeElement n, HANDLE hContact, TCHAR * Message)
+void Nudge_ShowPopup(CNudgeElement n, HCONTACT hContact, TCHAR * Message)
 {
 	hContact = Nudge_GethContact(hContact);
 	TCHAR * lpzContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
@@ -447,7 +449,7 @@ void Nudge_ShowPopup(CNudgeElement n, HANDLE hContact, TCHAR * Message)
 	else MessageBox(NULL, Message, lpzContactName, 0);
 }
 
-void Nudge_SentStatus(CNudgeElement n, HANDLE hContact)
+void Nudge_SentStatus(CNudgeElement n, HCONTACT hContact)
 {
 	char *buff = mir_utf8encodeT(n.senText);
 
@@ -461,7 +463,7 @@ void Nudge_SentStatus(CNudgeElement n, HANDLE hContact)
 
 	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0); //try to retrieve the metacontact if some
 	if (res != CALLSERVICE_NOTFOUND) {
-		HANDLE hMetaContact = (HANDLE)res;
+		HCONTACT hMetaContact = (HCONTACT)res;
 		if (hMetaContact != NULL) // metacontact
 			db_event_add(hMetaContact, &dbei);
 	}
@@ -470,7 +472,7 @@ void Nudge_SentStatus(CNudgeElement n, HANDLE hContact)
 	mir_free(buff);
 }
 
-void Nudge_ShowStatus(CNudgeElement n, HANDLE hContact, DWORD timestamp)
+void Nudge_ShowStatus(CNudgeElement n, HCONTACT hContact, DWORD timestamp)
 {
 	char *buff = mir_utf8encodeT(n.recText);
 
@@ -484,7 +486,7 @@ void Nudge_ShowStatus(CNudgeElement n, HANDLE hContact, DWORD timestamp)
 
 	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0); //try to retrieve the metacontact if some
 	if (res != CALLSERVICE_NOTFOUND) {
-		HANDLE hMetaContact = (HANDLE)res;
+		HCONTACT hMetaContact = (HCONTACT)res;
 		if (hMetaContact != NULL) { //metacontact
 			db_event_add(hMetaContact, &dbei);
 			dbei.flags |= DBEF_READ;
@@ -495,11 +497,11 @@ void Nudge_ShowStatus(CNudgeElement n, HANDLE hContact, DWORD timestamp)
 	mir_free(buff);
 }
 
-HANDLE Nudge_GethContact(HANDLE hContact)
+HCONTACT Nudge_GethContact(HCONTACT hContact)
 {
 	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
 	if (res != CALLSERVICE_NOTFOUND) {
-		HANDLE hMetaContact = (HANDLE)res;
+		HCONTACT hMetaContact = (HCONTACT)res;
 		if (hMetaContact != NULL)
 			return hMetaContact;
 	}

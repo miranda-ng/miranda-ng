@@ -26,13 +26,13 @@ public:
 		bool message;
 	};
 
-    typedef std::map<HANDLE, act> ActiveUsersMap;
+	typedef std::map<HCONTACT, act> ActiveUsersMap;
 
 	//--------------------------------------------------------------------------
 	// Description : get/set the voice description
 	//--------------------------------------------------------------------------
-    VoiceDesc getVoiceDesc() const           { return m_voice_desc; }
-    void setVoiceDesc(const VoiceDesc &desc) { m_voice_desc = desc; }
+	VoiceDesc getVoiceDesc() const           { return m_voice_desc; }
+	void setVoiceDesc(const VoiceDesc &desc) { m_voice_desc = desc; }
 
 	//--------------------------------------------------------------------------
 	// Description : get/set the welcome message
@@ -43,37 +43,36 @@ public:
 	//--------------------------------------------------------------------------
 	// Description : get/set an status flags
 	//--------------------------------------------------------------------------
-    bool getActiveFlag(ActiveFlag flag) const;
+	bool getActiveFlag(ActiveFlag flag) const;
 	void setActiveFlag(ActiveFlag flag, bool state);
 
 	//--------------------------------------------------------------------------
 	// Description : get/set the user active flag
 	//--------------------------------------------------------------------------
-    act getActiveUser(HANDLE user) const;
-    void setActiveUser(HANDLE user, act state);
-    ActiveUsersMap getActiveUsers() const { return m_active_users; }
-	
+	act getActiveUser(HCONTACT user) const;
+	void setActiveUser(HCONTACT user, act state);
+	ActiveUsersMap getActiveUsers() const { return m_active_users; }
+
 	//--------------------------------------------------------------------------
 	// Description : load/save the settings from the miranda database
 	//--------------------------------------------------------------------------
 	void load();
 	void save();
 
-  private:
+private:
 	//--------------------------------------------------------------------------
 	// Description : For some reason this isn't implemented in miranda yet
 	//               Just get a string from the db 
-    // Parameters  : szModule  - the entrys' module
-    //               szSetting - the entrys' setting
-    //               def       - default string if entry doesn't exist
+	// Parameters  : szModule  - the entrys' module
+	//               szSetting - the entrys' setting
+	//               def       - default string if entry doesn't exist
 	//--------------------------------------------------------------------------
 	static std::wstring DBGetContactSettingString(const char *szModule,
 		const char *szSetting, const WCHAR *def);
 
-    VoiceDesc      m_voice_desc;
-    unsigned int   m_active_flags;
+	VoiceDesc      m_voice_desc;
+	unsigned int   m_active_flags;
 	std::wstring m_welcome_msg;
 	//std::string    m_welcome_msg;
-    ActiveUsersMap m_active_users;
+	ActiveUsersMap m_active_users;
 };
-

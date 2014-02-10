@@ -165,7 +165,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 			case TC_TEXT2:
 				{
 					int tmp = 0;
-					HANDLE hContact = pdnce->hContact;
+					HCONTACT hContact = pdnce->hContact;
 					if (dat->second_line_show && pdnce->szSecondLineText && pdnce->szSecondLineText[0] )
 					{
 						tmp = dat->fontModernInfo[FONTID_SECONDLINE].fontHeight;
@@ -192,7 +192,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 
 			case TC_TEXT3:
 				{
-					HANDLE hContact = pdnce->hContact;
+					HCONTACT hContact = pdnce->hContact;
 					int tmp = 0;
 					if (dat->third_line_show && pdnce->szThirdLineText && pdnce->szThirdLineText[0]) {
 						tmp = dat->fontModernInfo[FONTID_THIRDLINE].fontHeight;

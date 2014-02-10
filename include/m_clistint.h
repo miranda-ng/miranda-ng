@@ -107,7 +107,7 @@ struct ClcContactBase
 	union {
 		struct {
 			int    iImage;
-			HANDLE hContact;
+			HCONTACT hContact;
 		};
 		struct {
 			WORD groupId;
@@ -244,7 +244,7 @@ typedef struct {
 
 typedef struct
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	TCHAR* tszName;
 	TCHAR* tszGroup;
 	int    bIsHidden;
@@ -290,9 +290,9 @@ typedef struct
 
 	int  (*pfnAddInfoItemToGroup)(ClcGroup *group, int flags, const TCHAR *pszText);
 	int  (*pfnAddItemToGroup)(ClcGroup *group, int iAboveItem);
-	int  (*pfnAddContactToGroup)(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
-	void (*pfnAddContactToTree)(HWND hwnd, struct ClcData *dat, HANDLE hContact, int updateTotalCount, int checkHideOffline);
-	void (*pfnDeleteItemFromTree)(HWND hwnd, HANDLE hItem);
+	int  (*pfnAddContactToGroup)(struct ClcData *dat, ClcGroup *group, HCONTACT hContact);
+	void (*pfnAddContactToTree)(HWND hwnd, struct ClcData *dat, HCONTACT hContact, int updateTotalCount, int checkHideOffline);
+	void (*pfnDeleteItemFromTree)(HWND hwnd, HCONTACT hItem);
 	void (*pfnRebuildEntireList)(HWND hwnd, struct ClcData *dat);
 	int  (*pfnGetGroupContentsCount)(ClcGroup *group, int visibleOnly);
 	void (*pfnSortCLC)(HWND hwnd, struct ClcData *dat, int useInsertionSort);
@@ -321,7 +321,7 @@ typedef struct
 	int   (*pfnClcStatusToPf2)(int status);
 	int   (*pfnIsHiddenMode)(struct ClcData *dat, int status);
 	void  (*pfnHideInfoTip)(HWND hwnd, struct ClcData *dat);
-	void  (*pfnNotifyNewContact)(HWND hwnd, HANDLE hContact);
+	void  (*pfnNotifyNewContact)(HWND hwnd, HCONTACT hContact);
 	DWORD (*pfnGetDefaultExStyle)(void);
 	void  (*pfnGetDefaultFontSetting)(int i, LOGFONT* lf, COLORREF* colour);
 	void  (*pfnGetFontSetting)(int i, LOGFONT* lf, COLORREF* colour);
@@ -337,22 +337,22 @@ typedef struct
 	int   (*pfnRowHitTest)(struct ClcData *dat, int y);
 
 	/* clistevents.c */
-	int   (*pfnEventsProcessContactDoubleClick)(HANDLE hContact);
+	int   (*pfnEventsProcessContactDoubleClick)(HCONTACT hContact);
 	int   (*pfnEventsProcessTrayDoubleClick)(int);
 
 	/* clistmod.c */
-	int    (*pfnIconFromStatusMode)(const char *szProto, int status, HANDLE hContact);
+	int    (*pfnIconFromStatusMode)(const char *szProto, int status, HCONTACT hContact);
 	int    (*pfnShowHide)(WPARAM, LPARAM);
 	TCHAR* (*pfnGetStatusModeDescription)(int mode, int flags);
 
 	/* clistsettings.c */
-	ClcCacheEntry* (*pfnGetCacheEntry)(HANDLE hContact);
-	ClcCacheEntry* (*pfnCreateCacheItem)(HANDLE hContact);
+	ClcCacheEntry* (*pfnGetCacheEntry)(HCONTACT hContact);
+	ClcCacheEntry* (*pfnCreateCacheItem)(HCONTACT hContact);
 	void           (*pfnCheckCacheItem)(ClcCacheEntry*);
 	void           (*pfnFreeCacheItem)(ClcCacheEntry*);
 
-	TCHAR* (*pfnGetContactDisplayName)(HANDLE hContact, int mode);
-	void   (*pfnInvalidateDisplayNameCacheEntry)(HANDLE hContact);
+	TCHAR* (*pfnGetContactDisplayName)(HCONTACT hContact, int mode);
+	void   (*pfnInvalidateDisplayNameCacheEntry)(HCONTACT hContact);
 
 	/* clisttray.c */
 	void (*pfnTrayIconUpdateWithImageList)(int iImage, const TCHAR *szNewTip, char *szPreferredProto);
@@ -373,7 +373,7 @@ typedef struct
 	void (*pfnOnCreateClc)(void);
 
 	/* contact.c */
-	void (*pfnChangeContactIcon)(HANDLE hContact, int iIcon, int add);
+	void (*pfnChangeContactIcon)(HCONTACT hContact, int iIcon, int add);
 	void (*pfnLoadContactTree)(void);
 	int  (*pfnCompareContacts)(const ClcContact *contact1, const ClcContact *contact2);
 	void (*pfnSortContacts)(void);
@@ -402,9 +402,9 @@ typedef struct
 	void  (*pfnFreeEvent)(struct CListEvent*);
 
 	struct CListEvent* (*pfnAddEvent)(CLISTEVENT*);
-	CLISTEVENT* (*pfnGetEvent)(HANDLE hContact, int idx);
+	CLISTEVENT* (*pfnGetEvent)(HCONTACT hContact, int idx);
 
-	int   (*pfnRemoveEvent)(HANDLE hContact, HANDLE hDbEvent);
+	int   (*pfnRemoveEvent)(HCONTACT hContact, HANDLE hDbEvent);
 	int   (*pfnGetImlIconIndex)(HICON hIcon);
 
 	/*************************************************************************************
@@ -443,7 +443,7 @@ typedef struct
 	TCHAR*   szTip;
 	BOOL     bTrayMenuOnScreen;
 
-	HICON  (*pfnGetIconFromStatusMode)(HANDLE hContact, const char *szProto, int status);
+	HICON  (*pfnGetIconFromStatusMode)(HCONTACT hContact, const char *szProto, int status);
 
 	void   (*pfnInitTray)(void);
 	int    (*pfnTrayIconAdd)(HWND hwnd, const char *szProto, const char *szIconProto, int status);
@@ -471,12 +471,12 @@ typedef struct
 	 * version 7 additions (0.11.0.x) - extra images
 	 *************************************************************************************/
 	void   (*pfnReloadExtraIcons)(void);
-	void   (*pfnSetAllExtraIcons)(HANDLE hContact);
+	void   (*pfnSetAllExtraIcons)(HCONTACT hContact);
 
 	/*************************************************************************************
 	 * Miranda NG additions
 	 *************************************************************************************/
-	int    (*pfnGetContactIcon)(HANDLE hContact);
+	int    (*pfnGetContactIcon)(HCONTACT hContact);
 	int    (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
 	int    (*pfnGetAverageMode)(int *pNetProtoCount);
 

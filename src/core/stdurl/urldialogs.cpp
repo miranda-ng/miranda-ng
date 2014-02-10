@@ -28,7 +28,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 extern HANDLE hUrlWindowList;
 
-static void sttUpdateTitle(HWND hwndDlg, HANDLE hContact)
+static void sttUpdateTitle(HWND hwndDlg, HCONTACT hContact)
 {
 	TCHAR newtitle[256], oldtitle[256];
 	TCHAR *szStatus, *contactName, *pszNewTitleStart = TranslateT("Send URL to");
@@ -469,7 +469,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_LIMITTEXT, 450, 0);
 		dat = (struct UrlSendData*)mir_alloc(sizeof(struct UrlSendData));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-		dat->hContact = (HANDLE)lParam;
+		dat->hContact = (HCONTACT)lParam;
 		dat->hAckEvent = NULL;
 		dat->hSendId = NULL;
 		dat->sendBuffer = NULL;

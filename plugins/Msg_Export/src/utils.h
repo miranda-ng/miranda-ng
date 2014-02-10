@@ -57,10 +57,10 @@ void ShowDebugInfo();
 int nExportEvent(WPARAM wparam,LPARAM lparam);
 int nContactDeleted(WPARAM wparam,LPARAM lparam);
 
-const TCHAR *NickFromHandle(HANDLE hContact);
+const TCHAR *NickFromHandle(HCONTACT hContact);
 
-tstring __inline _DBGetStringW(HANDLE hContact,const char *szModule,const char *szSetting, const TCHAR *pszError);
-string __inline _DBGetStringA(HANDLE hContact,const char *szModule,const char *szSetting, const char *pszError);
+tstring __inline _DBGetStringW(HCONTACT hContact,const char *szModule,const char *szSetting, const TCHAR *pszError);
+string __inline _DBGetStringA(HCONTACT hContact,const char *szModule,const char *szSetting, const char *pszError);
 
 void ReplaceAll( tstring &sSrc, const TCHAR *pszReplace, const tstring &sNew);
 void ReplaceAll( tstring &sSrc, const TCHAR *pszReplace, const TCHAR *pszNew);
@@ -68,9 +68,9 @@ void ReplaceAll( tstring &sSrc, const TCHAR *pszReplace, const TCHAR *pszNew);
 void UpdateFileToColWidth();
 
 bool bReadMirandaDirAndPath();
-tstring GetFilePathFromUser( HANDLE hContact);
+tstring GetFilePathFromUser( HCONTACT hContact);
 
-void ReplaceDefines( HANDLE hContact, tstring & sTarget);
+void ReplaceDefines( HCONTACT hContact, tstring & sTarget);
 void ReplaceTimeVariables( tstring &sRet);
 
 bool bCreatePathToFile( tstring sFilePath);

@@ -2,7 +2,7 @@
 
 int __cdecl CContactCache::OnDbEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	HANDLE hEvent = (HANDLE)lParam;
 
 	DBEVENTINFO dbei = {0};
@@ -81,7 +81,7 @@ void CContactCache::Rebuild()
 	unsigned long timestamp = time(NULL);
 	m_lastUpdate = time(NULL);
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		TContactInfo *info = new TContactInfo;
 		info->hContact = hContact;
 		info->rate = 0;
@@ -102,7 +102,7 @@ void CContactCache::Rebuild()
 	}
 }
 
-HANDLE CContactCache::get(int rate)
+HCONTACT CContactCache::get(int rate)
 {
 	if (rate >= 0 && rate < m_cache.getCount())
 		return m_cache[rate].hContact;
@@ -116,7 +116,7 @@ float CContactCache::getWeight(int rate)
 	return -1;
 }
 
-static bool AppendInfo(TCHAR *buf, int size, HANDLE hContact, int info)
+static bool AppendInfo(TCHAR *buf, int size, HCONTACT hContact, int info)
 {
 	CONTACTINFO ci = {0};
 	ci.cbSize = sizeof(ci);

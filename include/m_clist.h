@@ -31,6 +31,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "statusmodes.h"
 
+#include <m_core.h>
+
 extern int hLangpack;
 
 #if defined _STATIC
@@ -283,7 +285,7 @@ sense to store all this information in memory, etc.
 //bypasses the double-click.
 typedef struct {
 	int cbSize;          //size in bytes of this structure
-	HANDLE hContact;	 //handle to the contact to put the icon by
+	HCONTACT hContact;	 //handle to the contact to put the icon by
 	HICON hIcon;		 //icon to flash
 	DWORD flags;		 //...of course
 	union

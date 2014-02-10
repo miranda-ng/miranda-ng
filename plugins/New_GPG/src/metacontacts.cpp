@@ -18,69 +18,65 @@
 
 extern bool bMetaContacts;
 
-bool metaIsProtoMetaContacts(HANDLE hContact)
+bool metaIsProtoMetaContacts(HCONTACT hContact)
 {
-    if(bMetaContacts) {
-    	LPSTR proto = GetContactProto(hContact);
-    	if( proto && strcmp(proto,"MetaContacts")==0 ) {
-    		return true;
-    	}
-    }
-    return false;
+	if(bMetaContacts) {
+		LPSTR proto = GetContactProto(hContact);
+		if( proto && strcmp(proto,"MetaContacts")==0 ) {
+			return true;
+		}
+	}
+	return false;
 }
 
-bool metaIsDefaultSubContact(HANDLE hContact) 
+bool metaIsDefaultSubContact(HCONTACT hContact) 
 {
-    if(bMetaContacts)
+	if(bMetaContacts)
 		return (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT,(WPARAM)CallService(MS_MC_GETMETACONTACT,(WPARAM)hContact,0),0)==hContact;
-    return false;
+	return false;
 }
 
-HANDLE metaGetContact(HANDLE hContact) 
+HCONTACT metaGetContact(HCONTACT hContact) 
 {
-    if(bMetaContacts)
+	if(bMetaContacts)
 		if(metaIsSubcontact(hContact))
-			return (HANDLE)CallService(MS_MC_GETMETACONTACT,(WPARAM)hContact,0);
-    return NULL;
+			return (HCONTACT)CallService(MS_MC_GETMETACONTACT,(WPARAM)hContact,0);
+	return NULL;
 }
 
-bool metaIsSubcontact(HANDLE hContact)
+bool metaIsSubcontact(HCONTACT hContact)
 {
 	if(bMetaContacts)
 		return CallService(MS_MC_GETMETACONTACT,(WPARAM)hContact,0) != 0;
-    return false;
+	return false;
 }
 
-HANDLE metaGetMostOnline(HANDLE hContact) 
+HCONTACT metaGetMostOnline(HCONTACT hContact) 
 {
-
-    if(bMetaContacts)
+	if(bMetaContacts)
 		if(metaIsProtoMetaContacts(hContact))
-			return (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hContact,0);
-    return NULL;
+			return (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hContact,0);
+	return NULL;
 }
 
-HANDLE metaGetDefault(HANDLE hContact) 
+HCONTACT metaGetDefault(HCONTACT hContact) 
 {
-
-    if(bMetaContacts)
+	if(bMetaContacts)
 		if(metaIsProtoMetaContacts(hContact))
-			return (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT,(WPARAM)hContact,0);
-    return NULL;
+			return (HCONTACT)CallService(MS_MC_GETDEFAULTCONTACT,(WPARAM)hContact,0);
+	return NULL;
 }
 
-DWORD metaGetContactsNum(HANDLE hContact)
+DWORD metaGetContactsNum(HCONTACT hContact)
 {
 	if(bMetaContacts)
 		return CallService(MS_MC_GETNUMCONTACTS, (WPARAM)hContact, 0);
 	return 0;
 }
 
-HANDLE metaGetSubcontact(HANDLE hContact, int num)
+HCONTACT metaGetSubcontact(HCONTACT hContact, int num)
 {
 	if(bMetaContacts)
-		return (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, (LPARAM)num);
+		return (HCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, (LPARAM)num);
 	return 0;
 }
-
-

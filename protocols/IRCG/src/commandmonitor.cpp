@@ -98,7 +98,7 @@ VOID CALLBACK OnlineNotifTimerProc3(HWND, UINT, UINT_PTR idEvent, DWORD)
 		int count = (int)CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)ppro->m_szModuleName);
 		for (int i = 0; i < count; i++) {
 			GC_INFO gci = { 0 };
-			gci.Flags = BYINDEX | NAME | TYPE | COUNT;
+			gci.Flags = GCF_BYINDEX | GCF_NAME | GCF_TYPE | GCF_COUNT;
 			gci.iItem = i;
 			gci.pszModule = ppro->m_szModuleName;
 			if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci) && gci.iType == GCW_CHATROOM)
@@ -140,7 +140,7 @@ VOID CALLBACK OnlineNotifTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 	if (name.IsEmpty() && name2.IsEmpty()) {
 		DBVARIANT dbv;
-		for (HANDLE hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
+		for (HCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
 			if (ppro->isChatRoom(hContact))
 				continue;
 
@@ -215,7 +215,7 @@ VOID CALLBACK OnlineNotifTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 		ppro->SetChatTimer(ppro->OnlineNotifTimer, ppro->m_onlineNotificationTime * 1000, OnlineNotifTimerProc);
 }
 
-int CIrcProto::AddOutgoingMessageToDB(HANDLE hContact, TCHAR* msg)
+int CIrcProto::AddOutgoingMessageToDB(HCONTACT hContact, TCHAR* msg)
 {
 	if (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)
 		return 0;
@@ -582,7 +582,7 @@ bool CIrcProto::OnIrc_NICK(const CIrcMessage* pmsg)
 		DoEvent(GC_EVENT_CHUID, NULL, pmsg->prefix.sNick.c_str(), pmsg->parameters[0].c_str(), NULL, NULL, NULL, true, false);
 
 		struct CONTACT user = { (TCHAR*)pmsg->prefix.sNick.c_str(), (TCHAR*)pmsg->prefix.sUser.c_str(), (TCHAR*)pmsg->prefix.sHost.c_str(), false, false, false };
-		HANDLE hContact = CList_FindContact(&user);
+		HCONTACT hContact = CList_FindContact(&user);
 		if (hContact) {
 			if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 				setWord(hContact, "Status", ID_STATUS_ONLINE);
@@ -615,7 +615,7 @@ bool CIrcProto::OnIrc_NOTICE(const CIrcMessage* pmsg)
 				S2 = pmsg->parameters[0].c_str();
 			else {
 				GC_INFO gci = { 0 };
-				gci.Flags = BYID | TYPE;
+				gci.Flags = GCF_BYID | GCF_TYPE;
 				gci.pszModule = m_szModuleName;
 
 				CMString S3 = GetWord(pmsg->parameters[1].c_str(), 0);
@@ -696,12 +696,12 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage* pmsg)
 				return true;
 
 			if ((m_ignore && IsIgnored(pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, 'q'))) {
-				HANDLE hContact = CList_FindContact(&user);
+				HCONTACT hContact = CList_FindContact(&user);
 				if (!hContact || (hContact && db_get_b(hContact, "CList", "Hidden", 0) == 1))
 					return true;
 			}
 
-			HANDLE hContact = CList_AddContact(&user, false, true);
+			HCONTACT hContact = CList_AddContact(&user, false, true);
 
 			PROTORECVEVENT pre = { 0 };
 			pre.timestamp = (DWORD)time(NULL);
@@ -1066,7 +1066,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 			// incoming chat request
 			if (bIsChat) {
 				CONTACT user = { (TCHAR*)pmsg->prefix.sNick.c_str(), 0, 0, false, false, true };
-				HANDLE hContact = CList_FindContact(&user);
+				HCONTACT hContact = CList_FindContact(&user);
 
 				// check if it should be ignored
 				if (m_DCCChatIgnore == 1 ||
@@ -1139,7 +1139,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 					if (!CList_FindContact(&user))
 						return true;
 
-					HANDLE hContact = CList_AddContact(&user, false, true);
+					HCONTACT hContact = CList_AddContact(&user, false, true);
 					if (hContact) {
 						DCCINFO* di = new DCCINFO;
 						di->hContact = hContact;
@@ -1188,7 +1188,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 		//if we got incoming CTCP Version for contact in CList - then write its as MirVer for that contact!
 		if (pmsg->m_bIncoming && command == _T("version")) {
 			struct CONTACT user = { (TCHAR*)pmsg->prefix.sNick.c_str(), (TCHAR*)pmsg->prefix.sUser.c_str(), (TCHAR*)pmsg->prefix.sHost.c_str(), false, false, false };
-			HANDLE hContact = CList_FindContact(&user);
+			HCONTACT hContact = CList_FindContact(&user);
 			if (hContact)
 				setTString(hContact, "MirVer", DoColorCodes(GetWordAddress(mess.c_str(), 1), TRUE, FALSE));
 		}
@@ -1688,7 +1688,7 @@ bool CIrcProto::OnIrc_WHOIS_END(const CIrcMessage* pmsg)
 {
 	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 1 && m_manualWhoisCount < 1) {
 		CONTACT user = { (TCHAR*)pmsg->parameters[1].c_str(), NULL, NULL, false, false, true };
-		HANDLE hContact = CList_FindContact(&user);
+		HCONTACT hContact = CList_FindContact(&user);
 		if (hContact)
 			ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)WhoisAwayReply.c_str());
 	}
@@ -1767,7 +1767,7 @@ bool CIrcProto::OnIrc_WHOIS_NO_USER(const CIrcMessage* pmsg)
 			m_whoisDlg->ShowMessageNoUser(pmsg);
 
 		CONTACT user = { (TCHAR*)pmsg->parameters[1].c_str(), NULL, NULL, false, false, false };
-		HANDLE hContact = CList_FindContact(&user);
+		HCONTACT hContact = CList_FindContact(&user);
 		if (hContact) {
 			AddOutgoingMessageToDB(hContact, (TCHAR*)((CMString)_T("> ") + pmsg->parameters[2] + (CMString)_T(": ") + pmsg->parameters[1]).c_str());
 
@@ -1949,7 +1949,7 @@ bool CIrcProto::OnIrc_WHO_END(const CIrcMessage* pmsg)
 			const TCHAR* p1 = UserList;
 			m_whoReply = _T("");
 			CONTACT user = { (TCHAR*)pmsg->parameters[1].c_str(), NULL, NULL, false, true, false };
-			HANDLE hContact = CList_FindContact(&user);
+			HCONTACT hContact = CList_FindContact(&user);
 
 			if (hContact && getByte(hContact, "AdvancedMode", 0) == 1) {
 				ptrT DBHost(getTStringA(hContact, "UHost"));
@@ -2118,7 +2118,7 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 						finduser.host = (TCHAR*)host.c_str();
 						finduser.user = (TCHAR*)user.c_str();
 
-						HANDLE hContact = CList_FindContact(&finduser);
+						HCONTACT hContact = CList_FindContact(&finduser);
 						if (hContact && getByte(hContact, "AdvancedMode", 0) == 0) {
 							setWord(hContact, "Status", awaystatus == '-' ? ID_STATUS_AWAY : ID_STATUS_ONLINE);
 							setTString(hContact, "User", user.c_str());
@@ -2370,7 +2370,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 		int count = CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_szModuleName);
 		for (int i = 0; i < count; i++) {
 			GC_INFO gci = { 0 };
-			gci.Flags = BYINDEX | DATA | NAME | TYPE;
+			gci.Flags = GCF_BYINDEX | GCF_DATA | GCF_NAME | GCF_TYPE;
 			gci.iItem = i;
 			gci.pszModule = m_szModuleName;
 			if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci) && gci.iType == GCW_CHATROOM) {

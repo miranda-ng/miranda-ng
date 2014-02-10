@@ -41,7 +41,7 @@ void __forceinline sttCryptString(char *str)
 	}
 }
 
-static TCHAR* JSetStringCrypt(LPCSTR szModule, HANDLE hContact, char *valueName)
+static TCHAR* JSetStringCrypt(LPCSTR szModule, HCONTACT hContact, char *valueName)
 {
 	DBVARIANT dbv;
 	if (db_get_s(hContact, szModule, valueName, &dbv))
@@ -62,7 +62,7 @@ void CJabberProto::ConvertPasswords()
 	setTString("Password", passw);
 	delSetting("LoginPassword");
 
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if ((passw = JSetStringCrypt(m_szModuleName, hContact, "LoginPassword")) == NULL)
 			continue;
 

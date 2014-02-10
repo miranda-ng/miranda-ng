@@ -54,7 +54,7 @@ extern char cFECmd[CMD_COUNT];
 struct FILEECHO
 {
 public:
-	HANDLE hContact;
+	HCONTACT hContact;
 	HWND hDlg;
 
 	bool inSend;
@@ -90,7 +90,7 @@ public:
 	uint overhead;
 #endif
 
-	FILEECHO(HANDLE Contact);
+	FILEECHO(HCONTACT Contact);
 
 	void setState(DWORD state);
 	void updateProgress();

@@ -37,60 +37,60 @@
 
 
 namespace xfirelib {
-  using namespace std;
+	using namespace std;
 
-  struct Client;
-  struct BuddyListEntry;
+	struct Client;
+	struct BuddyListEntry;
 
-  class BuddyList : public PacketListener {
-  public:
-    BuddyList(Client *client);
-    ~BuddyList();
+	class BuddyList : public PacketListener {
+	public:
+		BuddyList(Client *client);
+		~BuddyList();
 
-    vector <BuddyListEntry *> * getEntries() { return entries; }
-	vector <BuddyListEntry *> * getEntriesClan() { return entriesClan; }
+		vector <BuddyListEntry *> * getEntries() { return entries; }
+		vector <BuddyListEntry *> * getEntriesClan() { return entriesClan; }
 
-    void receivedPacket(XFirePacket *packet);
-    BuddyListEntry *getBuddyById(long userid);
-    BuddyListEntry *getBuddyBySid(const char *sid);
-    BuddyListEntry *getBuddyByName(string username);
-  private:
-    void initEntries(BuddyListNamesPacket* buddynames);
-	void initEntriesClan(ClanBuddyListNamesPacket* buddynames);
-    void updateOnlineBuddies(BuddyListOnlinePacket* buddiesOnline);
-    void updateBuddiesGame(BuddyListGamesPacket* buddiesGames);
-	void updateFriendsofFriend(FriendsBuddyListNamesPacket* friends);
+		void receivedPacket(XFirePacket *packet);
+		BuddyListEntry *getBuddyById(long userid);
+		BuddyListEntry *getBuddyBySid(const char *sid);
+		BuddyListEntry *getBuddyByName(string username);
+	private:
+		void initEntries(BuddyListNamesPacket* buddynames);
+		void initEntriesClan(ClanBuddyListNamesPacket* buddynames);
+		void updateOnlineBuddies(BuddyListOnlinePacket* buddiesOnline);
+		void updateBuddiesGame(BuddyListGamesPacket* buddiesGames);
+		void updateFriendsofFriend(FriendsBuddyListNamesPacket* friends);
 
-    Client *client;
-    vector <BuddyListEntry *> * entries;
-	vector <BuddyListEntry *> * entriesClan;
-  };
+		Client *client;
+		vector <BuddyListEntry *> * entries;
+		vector <BuddyListEntry *> * entriesClan;
+	};
 
 
   class BuddyListEntry {
   public:
-    BuddyListEntry();
-	~BuddyListEntry();
-    bool isOnline();
+	  BuddyListEntry();
+	  ~BuddyListEntry();
+	  bool isOnline();
 
-    void setSid(const char *sid);
+	  void setSid(const char *sid);
 
-    long userid;
-    char sid[16];
-    string nick;
-    string username;
-    string statusmsg;
-	string gameinfo;
-    long game;
-    long game2;
-	HANDLE hcontact;
-	int clanid;
+	  long userid;
+	  char sid[16];
+	  string nick;
+	  string username;
+	  string statusmsg;
+	  string gameinfo;
+	  long game;
+	  long game2;
+	  HCONTACT hcontact;
+	  int clanid;
 
-	//lastpopup
-	char* lastpopup;
-    
-    XFireGame *gameObj;
-    XFireGame *game2Obj;
+	  //lastpopup
+	  char* lastpopup;
+
+	  XFireGame *gameObj;
+	  XFireGame *game2Obj;
   };
 
   typedef BuddyListEntry *PBuddyListEntry;

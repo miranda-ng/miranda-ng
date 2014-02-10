@@ -43,17 +43,17 @@ void ScreenToClient(HWND hWnd, LPRECT rect);
 void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors);
 RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos, int anchors);
 
-int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, char *szError, char *szResult, size_t size);
-int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count);
+int GetStringFromDatabase(HCONTACT hContact, char *szModule, char *szSettingName, char *szError, char *szResult, size_t size);
+int GetStringFromDatabase(HCONTACT hContact, char *szModule, char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count);
 int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, size_t size);
 int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count);
 
-TCHAR *GetContactName(HANDLE hContact, char *szProto);
-TCHAR *GetContactID(HANDLE hContact);
-TCHAR *GetContactID(HANDLE hContact, char *szProto);
-HANDLE GetContactFromID(TCHAR *szID, char *szProto);
-HANDLE GetContactFromID(TCHAR *szID, wchar_t *szProto);
-void GetContactProto(HANDLE hContact, char *szProto, size_t size);
+TCHAR *GetContactName(HCONTACT hContact, char *szProto);
+TCHAR *GetContactID(HCONTACT hContact);
+TCHAR *GetContactID(HCONTACT hContact, char *szProto);
+HCONTACT GetContactFromID(TCHAR *szID, char *szProto);
+HCONTACT GetContactFromID(TCHAR *szID, wchar_t *szProto);
+void GetContactProto(HCONTACT hContact, char *szProto, size_t size);
 
 int MyPUShowMessage(char *lpzText, BYTE kind);
 

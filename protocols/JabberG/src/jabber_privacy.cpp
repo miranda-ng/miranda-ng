@@ -418,7 +418,7 @@ public:
 
 			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0);
 			{
-				for (HANDLE hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+				for (HCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
 					ptrT jid( m_proto->getTStringA(hContact, "jid"));
 					if (jid != NULL)
 						SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, jid);
@@ -1153,7 +1153,7 @@ void CJabberDlgPrivacyLists::DrawRulesList(LPDRAWITEMSTRUCT lpdis)
 				DrawNextRulePart(lpdis->hDC, clLine1, pRule->GetValue(), &rc);
 				DrawNextRulePart(lpdis->hDC, clLine2, TranslateT("'"), &rc);
 
-				if (HANDLE hContact = m_proto->HContactFromJID(pRule->GetValue())) {
+				if (HCONTACT hContact = m_proto->HContactFromJID(pRule->GetValue())) {
 					TCHAR *szName = pcli->pfnGetContactDisplayName(hContact, 0);
 					if (szName) {
 						DrawNextRulePart(lpdis->hDC, clLine2, TranslateT(" (nickname: "), &rc);
@@ -1300,7 +1300,7 @@ void CJabberDlgPrivacyLists::CListResetOptions(HWND)
 
 void CJabberDlgPrivacyLists::CListFilter(HWND)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
 		if (!proto || lstrcmpA(proto, m_proto->m_szModuleName))
 			if (HANDLE hItem = m_clcClist.FindContact(hContact))
@@ -1322,7 +1322,7 @@ void CJabberDlgPrivacyLists::CListSetupIcons(HWND, HANDLE hItem, int iSlot, DWOR
 
 HANDLE CJabberDlgPrivacyLists::CListAddContact(HWND hwndList, TCHAR *jid)
 {
-	HANDLE hContact = m_proto->HContactFromJID(jid);
+	HCONTACT hContact = m_proto->HContactFromJID(jid);
 	if (hContact)
 		return m_clcClist.FindContact(hContact);
 
@@ -1357,7 +1357,7 @@ void CJabberDlgPrivacyLists::CListApplyList(HWND hwndList, CPrivacyList *pList)
 			CListResetIcons(hwndList, hItem, bHideIcons);
 	}
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = m_clcClist.FindContact(hContact);
 		if (hItem)
 			CListResetIcons(hwndList, hItem, bHideIcons);
@@ -1455,7 +1455,7 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 			pList->AddRule(Jid, szJid, FALSE, dwOrder++, dwPackets);
 	}
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		hItem = m_clcClist.FindContact(hContact);
 
 		ptrT jid( m_proto->getTStringA(hContact, "jid"));

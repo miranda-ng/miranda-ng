@@ -551,7 +551,7 @@ public:
 	void            navigate(IEVIEWNAVIGATE * nav);
 	void            saveDocument();
 
-	void			setContact(HANDLE hContact);
+	void			setContact(HCONTACT hContact);
 
 	static IEView*	get(HWND);
 	static void		init();

@@ -398,7 +398,7 @@ void CMenuBar::invoke(const int id)
 
 	TWindowData *dat = (TWindowData*)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
 
-	HANDLE hContact = dat ? dat->hContact : 0;
+	HCONTACT hContact = dat ? dat->hContact : 0;
 
 	if (index == 3 && hContact != 0) {
 		hMenu = reinterpret_cast<HMENU>(::CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0));
@@ -699,7 +699,7 @@ RECT 			rcLastStatusBarClick;		// remembers click (down event) point for status 
 
 LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TContainerData *pContainer = (TContainerData *)GetWindowLongPtr(GetParent(hWnd), GWLP_USERDATA);
+	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(GetParent(hWnd), GWLP_USERDATA);
 
 	if (OldStatusBarproc == 0) {
 		WNDCLASSEX wc = {0};

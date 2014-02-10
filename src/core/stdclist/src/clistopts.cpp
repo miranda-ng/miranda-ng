@@ -28,19 +28,20 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_USER + 1:
 		{
-			HANDLE hContact = (HANDLE) wParam;
+			HCONTACT hContact = (HCONTACT)wParam;
 			DBCONTACTWRITESETTING *ws = (DBCONTACTWRITESETTING *) lParam;
-			if (hContact == NULL && ws != NULL && ws->szModule != NULL && ws->szSetting != NULL
-				&& lstrcmpiA(ws->szModule, "CList") == 0 && lstrcmpiA(ws->szSetting, "UseGroups") == 0 && IsWindowVisible(hwndDlg)) {
-					CheckDlgButton(hwndDlg, IDC_DISABLEGROUPS, ws->value.bVal == 0);
-				}
-				break;
+			if (hContact == NULL && ws != NULL && ws->szModule != NULL && ws->szSetting != NULL && 
+				 lstrcmpiA(ws->szModule, "CList") == 0 && lstrcmpiA(ws->szSetting, "UseGroups") == 0 && IsWindowVisible(hwndDlg))
+			{
+				CheckDlgButton(hwndDlg, IDC_DISABLEGROUPS, ws->value.bVal == 0);
+			}
 		}
+		break;
+
 	case WM_DESTROY:
-		{
-			UnhookEvent((HANDLE) GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
-			break;
-		}
+		UnhookEvent((HANDLE) GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+		break;
+
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) HookEventMessage(ME_DB_CONTACT_SETTINGCHANGED, hwndDlg, WM_USER + 1));
@@ -221,7 +222,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				pcli->pfnTrayIconIconsChanged();
 				pcli->pfnLoadContactTree();  /* this won't do job properly since it only really works when changes happen */
-				pcli->pfnInvalidateDisplayNameCacheEntry( INVALID_HANDLE_VALUE );        /* force reshuffle */
+				pcli->pfnInvalidateDisplayNameCacheEntry((HCONTACT)INVALID_HANDLE_VALUE);        /* force reshuffle */
 				return TRUE;
 			}
 			break;

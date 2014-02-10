@@ -64,7 +64,7 @@ TCHAR *BuildDABText(int dab, TCHAR *name, TCHAR *text, int size)
 	return text;
 }
 
-int PopupNotifyBirthday(HANDLE hContact, int dtb, int age)
+int PopupNotifyBirthday(HCONTACT hContact, int dtb, int age)
 {
 	TCHAR *name = GetContactName(hContact, NULL);
 	const int MAX_SIZE = 1024;
@@ -111,7 +111,7 @@ int PopupNotifyBirthday(HANDLE hContact, int dtb, int age)
 	return 0;
 }
 
-int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
+int PopupNotifyMissedBirthday(HCONTACT hContact, int dab, int age)
 {
 	TCHAR *name = GetContactName(hContact, NULL);
 	const int MAX_SIZE = 1024;
@@ -155,7 +155,7 @@ int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 	return 0;
 }
 
-int DialogNotifyBirthday(HANDLE hContact, int dtb, int age)
+int DialogNotifyBirthday(HCONTACT hContact, int dtb, int age)
 {
 	TCHAR *name = GetContactName(hContact, NULL);
 	const int MAX_SIZE = 1024;
@@ -181,7 +181,7 @@ int DialogNotifyBirthday(HANDLE hContact, int dtb, int age)
 	return 0;
 }
 
-int DialogNotifyMissedBirthday(HANDLE hContact, int dab, int age)
+int DialogNotifyMissedBirthday(HCONTACT hContact, int dab, int age)
 {
 	TCHAR *name = GetContactName(hContact, NULL);
 	const int MAX_SIZE = 1024;
@@ -221,7 +221,7 @@ int SoundNotifyBirthday(int dtb)
 //called with oldClistIcon != -1 from dlg_handlers whtn the extra icon slot changes.
 int RefreshAllContactListIcons(int oldClistIcon)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (oldClistIcon != -1)
 			ExtraIcon_Clear(hWWIExtraIcons, hContact);
 

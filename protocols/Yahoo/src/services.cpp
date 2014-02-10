@@ -31,7 +31,7 @@
 void CYahooProto::logoff_buddies()
 {
 	//set all contacts to 'offline'
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		setWord( hContact, "Status", ID_STATUS_OFFLINE );
 		setDword(hContact, "IdleTS", 0);
 		setDword(hContact, "PictLastCheck", 0);
@@ -80,14 +80,14 @@ void CYahooProto::BroadcastStatus(int s)
 //=======================================================
 //Contact deletion event
 //=======================================================
-int __cdecl CYahooProto::OnContactDeleted( WPARAM wParam, LPARAM lParam )
+int __cdecl CYahooProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	HANDLE hContact = (HANDLE) wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	debugLogA("[YahooContactDeleted]");
 
-	if ( !m_bLoggedIn )  {//should never happen for Yahoo contacts
+	if (!m_bLoggedIn)  {//should never happen for Yahoo contacts
 		debugLogA("[YahooContactDeleted] We are not Logged On!!!");
 		return 0;
 	}
@@ -103,9 +103,9 @@ int __cdecl CYahooProto::OnContactDeleted( WPARAM wParam, LPARAM lParam )
 		remove_buddy(dbv.pszVal, getWord(hContact, "yprotoid", 0));
 
 		db_free(&dbv);
-	} else {
-		debugLogA("[YahooContactDeleted] Can't retrieve contact Yahoo ID");
 	}
+	else debugLogA("[YahooContactDeleted] Can't retrieve contact Yahoo ID");
+
 	return 0;
 }
 
@@ -244,21 +244,21 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 }
 
 //=======================================================
-//Show buddy profile
+// Show buddy profile
 //=======================================================
-INT_PTR __cdecl CYahooProto::OnShowProfileCommand( WPARAM wParam, LPARAM lParam )
+INT_PTR __cdecl CYahooProto::OnShowProfileCommand(WPARAM wParam, LPARAM lParam)
 {
-	char tUrl[ 4096 ];
+	char tUrl[4096];
 	DBVARIANT dbv;
 
 	/**
 	 * We don't show profile for users using other IM clients through the IM server bridge
 	 */
-	if (getWord(( HANDLE )wParam, "yprotoid", 0) != 0) {
+	if (getWord((HCONTACT)wParam, "yprotoid", 0) != 0) {
 		return 0;
 	}
 
-	if (getString((HANDLE)wParam, YAHOO_LOGINID, &dbv))
+	if (getString((HCONTACT)wParam, YAHOO_LOGINID, &dbv))
 		return 0;
 
 	mir_snprintf(tUrl, sizeof(tUrl), "http://profiles.yahoo.com/%s", dbv.pszVal);
@@ -497,7 +497,7 @@ void CYahooProto::MenuUninit( void )
 
 int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
-	const HANDLE hContact = (HANDLE)wParam;
+	const HCONTACT hContact = (HCONTACT)wParam;
 	if (!IsMyContact(hContact)) {
 		debugLogA("[OnPrebuildContactMenu] Not a Yahoo Contact!!!");
 		return 0;

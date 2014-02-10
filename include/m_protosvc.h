@@ -740,7 +740,7 @@ Returns the result of db_event_add()
 
 #define MS_PROTO_RECVMSG "Proto/RecvMessage"
 
-__forceinline INT_PTR Proto_RecvMessage(HANDLE hContact, PROTORECVEVENT *pcre)
+__forceinline INT_PTR Proto_RecvMessage(HCONTACT hContact, PROTORECVEVENT *pcre)
 {
 	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)pcre };
 	return CallService(MS_PROTO_RECVMSG, 0, (LPARAM)&ccs );
@@ -777,7 +777,7 @@ typedef struct {
 
 #define MS_PROTO_RECVFILET "Proto/RecvFileT"
 
-__forceinline INT_PTR Proto_RecvFile(HANDLE hContact, PROTORECVFILET *pcre)
+__forceinline INT_PTR Proto_RecvFile(HCONTACT hContact, PROTORECVFILET *pcre)
 {
 	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pcre };
 	return CallService(MS_PROTO_RECVFILET, 0, ( LPARAM )&ccs);

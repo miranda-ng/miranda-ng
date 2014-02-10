@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-void CreateAuthString(char *auth, HANDLE hContact, HWND hwndDlg)
+void CreateAuthString(char *auth, HCONTACT hContact, HWND hwndDlg)
 {
 	DBVARIANT dbv;
 	char *user = NULL, *pass = NULL;

@@ -29,13 +29,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //! Holds the differents changes that have to made
 typedef struct tag_CHANGES {
-	HANDLE hMeta;							//!< \c HANDLE of the MetaContact that is edited.
-	HANDLE hDefaultContact;					//!< \c HANDLE of the new default contact
-	HANDLE hOfflineContact;
+	HCONTACT hMeta;							//!< \c HANDLE of the MetaContact that is edited.
+	HCONTACT hDefaultContact;					//!< \c HANDLE of the new default contact
+	HCONTACT hOfflineContact;
 	int num_deleted,						//!< \c DWORD number of deleted contacts
 		num_contacts;						//!< \c DWORD number of contacts
-	HANDLE hDeletedContacts[MAX_CONTACTS];	//!< \c HANDLEs of the subcontacts to be removed from this metacontact
-	HANDLE hContact[MAX_CONTACTS];			//!< \c HANDLEs of the subcontacts, in the order they should be in
+	HCONTACT hDeletedContacts[MAX_CONTACTS];	//!< \c HANDLEs of the subcontacts to be removed from this metacontact
+	HCONTACT hContact[MAX_CONTACTS];			//!< \c HANDLEs of the subcontacts, in the order they should be in
 	int force_default;
 } CHANGES;
 
@@ -134,7 +134,6 @@ void SetListSelection(HWND hList, int sel)
 
 void ApplyChanges(CHANGES *chg)
 {
-	HANDLE most_online;
 	int i;
 
 	// remove removed contacts
@@ -168,7 +167,7 @@ void ApplyChanges(CHANGES *chg)
 		db_set_dw(chg->hMeta, META_PROTO, "OfflineSend", (DWORD)-1);
 
 	// fix nick
-	most_online = Meta_GetMostOnline(chg->hMeta);
+	HCONTACT most_online = Meta_GetMostOnline(chg->hMeta);
 	Meta_CopyContactNick(chg->hMeta, most_online);
 
 	// fix status
@@ -271,17 +270,17 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UP), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), FALSE);
 
-			int nb_contacts = db_get_dw((HANDLE)lParam, META_PROTO, "NumContacts", 0);
-			int default_contact_number = db_get_dw((HANDLE)lParam, META_PROTO, "Default", (DWORD)-1);
-			int offline_contact_number = db_get_dw((HANDLE)lParam, META_PROTO, "OfflineSend", (DWORD)-1);
+			int nb_contacts = db_get_dw((HCONTACT)lParam, META_PROTO, "NumContacts", 0);
+			int default_contact_number = db_get_dw((HCONTACT)lParam, META_PROTO, "Default", (DWORD)-1);
+			int offline_contact_number = db_get_dw((HCONTACT)lParam, META_PROTO, "OfflineSend", (DWORD)-1);
 
-			changes.hMeta = (HANDLE)lParam;
+			changes.hMeta = (HCONTACT)lParam;
 			changes.num_contacts = nb_contacts;
 			changes.num_deleted = 0;
-			changes.hDefaultContact = Meta_GetContactHandle((HANDLE)lParam, default_contact_number);
-			changes.hOfflineContact = Meta_GetContactHandle((HANDLE)lParam, offline_contact_number);
+			changes.hDefaultContact = Meta_GetContactHandle((HCONTACT)lParam, default_contact_number);
+			changes.hOfflineContact = Meta_GetContactHandle((HCONTACT)lParam, offline_contact_number);
 			for (i = 0; i < nb_contacts; i++)
-				changes.hContact[i] = Meta_GetContactHandle((HANDLE)lParam, i);
+				changes.hContact[i] = Meta_GetContactHandle((HCONTACT)lParam, i);
 			changes.force_default = MetaAPI_GetForceState((WPARAM)lParam, 0);
 
 			SendMessage(hwndDlg, WMU_SETTITLE, 0, lParam);
@@ -294,7 +293,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WMU_SETTITLE:
 		{
-			TCHAR *ptszCDN = pcli->pfnGetContactDisplayName((HANDLE)lParam, GCDNF_TCHAR);
+			TCHAR *ptszCDN = pcli->pfnGetContactDisplayName((HCONTACT)lParam, GCDNF_TCHAR);
 			if (ptszCDN == NULL)
 				ptszCDN = TranslateT("(Unknown Contact)");
 
@@ -414,9 +413,9 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
 				sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
 				{
-					HANDLE temp = changes.hContact[sel];
+					HCONTACT temp = changes.hContact[sel];
 					changes.hContact[sel] = changes.hContact[sel - 1];
-					changes.hContact[sel - 1] = temp;
+					changes.hContact[sel-1] = temp;
 				}
 				FillContactList(hwndDlg, &changes);
 				sel--;
@@ -431,7 +430,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
 				sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
 				{
-					HANDLE temp = changes.hContact[sel];
+					HCONTACT temp = changes.hContact[sel];
 					changes.hContact[sel] = changes.hContact[sel + 1];
 					changes.hContact[sel + 1] = temp;
 				}

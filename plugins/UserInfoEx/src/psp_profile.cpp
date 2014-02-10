@@ -278,7 +278,7 @@ static HWND ProfileList_BeginLabelEdit(LPLISTCTRL pList, int iItem, int iSubItem
 {
 	LVITEM lvi;
 	LPLCITEM pItem;
-	HANDLE hContact;
+	HCONTACT hContact;
 	RECT rcList;
 	
 	if (!PtrIsValid(pList)) 
@@ -431,7 +431,7 @@ static BYTE ProfileList_AddNewItem(HWND hDlg, LPLISTCTRL pList, const PROFILEENT
 {
 	LPLCITEM pItem;
 	LVITEM lvi;
-	HANDLE hContact;
+	HCONTACT hContact;
 
 	if (PtrIsValid(pList) && (pItem = (LPLCITEM)mir_alloc(sizeof(LCITEM)))) {
 		PSGetContact(hDlg, hContact);
@@ -478,7 +478,7 @@ static int ProfileList_AddItemlistFromDB(
 				int &iItem,
 				LPIDSTRLIST idList,
 				UINT nList,
-				HANDLE hContact,
+				HCONTACT hContact,
 				LPCSTR pszModule,
 				LPCSTR szCatFormat,
 				LPCSTR szValFormat,
@@ -1113,7 +1113,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			{
-				HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
+				HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				LPCSTR pszProto;
 
 				if (!PtrIsValid(pList = (LPLISTCTRL)GetUserData(hList)))
@@ -1144,11 +1144,11 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 								// scan all basic protocols for the subcontacts
 								if (DB::Module::IsMetaAndScan(pszProto)) {
 									int iDefault = CallService(MS_MC_GETDEFAULTCONTACTNUM, (WPARAM)hContact, NULL);
-									HANDLE hSubContact, hDefContact;
+									HCONTACT hSubContact, hDefContact;
 									LPCSTR pszSubBaseProto;
 									int j, numSubs;
 
-									if ((hDefContact = (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, iDefault)) &&
+									if ((hDefContact = (HCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, iDefault)) &&
 										(pszSubBaseProto = DB::Contact::Proto(hDefContact)))
 									{
 										if ((numProtoItems += ProfileList_AddItemlistFromDB(pList, iItem, idList, nList, hDefContact, pszSubBaseProto, pFmt[i].szCatFmt, pFmt[i].szValFmt, CTRLF_HASMETA|CTRLF_HASPROTO)) < 0)
@@ -1158,7 +1158,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 										numSubs = CallService(MS_MC_GETNUMCONTACTS, (WPARAM)hContact, NULL);
 										for (j = 0; j < numSubs; j++) {
 											if (j == iDefault) continue;
-											if (!(hSubContact = (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, j))) continue;
+											if (!(hSubContact = (HCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, j))) continue;
 											if (!(pszSubBaseProto = DB::Contact::Proto(hSubContact))) continue;
 											if ((numProtoItems += ProfileList_AddItemlistFromDB(pList, iItem, idList, nList, hSubContact, pszSubBaseProto, pFmt[i].szCatFmt, pFmt[i].szValFmt, CTRLF_HASMETA|CTRLF_HASPROTO)) < 0)
 												return FALSE;
@@ -1270,7 +1270,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				{
 					HMENU hMenu = CreatePopupMenu();
 					MENUITEMINFO mii;
-					HANDLE hContact;
+					HCONTACT hContact;
 					LVHITTESTINFO hi;
 					LPLCITEM pItem;
 					POINT pt;

@@ -14,7 +14,7 @@ class CIRCHistory
 public:
 	tstring strChannel;
 	tstring strProtocol;
-	HANDLE hContact;
+	HCONTACT hContact;
 	list<SIRCMessage> LMessages;
 	list<tstring> LUsers;
 };

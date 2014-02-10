@@ -1074,7 +1074,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 	return mir_callNextSubclass(hwnd, NicklistSubclassProc, msg, wParam, lParam);
 }
 
-static int RestoreWindowPosition(HWND hwnd, HANDLE hContact, char * szModule, char * szNamePrefix, UINT showCmd)
+static int RestoreWindowPosition(HWND hwnd, HCONTACT hContact, char * szModule, char * szNamePrefix, UINT showCmd)
 {
 	WINDOWPLACEMENT wp;
 	wp.length = sizeof(wp);

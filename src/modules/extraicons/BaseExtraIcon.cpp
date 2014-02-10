@@ -65,13 +65,13 @@ void BaseExtraIcon::setDescIcon(const char *icon)
 	szDescIcon = mir_strdup(icon);
 }
 
-void BaseExtraIcon::onClick(HANDLE hContact)
+void BaseExtraIcon::onClick(HCONTACT hContact)
 {
 	if (OnClick != NULL)
 		OnClick((WPARAM)hContact, (LPARAM)ConvertToClistSlot(slot), onClickParam);
 }
 
-int BaseExtraIcon::ClistSetExtraIcon(HANDLE hContact, HANDLE hImage)
+int BaseExtraIcon::ClistSetExtraIcon(HCONTACT hContact, HANDLE hImage)
 {
 	ExtraIcon *tmp = extraIconsByHandle[id - 1];
 	if (tmp != this)

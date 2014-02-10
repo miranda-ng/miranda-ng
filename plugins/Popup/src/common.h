@@ -51,7 +51,7 @@ inline int Byte2Percentile(int vByte) { return (vByte*100)/255; }
 inline int Percentile2Byte(int vPerc) { return (vPerc*255)/100; }
 
 //===== Strings & MirandaDB ==================
-inline char *db_get_s(HANDLE hContact, const char *ModuleName, const char *SettingName, const char *Default)
+inline char *db_get_s(HCONTACT hContact, const char *ModuleName, const char *SettingName, const char *Default)
 {
 	DBVARIANT dbv;
 	db_get(hContact, ModuleName, SettingName, &dbv);
@@ -66,7 +66,7 @@ inline char *db_get_s(HANDLE hContact, const char *ModuleName, const char *Setti
 	return result;
 }
 
-inline INT_PTR DBGetContactSettingStringX(HANDLE hContact, const char *ModuleName, const char *SettingName, const char *Default, const int retType)
+inline INT_PTR DBGetContactSettingStringX(HCONTACT hContact, const char *ModuleName, const char *SettingName, const char *Default, const int retType)
 {
 	INT_PTR ret = NULL;
 

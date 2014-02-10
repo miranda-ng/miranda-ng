@@ -200,7 +200,7 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-int CIcqProto::ShowPopupMsg(HANDLE hContact, const char *szTitle, const char *szMsg, BYTE bType)
+int CIcqProto::ShowPopupMsg(HCONTACT hContact, const char *szTitle, const char *szMsg, BYTE bType)
 {
 	if (bPopupService && getByte("PopupsEnabled", DEFAULT_POPUPS_ENABLED))
 	{

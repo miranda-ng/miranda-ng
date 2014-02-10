@@ -35,20 +35,20 @@ namespace irc {
 
 struct DCCINFO : public MZeroedObject
 {
-	DWORD   dwAdr;
+	DWORD    dwAdr;
 	unsigned __int64   dwSize;
-	DWORD   iType;
+	DWORD    iType;
 	CMString sToken;
-	int     iPort;
-	BOOL    bTurbo;
-	BOOL    bSSL;
-	BOOL    bSender;
-	BOOL    bReverse;
+	int      iPort;
+	BOOL     bTurbo;
+	BOOL     bSSL;
+	BOOL     bSender;
+	BOOL     bReverse;
 	CMString sPath;
 	CMString sFile;
 	CMString sFileAndPath;
 	CMString sHostmask;
-	HANDLE  hContact;
+	HCONTACT hContact;
 	CMString sContactName;
 };
 

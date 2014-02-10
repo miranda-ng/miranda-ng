@@ -62,7 +62,8 @@ struct TAddArgList
 	int cch; // it's length (with space for NULL char)
 	int count; // number we have so far
 	LPSTR *files;
-	HANDLE hContact, hEvent;
+	HCONTACT hContact;
+	HANDLE hEvent;
 };
 
 BOOL AddToList(TAddArgList& args)
@@ -178,7 +179,7 @@ void __cdecl IssueTransferThread(void *param)
 
 struct TSlotInfo
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	int    hProto;
 	int    dwStatus; // will be aligned anyway
 };
@@ -257,7 +258,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 	TSlotInfo *pContacts = (TSlotInfo*)mir_alloc((dwContacts + 2) * sizeof(TSlotInfo));
 	int i = 0;
 	int dwOnline = 0;
-	for (HANDLE hContact = db_find_first(); hContact != 0; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact != 0; hContact = db_find_next(hContact)) {
 		if (i >= dwContacts)
 			break;
 
@@ -353,7 +354,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 // worker thread to clear MRU, called by the IPC bridge
 void __cdecl ClearMRUThread(void*)
 {
-	for (HANDLE hContact = db_find_first(); hContact != 0; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact != 0; hContact = db_find_next(hContact))
 		if ( db_get_b(hContact, SHLExt_Name, SHLExt_MRU, 0) > 0)
 			db_set_b(hContact, SHLExt_Name, SHLExt_MRU, 0);
 }

@@ -92,29 +92,15 @@ class CLDBEvent
 int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	if (lParamSort == 1 )
-	{
-		return _tcsicmp( NickFromHandle((HANDLE)lParam1), NickFromHandle((HANDLE)lParam2));
-	}
+		return _tcsicmp( NickFromHandle((HCONTACT)lParam1), NickFromHandle((HCONTACT)lParam2));
 	
 	if (lParamSort == 2 )
-	{
-		return _DBGetString( (HANDLE)lParam1, "Protocol", "p", _T("")).compare( 
-			             _DBGetString( (HANDLE)lParam2, "Protocol", "p", _T("")) 
-				);
-	}
+		return _DBGetString((HCONTACT)lParam1, "Protocol", "p", _T("")).compare(_DBGetString((HCONTACT)lParam2, "Protocol", "p", _T("")));
+
 	if (lParamSort == 3 )
 	{
-		DWORD dwUin1 = db_get_dw(
-			(HANDLE)lParam1, 
-			_DBGetStringA( (HANDLE)lParam1, "Protocol", "p", "" ).c_str(), 
-			"UIN", 
-			0);
-		DWORD dwUin2 = db_get_dw(
-			(HANDLE)lParam2, 
-			_DBGetStringA( (HANDLE)lParam2, "Protocol", "p", "" ).c_str(), 
-			"UIN", 
-			0);
-
+		DWORD dwUin1 = db_get_dw((HCONTACT)lParam1, _DBGetStringA((HCONTACT)lParam1, "Protocol", "p", "" ).c_str(), "UIN", 0);
+		DWORD dwUin2 = db_get_dw((HCONTACT)lParam2, _DBGetStringA((HCONTACT)lParam2, "Protocol", "p", "" ).c_str(), "UIN", 0);
 		if (dwUin1 == dwUin2 )
 			return 0;
 		if (dwUin1 > dwUin2 )
@@ -235,7 +221,7 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected )
 				continue;
 			}
 
-			HANDLE hContact = (HANDLE)sItem.lParam;
+			HCONTACT hContact = (HCONTACT)sItem.lParam;
 
 			list< CLDBEvent > & rclCurList = AllEvents[ GetFilePathFromUser( hContact) ];
 			
@@ -329,7 +315,7 @@ void SetToDefault( HWND hParent )
 			continue;
 
 		tstring sFileName = szTemp;
-		ReplaceDefines( (HANDLE)sItem.lParam, sFileName);
+		ReplaceDefines((HCONTACT)sItem.lParam, sFileName);
 		ReplaceTimeVariables( sFileName);
 
 		sItem.mask = LVIF_TEXT;
@@ -414,16 +400,16 @@ BOOL bApplyChanges( HWND hwndDlg )
 
 		if (ListView_GetItem( hMapUser, &sItem))
 		{
-			HANDLE hUser = (HANDLE)sItem.lParam;
+			HCONTACT hUser = (HCONTACT)sItem.lParam;
 			if (_tcslen( szTemp) > 0 )
-				db_set_ts( hUser, MODULE, "FileName", szTemp);
+				db_set_ts(hUser, MODULE, "FileName", szTemp);
 			else
-				db_unset( hUser, MODULE, "FileName");
+				db_unset(hUser, MODULE, "FileName");
 
 			if (sItem.iImage )
-				db_unset( hUser, MODULE, "EnableLog"); // default is Enabled !!
+				db_unset(hUser, MODULE, "EnableLog"); // default is Enabled !!
 			else
-				db_set_b( hUser, MODULE, "EnableLog",0);
+				db_set_b(hUser, MODULE, "EnableLog",0);
 		}
 	}
 	UpdateFileToColWidth();
@@ -507,7 +493,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 		}
 
 		int nShortestMatch = 0xFFFF;
-		HANDLE hStortest = 0;
+		HCONTACT hStortest = 0;
 		int nStortestIndex = -1;
 		for (int nSubCur = 0 ; nSubCur < nCount ; nSubCur++ )
 		{
@@ -528,7 +514,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 					{
 						nShortestMatch = (int)nLen;
 						nStortestIndex = nSubCur;
-						hStortest = (HANDLE)sItem.lParam;
+						hStortest = (HCONTACT)sItem.lParam;
 					}
 				}
 			}
@@ -551,7 +537,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 			if (sFileName.empty())
 			{
 				sFileName = szDefaultFile;
-				ReplaceDefines( hStortest, sFileName);
+				ReplaceDefines(hStortest, sFileName);
 				ReplaceTimeVariables( sFileName);
 			}
 
@@ -692,7 +678,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			{		
 				tstring sTmp;
 				LVITEM sItem = { 0 };
-				HANDLE hContact = db_find_first();
+				HCONTACT hContact = db_find_first();
 				for (int nUser = 0; /*hContact*/ ; nUser++ )
 				{
 					sItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;

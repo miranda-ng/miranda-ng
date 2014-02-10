@@ -37,8 +37,8 @@ int BmpFilterSaveBitmapW(HBITMAP hBmp, wchar_t *wszFile, int flags);
 HBITMAP CopyBitmapTo32(HBITMAP hBitmap);
 
 BOOL PreMultiply(HBITMAP hBitmap);
-BOOL MakeTransparentBkg(HANDLE hContact, HBITMAP *hBitmap);
-HBITMAP MakeGrayscale(HANDLE hContact, HBITMAP hBitmap);
+BOOL MakeTransparentBkg(HCONTACT hContact, HBITMAP *hBitmap);
+HBITMAP MakeGrayscale(HCONTACT hContact, HBITMAP hBitmap);
 DWORD GetImgHash(HBITMAP hBitmap);
 
 int AVS_pathIsAbsolute(const TCHAR *path);

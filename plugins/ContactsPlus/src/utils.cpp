@@ -55,7 +55,7 @@ char* __fastcall null_strdup(const char *string)
 	return NULL;
 }
 
-TCHAR* GetContactUID(HANDLE hContact)
+TCHAR* GetContactUID(HCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
@@ -98,7 +98,7 @@ void DialogAddContactExecute(HWND hwndDlg, HANDLE hNewContact)
 }
 
 
-void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, HANDLE hContact)
+void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, HCONTACT hContact)
 {
 	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 
@@ -114,7 +114,7 @@ void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, HANDLE hContact)
 }
 
 
-void UpdateDialogTitle(HWND hwndDlg, HANDLE hContact, TCHAR *pszTitleStart)
+void UpdateDialogTitle(HWND hwndDlg, HCONTACT hContact, TCHAR *pszTitleStart)
 {
 	TCHAR newtitle[512];
 	lstrcpyn(newtitle, TranslateTS(pszTitleStart), SIZEOF(newtitle));
@@ -140,7 +140,7 @@ void UpdateDialogTitle(HWND hwndDlg, HANDLE hContact, TCHAR *pszTitleStart)
 }
 
 
-void UpdateDialogAddButton(HWND hwndDlg, HANDLE hContact)
+void UpdateDialogAddButton(HWND hwndDlg, HCONTACT hContact)
 {
 	int bVisible = db_get_b(hContact, "CList", "NotOnList", 0);
 	ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), bVisible ? SW_SHOW : SW_HIDE);
@@ -159,7 +159,7 @@ HICON InitMButton(HWND hDlg, int idButton, LPCSTR szIcon, char *szTip)
 }
 
 
-HICON LoadContactProtoIcon(HANDLE hContact)
+HICON LoadContactProtoIcon(HCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (szProto)

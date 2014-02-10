@@ -107,7 +107,7 @@ typedef struct {
 	HPEN hpenBorder, hpenDivider;
 	int iTitleHeight, iAvatarHeight, iIconsHeight, iTextHeight, iLabelWidth;
 	int iRealAvatarWidth, iRealAvatarHeight;
-	HANDLE hContact;
+	HCONTACT hContact;
 	int iIconIndex;
 	CLCINFOTIPEX clcit;
 	TCHAR swzTitle[TITLE_TEXT_LEN];

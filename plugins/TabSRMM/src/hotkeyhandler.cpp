@@ -95,7 +95,7 @@ static INT_PTR HotkeyProcessor(WPARAM wParam, LPARAM lParam)
 
 void TSAPI HandleMenuEntryFromhContact(int iSelection)
 {
-	HWND hWnd = M.FindWindow((HANDLE)iSelection);
+	HWND hWnd = M.FindWindow((HCONTACT)iSelection);
 
 	if (iSelection == 0)
 		return;
@@ -205,7 +205,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				return TRUE;
 			}
 			else if (dis->CtlType == ODT_MENU) {
-				HWND hWnd = M.FindWindow((HANDLE)dis->itemID);
+				HWND hWnd = M.FindWindow((HCONTACT)dis->itemID);
 				DWORD idle = 0;
 
 				if (hWnd == NULL) {
@@ -390,7 +390,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case DM_DOCREATETAB:
 		{
-			HWND hWnd = M.FindWindow((HANDLE)lParam);
+			HWND hWnd = M.FindWindow((HCONTACT)lParam);
 			if (hWnd && IsWindow(hWnd)) {
 				TContainerData *pContainer = 0;
 				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
@@ -401,7 +401,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else
 						SendMessage(hWnd, WM_CLOSE, 0, 1);
 
-					CreateNewTabForContact((TContainerData *)wParam, (HANDLE)lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
+					CreateNewTabForContact((TContainerData*)wParam, (HCONTACT)lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
 				}
 			}
 		}
@@ -420,7 +420,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else
 						SendMessage(si->hWnd, WM_CLOSE, 0, 1);
 
-					si->hWnd = CreateNewRoom((TContainerData *)wParam, si, TRUE, 0, 0);
+					si->hWnd = CreateNewRoom((TContainerData*)wParam, si, TRUE, 0, 0);
 				}
 			}
 		}
@@ -443,13 +443,13 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		 */
 	case DM_REMOVECLISTEVENT:
 		CallService(MS_CLIST_REMOVEEVENT, wParam, lParam);
-		db_event_markRead((HANDLE)wParam, (HANDLE)lParam);
+		db_event_markRead((HCONTACT)wParam, (HANDLE)lParam);
 		return 0;
 
 	case DM_SETLOCALE:
 		{
-			HKL    hkl = (HKL)lParam;
-			HANDLE hContact = (HANDLE)wParam;
+			HKL hkl = (HKL)lParam;
+			HCONTACT hContact = (HCONTACT)wParam;
 
 			HWND	hWnd = M.FindWindow(hContact);
 			if (hWnd) {

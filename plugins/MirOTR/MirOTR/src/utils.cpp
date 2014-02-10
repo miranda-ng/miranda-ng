@@ -2,23 +2,29 @@
 
 CRITICAL_SECTION lib_cs;
 
-void InitUtils() {
+void InitUtils()
+{
 	InitializeCriticalSection(&lib_cs);
 }
-void DeinitUtils() {
+
+void DeinitUtils()
+{
 	DeleteCriticalSection(&lib_cs);
 }
 
-void lib_cs_lock() {
+void lib_cs_lock()
+{
 	EnterCriticalSection(&lib_cs);
 }
 
-void lib_cs_unlock() {
+void lib_cs_unlock()
+{
 	LeaveCriticalSection(&lib_cs);
 }
 
-HANDLE find_contact(const char* userid, const char* protocol) {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+HCONTACT find_contact(const char* userid, const char* protocol)
+{
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		const char *proto = contact_get_proto(hContact);
 		if(proto && strcmp(proto, protocol) == 0) {
 			char *name = contact_get_id(hContact);
@@ -38,7 +44,7 @@ HANDLE find_contact(const char* userid, const char* protocol) {
 * context if one does not currently exist.  In that event, call
 * add_app_data(data, context) so that app_data and app_data_free can be
 * filled in by the application, and set *addedp to 1. */
-ConnContext * otrl_context_find_miranda(OtrlUserState us, HANDLE hContact)
+ConnContext * otrl_context_find_miranda(OtrlUserState us, HCONTACT hContact)
 {
 	ConnContext ** curp;
 	if (!hContact) return NULL;
@@ -78,10 +84,10 @@ void VerifyFingerprint(ConnContext *context, bool verify) {
 
 void VerifyFingerprintMessage(ConnContext *context, bool verify) {
 	TCHAR msg[1024];
-	mir_sntprintf(msg, 1024, (verify)?TranslateT(LANG_FINGERPRINT_VERIFIED):TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT((HANDLE)context->app_data));
+	mir_sntprintf(msg, 1024, (verify)?TranslateT(LANG_FINGERPRINT_VERIFIED):TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT((HCONTACT)context->app_data));
 	msg[1023] = '\0';
-	ShowMessage((HANDLE)context->app_data, msg);
-	SetEncryptionStatus(context->app_data, otr_context_get_trust(context));
+	ShowMessage((HCONTACT)context->app_data, msg);
+	SetEncryptionStatus((HCONTACT)context->app_data, otr_context_get_trust(context));
 }
 
 /* Convert a 20-byte hash value to a 45-byte human-readable value */
@@ -102,7 +108,7 @@ void otrl_privkey_hash_to_humanT(TCHAR human[45], const unsigned char hash[20])
 	*p = '\0';
 }
 
-char* contact_get_id(HANDLE hContact, bool bNameOnError) {
+char* contact_get_id(HCONTACT hContact, bool bNameOnError) {
 	char* pszUniqueID = NULL;
 	CONTACTINFO ci;
 	ZeroMemory(&ci, sizeof(ci));
@@ -135,21 +141,21 @@ char* contact_get_id(HANDLE hContact, bool bNameOnError) {
 	return pszUniqueID;
 }
 
-__inline const TCHAR* contact_get_nameT(HANDLE hContact) {
+__inline const TCHAR* contact_get_nameT(HCONTACT hContact) {
 	return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 }
 
-__inline const char* contact_get_proto(HANDLE hContact) {
+__inline const char* contact_get_proto(HCONTACT hContact) {
 	char *uproto = GetContactProto(hContact);
 	return uproto;
 }
 
-__inline const char* contact_get_account(HANDLE hContact) {
+__inline const char* contact_get_account(HCONTACT hContact) {
 	char *uacc = (char *)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)hContact, 0);
 	return uacc;
 }
 
-void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const HANDLE hContact) {
+void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const HCONTACT hContact) {
 	if(CallService(MS_SYSTEM_TERMINATED, 0, 0)) return;
 
 	if ( !options.bHavePopups) {	
@@ -157,7 +163,7 @@ void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const HANDLE
 		mir_sntprintf(title, SIZEOF(title), _T("%s Message"), _T(MODULENAME));
 
 		if(line1 && line2) {
-			int size = _tcslen(line1) + _tcslen(line2) + 3;
+			int size = int(_tcslen(line1) + _tcslen(line2) + 3);
 			TCHAR *message = new TCHAR[size]; // newline and null terminator
 			mir_sntprintf(message, size, _T("%s\r\n%s"), line1, line2);
 			MessageBox( NULL, message, title, MB_OK | MB_ICONINFORMATION );
@@ -214,7 +220,7 @@ void ShowWarning(TCHAR *msg) {
 	switch(disp) {
 		case ED_POP:
 			{
-				int size = _tcslen(msg) + 515;
+				int size = int(_tcslen(msg) + 515);
 				message = new TCHAR[size]; // newline and null terminator
 				mir_sntprintf(message, size, _T("%s\r\n%s"), buffer, msg);
 				PUShowMessageT(message, SM_WARNING);
@@ -261,7 +267,7 @@ void ShowError(TCHAR *msg) {
 	switch(disp) {
 		case ED_POP:
 			{
-				int size = _tcslen(msg) + 515;
+				int size = int(_tcslen(msg) + 515);
 				message = new TCHAR[size]; // newline and null terminator
 				mir_sntprintf(message, size, _T("%s\r\n%s"), buffer, msg);
 				PUShowMessageT(message, SM_WARNING);
@@ -291,7 +297,7 @@ void ShowError(TCHAR *msg) {
 }
 
 
-void ShowPopupUtf(const char* line1, const char* line2, int timeout, const HANDLE hContact) {
+void ShowPopupUtf(const char* line1, const char* line2, int timeout, const HCONTACT hContact) {
 	TCHAR* l1 = (line1) ? mir_utf8decodeT(line1) : NULL;
 	TCHAR* l2 = (line2) ? mir_utf8decodeT(line2) : NULL;
 	ShowPopup(l1, l2, timeout, hContact);
@@ -310,7 +316,7 @@ void ShowErrorUtf(char* msg) {
 	if (m) mir_free(m);
 }
 
-void ShowMessageInline(const HANDLE hContact, const TCHAR *msg) {
+void ShowMessageInline(const HCONTACT hContact, const TCHAR *msg) {
 	TCHAR buff[1024];
 	mir_sntprintf(buff, 1024, _T("%s%s"), TranslateT(LANG_INLINE_PREFIX), msg);
 
@@ -324,7 +330,7 @@ void ShowMessageInline(const HANDLE hContact, const TCHAR *msg) {
 	mir_free(utf);
 }
 
-void ShowMessageInlineUtf(const HANDLE hContact, const char *msg) {
+void ShowMessageInlineUtf(const HCONTACT hContact, const char *msg) {
 	char buff[1024];
 	mir_snprintf(buff, 1024, "%s%s", Translate(LANG_INLINE_PREFIX), msg);
 
@@ -335,14 +341,14 @@ void ShowMessageInlineUtf(const HANDLE hContact, const char *msg) {
 	ProtoChainRecvMsg(hContact, &pre);
 }
 
-void ShowMessageUtf(const HANDLE hContact, const char *msg) {
+void ShowMessageUtf(const HCONTACT hContact, const char *msg) {
 	if(options.msg_inline)
 		ShowMessageInlineUtf(hContact, msg);
 	if(options.msg_popup)
 		ShowPopupUtf(Translate(LANG_OTR_INFO), msg, 0, hContact);
 }
 
-void ShowMessage(const HANDLE hContact, const TCHAR *msg) {
+void ShowMessage(const HCONTACT hContact, const TCHAR *msg) {
 	if(options.msg_inline)
 		ShowMessageInline(hContact, msg);
 	if(options.msg_popup)
@@ -351,7 +357,7 @@ void ShowMessage(const HANDLE hContact, const TCHAR *msg) {
 
 
 /*
-bool GetEncryptionStatus(HANDLE hContact) {
+bool GetEncryptionStatus(HCONTACT hContact) {
 	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0));
 

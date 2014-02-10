@@ -66,7 +66,7 @@ int GpgOptInit(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-map<int, HANDLE> user_data;
+map<int, HCONTACT> user_data;
 
 int item_num = 0;
 HWND hwndList_p = NULL;
@@ -120,8 +120,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		ListView_InsertColumn(hwndList, 4, &col);
 		ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT);
 		int i = 1, iRow = 0;
-		bool isContactHaveKey(HANDLE);
-		for(HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
+		for(HCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 			if(isContactHaveKey(hContact)) {
 				TCHAR *name = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 				item.mask = LVIF_TEXT;
@@ -193,16 +192,16 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
       switch (LOWORD(wParam))
       {
 	  case IDC_DELETE_KEY_BUTTON:
-		  void setClistIcon(HANDLE hContact);
-		  void setSrmmIcon(HANDLE hContact);
+		  void setClistIcon(HCONTACT hContact);
+		  void setSrmmIcon(HCONTACT hContact);
 		  { //gpg execute block
 			  TCHAR tmp2[MAX_PATH] = {0};
 			  TCHAR *ptmp;
 			  char *tmp;
 			  bool keep = false;
 			  bool ismetacontact = false;
-			  HANDLE meta = NULL;
-			  HANDLE hContact = user_data[item_num+1];
+			  HCONTACT meta = NULL;
+			  HCONTACT hContact = user_data[item_num+1];
 			  if(metaIsProtoMetaContacts(hContact))
 			  {
 				  meta = hContact;
@@ -215,7 +214,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  ismetacontact = true;
 			  }
 			  tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
-			  for(HANDLE hcnttmp = db_find_first(); hcnttmp != NULL; hcnttmp = db_find_next(hcnttmp)) {
+			  for(HCONTACT hcnttmp = db_find_first(); hcnttmp != NULL; hcnttmp = db_find_next(hcnttmp)) {
 				  if(hcnttmp != hContact) {
 					  char *tmp2 = UniGetContactSettingUtf(hcnttmp, szGPGModuleName, "KeyID", "");
 					  if(!strcmp(tmp, tmp2)) {
@@ -263,7 +262,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  {
 					  if(MessageBox(0, TranslateT("Do you want to remove key from entire metacontact (all subcontacts)?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 					  {
-						  HANDLE hcnt = NULL;
+						  HCONTACT hcnt = NULL;
 						  int count = metaGetContactsNum(meta);
 						  for(int i = 0; i < count; i++)
 						  {
@@ -408,8 +407,8 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 			else if(hdr->hdr.code == LVN_ITEMCHANGED)
 			{
-				void setClistIcon(HANDLE hContact);
-				void setSrmmIcon(HANDLE hContact);
+				void setClistIcon(HCONTACT hContact);
+				void setSrmmIcon(HCONTACT hContact);
 				if(ListView_GetCheckState(hwndList, item_num))
 					db_set_b(user_data[item_num+1], szGPGModuleName, "GPGEncryption", 1);
 				else
@@ -424,18 +423,18 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
       case PSN_APPLY:
         {
 			extern bool bJabberAPI, bFileTransfers;
-			bDebugLog = CheckStateStoreDB(hwndDlg, IDC_DEBUG_LOG, "bDebugLog");
+			bDebugLog = CheckStateStoreDB(hwndDlg, IDC_DEBUG_LOG, "bDebugLog") != 0;
 			if(bDebugLog)
 				debuglog.init();
-			bJabberAPI = CheckStateStoreDB(hwndDlg, IDC_JABBER_API, "bJabberAPI");
-			bool old_bFileTransfers = db_get_b(NULL, szGPGModuleName, "bFileTransfers", 0);
-			bFileTransfers = CheckStateStoreDB(hwndDlg, IDC_FILE_TRANSFERS, "bFileTransfers");
+			bJabberAPI = CheckStateStoreDB(hwndDlg, IDC_JABBER_API, "bJabberAPI") != 0;
+			bool old_bFileTransfers = db_get_b(NULL, szGPGModuleName, "bFileTransfers", 0) != 0;
+			bFileTransfers = CheckStateStoreDB(hwndDlg, IDC_FILE_TRANSFERS, "bFileTransfers") != 0;
 			if(bFileTransfers != old_bFileTransfers)
 			{
 				db_set_b(NULL, szGPGModuleName, "bSameAction", 0);
 				bSameAction = false;
 			}
-			bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange");
+			bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange") != 0;
 			{
 				TCHAR tmp[512];
 				GetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, tmp, 512);
@@ -630,8 +629,8 @@ static INT_PTR CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
         
       case PSN_APPLY:
         {
-			bAppendTags = CheckStateStoreDB(hwndDlg, IDC_APPEND_TAGS, "bAppendTags");
-			bStripTags = CheckStateStoreDB(hwndDlg, IDC_STRIP_TAGS, "bStripTags");
+			bAppendTags = CheckStateStoreDB(hwndDlg, IDC_APPEND_TAGS, "bAppendTags") != 0;
+			bStripTags = CheckStateStoreDB(hwndDlg, IDC_STRIP_TAGS, "bStripTags") != 0;
 			{
 				TCHAR tmp[128];
 				GetDlgItemText(hwndDlg, IDC_IN_OPEN_TAG, tmp, 128);
@@ -666,58 +665,43 @@ static INT_PTR CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 static INT_PTR CALLBACK DlgProcGpgAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-  switch (msg)
-  {
-  case WM_INITDIALOG:
-    {
+	switch (msg) {
+	case WM_INITDIALOG:
 		extern bool bJabberAPI;
 		TranslateDialogDefault(hwndDlg);
 		CheckStateLoadDB(hwndDlg, IDC_PRESCENSE_SUBSCRIPTION, "bPresenceSigning", 0);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PRESCENSE_SUBSCRIPTION), bJabberAPI);
 
-      return TRUE;
-    }
-    
- 
-  case WM_COMMAND:
-    {
-		switch (LOWORD(wParam))
-      {
-	  case IDC_EXPORT:
-		  {
-			  INT_PTR ExportGpGKeys(WPARAM w, LPARAM l);
-			  ExportGpGKeys(NULL, NULL);
-		  }
-		  break;
-	  case IDC_IMPORT:
-		  {
-			  INT_PTR ImportGpGKeys(WPARAM w, LPARAM l);
-			  ImportGpGKeys(NULL, NULL);
-		  }
-		  break;
-	  default:
-		break;
-      }
+		return TRUE;
 
-      SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-      break;
-    }
-    
-  case WM_NOTIFY:
-    {
-      switch (((LPNMHDR)lParam)->code)
-      {
-        
-      case PSN_APPLY:
-        {
-			bPresenceSigning = CheckStateStoreDB(hwndDlg, IDC_PRESCENSE_SUBSCRIPTION, "bPresenceSigning");
-          return TRUE;
-        }
-      }
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_EXPORT:
+			{
+				INT_PTR ExportGpGKeys(WPARAM w, LPARAM l);
+				ExportGpGKeys(NULL, NULL);
+			}
+			break;
+		case IDC_IMPORT:
+			{
+				INT_PTR ImportGpGKeys(WPARAM w, LPARAM l);
+				ImportGpGKeys(NULL, NULL);
+			}
+			break;
+		}
+
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		break;
+
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->code) {
+		case PSN_APPLY:
+			bPresenceSigning = CheckStateStoreDB(hwndDlg, IDC_PRESCENSE_SUBSCRIPTION, "bPresenceSigning") != 0;
+			return TRUE;
+		}
+		break;
 	}
-    break;
-  }
-  return FALSE;
+	return FALSE;
 }
 
 HWND hPubKeyEdit = NULL;
@@ -735,7 +719,7 @@ static LRESULT CALLBACK editctrl_ctrl_a(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 
 static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
-	static HANDLE hContact;
+	static HCONTACT hContact;
 	TCHAR *tmp = NULL;
 	wstring key_buf;
 	wstring::size_type ws1 = 0, ws2 = 0;
@@ -745,7 +729,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 			hContact = user_data[1];
 			SetWindowPos(hwndDlg, 0, load_key_rect.left, load_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_PUBLIC_KEY_EDIT), editctrl_ctrl_a);
-			HANDLE hcnt = hContact;
+			HCONTACT hcnt = hContact;
 			if(metaIsProtoMetaContacts(hcnt))
 				hcnt = metaGetMostOnline(hcnt);
 			TranslateDialogDefault(hwndDlg);
@@ -894,14 +878,13 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					{
 						if(metaIsProtoMetaContacts(hContact))
 						{
-							HANDLE hcnt = NULL;
 							if(MessageBox(0, TranslateT("Do you want to load key for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 							{
 								allsubcontacts = true;
 								int count = metaGetContactsNum(hContact);
 								for(int i = 0; i < count; i++)
 								{
-									hcnt = metaGetSubcontact(hContact, i);
+									HCONTACT hcnt = metaGetSubcontact(hContact, i);
 									if(hcnt)
 										db_set_ts(hcnt, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
 								}
@@ -921,7 +904,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						string output;
 						DWORD exitcode;
 						{
-							HANDLE hcnt = hContact;
+							HCONTACT hcnt = hContact;
 							if(metaIsProtoMetaContacts(hcnt))
 								hcnt = metaGetMostOnline(hcnt);
 							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
@@ -960,22 +943,19 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						{
 							if(metaIsProtoMetaContacts(hContact))
 							{
-								HANDLE hcnt = NULL;
 								if(allsubcontacts)
 								{
 									int count = metaGetContactsNum(hContact);
 									for(int i = 0; i < count; i++)
 									{
-										hcnt = metaGetSubcontact(hContact, i);
+										HCONTACT hcnt = metaGetSubcontact(hContact, i);
 										if(hcnt)
 											db_unset(hcnt, szGPGModuleName, "bAlwatsTrust");
 									}
 								}
-								else
-									db_unset(metaGetMostOnline(hContact), szGPGModuleName, "bAlwatsTrust");
+								else db_unset(metaGetMostOnline(hContact), szGPGModuleName, "bAlwatsTrust");
 							}
-							else
-								db_unset(hContact, szGPGModuleName, "bAlwatsTrust");
+							else db_unset(hContact, szGPGModuleName, "bAlwatsTrust");
 						}
 						{
 							TCHAR *tmp;
@@ -994,13 +974,12 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 							{
 								if(metaIsProtoMetaContacts(hContact))
 								{
-									HANDLE hcnt = NULL;
 									if(allsubcontacts)
 									{
 										int count = metaGetContactsNum(hContact);
 										for(int i = 0; i < count; i++)
 										{
-											hcnt = metaGetSubcontact(hContact, i);
+											HCONTACT hcnt = metaGetSubcontact(hContact, i);
 											if(hcnt)
 												db_set_s(hcnt, szGPGModuleName, "KeyID", tmp2);
 										}
@@ -1044,13 +1023,12 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 								{
 									if(metaIsProtoMetaContacts(hContact))
 									{
-										HANDLE hcnt = NULL;
 										if(allsubcontacts)
 										{
 											int count = metaGetContactsNum(hContact);
 											for(int i = 0; i < count; i++)
 											{
-												hcnt = metaGetSubcontact(hContact, i);
+												HCONTACT hcnt = metaGetSubcontact(hContact, i);
 												if(hcnt)
 													db_set_s(hcnt, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
 											}
@@ -1082,13 +1060,12 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 										{
 											if(metaIsProtoMetaContacts(hContact))
 											{
-												HANDLE hcnt = NULL;
 												if(allsubcontacts)
 												{
 													int count = metaGetContactsNum(hContact);
 													for(int i = 0; i < count; i++)
 													{
-														hcnt = metaGetSubcontact(hContact, i);
+														HCONTACT hcnt = metaGetSubcontact(hContact, i);
 														if(hcnt)
 															db_set_s(hcnt, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
 													}
@@ -1109,22 +1086,19 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 										{
 											if(metaIsProtoMetaContacts(hContact))
 											{
-												HANDLE hcnt = NULL;
 												if(allsubcontacts)
 												{
 													int count = metaGetContactsNum(hContact);
 													for(int i = 0; i < count; i++)
 													{
-														hcnt = metaGetSubcontact(hContact, i);
+														HCONTACT hcnt = metaGetSubcontact(hContact, i);
 														if(hcnt)
 															db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
 													}
 												}
-												else
-													db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
+												else db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
 											}
-											else
-												db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
+											else db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
 										}
 										mir_free(tmp2);
 										tmp = mir_wstrdup(toUTF16(output.substr(s,s2-s)).c_str());
@@ -1141,22 +1115,19 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 										{
 											if(metaIsProtoMetaContacts(hContact))
 											{
-												HANDLE hcnt = NULL;
 												if(allsubcontacts)
 												{
 													int count = metaGetContactsNum(hContact);
 													for(int i = 0; i < count; i++)
 													{
-														hcnt = metaGetSubcontact(hContact, i);
+														HCONTACT hcnt = metaGetSubcontact(hContact, i);
 														if(hcnt)
 															db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
 													}
 												}
-												else
-													db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+												else db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
 											}
-											else
-												db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+											else db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
 										}
 										mir_free(tmp2);
 										tmp = mir_wstrdup(toUTF16(output.substr(s2,s-s2)).c_str());
@@ -1217,13 +1188,12 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						{
 							if(metaIsProtoMetaContacts(hContact))
 							{
-								HANDLE hcnt = NULL;
 								if(allsubcontacts)
 								{
 									int count = metaGetContactsNum(hContact);
 									for(int i = 0; i < count; i++)
 									{
-										hcnt = metaGetSubcontact(hContact, i);
+										HCONTACT hcnt = metaGetSubcontact(hContact, i);
 										if(hcnt)
 										{
 											if(!isContactSecured(hcnt))
@@ -1299,8 +1269,6 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 				}
 				break;
 			case IDC_IMPORT:
-				extern HANDLE new_key_hcnt;
-				extern boost::mutex new_key_hcnt_mutex;
 				new_key_hcnt_mutex.lock();
 				new_key_hcnt = hContact;
 				void ShowImportKeyDialog();

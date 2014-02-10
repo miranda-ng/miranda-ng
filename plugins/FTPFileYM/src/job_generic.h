@@ -66,7 +66,7 @@ public:
 		STATUS_COMPLETED
 	};
 
-	HANDLE hContact;
+	HCONTACT hContact;
 	int iFtpNum, fileID;
 	ServerList::FTP *ftp;
 	TCHAR stzFilePath[1024];
@@ -79,7 +79,7 @@ public:
 	vector<TCHAR *> files;
 	TCHAR * operator[] (int i) const { return files[i];}
 
-	GenericJob(HANDLE hContact, int iFtpNum, EMode mode);
+	GenericJob(HCONTACT hContact, int iFtpNum, EMode mode);
 	GenericJob(GenericJob *job);
 	virtual ~GenericJob();
 

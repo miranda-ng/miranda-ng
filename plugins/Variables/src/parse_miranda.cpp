@@ -99,7 +99,7 @@ static TCHAR* parseContact(ARGUMENTSINFO *ai)
 		mir_free(ci.hContacts);
 		return NULL;
 	}
-	HANDLE hContact = ci.hContacts[n];
+	HCONTACT hContact = ci.hContacts[n];
 	log_debugA("contact: %x", hContact);
 	mir_free(ci.hContacts);
 
@@ -127,7 +127,7 @@ static TCHAR* parseContactInfo(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
@@ -172,7 +172,7 @@ static TCHAR* parseDBProfilePath(ARGUMENTSINFO *ai)
 	return mir_tstrdup(path);
 }
 
-static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* defaultValue)
+static TCHAR* getDBSetting(HCONTACT hContact, char* module, char* setting, TCHAR* defaultValue)
 {
 	DBVARIANT dbv;
 	if (db_get_s(hContact, module, setting, &dbv, 0))
@@ -210,7 +210,7 @@ static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
 		return NULL;
 
 	TCHAR *res = NULL, *szDefaultValue = NULL;
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 
 	if (_tcslen(ai->targv[1]) > 0) {
 		CONTACTSINFO ci = { 0 };
@@ -247,7 +247,7 @@ static TCHAR* parseLastSeenDate(ARGUMENTSINFO *ai)
 	if (ai->argc <= 1)
 		return NULL;
 
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
@@ -300,7 +300,7 @@ static TCHAR* parseLastSeenTime(ARGUMENTSINFO *ai)
 	if (ai->argc <= 1)
 		return NULL;
 
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 
 	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
@@ -355,7 +355,7 @@ static TCHAR* parseLastSeenStatus(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return NULL;
 
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
@@ -498,7 +498,7 @@ static BOOL isValidDbEvent(DBEVENTINFO *dbe, int flags)
 	return (bEventType && bEventFlags);
 }
 
-static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
+static HANDLE findDbEvent(HCONTACT hContact, HANDLE hDbEvent, int flags)
 {
 	DBEVENTINFO dbe;
 	BOOL bEventOk;
@@ -530,7 +530,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 			hMatchEvent = hSearchEvent = NULL;
 			matchTimestamp = priorTimestamp = 0;
 			if (flags & DBE_FIRST) {
-				for (HANDLE hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
+				for (HCONTACT hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
 					dbe.cbBlob = 0;
 					if (!db_event_get(hSearchEvent, &dbe)) {
@@ -543,7 +543,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 				hDbEvent = hMatchEvent;
 			}
 			else if (flags & DBE_LAST) {
-				for (HANDLE hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
+				for (HCONTACT hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
 					dbe.cbBlob = 0;
 					if (!db_event_get(hSearchEvent, &dbe)) {
@@ -559,7 +559,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 				dbe.cbBlob = 0;
 				if (!db_event_get(hDbEvent, &dbe)) {
 					priorTimestamp = dbe.timestamp;
-					for (HANDLE hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
+					for (HCONTACT hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
 						if (!db_event_get(hSearchEvent, &dbe)) {
@@ -575,7 +575,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 			else if (flags & DBE_PREV) {
 				if (!db_event_get(hDbEvent, &dbe)) {
 					priorTimestamp = dbe.timestamp;
-					for (HANDLE hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
+					for (HCONTACT hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
 						if (!db_event_get(hSearchEvent, &dbe)) {
@@ -648,7 +648,7 @@ static TCHAR* parseDbEvent(ARGUMENTSINFO *ai)
 		break;
 	}
 
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 
 	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);

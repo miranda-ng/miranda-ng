@@ -57,7 +57,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					break;
 				}
 				
-				HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+				HCONTACT hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 				CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)MODULE);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str));
 				db_set_ts(hContact, MODULE, "Nick", str);
@@ -154,7 +154,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, EM_LIMITTEXT, 3, 0);
 			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);
 
-			HANDLE hContact;
+			HCONTACT hContact;
 			for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 				ptrT dbNick( db_get_tsa(hContact, MODULE, "Nick"));
 				if (dbNick == NULL)
@@ -305,7 +305,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_DESTROY:
-		HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 		Utils_SaveWindowPosition(hwndDlg, hContact, MODULE, "ChangeDlg");
 		WindowList_Remove(hChangeFeedDlgList, hwndDlg);
 		ItemInfo *SelItem = (ItemInfo *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -325,7 +325,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetWindowText(hwndDlg, TranslateT("Change Feed"));
 			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, UDM_SETRANGE32, 0, 999);
 
-			HANDLE hContact = (HANDLE)lParam;
+			HCONTACT hContact = (HCONTACT)lParam;
 			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
 			DBVARIANT dbv;
@@ -361,7 +361,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			{
-				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				TCHAR str[MAX_PATH];
 				char passw[MAX_PATH];
 				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str))) {
@@ -460,7 +460,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_DESTROY:
-		HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 		Utils_SaveWindowPosition(hwndDlg, hContact, MODULE, "ChangeDlg");
 		WindowList_Remove(hChangeFeedDlgList, hwndDlg);
 	}
@@ -505,7 +505,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				ListView_GetItemText(hwndList, sel, 0, nick, MAX_PATH);
 				ListView_GetItemText(hwndList, sel, 1, url, MAX_PATH);
 
-				for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+				for (HCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 					ptrT dbNick( db_get_tsa(hContact, MODULE, "Nick"));
 					if (dbNick == NULL)
 						break;
@@ -547,7 +547,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				{
 					db_set_b(NULL, MODULE, "StartupRetrieve", IsDlgButtonChecked(hwndDlg, IDC_STARTUPRETRIEVE));
 					int i = 0;
-					for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+					for (HCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 						db_set_b(hContact, MODULE, "CheckState", ListView_GetCheckState(hwndList, i));
 						if (!ListView_GetCheckState(hwndList, i))
 							db_set_b(hContact, "CList", "Hidden", 1);

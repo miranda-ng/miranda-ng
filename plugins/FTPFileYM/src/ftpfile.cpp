@@ -35,7 +35,7 @@ extern Options &opt;
 int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 void PrebuildMainMenu();
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam);
-int UploadFile(HANDLE hContact, int iFtpNum, UploadJob::EMode mode);
+int UploadFile(HCONTACT hContact, int iFtpNum, UploadJob::EMode mode);
 
 static PLUGININFOEX pluginInfoEx = 
 {
@@ -210,7 +210,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	bool bIsContact = false;
 
-	char *szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HCONTACT)wParam);
 	if (szProto) bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) ? true : false;
 
 	bool bHideRoot = opt.bHideInactive;
@@ -236,7 +236,7 @@ void PrebuildMainMenu()
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam) 
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact) 
 	{
@@ -292,7 +292,7 @@ int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int UploadFile(HANDLE hContact, int iFtpNum, GenericJob::EMode mode, void **objects, int objCount, DWORD flags) 
+int UploadFile(HCONTACT hContact, int iFtpNum, GenericJob::EMode mode, void **objects, int objCount, DWORD flags) 
 {
 	if (!ftpList[iFtpNum]->isValid()) 
 	{
@@ -334,7 +334,7 @@ int UploadFile(HANDLE hContact, int iFtpNum, GenericJob::EMode mode, void **obje
 	return 0;
 }
 
-int UploadFile(HANDLE hContact, int iFtpNum, GenericJob::EMode mode)
+int UploadFile(HCONTACT hContact, int iFtpNum, GenericJob::EMode mode)
 {
 	return UploadFile(hContact, iFtpNum, mode, NULL, 0, 0); 
 }
@@ -363,7 +363,7 @@ INT_PTR ShowManagerService(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ContactMenuService(WPARAM wParam, LPARAM lParam) 
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	int ftpNum = lParam & (1|2|4);
 	int mode = lParam & (UploadJob::FTP_RAWFILE | UploadJob::FTP_ZIPFILE | UploadJob::FTP_ZIPFOLDER); 
 	return UploadFile(hContact, ftpNum, (UploadJob::EMode)mode);

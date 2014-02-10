@@ -63,7 +63,7 @@ void FacebookProto::ProcessBuddyList(void* data)
 
 		if (!fbu->deleted)
 		{
-			HANDLE hContact = fbu->handle;
+			HCONTACT hContact = fbu->handle;
 			if (!hContact)
 				hContact = AddToContactList(fbu, CONTACT_FRIEND);
 			
@@ -154,7 +154,7 @@ void FacebookProto::ProcessFriendList(void* data)
 
 
 	// Check and update old contacts
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if ( isChatRoom(hContact))
 			continue;
 
@@ -243,7 +243,7 @@ void FacebookProto::ProcessFriendList(void* data)
 		facebook_user *fbu = iter->second;
 
 		if (!fbu->deleted)
-			HANDLE hContact = AddToContactList(fbu, CONTACT_FRIEND/*, true*/); // This contact is surely new ...am I sure? ...I'm not, so "true" is commented now
+			HCONTACT hContact = AddToContactList(fbu, CONTACT_FRIEND/*, true*/); // This contact is surely new ...am I sure? ...I'm not, so "true" is commented now
 
 		delete fbu;
 	}
@@ -361,7 +361,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 			for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end(); ) {
 
 				facebook_chatroom *room = it->second;
-				HANDLE hChatContact = NULL;
+				HCONTACT hChatContact = NULL;
 				if (GetChatUsers(room->thread_id.c_str()) == NULL) {
 					AddChat(room->thread_id.c_str(), room->chat_name.c_str());
 					hChatContact = ChatIDToHContact(room->thread_id);
@@ -397,7 +397,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 					fbu.real_name = messages[i]->sender_name;
 
 					// TODO: optimize this?
-					HANDLE hContact = AddToContactList(&fbu, CONTACT_NONE);
+					HCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE);
 					setString(hContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
 					
 					// Save TID if not exists already
@@ -486,7 +486,7 @@ void FacebookProto::ProcessMessages(void* data)
 		fbu.user_id = messages[i]->user_id;
 		fbu.real_name = messages[i]->sender_name;
 
-		HANDLE hContact = AddToContactList(&fbu, CONTACT_NONE);
+		HCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE);
 		setString(hContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
 
 		// Save TID if not exists already
@@ -627,7 +627,7 @@ void FacebookProto::ProcessFriendRequests(void*)
 
 		if (fbu->user_id.length() && fbu->real_name.length())
 		{
-			HANDLE hContact = AddToContactList(fbu, CONTACT_APPROVE);
+			HCONTACT hContact = AddToContactList(fbu, CONTACT_APPROVE);
 			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_APPROVE);
 
 			bool seen = false;

@@ -94,7 +94,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void AddMessage( const TCHAR* fmt, ... );
 
-void mySet( HANDLE hContact, const char* module, const char* var, DBVARIANT* dbv );
+void mySet(HCONTACT hContact, const char* module, const char* var, DBVARIANT* dbv );
 
 INT_PTR CALLBACK WizardIntroPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ProgressPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
@@ -104,9 +104,9 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,
 INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 BOOL IsProtocolLoaded(char* pszProtocolName);
-BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei);
+BOOL IsDuplicateEvent(HCONTACT hContact, DBEVENTINFO dbei);
 
-int CreateGroup(const TCHAR* name, HANDLE hContact);
+int CreateGroup(const TCHAR* name, HCONTACT hContact);
 
 extern HINSTANCE hInst;
 extern HANDLE hIcoHandle;

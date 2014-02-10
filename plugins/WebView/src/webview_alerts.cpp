@@ -29,7 +29,7 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message) {
 	case WM_COMMAND:
 	case WM_CONTEXTMENU:
-		HANDLE hContact = PUGetContact(hWnd);
+		HCONTACT hContact = PUGetContact(hWnd);
 		ptrT url( db_get_tsa(hContact, MODULENAME, URL_KEY));
 
 		if (message == WM_COMMAND) { // left click
@@ -44,7 +44,7 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				if ( db_get_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, 0)) {
 					CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);
 					PUDeletePopup(hWnd);
-					db_set_w((HANDLE)wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
+					db_set_w((HCONTACT)wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 				}
 				// dismiss
 				if ( db_get_b(NULL, MODULENAME, LCLK_DISMISS_KEY, 1))
@@ -65,7 +65,7 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				if ( db_get_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, 1)) {
 					CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);
 					PUDeletePopup(hWnd);
-					db_set_w((HANDLE)wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
+					db_set_w((HCONTACT)wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 				}
 				// dismiss
 				if ( db_get_b(NULL, MODULENAME, RCLK_DISMISS_KEY, 0))
@@ -88,21 +88,21 @@ int WDisplayDataAlert(void *hContact)
 }
 
 /*****************************************************************************/
-int WAlertPopup(HANDLE hContact, TCHAR *displaytext)
+int WAlertPopup(HCONTACT hContact, TCHAR *displaytext)
 {
 	NotifyEventHooks(hHookAlertPopup, (WPARAM)hContact, (LPARAM)displaytext);
 	return 0;
 }
 
 /*****************************************************************************/
-int WErrorPopup(HANDLE hContact, TCHAR *textdisplay)
+int WErrorPopup(HCONTACT hContact, TCHAR *textdisplay)
 {
 	NotifyEventHooks(hHookErrorPopup, (WPARAM)hContact, (LPARAM) textdisplay);
 	return 0;
 }
 
 /*****************************************************************************/
-int WAlertOSD(HANDLE hContact, TCHAR *displaytext)
+int WAlertOSD(HCONTACT hContact, TCHAR *displaytext)
 {
 	NotifyEventHooks(hHookAlertOSD, (WPARAM)hContact, (LPARAM) displaytext);
 	return 0;
@@ -115,13 +115,13 @@ int WPopupAlert(WPARAM wParam, LPARAM lParam)
 
 	if( ((HANDLE)wParam) != NULL) {
 		DBVARIANT dbv;
-		db_get_ts((HANDLE)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
+		db_get_ts((HCONTACT)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
 		lstrcpyn(ppd.lptzContactName, dbv.ptszVal, SIZEOF(ppd.lptzContactName));
 		db_free(&dbv);
 	}
 	else lstrcpy(ppd.lptzContactName, _A2T(MODULENAME));
 
-	ppd.lchContact = (HANDLE)wParam;
+	ppd.lchContact = (HCONTACT)wParam;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 
 	TCHAR *displaytext = (TCHAR*)lParam;
@@ -158,7 +158,7 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 	POPUPDATA ppd = { 0 };
 	if (((HANDLE)wParam) != NULL) {
 		DBVARIANT dbv;
-		if ( !db_get_s((HANDLE)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		if ( !db_get_s((HCONTACT)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			lstrcpynA(ppd.lptzContactName, dbv.pszVal, SIZEOF(ppd.lptzContactName));
 			db_free(&dbv);
 		}
@@ -166,7 +166,7 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 	if (ppd.lptzContactName[0] == 0)
 		strncpy_s(ppd.lptzContactName, SIZEOF(ppd.lptzContactName), MODULENAME, _TRUNCATE);
 
-	ppd.lchContact = (HANDLE)wParam;
+	ppd.lchContact = (HCONTACT)wParam;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 
 	char *displaytext = (char*)lParam;
@@ -205,7 +205,7 @@ int OSDAlert(WPARAM wParam, LPARAM lParam)
 
 	if (((HANDLE)wParam) != NULL) {
 		DBVARIANT dbv;
-		if ( !db_get_s((HANDLE)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		if ( !db_get_s((HCONTACT)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			strncpy_s(contactname, SIZEOF(contactname), dbv.pszVal, _TRUNCATE);
 			db_free(&dbv);
 		}
@@ -225,7 +225,7 @@ int OSDAlert(WPARAM wParam, LPARAM lParam)
 /*****************************************************************************/
 int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	TCHAR newdisplaytext[2000], *displaytext = (TCHAR*)lParam;
 
 	if ( db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0))
@@ -254,7 +254,7 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-void SaveToFile(HANDLE hContact, char *truncated)
+void SaveToFile(HCONTACT hContact, char *truncated)
 {
 	char *mode;
 	if (!db_get_b(hContact, MODULENAME, APPEND_KEY, 0))
@@ -299,7 +299,7 @@ void SaveToFile(HANDLE hContact, char *truncated)
 }
 
 /*****************************************************************************/
-int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactname, int notpresent)
+int ProcessAlerts(HCONTACT hContact, char *truncated, char *tstr, char *contactname, int notpresent)
 {
 	char alertstring[255];
 	TCHAR displaystring[300];
@@ -479,7 +479,7 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 			// file exists?
 			if ( _taccess(newcachepath, 0) != -1) {
 				if ((pcachefile = _tfopen(newcachepath, _T("r"))) == NULL)
-					WErrorPopup(contactname, TranslateT("Cannot read from file"));
+					WErrorPopup((HCONTACT)contactname, TranslateT("Cannot read from file"));
 				else {
 					ZeroMemory(&cachecompare, sizeof(cachecompare));
 					fread(cachecompare, sizeof(cachecompare), 1, pcachefile);
@@ -488,7 +488,7 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 			}
 			// write to cache
 			if ((pcachefile = _tfopen(newcachepath, _T("w"))) == NULL)
-				WErrorPopup(contactname, TranslateT("Cannot write to file 1"));
+				WErrorPopup((HCONTACT)contactname, TranslateT("Cannot write to file 1"));
 			else {
 				fwrite(tempraw, strlen(tempraw), 1, pcachefile); //smaller cache
 				fclose(pcachefile);
@@ -691,7 +691,7 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 				// file exists?
 				if ( _taccess(newcachepath, 0) != -1) {
 					if ((pcachefile = _tfopen(newcachepath, _T("r"))) == NULL)
-						WErrorPopup(contactname, TranslateT("Cannot read from file"));
+						WErrorPopup((HCONTACT)contactname, TranslateT("Cannot read from file"));
 					else {
 						ZeroMemory(&cachecompare, sizeof(cachecompare));
 						fread(cachecompare, sizeof(cachecompare), 1, pcachefile);
@@ -700,7 +700,7 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 				}
 				// write to cache
 				if ((pcachefile = _tfopen(newcachepath, _T("w"))) == NULL)
-					WErrorPopup(contactname, TranslateT("Cannot write to file 2"));
+					WErrorPopup((HCONTACT)contactname, TranslateT("Cannot write to file 2"));
 				else {
 					fwrite(raw, strlen(raw), 1, pcachefile); //smaller cache
 					db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
@@ -814,7 +814,7 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 /*****************************************************************************/
 int DataWndAlertCommand(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if ( WindowList_Find(hWindowList, hContact))
 		return 0;
 
@@ -836,8 +836,10 @@ int DataWndAlertCommand(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-void ReadFromFile(HANDLE hContact)
+void ReadFromFile(void *param)
 {
+	HCONTACT hContact = (HCONTACT)param;
+
 	DBVARIANT dbv;
 	char truncated[MAXSIZE1];
 	int  AmountWspcRem = 0;

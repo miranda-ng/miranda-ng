@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 struct facebook_user
 {
-	HANDLE handle;
+	HCONTACT handle;
 
 	std::string user_id;
 	std::string real_name;
@@ -164,16 +164,16 @@ struct send_chat
 
 struct send_direct
 {
-	send_direct(HANDLE hContact,const std::string &msg, HANDLE msgid) : hContact(hContact), msg(msg), msgid(msgid) {}
-	HANDLE hContact;
+	send_direct(HCONTACT hContact,const std::string &msg, HANDLE msgid) : hContact(hContact), msg(msg), msgid(msgid) {}
+	HCONTACT hContact;
 	std::string msg;
 	HANDLE msgid;
 };
 
 struct send_typing
 {
-	send_typing(HANDLE hContact,const int status) : hContact(hContact), status(status) {}
-	HANDLE hContact;
+	send_typing(HCONTACT hContact,const int status) : hContact(hContact), status(status) {}
+	HCONTACT hContact;
 	int status;
 };
 

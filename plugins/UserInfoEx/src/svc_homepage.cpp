@@ -39,7 +39,7 @@ bool g_eiHome = false;
 * @retval	NULL if contact provides no homepage
 **/
 
-static LPSTR Get(HANDLE hContact)
+static LPSTR Get(HCONTACT hContact)
 {
 	// ignore owner
 	if (hContact != NULL) {
@@ -68,7 +68,7 @@ static LPSTR Get(HANDLE hContact)
 
 static INT_PTR MenuCommand(WPARAM wParam, LPARAM lParam)
 {
-	LPSTR szUrl = Get((HANDLE)wParam);
+	LPSTR szUrl = Get((HCONTACT)wParam);
 	if (szUrl) {
 		CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
 		mir_free(szUrl);
@@ -89,7 +89,7 @@ static INT_PTR MenuCommand(WPARAM wParam, LPARAM lParam)
 * @param	lParam		- not used
 **/
 
-static int OnCListApplyIcons(HANDLE hContact, LPARAM)
+static int OnCListApplyIcons(HCONTACT hContact, LPARAM)
 {
 	LPSTR val = Get(hContact);
 	if (ghExtraIconSvc != INVALID_HANDLE_VALUE)
@@ -105,7 +105,7 @@ static int OnCListApplyIcons(HANDLE hContact, LPARAM)
 * @param	lParam		- (DBCONTACTWRITESETTING*)pdbcws
 **/
 
-static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
+static int OnContactSettingChanged(HCONTACT hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact && pdbcws && pdbcws->szSetting && 
 			((pdbcws->value.type & DBVTF_VARIABLELENGTH) || (pdbcws->value.type == DBVT_DELETED)) &&
@@ -127,7 +127,7 @@ static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
 
 static int OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
-	LPSTR val = Get((HANDLE)wParam);
+	LPSTR val = Get((HCONTACT)wParam);
 	Menu_ShowItem(ghMenuItem, val != 0);
 	mir_free(val);
 	return 0;

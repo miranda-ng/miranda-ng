@@ -29,58 +29,13 @@
 //=====================================================
 //	Includes (yea why not include lots of stuff :D )
 //=====================================================
-#include <windows.h>
-#include <gdiplus.h>
-#include <Wininet.h>
-#include <commctrl.h>
-#include <stdio.h>
-#include <time.h>
-#include <stddef.h>
-#include <process.h>
-#include <string.h>
-#include <winsock.h>
-#include "resource.h"
-#include <winbase.h>
-#include <tlhelp32.h>
-#include <Psapi.h>
-#include <string.h>
-#include <Iphlpapi.h>
 
-//Miranda SDK headers
-#include <newpluginapi.h>
-#include <m_clist.h>
-#include <m_clui.h>
-#include <m_skin.h>
-#include <m_langpack.h>
-#include <m_protomod.h>
-#include <m_database.h>
-#include <m_system.h>
-#include <m_protocols.h>
-#include <m_protomod.h>
-#include <m_protosvc.h>
-#include <m_protoint.h>
-#include <m_userinfo.h>
-#include <m_options.h>
-#include <m_utils.h>
-#include <m_ignore.h>
-#include <m_netlib.h>
-#include <m_avatars.h>
-#include <m_folders.h>
-#include <m_assocmgr.h>
-#include <m_icolib.h>
-#include <m_genmenu.h>
-#include <m_extraicons.h>
-#include <m_xstatus.h>
-
-#include "services.h"
-
-/*#pragma comment(lib, "atl.lib")
-#include <atldef.h>
-#define _ATL_DLL_IMPL
-#include <atliface.h>*/
+#pragma once
 
 #ifndef _BASEPROTO_H
 #define _BASEPROTO_H
+
+#include "services.h"
 
 //=======================================================
 //	Definitions
@@ -103,7 +58,7 @@ INT_PTR GetStatus(WPARAM wParam,LPARAM lParam);
 INT_PTR TMLoadIcon(WPARAM wParam,LPARAM lParam);
 INT_PTR SetNickName(WPARAM newnick, LPARAM lparam);
 
-BOOL IsXFireContact(HANDLE h);
+BOOL IsXFireContact(HCONTACT h);
 int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hhicon=NULL);
 BOOL CreateToolTip(int toolID, HWND hDlg, CHAR* pText);
 void EnableDlgItem(HWND hwndDlg, UINT control, int state);
@@ -200,7 +155,7 @@ struct XFire_FoundGame
 
 struct XFire_SetAvatar
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	char* username;
 };
 

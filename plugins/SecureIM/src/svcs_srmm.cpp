@@ -11,7 +11,7 @@ int __cdecl onWindowEvent(WPARAM, LPARAM lParam)
 
 int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (isProtoMetaContacts(hContact))
 		hContact = getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 

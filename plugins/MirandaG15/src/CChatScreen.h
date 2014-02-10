@@ -44,7 +44,7 @@ public:
 	void OnSizeChanged();
 
 	// Set's the chat contact
-	bool SetContact(HANDLE hContact);
+	bool SetContact(HCONTACT hContact);
 	// returns the chat contact
 	HANDLE GetContact();
 	
@@ -92,10 +92,10 @@ protected:
 	DWORD	m_dwMaximizedTimer;
 	DWORD	m_dwMaximizedDuration;
 
-	HANDLE	m_hContact;
-	HANDLE	m_hMessage;
+	HCONTACT m_hContact;
+	HANDLE m_hMessage;
 
-	int	m_iStatus;
+	int m_iStatus;
 
 	CLCDLabel m_UserProto;
 	CLCDLabel m_UserName;

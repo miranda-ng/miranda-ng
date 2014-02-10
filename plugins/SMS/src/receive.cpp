@@ -45,7 +45,6 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 			{
 				LPSTR lpszMessageUTF;
 				SIZE_T dwBuffLen,dwMessageXMLEncodedSize,dwMessageXMLDecodedSize;
-				HANDLE hContact;
 				DBEVENTINFO dbei = { sizeof(dbei) };
 
 				dwBuffLen=(dwDataSize+MAX_PATH);
@@ -61,7 +60,7 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 
 					dwPhoneSize=CopyNumberA(szPhone,lpszPhone,dwPhoneSize);
 					dwPhoneSize=MultiByteToWideChar(CP_UTF8,0,szPhone,dwPhoneSize,tszPhone,MAX_PHONE_LEN);
-					hContact=HContactFromPhone(tszPhone,dwPhoneSize);
+					HCONTACT hContact=HContactFromPhone(tszPhone,dwPhoneSize);
 
 					dbei.szModule=GetModuleName(hContact);
 					dbei.timestamp=time(NULL);
@@ -89,7 +88,7 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 			{
 				dwPhoneSize=CopyNumberA(szPhone,lpszPhone,dwPhoneSize);
 				dwPhoneSize=MultiByteToWideChar(CP_UTF8,0,szPhone,dwPhoneSize,tszPhone,MAX_PHONE_LEN);
-				HANDLE hContact=HContactFromPhone(tszPhone,dwPhoneSize);
+				HCONTACT hContact=HContactFromPhone(tszPhone,dwPhoneSize);
 
 				DBEVENTINFO dbei={0};
 				dbei.cbSize=sizeof(dbei);
@@ -212,7 +211,8 @@ int handleNewMessage(WPARAM wParam, LPARAM lParam)
 {
 	char szServiceFunction[MAX_PATH], *pszServiceFunctionName;
 	TCHAR szToolTip[MAX_PATH];
-	HANDLE hContact = (HANDLE)wParam, hDbEvent = (HANDLE)lParam;
+	HCONTACT hContact = (HCONTACT)wParam;
+	HANDLE hDbEvent = (HANDLE)lParam;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) != -1) {

@@ -57,8 +57,8 @@ int  ClcShutdown(WPARAM wParam, LPARAM lParam);
 void (*saveLoadClcOptions)(HWND hwnd, struct ClcData *dat);
 void LoadClcOptions(HWND hwnd, struct ClcData *dat);
 
-int (*saveAddContactToGroup)(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
-int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
+int (*saveAddContactToGroup)(struct ClcData *dat, ClcGroup *group, HCONTACT hContact);
+int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HCONTACT hContact);
 
 CListEvent* (*saveAddEvent)(CLISTEVENT *cle);
 CListEvent* AddEvent(CLISTEVENT *cle);
@@ -75,13 +75,13 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
 LRESULT (CALLBACK *saveContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-int (*saveIconFromStatusMode)(const char *szProto, int status, HANDLE hContact);
+int (*saveIconFromStatusMode)(const char *szProto, int status, HCONTACT hContact);
 
 LRESULT(*saveProcessExternalMessages)(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
-int (*saveRemoveEvent)(HANDLE hContact, HANDLE hDbEvent);
-int RemoveEvent(HANDLE hContact, HANDLE hDbEvent);
+int (*saveRemoveEvent)(HCONTACT hContact, HANDLE hDbEvent);
+int RemoveEvent(HCONTACT hContact, HANDLE hDbEvent);
 
 INT_PTR (*saveTrayIconProcessMessage)(WPARAM wParam, LPARAM lParam);
 INT_PTR TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
@@ -194,7 +194,7 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int fnIconFromStatusMode(const char* szProto, int status, HANDLE hContact)
+static int fnIconFromStatusMode(const char* szProto, int status, HCONTACT hContact)
 {
 	return IconFromStatusMode(szProto, status, hContact, NULL);
 }

@@ -164,12 +164,12 @@ void CMimAPI::BroadcastMessageAsync(UINT msg, WPARAM wParam, LPARAM lParam)
 	WindowList_BroadcastAsync(m_hMessageWindowList, msg, wParam, lParam);
 }
 
-HWND CMimAPI::FindWindow(HANDLE h) const
+HWND CMimAPI::FindWindow(HCONTACT h) const
 {
 	return WindowList_Find(m_hMessageWindowList, h);
 }
 
-INT_PTR CMimAPI::AddWindow(HWND hWnd, HANDLE h)
+INT_PTR CMimAPI::AddWindow(HWND hWnd, HCONTACT h)
 {
 	return WindowList_Add(m_hMessageWindowList, hWnd, h);
 }
@@ -335,7 +335,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 	int    issplit = 1, foundWin = 0, preTyping = 0;
 	BOOL   fShowOnClist = TRUE;
 
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact) {
 		if ((hwnd = M.FindWindow(hContact)) && M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
 			preTyping = SendMessage(hwnd, DM_TYPING, 0, lParam);
@@ -407,7 +407,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 			}
 			if (fShowOnClist) {
 				CLISTEVENT cle = { sizeof(cle) };
-				cle.hContact = (HANDLE)wParam;
+				cle.hContact = (HCONTACT)wParam;
 				cle.hDbEvent = (HANDLE)1;
 				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 				cle.hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
@@ -468,7 +468,7 @@ int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 
 int CMimAPI::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact == NULL)
 		return NULL;
 
@@ -497,7 +497,7 @@ int CMimAPI::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 int CMimAPI::DispatchNewEvent(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam) {
-		HWND h = M.FindWindow((HANDLE)wParam);
+		HWND h = M.FindWindow((HCONTACT)wParam);
 		if (h)
 			PostMessage(h, HM_DBEVENTADDED, wParam, lParam);            // was SENDMESSAGE !!! XXX
 	}
@@ -522,7 +522,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get(hDbEvent, &dbei);
 
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	HWND hwnd = M.FindWindow(hContact);
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
@@ -614,7 +614,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	else {
 		char *szProto = GetContactProto(hContact);
 		if (PluginConfig.g_MetaContactsAvail && szProto && !strcmp(szProto, (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) {
-			HANDLE hSubconttact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, wParam, 0);
+			HCONTACT hSubconttact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, wParam, 0);
 			szProto = GetContactProto(hSubconttact);
 		}
 		if (szProto) {

@@ -53,12 +53,12 @@
 struct CIcqProto;
 // callback prototypes for pending operation mechanism:
 typedef int (__cdecl CIcqProto::*PENDING_GROUP_CALLBACK)(const char* pszGroup, WORD wGroupId, LPARAM lParam, int nResult);
-typedef int (__cdecl CIcqProto::*PENDING_CONTACT_CALLBACK)(HANDLE hContact, WORD wContactId, WORD wGroupId, LPARAM lParam, int nResult);
+typedef int (__cdecl CIcqProto::*PENDING_CONTACT_CALLBACK)(HCONTACT hContact, WORD wContactId, WORD wGroupId, LPARAM lParam, int nResult);
 
 // cookie struct for SSI actions
 struct cookie_servlist_action
 {
-	HANDLE hContact;
+	HCONTACT hContact;
   char *szGroup;
 	WORD wContactId;
 	WORD wGroupId;
@@ -159,7 +159,7 @@ struct servlistpendingoperation
 struct servlistpendingitem
 {
   int nType;
-  HANDLE hContact;
+  HCONTACT hContact;
   char* szGroup;
   WORD wContactID;
   WORD wGroupID;

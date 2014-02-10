@@ -29,12 +29,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DDEMESSAGETIMEOUT   1000
 
 struct UrlRcvData {
-	HANDLE hContact;
+	HCONTACT hContact;
 	HANDLE hDbEvent;
 };
 
 struct UrlSendData {
-	HANDLE hContact;
+	HCONTACT hContact;
 	HANDLE hSendId;
 	HANDLE hAckEvent;
 	char *sendBuffer;

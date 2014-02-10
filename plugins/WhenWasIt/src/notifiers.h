@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DUMMY_SETTING "refreshIconsDummyVal"
 
 struct TUpcomingBirthday{
-	HANDLE hContact;
+	HCONTACT hContact;
 	TCHAR *name;
 	TCHAR *message;
 	int dtb;
@@ -40,13 +40,13 @@ struct TUpcomingBirthday{
 typedef TUpcomingBirthday *PUpcomingBirthday;
 
 void PopupNotifyNoBirthdays();
-int  PopupNotifyBirthday(HANDLE hContact, int dtb, int age);
-int  PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age);
-int  DialogNotifyBirthday(HANDLE hContact, int dtb, int age);
-int  DialogNotifyMissedBirthday(HANDLE hContact, int dab, int age);
+int  PopupNotifyBirthday(HCONTACT hContact, int dtb, int age);
+int  PopupNotifyMissedBirthday(HCONTACT hContact, int dab, int age);
+int  DialogNotifyBirthday(HCONTACT hContact, int dtb, int age);
+int  DialogNotifyMissedBirthday(HCONTACT hContact, int dab, int age);
 int  SoundNotifyBirthday(int dtb);
 
-int  RefreshContactListIcons(HANDLE hContact);
+int  RefreshContactListIcons(HCONTACT hContact);
 int  RefreshAllContactListIcons(int oldClistIcon = -1);
 
 #endif //M_WWI_NOTIFIERS_H

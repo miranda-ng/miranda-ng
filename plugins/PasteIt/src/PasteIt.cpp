@@ -94,7 +94,7 @@ std::wstring GetFile()
 	return L"";
 }
 
-void PasteIt(HANDLE hContact, int mode)
+void PasteIt(HCONTACT hContact, int mode)
 {
 	PasteToWeb* pasteToWeb = pasteToWebs[Options::instance->defWeb];
 	if(mode == FROM_CLIPBOARD)
@@ -152,7 +152,7 @@ void PasteIt(HANDLE hContact, int mode)
 					{
 						gci.iItem = i;
 						gci.pszModule = szProto;
-						gci.Flags = BYINDEX | HCONTACT | ID;
+						gci.Flags = GCF_BYINDEX | GCF_HCONTACT | GCF_ID;
 						CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
 						if (gci.hContact == hContact) 
 						{
@@ -212,7 +212,7 @@ void PasteIt(HANDLE hContact, int mode)
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam) 
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact) 
 	{
@@ -274,7 +274,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	bool bIsContact = false;
 	
-	char *szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HCONTACT)wParam);
 	if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
 		bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) != 0;
 
@@ -287,7 +287,7 @@ INT_PTR ContactMenuService(WPARAM wParam, LPARAM lParam)
 	if(lParam >= DEF_PAGES_START)
 		Options::instance->SetDefWeb(lParam - DEF_PAGES_START);
 	else {
-		HANDLE hContact = (HANDLE)wParam;
+		HCONTACT hContact = (HCONTACT)wParam;
 		PasteIt(hContact, lParam);
 	}
 	return 0;

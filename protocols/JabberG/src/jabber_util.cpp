@@ -34,12 +34,12 @@ int CJabberProto::SerialNext(void)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberChatRoomHContactFromJID - looks for the char room HCONTACT with required JID
 
-HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
+HCONTACT CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 {
 	if (jid == NULL)
 		return NULL;
 
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		ptrT dbJid( getTStringA(hContact, "ChatRoomID"));
 		if (dbJid == NULL)
 			if ((dbJid = getTStringA(hContact, "jid")) == NULL)
@@ -55,14 +55,14 @@ HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberHContactFromJID - looks for the HCONTACT with required JID
 
-HANDLE CJabberProto::HContactFromJID(const TCHAR *jid , BOOL bStripResource)
+HCONTACT CJabberProto::HContactFromJID(const TCHAR *jid, BOOL bStripResource)
 {
 	if (jid == NULL)
 		return NULL;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid);
 
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		bool bIsChat = isChatRoom(hContact);
 
 		ptrT dbJid( getTStringA(hContact, bIsChat ? "ChatRoomID" : "jid"));
@@ -513,7 +513,7 @@ void CJabberProto::SendVisibleInvisiblePresence(BOOL invisible)
 		if (item == NULL)
 			continue;
 
-		HANDLE hContact = HContactFromJID(item->jid);
+		HCONTACT hContact = HContactFromJID(item->jid);
 		if (hContact == NULL)
 			continue;
 
@@ -727,7 +727,7 @@ int __stdcall JabberGetPacketID(HXML n)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberGetClientJID - adds a resource postfix to a JID
 
-TCHAR* CJabberProto::GetClientJID(HANDLE hContact, TCHAR *dest, size_t destLen)
+TCHAR* CJabberProto::GetClientJID(HCONTACT hContact, TCHAR *dest, size_t destLen)
 {
 	if (hContact == NULL)
 		return NULL;
@@ -932,7 +932,7 @@ static VOID CALLBACK sttRebuildInfoFrameApcProc(void* param)
 		{
 			if ((item=ppro->ListGetItemPtrFromIndex(i)) != NULL) {
 				if (_tcschr(item->jid, '@') == NULL && _tcschr(item->jid, '/') == NULL && item->subscription!=SUB_NONE) {
-					HANDLE hContact = ppro->HContactFromJID(item->jid);
+					HCONTACT hContact = ppro->HContactFromJID(item->jid);
 					if (hContact == NULL) continue;
 
 					char name[128];

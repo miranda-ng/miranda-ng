@@ -38,17 +38,17 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	int newStatus = cws->value.wVal;
-	int oldStatus = db_get_w((HANDLE)wParam, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
-	db_set_w((HANDLE)wParam, "UserOnline", "OldStatus", (WORD)newStatus);
+	int oldStatus = db_get_w((HCONTACT)wParam, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
+	db_set_w((HCONTACT)wParam, "UserOnline", "OldStatus", (WORD)newStatus);
 	if (CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_USERONLINE)) return 0;
-	if (db_get_b((HANDLE)wParam, "CList", "Hidden", 0)) return 0;
+	if (db_get_b((HCONTACT)wParam, "CList", "Hidden", 0)) return 0;
     if (newStatus == ID_STATUS_OFFLINE && oldStatus != ID_STATUS_OFFLINE) {
        // Remove the event from the queue if it exists since they are now offline
-       int lastEvent = (int)db_get_dw((HANDLE)wParam, "UserOnline", "LastEvent", 0);
+		 int lastEvent = (int)db_get_dw((HCONTACT)wParam, "UserOnline", "LastEvent", 0);
 
        if (lastEvent) {
            CallService(MS_CLIST_REMOVEEVENT, wParam, (LPARAM)lastEvent);
-           db_set_dw((HANDLE)wParam, "UserOnline", "LastEvent", 0);
+			  db_set_dw((HCONTACT)wParam, "UserOnline", "LastEvent", 0);
        }
     }
 	if ((newStatus == ID_STATUS_ONLINE || newStatus == ID_STATUS_FREECHAT) &&
@@ -63,11 +63,11 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 				ZeroMemory(&cle, sizeof(cle));
 				cle.cbSize = sizeof(cle);
 				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
-				cle.hContact = (HANDLE)wParam;
+				cle.hContact = (HCONTACT)wParam;
 				cle.hDbEvent = (HANDLE)(uniqueEventId++);
 				cle.hIcon = LoadSkinIcon(SKINICON_OTHER_USERONLINE, false);
 				cle.pszService = "UserOnline/Description";
-				mir_sntprintf(tooltip, SIZEOF(tooltip), TranslateT("%s is online"), pcli->pfnGetContactDisplayName((HANDLE)wParam, 0));
+				mir_sntprintf(tooltip, SIZEOF(tooltip), TranslateT("%s is online"), pcli->pfnGetContactDisplayName((HCONTACT)wParam, 0));
 				cle.ptszTooltip = tooltip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 				IcoLib_ReleaseIcon(cle.hIcon, 0);

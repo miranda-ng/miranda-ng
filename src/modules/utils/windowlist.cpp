@@ -26,12 +26,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct TWindowListItem
 {
-	TWindowListItem(HANDLE _contact, HWND _wnd) :
+	TWindowListItem(HCONTACT _contact, HWND _wnd) :
 		hContact(_contact),
 		hWnd(_wnd)
 		{}
 
-	HANDLE hContact;
+	HCONTACT hContact;
 	HWND hWnd;
 };
 

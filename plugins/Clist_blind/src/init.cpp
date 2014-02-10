@@ -185,7 +185,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* setting, TCHAR* out, size_t len, TCHAR *def)
+TCHAR* MyDBGetContactSettingTString(HCONTACT hContact, char* module, char* setting, TCHAR* out, size_t len, TCHAR *def)
 {
 	DBVARIANT dbv;
 

@@ -463,7 +463,7 @@ void CIcqProto::servlistProcessLogin()
 
 #define SPOF_AUTO_CREATE_ITEM     0x01
 
-int CIcqProto::servlistPendingFindItem(int nType, HANDLE hContact, const char *pszGroup)
+int CIcqProto::servlistPendingFindItem(int nType, HCONTACT hContact, const char *pszGroup)
 {
 	if (servlistPendingList)
 		for (int i = 0; i < servlistPendingCount; i++)
@@ -489,7 +489,7 @@ void CIcqProto::servlistPendingAddItem(servlistpendingitem *pItem)
 }
 
 
-servlistpendingitem* CIcqProto::servlistPendingRemoveItem(int nType, HANDLE hContact, const char *pszGroup)
+servlistpendingitem* CIcqProto::servlistPendingRemoveItem(int nType, HCONTACT hContact, const char *pszGroup)
 { // unregister pending item, trigger pending operations
 	int iItem;
 	servlistpendingitem *pItem = NULL;
@@ -546,7 +546,7 @@ servlistpendingitem* CIcqProto::servlistPendingRemoveItem(int nType, HANDLE hCon
 }
 
 
-void CIcqProto::servlistPendingAddContactOperation(HANDLE hContact, LPARAM param, PENDING_CONTACT_CALLBACK callback, DWORD flags)
+void CIcqProto::servlistPendingAddContactOperation(HCONTACT hContact, LPARAM param, PENDING_CONTACT_CALLBACK callback, DWORD flags)
 { // add postponed operation (add contact, update contact, regroup resume, etc.)
 	// - after contact is added
 	int iItem;
@@ -599,7 +599,7 @@ void CIcqProto::servlistPendingAddGroupOperation(const char *pszGroup, LPARAM pa
 }
 
 
-int CIcqProto::servlistPendingAddContact(HANDLE hContact, WORD wContactID, WORD wGroupID, LPARAM param, PENDING_CONTACT_CALLBACK callback, int bDoInline, LPARAM operationParam, PENDING_CONTACT_CALLBACK operationCallback)
+int CIcqProto::servlistPendingAddContact(HCONTACT hContact, WORD wContactID, WORD wGroupID, LPARAM param, PENDING_CONTACT_CALLBACK callback, int bDoInline, LPARAM operationParam, PENDING_CONTACT_CALLBACK operationCallback)
 {
 	int iItem;
 	servlistpendingitem *pItem = NULL;
@@ -700,7 +700,7 @@ int CIcqProto::servlistPendingAddGroup(const char *pszGroup, WORD wGroupID, LPAR
 }
 
 
-void CIcqProto::servlistPendingRemoveContact(HANDLE hContact, WORD wContactID, WORD wGroupID, int nResult)
+void CIcqProto::servlistPendingRemoveContact(HCONTACT hContact, WORD wContactID, WORD wGroupID, int nResult)
 {
 #ifdef _DEBUG
 	debugLogA("Server-List: %s contact %x operation.", (nResult != PENDING_RESULT_PURGE) ? "Ending" : "Purging", hContact);
@@ -800,7 +800,7 @@ void CIcqProto::servlistPendingFlushOperations()
 
 
 // used for adding new contacts to list - sync with visible items
-void CIcqProto::AddJustAddedContact(HANDLE hContact)
+void CIcqProto::AddJustAddedContact(HCONTACT hContact)
 {
 	icq_lock l(servlistMutex);
 
@@ -816,7 +816,7 @@ void CIcqProto::AddJustAddedContact(HANDLE hContact)
 
 
 // was the contact added during this serv-list load
-BOOL CIcqProto::IsContactJustAdded(HANDLE hContact)
+BOOL CIcqProto::IsContactJustAdded(HCONTACT hContact)
 {
 	icq_lock l(servlistMutex);
 
@@ -975,7 +975,7 @@ void CIcqProto::LoadServerIDs()
 
 	nGroups = nServerIDListCount - nStart;
 
-	HANDLE hContact = FindFirstContact();
+	HCONTACT hContact = FindFirstContact();
 
 	while (hContact)
 	{ // search all our contacts, reserve their server IDs
@@ -1147,7 +1147,7 @@ DWORD CIcqProto::icq_sendServerItem(DWORD dwCookie, WORD wAction, WORD wGroupId,
 }
 
 
-DWORD CIcqProto::icq_sendServerContact(HANDLE hContact, DWORD dwCookie, WORD wAction, WORD wGroupId, WORD wContactId, DWORD dwOperation, DWORD dwTimeout, void **doubleObject)
+DWORD CIcqProto::icq_sendServerContact(HCONTACT hContact, DWORD dwCookie, WORD wAction, WORD wGroupId, WORD wContactId, DWORD dwOperation, DWORD dwTimeout, void **doubleObject)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -1286,7 +1286,7 @@ DWORD CIcqProto::icq_sendServerGroup(DWORD dwCookie, WORD wAction, WORD wGroupId
 }
 
 
-DWORD CIcqProto::icq_modifyServerPrivacyItem(HANDLE hContact, DWORD dwUin, char *szUid, WORD wAction, DWORD dwOperation, WORD wItemId, WORD wType)
+DWORD CIcqProto::icq_modifyServerPrivacyItem(HCONTACT hContact, DWORD dwUin, char *szUid, WORD wAction, DWORD dwOperation, WORD wItemId, WORD wType)
 {
 	cookie_servlist_action *ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
 	DWORD dwCookie;
@@ -1306,13 +1306,13 @@ DWORD CIcqProto::icq_modifyServerPrivacyItem(HANDLE hContact, DWORD dwUin, char 
 }
 
 
-DWORD CIcqProto::icq_removeServerPrivacyItem(HANDLE hContact, DWORD dwUin, char *szUid, WORD wItemId, WORD wType)
+DWORD CIcqProto::icq_removeServerPrivacyItem(HCONTACT hContact, DWORD dwUin, char *szUid, WORD wItemId, WORD wType)
 {
 	return icq_modifyServerPrivacyItem(hContact, dwUin, szUid, ICQ_LISTS_REMOVEFROMLIST, SSA_PRIVACY_REMOVE, wItemId, wType);
 }
 
 
-DWORD CIcqProto::icq_addServerPrivacyItem(HANDLE hContact, DWORD dwUin, char *szUid, WORD wItemId, WORD wType)
+DWORD CIcqProto::icq_addServerPrivacyItem(HCONTACT hContact, DWORD dwUin, char *szUid, WORD wItemId, WORD wType)
 {
 	return icq_modifyServerPrivacyItem(hContact, dwUin, szUid, ICQ_LISTS_ADDTOLIST, SSA_PRIVACY_ADD, wItemId, wType);
 }
@@ -1360,7 +1360,7 @@ void* CIcqProto::collectBuddyGroup(WORD wGroupID, int *count)
 {
 	WORD* buf = NULL;
 	int cnt = 0;
-	HANDLE hContact;
+	HCONTACT hContact;
 	WORD wItemID;
 
 	hContact = FindFirstContact();
@@ -1395,7 +1395,7 @@ void* CIcqProto::collectGroups(int *count)
 	WORD* buf = NULL;
 	int cnt = 0;
 	int i;
-	HANDLE hContact;
+	HCONTACT hContact;
 	WORD wGroupID;
 
 	hContact = FindFirstContact();
@@ -1578,7 +1578,7 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 }
 
 
-int CIcqProto::moveContactToCListGroup(HANDLE hContact, const char *szGroup)
+int CIcqProto::moveContactToCListGroup(HCONTACT hContact, const char *szGroup)
 {
 	HANDLE hGroup = Clist_CreateGroup(0, ptrT( mir_utf8decodeT(szGroup)));
 
@@ -2009,7 +2009,7 @@ int CIcqProto::servlistAddContact_gotGroup(const char *szGroup, WORD wGroupID, L
 
 
 // Need to be called when Pending Contact is active
-int CIcqProto::servlistAddContact_Ready(HANDLE hContact, WORD wContactID, WORD wGroupID, LPARAM lParam, int nResult)
+int CIcqProto::servlistAddContact_Ready(HCONTACT hContact, WORD wContactID, WORD wGroupID, LPARAM lParam, int nResult)
 {
 	cookie_servlist_action* ack = (cookie_servlist_action*)lParam;
 
@@ -2039,7 +2039,7 @@ int CIcqProto::servlistAddContact_Ready(HANDLE hContact, WORD wContactID, WORD w
 
 
 // Called when contact should be added to server list, if group does not exist, create one
-void CIcqProto::servlistAddContact(HANDLE hContact, const char *pszGroup)
+void CIcqProto::servlistAddContact(HCONTACT hContact, const char *pszGroup)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -2068,7 +2068,7 @@ void CIcqProto::servlistAddContact(HANDLE hContact, const char *pszGroup)
 }
 
 
-int CIcqProto::servlistRemoveContact_Ready(HANDLE hContact, WORD contactID, WORD groupID, LPARAM lParam, int nResult)
+int CIcqProto::servlistRemoveContact_Ready(HCONTACT hContact, WORD contactID, WORD groupID, LPARAM lParam, int nResult)
 {
 	WORD wGroupID;
 	WORD wItemID;
@@ -2115,7 +2115,7 @@ int CIcqProto::servlistRemoveContact_Ready(HANDLE hContact, WORD contactID, WORD
 
 
 // Called when contact should be removed from server list, remove group if it remain empty
-void CIcqProto::servlistRemoveContact(HANDLE hContact)
+void CIcqProto::servlistRemoveContact(HCONTACT hContact)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -2201,7 +2201,7 @@ int CIcqProto::servlistMoveContact_gotTargetGroup(const char *szGroup, WORD wNew
 }
 
 
-int CIcqProto::servlistMoveContact_Ready(HANDLE hContact, WORD contactID, WORD groupID, LPARAM lParam, int nResult)
+int CIcqProto::servlistMoveContact_Ready(HCONTACT hContact, WORD contactID, WORD groupID, LPARAM lParam, int nResult)
 {
 	cookie_servlist_action *ack = (cookie_servlist_action*)lParam;
 
@@ -2233,7 +2233,7 @@ int CIcqProto::servlistMoveContact_Ready(HANDLE hContact, WORD contactID, WORD g
 
 
 // Called when contact should be moved from one group to another, create new, remove empty
-void CIcqProto::servlistMoveContact(HANDLE hContact, const char *pszNewGroup)
+void CIcqProto::servlistMoveContact(HCONTACT hContact, const char *pszNewGroup)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -2277,7 +2277,7 @@ void CIcqProto::servlistMoveContact(HANDLE hContact, const char *pszNewGroup)
 }
 
 
-int CIcqProto::servlistUpdateContact_Ready(HANDLE hContact, WORD contactID, WORD groupID, LPARAM lParam, int nResult)
+int CIcqProto::servlistUpdateContact_Ready(HCONTACT hContact, WORD contactID, WORD groupID, LPARAM lParam, int nResult)
 {
 	cookie_servlist_action *ack = (cookie_servlist_action*)lParam;
 
@@ -2326,7 +2326,7 @@ int CIcqProto::servlistUpdateContact_Ready(HANDLE hContact, WORD contactID, WORD
 
 // Is called when a contact' details has been changed locally to update
 // the server side details.
-void CIcqProto::servlistUpdateContact(HANDLE hContact)
+void CIcqProto::servlistUpdateContact(HCONTACT hContact)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -2533,7 +2533,7 @@ void CIcqProto::servlistRemoveGroup(const char *szGroup, WORD wGroupId)
 }*/
 
 
-void CIcqProto::resetServContactAuthState(HANDLE hContact, DWORD dwUin)
+void CIcqProto::resetServContactAuthState(HCONTACT hContact, DWORD dwUin)
 {
 	WORD wContactId = getWord(hContact, DBSETTING_SERVLIST_ID, 0);
 	WORD wGroupId = getWord(hContact, DBSETTING_SERVLIST_GROUP, 0);
@@ -2593,14 +2593,14 @@ int CIcqProto::ServListDbSettingChanged(WPARAM wParam, LPARAM lParam)
 		if (!strcmpnull(cws->szSetting, "MyHandle") &&
 			getByte("StoreServerDetails", DEFAULT_SS_STORE))
 		{ // Update contact's details in server-list
-			servlistUpdateContact((HANDLE)wParam);
+			servlistUpdateContact((HCONTACT)wParam);
 		}
 
 		// Has contact been moved to another group?
 		if (!strcmpnull(cws->szSetting, "Group") &&
 			getByte("StoreServerDetails", DEFAULT_SS_STORE))
 		{ // Read group from DB
-			char* szNewGroup = getContactCListGroup((HANDLE)wParam);
+			char* szNewGroup = getContactCListGroup((HCONTACT)wParam);
 
 			SAFE_FREE(&szNewGroup);
 		}
@@ -2610,7 +2610,7 @@ int CIcqProto::ServListDbSettingChanged(WPARAM wParam, LPARAM lParam)
 		if (!strcmpnull(cws->szSetting, "MyNotes") &&
 			getByte("StoreServerDetails", DEFAULT_SS_STORE))
 		{ // Update contact's details in server-list
-			servlistUpdateContact((HANDLE)wParam);
+			servlistUpdateContact((HCONTACT)wParam);
 		}
 	}
 
@@ -2624,57 +2624,48 @@ int CIcqProto::ServListDbContactDeleted(WPARAM wParam, LPARAM lParam)
 	debugLogA("DB-Events: Contact %x deleted.", wParam);
 #endif
 
-	DeleteFromContactsCache((HANDLE)wParam);
+	DeleteFromContactsCache((HCONTACT)wParam);
 
 	if ( !icqOnline() && m_bSsiEnabled)
 	{ // contact was deleted only locally - retrieve full list on next connect
-		setWord((HANDLE)wParam, "SrvRecordCount", 0);
+		setWord((HCONTACT)wParam, "SrvRecordCount", 0);
 	}
 
 	if ( !icqOnline() || !m_bSsiEnabled)
 		return 0;
 
-	{ // we need all server contacts on local buddy list
-		DWORD dwUIN;
-		uid_str szUID;
+	HCONTACT hContact = (HCONTACT)wParam;
 
-		if (getContactUid((HANDLE)wParam, &dwUIN, &szUID))
-			return 0;
+	// we need all server contacts on local buddy list
+	DWORD dwUIN;
+	uid_str szUID;
+	if (getContactUid(hContact, &dwUIN, &szUID))
+		return 0;
 
-		WORD wContactID = getWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0);
-		WORD wGroupID = getWord((HANDLE)wParam, DBSETTING_SERVLIST_GROUP, 0);
-		WORD wVisibleID = getWord((HANDLE)wParam, DBSETTING_SERVLIST_PERMIT, 0);
-		WORD wInvisibleID = getWord((HANDLE)wParam, DBSETTING_SERVLIST_DENY, 0);
-		WORD wIgnoreID = getWord((HANDLE)wParam, DBSETTING_SERVLIST_IGNORE, 0);
+	WORD wContactID = getWord(hContact, DBSETTING_SERVLIST_ID, 0);
+	WORD wGroupID = getWord(hContact, DBSETTING_SERVLIST_GROUP, 0);
+	WORD wVisibleID = getWord(hContact, DBSETTING_SERVLIST_PERMIT, 0);
+	WORD wInvisibleID = getWord(hContact, DBSETTING_SERVLIST_DENY, 0);
+	WORD wIgnoreID = getWord(hContact, DBSETTING_SERVLIST_IGNORE, 0);
 
-		// Remove from queue for user details request
-		icq_DequeueUser(dwUIN);
+	// Remove from queue for user details request
+	icq_DequeueUser(dwUIN);
 
-		// Close all opened peer connections
-		CloseContactDirectConns((HANDLE)wParam);
+	// Close all opened peer connections
+	CloseContactDirectConns(hContact);
 
-		if ((wGroupID && wContactID) || wVisibleID || wInvisibleID || wIgnoreID)
-		{
-			if (wContactID)
-			{ // delete contact from server
-				servlistRemoveContact((HANDLE)wParam);
-			}
+	if ((wGroupID && wContactID) || wVisibleID || wInvisibleID || wIgnoreID) {
+		if (wContactID) // delete contact from server
+			servlistRemoveContact(hContact);
 
-			if (wVisibleID)
-			{ // detete permit record
-				icq_removeServerPrivacyItem((HANDLE)wParam, dwUIN, szUID, wVisibleID, SSI_ITEM_PERMIT);
-			}
+		if (wVisibleID) // detete permit record
+			icq_removeServerPrivacyItem(hContact, dwUIN, szUID, wVisibleID, SSI_ITEM_PERMIT);
 
-			if (wInvisibleID)
-			{ // delete deny record
-				icq_removeServerPrivacyItem((HANDLE)wParam, dwUIN, szUID, wInvisibleID, SSI_ITEM_DENY);
-			}
+		if (wInvisibleID) // delete deny record
+			icq_removeServerPrivacyItem(hContact, dwUIN, szUID, wInvisibleID, SSI_ITEM_DENY);
 
-			if (wIgnoreID)
-			{ // delete ignore record
-				icq_removeServerPrivacyItem((HANDLE)wParam, dwUIN, szUID, wIgnoreID, SSI_ITEM_IGNORE);
-			}
-		}
+		if (wIgnoreID) // delete ignore record
+			icq_removeServerPrivacyItem(hContact, dwUIN, szUID, wIgnoreID, SSI_ITEM_IGNORE);
 	}
 
 	return 0;
@@ -2683,7 +2674,7 @@ int CIcqProto::ServListDbContactDeleted(WPARAM wParam, LPARAM lParam)
 
 int CIcqProto::ServListCListGroupChange(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	CLISTGROUPCHANGE *grpchg = (CLISTGROUPCHANGE*)lParam;
 
 	if (!icqOnline() || !m_bSsiEnabled || bIsSyncingCL)

@@ -43,7 +43,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 	}
 
 	char *tmpencode = NULL;
-	ConnContext *context = otrl_context_find_miranda(otr_user_state, (void*)ccs->hContact);
+	ConnContext *context = otrl_context_find_miranda(otr_user_state, ccs->hContact);
 	if (db_get_b(ccs->hContact, MODULENAME, "HTMLConv", 0) && otr_context_get_trust(context) >= TRUST_UNVERIFIED) {
 		char *tmpencode = encode_html_entities_utf8(oldmessage_utf);
 		if (tmpencode != NULL) {
@@ -196,7 +196,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam){
 		TCHAR buff[256];
 		mir_sntprintf(buff, 256, TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(ccs->hContact));
 		//MessageBox(0, buff, Translate("OTR Information"), MB_OK);
-		ShowMessage((HANDLE)ccs->hContact, buff);
+		ShowMessage(ccs->hContact, buff);
 
 		//if(options.timeout_finished) ResetFinishedTimer();
 		}

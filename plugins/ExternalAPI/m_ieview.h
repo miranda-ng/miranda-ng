@@ -161,19 +161,19 @@ typedef struct tagIEVIEWEVENTDATA {
 #define IEVIEWEVENT_SIZE_V3 36
 
 typedef struct {
-	int			cbSize;             // size of the strusture
-	int			iType;				// one of IEE_* values
-	DWORD		dwFlags;			// one of IEEF_* values
-	HWND		hwnd;               // HWND returned by IEW_CREATE
-	HANDLE      hContact;           // contact
+	int cbSize;           // size of the strusture
+	int iType;				 // one of IEE_* values
+	DWORD dwFlags;			 // one of IEEF_* values
+	HWND hwnd;            // HWND returned by IEW_CREATE
+	HCONTACT hContact;    // contact
 	union {
-		HANDLE 		hDbEventFirst;      // first event to log, when IEE_LOG_EVENTS returns it will contain
+		HANDLE hDbEventFirst;   // first event to log, when IEE_LOG_EVENTS returns it will contain
 										// the last event actually logged or NULL if no event was logged (IEE_LOG_EVENTS)
-		IEVIEWEVENTDATA *eventData;	    // the pointer to an array of IEVIEWEVENTDATA objects (IEE_LOG_IEV_EVENTS)
+		IEVIEWEVENTDATA *eventData;	// the pointer to an array of IEVIEWEVENTDATA objects (IEE_LOG_IEV_EVENTS)
 	};
-	int 		count;              // number of events to log
-	int         codepage;           // ANSI codepage
-	const char *pszProto;			// Name of the protocol
+	int count;            // number of events to log
+	int codepage;         // ANSI codepage
+	const char *pszProto; // Name of the protocol
 } IEVIEWEVENT;
 
 #define IEN_NAVIGATE 	1       // navigate to the given destination

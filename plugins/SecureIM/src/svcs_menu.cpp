@@ -3,19 +3,19 @@
 
 INT_PTR __cdecl Service_IsContactSecured(WPARAM wParam, LPARAM lParam)
 {
-	return (isContactSecured((HANDLE)wParam)&SECURED) || isContactPGP((HANDLE)wParam) || isContactGPG((HANDLE)wParam);
+	return (isContactSecured((HCONTACT)wParam)&SECURED) || isContactPGP((HCONTACT)wParam) || isContactGPG((HCONTACT)wParam);
 }
 
 
 INT_PTR __cdecl Service_CreateIM(WPARAM wParam,LPARAM lParam)
 {
-	CallContactService((HANDLE)wParam,PSS_MESSAGE, PREF_METANODB,(LPARAM)SIG_INIT);
+	CallContactService((HCONTACT)wParam, PSS_MESSAGE, PREF_METANODB, (LPARAM)SIG_INIT);
 	return 1;
 }
 
 INT_PTR __cdecl Service_DisableIM(WPARAM wParam,LPARAM lParam)
 {
-	CallContactService((HANDLE)wParam,PSS_MESSAGE, PREF_METANODB,(LPARAM)SIG_DEIN);
+	CallContactService((HCONTACT)wParam, PSS_MESSAGE, PREF_METANODB, (LPARAM)SIG_DEIN);
 	return 1;
 }
 
@@ -25,7 +25,7 @@ INT_PTR __cdecl Service_Status(WPARAM wParam, LPARAM lParam)
 	case STATUS_DISABLED:
 	case STATUS_ENABLED:
 	case STATUS_ALWAYSTRY:
-		pUinKey ptr = getUinKey((HANDLE)wParam);
+		pUinKey ptr = getUinKey((HCONTACT)wParam);
 		if (ptr) {
 			ptr->status=ptr->tstatus=(BYTE)lParam;
 			if (ptr->status == STATUS_ENABLED)	db_unset(ptr->hContact, MODULENAME, "StatusID");
@@ -55,15 +55,15 @@ INT_PTR __cdecl Service_StatusTry(WPARAM wParam, LPARAM lParam)
 INT_PTR __cdecl Service_PGPdelKey(WPARAM wParam, LPARAM lParam)
 {
 	if (bPGPloaded) {
-		db_unset((HANDLE)wParam, MODULENAME, "pgp");
-		db_unset((HANDLE)wParam, MODULENAME, "pgp_mode");
-		db_unset((HANDLE)wParam, MODULENAME, "pgp_abbr");
+		db_unset((HCONTACT)wParam, MODULENAME, "pgp");
+		db_unset((HCONTACT)wParam, MODULENAME, "pgp_mode");
+		db_unset((HCONTACT)wParam, MODULENAME, "pgp_abbr");
 	}
 	{
-		pUinKey ptr = getUinKey((HANDLE)wParam);
+		pUinKey ptr = getUinKey((HCONTACT)wParam);
 		cpp_delete_context(ptr->cntx); ptr->cntx=0;
 	}
-	ShowStatusIconNotify((HANDLE)wParam);
+	ShowStatusIconNotify((HCONTACT)wParam);
 	return 1;
 }
 
@@ -75,10 +75,10 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam)
 			char szKeyID[128]; szKeyID[0]='\0';
 			PVOID KeyID = pgp_select_keyid(GetForegroundWindow(),szKeyID);
 			if (szKeyID[0]) {
-				db_unset((HANDLE)wParam,MODULENAME,"pgp");
-				db_set_blob((HANDLE)wParam, MODULENAME, "pgp", KeyID, pgp_size_keyid());
-				db_set_b((HANDLE)wParam,MODULENAME,"pgp_mode",0);
-				db_set_s((HANDLE)wParam,MODULENAME,"pgp_abbr",szKeyID);
+				db_unset((HCONTACT)wParam, MODULENAME, "pgp");
+				db_set_blob((HCONTACT)wParam, MODULENAME, "pgp", KeyID, pgp_size_keyid());
+				db_set_b((HCONTACT)wParam, MODULENAME, "pgp_mode", 0);
+				db_set_s((HCONTACT)wParam, MODULENAME, "pgp_abbr", szKeyID);
 				del = false;
 			}
 		}
@@ -87,10 +87,10 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam)
 			if (ShowSelectKeyDlg(0,KeyPath)) {
 				char *publ = LoadKeys(KeyPath,false);
 				if (publ) {
-					db_unset((HANDLE)wParam,MODULENAME,"pgp");
-					db_set_s((HANDLE)wParam,MODULENAME,"pgp",publ);
-					db_set_b((HANDLE)wParam,MODULENAME,"pgp_mode",1);
-					db_set_s((HANDLE)wParam,MODULENAME,"pgp_abbr","(binary)");
+					db_unset((HCONTACT)wParam, MODULENAME, "pgp");
+					db_set_s((HCONTACT)wParam, MODULENAME, "pgp", publ);
+					db_set_b((HCONTACT)wParam, MODULENAME, "pgp_mode", 1);
+					db_set_s((HCONTACT)wParam, MODULENAME, "pgp_abbr", "(binary)");
 					mir_free(publ);
 					del = false;
 				}
@@ -101,22 +101,22 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam)
 	if (del)
 		Service_PGPdelKey(wParam,lParam);
 	else {
-		pUinKey ptr = getUinKey((HANDLE)wParam);
+		pUinKey ptr = getUinKey((HCONTACT)wParam);
 		cpp_delete_context(ptr->cntx); ptr->cntx=0;
 	}
-	ShowStatusIconNotify((HANDLE)wParam);
+	ShowStatusIconNotify((HCONTACT)wParam);
 	return 1;
 }
 
 INT_PTR __cdecl Service_GPGdelKey(WPARAM wParam, LPARAM lParam)
 {
 	if (bGPGloaded)
-		db_unset((HANDLE)wParam, MODULENAME, "gpg");
+		db_unset((HCONTACT)wParam, MODULENAME, "gpg");
 	{
-		pUinKey ptr = getUinKey((HANDLE)wParam);
+		pUinKey ptr = getUinKey((HCONTACT)wParam);
 		cpp_delete_context(ptr->cntx); ptr->cntx=0;
 	}
-	ShowStatusIconNotify((HANDLE)wParam);
+	ShowStatusIconNotify((HCONTACT)wParam);
 	return 1;
 }
 
@@ -127,28 +127,28 @@ INT_PTR __cdecl Service_GPGsetKey(WPARAM wParam, LPARAM lParam)
 		char szKeyID[128]; szKeyID[0]='\0';
 		gpg_select_keyid(GetForegroundWindow(),szKeyID);
 		if (szKeyID[0]) {
-			db_set_s((HANDLE)wParam,MODULENAME,"gpg",szKeyID);
+			db_set_s((HCONTACT)wParam, MODULENAME, "gpg", szKeyID);
 			del = false;
 		}
 	}
 
 	if (del) Service_GPGdelKey(wParam,lParam);
 	else {
-		pUinKey ptr = getUinKey((HANDLE)wParam);
+		pUinKey ptr = getUinKey((HCONTACT)wParam);
 		cpp_delete_context(ptr->cntx); ptr->cntx=0;
 	}
-	ShowStatusIconNotify((HANDLE)wParam);
+	ShowStatusIconNotify((HCONTACT)wParam);
 	return 1;
 }
 
 INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam)
 {
-	pUinKey ptr = getUinKey((HANDLE)wParam);
+	pUinKey ptr = getUinKey((HCONTACT)wParam);
 
 	switch(--lParam) {
 	case MODE_NATIVE:
 	case MODE_RSAAES:
-		if (isContactSecured((HANDLE)wParam)&SECURED) {
+		if (isContactSecured((HCONTACT)wParam)&SECURED) {
 			msgbox(NULL, sim111, MODULENAME, MB_OK);
 			return 0;
 		}
@@ -165,9 +165,9 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam)
 				ptr->keyLoaded = 0;
 			}
 			ptr->mode=(BYTE)lParam;
-			db_set_b((HANDLE)wParam, MODULENAME, "mode", (BYTE)lParam);
+			db_set_b((HCONTACT)wParam, MODULENAME, "mode", (BYTE)lParam);
 		}
-		ShowStatusIcon((HANDLE)wParam);
+		ShowStatusIcon((HCONTACT)wParam);
 		break;
 	}
 

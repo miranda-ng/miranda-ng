@@ -120,7 +120,7 @@ static void ShowPage(HWND hwnd, int page)
 	}
 }
 
-static int UpdateClistItem(HANDLE hContact, DWORD mask)
+static int UpdateClistItem(HCONTACT hContact, DWORD mask)
 {
 	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hContact, MAKELONG(i - ID_STATUS_OFFLINE,
@@ -141,24 +141,21 @@ static DWORD GetMaskForItem(HANDLE hItem)
 
 static void UpdateStickies()
 {
-	HANDLE hItem;
-	int i;
-
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		HCONTACT hItem = (HCONTACT)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem)
 			SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, cfg::getByte(hContact, "CLVM", g_szModename, 0) ? 1 : 0);
 		DWORD localMask = HIWORD(cfg::getDword(hContact, "CLVM", g_szModename, 0));
 		UpdateClistItem(hItem, (localMask == 0 || localMask == stickyStatusMask) ? stickyStatusMask : localMask);
 	}
 
-	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hInfoItem, MAKELONG(i - ID_STATUS_OFFLINE, (1 << (i - ID_STATUS_OFFLINE)) & stickyStatusMask ? i - ID_STATUS_OFFLINE : ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1));
 
-	hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM,CLGN_ROOT,0);
+	HANDLE hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 	hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST,CLM_GETNEXTITEM,CLGN_NEXTGROUP, (LPARAM)hItem);
 	while(hItem) {
-		for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 			SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELONG(i - ID_STATUS_OFFLINE, nullImage));
 		hItem=(HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hItem);
 	}
@@ -396,7 +393,7 @@ void SaveState()
 			SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szModeName);
 			dwGlobalMask = GetMaskForItem(hInfoItem);
 
-			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 				if (hItem) {
 					if (SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
@@ -675,7 +672,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 								pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 								SetWindowTextA(hwndSelector, Translate("No view mode"));
 							}
-							for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+							for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 								if (cfg::getDword(hContact, "CLVM", szBuf, -1) != -1)
 									cfg::writeDword(hContact, "CLVM", szBuf, 0);
 
@@ -721,7 +718,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 		case IDC_CLEARALL:
 			{
-				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 					if (hItem)
 						SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 0);

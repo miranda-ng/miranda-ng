@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_PRESHUTDOWN		   (WM_USER+201)
 
 struct FileSendData {
-	HANDLE hContact;
+	HCONTACT hContact;
 	const TCHAR **ppFiles;
 };
 
@@ -46,7 +46,7 @@ struct FileSendData {
 struct FileDlgData {
 	HWND hwndTransfer;
 	HANDLE fs;
-	HANDLE hContact;
+	HCONTACT hContact;
 	HANDLE hDbEvent;
 	HANDLE hNotifyEvent;
 	TCHAR **files;
@@ -85,7 +85,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 void RemoveInvalidFilenameChars(TCHAR *tszString);
 void RemoveInvalidPathChars(TCHAR *tszString);
-void GetContactReceivedFilesDir(HANDLE hContact, TCHAR *szDir, int cchDir, BOOL substVars);
+void GetContactReceivedFilesDir(HCONTACT hContact, TCHAR *szDir, int cchDir, BOOL substVars);
 void GetReceivedFilesDir(TCHAR *szDir, int cchDir);
 int BrowseForFolder(HWND hwnd, TCHAR *szPath);
 //fileexistsdlg.c
@@ -113,4 +113,4 @@ HWND FtMgr_AddTransfer(struct FileDlgData *dat);
 
 void FreeFileDlgData(FileDlgData* dat);
 
-TCHAR *GetContactID(HANDLE hContact);
+TCHAR *GetContactID(HCONTACT hContact);

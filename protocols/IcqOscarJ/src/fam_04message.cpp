@@ -200,7 +200,7 @@ void CIcqProto::handleRecvServMsg(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef
 }
 
 
-char* CIcqProto::convertMsgToUserSpecificUtf(HANDLE hContact, const char *szMsg)
+char* CIcqProto::convertMsgToUserSpecificUtf(HCONTACT hContact, const char *szMsg)
 {
 	WORD wCP = getWord(hContact, "CodePage", m_wAnsiCodepage);
 	char *usMsg = NULL;
@@ -268,7 +268,7 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 				PROTORECVEVENT pre = {0};
 				int bAdded;
 
-				HANDLE hContact = HContactFromUID(dwUin, szUID, &bAdded);
+				HCONTACT hContact = HContactFromUID(dwUin, szUID, &bAdded);
 
 				while (pMessageTLV = pChain->getTLV(0x0101, wMsgPart))
 				{ // Loop thru all message parts
@@ -468,7 +468,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 
 		if (CompareGUIDs(q1,q2,q3,q4, MCAP_SRV_RELAY_FMT))
 		{ // we surely have at least 4 bytes for TLV chain
-			HANDLE hContact = HContactFromUID(dwUin, szUID, NULL);
+			HCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
 
 			if (wCommand == 1)
 			{
@@ -575,7 +575,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 
 					unpackLEDWord(&buf, &dwUin);
 
-					HANDLE hContact = HContactFromUIN(dwUin, NULL);
+					HCONTACT hContact = HContactFromUIN(dwUin, NULL);
 					if (hContact == INVALID_HANDLE_VALUE)
 					{
 						debugLogA("Error: %s from unknown contact %u", "Reverse Connect Request", dwUin);
@@ -648,7 +648,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 }
 
 
-void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType)
+void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType)
 {
 	WORD wId;
 
@@ -886,7 +886,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 }
 
 
-void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType, BYTE bFlags, WORD wStatus, WORD wCookie, WORD wVersion)
+void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, HCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType, BYTE bFlags, WORD wStatus, WORD wCookie, WORD wVersion)
 {
 	int nTypeId;
 	WORD wFunction;
@@ -1020,7 +1020,7 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, HANDLE hCont
 
 void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand)
 {
-	HANDLE hContact = HContactFromUID(dwUin, szUID, NULL);
+	HCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
 
 	if (wCommand == 0)
 	{ // received contacts
@@ -1231,10 +1231,8 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 	else if (wCommand == 2)
 	{ // acknowledgement
 		DWORD dwCookie;
-		HANDLE hCookieContact;
-
-		if (FindMessageCookie(dwID1, dwID2, &dwCookie, &hCookieContact, NULL))
-		{
+		HCONTACT hCookieContact;
+		if (FindMessageCookie(dwID1, dwID2, &dwCookie, &hCookieContact, NULL)) {
 			if (hCookieContact != hContact)
 				debugLogA("Warning: Ack Contact does not match Cookie Contact(0x%x != 0x%x)", hContact, hCookieContact);
 
@@ -1242,8 +1240,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 
 			ReleaseCookie(dwCookie);
 		}
-		else
-			debugLogA("Warning: Unexpected Contact Transfer ack from %s", strUID(dwUin, szUID));
+		else debugLogA("Warning: Unexpected Contact Transfer ack from %s", strUID(dwUin, szUID));
 	}
 }
 
@@ -1622,7 +1619,7 @@ void packPluginTypeId(icq_packet *packet, int nTypeID)
 }
 
 
-void CIcqProto::handleStatusMsgReply(const char *szPrefix, HANDLE hContact, DWORD dwUin, WORD wVersion, int bMsgType, WORD wCookie, const char *szMsg, int nMsgFlags)
+void CIcqProto::handleStatusMsgReply(const char *szPrefix, HCONTACT hContact, DWORD dwUin, WORD wVersion, int bMsgType, WORD wCookie, const char *szMsg, int nMsgFlags)
 {
 	if (hContact == INVALID_HANDLE_VALUE) {
 		debugLogA("%sIgnoring status message from unknown contact %u", szPrefix, dwUin);
@@ -1652,10 +1649,10 @@ HANDLE CIcqProto::handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD 
 {
 	if (bFlags == 3)
 	{
-		HANDLE hCookieContact;
+		HCONTACT hCookieContact;
 		cookie_message_data *pCookieData = NULL;
 
-		HANDLE hContact = HContactFromUID(dwUin, szUID, NULL);
+		HCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
 
 		if (!FindCookie(wCookie, &hCookieContact, (void**)&pCookieData))
 		{
@@ -1687,7 +1684,7 @@ HANDLE CIcqProto::handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD 
 
 
 /* this function send all acks from handleMessageTypes */
-void CIcqProto::sendMessageTypesAck(HANDLE hContact, int bUnicode, message_ack_params *pArgs)
+void CIcqProto::sendMessageTypesAck(HCONTACT hContact, int bUnicode, message_ack_params *pArgs)
 {
 	if (pArgs)
 	{
@@ -1712,7 +1709,7 @@ void CIcqProto::sendMessageTypesAck(HANDLE hContact, int bUnicode, message_ack_p
 /* pMsg points to the beginning of the message */
 void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, DWORD dwMsgID, DWORD dwMsgID2, WORD wCookie, WORD wVersion, int type, int flags, WORD wAckType, DWORD dwDataLen, WORD wMsgLen, char *pMsg, int nMsgFlags, message_ack_params *pAckParams)
 {
-	HANDLE hContact = INVALID_HANDLE_VALUE;
+	HCONTACT hContact = (HCONTACT)INVALID_HANDLE_VALUE;
 	BOOL bThruDC = (nMsgFlags & MTF_DIRECT) == MTF_DIRECT;
 	int bAdded;
 
@@ -2189,7 +2186,6 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 	WORD bMsgType = 0;
 	BYTE bFlags;
 	WORD wLength;
-	HANDLE hCookieContact;
 	DWORD dwMsgID1, dwMsgID2;
 	WORD wVersion = 0;
 	cookie_message_data *pCookieData = NULL;
@@ -2209,40 +2205,38 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 	if (!unpackUID(&buf, &wLen, &dwUin, &szUid)) return;
 
-	HANDLE hContact = HContactFromUID(dwUin, szUid, NULL);
+	HCONTACT hContact = HContactFromUID(dwUin, szUid, NULL);
 
 	buf += 2;   // 3. unknown
 	wLen -= 2;
 
-	if (!FindMessageCookie(dwMsgID1, dwMsgID2, &dwCookie, &hCookieContact, &pCookieData))
-	{
+	HCONTACT hCookieContact;
+	if (!FindMessageCookie(dwMsgID1, dwMsgID2, &dwCookie, &hCookieContact, &pCookieData)) {
 		debugLogA("SNAC(4.B) Received an ack that I did not ask for from (%u)", dwUin);
 		return;
 	}
 
-	if (IsValidOscarTransfer(pCookieData))
-	{ // it is OFT response
+	if (IsValidOscarTransfer(pCookieData)) {
+		// it is OFT response
 		handleRecvServResponseOFT(buf, wLen, dwUin, szUid, pCookieData);
 		return;
 	}
 
-	if (!dwUin)
-	{ // AIM cannot send this - just sanity
+	if (!dwUin) {
+		// AIM cannot send this - just sanity
 		debugLogA("Error: Invalid UID in message response.");
 		return;
 	}
 
 	// Length of sub chunk?
-	if (wLen >= 2)
-	{
+	if (wLen >= 2) {
 		unpackLEWord(&buf, &wLength);
 		wLen -= 2;
 	}
-	else
-		wLength = 0;
+	else wLength = 0;
 
-	if (wLength == 0x1b && pCookieData->bMessageType != MTYPE_REVERSE_REQUEST)
-	{ // this can be v8 greeting message reply
+	if (wLength == 0x1b && pCookieData->bMessageType != MTYPE_REVERSE_REQUEST) {
+		// this can be v8 greeting message reply
 		WORD wCookie;
 
 		unpackLEWord(&buf, &wVersion);
@@ -2270,8 +2264,8 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 		buf += 2;
 		wLen -= 2;
 
-		if (!FindCookie(wCookie, &hCookieContact, (void**)&pCookieData))
-		{ // use old reliable method
+		if (!FindCookie(wCookie, &hCookieContact, (void**)&pCookieData)) {
+			// use old reliable method
 			debugLogA("Warning: Invalid cookie in %s from (%u)", "message response", dwUin);
 
 			if (pCookieData->bMessageType != MTYPE_AUTOAWAY && bFlags == 3)
@@ -2282,8 +2276,8 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 				debugLogA("Warning: Invalid message type in %s from (%u)", "message response", dwUin);
 			}
 		}
-		else if (bMsgType != MTYPE_PLUGIN && pCookieData->bMessageType != MTYPE_AUTOAWAY)
-		{ // just because some clients break it...
+		else if (bMsgType != MTYPE_PLUGIN && pCookieData->bMessageType != MTYPE_AUTOAWAY) {
+			// just because some clients break it...
 			dwCookie = wCookie;
 
 			if (bMsgType != pCookieData->bMessageType)
@@ -2291,45 +2285,35 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 			bMsgType = pCookieData->bMessageType;
 		}
-		else if (pCookieData->bMessageType == MTYPE_AUTOAWAY && bMsgType != MTYPE_PLUGIN)
-		{
+		else if (pCookieData->bMessageType == MTYPE_AUTOAWAY && bMsgType != MTYPE_PLUGIN) {
 			if (bMsgType != pCookieData->nAckType)
 				debugLogA("Warning: Invalid message type in %s from (%u)", "message response", dwUin);
 		}
 	}
-	else
-	{
+	else {
 		bMsgType = pCookieData->bMessageType;
 		bFlags = 0;
 	}
 
-	if (hCookieContact != hContact)
-	{
+	if (hCookieContact != hContact) {
 		debugLogA("SNAC(4.B) Ack Contact does not match Cookie Contact(0x%x != 0x%x)", hContact, hCookieContact);
-
 		ReleaseCookie(dwCookie); // This could be a bad idea, but I think it is safe
 		return;
 	}
 
 	if (bFlags == 3)     // A status message reply
-	{
 		handleStatusMsgReply("SNAC(4.B) ", hContact, dwUin, wVersion, bMsgType, (WORD)dwCookie, (char*)(buf + 2), 0);
-	}
-	else
-	{ // An ack of some kind
+	else {
+		// An ack of some kind
 		int ackType;
 
-
-		if (hContact == NULL || hContact == INVALID_HANDLE_VALUE)
-		{
+		if (hContact == NULL || hContact == INVALID_HANDLE_VALUE) {
 			debugLogA("SNAC(4.B) Message from unknown contact (%u)", dwUin);
-
 			ReleaseCookie(dwCookie); // This could be a bad idea, but I think it is safe
 			return;
 		}
 
 		switch (bMsgType) {
-
 		case MTYPE_FILEREQ:
 			{
 				char* szMsg;
@@ -2340,8 +2324,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 				wLen -= 2;
 				szMsg = (char *)_alloca(wMsgLen + 1);
 				szMsg[wMsgLen] = '\0';
-				if (wMsgLen > 0)
-				{
+				if (wMsgLen > 0) {
 					memcpy(szMsg, buf, wMsgLen);
 					buf += wMsgLen;
 					wLen -= wMsgLen;
@@ -2361,8 +2344,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 				WORD wFunctionId;
 
 
-				if (wLength != 0x1B)
-				{
+				if (wLength != 0x1B) {
 					debugLogA("Invalid Greeting %s", "message response");
 
 					ReleaseCookie(dwCookie);
@@ -2378,22 +2360,18 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 				wLen -= wMsgLen;
 
 				// This packet is malformed. Possibly a file accept from Miranda IM 0.1.2.1
-				if (wLen < 20)
-				{
+				if (wLen < 20) {
 					ReleaseCookie(dwCookie);
 					return;
 				}
 
-				if (!unpackPluginTypeId(&buf, &wLen, &typeId, &wFunctionId, FALSE))
-				{
+				if (!unpackPluginTypeId(&buf, &wLen, &typeId, &wFunctionId, FALSE)) {
 					ReleaseCookie(dwCookie);
 					return;
 				}
 
-				if (wLen < 4)
-				{
+				if (wLen < 4) {
 					debugLogA("Error: Invalid greeting %s", "message response");
-
 					ReleaseCookie(dwCookie);
 					return;
 				}
@@ -2407,12 +2385,10 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 				else
 					dwDataLen = 0;
 
-
-				switch (typeId)
-				{
+				switch (typeId) {
 				case MTYPE_PLAIN:
-					if (pCookieData && pCookieData->bMessageType == MTYPE_AUTOAWAY && dwLengthToEnd >= 4)
-					{ // ICQ 6 invented this
+					if (pCookieData && pCookieData->bMessageType == MTYPE_AUTOAWAY && dwLengthToEnd >= 4) {
+						// ICQ 6 invented this
 						char *szMsg = (char*)_alloca(dwDataLen + 1);
 
 						if (dwDataLen > 0)
@@ -2423,8 +2399,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 						ReleaseCookie(dwCookie);
 						return;
 					}
-					else
-						ackType = ACKTYPE_MESSAGE;
+					ackType = ACKTYPE_MESSAGE;
 					break;
 
 				case MTYPE_URL:
@@ -2436,9 +2411,8 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 					break;
 
 				case MTYPE_FILEREQ:
+					debugLogA("This is file ack");
 					{
-						debugLogA("This is file ack");
-
 						char *szMsg = (char *)_alloca(dwDataLen + 1);
 
 						if (dwDataLen > 0)
@@ -2537,21 +2511,18 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 		}
 
 		if ((ackType == MTYPE_PLAIN && pCookieData && (pCookieData->nAckType == ACKTYPE_CLIENT)) || ackType != MTYPE_PLAIN)
-		{
 			ProtoBroadcastAck(hContact, ackType, ACKRESULT_SUCCESS, (HANDLE)(WORD)dwCookie, 0);
-		}
 	}
 
 	ReleaseCookie(dwCookie);
 }
-
 
 // A response to a CLI_SENDMSG
 void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSequence)
 {
 	WORD wError;
 	char *pszErrorMessage;
-	HANDLE hContact;
+	HCONTACT hContact;
 	cookie_message_data *pCookieData = NULL;
 	int nMessageType;
 
@@ -2559,13 +2530,13 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD 
 	if (wLen < 2)
 		return;
 
-	if (FindCookie((WORD)dwSequence, &hContact, (void**)&pCookieData))
-	{ // all packet cookies from msg family has command 0 in the queue
+	if (FindCookie((WORD)dwSequence, &hContact, (void**)&pCookieData)) {
+		// all packet cookies from msg family has command 0 in the queue
 		DWORD dwUin;
 		uid_str szUid;
 
-		if (getContactUid(hContact, &dwUin, &szUid))
-		{ // Invalid contact
+		if (getContactUid(hContact, &dwUin, &szUid)) {
+			// Invalid contact
 			FreeCookie((WORD)dwSequence);
 			return;
 		}
@@ -2573,8 +2544,8 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD 
 		// Error code
 		unpackWord(&buf, &wError);
 
-		if (wError == 9 && pCookieData->bMessageType == MTYPE_AUTOAWAY)
-		{ // we failed to request away message the normal way, try it AIM way
+		if (wError == 9 && pCookieData->bMessageType == MTYPE_AUTOAWAY) {
+			// we failed to request away message the normal way, try it AIM way
 			icq_packet packet;
 
 			serverPacketInit(&packet, (WORD)(13 + getUINLen(dwUin)));
@@ -2589,7 +2560,6 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD 
 		// Not all of these are actually used in family 4
 		// This will be moved into a special error handling function later
 		switch (wError) {
-
 		case 0x0002:     // Server rate limit exceeded
 			pszErrorMessage = Translate("You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02");
 			break;
@@ -2599,10 +2569,9 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD 
 			break;
 
 		case 0x0004:     // Recipient is not logged in (resend in a offline message)
-			if (pCookieData->bMessageType == MTYPE_PLAIN)
-			{
-				if (pCookieData->isOffline)
-				{ // offline failed - most probably to AIM contact
+			if (pCookieData->bMessageType == MTYPE_PLAIN) {
+				if (pCookieData->isOffline) {
+					// offline failed - most probably to AIM contact
 					pszErrorMessage = Translate("The contact does not support receiving offline messages.");
 					break;
 				}
@@ -2683,23 +2652,17 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD 
 		}
 
 		if (nMessageType != -1)
-		{
 			ProtoBroadcastAck(hContact, nMessageType, ACKRESULT_FAILED, (HANDLE)(WORD)dwSequence, (LPARAM)pszErrorMessage);
-		}
 		else
-		{
 			debugLogA("Error: Message delivery to %u failed: %s", dwUin, pszErrorMessage);
-		}
 
 		FreeCookie((WORD)dwSequence);
 
 		if (pCookieData->bMessageType != MTYPE_FILEREQ)
 			SAFE_FREE((void**)&pCookieData);
 	}
-	else
-	{
+	else 	{
 		unpackWord(&buf, &wError);
-
 		LogFamilyError(ICQ_MSG_FAMILY, wError);
 	}
 }
@@ -2712,9 +2675,7 @@ void CIcqProto::handleServerAck(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSeque
 	WORD wChannel;
 	cookie_message_data *pCookieData;
 
-
-	if (wLen < 13)
-	{
+	if (wLen < 13) {
 		debugLogA("Ignoring SNAC(4,C) Packet to short");
 		return;
 	}
@@ -2729,7 +2690,7 @@ void CIcqProto::handleServerAck(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSeque
 	// Sender
 	if (!unpackUID(&buf, &wLen, &dwUin, &szUID)) return;
 
-	HANDLE hContact = HContactFromUID(dwUin, szUID, NULL);
+	HCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
 
 	if (FindCookie((WORD)dwSequence, NULL, (void**)&pCookieData))
 	{
@@ -2928,7 +2889,7 @@ void CIcqProto::handleTypingNotification(BYTE *buf, WORD wLen, WORD wFlags, DWOR
 	// Sender
 	if (!unpackUID(&buf, &wLen, &dwUin, &szUid)) return;
 
-	HANDLE hContact = HContactFromUID(dwUin, szUid, NULL);
+	HCONTACT hContact = HContactFromUID(dwUin, szUid, NULL);
 
 	if (hContact == INVALID_HANDLE_VALUE) return;
 
@@ -2973,7 +2934,7 @@ void CIcqProto::handleTypingNotification(BYTE *buf, WORD wLen, WORD wFlags, DWOR
 }
 
 
-void CIcqProto::sendTypingNotification(HANDLE hContact, WORD wMTNCode)
+void CIcqProto::sendTypingNotification(HCONTACT hContact, WORD wMTNCode)
 {
 	_ASSERTE((wMTNCode == MTN_FINISHED) || (wMTNCode == MTN_TYPED) || (wMTNCode == MTN_BEGUN) || (wMTNCode == MTN_WINDOW_CLOSED));
 

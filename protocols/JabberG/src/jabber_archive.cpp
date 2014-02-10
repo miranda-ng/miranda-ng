@@ -32,7 +32,7 @@ void CJabberProto::EnableArchive(bool bEnable)
 		<< XCHILDNS( _T("auto"), JABBER_FEAT_ARCHIVE) << XATTR(_T("save"), (bEnable) ? _T("true") : _T("false")));
 }
 
-void CJabberProto::RetrieveMessageArchive(HANDLE hContact, JABBER_LIST_ITEM *pItem)
+void CJabberProto::RetrieveMessageArchive(HCONTACT hContact, JABBER_LIST_ITEM *pItem)
 {
 	if (pItem->bHistoryRead)
 		return;
@@ -60,7 +60,7 @@ void CJabberProto::OnIqResultGetCollectionList(HXML iqNode, CJabberIqInfo*)
 	if (!list || lstrcmp( xmlGetAttrValue(list, _T("xmlns")), JABBER_FEAT_ARCHIVE))
 		return;
 
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 	time_t tmLast = 0;
 
 	for (int nodeIdx = 1; ; nodeIdx++) {
@@ -99,7 +99,7 @@ static HANDLE hPreviousContact = INVALID_HANDLE_VALUE;
 static HANDLE hPreviousDbEvent = NULL;
 
 // Returns TRUE if the event already exist in the database
-BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO& dbei)
+BOOL IsDuplicateEvent(HCONTACT hContact, DBEVENTINFO& dbei)
 {
 	HANDLE hExistingDbEvent;
 	DWORD dwEventTimeStamp;
@@ -258,7 +258,7 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 	if (!start || !with)
 		return;
 
-	HANDLE hContact = HContactFromJID(with);
+	HCONTACT hContact = HContactFromJID(with);
 	time_t tmStart = str2time(start);
 	if (hContact == 0 || tmStart == 0)
 		return;

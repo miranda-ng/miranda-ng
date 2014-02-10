@@ -93,7 +93,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CMraProto::OnGroupChanged);
 
 	// всех в offline // тк unsaved values сохраняются их нужно инициализировать
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact != NULL; hContact = db_find_next(hContact, m_szModuleName))
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact != NULL; hContact = db_find_next(hContact, m_szModuleName))
 		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
 
 	// unsaved values
@@ -132,7 +132,7 @@ HANDLE CMraProto::AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR 
 		return NULL;
 
 	BOOL bAdded;
-	HANDLE hContact = MraHContactFromEmail(plpsEMail, TRUE, TRUE, &bAdded);
+	HCONTACT hContact = MraHContactFromEmail(plpsEMail, TRUE, TRUE, &bAdded);
 	if (hContact == NULL)
 		return NULL;
 
@@ -186,9 +186,9 @@ HANDLE CMraProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 
 HANDLE CMraProto::ChangeInfo(int, void*) { return NULL; }
 int    CMraProto::FileResume(HANDLE, int*, const TCHAR**) { return 1; }
-int    CMraProto::RecvAwayMsg(HANDLE, int, PROTORECVEVENT*) { return 1; }
-int    CMraProto::RecvUrl(HANDLE, PROTORECVEVENT*) { return 1; }
-int    CMraProto::SendUrl(HANDLE, int, const char*) { return 1; }
+int    CMraProto::RecvAwayMsg(HCONTACT, int, PROTORECVEVENT*) { return 1; }
+int    CMraProto::RecvUrl(HCONTACT, PROTORECVEVENT*) { return 1; }
+int    CMraProto::SendUrl(HCONTACT, int, const char*) { return 1; }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -234,20 +234,20 @@ int CMraProto::AuthDeny(HANDLE hDBEvent, const TCHAR* szReason)
 	return 0;
 }
 
-int CMraProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
+int CMraProto::AuthRecv(HCONTACT hContact, PROTORECVEVENT* pre)
 {
 	Proto_AuthRecv(m_szModuleName, pre);
 	return 0;
 }
 
-int CMraProto::AuthRequest(HANDLE hContact, const TCHAR *lptszMessage)
+int CMraProto::AuthRequest(HCONTACT hContact, const TCHAR *lptszMessage)
 {
 	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE CMraProto::FileAllow(HANDLE hContact, HANDLE hTransfer, const TCHAR *szPath)
+HANDLE CMraProto::FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath)
 {
 	if (szPath != NULL)
 		if ( MraFilesQueueAccept(hFilesQueueHandle, (DWORD)hTransfer, szPath, lstrlen(szPath)) == NO_ERROR)
@@ -256,7 +256,7 @@ HANDLE CMraProto::FileAllow(HANDLE hContact, HANDLE hTransfer, const TCHAR *szPa
 	return NULL;
 }
 
-int CMraProto::FileCancel(HANDLE hContact, HANDLE hTransfer)
+int CMraProto::FileCancel(HCONTACT hContact, HANDLE hTransfer)
 {
 	if (hContact && hTransfer) {
 		MraFilesQueueCancel(hFilesQueueHandle, (DWORD)hTransfer, TRUE);
@@ -266,14 +266,14 @@ int CMraProto::FileCancel(HANDLE hContact, HANDLE hTransfer)
 	return 1;
 }
 
-int CMraProto::FileDeny(HANDLE hContact, HANDLE hTransfer, const TCHAR*)
+int CMraProto::FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR*)
 {
 	return FileCancel(hContact, hTransfer);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR CMraProto::GetCaps(int type, HANDLE hContact)
+DWORD_PTR CMraProto::GetCaps(int type, HCONTACT hContact)
 {
 	switch ( type ) {
 	case PFLAGNUM_1:
@@ -310,7 +310,7 @@ DWORD_PTR CMraProto::GetCaps(int type, HANDLE hContact)
 	}
 }
 
-int CMraProto::GetInfo(HANDLE hContact, int infoType)
+int CMraProto::GetInfo(HCONTACT hContact, int infoType)
 {
 	return MraUpdateContactInfo(hContact) != 0;
 }
@@ -347,7 +347,7 @@ HANDLE CMraProto::SearchByName(const TCHAR *pszNick, const TCHAR *pszFirstName, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CMraProto::RecvContacts(HANDLE hContact, PROTORECVEVENT* pre)
+int CMraProto::RecvContacts(HCONTACT hContact, PROTORECVEVENT* pre)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = m_szModuleName;
@@ -360,19 +360,19 @@ int CMraProto::RecvContacts(HANDLE hContact, PROTORECVEVENT* pre)
 	return 0;
 }
 
-int CMraProto::RecvFile(HANDLE hContact, PROTORECVFILET *pre)
+int CMraProto::RecvFile(HCONTACT hContact, PROTORECVFILET *pre)
 {
 	return Proto_RecvFile(hContact, pre);
 }
 
-int CMraProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
+int CMraProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT *pre)
 {
 	return Proto_RecvMessage(hContact, pre);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CMraProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList)
+int CMraProto::SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList)
 {
 	INT_PTR iRet = 0;
 
@@ -398,7 +398,7 @@ int CMraProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* h
 	return iRet;
 }
 
-HANDLE CMraProto::SendFile(HANDLE hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
+HANDLE CMraProto::SendFile(HCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
 {
 	INT_PTR iRet = 0;
 
@@ -410,7 +410,7 @@ HANDLE CMraProto::SendFile(HANDLE hContact, const TCHAR* szDescription, TCHAR** 
 	return (HANDLE)iRet;
 }
 
-int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
+int CMraProto::SendMsg(HCONTACT hContact, int flags, const char *lpszMessage)
 {
 	if (!m_bLoggedIn) {
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
@@ -450,7 +450,7 @@ int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CMraProto::SetApparentMode(HANDLE hContact, int mode)
+int CMraProto::SetApparentMode(HCONTACT hContact, int mode)
 {
 	if (!m_bLoggedIn || !hContact)
 		return 1;
@@ -509,7 +509,7 @@ int CMraProto::SetStatus(int iNewStatus)
 
 		// всех в offline, только если мы бывали подключены
 		if (dwOldStatusMode > ID_STATUS_OFFLINE)
-			for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+			for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
 
 		Netlib_CloseHandle(m_hConnection);
@@ -547,7 +547,7 @@ int CMraProto::SetStatus(int iNewStatus)
 	return 0;
 }
 
-HANDLE CMraProto::GetAwayMsg(HANDLE hContact)
+HANDLE CMraProto::GetAwayMsg(HCONTACT hContact)
 {
 	if (!m_bLoggedIn || ! hContact)
 		return 0;
@@ -589,7 +589,7 @@ int CMraProto::SetAwayMsg(int m_iStatus, const TCHAR* msg)
 	return 0;
 }
 
-int CMraProto::UserIsTyping(HANDLE hContact, int type)
+int CMraProto::UserIsTyping(HCONTACT hContact, int type)
 {
 	if (!m_bLoggedIn || !hContact || type == PROTOTYPE_SELFTYPING_OFF)
 		return 1;

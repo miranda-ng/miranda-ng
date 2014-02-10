@@ -117,7 +117,7 @@
 
 //lets get rid of some warnings
 void CodetoSymbol(char *truncated);
-void GetData(HANDLE hContact);
+void GetData(void *param);
 void FillFontListThread(void *);
 
 INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -190,8 +190,8 @@ INT_PTR ShowHideContactCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR StpPrcssMenuCommand(WPARAM wParam, LPARAM lParam);
 
-int  UpdateMenuCommand(WPARAM wParam, LPARAM lParam, HANDLE singlecontact);
-int  OnTopMenuCommand(WPARAM wParam, LPARAM lParam, HANDLE singlecontact);
+int  UpdateMenuCommand(WPARAM wParam, LPARAM lParam, HCONTACT singlecontact);
+int  OnTopMenuCommand(WPARAM wParam, LPARAM lParam, HCONTACT singlecontact);
 
 //
 void ChangeContactStatus(int con_stat);
@@ -206,7 +206,7 @@ void RemoveTabs(char *truncated);
 void FastTagFilter(char *truncated);
 void EraseBlock(char *truncated);
 void EraseSymbols(char *truncated);
-int  ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactname, int notpresent);
+int  ProcessAlerts(HCONTACT hContact, char *truncated, char *tstr, char *contactname, int notpresent);
 
 INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -223,8 +223,8 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 void AckFunc(void *dummy);
 int  SiteDeleted(WPARAM wParam, LPARAM lParam);
 
-int  WErrorPopup(HANDLE hContact, TCHAR *textdisplay);
-int  WAlertPopup(HANDLE hContact, TCHAR *displaytext);
+int  WErrorPopup(HCONTACT hContact, TCHAR *textdisplay);
+int  WAlertPopup(HCONTACT hContact, TCHAR *displaytext);
 
 //////////////////////
 // wrappers

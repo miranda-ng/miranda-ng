@@ -44,10 +44,10 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 
 int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, int size);
 
-TCHAR *GetContactName(HANDLE hContact, char *szProto);
-TCHAR *GetContactID(HANDLE hContact);
-TCHAR *GetContactID(HANDLE hContact, char *szProto);
-HANDLE GetContactFromID(TCHAR *szID, char *szProto);
-HANDLE GetContactFromID(TCHAR *szID, wchar_t *szProto);
+TCHAR *GetContactName(HCONTACT hContact, char *szProto);
+TCHAR *GetContactID(HCONTACT hContact);
+TCHAR *GetContactID(HCONTACT hContact, char *szProto);
+HCONTACT GetContactFromID(TCHAR *szID, char *szProto);
+HCONTACT GetContactFromID(TCHAR *szID, wchar_t *szProto);
 
 #endif

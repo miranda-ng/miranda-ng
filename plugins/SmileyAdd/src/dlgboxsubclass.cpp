@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // we are not supposed to use this object, so be aware
 typedef struct NewMessageWindowLParam 
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	int isSend;
 	const char *szInitialText;
 } 
@@ -56,7 +56,7 @@ public:
 	mutable HBITMAP hSmlBmp;
 	mutable HICON hSmlIco;
 	int idxLastChar;
-	HANDLE hContact;
+	HCONTACT hContact;
 	bool doSmileyReplace;
 	bool doSmileyButton;
 	bool OldButtonPlace;
@@ -290,7 +290,7 @@ static MsgWndData* IsMsgWnd(HWND hwnd)
 }
 
 
-static void MsgWndDetect(HWND hwndDlg, HANDLE hContact, msgData* datm)
+static void MsgWndDetect(HWND hwndDlg, HCONTACT hContact, msgData* datm)
 {
 	MsgWndData dat;
 
@@ -303,7 +303,7 @@ static void MsgWndDetect(HWND hwndDlg, HANDLE hContact, msgData* datm)
 		else dat.hContact = hContact;
 
 		// Get the protocol for this contact to display correct smileys.
-		char *protonam = GetContactProto( DecodeMetaContact(dat.hContact));
+		char *protonam = GetContactProto(DecodeMetaContact(dat.hContact));
 		if (protonam) {
 			strncpy(dat.ProtocolName, protonam, sizeof(dat.ProtocolName));
 			dat.ProtocolName[sizeof(dat.ProtocolName)-1] = 0;

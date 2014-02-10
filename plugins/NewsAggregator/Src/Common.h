@@ -62,7 +62,7 @@ extern TCHAR tszRoot[MAX_PATH];
 struct ItemInfo
 {
 	HWND hwndList;
-	HANDLE hContact;
+	HCONTACT hContact;
 	int SelNumber;
 	TCHAR nick[MAX_PATH];
 	TCHAR url[MAX_PATH];
@@ -71,7 +71,7 @@ struct ItemInfo
 //============  STRUCT USED TO MAKE AN UPDATE LIST  ============
 
 struct NEWSCONTACTLIST {
-	HANDLE hContact;
+	HCONTACT hContact;
 	struct NEWSCONTACTLIST *next;
 };
 
@@ -80,7 +80,7 @@ typedef struct NEWSCONTACTLIST UPDATELIST;
 extern UPDATELIST *UpdateListHead;
 extern UPDATELIST *UpdateListTail;
 
-void UpdateListAdd(HANDLE hContact);
+void UpdateListAdd(HCONTACT hContact);
 void UpdateThreadProc(LPVOID AvatarCheck);
 void DestroyUpdateList(void);
 
@@ -119,26 +119,26 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 VOID CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 VOID CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
-BOOL IsMyContact(HANDLE hContact);
-VOID GetNewsData(TCHAR *szUrl, char** szData, HANDLE hContact, HWND hwndDlg);
+BOOL IsMyContact(HCONTACT hContact);
+VOID GetNewsData(TCHAR *szUrl, char** szData, HCONTACT hContact, HWND hwndDlg);
 VOID CreateList(HWND hwndList);
 VOID UpdateList(HWND hwndList);
 VOID DeleteAllItems(HWND hwndList);
 time_t __stdcall DateToUnixTime(TCHAR *stamp, BOOL FeedType);
-VOID CheckCurrentFeed(HANDLE hContact);
-VOID CheckCurrentFeedAvatar(HANDLE hContact);
+VOID CheckCurrentFeed(HCONTACT hContact);
+VOID CheckCurrentFeedAvatar(HCONTACT hContact);
 TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg);
 void UpdateMenu(BOOL State);
 int ImportFeedsDialog();
 VOID ClearText(TCHAR *&message);
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
 int StrReplace(TCHAR *lpszOld, TCHAR *lpszNew, TCHAR *&lpszStr);
-void CreateAuthString(char *auth, HANDLE hContact, HWND hwndDlg);
+void CreateAuthString(char *auth, HCONTACT hContact, HWND hwndDlg);
 INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-HANDLE GetContactByNick(const TCHAR *nick);
-HANDLE GetContactByURL(const TCHAR *url);
+HCONTACT GetContactByNick(const TCHAR *nick);
+HCONTACT GetContactByURL(const TCHAR *url);
 
 // ===============  NewsAggregator SERVICES  ================
 // Check all Feeds info

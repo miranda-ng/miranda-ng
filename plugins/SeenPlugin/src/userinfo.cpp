@@ -40,10 +40,10 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		{
 			TCHAR *szout;
 			if ( !db_get_ts(NULL, S_MOD, "UserStamp", &dbv)) {
-				szout = ParseString(dbv.ptszVal, (HANDLE)lparam, 0);
+				szout = ParseString(dbv.ptszVal, (HCONTACT)lparam, 0);
 				db_free(&dbv);
 			}
-			else szout = ParseString(DEFAULT_USERSTAMP, (HANDLE)lparam, 0);
+			else szout = ParseString(DEFAULT_USERSTAMP, (HCONTACT)lparam, 0);
 
 			SetDlgItemText(hdlg, IDC_INFOTEXT, szout);
 			if ( !lstrcmp(szout, TranslateT("<unknown>")))
@@ -62,7 +62,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 int UserinfoInit(WPARAM wparam,LPARAM lparam)
 {
-	char *proto = GetContactProto((HANDLE)lparam);
+	char *proto = GetContactProto((HCONTACT)lparam);
 	if ( IsWatchedProtocol(proto)) {
 		OPTIONSDIALOGPAGE uip = { sizeof(uip) };
 		uip.hInstance = hInstance;

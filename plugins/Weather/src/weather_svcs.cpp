@@ -110,7 +110,7 @@ INT_PTR WeatherLoadIcon(WPARAM wParam,LPARAM lParam)
 static void __cdecl AckThreadProc(HANDLE param)
 {
 	Sleep(100);
-	ProtoBroadcastAck(WEATHERPROTONAME, param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck(WEATHERPROTONAME, (HCONTACT)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 // nothing to do here because weather proto do not need to retrieve contact info form network
@@ -163,7 +163,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 }
 
 
-void AvatarDownloaded(HANDLE hContact)
+void AvatarDownloaded(HCONTACT hContact)
 {
 	PROTO_AVATAR_INFORMATIONT AI = {0};
 	AI.cbSize = sizeof(AI);
@@ -176,16 +176,16 @@ void AvatarDownloaded(HANDLE hContact)
 }
 
 
-static void __cdecl WeatherGetAwayMsgThread(HANDLE hContact)
+static void __cdecl WeatherGetAwayMsgThread(void *hContact)
 {
 	Sleep(100);
 
 	DBVARIANT dbv;
-	if ( !db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {
-		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
+	if (!db_get_ts((HCONTACT)hContact, "CList", "StatusMsg", &dbv)) {
+		ProtoBroadcastAck(WEATHERPROTONAME, (HCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		db_free( &dbv );
 	}
-	else ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	else ProtoBroadcastAck(WEATHERPROTONAME, (HCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 static INT_PTR WeatherGetAwayMsg(WPARAM wParam, LPARAM lParam)

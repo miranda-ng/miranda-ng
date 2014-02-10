@@ -40,7 +40,7 @@ TemplateHTMLBuilder::~TemplateHTMLBuilder()
 			mir_free(flashAvatars[i]);
 }
 
-char *TemplateHTMLBuilder::getAvatar(HANDLE hContact, const char* szProto)
+char *TemplateHTMLBuilder::getAvatar(HCONTACT hContact, const char* szProto)
 {
 	DBVARIANT dbv;
 	TCHAR tmpPath[MAX_PATH];
@@ -159,7 +159,6 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	CONTACTINFO ci;
 	char tempBase[1024];
 	char tempStr[1024];
-	HANDLE hRealContact;
 	char *szRealProto = NULL;
 	char *szBase=NULL;
 	char *szNoAvatar=NULL;
@@ -177,7 +176,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	char *output;
 
 	output = NULL;
-	hRealContact = getRealContact(event->hContact);
+	HCONTACT hRealContact = getRealContact(event->hContact);
 	szRealProto = getProto(hRealContact);
 	szProto = getProto(event->pszProto, event->hContact);
 	tempBase[0]='\0';
@@ -327,7 +326,6 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 {
 	DBVARIANT dbv;
 	CONTACTINFO ci;
-	HANDLE hRealContact;
 	char *szRealProto = NULL;
 	char tempBase[1024];
 	char *szBase=NULL;
@@ -354,7 +352,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	if (protoSettings == NULL)
 		return;
 	
-	hRealContact = getRealContact(event->hContact);
+	HCONTACT hRealContact = getRealContact(event->hContact);
 	szRealProto = getProto(hRealContact);
 	szProto = getProto(event->pszProto, event->hContact);
 	tempBase[0]='\0';

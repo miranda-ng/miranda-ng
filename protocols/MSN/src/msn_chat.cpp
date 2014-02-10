@@ -25,13 +25,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_proto.h"
 #include <m_history.h>
 
-HANDLE CMsnProto::MSN_GetChatInernalHandle(HANDLE hContact)
+HCONTACT CMsnProto::MSN_GetChatInernalHandle(HCONTACT hContact)
 {
-	HANDLE result = hContact;
+	HCONTACT result = hContact;
 	if ( isChatRoom(hContact)) {
 		DBVARIANT dbv;
 		if (getString(hContact, "ChatRoomID", &dbv) == 0) {
-			result = (HANDLE)(-atol(dbv.pszVal));
+			result = (HCONTACT)(-atol(dbv.pszVal));
 			db_free(&dbv);
 		}
 	}
@@ -98,7 +98,7 @@ void CMsnProto::MSN_ChatStart(ThreadData* info)
 
 	for (int j=0; j < info->mJoinedContactsWLID.getCount(); j++)
 	{
-		HANDLE hContact = MSN_HContactFromEmail(info->mJoinedContactsWLID[j]);
+		HCONTACT hContact = MSN_HContactFromEmail(info->mJoinedContactsWLID[j]);
 		TCHAR *wlid = mir_a2t(info->mJoinedContactsWLID[j]);
 
 		gce.ptszNick = GetContactNameT(hContact);
@@ -159,7 +159,7 @@ static void ChatInviteSend(HANDLE hItem, HWND hwndList, STRLIST &str, CMsnProto 
 				}
 				else
 				{
-					MsnContact *msc = ppro->Lists_Get(hItem);
+					MsnContact *msc = ppro->Lists_Get((LPCSTR)hItem);
 					if (msc) str.insertn(msc->email);
 				}
 			}
@@ -169,25 +169,25 @@ static void ChatInviteSend(HANDLE hItem, HWND hwndList, STRLIST &str, CMsnProto 
 }
 
 
-static void ChatValidateContact(HANDLE hItem, HWND hwndList, CMsnProto* ppro)
+static void ChatValidateContact(HCONTACT hItem, HWND hwndList, CMsnProto* ppro)
 {
 	if (!ppro->MSN_IsMyContact(hItem) || ppro->isChatRoom(hItem) || ppro->MSN_IsMeByContact(hItem))
 		SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 }
 
-static void ChatPrepare(HANDLE hItem, HWND hwndList, CMsnProto* ppro)
+static void ChatPrepare(HCONTACT hItem, HWND hwndList, CMsnProto* ppro)
 {
 	if (hItem == NULL)
-		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem)
 	{
-		HANDLE hItemN = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		HCONTACT hItemN = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 
-		if (IsHContactGroup(hItem))
-		{
-			HANDLE hItemT = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
-			if (hItemT) ChatPrepare(hItemT, hwndList, ppro);
+		if (IsHContactGroup(hItem)) {
+			HCONTACT hItemT = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			if (hItemT)
+				ChatPrepare(hItemT, hwndList, ppro);
 		}
 		else if (IsHContactContact(hItem))
 			ChatValidateContact(hItem, hwndList, ppro);
@@ -198,7 +198,7 @@ static void ChatPrepare(HANDLE hItem, HWND hwndList, CMsnProto* ppro)
 
 INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	InviteChatParam* param = (InviteChatParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	InviteChatParam *param = (InviteChatParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg)
 	{
@@ -229,7 +229,7 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			{
 			case CLN_NEWCONTACT:
 				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
-					ChatValidateContact(nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
+					ChatValidateContact((HCONTACT)nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
 				break;
 
 			case CLN_LISTREBUILT:
@@ -361,7 +361,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 		case GC_USER_PRIVMESS:
 		{
 			char *email = mir_t2a(gch->ptszUID);
-			HANDLE hContact = MSN_HContactFromEmail(email);
+			HCONTACT hContact = MSN_HContactFromEmail(email);
 			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 			mir_free(email);
 			break;
@@ -384,7 +384,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 		case GC_USER_NICKLISTMENU:
 		{
 			char *email = mir_t2a(gch->ptszUID);
-			HANDLE hContact = MSN_HContactFromEmail(email);
+			HCONTACT hContact = MSN_HContactFromEmail(email);
 			mir_free(email);
 
 			switch(gch->dwData)

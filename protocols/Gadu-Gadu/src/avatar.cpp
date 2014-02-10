@@ -26,7 +26,7 @@
 //////////////////////////////////////////////////////////
 // Avatars support
 
-void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
+void GGPROTO::getAvatarFilename(HCONTACT hContact, TCHAR *pszDest, int cbLen)
 {
 	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST( _T("%miranda_avatarcache%")), m_szModuleName);
 
@@ -142,7 +142,7 @@ char *gg_avatarhash(char *param)
 	return bin2hex(digest, sizeof(digest), result);
 }
 
-void GGPROTO::requestAvatarTransfer(HANDLE hContact, char *szAvatarURL)
+void GGPROTO::requestAvatarTransfer(HCONTACT hContact, char *szAvatarURL)
 {
 	if (pth_avatar.dwThreadId == NULL) {
 		debugLogA("requestAvatarTransfer(): Can not list_add element to avatar_transfers list. No pth_avatar.dwThreadId");
@@ -159,7 +159,7 @@ void GGPROTO::requestAvatarTransfer(HANDLE hContact, char *szAvatarURL)
 	gg_LeaveCriticalSection(&avatar_mutex, "requestAvatarTransfer", 1, 1, "avatar_mutex", 1);
 }
 
-void GGPROTO::requestAvatarInfo(HANDLE hContact, int iWaitFor)
+void GGPROTO::requestAvatarInfo(HCONTACT hContact, int iWaitFor)
 {
 	if (pth_avatar.dwThreadId == NULL) {
 		debugLogA("requestAvatarInfo(): Can not list_add element to avatar_requests list. No pth_avatar.dwThreadId");
@@ -192,7 +192,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 		if (avatar_requests.getCount()) {
 			GGREQUESTAVATARDATA *data = avatar_requests[0];
 			int iWaitFor = data->iWaitFor;
-			HANDLE hContact = data->hContact;
+			HCONTACT hContact = data->hContact;
 			avatar_requests.remove(0);
 			mir_free(data);
 			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 1, "avatar_mutex", 1);

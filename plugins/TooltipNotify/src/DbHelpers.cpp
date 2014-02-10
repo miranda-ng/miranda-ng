@@ -11,7 +11,7 @@ static int EnumSettingsProc1(const char *pszSetting, LPARAM lParam)
 	return 0;
 }
 
-bool ModuleSettingsExists(HANDLE hContact, const char* pszModuleName)
+bool ModuleSettingsExists(HCONTACT hContact, const char* pszModuleName)
 {
 	DBCONTACTENUMSETTINGS dbces = {0};
 	dbces.szModule = pszModuleName;
@@ -28,7 +28,7 @@ static int EnumSettingsProc2(const char *pszSetting, LPARAM lParam)
 	return 0;
 }
 
-void DeleteModuleSettings(HANDLE hContact, const char* pszModuleName)
+void DeleteModuleSettings(HCONTACT hContact, const char* pszModuleName)
 {
 	SettingsList settingsList;
 	DBCONTACTENUMSETTINGS dbces = {0};
@@ -48,7 +48,7 @@ void DeleteModuleSettings(HANDLE hContact, const char* pszModuleName)
 }
 
 
-static int GetSetting(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
+static int GetSetting(HCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
 	int rr = db_get(hContact, szModule, szSetting, dbv);
 	if (dbv->type != DBVT_UTF8)
@@ -57,7 +57,7 @@ static int GetSetting(HANDLE hContact, const char *szModule, const char *szSetti
 		return 1;
 }
 
-void RenameModule(HANDLE hContact, const char* pszOldName, const char* pszNewName)
+void RenameModule(HCONTACT hContact, const char* pszOldName, const char* pszNewName)
 {
 	SettingsList settingsList;
 	DBCONTACTENUMSETTINGS dbces = {0};

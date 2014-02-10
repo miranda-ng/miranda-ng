@@ -269,7 +269,7 @@ int _cdecl CSendLater::addStub(const char *szSetting, LPARAM lParam)
  * addJob() will deal with possible duplicates
  * @param hContact HANDLE: contact's handle
  */
-void CSendLater::processSingleContact(const HANDLE hContact)
+void CSendLater::processSingleContact(const HCONTACT hContact)
 {
 	int iCount = db_get_dw(hContact, "SendLater", "count", 0);
 
@@ -291,7 +291,7 @@ void CSendLater::processContacts()
 {
 	if (m_fAvail && m_sendLaterContactList.getCount() != 0) {
 		for (int i=0; i < m_sendLaterContactList.getCount(); i++)
-			processSingleContact(m_sendLaterContactList[i]);
+			processSingleContact((HCONTACT)m_sendLaterContactList[i]);
 
 		m_sendLaterContactList.destroy();
 	}
@@ -310,9 +310,9 @@ void CSendLater::processContacts()
  */
 int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 {
-	HANDLE 		hContact = (HANDLE)lParam;
-	DBVARIANT 	dbv = {0};
-	char		*szOrig_Utf = 0;
+	HCONTACT	hContact = (HCONTACT)lParam;
+	DBVARIANT dbv = {0};
+	char *szOrig_Utf = 0;
 
 	if (!m_fAvail || !szSetting || !strcmp(szSetting, "count") || lstrlenA(szSetting) < 8)
 		return 0;
@@ -395,12 +395,11 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
  */
 int CSendLater::sendIt(CSendLaterJob *job)
 {
-	HANDLE 		hContact = job->hContact;
-	time_t 		now = time(0);
-	DWORD   	dwFlags = 0;
-	DBVARIANT 	dbv = {0};
+	HCONTACT hContact = job->hContact;
+	time_t now = time(0);
+	DWORD dwFlags = 0;
+	DBVARIANT dbv = {0};
 	const char *szProto = 0;
-
 
 	if (job->bCode == CSendLaterJob::JOB_HOLD || job->bCode == CSendLaterJob::JOB_DEFERRED || job->fSuccess || job->fFailed || job->lastSent > now)
 		return 0;											// this one is frozen or done (will be removed soon), don't process it now.
@@ -486,7 +485,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
  * and new jobs are created.
  */
 
-void CSendLater::addContact(const HANDLE hContact)
+void CSendLater::addContact(const HCONTACT hContact)
 {
 	if (!m_fAvail)
 		return;
@@ -559,7 +558,7 @@ void CSendLater::qMgrUpdate(bool fReEnable)
 	}
 }
 
-LRESULT CSendLater::qMgrAddFilter(const HANDLE hContact, const TCHAR* tszNick)
+LRESULT CSendLater::qMgrAddFilter(const HCONTACT hContact, const TCHAR* tszNick)
 {
 	LRESULT lr;
 

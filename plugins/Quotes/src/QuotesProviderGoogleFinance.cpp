@@ -10,7 +10,7 @@ CQuotesProviderGoogleFinance::~CQuotesProviderGoogleFinance()
 
 namespace
 {
-	tstring build_url(HANDLE hContact,const tstring& rsURL)
+	tstring build_url(HCONTACT hContact,const tstring& rsURL)
 	{
 		tostringstream o;
 		o << rsURL << _T("?q=") << Quotes_DBGetStringT(hContact,QUOTES_MODULE_NAME,DB_STR_QUOTE_ID);
@@ -292,7 +292,7 @@ void CQuotesProviderGoogleFinance::RefreshQuotes(TContracts& anContacts)
 
 	for(TContracts::const_iterator i = anContacts.begin();i != anContacts.end() && IsOnline();++i)
 	{
-		HANDLE hContact = *i;
+		HCONTACT hContact = *i;
 
 		if(bUseExtendedStatus)
 		{

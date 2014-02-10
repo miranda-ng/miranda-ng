@@ -39,7 +39,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	switch (msg) {
 	case WM_USER+1:
 		{
-			HANDLE hContact = (HANDLE)wParam;
+			HCONTACT hContact = (HCONTACT)wParam;
 			DBCONTACTWRITESETTING *ws = (DBCONTACTWRITESETTING *) lParam;
 			if (hContact == NULL && ws != NULL && ws->szModule != NULL && ws->szSetting != NULL && lstrcmpiA(ws->szModule, "CList") == 0 && lstrcmpiA(ws->szSetting, "UseGroups") == 0 && IsWindowVisible(hwndDlg))
 				CheckDlgButton(hwndDlg, IDC_DISABLEGROUPS, ws->value.bVal == 0);

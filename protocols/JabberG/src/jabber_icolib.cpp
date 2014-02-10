@@ -393,7 +393,7 @@ int CJabberProto::OnReloadIcons(WPARAM, LPARAM)
 
 INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 {
-	HANDLE hContact=(HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (!hContact)
 		return -1;
 
@@ -415,7 +415,7 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Transport check functions
 
-BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, HANDLE hContact)
+BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, HCONTACT hContact)
 {
 	// check if transport is already set
 	if (!jid || !hContact)
@@ -455,7 +455,7 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, HANDLE hContact
 
 void CJabberProto::CheckAllContactsAreTransported()
 {
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		ptrT jid( getTStringA(hContact, "jid"));
 		if (jid)
 			DBCheckIsTransportedContact(jid, hContact);

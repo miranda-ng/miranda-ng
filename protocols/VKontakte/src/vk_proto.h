@@ -100,7 +100,7 @@ struct CVkChatInfo : public MZeroedObject
 	int m_chatid, m_admin_id;
 	bool m_bHistoryRead;
 	ptrT m_tszTopic, m_tszId;
-	HANDLE m_hContact;
+	HCONTACT m_hContact;
 	OBJLIST<CVkChatUser> m_users;
 	OBJLIST<CVkChatMessage> m_msgs;
 
@@ -121,18 +121,18 @@ struct CVkProto : public PROTO<CVkProto>
 
 	virtual	int    __cdecl Authorize(HANDLE hDbEvent);
 	virtual	int    __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR *szReason);
-	virtual	int    __cdecl AuthRecv(HANDLE hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl AuthRequest(HANDLE hContact, const TCHAR *szMessage);
+	virtual	int    __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl AuthRequest(HCONTACT hContact, const TCHAR *szMessage);
 
 	virtual	HANDLE __cdecl ChangeInfo(int iInfoType, void* pInfoData);
 
-	virtual	HANDLE __cdecl FileAllow(HANDLE hContact, HANDLE hTransfer, const TCHAR *szPath);
-	virtual	int    __cdecl FileCancel(HANDLE hContact, HANDLE hTransfer);
-	virtual	int    __cdecl FileDeny(HANDLE hContact, HANDLE hTransfer, const TCHAR *szReason);
+	virtual	HANDLE __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
+	virtual	int    __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer);
+	virtual	int    __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
 	virtual	int    __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename);
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, HANDLE hContact = NULL);
-	virtual	int    __cdecl GetInfo(HANDLE hContact, int infoType);
+	virtual	DWORD_PTR __cdecl GetCaps(int type, HCONTACT hContact = NULL);
+	virtual	int    __cdecl GetInfo(HCONTACT hContact, int infoType);
 
 	virtual	HANDLE __cdecl SearchBasic(const TCHAR *id);
 	virtual	HANDLE __cdecl SearchByEmail(const TCHAR *email);
@@ -140,24 +140,24 @@ struct CVkProto : public PROTO<CVkProto>
 	virtual	HWND   __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND   __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int    __cdecl RecvContacts(HANDLE hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl RecvFile(HANDLE hContact, PROTORECVFILET*);
-	virtual	int    __cdecl RecvMsg(HANDLE hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl RecvUrl(HANDLE hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvFile(HCONTACT hContact, PROTORECVFILET*);
+	virtual	int    __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	int    __cdecl SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList);
-	virtual	HANDLE __cdecl SendFile(HANDLE hContact, const TCHAR *szDescription, TCHAR** ppszFiles);
-	virtual	int    __cdecl SendMsg(HANDLE hContact, int flags, const char* msg);
-	virtual	int    __cdecl SendUrl(HANDLE hContact, int flags, const char* url);
+	virtual	int    __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
+	virtual	HANDLE __cdecl SendFile(HCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	int    __cdecl SendMsg(HCONTACT hContact, int flags, const char* msg);
+	virtual	int    __cdecl SendUrl(HCONTACT hContact, int flags, const char* url);
 
-	virtual	int    __cdecl SetApparentMode(HANDLE hContact, int mode);
+	virtual	int    __cdecl SetApparentMode(HCONTACT hContact, int mode);
 	virtual	int    __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE __cdecl GetAwayMsg(HANDLE hContact);
-	virtual	int    __cdecl RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT* evt);
+	virtual	HANDLE __cdecl GetAwayMsg(HCONTACT hContact);
+	virtual	int    __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT* evt);
 	virtual	int    __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
 
-	virtual	int    __cdecl UserIsTyping(HANDLE hContact, int type);
+	virtual	int    __cdecl UserIsTyping(HCONTACT hContact, int type);
 
 	virtual	int    __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
@@ -259,10 +259,10 @@ private:
 	void   OnLoggedOut();
 	void   ShutdownSession();
 
-	void   SetAvatarUrl(HANDLE hContact, LPCTSTR ptszUrl);
-	void   GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen);
+	void   SetAvatarUrl(HCONTACT hContact, LPCTSTR ptszUrl);
+	void   GetAvatarFileName(HCONTACT hContact, TCHAR* pszDest, size_t cbLen);
 
-	HANDLE FindUser(LONG userid, bool bCreate = false);
+	HCONTACT FindUser(LONG userid, bool bCreate = false);
 
 	void   SetAllContactStatuses(int status);
 
@@ -297,7 +297,7 @@ private:
 	void LogMenuHook(CVkChatInfo*, GCHOOK*);
 	void NickMenuHook(CVkChatInfo*, GCHOOK*);
 	LPTSTR ChangeChatTopic(CVkChatInfo*);
-	void SetChatStatus(HANDLE hContact, int iStatus);
+	void SetChatStatus(HCONTACT hContact, int iStatus);
 	CVkChatInfo* GetChatById(LPCTSTR ptszId);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 

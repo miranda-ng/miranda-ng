@@ -117,7 +117,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read enter\n");
 #endif
-			int size = strlen(ActualAccount->Name)+strlen(Translate(BADCONNECTTITLE));
+			int size = (int)(strlen(ActualAccount->Name)+strlen(Translate(BADCONNECTTITLE)));
 			TitleStrA = new char[size];
 			mir_snprintf(TitleStrA, size, Translate(BADCONNECTTITLE), ActualAccount->Name);
 
@@ -127,7 +127,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 
 			if (ShowPopup)
 			{
-				BadConnectPopup.lchContact=ActualAccount;
+				BadConnectPopup.lchContact=(HCONTACT)ActualAccount;
 				BadConnectPopup.lchIcon=g_LoadIconEx(3);
 				BadConnectPopup.colorBack=ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupB : GetSysColor(COLOR_BTNFACE);
 				BadConnectPopup.colorText=ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupT : GetSysColor(COLOR_WINDOWTEXT);

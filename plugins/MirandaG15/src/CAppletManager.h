@@ -19,7 +19,7 @@
 struct SMessageJob
 {
 	HANDLE hEvent;
-	HANDLE hContact;
+	HCONTACT hContact;
 	DWORD dwFlags;
 	char *pcBuffer;
 	int iBufferSize;
@@ -59,7 +59,7 @@ public:
 	void ActivateCreditsScreen();
 	void ActivateEventScreen();
 	void ActivateCListScreen();
-	bool ActivateChatScreen(HANDLE hContact);
+	bool ActivateChatScreen(HCONTACT hContact);
 
 	// hook functions
 	static int HookMessageWindowEvent(WPARAM wParam, LPARAM lParam);
@@ -73,31 +73,31 @@ public:
 	static int HookChatInbound(WPARAM wParam,LPARAM lParam);
 
 	// check if a contacts message window is opened
-	static bool IsMessageWindowOpen(HANDLE hContact);
+	static bool IsMessageWindowOpen(HCONTACT hContact);
 	// marks the given event as read
-	static void MarkMessageAsRead(HANDLE hContact,HANDLE hEvent);
+	static void MarkMessageAsRead(HCONTACT hContact,HANDLE hEvent);
 	// translates the given database event
 	static bool TranslateDBEvent(CEvent *pEvent,WPARAM wParam, LPARAM lParam);
 	// sends a message to the specified contact
-	static HANDLE SendMessageToContact(HANDLE hContact,tstring strMessage);
+	static HANDLE SendMessageToContact(HCONTACT hContact,tstring strMessage);
 	// sends typing notifications to the specified contact
-	static void SendTypingNotification(HANDLE hContact,bool bEnable);
+	static void SendTypingNotification(HCONTACT hContact,bool bEnable);
 
 	// returns the contacts message service name
-	static char *GetMessageServiceName(HANDLE hContact,bool bIsUnicode);
-	static bool  IsUtfSendAvailable(HANDLE hContact);
+	static char *GetMessageServiceName(HCONTACT hContact,bool bIsUnicode);
+	static bool  IsUtfSendAvailable(HCONTACT hContact);
 	// returns a formatted timestamp string
 	static tstring GetFormattedTimestamp(tm *time);
 
 	// returns wether or not a contact is a subcontact
-	static bool IsSubContact(HANDLE hContact);
+	static bool IsSubContact(HCONTACT hContact);
 	// returns the contacts group
-	static tstring GetContactGroup(HANDLE hContact);
+	static tstring GetContactGroup(HCONTACT hContact);
 	// returns the contacts displayname
-	static tstring GetContactDisplayname(HANDLE hContact,bool bShortened=false);
+	static tstring GetContactDisplayname(HCONTACT hContact,bool bShortened=false);
 
 	// returns the history class for the specified IRC channel
-	CIRCHistory *GetIRCHistory(HANDLE hContact);
+	CIRCHistory *GetIRCHistory(HCONTACT hContact);
 	CIRCHistory *GetIRCHistoryByName(tstring strProtocol,tstring strChannel);
 
 	// returns the IRC connection class for the specified protocol
@@ -118,9 +118,9 @@ public:
 private:
 	list<CIRCHistory*> m_LIRCHistorys;
 	// deletes the history class for the specified IRC channel
-	void DeleteIRCHistory(HANDLE hContact);
+	void DeleteIRCHistory(HCONTACT hContact);
 	// creates a history class for the specified IRC channel
-	CIRCHistory *CreateIRCHistory(HANDLE hContact,tstring strChannel);
+	CIRCHistory *CreateIRCHistory(HCONTACT hContact,tstring strChannel);
 	CIRCHistory *CreateIRCHistoryByName(tstring strProtocol,tstring strChannel);
 
 	// activate a screen

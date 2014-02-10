@@ -75,7 +75,7 @@
 
 typedef struct tagXSTATUSCHANGE 
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	char *szProto;
 	int type;
 	int action;
@@ -85,7 +85,7 @@ typedef struct tagXSTATUSCHANGE
 
 typedef struct tagDBEVENT  
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	HANDLE hDBEvent;
 } DBEVENT;
 
@@ -96,7 +96,7 @@ typedef struct tagPROTOTEMPLATE
 } PROTOTEMPLATE;
 
 TCHAR *GetDefaultXstatusName(int statusID, char *szProto, TCHAR *buff, int bufflen);
-XSTATUSCHANGE *NewXSC(HANDLE hContact, char *szProto, int xstatusType, int action, TCHAR *stzTitle, TCHAR *stzText);
+XSTATUSCHANGE *NewXSC(HCONTACT hContact, char *szProto, int xstatusType, int action, TCHAR *stzTitle, TCHAR *stzText);
 void ExtraStatusChanged(XSTATUSCHANGE *xsc);
 void FreeXSC(XSTATUSCHANGE *xsc);
 int  OnWindowEvent(WPARAM wParam, LPARAM lParam);

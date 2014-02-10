@@ -1,6 +1,6 @@
 #include "headers.h"
 
-void renameModule(char* oldName, char* newName, HANDLE hContact)
+void renameModule(char* oldName, char* newName, HCONTACT hContact)
 {
 	DBVARIANT dbv;
 	ModuleSettingLL settinglist;
@@ -56,10 +56,10 @@ INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				if (IsDlgButtonChecked(hwnd, CHK_ADD2ALL)) {
 					// null contact
 					db_set_b(NULL, modulename, "(Default)", 0);
-					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+					for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 						db_set_b(hContact, modulename, "(Default)", 0);
 				}
-				else db_set_b((HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA), modulename, "(Default)", 0);
+				else db_set_b((HCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA), modulename, "(Default)", 0);
 
 				refreshTree(1);
 			}
@@ -72,9 +72,9 @@ INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 	return 0;
 }
 
-int CloneContact(HANDLE hContact)
+int CloneContact(HCONTACT hContact)
 {
-	HANDLE newContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	HCONTACT newContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (!newContact)
 		return 0;
 

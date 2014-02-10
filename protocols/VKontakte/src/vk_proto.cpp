@@ -103,7 +103,7 @@ int CVkProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR CVkProto::GetCaps(int type, HANDLE hContact)
+DWORD_PTR CVkProto::GetCaps(int type, HCONTACT hContact)
 {
 	switch(type) {
 	case PFLAGNUM_1:
@@ -135,7 +135,7 @@ DWORD_PTR CVkProto::GetCaps(int type, HANDLE hContact)
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CVkProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
+int CVkProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT *pre)
 { 
 	Proto_RecvMessage(hContact, pre);
 	return 0;
@@ -145,11 +145,11 @@ int CVkProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
 
 struct TFakeAckParams
 {
-	__inline TFakeAckParams(HANDLE _hContact, int _msgid) :
+	__inline TFakeAckParams(HCONTACT _hContact, int _msgid) :
 		hContact(_hContact), msgid(_msgid)
 		{}
 
-	HANDLE hContact;
+	HCONTACT hContact;
 	int msgid;
 };
 
@@ -161,7 +161,7 @@ void CVkProto::SendMsgAck(void *param)
 	delete ack;
 }
 
-int CVkProto::SendMsg(HANDLE hContact, int flags, const char *msg)
+int CVkProto::SendMsg(HCONTACT hContact, int flags, const char *msg)
 { 
 	LONG userID = getDword(hContact, "ID", -1);
 	if (userID == -1)
@@ -202,7 +202,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	}
 
 	if (m_bServerDelivery)
-		ProtoBroadcastAck(pReq->pData, ACKTYPE_MESSAGE, iResult, pReq->pUserInfo, 0);
+		ProtoBroadcastAck((HCONTACT)pReq->pData, ACKTYPE_MESSAGE, iResult, pReq->pUserInfo, 0);
 	pReq->pData = NULL;
 }
 
@@ -278,7 +278,7 @@ HANDLE CVkProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return NULL;
 }
 
-int CVkProto::AuthRequest(HANDLE hContact,const PROTOCHAR *message)
+int CVkProto::AuthRequest(HCONTACT hContact,const PROTOCHAR *message)
 {
 	return 0;
 }
@@ -295,7 +295,7 @@ int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 	return 1;
 }
 
-int CVkProto::UserIsTyping(HANDLE hContact, int type)
+int CVkProto::UserIsTyping(HCONTACT hContact, int type)
 { 
 	return 0;
 }
@@ -305,7 +305,7 @@ HANDLE CVkProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 	return NULL;
 }
 
-int CVkProto::AuthRecv(HANDLE hContact,PROTORECVEVENT *)
+int CVkProto::AuthRecv(HCONTACT hContact,PROTORECVEVENT *)
 {
 	return 1;
 }
@@ -316,17 +316,17 @@ HANDLE CVkProto::ChangeInfo(int type,void *info_data)
 	return NULL;
 }
 
-HANDLE CVkProto::FileAllow(HANDLE hContact,HANDLE hTransfer,const PROTOCHAR *path)
+HANDLE CVkProto::FileAllow(HCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *path)
 {
 	return NULL;
 }
 
-int CVkProto::FileCancel(HANDLE hContact,HANDLE hTransfer)
+int CVkProto::FileCancel(HCONTACT hContact,HANDLE hTransfer)
 {
 	return 1;
 }
 
-int CVkProto::FileDeny(HANDLE hContact,HANDLE hTransfer,const PROTOCHAR *reason)
+int CVkProto::FileDeny(HCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *reason)
 {
 	return 1;
 }
@@ -336,7 +336,7 @@ int CVkProto::FileResume(HANDLE hTransfer,int *action,const PROTOCHAR **filename
 	return 1;
 }
 
-int CVkProto::GetInfo(HANDLE hContact, int infoType)
+int CVkProto::GetInfo(HCONTACT hContact, int infoType)
 {
 	// TODO: Most probably some ProtoAck should be here instead
 	return 1;
@@ -352,47 +352,47 @@ HWND CVkProto::CreateExtendedSearchUI(HWND owner)
 	return NULL;
 }
 
-int CVkProto::RecvContacts(HANDLE hContact,PROTORECVEVENT *)
+int CVkProto::RecvContacts(HCONTACT hContact,PROTORECVEVENT *)
 {
 	return 1;
 }
 
-int CVkProto::RecvFile(HANDLE hContact,PROTORECVFILET *)
+int CVkProto::RecvFile(HCONTACT hContact,PROTORECVFILET *)
 {
 	return 1;
 }
 
-int CVkProto::RecvUrl(HANDLE hContact,PROTORECVEVENT *)
+int CVkProto::RecvUrl(HCONTACT hContact,PROTORECVEVENT *)
 {
 	return 1;
 }
 
-int CVkProto::SendContacts(HANDLE hContact,int flags,int nContacts,HANDLE *hContactsList)
+int CVkProto::SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList)
 {
 	return 1;
 }
 
-HANDLE CVkProto::SendFile(HANDLE hContact,const PROTOCHAR *desc, PROTOCHAR **files)
+HANDLE CVkProto::SendFile(HCONTACT hContact,const PROTOCHAR *desc, PROTOCHAR **files)
 {
 	return NULL;
 }
 
-int CVkProto::SendUrl(HANDLE hContact,int flags,const char *url)
+int CVkProto::SendUrl(HCONTACT hContact,int flags,const char *url)
 {
 	return 1;
 }
 
-int CVkProto::SetApparentMode(HANDLE hContact,int mode)
+int CVkProto::SetApparentMode(HCONTACT hContact,int mode)
 {
 	return 1;
 }
 
-int CVkProto::RecvAwayMsg(HANDLE hContact,int mode,PROTORECVEVENT *evt)
+int CVkProto::RecvAwayMsg(HCONTACT hContact,int mode,PROTORECVEVENT *evt)
 {
 	return 1;
 }
 
-HANDLE CVkProto::GetAwayMsg(HANDLE hContact)
+HANDLE CVkProto::GetAwayMsg(HCONTACT hContact)
 {
 	return 0; // Status messages are disabled
 }

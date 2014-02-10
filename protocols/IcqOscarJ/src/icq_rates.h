@@ -108,7 +108,7 @@ public:
 
   virtual void execute();
 
-  HANDLE hContact;
+  HCONTACT hContact;
   DWORD dwUin;
   char *szUid;
 };

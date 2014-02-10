@@ -72,7 +72,7 @@ void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, HANDLE us
 }
 
 //------------------------------------------------------------------------------
-void SpeakAnnounce::incomingEvent(HANDLE user, HANDLE event)
+void SpeakAnnounce::incomingEvent(HCONTACT user, HANDLE event)
 {
 	if (m_event_info.isValidEvent(event))
 	{

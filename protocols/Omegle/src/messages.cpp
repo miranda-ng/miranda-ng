@@ -79,7 +79,7 @@ void OmegleProto::StopChatWorker(void*p)
 	StopChat();
 }
 
-int OmegleProto::SendMsg(HANDLE hContact, int flags, const char *msg)
+int OmegleProto::SendMsg(HCONTACT hContact, int flags, const char *msg)
 {
 	// TODO: msg comes as Unicode (retyped wchar_t*), why should we convert it as ANSI to UTF-8? o_O
 /*	if ( flags & PREF_UNICODE )

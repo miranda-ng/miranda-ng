@@ -27,15 +27,15 @@ static HANDLE hServiceDetectContactOrigin;
 static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 {
 	int countryNumber = 0xFFFF;
-	char *pszProto = GetContactProto((HANDLE)wParam);
+	char *pszProto = GetContactProto((HCONTACT)wParam);
 	/* ip detect */
 	if (bUseIpToCountry)
-		countryNumber = ServiceIpToCountry(db_get_dw((HANDLE)wParam,pszProto,"RealIP",0),0);
+		countryNumber = ServiceIpToCountry(db_get_dw((HCONTACT)wParam,pszProto,"RealIP",0),0);
 	/* fallback */
 	if (countryNumber == 0xFFFF)
-		countryNumber = db_get_w((HANDLE)wParam,pszProto,"Country",0);
+		countryNumber = db_get_w((HCONTACT)wParam,pszProto,"Country",0);
 	if (countryNumber == 0 || countryNumber == 0xFFFF)
-		countryNumber = db_get_w((HANDLE)wParam,pszProto,"CompanyCountry",0);
+		countryNumber = db_get_w((HCONTACT)wParam,pszProto,"CompanyCountry",0);
 	return (countryNumber == 0) ? 0xFFFF : countryNumber;
 }
 
@@ -45,7 +45,7 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 
 static HANDLE hExtraIcon;
 
-static void CALLBACK SetExtraImage(HANDLE hContact)
+static void CALLBACK SetExtraImage(HCONTACT hContact)
 {
 	if (!bShowExtraIcon)
 		return;
@@ -63,14 +63,14 @@ static void CALLBACK SetExtraImage(HANDLE hContact)
 // always call in context of main thread
 static void RemoveExtraImages(void)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		ExtraIcon_Clear(hExtraIcon, hContact);
 }
 
 // always call in context of main thread
 static void EnsureExtraImages(void)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		SetExtraImage(hContact);
 }
 
@@ -87,7 +87,7 @@ void UpdateExtraImages()
 #define STATUSICON_REFRESHDELAY  100  /* time for which setting changes are buffered */
 
 // always call in context of main thread
-static void __fastcall SetStatusIcon(HANDLE hContact,int countryNumber)
+static void __fastcall SetStatusIcon(HCONTACT hContact,int countryNumber)
 {
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME;
@@ -106,7 +106,7 @@ static void __fastcall SetStatusIcon(HANDLE hContact,int countryNumber)
 }
 
 // always call in context of main thread
-static void __fastcall UnsetStatusIcon(HANDLE hContact)
+static void __fastcall UnsetStatusIcon(HCONTACT hContact)
 {
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME;
@@ -167,7 +167,7 @@ static int ExtraImgSettingChanged(WPARAM wParam,LPARAM lParam)
 		/* user details update */
 		if (!lstrcmpA(dbcws->szSetting,"RealIP") || !lstrcmpA(dbcws->szSetting,"Country") || !lstrcmpA(dbcws->szSetting,"CompanyCountry")) {
 			/* Extra Image */
-			SetExtraImage((HANDLE)wParam);
+			SetExtraImage((HCONTACT)wParam);
 			/* Status Icon */
 			if (ServiceExists(MS_MSG_REMOVEICON))
 				CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);

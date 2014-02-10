@@ -52,8 +52,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "resource.h"
 #include "version.h"
 
-WCHAR *any_to_IdleNotidleUnknown(HANDLE hContact, const char *module_name, const char *setting_name, WCHAR *buff, int bufflen);
-WCHAR *any_to_Idle(HANDLE hContact, const char *module_name, const char *setting_name, WCHAR *buff, int bufflen);
+WCHAR *any_to_IdleNotidleUnknown(HCONTACT hContact, const char *module_name, const char *setting_name, WCHAR *buff, int bufflen);
+WCHAR *any_to_Idle(HCONTACT hContact, const char *module_name, const char *setting_name, WCHAR *buff, int bufflen);
 
 #define NUM100NANOSEC  116444736000000000
 
@@ -94,7 +94,7 @@ typedef struct{
 } MISSEDCONTACTS;
 
 int IsWatchedProtocol(const char* szProto);
-TCHAR *ParseString(TCHAR*, HANDLE, BYTE);
+TCHAR *ParseString(TCHAR*, HCONTACT, BYTE);
 void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, DWORD colDword);
 DWORD GetDWordFromColors(COLORREF First, COLORREF Second);
 int OptionsInit(WPARAM,LPARAM);
@@ -106,11 +106,11 @@ int ModeChange(WPARAM,LPARAM);
 void SetOffline(void);
 int ModeChange_mo(WPARAM,LPARAM);
 int CheckIfOnline(void);
-void ShowHistory(HANDLE hContact, BYTE isAlert);
+void ShowHistory(HCONTACT hContact, BYTE isAlert);
 
 struct logthread_info
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	char   sProtoName[MAXMODULELABELLENGTH];
 	WORD   currStatus;
 };

@@ -30,18 +30,18 @@ struct CYahooProto : public PROTO<CYahooProto>
 
 	virtual	int    __cdecl Authorize( HANDLE hDbEvent );
 	virtual	int    __cdecl AuthDeny( HANDLE hDbEvent, const TCHAR* szReason );
-	virtual	int    __cdecl AuthRecv( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int    __cdecl AuthRequest( HANDLE hContact, const TCHAR* szMessage );
+	virtual	int    __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT* );
+	virtual	int    __cdecl AuthRequest(HCONTACT hContact, const TCHAR* szMessage );
 
 	virtual	HANDLE __cdecl ChangeInfo( int iInfoType, void* pInfoData );
 
-	virtual	HANDLE __cdecl FileAllow( HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath );
-	virtual	int    __cdecl FileCancel( HANDLE hContact, HANDLE hTransfer );
-	virtual	int    __cdecl FileDeny( HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szReason );
+	virtual	HANDLE __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath );
+	virtual	int    __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer );
+	virtual	int    __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason );
 	virtual	int    __cdecl FileResume( HANDLE hTransfer, int* action, const PROTOCHAR** szFilename );
 
-	virtual	DWORD_PTR __cdecl GetCaps( int type, HANDLE hContact = NULL);
-	virtual	int    __cdecl GetInfo( HANDLE hContact, int infoType );
+	virtual	DWORD_PTR __cdecl GetCaps( int type, HCONTACT hContact = NULL);
+	virtual	int    __cdecl GetInfo(HCONTACT hContact, int infoType );
 
 	virtual	HANDLE __cdecl SearchBasic( const PROTOCHAR* id );
 	virtual	HANDLE __cdecl SearchByEmail( const PROTOCHAR* email );
@@ -49,49 +49,49 @@ struct CYahooProto : public PROTO<CYahooProto>
 	virtual	HWND   __cdecl SearchAdvanced( HWND owner );
 	virtual	HWND   __cdecl CreateExtendedSearchUI( HWND owner );
 
-	virtual	int    __cdecl RecvContacts( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int    __cdecl RecvFile( HANDLE hContact, PROTORECVFILET* );
-	virtual	int    __cdecl RecvMsg( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int    __cdecl RecvUrl( HANDLE hContact, PROTORECVEVENT* );
+	virtual	int    __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvFile(HCONTACT hContact, PROTORECVFILET*);
+	virtual	int    __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	int    __cdecl SendContacts( HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList );
-	virtual	HANDLE __cdecl SendFile( HANDLE hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles );
-	virtual	int    __cdecl SendMsg( HANDLE hContact, int flags, const char* msg );
-	virtual	int    __cdecl SendUrl( HANDLE hContact, int flags, const char* url );
+	virtual	int    __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
+	virtual	HANDLE __cdecl SendFile(HCONTACT hContact, const PROTOCHAR *szDescription, PROTOCHAR **ppszFiles);
+	virtual	int    __cdecl SendMsg(HCONTACT hContact, int flags, const char* msg );
+	virtual	int    __cdecl SendUrl(HCONTACT hContact, int flags, const char* url );
 
-	virtual	int    __cdecl SetApparentMode( HANDLE hContact, int mode );
-	virtual	int    __cdecl SetStatus( int iNewStatus );
+	virtual	int    __cdecl SetApparentMode(HCONTACT hContact, int mode);
+	virtual	int    __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE __cdecl GetAwayMsg( HANDLE hContact );
-	virtual	int    __cdecl RecvAwayMsg( HANDLE hContact, int mode, PROTORECVEVENT* evt );
-	virtual	int    __cdecl SetAwayMsg( int m_iStatus, const PROTOCHAR* msg );
+	virtual	HANDLE __cdecl GetAwayMsg(HCONTACT hContact);
+	virtual	int    __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT *evt);
+	virtual	int    __cdecl SetAwayMsg( int m_iStatus, const PROTOCHAR *msg);
 	virtual INT_PTR __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
 
-	virtual	int    __cdecl UserIsTyping( HANDLE hContact, int type );
+	virtual	int    __cdecl UserIsTyping(HCONTACT hContact, int type);
 
-	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
+	virtual	int    __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
 	//====| Events |======================================================================
-	int     __cdecl OnContactDeleted( WPARAM, LPARAM );
-	int     __cdecl OnIdleEvent( WPARAM, LPARAM );
-	int     __cdecl OnModulesLoadedEx( WPARAM, LPARAM );
-	int     __cdecl OnOptionsInit( WPARAM, LPARAM );
-	int     __cdecl OnSettingChanged( WPARAM, LPARAM );
+	int     __cdecl OnContactDeleted(WPARAM, LPARAM);
+	int     __cdecl OnIdleEvent(WPARAM, LPARAM);
+	int     __cdecl OnModulesLoadedEx(WPARAM, LPARAM);
+	int     __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int     __cdecl OnSettingChanged(WPARAM, LPARAM);
 	int     __cdecl OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam);
 
 	//====| Services |====================================================================
-	INT_PTR __cdecl OnABCommand( WPARAM, LPARAM );
-	INT_PTR __cdecl OnCalendarCommand( WPARAM, LPARAM );
-	INT_PTR __cdecl OnEditMyProfile( WPARAM, LPARAM );
-	INT_PTR __cdecl OnGotoMailboxCommand( WPARAM, LPARAM );
-	INT_PTR __cdecl OnRefreshCommand( WPARAM, LPARAM );
-	INT_PTR __cdecl OnShowMyProfileCommand( WPARAM, LPARAM );
-	INT_PTR __cdecl OnShowProfileCommand( WPARAM, LPARAM );
+	INT_PTR __cdecl OnABCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl OnCalendarCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl OnEditMyProfile(WPARAM, LPARAM);
+	INT_PTR __cdecl OnGotoMailboxCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl OnRefreshCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl OnShowMyProfileCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl OnShowProfileCommand(WPARAM, LPARAM);
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam);
-	INT_PTR __cdecl GetUnreadEmailCount( WPARAM, LPARAM );
-	INT_PTR __cdecl SendNudge( WPARAM, LPARAM );
-	INT_PTR __cdecl SetMyAvatar( WPARAM, LPARAM );
+	INT_PTR __cdecl GetUnreadEmailCount(WPARAM, LPARAM);
+	INT_PTR __cdecl SendNudge(WPARAM, LPARAM);
+	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
 
 	INT_PTR __cdecl CreateConference(WPARAM /*wParam*/, LPARAM /*lParam*/);
 
@@ -141,9 +141,9 @@ struct CYahooProto : public PROTO<CYahooProto>
 	void __cdecl send_avt_thread(void *psf);
 	void __cdecl recv_avatarthread(void *pavt);
 
-	INT_PTR __cdecl GetAvatarInfo( WPARAM, LPARAM );
-	INT_PTR __cdecl GetAvatarCaps( WPARAM, LPARAM );
-	INT_PTR __cdecl GetMyAvatar( WPARAM, LPARAM );
+	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
 
 	void   ext_got_picture(const char *me, const char *who, const char *pic_url, int cksum, int type);
 	void   ext_got_picture_checksum(const char *me, const char *who, int cksum);
@@ -152,11 +152,11 @@ struct CYahooProto : public PROTO<CYahooProto>
 	void   ext_got_picture_upload(const char *me, const char *url, unsigned int ts);
 	void   ext_got_avatar_share(int buddy_icon);
 
-	void   reset_avatar(HANDLE hContact);
+	void   reset_avatar(HCONTACT hContact);
 	void   request_avatar(const char* who);
 
 	void   SendAvatar(const TCHAR *szFile);
-	void   GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, int cbLen, int type);
+	void   GetAvatarFileName(HCONTACT hContact, TCHAR* pszDest, int cbLen, int type);
 
 	//====| chat.cpp |====================================================================
 	void ChatRegister(void);
@@ -195,13 +195,13 @@ struct CYahooProto : public PROTO<CYahooProto>
 
 	void   send_msg(const char *id, int protocol, const char *msg, int utf8);
 
-	void __cdecl im_sendacksuccess(HANDLE hContact);
-	void __cdecl im_sendackfail(HANDLE hContact);
-	void __cdecl im_sendackfail_longmsg(HANDLE hContact);
+	void __cdecl im_sendacksuccess(void *hContact);
+	void __cdecl im_sendackfail(void *hContact);
+	void __cdecl im_sendackfail_longmsg(void *hContact);
 
 	//====| proto.cpp |===================================================================
-	void __cdecl get_status_thread(HANDLE hContact);
-	void __cdecl get_info_thread(HANDLE hContact);
+	void __cdecl get_status_thread(void *hContact);
+	void __cdecl get_info_thread(void *hContact);
 
 	//====| search.cpp |==================================================================
 	void __cdecl search_simplethread(void *snsearch);
@@ -217,26 +217,26 @@ struct CYahooProto : public PROTO<CYahooProto>
 
 	void   OpenURL(const char *url, int autoLogin);
 
-	INT_PTR __cdecl  SetCustomStatCommand( WPARAM, LPARAM );
+	INT_PTR __cdecl  SetCustomStatCommand(WPARAM, LPARAM);
 
 	//====| user_info.cpp |===============================================================
 	int     __cdecl  OnUserInfoInit( WPARAM wParam, LPARAM lParam );
 
 	//====| util.cpp |====================================================================
-	int    GetStringUtf( HANDLE hContact, const char* name, DBVARIANT* );
-	DWORD  SetStringUtf( HANDLE hContact, const char* valueName, const char* parValue );
+	int    GetStringUtf(HCONTACT hContact, const char* name, DBVARIANT* );
+	DWORD  SetStringUtf(HCONTACT hContact, const char* valueName, const char* parValue );
 
-	DWORD  Set_Protocol( HANDLE hContact, int protocol );
+	DWORD  Set_Protocol(HCONTACT hContact, int protocol );
 
 	int    ShowNotification(const TCHAR *title, const TCHAR *info, DWORD flags);
 	void   ShowError(const TCHAR *title, const TCHAR *buff);
 	int    ShowPopup( const TCHAR* nickname, const TCHAR* msg, const char *szURL );
-	bool   IsMyContact(HANDLE hContact);
+	bool   IsMyContact(HCONTACT hContact);
 
 	//====| yahoo.cpp |===================================================================
-	HANDLE add_buddy( const char *yahoo_id, const char *yahoo_name, int protocol, DWORD flags );
+	HCONTACT add_buddy(const char *yahoo_id, const char *yahoo_name, int protocol, DWORD flags);
 	const char *find_buddy( const char *yahoo_id);
-	HANDLE getbuddyH(const char *yahoo_id);
+	HCONTACT getbuddyH(const char *yahoo_id);
 	void   remove_buddy(const char *who, int protocol);
 
 	void   logout();
@@ -272,7 +272,7 @@ struct CYahooProto : public PROTO<CYahooProto>
 	void   ext_login_response(int succ, const char *url);
 	void   ext_login(enum yahoo_status login_mode);
 
-	void   AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg);
+	void   AddBuddy(HCONTACT hContact, const char *group, const TCHAR *msg);
 
 	void   YAHOO_utils_logversion();
 

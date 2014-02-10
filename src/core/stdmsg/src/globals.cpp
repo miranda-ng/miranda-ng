@@ -121,7 +121,7 @@ void ReloadGlobals()
 
 static int dbaddedevent(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact) {
 		HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
 		if (h)
@@ -144,7 +144,7 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 
 int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
 	if (h) SendMessage(h, HM_AVATARACK, wParam, lParam);
 	return 0;

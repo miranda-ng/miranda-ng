@@ -693,14 +693,14 @@ int TlenVoiceCancelAll(TlenProtocol *proto)
 
 INT_PTR TlenProtocol::VoiceContactMenuHandleVoice(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	DBVARIANT dbv;
 	TLEN_LIST_ITEM *item;
 	TLEN_FILE_TRANSFER *ft;
 	if (!isOnline)
 		return 1;
 
-	if ((hContact=(HANDLE) wParam) != NULL) {
+	if ((hContact=(HCONTACT)wParam) != NULL) {
 		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 			char serialId[32];
 			mir_snprintf(serialId, SIZEOF(serialId), "%d", TlenSerialNext(this));
@@ -942,7 +942,7 @@ int TlenVoiceStart(TLEN_FILE_TRANSFER *ft, int mode)
 static char *getDisplayName(TlenProtocol *proto, const char *id)
 {
 	char jid[256];
-	HANDLE hContact;
+	HCONTACT hContact;
 	DBVARIANT dbv;
 	if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 		mir_snprintf(jid, sizeof(jid), "%s@%s", id, dbv.pszVal);

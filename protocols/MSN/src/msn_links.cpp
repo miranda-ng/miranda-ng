@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static HANDLE hServiceParseLink;
 
-static HANDLE GetContact(TCHAR *arg, TCHAR **pemail, CMsnProto *proto)
+static HCONTACT GetContact(TCHAR *arg, TCHAR **pemail, CMsnProto *proto)
 {
 	TCHAR* email = NULL;
 	do
@@ -51,7 +51,7 @@ static HANDLE GetContact(TCHAR *arg, TCHAR **pemail, CMsnProto *proto)
 		return NULL;
 	}
 	if (pemail) *pemail = email;
-	HANDLE hContact = proto->MSN_HContactFromEmail(UTF8(email), NULL, true, true);
+	HCONTACT hContact = proto->MSN_HContactFromEmail(UTF8(email), NULL, true, true);
 	return hContact;
 }
 
@@ -96,7 +96,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 		arg += 4;
 
 		TCHAR *email;
-		HANDLE hContact = GetContact(arg, &email, proto);
+		HCONTACT hContact = GetContact(arg, &email, proto);
 		if (email == NULL) return 1;
 
 		/* does not yet check if email is current user */
@@ -121,7 +121,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 	{
 		arg += 5;
 
-		HANDLE hContact = GetContact(arg, NULL, proto);
+		HCONTACT hContact = GetContact(arg, NULL, proto);
 
 		if (hContact != NULL)
 		{
@@ -133,7 +133,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 	{
 		arg += 6;
 
-		HANDLE hContact = GetContact(arg, NULL, proto);
+		HCONTACT hContact = GetContact(arg, NULL, proto);
 
 		if (hContact != NULL)
 		{
@@ -145,7 +145,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 	{
 		arg += 6;
 
-		HANDLE hContact = GetContact(arg, NULL, proto);
+		HCONTACT hContact = GetContact(arg, NULL, proto);
 
 		if (hContact != NULL)
 		{

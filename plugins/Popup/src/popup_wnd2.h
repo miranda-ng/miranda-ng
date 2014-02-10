@@ -68,7 +68,7 @@ private:
 
 	// other data
 	Formula::Args m_args;
-	HANDLE      m_hContact, m_hContactPassed;
+	HCONTACT    m_hContact, m_hContactPassed;
 	WNDPROC     m_PluginWindowProc;
 	void       *m_PluginData;
 	

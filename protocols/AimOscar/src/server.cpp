@@ -238,7 +238,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 
 		unsigned char sn_len = snac.ubyte();
 		char* sn = snac.part(1, sn_len);
-		HANDLE hContact = contact_from_sn(sn, true);
+		HCONTACT hContact = contact_from_sn(sn, true);
 
 		int offset = sn_len + 3;
 		int tlv_count = snac.ushort(offset);
@@ -618,7 +618,7 @@ void CAimProto::snac_user_offline(SNAC &snac)//family 0x0003
 	{
 		unsigned char buddy_length=snac.ubyte();
 		char* buddy=snac.part(1,buddy_length);
-		HANDLE hContact=contact_from_sn(buddy, true);
+		HCONTACT hContact=contact_from_sn(buddy, true);
 		if (hContact)
 			offline_contact(hContact,0);
 		mir_free(buddy);
@@ -646,7 +646,7 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 	{
 		case 0x0000: //buddy record
 		{
-			HANDLE hContact = contact_from_sn(name, true);
+			HCONTACT hContact = contact_from_sn(name, true);
 			if (hContact)
 			{
 				int i;
@@ -863,7 +863,7 @@ void CAimProto::modify_ssi_list(SNAC &snac, int &offset)
 	{
 	case 0x0000: //buddy record
 		{
-			HANDLE hContact = contact_from_sn(name, true);
+			HCONTACT hContact = contact_from_sn(name, true);
 			if (hContact)
 			{
 				for (int tlv_offset = 0; tlv_offset < tlv_size; )
@@ -982,7 +982,7 @@ void CAimProto::delete_ssi_list(SNAC &snac, int &offset)
 	unsigned short item_id=snac.ushort(offset+4+name_length);
 	unsigned short type=snac.ushort(offset+6+name_length);
 
-	HANDLE hContact = contact_from_sn(name);
+	HCONTACT hContact = contact_from_sn(name);
 
 	switch (type) {
 	case 0x0000: //buddy record
@@ -1094,7 +1094,7 @@ void CAimProto::snac_message_accepted(SNAC &snac)//family 0x004
 		unsigned char sn_length=snac.ubyte(10);
 		char* sn = snac.part(11,sn_length);
 
-		HANDLE hContact = contact_from_sn(sn);
+		HCONTACT hContact = contact_from_sn(sn);
 		if (hContact)
 		{
 			msg_ack_param *msg_ack = (msg_ack_param*)mir_alloc(sizeof(msg_ack_param));
@@ -1117,7 +1117,7 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 		unsigned char sn_length = snac.ubyte(10);
 		char* sn                = snac.part(11,sn_length);
 
-		HANDLE hContact = contact_from_sn(sn, true, true), hMsgContact = NULL;
+		HCONTACT hContact = contact_from_sn(sn, true, true), hMsgContact = NULL;
 
 		int offset=15+sn_length;
 
@@ -1476,7 +1476,7 @@ void CAimProto::snac_file_decline(SNAC &snac)//family 0x0004
 			int sn_len = snac.ubyte(10);
 			char* sn   = snac.part(11, sn_len);
 			int reason = snac.ushort(11 + sn_len);
-			HANDLE hContact = contact_from_sn(sn);
+			HCONTACT hContact = contact_from_sn(sn);
 
 			msg_ack_param *msg_ack = (msg_ack_param*)mir_alloc(sizeof(msg_ack_param));
 			msg_ack->hContact = hContact;
@@ -1496,7 +1496,7 @@ void CAimProto::snac_file_decline(SNAC &snac)//family 0x0004
 				if (error == 0x02)
 				{
 					debugLogA("File Transfer declied");
-					HANDLE hContact = contact_from_sn(sn);
+					HCONTACT hContact = contact_from_sn(sn);
 					file_transfer *ft = ft_list.find_by_cookie(icbm_cookie, hContact);
 					if (ft)
 					{
@@ -1527,7 +1527,7 @@ void CAimProto::snac_received_info(SNAC &snac)//family 0x0002
 		char* sn = snac.part(1, sn_length);
 		unsigned short tlv_count = snac.ushort(3 + sn_length);
 		offset = 5 + sn_length;
-		HANDLE hContact = contact_from_sn(sn, true, true);
+		HCONTACT hContact = contact_from_sn(sn, true, true);
 		
 		while (offset < snac.len())
 		{
@@ -1589,7 +1589,7 @@ void CAimProto::snac_typing_notification(SNAC &snac)//family 0x004
 	{
 		unsigned char sn_length=snac.ubyte(10);
 		char* sn=snac.part(11,sn_length);
-		HANDLE hContact=contact_from_sn(sn);
+		HCONTACT hContact=contact_from_sn(sn);
 		if (hContact)
 		{
 			unsigned short type=snac.ushort(11+sn_length);
@@ -2304,7 +2304,7 @@ void CAimProto::snac_admin_account_confirm(SNAC &snac)//family 0x0007
 	{
 		char sn[33];
 		int sn_length=buf[SNAC_SIZE*2];
-		HANDLE hContact;
+		HCONTACT hContact;
 		ZeroMemory(sn,sizeof(sn));
 		memcpy(sn,&buf[SNAC_SIZE*2+1],sn_length);
 		hContact=find_contact(sn);

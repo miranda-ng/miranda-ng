@@ -362,7 +362,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			  }
 			  delete [] name;
 		  }
-		  bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange");
+		  bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange") != 0;
 		  gpg_valid = isGPGValid();
 		  gpg_keyexist = isGPGKeyExist();
 		  DestroyWindow(hwndDlg);
@@ -370,8 +370,6 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 	  case IDC_OTHER:
 		  {
 			  void ShowLoadPublicKeyDialog();
-			  extern map<int, HANDLE> user_data;
-			  extern int item_num;
 			  item_num = 0;		 //black magic here
 			  user_data[1] = 0;
 			  ShowLoadPublicKeyDialog();
@@ -1247,7 +1245,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				  SetWindowText(hwndCurKey_p, path.c_str());
 			  }
 		  }
-		  bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange");
+		  bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange") != 0;
 		  gpg_valid = true;
 		  db_set_b(NULL, szGPGModuleName, "FirstRun", 0);
 		  DestroyWindow(hwndDlg);
@@ -1283,84 +1281,68 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	extern HANDLE new_key_hcnt;
-	extern boost::mutex new_key_hcnt_mutex;
-	static HANDLE hContact = INVALID_HANDLE_VALUE;
+	static HCONTACT hContact = (HCONTACT)INVALID_HANDLE_VALUE;
 	void ImportKey();
 	TCHAR *tmp = NULL;
-  switch (msg)
-  {
-  case WM_INITDIALOG:
-    {
-		hContact = new_key_hcnt;
-		//new_key_hcnt_mutex.unlock();
-		SetWindowPos(hwndDlg, 0, new_key_rect.left, new_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
-		TranslateDialogDefault(hwndDlg);
-		TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
-		SetDlgItemText(hwndDlg, IDC_MESSAGE, tmp[0]?TranslateT("There is existing key for contact, would you like to replace it with new key?"):TranslateT("New public key was received, do you want to import it?"));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_IMPORT_AND_USE), db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0)?0:1);
-		SetDlgItemText(hwndDlg, ID_IMPORT, tmp[0]?TranslateT("Replace"):TranslateT("Accept"));
-		mir_free(tmp);
-		tmp = new TCHAR [256];
-		_tcscpy(tmp, TranslateT("Received key from "));
-		_tcscat(tmp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, (LPARAM)GCDNF_TCHAR));
-		SetDlgItemText(hwndDlg, IDC_KEY_FROM, tmp);
-		delete [] tmp;
-      return TRUE;
-    }
-    
- 
-  case WM_COMMAND:
-    {
-      switch (LOWORD(wParam))
-      {
-	  case ID_IMPORT:
-		  ImportKey();
-		  DestroyWindow(hwndDlg);
-		  break;
-	  case IDC_IMPORT_AND_USE:
-		  ImportKey();
-		  db_set_b(hContact, szGPGModuleName, "GPGEncryption", 1);
-		  void setSrmmIcon(HANDLE hContact);
-		  void setClistIcon(HANDLE hContact);
-		  setSrmmIcon(hContact);
-		  setClistIcon(hContact);
-		  DestroyWindow(hwndDlg);
-		  break;
-	  case IDC_IGNORE_KEY:
-		  DestroyWindow(hwndDlg);
-		  break;
-	  default:
-		break;
-      }
-      
-      break;
-    }
-    
-  case WM_NOTIFY:
-    {
-/*      switch (((LPNMHDR)lParam)->code)
-      {
-	  default:
-		  break;
-      }*/
-	}
-    break;
-  case WM_CLOSE:
-	  DestroyWindow(hwndDlg);
-	  break;
-  case WM_DESTROY:
-	  {
-		  GetWindowRect(hwndDlg, &new_key_rect);
-		  db_set_dw(NULL, szGPGModuleName, "NewKeyWindowX", new_key_rect.left);
-		  db_set_dw(NULL, szGPGModuleName, "NewKeyWindowY", new_key_rect.top);
-	  }
-	  hwndNewKey = NULL;
-	  break;
+	switch (msg)
+	{
+	case WM_INITDIALOG:
+		{
+			hContact = new_key_hcnt;
+			//new_key_hcnt_mutex.unlock();
+			SetWindowPos(hwndDlg, 0, new_key_rect.left, new_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
+			TranslateDialogDefault(hwndDlg);
+			TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
+			SetDlgItemText(hwndDlg, IDC_MESSAGE, tmp[0]?TranslateT("There is existing key for contact, would you like to replace it with new key?"):TranslateT("New public key was received, do you want to import it?"));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_IMPORT_AND_USE), db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0)?0:1);
+			SetDlgItemText(hwndDlg, ID_IMPORT, tmp[0]?TranslateT("Replace"):TranslateT("Accept"));
+			mir_free(tmp);
+			tmp = new TCHAR [256];
+			_tcscpy(tmp, TranslateT("Received key from "));
+			_tcscat(tmp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, (LPARAM)GCDNF_TCHAR));
+			SetDlgItemText(hwndDlg, IDC_KEY_FROM, tmp);
+			delete [] tmp;
+		}
+		return TRUE;
 
-  }
-  return FALSE;
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case ID_IMPORT:
+			ImportKey();
+			DestroyWindow(hwndDlg);
+			break;
+		case IDC_IMPORT_AND_USE:
+			ImportKey();
+			db_set_b(hContact, szGPGModuleName, "GPGEncryption", 1);
+			void setSrmmIcon(HCONTACT hContact);
+			void setClistIcon(HCONTACT hContact);
+			setSrmmIcon(hContact);
+			setClistIcon(hContact);
+			DestroyWindow(hwndDlg);
+			break;
+		case IDC_IGNORE_KEY:
+			DestroyWindow(hwndDlg);
+			break;
+		}
+		break;
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		{
+			GetWindowRect(hwndDlg, &new_key_rect);
+			db_set_dw(NULL, szGPGModuleName, "NewKeyWindowX", new_key_rect.left);
+			db_set_dw(NULL, szGPGModuleName, "NewKeyWindowY", new_key_rect.top);
+		}
+		hwndNewKey = NULL;
+		break;
+
+	}
+	return FALSE;
 }
+
 static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
   switch (msg)
@@ -1914,84 +1896,61 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wPar
 
   return FALSE;
 }
+
 static INT_PTR CALLBACK DlgProcImportKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-  extern HANDLE new_key_hcnt;
-  extern boost::mutex new_key_hcnt_mutex;
-  HANDLE hContact = INVALID_HANDLE_VALUE;
-  switch (msg)
-  {
-  case WM_INITDIALOG:
-    {
-		hContact = new_key_hcnt;
-		new_key_hcnt_mutex.unlock();
-		SetWindowPos(hwndDlg, 0 , import_key_rect.left, import_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
-		TranslateDialogDefault(hwndDlg);
-		ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), _T("subkeys.pgp.net"), 0);
-		ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), _T("keys.gnupg.net"), 0);
-      return TRUE;
-    }
-    
- 
-  case WM_COMMAND:
-    {
-      switch (LOWORD(wParam))
-      {
-	  case IDC_IMPORT:
-		  {
-			  string out;
-			  DWORD code;
-			  std::vector<wstring> cmd;
-			  cmd.push_back(L"--keyserver");
-			  TCHAR *server= new TCHAR [128];
-			  GetDlgItemText(hwndDlg, IDC_KEYSERVER, server, 128);
-			  cmd.push_back(server);
-			  delete [] server;
-			  cmd.push_back(L"--recv-keys");
-//			  char *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID_Prescense", "");
-//			  TCHAR *tmp2 = mir_a2t(tmp);
-//			  mir_free(tmp);
-			  cmd.push_back(toUTF16(hcontact_data[hContact].key_in_prescense));
-//			  mir_free(tmp2);
-			  gpg_execution_params params(cmd);
-			  pxResult result;
-			  params.out = &out;
-			  params.code = &code;
-			  params.result = &result;
-			  gpg_launcher(params);
-			  MessageBoxA(0, out.c_str(), "GPG output", MB_OK);
-		  }
-		  break;
-	  default:
+	HCONTACT hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		{
+			hContact = new_key_hcnt;
+			new_key_hcnt_mutex.unlock();
+			SetWindowPos(hwndDlg, 0 , import_key_rect.left, import_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
+			TranslateDialogDefault(hwndDlg);
+			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), _T("subkeys.pgp.net"), 0);
+			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), _T("keys.gnupg.net"), 0);
+		}
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_IMPORT:
+			{
+				string out;
+				DWORD code;
+				std::vector<wstring> cmd;
+				cmd.push_back(L"--keyserver");
+				TCHAR *server= new TCHAR [128];
+				GetDlgItemText(hwndDlg, IDC_KEYSERVER, server, 128);
+				cmd.push_back(server);
+				delete [] server;
+				cmd.push_back(L"--recv-keys");
+				cmd.push_back(toUTF16(hcontact_data[hContact].key_in_prescense));
+				gpg_execution_params params(cmd);
+				pxResult result;
+				params.out = &out;
+				params.code = &code;
+				params.result = &result;
+				gpg_launcher(params);
+				MessageBoxA(0, out.c_str(), "GPG output", MB_OK);
+			}
+			break;
+		}
 		break;
-      }
-      break;
-    }
-    
-  case WM_NOTIFY:
-    {
-/*      switch (((LPNMHDR)lParam)->code)
-      {
-	  default:
-		  break;
-      } */
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		GetWindowRect(hwndDlg, &import_key_rect);
+		db_set_dw(NULL, szGPGModuleName, "ImportKeyWindowX", import_key_rect.left);
+		db_set_dw(NULL, szGPGModuleName, "ImportKeyWindowY", import_key_rect.top);
+		break;
 	}
-    break;
-  case WM_CLOSE:
-	  DestroyWindow(hwndDlg);
-	  break;
-  case WM_DESTROY:
-	  {
-		  GetWindowRect(hwndDlg, &import_key_rect);
-		  db_set_dw(NULL, szGPGModuleName, "ImportKeyWindowX", import_key_rect.left);
-		  db_set_dw(NULL, szGPGModuleName, "ImportKeyWindowY", import_key_rect.top);
-	  }
-	  break;
-
-  }
-  return FALSE;
+	return FALSE;
 }
-
 
 extern HINSTANCE hInst;
 
@@ -2315,10 +2274,7 @@ void InitCheck()
 
 void ImportKey()
 {
-	extern wstring new_key;
-	extern HANDLE new_key_hcnt;
-	extern boost::mutex new_key_hcnt_mutex;
-	HANDLE hContact = new_key_hcnt;
+	HCONTACT hContact = new_key_hcnt;
 	new_key_hcnt_mutex.unlock();
 	bool for_all_sub = false;
 	if(metaIsProtoMetaContacts(hContact))
@@ -2326,13 +2282,12 @@ void ImportKey()
 			for_all_sub = true;
 	if(metaIsProtoMetaContacts(hContact))
 	{
-		HANDLE hcnt = NULL;
 		if(for_all_sub)
 		{
 			int count = metaGetContactsNum(hContact);
 			for(int i = 0; i < count; i++)
 			{
-				hcnt = metaGetSubcontact(hContact, i);
+				HCONTACT hcnt = metaGetSubcontact(hContact, i);
 				if(hcnt)
 					db_set_ts(hcnt, szGPGModuleName, "GPGPubKey", new_key.c_str());
 			}
@@ -2381,13 +2336,12 @@ void ImportKey()
 		{
 			if(metaIsProtoMetaContacts(hContact))
 			{
-				HANDLE hcnt = NULL;
 				if(for_all_sub)
 				{
 					int count = metaGetContactsNum(hContact);
 					for(int i = 0; i < count; i++)
 					{
-						hcnt = metaGetSubcontact(hContact, i);
+						HCONTACT hcnt = metaGetSubcontact(hContact, i);
 						if(hcnt)
 						{
 							char *tmp = NULL;

@@ -76,7 +76,7 @@ public:
 	HICON GetIconDup(void);
 	HBITMAP GetBitmap(COLORREF bkgClr, int sizeX, int sizeY);
 
-	void CallSmileyService(HANDLE hContact);
+	void CallSmileyService(HCONTACT hContact);
 
 	void SetHidden(bool hid) { SetFlagsBit(HiddenSmiley, hid); }
 	void SetRegEx(bool regex) { SetFlagsBit(RegExSmiley, regex); }
@@ -291,7 +291,7 @@ public:
 	void AddAndLoad(const CMString& name, const CMString& displayName);
 	void AddAllProtocolsAsCategory(void); 
 	void AddAccountAsCategory(PROTOACCOUNT *acc, const CMString& defaultFile);
-	void AddContactTransportAsCategory(HANDLE hContact, const CMString& defaultFile);
+	void AddContactTransportAsCategory(HCONTACT hContact, const CMString& defaultFile);
 
 	void ClearAndLoadAll(void);
 	void ClearAll(void) 

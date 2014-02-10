@@ -86,7 +86,7 @@ interface MIDatabase
 	STDMETHOD_(LONG,GetBlobSize)(HANDLE hDbEvent) PURE;
 	STDMETHOD_(BOOL,GetEvent)(HANDLE hDbEvent, DBEVENTINFO *dbe) PURE;
 	STDMETHOD_(BOOL,MarkEventRead)(MCONTACT contactID, HANDLE hDbEvent) PURE;
-	STDMETHOD_(HANDLE,GetEventContact)(HANDLE hDbEvent) PURE;
+	STDMETHOD_(MCONTACT,GetEventContact)(HANDLE hDbEvent) PURE;
 	STDMETHOD_(HANDLE,FindFirstEvent)(MCONTACT contactID) PURE;
 	STDMETHOD_(HANDLE,FindFirstUnreadEvent)(MCONTACT contactID) PURE;
 	STDMETHOD_(HANDLE,FindLastEvent)(MCONTACT contactID) PURE;

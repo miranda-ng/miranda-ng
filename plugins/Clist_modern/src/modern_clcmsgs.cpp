@@ -35,7 +35,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 
 	switch(msg) {
 	case CLM_DELETEITEM:
-		pcli->pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
+		pcli->pfnDeleteItemFromTree(hwnd, (HCONTACT)wParam);
 		clcSetDelayTimer( TIMERID_DELAYEDRESORTCLC, hwnd, 1 ); //pcli->pfnSortCLC(hwnd, dat, 1);
 		clcSetDelayTimer( TIMERID_RECALCSCROLLBAR,  hwnd, 2 ); //pcli->pfnRecalcScrollBar(hwnd, dat);
 		return 0;
@@ -108,24 +108,24 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 		{
 			int i;
 			if (wParam != CLGN_ROOT) {
-				if (!pcli->pfnFindItem(hwnd, dat, (HANDLE) lParam, &contact, &group, NULL))
-					return (LRESULT) (HANDLE) NULL;
+				if (!pcli->pfnFindItem(hwnd, dat, (HCONTACT)lParam, &contact, &group, NULL))
+					return NULL;
 				i = List_IndexOf((SortedList*)&group->cl,contact);
 				if (i < 0) return 0;
 			}
 			switch (wParam) {
 			case CLGN_ROOT:
 				if (dat->list.cl.count)
-					return (LRESULT) pcli->pfnContactToHItem(dat->list.cl.items[0]);
+					return (LRESULT)pcli->pfnContactToHItem(dat->list.cl.items[0]);
 				else
-					return (LRESULT) (HANDLE) NULL;
+					return NULL;
 			case CLGN_CHILD:
 				if (contact->type != CLCIT_GROUP)
-					return (LRESULT) (HANDLE) NULL;
+					return NULL;
 				group = contact->group;
 				if (group->cl.count == 0)
-					return (LRESULT) (HANDLE) NULL;
-				return (LRESULT) pcli->pfnContactToHItem(group->cl.items[0]);
+					return NULL;
+				return (LRESULT)pcli->pfnContactToHItem(group->cl.items[0]);
 			case CLGN_PARENT:
 				return group->groupId | HCONTACT_ISGROUP;
 			case CLGN_NEXT:
@@ -133,49 +133,49 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 					if (++i >= group->cl.count)
 						return NULL;
 				}
-				while (group->cl.items[i]->type == CLCIT_DIVIDER);
-				return (LRESULT) pcli->pfnContactToHItem(group->cl.items[i]);
+					while (group->cl.items[i]->type == CLCIT_DIVIDER);
+				return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
 			case CLGN_PREVIOUS:
 				do {
 					if (--i < 0)
 						return NULL;
 				}
-				while (group->cl.items[i]->type == CLCIT_DIVIDER);
-				return (LRESULT) pcli->pfnContactToHItem(group->cl.items[i]);
+					while (group->cl.items[i]->type == CLCIT_DIVIDER);
+				return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
 			case CLGN_NEXTCONTACT:
 				for (i++; i < group->cl.count; i++)
 					if (group->cl.items[i]->type == CLCIT_CONTACT)
 						break;
 				if (i >= group->cl.count)
-					return (LRESULT) (HANDLE) NULL;
+					return NULL;
 				return (LRESULT) pcli->pfnContactToHItem(group->cl.items[i]);
 			case CLGN_PREVIOUSCONTACT:
 				if (i >= group->cl.count)
-					return (LRESULT) (HANDLE) NULL;
+					return NULL;
 				for (i--; i >= 0; i--)
 					if (group->cl.items[i]->type == CLCIT_CONTACT)
 						break;
 				if (i < 0)
-					return (LRESULT) (HANDLE) NULL;
-				return (LRESULT) pcli->pfnContactToHItem(group->cl.items[i]);
+					return NULL;
+				return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
 			case CLGN_NEXTGROUP:
 				for (i++; i < group->cl.count; i++)
 					if (group->cl.items[i]->type == CLCIT_GROUP)
 						break;
 				if (i >= group->cl.count)
-					return (LRESULT) (HANDLE) NULL;
+					return NULL;
 				return (LRESULT) pcli->pfnContactToHItem(group->cl.items[i]);
 			case CLGN_PREVIOUSGROUP:
 				if (i >= group->cl.count)
-					return (LRESULT) (HANDLE) NULL;
+					return NULL;
 				for (i--; i >= 0; i--)
 					if (group->cl.items[i]->type == CLCIT_GROUP)
 						break;
 				if (i < 0)
-					return (LRESULT) (HANDLE) NULL;
+					return NULL;
 				return (LRESULT) pcli->pfnContactToHItem(group->cl.items[i]);
 			}
-			return (LRESULT) (HANDLE) NULL;
+			return NULL;
 		}
 		return 0;
 	case CLM_SELECTITEM:
@@ -183,7 +183,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 			ClcGroup *tgroup;
 			int index = -1;
 			int mainindex = -1;
-			if (!pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL))
+			if (!pcli->pfnFindItem(hwnd, dat, (HCONTACT)wParam, &contact, &group, NULL))
 				break;
 			for (tgroup = group; tgroup; tgroup = tgroup->parent)
 				pcli->pfnSetGroupExpand(hwnd, dat, tgroup, 1);
@@ -217,7 +217,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 		if (LOWORD(lParam) >= dat->extraColumnsCount)
 			return 0;
 
-		if (!pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
+		if (!pcli->pfnFindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL))
 			return 0;
 
 		contact->iExtraImage[LOWORD(lParam)] = HIWORD(lParam);

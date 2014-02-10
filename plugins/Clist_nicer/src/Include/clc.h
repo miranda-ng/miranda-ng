@@ -103,32 +103,32 @@ typedef struct _OrderTreeData
 
 struct TExtraCache
 {
-	HANDLE hContact;
-	HANDLE hTimeZone;
-	BYTE   valid;
-	TCHAR *statusMsg;
-	BYTE   bStatusMsgValid;
-	DWORD  dwCFlags;
-	DWORD  dwDFlags;     // display flags for caching only
+	HCONTACT hContact;
+	HANDLE   hTimeZone;
+	BYTE     valid;
+	TCHAR   *statusMsg;
+	BYTE     bStatusMsgValid;
+	DWORD    dwCFlags;
+	DWORD    dwDFlags;     // display flags for caching only
 	StatusItems_t *status_item, *proto_status_item;
-	DWORD  dwLastMsgTime;
-	DWORD  msgFrequency;
-	BOOL   isChatRoom;
+	DWORD    dwLastMsgTime;
+	DWORD    msgFrequency;
+	BOOL     isChatRoom;
 };
 
 struct ClcContact : public ClcContactBase
 {
-	BOOL   bIsMeta;
-	BYTE   xStatus;
-	int    xStatusIcon;
-	HANDLE hSubContact;
-	char  *metaProto;
-	DWORD  codePage;
-	WORD   wStatus;
-	int    avatarLeft, extraIconRightBegin;
-	int    isRtl;
-	DWORD  cFlags;
-	BYTE   bSecondLine;
+	BOOL     bIsMeta;
+	BYTE     xStatus;
+	int      xStatusIcon;
+	HCONTACT hSubContact;
+	char    *metaProto;
+	DWORD    codePage;
+	WORD     wStatus;
+	int      avatarLeft, extraIconRightBegin;
+	int      isRtl;
+	DWORD    cFlags;
+	BYTE     bSecondLine;
 
 	avatarCacheEntry *ace;
 	TExtraCache* pExtra;
@@ -233,7 +233,7 @@ struct TCluiData {
 	HMENU hMenuNotify;
 	int iLastEventAdded;
 	int wNextMenuID;
-	HANDLE hUpdateContact;
+	HCONTACT hUpdateContact;
 	DWORD sortTimer;
 	TCHAR *szNoEvents;
 	BOOL forceResize;
@@ -329,7 +329,7 @@ struct IconDesc {
 };
 
 struct NotifyMenuItemExData {
-	HANDLE hContact;
+	HCONTACT hContact;
 	int iIcon;              // icon index in the image list
 	HICON hIcon;            // corresponding icon handle
 	HANDLE hDbEvent;
@@ -357,7 +357,7 @@ HANDLE ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
 
 //clcitems.c
 void RebuildEntireList(HWND hwnd, struct ClcData *dat);
-DWORD INTSORT_GetLastMsgTime(HANDLE hContact);
+DWORD INTSORT_GetLastMsgTime(HCONTACT hContact);
 
 //clcmsgs.c
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -409,10 +409,10 @@ void ConfigureEventArea(HWND hwnd);
 void ClearIcons(int mode);
 void SkinDrawBg(HWND hwnd, HDC hdc);
 int GetBasicFontID(ClcContact * contact);
-extern int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szStatus, struct ClcData *dat);
+extern int __fastcall CLVM_GetContactHiddenStatus(HCONTACT hContact, char *szStatus, struct ClcData *dat);
 void CreateViewModeFrame();
-int GetExtraCache(HANDLE hContact, char *szProto);
-void ReloadExtraInfo(HANDLE hContact);
+int GetExtraCache(HCONTACT hContact, char *szProto);
+void ReloadExtraInfo(HCONTACT hContact);
 void LoadAvatarForContact(ClcContact *p);
 void ApplyViewMode(const char *name);
 
@@ -425,7 +425,7 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 void Reload3dBevelColors();
 void ReloadThemedOptions();
 void SetButtonToSkinned();
-void RTL_DetectAndSet(ClcContact *contact, HANDLE hContact);
+void RTL_DetectAndSet(ClcContact *contact, HCONTACT hContact);
 void RTL_DetectGroupName(ClcContact *group);
 void CLN_LoadAllIcons(BOOL mode);
 void ReloadSkinItemsToCache();

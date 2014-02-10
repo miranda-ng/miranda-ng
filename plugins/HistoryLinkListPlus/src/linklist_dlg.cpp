@@ -38,7 +38,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 	{
 		case WM_INITDIALOG:
 		{
-			HANDLE hContact;
+			HCONTACT hContact;
 			TCHAR title[256];
 			TCHAR filter[FILTERTEXT];
 			RECT rc;
@@ -441,7 +441,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 
 		case WM_DESTROY:
 		{
-			HANDLE hContact;
+			HCONTACT hContact;
 			if ( db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0x00) == 0x00 )
 				hContact = NULL;
 			else

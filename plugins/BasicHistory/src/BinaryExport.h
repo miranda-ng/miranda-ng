@@ -34,7 +34,7 @@ public:
 	virtual void WriteFooter();
 	virtual void WriteGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText);
 	virtual void WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO& dbei);
-	virtual int IsContactInFile(const std::vector<HANDLE>& contacts);
+	virtual int IsContactInFile(const std::vector<HCONTACT>& contacts);
 	virtual bool GetEventList(std::vector<IImport::ExternalMessage>& eventList);
 	
 	virtual ~BinaryExport();

@@ -47,7 +47,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 						break;
 
 					char* szProto;
-					HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
+					HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 
 					if (hContact == NULL) {
 						szProto = ppro->m_szModuleName;
@@ -118,7 +118,7 @@ int __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 	odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
-	HANDLE hContact = ( HANDLE )lParam;
+	HCONTACT hContact = (HCONTACT)lParam;
 	if ( IsMyContact(hContact)) {
 		odp.pfnDlgProc = YahooUserInfoDlgProc;
 		odp.position = -1900000000;

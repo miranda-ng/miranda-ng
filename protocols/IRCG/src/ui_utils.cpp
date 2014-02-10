@@ -629,7 +629,7 @@ BOOL CCtrlClc::OnNotify(int, NMHDR *pnmh)
 	return FALSE;
 }
 
-void CCtrlClc::AddContact(HANDLE hContact)
+void CCtrlClc::AddContact(HCONTACT hContact)
 {	SendMessage(m_hwnd, CLM_ADDCONTACT, (WPARAM)hContact, 0);
 }
 
@@ -661,7 +661,7 @@ void CCtrlClc::Expand(HANDLE hItem, DWORD flags)
 {	SendMessage(m_hwnd, CLM_EXPAND, (WPARAM)hItem, flags);
 }
 
-HANDLE CCtrlClc::FindContact(HANDLE hContact)
+HANDLE CCtrlClc::FindContact(HCONTACT hContact)
 {	return (HANDLE)SendMessage(m_hwnd, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 }
 

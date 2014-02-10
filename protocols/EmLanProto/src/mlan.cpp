@@ -127,7 +127,7 @@ void CMLan::SetMirandaStatus(u_int status)
 
 void CMLan::SetAllOffline()
 {	
-	for (HANDLE hContact = db_find_first(PROTONAME); hContact; hContact = db_find_next(hContact, PROTONAME)) {
+	for (HCONTACT hContact = db_find_first(PROTONAME); hContact; hContact = db_find_next(hContact, PROTONAME)) {
 		db_set_w(hContact, PROTONAME, "Status", ID_STATUS_OFFLINE);
 		db_unset(hContact, PROTONAME, "IP");
 	}
@@ -204,7 +204,7 @@ void CMLan::Check()
 				if (!cont->m_time)
 				{
 					cont->m_status = ID_STATUS_OFFLINE;
-					HANDLE hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
+					HCONTACT hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
 					if (hContact)
 					{
 						db_set_w(hContact,PROTONAME,"Status",ID_STATUS_OFFLINE);
@@ -236,9 +236,9 @@ void CMLan::SendPacketExt(TPacket& pak, u_long addr)
 	delete[] buf;
 }
 
-HANDLE CMLan::FindContact(in_addr addr, const char* nick,  bool add_to_list, bool make_permanent, bool make_visible, u_int status)
+HCONTACT CMLan::FindContact(in_addr addr, const char* nick,  bool add_to_list, bool make_permanent, bool make_visible, u_int status)
 {
-	for (HANDLE res = db_find_first(PROTONAME); res; res = db_find_next(res, PROTONAME)) {
+	for (HCONTACT res = db_find_first(PROTONAME); res; res = db_find_next(res, PROTONAME)) {
 		u_long caddr = db_get_dw(res, PROTONAME, "ipaddr", -1);
 		if (caddr==addr.S_un.S_addr) {					
 			if (make_permanent)
@@ -250,7 +250,7 @@ HANDLE CMLan::FindContact(in_addr addr, const char* nick,  bool add_to_list, boo
 	}
 
 	if (add_to_list) {
-		HANDLE res=(HANDLE)CallService(MS_DB_CONTACT_ADD,0,0);
+		HCONTACT res=(HCONTACT)CallService(MS_DB_CONTACT_ADD,0,0);
 		CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)res,(LPARAM)PROTONAME);
 		db_set_dw(res,PROTONAME, "ipaddr", addr.S_un.S_addr);
 		db_set_s(res,PROTONAME, "Nick", nick);
@@ -315,7 +315,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 				cont->m_ver = pak.idVersion;
 				u_int old_status = cont->m_status;
 				cont->m_status = pak.idStatus;
-				HANDLE hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
+				HCONTACT hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
 				if (hContact)
 				{
 					db_set_w(hContact,PROTONAME, "Status", cont->m_status);
@@ -358,7 +358,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 
 			if (pak.idAckMessage)
 			{
-				HANDLE hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
+				HCONTACT hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
 				if (hContact)
 					ProtoBroadcastAck(PROTONAME, hContact, pak.flIsUrl?ACKTYPE_URL:ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pak.idAckMessage, 0);
 			}
@@ -374,7 +374,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 
 			if (pak.idReqAwayMessage && cont)
 			{
-				HANDLE hContact = FindContact(cont->m_addr, cont->m_nick, true, false, false);
+				HCONTACT hContact = FindContact(cont->m_addr, cont->m_nick, true, false, false);
 				// Removed - it causes that whoisreadingawaymessage plugin was not working
 //				if (hContact)
 //				{
@@ -459,9 +459,8 @@ int CMLan::AddToContactList(u_int flags, EMPSEARCHRESULT* psr)
 
 	bool TempAdd = flags&PALF_TEMPORARY;
 
-	HANDLE contact = FindContact(addr, psr->hdr.nick, true, !TempAdd, !TempAdd, psr->stat);
-	if (contact!=NULL)
-	{
+	HCONTACT contact = FindContact(addr, psr->hdr.nick, true, !TempAdd, !TempAdd, psr->stat);
+	if (contact != NULL) {
 		db_set_w(contact,PROTONAME,"Status", psr->stat );
 		db_set_w(contact,PROTONAME,"RemoteVersion", psr->ver );
 	}
@@ -569,7 +568,7 @@ void CMLan::SearchExt(TDataHolder* hold)
 void CMLan::SendMessageExt(TDataHolder* hold)
 {
 	Sleep(0);
-	if (db_get_w((HANDLE)hold->hContact, PROTONAME, "Status", ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE)
+	if (db_get_w((HCONTACT)hold->hContact, PROTONAME, "Status", ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE)
 	{
 		Sleep(20);
 		ProtoBroadcastAck(PROTONAME, hold->hContact, (hold->op==LEXT_SENDURL)?ACKTYPE_URL:ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)hold->id, 0);
@@ -578,7 +577,7 @@ void CMLan::SendMessageExt(TDataHolder* hold)
 	{
 		TPacket pak;
 		ZeroMemory(&pak, sizeof(pak));
-		u_long addr = db_get_dw((HANDLE)hold->hContact, PROTONAME, "ipaddr", 0);
+		u_long addr = db_get_dw((HCONTACT)hold->hContact, PROTONAME, "ipaddr", 0);
 		pak.strMessage = hold->msg;
 		pak.idMessage = hold->id;
 		if (hold->op==LEXT_SENDURL)
@@ -595,7 +594,7 @@ void CMLan::GetAwayMsgExt(TDataHolder* hold)
 	TPacket pak;
 	ZeroMemory(&pak, sizeof(pak));
 	pak.idReqAwayMessage = hold->id;
-	u_long addr = db_get_dw((HANDLE)hold->hContact, PROTONAME, "ipaddr", 0);
+	u_long addr = db_get_dw((HCONTACT)hold->hContact, PROTONAME, "ipaddr", 0);
 	SendPacketExt(pak, addr);
 
 	ProtoBroadcastAck(PROTONAME, hold->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SENTREQUEST, (HANDLE)hold->id, 0);

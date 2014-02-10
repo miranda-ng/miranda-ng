@@ -73,7 +73,7 @@ void InitKeyX(pUinKey ptr,BYTE *key)
 
 
 // calculate secret key
-BOOL CalculateKeyX(pUinKey ptr,HANDLE hContact)
+BOOL CalculateKeyX(pUinKey ptr,HCONTACT hContact)
 {
 	int agr = cpp_calc_keyx(ptr->cntx);
 	if (agr) {

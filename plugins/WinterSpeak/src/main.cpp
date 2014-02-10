@@ -31,12 +31,12 @@ PLUGININFOEX pluginInfo={
 //-----------------------------------------------------------------------------
 INT_PTR status(WPARAM wParam, LPARAM lParam)
 {
-	return g_speak_config->status(reinterpret_cast<WCHAR *>(lParam), reinterpret_cast<HANDLE>(wParam));
+	return g_speak_config->status(reinterpret_cast<WCHAR *>(lParam), reinterpret_cast<HCONTACT>(wParam));
 }
 
 INT_PTR message(WPARAM wParam, LPARAM lParam)
 {
-	return g_speak_config->message(reinterpret_cast<WCHAR *>(lParam), reinterpret_cast<HANDLE>(wParam));
+	return g_speak_config->message(reinterpret_cast<WCHAR *>(lParam), reinterpret_cast<HCONTACT>(wParam));
 }
 
 //-----------------------------------------------------------------------------
@@ -56,7 +56,7 @@ int eventStatusChange(WPARAM wParam, LPARAM lParam)
 //-----------------------------------------------------------------------------
 int eventMessageAdded(WPARAM wParam, LPARAM lParam)
 {
-	g_speak_announce->incomingEvent(reinterpret_cast<HANDLE>(wParam), reinterpret_cast<HANDLE>(lParam));
+	g_speak_announce->incomingEvent(reinterpret_cast<HCONTACT>(wParam), reinterpret_cast<HANDLE>(lParam));
 	return 0;
 }
 

@@ -231,7 +231,7 @@ void TSAPI FlashTrayIcon(HICON hIcon)
  * is deleted, if necessary.
  */
 
-void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const char *szProto, TCHAR *szStatus, WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu)
+void TSAPI AddContactToFavorites(HCONTACT hContact, const TCHAR *szNickname, const char *szProto, TCHAR *szStatus, WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu)
 {
 	MENUITEMINFO	mii = {0};
 	TCHAR			szMenuEntry[80];
@@ -248,7 +248,7 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 		szProto = GetContactProto(hContact);
 	if (szProto) {
 		if (wStatus == 0)
-			wStatus = db_get_w((HANDLE)hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			wStatus = db_get_w((HCONTACT)hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		if (szStatus == NULL)
 			szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
 	}
@@ -273,7 +273,7 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 					UINT uid = GetMenuItemID(hMenu, 0);
 					if (uid) {
 						DeleteMenu(hMenu, (UINT_PTR)0, MF_BYPOSITION);
-						db_set_dw((HANDLE)uid, SRMSGMOD_T, "isRecent", 0);
+						db_set_dw((HCONTACT)uid, SRMSGMOD_T, "isRecent", 0);
 					}
 				}
 	addnew:
@@ -324,7 +324,7 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 
 typedef struct _recentEntry {
 	DWORD dwTimestamp;
-	HANDLE hContact;
+	HCONTACT hContact;
 } RCENTRY;
 
 void TSAPI LoadFavoritesAndRecent()
@@ -336,7 +336,7 @@ void TSAPI LoadFavoritesAndRecent()
 	if (recentEntries == NULL)
 		return;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (M.GetByte(hContact, "isFavorite", 0))
 			AddContactToFavorites(hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuFavorites);
 		if ((dwRecent = M.GetDword(hContact, "isRecent", 0)) != 0 && iIndex < nen_options.wMaxRecent) {

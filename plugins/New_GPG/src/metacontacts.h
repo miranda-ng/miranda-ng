@@ -14,11 +14,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-bool metaIsProtoMetaContacts(HANDLE hContact);
-bool metaIsDefaultSubContact(HANDLE hContact) ;
-HANDLE metaGetContact(HANDLE hContact);
-bool metaIsSubcontact(HANDLE hContact);
-HANDLE metaGetMostOnline(HANDLE hContact);
-HANDLE metaGetDefault(HANDLE hContact);
-DWORD metaGetContactsNum(HANDLE hContact);
-HANDLE metaGetSubcontact(HANDLE hContact, int num);
+bool     metaIsProtoMetaContacts(HCONTACT hContact);
+bool     metaIsDefaultSubContact(HCONTACT hContact) ;
+HCONTACT metaGetContact(HCONTACT hContact);
+bool     metaIsSubcontact(HCONTACT hContact);
+HCONTACT metaGetMostOnline(HCONTACT hContact);
+HCONTACT metaGetDefault(HCONTACT hContact);
+DWORD    metaGetContactsNum(HCONTACT hContact);
+HCONTACT metaGetSubcontact(HCONTACT hContact, int num);

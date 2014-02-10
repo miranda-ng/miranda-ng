@@ -110,7 +110,7 @@ bool CMsnProto::p2p_sessionRegistered(filetransfer* ft)
 	return idx > -1;
 }
 
-filetransfer* CMsnProto::p2p_getThreadSession(HANDLE hContact, TInfoType mType)
+filetransfer* CMsnProto::p2p_getThreadSession(HCONTACT hContact, TInfoType mType)
 {
 	EnterCriticalSection(&sessionLock);
 
@@ -129,7 +129,7 @@ filetransfer* CMsnProto::p2p_getThreadSession(HANDLE hContact, TInfoType mType)
 	return result;
 }
 
-void CMsnProto::p2p_clearThreadSessions(HANDLE hContact, TInfoType mType)
+void CMsnProto::p2p_clearThreadSessions(HCONTACT hContact, TInfoType mType)
 {
 	EnterCriticalSection(&sessionLock);
 
@@ -147,7 +147,7 @@ void CMsnProto::p2p_clearThreadSessions(HANDLE hContact, TInfoType mType)
 	LeaveCriticalSection(&sessionLock);
 }
 
-filetransfer* CMsnProto::p2p_getAvatarSession(HANDLE hContact)
+filetransfer* CMsnProto::p2p_getAvatarSession(HCONTACT hContact)
 {
 	EnterCriticalSection(&sessionLock);
 
@@ -165,7 +165,7 @@ filetransfer* CMsnProto::p2p_getAvatarSession(HANDLE hContact)
 	return result;
 }
 
-bool CMsnProto::p2p_isAvatarOnly(HANDLE hContact)
+bool CMsnProto::p2p_isAvatarOnly(HCONTACT hContact)
 {
 	EnterCriticalSection(&sessionLock);
 

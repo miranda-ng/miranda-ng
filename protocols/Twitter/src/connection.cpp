@@ -25,7 +25,7 @@ void CALLBACK TwitterProto::APC_callback(ULONG_PTR p)
 }
 
 template<typename T>
-inline static T db_pod_get(HANDLE hContact,const char *module,const char *setting,T errorValue)
+inline static T db_pod_get(HCONTACT hContact,const char *module,const char *setting,T errorValue)
 {
 	DBVARIANT dbv;
 	if(db_get(hContact, module, setting, &dbv))
@@ -41,7 +41,7 @@ inline static T db_pod_get(HANDLE hContact,const char *module,const char *settin
 }
 
 template<typename T>
-inline static INT_PTR db_pod_set(HANDLE hContact,const char *module,const char *setting,T val)
+inline static INT_PTR db_pod_set(HCONTACT hContact,const char *module,const char *setting,T val)
 {
 	return db_set_blob(hContact, module, setting, &val, sizeof(T));
 }
@@ -401,8 +401,8 @@ void TwitterProto::MessageLoop(void*)
 
 struct update_avatar
 {
-	update_avatar(HANDLE hContact,const std::string &url) : hContact(hContact),url(url) {}
-	HANDLE hContact;
+	update_avatar(HCONTACT hContact,const std::string &url) : hContact(hContact),url(url) {}
+	HCONTACT hContact;
 	std::string url;
 };
 
@@ -454,7 +454,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 	debugLogA( _T("***** Done avatar: %s"),data->url.c_str());
 }
 
-void TwitterProto::UpdateAvatar(HANDLE hContact,const std::string &url,bool force)
+void TwitterProto::UpdateAvatar(HCONTACT hContact,const std::string &url,bool force)
 {
 	DBVARIANT dbv = {0};
 
@@ -493,7 +493,7 @@ void TwitterProto::UpdateFriends()
 			if(i->username == twit_.get_username())
 				continue;
 
-			HANDLE hContact = AddToClientList(i->username.c_str(),i->status.text.c_str());
+			HCONTACT hContact = AddToClientList(i->username.c_str(),i->status.text.c_str());
 			UpdateAvatar(hContact,i->profile_image_url);
 		}
 		disconnectionCount = 0; 
@@ -516,7 +516,7 @@ void TwitterProto::UpdateFriends()
 
 }
 
-void TwitterProto::ShowContactPopup(HANDLE hContact,const std::string &text)
+void TwitterProto::ShowContactPopup(HCONTACT hContact,const std::string &text)
 {
 	if(!ServiceExists(MS_POPUP_ADDPOPUPT) || db_get_b(0,m_szModuleName,TWITTER_KEY_POPUP_SHOW,0) == 0)
 	{
@@ -565,7 +565,7 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 			if(i->username == twit_.get_username())
 				continue;
 
-			HANDLE hContact = AddToClientList(i->username.c_str(),"");
+			HCONTACT hContact = AddToClientList(i->username.c_str(),"");
 			UpdateAvatar(hContact,i->profile_image_url); // as UpdateFriends() doesn't work at the moment, i'm going to update the avatars here
 
 			// i think we maybe should just do that DBEF_READ line instead of stopping ALL this code.  have to test.
@@ -620,7 +620,7 @@ void TwitterProto::UpdateMessages(bool pre_read)
 
 		for(twitter::status_list::reverse_iterator i=messages.rbegin(); i!=messages.rend(); ++i)
 		{
-			HANDLE hContact = AddToClientList(i->username.c_str(),"");
+			HCONTACT hContact = AddToClientList(i->username.c_str(),"");
 
 			PROTORECVEVENT recv = { 0 };
 			recv.flags = PREF_UTF;

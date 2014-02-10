@@ -34,9 +34,9 @@ static INT_PTR CB_RemoveButton(WPARAM wParam, LPARAM lParam);
 static INT_PTR CB_AddButton(WPARAM wParam, LPARAM lParam);
 static INT_PTR CB_GetButtonState(WPARAM wParam, LPARAM lParam);
 static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam);
-static void CB_GetButtonSettings(HANDLE hContact,CustomButtonData *cbd);
+static void CB_GetButtonSettings(HCONTACT hContact,CustomButtonData *cbd);
 
-void CB_WriteButtonSettings(HANDLE hContact,CustomButtonData *cbd);
+void CB_WriteButtonSettings(HCONTACT hContact,CustomButtonData *cbd);
 int  sstSortButtons(const void * vmtbi1, const void * vmtbi2);
 
 void CB_DeInitCustomButtons();

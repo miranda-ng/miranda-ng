@@ -33,6 +33,6 @@ void   remove_AT_icons(CAimProto* ppro);
 void   add_ES_icons(CAimProto* ppro);
 void   remove_ES_icons(CAimProto* ppro);
 
-void set_contact_icon(CAimProto* ppro, HANDLE hContact);
+void set_contact_icon(CAimProto* ppro, HCONTACT hContact);
 
 #endif

@@ -66,22 +66,22 @@ int Preview();
 /*
 *
 ****************************/
-HANDLE Nudge_GethContact(HANDLE);
+HCONTACT Nudge_GethContact(HCONTACT);
 
 /*
 *
 ****************************/
-void Nudge_ShowPopup(CNudgeElement, HANDLE, TCHAR *);
+void Nudge_ShowPopup(CNudgeElement, HCONTACT, TCHAR *);
 
 /*
 *
 ****************************/
-void Nudge_ShowStatus(CNudgeElement, HANDLE, DWORD timestamp);
+void Nudge_ShowStatus(CNudgeElement, HCONTACT, DWORD timestamp);
 
 /*
 *
 ****************************/
-void Nudge_SentStatus(CNudgeElement, HANDLE);
+void Nudge_SentStatus(CNudgeElement, HCONTACT);
 
 /*
 *

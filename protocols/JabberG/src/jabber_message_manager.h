@@ -57,7 +57,7 @@ public:
 	LPCTSTR m_szChildTagXmlns;
 	LPCTSTR m_szChildTagName;
 	HXML m_hChildNode;
-	HANDLE m_hContact;
+	HCONTACT m_hContact;
 	LPCTSTR m_szTo;
 	LPCTSTR m_szId;
 
@@ -77,7 +77,7 @@ public:
 	__forceinline LPCTSTR GetIdStr()
 	{	return m_szId;
 	}
-	__forceinline HANDLE GetHContact()
+	__forceinline HCONTACT GetHContact()
 	{	return m_hContact;
 	}
 	__forceinline HXML GetChildNode()

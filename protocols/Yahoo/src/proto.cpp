@@ -61,7 +61,7 @@ CYahooProto::~CYahooProto()
 ////////////////////////////////////////////////////////////////////////////////////////
 // OnModulesLoadedEx - performs hook registration
 
-int CYahooProto::OnModulesLoadedEx( WPARAM, LPARAM )
+int CYahooProto::OnModulesLoadedEx(WPARAM, LPARAM)
 {
 	HookProtoEvent( ME_USERINFO_INITIALISE, 		&CYahooProto::OnUserInfoInit );
 	HookProtoEvent( ME_IDLE_CHANGED, 				&CYahooProto::OnIdleEvent);
@@ -114,7 +114,7 @@ HANDLE CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 	}
 
 	char *id = psr->flags & PSR_UNICODE ? mir_utf8encodeW((wchar_t*)psr->id) : mir_utf8encode((char*)psr->id);
-	HANDLE hContact = getbuddyH(id);
+	HCONTACT hContact = getbuddyH(id);
 	if (hContact != NULL) {
 		if (db_get_b(hContact, "CList", "NotOnList", 0)) {
 			debugLogA("[YahooAddToList] Temporary Buddy:%s already on our buddy list", id);
@@ -164,7 +164,7 @@ HANDLE __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HANDL
 		return 0;
 	}
 
-	HANDLE hContact = DbGetAuthEventContact(&dbei);
+	HCONTACT hContact = DbGetAuthEventContact(&dbei);
 	if (hContact != NULL)
 		debugLogA("Temp Buddy found at: %p ", hContact);
 	else
@@ -199,7 +199,7 @@ int CYahooProto::Authorize( HANDLE hdbe )
 		return 1;
 
 	/* Need to remove the buddy from our Miranda Lists */
-	HANDLE hContact = DbGetAuthEventContact(&dbei);
+	HCONTACT hContact = DbGetAuthEventContact(&dbei);
 	if (hContact != NULL) {
 		ptrA who( getStringA(hContact, YAHOO_LOGINID));
 		if (who) {
@@ -244,7 +244,7 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 	}
 
 	/* Need to remove the buddy from our Miranda Lists */
-	HANDLE hContact = DbGetAuthEventContact(&dbei);
+	HCONTACT hContact = DbGetAuthEventContact(&dbei);
 	if (hContact != NULL) {
 		ptrA who( getStringA(hContact, YAHOO_LOGINID));
 		if (who) {
@@ -262,7 +262,7 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AUTH
 
-int __cdecl CYahooProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
+int __cdecl CYahooProto::AuthRecv(HCONTACT hContact, PROTORECVEVENT* pre)
 {
 	debugLogA("[YahooRecvAuth] ");
 	db_unset(hContact,"CList","Hidden");
@@ -274,7 +274,7 @@ int __cdecl CYahooProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CYahooProto::AuthRequest( HANDLE hContact, const TCHAR* msg )
+int __cdecl CYahooProto::AuthRequest(HCONTACT hContact, const TCHAR* msg )
 {
 	debugLogA("[YahooSendAuthRequest]");
 
@@ -297,7 +297,7 @@ HANDLE __cdecl CYahooProto::ChangeInfo( int /*iInfoType*/, void* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 
-DWORD_PTR __cdecl CYahooProto::GetCaps( int type, HANDLE /*hContact*/ )
+DWORD_PTR __cdecl CYahooProto::GetCaps(int type, HCONTACT hContact)
 {
 	switch ( type ) {
 	case PFLAGNUM_1:
@@ -329,13 +329,13 @@ DWORD_PTR __cdecl CYahooProto::GetCaps( int type, HANDLE /*hContact*/ )
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetInfo - retrieves a contact info
 
-void __cdecl CYahooProto::get_info_thread(HANDLE hContact)
+void __cdecl CYahooProto::get_info_thread(void *hContact)
 {
 	SleepEx(500, TRUE);
-	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
-int __cdecl CYahooProto::GetInfo( HANDLE hContact, int /*infoType*/ )
+int __cdecl CYahooProto::GetInfo(HCONTACT hContact, int /*infoType*/ )
 {
 	ForkThread(&CYahooProto::get_info_thread, hContact);
 	return 0;
@@ -360,7 +360,7 @@ HANDLE __cdecl CYahooProto::SearchByName( const PROTOCHAR* nick, const PROTOCHAR
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvContacts
 
-int __cdecl CYahooProto::RecvContacts( HANDLE /*hContact*/, PROTORECVEVENT* )
+int __cdecl CYahooProto::RecvContacts(HCONTACT/*hContact*/, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -368,7 +368,7 @@ int __cdecl CYahooProto::RecvContacts( HANDLE /*hContact*/, PROTORECVEVENT* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvFile
 
-int __cdecl CYahooProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt )
+int __cdecl CYahooProto::RecvFile(HCONTACT hContact, PROTORECVFILET* evt)
 {
 	db_unset(hContact, "CList", "Hidden");
 
@@ -378,7 +378,7 @@ int __cdecl CYahooProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt )
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvUrl
 
-int __cdecl CYahooProto::RecvUrl( HANDLE /*hContact*/, PROTORECVEVENT* )
+int __cdecl CYahooProto::RecvUrl(HCONTACT/*hContact*/, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -386,7 +386,7 @@ int __cdecl CYahooProto::RecvUrl( HANDLE /*hContact*/, PROTORECVEVENT* )
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
-int __cdecl CYahooProto::SendContacts( HANDLE /*hContact*/, int /*flags*/, int /*nContacts*/, HANDLE* /*hContactsList*/ )
+int __cdecl CYahooProto::SendContacts(HCONTACT/*hContact*/, int /*flags*/, int /*nContacts*/, HCONTACT* /*hContactsList*/)
 {
 	return 1;
 }
@@ -394,7 +394,7 @@ int __cdecl CYahooProto::SendContacts( HANDLE /*hContact*/, int /*flags*/, int /
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendUrl
 
-int __cdecl CYahooProto::SendUrl( HANDLE /*hContact*/, int /*flags*/, const char* /*url*/ )
+int __cdecl CYahooProto::SendUrl(HCONTACT/*hContact*/, int /*flags*/, const char* /*url*/)
 {
 	return 1;
 }
@@ -402,7 +402,7 @@ int __cdecl CYahooProto::SendUrl( HANDLE /*hContact*/, int /*flags*/, const char
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetApparentMode - sets the visibility status
 
-int __cdecl CYahooProto::SetApparentMode( HANDLE hContact, int mode )
+int __cdecl CYahooProto::SetApparentMode(HCONTACT hContact, int mode)
 {
 	if (mode && mode != ID_STATUS_OFFLINE)
 		return 1;
@@ -416,7 +416,7 @@ int __cdecl CYahooProto::SetApparentMode( HANDLE hContact, int mode )
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetStatus - sets the protocol status
 
-int __cdecl CYahooProto::SetStatus( int iNewStatus )
+int __cdecl CYahooProto::SetStatus(int iNewStatus)
 {
 	LOG(("[SetStatus] New status %S", pcli->pfnGetStatusModeDescription(iNewStatus, 0)));
 
@@ -424,7 +424,8 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 
 		logout();
 
-	} else if (!m_bLoggedIn) {
+	}
+	else if (!m_bLoggedIn) {
 		DBVARIANT dbv;
 		int err = 0;
 		char errmsg[80];
@@ -472,7 +473,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 		if (err != 0) {
 			BroadcastStatus(ID_STATUS_OFFLINE);
 
-			ShowError( TranslateT("Yahoo Login Error"), _A2T(errmsg));
+			ShowError(TranslateT("Yahoo Login Error"), _A2T(errmsg));
 			return 0;
 		}
 
@@ -495,12 +496,12 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 
 		BroadcastStatus(ID_STATUS_CONNECTING);
 
-		iNewStatus = (iNewStatus == ID_STATUS_INVISIBLE) ? YAHOO_STATUS_INVISIBLE: YAHOO_STATUS_AVAILABLE;
+		iNewStatus = (iNewStatus == ID_STATUS_INVISIBLE) ? YAHOO_STATUS_INVISIBLE : YAHOO_STATUS_AVAILABLE;
 		ForkThread(&CYahooProto::server_main, (void *)iNewStatus);
 	}
 	else if (iNewStatus == ID_STATUS_INVISIBLE) { /* other normal away statuses are set via setaway */
 		BroadcastStatus(iNewStatus);
-		set_status(m_iStatus,NULL,(m_iStatus != ID_STATUS_ONLINE) ? 1 : 0);
+		set_status(m_iStatus, NULL, (m_iStatus != ID_STATUS_ONLINE) ? 1 : 0);
 	}
 	else {
 		/* clear out our message just in case, STUPID AA! */
@@ -516,13 +517,14 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetAwayMsg - returns a contact's away message
 
-void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
+void __cdecl CYahooProto::get_status_thread(void *param)
 {
 	int l;
 	DBVARIANT dbv;
 	char *gm = NULL, *sm = NULL, *fm;
+	HCONTACT hContact = (HCONTACT)param;
 
-	Sleep( 150 );
+	Sleep(150);
 
 	/* Check Yahoo Games Message */
 	if (!getString(hContact, "YGMsg", &dbv)) {
@@ -530,7 +532,7 @@ void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
 		db_free(&dbv);
 	}
 
-	if (! db_get_s(hContact, "CList", "StatusMsg", &dbv)) {
+	if (!db_get_s(hContact, "CList", "StatusMsg", &dbv)) {
 		if (lstrlenA(dbv.pszVal) >= 1)
 			sm = strdup(dbv.pszVal);
 
@@ -538,7 +540,7 @@ void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
 	}
 	else {
 		int status = getWord(hContact, "YStatus", (WORD)YAHOO_STATUS_OFFLINE);
-		sm = yahoo_status_code( yahoo_status(status));
+		sm = yahoo_status_code(yahoo_status(status));
 		if (sm) sm = strdup(sm); /* we need this to go global FREE later */
 	}
 
@@ -547,18 +549,19 @@ void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
 		l += lstrlenA(gm) + 3;
 
 	l += lstrlenA(sm) + 1;
-	fm = (char *) malloc(l);
+	fm = (char *)malloc(l);
 
-	fm[0] ='\0';
+	fm[0] = '\0';
 	if (gm && lstrlenA(gm) > 0) {
 		/* BAH YAHOO SUCKS! WHAT A PAIN!
 		find first carriage return add status message then add the rest */
 		char *c = strchr(gm, '\r');
 
 		if (c != NULL) {
-			lstrcpynA(fm,gm, c - gm + 1);
+			lstrcpynA(fm, gm, c - gm + 1);
 			fm[c - gm + 1] = '\0';
-		} else
+		}
+		else
 			lstrcpyA(fm, gm);
 
 		if (sm) {
@@ -568,16 +571,17 @@ void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
 
 		if (c != NULL)
 			lstrcatA(fm, c);
-	} else if (sm) {
+	}
+	else if (sm) {
 		lstrcatA(fm, sm);
 	}
 
 	FREE(sm);
 
-	ProtoBroadcastAck( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, ( HANDLE )1, (LPARAM)( TCHAR* )_A2T(fm));
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)(TCHAR*)_A2T(fm));
 }
 
-HANDLE __cdecl CYahooProto::GetAwayMsg( HANDLE hContact )
+HANDLE __cdecl CYahooProto::GetAwayMsg(HCONTACT hContact)
 {
 	debugLogA("[YahooGetAwayMessage] ");
 
@@ -595,7 +599,7 @@ HANDLE __cdecl CYahooProto::GetAwayMsg( HANDLE hContact )
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AWAYMSG
 
-int __cdecl CYahooProto::RecvAwayMsg( HANDLE /*hContact*/, int /*statusMode*/, PROTORECVEVENT* )
+int __cdecl CYahooProto::RecvAwayMsg(HCONTACT/*hContact*/, int /*statusMode*/, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -603,18 +607,19 @@ int __cdecl CYahooProto::RecvAwayMsg( HANDLE /*hContact*/, int /*statusMode*/, P
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetAwayMsg - sets the away status message
 
-int __cdecl CYahooProto::SetAwayMsg( int status, const PROTOCHAR* msg )
+int __cdecl CYahooProto::SetAwayMsg(int status, const PROTOCHAR* msg)
 {
 	char *c = msg && msg[0] ? mir_utf8encodeT(msg) : NULL;
 
 	debugLogA("[YahooSetAwayMessage] Status: %S, Msg: %s", pcli->pfnGetStatusModeDescription(status, 0), (char*)c);
 
-    if (!m_bLoggedIn) {
+	if (!m_bLoggedIn) {
 		if (m_iStatus == ID_STATUS_OFFLINE) {
 			debugLogA("[YahooSetAwayMessage] WARNING: WE ARE OFFLINE!");
 			mir_free(c);
 			return 1;
-		} else {
+		}
+		else {
 			if (m_startMsg) free(m_startMsg);
 
 			m_startMsg = c ? strdup(c) : NULL;
@@ -634,10 +639,12 @@ int __cdecl CYahooProto::SetAwayMsg( int status, const PROTOCHAR* msg )
 		m_startMsg = strdup(c);
 		if (status == ID_STATUS_ONLINE) {
 			set_status(YAHOO_CUSTOM_STATUS, c, 0);
-		} else if (status != ID_STATUS_INVISIBLE) {
+		}
+		else if (status != ID_STATUS_INVISIBLE) {
 			set_status(YAHOO_CUSTOM_STATUS, c, 1);
 		}
-    } else {
+	}
+	else {
 		set_status(status, NULL, 0);
 		m_startMsg = NULL;
 	}
@@ -651,32 +658,33 @@ int __cdecl CYahooProto::SetAwayMsg( int status, const PROTOCHAR* msg )
 
 INT_PTR __cdecl CYahooProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 {
-	if (!m_bLoggedIn || ! m_startMsg)
+	if (!m_bLoggedIn || !m_startMsg)
 		return 0;
 
 	if (lParam & SGMA_UNICODE)  {
-		return (INT_PTR) mir_utf8decodeW(m_startMsg);
-	} else {
-		return (INT_PTR) mir_utf8decodeA(m_startMsg);
+		return (INT_PTR)mir_utf8decodeW(m_startMsg);
+	}
+	else {
+		return (INT_PTR)mir_utf8decodeA(m_startMsg);
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // UserIsTyping - sends a UTN notification
 
-int __cdecl CYahooProto::UserIsTyping( HANDLE hContact, int type )
+int __cdecl CYahooProto::UserIsTyping(HCONTACT hContact, int type)
 {
 	if (!m_bLoggedIn)
 		return 0;
 
 	char *szProto = GetContactProto(hContact);
-	if (szProto==NULL || strcmp(szProto, m_szModuleName))
+	if (szProto == NULL || strcmp(szProto, m_szModuleName))
 		return 0;
 
 	DBVARIANT dbv;
 	if (!getString(hContact, YAHOO_LOGINID, &dbv)) {
 		if (type == PROTOTYPE_SELFTYPING_OFF || type == PROTOTYPE_SELFTYPING_ON) {
-			sendtyping(dbv.pszVal, getWord(hContact, "yprotoid", 0), type == PROTOTYPE_SELFTYPING_ON?1:0);
+			sendtyping(dbv.pszVal, getWord(hContact, "yprotoid", 0), type == PROTOTYPE_SELFTYPING_ON ? 1 : 0);
 		}
 		db_free(&dbv);
 	}
@@ -686,31 +694,31 @@ int __cdecl CYahooProto::UserIsTyping( HANDLE hContact, int type )
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnEvent - maintain protocol events
 
-int __cdecl CYahooProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam )
+int __cdecl CYahooProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
-	switch( eventType ) {
-		case EV_PROTO_ONLOAD:    return OnModulesLoadedEx( 0, 0);
+	switch (eventType) {
+	case EV_PROTO_ONLOAD:    return OnModulesLoadedEx(0, 0);
 		//case EV_PROTO_ONEXIT:    return OnPreShutdown( 0, 0);
-		case EV_PROTO_ONOPTIONS: return OnOptionsInit( wParam, lParam );
+	case EV_PROTO_ONOPTIONS: return OnOptionsInit(wParam, lParam);
 
-		case EV_PROTO_ONMENU:
-			MenuMainInit();
-			break;
+	case EV_PROTO_ONMENU:
+		MenuMainInit();
+		break;
 
-		case EV_PROTO_ONRENAME:
-			if ( mainMenuRoot ) {
-				CLISTMENUITEM mi = { sizeof(mi) };
-				mi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-				mi.ptszName = m_tszUserName;
-				Menu_ModifyItem(mainMenuRoot, &mi);
-			}
-			break;
+	case EV_PROTO_ONRENAME:
+		if (mainMenuRoot) {
+			CLISTMENUITEM mi = { sizeof(mi) };
+			mi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+			mi.ptszName = m_tszUserName;
+			Menu_ModifyItem(mainMenuRoot, &mi);
+		}
+		break;
 
-		case EV_PROTO_ONCONTACTDELETED:
-			return OnContactDeleted(wParam, lParam);
+	case EV_PROTO_ONCONTACTDELETED:
+		return OnContactDeleted(wParam, lParam);
 
-		case EV_PROTO_DBSETTINGSCHANGED:
-			return OnSettingChanged(wParam, lParam);
+	case EV_PROTO_DBSETTINGSCHANGED:
+		return OnSettingChanged(wParam, lParam);
 	}
 	return 1;
 }
@@ -727,12 +735,12 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		ppro = (CYahooProto*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-		if ( !ppro->getString(YAHOO_LOGINID, &dbv)) {
+		if (!ppro->getString(YAHOO_LOGINID, &dbv)) {
 			SetDlgItemTextA(hwndDlg, IDC_HANDLE, dbv.pszVal);
 			db_free(&dbv);
 		}
 
-		if ( !ppro->getString(YAHOO_PASSWORD, &dbv)) {
+		if (!ppro->getString(YAHOO_PASSWORD, &dbv)) {
 			SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 			db_free(&dbv);
 		}
@@ -741,19 +749,19 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		return TRUE;
 
 	case WM_COMMAND:
-		if ( LOWORD( wParam ) == IDC_NEWYAHOOACCOUNTLINK ) {
+		if (LOWORD(wParam) == IDC_NEWYAHOOACCOUNTLINK) {
 			CallService(MS_UTILS_OPENURL,
-							1,
-							((BYTE)IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN ) == 1) ?
-							(LPARAM) "http://edit.yahoo.co.jp/config/eval_register" :
-							(LPARAM) "http://edit.yahoo.com/config/eval_register"
-						);
+				1,
+				((BYTE)IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN) == 1) ?
+				(LPARAM) "http://edit.yahoo.co.jp/config/eval_register" :
+				(LPARAM) "http://edit.yahoo.com/config/eval_register"
+				);
 			return TRUE;
 		}
 
-		if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus())
+		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
 		{
-			switch( LOWORD( wParam )) {
+			switch (LOWORD(wParam)) {
 			case IDC_HANDLE:
 			case IDC_PASSWORD:
 			case IDC_YAHOO_JAPAN:
@@ -763,7 +771,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY ) {
+		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY) {
 			char str[128];
 			BOOL reconnectRequired = FALSE;
 
@@ -771,17 +779,17 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			dbv.pszVal = NULL;
 
-			if (ppro->getString( YAHOO_LOGINID, &dbv) || lstrcmpA(str, dbv.pszVal))
+			if (ppro->getString(YAHOO_LOGINID, &dbv) || lstrcmpA(str, dbv.pszVal))
 				reconnectRequired = TRUE;
 
-			if ( dbv.pszVal != NULL)
+			if (dbv.pszVal != NULL)
 				db_free(&dbv);
 
 			ppro->setString(YAHOO_LOGINID, str);
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
 
 			dbv.pszVal = NULL;
-			if (ppro->getString( YAHOO_PASSWORD, &dbv) || lstrcmpA(str, dbv.pszVal))
+			if (ppro->getString(YAHOO_PASSWORD, &dbv) || lstrcmpA(str, dbv.pszVal))
 				reconnectRequired = TRUE;
 			if (dbv.pszVal != NULL)
 				db_free(&dbv);
@@ -790,10 +798,10 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				ppro->delSetting(YAHOO_PWTOKEN);
 
 			ppro->setString(YAHOO_PASSWORD, str);
-			ppro->setByte("YahooJapan", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN ));
+			ppro->setByte("YahooJapan", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN));
 
-			if ( reconnectRequired && ppro->m_bLoggedIn )
-				MessageBoxA(hwndDlg, Translate("The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
+			if (reconnectRequired && ppro->m_bLoggedIn)
+				MessageBoxA(hwndDlg, Translate("The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK);
 
 			return TRUE;
 		}
@@ -803,9 +811,8 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-
 INT_PTR CYahooProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam (hInstance, MAKEINTRESOURCE( IDD_YAHOOACCOUNT ),
-		 (HWND)lParam, first_run_dialog, (LPARAM)this );
+	return (INT_PTR)CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_YAHOOACCOUNT),
+		(HWND)lParam, first_run_dialog, (LPARAM)this);
 }

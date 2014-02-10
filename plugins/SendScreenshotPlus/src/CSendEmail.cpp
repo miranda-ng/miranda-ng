@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "global.h"
 
 //---------------------------------------------------------------------------
-CSendEmail::CSendEmail(HWND Owner, HANDLE hContact, bool bFreeOnExit)
+CSendEmail::CSendEmail(HWND Owner, HCONTACT hContact, bool bFreeOnExit)
 : CSend(Owner, hContact, bFreeOnExit){
 	m_EnableItem		= SS_DLG_DELETEAFTERSSEND | SS_DLG_DESCRIPTION; // SS_DLG_AUTOSEND | ;
 	m_pszSendTyp		= _T("Email transfer");

@@ -440,7 +440,7 @@ BOOL IsAuthorized(TlenProtocol *proto, const char *jid)
 }
 
 
-void TlenLogMessage(TlenProtocol *proto, HANDLE hContact, DWORD flags, const char *message)
+void TlenLogMessage(TlenProtocol *proto, HCONTACT hContact, DWORD flags, const char *message)
 {
 	int size = (int)strlen(message) + 2;
 	char *localMessage = (char *)mir_alloc(size);

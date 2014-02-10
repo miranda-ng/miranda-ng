@@ -291,7 +291,7 @@ int CIcqProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	ModuleLoad(0, 0);
 	InitXStatusItems(FALSE);
 
-	HANDLE hContact = FindFirstContact();
+	HCONTACT hContact = FindFirstContact();
 	while (hContact != NULL) {
 		DWORD bXStatus = getContactXStatus(hContact);
 		if (bXStatus > 0)
@@ -420,7 +420,7 @@ HANDLE __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEv
 int CIcqProto::Authorize(HANDLE hDbEvent)
 {
 	if (icqOnline() && hDbEvent) {
-		HANDLE hContact = HContactFromAuthEvent(hDbEvent);
+		HCONTACT hContact = HContactFromAuthEvent(hDbEvent);
 		if (hContact == INVALID_HANDLE_VALUE)
 			return 1;
 
@@ -446,7 +446,7 @@ int CIcqProto::Authorize(HANDLE hDbEvent)
 int CIcqProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 {
 	if (icqOnline() && hDbEvent) {
-		HANDLE hContact = HContactFromAuthEvent(hDbEvent);
+		HCONTACT hContact = HContactFromAuthEvent(hDbEvent);
 		if (hContact == INVALID_HANDLE_VALUE)
 			return 1;
 
@@ -470,7 +470,7 @@ int CIcqProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AUTH
 
-int __cdecl CIcqProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
+int __cdecl CIcqProto::AuthRecv(HCONTACT hContact, PROTORECVEVENT* pre)
 {
 	setContactHidden(hContact, 0);
 	ICQAddRecvEvent(NULL, EVENTTYPE_AUTHREQUEST, pre, pre->lParam, (PBYTE)pre->szMessage, 0);
@@ -480,7 +480,7 @@ int __cdecl CIcqProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CIcqProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
+int __cdecl CIcqProto::AuthRequest(HCONTACT hContact, const TCHAR* szMessage)
 {
 	if (!icqOnline())
 		return 1;
@@ -515,7 +515,7 @@ HANDLE __cdecl CIcqProto::ChangeInfo(int iInfoType, void* pInfoData)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileAllow - starts a file transfer
 
-HANDLE __cdecl CIcqProto::FileAllow(HANDLE hContact, HANDLE hTransfer, const TCHAR* szPath)
+HANDLE __cdecl CIcqProto::FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -558,7 +558,7 @@ HANDLE __cdecl CIcqProto::FileAllow(HANDLE hContact, HANDLE hTransfer, const TCH
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileCancel - cancels a file transfer
 
-int __cdecl CIcqProto::FileCancel(HANDLE hContact, HANDLE hTransfer)
+int __cdecl CIcqProto::FileCancel(HCONTACT hContact, HANDLE hTransfer)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -588,7 +588,7 @@ int __cdecl CIcqProto::FileCancel(HANDLE hContact, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileDeny - denies a file transfer
 
-int __cdecl CIcqProto::FileDeny(HANDLE hContact, HANDLE hTransfer, const TCHAR* szReason)
+int __cdecl CIcqProto::FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
 {
 	int nReturnValue = 1;
 	DWORD dwUin;
@@ -657,7 +657,7 @@ int __cdecl CIcqProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** s
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 
-DWORD_PTR __cdecl CIcqProto::GetCaps(int type, HANDLE hContact)
+DWORD_PTR __cdecl CIcqProto::GetCaps(int type, HCONTACT hContact)
 {
 	DWORD_PTR nReturn = 0;
 
@@ -742,7 +742,7 @@ DWORD_PTR __cdecl CIcqProto::GetCaps(int type, HANDLE hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetInfo - retrieves a contact info
 
-int __cdecl CIcqProto::GetInfo(HANDLE hContact, int infoType)
+int __cdecl CIcqProto::GetInfo(HCONTACT hContact, int infoType)
 {
 	if (icqOnline()) {
 		DWORD dwUin;
@@ -923,7 +923,7 @@ HWND __cdecl CIcqProto::SearchAdvanced(HWND hwndDlg)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvContacts
 
-int __cdecl CIcqProto::RecvContacts(HANDLE hContact, PROTORECVEVENT* pre)
+int __cdecl CIcqProto::RecvContacts(HCONTACT hContact, PROTORECVEVENT* pre)
 {
 	ICQSEARCHRESULT **isrList = (ICQSEARCHRESULT**)pre->szMessage;
 	int i;
@@ -974,7 +974,7 @@ int __cdecl CIcqProto::RecvContacts(HANDLE hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvFile
 
-int __cdecl CIcqProto::RecvFile(HANDLE hContact, PROTORECVFILET* evt)
+int __cdecl CIcqProto::RecvFile(HCONTACT hContact, PROTORECVFILET* evt)
 {
 	return Proto_RecvFile(hContact, evt);
 }
@@ -983,7 +983,7 @@ int __cdecl CIcqProto::RecvFile(HANDLE hContact, PROTORECVFILET* evt)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
-int __cdecl CIcqProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
+int __cdecl CIcqProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT* pre)
 {
 	DWORD cbBlob;
 	DWORD flags = 0;
@@ -1009,7 +1009,7 @@ int __cdecl CIcqProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvUrl
 
-int __cdecl CIcqProto::RecvUrl(HANDLE hContact, PROTORECVEVENT*)
+int __cdecl CIcqProto::RecvUrl(HCONTACT hContact, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -1018,7 +1018,7 @@ int __cdecl CIcqProto::RecvUrl(HANDLE hContact, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
-int __cdecl CIcqProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList)
+int __cdecl CIcqProto::SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList)
 {
 	if (hContact && hContactsList) {
 		int i;
@@ -1289,7 +1289,7 @@ int __cdecl CIcqProto::SendContacts(HANDLE hContact, int flags, int nContacts, H
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CIcqProto::SendFile(HANDLE hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
+HANDLE __cdecl CIcqProto::SendFile(HCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
 {
 	if (!icqOnline())
 		return 0;
@@ -1391,7 +1391,7 @@ HANDLE __cdecl CIcqProto::SendFile(HANDLE hContact, const TCHAR* szDescription, 
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SendMessage - sends a message
 
-int __cdecl CIcqProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
+int __cdecl CIcqProto::SendMsg(HCONTACT hContact, int flags, const char* pszSrc)
 {
 	if (hContact == NULL || pszSrc == NULL)
 		return NULL;
@@ -1581,7 +1581,7 @@ int __cdecl CIcqProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendUrl
 
-int __cdecl CIcqProto::SendUrl(HANDLE hContact, int flags, const char* url)
+int __cdecl CIcqProto::SendUrl(HCONTACT hContact, int flags, const char* url)
 {
 	if (hContact == NULL || url == NULL)
 		return 0;
@@ -1646,7 +1646,7 @@ int __cdecl CIcqProto::SendUrl(HANDLE hContact, int flags, const char* url)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SetApparentMode - sets the visibility status
 
-int __cdecl CIcqProto::SetApparentMode(HANDLE hContact, int mode)
+int __cdecl CIcqProto::SetApparentMode(HCONTACT hContact, int mode)
 {
 	DWORD uin;
 	uid_str uid;
@@ -1840,7 +1840,7 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 
 struct status_message_thread_data
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	char *szMessage;
 	HANDLE hProcess;
 };
@@ -1866,7 +1866,7 @@ void __cdecl CIcqProto::GetAwayMsgThread(void *pStatusData)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_GetAwayMsg - returns a contact's away message
 
-HANDLE __cdecl CIcqProto::GetAwayMsg(HANDLE hContact)
+HANDLE __cdecl CIcqProto::GetAwayMsg(HCONTACT hContact)
 {
 	DWORD dwUin;
 	uid_str szUID;
@@ -1949,7 +1949,7 @@ HANDLE __cdecl CIcqProto::GetAwayMsg(HANDLE hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AWAYMSG - processes received status mode message
 
-int __cdecl CIcqProto::RecvAwayMsg(HANDLE hContact, int statusMode, PROTORECVEVENT* evt)
+int __cdecl CIcqProto::RecvAwayMsg(HCONTACT hContact, int statusMode, PROTORECVEVENT* evt)
 {
 	if (evt->flags & PREF_UTF) {
 		setStatusMsgVar(hContact, evt->szMessage, false);
@@ -2039,7 +2039,7 @@ INT_PTR CIcqProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // PS_UserIsTyping - sends a UTN notification
 
-int __cdecl CIcqProto::UserIsTyping(HANDLE hContact, int type)
+int __cdecl CIcqProto::UserIsTyping(HCONTACT hContact, int type)
 {
 	if (hContact && icqOnline()) {
 		if (CheckContactCapabilities(hContact, CAPF_TYPING)) {

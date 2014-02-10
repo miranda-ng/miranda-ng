@@ -93,7 +93,7 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw);
 void   LoadMsgLogBitmaps(void);
 void   FreeMsgLogBitmaps(void);
-TCHAR* GetChatLogsFilename (HANDLE  hContact, time_t tTime);
+TCHAR* GetChatLogsFilename(HCONTACT hContact, time_t tTime);
 
 // window.c
 int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth);
@@ -105,7 +105,7 @@ int OptionsInit(void);
 void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
 
 // manager.c
-HWND          SM_FindWindowByContact(HANDLE hContact);
+HWND          SM_FindWindowByContact(HCONTACT hContact);
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent);
 char          SM_GetStatusIndicator(SESSION_INFO *si, USERINFO *ui);
 

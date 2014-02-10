@@ -28,9 +28,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _CLIST_H_
 
 void LoadContactTree(void);
-HTREEITEM GetTreeItemByHContact(HANDLE hContact);
-void cli_ChangeContactIcon(HANDLE hContact,int iIcon,int add);
-int GetContactInfosForSort(HANDLE hContact,char **Proto,TCHAR **Name,int *Status);
+HTREEITEM GetTreeItemByHContact(HCONTACT hContact);
+void cli_ChangeContactIcon(HCONTACT hContact,int iIcon,int add);
+int GetContactInfosForSort(HCONTACT hContact,char **Proto,TCHAR **Name,int *Status);
 
 ///////////////////////////////////////////////////////////////////////////////
 

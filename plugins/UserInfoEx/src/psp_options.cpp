@@ -488,7 +488,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				LPGENT("This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?"));
 
 			if (WantReset) {
-				HANDLE hContact;
+				HCONTACT hContact;
 				DB::CEnumList	Settings;
 
 				// delete all skin icons
@@ -706,7 +706,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				if (bOld != bNew) {
 					//keep the database clean
 					MAnnivDate mdb;
-					HANDLE hContact = NULL;
+					HCONTACT hContact = NULL;
 					DBWriteComboByte(hDlg, EDIT_BIRTHMODULE, SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);
 					//walk through all the contacts stored in the DB
 					for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))

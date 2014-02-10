@@ -69,7 +69,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static void setExtraIcon(HANDLE hContact, int bRate = -1, BOOL clear = TRUE)
+static void setExtraIcon(HCONTACT hContact, int bRate = -1, BOOL clear = TRUE)
 {
 	if (hContact == NULL)
 		return;
@@ -106,7 +106,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hExtraIcon = ExtraIcon_Register("contact_rate", LPGEN("Contact rate"), "rate_high");
 
 	// Set initial value for all contacts
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		setExtraIcon(hContact, -1, FALSE);
 
 	return 0;
@@ -117,7 +117,7 @@ int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
 	if (wParam != NULL && !lstrcmpA(cws->szModule,"CList") && !lstrcmpA(cws->szSetting,"Rate"))
-		setExtraIcon((HANDLE)wParam, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal);
+		setExtraIcon((HCONTACT)wParam, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal);
 
 	return 0;
 }

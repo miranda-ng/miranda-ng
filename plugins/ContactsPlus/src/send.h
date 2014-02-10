@@ -53,27 +53,27 @@ struct TSendContactsData {  // hope uack is released automaticly, static propert
   HANDLE hHook;             // hook to event
   void HookProtoAck(HWND hwndDlg);
   void UnhookProtoAck();
-  HANDLE* aContacts;        // contacts to be sent
+  HCONTACT *aContacts;        // contacts to be sent
   int nContacts;            // now many UIDs shall we send?
   void ClearContacts();
-  void AddContact(HANDLE hContact);
-  HANDLE hContact;          // to whom shall we send?
+  void AddContact(HCONTACT hContact);
+  HCONTACT hContact;          // to whom shall we send?
   TSendProcessList uacklist;// ackdata - necessary for errorbox
   HWND hError;              // handle of error box, if any
   void ShowErrorDlg(HWND hwndDlg, char* szMsg, bool bAllowRetry);
-  int SendContactsPacket(HWND hwndDlg, HANDLE *phContacts, int nContacts);
+  int SendContactsPacket(HWND hwndDlg, HCONTACT *phContacts, int nContacts);
   int SendContacts(HWND hwndDlg);
   HICON hIcons[4];          // icons for dialog
-  TSendContactsData(HANDLE contact);
+  TSendContactsData(HCONTACT contact);
   ~TSendContactsData();
 };
 
 struct TAckData
 {
-  HANDLE hContact;    // to whom was it sent
-  HANDLE* aContacts;  // obj
+  HCONTACT hContact;    // to whom was it sent
+  HCONTACT* aContacts;  // obj
   int nContacts;      // how many
-  TAckData(HANDLE contact) { hContact = contact; aContacts = NULL; nContacts = 0;};
+  TAckData(HCONTACT contact) { hContact = contact; aContacts = NULL; nContacts = 0;};
   ~TAckData() { mir_free(aContacts); }
 };
 

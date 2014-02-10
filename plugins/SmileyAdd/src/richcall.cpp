@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 struct RichEditData
 {
 	HWND hwnd;
-	HANDLE hContact;
+	HCONTACT hContact;
 	HWND hToolTip;
 	int tipActive;
 	bool inputarea;
@@ -312,7 +312,7 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 	return result;
 }
 
-bool SetRichCallback(HWND hwnd, HANDLE hContact, bool subany, bool subnew)
+bool SetRichCallback(HWND hwnd, HCONTACT hContact, bool subany, bool subnew)
 {
 	RichEditData* rdt = g_RichEditList.find((RichEditData*)&hwnd);
 	if (rdt == NULL) {

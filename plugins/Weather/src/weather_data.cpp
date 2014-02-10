@@ -30,7 +30,7 @@ saving individual weather data for a weather contact.
 // hContact = the current contact handle
 // return value = the string for station ID
 
-void GetStationID(HANDLE hContact, TCHAR* id, size_t idlen)
+void GetStationID(HCONTACT hContact, TCHAR* id, size_t idlen)
 {
 	// accessing the database
 	if (DBGetStaticString(hContact, WEATHERPROTONAME, "ID", id, idlen))
@@ -40,7 +40,7 @@ void GetStationID(HANDLE hContact, TCHAR* id, size_t idlen)
 // initialize weather info by loading values from database
 // hContact = current contact handle
 // return value = the current weather information in WEATHERINFO struct
-WEATHERINFO LoadWeatherInfo(HANDLE hContact) 
+WEATHERINFO LoadWeatherInfo(HCONTACT hContact) 
 {
 	// obtaining values from the DB
 	// assuming station ID must exist at all time, but others does not have to
@@ -86,7 +86,7 @@ WEATHERINFO LoadWeatherInfo(HANDLE hContact)
 
 // getting weather setting from database
 // return 0 on success
-int DBGetData(HANDLE hContact, char *setting, DBVARIANT *dbv) 
+int DBGetData(HCONTACT hContact, char *setting, DBVARIANT *dbv) 
 {
 	if ( db_get_ts(hContact, WEATHERCONDITION, setting, dbv)) {
 		size_t len = strlen(setting) + 1;
@@ -100,7 +100,7 @@ int DBGetData(HANDLE hContact, char *setting, DBVARIANT *dbv)
 	return 0;
 }
 
-int DBGetStaticString(HANDLE hContact, const char *szModule, const char *valueName, TCHAR *dest, size_t dest_len)
+int DBGetStaticString(HCONTACT hContact, const char *szModule, const char *valueName, TCHAR *dest, size_t dest_len)
 {
 	DBVARIANT dbv;
 	if ( db_get_ts( hContact, szModule, valueName, &dbv ))
@@ -121,10 +121,10 @@ void EraseAllInfo()
 {
 	TCHAR str[255];
 	int ContactCount = 0;
-	HANDLE LastContact = NULL;
+	HCONTACT LastContact = NULL;
 	DBVARIANT dbv;
 	// loop through all contacts
-	for (HANDLE hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME)) {
+	for (HCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME)) {
 		db_set_w(hContact,WEATHERPROTONAME, "Status",ID_STATUS_OFFLINE);
 		db_set_w(hContact,WEATHERPROTONAME, "StatusIcon",ID_STATUS_OFFLINE);
 		db_unset(hContact, "CList", "MyHandle");
@@ -424,7 +424,7 @@ int GetWeatherDataFromDB(const char *szSetting, LPARAM lparam)
 // remove or display the weather information for a contact
 // hContact - the contact in which the info is going to be removed
 
-void DBDataManage(HANDLE hContact, WORD Mode, WPARAM wParam, LPARAM lParam)
+void DBDataManage(HCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM lParam)
 {
 	LIST<char> arSettings(10);
 

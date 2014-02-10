@@ -160,15 +160,15 @@ unsigned short CAimProto::get_default_port(void)
 	return getWord(AIM_KEY_PN, getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_PORT : AIM_DEFAULT_SSL_PORT);
 }
 
-bool CAimProto::is_my_contact(HANDLE hContact)
+bool CAimProto::is_my_contact(HCONTACT hContact)
 {
 	const char* szProto = GetContactProto(hContact);
 	return szProto != NULL && strcmp(m_szModuleName, szProto) == 0;
 }
 
-HANDLE CAimProto::find_chat_contact(const char* room)
+HCONTACT CAimProto::find_chat_contact(const char* room)
 {
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
 		if (!getString(hContact, "ChatRoomID", &dbv)) {
 			bool found = !strcmp(room, dbv.pszVal); 
@@ -180,11 +180,11 @@ HANDLE CAimProto::find_chat_contact(const char* room)
 	return NULL;
 }
 
-HANDLE CAimProto::contact_from_sn(const char* sn, bool addIfNeeded, bool temporary)
+HCONTACT CAimProto::contact_from_sn(const char* sn, bool addIfNeeded, bool temporary)
 {
 	ptrA norm_sn( normalize_name(sn));
 
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
 		if (!getString(hContact, AIM_KEY_SN, &dbv)) {
 			bool found = !strcmp(norm_sn, dbv.pszVal); 
@@ -195,7 +195,7 @@ HANDLE CAimProto::contact_from_sn(const char* sn, bool addIfNeeded, bool tempora
 	}
 
 	if (addIfNeeded) {
-		HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		HCONTACT hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		if (hContact) {
 			if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) m_szModuleName) == 0) {
 				setString(hContact, AIM_KEY_SN, norm_sn);
@@ -234,7 +234,7 @@ void CAimProto::update_server_group(const char* group, unsigned short group_id)
 	mir_free(user_id_array);
 }
 
-void CAimProto::add_contact_to_group(HANDLE hContact, const char* new_group)
+void CAimProto::add_contact_to_group(HCONTACT hContact, const char* new_group)
 {
 	if (new_group == NULL) return;
 
@@ -300,7 +300,7 @@ void CAimProto::add_contact_to_group(HANDLE hContact, const char* new_group)
 	db_free(&dbv);
 }
 
-void CAimProto::offline_contact(HANDLE hContact, bool remove_settings)
+void CAimProto::offline_contact(HCONTACT hContact, bool remove_settings)
 {
 	if (remove_settings)
 	{
@@ -318,7 +318,7 @@ void CAimProto::offline_contact(HANDLE hContact, bool remove_settings)
 
 void CAimProto::offline_contacts(void)
 {
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		offline_contact(hContact,true);
 
 	allow_list.destroy();
@@ -376,14 +376,14 @@ void create_group(const char *group)
 	mir_free(szGroupName);
 }
 
-unsigned short CAimProto::search_for_free_item_id(HANDLE hbuddy)//returns a free item id and links the id to the buddy
+unsigned short CAimProto::search_for_free_item_id(HCONTACT hbuddy)//returns a free item id and links the id to the buddy
 {
 	unsigned short id;
 
 retry:
 	id = get_random();
 
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		for(int i=1; ;++i) {
 			unsigned short item_id = getBuddyId(hContact, i);
 			if (item_id == 0) break;
@@ -402,7 +402,7 @@ unsigned short* CAimProto::get_members_of_group(unsigned short group_id, unsigne
 	unsigned short* list = NULL;
 	size = 0;
 
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		for(int i=1; ;++i) {
 			unsigned short user_group_id = getGroupId(hContact, i);
 			if (user_group_id == 0)
@@ -422,7 +422,7 @@ unsigned short* CAimProto::get_members_of_group(unsigned short group_id, unsigne
 
 void CAimProto::upload_nicks(void)
 {
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
 		if ( !db_get_utf(hContact, MOD_KEY_CL, "MyHandle", &dbv)) {
 			set_local_nick(hContact, dbv.pszVal, NULL);
@@ -431,7 +431,7 @@ void CAimProto::upload_nicks(void)
 	}
 }
 
-void CAimProto::set_local_nick(HANDLE hContact, char* nick, char* note)
+void CAimProto::set_local_nick(HCONTACT hContact, char* nick, char* note)
 {
 	DBVARIANT dbv;
 	if (getString(hContact, AIM_KEY_SN, &dbv)) return;
@@ -498,42 +498,42 @@ void BdList::remove_by_id(unsigned short id)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned short CAimProto::getBuddyId(HANDLE hContact, int i)
+unsigned short CAimProto::getBuddyId(HCONTACT hContact, int i)
 {
 	char item[sizeof(AIM_KEY_BI)+10];
 	mir_snprintf(item, sizeof(AIM_KEY_BI)+10, AIM_KEY_BI"%d", i);
 	return getWord(hContact, item, 0);
 }
 
-void CAimProto::setBuddyId(HANDLE hContact, int i, unsigned short id)
+void CAimProto::setBuddyId(HCONTACT hContact, int i, unsigned short id)
 {
 	char item[sizeof(AIM_KEY_BI)+10];
 	mir_snprintf(item, sizeof(AIM_KEY_BI)+10, AIM_KEY_BI"%d", i);
 	setWord(hContact, item, id);
 }
 
-int CAimProto::deleteBuddyId(HANDLE hContact, int i)
+int CAimProto::deleteBuddyId(HCONTACT hContact, int i)
 {
 	char item[sizeof(AIM_KEY_BI)+10];
 	mir_snprintf(item, sizeof(AIM_KEY_BI)+10, AIM_KEY_BI"%d", i);
 	return delSetting(hContact, item);
 }
 
-unsigned short CAimProto::getGroupId(HANDLE hContact, int i)
+unsigned short CAimProto::getGroupId(HCONTACT hContact, int i)
 {
 	char item[sizeof(AIM_KEY_GI)+10];
 	mir_snprintf(item, sizeof(AIM_KEY_GI)+10, AIM_KEY_GI"%d", i);
 	return getWord(hContact, item, 0);
 }
 
-void CAimProto::setGroupId(HANDLE hContact, int i, unsigned short id)
+void CAimProto::setGroupId(HCONTACT hContact, int i, unsigned short id)
 {
 	char item[sizeof(AIM_KEY_GI)+10];
 	mir_snprintf(item, sizeof(AIM_KEY_GI)+10, AIM_KEY_GI"%d", i);
 	setWord(hContact, item, id);
 }
 
-int CAimProto::deleteGroupId(HANDLE hContact, int i)
+int CAimProto::deleteGroupId(HCONTACT hContact, int i)
 {
 	char item[sizeof(AIM_KEY_GI)+10];
 	mir_snprintf(item, sizeof(AIM_KEY_GI)+10, AIM_KEY_GI"%d", i);

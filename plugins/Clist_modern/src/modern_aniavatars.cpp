@@ -60,7 +60,7 @@ enum {
 
 struct ANIAVA_OBJECT
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	HWND   hWindow;
 	BOOL   bInvalidPos;
 	BOOL   bToBeDeleted;
@@ -284,7 +284,7 @@ int AniAva_UpdateOptions()
 }
 
 // adds avatars to be displayed
-int AniAva_AddAvatar(HANDLE hContact, TCHAR * szFilename, int width, int heigth)
+int AniAva_AddAvatar(HCONTACT hContact, TCHAR * szFilename, int width, int heigth)
 {
 	aacheck 0;
 	if (!GDIPlus_IsAnimatedGif (szFilename))
@@ -344,7 +344,7 @@ void AniAva_UpdateParent()
 	}
 }
 
-ANIAVA_OBJECT * FindAvatarByContact( HANDLE hContact )
+ANIAVA_OBJECT * FindAvatarByContact(HCONTACT hContact )
 {
 	for ( int i=0; i < s_Objects.getCount(); i++) {
 		ANIAVA_OBJECT *pai = ((ANIAVA_OBJECT *)s_Objects[i]);
@@ -354,7 +354,7 @@ ANIAVA_OBJECT * FindAvatarByContact( HANDLE hContact )
 	return NULL;
 }
 
-int AniAva_RenderAvatar( HANDLE hContact, HDC hdcMem, RECT *rc )
+int AniAva_RenderAvatar(HCONTACT hContact, HDC hdcMem, RECT *rc )
 {
 	aacheck 0;
 	mir_cslock lck(s_CS);
@@ -365,7 +365,7 @@ int AniAva_RenderAvatar( HANDLE hContact, HDC hdcMem, RECT *rc )
 }
 
 // update avatars pos
-int AniAva_SetAvatarPos(HANDLE hContact, RECT *rc, int overlayIdx, BYTE bAlpha)
+int AniAva_SetAvatarPos(HCONTACT hContact, RECT *rc, int overlayIdx, BYTE bAlpha)
 {
 	aacheck 0;
 	mir_cslock lck(s_CS);
@@ -404,7 +404,7 @@ int AniAva_SetAvatarPos(HANDLE hContact, RECT *rc, int overlayIdx, BYTE bAlpha)
 	return 1;
 }
 // remove avatar
-int AniAva_RemoveAvatar(HANDLE hContact)
+int AniAva_RemoveAvatar(HCONTACT hContact)
 {
 	aacheck 0;
 	mir_cslock lck(s_CS);
@@ -419,7 +419,7 @@ int AniAva_RemoveAvatar(HANDLE hContact)
 	return 1;
 }
 // reset positions of avatars to be drawn (still be painted at same place)
-int AniAva_InvalidateAvatarPositions(HANDLE hContact)
+int AniAva_InvalidateAvatarPositions(HCONTACT hContact)
 {
 	aacheck 0;
 	mir_cslock lck(s_CS);

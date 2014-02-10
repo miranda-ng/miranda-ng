@@ -33,7 +33,7 @@
 
 struct icq_ack_args
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	int    nAckType;
 	int    nAckResult;
 	HANDLE hSequence;
@@ -42,7 +42,7 @@ struct icq_ack_args
 
 struct icq_contacts_cache
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	DWORD dwUin;
 	const char *szUid;
 };
@@ -66,8 +66,8 @@ void   SetGatewayIndex(HANDLE hConn, DWORD dwIndex);
 DWORD  GetGatewayIndex(HANDLE hConn);
 void   FreeGatewayIndex(HANDLE hConn);
 
-char *NickFromHandle(HANDLE hContact);
-char *NickFromHandleUtf(HANDLE hContact);
+char *NickFromHandle(HCONTACT hContact);
+char *NickFromHandleUtf(HCONTACT hContact);
 char *strUID(DWORD dwUIN, char *pszUID);
 
 int __fastcall strlennull(const char *string);
@@ -181,7 +181,7 @@ int  ListBoxAddStringUtf(HWND hList, const char *szString);
 int  MessageBoxUtf(HWND hWnd, const char *szText, const char *szCaption, UINT uType);
 
 void InitXStatusIcons();
-void setContactExtraIcon(HANDLE hContact, int xstatus);
+void setContactExtraIcon(HCONTACT hContact, int xstatus);
 int  OnReloadIcons(WPARAM wParam, LPARAM lParam);
 
 #endif /* __UTILITIES_H */

@@ -46,7 +46,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 	cont->SubAllocated = subcount;
 	int i=0;
 	for (int j = 0; j < subcount; j++) {
-		HANDLE hsub = (HANDLE)CallService(MS_MC_GETSUBCONTACT,(WPARAM)cont->hContact,j);
+		HCONTACT hsub = (HCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)cont->hContact, j);
 		cacheEntry = pcli->pfnGetCacheEntry(hsub);
 		WORD wStatus = pdnce___GetStatus(cacheEntry);
 		if (showOfflineHereGroup || (!( db_get_b(NULL,"CLC","MetaHideOfflineSub",SETTING_METAHIDEOFFLINESUB_DEFAULT) && db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT))
@@ -145,7 +145,7 @@ int cli_AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText)
 	return i;
 }
 
-static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, HANDLE hContact)
+static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, HCONTACT hContact)
 {
 	ClcCacheEntry *cacheEntry = NULL;
 	WORD apparentMode;
@@ -211,7 +211,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 
 static ClcContact *AddContactToGroup(ClcData *dat,ClcGroup *group, ClcCacheEntry *cacheEntry)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	int i;
 	if (cacheEntry == NULL) return NULL;
 	if (group == NULL) return NULL;
@@ -259,7 +259,7 @@ void * AddTempGroup(HWND hwnd,ClcData *dat,const TCHAR *szName,DWORD flags,int g
 	return NULL;
 }
 
-void cli_AddContactToTree(HWND hwnd,ClcData *dat,HANDLE hContact,int updateTotalCount,int checkHideOffline)
+void cli_AddContactToTree(HWND hwnd,ClcData *dat,HCONTACT hContact,int updateTotalCount,int checkHideOffline)
 {
 	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
 	if (dat->IsMetaContactsEnabled && cacheEntry && cacheEntry->m_cache_nHiddenSubcontact)
@@ -277,7 +277,7 @@ void cli_AddContactToTree(HWND hwnd,ClcData *dat,HANDLE hContact,int updateTotal
 	return;
 }
 
-void cli_DeleteItemFromTree(HWND hwnd,HANDLE hItem)
+void cli_DeleteItemFromTree(HWND hwnd, HCONTACT hItem)
 {
 	ClcData *dat = (ClcData *) GetWindowLongPtr(hwnd, 0);
 	ClearRowByIndexCache();
@@ -300,17 +300,16 @@ __inline BOOL CLCItems_IsShowOfflineGroup(ClcGroup* group)
 	return (groupFlags&GROUPF_SHOWOFFLINE) != 0;
 }
 
-HANDLE SaveSelection( ClcData *dat )
+HCONTACT SaveSelection(ClcData *dat)
 {
 	ClcContact *selcontact = NULL;
-
-	if ( pcli->pfnGetRowByIndex( dat, dat->selection, &selcontact, NULL ) == -1 )
+	if (pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) == -1)
 		return NULL;
-	else
-		return pcli->pfnContactToHItem( selcontact );
+
+	return (HCONTACT)pcli->pfnContactToHItem(selcontact);
 }
 
-int RestoreSelection( ClcData *dat, HANDLE hSelected )
+int RestoreSelection(ClcData *dat, HCONTACT hSelected)
 {
 	ClcContact *selcontact = NULL;
 	ClcGroup *selgroup = NULL;
@@ -336,7 +335,7 @@ int RestoreSelection( ClcData *dat, HANDLE hSelected )
 
 }
 
-void cliRebuildEntireList(HWND hwnd,ClcData *dat)
+void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 {
 	DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);
 	ClcContact *cont;
@@ -358,7 +357,7 @@ void cliRebuildEntireList(HWND hwnd,ClcData *dat)
 	dat->list.cl.increment = 50;
 	dat->needsResort = 1;
 
-	HANDLE hSelected = SaveSelection( dat );
+	HCONTACT hSelected = SaveSelection(dat);
 	dat->selection = -1;
 	dat->HiLightMode = db_get_b(NULL,"CLC","HiLightMode",SETTING_HILIGHTMODE_DEFAULT);
 	{
@@ -371,7 +370,7 @@ void cliRebuildEntireList(HWND hwnd,ClcData *dat)
 		}
 	}
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *cacheEntry = NULL;
 		cont = NULL;
 		cacheEntry = pcli->pfnGetCacheEntry(hContact);
@@ -430,14 +429,14 @@ void cliRebuildEntireList(HWND hwnd,ClcData *dat)
 		}
 	}
 
-	pcli->pfnSortCLC(hwnd,dat,0);
+	pcli->pfnSortCLC(hwnd, dat, 0);
 
-	RestoreSelection( dat, hSelected );
+	RestoreSelection(dat, hSelected);
 }
 
-void cli_SortCLC( HWND hwnd, ClcData *dat, int useInsertionSort )
+void cli_SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 {
-	HANDLE hSelected = SaveSelection( dat );
+	HCONTACT hSelected = SaveSelection(dat);
 
 	corecli.pfnSortCLC(hwnd,dat,useInsertionSort);
 
@@ -475,7 +474,7 @@ int GetNewSelection(ClcGroup *group, int selection, int direction)
 }
 
 struct SavedContactState_t {
-	HANDLE hContact;
+	HCONTACT hContact;
 	WORD iExtraImage[EXTRA_ICON_COUNT];
 	int checked;
 };
@@ -584,7 +583,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 		if (savedInfo[i].parentId == -1)
 			group = &dat->list;
 		else {
-			if (!pcli->pfnFindItem(hwnd, dat, (HANDLE) (savedInfo[i].parentId | HCONTACT_ISGROUP), &contact, NULL, NULL))
+			if (!pcli->pfnFindItem(hwnd, dat, (HCONTACT)(savedInfo[i].parentId | HCONTACT_ISGROUP), &contact, NULL, NULL))
 				continue;
 			group = contact->group;
 		}
@@ -624,7 +623,7 @@ ClcContact* cliCreateClcContact()
 	return contact;
 }
 
-ClcCacheEntry* cliCreateCacheItem( HANDLE hContact )
+ClcCacheEntry* cliCreateCacheItem(HCONTACT hContact )
 {
 	ClcCacheEntry *p = (ClcCacheEntry *)mir_calloc(sizeof( ClcCacheEntry ));
 	if (p == NULL)
@@ -639,10 +638,10 @@ ClcCacheEntry* cliCreateCacheItem( HANDLE hContact )
 	return p;
 }
 
-void cliInvalidateDisplayNameCacheEntry(HANDLE hContact)
+void cliInvalidateDisplayNameCacheEntry(HCONTACT hContact)
 {
 	if (hContact == INVALID_HANDLE_VALUE)
-		corecli.pfnInvalidateDisplayNameCacheEntry(INVALID_HANDLE_VALUE);
+		corecli.pfnInvalidateDisplayNameCacheEntry((HCONTACT)INVALID_HANDLE_VALUE);
 	else {
 		ClcCacheEntry *p = pcli->pfnGetCacheEntry(hContact);
 		if (p)
@@ -690,7 +689,7 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 * also cares about sub contacts (if meta is active)
 */
 
-int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, ClcData *dat)
+int __fastcall CLVM_GetContactHiddenStatus(HCONTACT hContact, char *szProto, ClcData *dat)
 {
 	int dbHidden = db_get_b(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
 	int filterResult = 1;

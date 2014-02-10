@@ -152,7 +152,7 @@ SmileyType* SmileyPackType::GetSmiley(unsigned index)
 }
 
 
-static DWORD_PTR ConvertServiceParam(HANDLE hContact, const TCHAR *param)
+static DWORD_PTR ConvertServiceParam(HCONTACT hContact, const TCHAR *param)
 {
 	DWORD_PTR ret;
 	if (param == NULL)
@@ -168,7 +168,7 @@ static DWORD_PTR ConvertServiceParam(HANDLE hContact, const TCHAR *param)
 }
 
 
-void SmileyType::CallSmileyService(HANDLE hContact)
+void SmileyType::CallSmileyService(HCONTACT hContact)
 {
 	_TPattern * srvsplit = _TPattern::compile(_T("(.*)\\|(.*)\\|(.*)"));
 	_TMatcher * m0 = srvsplit->createTMatcher(GetTriggerText());
@@ -856,7 +856,7 @@ void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 {
 	CMString tname(A2T_SM(acc->szModuleName));
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char* proto = GetContactProto(hContact);
 		if (proto == NULL)
 			continue;
@@ -878,7 +878,7 @@ void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 	}
 }
 
-void SmileyCategoryListType::AddContactTransportAsCategory(HANDLE hContact, const CMString& defaultFile)
+void SmileyCategoryListType::AddContactTransportAsCategory(HCONTACT hContact, const CMString& defaultFile)
 {
 	char* proto = GetContactProto(hContact);
 	if (proto == NULL) return;
@@ -944,7 +944,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 	for (int i = 0; i < protoCount; i++) 
 		AddAccountAsCategory(accList[i], defaultFile);
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		AddContactTransportAsCategory(hContact, defaultFile);
 
 	CMString cats;

@@ -19,7 +19,7 @@
 
 YList *file_transfers=NULL;
 
-static y_filetransfer* new_ft(CYahooProto* ppro, int id, HANDLE hContact, const char *who, const char *msg,  
+static y_filetransfer* new_ft(CYahooProto* ppro, int id, HCONTACT hContact, const char *who, const char *msg,  
 					const char *url, const char *ft_token, int y7, YList *fs, int sending)
 {
 	yahoo_file_info * fi;
@@ -478,7 +478,7 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 {
 	LOG(("[ext_yahoo_got_file] ident:%s, who: %s, url: %s, expires: %lu, msg: %s, fname: %s, fsize: %lu ftoken: %s y7: %d", me, who, url, expires, msg, fname, fesize, ft_token == NULL ? "NULL" : ft_token, y7));
 
-	HANDLE hContact = getbuddyH(who);
+	HCONTACT hContact = getbuddyH(who);
 	if (hContact == NULL) 
 		hContact = add_buddy(who, who, 0 /* NO FT for other IMs */, PALF_TEMPORARY);
 
@@ -533,7 +533,7 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 
 void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_token, int y7, YList* files)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	y_filetransfer *ft;
 	YList *f;
 	char fn[4096];
@@ -699,7 +699,7 @@ void __cdecl CYahooProto::send_filethread(void *psf)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CYahooProto::SendFile( HANDLE hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles )
+HANDLE __cdecl CYahooProto::SendFile(HCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles )
 {
 	DBVARIANT dbv;
 	y_filetransfer *sf;
@@ -763,7 +763,7 @@ HANDLE __cdecl CYahooProto::SendFile( HANDLE hContact, const PROTOCHAR* szDescri
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
-HANDLE __cdecl CYahooProto::FileAllow( HANDLE /*hContact*/, HANDLE hTransfer, const PROTOCHAR* szPath )
+HANDLE __cdecl CYahooProto::FileAllow(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	y_filetransfer *ft = (y_filetransfer *)hTransfer;
 	size_t len;
@@ -792,7 +792,7 @@ HANDLE __cdecl CYahooProto::FileAllow( HANDLE /*hContact*/, HANDLE hTransfer, co
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileCancel - cancels a file transfer
 
-int __cdecl CYahooProto::FileCancel( HANDLE /*hContact*/, HANDLE hTransfer )
+int __cdecl CYahooProto::FileCancel(HCONTACT hContact, HANDLE hTransfer)
 {
 	debugLogA("[YahooFileCancel]");
 
@@ -815,14 +815,14 @@ int __cdecl CYahooProto::FileCancel( HANDLE /*hContact*/, HANDLE hTransfer )
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileDeny - denies a file transfer
 
-int __cdecl CYahooProto::FileDeny( HANDLE /*hContact*/, HANDLE hTransfer, const PROTOCHAR* )
+int __cdecl CYahooProto::FileDeny(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR*)
 {
 	/* deny file receive request.. just ignore it! */
 	y_filetransfer *ft = (y_filetransfer *)hTransfer;
 
 	debugLogA("[YahooFileDeny]");
 
-	if ( !m_bLoggedIn || ft == NULL) {
+	if (!m_bLoggedIn || ft == NULL) {
 		debugLogA("[YahooFileDeny] Not logged-in or some other error!");
 		return 1;
 	}
@@ -838,7 +838,7 @@ int __cdecl CYahooProto::FileDeny( HANDLE /*hContact*/, HANDLE hTransfer, const 
 		struct yahoo_file_info *fi = (struct yahoo_file_info *)ft->files->data;
 
 		debugLogA("[YahooFileDeny] DC Detected: Denying File Transfer!");
-		yahoo_ftdc_deny(m_id, ft->who, fi->filename, ft->ftoken, 2);	
+		yahoo_ftdc_deny(m_id, ft->who, fi->filename, ft->ftoken, 2);
 	}
 	return 0;
 }
@@ -846,13 +846,13 @@ int __cdecl CYahooProto::FileDeny( HANDLE /*hContact*/, HANDLE hTransfer, const 
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileResume - processes file renaming etc
 
-int __cdecl CYahooProto::FileResume( HANDLE hTransfer, int* action, const PROTOCHAR** szFilename )
+int __cdecl CYahooProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename)
 {
 	y_filetransfer *ft = (y_filetransfer *)hTransfer;
 
 	debugLogA("[YahooFileResume] Action: %d", *action);
 
-	if ( !m_bLoggedIn || ft == NULL) {
+	if (!m_bLoggedIn || ft == NULL) {
 		debugLogA("[YahooFileResume] Not loggedin or some other error!");
 		return 1;
 	}
@@ -861,14 +861,13 @@ int __cdecl CYahooProto::FileResume( HANDLE hTransfer, int* action, const PROTOC
 
 	debugLogA("[YahooFileResume] Action: %d", *action);
 
-	if ( *action == FILERESUME_RENAME ) {
+	if (*action == FILERESUME_RENAME) {
 		debugLogA("[YahooFileResume] Renamed file!");
-		
-		FREE(ft->pfts.tszCurrentFile);
-		ft->pfts.tszCurrentFile = _tcsdup( *szFilename );
-	}	
 
-	SetEvent( ft->hWaitEvent );
+		FREE(ft->pfts.tszCurrentFile);
+		ft->pfts.tszCurrentFile = _tcsdup(*szFilename);
+	}
+
+	SetEvent(ft->hWaitEvent);
 	return 0;
 }
-

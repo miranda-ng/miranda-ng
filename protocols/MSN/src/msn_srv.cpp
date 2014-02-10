@@ -133,7 +133,7 @@ void CMsnProto::MSN_SetGroupName(const char* pId, const char* pNewName)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN_MoveContactToGroup - sends a contact to the specified group
 
-void CMsnProto::MSN_MoveContactToGroup(HANDLE hContact, const char* grpName)
+void CMsnProto::MSN_MoveContactToGroup(HCONTACT hContact, const char* grpName)
 {
 	if (!MyOptions.ManageServer) return;
 
@@ -251,7 +251,7 @@ void CMsnProto::MSN_UploadServerGroups(char* group)
 // if contact in multiple server groups it get removed from all of them other them it's
 // in or the last one
 
-void CMsnProto::MSN_SyncContactToServerGroup(HANDLE hContact, const char* szContId, ezxml_t cgrp)
+void CMsnProto::MSN_SyncContactToServerGroup(HCONTACT hContact, const char* szContId, ezxml_t cgrp)
 {
 	if (!MyOptions.ManageServer) return;
 

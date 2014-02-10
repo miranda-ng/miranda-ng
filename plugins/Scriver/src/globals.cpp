@@ -400,15 +400,15 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	ACKDATA *ack = (ACKDATA*)lParam;
-	MessageSendQueueItem *item = FindSendQueueItem((HANDLE)pAck->hContact, (HANDLE)pAck->hProcess);
+	MessageSendQueueItem *item = FindSendQueueItem(pAck->hContact, (HANDLE)pAck->hProcess);
 	if (item == NULL)
 		return 0;
 
 	HWND hwndSender = item->hwndSender;
 	if (ack->result == ACKRESULT_FAILED) {
-		if (item->hwndErrorDlg != NULL) {
-			item = FindOldestPendingSendQueueItem(hwndSender, (HANDLE)pAck->hContact);
-		}
+		if (item->hwndErrorDlg != NULL)
+			item = FindOldestPendingSendQueueItem(hwndSender, pAck->hContact);
+
 		if (item != NULL && item->hwndErrorDlg == NULL) {
 			if (hwndSender != NULL) {
 				ErrorWindowData *ewd = (ErrorWindowData *)mir_alloc(sizeof(ErrorWindowData));

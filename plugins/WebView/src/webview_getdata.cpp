@@ -27,8 +27,9 @@ int Startingup = 1;
 int AlreadyDownloading = 0;
 
 /*******************/
-void GetData(HANDLE hContact)
+void GetData(void *param)
 {
+	HCONTACT hContact = (HCONTACT)param;
 	int statpos = 0, dispos = 0, statposend = 0;
 	char*pos;
 	DBVARIANT       dbv;

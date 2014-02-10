@@ -68,7 +68,7 @@ static INT_PTR createDirTreeW(WPARAM, LPARAM lParam)
 	return CreateDirectoryTreeW((WCHAR*)lParam);
 }
 
-TCHAR *GetContactID(HANDLE hContact)
+TCHAR *GetContactID(HCONTACT hContact)
 {
 	TCHAR *theValue = {0};
 	char *szProto = GetContactProto(hContact);
@@ -114,12 +114,12 @@ static __forceinline char *_xstrselect(char *, char *s1, TCHAR *s2) { return s1;
 static __forceinline char *_itox(char *, int a) { return itoa(a, (char *)mir_alloc(sizeof(char)*20), 10); }
 static __forceinline char *mir_a2x(char *, char *s) { return mir_strdup(s); }
 
-static __forceinline char *GetContactNickX(char *, HANDLE hContact)
+static __forceinline char *GetContactNickX(char *, HCONTACT hContact)
 {
 	return mir_strdup((char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0));
 }
 
-static __forceinline char *GetContactIDX(char *, HANDLE hContact)
+static __forceinline char *GetContactIDX(char *, HCONTACT hContact)
 {
 	TCHAR *id = GetContactID(hContact);
 	char* res = mir_t2a(id);
@@ -201,12 +201,12 @@ static __forceinline TCHAR *_xstrselect(TCHAR *, char *s1, TCHAR *s2) { return s
 static __forceinline TCHAR *_itox(TCHAR *, int a) { return _itot(a, (TCHAR *)mir_alloc(sizeof(TCHAR)*20), 10); }
 static __forceinline TCHAR *mir_a2x(TCHAR *, char *s) { return mir_a2t(s); }
 
-static __forceinline TCHAR *GetContactNickX(TCHAR *, HANDLE hContact)
+static __forceinline TCHAR *GetContactNickX(TCHAR *, HCONTACT hContact)
 {
 	return mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
 }
 
-static __forceinline TCHAR *GetContactIDX(TCHAR *, HANDLE hContact)
+static __forceinline TCHAR *GetContactIDX(TCHAR *, HCONTACT hContact)
 {
 	return GetContactID(hContact);
 }
@@ -277,7 +277,7 @@ static __forceinline TCHAR *GetPathVarX(TCHAR *, int code)
 }
 
 template<typename XCHAR>
-XCHAR *GetInternalVariable(XCHAR *key, size_t keyLength, HANDLE hContact)
+XCHAR *GetInternalVariable(XCHAR *key, size_t keyLength, HCONTACT hContact)
 {
 	XCHAR *theValue = NULL;
 	XCHAR *theKey = (XCHAR *)_alloca(sizeof(XCHAR) * (keyLength + 1));
@@ -323,7 +323,7 @@ XCHAR *GetInternalVariable(XCHAR *key, size_t keyLength, HANDLE hContact)
 }
 
 template<typename XCHAR>
-XCHAR *GetVariableFromArray(REPLACEVARSARRAY *vars, XCHAR *key, size_t keyLength, HANDLE hContact, bool *bFree)
+XCHAR *GetVariableFromArray(REPLACEVARSARRAY *vars, XCHAR *key, size_t keyLength, HCONTACT hContact, bool *bFree)
 {
 	*bFree = false;
 	for (REPLACEVARSARRAY *var = vars; var && var->lptzKey; ++var)

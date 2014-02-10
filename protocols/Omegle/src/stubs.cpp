@@ -42,12 +42,12 @@ int OmegleProto::AuthDeny(HANDLE hDbEvent,const PROTOCHAR *reason)
 	return 1;
 }
 
-int OmegleProto::AuthRecv(HANDLE hContact,PROTORECVEVENT *)
+int OmegleProto::AuthRecv(HCONTACT hContact,PROTORECVEVENT *)
 {
 	return 1;
 }
 
-int OmegleProto::AuthRequest(HANDLE hContact,const PROTOCHAR *message)
+int OmegleProto::AuthRequest(HCONTACT hContact,const PROTOCHAR *message)
 {
 	return 1;
 }
@@ -57,17 +57,17 @@ HANDLE OmegleProto::ChangeInfo(int type,void *info_data)
 	return NULL;
 }
 
-HANDLE OmegleProto::FileAllow(HANDLE hContact,HANDLE hTransfer,const PROTOCHAR *path)
+HANDLE OmegleProto::FileAllow(HCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *path)
 {
 	return NULL;
 }
 
-int OmegleProto::FileCancel(HANDLE hContact,HANDLE hTransfer)
+int OmegleProto::FileCancel(HCONTACT hContact,HANDLE hTransfer)
 {
 	return 1;
 }
 
-int OmegleProto::FileDeny(HANDLE hContact,HANDLE hTransfer,const PROTOCHAR *reason)
+int OmegleProto::FileDeny(HCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *reason)
 {
 	return 1;
 }
@@ -77,7 +77,7 @@ int OmegleProto::FileResume(HANDLE hTransfer,int *action,const PROTOCHAR **filen
 	return 1;
 }
 
-int OmegleProto::GetInfo( HANDLE hContact, int infoType )
+int OmegleProto::GetInfo( HCONTACT hContact, int infoType )
 {
 	return 1;
 }
@@ -107,47 +107,47 @@ HWND OmegleProto::CreateExtendedSearchUI(HWND owner)
 	return NULL;
 }
 
-int OmegleProto::RecvContacts(HANDLE hContact,PROTORECVEVENT *)
+int OmegleProto::RecvContacts(HCONTACT hContact,PROTORECVEVENT *)
 {
 	return 1;
 }
 
-int OmegleProto::RecvFile(HANDLE hContact,PROTORECVFILET *)
+int OmegleProto::RecvFile(HCONTACT hContact,PROTORECVFILET *)
 {
 	return 1;
 }
 
-int OmegleProto::RecvUrl(HANDLE hContact,PROTORECVEVENT *)
+int OmegleProto::RecvUrl(HCONTACT hContact,PROTORECVEVENT *)
 {
 	return 1;
 }
 
-int OmegleProto::SendContacts(HANDLE hContact,int flags,int nContacts,HANDLE *hContactsList)
+int OmegleProto::SendContacts(HCONTACT hContact,int flags,int nContacts,HCONTACT *hContactsList)
 {
 	return 1;
 }
 
-HANDLE OmegleProto::SendFile(HANDLE hContact,const PROTOCHAR *desc, PROTOCHAR **files)
+HANDLE OmegleProto::SendFile(HCONTACT hContact,const PROTOCHAR *desc, PROTOCHAR **files)
 {
 	return NULL;
 }
 
-int OmegleProto::SendUrl(HANDLE hContact,int flags,const char *url)
+int OmegleProto::SendUrl(HCONTACT hContact,int flags,const char *url)
 {
 	return 1;
 }
 
-int OmegleProto::SetApparentMode(HANDLE hContact,int mode)
+int OmegleProto::SetApparentMode(HCONTACT hContact,int mode)
 {
 	return 1;
 }
 
-int OmegleProto::RecvAwayMsg(HANDLE hContact,int mode,PROTORECVEVENT *evt)
+int OmegleProto::RecvAwayMsg(HCONTACT hContact,int mode,PROTORECVEVENT *evt)
 {
 	return 1;
 }
 
-int OmegleProto::UserIsTyping(HANDLE hContact, int type)
+int OmegleProto::UserIsTyping(HCONTACT hContact, int type)
 {
 	return 1;
 }
@@ -157,12 +157,12 @@ int OmegleProto::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
 	return 1;
 }
 
-HANDLE OmegleProto::GetAwayMsg( HANDLE hContact )
+HANDLE OmegleProto::GetAwayMsg( HCONTACT hContact )
 {
 	return NULL;
 }
 
-int OmegleProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
+int OmegleProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT *pre)
 {
 	return 1;
 }

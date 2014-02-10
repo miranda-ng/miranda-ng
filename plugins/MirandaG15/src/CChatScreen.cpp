@@ -224,7 +224,7 @@ HANDLE CChatScreen::GetContact()
 //************************************************************************
 // sets the screen's chat contact
 //************************************************************************
-bool CChatScreen::SetContact(HANDLE hContact)
+bool CChatScreen::SetContact(HCONTACT hContact)
 {
 	if(hContact == NULL)
 	{

@@ -238,7 +238,7 @@ bool CQuotesProviderBase::IsOnline()
 	return ID_STATUS_ONLINE == g_nStatus;
 }
 
-void CQuotesProviderBase::AddContact(HANDLE hContact)
+void CQuotesProviderBase::AddContact(HCONTACT hContact)
 {
 	// 	CCritSection cs(m_cs);
 	assert(m_aContacts.end() == std::find(m_aContacts.begin(),m_aContacts.end(),hContact));
@@ -246,7 +246,7 @@ void CQuotesProviderBase::AddContact(HANDLE hContact)
 	m_aContacts.push_back(hContact);
 }
 
-void CQuotesProviderBase::DeleteContact(HANDLE hContact)
+void CQuotesProviderBase::DeleteContact(HCONTACT hContact)
 {
 	CGuard<CLightMutex> cs(m_cs);
 
@@ -257,7 +257,7 @@ void CQuotesProviderBase::DeleteContact(HANDLE hContact)
 	}
 }
 
-void CQuotesProviderBase::SetContactStatus(HANDLE hContact,int nNewStatus)
+void CQuotesProviderBase::SetContactStatus(HCONTACT hContact,int nNewStatus)
 {
 	int nStatus = db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_STATUS,ID_STATUS_OFFLINE);
 	if(nNewStatus != nStatus)
@@ -304,7 +304,7 @@ namespace
 	public:
 		CTendency() : m_nComparison(NonValid){}
 
-		bool Parse(const IQuotesProvider* pProvider,const tstring& rsFrmt,HANDLE hContact)
+		bool Parse(const IQuotesProvider* pProvider,const tstring& rsFrmt,HCONTACT hContact)
 		{
 			m_abValueFlags[0] = false;
 			m_abValueFlags[1] = false;
@@ -460,7 +460,7 @@ namespace
 	};
 
 	tstring format_rate(const IQuotesProvider* pProvider,
-						HANDLE hContact,
+						HCONTACT hContact,
 						const tstring& rsFrmt,
 						double dRate)
 	{
@@ -535,7 +535,7 @@ namespace
 	}
 
 	void log_to_file(const IQuotesProvider* pProvider,
-					 HANDLE hContact,
+					 HCONTACT hContact,
 					 double dRate,
 					 const tstring& rsLogFileName,
 					 const tstring& rsFormat)
@@ -563,7 +563,7 @@ namespace
 	}
 
 	void log_to_history(const IQuotesProvider* pProvider,
-						HANDLE hContact,
+						HCONTACT hContact,
 						double dRate,
 						time_t nTime,
 						const tstring& rsFormat)
@@ -581,7 +581,7 @@ namespace
 		db_event_add(hContact, &dbei);
 	}
 
-	bool do_set_contact_extra_icon(HANDLE hContact,const CTendency& tendency)
+	bool do_set_contact_extra_icon(HCONTACT hContact,const CTendency& tendency)
 	{
 		bool bResult = false;
 		CTendency::EResult nComparison = tendency.Compare();
@@ -604,7 +604,7 @@ namespace
 	}
 
 	bool show_popup(const IQuotesProvider* pProvider,
-				    HANDLE hContact,
+				    HCONTACT hContact,
 				    double dRate,
 // 					double dPrevRate,
 // 					bool bValidPrevRate,
@@ -685,7 +685,7 @@ namespace
 	}
 }
 
-void CQuotesProviderBase::WriteContactRate(HANDLE hContact,double dRate,const tstring& rsSymbol/* = ""*/)
+void CQuotesProviderBase::WriteContactRate(HCONTACT hContact,double dRate,const tstring& rsSymbol/* = ""*/)
 {
 	time_t nTime = ::time(NULL);
 
@@ -825,9 +825,9 @@ void CQuotesProviderBase::WriteContactRate(HANDLE hContact,double dRate,const ts
 	}
 }
 
-HANDLE CQuotesProviderBase::CreateNewContact(const tstring& rsName)
+HCONTACT CQuotesProviderBase::CreateNewContact(const tstring& rsName)
 {
-	HANDLE hContact = reinterpret_cast<HANDLE>(CallService(MS_DB_CONTACT_ADD,0,0));
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(CallService(MS_DB_CONTACT_ADD,0,0));
 	if(hContact)
 	{
 		if(0 == CallService(MS_PROTO_ADDTOCONTACT,reinterpret_cast<WPARAM>(hContact),(LPARAM)QUOTES_PROTOCOL_NAME))
@@ -1028,7 +1028,7 @@ void CQuotesProviderBase::RefreshAll()
 	assert(b && "Failed to set event");
 }
 
-void CQuotesProviderBase::RefreshContact(HANDLE hContact)
+void CQuotesProviderBase::RefreshContact(HCONTACT hContact)
 {
 	{// for CCritSection
 		CGuard<CLightMutex> cs(m_cs);
@@ -1039,7 +1039,7 @@ void CQuotesProviderBase::RefreshContact(HANDLE hContact)
 	assert(b && "Failed to set event");
 }
 
-void CQuotesProviderBase::SetContactExtraIcon(HANDLE hContact)const
+void CQuotesProviderBase::SetContactExtraIcon(HCONTACT hContact)const
 {
 // 	tstring s = DBGetStringT(hContact,LIST_MODULE_NAME,CONTACT_LIST_NAME);
 // 	tostringstream o;

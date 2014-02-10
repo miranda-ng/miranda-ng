@@ -38,7 +38,7 @@ extern INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam
 #define SVS_TIMEZONE     7
 #define SVS_GGVERSION    9
 
-static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, char *szSetting, int special, int disableIfUndef)
+static void SetValue(HWND hwndDlg, int idCtrl, HCONTACT hContact, char *szModule, char *szSetting, int special, int disableIfUndef)
 {
 	DBVARIANT dbv = {0};
 	TCHAR str[256];
@@ -688,7 +688,7 @@ static INT_PTR CALLBACK gg_advoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 struct GGDETAILSDLGDATA
 {
 	GGPROTO *gg;
-	HANDLE hContact;
+	HCONTACT hContact;
 	int disableUpdate;
 	int updating;
 };
@@ -704,7 +704,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		TranslateDialogDefault(hwndDlg);
 
 		dat = (struct GGDETAILSDLGDATA *)mir_alloc(sizeof(struct GGDETAILSDLGDATA));
-		dat->hContact=(HANDLE)lParam;
+		dat->hContact = (HCONTACT)lParam;
 		dat->disableUpdate = FALSE;
 		dat->updating = FALSE;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
@@ -728,7 +728,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			case PSN_INFOCHANGED:
 				{
 					char *szProto;
-					HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
+					HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 					GGPROTO *gg = dat->gg;
 
 					// Show updated message
@@ -902,7 +902,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 int GGPROTO::details_init(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)lParam;
+	HCONTACT hContact = (HCONTACT)lParam;
 	char* pszTemplate;
 
 	if (hContact == NULL){

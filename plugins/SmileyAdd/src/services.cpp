@@ -23,7 +23,7 @@ LIST<void> menuHandleArray(5);
 
 //implementation of service functions
 
-SmileyPackType* GetSmileyPack(const char* proto, HANDLE hContact, SmileyPackCType** smlc)
+SmileyPackType* GetSmileyPack(const char* proto, HCONTACT hContact, SmileyPackCType** smlc)
 {
 	hContact = DecodeMetaContact(hContact);
 	if (smlc)
@@ -100,7 +100,7 @@ INT_PTR ShowSmileySelectionCommand(WPARAM, LPARAM lParam)
 
 	if (smaddInfo == NULL || smaddInfo->cbSize < SMADD_SHOWSEL_SIZE_V1) return FALSE;
 	HWND parent = smaddInfo->cbSize > SMADD_SHOWSEL_SIZE_V1 ? smaddInfo->hwndParent : NULL;
-	HANDLE hContact = smaddInfo->cbSize > SMADD_SHOWSEL_SIZE_V2 ? smaddInfo->hContact : NULL;
+	HCONTACT hContact = smaddInfo->cbSize > SMADD_SHOWSEL_SIZE_V2 ? smaddInfo->hContact : NULL;
 
 	SmileyToolWindowParam *stwp = new SmileyToolWindowParam;
 	stwp->pSmileyPack = GetSmileyPack(smaddInfo->Protocolname, hContact);
@@ -155,7 +155,7 @@ INT_PTR GetSmileyIconCommand(WPARAM, LPARAM lParam)
 static int GetInfoCommandE(SMADD_INFO2* smre, bool retDup)
 {
 	if (smre == NULL || smre->cbSize < SMADD_INFO_SIZE_V1) return FALSE;
-	HANDLE hContact = smre->cbSize > SMADD_INFO_SIZE_V1 ? smre->hContact : NULL;
+	HCONTACT hContact = smre->cbSize > SMADD_INFO_SIZE_V1 ? smre->hContact : NULL;
 
 	SmileyPackType* SmileyPack = GetSmileyPack(smre->Protocolname, hContact);
 
@@ -282,7 +282,7 @@ INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
 	SMADD_BATCHPARSE2* smre = (SMADD_BATCHPARSE2*) lParam;
 
 	if (smre == NULL || smre->cbSize < SMADD_BATCHPARSE_SIZE_V1) return FALSE;
-	HANDLE hContact = smre->cbSize > SMADD_BATCHPARSE_SIZE_V1 ? smre->hContact : NULL;
+	HCONTACT hContact = smre->cbSize > SMADD_BATCHPARSE_SIZE_V1 ? smre->hContact : NULL;
 
 	SmileyPackCType* smcp = NULL;
 	SmileyPackType* SmileyPack = GetSmileyPack(smre->Protocolname, hContact, 
@@ -356,7 +356,7 @@ INT_PTR RegisterPack(WPARAM, LPARAM lParam)
 
 INT_PTR CustomCatMenu(WPARAM wParam, LPARAM lParam)
 {
-	const HANDLE hContact = (HANDLE)wParam;
+	const HCONTACT hContact = (HCONTACT)wParam;
 	if (lParam != 0) 
 	{
 		SmileyCategoryType* smct = g_SmileyCategories.GetSmileyCategory((unsigned)lParam - 3);
@@ -382,7 +382,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *g_SmileyCategories.GetSmileyCategoryList();
 
-	char* protnam = GetContactProto((HANDLE)wParam);
+	char* protnam = GetContactProto((HCONTACT)wParam);
 	bool haveMenu = IsSmileyProto(protnam);
 	if (haveMenu && opt.UseOneForAll) {
 		unsigned cnt = 0;
@@ -399,7 +399,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 
 	if (haveMenu) {
 		CMString cat;
-		opt.ReadContactCategory((HANDLE)wParam, cat);
+		opt.ReadContactCategory((HCONTACT)wParam, cat);
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.hParentMenu = hContactMenuItem;
@@ -473,8 +473,7 @@ INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
 
 	SMADD_CONT* cont = (SMADD_CONT*)lParam;
 
-	switch (cont->type)
-	{
+	switch (cont->type) {
 	case 0:
 		g_SmileyPackCStore.AddSmileyPack(cont->hContact, cont->path);
 		NotifyEventHooks(hEvent1, (WPARAM)cont->hContact, 0);
@@ -541,7 +540,7 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam)
 
 int DbSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
 
 	if (hContact == NULL) return 0;

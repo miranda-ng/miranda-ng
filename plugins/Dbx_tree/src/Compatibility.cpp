@@ -774,13 +774,13 @@ STDMETHODIMP_(BOOL) CDataBase::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent
 	return res;
 }
 
-STDMETHODIMP_(HANDLE) CDataBase::GetEventContact(HANDLE hDbEvent)
+STDMETHODIMP_(MCONTACT) CDataBase::GetEventContact(HANDLE hDbEvent)
 {
 	TDBTEntityHandle res = DBEventGetEntity((WPARAM)hDbEvent, 0);
 	if (res == getEntities().getRootEntity())
 		res = 0;
 
-	return (HANDLE)res;
+	return res;
 }
 
 STDMETHODIMP_(HANDLE) CDataBase::FindFirstEvent(MCONTACT contactID)

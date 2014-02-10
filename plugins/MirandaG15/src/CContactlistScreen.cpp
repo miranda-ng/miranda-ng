@@ -85,7 +85,7 @@ bool CContactlistScreen::Draw(CLCDGfx *pGfx)
 //************************************************************************
 // returns the online status of the specified contact
 //************************************************************************
-int CContactlistScreen::GetContactStatus(HANDLE hContact)
+int CContactlistScreen::GetContactStatus(HCONTACT hContact)
 {
 	return m_ContactList.GetContactStatus(hContact);
 }
@@ -182,7 +182,7 @@ void CContactlistScreen::OnEventReceived(CEvent *pEvent)
 //************************************************************************
 // Called when a chat session was opened
 //************************************************************************
-void CContactlistScreen::OnSessionOpened(HANDLE hContact)
+void CContactlistScreen::OnSessionOpened(HCONTACT hContact)
 {
 	m_ContactList.OnMessageCountChanged(hContact);
 }
@@ -253,11 +253,10 @@ void CContactlistScreen::OnLCDButtonUp(int iButton)
 		if(pEntry->GetType() == CONTAINER) {
 			CListContainer<CContactListEntry*,CContactListGroup*> *pContainer = (CListContainer<CContactListEntry*,CContactListGroup*>*)pEntry;
 			if(pContainer->GetGroupData()->hMetaContact != NULL) {
-				if(m_bLongPress) {
+				if(m_bLongPress)
 					pContainer->ToggleOpen();
-				} else {
+				else
 					CAppletManager::GetInstance()->ActivateChatScreen(pContainer->GetGroupData()->hMetaContact);
-				}
 			}
 		}
 	}

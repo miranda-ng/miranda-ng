@@ -4081,7 +4081,7 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 
 #define SKINSETSECTION "SkinnedSettings"
 
-BOOL SkinDBGetContactSetting(HANDLE hContact, const char* szSection, const char*szKey, DBVARIANT * retdbv, BOOL * bSkinned )
+BOOL SkinDBGetContactSetting(HCONTACT hContact, const char* szSection, const char*szKey, DBVARIANT * retdbv, BOOL * bSkinned )
 {
 	if (!hContact) {  //only for not contact settings
 		char *szSkinKey;
@@ -4096,7 +4096,7 @@ BOOL SkinDBGetContactSetting(HANDLE hContact, const char* szSection, const char*
 	return db_get(hContact, szSection, szKey, retdbv);
 }
 
-BYTE SkinDBGetContactSettingByte(HANDLE hContact, const char* szSection, const char*szKey, BYTE bDefault)
+BYTE SkinDBGetContactSettingByte(HCONTACT hContact, const char* szSection, const char*szKey, BYTE bDefault)
 {
 	DBVARIANT dbv = { 0 };
 	BOOL bSkinned = FALSE;
@@ -4115,7 +4115,7 @@ BYTE SkinDBGetContactSettingByte(HANDLE hContact, const char* szSection, const c
 	return bDefault;
 }
 
-WORD SkinDBGetContactSettingWord(HANDLE hContact, const char* szSection, const char*szKey, WORD wDefault)
+WORD SkinDBGetContactSettingWord(HCONTACT hContact, const char* szSection, const char*szKey, WORD wDefault)
 {
 	BOOL bSkinned = FALSE;
 	DBVARIANT dbv = { 0 };
@@ -4132,7 +4132,7 @@ WORD SkinDBGetContactSettingWord(HANDLE hContact, const char* szSection, const c
 	return wDefault;
 }
 
-DWORD SkinDBGetContactSettingDword(HANDLE hContact, const char* szSection, const char*szKey, DWORD dwDefault)
+DWORD SkinDBGetContactSettingDword(HCONTACT hContact, const char* szSection, const char*szKey, DWORD dwDefault)
 {
 	DBVARIANT dbv = { 0 };
 	BOOL bSkinned = FALSE;

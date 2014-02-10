@@ -88,7 +88,7 @@ void CIcqProto::handleExtensionError(BYTE *buf, WORD wPackLen)
 						// more sofisticated detection, send ack
 						if (wSubType == META_REQUEST_FULL_INFO)
 						{
-							HANDLE hContact;
+							HCONTACT hContact;
 							cookie_fam15_data *pCookieData = NULL;
 
 							int foundCookie = FindCookie(wCookie, &hContact, (void**)&pCookieData);
@@ -578,7 +578,7 @@ UserInfoRecordItem rInterest[] = {
 };
 
 
-int CIcqProto::parseUserInfoRecord(HANDLE hContact, oscar_tlv *pData, UserInfoRecordItem pRecordDef[], int nRecordDef, int nMaxRecords)
+int CIcqProto::parseUserInfoRecord(HCONTACT hContact, oscar_tlv *pData, UserInfoRecordItem pRecordDef[], int nRecordDef, int nMaxRecords)
 {
 	int nRecords = 0;
 
@@ -648,7 +648,7 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 	}
 
 	cookie_directory_data *pCookieData;
-	HANDLE hContact;
+	HCONTACT hContact;
 	// check request cookie
 	if (!FindCookie(wCookie, &hContact, (void**)&pCookieData) || !pCookieData)
 	{
@@ -843,7 +843,7 @@ static int calcAgeFromBirthDate(double dDate)
 }
 
 
-void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *cDetails, DWORD dwCookie, cookie_directory_data *pCookieData, WORD wReplySubType)
+void CIcqProto::parseDirectoryUserDetailsData(HCONTACT hContact, oscar_tlv_chain *cDetails, DWORD dwCookie, cookie_directory_data *pCookieData, WORD wReplySubType)
 {
 	oscar_tlv *pTLV;
 	WORD wRecordCount;
@@ -1152,7 +1152,7 @@ void CIcqProto::handleDirectoryUpdateResponse(BYTE *databuf, WORD wPacketLen, WO
 	}
 
 	cookie_directory_data *pCookieData;
-	HANDLE hContact;
+	HCONTACT hContact;
 	// check request cookie
 	if (!FindCookie(wCookie, &hContact, (void**)&pCookieData) || !pCookieData)
 	{

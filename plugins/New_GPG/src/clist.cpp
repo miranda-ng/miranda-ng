@@ -17,7 +17,6 @@
 #include "commonheaders.h"
 
 void RefreshContactListIcons(void);
-void setClistIcon(HANDLE);
 
 int onExtraImageListRebuilding(WPARAM, LPARAM) 
 {
@@ -27,6 +26,6 @@ int onExtraImageListRebuilding(WPARAM, LPARAM)
 
 int onExtraImageApplying(WPARAM wParam, LPARAM) 
 {
-	setClistIcon((HANDLE)wParam);
+	setClistIcon((HCONTACT)wParam);
 	return 0;
 }

@@ -238,7 +238,7 @@ int EventAdded(WPARAM wparam, LPARAM lparam)
 struct c_struct {
 	TCHAR szname[120];
 	TCHAR szgroup[50];
-	HANDLE hcontact;
+	HCONTACT hcontact;
 	TCHAR proto[20];
 
 	c_struct()
@@ -321,7 +321,7 @@ void SortArray(void)
 }
 
 
-int GetStatus(HANDLE hContact, char *proto = NULL)
+int GetStatus(HCONTACT hContact, char *proto = NULL)
 {
 	if (proto == NULL)
 		proto = GetContactProto(hContact);
@@ -356,17 +356,17 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 	// item data of listbox-strings is the array position
 	FreeContacts();
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *pszProto = GetContactProto(hContact);
 		if(pszProto == NULL)
 			continue;
 
 		// Get meta
-		HANDLE hMeta = NULL;
+		HCONTACT hMeta = NULL;
 		if (metacontactsEnabled)
 		{
 			if ((!show_all && opts.hide_subcontacts) || opts.group_append)
-				hMeta = (HANDLE) CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+				hMeta = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
 		}
 		else
 		{
@@ -457,7 +457,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 
 
 // Enable buttons for the selected contact
-void EnableButtons(HWND hwndDlg, HANDLE hContact)
+void EnableButtons(HWND hwndDlg, HCONTACT hContact)
 {
 	if (hContact == NULL)
 	{
@@ -476,7 +476,7 @@ void EnableButtons(HWND hwndDlg, HANDLE hContact)
 		// Is a meta?
 		if (ServiceExists(MS_MC_GETMOSTONLINECONTACT)) 
 		{
-			HANDLE hSub = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
+			HCONTACT hSub = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
 			if (hSub != NULL)
 				hContact = hSub;
 		}
@@ -544,7 +544,7 @@ int CheckText(HWND hdlg, TCHAR *sztext, BOOL only_enable = FALSE)
 	return 0;
 }
 
-HANDLE GetSelectedContact(HWND hwndDlg)
+HCONTACT GetSelectedContact(HWND hwndDlg)
 {
 	// First try selection
 	int sel = SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_GETCURSEL, 0, 0);
@@ -846,7 +846,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_ENTER:
 			{
-				HANDLE hContact = GetSelectedContact(hwndDlg);
+				HCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 					break;
 
@@ -858,7 +858,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 		case IDC_MESSAGE:
 			{
-				HANDLE hContact = GetSelectedContact(hwndDlg);
+				HCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
 					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
@@ -879,7 +879,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case HOTKEY_VOICE:
 		case IDC_VOICE:
 			{
-				HANDLE hContact = GetSelectedContact(hwndDlg);
+				HCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
 					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
@@ -903,7 +903,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case HOTKEY_FILE:
 		case IDC_FILE:
 			{
-				HANDLE hContact = GetSelectedContact(hwndDlg);
+				HCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
 					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
@@ -924,7 +924,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case HOTKEY_URL:
 		case IDC_URL:
 			{
-				HANDLE hContact = GetSelectedContact(hwndDlg);
+				HCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
 					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
@@ -945,7 +945,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case HOTKEY_INFO:
 		case IDC_USERINFO:
 			{
-				HANDLE hContact = GetSelectedContact(hwndDlg);
+				HCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
 					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
@@ -966,7 +966,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case HOTKEY_HISTORY:
 		case IDC_HISTORY:
 			{
-				HANDLE hContact = GetSelectedContact(hwndDlg);
+				HCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
 					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
@@ -987,7 +987,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case HOTKEY_MENU:
 		case IDC_MENU:
 			{
-				HANDLE hContact = GetSelectedContact(hwndDlg);
+				HCONTACT hContact = GetSelectedContact(hwndDlg);
 				if (hContact == NULL)
 				{
 					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));

@@ -39,7 +39,7 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 	gce.time     = static_cast<DWORD>(update.status.time);
 
 	DBVARIANT nick;
-	HANDLE hContact = UsernameToHContact(update.username.c_str());
+	HCONTACT hContact = UsernameToHContact(update.username.c_str());
 	if(hContact && !db_get_s(hContact,"CList","MyHandle",&nick))
 	{
 		gce.ptszNick = mir_a2t(nick.pszVal);
@@ -163,7 +163,7 @@ void TwitterProto::SetChatStatus(int status)
 	if(status == ID_STATUS_ONLINE)
 	{
 		// Add all friends to contact list
-		for(HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		for(HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			if( isChatRoom(hContact))
 				continue;
 

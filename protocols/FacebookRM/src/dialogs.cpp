@@ -120,20 +120,21 @@ void RefreshPrivacy(HWND hwnd, post_status_data *data)
 	SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_SETCURSEL, data->proto->getByte(FACEBOOK_KEY_PRIVACY_TYPE, 0), 0);
 }
 
-void ClistPrepare(FacebookProto *proto, HANDLE hItem, HWND hwndList)
+void ClistPrepare(FacebookProto *proto, HCONTACT hItem, HWND hwndList)
 {
 	if (hItem == NULL)
-		hItem = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (HCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem) 
 	{
-		HANDLE hItemN = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		HCONTACT hItemN = (HCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 
 		if (IsHContactGroup(hItem)) {
-			HANDLE hItemT = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			HCONTACT hItemT = (HCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				ClistPrepare(proto, hItemT, hwndList);
-		} else if (IsHContactContact(hItem)) {
+		}
+		else if (IsHContactContact(hItem)) {
 			if (!proto->IsMyContact(hItem) || ptrA(proto->getStringA(hItem, FACEBOOK_KEY_ID)) == NULL)
 				SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 		}
@@ -142,14 +143,14 @@ void ClistPrepare(FacebookProto *proto, HANDLE hItem, HWND hwndList)
 	}
 }
 
-void GetSelectedContacts(FacebookProto *proto, HANDLE hItem, HWND hwndList, std::vector<facebook_user*> *contacts)
+void GetSelectedContacts(FacebookProto *proto, HCONTACT hItem, HWND hwndList, std::vector<facebook_user*> *contacts)
 {
 	if (hItem == NULL)
-		hItem = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (HCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem) {
 		if (IsHContactGroup(hItem)) {
-			HANDLE hItemT = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			HCONTACT hItemT = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				GetSelectedContacts(proto, hItemT, hwndList, contacts);
 		} else {
@@ -160,7 +161,7 @@ void GetSelectedContacts(FacebookProto *proto, HANDLE hItem, HWND hwndList, std:
 				contacts->push_back(fu);
 			}
 		}
-		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 	}
 }
 

@@ -72,68 +72,68 @@ struct  PROTO_INTERFACE : public MZeroedObject
 		ProtoLogW(this, wszFormat, args);
 	}
 
-	__forceinline INT_PTR ProtoBroadcastAck(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam) {
+	__forceinline INT_PTR ProtoBroadcastAck(HCONTACT hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam) {
 		return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam); }
 
 	__forceinline INT_PTR delSetting(const char *name) { return db_unset(NULL, m_szModuleName, name); }
-	__forceinline INT_PTR delSetting(HANDLE hContact, const char *name) { return db_unset(hContact, m_szModuleName, name); }
+	__forceinline INT_PTR delSetting(HCONTACT hContact, const char *name) { return db_unset(hContact, m_szModuleName, name); }
 
 	__forceinline bool getBool(const char *name, bool defaultValue) {
 		return db_get_b(NULL, m_szModuleName, name, defaultValue) != 0; }
-	__forceinline bool getBool(HANDLE hContact, const char *name, bool defaultValue) {
+	__forceinline bool getBool(HCONTACT hContact, const char *name, bool defaultValue) {
 		return db_get_b(hContact, m_szModuleName, name, defaultValue) != 0; }
 
-	__forceinline bool isChatRoom(HANDLE hContact) { return getBool(hContact, "ChatRoom", false); }
+	__forceinline bool isChatRoom(HCONTACT hContact) { return getBool(hContact, "ChatRoom", false); }
 
 	__forceinline int getByte(const char *name, BYTE defaultValue) {
 		return db_get_b(NULL, m_szModuleName, name, defaultValue); }
-	__forceinline int getByte(HANDLE hContact, const char *name, BYTE defaultValue) {
+	__forceinline int getByte(HCONTACT hContact, const char *name, BYTE defaultValue) {
 		return db_get_b(hContact, m_szModuleName, name, defaultValue); }
 
 	__forceinline int getWord(const char *name, WORD defaultValue) {
 		return db_get_w(NULL, m_szModuleName, name, defaultValue); }
-	__forceinline int getWord(HANDLE hContact, const char *name, WORD defaultValue) {
+	__forceinline int getWord(HCONTACT hContact, const char *name, WORD defaultValue) {
 		return db_get_w(hContact, m_szModuleName, name, defaultValue); }
 
 	__forceinline DWORD getDword(const char *name, DWORD defaultValue)  {
 		return db_get_dw(NULL, m_szModuleName, name, defaultValue); }
-	__forceinline DWORD getDword(HANDLE hContact, const char *name, DWORD defaultValue) {
+	__forceinline DWORD getDword(HCONTACT hContact, const char *name, DWORD defaultValue) {
 		return db_get_dw(hContact, m_szModuleName, name, defaultValue); }
 
 	__forceinline INT_PTR getString(const char *name, DBVARIANT *result) {
 		return db_get_s(NULL, m_szModuleName, name, result); }
-	__forceinline INT_PTR getString(HANDLE hContact, const char *name, DBVARIANT *result) {
+	__forceinline INT_PTR getString(HCONTACT hContact, const char *name, DBVARIANT *result) {
 		return db_get_s(hContact, m_szModuleName, name, result); }
 
 	__forceinline INT_PTR getWString(const char *name, DBVARIANT *result) {
 		return db_get_ws(NULL, m_szModuleName, name, result); }
-	__forceinline INT_PTR getWString(HANDLE hContact, const char *name, DBVARIANT *result) {
+	__forceinline INT_PTR getWString(HCONTACT hContact, const char *name, DBVARIANT *result) {
 		return db_get_ws(hContact, m_szModuleName, name, result); }
 
 	__forceinline char* getStringA(const char *name) {
 		return db_get_sa(NULL, m_szModuleName, name); }
-	__forceinline char* getStringA(HANDLE hContact, const char *name) {
+	__forceinline char* getStringA(HCONTACT hContact, const char *name) {
 		return db_get_sa(hContact, m_szModuleName, name); }
 
 	__forceinline WCHAR* getWStringA(const char *name) {
 		return db_get_wsa(NULL, m_szModuleName, name); }
-	__forceinline WCHAR* getWStringA(HANDLE hContact, const char *name) {
+	__forceinline WCHAR* getWStringA(HCONTACT hContact, const char *name) {
 		return db_get_wsa(hContact, m_szModuleName, name); }
 
 	__forceinline void setByte(const char *name, BYTE value) { db_set_b(NULL, m_szModuleName, name, value); }
-	__forceinline void setByte(HANDLE hContact, const char *name, BYTE value) { db_set_b(hContact, m_szModuleName, name, value); }
+	__forceinline void setByte(HCONTACT hContact, const char *name, BYTE value) { db_set_b(hContact, m_szModuleName, name, value); }
 
 	__forceinline void setWord(const char *name, WORD value) { db_set_w(NULL, m_szModuleName, name, value); }
-	__forceinline void setWord(HANDLE hContact, const char *name, WORD value) { db_set_w(hContact, m_szModuleName, name, value); }
+	__forceinline void setWord(HCONTACT hContact, const char *name, WORD value) { db_set_w(hContact, m_szModuleName, name, value); }
 
 	__forceinline void setDword(const char *name, DWORD value) { db_set_dw(NULL, m_szModuleName, name, value); }
-	__forceinline void setDword(HANDLE hContact, const char *name, DWORD value) { db_set_dw(hContact, m_szModuleName, name, value); }
+	__forceinline void setDword(HCONTACT hContact, const char *name, DWORD value) { db_set_dw(hContact, m_szModuleName, name, value); }
 
 	__forceinline void setString(const char *name, const char* value) { db_set_s(NULL, m_szModuleName, name, value); }
-	__forceinline void setString(HANDLE hContact, const char *name, const char* value) { db_set_s(hContact, m_szModuleName, name, value); }
+	__forceinline void setString(HCONTACT hContact, const char *name, const char* value) { db_set_s(hContact, m_szModuleName, name, value); }
 
 	__forceinline void setWString(const char *name, const WCHAR* value) { db_set_ws(NULL, m_szModuleName, name, value); }
-	__forceinline void setWString(HANDLE hContact, const char *name, const WCHAR* value) { db_set_ws(hContact, m_szModuleName, name, value); }
+	__forceinline void setWString(HCONTACT hContact, const char *name, const WCHAR* value) { db_set_ws(hContact, m_szModuleName, name, value); }
 
 	#if defined(_UNICODE)
 		#define debugLog    debugLogW
@@ -155,18 +155,18 @@ struct  PROTO_INTERFACE : public MZeroedObject
 
 	virtual	int      __cdecl Authorize(HANDLE hDbEvent) = 0;
 	virtual	int      __cdecl AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason) = 0;
-	virtual	int      __cdecl AuthRecv(HANDLE hContact, PROTORECVEVENT*) = 0;
-	virtual	int      __cdecl AuthRequest(HANDLE hContact, const PROTOCHAR* szMessage) = 0;
+	virtual	int      __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT*) = 0;
+	virtual	int      __cdecl AuthRequest(HCONTACT hContact, const PROTOCHAR* szMessage) = 0;
 
 	virtual	HANDLE   __cdecl ChangeInfo(int iInfoType, void* pInfoData) = 0;
 
-	virtual	HANDLE   __cdecl FileAllow(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath) = 0;
-	virtual	int      __cdecl FileCancel(HANDLE hContact, HANDLE hTransfer) = 0;
-	virtual	int      __cdecl FileDeny(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szReason) = 0;
+	virtual	HANDLE   __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath) = 0;
+	virtual	int      __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer) = 0;
+	virtual	int      __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason) = 0;
 	virtual	int      __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename) = 0;
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, HANDLE hContact = NULL) = 0;
-	virtual	int       __cdecl GetInfo(HANDLE hContact, int infoType) = 0;
+	virtual	DWORD_PTR __cdecl GetCaps(int type, HCONTACT hContact = NULL) = 0;
+	virtual	int       __cdecl GetInfo(HCONTACT hContact, int infoType) = 0;
 
 	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR* id) = 0;
 	virtual	HANDLE    __cdecl SearchByEmail(const PROTOCHAR* email) = 0;
@@ -174,24 +174,24 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner) = 0;
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner) = 0;
 
-	virtual	int       __cdecl RecvContacts(HANDLE hContact, PROTORECVEVENT*) = 0;
-	virtual	int       __cdecl RecvFile(HANDLE hContact, PROTOFILEEVENT*) = 0;
-	virtual	int       __cdecl RecvMsg(HANDLE hContact, PROTORECVEVENT*) = 0;
-	virtual	int       __cdecl RecvUrl(HANDLE hContact, PROTORECVEVENT*) = 0;
+	virtual	int       __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT*) = 0;
+	virtual	int       __cdecl RecvFile(HCONTACT hContact, PROTOFILEEVENT*) = 0;
+	virtual	int       __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT*) = 0;
+	virtual	int       __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT*) = 0;
 
-	virtual	int       __cdecl SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList) = 0;
-	virtual	HANDLE    __cdecl SendFile(HANDLE hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles) = 0;
-	virtual	int       __cdecl SendMsg(HANDLE hContact, int flags, const char* msg) = 0;
-	virtual	int       __cdecl SendUrl(HANDLE hContact, int flags, const char* url) = 0;
+	virtual	int       __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList) = 0;
+	virtual	HANDLE    __cdecl SendFile(HCONTACT hContact, const PROTOCHAR *szDescription, PROTOCHAR **ppszFiles) = 0;
+	virtual	int       __cdecl SendMsg(HCONTACT hContact, int flags, const char *msg) = 0;
+	virtual	int       __cdecl SendUrl(HCONTACT hContact, int flags, const char *url) = 0;
 
-	virtual	int       __cdecl SetApparentMode(HANDLE hContact, int mode) = 0;
+	virtual	int       __cdecl SetApparentMode(HCONTACT hContact, int mode) = 0;
 	virtual	int       __cdecl SetStatus(int iNewStatus) = 0;
 
-	virtual	HANDLE    __cdecl GetAwayMsg(HANDLE hContact) = 0;
-	virtual	int       __cdecl RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT* evt) = 0;
+	virtual	HANDLE    __cdecl GetAwayMsg(HCONTACT hContact) = 0;
+	virtual	int       __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT* evt) = 0;
 	virtual	int       __cdecl SetAwayMsg(int iStatus, const PROTOCHAR* msg) = 0;
 
-	virtual	int       __cdecl UserIsTyping(HANDLE hContact, int type) = 0;
+	virtual	int       __cdecl UserIsTyping(HCONTACT hContact, int type) = 0;
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) = 0;
 };

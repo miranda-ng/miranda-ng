@@ -40,7 +40,7 @@ class CPsTreeItem
 	DWORD			_dwFlags;		// some flags
 	int				_iPosition;		// initiating position if custom (used for sorting)
 	LPARAM			_initParam;
-	HANDLE			_hContact;		// contact the page is accociated with (may be a meta subcontact if details dialog is shown for a meta contact)
+	HCONTACT			_hContact;		// contact the page is accociated with (may be a meta subcontact if details dialog is shown for a meta contact)
 	LPCSTR			_pszProto;		// protocol the page is accociated with (is the contact's protocol if _hContact is not NULL)
 	LPCSTR			_pszPrefix;		// pointer to the dialog owning contact's protocol
 
@@ -68,7 +68,7 @@ public:
 	__inline LPCSTR Proto() const { return _pszProto; };
 	__inline LPTSTR Label() const { return _ptszLabel; };
 	void Rename( const LPTSTR pszLabel );
-	__inline HANDLE hContact() const { return _hContact; };
+	__inline HCONTACT hContact() const { return _hContact; };
 
 	__inline HWND Wnd() const { return _hWnd; };
 	__inline int DlgId() const { return _idDlg; };
@@ -219,7 +219,7 @@ class CPsHdr
 {
 public:
 	DWORD			_dwSize;		// size of this class in bytes
-	HANDLE			_hContact;		// handle to the owning contact
+	HCONTACT		_hContact;		// handle to the owning contact
 	LPCSTR			_pszProto;		// owning contact's protocol 
 	LPCSTR			_pszPrefix;		// name prefix for treeitem settings
 	CPsTreeItem**	_pPages;		// the pages
@@ -238,15 +238,15 @@ public:
 
 struct TAckInfo 
 {
-	HANDLE	hContact;
-	LPINT/*PINT_PTR*/	acks;
-	int		count;
+	HCONTACT hContact;
+	LPINT acks;
+	int count;
 };
 
 struct TPropSheet 
 {
 	// dialogs owner
-	HANDLE		hContact;
+	HCONTACT	hContact;
 	CHAR		pszProto[MAXMODULELABELLENGTH];
 
 	HANDLE		hProtoAckEvent;		// eventhook for protocol acks

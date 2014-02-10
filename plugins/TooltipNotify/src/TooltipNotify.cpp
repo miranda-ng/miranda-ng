@@ -162,7 +162,7 @@ int CTooltipNotify::ProtoContactIsTyping(WPARAM wParam, LPARAM lParam)
 	{
 		STooltipData *pTooltipData = new STooltipData;
 		pTooltipData->uiTimeout = lParam*1000;
-		pTooltipData->hContact = (HANDLE)wParam;
+		pTooltipData->hContact = (HCONTACT)wParam;
 		pTooltipData->iStatus = ID_TTNTF_STATUS_TYPING;
 
 		EndNotifyAll();
@@ -211,7 +211,7 @@ int CTooltipNotify::ProtoAck(WPARAM wParam, LPARAM lParam)
 int CTooltipNotify::ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if(hContact==NULL) return 0;
 	
 	bool idle = false;
@@ -798,7 +798,7 @@ void CTooltipNotify::LoadList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown
 	if (hItemUnknown && !m_sOptions.bIgnoreUnknown)
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItemUnknown, 1);
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM) hContact, 0);
 		if (hItem && !db_get_b(hContact, MODULENAME, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItem, 1);
@@ -813,7 +813,7 @@ void CTooltipNotify::SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown
 	if (hItemUnknown)
 		m_sOptions.bIgnoreUnknown = (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItemUnknown, 0) ? 0 : 1);
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM) hContact, 0);
 		if (hItem) {
 			BYTE bChecked = (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItem, 0));
@@ -912,7 +912,7 @@ TCHAR *CTooltipNotify::StatusToString(int iStatus, TCHAR *szStatus, int iBufSize
 
 }
 
-TCHAR *CTooltipNotify::MakeTooltipString(HANDLE hContact, int iStatus, TCHAR *szString, int iBufSize)
+TCHAR *CTooltipNotify::MakeTooltipString(HCONTACT hContact, int iStatus, TCHAR *szString, int iBufSize)
 {
 	TCHAR szStatus[32];
 	StatusToString(iStatus, szStatus, SIZEOF(szStatus));

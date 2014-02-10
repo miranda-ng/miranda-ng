@@ -55,18 +55,18 @@ char*  Log_CreateRTF(LOGSTREAMDATA *streamData);
 char*  Log_SetStyle(int style);
 
 // clist.c
-BOOL    AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
-HANDLE  AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType);
-HANDLE  FindRoom(const char *pszModule, const TCHAR *pszRoom);
-BOOL    SetAllOffline(BOOL bHide, const char *pszModule);
-BOOL    SetOffline(HANDLE hContact, BOOL bHide);
+BOOL     AddEvent(HCONTACT hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
+HCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType);
+HCONTACT FindRoom(const char *pszModule, const TCHAR *pszRoom);
+BOOL     SetAllOffline(BOOL bHide, const char *pszModule);
+BOOL     SetOffline(HCONTACT hContact, BOOL bHide);
 
-int     RoomDoubleclicked(WPARAM wParam,LPARAM lParam);
-INT_PTR EventDoubleclicked(WPARAM wParam,LPARAM lParam);
-INT_PTR JoinChat(WPARAM wParam, LPARAM lParam);
-INT_PTR LeaveChat(WPARAM wParam, LPARAM lParam);
-int     PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
-INT_PTR PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam);
+int      RoomDoubleclicked(WPARAM wParam,LPARAM lParam);
+INT_PTR  EventDoubleclicked(WPARAM wParam,LPARAM lParam);
+INT_PTR  JoinChat(WPARAM wParam, LPARAM lParam);
+INT_PTR  LeaveChat(WPARAM wParam, LPARAM lParam);
+int      PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
+INT_PTR  PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam);
 
 // options.c
 int    OptionsInit(void);
@@ -99,7 +99,7 @@ BOOL   IsEventSupported(int eventType);
 BOOL   LogToFile(SESSION_INFO *si, GCEVENT *gce);
 BOOL   DoTrayIcon(SESSION_INFO *si, GCEVENT *gce);
 BOOL   DoPopup(SESSION_INFO *si, GCEVENT *gce);
-int    ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
+int    ShowPopup(HCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
 
 const TCHAR*  my_strstri(const TCHAR* s1, const TCHAR* s2);
 

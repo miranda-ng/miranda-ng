@@ -217,76 +217,76 @@ struct CIrcProto : public PROTO<CIrcProto>
 	virtual	HANDLE __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
 	virtual	HANDLE __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
 
-	virtual	int    __cdecl Authorize( HANDLE hContact );
-	virtual	int    __cdecl AuthDeny( HANDLE hContact, const TCHAR* szReason );
-	virtual	int    __cdecl AuthRecv( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int    __cdecl AuthRequest( HANDLE hContact, const TCHAR* szMessage );
+	virtual	int    __cdecl Authorize(HANDLE hDbEvent);
+	virtual	int    __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR* szReason);
+	virtual	int    __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl AuthRequest(HCONTACT hContact, const TCHAR *szMessage);
 
-	virtual	HANDLE __cdecl ChangeInfo( int iInfoType, void* pInfoData );
+	virtual	HANDLE __cdecl ChangeInfo( int iInfoType, void *pInfoData);
 
-	virtual	HANDLE __cdecl FileAllow( HANDLE hContact, HANDLE hTransfer, const TCHAR* szPath );
-	virtual	int    __cdecl FileCancel( HANDLE hContact, HANDLE hTransfer );
-	virtual	int    __cdecl FileDeny( HANDLE hContact, HANDLE hTransfer, const TCHAR* szReason );
-	virtual	int    __cdecl FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename );
+	virtual	HANDLE __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
+	virtual	int    __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer );
+	virtual	int    __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
+	virtual	int    __cdecl FileResume( HANDLE hTransfer, int *action, const TCHAR **szFilename);
 
-	virtual	DWORD_PTR __cdecl GetCaps( int type, HANDLE hContact = NULL );
-	virtual	int    __cdecl GetInfo( HANDLE hContact, int infoType );
+	virtual	DWORD_PTR __cdecl GetCaps( int type, HCONTACT hContact = NULL);
+	virtual	int    __cdecl GetInfo(HCONTACT hContact, int infoType);
 
-	virtual	HANDLE __cdecl SearchBasic( const PROTOCHAR* id );
-	virtual	HANDLE __cdecl SearchByEmail( const PROTOCHAR* email );
-	virtual	HANDLE __cdecl SearchByName( const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName );
-	virtual	HWND   __cdecl SearchAdvanced( HWND owner );
-	virtual	HWND   __cdecl CreateExtendedSearchUI( HWND owner );
+	virtual	HANDLE __cdecl SearchBasic(const PROTOCHAR* id);
+	virtual	HANDLE __cdecl SearchByEmail(const PROTOCHAR* email);
+	virtual	HANDLE __cdecl SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName);
+	virtual	HWND   __cdecl SearchAdvanced(HWND owner);
+	virtual	HWND   __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int    __cdecl RecvContacts( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int    __cdecl RecvFile( HANDLE hContact, PROTORECVFILET* );
-	virtual	int    __cdecl RecvMsg( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int    __cdecl RecvUrl( HANDLE hContact, PROTORECVEVENT* );
+	virtual	int    __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvFile(HCONTACT hContact, PROTORECVFILET*);
+	virtual	int    __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	int    __cdecl SendContacts( HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList );
-	virtual	HANDLE __cdecl SendFile( HANDLE hContact, const TCHAR* szDescription, TCHAR** ppszFiles );
-	virtual	int    __cdecl SendMsg( HANDLE hContact, int flags, const char* msg );
-	virtual	int    __cdecl SendUrl( HANDLE hContact, int flags, const char* url );
+	virtual	int    __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
+	virtual	HANDLE __cdecl SendFile(HCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	int    __cdecl SendMsg(HCONTACT hContact, int flags, const char* msg);
+	virtual	int    __cdecl SendUrl(HCONTACT hContact, int flags, const char* url);
 
-	virtual	int    __cdecl SetApparentMode( HANDLE hContact, int mode );
-	virtual	int    __cdecl SetStatus( int iNewStatus );
+	virtual	int    __cdecl SetApparentMode(HCONTACT hContact, int mode);
+	virtual	int    __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE __cdecl GetAwayMsg( HANDLE hContact );
-	virtual	int    __cdecl RecvAwayMsg( HANDLE hContact, int mode, PROTORECVEVENT* evt );
-	virtual	int    __cdecl SetAwayMsg( int m_iStatus, const TCHAR* msg );
+	virtual	HANDLE __cdecl GetAwayMsg(HCONTACT hContact);
+	virtual	int    __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT *evt);
+	virtual	int    __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
 
-	virtual	int    __cdecl UserIsTyping( HANDLE hContact, int type );
+	virtual	int    __cdecl UserIsTyping(HCONTACT hContact, int type);
 
-	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
+	virtual	int    __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
 	// Services
-	INT_PTR __cdecl SvcCreateAccMgrUI( WPARAM, LPARAM );
-	INT_PTR __cdecl GetMyAwayMsg( WPARAM, LPARAM );
+	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
+	INT_PTR __cdecl GetMyAwayMsg(WPARAM, LPARAM);
 
-	INT_PTR __cdecl OnChangeNickMenuCommand( WPARAM, LPARAM );
-	INT_PTR __cdecl OnDoubleclicked( WPARAM, LPARAM );
-	INT_PTR __cdecl OnJoinChat( WPARAM, LPARAM );
-	INT_PTR __cdecl OnJoinMenuCommand( WPARAM, LPARAM );
-	INT_PTR __cdecl OnLeaveChat( WPARAM, LPARAM );
-	INT_PTR __cdecl OnMenuChanSettings( WPARAM, LPARAM );
+	INT_PTR __cdecl OnChangeNickMenuCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl OnDoubleclicked(WPARAM, LPARAM);
+	INT_PTR __cdecl OnJoinChat(WPARAM, LPARAM);
+	INT_PTR __cdecl OnJoinMenuCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl OnLeaveChat(WPARAM, LPARAM);
+	INT_PTR __cdecl OnMenuChanSettings(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuDisconnect( WPARAM , LPARAM );
-	INT_PTR __cdecl OnMenuIgnore( WPARAM, LPARAM );
-	INT_PTR __cdecl OnMenuWhois( WPARAM, LPARAM );
+	INT_PTR __cdecl OnMenuIgnore(WPARAM, LPARAM);
+	INT_PTR __cdecl OnMenuWhois(WPARAM, LPARAM);
 	INT_PTR __cdecl OnQuickConnectMenuCommand(WPARAM, LPARAM );
-	INT_PTR __cdecl OnShowListMenuCommand( WPARAM, LPARAM );
-	INT_PTR __cdecl OnShowServerMenuCommand( WPARAM, LPARAM );
+	INT_PTR __cdecl OnShowListMenuCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl OnShowServerMenuCommand(WPARAM, LPARAM);
 
 	// Events
-	int __cdecl OnContactDeleted( WPARAM, LPARAM );
-	int __cdecl OnInitOptionsPages( WPARAM, LPARAM );
-	int __cdecl OnInitUserInfo( WPARAM, LPARAM );
-	int __cdecl OnModulesLoaded( WPARAM, LPARAM );
-	int __cdecl OnMenuPreBuild( WPARAM, LPARAM );
-	int __cdecl OnPreShutdown( WPARAM, LPARAM );
-	int __cdecl OnDbSettingChanged( WPARAM, LPARAM );
+	int __cdecl OnContactDeleted(WPARAM, LPARAM);
+	int __cdecl OnInitOptionsPages(WPARAM, LPARAM);
+	int __cdecl OnInitUserInfo(WPARAM, LPARAM);
+	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
+	int __cdecl OnMenuPreBuild(WPARAM, LPARAM);
+	int __cdecl OnPreShutdown(WPARAM, LPARAM);
+	int __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 
-	int __cdecl GCEventHook( WPARAM, LPARAM );
-	int __cdecl GCMenuHook( WPARAM, LPARAM );
+	int __cdecl GCEventHook(WPARAM, LPARAM);
+	int __cdecl GCMenuHook(WPARAM, LPARAM);
 
 	// Data
 
@@ -389,46 +389,46 @@ struct CIrcProto : public PROTO<CIrcProto>
 	CDlgBase::CreateParam OptCreateAccount, OptCreateConn, OptCreateIgnore, OptCreateOther;
 
 	//clist.cpp
-	HANDLE CList_AddContact(struct CONTACT * user, bool InList, bool SetOnline);
-	bool   CList_SetAllOffline(BYTE ChatsToo);
-	HANDLE CList_SetOffline(struct CONTACT * user);
+	HCONTACT CList_AddContact(CONTACT *user, bool InList, bool SetOnline);
+	bool     CList_SetAllOffline(BYTE ChatsToo);
+	HCONTACT CList_SetOffline(CONTACT *user);
 
-	bool   CList_AddEvent(struct CONTACT * user, HICON Icon, HANDLE event, const char * tooltip, int type ) ;
-	HANDLE CList_FindContact (struct CONTACT * user);
-	BOOL   CList_AddDCCChat(const CMString& name, const CMString& hostmask, unsigned long adr, int port) ;
+	bool     CList_AddEvent(CONTACT *user, HICON Icon, HANDLE event, const char *tooltip, int type ) ;
+	HCONTACT CList_FindContact(CONTACT *user);
+	BOOL     CList_AddDCCChat(const CMString &name, const CMString &hostmask, unsigned long adr, int port) ;
 
 	//commandmonitor.cpp
 	UINT_PTR IdentTimer, InitTimer, KeepAliveTimer, OnlineNotifTimer, OnlineNotifTimer3;
 
-	int  AddOutgoingMessageToDB(HANDLE hContact, TCHAR* msg);
+	int  AddOutgoingMessageToDB(HCONTACT hContact, TCHAR *msg);
 	bool DoOnConnect(const CIrcMessage *pmsg);
-	int  DoPerform(const char* event);
-	void __cdecl ResolveIPThread( void* di );
+	int  DoPerform(const char *event);
+	void __cdecl ResolveIPThread(void *di);
 
-	bool AddIgnore(const TCHAR* mask, const TCHAR* mode, const TCHAR* network) ;
-	int  IsIgnored(const CMString& nick, const CMString& address, const CMString& host, char type) ;
+	bool AddIgnore(const TCHAR *mask, const TCHAR *mode, const TCHAR *network) ;
+	int  IsIgnored(const CMString &nick, const CMString &address, const CMString &host, char type) ;
 	int  IsIgnored(CMString user, char type);
-	bool RemoveIgnore(const TCHAR* mask) ;
+	bool RemoveIgnore(const TCHAR *mask) ;
 
 	//input.cpp
 	CMString DoAlias( const TCHAR *text, TCHAR *window);
-	BOOL     DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContact );
-	CMString DoIdentifiers( CMString text, const TCHAR* window );
-	void     FormatMsg(CMString& text);
-	bool     PostIrcMessageWnd(TCHAR* pszWindow, HANDLE hContact,const TCHAR* szBuf);
-	bool     PostIrcMessage( const TCHAR* fmt, ...);
+	BOOL     DoHardcodedCommand(CMString text, TCHAR *window, HCONTACT hContact);
+	CMString DoIdentifiers(CMString text, const TCHAR *window);
+	void     FormatMsg(CMString &text);
+	bool     PostIrcMessageWnd(TCHAR *pszWindow, HCONTACT hContact, const TCHAR *szBuf);
+	bool     PostIrcMessage(const TCHAR *fmt, ...);
 
 	// irclib.cpp
 	UINT_PTR	DCCTimer;
-	void     SendIrcMessage( const TCHAR*, bool bNotify = true, int codepage = -1 );
+	void     SendIrcMessage(const TCHAR*, bool bNotify = true, int codepage = -1);
 
 	// ircproto.cpp
-	void __cdecl AckBasicSearch( void* param );
-	void __cdecl AckMessageFail( void* info );
-	void __cdecl AckMessageFailDcc( void* info );
-	void __cdecl AckMessageSuccess( void* info );
+	void __cdecl AckBasicSearch(void* param);
+	void __cdecl AckMessageFail(void* info);
+	void __cdecl AckMessageFailDcc(void* info);
+	void __cdecl AckMessageSuccess(void* info);
 
-	int  SetStatusInternal( int iNewStatus, bool bIsInternal );
+	int  SetStatusInternal(int iNewStatus, bool bIsInternal);
 
 	//options.cpp
 	HWND m_hwndConnect;
@@ -501,12 +501,12 @@ struct CIrcProto : public PROTO<CIrcProto>
 	////////////////////////////////////////////////////////////////////////////////////////
 	// former CIrcSession class
 
-	void AddDCCSession(HANDLE hContact, CDccSession* dcc);
+	void AddDCCSession(HCONTACT hContact, CDccSession* dcc);
 	void AddDCCSession(DCCINFO*  pdci, CDccSession* dcc);
-	void RemoveDCCSession(HANDLE hContact);
+	void RemoveDCCSession(HCONTACT hContact);
 	void RemoveDCCSession(DCCINFO*  pdci);
 
-	CDccSession* FindDCCSession(HANDLE hContact);
+	CDccSession* FindDCCSession(HCONTACT hContact);
 	CDccSession* FindDCCSession(DCCINFO* pdci);
 	CDccSession* FindDCCSendByPort(int iPort);
 	CDccSession* FindDCCRecvByPortAndName(int iPort, const TCHAR* szName);

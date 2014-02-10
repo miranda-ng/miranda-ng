@@ -25,7 +25,7 @@ CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack;
 
-HANDLE hForwardFrom, hForwardTo;
+HCONTACT hForwardFrom, hForwardTo;
 TCHAR tszForwardTemplate[MAXTEMPLATESIZE]; 
 int iSplit, iSplitMaxSize, iSendParts, iMarkRead, iSendAndHistory, iForwardOnStatus;
 
@@ -89,7 +89,8 @@ int ProtoAck(WPARAM wparam,LPARAM lparam)
 */
 static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam, hDBEvent = (HANDLE)lParam;
+	HCONTACT hContact = (HCONTACT)wParam;
+	HANDLE hDBEvent = (HANDLE)lParam;
 
 	// is the message sender accepted for forwarding
 	if (hForwardFrom != 0 && hForwardFrom != hContact)
@@ -209,7 +210,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		strncpy(szMsgPart, szBuf, cbPortion);
 		szMsgPart[cbPortion] = 0;
 
-		HANDLE hMsgProc = (HANDLE)CallContactService((HANDLE)hForwardTo, PSS_MESSAGE, PREF_UTF, (LPARAM)szMsgPart);
+		HANDLE hMsgProc = (HANDLE)CallContactService(hForwardTo, PSS_MESSAGE, PREF_UTF, (LPARAM)szMsgPart);
 
 		MESSAGE_PROC* msgProc = (MESSAGE_PROC*)mir_alloc(sizeof(MESSAGE_PROC));
 		msgProc->hProcess = hMsgProc;
@@ -235,8 +236,8 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getCLI();
 
 	// Load plugin options from DB
-	hForwardFrom     = (HANDLE)db_get_dw(NULL, "yaRelay", "ForwardFrom", 0);
-	hForwardTo       = (HANDLE)db_get_dw(NULL, "yaRelay", "ForwardTo", 0);
+	hForwardFrom = (HCONTACT)db_get_dw(NULL, "yaRelay", "ForwardFrom", 0);
+	hForwardTo = (HCONTACT)db_get_dw(NULL, "yaRelay", "ForwardTo", 0);
 
 	iForwardOnStatus = db_get_dw(NULL, "yaRelay", "ForwardOnStatus", STATUS_OFFLINE | STATUS_AWAY | STATUS_NA);
 

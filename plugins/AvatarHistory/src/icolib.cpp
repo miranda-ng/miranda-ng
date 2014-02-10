@@ -74,7 +74,7 @@ HICON createDefaultOverlayedIcon(BOOL big)
 }
 
 
-HICON createProtoOverlayedIcon(HANDLE hContact)
+HICON createProtoOverlayedIcon(HCONTACT hContact)
 {
 	HICON icon1 = LoadIconEx(I_OVERLAY);
 

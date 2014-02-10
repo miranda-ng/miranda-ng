@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class HistoryWindow : public SearchContext
 {
 private:
-	HistoryWindow(HANDLE _hContact);
+	HistoryWindow(HCONTACT _hContact);
 	void Initialise();
 	void Destroy();
 	void SplitterMoved(HWND splitter, LONG pos, bool screenPos);
@@ -75,9 +75,9 @@ protected:
 public:
 	~HistoryWindow();
 	static void Deinit();
-	static void Open(HANDLE hContact);
-	static void Close(HANDLE hContact);
-	static void RebuildEvents(HANDLE hContact);
+	static void Open(HCONTACT hContact);
+	static void Close(HCONTACT hContact);
+	static void RebuildEvents(HCONTACT hContact);
 	static bool IsInList(HWND hWnd);
 	static int FontsChanged(WPARAM wParam, LPARAM lParam);
 	static INT_PTR DeleteAllUserHistory(WPARAM wParam, LPARAM lParam);
@@ -89,7 +89,7 @@ public:
 
 	// SearchContext interface
 	virtual void SelectEventGroup(int sel);
-	virtual HANDLE GetNextContact(HANDLE hContact, int adder);
+	virtual HCONTACT GetNextContact(HCONTACT hContact, int adder);
 	virtual void SelectContact(HANDLE _hContact);
 };
 

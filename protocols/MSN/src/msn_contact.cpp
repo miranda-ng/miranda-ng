@@ -23,9 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_global.h"
 #include "msn_proto.h"
 
-HANDLE CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick, bool addIfNeeded, bool temporary)
+HCONTACT CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick, bool addIfNeeded, bool temporary)
 {
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 
 	char* szEmail;
 	parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, NULL);
@@ -33,9 +33,8 @@ HANDLE CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick, b
 	MsnContact *msc = Lists_Get(szEmail);
 	if (msc && msc->hContact) hContact = msc->hContact;
 
-	if (hContact == NULL && addIfNeeded)
-	{
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	if (hContact == NULL && addIfNeeded) {
+		hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
 		setString(hContact, "e-mail", szEmail);
 		setStringUtf(hContact, "Nick", msnNick ? msnNick : wlid);
@@ -49,7 +48,7 @@ HANDLE CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick, b
 }
 
 
-void CMsnProto::MSN_SetContactDb(HANDLE hContact, const char *szEmail)
+void CMsnProto::MSN_SetContactDb(HCONTACT hContact, const char *szEmail)
 {
 	MsnContact *cont = Lists_Get(szEmail);
 	const int listId = cont->list;
@@ -120,7 +119,7 @@ void CMsnProto::AddDelUserContList(const char* email, const int list, const int 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN_AddUser - adds a e-mail address to one of the MSN server lists
 
-bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int flags, const char *msg)
+bool CMsnProto::MSN_AddUser(HCONTACT hContact, const char* email, int netId, int flags, const char *msg)
 {
 	bool needRemove     = (flags & LIST_REMOVE) != 0;
 	bool leaveHotmail   = (flags & LIST_REMOVENH) == LIST_REMOVENH;

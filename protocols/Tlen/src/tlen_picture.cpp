@@ -254,7 +254,7 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 	mir_free(fromRaw);
 }
 
-BOOL SendPicture(TlenProtocol *proto, HANDLE hContact) {
+BOOL SendPicture(TlenProtocol *proto, HCONTACT hContact) {
 	DBVARIANT dbv;
 	if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 		char *jid = dbv.pszVal;

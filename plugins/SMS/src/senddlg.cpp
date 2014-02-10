@@ -36,20 +36,20 @@ Enjoy the code and use it smartly!
 //Defnition needed to the SMS window list
 typedef struct
 {
-	LIST_MT_ITEM	lmtListMTItem;
-	HWND			hWnd;
-	HBRUSH			hBkgBrush;
-	HANDLE			hProcess;
-	HANDLE			hContact;
-	HANDLE			hMyContact;
-	HTREEITEM		hItemSend;
-	BOOL			bMultiple;
-	SIZE_T			dwContactsListCount;
-	HANDLE			*phContactsList;
-	DBEVENTINFO		*pdbei;
+	LIST_MT_ITEM lmtListMTItem;
+	HWND hWnd;
+	HBRUSH hBkgBrush;
+	HANDLE hProcess;
+	HCONTACT hContact;
+	HCONTACT hMyContact;
+	HTREEITEM hItemSend;
+	BOOL bMultiple;
+	SIZE_T dwContactsListCount;
+	HCONTACT *phContactsList;
+	DBEVENTINFO *pdbei;
 } SEND_SMS_WINDOW_DATA;
 
-void			AddContactPhonesToCombo		(HWND hWnd,HANDLE hContact);
+void			AddContactPhonesToCombo		(HWND hWnd,HCONTACT hContact);
 void			SendSMSWindowFillTreeView	(HWND hWnd);
 SIZE_T			GetSMSMessageLenMax			(HWND hWndDlg);
 
@@ -427,7 +427,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 				SendDlgItemMessage(hWndDlg,IDC_ADDRESS,CB_RESETCONTENT,0,0);
 				if (SendDlgItemMessage(hWndDlg,IDC_NAME,CB_GETCURSEL,0,0))
 				{
-					HANDLE hContact=SendSMSWindowSMSContactGet(hWndDlg,(SendDlgItemMessage(hWndDlg,IDC_NAME,CB_GETCURSEL,0,0)-1));
+					HCONTACT hContact = SendSMSWindowSMSContactGet(hWndDlg,(SendDlgItemMessage(hWndDlg,IDC_NAME,CB_GETCURSEL,0,0)-1));
 					if (hContact) AddContactPhonesToCombo(hWndDlg,hContact);
 				}
 			}
@@ -557,7 +557,7 @@ INT_PTR CALLBACK SMSAcceptedDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM l
 
 //This function create a new SMS send window, and insert it to the list.
 //The function gets void and return the window HWND
-HWND SendSMSWindowAdd(HANDLE hContact)
+HWND SendSMSWindowAdd(HCONTACT hContact)
 {
 	HWND hRet=NULL;
 	SEND_SMS_WINDOW_DATA *psswdWindowData=(SEND_SMS_WINDOW_DATA*)MEMALLOC(sizeof(SEND_SMS_WINDOW_DATA));
@@ -608,18 +608,18 @@ void SendSMSWindowRemove(HWND hWndDlg)
 
 //This function return the contact HANDLE for the given to the SMS send window.
 //The function gets the HWND of the window and return the HANDLE of the contact.
-HANDLE SendSMSWindowHContactGet(HWND hWndDlg)
+HCONTACT SendSMSWindowHContactGet(HWND hWndDlg)
 {
-	HANDLE hRet=NULL;
+	HCONTACT hRet=NULL;
 	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
 
 	if (psswdWindowData) hRet=psswdWindowData->hMyContact;
-return(hRet);
+	return(hRet);
 }
 
 //This function set the contact info of the person we send him the in the given to the SMS send window.
 //The function gets the HWND of the window and the HANDLE of the contact and return void
-void SendSMSWindowHContactSet(HWND hWndDlg,HANDLE hContact)
+void SendSMSWindowHContactSet(HWND hWndDlg,HCONTACT hContact)
 {
 	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
 	if (psswdWindowData) psswdWindowData->hMyContact=hContact;
@@ -837,7 +837,7 @@ return(NULL);
 //This function get the HANDLE of an user. if there is already a SMS send window for this contact
 //it return its HWND else the function return NULL.
 //The function gets the HANDLE of a contact and return HWND
-HWND SendSMSWindowIsOtherInstanceHContact(HANDLE hContact)
+HWND SendSMSWindowIsOtherInstanceHContact(HCONTACT hContact)
 {
 	HWND hRet=NULL;
 	SEND_SMS_WINDOW_DATA *psswdWindowData;
@@ -893,33 +893,30 @@ void SendSMSWindowNext(HWND hWndDlg)
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 //This function gets a HANDLE of a contact and add it to a list.
-void SendSMSWindowSMSContactAdd(HWND hWndDlg,HANDLE hContact)
+void SendSMSWindowSMSContactAdd(HWND hWndDlg,HCONTACT hContact)
 {
 	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
 
-	if (psswdWindowData)
-	{
+	if (psswdWindowData) {
 		psswdWindowData->dwContactsListCount++;
 		if (psswdWindowData->phContactsList)
-		{
-			psswdWindowData->phContactsList=(HANDLE*)MEMREALLOC(psswdWindowData->phContactsList,(sizeof(HANDLE)*psswdWindowData->dwContactsListCount));
-		}else{
-			psswdWindowData->phContactsList=(HANDLE*)MEMALLOC((sizeof(HANDLE)*psswdWindowData->dwContactsListCount));
-		}
+			psswdWindowData->phContactsList = (HCONTACT*)MEMREALLOC(psswdWindowData->phContactsList,(sizeof(HANDLE)*psswdWindowData->dwContactsListCount));
+		else
+			psswdWindowData->phContactsList = (HCONTACT*)MEMALLOC((sizeof(HANDLE)*psswdWindowData->dwContactsListCount));
+
 		*(psswdWindowData->phContactsList+psswdWindowData->dwContactsListCount-1)=hContact;
 	}
 }
 
 //This function gets the number of the given contact in the combo list and return its contact.
-HANDLE SendSMSWindowSMSContactGet(HWND hWndDlg,SIZE_T iNum)
+HCONTACT SendSMSWindowSMSContactGet(HWND hWndDlg,SIZE_T iNum)
 {
 	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
 
 	if (psswdWindowData)
-	{
 		return(*((psswdWindowData->phContactsList)+iNum));
-	}
-return(NULL);
+
+	return(NULL);
 }
 
 void SendSMSWindowSMSContactsRemove(HWND hWndDlg)
@@ -977,7 +974,7 @@ void SendSMSWindowsUpdateAllAccountLists()
 
 
 
-void AddContactPhonesToComboToListParam(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,HWND hWndList)
+void AddContactPhonesToComboToListParam(HCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,HWND hWndList)
 {
 	char szBuff[MAX_PATH];
 	TCHAR tszPhone[MAX_PHONE_LEN],tszPhoneRaw[MAX_PHONE_LEN];
@@ -1011,7 +1008,7 @@ void AddContactPhonesToComboToListParam(HANDLE hContact,LPSTR lpszModule,LPSTR l
 }
 
 
-void AddContactPhonesToCombo(HWND hWnd,HANDLE hContact)
+void AddContactPhonesToCombo(HWND hWnd,HCONTACT hContact)
 {
 	HWND hWndList = GetDlgItem(hWnd,IDC_ADDRESS);
 	SendDlgItemMessage(hWnd,IDC_ADDRESS,CB_RESETCONTENT,0,0);
@@ -1032,7 +1029,7 @@ void AddContactPhonesToCombo(HWND hWnd,HANDLE hContact)
 
 
 
-void AddContactPhonesToTreeViewParam(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,HWND hWndList,HTREEITEM *phParent)
+void AddContactPhonesToTreeViewParam(HCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,HWND hWndList,HTREEITEM *phParent)
 {
 	char szBuff[MAX_PATH];
 	TCHAR tszPhone[MAX_PHONE_LEN],tszPhoneRaw[MAX_PHONE_LEN];
@@ -1090,7 +1087,7 @@ void SendSMSWindowFillTreeView(HWND hWnd)
 	HWND hWndTreeView=GetDlgItem(hWnd,IDC_NUMBERSLIST);
 	TreeView_DeleteAllItems(hWndTreeView);
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HTREEITEM hParent = NULL;
 		LPSTR lpszProto = GetContactProto(hContact);
 		if (lpszProto) {

@@ -24,14 +24,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask, unsigned long adr, int port)
 {
-	HANDLE hContact;
-	HANDLE hc;
+	HCONTACT hContact;
 	TCHAR szNick[256];
 	char szService[256];
 	bool bFlag = false;
 
 	CONTACT usertemp = { (TCHAR*)name.c_str(), NULL, NULL, false, false, true };
-	hc = CList_FindContact(&usertemp);
+	HCONTACT hc = CList_FindContact(&usertemp);
 	if (hc && db_get_b(hc, "CList", "NotOnList", 0) == 0 && db_get_b(hc, "CList", "Hidden", 0) == 0)
 		bFlag = true;
 
@@ -63,9 +62,8 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 			PostIrcMessage(_T("/PRIVMSG %s \001VERSION\001"), name.c_str());
 	}
 	else {
-		CLISTEVENT cle = { 0 };
-		cle.cbSize = sizeof(cle);
-		cle.hContact = (HANDLE)hContact;
+		CLISTEVENT cle = { sizeof(cle) };
+		cle.hContact = hContact;
 		cle.hDbEvent = (HANDLE)"dccchat";
 		cle.flags = CLEF_TCHAR;
 		cle.hIcon = LoadIconEx(IDI_DCC);
@@ -82,12 +80,12 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 	return TRUE;
 }
 
-HANDLE CIrcProto::CList_AddContact(CONTACT * user, bool InList, bool SetOnline)
+HCONTACT CIrcProto::CList_AddContact(CONTACT *user, bool InList, bool SetOnline)
 {
 	if (user->name == NULL)
 		return 0;
 
-	HANDLE hContact = CList_FindContact(user);
+	HCONTACT hContact = CList_FindContact(user);
 	if (hContact) {
 		if (InList)
 			db_unset(hContact, "CList", "NotOnList");
@@ -99,7 +97,7 @@ HANDLE CIrcProto::CList_AddContact(CONTACT * user, bool InList, bool SetOnline)
 	}
 
 	// here we create a new one since no one is to be found
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (hContact) {
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
 
@@ -118,9 +116,9 @@ HANDLE CIrcProto::CList_AddContact(CONTACT * user, bool InList, bool SetOnline)
 	return false;
 }
 
-HANDLE CIrcProto::CList_SetOffline(struct CONTACT * user)
+HCONTACT CIrcProto::CList_SetOffline(CONTACT *user)
 {
-	HANDLE hContact = CList_FindContact(user);
+	HCONTACT hContact = CList_FindContact(user);
 	if (hContact) {
 		DBVARIANT dbv;
 		if (!getTString(hContact, "Default", &dbv)) {
@@ -142,7 +140,7 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 
 	DisconnectAllDCCSessions(false);
 
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact))
 			continue;
 
@@ -162,7 +160,7 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 	return true;
 }
 
-HANDLE CIrcProto::CList_FindContact(CONTACT* user)
+HCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 {
 	if (!user || !user->name)
 		return 0;
@@ -170,11 +168,11 @@ HANDLE CIrcProto::CList_FindContact(CONTACT* user)
 	TCHAR* lowercasename = mir_tstrdup(user->name);
 	CharLower(lowercasename);
 
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact))
 			continue;
 
-		HANDLE hContact_temp = NULL;
+		HCONTACT  hContact_temp = NULL;
 		ptrT DBNick(getTStringA(hContact, "Nick"));
 		ptrT DBUser(getTStringA(hContact, "UUser"));
 		ptrT DBHost(getTStringA(hContact, "UHost"));
@@ -185,7 +183,7 @@ HANDLE CIrcProto::CList_FindContact(CONTACT* user)
 			CharLower(DBWildcard);
 		if (IsChannel(user->name)) {
 			if (DBDefault && !lstrcmpi(DBDefault, user->name))
-				hContact_temp = (HANDLE)-1;
+				hContact_temp = (HCONTACT)-1;
 		}
 		else if (user->ExactNick && DBNick && !lstrcmpi(DBNick, user->name))
 			hContact_temp = hContact;
@@ -210,7 +208,7 @@ HANDLE CIrcProto::CList_FindContact(CONTACT* user)
 
 		if (hContact_temp != NULL) {
 			mir_free(lowercasename);
-			if (hContact_temp != (HANDLE)-1)
+			if (hContact_temp != (HCONTACT)-1)
 				return hContact_temp;
 			return 0;
 		}

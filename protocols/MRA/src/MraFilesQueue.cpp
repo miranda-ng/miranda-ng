@@ -27,7 +27,7 @@ struct MRA_FILES_QUEUE_ITEM : public LIST_MT_ITEM
 	CMraProto            *ppro;
 	DWORD                 dwIDRequest;
 	DWORD                 dwFlags;
-	HANDLE                hContact;
+	HCONTACT              hContact;
 	DWORDLONG             dwFilesCount;
 	DWORDLONG             dwFilesTotalSize;
 	MRA_FILES_QUEUE_FILE *pmfqfFiles;
@@ -622,7 +622,7 @@ void MraFilesQueueConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, vo
 /////////////////////////////////////////////////////////////////////////////////////////
 // Receive files
 
-DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD dwIDRequest, const CMStringW &lpwszFiles, const CMStringA &szAddresses)
+DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags, HCONTACT hContact, DWORD dwIDRequest, const CMStringW &lpwszFiles, const CMStringA &szAddresses)
 {
 	if (!hFilesQueueHandle || !dwIDRequest)
 		return ERROR_INVALID_HANDLE;
@@ -919,7 +919,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Send files
 
-DWORD CMraProto::MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, HANDLE hContact, LPWSTR *plpwszFiles, size_t dwFilesCount, DWORD *pdwIDRequest)
+DWORD CMraProto::MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, HCONTACT hContact, LPWSTR *plpwszFiles, size_t dwFilesCount, DWORD *pdwIDRequest)
 {
 	if (!hFilesQueueHandle)
 		return ERROR_INVALID_HANDLE;

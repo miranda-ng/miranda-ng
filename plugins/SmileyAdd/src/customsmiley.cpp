@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SmileyPackCListType g_SmileyPackCStore;
 
 
-bool SmileyPackCListType::AddSmileyPack(HANDLE hContact, TCHAR* dir)
+bool SmileyPackCListType::AddSmileyPack(HCONTACT hContact, TCHAR* dir)
 {
 	bool res = true;
 	if (GetSmileyPack(hContact) == NULL) {
@@ -38,7 +38,7 @@ bool SmileyPackCListType::AddSmileyPack(HANDLE hContact, TCHAR* dir)
 }
 
 
-bool SmileyPackCListType::AddSmiley(HANDLE hContact, TCHAR* path)
+bool SmileyPackCListType::AddSmiley(HCONTACT hContact, TCHAR* path)
 {
 	SmileyPackCType *smpack = GetSmileyPack(hContact);
 	if (smpack == NULL) {  

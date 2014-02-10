@@ -69,9 +69,9 @@ typedef struct TComboExItem
 
 int CtrlContactLoadModule();
 int CtrlContactUnLoadModule();
-int CtrlContactAddItemFromDB(HWND hCtrl, LPCSTR szIcon, LPTSTR szItem, HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szSettingVal);
-int CtrlContactAddMyItemsFromDB(HWND hCtrl, LPCSTR szIcon, WORD wForcedFlags, HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szFormatCat, LPCSTR szFormatVal);
-int CtrlContactWriteItemToDB(HWND hCtrl, HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetting);
-int CtrlContactWriteMyItemsToDB(HWND hCtrl, int iFirstItem, HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szFormatCat, LPCSTR szFormatVal);
+int CtrlContactAddItemFromDB(HWND hCtrl, LPCSTR szIcon, LPTSTR szItem, HCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szSettingVal);
+int CtrlContactAddMyItemsFromDB(HWND hCtrl, LPCSTR szIcon, WORD wForcedFlags, HCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szFormatCat, LPCSTR szFormatVal);
+int CtrlContactWriteItemToDB(HWND hCtrl, HCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetting);
+int CtrlContactWriteMyItemsToDB(HWND hCtrl, int iFirstItem, HCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szFormatCat, LPCSTR szFormatVal);
 
 #endif /* _UI_CTRL_INCLUDE_ */

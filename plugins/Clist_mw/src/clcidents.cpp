@@ -80,7 +80,7 @@ int GetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex)
 	return -1;
 }
 
-ClcCacheEntry *GetCLCFullCacheEntry(struct ClcData *dat,HANDLE hContact)
+ClcCacheEntry *GetCLCFullCacheEntry(struct ClcData *dat,HCONTACT hContact)
 {
 	if (hContact == 0)
 		return NULL;
@@ -107,7 +107,7 @@ ClcCacheEntry *GetCLCFullCacheEntry(struct ClcData *dat,HANDLE hContact)
 	return (pdnce);
 }
 
-void ClearClcContactCache(struct ClcData *dat,HANDLE hContact)
+void ClearClcContactCache(struct ClcData *dat,HCONTACT hContact)
 {
 	ClcCacheEntry *cacheEntry;
 
@@ -133,7 +133,7 @@ void ClearClcContactCache(struct ClcData *dat,HANDLE hContact)
 	}
 }
 
-void SetClcContactCacheItem(struct ClcData *dat,HANDLE hContact,void *contact)
+void SetClcContactCacheItem(struct ClcData *dat, HCONTACT hContact, void *contact)
 {
 	ClcCacheEntry *cacheEntry;
 	if ( !IsHContactGroup(hContact) && !IsHContactInfo(hContact)) {
@@ -143,7 +143,7 @@ void SetClcContactCacheItem(struct ClcData *dat,HANDLE hContact,void *contact)
 	}
 }
 
-int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **contact,ClcGroup **subgroup,int *isVisible)
+int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **contact, ClcGroup **subgroup, int *isVisible)
 {
 	int index = 0, i;
 	int nowVisible = 1;
@@ -153,8 +153,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 
 	if (isVisible == NULL && hItem != NULL && subgroup == NULL && !IsHContactGroup(hItem) && !IsHContactInfo(hItem)) {
 		//try use cache
-		ClcCacheEntry *cacheEntry;
-		cacheEntry = GetCLCFullCacheEntry(dat,hItem);
+		ClcCacheEntry *cacheEntry = GetCLCFullCacheEntry(dat, (HCONTACT)hItem);
 		if (cacheEntry != NULL) {
 			if (cacheEntry->ClcContact == NULL) {
 				int *isv = {0};

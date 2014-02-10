@@ -43,21 +43,21 @@ struct TReceivedItem {
 
 struct TRecvContactsData
 {
-	TRecvContactsData(HANDLE contact);
+	TRecvContactsData(HCONTACT contact);
 	~TRecvContactsData();
 
-	HANDLE  mhDbEvent;    // handle to recv DB event
-	HANDLE  mhContact;    // from whom we received this
+	HANDLE     mhDbEvent;    // handle to recv DB event
+	HCONTACT   mhContact;    // from whom we received this
 	HIMAGELIST mhListIcon;// icons for listview
-	HMENU   mhPopup;      // popup menu for listview
-	HANDLE  hHook;        // hook to event
-	HANDLE  rhSearch;     // handle to uin-search
-	TCHAR*  haUin;
-	int     iPopupItem;
+	HMENU      mhPopup;      // popup menu for listview
+	HANDLE     hHook;        // hook to event
+	HANDLE     rhSearch;     // handle to uin-search
+	TCHAR*     haUin;
+	int        iPopupItem;
 	TReceivedItem** maReceived;// received contacts
-	int     cbReceived;
+	int        cbReceived;
 	TReceivedItem* AddReceivedItem();
-	HICON   hIcons[4];    // icons for dialog
+	HICON      hIcons[4];    // icons for dialog
 };
 
 extern HANDLE ghRecvWindowList;

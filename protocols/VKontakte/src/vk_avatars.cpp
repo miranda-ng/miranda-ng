@@ -23,18 +23,18 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* pReq)
 		return;
 
 	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
-	GetAvatarFileName(pReq->pUserInfo, AI.filename, SIZEOF(AI.filename));
+	GetAvatarFileName((HCONTACT)pReq->pUserInfo, AI.filename, SIZEOF(AI.filename));
 	AI.format = ProtoGetBufferFormat(reply->pData);
 
 	FILE *out = _tfopen(AI.filename, _T("wb"));
 	if (out == NULL) {
-		ProtoBroadcastAck(pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
+		ProtoBroadcastAck((HCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
 		return;
 	}
 
 	fwrite(reply->pData, 1, reply->dataLength, out);
 	fclose(out);
-	ProtoBroadcastAck(pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
+	ProtoBroadcastAck((HCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
 }
 
 INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
@@ -93,7 +93,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	return GAIR_NOAVATAR;
 }
 
-void CVkProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen)
+void CVkProto::GetAvatarFileName(HCONTACT hContact, TCHAR* pszDest, size_t cbLen)
 {
 	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
 
@@ -115,7 +115,7 @@ void CVkProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen)
 	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%d%s"), id, szFileType);
 }
 
-void CVkProto::SetAvatarUrl(HANDLE hContact, LPCTSTR ptszUrl)
+void CVkProto::SetAvatarUrl(HCONTACT hContact, LPCTSTR ptszUrl)
 {
 	ptrT oldUrl( getTStringA(hContact, "AvatarUrl"));
 	if (!lstrcmp(ptszUrl, oldUrl))

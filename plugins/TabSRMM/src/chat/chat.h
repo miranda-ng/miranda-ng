@@ -103,7 +103,7 @@ struct TMUCSettings : public GlobalLogSettingsBase
 
 struct FLASH_PARAMS
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	const char* sound;
 	int   iEvent;
 	HICON hNotifyIcon;
@@ -173,7 +173,7 @@ void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 void          Chat_SetFilters(SESSION_INFO *si);
 void TSAPI    DoFlashAndSoundWorker(FLASH_PARAMS* p);
 BOOL          DoPopup(SESSION_INFO *si, GCEVENT* gce);
-int           ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
+int           ShowPopup(HCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
 BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
 
 // message.c

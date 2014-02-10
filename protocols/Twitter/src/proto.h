@@ -41,18 +41,18 @@ public:
 
 	virtual	int       __cdecl Authorize(HANDLE);
 	virtual	int       __cdecl AuthDeny(HANDLE,const TCHAR *);
-	virtual	int       __cdecl AuthRecv(HANDLE,PROTORECVEVENT *);
-	virtual	int       __cdecl AuthRequest(HANDLE,const TCHAR *);
+	virtual	int       __cdecl AuthRecv(HCONTACT, PROTORECVEVENT *);
+	virtual	int       __cdecl AuthRequest(HCONTACT, const TCHAR *);
 
 	virtual	HANDLE    __cdecl ChangeInfo(int,void *);
 
-	virtual	HANDLE    __cdecl FileAllow(HANDLE,HANDLE,const TCHAR *);
-	virtual	int       __cdecl FileCancel(HANDLE,HANDLE);
-	virtual	int       __cdecl FileDeny(HANDLE,HANDLE,const TCHAR *);
-	virtual	int       __cdecl FileResume(HANDLE,int *,const TCHAR **);
+	virtual	HANDLE    __cdecl FileAllow(HCONTACT, HANDLE, const TCHAR *);
+	virtual	int       __cdecl FileCancel(HCONTACT, HANDLE);
+	virtual	int       __cdecl FileDeny(HCONTACT, HANDLE, const TCHAR *);
+	virtual	int       __cdecl FileResume(HANDLE, int *, const TCHAR **);
 
-	virtual	DWORD_PTR __cdecl GetCaps(int,HANDLE = 0);
-	virtual	int       __cdecl GetInfo(HANDLE,int);
+	virtual	DWORD_PTR __cdecl GetCaps(int, HCONTACT = 0);
+	virtual	int       __cdecl GetInfo(HCONTACT, int);
 
 	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *);
 	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR *);
@@ -60,24 +60,24 @@ public:
 	virtual	HWND      __cdecl SearchAdvanced(HWND);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND);
 
-	virtual	int       __cdecl RecvContacts(HANDLE,PROTORECVEVENT *);
-	virtual	int       __cdecl RecvFile(HANDLE,PROTORECVFILET *);
-	virtual	int       __cdecl RecvMsg(HANDLE,PROTORECVEVENT *);
-	virtual	int       __cdecl RecvUrl(HANDLE,PROTORECVEVENT *);
+	virtual	int       __cdecl RecvContacts(HCONTACT, PROTORECVEVENT *);
+	virtual	int       __cdecl RecvFile(HCONTACT, PROTORECVFILET *);
+	virtual	int       __cdecl RecvMsg(HCONTACT, PROTORECVEVENT *);
+	virtual	int       __cdecl RecvUrl(HCONTACT, PROTORECVEVENT *);
 
-	virtual	int       __cdecl SendContacts(HANDLE,int,int,HANDLE *);
-	virtual	HANDLE    __cdecl SendFile(HANDLE,const TCHAR *,TCHAR **);
-	virtual	int       __cdecl SendMsg(HANDLE,int,const char *);
-	virtual	int       __cdecl SendUrl(HANDLE,int,const char *);
+	virtual	int       __cdecl SendContacts(HCONTACT, int, int, HCONTACT*);
+	virtual	HANDLE    __cdecl SendFile(HCONTACT, const TCHAR *, TCHAR **);
+	virtual	int       __cdecl SendMsg(HCONTACT, int, const char *);
+	virtual	int       __cdecl SendUrl(HCONTACT, int, const char *);
 
-	virtual	int       __cdecl SetApparentMode(HANDLE,int);
+	virtual	int       __cdecl SetApparentMode(HCONTACT, int);
 	virtual	int       __cdecl SetStatus(int);
 
-	virtual	HANDLE    __cdecl GetAwayMsg(HANDLE);
-	virtual	int       __cdecl RecvAwayMsg(HANDLE,int,PROTORECVEVENT *);
+	virtual	HANDLE    __cdecl GetAwayMsg(HCONTACT);
+	virtual	int       __cdecl RecvAwayMsg(HCONTACT, int, PROTORECVEVENT *);
 	virtual	int       __cdecl SetAwayMsg(int,const TCHAR *);
 
-	virtual	int       __cdecl UserIsTyping(HANDLE,int);
+	virtual	int       __cdecl UserIsTyping(HCONTACT, int);
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE,WPARAM,LPARAM);
 
@@ -123,16 +123,16 @@ private:
 	void UpdateStatuses(bool pre_read,bool popups, bool tweetToMsg);
 	void UpdateMessages(bool pre_read);
 	void UpdateFriends();
-	void UpdateAvatar(HANDLE,const std::string &,bool force=false);
+	void UpdateAvatar(HCONTACT, const std::string &, bool force = false);
 
 	int ShowPinDialog();
 	void ShowPopup(const wchar_t *, int Error = 0);
 	void ShowPopup(const char *, int Error = 0);
-	void ShowContactPopup(HANDLE,const std::string &);
+	void ShowContactPopup(HCONTACT, const std::string &);
 
-	bool IsMyContact(HANDLE,bool include_chat = false);
-	HANDLE UsernameToHContact(const char *);
-	HANDLE AddToClientList(const char *,const char *);
+	bool IsMyContact(HCONTACT, bool include_chat = false);
+	HCONTACT UsernameToHContact(const char *);
+	HCONTACT AddToClientList(const char *, const char *);
 	void SetAllContactStatuses(int);
 
 	void debugLogA(TCHAR *fmt,...);

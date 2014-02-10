@@ -69,7 +69,7 @@ class TfrmMain{
 		bool		m_bOnExitSave;
 
 		static void Unload();
-		void		Init(LPTSTR DestFolder, HANDLE Contact);
+		void		Init(LPTSTR DestFolder, HCONTACT Contact);
 		void		Close(){SendMessage(m_hWnd,WM_CLOSE,0,0);}
 		void		Show(){ShowWindow(m_hWnd,SW_SHOW);}
 		void		Hide(){ShowWindow(m_hWnd,SW_HIDE);}
@@ -79,7 +79,7 @@ class TfrmMain{
 
 	private:
 		HWND		m_hWnd;
-		HANDLE		m_hContact;
+		HCONTACT	m_hContact;
 		bool		m_bDeleteAfterSend;
 		bool		m_bFormAbout, m_bFormEdit;
 		HWND		m_hTargetWindow, m_hLastWin;

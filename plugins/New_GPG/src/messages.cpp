@@ -18,14 +18,14 @@
 
 
 wstring new_key;
-HANDLE new_key_hcnt = NULL;
+HCONTACT new_key_hcnt = NULL;
 boost::mutex new_key_hcnt_mutex;
 bool _terminate = false;
-int returnNoError(HANDLE hContact);
+int returnNoError(HCONTACT hContact);
 
 std::list<HANDLE> sent_msgs;
 
-void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, DWORD timestamp)
+void RecvMsgSvc_func(HCONTACT hContact, std::wstring str, char *msg, DWORD flags, DWORD timestamp)
 {		
 	DWORD dbflags = DBEF_UTF;
 	{ //check for gpg related data
@@ -35,9 +35,6 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 		s2 = str.find(_T("-----END PGP MESSAGE-----"));
 		if((s2 != wstring::npos) && (s1 != wstring::npos))
 		{ //this is generic encrypted data block
-			void setSrmmIcon(HANDLE);
-			void setClistIcon(HANDLE);
-			bool isContactHaveKey(HANDLE hContact);
 			if(!isContactSecured(hContact))
 			{
 				if(bDebugLog)
@@ -47,8 +44,6 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 					if(!isContactHaveKey(hContact))
 					{
 						void ShowLoadPublicKeyDialog();
-						extern map<int, HANDLE> user_data;
-						extern int item_num;
 						item_num = 0;		 //black magic here
 						user_data[1] = hContact;
 						ShowLoadPublicKeyDialog();
@@ -601,11 +596,11 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		}
 		if(!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
 			return CallService(MS_PROTO_CHAINRECV, w, l);
-		boost::thread *thr = new boost::thread(boost::bind(RecvMsgSvc_func, ccs->hContact, str, msg, ccs->wParam, pre->timestamp));
+		boost::thread *thr = new boost::thread(boost::bind(RecvMsgSvc_func, ccs->hContact, str, msg, (DWORD)ccs->wParam, pre->timestamp));
 		return 0;
 }
 
-void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
+void SendMsgSvc_func(HCONTACT hContact, char *msg, DWORD flags)
 {
 	bool isansi = false;
 	DWORD dbflags = 0;
@@ -845,7 +840,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	DBEVENTINFO * dbei = (DBEVENTINFO*)l;
 	if(dbei->eventType != EVENTTYPE_MESSAGE)
 		return 0;
-	HANDLE hContact = (HANDLE)w;
+	HCONTACT hContact = (HCONTACT)w;
 	if(dbei->flags & DBEF_SENT)
 	{
 		if(isContactSecured(hContact) && strstr((char*)dbei->pBlob, "-----BEGIN PGP MESSAGE-----")) //our service data, can be double added by metacontacts e.t.c.
@@ -872,7 +867,6 @@ int HookSendMsg(WPARAM w, LPARAM l)
 		{
 			if(bDebugLog)
 				debuglog<<std::string(time_str()+": info: checking for autoexchange possibility, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
-			void send_encrypted_msgs_thread(HANDLE hContact);
 			LPSTR proto = GetContactProto(hContact);
 			DWORD uin = db_get_dw(hContact, proto, "UIN", 0);
 			if(uin)
@@ -994,7 +988,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 			debuglog<<std::string(time_str()+": event message: \""+(char*)dbei->pBlob+"\" passed event filter, contact "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" is unsecured");
 		return 0;
 	}
-	if(!(dbei->flags & DBEF_SENT) && metaIsProtoMetaContacts((HANDLE)w))
+	if(!(dbei->flags & DBEF_SENT) && metaIsProtoMetaContacts((HCONTACT)w))
 	{
 		char tmp[29];
 		strncpy(tmp, (char*)dbei->pBlob, 27);
@@ -1013,94 +1007,77 @@ int HookSendMsg(WPARAM w, LPARAM l)
 static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	char *inkeyid = NULL;
-  switch (msg)
-  {
-  case WM_INITDIALOG:
-    {
-		inkeyid = UniGetContactSettingUtf(new_key_hcnt, szGPGModuleName, "InKeyID", "");
-		new_key_hcnt_mutex.unlock();
-		TCHAR *tmp = NULL;
+	switch (msg)
+	{
+	case WM_INITDIALOG:
+		{
+			inkeyid = UniGetContactSettingUtf(new_key_hcnt, szGPGModuleName, "InKeyID", "");
+			new_key_hcnt_mutex.unlock();
+			TCHAR *tmp = NULL;
 
-		SetWindowPos(hwndDlg, 0, key_password_rect.left, key_password_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
-		TranslateDialogDefault(hwndDlg);
-		string questionstr = "Please enter password for key with ID: ";
-		questionstr += inkeyid;
-		mir_free(inkeyid);
-		SetDlgItemTextA(hwndDlg, IDC_KEYID, questionstr.c_str());
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULT_PASSWORD), 0);
-      return TRUE;
-    }
-    
- 
-  case WM_COMMAND:
-    {
-      switch (LOWORD(wParam))
-      {
-      case IDOK:
-        {
-			TCHAR tmp[64];
-			GetDlgItemText(hwndDlg, IDC_KEY_PASSWORD, tmp, 64);
-			if(tmp[0])
-			{
-				extern TCHAR *password;
-				if(IsDlgButtonChecked(hwndDlg, IDC_SAVE_PASSWORD))
-				{
-					if(inkeyid && inkeyid[0] && !IsDlgButtonChecked(hwndDlg, IDC_DEFAULT_PASSWORD))
-					{
-						string dbsetting = "szKey_";
-						dbsetting += inkeyid;
-						dbsetting += "_Password";
-						db_set_ts(NULL, szGPGModuleName, dbsetting.c_str(), tmp);
-					}
-					else
-						db_set_ts(NULL, szGPGModuleName, "szKeyPassword", tmp);
-				}
-				if(password)
-					mir_free(password);
-				password = (TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(tmp)+1));
-				_tcscpy(password, tmp);
-			}
-			mir_free(tmp);
+			SetWindowPos(hwndDlg, 0, key_password_rect.left, key_password_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
+			TranslateDialogDefault(hwndDlg);
+			string questionstr = "Please enter password for key with ID: ";
+			questionstr += inkeyid;
 			mir_free(inkeyid);
-			DestroyWindow(hwndDlg);
-          break;
-        }
-	  case IDCANCEL:
-		  mir_free(inkeyid);
-		  _terminate = true;
-		  DestroyWindow(hwndDlg);
-		  break;
-	  default:
-		break;
-      }
-      
-      break;
-    }
-    
-  case WM_NOTIFY:
-    {
-/*      switch (((LPNMHDR)lParam)->code)
-      {
-	  default:
-		  EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULT_PASSWORD), IsDlgButtonChecked(hwndDlg, IDC_SAVE_PASSWORD)?1:0);
-		  break;
-      }*/
-	}
-    break;
-  case WM_CLOSE:
-	  mir_free(inkeyid);
-	  DestroyWindow(hwndDlg);
-	  break;
-  case WM_DESTROY:
-	  {
-		  GetWindowRect(hwndDlg, &key_password_rect);
-		  db_set_dw(NULL, szGPGModuleName, "PasswordWindowX", key_password_rect.left);
-		  db_set_dw(NULL, szGPGModuleName, "PasswordWindowY", key_password_rect.top);
-	  }
-	  break;
+			SetDlgItemTextA(hwndDlg, IDC_KEYID, questionstr.c_str());
+			EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULT_PASSWORD), 0);
+			return TRUE;
+		}
 
-  }
-  return FALSE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDOK:
+			{
+				TCHAR tmp[64];
+				GetDlgItemText(hwndDlg, IDC_KEY_PASSWORD, tmp, 64);
+				if(tmp[0])
+				{
+					extern TCHAR *password;
+					if(IsDlgButtonChecked(hwndDlg, IDC_SAVE_PASSWORD))
+					{
+						if(inkeyid && inkeyid[0] && !IsDlgButtonChecked(hwndDlg, IDC_DEFAULT_PASSWORD))
+						{
+							string dbsetting = "szKey_";
+							dbsetting += inkeyid;
+							dbsetting += "_Password";
+							db_set_ts(NULL, szGPGModuleName, dbsetting.c_str(), tmp);
+						}
+						else
+							db_set_ts(NULL, szGPGModuleName, "szKeyPassword", tmp);
+					}
+					if(password)
+						mir_free(password);
+					password = (TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(tmp)+1));
+					_tcscpy(password, tmp);
+				}
+				mir_free(tmp);
+				mir_free(inkeyid);
+				DestroyWindow(hwndDlg);
+			}
+			break;
+
+		case IDCANCEL:
+			mir_free(inkeyid);
+			_terminate = true;
+			DestroyWindow(hwndDlg);
+			break;
+		}
+		break;
+
+	case WM_CLOSE:
+		mir_free(inkeyid);
+		DestroyWindow(hwndDlg);
+		break;
+	
+	case WM_DESTROY:
+		GetWindowRect(hwndDlg, &key_password_rect);
+		db_set_dw(NULL, szGPGModuleName, "PasswordWindowX", key_password_rect.left);
+		db_set_dw(NULL, szGPGModuleName, "PasswordWindowY", key_password_rect.top);
+		break;
+	}
+	return FALSE;
 }
 
 void ShowLoadKeyPasswordWindow()

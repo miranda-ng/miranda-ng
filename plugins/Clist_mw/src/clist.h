@@ -26,12 +26,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _CLIST_H_
 
 void LoadContactTree(void);
-int ExtIconFromStatusMode(HANDLE hContact, const char *szProto,int status);
-HTREEITEM GetTreeItemByHContact(HANDLE hContact);
+int ExtIconFromStatusMode(HCONTACT hContact, const char *szProto,int status);
+HTREEITEM GetTreeItemByHContact(HCONTACT hContact);
 void TrayIconUpdateWithImageList(int iImage,const char *szNewTip,char *szPreferredProto);
 void SortContacts(void);
-void ChangeContactIcon(HANDLE hContact,int iIcon,int add);
-int GetContactInfosForSort(HANDLE hContact,char **Proto,TCHAR **Name,int *Status);
+void ChangeContactIcon(HCONTACT hContact,int iIcon,int add);
+int GetContactInfosForSort(HCONTACT hContact,char **Proto,TCHAR **Name,int *Status);
 
 struct ClcCacheEntry : public ClcCacheEntryBase
 {
@@ -50,6 +50,6 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	boolean isUnknown;
 };
 
-ClcCacheEntry* GetContactFullCacheEntry(HANDLE hContact);
+ClcCacheEntry* GetContactFullCacheEntry(HCONTACT hContact);
 
 #endif

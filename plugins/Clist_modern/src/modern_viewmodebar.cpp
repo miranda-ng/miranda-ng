@@ -164,7 +164,7 @@ static void ShowPage(HWND hwnd, int page)
 	}
 }
 
-static int UpdateClistItem(HANDLE hContact, DWORD mask)
+static int UpdateClistItem(HCONTACT hContact, DWORD mask)
 {
 	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hContact, MAKELONG(i - ID_STATUS_OFFLINE,
@@ -188,8 +188,8 @@ static void UpdateStickies()
 	DWORD localMask;
 	int i;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		HCONTACT hItem = (HCONTACT)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem)
 			SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, (BYTE)db_get_dw(hContact, CLVM_MODULE, g_szModename, 0) ? 1 : 0);
 		localMask = HIWORD(db_get_dw(hContact, CLVM_MODULE, g_szModename, 0));
@@ -450,7 +450,7 @@ void SaveState()
 			ptrA szModeName(mir_utf8encodeT(szTempModeName));
 
 			DWORD dwGlobalMask = GetMaskForItem(hInfoItem);
-			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				HANDLE hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 				if (hItem == NULL)
 					continue;
@@ -656,7 +656,7 @@ void DeleteViewMode( char * szName )
 		SetWindowText(hwndSelector, TranslateT("All contacts"));
 	}
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (db_get_dw(hContact, CLVM_MODULE, szName, -1) != -1)
 			db_set_dw(hContact, CLVM_MODULE, szName, 0);
 }
@@ -844,7 +844,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 		case IDC_CLEARALL:
 			{
-				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 					if (hItem)
 						SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 0);

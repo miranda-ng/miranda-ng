@@ -81,7 +81,7 @@ static int                      helpActive = 0;
 * templates
 */
 
-static void LoadTemplatesFrom(TTemplateSet *tSet, HANDLE hContact, int rtl)
+static void LoadTemplatesFrom(TTemplateSet *tSet, HCONTACT hContact, int rtl)
 {
 	DBVARIANT dbv = {0};
 	int i;
@@ -112,8 +112,8 @@ void LoadDefaultTemplates()
 			db_set_ts(NULL, TEMPLATES_MODULE, TemplateNames[i], LTR_Default.szTemplates[i]);
 		db_set_b(0, TEMPLATES_MODULE, "setup", 2);
 	}
-	LoadTemplatesFrom(&LTR_Active, (HANDLE)0, 0);
-	LoadTemplatesFrom(&RTL_Active, (HANDLE)0, 1);
+	LoadTemplatesFrom(&LTR_Active, 0, 0);
+	LoadTemplatesFrom(&RTL_Active, 0, 1);
 }
 
 INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -140,7 +140,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			COLORREF url_visited = RGB(128, 0, 128);
 			COLORREF url_unvisited = RGB(0, 0, 255);
 			dat = (TWindowData*)mir_calloc( sizeof(TWindowData));
-			dat->pContainer = (TContainerData *)mir_alloc(sizeof(TContainerData));
+			dat->pContainer = (TContainerData*)mir_alloc(sizeof(TContainerData));
 			ZeroMemory(dat->pContainer, sizeof(TContainerData));
 			teInfo = (TemplateEditorInfo *)dat->pContainer;
 			ZeroMemory(teInfo, sizeof(TemplateEditorInfo));

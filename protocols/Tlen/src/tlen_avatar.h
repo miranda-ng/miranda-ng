@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void TlenProcessPresenceAvatar(TlenProtocol *proto, XmlNode *node, TLEN_LIST_ITEM *item);
 int TlenProcessAvatarNode(TlenProtocol *proto, XmlNode *avatarNode, TLEN_LIST_ITEM *item);
 void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, TCHAR* psztDest, int cbLen);
-void TlenGetAvatar(TlenProtocol *proto, HANDLE hContact);
+void TlenGetAvatar(TlenProtocol *proto, HCONTACT hContact);
 void TlenUploadAvatar(TlenProtocol *proto, unsigned char *data, int dataLen, int access);
 void TlenRemoveAvatar(TlenProtocol *proto);
 

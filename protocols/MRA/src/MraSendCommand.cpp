@@ -71,7 +71,7 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-DWORD CMraProto::MraMessage(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &lpwszMessage, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize)
+DWORD CMraProto::MraMessage(BOOL bAddToQueue, HCONTACT hContact, DWORD dwAckType, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &lpwszMessage, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize)
 {
 	debugLogA("Sending message: flags %08x, to '%S', message '%S'\n", dwFlags, szEmail, lpwszMessage);
 
@@ -184,7 +184,7 @@ DWORD CMraProto::MraMessageRecv(const CMStringA &szFrom, DWORD dwMsgID)
 }
 
 // Adds new contact
-DWORD CMraProto::MraAddContact(HANDLE hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA *szPhones, const CMString* wszAuthMessage)
+DWORD CMraProto::MraAddContact(HCONTACT hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA *szPhones, const CMString* wszAuthMessage)
 {
 	if (szEmail.GetLength() <= 4 && !(dwContactFlag & CONTACT_FLAG_GROUP))
 		return 0;
@@ -213,7 +213,7 @@ DWORD CMraProto::MraAddContact(HANDLE hContact, DWORD dwContactFlag, DWORD dwGro
 }
 
 // change contact
-DWORD CMraProto::MraModifyContact(HANDLE hContact, DWORD *pdwID, DWORD *pdwContactFlag, DWORD *pdwGroupID, const CMStringA *pszEmail, const CMStringW *pwszCustomName, const CMStringA *pszPhones)
+DWORD CMraProto::MraModifyContact(HCONTACT hContact, DWORD *pdwID, DWORD *pdwContactFlag, DWORD *pdwGroupID, const CMStringA *pszEmail, const CMStringW *pwszCustomName, const CMStringA *pszPhones)
 {
 	CMStringA szEmail, szPhones;
 	CMStringW wszNick, wszCustomName;
@@ -312,7 +312,7 @@ DWORD CMraProto::MraFileTransferAck(DWORD dwStatus, const CMStringA &szEmail, DW
 }
 
 // Поиск контакта
-HANDLE CMraProto::MraWPRequestW(HANDLE hContact, DWORD dwAckType, DWORD dwRequestFlags, const CMStringA &szUser, const CMStringA &szDomain, const CMStringW &wszNickName, const CMStringW &wszFirstName, const CMStringW &wszLastName, DWORD dwSex, DWORD dwDate1, DWORD dwDate2, DWORD dwCityID, DWORD dwZodiak, DWORD dwBirthdayMonth, DWORD dwBirthdayDay, DWORD dwCountryID, DWORD dwOnline)
+HANDLE CMraProto::MraWPRequestW(HCONTACT hContact, DWORD dwAckType, DWORD dwRequestFlags, const CMStringA &szUser, const CMStringA &szDomain, const CMStringW &wszNickName, const CMStringW &wszFirstName, const CMStringW &wszLastName, DWORD dwSex, DWORD dwDate1, DWORD dwDate2, DWORD dwCityID, DWORD dwZodiak, DWORD dwBirthdayMonth, DWORD dwBirthdayDay, DWORD dwCountryID, DWORD dwOnline)
 {
 	OutBuffer buf;
 	CMStringA tmp;
@@ -381,7 +381,7 @@ HANDLE CMraProto::MraWPRequestW(HANDLE hContact, DWORD dwAckType, DWORD dwReques
 }
 
 // Поиск контакта по EMail
-HANDLE CMraProto::MraWPRequestByEMail(HANDLE hContact, DWORD dwAckType, CMStringA &szEmail)
+HANDLE CMraProto::MraWPRequestByEMail(HCONTACT hContact, DWORD dwAckType, CMStringA &szEmail)
 {
 	if (szEmail.GetLength() <= 4)
 		return 0;
@@ -439,7 +439,7 @@ DWORD CMraProto::MraLogin2W(CMStringA &szLogin, CMStringA &szPassword, DWORD dwS
 }
 
 // Отправка SMS
-DWORD CMraProto::MraSMSW(HANDLE hContact, const CMStringA &lpszPhone, const CMStringW &lpwszMessage)
+DWORD CMraProto::MraSMSW(HCONTACT hContact, const CMStringA &lpszPhone, const CMStringW &lpwszMessage)
 {
 	CMStringA szPhoneLocal = "+" + CopyNumber(lpszPhone);
 
@@ -523,7 +523,7 @@ DWORD CMraProto::MraSendCMD(DWORD dwType, LPVOID lpData, size_t dwDataSize)
 }
 
 
-DWORD CMraProto::MraSendQueueCMD(HANDLE hSendQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD dwAckType, LPBYTE lpbDataQueue, size_t dwDataQueueSize, DWORD dwType, LPVOID lpData, size_t dwDataSize)
+DWORD CMraProto::MraSendQueueCMD(HANDLE hSendQueueHandle, DWORD dwFlags, HCONTACT hContact, DWORD dwAckType, LPBYTE lpbDataQueue, size_t dwDataQueueSize, DWORD dwType, LPVOID lpData, size_t dwDataSize)
 {
 	DWORD dwRet = InterlockedIncrement((LONG volatile*)&dwCMDNum);
 	if ( !MraSendQueueAdd(hSendQueueHandle, dwRet, dwFlags, hContact, dwAckType, lpbDataQueue, dwDataQueueSize)) {

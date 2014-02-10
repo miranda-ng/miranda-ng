@@ -105,10 +105,10 @@ struct IJabberInterface
 	virtual int STDMETHODCALLTYPE CompareJIDs(LPCTSTR jid1, LPCTSTR jid2) = 0;
 
 	// Returns contact handle for given JID, or NULL on error.
-	virtual HANDLE STDMETHODCALLTYPE	ContactFromJID(LPCTSTR jid) = 0;
+	virtual HCONTACT STDMETHODCALLTYPE	ContactFromJID(LPCTSTR jid) = 0;
 
 	// Returns JID of hContact, or NULL on error. You must free the result using mir_free().
-	virtual LPTSTR STDMETHODCALLTYPE	ContactToJID(HANDLE hContact) = 0;
+	virtual LPTSTR STDMETHODCALLTYPE	ContactToJID(HCONTACT hContact) = 0;
 
 	// Returns best resource name for given JID, or NULL on error. You must free the result using mir_free().
 	virtual LPTSTR STDMETHODCALLTYPE	GetBestResourceName(LPCTSTR jid) = 0;

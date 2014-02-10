@@ -209,7 +209,7 @@ struct GCSessionInfoBase
    WORD        wCommandsNum;
    DWORD       dwItemData;
    DWORD       dwFlags;
-   HANDLE      hContact;
+	HCONTACT    hContact;
    HWND        hwndStatus;
    time_t      LastTime;
 
@@ -369,11 +369,11 @@ struct CHAT_MANAGER
 	BOOL          (*LM_TrimLog)(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd, int iCount);
 	BOOL          (*LM_RemoveAll)(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd);
 
-	HANDLE        (*AddRoom)(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType);
-	BOOL          (*SetOffline)(HANDLE hContact, BOOL bHide);
+	HCONTACT      (*AddRoom)(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType);
+	BOOL          (*SetOffline)(HCONTACT hContact, BOOL bHide);
 	BOOL          (*SetAllOffline)(BOOL bHide, const char *pszModule);
-	BOOL          (*AddEvent)(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
-	HANDLE        (*FindRoom)(const char *pszModule, const TCHAR *pszRoom);
+	BOOL          (*AddEvent)(HCONTACT hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
+	HCONTACT      (*FindRoom)(const char *pszModule, const TCHAR *pszRoom);
 
 	char*         (*Log_CreateRTF)(LOGSTREAMDATA *streamData);
 	char*         (*Log_CreateRtfHeader)(MODULEINFO *mi);
@@ -386,7 +386,7 @@ struct CHAT_MANAGER
 	BOOL          (*DoSoundsFlashPopupTrayStuff)(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
 	BOOL          (*DoTrayIcon)(SESSION_INFO *si, GCEVENT *gce);
 	BOOL          (*DoPopup)(SESSION_INFO *si, GCEVENT *gce);
-	int           (*ShowPopup)(HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
+	int           (*ShowPopup)(HCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
 	BOOL          (*LogToFile)(SESSION_INFO *si, GCEVENT *gce);
 	TCHAR*        (*GetChatLogsFilename)(SESSION_INFO *si, time_t tTime);
 	char*         (*Log_SetStyle)(int style);

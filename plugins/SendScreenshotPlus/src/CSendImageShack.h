@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 class CSendImageShack : public CSend {
 	public:
 		// Deklaration Standardkonstruktor/Standarddestructor
-		CSendImageShack(HWND Owner, HANDLE hContact, bool bFreeOnExit);
+		CSendImageShack(HWND Owner, HCONTACT hContact, bool bFreeOnExit);
 		~CSendImageShack();
 
 		void					Send();

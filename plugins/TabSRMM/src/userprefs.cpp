@@ -57,13 +57,13 @@ static int have_ieview = 0, have_hpp = 0;
 
 static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 		case WM_INITDIALOG: {
 			DWORD sCodePage;
 			int i;
-			hContact = (HANDLE)lParam;
+			hContact = (HCONTACT)lParam;
 			DWORD maxhist = M.GetDword(hContact, "maxhist", 0);
 			BYTE bIEView = M.GetByte(hContact, "ieview", 0);
 			BYTE bHPP = M.GetByte(hContact, "hpplog", 0);
@@ -362,87 +362,86 @@ int TSAPI LoadLocalFlags(HWND hwnd, TWindowData *dat)
  */
 static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	switch(msg) {
-		case WM_INITDIALOG: {
+	HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	switch (msg) {
+	case WM_INITDIALOG:
+		hContact = (HCONTACT)lParam;
+		TranslateDialogDefault(hwndDlg);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
+		SendMessage(hwndDlg, WM_COMMAND, WM_USER + 200, 0);
+		return TRUE;
 
-			hContact = (HANDLE)lParam;
-			TranslateDialogDefault(hwndDlg);
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
-			SendMessage(hwndDlg, WM_COMMAND, WM_USER + 200, 0);
-			return TRUE;
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case WM_USER + 200: {
+			DWORD	dwLocalFlags, dwLocalMask, maskval;
+			int i = 0;
+
+			dwLocalFlags = M.GetDword(hContact, "mwflags", 0);
+			dwLocalMask = M.GetDword(hContact, "mwmask", 0);
+
+			while (checkboxes[i].uId) {
+				maskval = checkboxes[i].uFlag;
+
+				if (dwLocalMask & maskval)
+					CheckDlgButton(hwndDlg, checkboxes[i].uId, (dwLocalFlags & maskval) ? BST_CHECKED : BST_UNCHECKED);
+				else
+					CheckDlgButton(hwndDlg, checkboxes[i].uId, BST_INDETERMINATE);
+				i++;
+			}
+			if (M.GetByte("logstatuschanges", 0) == M.GetByte(hContact, "logstatuschanges", 0))
+				CheckDlgButton(hwndDlg, IDC_UPREFS_LOGSTATUS, BST_INDETERMINATE);
+			else
+				CheckDlgButton(hwndDlg, IDC_UPREFS_LOGSTATUS, M.GetByte(hContact, "logstatuschanges", 0) ? BST_CHECKED : BST_UNCHECKED);
+			break;
 		}
-		case WM_COMMAND:
-			switch(LOWORD(wParam)) {
-				case WM_USER + 200: {
-					DWORD	dwLocalFlags, dwLocalMask, maskval;
-					int		i = 0;
+		case WM_USER + 100: {
+			int i = 0;
+			LRESULT state;
+			HWND	hwnd = M.FindWindow(hContact);
+			TWindowData *dat = NULL;
+			DWORD	*dwActionToTake = (DWORD *)lParam, dwMask = 0, dwFlags = 0, maskval;
 
-					dwLocalFlags = M.GetDword(hContact, "mwflags", 0);
-					dwLocalMask = M.GetDword(hContact, "mwmask", 0);
+			if (hwnd)
+				dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
-					while(checkboxes[i].uId) {
-						maskval = checkboxes[i].uFlag;
+			while (checkboxes[i].uId) {
+				maskval = checkboxes[i].uFlag;
 
-						if (dwLocalMask & maskval)
-							CheckDlgButton(hwndDlg, checkboxes[i].uId, (dwLocalFlags & maskval) ? BST_CHECKED : BST_UNCHECKED);
-						else
-							CheckDlgButton(hwndDlg, checkboxes[i].uId, BST_INDETERMINATE);
-						i++;
-					}
-					if (M.GetByte("logstatuschanges", 0) == M.GetByte(hContact, "logstatuschanges", 0))
-						CheckDlgButton(hwndDlg, IDC_UPREFS_LOGSTATUS, BST_INDETERMINATE);
-					else
-						CheckDlgButton(hwndDlg, IDC_UPREFS_LOGSTATUS, M.GetByte(hContact, "logstatuschanges", 0) ? BST_CHECKED : BST_UNCHECKED);
-					break;
+				state = IsDlgButtonChecked(hwndDlg, checkboxes[i].uId);
+				if (state != BST_INDETERMINATE) {
+					dwMask |= maskval;
+					dwFlags = (state == BST_CHECKED) ? (dwFlags | maskval) : (dwFlags & ~maskval);
 				}
-				case WM_USER + 100: {
-					int i=0;
-					LRESULT state;
-					HWND	hwnd = M.FindWindow(hContact);
-					TWindowData *dat = NULL;
-					DWORD	*dwActionToTake = (DWORD *)lParam, dwMask = 0, dwFlags = 0, maskval;
-
-					if (hwnd)
-						dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-
-					while(checkboxes[i].uId) {
-						maskval = checkboxes[i].uFlag;
-
-						state = IsDlgButtonChecked(hwndDlg, checkboxes[i].uId);
-						if (state != BST_INDETERMINATE) {
-							dwMask |= maskval;
-							dwFlags = (state == BST_CHECKED) ? (dwFlags | maskval) : (dwFlags & ~maskval);
-						}
-						i++;
-					}
-					state = IsDlgButtonChecked(hwndDlg, IDC_UPREFS_LOGSTATUS);
-					if (state != BST_INDETERMINATE) {
-						db_set_b(hContact, SRMSGMOD_T, "logstatuschanges", (BYTE)state);
-					}
-					if (dwMask) {
-						db_set_dw(hContact, SRMSGMOD_T, "mwmask", dwMask);
-						db_set_dw(hContact, SRMSGMOD_T, "mwflags", dwFlags);
-					}
-					else {
-						db_unset(hContact, SRMSGMOD_T, "mwmask");
-						db_unset(hContact, SRMSGMOD_T, "mwflags");
-					}
-					if (hwnd && dat) {
-						if (dwMask)
-							*dwActionToTake |= (DWORD)UPREF_ACTION_REMAKELOG;
-						if ((dat->dwFlags & MWF_LOG_RTL) != (dwFlags & MWF_LOG_RTL))
-							*dwActionToTake |= (DWORD)UPREF_ACTION_APPLYOPTIONS;
-					}
-					break;
-				}
-				case IDC_REVERTGLOBAL:
-					db_unset(hContact, SRMSGMOD_T, "mwmask");
-					db_unset(hContact, SRMSGMOD_T, "mwflags");
-					SendMessage(hwndDlg, WM_COMMAND, WM_USER + 200, 0);
-					break;
+				i++;
+			}
+			state = IsDlgButtonChecked(hwndDlg, IDC_UPREFS_LOGSTATUS);
+			if (state != BST_INDETERMINATE) {
+				db_set_b(hContact, SRMSGMOD_T, "logstatuschanges", (BYTE)state);
+			}
+			if (dwMask) {
+				db_set_dw(hContact, SRMSGMOD_T, "mwmask", dwMask);
+				db_set_dw(hContact, SRMSGMOD_T, "mwflags", dwFlags);
+			}
+			else {
+				db_unset(hContact, SRMSGMOD_T, "mwmask");
+				db_unset(hContact, SRMSGMOD_T, "mwflags");
+			}
+			if (hwnd && dat) {
+				if (dwMask)
+					*dwActionToTake |= (DWORD)UPREF_ACTION_REMAKELOG;
+				if ((dat->dwFlags & MWF_LOG_RTL) != (dwFlags & MWF_LOG_RTL))
+					*dwActionToTake |= (DWORD)UPREF_ACTION_APPLYOPTIONS;
 			}
 			break;
+		}
+		case IDC_REVERTGLOBAL:
+			db_unset(hContact, SRMSGMOD_T, "mwmask");
+			db_unset(hContact, SRMSGMOD_T, "mwflags");
+			SendMessage(hwndDlg, WM_COMMAND, WM_USER + 200, 0);
+			break;
+		}
+		break;
 	}
 	return FALSE;
 }
@@ -456,16 +455,16 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
  * @return LRESULT (ignored for dialog procs, use
  *  	   DWLP_MSGRESULT)
  */
- INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
- {
-	HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	TCITEM tci;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		hContact = (HANDLE)lParam;
+		hContact = (HCONTACT)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
 
 		WindowList_Add(PluginConfig.hUserPrefsWindowList, hwndDlg, hContact);
@@ -507,7 +506,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
 				ShowWindow((HWND)tci.lParam, SW_HIDE);
 				break;
-			case TCN_SELCHANGE: 
+			case TCN_SELCHANGE:
 				tci.mask = TCIF_PARAM;
 				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
 				ShowWindow((HWND)tci.lParam, SW_SHOW);
@@ -518,7 +517,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
 			break;
@@ -530,7 +529,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 			tci.mask = TCIF_PARAM;
 
 			int count = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_OPTIONSTAB));
-			for (int i=0; i < count; i++) {
+			for (int i = 0; i < count; i++) {
 				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), i, &tci);
 				SendMessage((HWND)tci.lParam, WM_COMMAND, WM_USER + 100, (LPARAM)&dwActionToTake);
 			}
@@ -569,4 +568,4 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 		break;
 	}
 	return FALSE;
- }
+}

@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-void FacebookProto::SaveName(HANDLE hContact, const facebook_user *fbu)
+void FacebookProto::SaveName(HCONTACT hContact, const facebook_user *fbu)
 {
 	if (fbu->real_name.empty()) {
 		delSetting(hContact, FACEBOOK_KEY_NICK);
@@ -55,7 +55,7 @@ void FacebookProto::SaveName(HANDLE hContact, const facebook_user *fbu)
 	}
 }
 
-bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
+bool FacebookProto::IsMyContact(HCONTACT hContact, bool include_chat)
 {
 	const char *proto = GetContactProto(hContact);
 	if (proto && !strcmp(m_szModuleName, proto)) {
@@ -66,9 +66,9 @@ bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
 	return false;
 }
 
-HANDLE FacebookProto::ChatIDToHContact(std::tstring chat_id)
+HCONTACT FacebookProto::ChatIDToHContact(std::tstring chat_id)
 {
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!IsMyContact(hContact, true))
 			continue;
 
@@ -80,9 +80,9 @@ HANDLE FacebookProto::ChatIDToHContact(std::tstring chat_id)
 	return 0;
 }
 
-HANDLE FacebookProto::ContactIDToHContact(std::string user_id)
+HCONTACT FacebookProto::ContactIDToHContact(std::string user_id)
 {
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!IsMyContact(hContact))
 			continue;
 
@@ -98,7 +98,7 @@ std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 {
 	std::string user_id;
 
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!IsMyContact(hContact))
 			continue;
 
@@ -138,9 +138,9 @@ std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 	return user_id;
 }
 
-HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool dont_check)
+HCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool dont_check)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 
 	if (!dont_check) {
 		// First, check if this contact exists
@@ -150,7 +150,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, boo
 	}
 
 	// If not, make a new contact!
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if(hContact)
 	{
 		if(CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)m_szModuleName) == 0)
@@ -193,7 +193,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, boo
 
 void FacebookProto::SetAllContactStatuses(int status)
 {
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact))
 			continue;
 
@@ -228,7 +228,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 		if (fbu != NULL)
 			fbu->deleted = true;
 
-		HANDLE hContact = ContactIDToHContact(id);
+		HCONTACT hContact = ContactIDToHContact(id);
 
 		// If contact wasn't deleted from database
 		if (hContact != NULL) {
@@ -265,7 +265,7 @@ void FacebookProto::AddContactToServer(void *data)
 	http::response resp = facy.flap(REQUEST_REQUEST_FRIEND, &query);
 
 	if (resp.data.find("\"success\":true", 0) != std::string::npos) {
-		HANDLE hContact = ContactIDToHContact(id);
+		HCONTACT hContact = ContactIDToHContact(id);
 
 		// If contact wasn't deleted from database
 		if (hContact != NULL)
@@ -287,7 +287,7 @@ void FacebookProto::ApproveContactToServer(void *data)
 	if (data == NULL)
 		return;
 
-	HANDLE hContact = (*(HANDLE*)data);
+	HCONTACT hContact = *(HCONTACT*)data;
 	delete data;
 
 	std::string post_data = "fb_dtsg=" + facy.dtsg_;
@@ -310,7 +310,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	if (data == NULL)
 		return;
 
-	HANDLE hContact = (*(HANDLE*)data);
+	HCONTACT hContact = *(HCONTACT*)data;
 	delete data;
 
 	std::string query = "phstamp=0&confirmed=1";
@@ -370,7 +370,7 @@ void FacebookProto::SendPokeWorker(void *p)
 }
 
 
-HANDLE FacebookProto::GetAwayMsg(HANDLE hContact)
+HANDLE FacebookProto::GetAwayMsg(HCONTACT hContact)
 {
 	return 0; // Status messages are disabled
 }

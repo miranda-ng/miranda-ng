@@ -44,7 +44,7 @@ void CQuotesProviders::ClearProviders()
 
 namespace
 {
-	void convert_contact_settings(HANDLE hContact) 
+	void convert_contact_settings(HCONTACT hContact) 
 	{
 		WORD dwLogMode = db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG,static_cast<WORD>(lmDisabled));
 		if ((dwLogMode&lmInternalHistory) || (dwLogMode&lmExternalFile))
@@ -60,7 +60,7 @@ void CQuotesProviders::InitProviders()
 	const WORD nCurrentVersion = 17;
 	WORD nVersion = db_get_w(NULL,QUOTES_MODULE_NAME,LAST_RUN_VERSION,1);
 
-	for(HANDLE hContact = db_find_first(QUOTES_MODULE_NAME); hContact; hContact = db_find_next(hContact, QUOTES_MODULE_NAME))
+	for(HCONTACT hContact = db_find_first(QUOTES_MODULE_NAME); hContact; hContact = db_find_next(hContact, QUOTES_MODULE_NAME))
 	{
 		TQuotesProviderPtr pProvider = GetContactProviderPtr(hContact);
 		if(pProvider)
@@ -76,7 +76,7 @@ void CQuotesProviders::InitProviders()
 	db_set_w(NULL,QUOTES_MODULE_NAME,LAST_RUN_VERSION,nCurrentVersion);
 }
 
-CQuotesProviders::TQuotesProviderPtr CQuotesProviders::GetContactProviderPtr(HANDLE hContact)const
+CQuotesProviders::TQuotesProviderPtr CQuotesProviders::GetContactProviderPtr(HCONTACT hContact)const
 {
 	char* szProto = GetContactProto(hContact);
 	if(NULL == szProto || 0 != ::_stricmp(szProto, QUOTES_PROTOCOL_NAME))

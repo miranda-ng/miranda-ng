@@ -31,7 +31,7 @@ namespace
 		return pChart;
 	}
 
-	bool read_log_file(HANDLE hContact,TChart& rChart)
+	bool read_log_file(HCONTACT hContact,TChart& rChart)
 	{		
 		tstring sLogFileName = GetContactLogFileName(hContact);
 		if(false == sLogFileName.empty())
@@ -90,7 +90,7 @@ namespace
 		case WM_CREATE:
 			{
 				CREATESTRUCT* pCS = reinterpret_cast<CREATESTRUCT*>(lp);
-				HANDLE hContact = reinterpret_cast<HANDLE>(pCS->lpCreateParams);
+				HCONTACT hContact = reinterpret_cast<HANDLE>(pCS->lpCreateParams);
 
 				TChart* pChart = new TChart;
 				read_log_file(hContact,*pChart);
@@ -184,7 +184,7 @@ namespace
 
 	inline HANDLE get_contact(HWND hWnd)
 	{
-		HANDLE hContact = reinterpret_cast<HANDLE>(GetWindowLongPtr(hWnd,GWLP_USERDATA));
+		HCONTACT hContact = reinterpret_cast<HANDLE>(GetWindowLongPtr(hWnd,GWLP_USERDATA));
 		return hContact;
 	}
 
@@ -202,7 +202,7 @@ namespace
 		{
 		case WM_INITDIALOG:
 			{
-				HANDLE hContact = reinterpret_cast<HANDLE>(lp);
+				HCONTACT hContact = reinterpret_cast<HANDLE>(lp);
 
 				TranslateDialogDefault(hDlg);
 
@@ -260,7 +260,7 @@ namespace
 			return (TRUE);
 		case WM_CLOSE:
 			{
-				HANDLE hContact = get_contact(hDlg);
+				HCONTACT hContact = get_contact(hDlg);
 				SetWindowLongPtr(hDlg,GWLP_USERDATA,0);
 
 // 				save_options(hDlg,hContact);
@@ -370,7 +370,7 @@ namespace
 
 INT_PTR QuotesMenu_Chart(WPARAM wp,LPARAM lp)
 {
-	HANDLE hContact = reinterpret_cast<HANDLE>(wp);
+	HCONTACT hContact = reinterpret_cast<HANDLE>(wp);
 	if(NULL == hContact)
 	{
 		return 0;

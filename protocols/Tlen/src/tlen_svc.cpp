@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "tlen_avatar.h"
 #include "tlen_file.h"
 
-DWORD_PTR TlenProtocol::GetCaps(int type, HANDLE hContact)
+DWORD_PTR TlenProtocol::GetCaps(int type, HCONTACT hContact)
 {
 	if (type == PFLAGNUM_1)
 		return PF1_IM|PF1_AUTHREQ|PF1_SERVERCLIST|PF1_MODEMSG|PF1_BASICSEARCH|PF1_SEARCHBYEMAIL|PF1_EXTSEARCH|PF1_EXTSEARCHUI|PF1_SEARCHBYNAME|PF1_FILE;//|PF1_VISLIST|PF1_INVISLIST;
@@ -175,15 +175,15 @@ HWND TlenProtocol::SearchAdvanced(HWND owner)
 }
 
 
-static HANDLE AddToListByJID(TlenProtocol *proto, const char *newJid, DWORD flags)
+static HCONTACT AddToListByJID(TlenProtocol *proto, const char *newJid, DWORD flags)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	char *jid, *nick;
 
 	if ((hContact=TlenHContactFromJID(proto, newJid)) == NULL) {
 		// not already there: add
 		jid = mir_strdup(newJid); _strlwr(jid);
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = (HCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) proto->m_szModuleName);
 		db_set_s(hContact, proto->m_szModuleName, "jid", jid);
 		if ((nick=TlenNickFromJID(newJid)) == NULL)
@@ -216,7 +216,7 @@ static HANDLE AddToListByJID(TlenProtocol *proto, const char *newJid, DWORD flag
 
 HANDLE TlenProtocol::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	TLEN_SEARCH_RESULT *jsr = (TLEN_SEARCH_RESULT*)psr;
 	if (jsr->hdr.cbSize != sizeof(TLEN_SEARCH_RESULT))
 		return (int) NULL;
@@ -257,7 +257,7 @@ HANDLE TlenProtocol::AddToListByEvent( int flags, int iContact, HANDLE hDbEvent 
 	char *lastName = firstName + strlen(firstName) + 1;
 	char *jid = lastName + strlen(lastName) + 1;
 
-	HANDLE hContact = (HANDLE) AddToListByJID(this, jid, flags);
+	HCONTACT hContact = (HCONTACT) AddToListByJID(this, jid, flags);
 	mir_free(dbei.pBlob);
 	return hContact;
 }
@@ -294,7 +294,7 @@ int TlenProtocol::Authorize(HANDLE hDbEvent)
 
 	// Automatically add this user to my roster if option is enabled
 	if (db_get_b(NULL, m_szModuleName, "AutoAdd", TRUE) == TRUE) {
-		HANDLE hContact;
+		HCONTACT hContact;
 		TLEN_LIST_ITEM *item;
 
 		if ((item=TlenListGetItemPtr(this, LIST_ROSTER, jid)) == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
@@ -473,7 +473,7 @@ int TlenProtocol::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
 	return 0;
 }
 
-int TlenProtocol::GetInfo(HANDLE hContact, int infoType)
+int TlenProtocol::GetInfo(HCONTACT hContact, int infoType)
 {
 	DBVARIANT dbv;
 	int iqId;
@@ -500,7 +500,7 @@ int TlenProtocol::GetInfo(HANDLE hContact, int infoType)
 	return 0;
 }
 
-int TlenProtocol::SetApparentMode(HANDLE hContact, int mode)
+int TlenProtocol::SetApparentMode(HCONTACT hContact, int mode)
 {
 	DBVARIANT dbv;
 	int oldMode;
@@ -539,12 +539,12 @@ int TlenProtocol::SetApparentMode(HANDLE hContact, int mode)
 
 struct SENDACKTHREADDATA
 {
-	__inline SENDACKTHREADDATA(TlenProtocol *_ppro, HANDLE _hContact, int _msgid=0) :
+	__inline SENDACKTHREADDATA(TlenProtocol *_ppro, HCONTACT _hContact, int _msgid=0) :
 		proto(_ppro), hContact(_hContact), msgid(_msgid)
 		{}
 
 	TlenProtocol *proto;
-	HANDLE hContact;
+	HCONTACT hContact;
 	int msgid;
 };
 
@@ -599,7 +599,7 @@ static void __cdecl TlenGetAwayMsgThread(void *ptr)
 
 INT_PTR TlenProtocol::SendAlert(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = ( HANDLE )wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	DBVARIANT dbv;
 	if (isOnline && !db_get(hContact, m_szModuleName, "jid", &dbv)) {
 		TlenSend(this, "<m tp='a' to='%s'/>", dbv.pszVal);
@@ -609,7 +609,7 @@ INT_PTR TlenProtocol::SendAlert(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msgRAW)
+int TlenProtocol::SendMsg(HCONTACT hContact, int flags, const char* msgRAW)
 {
 	DBVARIANT dbv;
 	char *msgEnc;
@@ -717,19 +717,19 @@ INT_PTR TlenProtocol::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	return GAIR_NOAVATAR;
 }
 
-HANDLE TlenProtocol::GetAwayMsg(HANDLE hContact)
+HANDLE TlenProtocol::GetAwayMsg(HCONTACT hContact)
 {
 	SENDACKTHREADDATA *tdata = new SENDACKTHREADDATA(this, hContact, 0);
 	forkthread((void (__cdecl *)(void*))TlenGetAwayMsgThread, 0, (void*)tdata);
 	return (HANDLE)1;
 }
 
-int TlenProtocol::RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT* evt)
+int TlenProtocol::RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT* evt)
 {
 	return 0;
 }
 
-HANDLE TlenProtocol::FileAllow(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE TlenProtocol::FileAllow(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	TLEN_FILE_TRANSFER *ft;
 	TLEN_LIST_ITEM *item;
@@ -752,7 +752,7 @@ HANDLE TlenProtocol::FileAllow(HANDLE hContact, HANDLE hTransfer, const PROTOCHA
 	return (HANDLE)hTransfer;
 }
 
-int TlenProtocol::FileDeny(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szReason)
+int TlenProtocol::FileDeny(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason)
 {
 	TLEN_FILE_TRANSFER *ft;
 	char *nick;
@@ -775,7 +775,7 @@ int TlenProtocol::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** sz
 	return 0;
 }
 
-int TlenProtocol::FileCancel(HANDLE hContact, HANDLE hTransfer)
+int TlenProtocol::FileCancel(HCONTACT hContact, HANDLE hTransfer)
 {
 	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *) hTransfer;
 	debugLogA("Invoking FileCancel()");
@@ -794,7 +794,7 @@ int TlenProtocol::FileCancel(HANDLE hContact, HANDLE hTransfer)
 	return 0;
 }
 
-HANDLE TlenProtocol::SendFile(HANDLE hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
+HANDLE TlenProtocol::SendFile(HCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
 {
 	TLEN_FILE_TRANSFER *ft;
 	int i, j;
@@ -862,25 +862,25 @@ HANDLE TlenProtocol::SendFile(HANDLE hContact, const PROTOCHAR* szDescription, P
 	return (HANDLE) ft;
 }
 
-int TlenProtocol::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList){
+int TlenProtocol::SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList){
 	return 0;
 }
 
-int TlenProtocol::SendUrl(HANDLE hContact, int flags, const char* urlt){
+int TlenProtocol::SendUrl(HCONTACT hContact, int flags, const char* urlt){
 	return 0;
 }
 
-int TlenProtocol::RecvMsg(HANDLE hContact, PROTORECVEVENT* evt)
+int TlenProtocol::RecvMsg(HCONTACT hContact, PROTORECVEVENT* evt)
 {
 	return Proto_RecvMessage(hContact, evt);
 }
 
-int TlenProtocol::RecvFile(HANDLE hContact, PROTOFILEEVENT* evt)
+int TlenProtocol::RecvFile(HCONTACT hContact, PROTOFILEEVENT* evt)
 {
 	return Proto_RecvFile(hContact, evt);
 }
 
-int TlenProtocol::RecvUrl(HANDLE hContact, PROTORECVEVENT*)
+int TlenProtocol::RecvUrl(HCONTACT hContact, PROTORECVEVENT*)
 {
 	return 0;
 }
@@ -904,12 +904,12 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (!isConnected) return 0;
 
 	if (!strcmp(cws->szModule, "CList")) {
-		HANDLE hContact;
+		HCONTACT hContact;
 		DBVARIANT dbv;
 		TLEN_LIST_ITEM *item;
 		char *szProto, *nick, *jid, *group;
 
-		hContact = (HANDLE) wParam;
+		hContact = (HCONTACT) wParam;
 		szProto = GetContactProto(hContact);
 		if (szProto == NULL || strcmp(szProto, m_szModuleName)) return 0;
 		// A contact's group is changed
@@ -956,7 +956,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 		else if (!strcmp(cws->szSetting, "MyHandle")) {
 			char *newNick;
 
-//			hContact = (HANDLE) wParam;
+//			hContact = (HCONTACT) wParam;
 //			szProto = GetContactProto(hContact);
 //			if (szProto == NULL || strcmp(szProto, proto->m_szModuleName)) return 0;
 
@@ -1035,12 +1035,12 @@ int TlenProtocol::TlenContactDeleted(WPARAM wParam, LPARAM lParam)
 	if (!isOnline)	// should never happen
 		return 0;
 
-	char *szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HCONTACT)wParam);
 	if (szProto == NULL || strcmp(szProto, m_szModuleName))
 		return 0;
 
 	DBVARIANT dbv;
-	if (!db_get((HANDLE) wParam, m_szModuleName, "jid", &dbv)) {
+	if (!db_get((HCONTACT)wParam, m_szModuleName, "jid", &dbv)) {
 		char *jid, *p, *q;
 
 		jid = dbv.pszVal;
@@ -1058,7 +1058,7 @@ int TlenProtocol::TlenContactDeleted(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TlenProtocol::UserIsTyping(HANDLE hContact, int type)
+int TlenProtocol::UserIsTyping(HCONTACT hContact, int type)
 {
 	DBVARIANT dbv;
 	TLEN_LIST_ITEM *item;
@@ -1200,13 +1200,13 @@ int TlenProtocol::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lPara
 }
 
 // PSS_ADDED
-int TlenProtocol::AuthRecv(HANDLE hContact, PROTORECVEVENT* evt)
+int TlenProtocol::AuthRecv(HCONTACT hContact, PROTORECVEVENT* evt)
 {
 	return 1;
 }
 
 // PSS_AUTHREQUEST
-int TlenProtocol::AuthRequest(HANDLE hContact, const PROTOCHAR* szMessage)
+int TlenProtocol::AuthRequest(HCONTACT hContact, const PROTOCHAR* szMessage)
 {
 	return 1;
 }
@@ -1217,7 +1217,7 @@ HANDLE TlenProtocol::ChangeInfo(int iInfoType, void* pInfoData)
 }
 
 
-int TlenProtocol::RecvContacts(HANDLE hContact, PROTORECVEVENT* evt)
+int TlenProtocol::RecvContacts(HCONTACT hContact, PROTORECVEVENT* evt)
 {
 	return 1;
 }

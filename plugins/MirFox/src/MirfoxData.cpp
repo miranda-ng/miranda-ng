@@ -257,34 +257,25 @@ MirfoxData::getAccountDefaultState(MirandaAccount* account)
 int
 MirfoxData::getContactDefaultState(MirandaContact* contact)
 {
-
 	MFLogger* logger = MFLogger::getInstance();
 
-	if (contact == NULL){
+	if (contact == NULL)
 		return 2;
-	}
 
-	if (contact->mirandaAccountPtr == NULL){
+	if (contact->mirandaAccountPtr == NULL)
 		return 2;
-	}
 
-	if (contact->mirandaAccountPtr->szProtoName == NULL){
+	if (contact->mirandaAccountPtr->szProtoName == NULL)
 		return 2;
-	}
 
-	if (!shouldProtoBeActiveByName(contact->mirandaAccountPtr->szProtoName)){
+	if (!shouldProtoBeActiveByName(contact->mirandaAccountPtr->szProtoName))
 		return 2;
-	}
 
-	if (db_get_b(contact->contactHandle, "CList", "Hidden", 0) == 1 ||
-			db_get_b(contact->contactHandle, "CList", "NotOnList", 0) == 1 ){
+	if (db_get_b(contact->contactHandle, "CList", "Hidden", 0) == 1 || db_get_b(contact->contactHandle, "CList", "NotOnList", 0) == 1 )
 		return 2;
-	}
 
 	return 1;
-
 }
-
 
 void
 MirfoxData::initializeMirandaAccounts()
@@ -364,7 +355,7 @@ void MirfoxData::initializeMirandaContacts()
 
 
 	//get contects from miranda
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)){
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)){
 		//add to list
 		MirandaContact* mirandaContactItemPtr = new MirandaContact(
 			hContact	  //handle to contact in miranda
@@ -583,7 +574,7 @@ MirandaAccount::getObjectPtr()
  * class functions implementation
  */
 
-MirandaContact::MirandaContact(HANDLE contactHandleL)
+MirandaContact::MirandaContact(HCONTACT contactHandleL)
 {
 	contactState = MFENUM_MIRANDACONTACT_STATE_UNKNOWN;
 	contactHandle = contactHandleL;

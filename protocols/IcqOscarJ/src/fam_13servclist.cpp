@@ -772,9 +772,9 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 }
 
 
-HANDLE CIcqProto::HContactFromRecordName(const char* szRecordName, int *bAdded)
+HCONTACT CIcqProto::HContactFromRecordName(const char* szRecordName, int *bAdded)
 {
-	HANDLE hContact = INVALID_HANDLE_VALUE;
+	HCONTACT hContact = (HCONTACT)INVALID_HANDLE_VALUE;
 
 	if (!IsStringUIN(szRecordName))
 	{ // probably AIM contact
@@ -904,7 +904,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 		case SSI_ITEM_BUDDY:
 			{
 				/* this is a contact */
-				HANDLE hContact;
+				HCONTACT hContact;
 				int bAdded;
 
 				hContact = HContactFromRecordName(szRecordName, &bAdded);
@@ -1172,7 +1172,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 				/* item on visible list */
 				/* wItemId not related to contact ID */
 				/* pszRecordName is the UIN */
-				HANDLE hContact;
+				HCONTACT hContact;
 				int bAdded;
 
 				hContact = HContactFromRecordName(szRecordName, &bAdded);
@@ -1211,7 +1211,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 				/* Item on invisible list */
 				/* wItemId not related to contact ID */
 				/* pszRecordName is the UIN */
-				HANDLE hContact;
+				HCONTACT hContact;
 				int bAdded;
 
 				hContact = HContactFromRecordName(szRecordName, &bAdded);
@@ -1269,7 +1269,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 				/* item on ignore list */
 				/* wItemId not related to contact ID */
 				/* pszRecordName is the UIN */
-				HANDLE hContact;
+				HCONTACT hContact;
 				int bAdded;
 
 				hContact = HContactFromRecordName(szRecordName, &bAdded);
@@ -1471,7 +1471,7 @@ void CIcqProto::handleServerCListItemAdd(const char *szRecordName, WORD wGroupId
 
 void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGroupId, WORD wItemId, WORD wItemType, oscar_tlv_chain *pItemData)
 {
-	HANDLE hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
+	HCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
 
 	if (hContact != INVALID_HANDLE_VALUE && wItemType == SSI_ITEM_BUDDY)
 	{ // a contact was updated on server
@@ -1586,7 +1586,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 
 void CIcqProto::handleServerCListItemDelete(const char *szRecordName, WORD wGroupId, WORD wItemId, WORD wItemType, oscar_tlv_chain *pItemData)
 {
-	HANDLE hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
+	HCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
 
 	if (hContact != INVALID_HANDLE_VALUE && wItemType == SSI_ITEM_BUDDY)
 	{ // a contact was removed from our list
@@ -1632,7 +1632,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 	if (wReasonLen > wLen)
 		return;
 
-	HANDLE hContact = HContactFromUID(dwUin, szUid, &bAdded);
+	HCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
 
 	PROTORECVEVENT pre = { 0 };
 	pre.timestamp = time(NULL);
@@ -1720,7 +1720,7 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, WORD wLen)
 		return;
 	}
 
-	HANDLE hContact = HContactFromUID(dwUin, szUid, &bAdded);
+	HCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
 
 	cbBlob=sizeof(DWORD)*2+4;
 
@@ -1782,7 +1782,7 @@ void CIcqProto::handleRecvAuthResponse(unsigned char *buf, WORD wLen)
 		return;
 	}
 
-	HANDLE hContact = HContactFromUID(dwUin, szUid, &bAdded);
+	HCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
 
 	if (hContact != INVALID_HANDLE_VALUE) szNick = NickFromHandle(hContact);
 

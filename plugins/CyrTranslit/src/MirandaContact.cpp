@@ -47,14 +47,14 @@ void MirandaContact::initialize()
 
 //------------------------------------------------------------------------------
 
-bool MirandaContact::bIsActive(HANDLE hContact)
+bool MirandaContact::bIsActive(HCONTACT hContact)
 {
 	return db_get_b(hContact, SETTINGS_MODULE, SETTING_SHOULD_TRANSLITERATE, 0) != 0;
 }
 
 //------------------------------------------------------------------------------
 
-void MirandaContact::save(HANDLE hContact, bool bValue)
+void MirandaContact::save(HCONTACT hContact, bool bValue)
 {
 	db_set_b(hContact, SETTINGS_MODULE, SETTING_SHOULD_TRANSLITERATE, bValue);
 }
@@ -80,7 +80,7 @@ void MirandaContact::addMenuItem()
 
 INT_PTR MirandaContact::onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 	if (!CallService(MS_DB_CONTACT_IS, wParam, 0))
 		return 0;
 
@@ -93,7 +93,7 @@ INT_PTR MirandaContact::onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam)
 int MirandaContact::onPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	if (!hTransliterateCmdMenuItem) return 0;
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 	if (!CallService(MS_DB_CONTACT_IS, wParam, 0)) return 0;
 
 	CLISTMENUITEM mi = { sizeof(mi) };

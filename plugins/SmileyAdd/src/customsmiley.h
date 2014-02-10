@@ -69,8 +69,8 @@ private:
 public:
 	int NumberOfSmileyPacks(void) { return m_SmileyPacks.getCount(); }
 
-	bool AddSmileyPack(HANDLE hContact, TCHAR* dir);
-	bool AddSmiley(HANDLE hContact, TCHAR* path);
+	bool AddSmileyPack(HCONTACT hContact, TCHAR* dir);
+	bool AddSmiley(HCONTACT hContact, TCHAR* path);
 
 	void ClearAndFreeAll(void) { 	m_SmileyPacks.destroy(); }
 

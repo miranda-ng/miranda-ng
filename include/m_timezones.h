@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __M_TIMEZONES_H
 #define __M_TIMEZONES_H
 
+#include <m_core.h>
+
 #define MIM_TZ_NAMELEN 64
 
 #define TZF_PLF_CB		1				// UI element is assumed to be a combo box
@@ -42,15 +44,15 @@ typedef struct
 	size_t cbSize;
 
 	HANDLE  (*createByName)(LPCTSTR tszName, DWORD dwFlags);
-	HANDLE  (*createByContact)(HANDLE hContact, DWORD dwFlags);
-	void    (*storeByContact)(HANDLE hContact, HANDLE hTZ);
+	HANDLE  (*createByContact)(HCONTACT hContact, DWORD dwFlags);
+	void    (*storeByContact)(HCONTACT hContact, HANDLE hTZ);
 
 	int     (*printDateTime)(HANDLE hTZ, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags);
 	int     (*printTimeStamp)(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags);
 
-	int     (*prepareList)(HANDLE hContact, HWND hWnd, DWORD dwFlags);
-	int     (*selectListItem)(HANDLE hContact, HWND hWnd, DWORD dwFlags);
-	void    (*storeListResults)(HANDLE hContact, HWND hWnd, DWORD dwFlags);
+	int     (*prepareList)(HCONTACT hContact, HWND hWnd, DWORD dwFlags);
+	int     (*selectListItem)(HCONTACT hContact, HWND hWnd, DWORD dwFlags);
+	void    (*storeListResults)(HCONTACT hContact, HWND hWnd, DWORD dwFlags);
 
 	int     (*getTimeZoneTime)(HANDLE hTZ, SYSTEMTIME *st);
 	mir_time  (*timeStampToTimeZoneTimeStamp)(HANDLE hTZ, mir_time ts);
@@ -60,19 +62,19 @@ typedef struct
 	LPCTSTR (*getTzDescription)(LPCTSTR TZname);
 
 #ifdef __cplusplus
-	int printDateTimeByContact (HANDLE hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
+	int printDateTimeByContact (HCONTACT hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
 	{ return printDateTime(createByContact(hContact, dwFlags), szFormat, szDest, cbDest, dwFlags); }
 
-	int printTimeStampByContact(HANDLE hContact, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
+	int printTimeStampByContact(HCONTACT hContact, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
 	{ return printTimeStamp(createByContact(hContact, dwFlags), ts, szFormat, szDest, cbDest, dwFlags); }
 
-	LPTIME_ZONE_INFORMATION getTziByContact(HANDLE hContact)
+	LPTIME_ZONE_INFORMATION getTziByContact(HCONTACT hContact)
 	{ return getTzi(createByContact(hContact, 0)); }
 
-	int getTimeZoneTimeByContact(HANDLE hContact, SYSTEMTIME *st)
+	int getTimeZoneTimeByContact(HCONTACT hContact, SYSTEMTIME *st)
 	{ return getTimeZoneTime(createByContact(hContact, 0), st); }
 
-	mir_time timeStampToTimeZoneTimeStampByContact(HANDLE hContact, mir_time ts)
+	mir_time timeStampToTimeZoneTimeStampByContact(HCONTACT hContact, mir_time ts)
 	{ return timeStampToTimeZoneTimeStamp(createByContact(hContact, 0), ts); }
 #endif
 

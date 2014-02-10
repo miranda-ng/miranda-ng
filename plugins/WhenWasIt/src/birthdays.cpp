@@ -82,7 +82,7 @@ void CBirthdays::Realloc(int increaseCapacity)
 	birthdays = (PBirthdayContact *) realloc(birthdays, size * sizeof(PBirthdayContact));
 }
 
-int CBirthdays::Add(HANDLE hContact, HANDLE hClistIcon)
+int CBirthdays::Add(HCONTACT hContact, HANDLE hClistIcon)
 {
 	if ( !Contains(hContact)) {
 		EnsureCapacity();
@@ -107,12 +107,12 @@ int CBirthdays::Remove(int index)
 	return -1;
 }
 
-int CBirthdays::Remove(HANDLE hContact)
+int CBirthdays::Remove(HCONTACT hContact)
 {
 	return Remove( Index(hContact));
 }
 
-int CBirthdays::Contains(HANDLE hContact) const
+int CBirthdays::Contains(HCONTACT hContact) const
 {
 	for (int i = 0; i < count; i++)
 		if (birthdays[i]->hContact == hContact)
@@ -121,7 +121,7 @@ int CBirthdays::Contains(HANDLE hContact) const
 	return FALSE;
 }
 
-int CBirthdays::Index(HANDLE hContact) const
+int CBirthdays::Index(HCONTACT hContact) const
 {
 	for (int i = 0; i < count; i++)
 		if (birthdays[i]->hContact == hContact)
@@ -140,7 +140,7 @@ int CBirthdays::GetAdvancedIconIndex() const
 	return advancedIcon;
 }
 
-HANDLE CBirthdays::GetClistIcon(HANDLE hContact) const
+HANDLE CBirthdays::GetClistIcon(HCONTACT hContact) const
 {
 	int index = Index(hContact);
 	if ((index >= 0) && (index < count))

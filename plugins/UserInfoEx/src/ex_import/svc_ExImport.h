@@ -26,7 +26,7 @@ typedef struct
 {
 	BYTE Typ;
 	union {
-		HANDLE hContact;	
+		HCONTACT hContact;	
 		LPSTR pszName;	
 		LPTSTR ptszName;
 	};

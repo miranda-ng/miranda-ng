@@ -104,7 +104,7 @@ FacebookProto::~FacebookProto()
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR FacebookProto::GetCaps(int type, HANDLE hContact)
+DWORD_PTR FacebookProto::GetCaps(int type, HCONTACT hContact)
 {
 	switch(type)
 	{
@@ -261,7 +261,7 @@ HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		return NULL;
 	}
 
-	HANDLE hContact = AddToContactList(&fbu, CONTACT_NONE);
+	HCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE);
 	if (hContact) {
 		if (flags & PALF_TEMPORARY) {
 			db_set_b(hContact, "Clist", "Hidden", 1);
@@ -276,7 +276,7 @@ HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return hContact;
 }
 
-int FacebookProto::AuthRequest(HANDLE hContact,const PROTOCHAR *message)
+int FacebookProto::AuthRequest(HCONTACT hContact,const PROTOCHAR *message)
 {
 	return RequestFriendship((WPARAM)hContact, NULL);
 }
@@ -286,7 +286,7 @@ int FacebookProto::Authorize(HANDLE hDbEvent)
 	if (!hDbEvent || isOffline())
 		return 1;
 
-	HANDLE hContact = HContactFromAuthEvent(hDbEvent);
+	HCONTACT hContact = HContactFromAuthEvent(hDbEvent);
 	if (hContact == INVALID_HANDLE_VALUE)
 		return 1;
 
@@ -298,7 +298,7 @@ int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 	if (!hDbEvent || isOffline())
 		return 1;
 
-	HANDLE hContact = HContactFromAuthEvent(hDbEvent);
+	HCONTACT hContact = HContactFromAuthEvent(hDbEvent);
 	if (hContact == INVALID_HANDLE_VALUE)
 		return 1;
 
@@ -450,7 +450,7 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 	if (!isOnline())
 		return 1;
 
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 
 	wall_data *wall = new wall_data();
 	wall->user_id = ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
@@ -504,7 +504,7 @@ INT_PTR FacebookProto::RefreshBuddyList(WPARAM, LPARAM)
 
 INT_PTR FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 
 	std::string url = FACEBOOK_URL_PROFILE;
 
@@ -527,7 +527,7 @@ INT_PTR FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 
 INT_PTR FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 
 	if (wParam == 0 || !IsMyContact(hContact))
 		return 1;
@@ -547,7 +547,7 @@ INT_PTR FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
 	if (wParam == NULL || isOffline())
 		return 1;
 
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)
@@ -564,7 +564,7 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 
 	bool deleting = (lParam == 1);
 
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 
 	// Ignore groupchats and, if deleting, also not-friends
 	if (isChatRoom(hContact) || (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
@@ -601,7 +601,7 @@ INT_PTR FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
 	if (wParam == NULL || isOffline())
 		return 1;
 
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)
@@ -633,7 +633,7 @@ INT_PTR FacebookProto::OnCancelFriendshipRequest(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-HANDLE FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
+HCONTACT FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
 {
 	DWORD body[2];
 	DBEVENTINFO dbei = { sizeof(dbei) };
@@ -641,13 +641,13 @@ HANDLE FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
 	dbei.pBlob = (PBYTE)&body;
 
 	if (db_event_get(hEvent, &dbei))
-		return INVALID_HANDLE_VALUE;
+		return (HCONTACT)INVALID_HANDLE_VALUE;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
-		return INVALID_HANDLE_VALUE;
+		return (HCONTACT)INVALID_HANDLE_VALUE;
 
 	if (strcmp(dbei.szModule, m_szModuleName))
-		return INVALID_HANDLE_VALUE;
+		return (HCONTACT)INVALID_HANDLE_VALUE;
 
 	return DbGetAuthEventContact(&dbei);
 }

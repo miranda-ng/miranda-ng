@@ -48,14 +48,14 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 
 	if (opt.bWaitForContent && IsContactTooltip(clcitex))
 	{
-		char *szProto = GetContactProto(clcitex->hItem);
+		char *szProto = GetContactProto((HCONTACT)clcitex->hItem);
 		if (!szProto) return false;
 
 		if (opt.bWaitForStatusMsg && !bStatusMsgReady)
 		{
-			db_unset(clcitex->hItem, MODULE, "TempStatusMsg");
-			if (CanRetrieveStatusMsg(clcitex->hItem, szProto) &&
-				CallContactService(clcitex->hItem, PSS_GETAWAYMSG, 0, 0))
+			db_unset((HCONTACT)clcitex->hItem, MODULE, "TempStatusMsg");
+			if (CanRetrieveStatusMsg((HCONTACT)clcitex->hItem, szProto) &&
+				CallContactService((HCONTACT)clcitex->hItem, PSS_GETAWAYMSG, 0, 0))
 			{
 				if (WaitForContentTimerID)
 					KillTimer(0, WaitForContentTimerID);
@@ -69,7 +69,7 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 			CallProtoService(szProto, PS_GETAVATARCAPS, AF_ENABLED, 0))
 		{
 			DBVARIANT dbv;
-			if (!db_get_s(clcitex->hItem, "ContactPhoto", "File", &dbv))
+			if (!db_get_s((HCONTACT)clcitex->hItem, "ContactPhoto", "File", &dbv))
 			{
 				if (!strstr(dbv.pszVal, ".xml"))
 				{
@@ -137,14 +137,12 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 				}
 				case MUM_DELETEPOPUP:
 				{
-					if (hwndTip)
-					{
+					if (hwndTip) {
 						MyDestroyWindow(hwndTip);
 						hwndTip = 0;
 					}
 
-					if (clcitex)
-					{
+					if (clcitex) {
 						mir_free(clcitex);
 						clcitex = 0;
 					}
@@ -155,7 +153,7 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 				}
 				case MUM_GOTSTATUS:
 				{
-					HANDLE hContact = (HANDLE)hwndMsg.wParam;
+					HCONTACT hContact = (HCONTACT)hwndMsg.wParam;
 					TCHAR *swzMsg = (TCHAR *)hwndMsg.lParam;
 
 					if (opt.bWaitForContent &&
@@ -171,7 +169,7 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 
 						if (swzMsg)
 						{
-							db_set_ts(clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
+							db_set_ts((HCONTACT)clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
 							mir_free(swzMsg);
 						}
 
@@ -193,7 +191,7 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 				}
 				case MUM_GOTAVATAR:
 				{
-					HANDLE hContact = (HANDLE)hwndMsg.wParam;
+					HCONTACT hContact = (HCONTACT)hwndMsg.wParam;
 
 					if (opt.bWaitForContent &&
 						bAvatarReady == false &&
@@ -352,7 +350,7 @@ int ProtoAck(WPARAM wParam, LPARAM lParam)
 
 int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	PostMPMessage(MUM_GOTAVATAR, (WPARAM)hContact, 0);
 	return 0;
 }

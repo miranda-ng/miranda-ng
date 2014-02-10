@@ -27,8 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "clist.h"
 
 extern HANDLE hContactIconChangedEvent;
-extern int GetContactCachedStatus(HANDLE hContact);
-extern char *GetContactCachedProtocol(HANDLE hContact);
+extern int GetContactCachedStatus(HCONTACT hContact);
+extern char *GetContactCachedProtocol(HCONTACT hContact);
 
 int sortByStatus;
 static int sortByProto;
@@ -47,7 +47,7 @@ struct {
 	{ID_STATUS_ONTHEPHONE,150},
 	{ID_STATUS_OUTTOLUNCH,425}};
 
-static int GetContactStatus(HANDLE hContact)
+static int GetContactStatus(HCONTACT hContact)
 {
 	/*
 
@@ -60,7 +60,7 @@ static int GetContactStatus(HANDLE hContact)
 	return (GetContactCachedStatus(hContact));
 }
 
-void ChangeContactIcon(HANDLE hContact,int iIcon,int add)
+void ChangeContactIcon(HCONTACT hContact,int iIcon,int add)
 {
 	//clui MS_CLUI_CONTACTADDED MS_CLUI_CONTACTSETICON this methods is null
 	//CallService(add?MS_CLUI_CONTACTADDED:MS_CLUI_CONTACTSETICON,(WPARAM)hContact,iIcon);
@@ -87,7 +87,7 @@ void LoadContactTree(void)
 
 	int hideOffline = db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *cacheEntry = GetContactFullCacheEntry(hContact);
 		if (cacheEntry == NULL) {
 			MessageBoxA(0,"Fail To Get CacheEntry for hContact","!!!!!",0);
@@ -114,7 +114,7 @@ void LoadContactTree(void)
 
 int CompareContacts( const struct ClcContact *contact1, const struct ClcContact *contact2 )
 {
-	HANDLE a = contact1->hContact, b = contact2->hContact;
+	HCONTACT a = contact1->hContact, b = contact2->hContact;
 	TCHAR *namea,*nameb;
 	int statusa,statusb;
 	char *szProto1,*szProto2;
@@ -167,12 +167,14 @@ void SortContacts(void)
 
 INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam)
 {
+	HCONTACT hContact = (HCONTACT)wParam;
+
 	CallService(MS_CLUI_CONTACTDELETED,wParam,0);
 	if ((HANDLE)lParam == NULL)
-		db_unset((HANDLE)wParam,"CList","Group");
+		db_unset(hContact, "CList", "Group");
 	else
-		db_set_s((HANDLE)wParam,"CList","Group",(char*)CallService(MS_CLIST_GROUPGETNAME2,lParam,(LPARAM)(int*)NULL));
+		db_set_s(hContact, "CList", "Group", (char*)CallService(MS_CLIST_GROUPGETNAME2, lParam, (LPARAM)(int*)NULL));
 
-	CallService(MS_CLUI_CONTACTADDED,wParam,ExtIconFromStatusMode((HANDLE)wParam, GetContactProto((HANDLE)wParam), GetContactStatus((HANDLE)wParam)));
+	CallService(MS_CLUI_CONTACTADDED, wParam, ExtIconFromStatusMode(hContact, GetContactProto(hContact), GetContactStatus(hContact)));
 	return 0;
 }

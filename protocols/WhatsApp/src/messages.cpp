@@ -1,6 +1,6 @@
 #include "common.h"
 
-int WhatsAppProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
+int WhatsAppProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT *pre)
 {
 	CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 
@@ -28,7 +28,7 @@ void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
 		msg->insert(0, std::string("[").append(paramFMessage->notifyname).append("]: "));
 	}
 
-	HANDLE hContact = this->AddToContactList(paramFMessage->key->remote_jid, 0, false, 
+	HCONTACT hContact = this->AddToContactList(paramFMessage->key->remote_jid, 0, false, 
 		isChatRoom ? NULL : paramFMessage->notifyname.c_str(), isChatRoom);
 
 	PROTORECVEVENT recv = {0};
@@ -40,7 +40,7 @@ void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
 	this->connection->sendMessageReceived(paramFMessage);
 }
 
-int WhatsAppProto::SendMsg(HANDLE hContact, int flags, const char *msg)
+int WhatsAppProto::SendMsg(HCONTACT hContact, int flags, const char *msg)
 {
 	debugLogA("");
 	int msgId = ++(this->msgId);
@@ -120,7 +120,7 @@ void WhatsAppProto::RecvMsgWorker(void *p)
 
 void WhatsAppProto::onIsTyping(const std::string& paramString, bool paramBoolean)
 {
-	HANDLE hContact = this->AddToContactList(paramString, 0, false);
+	HCONTACT hContact = this->AddToContactList(paramString, 0, false);
 	if (hContact != NULL)
 	{
 		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM) hContact, (LPARAM)
@@ -129,7 +129,7 @@ void WhatsAppProto::onIsTyping(const std::string& paramString, bool paramBoolean
 }
 
 
-int WhatsAppProto::UserIsTyping(HANDLE hContact,int type)
+int WhatsAppProto::UserIsTyping(HCONTACT hContact,int type)
 { 
 	if (hContact && isOnline())
 		ForkThread(&WhatsAppProto::SendTypingWorker, new send_typing(hContact, type));
@@ -165,7 +165,7 @@ void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
 {
 	debugLogA("");
 
-	HANDLE hContact = this->ContactIDToHContact(fmsg->key->remote_jid);
+	HCONTACT hContact = this->ContactIDToHContact(fmsg->key->remote_jid);
 	if (hContact == 0)
 		return;
 

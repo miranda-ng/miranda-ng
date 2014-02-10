@@ -4,7 +4,7 @@
 struct TContactInfo
 {
 private:
-	HANDLE hContact;
+	HCONTACT hContact;
 	DWORD status;
 	TCHAR *name;
 	TCHAR *group;
@@ -12,7 +12,7 @@ private:
 	float fRate;
 
 public:
-	TContactInfo(HANDLE hContact, bool bManual, float fRate = 0)
+	TContactInfo(HCONTACT hContact, bool bManual, float fRate = 0)
 	{
 		DBVARIANT dbv = {0};
 
@@ -41,7 +41,7 @@ public:
 		mir_free(group);
 	}
 
-	HANDLE getHandle() const
+	HCONTACT getHandle() const
 	{
 		return hContact;
 	}
@@ -89,7 +89,7 @@ public:
 		return nGroups;
 	}
 
-	TContactInfo *addContact(HANDLE hContact, bool bManual)
+	TContactInfo *addContact(HCONTACT hContact, bool bManual)
 	{
 		TContactInfo *info = new TContactInfo(hContact, bManual);
 		this->insert(info);
@@ -102,7 +102,7 @@ public:
 	
 		nGroups = 1;
 
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			if (db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 			{
 				TCHAR *group = addContact(hContact, true)->getGroup();
@@ -113,7 +113,7 @@ public:
 
 		int nRecent = 0;
 		for (int i = 0; nRecent < g_Options.wMaxRecent; ++i) {
-			HANDLE hContact = g_contactCache->get(i);
+			HCONTACT hContact = g_contactCache->get(i);
 			if (!hContact) break;
 			if (!db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 			{

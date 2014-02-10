@@ -61,8 +61,8 @@ public:
 	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, int nListCount);
 
 	virtual void	Release();
-	virtual BOOL	OnInfoChanged(HANDLE hContact, LPCSTR pszProto);
-	virtual void	OnApply(HANDLE hContact, LPCSTR pszProto);
+	virtual BOOL	OnInfoChanged(HCONTACT hContact, LPCSTR pszProto);
+	virtual void	OnApply(HCONTACT hContact, LPCSTR pszProto);
 	virtual void	OnChangedByUser(WORD wChangedMsg);
 };
 

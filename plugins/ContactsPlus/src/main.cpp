@@ -59,7 +59,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 static int HookDBEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	HANDLE hDbEvent = (HANDLE)lParam;
 	//process the event
 	DBEVENTINFO dbe = { sizeof(dbe) };
@@ -92,7 +92,7 @@ static int HookDBEventAdded(WPARAM wParam, LPARAM lParam)
 
 static void ProcessUnreadEvents(void)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
@@ -117,7 +117,7 @@ static bool CheckContactsServiceSupport(const char* szProto)
 
 static int HookPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	char *szProto = GetContactProto(hContact);
 	int bVisible = FALSE;
 
@@ -156,7 +156,7 @@ static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
 static int HookContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	char *szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HCONTACT)wParam);
 
 	if (strcmpnull(cws->szModule, "CList") && strcmpnull(cws->szModule, szProto)) return 0;
 
@@ -167,24 +167,21 @@ static int HookContactSettingChanged(WPARAM wParam, LPARAM lParam)
 
 static int HookContactDeleted(WPARAM wParam, LPARAM lParam)
 {  // if our contact gets deleted close his window
-	HWND h = WindowList_Find(ghSendWindowList, (HANDLE)wParam);
+	HWND h = WindowList_Find(ghSendWindowList, (HCONTACT)wParam);
 
 	if (h)
-	{
 		SendMessage(h, WM_CLOSE, 0, 0);
-	}
 
-	while (h = WindowList_Find(ghRecvWindowList, (HANDLE)wParam))
-	{ // since we hack the window list - more windows for one contact, we need to close them all
+	// since we hack the window list - more windows for one contact, we need to close them all
+	while (h = WindowList_Find(ghRecvWindowList, (HCONTACT)wParam))
 		SendMessage(h, WM_CLOSE, 0, 0);
-	}
 	return 0;
 }
 
 static INT_PTR ServiceSendCommand(WPARAM wParam, LPARAM lParam)
 {
 	//find window for hContact
-	HWND hWnd = WindowList_Find(ghSendWindowList, (HANDLE)wParam);
+	HWND hWnd = WindowList_Find(ghSendWindowList, (HCONTACT)wParam);
 	if (!hWnd)
 		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEND), NULL, SendDlgProc, wParam);
 	else {

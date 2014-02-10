@@ -5,10 +5,10 @@ static CRITICAL_SECTION RemoveChainCS={0}, *lpRemoveChainCS = &RemoveChainCS;
 static UINT_PTR timerId = 0;
 
 struct DeleteEventNode {
-	DeleteEventNode		*next;
-	time_t				 timestamp;
-	HANDLE				 hContact;
-	HANDLE				 hDbEvent;
+	DeleteEventNode *next;
+	time_t timestamp;
+	HCONTACT hContact;
+	HANDLE hDbEvent;
 };
 struct DeleteEventHead {
 	DeleteEventNode *first;
@@ -45,7 +45,7 @@ VOID CALLBACK DeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 // add prefix to sent messages
 int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 	if (!options.prefix_messages || !lParam) return 0;
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
 	if ((dbei->eventType != EVENTTYPE_MESSAGE) || !(dbei->flags & DBEF_SENT) || (dbei->flags & DBEF_OTR_PREFIXED))
 		return 0;
@@ -58,7 +58,7 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 		return 0;
 	
 	if(g_metaproto && strcmp(proto, g_metaproto) == 0) {
-		hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		if (!hContact) return 0;
 		proto = contact_get_proto(hContact);
 		if (!proto )	return 0;
@@ -74,9 +74,9 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 	char *msg = (char *)dbei->pBlob;
 	char *newmsg = 0;
 	DWORD alloclen = 0;
-	DWORD msglen = strlen(msg);
+	DWORD msglen = (DWORD)strlen(msg);
 	if (dbei->flags & DBEF_UTF) {
-		int prefixlen = strnlen(options.prefix, 64);
+		int prefixlen = (int)strnlen(options.prefix, 64);
 		if (strncmp(msg, options.prefix, prefixlen) == 0) return 0;
 		alloclen = (msglen+prefixlen+1)*sizeof(char);
 
@@ -108,15 +108,15 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 			// yes, unicode
 			wchar_t* msgw = (wchar_t *)&msg[msglen];
 			wchar_t *prefixw = mir_utf8decodeW(options.prefix);
-			int prefixlenw = wcslen(prefixw);
+			int prefixlenw = (int)wcslen(prefixw);
 			if (wcsncmp(msgw, prefixw, prefixlenw) == 0) {
 				mir_free(prefixw);
 				return 0;
 			}
-			int msglenw = wcslen(msgw);
+			int msglenw = (int)wcslen(msgw);
 
 			char *prefix = mir_utf8decodeA(options.prefix);
-			int prefixlen = strlen(prefix);
+			int prefixlen = (int)strlen(prefix);
 
 			alloclen = (msglen+prefixlen+1)* sizeof(char) + (msglenw + prefixlenw +1) * sizeof(wchar_t);
 			// get additional data
@@ -141,7 +141,7 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 		}
 		else {
 			char *prefix = mir_utf8decodeA(options.prefix);
-			int prefixlen = strlen(prefix);
+			int prefixlen = (int)strlen(prefix);
 			if (strncmp(msg, prefix, prefixlen) == 0) {
 				mir_free(prefix);
 				return 0;
@@ -183,16 +183,16 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 
 	static char* prefixutf = mir_utf8encodeT(TranslateT(LANG_INLINE_PREFIX));
 	static char* prefix = Translate(LANG_INLINE_PREFIX);
-	static DWORD lenutf = strlen(prefixutf);
-	static DWORD len = strlen(prefix);
+	static DWORD lenutf = (DWORD)strlen(prefixutf);
+	static DWORD len = (DWORD)strlen(prefix);
 
 	DBEVENTINFO info = { sizeof(info) };
 	info.cbBlob = lenutf*2;
 	info.pBlob = (PBYTE)mir_alloc(info.cbBlob);
 	if (!db_event_get((HANDLE)lParam, &info)) {
 		if(info.eventType == EVENTTYPE_MESSAGE) {
-			HANDLE hContact = (HANDLE)wParam, hSub;
-			if(options.bHaveMetaContacts && (hSub = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
+			HCONTACT hContact = (HCONTACT)wParam, hSub;
+			if(options.bHaveMetaContacts && (hSub = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 				hContact = hSub;
 
 			ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
@@ -223,7 +223,7 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-void FinishSession(HANDLE hContact) {
+void FinishSession(HCONTACT hContact) {
 	if (!hContact) return;
 	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
 	TrustLevel level = otr_context_get_trust(context);
@@ -247,8 +247,8 @@ int WindowEvent(WPARAM wParam, LPARAM lParam) {
 
 	if(mwd->uType != MSG_WINDOW_EVT_OPEN) return 0;
 
-	HANDLE hContact = mwd->hContact, hTemp;
-	if(options.bHaveMetaContacts && (hTemp = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
+	HCONTACT hContact = mwd->hContact, hTemp;
+	if(options.bHaveMetaContacts && (hTemp = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 		hContact = hTemp;
 
 	if (!CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME))
@@ -271,14 +271,14 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam) {
 	if(status != ID_STATUS_OFFLINE ) return 0;
 	
 	const char *proto = (char *)lParam;
-	HANDLE hContact;
+	HCONTACT hContact;
 
 	lib_cs_lock();
 	
 		ConnContext *context = otr_user_state->context_root;
 		while(context) {
 			if(context->msgstate == OTRL_MSGSTATE_ENCRYPTED && (proto == 0 || strcmp(proto, context->protocol) == 0)) {
-				hContact = context->app_data;
+				hContact = (HCONTACT)context->app_data;
 				
 				if(hContact) {
 					otrl_message_disconnect(otr_user_state, &ops, hContact, context->accountname, context->protocol, context->username);
@@ -296,7 +296,7 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam) {
 int OnContactSettingChanged(WPARAM wParam, LPARAM lParam) {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	if (!lParam || strcmp(cws->szSetting, "Status") != 0) return 0;
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	int status=0;
 	switch (cws->value.type){
 		case DBVT_WORD:

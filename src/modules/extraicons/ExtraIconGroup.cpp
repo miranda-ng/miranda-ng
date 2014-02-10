@@ -54,7 +54,7 @@ void ExtraIconGroup::rebuildIcons()
 		items[i]->rebuildIcons();
 }
 
-void ExtraIconGroup::applyIcon(HANDLE hContact)
+void ExtraIconGroup::applyIcon(HCONTACT hContact)
 {
 	if (!isEnabled() || hContact == NULL)
 		return;
@@ -91,7 +91,7 @@ void ExtraIconGroup::setSlot(int slot)
 		items[i]->setSlot(slot);
 }
 
-ExtraIcon * ExtraIconGroup::getCurrentItem(HANDLE hContact) const
+ExtraIcon * ExtraIconGroup::getCurrentItem(HCONTACT hContact) const
 {
 	int id = (int)db_get_dw(hContact, MODULE_NAME, szName, 0);
 	if (id < 1)
@@ -104,24 +104,24 @@ ExtraIcon * ExtraIconGroup::getCurrentItem(HANDLE hContact) const
 	return NULL;
 }
 
-void ExtraIconGroup::onClick(HANDLE hContact)
+void ExtraIconGroup::onClick(HCONTACT hContact)
 {
 	ExtraIcon *extra = getCurrentItem(hContact);
 	if (extra != NULL)
 		extra->onClick(hContact);
 }
 
-int ExtraIconGroup::setIcon(int id, HANDLE hContact, HANDLE value)
+int ExtraIconGroup::setIcon(int id, HCONTACT hContact, HANDLE value)
 {
 	return internalSetIcon(id, hContact, (void*)value, false);
 }
 
-int ExtraIconGroup::setIconByName(int id, HANDLE hContact, const char *value)
+int ExtraIconGroup::setIconByName(int id, HCONTACT hContact, const char *value)
 {
 	return internalSetIcon(id, hContact, (void*)value, true);
 }
 
-int ExtraIconGroup::internalSetIcon(int id, HANDLE hContact, void *value, bool bByName)
+int ExtraIconGroup::internalSetIcon(int id, HCONTACT hContact, void *value, bool bByName)
 {
 	if (insideApply) {
 		for (int i=0; i < items.getCount(); i++)
@@ -208,7 +208,7 @@ int ExtraIconGroup::getType() const
 	return EXTRAICON_TYPE_GROUP;
 }
 
-int ExtraIconGroup::ClistSetExtraIcon(HANDLE hContact, HANDLE hImage)
+int ExtraIconGroup::ClistSetExtraIcon(HCONTACT hContact, HANDLE hImage)
 {
 	if (hImage != INVALID_HANDLE_VALUE)
 		setValidExtraIcon = true;

@@ -178,7 +178,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 	int i;
 	char str[33];
 	DBVARIANT dbv;
-	HANDLE hContact;
+	HCONTACT hContact;
 	TCHAR name[256], szNewParent[256], *pszLastBackslash;
 
 	//get the name
@@ -292,7 +292,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	db_set_ts(NULL, "CListGroups", idstr, str);
 
 	//must rename setting in all child contacts too
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *cache = cli.pfnGetCacheEntry(hContact);
 		if (!lstrcmp(cache->tszGroup, oldName)) {
 			db_set_ts(hContact, "CList", "Group", szName);

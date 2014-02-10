@@ -241,14 +241,14 @@ int AniAva_InitModule();								   // HAVE TO BE AFTER GDI+ INITIALIZED
 int AniAva_UnloadModule();
 int AniAva_UpdateOptions();								   //reload options, //hot enable/disable engine
 
-int AniAva_AddAvatar(HANDLE hContact, TCHAR * szFilename, int width, int heigth);  // adds avatars to be displayed
-int AniAva_SetAvatarPos(HANDLE hContact, RECT *rc, int overlayIdx, BYTE bAlpha);	   // update avatars pos
-int AniAva_InvalidateAvatarPositions(HANDLE hContact);	   // reset positions of avatars to be drawn (still be painted at same place)
+int AniAva_AddAvatar(HCONTACT hContact, TCHAR * szFilename, int width, int heigth);  // adds avatars to be displayed
+int AniAva_SetAvatarPos(HCONTACT hContact, RECT *rc, int overlayIdx, BYTE bAlpha);	   // update avatars pos
+int AniAva_InvalidateAvatarPositions(HCONTACT hContact);	   // reset positions of avatars to be drawn (still be painted at same place)
 int AniAva_RemoveInvalidatedAvatars();					   // all avatars without validated position will be stop painted and probably removed
-int AniAva_RemoveAvatar(HANDLE hContact);				   // remove avatar
+int AniAva_RemoveAvatar(HCONTACT hContact);				   // remove avatar
 int AniAva_RedrawAllAvatars(BOOL updateZOrder);			   // request to repaint all
 void AniAva_UpdateParent();
-int AniAva_RenderAvatar( HANDLE hContact, HDC hdcMem, RECT *rc );
+int AniAva_RenderAvatar(HCONTACT hContact, HDC hdcMem, RECT *rc );
 
 #define CCI_NAME            1
 #define CCI_GROUP          (1<<1)

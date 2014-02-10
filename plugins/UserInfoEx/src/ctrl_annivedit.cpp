@@ -140,7 +140,7 @@ void CAnnivEditCtrl::EnableCurrentItem()
 	MAnnivDate *pCurrent = Current();
 
 	if (pCurrent) {
-		HANDLE hContact;
+		HCONTACT hContact;
 	
 		PSGetContact(_hwndDlg, hContact);
 
@@ -233,8 +233,8 @@ INT_PTR CAnnivEditCtrl::DeleteDate(WORD wIndex)
 	
 	// only delete values, but not the item
 	if (_pDates[wIndex]->Id() == ANID_BIRTHDAY) {
-		HANDLE	hContact;
-		LPCSTR	pszProto;
+		HCONTACT hContact;
+		LPCSTR pszProto;
 
 		PSGetContact(_hwndDlg, hContact);
 		PSGetBaseProto(_hwndDlg, pszProto);
@@ -273,7 +273,7 @@ INT_PTR CAnnivEditCtrl::DeleteDate(WORD wIndex)
  * param:
  * return:	0 on success 1 otherwise
  **/
-INT_PTR CAnnivEditCtrl::DBGetBirthDay(HANDLE hContact, LPCSTR pszProto)
+INT_PTR CAnnivEditCtrl::DBGetBirthDay(HCONTACT hContact, LPCSTR pszProto)
 {
 	MAnnivDate mdb;
 
@@ -290,7 +290,7 @@ INT_PTR CAnnivEditCtrl::DBGetBirthDay(HANDLE hContact, LPCSTR pszProto)
  * param:
  * return:	0 on success 1 otherwise
  **/
-INT_PTR CAnnivEditCtrl::DBGetAnniversaries(HANDLE hContact)
+INT_PTR CAnnivEditCtrl::DBGetAnniversaries(HCONTACT hContact)
 {
 	MAnnivDate mda;
 
@@ -317,7 +317,7 @@ INT_PTR CAnnivEditCtrl::DBGetAnniversaries(HANDLE hContact)
  * param:	hContact - the contact to write the anniversaries to
  * return:	0 on success 1 otherwise
  **/
-INT_PTR CAnnivEditCtrl::DBWriteBirthDay(HANDLE hContact)
+INT_PTR CAnnivEditCtrl::DBWriteBirthDay(HCONTACT hContact)
 {
 	MAnnivDate *pmdb;
 
@@ -346,7 +346,7 @@ INT_PTR CAnnivEditCtrl::DBWriteBirthDay(HANDLE hContact)
  * param:	hContact - the contact to write the anniversaries to
  * return:	0 on success 1 otherwise
  **/
-INT_PTR CAnnivEditCtrl::DBWriteAnniversaries(HANDLE hContact)
+INT_PTR CAnnivEditCtrl::DBWriteAnniversaries(HCONTACT hContact)
 {
 	const LPCSTR szPrefix[] = { "Reminder", "Offset", "Desc", "Day", "Month", "Year", "Stamp", "Date" };
 	CHAR szSet0[MAXSETTING];
@@ -526,7 +526,7 @@ void CAnnivEditCtrl::OnRemindEditChanged()
  **/
 void CAnnivEditCtrl::OnReminderChecked()
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	LPCSTR pszProto;
 	int state;
 	TCHAR buf[6];
@@ -606,7 +606,7 @@ void CAnnivEditCtrl::SetZodiacAndAge(MAnnivDate *mt)
 	}
 }
 
-BOOL CAnnivEditCtrl::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
+BOOL CAnnivEditCtrl::OnInfoChanged(HCONTACT hContact, LPCSTR pszProto)
 {
 	BOOL bChanged;
 	bChanged = DBGetBirthDay(hContact, pszProto);
@@ -616,7 +616,7 @@ BOOL CAnnivEditCtrl::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
 	return bChanged;
 }
 
-void CAnnivEditCtrl::OnApply(HANDLE hContact, LPCSTR pszProto)
+void CAnnivEditCtrl::OnApply(HCONTACT hContact, LPCSTR pszProto)
 {
 	DBWriteBirthDay(hContact);
 	DBWriteAnniversaries(hContact);

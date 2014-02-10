@@ -32,9 +32,9 @@ typedef struct _TCmdList {
 TCmdList *tcmdlist_append(TCmdList *list, const char *data, int maxSize, BOOL temporary);
 TCmdList *tcmdlist_remove(TCmdList *list, TCmdList *n);
 TCmdList *tcmdlist_remove_first(TCmdList *list);
-TCmdList *tcmdlist_append2(TCmdList *list, HANDLE hContact, const char *data);
-TCmdList *tcmdlist_remove2(TCmdList *list, HANDLE hContact);
-TCmdList *tcmdlist_get2(TCmdList *list, HANDLE hContact);
+TCmdList *tcmdlist_append2(TCmdList *list, HCONTACT hContact, const char *data);
+TCmdList *tcmdlist_remove2(TCmdList *list, HCONTACT hContact);
+TCmdList *tcmdlist_get2(TCmdList *list, HCONTACT hContact);
 int tcmdlist_len(TCmdList *list);
 TCmdList *tcmdlist_last(TCmdList *list);
 void tcmdlist_free(TCmdList * list);

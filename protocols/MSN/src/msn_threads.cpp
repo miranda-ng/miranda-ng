@@ -552,7 +552,7 @@ ThreadData* CMsnProto::MSN_StartSB(const char* wlid, bool& isOffline)
 	ThreadData* thread = MSN_GetThreadByContact(wlid);
 	if (thread == NULL)
 	{
-		HANDLE hContact = MSN_HContactFromEmail(wlid);
+		HCONTACT hContact = MSN_HContactFromEmail(wlid);
 		WORD wStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 		if (wStatus != ID_STATUS_OFFLINE)
 		{
@@ -664,7 +664,7 @@ ThreadData::~ThreadData()
 		for (i=0; i<mJoinedContactsWLID.getCount(); ++i)
 		{
 			const char* wlid = mJoinedContactsWLID[i];
-			HANDLE hContact = proto->MSN_HContactFromEmail(wlid);
+			HCONTACT hContact = proto->MSN_HContactFromEmail(wlid);
 			int temp_status = proto->getWord(hContact, "Status", ID_STATUS_OFFLINE);
 			if (temp_status == ID_STATUS_INVISIBLE && proto->MSN_GetThreadByContact(wlid) == NULL)
 				proto->setWord(hContact, "Status", ID_STATUS_OFFLINE);

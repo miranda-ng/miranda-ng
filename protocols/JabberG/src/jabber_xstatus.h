@@ -45,7 +45,7 @@ public:
 
 	virtual void InitGui() {}
 	virtual void RebuildMenu() {}
-	virtual void ResetExtraIcon(HANDLE /*hContact*/) {}
+	virtual void ResetExtraIcon(HCONTACT) {}
 	virtual bool LaunchSetGui() { return false; }
 
 protected:
@@ -88,7 +88,7 @@ public:
 			(*this)[i].RebuildMenu();
 	}
 
-	void ResetExtraIcon(HANDLE hContact)
+	void ResetExtraIcon(HCONTACT hContact)
 	{
 		for (int i=0; i < getCount(); i++)
 			(*this)[i].ResetExtraIcon(hContact);
@@ -152,7 +152,7 @@ public:
 	CPepMood(CJabberProto *proto);
 	~CPepMood();
 	void ProcessItems(const TCHAR *from, HXML items);
-	void ResetExtraIcon(HANDLE hContact);
+	void ResetExtraIcon(HCONTACT hContact);
 
 public:
 	TCHAR *m_text;
@@ -161,9 +161,9 @@ public:
 protected:
 	void CreateData(HXML);
 	void ShowSetDialog(BYTE bQuiet);
-	void SetExtraIcon(HANDLE hContact, char *szMood);
+	void SetExtraIcon(HCONTACT hContact, char *szMood);
 
-	void SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText);
+	void SetMood(HCONTACT hContact, const TCHAR *szMood, const TCHAR *szText);
 };
 
 class CPepActivity: public CPepGuiService
@@ -173,7 +173,7 @@ public:
 	CPepActivity(CJabberProto *proto);
 	~CPepActivity();
 	void ProcessItems(const TCHAR *from, HXML items);
-	void ResetExtraIcon(HANDLE hContact);
+	void ResetExtraIcon(HCONTACT hContact);
 
 protected:
 	TCHAR *m_text;
@@ -181,9 +181,9 @@ protected:
 
 	void CreateData(HXML);
 	void ShowSetDialog(BYTE bQuiet);
-	void SetExtraIcon(HANDLE hContact, char *szActivity);
+	void SetExtraIcon(HCONTACT hContact, char *szActivity);
 
-	void SetActivity(HANDLE hContact, LPCTSTR szFirst, LPCTSTR szSecond, LPCTSTR szText);
+	void SetActivity(HCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSecond, LPCTSTR szText);
 };
 
 #endif // _JABBER_XSTATUS_H_

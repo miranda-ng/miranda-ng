@@ -94,7 +94,7 @@ static IconItem iconList[] =
 
 static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 {
-	BYTE bContactRate = db_get_b((HANDLE)wParam, "CList", "Rate",0);
+	BYTE bContactRate = db_get_b((HCONTACT)wParam, "CList", "Rate", 0);
 	if ( bContactRate > SIZEOF(rates)-1)
 		bContactRate = SIZEOF(rates)-1;
 
@@ -149,7 +149,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 
 	mi.hIcon = NULL;
 	mi.ptszName = LPGENT("Show even if offline");
-	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | ( db_get_b((HANDLE)wParam,"CList","noOffline",0)?CMIF_CHECKED:0);
+	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | (db_get_b((HCONTACT)wParam, "CList", "noOffline", 0) ? CMIF_CHECKED : 0);
 	mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
 	mi.popupPosition = i+100000000;
 	mi.position = -100000000;
@@ -165,7 +165,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 INT_PTR FAV_SetRate(WPARAM hContact, LPARAM nRate)
 {
 	if (hContact)
-		db_set_b((HANDLE)hContact, "CList", "Rate",(BYTE)nRate);
+		db_set_b((HCONTACT)hContact, "CList", "Rate", (BYTE)nRate);
 
 	return 0;
 }
@@ -173,7 +173,7 @@ INT_PTR FAV_SetRate(WPARAM hContact, LPARAM nRate)
 INT_PTR FAV_ToggleShowOffline(WPARAM hContact,LPARAM lParam)
 {
 	if (hContact)
-		db_set_b((HANDLE)hContact,"CList","noOffline", !db_get_b((HANDLE)hContact, "CList", "noOffline", 0));
+		db_set_b((HCONTACT)hContact, "CList", "noOffline", !db_get_b((HCONTACT)hContact, "CList", "noOffline", 0));
 
 	return 0;
 }

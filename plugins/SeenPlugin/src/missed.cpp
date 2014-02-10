@@ -42,7 +42,7 @@ int RemoveUser(int pos)
 
 int ResetMissed(void)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		db_set_b(hContact, S_MOD, "Missed", 0);
 
 	ZeroMemory(&mcs,sizeof(mcs));
@@ -51,7 +51,7 @@ int ResetMissed(void)
 
 int CheckIfOnline(void)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if ( CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0) != ICON_OFFLINE)
 			db_set_b(hContact, S_MOD, "Missed", 2);
 
@@ -128,12 +128,12 @@ int Test(WPARAM wparam,LPARAM lparam)
 	if (CallService(MS_IGNORE_ISIGNORED,wparam,IGNOREEVENT_USERONLINE))
 		return 0;
 
-	if ( db_get_b((HANDLE)wparam,S_MOD,"Missed",0)==2)
+	if ( db_get_b((HCONTACT)wparam,S_MOD,"Missed",0)==2)
 		return 0;
 
 	switch(lparam) {
 	case ICON_OFFLINE:
-		if ( db_get_b((HANDLE)wparam,S_MOD,"Missed",0) == 1) {
+		if ( db_get_b((HCONTACT)wparam,S_MOD,"Missed",0) == 1) {
 			WORD missed = IsUserMissed(wparam);
 			if (!LOWORD(missed)) {
 				mcs.times[mcs.count]=1;
@@ -141,7 +141,7 @@ int Test(WPARAM wparam,LPARAM lparam)
 			}
 			else mcs.times[HIWORD(missed)]++;
 
-			db_set_b((HANDLE)wparam,S_MOD,"Missed",0);
+			db_set_b((HCONTACT)wparam,S_MOD,"Missed",0);
 		}
 		break;
 
@@ -152,7 +152,7 @@ int Test(WPARAM wparam,LPARAM lparam)
 	case ICON_DND:
 	case ICON_FREE:
 	case ICON_INVIS:
-		db_set_b((HANDLE)wparam,S_MOD,"Missed",1);
+		db_set_b((HCONTACT)wparam,S_MOD,"Missed",1);
 		break;
 	}
 		

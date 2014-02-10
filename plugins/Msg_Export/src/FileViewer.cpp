@@ -103,7 +103,7 @@ class CLHistoryDlg
 	public:
 		HWND hWnd;
 
-		HANDLE hContact;
+		HCONTACT hContact;
 		tstring sPath;
 
 		HWND hFindDlg;
@@ -113,7 +113,7 @@ class CLHistoryDlg
 		bool bFirstLoad;
 		bool bUtf8File;
 
-		CLHistoryDlg( HANDLE hContact) : hContact( hContact )
+		CLHistoryDlg( HCONTACT hContact) : hContact( hContact )
 		{
 			hFindDlg = NULL;
 			acFindStr[0] = 0;
@@ -489,7 +489,7 @@ void UpdateFileViews( const TCHAR *pszFile )
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool bOpenExternaly( HANDLE hContact )
+bool bOpenExternaly( HCONTACT hContact )
 {
 	tstring sPath = GetFilePathFromUser( hContact);
 
@@ -1232,7 +1232,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool bShowFileViewer(HANDLE hContact)
+bool bShowFileViewer(HCONTACT hContact)
 {
 	HWND hInternalWindow = WindowList_Find(hInternalWindowList,hContact);
 	if(hInternalWindow) {

@@ -81,7 +81,7 @@ char* StrReplace (char* Search, char* Replace, char* Resource)
 	return Resource;
 }
 
-void exportModule(HANDLE hContact, char* module, FILE* file)
+void exportModule(HCONTACT hContact, char* module, FILE* file)
 {
 	char tmp[32];
 	ModuleSettingLL settinglist;
@@ -152,7 +152,7 @@ void exportModule(HANDLE hContact, char* module, FILE* file)
 	FreeModuleSettingLL(&settinglist);
 }
 
-char *NickFromHContact(HANDLE hContact)
+char *NickFromHContact(HCONTACT hContact)
 {
 	static char nick[512] = "";
 
@@ -193,7 +193,7 @@ char *NickFromHContact(HANDLE hContact)
 	return nick;
 }
 
-void exportDB(HANDLE hContact, char* module) // hContact == -1 export entire db. module == NULL export entire contact.
+void exportDB(HCONTACT hContact, char* module) // hContact == -1 export entire db. module == NULL export entire contact.
 {                                            // hContact == -1, module == "" - all contacts
 	FILE* file = NULL;
 	char fileName[MAX_PATH];
@@ -326,20 +326,20 @@ void exportDB(HANDLE hContact, char* module) // hContact == -1 export entire db.
 	FreeModuleSettingLL(&modlist);
 }
 
-HANDLE CheckNewContact(char *myProto, char *uid, char *myName)
+HCONTACT CheckNewContact(char *myProto, char *uid, char *myName)
 {
 	char szProto[256], szName[256];
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (DBGetContactSettingStringStatic(hContact, "Protocol", "p", szProto, 256))
 			if (!mir_strcmp(szProto, myProto))
 				if (GetValue(hContact, szProto, uid, szName, SIZEOF(szName)) && !mir_strcmp(szName, myName))
 					return hContact;
 
-	return INVALID_HANDLE_VALUE;
+	return (HCONTACT)INVALID_HANDLE_VALUE;
 }
 
-void importSettings(HANDLE hContact, char *importstring )
+void importSettings(HCONTACT hContact, char *importstring )
 {
 	char module[256] = "", setting[256] = "", *end;
 	int i=0, value, type;
@@ -364,7 +364,7 @@ void importSettings(HANDLE hContact, char *importstring )
 		else if (!strncmp(&importstring[i],"CONTACT:", strlen("CONTACT:")))
 		{
 			int len, add = 1;
-			hContact = INVALID_HANDLE_VALUE;
+			hContact = (HCONTACT)INVALID_HANDLE_VALUE;
 
 			i = i + (int)strlen("CONTACT:");
 			len = (int)strlen(&importstring[i]);
@@ -405,7 +405,7 @@ void importSettings(HANDLE hContact, char *importstring )
 
 			if (hContact == INVALID_HANDLE_VALUE)
 			{
-				HANDLE temp = (HANDLE)CallService(MS_DB_CONTACT_ADD,0,0);
+				HCONTACT temp = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 				if (temp)
 					hContact = temp;
 			}
@@ -566,7 +566,7 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				
 				case IDOK:
 				{
-					HANDLE hContact = (HANDLE)GetWindowLongPtr(hwnd,GWLP_USERDATA);
+					HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 					int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_TEXT));
 					char *string;
 					if (length)
@@ -591,7 +591,7 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 	return 0;
 }
 
-void ImportSettingsMenuItem(HANDLE hContact)
+void ImportSettingsMenuItem(HCONTACT hContact)
 {
 	if (hwnd2importWindow)
 		DestroyWindow(hwnd2importWindow);
@@ -625,7 +625,7 @@ BOOL Exists(LPCTSTR strName)
 	return GetFileAttributes(strName) != INVALID_FILE_ATTRIBUTES;
 }
 
-void ImportSettingsFromFileMenuItem(HANDLE hContact, char* FilePath)
+void ImportSettingsFromFileMenuItem(HCONTACT hContact, char* FilePath)
 {
 	char szFileNames[MAX_PATH*10] = {0};
 	char szPath[MAX_PATH] = "";

@@ -9,7 +9,7 @@ public:
 public:
 	void GetWatchedQuotes(TQuotes& raQuotes)const;
 	bool WatchForQuote(const CQuote& rQuote,bool bWatch);
-	HANDLE GetContactByQuoteID(const tstring& rsQuoteID)const;
+	HCONTACT GetContactByQuoteID(const tstring& rsQuoteID)const;
 
 protected:
 	virtual void ShowPropertyPage(WPARAM wp,OPTIONSDIALOGPAGE& odp);

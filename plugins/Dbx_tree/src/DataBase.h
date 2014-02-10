@@ -193,40 +193,40 @@ public:     // services
 	void CreateDbService(const char *szServiceName, DbServiceFunc pFunc);
 
 protected:  // to be compatible with the standard Miranda databases
-	STDMETHODIMP_(void)   SetCacheSafetyMode(BOOL);
+	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL);
 
-	STDMETHODIMP_(LONG)   GetContactCount(void);
+	STDMETHODIMP_(LONG)     GetContactCount(void);
 	STDMETHODIMP_(MCONTACT) FindFirstContact(const char* szProto = NULL);
 	STDMETHODIMP_(MCONTACT) FindNextContact(MCONTACT contactID, const char* szProto = NULL);
-	STDMETHODIMP_(LONG)   DeleteContact(MCONTACT contactID);
-	STDMETHODIMP_(HANDLE) AddContact(void);
-	STDMETHODIMP_(BOOL)   IsDbContact(MCONTACT contactID);
+	STDMETHODIMP_(LONG)     DeleteContact(MCONTACT contactID);
+	STDMETHODIMP_(HANDLE)   AddContact(void);
+	STDMETHODIMP_(BOOL)     IsDbContact(MCONTACT contactID);
 
-	STDMETHODIMP_(LONG)   GetEventCount(MCONTACT contactID);
-	STDMETHODIMP_(HANDLE) AddEvent(MCONTACT contactID, DBEVENTINFO *dbe);
-	STDMETHODIMP_(BOOL)   DeleteEvent(MCONTACT contactID, HANDLE hDbEvent);
-	STDMETHODIMP_(LONG)   GetBlobSize(HANDLE hDbEvent);
-	STDMETHODIMP_(BOOL)   GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbe);
-	STDMETHODIMP_(BOOL)   MarkEventRead(MCONTACT contactID, HANDLE hDbEvent);
-	STDMETHODIMP_(HANDLE) GetEventContact(HANDLE hDbEvent);
-	STDMETHODIMP_(HANDLE) FindFirstEvent(MCONTACT contactID);
-	STDMETHODIMP_(HANDLE) FindFirstUnreadEvent(MCONTACT contactID);
-	STDMETHODIMP_(HANDLE) FindLastEvent(MCONTACT contactID);
-	STDMETHODIMP_(HANDLE) FindNextEvent(HANDLE hDbEvent);
-	STDMETHODIMP_(HANDLE) FindPrevEvent(HANDLE hDbEvent);
-
-	STDMETHODIMP_(BOOL)   EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam);
-
-	STDMETHODIMP_(BOOL)   GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-	STDMETHODIMP_(BOOL)   GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-	STDMETHODIMP_(BOOL)   GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-	STDMETHODIMP_(BOOL)   FreeVariant(DBVARIANT *dbv);
-	STDMETHODIMP_(BOOL)   WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws);
-	STDMETHODIMP_(BOOL)   DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting);
-	STDMETHODIMP_(BOOL)   EnumContactSettings(MCONTACT contactID, DBCONTACTENUMSETTINGS* dbces);
-	STDMETHODIMP_(BOOL)   SetSettingResident(BOOL bIsResident, const char *pszSettingName);
-	STDMETHODIMP_(BOOL)   EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
-	STDMETHODIMP_(BOOL)   IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting);
+	STDMETHODIMP_(LONG)     GetEventCount(MCONTACT contactID);
+	STDMETHODIMP_(HANDLE)   AddEvent(MCONTACT contactID, DBEVENTINFO *dbe);
+	STDMETHODIMP_(BOOL)     DeleteEvent(MCONTACT contactID, HANDLE hDbEvent);
+	STDMETHODIMP_(LONG)     GetBlobSize(HANDLE hDbEvent);
+	STDMETHODIMP_(BOOL)     GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbe);
+	STDMETHODIMP_(BOOL)     MarkEventRead(MCONTACT contactID, HANDLE hDbEvent);
+	STDMETHODIMP_(MCONTACT) GetEventContact(HANDLE hDbEvent);
+	STDMETHODIMP_(HANDLE)   FindFirstEvent(MCONTACT contactID);
+	STDMETHODIMP_(HANDLE)   FindFirstUnreadEvent(MCONTACT contactID);
+	STDMETHODIMP_(HANDLE)   FindLastEvent(MCONTACT contactID);
+	STDMETHODIMP_(HANDLE)   FindNextEvent(HANDLE hDbEvent);
+	STDMETHODIMP_(HANDLE)   FindPrevEvent(HANDLE hDbEvent);
+								   
+	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam);
+								   
+	STDMETHODIMP_(BOOL)     GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+	STDMETHODIMP_(BOOL)     GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+	STDMETHODIMP_(BOOL)     GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+	STDMETHODIMP_(BOOL)     FreeVariant(DBVARIANT *dbv);
+	STDMETHODIMP_(BOOL)     WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws);
+	STDMETHODIMP_(BOOL)     DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting);
+	STDMETHODIMP_(BOOL)     EnumContactSettings(MCONTACT contactID, DBCONTACTENUMSETTINGS* dbces);
+	STDMETHODIMP_(BOOL)     SetSettingResident(BOOL bIsResident, const char *pszSettingName);
+	STDMETHODIMP_(BOOL)     EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
+	STDMETHODIMP_(BOOL)     IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting);
 
 	int CheckProto(DBCachedContact *cc, const char *proto);
 };

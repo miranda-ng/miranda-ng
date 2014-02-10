@@ -89,7 +89,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-void TN_TypingMessage(HANDLE hContact, int iMode)
+void TN_TypingMessage(HCONTACT hContact, int iMode)
 {
 	// hidden & ignored contacts check
 	if (db_get_b(hContact, "CList", "Hidden", 0) || (db_get_dw(hContact, "Ignore", "Mask1",0) & 1)) // 9 - online notification
@@ -363,7 +363,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						}
 
 						ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
-						ppd.lchContact = (HANDLE)wParam;
+						ppd.lchContact = (HCONTACT)wParam;
 						ppd.PluginWindowProc = NULL;
 						ppd.PluginData = NULL;
 						PUAddPopupT(&ppd);

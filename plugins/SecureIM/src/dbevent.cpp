@@ -1,7 +1,7 @@
 #include "commonheaders.h"
 
 
-void HistoryLog(HANDLE hContact, LPCSTR szText)
+void HistoryLog(HCONTACT hContact, LPCSTR szText)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = GetContactProto(hContact);

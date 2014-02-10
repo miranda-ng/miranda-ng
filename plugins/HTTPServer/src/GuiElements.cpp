@@ -92,7 +92,7 @@ void ReplaceAll(string &sSrc, const char * pszReplace, const char * pszNew) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-string DBGetString(HANDLE hContact, const char *szModule, const char *szSetting, const char * pszError) {
+string DBGetString(HCONTACT hContact, const char *szModule, const char *szSetting, const char * pszError) {
 	string ret;
 	DBVARIANT dbv = {0};
 	if (! db_get(hContact, szModule, szSetting, &dbv)) {
@@ -1014,7 +1014,7 @@ void SendLinkToUser(WPARAM wParam, char *pszSrvPath) {
 /////////////////////////////////////////////////////////////////////
 
 static INT_PTR nShareNewFile(WPARAM wParam, LPARAM lParam) {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	// used to be _MAX_PATH
 	// changed it since selecting multiple files requires a bigger buffer

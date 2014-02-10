@@ -31,13 +31,13 @@ int __fastcall strcmpnull(const char *str1, const char *str2) {
 
 struct flash_avatar_item : public MZeroedObject
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	FLASHAVATAR hFA;
 	IShockwaveFlash* pFlash;
 
 	char* getProto() { return (hFA.cProto) ? hFA.cProto : GetContactProto(hFA.hContact); }
 
-	flash_avatar_item(HANDLE contact, FLASHAVATAR& fa, IShockwaveFlash *flash) { hContact = contact; hFA = fa; pFlash = flash; }
+	flash_avatar_item(HCONTACT contact, FLASHAVATAR& fa, IShockwaveFlash *flash) { hContact = contact; hFA = fa; pFlash = flash; }
 };
 
 static int CompareFlashItems(const flash_avatar_item* p1, const flash_avatar_item* p2) {
@@ -542,7 +542,7 @@ static int eventAdded(WPARAM wParam, LPARAM lParam)
 				face = AV_NORMAL;
 			}
 
-			HANDLE hContact = (dbei.flags & DBEF_SENT) ? 0 : (HANDLE)wParam;
+			HCONTACT hContact = (dbei.flags & DBEF_SENT) ? 0 : (HCONTACT)wParam;
 			for(int i=0; i<FlashList.getCount(); i++) {
 				flash_avatar_item *item = FlashList[i];
 				if (item->hContact == hContact && !strcmpnull(dbei.szModule, item->getProto())) {

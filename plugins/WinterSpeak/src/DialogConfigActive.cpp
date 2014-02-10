@@ -255,7 +255,7 @@ void DialogConfigActive::SetAllContactIcons(HWND hwndList, HWND window) {
 	ConfigDatabase::ActiveUsersMap::const_iterator iter;
 	for (iter = active_users.begin(); iter != active_users.end(); ++iter)
 	{
-		HANDLE hContact = iter->first;
+		HCONTACT hContact = iter->first;
 		if(hContact == 0) {
 			
 		} else {
@@ -331,7 +331,7 @@ void DialogConfigActive::save(HWND window)
 	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_FreeForChat, 		(IsDlgButtonChecked(window, IDC_ACTIVE_FREEFORCHAT) != 0));
 	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Invisible, 		(IsDlgButtonChecked(window, IDC_ACTIVE_INVISIBLE) != 0));
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem) 
 			SaveItemMask(GetDlgItem(window, IDC_ACTIVE_USERS), hContact, hItem);
@@ -342,7 +342,7 @@ void DialogConfigActive::save(HWND window)
 	m_db.save();
 }
 
-void DialogConfigActive::SaveItemMask(HWND hwndList, HANDLE hContact, HANDLE hItem) {
+void DialogConfigActive::SaveItemMask(HWND hwndList, HCONTACT hContact, HANDLE hItem) {
 	ConfigDatabase::act mask;
 	mask.message = true;
 	mask.status = true;

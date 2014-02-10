@@ -36,7 +36,7 @@ int CJabberProto::OnContactDeleted(WPARAM wParam, LPARAM)
 	if (!m_bJabberOnline)	// should never happen
 		return 0;
 
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	ptrT jid(getTStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
 	if (jid == NULL)
 		return 0;
@@ -75,7 +75,7 @@ static TCHAR* sttSettingToTchar(DBCONTACTWRITESETTING *cws)
 	return NULL;
 }
 
-void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING *cws, HANDLE hContact)
+void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING *cws, HCONTACT hContact)
 {
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT(getTStringA(hContact, "jid")));
 	if (item == NULL)
@@ -106,7 +106,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING *cws, HANDLE hCon
 	}
 }
 
-void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, HANDLE hContact)
+void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, HCONTACT hContact)
 {
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT( getTStringA(hContact, "jid")));
 	if (item == NULL)
@@ -126,7 +126,7 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, HANDLE hC
 	}
 }
 
-void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, HANDLE hContact)
+void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, HCONTACT hContact)
 {
 	if (cws->value.type != DBVT_DELETED && !(cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
 		return;
@@ -159,7 +159,7 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, HANDL
 
 int __cdecl CJabberProto::OnDbSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact == NULL || !m_bJabberOnline)
 		return 0;
 

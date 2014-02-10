@@ -29,15 +29,15 @@ using namespace std;
 
 extern TalkBot* bot;
 
-typedef void (*ActionHandler)(HANDLE hContact, const TalkBot::MessageInfo *inf);
+typedef void (*ActionHandler)(HCONTACT hContact, const TalkBot::MessageInfo *inf);
 
 typedef struct _QueueElement {
-	HANDLE hContact;
+	HCONTACT hContact;
 	const TalkBot::MessageInfo *inf;
 	ActionHandler Handler;
 	bool Sticky;
 	int TimeOffset;
-	_QueueElement(HANDLE contact, ActionHandler handler, int timeOffset, const TalkBot::MessageInfo *info = NULL, bool sticky = false)
+	_QueueElement(HCONTACT contact, ActionHandler handler, int timeOffset, const TalkBot::MessageInfo *info = NULL, bool sticky = false)
 		:hContact(contact), Handler(handler), TimeOffset(timeOffset), inf(info), Sticky(sticky)
 	{
 	}
@@ -72,7 +72,7 @@ void UpdateTimer()
 		timerID = 0;
 }
 
-static bool NotifyTyping(HANDLE hContact)
+static bool NotifyTyping(HCONTACT hContact)
 {
 	int res = db_get_b(hContact, "SRMsg", "SupportTyping", 2);
 	if (res == 2)
@@ -80,7 +80,7 @@ static bool NotifyTyping(HANDLE hContact)
 	return res != 0;
 }
 
-static void TimerAnswer(HANDLE hContact, const TalkBot::MessageInfo* info)
+static void TimerAnswer(HCONTACT hContact, const TalkBot::MessageInfo* info)
 {
 	DBEVENTINFO ldbei;
 	int size = (int)info->Answer.length() + 1;
@@ -118,7 +118,7 @@ static void TimerAnswer(HANDLE hContact, const TalkBot::MessageInfo* info)
 	typingContactsLock.Leave();
 }
 
-static void StartTyping(HANDLE hContact, const TalkBot::MessageInfo*)
+static void StartTyping(HCONTACT hContact, const TalkBot::MessageInfo*)
 {
 	CallService(MS_PROTO_SELFISTYPING, (WPARAM)hContact, 
 		(LPARAM)PROTOTYPE_SELFTYPING_ON);
@@ -127,7 +127,7 @@ static void StartTyping(HANDLE hContact, const TalkBot::MessageInfo*)
 	typingContactsLock.Leave();
 }
 
-void DoAnswer(HANDLE hContact, const TalkBot::MessageInfo *info, bool sticky = false)
+void DoAnswer(HCONTACT hContact, const TalkBot::MessageInfo *info, bool sticky = false)
 {
 	if (info->Answer[0] == _T('\0'))
 		return;
@@ -206,7 +206,7 @@ void DoAnswer(HANDLE hContact, const TalkBot::MessageInfo *info, bool sticky = f
 	cs.Leave();
 }
 
-void AnswerToContact(HANDLE hContact, const TCHAR* messageToAnswer)
+void AnswerToContact(HCONTACT hContact, const TCHAR* messageToAnswer)
 {
 	if (Config.TalkWarnContacts && db_get_b(hContact, BOLTUN_KEY, 
 		DB_CONTACT_WARNED, FALSE) == FALSE)
@@ -218,7 +218,7 @@ void AnswerToContact(HANDLE hContact, const TCHAR* messageToAnswer)
 		DoAnswer(hContact, bot->Reply(hContact, messageToAnswer, false));
 }
 
-void StartChatting(HANDLE hContact)
+void StartChatting(HCONTACT hContact)
 {
 	DoAnswer(hContact, new TalkBot::MessageInfo(bot->GetInitMessage(hContact)), true);
 }

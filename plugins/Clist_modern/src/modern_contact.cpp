@@ -42,15 +42,15 @@ struct
 	{ID_STATUS_ONTHEPHONE,150},
 	{ID_STATUS_OUTTOLUNCH,425}};
 
-static int GetContactStatus(HANDLE hContact)
+static int GetContactStatus(HCONTACT hContact)
 {
 	return (GetContactCachedStatus(hContact));
 }
 
 
-void cli_ChangeContactIcon(HANDLE hContact,int iIcon,int add)
+void cli_ChangeContactIcon(HCONTACT hContact, int iIcon, int add)
 {
-	corecli.pfnChangeContactIcon((HANDLE) hContact,(int)iIcon,(int)add);
+	corecli.pfnChangeContactIcon(hContact, iIcon, add);
 }
 
 static int GetStatusModeOrdering(int statusMode)
@@ -62,7 +62,7 @@ static int GetStatusModeOrdering(int statusMode)
 }
 
 
-DWORD CompareContacts2_getLMTime(HANDLE hContact)
+DWORD CompareContacts2_getLMTime(HCONTACT hContact)
 {
 	HANDLE hDbEvent = db_event_last(hContact);
 	while(hDbEvent) {
@@ -95,16 +95,14 @@ int GetProtoIndex(char * szName)
 
 int CompareContacts2(const ClcContact *contact1,const ClcContact *contact2, int by)
 {
-	HANDLE a;
-	HANDLE b;
 	TCHAR *namea, *nameb;
 	int statusa,statusb;
 	char *szProto1,*szProto2;
 
 	if ((INT_PTR)contact1 < 100 || (INT_PTR)contact2 < 100) return 0;
 
-	a = contact1->hContact;
-	b = contact2->hContact;
+	HCONTACT a = contact1->hContact;
+	HCONTACT b = contact2->hContact;
 
 	namea = (TCHAR *)contact1->szText;
 	statusa = GetContactCachedStatus(contact1->hContact);
@@ -118,39 +116,35 @@ int CompareContacts2(const ClcContact *contact1,const ClcContact *contact2, int 
 		int ordera,orderb;
 		ordera = GetStatusModeOrdering(statusa);
 		orderb = GetStatusModeOrdering(statusb);
-		if (ordera != orderb) return ordera-orderb;
-		else return 0;
+		return (ordera != orderb) ? ordera - orderb : 0;
 	}
 
-
-	if (g_CluiData.fSortNoOfflineBottom == 0 && (statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE)) { //one is offline: offline goes below online
+	//one is offline: offline goes below online
+	if (g_CluiData.fSortNoOfflineBottom == 0 && (statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE))
 		return 2*(statusa == ID_STATUS_OFFLINE)-1;
-	}
 
-	if (by == SORTBY_NAME)
-	{ //name
+	if (by == SORTBY_NAME) //name
 		return mir_tstrcmpi(namea,nameb);
-	}
-	if (by == SORTBY_NAME_LOCALE)
-	{ //name
+
+	if (by == SORTBY_NAME_LOCALE) {
+		//name
 		static int LocaleId = -1;
 		if (LocaleId == -1) LocaleId = CallService(MS_LANGPACK_GETLOCALE, 0, 0);
 		return (CompareString(LocaleId,NORM_IGNORECASE,SAFETSTRING(namea),-1,SAFETSTRING(nameb),-1))-2;
 	}
-	else if (by == SORTBY_LASTMSG)
-	{ //last message
+	if (by == SORTBY_LASTMSG) {
+		//last message
 		DWORD ta = CompareContacts2_getLMTime(a);
 		DWORD tb = CompareContacts2_getLMTime(b);
 		return tb-ta;
 	}
-	else if (by == SORTBY_PROTO)
-	{
+	if (by == SORTBY_PROTO) {
 		int rc = GetProtoIndex(szProto1)-GetProtoIndex(szProto2);
-
-		if (rc != 0 && (szProto1 != NULL && szProto2 != NULL)) return rc;
+		if (rc != 0 && (szProto1 != NULL && szProto2 != NULL))
+			return rc;
 	}
-    else if (by == SORTBY_RATE)
-        return contact2->bContactRate-contact1->bContactRate;
+	else if (by == SORTBY_RATE)
+		return contact2->bContactRate - contact1->bContactRate;
 	// else :o)
 	return 0;
 }

@@ -396,7 +396,7 @@ void    ClcOptionsChanged(void);
 
 //clcidents.c
 int     cliGetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex);
-int     FindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible, BOOL isIgnoreSubcontacts );
+int     FindItem(HWND hwnd, ClcData *dat, HCONTACT hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, BOOL isIgnoreSubcontacts);
 int     cliGetRowByIndex(ClcData *dat,int testindex,ClcContact **contact,ClcGroup **subgroup);
 HANDLE  ContactToHItem(ClcContact *contact);
 HANDLE  ContactToItemHandle(ClcContact *contact,DWORD *nmFlags);
@@ -406,9 +406,9 @@ void    ClearRowByIndexCache();
 ClcGroup *cli_AddGroup(HWND hwnd,ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers);
 void    cli_FreeGroup(ClcGroup *group);
 int     cli_AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText);
-void    cliRebuildEntireList(HWND hwnd,ClcData *dat);
-void    cli_DeleteItemFromTree(HWND hwnd,HANDLE hItem);
-void    cli_AddContactToTree(HWND hwnd,ClcData *dat,HANDLE hContact,int updateTotalCount,int checkHideOffline);
+void    cliRebuildEntireList(HWND hwnd, ClcData *dat);
+void    cli_DeleteItemFromTree(HWND hwnd, HCONTACT hItem);
+void    cli_AddContactToTree(HWND hwnd,ClcData *dat,HCONTACT hContact,int updateTotalCount,int checkHideOffline);
 void    cli_SortCLC(HWND hwnd,ClcData *dat,int useInsertionSort);
 int     GetNewSelection(ClcGroup *group,int selection, int direction);
 
@@ -433,13 +433,13 @@ DWORD   GetDefaultExStyle(void);
 void    GetFontSetting(int i,LOGFONT *lf,COLORREF *colour,BYTE *effect, COLORREF *eColour1,COLORREF *eColour2);
 
 //clistsettings.c
-TCHAR * GetContactDisplayNameW( HANDLE hContact, int mode );
+TCHAR * GetContactDisplayNameW(HCONTACT hContact, int mode );
 
 //groups.c
 TCHAR*  GetGroupNameTS( int idx, DWORD* pdwFlags );
 int     RenameGroupT(WPARAM groupID, LPARAM newName);
 
-int     GetContactCachedStatus(HANDLE hContact);
-char   *GetContactCachedProtocol(HANDLE hContact);
+int     GetContactCachedStatus(HCONTACT hContact);
+char   *GetContactCachedProtocol(HCONTACT hContact);
 
 #endif /* _CLC_H_ */

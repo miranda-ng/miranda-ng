@@ -101,7 +101,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)lphGroupsItems[i], 0);
 	lphGroupsItems.destroy();
 
-	ptrT szContactGroup( db_get_tsa((HANDLE)wParam, "CList", "Group"));
+	ptrT szContactGroup(db_get_tsa((HCONTACT)wParam, "CList", "Group"));
 
 	int pos = 1000;
 

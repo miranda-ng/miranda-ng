@@ -26,8 +26,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "Options.h"
 #include "codecvt_CodePage.h"
 
-ExportManager::ExportManager(HWND _hwnd, HANDLE _hContact, int filter)
-	:EventList(_hContact, filter),
+ExportManager::ExportManager(HWND _hwnd, HCONTACT _hContact, int filter) :
+	EventList(_hContact, filter),
 	hwnd(_hwnd),
 	oldOnTop(false)
 {
@@ -196,7 +196,7 @@ const TCHAR* ExportManager::GetExt(IImport::ImportType type)
 	return ext;
 }
 
-int ExportManager::Import(IImport::ImportType type, const std::vector<HANDLE>& contacts)
+int ExportManager::Import(IImport::ImportType type, const std::vector<HCONTACT>& contacts)
 {
 	IImport* imp = NULL;
 	switch(type) {
@@ -233,7 +233,7 @@ int ExportManager::Import(IImport::ImportType type, const std::vector<HANDLE>& c
 	return t;
 }
 
-bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err, bool* differentContact, std::vector<HANDLE>* contacts)
+bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err, bool* differentContact, std::vector<HCONTACT>* contacts)
 {
 	IImport* imp = NULL;
 	switch(type) {
@@ -258,7 +258,7 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 		return false;
 	
 	imp->SetStream(stream);
-	std::vector<HANDLE> v;
+	std::vector<HCONTACT> v;
 	v.push_back(hContact);
 	bool ret = true;
 	int contInFile = imp->IsContactInFile(v);

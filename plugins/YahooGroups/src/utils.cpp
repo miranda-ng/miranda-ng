@@ -132,7 +132,7 @@ void HexToBin(char *inData, ULONG &size, LPBYTE &outData)
 	i = size;
 }
 
-int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, char *szError, char *szResult, int size)
+int GetStringFromDatabase(HCONTACT hContact, char *szModule, char *szSettingName, char *szError, char *szResult, int size)
 {
 	DBVARIANT dbv = {0};
 	int res = 1;
@@ -163,7 +163,7 @@ int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, 
 	return res;
 }
 
-int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, WCHAR *szError, WCHAR *szResult, int count)
+int GetStringFromDatabase(HCONTACT hContact, char *szModule, char *szSettingName, WCHAR *szError, WCHAR *szResult, int count)
 {
 	DBVARIANT dbv = {0};
 	int res = 1;
@@ -204,7 +204,7 @@ int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, 
 	return GetStringFromDatabase(NULL, ModuleName, szSettingName, szError, szResult, count);
 }
 
-TCHAR *GetContactName(HANDLE hContact, char *szProto)
+TCHAR *GetContactName(HCONTACT hContact, char *szProto)
 {
 	CONTACTINFO ctInfo;
 	char proto[200];
@@ -240,12 +240,12 @@ TCHAR *GetContactName(HANDLE hContact, char *szProto)
 	return buffer;
 }
 
-void GetContactProtocol(HANDLE hContact, char *szProto, int size)
+void GetContactProtocol(HCONTACT hContact, char *szProto, int size)
 {
 	GetStringFromDatabase(hContact, "Protocol", "p", NULL, szProto, size);
 }
 
-TCHAR *GetContactID(HANDLE hContact)
+TCHAR *GetContactID(HCONTACT hContact)
 {
 	char protocol[256];
 	GetContactProtocol(hContact, protocol, sizeof(protocol));
@@ -253,7 +253,7 @@ TCHAR *GetContactID(HANDLE hContact)
 	return GetContactID(hContact, protocol);
 }
 
-TCHAR *GetContactID(HANDLE hContact, char *szProto)
+TCHAR *GetContactID(HCONTACT hContact, char *szProto)
 {
 	CONTACTINFO ctInfo;
 
@@ -322,7 +322,7 @@ HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 	TCHAR *tmp;
 
 	int found = 0;
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		GetContactProtocol(hContact, cProtocol, sizeof(cProtocol));
 		szHandle = GetContactID(hContact, cProtocol);
 		

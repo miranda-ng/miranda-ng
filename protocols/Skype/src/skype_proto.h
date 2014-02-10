@@ -26,12 +26,12 @@ struct ContactParam
 
 struct BlockParam
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	CSkypeProto *ppro;
 	bool remove;
 	bool abuse;
 
-	BlockParam(HANDLE hContact, CSkypeProto *ppro) : ppro(ppro) 
+	BlockParam(HCONTACT hContact, CSkypeProto *ppro) : ppro(ppro) 
 	{
 		this->hContact = hContact;
 	}
@@ -184,18 +184,18 @@ public:
 
 	virtual	int    __cdecl Authorize( HANDLE hDbEvent );
 	virtual	int    __cdecl AuthDeny( HANDLE hDbEvent, const TCHAR* szReason );
-	virtual	int    __cdecl AuthRecv( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int    __cdecl AuthRequest( HANDLE hContact, const TCHAR* szMessage );
+	virtual	int    __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT* );
+	virtual	int    __cdecl AuthRequest(HCONTACT hContact, const TCHAR* szMessage );
 
 	virtual	HANDLE __cdecl ChangeInfo( int iInfoType, void* pInfoData );
 
-	virtual	HANDLE __cdecl FileAllow( HANDLE hContact, HANDLE hTransfer, const TCHAR* szPath );
-	virtual	int    __cdecl FileCancel( HANDLE hContact, HANDLE hTransfer );
-	virtual	int    __cdecl FileDeny( HANDLE hContact, HANDLE hTransfer, const TCHAR* szReason );
+	virtual	HANDLE __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath );
+	virtual	int    __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer );
+	virtual	int    __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason );
 	virtual	int    __cdecl FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename );
 
-	virtual	DWORD_PTR __cdecl GetCaps( int type, HANDLE hContact = NULL );
-	virtual	int    __cdecl GetInfo( HANDLE hContact, int infoType );
+	virtual	DWORD_PTR __cdecl GetCaps( int type, HCONTACT hContact = NULL );
+	virtual	int    __cdecl GetInfo(HCONTACT hContact, int infoType );
 
 	virtual	HANDLE __cdecl SearchBasic( const TCHAR* id );
 	virtual	HANDLE __cdecl SearchByEmail( const TCHAR* email );
@@ -203,24 +203,24 @@ public:
 	virtual	HWND   __cdecl SearchAdvanced( HWND owner );
 	virtual	HWND   __cdecl CreateExtendedSearchUI( HWND owner );
 
-	virtual	int    __cdecl RecvContacts( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int    __cdecl RecvFile( HANDLE hContact, PROTORECVFILET* );
-	virtual	int    __cdecl RecvMsg( HANDLE hContact, PROTORECVEVENT* );
-	virtual	int    __cdecl RecvUrl( HANDLE hContact, PROTORECVEVENT* );
+	virtual	int    __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT* );
+	virtual	int    __cdecl RecvFile(HCONTACT hContact, PROTORECVFILET* );
+	virtual	int    __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT* );
+	virtual	int    __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT* );
 
-	virtual	int    __cdecl SendContacts( HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList );
-	virtual	HANDLE __cdecl SendFile( HANDLE hContact, const TCHAR* szDescription, TCHAR** ppszFiles );
-	virtual	int    __cdecl SendMsg( HANDLE hContact, int flags, const char* msg );
-	virtual	int    __cdecl SendUrl( HANDLE hContact, int flags, const char* url );
+	virtual	int    __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
+	virtual	HANDLE __cdecl SendFile(HCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles );
+	virtual	int    __cdecl SendMsg(HCONTACT hContact, int flags, const char* msg );
+	virtual	int    __cdecl SendUrl(HCONTACT hContact, int flags, const char* url );
 
-	virtual	int    __cdecl SetApparentMode( HANDLE hContact, int mode );
+	virtual	int    __cdecl SetApparentMode(HCONTACT hContact, int mode );
 	virtual	int    __cdecl SetStatus( int iNewStatus );
 
-	virtual	HANDLE __cdecl GetAwayMsg( HANDLE hContact );
-	virtual	int    __cdecl RecvAwayMsg( HANDLE hContact, int mode, PROTORECVEVENT* evt );
+	virtual	HANDLE __cdecl GetAwayMsg(HCONTACT hContact );
+	virtual	int    __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT* evt );
 	virtual	int    __cdecl SetAwayMsg( int m_iStatus, const TCHAR* msg );
 
-	virtual	int    __cdecl UserIsTyping( HANDLE hContact, int type );
+	virtual	int    __cdecl UserIsTyping(HCONTACT hContact, int type );
 
 	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
 
@@ -228,7 +228,7 @@ public:
 	static CSkypeProto* InitSkypeProto(const char* protoName, const wchar_t* userName);
 	static int UninitSkypeProto(CSkypeProto* ppro);
 
-	static CSkypeProto* GetContactInstance(HANDLE hContact);
+	static CSkypeProto* GetContactInstance(HCONTACT hContact);
 	static void UninitInstances();
 
 	// icons
@@ -321,9 +321,9 @@ protected:
 	INT_PTR __cdecl SetMyNickName(WPARAM, LPARAM);
 
 	// avatars
-	bool IsAvatarChanged(const SEBinary &avatar, HANDLE hContact = NULL);
+	bool IsAvatarChanged(const SEBinary &avatar, HCONTACT hContact = NULL);
 
-	wchar_t* GetContactAvatarFilePath(HANDLE hContact);
+	wchar_t* GetContactAvatarFilePath(HCONTACT hContact);
 
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
@@ -338,7 +338,7 @@ protected:
 	void	OnMessageReceived(const ConversationRef &conversation, const MessageRef &message);
 
 	void	SyncMessageHystory(const ConversationRef &conversation, const time_t timestamp);
-	void	SyncHistoryCommand(HANDLE hContact, time_t timestamp);
+	void	SyncHistoryCommand(HCONTACT hContact, time_t timestamp);
 	int __cdecl SyncLastDayHistoryCommand(WPARAM wParam, LPARAM lParam);
 	int __cdecl SyncLastWeekHistoryCommand(WPARAM wParam, LPARAM lParam);
 	int __cdecl SyncLastMonthHistoryCommand(WPARAM wParam, LPARAM lParam);
@@ -366,14 +366,14 @@ protected:
 	void UpdateChatUserStatus(const ContactRef &contact);
 	void UpdateChatUserNick(const ContactRef &contact);
 
-	void ChatValidateContact(HANDLE hItem, HWND hwndList, const StringList &contacts);
-	void ChatPrepare(HANDLE hItem, HWND hwndList, const StringList &contacts);
+	void ChatValidateContact(HCONTACT hItem, HWND hwndList, const StringList &contacts);
+	void ChatPrepare(HCONTACT hItem, HWND hwndList, const StringList &contacts);
 
-	void GetInvitedContacts(HANDLE hItem, HWND hwndList, StringList &invitedContacts);	
+	void GetInvitedContacts(HCONTACT hItem, HWND hwndList, StringList &invitedContacts);
 
 	void ChatRoomParseUriComands(const wchar_t *commands);
 
-	void ChatRoomInvite(HANDLE hContact);
+	void ChatRoomInvite(HCONTACT hContact);
 
 	void CloseAllChatSessions();
 
@@ -391,11 +391,11 @@ protected:
 	OBJLIST<ChatRoom> chatRooms;
 
 	// contacts
-	void	UpdateContactAuthState(HANDLE hContact, const ContactRef &contact);
-	void	UpdateContactStatus(HANDLE hContact, const ContactRef &contact);
-	void	UpdateContactClient(HANDLE hContact, const ContactRef &contact);
-	void	UpdateContactOnlineSinceTime(HANDLE hContact, const ContactRef &contact);
-	void	UpdateContactLastEventDate(HANDLE hContact, const ContactRef &contact);
+	void	UpdateContactAuthState(HCONTACT hContact, const ContactRef &contact);
+	void	UpdateContactStatus(HCONTACT hContact, const ContactRef &contact);
+	void	UpdateContactClient(HCONTACT hContact, const ContactRef &contact);
+	void	UpdateContactOnlineSinceTime(HCONTACT hContact, const ContactRef &contact);
+	void	UpdateContactLastEventDate(HCONTACT hContact, const ContactRef &contact);
 
 	void	OnSearchCompleted(HANDLE hSearch);
 	void	OnContactFinded(CContact::Ref contact, HANDLE hSearch);
@@ -403,12 +403,12 @@ protected:
 	void	OnContactChanged(const ContactRef &contact, int prop);
 	void	OnContactListChanged(const ContactRef &contact);
 
-	bool	IsProtoContact(HANDLE hContact);
-	HANDLE	GetContactBySid(const wchar_t* sid);
-	HANDLE	GetContactFromAuthEvent(HANDLE hEvent);
-	HANDLE	AddContact(CContact::Ref contact, bool isTemporary = false);
+	bool	IsProtoContact(HCONTACT hContact);
+	HCONTACT GetContactBySid(const wchar_t* sid);
+	HCONTACT GetContactFromAuthEvent(HANDLE hEvent);
+	HCONTACT AddContact(CContact::Ref contact, bool isTemporary = false);
 
-	bool	IsContactOnline(HANDLE hContact);
+	bool	IsContactOnline(HCONTACT hContact);
 	void	SetAllContactStatus(int status);
 
 	void __cdecl LoadContactList(void*);
@@ -420,25 +420,25 @@ protected:
 	void __cdecl SearchByEmailAsync(void*);
 
 	// profile
-	void	UpdateProfileAvatar(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileAboutText(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileBirthday(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileCity(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileCountry(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileEmails(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileFullName(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileGender(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileHomepage(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileLanguages(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileMobilePhone(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileNick(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfilePhone(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileOfficePhone(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileState(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileStatusMessage(SEObject *obj, HANDLE hContact = NULL);
-	void	UpdateProfileTimezone(SEObject *obj, HANDLE hContact = NULL);
+	void	UpdateProfileAvatar(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileAboutText(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileBirthday(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileCity(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileCountry(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileEmails(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileFullName(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileGender(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileHomepage(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileLanguages(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileMobilePhone(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileNick(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfilePhone(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileOfficePhone(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileState(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileStatusMessage(SEObject *obj, HCONTACT hContact = NULL);
+	void	UpdateProfileTimezone(SEObject *obj, HCONTACT hContact = NULL);
 
-	void	UpdateProfile(SEObject *obj, HANDLE hContact = NULL);
+	void	UpdateProfile(SEObject *obj, HCONTACT hContact = NULL);
 
 	void __cdecl LoadOwnInfo(void*);
 
@@ -456,8 +456,8 @@ protected:
 
 	static bool FileExists(wchar_t *path);
 
-	static void ShowNotification(const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
-	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
+	static void ShowNotification(const wchar_t *message, int flags = 0, HCONTACT hContact = NULL);
+	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, HCONTACT hContact = NULL);
 
 	static void CopyToClipboard(const wchar_t *text);
 
@@ -472,7 +472,7 @@ protected:
 
 	//
 	int SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam);
-	int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
+	int SendBroadcast(HCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 
 	HANDLE	CreateEvent(const char* szService);
 	
@@ -514,11 +514,11 @@ protected:
 	static LRESULT CALLBACK SkypeBlockedOptionsSubProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// database
-	bool IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid, int flag = 0);
+	bool IsMessageInDB(HCONTACT hContact, DWORD timestamp, SEBinary &guid, int flag = 0);
 
-	HANDLE AddDBEvent(HANDLE hContact, WORD type, DWORD time, DWORD flags = 0, DWORD cbBlob = 0, PBYTE pBlob = 0);
+	HANDLE AddDBEvent(HCONTACT hContact, WORD type, DWORD time, DWORD flags = 0, DWORD cbBlob = 0, PBYTE pBlob = 0);
 	void RaiseMessageSentEvent(
-		HANDLE hContact,
+		HCONTACT hContact,
 		DWORD timestamp,
 		SEBinary &guid,
 		const char *message,

@@ -62,10 +62,10 @@ static INT_PTR ShowExportHistory(WPARAM wParam, LPARAM /*lParam*/)
 {
 	if (bUseInternalViewer())
 	{
-		bShowFileViewer((HANDLE)wParam);
+		bShowFileViewer((HCONTACT)wParam);
 		return 0;
 	}
-	bOpenExternaly((HANDLE)wParam);
+	bOpenExternaly((HCONTACT)wParam);
 	return 0;
 }
 

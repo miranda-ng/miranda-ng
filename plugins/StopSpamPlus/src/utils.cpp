@@ -12,7 +12,7 @@ tstring &GetDlgItemString(HWND hwnd, int id)
 	return s;
 }
 
-bool IsExistMyMessage(HANDLE hContact)
+bool IsExistMyMessage(HCONTACT hContact)
 {
 	HANDLE hDbEvent = db_event_first(hContact);
 	while(hDbEvent){
@@ -41,7 +41,7 @@ void SetDlgItemString(HWND hwndDlg, UINT idItem, std::wstring const &str)
 	SetDlgItemTextW(hwndDlg, idItem, str.c_str());
 }
 
-tstring variables_parse(tstring const &tstrFormat, HANDLE hContact){
+tstring variables_parse(tstring const &tstrFormat, HCONTACT hContact){
 	if (ServiceExists(MS_VARS_FORMATSTRING)) {
 		FORMATINFO fi;
 		tstring tstrResult;

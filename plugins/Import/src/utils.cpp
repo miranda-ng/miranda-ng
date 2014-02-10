@@ -35,7 +35,7 @@ BOOL IsProtocolLoaded(char* pszProtocolName)
 // If contact is specified adds it to group
 // ------------------------------------------------
 // Returns 1 if successful and 0 when it fails.
-int CreateGroup(const TCHAR* group, HANDLE hContact)
+int CreateGroup(const TCHAR* group, HCONTACT hContact)
 {
 	if (group == NULL)
 		return 0;
@@ -55,9 +55,9 @@ int CreateGroup(const TCHAR* group, HANDLE hContact)
 
 		if ( !lstrcmp(dbv.ptszVal + 1, tszGrpName + 1 )) {
 			if (hContact)
-				db_set_ts( hContact, "CList", "Group", tszGrpName+1 );
+				db_set_ts(hContact, "CList", "Group", tszGrpName + 1);
 			else
-				AddMessage( LPGENT("Skipping duplicate group %s."), tszGrpName + 1);
+				AddMessage(LPGENT("Skipping duplicate group %s."), tszGrpName + 1);
 
 			db_free(&dbv);
 			return 0;
@@ -75,7 +75,7 @@ int CreateGroup(const TCHAR* group, HANDLE hContact)
 }
 
 // Returns TRUE if the event already exist in the database
-BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei)
+BOOL IsDuplicateEvent(HCONTACT hContact, DBEVENTINFO dbei)
 {
 	static DWORD dwPreviousTimeStamp = -1;
 	static HANDLE hPreviousContact = INVALID_HANDLE_VALUE;

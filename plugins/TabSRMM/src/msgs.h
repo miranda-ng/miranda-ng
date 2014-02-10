@@ -194,7 +194,7 @@ struct TContainerData
 	LONG     uChildMinHeight;
 	int      tBorder;
 	int	   tBorder_outer_left, tBorder_outer_right, tBorder_outer_top, tBorder_outer_bottom;
-	HANDLE   hContactFrom;
+	HCONTACT hContactFrom;
 	BOOL     isCloned;
 	HWND     hwndStatus;
 	int      statusBarHeight;
@@ -237,100 +237,100 @@ struct SESSION_INFO;
 
 struct TWindowData
 {
-   UINT    cbSize;
-   BYTE    bType;
+   UINT     cbSize;
+   BYTE     bType;
    TContainerData *pContainer;		// parent container description structure
-   HWND    hwnd;
-   DWORD   dwFlags;
-   DWORD   dwFlagsEx;
-   HANDLE  hContact;
-   char   *szProto;
-   TCHAR   szMyNickname[130];
-   TCHAR   szStatusBar[100];
-   TCHAR   szStatusBarCustom[100];
-   TCHAR   newtitle[130];        // tab title...
-   TCHAR   szStatus[50];
-   WORD    wStatus;
-   char   *sendBuffer;
-   int     iSendBufferSize;
-   int     iSendLength;				// message length in utf-8 octets
-   HICON   hTabIcon, hTabStatusIcon, hXStatusIcon, hClientIcon, hTaskbarIcon;
-   HICON   iFlashIcon;
-   BOOL    mayFlashTab;
-   BOOL    bTabFlash;
-   HWND    hwndIEView, hwndFlash, hwndIWebBrowserControl, hwndHPP;
-   HWND    hwndContactPic, hwndPanelPic, hwndPanelPicParent;
-   UINT    bbLSideWidth;  //MAD
-   UINT    bbRSideWidth;    //MAD
-   BYTE    kstate[256];
+   HWND     hwnd;
+   DWORD    dwFlags;
+   DWORD    dwFlagsEx;
+	HCONTACT hContact;
+   char    *szProto;
+   TCHAR    szMyNickname[130];
+   TCHAR    szStatusBar[100];
+   TCHAR    szStatusBarCustom[100];
+   TCHAR    newtitle[130];        // tab title...
+   TCHAR    szStatus[50];
+   WORD     wStatus;
+   char    *sendBuffer;
+   int      iSendBufferSize;
+   int      iSendLength;				// message length in utf-8 octets
+   HICON    hTabIcon, hTabStatusIcon, hXStatusIcon, hClientIcon, hTaskbarIcon;
+   HICON    iFlashIcon;
+   BOOL     mayFlashTab;
+   BOOL     bTabFlash;
+   HWND     hwndIEView, hwndFlash, hwndIWebBrowserControl, hwndHPP;
+   HWND     hwndContactPic, hwndPanelPic, hwndPanelPicParent;
+   UINT     bbLSideWidth;  //MAD
+   UINT     bbRSideWidth;    //MAD
+   BYTE     kstate[256];
 
 	SESSION_INFO *si;
 
-	RECT    rcNick, rcUIN, rcStatus, rcPic;
-	HANDLE  hDbEventFirst, hDbEventLast;
-	int     sendMode;
-	int     splitterY, originalSplitterY, dynaSplitter, savedSplitter, savedSplitY, savedDynaSplit;
-	int     multiSplitterX;
-	SIZE    minEditBoxSize;
-	int     showUIElements;
-	int     nTypeSecs;
-	int     nTypeMode;
-	DWORD   nLastTyping;
-	int     showTyping;
-	DWORD   lastMessage;
-	int     iTabID;
-	HKL     hkl;                                    // keyboard layout identifier
-	DWORD   dwTickLastEvent, dwUnread;
-	HBITMAP hOwnPic;
-	SIZE    pic;
-	int     showPic, showInfoPic;
-	BOOL    fMustOffset;
-	BOOL    isHistory;
-	int     doSmileys;
-	UINT    codePage;
-	HICON   hSmileyIcon;
-	int     iLastEventType;
-	time_t  lastEventTime;
-	int     iRealAvatarHeight;
-	int     iButtonBarReallyNeeds;
-	DWORD   dwLastActivity;
-	int     iOpenJobs;
-	int     iCurrentQueueError;
-	BOOL    bIsMeta;
-	HANDLE  hFlashingEvent;
-	TCHAR   myUin[80];
-	BOOL    bNotOnList;
-	int     SendFormat;
-	HANDLE *hQueuedEvents;
-	int     iNextQueuedEvent;
+	RECT     rcNick, rcUIN, rcStatus, rcPic;
+	HANDLE   hDbEventFirst, hDbEventLast;
+	int      sendMode;
+	int      splitterY, originalSplitterY, dynaSplitter, savedSplitter, savedSplitY, savedDynaSplit;
+	int      multiSplitterX;
+	SIZE     minEditBoxSize;
+	int      showUIElements;
+	int      nTypeSecs;
+	int      nTypeMode;
+	DWORD    nLastTyping;
+	int      showTyping;
+	DWORD    lastMessage;
+	int      iTabID;
+	HKL      hkl;                                    // keyboard layout identifier
+	DWORD    dwTickLastEvent, dwUnread;
+	HBITMAP  hOwnPic;
+	SIZE     pic;
+	int      showPic, showInfoPic;
+	BOOL     fMustOffset;
+	BOOL     isHistory;
+	int      doSmileys;
+	UINT     codePage;
+	HICON    hSmileyIcon;
+	int      iLastEventType;
+	time_t   lastEventTime;
+	int      iRealAvatarHeight;
+	int      iButtonBarReallyNeeds;
+	DWORD    dwLastActivity;
+	int      iOpenJobs;
+	int      iCurrentQueueError;
+	BOOL     bIsMeta;
+	HANDLE   hFlashingEvent;
+	TCHAR    myUin[80];
+	BOOL     bNotOnList;
+	int      SendFormat;
+	HANDLE  *hQueuedEvents;
+	int      iNextQueuedEvent;
 #define EVENT_QUEUE_SIZE 10
-	int     iEventQueueSize;
-	LCID    lcid;
-	TCHAR   lcID[10];
-	int     panelWidth;
-	DWORD   idle;
-	HWND    hwndTip;
+	int      iEventQueueSize;
+	LCID     lcid;
+	TCHAR    lcID[10];
+	int      panelWidth;
+	DWORD    idle;
+	HWND     hwndTip;
 	TOOLINFO ti;
-	HANDLE  hTimeZone;
-	DWORD   panelStatusCX;
+	HANDLE   hTimeZone;
+	DWORD    panelStatusCX;
 	COLORREF inputbg;
 	avatarCacheEntry *ace, *ownAce;
-	HANDLE *hHistoryEvents;
-	int     maxHistory, curHistory;
-	HANDLE  hTheme, hThemeIP, hThemeToolbar;
-	char    szMicroLf[128];
-	DWORD   isAutoRTL;
-	int     nMax;            // max message size
-	int     textLen;         // current text len
-	LONG    ipFieldHeight;
-	BOOL    clr_added;
-	BOOL    fIsReattach;
-	WPARAM  wParam;          // used for "delayed" actions like moved splitters in minimized windows
-	LPARAM  lParam;
-	int     iHaveRTLLang;
-	BOOL    fInsertMode;
-	bool    fkeyProcessed;
-	bool    fEditNotesActive;
+	HANDLE  *hHistoryEvents;
+	int      maxHistory, curHistory;
+	HANDLE   hTheme, hThemeIP, hThemeToolbar;
+	char     szMicroLf[128];
+	DWORD    isAutoRTL;
+	int      nMax;            // max message size
+	int      textLen;         // current text len
+	LONG     ipFieldHeight;
+	BOOL     clr_added;
+	BOOL     fIsReattach;
+	WPARAM   wParam;          // used for "delayed" actions like moved splitters in minimized windows
+	LPARAM   lParam;
+	int      iHaveRTLLang;
+	BOOL     fInsertMode;
+	bool     fkeyProcessed;
+	bool     fEditNotesActive;
 
 	CInfoPanel *Panel;
 	CContactCache *cache;
@@ -417,17 +417,18 @@ struct TIconDescW
 
 struct TNewWindowData
 {
-	HANDLE  		hContact;
-	int     		isWchar;
-	const   char*	szInitialText;
-	int     		iTabID;
-	int     		iTabImage;
-	int     		iActivate;
-	TCITEM  		item;
-	TContainerData*	pContainer;
-	BOOL    		bWantPopup;
-	HANDLE  		hdbEvent;
-	HKL				hkl;
+	HCONTACT hContact;
+	int      isWchar;
+	LPCSTR   szInitialText;
+	int      iTabID;
+	int      iTabImage;
+	int      iActivate;
+	TCITEM   item;
+	BOOL     bWantPopup;
+	HANDLE   hdbEvent;
+	HKL      hkl;
+
+	TContainerData *pContainer;
 };
 
 // flags for the container dwFlags
@@ -894,7 +895,7 @@ struct TABSRMM_SessionInfo {
 
 typedef struct {
 	int cbSize;
-	HANDLE hContact;
+	HCONTACT hContact;
 	int uFlags;  // should be same as input data unless 0, then it will be the actual type
 	HWND hwndWindow; //top level window for the contact or NULL if no window exists
 	int uState; // see window states

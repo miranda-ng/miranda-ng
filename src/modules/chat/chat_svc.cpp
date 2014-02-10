@@ -133,20 +133,20 @@ static INT_PTR Service_GetInfo(WPARAM wParam, LPARAM lParam)
 	mir_cslock lck(cs);
 
 	SESSION_INFO *si;
-	if (gci->Flags & BYINDEX)
+	if (gci->Flags & GCF_BYINDEX)
 		si = ci.SM_FindSessionByIndex(gci->pszModule, gci->iItem);
 	else
 		si = ci.SM_FindSession(gci->pszID, gci->pszModule);
 	if (si == NULL)
 		return 1;
 
-	if (gci->Flags & DATA)     gci->dwItemData = si->dwItemData;
-	if (gci->Flags & HCONTACT) gci->hContact = si->hContact;
-	if (gci->Flags & TYPE)     gci->iType = si->iType;
-	if (gci->Flags & COUNT)    gci->iCount = si->nUsersInNicklist;
-	if (gci->Flags & USERS)    gci->pszUsers = ci.SM_GetUsers(si);
-	if (gci->Flags & ID)       gci->pszID = si->ptszID;
-	if (gci->Flags & NAME)     gci->pszName = si->ptszName;
+	if (gci->Flags & GCF_DATA)     gci->dwItemData = si->dwItemData;
+	if (gci->Flags & GCF_HCONTACT) gci->hContact = si->hContact;
+	if (gci->Flags & GCF_TYPE)     gci->iType = si->iType;
+	if (gci->Flags & GCF_COUNT)    gci->iCount = si->nUsersInNicklist;
+	if (gci->Flags & GCF_USERS)    gci->pszUsers = ci.SM_GetUsers(si);
+	if (gci->Flags & GCF_ID)       gci->pszID = si->ptszID;
+	if (gci->Flags & GCF_NAME)     gci->pszName = si->ptszName;
 	return 0;
 }
 

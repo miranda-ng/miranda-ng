@@ -106,7 +106,7 @@ void AddNewGroup(char *newGroup)
 	availableGroups.Add(_strdup(group + 1));
 }
 
-void AddContactToGroup(HANDLE hContact, char *group)
+void AddContactToGroup(HCONTACT hContact, char *group)
 {
 	const int MAX_SIZE = 1024;
 	wchar_t wide[MAX_SIZE] = {0};
@@ -159,13 +159,13 @@ void CreateGroup(char *group)
 	}
 }
 
-void ProcessContacts(void (*callback)(HANDLE, char *), char *protocol)
+void ProcessContacts(void (*callback)(HCONTACT, char *), char *protocol)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		callback(hContact, protocol);
 }
 
-void YahooMoveCallback(HANDLE hContact, char *unused)
+void YahooMoveCallback(HCONTACT hContact, char *unused)
 {
 	char protocol[128] = {0};
 	GetContactProtocol(hContact, protocol, sizeof(protocol));
@@ -182,7 +182,7 @@ void YahooMoveCallback(HANDLE hContact, char *unused)
 	}
 }
 
-void ResetGroupCallback(HANDLE hContact, char *protocol)
+void ResetGroupCallback(HCONTACT hContact, char *protocol)
 {
 	char p[128] = {0};
 	
@@ -197,13 +197,11 @@ void ResetGroupCallback(HANDLE hContact, char *protocol)
 INT_PTR YahooGroupsMoveService(WPARAM wParam, LPARAM lParam)
 {
 	ProcessContacts(YahooMoveCallback, NULL);
-
 	return 0;
 }
 
 INT_PTR YahooGroupsResetService(WPARAM wParam, LPARAM lParam)
 {
 	ProcessContacts(ResetGroupCallback, NULL);
-
 	return 0;
 }

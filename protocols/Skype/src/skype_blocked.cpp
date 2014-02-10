@@ -3,7 +3,7 @@
 
 int CSkypeProto::BlockCommand(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact)
 	{
 		SEString sid(_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
@@ -143,7 +143,7 @@ LRESULT CALLBACK CSkypeProto::SkypeBlockedOptionsSubProc(HWND hwnd, UINT msg, WP
 					param->contact->GetIdentity(data);
 					ptrW sid(::mir_utf8decodeW(data));
 					
-					HANDLE hContact = param->ppro->GetContactBySid(sid);
+					HCONTACT hContact = param->ppro->GetContactBySid(sid);
 					if (::db_get_b(hContact, param->ppro->m_szModuleName, "IsSkypeOut", 0) > 0)
 						::db_set_w(hContact, param->ppro->m_szModuleName, "Status", ID_STATUS_ONTHEPHONE);
 
@@ -252,7 +252,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockedOptionsProc(HWND hwndDlg, UINT msg, WP
 				}
 				///
 				int nItem = 0;
-				HANDLE hContact = NULL;
+				HCONTACT hContact = NULL;
 
 				::EnterCriticalSection(&ppro->contact_search_lock);
 
@@ -296,7 +296,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockedOptionsProc(HWND hwndDlg, UINT msg, WP
 				{
 					int i = ::SendMessage(::GetDlgItem(hwndDlg, IDC_CONTACTS), CB_GETCURSEL, 0, 0);
 
-					HANDLE hContact = (HANDLE)::SendMessage(GetDlgItem(hwndDlg, IDC_CONTACTS), CB_GETITEMDATA, i, 0);
+					HCONTACT hContact = (HCONTACT)::SendMessage(GetDlgItem(hwndDlg, IDC_CONTACTS), CB_GETITEMDATA, i, 0);
 					if ( !hContact)
 						break;
 

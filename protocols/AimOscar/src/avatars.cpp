@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void __cdecl CAimProto::avatar_request_thread(void* param)
 {
-	HANDLE hContact = (HANDLE)param;
+	HCONTACT hContact = (HCONTACT)param;
 
 	char *sn = getStringA(hContact, AIM_KEY_SN);
 	debugLogA("Starting avatar request thread for %s)", sn);
@@ -59,7 +59,7 @@ void __cdecl CAimProto::avatar_upload_thread(void* param)
 	delete req;
 }
 
-void CAimProto::avatar_request_handler(HANDLE hContact, char* hash, unsigned char type)//checks to see if the avatar needs requested
+void CAimProto::avatar_request_handler(HCONTACT hContact, char* hash, unsigned char type)//checks to see if the avatar needs requested
 {
 	if (hContact == NULL)
 	{
@@ -99,15 +99,13 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const
 
 	AI.hContact = contact_from_sn(sn);
 
-	if (data_len > 0)
-	{
+	if (data_len > 0) {
 		const TCHAR *type;
 		AI.format = ProtoGetBufferFormat(data, &type);
 		get_avatar_filename(AI.hContact, AI.filename, SIZEOF(AI.filename), type);
 
 		int fileId = _topen(AI.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY,  _S_IREAD | _S_IWRITE);
-		if (fileId >= 0)
-		{
+		if (fileId >= 0) {
 			_write(fileId, data, data_len);
 			_close(fileId);
 			res = true;
@@ -123,7 +121,7 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const
 	ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, res ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &AI, 0);
 }
 
-int CAimProto::get_avatar_filename(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext)
+int CAimProto::get_avatar_filename(HCONTACT hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext)
 {
 	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST( _T("%miranda_avatarcache%")), m_szModuleName);
 

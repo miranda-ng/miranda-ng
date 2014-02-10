@@ -68,18 +68,19 @@ public:
 	bool	mustDelete();
 	CSendLaterJob();
 	~CSendLaterJob();
-	char	szId[20];									// database key name (time stamp of original send)
-	HANDLE	hContact;									// original contact where the message has been assigned
-	HANDLE  hTargetContact;								// *real* contact (can be different for metacontacts, e.g).
-	HANDLE	hProcess;									// returned from the protocols sending service. needed to find it in the ACK handler
-	time_t	created;									// job was created at this time (important to kill jobs, that are too old)
-	time_t	lastSent;									// time at which the delivery was initiated. used to handle timeouts
-	char	*sendBuffer;								// utf-8 send buffer
-	PBYTE	pBuf;										// conventional send buffer (for non-utf8 protocols)
-	DWORD	dwFlags;
-	int		iSendCount;									// # of times we tried to send it...
-	bool	fSuccess, fFailed;
-	BYTE	bCode;										// error/progress code (for the UI)
+
+	char     szId[20];									// database key name (time stamp of original send)
+	HCONTACT hContact;									// original contact where the message has been assigned
+	HCONTACT hTargetContact;								// *real* contact (can be different for metacontacts, e.g).
+	HANDLE   hProcess;									// returned from the protocols sending service. needed to find it in the ACK handler
+	time_t   created;									// job was created at this time (important to kill jobs, that are too old)
+	time_t   lastSent;									// time at which the delivery was initiated. used to handle timeouts
+	char    *sendBuffer;								// utf-8 send buffer
+	PBYTE    pBuf;										// conventional send buffer (for non-utf8 protocols)
+	DWORD    dwFlags;
+	int      iSendCount;									// # of times we tried to send it...
+	bool     fSuccess, fFailed;
+	BYTE     bCode;										// error/progress code (for the UI)
 };
 
 class CSendLater {
@@ -109,7 +110,7 @@ public:
 	bool   processCurrentJob();
    void   processContacts();
    int    addJob(const char *szSetting, LPARAM lParam);
-   void   addContact(const HANDLE hContact);
+   void   addContact(const HCONTACT hContact);
    HANDLE processAck(const ACKDATA *ack);
 
    void   invokeQueueMgrDlg();
@@ -117,7 +118,7 @@ public:
    static INT_PTR svcQMgr(WPARAM wParam, LPARAM lParam);
 
 private:
-   void    processSingleContact(const HANDLE hContact);
+   void    processSingleContact(const HCONTACT hContact);
    int     sendIt(CSendLaterJob *job);
 
    INT_PTR CALLBACK DlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -126,7 +127,7 @@ private:
 	void    qMgrFillList(bool fClear = true);
    void    qMgrSetupColumns();
    void    qMgrSaveColumns();
-   LRESULT qMgrAddFilter(const HANDLE hContact, const TCHAR* tszNick);
+   LRESULT qMgrAddFilter(const HCONTACT hContact, const TCHAR* tszNick);
 
    LIST<void> m_sendLaterContactList;
    LIST<CSendLaterJob> m_sendLaterJobList;

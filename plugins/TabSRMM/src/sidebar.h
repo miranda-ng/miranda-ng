@@ -194,7 +194,7 @@ private:
    void                  removeAll();
    void                  Invalidate();
    CSideBarButton*       findSession(const TWindowData *dat);
-   CSideBarButton*       findSession(const HANDLE hContact);
+   CSideBarButton*       findSession(const HCONTACT hContact);
 
    LRESULT CALLBACK      wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

@@ -68,7 +68,7 @@ void CAimProto::chat_event(const char* id, const char* sn, int evt, const TCHAR*
 	TCHAR* idt = mir_a2t(id);
 	TCHAR* snt = mir_a2t(sn);
 
-	HANDLE hContact = contact_from_sn(sn);
+	HCONTACT hContact = contact_from_sn(sn);
 	TCHAR* nick = hContact ? (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, 
 		WPARAM(hContact), GCDNF_TCHAR) : snt;
 
@@ -137,7 +137,7 @@ int CAimProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 		case GC_USER_PRIVMESS:
 			{
 				char* sn = mir_t2a(gch->ptszUID);
-				HANDLE hContact = contact_from_sn(sn);
+				HCONTACT hContact = contact_from_sn(sn);
 				mir_free(sn);
 				CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 			}
@@ -160,7 +160,7 @@ int CAimProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 		case GC_USER_NICKLISTMENU: 
 			{
 				char *sn = mir_t2a(gch->ptszUID);
-				HANDLE hContact = contact_from_sn(sn);
+				HCONTACT hContact = contact_from_sn(sn);
 				mir_free(sn);
 
 				switch (gch->dwData) 

@@ -42,7 +42,7 @@ int GetContactDisplayName(WPARAM wParam,LPARAM lParam);
 int CListOptInit(WPARAM wParam,LPARAM lParam);
 int SkinOptInit(WPARAM wParam,LPARAM lParam);
 int ModernSkinOptInit(WPARAM wParam,LPARAM lParam);
-int EventsProcessContactDoubleClick(HANDLE hContact);
+int EventsProcessContactDoubleClick(HCONTACT hContact);
 
 INT_PTR TrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam);
 
@@ -52,7 +52,7 @@ void UninitTrayMenu();
 HIMAGELIST hCListImages = NULL;
 
 //returns normal icon or combined with status overlay. Needs to be destroyed.
-HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
+HICON cliGetIconFromStatusMode(HCONTACT hContact, const char *szProto,int status)
 {
 	// check if options is turned on
 	BYTE trayOption = db_get_b(NULL,"CLUI","XStatusTray",SETTING_TRAYOPTION_DEFAULT);
@@ -81,7 +81,7 @@ HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 	return ske_ImageList_GetIcon(g_himlCListClc,pcli->pfnIconFromStatusMode(szProto,status,hContact),ILD_NORMAL);
 }
 
-int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
+int cli_IconFromStatusMode(const char *szProto,int nStatus, HCONTACT hContact)
 {
 	if (hContact && szProto) {
 		char *szActProto = (char*)szProto;
@@ -89,7 +89,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 		HANDLE hActContact = hContact;
 		if (!db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) && g_szMetaModuleName && !mir_strcmp(szActProto,g_szMetaModuleName)) {
 			// substitute params by mostonline contact datas
-			HANDLE hMostOnlineContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hActContact,0);
+			HCONTACT hMostOnlineContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hActContact, 0);
 			if (hMostOnlineContact) {
 				ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hMostOnlineContact);
 				if (cacheEntry && cacheEntry->m_cache_cszProto) {
@@ -118,7 +118,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 	return corecli.pfnIconFromStatusMode(szProto,nStatus,NULL);
 }
 
-int cli_GetContactIcon(HANDLE hContact)
+int cli_GetContactIcon(HCONTACT hContact)
 {
 	int res = corecli.pfnGetContactIcon(hContact);
 	if (res != -1)

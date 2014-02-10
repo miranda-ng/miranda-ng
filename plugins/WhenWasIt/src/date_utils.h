@@ -42,10 +42,10 @@ bool IsDOBValid(int year, int month, int day);
 
 unsigned int DaysToBirthday(time_t now, int ctYear, int ctMonth, int ctDay);
 int DaysAfterBirthday(time_t now, int ctYear, int ctMonth, int ctDay);
-int GetContactAge(HANDLE hContact);
-int GetContactDOB(HANDLE hContact, int &year, int &month, int &day);
-char GetContactGender(HANDLE hContact);
+int GetContactAge(HCONTACT hContact);
+int GetContactDOB(HCONTACT hContact, int &year, int &month, int &day);
+char GetContactGender(HCONTACT hContact);
 
-int SaveBirthday(HANDLE hContact, int year, int month, int day, int mode);
+int SaveBirthday(HCONTACT hContact, int year, int month, int day, int mode);
 
 #endif //H_WWI_DATE_UTILS_H

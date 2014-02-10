@@ -15,7 +15,7 @@ struct PopupData
 {
 	int cbSize;
 	int flags; // OR of PDF_* flags below
-	HANDLE hContact;
+	HCONTACT hContact;
 	HICON hIcon;
 	union {
 		char *pszTitle;

@@ -50,7 +50,7 @@ int OnDBEventAdded(WPARAM wParam, LPARAM lParam)
 
 int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
 	char *msgblob;
 	POPUPDATA ppdp = {0};
@@ -68,7 +68,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 	// get hContact from DBEVENTINFO as icq_proto.c doesn't pass hContact the usual way for some reason.
 	if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
-		hContact = *((PHANDLE)(dbei->pBlob+sizeof(DWORD)));
+		hContact = (HCONTACT)*(PDWORD(dbei->pBlob+sizeof(DWORD)));
 
 	// get maximum length of the message a protocol supports
 	maxmsglen = CallProtoService(dbei->szModule, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, (LPARAM)hContact);
@@ -524,7 +524,7 @@ void RemoveNotOnListSettings()
 {
 	DBVARIANT dbv;
 	char protoName[256] = {0};
-	HANDLE hContact = db_find_first();
+	HCONTACT hContact = db_find_first();
 	strcpy(protoName, "proto_");
 	while (hContact != NULL) {
 		if (db_get_s(hContact, "Protocol", "p", &dbv) == 0) {

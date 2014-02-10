@@ -32,7 +32,7 @@ void TwitterProto::AddToListWorker(void *p)
 		twitter_user user = twit_.add_friend(name);
 		s.Unlock();
 
-		HANDLE hContact = UsernameToHContact(name);
+		HCONTACT hContact = UsernameToHContact(name);
 		UpdateAvatar(hContact,user.profile_image_url);
 	}
 	catch(const std::exception &e)
@@ -60,7 +60,7 @@ void TwitterProto::UpdateInfoWorker(void *hContact)
 	std::string username;
 
 	DBVARIANT dbv;
-	if(!db_get_s(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
+	if (!db_get_s((HCONTACT)hContact, m_szModuleName, TWITTER_KEY_UN, &dbv))
 	{
 		username = dbv.pszVal;
 		db_free(&dbv);
@@ -73,11 +73,11 @@ void TwitterProto::UpdateInfoWorker(void *hContact)
 		twit_.get_info(username,&user);
 	}
 
-	UpdateAvatar(hContact,user.profile_image_url,true);
-	ProtoBroadcastAck(hContact,ACKTYPE_GETINFO,ACKRESULT_SUCCESS,0,0);
+	UpdateAvatar((HCONTACT)hContact, user.profile_image_url, true);
+	ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, 0, 0);
 }
 
-int TwitterProto::GetInfo(HANDLE hContact,int info_type)
+int TwitterProto::GetInfo(HCONTACT hContact,int info_type)
 {
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 1;
@@ -170,14 +170,14 @@ void TwitterProto::GetAwayMsgWorker(void *hContact)
 		return;
 
 	DBVARIANT dbv;
-	if( !db_get_ts(hContact,"CList","StatusMsg",&dbv)) {
-		ProtoBroadcastAck(hContact,ACKTYPE_AWAYMSG,ACKRESULT_SUCCESS, (HANDLE)1,(LPARAM)dbv.ptszVal);
+	if (!db_get_ts((HCONTACT)hContact, "CList", "StatusMsg", &dbv)) {
+		ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else ProtoBroadcastAck(hContact,ACKTYPE_AWAYMSG,ACKRESULT_FAILED, (HANDLE)1,0);
+	else ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)1, 0);
 }
 
-HANDLE TwitterProto::GetAwayMsg(HANDLE hContact)
+HANDLE TwitterProto::GetAwayMsg(HCONTACT hContact)
 {
 	ForkThread(&TwitterProto::GetAwayMsgWorker, hContact);
 	return (HANDLE)1;
@@ -188,7 +188,7 @@ int TwitterProto::OnContactDeleted(WPARAM wParam,LPARAM lParam)
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
-	const HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	const HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 
 	if(!IsMyContact(hContact))
 		return 0;
@@ -208,7 +208,7 @@ int TwitterProto::OnContactDeleted(WPARAM wParam,LPARAM lParam)
 
 // *************************
 
-bool TwitterProto::IsMyContact(HANDLE hContact,bool include_chat)
+bool TwitterProto::IsMyContact(HCONTACT hContact,bool include_chat)
 {
 	char *proto = GetContactProto(hContact);
 	if(proto && strcmp(m_szModuleName,proto) == 0) {
@@ -219,9 +219,9 @@ bool TwitterProto::IsMyContact(HANDLE hContact,bool include_chat)
 	else return false;
 }
 
-HANDLE TwitterProto::UsernameToHContact(const char *name)
+HCONTACT TwitterProto::UsernameToHContact(const char *name)
 {
-	for(HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	for(HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
 		if( db_get_b(hContact, m_szModuleName, "ChatRoom", 0))
 			continue;
@@ -242,10 +242,10 @@ HANDLE TwitterProto::UsernameToHContact(const char *name)
 	return 0;
 }
 
-HANDLE TwitterProto::AddToClientList(const char *name,const char *status)
+HCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 {
 	// First, check if this contact exists
-	HANDLE hContact = UsernameToHContact(name);
+	HCONTACT hContact = UsernameToHContact(name);
 	if(hContact)
 		return hContact;
 
@@ -253,7 +253,7 @@ HANDLE TwitterProto::AddToClientList(const char *name,const char *status)
 		AddChatContact(name);
 
 	// If not, make a new contact!
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if(hContact)
 	{
 		if(CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)m_szModuleName) == 0)
@@ -282,7 +282,7 @@ HANDLE TwitterProto::AddToClientList(const char *name,const char *status)
 
 void TwitterProto::SetAllContactStatuses(int status)
 {
-	for(HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	for(HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		if( !db_get_b(hContact, m_szModuleName, "ChatRoom", 0))
 			db_set_w(hContact,m_szModuleName,"Status",status);
 

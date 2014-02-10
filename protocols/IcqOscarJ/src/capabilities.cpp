@@ -102,14 +102,14 @@ void NetLog_CapabilityChange(CIcqProto *ppro, const char *szChange, DWORD fdwCap
 
 
 // Deletes all oscar capabilities for a given contact
-void CIcqProto::ClearAllContactCapabilities(HANDLE hContact)
+void CIcqProto::ClearAllContactCapabilities(HCONTACT hContact)
 {
 	setDword(hContact, DBSETTING_CAPABILITIES, 0);
 }
 
 
 // Deletes one or many oscar capabilities for a given contact
-void CIcqProto::ClearContactCapabilities(HANDLE hContact, DWORD fdwCapabilities)
+void CIcqProto::ClearContactCapabilities(HCONTACT hContact, DWORD fdwCapabilities)
 {
 	// Get current capability flags
 	DWORD fdwContactCaps =  getDword(hContact, DBSETTING_CAPABILITIES, 0);
@@ -129,7 +129,7 @@ void CIcqProto::ClearContactCapabilities(HANDLE hContact, DWORD fdwCapabilities)
 
 
 // Sets one or many oscar capabilities for a given contact
-void CIcqProto::SetContactCapabilities(HANDLE hContact, DWORD fdwCapabilities)
+void CIcqProto::SetContactCapabilities(HCONTACT hContact, DWORD fdwCapabilities)
 {
 	// Get current capability flags
 	DWORD fdwContactCaps =  getDword(hContact, DBSETTING_CAPABILITIES, 0);
@@ -149,7 +149,7 @@ void CIcqProto::SetContactCapabilities(HANDLE hContact, DWORD fdwCapabilities)
 
 
 // Returns true if the given contact supports the requested capabilites
-BOOL CIcqProto::CheckContactCapabilities(HANDLE hContact, DWORD fdwCapabilities)
+BOOL CIcqProto::CheckContactCapabilities(HCONTACT hContact, DWORD fdwCapabilities)
 {
 	// Get current capability flags
 	DWORD fdwContactCaps =  getDword(hContact, DBSETTING_CAPABILITIES, 0);
@@ -218,7 +218,7 @@ DWORD GetCapabilitiesFromBuffer(BYTE *pBuffer, int nLength)
 
 // Scans a binary buffer for oscar capabilities and adds them to the contact.
 // You probably want to call ClearAllContactCapabilities() first.
-void CIcqProto::AddCapabilitiesFromBuffer(HANDLE hContact, BYTE *pBuffer, int nLength)
+void CIcqProto::AddCapabilitiesFromBuffer(HCONTACT hContact, BYTE *pBuffer, int nLength)
 {
 	// Get current capability flags
 	DWORD fdwContactCaps = getDword(hContact, DBSETTING_CAPABILITIES, 0);
@@ -241,7 +241,7 @@ void CIcqProto::AddCapabilitiesFromBuffer(HANDLE hContact, BYTE *pBuffer, int nL
 
 // Scans a binary buffer for oscar capabilities and adds them to the contact.
 // You probably want to call ClearAllContactCapabilities() first.
-void CIcqProto::SetCapabilitiesFromBuffer(HANDLE hContact, BYTE *pBuffer, int nLength, BOOL bReset)
+void CIcqProto::SetCapabilitiesFromBuffer(HCONTACT hContact, BYTE *pBuffer, int nLength, BOOL bReset)
 {
 	// Get current capability flags
 	DWORD fdwContactCaps = bReset ? 0 : getDword(hContact, DBSETTING_CAPABILITIES, 0);

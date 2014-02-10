@@ -84,7 +84,7 @@ BOOL SaveAvatar(HANDLE hFile)
 
 struct AVACHANGED {
 	HANDLE hTimer;
-	HANDLE hContact;
+	HCONTACT hContact;
 };
 
 VOID CALLBACK CallSetAvatar(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
@@ -107,11 +107,11 @@ VOID CALLBACK CallSetAvatar(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
 
 int AvaChanged(WPARAM wParam, LPARAM lParam)
 {
-	if (!lParam && db_get_b((HANDLE)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
+	if (!lParam && db_get_b((HCONTACT)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
 		BOOL enqueued = FALSE;
 		AVACHANGED *ach = (AVACHANGED*)malloc(sizeof(AVACHANGED));
 		__try {
-			ach->hContact = (HANDLE)wParam;
+			ach->hContact = (HCONTACT)wParam;
 			enqueued = CreateTimerQueueTimer(&ach->hTimer, NULL, CallSetAvatar, ach, SET_AVATAR_INTERVAL, 0, WT_EXECUTEONLYONCE);
 		}
 		__finally {
@@ -146,7 +146,7 @@ BOOL InitAvaUnit(BOOL init)
 	}
 }
 
-void SetAvatar(HANDLE hContact)
+void SetAvatar(HCONTACT hContact)
 {
 	mir_cslock lck(g_csSetAvatar);
 

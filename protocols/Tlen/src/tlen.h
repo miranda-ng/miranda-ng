@@ -223,18 +223,18 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 
 	virtual	int	     __cdecl Authorize(HANDLE hDbEvent);
 	virtual	int      __cdecl AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason);
-	virtual	int      __cdecl AuthRecv(HANDLE hContact, PROTORECVEVENT*);
-	virtual	int      __cdecl AuthRequest(HANDLE hContact, const PROTOCHAR* szMessage);
+	virtual	int      __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int      __cdecl AuthRequest(HCONTACT hContact, const PROTOCHAR* szMessage);
 
 	virtual	HANDLE   __cdecl ChangeInfo(int iInfoType, void* pInfoData);
 
-	virtual	HANDLE   __cdecl FileAllow(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath);
-	virtual	int      __cdecl FileCancel(HANDLE hContact, HANDLE hTransfer);
-	virtual	int      __cdecl FileDeny(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szReason);
+	virtual	HANDLE   __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath);
+	virtual	int      __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer);
+	virtual	int      __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason);
 	virtual	int      __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename);
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, HANDLE hContact = NULL);
-	virtual	int       __cdecl GetInfo(HANDLE hContact, int infoType);
+	virtual	DWORD_PTR __cdecl GetCaps(int type, HCONTACT hContact = NULL);
+	virtual	int       __cdecl GetInfo(HCONTACT hContact, int infoType);
 
 	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR* id);
 	virtual	HANDLE    __cdecl SearchByEmail(const PROTOCHAR* email);
@@ -242,24 +242,24 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int       __cdecl RecvContacts(HANDLE hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvFile(HANDLE hContact, PROTOFILEEVENT*);
-	virtual	int       __cdecl RecvMsg(HANDLE hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvUrl(HANDLE hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvFile(HCONTACT hContact, PROTOFILEEVENT*);
+	virtual	int       __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	int       __cdecl SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList);
-	virtual	HANDLE    __cdecl SendFile(HANDLE hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles);
-	virtual	int       __cdecl SendMsg(HANDLE hContact, int flags, const char* msg);
-	virtual	int       __cdecl SendUrl(HANDLE hContact, int flags, const char* url);
+	virtual	int       __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
+	virtual	HANDLE    __cdecl SendFile(HCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles);
+	virtual	int       __cdecl SendMsg(HCONTACT hContact, int flags, const char* msg);
+	virtual	int       __cdecl SendUrl(HCONTACT hContact, int flags, const char* url);
 
-	virtual	int       __cdecl SetApparentMode(HANDLE hContact, int mode);
+	virtual	int       __cdecl SetApparentMode(HCONTACT hContact, int mode);
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE    __cdecl GetAwayMsg(HANDLE hContact);
-	virtual	int       __cdecl RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT* evt);
+	virtual	HANDLE    __cdecl GetAwayMsg(HCONTACT hContact);
+	virtual	int       __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT* evt);
 	virtual	int       __cdecl SetAwayMsg(int iStatus, const PROTOCHAR* msg);
 
-	virtual	int       __cdecl UserIsTyping(HANDLE hContact, int type);
+	virtual	int       __cdecl UserIsTyping(HCONTACT hContact, int type);
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 
@@ -381,7 +381,7 @@ typedef struct ThreadDataStruct{
 typedef enum { FT_CONNECTING, FT_INITIALIZING, FT_RECEIVING, FT_DONE, FT_ERROR, FT_DENIED, FT_SWITCH } TLEN_FILE_STATE;
 typedef enum { FT_RECV, FT_SEND} TLEN_FILE_MODE;
 typedef struct TLEN_FILE_TRANSFER_STRUCT{
-	HANDLE hContact;
+	HCONTACT hContact;
 	HANDLE s;
 	NETLIBNEWCONNECTIONPROC_V2 pfnNewConnectionV2;
 	TLEN_FILE_STATE state;
@@ -466,8 +466,8 @@ void TlenSerialInit(TlenProtocol *proto);
 void TlenSerialUninit(TlenProtocol *proto);
 unsigned int TlenSerialNext(TlenProtocol *proto);
 int TlenSend(TlenProtocol *proto, const char *fmt, ...);
-HANDLE TlenHContactFromJID(TlenProtocol *proto, const char *jid);
-char *TlenJIDFromHContact(TlenProtocol *proto, HANDLE hContact);
+HCONTACT TlenHContactFromJID(TlenProtocol *proto, const char *jid);
+char *TlenJIDFromHContact(TlenProtocol *proto, HCONTACT hContact);
 char *TlenLoginFromJID(const char *jid);
 char *TlenResourceFromJID(const char *jid);
 char *TlenNickFromJID(const char *jid);
@@ -481,7 +481,7 @@ void TlenUrlDecode(char *str);
 char *TlenUrlEncode(const char *str);
 char *TlenTextEncode(const char *str);
 char *TlenTextDecode(const char *str);
-void TlenLogMessage(TlenProtocol *proto, HANDLE hContact, DWORD flags, const char *message);
+void TlenLogMessage(TlenProtocol *proto, HCONTACT hContact, DWORD flags, const char *message);
 BOOL IsAuthorized(TlenProtocol *proto, const char *jid);
 //char *TlenGetVersionText();
 time_t TlenIsoToUnixTime(char *stamp);
@@ -490,9 +490,9 @@ void TlenSendPresence(TlenProtocol *proto,int status);
 void TlenStringAppend(char **str, int *sizeAlloced, const char *fmt, ...);
 //char *TlenGetClientJID(char *jid);
 // tlen_misc.cpp
-void TlenDBAddEvent(TlenProtocol *proto, HANDLE hContact, int eventType, DWORD flags, PBYTE pBlob, DWORD cbBlob);
+void TlenDBAddEvent(TlenProtocol *proto, HCONTACT hContact, int eventType, DWORD flags, PBYTE pBlob, DWORD cbBlob);
 void TlenDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick);
-HANDLE TlenDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL temporary);
+HCONTACT TlenDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL temporary);
 // tlen_svc.cpp
 int TlenRunSearch(TlenProtocol *proto);
 // tlen_opt.cpp

@@ -1,6 +1,6 @@
 #include "commonheaders.h"
 
-BOOL isProtoMetaContacts(HANDLE hContact)
+BOOL isProtoMetaContacts(HCONTACT hContact)
 {
 	if (bMetaContacts) {
 		LPSTR proto = GetContactProto(hContact);
@@ -10,7 +10,7 @@ BOOL isProtoMetaContacts(HANDLE hContact)
 	return false;
 }
 
-BOOL isDefaultSubContact(HANDLE hContact)
+BOOL isDefaultSubContact(HCONTACT hContact)
 {
 	if (bMetaContacts)
 		return (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT,(WPARAM)CallService(MS_MC_GETMETACONTACT,(WPARAM)hContact,0),0) == hContact;
@@ -18,29 +18,29 @@ BOOL isDefaultSubContact(HANDLE hContact)
 	return false;
 }
 
-HANDLE getMetaContact(HANDLE hContact)
+HCONTACT getMetaContact(HCONTACT hContact)
 {
 	if (bMetaContacts)
-		return (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+		return (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
 
 	return 0;
 }
 
-HANDLE getMostOnline(HANDLE hContact)
+HCONTACT getMostOnline(HCONTACT hContact)
 {
 	if (bMetaContacts)
-		return (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		return (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 
 	return 0;
 }
 
 // remove all secureim connections on subcontacts
-void DeinitMetaContact(HANDLE hContact)
+void DeinitMetaContact(HCONTACT hContact)
 {
-	HANDLE hMetaContact = isProtoMetaContacts(hContact) ? hContact : getMetaContact(hContact);
+	HCONTACT hMetaContact = isProtoMetaContacts(hContact) ? hContact : getMetaContact(hContact);
  	if (hMetaContact) {
 		for (int i=0; i < CallService(MS_MC_GETNUMCONTACTS,(WPARAM)hMetaContact,0); i++) {
-			HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hMetaContact, i);
+			HCONTACT hSubContact = (HCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hMetaContact, i);
 			if (hSubContact && (isContactSecured(hSubContact)&SECURED))
 				CallContactService(hSubContact,PSS_MESSAGE, PREF_METANODB, (LPARAM)SIG_DEIN);
 		}

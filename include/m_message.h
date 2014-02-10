@@ -62,7 +62,7 @@ extern int hLangpack;
 
 typedef struct {
 	int cbSize;
-	HANDLE hContact;
+	HCONTACT hContact;
 	HWND hwndWindow; // top level window for the contact
 	const char* szModule; // used to get plugin type (which means you could use local if needed)
 	unsigned int uType; // see event types above
@@ -90,7 +90,7 @@ typedef struct {
 
 typedef struct {
 	int cbSize;
-	HANDLE hContact;
+	HCONTACT hContact;
 	int uFlags; // see uflags above
 } MessageWindowInputData;
 
@@ -101,7 +101,7 @@ typedef struct {
 
 typedef struct {
 	int cbSize;
-	HANDLE hContact;
+	HCONTACT hContact;
 	int uFlags;  // should be same as input data unless 0, then it will be the actual type
 	HWND hwndWindow; //top level window for the contact or NULL if no window exists
 	int uState; // see window states
@@ -121,7 +121,7 @@ typedef struct {
 typedef struct {
 	int cbSize;
 	int seq;      // number returned by PSS_MESSAGE
-	HANDLE hContact;
+	HCONTACT hContact;
 	DBEVENTINFO *dbei; // database event written on the basis of message sent
 } MessageWindowEvent;
 
@@ -146,7 +146,7 @@ typedef struct {
 	int cbSize;
 	unsigned int uType; // see popup types above
 	unsigned int uFlags; // used to indicate in which window the popup was requested
-	HANDLE hContact;
+	HCONTACT hContact;
 	HWND hwnd; // window where the popup was requested
 	HMENU hMenu;	// The handle to the menu
 	POINT pt; // The point, in screen coords
@@ -213,7 +213,7 @@ __forceinline void Srmm_RemoveIcon(StatusIconData *sid)
 // if either hIcon, hIconDisabled or szTooltip is null, they will not be modified
 #define MS_MSG_MODIFYICON "MessageAPI/ModifyIcon"
 
-__forceinline void Srmm_ModifyIcon(HANDLE hContact, StatusIconData *sid)
+__forceinline void Srmm_ModifyIcon(HCONTACT hContact, StatusIconData *sid)
 {	CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)sid);
 }
 
@@ -222,7 +222,7 @@ __forceinline void Srmm_ModifyIcon(HANDLE hContact, StatusIconData *sid)
 // returns (StatusIconData*)icon description filled for the required contact
 // don't free this memory.
 
-__forceinline StatusIconData* Srmm_GetNthIcon(HANDLE hContact, int index)
+__forceinline StatusIconData* Srmm_GetNthIcon(HCONTACT hContact, int index)
 {	return (StatusIconData*)CallService("MessageAPI/GetNthIcon", (WPARAM)hContact, index);
 }
 

@@ -4,7 +4,7 @@
 class CQuotesProviderVisitorTendency : public CQuotesProviderVisitor
 {
 public:
-	CQuotesProviderVisitorTendency(HANDLE hContact,TCHAR chr);
+	CQuotesProviderVisitorTendency(HCONTACT hContact,TCHAR chr);
 	
 	bool IsValid()const{return m_bValid;}
 	double GetResult()const{return m_dResult;}
@@ -18,7 +18,7 @@ private:
 	void GetValue(LPCSTR pszDbKeyName);
 
 private:
-	HANDLE m_hContact;
+	HCONTACT m_hContact;
 	TCHAR m_chr;
 	bool m_bValid;
 	double m_dResult;

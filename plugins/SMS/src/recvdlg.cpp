@@ -30,10 +30,10 @@ Enjoy the code and use it smartly!
 //Defnition needed to the SMS window list
 typedef struct
 {
-	LIST_MT_ITEM	lmtListMTItem;
-	HWND			hWnd;
-	HBRUSH			hBkgBrush;
-	HANDLE			hContact;
+	LIST_MT_ITEM lmtListMTItem;
+	HWND hWnd;
+	HBRUSH hBkgBrush;
+	HCONTACT hContact;
 } RECV_SMS_WINDOW_DATA;
 
 INT_PTR CALLBACK	RecvSmsDlgProc	(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lParam);
@@ -134,7 +134,7 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 			{
 				WCHAR wszPhone[MAX_PHONE_LEN];
 				HWND hwndSendSms;
-				HANDLE hContact;
+				HCONTACT hContact;
 
 				hContact=HContactFromPhone(wszPhone,GetDlgItemText(hWndDlg,IDC_NUMBER,wszPhone,SIZEOF(wszPhone)));
 				hwndSendSms=SendSMSWindowIsOtherInstanceHContact(hContact);
@@ -164,7 +164,7 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 
 //This function create a new SMS receive window, and insert it to the list.
 //The function gets void and return the window HWND
-HWND RecvSMSWindowAdd(HANDLE hContact,DWORD dwEventType,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,LPSTR lpszMessage,SIZE_T dwMessageSize)
+HWND RecvSMSWindowAdd(HCONTACT hContact,DWORD dwEventType,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,LPSTR lpszMessage,SIZE_T dwMessageSize)
 {
 	HWND hRet=NULL;
 

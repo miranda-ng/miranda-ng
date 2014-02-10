@@ -61,7 +61,7 @@ int WhatsAppProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-DWORD_PTR WhatsAppProto::GetCaps( int type, HANDLE hContact )
+DWORD_PTR WhatsAppProto::GetCaps( int type, HCONTACT hContact )
 {
 	switch(type)
 	{
@@ -139,7 +139,7 @@ HANDLE WhatsAppProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 	return NULL;
 }
 
-int WhatsAppProto::AuthRequest(HANDLE hContact,const PROTOCHAR *message)
+int WhatsAppProto::AuthRequest(HCONTACT hContact,const PROTOCHAR *message)
 {
 	return this->RequestFriendship((WPARAM)hContact, NULL);
 }
@@ -314,7 +314,7 @@ int WhatsAppProto::RequestFriendship(WPARAM wParam, LPARAM lParam)
 	if (wParam == NULL || isOffline())
 		return 0;
 
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 
 	DBVARIANT dbv;
 	if ( !getString(hContact, WHATSAPP_KEY_ID, &dbv))
@@ -363,7 +363,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, message, wParam, lParam);
 };
 
-void WhatsAppProto::NotifyEvent(const string& title, const string& info, HANDLE contact, DWORD flags, TCHAR* url)
+void WhatsAppProto::NotifyEvent(const string& title, const string& info, HCONTACT contact, DWORD flags, TCHAR* url)
 {
 	TCHAR* rawTitle = mir_a2t_cp(title.c_str(), CP_UTF8);
 	TCHAR* rawInfo = mir_a2t_cp(info.c_str(), CP_UTF8);
@@ -372,7 +372,7 @@ void WhatsAppProto::NotifyEvent(const string& title, const string& info, HANDLE 
 	mir_free(rawInfo);
 }
 
-void WhatsAppProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, TCHAR* szUrl)
+void WhatsAppProto::NotifyEvent(TCHAR* title, TCHAR* info, HCONTACT contact, DWORD flags, TCHAR* szUrl)
 {
 	int ret; int timeout; COLORREF colorBack = 0; COLORREF colorText = 0;
 

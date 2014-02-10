@@ -77,7 +77,7 @@ typedef struct {
     WCHAR *wszExtraText;
     TCHAR *tszExtraText;
   };
-  HANDLE hContact;  // Handle to contact (can be NULL) -> The field "subject"
+  HCONTACT hContact;  // Handle to contact (can be NULL) -> The field "subject"
                     // represents this contact.
   int pCount;  // (output) Number of succesful parsed tokens, needs to be set
                // to 0 before the call
@@ -110,37 +110,33 @@ typedef struct {
 // The returned string needs to be freed using mir_free.
 
 #ifndef VARIABLES_NOHELPER
-__inline static TCHAR *variables_parse(TCHAR *tszFormat, TCHAR *tszExtraText, HANDLE hContact) {
-
-  FORMATINFO fi;
-
-  ZeroMemory(&fi, sizeof(fi));
-  fi.cbSize = sizeof(fi);
-  fi.tszFormat = tszFormat;
-  fi.tszExtraText = tszExtraText;
-  fi.hContact = hContact;
-  fi.flags = FIF_TCHAR;
-
-  return (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
+__inline static TCHAR *variables_parse(TCHAR *tszFormat, TCHAR *tszExtraText, HCONTACT hContact)
+{
+	FORMATINFO fi = { sizeof(fi) };
+	fi.tszFormat = tszFormat;
+	fi.tszExtraText = tszExtraText;
+	fi.hContact = hContact;
+	fi.flags = FIF_TCHAR;
+	return (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
 }
 #endif
 
-__inline static TCHAR *variables_parse_ex(TCHAR *tszFormat, TCHAR *tszExtraText, HANDLE hContact,
+__inline static TCHAR *variables_parse_ex(TCHAR *tszFormat, TCHAR *tszExtraText, HCONTACT hContact,
  										  TCHAR **tszaTemporaryVars, int cbTemporaryVarsSize) {
 
-  FORMATINFO fi;
+	FORMATINFO fi = { 0 };
 
-  ZeroMemory(&fi, sizeof(fi));
-  fi.cbSize = sizeof(fi);
-  fi.tszFormat = tszFormat;
-  fi.tszExtraText = tszExtraText;
-  fi.hContact = hContact;
-  fi.flags = FIF_TCHAR;
-  fi.tszaTemporaryVars = tszaTemporaryVars;
-  fi.cbTemporaryVarsSize = cbTemporaryVarsSize;
-
-  return (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
+	ZeroMemory(&fi, sizeof(fi));
+	fi.cbSize = sizeof(fi);
+	fi.tszFormat = tszFormat;
+	fi.tszExtraText = tszExtraText;
+	fi.hContact = hContact;
+	fi.flags = FIF_TCHAR;
+	fi.tszaTemporaryVars = tszaTemporaryVars;
+	fi.cbTemporaryVarsSize = cbTemporaryVarsSize;
+	return (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
 }
+
 // Helper #2: variables_parsedup
 // ------------------------
 // Returns a _strdup()'ed copy of the unparsed string when Variables is not
@@ -149,9 +145,9 @@ __inline static TCHAR *variables_parse_ex(TCHAR *tszFormat, TCHAR *tszExtraText,
 // Note: The returned pointer needs to be released using your own free().
 
 #ifndef VARIABLES_NOHELPER
-__inline static TCHAR *variables_parsedup(TCHAR *tszFormat, TCHAR *tszExtraText, HANDLE hContact)
+__inline static TCHAR *variables_parsedup(TCHAR *tszFormat, TCHAR *tszExtraText, HCONTACT hContact)
 {
-	if ( ServiceExists(MS_VARS_FORMATSTRING)) {
+	if (ServiceExists(MS_VARS_FORMATSTRING)) {
 		FORMATINFO fi = { sizeof(fi) };
 		fi.tszFormat = tszFormat;
 		fi.tszExtraText = tszExtraText;
@@ -164,10 +160,10 @@ __inline static TCHAR *variables_parsedup(TCHAR *tszFormat, TCHAR *tszExtraText,
 	return tszFormat ? mir_tstrdup(tszFormat) : tszFormat;
 }
 
-__inline static TCHAR *variables_parsedup_ex(TCHAR *tszFormat, TCHAR *tszExtraText, HANDLE hContact,
+__inline static TCHAR *variables_parsedup_ex(TCHAR *tszFormat, TCHAR *tszExtraText, HCONTACT hContact,
 										  TCHAR **tszaTemporaryVars, int cbTemporaryVarsSize)
 {
-	if ( ServiceExists(MS_VARS_FORMATSTRING)) {
+	if (ServiceExists(MS_VARS_FORMATSTRING)) {
 		FORMATINFO fi = { sizeof(fi) };
 		fi.tszFormat = tszFormat;
 		fi.tszExtraText = tszExtraText;

@@ -5,7 +5,7 @@ HINSTANCE g_hInst, g_hIconInst;
 char TEMP[MAX_PATH];
 int  TEMP_SIZE = 0;
 
-HANDLE   g_hEvent[2], g_hCLIcon=0, g_hFolders=0;
+HANDLE   g_hEvent[2], g_hCLIcon, g_hFolders = 0;
 HGENMENU g_hMenu[15];
 
 int iService=0;
@@ -37,7 +37,7 @@ PLUGININFOEX pluginInfoEx = {
 	{0x1B2A39E5, 0xE2F6, 0x494D, {0x95, 0x8D, 0x18, 0x08, 0xFD, 0x11, 0x0D, 0xD5}}
 };
 
-LPSTR myDBGetStringDecode(HANDLE hContact,const char *szModule,const char *szSetting)
+LPSTR myDBGetStringDecode(HCONTACT hContact,const char *szModule,const char *szSetting)
 {
 	char *val = db_get_sa(hContact,szModule,szSetting);
 	if (!val) return NULL;
@@ -47,7 +47,7 @@ LPSTR myDBGetStringDecode(HANDLE hContact,const char *szModule,const char *szSet
 	return buf;
 }
 
-int myDBWriteStringEncode(HANDLE hContact,const char *szModule,const char *szSetting,const char *val)
+int myDBWriteStringEncode(HCONTACT hContact,const char *szModule,const char *szSetting,const char *val)
 {
 	int len = (int)strlen(val)+64;
 	char *buf = (LPSTR)alloca(len);

@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 
-HANDLE AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType)
+HCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType)
 {
 	TCHAR pszGroup[50]; *pszGroup = '\0';
 	ptrT groupName(db_get_tsa(NULL, CHAT_MODULE, "AddToGroup"));
@@ -42,7 +42,7 @@ HANDLE AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisp
 		}
 	}
 
-	HANDLE hContact = ci.FindRoom(pszModule, pszRoom);
+	HCONTACT hContact = ci.FindRoom(pszModule, pszRoom);
 	if (hContact) { //contact exist, make sure it is in the right group
 		if (pszGroup[0]) {
 			ptrT grpName(db_get_tsa(hContact, "CList", "Group"));
@@ -56,7 +56,7 @@ HANDLE AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisp
 	}
 
 	// here we create a new one since no one is to be found
-	if ((hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0)) == NULL)
+	if ((hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0)) == NULL)
 		return NULL;
 
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)pszModule);
@@ -71,7 +71,7 @@ HANDLE AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisp
 	return hContact;
 }
 
-BOOL SetOffline(HANDLE hContact, BOOL bHide)
+BOOL SetOffline(HCONTACT hContact, BOOL bHide)
 {
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
@@ -85,7 +85,7 @@ BOOL SetOffline(HANDLE hContact, BOOL bHide)
 
 BOOL SetAllOffline(BOOL bHide, const char *pszModule)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if (!ci.MM_FindModule(szProto))
 			continue;
@@ -103,7 +103,7 @@ BOOL SetAllOffline(BOOL bHide, const char *pszModule)
 
 int RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (!hContact)
 		return 0;
 
@@ -141,7 +141,7 @@ INT_PTR EventDoubleclicked(WPARAM wParam,LPARAM lParam)
 
 INT_PTR JoinChat(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto) {
@@ -157,7 +157,7 @@ INT_PTR JoinChat(WPARAM wParam, LPARAM lParam)
 
 INT_PTR LeaveChat(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto)
@@ -168,7 +168,7 @@ INT_PTR LeaveChat(WPARAM wParam, LPARAM lParam)
 
 int PrebuildContactMenu(WPARAM wParam, LPARAM)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -201,7 +201,7 @@ INT_PTR PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam)
 	return PrebuildContactMenu(wParam, lParam);
 }
 
-BOOL AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ... )
+BOOL AddEvent(HCONTACT hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ... )
 {
 	TCHAR szBuf[4096];
 
@@ -233,9 +233,9 @@ BOOL AddEvent(HANDLE hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt,
 	return TRUE;
 }
 
-HANDLE FindRoom(const char *pszModule, const TCHAR *pszRoom)
+HCONTACT FindRoom(const char *pszModule, const TCHAR *pszRoom)
 {
-	for (HANDLE hContact = db_find_first(pszModule); hContact; hContact = db_find_next(hContact, pszModule)) {
+	for (HCONTACT hContact = db_find_first(pszModule); hContact; hContact = db_find_next(hContact, pszModule)) {
 		if (!db_get_b(hContact, pszModule, "ChatRoom", 0))
 			continue;
 

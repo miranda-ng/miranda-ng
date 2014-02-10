@@ -104,12 +104,12 @@ int cliGetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex)
 	return -1;
 }
 
-int cliFindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible)
+int cliFindItem(HWND hwnd, ClcData *dat, HANDLE hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
 {
-  return FindItem(hwnd,dat, hItem,contact,subgroup,isVisible,FALSE);
+	return FindItem(hwnd, dat, (HCONTACT)hItem, contact, subgroup, isVisible, FALSE);
 }
 
-int FindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible, BOOL isIgnoreSubcontacts)
+int FindItem(HWND hwnd, ClcData *dat, HCONTACT hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, BOOL isIgnoreSubcontacts)
 {
 	int index = 0, i;
 	int nowVisible = 1;

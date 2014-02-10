@@ -38,12 +38,12 @@ INT_PTR CIcqProto::AddServerContact(WPARAM wParam, LPARAM lParam)
 	if (!m_bSsiEnabled) return 0;
 
 	// Does this contact have a UID?
-	if (!getContactUid((HANDLE)wParam, &dwUin, &szUid) && !getWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0) && !getWord((HANDLE)wParam, DBSETTING_SERVLIST_IGNORE, 0))
+	if (!getContactUid((HCONTACT)wParam, &dwUin, &szUid) && !getWord((HCONTACT)wParam, DBSETTING_SERVLIST_ID, 0) && !getWord((HCONTACT)wParam, DBSETTING_SERVLIST_IGNORE, 0))
 	{ /// TODO: remove possible 0x6A TLV in contact server-list data!!!
 		// Read group from DB
-		char *pszGroup = getContactCListGroup((HANDLE)wParam);
+		char *pszGroup = getContactCListGroup((HCONTACT)wParam);
 
-		servlistAddContact((HANDLE)wParam, pszGroup);
+		servlistAddContact((HCONTACT)wParam, pszGroup);
 		SAFE_FREE((void**)&pszGroup);
 	}
 	return 0;
@@ -88,7 +88,7 @@ INT_PTR CIcqProto::GetInfoSetting(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTGETSETTING *cgs = (DBCONTACTGETSETTING*)lParam;
 	BYTE type = cgs->pValue->type;
-	INT_PTR rc = db_get_s((HANDLE)wParam, cgs->szModule, cgs->szSetting, cgs->pValue, 0);
+	INT_PTR rc = db_get_s((HCONTACT)wParam, cgs->szModule, cgs->szSetting, cgs->pValue, 0);
 	if (rc)
 		return rc;
 	
@@ -458,13 +458,13 @@ INT_PTR CIcqProto::GrantAuthorization(WPARAM wParam, LPARAM lParam)
 		DWORD dwUin;
 		uid_str szUid;
 
-		if (getContactUid((HANDLE)wParam, &dwUin, &szUid))
+		if (getContactUid((HCONTACT)wParam, &dwUin, &szUid))
 			return 0; // Invalid contact
 
 		// send without reason, do we need any ?
 		icq_sendGrantAuthServ(dwUin, szUid, NULL);
 		// auth granted, remove contact menu item
-		delSetting((HANDLE)wParam, "Grant");
+		delSetting((HCONTACT)wParam, "Grant");
 	}
 
 	return 0;
@@ -494,7 +494,7 @@ INT_PTR CIcqProto::RevokeAuthorization(WPARAM wParam, LPARAM lParam)
 		DWORD dwUin;
 		uid_str szUid;
 
-		if (getContactUid((HANDLE)wParam, &dwUin, &szUid))
+		if (getContactUid((HCONTACT)wParam, &dwUin, &szUid))
 			return 0; // Invalid contact
 
 		if (MessageBox(NULL, TranslateT("Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients."), TranslateT("Confirmation"), MB_ICONQUESTION | MB_YESNO) != IDYES)
@@ -636,7 +636,7 @@ INT_PTR CIcqProto::SetPassword(WPARAM wParam, LPARAM lParam)
 HANDLE CIcqProto::AddToListByUIN(DWORD dwUin, DWORD dwFlags)
 {
 	int bAdded;
-	HANDLE hContact = HContactFromUIN(dwUin, &bAdded);
+	HCONTACT hContact = HContactFromUIN(dwUin, &bAdded);
 	if (hContact)
 	{
 		if (!(dwFlags & PALF_TEMPORARY) && db_get_b(hContact, "CList", "NotOnList", 0))
@@ -655,7 +655,7 @@ HANDLE CIcqProto::AddToListByUIN(DWORD dwUin, DWORD dwFlags)
 HANDLE CIcqProto::AddToListByUID(const char *szUID, DWORD dwFlags)
 {
 	int bAdded;
-	HANDLE hContact = HContactFromUID(0, szUID, &bAdded);
+	HCONTACT hContact = HContactFromUID(0, szUID, &bAdded);
 	if (hContact)
 	{
 		if (!(dwFlags & PALF_TEMPORARY) && db_get_b(hContact, "CList", "NotOnList", 0))
@@ -673,7 +673,7 @@ HANDLE CIcqProto::AddToListByUID(const char *szUID, DWORD dwFlags)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::ICQAddRecvEvent(HANDLE hContact, WORD wType, PROTORECVEVENT* pre, DWORD cbBlob, PBYTE pBlob, DWORD flags)
+void CIcqProto::ICQAddRecvEvent(HCONTACT hContact, WORD wType, PROTORECVEVENT* pre, DWORD cbBlob, PBYTE pBlob, DWORD flags)
 {
 	if (pre->flags & PREF_CREATEREAD) 
 		flags |= DBEF_READ;
@@ -714,7 +714,7 @@ INT_PTR __cdecl CIcqProto::IcqCheckCapability(WPARAM wParam, LPARAM lParam)
 {
     int res = 0;
     DBVARIANT dbvariant;
-    HANDLE hContact = (HANDLE)wParam;
+	 HCONTACT hContact = (HCONTACT)wParam;
     ICQ_CUSTOMCAP *icqCustomCap = (ICQ_CUSTOMCAP *)lParam;
 
 	 db_get(hContact, m_szModuleName, "CapBuf", &dbvariant);

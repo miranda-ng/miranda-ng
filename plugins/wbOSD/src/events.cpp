@@ -72,7 +72,7 @@ int ProtoAck(WPARAM,LPARAM lparam)
 
 int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE) wParam;
+	HCONTACT hContact = (HCONTACT) wParam;
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
 	logmsg("ContactSettingChanged1");
@@ -98,7 +98,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 
 int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE) wParam;
+	HCONTACT hContact = (HCONTACT) wParam;
 	WORD oldStatus = LOWORD(lParam);
 	WORD newStatus = HIWORD(lParam);
 	DWORD ann=db_get_dw(NULL,THIS_MODULE,"announce", DEFAULT_ANNOUNCE);

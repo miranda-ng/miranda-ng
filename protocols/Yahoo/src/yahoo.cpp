@@ -228,7 +228,7 @@ void CYahooProto::logout()
 	poll_loop = 0;
 }
 
-void CYahooProto::AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg)
+void CYahooProto::AddBuddy(HCONTACT hContact, const char *group, const TCHAR *msg)
 {
 	DBVARIANT dbv;
 	char *fname=NULL, *lname=NULL, *ident=NULL, *who, *u_msg;
@@ -282,9 +282,9 @@ void CYahooProto::AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg)
 	mir_free(u_msg);
 }
 
-HANDLE CYahooProto::getbuddyH(const char *yahoo_id)
+HCONTACT CYahooProto::getbuddyH(const char *yahoo_id)
 {
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
 		if (getString(hContact, YAHOO_LOGINID, &dbv))
 			continue;
@@ -300,12 +300,12 @@ HANDLE CYahooProto::getbuddyH(const char *yahoo_id)
 	return NULL;
 }
 
-HANDLE CYahooProto::add_buddy( const char *yahoo_id, const char *yahoo_name, int protocol, DWORD flags )
+HCONTACT CYahooProto::add_buddy(const char *yahoo_id, const char *yahoo_name, int protocol, DWORD flags)
 {
 	char *yid = NEWSTR_ALLOCA(yahoo_id);
 	strlwr(yid);
 	
-	HANDLE hContact = getbuddyH(yid);
+	HCONTACT hContact = getbuddyH(yid);
 	if (hContact != NULL) {
 		LOG(("[add_buddy] Found buddy id: %s, handle: %p", yid, hContact));
 		if ( !(flags & PALF_TEMPORARY) && db_get_b(hContact, "CList", "NotOnList", 1)) {
@@ -319,7 +319,7 @@ HANDLE CYahooProto::add_buddy( const char *yahoo_id, const char *yahoo_name, int
 
 	//not already there: add
 	LOG(("[add_buddy] Adding buddy id: %s (Nick: %s), flags: %lu", yid, yahoo_name, flags));
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact,(LPARAM)m_szModuleName);
 	setString( hContact, YAHOO_LOGINID, yid );
 	Set_Protocol( hContact, protocol );
@@ -340,7 +340,7 @@ HANDLE CYahooProto::add_buddy( const char *yahoo_id, const char *yahoo_name, int
 const char* CYahooProto::find_buddy( const char *yahoo_id)
 {
 	static char nick[128];
-	HANDLE hContact;
+	HCONTACT hContact;
 	DBVARIANT dbv;
 
 	hContact = getbuddyH(yahoo_id);
@@ -371,7 +371,7 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 						away, 
 						idle);
 	
-	HANDLE hContact = getbuddyH(who);
+	HCONTACT hContact = getbuddyH(who);
 	if (hContact == NULL) {
 		debugLogA("Buddy Not Found. Adding...");
 		hContact = add_buddy(who, who, protocol, 0);
@@ -426,7 +426,7 @@ void CYahooProto::ext_status_logon(const char *who, int protocol, int stat, cons
 	
 	ext_status_changed(who, protocol, stat, msg, away, idle, mobile, utf8);
 
-	HANDLE hContact = getbuddyH(who);
+	HCONTACT hContact = getbuddyH(who);
 	if (hContact == NULL) {
 		debugLogA("[ext_status_logon] Can't find handle for %s??? PANIC!!!", who);
 		return;
@@ -569,7 +569,7 @@ void CYahooProto::ext_got_audible(const char *me, const char *who, const char *a
 	
 	LOG(("ext_got_audible for %s aud: %s msg:'%s' hash: %s", who, aud, msg, aud_hash));
 
-	HANDLE hContact = getbuddyH(who);
+	HCONTACT hContact = getbuddyH(who);
 	if (hContact == NULL) {
 		LOG(("Buddy Not Found. Skipping avatar update"));
 		return;
@@ -600,7 +600,7 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 	if (stealthlist)
 		stealth = y_strsplit(stealthlist, ",", -1);
 
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
 		if (getString( hContact, YAHOO_LOGINID, &dbv))
 			continue;
@@ -645,7 +645,7 @@ void CYahooProto::ext_got_buddies(YList * buds)
 
 	debugLogA(("[ext_got_buddies] Walking buddy list..."));
 	for (; buds; buds = buds->next) {
-		HANDLE hContact;
+		HCONTACT hContact;
 
 		yahoo_buddy *bud = ( yahoo_buddy* )buds->data;
 		if (bud == NULL) {
@@ -719,7 +719,7 @@ void CYahooProto::ext_rejected(const char *who, const char *msg)
 {
 	LOG(("[ext_rejected] who: %s  msg: %s", who, msg));
 
-	HANDLE hContact = getbuddyH(who);
+	HCONTACT hContact = getbuddyH(who);
 	if (hContact != NULL) {
 		/*
 		* Make sure the contact is temporary so we could delete it w/o extra traffic
@@ -739,7 +739,7 @@ void CYahooProto::ext_rejected(const char *who, const char *msg)
 
 void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status, int auth)
 {
-	HANDLE hContact=getbuddyH(who);
+	HCONTACT hContact=getbuddyH(who);
 	
 	LOG(("[ext_buddy_added] %s authorized you as %s group: %s status: %d auth: %d", who, myid, group, status, auth));
 	
@@ -778,7 +778,7 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 {
 	char nick[128];
 	BYTE *pCurBlob;
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 	PROTORECVEVENT pre = { 0 };
 
 	/* NOTE: Msg is actually in UTF8 unless stated otherwise!! */
@@ -869,7 +869,7 @@ void CYahooProto::ext_typing_notify(const char *me, const char *who, int protoco
 {
 	LOG(("[ext_typing_notify] me: '%s' who: '%s' protocol: %d stat: %d ", me, who, protocol, stat));
 
-	HANDLE hContact = getbuddyH(who);
+	HCONTACT hContact = getbuddyH(who);
 	
 	if (hContact) 
 		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)stat?10:0);
@@ -904,7 +904,7 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 	LOG(("[ext_game_notify] me: %s, who: %s, stat: %d, msg: %s", me, who, stat, msg));
 	/* FIXME - Not Implemented - this informs you someone else is playing on Yahoo! Games */
 	/* Also Stubbed in Sample Client */
-	HANDLE hContact = getbuddyH(who);
+	HCONTACT hContact = getbuddyH(who);
 	if (!hContact)
 		return;
 

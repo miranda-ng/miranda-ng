@@ -198,7 +198,7 @@ LRESULT CALLBACK MraPopupDlgProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM l
 	return DefWindowProc(hWndDlg, msg, wParam, lParam);
 }
 
-void CMraProto::MraPopupShowFromContactW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPCWSTR lpszMessage)
+void CMraProto::MraPopupShowFromContactW(HCONTACT hContact, DWORD dwType, DWORD dwFlags, LPCWSTR lpszMessage)
 {
 	WCHAR szTitle[MAX_CONTACTNAME];
 	CMStringW szNick, szEmail;
@@ -212,7 +212,7 @@ void CMraProto::MraPopupShowFromContactW(HANDLE hContact, DWORD dwType, DWORD dw
 	MraPopupShowW(hContact, dwType, dwFlags, szTitle, lpszMessage);
 }
 
-void CMraProto::MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszTitle, LPCWSTR lpszMessage)
+void CMraProto::MraPopupShowW(HCONTACT hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszTitle, LPCWSTR lpszMessage)
 {
 	if (getByte("PopupsEnabled", MRA_DEFAULT_POPUPS_ENABLED))
 	if (GetBit(getDword("PopupsEventFilter", MRA_DEFAULT_POPUPS_EVENT_FILTER), dwType))

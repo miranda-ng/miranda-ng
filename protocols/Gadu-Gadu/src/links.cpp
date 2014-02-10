@@ -99,7 +99,7 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 
 	if (ServiceExists(MS_MSG_SENDMESSAGE))
 	{
-		HANDLE hContact = gg->getcontact(uin, 1, 0, NULL);
+		HCONTACT hContact = gg->getcontact(uin, 1, 0, NULL);
 		if (hContact != NULL)
 			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 	}

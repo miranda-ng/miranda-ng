@@ -139,8 +139,8 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 	if ((int)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
 		DWORD caps = (DWORD)CallProtoServiceInt(NULL,ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (caps & PF1_SERVERCLIST) {
-			for (HANDLE hContact = db_find_first(ack->szModule); hContact; ) {
-				HANDLE hNext = db_find_next(hContact, ack->szModule);
+			for (HCONTACT hContact = db_find_first(ack->szModule); hContact; ) {
+				HCONTACT hNext = db_find_next(hContact, ack->szModule);
 				if (db_get_b(hContact, "CList", "Delete", 0))
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 				hContact = hNext;
@@ -152,12 +152,12 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-HICON fnGetIconFromStatusMode(HANDLE hContact, const char *szProto, int status)
+HICON fnGetIconFromStatusMode(HCONTACT hContact, const char *szProto, int status)
 {
 	return ImageList_GetIcon(hCListImages, cli.pfnIconFromStatusMode(szProto, status, hContact), ILD_NORMAL);
 }
 
-int fnIconFromStatusMode(const char *szProto, int status, HANDLE)
+int fnIconFromStatusMode(const char *szProto, int status, HCONTACT)
 {
 	int index, i;
 
@@ -176,7 +176,7 @@ int fnIconFromStatusMode(const char *szProto, int status, HANDLE)
 	return 1;
 }
 
-int fnGetContactIcon(HANDLE hContact)
+int fnGetContactIcon(HCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	return cli.pfnIconFromStatusMode(szProto,
@@ -185,7 +185,7 @@ int fnGetContactIcon(HANDLE hContact)
 
 static INT_PTR GetContactIcon(WPARAM wParam, LPARAM)
 {
-	return cli.pfnGetContactIcon((HANDLE)wParam);
+	return cli.pfnGetContactIcon((HCONTACT)wParam);
 }
 
 static void AddProtoIconIndex(PROTOACCOUNT* pa)
@@ -245,7 +245,7 @@ static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 static INT_PTR ContactDoubleClicked(WPARAM wParam, LPARAM)
 {
 	// Try to process event myself
-	if (cli.pfnEventsProcessContactDoubleClick((HANDLE)wParam) == 0)
+	if (cli.pfnEventsProcessContactDoubleClick((HCONTACT)wParam) == 0)
 		return 0;
 
 	// Allow third-party plugins to process a dblclick
@@ -253,7 +253,7 @@ static INT_PTR ContactDoubleClicked(WPARAM wParam, LPARAM)
 		return 0;
 
 	// Otherwise try to execute the default action
-	TryProcessDoubleClick((HANDLE)wParam);
+	TryProcessDoubleClick((HCONTACT)wParam);
 	return 0;
 }
 
@@ -425,7 +425,7 @@ extern int sortByStatus, sortByProto;
 
 static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE a = (HANDLE)wParam, b = (HANDLE) lParam;
+	HCONTACT a = (HCONTACT)wParam, b = (HCONTACT)lParam;
 	TCHAR namea[128], *nameb;
 	int statusa, statusb;
 	char *szProto1, *szProto2;
@@ -433,8 +433,8 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 
 	szProto1 = GetContactProto(a);
 	szProto2 = GetContactProto(b);
-	statusa = db_get_w((HANDLE) a, SAFESTRING(szProto1), "Status", ID_STATUS_OFFLINE);
-	statusb = db_get_w((HANDLE) b, SAFESTRING(szProto2), "Status", ID_STATUS_OFFLINE);
+	statusa = db_get_w(a, SAFESTRING(szProto1), "Status", ID_STATUS_OFFLINE);
+	statusb = db_get_w(b, SAFESTRING(szProto2), "Status", ID_STATUS_OFFLINE);
 
 	if (sortByProto) {
 		/* deal with statuses, online contacts have to go above offline */
@@ -533,8 +533,8 @@ void UnloadContactListModule()
 		return;
 
 	//remove transitory contacts
-	for (HANDLE hContact = db_find_first(); hContact != NULL; ) {
-		HANDLE hNext = db_find_next(hContact);
+	for (HCONTACT hContact = db_find_first(); hContact != NULL; ) {
+		HCONTACT hNext = db_find_next(hContact);
 		if (db_get_b(hContact, "CList", "NotOnList", 0))
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
 		hContact = hNext;

@@ -53,7 +53,7 @@ int OnIconPressed(WPARAM wParam, LPARAM lParam)
 	if ( !(sicd->flags & MBCF_RIGHTBUTTON) && !lstrcmpA(sicd->szModule, ModuleName) 
 		&& db_get_b(NULL, ModuleName, "ChangeInMW", 0))
 	{
-		int nh = sicd->dwId; HANDLE hContact = (HANDLE)wParam; 
+		int nh = sicd->dwId; HCONTACT hContact = (HCONTACT)wParam; 
 		
 		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = ModuleName;
@@ -62,7 +62,7 @@ int OnIconPressed(WPARAM wParam, LPARAM lParam)
 		Srmm_ModifyIcon(hContact, &sid);	
 		
 		nh = (nh + 1) % 4;
-		db_set_b((HANDLE)wParam, ModuleName, "SweepHistory", (BYTE)nh);
+		db_set_b((HCONTACT)wParam, ModuleName, "SweepHistory", (BYTE)nh);
 
 		sid.dwId = nh;
 		sid.flags = 0;
@@ -111,7 +111,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Srmm_AddIcon(&sid);
 	
 	// for new contacts
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ZeroMemory(&sid,sizeof(sid));
 
 		sweep = db_get_b(hContact, ModuleName, "SweepHistory", 0);

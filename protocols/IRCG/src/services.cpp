@@ -90,7 +90,7 @@ void CIrcProto::InitMainMenus(void)
 static HGENMENU hUMenuChanSettings, hUMenuWhois, hUMenuDisconnect, hUMenuIgnore;
 static HANDLE hMenuChanSettings, hMenuWhois, hMenuDisconnect, hMenuIgnore;
 
-static CIrcProto* IrcGetInstanceByHContact(HANDLE hContact)
+static CIrcProto* IrcGetInstanceByHContact(HCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 	if (szProto == NULL)
@@ -105,25 +105,25 @@ static CIrcProto* IrcGetInstanceByHContact(HANDLE hContact)
 
 static INT_PTR IrcMenuChanSettings(WPARAM wParam, LPARAM lParam)
 {
-	CIrcProto *ppro = IrcGetInstanceByHContact((HANDLE)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact((HCONTACT)wParam);
 	return (ppro) ? ppro->OnMenuChanSettings(wParam, lParam) : 0;
 }
 
 static INT_PTR IrcMenuWhois(WPARAM wParam, LPARAM lParam)
 {
-	CIrcProto *ppro = IrcGetInstanceByHContact((HANDLE)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact((HCONTACT)wParam);
 	return (ppro) ? ppro->OnMenuWhois(wParam, lParam) : 0;
 }
 
 static INT_PTR IrcMenuDisconnect(WPARAM wParam, LPARAM lParam)
 {
-	CIrcProto *ppro = IrcGetInstanceByHContact((HANDLE)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact((HCONTACT)wParam);
 	return (ppro) ? ppro->OnMenuDisconnect(wParam, lParam) : 0;
 }
 
 static INT_PTR IrcMenuIgnore(WPARAM wParam, LPARAM lParam)
 {
-	CIrcProto *ppro = IrcGetInstanceByHContact((HANDLE)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact((HCONTACT)wParam);
 	return (ppro) ? ppro->OnMenuIgnore(wParam, lParam) : 0;
 }
 
@@ -134,7 +134,7 @@ int IrcPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	Menu_ShowItem(hUMenuDisconnect, false);
 	Menu_ShowItem(hUMenuIgnore, false);
 
-	CIrcProto *ppro = IrcGetInstanceByHContact((HANDLE)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact((HCONTACT)wParam);
 	return (ppro) ? ppro->OnMenuPreBuild(wParam, lParam) : 0;
 }
 
@@ -196,7 +196,7 @@ INT_PTR __cdecl CIrcProto::OnDoubleclicked(WPARAM, LPARAM lParam)
 
 	CLISTEVENT* pcle = (CLISTEVENT*)lParam;
 
-	if (getByte((HANDLE)pcle->hContact, "DCC", 0) != 0) {
+	if (getByte(pcle->hContact, "DCC", 0) != 0) {
 		DCCINFO* pdci = (DCCINFO*)pcle->lParam;
 		CMessageBoxDlg* dlg = new CMessageBoxDlg(this, pdci);
 		dlg->Show();
@@ -213,7 +213,7 @@ INT_PTR __cdecl CIrcProto::OnDoubleclicked(WPARAM, LPARAM lParam)
 
 int __cdecl CIrcProto::OnContactDeleted(WPARAM wp, LPARAM)
 {
-	HANDLE hContact = (HANDLE)wp;
+	HCONTACT hContact = (HCONTACT)wp;
 	if (!hContact)
 		return 0;
 
@@ -233,9 +233,9 @@ int __cdecl CIrcProto::OnContactDeleted(WPARAM wp, LPARAM)
 				PostIrcMessage(_T("/PART %s %s"), dbv.ptszVal, m_userInfo);
 		}
 		else {
-			BYTE bDCC = getByte((HANDLE)wp, "DCC", 0);
+			BYTE bDCC = getByte((HCONTACT)wp, "DCC", 0);
 			if (bDCC) {
-				CDccSession* dcc = FindDCCSession((HANDLE)wp);
+				CDccSession* dcc = FindDCCSession((HCONTACT)wp);
 				if (dcc)
 					dcc->Disconnect();
 			}
@@ -252,8 +252,8 @@ INT_PTR __cdecl CIrcProto::OnJoinChat(WPARAM wp, LPARAM)
 		return 0;
 
 	DBVARIANT dbv;
-	if (!getTString((HANDLE)wp, "Nick", &dbv)) {
-		if (getByte((HANDLE)wp, "ChatRoom", 0) == GCW_CHATROOM)
+	if (!getTString((HCONTACT)wp, "Nick", &dbv)) {
+		if (getByte((HCONTACT)wp, "ChatRoom", 0) == GCW_CHATROOM)
 			PostIrcMessage(_T("/JOIN %s"), dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -266,8 +266,8 @@ INT_PTR __cdecl CIrcProto::OnLeaveChat(WPARAM wp, LPARAM)
 		return 0;
 
 	DBVARIANT dbv;
-	if (!getTString((HANDLE)wp, "Nick", &dbv)) {
-		if (getByte((HANDLE)wp, "ChatRoom", 0) == GCW_CHATROOM) {
+	if (!getTString((HCONTACT)wp, "Nick", &dbv)) {
+		if (getByte((HCONTACT)wp, "ChatRoom", 0) == GCW_CHATROOM) {
 			PostIrcMessage(_T("/PART %s %s"), dbv.ptszVal, m_userInfo);
 
 			CMString S = MakeWndID(dbv.ptszVal);
@@ -285,7 +285,7 @@ INT_PTR __cdecl CIrcProto::OnMenuChanSettings(WPARAM wp, LPARAM)
 	if (!wp)
 		return 0;
 
-	HANDLE hContact = (HANDLE)wp;
+	HCONTACT hContact = (HCONTACT)wp;
 	DBVARIANT dbv;
 	if (!getTString(hContact, "Nick", &dbv)) {
 		PostIrcMessageWnd(dbv.ptszVal, NULL, _T("/CHANNELMANAGER"));
@@ -301,7 +301,7 @@ INT_PTR __cdecl CIrcProto::OnMenuWhois(WPARAM wp, LPARAM)
 
 	DBVARIANT dbv;
 
-	if (!getTString((HANDLE)wp, "Nick", &dbv)) {
+	if (!getTString((HCONTACT)wp, "Nick", &dbv)) {
 		PostIrcMessage(_T("/WHOIS %s %s"), dbv.ptszVal, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -310,7 +310,7 @@ INT_PTR __cdecl CIrcProto::OnMenuWhois(WPARAM wp, LPARAM)
 
 INT_PTR __cdecl CIrcProto::OnMenuDisconnect(WPARAM wp, LPARAM)
 {
-	CDccSession* dcc = FindDCCSession((HANDLE)wp);
+	CDccSession* dcc = FindDCCSession((HCONTACT)wp);
 	if (dcc)
 		dcc->Disconnect();
 	return 0;
@@ -321,7 +321,7 @@ INT_PTR __cdecl CIrcProto::OnMenuIgnore(WPARAM wp, LPARAM)
 	if (!wp)
 		return 0;
 
-	HANDLE hContact = (HANDLE)wp;
+	HCONTACT hContact = (HCONTACT)wp;
 	DBVARIANT dbv;
 	if (!getTString(hContact, "Nick", &dbv)) {
 		if (!isChatRoom(hContact)) {
@@ -865,7 +865,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 
 			if (gcmi->Type == MENU_ON_NICKLIST) {
 				CONTACT user = { (TCHAR*)gcmi->pszUID, NULL, NULL, false, false, false };
-				HANDLE hContact = CList_FindContact(&user);
+				HCONTACT hContact = CList_FindContact(&user);
 
 				gcmi->nItems = SIZEOF(nickItems);
 				gcmi->Item = nickItems;
@@ -934,7 +934,7 @@ int __cdecl CIrcProto::OnPreShutdown(WPARAM, LPARAM)
 int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
 {
 	DBVARIANT dbv;
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -978,7 +978,7 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
 
 int __cdecl CIrcProto::OnDbSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (hContact == NULL || !IsConnected())
 		return 0;
 

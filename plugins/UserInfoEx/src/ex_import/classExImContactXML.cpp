@@ -219,7 +219,7 @@ int CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
 
 		const int cnt = DB::MetaContact::SubCount(_hContact);
 		const int def = DB::MetaContact::SubDefNum(_hContact);
-		HANDLE hSubContact = DB::MetaContact::Sub(_hContact, def);
+		HCONTACT hSubContact = DB::MetaContact::Sub(_hContact, def);
 
 		// export default subcontact
 		if (hSubContact && vContact.fromDB(hSubContact))
@@ -488,7 +488,7 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 
 	// delete last contact
 	db_free(&_dbvUID);
-	_hContact = INVALID_HANDLE_VALUE;
+	_hContact = (HCONTACT)INVALID_HANDLE_VALUE;
 
 	_xmlNode = xContact;
 	MIR_FREE(_pszAMPro); ampro(xContact->Attribute("ampro"));
@@ -511,7 +511,7 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 			if (vSub = xSub) {
 				// identify metacontact by the first valid subcontact in xmlfile
 				if (_hContact == INVALID_HANDLE_VALUE && vSub.handle() != INVALID_HANDLE_VALUE) {
-					HANDLE hMeta = (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)vSub.handle(), NULL);
+					HCONTACT hMeta = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)vSub.handle(), NULL);
 					if (hMeta != NULL) {
 						_hContact = hMeta;
 						break;
@@ -610,7 +610,7 @@ int CExImContactXML::ImportContact()
 						LPGENT("You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?"));
 					if (result == IDYES) {
 						DB::Contact::Delete(_hContact);
-						_hContact = INVALID_HANDLE_VALUE;
+						_hContact = (HCONTACT)INVALID_HANDLE_VALUE;
 					}
 				}
 				return ERROR_ABORTED;
@@ -674,9 +674,9 @@ int CExImContactXML::Import(BYTE keepMetaSubContact)
 					return result;
 
 				// convert default subcontact to metacontact
-				_hContact = (HANDLE)CallService(MS_MC_CONVERTTOMETA, (WPARAM)vContact.handle(), NULL);
+				_hContact = (HCONTACT)CallService(MS_MC_CONVERTTOMETA, (WPARAM)vContact.handle(), NULL);
 				if (_hContact == NULL) {
-					_hContact = INVALID_HANDLE_VALUE;
+					_hContact = (HCONTACT)INVALID_HANDLE_VALUE;
 					return ERROR_CONVERT_METACONTACT;
 				}
 
@@ -753,7 +753,7 @@ int CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
 				MIR_FREE(ptszMetaNick);
 				if (result == IDYES) {
 					DB::Contact::Delete(_hContact);
-					_hContact = INVALID_HANDLE_VALUE;
+					_hContact = (HCONTACT)INVALID_HANDLE_VALUE;
 				}
 			}
 			return ERROR_ADDTO_METACONTACT;

@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-int FacebookProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
+int FacebookProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT *pre)
 {
 	ForkThread(&FacebookProto::ReadMessageWorker, hContact);
 	CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
@@ -76,7 +76,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 	send_chat *data = static_cast<send_chat*>(p);
 	std::string err_message = "";
 
-	HANDLE hContact = ChatIDToHContact(std::tstring(_A2T(data->chat_id.c_str())));
+	HCONTACT hContact = ChatIDToHContact(std::tstring(_A2T(data->chat_id.c_str())));
 	if (hContact) {		
 		std::string tid;
 		DBVARIANT dbv;
@@ -107,7 +107,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 	delete data;
 }
 
-int FacebookProto::SendMsg(HANDLE hContact, int flags, const char *msg)
+int FacebookProto::SendMsg(HCONTACT hContact, int flags, const char *msg)
 {
 	// TODO: msg comes as Unicode (retyped wchar_t*), why should we convert it as ANSI to UTF-8? o_O
 	if (flags & PREF_UNICODE)
@@ -118,7 +118,7 @@ int FacebookProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 	return facy.msgid_;
 }
 
-int FacebookProto::UserIsTyping(HANDLE hContact,int type)
+int FacebookProto::UserIsTyping(HCONTACT hContact,int type)
 { 
 	if (hContact && isOnline())
 		ForkThread(&FacebookProto::SendTypingWorker, new send_typing(hContact, type));
@@ -168,7 +168,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 	if (p == NULL)
 		return;
 	
-	HANDLE hContact = static_cast<HANDLE>(p);
+	HCONTACT hContact = static_cast<HCONTACT>(p);
 	
 	if (getBool(FACEBOOK_KEY_KEEP_UNREAD, 0) || getBool(hContact, FACEBOOK_KEY_KEEP_UNREAD, 0))
 		return;
@@ -186,7 +186,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 	facy.flap(REQUEST_MARK_READ, &data);
 }
 
-void FacebookProto::ParseSmileys(std::string message, HANDLE hContact)
+void FacebookProto::ParseSmileys(std::string message, HCONTACT hContact)
 {
 	if (!getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS))
 		return;

@@ -10,14 +10,6 @@
 
 #include "stdafx.h"
 
-#include <sys/types.h>
-//#include <netinet/in.h>
-//#include <netdb.h>
-//#include <unistd.h>
-#include <string>
-//#include <arpa/inet.h>
-#include <winsock2.h>
-
 #include "socketexception.h"
 
 

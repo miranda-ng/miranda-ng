@@ -690,7 +690,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 				cbi.dwID = 0;
 
 				if (DialogBoxParam(ghInst, MAKEINTRESOURCE(dlgID), GetParent(hwnd), dlgProc, (LPARAM)&cbi) == IDOK) {
-					HANDLE hContact = NULL;
+					HCONTACT hContact = NULL;
 							
 					SendMessage(hDlgDetails, PSM_GETCONTACT, NULL, (LPARAM)&hContact);
 					if (hContact) cbi.wFlags |= CTRLF_HASCUSTOM;
@@ -748,7 +748,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 				}
 
 				if (DialogBoxParam(ghInst, MAKEINTRESOURCE(dlgID), GetParent(hwnd), dlgProc, (LPARAM)&cbi) == IDOK) {
-					HANDLE hContact;
+					HCONTACT hContact;
 
 					SendMessage(hDlgDetails, PSM_GETCONTACT, NULL, (LPARAM)&hContact);
 					if (hContact) cbi.wFlags |= CTRLF_HASCUSTOM;
@@ -826,7 +826,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 				{
 					TCHAR szVal[MAXDATASIZE] = { 0 };
 					int ccVal;
-					HANDLE hContact;
+					HCONTACT hContact;
 					HWND hDlgDetails = GetParent(GetParent(hwnd));
 							
 					EnableWindow(cbex->hBtnDel, GetWindowTextLength(cbex->hEdit) > 0);
@@ -1124,7 +1124,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		**/
 	case CBEXM_ENABLEITEM:
 		if (cbex->iSelectedItem >= 0 && cbex->iSelectedItem < cbex->numItems) {
-			HANDLE hContact;
+			HCONTACT hContact;
 			BYTE bEnabled;
 				
 			PSGetContact(GetParent(hwnd), hContact);
@@ -1277,7 +1277,7 @@ int CtrlContactAddItemFromDB(
 				HWND hCtrl,
 				LPCSTR szIcon,
 				LPTSTR szItem,
-				HANDLE hContact,
+				HCONTACT hContact,
 				LPCSTR pszModule,
 				LPCSTR pszProto,
 				LPCSTR szSettingVal)
@@ -1330,7 +1330,7 @@ int CtrlContactAddMyItemsFromDB(
 				HWND hCtrl,
 				LPCSTR szIcon,
 				WORD wForcedFlags,
-				HANDLE hContact,
+				HCONTACT hContact,
 				LPCSTR pszModule,
 				LPCSTR pszProto,
 				LPCSTR szFormatCat,
@@ -1406,7 +1406,7 @@ int CtrlContactAddMyItemsFromDB(
  **/
 int CtrlContactWriteItemToDB(
 				HWND hCtrl,
-				HANDLE hContact,
+				HCONTACT hContact,
 				LPCSTR pszModule,
 				LPCSTR pszProto,
 				LPCSTR pszSetting)
@@ -1448,7 +1448,7 @@ int CtrlContactWriteItemToDB(
 int CtrlContactWriteMyItemsToDB(
 				HWND hCtrl,
 				int iFirstItem,
-				HANDLE hContact,
+				HCONTACT hContact,
 				LPCSTR pszModule,
 				LPCSTR pszProto,
 				LPCSTR szFormatCat,

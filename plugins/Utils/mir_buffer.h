@@ -439,7 +439,7 @@ class Buffer
 };
 
 
-static void ReplaceVars(Buffer<TCHAR> *buffer, HANDLE hContact, TCHAR **variables, int numVariables)
+static void ReplaceVars(Buffer<TCHAR> *buffer, HCONTACT hContact, TCHAR **variables, int numVariables)
 {
 	if (buffer->len < 3)
 		return;
@@ -502,7 +502,7 @@ static void ReplaceVars(Buffer<TCHAR> *buffer, HANDLE hContact, TCHAR **variable
 }
 
 
-static void ReplaceTemplate(Buffer<TCHAR> *out, HANDLE hContact, TCHAR *templ, TCHAR **vars, int numVars)
+static void ReplaceTemplate(Buffer<TCHAR> *out, HCONTACT hContact, TCHAR *templ, TCHAR **vars, int numVars)
 {
 
 	if (ServiceExists(MS_VARS_FORMATSTRING))

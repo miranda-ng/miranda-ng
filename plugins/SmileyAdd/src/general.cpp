@@ -211,11 +211,11 @@ void DestroyGdiPlus(void)
 	}
 }
 
-HANDLE DecodeMetaContact(HANDLE hContact)
+HCONTACT DecodeMetaContact(HCONTACT hContact)
 {
 	if (hContact == NULL) return NULL;
-	HANDLE hReal = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
-	if (hReal == NULL || hReal == (HANDLE)CALLSERVICE_NOTFOUND)
+	HCONTACT hReal = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+	if (hReal == NULL || hReal == (HCONTACT)CALLSERVICE_NOTFOUND)
 		hReal = hContact;
 
 	return hReal;

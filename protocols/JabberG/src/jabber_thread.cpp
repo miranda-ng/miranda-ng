@@ -559,7 +559,7 @@ recvRest:
 			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 			// Set all contacts to offline
-			for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+			for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 				SetContactOfflineStatus(hContact);
 
 			mir_free(m_szJabberJID);
@@ -995,7 +995,7 @@ void CJabberProto::OnProcessPubsubEvent(HXML node)
 
 	m_pepServices.ProcessEvent(from, eventNode);
 
-	HANDLE hContact = HContactFromJID(from);
+	HCONTACT hContact = HContactFromJID(from);
 	if (!hContact)
 		return;
 
@@ -1030,7 +1030,7 @@ void CJabberProto::OnProcessPubsubEvent(HXML node)
 }
 
 // returns 0, if error or no events
-DWORD JabberGetLastContactMessageTime(HANDLE hContact)
+DWORD JabberGetLastContactMessageTime(HCONTACT hContact)
 {
 	// TODO: time cache can improve performance
 	HANDLE hDbEvent = db_event_last(hContact);
@@ -1051,9 +1051,9 @@ DWORD JabberGetLastContactMessageTime(HANDLE hContact)
 	return dwTime;
 }
 
-HANDLE CJabberProto::CreateTemporaryContact(const TCHAR *szJid, JABBER_LIST_ITEM* chatItem)
+HCONTACT CJabberProto::CreateTemporaryContact(const TCHAR *szJid, JABBER_LIST_ITEM* chatItem)
 {
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 	if (chatItem) {
 		const TCHAR *p = _tcschr(szJid, '/');
 		if (p != NULL && p[1] != '\0')
@@ -1101,7 +1101,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 	if (m_messageManager.HandleMessagePermanent(node, info))
 		return;
 
-	HANDLE hContact = HContactFromJID(from);
+	HCONTACT hContact = HContactFromJID(from);
 	JABBER_LIST_ITEM *chatItem = ListGetItemPtr(LIST_CHATROOM, from);
 	if (chatItem) {
 		HXML xCaptcha = xmlGetChild(node, "captcha");
@@ -1353,12 +1353,12 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 				const TCHAR *group = xmlGetText(xmlGetChild(iNode, _T("group")));
 				if (action && jid && _tcsstr(jid, chkJID)) {
 					if (!_tcscmp(action, _T("add"))) {
-						HANDLE hContact = DBCreateContact(jid, nick, FALSE, FALSE);
+						HCONTACT hContact = DBCreateContact(jid, nick, FALSE, FALSE);
 						if (group)
 							db_set_ts(hContact, "CList", "Group", group);
 					}
 					else if (!_tcscmp(action, _T("delete"))) {
-						HANDLE hContact = HContactFromJID(jid);
+						HCONTACT hContact = HContactFromJID(jid);
 						if (hContact)
 							CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 					}
@@ -1462,7 +1462,7 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 			r->m_tszCapsNode = mir_tstrdup(szNode);
 			r->m_tszCapsVer = mir_tstrdup(szVer);
 			r->m_tszCapsExt = mir_tstrdup(szExt);
-			HANDLE hContact = HContactFromJID(from);
+			HCONTACT hContact = HContactFromJID(from);
 			if (hContact)
 				UpdateMirVer(hContact, r);
 		}
@@ -1477,7 +1477,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 	if (item == NULL)
 		return;
-	HANDLE hContact = HContactFromJID(jid);
+	HCONTACT hContact = HContactFromJID(jid);
 	if (hContact == NULL)
 		return;
 
@@ -1535,7 +1535,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 
 void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	HXML showNode;
 	JABBER_LIST_ITEM *item;
 	LPCTSTR from, show;

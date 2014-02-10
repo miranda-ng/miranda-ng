@@ -80,9 +80,9 @@ private:
 
 	int getMirandaSendModeFlag(char* targetHandleSzProto);
 
-	HANDLE sendMessageMiranda(HANDLE hContact, int mirandaSendModeFlag, char* msgBuffer);
+	HANDLE sendMessageMiranda(HCONTACT hContact, int mirandaSendModeFlag, char* msgBuffer);
 
-	void addMessageToDB(HANDLE hContact, int mirandaSendModeFlag, char* msgBuffer, std::size_t bufSize, char* targetHandleSzProto);
+	void addMessageToDB(HCONTACT hContact, int mirandaSendModeFlag, char* msgBuffer, std::size_t bufSize, char* targetHandleSzProto);
 
 	void setStatusOnAccount(ActionThreadArgStruct* args);
 
@@ -100,7 +100,7 @@ private:
 
 	typedef struct {
 		const char* szModule;
-		HANDLE hContact;
+		HCONTACT hContact;
 		int result;
 		const char* errorDesc;
 	} MIRFOXACKDATA;

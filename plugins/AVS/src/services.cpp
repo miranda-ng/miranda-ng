@@ -31,22 +31,22 @@ INT_PTR GetAvatarBitmap(WPARAM wParam, LPARAM lParam)
 	if (wParam == 0 || g_shutDown || fei == NULL)
 		return 0;
 
-	HANDLE hContact = (HANDLE) wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	hContact = GetContactThatHaveTheAvatar(hContact);
 
 	// Get the node
 	CacheNode *node = FindAvatarInCache(hContact, TRUE);
 	if (node == NULL || !node->loaded)
-		return (INT_PTR) GetProtoDefaultAvatar(hContact);
+		return (INT_PTR)GetProtoDefaultAvatar(hContact);
 	else
-		return (INT_PTR) &node->ace;
+		return (INT_PTR)&node->ace;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR ProtectAvatar(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	BYTE was_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 	if (fei == NULL || was_locked == (BYTE)lParam)      // no need for redundant lockings...
@@ -118,7 +118,7 @@ UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	return FALSE;
 }
 
-static INT_PTR avSetAvatar(HANDLE hContact, TCHAR *tszPath)
+static INT_PTR avSetAvatar(HCONTACT hContact, TCHAR *tszPath)
 {
 	BYTE is_locked = 0;
 	TCHAR FileName[MAX_PATH], szBackupName[MAX_PATH];
@@ -188,12 +188,12 @@ static INT_PTR avSetAvatar(HANDLE hContact, TCHAR *tszPath)
 
 INT_PTR SetAvatar(WPARAM wParam, LPARAM lParam)
 {
-	return avSetAvatar((HANDLE)wParam, _A2T((const char*)lParam ));
+	return avSetAvatar((HCONTACT)wParam, _A2T((const char*)lParam));
 }
 
 INT_PTR SetAvatarW(WPARAM wParam, LPARAM lParam)
 {
-	return avSetAvatar((HANDLE)wParam, (TCHAR*)lParam );
+	return avSetAvatar((HCONTACT)wParam, (TCHAR*)lParam);
 }
 
 /*
@@ -932,7 +932,7 @@ static void ReloadMyAvatar(LPVOID lpParam)
 		if (g_MyAvatars[i].hbmPic)
 			DeleteObject(g_MyAvatars[i].hbmPic);
 
-		if (CreateAvatarInCache((HANDLE)-1, &g_MyAvatars[i], myAvatarProto) != -1)
+		if (CreateAvatarInCache((HCONTACT)-1, &g_MyAvatars[i], myAvatarProto) != -1)
 			NotifyEventHooks(hMyAvatarChanged, (WPARAM)myAvatarProto, (LPARAM)&g_MyAvatars[i]);
 		else
 			NotifyEventHooks(hMyAvatarChanged, (WPARAM)myAvatarProto, 0);

@@ -53,9 +53,9 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 int   TSAPI NEN_ReadOptions(NEN_OPTIONS *options);
 int   TSAPI NEN_WriteOptions(NEN_OPTIONS *options);
-int   TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const TCHAR *szStatus, HANDLE hContact, DWORD fromEvent);
+int   TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const TCHAR *szStatus, HCONTACT hContact, DWORD fromEvent);
 int   TSAPI PopupPreview(NEN_OPTIONS *pluginOptions);
-void  TSAPI DeletePopupsForContact(HANDLE hContact, DWORD dwMask);
+void  TSAPI DeletePopupsForContact(HCONTACT hContact, DWORD dwMask);
 
 /*
  * tray stuff
@@ -65,7 +65,7 @@ void  TSAPI CreateSystrayIcon(int create);
 void  TSAPI FlashTrayIcon(HICON hIcon);
 void  TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced);
 void  TSAPI LoadFavoritesAndRecent();
-void  TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const char *szProto, TCHAR *szStatus,
+void  TSAPI AddContactToFavorites(HCONTACT hContact, const TCHAR *szNickname, const char *szProto, TCHAR *szStatus,
                                      WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu);
 void  TSAPI CreateTrayMenus(int mode);
 void  TSAPI HandleMenuEntryFromhContact(int iSelection);
@@ -74,15 +74,15 @@ void  TSAPI HandleMenuEntryFromhContact(int iSelection);
  * gneric msgwindow functions(creation, container management etc.)
  */
 
-BOOL  TSAPI IsUtfSendAvailable(HANDLE hContact);
-HWND  TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, int isSend,
+BOOL  TSAPI IsUtfSendAvailable(HCONTACT hContact);
+HWND  TSAPI CreateNewTabForContact(TContainerData *pContainer, HCONTACT hContact, int isSend,
                                      const char *pszInitialText, BOOL bActivateTAb, BOOL bPopupContainer, BOOL bWantPopup, HANDLE hdbEvent);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 void  TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iNum);
 void  TSAPI CreateImageList(BOOL bInitial);
 
-TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, HANDLE hContact);
-TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hContactFrom);
+TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, HCONTACT hContact);
+TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HCONTACT hContactFrom);
 TContainerData* TSAPI FindContainerByName(const TCHAR *name);
 
 int   TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd);
@@ -100,7 +100,7 @@ TContainerData* TSAPI RemoveContainerFromList(TContainerData *pContainer);
 void  TSAPI CloseAllContainers();
 void  TSAPI DeleteContainer(int iIndex);
 void  TSAPI RenameContainer(int iIndex, const TCHAR *newName);
-int   TSAPI GetContainerNameForContact(HANDLE hContact, TCHAR *szName, int iNameLen);
+int   TSAPI GetContainerNameForContact(HCONTACT hContact, TCHAR *szName, int iNameLen);
 HMENU TSAPI BuildContainerMenu();
 void  TSAPI BuildCodePageList();
 void  TSAPI PreTranslateDates();
@@ -108,7 +108,7 @@ void  TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT 
 void  TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WPARAM wParam, LPARAM lParam, BYTE iType = 0);
 void  TSAPI GetDefaultContainerTitleFormat();
 void  TSAPI SetAeroMargins(TContainerData *pContainer);
-int   TABSRMM_FireEvent(HANDLE hContact, HWND hwnd, unsigned int type, unsigned int subType);
+int   TABSRMM_FireEvent(HCONTACT hContact, HWND hwnd, unsigned int type, unsigned int subType);
 
 INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam);
 
@@ -154,7 +154,7 @@ int   TSAPI UnloadTSButtonModule();
  * debugging support
  */
 
-int   _DebugPopup(HANDLE hContact, const TCHAR *fmt, ...);
+int   _DebugPopup(HCONTACT hContact, const TCHAR *fmt, ...);
 int   _DebugMessage(HWND hwndDlg, TWindowData *dat, const char *fmt, ...);
 
 // themes
@@ -175,7 +175,7 @@ int   TSAPI LoadLocalFlags(HWND hwnd, TWindowData *dat);
 int   TN_ModuleInit();
 int   TN_OptionsInitialize(WPARAM wParam, LPARAM lParam);
 int   TN_ModuleDeInit();
-void  TN_TypingMessage(HANDLE hContact, int iMode);
+void  TN_TypingMessage(HCONTACT hContact, int iMode);
 
 // hotkeys
 

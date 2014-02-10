@@ -84,7 +84,7 @@ int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 	case GC_USER_PRIVMESS:
 	{
 		char* sn = mir_t2a(hook->ptszUID);
-		HANDLE hContact = ContactIDToHContact(sn);
+		HCONTACT hContact = ContactIDToHContact(sn);
 		mir_free(sn);
 		CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
 		
@@ -112,7 +112,7 @@ int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 	case GC_USER_NICKLISTMENU: 
 	{
 		char *sn = mir_t2a(hook->ptszUID);
-		HANDLE hContact = ContactIDToHContact(sn);
+		HCONTACT hContact = ContactIDToHContact(sn);
 		mir_free(sn);
 
 		switch (hook->dwData) 
@@ -194,7 +194,7 @@ void FacebookProto::RemoveChatContact(const TCHAR *tchat_id, const char *id)
 char *FacebookProto::GetChatUsers(const TCHAR *chat_id)
 {
 	GC_INFO gci = {0};
-	gci.Flags = USERS;
+	gci.Flags = GCF_USERS;
 	gci.pszModule = m_szModuleName;
 	gci.pszID = chat_id;
 	CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
@@ -248,7 +248,7 @@ void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 
 INT_PTR FacebookProto::OnJoinChat(WPARAM wParam,LPARAM suppress)
 {	
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	// TODO: load info from server + old history,...
 

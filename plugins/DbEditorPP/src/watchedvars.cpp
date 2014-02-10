@@ -1,6 +1,6 @@
 #include "headers.h"
 
-int addSettingToWatchList(HANDLE hContact, char* module, char* setting)
+int addSettingToWatchList(HCONTACT hContact, char* module, char* setting)
 {
 	if (WatchListArray.count == WatchListArray.size)
 	{
@@ -36,7 +36,7 @@ void addwatchtolist(HWND hwnd2list, struct DBsetting *lParam)
 	int index;
 	char data[32], tmp[32];
 	DBVARIANT *dbv = &(lParam->dbv);
-	HANDLE hContact = lParam->hContact;
+	HCONTACT hContact = lParam->hContact;
 	char *module = lParam->module;
 	char *setting = lParam->setting;
 	if (!module) return;
@@ -263,7 +263,7 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 									if (ListView_GetItem(GetDlgItem(hwnd,IDC_VARS),&lvi))
 									{
 										ItemInfo ii;
-										ii.hContact = (HANDLE)lvi.lParam;
+										ii.hContact = (HCONTACT)lvi.lParam;
 										ListView_GetItemText(GetDlgItem(hwnd,IDC_VARS),hti.iItem,1,ii.module,128);
 										ListView_GetItemText(GetDlgItem(hwnd,IDC_VARS),hti.iItem,2,ii.setting,128);
 										ii.type = FW_SETTINGNAME;
@@ -282,7 +282,7 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 
-void popupWatchedVar(HANDLE hContact,const char* module,const char* setting)
+void popupWatchedVar(HCONTACT hContact,const char* module,const char* setting)
 {
 	HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT));
 	char lpzContactName[MAX_CONTACTNAME];
@@ -329,7 +329,7 @@ void popupWatchedVar(HANDLE hContact,const char* module,const char* setting)
 	db_free(&dbv);
 
 	POPUPDATA ppd = { 0 };
-	ppd.lchContact = (HANDLE)hContact;
+	ppd.lchContact = (HCONTACT)hContact;
 	ppd.lchIcon = hIcon;
 	lstrcpyn(ppd.lpzContactName, lpzContactName,MAX_CONTACTNAME);
 	lstrcpyn(ppd.lpzText, lpzText,MAX_SECONDLINE);

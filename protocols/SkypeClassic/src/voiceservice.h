@@ -10,7 +10,7 @@ BOOL HasVoiceService();
 void VoiceServiceInit();
 void VoiceServiceExit();
 void VoiceServiceModulesLoaded();
-void NofifyVoiceService(HANDLE hContact, char *callId, int state) ;
+void NofifyVoiceService(HCONTACT hContact, char *callId, int state) ;
 
 
 

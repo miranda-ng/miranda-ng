@@ -310,7 +310,7 @@ void CIcqProto::icq_setstatus(WORD wStatus, const char *szStatusNote)
 }
 
 
-DWORD CIcqProto::icq_SendChannel1Message(DWORD dwUin, char *szUID, HANDLE hContact, char *pszText, cookie_message_data *pCookieData)
+DWORD CIcqProto::icq_SendChannel1Message(DWORD dwUin, char *szUID, HCONTACT hContact, char *pszText, cookie_message_data *pCookieData)
 {
 	icq_packet packet;
 	WORD wPacketLength;
@@ -355,7 +355,7 @@ DWORD CIcqProto::icq_SendChannel1Message(DWORD dwUin, char *szUID, HANDLE hConta
 }
 
 
-DWORD CIcqProto::icq_SendChannel1MessageW(DWORD dwUin, char *szUID, HANDLE hContact, WCHAR *pszText, cookie_message_data *pCookieData)
+DWORD CIcqProto::icq_SendChannel1MessageW(DWORD dwUin, char *szUID, HCONTACT hContact, WCHAR *pszText, cookie_message_data *pCookieData)
 {
 	icq_packet packet;
 	WORD wMessageLen;
@@ -405,7 +405,7 @@ DWORD CIcqProto::icq_SendChannel1MessageW(DWORD dwUin, char *szUID, HANDLE hCont
 }
 
 
-DWORD CIcqProto::icq_SendChannel2Message(DWORD dwUin, HANDLE hContact, const char *szMessage, int nBodyLen, WORD wPriority, cookie_message_data *pCookieData, char *szCap)
+DWORD CIcqProto::icq_SendChannel2Message(DWORD dwUin, HCONTACT hContact, const char *szMessage, int nBodyLen, WORD wPriority, cookie_message_data *pCookieData, char *szCap)
 {
 	icq_packet packet;
 
@@ -433,7 +433,7 @@ DWORD CIcqProto::icq_SendChannel2Message(DWORD dwUin, HANDLE hContact, const cha
 }
 
 
-DWORD CIcqProto::icq_SendChannel2Contacts(DWORD dwUin, char *szUid, HANDLE hContact, const char *pData, WORD wDataLen, const char *pNames, WORD wNamesLen, cookie_message_data *pCookieData)
+DWORD CIcqProto::icq_SendChannel2Contacts(DWORD dwUin, char *szUid, HCONTACT hContact, const char *pData, WORD wDataLen, const char *pNames, WORD wNamesLen, cookie_message_data *pCookieData)
 {
 	icq_packet packet;
 
@@ -462,7 +462,7 @@ DWORD CIcqProto::icq_SendChannel2Contacts(DWORD dwUin, char *szUid, HANDLE hCont
 }
 
 
-DWORD CIcqProto::icq_SendChannel4Message(DWORD dwUin, HANDLE hContact, BYTE bMsgType, WORD wMsgLen, const char *szMsg, cookie_message_data *pCookieData)
+DWORD CIcqProto::icq_SendChannel4Message(DWORD dwUin, HCONTACT hContact, BYTE bMsgType, WORD wMsgLen, const char *szMsg, cookie_message_data *pCookieData)
 {
 	icq_packet packet;
 	WORD wPacketLength;
@@ -552,7 +552,7 @@ DWORD CIcqProto::sendUserInfoMultiRequest(BYTE *pRequestData, WORD wDataLen, int
 }
 
 
-DWORD CIcqProto::icq_sendGetInfoServ(HANDLE hContact, DWORD dwUin, int bManual)
+DWORD CIcqProto::icq_sendGetInfoServ(HCONTACT hContact, DWORD dwUin, int bManual)
 {
 	icq_packet packet;
 	DWORD dwCookie = 0;
@@ -607,7 +607,7 @@ DWORD CIcqProto::icq_sendGetInfoServ(HANDLE hContact, DWORD dwUin, int bManual)
 }
 
 
-DWORD CIcqProto::icq_sendGetAimProfileServ(HANDLE hContact, char* szUid)
+DWORD CIcqProto::icq_sendGetAimProfileServ(HCONTACT hContact, char* szUid)
 {
 	icq_packet packet;
 	BYTE bUIDlen = strlennull(szUid);
@@ -632,7 +632,7 @@ DWORD CIcqProto::icq_sendGetAimProfileServ(HANDLE hContact, char* szUid)
 }
 
 
-DWORD CIcqProto::icq_sendGetAwayMsgServ(HANDLE hContact, DWORD dwUin, int type, WORD wVersion)
+DWORD CIcqProto::icq_sendGetAwayMsgServ(HCONTACT hContact, DWORD dwUin, int type, WORD wVersion)
 {
 	icq_packet packet;
 
@@ -650,7 +650,7 @@ DWORD CIcqProto::icq_sendGetAwayMsgServ(HANDLE hContact, DWORD dwUin, int type, 
 }
 
 
-DWORD CIcqProto::icq_sendGetAwayMsgServExt(HANDLE hContact, DWORD dwUin, char *szUID, int type, WORD wVersion)
+DWORD CIcqProto::icq_sendGetAwayMsgServExt(HCONTACT hContact, DWORD dwUin, char *szUID, int type, WORD wVersion)
 {
 	icq_packet packet;
 
@@ -684,7 +684,7 @@ DWORD CIcqProto::icq_sendGetAwayMsgServExt(HANDLE hContact, DWORD dwUin, char *s
 }
 
 
-DWORD CIcqProto::icq_sendGetAimAwayMsgServ(HANDLE hContact, char *szUID, int type)
+DWORD CIcqProto::icq_sendGetAimAwayMsgServ(HCONTACT hContact, char *szUID, int type)
 {
 	icq_packet packet;
 	BYTE bUIDlen = strlennull(szUID);
@@ -988,7 +988,7 @@ void CIcqProto::icq_sendFileDenyServ(DWORD dwUin, filetransfer *ft, const char *
 
 void CIcqProto::icq_sendAwayMsgReplyServ(DWORD dwUin, DWORD dwMsgID1, DWORD dwMsgID2, WORD wCookie, WORD wVersion, BYTE msgType, char** szMsg)
 {
-	HANDLE hContact = HContactFromUIN(dwUin, NULL);
+	HCONTACT hContact = HContactFromUIN(dwUin, NULL);
 
 	if (validateStatusMessageRequest(hContact, msgType)) {
 		NotifyEventHooks(m_modeMsgsEvent, (WPARAM)msgType, (LPARAM)dwUin);
@@ -1032,7 +1032,7 @@ void CIcqProto::icq_sendAwayMsgReplyServ(DWORD dwUin, DWORD dwMsgID1, DWORD dwMs
 
 void CIcqProto::icq_sendAwayMsgReplyServExt(DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wCookie, WORD wVersion, BYTE msgType, char **szMsg)
 {
-	HANDLE hContact = HContactFromUID(dwUin, szUID, NULL);
+	HCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
 
 	if (validateStatusMessageRequest(hContact, msgType)) {
 		NotifyEventHooks(m_modeMsgsEvent, (WPARAM)msgType, (LPARAM)dwUin);
@@ -1551,7 +1551,7 @@ void CIcqProto::icq_sendRemoveContact(DWORD dwUin, const char *szUid)
 
 // list==0: visible list
 // list==1: invisible list
-void CIcqProto::icq_sendChangeVisInvis(HANDLE hContact, DWORD dwUin, char* szUID, int list, int add)
+void CIcqProto::icq_sendChangeVisInvis(HCONTACT hContact, DWORD dwUin, char* szUID, int list, int add)
 { // TODO: This needs grouping & rate management
 	// Tell server to change our server-side contact visbility list
 	if (m_bSsiEnabled) {

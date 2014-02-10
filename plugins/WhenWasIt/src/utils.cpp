@@ -118,7 +118,7 @@ void HexToBin(char *inData, ULONG &size, LPBYTE &outData)
 	i = size;
 }
 
-int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, char *szError, char *szResult, size_t size)
+int GetStringFromDatabase(HCONTACT hContact, char *szModule, char *szSettingName, char *szError, char *szResult, size_t size)
 {
 	DBVARIANT dbv = {0};
 	int res = 1;
@@ -156,7 +156,7 @@ int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, si
 
 
 #pragma warning (disable: 4312) 
-TCHAR *GetContactName(HANDLE hContact, char *szProto)
+TCHAR *GetContactName(HCONTACT hContact, char *szProto)
 {
 	CONTACTINFO ctInfo = { sizeof(ctInfo) };
 	ctInfo.szProto = (szProto) ? szProto : GetContactProto(hContact);
@@ -176,12 +176,12 @@ TCHAR *GetContactName(HANDLE hContact, char *szProto)
 	return buffer;
 }
 
-TCHAR *GetContactID(HANDLE hContact)
+TCHAR *GetContactID(HCONTACT hContact)
 {
 	return GetContactID(hContact, GetContactProto(hContact));
 }
 
-TCHAR *GetContactID(HANDLE hContact, char *szProto)
+TCHAR *GetContactID(HCONTACT hContact, char *szProto)
 {
 	CONTACTINFO ctInfo = { sizeof(ctInfo) };
 	ctInfo.szProto = szProto;
@@ -217,9 +217,9 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 	return (!ret) ? buffer : NULL;
 }
 
-HANDLE GetContactFromID(TCHAR *szID, char *szProto)
+HCONTACT GetContactFromID(TCHAR *szID, char *szProto)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *m_szProto = GetContactProto(hContact);
 		TCHAR *szHandle = GetContactID(hContact, szProto);
 		if (szHandle) {
@@ -232,7 +232,7 @@ HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 	return NULL;
 }
 
-HANDLE GetContactFromID(TCHAR *szID, wchar_t *szProto)
+HCONTACT GetContactFromID(TCHAR *szID, wchar_t *szProto)
 {
 	char protocol[1024];
 	WideCharToMultiByte(CP_ACP, 0, szProto, -1, protocol, sizeof(protocol), NULL, NULL);

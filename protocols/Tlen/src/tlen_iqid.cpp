@@ -65,7 +65,7 @@ void TlenResultSetRoster(TlenProtocol *proto, XmlNode *queryNode) {
 	DBVARIANT dbv;
 	XmlNode *itemNode, *groupNode;
 	TLEN_LIST_ITEM *item;
-	HANDLE hContact;
+	HCONTACT hContact;
 	char *jid, *name, *nick;
 	int i;
 	char *str;
@@ -76,7 +76,7 @@ void TlenResultSetRoster(TlenProtocol *proto, XmlNode *queryNode) {
 			if ((jid=TlenXmlGetAttrValue(itemNode, "jid")) != NULL) {
 				str = TlenXmlGetAttrValue(itemNode, "subscription");
 				if (!strcmp(str, "remove")) {
-					if ((hContact=TlenHContactFromJID(proto, jid)) != NULL) {
+					if ((hContact = TlenHContactFromJID(proto, jid)) != NULL) {
 						if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 							db_set_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 					}
@@ -165,7 +165,7 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 							nick = TlenLocalNickFromJID(jid);
 						
 						if (nick != NULL) {
-							HANDLE hContact;
+							HCONTACT hContact;
 							item = TlenListAdd(proto, LIST_ROSTER, jid);
 							if (item->nick) mir_free(item->nick);
 							item->nick = nick;
@@ -206,8 +206,8 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 			
 			// Delete orphaned contacts (if roster sync is enabled)
 			if (db_get_b(NULL, proto->m_szModuleName, "RosterSync", FALSE) == TRUE) {
-				for (HANDLE hContact = db_find_first(proto->m_szModuleName); hContact; ) {
-					HANDLE hNext = hContact = db_find_next(hContact, proto->m_szModuleName);
+				for (HCONTACT hContact = db_find_first(proto->m_szModuleName); hContact; ) {
+					HCONTACT hNext = hContact = db_find_next(hContact, proto->m_szModuleName);
 					ptrA jid( db_get_sa(hContact, proto->m_szModuleName, "jid"));
 					if (jid != NULL) {
 						if (!TlenListExist(proto, LIST_ROSTER, jid)) {
@@ -241,7 +241,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 	XmlNode *queryNode, *itemNode, *n;
 	char *type, *jid;
 	char text[128];
-	HANDLE hContact;
+	HCONTACT hContact;
 	char *nText;
 
 //	TlenLog("<iq/> iqIdGetVcard (tlen)");
@@ -561,7 +561,7 @@ void TlenIqResultVersion(TlenProtocol *proto, XmlNode *iqNode)
 		if (( from=TlenXmlGetAttrValue( iqNode, "from" )) != NULL ) {
 			TLEN_LIST_ITEM *item;
 			if (( item=TlenListGetItemPtr( proto, LIST_ROSTER, from )) != NULL) {
-				HANDLE hContact;
+				HCONTACT hContact;
 				XmlNode *n;
 				if ( item->software ) mir_free( item->software );
 				if ( item->version ) mir_free( item->version );
@@ -598,7 +598,7 @@ void TlenIqResultInfo(TlenProtocol *proto, XmlNode *iqNode)
 		if (( from=TlenXmlGetAttrValue( queryNode, "from" )) != NULL ) {
 			TLEN_LIST_ITEM *item;
 			if (( item=TlenListGetItemPtr( proto, LIST_ROSTER, from )) != NULL) {
-				HANDLE hContact;
+				HCONTACT hContact;
 				XmlNode *version = TlenXmlGetChild(queryNode, "version");
 				item->protocolVersion = TlenTextDecode(version->text);
 				if (( hContact=TlenHContactFromJID(proto, item->jid )) != NULL ) {

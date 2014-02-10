@@ -30,7 +30,7 @@ extern int RemoveEvent(WPARAM wParam, LPARAM lParam);
 int InitCustomMenus(void);
 void UninitCustomMenus(void);
 INT_PTR GetContactStatusMessage(WPARAM wParam, LPARAM lParam);
-int EventsProcessContactDoubleClick(HANDLE hContact);
+int EventsProcessContactDoubleClick(HCONTACT hContact);
 int SetHideOffline(WPARAM wParam, LPARAM lParam);
 
 extern HIMAGELIST hCListImages;
@@ -44,9 +44,9 @@ static INT_PTR GetStatusMode(WPARAM wParam, LPARAM lParam)
 	return(g_maxStatus == ID_STATUS_OFFLINE ? pcli->currentDesiredStatusMode : g_maxStatus);
 }
 
-extern int ( *saveIconFromStatusMode )( const char *szProto, int status, HANDLE hContact );
+extern int ( *saveIconFromStatusMode )( const char *szProto, int status, HCONTACT hContact );
 
-int IconFromStatusMode(const char *szProto, int status, HANDLE hContact, HICON *phIcon)
+int IconFromStatusMode(const char *szProto, int status, HCONTACT hContact, HICON *phIcon)
 {
 	if (phIcon != NULL)
 		*phIcon = NULL;
@@ -55,7 +55,7 @@ int IconFromStatusMode(const char *szProto, int status, HANDLE hContact, HICON *
 	int finalStatus;
 
 	if (szProto != NULL && !strcmp(szProto, cfg::dat.szMetaName) && cfg::dat.bMetaAvail && hContact != 0 && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
-		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		HCONTACT hSubContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		szFinalProto = GetContactProto(hSubContact);
 		finalStatus = (status == 0) ? (WORD) cfg::getWord(hSubContact, szFinalProto, "Status", ID_STATUS_OFFLINE) : status;
 		hContact = hSubContact;

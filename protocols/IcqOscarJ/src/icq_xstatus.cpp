@@ -42,7 +42,7 @@ int OnReloadIcons(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-BYTE CIcqProto::getContactXStatus(HANDLE hContact)
+BYTE CIcqProto::getContactXStatus(HCONTACT hContact)
 {
 	if (!m_bXStatusEnabled && !m_bMoodsEnabled)
 		return 0;
@@ -51,7 +51,7 @@ BYTE CIcqProto::getContactXStatus(HANDLE hContact)
 	return (bXStatus < 1 || bXStatus > XSTATUS_COUNT) ? 0 : bXStatus;
 }
 
-DWORD CIcqProto::sendXStatusDetailsRequest(HANDLE hContact, int bForced)
+DWORD CIcqProto::sendXStatusDetailsRequest(HCONTACT hContact, int bForced)
 {
 	DWORD dwCookie = 0;
 
@@ -67,7 +67,7 @@ DWORD CIcqProto::sendXStatusDetailsRequest(HANDLE hContact, int bForced)
 	return dwCookie;
 }
 
-DWORD CIcqProto::requestXStatusDetails(HANDLE hContact, BOOL bAllowDelay)
+DWORD CIcqProto::requestXStatusDetails(HCONTACT hContact, BOOL bAllowDelay)
 {
 	if (!validateStatusMessageRequest(hContact, MTYPE_SCRIPT_NOTIFY))
 		return 0; // apply privacy rules
@@ -169,7 +169,7 @@ HICON CIcqProto::getXStatusIcon(int bStatus, UINT flags)
 	return (flags & LR_SHARED || !icon) ? icon : CopyIcon(icon);
 }
 
-void setContactExtraIcon(HANDLE hContact, int xstatus)
+void setContactExtraIcon(HCONTACT hContact, int xstatus)
 {
 	ExtraIcon_SetIcon(hExtraXStatus, hContact, (xstatus > 0) ? hXStatusIcons[xstatus-1] : NULL);
 }
@@ -393,7 +393,7 @@ const int moodXStatus[XSTATUS_COUNT] = {
 	81,
 	84};
 
-void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYTE *caps, int capsize, char *moods, int moodsize)
+void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HCONTACT hContact, BYTE *caps, int capsize, char *moods, int moodsize)
 {
 	int bChanged = FALSE;
 	int nCustomStatusID = 0, nMoodID = 0;
@@ -579,7 +579,7 @@ struct SetXStatusData
 	CIcqProto* ppro;
 	BYTE   bAction;
 	BYTE   bXStatus;
-	HANDLE hContact;
+	HCONTACT hContact;
 	HANDLE hEvent;
 	DWORD  iEvent;
 	int    countdown;
@@ -593,7 +593,7 @@ struct InitXStatusData
 	BYTE   bXStatus;
 	char*  szXStatusName;
 	char*  szXStatusMsg;
-	HANDLE hContact;
+	HCONTACT hContact;
 };
 
 #define HM_PROTOACK (WM_USER+10)
@@ -912,7 +912,7 @@ INT_PTR CIcqProto::ShowXStatusDetails(WPARAM wParam, LPARAM lParam)
 	InitXStatusData init;
 	init.ppro = this;
 	init.bAction = 1; // retrieve
-	init.hContact = (HANDLE)wParam;
+	init.hContact = (HCONTACT)wParam;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETXSTATUS), NULL, SetXStatusDlgProc, (LPARAM)&init);
 
 	return 0;
@@ -971,7 +971,7 @@ INT_PTR CIcqProto::SetXStatusEx(WPARAM wParam, LPARAM lParam)
 INT_PTR CIcqProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
 	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	if (!m_bXStatusEnabled && !m_bMoodsEnabled) return 1;
 
@@ -1088,7 +1088,7 @@ INT_PTR CIcqProto::GetXStatusIcon(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CIcqProto::RequestXStatusDetails(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	if (!m_bXStatusEnabled)
 		return 0;
@@ -1105,7 +1105,7 @@ INT_PTR CIcqProto::RequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam)
 	if (!m_bXStatusEnabled && !m_bMoodsEnabled)
 		return -1;
 
-	BYTE bXStatus = getContactXStatus((HANDLE)wParam);
+	BYTE bXStatus = getContactXStatus((HCONTACT)wParam);
 	if (bXStatus) {
 		if (!bXStatusCListIconsValid[bXStatus-1]) { // adding icon
 			int idx = hXStatusCListIcons[bXStatus-1]; 

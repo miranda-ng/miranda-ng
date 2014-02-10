@@ -42,19 +42,19 @@ struct CMraProto : public PROTO<CMraProto>
 	virtual	HANDLE __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent);
 
 	virtual	int    __cdecl Authorize(HANDLE hDBEvent);
-	virtual	int    __cdecl AuthDeny(HANDLE hContact, const TCHAR* szReason);
-	virtual	int    __cdecl AuthRecv(HANDLE hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl AuthRequest(HANDLE hContact, const TCHAR* szMessage);
+	virtual	int    __cdecl AuthDeny(HANDLE hDBEvent, const TCHAR* szReason);
+	virtual	int    __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl AuthRequest(HCONTACT hContact, const TCHAR* szMessage);
 
 	virtual	HANDLE __cdecl ChangeInfo(int iInfoType, void* pInfoData);
 
-	virtual	HANDLE __cdecl FileAllow(HANDLE hContact, HANDLE hTransfer, const TCHAR* szPath);
-	virtual	int    __cdecl FileCancel(HANDLE hContact, HANDLE hTransfer);
-	virtual	int    __cdecl FileDeny(HANDLE hContact, HANDLE hTransfer, const TCHAR* szReason);
+	virtual	HANDLE __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath);
+	virtual	int    __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer);
+	virtual	int    __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason);
 	virtual	int    __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename);
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, HANDLE hContact = NULL);
-	virtual	int    __cdecl GetInfo(HANDLE hContact, int infoType);
+	virtual	DWORD_PTR __cdecl GetCaps(int type, HCONTACT hContact = NULL);
+	virtual	int    __cdecl GetInfo(HCONTACT hContact, int infoType);
 
 	virtual	HANDLE __cdecl SearchBasic(const TCHAR* id);
 	virtual	HANDLE __cdecl SearchByEmail(const TCHAR* email);
@@ -62,56 +62,56 @@ struct CMraProto : public PROTO<CMraProto>
 	virtual	HWND   __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND   __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int    __cdecl RecvContacts(HANDLE hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl RecvFile(HANDLE hContact, PROTORECVFILET*);
-	virtual	int    __cdecl RecvMsg(HANDLE hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl RecvUrl(HANDLE hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvFile(HCONTACT hContact, PROTORECVFILET*);
+	virtual	int    __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int    __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	int    __cdecl SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList);
-	virtual	HANDLE __cdecl SendFile(HANDLE hContact, const TCHAR* szDescription, TCHAR** ppszFiles);
-	virtual	int    __cdecl SendMsg(HANDLE hContact, int flags, const char* msg);
-	virtual	int    __cdecl SendUrl(HANDLE hContact, int flags, const char* url);
+	virtual	int    __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
+	virtual	HANDLE __cdecl SendFile(HCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	int    __cdecl SendMsg(HCONTACT hContact, int flags, const char* msg);
+	virtual	int    __cdecl SendUrl(HCONTACT hContact, int flags, const char* url);
 
-	virtual	int    __cdecl SetApparentMode(HANDLE hContact, int mode);
+	virtual	int    __cdecl SetApparentMode(HCONTACT hContact, int mode);
 	virtual	int    __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE __cdecl GetAwayMsg(HANDLE hContact);
-	virtual	int    __cdecl RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT* evt);
+	virtual	HANDLE __cdecl GetAwayMsg(HCONTACT hContact);
+	virtual	int    __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT* evt);
 	virtual	int    __cdecl SetAwayMsg(int m_iStatus, const TCHAR* msg);
 
-	virtual	int    __cdecl UserIsTyping(HANDLE hContact, int type);
+	virtual	int    __cdecl UserIsTyping(HCONTACT hContact, int type);
 
 	virtual	int    __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
 	void   ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode);
-	void   MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszTitle, LPCWSTR lpszMessage);
-	void   MraPopupShowFromContactW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPCWSTR lpszMessage);
+	void   MraPopupShowW(HCONTACT hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszTitle, LPCWSTR lpszMessage);
+	void   MraPopupShowFromContactW(HCONTACT hContact, DWORD dwType, DWORD dwFlags, LPCWSTR lpszMessage);
 	__forceinline void MraPopupShowFromAgentW(DWORD dwType, DWORD dwFlags, LPCWSTR lpszMessage) {
 		MraPopupShowFromContactW(NULL, dwType, dwFlags, lpszMessage); }
 
-	__forceinline bool mraGetStaticStringA(HANDLE Contact, const char *ValueName, char *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {
+	__forceinline bool mraGetStaticStringA(HCONTACT Contact, const char *ValueName, char *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {
 		return DB_GetStaticStringA(Contact, m_szModuleName, ValueName, Ret, RetBuffSize, pRetBuffSize); }
-	__forceinline bool mraGetStaticStringW(HANDLE Contact, const char *ValueName, WCHAR *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {
+	__forceinline bool mraGetStaticStringW(HCONTACT Contact, const char *ValueName, WCHAR *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {
 		return DB_GetStaticStringW(Contact, m_szModuleName, ValueName, Ret, RetBuffSize, pRetBuffSize); }
 
-	__forceinline bool mraGetStringA(HANDLE Contact, const char *ValueName, CMStringA &Ret) {
+	__forceinline bool mraGetStringA(HCONTACT Contact, const char *ValueName, CMStringA &Ret) {
 		return DB_GetStringA(Contact, m_szModuleName, ValueName, Ret); }
-	__forceinline bool mraGetStringW(HANDLE Contact, const char *ValueName, CMStringW &Ret) {
+	__forceinline bool mraGetStringW(HCONTACT Contact, const char *ValueName, CMStringW &Ret) {
 		return DB_GetStringW(Contact, m_szModuleName, ValueName, Ret); }
 
-	__forceinline bool mraSetStringA(HANDLE Contact, const char *valueName, const CMStringA &parValue) {
+	__forceinline bool mraSetStringA(HCONTACT Contact, const char *valueName, const CMStringA &parValue) {
 		return DB_SetStringExA(Contact, m_szModuleName, valueName, parValue); }
-	__forceinline bool mraSetStringW(HANDLE Contact, const char *valueName, const CMStringW &parValue) {
+	__forceinline bool mraSetStringW(HCONTACT Contact, const char *valueName, const CMStringW &parValue) {
 		return DB_SetStringExW(Contact, m_szModuleName, valueName, parValue); }
 
-	__forceinline bool mraSetStringExA(HANDLE Contact, const char *valueName, const CMStringA &parValue) {
+	__forceinline bool mraSetStringExA(HCONTACT Contact, const char *valueName, const CMStringA &parValue) {
 		return DB_SetStringExA(Contact, m_szModuleName, valueName, parValue); }
-	__forceinline bool mraSetStringExW(HANDLE Contact, const char *valueName, const CMStringW &parValue) {
+	__forceinline bool mraSetStringExW(HCONTACT Contact, const char *valueName, const CMStringW &parValue) {
 		return DB_SetStringExW(Contact, m_szModuleName, valueName, parValue); }
 
-	__forceinline bool mraWriteContactSettingBlob(HANDLE hContact, const char *lpszValueName, LPVOID lpbValue, size_t dwValueSize) {
+	__forceinline bool mraWriteContactSettingBlob(HCONTACT hContact, const char *lpszValueName, LPVOID lpbValue, size_t dwValueSize) {
 		return db_set_blob(hContact, m_szModuleName, lpszValueName, lpbValue, dwValueSize) != 0; }
-	__forceinline bool mraGetContactSettingBlob(HANDLE hContact, const char *lpszValueName, LPVOID lpbRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize) {
+	__forceinline bool mraGetContactSettingBlob(HCONTACT hContact, const char *lpszValueName, LPVOID lpbRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize) {
 		return DB_GetContactSettingBlob(hContact, m_szModuleName, lpszValueName, lpbRet, dwRetBuffSize, pdwRetBuffSize); }
 
 	// ====| Services  |====================================================================
@@ -198,54 +198,54 @@ struct CMraProto : public PROTO<CMraProto>
 
 	HANDLE AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR plpsFirstName, LPCTSTR plpsLastName, DWORD dwFlags);
 
-	DWORD  MraMessage(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &wszMessage, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize);
+	DWORD  MraMessage(BOOL bAddToQueue, HCONTACT hContact, DWORD dwAckType, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &wszMessage, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize);
 	DWORD  MraMessageAsk(DWORD dwMsgID, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &wszMessage, const CMStringW &wszMessageRTF);
 	DWORD  MraMessageRecv(const CMStringA &szFrom, DWORD dwMsgID);
-	DWORD  MraAddContact(HANDLE hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA *szPhones = 0, const CMStringW *wszAuthMessage = 0);
-	DWORD  MraModifyContact(HANDLE hContact, DWORD *pdwID = 0, DWORD *pdwContactFlag = 0, DWORD *pdwGroupID = 0, const CMStringA *pszEmail = 0, const CMStringW *pwszCustomName = 0, const CMStringA *pszPhones = 0);
+	DWORD  MraAddContact(HCONTACT hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA *szPhones = 0, const CMStringW *wszAuthMessage = 0);
+	DWORD  MraModifyContact(HCONTACT hContact, DWORD *pdwID = 0, DWORD *pdwContactFlag = 0, DWORD *pdwGroupID = 0, const CMStringA *pszEmail = 0, const CMStringW *pwszCustomName = 0, const CMStringA *pszPhones = 0);
 	DWORD  MraOfflineMessageDel(DWORDLONG dwMsgUIDL);
-	DWORD  MraMoveContactToGroup(HANDLE hContact, DWORD dwGroupID, LPCTSTR ptszGroup);
+	DWORD  MraMoveContactToGroup(HCONTACT hContact, DWORD dwGroupID, LPCTSTR ptszGroup);
 	DWORD  MraAuthorize(const CMStringA &szEmail);
 	DWORD  MraChangeStatus(DWORD dwStatus, const CMStringA &szStatusUri, const CMStringW &wszStatusTitle, const CMStringW &wszStatusDesc, DWORD dwFutureFlags);
 	DWORD  MraFileTransfer(const CMStringA &szEmail, DWORD dwIdRequest, DWORD dwFilesTotalSize, const CMStringW &lpwszFiles, const CMStringA &szAddresses);
 	DWORD  MraFileTransferAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwIdRequest, LPBYTE lpbDescription, size_t dwDescriptionSize);
-	HANDLE MraWPRequestW(HANDLE hContact, DWORD dwAckType, DWORD dwRequestFlags, const CMStringA &szUser, const CMStringA &szDomain, const CMStringW &wszNickName, const CMStringW &wszFirstName, const CMStringW &wszLastName, DWORD dwSex, DWORD dwDate1, DWORD dwDate2, DWORD dwCityID, DWORD dwZodiak, DWORD dwBirthdayMonth, DWORD dwBirthdayDay, DWORD dwCountryID, DWORD dwOnline);
-	HANDLE MraWPRequestByEMail(HANDLE hContact, DWORD dwAckType, CMStringA &szEmail);
+	HANDLE MraWPRequestW(HCONTACT hContact, DWORD dwAckType, DWORD dwRequestFlags, const CMStringA &szUser, const CMStringA &szDomain, const CMStringW &wszNickName, const CMStringW &wszFirstName, const CMStringW &wszLastName, DWORD dwSex, DWORD dwDate1, DWORD dwDate2, DWORD dwCityID, DWORD dwZodiak, DWORD dwBirthdayMonth, DWORD dwBirthdayDay, DWORD dwCountryID, DWORD dwOnline);
+	HANDLE MraWPRequestByEMail(HCONTACT hContact, DWORD dwAckType, CMStringA &szEmail);
 	DWORD  MraGame(const CMStringA &szEmail, DWORD dwGameSessionID, DWORD dwGameMsg, DWORD dwGameMsgID, const CMStringA &lpszData);
 	DWORD  MraLogin2W(CMStringA &szLogin, CMStringA &szPassword, DWORD dwStatus, CMStringA &szStatusUri, CMStringW &wszStatusTitle, CMStringW &wszStatusDesc, DWORD dwFutureFlags, CMStringA &szUserAgentFormatted, CMStringA &szUserAgent);
-	DWORD  MraSMSW(HANDLE hContact, const CMStringA &lpszPhone, const CMStringW &lpwszMessage);
+	DWORD  MraSMSW(HCONTACT hContact, const CMStringA &lpszPhone, const CMStringW &lpwszMessage);
 	DWORD  MraProxy(const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwDataType, const CMStringA &lpszData, const CMStringA &szAddresses, MRA_GUID mguidSessionID);
 	DWORD  MraProxyAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwDataType, const CMStringA &lpszData, const CMStringA &szAddresses, MRA_GUID mguidSessionID);
 	DWORD  MraChangeUserBlogStatus(DWORD dwFlags, const CMStringW &wszText, DWORDLONG dwBlogStatusID);
 
 	DWORD  MraSendPacket(HANDLE m_hConnection, DWORD dwCMDNum, DWORD dwType, LPVOID lpData, size_t dwDataSize);
 	DWORD  MraSendCMD(DWORD dwType, LPVOID lpData, size_t dwDataSize);
-	DWORD  MraSendQueueCMD(HANDLE hSendQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD dwAckType, LPBYTE lpbDataQueue, size_t dwDataQueueSize, DWORD dwType, LPVOID lpData, size_t dwDataSize);
+	DWORD  MraSendQueueCMD(HANDLE hSendQueueHandle, DWORD dwFlags, HCONTACT hContact, DWORD dwAckType, LPBYTE lpbDataQueue, size_t dwDataQueueSize, DWORD dwType, LPVOID lpData, size_t dwDataSize);
 
 	DWORD  MraSendNewStatus(DWORD dwStatusMir, DWORD dwXStatusMir, const CMStringW &wszStatusTitle, const CMStringW &wszStatusDesc);
 
-	void   MraAddrListStoreToContact(HANDLE hContact, MRA_ADDR_LIST *pmalAddrList);
+	void   MraAddrListStoreToContact(HCONTACT hContact, MRA_ADDR_LIST *pmalAddrList);
 
-	DWORD  GetContactFlags(HANDLE hContact);
-	DWORD  SetContactFlags(HANDLE hContact, DWORD dwContactFlag);
-	DWORD  GetContactBasicInfoW(HANDLE hContact, DWORD *pdwID, DWORD *pdwGroupID, DWORD *pdwContactFlag, DWORD *pdwContactSeverFlags, DWORD *pdwStatus, CMStringA *szEmail, CMStringW *wszNick, CMStringA *szPhones);
-	DWORD  SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWORD dwFlags, DWORD dwID, DWORD dwGroupID, DWORD dwContactFlag, DWORD dwContactSeverFlags, DWORD dwStatus, const CMStringA *szEmail, const CMStringW *wszNick, const CMStringA *szPhones);
+	DWORD  GetContactFlags(HCONTACT hContact);
+	DWORD  SetContactFlags(HCONTACT hContact, DWORD dwContactFlag);
+	DWORD  GetContactBasicInfoW(HCONTACT hContact, DWORD *pdwID, DWORD *pdwGroupID, DWORD *pdwContactFlag, DWORD *pdwContactSeverFlags, DWORD *pdwStatus, CMStringA *szEmail, CMStringW *wszNick, CMStringA *szPhones);
+	DWORD  SetContactBasicInfoW(HCONTACT hContact, DWORD dwSetInfoFlags, DWORD dwFlags, DWORD dwID, DWORD dwGroupID, DWORD dwContactFlag, DWORD dwContactSeverFlags, DWORD dwStatus, const CMStringA *szEmail, const CMStringW *wszNick, const CMStringA *szPhones);
 
-	DWORD  GetContactEMailCount(HANDLE hContact, BOOL bMRAOnly);
-	bool   GetContactFirstEMail(HANDLE hContact, BOOL bMRAOnly, CMStringA &szRetBuff);
+	DWORD  GetContactEMailCount(HCONTACT hContact, BOOL bMRAOnly);
+	bool   GetContactFirstEMail(HCONTACT hContact, BOOL bMRAOnly, CMStringA &szRetBuff);
 
-	bool   IsContactMra(HANDLE hContact);
+	bool   IsContactMra(HCONTACT hContact);
 	bool   IsEMailMy(const CMStringA &szEmail);
 	bool   IsEMailChatAgent(const CMStringA &szEmail);
-	bool   IsContactChatAgent(HANDLE hContact);
+	bool   IsContactChatAgent(HCONTACT hContact);
 
-	HANDLE MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNeeded, BOOL bTemporary, BOOL *pbAdded);
-	bool   MraUpdateContactInfo(HANDLE hContact);
+	HCONTACT MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNeeded, BOOL bTemporary, BOOL *pbAdded);
+	bool   MraUpdateContactInfo(HCONTACT hContact);
 	DWORD  MraSetXStatusInternal(DWORD dwXStatus);
-	DWORD  MraGetContactStatus(HANDLE hContact);
-	DWORD  MraSetContactStatus(HANDLE hContact, DWORD dwNewStatus);
-	DWORD  MraContactCapabilitiesGet(HANDLE hContact);
-	void   MraContactCapabilitiesSet(HANDLE hContact, DWORD dwFutureFlags);
+	DWORD  MraGetContactStatus(HCONTACT hContact);
+	DWORD  MraSetContactStatus(HCONTACT hContact, DWORD dwNewStatus);
+	DWORD  MraContactCapabilitiesGet(HCONTACT hContact);
+	void   MraContactCapabilitiesSet(HCONTACT hContact, DWORD dwFutureFlags);
 	void   MraUpdateEmailStatus(const CMStringA &szFrom, const CMStringA &szSubject, DWORD dwDate, DWORD dwUIDL);
 	DWORD  MraConvertToRTFW(const CMStringW &wszMessage, CMStringA &szMessageRTF);
 
@@ -278,19 +278,19 @@ struct CMraProto : public PROTO<CMraProto>
 
 	DWORD  MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &plpsFrom, CMStringA &plpsText, CMStringA &plpsRFTText, CMStringA &plpsMultiChatData);
 
-	void   SetExtraIcons(HANDLE hContact);
+	void   SetExtraIcons(HCONTACT hContact);
 
 	void   InitMenus(void);
 	HGENMENU CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bIsStatus, const IconItem *pgdiItems, size_t dwCount, HGENMENU *hResult);
 
-	DWORD  ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam);
-	CMStringA CreateBlobFromContact(HANDLE hContact, const CMStringW &wszRequestReason);
+	DWORD  ProtoBroadcastAckAsync(HCONTACT hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam);
+	CMStringA CreateBlobFromContact(HCONTACT hContact, const CMStringW &wszRequestReason);
 
 	bool   GetPassDB(CMStringA& pass);
 
 	bool   MraRequestXStatusDetails(DWORD dwXStatus);
-	bool   MraSendReplyBlogStatus(HANDLE hContact);
-	DWORD  MraSelectEMailDlgShow(HANDLE hContact, DWORD dwType);
+	bool   MraSendReplyBlogStatus(HCONTACT hContact);
+	DWORD  MraSelectEMailDlgShow(HCONTACT hContact, DWORD dwType);
 
 	DWORD	 MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnection);
 
@@ -300,8 +300,8 @@ struct CMraProto : public PROTO<CMraProto>
 	void   MraMPopSessionQueueFlush(HANDLE hMPopSessionQueue);
 
 	size_t MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBuffSize, DWORD dwPort);
-	DWORD	 MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD dwIDRequest, const CMStringW &wszFiles, const CMStringA &szAddresses);
-	DWORD  MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, HANDLE hContact, LPWSTR *plpwszFiles, size_t dwFilesCount, DWORD *pdwIDRequest);
+	DWORD	 MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags, HCONTACT hContact, DWORD dwIDRequest, const CMStringW &wszFiles, const CMStringA &szAddresses);
+	DWORD  MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, HCONTACT hContact, LPWSTR *plpwszFiles, size_t dwFilesCount, DWORD *pdwIDRequest);
 	DWORD  MraFilesQueueCancel(HANDLE hFilesQueueHandle, DWORD dwIDRequest, BOOL bSendDecline);
 	DWORD  MraFilesQueueStartMrimProxy(HANDLE hFilesQueueHandle, DWORD dwIDRequest);
 	DWORD  MraFilesQueueSendMirror(HANDLE hFilesQueueHandle, DWORD dwIDRequest, const CMStringA &szAddresses);
@@ -316,30 +316,30 @@ struct CMraProto : public PROTO<CMraProto>
 	bool    bChatExists;
 	void    MraChatDllError();
 	bool    MraChatRegister();
-	INT_PTR MraChatSessionNew(HANDLE hContactChatSession);
-	void    MraChatSessionDestroy(HANDLE hContactChatSession);
+	INT_PTR MraChatSessionNew(HCONTACT hContactChatSession);
+	void    MraChatSessionDestroy(HCONTACT hContactChatSession);
 	void    MraChatSendPrivateMessage(LPSTR lpwszEMail);
 
-	INT_PTR MraChatSessionEventSendByHandle(HANDLE hContactChatSession, DWORD dwType, DWORD dwFlags, const CMStringA &szUID, LPCWSTR lpwszStatus, LPCWSTR lpwszMessage, DWORD_PTR dwItemData, DWORD dwTime);
-	INT_PTR MraChatSessionInvite(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime);
-	INT_PTR MraChatSessionMembersAdd(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime);
-	INT_PTR MraChatSessionJoinUser(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime);
-	INT_PTR MraChatSessionLeftUser(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime);
-	INT_PTR MraChatSessionSetIviter(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat);
-	INT_PTR MraChatSessionSetOwner(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat);
-	INT_PTR MraChatSessionMessageAdd(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat, const CMStringW &wszMessage, DWORD dwTime);
+	INT_PTR MraChatSessionEventSendByHandle(HCONTACT hContactChatSession, DWORD dwType, DWORD dwFlags, const CMStringA &szUID, LPCWSTR lpwszStatus, LPCWSTR lpwszMessage, DWORD_PTR dwItemData, DWORD dwTime);
+	INT_PTR MraChatSessionInvite(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime);
+	INT_PTR MraChatSessionMembersAdd(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime);
+	INT_PTR MraChatSessionJoinUser(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime);
+	INT_PTR MraChatSessionLeftUser(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime);
+	INT_PTR MraChatSessionSetIviter(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat);
+	INT_PTR MraChatSessionSetOwner(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat);
+	INT_PTR MraChatSessionMessageAdd(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, const CMStringW &wszMessage, DWORD dwTime);
 
 	DWORD   MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle);
 	void    MraAvatarsQueueClear(HANDLE hAvatarsQueueHandle);
 	void    MraAvatarsQueueSuspend(HANDLE hAvatarsQueueHandle);
 	void    MraAvatarsQueueDestroy(HANDLE hAvatarsQueueHandle);
-	DWORD   MraAvatarsQueueAdd(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD *pdwAvatarsQueueID);
-	bool    MraAvatarsGetContactTime	(HANDLE hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime);
-	void    MraAvatarsSetContactTime	(HANDLE hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime);
-	DWORD   MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hContact, DWORD dwFormat, CMStringW &res);
-	DWORD   MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD *pdwAvatarsQueueID, DWORD *pdwFormat, LPTSTR lpszPath);
-   DWORD   MraAvatarsQueueGetAvatarSimple(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD dwSourceID);
-   DWORD   MraAvatarsDeleteContactAvatarFile(HANDLE hAvatarsQueueHandle, HANDLE hContact);
+	DWORD   MraAvatarsQueueAdd(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HCONTACT hContact, DWORD *pdwAvatarsQueueID);
+	bool    MraAvatarsGetContactTime	(HCONTACT hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime);
+	void    MraAvatarsSetContactTime	(HCONTACT hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime);
+	DWORD   MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HCONTACT hContact, DWORD dwFormat, CMStringW &res);
+	DWORD   MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HCONTACT hContact, DWORD *pdwAvatarsQueueID, DWORD *pdwFormat, LPTSTR lpszPath);
+   DWORD   MraAvatarsQueueGetAvatarSimple(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HCONTACT hContact, DWORD dwSourceID);
+   DWORD   MraAvatarsDeleteContactAvatarFile(HANDLE hAvatarsQueueHandle, HCONTACT hContact);
 
 	void    __cdecl MraAvatarsThreadProc(LPVOID lpParameter);
 };

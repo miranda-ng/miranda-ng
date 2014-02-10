@@ -30,7 +30,7 @@ struct MRA_AVATARS_QUEUE_ITEM : public FIFO_MT_ITEM
 {
 	DWORD  dwAvatarsQueueID;
 	DWORD  dwFlags;
-	HANDLE hContact;
+	HCONTACT hContact;
 };
 
 #define FILETIME_SECOND				((DWORDLONG)10000000)
@@ -137,7 +137,7 @@ void CMraProto::MraAvatarsQueueDestroy(HANDLE hAvatarsQueueHandle)
 	mir_free(pmraaqAvatarsQueue);
 }
 
-DWORD CMraProto::MraAvatarsQueueAdd(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD *pdwAvatarsQueueID)
+DWORD CMraProto::MraAvatarsQueueAdd(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HCONTACT hContact, DWORD *pdwAvatarsQueueID)
 {
 	if (!hAvatarsQueueHandle)
 		return ERROR_INVALID_HANDLE;
@@ -453,7 +453,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE m_hConnection, DWORD dwRequestType, LPCST
 	return 0;
 }
 
-bool CMraProto::MraAvatarsGetContactTime(HANDLE hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime)
+bool CMraProto::MraAvatarsGetContactTime(HCONTACT hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime)
 {
 	if (lpszValueName && pstTime) {
 		INTERNET_TIME itAvatarLastModifiedTimeLocal;
@@ -468,7 +468,7 @@ bool CMraProto::MraAvatarsGetContactTime(HANDLE hContact, LPSTR lpszValueName, S
 }
 
 
-void CMraProto::MraAvatarsSetContactTime(HANDLE hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime)
+void CMraProto::MraAvatarsSetContactTime(HCONTACT hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime)
 {
 	if (!lpszValueName)
 		return;
@@ -486,7 +486,7 @@ void CMraProto::MraAvatarsSetContactTime(HANDLE hContact, LPSTR lpszValueName, S
 		delSetting(hContact, lpszValueName);
 }
 
-DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hContact, DWORD dwFormat, CMStringW &res)
+DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HCONTACT hContact, DWORD dwFormat, CMStringW &res)
 {
 	res.Empty();
 	if (hAvatarsQueueHandle == NULL)
@@ -523,7 +523,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 	return ERROR_INSUFFICIENT_BUFFER;
 }
 
-DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD *pdwAvatarsQueueID, DWORD *pdwFormat, LPTSTR lpszPath)
+DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HCONTACT hContact, DWORD *pdwAvatarsQueueID, DWORD *pdwFormat, LPTSTR lpszPath)
 {
 	DWORD dwRetCode = GAIR_NOAVATAR;
 
@@ -570,7 +570,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFl
 	return dwRetCode;
 }
 
-DWORD CMraProto::MraAvatarsQueueGetAvatarSimple(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD dwSourceID)
+DWORD CMraProto::MraAvatarsQueueGetAvatarSimple(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HCONTACT hContact, DWORD dwSourceID)
 {
 	DWORD dwRetCode = GAIR_NOAVATAR;
 
@@ -662,7 +662,7 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 }
 
 
-DWORD CMraProto::MraAvatarsDeleteContactAvatarFile(HANDLE hAvatarsQueueHandle, HANDLE hContact)
+DWORD CMraProto::MraAvatarsDeleteContactAvatarFile(HANDLE hAvatarsQueueHandle, HCONTACT hContact)
 {
 	if (hAvatarsQueueHandle == NULL)
 		return ERROR_INVALID_HANDLE;

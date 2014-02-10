@@ -47,7 +47,7 @@ void CIcqProto::handleLocationFam(BYTE *pBuffer, WORD wBufferLength, snac_header
 	case ICQ_ERROR:
 		{ 
 			WORD wError;
-			HANDLE hCookieContact;
+			HCONTACT hCookieContact;
 			cookie_fam15_data *pCookieData;
 
 
@@ -101,12 +101,10 @@ static char* AimApplyEncoding(char* pszStr, const char* pszEncoding)
 
 void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie)
 {
-	HANDLE hContact;
 	DWORD dwUIN;
 	uid_str szUID;
 	WORD wTLVCount;
 	WORD wWarningLevel;
-	HANDLE hCookieContact;
 	WORD status;
 	cookie_message_data *pCookieData;
 
@@ -126,33 +124,30 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 	wLen -= 2;
 
 	// Determine contact
-	hContact = HContactFromUID(dwUIN, szUID, NULL);
+	HCONTACT hContact = HContactFromUID(dwUIN, szUID, NULL);
 
 	// Ignore away status if the user is not already on our list
-	if (hContact == INVALID_HANDLE_VALUE)
-	{
+	if (hContact == INVALID_HANDLE_VALUE) {
 #ifdef _DEBUG
 		debugLogA("Ignoring away reply (%s)", strUID(dwUIN, szUID));
 #endif
 		return;
 	}
 
-	if (!FindCookie(dwCookie, &hCookieContact, (void**)&pCookieData))
-	{
+	HCONTACT hCookieContact;
+	if (!FindCookie(dwCookie, &hCookieContact, (void**)&pCookieData)) {
 		debugLogA("Error: Received unexpected away reply from %s", strUID(dwUIN, szUID));
 		return;
 	}
 
-	if (hContact != hCookieContact)
-	{
+	if (hContact != hCookieContact) {
 		debugLogA("Error: Away reply Contact does not match Cookie Contact(0x%x != 0x%x)", hContact, hCookieContact);
 
 		ReleaseCookie(dwCookie); // This could be a bad idea, but I think it is safe
 		return;
 	}
 
-	switch (GetCookieType(dwCookie))
-	{
+	switch (GetCookieType(dwCookie)) {
 	case CKT_FAMILYSPECIAL:
 		{
 			ReleaseCookie(dwCookie);

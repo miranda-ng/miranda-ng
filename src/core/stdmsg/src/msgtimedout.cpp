@@ -28,7 +28,7 @@ typedef struct
 	TMsgQueue *item;
 } ErrorDlgParam;
 
-INT_PTR SendMessageCmd(HANDLE hContact, char* msg, int isWchar);
+INT_PTR SendMessageCmd(HCONTACT hContact, char* msg, int isWchar);
 
 INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -90,10 +90,10 @@ void MessageFailureProcess(TMsgQueue *item, const char* err)
 {
 	db_event_delete(item->hContact, item->hDbEvent);
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)item->hContact);
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, item->hContact);
 	if (hwnd == NULL) {
 		SendMessageCmd(item->hContact, NULL, 0);
-		hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)item->hContact);
+		hwnd = WindowList_Find(g_dat.hMessageWindowList, item->hContact);
 	}
 	else SendMessage(hwnd, DM_REMAKELOG, 0, 0);
 

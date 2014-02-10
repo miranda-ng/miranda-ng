@@ -107,14 +107,14 @@ public:
 			{ return db_get_dw(0, szModule, szSetting, uDefault); }
 	static DWORD __forceinline GetDword(const char *szSetting, DWORD uDefault)
 			{ return db_get_dw(0, SRMSGMOD_T, szSetting, uDefault); }
-	static DWORD __forceinline GetDword(const HANDLE hContact, const char *szSetting, DWORD uDefault)
+	static DWORD __forceinline GetDword(const HCONTACT hContact, const char *szSetting, DWORD uDefault)
 			{ return db_get_dw(hContact, SRMSGMOD_T, szSetting, uDefault); }
 
 	static int __forceinline GetByte(const char *szSetting, int uDefault)
 			{ return db_get_b(0, SRMSGMOD_T, szSetting, uDefault); }
 	static int __forceinline GetByte(const char *szModule, const char *szSetting, int uDefault)
 			{ return db_get_b(0, szModule, szSetting, uDefault); }
-	static int __forceinline GetByte(const HANDLE hContact, const char *szSetting, int uDefault)
+	static int __forceinline GetByte(const HCONTACT hContact, const char *szSetting, int uDefault)
 			{ return db_get_b(hContact, SRMSGMOD_T, szSetting, uDefault); }
 
 	static bool __forceinline GetBool(const char *szModule, const char *szSetting, bool uDefault)
@@ -182,9 +182,9 @@ public:
 
 	void    BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam);
 	void    BroadcastMessageAsync(UINT msg, WPARAM wParam, LPARAM lParam);
-	INT_PTR AddWindow(HWND hWnd, HANDLE h);
+	INT_PTR AddWindow(HWND hWnd, HCONTACT h);
 	INT_PTR RemoveWindow(HWND hWnd);
-	HWND    FindWindow(HANDLE h) const;
+	HWND    FindWindow(HCONTACT h) const;
 
 	static 	LPCTSTR StriStr(const TCHAR *szString, const TCHAR *szSearchFor);
 

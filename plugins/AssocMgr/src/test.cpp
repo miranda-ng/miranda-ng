@@ -126,7 +126,7 @@ static int ServiceParseAimLink(WPARAM wParam,LPARAM lParam)
     /* send a message to a contact */
     else if (!_strnicmp(arg,"goim?",5)) {
         char *tok,*sn=NULL,*msg=NULL;
-        HANDLE hContact;
+        HCONTACT hContact;
         if (*(arg+=5)==0) return 1; /* parse failed */
         tok=strtok(arg,"&"); /* first token */
         while(tok!=NULL) {
@@ -206,9 +206,9 @@ void aim_links_destroy()
 #define hInst  GetModuleHandleA("ICQ")
 static __inline HANDLE HContactFromUIN(DWORD dwUIN,int *Added) { dwUIN; Added; return db_find_first(); }
 static __inline HANDLE ICQFindFirstContact(void) { return NULL; }
-static __inline HANDLE ICQFindNextContact(HANDLE hContact) { hContact; return NULL; }
-static __inline void AddToCache(HANDLE hContact,DWORD dwUin) { hContact; dwUin; }
-static __inline DWORD ICQGetContactSettingUIN(HANDLE hContact) { hContact; return 0; }
+static __inline HANDLE ICQFindNextContact(HCONTACT hContact) { hContact; return NULL; }
+static __inline void AddToCache(HCONTACT hContact,DWORD dwUin) { hContact; dwUin; }
+static __inline DWORD ICQGetContactSettingUIN(HCONTACT hContact) { hContact; return 0; }
 static __inline HANDLE HandleFromCacheByUin(DWORD dwUin) { dwUin; return NULL; }
 #include <m_protosvc.h>
 #include <m_message.h>
@@ -254,7 +254,7 @@ typedef struct {
 
 static HANDLE IsHContactFromUIN(DWORD uin)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	DWORD dwUin;
 	hContact=HandleFromCacheByUin(uin);
 	if(hContact!=NULL) return hContact;
@@ -300,7 +300,7 @@ static void AddIcqUser(ICQFILEINFO *info)
 
 static void MessageIcqUser(ICQFILEINFO *info)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	if(ServiceExists(MS_MSG_SENDMESSAGE)) {
 		hContact=HContactFromUIN(atoi(info->uin),NULL); /* adds the contact if needed */
 		if(hContact!=NULL)
@@ -445,7 +445,7 @@ static int ServiceParseYmsgrLink(WPARAM wParam,LPARAM lParam)
     /* send a message to a contact */
     else if (!_strnicmp(arg,"sendim?",7)) {
         char *tok,*id=NULL,*msg=NULL;
-        HANDLE hContact;
+        HCONTACT hContact;
         if (*(arg+=7)==0) return 1; /* parse failed */
         tok=strtok(arg,"&"); /* first token */
         if(tok!=NULL) id=tok;
@@ -562,7 +562,7 @@ static int ServiceParseMsnimLink(WPARAM wParam,LPARAM lParam)
 	/* "voice" and "video" not yet implemented, perform same action as "chat" */
     else if (!_strnicmp(arg,"chat?",5) || !_strnicmp(arg,"voice?",6) || !_strnicmp(arg,"video?",6)) {
         char *tok,*email=NULL;
-        HANDLE hContact;
+        HCONTACT hContact;
         if (*(arg+=5)==0) return 1; /* parse failed */
 		if (*arg=='?' && *(++arg)==0) return 1; /* for "voice?" and "video?" */
         tok=strtok(arg,"&"); /* first token */
@@ -637,7 +637,7 @@ static int ServiceParseLink(WPARAM wParam,LPARAM lParam)
 	if(arg==NULL) return 1; /* parse failed */
 	for (++arg;*arg=='/';++arg);
     /* send a message to a contact */
-	{	HANDLE hContact;
+	{	HCONTACT hContact;
 		if(ServiceExists(MS_MSG_SENDMESSAGE)) {
             hContact=gg_getcontact(atoi(arg),TRUE,FALSE,arg);
             if(hContact!=NULL)
@@ -714,7 +714,7 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
     /* send a message to a contact */
     else if (*arg==0 || (!_strnicmp(arg,"message",7) && (*(arg+7)==';' || *(arg+7)==0))) {
         char *tok,*subj=NULL,*body=NULL;
-        HANDLE hContact;
+        HCONTACT hContact;
 		char msg[1024];
 		arg+=7;
 		while(*arg==';') ++arg;
@@ -754,7 +754,7 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
     }
 	/* remove user from contact list */
     else if (!_strnicmp(arg,"remove",6) && (*(arg+6)==';' || *(arg+6)==0)) {
-		HANDLE hContact;
+		HCONTACT hContact;
 		hContact=JabberHContactFromJID(jid);
         if(hContact==NULL) /* not yet implemented: show standard miranda dialog here */
 			CallService(MS_DB_CONTACT_DELETE,(WPARAM)hContact,0);

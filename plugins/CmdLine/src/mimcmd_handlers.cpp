@@ -1066,13 +1066,13 @@ void HandleCallServiceCommand(PCommand command, TArgument *argv, int argc, PRepl
 }
 
 
-HANDLE ParseContactParam(char *contact)
+HCONTACT ParseContactParam(char *contact)
 {
 	char name[512];
 	char account[128];
 	char protocol[128];
 	char *p = strrchr(contact, ':');
-	HANDLE hContact = NULL;
+	HCONTACT hContact = NULL;
 	if (p)
 	{
 		*p = 0;
@@ -1099,7 +1099,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 		int i;
 		char *contact;
 		char buffer[1024];
-		HANDLE hContact;
+		HCONTACT hContact;
 		HANDLE hProcess = NULL;
 		ACKDATA *ack = NULL;
 		for (i = 2; i < argc - 1; i++)
@@ -1675,7 +1675,7 @@ void HandleProxyCommand(PCommand command, TArgument *argv, int argc, PReply repl
 	}
 }
 
-int ContactMatchSearch(HANDLE hContact, char *contact, char *id, char *account, TArgument *argv, int argc)
+int ContactMatchSearch(HCONTACT hContact, char *contact, char *id, char *account, TArgument *argv, int argc)
 {
 	int matches = 1;
 	int i;
@@ -1757,7 +1757,7 @@ int ContactMatchSearch(HANDLE hContact, char *contact, char *id, char *account, 
 
 DWORD WINAPI OpenMessageWindowThread(void *data)
 {
-	HANDLE hContact = (HANDLE) data;
+	HCONTACT hContact = (HCONTACT) data;
 	if (hContact)
 	{
 		CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM) hContact, 0);
@@ -1780,7 +1780,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 			int count = 0;
 			
 			reply->code = MIMRES_SUCCESS;
-			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				GetContactProto(hContact, protocol, sizeof(protocol));
 				
 				char *contact = GetContactName(hContact, protocol);
@@ -1821,7 +1821,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 					
 					reply->code = MIMRES_SUCCESS;
 					*reply->message = 0;
-					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+					for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						GetContactProto(hContact, protocol, sizeof(protocol));
 						
 						char *contact = GetContactName(hContact, protocol);
@@ -1840,7 +1840,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 					reply->code = MIMRES_SUCCESS;
 					*reply->message = 0;
 
-					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+					for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						HANDLE hUnreadEvent = db_event_firstUnread(hContact);
 						if (hUnreadEvent != NULL) {
 							DWORD threadID;
@@ -1916,7 +1916,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 					reply->code = MIMRES_SUCCESS;
 					mir_snprintf(reply->message, reply->cMessage, Translate("No unread messages found."));
 
-					for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+					for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						HANDLE hEvent = db_event_firstUnread(hContact);
 						if (hEvent != NULL) {
 							count = 0;
@@ -1958,7 +1958,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 		case 4:
 			{
 				char *contact = argv[3];
-				HANDLE hContact = ParseContactParam(contact);
+				HCONTACT hContact = ParseContactParam(contact);
 				if (hContact)
 				{
 					if (_stricmp(cmd, "unread") == 0)
@@ -1993,7 +1993,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 		case 6:
 			{
 				char *contact = argv[3];
-				HANDLE hContact = ParseContactParam(contact);
+				HCONTACT hContact = ParseContactParam(contact);
 
 				if (hContact)
 				{
@@ -2139,7 +2139,7 @@ void HandleIgnoreCommand(PCommand command, TArgument *argv, int argc, PReply rep
 			return;
 		}
 
-		HANDLE hContact = NULL;
+		HCONTACT hContact = NULL;
 		char *contact;
 
 		for (int i = 3; i < argc; i++)

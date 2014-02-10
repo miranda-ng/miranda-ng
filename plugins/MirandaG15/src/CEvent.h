@@ -53,7 +53,7 @@ public:
 
 	enum EventType	eType;
 	DWORD dwFlags;
-	HANDLE hContact;
+	HCONTACT hContact;
 	tm	Time;
 	bool bTime;
 

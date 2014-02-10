@@ -123,7 +123,7 @@ void HexToBin(char *inData, ULONG &size, LPBYTE &outData)
 	i = size;
 }
 
-int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, char *szError, char *szResult, size_t size)
+int GetStringFromDatabase(HCONTACT hContact, char *szModule, char *szSettingName, char *szError, char *szResult, size_t size)
 {
 	DBVARIANT dbv = {0};
 	int res = 1;
@@ -154,7 +154,7 @@ int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, 
 	return res;
 }
 
-int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count)
+int GetStringFromDatabase(HCONTACT hContact, char *szModule, char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count)
 {
 	DBVARIANT dbv = {0};
 	int res = 1;
@@ -202,7 +202,7 @@ int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, 
 }
 
 #pragma warning (disable: 4312)
-TCHAR *GetContactName(HANDLE hContact, char *szProto)
+TCHAR *GetContactName(HCONTACT hContact, char *szProto)
 {
 	CONTACTINFO ctInfo;
 	INT_PTR ret;
@@ -244,14 +244,14 @@ TCHAR *GetContactName(HANDLE hContact, char *szProto)
 #pragma warning (default: 4312)
 
 #pragma warning (disable: 4312)
-void GetContactProto(HANDLE hContact, char *szProto, size_t size)
+void GetContactProto(HCONTACT hContact, char *szProto, size_t size)
 {
 	GetStringFromDatabase(hContact, "Protocol", "p", NULL, szProto, size);
 }
 #pragma warning (default: 4312)
 
 #pragma warning (disable: 4312)
-TCHAR *GetContactID(HANDLE hContact)
+TCHAR *GetContactID(HCONTACT hContact)
 {
 	char protocol[256];
 	GetContactProto(hContact, protocol, sizeof(protocol));
@@ -259,7 +259,7 @@ TCHAR *GetContactID(HANDLE hContact)
 	return GetContactID(hContact, protocol);
 }
 
-TCHAR *GetContactID(HANDLE hContact, char *szProto)
+TCHAR *GetContactID(HCONTACT hContact, char *szProto)
 {
 	CONTACTINFO ctInfo;
 	INT_PTR ret;
@@ -326,14 +326,14 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 #pragma warning (default: 4312)
 
 #pragma warning (disable: 4312)
-HANDLE GetContactFromID(TCHAR *szID, char *szProto)
+HCONTACT GetContactFromID(TCHAR *szID, char *szProto)
 {
 	TCHAR dispName[1024];
 	char cProtocol[256];
 	char *tmp;
 
 	int found = 0;
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		GetContactProto(hContact, cProtocol, sizeof(cProtocol));
 		TCHAR *szHandle = GetContactID(hContact, cProtocol);
 
@@ -353,7 +353,7 @@ HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 #pragma warning (default: 4312)
 
 #pragma warning (disable: 4312)
-HANDLE GetContactFromID(TCHAR *szID, wchar_t *szProto)
+HCONTACT GetContactFromID(TCHAR *szID, wchar_t *szProto)
 {
 	char protocol[1024];
 	WideCharToMultiByte(CP_ACP, 0, szProto, -1, protocol, sizeof(protocol), NULL, NULL);

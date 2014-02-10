@@ -41,7 +41,7 @@ HTMLBuilder::~HTMLBuilder()
 		mir_free((void*)lastIEViewEvent.pszProto);
 }
 
-bool HTMLBuilder::encode(HANDLE hContact, const char *proto, const wchar_t *text, wchar_t **output, int *outputSize,  int level, int flags, bool isSent)
+bool HTMLBuilder::encode(HCONTACT hContact, const char *proto, const wchar_t *text, wchar_t **output, int *outputSize,  int level, int flags, bool isSent)
 {
 	TextToken *token = NULL, *token2;
 	switch (level) {
@@ -86,7 +86,7 @@ bool HTMLBuilder::encode(HANDLE hContact, const char *proto, const wchar_t *text
 	return false;
 }
 
-wchar_t* HTMLBuilder::encode(HANDLE hContact, const char *proto, const wchar_t *text, int flags, bool isSent)
+wchar_t* HTMLBuilder::encode(HCONTACT hContact, const char *proto, const wchar_t *text, int flags, bool isSent)
 {
 	int outputSize;
 	wchar_t *output = NULL;
@@ -95,7 +95,7 @@ wchar_t* HTMLBuilder::encode(HANDLE hContact, const char *proto, const wchar_t *
 	return output;
 }
 
-char* HTMLBuilder::encodeUTF8(HANDLE hContact, const char *proto, const wchar_t *wtext, int flags, bool isSent)
+char* HTMLBuilder::encodeUTF8(HCONTACT hContact, const char *proto, const wchar_t *wtext, int flags, bool isSent)
 {
 	char *outputStr = NULL;
 	if (wtext != NULL) {
@@ -107,7 +107,7 @@ char* HTMLBuilder::encodeUTF8(HANDLE hContact, const char *proto, const wchar_t 
 	return outputStr;
 }
 
-char* HTMLBuilder::encodeUTF8(HANDLE hContact, const char *proto, const char *text, int flags, bool isSent)
+char* HTMLBuilder::encodeUTF8(HCONTACT hContact, const char *proto, const char *text, int flags, bool isSent)
 {
 	char *outputStr = NULL;
 	if (text != NULL) {
@@ -118,7 +118,7 @@ char* HTMLBuilder::encodeUTF8(HANDLE hContact, const char *proto, const char *te
 	return outputStr;
 }
 
-char* HTMLBuilder::encodeUTF8(HANDLE hContact, const char *proto, const char *text, int cp, int flags, bool isSent)
+char* HTMLBuilder::encodeUTF8(HCONTACT hContact, const char *proto, const char *text, int cp, int flags, bool isSent)
 {
 	char *outputStr = NULL;
 	if (text != NULL) {
@@ -129,12 +129,12 @@ char* HTMLBuilder::encodeUTF8(HANDLE hContact, const char *proto, const char *te
 	return outputStr;
 }
 
-char* HTMLBuilder::getProto(HANDLE hContact)
+char* HTMLBuilder::getProto(HCONTACT hContact)
 {
 	return mir_strdup(GetContactProto(hContact));
 }
 
-char* HTMLBuilder::getProto(const char *proto, HANDLE hContact)
+char* HTMLBuilder::getProto(const char *proto, HCONTACT hContact)
 {
 	if (proto != NULL)
 		return mir_strdup(proto);
@@ -142,14 +142,14 @@ char* HTMLBuilder::getProto(const char *proto, HANDLE hContact)
 	return mir_strdup(GetContactProto(hContact));
 }
 
-char* HTMLBuilder::getRealProto(HANDLE hContact)
+char* HTMLBuilder::getRealProto(HCONTACT hContact)
 {
 	if (hContact == NULL)
 		return NULL;
 
 	char *szProto = mir_strdup(GetContactProto(hContact));
 	if (szProto != NULL && !strcmp(szProto, "MetaContacts")) {
-		hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
+		hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		if (hContact != NULL) {
 			mir_free(szProto);
 			szProto = mir_strdup(GetContactProto(hContact));
@@ -158,21 +158,21 @@ char* HTMLBuilder::getRealProto(HANDLE hContact)
 	return szProto;
 }
 
-char *HTMLBuilder::getRealProto(HANDLE hContact, const char *szProto)
+char *HTMLBuilder::getRealProto(HCONTACT hContact, const char *szProto)
 {
 	if (szProto != NULL && !strcmp(szProto, "MetaContacts")) {
-		hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
+		hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		if (hContact != NULL)
 			return mir_strdup(GetContactProto(hContact));
 	}
 	return mir_strdup(szProto);
 }
 
-HANDLE HTMLBuilder::getRealContact(HANDLE hContact)
+HCONTACT HTMLBuilder::getRealContact(HCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (szProto != NULL && !strcmp(szProto,"MetaContacts"))
-		hContact = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
+		hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 	return hContact;
 }
 
@@ -208,7 +208,7 @@ bool HTMLBuilder::isSameDate(time_t time1, time_t time2)
 	return false;
 }
 
-void HTMLBuilder::getUINs(HANDLE hContact, char *&uinIn, char *&uinOut)
+void HTMLBuilder::getUINs(HCONTACT hContact, char *&uinIn, char *&uinOut)
 {
 	CONTACTINFO ci;
 	char buf[128];
@@ -250,7 +250,7 @@ void HTMLBuilder::getUINs(HANDLE hContact, char *&uinIn, char *&uinOut)
 	mir_free(szProto);
 }
 
-wchar_t *HTMLBuilder::getContactName(HANDLE hContact, const char *szProto)
+wchar_t *HTMLBuilder::getContactName(HCONTACT hContact, const char *szProto)
 {
 	CONTACTINFO ci = {0};
 	wchar_t *szName = NULL;
@@ -287,7 +287,7 @@ wchar_t *HTMLBuilder::getContactName(HANDLE hContact, const char *szProto)
 	return mir_tstrdup(TranslateT("(Unknown Contact)"));
 }
 
-char *HTMLBuilder::getEncodedContactName(HANDLE hContact, const char* szProto, const char* szSmileyProto)
+char *HTMLBuilder::getEncodedContactName(HCONTACT hContact, const char* szProto, const char* szSmileyProto)
 {
 	char *szName = NULL;
 	wchar_t *name = getContactName(hContact, szProto);
@@ -432,7 +432,7 @@ ProtocolSettings* HTMLBuilder::getSRMMProtocolSettings(const char *protocolName)
 	return protoSettings;
 }
 
-ProtocolSettings* HTMLBuilder::getSRMMProtocolSettings(HANDLE hContact)
+ProtocolSettings* HTMLBuilder::getSRMMProtocolSettings(HCONTACT hContact)
 {
 	return getSRMMProtocolSettings( ptrA(getRealProto(hContact)));
 }
@@ -446,7 +446,7 @@ ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(const char *protocolNa
 	return protoSettings;
 }
 
-ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(HANDLE hContact)
+ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(HCONTACT hContact)
 {
 	if (hContact != NULL)
 		return getHistoryProtocolSettings( ptrA(getRealProto(hContact)));
@@ -463,7 +463,7 @@ ProtocolSettings* HTMLBuilder::getChatProtocolSettings(const char *protocolName)
 	return protoSettings;
 }
 
-ProtocolSettings* HTMLBuilder::getChatProtocolSettings(HANDLE hContact)
+ProtocolSettings* HTMLBuilder::getChatProtocolSettings(HCONTACT hContact)
 {
 	return getChatProtocolSettings( ptrA(getRealProto(hContact)));
 }

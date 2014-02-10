@@ -53,7 +53,7 @@ HANDLE GetIconHandle(const char* name)
 HGENMENU g_hContactMenuItems[CMITEMS_COUNT];
 
 // Helper functions
-static FacebookProto * GetInstanceByHContact(HANDLE hContact)
+static FacebookProto * GetInstanceByHContact(HCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
 	if(!proto)
@@ -69,7 +69,7 @@ static FacebookProto * GetInstanceByHContact(HANDLE hContact)
 template<INT_PTR (__cdecl FacebookProto::*Fcn)(WPARAM,LPARAM)>
 INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
 {
-	FacebookProto *proto = GetInstanceByHContact(reinterpret_cast<HANDLE>(wParam));
+	FacebookProto *proto = GetInstanceByHContact(reinterpret_cast<HCONTACT>(wParam));
 	return proto ? (proto->*Fcn)(wParam,lParam) : 0;
 }
 
@@ -78,7 +78,7 @@ static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 	for (size_t i=0; i<SIZEOF(g_hContactMenuItems); i++)
 		Menu_ShowItem(g_hContactMenuItems[i], false);
 
-	FacebookProto *proto = GetInstanceByHContact(reinterpret_cast<HANDLE>(wParam));
+	FacebookProto *proto = GetInstanceByHContact(reinterpret_cast<HCONTACT>(wParam));
 	return proto ? proto->OnPrebuildContactMenu(wParam,lParam) : 0;
 }
 
@@ -152,7 +152,7 @@ void UninitContactMenus()
 
 int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {	
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
 	bool bIsChatroom = isChatRoom(hContact);
 
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_PROFILE], true);

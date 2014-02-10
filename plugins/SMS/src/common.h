@@ -92,26 +92,26 @@ extern SMS_SETTINGS ssSMSSettings;
 #define DB_SMS_SetWord(Contact,valueName,parValue) db_set_w(Contact,PROTOCOL_NAMEA,valueName,parValue)
 #define DB_SMS_GetByte(Contact,valueName,parDefltValue) db_get_b(Contact,PROTOCOL_NAMEA,valueName,parDefltValue)
 #define DB_SMS_SetByte(Contact,valueName,parValue) db_set_b(Contact,PROTOCOL_NAMEA,valueName,parValue)
-BOOL	DB_GetStaticStringW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpszRetBuff,SIZE_T dwRetBuffSize,SIZE_T *pdwRetBuffSize);
+BOOL	DB_GetStaticStringW(HCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpszRetBuff,SIZE_T dwRetBuffSize,SIZE_T *pdwRetBuffSize);
 #define DB_SMS_GetStaticStringW(Contact,ValueName,Ret,RetBuffSize,pRetBuffSize) DB_GetStaticStringW(Contact,PROTOCOL_NAMEA,ValueName,Ret,RetBuffSize,pRetBuffSize)
 #define DB_SetStringW(Contact,Module,valueName,parValue) db_set_ws(Contact,Module,valueName,parValue)
 #define DB_SMS_SetStringW(Contact,valueName,parValue) db_set_ws(Contact,PROTOCOL_NAMEA,valueName,parValue)
 
 LRESULT CALLBACK MessageSubclassProc(HWND hwnd,UINT message,WPARAM wParam,LPARAM lParam);
 
-LPSTR  GetModuleName(HANDLE hContact);
+LPSTR  GetModuleName(HCONTACT hContact);
 void   EnableControlsArray(HWND hWndDlg,WORD *pwControlsList,SIZE_T dwControlsListCount,BOOL bEnabled);
 
 // Declaration of function that returns received string with only numbers
 SIZE_T CopyNumberA(LPSTR lpszOutBuff,LPSTR lpszBuff,SIZE_T dwLen);
 SIZE_T CopyNumberW(LPWSTR lpcOutBuff,LPWSTR lpcBuff,SIZE_T dwLen);
 bool   IsPhoneW(LPWSTR lpwszString,SIZE_T dwStringLen);
-DWORD  GetContactPhonesCount(HANDLE hContact);
-BOOL   IsContactPhone(HANDLE hContact,LPWSTR lpwszPhone,SIZE_T dwPhoneSize);
+DWORD  GetContactPhonesCount(HCONTACT hContact);
+BOOL   IsContactPhone(HCONTACT hContact,LPWSTR lpwszPhone,SIZE_T dwPhoneSize);
 
 // Declaration of function that returns HANDLE of contact by his cellular number
-HANDLE HContactFromPhone(LPWSTR lpwszPhone,SIZE_T dwPhoneSize);
-BOOL   GetDataFromMessage(LPSTR lpszMessage,SIZE_T dwMessageSize,DWORD *pdwEventType,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,SIZE_T *pdwPhoneSizeRet,UINT *piIcon);
+HCONTACT HContactFromPhone(LPWSTR lpwszPhone,SIZE_T dwPhoneSize);
+BOOL     GetDataFromMessage(LPSTR lpszMessage,SIZE_T dwMessageSize,DWORD *pdwEventType,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,SIZE_T *pdwPhoneSizeRet,UINT *piIcon);
 
 // Declaration of function that gets a XML string and return the asked tag.
 BOOL   GetXMLFieldEx(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR *plpszData,SIZE_T *pdwDataSize,const char *tag1,...);

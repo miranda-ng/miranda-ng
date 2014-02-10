@@ -16,5 +16,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-BOOL IsIgnored(HANDLE, WORD);
+BOOL IsIgnored(HCONTACT, WORD);
 INT_PTR CALLBACK DlgProcIgnoreOptions(HWND, UINT, WPARAM, LPARAM);

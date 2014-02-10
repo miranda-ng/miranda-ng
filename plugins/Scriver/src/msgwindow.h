@@ -88,9 +88,9 @@ struct TabControlData
 	HICON hIcon;
 };
 
-TCHAR* GetWindowTitle(HANDLE *hContact, const char *szProto);
-TCHAR* GetTabName(HANDLE *hContact);
-HWND   GetParentWindow(HANDLE hContact, BOOL bChat);
-void   NotifyLocalWinEvent(HANDLE hContact, HWND hwnd, unsigned int type);
+TCHAR* GetWindowTitle(HCONTACT hContact, const char *szProto);
+TCHAR* GetTabName(HCONTACT hContact);
+HWND   GetParentWindow(HCONTACT hContact, BOOL bChat);
+void   NotifyLocalWinEvent(HCONTACT hContact, HWND hwnd, unsigned int type);
 
 #endif

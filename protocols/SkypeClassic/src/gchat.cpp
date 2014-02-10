@@ -112,7 +112,7 @@ gchat_contact *GetChatContact(gchat_contacts *gc, const TCHAR *who) {
 static int AddChatContact(gchat_contacts *gc, char *who, TCHAR *pszRole)
 {
 	int i = -2;
-	HANDLE hContact;
+	HCONTACT hContact;
 	CONTACTINFO ci = {0};
 	TCHAR *twho;
 
@@ -165,10 +165,10 @@ void RemChatContact(gchat_contacts *gc, const TCHAR *who) {
 		}
 }
 
-HANDLE find_chat(LPCTSTR chatname) {
+HCONTACT find_chat(LPCTSTR chatname) {
 	char *szProto;
 	int tCompareResult;
-	HANDLE hContact;
+	HCONTACT hContact;
 	DBVARIANT dbv;
 
 	for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
@@ -187,10 +187,10 @@ HANDLE find_chat(LPCTSTR chatname) {
 }
 
 #ifdef _UNICODE
-HANDLE find_chatA(char *chatname) {
+HCONTACT find_chatA(char *chatname) {
 	char *szProto;
 	int tCompareResult;
-	HANDLE hContact;
+	HCONTACT hContact;
 	DBVARIANT dbv;
 
 	for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
@@ -479,7 +479,7 @@ void KillChatSession(GCDEST *gcd)
 void InviteUser(const TCHAR *szChatId)
 {
 	HMENU tMenu = CreatePopupMenu();
-	HANDLE hContact = db_find_first(), hInvitedUser;
+	HCONTACT hContact = db_find_first(), hInvitedUser;
 	DBVARIANT dbv;
 	HWND tWindow;
 	POINT pt;
@@ -516,7 +516,7 @@ void InviteUser(const TCHAR *szChatId)
 	tWindow = CreateWindow(_T("EDIT"),_T(""),0,1,1,1,1,NULL,NULL,hInst,NULL);
 
 	GetCursorPos (&pt);
-	hInvitedUser = (HANDLE)TrackPopupMenu(tMenu, TPM_NONOTIFY | TPM_LEFTALIGN | TPM_TOPALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, tWindow, NULL);
+	hInvitedUser = (HCONTACT)TrackPopupMenu(tMenu, TPM_NONOTIFY | TPM_LEFTALIGN | TPM_TOPALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, tWindow, NULL);
 	DestroyMenu(tMenu);
 	DestroyWindow(tWindow);
 
@@ -527,7 +527,7 @@ void InviteUser(const TCHAR *szChatId)
 
 }
 
-static void KickUser (HANDLE hContact, GCHOOK *gch)
+static void KickUser (HCONTACT hContact, GCHOOK *gch)
 {
 	char *ptr;
 
@@ -566,7 +566,7 @@ static void KickUser (HANDLE hContact, GCHOOK *gch)
 
 void SetChatTopic(const TCHAR *szChatId, TCHAR *szTopic, BOOL bSet)
 {
-	HANDLE hContact = find_chat (szChatId);
+	HCONTACT hContact = find_chat (szChatId);
 	char *szUTFTopic;
 
 	GCDEST gcd = { SKYPE_PROTONAME, szChatId, GC_EVENT_TOPIC };
@@ -608,7 +608,7 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 
 			switch (gch->pDest->iType) {
 			case GC_SESSION_TERMINATE: {
-				HANDLE hContact;
+				HCONTACT hContact;
 
 				if (gc->mJoinedCount == 1) {
 					// switch back to normal session
@@ -691,7 +691,7 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 				InviteUser(gch->pDest->ptszID);
 				break;
 			case GC_USER_PRIVMESS: {
-				HANDLE hContact = find_contactT(gch->ptszUID);
+				HCONTACT hContact = find_contactT(gch->ptszUID);
 				if (hContact) CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 				break;
 
@@ -714,7 +714,7 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 				}
 				break;
 			case GC_USER_NICKLISTMENU: {
-				HANDLE hContact = find_contactT(gch->ptszUID);
+				HCONTACT hContact = find_contactT(gch->ptszUID);
 
 				switch(gch->dwData) {
 				case 10:CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0); break;
@@ -821,7 +821,7 @@ int __cdecl  GCMenuHook(WPARAM wParam,LPARAM lParam) {
 
 INT_PTR GCOnLeaveChat(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	DBVARIANT dbv;
 
 	UNREFERENCED_PARAMETER(lParam);
@@ -837,7 +837,7 @@ INT_PTR GCOnLeaveChat(WPARAM wParam,LPARAM lParam)
  
 INT_PTR GCOnJoinChat(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	DBVARIANT dbv;
 
 	UNREFERENCED_PARAMETER(lParam);

@@ -248,7 +248,7 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Hotkey_Register(&hotkey);
 
 	if (ServiceExists(MS_AV_GETAVATARBITMAP)) {
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			if (db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 				CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
 	}
@@ -387,7 +387,7 @@ static BOOL sttMeasureItem_Group(LPMEASUREITEMSTRUCT lpmis, Options *options)
 
 static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 {
-	HANDLE hContact = (HANDLE)lpmis->itemData;
+	HCONTACT hContact = (HCONTACT)lpmis->itemData;
 
 	lpmis->itemHeight = 4;
 	lpmis->itemWidth = 8+10;
@@ -525,7 +525,7 @@ void ImageList_DrawDimmed(HIMAGELIST himl, int i, HDC hdc, int left, int top, UI
 
 static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 {
-	HANDLE hContact = (HANDLE)lpdis->itemData;
+	HCONTACT hContact = (HCONTACT)lpdis->itemData;
 
 	HDC hdcTemp = CreateCompatibleDC(lpdis->hDC);
 	HBITMAP hbmTemp = CreateCompatibleBitmap(lpdis->hDC, lpdis->rcItem.right-lpdis->rcItem.left, lpdis->rcItem.bottom-lpdis->rcItem.top);
@@ -703,7 +703,7 @@ static BOOL sttDrawItem(LPDRAWITEMSTRUCT lpdis, Options *options=NULL)
 
 static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	static HANDLE hContact = NULL;
+	static HCONTACT hContact = NULL;
 
 	switch (message) {
 	case WM_MEASUREITEM:
@@ -749,7 +749,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 			int nRecent = 0;
 			int maxRecent = g_Options.wMaxRecent ? g_Options.wMaxRecent : 10;
 			for (int i = 0; nRecent < maxRecent; ++i) {
-				HANDLE hContact = g_contactCache->get(i);
+				HCONTACT hContact = g_contactCache->get(i);
 				if (!hContact) break;
 				if (!g_contactCache->filter(i, g_filter)) continue;
 
@@ -764,7 +764,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 			MENUITEMINFO mii = { sizeof(mii) };
 			mii.fMask = MIIM_DATA;
 			GetMenuItemInfo((HMENU)lParam, wParam, TRUE, &mii);
-			HANDLE hContact = (HANDLE)mii.dwItemData;
+			HCONTACT hContact = (HCONTACT)mii.dwItemData;
 			if (!CallService(MS_DB_CONTACT_IS, mii.dwItemData, 0)) return FALSE;
 
 			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
@@ -793,7 +793,7 @@ int sttShowMenu(bool centered)
 	SIZE szColumn = {0};
 	TCHAR *prevGroup = NULL;
 	int i, idItem = 100;
-	HANDLE hContact;
+	HCONTACT hContact;
 
 	favList.build();
 
@@ -867,7 +867,7 @@ int sttShowMenu(bool centered)
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA;
 		GetMenuItemInfo(hMenu, res, FALSE, &mii);
-		hContact = (HANDLE)mii.dwItemData;
+		hContact = (HCONTACT)mii.dwItemData;
 	}
 	SetForegroundWindow(hwndSave);
 	DestroyMenu(hMenu);
@@ -940,7 +940,7 @@ int ProcessSrmmIconClick( WPARAM wParam, LPARAM lParam )
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if (lstrcmpA(sicd->szModule, "FavContacts")) return 0;
 
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (!hContact)
 		return 0;
 
@@ -1005,7 +1005,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 		hSelectedContact = db_find_first();
 		{
-			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+			for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 				SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK,
 				SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0),
 				db_get_b(hContact, "FavContacts", "IsFavourite", 0));
@@ -1127,7 +1127,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			sttSaveOptions();
 
-			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				BYTE fav = SendDlgItemMessage(hwnd, IDC_CLIST, CLM_GETCHECKMARK,
 					SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
 				if (fav != db_get_b(hContact, "FavContacts", "IsFavourite", 0))
@@ -1145,7 +1145,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			case CLN_NEWCONTACT:
 				iSelection = (int)((NMCLISTCONTROL *)lParam)->hItem;
-				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0) == iSelection) {
 						SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK, iSelection, 
 							db_get_b(hContact, "FavContacts", "IsFavourite", 0));
@@ -1156,7 +1156,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			case CLN_CHECKCHANGED:
 				iSelection = (int)((NMCLISTCONTROL *)lParam)->hItem;
-				for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0) == iSelection) {
 						hSelectedContact = hContact;
 						RedrawWindow(GetDlgItem(hwnd, IDC_CANVAS), NULL, NULL, RDW_INVALIDATE);

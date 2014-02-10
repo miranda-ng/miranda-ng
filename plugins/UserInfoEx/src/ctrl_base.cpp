@@ -219,7 +219,7 @@ void CCtrlList::OnReset()
  *
  *
  **/
-BOOL CCtrlList::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
+BOOL CCtrlList::OnInfoChanged(HCONTACT hContact, LPCSTR pszProto)
 {
 	BOOL bChanged = 0;
 	INT_PTR i;
@@ -238,7 +238,7 @@ BOOL CCtrlList::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
  *
  *
  **/
-void CCtrlList::OnApply(HANDLE hContact, LPCSTR pszProto)
+void CCtrlList::OnApply(HCONTACT hContact, LPCSTR pszProto)
 {
 	INT_PTR i;
 

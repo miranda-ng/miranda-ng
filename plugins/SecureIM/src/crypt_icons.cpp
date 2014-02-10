@@ -62,9 +62,9 @@ HANDLE mode2clicon(int mode, int type)
 }
 
 // обновляет иконки в clist и в messagew
-void ShowStatusIcon(HANDLE hContact, int mode)
+void ShowStatusIcon(HCONTACT hContact, int mode)
 {
-	HANDLE hMC = getMetaContact(hContact);
+	HCONTACT hMC = getMetaContact(hContact);
 
 	// обновить иконки в clist
 	if (mode != -1) {
@@ -92,12 +92,12 @@ void ShowStatusIcon(HANDLE hContact, int mode)
 	}
 }
 
-void ShowStatusIcon(HANDLE hContact)
+void ShowStatusIcon(HCONTACT hContact)
 {
 	ShowStatusIcon(hContact, isContactSecured(hContact));
 }
 
-void ShowStatusIconNotify(HANDLE hContact)
+void ShowStatusIconNotify(HCONTACT hContact)
 {
 	BYTE mode = isContactSecured(hContact);
 	NotifyEventHooks(g_hEvent[(mode&SECURED) != 0], (WPARAM)hContact, 0);
@@ -109,7 +109,7 @@ void RefreshContactListIcons(void)
 	for (int i=0; i < arIcoList.getCount(); i++)
 		arIcoList[i].hCLIcon = 0;
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (isSecureProtocol(hContact))
 			ShowStatusIcon(hContact);
 }

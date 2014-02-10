@@ -396,7 +396,7 @@ int RegisterCustomButton(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptszClip,int QVSize,int TextSize ,int ClipSize)
+TCHAR* ParseString(HCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptszClip,int QVSize,int TextSize ,int ClipSize)
 {
 	int i=0,iOffset=0,iCount=0;
 	TCHAR* tempPointer=NULL;

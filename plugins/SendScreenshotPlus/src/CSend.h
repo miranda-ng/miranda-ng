@@ -48,13 +48,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 class CSend {
 	public:
-		CSend(HWND Owner, HANDLE hContact, bool bFreeOnExit); // oder (TfrmMain & Owner)
+		CSend(HWND Owner, HCONTACT hContact, bool bFreeOnExit); // oder (TfrmMain & Owner)
 		virtual ~CSend();
 
 		virtual void	Send() = 0;
 //		void			SendSync(bool Sync) {m_SendSync = Sync;};
 		bool			m_bFreeOnExit;		// need to "delete object;" on exit ?
-		void			SetContact(HANDLE hContact);
+		void			SetContact(HCONTACT hContact);
 		BYTE			GetEnableItem() {return m_EnableItem;};
 		LPTSTR			GetErrorMsg() {return m_ErrorMsg;};
 
@@ -66,14 +66,13 @@ class CSend {
 	private:
 
 	protected:
-		LPTSTR			m_pszSendTyp;		//hold string for error mess
-		HWND			m_hWndO;			//window handle of caller
-		HANDLE			m_hContact;			//Contact handle
-		char*			m_pszProto;			//Contact Proto Modul
-		BYTE			m_EnableItem;		//hold flag for send type
-		void			AfterSendDelete();
-		BYTE			m_ChatRoom;			//is Contact chatroom
-//		bool			m_SendSync;			//send sync / async
+		LPTSTR   m_pszSendTyp;		//hold string for error mess
+		HWND     m_hWndO;			//window handle of caller
+		HCONTACT	m_hContact;			//Contact handle
+		char    *m_pszProto;			//Contact Proto Modul
+		BYTE     m_EnableItem;		//hold flag for send type
+		BYTE     m_ChatRoom;			//is Contact chatroom
+		void AfterSendDelete();
 
 		bool			hasCap(unsigned int Flag);
 		unsigned int	m_PFflag;

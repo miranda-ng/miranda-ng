@@ -49,7 +49,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			{
 				TCHAR *szName = NULL, *tmpStr = NULL;
 				if (acs->handleType == HANDLE_CONTACT)
-					szName = cli.pfnGetContactDisplayName(acs->handle, GCDNF_TCHAR);
+					szName = cli.pfnGetContactDisplayName((HCONTACT)acs->handle, GCDNF_TCHAR);
 				else {
 					int isSet = 0;
 
@@ -58,7 +58,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 						dbei.cbBlob = db_event_getBlobSize(acs->handle);
 						dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 						db_event_get(acs->handle, &dbei);
-						HANDLE hcontact = *((PHANDLE)(dbei.pBlob+sizeof(DWORD)));
+						HCONTACT hcontact = *(HCONTACT*)(dbei.pBlob + sizeof(DWORD));
 						mir_free(dbei.pBlob);
 						if (hcontact != INVALID_HANDLE_VALUE) {
 							szName = cli.pfnGetContactDisplayName(hcontact, 0);
@@ -83,7 +83,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 		if (acs->handleType == HANDLE_CONTACT && acs->handle)
 			if (acs->szProto == NULL || (acs->szProto != NULL && *acs->szProto == 0))
-				acs->szProto = GetContactProto(acs->handle);
+				acs->szProto = GetContactProto((HCONTACT)acs->handle);
 
 		{
 			TCHAR *grpName;
@@ -147,22 +147,22 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			break;
 		case IDOK:
 			{
-				HANDLE hContact = INVALID_HANDLE_VALUE;
+				HCONTACT hContact = (HCONTACT)INVALID_HANDLE_VALUE;
 				switch (acs->handleType) {
 				case HANDLE_EVENT:
 					{
 						DBEVENTINFO dbei = { sizeof(dbei) };
 						db_event_get(acs->handle, &dbei);
-						hContact = (HANDLE)CallProtoServiceInt(NULL,dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)acs->handle);
+						hContact = (HCONTACT)CallProtoServiceInt(NULL, dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)acs->handle);
 					}
 					break;
 
 				case HANDLE_SEARCHRESULT:
-					hContact = (HANDLE)CallProtoServiceInt(NULL,acs->szProto, PS_ADDTOLIST, 0, (LPARAM)acs->psr);
+					hContact = (HCONTACT)CallProtoServiceInt(NULL, acs->szProto, PS_ADDTOLIST, 0, (LPARAM)acs->psr);
 					break;
 
 				case HANDLE_CONTACT:
-					hContact = acs->handle;
+					hContact = (HCONTACT)acs->handle;
 					break;
 				}
 

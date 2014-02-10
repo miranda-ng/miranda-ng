@@ -40,7 +40,7 @@ EventList::EventList()
 	goldBlobSize = 0;
 }
 
-EventList::EventList(HANDLE _hContact, int filter)
+EventList::EventList(HCONTACT _hContact, int filter)
 	:hWnd(NULL),
 	isWnd(false),
 	hContact(_hContact),
@@ -188,7 +188,7 @@ std::wstring EventList::GetFilterName()
 	return filterName;
 }
 
-void EventList::GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, bool noExt, HANDLE _hContact)
+void EventList::GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, bool noExt, HCONTACT _hContact)
 {
 	bool isWndLocal = isWnd;
 	EventTempIndex ti;
@@ -299,7 +299,7 @@ void EventList::RefreshEventList()
 	}
 }
 
-bool EventList::SearchInContact(HANDLE hContact, TCHAR *strFind, ComparatorInterface* compFun)
+bool EventList::SearchInContact(HCONTACT hContact, TCHAR *strFind, ComparatorInterface* compFun)
 {
 	InitFilters();
 
@@ -431,7 +431,7 @@ std::wstring EventList::GetMyName()
 	return myName;
 }
 
-inline std::wstring GetProtocolName(HANDLE hContact)
+inline std::wstring GetProtocolName(HCONTACT hContact)
 {
 	char* ac = (char *)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)hContact, 0);
 	std::wstring proto1;
@@ -471,7 +471,7 @@ std::wstring EventList::GetMyId()
 	return myId;
 }
 
-inline std::wstring GetContactId(HANDLE hContact)
+inline std::wstring GetContactId(HCONTACT hContact)
 {
 	std::wstring id;
 	CONTACTINFO ci;
@@ -643,7 +643,7 @@ CRITICAL_SECTION EventList::criticalSection;
 std::map<HANDLE, EventList::ImportDiscData> EventList::contactFileMap;
 std::wstring EventList::contactFileDir;
 
-void EventList::AddImporter(HANDLE hContact, IImport::ImportType type, const std::wstring& file)
+void EventList::AddImporter(HCONTACT hContact, IImport::ImportType type, const std::wstring& file)
 {
 	EnterCriticalSection(&criticalSection);
 	TCHAR buf[32];
@@ -673,7 +673,7 @@ void EventList::Deinit()
 	DeleteCriticalSection(&EventList::criticalSection);
 }
 
-int EventList::GetContactMessageNumber(HANDLE hContact)
+int EventList::GetContactMessageNumber(HCONTACT hContact)
 {
 	int count = db_event_count(hContact);
 	EnterCriticalSection(&criticalSection);
@@ -685,7 +685,7 @@ int EventList::GetContactMessageNumber(HANDLE hContact)
 	return count;
 }
 
-bool EventList::IsImportedHistory(HANDLE hContact)
+bool EventList::IsImportedHistory(HCONTACT hContact)
 {
 	bool count = false;
 	EnterCriticalSection(&criticalSection);
@@ -697,7 +697,7 @@ bool EventList::IsImportedHistory(HANDLE hContact)
 	return count;
 }
 
-void EventList::DeleteImporter(HANDLE hContact)
+void EventList::DeleteImporter(HCONTACT hContact)
 {
 	EnterCriticalSection(&criticalSection);
 	std::map<HANDLE, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);

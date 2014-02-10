@@ -93,7 +93,7 @@ static HICON Logicons[NR_LOGICONS];
 #define STREAMSTAGE_STOP    3
 struct LogStreamData {
 	int stage;
-	HANDLE hContact;
+	HCONTACT hContact;
 	HANDLE hDbEvent, hDbEventLast;
 	char *buffer;
 	int bufferOffset, bufferLen;
@@ -556,7 +556,7 @@ int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 	return et && ( et->flags & DETF_MSGWINDOW );
 }
 
-static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HANDLE hDbEvent, int prefixParaBreak, LogStreamData *streamData)
+static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HCONTACT hContact, HANDLE hDbEvent, int prefixParaBreak, LogStreamData *streamData)
 {
 	char *buffer, c;
 	TCHAR ci, cc;

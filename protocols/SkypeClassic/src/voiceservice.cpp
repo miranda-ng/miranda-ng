@@ -20,7 +20,7 @@ BOOL HasVoiceService()
 	return has_voice_service;
 }
 
-void NofifyVoiceService(HANDLE hContact, char *callId, int state) 
+void NofifyVoiceService(HCONTACT hContact, char *callId, int state) 
 {
 	VOICE_CALL vc = {0};
 	vc.cbSize = sizeof(vc);
@@ -42,7 +42,7 @@ static INT_PTR VoiceGetInfo(WPARAM wParam, LPARAM lParam)
 
 static HANDLE FindContactByCallId(char *callId)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	int iCmpRes;
 	for (hContact = db_find_first();
 			hContact != NULL;
@@ -73,7 +73,7 @@ static INT_PTR VoiceCall(WPARAM wParam, LPARAM lParam)
 
 	if (!wParam) return -1;
 
-	if (db_get_s((HANDLE)wParam, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) 
+	if (db_get_s((HCONTACT)wParam, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) 
 		return -1;
 
 	SkypeSend("CALL %s", dbv.pszVal);

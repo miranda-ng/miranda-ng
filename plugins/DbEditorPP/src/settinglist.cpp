@@ -53,7 +53,7 @@ void ClearListview(HWND hwnd2Settings)
 	ListView_DeleteAllItems(hwnd2Settings);
 }
 
-void DeleteSettingsFromList(HWND hSettings, HANDLE hContact, char *module, char *setting)
+void DeleteSettingsFromList(HWND hSettings, HCONTACT hContact, char *module, char *setting)
 {
 	int count = ListView_GetSelectedCount(hSettings);
 
@@ -93,7 +93,7 @@ void DeleteSettingsFromList(HWND hSettings, HANDLE hContact, char *module, char 
 	}
 }
 
-void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, int index)
+void additem(HWND hwnd2Settings,HCONTACT hContact, char* module, char* setting, int index)
 {
 	char *data = NULL;
 	LVITEM lvi;
@@ -213,7 +213,7 @@ void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, in
 	mir_free(data);
 }
 
-void PopulateSettings(HWND hwnd2Settings, HANDLE hContact, char* module)
+void PopulateSettings(HWND hwnd2Settings, HCONTACT hContact, char* module)
 {
 	SettingListInfo* info = (SettingListInfo*)mir_calloc(sizeof(SettingListInfo));
 	LVITEM lvItem;
@@ -270,7 +270,7 @@ void SelectSetting(char *setting)
 	}
 }
 
-void settingChanged(HWND hwnd2Settings, HANDLE hContact, char* module, char* setting)
+void settingChanged(HWND hwnd2Settings, HCONTACT hContact, char* module, char* setting)
 {
 	LVITEM lvItem;
 	LVFINDINFO lvfi;
@@ -296,7 +296,7 @@ static WNDPROC SettingLabelEditSubClass;
 
 struct EditLabelInfoStruct
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	char module[256];
 	char setting[256];
 	int item;
@@ -762,7 +762,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd her
 		return;
 
 	char setting[256], *module;
-	HANDLE hContact;
+	HCONTACT hContact;
 	LVHITTESTINFO hti;
 	POINT pt;
 	HMENU hMenu, hSubMenu;

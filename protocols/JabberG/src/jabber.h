@@ -362,8 +362,8 @@ struct ThreadData
 	int      zlibRecv(char* data, long datalen);
 
 	// for nick names resolving
-	int    resolveID;
-	HANDLE resolveContact;
+	int      resolveID;
+	HCONTACT resolveContact;
 
 	// features & registration
 	HWND  reg_hwndDlg;
@@ -760,7 +760,7 @@ void  strdel(char* parBuffer, int len);
 
 //---- jabber_userinfo.cpp --------------------------------------------------------------
 
-void JabberUserInfoUpdate(HANDLE hContact);
+void JabberUserInfoUpdate(HCONTACT hContact);
 
 //---- jabber_iq_handlers.cpp
 BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE);

@@ -57,7 +57,7 @@ HICON LoadSkinnedDBEIcon(int icon);
 int AddIconToList(HIMAGELIST hil, HICON hIcon);
 void AddProtoIconsToList(HIMAGELIST hil, int newshift);
 int GetProtoIcon(char *szProto);
-extern HANDLE hRestore;
+extern HCONTACT hRestore;
 extern HGENMENU hUserMenu;
 /////////////////////
 
@@ -109,11 +109,11 @@ extern HGENMENU hUserMenu;
 
 typedef struct {
 	int type; // from above types
-	HANDLE hContact;
+	HCONTACT hContact;
 } ModuleTreeInfoStruct;
 
 typedef struct {
-	HANDLE hContact;
+	HCONTACT hContact;
 	char* module;
 	HWND hwnd2Edit;
 	int selectedItem; // item that is currently selected
@@ -125,7 +125,7 @@ typedef struct {
 
 struct DBsetting {
 	DBVARIANT dbv;
-	HANDLE hContact;
+	HCONTACT hContact;
 	char *module;
 	char *setting;
 	int WatchModule; // above defines
@@ -133,7 +133,7 @@ struct DBsetting {
 
 typedef struct {
 	char module[256];
-	HANDLE hContact;
+	HCONTACT hContact;
 } ModuleAndContact;
 
 // find window
@@ -143,7 +143,7 @@ typedef struct {
 
 typedef struct {
 	int type; // above types
-	HANDLE hContact;
+	HCONTACT hContact;
 	char module[256];
 	char setting[256];
 } ItemInfo;
@@ -182,67 +182,67 @@ extern BOOL usePopups;
 #define HEX_DWORD      4
 
 //main.c
-int DBGetContactSettingStringStatic(HANDLE hContact, char* szModule, char* szSetting, char* value, int maxLength);
-int WriteBlobFromString(HANDLE hContact,const char *szModule,const char *szSetting, const char *Value, int len);
-int GetSetting(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
-int GetValue(HANDLE hContact, const char* szModule, const char* szSetting, char* Value, int length);
-int GetValueW(HANDLE hContact, const char* szModule, const char* szSetting, WCHAR* Value, int length);
+int DBGetContactSettingStringStatic(HCONTACT hContact, char* szModule, char* szSetting, char* value, int maxLength);
+int WriteBlobFromString(HCONTACT hContact,const char *szModule,const char *szSetting, const char *Value, int len);
+int GetSetting(HCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
+int GetValue(HCONTACT hContact, const char* szModule, const char* szSetting, char* Value, int length);
+int GetValueW(HCONTACT hContact, const char* szModule, const char* szSetting, WCHAR* Value, int length);
 char* u2a( wchar_t* src );
 wchar_t *a2u( char* src , wchar_t *buffer, int len );
-WCHAR *GetContactName(HANDLE hContact, const char *szProto, int unicode);
+WCHAR *GetContactName(HCONTACT hContact, const char *szProto, int unicode);
 BOOL IsProtocolLoaded(char* pszProtocolName);
 
 // main_window.c
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // modules.c
-int deleteModule(char* module, HANDLE hContact, int fromMenu);
+int deleteModule(char* module, HCONTACT hContact, int fromMenu);
 void deleteModuleGui();
-void renameModule(char* oldName, char* newName, HANDLE hContact);
+void renameModule(char* oldName, char* newName, HCONTACT hContact);
 INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-int CloneContact(HANDLE hContact);
+int CloneContact(HCONTACT hContact);
 
 // moduletree.c
-void replaceTreeItem(HWND hwnd, HANDLE hContact, const char *module, const char *newModule);
+void replaceTreeItem(HWND hwnd, HCONTACT hContact, const char *module, const char *newModule);
 void refreshTree(BOOL restore);
 void __cdecl PopulateModuleTreeThreadFunc(LPVOID di);
-void freeTree(HWND hwnd2Tree, HANDLE hContact);
-int findItemInTree(HWND hwnd2Tree, HANDLE hContact, char* module);
+void freeTree(HWND hwnd2Tree, HCONTACT hContact);
+int findItemInTree(HWND hwnd2Tree, HCONTACT hContact, char* module);
 
 // settinglist.c
 void setupSettingsList(HWND hwnd2List);
 void saveListSettings(HWND hwnd2List);
 void ClearListview(HWND hwnd2Settings);
-void DeleteSettingsFromList(HWND hSettings, HANDLE hContact, char *module, char *setting);
-void PopulateSettings(HWND hwnd2Settings, HANDLE hContact, char* module);
+void DeleteSettingsFromList(HWND hSettings, HCONTACT hContact, char *module, char *setting);
+void PopulateSettings(HWND hwnd2Settings, HCONTACT hContact, char* module);
 void SelectSetting(char* setting);
 
 // addeditsettingsdlg.c
 INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void editSetting(HANDLE hContact, char* module, char* setting);
-BOOL convertSetting(HANDLE hContact, char* module, char* setting, int toType); // 0 = byte, 1 = word, 2 = dword, 3 = string
+void editSetting(HCONTACT hContact, char* module, char* setting);
+BOOL convertSetting(HCONTACT hContact, char* module, char* setting, int toType); // 0 = byte, 1 = word, 2 = dword, 3 = string
 
 // exportimport.c
-void exportDB(HANDLE hContact, char* module); // hContact == -1 export entire db. module == NULL export entire contact
-void ImportSettingsMenuItem(HANDLE hContact);
-void ImportSettingsFromFileMenuItem(HANDLE hContact, char* FilePath);
+void exportDB(HCONTACT hContact, char* module); // hContact == -1 export entire db. module == NULL export entire contact
+void ImportSettingsMenuItem(HCONTACT hContact);
+void ImportSettingsFromFileMenuItem(HCONTACT hContact, char* FilePath);
 
 // find window.c
 INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // copymodule.c
-void copyModuleMenuItem(char* module, HANDLE hContact);
-void copyModule(char* module, HANDLE hContactFrom, HANDLE hContactTo);
+void copyModuleMenuItem(char* module, HCONTACT hContact);
+void copyModule(char* module, HCONTACT hContactFrom, HCONTACT hContactTo);
 
 // options.c
 int OptInit(WPARAM wParam,LPARAM lParam);
 
 // watchlist
-int addSettingToWatchList(HANDLE hContact, char* module, char* setting);
+int addSettingToWatchList(HCONTACT hContact, char* module, char* setting);
 void freeWatchListItem(int item);
 void PopulateWatchedWindow(HWND hwnd);
 void freeAllWatches();
 INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void popupWatchedVar(HANDLE hContact,const char* module,const char* setting);
+void popupWatchedVar(HCONTACT hContact,const char* module,const char* setting);
 
 #endif //_COMMONHEADERS_H

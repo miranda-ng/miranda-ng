@@ -5,7 +5,7 @@ BBButton OTRButton;
 
 int SVC_IconPressed(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if(sicd->cbSize < (int)sizeof(StatusIconClickData))
 		return 0;
@@ -21,7 +21,7 @@ int SVC_IconPressed(WPARAM wParam, LPARAM lParam)
 }
 
 // set SRMM icon status, if applicable
-void SetEncryptionStatus(HANDLE hContact, TrustLevel level)
+void SetEncryptionStatus(HCONTACT hContact, TrustLevel level)
 {
 	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0));
@@ -71,8 +71,8 @@ void SetEncryptionStatus(HANDLE hContact, TrustLevel level)
 	db_set_dw(hContact, MODULENAME, "TrustLevel", level);
 
 	if (!chat_room && options.bHaveMetaContacts) {
-		HANDLE hMeta = (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
-		HANDLE hMostOnline = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMeta, 0);
+		HCONTACT hMeta = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+		HCONTACT hMostOnline = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMeta, 0);
 		if(hMeta && hContact == hMostOnline)
 			SetEncryptionStatus(hMeta, level);
 		else if(hMeta) {
@@ -95,7 +95,7 @@ int SVC_ButtonsBarPressed(WPARAM w, LPARAM l)
 {
 	CustomButtonClickData* cbcd = (CustomButtonClickData *)l;
 	if (cbcd->cbSize == (int)sizeof(CustomButtonClickData) && cbcd->dwButtonId == 0 && strcmp(cbcd->pszModule, MODULENAME)==0) {
-		HANDLE hContact = (HANDLE)w;
+		HCONTACT hContact = (HCONTACT)w;
 	
 		char *proto = GetContactProto(hContact);
 		if(proto && db_get_b(hContact, proto, "ChatRoom", 0))

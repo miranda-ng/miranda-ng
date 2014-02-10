@@ -75,7 +75,7 @@ static int iconsOn;
 
 
 struct NotifyMenuItemExData {
-	HANDLE hContact;
+	HCONTACT hContact;
 	int iIcon;              // icon index in the image list
 	HICON hIcon;            // corresponding icon handle
 	HANDLE hDbEvent;
@@ -176,7 +176,7 @@ struct CListEvent* cli_AddEvent(CLISTEVENT *cle)
 }
 
 
-int cli_RemoveEvent(HANDLE hContact, HANDLE hDbEvent)
+int cli_RemoveEvent(HCONTACT hContact, HANDLE hDbEvent)
 {
 	int i;
 	int res = 0;

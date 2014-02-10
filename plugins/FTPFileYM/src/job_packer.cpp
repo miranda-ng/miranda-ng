@@ -25,8 +25,8 @@ int PackerJob::iRunningJobCount = 0;
 extern UploadDialog *uDlg;
 extern Options &opt;
 
-PackerJob::PackerJob(HANDLE _hContact, int _iFtpNum, EMode _mode)
-:GenericJob(_hContact, _iFtpNum, _mode),uiFileSize(0),uiReaded(0),lastUpdateTick(0)
+PackerJob::PackerJob(HCONTACT _hContact, int _iFtpNum, EMode _mode) :
+	GenericJob(_hContact, _iFtpNum, _mode),uiFileSize(0),uiReaded(0),lastUpdateTick(0)
 { }
 
 void PackerJob::getZipFilePath()

@@ -42,13 +42,10 @@ static LIST<void> amItems(10, PtrKeySortT);
 static HANDLE  hamProcessEvent = NULL;
 static DWORD   amRequestTick = 0;
 
-static int		amAddHandleToChain(HANDLE hContact);
-static HANDLE	amGetCurrentChain();
-
 /*
 *  Add contact handle to requests queue
 */
-static int amAddHandleToChain(HANDLE hContact)
+static int amAddHandleToChain(HCONTACT hContact)
 {
 	mir_cslockfull lck(amCS);
 	if (amItems.find(hContact) != NULL)
@@ -63,13 +60,13 @@ static int amAddHandleToChain(HANDLE hContact)
 /*
 *	Gets handle from queue for request
 */
-static HANDLE amGetCurrentChain()
+static HCONTACT amGetCurrentChain()
 {
 	mir_cslock lck(amCS);
 	if (amItems.getCount() == 0)
 		return NULL;
 
-	HANDLE res = amItems[0];
+	HCONTACT res = (HCONTACT)amItems[0];
 	amItems.remove(0);
 	return res;
 }
@@ -85,7 +82,7 @@ static void amThreadProc(void *)
 	memset(&dnce, 0, sizeof(dnce));
 
 	while (!MirandaExiting()) {
-		HANDLE hContact = amGetCurrentChain();
+		HCONTACT hContact = amGetCurrentChain();
 		while (hContact) {
 			DWORD time = GetTickCount();
 			if ((time-amRequestTick) < AMASKPERIOD) {
@@ -94,7 +91,7 @@ static void amThreadProc(void *)
 					return;
 			}
 			CListSettings_FreeCacheItemData(&dnce);
-			dnce.hContact = (HANDLE)hContact;
+			dnce.hContact = hContact;
 			Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&dnce);
 
 			HANDLE ACK = 0;
@@ -146,7 +143,7 @@ BOOL amWakeThread()
 /*
 *	Sub to be called outside on status changing to retrieve away message
 */
-void amRequestAwayMsg(HANDLE hContact)
+void amRequestAwayMsg(HCONTACT hContact)
 {
 	if (!g_CluiData.bInternalAwayMsgDiscovery || !hContact)
 		return;

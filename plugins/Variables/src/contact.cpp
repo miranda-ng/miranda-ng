@@ -75,7 +75,7 @@ static builtinCnfs[] =
 
 typedef struct {
 	TCHAR* tszContact;
-	HANDLE hContact;
+	HCONTACT hContact;
 	DWORD flags;
 } CONTACTCE; /* contact cache entry */
 
@@ -104,7 +104,7 @@ BYTE getContactInfoType(TCHAR* type)
 /*
 	returns info about a contact as a string
 */
-TCHAR* getContactInfoT(BYTE type, HANDLE hContact)
+TCHAR* getContactInfoT(BYTE type, HCONTACT hContact)
 {
 	/* returns dynamic allocated buffer with info, or NULL if failed */
 	TCHAR *res = NULL;
@@ -216,7 +216,7 @@ int getContactFromString(CONTACTSINFO *ci)
 		for (int i=0; i < cacheSize; i++) {
 			if ((!_tcscmp(cce[i].tszContact, tszContact)) && (ci->flags == cce[i].flags)) {
 				/* found in cache */
-				ci->hContacts = (HANDLE*)mir_alloc(sizeof(HANDLE));
+				ci->hContacts = (HCONTACT*)mir_alloc(sizeof(HCONTACT));
 				if (ci->hContacts == NULL)
 					return -1;
 
@@ -227,7 +227,7 @@ int getContactFromString(CONTACTSINFO *ci)
 	}
 
 	/* contact was not in cache, do a search */
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto == NULL)
 			continue;
@@ -325,7 +325,7 @@ int getContactFromString(CONTACTSINFO *ci)
 			}
 		}
 		if (bMatch) {
-			ci->hContacts = (HANDLE*)mir_realloc(ci->hContacts, (count+1)*sizeof(HANDLE));
+			ci->hContacts = (HCONTACT*)mir_realloc(ci->hContacts, (count + 1)*sizeof(HCONTACT));
 			if (ci->hContacts == NULL)
 				return -1;
 
@@ -353,7 +353,7 @@ int getContactFromString(CONTACTSINFO *ci)
 static int contactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbw = (DBCONTACTWRITESETTING*)lParam;
-	HANDLE hContact = (HANDLE) wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	mir_cslock lck(csContactCache);
 	for (int i=0; i < cacheSize; i++) {
@@ -407,7 +407,7 @@ int deinitContactModule()
 
 // returns a string in the form <PROTOID:UNIQUEID>, cannot be _HANDLE_!
 // result must be freed
-TCHAR *encodeContactToString(HANDLE hContact)
+TCHAR* encodeContactToString(HCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	TCHAR *tszUniqueId = getContactInfoT(CNF_UNIQUEID, hContact);
@@ -423,16 +423,16 @@ TCHAR *encodeContactToString(HANDLE hContact)
 
 // returns a contact from a string in the form <PROTOID:UNIQUEID>
 // returns INVALID_HANDLE_VALUE in case of an error.
-HANDLE *decodeContactFromString(TCHAR *tszContact)
+HCONTACT decodeContactFromString(TCHAR *tszContact)
 {
-	HANDLE hContact = INVALID_HANDLE_VALUE;
+	HCONTACT hContact = (HCONTACT)INVALID_HANDLE_VALUE;
 	CONTACTSINFO ci = { sizeof(ci) };
 	ci.tszContact = tszContact;
 	ci.flags = CI_PROTOID|CI_TCHAR;
 	int count = getContactFromString( &ci );
 	if (count != 1) {
 		mir_free(ci.hContacts);
-		return (HANDLE*)hContact;
+		return hContact;
 	}
 
 	if (ci.hContacts != NULL) {
@@ -440,5 +440,5 @@ HANDLE *decodeContactFromString(TCHAR *tszContact)
 		mir_free(ci.hContacts);
 	}
 
-	return (HANDLE*)hContact;
+	return hContact;
 }

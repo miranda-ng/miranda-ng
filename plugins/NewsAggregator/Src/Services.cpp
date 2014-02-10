@@ -23,7 +23,7 @@ int g_nStatus = ID_STATUS_ONLINE;
 UINT_PTR timerId = 0;
 HANDLE hTBButton = NULL, hNewsAggregatorFolder = NULL;
 
-void SetContactStatus(HANDLE hContact, int nNewStatus)
+void SetContactStatus(HCONTACT hContact, int nNewStatus)
 {
 	if(db_get_w(hContact, MODULE, "Status", ID_STATUS_ONLINE) != nNewStatus)
 		db_set_w(hContact, MODULE, "Status", nNewStatus);
@@ -33,7 +33,7 @@ static void __cdecl WorkingThread(void* param)
 {
 	int nStatus = (int)param;
 
-	for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE))
+	for (HCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE))
 		SetContactStatus(hContact, nStatus);
 }
 
@@ -51,7 +51,7 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 	else
 		lstrcpyn(tszRoot, VARST( _T("%miranda_userdata%\\Avatars\\"_T(DEFAULT_AVATARS_FOLDER))), SIZEOF(tszRoot));
 
-	for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+	for (HCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
 			db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
 		SetContactStatus(hContact, ID_STATUS_ONLINE);
@@ -136,10 +136,10 @@ INT_PTR NewsAggrLoadIcon(WPARAM wParam, LPARAM lParam)
 	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx("main", FALSE)) : 0;
 }
 
-static void __cdecl AckThreadProc(HANDLE param)
+static void __cdecl AckThreadProc(void *param)
 {
 	Sleep(100);
-	ProtoBroadcastAck(MODULE, param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	ProtoBroadcastAck(MODULE, (HCONTACT)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 INT_PTR NewsAggrGetInfo(WPARAM wParam, LPARAM lParam)
@@ -151,7 +151,7 @@ INT_PTR NewsAggrGetInfo(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CheckAllFeeds(WPARAM wParam, LPARAM lParam)
 {
-	for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+	for (HCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		if (lParam && db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
 			UpdateListAdd(hContact);
 		else if (!lParam)
@@ -172,7 +172,7 @@ INT_PTR AddFeed(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ChangeFeed(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList, hContact);
 	if (!hChangeFeedDlg) {
 		hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcChangeFeedMenu, (LPARAM)hContact);
@@ -198,7 +198,7 @@ INT_PTR ExportFeeds(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CheckFeed(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if(IsMyContact(hContact))
 		UpdateListAdd(hContact);
 	if ( !ThreadRunning)

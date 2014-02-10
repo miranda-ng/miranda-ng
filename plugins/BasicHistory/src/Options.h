@@ -92,7 +92,7 @@ struct TaskOptions
 	std::wstring filePath;
 	std::wstring taskName;
 	std::string zipPassword; // char* because zip file using ANSI password
-	std::vector<HANDLE> contacts;
+	std::vector<HCONTACT> contacts;
 	TaskOptions()
 	{
 		forceExecute = false;

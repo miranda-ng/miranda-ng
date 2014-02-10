@@ -62,7 +62,7 @@ static void UpdateAllContactsCheckmark(HWND hwndList, CIcqProto* ppro, HANDLE ph
 {
 	int check = 1;
 
-	HANDLE hContact = ppro->FindFirstContact();
+	HCONTACT hContact = ppro->FindFirstContact();
 	while (hContact)
 	{
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
@@ -87,7 +87,7 @@ static int UpdateCheckmarks(HWND hwndList, CIcqProto* ppro, HANDLE phItemAll)
 	int bAll = 1;
 	bListInit = 1; // lock CLC events
 
-	HANDLE hContact = ppro->FindFirstContact();
+	HCONTACT hContact = ppro->FindFirstContact();
 	while (hContact)
 	{
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
@@ -112,7 +112,7 @@ static int UpdateCheckmarks(HWND hwndList, CIcqProto* ppro, HANDLE phItemAll)
 
 static void DeleteOtherContactsFromControl(HWND hCtrl, CIcqProto* ppro)
 {
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendMessage(hCtrl, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem)
 			if (!ppro->IsICQContact(hContact))
@@ -191,7 +191,7 @@ static DWORD sendUploadGroup(CIcqProto* ppro, WORD wAction, WORD wGroupId, char*
 	return 0;
 }
 
-static DWORD sendUploadBuddy(CIcqProto* ppro, HANDLE hContact, WORD wAction, DWORD dwUin, char *szUID, WORD wContactId, WORD wGroupId, WORD wItemType)
+static DWORD sendUploadBuddy(CIcqProto* ppro, HCONTACT hContact, WORD wAction, DWORD dwUin, char *szUID, WORD wContactId, WORD wGroupId, WORD wItemType)
 {
 	DWORD dwCookie;
 	cookie_servlist_action* ack;
@@ -260,7 +260,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg,UINT message,WPARAM wPara
 	static int currentSequence;
 	static int currentAction;
 	static int currentState;
-	static HANDLE hCurrentContact;
+	static HCONTACT hCurrentContact;
 	static int lastAckResult = 0;
 	static WORD wNewContactId;
 	static WORD wNewGroupId;
@@ -511,7 +511,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg,UINT message,WPARAM wPara
 		// and every time an ack from the server has been taken care of.
 	case M_UPLOADMORE:
 		{
-			HANDLE hContact;
+			HCONTACT hContact;
 			HANDLE hItem;
 			DWORD dwUin;
 			uid_str szUid;
@@ -933,7 +933,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg,UINT message,WPARAM wPara
 				case CLN_CHECKCHANGED:
 					{
 						NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
-						HANDLE hContact;
+						HCONTACT hContact;
 						HANDLE hItem;
 
 						if (bListInit) break;

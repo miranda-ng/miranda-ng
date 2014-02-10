@@ -221,7 +221,7 @@ double get_msg_score(TCHAR *msg)
 	return tmp1 / (tmp1 + tmp2);
 }
 
-void queue_message(HANDLE hContact, DWORD msgtime, TCHAR *message)
+void queue_message(HCONTACT hContact, DWORD msgtime, TCHAR *message)
 {
 	char *tmp;
 	sqlite3_stmt *stmt;
@@ -245,7 +245,7 @@ void queue_message(HANDLE hContact, DWORD msgtime, TCHAR *message)
 	sqlite3_finalize(stmt);
 }
 
-void bayes_approve_contact(HANDLE hContact)
+void bayes_approve_contact(HCONTACT hContact)
 {
 	const char *message;
 	TCHAR *messageW;

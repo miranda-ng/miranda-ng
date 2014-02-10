@@ -14,7 +14,7 @@ struct MRA_SEND_QUEUE_ITEM : public LIST_MT_ITEM
 	// external
 	DWORD    dwCMDNum;
 	DWORD    dwFlags;
-	HANDLE   hContact;
+	HCONTACT hContact;
 	DWORD    dwAckType;
 	LPBYTE   lpbData;
 	size_t   dwDataSize;
@@ -59,7 +59,7 @@ void MraSendQueueDestroy(HANDLE hSendQueueHandle)
 }
 
 
-DWORD MraSendQueueAdd(HANDLE hSendQueueHandle, DWORD dwCMDNum, DWORD dwFlags, HANDLE hContact, DWORD dwAckType, LPBYTE lpbData, size_t dwDataSize)
+DWORD MraSendQueueAdd(HANDLE hSendQueueHandle, DWORD dwCMDNum, DWORD dwFlags, HCONTACT hContact, DWORD dwAckType, LPBYTE lpbData, size_t dwDataSize)
 {
 	if (!hSendQueueHandle || !dwCMDNum)
 		return ERROR_INVALID_HANDLE;
@@ -108,7 +108,7 @@ DWORD MraSendQueueFree(HANDLE hSendQueueHandle, DWORD dwCMDNum)
 	return ERROR_NOT_FOUND;
 }
 
-DWORD MraSendQueueFind(HANDLE hSendQueueHandle, DWORD dwCMDNum, DWORD *pdwFlags, HANDLE *phContact, DWORD *pdwAckType, LPBYTE *plpbData, size_t *pdwDataSize)
+DWORD MraSendQueueFind(HANDLE hSendQueueHandle, DWORD dwCMDNum, DWORD *pdwFlags, HCONTACT *phContact, DWORD *pdwAckType, LPBYTE *plpbData, size_t *pdwDataSize)
 {
 	if (!hSendQueueHandle)
 		return ERROR_INVALID_HANDLE;
@@ -135,7 +135,7 @@ DWORD MraSendQueueFind(HANDLE hSendQueueHandle, DWORD dwCMDNum, DWORD *pdwFlags,
 	return ERROR_NOT_FOUND;
 }
 
-DWORD MraSendQueueFindOlderThan(HANDLE hSendQueueHandle, DWORD dwTime, DWORD *pdwCMDNum, DWORD *pdwFlags, HANDLE *phContact, DWORD *pdwAckType, LPBYTE *plpbData, size_t *pdwDataSize)
+DWORD MraSendQueueFindOlderThan(HANDLE hSendQueueHandle, DWORD dwTime, DWORD *pdwCMDNum, DWORD *pdwFlags, HCONTACT *phContact, DWORD *pdwAckType, LPBYTE *plpbData, size_t *pdwDataSize)
 {
 	if (!hSendQueueHandle)
 		return ERROR_INVALID_HANDLE;

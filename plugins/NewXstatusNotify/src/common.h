@@ -122,7 +122,7 @@ typedef struct tagPLUGINDATA
 } PLUGINDATA;
 
 typedef struct {
-	HANDLE hContact;
+	HCONTACT hContact;
 	TCHAR *cust;
 	TCHAR *oldstatusmsg;
 	TCHAR *newstatusmsg;
@@ -131,7 +131,7 @@ typedef struct {
 } STATUSMSGINFO;
 
 /*
-HANDLE hContact = (HANDLE)wParam;
+HCONTACT hContact = (HCONTACT)wParam;
 WORD oldStatus = LOWORD(lParam);
 WORD newStatus = HIWORD(lParam);
 oldStatus is the status the contact was before the change.

@@ -137,7 +137,7 @@ typedef struct LISTELEMENT LISTELEMENT;
 
 // Dialogbox Parameter
 typedef struct{
-	HANDLE hContact;
+	HCONTACT hContact;
 	LISTELEMENT *listStart;
 	UINT findMessage;
 	CHARRANGE chrg;

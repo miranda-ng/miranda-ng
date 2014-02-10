@@ -79,13 +79,13 @@
 
 typedef struct {
 	int cbSize;
-	POINT pt;		// screen coordinates for menus
-	char* pszModule;		// button owners name
-	DWORD dwButtonId;		// registered button ID
-	HWND hwndFrom;		// button parents HWND
-	HANDLE hContact;	//
-	DWORD flags;		// BBCF_ flags
-	} CustomButtonClickData;
+	POINT pt;          // screen coordinates for menus
+	char* pszModule;   // button owners name
+	DWORD dwButtonId;  // registered button ID
+	HWND hwndFrom;     // button parents HWND
+	HCONTACT hContact;
+	DWORD flags;       // BBCF_ flags
+} CustomButtonClickData;
 
 
 //button flags

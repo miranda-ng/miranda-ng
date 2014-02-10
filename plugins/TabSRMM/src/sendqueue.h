@@ -44,7 +44,7 @@ struct SendJob
 	char    *szSendBuffer;
 	int		iSendLength;	// length of message in utf-8 octets (used to check maxlen)
 	int      sendCount;
-	HANDLE   hOwner;
+	HCONTACT hOwner;
 	HWND     hwndOwner;
 	unsigned iStatus;
 	TCHAR    szErrorMsg[128];
@@ -92,7 +92,7 @@ public:
 	void  recallFailed(const TWindowData *dat, int iEntry) const;
 	void  showErrorControls(TWindowData *dat, const int showCmd) const;
 	int   ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam);
-	int   doSendLater(int iIndex, TWindowData *dat, HANDLE hContact = 0, bool fIsSendLater = true);
+	int   doSendLater(int iIndex, TWindowData *dat, HCONTACT hContact = 0, bool fIsSendLater = true);
 	/*
 	 * static members
 	 */

@@ -4,7 +4,7 @@ HINSTANCE hInst;
 int hLangpack = 0;
 
 // add icon to srmm status icons
-static void SrmmMenu_UpdateIcon(HANDLE hContact);
+static void SrmmMenu_UpdateIcon(HCONTACT hContact);
 static int SrmmMenu_ProcessEvent(WPARAM wParam, LPARAM lParam);
 static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam);
 
@@ -20,7 +20,8 @@ CRITICAL_SECTION list_cs;
 
 // a list of db events - we'll check them for the 'read' flag periodically and delete them whwen marked as read
 struct EventListNode {
-	HANDLE hContact, hDBEvent;
+	HCONTACT hContact;
+	HANDLE hDBEvent;
 	EventListNode *next;
 };
 
@@ -53,7 +54,7 @@ extern "C" __declspec (dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirand
 	return &pluginInfo;
 }
 
-void RemoveReadEvents(HANDLE hContact = 0)
+void RemoveReadEvents(HCONTACT hContact = 0)
 {
 	DBEVENTINFO info = { sizeof(info) };
 	bool remove;
@@ -96,7 +97,7 @@ void RemoveReadEvents(HANDLE hContact = 0)
 	LeaveCriticalSection(&list_cs);	
 }
 
-void RemoveAllEvents(HANDLE hContact)
+void RemoveAllEvents(HCONTACT hContact)
 {
 	HANDLE hDBEvent = db_event_first(hContact);
 	while(hDBEvent) {
@@ -113,7 +114,8 @@ void CALLBACK TimerProc(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 
 int OnDatabaseEventAdd(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam, hDBEvent = (HANDLE)lParam;
+	HCONTACT hContact = (HCONTACT)wParam;
+	HANDLE hDBEvent = (HANDLE)lParam;
 	
 	// history not disabled for this contact
 	if (db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) == 0)
@@ -139,7 +141,7 @@ int OnDatabaseEventAdd(WPARAM wParam, LPARAM lParam)
 INT_PTR ServiceClear(WPARAM wParam, LPARAM lParam)
 {
 	if (MessageBox(0, TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?"), TranslateT("Clear History"), MB_YESNO | MB_ICONWARNING) == IDYES) {
-		HANDLE hContact = (HANDLE)wParam;
+		HCONTACT hContact = (HCONTACT)wParam;
 		RemoveAllEvents(hContact);
 	}
 	
@@ -148,7 +150,7 @@ INT_PTR ServiceClear(WPARAM wParam, LPARAM lParam)
 
 int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	
 	bool remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
 	char *proto = GetContactProto(hContact);
@@ -170,7 +172,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ServiceToggle(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	int remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
 	remove = !remove;
@@ -190,7 +192,7 @@ INT_PTR ServiceToggle(WPARAM wParam, LPARAM lParam)
 int WindowEvent(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData *mwd = (MessageWindowEventData *)lParam;
-	HANDLE hContact = mwd->hContact;
+	HCONTACT hContact = mwd->hContact;
 
 	switch(mwd->uType) {
 	case MSG_WINDOW_EVT_CLOSE:
@@ -216,7 +218,7 @@ int WindowEvent(WPARAM wParam, LPARAM lParam)
 										  
 int IconPressed(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if (sicd->cbSize < (int)sizeof(StatusIconClickData))
 		return 0;

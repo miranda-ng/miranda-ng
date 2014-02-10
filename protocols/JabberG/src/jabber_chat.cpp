@@ -132,7 +132,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	gcw.ptszID = item->jid;
 	CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw);
 
-	HANDLE hContact = HContactFromJID(item->jid);
+	HCONTACT hContact = HContactFromJID(item->jid);
 	if (hContact != NULL) {
 		if (JABBER_LIST_ITEM *bookmark = ListGetItemPtr(LIST_BOOKMARK, item->jid))
 			if (bookmark->name) {
@@ -600,7 +600,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 				mir_sntprintf(sttRJidBuf, SIZEOF(sttRJidBuf), TranslateT("Real &JID: %s"), him->m_tszRealJid);
 				if (TCHAR *tmp = _tcschr(sttRJidBuf, _T('/'))) *tmp = 0;
 
-				if (HANDLE hContact = HContactFromJID(him->m_tszRealJid)) {
+				if (HCONTACT hContact = HContactFromJID(him->m_tszRealJid)) {
 					gcmi->Item[3].uType = MENU_HMENU;
 					gcmi->Item[3].dwID = CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
 					sttShowGcMenuItems(gcmi, sttRJidItems, 0);
@@ -662,7 +662,7 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 
 	void FilterList(CCtrlClc *)
 	{
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			char *proto = GetContactProto(hContact);
 			if (lstrcmpA(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact))
 				if (HANDLE hItem = m_clc.FindContact(hContact))
@@ -740,7 +740,7 @@ public:
 		m_txtNewJid.GetText(buf, SIZEOF(buf));
 		m_txtNewJid.SetTextA("");
 
-		HANDLE hContact = m_proto->HContactFromJID(buf);
+		HCONTACT hContact = m_proto->HContactFromJID(buf);
 		if (hContact)
 		{
 			int hItem = SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
@@ -776,7 +776,7 @@ public:
 		HWND hwndList = GetDlgItem(m_hwnd, IDC_CLIST);
 
 		// invite users from roster
-		for (HANDLE hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+		for (HCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
 			if (m_proto->isChatRoom(hContact))
 				continue;
 
@@ -1003,7 +1003,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 
 	if ((gch->dwData >= CLISTMENUIDMIN) && (gch->dwData <= CLISTMENUIDMAX)) {
 		if (him->m_tszRealJid && *him->m_tszRealJid)
-			if (HANDLE hContact = ppro->HContactFromJID(him->m_tszRealJid))
+			if (HCONTACT hContact = ppro->HContactFromJID(him->m_tszRealJid))
 				CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(gch->dwData, MPCF_CONTACTMENU), (LPARAM)hContact);
 		return;
 	}
@@ -1039,7 +1039,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			JABBER_LIST_ITEM *item = ppro->ListAdd(LIST_VCARD_TEMP, jsr.jid);
 			ppro->ListAddResource(LIST_VCARD_TEMP, jsr.jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 
-			HANDLE hContact = (HANDLE)CallProtoService(ppro->m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
+			HCONTACT hContact = (HCONTACT)CallProtoService(ppro->m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
 		}
 		break;
@@ -1202,7 +1202,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 
 	case IDM_RJID_VCARD:
 		if (him->m_tszRealJid && *him->m_tszRealJid) {
-			HANDLE hContact;
+			HCONTACT hContact;
 			JABBER_SEARCH_RESULT jsr = { 0 };
 			jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
 			mir_sntprintf(jsr.jid, SIZEOF(jsr.jid), _T("%s"), him->m_tszRealJid);
@@ -1211,7 +1211,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			JABBER_LIST_ITEM *item = ppro->ListAdd(LIST_VCARD_TEMP, jsr.jid);
 			ppro->ListAddResource(LIST_VCARD_TEMP, jsr.jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 
-			hContact = (HANDLE)CallProtoService(ppro->m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
+			hContact = (HCONTACT)CallProtoService(ppro->m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
 		}
 		break;
@@ -1305,7 +1305,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 			item = ppro->ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID);
 			if (item != NULL) {
 				item->type = _T("conference");
-				HANDLE hContact = ppro->HContactFromJID(item->jid);
+				HCONTACT hContact = ppro->HContactFromJID(item->jid);
 				item->name = pcli->pfnGetContactDisplayName(hContact, 0);
 				ppro->AddEditBookmark(item);
 			}
@@ -1369,7 +1369,7 @@ static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, co
 {
 	TCHAR szFullJid[JABBER_MAX_JID_LEN];
 	mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), item->jid, nick);
-	HANDLE hContact = ppro->DBCreateContact(szFullJid, NULL, TRUE, FALSE);
+	HCONTACT hContact = ppro->DBCreateContact(szFullJid, NULL, TRUE, FALSE);
 	if (hContact != NULL) {
 		pResourceStatus r(item->findResource(nick));
 		if (r)

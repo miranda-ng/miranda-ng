@@ -257,7 +257,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	ConvertPasswords();
 
 	// Set all contacts to offline
-	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		SetContactOfflineStatus(hContact);
 
 		if (!getByte(hContact, "IsTransport", 0))
@@ -314,9 +314,9 @@ int __cdecl CJabberProto::OnPreShutdown(WPARAM, LPARAM)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberAddToList - adds a contact to the contact list
 
-HANDLE CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
+HCONTACT CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 {
-	HANDLE hContact;
+	HCONTACT hContact;
 	TCHAR *jid, *nick;
 
 	debugLogA("AddToListByJID jid = %S", newJid);
@@ -325,7 +325,7 @@ HANDLE CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 		// not already there: add
 		jid = mir_tstrdup(newJid);
 		debugLogA("Add new jid to contact jid = %S", jid);
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
 		setTString(hContact, "jid", jid);
 		if ((nick=JabberNickFromJID(newJid)) == NULL)
@@ -398,7 +398,7 @@ HANDLE __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, HANDL
 	char *jid = lastName + strlen(lastName) + 1;
 
 	TCHAR *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeT(jid) : mir_a2t(jid);
-	HANDLE hContact = (HANDLE)AddToListByJID(newJid, flags);
+	HCONTACT hContact = (HCONTACT)AddToListByJID(newJid, flags);
 	mir_free(newJid);
 	return hContact;
 }
@@ -436,12 +436,11 @@ int CJabberProto::Authorize(HANDLE hDbEvent)
 
 	// Automatically add this user to my roster if option is enabled
 	if (m_options.AutoAdd == TRUE) {
-		HANDLE hContact;
 		JABBER_LIST_ITEM *item;
 
 		if ((item = ListGetItemPtr(LIST_ROSTER, newJid)) == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
 			debugLogA("Try adding contact automatically jid = %S", jid);
-			if ((hContact = AddToListByJID(newJid, 0)) != NULL) {
+			if (HCONTACT hContact = AddToListByJID(newJid, 0)) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and JabberDbSettingChanged().
 				db_unset(hContact, "CList", "NotOnList");
@@ -493,7 +492,7 @@ int CJabberProto::AuthDeny(HANDLE hDbEvent, const TCHAR*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AUTH
 
-int __cdecl CJabberProto::AuthRecv(HANDLE, PROTORECVEVENT*)
+int __cdecl CJabberProto::AuthRecv(HCONTACT, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -501,7 +500,7 @@ int __cdecl CJabberProto::AuthRecv(HANDLE, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CJabberProto::AuthRequest(HANDLE, const TCHAR*)
+int __cdecl CJabberProto::AuthRequest(HCONTACT, const TCHAR*)
 {
 	return 1;
 }
@@ -517,7 +516,7 @@ HANDLE __cdecl CJabberProto::ChangeInfo(int /*iInfoType*/, void*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberFileAllow - starts a file transfer
 
-HANDLE __cdecl CJabberProto::FileAllow(HANDLE /*hContact*/, HANDLE hTransfer, const TCHAR *szPath)
+HANDLE __cdecl CJabberProto::FileAllow(HCONTACT /*hContact*/, HANDLE hTransfer, const TCHAR *szPath)
 {
 	if (!m_bJabberOnline)
 		return 0;
@@ -545,7 +544,7 @@ HANDLE __cdecl CJabberProto::FileAllow(HANDLE /*hContact*/, HANDLE hTransfer, co
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberFileCancel - cancels a file transfer
 
-int __cdecl CJabberProto::FileCancel(HANDLE /*hContact*/, HANDLE hTransfer)
+int __cdecl CJabberProto::FileCancel(HCONTACT, HANDLE hTransfer)
 {
 	filetransfer *ft = (filetransfer*)hTransfer;
 	HANDLE hEvent;
@@ -573,7 +572,7 @@ int __cdecl CJabberProto::FileCancel(HANDLE /*hContact*/, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberFileDeny - denies a file transfer
 
-int __cdecl CJabberProto::FileDeny(HANDLE, HANDLE hTransfer, const TCHAR *)
+int __cdecl CJabberProto::FileDeny(HCONTACT, HANDLE hTransfer, const TCHAR *)
 {
 	if (!m_bJabberOnline)
 		return 1;
@@ -617,7 +616,7 @@ int __cdecl CJabberProto::FileResume(HANDLE hTransfer, int *action, const TCHAR 
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 
-DWORD_PTR __cdecl CJabberProto::GetCaps(int type, HANDLE hContact)
+DWORD_PTR __cdecl CJabberProto::GetCaps(int type, HCONTACT hContact)
 {
 	switch(type) {
 	case PFLAGNUM_1:
@@ -645,7 +644,7 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, HANDLE hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetInfo - retrieves a contact info
 
-int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
+int __cdecl CJabberProto::GetInfo(HCONTACT hContact, int /*infoType*/)
 {
 	if (!m_bJabberOnline || isChatRoom(hContact))
 		return 1;
@@ -859,7 +858,7 @@ HANDLE __cdecl CJabberProto::SearchByName(const TCHAR *nick, const TCHAR *firstN
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvContacts
 
-int __cdecl CJabberProto::RecvContacts(HANDLE /*hContact*/, PROTORECVEVENT*)
+int __cdecl CJabberProto::RecvContacts(HCONTACT, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -867,7 +866,7 @@ int __cdecl CJabberProto::RecvContacts(HANDLE /*hContact*/, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvFile
 
-int __cdecl CJabberProto::RecvFile(HANDLE hContact, PROTORECVFILET *evt)
+int __cdecl CJabberProto::RecvFile(HCONTACT hContact, PROTORECVFILET *evt)
 {
 	return Proto_RecvFile(hContact, evt);
 }
@@ -875,7 +874,7 @@ int __cdecl CJabberProto::RecvFile(HANDLE hContact, PROTORECVFILET *evt)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
-int __cdecl CJabberProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *evt)
+int __cdecl CJabberProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT *evt)
 {
 	ptrA szResUtf( mir_utf8encodeT((LPCTSTR)evt->lParam));
 	evt->pCustomData = szResUtf;
@@ -887,7 +886,7 @@ int __cdecl CJabberProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *evt)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvUrl
 
-int __cdecl CJabberProto::RecvUrl(HANDLE /*hContact*/, PROTORECVEVENT*)
+int __cdecl CJabberProto::RecvUrl(HCONTACT, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -895,7 +894,7 @@ int __cdecl CJabberProto::RecvUrl(HANDLE /*hContact*/, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
-int __cdecl CJabberProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList)
+int __cdecl CJabberProto::SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList)
 {
 	if (!m_bJabberOnline)
 		return 0;
@@ -925,7 +924,7 @@ int __cdecl CJabberProto::SendContacts(HANDLE hContact, int flags, int nContacts
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CJabberProto::SendFile(HANDLE hContact, const TCHAR *szDescription, TCHAR** ppszFiles)
+HANDLE __cdecl CJabberProto::SendFile(HCONTACT hContact, const TCHAR *szDescription, TCHAR** ppszFiles)
 {
 	if (!m_bJabberOnline) return 0;
 
@@ -1012,10 +1011,10 @@ HANDLE __cdecl CJabberProto::SendFile(HANDLE hContact, const TCHAR *szDescriptio
 
 struct TFakeAckParams
 {
-	inline TFakeAckParams(HANDLE _hContact, const char* _msg, int _msgid = 0)
+	inline TFakeAckParams(HCONTACT _hContact, const char* _msg, int _msgid = 0)
 		: hContact(_hContact), msg(_msg), msgid(_msgid) {}
 
-	HANDLE hContact;
+	HCONTACT hContact;
 	const char *msg;
 	int msgid;
 };
@@ -1035,7 +1034,7 @@ void __cdecl CJabberProto::SendMessageAckThread(void* param)
 static char PGP_PROLOG[] = "-----BEGIN PGP MESSAGE-----\r\n\r\n";
 static char PGP_EPILOG[] = "\r\n-----END PGP MESSAGE-----\r\n";
 
-int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
+int __cdecl CJabberProto::SendMsg(HCONTACT hContact, int flags, const char* pszSrc)
 {
 	TCHAR szClientJid[JABBER_MAX_JID_LEN];
 	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, SIZEOF(szClientJid))) {
@@ -1135,7 +1134,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendUrl
 
-int __cdecl CJabberProto::SendUrl(HANDLE /*hContact*/, int /*flags*/, const char* /*url*/)
+int __cdecl CJabberProto::SendUrl(HCONTACT, int /*flags*/, const char* /*url*/)
 {
 	return 1;
 }
@@ -1143,7 +1142,7 @@ int __cdecl CJabberProto::SendUrl(HANDLE /*hContact*/, int /*flags*/, const char
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberSetApparentMode - sets the visibility status
 
-int __cdecl CJabberProto::SetApparentMode(HANDLE hContact, int mode)
+int __cdecl CJabberProto::SetApparentMode(HCONTACT hContact, int mode)
 {
 	if (mode != 0 && mode != ID_STATUS_ONLINE && mode != ID_STATUS_OFFLINE)
 		return 1;
@@ -1223,8 +1222,10 @@ int __cdecl CJabberProto::SetStatus(int iNewStatus)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberGetAwayMsg - returns a contact's away message
 
-void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
+void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 {
+	HCONTACT hContact = (HCONTACT)param;
+
 	ptrT jid( getTStringA(hContact, "jid"));
 	if (jid != NULL) {
 		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
@@ -1271,7 +1272,7 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)0);
 }
 
-HANDLE __cdecl CJabberProto::GetAwayMsg(HANDLE hContact)
+HANDLE __cdecl CJabberProto::GetAwayMsg(HCONTACT hContact)
 {
 	debugLogA("GetAwayMsg called, hContact=%08X", hContact);
 
@@ -1282,7 +1283,7 @@ HANDLE __cdecl CJabberProto::GetAwayMsg(HANDLE hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AWAYMSG
 
-int __cdecl CJabberProto::RecvAwayMsg(HANDLE /*hContact*/, int /*statusMode*/, PROTORECVEVENT*)
+int __cdecl CJabberProto::RecvAwayMsg(HCONTACT, int /*statusMode*/, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -1343,7 +1344,7 @@ int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberUserIsTyping - sends a UTN notification
 
-int __cdecl CJabberProto::UserIsTyping(HANDLE hContact, int type)
+int __cdecl CJabberProto::UserIsTyping(HCONTACT hContact, int type)
 {
 	if (!m_bJabberOnline) return 0;
 
@@ -1425,7 +1426,7 @@ void CJabberProto::InfoFrame_OnSetup(CJabberInfoFrame_Event*)
 void CJabberProto::InfoFrame_OnTransport(CJabberInfoFrame_Event *evt)
 {
 	if (evt->m_event == CJabberInfoFrame_Event::CLICK) {
-		HANDLE hContact = (HANDLE)evt->m_pUserData;
+		HCONTACT hContact = (HCONTACT)evt->m_pUserData;
 		HMENU hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
 		POINT pt;
 		GetCursorPos(&pt);

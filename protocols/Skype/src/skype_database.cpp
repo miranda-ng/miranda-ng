@@ -1,6 +1,6 @@
 #include "skype.h"
 
-bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid, int flag)
+bool CSkypeProto::IsMessageInDB(HCONTACT hContact, DWORD timestamp, SEBinary &guid, int flag)
 {
 	for (HANDLE hDbEvent = ::db_event_last(hContact); hDbEvent; hDbEvent = ::db_event_prev(hDbEvent))
 	{
@@ -25,7 +25,7 @@ bool CSkypeProto::IsMessageInDB(HANDLE hContact, DWORD timestamp, SEBinary &guid
 	return false;
 }
 
-HANDLE CSkypeProto::AddDBEvent(HANDLE hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
+HANDLE CSkypeProto::AddDBEvent(HCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = this->m_szModuleName;
@@ -52,7 +52,7 @@ void CSkypeProto::RaiseAuthRequestEvent(DWORD timestamp, CContact::Ref contact)
 	char *firstName = ::mir_strdup(data);
 	char *lastName = ::mir_strdup(last);
 
-	HANDLE hContact = this->AddContact(contact);
+	HCONTACT hContact = this->AddContact(contact);
 
 	/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), sid(ASCIIZ), reason(ASCIIZ)*/
 	DWORD cbBlob = (DWORD)
@@ -84,7 +84,7 @@ void CSkypeProto::RaiseAuthRequestEvent(DWORD timestamp, CContact::Ref contact)
 	this->AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), DBEF_UTF, cbBlob, pBlob);
 }
 
-void CSkypeProto::RaiseMessageSentEvent(HANDLE hContact, DWORD timestamp, SEBinary &guid, const char *message, bool isUnread)
+void CSkypeProto::RaiseMessageSentEvent(HCONTACT hContact, DWORD timestamp, SEBinary &guid, const char *message, bool isUnread)
 {
 	if (this->IsMessageInDB(hContact, timestamp, guid, DBEF_SENT))
 		return;

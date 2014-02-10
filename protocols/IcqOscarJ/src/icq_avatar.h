@@ -85,8 +85,8 @@ public:
 	__inline BOOL isPending() { return !isLoggedIn; };
 	__inline BOOL isReady() { return isLoggedIn && isActive && !stopThread; };
 
-	DWORD  sendGetAvatarRequest(HANDLE hContact, DWORD dwUin, char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file);
-	DWORD  sendUploadAvatarRequest(HANDLE hContact, WORD wRef, const BYTE *data, unsigned int datalen);
+	DWORD  sendGetAvatarRequest(HCONTACT hContact, DWORD dwUin, char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file);
+	DWORD  sendUploadAvatarRequest(HCONTACT hContact, WORD wRef, const BYTE *data, unsigned int datalen);
 };
 
 __inline static void SAFE_DELETE(avatars_server_connection **p) { SAFE_DELETE((lockable_struct**)p); };
@@ -95,7 +95,7 @@ __inline static void SAFE_DELETE(avatars_server_connection **p) { SAFE_DELETE((l
 struct avatars_request : public MZeroedObject
 {
 	int    type;
-	HANDLE hContact;
+	HCONTACT hContact;
 	DWORD  dwUin;
 	uid_str szUid;
 	BYTE  *hash;

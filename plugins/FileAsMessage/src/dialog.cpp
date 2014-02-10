@@ -64,7 +64,7 @@ char cCmdList[CMD_COUNT] =
 
 static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = PUGetContact(hWnd);
+	HCONTACT hContact = PUGetContact(hWnd);
 	HWND hDlg = (HWND)PUGetPluginData(hWnd);
 /*
 	if(hContact)
@@ -112,7 +112,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 //
 // Just create simple Popup for specified contact
 //
-void MakePopupMsg(HWND hDlg, HANDLE hContact, char *msg)
+void MakePopupMsg(HWND hDlg, HCONTACT hContact, char *msg)
 {
 	HWND hFocused = GetForegroundWindow();
 	if(hDlg == hFocused || hDlg == GetParent(hFocused)) return;
@@ -121,7 +121,7 @@ void MakePopupMsg(HWND hDlg, HANDLE hContact, char *msg)
 	//The text for the second line. You could even make something like: char lpzText[128]; lstrcpy(lpzText, "Hello world!"); It's your choice.
 	//
 	POPUPDATA ppd = { 0 };
-	ppd.lchContact = (HANDLE)hContact;
+	ppd.lchContact = hContact;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALLICON));
 	lstrcpy(ppd.lpzContactName, (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0));
 	lstrcpy(ppd.lpzText, msg);
@@ -156,7 +156,7 @@ int RetrieveFileSize(char *filename)
 	return handle;
 }
 
-FILEECHO::FILEECHO(HANDLE Contact)
+FILEECHO::FILEECHO(HCONTACT Contact)
 {
 	hContact = Contact;
 	dwSendInterval = db_get_dw(NULL, SERVICE_NAME, "SendDelay", 6000);
@@ -469,7 +469,7 @@ void FILEECHO::incomeRequest(char *param)
 
 	SkinPlaySound("RecvFile");
 	int AutoMin = db_get_b(NULL,"SRFile","AutoMin",0);
-	if(db_get_b(NULL,"SRFile","AutoAccept",0) && !db_get_b((HANDLE)hContact,"CList","NotOnList",0))
+	if(db_get_b(NULL,"SRFile","AutoAccept",0) && !db_get_b(hContact,"CList","NotOnList",0))
 	{
 		PostMessage(hDlg, WM_COMMAND, IDC_PLAY, 0);
 		if(AutoMin)

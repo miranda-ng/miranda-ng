@@ -246,7 +246,7 @@ INT_PTR CMsnProto::SendNudge(WPARAM wParam, LPARAM lParam)
 {
 	if (!msnLoggedIn) return 0;
 
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	char tEmail[MSN_MAX_EMAIL_LEN];
 	if (MSN_IsMeByContact(hContact, tEmail)) return 0;
@@ -257,8 +257,7 @@ INT_PTR CMsnProto::SendNudge(WPARAM wParam, LPARAM lParam)
 
 	int netId = Lists_GetNetId(tEmail);
 
-	switch (netId)
-	{
+	switch (netId) {
 	case NETID_UNKNOWN:
 		hContact = MSN_GetChatInernalHandle(hContact);
 
@@ -381,7 +380,7 @@ INT_PTR CMsnProto::SetCurrentMedia(WPARAM wParam, LPARAM lParam)
 
 int CMsnProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	const HANDLE hContact = (HANDLE)wParam;
+	const HCONTACT hContact = (HCONTACT)wParam;
 
 	if (!msnLoggedIn)  //should never happen for MSN contacts
 		return 0;
@@ -425,7 +424,7 @@ int CMsnProto::OnGroupChange(WPARAM wParam,LPARAM lParam)
 {
 	if (!msnLoggedIn || !MyOptions.ManageServer) return 0;
 
-	const HANDLE hContact = (HANDLE)wParam;
+	const HCONTACT hContact = (HCONTACT)wParam;
 	const CLISTGROUPCHANGE* grpchg = (CLISTGROUPCHANGE*)lParam;
 
 	if (hContact == NULL)
@@ -459,7 +458,7 @@ int CMsnProto::OnGroupChange(WPARAM wParam,LPARAM lParam)
 
 int CMsnProto::OnDbSettingChanged(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
 
 	if (!msnLoggedIn)
@@ -620,7 +619,7 @@ INT_PTR CMsnProto::GetUnreadEmailCount(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMsnProto::OnLeaveChat(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (isChatRoom(hContact) != 0) {
 		DBVARIANT dbv;
 		if (getTString(hContact, "ChatRoomID", &dbv) == 0) {

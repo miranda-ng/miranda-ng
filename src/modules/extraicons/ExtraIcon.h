@@ -35,12 +35,12 @@ public:
 
 	virtual void rebuildIcons() = 0;
 	virtual void applyIcons();
-	virtual void applyIcon(HANDLE hContact) =0 ;
-	virtual void onClick(HANDLE hContact) = 0;
+	virtual void applyIcon(HCONTACT hContact) =0 ;
+	virtual void onClick(HCONTACT hContact) = 0;
 
-	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon) = 0;
-	virtual int  setIconByName(int id, HANDLE hContact, const char* icon) = 0;
-	virtual void storeIcon(HANDLE hContact, void *icon) {};
+	virtual int  setIcon(int id, HCONTACT hContact, HANDLE icon) = 0;
+	virtual int  setIconByName(int id, HCONTACT hContact, const char* icon) = 0;
+	virtual void storeIcon(HCONTACT hContact, void *icon) {};
 
 	virtual const char *getName() const;
 	virtual const TCHAR *getDescription() const = 0;
@@ -55,7 +55,7 @@ public:
 
 	virtual bool isEnabled() const;
 
-	virtual int ClistSetExtraIcon(HANDLE hContact, HANDLE hImage) = 0;
+	virtual int ClistSetExtraIcon(HCONTACT hContact, HANDLE hImage) = 0;
 
 	int hLangpack;
 
@@ -82,10 +82,10 @@ public:
 	virtual void setDescIcon(const char *icon);
 	virtual int getType() const =0;
 
-	virtual void onClick(HANDLE hContact);
+	virtual void onClick(HCONTACT hContact);
 	virtual void setOnClick(MIRANDAHOOKPARAM OnClick, LPARAM param);
 
-	virtual int ClistSetExtraIcon(HANDLE hContact, HANDLE hImage);
+	virtual int ClistSetExtraIcon(HCONTACT hContact, HANDLE hImage);
 
 protected:
 	int id;
@@ -108,10 +108,10 @@ public:
 	virtual int getType() const;
 
 	virtual void rebuildIcons();
-	virtual void applyIcon(HANDLE hContact);
+	virtual void applyIcon(HCONTACT hContact);
 
-	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon);
-	virtual int  setIconByName(int id, HANDLE hContact, const char* icon);
+	virtual int  setIcon(int id, HCONTACT hContact, HANDLE icon);
+	virtual int  setIconByName(int id, HCONTACT hContact, const char* icon);
 
 private:
 	int(*RebuildIcons)(WPARAM wParam, LPARAM lParam);
@@ -132,11 +132,11 @@ public:
 	virtual int getType() const;
 
 	virtual void rebuildIcons();
-	virtual void applyIcon(HANDLE hContact);
+	virtual void applyIcon(HCONTACT hContact);
 
-	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon);
-	virtual int  setIconByName(int id, HANDLE hContact, const char* icon);
-	virtual void storeIcon(HANDLE hContact, void *icon);
+	virtual int  setIcon(int id, HCONTACT hContact, HANDLE icon);
+	virtual int  setIconByName(int id, HCONTACT hContact, const char* icon);
+	virtual void storeIcon(HCONTACT hContact, void *icon);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -144,7 +144,7 @@ public:
 
 class ExtraIconGroup : public ExtraIcon
 {
-	int  internalSetIcon(int id, HANDLE hContact, HANDLE icon, bool bByName);
+	int  internalSetIcon(int id, HCONTACT hContact, HANDLE icon, bool bByName);
 public:
 	ExtraIconGroup(const char *name);
 	virtual ~ExtraIconGroup();
@@ -152,11 +152,11 @@ public:
 	virtual void addExtraIcon(BaseExtraIcon *extra);
 
 	virtual void rebuildIcons();
-	virtual void applyIcon(HANDLE hContact);
-	virtual void onClick(HANDLE hContact);
+	virtual void applyIcon(HCONTACT hContact);
+	virtual void onClick(HCONTACT hContact);
 
-	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon);
-	virtual int  setIconByName(int id, HANDLE hContact, const char *icon);
+	virtual int  setIcon(int id, HCONTACT hContact, HANDLE icon);
+	virtual int  setIconByName(int id, HCONTACT hContact, const char *icon);
 
 	virtual const TCHAR* getDescription() const;
 	virtual const char* getDescIcon() const;
@@ -167,14 +167,14 @@ public:
 
 	LIST<BaseExtraIcon> items;
 
-	virtual int ClistSetExtraIcon(HANDLE hContact, HANDLE hImage);
+	virtual int ClistSetExtraIcon(HCONTACT hContact, HANDLE hImage);
 
 protected:
 	ptrT tszDescription;
 	bool setValidExtraIcon;
 	bool insideApply;
 
-	virtual ExtraIcon *getCurrentItem(HANDLE hContact) const;
+	virtual ExtraIcon *getCurrentItem(HCONTACT hContact) const;
 };
 
 #endif // __EXTRAICON_H__

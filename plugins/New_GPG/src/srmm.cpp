@@ -18,8 +18,8 @@
 
 #include "commonheaders.h"
 
-void ShowStatusIcon(HANDLE hContact);
-void setSrmmIcon(HANDLE hContact);
+void ShowStatusIcon(HCONTACT hContact);
+void setSrmmIcon(HCONTACT hContact);
 
 int __cdecl onWindowEvent(WPARAM wParam, LPARAM lParam) {
 
@@ -32,9 +32,10 @@ int __cdecl onWindowEvent(WPARAM wParam, LPARAM lParam) {
 }
 
 
-int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam) {
-	HANDLE hContact = (HANDLE)wParam;
-	HANDLE hMeta = NULL;
+int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
+{
+	HCONTACT hContact = (HCONTACT)wParam;
+	HCONTACT hMeta = NULL;
 	if(metaIsProtoMetaContacts(hContact))
 	{
 		hMeta = hContact;
@@ -46,9 +47,6 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam) {
 	if(strcmp(sicd->szModule, szGPGModuleName)) 
 		return 0; // not our event
 	
-	void setSrmmIcon(HANDLE);
-	void setClistIcon(HANDLE);
-	bool isContactHaveKey(HANDLE hContact);
 	BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 	if(enc)
 	{
@@ -62,8 +60,6 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam) {
 		if(!isContactHaveKey(hContact))
 		{
 			void ShowLoadPublicKeyDialog();
-			extern map<int, HANDLE> user_data;
-			extern int item_num;
 			item_num = 0;		 //black magic here
 			user_data[1] = hContact;
 			ShowLoadPublicKeyDialog();

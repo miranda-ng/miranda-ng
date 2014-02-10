@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
 //---------------------------------------------------------------------------
-CSendFTPFile::CSendFTPFile(HWND Owner, HANDLE hContact, bool bFreeOnExit)
+CSendFTPFile::CSendFTPFile(HWND Owner, HCONTACT hContact, bool bFreeOnExit)
 : CSend(Owner, hContact, bFreeOnExit){
 	m_EnableItem		= NULL ; //SS_DLG_DESCRIPTION| SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp		= LPGENT("FTPFile transfer");

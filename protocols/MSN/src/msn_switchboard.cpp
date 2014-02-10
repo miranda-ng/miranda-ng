@@ -47,7 +47,7 @@ int ThreadData::contactLeft(const char* email)
 	return mJoinedContactsWLID.getCount();
 }
 
-HANDLE ThreadData::getContactHandle(void)
+HCONTACT ThreadData::getContactHandle(void)
 {
 	return mJoinedContactsWLID.getCount() ? proto->MSN_HContactFromEmail(mJoinedContactsWLID[0]) : NULL;
 }

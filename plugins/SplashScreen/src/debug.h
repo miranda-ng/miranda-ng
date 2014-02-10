@@ -11,7 +11,7 @@ extern TCHAR szLogFile[MAX_PATH];
  *
  */
 
-int inline _DebugPopup(HANDLE hContact, TCHAR *fmt, ...)
+int inline _DebugPopup(HCONTACT hContact, TCHAR *fmt, ...)
 {
 	va_list va;
 	TCHAR debug[1024];

@@ -34,7 +34,7 @@ struct directthreadstartinfo
 	int type;           // Only valid for outgoing connections
 	int incoming;       // 1=incoming, 0=outgoing
 	HANDLE hConnection; // only valid for incoming connections, handle to the connection
-	HANDLE hContact;    // Only valid for outgoing connections
+	HCONTACT hContact;    // Only valid for outgoing connections
 	void* pvExtra;      // Only valid for outgoing connections
 };
 
@@ -48,7 +48,7 @@ static char client_check_data[] = {
 	"ICQ Service and Information may\0"
 };
 
-void CIcqProto::CloseContactDirectConns(HANDLE hContact)
+void CIcqProto::CloseContactDirectConns(HCONTACT hContact)
 {
 	icq_lock l(directConnListMutex);
 
@@ -116,7 +116,7 @@ int CIcqProto::sendDirectPacket(directconnect* dc, icq_packet* pkt)
 	return nResult;
 }
 
-directthreadstartinfo* CreateDTSI(HANDLE hContact, HANDLE hConnection, int type)
+directthreadstartinfo* CreateDTSI(HCONTACT hContact, HANDLE hConnection, int type)
 {
 	directthreadstartinfo* dtsi = (directthreadstartinfo*)SAFE_MALLOC(sizeof(directthreadstartinfo));
 	dtsi->hContact = hContact;
@@ -131,7 +131,7 @@ directthreadstartinfo* CreateDTSI(HANDLE hContact, HANDLE hConnection, int type)
 
 // Check if we have an open and initialized DC with type
 // 'type' to the specified contact
-BOOL CIcqProto::IsDirectConnectionOpen(HANDLE hContact, int type, int bPassive)
+BOOL CIcqProto::IsDirectConnectionOpen(HCONTACT hContact, int type, int bPassive)
 {
 	BOOL bIsOpen = FALSE, bIsCreated = FALSE;
 
@@ -182,7 +182,7 @@ void icq_newConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, void *pE
 }
 
 // Opens direct connection of specified type to specified contact
-void CIcqProto::OpenDirectConnection(HANDLE hContact, int type, void* pvExtra)
+void CIcqProto::OpenDirectConnection(HCONTACT hContact, int type, void* pvExtra)
 {
 	// Create a new connection
 	directthreadstartinfo* dtsi = CreateDTSI(hContact, NULL, type);
@@ -596,7 +596,7 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 			DWORD dwUin;
 			DWORD dwPort;
 			DWORD dwCookie;
-			HANDLE hContact;
+			HCONTACT hContact;
 
 			if (wLen != 0x30)
 			{
@@ -1009,7 +1009,7 @@ int DecryptDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 }
 
 // This should be called only if connection already exists
-int CIcqProto::SendDirectMessage(HANDLE hContact, icq_packet *pkt)
+int CIcqProto::SendDirectMessage(HCONTACT hContact, icq_packet *pkt)
 {
 	icq_lock l(directConnListMutex);
 

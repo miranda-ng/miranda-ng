@@ -24,12 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <commonheaders.h>
 
-extern int ( *saveAddContactToGroup )(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
+extern int ( *saveAddContactToGroup )(struct ClcData *dat, ClcGroup *group, HCONTACT hContact);
 extern int ( *saveAddInfoItemToGroup )(ClcGroup *group, int flags, const TCHAR *pszText);
 extern ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
 extern ClcGroup* ( *saveAddGroup )(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
 
-static void TZ_LoadTimeZone(HANDLE hContact, struct TExtraCache *c, const char *szProto);
+static void TZ_LoadTimeZone(HCONTACT hContact, struct TExtraCache *c, const char *szProto);
 
 //routines for managing adding/removal of items in the list, including sorting
 
@@ -92,7 +92,7 @@ void LoadAvatarForContact(ClcContact *p)
 		 p->cFlags &= ~ECF_AVATAR;
 }
 
-int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
+int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HCONTACT hContact)
 {
 	int i = saveAddContactToGroup(dat, group, hContact);
 	ClcContact* p = group->cl.items[i];
@@ -105,7 +105,7 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 	else
 		p->bIsMeta = FALSE;
 	if (p->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
-		p->hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
+		p->hSubContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		p->metaProto = GetContactProto(p->hSubContact);
 		p->iImage = pcli->pfnGetContactIcon(p->hSubContact);
 	}
@@ -163,7 +163,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 		}
 	}
 
-	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (style & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(hContact, NULL, dat)) {
 			ZeroMemory((void *)&dbv, sizeof(dbv));
 			if (cfg::getTString(hContact, "CList", "Group", &dbv))
@@ -228,7 +228,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 		return 0;
 
 	p->bStatusMsgValid = STATUSMSG_NOTFOUND;
-	HANDLE hContact = p->hContact;
+	HCONTACT hContact = p->hContact;
 
 	int result = cfg::getTString(hContact, "CList", "StatusMsg", &dbv);
 	if ( !result && lstrlen(dbv.ptszVal) > 1)
@@ -322,14 +322,14 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
  * differences.
  */
 
-static void TZ_LoadTimeZone(HANDLE hContact, struct TExtraCache *c, const char *szProto)
+static void TZ_LoadTimeZone(HCONTACT hContact, struct TExtraCache *c, const char *szProto)
 {
 	DWORD flags = 0;
 	if (cfg::dat.bShowLocalTimeSelective) flags |= TZF_DIFONLY;
 		c->hTimeZone = tmi.createByContact(hContact, flags);
 }
 
-void ReloadExtraInfo(HANDLE hContact)
+void ReloadExtraInfo(HCONTACT hContact)
 {
 	if (hContact && pcli->hwndContactTree) {
 		TExtraCache *p = cfg::getCache(hContact, NULL);
@@ -347,7 +347,7 @@ void ReloadExtraInfo(HANDLE hContact)
  */
 
 
-void RTL_DetectAndSet(ClcContact *contact, HANDLE hContact)
+void RTL_DetectAndSet(ClcContact *contact, HCONTACT hContact)
 {
 	WORD infoTypeC2[12];
 	int i;
@@ -425,7 +425,7 @@ void GetExtendedInfo(ClcContact *contact, ClcData *dat)
 
 void LoadSkinItemToCache(TExtraCache *cEntry, const char *szProto)
 {
-	HANDLE hContact = cEntry->hContact;
+	HCONTACT hContact = cEntry->hContact;
 
 	if (cfg::getByte(hContact, "EXTBK", "VALID", 0)) {
 		if (cEntry->status_item == NULL)
@@ -462,7 +462,7 @@ void LoadSkinItemToCache(TExtraCache *cEntry, const char *szProto)
 * also cares about sub contacts (if meta is active)
 */
 
-int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struct ClcData *dat)
+int __fastcall CLVM_GetContactHiddenStatus(HCONTACT hContact, char *szProto, struct ClcData *dat)
 {
 	int dbHidden = cfg::getByte(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
 	int filterResult = 1;

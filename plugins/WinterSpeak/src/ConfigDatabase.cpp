@@ -47,7 +47,7 @@ void ConfigDatabase::setActiveFlag(ActiveFlag flag, bool state)
 }
 
 //------------------------------------------------------------------------------
-ConfigDatabase::act ConfigDatabase::getActiveUser(HANDLE user) const
+ConfigDatabase::act ConfigDatabase::getActiveUser(HCONTACT user) const
 {
 	ActiveUsersMap::const_iterator iter = m_active_users.find(user);
 
@@ -69,7 +69,7 @@ ConfigDatabase::act ConfigDatabase::getActiveUser(HANDLE user) const
 }
 
 //------------------------------------------------------------------------------
-void ConfigDatabase::setActiveUser(HANDLE user, act state)
+void ConfigDatabase::setActiveUser(HCONTACT user, act state)
 {
 	m_active_users[user].status = state.status;
 	m_active_users[user].message = state.message;
@@ -89,10 +89,8 @@ void ConfigDatabase::load()
 	m_welcome_msg = DBGetContactSettingString(SPEAK, WELCOME_MSG, L"Welcome to Miranda");
 
 	// iterate through all the users and add them to the list if active
-	HANDLE contact = db_find_first();
-
-	while (NULL != contact)
-	{
+	HCONTACT contact = db_find_first();
+	while (NULL != contact) {
 		m_active_users[contact].status = (db_get_b(contact, SPEAK, ACTIVE_STATE, true) != 0);
 		m_active_users[contact].message = (db_get_b(contact, SPEAK, ACTIVE_MSG, true) != 0);
 

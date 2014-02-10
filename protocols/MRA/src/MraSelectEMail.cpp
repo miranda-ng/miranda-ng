@@ -4,11 +4,11 @@
 struct MraSelectEMailDlgData
 {
 	CMraProto *ppro;
-	HANDLE hContact;
+	HCONTACT hContact;
 	DWORD dwType;
 };
 
-void AddContactEMailToListParam(HANDLE hContact, BOOL bMRAOnly, LPSTR lpszModule, LPSTR lpszValueName, HWND hWndList)
+void AddContactEMailToListParam(HCONTACT hContact, BOOL bMRAOnly, LPSTR lpszModule, LPSTR lpszValueName, HWND hWndList)
 {
 	CMStringA szEmail;
 	if (DB_GetStringA(hContact, lpszModule, lpszValueName, szEmail)) {
@@ -139,7 +139,7 @@ INT_PTR CALLBACK MraSelectEMailDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 	return FALSE;
 }
 
-DWORD CMraProto::MraSelectEMailDlgShow(HANDLE hContact, DWORD dwType)
+DWORD CMraProto::MraSelectEMailDlgShow(HCONTACT hContact, DWORD dwType)
 {
 	MraSelectEMailDlgData *dat = (MraSelectEMailDlgData*)mir_calloc(sizeof(MraSelectEMailDlgData));
 	if (dat) {

@@ -60,7 +60,7 @@ static byte bUseMirandaSettings;
 
 extern HINSTANCE g_hInst;
 
-void applyExtraImage(HANDLE hContact);
+void applyExtraImage(HCONTACT hContact);
 
 int onOptInitialise(WPARAM wParam, LPARAM lParam);
 BOOL checkState(int type);

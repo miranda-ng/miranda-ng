@@ -492,15 +492,15 @@ struct GCEVENT
 */
 
 // Flags
-#define BYINDEX   0x0001   // iItem is valid and should contain the index of the session to get
-#define BYID      0x0002   // pszID is valid and should contain the ID of the session to get. This is the default if no
-#define HCONTACT  0x0004   // hContact is valid
-#define DATA      0x0008   // wItemData is valid
-#define ID        0x0010   // pszID is valid.
-#define NAME      0x0020   // pszName is valid
-#define TYPE      0x0040   // iType is valid
-#define COUNT     0x0080   // iCount is valid
-#define USERS     0x0100   // pszUsers is valid
+#define GCF_BYINDEX   0x0001   // iItem is valid and should contain the index of the session to get
+#define GCF_BYID      0x0002   // pszID is valid and should contain the ID of the session to get. This is the default if no
+#define GCF_HCONTACT  0x0004   // hContact is valid
+#define GCF_DATA      0x0008   // wItemData is valid
+#define GCF_ID        0x0010   // pszID is valid.
+#define GCF_NAME      0x0020   // pszName is valid
+#define GCF_TYPE      0x0040   // iType is valid
+#define GCF_COUNT     0x0080   // iCount is valid
+#define GCF_USERS     0x0100   // pszUsers is valid
 
 // The GC_INFO structure
 struct GC_INFO
@@ -515,7 +515,7 @@ struct GC_INFO
 	int       iCount;       // count of users in the nicklist
 	LPSTR     pszUsers;     // space separated string containing the UID's of the users in the user list.
 	                        // NOTE. Use Mirandas mmi_free() on the returned string.
-	HANDLE    hContact;     // hContact for the session (can be NULL)
+	HCONTACT  hContact;     // hContact for the session (can be NULL)
 };
 
 #define MS_GC_GETINFO  "GChat/GetInfo"

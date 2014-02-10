@@ -33,7 +33,7 @@ struct oscarthreadstartinfo
 {
 	int type;
 	int incoming;
-	HANDLE hContact;
+	HCONTACT hContact;
 	HANDLE hConnection;
 	DWORD dwRemoteIP;
 	oscar_filetransfer *ft;
@@ -171,7 +171,7 @@ int CIcqProto::IsValidOscarTransfer(void *ft)
 }
 
 
-oscar_filetransfer* CIcqProto::FindOscarTransfer(HANDLE hContact, DWORD dwID1, DWORD dwID2)
+oscar_filetransfer* CIcqProto::FindOscarTransfer(HCONTACT hContact, DWORD dwID1, DWORD dwID2)
 {
 	icq_lock l(oftMutex);
 
@@ -377,7 +377,7 @@ void CIcqProto::ReleaseOscarListener(oscar_listener **pListener)
 
 void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand)
 {
-	HANDLE hContact = HContactFromUID(dwUin, szUID, NULL);
+	HCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
 
 	if (wCommand == 0)
 	{ // this is OFT request
@@ -559,7 +559,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 					}
 				}
 				int bAdded;
-				HANDLE hContact = HContactFromUID(dwUin, szUID, &bAdded);
+				HCONTACT hContact = HContactFromUID(dwUin, szUID, &bAdded);
 
 				ft->hContact = hContact;
 				ft->fileId = -1;
@@ -838,7 +838,7 @@ static char *oftGetFileContainer(oscar_filetransfer* oft, const char** files, in
 }
 
 
-HANDLE CIcqProto::oftInitTransfer(HANDLE hContact, DWORD dwUin, char* szUid, const TCHAR** files, const TCHAR* pszDesc)
+HANDLE CIcqProto::oftInitTransfer(HCONTACT hContact, DWORD dwUin, char* szUid, const TCHAR** files, const TCHAR* pszDesc)
 {
 	int i, filesCount;
 	struct _stati64 statbuf;
@@ -992,7 +992,7 @@ HANDLE CIcqProto::oftInitTransfer(HANDLE hContact, DWORD dwUin, char* szUid, con
 }
 
 
-HANDLE CIcqProto::oftFileAllow(HANDLE hContact, HANDLE hTransfer, const TCHAR *szPath)
+HANDLE CIcqProto::oftFileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath)
 {
 	oscar_filetransfer *ft = (oscar_filetransfer*)hTransfer;
 	DWORD dwUin;
@@ -1025,7 +1025,7 @@ HANDLE CIcqProto::oftFileAllow(HANDLE hContact, HANDLE hTransfer, const TCHAR *s
 }
 
 
-DWORD CIcqProto::oftFileDeny(HANDLE hContact, HANDLE hTransfer, const TCHAR *szReason)
+DWORD CIcqProto::oftFileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason)
 {
 	oscar_filetransfer *ft = (oscar_filetransfer*)hTransfer;
 	DWORD dwUin;
@@ -1054,7 +1054,7 @@ DWORD CIcqProto::oftFileDeny(HANDLE hContact, HANDLE hTransfer, const TCHAR *szR
 }
 
 
-DWORD CIcqProto::oftFileCancel(HANDLE hContact, HANDLE hTransfer)
+DWORD CIcqProto::oftFileCancel(HCONTACT hContact, HANDLE hTransfer)
 {
 	oscar_filetransfer* ft = (oscar_filetransfer*)hTransfer;
 	DWORD dwUin;
@@ -1231,7 +1231,7 @@ void CIcqProto::CloseOscarConnection(oscar_connection *oc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::OpenOscarConnection(HANDLE hContact, oscar_filetransfer *ft, int type)
+void CIcqProto::OpenOscarConnection(HCONTACT hContact, oscar_filetransfer *ft, int type)
 {
 	oscarthreadstartinfo *otsi = (oscarthreadstartinfo*)SAFE_MALLOC(sizeof(oscarthreadstartinfo));
 

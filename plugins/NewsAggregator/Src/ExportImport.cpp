@@ -148,7 +148,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 											isGroupUTF = 1;
 									}
 
-									HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+									HCONTACT hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 									CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)MODULE);
 									db_set_ts(hContact, MODULE, "Nick", title);
 									db_set_ts(hContact, MODULE, "URL", url);
@@ -468,7 +468,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "ExportDlg");
-		for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		for (HCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 			DBVARIANT dbVar = {0};
 			if (!db_get_ts(hContact, MODULE, "Nick", &dbVar)) {
 				SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)dbVar.ptszVal);
@@ -516,7 +516,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					for (int i = 0; i < count; i++) {
 						TCHAR item[MAX_PATH];
 						SendMessage(FeedsExportList, LB_GETTEXT, i, (LPARAM)item);
-						HANDLE hContact = GetContactByNick(item);
+						HCONTACT hContact = GetContactByNick(item);
 						TCHAR *title = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
 						DBVARIANT dbv = {0};
 						if (!db_get_ts(hContact, MODULE, "Nick", &dbv)) {

@@ -305,17 +305,17 @@ STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent)
 	return ret;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Mmap::GetEventContact(HANDLE hDbEvent)
+STDMETHODIMP_(MCONTACT) CDb3Mmap::GetEventContact(HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hDbEvent, sizeof(DBEvent), NULL);
 	if (dbe->signature != DBEVENT_SIGNATURE)
-		return (HANDLE)-1;
+		return INVALID_CONTACT_ID;
 
 	while (!(dbe->flags & DBEF_FIRST))
 		dbe = (DBEvent*)DBRead(dbe->ofsPrev, sizeof(DBEvent), NULL);
 
-	return (HANDLE)dbe->ofsPrev;
+	return dbe->ofsPrev;
 }
 
 STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstEvent(MCONTACT contactID)

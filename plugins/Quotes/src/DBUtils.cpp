@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 
-std::string Quotes_DBGetStringA(HANDLE hContact,const char* szModule,const char* szSetting,const char* pszDefValue /*= NULL*/)
+std::string Quotes_DBGetStringA(HCONTACT hContact,const char* szModule,const char* szSetting,const char* pszDefValue /*= NULL*/)
 {
 	std::string sResult;
 	char* pszSymbol = db_get_sa(hContact,szModule,szSetting);
@@ -17,7 +17,7 @@ std::string Quotes_DBGetStringA(HANDLE hContact,const char* szModule,const char*
 	return sResult;
 }
 
-std::wstring Quotes_DBGetStringW(HANDLE hContact,const char* szModule,const char* szSetting,const wchar_t* pszDefValue/* = NULL*/)
+std::wstring Quotes_DBGetStringW(HCONTACT hContact,const char* szModule,const char* szSetting,const wchar_t* pszDefValue/* = NULL*/)
 {
 	std::wstring sResult;
 	wchar_t* pszSymbol = db_get_wsa(hContact,szModule,szSetting);
@@ -34,12 +34,12 @@ std::wstring Quotes_DBGetStringW(HANDLE hContact,const char* szModule,const char
 	return sResult;
 }
 
-bool Quotes_DBWriteDouble(HANDLE hContact,const char* szModule,const char* szSetting,double dValue)
+bool Quotes_DBWriteDouble(HCONTACT hContact,const char* szModule,const char* szSetting,double dValue)
 {
 	return 0 == db_set_blob(hContact, szModule, szSetting, &dValue, sizeof(dValue));
 }
 
-bool Quotes_DBReadDouble(HANDLE hContact,const char* szModule,const char* szSetting,double& rdValue)
+bool Quotes_DBReadDouble(HCONTACT hContact,const char* szModule,const char* szSetting,double& rdValue)
 {
 	DBVARIANT dbv = {0};
 	dbv.type = DBVT_BLOB;

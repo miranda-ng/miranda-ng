@@ -42,14 +42,14 @@ public:
 	* @param hContact The handle of the contact object to be instantiated.
 	* @return The Miranda IM contact having the passed handle.
 	*/
-	static bool bIsActive(HANDLE hContact);
+	static bool bIsActive(HCONTACT hContact);
 
 	/**
 	* Saves this object's data to the persistent storage -- the Miranda
 	* database. This information may be retreived later on by means of
 	* getContact() factory method invocation.
 	*/
-	static void save(HANDLE hContact, bool bValue);
+	static void save(HCONTACT hContact, bool bValue);
 
 private:
 	static const char* SETTINGS_MODULE;

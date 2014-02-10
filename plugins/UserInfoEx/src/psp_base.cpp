@@ -56,46 +56,40 @@ INT_PTR CALLBACK PSPBaseProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			return pCtrlList->OnSetTextColour((HWND)lParam, (HDC)wParam);
 
 		case WM_NOTIFY:
-			{
-				switch (((LPNMHDR)lParam)->idFrom) {
-				case 0:		{
-						HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
-						LPSTR pszProto;
-				
-						switch (((LPNMHDR)lParam)->code) {
-						case PSN_RESET:			{
-								pCtrlList->OnReset();
-							} break;
+			switch (((LPNMHDR)lParam)->idFrom) {
+			case 0:
+				HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+				LPSTR pszProto;
 
-						case PSN_INFOCHANGED:	{
-								if (PSGetBaseProto(hDlg, pszProto) && *pszProto) {
-									BOOL bChanged = (GetWindowLongPtr(hDlg, DWLP_MSGRESULT)&PSP_CHANGED)|pCtrlList->OnInfoChanged(hContact, pszProto);
-									SetWindowLongPtr(hDlg, DWLP_MSGRESULT,	bChanged ? PSP_CHANGED : 0);
-								}
-							} break;
+				switch (((LPNMHDR)lParam)->code) {
+				case PSN_RESET:
+					pCtrlList->OnReset();
+					break;
 
-						case PSN_APPLY:			{
-								if (PSGetBaseProto(hDlg, pszProto) && *pszProto) {
-									pCtrlList->OnApply(hContact, pszProto);
-								}
-							} break;
-						}
-					} break;
+				case PSN_INFOCHANGED:
+					if (PSGetBaseProto(hDlg, pszProto) && *pszProto) {
+						BOOL bChanged = (GetWindowLongPtr(hDlg, DWLP_MSGRESULT)&PSP_CHANGED) | pCtrlList->OnInfoChanged(hContact, pszProto);
+						SetWindowLongPtr(hDlg, DWLP_MSGRESULT, bChanged ? PSP_CHANGED : 0);
+					}
+					break;
+
+				case PSN_APPLY:
+					if (PSGetBaseProto(hDlg, pszProto) && *pszProto)
+						pCtrlList->OnApply(hContact, pszProto);
+					break;
 				}
-			} break;
+				break;
+			}
+			break;
 
 		case WM_COMMAND:
-			{
-				if (!PspIsLocked(hDlg)) {
-					pCtrlList->OnChangedByUser(LOWORD(wParam), HIWORD(wParam));
-				}
-			} break;
+			if (!PspIsLocked(hDlg))
+				pCtrlList->OnChangedByUser(LOWORD(wParam), HIWORD(wParam));
+			break;
 
 		case WM_DESTROY:
-			{
-				// destroy all control objects and the list
-				pCtrlList->Release();
-			}
+			// destroy all control objects and the list
+			pCtrlList->Release();
 		}
 	}
 	return 0;

@@ -43,7 +43,7 @@ INT_PTR CMraProto::MraWebSearch(WPARAM wParam, LPARAM lParam)
 INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 {
 	if (MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			CMStringA szEmail;
 			if (mraGetStringA(hContact, "e-mail", szEmail))
 				MraWPRequestByEMail(hContact, ACKTYPE_GETINFO, szEmail);
@@ -55,7 +55,7 @@ INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
 {
 	if (MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			CMStringA szEmail;
 			if (mraGetStringA(hContact, "e-mail", szEmail))
 			if (!IsEMailChatAgent(szEmail))
@@ -68,7 +68,7 @@ INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
 INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 {
 	if (MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_REQ_AUTH_FOR_ALL_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			DWORD dwContactSeverFlags;
 			if (GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL) == NO_ERROR)
 			if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED && dwContactSeverFlags != -1)
@@ -80,7 +80,7 @@ INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraRequestAuthorization(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 	if (!hContact)
 		return 0;
 
@@ -110,7 +110,7 @@ INT_PTR CMraProto::MraGrantAuthorization(WPARAM wParam, LPARAM lParam)
 
 	// send without reason, do we need any ?
 	CMStringA szEmail;
-	if (mraGetStringA((HANDLE)wParam, "e-mail", szEmail))
+	if (mraGetStringA((HCONTACT)wParam, "e-mail", szEmail))
 		MraAuthorize(szEmail);
 
 	return 0;
@@ -121,17 +121,17 @@ INT_PTR CMraProto::MraSendPostcard(WPARAM wParam, LPARAM lParam)
 	if (!m_bLoggedIn)
 		return 0;
 
-	DWORD dwContactEMailCount = GetContactEMailCount((HANDLE)wParam, FALSE);
+	DWORD dwContactEMailCount = GetContactEMailCount((HCONTACT)wParam, FALSE);
 	if (dwContactEMailCount) {
 		if (dwContactEMailCount == 1) {
 			CMStringA szUrl, szEmail;
-			if (GetContactFirstEMail((HANDLE)wParam, FALSE, szEmail)) {
+			if (GetContactFirstEMail((HCONTACT)wParam, FALSE, szEmail)) {
 				szEmail.MakeLower();
 				szUrl.Format("http://cards.mail.ru/event.html?rcptname=%s&rcptemail=%s", GetContactNameA((HANDLE)wParam), szEmail);
 				MraMPopSessionQueueAddUrl(hMPopSessionQueue, szUrl);
 			}
 		}
-		else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_SEND_POSTCARD);
+		else MraSelectEMailDlgShow((HCONTACT)wParam, MRA_SELECT_EMAIL_TYPE_SEND_POSTCARD);
 	}
 	return 0;
 }
@@ -141,14 +141,14 @@ INT_PTR CMraProto::MraViewAlbum(WPARAM wParam, LPARAM lParam)
 	if (!m_bLoggedIn)
 		return 0;
 
-	DWORD dwContactEMailMRCount = GetContactEMailCount((HANDLE)wParam, TRUE);
+	DWORD dwContactEMailMRCount = GetContactEMailCount((HCONTACT)wParam, TRUE);
 	if (dwContactEMailMRCount) {
 		if (dwContactEMailMRCount == 1) {
 			CMStringA szEmail;
-			if (GetContactFirstEMail((HANDLE)wParam, TRUE, szEmail))
+			if (GetContactFirstEMail((HCONTACT)wParam, TRUE, szEmail))
 				MraMPopSessionQueueAddUrlAndEMail(hMPopSessionQueue, MRA_FOTO_URL, szEmail);
 		}
-		else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_VIEW_ALBUM);
+		else MraSelectEMailDlgShow((HCONTACT)wParam, MRA_SELECT_EMAIL_TYPE_VIEW_ALBUM);
 	}
 	return 0;
 }
@@ -158,14 +158,14 @@ INT_PTR CMraProto::MraReadBlog(WPARAM wParam, LPARAM lParam)
 	if (!m_bLoggedIn)
 		return 0;
 
-	DWORD dwContactEMailMRCount = GetContactEMailCount((HANDLE)wParam, TRUE);
+	DWORD dwContactEMailMRCount = GetContactEMailCount((HCONTACT)wParam, TRUE);
 	if (dwContactEMailMRCount)
 	if (dwContactEMailMRCount == 1) {
 		CMStringA szEmail;
-		if (GetContactFirstEMail((HANDLE)wParam, TRUE, szEmail))
+		if (GetContactFirstEMail((HCONTACT)wParam, TRUE, szEmail))
 			MraMPopSessionQueueAddUrlAndEMail(hMPopSessionQueue, MRA_BLOGS_URL, szEmail);
 	}
-	else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_READ_BLOG);
+	else MraSelectEMailDlgShow((HCONTACT)wParam, MRA_SELECT_EMAIL_TYPE_READ_BLOG);
 
 	return 0;
 }
@@ -176,9 +176,9 @@ INT_PTR CMraProto::MraReplyBlogStatus(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	CMStringW blogStatusMsg;
-	mraGetStringW((HANDLE)wParam, DBSETTING_BLOGSTATUS, blogStatusMsg);
+	mraGetStringW((HCONTACT)wParam, DBSETTING_BLOGSTATUS, blogStatusMsg);
 	if (!blogStatusMsg.IsEmpty() || wParam == 0)
-		MraSendReplyBlogStatus((HANDLE)wParam);
+		MraSendReplyBlogStatus((HCONTACT)wParam);
 
 	return 0;
 }
@@ -188,14 +188,14 @@ INT_PTR CMraProto::MraViewVideo(WPARAM wParam, LPARAM lParam)
 	if (!m_bLoggedIn)
 		return 0;
 
-	DWORD dwContactEMailMRCount = GetContactEMailCount((HANDLE)wParam, TRUE);
+	DWORD dwContactEMailMRCount = GetContactEMailCount((HCONTACT)wParam, TRUE);
 	if (dwContactEMailMRCount) {
 		if (dwContactEMailMRCount == 1) {
 			CMStringA szEmail;
-			if (GetContactFirstEMail((HANDLE)wParam, TRUE, szEmail))
+			if (GetContactFirstEMail((HCONTACT)wParam, TRUE, szEmail))
 				MraMPopSessionQueueAddUrlAndEMail(hMPopSessionQueue, MRA_VIDEO_URL, szEmail);
 		}
-		else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_VIEW_VIDEO);
+		else MraSelectEMailDlgShow((HCONTACT)wParam, MRA_SELECT_EMAIL_TYPE_VIEW_VIDEO);
 	}
 	return 0;
 }
@@ -205,14 +205,14 @@ INT_PTR CMraProto::MraAnswers(WPARAM wParam, LPARAM lParam)
 	if (!m_bLoggedIn)
 		return 0;
 
-	DWORD dwContactEMailMRCount = GetContactEMailCount((HANDLE)wParam, TRUE);
+	DWORD dwContactEMailMRCount = GetContactEMailCount((HCONTACT)wParam, TRUE);
 	if (dwContactEMailMRCount) {
 		if (dwContactEMailMRCount == 1) {
 			CMStringA szEmail;
-			if (GetContactFirstEMail((HANDLE)wParam, TRUE, szEmail))
+			if (GetContactFirstEMail((HCONTACT)wParam, TRUE, szEmail))
 				MraMPopSessionQueueAddUrlAndEMail(hMPopSessionQueue, MRA_ANSWERS_URL, szEmail);
 		}
-		else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_ANSWERS);
+		else MraSelectEMailDlgShow((HCONTACT)wParam, MRA_SELECT_EMAIL_TYPE_ANSWERS);
 	}
 	return 0;
 }
@@ -222,14 +222,14 @@ INT_PTR CMraProto::MraWorld(WPARAM wParam, LPARAM lParam)
 	if (!m_bLoggedIn)
 		return 0;
 
-	DWORD dwContactEMailMRCount = GetContactEMailCount((HANDLE)wParam, TRUE);
+	DWORD dwContactEMailMRCount = GetContactEMailCount((HCONTACT)wParam, TRUE);
 	if (dwContactEMailMRCount) {
 		if (dwContactEMailMRCount == 1) {
 			CMStringA szEmail;
-			if (GetContactFirstEMail((HANDLE)wParam, TRUE, szEmail))
+			if (GetContactFirstEMail((HCONTACT)wParam, TRUE, szEmail))
 				MraMPopSessionQueueAddUrlAndEMail(hMPopSessionQueue, MRA_WORLD_URL, szEmail);
 		}
-		else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_WORLD);
+		else MraSelectEMailDlgShow((HCONTACT)wParam, MRA_SELECT_EMAIL_TYPE_WORLD);
 	}
 	return 0;
 }
@@ -241,7 +241,7 @@ int CMraProto::MraRebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	BOOL bIsContactMRA, bHasEMail, bHasEMailMR, bChatAgent;
 	DWORD dwContactSeverFlags = 0;
 	CMStringW blogStatusMsgSize;
-	HANDLE hContact = (HANDLE)wParam;
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	// proto own contact
 	bIsContactMRA = IsContactMra(hContact);

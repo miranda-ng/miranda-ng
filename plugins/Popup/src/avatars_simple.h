@@ -31,7 +31,7 @@ private:
 	bool avNeedFree;
 
 public:
-	SimpleAvatar(HANDLE hContact, bool bUseBitmap = false);
+	SimpleAvatar(HANDLE h, bool bUseBitmap = false);
 	virtual ~SimpleAvatar();
 	virtual int activeFrameDelay();
 	virtual void draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *options);
