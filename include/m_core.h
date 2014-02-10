@@ -48,9 +48,7 @@ MIR_CORE_DLL(LPCTSTR) CmdLine_GetOption(LPCTSTR ptszParameter);
 ///////////////////////////////////////////////////////////////////////////////
 // database functions
 
-DECLARE_HANDLE(HCONTACT);
-
-typedef UINT32 MCONTACT;
+typedef UINT32 MCONTACT, HCONTACT;
 #define INVALID_CONTACT_ID (MCONTACT(-1))
 
 // DBVARIANT: used by db/contact/getsetting and db/contact/writesetting
